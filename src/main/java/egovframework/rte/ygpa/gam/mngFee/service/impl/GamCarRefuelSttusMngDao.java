@@ -7,11 +7,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import egovframework.com.cmm.service.CmmnDetailCode;
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
-import egovframework.rte.ygpa.gam.mngFee.service.GamCarMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamCarRefuelSttusMngVo;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyEntrpsRentFeeSttusInqireVO;
 
 /**
  *

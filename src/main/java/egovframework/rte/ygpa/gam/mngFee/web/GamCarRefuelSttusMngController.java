@@ -31,14 +31,8 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.mngFee.service.GamCarMngService;
-import egovframework.rte.ygpa.gam.mngFee.service.GamCarMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamCarRefuelSttusMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamCarRefuelSttusMngVo;
-import egovframework.rte.ygpa.gam.soc.service.GamSocAgentService;
-import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
-import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
-
 
 
 /**
@@ -67,35 +61,30 @@ public class GamCarRefuelSttusMngController {
 	private DefaultBeanValidator beanValidator;
 
 	/** EgovPropertyService */
-    @Resource(name = "propertiesService")
-    protected EgovPropertyService propertiesService;
+	@Resource(name = "propertiesService")
+	protected EgovPropertyService propertiesService;
 
-    /** EgovMessageSource */
-    @Resource(name="egovMessageSource")
-    EgovMessageSource egovMessageSource;
+	/** EgovMessageSource */
+	@Resource(name="egovMessageSource")
+	EgovMessageSource egovMessageSource;
 
-    @Resource(name = "gamCarMngService")
-    private GamCarMngService gamCarMngService;
+	@Resource(name = "gamCarRefuelSttusMngService")
+	private GamCarRefuelSttusMngService gamCarRefuelSttusMngService;
 
-    @Resource(name = "gamCarRefuelSttusMngService")
-    private GamCarRefuelSttusMngService gamCarRefuelSttusMngService;
-
-
-    @RequestMapping(value="/mngFee/gamCarRefuelSttusMng.do")
+	@RequestMapping(value="/mngFee/gamCarRefuelSttusMng.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
-    	//login정보
-    	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		//login정보
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-    	int year = Integer.parseInt(EgovDateUtil.getToday().substring(0,4));
+		int year = Integer.parseInt(EgovDateUtil.getToday().substring(0,4));
 		List yearList = new ArrayList();
 		Map yearMap = null;
 
-		for( int i = year ; i >= year-10 ; i-- ) {
+		for ( int i = year ; i >= year-10 ; i-- ) {
 			yearMap = new HashMap();
 			yearMap.put("code", i);
 			yearMap.put("codeNm", i+"년");
-
 			yearList.add(yearMap);
 		}
 
@@ -103,24 +92,25 @@ public class GamCarRefuelSttusMngController {
 		model.addAttribute("thisyear", year);
 		model.addAttribute("windowId", windowId);
 
-    	return "/ygpa/gam/mngFee/GamCarRefuelSttusMng";
-    }
+		return "/ygpa/gam/mngFee/GamCarRefuelSttusMng";
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/mngFee/gamSelectCarRefuelSttusMng.do" , method=RequestMethod.POST)
-    @ResponseBody Map gamSelectCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
+	}
 
-    	int totalCnt, page, firstIndex;
-    	Map map = new HashMap();
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/mngFee/gamSelectCarRefuelSttusMng.do" , method=RequestMethod.POST)
+	@ResponseBody Map gamSelectCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		int totalCnt, page, firstIndex;
+		Map map = new HashMap();
 
-    	PaginationInfo paginationInfo = new PaginationInfo();
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(gamCarRefuelSttusMngVo.getPageIndex());
 		paginationInfo.setRecordCountPerPage(gamCarRefuelSttusMngVo.getPageUnit());
 		paginationInfo.setPageSize(gamCarRefuelSttusMngVo.getPageSize());
@@ -130,29 +120,30 @@ public class GamCarRefuelSttusMngController {
 		gamCarRefuelSttusMngVo.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		totalCnt = gamCarRefuelSttusMngService.selectCarRefuelSttusMngListTotCnt(gamCarRefuelSttusMngVo);
-    	List resultList = gamCarRefuelSttusMngService.selectCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
+		List resultList = gamCarRefuelSttusMngService.selectCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
 
-    	map.put("resultCode", 0);
-    	map.put("totalCount", totalCnt);
-    	map.put("resultList", resultList);
+		map.put("resultCode", 0);
+		map.put("totalCount", totalCnt);
+		map.put("resultList", resultList);
 
-    	return map;
-    }
+		return map;
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/mngFee/gamExcelCarRefuelSttusMng.do" , method=RequestMethod.POST)
-    @ResponseBody ModelAndView excelCarRefuelSttusMngList(@RequestParam Map<String, Object> excelParam) throws Exception {
+	}
 
-    	Map map = new HashMap();
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/mngFee/gamExcelCarRefuelSttusMng.do" , method=RequestMethod.POST)
+	@ResponseBody ModelAndView excelCarRefuelSttusMngList(@RequestParam Map<String, Object> excelParam) throws Exception {
+
+		Map map = new HashMap();
 		List header;
 		ObjectMapper mapper = new ObjectMapper();
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return new ModelAndView("gridExcelView", "gridResultMap", map);
-    	}
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return new ModelAndView("gridExcelView", "gridResultMap", map);
+		}
 
 		header = mapper.readValue((String)excelParam.get("header"),
 								  new TypeReference<List<HashMap<String,String>>>(){});
@@ -164,36 +155,37 @@ public class GamCarRefuelSttusMngController {
 		searchVO.setLastIndex(9999);
 		searchVO.setRecordCountPerPage(9999);
 
-    	List resultList = gamCarRefuelSttusMngService.selectCarRefuelSttusMngList(searchVO);
+		List resultList = gamCarRefuelSttusMngService.selectCarRefuelSttusMngList(searchVO);
 
-    	map.put("resultCode", 0);
-    	map.put("resultList", resultList);
-    	map.put("header", header);
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("header", header);
 
-    	return new ModelAndView("gridExcelView", "gridResultMap", map);
-    }
+		return new ModelAndView("gridExcelView", "gridResultMap", map);
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/mngFee/gamInsertCarRefuelSttusMng.do" , method=RequestMethod.POST)
-    @ResponseBody Map gamInsertCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
+	}
 
-    	Map map = new HashMap();
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/mngFee/gamInsertCarRefuelSttusMng.do" , method=RequestMethod.POST)
+	@ResponseBody Map gamInsertCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
 
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map map = new HashMap();
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
-    	try {
-    		gamCarRefuelSttusMngVo.setRegUsr((String)user.getId());
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			gamCarRefuelSttusMngVo.setRegUsr((String)user.getId());
 			gamCarRefuelSttusMngVo.setUpdUsr((String)user.getId());
-    		gamCarRefuelSttusMngService.insertCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
+			gamCarRefuelSttusMngService.insertCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
 
-	    	map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -202,27 +194,28 @@ public class GamCarRefuelSttusMngController {
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
 
-    	return map;
-    }
+		return map;
+
+	}
 
 	@RequestMapping(value="/mngFee/gamUpdateCarRefuelSttusMngList.do")
 	@ResponseBody Map<String, Object> UpdateCarRefuelSttusMngList	(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo)	throws Exception {
 
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	Map<String, Object> map = new HashMap<String, Object>();
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
 
-    	try {
+		try {
 			gamCarRefuelSttusMngVo.setUpdUsr((String)user.getId());
 			gamCarRefuelSttusMngService.updateCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
 
-	    	map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -231,26 +224,28 @@ public class GamCarRefuelSttusMngController {
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
 
-    	return map;
-    }
+		return map;
+
+	}
 
 	@RequestMapping(value="/mngFee/gamDeleteCarRefuelSttusMngList.do")
 	@ResponseBody Map<String, Object> DeleteCarRefuelSttusMngList	(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo)	throws Exception {
 
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	Map<String, Object> map = new HashMap<String, Object>();
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
 		try {
 			gamCarRefuelSttusMngVo.setUpdUsr((String)user.getId());
 			gamCarRefuelSttusMngService.deleteCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
 
-	    	map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -259,7 +254,8 @@ public class GamCarRefuelSttusMngController {
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
 
-    	return map;
-    }
+		return map;
+
+	}
 
 }

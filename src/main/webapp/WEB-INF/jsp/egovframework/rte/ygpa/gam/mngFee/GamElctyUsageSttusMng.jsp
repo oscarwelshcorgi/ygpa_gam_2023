@@ -97,7 +97,9 @@ GamElctyUsageSttusMngModule.prototype.loadComplete = function() {
 	});
 
 	var mon = new Date().getMonth()+1;
-	if(mon.length==1) mon="0"+mon;
+	if (mon.length==1) {
+		mon="0"+mon;
+	}
 	this.$('#sUsageMt').val(mon);
 	this.$('#sApplcCoef').val('0.66');
 
@@ -298,8 +300,8 @@ GamElctyUsageSttusMngModule.prototype.addData = function() {
 		usageMtMon="0"+usageMtMon;
 	}
 	this.$('#usageMtMon').val(usageMtMon);
-	this.$('#mngJobSe').val('');
-	this.$('#mngJobSeNm').val('');
+	this.$('#mngFeeJobSe').val('');
+	this.$('#mngFeeJobSeNm').val('');
 	this.$('#mngFeeFcltyCd').val('');
 	this.$('#mngFeeFcltyNm').val('');
 	this.$('#prevMtUsageQy').val('0');
@@ -629,7 +631,7 @@ var module_instance = new GamElctyUsageSttusMngModule();
 		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<!-- 211. TAB 정의 -->
 			<ul>
-				<li><a href="#listTab" class="emdTab">전기 사용현황 </a></li>
+				<li><a href="#listTab" class="emdTab">전기 사용현황</a></li>
 				<li><a href="#detailTab" class="emdTab">전기 사용현황 상세</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->

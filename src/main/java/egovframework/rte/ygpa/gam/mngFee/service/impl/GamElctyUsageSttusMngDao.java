@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
-import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngVo;
 
 /**
  *

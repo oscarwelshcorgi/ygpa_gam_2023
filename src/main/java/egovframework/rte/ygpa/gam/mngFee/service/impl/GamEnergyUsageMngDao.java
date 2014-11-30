@@ -8,9 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
-import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngVo;
-import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngVo;
 
 /**
  *

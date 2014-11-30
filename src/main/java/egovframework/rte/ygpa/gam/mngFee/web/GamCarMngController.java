@@ -28,17 +28,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
-import egovframework.com.cmm.service.CmmnDetailCode;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
-import egovframework.com.sym.ccm.cca.service.CmmnCode;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamCarMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamCarMngVo;
-import egovframework.rte.ygpa.gam.soc.service.GamSocAgentService;
-import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
-import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
-
 
 
 /**
@@ -67,43 +61,43 @@ public class GamCarMngController {
 	private DefaultBeanValidator beanValidator;
 
 	/** EgovPropertyService */
-    @Resource(name = "propertiesService")
-    protected EgovPropertyService propertiesService;
+	@Resource(name = "propertiesService")
+	protected EgovPropertyService propertiesService;
 
-    /** EgovMessageSource */
-    @Resource(name="egovMessageSource")
-    EgovMessageSource egovMessageSource;
+	/** EgovMessageSource */
+	@Resource(name="egovMessageSource")
+	EgovMessageSource egovMessageSource;
 
-    @Resource(name = "gamCarMngService")
-    private GamCarMngService gamCarMngService;
+	@Resource(name = "gamCarMngService")
+	private GamCarMngService gamCarMngService;
 
-
-    @RequestMapping(value="/mngFee/gamCarMng.do")
+	@RequestMapping(value="/mngFee/gamCarMng.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
-    	//login정보
-    	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		//login정보
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
 		model.addAttribute("windowId", windowId);
 
-    	return "/ygpa/gam/mngFee/GamCarMng";
-    }
+		return "/ygpa/gam/mngFee/GamCarMng";
+
+	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/mngFee/gamSelectCarMngList.do" , method=RequestMethod.POST)
-    @ResponseBody Map selectCarMngList(GamCarMngVo searchVO) throws Exception {
+	@RequestMapping(value="/mngFee/gamSelectCarMngList.do" , method=RequestMethod.POST)
+	@ResponseBody Map selectCarMngList(GamCarMngVo searchVO) throws Exception {
 
-    	int totalCnt, page, firstIndex;
-    	Map map = new HashMap();
+		int totalCnt, page, firstIndex;
+		Map map = new HashMap();
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
 
-    	PaginationInfo paginationInfo = new PaginationInfo();
+		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
@@ -113,29 +107,30 @@ public class GamCarMngController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		totalCnt = gamCarMngService.selectCarMngListTotCnt(searchVO);
-    	List resultList = gamCarMngService.selectCarMngList(searchVO);
+		List resultList = gamCarMngService.selectCarMngList(searchVO);
 
-    	map.put("resultCode", 0);
-    	map.put("totalCount", totalCnt);
-    	map.put("resultList", resultList);
+		map.put("resultCode", 0);
+		map.put("totalCount", totalCnt);
+		map.put("resultList", resultList);
 
-    	return map;
-    }
+		return map;
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/mngFee/gamExcelCarMng.do" , method=RequestMethod.POST)
-    @ResponseBody ModelAndView excelCarMngList(@RequestParam Map<String, Object> excelParam) throws Exception {
+	}
 
-    	Map map = new HashMap();
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/mngFee/gamExcelCarMng.do" , method=RequestMethod.POST)
+	@ResponseBody ModelAndView excelCarMngList(@RequestParam Map<String, Object> excelParam) throws Exception {
+
+		Map map = new HashMap();
 		List header;
 		ObjectMapper mapper = new ObjectMapper();
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return new ModelAndView("gridExcelView", "gridResultMap", map);
-    	}
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return new ModelAndView("gridExcelView", "gridResultMap", map);
+		}
 
 		header = mapper.readValue((String)excelParam.get("header"),
 								  new TypeReference<List<HashMap<String,String>>>(){});
@@ -147,33 +142,34 @@ public class GamCarMngController {
 		searchVO.setLastIndex(9999);
 		searchVO.setRecordCountPerPage(9999);
 
-    	List resultList = gamCarMngService.selectCarMngList(searchVO);
+		List resultList = gamCarMngService.selectCarMngList(searchVO);
 
-    	map.put("resultCode", 0);
-    	map.put("resultList", resultList);
-    	map.put("header", header);
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("header", header);
 
-    	return new ModelAndView("gridExcelView", "gridResultMap", map);
-    }
+		return new ModelAndView("gridExcelView", "gridResultMap", map);
 
-    @RequestMapping(value="/mngFee/gamInsertCarMng.do")
+	}
+
+	@RequestMapping(value="/mngFee/gamInsertCarMng.do")
 	@ResponseBody Map<String, Object> insertCarMng	(GamCarMngVo gamCarMngVo)	throws Exception {
 
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	Map<String, Object> map = new HashMap<String, Object>();
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
 
-    	try {
+		try {
 			gamCarMngVo.setRegUsr((String)user.getId());
 			gamCarMngService.insertCarMng(gamCarMngVo);
 
-	    	map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -182,27 +178,28 @@ public class GamCarMngController {
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
 
-    	return map;
-    }
+		return map;
+
+	}
 
 	@RequestMapping(value="/mngFee/gamUpdateCarMng.do")
 	@ResponseBody Map<String, Object> updateCarMng	(GamCarMngVo gamCarMngVo)	throws Exception {
 
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	Map<String, Object> map = new HashMap<String, Object>();
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
 
-    	try {
+		try {
 			gamCarMngVo.setUpdUsr((String)user.getId());
 			gamCarMngService.updateCarMng(gamCarMngVo);
 
-	    	map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -211,26 +208,27 @@ public class GamCarMngController {
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
 
-    	return map;
-    }
+		return map;
+
+	}
 
 	@RequestMapping(value="/mngFee/gamDeleteCarMng.do")
 	@ResponseBody Map<String, Object> deleteCarMng	(GamCarMngVo gamCarMngVo)	throws Exception {
 
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	Map<String, Object> map = new HashMap<String, Object>();
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
 
 		try {
 			gamCarMngService.deleteCarMng(gamCarMngVo);
 
-	    	map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -239,6 +237,8 @@ public class GamCarMngController {
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
 
-    	return map;
-    }
+		return map;
+
+	}
+
 }

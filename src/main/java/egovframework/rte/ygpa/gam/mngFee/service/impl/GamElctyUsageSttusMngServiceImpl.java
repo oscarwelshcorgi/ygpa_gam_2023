@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
-import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngService;
-import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngVo;
 
 /**
  *

@@ -31,14 +31,8 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngVo;
-import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngVo;
-import egovframework.rte.ygpa.gam.soc.service.GamSocAgentService;
-import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
-import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
-
 
 
 /**
@@ -67,59 +61,56 @@ public class GamEnergyUsageMngController {
 	private DefaultBeanValidator beanValidator;
 
 	/** EgovPropertyService */
-    @Resource(name = "propertiesService")
-    protected EgovPropertyService propertiesService;
+	@Resource(name = "propertiesService")
+	protected EgovPropertyService propertiesService;
 
-    /** EgovMessageSource */
-    @Resource(name="egovMessageSource")
-    EgovMessageSource egovMessageSource;
+	/** EgovMessageSource */
+	@Resource(name="egovMessageSource")
+	EgovMessageSource egovMessageSource;
 
-    @Resource(name = "gamEnergyUsageMngService")
-    private GamEnergyUsageMngService gamEnergyUsageMngService;
+	@Resource(name = "gamEnergyUsageMngService")
+	private GamEnergyUsageMngService gamEnergyUsageMngService;
 
-
-
-    @RequestMapping(value="/mngFee/gamEnergyUsageMng.do")
+	@RequestMapping(value="/mngFee/gamEnergyUsageMng.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
-    	//login정보
-    	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		//login정보
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-
-    	int year = Integer.parseInt(EgovDateUtil.getToday().substring(0,4));
+		int year = Integer.parseInt(EgovDateUtil.getToday().substring(0,4));
 		List yearList = new ArrayList();
 		Map yearMap = null;
 
-		for( int i = year ; i >= year-10 ; i-- ) {
+		for ( int i = year ; i >= year-10 ; i-- ) {
 			yearMap = new HashMap();
 			yearMap.put("code", i);
 			yearMap.put("codeNm", i+"년");
-
 			yearList.add(yearMap);
 		}
 
 		model.addAttribute("yearsList", yearList);
 		model.addAttribute("thisyear", year);
-    	model.addAttribute("windowId", windowId);
+		model.addAttribute("windowId", windowId);
 
-    	return "/ygpa/gam/mngFee/GamEnergyUsageMng";
-    }
+		return "/ygpa/gam/mngFee/GamEnergyUsageMng";
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/mngFee/gamSelectEnergyUsageMng.do" , method=RequestMethod.POST)
-    @ResponseBody Map selectEnergyUsageMngList(GamEnergyUsageMngVo searchVO) throws Exception {
+	}
 
-    	int totalCnt, page, firstIndex, yearCnt;
-    	Map map = new HashMap();
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/mngFee/gamSelectEnergyUsageMng.do" , method=RequestMethod.POST)
+	@ResponseBody Map selectEnergyUsageMngList(GamEnergyUsageMngVo searchVO) throws Exception {
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		int totalCnt, page, firstIndex, yearCnt;
+		Map map = new HashMap();
 
-    	PaginationInfo paginationInfo = new PaginationInfo();
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
@@ -129,69 +120,72 @@ public class GamEnergyUsageMngController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		totalCnt = gamEnergyUsageMngService.selectEnergyUsageMngListTotCnt(searchVO);
-    	List resultList = gamEnergyUsageMngService.selectEnergyUsageMngList(searchVO);
+		List resultList = gamEnergyUsageMngService.selectEnergyUsageMngList(searchVO);
 
-    	map.put("resultCode", 0);
-    	map.put("totalCount", totalCnt);
-    	map.put("resultList", resultList);
+		map.put("resultCode", 0);
+		map.put("totalCount", totalCnt);
+		map.put("resultList", resultList);
 
-    	return map;
-    }
+		return map;
 
-    @RequestMapping(value="/mngFee/gamEnergyUsageMngChart.do" , method=RequestMethod.POST)
-    @ResponseBody Map selectEnergyUsageMngChartList(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception {
+	}
 
-    	Map map = new HashMap();
+	@RequestMapping(value="/mngFee/gamEnergyUsageMngChart.do" , method=RequestMethod.POST)
+	@ResponseBody Map selectEnergyUsageMngChartList(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception {
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		Map map = new HashMap();
 
-    	List resultList = gamEnergyUsageMngService.selectEnergyUsageMngChartList(gamEnergyUsageMngVo);
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
 
-    	map.put("resultCode", 0);
-    	map.put("resultList", resultList);
+		List resultList = gamEnergyUsageMngService.selectEnergyUsageMngChartList(gamEnergyUsageMngVo);
 
-    	return map;
-    }
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
 
-    @RequestMapping(value="/mngFee/gamSelectEnergyUsageMngYearCnt.do" , method=RequestMethod.POST)
-    @ResponseBody Map selectEnergyUsageMngYearCntList(GamEnergyUsageMngVo searchVO) throws Exception {
+		return map;
 
-    	Map map = new HashMap();
+	}
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+	@RequestMapping(value="/mngFee/gamSelectEnergyUsageMngYearCnt.do" , method=RequestMethod.POST)
+	@ResponseBody Map selectEnergyUsageMngYearCntList(GamEnergyUsageMngVo searchVO) throws Exception {
 
-    	List resultList = gamEnergyUsageMngService.selectEnergyUsageMngYearCntList(searchVO);
+		Map map = new HashMap();
 
-    	map.put("resultCode", 0);
-    	map.put("resultList", resultList);
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
 
-    	return map;
-    }
+		List resultList = gamEnergyUsageMngService.selectEnergyUsageMngYearCntList(searchVO);
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/mngFee/gamExcelEnergyUsageMng.do" , method=RequestMethod.POST)
-    @ResponseBody ModelAndView excelEnergyUsageMngList(@RequestParam Map<String, Object> excelParam) throws Exception {
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
 
-    	Map map = new HashMap();
+		return map;
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/mngFee/gamExcelEnergyUsageMng.do" , method=RequestMethod.POST)
+	@ResponseBody ModelAndView excelEnergyUsageMngList(@RequestParam Map<String, Object> excelParam) throws Exception {
+
+		Map map = new HashMap();
 		List header;
 		ObjectMapper mapper = new ObjectMapper();
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return new ModelAndView("gridExcelView", "gridResultMap", map);
-    	}
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return new ModelAndView("gridExcelView", "gridResultMap", map);
+		}
 
 		header = mapper.readValue((String)excelParam.get("header"),
 								  new TypeReference<List<HashMap<String,String>>>(){});
@@ -203,32 +197,34 @@ public class GamEnergyUsageMngController {
 		searchVO.setLastIndex(9999);
 		searchVO.setRecordCountPerPage(9999);
 
-    	List resultList = gamEnergyUsageMngService.selectEnergyUsageMngList(searchVO);
+		List resultList = gamEnergyUsageMngService.selectEnergyUsageMngList(searchVO);
 
-    	map.put("resultCode", 0);
-    	map.put("resultList", resultList);
-    	map.put("header", header);
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("header", header);
 
-    	return new ModelAndView("gridExcelView", "gridResultMap", map);
-    }
+		return new ModelAndView("gridExcelView", "gridResultMap", map);
 
-    @RequestMapping(value="/mngFee/gamInsertEnergyUsageMng.do")
+	}
+
+	@RequestMapping(value="/mngFee/gamInsertEnergyUsageMng.do")
 	@ResponseBody Map<String, Object> insertEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
 
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	Map<String, Object> map = new HashMap<String, Object>();
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
 		try {
 			gamEnergyUsageMngVo.setRegUsr((String)user.getId());
 			gamEnergyUsageMngService.insertEnergyUsageMng(gamEnergyUsageMngVo);
 
-	    	map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -237,26 +233,28 @@ public class GamEnergyUsageMngController {
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
 
-    	return map;
-    }
+		return map;
 
-    @RequestMapping(value="/mngFee/gamUpdateEnergyUsageMng.do")
+	}
+
+	@RequestMapping(value="/mngFee/gamUpdateEnergyUsageMng.do")
 	@ResponseBody Map<String, Object> updateEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
 
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	Map<String, Object> map = new HashMap<String, Object>();
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
 		try {
 			gamEnergyUsageMngVo.setUpdUsr((String)user.getId());
 			gamEnergyUsageMngService.updateEnergyUsageMng(gamEnergyUsageMngVo);
 
-	    	map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -265,25 +263,27 @@ public class GamEnergyUsageMngController {
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
 
-    	return map;
-    }
+		return map;
 
-    @RequestMapping(value="/mngFee/gamDeleteEnergyUsageMng.do")
+	}
+
+	@RequestMapping(value="/mngFee/gamDeleteEnergyUsageMng.do")
 	@ResponseBody Map<String, Object> deleteEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
 
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	Map<String, Object> map = new HashMap<String, Object>();
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
 		try {
 			gamEnergyUsageMngService.deleteEnergyUsageMng(gamEnergyUsageMngVo);
 
-	    	map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -292,26 +292,28 @@ public class GamEnergyUsageMngController {
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
 
-    	return map;
-    }
+		return map;
 
-    @RequestMapping(value="/mngFee/gamCopyEnergyUsageMng.do")
+	}
+
+	@RequestMapping(value="/mngFee/gamCopyEnergyUsageMng.do")
 	@ResponseBody Map<String, Object> copyEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
 
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	Map<String, Object> map = new HashMap<String, Object>();
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
 		try {
 			gamEnergyUsageMngVo.setRegUsr((String)user.getId());
 			gamEnergyUsageMngService.copyEnergyUsageMng(gamEnergyUsageMngVo);
 
-	    	map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -320,7 +322,8 @@ public class GamEnergyUsageMngController {
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
 
-    	return map;
-    }
+		return map;
+
+	}
 
 }

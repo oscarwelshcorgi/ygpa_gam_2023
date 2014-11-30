@@ -57,7 +57,7 @@ GamMngFeeGubunMngModule.prototype.loadComplete = function() {
 					{display:'등록자', 			name:'regUsr',				width:100, 		sortable:false,		align:'center'},
                     {display:'등록일시', 		name:'registDt',			width:150, 		sortable:false,		align:'center'}
                     ],
-                mergeRows: "mngFeeFcltySe,mngFeeFcltySeNm",
+		mergeRows : "mngFeeFcltySe,mngFeeFcltySeNm",
 		showTableToggleBtn : false,
 		height : 'auto',
 		preProcess : function(module,data) {

@@ -10,9 +10,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
-import egovframework.rte.ygpa.gam.mngFee.service.GamCarMngVo;
-import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngService;
-import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngVo;
 
