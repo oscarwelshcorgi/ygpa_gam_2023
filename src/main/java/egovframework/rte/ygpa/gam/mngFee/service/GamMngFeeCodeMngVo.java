@@ -210,7 +210,7 @@ public class GamMngFeeCodeMngVo extends ComDefaultVO {
 	/**
 	 * @param mngFeeJobSeNm the mngFeeJobSeNm to set
 	 */
-	public void setMngFeeJobSeNm(String Job) {
+	public void setMngFeeJobSeNm(String mngFeeJobSeNm) {
 		this.mngFeeJobSeNm = mngFeeJobSeNm;
 	}
 

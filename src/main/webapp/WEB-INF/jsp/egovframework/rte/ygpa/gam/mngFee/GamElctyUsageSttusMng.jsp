@@ -162,7 +162,7 @@ GamElctyUsageSttusMngModule.prototype.drawChart = function() {
 				start : 0,
 				end : maxNetUsageQy + 10,
 				step : Math.ceil(maxNetUsageQy / 10),
-				title : "전기 사용량,kcal/h"
+				title : "전기 사용량,kw/h"
 			});
 		}
 		module.barChart.parse(netUsageQyArr, "json");

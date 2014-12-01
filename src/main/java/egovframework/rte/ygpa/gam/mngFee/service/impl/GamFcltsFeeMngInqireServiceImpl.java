@@ -10,10 +10,11 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
+import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireVo;
-import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngService;
-import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngService;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
 
 /**
  *
@@ -38,8 +39,8 @@ public class GamFcltsFeeMngInqireServiceImpl extends AbstractServiceImpl impleme
 	private GamFcltsFeeMngInqireDao gamFcltsFeeMngInqireDao;
 
 	@Override
-	public int selectFcltsFeeMngInqireListTotCnt(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception {
-		return gamFcltsFeeMngInqireDao.selectFcltsFeeMngInqireListTotCnt(gamFcltsFeeMngInqireVo);
+	public GamFcltsFeeMngInqireVo selectFcltsFeeMngInqireListTotCnt(GamFcltsFeeMngInqireVo searchVO) throws Exception {
+		return gamFcltsFeeMngInqireDao.selectFcltsFeeMngInqireListTotCnt(searchVO);
 	}
 
 	@Override
@@ -48,15 +49,12 @@ public class GamFcltsFeeMngInqireServiceImpl extends AbstractServiceImpl impleme
 	}
 
 	@Override
-	public void insertFcltsFeeMngInqire(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception {
-		gamFcltsFeeMngInqireDao.insertFcltsFeeMngInqire(gamFcltsFeeMngInqireVo);
+	public List selectFcltsFeeMngInqireChartList(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception {
+		return gamFcltsFeeMngInqireDao.selectFcltsFeeMngInqireChartList(gamFcltsFeeMngInqireVo);
 	}
 
 	@Override
-	public void deleteFcltsFeeMngInqire(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception {
-		gamFcltsFeeMngInqireDao.deleteFcltsFeeMngInqire(gamFcltsFeeMngInqireVo);
+	public void updateFcltsFeeMngInqire(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception {
+		gamFcltsFeeMngInqireDao.updateFcltsFeeMngInqire(gamFcltsFeeMngInqireVo);
 	}
-
-
-
 }

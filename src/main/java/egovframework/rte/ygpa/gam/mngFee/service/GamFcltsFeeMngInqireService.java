@@ -28,7 +28,7 @@ public interface GamFcltsFeeMngInqireService {
 	 * @param searchVO
 	 * @return
 	 */
-	int selectFcltsFeeMngInqireListTotCnt(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception;
+	GamFcltsFeeMngInqireVo selectFcltsFeeMngInqireListTotCnt(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception;
 
 	/**
 	 * @param searchVO
@@ -37,13 +37,14 @@ public interface GamFcltsFeeMngInqireService {
 	List selectFcltsFeeMngInqireList(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception;
 
 	/**
-	 * @param gamFcltsFeeMngInqireVo
+	 * @param searchVO
+	 * @return
 	 */
-	void insertFcltsFeeMngInqire(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception;
+	List selectFcltsFeeMngInqireChartList(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception;
 
 	/**
 	 * @param gamFcltsFeeMngInqireVo
 	 */
-	void deleteFcltsFeeMngInqire(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception;
+	void updateFcltsFeeMngInqire(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception;
 
 }

@@ -30,11 +30,11 @@ import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireVo;
 public class GamFcltsFeeMngInqireDao extends YGPAAbstractDAO{
 
 	/**
-	 * @param gamFcltsFeeMngInqireVo
+	 * @param searchVO
 	 * @return
 	 */
-	public int selectFcltsFeeMngInqireListTotCnt(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltsFeeMngInqireDao.selectFcltsFeeMngInqireListTotCnt_S", gamFcltsFeeMngInqireVo);
+	public GamFcltsFeeMngInqireVo selectFcltsFeeMngInqireListTotCnt(GamFcltsFeeMngInqireVo searchVO) {
+		return (GamFcltsFeeMngInqireVo)selectByPk("gamFcltsFeeMngInqireDao.selectFcltsFeeMngInqireListTotCnt_S", searchVO);
 	}
 
 	/**
@@ -47,17 +47,17 @@ public class GamFcltsFeeMngInqireDao extends YGPAAbstractDAO{
 
 	/**
 	 * @param gamFcltsFeeMngInqireVo
+	 * @return
 	 */
-	public void insertFcltsFeeMngInqire(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) {
-		insert("gamFcltsFeeMngInqireDao.insertFcltsFeeMngInqire_D", gamFcltsFeeMngInqireVo);
+	public List selectFcltsFeeMngInqireChartList(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) {
+		return list("gamFcltsFeeMngInqireDao.selectFcltsFeeMngInqireChartList_D", gamFcltsFeeMngInqireVo);
 	}
 
 	/**
 	 * @param gamFcltsFeeMngInqireVo
 	 */
-	public void deleteFcltsFeeMngInqire(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) {
-		delete("gamFcltsFeeMngInqireDao.deleteFcltsFeeMngInqire_D", gamFcltsFeeMngInqireVo);
+	public void updateFcltsFeeMngInqire(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) {
+		update("gamFcltsFeeMngInqireDao.updateFcltsFeeMngInqire_S",gamFcltsFeeMngInqireVo);
 	}
-
 
 }

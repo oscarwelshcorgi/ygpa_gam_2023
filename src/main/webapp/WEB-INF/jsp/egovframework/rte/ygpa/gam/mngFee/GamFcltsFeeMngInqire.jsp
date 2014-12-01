@@ -6,8 +6,8 @@
 <%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
 /**
- * @Class Name : GamCarMng.jsp
- * @Description : 차량 정보
+ * @Class Name : GamFcltsFeeMngInqire.jsp
+ * @Description : 시설물 관리비 납부현황 조회
  * @Modification Information
  *
  *   수정일          수정자                   수정내용
@@ -20,249 +20,601 @@
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
-<validator:javascript formName="gamSocAgentMngtSearchForm" method="validateGamSocAgent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="form1" method="validateGamSocAgentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+
+<%
+/******************************** SCRIPT START ********************************/
+%>
 
 <script>
-/*
- * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
- */
-function GamFcltsFeeMngInqire() {}
 
-
-GamFcltsFeeMngInqire.prototype = new EmdModule(600, 500);
-
-// 페이지가 호출 되었을때 호출 되는 함수
-GamFcltsFeeMngInqire.prototype.loadComplete = function() {
-
-    // 자산임대 테이블 설정
-    this.$("#FcltsFeeMngInqire").flexigrid({
-        module: this,
-        url: '/mngFee/gamSelectFcltsFeeMngInqire.do',
-        dataType: 'json',
-        colModel : [
-					{display:'시설구분', 			name:'mngFeeFcltySe',	width:110, 		sortable:false,		align:'center'},
-                    {display:'시설구분 명', 	name:'mngFeeFcltySeNm',		width:110, 		sortable:false,		align:'center'},
-					{display:'등록자', 			name:'regUsr',	width:110, 		sortable:false,		align:'center'},
-                    {display:'등록일시', 	name:'registDt',		width:110, 		sortable:false,		align:'center'}
-                    ],
-        showTableToggleBtn: false,
-        height: 'auto'
-    });
-
-    this.$("#FcltsFeeMngInqire").on('onItemSelected', function(event, module, row, grid, param) {
-    	module.$('#cmd').val('modify');
-        module.$('#FcltsFeeMngInqireDetailForm :input').val('');
-        module.makeFormValues('#FcltsFeeMngInqireDetailForm', row);
-    	module.$('#oldCarRegistNo').val(module.$('#carRegistNo').val());
-        module._editData=module.getFormValues('#FcltsFeeMngInqireDetailForm', row);
-        module._editRow=module.$('#FcltsFeeMngInqire').selectedRowIds()[0];
-
-    });
-    this.$("#FcltsFeeMngInqire").on('onItemDoubleClick', function(event, module, row, grid, param) {
-    	console.log('debug');
-        module.$("#FcltsFeeMngInqireTab").tabs("option", {active: 1});
-        module.$('#cmd').val('modify');
-        module.makeFormValues('#FcltsFeeMngInqireDetailForm', row);
-        module.$('#oldCarRegistNo').val(module.$('#carRegistNo').val());
-        module._editData=module.getFormValues('#FcltsFeeMngInqireDetailForm', row);
-        module._editRow=module.$('#FcltsFeeMngInqire').selectedRowIds()[0];
-        if(row!=null) {
-            module.$('#cmd').val('modify');
-        }
-    });
-
-};
-
-
+<%
 /**
- * 정의 된 버튼 클릭 시
- */
- GamFcltsFeeMngInqire.prototype.onButtonClick = function(buttonId) {
+ * @FUNCTION NAME : GamFcltsFeeMngInqireModule
+ * @DESCRIPTION   : MODULE 고유 함수
+ * @PARAMETER     : NONE
+**/
+%>
+function GamFcltsFeeMngInqireModule() {}
 
-    switch(buttonId) {
+GamFcltsFeeMngInqireModule.prototype = new EmdModule(1000, 645);
 
-        // 조회
-        case 'searchBtn':
-//         	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){
-//         		return;
-//         	}
-			this.loadData();
-            break;
+<%
+/**
+ * @FUNCTION NAME : loadComplete
+ * @DESCRIPTION   : PAGE LOAD COMPLETE (페이지 호출시 실행되는 함수)
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngInqireModule.prototype.loadComplete = function() {
 
-       // 등록포맷으로 변환 -- 초기화 및 상태값 변경
-       case 'btnGubunAdd':
-			this.$('#FcltsFeeMngInqireDetailForm :input').val('');
-			this.$("#FcltsFeeMngInqireTab").tabs("option", {active: 1});
-			this.$("#cmd").val("insert");
-            break;
+	this.$("#mainGrid").flexigrid({
+		module : this,
+		url : '/mngFee/gamSelectFcltsFeeMngInqire.do',
+		dataType : 'json',
+		colModel : [
+					{display:'관리 월',				name:'mngYrMt',				width:60,		sortable:false,		align:'center'},
+					{display:'업무 구분',			name:'mngFeeJobSeNm',		width:80,		sortable:false,		align:'center'},
+					{display:'업체 명',				name:'entrpsNm',			width:150,		sortable:false,		align:'left'},
+					{display:'관리비 제목',			name:'mngFeeSj',			width:150,		sortable:false,		align:'left'},
+					{display:'사용 면적',			name:'usageAr',				width:70,		sortable:false,		align:'right'},
+					{display:'고지 일자',			name:'nticDt',				width:80,		sortable:false,		align:'center'},
+					{display:'요금 종류',			name:'chrgeKndNm',			width:100,		sortable:false,		align:'left'},
+					{display:'회계 년도',			name:'accnutYear',			width:80,		sortable:false,		align:'center'},
+					{display:'고지 번호',			name:'nticNo',				width:80,		sortable:false,		align:'center'},
+					{display:'사용료',				name:'fee',					width:90,		sortable:false,		align:'right'},
+					{display:'부가세',				name:'vat',					width:90,		sortable:false,		align:'right'},
+					{display:'고지 금액',			name:'nticAmt',				width:90,		sortable:false,		align:'right'},
+					{display:'관리 비',				name:'mngFee',				width:90,		sortable:false,		align:'right'},
+					{display:'전기 요금',			name:'elctyFee',			width:90,		sortable:false,		align:'right'},
+					{display:'상하수도 요금',		name:'waterFee',			width:90,		sortable:false,		align:'right'},
+					{display:'도시가스 요금',		name:'gasFee',				width:90,		sortable:false,		align:'right'},
+					{display:'관리비 합계',			name:'mngTotalFee',			width:90,		sortable:false,		align:'right'},
+					{display:'납부 기한',			name:'payTmlmt',			width:80,		sortable:false,		align:'center'},
+					{display:'수납 구분',			name:'rcivSeNm',			width:80,		sortable:false,		align:'center'},
+					{display:'수납 일자',			name:'rcivDt',				width:80,		sortable:false,		align:'center'},
+					{display:'부가세 구분',			name:'vatYn',				width:80,		sortable:false,		align:'center'},
+					{display:'고지 여부',			name:'nhtIsueYn',			width:80,		sortable:false,		align:'center'},
+					{display:'출력 여부',			name:'nhtOutputYn',			width:80,		sortable:false,		align:'center'},
+					{display:'추가 고지 여부',		name:'aditNticYn',			width:90,		sortable:false,		align:'center'},
+					{display:'연체 번호',			name:'arrrgNo',				width:80,		sortable:false,		align:'center'},
+					{display:'연체 금액',			name:'arrrgAmt',			width:90,		sortable:false,		align:'right'},
+					{display:'연체 요율',			name:'arrrgTariff',			width:80,		sortable:false,		align:'right'},
+					{display:'연체 일수',			name:'arrrgPayDates',		width:80,		sortable:false,		align:'right'}
+					],
+		showTableToggleBtn : false,
+		height : 'auto',
+		preProcess : function(module,data) {
+			module.$('#totalCount').val(data.totalCount);
+			module.$('#sumFee').val(data.sumFee);
+			module.$('#sumVat').val(data.sumVat);
+			module.$('#sumNticAmt').val(data.sumNticAmt);
+			module.makeDivValues('#listSumForm', data);
+			return data;
+		}
+	});
 
+	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
+		module._mode = 'modify';
+	});
 
-        // 신청저장
-        case 'btnSaveItem':
-			/*
-        	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){
-        		return;
-        	}
-        	if(!validateGamSocAgentDetail(this.$('#form1')[0])){
-        		return;
-        	}
-        	*/
+	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		module._mode = 'modify';
+		module.$("#mainTab").tabs("option", {active: 1});
+	});
 
-        	var inputVO = this.makeFormArgs("#FcltsFeeMngInqireDetailForm");
+	var mon = new Date().getMonth()+1;
+	if (mon.length==1) {
+		mon="0"+mon;
+	}
+	this.$('#sStartMngMt').val(mon);
+	this.$('#sEndMngMt').val(mon);
 
-			if(this.$("#cmd").val() == "insert") {
+};
 
-			 	this.doAction('/mngFee/gamInsertFcltsFeeMngInqire.do', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
-						module.$("#FcltsFeeMngInqire").flexOptions({params:searchOpt}).flexReload();
-						module.$("#FcltsFeeMngInqireTab").tabs("option", {active: 0});
-						module.$("#FcltsFeeMngInqireDetailForm :input").val("");
-			 		}
-			 		alert(result.resultMsg);
-			 	});
-			}else{
-			 	this.doAction('/mngFee/gamUpdateFcltsFeeMngInqire.do', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
-						module.$("#FcltsFeeMngInqire").flexOptions({params:searchOpt}).flexReload();
-						module.$("#FcltsFeeMngInqireTab").tabs("option", {active: 0});
-						module.$("#FcltsFeeMngInqireDetailForm :input").val("");
-			 		}
-			 		alert(result.resultMsg);
-			 	});
+<%
+/**
+ * @FUNCTION NAME : drawChart
+ * @DESCRIPTION   : CHART DRAW
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngInqireModule.prototype.drawChart = function() {
+	var feeArr=[];
+	var maxFee=0;
+	var fee=0;
+	var searchVO = this.makeFormArgs("#detailForm");
+
+	this.doAction('<c:url value="/mngFee/gamFcltsFeeMngInqireChart.do" />', searchVO, function(module, result) {
+		if (result.resultCode == "0") {
+			for (var i=0; i<12; i++) {
+				fee=result.resultList[i]['fee']*1;
+				feeArr[i]={month: (i+1), gauge: fee};
+				if (maxFee<fee) {
+					maxFee=fee;
+				}
+			};
+		} else {
+			for (var i=0; i<12; i++) {
+				fee=0;
+				feeArr[i]={month: (i+1), gauge: fee};
+			};
+		}
+		if (maxFee<10) {
+			maxFee=10;
+		}
+		if (module.barChart==null) {
+			module.barChart = new dhtmlXChart({
+				view			: "bar",
+				container		: module.$('#fcltsFeeMngSttusChart')[0],
+				value			: "#gauge#",
+				color			: "#000BE0",
+	            gradient		: "rising",
+				width			: 30,
+				tooltip			: "#gauge# 원",
+				xAxis			: {
+					title 		: "관리비 고지 현황",
+					template	: "#month# 월"
+				},
+				yAxis			: {
+					start		: 0,
+					end			: maxFee + 10,
+					step		: Math.ceil(maxFee / 10),
+					title		: "사용료,원"
+				}
+			});
+		} else {
+			module.barChart.clearAll();
+			module.barChart.define("yAxis", {
+				start : 0,
+				end : maxFee + 10,
+				step : Math.ceil(maxFee / 10),
+				title : "사용료,원"
+			});
+		}
+		module.barChart.parse(feeArr, "json");
+		module.barChart.refresh();
+	});
+};
+
+<%
+/**
+ * @FUNCTION NAME : onClosePopup
+ * @DESCRIPTION   : CLOSE POPUP EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+ *   2. msg      - MESSAGE
+ *   3. value    - VALUE
+**/
+%>
+GamFcltsFeeMngInqireModule.prototype.onClosePopup = function(popupId, msg, value) {
+
+	switch (popupId) {
+		case 'popupEntrpscd':
+			if (msg == 'ok') {
+				this.$('#sEntrpscd').val(value.entrpscd);
+				this.$('#sEntrpsNm').val(value.entrpsNm);
 			}
+			break;
+	}
 
-            break;
+};
 
-        //차량 삭제
-        case 'btnRemoveItem':
-        case 'btnGubunDel':
-			/*
-        	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){
-        		return;
-        	}
-        	*/
-        	if(confirm("삭제하시겠습니까?")){
-				var inputVO = this.makeFormArgs("#FcltsFeeMngInqireDetailForm");
-			 	this.doAction('/mngFee/gamDeleteFcltsFeeMngInqire.do', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#gamCarMngSearchForm");
-			 			module.$("#FcltsFeeMngInqire").flexOptions({params:searchOpt}).flexReload();
-						module.$("#FcltsFeeMngInqireTab").tabs("option", {active: 0});
-						module.$("#FcltsFeeMngInqireDetailForm :input").val("");
-			 		}
-			 		alert(result.resultMsg);
-			 	});
+<%
+/**
+ * @FUNCTION NAME : onButtonClick
+ * @DESCRIPTION   : BUTTON CLICK EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
+GamFcltsFeeMngInqireModule.prototype.onButtonClick = function(buttonId) {
+
+	switch (buttonId) {
+		case 'btnRcivDataUpdate':
+	    	this.updateRcivData();
+			break;
+		case 'btnExcelDownload':
+			this.downloadExcel();
+			break;
+		case 'popupEntrpscd':
+			this.doExecuteDialog('popupEntrpscd', '업체 선택', '/popup/showEntrpsInfo.do', null);
+			break;
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : onSubmit
+ * @DESCRIPTION   : (프레임워크에서 SUBMIT 이벤트 호출 시 호출 한다.)
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngInqireModule.prototype.onSubmit = function() {
+
+	this.loadData();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadData
+ * @DESCRIPTION   : DATA LOAD (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngInqireModule.prototype.loadData = function() {
+
+	this.$("#mainTab").tabs("option", {active: 0});
+	var searchOpt=this.makeFormArgs('#searchForm');
+	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadDetail
+ * @DESCRIPTION   : 상세항목을 로딩 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngInqireModule.prototype.loadDetail = function() {
+
+	var row = this.$('#mainGrid').selectedRows();
+
+	if (row.length==0) {
+		alert('선택된 항목이 없습니다.');
+		this.$("#mainTab").tabs("option", {active: 0});
+		return;
+	}
+	this.makeFormValues('#detailForm', row[0]);
+	this.makeDivValues('#detailForm', row[0]);
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : updateRcivData
+ * @DESCRIPTION   : 수납여부를 갱신한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngInqireModule.prototype.updateRcivData = function() {
+
+	var updateVO = this.makeFormArgs('#detailForm');
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 리스트를 엑셀로 다운로드한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngInqireModule.prototype.downloadExcel = function() {
+
+	var totalCount = Number(this.$('#totalCount').val().replace(/,/gi, ""));
+	if (totalCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelFcltsFeeMngInqire.do');
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : onTabChange
+ * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
+ * @PARAMETER     :
+ *   1. newTabId - NEW TAB ID
+ *   2. oldTabId - OLD TAB ID
+**/
+%>
+GamFcltsFeeMngInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
+
+	switch (newTabId) {
+		case 'listTab':
+			break;
+		case 'detailTab':
+			if (this._mode=="modify") {
+				this.loadDetail();
+			} else {
+				this.makeFormValues('#detailForm', {});
+				this.makeDivValues('#detailForm', {});
 			}
-            break;
-
-    }
-};
-
-
-GamFcltsFeeMngInqire.prototype.onSubmit = function() {
-    this.loadData();
-};
-
-GamFcltsFeeMngInqire.prototype.loadData = function() {
-    this.$("#FcltsFeeMngInqireTab").tabs("option", {active: 0});
-    var searchOpt=this.makeFormArgs('#gamCarMngSearchForm');
-    this.$('#FcltsFeeMngInqire').flexOptions({params:searchOpt}).flexReload();
+			this.drawChart();
+			break;
+	}
 
 };
 
-GamFcltsFeeMngInqire.prototype.onTabChange = function(newTabId, oldTabId) {
-    switch(newTabId) {
-    case 'tabs1':
-        break;
-    case 'tabs2':
-        break;
-
-    }
-};
-
-// 다음 변수는 고정 적으로 정의 해야 함
-var module_instance = new GamFcltsFeeMngInqire();
+var module_instance = new GamFcltsFeeMngInqireModule();
 
 </script>
-<!-- 아래는 고정 -->
+
+<%
+/******************************** SCRIPT   END ********************************/
+%>
+
+
+<%
+/******************************** UI     START ********************************/
+%>
+
 <input type="hidden" id="window_id" value='${windowId}' />
 <div class="window_main">
-
-    <div id="searchViewStack" class="emdPanel">
-        <div class="viewPanel">
-            <form id="gamCarMngSearchForm">
-                <table style="width:100%;" class="searchPanel">
-                    <tbody>
-                        <tr>
-                            <th>시설구분</th>
-                            <td>
-									<input type="text" size="10" id="sMngFeeFcltySe">
-                            </td>
-                            <th>시설구분</th>
-                            <td>
-									<input type="text" size="10" id="sMngFeeFcltySeNm">
-                            </td>
-                            <td>
-									<button id="searchBtn" class="buttonSearch">조회</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-        </div>
-    </div>
-
-    <div class="emdPanel fillHeight">
-        <div id="FcltsFeeMngInqireTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
-            <ul>
-                <li><a href="#tabs1" class="emdTab">관리비 시설구분</a></li>
-                <li><a href="#tabs2" class="emdTab">관리비 시설구분 상세</a></li>
-            </ul>
-
-            <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
-					 <table id="FcltsFeeMngInqire" style="display:none" class="fillHeight"></table>
-                <div id="agentListSum" class="emdControlPanel">
-					<form id="form2">
+	<!-- 11. SEARCH AREA (조회조건 영역) -->
+	<div id="searchViewStack" class="emdPanel">
+		<div class="viewPanel">
+			<form id="searchForm">
+				<table style="width:100%;" class="searchPanel">
+					<tbody>
+						<tr>
+                            <th>관리 기간</th>
+							<td>
+								<select id="sStartMngYear">
+									<c:forEach items="${yearsList}" var="yearListItem">
+										<option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisyear}">selected</c:if> >${yearListItem.codeNm }</option>
+									</c:forEach>
+								</select>
+								<select id="sStartMngMt">
+									<option value="01" selected>01월</option>
+									<option value="02">02월</option>
+									<option value="03">03월</option>
+									<option value="04">04월</option>
+									<option value="05">05월</option>
+									<option value="06">06월</option>
+									<option value="07">07월</option>
+									<option value="08">08월</option>
+									<option value="09">09월</option>
+									<option value="10">10월</option>
+									<option value="11">11월</option>
+									<option value="12">12월</option>
+								</select>
+								&nbsp; ~ &nbsp;
+								<select id="sEndMngYear">
+									<c:forEach items="${yearsList}" var="yearListItem">
+										<option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisyear}">selected</c:if> >${yearListItem.codeNm }</option>
+									</c:forEach>
+								</select>
+								<select id="sEndMngMt">
+									<option value="01" selected>01월</option>
+									<option value="02">02월</option>
+									<option value="03">03월</option>
+									<option value="04">04월</option>
+									<option value="05">05월</option>
+									<option value="06">06월</option>
+									<option value="07">07월</option>
+									<option value="08">08월</option>
+									<option value="09">09월</option>
+									<option value="10">10월</option>
+									<option value="11">11월</option>
+									<option value="12">12월</option>
+								</select>
+							</td>
+							<th>업무 구분</th>
+							<td>
+								<select id="sMngFeeJobSe">
+									<option value="">전체</option>
+									<option value="M" selected>마린센터</option>
+									<option value="E">전기시설</option>
+								</select>
+							</td>
+							<th>고지 업체</th>
+							<td>
+                            	<input id="sEntrpscd" type="text" size="6" readonly>&nbsp; &nbsp;
+                            	<input id="sEntrpsNm" type="text" size="15" disabled="disabled">&nbsp; &nbsp;
+                            	<button id="popupEntrpscd" class="popupButton">선택</button>
+							</td>
+							<td rowSpan="2">
+								<button class="buttonSearch">조회</button>
+							</td>
+						</tr>
+						<tr>
+							<th>고지 기간</th>
+							<td>
+								<input id="sStartNticDt" type="text" class="emdcal" data-role="dtFrom" data-dt-to="sEndNticDt" size="8"> ~
+								<input id="sEndNticDt" type="text" class="emdcal" data-role="dtTo" data-dt-from="sStartNticDt" size="8">
+							</td>
+							<th>수납 구분</th>
+							<td>
+								<select id="sRcivSe">
+									<option value="" selected>전체</option>
+									<option value="0">미수납</option>
+									<option value="1">연체</option>
+									<option value="3">수납</option>
+									<option value="2">연체수납</option>
+									<option value="4">불납</option>
+								</select>
+							</td>
+							<th>요금종류</th>
+							<td>
+								<input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM024" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+	</div>
+	<!-- 2. DATA AREA (자료 영역) -->
+	<div class="emdPanel fillHeight">
+		<!-- 21. TAB AREA (탭 영역) -->
+		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+			<!-- 211. TAB 정의 -->
+			<ul>
+				<li><a href="#listTab" class="emdTab">시설물 관리비 납부현황</a></li>
+				<li><a href="#detailTab" class="emdTab">시설물 관리비 납부내역</a></li>
+			</ul>
+			<!-- 212. TAB 1 AREA (LIST) -->
+			<div id="listTab" class="emdTabPage fillHeight" style="overflow: hidden;" >
+				<table id="mainGrid" style="display:none" class="fillHeight"></table>
+				<div id="listSumPanel" class="emdControlPanel">
+					<form id="listSumForm">
 						<table style="width:100%;">
-	                        <tr>
-	                            <td style="text-align: right">
-	                                <button id="btnGubunAdd">시설구분 추가</button>
-	                                <button id="btnGubunDel">시설구분 삭제</button>
-	                            </td>
-	                        </tr>
+							<tr>
+								<th width="10%" height="20">자료수</th>
+								<td><input type="text" size="8" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="10%" height="20">총사용료</th>
+								<td><input type="text" size="15" id="sumFee" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="10%" height="20">총부가세</th>
+								<td><input type="text" size="15" id="sumVat" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="10%" height="20">총고지금액</th>
+								<td><input type="text" size="15" id="sumNticAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<td style="text-align: right">
+									<button data-cmd="btnRcivDataUpdate">수납여부 갱신</button>
+	                                <button data-cmd="btnExcelDownload">엑셀다운로드</button>
+								</td>
+							</tr>
 						</table>
 					</form>
-                </div>
-            </div>
-
-            <div id="tabs2" class="emdTabPage" style="overflow:scroll;">
-                <div class="emdControlPanel">
-                    <form id="FcltsFeeMngInqireDetailForm">
-            	        <input type="hidden" id="cmd"/>
-            	        <input type="hidden" id="oldMngFeeFcltySe"/>
-                        <table class="detailPanel">
-                             <tr>
-								<th width="20%" height="18">시설 구분</th>
-                                <td ><input type="text" size="20" id="mngFeeFcltySe" /></td>
-								<th width="20%" height="18">시설 구분 명</th>
-                                <td ><input type="text" size="20" id="mngFeeFcltySeNm" /></td>
+				</div>
+			</div>
+			<!-- 213. TAB 2 AREA (DETAIL) -->
+			<div id="detailTab" class="emdTabPage" style="overflow:scroll;">
+				<div class="emdControlPanel">
+					<form id="detailForm">
+						<table class="summaryPanel" style="width:100%">
+							<tr>
+								<td>시설물 관리비 사용 내역</td>
+							</tr>
+						</table>
+						<table class="detailPanel" style="width:100%">
+							<tr>
+								<th width="15%" height="18">관리 년월</th>
+								<td>
+									<input id="mngMt" type="hidden" />
+									<input id="mngMtYear" type="hidden" />
+									<input id="mngMtMon" type="hidden" />
+									<input type="text" size="20" id="mngYrMt" disabled>
+								</td>
+								<th width="15%" height="18">업무 구분</th>
+								<td>
+									<input id="mngFeeJobSe" type="hidden" />
+									<input type="text" size="20" id="mngFeeJobSeNm" disabled>
+								</td>
+								<th width="15%" height="18">사용 업체</th>
+								<td>
+									<input id="entrpscd" type="hidden" />
+									<input type="text" size="20" id="entrpsNm" disabled>
+								</td>
+							</tr>
+                            <tr>
+								<th width="15%" height="18">관리비 제목</th>
+                                <td colspan="3"><input type="text" size="76" id="mngFeeSj" readonly/></td>
+								<th width="15%" height="18">사용 면적</th>
+                                <td><input type="text" size="20" class="ygpaNumber" id="usageAr" readonly/></td>
                             </tr>
-                        </table>
-                    </form>
-	                 <table style="width:100%">
-	                    <tr>
-	                        <td width="100"></td>
-	                        <td style="text-align:right">
-	                        	<button id="btnSaveItem" class="buttonSave">저장</button>
-	                            <button id="btnRemoveItem" class="buttonDelete">삭제</button>
-	                        </td>
-	                    </tr>
-	                 </table>
-                 </div>
-            </div>
-        </div>
-    </div>
+                            <tr>
+								<th width="15%" height="18">시설 관리 용역비</th>
+                                <td><input type="text" size="20" class="ygpaNumber" id="mngFee" readonly/></td>
+								<th width="15%" height="18">전기 요금</th>
+                                <td><input type="text" size="20" class="ygpaNumber" id="elctyFee" readonly/></td>
+								<th width="15%" height="18">상하수도 요금</th>
+                                <td><input type="text" size="20" class="ygpaNumber" id="waterFee" readonly/></td>
+                            </tr>
+                            <tr>
+								<th width="15%" height="18">도시가스 요금</th>
+                                <td><input type="text" size="20" class="ygpaNumber" id="gasFee" readonly/></td>
+								<th width="15%" height="18">환경개선 부담금</th>
+                                <td><input type="text" size="20" class="ygpaNumber" id="envFee" readonly/></td>
+								<th width="15%" height="18">관리비 합계</th>
+                                <td><input type="text" size="20" class="ygpaNumber" id="mngTotalFee" readonly/></td>
+                            </tr>
+						</table>
+						<table class="summaryPanel" style="width:100%">
+							<tr>
+								<td>시설물 관리비 고지 내역</td>
+							</tr>
+						</table>
+						<table class="detailPanel" style="width:100%">
+							<tr>
+								<th width="15%" height="18">요금 종류</th>
+								<td>
+									<input id="prtAtCode" type="hidden" />
+									<input type="text" size="4" id="chrgeKnd" disabled>
+									<input type="text" size="15" id="chrgeKndNm" disabled>
+								</td>
+								<td rowspan="11" style="padding-left:4px;">
+									<div id="fcltsFeeMngSttusChart" style="width:680px;height:290px;border:1px solid #A4BED4;"></div>
+								</td>
+							</tr>
+                            <tr>
+								<th width="15%" height="18">고지 번호</th>
+								<td>
+									<input type="text" size="9" id="accnutYear" disabled>
+									<input type="text" size="10" id="nticNo" disabled>
+								</td>
+							</tr>
+                            <tr>
+								<th width="15%" height="18">고지 / 출력</th>
+								<td>
+									<input type="text" size="9" id="nhtIsueYn" disabled>
+									<input type="text" size="10" id="nhtOutputYn" disabled>
+								</td>
+							</tr>
+                            <tr>
+								<th width="15%" height="18">사용료</th>
+								<td>
+									<input type="text" size="20" class="ygpaNumber" id="fee" readonly/>
+								</td>
+							</tr>
+                            <tr>
+								<th width="15%" height="18">부가세</th>
+								<td>
+									<input type="text" size="6" id="vatYn" disabled>
+									<input type="text" size="12" class="ygpaNumber" id="vat" readonly/>
+								</td>
+							</tr>
+                            <tr>
+								<th width="15%" height="18">고지 금액</th>
+								<td>
+									<input type="text" size="20" class="ygpaNumber" id="nticAmt" readonly/>
+								</td>
+                            </tr>
+                            <tr>
+								<th width="15%" height="18">고지 일자</th>
+                                <td>
+                                	<input type="text" size="20" id="nticDt" readonly/>
+                                </td>
+							</tr>
+                            <tr>
+								<th width="15%" height="18">납부 기한</th>
+                                <td>
+                                	<input type="text" size="20" id="payTmlmt" readonly/>
+                                </td>
+							</tr>
+                            <tr>
+								<th width="15%" height="18">수납 일자</th>
+                                <td>
+									<input type="text" size="6" id="rcivSeNm" disabled>
+                                	<input type="text" size="12" id="rcivDt" readonly/>
+                                </td>
+                            </tr>
+                            <tr>
+								<th width="15%" height="18">연체 번호/일수</th>
+								<td>
+									<input type="text" size="6" id="arrrgNo" disabled>
+									<input type="text" size="12" class="ygpaNumber" id="arrrgPayDates" readonly/>
+								</td>
+							</tr>
+                            <tr>
+								<th width="15%" height="18">연체 금액</th>
+								<td>
+									<input type="text" size="20" class="ygpaNumber" id="arrrgAmt" readonly/>
+								</td>
+                            </tr>
+						</table>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+
+
+<%
+/******************************** UI       END ********************************/
+%>
