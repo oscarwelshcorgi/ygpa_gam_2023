@@ -72,6 +72,7 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
                     {display:'업체코드', name:'entrpscd',width:80, sortable:false,align:'center'},
+                    {display:'업체명', name:'entrpsNm',width:120, sortable:false,align:'center'},
                     {display:'사용 면적', name:'usageAr',width:80, sortable:false,align:'center'},
                     {display:'관리비', name:'mngFee',width:60, sortable:false,align:'center' ,displayFormat: 'number'},
                     {display:'전기 요금', name:'elctyFee',width:120, sortable:false,align:'center' ,displayFormat: 'number'},
@@ -842,6 +843,9 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
 
             this.$("#FcltsMngFeeMngDetailList").flexEmptyData(); //그리드 초기화
             this.$("#cmd").val('insert');
+            this.$('#payMth').val('Pre');
+            this.$('#nticMth').val('1');
+            this.$('#taxtSe').val('2');
 
             break;
 
@@ -1092,10 +1096,8 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
                 }
 
             	var opts = {
-                    'prtAtCode': rows[0]['prtAtCode'],
-                    'mngYear': rows[0]['mngYear'],
-                    'mngNo': rows[0]['mngNo'],
-                    'mngCnt': rows[0]['mngCnt'],
+                    'mngMt': rows[0]['mngMt'],
+                    'mngFeeJobSe': rows[0]['mngFeeJobSe'],
                     'taxtSe': rows[0]['taxtSe']
                 };
 
@@ -1482,8 +1484,8 @@ var module_instance = new GamFcltsMngFeeMngModule();
 	                                <button id="btnAddItem">신청</button>
 	                                <button id="btnRemoveItem">신청삭제</button>
 	                                <button id="btnEApproval">결재요청</button>
-	                                <button id="btnPrmisn">사용승낙</button>
-	                                <button id="btnPrmisnCancel">승낙취소</button>
+	                                <button id="btnPrmisn">고지</button>
+	                                <button id="btnPrmisnCancel">고지취소</button>
 	                                <button id="btnHtldRentListExcelDownload">엑셀</button>
  	                            </td>
 	                        </tr>
@@ -1528,22 +1530,7 @@ var module_instance = new GamFcltsMngFeeMngModule();
 									</select>
 								</td>
                             </tr>
-                            <tr>
-								<th width="10%" height="18">비고</th>
-                                <td colspan="5"><input type="text" size="120" id="mngFeeSj" maxlength="90"/></td>
-                            </tr>
-                            <tr>
-								<th width="10%" height="18">승낙여부</th>
-                                <td>
-                                    <select id="prmisnYn" disabled>
-                                        <option value="">선택</option>
-                                        <option value="Y">Y</option>
-                                        <option value="N" selected="selected">N</option>
-                                    </select>
-                                </td>
-								<th width="10%" height="18">승낙일자</th>
-                                <td><input type="text" size="16" id="prmisnDt" disabled></td>
-                            </tr>
+
                             <tr>
 								<th width="10%" height="18">시설 관리 용역비</th>
                                 <td><input type="text" size="16" class="ygpaNumber" id="fcltyMngFee" /></td>
@@ -1569,26 +1556,14 @@ var module_instance = new GamFcltsMngFeeMngModule();
                                 <td>
                                     <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM008" />
                                 </td>
-								<th width="10%" height="18">분납이자율</th>
-                                <td>
-									<input type="text" size="19" id="payinstIntrrate" maxlength="4" size="5"/>
-                                    <select id="cofixList">
-                                        <option value="">선택</option>
-                                        <c:forEach items="${cofixList}" var="cofixListItem">
-                                            <option value="${cofixListItem.code }">${cofixListItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
 								<th width="10%" height="18">과세구분</th>
                                 <td>
                                     <input id="taxtSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM016" />
                                 </td>
-								<th width="10%" height="18">첫회 사용료</th>
-                                <td colspan="3">
-                                	<input type="text" size="13" id="firstPayVal" class="skipValue">
-                                </td>
+                            </tr>
+                             <tr>
+								<th width="10%" height="18">비고</th>
+                                <td colspan="5"><input type="text" size="120" id="mngFeeSj" maxlength="90"/></td>
                             </tr>
                     </form>
 
@@ -1597,9 +1572,8 @@ var module_instance = new GamFcltsMngFeeMngModule();
 	                    <tr>
 	                        <th width="70%">시설물 관리 상세목록</th>
 	                        <th style="text-align:right">
-                                  <button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="FcltsMngFeeMngDetailList" data-style="default">맵조회</button>
-	                        	<button id="btnInsertItemDetail" class="buttonAdd">임대상세추가</button>
-	                        	<button id="btnRemoveItemDetail" class="buttonDelete">임대상세삭제</button>
+	                        	<button id="btnInsertItemDetail" class="buttonAdd">관리비 상세추가</button>
+	                        	<button id="btnRemoveItemDetail" class="buttonDelete">관리비 상세삭제</button>
 	                        </th>
 	                    </tr>
 	                    </tbody>
@@ -1611,8 +1585,8 @@ var module_instance = new GamFcltsMngFeeMngModule();
 	                    <tr>
 	                        <td width="100"></td>
 	                        <td style="text-align:right">
-	                        <button id="btnEApproval">결재요청</button><button id="btnPrmisn">사용승낙</button>
-	                            <button id="btnPrmisnCancel">승낙취소</button><button id="btnRemoveItem" class="buttonDelete">신청삭제</button><button id="btnSaveItem" class="buttonSave">신청저장</button>
+	                        <button id="btnEApproval">결재요청</button><button id="btnPrmisn">고지</button>
+	                            <button id="btnPrmisnCancel">고지취소</button><button id="btnRemoveItem" class="buttonDelete">신청삭제</button><button id="btnSaveItem" class="buttonSave">신청저장</button>
 	                        </td>
 	                    </tr>
 	                 </table>

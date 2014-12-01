@@ -72,5 +72,10 @@ public interface GamFcltsMngFeeMngService {
 	 */
 	void deleteFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) throws Exception;
 
+	/**
+	 * 관리비 관리 요금 코드 select
+	 * @param GamFcltsMngFeeMngVo
+	 */
+	List selectChargeKndList() throws Exception;
 
 }

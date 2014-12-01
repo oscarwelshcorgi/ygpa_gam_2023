@@ -98,5 +98,13 @@ public class GamFcltsMngFeeMngDao extends YGPAAbstractDAO{
 		delete("gamFcltsMngFeeMngDao.deleteFcltsMngFeeMngDetail",gamFcltsMngFeeMngDetailVo);
 	}
 
+	/**
+	 * 관리비 관리 요금코드 select
+	 * @param gamFcltsMngFeeMngVo
+	 * @return
+	 */
+	public List selectChargeKndList() {
+		return list("gamFcltsMngFeeMngDao.selectChargeKndList", null);
+	}
 
 }

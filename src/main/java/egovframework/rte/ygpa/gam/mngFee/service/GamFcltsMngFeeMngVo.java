@@ -47,10 +47,62 @@ public class GamFcltsMngFeeMngVo extends ComDefaultVO{
 
 	private String orgnztId;			// 로그인
 
+	private String taxtSe;				// 과제 구분
+	private String nticMth;				// 고지 방법
+	private String payMth;				// 납부 방법
+	private String chrgeKnd;			// 요금 종류
 
 
 
 
+	/**
+	 * @return the chrgeKnd
+	 */
+	public String getChrgeKnd() {
+		return chrgeKnd;
+	}
+	/**
+	 * @param chrgeKnd the chrgeKnd to set
+	 */
+	public void setChrgeKnd(String chrgeKnd) {
+		this.chrgeKnd = chrgeKnd;
+	}
+	/**
+	 * @return the nticMth
+	 */
+	public String getNticMth() {
+		return nticMth;
+	}
+	/**
+	 * @param nticMth the nticMth to set
+	 */
+	public void setNticMth(String nticMth) {
+		this.nticMth = nticMth;
+	}
+	/**
+	 * @return the payMth
+	 */
+	public String getPayMth() {
+		return payMth;
+	}
+	/**
+	 * @param payMth the payMth to set
+	 */
+	public void setPayMth(String payMth) {
+		this.payMth = payMth;
+	}
+	/**
+	 * @return the taxtSe
+	 */
+	public String getTaxtSe() {
+		return taxtSe;
+	}
+	/**
+	 * @param taxtSe the taxtSe to set
+	 */
+	public void setTaxtSe(String taxtSe) {
+		this.taxtSe = taxtSe;
+	}
 	/**
 	 * @return the orgnztId
 	 */

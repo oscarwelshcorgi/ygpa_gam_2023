@@ -14,6 +14,8 @@
                      FROM (
                             SELECT
 									MNG_MT,
+									SUBSTR(MNG_MT,0,4) AS MT_YEAR,
+									SUBSTR(MNG_MT,5,6) AS MT_MON,
 									MNG_FEE_JOB_SE,
 									MNG_FEE_SJ,
 									FCLTY_MNG_FEE,
@@ -25,7 +27,10 @@
 									REG_USR,
 									UPD_USR,
 									TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT,
-									TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+									TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT,
+									TAXT_SE,
+									NTIC_MTH,
+									PAY_MTH
 					        FROM FCLTS_MNG_FEE_F
 								  WHERE 1=1
 						         <isNotEmpty property="sMngMtYear">
@@ -70,6 +75,9 @@
 					,MNG_TOTAL_FEE
 					,REG_USR
 					,REGIST_DT
+					,TAXT_SE
+					,NTIC_MTH
+					,PAY_MTH
 		         )
 		    VALUES
 		         (
@@ -84,6 +92,9 @@
 						,REPLACE(#mngTotalFee#,',','')
 						,#regUsr#
 						,sysdate
+						,#taxtSe#
+						,#nticMth#
+						,#payMth#
 		         )
 		]]>
 	</insert>
@@ -108,7 +119,7 @@
 		    VALUES
 		         (
 		         		#mngMt#
-						,REPLACE(#mngFeeJobSe#,',','')
+						,#mngFeeJobSe#
 						,REPLACE(#entrpscd#,',','')
 						,REPLACE(#mngFee#,',','')
 						,REPLACE(#elctyFee#,',','')
@@ -134,6 +145,9 @@
 					,MNG_TOTAL_FEE      =	REPLACE(#mngTotalFee#,',','')
 					,UPD_USR            =	#updUsr#
 					,UPDT_DT            =	sysdate
+					,TAXT_SE			=	#taxtSe#
+					,NTIC_MTH			=	#nticMth#
+					,PAY_MTH			=	#payMth#
 					WHERE   MNG_MT     		 = #mngMt#
 					AND		MNG_FEE_JOB_SE	 = #mngFeeJobSe#
 		]]>
@@ -158,11 +172,13 @@
 
 	<delete id="gamFcltsMngFeeMngDao.deleteFcltsMngFeeMngDetail">
 		<![CDATA[
-            DELETE  FCLTS_REL_CTRT_MNG_F
+            DELETE  FCLTS_MNG_FEE_DETAIL_F
          		    WHERE   MNG_MT     		 = #mngMt#
 					AND		MNG_FEE_JOB_SE	 = #mngFeeJobSe#
-					AND		ENTRPSCD	 	 = #entrpscd#
 		]]>
+					 <isNotEmpty property="entrpscd">
+							      <![CDATA[AND ENTRPSCD =  #entrpscd#]]>
+					 </isNotEmpty>
 	</delete>
 
 	<select id="gamFcltsMngFeeMngDao.selectFcltsMngFeeMngDetailList_D" parameterClass="gamFcltsMngFeeMngDetailVo" resultClass="egovMap">
@@ -170,6 +186,10 @@
 									 MNG_MT
 									,MNG_FEE_JOB_SE
 									,ENTRPSCD
+									,(SELECT
+											ENTRPS_NM
+									FROM ENTRPS_INFO_F B
+  											WHERE A.ENTRPSCD= B.ENTRPSCD) AS ENTRPS_NM
 									,MNG_FEE
 									,ELCTY_FEE
 									,WATER_FEE
@@ -178,7 +198,7 @@
 									,REG_USR
 									,USAGE_AR
 									,TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT
-					        FROM FCLTS_MNG_FEE_DETAIL_F
+					        FROM FCLTS_MNG_FEE_DETAIL_F A
 								  WHERE 1=1
 						         <isNotEmpty property="mngMt">
 						         <![CDATA[AND MNG_MT = #mngMt#]]>
@@ -187,12 +207,29 @@
 						         <isNotEmpty property="mngFeeJobSe">
 							       <![CDATA[AND MNG_FEE_JOB_SE =  #mngFeeJobSe#]]>
 							     </isNotEmpty>
-
-						         <isNotEmpty property="entrpscd">
-							      <![CDATA[AND ENTRPSCD =  #entrpscd#]]>
-							     </isNotEmpty>
                              ORDER BY REGIST_DT
     </select>
 
+	<delete id="gamFcltsMngFeeMngDao.deleteFcltsMngFeeMng">
+		<![CDATA[
+            DELETE  FCLTS_MNG_FEE_F
+         		    WHERE   MNG_MT     		 = #mngMt#
+					AND		MNG_FEE_JOB_SE	 = #mngFeeJobSe#
+		]]>
+	</delete>
+
+	<select id="gamFcltsMngFeeMngDao.selectChargeKndList" resultClass="egovMap">
+            		<![CDATA[
+			SELECT
+			CODE_ID, CODE, CODE_NM, CODE_DC
+			FROM
+			COMTCCMMNDETAILCODE
+			WHERE
+			USE_AT      = 'Y'
+			AND CODE_ID = 'GAM024'
+				AND CODE NOT IN ('A3', 'A4', 'UG', 'DA')
+			ORDER BY CODE, CODE_NM
+		]]>
+    </select>
 
    </sqlMap>

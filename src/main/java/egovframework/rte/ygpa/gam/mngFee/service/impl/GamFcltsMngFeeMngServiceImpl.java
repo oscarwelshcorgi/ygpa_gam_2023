@@ -136,4 +136,14 @@ public class GamFcltsMngFeeMngServiceImpl extends AbstractServiceImpl implements
 
 	}
 
+	/*
+	 * 관리비 관리 요금 코드 select
+	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngService#selectChargeKndList(egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngVo)
+	 */
+	@Override
+	public List selectChargeKndList() throws Exception {
+
+		return gamFcltsMngFeeMngDao.selectChargeKndList();
+	}
+
 }

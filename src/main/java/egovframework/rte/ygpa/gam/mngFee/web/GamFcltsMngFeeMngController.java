@@ -41,6 +41,7 @@ import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngVo;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentMngtVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtDetailVO;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtLevReqestVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
 import egovframework.rte.ygpa.gam.soc.service.GamSocAgentService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
@@ -261,6 +262,9 @@ public class GamFcltsMngFeeMngController {
 			saveVO.setGasFee(form.get("gasFee"));
 			saveVO.setEnvFee(form.get("envFee"));
 			saveVO.setMngTotalFee(form.get("mngTotalFee"));
+			saveVO.setTaxtSe(form.get("taxtSe"));
+			saveVO.setNticMth(form.get("nticMth"));
+			saveVO.setPayMth(form.get("payMth"));
     		saveVO.setRegUsr((loginVO.getId()));
 
     		if( form.get("cmd") != null && "insert".equals(form.get("cmd")) ) {
@@ -402,6 +406,25 @@ public class GamFcltsMngFeeMngController {
     }
 
     /**
+     * 승낙 팝업화면을 로딩한다.
+     *
+     * @param gamPrtFcltyRentMngtLevReqestVO
+     * @param model the model
+     * @return "/mngFee/popup/showFcltsMngFeeMngPrmisn.do"
+     * @throws Exception the exception
+     */
+	@RequestMapping(value="/mngFee/popup/showFcltsMngFeeMngPrmisn.do")
+    String showEntrpsInfo(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo, ModelMap model) throws Exception {
+
+		List chrgeKndCdList = gamFcltsMngFeeMngService.selectChargeKndList();
+
+		model.addAttribute("gamFcltsMngFeeMngInfo", gamFcltsMngFeeMngVo);
+		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
+
+		return "/ygpa/gam/popup/GamPopupFcltsMngFeeMngPrmisn";
+    }
+
+    /**
      * 관리지 관리 사용 승낙
      * @param GamFcltsMngFeeMngVo
      * @param bindingResult
@@ -410,7 +433,7 @@ public class GamFcltsMngFeeMngController {
      */
     @RequestMapping(value="/mngFee/gamUpdateFcltsMngFeeMngPrmisn.do")
     public @ResponseBody Map updatePrtFcltyRentMngtPrmisn(
-     	   @ModelAttribute("gamFcltsMngFeeMngForm") GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo,
+     	   @ModelAttribute("gamPopupPrmisnForm") GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo,
      	   BindingResult bindingResult)
             throws Exception {
 
@@ -427,16 +450,13 @@ public class GamFcltsMngFeeMngController {
      	}
 
          LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-/*
-         //prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류
-         paramMap.put("prtAtCode", gamPrtFcltyRentMngtVO.getPrtAtCode());
-         paramMap.put("mngYear", gamPrtFcltyRentMngtVO.getMngYear());
-         paramMap.put("mngNo", gamPrtFcltyRentMngtVO.getMngNo());
-         paramMap.put("mngCnt", gamPrtFcltyRentMngtVO.getMngCnt());
+
+         paramMap.put("mngMt", gamFcltsMngFeeMngVo.getMngMt());
+         paramMap.put("mngFeeJobSe", gamFcltsMngFeeMngVo.getMngFeeJobSe());
+         paramMap.put("taxtSe", gamFcltsMngFeeMngVo.getTaxtSe());
          paramMap.put("regUsr", loginVO.getId());
          paramMap.put("deptcd", loginVO.getOrgnztId());
-         paramMap.put("chrgeKnd", gamPrtFcltyRentMngtVO.getChrgeKnd());
-         paramMap.put("taxtSe", gamPrtFcltyRentMngtVO.getTaxtSe());
+         paramMap.put("chrgeKnd", gamFcltsMngFeeMngVo.getChrgeKnd());
 
          //승낙 서비스 클래스 호출
          //gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap); //승낙
@@ -454,8 +474,8 @@ public class GamFcltsMngFeeMngController {
 
      	 map.put("resultCode", resultCode);
          map.put("resultMsg", resultMsg);
-*/
  		return map;
      }
+
 
 }
