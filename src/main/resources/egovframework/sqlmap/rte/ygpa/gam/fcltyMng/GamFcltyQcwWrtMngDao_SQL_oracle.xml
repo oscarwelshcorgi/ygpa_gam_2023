@@ -117,8 +117,8 @@
 		FROM
 			QC_MNG_DTLS_F
 		WHERE 
-			Q.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo# 
-			AND Q.FCLTS_JOB_SE = #fcltsJobSe#
+			FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo# 
+			AND FCLTS_JOB_SE = #fcltsJobSe#
 	</select>
 	
 	<insert id="gamFcltyQcwWrtMngDao.insertQcMngDtls_S">
@@ -454,7 +454,7 @@
 							AND R.FCLTS_JOB_SE = #sFcltsJobSe#
 							AND R.QC_MNG_SEQ = TO_NUMBER(#sQcMngSeq#) 
 						ORDER BY
-							R.QC_ITEM_CD, R.SEQ
+							R.SEQ
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>				
@@ -476,12 +476,11 @@
     		SELECT
     		  	TO_CHAR(NVL(MAX(SEQ),0) + 1)
     		FROM
-    		  	QC_MNG_ATCH_FILE_F
+    		  	QC_MNG_RESULT_ITEM_F
     		WHERE
 				FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 				AND FCLTS_JOB_SE = #fcltsJobSe#
 				AND QC_MNG_SEQ = TO_NUMBER(#qcMngSeq#)
-				AND QC_ITEM_CD = #qcItemCd# 
     	</selectKey>
 		INSERT INTO
 			QC_MNG_RESULT_ITEM_F (

@@ -99,9 +99,9 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectQcMngResultItemList.do',
 		dataType: 'json',
 		colModel : [
+					{display:"순번",			name:"seq",				width:90,		sortable:true,		align:"left"},
 					{display:"점검항목코드",	name:"qcItemCd",		width:100,		sortable:true,		align:"center"},
 					{display:"점검항목",		name:"qcItem",			width:150,		sortable:true,		align:"center"},
-					{display:"순번",			name:"seq",				width:90,		sortable:true,		align:"left"},
 					{display:"점검항목결과구분",	name:"inspResultChk",	width:120,		sortable:true,		align:"left"}
 			],
 		height: "auto"
@@ -159,6 +159,33 @@ GamFcltyQcwWrtMngModule.prototype.fillSelectBoxYear = function(id) {
 
 //화면 및 데이터 초기화
 GamFcltyQcwWrtMngModule.prototype.initDisplay = function() {
+	this._deleteAtchFileList = [];
+	this._deleteObjFcltsList = [];
+	this._deleteResultItemList = [];
+	
+	this.$("#fcltyQcwWrtMngVO :input").val("");
+	this.$("#qcMngAtchFileForm :input").val("");
+	
+	this.$('#qcMngObjFcltsList').flexEmptyData();
+	this.$('#qcMngResultItemList').flexEmptyData();
+	this.$('#qcMngAtchFileList').flexEmptyData();
+	
+	this.$("#previewImage").attr("src", "#");
+	
+	if(this._cmd == "insert") {
+		this.$("#fcltsMngGroupNo").enable();
+		this.$("#fcltsJobSe").enable();
+		this.$("#btnSearchFcltsMngGroup").show();
+		this.$("#fcltyQcwWrtMngTab").tabs("option", {active: 1});		
+	} else if (this._cmd == "modify") {
+		this.$("#fcltsMngGroupNo").disable();
+		this.$("#fcltsJobSe").disable();
+		this.$("#btnSearchFcltsMngGroup").hide();
+	} else {
+		this.$("#fcltsJobSe").enable();
+		this.$("#btnSearchFcltsMngGroup").show();
+		this.$("#fcltyQcwWrtMngTab").tabs("option", {active: 0});
+	}
 	
 };
 
@@ -168,17 +195,39 @@ GamFcltyQcwWrtMngModule.prototype.onSubmit = function() {
 
 //점검관리내역 조회
 GamFcltyQcwWrtMngModule.prototype.loadData = function() {
-	this.initDisplay();
 	var searchOpt = this.makeFormArgs("#searchFcltyQcwWrtMngForm");
-	this.$("#qcMngDtlsList").flexOptions({params:searchOpt}).flexReload();	
+	this.$("#qcMngDtlsList").flexOptions({params:searchOpt}).flexReload();
 };
 
 //점검관리내역 삽입
 GamFcltyQcwWrtMngModule.prototype.insertData = function() {
+	var data = this.makeFormArgs("#fcltyQcwWrtMngVO");
+ 	this.doAction('/fcltyMng/insertQcMngDtls.do', data, function(module, result) {
+ 		if(result.resultCode == "0"){
+ 			module._cmd = "modify";
+ 			module.$("#qcMngSeq").val(result.qcMngSeq);
+			module.saveQcMngObjFclts();
+			module.saveQcMngResultItem();
+			module.saveAtchFile();
+			module.loadData();
+ 		}
+ 		alert(result.resultMsg);
+ 	});	
 };
 
 //점검관리내역 수정
 GamFcltyQcwWrtMngModule.prototype.updateData = function() {
+	var data = this.makeFormArgs("#fcltyQcwWrtMngVO");
+ 	this.doAction('/fcltyMng/updateQcMngDtls.do', data, function(module, result) {
+ 		if(result.resultCode == "0"){
+ 			module._cmd = "modify";
+			module.saveQcMngObjFclts();
+			module.saveQcMngResultItem();
+			module.saveAtchFile();
+			module.loadData();
+ 		}
+ 		alert(result.resultMsg);
+ 	});	
 };
 
 //점검관리내역 삽입 및 수정저장
@@ -201,6 +250,7 @@ GamFcltyQcwWrtMngModule.prototype.deleteData = function() {
 		return;
 	}
 	if(confirm("점검관리내역을 삭제하시겠습니까?")) {
+		var row = rows[0];
 		var opts = [
 	           		{name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
 	           		{name: 'fcltsJobSe', value: row['fcltsJobSe'] },
@@ -219,13 +269,13 @@ GamFcltyQcwWrtMngModule.prototype.deleteData = function() {
 //점검관리내역 데이터 조회
 GamFcltyQcwWrtMngModule.prototype.loadDetailData = function() {
 	this.initDisplay();
-	var selectRows = this.$('#qcMngDtlsList').selectedRows();
-	if(selectRows.length > 0) {
-		var row = selectRows[0];
+	var rows = this.$('#qcMngDtlsList').selectedRows();
+	if(rows.length > 0) {
+		var row = rows[0];
 		var opts = [
-	           		{name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
-	           		{name: 'fcltsJobSe', value: row['fcltsJobSe'] },
-	           		{name: 'qcMngSeq', value: row['qcMngSeq'] }
+	           		{name: 'sFcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
+	           		{name: 'sFcltsJobSe', value: row['fcltsJobSe'] },
+	           		{name: 'sQcMngSeq', value: row['qcMngSeq'] }
 		           ];
 		this.doAction('/fcltyMng/selectQcMngDtlsDetail.do', opts, function(module, result) { 
 			if(result.resultCode == "0"){
@@ -233,11 +283,9 @@ GamFcltyQcwWrtMngModule.prototype.loadDetailData = function() {
 				module.$("#qcMngObjFcltsList").flexOptions({params:opts}).flexReload();
 				module.$("#qcMngAtchFileList").flexOptions({params:opts}).flexReload();
 				module.$("#qcMngResultItemList").flexOptions({params:opts}).flexReload();
-				module.$("#fcltyQcwWrtMngTab").tabs("option", {active: 1});
 			}
 			else {
 				this._cmd="";
-				module.initDisplay();
 				alert(result.resultMsg);
 			}
 		});	
@@ -266,9 +314,9 @@ GamFcltyQcwWrtMngModule.prototype.saveQcMngObjFclts = function() {
         if(result.resultCode == 0){
 			module._deleteObjFcltsList = [];				    	
 			var opts = [
-		           		{name: 'fcltsMngGroupNo', value: module.$("#fcltsMngGroupNo").val() },
-		           		{name: 'fcltsJobSe', value: module.$("#fcltsJobSe").val() },
-		           		{name: 'qcMngSeq', value: module.$("#qcMngSeq").val() }
+		           		{name: 'sFcltsMngGroupNo', value: module.$("#fcltsMngGroupNo").val() },
+		           		{name: 'sFcltsJobSe', value: module.$("#fcltsJobSe").val() },
+		           		{name: 'sQcMngSeq', value: module.$("#qcMngSeq").val() }
 			           ];
 			module.$("#qcMngObjFcltsList").flexOptions({params:opts}).flexReload();
         }
@@ -300,9 +348,9 @@ GamFcltyQcwWrtMngModule.prototype.saveQcMngResultItem = function() {
         if(result.resultCode == 0){
 			module._deleteObjFcltsList = [];				    	
 			var opts = [
-		           		{name: 'fcltsMngGroupNo', value: module.$("#fcltsMngGroupNo").val() },
-		           		{name: 'fcltsJobSe', value: module.$("#fcltsJobSe").val() },
-		           		{name: 'qcMngSeq', value: module.$("#qcMngSeq").val() }
+		           		{name: 'sFcltsMngGroupNo', value: module.$("#fcltsMngGroupNo").val() },
+		           		{name: 'sFcltsJobSe', value: module.$("#fcltsJobSe").val() },
+		           		{name: 'sQcMngSeq', value: module.$("#qcMngSeq").val() }
 			           ];
 			module.$("#qcMngResultItemList").flexOptions({params:opts}).flexReload();
         }
@@ -357,9 +405,9 @@ GamFcltyQcwWrtMngModule.prototype.saveAtchFile = function() {
         if(result.resultCode == 0){
 			module._deleteAtchFileList = [];				    	
 			var opts = [
-		           		{name: 'fcltsMngGroupNo', value: module.$("#fcltsMngGroupNo").val() },
-		           		{name: 'fcltsJobSe', value: module.$("#fcltsJobSe").val() },
-		           		{name: 'qcMngSeq', value: module.$("#qcMngSeq").val() }
+		           		{name: 'sFcltsMngGroupNo', value: module.$("#fcltsMngGroupNo").val() },
+		           		{name: 'sFcltsJobSe', value: module.$("#fcltsJobSe").val() },
+		           		{name: 'sQcMngSeq', value: module.$("#qcMngSeq").val() }
 			           ];
 			module.$("#qcMngAtchFileList").flexOptions({params:opts}).flexReload();
         }
@@ -409,7 +457,6 @@ GamFcltyQcwWrtMngModule.prototype.downloadAtchFileItem = function() {
 	}
 };
 
-
 /**
  * 정의 된 버튼 클릭 시
  */
@@ -418,6 +465,7 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 		//점검관리내역 목록 조회
 		case "searchBtn":
 			this._cmd = '';
+			this.initDisplay();
 			this.loadData();
 			break;
 			
@@ -453,7 +501,7 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 			
 		//시설물관리그룹선택
-		case "searchFcltsMngGroup":
+		case "btnSearchFcltsMngGroup":
 			this.doExecuteDialog("selectFcltsMngGroup", "시설물관리그룹", '/popup/showFcltsMngGroup.do', {});
 			break;
 			
@@ -481,12 +529,24 @@ GamFcltyQcwWrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		case "tabs1":
 			break;
 		case "tabs2":
+			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
+				this.$("#fcltyQcwWrtMngTab").tabs("option", {active: 0});
+			} 
 			break;
 		case "tabs3":
+			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
+				this.$("#fcltyQcwWrtMngTab").tabs("option", {active: 0});
+			} 
 			break;
 		case "tabs4":
+			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
+				this.$("#fcltyQcwWrtMngTab").tabs("option", {active: 0});
+			} 
 			break;
 		case "tabs5":
+			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
+				this.$("#fcltyQcwWrtMngTab").tabs("option", {active: 0});
+			} 
 			break;
 	}
 };
@@ -597,9 +657,9 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 						<tr>
 							<th width="12%" height="17">시설물관리그룹</th>
 							<td colspan="3">
-								<input type="text" size="14" id="fcltsMngGroupNo" disabled="disabled"/>
+								<input type="text" size="14" id="fcltsMngGroupNo" maxlength="14" />
 								<input type="text" size="40" id="fcltsMngGroupNm" disabled="disabled"/>
-								<button id="searchFcltsMngGroup" class="popupButton">선택</button>
+								<button id="btnSearchFcltsMngGroup" class="popupButton">선택</button>
 							</td>
 							<th width="12%" height="17">점검관리순번</th>
 							<td>
@@ -620,7 +680,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							</td>
 							<th width="12%" height="17">점검관리명</th>
 							<td colspan="3">
-								<input type="text" size="60" id="qcInspInsttNm" />
+								<input type="text" size="60" id="qcMngNm" maxlength="200" />
 							</td>
 						</tr>
 						<tr>
@@ -709,8 +769,6 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 					<button id="btnModifyQcMngObjFclts">추가/삭제</button>
 					<button id="btnSave">저장</button>
 				</div>
-				<form id="fcltsFileForm">
-				</form>
 				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 			</div>
 			

@@ -38,9 +38,9 @@ GamPopupQcMngResultItemModule.prototype.loadComplete = function(qcMngResultItemL
 		url: '',
 		dataType: "json",
 		colModel : [
+					{display:"순번",			name:"seq",				width:90,		sortable:true,		align:"left"},
 					{display:"점검항목코드",	name:"qcItemCd",		width:100,		sortable:true,		align:"center"},
 					{display:"점검항목",		name:"qcItem",			width:150,		sortable:true,		align:"center"},
-					{display:"순번",			name:"seq",				width:90,		sortable:true,		align:"left"},
 					{display:"점검항목결과구분",	name:"inspResultChk",	width:120,		sortable:true,		align:"left"}
 			],
 		height: "300",
@@ -158,10 +158,10 @@ var popup_instance = new GamPopupQcMngResultItemModule();
 			<table class="searchPanel">
 				<tbody>
 					<tr>
-                        <th>점검항목코드</th>
-                        <td><input id="qcItemCd" type="text" style="width: 150px;" maxlength="20" class="EditItem"/></td>
                         <th>순번</th>
                         <td><input id="seq" type="text" style="width: 100px;" disabled="disabled" /></td>
+                        <th>점검항목코드</th>
+                        <td><input id="qcItemCd" type="text" style="width: 150px;" maxlength="20" class="EditItem"/></td>
                         <th>점검결과구분</th>
                         <td>
                        		<select id="inspResultChk" class="EditItem">

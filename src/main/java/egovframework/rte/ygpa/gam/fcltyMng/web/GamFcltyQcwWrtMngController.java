@@ -5,6 +5,7 @@ package egovframework.rte.ygpa.gam.fcltyMng.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -75,7 +76,6 @@ public class GamFcltyQcwWrtMngController {
     	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/fcltyMng/GamFcltyQcwWrtMng";
     }
-
 	
 	/**
 	 * 점검관리내역 조회
@@ -137,7 +137,7 @@ public class GamFcltyQcwWrtMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-
+    	
     	try {
         	result = gamFcltyQcwWrtMngService.selectQcMngDtlsDetail(searchVO);
     	}
@@ -283,6 +283,76 @@ public class GamFcltyQcwWrtMngController {
     }
 
 	/**
+	 * 점검관리 내역 삽입
+	 * @param insertMap
+	 * @return map
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fcltyMng/insertQcMngDtls.do")
+	@ResponseBody Map<String, Object> insertQcMngDtls(@RequestParam Map<String, Object> insertMap) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+    	insertMap.put("regUsr", user.getId());
+    	
+    	try {
+    		insertMap.put("qcMngSeq", gamFcltyQcwWrtMngService.selectNextQcMngSeq(insertMap));
+    		gamFcltyQcwWrtMngService.insertQcMngDtls(insertMap);
+    		
+    		map.put("resultCode", 0);			// return ok
+    		map.put("qcMngSeq", insertMap.get("qcMngSeq"));
+            map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (Exception e) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+
+      	return map;		
+	}	
+
+	/**
+	 * 점검관리 내역 수정
+	 * @param updateMap
+	 * @return map
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fcltyMng/updateQcMngDtls.do")
+	@ResponseBody Map<String, Object> updateQcMngDtls(@RequestParam Map<String, Object> insertMap) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+    	insertMap.put("updUsr", user.getId());
+    	
+    	try {
+    		gamFcltyQcwWrtMngService.updateQcMngDtls(insertMap);
+    		
+    		map.put("resultCode", 0);			// return ok
+            map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		} catch (Exception e) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+		}
+
+      	return map;		
+	}	
+	
+	/**
 	 * 점검관리 대상 시설물 병합 저장
 	 * @param searchVO
 	 * @return map
@@ -319,7 +389,7 @@ public class GamFcltyQcwWrtMngController {
 
 		deleteList = mapper.readValue((String)dataList.get("deleteList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
-
+		
 		userList = new ArrayList();
 		userMap.put("id",  loginVO.getId());
 		userList.add(userMap);
@@ -378,7 +448,7 @@ public class GamFcltyQcwWrtMngController {
 
 		deleteList = mapper.readValue((String)dataList.get("deleteList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
-
+		
 		userList = new ArrayList();
 		userMap.put("id",  loginVO.getId());
 		userList.add(userMap);
@@ -478,10 +548,10 @@ public class GamFcltyQcwWrtMngController {
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
     	try {
-    		gamFcltyQcwWrtMngService.deleteQcMngAtchFileList(map);
-    		gamFcltyQcwWrtMngService.deleteQcMngResultItemList(map);
-    		gamFcltyQcwWrtMngService.deleteQcMngObjFcltsList(map);
-    		gamFcltyQcwWrtMngService.deleteQcMngDtls(map);
+    		gamFcltyQcwWrtMngService.deleteQcMngAtchFileList(deleteMap);
+    		gamFcltyQcwWrtMngService.deleteQcMngResultItemList(deleteMap);
+    		gamFcltyQcwWrtMngService.deleteQcMngObjFcltsList(deleteMap);
+    		gamFcltyQcwWrtMngService.deleteQcMngDtls(deleteMap);
     		
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
@@ -507,7 +577,7 @@ public class GamFcltyQcwWrtMngController {
     }
 
 	/**
-	 * 점검관리대상물목록 수정 팝업
+	 * 점검관리결과항목 수정 팝업
 	 * @param map
 	 * @return 
 	 * @throws Exception
