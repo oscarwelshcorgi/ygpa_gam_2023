@@ -72,7 +72,7 @@ GamFcltsFeeMngInqireModule.prototype.loadComplete = function() {
 					{display:'납부 기한',			name:'payTmlmt',			width:80,		sortable:false,		align:'center'},
 					{display:'수납 구분',			name:'rcivSeNm',			width:80,		sortable:false,		align:'center'},
 					{display:'수납 일자',			name:'rcivDt',				width:80,		sortable:false,		align:'center'},
-					{display:'부가세 구분',			name:'vatYn',				width:80,		sortable:false,		align:'center'},
+					{display:'부가세 구분',			name:'vatYnNm',				width:80,		sortable:false,		align:'center'},
 					{display:'고지 여부',			name:'nhtIsueYn',			width:80,		sortable:false,		align:'center'},
 					{display:'출력 여부',			name:'nhtOutputYn',			width:80,		sortable:false,		align:'center'},
 					{display:'추가 고지 여부',		name:'aditNticYn',			width:90,		sortable:false,		align:'center'},
@@ -492,47 +492,47 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 						</table>
 						<table class="detailPanel" style="width:100%">
 							<tr>
-								<th width="15%" height="18">관리 년월</th>
+								<th width="10%" height="18">관리 년월</th>
 								<td>
-									<input id="mngMt" type="hidden" />
-									<input id="mngMtYear" type="hidden" />
-									<input id="mngMtMon" type="hidden" />
+									<input id="mngMt" type="hidden"/>
+									<input id="mngMtYear" type="hidden"/>
+									<input id="mngMtMon" type="hidden"/>
+									<input id="reqestSeq" type="hidden"/>
 									<input type="text" size="20" id="mngYrMt" disabled>
+									<input type="text" size="12" id="mngSeq" disabled>
 								</td>
-								<th width="15%" height="18">업무 구분</th>
+								<th width="10%" height="18">업무 구분</th>
 								<td>
-									<input id="mngFeeJobSe" type="hidden" />
-									<input id="mngSeq" type="hidden" />
-									<input id="reqestSeq" type="hidden" />
-									<input type="text" size="20" id="mngFeeJobSeNm" disabled>
+									<input id="mngFeeJobSe" type="hidden"/>
+									<input type="text" size="33" id="mngFeeJobSeNm" disabled>
 								</td>
-								<th width="15%" height="18">사용 업체</th>
+								<th width="10%" height="18">부과 업체</th>
 								<td>
-									<input id="entrpscd" type="hidden" />
-									<input type="text" size="20" id="entrpsNm" disabled>
+									<input id="entrpscd" type="hidden"/>
+									<input type="text" size="33" id="entrpsNm" disabled>
 								</td>
 							</tr>
                             <tr>
-								<th width="15%" height="18">관리비 제목</th>
-                                <td colspan="3"><input type="text" size="76" id="mngFeeSj" readonly/></td>
-								<th width="15%" height="18">사용 면적</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="usageAr" readonly/></td>
+								<th width="10%" height="18">관리비 제목</th>
+								<td colspan="3"><input type="text" size="87" id="mngFeeSj" disabled/></td>
+								<th width="10%" height="18">사용 면적</th>
+								<td><input type="text" size="33" class="ygpaNumber" id="usageAr" disabled/></td>
                             </tr>
                             <tr>
-								<th width="15%" height="18">시설 관리 용역비</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="mngFee" readonly/></td>
-								<th width="15%" height="18">전기 요금</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="elctyFee" readonly/></td>
-								<th width="15%" height="18">상하수도 요금</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="waterFee" readonly/></td>
+								<th width="10%" height="18">시설 관리 용역비</th>
+								<td><input type="text" size="33" class="ygpaNumber" id="mngFee" disabled/></td>
+								<th width="10%" height="18">전기 요금</th>
+								<td><input type="text" size="33" class="ygpaNumber" id="elctyFee" disabled/></td>
+								<th width="10%" height="18">상하수도 요금</th>
+								<td><input type="text" size="33" class="ygpaNumber" id="waterFee" disabled/></td>
                             </tr>
                             <tr>
-								<th width="15%" height="18">도시가스 요금</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="gasFee" readonly/></td>
-								<th width="15%" height="18">환경개선 부담금</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="envFee" readonly/></td>
-								<th width="15%" height="18">관리비 합계</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="mngTotalFee" readonly/></td>
+								<th width="10%" height="18">도시가스 요금</th>
+								<td><input type="text" size="33" class="ygpaNumber" id="gasFee" disabled/></td>
+								<th width="10%" height="18">환경개선 부담금</th>
+								<td><input type="text" size="33" class="ygpaNumber" id="envFee" disabled/></td>
+								<th width="10%" height="18">관리비 합계</th>
+								<td><input type="text" size="33" class="ygpaNumber" id="mngTotalFee" disabled/></td>
                             </tr>
 						</table>
 						<table class="summaryPanel" style="width:100%">
@@ -544,7 +544,7 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 							<tr>
 								<th width="15%" height="18">요금 종류</th>
 								<td>
-									<input id="prtAtCode" type="hidden" />
+									<input id="prtAtCode" type="hidden"/>
 									<input type="text" size="4" id="chrgeKnd" disabled>
 									<input type="text" size="15" id="chrgeKndNm" disabled>
 								</td>
@@ -569,52 +569,53 @@ var module_instance = new GamFcltsFeeMngInqireModule();
                             <tr>
 								<th width="15%" height="18">사용료</th>
 								<td>
-									<input type="text" size="20" class="ygpaNumber" id="fee" readonly/>
+									<input type="text" size="20" class="ygpaNumber" id="fee" disabled/>
 								</td>
 							</tr>
                             <tr>
 								<th width="15%" height="18">부가세</th>
 								<td>
 									<input type="text" size="6" id="vatYn" disabled>
-									<input type="text" size="12" class="ygpaNumber" id="vat" readonly/>
+									<input type="text" size="12" class="ygpaNumber" id="vat" disabled/>
 								</td>
 							</tr>
                             <tr>
 								<th width="15%" height="18">고지 금액</th>
 								<td>
-									<input type="text" size="20" class="ygpaNumber" id="nticAmt" readonly/>
+									<input type="text" size="20" class="ygpaNumber" id="nticAmt" disabled/>
 								</td>
                             </tr>
                             <tr>
 								<th width="15%" height="18">고지 일자</th>
                                 <td>
-                                	<input type="text" size="20" id="nticDt" readonly/>
+                                	<input type="text" size="20" id="nticDt" disabled/>
                                 </td>
 							</tr>
                             <tr>
 								<th width="15%" height="18">납부 기한</th>
                                 <td>
-                                	<input type="text" size="20" id="payTmlmt" readonly/>
+                                	<input type="text" size="20" id="payTmlmt" disabled/>
                                 </td>
 							</tr>
                             <tr>
 								<th width="15%" height="18">수납 일자</th>
                                 <td>
+									<input id="rcivSe" type="hidden"/>
 									<input type="text" size="6" id="rcivSeNm" disabled>
-                                	<input type="text" size="12" id="rcivDt" readonly/>
+                                	<input type="text" size="12" id="rcivDt" disabled/>
                                 </td>
                             </tr>
                             <tr>
 								<th width="15%" height="18">연체 번호/일수</th>
 								<td>
 									<input type="text" size="6" id="arrrgNo" disabled>
-									<input type="text" size="12" class="ygpaNumber" id="arrrgPayDates" readonly/>
+									<input type="text" size="12" class="ygpaNumber" id="arrrgPayDates" disabled/>
 								</td>
 							</tr>
                             <tr>
 								<th width="15%" height="18">연체 금액</th>
 								<td>
-									<input type="text" size="20" class="ygpaNumber" id="arrrgAmt" readonly/>
+									<input type="text" size="20" class="ygpaNumber" id="arrrgAmt" disabled/>
 								</td>
                             </tr>
 						</table>

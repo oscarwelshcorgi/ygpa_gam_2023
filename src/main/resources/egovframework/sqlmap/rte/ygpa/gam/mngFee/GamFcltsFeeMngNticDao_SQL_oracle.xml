@@ -5,6 +5,7 @@
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 	<typeAlias alias="gamFcltsFeeMngNticVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo"/>
+	<typeAlias alias="gamFcltsFeeMngNticDetailVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticDetailVo"/>
 
 	<resultMap id="gamFcltsFeeMngNticSumMap" class="egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo">
 		<result property="dataCount" column="DATA_COUNT" columnIndex="1"/>
@@ -22,6 +23,7 @@
 								 T1.MNG_MT
 								,T1.MNG_FEE_JOB_SE
 								,T1.MNG_SEQ
+								,T1.REQEST_SEQ
 								,T1.ENTRPSCD
 								,T4.ENTRPS_NM
 								,T3.MNG_FEE_SJ
@@ -48,6 +50,7 @@
 								,TO_CHAR(T1.PAY_TMLMT,'YYYY-MM-DD') AS PAY_TMLMT
 								,LTRIM(TO_CHAR(NVL(T1.FEE,0),'999,999,999,990')) AS FEE
 								,T1.VAT_YN
+								,GAM_GETCODENAME('GAM016',T1.VAT_YN) AS VAT_YN_NM
 								,LTRIM(TO_CHAR(NVL(T1.VAT,0),'999,999,999,990')) AS VAT
 								,LTRIM(TO_CHAR(NVL(T1.NTIC_AMT,0),'999,999,999,990')) AS NTIC_AMT
 								,T1.RCIV_SE
@@ -63,7 +66,9 @@
 								,T1.RM
 								,T1.DEPT_CD
 								,T1.REG_USR
+								,TO_CHAR(T1.REGIST_DT, 'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
 								,T1.UPD_USR
+								,TO_CHAR(T1.UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
 							FROM MNG_FEE_LEV_REQEST_F T1
 							LEFT OUTER JOIN FCLTS_MNG_FEE_DETAIL_F T2 ON (T1.MNG_MT=T2.MNG_MT AND T1.MNG_FEE_JOB_SE=T2.MNG_FEE_JOB_SE AND T1.MNG_SEQ=T2.MNG_SEQ)
 							LEFT OUTER JOIN FCLTS_MNG_FEE_F T3 ON (T1.MNG_MT=T3.MNG_MT AND T1.MNG_FEE_JOB_SE=T3.MNG_FEE_JOB_SE)
@@ -218,12 +223,12 @@
 			,#chrgeKnd#
 			,#accnutYear#
 			,#nticNo#
-			,#nticDt#
-			,#payTmlmt#
-			,#fee#
+			,TO_DATE(#nticDt#,'YYYY-MM-DD')
+			,TO_DATE(#payTmlmt#,'YYYY-MM-DD')
+			,TO_NUMBER(REPLACE(#fee#,',',''))
 			,#vatYn#
-			,#vat#
-			,#nticAmt#
+			,TO_NUMBER(REPLACE(#vat#,',',''))
+			,TO_NUMBER(REPLACE(#nticAmt#,',',''))
 			,#rm#
 			,'0'
 			,NULL
@@ -232,9 +237,9 @@
 			,'1'
 			,'N'
 			,#arrrgNo#
-			,#arrrgAmt#
-			,#arrrgTariff#
-			,#arrrgPayDates#
+			,TO_NUMBER(REPLACE(#arrrgAmt#,',',''))
+			,TO_NUMBER(REPLACE(#arrrgTariff#,',',''))
+			,TO_NUMBER(REPLACE(#arrrgPayDates#,',',''))
 			,'Y'
 			,NULL
 			,#regUsr#
@@ -246,13 +251,15 @@
 	<update id="gamFcltsFeeMngNticDao.updateFcltsFeeMngNtic_S">
 		<![CDATA[
 		UPDATE MNG_FEE_LEV_REQEST_F SET
-			 PAY_TMLMT = TO_DATE(#payTmlmt#,'YYYY-MM-DD')
+			 NTIC_DT = TO_DATE(#nticDt#,'YYYY-MM-DD')
+			,PAY_TMLMT = TO_DATE(#payTmlmt#,'YYYY-MM-DD')
 			,RM = #rm#
 			,UPD_USR = #updUsr#
 			,UPDT_DT = sysdate
 		WHERE MNG_MT = #mngMt#
 		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
 		AND MNG_SEQ = #mngSeq#
+		AND REQEST_SEQ = #reqestSeq#
 		]]>
 	</update>
 
@@ -262,7 +269,54 @@
 		WHERE MNG_MT = #mngMt#
 		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
 		AND MNG_SEQ = #mngSeq#
+		AND REQEST_SEQ = #reqestSeq#
 		]]>
 	</delete>
+
+	<select id="gamFcltsFeeMngNticDao.selectFcltsFeeMngNticDetailList_D" parameterClass="gamFcltsFeeMngNticDetailVo" resultClass="egovMap">
+		SELECT
+				 T1.MNG_MT
+				,T1.MNG_FEE_JOB_SE
+				,T1.MNG_SEQ
+				,T1.REQEST_SEQ
+				,T1.ENTRPSCD
+				,(CASE WHEN T1.MNG_FEE_JOB_SE='M' THEN '[M]:마린센터'
+					   WHEN T1.MNG_FEE_JOB_SE='E' THEN '[E]:전기시설'
+					   ELSE '[' || T1.MNG_FEE_JOB_SE || ']:' || 'UNKNOWN'
+				  END) AS MNG_FEE_JOB_SE_NM
+				,T1.PRT_AT_CODE
+				,T1.CHRGE_KND
+				,GAM_GETCODENAME('GAM024',T1.CHRGE_KND) AS CHRGE_KND_NM
+				,T1.ACCNUT_YEAR
+				,T1.NTIC_NO
+				,TO_CHAR(T1.NTIC_DT,'YYYY-MM-DD') AS NTIC_DT
+				,TO_CHAR(T1.PAY_TMLMT,'YYYY-MM-DD') AS PAY_TMLMT
+				,LTRIM(TO_CHAR(NVL(T1.FEE,0),'999,999,999,990')) AS FEE
+				,T1.VAT_YN
+				,GAM_GETCODENAME('GAM016',T1.VAT_YN) AS VAT_YN_NM
+				,LTRIM(TO_CHAR(NVL(T1.VAT,0),'999,999,999,990')) AS VAT
+				,LTRIM(TO_CHAR(NVL(T1.NTIC_AMT,0),'999,999,999,990')) AS NTIC_AMT
+				,T1.RCIV_SE
+				,GAM_GETCODENAME('GAM025',T1.RCIV_SE) AS RCIV_SE_NM
+				,TO_CHAR(T1.RCIV_DT,'YYYY-MM-DD') AS RCIV_DT
+				,T1.NHT_ISUE_YN
+				,T1.NHT_OUTPUT_YN
+				,T1.ADIT_NTIC_YN
+				,T1.ARRRG_NO
+				,LTRIM(TO_CHAR(T1.ARRRG_AMT,'999,999,999,990')) AS ARRRG_AMT
+				,LTRIM(TO_CHAR(T1.ARRRG_TARIFF,'0.000')) AS ARRRG_TARIFF
+				,LTRIM(TO_CHAR(T1.ARRRG_PAY_DATES,'999,990')) AS ARRRG_PAY_DATES
+				,T1.RM
+				,T1.DEPT_CD
+				,T1.REG_USR
+				,TO_CHAR(T1.REGIST_DT, 'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR
+				,TO_CHAR(T1.UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+			FROM MNG_FEE_LEV_REQEST_F T1
+		WHERE MNG_MT = #mngMt#
+		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
+		AND MNG_SEQ = #mngSeq#
+		ORDER BY T1.REQEST_SEQ
+	</select>
 
 </sqlMap>

@@ -9,8 +9,8 @@ import egovframework.com.cmm.ComDefaultVO;
 
 /**
  *
- * @author Lee
- * @since 2014. 10. 27.
+ * @author ACEWOLF
+ * @since 2014. 12. 2.
  * @version 1.0
  * @see
  * <pre>
@@ -18,32 +18,21 @@ import egovframework.com.cmm.ComDefaultVO;
  *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
- *  2014. 10. 27.		Lee		최초 생성
+ *  2014. 12. 2.		ACEWOLF		최초 생성
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
+
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
+public class GamFcltsFeeMngNticDetailVo extends ComDefaultVO {
 
 	private	String	mngMt;				//관리 월
 	private	String	mngFeeJobSe;		//관리비 업무 구분
-	private	String	mngFeeSj;			//관리비 제목
 	private	String	mngSeq;				//관리 순번
 	private	String	reqestSeq;			//의뢰 순번
 	private	String	entrpscd;			//업체코드
-	private	String	entrpsNm;			//업체명
-	private	String	usageAr;			//사용 면적
-	private	String	mngFee;				//관리비
-	private	String	elctyFee;			//전기 요금
-	private	String	waterFee;			//상하수도 요금
-	private	String	gasFee;				//도시가스 요금
-	private	String	envFee;				//환경개선 부담금
-	private	String	mngTotalFee;		//관리비 합계
 	private	String	mngFeeJobSeNm;		//관리비 업무 구분 명
-	private	String	mngMtYear;			//관리 년
-	private	String	mngMtMon;			//관리 월
-	private	String	mngYrMt;			//관리 년-월
 	private String	prtAtCode;			//항 코드
 	private String	chrgeKnd;			//요금 종류
 	private String	chrgeKndNm;			//요금 종류 명
@@ -73,22 +62,6 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 	private	String	updUsr;				//수정자
 	private	String	updtDt;				//수정일시
 
-	private String	dataCount;
-	private String	sumFee;
-	private String	sumVat;
-	private String	sumNticAmt;
-
-	private	String	sStartMngYear;		//검색 시작 관리 년도
-	private	String	sStartMngMt;		//검색 시작 관리 월
-	private	String	sEndMngYear;		//검색 종료 관리 년도
-	private	String	sEndMngMt;			//검색 종료 관리 월
-	private	String	sMngFeeJobSe;		//검색 관리비 업무 구분
-	private	String	sEntrpscd;			//검색 관리비 업체 코드
-	private	String	sStartNticDt;		//검색 시작 고지 일자
-	private	String	sEndNticDt;			//검색 종료 고지 일자
-	private	String	sRcivSe;			//검색 수납 구분
-	private String	sChrgeKnd;			//검색 요금 종류
-
 	/**
 	 * @return the mngMt
 	 */
@@ -112,18 +85,6 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 	 */
 	public void setMngFeeJobSe(String mngFeeJobSe) {
 		this.mngFeeJobSe = mngFeeJobSe;
-	}
-	/**
-	 * @return the mngFeeSj
-	 */
-	public String getMngFeeSj() {
-		return mngFeeSj;
-	}
-	/**
-	 * @param mngFeeSj the mngFeeSj to set
-	 */
-	public void setMngFeeSj(String mngFeeSj) {
-		this.mngFeeSj = mngFeeSj;
 	}
 	/**
 	 * @return the mngSeq
@@ -162,103 +123,6 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 		this.entrpscd = entrpscd;
 	}
 	/**
-	 * @return the entrpsNm
-	 */
-	public String getEntrpsNm() {
-		return entrpsNm;
-	}
-	/**
-	 * @param entrpsNm the entrpsNm to set
-	 */
-	public void setEntrpsNm(String entrpsNm) {
-		this.entrpsNm = entrpsNm;
-	}
-
-	/**
-	 * @return the usageAr
-	 */
-	public String getUsageAr() {
-		return usageAr;
-	}
-	/**
-	 * @param usageAr the usageAr to set
-	 */
-	public void setUsageAr(String usageAr) {
-		this.usageAr = usageAr;
-	}
-	/**
-	 * @return the mngFee
-	 */
-	public String getMngFee() {
-		return mngFee;
-	}
-	/**
-	 * @param mngFee the mngFee to set
-	 */
-	public void setMngFee(String mngFee) {
-		this.mngFee = mngFee;
-	}
-	/**
-	 * @return the elctyFee
-	 */
-	public String getElctyFee() {
-		return elctyFee;
-	}
-	/**
-	 * @param elctyFee the elctyFee to set
-	 */
-	public void setElctyFee(String elctyFee) {
-		this.elctyFee = elctyFee;
-	}
-	/**
-	 * @return the waterFee
-	 */
-	public String getWaterFee() {
-		return waterFee;
-	}
-	/**
-	 * @param waterFee the waterFee to set
-	 */
-	public void setWaterFee(String waterFee) {
-		this.waterFee = waterFee;
-	}
-	/**
-	 * @return the gasFee
-	 */
-	public String getGasFee() {
-		return gasFee;
-	}
-	/**
-	 * @param gasFee the gasFee to set
-	 */
-	public void setGasFee(String gasFee) {
-		this.gasFee = gasFee;
-	}
-	/**
-	 * @return the envFee
-	 */
-	public String getEnvFee() {
-		return envFee;
-	}
-	/**
-	 * @param envFee the envFee to set
-	 */
-	public void setEnvFee(String envFee) {
-		this.envFee = envFee;
-	}
-	/**
-	 * @return the mngTotalFee
-	 */
-	public String getMngTotalFee() {
-		return mngTotalFee;
-	}
-	/**
-	 * @param mngTotalFee the mngTotalFee to set
-	 */
-	public void setMngTotalFee(String mngTotalFee) {
-		this.mngTotalFee = mngTotalFee;
-	}
-	/**
 	 * @return the mngFeeJobSeNm
 	 */
 	public String getMngFeeJobSeNm() {
@@ -269,42 +133,6 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 	 */
 	public void setMngFeeJobSeNm(String mngFeeJobSeNm) {
 		this.mngFeeJobSeNm = mngFeeJobSeNm;
-	}
-	/**
-	 * @return the mngMtYear
-	 */
-	public String getMngMtYear() {
-		return mngMtYear;
-	}
-	/**
-	 * @param mngMtYear the mngMtYear to set
-	 */
-	public void setMngMtYear(String mngMtYear) {
-		this.mngMtYear = mngMtYear;
-	}
-	/**
-	 * @return the mngMtMon
-	 */
-	public String getMngMtMon() {
-		return mngMtMon;
-	}
-	/**
-	 * @param mngMtMon the mngMtMon to set
-	 */
-	public void setMngMtMon(String mngMtMon) {
-		this.mngMtMon = mngMtMon;
-	}
-	/**
-	 * @return the mngYrMt
-	 */
-	public String getMngYrMt() {
-		return mngYrMt;
-	}
-	/**
-	 * @param mngYrMt the mngYrMt to set
-	 */
-	public void setMngYrMt(String mngYrMt) {
-		this.mngYrMt = mngYrMt;
 	}
 	/**
 	 * @return the prtAtCode
@@ -641,174 +469,6 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 	 */
 	public void setUpdtDt(String updtDt) {
 		this.updtDt = updtDt;
-	}
-	/**
-	 * @return the dataCount
-	 */
-	public String getDataCount() {
-		return dataCount;
-	}
-	/**
-	 * @param dataCount the dataCount to set
-	 */
-	public void setDataCount(String dataCount) {
-		this.dataCount = dataCount;
-	}
-	/**
-	 * @return the sumFee
-	 */
-	public String getSumFee() {
-		return sumFee;
-	}
-	/**
-	 * @param sumFee the sumFee to set
-	 */
-	public void setSumFee(String sumFee) {
-		this.sumFee = sumFee;
-	}
-	/**
-	 * @return the sumVat
-	 */
-	public String getSumVat() {
-		return sumVat;
-	}
-	/**
-	 * @param sumVat the sumVat to set
-	 */
-	public void setSumVat(String sumVat) {
-		this.sumVat = sumVat;
-	}
-	/**
-	 * @return the sumNticAmt
-	 */
-	public String getSumNticAmt() {
-		return sumNticAmt;
-	}
-	/**
-	 * @param sumNticAmt the sumNticAmt to set
-	 */
-	public void setSumNticAmt(String sumNticAmt) {
-		this.sumNticAmt = sumNticAmt;
-	}
-	/**
-	 * @return the sStartMngYear
-	 */
-	public String getsStartMngYear() {
-		return sStartMngYear;
-	}
-	/**
-	 * @param sStartMngYear the sStartMngYear to set
-	 */
-	public void setsStartMngYear(String sStartMngYear) {
-		this.sStartMngYear = sStartMngYear;
-	}
-	/**
-	 * @return the sStartMngMt
-	 */
-	public String getsStartMngMt() {
-		return sStartMngMt;
-	}
-	/**
-	 * @param sStartMngMt the sStartMngMt to set
-	 */
-	public void setsStartMngMt(String sStartMngMt) {
-		this.sStartMngMt = sStartMngMt;
-	}
-	/**
-	 * @return the sEndMngYear
-	 */
-	public String getsEndMngYear() {
-		return sEndMngYear;
-	}
-	/**
-	 * @param sEndMngYear the sEndMngYear to set
-	 */
-	public void setsEndMngYear(String sEndMngYear) {
-		this.sEndMngYear = sEndMngYear;
-	}
-	/**
-	 * @return the sEndMngMt
-	 */
-	public String getsEndMngMt() {
-		return sEndMngMt;
-	}
-	/**
-	 * @param sEndMngMt the sEndMngMt to set
-	 */
-	public void setsEndMngMt(String sEndMngMt) {
-		this.sEndMngMt = sEndMngMt;
-	}
-	/**
-	 * @return the sMngFeeJobSe
-	 */
-	public String getsMngFeeJobSe() {
-		return sMngFeeJobSe;
-	}
-	/**
-	 * @param sMngFeeJobSe the sMngFeeJobSe to set
-	 */
-	public void setsMngFeeJobSe(String sMngFeeJobSe) {
-		this.sMngFeeJobSe = sMngFeeJobSe;
-	}
-	/**
-	 * @return the sEntrpscd
-	 */
-	public String getsEntrpscd() {
-		return sEntrpscd;
-	}
-	/**
-	 * @param sEntrpscd the sEntrpscd to set
-	 */
-	public void setsEntrpscd(String sEntrpscd) {
-		this.sEntrpscd = sEntrpscd;
-	}
-	/**
-	 * @return the sStartNticDt
-	 */
-	public String getsStartNticDt() {
-		return sStartNticDt;
-	}
-	/**
-	 * @param sStartNticDt the sStartNticDt to set
-	 */
-	public void setsStartNticDt(String sStartNticDt) {
-		this.sStartNticDt = sStartNticDt;
-	}
-	/**
-	 * @return the sEndNticDt
-	 */
-	public String getsEndNticDt() {
-		return sEndNticDt;
-	}
-	/**
-	 * @param sEndNticDt the sEndNticDt to set
-	 */
-	public void setsEndNticDt(String sEndNticDt) {
-		this.sEndNticDt = sEndNticDt;
-	}
-	/**
-	 * @return the sRcivSe
-	 */
-	public String getsRcivSe() {
-		return sRcivSe;
-	}
-	/**
-	 * @param sRcivSe the sRcivSe to set
-	 */
-	public void setsRcivSe(String sRcivSe) {
-		this.sRcivSe = sRcivSe;
-	}
-	/**
-	 * @return the sChrgeKnd
-	 */
-	public String getsChrgeKnd() {
-		return sChrgeKnd;
-	}
-	/**
-	 * @param sChrgeKnd the sChrgeKnd to set
-	 */
-	public void setsChrgeKnd(String sChrgeKnd) {
-		this.sChrgeKnd = sChrgeKnd;
 	}
 
 }

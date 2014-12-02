@@ -38,6 +38,12 @@ public interface GamFcltsFeeMngNticService {
 	List selectFcltsFeeMngNticList(GamFcltsFeeMngNticVo searchVO) throws Exception;
 
 	/**
+	 * @param searchVO
+	 * @return
+	 */
+	List selectFcltsFeeMngNticDetailList(GamFcltsFeeMngNticDetailVo searchVO) throws Exception;
+
+	/**
 	 * @param gamFcltsFeeMngNticVo
 	 */
 	void insertFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception;

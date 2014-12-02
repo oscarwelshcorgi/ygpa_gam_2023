@@ -72,7 +72,7 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 					{display:'납부 기한',			name:'payTmlmt',			width:80,		sortable:false,		align:'center'},
 					{display:'수납 구분',			name:'rcivSeNm',			width:80,		sortable:false,		align:'center'},
 					{display:'수납 일자',			name:'rcivDt',				width:80,		sortable:false,		align:'center'},
-					{display:'부가세 구분',			name:'vatYn',				width:80,		sortable:false,		align:'center'},
+					{display:'부가세 구분',			name:'vatYnNm',				width:80,		sortable:false,		align:'center'},
 					{display:'고지 여부',			name:'nhtIsueYn',			width:80,		sortable:false,		align:'center'},
 					{display:'출력 여부',			name:'nhtOutputYn',			width:80,		sortable:false,		align:'center'},
 					{display:'추가 고지 여부',		name:'aditNticYn',			width:90,		sortable:false,		align:'center'},
@@ -93,6 +93,28 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 			module.makeDivValues('#listSumForm', data);
 			return data;
 		}
+	});
+
+	this.$("#detailGrid").flexigrid({
+		module : this,
+		url : '/mngFee/gamSelectFcltsFeeMngNticDetail.do',
+		dataType : 'json',
+		colModel : [
+					{display:'순번', 			name:'reqestSeq',		width:40,		sortable:false,		align:'center'},
+					{display:'회계 년도',		name:'accnutYear',		width:70,		sortable:false,		align:'center'},
+					{display:'고지 번호',		name:'nticNo',			width:70,		sortable:false,		align:'center'},
+					{display:'요금 종류',		name:'chrgeKndNm',		width:100,		sortable:false,		align:'center'},
+					{display:'사용료',			name:'fee',				width:90,		sortable:false,		align:'right'},
+					{display:'부가세',			name:'vat',				width:90,		sortable:false,		align:'right'},
+					{display:'부가세 구분',		name:'vatYnNm',			width:80,		sortable:false,		align:'center'},
+					{display:'고지 금액',		name:'nticAmt',			width:90,		sortable:false,		align:'right'},
+					{display:'고지 일자',		name:'nticDt',			width:80,		sortable:false,		align:'center'},
+					{display:'납부 기한',		name:'payTmlmt',		width:80,		sortable:false,		align:'center'},
+					{display:'수납 구분',		name:'rcivSeNm',		width:70,		sortable:false,		align:'center'},
+					{display:'수납 일자',		name:'rcivDt',			width:80,		sortable:false,		align:'center'}
+					],
+		showTableToggleBtn: true,
+		height: '110'
 	});
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
@@ -126,10 +148,16 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 GamFcltsFeeMngNticModule.prototype.onClosePopup = function(popupId, msg, value) {
 
 	switch (popupId) {
-		case 'popupEntrpscd':
+		case 'popupSearchEntrpscd':
 			if (msg == 'ok') {
 				this.$('#sEntrpscd').val(value.entrpscd);
 				this.$('#sEntrpsNm').val(value.entrpsNm);
+			}
+			break;
+		case 'popupDataEntrpscd':
+			if (msg == 'ok') {
+				this.$('#entrpscd').val(value.entrpscd);
+				this.$('#entrpsNm').val(value.entrpsNm);
 			}
 			break;
 	}
@@ -150,8 +178,11 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnExcelDownload':
 			this.downloadExcel();
 			break;
-		case 'popupEntrpscd':
-			this.doExecuteDialog('popupEntrpscd', '업체 선택', '/popup/showEntrpsInfo.do', null);
+		case 'popupSearchEntrpscd':
+			this.doExecuteDialog('popupSearchEntrpscd', '업체 선택', '/popup/showEntrpsInfo.do', null);
+			break;
+		case 'popupDataEntrpscd':
+			this.doExecuteDialog('popupDataEntrpscd', '업체 선택', '/popup/showEntrpsInfo.do', null);
 			break;
 	}
 
@@ -203,6 +234,8 @@ GamFcltsFeeMngNticModule.prototype.loadDetail = function() {
 	}
 	this.makeFormValues('#detailForm', row[0]);
 	this.makeDivValues('#detailForm', row[0]);
+    var detailOpt=this.makeFormArgs('#detailForm');
+    this.$('#detailGrid').flexOptions({params:detailOpt}).flexReload();
 
 };
 
@@ -226,6 +259,70 @@ GamFcltsFeeMngNticModule.prototype.downloadExcel = function() {
 
 <%
 /**
+ * @FUNCTION NAME : enableInputItem
+ * @DESCRIPTION   : 입력항목을 ENABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.enableInputItem = function() {
+
+	var nhtOutputYn = this.$('#nhtOutputYn').val();
+	var rcivSe = this.$('#rcivSe').val();
+	if (this._mode == "insert") {
+		this.$('#chrgeKnd').enable();
+		this.$('#vatYn').enable();
+		this.$('#fee').enable();
+		this.$('#vat').enable();
+		this.$('#nticAmt').enable();
+		this.$('#nticDt').enable();
+		this.$('#payTmlmt').enable();
+		this.$('#rm').enable();
+	} else {
+		if ((nhtOutputYn == "N" || nhtOutputYn == "") && (rcivSe == "0" || rcivSe == "1")) {
+			this.$('#chrgeKnd').enable();
+			this.$('#vatYn').enable();
+			this.$('#fee').enable();
+			this.$('#vat').enable();
+			this.$('#nticAmt').enable();
+			this.$('#nticDt').enable();
+			this.$('#payTmlmt').enable();
+			this.$('#rm').enable();
+		} else {
+			this.$('#chrgeKnd').disable();
+			this.$('#vatYn').disable();
+			this.$('#fee').disable();
+			this.$('#vat').disable();
+			this.$('#nticAmt').disable();
+			this.$('#nticDt').disable();
+			this.$('#payTmlmt').disable();
+			this.$('#rm').disable();
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : disableInputItem
+ * @DESCRIPTION   : 입력항목을 DISABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.disableInputItem = function() {
+
+	this.$('#chrgeKnd').disable();
+	this.$('#vatYn').disable();
+	this.$('#fee').disable();
+	this.$('#vat').disable();
+	this.$('#nticAmt').disable();
+	this.$('#nticDt').disable();
+	this.$('#payTmlmt').disable();
+	this.$('#rm').disable();
+
+};
+
+<%
+/**
  * @FUNCTION NAME : onTabChange
  * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
  * @PARAMETER     :
@@ -241,9 +338,11 @@ GamFcltsFeeMngNticModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		case 'detailTab':
 			if (this._mode=="modify") {
 				this.loadDetail();
+				this.enableInputItem();
 			} else {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
+				this.disableInputItem();
 			}
 			break;
 	}
@@ -324,9 +423,9 @@ var module_instance = new GamFcltsFeeMngNticModule();
 							</td>
 							<th>고지 업체</th>
 							<td>
-                            	<input id="sEntrpscd" type="text" size="6" readonly>&nbsp; &nbsp;
-                            	<input id="sEntrpsNm" type="text" size="15" disabled="disabled">&nbsp; &nbsp;
-                            	<button id="popupEntrpscd" class="popupButton">선택</button>
+								<input id="sEntrpscd" type="text" size="6" readonly>&nbsp; &nbsp;
+								<input id="sEntrpsNm" type="text" size="15" disabled="disabled">&nbsp; &nbsp;
+								<button id="popupSearchEntrpscd" class="popupButton">선택</button>
 							</td>
 							<td rowSpan="2">
 								<button class="buttonSearch">조회</button>
@@ -376,24 +475,24 @@ var module_instance = new GamFcltsFeeMngNticModule();
 						<table style="width:100%;">
 							<tr>
 								<th width="10%" height="20">자료수</th>
-								<td><input type="text" size="8" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="15" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">총사용료</th>
-								<td><input type="text" size="15" id="sumFee" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="25" id="sumFee" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">총부가세</th>
-								<td><input type="text" size="15" id="sumVat" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="25" id="sumVat" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="20">총고지금액</th>
-								<td><input type="text" size="15" id="sumNticAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="25" id="sumNticAmt" class="ygpaNumber" disabled="disabled" /></td>
 							</tr>
 						</table>
 					</form>
-					<button id="btnProcessNticIssue">선택자료 고지</button>
-					<button id="btnCancelNticIssue">요금고지 취소</button>
-					<button id="btnPrintNticIssue">고 지 서 출력</button>
-					<button id="btnPrintTaxInvoice">계 산 서 출력</button>
-					<button id="btnAddNticIssue">추가고지 입력</button>
-					<button id="btnDelNticIssue">추가고지 삭제</button>
-					<button id="btnExcelDownload">엑셀 다운로드</button>
-					<button id="btnFcltsFeeMngInqire">납부현황 조회</button>
+					<button id="btnProcessNticIssue">　　고　지　　</button>
+					<button id="btnCancelNticIssue">　고지　취소　</button>
+					<button id="btnPrintNticIssue">고지서　　출력</button>
+					<button id="btnPrintTaxInvoice">계산서　　 출력</button>
+					<button id="btnAddNticIssue">추가고지　입력</button>
+					<button id="btnDelNticIssue">추가고지　삭제</button>
+					<button id="btnExcelDownload">엑셀　다운로드</button>
+					<button id="btnFcltsFeeMngInqire">납부현황　조회</button>
 				</div>
 			</div>
 			<!-- 213. TAB 2 AREA (DETAIL) -->
@@ -407,124 +506,142 @@ var module_instance = new GamFcltsFeeMngNticModule();
 						</table>
 						<table class="detailPanel" style="width:100%">
 							<tr>
-								<th width="15%" height="18">관리 년월</th>
+								<th width="10%" height="18">관리 년월</th>
 								<td>
-									<input id="mngMt" type="hidden" />
-									<input id="mngMtYear" type="hidden" />
-									<input id="mngMtMon" type="hidden" />
+									<input id="mngMt" type="hidden"/>
+									<input id="mngMtYear" type="hidden"/>
+									<input id="mngMtMon" type="hidden"/>
 									<input type="text" size="20" id="mngYrMt" disabled>
+									<input type="text" size="12" id="mngSeq" disabled>
 								</td>
-								<th width="15%" height="18">업무 구분</th>
+								<th width="10%" height="18">업무 구분</th>
 								<td>
-									<input id="mngFeeJobSe" type="hidden" />
-									<input id="mngSeq" type="hidden" />
-									<input id="reqestSeq" type="hidden" />
-									<input type="text" size="20" id="mngFeeJobSeNm" disabled>
+									<input id="mngFeeJobSe" type="hidden"/>
+									<input type="text" size="33" id="mngFeeJobSeNm" disabled>
 								</td>
-								<th width="15%" height="18">사용 업체</th>
+								<th width="10%" height="18">부과 업체</th>
 								<td>
-									<input id="entrpscd" type="hidden" />
-									<input type="text" size="20" id="entrpsNm" disabled>
+									<input id="entrpscd" type="hidden"/>
+									<input type="text" size="33" id="entrpsNm" disabled>
+									<!--
+									<button id="popupDataEntrpscd" class="popupButton">선택</button>
+									 -->
 								</td>
 							</tr>
                             <tr>
-								<th width="15%" height="18">관리비 제목</th>
-                                <td colspan="3"><input type="text" size="76" id="mngFeeSj" readonly/></td>
-								<th width="15%" height="18">사용 면적</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="usageAr" readonly/></td>
+								<th width="10%" height="18">관리비 제목</th>
+								<td colspan="3"><input type="text" size="87" id="mngFeeSj" disabled/></td>
+								<th width="10%" height="18">사용 면적</th>
+								<td><input type="text" size="33" class="ygpaNumber" id="usageAr" disabled/></td>
                             </tr>
                             <tr>
-								<th width="15%" height="18">시설 관리 용역비</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="mngFee" readonly/></td>
-								<th width="15%" height="18">전기 요금</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="elctyFee" readonly/></td>
-								<th width="15%" height="18">상하수도 요금</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="waterFee" readonly/></td>
+								<th width="10%" height="18">시설 관리 용역비</th>
+								<td><input type="text" size="33" class="ygpaNumber" id="mngFee" disabled/></td>
+								<th width="10%" height="18">전기 요금</th>
+								<td><input type="text" size="33" class="ygpaNumber" id="elctyFee" disabled/></td>
+								<th width="10%" height="18">상하수도 요금</th>
+								<td><input type="text" size="33" class="ygpaNumber" id="waterFee" disabled/></td>
                             </tr>
                             <tr>
-								<th width="15%" height="18">도시가스 요금</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="gasFee" readonly/></td>
-								<th width="15%" height="18">환경개선 부담금</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="envFee" readonly/></td>
-								<th width="15%" height="18">관리비 합계</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="mngTotalFee" readonly/></td>
+								<th width="10%" height="18">도시가스 요금</th>
+								<td><input type="text" size="33" class="ygpaNumber" id="gasFee" disabled/></td>
+								<th width="10%" height="18">환경개선 부담금</th>
+								<td><input type="text" size="33" class="ygpaNumber" id="envFee" disabled/></td>
+								<th width="10%" height="18">관리비 합계</th>
+								<td><input type="text" size="33" class="ygpaNumber" id="mngTotalFee" disabled/></td>
                             </tr>
 						</table>
 						<table class="summaryPanel" style="width:100%">
 							<tr>
 								<td>시설물 관리비 고지 내역</td>
+								<td style="text-align: right">
+									<button id="btnProcessNticIssue2">　　고　지　　</button>
+									<button id="btnCancelNticIssue2">　고지　취소　</button>
+									<button id="btnPrintNticIssue2">고지서　　출력</button>
+									<button id="btnPrintTaxInvoice2">계산서　　 출력</button>
+									<button id="btnAddNticIssue2">추가고지　입력</button>
+									<button id="btnDelNticIssue2">추가고지　삭제</button>
+									<button id="btnSaveNticIssue">　　저　장　　</button>
+								</td>
 							</tr>
 						</table>
 						<table class="detailPanel" style="width:100%">
 							<tr>
-								<th width="15%" height="18">요금 종류</th>
+								<th width="10%" height="18">요금 종류</th>
 								<td>
-									<input id="prtAtCode" type="hidden" />
-									<input type="text" size="4" id="chrgeKnd" disabled>
-									<input type="text" size="15" id="chrgeKndNm" disabled>
+									<input id="prtAtCode" type="hidden"/>
+									<input id="chrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM024" disabled/>
+									<!--
+									<input type="text" size="7" id="chrgeKnd" disabled>
+									<input type="text" size="25" id="chrgeKndNm" disabled>
+									 -->
+									<input type="text" id="reqestSeq" size="7" disabled/>
 								</td>
-								<th width="15%" height="18">고지 번호</th>
+								<th width="10%" height="18">고지 번호</th>
 								<td>
-									<input type="text" size="9" id="accnutYear" disabled>
-									<input type="text" size="10" id="nticNo" disabled>
+									<input type="text" size="16" id="accnutYear" disabled>
+									<input type="text" size="16" id="nticNo" disabled>
 								</td>
-								<th width="15%" height="18">고지 / 출력</th>
+								<th width="10%" height="18">부가세 구분</th>
 								<td>
-									<input type="text" size="9" id="nhtIsueYn" disabled>
-									<input type="text" size="10" id="nhtOutputYn" disabled>
+									<input id="vatYn" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM016" disabled/>
 								</td>
 							</tr>
                             <tr>
-								<th width="15%" height="18">사용료</th>
+								<th width="10%" height="18">사용료</th>
 								<td>
-									<input type="text" size="20" class="ygpaNumber" id="fee" readonly/>
+									<input type="text" size="33" class="ygpaNumber" id="fee" disabled/>
 								</td>
-								<th width="15%" height="18">부가세</th>
+								<th width="10%" height="18">부가세</th>
 								<td>
-									<input type="text" size="6" id="vatYn" disabled>
-									<input type="text" size="12" class="ygpaNumber" id="vat" readonly/>
+									<!--
+									<input type="text" size="11" id="vatYn" disabled>
+									 -->
+									<input type="text" size="33" class="ygpaNumber" id="vat" disabled/>
 								</td>
-								<th width="15%" height="18">고지 금액</th>
+								<th width="10%" height="18">고지 금액</th>
 								<td>
-									<input type="text" size="20" class="ygpaNumber" id="nticAmt" readonly/>
+									<input type="text" size="33" class="ygpaNumber" id="nticAmt" disabled/>
 								</td>
-                            </tr>
-                            <tr>
-								<th width="15%" height="18">고지 일자</th>
-                                <td>
-                                	<input type="text" size="20" id="nticDt" readonly/>
-                                </td>
-								<th width="15%" height="18">납부 기한</th>
-                                <td>
-                                	<input type="text" size="20" id="payTmlmt" readonly/>
-                                </td>
-								<th width="15%" height="18">수납 일자</th>
-                                <td>
-									<input type="text" size="6" id="rcivSeNm" disabled>
-                                	<input type="text" size="12" id="rcivDt" readonly/>
-                                </td>
-                            </tr>
-                            <tr>
-								<th width="15%" height="18">연체 번호</th>
+							</tr>
+							<tr>
+								<th width="10%" height="18">고지 일자</th>
 								<td>
-									<input type="text" size="20" id="arrrgNo" disabled>
+                                	<input type="text" size="30" id="nticDt" class="emdcal" disabled/>
 								</td>
-								<th width="15%" height="18">연체 일수</th>
+								<th width="10%" height="18">납부 기한</th>
 								<td>
-									<input type="text" size="20" class="ygpaNumber" id="arrrgPayDates" readonly/>
+                                	<input type="text" size="30" id="payTmlmt" class="emdcal" disabled/>
 								</td>
-								<th width="15%" height="18">연체 금액</th>
+								<th width="10%" height="18">수납 일자</th>
 								<td>
-									<input type="text" size="20" class="ygpaNumber" id="arrrgAmt" readonly/>
+									<input id="rcivSe" type="hidden"/>
+									<input type="text" size="16" id="rcivSeNm" disabled>
+                                	<input type="text" size="16" id="rcivDt" disabled/>
 								</td>
-                            </tr>
-                            <tr>
-								<th width="15%" height="18">비고</th>
-								<td colspan="5" >
-									<textarea rows="3" cols="85" data-column-id='rm'></textarea>
+							</tr>
+							<tr>
+								<th width="10%" height="18">연체 번호</th>
+								<td>
+									<input type="text" size="16" id="arrrgNo" disabled>
+									<input type="text" size="16" class="ygpaNumber" id="arrrgPayDates" disabled/>
 								</td>
-                            </tr>
+								<th width="10%" height="18">연체 금액</th>
+								<td>
+									<input type="text" size="33" class="ygpaNumber" id="arrrgAmt" disabled/>
+								</td>
+								<th width="10%" height="18">고지 / 출력</th>
+								<td>
+									<input type="text" size="16" id="nhtIsueYn" disabled>
+									<input type="text" size="16" id="nhtOutputYn" disabled>
+								</td>
+							</tr>
+							<tr>
+								<th width="10%" height="18">비고</th>
+                                <td colspan="5"><input type="text" size="140" id="rm"/></td>
+							</tr>
 						</table>
+						<table id="detailGrid" style="display:none"></table>
 					</form>
 				</div>
 			</div>

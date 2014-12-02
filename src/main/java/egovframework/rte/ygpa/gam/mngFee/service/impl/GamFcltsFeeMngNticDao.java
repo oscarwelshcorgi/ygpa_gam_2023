@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo;
+import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticDetailVo;
 
 /**
  *
@@ -44,6 +45,14 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	 */
 	public List selectFcltsFeeMngNticList(GamFcltsFeeMngNticVo searchVO) {
 		return list("gamFcltsFeeMngNticDao.selectFcltsFeeMngNticList_D", searchVO);
+	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public List selectFcltsFeeMngNticDetailList(GamFcltsFeeMngNticDetailVo searchVO) {
+		return list("gamFcltsFeeMngNticDao.selectFcltsFeeMngNticDetailList_D", searchVO);
 	}
 
 	/**

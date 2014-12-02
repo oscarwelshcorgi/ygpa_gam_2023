@@ -31,6 +31,7 @@ public class GamFcltsFeeMngInqireVo extends ComDefaultVO{
 	private	String	mngFeeJobSe;		//관리비 업무 구분
 	private	String	mngFeeSj;			//관리비 제목
 	private	String	mngSeq;				//관리 순번
+	private	String	reqestSeq;			//의뢰 순번
 	private	String	entrpscd;			//업체코드
 	private	String	entrpsNm;			//업체명
 	private	String	usageAr;			//사용 면적
@@ -53,6 +54,7 @@ public class GamFcltsFeeMngInqireVo extends ComDefaultVO{
 	private String	payTmlmt;			//납부 기한
 	private String	fee;				//사용료
 	private String	vatYn;				//부가세 구분
+	private String	vatYnNm;			//부가세 구분 명
 	private String	vat;				//부가세
 	private String	nticAmt;			//고지 금액
 	private String	rcivSe;				//수납 구분
@@ -66,6 +68,11 @@ public class GamFcltsFeeMngInqireVo extends ComDefaultVO{
 	private String	arrrgTariff;		//연체 요율
 	private String	arrrgPayDates;		//연체 일수
 	private String	rm;					//비고
+	private	String	deptCd;				//부서코드
+	private	String	regUsr;				//등록자
+	private	String	registDt;			//등록일시
+	private	String	updUsr;				//수정자
+	private	String	updtDt;				//수정일시
 
 	private String	dataCount;
 	private String	sumFee;
@@ -132,6 +139,18 @@ public class GamFcltsFeeMngInqireVo extends ComDefaultVO{
 		this.mngSeq = mngSeq;
 	}
 	/**
+	 * @return the reqestSeq
+	 */
+	public String getReqestSeq() {
+		return reqestSeq;
+	}
+	/**
+	 * @param reqestSeq the reqestSeq to set
+	 */
+	public void setReqestSeq(String reqestSeq) {
+		this.reqestSeq = reqestSeq;
+	}
+	/**
 	 * @return the entrpscd
 	 */
 	public String getEntrpscd() {
@@ -155,7 +174,6 @@ public class GamFcltsFeeMngInqireVo extends ComDefaultVO{
 	public void setEntrpsNm(String entrpsNm) {
 		this.entrpsNm = entrpsNm;
 	}
-
 	/**
 	 * @return the usageAr
 	 */
@@ -397,6 +415,18 @@ public class GamFcltsFeeMngInqireVo extends ComDefaultVO{
 		this.vatYn = vatYn;
 	}
 	/**
+	 * @return the vatYnNm
+	 */
+	public String getVatYnNm() {
+		return vatYnNm;
+	}
+	/**
+	 * @param vatYnNm the vatYnNm to set
+	 */
+	public void setVatYnNm(String vatYnNm) {
+		this.vatYnNm = vatYnNm;
+	}
+	/**
 	 * @return the vat
 	 */
 	public String getVat() {
@@ -551,6 +581,66 @@ public class GamFcltsFeeMngInqireVo extends ComDefaultVO{
 	 */
 	public void setRm(String rm) {
 		this.rm = rm;
+	}
+	/**
+	 * @return the deptCd
+	 */
+	public String getDeptCd() {
+		return deptCd;
+	}
+	/**
+	 * @param deptCd the deptCd to set
+	 */
+	public void setDeptCd(String deptCd) {
+		this.deptCd = deptCd;
+	}
+	/**
+	 * @return the regUsr
+	 */
+	public String getRegUsr() {
+		return regUsr;
+	}
+	/**
+	 * @param regUsr the regUsr to set
+	 */
+	public void setRegUsr(String regUsr) {
+		this.regUsr = regUsr;
+	}
+	/**
+	 * @return the registDt
+	 */
+	public String getRegistDt() {
+		return registDt;
+	}
+	/**
+	 * @param registDt the registDt to set
+	 */
+	public void setRegistDt(String registDt) {
+		this.registDt = registDt;
+	}
+	/**
+	 * @return the updUsr
+	 */
+	public String getUpdUsr() {
+		return updUsr;
+	}
+	/**
+	 * @param updUsr the updUsr to set
+	 */
+	public void setUpdUsr(String updUsr) {
+		this.updUsr = updUsr;
+	}
+	/**
+	 * @return the updtDt
+	 */
+	public String getUpdtDt() {
+		return updtDt;
+	}
+	/**
+	 * @param updtDt the updtDt to set
+	 */
+	public void setUpdtDt(String updtDt) {
+		this.updtDt = updtDt;
 	}
 	/**
 	 * @return the dataCount
