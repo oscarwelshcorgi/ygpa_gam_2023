@@ -569,7 +569,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							<td><input id="gisAssetsLocplc" type="text" size="32" title="소재지" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">토목시설코드</th>
+							<th width="12%" height="17" class="required_text">시설코드</th>
 							<td>
 								<input type="text" size="2" id="gisPrtFcltyCd" disabled="disabled" />&nbsp;-&nbsp;
 								<input type="text" size="3" id="gisPrtFcltySeq" disabled="disabled"/>
