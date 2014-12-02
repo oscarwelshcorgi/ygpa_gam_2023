@@ -123,22 +123,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 	});
 
 	this.$("#qcMngAtchFileList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.$("#qcMngAtchFileForm input").val('');
-		module.makeFormValues("#qcMngAtchFileForm", row);
-
-		if(row.atchFileNmPhysicl != null || row.atchFileNmPhysicl != "") {
-			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
-			var filenm = row["atchFileNmPhysicl"];
-			var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
-			if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
-				var imgURL = module.getPfPhotoUrl(filenm);
-				module.$("#previewImage").fadeIn(400, function() {
-			    	module.$("#previewImage").attr("src", imgURL);
-			    });
-			}else{
-				module.$("#previewImage").attr(src, "#");
-			}
-		}
+		module.selectAtchFileItem();
 	});
 	
 	//첨부파일 정보 변화 이벤트 처리기
@@ -437,6 +422,29 @@ GamFcltyQcwWrtMngModule.prototype.removeAtchFileItem = function() {
 	}
     this.$("#qcMngAtchFileForm").find(":input").val("");
 };
+
+//첨부파일 항목선택
+GamFcltyQcwWrtMngModule.prototype.selectAtchFileItem = function() {
+	var rows = this.$('#qcMngAtchFileList').selectedRows();
+	if(rows.length > 0) {
+		var row = rows[0];
+		this.$("#qcMngAtchFileForm input").val('');
+		this.makeFormValues("#qcMngAtchFileForm", row);
+		if(row.atchFileNmPhysicl != null || row.atchFileNmPhysicl != "") {
+			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
+			var filenm = row["atchFileNmPhysicl"];
+			var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
+			if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
+				var imgURL = this.getPfPhotoUrl(filenm);
+				//this.$("#previewImage").fadeIn(400, function() {
+			    	this.$("#previewImage").attr("src", imgURL);
+			    //});
+			}else{
+				this.$("#previewImage").attr(src, "#");
+			}
+		}
+	}
+}
 
 //첨부파일 업로드
 GamFcltyQcwWrtMngModule.prototype.uploadAtchFileItem = function() {
@@ -769,7 +777,6 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 					<button id="btnModifyQcMngObjFclts">추가/삭제</button>
 					<button id="btnSave">저장</button>
 				</div>
-				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 			</div>
 			
 			<!-- 점검관리결과 -->
@@ -779,7 +786,6 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 					<button id="btnModifyQcMngResultItem">추가/삭제</button>
 					<button id="btnSave">저장</button>
 				</div>
-				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
 			</div>			
 
 			<!-- 점검관리첨부파일 -->

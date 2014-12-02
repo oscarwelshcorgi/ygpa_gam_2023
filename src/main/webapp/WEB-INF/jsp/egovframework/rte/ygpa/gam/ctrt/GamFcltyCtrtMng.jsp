@@ -400,7 +400,7 @@ var module_instance = new GamFcltyCtrtMngModule();
                         	<th width="10%">등록업체</th>
                             <td colspan="3">
                             	<input id="sRegistEntrpsCd" type="text" size="7">&nbsp; &nbsp;
-                         		<input id="sRegistEntrpsNm" type="text" size="12" disabled="disabled">&nbsp; &nbsp;
+                         		<input id="sRegistEntrpsNm" type="text" size="17" disabled="disabled">&nbsp; &nbsp;
                          		<button id="popupEntrpsInfo" class="popupButton">선택</button>
                          	</td>
                          	<th width="10%">입찰일</th>
@@ -490,7 +490,11 @@ var module_instance = new GamFcltyCtrtMngModule();
                             	<th width="10%" height="18">업무담당부서코드</th>
                                 <td><input type="text" size="12" id="jobChrgDeptCd" /></td>
                                 <th width="10%" height="18">등록업체</th>
-                                <td><input type="text" size="10" id="registEntrpsCd" /> <input type="text" size="10" id="registEntrpsNm" disabled="disabled" /> <button id="popupEntrpsInfo" class="popupButton">선택</button> </td>
+                                <td>
+                                	<input type="text" size="10" id="registEntrpsCd" /> 
+                                	<input type="text" size="25" id="registEntrpsNm" disabled="disabled" /> 
+                                	<button id="popupEntrpsInfo" class="popupButton">선택</button> 
+                                </td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">원인행위</th>
