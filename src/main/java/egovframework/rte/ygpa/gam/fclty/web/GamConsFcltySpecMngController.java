@@ -118,7 +118,7 @@ public class GamConsFcltySpecMngController {
 
 		/** List Data */
 		searchVO.setPrtFcltySe(prtFcltySe);
-		List<?> fcltyMngtList = gamConsFcltySpecMngService.selectFcltySpecMngList(searchVO);
+		List fcltyMngtList = gamConsFcltySpecMngService.selectFcltySpecMngList(searchVO);
 
         int totCnt = gamConsFcltySpecMngService.selectFcltySpecMngListTotCnt(searchVO);
 

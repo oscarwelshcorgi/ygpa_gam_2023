@@ -40,7 +40,7 @@ GamPopupMntnRprObjFcltsFModule.prototype.loadComplete = function(mntnRprObjFclts
 		url: '',
 		dataType: "json",
 		colModel : [
-					{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
+					//{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
 					{display:"관리번호",			name:"fcltsMngNo",			width:60,		sortable:false,		align:"center"},
 					{display:"유지보수공법",		name:"mntnRprCnstMth",		width:80,		sortable:false,		align:"center"},
 					{display:"단위",				name:"unit",				width:80,		sortable:false,		align:"center"},
@@ -176,7 +176,7 @@ GamPopupMntnRprObjFcltsFModule.prototype.removeMaintItem = function() {
     	alert("삭제되었습니다.");
 	}
 
-    this.$("#fcltyGisPhotoForm").find(":input").val("");
+    //this.$("#fcltyGisPhotoForm").find(":input").val("");
     this._editDataFile = null;
 };
 

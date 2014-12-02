@@ -59,7 +59,7 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 		url: '/fcltyMng/selectMntnRprObjFcltsFList.do',
 		dataType: "json",
 		colModel : [
-					{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
+					//{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
 					{display:"관리번호",			name:"fcltsMngNo",			width:60,		sortable:false,		align:"center"},
 					{display:"유지보수공법",		name:"mntnRprCnstMth",		width:80,		sortable:false,		align:"center"},
 					{display:"단위",				name:"unit",				width:80,		sortable:false,		align:"center"},
@@ -78,7 +78,7 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 		url: '/fcltyMng/selectFcltyMaintFileList.do',
 		dataType: 'json',
 		colModel : [
-					{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
+					//{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
 					{display:"순번",		name:"atchFileSeq",				width:40,		sortable:true,		align:"center"},
 					{display:"구분",		name:"atchFileSeNm",			width:40,		sortable:true,		align:"center"},
 					{display:"파일제목",	name:"atchFileSj",				width:240,		sortable:true,		align:"left"},
@@ -383,7 +383,7 @@ GamFcltyMaintMngModule.prototype.downloadFileData = function() {
 	var selectRow = this.$('#fcltyMaintFileList').selectedRows();
 	if(selectRow.length > 0) {
 		var row=selectRow[0];
-		this.downPfFile(row["filenmPhysicl"], row["filenmLogic"]);
+		this.downPfPhoto(row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
 	}
 };
 
@@ -500,7 +500,7 @@ GamFcltyMaintMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.$("#fcltyMaintFileList").flexEmptyData();
 				
 				
-				this.$("#fcltsMngGroupNo").val("00000000000001");
+				//this.$("#fcltsMngGroupNo").val("00000000000001");
 			}
 		break;
 		

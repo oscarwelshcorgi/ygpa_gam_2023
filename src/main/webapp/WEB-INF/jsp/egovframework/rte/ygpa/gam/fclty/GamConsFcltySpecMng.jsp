@@ -451,7 +451,7 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			var selectRow = this.$('#fcltyFileList').selectedRows();
 			if(selectRow.length > 0) {
 				var row=selectRow[0];
-				this.downPfFile(row["filenmPhysicl"], row["filenmLogic"]);
+				this.downPfPhoto(row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
 			}
 			break;
 

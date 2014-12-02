@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ygpa.gam.fcltyMng">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamFcltyRepairMngVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngVO"/>
+    
+    <!-- 하자보수내역 -->
+	<select id="gamFcltyRepairMngDao.selectFcltyRepairMngList_D" parameterClass="gamFcltyRepairMngVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+							TO_CHAR(FLAW_RPR_START_DT,'YYYY-MM-DD') FLAW_RPR_START_DT
+							, TO_CHAR(FLAW_RPR_END_DT,'YYYY-MM-DD') FLAW_RPR_END_DT
+							, FLAW_RPR_AMT
+							, FLAW_RPR_CONTENTS
+							, REG_USR
+							, TO_CHAR(REGIST_DT,'YYYY-MM-DD') REGIST_DT
+							, UPD_USR
+							, TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DT
+							, FLAW_RPR_ENTRPS_NM
+							, FLAW_RPR_TY
+							, TO_CHAR(FLAW_OCCRRNC_DT,'YYYY-MM-DD') FLAW_OCCRRNC_DT
+							, FLAW_RPR_COMPT_YN
+							, FLAW_EXAM_SE
+							, ENFORCE_YEAR
+							, FLAW_RPR_NM
+							, FCLTS_MNG_GROUP_NO
+							, FCLTS_JOB_SE
+							, FLAW_RPR_SEQ
+							, TO_CHAR(FLAW_EXAM_DT,'YYYY-MM-DD') FLAW_EXAM_DT
+							, FLAW_ENNC
+							, FLAW_EXAM_RESULT
+							, RM
+							, CTRT_NO
+						FROM
+							FLAW_RPR_DTLS_F 
+						WHERE
+							1 = 1 
+						<isNotEmpty property="sFcltsJobSe">
+	           				AND FCLTS_JOB_SE = #sFcltsJobSe#
+	           			</isNotEmpty>
+	           			
+	           			<isNotEmpty property="sFlawRprNm">
+	           				AND FLAW_RPR_NM LIKE '%' || #sFlawRprNm# || '%'
+	           			</isNotEmpty>
+	           			
+	           			<isNotEmpty property="sFlawExamSe">
+	           				AND FLAW_EXAM_SE = #sFlawExamSe#
+	           			</isNotEmpty>
+	           			
+	           			<isNotEmpty property="sFlawRprStartDtFr">
+	           				AND 
+	           				(
+	           					<![CDATA[ FLAW_EXAM_DT >= #sFlawRprStartDtFr# ]]>
+	           				<isNotEmpty property="sFlawRprStartDtTo">
+		           				<![CDATA[ AND FLAW_EXAM_DT <= #sFlawRprStartDtTo# ]]>
+		           			</isNotEmpty>
+		           			)
+	           			</isNotEmpty>
+	           			
+						ORDER BY
+							FLAW_RPR_START_DT DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+	</select>
+
+	<select id="gamFcltyRepairMngDao.selectFcltyRepairMngListTotCnt_S" parameterClass="gamFcltyRepairMngVO" resultClass="int">
+		SELECT
+			COUNT(*) TOT_CNT
+		FROM
+			FLAW_RPR_DTLS_F 
+		WHERE
+		1 = 1 
+		<isNotEmpty property="sFcltsJobSe">
+			AND FCLTS_JOB_SE = #sFcltsJobSe#
+		</isNotEmpty>
+		
+		<isNotEmpty property="sFlawRprNm">
+			AND FLAW_RPR_NM LIKE '%' || #sFlawRprNm# || '%'
+		</isNotEmpty>
+		
+		<isNotEmpty property="sFlawExamSe">
+			AND FLAW_EXAM_SE = #sFlawExamSe#
+		</isNotEmpty>
+		
+		<isNotEmpty property="sFlawRprStartDtFr">
+			AND 
+			(
+				<![CDATA[ FLAW_EXAM_DT >= #sFlawRprStartDtFr# ]]>
+			<isNotEmpty property="sFlawRprStartDtTo">
+				<![CDATA[ AND FLAW_EXAM_DT <= #sFlawRprStartDtTo# ]]>
+			</isNotEmpty>
+			)
+		</isNotEmpty>
+		
+	</select>
+	
+	
+	<!-- 하자보수검사자내역 -->
+	<select id="gamFcltyRepairMngDao.selectFlawExamUsrFList_D" parameterClass="gamFcltyRepairMngVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+							FLAW_EXAM_USR
+							, TO_CHAR(FLAW_EXAM_DT,'YYYY-MM-DD') FLAW_EXAM_DT
+							, REG_USR
+							, TO_CHAR(REGIST_DT,'YYYY-MM-DD') REGIST_DT
+							, UPD_USR
+							, TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DT
+							, SEQ
+							, FLAW_EXAM_COMPT_YN
+							, FCLTS_MNG_GROUP_NO
+							, FCLTS_JOB_SE
+							, FLAW_RPR_SEQ
+						FROM
+							FLAW_EXAM_USR_F 
+						WHERE
+							FCLTS_JOB_SE = #fcltsJobSe#
+							AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+							AND FLAW_RPR_SEQ = $flawRprSeq$
+	           			
+						ORDER BY
+							FLAW_RPR_SEQ ASC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+	</select>
+
+	<select id="gamFcltyRepairMngDao.selectFlawExamUsrFListTotCnt_S" parameterClass="gamFcltyRepairMngVO" resultClass="int">
+		SELECT
+			COUNT(*) TOT_CNT
+		FROM
+			FLAW_EXAM_USR_F 
+		WHERE
+			FCLTS_JOB_SE = #fcltsJobSe#
+			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FLAW_RPR_SEQ = $flawRprSeq$
+	</select>
+	
+	
+	
+	<!-- 하자보수첨부파일내역 -->
+	<select id="gamFcltyRepairMngDao.selectFcltyRepairFileList_D" parameterClass="gamFcltyRepairMngVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+							FCLTS_JOB_SE
+							, FCLTS_MNG_GROUP_NO
+							, FLAW_RPR_SEQ
+							, ATCH_FILE_SEQ
+							, ATCH_FILE_SE
+							, (
+							  CASE  WHEN ATCH_FILE_SE = 'D' THEN '문서'
+									WHEN ATCH_FILE_SE = 'P' THEN '사진'
+							  		WHEN ATCH_FILE_SE = 'Z' THEN '기타'
+							  END
+							) AS ATCH_FILE_SE_NM
+							, ATCH_FILE_SJ
+							, ATCH_FILE_NM_LOGIC
+							, ATCH_FILE_NM_PHYSICL
+							, TO_CHAR(ATCH_FILE_WRITNG_DT,'YYYY-MM-DD') ATCH_FILE_WRITNG_DT
+							, REG_USR
+							, REGIST_DT
+							, UPD_USR
+							, UPDT_DT
+						FROM
+							FLAW_RPR_ATCH_FILE_F 
+						WHERE
+							FCLTS_JOB_SE = #fcltsJobSe#
+							AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+							AND FLAW_RPR_SEQ = $flawRprSeq$
+	           			
+						ORDER BY
+							FLAW_RPR_SEQ ASC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+	</select>
+
+	<select id="gamFcltyRepairMngDao.selectFcltyRepairFileListTotCnt_S" parameterClass="gamFcltyRepairMngVO" resultClass="int">
+		SELECT
+			COUNT(*) TOT_CNT
+		FROM
+			FLAW_RPR_ATCH_FILE_F 
+		WHERE
+			FCLTS_JOB_SE = #fcltsJobSe#
+			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FLAW_RPR_SEQ = $flawRprSeq$
+	</select>
+	
+	
+	<!-- 하자보수순번 -->
+	<select id="gamFcltyRepairMngDao.selectNextMntnRprSeq_S" parameterClass="hashMap" resultClass="int">
+		SELECT
+			(NVL(MAX(FLAW_RPR_SEQ),0) + 1) NEXT_FLAW_RPR_SEQ
+		FROM
+			FLAW_RPR_DTLS_F 
+		WHERE 
+			FCLTS_JOB_SE = #fcltsJobSe#
+			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+	</select>
+	
+	
+	<!-- 하자보수내역입력 -->
+	<insert id="gamFcltyRepairMngDao.insertFcltyRepairMng">
+		INSERT INTO 
+			FLAW_RPR_DTLS_F  
+			(
+				FLAW_RPR_START_DT
+				, FLAW_RPR_END_DT
+				, FLAW_RPR_AMT
+				, FLAW_RPR_CONTENTS
+				, REG_USR
+				, REGIST_DT
+				, FLAW_RPR_ENTRPS_NM
+				, FLAW_RPR_TY
+				, FLAW_OCCRRNC_DT
+				, FLAW_RPR_COMPT_YN
+				, FLAW_EXAM_SE
+				, ENFORCE_YEAR
+				, FLAW_RPR_NM
+				, FCLTS_MNG_GROUP_NO
+				, FCLTS_JOB_SE
+				, FLAW_RPR_SEQ
+				, FLAW_EXAM_DT
+				, FLAW_ENNC
+				, FLAW_EXAM_RESULT
+				, RM
+				, CTRT_NO
+			) 
+			VALUES 
+			(
+				#flawRprStartDt#
+				, #flawRprEndDt#
+				, REPLACE(#flawRprAmt#,',','')
+				, #flawRprContents#
+				, #regUsr#
+				, SYSDATE
+				, #flawRprEntrpsNm#
+				, #flawRprTy#
+				, #flaw_occrrncDt#
+				, #flawRprComptYn#
+				, #flawExamSe#
+				, #enforceYear#
+				, #flawRprNm#
+				, #fcltsMngGroupNo#
+				, #fcltsJobSe#
+				, #flawRprSeq#
+				, #flawExamDt#
+				, #flawEnnc#
+				, #flawExamResult#
+				, #rm#
+				, #ctrtNo#
+			)
+	</insert>
+	
+	<!-- 하자보수내역수정 -->
+	<update id="gamFcltyRepairMngDao.updateFcltyRepairMng">
+		UPDATE FLAW_RPR_DTLS_F 
+			SET
+				FLAW_RPR_START_DT = #flawRprStartDt#
+				, FLAW_RPR_END_DT = #flawRprEndDt#
+				, FLAW_RPR_AMT = REPLACE(#flawRprAmt#, ',', '')
+				, FLAW_RPR_CONTENTS = #flawRprContents#
+				, UPD_USR = #regUsr#
+				, UPDT_DT = SYSDATE
+				, FLAW_RPR_ENTRPS_NM = #flawRprEntrpsNm#
+				, FLAW_RPR_TY = #flawRprTy#
+				, FLAW_OCCRRNC_DT = #flaw_occrrncDt#
+				, FLAW_RPR_COMPT_YN = #flawRprComptYn#
+				, FLAW_EXAM_SE = #flawExamSe#
+				, ENFORCE_YEAR = #enforceYear#
+				, FLAW_RPR_NM = #flawRprNm#
+				, FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+				, FCLTS_JOB_SE = #fcltsJobSe#
+				, FLAW_RPR_SEQ = #flawRprSeq#
+				, FLAW_EXAM_DT = #flawExamDt#
+				, FLAW_ENNC = #flawEnnc#
+				, FLAW_EXAM_RESULT = #flawExamResult#
+				, RM = #rm#
+				, CTRT_NO = #ctrtNo#
+			WHERE 
+				FCLTS_JOB_SE = #fcltsJobSe#
+				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+				AND FLAW_RPR_SEQ = $flawRprSeq$
+	</update>
+	
+	<!-- 하자보수내역삭제 -->
+	<delete id="gamFcltyRepairMngDao.deleteFcltyRepairMng">
+		DELETE FROM 
+			FLAW_RPR_DTLS_F 
+		WHERE 
+			FCLTS_JOB_SE = #fcltsJobSe#
+			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FLAW_RPR_SEQ = $flawRprSeq$
+	</delete>
+	
+	
+	<!-- 하자보수검사자입력 -->
+	<insert id="gamFcltyRepairMngDao.insertFlawExamUsrF">
+		INSERT INTO 
+			FLAW_EXAM_USR_F 
+			(
+				FLAW_EXAM_USR
+				, FLAW_EXAM_DT
+				, REG_USR
+				, REGIST_DT
+				, SEQ
+				, FLAW_EXAM_COMPT_YN
+				, FCLTS_MNG_GROUP_NO
+				, FCLTS_JOB_SE
+				, FLAW_RPR_SEQ
+			) 
+			VALUES 
+			(
+				#flawExamUsr#
+				, #flawExamDt#
+				, #regUsr#
+				, SYSDATE
+				, $seq$
+				, #flawExamComptYn#
+				, #fcltsMngGroupNo#
+				, #fcltsJobSe#
+				, $flawRprSeq$
+			)
+	</insert>
+	
+	
+	<!-- 하자보수검사자수정 -->
+	<update id="gamFcltyRepairMngDao.updateFlawExamUsrF">
+		UPDATE FLAW_EXAM_USR_F  
+			SET 
+				FLAW_EXAM_USR = #flawExamUsr#
+				, FLAW_EXAM_DT = #flawExamDt#
+				, UPD_USR = #updUsr#
+				, UPDT_DT = SYSDATE
+				, FLAW_EXAM_COMPT_YN = #flawExamComptYn#
+			WHERE 
+				FCLTS_JOB_SE = #fcltsJobSe#
+				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+				AND FLAW_RPR_SEQ = $flawRprSeq$
+				AND SEQ = $seq$
+	</update>
+	
+	
+	<!-- 하자보수검사자삭제 -->
+	<delete id="gamFcltyRepairMngDao.deleteFlawExamUsrF">
+		DELETE FROM  
+			FLAW_EXAM_USR_F 
+		WHERE 
+			FCLTS_JOB_SE = #fcltsJobSe#
+			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FLAW_RPR_SEQ = $flawRprSeq$
+		<isNotEmpty property="seq">
+			AND SEQ = $seq$
+		</isNotEmpty>
+			
+	</delete>
+
+	
+	
+	<!-- 하자보수첨부파일입력 -->
+	<insert id="gamFcltyRepairMngDao.insertFcltyRepairFile">
+		<selectKey keyProperty="maxAtchFileSeq" resultClass="String">
+	       	SELECT 
+	       		(NVL(MAX(ATCH_FILE_SEQ),0) + 1)
+			FROM 
+				FLAW_RPR_ATCH_FILE_F
+			WHERE 
+				FCLTS_JOB_SE = #fcltsJobSe#
+				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+				AND FLAW_RPR_SEQ = $flawRprSeq$
+	    </selectKey>
+	    
+		INSERT INTO 
+			FLAW_RPR_ATCH_FILE_F 
+			(
+				FCLTS_JOB_SE
+				, FCLTS_MNG_GROUP_NO
+				, FLAW_RPR_SEQ
+				, ATCH_FILE_SEQ
+				, ATCH_FILE_SE
+				, ATCH_FILE_SJ
+				, ATCH_FILE_NM_LOGIC
+				, ATCH_FILE_NM_PHYSICL
+				, ATCH_FILE_WRITNG_DT
+				, REG_USR
+				, REGIST_DT
+			) 
+			VALUES 
+			(
+				#fcltsJobSe#
+				, #fcltsMngGroupNo#
+				, #flawRprSeq#
+				, #maxAtchFileSeq#
+				, #atchFileSe#
+				, #atchFileSj#
+				, #atchFileNmLogic#
+				, #atchFileNmPhysicl#
+				, #atchFileWritngDt#
+				, #regUsr#
+				, SYSDATE
+			)
+	</insert>
+	
+	
+	<!-- 하자보수첨부파일수정 -->
+	<update id="gamFcltyRepairMngDao.updateFcltyRepairFile">
+		UPDATE FLAW_RPR_ATCH_FILE_F 
+			SET 
+				ATCH_FILE_SE = #atchFileSe#
+				, ATCH_FILE_SJ = #atchFileSj#
+				, ATCH_FILE_NM_LOGIC = #atchFileNmLogic#
+				, ATCH_FILE_NM_PHYSICL = #atchFileNmPhysicl#
+				, ATCH_FILE_WRITNG_DT = #atchFileWritngDt#
+				, UPD_USR = #updUsr#
+				, UPDT_DT = SYSDATE
+			WHERE 
+				FCLTS_JOB_SE = #fcltsJobSe#
+				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+				AND FLAW_RPR_SEQ = $flawRprSeq$
+				AND ATCH_FILE_SEQ = $atchFileSeq$
+	</update>
+	
+	
+	<!-- 하자보수첨부파일삭제 -->
+	<delete id="gamFcltyRepairMngDao.deleteFcltyRepairFile">
+		DELETE FROM
+			FLAW_RPR_ATCH_FILE_F 
+		WHERE 
+			FCLTS_JOB_SE = #fcltsJobSe#
+			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FLAW_RPR_SEQ = $flawRprSeq$
+		<isNotEmpty property="atchFileSeq">
+			AND ATCH_FILE_SEQ = $atchFileSeq$
+		</isNotEmpty>
+			
+	</delete>
+
+</sqlMap>

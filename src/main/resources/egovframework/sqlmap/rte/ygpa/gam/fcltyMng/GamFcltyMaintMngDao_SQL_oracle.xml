@@ -293,7 +293,7 @@
 	<!-- 유지보수내역삭제 -->
 	<delete id="gamFcltyMaintMngDao.deleteFcltyMaintMng">
 		DELETE FROM 
-			MNTN_RPR_DTLS_F SET	
+			MNTN_RPR_DTLS_F 
 		WHERE 
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
