@@ -315,8 +315,8 @@ GamFcltyCtrtLgerHistModule.prototype.onClosePopup = function(popupId, msg, value
     switch (popupId) {
      case 'selectEntrpsInfoPopup':
          if (msg != 'cancel') {
-             this.$('#sRegistEntrpsCd').val(value.agentCode);
-             this.$('#sRegistEntrpsNm').val(value.firmKorNm);
+             this.$('#sRegistEntrpsCd').val(value.entrpscd);
+             this.$('#sRegistEntrpsNm').val(value.entrpsNm);
 			 //this.loadData();
          } else {
              alert('취소 되었습니다');
@@ -371,8 +371,8 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
                         <tr>
                         	<th width="10%">등록업체</th>
                             <td colspan="3">
-                            	<input id="sRegistEntrpsCd" type="text" size="7">&nbsp; &nbsp;
-                         		<input id="sRegistEntrpsNm" type="text" size="12" disabled="disabled">&nbsp; &nbsp;
+                            	<input id="sRegistEntrpsCd" type="text" size="7" disabled="disabled">&nbsp; &nbsp;
+                         		<input id="sRegistEntrpsNm" type="text" size="30" disabled="disabled">&nbsp; &nbsp;
                          		<button id="popupEntrpsInfo" class="popupButton">선택</button>
                          	</td>
                          	<th width="10%">입찰일</th>

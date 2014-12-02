@@ -131,6 +131,9 @@ GamPopupCtrtMoneyPymntMngtModule.prototype.onButtonClick = function(buttonId) {
 	case "addBtn":
 		this.$('#gamPopupCtrtMoneyPymntMngtForm :input').val('');
 		this.$("#grdInfoList").flexAddRow({'pymntCl':'','pymntDt':'','thisTimeEstbAmt':'','depositExcclcAmt':'','pymntAmt':'','pymntAggrAmt':'' ,'rm':''});
+		var all_rows = this.$('#grdInfoList').flexGetData();
+		var sel_row_id = all_rows.length - 1;
+		this.$("#grdInfoList").selectRowId(sel_row_id);
 	break;
 		case "btnRemove":
 			this.removeCtrtMoneyPymntItem();

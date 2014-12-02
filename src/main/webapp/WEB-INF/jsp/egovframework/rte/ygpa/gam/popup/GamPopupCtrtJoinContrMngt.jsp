@@ -177,6 +177,9 @@ GamPopupCtrtJoinContrMngtModule.prototype.onButtonClick = function(buttonId) {
 	case "addBtn":
 		this.$('#gamPopupCtrtJoinContrMngtForm :input').val('');
 		this.$("#grdInfoList").flexAddRow({'entrpsNm':'','rprsntv':'','qotaRate':'','induty':'','stplPrdlst':'','bsnmNo':'' ,'dealRelate':'','tlphonNo':'','faxNo':'','postNo':'','roadnmAdres':'','lnmAdres':'','charger':'','chargerOfcPos':'','chargerMoblphonNo':'','chargerEmail':''});
+		var all_rows = this.$('#grdInfoList').flexGetData();
+		var sel_row_id = all_rows.length - 1;
+		this.$("#grdInfoList").selectRowId(sel_row_id);
 	break;
 		case "btnRemove":
 			this.removeCtrtJoinContrItem();

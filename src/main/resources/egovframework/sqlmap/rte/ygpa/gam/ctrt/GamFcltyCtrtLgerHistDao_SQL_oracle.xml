@@ -149,7 +149,7 @@
 									</isNotEmpty>
 									
 									<isNotEmpty property="sCtrtToDt">
-										<![CDATA[ AND CTRT_DT < #sCtrtToDt# ]]>
+										<![CDATA[ AND CTRT_DT <= #sCtrtToDt# ]]>
 									</isNotEmpty>
 									
 									<isNotEmpty property="sRegistEntrpsCd">
@@ -161,7 +161,7 @@
 									</isNotEmpty>
 									
 									<isNotEmpty property="sBidToDt">
-										<![CDATA[ AND BID_DT < #sBidToDt# ]]>
+										<![CDATA[ AND BID_DT <= #sBidToDt# ]]>
 									</isNotEmpty>
 									
 
@@ -198,7 +198,7 @@
 				</isNotEmpty>
 				
 				<isNotEmpty property="sCtrtToDt">
-					<![CDATA[ AND CTRT_DT < #sCtrtToDt# ]]>
+					<![CDATA[ AND CTRT_DT <= #sCtrtToDt# ]]>
 				</isNotEmpty>
 				
 				<isNotEmpty property="sRegistEntrpsCd">
@@ -210,7 +210,7 @@
 				</isNotEmpty>
 				
 				<isNotEmpty property="sBidToDt">
-					<![CDATA[ AND BID_DT < #sBidToDt# ]]>
+					<![CDATA[ AND BID_DT <= #sBidToDt# ]]>
 				</isNotEmpty>
     </select>
     
@@ -447,7 +447,7 @@
                            SELECT
                                     CTRT_NO
 								    , SEQ
-								    , TO_CHAR(FULFILL_CARY_FWD_YEAR, 'YYYY-MM-DD') FULFILL_CARY_FWD_YEAR
+								    , FULFILL_CARY_FWD_YEAR
 								    , FULFILL_AMT
 								    , CARY_FWD_AMT
 								    , REG_USR

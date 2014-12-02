@@ -131,6 +131,9 @@ GamPopupCtrtChangeMngtModule.prototype.onButtonClick = function(buttonId) {
 	case "addBtn":
 		this.$('#gamPopupCtrtChangeMngtForm :input').val('');
 		this.$("#grdInfoList").flexAddRow({'changeDt':'','changeRsn':'','changeCtrtPdFrom':'','changeCtrtPdTo':'','changeCtrtAmt':'','lastCtrtAmt':'' ,'rm':''});
+		var all_rows = this.$('#grdInfoList').flexGetData();
+		var sel_row_id = all_rows.length - 1;
+		this.$("#grdInfoList").selectRowId(sel_row_id);
 	break;
 		case "btnRemove":
 			this.removeCtrtChangeItem();

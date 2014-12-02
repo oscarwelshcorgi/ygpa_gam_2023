@@ -75,37 +75,11 @@ public class GamFcltyCtrtSttusInqireController {
 
 	@RequestMapping(value="/ctrt/gamFcltyCtrtSttusInqire.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-		
-		
-		//login정보 
-    	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-    	
-    	List yearsList = this.getYears(); // 조회연도
-    	
-    	model.addAttribute("windowId", windowId);
-    	model.addAttribute("yearsList", yearsList);
 
+    	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/ctrt/GamFcltyCtrtSttusInqire";
     }
 
-	
-	/**
-     * 조회기간 연도를 가져온다
-     *
-     */
-	public List getYears(){
-
-		java.util.Calendar cal = java.util.Calendar.getInstance();
-		int currentYear = cal.get(cal.YEAR);
-		List result = new ArrayList();
-   		
-   		for (int i = 2000; i <= currentYear; i++) {
-   			
-   			result.add(String.valueOf(i));
-   		}
-
-   		return result;
-   	}
 	
 	
 	/**

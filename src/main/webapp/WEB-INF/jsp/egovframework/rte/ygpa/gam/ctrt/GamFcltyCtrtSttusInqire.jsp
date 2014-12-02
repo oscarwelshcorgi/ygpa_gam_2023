@@ -69,20 +69,28 @@ GamFcltyCtrtSttusInqireModule.prototype.loadComplete = function() {
         }
     });
  	
-	var today = new Date();
-	var serchYr = today.getFullYear();
-	var serchPreYr = serchYr - 1;
+ 	// 연도 셀렉트 옵션에 뿌리기
+	var toDate = new Date();
+	var toYear = toDate.getFullYear();
+	var serchPreYr = toYear - 1;
 	
-	this.$('#sCtrtYr').val(serchYr);
+	var option = "";
+	for(var i = 2000;i<=toYear;i++){
+		option = option + "<option value='" + i + "'>" + i + "년</option>";
+	}
+	this.$("#sCtrtYr").append(option);
+	
+	
+	this.$('#sCtrtYr').val(toYear);
 	this.$('#sPrevCtrtYr').val(serchPreYr);
  	
  	
     this.$('#sCtrtYr').on('change', {module: this}, function(e) {
-    	
+    	var prevCtrtYr;
     	if(e.data.module.$('#sCtrtYr > option:selected').val()){
-    		var prevCtrtYr = e.data.module.$('#sCtrtYr > option:selected').val() - 1;
+    		prevCtrtYr = e.data.module.$('#sCtrtYr > option:selected').val() - 1;
     	}else{
-    		var prevCtrtYr = "";
+    		prevCtrtYr = "";
     	}
     	e.data.module.$('#sPrevCtrtYr').val(prevCtrtYr);
 	});
@@ -187,8 +195,8 @@ var module_instance = new GamFcltyCtrtSttusInqireModule();
                             </td>
                             <th width="10%">등록업체</th>
                             <td>
-                            	<input id="sRegistEntrpsCd" type="text" size="7">&nbsp; &nbsp;
-                         		<input id="sRegistEntrpsNm" type="text" size="12" disabled="disabled">&nbsp; &nbsp;
+                            	<input id="sRegistEntrpsCd" type="text" size="7" disabled="disabled">&nbsp; &nbsp;
+                         		<input id="sRegistEntrpsNm" type="text" size="30" disabled="disabled">&nbsp; &nbsp;
                          		<button id="popupEntrpsInfo" class="popupButton">선택</button>
                          	</td>
                             <td rowspan="2">
@@ -202,11 +210,7 @@ var module_instance = new GamFcltyCtrtSttusInqireModule();
                          	</td>
 							<th width="10%">계약연도</th>
                             <td>
-                            	<select id="sCtrtYr">
-                                    <c:forEach  items="${yearsList}" var="yearsItem">
-                                        <option value="${yearsItem }">${yearsItem }</option>
-                                    </c:forEach>
-                                </select>
+                            	<select id="sCtrtYr"></select>
                                 <input type="hidden" id="sPrevCtrtYr">
                             </td>
                         </tr>
