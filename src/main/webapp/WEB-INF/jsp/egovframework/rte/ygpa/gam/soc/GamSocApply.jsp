@@ -74,7 +74,7 @@ GamSocApplyModule.prototype.loadComplete = function() {
                     {display:'시설명', name:'facKorNm',width:230, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: true,
-        height: 'auto'
+        height: '300'
     });
 
     // 투자비보전처리대상 요금종류 설정
@@ -87,7 +87,7 @@ GamSocApplyModule.prototype.loadComplete = function() {
                     {display:'요금명', name:'feeTpKorNm', width:280, sortable:true, align:'left'}
                     ],
         showTableToggleBtn: false,
-        height: 'auto'
+        height: '300'
     });
 
     this.$("#socApplyList").on('onItemSelected', function(event, module, row, grid, param) {
@@ -345,9 +345,6 @@ GamSocApplyModule.prototype.onClosePopup = function(popupId, msg, value) {
 	   	 this.$("#sConstNo").val(value["constNo"]);
 	   	 break;
      case 'selectFacInfo' : //시설물 추가
-     	 alert(value["facCode"]);
-     	 alert(value["facSubCode"]);
-     	 alert(value["facKorNm"]);
     	 this.$("#socApplyFacilList").flexAddRow({'facCode': value["facCode"],'facSubCode':value["facSubCode"],'facKorNm':value["facKorNm"]});
      	 break;
      case 'selectFeeInfo' : //요금종류 추가
