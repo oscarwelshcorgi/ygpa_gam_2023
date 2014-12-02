@@ -17,7 +17,7 @@
                 <arg0 key="자산부코드" resource="false"/>
             </field>
             <field property="gisPrtFcltyCd" depends="required">
-                <arg0 key="항만시설콛드" resource="false"/>
+                <arg0 key="시설코드" resource="false"/>
             </field>
         </form>
     </formset>

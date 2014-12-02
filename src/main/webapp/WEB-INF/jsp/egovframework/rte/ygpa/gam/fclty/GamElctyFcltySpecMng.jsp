@@ -435,6 +435,9 @@ GamElctyFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 	case "tabs1":
 		break;
 	case "tabs2":
+		if(oldTabId == 'tabs1') {
+			this.$("#tabs2").scrollTop(0);
+		}
 		if((this._cmd != 'insert') && (this._cmd != 'modify')) {
 			this.$("#elctyFcltySpecMngTab").tabs("option", {active: 0});
 		} 
