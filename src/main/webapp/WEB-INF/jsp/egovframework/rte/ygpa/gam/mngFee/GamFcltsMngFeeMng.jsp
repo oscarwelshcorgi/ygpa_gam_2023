@@ -71,6 +71,7 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
         url: '/mngFee/gamSelectFcltsMngFeeMngDetailList.do',
         dataType: 'json',
         colModel : [
+                    {display:'순번', name:'mngSeq',width:40, sortable:false,align:'center'},
                     {display:'업체코드', name:'entrpscd',width:80, sortable:false,align:'center'},
                     {display:'업체명', name:'entrpsNm',width:120, sortable:false,align:'center'},
                     {display:'사용 면적', name:'usageAr',width:80, sortable:false,align:'center'},
@@ -1079,8 +1080,8 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
             break;
 
 
-        case 'btnPrmisn': // 사용승낙
-            var rows = this.$('#FcltsMngFeeMngList').selectedRows();
+        case 'btnPrmisn': // 고지
+            var rows = this.$('#FcltsMngFeeMngDetailList').selectedRows();
             var row = rows[0];
 
             if(rows.length>=1) {

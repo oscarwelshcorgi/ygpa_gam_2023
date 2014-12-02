@@ -77,7 +77,7 @@ var popup_instance = new GamPopupFcltsMngFeeMngModule();
 		<form id="gamPopupPrmisnForm">
 		    <input type="text" id="mngMt" value="<c:out value="${gamFcltsMngFeeMngInfo.mngMt }"/>"/>
 		    <input type="text" id="mngFeeJobSe" value="<c:out value="${gamFcltsMngFeeMngInfo.mngFeeJobSe }"/>"/>
-			<input type="text" id="taxtSe" value="<c:out value="${gamFcltsMngFeeMngInfo.taxtSe }"/>"/>
+			<input type="text" id="mngSeq" value="<c:out value="${gamFcltsMngFeeMngInfo.mngSeq }"/>"/>
 
 			<table class="searchPanel">
 				<tbody>
@@ -92,16 +92,6 @@ var popup_instance = new GamPopupFcltsMngFeeMngModule();
 	                            </c:forEach>
                             </select>
                         </td>
-                        <!--
-                        <th>부가세 여부</th>
-                        <td>
-                            <select id="vatYn">
-                                <option value="" selected="selected">선택</option>
-                                <option value="Y">Y</option>
-                                <option value="N">N</option>
-                            </select>
-                        </td>
-                        -->
                         <td><button id=btnPrmisnExec class="submit">승낙</button></td>
                     </tr>
 				</tbody>

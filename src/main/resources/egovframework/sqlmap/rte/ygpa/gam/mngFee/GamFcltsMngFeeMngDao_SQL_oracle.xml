@@ -115,6 +115,7 @@
 					,REG_USR
 					,USAGE_AR
 					,REGIST_DT
+					,MNG_SEQ
 		         )
 		    VALUES
 		         (
@@ -129,6 +130,7 @@
 						,REPLACE(#regUsr#,',','')
 						,REPLACE(#usageAr#,',','')
 						,sysdate
+						,(SELECT LPAD(NVL(MAX(MNG_SEQ), 0) + 1, 3, '0') FROM FCLTS_MNG_FEE_DETAIL_F)
 		         )
 		]]>
 	</insert>
@@ -166,7 +168,7 @@
 					,UPDT_DT            =	sysdate
 					WHERE   MNG_MT     		 = #mngMt#
 					AND		MNG_FEE_JOB_SE	 = #mngFeeJobSe#
-					AND		ENTRPSCD	 	 = #entrpscd#
+					AND		MNG_SEQ	 	 = #mngSeq#
 		]]>
 	</update>
 
@@ -175,10 +177,8 @@
             DELETE  FCLTS_MNG_FEE_DETAIL_F
          		    WHERE   MNG_MT     		 = #mngMt#
 					AND		MNG_FEE_JOB_SE	 = #mngFeeJobSe#
+					AND		MNG_SEQ	 	 = #mngSeq#
 		]]>
-					 <isNotEmpty property="entrpscd">
-							      <![CDATA[AND ENTRPSCD =  #entrpscd#]]>
-					 </isNotEmpty>
 	</delete>
 
 	<select id="gamFcltsMngFeeMngDao.selectFcltsMngFeeMngDetailList_D" parameterClass="gamFcltsMngFeeMngDetailVo" resultClass="egovMap">
@@ -198,6 +198,7 @@
 									,REG_USR
 									,USAGE_AR
 									,TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+									,MNG_SEQ
 					        FROM FCLTS_MNG_FEE_DETAIL_F A
 								  WHERE 1=1
 						         <isNotEmpty property="mngMt">
@@ -219,6 +220,20 @@
 	</delete>
 
 	<select id="gamFcltsMngFeeMngDao.selectChargeKndList" resultClass="egovMap">
+            		<![CDATA[
+			SELECT
+			CODE_ID, CODE, CODE_NM, CODE_DC
+			FROM
+			COMTCCMMNDETAILCODE
+			WHERE
+			USE_AT      = 'Y'
+			AND CODE_ID = 'GAM024'
+				AND CODE NOT IN ('A3', 'A4', 'UG', 'DA')
+			ORDER BY CODE, CODE_NM
+		]]>
+    </select>
+
+	<select id="gamFcltsMngFeeMngDao.selectFcltsMngFeeMngPk" parameterClass="hashMap" resultClass="egovMap">
             		<![CDATA[
 			SELECT
 			CODE_ID, CODE, CODE_NM, CODE_DC

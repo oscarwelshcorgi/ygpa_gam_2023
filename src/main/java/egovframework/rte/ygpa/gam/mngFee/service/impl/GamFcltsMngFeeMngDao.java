@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngDetailVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngVo;
 
@@ -105,6 +106,15 @@ public class GamFcltsMngFeeMngDao extends YGPAAbstractDAO{
 	 */
 	public List selectChargeKndList() {
 		return list("gamFcltsMngFeeMngDao.selectChargeKndList", null);
+	}
+
+	/**
+	 * 관리비 관리 관리비 정보 조회
+	 * @param gamFcltsMngFeeMngVo
+	 * @return
+	 */
+	public EgovMap selectFcltsMngFeeMngPk(Map<String, Object> vo) {
+		return (EgovMap) selectByPk("gamFcltsMngFeeMngDao.selectFcltsMngFeeMngPk", vo);
 	}
 
 }

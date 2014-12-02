@@ -313,6 +313,7 @@ public class GamFcltsMngFeeMngController {
     			updateDetailVO.setGasFee(resultMap.get("gasFee").toString());
     			updateDetailVO.setMngTotalFee(resultMap.get("mngTotalFee").toString());
     			updateDetailVO.setUsageAr(resultMap.get("usageAr").toString());
+    			updateDetailVO.setMngSeq(resultMap.get("mngSeq").toString());
     			updateDetailVO.setRegUsr(loginVO.getId());
     			updateDetailVO.setUpdUsr(loginVO.getId());
 
@@ -327,7 +328,7 @@ public class GamFcltsMngFeeMngController {
     			GamFcltsMngFeeMngDetailVo deleteDetailVO = new GamFcltsMngFeeMngDetailVo();
     			deleteDetailVO.setMngMt(form.get("mngMt").toString());
     			deleteDetailVO.setMngFeeJobSe(form.get("mngFeeJobSe").toString());
-    			deleteDetailVO.setEntrpscd(resultMap.get("entrpscd").toString());
+    			deleteDetailVO.setMngSeq(resultMap.get("mngSeq").toString());
 
     			gamFcltsMngFeeMngService.deleteFcltsMngFeeMngDetail(deleteDetailVO);
     		}
@@ -414,11 +415,11 @@ public class GamFcltsMngFeeMngController {
      * @throws Exception the exception
      */
 	@RequestMapping(value="/mngFee/popup/showFcltsMngFeeMngPrmisn.do")
-    String showEntrpsInfo(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo, ModelMap model) throws Exception {
+    String showEntrpsInfo(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo, ModelMap model) throws Exception {
 
 		List chrgeKndCdList = gamFcltsMngFeeMngService.selectChargeKndList();
 
-		model.addAttribute("gamFcltsMngFeeMngInfo", gamFcltsMngFeeMngVo);
+		model.addAttribute("gamFcltsMngFeeMngInfo", gamFcltsMngFeeMngDetailVo);
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
 
 		return "/ygpa/gam/popup/GamPopupFcltsMngFeeMngPrmisn";
@@ -432,8 +433,8 @@ public class GamFcltsMngFeeMngController {
      * @throws Exception
      */
     @RequestMapping(value="/mngFee/gamUpdateFcltsMngFeeMngPrmisn.do")
-    public @ResponseBody Map updatePrtFcltyRentMngtPrmisn(
-     	   @ModelAttribute("gamPopupPrmisnForm") GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo,
+    public @ResponseBody Map UpdateFcltsMngFeeMngPrmisn(
+     	   @ModelAttribute("gamPopupPrmisnForm") GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo,
      	   BindingResult bindingResult)
             throws Exception {
 
@@ -451,12 +452,12 @@ public class GamFcltsMngFeeMngController {
 
          LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-         paramMap.put("mngMt", gamFcltsMngFeeMngVo.getMngMt());
-         paramMap.put("mngFeeJobSe", gamFcltsMngFeeMngVo.getMngFeeJobSe());
-         paramMap.put("taxtSe", gamFcltsMngFeeMngVo.getTaxtSe());
+         paramMap.put("mngMt", gamFcltsMngFeeMngDetailVo.getMngMt());
+         paramMap.put("mngFeeJobSe", gamFcltsMngFeeMngDetailVo.getMngFeeJobSe());
+         paramMap.put("mngSeq", gamFcltsMngFeeMngDetailVo.getMngSeq());
          paramMap.put("regUsr", loginVO.getId());
          paramMap.put("deptcd", loginVO.getOrgnztId());
-         paramMap.put("chrgeKnd", gamFcltsMngFeeMngVo.getChrgeKnd());
+         paramMap.put("chrgeKnd", gamFcltsMngFeeMngDetailVo.getChrgeKnd());
 
          //승낙 서비스 클래스 호출
          //gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap); //승낙
@@ -466,7 +467,8 @@ public class GamFcltsMngFeeMngController {
         	 resultMsg = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
          }
          else {
-        	 gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap);
+        	 // 징수의뢰 와 고지의뢰를 같이 한다.
+        	 gamFcltsMngFeeMngService.confirmFcltsMngFeeMngPerm(paramMap);
 
 	         resultCode = 0;
 	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");

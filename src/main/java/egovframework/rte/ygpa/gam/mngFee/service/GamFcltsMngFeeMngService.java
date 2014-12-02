@@ -78,4 +78,10 @@ public interface GamFcltsMngFeeMngService {
 	 */
 	List selectChargeKndList() throws Exception;
 
+	/**
+	 * 관리비 관리 징수의뢰 고지의뢰 같이한다.
+	 * @param GamFcltsMngFeeMngVo
+	 */
+	void confirmFcltsMngFeeMngPerm(Map<String, Object> vo) throws Exception;
+
 }

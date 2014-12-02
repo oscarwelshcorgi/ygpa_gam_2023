@@ -146,4 +146,17 @@ public class GamFcltsMngFeeMngServiceImpl extends AbstractServiceImpl implements
 		return gamFcltsMngFeeMngDao.selectChargeKndList();
 	}
 
+	/**
+	 * 관리비 관리 징수의뢰 고지의뢰 같이한다.
+	 * @param GamFcltsMngFeeMngVo
+	 */
+	public void confirmFcltsMngFeeMngPerm(Map<String, Object> vo) throws Exception {
+
+		Map assetsRent;
+
+		assetsRent = gamFcltsMngFeeMngDao.selectFcltsMngFeeMngPk(vo);
+
+
+	}
+
 }

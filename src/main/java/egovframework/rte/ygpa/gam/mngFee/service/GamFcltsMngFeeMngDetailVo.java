@@ -39,6 +39,35 @@ public class GamFcltsMngFeeMngDetailVo extends ComDefaultVO{
 	private	String	updtDt;        //수정일시
 	private	String	registDt;      //등록일시
 	private	String	usageAr;       //사용 면적
+	private String  mngSeq;		   //관리 순번
+	private String  chrgeKnd;	   //요금 종류
+
+
+
+	/**
+	 * @return the chrgeKnd
+	 */
+	public String getChrgeKnd() {
+		return chrgeKnd;
+	}
+	/**
+	 * @param chrgeKnd the chrgeKnd to set
+	 */
+	public void setChrgeKnd(String chrgeKnd) {
+		this.chrgeKnd = chrgeKnd;
+	}
+	/**
+	 * @return the mngSeq
+	 */
+	public String getMngSeq() {
+		return mngSeq;
+	}
+	/**
+	 * @param mngSeq the mngSeq to set
+	 */
+	public void setMngSeq(String mngSeq) {
+		this.mngSeq = mngSeq;
+	}
 	/**
 	 * @return the mngMt
 	 */
