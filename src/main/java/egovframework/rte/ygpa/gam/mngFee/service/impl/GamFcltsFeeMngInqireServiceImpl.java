@@ -4,17 +4,15 @@
 package egovframework.rte.ygpa.gam.mngFee.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
-import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
-import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireVo;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
 
 /**
  *
@@ -54,7 +52,7 @@ public class GamFcltsFeeMngInqireServiceImpl extends AbstractServiceImpl impleme
 	}
 
 	@Override
-	public void updateFcltsFeeMngInqire(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception {
-		gamFcltsFeeMngInqireDao.updateFcltsFeeMngInqire(gamFcltsFeeMngInqireVo);
+	public void updateFcltsFeeMngInqire(Map gamFcltsFeeMngInqireMap) throws Exception {
+		gamFcltsFeeMngInqireDao.updateFcltsFeeMngInqire(gamFcltsFeeMngInqireMap);
 	}
 }

@@ -34,7 +34,6 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireVo;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
 
 
 /**
@@ -190,11 +189,15 @@ public class GamFcltsFeeMngInqireController {
 
 	}
 
+    @SuppressWarnings("unchecked")
 	@RequestMapping(value="/mngFee/gamUpdateFcltsFeeMngInqire.do")
-	@ResponseBody Map<String, Object> updateFcltsFeeMngInqire(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo)	throws Exception {
+	@ResponseBody Map<String, Object> updateFcltsFeeMngInqire(@RequestParam Map gamFcltsFeeMngInqireList)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		List<HashMap<String,String>> updateList=null;
 		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> updateData = new HashMap<String, Object>();
+		ObjectMapper mapper = new ObjectMapper();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		if (!isAuthenticated) {
@@ -203,8 +206,13 @@ public class GamFcltsFeeMngInqireController {
 			return map;
 		}
 
+    	updateList = mapper.readValue((String)gamFcltsFeeMngInqireList.get("updateList"),new TypeReference<List<HashMap<String,String>>>(){});
+
 		try {
-			gamFcltsFeeMngInqireService.updateFcltsFeeMngInqire(gamFcltsFeeMngInqireVo);
+			for (int i=0; i<updateList.size(); i++) {
+				updateData = (HashMap)updateList.get(i);
+				gamFcltsFeeMngInqireService.updateFcltsFeeMngInqire(updateData);
+			}
 
 			map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));

@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.mngFee.service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -43,8 +44,8 @@ public interface GamFcltsFeeMngInqireService {
 	List selectFcltsFeeMngInqireChartList(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception;
 
 	/**
-	 * @param gamFcltsFeeMngInqireVo
+	 * @param gamFcltsFeeMngInqireMap
 	 */
-	void updateFcltsFeeMngInqire(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception;
+	void updateFcltsFeeMngInqire(Map gamFcltsFeeMngInqireMap) throws Exception;
 
 }

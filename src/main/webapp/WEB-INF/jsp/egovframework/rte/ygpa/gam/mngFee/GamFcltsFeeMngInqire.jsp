@@ -79,7 +79,9 @@ GamFcltsFeeMngInqireModule.prototype.loadComplete = function() {
 					{display:'연체 번호',			name:'arrrgNo',				width:80,		sortable:false,		align:'center'},
 					{display:'연체 금액',			name:'arrrgAmt',			width:90,		sortable:false,		align:'right'},
 					{display:'연체 요율',			name:'arrrgTariff',			width:80,		sortable:false,		align:'right'},
-					{display:'연체 일수',			name:'arrrgPayDates',		width:80,		sortable:false,		align:'right'}
+					{display:'연체 일수',			name:'arrrgPayDates',		width:80,		sortable:false,		align:'right'},
+					{display:'요금 종류 코드',		name:'chrgeKnd',			width:100,		sortable:false,		align:'left'},
+					{display:'항 코드',				name:'prtAtCode',			width:100,		sortable:false,		align:'left'}
 					],
 		showTableToggleBtn : false,
 		height : 'auto',
@@ -281,8 +283,15 @@ GamFcltsFeeMngInqireModule.prototype.loadDetail = function() {
 %>
 GamFcltsFeeMngInqireModule.prototype.updateRcivData = function() {
 
-	var updateVO = this.makeFormArgs('#detailForm');
-
+	var all_rows = JSON.stringify(this.$('#mainGrid').flexGetData());
+	var updateVO = [];
+	updateVO[updateVO.length] = {name: 'updateList', value: all_rows};
+	this.doAction('/soc/gamUpdateFcltsFeeMngInqire.do', updateVO, function(module, result) {
+		if (result.resultCode == "0") {
+			module.loadData();
+		}
+		alert(result.resultMsg);
+ 	});
 };
 
 <%

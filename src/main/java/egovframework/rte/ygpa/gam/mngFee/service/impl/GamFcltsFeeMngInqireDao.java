@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.mngFee.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -54,10 +55,10 @@ public class GamFcltsFeeMngInqireDao extends YGPAAbstractDAO{
 	}
 
 	/**
-	 * @param gamFcltsFeeMngInqireVo
+	 * @param gamFcltsFeeMngInqireMap
 	 */
-	public void updateFcltsFeeMngInqire(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) {
-		update("gamFcltsFeeMngInqireDao.updateFcltsFeeMngInqire_S",gamFcltsFeeMngInqireVo);
+	public void updateFcltsFeeMngInqire(Map gamFcltsFeeMngInqireMap) {
+		update("gamFcltsFeeMngInqireDao.updateFcltsFeeMngInqire_S",gamFcltsFeeMngInqireMap);
 	}
 
 }
