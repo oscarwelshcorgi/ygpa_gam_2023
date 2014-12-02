@@ -182,7 +182,7 @@ var module_instance = new GamSocStatsModule();
                             	<input id="sExmpAgentName" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
                             	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
-                            <th>조회월</th>
+                            <th>조회년월</th>
                             <td>
                                 <input id="sSearchFr" type="text" size="6"> &nbsp; ~ &nbsp; 
                             	<input id="sSearchTo" type="text" size="6">
