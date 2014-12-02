@@ -117,7 +117,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
                     {display:'담당자휴대폰번호', name:'chargerMoblphonNo',width:150, sortable:false,align:'center'},
                     {display:'담당자email', name:'chargerEmail',width:150, sortable:false,align:'center'}
                     ],
-        showTableToggleBtn: true,
+        showTableToggleBtn: false,
         height: 'auto'
     });
 
@@ -431,7 +431,8 @@ var module_instance = new GamFcltyCtrtMngModule();
                 <li><a href="#tabs6" class="emdTab">계약대금지급관리</a></li>
                 <li><a href="#tabs7" class="emdTab">계약이행이월관리</a></li>
             </ul>
-
+			
+			<!-- 계약정보목록 -->
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
                 <table id="fcltyCtrtMngList" style="display:none" class="fillHeight"></table>
                 <div id="fcltyCtrtMngListSum" class="emdControlPanel">
@@ -453,7 +454,8 @@ var module_instance = new GamFcltyCtrtMngModule();
 					</form>
                 </div>
             </div>
-
+			
+			<!-- 계약정보관리 -->
             <div id="tabs2" class="emdTabPage fillHeight" style="overflow: hidden;" >
             	<div class="emdControlPanel">
 					<form id="gamFcltyCtrtMngDetailForm">
@@ -588,85 +590,50 @@ var module_instance = new GamFcltyCtrtMngModule();
 					</form>
                 </div>
             </div>
-
-            <div id="tabs3" class="emdTabPage" style="overflow:scroll;">
-                <div class="emdControlPanel">
-                    <form id="gamFcltyCtrtJoinContrForm">
-						<table id="fcltyCtrtJoinContrList" style="display:none" class="fillHeight"></table>
-						<table style="width:100%;">
-				            <tr>
-				            	<td style="text-align: right">
-				                    <button id="btnCtrtJoinContrUpdate" class="popupButton">편집</button>
-				                    <button id="btnSave">저장</button>
-				                </td>
-				            </tr>
-						</table>
-                    </form>
-                 </div>
+			
+			<!-- 계약공동도급관리 -->
+            <div id="tabs3" class="emdTabPage fillHeight" style="overflow: hidden;">
+				<table id="fcltyCtrtJoinContrList" style="display:none" class="fillHeight"></table>
+				<div class="emdControlPanel">
+				    <button id="btnCtrtJoinContrUpdate" class="popupButton">편집</button>
+				    <button id="btnSave">저장</button>
+				</div>
             </div>
             
-            <div id="tabs4" class="emdTabPage" style="overflow:scroll;">
-                <div class="emdControlPanel">
-                    <form id="gamFcltyCtrtSubCtrtForm">
-						<table id="fcltyCtrtSubCtrtList" style="display:none" class="fillHeight"></table>
-						<table style="width:100%;">
-				            <tr>
-				            	<td style="text-align: right">
-				                    <button id="btnCtrtSubCtrtUpdate" class="popupButton">편집</button>
-				                    <button id="btnSave">저장</button>
-				                </td>
-				            </tr>
-						</table>
-                    </form>
-                 </div>
+            <!-- 계약하도급관리 -->
+            <div id="tabs4" class="emdTabPage fillHeight" style="overflow: hidden;">
+				<table id="fcltyCtrtSubCtrtList" style="display:none" class="fillHeight"></table>
+				<div class="emdControlPanel">
+				    <button id="btnCtrtSubCtrtUpdate" class="popupButton">편집</button>
+				    <button id="btnSave">저장</button>
+				</div>
             </div>
             
-            <div id="tabs5" class="emdTabPage" style="overflow:scroll;">
-                <div class="emdControlPanel">
-                    <form id="gamFcltyCtrtChangeForm">
-						<table id="fcltyCtrtChangeList" style="display:none" class="fillHeight"></table>
-						<table style="width:100%;">
-				            <tr>
-				            	<td style="text-align: right">
-				                    <button id="btnCtrtChangeUpdate" class="popupButton">편집</button>
-				                    <button id="btnSave">저장</button>
-				                </td>
-				            </tr>
-						</table>
-                    </form>
-                 </div>
+            <!-- 계약변경관리 -->
+            <div id="tabs5" class="emdTabPage fillHeight" style="overflow: hidden;">
+				<table id="fcltyCtrtChangeList" style="display:none" class="fillHeight"></table>
+				<div class="emdControlPanel">
+				    <button id="btnCtrtChangeUpdate" class="popupButton">편집</button>
+				    <button id="btnSave">저장</button>
+				</div>
             </div>
             
-            <div id="tabs6" class="emdTabPage" style="overflow:scroll;">
-                <div class="emdControlPanel">
-                    <form id="gamFcltyCtrtMoneyPymntForm">
-						<table id="fcltyCtrtMoneyPymntList" style="display:none" class="fillHeight"></table>
-						<table style="width:100%;">
-				            <tr>
-				            	<td style="text-align: right">
-				                    <button id="btnCtrtMoneyPymntUpdate" class="popupButton">편집</button>
-				                    <button id="btnSave">저장</button>
-				                </td>
-				            </tr>
-						</table>
-                    </form>
-                 </div>
+            <!-- 계약대금지급관리 -->
+            <div id="tabs6" class="emdTabPage fillHeight" style="overflow: hidden;">
+				<table id="fcltyCtrtMoneyPymntList" style="display:none" class="fillHeight"></table>
+				<div class="emdControlPanel">
+				    <button id="btnCtrtMoneyPymntUpdate" class="popupButton">편집</button>
+				    <button id="btnSave">저장</button>
+				</div>
             </div>
                         
-            <div id="tabs7" class="emdTabPage" style="overflow:scroll;">
-                <div class="emdControlPanel">
-                    <form id="gamFcltyCtrtFulFillCaryFwdForm">
-						<table id="fcltyCtrtFulFillCaryFwdList" style="display:none" class="fillHeight"></table>
-						<table style="width:100%;">
-				            <tr>
-				            	<td style="text-align: right">
-				                    <button id="btnCtrtFulFillCaryFwdUpdate" class="popupButton">편집</button>
-				                    <button id="btnSave">저장</button>
-				                </td>
-				            </tr>
-						</table>
-                    </form>
-                 </div>
+            <!-- 계약이행이월관리 -->
+            <div id="tabs7" class="emdTabPage fillHeight" style="overflow: hidden;">
+				<table id="fcltyCtrtFulFillCaryFwdList" style="display:none" class="fillHeight"></table>
+				<div class="emdControlPanel">
+				    <button id="btnCtrtFulFillCaryFwdUpdate" class="popupButton">편집</button>
+				    <button id="btnSave">저장</button>
+				</div>
             </div>
             
         </div>
