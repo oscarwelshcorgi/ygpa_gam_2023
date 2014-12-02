@@ -551,9 +551,8 @@ var module_instance = new GamSocApplyModule();
                 </div>
             </div>
 
-            <div id="tabs2" class="emdTabPage" style="overflow:scroll;">
-                <div class="emdControlPanel">
-                    <form id="gamSocApplyForm">
+            <div id="tabs2" class="fillHeight" style="overflow:scroll;">
+                 <form id="gamSocApplyForm">
                     	<table style="width:100%;">
                     		<tr>
                     			<td width="50%" style="font-weight: bold;"> &gt; 당해시설 및 타인 사용료 징수시 해당시설코드(R1,R2 대상시설)</td>
@@ -595,7 +594,6 @@ var module_instance = new GamSocApplyModule();
 	                        </tr>
 						</table>-->
                     </form>
-                 </div>
             </div>
         </div>
     </div>
