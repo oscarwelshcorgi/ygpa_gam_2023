@@ -3,8 +3,6 @@
  */
 package egovframework.rte.ygpa.gam.mngFee.web;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 import egovframework.com.cmm.EgovMessageSource;
@@ -30,12 +32,9 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo;
+import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticService;
-import egovframework.rte.ygpa.gam.soc.service.GamSocAgentService;
-import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
-import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
-
+import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo;
 
 
 /**
@@ -64,67 +63,55 @@ public class GamFcltsFeeMngNticController {
 	private DefaultBeanValidator beanValidator;
 
 	/** EgovPropertyService */
-    @Resource(name = "propertiesService")
-    protected EgovPropertyService propertiesService;
+	@Resource(name = "propertiesService")
+	protected EgovPropertyService propertiesService;
 
-    /** EgovMessageSource */
-    @Resource(name="egovMessageSource")
-    EgovMessageSource egovMessageSource;
+	/** EgovMessageSource */
+	@Resource(name="egovMessageSource")
+	EgovMessageSource egovMessageSource;
 
-    @Resource(name = "gamFcltsFeeMngNticService")
-    private GamFcltsFeeMngNticService gamFcltsFeeMngNticService;
+	@Resource(name = "gamFcltsFeeMngNticService")
+	private GamFcltsFeeMngNticService gamFcltsFeeMngNticService;
 
-
-    @RequestMapping(value="/mngFee/gamFcltsFeeMngNtic.do")
+	@RequestMapping(value="/mngFee/gamFcltsFeeMngNtic.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
-    	//login정보
-    	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-    	int year = Integer.parseInt(EgovDateUtil.getToday().substring(0,4));
+		///login정보
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		int year = Integer.parseInt(EgovDateUtil.getToday().substring(0,4));
 		List yearList = new ArrayList();
 		Map yearMap = null;
-    	for( int i = year ; i >= year-10 ; i-- ) {
+
+		for ( int i = year ; i >= year-10 ; i-- ) {
 			yearMap = new HashMap();
 			yearMap.put("code", i);
 			yearMap.put("codeNm", i+"년");
-
 			yearList.add(yearMap);
 		}
 
-		List monList = new ArrayList();
-		Map monMap;
-		for(int i=1; i < 13; i++){
-			NumberFormat month = new DecimalFormat("00");
-			String moni = month.format(i);
-			monMap = new HashMap();
-			monMap.put("code", moni);
-			monMap.put("codeNm", moni+"월");
-			monList.add(monMap);
-		}
-
-		model.addAttribute("monList", monList);
 		model.addAttribute("yearsList", yearList);
 		model.addAttribute("thisyear", year);
 		model.addAttribute("windowId", windowId);
 
 		return "/ygpa/gam/mngFee/GamFcltsFeeMngNtic";
-    }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/mngFee/gamSelectFcltsFeeMngNtic.do" , method=RequestMethod.POST)
-    @ResponseBody Map gamSelectFcltsFeeMngNticList(GamFcltsFeeMngNticVo searchVO) throws Exception {
+	}
 
-    	int totalCnt, page, firstIndex;
-    	Map map = new HashMap();
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/mngFee/gamSelectFcltsFeeMngNtic.do" , method=RequestMethod.POST)
+	@ResponseBody Map gamSelectFcltsFeeMngNticList(GamFcltsFeeMngNticVo searchVO) throws Exception {
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		int totalCnt, page, firstIndex;
+		Map map = new HashMap();
 
-    	PaginationInfo paginationInfo = new PaginationInfo();
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
@@ -133,43 +120,73 @@ public class GamFcltsFeeMngNticController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		totalCnt = gamFcltsFeeMngNticService.selectFcltsFeeMngNticListTotCnt(searchVO);
-    	List resultList = gamFcltsFeeMngNticService.selectFcltsFeeMngNticList(searchVO);
+		GamFcltsFeeMngNticVo resultSum = gamFcltsFeeMngNticService.selectFcltsFeeMngNticListTotCnt(searchVO);
+		List resultList = gamFcltsFeeMngNticService.selectFcltsFeeMngNticList(searchVO);
 
-    	map.put("resultCode", 0);
-    	map.put("totalCount", totalCnt);
-    	map.put("resultList", resultList);
+		map.put("resultCode", 0);
+		map.put("totalCount", resultSum.getDataCount());
+		map.put("sumFee", resultSum.getSumFee());
+		map.put("sumVat", resultSum.getSumVat());
+		map.put("sumNticAmt", resultSum.getSumNticAmt());
+		map.put("resultList", resultList);
 
-    	return map;
-    }
+		return map;
 
+	}
 
-    @RequestMapping(value="/mngFee/gamInsertFcltsFeeMngNtic.do")
-	@ResponseBody Map<String, Object> InsertFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo)	throws Exception {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/mngFee/gamExcelFcltsFeeMngNtic.do" , method=RequestMethod.POST)
+	@ResponseBody ModelAndView excelFcltsFeeMngNticList(@RequestParam Map<String, Object> excelParam) throws Exception {
 
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-    	/*
-		CmmnDetailCode vo = gamCarMngService.selectCmmnDetailCodeDetail(cmmnDetailCode);
-
-		if(vo != null){
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
 			map.put("resultCode", 1);
-			map.put("resultMsg", "이미 등록된 차량 번호입니다.");
-            return map;
-    	}
-		*/
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return new ModelAndView("gridExcelView", "gridResultMap", map);
+		}
+
+		header = mapper.readValue((String)excelParam.get("header"),
+								  new TypeReference<List<HashMap<String,String>>>(){});
+		excelParam.remove("header");
+
+		GamFcltsFeeMngNticVo searchVO= new GamFcltsFeeMngNticVo();
+		searchVO = mapper.convertValue(excelParam, GamFcltsFeeMngNticVo.class);
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		List resultList = gamFcltsFeeMngNticService.selectFcltsFeeMngNticList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("header", header);
+
+		return new ModelAndView("gridExcelView", "gridResultMap", map);
+
+	}
+
+	@RequestMapping(value="/mngFee/gamInsertFcltsFeeMngNtic.do")
+	@ResponseBody Map<String, Object> insertFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo)	throws Exception {
+
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
 		try {
 			gamFcltsFeeMngNticVo.setRegUsr((String)user.getId());
-			gamFcltsFeeMngNticService.InsertFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
+			gamFcltsFeeMngNticService.insertFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
 
-	    	map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -178,44 +195,67 @@ public class GamFcltsFeeMngNticController {
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
 
-    	return map;
-    }
+		return map;
 
-    @RequestMapping(value="/mngFee/gamDeleteFcltsFeeMngNtic.do")
-	@ResponseBody Map<String, Object> DeleteFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo)	throws Exception {
+	}
 
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	Map<String, Object> map = new HashMap<String, Object>();
+	@RequestMapping(value="/mngFee/gamUpdateFcltsFeeMngNtic.do")
+	@ResponseBody Map<String, Object> updateFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo)	throws Exception {
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-    	/*
-		CmmnDetailCode vo = gamCarMngService.selectCmmnDetailCodeDetail(cmmnDetailCode);
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
 
-		if(vo != null){
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
 			map.put("resultCode", 1);
-			map.put("resultMsg", "이미 등록된 차량 번호입니다.");
-            return map;
-    	}
-		*/
-		try {
-			gamFcltsFeeMngNticVo.setRegUsr((String)user.getId());
-			gamFcltsFeeMngNticService.DeleteFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
 
-	    	map.put("resultCode", 0);			// return ok
-			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		try {
+			gamFcltsFeeMngNticVo.setUpdUsr((String)user.getId());
+			gamFcltsFeeMngNticService.updateFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
+
+			map.put("resultCode", 0);			// return ok
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
 
-    	return map;
-    }
+		return map;
+
+	}
+
+	@RequestMapping(value="/mngFee/gamDeleteFcltsFeeMngNtic.do")
+	@ResponseBody Map<String, Object> deleteFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo)	throws Exception {
+
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			gamFcltsFeeMngNticService.deleteFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
+
+			map.put("resultCode", 0);			// return ok
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+		}
+
+		return map;
+
+	}
 
 }

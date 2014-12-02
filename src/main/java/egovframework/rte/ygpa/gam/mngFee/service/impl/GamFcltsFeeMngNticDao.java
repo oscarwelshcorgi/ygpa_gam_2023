@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.mngFee.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -33,8 +34,8 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	 * @param searchVO
 	 * @return
 	 */
-	public int selectFcltsFeeMngNticListTotCnt(GamFcltsFeeMngNticVo searchVO) {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltsFeeMngNticDao.selectFcltsFeeMngNticListTotCnt_S", searchVO);
+	public GamFcltsFeeMngNticVo selectFcltsFeeMngNticListTotCnt(GamFcltsFeeMngNticVo searchVO) {
+		return (GamFcltsFeeMngNticVo)selectByPk("gamFcltsFeeMngNticDao.selectFcltsFeeMngNticListTotCnt_S", searchVO);
 	}
 
 	/**
@@ -48,16 +49,22 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	/**
 	 * @param gamFcltsFeeMngNticVo
 	 */
-	public void InsertFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) {
-		insert("gamFcltsFeeMngNticDao.InsertFcltsFeeMngNtic_D", gamFcltsFeeMngNticVo);
+	public void insertFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) {
+		insert("gamFcltsFeeMngNticDao.insertFcltsFeeMngNtic_S", gamFcltsFeeMngNticVo);
 	}
 
 	/**
 	 * @param gamFcltsFeeMngNticVo
 	 */
-	public void DeleteFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) {
-		delete("gamFcltsFeeMngNticDao.DeleteFcltsFeeMngNtic", gamFcltsFeeMngNticVo);
+	public void updateFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) {
+		update("gamFcltsFeeMngNticDao.updateFcltsFeeMngNtic_S", gamFcltsFeeMngNticVo);
 	}
 
+	/**
+	 * @param gamFcltsFeeMngNticVo
+	 */
+	public void deleteFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) {
+		delete("gamFcltsFeeMngNticDao.deleteFcltsFeeMngNtic_S", gamFcltsFeeMngNticVo);
+	}
 
 }

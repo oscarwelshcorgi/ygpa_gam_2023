@@ -42,8 +42,8 @@ public class GamFcltsFeeMngInqireServiceImpl extends AbstractServiceImpl impleme
 	}
 
 	@Override
-	public List selectFcltsFeeMngInqireList(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception {
-		return gamFcltsFeeMngInqireDao.selectFcltsFeeMngInqireList(gamFcltsFeeMngInqireVo);
+	public List selectFcltsFeeMngInqireList(GamFcltsFeeMngInqireVo searchVO) throws Exception {
+		return gamFcltsFeeMngInqireDao.selectFcltsFeeMngInqireList(searchVO);
 	}
 
 	@Override

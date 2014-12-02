@@ -2,198 +2,267 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 <sqlMap namespace="ygpa.gam.mngFee">
 
-    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-    <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamFcltsFeeMngNticVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo"/>
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamFcltsFeeMngNticVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo"/>
 
-    <select id="gamFcltsFeeMngNticDao.selectFcltsFeeMngNticList_D" parameterClass="gamFcltsFeeMngNticVo" resultClass="egovMap">
-     SELECT A.*
-           FROM (
-                   SELECT  ROWNUM RNUM, S.*
-                     FROM (
-                            SELECT
-									CAR_REGIST_NO,
-									CAR_KND,
-									CAR_PRPOS,
-									CAR_NM,
-									CAR_FMT,
-									CAR_YR_MDL,
-									CAR_BODY_NO,
-									TURBINE_FMT,
-									USAGE_STRHLD,
-									OWNER_NM,
-									OWNER_ADRES,
-									TO_CHAR(CAR_REGIST_DT, 'YYYY-MM-DD') CAR_REGIST_DT,
-									REGIST_GOV_OFC,
-									SPEC_MNG_NO,
-									CAR_LT,
-									CAR_WD,
-									CAR_HT,
-									CAR_GR_WQNT,
-									EXHAUSTQY,
-									RATE_OUTPUT,
-									RIDE_QUOTA_CAPA,
-									MAX_CAPA_QY,
-									CYLINDER_CNT,
-									FUEL_KND,
-									FUEL_EFFT,
-									TO_CHAR(EXAM_VALID_BEGIN_DT, 'YYYY-MM-DD') EXAM_VALID_BEGIN_DT,
-									TO_CHAR(EXAM_VALID_END_DT, 'YYYY-MM-DD') EXAM_VALID_END_DT,
-									ACQ_PRCE,
-									REG_USR,
-									UPD_USR,
-									TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT,
-									TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT
-					        FROM CAR_INFO_F
-								  WHERE 1=1
-						         <isNotEmpty property="sCarRegistNo">
-						             AND CAR_REGIST_NO LIKE '%' || #sCarRegistNo# || '%'
-						         </isNotEmpty>
+	<resultMap id="gamFcltsFeeMngNticSumMap" class="egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo">
+		<result property="dataCount" column="DATA_COUNT" columnIndex="1"/>
+		<result property="sumFee" column="SUM_FEE" columnIndex="2"/>
+		<result property="sumVat" column="SUM_VAT" columnIndex="3"/>
+		<result property="sumNticAmt" column="SUM_NTIC_AMT" columnIndex="4"/>
+	</resultMap>
 
-						         <isNotEmpty property="sCarNm">
-							         AND CAR_NM LIKE '%' || #sCarNm# || '%'
-							     </isNotEmpty>
+	<select id="gamFcltsFeeMngNticDao.selectFcltsFeeMngNticList_D" parameterClass="gamFcltsFeeMngNticVo" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.MNG_MT
+								,T1.MNG_FEE_JOB_SE
+								,T1.MNG_SEQ
+								,T1.ENTRPSCD
+								,T4.ENTRPS_NM
+								,T3.MNG_FEE_SJ
+								,LTRIM(TO_CHAR(NVL(T2.USAGE_AR,0),'999,990.00')) AS USAGE_AR
+								,LTRIM(TO_CHAR(NVL(T2.MNG_FEE,0),'999,999,999,990')) AS MNG_FEE
+								,LTRIM(TO_CHAR(NVL(T2.ELCTY_FEE,0),'999,999,999,990')) AS ELCTY_FEE
+								,LTRIM(TO_CHAR(NVL(T2.WATER_FEE,0),'999,999,999,990')) AS WATER_FEE
+								,LTRIM(TO_CHAR(NVL(T2.GAS_FEE,0),'999,999,999,990')) AS GAS_FEE
+								,'0' AS ENV_FEE
+								,LTRIM(TO_CHAR(NVL(T2.MNG_TOTAL_FEE,0),'999,999,999,990')) AS MNG_TOTAL_FEE
+								,SUBSTRB(T1.MNG_MT,1,4) || '-' || SUBSTRB(T1.MNG_MT,5,2) AS MNG_YR_MT
+								,(CASE WHEN T1.MNG_FEE_JOB_SE='M' THEN '[M]:마린센터'
+									   WHEN T1.MNG_FEE_JOB_SE='E' THEN '[E]:전기시설'
+									   ELSE '[' || T1.MNG_FEE_JOB_SE || ']:' || 'UNKNOWN'
+								  END) AS MNG_FEE_JOB_SE_NM
+								,SUBSTRB(T1.MNG_MT,1,4) AS MNG_MT_YEAR
+								,SUBSTRB(T1.MNG_MT,5,2) AS MNG_MT_MON
+								,T1.PRT_AT_CODE
+								,T1.CHRGE_KND
+								,GAM_GETCODENAME('GAM024',T1.CHRGE_KND) AS CHRGE_KND_NM
+								,T1.ACCNUT_YEAR
+								,T1.NTIC_NO
+								,TO_CHAR(T1.NTIC_DT,'YYYY-MM-DD') AS NTIC_DT
+								,TO_CHAR(T1.PAY_TMLMT,'YYYY-MM-DD') AS PAY_TMLMT
+								,LTRIM(TO_CHAR(NVL(T1.FEE,0),'999,999,999,990')) AS FEE
+								,T1.VAT_YN
+								,LTRIM(TO_CHAR(NVL(T1.VAT,0),'999,999,999,990')) AS VAT
+								,LTRIM(TO_CHAR(NVL(T1.NTIC_AMT,0),'999,999,999,990')) AS NTIC_AMT
+								,T1.RCIV_SE
+								,GAM_GETCODENAME('GAM025',T1.RCIV_SE) AS RCIV_SE_NM
+								,TO_CHAR(T1.RCIV_DT,'YYYY-MM-DD') AS RCIV_DT
+								,T1.NHT_ISUE_YN
+								,T1.NHT_OUTPUT_YN
+								,T1.ADIT_NTIC_YN
+								,T1.ARRRG_NO
+								,LTRIM(TO_CHAR(T1.ARRRG_AMT,'999,999,999,990')) AS ARRRG_AMT
+								,LTRIM(TO_CHAR(T1.ARRRG_TARIFF,'0.000')) AS ARRRG_TARIFF
+								,LTRIM(TO_CHAR(T1.ARRRG_PAY_DATES,'999,990')) AS ARRRG_PAY_DATES
+								,T1.RM
+								,T1.DEPT_CD
+								,T1.REG_USR
+								,T1.UPD_USR
+							FROM MNG_FEE_LEV_REQEST_F T1
+							LEFT OUTER JOIN FCLTS_MNG_FEE_DETAIL_F T2 ON (T1.MNG_MT=T2.MNG_MT AND T1.MNG_FEE_JOB_SE=T2.MNG_FEE_JOB_SE AND T1.MNG_SEQ=T2.MNG_SEQ)
+							LEFT OUTER JOIN FCLTS_MNG_FEE_F T3 ON (T1.MNG_MT=T3.MNG_MT AND T1.MNG_FEE_JOB_SE=T3.MNG_FEE_JOB_SE)
+							LEFT OUTER JOIN ENTRPS_INFO_F T4 ON (T1.ENTRPSCD=T4.ENTRPSCD)
+						WHERE 1=1
 
-							     <isNotEmpty property="sCarBodyNo">
-							          AND CAR_BODY_NO LIKE '%' || #sCarBodyNo# || '%'
-							     </isNotEmpty>
-                             ORDER BY CAR_REGIST_NO
-                ) S
-             ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
-    </select>
+						<isNotEmpty property="sStartMngYear">
+						<isNotEmpty property="sStartMngMt">
+						AND T1.MNG_MT >= #sStartMngYear# || #sStartMngMt#
+						</isNotEmpty>
+						<isEmpty property="sStartMngMt">
+						AND T1.MNG_MT >= #sStartMngYear# || '01'
+						</isEmpty>
+						</isNotEmpty>
 
-    <select id="gamFcltsFeeMngNticDao.selectFcltsFeeMngNticListTotCnt_S" parameterClass="gamFcltsFeeMngNticVo" resultClass="int">
-         SELECT COUNT(*) totcnt
-              FROM CAR_INFO_F
-                           <![CDATA[  WHERE 1=1 ]]>
+						<isNotEmpty property="sEndMngYear">
+						<isNotEmpty property="sEndMngMt">
+						AND T1.MNG_MT <![CDATA[ <= ]]> #sEndMngYear# || #sEndMngMt#
+						</isNotEmpty>
+						<isEmpty property="sEndMngMt">
+						AND T1.MNG_MT <![CDATA[ <= ]]> #sEndMngYear# || '12'
+						</isEmpty>
+						</isNotEmpty>
 
-	         <isNotEmpty property="sCarRegistNo">
-	             AND CAR_REGIST_NO LIKE '%' || #sCarRegistNo# || '%'
-	         </isNotEmpty>
+						<isNotEmpty property="sMngFeeJobSe">
+						AND T1.MNG_FEE_JOB_SE = #sMngFeeJobSe#
+						</isNotEmpty>
 
-	         <isNotEmpty property="sCarNm">
-		         AND CAR_NM LIKE '%' || #sCarNm# || '%'
-		     </isNotEmpty>
+						<isNotEmpty property="sEntrpscd">
+						AND T1.ENTRPSCD = #sEntrpscd#
+						</isNotEmpty>
 
-		     <isNotEmpty property="sCarBodyNo">
-		          AND CAR_BODY_NO LIKE '%' || #sCarBodyNo# || '%'
-		     </isNotEmpty>
+						<isNotEmpty property="sStartNticDt">
+						AND T1.NTIC_DT >= TO_DATE(#sStartNticDt#,'YYYY-MM-DD')
+						</isNotEmpty>
 
-    </select>
+						<isNotEmpty property="sEndNticDt">
+						AND T1.NTIC_DT <![CDATA[ < ]]> TO_DATE(#sEndNticDt#,'YYYY-MM-DD') + 1
+						</isNotEmpty>
 
-	<insert id="gamFcltsFeeMngNticDao.InsertFcltsFeeMngNtic_D">
+						<isNotEmpty property="sRcivSe">
+						AND T1.RCIV_SE = #sRcivSe#
+						</isNotEmpty>
+
+						<isNotEmpty property="sChrgeKnd">
+						AND T1.CHRGE_KND = #sChrgeKnd#
+						</isNotEmpty>
+
+						ORDER BY T1.MNG_MT,T1.MNG_FEE_JOB_SE,T1.NTIC_DT
+				) S
+		) A
 		<![CDATA[
-		    INSERT
-		      INTO  CAR_INFO_F
-		         (  CAR_REGIST_NO
-					,CAR_KND
-					,CAR_PRPOS
-					,CAR_NM
-					,CAR_FMT
-					,CAR_YR_MDL
-					,CAR_BODY_NO
-					,TURBINE_FMT
-					,USAGE_STRHLD
-					,OWNER_NM
-					,OWNER_ADRES
-					,CAR_REGIST_DT
-					,REGIST_GOV_OFC
-					,SPEC_MNG_NO
-					,CAR_LT
-					,CAR_WD
-					,CAR_HT
-					,CAR_GR_WQNT
-					,EXHAUSTQY
-					,RATE_OUTPUT
-					,RIDE_QUOTA_CAPA
-					,MAX_CAPA_QY
-					,CYLINDER_CNT
-					,FUEL_KND
-					,FUEL_EFFT
-					,EXAM_VALID_BEGIN_DT
-					,EXAM_VALID_END_DT
-					,ACQ_PRCE
-					,REG_USR
-					,REGIST_DT
-		         )
-		    VALUES
-		         (  #carRegistNo#
-					, #carKnd#
-					, #carPrpos#
-					, #carNm#
-					, #carFmt#
-					, #carYrMdl#
-					, #carBodyNo#
-					, #turbineFmt#
-					, #usageStrhld#
-					, #ownerNm#
-					, #ownerAdres#
-					, TO_DATE(#carRegistDt#,'YYYY-MM-DD')
-					, #registGovOfc#
-					, #specMngNo#
-					, #carLt#
-					, #carWd#
-					, #carHt#
-					, #carGrWqnt#
-					, #exhaustqy#
-					, #rateOutput#
-					, #rideQuotaCapa#
-					, #maxCapaQy#
-					, #cylinderCnt#
-					, #fuelKnd#
-					, #fuelEfft#
-					, TO_DATE(#examValidBeginDt#,'YYYY-MM-DD')
-					, TO_DATE(#examValidEndDt#,'YYYY-MM-DD')
-					, #acqPrce#
-					, #regUsr#
-					, sysdate
-		         )
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<select id="gamFcltsFeeMngNticDao.selectFcltsFeeMngNticListTotCnt_S" parameterClass="gamFcltsFeeMngNticVo" resultMap="gamFcltsFeeMngNticSumMap">
+		SELECT
+				 LTRIM(TO_CHAR(COUNT(*),'999,999,999,990')) AS DATA_COUNT
+				,LTRIM(TO_CHAR(NVL(SUM(FEE),0),'999,999,999,990')) AS SUM_FEE
+				,LTRIM(TO_CHAR(NVL(SUM(VAT),0),'999,999,999,990')) AS SUM_VAT
+				,LTRIM(TO_CHAR(NVL(SUM(NTIC_AMT),0),'999,999,999,990')) AS SUM_NTIC_AMT
+			FROM MNG_FEE_LEV_REQEST_F
+		WHERE 1=1
+
+		<isNotEmpty property="sStartMngYear">
+		<isNotEmpty property="sStartMngMt">
+		AND MNG_MT >= #sStartMngYear# || #sStartMngMt#
+		</isNotEmpty>
+		<isEmpty property="sStartMngMt">
+		AND MNG_MT >= #sStartMngYear# || '01'
+		</isEmpty>
+		</isNotEmpty>
+
+		<isNotEmpty property="sEndMngYear">
+		<isNotEmpty property="sEndMngMt">
+		AND MNG_MT <![CDATA[ <= ]]> #sEndMngYear# || #sEndMngMt#
+		</isNotEmpty>
+		<isEmpty property="sEndMngMt">
+		AND MNG_MT <![CDATA[ <= ]]> #sEndMngYear# || '12'
+		</isEmpty>
+		</isNotEmpty>
+
+		<isNotEmpty property="sMngFeeJobSe">
+		AND MNG_FEE_JOB_SE = #sMngFeeJobSe#
+		</isNotEmpty>
+
+		<isNotEmpty property="sEntrpscd">
+		AND ENTRPSCD = #sEntrpscd#
+		</isNotEmpty>
+
+		<isNotEmpty property="sStartNticDt">
+		AND NTIC_DT >= TO_DATE(#sStartNticDt#,'YYYY-MM-DD')
+		</isNotEmpty>
+
+		<isNotEmpty property="sEndNticDt">
+		AND NTIC_DT <![CDATA[ < ]]> TO_DATE(#sEndNticDt#,'YYYY-MM-DD') + 1
+		</isNotEmpty>
+
+		<isNotEmpty property="sRcivSe">
+		AND RCIV_SE = #sRcivSe#
+		</isNotEmpty>
+
+		<isNotEmpty property="sChrgeKnd">
+		AND CHRGE_KND = #sChrgeKnd#
+		</isNotEmpty>
+	</select>
+
+	<insert id="gamFcltsFeeMngNticDao.insertFcltsFeeMngNtic_S">
+		<![CDATA[
+		INSERT INTO MNG_FEE_LEV_REQEST_F
+		(
+			 MNG_MT
+			,MNG_FEE_JOB_SE
+			,MNG_SEQ
+			,REQEST_SEQ
+			,ENTRPSCD
+			,PRT_AT_CODE
+			,CHRGE_KND
+			,ACCNUT_YEAR
+			,NTIC_NO
+			,NTIC_DT
+			,PAY_TMLMT
+			,FEE
+			,VAT_YN
+			,VAT
+			,NTIC_AMT
+			,RM
+			,RCIV_SE
+			,RCIV_DT
+			,NHT_ISUE_YN
+			,DEPT_CD
+			,NTIC_MTH
+			,NHT_OUTPUT_YN
+			,ARRRG_NO
+			,ARRRG_AMT
+			,ARRRG_TARIFF
+			,ARRRG_PAY_DATES
+			,ADIT_NTIC_YN
+			,SETOFF_YN
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 #mngMt#
+			,#mngFeeJobSe#
+			,#mngSeq#
+			,#reqestSeq#
+			,#entrpscd#
+			,#prtAtCode#
+			,#chrgeKnd#
+			,#accnutYear#
+			,#nticNo#
+			,#nticDt#
+			,#payTmlmt#
+			,#fee#
+			,#vatYn#
+			,#vat#
+			,#nticAmt#
+			,#rm#
+			,'0'
+			,NULL
+			,'Y'
+			,#deptCd#
+			,'1'
+			,'N'
+			,#arrrgNo#
+			,#arrrgAmt#
+			,#arrrgTariff#
+			,#arrrgPayDates#
+			,'Y'
+			,NULL
+			,#regUsr#
+			,SYSDATE
+		)
 		]]>
 	</insert>
 
-	<update id="gamFcltsFeeMngNticDao.DeleteFcltsFeeMngNtic">
+	<update id="gamFcltsFeeMngNticDao.updateFcltsFeeMngNtic_S">
 		<![CDATA[
-            UPDATE CAR_INFO_F SET
-			       	CAR_REGIST_NO	=	#carRegistNo#
-				,	CAR_KND	=	#carKnd#
-				,	CAR_PRPOS	=	#carPrpos#
-				,	CAR_NM	=	#carNm#
-				,	CAR_FMT	=	#carFmt#
-				,	CAR_YR_MDL	=	#carYrMdl#
-				,	CAR_BODY_NO	=	#carBodyNo#
-				,	TURBINE_FMT	=	#turbineFmt#
-				,	USAGE_STRHLD	=	#usageStrhld#
-				,	OWNER_NM	=	#ownerNm#
-				,	OWNER_ADRES	=	#ownerAdres#
-				,	CAR_REGIST_DT	=	#carRegistDt#
-				,	REGIST_GOV_OFC	=	#registGovOfc#
-				,	SPEC_MNG_NO	=	#specMngNo#
-				,	CAR_LT	=	#carLt#
-				,	CAR_WD	=	#carWd#
-				,	CAR_HT	=	#carHt#
-				,	CAR_GR_WQNT	=	#carGrWqnt#
-				,	EXHAUSTQY	=	#exhaustqy#
-				,	RATE_OUTPUT	=	#rateOutput#
-				,	RIDE_QUOTA_CAPA	=	#rideQuotaCapa#
-				,	MAX_CAPA_QY	=	#maxCapaQy#
-				,	CYLINDER_CNT	=	#cylinderCnt#
-				,	FUEL_KND	=	#fuelKnd#
-				,	FUEL_EFFT	=	#fuelEfft#
-				,	EXAM_VALID_BEGIN_DT	=	#examValidBeginDt#
-				,	EXAM_VALID_END_DT	=	#examValidEndDt#
-				,	ACQ_PRCE	=	#acqPrce#
-				,	UPD_USR	=	#updUsr#
-				,	UPDT_DT	=	sysdate
-					WHERE  CAR_REGIST_NO     = #oldCarRegistNo#
+		UPDATE MNG_FEE_LEV_REQEST_F SET
+			 PAY_TMLMT = TO_DATE(#payTmlmt#,'YYYY-MM-DD')
+			,RM = #rm#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = sysdate
+		WHERE MNG_MT = #mngMt#
+		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
+		AND MNG_SEQ = #mngSeq#
 		]]>
 	</update>
 
-	<delete id="gamFcltsFeeMngNticDao.DeleteCarMngList_S">
+	<delete id="gamFcltsFeeMngNticDao.deleteFcltsFeeMngNtic_S">
 		<![CDATA[
-            DELETE  CAR_INFO_F
-             WHERE  CAR_REGIST_NO   = #carRegistNo#
+		DELETE FROM MNG_FEE_LEV_REQEST_F
+		WHERE MNG_MT = #mngMt#
+		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
+		AND MNG_SEQ = #mngSeq#
 		]]>
 	</delete>
 
-   </sqlMap>
+</sqlMap>

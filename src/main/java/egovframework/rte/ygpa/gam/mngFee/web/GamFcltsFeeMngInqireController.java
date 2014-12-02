@@ -100,7 +100,7 @@ public class GamFcltsFeeMngInqireController {
 	@RequestMapping(value="/mngFee/gamSelectFcltsFeeMngInqire.do" , method=RequestMethod.POST)
 	@ResponseBody Map gamSelectFcltsFeeMngInqireList(GamFcltsFeeMngInqireVo searchVO) throws Exception {
 
-		int totalCnt, page, firstIndex;
+		int page, firstIndex;
 		Map map = new HashMap();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

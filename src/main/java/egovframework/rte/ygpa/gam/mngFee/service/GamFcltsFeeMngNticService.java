@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.mngFee.service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -28,7 +29,7 @@ public interface GamFcltsFeeMngNticService {
 	 * @param searchVO
 	 * @return
 	 */
-	int selectFcltsFeeMngNticListTotCnt(GamFcltsFeeMngNticVo searchVO) throws Exception;
+	GamFcltsFeeMngNticVo selectFcltsFeeMngNticListTotCnt(GamFcltsFeeMngNticVo searchVO) throws Exception;
 
 	/**
 	 * @param searchVO
@@ -39,11 +40,16 @@ public interface GamFcltsFeeMngNticService {
 	/**
 	 * @param gamFcltsFeeMngNticVo
 	 */
-	void InsertFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception;
+	void insertFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception;
 
 	/**
 	 * @param gamFcltsFeeMngNticVo
 	 */
-	void DeleteFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception;
+	void updateFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception;
+
+	/**
+	 * @param gamFcltsFeeMngNticVo
+	 */
+	void deleteFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception;
 
 }

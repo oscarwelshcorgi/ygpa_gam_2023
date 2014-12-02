@@ -487,7 +487,7 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 					<form id="detailForm">
 						<table class="summaryPanel" style="width:100%">
 							<tr>
-								<td>시설물 관리비 사용 내역</td>
+								<td>시설물 관리비 부과 내역</td>
 							</tr>
 						</table>
 						<table class="detailPanel" style="width:100%">
@@ -502,6 +502,8 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 								<th width="15%" height="18">업무 구분</th>
 								<td>
 									<input id="mngFeeJobSe" type="hidden" />
+									<input id="mngSeq" type="hidden" />
+									<input id="reqestSeq" type="hidden" />
 									<input type="text" size="20" id="mngFeeJobSeNm" disabled>
 								</td>
 								<th width="15%" height="18">사용 업체</th>

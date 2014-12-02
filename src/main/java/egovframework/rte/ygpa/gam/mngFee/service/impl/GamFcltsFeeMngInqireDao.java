@@ -39,11 +39,11 @@ public class GamFcltsFeeMngInqireDao extends YGPAAbstractDAO{
 	}
 
 	/**
-	 * @param gamFcltsFeeMngInqireVo
+	 * @param searchVO
 	 * @return
 	 */
-	public List selectFcltsFeeMngInqireList(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) {
-		return list("gamFcltsFeeMngInqireDao.selectFcltsFeeMngInqireList_D", gamFcltsFeeMngInqireVo);
+	public List selectFcltsFeeMngInqireList(GamFcltsFeeMngInqireVo searchVO) {
+		return list("gamFcltsFeeMngInqireDao.selectFcltsFeeMngInqireList_D", searchVO);
 	}
 
 	/**

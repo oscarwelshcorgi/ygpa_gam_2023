@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.mngFee.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -12,8 +13,6 @@ import org.springframework.stereotype.Service;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo;
-import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngService;
-import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngService;
 
 /**
  *
@@ -38,7 +37,7 @@ public class GamFcltsFeeMngNticServiceImpl extends AbstractServiceImpl implement
 	private GamFcltsFeeMngNticDao gamFcltsFeeMngNticDao;
 
 	@Override
-	public int selectFcltsFeeMngNticListTotCnt(GamFcltsFeeMngNticVo searchVO) throws Exception {
+	public GamFcltsFeeMngNticVo selectFcltsFeeMngNticListTotCnt(GamFcltsFeeMngNticVo searchVO) throws Exception {
 		return gamFcltsFeeMngNticDao.selectFcltsFeeMngNticListTotCnt(searchVO);
 	}
 
@@ -48,15 +47,18 @@ public class GamFcltsFeeMngNticServiceImpl extends AbstractServiceImpl implement
 	}
 
 	@Override
-	public void InsertFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception {
-		gamFcltsFeeMngNticDao.InsertFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
+	public void insertFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception {
+		gamFcltsFeeMngNticDao.insertFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
 	}
 
 	@Override
-	public void DeleteFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception {
-		gamFcltsFeeMngNticDao.DeleteFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
+	public void updateFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception {
+		gamFcltsFeeMngNticDao.updateFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
 	}
 
-
+	@Override
+	public void deleteFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception {
+		gamFcltsFeeMngNticDao.deleteFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
+	}
 
 }

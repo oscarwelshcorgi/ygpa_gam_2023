@@ -29,16 +29,16 @@ public interface GamFcltsFeeMngInqireService {
 	 * @param searchVO
 	 * @return
 	 */
-	GamFcltsFeeMngInqireVo selectFcltsFeeMngInqireListTotCnt(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception;
+	GamFcltsFeeMngInqireVo selectFcltsFeeMngInqireListTotCnt(GamFcltsFeeMngInqireVo searchVO) throws Exception;
 
 	/**
 	 * @param searchVO
 	 * @return
 	 */
-	List selectFcltsFeeMngInqireList(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception;
+	List selectFcltsFeeMngInqireList(GamFcltsFeeMngInqireVo searchVO) throws Exception;
 
 	/**
-	 * @param searchVO
+	 * @param gamFcltsFeeMngInqireVo
 	 * @return
 	 */
 	List selectFcltsFeeMngInqireChartList(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception;

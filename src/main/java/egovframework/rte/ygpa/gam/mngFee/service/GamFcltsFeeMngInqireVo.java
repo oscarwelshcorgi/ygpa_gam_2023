@@ -30,6 +30,7 @@ public class GamFcltsFeeMngInqireVo extends ComDefaultVO{
 	private	String	mngMt;				//관리 월
 	private	String	mngFeeJobSe;		//관리비 업무 구분
 	private	String	mngFeeSj;			//관리비 제목
+	private	String	mngSeq;				//관리 순번
 	private	String	entrpscd;			//업체코드
 	private	String	entrpsNm;			//업체명
 	private	String	usageAr;			//사용 면적
@@ -64,6 +65,7 @@ public class GamFcltsFeeMngInqireVo extends ComDefaultVO{
 	private String	arrrgAmt;			//연체 금액
 	private String	arrrgTariff;		//연체 요율
 	private String	arrrgPayDates;		//연체 일수
+	private String	rm;					//비고
 
 	private String	dataCount;
 	private String	sumFee;
@@ -116,6 +118,18 @@ public class GamFcltsFeeMngInqireVo extends ComDefaultVO{
 	 */
 	public void setMngFeeSj(String mngFeeSj) {
 		this.mngFeeSj = mngFeeSj;
+	}
+	/**
+	 * @return the mngSeq
+	 */
+	public String getMngSeq() {
+		return mngSeq;
+	}
+	/**
+	 * @param mngSeq the mngSeq to set
+	 */
+	public void setMngSeq(String mngSeq) {
+		this.mngSeq = mngSeq;
 	}
 	/**
 	 * @return the entrpscd
@@ -525,6 +539,18 @@ public class GamFcltsFeeMngInqireVo extends ComDefaultVO{
 	 */
 	public void setArrrgPayDates(String arrrgPayDates) {
 		this.arrrgPayDates = arrrgPayDates;
+	}
+	/**
+	 * @return the rm
+	 */
+	public String getRm() {
+		return rm;
+	}
+	/**
+	 * @param rm the rm to set
+	 */
+	public void setRm(String rm) {
+		this.rm = rm;
 	}
 	/**
 	 * @return the dataCount
