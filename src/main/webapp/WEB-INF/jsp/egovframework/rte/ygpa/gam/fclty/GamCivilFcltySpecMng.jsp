@@ -423,6 +423,7 @@ GamCivilFcltySpecMngModule.prototype.removeAtchFileItem = function() {
 GamCivilFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	if(oldTabId == 'tabs1' && this._cmd == 'modify') {
 		this.initDisplay();
+		this.$('#tabs2').scrollTop(0);
 		this.loadDetailData();
 	}
 	switch(newTabId) {

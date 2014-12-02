@@ -39,9 +39,9 @@ GamPopupQcMngObjFcltsModule.prototype.loadComplete = function(qcMngObjFcltsList)
 		dataType: "json",
 		colModel : [
 					{display:"시설물관리번호",	name:"fcltsMngNo",	width:100,		sortable:true,		align:"center"},
-					{display:"시설물명",		name:"prtFcltyNm",	width:150,		sortable:true,		align:"center"},
-					{display:"점검진단구분",	name:"qcInspSe",	width:90,		sortable:true,		align:"left"},
-					{display:"점검진단일자",	name:"qcInspDt",	width:100,		sortable:true,		align:"left"},
+					{display:"시설물명",		name:"prtFcltyNm",	width:150,		sortable:true,		align:"left"},
+					{display:"점검진단구분",	name:"qcInspSe",	width:90,		sortable:true,		align:"center"},
+					{display:"점검진단일자",	name:"qcInspDt",	width:100,		sortable:true,		align:"center"},
 					{display:"점검자",		name:"inspector",	width:100,		sortable:true,		align:"left"},
 					{display:"비고",			name:"rm",			width:350,		sortable:true,		align:"left"}
 			],

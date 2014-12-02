@@ -444,6 +444,7 @@
 							, R.FCLTS_JOB_SE
 							, R.QC_MNG_SEQ
 							, R.QC_ITEM_CD
+							, (SELECT QC_ITEM FROM QC_ITEM_CD_F WHERE QC_ITEM_CD = R.QC_ITEM_CD) QC_ITEM_NM
 							, R.SEQ
 							, R.INSP_RESULT_CHK
 							, R.INSP_RESULT_CN

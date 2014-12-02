@@ -38,10 +38,10 @@ GamPopupQcMngResultItemModule.prototype.loadComplete = function(qcMngResultItemL
 		url: '',
 		dataType: "json",
 		colModel : [
-					{display:"순번",			name:"seq",				width:90,		sortable:true,		align:"left"},
+					{display:"순번",			name:"seq",				width:90,		sortable:true,		align:"center"},
 					{display:"점검항목코드",	name:"qcItemCd",		width:100,		sortable:true,		align:"center"},
-					{display:"점검항목",		name:"qcItem",			width:150,		sortable:true,		align:"center"},
-					{display:"점검항목결과구분",	name:"inspResultChk",	width:120,		sortable:true,		align:"left"}
+					{display:"점검항목명",		name:"qcItemNm",		width:150,		sortable:true,		align:"left"},
+					{display:"점검항목결과구분",	name:"inspResultChk",	width:120,		sortable:true,		align:"center"}
 			],
 		height: "300",
 	});
