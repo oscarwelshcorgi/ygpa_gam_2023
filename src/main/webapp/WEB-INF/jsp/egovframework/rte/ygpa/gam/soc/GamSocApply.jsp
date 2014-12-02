@@ -69,12 +69,12 @@ GamSocApplyModule.prototype.loadComplete = function() {
         url: '/soc/gamSelectSocApplyFacilList.do',
         dataType: 'json',
         colModel : [
-                    {display:'시설코드', name:'facCode',width:50, sortable:false,align:'center'},
+                    {display:'시설코드', name:'facCode',width:70, sortable:false,align:'center'},
                     {display:'시설하위코드', name:'facSubCode',width:80, sortable:false,align:'center'},
                     {display:'시설명', name:'facKorNm',width:230, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: true,
-        height: '400px'
+        height: 'auto'
     });
 
     // 투자비보전처리대상 요금종류 설정
@@ -345,6 +345,9 @@ GamSocApplyModule.prototype.onClosePopup = function(popupId, msg, value) {
 	   	 this.$("#sConstNo").val(value["constNo"]);
 	   	 break;
      case 'selectFacInfo' : //시설물 추가
+     	 alert(value["facCode"]);
+     	 alert(value["facSubCode"]);
+     	 alert(value["facKorNm"]);
     	 this.$("#socApplyFacilList").flexAddRow({'facCode': value["facCode"],'facSubCode':value["facSubCode"],'facKorNm':value["facKorNm"]});
      	 break;
      case 'selectFeeInfo' : //요금종류 추가

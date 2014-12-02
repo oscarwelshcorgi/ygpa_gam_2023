@@ -112,9 +112,9 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
                     {display:'우편번호', name:'postNo',width:80, sortable:false,align:'center'},
                     {display:'도로명주소', name:'roadnmAdres',width:150, sortable:false,align:'center'},
                     {display:'지번주소', name:'lnmAdres',width:150, sortable:false,align:'center'},
-                    {display:'담당자', name:'charger',width:50, sortable:false,align:'center'},
-                    {display:'담당자직위', name:'chargerOfcPos',width:80, sortable:false,align:'center'},
-                    {display:'담당자휴대폰번호', name:'chargerMoblphonNo',width:100, sortable:false,align:'center'},
+                    {display:'담당자', name:'charger',width:70, sortable:false,align:'center'},
+                    {display:'담당자직위', name:'chargerOfcPos',width:120, sortable:false,align:'center'},
+                    {display:'담당자휴대폰번호', name:'chargerMoblphonNo',width:150, sortable:false,align:'center'},
                     {display:'담당자email', name:'chargerEmail',width:150, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: true,
@@ -340,18 +340,23 @@ GamFcltyCtrtMngModule.prototype.onClosePopup = function(popupId, msg, value) {
 	        this.$('#registEntrpsNm').val(value['entrpsNm']);
         	break;
 		case 'updateCtrtJoinContr' : //계약공동도급관리 편집
+			this.$("#fcltyCtrtJoinContrList").flexEmptyData();
 			this.$("#fcltyCtrtJoinContrList").flexAddData({resultList: value});
 	 		break;
 		case 'updateCtrtSubCtrt' : //계약하도급관리 편집
+			this.$("#fcltyCtrtSubCtrtList").flexEmptyData();
 			this.$("#fcltyCtrtSubCtrtList").flexAddData({resultList: value});
 	 		break;
 		case 'updateCtrtChange' : //계약변경관리 편집
+			this.$("#fcltyCtrtChangeList").flexEmptyData();
 			this.$("#fcltyCtrtChangeList").flexAddData({resultList: value});
 	 		break;
 		case 'updateCtrtMoneyPymnt' : //계약변경관리 편집
+			this.$("#fcltyCtrtMoneyPymntList").flexEmptyData();
 			this.$("#fcltyCtrtMoneyPymntList").flexAddData({resultList: value});
 	 		break;
 		case 'updateCtrtFulFillCaryFwd' : //계약이행이월 편집
+			this.$("#fcltyCtrtFulFillCaryFwdList").flexEmptyData();
 			this.$("#fcltyCtrtFulFillCaryFwdList").flexAddData({resultList: value});
 	 		break;
 	 	default:

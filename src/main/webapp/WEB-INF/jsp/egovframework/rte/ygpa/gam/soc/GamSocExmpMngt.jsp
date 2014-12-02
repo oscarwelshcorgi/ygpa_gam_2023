@@ -399,7 +399,7 @@ var module_instance = new GamSocExmpMngtModule();
                                 </td>
                             </tr>
                             <tr>
-								<th width="10%" height="18">호출부효</th>
+								<th width="10%" height="18">호출부호</th>
                                 <td colspan="3">
                                     <input type="text" size="9" id="callLetter" />
                                     <input type="text" size="25" id="callLetterNm" disabled/>
