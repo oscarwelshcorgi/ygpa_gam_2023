@@ -148,7 +148,7 @@ var module_instance = new GamSocApplyDtlsModule();
                             <th>등록항구</th>
                             <td>
                                 <select id="sAppPrtAtCode">
-                                    <option value="" selected="selected">전체</option>
+                                    <option value="" selected="selected">선택</option>
                                     <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
                                         <option value="${prtAtCdItem.prtAtCode}">${prtAtCdItem.prtKorNm }</option>
                                     </c:forEach>
@@ -157,7 +157,7 @@ var module_instance = new GamSocApplyDtlsModule();
                             <th>공사항구</th>
                             <td>
                                 <select id="sPrtAtCode">
-                                    <option value="" selected="selected">전체</option>
+                                    <option value="" selected="selected">선택</option>
                                     <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
                                         <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }</option>
                                     </c:forEach>

@@ -373,7 +373,7 @@ var module_instance = new GamSocApplyModule();
                             <th>공사관리청</th>
                             <td>
                                 <select id="sPrtAtCode">
-                                    <option value="" selected="selected">전체</option>
+                                    <option value="" selected="selected">선택</option>
                                     <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
                                         <option value="${prtAtCdItem.prtAtCode}">${prtAtCdItem.prtKorNm }</option>
                                     </c:forEach>

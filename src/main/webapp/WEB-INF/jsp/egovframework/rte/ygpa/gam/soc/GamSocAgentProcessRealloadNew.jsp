@@ -143,7 +143,7 @@ var module_instance = new GamSocAgentProcessRealloadNewModule();
                             <th>청코드</th>
                             <td>
                                 <select id="sAppPrtAtCode">
-                                    <option value="" selected="selected">전체</option>
+                                    <option value="" selected="selected">선택</option>
                                     <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
                                         <option value="${prtAtCdItem.prtAtCode}">${prtAtCdItem.prtKorNm }</option>
                                     </c:forEach>

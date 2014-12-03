@@ -90,8 +90,7 @@ GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.onButtonClick = function(buttonI
         	this.$("#socPrtFcltyFeeExmpRqestSttusList").flexOptions({params:opts}).flexReload();
             break;
         case 'popupEntrpsInfo' : //업체코드버튼
-			this.doExecuteDialog('selectEntrpsInfo', '업체 선택',
-					'/popup/showSocEntrpsInfo.do', opts);
+			this.doExecuteDialog('selectEntrpsInfo', '업체 선택', '/popup/showSocEntrpsInfo.do', {});
         	break;
     }
 };
