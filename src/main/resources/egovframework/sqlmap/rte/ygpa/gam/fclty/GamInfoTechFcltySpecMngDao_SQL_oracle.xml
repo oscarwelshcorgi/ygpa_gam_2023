@@ -305,7 +305,7 @@
     			, #atchFileSj#
     			, #atchFileNmLogic#
     			, #atchFileNmPhysicl#
-    			, TO_DATE(#atchFileWritingDt#, 'YYYY-MM-DD')
+    			, TO_DATE(#atchFileWritngDt#, 'YYYY-MM-DD')
     			, #regUsr#
     			, SYSDATE
     		)
@@ -319,7 +319,7 @@
     		, ATCH_FILE_SJ = #atchFileSj#
     		, ATCH_FILE_NM_LOGIC = #atchFileNmLogic#
     		, ATCH_FILE_NM_PHYSICL = #atchFileNmPhysicl#
-    		, ATCH_FILE_WRITNG_DT = #atchFileWritingDt#
+    		, ATCH_FILE_WRITNG_DT = TO_DATE(#atchFileWritngDt#, 'YYYY-MM-DD')
     		, UPD_USR = #updUsr#
     		, UPDT_DT = SYSDATE
     	WHERE

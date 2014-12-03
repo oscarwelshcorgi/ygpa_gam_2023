@@ -148,8 +148,8 @@
 			, M.OPER_CMPNY
 			, M.EQPMN_NO
 			, M.ACQ_AMT
-			, M.EXAM_BEGIN_DT
-			, M.EXAM_END_DT
+			, TO_CHAR(M.EXAM_BEGIN_DT, 'YYYY-MM-DD') EXAM_BEGIN_DT
+			, TO_CHAR(M.EXAM_END_DT, 'YYYY-MM-DD') EXAM_END_DT
 			, M.EXAM_OK_NO
 			, M.EXAM_INSTT
 			, M.LNL_ABLTY
@@ -161,8 +161,8 @@
 			, M.PROCESS_ABLTY
 			, M.LOC
 			, M.GDSNM
-			, M.USAGE_BEGIN_DT
-			, M.USAGE_END_DT
+			, TO_CHAR(M.USAGE_BEGIN_DT, 'YYYY-MM-DD') USAGE_BEGIN_DT 
+			, TO_CHAR(M.USAGE_END_DT, 'YYYY-MM-DD') USAGE_END_DT
 			, M.CAPA_TON
 			, M.STRUCT_WQNT
 			, M.STTUS_LVL
@@ -393,7 +393,7 @@
     			, #atchFileSj#
     			, #atchFileNmLogic#
     			, #atchFileNmPhysicl#
-    			, TO_DATE(#atchFileWritingDt#, 'YYYY-MM-DD')
+    			, TO_DATE(#atchFileWritngDt#, 'YYYY-MM-DD')
     			, #regUsr#
     			, SYSDATE
     		)
@@ -407,7 +407,7 @@
     		, ATCH_FILE_SJ = #atchFileSj#
     		, ATCH_FILE_NM_LOGIC = #atchFileNmLogic#
     		, ATCH_FILE_NM_PHYSICL = #atchFileNmPhysicl#
-    		, ATCH_FILE_WRITNG_DT = #atchFileWritingDt#
+    		, ATCH_FILE_WRITNG_DT = TO_DATE(#atchFileWritngDt#, 'YYYY-MM-DD')
     		, UPD_USR = #updUsr#
     		, UPDT_DT = SYSDATE
     	WHERE

@@ -95,7 +95,7 @@ GamCivilFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"사진제목",	name:"atchFileSj",			width:160,		sortable:true,		align:"left"},
 					{display:"논리파일명",	name:"atchFileNmLogic",		width:160,		sortable:true,		align:"left"},
 					{display:"물리파일명",	name:"atchFileNmPhysicl",	width:160,		sortable:true,		align:"left"},
-					{display:"작성일자",	name:"atchFileWritingDt",	width:120,		sortable:true,		align:"center"}
+					{display:"작성일자",	name:"atchFileWritngDt",	width:120,		sortable:true,		align:"center"}
 			],
 		height: "auto"
 	});
@@ -209,8 +209,8 @@ GamCivilFcltySpecMngModule.prototype.atchFileInfoChanged = function(target) {
 			row['atchFileSj'] = $(target).val();
 			changed=true;
 		}
-		if(this.$('#atchFileWritingDt').is(target)) {
-			row['atchFileWritingDt'] = $(target).val();
+		if(this.$('#atchFileWritngDt').is(target)) {
+			row['atchFileWritngDt'] = $(target).val();
 			changed=true;
 		}
 	}
@@ -432,11 +432,13 @@ GamCivilFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 	case "tabs2":
 		if((this._cmd != 'insert') && (this._cmd != 'modify')) {
 			this.$("#civilFcltySpecMngTab").tabs("option", {active: 0});
+			alert('토목시설항목을 선택하시거나 시설추가버튼을 누르세요.');
 		} 
 		break;
 	case "tabs3":
 		if((this._cmd != 'insert') && (this._cmd != 'modify')) {
 			this.$("#civilFcltySpecMngTab").tabs("option", {active: 0});
+			alert('토목시설항목을 선택하시거나 시설추가버튼을 누르세요.');
 		} 
 		break;
 	}
@@ -791,7 +793,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							<th width="15%" height="23" class="required_text">파일제목</th>
 							<td><input id="atchFileSj" type="text" size="20" class="photoEditItem" maxlength="40" /></td>
 							<th width="15%" height="23" class="required_text">작성일자</th>
-							<td><input id="atchFileWritingDt" type="text" size="18" class="emdcal photoEditItem" maxlength="10" readonly="readonly"/></td>
+							<td><input id="atchFileWritngDt" type="text" size="18" class="emdcal photoEditItem" maxlength="10" readonly="readonly"/></td>
 						</tr>
 					</table>
 				</form>
