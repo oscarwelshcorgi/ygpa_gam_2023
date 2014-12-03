@@ -373,31 +373,31 @@ GamFcltyCtrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	    case 'tabs3':
 			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
 				this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
-				alert('계약정보목록을 선택하시거나 등록버튼을 누르세요.');
+				alert('계약정보목록을 선택하시거나 추가버튼을 누르세요.');
 			} 	    	
 	        break;
 	    case 'tabs4':
 			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
 				this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
-				alert('계약정보목록을 선택하시거나 등록버튼을 누르세요.');
+				alert('계약정보목록을 선택하시거나 추가버튼을 누르세요.');
 			} 	    	
 	        break;
 	    case 'tabs5':
 			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
 				this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
-				alert('계약정보목록을 선택하시거나 등록버튼을 누르세요.');
+				alert('계약정보목록을 선택하시거나 추가버튼을 누르세요.');
 			} 	    	
 	        break;
 	    case 'tabs6':
 			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
 				this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
-				alert('계약정보목록을 선택하시거나 등록버튼을 누르세요.');
+				alert('계약정보목록을 선택하시거나 추가버튼을 누르세요.');
 			} 	    	
 	        break;
 	    case 'tabs7':
 			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
 				this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
-				alert('계약정보목록을 선택하시거나 등록버튼을 누르세요.');
+				alert('계약정보목록을 선택하시거나 추가버튼을 누르세요.');
 			} 	    	
 	        break;
     }
