@@ -20,8 +20,7 @@
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
-<%-- <validator:javascript formName="gamSocAgentMngtSearchForm" method="validateGamSocAgent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="form1" method="validateGamSocAgentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" /> --%>
+<validator:javascript formName="gamSocTotalBsnsSetoffDtlsSearchForm" method="validateGamSocTotalBsnsSetoffDtls" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 
 <script>
 /*
@@ -126,7 +125,11 @@ GamSocTotalBsnsSetoffDtlsModule.prototype.loadComplete = function() {
 
         // 조회
         case 'searchBtn':
-
+			
+        	if(!validateGamSocTotalBsnsSetoffDtls(this.$('#gamSocTotalBsnsSetoffDtlsSearchForm')[0])){ 		
+        		return;
+        	}
+        	
 			this.loadData();
         	
         	var searchOpt = [
@@ -230,7 +233,7 @@ var module_instance = new GamSocTotalBsnsSetoffDtlsModule();
                             </td>
                             <th>보전업체</th>
                             <td>
-                                <input type="text" size="9" id="sExmpAgentCode" maxlength="10" readonly/>
+                                <input type="text" size="9" id="sExmpAgentCode" maxlength="10"/>
                                 <input type="text" size="25" id="sExmpAgentName" disabled/>
                                 <button id="popupAgentInfo" class="popupButton">선택</button>
                             </td>
