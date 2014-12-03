@@ -40,6 +40,7 @@ GamSocApplyLgerModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
                     {display:'요금종류', name:'feeTpNm',width:70, sortable:false,align:'center'},
+                    {display:'업체명', name:'appAgentName',width:110, sortable:false,align:'left'},
                     {display:'신청횟수', name:'useNo',width:50, sortable:false,align:'center'},
                     {display:'신청보장액', name:'exmpAmnt',width:110, sortable:false,align:'right',displayFormat: 'number'},
                     {display:'보전누계액', name:'exmpAcc',width:110, sortable:false,align:'right',displayFormat: 'number'},
@@ -111,6 +112,7 @@ GamSocApplyLgerModule.prototype.onTabChange = function(newTabId, oldTabId) {
 GamSocApplyLgerModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
      case 'selectFeeTpInfo' : //요금 조회
+     	
    	 	 this.$("#sFeeTp").val(value["feeTp"]);
    	 	 this.$("#sFeeTpKorNm").val(value["feeTpKorNm"]);
 	   	 break;
@@ -150,7 +152,7 @@ var module_instance = new GamSocApplyLgerModule();
                             <th>요금종류</th>
                             <td>
                                 <input id="sFeeTp" type="text" size="3">
-                            	<input id="sFeeTpName" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
+                            	<input id="sFeeTpKorNm" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
                             	<button id="popupFeeTpInfo" class="popupButton">선택</button>
                             </td>
                             <td  rowSpan="2">
@@ -166,7 +168,11 @@ var module_instance = new GamSocApplyLgerModule();
                             </td>
                             <th>사용유무</th>
                             <td>
-                                <input id="sUseYn" type="text" size="1">
+                                <select id="sUseYn">
+                                	<option value="" selected="selected">선택</option>
+                                	<option value="Y">사용</option>
+                                	<option value="N">사용안함</option>
+                                </select>
                             </td>
                         </tr>
                     </tbody>

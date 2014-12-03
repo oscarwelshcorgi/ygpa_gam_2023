@@ -231,7 +231,8 @@ GamSocExmpMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
     	 break;
      case 'selectVsslCd' : //선박 호출부호 조회
     	 this.$("#callLetter").val(value["vsslNo"]);
-    	 this.$("#callLetterNm").val(value["vsslKorNm"]);     
+    	 this.$("#callLetterNm").val(value["vsslKorNm"]); 
+    	 break;
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
          break;

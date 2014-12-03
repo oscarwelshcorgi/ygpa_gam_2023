@@ -47,8 +47,8 @@
   <c:set var="appPrtAtNm" value=""/>
   <c:set var="prtAtCode" value="" />
   <c:set var="prtAtNm" value="" />
-  <c:set var="agentCode" value="" />
-  <c:set var="agentName" value="" />
+  <c:set var="appAgentCode" value="" />
+  <c:set var="appAgentName" value="" />
   <c:set var="constNo" value="" />
   <c:set var="pageSkip" value="true" />
   <c:set var="printRecordCount" value="0" />
@@ -89,7 +89,7 @@
 	</c:if>
     <c:forEach var="result" items="${resultList }" varStatus="resultStatus">
     				<c:if test="${pageSkip == false}">
-    					<c:if test="${(result.appPrtAtCode != appPrtAtCode) or (result.prtAtCode != prtAtCode) or (result.constNo != constNo) or (result.agentCode != agentCode) }">
+    					<c:if test="${(result.appPrtAtCode != appPrtAtCode) or (result.prtAtCode != prtAtCode) or (result.constNo != constNo) or (result.appAgentCode != appAgentCode) }">
     						<c:set var="pageSkip" value="true"/>
     					</c:if>
     					<c:if test="${printRecordCount >= pagePerCount }">
@@ -113,9 +113,10 @@
 						<c:set var="appPrtAtNm" value="${result.appPrtAtKorNm}"/>
 						<c:set var="prtAtCode" value="${result.prtAtCode}" />
 						<c:set var="prtAtNm" value="${result.prtAtKorNm}" />
-						<c:set var="agentCode" value="${result.agentCode}" />
-						<c:set var="agentName" value="${result.agentName}" />
+						<c:set var="appAgentCode" value="${result.appAgentCode}" />
+						<c:set var="appAgentName" value="${result.appAgentName}" />
 						<c:set var="constNo" value="${result.constNo}" />
+						<c:set var="printRecordCount" value="0" />
        		        	<table class="rpr_main_table">
 			        		<thead>
 			        			<tr>
@@ -123,7 +124,7 @@
 			        					항구 : <c:out value="${appPrtAtNm}" /> &nbsp;&nbsp;&nbsp;
 			        					공사항구 : <c:out value="${prtAtNm}" /> &nbsp;&nbsp;&nbsp;
 			        					문서번호 : <c:out value="${constNo}" /> &nbsp;&nbsp; 
-			        					시행업체 : <c:out value="${agentName}" /> 
+			        					시행업체 : <c:out value="${appAgentName}" /> 
 			        				</td>
 			        			</tr>
 				       			<tr>

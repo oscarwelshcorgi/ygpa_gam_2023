@@ -93,9 +93,9 @@ var popup_instance = new GamPopupSocVsslCdModule();
 				<tbody>
 					<tr>
 						<th>호출부호코드</th>
-                        <td><input id="feeTp" type="text" size="12" title="호출부호코드" maxlength="12" /></td>
+                        <td><input id="vsslNo" type="text" size="12" title="호출부호코드" maxlength="12" /></td>
                     	<th>호출선박명</th>
-						<td><input id="feeTpKorNm" type="text" size="30" title="호출선박명" maxlength="40" /></td>
+						<td><input id="vsslKorNm" type="text" size="30" title="호출선박명" maxlength="40" /></td>
 						<td><button id="btnSearch">조회</button></td>
 					</tr>
 				</tbody>
