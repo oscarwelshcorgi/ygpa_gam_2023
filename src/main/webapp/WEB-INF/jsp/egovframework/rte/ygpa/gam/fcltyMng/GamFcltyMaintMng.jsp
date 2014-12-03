@@ -239,6 +239,18 @@ GamFcltyMaintMngModule.prototype.loadDetail = function(){
 GamFcltyMaintMngModule.prototype.addData = function() {
 
 	this._mode="insert";
+	
+	// tabs2 초기화
+	this.makeFormValues('#fcltyMaintMngListVO', {});
+	this.$("#searchFcltsMngGroupNo").show();
+	this.$("#fcltsJobSe").enable();
+	// tabs3 초기화
+	this.$("#mntnRprObjFcltsF").flexEmptyData();
+	// tabs4 초기화
+	this.makeFormValues('#fcltyMaintMngFileForm', {});
+	this.$("#previewImage").attr("src", "");
+	this.$("#fcltyMaintFileList").flexEmptyData();
+	
 	this.$("#fcltyMaintMngListTab").tabs("option", {active: 1});
 
 };
@@ -483,33 +495,33 @@ GamFcltyMaintMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		break;
 
 		case "tabs2":
+			if((this._mode != 'insert') && (this._mode != 'modify')) {
+				this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
+				alert('유지보수 항목을 선택 하세요.');
+			} 
+			if(oldTabId == 'tabs1') {
+				this.$("#tabs2").scrollTop(0);
+			}
 			if(this._mode=="modify"){
 				this.$("#searchFcltsMngGroupNo").hide();
 				this.$("#fcltsJobSe").disable();
-			}else{
-				this._mode="insert";
-				// tabs2 초기화
-				this.makeFormValues('#fcltyMaintMngListVO', {});
-				this.$("#searchFcltsMngGroupNo").show();
-				this.$("#fcltsJobSe").enable();
-				// tabs3 초기화
-				this.$("#mntnRprObjFcltsF").flexEmptyData();
-				// tabs4 초기화
-				this.makeFormValues('#fcltyMaintMngFileForm', {});
-				this.$("#previewImage").attr("src", "");
-				this.$("#fcltyMaintFileList").flexEmptyData();
-				
-				
-				//this.$("#fcltsMngGroupNo").val("00000000000001");
 			}
 		break;
 		
 		case "tabs3":
 			this._deleteDataMaintList=[];
+			if((this._mode != 'insert') && (this._mode != 'modify')) {
+				this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
+				alert('유지보수 항목을 선택 하세요.');
+			} 
 		break;
 		
 		case "tabs4":
 			this._deleteDataFileList=[];
+			if((this._mode != 'insert') && (this._mode != 'modify')) {
+				this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
+				alert('유지보수 항목을 선택 하세요.');
+			} 
 		break;
 	}
 	

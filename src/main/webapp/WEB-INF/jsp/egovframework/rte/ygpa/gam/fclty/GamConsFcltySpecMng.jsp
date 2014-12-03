@@ -121,7 +121,7 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"파일제목",	name:"atchFileSj",				width:240,		sortable:true,		align:"left"},
 					{display:"논리파일명",	name:"atchFileNmLogic",			width:200,		sortable:true,		align:"left"},
 					{display:"물리파일명",	name:"atchFileNmPhysicl",		width:200,		sortable:true,		align:"left"},
-					{display:"생성일자",	name:"atchFileWritngDt",		width:120,		sortable:true,		align:"center"}
+					{display:"작성일자",	name:"atchFileWritngDt",		width:120,		sortable:true,		align:"center"}
 			],
 		height: "auto"
 	});
@@ -168,22 +168,22 @@ GamConstFcltySpecMngModule.prototype.loadDetail = function() {
 
 	// 건축시설 제원 처리
 	this.doAction('/fclty/gamConstFcltySpecDetail.do', prtFclty, function(specModule, result) {
-	 		if(result.resultCode == "0"){
-	 			specModule.clearCodePage();
-	 			specModule._fcltyItem=result.result;
-	 			specModule.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
-	 			specModule.$("#titleFcltsMngNo").text(result.result["fcltsMngNo"]);	// 결과값을 채운다.
+ 		if(result.resultCode == "0"){
+ 			specModule.clearCodePage();
+ 			specModule._fcltyItem=result.result;
+ 			specModule.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
+ 			specModule.$("#titleFcltsMngNo").text(result.result["fcltsMngNo"]);	// 결과값을 채운다.
 
-		 		specModule.$("#beforeGisPrtFcltyCd").val(specModule.$("#gisPrtFcltyCd").val());
-	            specModule.$("#beforeGisPrtFcltySeq").val(specModule.$("#gisPrtFcltySeq").val());
-	 		}
-	 		else {
-	 			//alert(result.resultMsg);
-	 		}
+	 		specModule.$("#beforeGisPrtFcltyCd").val(specModule.$("#gisPrtFcltyCd").val());
+            specModule.$("#beforeGisPrtFcltySeq").val(specModule.$("#gisPrtFcltySeq").val());
+ 		}
+ 		else {
+ 			//alert(result.resultMsg);
+ 		}
 
-	 		specModule.$("#gisCodePopupBtn").hide();
-	 		specModule.$("#selectedGAM005").disable();
-	 	});
+ 		specModule.$("#gisCodePopupBtn").hide();
+ 		specModule.$("#selectedGAM005").disable();
+ 	});
 
 	// 층별제원처리
 	//this.$('#fcltyinfo9').flexOptions({params:prtFclty}).flexReload();
@@ -509,36 +509,34 @@ GamConstFcltySpecMngModule.prototype.clearFilePage = function() {
  * 탭 변경시 실행 이벤트
  */
  GamConstFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
+	 if(oldTabId == 'tabs1' && this._cmd == 'modify') {
+		 this.loadDetail();
+	}
 	switch(newTabId) {
-	case "tabs1":
-
-		break;
-	case "tabs2":
-		if(oldTabId == "tabs1"){
-			this.$("#tabs2").scrollTop(0);
-			
-			if(this._cmd=="modify") {
-				this.loadDetail();
-			} else {
-				this.makeFormValues('#fcltyManageVO', {});
-				this.makeDivValues('#fcltyManageVO', {});
-				// 층별제원처리
-				//this.$('#fcltyinfo9').flexOptions({params:prtFclty}).flexReload();
-
-				// 첨부파일 처리
-				this.$('#fcltyFileList').flexOptions({params:prtFclty}).flexReload();
-				this.clearFilePage();
+		case "tabs1":
+	
+			break;
+		case "tabs2":
+			if(oldTabId == 'tabs1') {
+				this.$("#tabs2").scrollTop(0);
 			}
-		}
-		break;
-
-	/* case "tabs3":
-		this._deleteDataFloorSpecList=[];
-		break; */
-
-	case "tabs4":
-		this._deleteDataFileList=[];
-		break;
+			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
+				this.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
+				alert('건축시설 항목을 선택 하세요.');
+			} 
+			break;
+	
+		/* case "tabs3":
+			this._deleteDataFloorSpecList=[];
+			break; */
+	
+		case "tabs4":
+			this._deleteDataFileList=[];
+			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
+				this.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
+				alert('건축시설 항목을 선택 하세요.');
+			} 
+			break;
 	}
 };
 
@@ -925,7 +923,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 							</td>
 							<th width="15%" height="23" class="required_text">파일제목</th>
 							<td><input id="atchFileSj" type="text" size="20" class="fileEditItem" maxlength="40" /></td>
-							<th width="15%" height="23" class="required_text">생성일자</th>
+							<th width="15%" height="23" class="required_text">작성일자</th>
 							<td><input id="atchFileWritngDt" type="text" size="18" class="emdcal fileEditItem"  maxlength="10" readonly="readonly"/></td>
 						</tr>
 					</table>

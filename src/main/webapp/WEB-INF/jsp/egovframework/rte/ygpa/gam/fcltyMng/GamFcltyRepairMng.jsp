@@ -239,6 +239,18 @@ GamFcltyRepairMngModule.prototype.loadDetail = function(){
 GamFcltyRepairMngModule.prototype.addData = function() {
 
 	this._mode="insert";
+	
+	// tabs2 초기화
+	this.makeFormValues('#fcltyRepairMngListVO', {});
+	this.$("#searchFcltsMngGroupNo").show();
+	this.$("#fcltsJobSe").enable();
+	// tabs3 초기화
+	this.$("#flawExamUsrF").flexEmptyData();
+	// tabs4 초기화
+	this.makeFormValues('#fcltyRepairMngFileForm', {});
+	this.$("#previewImage").attr("src", "");
+	this.$("#fcltyRepairFileList").flexEmptyData();
+	
 	this.$("#fcltyRepairMngListTab").tabs("option", {active: 1});
 
 };
@@ -483,33 +495,33 @@ GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		break;
 
 		case "tabs2":
+			if((this._mode != 'insert') && (this._mode != 'modify')) {
+				this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
+				alert('하자보수 항목을 선택 하세요.');
+			} 
+			if(oldTabId == 'tabs1') {
+				this.$("#tabs2").scrollTop(0);
+			}
 			if(this._mode=="modify"){
 				this.$("#searchFcltsMngGroupNo").hide();
 				this.$("#fcltsJobSe").disable();
-			}else{
-				this._mode="insert";
-				// tabs2 초기화
-				this.makeFormValues('#fcltyRepairMngListVO', {});
-				this.$("#searchFcltsMngGroupNo").show();
-				this.$("#fcltsJobSe").enable();
-				// tabs3 초기화
-				this.$("#flawExamUsrF").flexEmptyData();
-				// tabs4 초기화
-				this.makeFormValues('#fcltyRepairMngFileForm', {});
-				this.$("#previewImage").attr("src", "");
-				this.$("#fcltyRepairFileList").flexEmptyData();
-				
-				
-				this.$("#fcltsMngGroupNo").val("00000000000001");
 			}
 		break;
 		
 		case "tabs3":
 			this._deleteDataRepairList=[];
+			if((this._mode != 'insert') && (this._mode != 'modify')) {
+				this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
+				alert('하자보수 항목을 선택 하세요.');
+			} 
 		break;
 		
 		case "tabs4":
 			this._deleteDataFileList=[];
+			if((this._mode != 'insert') && (this._mode != 'modify')) {
+				this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
+				alert('하자보수 항목을 선택 하세요.');
+			} 
 		break;
 	}
 	
