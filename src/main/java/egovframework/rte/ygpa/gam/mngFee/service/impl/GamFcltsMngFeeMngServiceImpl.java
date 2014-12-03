@@ -152,9 +152,30 @@ public class GamFcltsMngFeeMngServiceImpl extends AbstractServiceImpl implements
 	 */
 	public void confirmFcltsMngFeeMngPerm(Map<String, Object> vo) throws Exception {
 
-		Map assetsRent;
+		Map mngFeeMng;
 
-		assetsRent = gamFcltsMngFeeMngDao.selectFcltsMngFeeMngPk(vo);
+		mngFeeMng = gamFcltsMngFeeMngDao.selectFcltsMngFeeMngPk(vo);
+
+		mngFeeMng.put("regUsr", vo.get("regUsr"));
+		mngFeeMng.put("updUsr", vo.get("regUsr"));
+		mngFeeMng.put("chrgeKnd", vo.get("chrgeKnd"));
+		mngFeeMng.put("deptcd", vo.get("deptcd"));
+
+		/**	징수의뢰  * */
+
+		gamFcltsMngFeeMngDao.insertBillCreateOnce(mngFeeMng);
+
+		/**	고지의뢰를 한다.  * */
+
+		Map map = gamFcltsMngFeeMngDao.selectNticNoAccnutYear(mngFeeMng);
+        vo.put("accnutYear", map.get("accnutYear"));
+		vo.put("nticno", map.get("nticno"));
+		vo.put("nhtIsueYn", "Y");
+		Map map2 = gamFcltsMngFeeMngDao.selectReimNticNoAccnutYear(vo);
+		vo.put("reimFeeNticno", map2.get("reimFeeNticno"));
+
+		gamFcltsMngFeeMngDao.updateLevReqestIssueYn(vo);
+		gamFcltsMngFeeMngDao.insertNticRequestRevCollF(vo);
 
 
 	}

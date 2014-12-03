@@ -456,13 +456,13 @@ public class GamFcltsMngFeeMngController {
          paramMap.put("mngFeeJobSe", gamFcltsMngFeeMngDetailVo.getMngFeeJobSe());
          paramMap.put("mngSeq", gamFcltsMngFeeMngDetailVo.getMngSeq());
          paramMap.put("regUsr", loginVO.getId());
-         paramMap.put("deptcd", loginVO.getOrgnztId());
+         paramMap.put("deptcd", loginVO.getDeptCd());
          paramMap.put("chrgeKnd", gamFcltsMngFeeMngDetailVo.getChrgeKnd());
 
          //승낙 서비스 클래스 호출
          //gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap); //승낙
 
-         if(!paramMap.containsKey("prtAtCode") || !paramMap.containsKey("mngYear") || !paramMap.containsKey("mngNo") || !paramMap.containsKey("mngCnt")) {
+         if(!paramMap.containsKey("mngMt") || !paramMap.containsKey("mngFeeJobSe") || !paramMap.containsKey("mngSeq")) {
              resultCode = 2;
         	 resultMsg = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
          }

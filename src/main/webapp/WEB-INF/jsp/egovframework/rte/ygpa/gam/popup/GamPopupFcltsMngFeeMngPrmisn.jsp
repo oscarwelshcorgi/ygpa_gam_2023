@@ -75,9 +75,9 @@ var popup_instance = new GamPopupFcltsMngFeeMngModule();
 <div class="dialog">
 	<div class="emdPanel">
 		<form id="gamPopupPrmisnForm">
-		    <input type="text" id="mngMt" value="<c:out value="${gamFcltsMngFeeMngInfo.mngMt }"/>"/>
-		    <input type="text" id="mngFeeJobSe" value="<c:out value="${gamFcltsMngFeeMngInfo.mngFeeJobSe }"/>"/>
-			<input type="text" id="mngSeq" value="<c:out value="${gamFcltsMngFeeMngInfo.mngSeq }"/>"/>
+		    <input type="hidden" id="mngMt" value="<c:out value="${gamFcltsMngFeeMngInfo.mngMt }"/>"/>
+		    <input type="hidden" id="mngFeeJobSe" value="<c:out value="${gamFcltsMngFeeMngInfo.mngFeeJobSe }"/>"/>
+			<input type="hidden" id="mngSeq" value="<c:out value="${gamFcltsMngFeeMngInfo.mngSeq }"/>"/>
 
 			<table class="searchPanel">
 				<tbody>

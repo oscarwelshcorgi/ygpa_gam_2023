@@ -1099,7 +1099,7 @@ GamFcltsMngFeeMngModule.prototype.calcRentMasterValues = function() {
             	var opts = {
                     'mngMt': rows[0]['mngMt'],
                     'mngFeeJobSe': rows[0]['mngFeeJobSe'],
-                    'taxtSe': rows[0]['taxtSe']
+                    'mngSeq': rows[0]['mngSeq']
                 };
 
                 this.doExecuteDialog('insertFcltsMngFeeMngPrmisnPopup', '승낙', '/mngFee/popup/showFcltsMngFeeMngPrmisn.do', opts);
