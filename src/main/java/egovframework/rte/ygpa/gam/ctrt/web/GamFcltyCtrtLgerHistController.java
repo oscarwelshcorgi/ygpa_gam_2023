@@ -144,37 +144,6 @@ public class GamFcltyCtrtLgerHistController {
 	
 	
 	/**
-     * 계약정보상세내역을 조회한다.
-     *
-     * @param searchVO
-     * @return map
-     * @throws Exception the exception
-     */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtLgerHistDetail.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectFcltyCtrtLgerHistDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		
-    	Map map = new HashMap();
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-		
-		//계약대장목록
-    	GamFcltyCtrtLgerHistVO fcltyCtrtLgerHistDetail = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistDetail(searchVO);
-        
-    	map.put("resultCode", 0);	// return ok
-    	map.put("resultDetail", fcltyCtrtLgerHistDetail);
-    	map.put("searchOption", searchVO);
-
-    	return map;
-    }
-	
-	
-	/**
      * 계약공동도급목록을 조회한다.
      *
      * @param searchVO

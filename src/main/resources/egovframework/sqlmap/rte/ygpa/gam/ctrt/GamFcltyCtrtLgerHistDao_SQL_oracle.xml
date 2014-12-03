@@ -117,20 +117,51 @@
                      FROM (
                            SELECT
                                     CTRT_NO
-                                  , (CASE WHEN CTRT_SE = '1' THEN '자체' 
-                                  		  WHEN CTRT_SE = '2' THEN '조달'
-                                  	END) AS CTRT_SE
-                                  , BID_PBLANC_NO
-                                  , CTRT_NM
-                                  , TO_CHAR(BID_PBLANC_DT, 'YYYY-MM-DD') AS BID_PBLANC_DT
-                                  , TO_CHAR(BID_DT, 'YYYY-MM-DD') AS BID_DT
-                                  , REGIST_ENTRPS_CD
-                                  , GAM_GETENTRPSNM(REGIST_ENTRPS_CD, 1) AS REGIST_ENTRPS_NM
-                                  , PLAN_AMT
-                                  , PRMT_AMT
-                                  , SCSBID_AMT
-                                  , SCSBID_RATE
-                                  , BASE_AMT
+					        		, (CASE WHEN CTRT_SE = '1' THEN '자체' 
+											WHEN CTRT_SE = '2' THEN '조달'
+									  END) AS CTRT_SE
+					        		, BID_PBLANC_NO
+					        		, TO_CHAR(BID_PBLANC_DT, 'YYYY-MM-DD') AS BID_PBLANC_DT
+					        		, TO_CHAR(BID_DT, 'YYYY-MM-DD') AS BID_DT
+					        		, REGIST_ENTRPS_CD
+					        		, SITE_DESC
+					        		, CTRT_NM
+					        		, PLAN_AMT
+					        		, PRMT_AMT
+					        		, SCSBID_AMT
+					        		, SCSBID_RATE
+					        		, BASE_AMT
+					        		, BID_MTH
+					        		, CTRT_MTH
+					        		, TO_CHAR(CTRT_DT, 'YYYY-MM-DD') AS CTRT_DT
+					        		, CTRT_AMT
+					        		, TO_CHAR(CTRT_PD_FROM, 'YYYY-MM-DD') AS CTRT_PD_FROM
+					        		, TO_CHAR(CTRT_PD_TO, 'YYYY-MM-DD') AS CTRT_PD_TO
+					        		, CTRT_GRNTY_AMT
+					        		, PRCU_PBLANC_NO
+					        		, CTRT_GRNTY_MTH
+					        		, TO_CHAR(CTRT_EXAM_DT, 'YYYY-MM-DD') AS CTRT_EXAM_DT
+					        		, INTENDANT_1
+					        		, INTENDANT_2
+					        		, INTENDANT_3
+					        		, CARY_FWD_BDGT_AMT
+					        		, ELCTRN_SANCTN_TRNSMIS_SE
+					        		, ELCTRN_SANCTN_PROGRS_CD
+					        		, TO_CHAR(ELCTRN_SANCTN_TRNSMIS_DT, 'YYYY-MM-DD') AS ELCTRN_SANCTN_TRNSMIS_DT
+					        		, ELCTRN_SANCTN_INTERLOCK_INFO
+					        		, ELCTRN_SANCTN_DOC_ID
+					        		, TO_CHAR(CONFM_DT, 'YYYY-MM-DD') AS CONFM_DT
+					        		, CONFMER_CD
+					        		, REG_USR
+					        		, TO_CHAR(REGIST_DT, 'YYYY-MM-DD') AS REGIST_DT
+					        		, UPD_USR
+					        		, TO_CHAR(UPDT_DT, 'YYYY-MM-DD') AS UPDT_DT
+					        		, ORDER_MTHD
+					        		, SLDRT_GRNTY
+					        		, JOB_CHRG_DEPT_CD
+					        		, TO_CHAR(FLAW_PD_FROM, 'YYYY-MM-DD') AS FLAW_PD_FROM
+					        		, TO_CHAR(FLAW_PD_TO, 'YYYY-MM-DD') AS FLAW_PD_TO
+					        		, CAUSE_ACT
                              FROM 
 					              	CTRT_INFO_F
 					              
@@ -278,15 +309,28 @@
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
                            SELECT
-                                    CTRT_NO
-                                  , SEQ
-                                  , (TO_CHAR(QOTA_RATE * 100) || '%')  QOTA_RATE
-                                  , ENTRPS_NM
-                                  , RPRSNTV
-                                  , TLPHON_NO
-                                  , FAX_NO
-                                  , CHARGER
-                                  , CHARGER_OFC_POS
+                                CTRT_NO
+							    , SEQ
+							    , (TO_CHAR(QOTA_RATE * 100) || '%')  QOTA_RATE
+							    , ENTRPS_NM
+							    , RPRSNTV
+							    , TLPHON_NO
+							    , FAX_NO
+							    , POST_NO
+							    , ROADNM_ADRES
+							    , LNM_ADRES
+							    , DEAL_RELATE
+							    , INDUTY
+							    , STPL_PRDLST
+							    , BSNM_NO
+							    , CHARGER
+							    , CHARGER_OFC_POS
+							    , CHARGER_MOBLPHON_NO
+							    , CHARGER_EMAIL
+							    , REG_USR
+							    , TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+							    , UPD_USR
+							    , TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT
                              FROM 
 					              	CTRT_JOIN_CONTR_F
 					              

@@ -70,30 +70,15 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
     });
     
     
+    this.$("#fcltyCtrtLgerHistList").on('onItemSelected', function(event, module, row, grid, param) {
+    	module.loadDetail();
+	});
+    
 	this.$("#fcltyCtrtLgerHistList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+		module.loadDetail();
 		
-		// tabs3  하부 테이블 초기화
-    	module.makeDivValues('#fcltyCtrtJoinContrFDetailForm',{});
-		
-		// 값입력
+		// Tab 이동
 		module.$("#fcltyCtrtLgerHistListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
-		
-		var detailInput = {'ctrtNo': row["ctrtNo"]};
-
-		module.doAction('/ctrt/gamSelectFcltyCtrtLgerHistDetail.do', detailInput, function(module, data) {
-
-			//계약대장 상세 정보 tabs2에 입력
-    		module.makeDivValues('#gamFcltyCtrtLgerHistForm',data.resultDetail);
-			//인쇄시 파라메타 전달을 위해 한번 더씀
-    		module.makeFormValues('#gamFcltyCtrtLgerHistForm',data.resultDetail);
-			
-	 	});
-		
-		var searchVO = [{name: 'ctrtNo',value: row["ctrtNo"]}];
-		module.$('#fcltyCtrtJoinContrFList').flexOptions({params:searchVO}).flexReload();
-		module.$('#fcltyCtrtChangeFList').flexOptions({params:searchVO}).flexReload();
-		module.$('#fcltyCtrtMoneyPymntFList').flexOptions({params:searchVO}).flexReload();
-		module.$('#fcltyCtrtFulfillCaryFwdFList').flexOptions({params:searchVO}).flexReload();
 	});
     
     
@@ -124,18 +109,12 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
     });
  	
  	
+    this.$("#fcltyCtrtJoinContrFList").on('onItemSelected', function(event, module, row, grid, param) {
+    	module.makeDivValues('#fcltyCtrtJoinContrFDetailForm',row);
+	});
+ 	
     this.$("#fcltyCtrtJoinContrFList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-
-		var detailInput = {'ctrtNo': row["ctrtNo"],
-						   'seq': row["seq"]
-						  };
-
-		module.doAction('/ctrt/gamSelectFcltyCtrtJoinContrFDetail.do', detailInput, function(module, data) {
-
-			//계약공동도급 상세정보  입력
-    		module.makeDivValues('#fcltyCtrtJoinContrFDetailForm',data.resultDetail);
-			
-	 	});
+		module.makeDivValues('#fcltyCtrtJoinContrFDetailForm',row);
 	});
  	
  	
@@ -294,6 +273,34 @@ GamFcltyCtrtLgerHistModule.prototype.loadData = function() {
 
     this.$('#fcltyCtrtLgerHistList').flexOptions({params:searchOpt}).flexReload();
 
+};
+
+GamFcltyCtrtLgerHistModule.prototype.loadDetail = function(){
+	
+	var row = this.$('#fcltyCtrtLgerHistList').selectedRows();
+	
+	if(row.length==0) {
+		alert('선택된 항목이 없습니다.');
+		this.$("#fcltyCtrtLgerHistListTab").tabs("option", {active: 0});
+		return;
+	}
+	
+	row = row[0];
+	
+	// tabs3  하부 테이블 초기화
+	this.makeDivValues('#fcltyCtrtJoinContrFDetailForm',{});
+
+ 	//계약대장 상세 정보 tabs2에 입력
+	this.makeDivValues('#gamFcltyCtrtLgerHistForm',row);
+	//인쇄시 파라메타 전달을 위해 한번 더씀
+	this.makeFormValues('#gamFcltyCtrtLgerHistForm',row);
+	
+	var searchVO = [{name: 'ctrtNo',value: row["ctrtNo"]}];
+	this.$('#fcltyCtrtJoinContrFList').flexOptions({params:searchVO}).flexReload();
+	this.$('#fcltyCtrtChangeFList').flexOptions({params:searchVO}).flexReload();
+	this.$('#fcltyCtrtMoneyPymntFList').flexOptions({params:searchVO}).flexReload();
+	this.$('#fcltyCtrtFulfillCaryFwdFList').flexOptions({params:searchVO}).flexReload();
+	
 };
 
 GamFcltyCtrtLgerHistModule.prototype.onTabChange = function(newTabId, oldTabId) {

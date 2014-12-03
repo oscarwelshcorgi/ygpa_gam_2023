@@ -92,7 +92,7 @@ GamMechFcltySpecMngModule.prototype.loadComplete = function(params) {
 		colModel : [
 					{display:"순번",		name:"atchFileSeq",			width:40,		sortable:true,		align:"center"},
 					{display:"구분",		name:"atchFileSeNm",		width:40,		sortable:true,		align:"center"},
-					{display:"사진제목",	name:"atchFileSj",			width:160,		sortable:true,		align:"left"},
+					{display:"파일제목",	name:"atchFileSj",			width:160,		sortable:true,		align:"left"},
 					{display:"논리파일명",	name:"atchFileNmLogic",		width:160,		sortable:true,		align:"left"},
 					{display:"물리파일명",	name:"atchFileNmPhysicl",	width:160,		sortable:true,		align:"left"},
 					{display:"작성일자",	name:"atchFileWritngDt",	width:120,		sortable:true,		align:"center"}

@@ -60,7 +60,7 @@
 	  				<th rowSpan="2">업종</th>
 	  				<th rowSpan="2">기업명</th>
 	  				<th rowSpan="2">주요품목</th>
-	  				<th colSpan="2">거래금액(백만원)</th>
+	  				<th colSpan="2">거래금액(원)</th>
 	  				<th rowSpan="2">사업자번호</th>
 	  				<th rowSpan="2">대표자</th>
 	  				<th rowSpan="2">담당자</th>
@@ -102,7 +102,7 @@
 					  				<th rowSpan="2">업종</th>
 					  				<th rowSpan="2">기업명</th>
 					  				<th rowSpan="2">주요품목</th>
-					  				<th colSpan="2">거래금액(백만원)</th>
+					  				<th colSpan="2">거래금액(원)</th>
 					  				<th rowSpan="2">사업자번호</th>
 					  				<th rowSpan="2">대표자</th>
 					  				<th rowSpan="2">담당자</th>
