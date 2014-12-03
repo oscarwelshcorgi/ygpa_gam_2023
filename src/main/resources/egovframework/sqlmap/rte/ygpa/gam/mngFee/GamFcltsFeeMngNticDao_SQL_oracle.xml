@@ -253,6 +253,10 @@
 		UPDATE MNG_FEE_LEV_REQEST_F SET
 			 NTIC_DT = TO_DATE(#nticDt#,'YYYY-MM-DD')
 			,PAY_TMLMT = TO_DATE(#payTmlmt#,'YYYY-MM-DD')
+			,FEE = TO_NUMBER(REPLACE(#fee#,',',''))
+			,VAT_YN = #vatYn#
+			,VAT = TO_NUMBER(REPLACE(#vat#,',',''))
+			,NTIC_AMT = TO_NUMBER(REPLACE(#nticAmt#,',',''))
 			,RM = #rm#
 			,UPD_USR = #updUsr#
 			,UPDT_DT = sysdate

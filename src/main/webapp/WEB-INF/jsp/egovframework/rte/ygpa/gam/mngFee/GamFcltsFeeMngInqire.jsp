@@ -560,10 +560,11 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 								</td>
 							</tr>
                             <tr>
-								<th width="15%" height="18">고지 / 출력</th>
+								<th width="15%" height="18">고지 / 출력 / 추가</th>
 								<td>
-									<input type="text" size="9" id="nhtIsueYn" disabled>
-									<input type="text" size="10" id="nhtOutputYn" disabled>
+									<input type="text" size="6" id="nhtIsueYn" disabled>
+									<input type="text" size="6" id="nhtOutputYn" disabled>
+									<input type="text" size="6" id="aditNticYn" disabled>
 								</td>
 							</tr>
                             <tr>

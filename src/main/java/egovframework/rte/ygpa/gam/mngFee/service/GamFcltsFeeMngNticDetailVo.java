@@ -191,7 +191,7 @@ public class GamFcltsFeeMngNticDetailVo extends ComDefaultVO {
 	/**
 	 * @param nticNo the nticNo to set
 	 */
-	public void setNticno(String nticNo) {
+	public void setNticNo(String nticNo) {
 		this.nticNo = nticNo;
 	}
 	/**

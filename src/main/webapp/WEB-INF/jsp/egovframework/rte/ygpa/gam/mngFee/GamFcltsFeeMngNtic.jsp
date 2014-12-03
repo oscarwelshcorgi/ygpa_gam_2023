@@ -119,11 +119,97 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mode = 'modify';
+		var nhtIsueYn = row['#nhtIsueYn'];
+		var rcivSe = row['rcivSe'];
+		var aditNticYn = row['aditNticYn'];
+		if (rcivSe == "0" || rcivSe == "1") {
+			if (nhtIsueYn == "Y") {
+				module.$('#btnProcessNticIssue').disable({disableClass:"ui-state-disabled"});
+				module.$('#btnCancelNticIssue').enable();
+				module.$('#btnCancelNticIssue').removeClass('ui-state-disabled');
+				module.$('#btnPrintNticIssue').enable();
+				module.$('#btnPrintNticIssue').removeClass('ui-state-disabled');
+				module.$('#btnPrintTaxInvoice').enable();
+				module.$('#btnPrintTaxInvoice').removeClass('ui-state-disabled');
+			} else {
+				module.$('#btnProcessNticIssue').enable();
+				module.$('#btnProcessNticIssue').removeClass('ui-state-disabled');
+				module.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
+				module.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
+				module.$('#btnPrintTaxInvoice').disable({disableClass:"ui-state-disabled"});
+			}
+			module.$('#btnAddNticIssue').enable();
+			module.$('#btnAddNticIssue').removeClass('ui-state-disabled');
+			if (aditNticYn == "Y") {
+				module.$('#btnDelNticIssue').enable();
+				module.$('#btnDelNticIssue').removeClass('ui-state-disabled');
+			} else {
+				module.$('#btnDelNticIssue').disable({disableClass:"ui-state-disabled"});
+			}
+		} else if (rcivSe == "2" || rcivSe == "3" || rcivSe == "4") {
+			module.$('#btnProcessNticIssue').disable({disableClass:"ui-state-disabled"});
+			module.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
+			module.$('#btnPrintNticIssue').enable();
+			module.$('#btnPrintNticIssue').removeClass('ui-state-disabled');
+			module.$('#btnPrintTaxInvoice').enable();
+			module.$('#btnPrintTaxInvoice').removeClass('ui-state-disabled');
+			module.$('#btnAddNticIssue').enable();
+			module.$('#btnAddNticIssue').removeClass('ui-state-disabled');
+			module.$('#btnDelNticIssue').disable({disableClass:"ui-state-disabled"});
+		} else {
+			module.$('#btnProcessNticIssue').disable({disableClass:"ui-state-disabled"});
+			module.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
+			module.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
+			module.$('#btnPrintTaxInvoice').disable({disableClass:"ui-state-disabled"});
+			module.$('#btnAddNticIssue').disable({disableClass:"ui-state-disabled"});
+			module.$('#btnDelNticIssue').disable({disableClass:"ui-state-disabled"});
+		}
 	});
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._mode = 'modify';
 		module.$("#mainTab").tabs("option", {active: 1});
+	});
+
+	this.$('#vatYn').on('keyup',{module:this}, function(event){
+		event.data.module.calcNticAmt();
+	});
+
+	this.$('#fee').on('keyup change',{module:this}, function(event){
+		event.data.module.calcNticAmt();
+	});
+
+	this.$('#vat').on('keyup change',{module:this}, function(event){
+		event.data.module.calcNticAmt();
+	});
+
+	this.$('#nticDt').on('keyup change',{module:this}, function(event){
+		console.log('asdf');
+		var module = event.data.module;
+		var dueDate = EMD.util.strToDate(module.$('#nticDt').val());
+		var dayOfMonth = dueDate.getDate();
+		var year = "";
+		var month = "";
+		var day = "";
+		var payTmlmt = "";
+		dueDate.setDate(dayOfMonth + 15);
+		year = dueDate.getFullYear();
+		month = dueDate.getMonth() + 1;
+		day = dueDate.getDate();
+		if (month >= 1 && month <= 9) {
+			if (day >= 1 && day <= 9) {
+				payTmlmt = year + "-" + "0" + month + "-" + "0" + day;
+			} else {
+				payTmlmt = year + "-" + "0" + month + "-" + day;
+			}
+		} else {
+			if (day >= 1 && day <= 9) {
+				payTmlmt = year + "-" + month + "-" + "0" + day;
+			} else {
+				payTmlmt = year + "-" + month + "-" + day;
+			}
+		}
+		module.$('#payTmlmt').val(payTmlmt);
 	});
 
 	var mon = new Date().getMonth()+1;
@@ -132,6 +218,12 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 	}
 	this.$('#sStartMngMt').val(mon);
 	this.$('#sEndMngMt').val(mon);
+	this.$('#btnProcessNticIssue').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnPrintTaxInvoice').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnAddNticIssue').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnDelNticIssue').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -197,6 +289,12 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamFcltsFeeMngNticModule.prototype.onSubmit = function() {
 
+	this.$('#btnProcessNticIssue').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnPrintTaxInvoice').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnAddNticIssue').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnDelNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.loadData();
 
 };
@@ -241,6 +339,124 @@ GamFcltsFeeMngNticModule.prototype.loadDetail = function() {
 
 <%
 /**
+ * @FUNCTION NAME : calcNticAmt
+ * @DESCRIPTION   : 고지 금액을 계산한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.calcNticAmt = function() {
+
+	var vatYn = this.$('#vatYn').val();
+	var fee = Number(this.$('#fee').val().replace(/,/gi, ""));
+	var vat = Number(this.$('#vat').val().replace(/,/gi, ""));
+	var calcVat = 0;
+	var nticAmt = 0;
+	if (vatYn == "0" || vatYn == "1" || vatYn == "3") {
+		calcVat = 0;
+	} else {
+		calcVat = Math.floor(fee / 10);
+	}
+	nticAmt = fee + calcVat;
+	if (vat != calcVat) {
+		this.$('#vat').val('' + $.number(calcVat));
+	}
+	this.$('#nticAmt').val('' + $.number(nticAmt));
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : processNticIssue
+ * @DESCRIPTION   : 요금을 고지한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.processNticIssue = function() {
+
+	var inputVO = this.makeFormArgs("#detailForm");
+	var nhtIsueYn = this.$('#nhtIsueYn').val();
+	var nticDt = this.$('#nticDt').val();
+	var payTmlmt = this.$('#payTmlmt').val();
+	var vatYn = this.$('#vatYn').val();
+	var fee = Number(this.$('#fee').val().replace(/,/gi, ""));
+	var vat = Number(this.$('#vat').val().replace(/,/gi, ""));
+	var nticAmt = Number(this.$('#nticAmt').val().replace(/,/gi, ""));
+	var toDay = new Date().getDate();
+	var year = toDay.getFullYear();
+	var month = toDay.getMonth() + 1;
+	var day = toDay.getDate();
+	var todayString = "";
+	if (month >= 1 && month <= 9) {
+		if (day >= 1 && day <= 9) {
+			todayString = year + "-" + "0" + month + "-" + "0" + day;
+		} else {
+			todayString = year + "-" + "0" + month + "-" + day;
+		}
+	} else {
+		if (day >= 1 && day <= 9) {
+			todayString = year + "-" + month + "-" + "0" + day;
+		} else {
+			todayString = year + "-" + month + "-" + day;
+		}
+	}
+	if (nhtIsueYn == "Y") {
+		alert('이미 고지된 자료입니다.');
+		return;
+	}
+	if (nticDt > todayString || nticDt < "2000-01-01" || nticDt == "") {
+		alert('고지 일자가 부정확합니다.');
+		this.$("#nticDt").focus();
+		return;
+	}
+	if (nticDt > payTmlmt || payTmlmt < "2000-01-01" || payTmlmt == "") {
+		alert('납부 기한이 부정확합니다.');
+		this.$("#payTmlmt").focus();
+		return;
+	}
+	if (fee > 999999999999 || fee <= 0) {
+		alert('사용료가 부정확합니다.');
+		this.$("#fee").focus();
+		return;
+	}
+	if (vat > 999999999999 || vat < 0) {
+		alert('부가세가 부정확합니다.');
+		this.$("#vat").focus();
+		return;
+	}
+	if (vatYn == "0" || vatYn == "1" || vatYn == "3") {
+		if (vat != 0) {
+			alert('부가세가 부정확합니다.');
+			this.$("#vat").focus();
+			return;
+		}
+	} else {
+		if (vat != Math.floor(fee / 10)) {
+			alert('부가세가 부정확합니다.');
+			this.$("#vat").focus();
+			return;
+		}
+	}
+	if (nticAmt > 999999999999 || nticAmt <= 0) {
+		alert('고지 금액이 부정확합니다.');
+		this.$("#fee").focus();
+		return;
+	}
+	if (nticAmt != (fee + vat)) {
+		alert('고지 금액이 (사용료 + 부가세)와 일치하지 않습니다.');
+		this.$("#fee").focus();
+		return;
+	}
+	this.doAction('/mngFee/gamFcltsFeeMngNticProcessNticIssue.do', inputVO, function(module, result) {
+		if (result.resultCode == "0") {
+			module.loadData();
+		}
+		alert(result.resultMsg);
+	});
+
+};
+
+<%
+/**
  * @FUNCTION NAME : downloadExcel
  * @DESCRIPTION   : 리스트를 엑셀로 다운로드한다.
  * @PARAMETER     : NONE
@@ -266,8 +482,9 @@ GamFcltsFeeMngNticModule.prototype.downloadExcel = function() {
 %>
 GamFcltsFeeMngNticModule.prototype.enableInputItem = function() {
 
-	var nhtOutputYn = this.$('#nhtOutputYn').val();
+	var nhtIsueYn = this.$('#nhtIsueYn').val();
 	var rcivSe = this.$('#rcivSe').val();
+	var aditNticYn = this.$('#aditNticYn').val();
 	if (this._mode == "insert") {
 		this.$('#chrgeKnd').enable();
 		this.$('#vatYn').enable();
@@ -277,16 +494,75 @@ GamFcltsFeeMngNticModule.prototype.enableInputItem = function() {
 		this.$('#nticDt').enable();
 		this.$('#payTmlmt').enable();
 		this.$('#rm').enable();
+		this.$('#btnProcessNticIssue2').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnCancelNticIssue2').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnPrintNticIssue2').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnPrintTaxInvoice2').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnAddNticIssue2').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnDelNticIssue2').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnSaveNticIssue').enable();
+		this.$('#btnSaveNticIssue').removeClass('ui-state-disabled');
 	} else {
-		if ((nhtOutputYn == "N" || nhtOutputYn == "") && (rcivSe == "0" || rcivSe == "1")) {
-			this.$('#chrgeKnd').enable();
-			this.$('#vatYn').enable();
-			this.$('#fee').enable();
-			this.$('#vat').enable();
-			this.$('#nticAmt').enable();
-			this.$('#nticDt').enable();
-			this.$('#payTmlmt').enable();
+		if (rcivSe == "0" || rcivSe == "1") {
 			this.$('#rm').enable();
+			if (nhtIsueYn == "Y") {
+				this.$('#chrgeKnd').disable();
+				this.$('#vatYn').disable();
+				this.$('#fee').disable();
+				this.$('#vat').disable();
+				this.$('#nticAmt').disable();
+				this.$('#nticDt').disable();
+				this.$('#payTmlmt').disable();
+				this.$('#btnProcessNticIssue2').disable({disableClass:"ui-state-disabled"});
+				this.$('#btnCancelNticIssue2').enable();
+				this.$('#btnCancelNticIssue2').removeClass('ui-state-disabled');
+				this.$('#btnPrintNticIssue2').enable();
+				this.$('#btnPrintNticIssue2').removeClass('ui-state-disabled');
+				this.$('#btnPrintTaxInvoice2').enable();
+				this.$('#btnPrintTaxInvoice2').removeClass('ui-state-disabled');
+			} else {
+				this.$('#chrgeKnd').enable();
+				this.$('#vatYn').enable();
+				this.$('#fee').enable();
+				this.$('#vat').enable();
+				this.$('#nticAmt').enable();
+				this.$('#nticDt').enable();
+				this.$('#payTmlmt').enable();
+				this.$('#btnProcessNticIssue2').enable();
+				this.$('#btnProcessNticIssue2').removeClass('ui-state-disabled');
+				this.$('#btnCancelNticIssue2').disable({disableClass:"ui-state-disabled"});
+				this.$('#btnPrintNticIssue2').disable({disableClass:"ui-state-disabled"});
+				this.$('#btnPrintTaxInvoice2').disable({disableClass:"ui-state-disabled"});
+			}
+			this.$('#btnAddNticIssue2').enable();
+			this.$('#btnAddNticIssue2').removeClass('ui-state-disabled');
+			if (aditNticYn == "Y") {
+				this.$('#btnDelNticIssue2').enable();
+				this.$('#btnDelNticIssue2').removeClass('ui-state-disabled');
+			} else {
+				this.$('#btnDelNticIssue2').disable({disableClass:"ui-state-disabled"});
+			}
+			this.$('#btnSaveNticIssue').enable();
+			this.$('#btnSaveNticIssue').removeClass('ui-state-disabled');
+		} else if (rcivSe == "2" || rcivSe == "3" || rcivSe == "4") {
+			this.$('#chrgeKnd').disable();
+			this.$('#vatYn').disable();
+			this.$('#fee').disable();
+			this.$('#vat').disable();
+			this.$('#nticAmt').disable();
+			this.$('#nticDt').disable();
+			this.$('#payTmlmt').disable();
+			this.$('#rm').disable();
+			this.$('#btnProcessNticIssue2').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnCancelNticIssue2').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnPrintNticIssue2').enable();
+			this.$('#btnPrintNticIssue2').removeClass('ui-state-disabled');
+			this.$('#btnPrintTaxInvoice2').enable();
+			this.$('#btnPrintTaxInvoice2').removeClass('ui-state-disabled');
+			this.$('#btnAddNticIssue2').enable();
+			this.$('#btnAddNticIssue2').removeClass('ui-state-disabled');
+			this.$('#btnDelNticIssue2').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnSaveNticIssue').disable({disableClass:"ui-state-disabled"});
 		} else {
 			this.$('#chrgeKnd').disable();
 			this.$('#vatYn').disable();
@@ -296,6 +572,13 @@ GamFcltsFeeMngNticModule.prototype.enableInputItem = function() {
 			this.$('#nticDt').disable();
 			this.$('#payTmlmt').disable();
 			this.$('#rm').disable();
+			this.$('#btnProcessNticIssue2').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnCancelNticIssue2').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnPrintNticIssue2').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnPrintTaxInvoice2').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnAddNticIssue2').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnDelNticIssue2').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnSaveNticIssue').disable({disableClass:"ui-state-disabled"});
 		}
 	}
 
@@ -318,6 +601,13 @@ GamFcltsFeeMngNticModule.prototype.disableInputItem = function() {
 	this.$('#nticDt').disable();
 	this.$('#payTmlmt').disable();
 	this.$('#rm').disable();
+	this.$('#btnProcessNticIssue2').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnCancelNticIssue2').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnPrintNticIssue2').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnPrintTaxInvoice2').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnAddNticIssue2').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnDelNticIssue2').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnSaveNticIssue').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -630,10 +920,11 @@ var module_instance = new GamFcltsFeeMngNticModule();
 								<td>
 									<input type="text" size="33" class="ygpaNumber" id="arrrgAmt" disabled/>
 								</td>
-								<th width="10%" height="18">고지 / 출력</th>
+								<th width="10%" height="18">고지/출력/추가</th>
 								<td>
-									<input type="text" size="16" id="nhtIsueYn" disabled>
-									<input type="text" size="16" id="nhtOutputYn" disabled>
+									<input type="text" size="10" id="nhtIsueYn" disabled>
+									<input type="text" size="10" id="nhtOutputYn" disabled>
+									<input type="text" size="10" id="aditNticYn" disabled>
 								</td>
 							</tr>
 							<tr>
