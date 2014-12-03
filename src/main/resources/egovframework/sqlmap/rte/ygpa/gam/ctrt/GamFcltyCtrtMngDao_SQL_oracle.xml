@@ -75,6 +75,7 @@
                                   	END) AS CTRT_SE
                                   , BID_PBLANC_NO
                                   , CTRT_NM
+                                  , TO_CHAR(CTRT_DT, 'YYYY-MM-DD') AS CTRT_DT
                                   , TO_CHAR(BID_PBLANC_DT, 'YYYY-MM-DD') AS BID_PBLANC_DT
                                   , TO_CHAR(BID_DT, 'YYYY-MM-DD') AS BID_DT
                                   , REGIST_ENTRPS_CD
@@ -97,7 +98,7 @@
 										<![CDATA[ AND CTRT_DT >= #sCtrtFrDt# ]]>
 									</isNotEmpty>
 									<isNotEmpty property="sCtrtToDt">
-										<![CDATA[ AND CTRT_DT < #sCtrtToDt# ]]>
+										<![CDATA[ AND CTRT_DT <= #sCtrtToDt# ]]>
 									</isNotEmpty>
 									<isNotEmpty property="sRegistEntrpsCd">
 										AND REGIST_ENTRPS_CD = #sRegistEntrpsCd#
@@ -106,7 +107,7 @@
 										<![CDATA[ AND BID_DT >= #sBidFrDt# ]]>
 									</isNotEmpty>
 									<isNotEmpty property="sBidToDt">
-										<![CDATA[ AND BID_DT < #sBidToDt# ]]>
+										<![CDATA[ AND BID_DT <= #sBidToDt# ]]>
 									</isNotEmpty>
                              <!-- ORDER BY REGIST_DT DESC -->
                              ORDER BY CTRT_NO DESC, CTRT_DT DESC
@@ -135,7 +136,7 @@
 					<![CDATA[ AND CTRT_DT >= #sCtrtFrDt# ]]>
 				</isNotEmpty>
 				<isNotEmpty property="sCtrtToDt">
-					<![CDATA[ AND CTRT_DT < #sCtrtToDt# ]]>
+					<![CDATA[ AND CTRT_DT <= #sCtrtToDt# ]]>
 				</isNotEmpty>
 				<isNotEmpty property="sRegistEntrpsCd">
 					AND REGIST_ENTRPS_CD = #sRegistEntrpsCd#
@@ -144,7 +145,7 @@
 					<![CDATA[ AND BID_DT >= #sBidFrDt# ]]>
 				</isNotEmpty>
 				<isNotEmpty property="sBidToDt">
-					<![CDATA[ AND BID_DT < #sBidToDt# ]]>
+					<![CDATA[ AND BID_DT <= #sBidToDt# ]]>
 				</isNotEmpty>
     </select>
 	

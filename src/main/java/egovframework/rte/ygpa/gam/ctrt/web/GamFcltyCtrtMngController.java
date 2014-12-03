@@ -527,11 +527,10 @@ public class GamFcltyCtrtMngController {
     }	
 
     @RequestMapping(value="/ctrt/gamDeleteFcltyCtrtInfo.do")
-	@ResponseBody Map deleteFcltyCtrtInfo(@RequestParam Map ctrtInfoData) throws Exception {
+	@ResponseBody Map deleteFcltyCtrtInfo(@RequestParam Map deleteMap) throws Exception {
     	Map map = new HashMap();
 
     	ObjectMapper mapper = new ObjectMapper();
-    	Map<String, Object> ctrtInfo = new HashMap<String, Object>();
     	
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -540,15 +539,15 @@ public class GamFcltyCtrtMngController {
         	return map;
     	}
 		
-    	ctrtInfo = mapper.readValue((String)ctrtInfoData.get("ctrtInfo"),new TypeReference<HashMap<String,String>>(){});
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	
     	try {
-    		gamFcltyCtrtMngService.deleteFcltyCtrtJoinContrAll(ctrtInfo);
-	    	gamFcltyCtrtMngService.deleteFcltyCtrtSubCtrtAll(ctrtInfo);
-	    	gamFcltyCtrtMngService.deleteFcltyCtrtChangeAll(ctrtInfo);
-	    	gamFcltyCtrtMngService.deleteFcltyCtrtMoneyPymntAll(ctrtInfo);
-	    	gamFcltyCtrtMngService.deleteFcltyCtrtFulFillCaryFwdAll(ctrtInfo);
-	    	gamFcltyCtrtMngService.deleteFcltyCtrtInfoDetail(ctrtInfo);
+    		gamFcltyCtrtMngService.deleteFcltyCtrtJoinContrAll(deleteMap);
+	    	gamFcltyCtrtMngService.deleteFcltyCtrtSubCtrtAll(deleteMap);
+	    	gamFcltyCtrtMngService.deleteFcltyCtrtChangeAll(deleteMap);
+	    	gamFcltyCtrtMngService.deleteFcltyCtrtMoneyPymntAll(deleteMap);
+	    	gamFcltyCtrtMngService.deleteFcltyCtrtFulFillCaryFwdAll(deleteMap);
+	    	gamFcltyCtrtMngService.deleteFcltyCtrtInfoDetail(deleteMap);
 	    	
     		map.put("resultCode", 0);			// return ok
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));

@@ -44,10 +44,11 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 					{display:'구분', 			name:'ctrtSe',				width:60, 		sortable:false,		align:'center'},
                     {display:'공고번호', 		name:'bidPblancNo',			width:100, 		sortable:false,		align:'center'},
                     {display:'계약명', 		name:'ctrtNm',				width:300, 		sortable:false,		align:'left'},
-                    {display:'입찰공고일', 	name:'bidPblancDt',			width:80, 		sortable:false,		align:'center'},
+                    {display:'계약일', 		name:'ctrtDt',				width:80, 		sortable:false,		align:'left'},
+                    {display:'입찰공고일', 		name:'bidPblancDt',			width:80, 		sortable:false,		align:'center'},
                     {display:'입찰일', 		name:'bidDt',				width:80, 		sortable:false,		align:'center'},
                     {display:'등록업체코드', 	name:'registEntrpsCd',		width:100, 		sortable:false,		align:'left'},
-                    {display:'등록업체명', 	name:'registEntrpsNm',		width:150, 		sortable:false,		align:'left'},
+                    {display:'등록업체명', 		name:'registEntrpsNm',		width:150, 		sortable:false,		align:'left'},
                     {display:'설계금액', 		name:'planAmt',				width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'예정금액', 		name:'prmtAmt',				width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'낙찰금액', 		name:'scsbidAmt',			width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
@@ -57,41 +58,25 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
-
 			//자료수, 합산금액 입력
             module.$('#totalCount').val($.number(data.totalCount));
             module.$('#sumPlanAmt').val($.number(data.sumPlanAmt));
             module.$('#sumPrmtAmt').val($.number(data.sumPrmtAmt));
             module.$('#sumScsbidAmt').val($.number(data.sumScsbidAmt));
             module.$('#sumBaseAmt').val($.number(data.sumBaseAmt));
-
             return data;
         }
     });
+	
+	this._cmd = '';
+
+	this.$("#fcltyCtrtMngList").on("onItemSelected", function(event, module, row, grid, param) {
+		module._cmd = "modify";
+	});
+	
 	this.$("#fcltyCtrtMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-		var opts = [{ name: 'sCtrtNo', value: row['ctrtNo']}];
-		
-    	module.doAction('/ctrt/gamSelectFcltyCtrtInfoDetailInquire.do', opts, function(module, result) {
-    		var searchOpt = null;
-    		if(result.resultCode == 0) {
-    			module.$('#gamFcltyCtrtMngDetailForm :input').val('');
-    			module.makeFormValues('#gamFcltyCtrtMngDetailForm', result.resultVO);
-    			module.$('#cmd').val('modify');
-    			module.$('#ctrtNo').attr({disabled : 'disabled'});
-    			searchOpt = opts;
-    		}
-    		else {
-    			alert(result.resultMsg);
-            	module.$('#gamFcltyCtrtMngDetailForm :input').val('');
-        		searchOpt = [{ name: 'sCtrt', value: ' '}];
-    		}
-			module.$("#fcltyCtrtJoinContrList").flexOptions({params:searchOpt}).flexReload();
-			module.$("#fcltyCtrtSubCtrtList").flexOptions({params:searchOpt}).flexReload();
-			module.$("#fcltyCtrtChangeList").flexOptions({params:searchOpt}).flexReload();
-			module.$("#fcltyCtrtMoneyPymntList").flexOptions({params:searchOpt}).flexReload();
-			module.$("#fcltyCtrtFulFillCaryFwdList").flexOptions({params:searchOpt}).flexReload();
-			module.$("#fcltyCtrtMngListTab").tabs("option", {active: 1});
-    	});
+		module._cmd = "modify";
+		module.$("#fcltyCtrtMngListTab").tabs("option", {active: 1});
 	});
 	
 	//계약공용도급 리스트
@@ -191,6 +176,137 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
     });
 };
 
+//화면 및 변수 초기화
+GamFcltyCtrtMngModule.prototype.initDisplay = function() {
+	this.$('#gamFcltyCtrtMngDetailForm :input').val('');
+	this.$("#fcltyCtrtJoinContrList").flexEmptyData();
+	this.$("#fcltyCtrtSubCtrtList").flexEmptyData();
+	this.$("#fcltyCtrtChangeList").flexEmptyData();
+	this.$("#fcltyCtrtMoneyPymntList").flexEmptyData();
+	this.$("#fcltyCtrtFulFillCaryFwdList").flexEmptyData();
+	if(this._cmd == 'insert') {
+		this.$('#ctrtNo').enable();
+		this.$("#fcltyCtrtMngListTab").tabs("option", {active: 1});
+	} else if (this._cmd == 'modify') {
+		this.$('#ctrtNo').disable();
+	} else {
+		this.$('#ctrtNo').disable();
+		this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
+	}
+};
+
+GamFcltyCtrtMngModule.prototype.onSubmit = function() {
+    this.loadData();
+};
+
+GamFcltyCtrtMngModule.prototype.loadData = function() {
+    var searchOpt=this.makeFormArgs('#gamFcltyCtrtMngSearchForm');
+    this.$('#fcltyCtrtMngList').flexOptions({params:searchOpt}).flexReload();
+};
+
+GamFcltyCtrtMngModule.prototype.loadDetailData = function() {
+	var selectRows = this.$('#fcltyCtrtMngList').selectedRows();
+	
+	if(selectRows.length > 0) {
+		var row = selectRows[0];
+		var opts = [{ name: 'sCtrtNo', value: row['ctrtNo']}];
+		this.doAction('/ctrt/gamSelectFcltyCtrtInfoDetailInquire.do', opts, function(module, result) {
+			if(result.resultCode == 0) {
+				module.$('#gamFcltyCtrtMngDetailForm :input').val('');
+				module.makeFormValues('#gamFcltyCtrtMngDetailForm', result.resultVO);
+				module.$("#fcltyCtrtJoinContrList").flexOptions({params:opts}).flexReload();
+				module.$("#fcltyCtrtSubCtrtList").flexOptions({params:opts}).flexReload();
+				module.$("#fcltyCtrtChangeList").flexOptions({params:opts}).flexReload();
+				module.$("#fcltyCtrtMoneyPymntList").flexOptions({params:opts}).flexReload();
+				module.$("#fcltyCtrtFulFillCaryFwdList").flexOptions({params:opts}).flexReload();
+			}
+			else {
+	        	module.$('#gamFcltyCtrtMngDetailForm :input').val('');
+				alert(result.resultMsg);
+			}
+		});
+	}
+};
+
+// 계약정보를 하나로 병합.
+GamFcltyCtrtMngModule.prototype.mergeCtrtData = function() {
+	var ctrtInfo = JSON.stringify(this.getFormValues("#gamFcltyCtrtMngDetailForm"));
+	var ctrtJoinContrList = JSON.stringify(this.$('#fcltyCtrtJoinContrList').flexGetData());
+	var ctrtSubCtrtList = JSON.stringify(this.$('#fcltyCtrtSubCtrtList').flexGetData());
+	var ctrtChangeList = JSON.stringify(this.$('#fcltyCtrtChangeList').flexGetData());
+	var ctrtMoneyPymntList = JSON.stringify(this.$('#fcltyCtrtMoneyPymntList').flexGetData());
+	var ctrtFulFillCaryFwdList = JSON.stringify(this.$('#fcltyCtrtFulFillCaryFwdList').flexGetData());
+	
+	var opts = [];
+	opts[opts.length] = {name:'ctrtInfo', value: ctrtInfo};
+	opts[opts.length] = {name:'ctrtJoinContrList', value: ctrtJoinContrList};
+	opts[opts.length] = {name:'ctrtSubCtrtList', value: ctrtSubCtrtList};
+	opts[opts.length] = {name:'ctrtChangeList', value: ctrtChangeList};
+	opts[opts.length] = {name:'ctrtMoneyPymntList', value: ctrtMoneyPymntList};
+	opts[opts.length] = {name:'ctrtFulFillCaryFwdList',value: ctrtFulFillCaryFwdList};
+	
+	return opts;
+};
+
+//계약정보 데이터 삽입
+GamFcltyCtrtMngModule.prototype.insertCtrtData = function(data) {
+	this.doAction('/ctrt/gamInsertFcltyCtrtInfo.do', data, function(module, result) {
+		if(result.resultCode == 0) {
+			module._cmd = 'modify';
+			module.$('#ctrtNo').disable();
+			module.loadData();
+		}
+		alert(result.resultMsg);
+	});	
+};
+
+//계약정보 데이터 수정
+GamFcltyCtrtMngModule.prototype.updateCtrtData = function(data) {
+	this.doAction('/ctrt/gamUpdateFcltyCtrtInfo.do', data, function(module, result) {
+		if(result.resultCode == 0) {
+			module.loadData();
+		}
+		alert(result.resultMsg);
+	});	
+};
+
+//계약정보 데이터 저장(삽입 및 수정)
+GamFcltyCtrtMngModule.prototype.saveCtrtData = function() {
+	if(this.$('#ctrtNo').val() == '') {
+		alert('계약번호를 입력하세요.');
+		return;
+	} 
+	
+	var data = this.mergeCtrtData();
+	
+	if(this._cmd == 'insert') {
+		this.insertCtrtData(data);
+	} else if (this._cmd == 'modify') {
+		this.updateCtrtData(data);
+	}
+};
+
+//계약정보 데이터 삭제
+GamFcltyCtrtMngModule.prototype.deleteCtrtData = function() {
+	if(confirm("계약정보를 삭제하시겠습니까?")) {
+		var rows = this.$("#fcltyCtrtMngList").selectedRows();
+		if(rows.length <= 0){
+			alert("삭제할 계약정보를 선택하십시오.");
+			return;
+		}
+		var row = rows[0];
+		var opts = [{name: 'ctrtNo', value: row['ctrtNo'] }];
+	 	this.doAction('/ctrt/gamDeleteFcltyCtrtInfo.do', opts, function(module, result) {
+	 		if(result.resultCode == "0") {
+				module._cmd = "";
+				module.initDisplay();
+	 			module.loadData();
+	 		}
+	 		alert(result.resultMsg);
+	 	});
+	}
+};
+
 /**
  * 정의 된 버튼 클릭 시
  */
@@ -200,86 +316,19 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 	
     switch(buttonId) {
         case 'searchBtn': //조회
+        	this.initDisplay();
         	this.loadData();
+        	this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
             break;
-        case 'btnNew':
-        	this.$('#gamFcltyCtrtMngDetailForm :input').val('');
-			this.$("#fcltyCtrtJoinContrList").flexEmptyData();
-			this.$("#fcltyCtrtSubCtrtList").flexEmptyData();
-			this.$("#fcltyCtrtChangeList").flexEmptyData();
-			this.$("#fcltyCtrtMoneyPymntList").flexEmptyData();
-			this.$("#fcltyCtrtFulFillCaryFwdList").flexEmptyData();
-			this.$("#fcltyCtrtMngListTab").tabs("option", {active: 1});
-        	this.$('#cmd').val('insert');
-        	this.$('#ctrtNo').removeAttr('disabled');
+        case 'btnAdd': //추가
+        	this._cmd = 'insert';
+        	this.initDisplay();
         	break;
         case 'btnSave': //저장
-        	var ctrtInfo = JSON.stringify(this.getFormValues("#gamFcltyCtrtMngDetailForm"));
-        	var ctrtJoinContrList = JSON.stringify(this.$('#fcltyCtrtJoinContrList').flexGetData());
-        	var ctrtSubCtrtList = JSON.stringify(this.$('#fcltyCtrtSubCtrtList').flexGetData());
-        	var ctrtChangeList = JSON.stringify(this.$('#fcltyCtrtChangeList').flexGetData());
-        	var ctrtMoneyPymntList = JSON.stringify(this.$('#fcltyCtrtMoneyPymntList').flexGetData());
-        	var ctrtFulFillCaryFwdList = JSON.stringify(this.$('#fcltyCtrtFulFillCaryFwdList').flexGetData());
-        	
-        	var opts = [];
-        	opts[opts.length] = {name:'ctrtInfo', value: ctrtInfo};
-        	opts[opts.length] = {name:'ctrtJoinContrList', value: ctrtJoinContrList};
-        	opts[opts.length] = {name:'ctrtSubCtrtList', value: ctrtSubCtrtList};
-        	opts[opts.length] = {name:'ctrtChangeList', value: ctrtChangeList};
-        	opts[opts.length] = {name:'ctrtMoneyPymntList', value: ctrtMoneyPymntList};
-        	opts[opts.length] = {name:'ctrtFulFillCaryFwdList',value: ctrtFulFillCaryFwdList};
-        	
-        	if(this.$('#cmd').val() == 'insert') {
-        		if(this.$('#ctrtNo').val() == '') {
-        			alert('계약번호를 입력하세요.');
-        			return;
-        		}
-	        	this.doAction('/ctrt/gamInsertFcltyCtrtInfo.do', opts, function(module, result) {
-	        		if(result.resultCode == 0) {
-	        			module.$('#cmd').val('modify');
-	        			module.$('#ctrtNo').attr({disabled : 'disabled'});
-	        		    var searchOpt=module.makeFormArgs('#gamFcltyCtrtMngSearchForm');
-	        		    module.$('#fcltyCtrtMngList').flexOptions({params:searchOpt}).flexReload();	        			
-	        		}
-	        		alert(result.resultMsg);
-	        	});
-        	} else if (this.$('#cmd').val() == 'modify') {
-	        	this.doAction('/ctrt/gamUpdateFcltyCtrtInfo.do', opts, function(module, result) {
-	        		if(result.resultCode == 0) {
-	        		    var searchOpt=module.makeFormArgs('#gamFcltyCtrtMngSearchForm');
-	        		    module.$('#fcltyCtrtMngList').flexOptions({params:searchOpt}).flexReload();	   
-	        		}
-	        		alert(result.resultMsg);
-	        	});
-        	}
+        	this.saveCtrtData();
         	break;
         case 'btnRemove' : //삭제
-			if((this.$('#cmd').val() == 'modify')) {
-	        	if(confirm('데이터를 삭제하시겠습니까?')) {
-	            	var ctrtInfo = JSON.stringify(this.getFormValues("#gamFcltyCtrtMngDetailForm"));
-	            	
-	            	var opts = [];
-	            	opts[opts.length] = {name:'ctrtInfo', value: ctrtInfo};
-
-	            	this.doAction('/ctrt/gamDeleteFcltyCtrtInfo.do', opts, function(module, result) {
-		        		if(result.resultCode == 0) {
-		                	module.$('#gamFcltyCtrtMngSearchForm :input').val('');
-		                	module.$('#gamFcltyCtrtMngDetailForm :input').val('');
-		        			module.$("#fcltyCtrtJoinContrList").flexEmptyData();
-		        			module.$("#fcltyCtrtSubCtrtList").flexEmptyData();
-		        			module.$("#fcltyCtrtChangeList").flexEmptyData();
-		        			module.$("#fcltyCtrtMoneyPymntList").flexEmptyData();
-		        			module.$("#fcltyCtrtFulFillCaryFwdList").flexEmptyData();
-		        			module.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
-		        		}
-		        		alert(result.resultMsg);
-		        	});
-	        	}
-			}
-			else {
-				alert('삭제할 데이터를 조회하세요.');
-				break;
-			}
+        	this.deleteCtrtData();
         	break;        	
         case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
@@ -310,22 +359,47 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
     }
 };
 
-GamFcltyCtrtMngModule.prototype.onSubmit = function() {
-    this.loadData();
-};
-
-GamFcltyCtrtMngModule.prototype.loadData = function() {
-    this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
-    var searchOpt=this.makeFormArgs('#gamFcltyCtrtMngSearchForm');
-    this.$('#fcltyCtrtMngList').flexOptions({params:searchOpt}).flexReload();
-};
-
 GamFcltyCtrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
+	if(oldTabId == 'tabs1' && this._cmd == 'modify') {
+		this.initDisplay();
+		this.$('#tabs2').scrollTop(0);
+		this.loadDetailData();
+	}
     switch(newTabId) {
-    case 'tabs1':
-        break;
-    case 'tabs2':
-        break;
+	    case 'tabs1':
+	        break;
+	    case 'tabs2':
+	        break;
+	    case 'tabs3':
+			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
+				this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
+				alert('계약정보목록을 선택하시거나 등록버튼을 누르세요.');
+			} 	    	
+	        break;
+	    case 'tabs4':
+			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
+				this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
+				alert('계약정보목록을 선택하시거나 등록버튼을 누르세요.');
+			} 	    	
+	        break;
+	    case 'tabs5':
+			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
+				this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
+				alert('계약정보목록을 선택하시거나 등록버튼을 누르세요.');
+			} 	    	
+	        break;
+	    case 'tabs6':
+			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
+				this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
+				alert('계약정보목록을 선택하시거나 등록버튼을 누르세요.');
+			} 	    	
+	        break;
+	    case 'tabs7':
+			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
+				this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
+				alert('계약정보목록을 선택하시거나 등록버튼을 누르세요.');
+			} 	    	
+	        break;
     }
 };
 
@@ -409,7 +483,7 @@ var module_instance = new GamFcltyCtrtMngModule();
                         	<th width="10%">등록업체</th>
                             <td colspan="3">
                             	<input id="sRegistEntrpsCd" type="text" size="7">&nbsp; &nbsp;
-                         		<input id="sRegistEntrpsNm" type="text" size="17" disabled="disabled">&nbsp; &nbsp;
+                         		<input id="sRegistEntrpsNm" type="text" size="20" disabled="disabled">&nbsp; &nbsp;
                          		<button id="popupEntrpsInfo" class="popupButton">선택</button>
                          	</td>
                          	<th width="10%">입찰일</th>
@@ -463,7 +537,6 @@ var module_instance = new GamFcltyCtrtMngModule();
             <div id="tabs2" class="emdTabPage fillHeight" style="overflow: hidden;" >
             	<div class="emdControlPanel">
 					<form id="gamFcltyCtrtMngDetailForm">
-						<input type="hidden" id="cmd" />
     	               	<table class="detailForm"  style="width:100%;">
                             <tr>
 								<th width="10%" height="18">계약구분</th>
@@ -585,7 +658,7 @@ var module_instance = new GamFcltyCtrtMngModule();
     	               	<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button id="btnNew">등록</button>
+	                            	<button id="btnAdd">추가</button>
 	                                <button id="btnSave">저장</button>
 	                                <button id="btnRemove">삭제</button>
 	                            </td>
