@@ -38,8 +38,8 @@
 		                <isNotEmpty property="sPrtFcltyNm">
 	           				AND F.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
 	           			</isNotEmpty>
-		                <isNotEmpty property="sPrtFcltyCd">
-	           				AND F.GIS_PRT_FCLTY_CD = #sPrtFcltyCd#
+		                <isNotEmpty property="searchFcltyCd">
+	           				AND F.GIS_PRT_FCLTY_CD = #searchFcltyCd#
 	           			</isNotEmpty>
 			            ORDER BY F.GIS_ASSETS_CD,
 		                     F.GIS_ASSETS_PRT_AT_CODE,
@@ -68,8 +68,8 @@
         <isNotEmpty property="sPrtFcltyNm">
          	AND F.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
         </isNotEmpty>
-        <isNotEmpty property="sPrtFcltyCd">
-         	AND F.GIS_PRT_FCLTY_CD = #sPrtFcltyCd#
+        <isNotEmpty property="searchFcltyCd">
+         	AND F.GIS_PRT_FCLTY_CD = #searchFcltyCd#
          </isNotEmpty>
 	</select>
 </sqlMap>

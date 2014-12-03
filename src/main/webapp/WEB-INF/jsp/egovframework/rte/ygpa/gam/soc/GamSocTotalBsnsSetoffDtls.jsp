@@ -286,7 +286,7 @@ var module_instance = new GamSocTotalBsnsSetoffDtlsModule();
 								<th width="18%" height="25">총상계금액(공사)</th>
 								<td><input type="text" size="18" id="sumAppTotalAmnt" class="ygpaNumber" disabled="disabled" /></td>
 								<td>
-    	                        	<button data-role="printPage" data-search-option="gamSocTotalBsnsSetoffDtlsSearchForm" data-url="<c:url value='/soc/gamSelectSocTotalBsnsSetoffDtlsListPrint.do'/>">인쇄</button>
+    	                        	<button data-role="printPage" data-search-option="gamSocTotalBsnsSetoffDtlsSearchForm" data-url='/soc/gamSelectSocTotalBsnsSetoffDtlsListPrint.do'>인쇄</button>
         	                    </td>
 							</tr>
 						</table>

@@ -95,7 +95,7 @@ GamElctyFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"사진제목",	name:"atchFileSj",			width:160,		sortable:true,		align:"left"},
 					{display:"논리파일명",	name:"atchFileNmLogic",		width:160,		sortable:true,		align:"left"},
 					{display:"물리파일명",	name:"atchFileNmPhysicl",	width:160,		sortable:true,		align:"left"},
-					{display:"작성일시",	name:"atchFileWritngDt",	width:120,		sortable:true,		align:"center"}
+					{display:"작성일자",	name:"atchFileWritngDt",	width:120,		sortable:true,		align:"center"}
 			],
 		height: "auto"
 	});
@@ -423,6 +423,7 @@ GamElctyFcltySpecMngModule.prototype.removeAtchFileItem = function() {
     this.$("#fcltsFileForm").find(":input").val("");
 };
 
+
 /**
  * 탭 변경시 실행 이벤트
  */
@@ -440,11 +441,13 @@ GamElctyFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 		}
 		if((this._cmd != 'insert') && (this._cmd != 'modify')) {
 			this.$("#elctyFcltySpecMngTab").tabs("option", {active: 0});
+			alert('전기시설 항목을 선택 하세요.');
 		} 
 		break;
 	case "tabs3":
 		if((this._cmd != 'insert') && (this._cmd != 'modify')) {
 			this.$("#elctyFcltySpecMngTab").tabs("option", {active: 0});
+			alert('전기시설 항목을 선택 하세요.');
 		} 
 		break;
 	}
@@ -564,12 +567,12 @@ var module_instance = new GamElctyFcltySpecMngModule();
 					<table  class="detailPanel"  style="width:100%;">
 						<tr>
 							<th width="12%" height="17" class="required_text">항코드</th>
-							<td><input type="text" size="5" id="gisAssetsPrtAtCode" disabled="disabled"/>  <input type="text" size="5" id="gisAssetsPrtAtName" disabled="disabled"/></td>
+							<td><input type="text" size="5" id="gisAssetsPrtAtCode" disabled="disabled"/>  <input type="text" size="15" id="gisAssetsPrtAtName" disabled="disabled"/></td>
 							<th width="12%" height="17" class="required_text">GIS 자산코드</th>
 							<td colspan="3">
 								<input type="text" size="2" id="gisAssetsCd" disabled="disabled" data-required="true"/>-
 								<input type="text" size="1" id="gisAssetsSubCd" disabled="disabled"/>-
-								<input type="text" size="2" id="gisAssetsPrtAtCode2" disabled="disabled"/>
+								<input type="text" size="4" id="gisAssetsPrtAtCode2" disabled="disabled"/>
 								<button id="searchGisCodeBtn2" class="popupButton">선택</button>
 							</td>
 						</tr>
@@ -579,16 +582,16 @@ var module_instance = new GamElctyFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">지번</th>
 							<td>
 								<input id="gisAssetsLnm" type="text" size="3" title="지번 앞자리" disabled="disabled" />&nbsp;-&nbsp;
-								<input id="gisAssetsLnmSub" type="text" size="2" title="지번 뒷자리" disabled="disabled" />
+								<input id="gisAssetsLnmSub" type="text" size="3" title="지번 뒷자리" disabled="disabled" />
 							</td>
 							<th width="12%" height="17" class="required_text">소재지</th>
 							<td><input id="gisAssetsLocplc" type="text" size="32" title="소재지" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">전기시설코드</th>
+							<th width="12%" height="17" class="required_text">시설코드</th>
 							<td>
 								<input type="text" size="2" id="gisPrtFcltyCd" disabled="disabled" />&nbsp;-&nbsp;
-								<input type="text" size="3" id="gisPrtFcltySeq" disabled="disabled"/>
+								<input type="text" size="5" id="gisPrtFcltySeq" disabled="disabled"/>
 							</td>
 							<th width="12%" height="17" class="required_text">시설분류</th>
 							<td>

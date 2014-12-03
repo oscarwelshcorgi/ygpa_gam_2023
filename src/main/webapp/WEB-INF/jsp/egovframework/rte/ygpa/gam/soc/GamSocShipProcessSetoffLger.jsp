@@ -331,44 +331,46 @@ var module_instance = new GamSocShipProcessSetoffLgerModule();
                     <tr>
                         <th>공사항구</th>
                         <td>
-                        	<input id="prtAtCode" type="text" size="3" readOnly="readonly" />
-                            <input id="prtAtNm" type="text" size="6" disabled="disabled">
+                        	<input id="prtAtCode" type="text" size="7" readOnly="readonly" />
+                            <input id="prtAtNm" type="text" size="12" disabled="disabled">
                         </td>
                         <th>준공년도</th>
                         <td>
-                            <input id="cmplYr" type="text" size="3" readOnly="readonly" />
+                            <input id="cmplYr" type="text" size="5" readOnly="readonly" />
                         </td>
                         <th>공사번호</th>
                         <td>
-                            <input id="constNo" type="text" size="5" readOnly="readonly" />
-                        </td>
-                        <th>공사명</th>
-                        <td colspan="3">
-                            <input id="socCnstNm" type="text" size="45" readOnly="readonly" />
+                            <input id="constNo" type="text" size="10" readOnly="readonly" />
                         </td>
 					</tr>
 					<tr>    
 						<th>요청항구</th>
                         <td>
-                        	<input id="appPrtAtCode" type="text" size="3" readOnly="readonly" />
-                            <input id="appPrtAtNm" type="text" size="6" disabled="disabled">
+                        	<input id="appPrtAtCode" type="text" size="7" readOnly="readonly" />
+                            <input id="appPrtAtNm" type="text" size="12" disabled="disabled">
                         </td>
                         <th>요청업체</th>
                         <td>
-                            <input id="sctmc" type="text" size="3" readOnly="readonly" />
-                            <input id="agentNm2" type="text" size="6" disabled="disabled">
+                            <input id="sctmc" type="text" size="10" readOnly="readonly" />
+                            <input id="agentNm2" type="text" size="20" disabled="disabled">
                         </td>
-                        <th>신청횟수</th>
+                        <th>공사명</th>
                         <td>
-                            <input id="useNo" type="text" size="5" class="ygpaNumber" readOnly="readonly" />
+                            <input id="socCnstNm" type="text" size="30" readOnly="readonly" />
+                        </td>
+                    </tr>
+                    <tr>    
+                    	<th>신청횟수</th>
+                        <td>
+                            <input id="useNo" type="text" size="10" class="ygpaNumber" readOnly="readonly" />
                         </td>
                         <th>총공사보전금액(원부)</th>
                         <td>
-                            <input id="totalAmnt" type="text" size="10" class="ygpaNumber" readOnly="readonly" />
+                            <input id="totalAmnt" type="text" size="30" class="ygpaNumber" readOnly="readonly" />
                         </td>
                         <th>보전처리대상금액</th>
                         <td>
-                            <input id="exmpAmnt" type="text" size="10" class="ygpaNumber" readOnly="readonly" />
+                            <input id="exmpAmnt" type="text" size="30" class="ygpaNumber" readOnly="readonly" />
                         </td>
                     </tr>
                 </table>
@@ -419,7 +421,7 @@ var module_instance = new GamSocShipProcessSetoffLgerModule();
 								<th width="10%" height="22">자료수</th>
 								<td><input type="text" size="10" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align:right;" colspan="9">
-    	                        	<button data-role="printPage" data-search-option="gamSocShipProcessSetoffLgerSearchForm" data-url="<c:url value='/soc/gamSelectSocShipProcessSetoffLgerListPrint.do'/>">인쇄</button>
+    	                        	<button data-role="printPage" data-search-option="gamSocShipProcessSetoffLgerSearchForm" data-url='/soc/gamSelectSocShipProcessSetoffLgerListPrint.do'>인쇄</button>
         	                    </td>
 							</tr>
 						</table>

@@ -33,6 +33,8 @@ public class GamPopupConsFcltyInfoVO extends ComDefaultVO  {
 	
 	/** 건축시설분류코드(조회조건) **/
 	private String sPrtFcltyCd;
+	
+	private String searchFcltyCd;
 
 	/**
 	 * @return the sPrtAtCode
@@ -74,6 +76,20 @@ public class GamPopupConsFcltyInfoVO extends ComDefaultVO  {
 	 */
 	public void setsPrtFcltyCd(String sPrtFcltyCd) {
 		this.sPrtFcltyCd = sPrtFcltyCd;
+	}
+
+	/**
+	 * @return the searchFcltyCd
+	 */
+	public String getSearchFcltyCd() {
+		return searchFcltyCd;
+	}
+
+	/**
+	 * @param searchFcltyCd the searchFcltyCd to set
+	 */
+	public void setSearchFcltyCd(String searchFcltyCd) {
+		this.searchFcltyCd = searchFcltyCd;
 	}
 	
 	
