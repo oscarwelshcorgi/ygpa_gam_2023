@@ -284,6 +284,9 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
         case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
+        case 'popupEntrpsInfo2': // 업체선택 팝업을 호출한다.(계약정보관리)
+            this.doExecuteDialog('selectEntrpsInfoPopup2', '업체 선택', '/popup/showEntrpsInfo.do', opts);
+            break;
         case 'btnCtrtJoinContrUpdate': //계약공동도급관리 편집
         	allRows = this.$('#fcltyCtrtJoinContrList').flexGetData();
         	this.doExecuteDialog('updateCtrtJoinContr', '계약공동도급관리', '/popup/showCtrtJoinContrMngt.do', {}, allRows);
@@ -332,10 +335,14 @@ GamFcltyCtrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamFcltyCtrtMngModule.prototype.onClosePopup = function(popupId, msg, value) {
 	switch (popupId) {
-    	case 'selectEntrpsInfoPopup': //등록업체 선택
+		case 'selectEntrpsInfoPopup': //등록업체 선택(조회)
 	        this.$('#sRegistEntrpsCd').val(value['entrpscd']);
 	        this.$('#sRegistEntrpsNm').val(value['entrpsNm']);
-        	break;
+	    	break;
+		case 'selectEntrpsInfoPopup2': //등록업체 선택(목록)
+	        this.$('#registEntrpsCd').val(value['entrpscd']);
+	        this.$('#registEntrpsNm').val(value['entrpsNm']);
+	    	break;
 		case 'updateCtrtJoinContr' : //계약공동도급관리 편집
 			this.$("#fcltyCtrtJoinContrList").flexEmptyData();
 			this.$("#fcltyCtrtJoinContrList").flexAddData({resultList: value});
@@ -497,7 +504,7 @@ var module_instance = new GamFcltyCtrtMngModule();
                                 <td>
                                 	<input type="text" size="10" id="registEntrpsCd" maxlength="10" /> 
                                 	<input type="text" size="25" id="registEntrpsNm" disabled="disabled" /> 
-                                	<button id="popupEntrpsInfo" class="popupButton">선택</button> 
+                                	<button id="popupEntrpsInfo2" class="popupButton">선택</button> 
                                 </td>
                             </tr>
                             <tr>

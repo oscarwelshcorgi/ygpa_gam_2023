@@ -118,7 +118,7 @@ GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.onTabChange = function(newTabId,
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
-     case 'selectAgentInfo' : //업체조회
+     case 'selectEntrpsInfo' : //업체조회
   	 	 this.$("#sAppAgentCode").val(value["agentCode"]);
   	 	 this.$("#sAppAgentName").val(value["firmKorNm"]);
 		 break;
@@ -154,7 +154,7 @@ var module_instance = new GamSocPrtFcltyFeeExmpRqestSttusModule();
                             <th>업체코드</th>
                             <td>
                                 <input id="sAppAgentCode" type="text" size="7" />
-                            	<input id="sAppAgentName" type="text" size="10" disabled="disabled" />&nbsp; &nbsp;
+                            	<input id="sAppAgentName" type="text" size="30" disabled="disabled" />&nbsp; &nbsp;
                             	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
                             <td  rowSpan="2">
