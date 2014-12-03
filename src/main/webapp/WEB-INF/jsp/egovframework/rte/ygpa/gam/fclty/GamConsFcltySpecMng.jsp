@@ -356,7 +356,7 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			 			var searchOpt = module.makeFormArgs("#fcltyForm");
 						module.$("#constFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();
 						//module.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
-						module.$("#fcltyManageVO :input").val("");
+						//module.$("#fcltyManageVO :input").val("");
 
 						fcltsMngNo = result.fcltsMngNo;
 
@@ -374,7 +374,7 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			 			var searchOpt = module.makeFormArgs("#fcltyForm");
 						module.$("#constFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();
 						//module.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
-						module.$("#fcltyManageVO :input").val("");
+						//module.$("#fcltyManageVO :input").val("");
 
 						fcltsMngNo = result.fcltsMngNo;
 

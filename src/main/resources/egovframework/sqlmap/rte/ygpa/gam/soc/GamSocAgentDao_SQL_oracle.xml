@@ -252,9 +252,9 @@
 		       )
 		       VALUES
 		       (
-		           #sPrtAtCode# ,
-		           #sCmplYr# ,
-		           #sConstNo# ,
+		           #prtAtCode# ,
+		           #cmplYr# ,
+		           #constNo# ,
 		           #agentCode# ,
 		           #socPrtAtCode# ,
 		           #socCnstNm# ,
@@ -379,15 +379,15 @@
 			WHERE 1<>1
         ]]>
         
-	         <isNotEmpty property="sPrtAtCode">
-	             OR (PRT_AT_CODE = #sPrtAtCode#
+	         <isNotEmpty property="prtAtCode">
+	             OR (PRT_AT_CODE = #prtAtCode#
 	             
-	             <isNotEmpty property="sCmplYr">
-		             AND CMPL_YR = #sCmplYr#
+	             <isNotEmpty property="cmplYr">
+		             AND CMPL_YR = #cmplYr#
 		         </isNotEmpty>
 		         
-		         <isNotEmpty property="sConstNo">
-		             AND CONST_NO = #sConstNo#
+		         <isNotEmpty property="constNo">
+		             AND CONST_NO = #constNo#
 		         </isNotEmpty>
 		         
 		         )
@@ -402,15 +402,15 @@
 			  FROM P2MGR.SOC_AGENT_F@YGPA_P2MGR 
 			 WHERE 1<>1
 		]]>	 
-			<isNotEmpty property="sPrtAtCode">
-	             OR (PRT_AT_CODE = #sPrtAtCode#
+			<isNotEmpty property="prtAtCode">
+	             OR (PRT_AT_CODE = #prtAtCode#
 	             
-	             <isNotEmpty property="sCmplYr">
-		             AND CMPL_YR = #sCmplYr#
+	             <isNotEmpty property="cmplYr">
+		             AND CMPL_YR = #cmplYr#
 		         </isNotEmpty>
 		         
-		         <isNotEmpty property="sConstNo">
-		             AND CONST_NO = #sConstNo#
+		         <isNotEmpty property="constNo">
+		             AND CONST_NO = #constNo#
 		         </isNotEmpty>
 		         
 		         )
@@ -425,15 +425,15 @@
 			  FROM P2MGR.SOC_AGENT_DETAIL_F@YGPA_P2MGR 
 			 WHERE 1<>1
 		]]>	 
-			<isNotEmpty property="sPrtAtCode">
-	             OR (PRT_AT_CODE = #sPrtAtCode#
+			<isNotEmpty property="prtAtCode">
+	             OR (PRT_AT_CODE = #prtAtCode#
 	             
-	             <isNotEmpty property="sCmplYr">
-		             AND CMPL_YR = #sCmplYr#
+	             <isNotEmpty property="cmplYr">
+		             AND CMPL_YR = #cmplYr#
 		         </isNotEmpty>
 		         
-		         <isNotEmpty property="sConstNo">
-		             AND CONST_NO = #sConstNo#
+		         <isNotEmpty property="constNo">
+		             AND CONST_NO = #constNo#
 		         </isNotEmpty>
 		         
 		         )

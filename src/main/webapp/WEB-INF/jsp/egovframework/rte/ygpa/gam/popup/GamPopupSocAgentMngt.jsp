@@ -165,17 +165,11 @@ GamPopupSocAgentMngtModule.prototype.onButtonClick = function(buttonId) {
 	// 추가
 	case "addBtn":
 		this.$('#gamPopupSocAgentMngtForm :input').val('');
-		/*
-		this._maxOlnlpSeq+=1;
-		this._edited=false;
-		this._editData={_updtId: "I", gisAssetsPrtAtCode: this._selectRow.gisAssetsPrtAtCode
-				, gisAssetsCd: this._selectRow.gisAssetsCd
-				, gisAssetsSubCd: this._selectRow.gisAssetsSubCd, olnlp: 0, olnlpSeq: EMD.util.leftPad(this._maxOlnlpSeq, '0', 2)};
-
-		this.$("#gamPopupSocAgentMngtForm").selectRowId(this._editRow);
-		 */
-
-		 this.$("#grdInfoList").flexAddRow({'agentCode':'','firmKorNm':'','constNo':'','totalAmnt':'','accFee':'','remark':''});
+		this.$("#grdInfoList").flexAddRow({'agentCode':'','firmKorNm':'','constNo':'','totalAmnt':'','accFee':'','remark':''});
+		
+		var all_rows = this.$('#grdInfoList').flexGetData();
+		var sel_row_id = all_rows.length - 1;
+		this.$("#grdInfoList").selectRowId(sel_row_id);
 	break;
 		case "btnRemove":
 			this.removeGisAssetPhotoItem();

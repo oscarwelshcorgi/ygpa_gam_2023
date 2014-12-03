@@ -243,7 +243,7 @@ var module_instance = new GamFcltyCtrtSttusInqireModule();
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtSttusInqireSearchForm" data-url="<c:url value='/ctrt/gamSelectFcltyCtrtSttusInqirePrint.do'/>">계약이력인쇄</button> 
+	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtSttusInqireSearchForm" data-url='/ctrt/gamSelectFcltyCtrtSttusInqirePrint.do'>계약이력인쇄</button> 
 	                            	<button id="btnFcltyCtrtSttusInqireListExcelDownload">엑셀</button>
 	                            </td>
 	                        </tr>

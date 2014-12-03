@@ -83,6 +83,19 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
             return data;
         }
     });
+    
+    
+	// 연도 셀렉트 옵션에 뿌리기
+	var toDate = new Date();
+	var toYear = toDate.getFullYear();
+	
+	var option = "";
+	for(var i = 2000;i<=toYear;i++){
+		option = option + "<option value='" + i + "'>" + i + "년</option>";
+	}
+	this.$("#sCmplYr").append(option);
+	
+	this.$("#cmplYr").append(option);
 
 };
 
@@ -130,12 +143,12 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
         	var inputVO = [];
         	
         	var all_rows = JSON.stringify(this.$('#socAgentMngtList').flexGetData());
-        	var searchData = JSON.stringify(this.getFormValues("#gamSocAgentMngtSearchForm"));
+        	//var searchData = JSON.stringify(this.getFormValues("#gamSocAgentMngtSearchForm"));
         	var updateData = JSON.stringify(this.getFormValues("#form1"));
         	var updateData1 = JSON.stringify(this.getFormValues("#gamSocAgentForm"));
         	
         	inputVO[inputVO.length] = {name: 'updateList',value: all_rows};
-        	inputVO[inputVO.length] = {name: 'searchData',value: searchData};
+        	//inputVO[inputVO.length] = {name: 'searchData',value: searchData};
         	inputVO[inputVO.length] = {name: 'updateData',value: updateData};
         	inputVO[inputVO.length] = {name: 'updateData1',value: updateData1};
         	
@@ -169,7 +182,7 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
         	}
         	
         	var inputVO = [];
-        	var searchData = JSON.stringify(this.getFormValues("#gamSocAgentMngtSearchForm"));
+        	var searchData = JSON.stringify(this.getFormValues("#form1"));
 
         	inputVO[inputVO.length] = {name: 'searchData',value: searchData};
         	this.doAction('/soc/gamDeleteSocAgentList.do', inputVO, function(module, result) {
@@ -253,11 +266,11 @@ GamSocAgentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
          break;
      case 'addSocAgentPopup':
     	 
-    	 if(this['_socAgentInfo']==undefined){
-    		 
-    		 this['_socAgentInfo'] = null;
-    	 }
-    	 this.$("#socAgentMngtList").flexAddData({resultList: value, socAgentInfo:this._socAgentInfo });
+    	if(this['_socAgentInfo']==undefined){
+    		this['_socAgentInfo'] = null;
+    	}
+		this.$("#socAgentMngtList").flexEmptyData();
+    	this.$("#socAgentMngtList").flexAddData({resultList: value, socAgentInfo:this._socAgentInfo });
     	 
         break;
      default:
@@ -296,10 +309,7 @@ var module_instance = new GamSocAgentMngtModule();
                             <th>공사준공년도</th>
                             <td width="100px">
                                 <select id="sCmplYr">
-                                    <option value="" selected="selected">년</option>
-                                    <c:forEach  items="${yearsList}" var="yearsItem">
-                                        <option value="${yearsItem }">${yearsItem }</option>
-                                    </c:forEach>
+                                    <option value="" >선택</option>
                                 </select>
                             </td>
                             <th>공사일련번호</th>
@@ -331,9 +341,31 @@ var module_instance = new GamSocAgentMngtModule();
 					<form id="form1">
 						<input type="hidden" id="cmd" value="insert" />
     	               	<table class="detailForm"  style="width:100%;">
+    	               		<tr>
+	                            <th>*항코드</th>
+	                            <td>
+	                                <!-- <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /> -->
+	                                <select id="prtAtCode">
+	                                    <option value="" selected="selected">전체</option>
+	                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
+	                                        <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }</option>
+	                                    </c:forEach>
+	                                </select>
+	                            </td>
+	                            <th>공사준공년도</th>
+	                            <td width="100px">
+	                                <select id="cmplYr">
+	                                    <option value="" >선택</option>
+	                                </select>
+	                            </td>
+	                            <th>공사일련번호</th>
+	                            <td>
+	                            	<input id="constNo" type="text" size="15">
+	                            </td>
+	                        </tr>
                             <tr>
                                 <th width="16%">*공사항만코드</th>
-                                <td>
+                                <td colspan="3">
                                 	<select id="socPrtAtCode">
 	                                    <option value="" selected="selected">전체</option>
 	                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
@@ -347,19 +379,19 @@ var module_instance = new GamSocAgentMngtModule();
                             </tr>
                             <tr>
                                 <th width="16%">*공사명</th>
-                                <td><input type="text" id="socCnstNm" size="55"></td>
+                                <td colspan="3"><input type="text" id="socCnstNm" size="55"></td>
                                 <th width="16%">*공사승인일자</th>
                                 <td><input id="aprvDt" type="text" class="emdcal" size="20"></td>
                             </tr>
                             <tr>
                                 <th width="16%">위치</th>
-                                <td><input type="text" id="cnstLoc" size="55"></td>
+                                <td colspan="3"><input type="text" id="cnstLoc" size="55"></td>
                                 <th width="16%">*공사허가일자</th>
                                 <td><input id="perfDt" type="text" class="emdcal" size="20"></td>
                             </tr>
                             <tr>
                                 <th width="16%">*업체코드</th>
-                                <td>
+                                <td colspan="3">
                                 	<input id="agentCode" type="text" size="10">&nbsp; &nbsp;
 	                            	<input id="agentName" type="text" size="15" disabled="disabled">&nbsp; &nbsp;
 	                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
@@ -369,11 +401,11 @@ var module_instance = new GamSocAgentMngtModule();
                             </tr>
                             <tr>
                                 <th width="16%">주소</th>
-                                <td colspan='3'><input input="text" id="agentAddr" size="120" ></td>
+                                <td colspan='5'><input input="text" id="agentAddr" size="120" ></td>
                             </tr>
                             <tr>
                                 <th width="16%">*총공사금액</th>
-                                <td><input type="text" id="totalBuildFee" class="ygpaNumber" size="55" ></td>
+                                <td colspan="3"><input type="text" id="totalBuildFee" class="ygpaNumber" size="55" ></td>
                                 <th width="16%">보전처리누계액</th>
                                 <td><input id="totalAmnt" type="text" class="ygpaNumber" size="20"></td>
                             </tr>

@@ -93,43 +93,19 @@ public class GamSocAgentController {
 
     @RequestMapping(value="/soc/gamSocAgent.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-    	
-    	//login정보 
-    	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
     	GamSocCmmUseVO codeVo = new GamSocCmmUseVO();
 		
 		codeVo.setCodeId("GAM019"); //항코드 
 		
 		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
-		List yearsList = this.getYears(); // 조회연도
 		
 		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("windowId", windowId);
-		model.addAttribute("yearsList", yearsList);
 
     	return "/ygpa/gam/soc/GamSocAgent";
     }
     
-    
-    /**
-     * 조회기간 연도를 가져온다
-     *
-     */
-	public List getYears(){
-
-		java.util.Calendar cal = java.util.Calendar.getInstance();
-		int currentYear = cal.get(cal.YEAR);
-		List result = new ArrayList();
-   		
-   		for (int i = 2000; i <= currentYear; i++) {
-   			
-   			result.add(String.valueOf(i));
-   		}
-
-   		return result;
-   	}
-	
 	
 	/**
      * 항만공사허가원부목록을 조회한다.
@@ -212,7 +188,7 @@ public class GamSocAgentController {
     	Map<String, Object> updateTotal = new HashMap<String, Object>();
     	Map<String, Object> updateData = new HashMap<String, Object>();
     	Map<String, Object> updateData1 = new HashMap<String, Object>();
-    	Map<String, Object> searchData = new HashMap<String, Object>();
+    	//Map<String, Object> searchData = new HashMap<String, Object>();
     	Map<String, Object> updateSubData = new HashMap<String, Object>();
     	ObjectMapper mapper = new ObjectMapper();
     	
@@ -226,19 +202,17 @@ public class GamSocAgentController {
     	}
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-
-//    	socAgentList.put("USERID", user.getId());
-//    	socAgentList.put("prtFcltySe",prtFcltySe);
     	
     	updateList = mapper.readValue((String)socAgentList.get("updateList"),new TypeReference<List<HashMap<String,String>>>(){});
     	
-    	searchData = mapper.readValue((String)socAgentList.get("searchData"),new TypeReference<HashMap<String,String>>(){});
+    	//searchData = mapper.readValue((String)socAgentList.get("searchData"),new TypeReference<HashMap<String,String>>(){});
     	updateData = mapper.readValue((String)socAgentList.get("updateData"),new TypeReference<HashMap<String,String>>(){});
     	updateData1 = mapper.readValue((String)socAgentList.get("updateData1"),new TypeReference<HashMap<String,String>>(){});
 
     	updateTotal.putAll(updateData);
     	updateTotal.putAll(updateData1);
-    	updateTotal.putAll(searchData);
+    	updateTotal.put("updtUid",user.getId());
+    	//updateTotal.putAll(searchData);
 
     	try {
     		
@@ -247,9 +221,10 @@ public class GamSocAgentController {
     		for(int i=0;i<updateList.size();i++){
     			updateSubData = (HashMap)updateList.get(i);
     			
-    			updateSubData.put("prtAtCode", updateTotal.get("sPrtAtCode"));
-    			updateSubData.put("cmplYr", updateTotal.get("sCmplYr"));
-    			updateSubData.put("constNo", updateTotal.get("sConstNo"));
+    			updateSubData.put("prtAtCode", updateTotal.get("prtAtCode"));
+    			updateSubData.put("cmplYr", updateTotal.get("cmplYr"));
+    			updateSubData.put("constNo", updateTotal.get("constNo"));
+    			updateSubData.put("updtUid", user.getId());
     			
     			gamSocAgentService.insertSocAgentList(updateSubData);
     		}
@@ -280,7 +255,7 @@ public class GamSocAgentController {
     	Map<String, Object> updateTotal = new HashMap<String, Object>();
     	Map<String, Object> updateData = new HashMap<String, Object>();
     	Map<String, Object> updateData1 = new HashMap<String, Object>();
-    	Map<String, Object> searchData = new HashMap<String, Object>();
+    	//Map<String, Object> searchData = new HashMap<String, Object>();
     	Map<String, Object> updateSubData = new HashMap<String, Object>();
     	ObjectMapper mapper = new ObjectMapper();
     	
@@ -295,31 +270,32 @@ public class GamSocAgentController {
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
-//    	socAgentList.put("USERID", user.getId());
-//    	socAgentList.put("prtFcltySe",prtFcltySe);
+
     	
     	updateList = mapper.readValue((String)socAgentList.get("updateList"),new TypeReference<List<HashMap<String,String>>>(){});
     	
-    	searchData = mapper.readValue((String)socAgentList.get("searchData"),new TypeReference<HashMap<String,String>>(){});
+    	//searchData = mapper.readValue((String)socAgentList.get("searchData"),new TypeReference<HashMap<String,String>>(){});
     	updateData = mapper.readValue((String)socAgentList.get("updateData"),new TypeReference<HashMap<String,String>>(){});
     	updateData1 = mapper.readValue((String)socAgentList.get("updateData1"),new TypeReference<HashMap<String,String>>(){});
 
     	updateTotal.putAll(updateData);
     	updateTotal.putAll(updateData1);
-    	updateTotal.putAll(searchData);
+    	updateTotal.put("updtUid",user.getId());
+    	//updateTotal.putAll(searchData);
 
     	try {
     		
     		gamSocAgentService.updateSocAgentData(updateTotal);
     		
-    		gamSocAgentService.deleteSocAgentList(searchData);
+    		gamSocAgentService.deleteSocAgentList(updateTotal);
     		
     		for(int i=0;i<updateList.size();i++){
     			updateSubData = (HashMap)updateList.get(i);
     			
-    			updateSubData.put("prtAtCode", updateTotal.get("sPrtAtCode"));
-    			updateSubData.put("cmplYr", updateTotal.get("sCmplYr"));
-    			updateSubData.put("constNo", updateTotal.get("sConstNo"));
+    			updateSubData.put("prtAtCode", updateTotal.get("prtAtCode"));
+    			updateSubData.put("cmplYr", updateTotal.get("cmplYr"));
+    			updateSubData.put("constNo", updateTotal.get("constNo"));
+    			updateSubData.put("updtUid", user.getId());
     			
     			gamSocAgentService.insertSocAgentList(updateSubData);
     		}
@@ -359,8 +335,6 @@ public class GamSocAgentController {
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
-//    	socAgentList.put("USERID", user.getId());
-//    	socAgentList.put("prtFcltySe",prtFcltySe);
     	
     	searchData = mapper.readValue((String)socAgentList.get("searchData"),new TypeReference<HashMap<String,String>>(){});
 

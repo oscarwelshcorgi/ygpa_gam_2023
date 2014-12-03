@@ -540,7 +540,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
                         <table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url="<c:url value='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'/>">계약대장인쇄</button>
+	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'>계약대장인쇄</button>
 	                            </td>
 	                        </tr>
 						</table>
@@ -559,7 +559,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 								<th width="15%" height="25">자료수</th>
 								<td><input type="text" size="100" id="tabs3TotalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td>
-    	                        	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url="<c:url value='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'/>">계약대장인쇄</button>
+    	                        	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'>계약대장인쇄</button>
         	                    </td>
 							</tr>
 						</table>
@@ -648,7 +648,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url="<c:url value='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'/>">계약대장인쇄</button>
+	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'>계약대장인쇄</button>
 	                            </td>
 	                        </tr>
 						</table>
@@ -677,7 +677,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url="<c:url value='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'/>">계약대장인쇄</button>
+	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'>계약대장인쇄</button>
 	                            </td>
 	                        </tr>
 						</table>
@@ -702,7 +702,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url="<c:url value='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'/>">계약대장인쇄</button>
+	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'>계약대장인쇄</button>
 	                            </td>
 	                        </tr>
 						</table>

@@ -100,7 +100,7 @@ var popup_instance = new GamPopupFcltsClCdModule();
                         <td>
                         	<input id="sFcltsMngGroupNo" type="text" size="14" maxlength="14" />
                         </td>
-						<th>시설묿 관리 그룹명</th>
+						<th>시설물 관리 그룹명</th>
                         <td><input id="sFcltsMngGroupNm" type="text" size="20" /></td>
 						<td><button id="btnSearch">조회</button></td>
 					</tr>
