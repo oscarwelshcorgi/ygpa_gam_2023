@@ -95,7 +95,7 @@ GamInfoTechFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"사진제목",	name:"atchFileSj",			width:160,		sortable:true,		align:"left"},
 					{display:"논리파일명",	name:"atchFileNmLogic",		width:160,		sortable:true,		align:"left"},
 					{display:"물리파일명",	name:"atchFileNmPhysicl",	width:160,		sortable:true,		align:"left"},
-					{display:"작성일시",	name:"atchFileWritingDt",	width:120,		sortable:true,		align:"center"}
+					{display:"작성일자",	name:"atchFileWritingDt",	width:120,		sortable:true,		align:"center"}
 			],
 		height: "auto"
 	});
@@ -559,12 +559,12 @@ var module_instance = new GamInfoTechFcltySpecMngModule();
 					<table  class="detailPanel"  style="width:100%;">
 						<tr>
 							<th width="12%" height="17" class="required_text">항코드</th>
-							<td><input type="text" size="5" id="gisAssetsPrtAtCode" disabled="disabled"/>  <input type="text" size="5" id="gisAssetsPrtAtName" disabled="disabled"/></td>
+							<td><input type="text" size="5" id="gisAssetsPrtAtCode" disabled="disabled"/>  <input type="text" size="15" id="gisAssetsPrtAtName" disabled="disabled"/></td>
 							<th width="12%" height="17" class="required_text">GIS 자산코드</th>
 							<td colspan="3">
 								<input type="text" size="2" id="gisAssetsCd" disabled="disabled" data-required="true"/>-
 								<input type="text" size="1" id="gisAssetsSubCd" disabled="disabled"/>-
-								<input type="text" size="2" id="gisAssetsPrtAtCode2" disabled="disabled"/>
+								<input type="text" size="4" id="gisAssetsPrtAtCode2" disabled="disabled"/>
 								<button id="searchGisCodeBtn2" class="popupButton">선택</button>
 							</td>
 						</tr>
@@ -574,7 +574,7 @@ var module_instance = new GamInfoTechFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">지번</th>
 							<td>
 								<input id="gisAssetsLnm" type="text" size="3" title="지번 앞자리" disabled="disabled" />&nbsp;-&nbsp;
-								<input id="gisAssetsLnmSub" type="text" size="2" title="지번 뒷자리" disabled="disabled" />
+								<input id="gisAssetsLnmSub" type="text" size="3" title="지번 뒷자리" disabled="disabled" />
 							</td>
 							<th width="12%" height="17" class="required_text">소재지</th>
 							<td><input id="gisAssetsLocplc" type="text" size="32" title="소재지" disabled="disabled" /></td>
