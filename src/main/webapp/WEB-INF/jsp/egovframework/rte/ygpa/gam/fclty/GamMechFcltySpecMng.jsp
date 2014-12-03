@@ -482,7 +482,12 @@ GamMechFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value)
 			this.$("#archFcltsMngNo").val(value["fcltsMngNo"]);
 			this.$("#archFcltsMngNoNm").val(value["prtFcltyNm"]);			
 			break;
-			
+		
+		case "selectFcltsMngGroup":
+			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
+			this.$("#fcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
+			break;
+		
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
 			break;
