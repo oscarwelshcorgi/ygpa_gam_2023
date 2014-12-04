@@ -53,6 +53,11 @@ public class GamFcltsFeeMngNticServiceImpl extends AbstractServiceImpl implement
 	}
 
 	@Override
+	public List selectFcltsFeeMngNticPrintNoticeIssueList(Map searchVO) throws Exception {
+		return gamFcltsFeeMngNticDao.selectFcltsFeeMngNticPrintNoticeIssueList(searchVO);
+	}
+
+	@Override
 	public void insertFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception {
 		gamFcltsFeeMngNticDao.insertFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
 	}
@@ -60,11 +65,6 @@ public class GamFcltsFeeMngNticServiceImpl extends AbstractServiceImpl implement
 	@Override
 	public void updateFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception {
 		gamFcltsFeeMngNticDao.updateFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
-	}
-
-	@Override
-	public void updateFcltsFeeMngNticNhtOutputYn(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception {
-		gamFcltsFeeMngNticDao.updateFcltsFeeMngNticNhtOutputYn(gamFcltsFeeMngNticVo);
 	}
 
 	@Override
@@ -82,6 +82,17 @@ public class GamFcltsFeeMngNticServiceImpl extends AbstractServiceImpl implement
 	public void cancelFcltsFeeMngNticIssue(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception {
 		gamFcltsFeeMngNticDao.deleteRevCollF(gamFcltsFeeMngNticVo);
 		gamFcltsFeeMngNticDao.updateFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
+	}
+
+	@Override
+	public void updateFcltsFeeMngNticIssuePrintYn(Map<String, Object> vo) throws Exception {
+		Map map = gamFcltsFeeMngNticDao.selectMngFeeLevRequestFByPk(vo);
+		gamFcltsFeeMngNticDao.updateFcltsFeeMngNticNhtPrintYn(vo);
+		if (map.get("arrrgNo") != null) {
+			gamFcltsFeeMngNticDao.updateUnpaidFDlyBillPrtYn(vo);
+		} else {
+			gamFcltsFeeMngNticDao.updateRevCollFBillPrtYn(vo);
+		}
 	}
 
 }

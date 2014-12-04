@@ -44,6 +44,12 @@ public interface GamFcltsFeeMngNticService {
 	List selectFcltsFeeMngNticDetailList(GamFcltsFeeMngNticDetailVo searchVO) throws Exception;
 
 	/**
+	 * @param searchVO
+	 * @return
+	 */
+	List selectFcltsFeeMngNticPrintNoticeIssueList(Map searchVO) throws Exception;
+
+	/**
 	 * @param gamFcltsFeeMngNticVo
 	 */
 	void insertFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception;
@@ -52,11 +58,6 @@ public interface GamFcltsFeeMngNticService {
 	 * @param gamFcltsFeeMngNticVo
 	 */
 	void updateFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception;
-
-	/**
-	 * @param gamFcltsFeeMngNticVo
-	 */
-	void updateFcltsFeeMngNticNhtOutputYn(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception;
 
 	/**
 	 * @param gamFcltsFeeMngNticVo
@@ -73,4 +74,8 @@ public interface GamFcltsFeeMngNticService {
 	 */
 	void cancelFcltsFeeMngNticIssue(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception;
 
+	/**
+	 * @param vo
+	 */
+	void updateFcltsFeeMngNticIssuePrintYn(Map<String, Object> vo) throws Exception;
 }

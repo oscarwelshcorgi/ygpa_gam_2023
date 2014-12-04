@@ -49,7 +49,7 @@ public class GamFcltsFeeMngNticDetailVo extends ComDefaultVO {
 	private String	rcivSeNm;			//수납 구분 명
 	private String	rcivDt;				//수납 일자
 	private String	nhtIsueYn;			//고지 여부
-	private String	nhtOutputYn;		//출력 여부
+	private String	nhtPrintYn;			//출력 여부
 	private String	aditNticYn;			//추가 고지 여부
 	private String	arrrgNo;			//연체 번호
 	private String	arrrgAmt;			//연체 금액
@@ -327,16 +327,16 @@ public class GamFcltsFeeMngNticDetailVo extends ComDefaultVO {
 		this.nhtIsueYn = nhtIsueYn;
 	}
 	/**
-	 * @return the nhtOutputYn
+	 * @return the nhtPrintYn
 	 */
-	public String getNhtOutputYn() {
-		return nhtOutputYn;
+	public String getNhtPrintYn() {
+		return nhtPrintYn;
 	}
 	/**
-	 * @param nhtOutputYn the nhtOutputYn to set
+	 * @param nhtPrintYn the nhtPrintYn to set
 	 */
-	public void setNhtOutputYn(String nhtOutputYn) {
-		this.nhtOutputYn = nhtOutputYn;
+	public void setNhtPrintYn(String nhtPrintYn) {
+		this.nhtPrintYn = nhtPrintYn;
 	}
 	/**
 	 * @return the aditNticYn

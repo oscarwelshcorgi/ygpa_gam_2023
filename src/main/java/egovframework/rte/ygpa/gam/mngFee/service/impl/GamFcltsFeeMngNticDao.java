@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticDetailVo;
 
@@ -48,11 +49,27 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	}
 
 	/**
+	 * @param vo
+	 * @return
+	 */
+	public EgovMap selectMngFeeLevRequestFByPk(Map<String, Object> vo) throws Exception {
+		return (EgovMap)selectByPk("gamFcltsFeeMngNticDao.selectMngFeeLevRequestFByPk_S", vo);
+	}
+
+	/**
 	 * @param searchVO
 	 * @return
 	 */
 	public List selectFcltsFeeMngNticDetailList(GamFcltsFeeMngNticDetailVo searchVO) {
 		return list("gamFcltsFeeMngNticDao.selectFcltsFeeMngNticDetailList_D", searchVO);
+	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public List selectFcltsFeeMngNticPrintNoticeIssueList(Map searchVO) {
+		return list("gamFcltsFeeMngNticDao.selectFcltsFeeMngNticPrintNoticeIssueList_D", searchVO);
 	}
 
 	/**
@@ -70,10 +87,10 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	}
 
 	/**
-	 * @param gamFcltsFeeMngNticVo
+	 * @param vo
 	 */
-	public void updateFcltsFeeMngNticNhtOutputYn(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) {
-		update("gamFcltsFeeMngNticDao.updateFcltsFeeMngNticNhtOutputYn_S", gamFcltsFeeMngNticVo);
+	public void updateFcltsFeeMngNticNhtPrintYn(Map<String, Object> vo) {
+		update("gamFcltsFeeMngNticDao.updateFcltsFeeMngNticNhtPrintYn_S", vo);
 	}
 
 	/**
@@ -91,10 +108,24 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	}
 
 	/**
+	 * @param vo
+	 */
+	public void updateRevCollFBillPrtYn(Map<String, Object> vo) {
+		update("gamFcltsFeeMngNticDao.updateRevCollFBillPrtYn_S", vo);
+	}
+
+	/**
 	 * @param gamFcltsFeeMngNticVo
 	 */
 	public void deleteRevCollF(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) {
 		delete("gamFcltsFeeMngNticDao.deleteRevCollF_S", gamFcltsFeeMngNticVo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void updateUnpaidFDlyBillPrtYn(Map<String, Object> vo) {
+		update("gamFcltsFeeMngNticDao.updateUnpaidFDlyBillPrtYn_S", vo);
 	}
 
 }

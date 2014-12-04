@@ -74,14 +74,18 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 					{display:'수납 일자',			name:'rcivDt',				width:80,		sortable:false,		align:'center'},
 					{display:'부가세 구분',			name:'vatYnNm',				width:80,		sortable:false,		align:'center'},
 					{display:'고지 여부',			name:'nhtIsueYn',			width:80,		sortable:false,		align:'center'},
-					{display:'출력 여부',			name:'nhtOutputYn',			width:80,		sortable:false,		align:'center'},
+					{display:'출력 여부',			name:'nhtPrintYn',			width:80,		sortable:false,		align:'center'},
 					{display:'추가 고지 여부',		name:'aditNticYn',			width:90,		sortable:false,		align:'center'},
 					{display:'연체 번호',			name:'arrrgNo',				width:80,		sortable:false,		align:'center'},
 					{display:'연체 금액',			name:'arrrgAmt',			width:90,		sortable:false,		align:'right'},
 					{display:'연체 요율',			name:'arrrgTariff',			width:80,		sortable:false,		align:'right'},
 					{display:'연체 일수',			name:'arrrgPayDates',		width:80,		sortable:false,		align:'right'},
 					{display:'요금 종류 코드',		name:'chrgeKnd',			width:100,		sortable:false,		align:'left'},
-					{display:'항 코드',				name:'prtAtCode',			width:100,		sortable:false,		align:'left'}
+					{display:'항 코드',				name:'prtAtCode',			width:80,		sortable:false,		align:'center'},
+					{display:'관리 월',				name:'mngMt',				width:80,		sortable:false,		align:'center'},
+					{display:'업무 구분',			name:'mngFeeJobSe',			width:80,		sortable:false,		align:'center'},
+					{display:'관리 순번',			name:'mngSeq',				width:80,		sortable:false,		align:'center'},
+					{display:'의뢰 순번',			name:'reqestSeq',			width:80,		sortable:false,		align:'center'}
                     ],
 		showTableToggleBtn : false,
 		height : 'auto',
@@ -250,6 +254,9 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnCancelNticIssue2':
 			this.cancelNticIssue();
+			break;
+		case 'btnPrintNticIssue2':
+			this.printNticIssue();
 			break;
 		case 'btnExcelDownload':
 			this.downloadExcel();
@@ -651,6 +658,24 @@ GamFcltsFeeMngNticModule.prototype.cancelNticIssue = function() {
 			alert(result.resultMsg);
 		});
 	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : printNticIssue
+ * @DESCRIPTION   : 시설물 관리비 고지 내역 지로 고지서를 출력한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.printNticIssue = function() {
+console.log('asdf');
+	var row = this.$('#mainGrid').selectedRows()[0];
+	if (row['nhtIsueYn'] != "Y") {
+		alert("고지된 자료가 아닙니다.");
+		return;
+	}
+	this.printPage('/mngFee/printFcltsFeeMngNticNoticeIssue.do', row);
 
 };
 
@@ -1127,7 +1152,7 @@ var module_instance = new GamFcltsFeeMngNticModule();
 								<th width="10%" height="18">고지/출력/추가</th>
 								<td>
 									<input type="text" size="10" id="nhtIsueYn" disabled>
-									<input type="text" size="10" id="nhtOutputYn" disabled>
+									<input type="text" size="10" id="nhtPrintYn" disabled>
 									<input type="text" size="10" id="aditNticYn" disabled>
 								</td>
 							</tr>

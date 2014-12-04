@@ -74,7 +74,7 @@ GamFcltsFeeMngInqireModule.prototype.loadComplete = function() {
 					{display:'수납 일자',			name:'rcivDt',				width:80,		sortable:false,		align:'center'},
 					{display:'부가세 구분',			name:'vatYnNm',				width:80,		sortable:false,		align:'center'},
 					{display:'고지 여부',			name:'nhtIsueYn',			width:80,		sortable:false,		align:'center'},
-					{display:'출력 여부',			name:'nhtOutputYn',			width:80,		sortable:false,		align:'center'},
+					{display:'출력 여부',			name:'nhtPrintYn',			width:80,		sortable:false,		align:'center'},
 					{display:'추가 고지 여부',		name:'aditNticYn',			width:90,		sortable:false,		align:'center'},
 					{display:'연체 번호',			name:'arrrgNo',				width:80,		sortable:false,		align:'center'},
 					{display:'연체 금액',			name:'arrrgAmt',			width:90,		sortable:false,		align:'right'},
@@ -563,7 +563,7 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 								<th width="15%" height="18">고지 / 출력 / 추가</th>
 								<td>
 									<input type="text" size="6" id="nhtIsueYn" disabled>
-									<input type="text" size="6" id="nhtOutputYn" disabled>
+									<input type="text" size="6" id="nhtPrintYn" disabled>
 									<input type="text" size="6" id="aditNticYn" disabled>
 								</td>
 							</tr>

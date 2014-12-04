@@ -204,6 +204,27 @@ public class GamFcltsFeeMngNticController {
 
 	}
 
+	@RequestMapping(value="/mngFee/printFcltsFeeMngNticNoticeIssue.do")
+	String printFcltsFeeMngNticNoticeIssue(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
+
+		model.addAttribute("searchOpt", approvalOpt);
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			model.addAttribute("resultCode", 1);
+			model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+		} else {
+    		List list = gamFcltsFeeMngNticService.selectFcltsFeeMngNticPrintNoticeIssueList(approvalOpt);
+
+			model.addAttribute("resultCode", 0);
+			model.addAttribute("resultList", list);
+			model.addAttribute("resultMsg", "");
+		}
+
+		return "ygpa/gam/mngFee/GamFcltsFeeMngPrintNoticeIssue";
+
+	}
+
 	@RequestMapping(value="/mngFee/gamInsertFcltsFeeMngNtic.do")
 	@ResponseBody Map<String, Object> insertFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo)	throws Exception {
 
