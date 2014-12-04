@@ -53,7 +53,7 @@ GamSocShipProcessSetoffLgerModule.prototype.loadComplete = function() {
                     {display:'처리항구', 		name:'prtKorNm',		width:120, 		sortable:false,		align:'center'},
                     {display:'요금종류', 		name:'feeTp',			width:80, 		sortable:false,		align:'center'},
                     {display:'요금종류명', 	name:'feeTpKorNm',		width:120, 		sortable:false,		align:'center'},
-                    {display:'할인율코드', 	name:'dcCode',			width:60, 		sortable:false,		align:'center'},
+                    {display:'할인율코드', 	name:'dcCode',			width:100, 		sortable:false,		align:'center'},
                     {display:'상계금액(청)', 	name:'fare',		width:150, 		sortable:false,		align:'right', 	displayFormat: 'number'},
                     {display:'상계금액(공사)', 	name:'farePa',		width:150, 		sortable:false,		align:'right', 	displayFormat: 'number'},
                     {display:'사용기간', 		name:'usdt',			width:60, 		sortable:false,		align:'center'},

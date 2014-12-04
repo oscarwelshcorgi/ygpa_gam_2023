@@ -38,19 +38,19 @@ GamSocApplyModule.prototype.loadComplete = function() {
         url: '/soc/gamSelectSocApplyList.do',
         dataType: 'json',
         colModel : [
-					{display:'관리청코드', name:'prtAtCode',width:60, sortable:false,align:'center'},
+					{display:'관리청코드', name:'prtAtCode',width:80, sortable:false,align:'center'},
 					{display:'관리청', name:'prtAtKorNm',width:45, sortable:false,align:'center'},
-                    {display:'준공년도', name:'cmplYr',width:55, sortable:false,align:'center'},
+                    {display:'준공년도', name:'cmplYr',width:70, sortable:false,align:'center'},
                     {display:'공사번호', name:'constNo',width:80, sortable:false,align:'center'},
-                    {display:'요청청코드', name:'appPrtAtCode',width:60, sortable:false,align:'center'},
+                    {display:'요청청코드', name:'appPrtAtCode',width:80, sortable:false,align:'center'},
                     {display:'요청청', name:'appPrtAtKorNm',width:45, sortable:false,align:'center'},
                     {display:'요청업체코드', name:'appAgentCode',width:100, sortable:false,align:'left'},
                     {display:'요청업체명', name:'appAgentName',width:150, sortable:false,align:'left'},
                     {display:'횟수', name:'useNo',width:45, sortable:false,align:'center'},
-                    {display:'사용여부', name:'useYn',width:55, sortable:false,align:'center'},
+                    {display:'사용여부', name:'useYn',width:70, sortable:false,align:'center'},
                     {display:'보전요청액', name:'exmpAmnt',width:80, sortable:false,align:'right',displayFormat: 'number'},
-                    {display:'보전기간시작일', name:'periodFr',width:80, sortable:false,align:'center'},
-                    {display:'보전기간종료일', name:'periodTo',width:80, sortable:false,align:'center'},
+                    {display:'보전기간시작일', name:'periodFr',width:100, sortable:false,align:'center'},
+                    {display:'보전기간종료일', name:'periodTo',width:100, sortable:false,align:'center'},
                     {display:'신청일자', name:'applDate',width:80, sortable:false,align:'center'},
                     {display:'조건', name:'exmpCond',width:80, sortable:false,align:'center'},
                     {display:'적용요율', name:'rateGubun',width:80, sortable:false,align:'center'},
@@ -538,7 +538,7 @@ var module_instance = new GamSocApplyModule();
     	               	<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button id="btnNew">등록</button>
+	                            	<button id="btnNew">추가</button>
 	                                <button id="btnSave">저장</button>
 	                                <button id="btnRemove">삭제</button>
 	                            </td>

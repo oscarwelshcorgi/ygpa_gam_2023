@@ -39,11 +39,12 @@ GamSocStatsModule.prototype.loadComplete = function() {
         url: '/soc/gamSelectSocStatsList.do',
         dataType: 'json',
         colModel : [
-                    {display:'요금종류', name:'feeTp',width:100, sortable:false,align:'center'},
+                    {display:'업체명', name:'exmpAgentNm',width:200, sortable:false,align:'center'},
+                    {display:'년월', name:'exmpMonth',width:100, sortable:false,align:'center'},
                     {display:'요금종류명', name:'feeNm',width:150, sortable:false,align:'center'},
-                    {display:'상계금액(청)', name:'exmpAmntSum',width:180, sortable:false,align:'right',displayFormat:'number'},
-                    {display:'상계금액(공사)', name:'exmpAmntPaSum',width:180, sortable:false,align:'right',displayFormat:'number'},
-                    {display:'합계', name:'exmpAmntTotSum',width:250, sortable:false,align:'right',displayFormat: 'number'}
+                    {display:'상계금액(청)', name:'exmpAmntSum',width:150, sortable:false,align:'right',displayFormat:'number'},
+                    {display:'상계금액(공사)', name:'exmpAmntPaSum',width:150, sortable:false,align:'right',displayFormat:'number'},
+                    {display:'합계', name:'exmpAmntTotSum',width:150, sortable:false,align:'right',displayFormat: 'number'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',

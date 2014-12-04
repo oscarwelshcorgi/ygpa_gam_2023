@@ -479,7 +479,7 @@ var module_instance = new GamSocExmpMngtModule();
 	                        <td><!-- <button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button> --></td>
 	                        <td width="100"></td>
 	                        <td style="text-align:right">
-	                        	<button id="btnNew">등록</button>
+	                        	<button id="btnNew">추가</button>
 	                            <button id="btnSave" class="buttonSave">저장</button>
 	                            <button id="btnDelete" class="buttonDelete">삭제</button>
 	                            <!-- <button id="btnNoticeAdit2">추가고지</button> -->
