@@ -28,14 +28,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.ComDefaultVO;
-
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
-
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
-
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngVO;
@@ -140,6 +137,52 @@ public class GamFcltyRepairMngController {
 	
 	
 	/**
+	 * 하자보수 대상시설물 조회
+	 * @param GamFcltyRepairMngVO
+	 * @return map
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fcltyMng/selectFlawRprObjFcltsF.do")
+	@ResponseBody Map<String, Object> selectFlawRprObjFcltsFList(GamFcltyRepairMngVO searchVO)throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	// 내역 조회
+    	/** pageing */
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		/** List Data */
+		List<?> flawRprObjFcltsFList = gamFcltyRepairMngService.selectFlawRprObjFcltsFList(searchVO);
+
+        int totCnt = gamFcltyRepairMngService.selectFlawRprObjFcltsFListTotCnt(searchVO);
+
+        paginationInfo.setTotalRecordCount(totCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+		map.put("resultCode", 0);			// return ok
+    	map.put("totalCount", totCnt);
+    	map.put("resultList", flawRprObjFcltsFList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+	
+	
+	/**
 	 * 하자보수 검사자 조회
 	 * @param searchVO
 	 * @return map
@@ -169,7 +212,7 @@ public class GamFcltyRepairMngController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List<?> mntnRprObjFcltsFList = gamFcltyRepairMngService.selectFlawExamUsrFList(searchVO);
+		List<?> flawExamUsrFList = gamFcltyRepairMngService.selectFlawExamUsrFList(searchVO);
 
         int totCnt = gamFcltyRepairMngService.selectFlawExamUsrFListTotCnt(searchVO);
 
@@ -178,7 +221,7 @@ public class GamFcltyRepairMngController {
 
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
-    	map.put("resultList", mntnRprObjFcltsFList);
+    	map.put("resultList", flawExamUsrFList);
     	map.put("searchOption", searchVO);
 
     	return map;
@@ -364,6 +407,9 @@ public class GamFcltyRepairMngController {
     		
     		// 하자보수검사자 삭제
     		gamFcltyRepairMngService.deleteFlawExamUsrF(fcltyRepairItem);
+    		
+    		// 하자보수대상시설물 삭제
+    		gamFcltyRepairMngService.deleteFlawRprObjFcltsF(fcltyRepairItem);
 
     		// 하자보수내역 삭제
     		gamFcltyRepairMngService.deleteFcltyRepairMng(fcltyRepairItem);
@@ -379,6 +425,74 @@ public class GamFcltyRepairMngController {
 		}
 
       	return map;
+    }
+	
+	
+	/**
+	 * 하자보수 대상시설물 데이타 적용
+	 * @param Map
+	 * @return map
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/fcltyMng/mergeFlawRprObjFcltsF.do")
+    @ResponseBody Map<String, Object> mergeFlawRprObjFcltsF(@RequestParam Map mergeFlawRprObjFcltsFList)throws Exception {
+
+    	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String, String> userMap = new HashMap<String, String>();
+		ObjectMapper mapper = new ObjectMapper();
+		
+		int resultCode;
+		String resultMsg;
+
+    	List<HashMap<String,String>> insertList=null;
+    	List<HashMap<String,String>> updateList=null;
+    	List<HashMap<String,String>> deleteList=null;
+    	List<Map<String,String>> userList=null;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+    	insertList = mapper.readValue((String)mergeFlawRprObjFcltsFList.get("insertList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		updateList = mapper.readValue((String)mergeFlawRprObjFcltsFList.get("updateList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		deleteList = mapper.readValue((String)mergeFlawRprObjFcltsFList.get("deleteList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		userList = new ArrayList();
+		userMap.put("id",  loginVO.getId());
+		userList.add(userMap);
+
+		Map<String,Object> mergeMap = new HashMap<String,Object>();
+
+		insertList.addAll(updateList);
+
+		mergeMap.put("CU", insertList);
+		mergeMap.put("D", deleteList);
+		mergeMap.put("USER", userList);
+
+    	try {
+    		
+    		gamFcltyRepairMngService.mergeFlawRprObjFcltsF(mergeMap);
+    		
+    		map.put("resultCode", 0);			// return ok
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+
+    	return map;
     }
 	
 	
@@ -507,6 +621,18 @@ public class GamFcltyRepairMngController {
 		return map;
 	}
 	
+	
+	/**
+	 * 하자보수대상물목록 수정 팝업
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/popup/showFlawRprObjFcltsPopup.do")
+    String showFlawRprObjFcltsPopup(@RequestParam Map flawRprObjFcltsList, ModelMap model) throws Exception {
+		model.addAttribute("flawRprObjFcltsList", flawRprObjFcltsList);
+    	return "/ygpa/gam/fcltyMng/GamPopupFlawRprObjFclts";
+    }
 	
 	
 	

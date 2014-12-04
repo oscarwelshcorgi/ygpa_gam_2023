@@ -43,6 +43,23 @@ public interface GamFcltyRepairMngService {
 	 */
 	int selectFcltyRepairMngListTotCnt(GamFcltyRepairMngVO vo) throws Exception;
 	
+	/**
+	 * 하자보수 대상시설물 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	List selectFlawRprObjFcltsFList(GamFcltyRepairMngVO vo) throws Exception;
+	
+	
+	/**
+	 * 하자보수 대상시설물 총갯수
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	int selectFlawRprObjFcltsFListTotCnt(GamFcltyRepairMngVO vo) throws Exception;
+	
 	
 	/**
 	 * 하자보수 검사자 조회
@@ -115,6 +132,14 @@ public interface GamFcltyRepairMngService {
 	 */
 	void deleteFcltyRepairMng(Map<String, Object> vo) throws Exception;
 	
+	/**
+	 * 하자보수내역 하위 대상시설물 전체 삭제
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	void deleteFlawRprObjFcltsF(Map<String, Object> vo) throws Exception;
+	
 	
 	/**
 	 * 하자보수내역 하위 검사자 전체 삭제
@@ -132,6 +157,16 @@ public interface GamFcltyRepairMngService {
 	 * @throws Exception
 	 */
 	void deleteFcltyRepairFile(Map<String, Object> vo) throws Exception;
+	
+	
+	
+	/**
+	 * 하자보수 대상시설물 데이타 적용
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	List mergeFlawRprObjFcltsF(Map<String, Object> mergeList) throws Exception;
 	
 	
 	

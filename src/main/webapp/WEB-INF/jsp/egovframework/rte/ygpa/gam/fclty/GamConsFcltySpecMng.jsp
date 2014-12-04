@@ -773,7 +773,13 @@ var module_instance = new GamConstFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">배기닥트유무</th>
-							<td><input type="text" size="20" id="exhaustDuctEnnc" maxlength="1" /></td>
+							<td>
+								<select id="exhaustDuctEnnc">
+									<option value="">선택</option>
+									<option value="Y">Y</option>
+									<option value="N">N</option>
+								</select>
+							</td>
 							<th width="12%" height="17" class="required_text">환기공조방식</th>
 							<td colspan="3"><input type="text" size="75" id="vntltnArcndtMthd" maxlength="50" /></td>
 						</tr>
@@ -797,7 +803,13 @@ var module_instance = new GamConstFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">냉방유무</th>
-							<td><input type="text" size="20" id="clngEnnc" maxlength="1" /></td>
+							<td>
+								<select id="clngEnnc">
+									<option value="">선택</option>
+									<option value="Y">Y</option>
+									<option value="N">N</option>
+								</select>
+							</td>
 							<th width="12%" height="17" class="required_text">냉방열원</th>
 							<td><input type="text" size="20" id="clngSrc" maxlength="100" /></td>
 							<th width="12%" height="17" class="required_text">오수정화시설위치</th>
@@ -809,7 +821,13 @@ var module_instance = new GamConstFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">난방유무</th>
-							<td><input id="htngEnnc" type="text"  size="20" title="난방유무" maxlength="1" /></td>
+							<td>
+								<select id="htngEnnc">
+									<option value="">선택</option>
+									<option value="Y">Y</option>
+									<option value="N">N</option>
+								</select>
+							</td>
 							<th width="12%" height="17" class="required_text">난방열원</th>
 							<td colspan="3"><input  id="htngSrc" type="text"  size="75" title="난방열원" maxlength="100" /></td>
 						</tr>

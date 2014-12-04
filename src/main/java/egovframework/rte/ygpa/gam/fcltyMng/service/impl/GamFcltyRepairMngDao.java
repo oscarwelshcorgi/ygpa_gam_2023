@@ -55,6 +55,29 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 	
 	
 	/**
+	 * 하자보수 대상시설물 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	public List selectFlawRprObjFcltsFList(GamFcltyRepairMngVO vo) throws Exception {
+		return list("gamFcltyRepairMngDao.selectFlawRprObjFcltsFList_D", vo);
+	}
+	
+	
+	/**
+	 * 하자보수 대상시설물 총갯수
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectFlawRprObjFcltsFListTotCnt(GamFcltyRepairMngVO vo) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyRepairMngDao.selectFlawRprObjFcltsFListTotCnt_S", vo);
+	}
+	
+	
+	
+	/**
 	 * 하자보수 검사자 조회
 	 * @param vo
 	 * @return list
@@ -127,7 +150,7 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */
 	public void updateFcltyRepairMng(Map<String, Object> vo) throws Exception{
-		insert("gamFcltyRepairMngDao.updateFcltyRepairMng", vo);
+		update("gamFcltyRepairMngDao.updateFcltyRepairMng", vo);
 	}
 	
 	
@@ -138,7 +161,17 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */
 	public void deleteFcltyRepairMng(Map<String, Object> vo) throws Exception{
-		insert("gamFcltyRepairMngDao.deleteFcltyRepairMng", vo);
+		delete("gamFcltyRepairMngDao.deleteFcltyRepairMng", vo);
+	}
+	
+	/**
+	 * 하자보수내역 하위 대상시설물 전체 삭제
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	public void deleteFlawRprObjFcltsF(Map<String, Object> vo) throws Exception{
+		delete("gamFcltyRepairMngDao.deleteFlawRprObjFcltsF", vo);
 	}
 	
 	/**
@@ -160,6 +193,17 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 	 */
 	public void deleteFcltyRepairFile(Map<String, Object> vo) throws Exception{
 		delete("gamFcltyRepairMngDao.deleteFcltyRepairFile", vo);
+	}
+	
+	
+	/**
+	 * 하자보수 대상시설물 데이타 적용
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	public List mergeFlawRprObjFcltsF(Map<String, Object> mergeList) throws Exception{
+		return this.merge(mergeList, "gamFcltyRepairMngDao.insertFlawRprObjFcltsF", "gamFcltyRepairMngDao.updateFlawRprObjFcltsF", "gamFcltyRepairMngDao.deleteFlawRprObjFcltsF");
 	}
 	
 	

@@ -60,6 +60,29 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	
 	
 	/**
+	 * 하자보수 대상시설물 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	public List selectFlawRprObjFcltsFList(GamFcltyRepairMngVO vo) throws Exception {
+		return (List)gamFcltyRepairMngDao.selectFlawRprObjFcltsFList(vo);
+	}
+	
+	
+	/**
+	 * 하자보수 대상시설물 총갯수
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectFlawRprObjFcltsFListTotCnt(GamFcltyRepairMngVO vo) throws Exception {
+		return gamFcltyRepairMngDao.selectFlawRprObjFcltsFListTotCnt(vo);
+	}
+	
+	
+	
+	/**
 	 * 하자보수 검사자 조회
 	 * @param vo
 	 * @return list
@@ -148,6 +171,17 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	
 	
 	/**
+	 * 하자보수내역 하위 대상시설물 전체 삭제
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	public void deleteFlawRprObjFcltsF(Map<String, Object> vo) throws Exception{
+		gamFcltyRepairMngDao.deleteFlawRprObjFcltsF(vo);
+	}
+	
+	
+	/**
 	 * 하자보수내역 하위 검사자 전체 삭제
 	 * @param map
 	 * @return 
@@ -166,6 +200,17 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 */
 	public void deleteFcltyRepairFile(Map<String, Object> vo) throws Exception{
 		gamFcltyRepairMngDao.deleteFcltyRepairFile(vo);
+	}
+	
+	
+	/**
+	 * 하자보수 대상시설물 데이타 적용
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	public List mergeFlawRprObjFcltsF(Map<String, Object> mergeList) throws Exception{
+		return (List)gamFcltyRepairMngDao.mergeFlawRprObjFcltsF(mergeList);
 	}
 	
 	

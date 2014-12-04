@@ -54,6 +54,22 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 			],
 		height: "auto"
 	});
+	
+	
+	this.$("#flawRprObjFcltsF").flexigrid({
+		module: this,
+		url: '/fcltyMng/selectFlawRprObjFcltsF.do',
+		dataType: 'json',
+		colModel : [
+					{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
+					{display:"시설물관리번호",	name:"fcltsMngNo",	width:100,		sortable:true,		align:"center"},
+					{display:"시설물명",		name:"prtFcltyNm",	width:150,		sortable:true,		align:"left"},
+					{display:"하자유무",		name:"flawEnnc",	width:90,		sortable:true,		align:"center"},
+					{display:"하자검사일자",	name:"flawExamDt",	width:100,		sortable:true,		align:"center"},
+					{display:"비고",			name:"rm",			width:350,		sortable:true,		align:"left"}
+			],
+		height: "auto"
+	});
 
 
 	this.$("#flawExamUsrF").flexigrid({
@@ -61,7 +77,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectFlawExamUsrFList.do',
 		dataType: "json",
 		colModel : [
-					{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
+					//{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
 					{display:"순번",				name:"seq",					width:100,		sortable:false,		align:"center"},
 					{display:"하자검사자",			name:"flawExamUsr",			width:250,		sortable:false,		align:"center"},
 					{display:"하자검사일자",		name:"flawExamDt",			width:250,		sortable:false,		align:"center"},
@@ -77,7 +93,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectFcltyRepairFileList.do',
 		dataType: 'json',
 		colModel : [
-					{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
+					//{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
 					{display:"순번",		name:"atchFileSeq",				width:40,		sortable:true,		align:"center"},
 					{display:"구분",		name:"atchFileSeNm",			width:40,		sortable:true,		align:"center"},
 					{display:"파일제목",	name:"atchFileSj",				width:240,		sortable:true,		align:"left"},
@@ -192,9 +208,12 @@ GamFcltyRepairMngModule.prototype.loadData = function(){
 	this.makeFormValues('#fcltyRepairMngListVO', {});
 	
 	// tabs3 그리드 초기화
+	this.$('#flawRprObjFcltsF').flexEmptyData();
+	
+	// tabs4 그리드 초기화
 	this.$('#flawExamUsrF').flexEmptyData();
 	
-	// tabs4 항목/그리드 초기화
+	// tabs5 항목/그리드 초기화
 	this.makeFormValues('#fcltyRepairMngFileForm', {});
 	this.$('#fcltyRepairFileList').flexEmptyData();
 	this.$("#previewImage").attr("src", "");
@@ -227,8 +246,10 @@ GamFcltyRepairMngModule.prototype.loadDetail = function(){
 	// tabs2 항목 데이타로딩
 	this.makeFormValues('#fcltyRepairMngListVO', row);
 	// tabs3 그리드 리로드
+	this.$('#flawRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
+	// tabs4 그리드 리로드
 	this.$('#flawExamUsrF').flexOptions({params:searchVO}).flexReload();
-	// tabs4 항목 데이타 로딩/ 그리드 리로드
+	// tabs5 항목 데이타 로딩/ 그리드 리로드
 	this.makeFormValues('#fcltyRepairMngFileForm', {});
 	this.$("#previewImage").attr("src", "");
 	this.$('#fcltyRepairFileList').flexOptions({params:searchVO}).flexReload();
@@ -244,9 +265,14 @@ GamFcltyRepairMngModule.prototype.addData = function() {
 	this.makeFormValues('#fcltyRepairMngListVO', {});
 	this.$("#searchFcltsMngGroupNo").show();
 	this.$("#fcltsJobSe").enable();
+	
 	// tabs3 초기화
-	this.$("#flawExamUsrF").flexEmptyData();
+	this.$("#flawRprObjFcltsF").flexEmptyData();
+	
 	// tabs4 초기화
+	this.$("#flawExamUsrF").flexEmptyData();
+	
+	// tabs5 초기화
 	this.makeFormValues('#fcltyRepairMngFileForm', {});
 	this.$("#previewImage").attr("src", "");
 	this.$("#fcltyRepairFileList").flexEmptyData();
@@ -268,33 +294,66 @@ GamFcltyRepairMngModule.prototype.saveData = function() {
 	 	this.doAction('/fcltyMng/insertFcltyRepairMng.do', inputVO, function(module, result) {
 	 		if(result.resultCode == "0"){
 	 			var subVo = {'fcltsJobSe':result.fcltsJobSe,'fcltsMngGroupNo':result.fcltsMngGroupNo,'flawRprSeq':result.flawRprSeq};
-
-				// 유지보수 대상시설물 데이타 적용
-				if(module.mergeFlawExamUsrF(subVo)){
-					// 유지보수 첨부파일 데이타 적용
-					if(module.mergeFcltyRepairFile(subVo)){
-						module.loadData();
+				
+	 			// 하자보수 대상시설물 데이타 적용
+	 			if(module.mergeFlawRprObjFcltsF(subVo)){
+					// 하자보수 검사자 데이타 적용
+					if(module.mergeFlawExamUsrF(subVo)){
+						// 하자보수 첨부파일 데이타 적용
+						if(module.mergeFcltyRepairFile(subVo)){
+							module.loadData();
+						}
 					}
-				}
+	 			}
 	 		}
 	 		alert(result.resultMsg);
 	 	});
 	}else{
+
 	 	this.doAction('/fcltyMng/updateFcltyRepairMng.do', inputVO, function(module, result) {
 	 		if(result.resultCode == "0"){
 	 			var subVo = {'fcltsJobSe':result.fcltsJobSe,'fcltsMngGroupNo':result.fcltsMngGroupNo,'flawRprSeq':result.flawRprSeq};
 
-				// 하자보수 검사자 데이타 적용
-				if(module.mergeFlawExamUsrF(subVo)){
-					// 하자보수 첨부파일 데이타 적용
-					if(module.mergeFcltyRepairFile(subVo)){
-						module.loadData();
+	 			// 하자보수 대상시설물 데이타 적용
+	 			if(module.mergeFlawRprObjFcltsF(subVo)){
+					// 하자보수 검사자 데이타 적용
+					if(module.mergeFlawExamUsrF(subVo)){
+						// 하자보수 첨부파일 데이타 적용
+						if(module.mergeFcltyRepairFile(subVo)){
+							module.loadData();
+						}
 					}
-				}
+	 			}
 	 		}
 	 		alert(result.resultMsg);
 	 	});
 	}
+
+};
+
+
+GamFcltyRepairMngModule.prototype.mergeFlawRprObjFcltsF = function(subVo) {
+
+	var all_rows = this.$('#flawRprObjFcltsF').flexGetData();
+	for(var i=0;i<all_rows.length;i++){
+		all_rows[i]["fcltsJobSe"] = subVo.fcltsJobSe;
+		all_rows[i]["fcltsMngGroupNo"] = subVo.fcltsMngGroupNo;
+		all_rows[i]["flawRprSeq"] = subVo.flawRprSeq;
+	}
+	
+	var inputFlawRprObjFcltsVO = [];
+	inputFlawRprObjFcltsVO[inputFlawRprObjFcltsVO.length]={name: 'updateList', value :JSON.stringify(this.$('#flawRprObjFcltsF').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+	inputFlawRprObjFcltsVO[inputFlawRprObjFcltsVO.length]={name: 'insertList', value: JSON.stringify(this.$('#flawRprObjFcltsF').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+	inputFlawRprObjFcltsVO[inputFlawRprObjFcltsVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteObjFcltsList) };
+	
+	var chk = true;
+	this.doAction('/fcltyMng/mergeFlawRprObjFcltsF.do', inputFlawRprObjFcltsVO, function(mntnRprObjModule, result) {
+        if(result.resultCode != 0){
+			chk = false;
+        }
+    });
+	
+	return chk;
 
 };
 
@@ -482,6 +541,12 @@ GamFcltyRepairMngModule.prototype.removeFileData = function() {
 		case "ctrtNoPopupBtn":
 			this.doExecuteDialog("selectCtrtNo", "계약번호", '/popup/popupCtrtNo.do', {});
 		break;
+		
+		// 하자보수대상시설물 수정
+		case "flawRprObjFcltsFPopupBtn":
+			var allRows = this.$('#flawRprObjFcltsF').flexGetData();
+			this.doExecuteDialog("modifiedFlawRprObjFclts", "하자보수대상시설물목록", '/popup/showFlawRprObjFcltsPopup.do', {}, allRows);
+			break;
 	}
 };
 
@@ -509,7 +574,7 @@ GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		break;
 		
 		case "tabs3":
-			this._deleteDataRepairList=[];
+			this._deleteDataRepairObjList=[];
 			if((this._mode != 'insert') && (this._mode != 'modify')) {
 				this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
 				alert('하자보수 항목을 선택 하세요.');
@@ -517,6 +582,14 @@ GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		break;
 		
 		case "tabs4":
+			this._deleteDataRepairList=[];
+			if((this._mode != 'insert') && (this._mode != 'modify')) {
+				this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
+				alert('하자보수 항목을 선택 하세요.');
+			} 
+		break;
+		
+		case "tabs5":
 			this._deleteDataFileList=[];
 			if((this._mode != 'insert') && (this._mode != 'modify')) {
 				this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
@@ -553,6 +626,12 @@ GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		case "selectCtrtNo":
 			this.$("#ctrtNo").val(value["ctrtNo"]);
 			this.$("#ctrtNm").val(value["ctrtNm"]);
+		break;
+		
+		case "modifiedFlawRprObjFclts":
+			this.$("#flawRprObjFcltsF").flexEmptyData();
+			this.$("#flawRprObjFcltsF").flexAddData({resultList: value["resultList"] });
+			this._deleteObjFcltsList = value["deleteObjFcltsList"];
 		break;
 
 		default:
@@ -622,8 +701,9 @@ var module_instance = new GamFcltyRepairMngModule();
 			<ul>
 				<li><a href="#tabs1" class="emdTab">하자보수내역 목록</a></li>
 				<li><a href="#tabs2" class="emdTab">하자보수내역 상세</a></li>
-				<li><a href="#tabs3" class="emdTab">하자검사자</a></li>
-				<li><a href="#tabs4" class="emdTab">하자보수 첨부파일</a></li>
+				<li><a href="#tabs3" class="emdTab">하자보수대상시설물</a></li>
+				<li><a href="#tabs4" class="emdTab">하자검사자</a></li>
+				<li><a href="#tabs5" class="emdTab">하자보수 첨부파일</a></li>
 			</ul>
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
@@ -746,6 +826,15 @@ var module_instance = new GamFcltyRepairMngModule();
 			
 			<!-- 하자보수 대상 시설물 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
+				<table id="flawRprObjFcltsF" style="display:none" class="fillHeight"></table>
+				<div class="emdControlPanel">
+					<button id="flawRprObjFcltsFPopupBtn">추가/삭제</button>
+					<button id="saveBtn">저장</button>
+				</div>
+			</div>
+			
+			<!-- 하자보수 검사자 -->
+			<div id="tabs4" class="emdTabPage" style="overflow: scroll;">
 				<table id="flawExamUsrF" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button class="text" id="flawExamUsrFPopupBtn">추가/편집</button>
@@ -754,7 +843,7 @@ var module_instance = new GamFcltyRepairMngModule();
 			</div>
 
 			<!-- 하자보수내역 첨부파일 -->
-			<div id="tabs4" class="emdTabPage" style="overflow: scroll;">
+			<div id="tabs5" class="emdTabPage" style="overflow: scroll;">
 				<table id="fcltyRepairFileList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button id="btnUploadFile">업로드</button>

@@ -58,8 +58,8 @@
 						  <isNotEmpty property="sAssetsSubCd">
 						    AND F.GIS_ASSETS_SUB_CD = #sAssetsSubCd#
 						  </isNotEmpty>
-						  <isNotEmpty property="searchFcltyCd">
-						    AND F.GIS_PRT_FCLTY_CD = #searchFcltyCd#
+						  <isNotEmpty property="gisPrtFcltyCd">
+						    AND F.GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
 						  </isNotEmpty>
 						  <isNotEmpty property="sPrtFcltyNm">
 						  	AND F.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
@@ -97,8 +97,8 @@
 		  <isNotEmpty property="sAssetsSubCd">
 		    AND F.GIS_ASSETS_SUB_CD = #sAssetsSubCd#
 		  </isNotEmpty>
-		  <isNotEmpty property="searchFcltyCd">
-		    AND F.GIS_PRT_FCLTY_CD = #searchFcltyCd#
+		  <isNotEmpty property="gisPrtFcltyCd">
+		    AND F.GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
 		  </isNotEmpty>
 		  <isNotEmpty property="sPrtFcltyNm">
 		  	AND F.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'

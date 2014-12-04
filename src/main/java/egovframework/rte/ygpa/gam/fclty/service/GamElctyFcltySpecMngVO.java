@@ -35,7 +35,7 @@ public class GamElctyFcltySpecMngVO extends ComDefaultVO {
 	private String sAssetsSubCd;
 
 	/** 시설코드 (조회조건) **/
-	private String searchFcltyCd;
+	private String gisPrtFcltyCd;
 
 	/** 시설명 (조회조건) **/
 	private String sPrtFcltyNm;
@@ -87,19 +87,7 @@ public class GamElctyFcltySpecMngVO extends ComDefaultVO {
 
 
 
-	/**
-	 * @return the searchFcltyCd
-	 */
-	public String getSearchFcltyCd() {
-		return searchFcltyCd;
-	}
-
-	/**
-	 * @param searchFcltyCd the searchFcltyCd to set
-	 */
-	public void setSearchFcltyCd(String searchFcltyCd) {
-		this.searchFcltyCd = searchFcltyCd;
-	}
+	
 
 	/**
 	 * @return the sPrtFcltyNm
@@ -127,6 +115,20 @@ public class GamElctyFcltySpecMngVO extends ComDefaultVO {
 	 */
 	public void setsFcltsMngNo(String sFcltsMngNo) {
 		this.sFcltsMngNo = sFcltsMngNo;
+	}
+
+	/**
+	 * @return the gisPrtFcltyCd
+	 */
+	public String getGisPrtFcltyCd() {
+		return gisPrtFcltyCd;
+	}
+
+	/**
+	 * @param gisPrtFcltyCd the gisPrtFcltyCd to set
+	 */
+	public void setGisPrtFcltyCd(String gisPrtFcltyCd) {
+		this.gisPrtFcltyCd = gisPrtFcltyCd;
 	}
 	
 }

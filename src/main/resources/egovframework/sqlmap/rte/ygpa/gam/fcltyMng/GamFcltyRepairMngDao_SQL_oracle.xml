@@ -101,6 +101,51 @@
 	</select>
 	
 	
+	<!-- 하자보수대상시설물내역 -->
+	<select id="gamFcltyRepairMngDao.selectFlawRprObjFcltsFList_D" parameterClass="gamFcltyRepairMngVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+							FCLTS_MNG_GROUP_NO
+							, FCLTS_JOB_SE
+							, FLAW_RPR_SEQ
+							, FCLTS_MNG_NO
+							, TO_CHAR(FLAW_EXAM_DT,'YYYY-MM-DD') FLAW_EXAM_DT
+							, FLAW_ENNC
+							, FLAW_EXAM_RESULT 
+							, RM
+							, REG_USR
+							, REGIST_DT
+							, UPD_USR
+							, UPDT_DT
+						FROM
+							FLAW_RPR_OBJ_FCLTS_F 
+						WHERE
+							FCLTS_JOB_SE = #fcltsJobSe#
+							AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+							AND FLAW_RPR_SEQ = $flawRprSeq$
+	           			
+						ORDER BY
+							FLAW_RPR_SEQ ASC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+	</select>
+
+	<select id="gamFcltyRepairMngDao.selectFlawRprObjFcltsFListTotCnt_S" parameterClass="gamFcltyRepairMngVO" resultClass="int">
+		SELECT
+			COUNT(*) TOT_CNT
+		FROM
+			FLAW_RPR_OBJ_FCLTS_F 
+		WHERE
+			FCLTS_JOB_SE = #fcltsJobSe#
+			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FLAW_RPR_SEQ = $flawRprSeq$
+	</select>
+	
+	
 	<!-- 하자보수검사자내역 -->
 	<select id="gamFcltyRepairMngDao.selectFlawExamUsrFList_D" parameterClass="gamFcltyRepairMngVO" resultClass="egovMap">
         SELECT A.*
@@ -305,6 +350,72 @@
 	</delete>
 	
 	
+	<!-- 하자보수대상시설물입력 -->
+	<insert id="gamFcltyRepairMngDao.insertFlawRprObjFcltsF">
+		INSERT INTO 
+			FLAW_RPR_OBJ_FCLTS_F 
+			(
+				FCLTS_MNG_GROUP_NO
+				, FCLTS_JOB_SE
+				, FLAW_RPR_SEQ
+				, FCLTS_MNG_NO
+				, FLAW_EXAM_DT
+				, FLAW_ENNC
+				, FLAW_EXAM_RESULT 
+				, RM
+				, REG_USR
+				, REGIST_DT
+			) 
+			VALUES 
+			(
+				#fcltsMngGroupNo#
+				, #fcltsJobSe#
+				, $flawRprSeq$
+				, #fcltsMngNo#
+				, #flawExamDt#
+				, #flawEnnc#
+				, #flawExamResult#
+				, #rm#
+				, #regUsr#
+				, SYSDATE
+			)
+	</insert>
+	
+	
+	<!-- 하자보수대상시설물수정 -->
+	<update id="gamFcltyRepairMngDao.updateFlawRprObjFcltsF">
+		UPDATE FLAW_RPR_OBJ_FCLTS_F  
+			SET 
+				FLAW_EXAM_RESULT = #flawExamResult#
+				, FLAW_EXAM_DT = #flawExamDt#
+				, FLAW_ENNC = #flawEnnc#
+				, RM = #rm#
+				, UPD_USR = #updUsr#
+				, UPDT_DT = SYSDATE
+			WHERE 
+				FCLTS_JOB_SE = #fcltsJobSe#
+				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+				AND FLAW_RPR_SEQ = $flawRprSeq$
+				AND FCLTS_MNG_NO = #fcltsMngNo#
+	</update>
+	
+	
+	
+	<!-- 하자보수대상시설물삭제 -->
+	<delete id="gamFcltyRepairMngDao.deleteFlawRprObjFcltsF">
+		DELETE FROM  
+			FLAW_RPR_OBJ_FCLTS_F 
+		WHERE 
+			FCLTS_JOB_SE = #fcltsJobSe#
+			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FLAW_RPR_SEQ = $flawRprSeq$
+		<isNotEmpty property="fcltsMngNo">
+			AND FCLTS_MNG_NO = #fcltsMngNo#
+		</isNotEmpty>
+			
+	</delete>
+	
+	
 	<!-- 하자보수검사자입력 -->
 	<insert id="gamFcltyRepairMngDao.insertFlawExamUsrF">
 		INSERT INTO 
@@ -351,7 +462,7 @@
 				AND SEQ = $seq$
 	</update>
 	
-	
+
 	<!-- 하자보수검사자삭제 -->
 	<delete id="gamFcltyRepairMngDao.deleteFlawExamUsrF">
 		DELETE FROM  
