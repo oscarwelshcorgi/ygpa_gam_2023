@@ -100,24 +100,7 @@ GamMechFcltySpecMngModule.prototype.loadComplete = function(params) {
 	});
 
 	this.$("#fcltsFileList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.$("#fcltsFileForm input").val('');
-		module.makeFormValues("#fcltsFileForm", row);
-
-		if(row.atchFileNmPhysicl != null || row.atchFileNmPhysicl != "") {
-			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
-			var filenm = row["atchFileNmPhysicl"];
-			var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
-
-			if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
-				$imgURL = module.getPfPhotoUrl(filenm);
-				module.$("#previewImage").fadeIn(400, function() {
-			    	module.$("#previewImage").attr("src", $imgURL);
-			    });
-			}else{
-				module.$("#previewImage").attr(src, "#");
-			}
-		}
-		
+		module.selectAtchFileItem();
 	});
 	
 	//첨부파일 정보 변화 이벤트 처리기
@@ -128,13 +111,13 @@ GamMechFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 GamMechFcltySpecMngModule.prototype.onSubmit = function() {
 	this.loadData();
-}
+};
 
 //시설목록 로드
 GamMechFcltySpecMngModule.prototype.loadData = function() {
 	var searchOpt = this.makeFormArgs("#searchMechFcltySpecMngForm");
 	this.$("#mechFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();	
-}
+};
 
 //시설재원데이터 로드
 GamMechFcltySpecMngModule.prototype.loadDetailData = function() {
@@ -161,13 +144,13 @@ GamMechFcltySpecMngModule.prototype.loadDetailData = function() {
 			}
 		});
 	}
-}
+};
 
 //시설 첨부파일 로드
 GamMechFcltySpecMngModule.prototype.loadFileData = function() {
 	var searchOpt = [{name: 'sFcltsMngNo', value: this.$("#fcltsMngNo").val()}];
 	this.$("#fcltsFileList").flexOptions({params:searchOpt}).flexReload();
-}
+};
 
 // 화면 및 데이터 초기화 처리
 GamMechFcltySpecMngModule.prototype.initDisplay = function() {
@@ -191,7 +174,98 @@ GamMechFcltySpecMngModule.prototype.initDisplay = function() {
 		this.$("#searchGisCodeBtn2").show();
 		this.$("#mechFcltySpecMngTab").tabs("option", {active: 0});
 	}
-}
+};
+
+//시설물 데이터 삽입
+GamMechFcltySpecMngModule.prototype.insertData = function() {
+	this.$('instlDt').val(this.$('prtFcltyInstlDt').val()); //GIS항만시설정보의 설치일자와 시설재원의 설치일자가 같도록 함. 
+	var data = this.makeFormArgs("#fcltyManageVO");
+ 	this.doAction('/fclty/insertMechFcltySpecMngDetail.do', data, function(module, result) {
+ 		if(result.resultCode == "0"){
+ 			module._cmd = "modify";
+ 			module.$("#gisPrtFcltySeq").val(result.gisPrtFcltySeq);
+			module.$("#fcltsMngNo").val(module.$("#gisAssetsPrtAtCode").val() + module.$("#gisAssetsCd").val() + module.$("#gisAssetsSubCd").val() + module.$("#gisPrtFcltyCd").val() + result.gisPrtFcltySeq + module._prtFcltySe);
+			module.$("#dispfcltsMngNo").text(module.$("#fcltsMngNo").val());
+			module.$("#selectGisPrtFcltyCd").disable();
+			module.$("#searchGisCodeBtn2").hide();
+			module.saveAtchFile();
+ 			module.loadData();
+ 		}
+ 		alert(result.resultMsg);
+ 	});	
+};
+
+//시설뮬 데이터 수정
+GamMechFcltySpecMngModule.prototype.updateData = function() { 
+	this.$('instlDt').val(this.$('prtFcltyInstlDt').val()); //GIS항만시설정보의 설치일자와 시설재원의 설치일자가 같도록 함. 
+	var data = this.makeFormArgs("#fcltyManageVO");
+	this.doAction('/fclty/updateMechFcltySpecMngDetail.do', data, function(module, result) {
+		if(result.resultCode == "0"){
+			module.saveAtchFile();
+			module.loadData();
+		}
+		alert(result.resultMsg);
+	});	
+};
+
+//시설물 데이터 삽입 및 수정
+GamMechFcltySpecMngModule.prototype.saveData = function() {
+	if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){ 		
+		return;
+	}
+ 	if(this._cmd == "insert") {
+ 		this.insertData();
+	} else if (this._cmd == "modify") { 
+		this.updateData();
+	}				
+};
+
+//시설물 데이터 삭제
+GamMechFcltySpecMngModule.prototype.deleteData = function() { 
+	var rows = this.$("#mechFcltySpecMngList").selectedRows();
+	if(rows.length <= 0){
+		alert("삭제할 시설을 선택하십시오.");
+		return;
+	}
+	if(confirm("시설정보을 삭제하시겠습니까?")) {
+		var row = rows[0];
+		if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
+			alert('시설물 관리번호에 오류가 있습니다.');
+			return;
+		}
+		var data = { 'fcltsMngNo': row['fcltsMngNo'] };
+	 	this.doAction('/fclty/deleteMechFcltySpecMngDetail.do', data, function(module, result) {
+	 		if(result.resultCode == "0") {
+				module._cmd = "";
+				module.initDisplay();
+	 			module.loadData();
+	 		}
+	 		alert(result.resultMsg);
+	 	});
+	}
+};
+
+//첨부파일 데이터 저장
+GamMechFcltySpecMngModule.prototype.saveAtchFile = function() {
+	var fcltsMngNo = this.$("#fcltsMngNo").val();
+	var fileList = this.$("#fcltsFileList").flexGetData();
+	for(var i=0; i<fileList.length; i++) {
+		fileList[i]["fcltsMngNo"] = fcltsMngNo;
+	}
+    var inputVO=[];
+    inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
+    this.doAction('/fclty/mergeMechFcltySpecAtchFile.do', inputVO, function(module, result) {
+        if(result.resultCode == 0){
+			module._deleteDataFileList = [];				    	
+			module.loadFileData();
+        }
+        else {
+        	alert(result.resultMsg);
+        }
+    });	
+};
 
 //첨부파일 정보 변화 처리
 GamMechFcltySpecMngModule.prototype.atchFileInfoChanged = function(target) {
@@ -222,52 +296,74 @@ GamMechFcltySpecMngModule.prototype.atchFileInfoChanged = function(target) {
 	}
 };
 
-//시설물 데이터 삽입
-GamMechFcltySpecMngModule.prototype.insertFcltsData = function(data) {
- 	this.doAction('/fclty/insertMechFcltySpecMngDetail.do', data, function(module, result) {
- 		if(result.resultCode == "0"){
- 			module._cmd = "modify";
- 			module.$("#gisPrtFcltySeq").val(result.gisPrtFcltySeq);
-			module.$("#fcltsMngNo").val(module.$("#gisAssetsPrtAtCode").val() + module.$("#gisAssetsCd").val() + module.$("#gisAssetsSubCd").val() + module.$("#gisPrtFcltyCd").val() + result.gisPrtFcltySeq + module._prtFcltySe);
-			module.$("#dispfcltsMngNo").text(module.$("#fcltsMngNo").val());
-			module.$("#selectGisPrtFcltyCd").disable();
-			module.$("#searchGisCodeBtn2").hide();
-			module.saveAtchFile(module.$("#fcltsMngNo").val());
- 			module.loadData();
- 		}
- 		alert(result.resultMsg);
- 	});	
-}
-
-//시설뮬 데이터 수정
-GamMechFcltySpecMngModule.prototype.updateFcltsData = function(data) { 
-	this.doAction('/fclty/updateMechFcltySpecMngDetail.do', data, function(module, result) {
-		if(result.resultCode == "0"){
-			module.saveAtchFile(module.$("#fcltsMngNo").val());
-			module.loadData();
+//첨부파일 항목선택
+GamMechFcltySpecMngModule.prototype.selectAtchFileItem = function() {
+	var rows = this.$('#qcMngAtchFileList').selectedRows();
+	if(rows.length > 0) {
+		var row = rows[0];
+		this.$("#qcMngAtchFileForm input").val('');
+		this.makeFormValues("#qcMngAtchFileForm", row);
+		if(row.atchFileNmPhysicl != null || row.atchFileNmPhysicl != "") {
+			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
+			var filenm = row["atchFileNmPhysicl"];
+			var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
+			if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
+				var imgURL = this.getPfPhotoUrl(filenm);
+				//this.$("#previewImage").fadeIn(400, function() {
+			    	this.$("#previewImage").attr("src", imgURL);
+			    //});
+			}else{
+				this.$("#previewImage").attr(src, "#");
+			}
 		}
-		alert(result.resultMsg);
-	});	
-}
+	}
+};
 
-//시설물 데이터 삭제
-GamMechFcltySpecMngModule.prototype.deleteFcltsData = function(fcltsMngNo) { 
-	var data = { 'fcltsMngNo': fcltsMngNo };
- 	this.doAction('/fclty/deleteMechFcltySpecMngDetail.do', data, function(module, result) {
- 		if(result.resultCode == "0") {
-			module._cmd = "";
-			module.initDisplay();
- 			module.loadData();
- 		}
- 		alert(result.resultMsg);
- 	});
-}
+//첨부파일 업로드
+GamMechFcltySpecMngModule.prototype.uploadAtchFileItem = function() {
+	this.$('#atchFileSe').val('D');
+	this.uploadPfPhoto("uploadPhoto", function(module, result) {
+		$.each(result, function(){
+			module.$("#fcltsFileList").flexAddRow({_updtId:'I', fcltsMngNo:module.$('#fcltsMngNo').val(), atchFileSe:'D', atchFileSeNm :'문서', atchFileNmLogic:this.logicalFileNm, atchFileNmPhysicl: this.physcalFileNm, atchFileWritingDt:''});
+		});
+	}, "기계시설파일 업로드");
+};
+
+//첨부파일 다운로드
+GamMechFcltySpecMngModule.prototype.downloadAtchFileItem = function() {
+	var selectRow = this.$('#fcltsFileList').selectedRows();
+	if(selectRow.length > 0) {
+		var row=selectRow[0];
+		this.downPfPhoto(row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
+	}
+};
+
+//첨부파일 삭제
+GamMechFcltySpecMngModule.prototype.removeAtchFileItem = function() {
+	var rows = this.$("#fcltsFileList").selectedRows();
+    if(rows.length == 0){
+        alert("파일목록에서 삭제할 행을 선택하십시오.");
+        return;
+    }
+    if(this.$("#fcltsFileList").selectedRowIds().length>0) {
+    	for(var i=this.$("#fcltsFileList").selectedRowIds().length-1; i>=0; i--) {
+    		var row = this.$("#fcltsFileList").flexGetRow(this.$("#fcltsFileList").selectedRowIds()[i]);
+            if(row._updtId == undefined || row._updtId != "I") {
+            	this._deleteDataFileList[this._deleteDataFileList.length] = row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
+			}
+        	this.$("#fcltsFileList").flexRemoveRow(this.$("#fcltsFileList").selectedRowIds()[i]);
+		}
+    	this.$("#previewImage").attr("src","#");
+    	alert("삭제되었습니다.");
+	}
+    this.$("#fcltsFileForm").find(":input").val("");
+};
+
 
 /**
  * 정의 된 버튼 클릭 시
  */
 GamMechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
-	var opts = null;
 	switch(buttonId) {
 		case "searchBtn": //조회
 			this._cmd = "";
@@ -306,54 +402,24 @@ GamMechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			this.initDisplay();
 			break;
 		
-		//시설삭제
+		// 시설삭제
 		case "btnDelete" :
-			var rows = this.$("#mechFcltySpecMngList").selectedRows();
-			if(rows.length <= 0){
-				alert("삭제할 시설을 선택하십시오.");
-				return;
-			}
-			if(confirm("시설정보을 삭제하시겠습니까?")) {
-				var row = rows[0];
-				if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
-					alert('시설물 관리번호에 오류가 있습니다.');
-					return;
-				}
-				this.deleteFcltsData(row['fcltsMngNo']); 
-			}
+			this.deleteData();
 			break;
 			
 		// 저장
 		case "btnSave":
-        	if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){ 		
-        		return;
-        	}
-        	this.$('instlDt').val(this.$('prtFcltyInstlDt').val());
-			opts = this.makeFormArgs("#fcltyManageVO");
-		 	if(this._cmd == "insert") {
-		 		this.insertFcltsData(opts);
-			} else if (this._cmd == "modify") { 
-				this.updateFcltsData(opts);
-			}			
+			this.saveData();
 			break;
 					
 		//파일업로드
 		case "btnUploadFile":
-			this.$('#atchFileSe').val('D');
-			this.uploadPfPhoto("uploadPhoto", function(module, result) {
-				$.each(result, function(){
-					module.$("#fcltsFileList").flexAddRow({_updtId:'I', fcltsMngNo:module.$('#fcltsMngNo').val(), atchFileSe:'D', atchFileSeNm :'문서', atchFileNmLogic:this.logicalFileNm, atchFileNmPhysicl: this.physcalFileNm, atchFileWritingDt:''});
-				});
-			}, "기계시설파일 업로드");
+			this.uploadAtchFileItem();
 			break;
 			
 		//파일다운로드			
 		case "btnDownloadFile":
-			var selectRow = this.$('#fcltsFileList').selectedRows();
-			if(selectRow.length > 0) {
-				var row=selectRow[0];
-				this.downPfPhoto(row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
-			}
+			this.downloadAtchFileItem();
 			break;
 						
 		//파일삭제
@@ -381,46 +447,6 @@ GamMechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			}
 			break;
 	}
-};
-
-GamMechFcltySpecMngModule.prototype.saveAtchFile = function(fcltsMngNo) {
-	var fileList = this.$("#fcltsFileList").flexGetData();
-	for(var i=0; i<fileList.length; i++) {
-		fileList[i]["fcltsMngNo"] = fcltsMngNo;
-	}
-    var inputVO=[];
-    inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
-    this.doAction('/fclty/mergeMechFcltySpecAtchFile.do', inputVO, function(module, result) {
-        if(result.resultCode == 0){
-			module._deleteDataFileList = [];				    	
-			module.loadFileData();
-        }
-        else {
-        	alert(result.resultMsg);
-        }
-    });	
-}
-
-GamMechFcltySpecMngModule.prototype.removeAtchFileItem = function() {
-	var rows = this.$("#fcltsFileList").selectedRows();
-    if(rows.length == 0){
-        alert("파일목록에서 삭제할 행을 선택하십시오.");
-        return;
-    }
-    if(this.$("#fcltsFileList").selectedRowIds().length>0) {
-    	for(var i=this.$("#fcltsFileList").selectedRowIds().length-1; i>=0; i--) {
-    		var row = this.$("#fcltsFileList").flexGetRow(this.$("#fcltsFileList").selectedRowIds()[i]);
-            if(row._updtId == undefined || row._updtId != "I") {
-            	this._deleteDataFileList[this._deleteDataFileList.length] = row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
-			}
-        	this.$("#fcltsFileList").flexRemoveRow(this.$("#fcltsFileList").selectedRowIds()[i]);
-		}
-    	this.$("#previewImage").attr("src","#");
-    	alert("삭제되었습니다.");
-	}
-    this.$("#fcltsFileForm").find(":input").val("");
 };
 
 /**

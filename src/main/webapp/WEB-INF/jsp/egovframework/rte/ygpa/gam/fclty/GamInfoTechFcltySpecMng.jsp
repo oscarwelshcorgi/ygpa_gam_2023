@@ -129,13 +129,13 @@ GamInfoTechFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 GamInfoTechFcltySpecMngModule.prototype.onSubmit = function() {
 	this.loadData();
-}
+};
 
 //시설목록 로드
 GamInfoTechFcltySpecMngModule.prototype.loadData = function() {
 	var searchOpt = this.makeFormArgs("#searchInfoTechFcltySpecMngForm");
 	this.$("#infoTechFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();	
-}
+};
 
 //시설재원데이터 로드
 GamInfoTechFcltySpecMngModule.prototype.loadDetailData = function() {
@@ -162,13 +162,13 @@ GamInfoTechFcltySpecMngModule.prototype.loadDetailData = function() {
 			}
 		});
 	}
-}
+};
 
 //시설 첨부파일 로드
 GamInfoTechFcltySpecMngModule.prototype.loadFileData = function() {
 	var searchOpt = [{name: 'sFcltsMngNo', value: this.$("#fcltsMngNo").val()}];
 	this.$("#fcltsFileList").flexOptions({params:searchOpt}).flexReload();
-}
+};
 
 // 화면 및 데이터 초기화 처리
 GamInfoTechFcltySpecMngModule.prototype.initDisplay = function() {
@@ -191,7 +191,7 @@ GamInfoTechFcltySpecMngModule.prototype.initDisplay = function() {
 		this.$("#searchGisCodeBtn2").show();
 		this.$("#infoTechFcltySpecMngTab").tabs("option", {active: 0});
 	}
-}
+};
 
 //첨부파일 정보 변화 처리
 GamInfoTechFcltySpecMngModule.prototype.atchFileInfoChanged = function(target) {
@@ -223,7 +223,8 @@ GamInfoTechFcltySpecMngModule.prototype.atchFileInfoChanged = function(target) {
 };
 
 //시설물 데이터 삽입
-GamInfoTechFcltySpecMngModule.prototype.insertFcltsData = function(data) {
+GamInfoTechFcltySpecMngModule.prototype.insertData = function() {
+	var data = this.makeFormArgs("#fcltyManageVO");
  	this.doAction('/fclty/insertInfoTechFcltySpecMngDetail.do', data, function(module, result) {
  		if(result.resultCode == "0"){
  			module._cmd = "modify";
@@ -232,42 +233,180 @@ GamInfoTechFcltySpecMngModule.prototype.insertFcltsData = function(data) {
 			module.$("#dispfcltsMngNo").text(module.$("#fcltsMngNo").val());
 			module.$("#selectGisPrtFcltyCd").disable();
 			module.$("#searchGisCodeBtn2").hide();
-			module.saveAtchFile(module.$("#fcltsMngNo").val());
+			module.saveAtchFile();
  			module.loadData();
  		}
  		alert(result.resultMsg);
  	});	
-}
+};
 
 //시설뮬 데이터 수정
-GamInfoTechFcltySpecMngModule.prototype.updateFcltsData = function(data) { 
+GamInfoTechFcltySpecMngModule.prototype.updateData = function() { 
+	var data = this.makeFormArgs("#fcltyManageVO");
 	this.doAction('/fclty/updateInfoTechFcltySpecMngDetail.do', data, function(module, result) {
 		if(result.resultCode == "0"){
-			module.saveAtchFile(module.$("#fcltsMngNo").val());
+			module.saveAtchFile();
 			module.loadData();
 		}
 		alert(result.resultMsg);
 	});	
-}
+};
+
+//시설물 데이터 삽입 및 수정
+GamCivilFcltySpecMngModule.prototype.saveData = function() {
+	if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){ 		
+		return;
+	}
+	if(this._cmd == "insert") {
+		this.insertData();
+	} else if (this._cmd == "modify") { 
+		this.updateData();
+	}			
+};
 
 //시설물 데이터 삭제
-GamInfoTechFcltySpecMngModule.prototype.deleteFcltsData = function(fcltsMngNo) { 
-	var data = { 'fcltsMngNo': fcltsMngNo };
- 	this.doAction('/fclty/deleteInfoTechFcltySpecMngDetail.do', data, function(module, result) {
- 		if(result.resultCode == "0") {
-			module._cmd = "";
-			module.initDisplay();
- 			module.loadData();
- 		}
- 		alert(result.resultMsg);
- 	});
-}
+GamInfoTechFcltySpecMngModule.prototype.deleteData = function() { 
+	var rows = this.$("#infoTechFcltySpecMngList").selectedRows();
+	if(rows.length <= 0){
+		alert("삭제할 시설을 선택하십시오.");
+		return;
+	}
+	if(confirm("시설정보을 삭제하시겠습니까?")) {
+		var row = rows[0];
+		if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
+			alert('시설물 관리번호에 오류가 있습니다.');
+			return;
+		}
+		var data = { 'fcltsMngNo': row['fcltsMngNo'] };
+	 	this.doAction('/fclty/deleteInfoTechFcltySpecMngDetail.do', data, function(module, result) {
+	 		if(result.resultCode == "0") {
+				module._cmd = "";
+				module.initDisplay();
+	 			module.loadData();
+	 		}
+	 		alert(result.resultMsg);
+	 	});
+	}
+};
+
+//첨부파일 데이터 저장
+GamInfoTechFcltySpecMngModule.prototype.saveAtchFile = function() {
+	var fcltsMngNo = this.$("#fcltsMngNo").val();
+	var fileList = this.$("#fcltsFileList").flexGetData();
+	for(var i=0; i<fileList.length; i++) {
+		fileList[i]["fcltsMngNo"] = fcltsMngNo;
+	}
+    var inputVO=[];
+    inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
+    this.doAction('/fclty/mergeCivilFcltySpecAtchFile.do', inputVO, function(module, result) {
+        if(result.resultCode == 0){
+			module._deleteDataFileList = [];				    	
+			module.loadFileData();
+        }
+        else {
+        	alert(result.resultMsg);
+        }
+    });	
+};
+
+//첨부파일 정보 변화 처리
+GamInfoTechFcltySpecMngModule.prototype.atchFileInfoChanged = function(target) {
+	var changed=false;
+	var row={};
+	var selectRow = this.$('#fcltsFileList').selectedRows();
+	if(selectRow.length > 0) {
+		row=selectRow[0];
+		if(this.$('#atchFileSe').is(target)) {
+			row['atchFileSe'] = $(target).val();
+			row['atchFileSeNm'] = $(target).find('option:selected').text();
+			changed=true;
+		}
+		if(this.$('#atchFileSj').is(target)) {
+			row['atchFileSj'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#atchFileWritngDt').is(target)) {
+			row['atchFileWritngDt'] = $(target).val();
+			changed=true;
+		}
+	}
+	if(changed) {
+		var rowid=this.$("#fcltsFileList").selectedRowIds()[0];
+		if(row['_updtId']!='I') row['_updtId']='U';
+		this.edited=true;
+		this.$('#fcltsFileList').flexUpdateRow(rowid, row);
+	}
+};
+
+//첨부파일 항목선택
+GamInfoTechFcltySpecMngModule.prototype.selectAtchFileItem = function() {
+	var rows = this.$('#qcMngAtchFileList').selectedRows();
+	if(rows.length > 0) {
+		var row = rows[0];
+		this.$("#qcMngAtchFileForm input").val('');
+		this.makeFormValues("#qcMngAtchFileForm", row);
+		if(row.atchFileNmPhysicl != null || row.atchFileNmPhysicl != "") {
+			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
+			var filenm = row["atchFileNmPhysicl"];
+			var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
+			if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
+				var imgURL = this.getPfPhotoUrl(filenm);
+				//this.$("#previewImage").fadeIn(400, function() {
+			    	this.$("#previewImage").attr("src", imgURL);
+			    //});
+			}else{
+				this.$("#previewImage").attr(src, "#");
+			}
+		}
+	}
+};
+
+//첨부파일 업로드
+GamInfoTechFcltySpecMngModule.prototype.uploadAtchFileItem = function() {
+	this.$('#atchFileSe').val('D');
+	this.uploadPfPhoto("uploadPhoto", function(module, result) {
+		$.each(result, function(){
+			module.$("#fcltsFileList").flexAddRow({_updtId:'I', fcltsMngNo:module.$('#fcltsMngNo').val(), atchFileSe:'D', atchFileSeNm :'문서', atchFileNmLogic:this.logicalFileNm, atchFileNmPhysicl: this.physcalFileNm, atchFileWritingDt:''});
+		});
+	}, "토목시설파일 업로드");
+};
+
+//첨부파일 다운로드
+GamInfoTechFcltySpecMngModule.prototype.downloadAtchFileItem = function() {
+	var selectRow = this.$('#fcltsFileList').selectedRows();
+	if(selectRow.length > 0) {
+		var row=selectRow[0];
+		this.downPfPhoto(row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
+	}
+};
+
+//첨부파일 삭제
+GamInfoTechFcltySpecMngModule.prototype.removeAtchFileItem = function() {
+	var rows = this.$("#fcltsFileList").selectedRows();
+    if(rows.length == 0){
+        alert("파일목록에서 삭제할 행을 선택하십시오.");
+        return;
+    }
+    if(this.$("#fcltsFileList").selectedRowIds().length>0) {
+    	for(var i=this.$("#fcltsFileList").selectedRowIds().length-1; i>=0; i--) {
+    		var row = this.$("#fcltsFileList").flexGetRow(this.$("#fcltsFileList").selectedRowIds()[i]);
+            if(row._updtId == undefined || row._updtId != "I") {
+            	this._deleteDataFileList[this._deleteDataFileList.length] = row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
+			}
+        	this.$("#fcltsFileList").flexRemoveRow(this.$("#fcltsFileList").selectedRowIds()[i]);
+		}
+    	this.$("#previewImage").attr("src","#");
+    	alert("삭제되었습니다.");
+	}
+    this.$("#fcltsFileForm").find(":input").val("");
+};
 
 /**
  * 정의 된 버튼 클릭 시
  */
 GamInfoTechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
-	var opts = null;
 	switch(buttonId) {
 		case "searchBtn": //조회
 			this._cmd = "";
@@ -308,51 +447,22 @@ GamInfoTechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		
 		//시설삭제
 		case "btnDelete" :
-			var rows = this.$("#infoTechFcltySpecMngList").selectedRows();
-			if(rows.length <= 0){
-				alert("삭제할 시설을 선택하십시오.");
-				return;
-			}
-			if(confirm("시설정보을 삭제하시겠습니까?")) {
-				var row = rows[0];
-				if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
-					alert('시설물 관리번호에 오류가 있습니다.');
-					return;
-				}
-				this.deleteFcltsData(row['fcltsMngNo']); 
-			}
+			this.deleteData();
 			break;
 			
 		// 저장
 		case "btnSave":
-        	if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){ 		
-        		return;
-        	}
-			opts = this.makeFormArgs("#fcltyManageVO");
-		 	if(this._cmd == "insert") {
-		 		this.insertFcltsData(opts);
-			} else if (this._cmd == "modify") { 
-				this.updateFcltsData(opts);
-			}			
+			this.saveAtchFile();
 			break;
 					
 		//파일업로드
 		case "btnUploadFile":
-			this.$('#atchFileSe').val('D');
-			this.uploadPfPhoto("uploadPhoto", function(module, result) {
-				$.each(result, function(){
-					module.$("#fcltsFileList").flexAddRow({_updtId:'I', fcltsMngNo:module.$('#fcltsMngNo').val(), atchFileSe:'D', atchFileSeNm :'문서', atchFileNmLogic:this.logicalFileNm, atchFileNmPhysicl: this.physcalFileNm, atchFileWritingDt:''});
-				});
-			}, "정보통신시설파일 업로드");
+			this.uploadAtchFileItem();
 			break;
 			
 		//파일다운로드			
 		case "btnDownloadFile":
-			var selectRow = this.$('#fcltsFileList').selectedRows();
-			if(selectRow.length > 0) {
-				var row=selectRow[0];
-				this.downPfPhoto(row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
-			}
+			this.downloadAtchFileItem();
 			break;
 						
 		//파일삭제
@@ -380,46 +490,6 @@ GamInfoTechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			}
 			break;
 	}
-};
-
-GamInfoTechFcltySpecMngModule.prototype.saveAtchFile = function(fcltsMngNo) {
-	var fileList = this.$("#fcltsFileList").flexGetData();
-	for(var i=0; i<fileList.length; i++) {
-		fileList[i]["fcltsMngNo"] = fcltsMngNo;
-	}
-    var inputVO=[];
-    inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
-    this.doAction('/fclty/mergeInfoTechFcltySpecAtchFile.do', inputVO, function(module, result) {
-        if(result.resultCode == 0){
-			module._deleteDataFileList = [];				    	
-			module.loadFileData();
-        }
-        else {
-        	alert(result.resultMsg);
-        }
-    });	
-}
-
-GamInfoTechFcltySpecMngModule.prototype.removeAtchFileItem = function() {
-	var rows = this.$("#fcltsFileList").selectedRows();
-    if(rows.length == 0){
-        alert("파일목록에서 삭제할 행을 선택하십시오.");
-        return;
-    }
-    if(this.$("#fcltsFileList").selectedRowIds().length>0) {
-    	for(var i=this.$("#fcltsFileList").selectedRowIds().length-1; i>=0; i--) {
-    		var row = this.$("#fcltsFileList").flexGetRow(this.$("#fcltsFileList").selectedRowIds()[i]);
-            if(row._updtId == undefined || row._updtId != "I") {
-            	this._deleteDataFileList[this._deleteDataFileList.length] = row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
-			}
-        	this.$("#fcltsFileList").flexRemoveRow(this.$("#fcltsFileList").selectedRowIds()[i]);
-		}
-    	this.$("#previewImage").attr("src","#");
-    	alert("삭제되었습니다.");
-	}
-    this.$("#fcltsFileForm").find(":input").val("");
 };
 
 /**
