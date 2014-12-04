@@ -156,18 +156,15 @@ GamMechFcltySpecMngModule.prototype.initDisplay = function() {
 	this.$("#fcltyManageVO :input").val("");
 	this.$("#dispfcltsMngNo").text("");
 	this.$("#previewImage").attr("src", "#");
+	this.$('#fcltsFileList').flexEmptyData();
 	if(this._cmd == "insert") {
 		this.$("#selectGisPrtFcltyCd").enable();
 		this.$("#searchGisCodeBtn2").show();
-		this.$('#fcltsFileList').flexEmptyData();
 		this.$("#mechFcltySpecMngTab").tabs("option", {active: 1});		
 	} else if (this._cmd == "modify") {
 		this.$("#selectGisPrtFcltyCd").disable();
 		this.$("#searchGisCodeBtn2").hide();
 	} else {
-		this.$('#fcltsFileList').flexEmptyData();
-		this.$("#fcltyManageVO :input").val("");
-		this.$("#dispfcltsMngNo").text("");
 		this.$("#selectGisPrtFcltyCd").enable();
 		this.$("#searchGisCodeBtn2").show();
 		this.$("#mechFcltySpecMngTab").tabs("option", {active: 0});

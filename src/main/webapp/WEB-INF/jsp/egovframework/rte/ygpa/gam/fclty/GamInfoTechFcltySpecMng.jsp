@@ -185,8 +185,6 @@ GamInfoTechFcltySpecMngModule.prototype.initDisplay = function() {
 		this.$("#selectGisPrtFcltyCd").disable();
 		this.$("#searchGisCodeBtn2").hide();
 	} else {
-		this.$("#fcltyManageVO :input").val("");
-		this.$("#dispfcltsMngNo").text("");
 		this.$("#selectGisPrtFcltyCd").enable();
 		this.$("#searchGisCodeBtn2").show();
 		this.$("#infoTechFcltySpecMngTab").tabs("option", {active: 0});
