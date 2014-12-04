@@ -589,8 +589,8 @@ var module_instance = new GamMechFcltySpecMngModule();
 							<td><input type="text" size="5" id="gisAssetsPrtAtCode" disabled="disabled"/>  <input type="text" size="15" id="gisAssetsPrtAtName" disabled="disabled"/></td>
 							<th width="12%" height="17" class="required_text">GIS 자산코드</th>
 							<td colspan="3">
-								<input type="text" size="2" id="gisAssetsCd" disabled="disabled" data-required="true"/>-
-								<input type="text" size="1" id="gisAssetsSubCd" disabled="disabled"/>-
+								<input type="text" size="3" id="gisAssetsCd" disabled="disabled" data-required="true"/>-
+								<input type="text" size="2" id="gisAssetsSubCd" disabled="disabled"/>-
 								<input type="text" size="4" id="gisAssetsPrtAtCode2" disabled="disabled"/>
 								<button id="searchGisCodeBtn2" class="popupButton">선택</button>
 							</td>
