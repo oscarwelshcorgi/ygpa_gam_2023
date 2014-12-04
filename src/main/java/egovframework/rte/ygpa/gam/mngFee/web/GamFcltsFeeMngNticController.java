@@ -234,8 +234,8 @@ public class GamFcltsFeeMngNticController {
 
 	}
 
-	@RequestMapping(value="/mngFee/gamUpdateFcltsFeeMngNtic.do")
-	@ResponseBody Map<String, Object> updateFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo)	throws Exception {
+	@RequestMapping(value="/mngFee/gamSaveFcltsFeeMngNticIssue.do")
+	@ResponseBody Map<String, Object> saveFcltsFeeMngNticIssue(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -279,6 +279,69 @@ public class GamFcltsFeeMngNticController {
 
 		try {
 			gamFcltsFeeMngNticService.deleteFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
+
+			map.put("resultCode", 0);			// return ok
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+		}
+
+		return map;
+
+	}
+
+	@RequestMapping(value="/mngFee/gamProcessFcltsFeeMngNticIssue.do")
+	@ResponseBody Map<String, Object> processFcltsFeeMngNticIssue(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo)	throws Exception {
+
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			gamFcltsFeeMngNticVo.setNhtIsueYn("Y");
+			gamFcltsFeeMngNticVo.setUpdUsr((String)user.getId());
+			gamFcltsFeeMngNticVo.setUserName((String)user.getName());
+			gamFcltsFeeMngNticService.processFcltsFeeMngNticIssue(gamFcltsFeeMngNticVo);
+
+			map.put("resultCode", 0);			// return ok
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+
+		return map;
+
+	}
+
+	@RequestMapping(value="/mngFee/gamCancelFcltsFeeMngNticIssue.do")
+	@ResponseBody Map<String, Object> cancelFcltsFeeMngNticIssue(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo)	throws Exception {
+
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			gamFcltsFeeMngNticVo.setNhtIsueYn("N");
+			gamFcltsFeeMngNticVo.setUpdUsr((String)user.getId());
+			gamFcltsFeeMngNticService.cancelFcltsFeeMngNticIssue(gamFcltsFeeMngNticVo);
 
 			map.put("resultCode", 0);			// return ok
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));

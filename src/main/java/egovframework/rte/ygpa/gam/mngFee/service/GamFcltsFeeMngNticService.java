@@ -56,6 +56,21 @@ public interface GamFcltsFeeMngNticService {
 	/**
 	 * @param gamFcltsFeeMngNticVo
 	 */
+	void updateFcltsFeeMngNticNhtOutputYn(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception;
+
+	/**
+	 * @param gamFcltsFeeMngNticVo
+	 */
 	void deleteFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception;
+
+	/**
+	 * @param gamFcltsFeeMngNticVo
+	 */
+	void processFcltsFeeMngNticIssue(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception;
+
+	/**
+	 * @param gamFcltsFeeMngNticVo
+	 */
+	void cancelFcltsFeeMngNticIssue(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception;
 
 }

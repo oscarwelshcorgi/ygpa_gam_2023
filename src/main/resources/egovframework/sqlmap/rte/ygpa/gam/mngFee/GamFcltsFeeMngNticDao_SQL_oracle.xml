@@ -54,7 +54,7 @@
 								,LTRIM(TO_CHAR(NVL(T1.VAT,0),'999,999,999,990')) AS VAT
 								,LTRIM(TO_CHAR(NVL(T1.NTIC_AMT,0),'999,999,999,990')) AS NTIC_AMT
 								,T1.RCIV_SE
-								,GAM_GETCODENAME('GAM025',T1.RCIV_SE) AS RCIV_SE_NM
+								,(CASE WHEN T1.NHT_ISUE_YN='Y' THEN GAM_GETCODENAME('GAM025',T1.RCIV_SE) ELSE '미고지' END) AS RCIV_SE_NM
 								,TO_CHAR(T1.RCIV_DT,'YYYY-MM-DD') AS RCIV_DT
 								,T1.NHT_ISUE_YN
 								,T1.NHT_OUTPUT_YN
@@ -69,10 +69,15 @@
 								,TO_CHAR(T1.REGIST_DT, 'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
 								,T1.UPD_USR
 								,TO_CHAR(T1.UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,T5.FEE_TP
+								,T5.FISCAL_YR
+								,T5.BILL_NO
+								,T5.RCVD_TP
 							FROM MNG_FEE_LEV_REQEST_F T1
 							LEFT OUTER JOIN FCLTS_MNG_FEE_DETAIL_F T2 ON (T1.MNG_MT=T2.MNG_MT AND T1.MNG_FEE_JOB_SE=T2.MNG_FEE_JOB_SE AND T1.MNG_SEQ=T2.MNG_SEQ)
 							LEFT OUTER JOIN FCLTS_MNG_FEE_F T3 ON (T1.MNG_MT=T3.MNG_MT AND T1.MNG_FEE_JOB_SE=T3.MNG_FEE_JOB_SE)
 							LEFT OUTER JOIN ENTRPS_INFO_F T4 ON (T1.ENTRPSCD=T4.ENTRPSCD)
+							LEFT OUTER JOIN REV_COLL_F T5 ON (T1.PRT_AT_CODE=T5.PRT_AT_CODE AND T1.CHRGE_KND=T5.WORK_CODE AND T1.ACCNUT_YEAR=T5.FISCAL_YR AND T1.NTIC_NO=T5.BILL_NO)
 						WHERE 1=1
 
 						<isNotEmpty property="sStartMngYear">
@@ -178,7 +183,6 @@
 	</select>
 
 	<insert id="gamFcltsFeeMngNticDao.insertFcltsFeeMngNtic_S">
-		<![CDATA[
 		INSERT INTO MNG_FEE_LEV_REQEST_F
 		(
 			 MNG_MT
@@ -232,49 +236,71 @@
 			,#rm#
 			,'0'
 			,NULL
-			,'Y'
+			,#nhtIsueYn#
 			,#deptCd#
-			,'1'
-			,'N'
+			,#nticMth#
+			,#nhtOutputYn#
 			,#arrrgNo#
 			,TO_NUMBER(REPLACE(#arrrgAmt#,',',''))
 			,TO_NUMBER(REPLACE(#arrrgTariff#,',',''))
 			,TO_NUMBER(REPLACE(#arrrgPayDates#,',',''))
-			,'Y'
-			,NULL
+			,#aditNticYn#
+			,#setoffYn#
 			,#regUsr#
 			,SYSDATE
 		)
-		]]>
 	</insert>
 
 	<update id="gamFcltsFeeMngNticDao.updateFcltsFeeMngNtic_S">
-		<![CDATA[
 		UPDATE MNG_FEE_LEV_REQEST_F SET
-			 NTIC_DT = TO_DATE(#nticDt#,'YYYY-MM-DD')
+			 CHRGE_KND = #chrgeKnd#
+			<isEqual property="nhtIsueYn" compareValue="Y">
+			,ACCNUT_YEAR = TO_CHAR(SYSDATE,'YYYY')
+			,NTIC_NO = (SELECT LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(BILL_NO)),0) + 1,'000000'))
+							FROM REV_COLL_F
+						WHERE PRT_AT_CODE = #prtAtCode#
+						AND FEE_TP = GAM_GET_FEE_TP(#chrgeKnd#)
+						AND FISCAL_YR = TO_CHAR(SYSDATE,'YYYY'))
+			,NTIC_DT = TO_DATE(#nticDt#,'YYYY-MM-DD')
 			,PAY_TMLMT = TO_DATE(#payTmlmt#,'YYYY-MM-DD')
+			</isEqual>
+			<isEqual property="nhtIsueYn" compareValue="N">
+			,ACCNUT_YEAR = NULL
+			,NTIC_NO = NULL
+			,NTIC_DT = NULL
+			,PAY_TMLMT = NULL
+			</isEqual>
+			<isEmpty property="accnutYear">
 			,FEE = TO_NUMBER(REPLACE(#fee#,',',''))
 			,VAT_YN = #vatYn#
 			,VAT = TO_NUMBER(REPLACE(#vat#,',',''))
 			,NTIC_AMT = TO_NUMBER(REPLACE(#nticAmt#,',',''))
 			,RM = #rm#
+			</isEmpty>
+			,NHT_ISUE_YN = #nhtIsueYn#
 			,UPD_USR = #updUsr#
-			,UPDT_DT = sysdate
+			,UPDT_DT = SYSDATE
 		WHERE MNG_MT = #mngMt#
 		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
 		AND MNG_SEQ = #mngSeq#
 		AND REQEST_SEQ = #reqestSeq#
-		]]>
+	</update>
+
+	<update id="gamFcltsFeeMngNticDao.updateFcltsFeeMngNticNhtOutputYn_S">
+		UPDATE MNG_FEE_LEV_REQEST_F SET
+			 NHT_OUTPUT_YN = #nhtOutputYn#
+		WHERE MNG_MT = #mngMt#
+		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
+		AND MNG_SEQ = #mngSeq#
+		AND REQEST_SEQ = #reqestSeq#
 	</update>
 
 	<delete id="gamFcltsFeeMngNticDao.deleteFcltsFeeMngNtic_S">
-		<![CDATA[
 		DELETE FROM MNG_FEE_LEV_REQEST_F
 		WHERE MNG_MT = #mngMt#
 		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
 		AND MNG_SEQ = #mngSeq#
 		AND REQEST_SEQ = #reqestSeq#
-		]]>
 	</delete>
 
 	<select id="gamFcltsFeeMngNticDao.selectFcltsFeeMngNticDetailList_D" parameterClass="gamFcltsFeeMngNticDetailVo" resultClass="egovMap">
@@ -301,7 +327,7 @@
 				,LTRIM(TO_CHAR(NVL(T1.VAT,0),'999,999,999,990')) AS VAT
 				,LTRIM(TO_CHAR(NVL(T1.NTIC_AMT,0),'999,999,999,990')) AS NTIC_AMT
 				,T1.RCIV_SE
-				,GAM_GETCODENAME('GAM025',T1.RCIV_SE) AS RCIV_SE_NM
+				,(CASE WHEN T1.NHT_ISUE_YN='Y' THEN GAM_GETCODENAME('GAM025',T1.RCIV_SE) ELSE '미고지' END) AS RCIV_SE_NM
 				,TO_CHAR(T1.RCIV_DT,'YYYY-MM-DD') AS RCIV_DT
 				,T1.NHT_ISUE_YN
 				,T1.NHT_OUTPUT_YN
@@ -322,5 +348,76 @@
 		AND MNG_SEQ = #mngSeq#
 		ORDER BY T1.REQEST_SEQ
 	</select>
+
+	<insert id="gamFcltsFeeMngNticDao.insertRevCollF_S">
+        INSERT INTO REV_COLL_F
+		(
+			 PRT_AT_CODE
+			,FEE_TP
+			,WORK_CODE
+			,FISCAL_YR
+			,BILL_NO
+			,AGENT_CODE
+			,BZ_RGST_ID
+			,AGENT_NAME
+			,BILL_DT
+			,DUE_DATE
+			,BILL_PRT_YN
+			,FIRST_BILL_DT
+			,BILL_AMNT
+			,VAT_YN
+			,VAT
+			,OVER_AMNT
+			,DC_AMNT
+			,BILL_PRT_YN
+			,AMNT_RSN
+			,DEPT
+			,EMPL
+			,USER_NAME
+			,RCVD_TP
+			,UPDT_UID
+			,UPDT_DATE
+		)
+		SELECT
+				 T1.PRT_AT_CODE
+				,GAM_GET_FEE_TP(T1.CHRGE_KND)
+				,T1.CHRGE_KND
+				,T1.ACCNUT_YEAR
+				,T1.NTIC_NO
+				,T1.ENTRPSCD
+				,T2.BIZRNO
+				,T2.ENTRPS_NM
+				,T1.NTIC_DT
+				,T1.PAY_TMLMT
+				,T1.NHT_OUTPUT_YN
+				,T1.NTIC_DT
+				,T1.FEE
+				,T1.VAT_YN
+				,T1.VAT
+				,0
+				,0
+				,'N'
+				,#mngFeeSj#
+				,T1.DEPT_CD
+				,#updUsr#
+				,#userName#
+				,'0'
+				,#updUsr#
+				,SYSDATE
+			FROM MNG_FEE_LEV_REQEST_F T1
+			LEFT OUTER JOIN ENTRPS_INFO_F T2 ON (T1.ENTRPSCD=T2.ENTRPSCD)
+		WHERE MNG_MT = #mngMt#
+		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
+		AND MNG_SEQ = #mngSeq#
+		AND REQEST_SEQ = #reqestSeq#
+	</insert>
+
+	<delete id="gamFcltsFeeMngNticDao.deleteRevCollF_S">
+		DELETE FROM REV_COLL_F
+		WHERE PRT_AT_CODE = #prtAtCode#
+		AND FEE_TP = GAM_GET_FEE_TP(#chrgeKnd#)
+		AND FISCAL_YR = #accnutYear#
+		AND BILL_NO = #nticNo#
+	</delete>
 
 </sqlMap>

@@ -60,8 +60,10 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 	private String	rcivSeNm;			//수납 구분 명
 	private String	rcivDt;				//수납 일자
 	private String	nhtIsueYn;			//고지 여부
+	private String	nticMth;			//고지 방법
 	private String	nhtOutputYn;		//출력 여부
 	private String	aditNticYn;			//추가 고지 여부
+	private String	setoffYn;			//상계 여부
 	private String	arrrgNo;			//연체 번호
 	private String	arrrgAmt;			//연체 금액
 	private String	arrrgTariff;		//연체 요율
@@ -72,6 +74,11 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 	private	String	registDt;			//등록일시
 	private	String	updUsr;				//수정자
 	private	String	updtDt;				//수정일시
+	private String	feeTp;				//세입징수 요금 종류
+	private String	fiscalYr;			//세입징수 회계 년도
+	private String	billNo;				//세입징수 고지 번호
+	private String	rcvdTp;				//세입징수 수납 구분
+	private	String	userName;			//등록자명
 
 	private String	dataCount;
 	private String	sumFee;
@@ -499,6 +506,18 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 		this.nhtIsueYn = nhtIsueYn;
 	}
 	/**
+	 * @return the nticMth
+	 */
+	public String getNticMth() {
+		return nticMth;
+	}
+	/**
+	 * @param nticMth the nticMth to set
+	 */
+	public void setNticMth(String nticMth) {
+		this.nticMth = nticMth;
+	}
+	/**
 	 * @return the nhtOutputYn
 	 */
 	public String getNhtOutputYn() {
@@ -521,6 +540,18 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 	 */
 	public void setAditNticYn(String aditNticYn) {
 		this.aditNticYn = aditNticYn;
+	}
+	/**
+	 * @return the setoffYn
+	 */
+	public String getSetoffYn() {
+		return setoffYn;
+	}
+	/**
+	 * @param setoffYn the setoffYn to set
+	 */
+	public void setSetoffYn(String setoffYn) {
+		this.setoffYn = setoffYn;
 	}
 	/**
 	 * @return the arrrgNo
@@ -641,6 +672,66 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 	 */
 	public void setUpdtDt(String updtDt) {
 		this.updtDt = updtDt;
+	}
+	/**
+	 * @return the feeTp
+	 */
+	public String getFeeTp() {
+		return feeTp;
+	}
+	/**
+	 * @param feeTp the feeTp to set
+	 */
+	public void setFeeTp(String feeTp) {
+		this.feeTp = feeTp;
+	}
+	/**
+	 * @return the fiscalYr
+	 */
+	public String getFiscalYr() {
+		return fiscalYr;
+	}
+	/**
+	 * @param fiscalYr the fiscalYr to set
+	 */
+	public void setFiscalYr(String fiscalYr) {
+		this.fiscalYr = fiscalYr;
+	}
+	/**
+	 * @return the billNo
+	 */
+	public String getBillNo() {
+		return billNo;
+	}
+	/**
+	 * @param billNo the billNo to set
+	 */
+	public void setBillNo(String billNo) {
+		this.billNo = billNo;
+	}
+	/**
+	 * @return the rcvdTp
+	 */
+	public String getRcvdTp() {
+		return rcvdTp;
+	}
+	/**
+	 * @param rcvdTp the rcvdTp to set
+	 */
+	public void setRcvdTp(String rcvdTp) {
+		this.rcvdTp = rcvdTp;
+	}
+	/**
+	 * @return the userName
+	 */
+	public String getUserName() {
+		return userName;
+	}
+	/**
+	 * @param userName the userName to set
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	/**
 	 * @return the dataCount

@@ -184,32 +184,7 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 	});
 
 	this.$('#nticDt').on('keyup change',{module:this}, function(event){
-		console.log('asdf');
-		var module = event.data.module;
-		var dueDate = EMD.util.strToDate(module.$('#nticDt').val());
-		var dayOfMonth = dueDate.getDate();
-		var year = "";
-		var month = "";
-		var day = "";
-		var payTmlmt = "";
-		dueDate.setDate(dayOfMonth + 15);
-		year = dueDate.getFullYear();
-		month = dueDate.getMonth() + 1;
-		day = dueDate.getDate();
-		if (month >= 1 && month <= 9) {
-			if (day >= 1 && day <= 9) {
-				payTmlmt = year + "-" + "0" + month + "-" + "0" + day;
-			} else {
-				payTmlmt = year + "-" + "0" + month + "-" + day;
-			}
-		} else {
-			if (day >= 1 && day <= 9) {
-				payTmlmt = year + "-" + month + "-" + "0" + day;
-			} else {
-				payTmlmt = year + "-" + month + "-" + day;
-			}
-		}
-		module.$('#payTmlmt').val(payTmlmt);
+		event.data.module.setPayTmlmt();
 	});
 
 	var mon = new Date().getMonth()+1;
@@ -267,6 +242,15 @@ GamFcltsFeeMngNticModule.prototype.onClosePopup = function(popupId, msg, value) 
 GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 
 	switch (buttonId) {
+		case 'btnSaveNticIssue':
+			this.saveNticIssue();
+			break;
+		case 'btnProcessNticIssue2':
+			this.processNticIssue();
+			break;
+		case 'btnCancelNticIssue2':
+			this.cancelNticIssue();
+			break;
 		case 'btnExcelDownload':
 			this.downloadExcel();
 			break;
@@ -366,14 +350,72 @@ GamFcltsFeeMngNticModule.prototype.calcNticAmt = function() {
 
 <%
 /**
- * @FUNCTION NAME : processNticIssue
- * @DESCRIPTION   : 요금을 고지한다.
+ * @FUNCTION NAME : setPayTmlmt
+ * @DESCRIPTION   : 납부 기한을 설정한다.
  * @PARAMETER     : NONE
 **/
 %>
-GamFcltsFeeMngNticModule.prototype.processNticIssue = function() {
+GamFcltsFeeMngNticModule.prototype.setPayTmlmt = function() {
+
+	var billDt = this.$('#nticDt').val();
+	var toDay = new Date();
+	var year = "";
+	var month = "";
+	var day = "";
+	var payTmlmt = "";
+	if (billDt == "") {
+		year = toDay.getFullYear();
+		month = toDay.getMonth() + 1;
+		day = toDay.getDate();
+		if (month >= 1 && month <= 9) {
+			if (day >= 1 && day <= 9) {
+				billDt = year + "-" + "0" + month + "-" + "0" + day;
+			} else {
+				billDt = year + "-" + "0" + month + "-" + day;
+			}
+		} else {
+			if (day >= 1 && day <= 9) {
+				billDt = year + "-" + month + "-" + "0" + day;
+			} else {
+				billDt = year + "-" + month + "-" + day;
+			}
+		}
+		this.$('#nticDt').val(billDt);
+	}
+	var dueDate = EMD.util.strToDate(this.$('#nticDt').val());
+	var dayOfMonth = dueDate.getDate();
+	dueDate.setDate(dayOfMonth + 15);
+	year = dueDate.getFullYear();
+	month = dueDate.getMonth() + 1;
+	day = dueDate.getDate();
+	if (month >= 1 && month <= 9) {
+		if (day >= 1 && day <= 9) {
+			payTmlmt = year + "-" + "0" + month + "-" + "0" + day;
+		} else {
+			payTmlmt = year + "-" + "0" + month + "-" + day;
+		}
+	} else {
+		if (day >= 1 && day <= 9) {
+			payTmlmt = year + "-" + month + "-" + "0" + day;
+		} else {
+			payTmlmt = year + "-" + month + "-" + day;
+		}
+	}
+	this.$('#payTmlmt').val(payTmlmt);
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : saveNticIssue
+ * @DESCRIPTION   : 시설물 관리비 고지 내역을 저장한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.saveNticIssue = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
+	var chrgeKnd = this.$('#chrgeKnd').val();
 	var nhtIsueYn = this.$('#nhtIsueYn').val();
 	var nticDt = this.$('#nticDt').val();
 	var payTmlmt = this.$('#payTmlmt').val();
@@ -381,7 +423,7 @@ GamFcltsFeeMngNticModule.prototype.processNticIssue = function() {
 	var fee = Number(this.$('#fee').val().replace(/,/gi, ""));
 	var vat = Number(this.$('#vat').val().replace(/,/gi, ""));
 	var nticAmt = Number(this.$('#nticAmt').val().replace(/,/gi, ""));
-	var toDay = new Date().getDate();
+	var toDay = new Date();
 	var year = toDay.getFullYear();
 	var month = toDay.getMonth() + 1;
 	var day = toDay.getDate();
@@ -401,6 +443,111 @@ GamFcltsFeeMngNticModule.prototype.processNticIssue = function() {
 	}
 	if (nhtIsueYn == "Y") {
 		alert('이미 고지된 자료입니다.');
+		return;
+	}
+	if (chrgeKnd == "") {
+		alert('요금 종류가 부정확합니다.');
+		this.$("#chrgeKnd").focus();
+		return;
+	}
+	if (nticDt != "") {
+		if (nticDt > todayString || nticDt < "2000-01-01" || nticDt == "") {
+			alert('고지 일자가 부정확합니다.');
+			this.$("#nticDt").focus();
+			return;
+		}
+		if (nticDt > payTmlmt || payTmlmt < "2000-01-01" || payTmlmt == "") {
+			alert('납부 기한이 부정확합니다.');
+			this.$("#payTmlmt").focus();
+			return;
+		}
+	}
+	if (fee > 999999999999 || fee <= 0) {
+		alert('사용료가 부정확합니다.');
+		this.$("#fee").focus();
+		return;
+	}
+	if (vat > 999999999999 || vat < 0) {
+		alert('부가세가 부정확합니다.');
+		this.$("#vat").focus();
+		return;
+	}
+	if (vatYn == "0" || vatYn == "1" || vatYn == "3") {
+		if (vat != 0) {
+			alert('부가세가 부정확합니다.');
+			this.$("#vat").focus();
+			return;
+		}
+	} else {
+		if (vat != Math.floor(fee / 10)) {
+			alert('부가세가 부정확합니다.');
+			this.$("#vat").focus();
+			return;
+		}
+	}
+	if (nticAmt > 999999999999 || nticAmt <= 0) {
+		alert('고지 금액이 부정확합니다.');
+		this.$("#fee").focus();
+		return;
+	}
+	if (nticAmt != (fee + vat)) {
+		alert('고지 금액이 (사용료 + 부가세)와 일치하지 않습니다.');
+		this.$("#fee").focus();
+		return;
+	}
+	this.doAction('/mngFee/gamSaveFcltsFeeMngNticIssue.do', inputVO, function(module, result) {
+		if (result.resultCode == "0") {
+			module.loadData();
+		}
+		alert(result.resultMsg);
+	});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : processNticIssue
+ * @DESCRIPTION   : 시설물 관리비 고지 내역을 고지처리한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.processNticIssue = function() {
+
+	var inputVO = this.makeFormArgs("#detailForm");
+	var chrgeKnd = this.$('#chrgeKnd').val();
+	var nhtIsueYn = this.$('#nhtIsueYn').val();
+	var nticDt = this.$('#nticDt').val();
+	var payTmlmt = this.$('#payTmlmt').val();
+	var vatYn = this.$('#vatYn').val();
+	var fee = Number(this.$('#fee').val().replace(/,/gi, ""));
+	var vat = Number(this.$('#vat').val().replace(/,/gi, ""));
+	var nticAmt = Number(this.$('#nticAmt').val().replace(/,/gi, ""));
+	var toDay = new Date();
+	var year = toDay.getFullYear();
+	var month = toDay.getMonth() + 1;
+	var day = toDay.getDate();
+	var todayString = "";
+	var confirmMessage = "";
+	if (month >= 1 && month <= 9) {
+		if (day >= 1 && day <= 9) {
+			todayString = year + "-" + "0" + month + "-" + "0" + day;
+		} else {
+			todayString = year + "-" + "0" + month + "-" + day;
+		}
+	} else {
+		if (day >= 1 && day <= 9) {
+			todayString = year + "-" + month + "-" + "0" + day;
+		} else {
+			todayString = year + "-" + month + "-" + day;
+		}
+	}
+	if (nhtIsueYn == "Y") {
+		alert('이미 고지된 자료입니다.');
+		return;
+	}
+	if (chrgeKnd == "") {
+		alert('요금 종류가 부정확합니다.');
+		this.$("#chrgeKnd").focus();
 		return;
 	}
 	if (nticDt > todayString || nticDt < "2000-01-01" || nticDt == "") {
@@ -446,12 +593,64 @@ GamFcltsFeeMngNticModule.prototype.processNticIssue = function() {
 		this.$("#fee").focus();
 		return;
 	}
-	this.doAction('/mngFee/gamFcltsFeeMngNticProcessNticIssue.do', inputVO, function(module, result) {
-		if (result.resultCode == "0") {
-			module.loadData();
-		}
-		alert(result.resultMsg);
-	});
+	//confirmMessage = "[" + this.$('#chrgeKnd').find('option:selected').text() + "] " + this.$('#fee').val() + "원을 고지하시겠습니까?";
+	confirmMessage = "[" + this.$('#chrgeKnd_select').find('option:selected').text() + "] " + this.$('#fee').val() + "원을 고지하시겠습니까?";
+	if (confirm(confirmMessage)) {
+		this.doAction('/mngFee/gamProcessFcltsFeeMngNticIssue.do', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.loadData();
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : cancelNticIssue
+ * @DESCRIPTION   : 시설물 관리비 고지 내역을 고지취소한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.cancelNticIssue = function() {
+
+	var inputVO = this.makeFormArgs("#detailForm");
+	var chrgeKnd = this.$('#chrgeKnd').val();
+	var nhtIsueYn = this.$('#nhtIsueYn').val();
+	var rcivSe = this.$('#rcivSe').val();
+	var accnutYear = this.$('#accnutYear').val();
+	var nticNo = this.$('#nticNo').val();
+	var confirmMessage = "";
+	if (nhtIsueYn != "Y") {
+		alert('고지된 자료가 아닙니다.');
+		return;
+	}
+	if (rcivSe != "0") {
+		alert('미수납된 자료가 아닙니다.');
+		return;
+	}
+	if (chrgeKnd == "") {
+		alert('요금 종류가 부정확합니다.');
+		return;
+	}
+	if (accnutYear > "2999" || accnutYear < "2000" || accnutYear == "") {
+		alert('회계 년도가 부정확합니다.');
+		return;
+	}
+	if (nticNo > "999999" || nticNo < "000001" || nticNo == "") {
+		alert('고지 번호가 부정확합니다.');
+		return;
+	}
+	confirmMessage = "[" + this.$('#chrgeKnd_select').find('option:selected').text() + "] " + this.$('#fee').val() + "원을 고지 취소하시겠습니까?";
+	if (confirm(confirmMessage)) {
+		this.doAction('/mngFee/gamCancelFcltsFeeMngNticIssue.do', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.loadData();
+			}
+			alert(result.resultMsg);
+		});
+	}
 
 };
 
@@ -475,12 +674,12 @@ GamFcltsFeeMngNticModule.prototype.downloadExcel = function() {
 
 <%
 /**
- * @FUNCTION NAME : enableInputItem
- * @DESCRIPTION   : 입력항목을 ENABLE 한다.
+ * @FUNCTION NAME : enableDetailInputItem
+ * @DESCRIPTION   : DETAIL 입력항목을 ENABLE 한다.
  * @PARAMETER     : NONE
 **/
 %>
-GamFcltsFeeMngNticModule.prototype.enableInputItem = function() {
+GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 
 	var nhtIsueYn = this.$('#nhtIsueYn').val();
 	var rcivSe = this.$('#rcivSe').val();
@@ -520,6 +719,7 @@ GamFcltsFeeMngNticModule.prototype.enableInputItem = function() {
 				this.$('#btnPrintNticIssue2').removeClass('ui-state-disabled');
 				this.$('#btnPrintTaxInvoice2').enable();
 				this.$('#btnPrintTaxInvoice2').removeClass('ui-state-disabled');
+				this.$('#btnSaveNticIssue').disable({disableClass:"ui-state-disabled"});
 			} else {
 				this.$('#chrgeKnd').enable();
 				this.$('#vatYn').enable();
@@ -533,6 +733,8 @@ GamFcltsFeeMngNticModule.prototype.enableInputItem = function() {
 				this.$('#btnCancelNticIssue2').disable({disableClass:"ui-state-disabled"});
 				this.$('#btnPrintNticIssue2').disable({disableClass:"ui-state-disabled"});
 				this.$('#btnPrintTaxInvoice2').disable({disableClass:"ui-state-disabled"});
+				this.$('#btnSaveNticIssue').enable();
+				this.$('#btnSaveNticIssue').removeClass('ui-state-disabled');
 			}
 			this.$('#btnAddNticIssue2').enable();
 			this.$('#btnAddNticIssue2').removeClass('ui-state-disabled');
@@ -542,8 +744,6 @@ GamFcltsFeeMngNticModule.prototype.enableInputItem = function() {
 			} else {
 				this.$('#btnDelNticIssue2').disable({disableClass:"ui-state-disabled"});
 			}
-			this.$('#btnSaveNticIssue').enable();
-			this.$('#btnSaveNticIssue').removeClass('ui-state-disabled');
 		} else if (rcivSe == "2" || rcivSe == "3" || rcivSe == "4") {
 			this.$('#chrgeKnd').disable();
 			this.$('#vatYn').disable();
@@ -586,12 +786,12 @@ GamFcltsFeeMngNticModule.prototype.enableInputItem = function() {
 
 <%
 /**
- * @FUNCTION NAME : disableInputItem
- * @DESCRIPTION   : 입력항목을 DISABLE 한다.
+ * @FUNCTION NAME : disableDetailInputItem
+ * @DESCRIPTION   : DETAIL 입력항목을 DISABLE 한다.
  * @PARAMETER     : NONE
 **/
 %>
-GamFcltsFeeMngNticModule.prototype.disableInputItem = function() {
+GamFcltsFeeMngNticModule.prototype.disableDetailInputItem = function() {
 
 	this.$('#chrgeKnd').disable();
 	this.$('#vatYn').disable();
@@ -628,11 +828,11 @@ GamFcltsFeeMngNticModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		case 'detailTab':
 			if (this._mode=="modify") {
 				this.loadDetail();
-				this.enableInputItem();
+				this.enableDetailInputItem();
 			} else {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
-				this.disableInputItem();
+				this.disableDetailInputItem();
 			}
 			break;
 	}
@@ -860,6 +1060,10 @@ var module_instance = new GamFcltsFeeMngNticModule();
 								<th width="10%" height="18">요금 종류</th>
 								<td>
 									<input id="prtAtCode" type="hidden"/>
+									<input id="feeTp" type="hidden"/>
+									<input id="fiscalYr" type="hidden"/>
+									<input id="billNo" type="hidden"/>
+									<input id="rcvdTp" type="hidden"/>
 									<input id="chrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM024" disabled/>
 									<!--
 									<input type="text" size="7" id="chrgeKnd" disabled>

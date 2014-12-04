@@ -72,8 +72,29 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	/**
 	 * @param gamFcltsFeeMngNticVo
 	 */
+	public void updateFcltsFeeMngNticNhtOutputYn(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) {
+		update("gamFcltsFeeMngNticDao.updateFcltsFeeMngNticNhtOutputYn_S", gamFcltsFeeMngNticVo);
+	}
+
+	/**
+	 * @param gamFcltsFeeMngNticVo
+	 */
 	public void deleteFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) {
 		delete("gamFcltsFeeMngNticDao.deleteFcltsFeeMngNtic_S", gamFcltsFeeMngNticVo);
+	}
+
+	/**
+	 * @param gamFcltsFeeMngNticVo
+	 */
+	public void insertRevCollF(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) {
+		insert("gamFcltsFeeMngNticDao.insertRevCollF_S", gamFcltsFeeMngNticVo);
+	}
+
+	/**
+	 * @param gamFcltsFeeMngNticVo
+	 */
+	public void deleteRevCollF(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) {
+		delete("gamFcltsFeeMngNticDao.deleteRevCollF_S", gamFcltsFeeMngNticVo);
 	}
 
 }

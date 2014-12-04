@@ -63,8 +63,25 @@ public class GamFcltsFeeMngNticServiceImpl extends AbstractServiceImpl implement
 	}
 
 	@Override
+	public void updateFcltsFeeMngNticNhtOutputYn(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception {
+		gamFcltsFeeMngNticDao.updateFcltsFeeMngNticNhtOutputYn(gamFcltsFeeMngNticVo);
+	}
+
+	@Override
 	public void deleteFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception {
 		gamFcltsFeeMngNticDao.deleteFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
+	}
+
+	@Override
+	public void processFcltsFeeMngNticIssue(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception {
+		gamFcltsFeeMngNticDao.updateFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
+		gamFcltsFeeMngNticDao.insertRevCollF(gamFcltsFeeMngNticVo);
+	}
+
+	@Override
+	public void cancelFcltsFeeMngNticIssue(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception {
+		gamFcltsFeeMngNticDao.deleteRevCollF(gamFcltsFeeMngNticVo);
+		gamFcltsFeeMngNticDao.updateFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
 	}
 
 }
