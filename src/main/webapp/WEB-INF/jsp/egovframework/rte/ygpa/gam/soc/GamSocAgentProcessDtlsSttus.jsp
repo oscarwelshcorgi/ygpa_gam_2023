@@ -57,7 +57,7 @@ GamSocAgentProcessDtlsSttusModule.prototype.loadComplete = function() {
                     {display:'시설부코드', name:'facSubCode',width:100, sortable:false,align:'center'},
                     {display:'시설명', name:'facilNm',width:100, sortable:false,align:'center'},
                     {display:'운임톤', name:'realTn',width:80, sortable:false,align:'center'},
-                    {display:'고지일자', name:'billDt',width:70, sortable:false,align:'center'}
+                    {display:'고지일자', name:'billDt',width:80, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -161,7 +161,7 @@ var module_instance = new GamSocAgentProcessDtlsSttusModule();
                         <tr>
                             <th>등록항구</th>
                             <td>
-                                <select id="sPrtAtCode">
+                                <select id="sAppPrtAtCode">
                                     <option value="" selected="selected">선택</option>
                                     <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
                                         <option value="${prtAtCdItem.prtAtCode}">${prtAtCdItem.prtKorNm }</option>
@@ -170,7 +170,7 @@ var module_instance = new GamSocAgentProcessDtlsSttusModule();
                             </td>
                             <th>공사항구</th>
                             <td>
-                                <select id="sAppPrtAtCode">
+                                <select id="sPrtAtCode">
                                     <option value="" selected="selected">선택</option>
                                     <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
                                         <option value="${prtAtCdItem.prtAtCode }">${prtAtCdItem.prtKorNm }</option>
