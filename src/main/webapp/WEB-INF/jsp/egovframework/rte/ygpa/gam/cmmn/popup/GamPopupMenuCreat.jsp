@@ -44,7 +44,7 @@ GamMenuCreatPopupModule.prototype.onButtonClick = function(buttonId){
 		// 메뉴 조회
 		case 'selectMenuList':
 			this.loadData();
-			
+
 		break;
 
 		// 메뉴생성
@@ -103,7 +103,7 @@ GamMenuCreatPopupModule.prototype.loadData = function() {
 			module.tree=new dhtmlXTreeObject(treeNode.attr('id'),"100%","100%",0);
 
 			module.tree.setSkin('dhx_skyblue');
-			module.tree.setImagePath('/js/codebase/imgs/csh_dhx_skyblue/');
+			module.tree.setImagePath("./js/codebase/imgs/dhxtree_skyblue/");
 			module.tree.enableCheckBoxes(1);
 			module.tree.enableThreeStateCheckboxes(true);
 			module.tree.loadJSArray(treeItems);
