@@ -37,20 +37,20 @@ GamPopupSocApplyEntrpsInfoModule.prototype.loadComplete = function(searchOption)
 		url: '/popup/selectSocApplyEntrpsInfoList.do',
 		dataType: "json",
 		colModel : [
-					{display:"공사허가항구",	name:"prtAtNm", 		width:60, 		sortable:true, 		align:"center"},
-					{display:"문서번호",		name:"constNo", 		width:80, 		sortable:true, 		align:"center"},
+					{display:"공사허가항구",	name:"prtAtNm", 		width:90, 		sortable:true, 		align:"center"},
+					{display:"문서번호",		name:"constNo", 		width:100, 		sortable:true, 		align:"center"},
 					{display:"시행업체",		name:"appAgentNm", 		width:120, 		sortable:true, 		align:"center"},
-					{display:"요금종류",		name:"feeTpNm", 		width:60, 		sortable:true, 		align:"center"},
-					{display:"적용요율",		name:"rateGubunNm", 	width:60, 		sortable:true, 		align:"center"},
-					{display:"신청횟수",		name:"useNo", 			width:60, 		sortable:true, 		align:"center"},
+					{display:"요금종류",		name:"feeTpNm", 		width:70, 		sortable:true, 		align:"center"},
+					{display:"적용요율",		name:"rateGubunNm", 	width:70, 		sortable:true, 		align:"center"},
+					{display:"신청횟수",		name:"useNo", 			width:70, 		sortable:true, 		align:"center"},
 					{display:"총금액",		name:"exmpAmnt", 		width:120, 		sortable:true, 		align:"right", 	displayFormat: 'number'},
 					{display:"보전누계액",		name:"exmpAcc", 		width:120, 		sortable:true, 		align:"right", 	displayFormat: 'number'},
-					{display:"등록항구",		name:"appPrtAtNm", 		width:60, 		sortable:true, 		align:"center"},
-					{display:"신청(적용)일자",	name:"periodFr", 		width:80, 		sortable:true, 		align:"center"},
+					{display:"등록항구",		name:"appPrtAtNm", 		width:70, 		sortable:true, 		align:"center"},
+					{display:"신청(적용)일자",	name:"periodFr", 		width:100, 		sortable:true, 		align:"center"},
 					{display:"공사명",		name:"item", 			width:200, 		sortable:true, 		align:"center"},
-					{display:"신고일자",		name:"applDate", 		width:80, 		sortable:true, 		align:"center"},
-					{display:"허가일자",		name:"perfDt", 			width:80, 		sortable:true, 		align:"center"},
-					{display:"적용여부",		name:"useYn", 			width:60, 		sortable:true, 		align:"center"}
+					{display:"신고일자",		name:"applDate", 		width:70, 		sortable:true, 		align:"center"},
+					{display:"허가일자",		name:"perfDt", 			width:70, 		sortable:true, 		align:"center"},
+					{display:"적용여부",		name:"useYn", 			width:70, 		sortable:true, 		align:"center"}
 			],
 		height: "300"
 	});
