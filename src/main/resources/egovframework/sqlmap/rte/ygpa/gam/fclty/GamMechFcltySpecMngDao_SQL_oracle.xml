@@ -135,8 +135,8 @@
 			, M.PRPOS
 			, M.FMT 
 			, M.STNDRD 
-			, M.INSTL_DT 
-			, M.MFC_DT 
+			, TO_CHAR(M.INSTL_DT, 'YYYY-MM-DD') INSTL_DT 
+			, TO_CHAR(M.MFC_DT, 'YYYY-MM-DD') MFC_DT
 			, M.MFC_CMPNY 
 			, M.MANAGER
 			, M.USAGE_ENTRPS
