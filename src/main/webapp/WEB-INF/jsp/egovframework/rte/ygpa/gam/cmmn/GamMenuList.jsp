@@ -19,8 +19,6 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
-<script type="text/javascript" src="/validator.do"></script>
-
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -50,8 +48,9 @@ GamMenuMngModule.prototype.loadMenu = function() {
 
 			module.tree=new dhtmlXTreeObject(treeNode.attr('id'),"100%","100%",0);
 
-			module.tree.setSkin('dhx_skyblue');
-			module.tree.setImagePath('/js/codebase/imgs/csh_dhx_skyblue/');
+			module.tree.setImagePath("./js/codebase/imgs/dhxtree_skyblue/");
+//			module.tree.setSkin('dhx_skyblue');
+//			module.tree.setImagePath('/js/codebase/imgs/csh_dhx_skyblue/');
 //			module.tree.enableCheckBoxes(1);
 //			module.tree.enableThreeStateCheckboxes(true);
 			module.tree.loadJSArray(treeItems);
@@ -64,7 +63,7 @@ GamMenuMngModule.prototype.loadMenu = function() {
 				module.doAction('/cmmn/mnu/selectMenuDetail.do', {id : id }, function(module, result) {
 					result.resultVO.beforeMenuNo=result.resultVO.menuNo;
 					module.makeFormValues('#menuManageVO', result.resultVO);
-				})
+				});
 			});
  		}
  	});
@@ -81,7 +80,7 @@ GamMenuMngModule.prototype.loadMenu = function() {
 		break;
 		// 조회
 		case "searchBtn":
-			
+
 		break;
 
 		// 목록
@@ -181,7 +180,7 @@ GamMenuMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 
 		default:
 			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-			
+
 		break;
 	}
 };
