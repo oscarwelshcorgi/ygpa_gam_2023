@@ -56,59 +56,93 @@ GamSocStatsModule.prototype.loadComplete = function() {
             return data;
         }
     });
+	
+    //첫화면 초기화
+    this.initDisplay();
+    
+    //조회대상 변경시 발생하는 이벤트
+	this.$("#sSearchTarget").bind("change", {module: this}, function(event) {
+		event.data.module.initDisplay();
+	});
+
+};
+
+GamSocStatsModule.prototype.onSubmit = function() {
+	this.loadData();
+};
+
+//투자비보전집계목록 로드
+GamSocStatsModule.prototype.loadData = function() {
+	opts = this.makeFormArgs('#gamSocStatsSearchForm');
+	this.$("#socStatsList").flexOptions({params:opts}).flexReload();
+};
+
+//화면 초기화
+GamSocStatsModule.prototype.initDisplay = function() {
+	this.$('#sExmpAgentName').val('');
+	this.$('#sExmpAgentCode').val('');
+	this.$('#sExmpAgentCode').disable();
+	this.$('#popupEntrpsInfo').hide();
+	this.$('#sSearchFr').val('');
+	this.$('#sSearchTo').val('');
+	this.$('#sSearchFr').disable();
+	this.$('#sSearchTo').disable();
+	this.$('#sBasis').disable();
+	if(this.$('#sSearchTarget').val() == '1') {
+		this.$('#sExmpAgentCode').enable();
+		this.$('#popupEntrpsInfo').show();
+	} else if(this.$('#sSearchTarget').val() == '2') {
+		this.$('#sSearchFr').enable();
+		this.$('#sSearchTo').enable();		
+	} else if(this.$('#sSearchTarget').val() == '3') {
+		this.$('#sExmpAgentCode').enable();
+		this.$('#popupEntrpsInfo').show();
+		this.$('#sSearchFr').enable();
+		this.$('#sSearchTo').enable();		
+		this.$('#sBasis').enable();
+	}
+};
+
+//투자비보전집계조회
+GamSocStatsModule.prototype.searchData = function() {
+	if(!validateGamSocStats(this.$('#gamSocStatsSearchForm')[0])){ 		
+		return;
+	}
+	if(this.$('#sSearchTarget').val() == '1') {
+    	if(this.$('#sExmpAgentCode').val() == '') {
+    		alert('업체코드를 선택하세요.');
+    		return;
+    	}
+	} else if(this.$('#sSearchTarget').val() == '2') {
+    	if(this.$('#sSearchFr').val() == '' || this.$('#sSearchTo').val() == '') {
+    		alert('조회월을 입력하세요.');
+    		return;
+    	}
+	} else {
+    	if(this.$('#sExmpAgentCode').val() == '') {
+    		alert('업체코드를 선택하세요.');
+    		return;
+    	}
+    	if(this.$('#sSearchFr').val() == '' || this.$('#sSearchTo').val() == '') {
+    		alert('조회월을 입력하세요.');
+    		return;
+    	}        	
+    }
+	this.loadData();	
 };
 
 /**
  * 정의 된 버튼 클릭 시
  */
 GamSocStatsModule.prototype.onButtonClick = function(buttonId) {
-	var opts = null;
     switch(buttonId) {
-        case 'searchBtn':
-        	if(!validateGamSocStats(this.$('#gamSocStatsSearchForm')[0])){ 		
-        		return;
-        	}
-        	if(this.$('#sSearchTarget').val() == '1') {
-            	if(this.$('#sExmpAgentCode').val() == '') {
-            		alert('업체코드를 선택하세요.');
-            		break;
-            	}
-        	} else if(this.$('#sSearchTarget').val() == '2') {
-            	if(this.$('#sSearchFr').val() == '' || this.$('#sSearchTo').val() == '') {
-            		alert('조회월을 입력하세요.');
-            		break;
-            	}
-        	} else {
-            	if(this.$('#sExmpAgentCode').val() == '') {
-            		alert('업체코드를 선택하세요.');
-            		break;
-            	}
-            	if(this.$('#sSearchFr').val() == '' || this.$('#sSearchTo').val() == '') {
-            		alert('조회월을 입력하세요.');
-            		break;
-            	}        	
-            }
-        	opts = this.makeFormArgs('#gamSocStatsSearchForm');
-        	this.$("#socStatsList").flexOptions({params:opts}).flexReload();
+        case 'searchBtn': //집계조회
+        	this.searchData();
             break;
-        case 'btnPrint' : //인쇄버튼
-        	opts = this.makeFormArgs('#gamSocStatsSearchForm');
-        	break;
         case 'popupEntrpsInfo' : //업체코드버튼
-			this.doExecuteDialog('selectEntrpsInfo', '업체 선택',
-					'/popup/showSocEntrpsInfo.do', opts);
+			this.doExecuteDialog('selectEntrpsInfo', '업체 선택', '/popup/showSocEntrpsInfo.do', {});
         	break;
     }
-};
-
-GamSocStatsModule.prototype.onSubmit = function() {
-    this.loadData();
-};
-
-GamSocStatsModule.prototype.loadData = function() {
-    this.$("#socStatsListTab").tabs("option", {active: 0});
-    var searchOpt=this.makeFormArgs('#gamSocStatsSearchForm');
-    this.$('#socStatsList').flexOptions({params:searchOpt}).flexReload();
 };
 
 GamSocStatsModule.prototype.onTabChange = function(newTabId, oldTabId) {

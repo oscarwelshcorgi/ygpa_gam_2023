@@ -7,7 +7,7 @@
 <%
 /**
  * @Class Name : GamSocAgentProcessRealloadNew.jsp
- * @Description : 업체별투자비보전상계내역
+ * @Description : 업체별투자비보전처리실적
  * @Modification Information
  *
  *   수정일          수정자                   수정내용
@@ -64,6 +64,24 @@ GamSocAgentProcessRealloadNewModule.prototype.loadComplete = function() {
     });
 };
 
+GamSocAgentProcessRealloadNewModule.prototype.onSubmit = function() {
+    this.loadData();
+};
+
+//업체별투자비보전처리목록 로드
+GamSocAgentProcessRealloadNewModule.prototype.loadData = function() {
+	var opts = this.makeFormArgs('#gamSocAgentProcessRealloadNewSearchForm');
+	this.$("#socAgentProcessRealloadNewList").flexOptions({params:opts}).flexReload();
+};
+
+//업체별투자비보전처리목록 조회
+GamSocAgentProcessRealloadNewModule.prototype.searchData = function() {
+	if(!validateGamAgentProcessRealloadNew(this.$('#gamSocAgentProcessRealloadNewSearchForm')[0])){ 		
+		return;
+	}
+	this.loadData();
+};
+
 /**
  * 정의 된 버튼 클릭 시
  */
@@ -71,32 +89,16 @@ GamSocAgentProcessRealloadNewModule.prototype.onButtonClick = function(buttonId)
 	var opts = null;
     switch(buttonId) {
         case 'searchBtn':
-        	if(!validateGamAgentProcessRealloadNew(this.$('#gamSocAgentProcessRealloadNewSearchForm')[0])){ 		
-        		return;
-        	}
-        	opts = this.makeFormArgs('#gamSocAgentProcessRealloadNewSearchForm');
-        	this.$("#socAgentProcessRealloadNewList").flexOptions({params:opts}).flexReload();
+        	this.searchData();
             break;
         case 'popupFeeTpInfo' : //요금종류 선택
         	opts = { prtAtCode : this.$('#sAppPrtAtCode').val() };
-			this.doExecuteDialog('selectFeeTpInfo', '요금 선택',
-					'/popup/showSocPayCd.do', opts);        	
+			this.doExecuteDialog('selectFeeTpInfo', '요금 선택', '/popup/showSocPayCd.do', opts);        	
         	break;
         case 'popupEntrpsInfo' : //업체코드버튼
-			this.doExecuteDialog('selectEntrpsInfo', '업체 선택',
-					'/popup/showSocEntrpsInfo.do', opts);
+			this.doExecuteDialog('selectEntrpsInfo', '업체 선택', '/popup/showSocEntrpsInfo.do', opts);
         	break;
     }
-};
-
-GamSocAgentProcessRealloadNewModule.prototype.onSubmit = function() {
-    this.loadData();
-};
-
-GamSocAgentProcessRealloadNewModule.prototype.loadData = function() {
-    this.$("#socAgentProcessRealloadNewListTab").tabs("option", {active: 0});
-    var searchOpt=this.makeFormArgs('#gamSocAgentProcessRealloadNewSearchForm');
-    this.$('#socAgentProcessRealloadNewList').flexOptions({params:searchOpt}).flexReload();
 };
 
 GamSocAgentProcessRealloadNewModule.prototype.onTabChange = function(newTabId, oldTabId) {

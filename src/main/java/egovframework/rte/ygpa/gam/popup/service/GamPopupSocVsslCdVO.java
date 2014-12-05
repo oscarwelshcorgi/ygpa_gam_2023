@@ -25,24 +25,24 @@ import egovframework.com.cmm.ComDefaultVO;
 public class GamPopupSocVsslCdVO extends ComDefaultVO  {
 	private static final long serialVersionUID = 1L;
 
-    /** 선박번호 */
-    private String vsslNo;
+    /** 호출부호 */
+    private String vsslKey;
     
     /** 선박명 */
     private String vsslKorNm;
 
 	/**
-	 * @return the vsslNo
+	 * @return the vsslKey
 	 */
-	public String getVsslNo() {
-		return vsslNo;
+	public String getVsslKey() {
+		return vsslKey;
 	}
 
 	/**
-	 * @param vsslNo the vsslNo to set
+	 * @param vsslKey the vsslKey to set
 	 */
-	public void setVsslNo(String vsslNo) {
-		this.vsslNo = vsslNo;
+	public void setVsslKey(String vsslKey) {
+		this.vsslKey = vsslKey;
 	}
 
 	/**

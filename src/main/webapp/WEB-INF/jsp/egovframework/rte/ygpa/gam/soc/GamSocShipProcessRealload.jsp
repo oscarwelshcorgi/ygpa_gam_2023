@@ -165,7 +165,7 @@ GamSocShipProcessRealloadModule.prototype.onClosePopup = function(popupId, msg, 
 
     switch (popupId) {
      case 'selectVsslCd':
-    	 this.$("#sVsslKey").val(value["vsslNo"]);
+    	 this.$("#sVsslKey").val(value["vsslKey"]);
     	 this.$("#sVsslNm").val(value["vsslKorNm"]);
          break;
          
@@ -176,7 +176,6 @@ GamSocShipProcessRealloadModule.prototype.onClosePopup = function(popupId, msg, 
      
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-
          break;
      }
 };

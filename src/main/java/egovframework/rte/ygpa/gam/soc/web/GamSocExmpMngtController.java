@@ -87,61 +87,19 @@ public class GamSocExmpMngtController {
 		
 		//청코드 리스트 읽기
 		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
-		
-		List yearsList = this.getYears();
-		
+				
 		model.addAttribute("loginOrgnztId", loginVO.getOrgnztId());
 		model.addAttribute("loginUserId", loginVO.getId());
 		model.addAttribute("currentDateStr", EgovDateUtil.formatDate(EgovDateUtil.getToday(), "-"));
 		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("windowId", windowId);
-		model.addAttribute("yearsList", yearsList);
 
 		return "/ygpa/gam/soc/GamSocExmpMngt";
     }
     
-	public List getYears(){
-
-		java.util.Calendar cal = java.util.Calendar.getInstance();
-		int currentYear = cal.get(cal.YEAR);
-		List result = new ArrayList();
-   		
-   		for (int i = 2000; i <= currentYear; i++) {
-   			
-   			result.add(String.valueOf(i));
-   		}
-
-   		return result;
-   	}
-    
-	public String getInoutName(String feeTp, String inOut) {
-		String result = null;
-		
-		String[] RCodeName = {"외항", "내항"};
-		String[] LCodeName = {"외항입항", "외항출항", "내항입항", "내항출항", "항내운입", "항내운출"};
-		
-		int index = 0;
-		if((inOut != null) && (inOut.length() == 1)) 
-			index = Integer.parseInt(inOut);
-		
-		if(index > 0) { 
-			if(feeTp.startsWith("L")) {
-				result = LCodeName[index - 1];
-			} else if(feeTp.startsWith("R")) {
-				result = RCodeName[index - 1];
-			} else {
-				result = "";
-			}
-		}
-		return result;
-	}
-	
     @RequestMapping(value="/soc/gamSelectSocExmpMngtDetailInquire.do")
-	@ResponseBody Map selectSocExmpMngtDetailInquire(
-			@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO,
-	     	BindingResult bindingResult)
-	        throws Exception {
-		Map map = new HashMap();
+	@ResponseBody Map<String, Object> selectSocExmpMngtDetailInquire(@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO, BindingResult bindingResult) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -157,7 +115,6 @@ public class GamSocExmpMngtController {
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
 		} else {
 			map.put("resultCode", 0);
-			resultVO.setInOutName(getInoutName(resultVO.getFeeTp(), resultVO.getInOut()));
 		}
 		map.put("resultVO", resultVO);
 		
@@ -165,13 +122,10 @@ public class GamSocExmpMngtController {
     }
 
     @RequestMapping(value="/soc/selectSocExmpMngtGetNextSocNo.do")
-	@ResponseBody Map selectSocExmpMngtGetNextSocNo(
-			@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO,
-	     	BindingResult bindingResult)
-	        throws Exception {
-		Map map = new HashMap();
+	@ResponseBody Map<String, Object> selectSocExmpMngtGetNextSocNo(@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO, BindingResult bindingResult) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
@@ -186,12 +140,9 @@ public class GamSocExmpMngtController {
     	return map;
     }
     
-    @RequestMapping(value="/soc/gamInsertSocExmpMngtDetail.do")
-	@ResponseBody Map insertSocExmpMngtDetail(
-			@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO,
-	     	BindingResult bindingResult)
-	        throws Exception {
-		Map map = new HashMap();
+    @RequestMapping(value="/soc/insertSocExmpMngtDetail.do")
+	@ResponseBody Map<String, Object> insertSocExmpMngtDetail(@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO, BindingResult bindingResult) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -213,12 +164,9 @@ public class GamSocExmpMngtController {
     	return map;
     }
     
-    @RequestMapping(value="/soc/gamUpdateSocExmpMngtDetail.do")
-	@ResponseBody Map updateSocExmpMngtDetail(
-			@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO,
-	     	BindingResult bindingResult)
-	        throws Exception {
-		Map map = new HashMap();
+    @RequestMapping(value="/soc/updateSocExmpMngtDetail.do")
+	@ResponseBody Map<String, Object> updateSocExmpMngtDetail(@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO, BindingResult bindingResult) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -239,12 +187,9 @@ public class GamSocExmpMngtController {
     	return map;
     }
     
-    @RequestMapping(value="/soc/gamDeleteSocExmpMngtDetail.do")
-	@ResponseBody Map deleteSocExmpMngtDetail(
-			@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO,
-	     	BindingResult bindingResult)
-	        throws Exception {
-		Map map = new HashMap();
+    @RequestMapping(value="/soc/deleteSocExmpMngtDetail.do")
+	@ResponseBody Map<String, Object> deleteSocExmpMngtDetail(@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO, BindingResult bindingResult) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {

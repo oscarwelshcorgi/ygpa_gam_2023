@@ -32,156 +32,16 @@ GamSocExmpMngtModule.prototype = new EmdModule(1000, 645);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamSocExmpMngtModule.prototype.loadComplete = function() {
-	this.$('#btnNewSocNo').hide();
+	this.fillSelectBoxYear('#sFiscalYr');
+	this._cmd = '';
+	this.initDisplay();
 };
 
-GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
-	var opts;
-    switch(buttonId) {
-        // 조회
-        case 'searchBtn':
-        	if(!validateGamSocExmpMngt(this.$('#gamSocExmpMngtSearchForm')[0])){ 		
-        		return;
-        	}
-        	opts = this.makeFormArgs('#gamSocExmpMngtSearchForm');
-        	this.doAction('/soc/gamSelectSocExmpMngtDetailInquire.do', opts, function(module, result) {
-        		if(result.resultCode == 0) {
-        			module.$('#gamSocExmpMngtForm :input').val('');
-        			module.makeFormValues('#gamSocExmpMngtForm', result.resultVO);
-        			module.$('#tempAppPrtAtCode').val(result.resultVO.appPrtAtCode);
-        			module.$('#cmd').val('modify');
-        			module.$('#btnNewSocNo').hide();
-        		}
-        		else {
-        			alert(result.resultMsg);
-        			module.$('#gamSocExmpMngtForm :input').val('');
-        		}
-        	});
-            break;
-        case 'btnNew' : //등록버튼
-				this.$('#gamSocExmpMngtForm :input').val('');
-				this.$('#sAppPrtAtCode').val('');
-				this.$('#sFeeTp').val('');
-				this.$('#sFiscalYr').val('');
-				this.$('#sSocNo').val('');
-				this.$('#btnNewSocNo').show();
-				this.$('#cmd').val('insert');
-        	break;
-        case 'btnNewSocNo' : //신규관리번호생성
-        	if(this.$('#sAppPrtAtCode').val() == '') {
-        		alert('항코드를 선택하세요.');
-        		break;
-        	}
-        	if(this.$('#sFeeTp').val() == '') {
-        		alert('요금종류코드를 입력하세요.');
-        		break;
-        	}
-        	if(this.$('#sFiscalYr').val() == '') {
-        		alert('회계년도를 입력하세요.');
-        		break;
-        	}
-        	opts = this.makeFormArgs('#gamSocExmpMngtSearchForm');
-        	this.doAction('/soc/selectSocExmpMngtGetNextSocNo.do', opts, function(module, result) {
-        		if(result.resultCode == 0) {
-        			module.$('#sSocNo').val(result.nextSocNo);
-        			module.$('#appPrtAtCode').val(module.$('#sAppPrtAtCode').val());
-        			module.$('#tempAppPrtAtCode').val(module.$('#sAppPrtAtCode').val());
-        			module.$('#feeTp').val(module.$('#sFeeTp').val());
-        			module.$('#fiscalYr').val(module.$('#sFiscalYr').val());
-        			module.$('#socNo').val(module.$('#sSocNo').val());
-        		}
-        		else {
-        			alert(result.resultMsg);
-        		}
-        	});
-        	break;
-        case 'btnSave' : //저장
-			if(this.$('#cmd').val() == 'insert') {
-	        	if(!validateGamSocExmpMngt(this.$('#gamSocExmpMngtSearchForm')[0])){ 		
-	        		return;
-	        	}
-			}
-			if(this.$('#prtAtCode').val() == '') {
-				alert('공사관리청을 선택하세요.');
-				break;
-			}
-			if(this.$('#cmplYr').val() == '') {
-				alert('공사준공년도를 입력하세요.');
-				break;
-			}
-			if(this.$('#constNo').val() == '') {
-				alert('공사일련번호를 입력하세요.');
-				break;
-			}
-			if(this.$('#appPrtAtCode').val() == '') {
-				alert('면제요청청을 선택하세요.');
-				break;
-			}
-			if(this.$('#useNo').val() == '') {
-				alert('신청횟수를 입력하세요.');
-				break;
-			}
-			if(this.$('#appAgentCode').val() == '') {
-				alert('신청업체를 선택하세요.');
-				break;
-			}
-			opts = this.makeFormArgs('#gamSocExmpMngtForm');
-			if(this.$('#cmd').val() == 'insert') {
-	        	this.doAction('/soc/gamInsertSocExmpMngtDetail.do', opts, function(module, result) {
-	        		if(result.resultCode == 0) {
-	        			module.$('#gamSocExmpMngtSearchForm :input').val('');
-	            		module.$('#gamSocExmpMngtForm :input').val('');
-	            		module.$('#btnNewSocNo').hide();
-	        		}
-	        		alert(result.resultMsg);
-	        	});
-			} else if(this.$('#cmd').val() == 'modify') {
-				//수정
-	        	this.doAction('/soc/gamUpdateSocExmpMngtDetail.do', opts, function(module, result) {
-	        		alert(result.resultMsg);
-	        	});
-			}        	
-        	break;
-        case 'btnDelete' : //삭제
-			if((this.$('#cmd').val() == 'modify')) {
-	        	if(confirm('데이터를 삭제하시겠습니까?')) {
-					opts = this.makeFormArgs('#gamSocExmpMngtForm');
-		        	this.doAction('/soc/gamDeleteSocExmpMngtDetail.do', opts, function(module, result) {
-		        		if(result.resultCode == 0) {
-		        			module.$('#gamSocExmpMngtSearchForm :input').val('');
-		            		module.$('#gamSocExmpMngtForm :input').val('');
-		        		}
-		        		alert(result.resultMsg);
-		        	});
-	        	}
-			}
-			else {
-				alert('삭제할 데이터를 조회하세요.');
-				break;
-			}
-        	break;
-        case 'popupChrgeKndCd' : //요금코드조회
-        	opts = { prtAtCode : this.$('#sAppPrtAtCode').val() };
-			this.doExecuteDialog('selectChrgeKndCd', '요금 선택',
-					'/popup/showSocPayCd.do', opts);
-        	break;
-        case 'popupApplyInfo' : //신청업체(투자비보전신청업체) 조회
-			this.doExecuteDialog('selectApplyInfo', '투자비보전 신청업체 선택',
-					'/popup/showSocApplyInfo.do', opts);
-        	break;
-        case 'popupEntrpsInfo' : //면제업체 조회버튼
-			this.doExecuteDialog('selectEntrpsInfo', '업체 선택',
-					'/popup/showSocEntrpsInfo.do', opts);
-        	break;
-        case 'popupFacCd' : //시설코드조회
-        	opts = { prtAtCode : this.$('#exmpPrtAtCode').val() };
-        	this.doExecuteDialog('selectFacilCd', '시설 선택',
-					'/popup/showSocFacCd.do', opts);
-        	break;
-        case 'popupVsslCd' : //선박호출부호조회
-			this.doExecuteDialog('selectVsslCd', '선박 선택',
-					'/popup/showSocVsslCd.do', opts);
-        	break;
+//2000년부터 현재년도까지 select 박스에 채워넣는 함수.
+GamSocExmpMngtModule.prototype.fillSelectBoxYear = function(id) {
+	var curYear = (new Date()).getFullYear();
+	for(var i=curYear; i>=2000; i--) {
+		this.$(id).append('<option value="' + i + '">' + i + '</option>');
 	}
 };
 
@@ -189,8 +49,182 @@ GamSocExmpMngtModule.prototype.onSubmit = function() {
     this.loadData();
 };
 
-GamSocExmpMngtModule.prototype.loadData = function() {
+//면제관리 데이터 로드
+GamSocExmpMngtModule.prototype.loadData = function() { 
+	var opts = this.makeFormArgs('#gamSocExmpMngtSearchForm');
+	this.doAction('/soc/gamSelectSocExmpMngtDetailInquire.do', opts, function(module, result) {
+		module.$('#btnNewSocNo').hide();
+		if(result.resultCode == 0) {
+			module._cmd = 'modify';
+			module.$('#gamSocExmpMngtForm :input').val('');
+			module.makeFormValues('#gamSocExmpMngtForm', result.resultVO);
+			module.$('#tempAppPrtAtCode').val(result.resultVO.appPrtAtCode);
+		}
+		else {
+			module._cmd = '';
+			module.$('#gamSocExmpMngtForm :input').val('');
+			alert(result.resultMsg);
+		}
+	});	
+};
 
+//화면 및 변수 초기화
+GamSocExmpMngtModule.prototype.initDisplay = function() {
+	this.$('#btnNewSocNo').hide();
+	this.$('#gamSocExmpMngtSearchForm :input').val('');
+	this.$('#gamSocExmpMngtForm :input').val('');
+	if(this._cmd == 'insert') {
+		this.$('#btnNewSocNo').show();
+	}
+};
+
+//새로운 soc 번호 생성.
+GamSocExmpMngtModule.prototype.nextSocNo = function() { 
+	if(this.$('#sAppPrtAtCode').val() == '') {
+		alert('항코드를 선택하세요.');
+		return;
+	}
+	if(this.$('#sFeeTp').val() == '') {
+		alert('요금종류코드를 입력하세요.');
+		return;
+	}
+	if(this.$('#sFiscalYr').val() == '') {
+		alert('회계년도를 입력하세요.');
+		return;
+	}
+	var opts = this.makeFormArgs('#gamSocExmpMngtSearchForm');
+	this.doAction('/soc/selectSocExmpMngtGetNextSocNo.do', opts, function(module, result) {
+		if(result.resultCode == 0) {
+			module.$('#sSocNo').val(result.nextSocNo);
+			module.$('#appPrtAtCode').val(module.$('#sAppPrtAtCode').val());
+			module.$('#tempAppPrtAtCode').val(module.$('#sAppPrtAtCode').val());
+			module.$('#feeTp').val(module.$('#sFeeTp').val());
+			module.$('#fiscalYr').val(module.$('#sFiscalYr').val());
+			module.$('#socNo').val(module.$('#sSocNo').val());
+		}
+		else {
+			alert(result.resultMsg);
+		}
+	});
+};
+
+//면제관리데이터 삽입
+GamSocExmpMngtModule.prototype.insertData = function() {
+	var opts = this.makeFormArgs('#gamSocExmpMngtForm');
+	this.doAction('/soc/insertSocExmpMngtDetail.do', opts, function(module, result) {
+		if(result.resultCode == 0) {
+    		module.$('#btnNewSocNo').hide();
+		}
+		alert(result.resultMsg);
+	});	
+};
+
+//면제관리데이터 수정
+GamSocExmpMngtModule.prototype.updateData = function() {
+	var opts = this.makeFormArgs('#gamSocExmpMngtForm');
+	this.doAction('/soc/updateSocExmpMngtDetail.do', opts, function(module, result) {
+		alert(result.resultMsg);
+	});	
+};
+
+//면제관리데이터 저장
+GamSocExmpMngtModule.prototype.saveData = function() {
+	if(this._cmd == 'insert') {
+    	if(!validateGamSocExmpMngt(this.$('#gamSocExmpMngtSearchForm')[0])){ 		
+    		return;
+    	}
+	}
+	if(this.$('#prtAtCode').val() == '') {
+		alert('공사관리청을 선택하세요.');
+		return;
+	}
+	if(this.$('#cmplYr').val() == '') {
+		alert('공사준공년도를 입력하세요.');
+		return;
+	}
+	if(this.$('#constNo').val() == '') {
+		alert('공사일련번호를 입력하세요.');
+		return;
+	}
+	if(this.$('#appPrtAtCode').val() == '') {
+		alert('면제요청청을 선택하세요.');
+		return;
+	}
+	if(this.$('#useNo').val() == '') {
+		alert('신청횟수를 입력하세요.');
+		return;
+	}
+	if(this.$('#appAgentCode').val() == '') {
+		alert('신청업체를 선택하세요.');
+		return;
+	}
+	alert(this._cmd);
+	if(this._cmd == 'insert') {
+		this.insertData();
+	} else if(this._cmd == 'modify') {
+		this.updateData();
+	}
+};
+
+//면제관리데이터 삭제
+GamSocExmpMngtModule.prototype.deleteData = function() {
+	if((this._cmd == 'modify')) {
+    	if(confirm('데이터를 삭제하시겠습니까?')) {
+			opts = this.makeFormArgs('#gamSocExmpMngtForm');
+        	this.doAction('/soc/deleteSocExmpMngtDetail.do', opts, function(module, result) {
+        		if(result.resultCode == 0) {
+            		module._cmd = '';
+            		module.initDisplay();
+        		}
+        		alert(result.resultMsg);
+        	});
+    	}
+	}
+	else {
+		alert('삭제할 데이터를 조회하세요.');
+	}	
+};
+
+GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
+    switch(buttonId) {
+        // 조회
+        case 'searchBtn':
+        	if(!validateGamSocExmpMngt(this.$('#gamSocExmpMngtSearchForm')[0])){ 		
+        		return;
+        	}
+        	this.loadData();
+            break;
+        case 'btnAdd' : //추가버튼
+			this._cmd = 'insert';
+        	this.initDisplay();
+        	break;
+        case 'btnNewSocNo' : //신규관리번호생성
+        	this.nextSocNo();
+        	break;
+        case 'btnSave' : //저장
+			this.saveData();
+        	break;
+        case 'btnDelete' : //삭제
+        	this.deleteData();
+        	break;
+        case 'popupChrgeKndCd' : //요금코드조회
+        	var opts = { prtAtCode : this.$('#sAppPrtAtCode').val() };
+			this.doExecuteDialog('selectChrgeKndCd', '요금 선택', '/popup/showSocPayCd.do', opts);
+        	break;
+        case 'popupApplyInfo' : //신청업체(투자비보전신청업체) 조회
+			this.doExecuteDialog('selectApplyInfo', '투자비보전 신청업체 선택', '/popup/showSocApplyInfo.do', {});
+        	break;
+        case 'popupEntrpsInfo' : //면제업체 조회버튼
+			this.doExecuteDialog('selectEntrpsInfo', '업체 선택', '/popup/showSocEntrpsInfo.do', {});
+        	break;
+        case 'popupFacCd' : //시설코드조회
+        	var opts = { prtAtCode : this.$('#exmpPrtAtCode').val() };
+        	this.doExecuteDialog('selectFacilCd', '시설 선택', '/popup/showSocFacCd.do', opts);
+        	break;
+        case 'popupVsslCd' : //선박호출부호조회
+			this.doExecuteDialog('selectVsslCd', '선박 선택', '/popup/showSocVsslCd.do', {});
+        	break;
+	}
 };
 
 GamSocExmpMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
@@ -230,7 +264,7 @@ GamSocExmpMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
     	 this.$("#facKorNm").val(value["facKorNm"]);
     	 break;
      case 'selectVsslCd' : //선박 호출부호 조회
-    	 this.$("#callLetter").val(value["vsslNo"]);
+    	 this.$("#callLetter").val(value["vsslKey"]);
     	 this.$("#callLetterNm").val(value["vsslKorNm"]); 
     	 break;
      default:
@@ -238,9 +272,6 @@ GamSocExmpMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
          break;
      }
 };
-
-GamSocExmpMngtModule.prototype.loadOlnlpList = function(prtFcltyCd) {
-}
 
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamSocExmpMngtModule();
@@ -277,15 +308,12 @@ var module_instance = new GamSocExmpMngtModule();
                             <th>회계년도</th>
                             <td width="100px">
                                 <select id="sFiscalYr">
-                                    <option value="" selected="selected">년</option>
-                                    <c:forEach  items="${yearsList}" var="yearsItem">
-                                        <option value="${yearsItem }">${yearsItem }</option>
-                                    </c:forEach>
+                                	<option value="" selected="selected">선택</option>
                                 </select>
                             </td>                            
                             <th>관리번호</th>
                             <td>
-                                <input id="sSocNo" type="text" size="6">&nbsp; &nbsp;
+                                <input id="sSocNo" type="text" size="6" maxlength="6" />&nbsp; &nbsp;
                                 <button id="btnNewSocNo" class="popupButton">신규관리번호생성</button>
                             </td>
                         </tr>
@@ -304,7 +332,6 @@ var module_instance = new GamSocExmpMngtModule();
             <div id="tabs1" class="emdTabPage" style="overflow:scroll;">
                 <div class="emdControlPanel">
                     <form id="gamSocExmpMngtForm">
-                        <input type="hidden" id="cmd"/>
                         <table class="editForm">
                         	<tr>
                         		<td colspan="6">조회내역</td>
@@ -479,7 +506,7 @@ var module_instance = new GamSocExmpMngtModule();
 	                        <td><!-- <button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button> --></td>
 	                        <td width="100"></td>
 	                        <td style="text-align:right">
-	                        	<button id="btnNew">추가</button>
+	                        	<button id="btnAdd">추가</button>
 	                            <button id="btnSave" class="buttonSave">저장</button>
 	                            <button id="btnDelete" class="buttonDelete">삭제</button>
 	                            <!-- <button id="btnNoticeAdit2">추가고지</button> -->
