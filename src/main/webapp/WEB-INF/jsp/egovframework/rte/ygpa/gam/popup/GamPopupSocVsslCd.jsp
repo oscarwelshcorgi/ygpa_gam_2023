@@ -35,7 +35,7 @@ GamPopupSocVsslCdModule.prototype.loadComplete = function() {
 		url: '/popup/selectSocVsslInfoList.do',
 		dataType: "json",
 		colModel : [
-					{display:"호출부호코드",		name:"vsslKey", 	width:150, 		sortable:true, 		align:"center"},
+					{display:"호출부호코드",		name:"callLetter", 	width:150, 		sortable:true, 		align:"center"},
 					{display:"호출선박명",			name:"vsslKorNm", 	width:350, 		sortable:true, 		align:"left"}
 			],
 		height: "320"
@@ -93,7 +93,7 @@ var popup_instance = new GamPopupSocVsslCdModule();
 				<tbody>
 					<tr>
 						<th>호출부호코드</th>
-                        <td><input id="vsslKey" type="text" size="12" title="호출부호코드" maxlength="12" /></td>
+                        <td><input id="callLetter" type="text" size="12" title="호출부호코드" maxlength="9" /></td>
                     	<th>호출선박명</th>
 						<td><input id="vsslKorNm" type="text" size="30" title="호출선박명" maxlength="40" /></td>
 						<td><button id="btnSearch">조회</button></td>

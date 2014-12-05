@@ -23,7 +23,7 @@
 				                    		P2MGR.SF_AGENT_NM(DECODE(#sAgentGubun#,'1', E.APP_AGENT_CODE, E.EXMP_AGENT_CODE))) 
 				                    		AGENT_NM
 									, E.CALL_LETTER
-									, P2MGR.SF_VSSL_CALL_LETTER(E.CALL_LETTER) VSSL_NM
+									, (SELECT VSSL_KOR_NM FROM P2MGR.VSSL_F@YGPA_P2MGR WHERE CALL_LETTER = E.CALL_LETTER) VSSL_NM
 									, E.FEE_TP
 				                    , DECODE(P2MGR.SF_FEE_TP_NM(E.APP_PRT_AT_CODE, E.FEE_TP),'-1','','-2','','-3','', 
 				                    		P2MGR.SF_FEE_TP_NM(E.APP_PRT_AT_CODE, E.FEE_TP)) 

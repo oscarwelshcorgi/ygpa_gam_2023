@@ -158,7 +158,6 @@ GamSocExmpMngtModule.prototype.saveData = function() {
 		alert('신청업체를 선택하세요.');
 		return;
 	}
-	alert(this._cmd);
 	if(this._cmd == 'insert') {
 		this.insertData();
 	} else if(this._cmd == 'modify') {
@@ -264,7 +263,7 @@ GamSocExmpMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
     	 this.$("#facKorNm").val(value["facKorNm"]);
     	 break;
      case 'selectVsslCd' : //선박 호출부호 조회
-    	 this.$("#callLetter").val(value["vsslKey"]);
+    	 this.$("#callLetter").val(value["callLetter"]);
     	 this.$("#callLetterNm").val(value["vsslKorNm"]); 
     	 break;
      default:

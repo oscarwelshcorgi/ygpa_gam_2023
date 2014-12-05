@@ -14,15 +14,15 @@
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
                      	   	SELECT  
-                     	   		VSSL_KEY
+                     	   		CALL_LETTER
                      	   		,VSSL_KOR_NM 
                      	   	FROM 
                      	   		P2MGR.VSSL_F@YGPA_P2MGR
 			                WHERE 
 			                	1 = 1
                              <!-- 선박 번호 -->
-                             <isNotEmpty property="vsslKey">
-                                 AND VSSL_KEY LIKE '%' || #vsslKey# || '%'  
+                             <isNotEmpty property="callLetter">
+                                 AND CALL_LETTER LIKE '%' || #callLetter# || '%'  
                              </isNotEmpty>
                              <!-- 선박명 -->
                              <isNotEmpty property="vsslKorNm">
@@ -30,7 +30,7 @@
                              </isNotEmpty>
                              
                 ) S	
-                ORDER BY VSSL_KEY, VSSL_KOR_NM
+                ORDER BY CALL_LETTER, VSSL_KOR_NM
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
@@ -42,8 +42,8 @@
             WHERE
             	1 = 1
                 <!-- 선박 번호 -->
-                <isNotEmpty property="vsslKey">
-                	AND VSSL_KEY LIKE '%' || #vsslKey# || '%'  
+                <isNotEmpty property="callLetter">
+                	AND CALL_LETTER LIKE '%' || #callLetter# || '%'  
                 </isNotEmpty>
                 <!-- 선박명 -->
                 <isNotEmpty property="vsslKorNm">

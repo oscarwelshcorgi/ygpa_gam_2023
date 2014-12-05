@@ -26,23 +26,24 @@ public class GamPopupSocVsslCdVO extends ComDefaultVO  {
 	private static final long serialVersionUID = 1L;
 
     /** 호출부호 */
-    private String vsslKey;
+    private String callLetter;
     
     /** 선박명 */
     private String vsslKorNm;
 
+
 	/**
-	 * @return the vsslKey
+	 * @return the callLetter
 	 */
-	public String getVsslKey() {
-		return vsslKey;
+	public String getCallLetter() {
+		return callLetter;
 	}
 
 	/**
-	 * @param vsslKey the vsslKey to set
+	 * @param callLetter the callLetter to set
 	 */
-	public void setVsslKey(String vsslKey) {
-		this.vsslKey = vsslKey;
+	public void setCallLetter(String callLetter) {
+		this.callLetter = callLetter;
 	}
 
 	/**

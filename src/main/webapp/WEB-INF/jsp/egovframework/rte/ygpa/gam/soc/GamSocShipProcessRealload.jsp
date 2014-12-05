@@ -165,7 +165,7 @@ GamSocShipProcessRealloadModule.prototype.onClosePopup = function(popupId, msg, 
 
     switch (popupId) {
      case 'selectVsslCd':
-    	 this.$("#sVsslKey").val(value["vsslKey"]);
+    	 this.$("#sVsslKey").val(value["callLetter"]);
     	 this.$("#sVsslNm").val(value["vsslKorNm"]);
          break;
          
