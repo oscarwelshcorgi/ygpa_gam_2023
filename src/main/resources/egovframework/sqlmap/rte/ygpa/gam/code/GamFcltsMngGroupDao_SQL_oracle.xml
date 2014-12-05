@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.code">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamFcltsMngGroupVO" type="egovframework.rte.ygpa.gam.code.service.GamFcltsMngGroupVO"/>
+    
+    
+    <select id="gamFcltsMngGroupDao.selectMainFcltsMngGroupList_D" resultClass="egovMap">
+		SELECT 
+			SUBSTR(FCLTS_CL_CD,0,1) AS MAIN_FCLTS_CL_CD
+			, MIN(FCLTS_CL_CD_NM) AS MAIN_FCLTS_CL_CD_NM
+		FROM 
+			FCLTS_CL_CD_F 
+		WHERE 
+			<![CDATA[ DEPTH_SORT <= '1' ]]>
+		GROUP BY FCLTS_CL_CD 
+    </select>
+
+
+    <select id="gamFcltsMngGroupDao.selectFcltsMngGroupList_D" parameterClass="gamFcltsMngGroupVO" resultClass="egovMap">
+         /* egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecMngDao_SQL_oracle.selectList */
+		SELECT *
+		  FROM
+		       (SELECT Z.*,
+		              ROWNUM AS RNUM
+		         FROM
+		              (
+		              	SELECT
+		              		SUBSTR(FCLTS_CL_CD,0,1) AS MAIN_FCLTS_DIV
+							, FCLTS_CL_CD AS ORI_FCLTS_CL_CD
+	              			, FCLTS_CL_CD
+							, FCLTS_CL_CD_NM
+							, FCLTS_CL_UPPER_CD
+							, DEPTH_SORT
+							, REG_USR
+							, REGIST_DT
+							, UPD_USR
+							, UPDT_DT
+							, LEAF_YN
+		                FROM 
+		                	FCLTS_CL_CD_F
+		                WHERE 
+		                
+		                <![CDATA[ DEPTH_SORT >= 1 ]]>
+		                <isNotEmpty property="sMainFcltsDiv">
+	           				AND FCLTS_CL_CD LIKE #sMainFcltsDiv# || '%'
+	           			</isNotEmpty>
+		                <isNotEmpty property="sFcltsMngGroup">
+	           				AND FCLTS_CL_CD LIKE #sFcltsMngGroup# || '%'
+	           			</isNotEmpty>
+		                <isNotEmpty property="sFcltsMngGroupNm">
+	           				AND FCLTS_CL_CD_NM LIKE '%' || #sFcltsMngGroupNm# || '%'
+	           			</isNotEmpty>
+
+		            	ORDER BY FCLTS_CL_CD
+		              )Z
+		       )
+	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+
+    <select id="gamFcltsMngGroupDao.selectFcltsMngGroupListTotCnt_S" parameterClass="gamFcltsMngGroupVO" resultClass="int">
+		SELECT 
+			COUNT(*) totcnt
+		FROM 
+			FCLTS_CL_CD_F
+		WHERE 
+		<![CDATA[ DEPTH_SORT >= 1 ]]>
+		<isNotEmpty property="sMainFcltsDiv">
+			AND FCLTS_CL_CD LIKE #sMainFcltsDiv# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="sFcltsMngGroup">
+			AND FCLTS_CL_CD LIKE #sFcltsMngGroup# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="sFcltsMngGroupNm">
+			AND FCLTS_CL_CD_NM LIKE '%' || #sFcltsMngGroupNm# || '%'
+		</isNotEmpty>
+	</select>
+
+    
+    <select id="gamFcltsMngGroupDao.selectNewFcltsMngGroup_S" parameterClass="gamFcltsMngGroupVO" resultClass="String">
+		SELECT 
+			RPAD(
+	<![CDATA[ CASE WHEN $depthSort$ <= 3 THEN  ]]>
+						SUBSTR(#fcltsClUpperCd#,0,$depthSort$-1) || 
+						CASE WHEN SUBSTR(MAX(FCLTS_CL_CD),$depthSort$,1) = '9' THEN 'A' 
+							 WHEN SUBSTR(MAX(FCLTS_CL_CD),$depthSort$,1) IS NULL THEN '1'
+						ELSE CHR(ASCII(SUBSTR(MAX(FCLTS_CL_CD),$depthSort$,1)) + 1)
+						END 
+					 WHEN $depthSort$ = 4 THEN
+						SUBSTR(#fcltsClUpperCd#,1,3) || 
+				        CASE WHEN SUBSTR(MAX(FCLTS_CL_CD),4,1) = '0' THEN LPAD(TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),5,1)) + 1),2,'0')
+				        	 WHEN SUBSTR(MAX(FCLTS_CL_CD),4,1) IS NULL THEN '01'
+				        ELSE 
+				          TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),4,2)) + 1) 
+				        END
+				     WHEN $depthSort$ = 5 THEN
+				     	SUBSTR(#fcltsClUpperCd#,1,5) || 
+				        CASE WHEN SUBSTR(MAX(FCLTS_CL_CD),6,1) = '0' THEN LPAD(TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),7,1)) + 1),2,'0')
+				        	 WHEN SUBSTR(MAX(FCLTS_CL_CD),6,1) IS NULL THEN '01'
+				        ELSE 
+				          TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),6,2)) + 1)
+				        END
+				     WHEN $depthSort$ = 6 THEN
+				     	SUBSTR(#fcltsClUpperCd#,1,7) || 
+				        CASE WHEN SUBSTR(MAX(FCLTS_CL_CD),8,1) = '0' THEN LPAD(TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),9,1)) + 1),2,'0') 
+				        	 WHEN SUBSTR(MAX(FCLTS_CL_CD),8,1) IS NULL THEN '01'
+				        ELSE 
+				          TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),8,2)) + 1)
+				        END
+				END
+			,10, '0') AS NEW_FCLTS_CL_CD
+		FROM 
+			FCLTS_CL_CD_F 
+		WHERE 
+			FCLTS_CL_UPPER_CD  = #fcltsClUpperCd#
+	</select>
+
+    <insert id="gamFcltsMngGroupDao.insertFcltsMngGroup">
+
+    	<![CDATA[
+		INSERT
+		  INTO FCLTS_CL_CD_F
+		       (
+					FCLTS_CL_CD
+					, FCLTS_CL_CD_NM
+					, FCLTS_CL_UPPER_CD
+					, DEPTH_SORT
+					, LEAF_YN
+					, REG_USR
+					, REGIST_DT
+		       )
+		       VALUES 
+		       (
+					#fcltsClCd#
+					, #fcltsClCdNm#
+					, #fcltsClUpperCd#
+					, $depthSort$
+					, 'Y'
+					, #regUsr#
+					, SYSDATE
+		        )
+        ]]>
+  		
+    </insert>
+    
+    
+    <update id="gamFcltsMngGroupDao.updateFcltsMngGroup">
+	    
+    	<![CDATA[
+		UPDATE 
+			FCLTS_CL_CD_F 
+		SET
+			FCLTS_CL_CD_NM = #fcltsClCdNm#
+			, UPD_USR = #updUsr#
+			, UPDT_DT = SYSDATE
+		WHERE 
+			FCLTS_CL_CD = #oriFcltsMngGroup#
+		]]>
+    </update>
+    
+    
+    <delete id="gamFcltsMngGroupDao.deleteFcltsMngGroup">
+    
+		DELETE FROM 
+			FCLTS_CL_CD_F 
+		WHERE 
+			FCLTS_CL_CD LIKE CASE  
+					   <![CDATA[ WHEN $depthSort$ <= 3 THEN SUBSTR(#oriFcltsMngGroup#,1,DEPTH_SORT) ]]>
+							     WHEN $depthSort$ = 4 THEN SUBSTR(#oriFcltsMngGroup#,1,5)
+							     WHEN $depthSort$ = 5 THEN SUBSTR(#oriFcltsMngGroup#,1,7)
+							     WHEN $depthSort$ = 6 THEN SUBSTR(#oriFcltsMngGroup#,1,9)
+						   END || '%'
+
+    </delete>
+    
+    
+    <update id="gamFcltsMngGroupDao.updateChnageParentLeafYn">
+	    
+    	<![CDATA[
+		UPDATE 
+			FCLTS_CL_CD_F 
+		SET
+			LEAF_YN = #leafYn#
+		WHERE 
+			FCLTS_CL_CD = #fcltsClUpperCd#
+		]]>
+    </update>
+    
+    
+    <select id="gamFcltsMngGroupDao.selectFcltsClParentCdListCnt_S" parameterClass="gamFcltsMngGroupVO" resultClass="int">
+		SELECT 
+			COUNT(*) parentCdCnt
+		FROM 
+			FCLTS_CL_CD_F
+		WHERE 
+			FCLTS_CL_UPPER_CD = #fcltsClUpperCd#
+	</select>
+
+</sqlMap>
