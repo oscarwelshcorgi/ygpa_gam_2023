@@ -798,7 +798,7 @@ div.notice {
 			          ];
 
 			$.ajax({
-				url: '/mngFee/printFcltsFeeMngNoticeIssue.do',
+				url: '/mngFee/gamPrintFcltsFeeMngNticIssue.do',
 				type: 'POST',
 				module: this,
 				dataType: 'json',

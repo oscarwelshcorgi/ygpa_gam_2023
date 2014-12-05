@@ -67,12 +67,12 @@ public interface GamFcltsFeeMngNticService {
 	/**
 	 * @param gamFcltsFeeMngNticVo
 	 */
-	void processFcltsFeeMngNticIssue(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception;
+	void processFcltsFeeMngNticIssue(Map<String, Object> vo) throws Exception;
 
 	/**
 	 * @param gamFcltsFeeMngNticVo
 	 */
-	void cancelFcltsFeeMngNticIssue(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception;
+	void cancelFcltsFeeMngNticIssue(Map<String, Object> vo) throws Exception;
 
 	/**
 	 * @param vo

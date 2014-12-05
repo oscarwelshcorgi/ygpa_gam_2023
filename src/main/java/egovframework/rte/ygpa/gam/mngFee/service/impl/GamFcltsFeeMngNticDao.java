@@ -73,17 +73,24 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	}
 
 	/**
-	 * @param gamFcltsFeeMngNticVo
+	 * @param vo
 	 */
 	public void insertFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) {
 		insert("gamFcltsFeeMngNticDao.insertFcltsFeeMngNtic_S", gamFcltsFeeMngNticVo);
 	}
 
 	/**
-	 * @param gamFcltsFeeMngNticVo
+	 * @param vo
 	 */
 	public void updateFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) {
 		update("gamFcltsFeeMngNticDao.updateFcltsFeeMngNtic_S", gamFcltsFeeMngNticVo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void updateFcltsFeeMngNticIssue(Map<String, Object> vo) {
+		update("gamFcltsFeeMngNticDao.updateFcltsFeeMngNticIssue_S", vo);
 	}
 
 	/**
@@ -101,10 +108,18 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	}
 
 	/**
-	 * @param gamFcltsFeeMngNticVo
+	 * @param vo
+	 * @return
 	 */
-	public void insertRevCollF(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) {
-		insert("gamFcltsFeeMngNticDao.insertRevCollF_S", gamFcltsFeeMngNticVo);
+	public EgovMap selectRevCollF(Map<String, Object> vo) throws Exception {
+		return (EgovMap)selectByPk("gamFcltsFeeMngNticDao.selectRevCollF_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void insertRevCollF(Map<String, Object> vo) {
+		insert("gamFcltsFeeMngNticDao.insertRevCollF_S", vo);
 	}
 
 	/**
@@ -115,10 +130,10 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	}
 
 	/**
-	 * @param gamFcltsFeeMngNticVo
+	 * @param vo
 	 */
-	public void deleteRevCollF(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) {
-		delete("gamFcltsFeeMngNticDao.deleteRevCollF_S", gamFcltsFeeMngNticVo);
+	public void deleteRevCollF(Map<String, Object> vo) {
+		delete("gamFcltsFeeMngNticDao.deleteRevCollF_S", vo);
 	}
 
 	/**
@@ -126,6 +141,29 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	 */
 	public void updateUnpaidFDlyBillPrtYn(Map<String, Object> vo) {
 		update("gamFcltsFeeMngNticDao.updateUnpaidFDlyBillPrtYn_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 * @return
+	 */
+	public EgovMap selectEgiroMaxInfo(Map<String, Object> vo) throws Exception {
+		return (EgovMap)selectByPk("gamFcltsFeeMngNticDao.selectEgiroMaxInfo_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 * @return
+	 */
+	public String insertEgiro(Map<String, Object> vo) throws Exception {
+		return (String)insert("gamFcltsFeeMngNticDao.insertEgiro_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void updateEgiroCancel(Map<String, Object> vo) throws Exception {
+		update("gamFcltsFeeMngNticDao.updateEgiroCancel_S", vo);
 	}
 
 }

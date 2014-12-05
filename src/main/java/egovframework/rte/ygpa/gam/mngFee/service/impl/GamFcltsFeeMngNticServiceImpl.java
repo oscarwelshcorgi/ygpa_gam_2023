@@ -3,6 +3,8 @@
  */
 package egovframework.rte.ygpa.gam.mngFee.service.impl;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -73,26 +75,155 @@ public class GamFcltsFeeMngNticServiceImpl extends AbstractServiceImpl implement
 	}
 
 	@Override
-	public void processFcltsFeeMngNticIssue(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception {
-		gamFcltsFeeMngNticDao.updateFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
-		gamFcltsFeeMngNticDao.insertRevCollF(gamFcltsFeeMngNticVo);
+	public void processFcltsFeeMngNticIssue(Map<String, Object> vo) throws Exception {
+		gamFcltsFeeMngNticDao.updateFcltsFeeMngNticIssue(vo);
+		gamFcltsFeeMngNticDao.insertRevCollF(vo);
 	}
 
-	@Override
-	public void cancelFcltsFeeMngNticIssue(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception {
-		gamFcltsFeeMngNticDao.deleteRevCollF(gamFcltsFeeMngNticVo);
-		gamFcltsFeeMngNticDao.updateFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void processCreateEgiro(Map map) throws Exception{
+		Map mapResult = new HashMap();
+		Map revCollF = gamFcltsFeeMngNticDao.selectRevCollF(map);
+		String strPrtAtCode = (String)revCollF.get("prtAtCode");
+		String strFeeTp = (String)revCollF.get("feeTp");
+		String strFiscalYr = (String)revCollF.get("fiscalYr");
+		String strBillNo = (String)revCollF.get("billNo");
+		String strDlySerNo = (String)revCollF.get("dlySerNo");
+		String strCustomerNum = (String)revCollF.get("customerNum");
+		BigDecimal bdBillAmount = new BigDecimal(revCollF.get("billAmnt").toString());
+		BigDecimal bdBillSumAmnt = new BigDecimal(revCollF.get("billSumAmnt").toString());
+		String strDueDate = (String)revCollF.get("dueDate");
+		String strCloseDate = (String)revCollF.get("closeDate");
+		String strGiroNum = (String)revCollF.get("giroNum");
+		String strEgiroNum = (String)revCollF.get("egiroNum");
+		String strAgentCode = (String)revCollF.get("agentCode");
+		String strBillType = (String)revCollF.get("billType");
+		String strKorNm = (String)revCollF.get("korNm");
+		String strBzRgstId = (String)revCollF.get("bzRgstId");
+		String strBillYyyymm = (String)revCollF.get("billYyyymm");
+		String strBillDate =  (String)revCollF.get("billDt");
+		String strAddr = (String)revCollF.get("addr");
+		String strPrintDt = (String)revCollF.get("printDt");
+		String strTranid = (String)revCollF.get("tranid");
+		if ("".equals(strTranid) || strTranid == null) {
+			mapResult.put("prtAtCode", strPrtAtCode);
+			mapResult.put("feeTp", strFeeTp);
+			mapResult.put("fiscalYr", strFiscalYr);
+			mapResult.put("billNo", strBillNo);
+			mapResult.put("dlySerNo", strDlySerNo);
+			mapResult.put("customerNum", strCustomerNum);
+			mapResult.put("amount", bdBillSumAmnt);
+			mapResult.put("amouuntAf", bdBillSumAmnt);
+			mapResult.put("dueDate", strDueDate);
+			mapResult.put("closeDate", strCloseDate);
+			mapResult.put("giroNum", strGiroNum);
+			mapResult.put("egiroNum", strEgiroNum);
+			mapResult.put("agentCode", strAgentCode);
+			mapResult.put("billType", strBillType);
+			mapResult.put("korNm", strKorNm);
+			mapResult.put("bzRgstId", strBzRgstId);
+			mapResult.put("billYyyymm", strBillYyyymm);
+			mapResult.put("addr", strAddr);
+			mapResult.put("printDt", strPrintDt);
+			mapResult.put("cancelDt", "");
+			mapResult.put("tranid", strTranid);
+			gamFcltsFeeMngNticDao.insertEgiro(mapResult);
+		}
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void processCancelEgiro(Map map) throws Exception{
+		Map mapResult = new HashMap();
+		Map revCollF = gamFcltsFeeMngNticDao.selectRevCollF(map);
+		String strPrtAtCode = (String)revCollF.get("prtAtCode");
+		String strFeeTp = (String)revCollF.get("feeTp");
+		String strFiscalYr = (String)revCollF.get("fiscalYr");
+		String strBillNo = (String)revCollF.get("billNo");
+		String strDlySerNo = (String)revCollF.get("dlySerNo");
+		String strCustomerNum = (String)revCollF.get("customerNum");
+		BigDecimal bdBillAmount = new BigDecimal(revCollF.get("billAmnt").toString());
+		BigDecimal bdBillSumAmnt = new BigDecimal(revCollF.get("billSumAmnt").toString());
+		String strDueDate = (String)revCollF.get("dueDate");
+		String strCloseDate = (String)revCollF.get("closeDate");
+		String strGiroNum = (String)revCollF.get("giroNum");
+		String strEgiroNum = (String)revCollF.get("egiroNum");
+		String strAgentCode = (String)revCollF.get("agentCode");
+		String strBillType = (String)revCollF.get("billType");
+		String strKorNm = (String)revCollF.get("korNm");
+		String strBzRgstId = (String)revCollF.get("bzRgstId");
+		String strBillYyyymm = (String)revCollF.get("billYyyymm");
+		String strBillDate =  (String)revCollF.get("billDt");
+		String strAddr = (String)revCollF.get("addr");
+		String strPrintDt = (String)revCollF.get("printDt");
+		String strTranid = (String)revCollF.get("tranid");
+		mapResult.put("prtAtCode", strPrtAtCode);
+		mapResult.put("feeTp", strFeeTp);
+		mapResult.put("fiscalYr", strFiscalYr);
+		mapResult.put("billNo", strBillNo);
+		mapResult.put("dlySerNo", strDlySerNo);
+		Map egiroMap = gamFcltsFeeMngNticDao.selectEgiroMaxInfo(mapResult);
+		if (egiroMap != null && !egiroMap.isEmpty()) {
+			String strEgiroTranid = (String)egiroMap.get("tranid") ;
+			String strEgiroWorkDt = (String)egiroMap.get("workDt") ;
+			String strEgiroCancelDt = (String)egiroMap.get("cancelDt") ;
+			String strEgiroPrintDt = (String)egiroMap.get("printDt") ;
+
+			mapResult.put("cancelDt", strPrintDt);
+			mapResult.put("tranid", strEgiroTranid);
+			if (strPrintDt.equals(strEgiroWorkDt) && (strEgiroCancelDt == null || "".equals(strEgiroCancelDt))) {
+				gamFcltsFeeMngNticDao.updateEgiroCancel(mapResult);
+			} else {
+				mapResult.put("customerNum", strCustomerNum);
+				mapResult.put("amount", bdBillSumAmnt);
+				mapResult.put("amouuntAf", bdBillSumAmnt);
+				mapResult.put("dueDate", strDueDate);
+				mapResult.put("closeDate", strCloseDate);
+				mapResult.put("giroNum", strGiroNum);
+				mapResult.put("egiroNum", strEgiroNum);
+				mapResult.put("agentCode", strAgentCode);
+				mapResult.put("billType", strBillType);
+				mapResult.put("korNm", strKorNm);
+				mapResult.put("bzRgstId", strBzRgstId);
+				mapResult.put("billYyyymm", strBillYyyymm);
+				mapResult.put("addr", strAddr);
+				mapResult.put("printDt", "");
+				gamFcltsFeeMngNticDao.insertEgiro(mapResult);
+			}
+		}
+	}
+
+	@SuppressWarnings({ "rawtypes"})
 	@Override
 	public void updateFcltsFeeMngNticIssuePrintYn(Map<String, Object> vo) throws Exception {
 		Map map = gamFcltsFeeMngNticDao.selectMngFeeLevRequestFByPk(vo);
 		gamFcltsFeeMngNticDao.updateFcltsFeeMngNticNhtPrintYn(vo);
 		if (map.get("arrrgNo") != null) {
 			gamFcltsFeeMngNticDao.updateUnpaidFDlyBillPrtYn(vo);
-		} else {
-			gamFcltsFeeMngNticDao.updateRevCollFBillPrtYn(vo);
 		}
+		gamFcltsFeeMngNticDao.updateRevCollFBillPrtYn(vo);
+		if ("Y".equals(vo.get("nhtPrintYn"))) {
+			processCreateEgiro(vo);
+		} else {
+			processCancelEgiro(vo);
+		}
+	}
+
+	@SuppressWarnings({ "rawtypes"})
+	@Override
+	public void cancelFcltsFeeMngNticIssue(Map<String, Object> vo) throws Exception {
+		String strNhtPrintYn = (String)vo.get("nhtPrintYn");
+		if ("Y".equals(strNhtPrintYn)) {
+			Map map = gamFcltsFeeMngNticDao.selectMngFeeLevRequestFByPk(vo);
+			gamFcltsFeeMngNticDao.updateFcltsFeeMngNticNhtPrintYn(vo);
+			String strArrrgNo = (String)map.get("arrrgNo");
+			if (strArrrgNo == null && !"".equals(strArrrgNo) && !"00".equals(strArrrgNo)) {
+				gamFcltsFeeMngNticDao.updateUnpaidFDlyBillPrtYn(vo);
+			}
+			gamFcltsFeeMngNticDao.updateRevCollFBillPrtYn(vo);
+			processCancelEgiro(vo);
+		}
+		gamFcltsFeeMngNticDao.deleteRevCollF(vo);
+		gamFcltsFeeMngNticDao.updateFcltsFeeMngNticIssue(vo);
 	}
 
 }

@@ -123,7 +123,7 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mode = 'modify';
-		var nhtIsueYn = row['#nhtIsueYn'];
+		var nhtIsueYn = row['nhtIsueYn'];
 		var rcivSe = row['rcivSe'];
 		var aditNticYn = row['aditNticYn'];
 		if (rcivSe == "0" || rcivSe == "1") {
@@ -133,14 +133,11 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 				module.$('#btnCancelNticIssue').removeClass('ui-state-disabled');
 				module.$('#btnPrintNticIssue').enable();
 				module.$('#btnPrintNticIssue').removeClass('ui-state-disabled');
-				module.$('#btnPrintTaxInvoice').enable();
-				module.$('#btnPrintTaxInvoice').removeClass('ui-state-disabled');
 			} else {
 				module.$('#btnProcessNticIssue').enable();
 				module.$('#btnProcessNticIssue').removeClass('ui-state-disabled');
 				module.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
 				module.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
-				module.$('#btnPrintTaxInvoice').disable({disableClass:"ui-state-disabled"});
 			}
 			module.$('#btnAddNticIssue').enable();
 			module.$('#btnAddNticIssue').removeClass('ui-state-disabled');
@@ -155,8 +152,6 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 			module.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
 			module.$('#btnPrintNticIssue').enable();
 			module.$('#btnPrintNticIssue').removeClass('ui-state-disabled');
-			module.$('#btnPrintTaxInvoice').enable();
-			module.$('#btnPrintTaxInvoice').removeClass('ui-state-disabled');
 			module.$('#btnAddNticIssue').enable();
 			module.$('#btnAddNticIssue').removeClass('ui-state-disabled');
 			module.$('#btnDelNticIssue').disable({disableClass:"ui-state-disabled"});
@@ -164,7 +159,6 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 			module.$('#btnProcessNticIssue').disable({disableClass:"ui-state-disabled"});
 			module.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
 			module.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
-			module.$('#btnPrintTaxInvoice').disable({disableClass:"ui-state-disabled"});
 			module.$('#btnAddNticIssue').disable({disableClass:"ui-state-disabled"});
 			module.$('#btnDelNticIssue').disable({disableClass:"ui-state-disabled"});
 		}
@@ -200,7 +194,6 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 	this.$('#btnProcessNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
-	this.$('#btnPrintTaxInvoice').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnAddNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelNticIssue').disable({disableClass:"ui-state-disabled"});
 
@@ -249,11 +242,32 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnSaveNticIssue':
 			this.saveNticIssue();
 			break;
+		case 'btnProcessNticIssue':
+			if (this._mode=="modify") {
+				this.loadDetail();
+				this.enableDetailInputItem();
+				this.processNticIssue();
+			}
+			break;
 		case 'btnProcessNticIssue2':
 			this.processNticIssue();
 			break;
+		case 'btnCancelNticIssue':
+			if (this._mode=="modify") {
+				this.loadDetail();
+				this.enableDetailInputItem();
+				this.cancelNticIssue();
+			}
+			break;
 		case 'btnCancelNticIssue2':
 			this.cancelNticIssue();
+			break;
+		case 'btnPrintNticIssue':
+			if (this._mode=="modify") {
+				this.loadDetail();
+				this.enableDetailInputItem();
+				this.printNticIssue();
+			}
 			break;
 		case 'btnPrintNticIssue2':
 			this.printNticIssue();
@@ -280,10 +294,10 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamFcltsFeeMngNticModule.prototype.onSubmit = function() {
 
+	module._mode = 'query';
 	this.$('#btnProcessNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
-	this.$('#btnPrintTaxInvoice').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnAddNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.loadData();
@@ -520,7 +534,7 @@ GamFcltsFeeMngNticModule.prototype.saveNticIssue = function() {
 %>
 GamFcltsFeeMngNticModule.prototype.processNticIssue = function() {
 
-	var inputVO = this.makeFormArgs("#detailForm");
+	var processVO = [];
 	var chrgeKnd = this.$('#chrgeKnd').val();
 	var nhtIsueYn = this.$('#nhtIsueYn').val();
 	var nticDt = this.$('#nticDt').val();
@@ -603,7 +617,25 @@ GamFcltsFeeMngNticModule.prototype.processNticIssue = function() {
 	//confirmMessage = "[" + this.$('#chrgeKnd').find('option:selected').text() + "] " + this.$('#fee').val() + "원을 고지하시겠습니까?";
 	confirmMessage = "[" + this.$('#chrgeKnd_select').find('option:selected').text() + "] " + this.$('#fee').val() + "원을 고지하시겠습니까?";
 	if (confirm(confirmMessage)) {
-		this.doAction('/mngFee/gamProcessFcltsFeeMngNticIssue.do', inputVO, function(module, result) {
+		processVO={
+			'mngMt':this.$('#mngMt').val(),
+			'mngFeeJobSe':this.$('#mngFeeJobSe').val(),
+			'mngSeq':this.$('#mngSeq').val(),
+			'reqestSeq':this.$('#reqestSeq').val(),
+			'prtAtCode':this.$('#prtAtCode').val(),
+			'chrgeKnd':this.$('#chrgeKnd').val(),
+			'accnutYear':this.$('#accnutYear').val(),
+			'nticNo':this.$('#nticNo').val(),
+			'nticDt':this.$('#nticDt').val(),
+			'payTmlmt':this.$('#payTmlmt').val(),
+			'fee':this.$('#fee').val().replace(/,/gi, ""),
+			'vatYn':this.$('#vatYn').val(),
+			'vat':this.$('#vat').val().replace(/,/gi, ""),
+			'nticAmt':this.$('#nticAmt').val().replace(/,/gi, ""),
+			'nhtIsueYn':"Y",
+			'rm':this.$('#rm').val()
+		};
+		this.doAction('/mngFee/gamProcessFcltsFeeMngNticIssue.do', processVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}
@@ -622,7 +654,7 @@ GamFcltsFeeMngNticModule.prototype.processNticIssue = function() {
 %>
 GamFcltsFeeMngNticModule.prototype.cancelNticIssue = function() {
 
-	var inputVO = this.makeFormArgs("#detailForm");
+	var cancelVO = [];
 	var chrgeKnd = this.$('#chrgeKnd').val();
 	var nhtIsueYn = this.$('#nhtIsueYn').val();
 	var rcivSe = this.$('#rcivSe').val();
@@ -651,7 +683,27 @@ GamFcltsFeeMngNticModule.prototype.cancelNticIssue = function() {
 	}
 	confirmMessage = "[" + this.$('#chrgeKnd_select').find('option:selected').text() + "] " + this.$('#fee').val() + "원을 고지 취소하시겠습니까?";
 	if (confirm(confirmMessage)) {
-		this.doAction('/mngFee/gamCancelFcltsFeeMngNticIssue.do', inputVO, function(module, result) {
+		cancelVO={
+				'mngMt':this.$('#mngMt').val(),
+				'mngFeeJobSe':this.$('#mngFeeJobSe').val(),
+				'mngSeq':this.$('#mngSeq').val(),
+				'reqestSeq':this.$('#reqestSeq').val(),
+				'prtAtCode':this.$('#prtAtCode').val(),
+				'chrgeKnd':this.$('#chrgeKnd').val(),
+				'accnutYear':this.$('#accnutYear').val(),
+				'nticNo':this.$('#nticNo').val(),
+				'nticDt':this.$('#nticDt').val(),
+				'payTmlmt':this.$('#payTmlmt').val(),
+				'fee':this.$('#fee').val().replace(/,/gi, ""),
+				'vatYn':this.$('#vatYn').val(),
+				'vat':this.$('#vat').val().replace(/,/gi, ""),
+				'nticAmt':this.$('#nticAmt').val().replace(/,/gi, ""),
+				'nhtIsueYn':"N",
+				'nhtPrintYn':this.$('#nhtPrintYn').val(),
+				'arrrgNo':this.$('#arrrgNo').val(),
+				'rm':this.$('#rm').val()
+		};
+		this.doAction('/mngFee/gamCancelFcltsFeeMngNticIssue.do', cancelVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
 			}
@@ -669,13 +721,15 @@ GamFcltsFeeMngNticModule.prototype.cancelNticIssue = function() {
 **/
 %>
 GamFcltsFeeMngNticModule.prototype.printNticIssue = function() {
-console.log('asdf');
+
 	var row = this.$('#mainGrid').selectedRows()[0];
 	if (row['nhtIsueYn'] != "Y") {
 		alert("고지된 자료가 아닙니다.");
 		return;
 	}
 	this.printPage('/mngFee/printFcltsFeeMngNticNoticeIssue.do', row);
+	alert("고지서 출력이 완료됐습니다.");
+	this.loadData();
 
 };
 
@@ -721,14 +775,12 @@ GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 		this.$('#btnProcessNticIssue2').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnCancelNticIssue2').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnPrintNticIssue2').disable({disableClass:"ui-state-disabled"});
-		this.$('#btnPrintTaxInvoice2').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnAddNticIssue2').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnDelNticIssue2').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnSaveNticIssue').enable();
 		this.$('#btnSaveNticIssue').removeClass('ui-state-disabled');
 	} else {
 		if (rcivSe == "0" || rcivSe == "1") {
-			this.$('#rm').enable();
 			if (nhtIsueYn == "Y") {
 				this.$('#chrgeKnd').disable();
 				this.$('#vatYn').disable();
@@ -737,13 +789,12 @@ GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 				this.$('#nticAmt').disable();
 				this.$('#nticDt').disable();
 				this.$('#payTmlmt').disable();
+				this.$('#rm').disable();
 				this.$('#btnProcessNticIssue2').disable({disableClass:"ui-state-disabled"});
 				this.$('#btnCancelNticIssue2').enable();
 				this.$('#btnCancelNticIssue2').removeClass('ui-state-disabled');
 				this.$('#btnPrintNticIssue2').enable();
 				this.$('#btnPrintNticIssue2').removeClass('ui-state-disabled');
-				this.$('#btnPrintTaxInvoice2').enable();
-				this.$('#btnPrintTaxInvoice2').removeClass('ui-state-disabled');
 				this.$('#btnSaveNticIssue').disable({disableClass:"ui-state-disabled"});
 			} else {
 				this.$('#chrgeKnd').enable();
@@ -753,11 +804,11 @@ GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 				this.$('#nticAmt').enable();
 				this.$('#nticDt').enable();
 				this.$('#payTmlmt').enable();
+				this.$('#rm').enable();
 				this.$('#btnProcessNticIssue2').enable();
 				this.$('#btnProcessNticIssue2').removeClass('ui-state-disabled');
 				this.$('#btnCancelNticIssue2').disable({disableClass:"ui-state-disabled"});
 				this.$('#btnPrintNticIssue2').disable({disableClass:"ui-state-disabled"});
-				this.$('#btnPrintTaxInvoice2').disable({disableClass:"ui-state-disabled"});
 				this.$('#btnSaveNticIssue').enable();
 				this.$('#btnSaveNticIssue').removeClass('ui-state-disabled');
 			}
@@ -782,8 +833,6 @@ GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnCancelNticIssue2').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnPrintNticIssue2').enable();
 			this.$('#btnPrintNticIssue2').removeClass('ui-state-disabled');
-			this.$('#btnPrintTaxInvoice2').enable();
-			this.$('#btnPrintTaxInvoice2').removeClass('ui-state-disabled');
 			this.$('#btnAddNticIssue2').enable();
 			this.$('#btnAddNticIssue2').removeClass('ui-state-disabled');
 			this.$('#btnDelNticIssue2').disable({disableClass:"ui-state-disabled"});
@@ -800,7 +849,6 @@ GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnProcessNticIssue2').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnCancelNticIssue2').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnPrintNticIssue2').disable({disableClass:"ui-state-disabled"});
-			this.$('#btnPrintTaxInvoice2').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnAddNticIssue2').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnDelNticIssue2').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSaveNticIssue').disable({disableClass:"ui-state-disabled"});
@@ -829,7 +877,6 @@ GamFcltsFeeMngNticModule.prototype.disableDetailInputItem = function() {
 	this.$('#btnProcessNticIssue2').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnCancelNticIssue2').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnPrintNticIssue2').disable({disableClass:"ui-state-disabled"});
-	this.$('#btnPrintTaxInvoice2').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnAddNticIssue2').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelNticIssue2').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSaveNticIssue').disable({disableClass:"ui-state-disabled"});
@@ -1003,7 +1050,6 @@ var module_instance = new GamFcltsFeeMngNticModule();
 					<button id="btnProcessNticIssue">　　고　지　　</button>
 					<button id="btnCancelNticIssue">　고지　취소　</button>
 					<button id="btnPrintNticIssue">고지서　　출력</button>
-					<button id="btnPrintTaxInvoice">계산서　　 출력</button>
 					<button id="btnAddNticIssue">추가고지　입력</button>
 					<button id="btnDelNticIssue">추가고지　삭제</button>
 					<button id="btnExcelDownload">엑셀　다운로드</button>
@@ -1073,7 +1119,6 @@ var module_instance = new GamFcltsFeeMngNticModule();
 									<button id="btnProcessNticIssue2">　　고　지　　</button>
 									<button id="btnCancelNticIssue2">　고지　취소　</button>
 									<button id="btnPrintNticIssue2">고지서　　출력</button>
-									<button id="btnPrintTaxInvoice2">계산서　　 출력</button>
 									<button id="btnAddNticIssue2">추가고지　입력</button>
 									<button id="btnDelNticIssue2">추가고지　삭제</button>
 									<button id="btnSaveNticIssue">　　저　장　　</button>
