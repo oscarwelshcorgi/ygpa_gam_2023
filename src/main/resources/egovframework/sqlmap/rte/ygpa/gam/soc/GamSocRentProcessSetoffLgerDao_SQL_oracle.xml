@@ -41,7 +41,7 @@
 								     , A.CONST_NO
 								     , A.EXMP_AGENT_CODE
 								     , DECODE(A.DC_RATE_NM,'1','20%','2','50%','3','80%','5','15%','9','100%') AS RATE
-								     , DECODE(A.IN_OUT,'1','외입','2','외출','3','내입','4','내출') AS IXTN
+								     , DECODE(A.IN_OUT,'1','외입','2','외출','3','내입','4','내출','5','항내운입','6','항내운출') AS IXTN
 								     , A.YR
 								     , A.SER_NO
 								     , A.STANDARD_FEE
