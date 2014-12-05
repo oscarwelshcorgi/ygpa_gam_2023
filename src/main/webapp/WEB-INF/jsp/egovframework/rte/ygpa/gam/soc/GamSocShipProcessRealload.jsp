@@ -217,7 +217,7 @@ var module_instance = new GamSocShipProcessRealloadModule();
 						<tr>                            
                             <th>업체코드</th>
                             <td>
-                                <input type="text" size="9" id="sExmpAgentCode" maxlength="10" readonly/>
+                                <input type="text" size="9" id="sExmpAgentCode" maxlength="10"/>
                                 <input type="text" size="25" id="sExmpAgentName" disabled/>
                                 <button id="popupAgentInfo" class="popupButton">선택</button>
                             </td>
