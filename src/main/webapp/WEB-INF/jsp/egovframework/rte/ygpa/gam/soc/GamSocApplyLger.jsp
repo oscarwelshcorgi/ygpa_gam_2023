@@ -32,8 +32,6 @@ GamSocApplyLgerModule.prototype = new EmdModule(1000, 645);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamSocApplyLgerModule.prototype.loadComplete = function() {
-
-    // 업체신청 면제요청목록 설정
     this.$("#socApplyLgerList").flexigrid({
         module: this,
         url: '/soc/gamSelectSocApplyLgerList.do',
@@ -63,39 +61,34 @@ GamSocApplyLgerModule.prototype.loadComplete = function() {
     });
 };
 
+GamSocApplyLgerModule.prototype.onSubmit = function() {
+    this.loadData();
+};
+
+//투자비보전신청대장 목록 로드
+GamSocApplyLgerModule.prototype.loadData = function() {
+    var searchOpt=this.makeFormArgs('#gamSocApplyLgerSearchForm');
+    this.$('#socApplyLgerList').flexOptions({params:searchOpt}).flexReload();
+};
+
 /**
  * 정의 된 버튼 클릭 시
  */
 GamSocApplyLgerModule.prototype.onButtonClick = function(buttonId) {
-	var opts = null;
     switch(buttonId) {
         case 'searchBtn':
         	if(!validateGamSocApplyLger(this.$('#gamSocApplyLgerSearchForm')[0])){ 		
         		return;
         	}
-        	opts = this.makeFormArgs('#gamSocApplyLgerSearchForm');
-        	this.$("#socApplyLgerList").flexOptions({params:opts}).flexReload();
-            break;
+        	this.loadData();
         case 'popupFeeTpInfo' : //요금종류버튼
-        	opts = { prtAtCode : this.$('#sPrtAtCode').val() };
-			this.doExecuteDialog('selectFeeTpInfo', '요금 선택',
-					'/popup/showSocPayCd.do', opts);        	
+        	var opts = { prtAtCode : this.$('#sPrtAtCode').val() };
+			this.doExecuteDialog('selectFeeTpInfo', '요금 선택', '/popup/showSocPayCd.do', opts);        	
         	break;
         case 'popupEntrpsInfo' : //업체코드버튼
-			this.doExecuteDialog('selectEntrpsInfo', '업체 선택',
-					'/popup/showSocEntrpsInfo.do', opts);
-        	break;        	
+			this.doExecuteDialog('selectEntrpsInfo', '업체 선택', '/popup/showSocEntrpsInfo.do', {});
+        	break; 
     }
-};
-
-GamSocApplyLgerModule.prototype.onSubmit = function() {
-    this.loadData();
-};
-
-GamSocApplyLgerModule.prototype.loadData = function() {
-    this.$("#socApplyLgerListTab").tabs("option", {active: 0});
-    var searchOpt=this.makeFormArgs('#gamSocApplyLgerSearchForm');
-    this.$('#socApplyLgerList').flexOptions({params:searchOpt}).flexReload();
 };
 
 GamSocApplyLgerModule.prototype.onTabChange = function(newTabId, oldTabId) {

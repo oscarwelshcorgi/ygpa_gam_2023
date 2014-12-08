@@ -31,7 +31,6 @@ GamSocApplyModule.prototype = new EmdModule(1000, 645);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamSocApplyModule.prototype.loadComplete = function() {
-
     // 업체신청 면제요청목록 설정
     this.$("#socApplyList").flexigrid({
         module: this,
@@ -63,6 +62,8 @@ GamSocApplyModule.prototype.loadComplete = function() {
         }
     });
     
+    this._cmd = '';
+    
     // 당해시설 및 타인 사용료 징수 시 해당시설코드 설정
     this.$("#socApplyFacilList").flexigrid({
         module: this,
@@ -89,220 +90,219 @@ GamSocApplyModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: '300'
     });
-
-    this.$("#socApplyList").on('onItemSelected', function(event, module, row, grid, param) {
-    });
-    /*
-    this.$("#socApplyFacilList").on('onItemSelected', function(event, module, row, grid, param) {
-    });
-    this.$("#socApplyFeeList").on('onItemSelected', function(event, module, row, grid, param) {
-    });
-	*/
 };
 
-/**
- * 정의 된 버튼 클릭 시
- */
-GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
-	var opts = null;
-    switch(buttonId) {
-        case 'searchBtn':
-        	if(!validateGamSocApply(this.$('#gamSocApplySearchForm')[0])){ 		
-        		return;
-        	}
-        	opts = this.makeFormArgs('#gamSocApplySearchForm');
-        	this.doAction('/soc/gamSelectApplyDetailInquire.do', opts, function(module, result) {
-        		var searchOpt = null;
-        		if(result.resultCode == 0) {
-        			module.$('#gamSocApplyDetailForm :input').val('');
-        			module.makeFormValues('#gamSocApplyDetailForm', result.resultVO);
-        			
-        			searchOpt = module.makeFormArgs("#gamSocApplySearchForm");
-        			module.$("#socApplyList").flexOptions({params:searchOpt}).flexReload();
-        			module.$("#socApplyFacilList").flexOptions({params:searchOpt}).flexReload();
-        			module.$("#socApplyFeeList").flexOptions({params:searchOpt}).flexReload();
-        			module.$('#cmd').val('modify');
-        		}
-        		else {
-        			alert(result.resultMsg);
-        			module.$('#cmd').val('');
-        			module.$('#gamSocApplyDetailForm :input').val('');
-            		module.$("#socApplyList").flexEmptyData();
-            		module.$("#socApplyFacilList").flexEmptyData();
-            		module.$("#socApplyFeeList").flexEmptyData();
-        		}
-    			module.$("#socApplyListTab").tabs("option", {active: 0});
-    		});
-            break;
-        case 'btnNew' : //등록버튼 처리시
-        	this.$('#gamSocApplySearchForm :input').val('');
-        	this.$('#gamSocApplyDetailForm :input').val('');
-    		this.$("#socApplyList").flexEmptyData();
-    		this.$("#socApplyFacilList").flexEmptyData();
-    		this.$("#socApplyFeeList").flexEmptyData();
-			this.$("#socApplyListTab").tabs("option", {active: 0});
-        	this.$('#cmd').val('insert');
-        	break;
-        case 'btnSave' : //저장
-        	if(this.$('#cmd').val() == 'insert') {
-            	if(!validateGamSocApply(this.$('#gamSocApplySearchForm')[0])){ 		
-            		return;
-            	}        	
-	        	this.$('#prtAtCode').val(this.$('#sPrtAtCode').val());
-	        	this.$('#cmplYr').val(this.$('#sCmplYr').val());
-	        	this.$('#constNo').val(this.$('#sConstNo').val());
-	        	this.$('#appPrtAtCode').val(this.$('#sAppPrtAtCode').val());
-	        	this.$('#appAgentCode').val(this.$('#sAppAgentCode').val());
-	        	this.$('#useNo').val(this.$('#sUseNo').val());
-        	}	
-        	if(!validateGamSocApply(this.$('#gamSocApplyDetailForm')[0])){ 		
-        		return;
-        	}        	
-        	var applyData = JSON.stringify(this.getFormValues("#gamSocApplyDetailForm"));
-        	var applyFacilList = JSON.stringify(this.$('#socApplyFacilList').flexGetData());
-        	var applyFeeList = JSON.stringify(this.$('#socApplyFeeList').flexGetData());
-        	
-        	opts = [];
-        	
-        	opts[opts.length] = {name: 'applyData',value: applyData};
-        	opts[opts.length] = {name: 'applyFacilList',value: applyFacilList};
-        	opts[opts.length] = {name: 'applyFeeList',value: applyFeeList};
-        	
-        	if(this.$('#cmd').val() == 'insert') {
-	        	this.doAction('/soc/gamInsertSocApplyDetail.do', opts, function(module, result) {
-	        		if(result.resultCode == 0) {
-	        			module.$('#cmd').val('modify');
-	        		} 
-	        		alert(result.resultMsg);
-	        	});
-        	} else if (this.$('#cmd').val() == 'modify') {
-	        	this.doAction('/soc/gamUpdateSocApplyDetail.do', opts, function(module, result) {
-	        		alert(result.resultMsg);
-	        	});
-        	}
-        	break;
-        case 'btnRemove' : //삭제
-			if((this.$('#cmd').val() == 'modify')) {
-	        	if(confirm('데이터를 삭제하시겠습니까?')) {
-	        		var applyData = JSON.stringify(this.getFormValues("#gamSocApplyDetailForm"));
-	            	var applyFacilList = JSON.stringify(this.$('#socApplyFacilList').flexGetData());
-	            	var applyFeeList = JSON.stringify(this.$('#socApplyFeeList').flexGetData());
-	            	
-	            	opts = [];
-	            	
-	            	opts[opts.length] = {name: 'applyData',value: applyData};
-	            	opts[opts.length] = {name: 'applyFacilList',value: applyFacilList};
-	            	opts[opts.length] = {name: 'applyFeeList',value: applyFeeList};
-	            	this.doAction('/soc/gamDeleteSocApplyDetail.do', opts, function(module, result) {
-		        		if(result.resultCode == 0) {
-		        			module.$('#gamSocApplySearchForm :input').val('');
-		            		module.$('#gamSocApplyDetailForm :input').val('');
-		            		
-		            		module.$("#socApplyList").flexEmptyData();
-		            		module.$("#socApplyFacilList").flexEmptyData();
-		            		module.$("#socApplyFeeList").flexEmptyData();
-			     			module.$("#socApplyListTab").tabs("option", {active: 0});
-		        		}
-		        		alert(result.resultMsg);
-		        	});
-	        	}
-			}
-			else {
-				alert('삭제할 데이터를 조회하세요.');
-				break;
-			}
-        	break;
-        case 'popupApplyEntrpsInfo' : //면제요청업체 선택
-			this.doExecuteDialog('selectApplyEntrpsInfo', '면제요청업체 선택',
-					'/popup/showSocEntrpsInfo.do', opts);
-        	break;
-        case 'popupEntrpsInfo' : //공사업체 선택
-			this.doExecuteDialog('selectEntrpsInfo', '공사업체 선택',
-					'/popup/showSocEntrpsInfo.do', opts);
-        	break;
-        case 'popupSocApplyInfo' : //면제요청 선택
-        	opts = this.makeFormArgs('#gamSocApplySearchForm');
-			this.doExecuteDialog('selectApplyInfo', '면제요청 선택',
-					'/popup/showSocApplyInfo.do', opts);
-        	break;
-        case 'popupSocAgentInfo' : //허가원부 선택
-			this.doExecuteDialog('selectAgentInfo', '허가원부 선택',
-					'/popup/showSocAgentFInfo.do', opts);
-        	break;
-        case 'btnAddApplyFacilItem' : //시설물 추가
-        	if((this.$('#cmd').val() == 'insert') || (this.$('#cmd').val() == 'modify')) {
-        		opts = [{ name: 'prtAtCode', value: this.$('#sPrtAtCode').val()}];
-    			this.doExecuteDialog('selectFacInfo', '시설물 선택',
-    					'/popup/showSocFacCd.do', opts);        		
-        	} else {
-        		alert("등록이나 조회를 선택한 후에 사용하세요.");
-        	}
-        	break;
-        case 'btnRemoveApplyFacilItem' : //시설물 삭제
-        	if((this.$('#cmd').val() == 'insert') || (this.$('#cmd').val() == 'modify')) {
-        		this.removeApplyFacilItem();
-        	} else {
-        		alert("등록이나 조회를 선택한 후에 사용하세요.");
-        	}
-        	break;
-        case 'btnAddApplyFeeItem' : //요금 추가
-        	if((this.$('#cmd').val() == 'insert') || (this.$('#cmd').val() == 'modify')) {
-        		opts = [{ name: 'prtAtCode', value: this.$('#sPrtAtCode').val()}];
-    			this.doExecuteDialog('selectFeeInfo', '요금종류 선택',
-    					'/popup/showSocPayCd.do', opts);        		
-        	} else {
-        		alert("등록이나 조회를 선택한 후에 사용하세요.");
-        	}
-        	break;
-        case 'btnRemoveApplyFeeItem' : //요금 삭제 
-        	if((this.$('#cmd').val() == 'insert') || (this.$('#cmd').val() == 'modify')) {
-        		this.removeApplyFeeItem();
-        	} else {
-        		alert("등록이나 조회를 선택한 후에 사용하세요.");
-        	}
-        	break;
-    }
+//화면 및 변수 초기화
+GamSocApplyModule.prototype.initDisplay = function() {
+	this.$('#gamSocApplyDetailForm :input').val('');
+	this.$("#socApplyList").flexEmptyData();
+	this.$("#socApplyFacilList").flexEmptyData();
+	this.$("#socApplyFeeList").flexEmptyData();
+	this.$("#socApplyListTab").tabs("option", {active: 0});
+	if(this._cmd == '' || this._cmd == 'insert') {
+		this.$('#gamSocApplySearchForm :input').val('');
+	} 
 };
 
 GamSocApplyModule.prototype.onSubmit = function() {
     this.loadData();
 };
 
+//비관리청 신청 데이터 로드
 GamSocApplyModule.prototype.loadData = function() {
-    this.$("#socApplyListTab").tabs("option", {active: 0});
-    var searchOpt=this.makeFormArgs('#gamSocApplySearchForm');
-    this.$('#socApplyList').flexOptions({params:searchOpt}).flexReload();
+	var opts = this.makeFormArgs('#gamSocApplySearchForm');
+	this.doAction('/soc/gamSelectApplyDetailInquire.do', opts, function(module, result) {
+		if(result.resultCode == 0) {
+			module._cmd = 'modify';
+			module.initDisplay();
+			module.makeFormValues('#gamSocApplyDetailForm', result.resultVO);
+			module.loadDetailData();
+		}
+		else {
+			alert(result.resultMsg);
+			module._cmd = '';
+			module.initDisplay();
+		}
+	});
 };
 
-GamSocApplyModule.prototype.removeApplyFacilItem = function() {
-	var rows = this.$("#socApplyFacilList").selectedRows();
+//비관리청 신청 디테일 목록 로드
+GamSocApplyModule.prototype.loadDetailData = function() {
+	var searchOpt = this.makeFormArgs("#gamSocApplySearchForm");
+	this.$("#socApplyList").flexOptions({params:searchOpt}).flexReload();
+	this.$("#socApplyFacilList").flexOptions({params:searchOpt}).flexReload();
+	this.$("#socApplyFeeList").flexOptions({params:searchOpt}).flexReload();	
+};
 
-    if(rows.length == 0){
-        alert("시설물목록에서 삭제할 행을 선택하십시오.");
-        return;
-    }
-
-    if(this.$("#socApplyFacilList").selectedRowIds().length>0) {
-    	for(var i=this.$("#socApplyFacilList").selectedRowIds().length-1; i>=0; i--) {
-    		var row = this.$("#socApplyFacilList").flexGetRow(this.$("#socApplyFacilList").selectedRowIds()[i]);
-        	this.$("#socApplyFacilList").flexRemoveRow(this.$("#socApplyFacilList").selectedRowIds()[i]);
-		}
+//비관리청 신청 자장
+GamSocApplyModule.prototype.saveData = function() {
+	if(this._cmd == 'insert') {
+    	if(!validateGamSocApply(this.$('#gamSocApplySearchForm')[0])){ 		
+    		return;
+    	}        	
+    	this.$('#prtAtCode').val(this.$('#sPrtAtCode').val());
+    	this.$('#cmplYr').val(this.$('#sCmplYr').val());
+    	this.$('#constNo').val(this.$('#sConstNo').val());
+    	this.$('#appPrtAtCode').val(this.$('#sAppPrtAtCode').val());
+    	this.$('#appAgentCode').val(this.$('#sAppAgentCode').val());
+    	this.$('#useNo').val(this.$('#sUseNo').val());
+	}	
+	if(!validateGamSocApply(this.$('#gamSocApplyDetailForm')[0])){ 		
+		return;
+	}        	
+	var applyData = JSON.stringify(this.getFormValues("#gamSocApplyDetailForm"));
+	var applyFacilList = JSON.stringify(this.$('#socApplyFacilList').flexGetData());
+	var applyFeeList = JSON.stringify(this.$('#socApplyFeeList').flexGetData());
+	
+	var opts = [];
+	
+	opts[opts.length] = {name: 'applyData',value: applyData};
+	opts[opts.length] = {name: 'applyFacilList',value: applyFacilList};
+	opts[opts.length] = {name: 'applyFeeList',value: applyFeeList};
+	
+	if(this._cmd == 'insert') {
+    	this.doAction('/soc/gamInsertSocApplyDetail.do', opts, function(module, result) {
+    		if(result.resultCode == 0) {
+    			module._cmd = 'modify';
+    		} 
+    		alert(result.resultMsg);
+    	});
+	} else if (this._cmd == 'modify') {
+    	this.doAction('/soc/gamUpdateSocApplyDetail.do', opts, function(module, result) {
+    		alert(result.resultMsg);
+    	});
 	}
 };
 
-GamSocApplyModule.prototype.removeApplyFeeItem = function() {
-	var rows = this.$("#socApplyFeeList").selectedRows();
+//비관리청 신청 삭제
+GamSocApplyModule.prototype.deleteData = function() { 
+	if(this._cmd == 'modify') {
+    	if(confirm('데이터를 삭제하시겠습니까?')) {
+    		var applyData = JSON.stringify(this.getFormValues("#gamSocApplyDetailForm"));
+        	var applyFacilList = JSON.stringify(this.$('#socApplyFacilList').flexGetData());
+        	var applyFeeList = JSON.stringify(this.$('#socApplyFeeList').flexGetData());
+        	
+        	var opts = [];
+        	
+        	opts[opts.length] = {name: 'applyData',value: applyData};
+        	opts[opts.length] = {name: 'applyFacilList',value: applyFacilList};
+        	opts[opts.length] = {name: 'applyFeeList',value: applyFeeList};
+        	this.doAction('/soc/gamDeleteSocApplyDetail.do', opts, function(module, result) {
+        		if(result.resultCode == 0) {
+        			module._cmd = '';
+        			module.initDisplay();
+        		}
+        		alert(result.resultMsg);
+        	});
+    	}
+	}
+	else {
+		alert('삭제할 데이터를 조회하세요.');
+	}	
+};
 
-    if(rows.length == 0){
-        alert("시설물목록에서 삭제할 행을 선택하십시오.");
-        return;
+/**
+ * 정의 된 버튼 클릭 시
+ */
+GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
+    switch(buttonId) {
+        case 'searchBtn':
+        	if(!validateGamSocApply(this.$('#gamSocApplySearchForm')[0])){ 		
+        		return;
+        	}
+        	this.loadData();
+            break;
+        case 'btnNew' : //등록버튼 처리시
+        	this._cmd = 'insert';
+        	this.initDisplay();
+        	break;
+        case 'btnSave' : //저장
+        	this.saveData();
+        	break;
+        case 'btnDelete' : //삭제
+        	this.deleteData();
+        	break;
+        case 'popupApplyEntrpsInfo' : //면제요청업체 선택
+			this.doExecuteDialog('selectApplyEntrpsInfo', '면제요청업체 선택', '/popup/showSocEntrpsInfo.do', {});
+        	break;
+        case 'popupEntrpsInfo' : //공사업체 선택
+			this.doExecuteDialog('selectEntrpsInfo', '공사업체 선택', '/popup/showSocEntrpsInfo.do', {});
+        	break;
+        case 'popupSocApplyInfo' : //면제요청 선택
+        	var opts = this.makeFormArgs('#gamSocApplySearchForm');
+			this.doExecuteDialog('selectApplyInfo', '면제요청 선택', '/popup/showSocApplyInfo.do', opts);
+        	break;
+        case 'popupSocAgentInfo' : //허가원부 선택
+			this.doExecuteDialog('selectAgentInfo', '허가원부 선택', '/popup/showSocAgentFInfo.do', {});
+        	break;
+        case 'btnAddApplyFacilItem' : //시설물 추가
+        	this.addApplyFacilItem();
+        	break;
+        case 'btnRemoveApplyFacilItem' : //시설물 삭제
+        	this.removeApplyFacilItem();
+        	break;
+        case 'btnAddApplyFeeItem' : //요금 추가
+        	this.addApplyFeeItem();
+        	break;
+        case 'btnRemoveApplyFeeItem' : //요금 삭제 
+        	this.removeApplyFeeItem();
+        	break;
     }
+};
 
-    if(this.$("#socApplyFeeList").selectedRowIds().length>0) {
-    	for(var i=this.$("#socApplyFeeList").selectedRowIds().length-1; i>=0; i--) {
-    		var row = this.$("#socApplyFeeList").flexGetRow(this.$("#socApplyFeeList").selectedRowIds()[i]);
-        	this.$("#socApplyFeeList").flexRemoveRow(this.$("#socApplyFeeList").selectedRowIds()[i]);
+//시설물 추가
+GamSocApplyModule.prototype.addApplyFacilItem = function() {
+	if((this._cmd == 'insert') || (this._cmd == 'modify')) {
+		var opts = [{ name: 'prtAtCode', value: this.$('#sPrtAtCode').val()}];
+		this.doExecuteDialog('selectFacInfo', '시설물 선택', '/popup/showSocFacCd.do', opts);        		
+	} else {
+		alert("등록이나 조회를 선택한 후에 사용하세요.");
+	}
+};
+
+//시설물 삭제
+GamSocApplyModule.prototype.removeApplyFacilItem = function() {
+	if((this._cmd == 'insert') || (this._cmd == 'modify')) {
+		var rows = this.$("#socApplyFacilList").selectedRows();
+	    if(rows.length == 0){
+	        alert("시설물목록에서 삭제할 행을 선택하십시오.");
+	        return;
+	    }
+	    if(this.$("#socApplyFacilList").selectedRowIds().length>0) {
+	    	for(var i=this.$("#socApplyFacilList").selectedRowIds().length-1; i>=0; i--) {
+	        	this.$("#socApplyFacilList").flexRemoveRow(this.$("#socApplyFacilList").selectedRowIds()[i]);
+			}
 		}
+	} else {
+		alert("등록이나 조회를 선택한 후에 사용하세요.");
+	}
+};
+
+//요금 추가
+GamSocApplyModule.prototype.addApplyFeeItem = function() {
+	if((this._cmd == 'insert') || (this._cmd == 'modify')) {
+		var opts = [{ name: 'prtAtCode', value: this.$('#sPrtAtCode').val()}];
+		this.doExecuteDialog('selectFeeInfo', '요금종류 선택', '/popup/showSocPayCd.do', opts);        		
+	} else {
+		alert("등록이나 조회를 선택한 후에 사용하세요.");
+	}
+};
+
+//요금 삭제
+GamSocApplyModule.prototype.removeApplyFeeItem = function() {
+	if((this._cmd == 'insert') || (this._cmd == 'modify')) {
+		var rows = this.$("#socApplyFeeList").selectedRows();
+	    if(rows.length == 0){
+	        alert("시설물목록에서 삭제할 행을 선택하십시오.");
+	        return;
+	    }
+	    if(this.$("#socApplyFeeList").selectedRowIds().length>0) {
+	    	for(var i=this.$("#socApplyFeeList").selectedRowIds().length-1; i>=0; i--) {
+	        	this.$("#socApplyFeeList").flexRemoveRow(this.$("#socApplyFeeList").selectedRowIds()[i]);
+			}
+		}
+	} else {
+		alert("등록이나 조회를 선택한 후에 사용하세요.");
 	}
 };
 
@@ -311,10 +311,6 @@ GamSocApplyModule.prototype.onTabChange = function(newTabId, oldTabId) {
     case 'tabs1':
         break;
     case 'tabs2':
-        if(oldTabId=='tabs1') {
-        	this._deleteDataList=[];    // 삭제 목록 초기화
-        	this._deleteDataFileList=[];    // 파일삭제 목록 초기화
-        }
         break;
     }
 };
@@ -445,7 +441,6 @@ var module_instance = new GamSocApplyModule();
 						<input type="hidden" id="appPrtAtCode" />
 						<input type="hidden" id="appAgentCode" />
 						<input type="hidden" id="useNo" />
-						<input type="hidden" id="cmd" />
     	               	<table class="detailForm"  style="width:100%;">
                             <tr>
                                 <th width="16%">보전처리신청금액</th>
@@ -523,24 +518,12 @@ var module_instance = new GamSocApplyModule();
                 <table id="socApplyList" style="display:none" class="fillHeight"></table>
                 <div class="emdControlPanel">
 					<form id="form1">
-						<!--
-    	               	<table style="width:100%;" class="summaryPanel">
-        	               	<tr>
-								<th width="12%" height="20">자료수</th>
-								<td><input type="text" size="15" id="totalResultCnt" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="12%" height="20">보전처리요청액</th>
-								<td><input type="text" size="32" id="totalExmpAmnt" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="12%" height="20">보전처리누계액</th>
-								<td><input type="text" size="32" id="totalExmpAcc" class="ygpaNumber" disabled="disabled" /></td>
-							</tr>
-						</table>
-						-->
     	               	<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
 	                            	<button id="btnNew">추가</button>
 	                                <button id="btnSave">저장</button>
-	                                <button id="btnRemove">삭제</button>
+	                                <button id="btnDelete">삭제</button>
 	                            </td>
 	                        </tr>
 						</table>
@@ -582,14 +565,6 @@ var module_instance = new GamSocApplyModule();
 								</td>
 							</tr>
 						</table>
-						<!--
-						<table style="width:100%;">
-	                        <tr>
-	                            <td style="text-align: right;padding-right:15px;">
-	                                <button id="btnSaveDetailItem">저장</button>
-	                            </td>
-	                        </tr>
-						</table>-->
                     </form>
             </div>
         </div>

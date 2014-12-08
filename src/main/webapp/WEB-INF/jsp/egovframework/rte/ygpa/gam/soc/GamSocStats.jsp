@@ -256,13 +256,6 @@ var module_instance = new GamSocStatsModule();
         	                    </td>
 							</tr>
 						</table>
-						<!-- <table style="width:100%;">
-	                        <tr>
-	                            <td style="text-align: right">
-	                                <button id="btnPopupSaveSocAgent">행추가/삭제</button>
-	                            </td>
-	                        </tr>
-						</table> -->
 					</form>
                 </div>
             </div>

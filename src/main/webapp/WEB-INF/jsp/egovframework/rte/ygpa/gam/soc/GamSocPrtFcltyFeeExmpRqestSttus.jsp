@@ -65,34 +65,6 @@ GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.loadComplete = function() {
             return data;
         }
     });
-    
-    this.$("#socApplyDtlsList").on('onItemSelected', function(event, module, row, grid, param) {
-    });
-    /*
-    this.$("#socApplyFacilList").on('onItemSelected', function(event, module, row, grid, param) {
-    });
-    this.$("#socApplyFeeList").on('onItemSelected', function(event, module, row, grid, param) {
-    });
-	*/
-};
-
-/**
- * 정의 된 버튼 클릭 시
- */
-GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.onButtonClick = function(buttonId) {
-	var opts = null;
-    switch(buttonId) {
-        case 'searchBtn':
-        	if(!validateGamSocPrtFcltyFeeExmpRqestSttus(this.$('#gamSocPrtFcltyFeeExmpRqestSttusSearchForm')[0])){ 		
-        		return;
-        	}
-        	opts = this.makeFormArgs('#gamSocPrtFcltyFeeExmpRqestSttusSearchForm');
-        	this.$("#socPrtFcltyFeeExmpRqestSttusList").flexOptions({params:opts}).flexReload();
-            break;
-        case 'popupEntrpsInfo' : //업체코드버튼
-			this.doExecuteDialog('selectEntrpsInfo', '업체 선택', '/popup/showSocEntrpsInfo.do', {});
-        	break;
-    }
 };
 
 GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.onSubmit = function() {
@@ -100,9 +72,25 @@ GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.onSubmit = function() {
 };
 
 GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.loadData = function() {
-    this.$("#socPrtFcltyFeeExmpRqestSttusListTab").tabs("option", {active: 0});
     var searchOpt=this.makeFormArgs('#gamSocPrtFcltyFeeExmpRqestSttusSearchForm');
     this.$('#socPrtFcltyFeeExmpRqestSttusList').flexOptions({params:searchOpt}).flexReload();
+};
+
+/**
+ * 정의 된 버튼 클릭 시
+ */
+GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.onButtonClick = function(buttonId) {
+    switch(buttonId) {
+        case 'searchBtn':
+        	if(!validateGamSocPrtFcltyFeeExmpRqestSttus(this.$('#gamSocPrtFcltyFeeExmpRqestSttusSearchForm')[0])){ 		
+        		return;
+        	}
+        	this.loadData();
+            break;
+        case 'popupEntrpsInfo' : //업체코드버튼
+			this.doExecuteDialog('selectEntrpsInfo', '업체 선택', '/popup/showSocEntrpsInfo.do', {});
+        	break;
+    }
 };
 
 GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.onTabChange = function(newTabId, oldTabId) {
