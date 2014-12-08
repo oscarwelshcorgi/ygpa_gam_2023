@@ -43,7 +43,7 @@ public interface GamMngFeeCodeMngService {
 	List selectMngFeeFcltySeMngList(Map searchVO) throws Exception;
 
 	/**
-	 * @param searchVO
+	 * @param gamMngFeeCodeMngVo
 	 * @return
 	 */
 	String selectMngFeeCodeMngMaxFcltyCd(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) throws Exception;

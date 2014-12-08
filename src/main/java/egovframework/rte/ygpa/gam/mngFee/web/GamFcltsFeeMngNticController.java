@@ -76,7 +76,7 @@ public class GamFcltsFeeMngNticController {
 	@RequestMapping(value="/mngFee/gamFcltsFeeMngNtic.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
-		///login정보
+		// login정보
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		int year = Integer.parseInt(EgovDateUtil.getToday().substring(0,4));
 		List yearList = new ArrayList();
@@ -101,7 +101,6 @@ public class GamFcltsFeeMngNticController {
 	@RequestMapping(value="/mngFee/gamSelectFcltsFeeMngNtic.do" , method=RequestMethod.POST)
 	@ResponseBody Map gamSelectFcltsFeeMngNticList(GamFcltsFeeMngNticVo searchVO) throws Exception {
 
-		int page, firstIndex;
 		Map map = new HashMap();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -173,7 +172,6 @@ public class GamFcltsFeeMngNticController {
 	@RequestMapping(value="/mngFee/gamSelectFcltsFeeMngNticDetail.do", method=RequestMethod.POST)
 	public @ResponseBody Map gamSelectFcltsMngFeeMngDetailList(GamFcltsFeeMngNticDetailVo searchVO) throws Exception {
 
-		int page, firstIndex;
 		Map map = new HashMap();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -199,6 +197,28 @@ public class GamFcltsFeeMngNticController {
 		map.put("resultCode", 0);
 		map.put("resultList", resultList);
 		map.put("searchOption", searchVO);
+
+		return map;
+
+	}
+
+	@RequestMapping(value="/mngFee/gamFcltsFeeMngNticMaxReqestSeq.do" , method=RequestMethod.POST)
+	@ResponseBody Map selectFcltsFeeMngNticMaxReqestSeq(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception {
+
+		String sMaxReqestSeq;
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		sMaxReqestSeq = gamFcltsFeeMngNticService.selectFcltsFeeMngNticMaxReqestSeq(gamFcltsFeeMngNticVo);
+
+		map.put("resultCode", 0);
+		map.put("sMaxReqestSeq", sMaxReqestSeq);
 
 		return map;
 
@@ -240,9 +260,10 @@ public class GamFcltsFeeMngNticController {
 
 		try {
 			gamFcltsFeeMngNticVo.setRegUsr((String)user.getId());
+			gamFcltsFeeMngNticVo.setDeptCd((String)user.getDeptCd());
 			gamFcltsFeeMngNticService.insertFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -270,9 +291,10 @@ public class GamFcltsFeeMngNticController {
 
 		try {
 			gamFcltsFeeMngNticVo.setUpdUsr((String)user.getId());
+			gamFcltsFeeMngNticVo.setDeptCd((String)user.getDeptCd());
 			gamFcltsFeeMngNticService.updateFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -301,7 +323,7 @@ public class GamFcltsFeeMngNticController {
 		try {
 			gamFcltsFeeMngNticService.deleteFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -333,7 +355,7 @@ public class GamFcltsFeeMngNticController {
 			processVo.put("userName", (String)user.getName());
 			gamFcltsFeeMngNticService.processFcltsFeeMngNticIssue(processVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -365,7 +387,7 @@ public class GamFcltsFeeMngNticController {
 			cancelVo.put("userName", (String)user.getName());
 			gamFcltsFeeMngNticService.cancelFcltsFeeMngNticIssue(cancelVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {
 			// TODO: handle exception

@@ -80,10 +80,10 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 	private String	rcvdTp;				//세입징수 수납 구분
 	private	String	userName;			//등록자명
 
-	private String	dataCount;
-	private String	sumFee;
-	private String	sumVat;
-	private String	sumNticAmt;
+	private String	dataCount;			//자료수
+	private String	sumFee;				//총사용료
+	private String	sumVat;				//총부가세
+	private String	sumNticAmt;			//총고지금액
 
 	private	String	sStartMngYear;		//검색 시작 관리 년도
 	private	String	sStartMngMt;		//검색 시작 관리 월
@@ -180,7 +180,6 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 	public void setEntrpsNm(String entrpsNm) {
 		this.entrpsNm = entrpsNm;
 	}
-
 	/**
 	 * @return the usageAr
 	 */

@@ -12,6 +12,7 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticDetailVo;
+import egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeCodeMngVo;
 
 /**
  *
@@ -70,6 +71,14 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	 */
 	public List selectFcltsFeeMngNticPrintNoticeIssueList(Map searchVO) {
 		return list("gamFcltsFeeMngNticDao.selectFcltsFeeMngNticPrintNoticeIssueList_D", searchVO);
+	}
+
+	/**
+	 * @param gamFcltsFeeMngNticVo
+	 * @return
+	 */
+	public String selectFcltsFeeMngNticMaxReqestSeq(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) {
+		return (String)getSqlMapClientTemplate().queryForObject("gamFcltsFeeMngNticDao.selectFcltsFeeMngNticMaxReqestSeq_S", gamFcltsFeeMngNticVo);
 	}
 
 	/**

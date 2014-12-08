@@ -16,6 +16,7 @@ import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticDetailVo;
+import egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeCodeMngVo;
 
 /**
  *
@@ -57,6 +58,11 @@ public class GamFcltsFeeMngNticServiceImpl extends AbstractServiceImpl implement
 	@Override
 	public List selectFcltsFeeMngNticPrintNoticeIssueList(Map searchVO) throws Exception {
 		return gamFcltsFeeMngNticDao.selectFcltsFeeMngNticPrintNoticeIssueList(searchVO);
+	}
+
+	@Override
+	public String selectFcltsFeeMngNticMaxReqestSeq(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception {
+		return gamFcltsFeeMngNticDao.selectFcltsFeeMngNticMaxReqestSeq(gamFcltsFeeMngNticVo);
 	}
 
 	@Override

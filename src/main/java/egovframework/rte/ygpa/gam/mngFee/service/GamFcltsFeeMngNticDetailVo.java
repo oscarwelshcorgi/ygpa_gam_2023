@@ -51,6 +51,7 @@ public class GamFcltsFeeMngNticDetailVo extends ComDefaultVO {
 	private String	nhtIsueYn;			//고지 여부
 	private String	nhtPrintYn;			//출력 여부
 	private String	aditNticYn;			//추가 고지 여부
+	private String	nticMth;			//고지 방법
 	private String	arrrgNo;			//연체 번호
 	private String	arrrgAmt;			//연체 금액
 	private String	arrrgTariff;		//연체 요율
@@ -349,6 +350,18 @@ public class GamFcltsFeeMngNticDetailVo extends ComDefaultVO {
 	 */
 	public void setAditNticYn(String aditNticYn) {
 		this.aditNticYn = aditNticYn;
+	}
+	/**
+	 * @return the nticMth
+	 */
+	public String getNticMth() {
+		return nticMth;
+	}
+	/**
+	 * @param nticMth the nticMth to set
+	 */
+	public void NticMth(String nticMth) {
+		this.nticMth = nticMth;
 	}
 	/**
 	 * @return the arrrgNo

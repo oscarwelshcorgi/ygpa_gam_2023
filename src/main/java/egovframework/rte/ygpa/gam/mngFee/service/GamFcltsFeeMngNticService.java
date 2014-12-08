@@ -51,6 +51,12 @@ public interface GamFcltsFeeMngNticService {
 
 	/**
 	 * @param gamFcltsFeeMngNticVo
+	 * @return
+	 */
+	String selectFcltsFeeMngNticMaxReqestSeq(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception;
+
+	/**
+	 * @param gamFcltsFeeMngNticVo
 	 */
 	void insertFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception;
 
