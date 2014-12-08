@@ -41,7 +41,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약정보목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtMngList(GamFcltyCtrtMngVO searchVO) {
+	public List selectFcltyCtrtMngList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtMngList(searchVO);
 	}
 	
@@ -51,7 +51,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약정보목록 통계정보 VO
 	 * @exception Exception
 	 */
-	public GamFcltyCtrtMngVO selectFcltyCtrtMngSum(GamFcltyCtrtMngVO searchVO) {
+	public GamFcltyCtrtMngVO selectFcltyCtrtMngSum(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtMngSum(searchVO);
 	}
 	
@@ -61,7 +61,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약정보 VO
 	 * @exception Exception
 	 */
-	public GamFcltyCtrtMngVO selectFcltyCtrtInfoDetail(GamFcltyCtrtMngVO searchVO) {
+	public GamFcltyCtrtMngVO selectFcltyCtrtInfoDetail(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtInfoDetail(searchVO);
 	}
 	
@@ -71,7 +71,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void insertFcltyCtrtInfoDetail(Map insertMap) {
+	public void insertFcltyCtrtInfoDetail(Map insertMap) throws Exception {
 		gamFcltyCtrtMngDao.insertFcltyCtrtInfoDetail(insertMap);
 	}
 	
@@ -81,7 +81,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void updateFcltyCtrtInfoDetail(Map updateMap) {
+	public void updateFcltyCtrtInfoDetail(Map updateMap) throws Exception {
 		gamFcltyCtrtMngDao.updateFcltyCtrtInfoDetail(updateMap);
 	}
 
@@ -91,7 +91,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtInfoDetail(Map deleteMap) {
+	public void deleteFcltyCtrtInfoDetail(Map deleteMap) throws Exception {
 		gamFcltyCtrtMngDao.deleteFcltyCtrtInfoDetail(deleteMap);
 	}
 	
@@ -102,7 +102,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약공동도급 목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtJoinContrList(GamFcltyCtrtMngVO searchVO) {
+	public List selectFcltyCtrtJoinContrList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrList(searchVO);
 	}
 	
@@ -112,7 +112,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약공동도급 목록 총개수
 	 * @exception Exception
 	 */
-	public int selectFcltyCtrtJoinContrListCnt(GamFcltyCtrtMngVO searchVO) {
+	public int selectFcltyCtrtJoinContrListCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrListCnt(searchVO);
 	}
 	
@@ -123,8 +123,18 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void insertFcltyCtrtJoinContrDetail(Map insertMap) {
+	public void insertFcltyCtrtJoinContrDetail(Map insertMap) throws Exception {
 		gamFcltyCtrtMngDao.insertFcltyCtrtJoinContrDetail(insertMap);
+	}
+
+	/**
+	 * 계약공동도급정보를 병합저장한다.
+	 * @param map - 병합저장할 정보가 담긴 Map
+	 * @return 
+	 * @exception Exception
+	 */
+	public void mergeFcltyCtrtJoinContrDetail(Map map) throws Exception {
+		gamFcltyCtrtMngDao.mergeFcltyCtrtJoinContrDetail(map);
 	}
 	
 	/**
@@ -133,7 +143,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtJoinContrAll(Map deleteMap) {
+	public void deleteFcltyCtrtJoinContrAll(Map deleteMap) throws Exception {
 		gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrAll(deleteMap);
 	}
 
@@ -144,7 +154,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약하도급 목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtSubCtrtList(GamFcltyCtrtMngVO searchVO) {
+	public List selectFcltyCtrtSubCtrtList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtList(searchVO);
 	}
 	
@@ -154,7 +164,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약하도급 목록 총개수
 	 * @exception Exception
 	 */
-	public int selectFcltyCtrtSubCtrtListCnt(GamFcltyCtrtMngVO searchVO) {
+	public int selectFcltyCtrtSubCtrtListCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtListCnt(searchVO);
 	}
 	
@@ -165,8 +175,18 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void insertFcltyCtrtSubCtrtDetail(Map insertMap) {
+	public void insertFcltyCtrtSubCtrtDetail(Map insertMap) throws Exception {
 		gamFcltyCtrtMngDao.insertFcltyCtrtSubCtrtDetail(insertMap);
+	}
+	
+	/**
+	 * 계약하도급정보를 병합저장한다.
+	 * @param map - 병합저장할 정보가 담긴 Map
+	 * @return 
+	 * @exception Exception
+	 */
+	public void mergeFcltyCtrtSubCtrtDetail(Map map) throws Exception {
+		gamFcltyCtrtMngDao.mergeFcltyCtrtSubCtrtDetail(map);
 	}
 	
 	/**
@@ -175,7 +195,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtSubCtrtAll(Map deleteMap) {
+	public void deleteFcltyCtrtSubCtrtAll(Map deleteMap) throws Exception {
 		gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtAll(deleteMap);
 	}
 
@@ -185,7 +205,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약변경 목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtChangeList(GamFcltyCtrtMngVO searchVO) {
+	public List selectFcltyCtrtChangeList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtChangeList(searchVO);
 	}
 	
@@ -195,7 +215,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약변경 목록 총개수
 	 * @exception Exception
 	 */
-	public int selectFcltyCtrtChangeListCnt(GamFcltyCtrtMngVO searchVO) {
+	public int selectFcltyCtrtChangeListCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtChangeListCnt(searchVO);
 	}
 	
@@ -206,8 +226,18 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void insertFcltyCtrtChangeDetail(Map insertMap) {
+	public void insertFcltyCtrtChangeDetail(Map insertMap) throws Exception {
 		gamFcltyCtrtMngDao.insertFcltyCtrtChangeDetail(insertMap);
+	}
+
+	/**
+	 * 계약변경정보를 병합저장한다.
+	 * @param map - 병합저장할 정보가 담긴 Map
+	 * @return 
+	 * @exception Exception
+	 */
+	public void mergeFcltyCtrtChangeDetail(Map map) throws Exception {
+		gamFcltyCtrtMngDao.mergeFcltyCtrtChangeDetail(map);
 	}
 	
 	/**
@@ -216,7 +246,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtChangeAll(Map deleteMap) {
+	public void deleteFcltyCtrtChangeAll(Map deleteMap) throws Exception {
 		gamFcltyCtrtMngDao.deleteFcltyCtrtChangeAll(deleteMap);
 	}
 	
@@ -227,7 +257,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약대금지급 목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtMoneyPymntList(GamFcltyCtrtMngVO searchVO) {
+	public List selectFcltyCtrtMoneyPymntList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntList(searchVO);
 	}
 	
@@ -237,7 +267,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약대금지급 목록 총개수
 	 * @exception Exception
 	 */
-	public int selectFcltyCtrtMoneyPymntListCnt(GamFcltyCtrtMngVO searchVO) {
+	public int selectFcltyCtrtMoneyPymntListCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntListCnt(searchVO);
 	}
 	
@@ -248,17 +278,27 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void insertFcltyCtrtMoneyPymntDetail(Map insertMap) {
+	public void insertFcltyCtrtMoneyPymntDetail(Map insertMap) throws Exception {
 		gamFcltyCtrtMngDao.insertFcltyCtrtMoneyPymntDetail(insertMap);
 	}
 	
+	/**
+	 * 계약대금지급정보를 병합저장한다.
+	 * @param map - 병합저장할 정보가 담긴 Map
+	 * @return 
+	 * @exception Exception
+	 */
+	public void mergeFcltyCtrtMoneyPymntDetail(Map map) throws Exception {
+		gamFcltyCtrtMngDao.mergeFcltyCtrtMoneyPymntDetail(map);
+	}
+
 	/**
 	 * 계약번호에 해당하는 계약대금지급정보를 삭제한다.
 	 * @param deleteMap - 삭제할 정보가 담긴 Map
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtMoneyPymntAll(Map deleteMap) {
+	public void deleteFcltyCtrtMoneyPymntAll(Map deleteMap) throws Exception {
 		gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntAll(deleteMap);
 	}
 	
@@ -268,7 +308,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약이행이월 목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtFulFillCaryFwdList(GamFcltyCtrtMngVO searchVO) {
+	public List selectFcltyCtrtFulFillCaryFwdList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdList(searchVO);
 	}
 	
@@ -278,7 +318,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약이행이월 목록 총개수
 	 * @exception Exception
 	 */
-	public int selectFcltyCtrtFulFillCaryFwdListCnt(GamFcltyCtrtMngVO searchVO) {
+	public int selectFcltyCtrtFulFillCaryFwdListCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdListCnt(searchVO);
 	}
 	
@@ -289,8 +329,18 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void insertFcltyCtrtFulFillCaryFwdDetail(Map insertMap) {
+	public void insertFcltyCtrtFulFillCaryFwdDetail(Map insertMap) throws Exception {
 		gamFcltyCtrtMngDao.insertFcltyCtrtFulFillCaryFwdDetail(insertMap);
+	}
+
+	/**
+	 * 계약이행이월정보를 병합저장한다.
+	 * @param map - 병합저장할 정보가 담긴 Map
+	 * @return 
+	 * @exception Exception
+	 */
+	public void mergeFcltyCtrtFulFillCaryFwdDetail(Map map) throws Exception {
+		gamFcltyCtrtMngDao.mergeFcltyCtrtFulFillCaryFwdDetail(map);
 	}
 	
 	/**
@@ -299,7 +349,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtFulFillCaryFwdAll(Map deleteMap) {
+	public void deleteFcltyCtrtFulFillCaryFwdAll(Map deleteMap) throws Exception {
 		gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdAll(deleteMap);
 	}
 	

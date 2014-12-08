@@ -37,7 +37,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 	//계약관리리스트
     this.$("#fcltyCtrtMngList").flexigrid({
         module: this,
-        url: '/ctrt/gamSelectFcltyCtrtMngList.do',
+        url: '/ctrt/selectFcltyCtrtMngList.do',
         dataType: 'json',
         colModel : [
 					{display:'계약번호', 		name:'ctrtNo',				width:120, 		sortable:false,		align:'center'},
@@ -82,7 +82,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 	//계약공용도급 리스트
     this.$("#fcltyCtrtJoinContrList").flexigrid({
         module: this,
-        url: '/ctrt/gamSelectFcltyCtrtJoinContrList.do',
+        url: '/ctrt/selectFcltyCtrtJoinContrList.do',
         dataType: 'json',
         colModel : [
                     {display:'업체명', name:'entrpsNm',width:120, sortable:false,align:'center'},
@@ -109,7 +109,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
     //계약하도급 리스트
     this.$("#fcltyCtrtSubCtrtList").flexigrid({
         module: this,
-        url: '/ctrt/gamSelectFcltyCtrtSubCtrtList.do',
+        url: '/ctrt/selectFcltyCtrtSubCtrtList.do',
         dataType: 'json',
         colModel : [
                     {display:'업체명', name:'entrpsNm', width:150, sortable:true, align:'center'},
@@ -128,7 +128,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
     //계약변경 리스트
     this.$("#fcltyCtrtChangeList").flexigrid({
         module: this,
-        url: '/ctrt/gamSelectFcltyCtrtChangeList.do',
+        url: '/ctrt/selectFcltyCtrtChangeList.do',
         dataType: 'json',
         colModel : [
                     {display:'변경일자', name:'changeDt', width:80, sortable:true, align:'center'},
@@ -146,7 +146,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
     //계약대금지급 리스트
     this.$("#fcltyCtrtMoneyPymntList").flexigrid({
         module: this,
-        url: '/ctrt/gamSelectFcltyCtrtMoneyPymntList.do',
+        url: '/ctrt/selectFcltyCtrtMoneyPymntList.do',
         dataType: 'json',
         colModel : [
                     {display:'지급분류', name:'pymntCl', width:80, sortable:true, align:'center'},
@@ -164,7 +164,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
     //계약이행이월 리스트
     this.$("#fcltyCtrtFulFillCaryFwdList").flexigrid({
         module: this,
-        url: '/ctrt/gamSelectFcltyCtrtFulFillCaryFwdList.do',
+        url: '/ctrt/selectFcltyCtrtFulFillCaryFwdList.do',
         dataType: 'json',
         colModel : [
                     {display:'이행이월년도', name:'fulfillCaryFwdYear', width:100, sortable:true, align:'left'},
@@ -193,7 +193,7 @@ GamFcltyCtrtMngModule.prototype.loadDetailData = function() {
 	if(selectRows.length > 0) {
 		var row = selectRows[0];
 		var opts = [{ name: 'sCtrtNo', value: row['ctrtNo']}];
-		this.doAction('/ctrt/gamSelectFcltyCtrtInfoDetailInquire.do', opts, function(module, result) {
+		this.doAction('/ctrt/selectFcltyCtrtInfoDetailInquire.do', opts, function(module, result) {
 			if(result.resultCode == 0) {
 				module.$('#gamFcltyCtrtMngDetailForm :input').val('');
 				module.makeFormValues('#gamFcltyCtrtMngDetailForm', result.resultVO);
@@ -253,7 +253,7 @@ GamFcltyCtrtMngModule.prototype.mergeData = function() {
 //계약정보 데이터 삽입
 GamFcltyCtrtMngModule.prototype.insertData = function() {
 	var data = this.mergeData();
-	this.doAction('/ctrt/gamInsertFcltyCtrtInfo.do', data, function(module, result) {
+	this.doAction('/ctrt/insertFcltyCtrtInfo.do', data, function(module, result) {
 		if(result.resultCode == 0) {
 			module._cmd = 'modify';
 			module.$('#ctrtNo').disable();
@@ -266,7 +266,7 @@ GamFcltyCtrtMngModule.prototype.insertData = function() {
 //계약정보 데이터 수정
 GamFcltyCtrtMngModule.prototype.updateData = function() {
 	var data = this.mergeData();
-	this.doAction('/ctrt/gamUpdateFcltyCtrtInfo.do', data, function(module, result) {
+	this.doAction('/ctrt/updateFcltyCtrtInfo.do', data, function(module, result) {
 		if(result.resultCode == 0) {
 			module.loadData();
 		}
@@ -297,7 +297,7 @@ GamFcltyCtrtMngModule.prototype.deleteData = function() {
 		}
 		var row = rows[0];
 		var opts = [{name: 'ctrtNo', value: row['ctrtNo'] }];
-	 	this.doAction('/ctrt/gamDeleteFcltyCtrtInfo.do', opts, function(module, result) {
+	 	this.doAction('/ctrt/deleteFcltyCtrtInfo.do', opts, function(module, result) {
 	 		if(result.resultCode == "0") {
 				module._cmd = "";
 				module.initDisplay();

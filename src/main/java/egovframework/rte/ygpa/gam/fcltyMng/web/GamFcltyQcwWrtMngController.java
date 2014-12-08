@@ -5,7 +5,6 @@ package egovframework.rte.ygpa.gam.fcltyMng.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -72,7 +71,7 @@ public class GamFcltyQcwWrtMngController {
      * @throws Exception
      */
 	@RequestMapping(value="/fcltyMng/gamFcltyQcwWrtMng.do")
-    String indexCivilFcltySpecMng(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+    String indexFcltyQcwWrtMng(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/fcltyMng/GamFcltyQcwWrtMng";
     }

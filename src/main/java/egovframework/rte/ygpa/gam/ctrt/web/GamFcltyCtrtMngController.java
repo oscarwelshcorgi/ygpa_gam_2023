@@ -3,7 +3,6 @@
  */
 package egovframework.rte.ygpa.gam.ctrt.web;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,16 +23,13 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import egovframework.com.cmm.ComDefaultVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngService;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngVO;
-import egovframework.rte.ygpa.gam.fclty.service.GamFcltyMngtService;
 
 /**
  *
@@ -72,19 +68,16 @@ public class GamFcltyCtrtMngController {
     
 	@RequestMapping(value="/ctrt/gamFcltyCtrtMng.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-
     	model.addAttribute("windowId", windowId);
-
     	return "/ygpa/gam/ctrt/GamFcltyCtrtMng";
     }
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtMngList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/ctrt/selectFcltyCtrtMngList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtMngList(GamFcltyCtrtMngVO searchVO) throws Exception {
-		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		long sumPlanAmt, sumPrmtAmt, sumScsbidAmt, sumBaseAmt;
-    	Map map = new HashMap();
+    	Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -114,7 +107,6 @@ public class GamFcltyCtrtMngController {
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-        
  
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
@@ -128,10 +120,10 @@ public class GamFcltyCtrtMngController {
     	return map;
     }
 
-	@RequestMapping(value="/ctrt/gamSelectFcltyCtrtInfoDetailInquire.do")
-	@ResponseBody Map selectFcltyCtrtInfoDetailInquire( @ModelAttribute("gamFcltyCtrtMngVO") GamFcltyCtrtMngVO gamFcltyCtrtMngVO, BindingResult bindingResult)
+	@RequestMapping(value="/ctrt/selectFcltyCtrtInfoDetailInquire.do")
+	@ResponseBody Map<String, Object> selectFcltyCtrtInfoDetailInquire( @ModelAttribute("gamFcltyCtrtMngVO") GamFcltyCtrtMngVO gamFcltyCtrtMngVO, BindingResult bindingResult)
 			throws Exception {
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -141,7 +133,6 @@ public class GamFcltyCtrtMngController {
     	}
 		
     	GamFcltyCtrtMngVO resultVO = gamFcltyCtrtMngService.selectFcltyCtrtInfoDetail(gamFcltyCtrtMngVO);
-		
 		if(resultVO == null) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
@@ -154,11 +145,10 @@ public class GamFcltyCtrtMngController {
     }
     
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtJoinContrList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/ctrt/selectFcltyCtrtJoinContrList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtJoinContrList(GamFcltyCtrtMngVO searchVO) throws Exception {
-		
-		int totalCnt, page, firstIndex;
-    	Map map = new HashMap();
+		int totalCnt;
+    	Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -193,7 +183,7 @@ public class GamFcltyCtrtMngController {
     }
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtSubCtrtList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/ctrt/selectFcltyCtrtSubCtrtList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtSubCtrtList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		
 		int totalCnt, page, firstIndex;
@@ -231,7 +221,7 @@ public class GamFcltyCtrtMngController {
     }
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtChangeList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/ctrt/selectFcltyCtrtChangeList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtChangeList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		
 		int totalCnt, page, firstIndex;
@@ -271,7 +261,7 @@ public class GamFcltyCtrtMngController {
 
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtMoneyPymntList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/ctrt/selectFcltyCtrtMoneyPymntList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtMoneyPymntList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		
 		int totalCnt, page, firstIndex;
@@ -309,7 +299,7 @@ public class GamFcltyCtrtMngController {
     }
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtFulFillCaryFwdList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/ctrt/selectFcltyCtrtFulFillCaryFwdList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtFulFillCaryFwdList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		
 		int totalCnt, page, firstIndex;
@@ -346,7 +336,7 @@ public class GamFcltyCtrtMngController {
     	return map;
     }
 	
-    @RequestMapping(value="/ctrt/gamInsertFcltyCtrtInfo.do")
+    @RequestMapping(value="/ctrt/insertFcltyCtrtInfo.do")
 	@ResponseBody Map insertFcltyCtrtInfo(@RequestParam Map ctrtInfoData) throws Exception {
     	Map map = new HashMap();
 
@@ -432,7 +422,7 @@ public class GamFcltyCtrtMngController {
     	return map;
     }	
 
-    @RequestMapping(value="/ctrt/gamUpdateFcltyCtrtInfo.do")
+    @RequestMapping(value="/ctrt/updateFcltyCtrtInfo.do")
 	@ResponseBody Map updateFcltyCtrtInfo(@RequestParam Map ctrtInfoData) throws Exception {
     	Map map = new HashMap();
 
@@ -526,7 +516,7 @@ public class GamFcltyCtrtMngController {
     	return map;
     }	
 
-    @RequestMapping(value="/ctrt/gamDeleteFcltyCtrtInfo.do")
+    @RequestMapping(value="/ctrt/deleteFcltyCtrtInfo.do")
 	@ResponseBody Map deleteFcltyCtrtInfo(@RequestParam Map deleteMap) throws Exception {
     	Map map = new HashMap();
 

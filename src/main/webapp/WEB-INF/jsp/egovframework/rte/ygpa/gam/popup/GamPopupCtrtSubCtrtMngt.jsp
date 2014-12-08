@@ -209,7 +209,7 @@ var popup_instance = new GamPopupCtrtSubCtrtMngtModule();
 					</tr>
 					<tr>
                     	<th>하도급율</th>
-                        <td><input id="subctrtRate" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <td><input id="subctrtRate" type="text" style="width: 150px;" class="EditItem ygpaNumber" data-decimal-point="5"/></td>
                         <th>원도급금액</th>
                         <td><input id="orginlContrAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
 						<th>하도급계약금액</th>
