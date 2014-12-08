@@ -110,27 +110,6 @@ GamSocShipProcessRealloadModule.prototype.loadComplete = function() {
  GamSocShipProcessRealloadModule.prototype.onButtonClick = function(buttonId) {
 
     switch(buttonId) {
-
-        // 조회
-        case 'searchBtn':
-        	if(!validateGamSocShipProcessRealload(this.$('#gamSocShipProcessRealloadSearchForm')[0])){ 		
-        		return;
-        	}
-        	
-			this.loadData();
-			
-			var detailInput = [
-		   		   				{name: 'sPrtAtCode', value: ''},
-		   		   				{name: 'sFrDt', value: ''},
-		   		   				{name: 'sToDt', value: ''},
-		   		   				{name: 'sExmpAgentCode', value: ''},
-		   		   				{name: 'sVsslKey', value: ''},
-		   		   				{name: 'feeTp', value: ''}
-		   		                   ]; 
-			this.$('#socShipProcessRealloadDetail').flexOptions({params:detailInput}).flexReload();
-
-            break;
-
         case 'popupVsslCd' : //호출부호조회
         	var opts;
         	this.doExecuteDialog('selectVsslCd', '선박 선택','/popup/showSocVsslCd.do', opts);
@@ -140,12 +119,17 @@ GamSocShipProcessRealloadModule.prototype.loadComplete = function() {
         	var opts;
 			this.doExecuteDialog('selectAgentInfo', '면제업체 선택', '/popup/showSocAgentFInfo.do', opts);
         	break;
-
     }
 };
 
 
 GamSocShipProcessRealloadModule.prototype.onSubmit = function() {
+	if(!validateGamSocShipProcessRealload(this.$('#gamSocShipProcessRealloadSearchForm')[0])){ 		
+		return;
+	}
+	
+	// 그리드 초기화
+	this.$('#socShipProcessRealloadDetail').flexEmptyData();
     this.loadData();
 };
 
@@ -211,7 +195,7 @@ var module_instance = new GamSocShipProcessRealloadModule();
                                 <input id="sFrDt" type="text" class="emdcal" size="15"> ~ 
                                 <input id="sToDt" type="text" class="emdcal" size="15">
                             </td>
-                            <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
+                            <td rowspan="2"><button class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>                            
                             <th>업체코드</th>

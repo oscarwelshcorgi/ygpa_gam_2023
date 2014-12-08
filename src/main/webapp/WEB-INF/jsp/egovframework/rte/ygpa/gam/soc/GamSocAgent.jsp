@@ -100,100 +100,103 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
 };
 
 
+GamSocAgentMngtModule.prototype.makeRegiFormat = function() {
+	
+	this.makeFormValues('#gamSocAgentMngtSearchForm',{});
+    this.makeFormValues('#form1',{});
+    this.makeFormValues('#form2',{});
+    this.makeFormValues('#gamSocAgentForm',{});
+    
+    this.loadData();
+    
+    this.$("#cmd").val("insert");
+
+};
+
+
+GamSocAgentMngtModule.prototype.saveItem = function() {
+	
+	if(!validateGamSocAgentDetail(this.$('#form1')[0])){ 		
+		return;
+	}
+
+	var inputVO = [];
+	
+	var all_rows = JSON.stringify(this.$('#socAgentMngtList').flexGetData());
+	var updateData = JSON.stringify(this.getFormValues("#form1"));
+	var updateData1 = JSON.stringify(this.getFormValues("#gamSocAgentForm"));
+	
+	inputVO[inputVO.length] = {name: 'updateList',value: all_rows};
+	inputVO[inputVO.length] = {name: 'updateData',value: updateData};
+	inputVO[inputVO.length] = {name: 'updateData1',value: updateData1};
+	
+	if(this.$("#cmd").val() == "insert") {
+	 	this.doAction('/soc/gamInsertSocAgentList.do', inputVO, function(module, result) {
+	 		if(result.resultCode == "0"){
+	 			var searchOpt = module.makeFormArgs("#gamSocAgentMngtSearchForm");
+				module.$("#socAgentMngtList").flexOptions({params:searchOpt}).flexReload();
+				module.$("#socAgentListTab").tabs("option", {active: 0});
+	 		}
+	 		alert(result.resultMsg);
+	 	});
+	}else{
+	 	this.doAction('/soc/gamUpdateSocAgentList.do', inputVO, function(module, result) {
+	 		if(result.resultCode == "0"){
+	 			var searchOpt = module.makeFormArgs("#gamSocAgentMngtSearchForm");
+				module.$("#socAgentMngtList").flexOptions({params:searchOpt}).flexReload();
+				module.$("#socAgentListTab").tabs("option", {active: 0});
+	 		}
+	 		alert(result.resultMsg);
+	 	});
+	}
+
+};
+
+
+GamSocAgentMngtModule.prototype.removeItem = function() {
+	
+	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){ 		
+		return;
+	}
+	
+	var inputVO = [];
+	var searchData = JSON.stringify(this.getFormValues("#form1"));
+
+	inputVO[inputVO.length] = {name: 'searchData',value: searchData};
+	this.doAction('/soc/gamDeleteSocAgentList.do', inputVO, function(module, result) {
+ 		if(result.resultCode == "0"){
+ 			var searchOpt = module.makeFormArgs("#gamSocAgentMngtSearchForm");
+			module.$("#socAgentMngtList").flexOptions({params:searchOpt}).flexReload();
+			module.$("#socAgentListTab").tabs("option", {active: 0});
+ 		}
+ 		alert(result.resultMsg);
+ 	});
+
+};
+
+
 /**
  * 정의 된 버튼 클릭 시
  */
  GamSocAgentMngtModule.prototype.onButtonClick = function(buttonId) {
 
     switch(buttonId) {
-
-        // 조회
-        case 'searchBtn':
-        	
-        	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){ 		
-        		return;
-        	}
-        	
-			this.loadData();
-            break;
             
-       // 등록포맷으로 변환 -- 초기화 및 상태값 변경
-       case 'btnRegiItem':
-    	    this.makeFormValues('#gamSocAgentMngtSearchForm',{});
-    	    this.makeFormValues('#form1',{});
-    	    this.makeFormValues('#form2',{});
-    	    this.makeFormValues('#gamSocAgentForm',{});
-    	    
-    	    this.loadData();
-    	    
-    	    this.$("#cmd").val("insert");
-    	    
-            break;
+		// 등록포맷으로 변환 -- 초기화 및 상태값 변경
+		case 'btnRegiItem':
+			this.makeRegiFormat();
+			break;
        
-
         // 신청저장
         case 'btnSaveItem':
-        	
-
-        	
-        	if(!validateGamSocAgentDetail(this.$('#form1')[0])){ 		
-        		return;
-        	}
-
-        	var inputVO = [];
-        	
-        	var all_rows = JSON.stringify(this.$('#socAgentMngtList').flexGetData());
-        	//var searchData = JSON.stringify(this.getFormValues("#gamSocAgentMngtSearchForm"));
-        	var updateData = JSON.stringify(this.getFormValues("#form1"));
-        	var updateData1 = JSON.stringify(this.getFormValues("#gamSocAgentForm"));
-        	
-        	inputVO[inputVO.length] = {name: 'updateList',value: all_rows};
-        	//inputVO[inputVO.length] = {name: 'searchData',value: searchData};
-        	inputVO[inputVO.length] = {name: 'updateData',value: updateData};
-        	inputVO[inputVO.length] = {name: 'updateData1',value: updateData1};
-        	
-        	if(this.$("#cmd").val() == "insert") {
-			 	this.doAction('/soc/gamInsertSocAgentList.do', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#gamSocAgentMngtSearchForm");
-						module.$("#socAgentMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#socAgentListTab").tabs("option", {active: 0});
-			 		}
-			 		alert(result.resultMsg);
-			 	});
-			}else{
-			 	this.doAction('/soc/gamUpdateSocAgentList.do', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#gamSocAgentMngtSearchForm");
-						module.$("#socAgentMngtList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#socAgentListTab").tabs("option", {active: 0});
-			 		}
-			 		alert(result.resultMsg);
-			 	});
-			}
-
+			this.saveItem();
             break;
 
         //신청삭제
         case 'btnRemoveItem':
-        	
-        	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){ 		
-        		return;
+        	if( confirm("삭제하시겠습니까?") ) {
+        		this.removeItem();
         	}
-        	
-        	var inputVO = [];
-        	var searchData = JSON.stringify(this.getFormValues("#form1"));
-
-        	inputVO[inputVO.length] = {name: 'searchData',value: searchData};
-        	this.doAction('/soc/gamDeleteSocAgentList.do', inputVO, function(module, result) {
-		 		if(result.resultCode == "0"){
-		 			var searchOpt = module.makeFormArgs("#gamSocAgentMngtSearchForm");
-					module.$("#socAgentMngtList").flexOptions({params:searchOpt}).flexReload();
-					module.$("#socAgentListTab").tabs("option", {active: 0});
-		 		}
-		 		alert(result.resultMsg);
-		 	});
-        	
             break;
             
         case 'popupSocAgentFInfo': // 허가원부선택 팝업을 호출한다.(조회)
@@ -216,26 +219,29 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
 
 
 GamSocAgentMngtModule.prototype.onSubmit = function() {
+	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){ 		
+		return;
+	}
     this.loadData();
 };
 
 GamSocAgentMngtModule.prototype.loadData = function() {
+	
     this.$("#socAgentListTab").tabs("option", {active: 0});
     var searchOpt=this.makeFormArgs('#gamSocAgentMngtSearchForm');
 
     this.$('#socAgentMngtList').flexOptions({params:searchOpt}).flexReload();
-	console.log('debug');
 
 };
 
 GamSocAgentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
-    switch(newTabId) {
-    case 'tabs1':
-        break;
-    case 'tabs2':
-        break;
-    
-    }
+	switch(newTabId) {
+		case 'tabs1':
+			break;
+		case 'tabs2':
+			break;
+	
+	}
 };
 
 //팝업이 종료 될때 리턴 값이 오출 된다.
@@ -244,40 +250,38 @@ GamSocAgentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamSocAgentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
 
-    switch (popupId) {
-     case 'selectSocEntrpsInfoPopup':
-         if (msg != 'cancel') {
-             this.$('#agentCode').val(value.agentCode);
-             this.$('#agentName').val(value.firmKorNm);
-			 //this.loadData();
-         } else {
-             alert('취소 되었습니다');
-         }
-         break;
-     case 'selectSocAgentFInfoPopup':
-         if (msg != 'cancel') {
-             this.$('#sPrtAtCode').val(value.prtAtCode);
-             this.$('#sCmplYr').val(value.cmplYr);
-             this.$('#sConstNo').val(value.constNo);
-			 this.loadData();
-         } else {
-             alert('취소 되었습니다');
-         }
-         break;
-     case 'addSocAgentPopup':
-    	 
-    	if(this['_socAgentInfo']==undefined){
-    		this['_socAgentInfo'] = null;
-    	}
-		this.$("#socAgentMngtList").flexEmptyData();
-    	this.$("#socAgentMngtList").flexAddData({resultList: value, socAgentInfo:this._socAgentInfo });
-    	 
-        break;
-     default:
-         alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-
-         break;
-     }
+	switch (popupId) {
+		case 'selectSocEntrpsInfoPopup':
+			if (msg != 'cancel') {
+			    this.$('#agentCode').val(value.agentCode);
+			    this.$('#agentName').val(value.firmKorNm);
+			//this.loadData();
+			} else {
+			    alert('취소 되었습니다');
+			}
+			break;
+		case 'selectSocAgentFInfoPopup':
+			if (msg != 'cancel') {
+			    this.$('#sPrtAtCode').val(value.prtAtCode);
+			    this.$('#sCmplYr').val(value.cmplYr);
+			    this.$('#sConstNo').val(value.constNo);
+				this.loadData();
+			} else {
+			    alert('취소 되었습니다');
+			}
+			break;
+		case 'addSocAgentPopup':
+			if(this['_socAgentInfo']==undefined){
+				this['_socAgentInfo'] = null;
+			}
+			this.$("#socAgentMngtList").flexEmptyData();
+			this.$("#socAgentMngtList").flexAddData({resultList: value, socAgentInfo:this._socAgentInfo });
+			 
+			break;
+		default:
+			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
+			break;
+		}
 };
 
 
@@ -320,7 +324,7 @@ var module_instance = new GamSocAgentMngtModule();
 				                <button id="popupSocAgentFInfo" class="popupButton">허가원부선택</button>
                             </td>
                             <td>
-								<button id="searchBtn" class="buttonSearch">조회</button>
+								<button class="buttonSearch">조회</button>
                             </td>
                         </tr>
                     </tbody>

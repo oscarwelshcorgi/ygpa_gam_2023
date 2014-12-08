@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ygpa.gam.fcltyMng">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamFcltyMaintSttusInqireVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyMaintSttusInqireVO"/>
+    
+    <!-- 유지보수내역 -->
+	<select id="gamFcltyMaintSttusInqireDao.selectFcltyMaintSttusInqireList_D" parameterClass="gamFcltyMaintSttusInqireVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+							MNTN_RPR_CNST_NM
+							, PLANNER_NM
+							, CNST_CHARG_NM
+							, TO_CHAR(MNTN_RPR_CNST_START_DT,'YYYY-MM-DD') MNTN_RPR_CNST_START_DT
+							, TO_CHAR(MNTN_RPR_CNST_END_DT,'YYYY-MM-DD') MNTN_RPR_CNST_END_DT
+							, MNTN_RPR_CNST_AMT
+							, RM
+							, REG_USR
+							, REGIST_DT
+							, UPD_USR
+							, UPDT_DT
+							, CTRT_NO
+							, FCLTS_JOB_SE
+							, FCLTS_MNG_GROUP_NO
+							, MNTN_RPR_SEQ
+							, MNTN_RPR_SE
+							, MNTN_RPR_PART
+							, MNTN_RPR_CN
+							, MNTN_RPR_BDGT
+							, CNSTRTR
+							, RESPON_ENGINEER
+							, ENFORCE_YEAR
+						FROM
+							MNTN_RPR_DTLS_F 
+						WHERE
+							1 = 1 
+						<isNotEmpty property="sFcltsJobSe">
+	           				AND FCLTS_JOB_SE = #sFcltsJobSe#
+	           			</isNotEmpty>
+	           			
+	           			<isNotEmpty property="sMntnRprCnstNm">
+	           				AND MNTN_RPR_CNST_NM LIKE '%' || #sMntnRprCnstNm# || '%'
+	           			</isNotEmpty>
+	           			
+	           			<isNotEmpty property="sMntnRprSe">
+	           				AND MNTN_RPR_SE = #sMntnRprSe#
+	           			</isNotEmpty>
+	           			
+	           			<isNotEmpty property="sMntnRprCnstStartDtFr">
+	           				AND 
+	           				(
+	           					<![CDATA[ MNTN_RPR_CNST_START_DT >= #sMntnRprCnstStartDtFr# ]]>
+	           				<isNotEmpty property="sMntnRprCnstStartDtTo">
+		           				<![CDATA[ AND MNTN_RPR_CNST_START_DT <= #sMntnRprCnstStartDtTo# ]]>
+		           			</isNotEmpty>
+		           			)
+	           			</isNotEmpty>
+	           			
+						ORDER BY
+							MNTN_RPR_CNST_START_DT DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+	</select>
+
+	<select id="gamFcltyMaintSttusInqireDao.selectFcltyMaintSttusInqireListTotCnt_S" parameterClass="gamFcltyMaintSttusInqireVO" resultClass="int">
+		SELECT
+			COUNT(*) TOT_CNT
+		FROM
+			MNTN_RPR_DTLS_F 
+		WHERE
+			1 = 1 
+		<isNotEmpty property="sFcltsJobSe">
+			AND FCLTS_JOB_SE = #sFcltsJobSe#
+		</isNotEmpty>
+		        			
+		<isNotEmpty property="sMntnRprCnstNm">
+			AND MNTN_RPR_CNST_NM LIKE '%' || #sMntnRprCnstNm# || '%'
+		</isNotEmpty>
+		        			
+		<isNotEmpty property="sMntnRprSe">
+			AND MNTN_RPR_SE = #sMntnRprSe#
+		</isNotEmpty>
+		        			
+		<isNotEmpty property="sMntnRprCnstStartDtFr">
+			AND 
+			(
+				<![CDATA[ MNTN_RPR_CNST_START_DT >= #sMntnRprCnstStartDtFr# ]]>
+			<isNotEmpty property="sMntnRprCnstStartDtTo">
+				<![CDATA[ AND MNTN_RPR_CNST_START_DT <= #sMntnRprCnstStartDtTo# ]]>
+			</isNotEmpty>
+			)
+		</isNotEmpty>
+		
+	</select>
+	
+	
+	<!-- 유지보수대상시설물내역 -->
+	<select id="gamFcltyMaintSttusInqireDao.selectMntnRprObjFcltsFList_D" parameterClass="gamFcltyMaintSttusInqireVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+							FCLTS_JOB_SE
+							, FCLTS_MNG_GROUP_NO
+							, MNTN_RPR_SEQ
+							, MNTN_RPR_CNST_MTH
+							, UNIT
+							, QY
+							, PRICE
+							, MNTN_RPR_CNST_AMT
+							, RM
+							, FCLTS_MNG_NO
+							, REG_USR
+							, REGIST_DT
+							, UPD_USR
+							, UPDT_DT
+						FROM
+							MNTN_RPR_OBJ_FCLTS_F 
+						WHERE
+							FCLTS_JOB_SE = #fcltsJobSe#
+							AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+							AND MNTN_RPR_SEQ = #mntnRprSeq#
+	           			
+						ORDER BY
+							MNTN_RPR_SEQ ASC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+	</select>
+
+	<select id="gamFcltyMaintSttusInqireDao.selectMntnRprObjFcltsFListTotCnt_S" parameterClass="gamFcltyMaintSttusInqireVO" resultClass="int">
+		SELECT
+			COUNT(*) TOT_CNT
+		FROM
+			MNTN_RPR_OBJ_FCLTS_F 
+		WHERE
+			FCLTS_JOB_SE = #fcltsJobSe#
+			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND MNTN_RPR_SEQ = #mntnRprSeq#
+	</select>
+	
+	
+	
+	<!-- 유지보수첨부파일내역 -->
+	<select id="gamFcltyMaintSttusInqireDao.selectFcltyMaintFileList_D" parameterClass="gamFcltyMaintSttusInqireVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+							FCLTS_JOB_SE
+							, FCLTS_MNG_GROUP_NO
+							, MNTN_RPR_SEQ
+							, ATCH_FILE_SEQ
+							, ATCH_FILE_SE
+							, (
+							  CASE  WHEN ATCH_FILE_SE = 'D' THEN '문서'
+									WHEN ATCH_FILE_SE = 'P' THEN '사진'
+							  		WHEN ATCH_FILE_SE = 'Z' THEN '기타'
+							  END
+							) AS ATCH_FILE_SE_NM
+							, ATCH_FILE_SJ
+							, ATCH_FILE_NM_LOGIC
+							, ATCH_FILE_NM_PHYSICL
+							, TO_CHAR(ATCH_FILE_WRITNG_DT,'YYYY-MM-DD') ATCH_FILE_WRITNG_DT
+							, REG_USR
+							, REGIST_DT
+							, UPD_USR
+							, UPDT_DT
+						FROM
+							MNTN_RPR_ATCH_FILE_F 
+						WHERE
+							FCLTS_JOB_SE = #fcltsJobSe#
+							AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+							AND MNTN_RPR_SEQ = #mntnRprSeq#
+	           			
+						ORDER BY
+							MNTN_RPR_SEQ ASC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+	</select>
+
+	<select id="gamFcltyMaintSttusInqireDao.selectFcltyMaintFileListTotCnt_S" parameterClass="gamFcltyMaintSttusInqireVO" resultClass="int">
+		SELECT
+			COUNT(*) TOT_CNT
+		FROM
+			MNTN_RPR_ATCH_FILE_F 
+		WHERE
+			FCLTS_JOB_SE = #fcltsJobSe#
+			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND MNTN_RPR_SEQ = #mntnRprSeq#
+	</select>
+	
+	
+
+</sqlMap>
