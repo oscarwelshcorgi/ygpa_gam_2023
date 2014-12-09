@@ -60,7 +60,6 @@ GamFcltyRepairSttusInqireModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectFlawRprSttusObjFcltsF.do',
 		dataType: 'json',
 		colModel : [
-					{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
 					{display:"시설물관리번호",	name:"fcltsMngNo",	width:100,		sortable:true,		align:"center"},
 					{display:"시설물명",		name:"prtFcltyNm",	width:150,		sortable:true,		align:"left"},
 					{display:"하자유무",		name:"flawEnnc",	width:90,		sortable:true,		align:"center"},

@@ -1,0 +1,291 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
+<%
+  /**
+  * @Class Name : GamFcltyRepairHistInqire.jsp
+  * @Description : 시설물 하자보수이력 조회
+  * @Modification Information
+  *
+  *   수정일         수정자                   수정내용
+  *  -------    --------    ---------------------------
+  *  2014.12.9  HNJ          최초 생성
+  *
+  * author HNJ
+  * since 2014.12.9
+  *
+  * Copyright (C) 2013 by LFIT  All right reserved.
+  */
+%>
+
+<script>
+/*
+ * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
+ */
+function GamFcltyRepairHistInqireModule() {
+}
+
+GamFcltyRepairHistInqireModule.prototype = new EmdModule(1000,600);	// 초기 시작 창크기 지정
+
+// 페이지가 호출 되었을때 호출 되는 함수
+GamFcltyRepairHistInqireModule.prototype.loadComplete = function(params) {
+	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다.
+
+	this._params = params;	// 파라미터를 저장한다.
+
+	// 테이블 설정
+	this.$("#fcltyRepairHistInqireList").flexigrid({
+		module: this,
+		url: '/fcltyMng/selectFcltyRepairHistInqireList.do',
+		dataType: "json",
+		colModel : [
+					{display:"시행년도", 			name:"enforceYear",				width:60, 		sortable:false,		align:"center"},
+					{display:"계약번호", 			name:"ctrtNo",					width:200, 		sortable:false,		align:"center"},
+					{display:"업체명",		name:"flawRprEntrpsNm",	width:200,		sortable:true,		align:"left"},
+					{display:"시설물명",		name:"prtFcltyNm",	width:200,		sortable:true,		align:"left"},
+					{display:"하자보수순번", 		name:"flawRprSeq",				width:120, 		sortable:false,		align:"center"},
+					{display:"하자검사구분",		name:"flawExamSe",				width:80, 		sortable:false,		align:"center"},
+					
+					{display:"하자유무",		name:"flawEnnc",	width:90,		sortable:true,		align:"center"},
+					{display:"하자검사일자",	name:"flawExamDt",	width:100,		sortable:true,		align:"center"},
+					{display:"하자보수유형",		name:"flawRprTy",				width:80, 		sortable:false,		align:"center"},
+					{display:"하자보수명",			name:"flawRprNm",				width:250, 		sortable:false,		align:"left"},
+					{display:"하자보수금액", 		name:"flawRprAmt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+					{display:"하자보수완료여부", 	name:"flawRprComptYn",			width:150, 		sortable:false,		align:"center"}
+			],
+		height: "auto"
+	});
+
+ 	
+ 	this.$("#fcltyRepairHistInqireList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+		module.$("#fcltyRepairHistInqireListTab").tabs("option", {active: 1});
+	});
+
+};
+
+
+GamFcltyRepairHistInqireModule.prototype.onSubmit = function(){
+	this.loadData();
+};
+
+GamFcltyRepairHistInqireModule.prototype.loadData = function(){
+
+	// tabs2 항목 초기화
+	this.makeDivValues('#fcltyRepairHistInqireListVO', {});
+
+	this.$("#fcltyRepairHistInqireListTab").tabs("option", {active: 0});
+	var searchOpt=this.makeFormArgs('#searchFcltyRepairHistInqireForm');
+	this.$('#fcltyRepairHistInqireList').flexOptions({params:searchOpt}).flexReload();
+	
+};
+
+
+GamFcltyRepairHistInqireModule.prototype.loadDetail = function(){
+	
+	var row = this.$('#fcltyRepairHistInqireList').selectedRows();
+	
+	if(row.length==0) {
+		alert('선택된 항목이 없습니다.');
+		this.$("#fcltyRepairHistInqireListTab").tabs("option", {active: 0});
+		return;
+	}
+	
+	row = row[0];
+
+	// tabs2 항목 데이타로딩
+	this.makeDivValues('#fcltyRepairHistInqireListVO', row);
+	
+};
+
+
+GamFcltyRepairHistInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
+	if(oldTabId == 'tabs1') {
+		this.loadDetail();
+	}
+	switch(newTabId) {
+		case "tabs1":
+		break;
+
+		case "tabs2":
+			if(oldTabId == 'tabs1') {
+				this.$("#tabs2").scrollTop(0);
+			}
+		break;
+		
+		case "tabs3":
+		break;
+		
+		case "tabs4":
+		break;
+		
+		case "tabs5":
+
+		break;
+	}
+	
+};
+
+
+/**
+ * 정의 된 버튼 클릭 시
+ */
+ GamFcltyRepairHistInqireModule.prototype.onButtonClick = function(buttonId) {
+
+	switch(buttonId) {
+		case "btnSearchFcltsMngNo":
+			this.doExecuteDialog("selectFcltsMngNo", "시설물 관리 그룹 번호", '/popup/selectFcltsMngNo.do', {});
+		break;
+
+	}
+};
+
+
+/**
+ * 팝업 close 이벤트
+ */
+ GamFcltyRepairHistInqireModule.prototype.onClosePopup = function(popupId, msg, value){
+
+	switch(popupId){
+
+		case "selectFcltsMngNo":
+			this.$("#sFcltsMngNo").val(value["fcltsMngNo"]);
+			this.$("#sPrtFcltyNm").val(value["prtFcltyNm"]);
+		break;
+
+		default:
+			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
+
+		break;
+	}
+};
+
+
+
+
+// 다음 변수는 고정 적으로 정의 해야 함
+var module_instance = new GamFcltyRepairHistInqireModule();
+</script>
+<!-- 아래는 고정 -->
+<input type="hidden" id="window_id" value="<c:out value="${windowId}" />" />
+<div class="window_main">
+	<!-- 조회 조건 -->
+	<div class="emdPanel">
+		<div class="viewStack">
+			<form id="searchFcltyRepairHistInqireForm">
+				<table class="searchPanel">
+					<tbody>
+						<tr>
+							<th>시공업체명</th>
+							<td colspan="3"><input type="text" id="sFlawRprEntrpsNm" size="100" title="시공업체" /></td>
+							<td rowspan="2"><button class="buttonSearch">조회</button></td>
+						</tr>
+						<tr>
+							<th>하자보수 시설명</th>
+							<td>
+								<input type="text" size="10" id="sFcltsMngNo" />
+								<input type="text" size="20" id="sPrtFcltyNm" disabled="disabled"  title="유지보수 시설명" />
+								<button id="btnSearchFcltsMngNo" class="popupButton">선택</button>
+							</td>
+							<th>하자보수공사시작일</th>
+							<td>
+								<input id="sFlawRprStartDtFr" type="text" class="emdcal" size="15" title="하자검사일 검색시작일" /> ~ <input id="sFlawRprStartDtTo" type="text" class="emdcal" size="15" title="하자검사일 검색종료일" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+	</div>
+
+
+
+
+	<div class="emdPanel fillHeight">
+		<div id="fcltyRepairHistInqireListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+			<ul>
+				<li><a href="#tabs1" class="emdTab">하자보수내역 목록</a></li>
+				<li><a href="#tabs2" class="emdTab">하자보수내역 상세</a></li>
+			</ul>
+
+			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
+				<table id="fcltyRepairHistInqireList" style="display:none" class="fillHeight"></table>
+			</div>
+
+
+			<!-- 하자보수내역 상세 -->
+			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
+				<form id="fcltyRepairHistInqireListVO">
+					<table class="editForm"  style="width:100%;">
+						<tr>
+							<th width="30px" height="23" class="required_text">시행년도</th>
+							<td width="100px"><span id="enforceYear" title="시행년도"></span></td>
+							<th width="30px" height="23" class="required_text">하자유무</th>
+							<td width="100px"><span id="flawEnnc" title="하자유무"></span></td>
+							<th width="30px" height="23" class="required_text">시설물업무구분</th>
+							<td width="100px"><span id="fcltsJobSe" title="시설물업무구분"></span></td>
+							<th width="30px" height="23" class="required_text">하자보수유형</th>
+							<td><span id="flawRprTy" title="하자보수유형"></span></td>
+						</tr>
+						<tr>
+							<th height="17" class="required_text">시설물관리그룹</th>
+							<td colspan="7">
+								<span id="fcltsMngGroupNo" title="시설물관리그룹넘버" ></span>
+								<span id="fcltsMngGroupNoNm" title="시설물관리그룹명"></span>
+							</td>
+						</tr>
+						<tr>
+							<th height="23" class="required_text">계약번호</th>
+							<td colspan="5">
+								<span id="ctrtNo" title="계약번호"></span> 
+								<span id="ctrtNm" title="계약명"></span>
+							</td>
+							<th height="23" class="required_text">하자보수순번</th>
+							<td><span id="flawRprSeq" title="하자보수순번" ></span></td>
+						</tr>
+						<tr>
+							<th height="23" class="required_text">하자보수명</th>
+							<td colspan="7"><span id="flawRprNm" title="하자보수명"></span></td>
+						</tr>
+						<tr>
+							<th height="23" class="required_text">하자보수업체명</th>
+							<td colspan="7"><span id="flawRprEntrpsNm" title="하자보수업체명"></span></td>
+						</tr>
+						<tr>
+							<th height="23" class="required_text">하자보수완료여부</th>
+							<td><span id="flawRprComptYn" title="하자보수완료여부"></span></td>
+							<th height="23" class="required_text">하자보수금액</th>
+							<td colspan="3"><span id="flawRprAmt" title="하자보수금액" class="ygpaNumber"></span></td>
+							<th>하자검사구분</th>
+							<td><span id="flawExamSe" title="하자검사구분"></span></td>
+						</tr>
+						<tr>
+							<th height="23" class="required_text">하자발생일자</th>
+							<td><span id="flawOccrrncDt" title="하자발생일자" ></span></td>
+							<th height="23" class="required_text">하자검사일자</th>
+							<td><span id="flawExamDt" title="하자검사일자" ></span></td>
+							<th height="23" class="required_text">하자보수시작일자</th>
+							<td><span id="flawRprStartDt" title="하자보수시작일자" ></span></td>
+							<th height="23" class="required_text">하자보수종료일자</th>
+							<td><span id="flawRprEndDt" title="하자보수종료일자" ></span></td>
+						</tr>
+						<tr>
+							<th height="23" class="required_text">하자보수내용</th>
+							<td colspan="7"><textarea id="flawRprContents" cols="130" rows="10" disabled="disabled" title="하자보수내용"></textarea></td>
+						</tr>
+						<tr>
+							<th height="23" class="required_text">하자보수결과</th>
+							<td colspan="7"><textarea id="flawExamResult" cols="130" rows="10" disabled="disabled" title="하자보수결과"></textarea></td>
+						</tr>
+						<tr>
+							<th height="23" class="required_text">비고</th>
+							<td colspan="7"><span id="rm" title="비고"></span></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

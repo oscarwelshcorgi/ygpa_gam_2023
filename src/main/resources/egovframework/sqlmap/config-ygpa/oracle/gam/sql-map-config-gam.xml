@@ -174,4 +174,5 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fcltyMng/GamFcltyMaintSttusInqireDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fcltyMng/GamFcltyRepairSttusInqireDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fcltyMng/GamFcltyMaintHistInqireDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fcltyMng/GamFcltyRepairHistInqireDao_SQL_oracle.xml" />
 </sqlMapConfig>

@@ -101,12 +101,6 @@ GamFcltyMaintHistInqireModule.prototype.loadDetail = function(){
 	}
 	
 	row = row[0];
-	
-	var searchVO = [
-	                { name: 'fcltsJobSe', value: row['fcltsJobSe'] },
-	                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
-	                { name: 'mntnRprSeq', value: row['mntnRprSeq'] }
-	               ];
 
 	// tabs2 항목 데이타로딩
 	this.makeDivValues('#fcltyMaintHistInqireListVO', row);
