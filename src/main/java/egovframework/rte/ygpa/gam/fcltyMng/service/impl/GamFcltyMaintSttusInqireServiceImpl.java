@@ -65,8 +65,8 @@ public class GamFcltyMaintSttusInqireServiceImpl extends AbstractServiceImpl imp
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectMntnRprObjFcltsFList(GamFcltyMaintSttusInqireVO vo) throws Exception {
-		return (List)gamFcltyMaintSttusInqireDao.selectMntnRprObjFcltsFList(vo);
+	public List selectMntnSttusRprObjFcltsFList(GamFcltyMaintSttusInqireVO vo) throws Exception {
+		return (List)gamFcltyMaintSttusInqireDao.selectMntnSttusRprObjFcltsFList(vo);
 	}
 	
 	
@@ -76,8 +76,8 @@ public class GamFcltyMaintSttusInqireServiceImpl extends AbstractServiceImpl imp
 	 * @return int
 	 * @throws Exception
 	 */
-	public int selectMntnRprObjFcltsFListTotCnt(GamFcltyMaintSttusInqireVO vo) throws Exception {
-		return gamFcltyMaintSttusInqireDao.selectMntnRprObjFcltsFListTotCnt(vo);
+	public int selectMntnSttusRprObjFcltsFListTotCnt(GamFcltyMaintSttusInqireVO vo) throws Exception {
+		return gamFcltyMaintSttusInqireDao.selectMntnSttusRprObjFcltsFListTotCnt(vo);
 	}
 	
 	
@@ -87,8 +87,8 @@ public class GamFcltyMaintSttusInqireServiceImpl extends AbstractServiceImpl imp
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFcltyMaintFileList(GamFcltyMaintSttusInqireVO vo) throws Exception {
-		return (List)gamFcltyMaintSttusInqireDao.selectFcltyMaintFileList(vo);
+	public List selectFcltyMaintSttusFileList(GamFcltyMaintSttusInqireVO vo) throws Exception {
+		return (List)gamFcltyMaintSttusInqireDao.selectFcltyMaintSttusFileList(vo);
 	}
 	
 	
@@ -98,8 +98,8 @@ public class GamFcltyMaintSttusInqireServiceImpl extends AbstractServiceImpl imp
 	 * @return int
 	 * @throws Exception
 	 */
-	public int selectFcltyMaintFileListTotCnt(GamFcltyMaintSttusInqireVO vo) throws Exception {
-		return gamFcltyMaintSttusInqireDao.selectFcltyMaintFileListTotCnt(vo);
+	public int selectFcltyMaintSttusFileListTotCnt(GamFcltyMaintSttusInqireVO vo) throws Exception {
+		return gamFcltyMaintSttusInqireDao.selectFcltyMaintSttusFileListTotCnt(vo);
 	}
 	
 

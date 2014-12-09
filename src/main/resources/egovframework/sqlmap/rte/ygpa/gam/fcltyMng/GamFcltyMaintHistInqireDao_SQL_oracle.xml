@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ygpa.gam.fcltyMng">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamFcltyMaintHistInqireVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyMaintHistInqireVO"/>
+    
+    <!-- 유지보수내역 -->
+	<select id="gamFcltyMaintHistInqireDao.selectFcltyMaintHistInqireList_D" parameterClass="gamFcltyMaintHistInqireVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+							M.MNTN_RPR_CNST_NM
+							, M.PLANNER_NM
+							, M.CNST_CHARG_NM
+							, TO_CHAR(M.MNTN_RPR_CNST_START_DT,'YYYY-MM-DD') MNTN_RPR_CNST_START_DT
+							, TO_CHAR(M.MNTN_RPR_CNST_END_DT,'YYYY-MM-DD') MNTN_RPR_CNST_END_DT
+							, M.MNTN_RPR_CNST_AMT
+							, M.RM
+							, M.CTRT_NO
+							, M.FCLTS_JOB_SE
+							, M.FCLTS_MNG_GROUP_NO
+							, M.MNTN_RPR_SEQ
+							, M.MNTN_RPR_SE
+							, M.MNTN_RPR_PART
+							, M.MNTN_RPR_CN
+							, M.MNTN_RPR_BDGT
+							, M.CNSTRTR
+							, M.RESPON_ENGINEER
+							, M.ENFORCE_YEAR
+							, O.MNTN_RPR_CNST_MTH
+							, O.UNIT
+							, O.QY
+							, O.PRICE
+							, O.MNTN_RPR_CNST_AMT OBJ_MNTN_RPR_CNST_AMT
+							, O.RM OBJ_RM
+							, O.FCLTS_MNG_NO
+							, G.PRT_FCLTY_NM
+						FROM
+							MNTN_RPR_DTLS_F M, GIS_PRT_FCLTY_CD_F G, MNTN_RPR_OBJ_FCLTS_F O 
+						WHERE
+							M.FCLTS_MNG_GROUP_NO = G.FCLTS_MNG_GROUP_NO
+							AND M.FCLTS_MNG_GROUP_NO = O.FCLTS_MNG_GROUP_NO
+							
+	           			<isNotEmpty property="sPrtFcltyNm">
+	           				AND G.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
+	           			</isNotEmpty>
+	           			
+	           			<isNotEmpty property="sCnstrtr">
+	           				AND M.CNSTRTR LIKE '%' || #sCnstrtr# || '%'
+	           			</isNotEmpty>
+	           			
+	           			<isNotEmpty property="sMntnRprCnstStartDtFr">
+	           				AND 
+	           				(
+	           					<![CDATA[ M.MNTN_RPR_CNST_START_DT >= #sMntnRprCnstStartDtFr# ]]>
+	           				<isNotEmpty property="sMntnRprCnstStartDtTo">
+		           				<![CDATA[ AND M.MNTN_RPR_CNST_START_DT <= #sMntnRprCnstStartDtTo# ]]>
+		           			</isNotEmpty>
+		           			)
+	           			</isNotEmpty>
+	           			
+						ORDER BY
+							M.MNTN_RPR_CNST_START_DT DESC
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+	</select>
+
+	<select id="gamFcltyMaintHistInqireDao.selectFcltyMaintHistInqireListTotCnt_S" parameterClass="gamFcltyMaintHistInqireVO" resultClass="int">
+		SELECT
+			COUNT(*) TOT_CNT
+		FROM
+			MNTN_RPR_DTLS_F M, GIS_PRT_FCLTY_CD_F G, MNTN_RPR_OBJ_FCLTS_F O 
+		WHERE
+			M.FCLTS_MNG_GROUP_NO = G.FCLTS_MNG_GROUP_NO
+			AND M.FCLTS_MNG_GROUP_NO = O.FCLTS_MNG_GROUP_NO
+			
+			<isNotEmpty property="sPrtFcltyNm">
+				AND G.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
+			</isNotEmpty>
+			        			
+			<isNotEmpty property="sCnstrtr">
+				AND M.CNSTRTR LIKE '%' || #sCnstrtr# || '%'
+			</isNotEmpty>
+			        			
+			<isNotEmpty property="sMntnRprCnstStartDtFr">
+				AND 
+				(
+				<![CDATA[ M.MNTN_RPR_CNST_START_DT >= #sMntnRprCnstStartDtFr# ]]>
+				<isNotEmpty property="sMntnRprCnstStartDtTo">
+					<![CDATA[ AND M.MNTN_RPR_CNST_START_DT <= #sMntnRprCnstStartDtTo# ]]>
+				</isNotEmpty>
+				)
+			</isNotEmpty>
+		
+	</select>
+
+</sqlMap>

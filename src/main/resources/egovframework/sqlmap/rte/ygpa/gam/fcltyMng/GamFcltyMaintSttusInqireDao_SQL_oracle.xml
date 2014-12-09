@@ -101,7 +101,7 @@
 	
 	
 	<!-- 유지보수대상시설물내역 -->
-	<select id="gamFcltyMaintSttusInqireDao.selectMntnRprObjFcltsFList_D" parameterClass="gamFcltyMaintSttusInqireVO" resultClass="egovMap">
+	<select id="gamFcltyMaintSttusInqireDao.selectMntnSttusRprObjFcltsFList_D" parameterClass="gamFcltyMaintSttusInqireVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                 SELECT ROWNUM RNUM, S.*
@@ -135,7 +135,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
 	</select>
 
-	<select id="gamFcltyMaintSttusInqireDao.selectMntnRprObjFcltsFListTotCnt_S" parameterClass="gamFcltyMaintSttusInqireVO" resultClass="int">
+	<select id="gamFcltyMaintSttusInqireDao.selectMntnSttusRprObjFcltsFListTotCnt_S" parameterClass="gamFcltyMaintSttusInqireVO" resultClass="int">
 		SELECT
 			COUNT(*) TOT_CNT
 		FROM
@@ -149,7 +149,7 @@
 	
 	
 	<!-- 유지보수첨부파일내역 -->
-	<select id="gamFcltyMaintSttusInqireDao.selectFcltyMaintFileList_D" parameterClass="gamFcltyMaintSttusInqireVO" resultClass="egovMap">
+	<select id="gamFcltyMaintSttusInqireDao.selectFcltyMaintSttusFileList_D" parameterClass="gamFcltyMaintSttusInqireVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                 SELECT ROWNUM RNUM, S.*
@@ -188,7 +188,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
 	</select>
 
-	<select id="gamFcltyMaintSttusInqireDao.selectFcltyMaintFileListTotCnt_S" parameterClass="gamFcltyMaintSttusInqireVO" resultClass="int">
+	<select id="gamFcltyMaintSttusInqireDao.selectFcltyMaintSttusFileListTotCnt_S" parameterClass="gamFcltyMaintSttusInqireVO" resultClass="int">
 		SELECT
 			COUNT(*) TOT_CNT
 		FROM

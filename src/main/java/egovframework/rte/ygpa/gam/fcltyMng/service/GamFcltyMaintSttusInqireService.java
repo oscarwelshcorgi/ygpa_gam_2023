@@ -50,7 +50,7 @@ public interface GamFcltyMaintSttusInqireService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectMntnRprObjFcltsFList(GamFcltyMaintSttusInqireVO vo) throws Exception;
+	List selectMntnSttusRprObjFcltsFList(GamFcltyMaintSttusInqireVO vo) throws Exception;
 	
 	
 	/**
@@ -59,7 +59,7 @@ public interface GamFcltyMaintSttusInqireService {
 	 * @return int
 	 * @throws Exception
 	 */
-	int selectMntnRprObjFcltsFListTotCnt(GamFcltyMaintSttusInqireVO vo) throws Exception;
+	int selectMntnSttusRprObjFcltsFListTotCnt(GamFcltyMaintSttusInqireVO vo) throws Exception;
 	
 	
 	/**
@@ -68,7 +68,7 @@ public interface GamFcltyMaintSttusInqireService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectFcltyMaintFileList(GamFcltyMaintSttusInqireVO vo) throws Exception;
+	List selectFcltyMaintSttusFileList(GamFcltyMaintSttusInqireVO vo) throws Exception;
 	
 	
 	/**
@@ -77,7 +77,7 @@ public interface GamFcltyMaintSttusInqireService {
 	 * @return int
 	 * @throws Exception
 	 */
-	int selectFcltyMaintFileListTotCnt(GamFcltyMaintSttusInqireVO vo) throws Exception;
+	int selectFcltyMaintSttusFileListTotCnt(GamFcltyMaintSttusInqireVO vo) throws Exception;
 	
 
 }

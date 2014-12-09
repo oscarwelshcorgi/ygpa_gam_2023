@@ -60,8 +60,8 @@ public class GamFcltyMaintSttusInqireDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectMntnRprObjFcltsFList(GamFcltyMaintSttusInqireVO vo) throws Exception {
-		return list("gamFcltyMaintSttusInqireDao.selectMntnRprObjFcltsFList_D", vo);
+	public List selectMntnSttusRprObjFcltsFList(GamFcltyMaintSttusInqireVO vo) throws Exception {
+		return list("gamFcltyMaintSttusInqireDao.selectMntnSttusRprObjFcltsFList_D", vo);
 	}
 	
 	
@@ -71,8 +71,8 @@ public class GamFcltyMaintSttusInqireDao extends YGPAAbstractDAO {
 	 * @return int
 	 * @throws Exception
 	 */
-	public int selectMntnRprObjFcltsFListTotCnt(GamFcltyMaintSttusInqireVO vo) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyMaintSttusInqireDao.selectMntnRprObjFcltsFListTotCnt_S", vo);
+	public int selectMntnSttusRprObjFcltsFListTotCnt(GamFcltyMaintSttusInqireVO vo) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyMaintSttusInqireDao.selectMntnSttusRprObjFcltsFListTotCnt_S", vo);
 	}
 	
 	
@@ -82,8 +82,8 @@ public class GamFcltyMaintSttusInqireDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFcltyMaintFileList(GamFcltyMaintSttusInqireVO vo) throws Exception {
-		return list("gamFcltyMaintSttusInqireDao.selectFcltyMaintFileList_D", vo);
+	public List selectFcltyMaintSttusFileList(GamFcltyMaintSttusInqireVO vo) throws Exception {
+		return list("gamFcltyMaintSttusInqireDao.selectFcltyMaintSttusFileList_D", vo);
 	}
 	
 	
@@ -93,8 +93,8 @@ public class GamFcltyMaintSttusInqireDao extends YGPAAbstractDAO {
 	 * @return int
 	 * @throws Exception
 	 */
-	public int selectFcltyMaintFileListTotCnt(GamFcltyMaintSttusInqireVO vo) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyMaintSttusInqireDao.selectFcltyMaintFileListTotCnt_S", vo);
+	public int selectFcltyMaintSttusFileListTotCnt(GamFcltyMaintSttusInqireVO vo) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyMaintSttusInqireDao.selectFcltyMaintSttusFileListTotCnt_S", vo);
 	}
 	
 	
