@@ -278,12 +278,8 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 GamFcltsFeeMngNticModule.prototype.onSubmit = function() {
 
 	this._mode="query";
-	this.$('#btnProcessNticIssue').disable({disableClass:"ui-state-disabled"});
-	this.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
-	this.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
-	this.$('#btnAddNticIssue').disable({disableClass:"ui-state-disabled"});
-	this.$('#btnDelNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.loadData();
+	this.enableListButtonItem();
 
 };
 
@@ -853,6 +849,13 @@ GamFcltsFeeMngNticModule.prototype.enableListButtonItem = function() {
 		this.$('#btnDelNticIssue').disable({disableClass:"ui-state-disabled"});
 	} else {
 		var row = this.$('#mainGrid').selectedRows()[0];
+		if (row == null) {
+			this.$('#btnProcessNticIssue').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnAddNticIssue').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnDelNticIssue').disable({disableClass:"ui-state-disabled"});
+		}
 		var nhtIsueYn = row['nhtIsueYn'];
 		var rcivSe = row['rcivSe'];
 		var aditNticYn = row['aditNticYn'];
@@ -894,7 +897,7 @@ GamFcltsFeeMngNticModule.prototype.enableListButtonItem = function() {
 		}
 	}
 
-}
+};
 
 <%
 /**

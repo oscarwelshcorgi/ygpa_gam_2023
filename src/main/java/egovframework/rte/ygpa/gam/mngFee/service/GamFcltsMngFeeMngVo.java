@@ -26,286 +26,373 @@ import egovframework.com.cmm.ComDefaultVO;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GamFcltsMngFeeMngVo extends ComDefaultVO{
 
-	private	String	mngMt;				//관리 월
-	private	String	mngFeeJobSe;		//관리비 업무 구분
-	private	String	mngFeeSj;			//관리비 제목
-	private	String	fcltyMngFee;		//시설 관리 용역비
-	private	String	elctyFee;			//전기 요금
-	private	String	waterFee;			//상하수도 요금
-	private	String	gasFee;				//도시가스 요금
-	private	String	envFee;				//환경개선 부담금
-	private	String	mngTotalFee;		//관리비 합계
-	private	String	regUsr;				//등록자
-	private	String	registDt;			//등록일시
-	private	String	updUsr;				//수정자
-	private	String	updtDt;				//수정일시
+	private	String	mainMngMt;				//관리 월
+	private	String	mainMngMtYear;			//관리 년
+	private	String	mainMngMtMon;			//관리 월
+	private	String	mainMngYrMt;			//관리 년-월
+	private	String	mainMngFeeJobSe;		//관리비 업무 구분
+	private	String	mainMngFeeSj;			//관리비 제목
+	private	String	mainFcltyMngFee;		//시설 관리 용역비
+	private	String	mainElctyFee;			//전기 요금
+	private	String	mainWaterFee;			//상하수도 요금
+	private	String	mainGasFee;				//도시가스 요금
+	private	String	mainEnvFee;				//환경개선 부담금
+	private	String	mainMngTotalFee;		//관리비 합계
+	private	String	mainRegUsr;				//등록자
+	private	String	mainRegistDt;			//등록일시
+	private	String	mainUpdUsr;				//수정자
+	private	String	mainUpdtDt;				//수정일시
+	private String	mainNhtIsueYn;			//고지 여부
 
-	private String  sMngMtYear;			// 검색 년
-	private String  sMngMtMon;			// 검색 월
-	private	String	sMngMt;				//검색 관리 월
-	private	String	sMngFeeJobSe;		//검색 관리비 업무 구분
+	private String	dataCount;				//자료수
+	private	String	sumFcltyMngFee;			//총시설 관리 용역비
+	private	String	sumElctyFee;			//총전기 요금
+	private	String	sumWaterFee;			//총상하수도 요금
+	private	String	sumGasFee;				//총도시가스 요금
+	private	String	sumEnvFee;				//총환경개선 부담금
+	private	String	sumMngTotalFee;			//총관리비 합계
 
-	private String orgnztId;			// 로그인
-
-	private String taxtSe;				// 과제 구분
-	private String nticMth;				// 고지 방법
-	private String payMth;				// 납부 방법
-	private String chrgeKnd;			// 요금 종류
-
-
-
+	private	String	sStartMngYear;			//검색 시작 관리 년도
+	private	String	sStartMngMt;			//검색 시작 관리 월
+	private	String	sEndMngYear;			//검색 종료 관리 년도
+	private	String	sEndMngMt;				//검색 종료 관리 월
+	private	String	sMngFeeJobSe;			//검색 관리비 업무 구분
 
 	/**
-	 * @return the chrgeKnd
+	 * @return the mainMngMt
 	 */
-	public String getChrgeKnd() {
-		return chrgeKnd;
+	public String getMainMngMt() {
+		return mainMngMt;
 	}
 	/**
-	 * @param chrgeKnd the chrgeKnd to set
+	 * @param mainMngMt the mainMngMt to set
 	 */
-	public void setChrgeKnd(String chrgeKnd) {
-		this.chrgeKnd = chrgeKnd;
+	public void setMainMngMt(String mainMngMt) {
+		this.mainMngMt = mainMngMt;
 	}
 	/**
-	 * @return the nticMth
+	 * @return the mainMngMtYear
 	 */
-	public String getNticMth() {
-		return nticMth;
+	public String getMainMngMtYear() {
+		return mainMngMtYear;
 	}
 	/**
-	 * @param nticMth the nticMth to set
+	 * @param mainMngMtYear the mainMngMtYear to set
 	 */
-	public void setNticMth(String nticMth) {
-		this.nticMth = nticMth;
+	public void setMainMngMtYear(String mainMngMtYear) {
+		this.mainMngMtYear = mainMngMtYear;
 	}
 	/**
-	 * @return the payMth
+	 * @return the mainMngMtMon
 	 */
-	public String getPayMth() {
-		return payMth;
+	public String getMainMngMtMon() {
+		return mainMngMtMon;
 	}
 	/**
-	 * @param payMth the payMth to set
+	 * @param mainMngMtMon the mainMngMtMon to set
 	 */
-	public void setPayMth(String payMth) {
-		this.payMth = payMth;
+	public void setMainMngMtMon(String mainMngMtMon) {
+		this.mainMngMtMon = mainMngMtMon;
 	}
 	/**
-	 * @return the taxtSe
+	 * @return the mainMngYrMt
 	 */
-	public String getTaxtSe() {
-		return taxtSe;
+	public String getMainMngYrMt() {
+		return mainMngYrMt;
 	}
 	/**
-	 * @param taxtSe the taxtSe to set
+	 * @param mainMngYrMt the mainMngYrMt to set
 	 */
-	public void setTaxtSe(String taxtSe) {
-		this.taxtSe = taxtSe;
+	public void setMainMngYrMt(String mainMngYrMt) {
+		this.mainMngYrMt = mainMngYrMt;
 	}
 	/**
-	 * @return the orgnztId
+	 * @return the mainMngFeeJobSe
 	 */
-	public String getOrgnztId() {
-		return orgnztId;
+	public String getMainMngFeeJobSe() {
+		return mainMngFeeJobSe;
 	}
 	/**
-	 * @param orgnztId the orgnztId to set
+	 * @param mainMngFeeJobSe the mainMngFeeJobSe to set
 	 */
-	public void setOrgnztId(String orgnztId) {
-		this.orgnztId = orgnztId;
+	public void setMainMngFeeJobSe(String mainMngFeeJobSe) {
+		this.mainMngFeeJobSe = mainMngFeeJobSe;
 	}
 	/**
-	 * @return the sMngMtYear
+	 * @return the mainMngFeeSj
 	 */
-	public String getsMngMtYear() {
-		return sMngMtYear;
+	public String getMainMngFeeSj() {
+		return mainMngFeeSj;
 	}
 	/**
-	 * @param sMngMtYear the sMngMtYear to set
+	 * @param mainMngFeeSj the mainMngFeeSj to set
 	 */
-	public void setsMngMtYear(String sMngMtYear) {
-		this.sMngMtYear = sMngMtYear;
+	public void setMainMngFeeSj(String mainMngFeeSj) {
+		this.mainMngFeeSj = mainMngFeeSj;
 	}
 	/**
-	 * @return the sMngMtMon
+	 * @return the mainFcltyMngFee
 	 */
-	public String getsMngMtMon() {
-		return sMngMtMon;
+	public String getMainFcltyMngFee() {
+		return mainFcltyMngFee;
 	}
 	/**
-	 * @param sMngMtMon the sMngMtMon to set
+	 * @param mainFcltyMngFee the mainFcltyMngFee to set
 	 */
-	public void setsMngMtMon(String sMngMtMon) {
-		this.sMngMtMon = sMngMtMon;
+	public void setMainFcltyMngFee(String mainFcltyMngFee) {
+		this.mainFcltyMngFee = mainFcltyMngFee;
 	}
 	/**
-	 * @return the mngMt
+	 * @return the mainElctyFee
 	 */
-	public String getMngMt() {
-		return mngMt;
+	public String getMainElctyFee() {
+		return mainElctyFee;
 	}
 	/**
-	 * @param mngMt the mngMt to set
+	 * @param mainElctyFee the mainElctyFee to set
 	 */
-	public void setMngMt(String mngMt) {
-		this.mngMt = mngMt;
+	public void setMainElctyFee(String mainElctyFee) {
+		this.mainElctyFee = mainElctyFee;
 	}
 	/**
-	 * @return the mngFeeJobSe
+	 * @return the mainWaterFee
 	 */
-	public String getMngFeeJobSe() {
-		return mngFeeJobSe;
+	public String getMainWaterFee() {
+		return mainWaterFee;
 	}
 	/**
-	 * @param mngFeeJobSe the mngFeeJobSe to set
+	 * @param mainWaterFee the mainWaterFee to set
 	 */
-	public void setMngFeeJobSe(String mngFeeJobSe) {
-		this.mngFeeJobSe = mngFeeJobSe;
+	public void setMainWaterFee(String mainWaterFee) {
+		this.mainWaterFee = mainWaterFee;
 	}
 	/**
-	 * @return the mngFeeSj
+	 * @return the mainGasFee
 	 */
-	public String getMngFeeSj() {
-		return mngFeeSj;
+	public String getMainGasFee() {
+		return mainGasFee;
 	}
 	/**
-	 * @param mngFeeSj the mngFeeSj to set
+	 * @param mainGasFee the mainGasFee to set
 	 */
-	public void setMngFeeSj(String mngFeeSj) {
-		this.mngFeeSj = mngFeeSj;
+	public void setMainGasFee(String mainGasFee) {
+		this.mainGasFee = mainGasFee;
 	}
 	/**
-	 * @return the fcltyMngFee
+	 * @return the mainEnvFee
 	 */
-	public String getFcltyMngFee() {
-		return fcltyMngFee;
+	public String getMainEnvFee() {
+		return mainEnvFee;
 	}
 	/**
-	 * @param fcltyMngFee the fcltyMngFee to set
+	 * @param mainEnvFee the mainEnvFee to set
 	 */
-	public void setFcltyMngFee(String fcltyMngFee) {
-		this.fcltyMngFee = fcltyMngFee;
+	public void setMainEnvFee(String mainEnvFee) {
+		this.mainEnvFee = mainEnvFee;
 	}
 	/**
-	 * @return the elctyFee
+	 * @return the mainMngTotalFee
 	 */
-	public String getElctyFee() {
-		return elctyFee;
+	public String getMainMngTotalFee() {
+		return mainMngTotalFee;
 	}
 	/**
-	 * @param elctyFee the elctyFee to set
+	 * @param mainMngTotalFee the mainMngTotalFee to set
 	 */
-	public void setElctyFee(String elctyFee) {
-		this.elctyFee = elctyFee;
+	public void setMainMngTotalFee(String mainMngTotalFee) {
+		this.mainMngTotalFee = mainMngTotalFee;
 	}
 	/**
-	 * @return the waterFee
+	 * @return the mainRegUsr
 	 */
-	public String getWaterFee() {
-		return waterFee;
+	public String getMainRegUsr() {
+		return mainRegUsr;
 	}
 	/**
-	 * @param waterFee the waterFee to set
+	 * @param mainRegUsr the mainRegUsr to set
 	 */
-	public void setWaterFee(String waterFee) {
-		this.waterFee = waterFee;
+	public void setMainRegUsr(String mainRegUsr) {
+		this.mainRegUsr = mainRegUsr;
 	}
 	/**
-	 * @return the gasFee
+	 * @return the mainRegistDt
 	 */
-	public String getGasFee() {
-		return gasFee;
+	public String getMainRegistDt() {
+		return mainRegistDt;
 	}
 	/**
-	 * @param gasFee the gasFee to set
+	 * @param mainRegistDt the mainRegistDt to set
 	 */
-	public void setGasFee(String gasFee) {
-		this.gasFee = gasFee;
+	public void setMainRegistDt(String mainRegistDt) {
+		this.mainRegistDt = mainRegistDt;
 	}
 	/**
-	 * @return the envFee
+	 * @return the mainUpdUsr
 	 */
-	public String getEnvFee() {
-		return envFee;
+	public String getMainUpdUsr() {
+		return mainUpdUsr;
 	}
 	/**
-	 * @param envFee the envFee to set
+	 * @param mainUpdUsr the mainUpdUsr to set
 	 */
-	public void setEnvFee(String envFee) {
-		this.envFee = envFee;
+	public void setMainUpdUsr(String mainUpdUsr) {
+		this.mainUpdUsr = mainUpdUsr;
 	}
 	/**
-	 * @return the mngTotalFee
+	 * @return the mainUpdtDt
 	 */
-	public String getMngTotalFee() {
-		return mngTotalFee;
+	public String getMainUpdtDt() {
+		return mainUpdtDt;
 	}
 	/**
-	 * @param mngTotalFee the mngTotalFee to set
+	 * @param mainUpdtDt the mainUpdtDt to set
 	 */
-	public void setMngTotalFee(String mngTotalFee) {
-		this.mngTotalFee = mngTotalFee;
+	public void setMainUpdtDt(String mainUpdtDt) {
+		this.mainUpdtDt = mainUpdtDt;
 	}
 	/**
-	 * @return the regUsr
+	 * @return the mainNhtIsueYn
 	 */
-	public String getRegUsr() {
-		return regUsr;
+	public String getMainNhtIsueYn() {
+		return mainNhtIsueYn;
 	}
 	/**
-	 * @param regUsr the regUsr to set
+	 * @param mainNhtIsueYn the mainNhtIsueYn to set
 	 */
-	public void setRegUsr(String regUsr) {
-		this.regUsr = regUsr;
+	public void setMainNhtIsueYn(String mainNhtIsueYn) {
+		this.mainNhtIsueYn = mainNhtIsueYn;
 	}
 	/**
-	 * @return the registDt
+	 * @return the dataCount
 	 */
-	public String getRegistDt() {
-		return registDt;
+	public String getDataCount() {
+		return dataCount;
 	}
 	/**
-	 * @param registDt the registDt to set
+	 * @param dataCount the dataCount to set
 	 */
-	public void setRegistDt(String registDt) {
-		this.registDt = registDt;
+	public void setDataCount(String dataCount) {
+		this.dataCount = dataCount;
 	}
 	/**
-	 * @return the updUsr
+	 * @return the sumFcltyMngFee
 	 */
-	public String getUpdUsr() {
-		return updUsr;
+	public String getSumFcltyMngFee() {
+		return sumFcltyMngFee;
 	}
 	/**
-	 * @param updUsr the updUsr to set
+	 * @param sumFcltyMngFee the sumFcltyMngFee to set
 	 */
-	public void setUpdUsr(String updUsr) {
-		this.updUsr = updUsr;
+	public void setSumFcltyMngFee(String sumFcltyMngFee) {
+		this.sumFcltyMngFee = sumFcltyMngFee;
 	}
 	/**
-	 * @return the updtDt
+	 * @return the sumElctyFee
 	 */
-	public String getUpdtDt() {
-		return updtDt;
+	public String getSumElctyFee() {
+		return sumElctyFee;
 	}
 	/**
-	 * @param updtDt the updtDt to set
+	 * @param sumElctyFee the sumElctyFee to set
 	 */
-	public void setUpdtDt(String updtDt) {
-		this.updtDt = updtDt;
+	public void setSumElctyFee(String sumElctyFee) {
+		this.sumElctyFee = sumElctyFee;
 	}
 	/**
-	 * @return the sMngMt
+	 * @return the sumWaterFee
 	 */
-	public String getsMngMt() {
-		return sMngMt;
+	public String getSumWaterFee() {
+		return sumWaterFee;
 	}
 	/**
-	 * @param sMngMt the sMngMt to set
+	 * @param sumWaterFee the sumWaterFee to set
 	 */
-	public void setsMngMt(String sMngMt) {
-		this.sMngMt = sMngMt;
+	public void setSumWaterFee(String sumWaterFee) {
+		this.sumWaterFee = sumWaterFee;
+	}
+	/**
+	 * @return the sumGasFee
+	 */
+	public String getSumGasFee() {
+		return sumGasFee;
+	}
+	/**
+	 * @param sumGasFee the sumGasFee to set
+	 */
+	public void setSumGasFee(String sumGasFee) {
+		this.sumGasFee = sumGasFee;
+	}
+	/**
+	 * @return the sumEnvFee
+	 */
+	public String getSumEnvFee() {
+		return sumEnvFee;
+	}
+	/**
+	 * @param sumEnvFee the sumEnvFee to set
+	 */
+	public void setSumEnvFee(String sumEnvFee) {
+		this.sumEnvFee = sumEnvFee;
+	}
+	/**
+	 * @return the sumMngTotalFee
+	 */
+	public String getSumMngTotalFee() {
+		return sumMngTotalFee;
+	}
+	/**
+	 * @param sumMngTotalFee the sumMngTotalFee to set
+	 */
+	public void setSumMngTotalFee(String sumMngTotalFee) {
+		this.sumMngTotalFee = sumMngTotalFee;
+	}
+	/**
+	 * @return the sStartMngYear
+	 */
+	public String getsStartMngYear() {
+		return sStartMngYear;
+	}
+	/**
+	 * @param sStartMngYear the sStartMngYear to set
+	 */
+	public void setsStartMngYear(String sStartMngYear) {
+		this.sStartMngYear = sStartMngYear;
+	}
+	/**
+	 * @return the sStartMngMt
+	 */
+	public String getsStartMngMt() {
+		return sStartMngMt;
+	}
+	/**
+	 * @param sStartMngMt the sStartMngMt to set
+	 */
+	public void setsStartMngMt(String sStartMngMt) {
+		this.sStartMngMt = sStartMngMt;
+	}
+	/**
+	 * @return the sEndMngYear
+	 */
+	public String getsEndMngYear() {
+		return sEndMngYear;
+	}
+	/**
+	 * @param sEndMngYear the sEndMngYear to set
+	 */
+	public void setsEndMngYear(String sEndMngYear) {
+		this.sEndMngYear = sEndMngYear;
+	}
+	/**
+	 * @return the sEndMngMt
+	 */
+	public String getsEndMngMt() {
+		return sEndMngMt;
+	}
+	/**
+	 * @param sEndMngMt the sEndMngMt to set
+	 */
+	public void setsEndMngMt(String sEndMngMt) {
+		this.sEndMngMt = sEndMngMt;
 	}
 	/**
 	 * @return the sMngFeeJobSe
