@@ -29,6 +29,7 @@ GamPopupCtrtChangeMngtModule.prototype = new EmdPopupModule(1000, 480);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamPopupCtrtChangeMngtModule.prototype.loadComplete = function(fcltyCtrtChangeList) {
+	this._deleteCtrtChangeList = [];
 	this.resizable(true);
 
 	this.$("#grdInfoList").flexigrid({
@@ -50,15 +51,8 @@ GamPopupCtrtChangeMngtModule.prototype.loadComplete = function(fcltyCtrtChangeLi
 
 	this.$("#grdInfoList").flexAddData({resultList: fcltyCtrtChangeList});
 	
-	
-	this.$("#grdInfoList").on("onItemSelected", function(event, module, row, grid, param) {
-	});
-
-	this.$("#grdInfoList").on("onItemUnSelected", function(event, module, row, grid, param) {
-	});
-
 	this.$(".EditItem").bind("change keyup", {module: this}, function(event) {
-		event.data.module.ctrtJoinContrChanged(event.target);
+		event.data.module.ctrtChangeChanged(event.target);
 	});
 
 	this.$("#grdInfoList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -68,7 +62,7 @@ GamPopupCtrtChangeMngtModule.prototype.loadComplete = function(fcltyCtrtChangeLi
 };
 
 //속성 변경 된 경우 이벤트 실행
-GamPopupCtrtChangeMngtModule.prototype.ctrtJoinContrChanged = function(target) {
+GamPopupCtrtChangeMngtModule.prototype.ctrtChangeChanged = function(target) {
 	var changed=false;
 	var row={};
 	var selectRow = this.$('#grdInfoList').selectedRows();
@@ -111,71 +105,59 @@ GamPopupCtrtChangeMngtModule.prototype.ctrtJoinContrChanged = function(target) {
 	}
 };
 
+//계약변경 병합 리턴
+GamPopupCtrtChangeMngtModule.prototype.returnMergeData = function() {
+	var resultList = this.$('#grdInfoList').flexGetData();
+	var mergeData = {'resultList' : resultList, 'deleteCtrtChangeList' : this._deleteCtrtChangeList};
+	this.closeDialog("ok", mergeData);
+};
 
-// 사용자 설정 함수 추가
+// 계약변경 추가
+GamPopupCtrtChangeMngtModule.prototype.addCtrtChangeItem = function() {
+	this.$('#gamPopupCtrtChangeMngtForm :input').val('');
+	this.$("#grdInfoList").flexAddRow({'_updtId': 'I', 'ctrtNo':'', 'seq':'', 'changeDt':'','changeRsn':'','changeCtrtPdFrom':'','changeCtrtPdTo':'','changeCtrtAmt':'','lastCtrtAmt':'' ,'rm':''});
+	var allRows = this.$('#grdInfoList').flexGetData();
+	var selRowId = allRows.length - 1;
+	this.$("#grdInfoList").selectRowId(selRowId);
+};
+
+// 계약변경 삭제
+GamPopupCtrtChangeMngtModule.prototype.removeCtrtChangeItem = function() {
+	var rows = this.$("#grdInfoList").selectedRows();
+    if(rows.length == 0){
+        alert("계약변경목록에서 삭제할 행을 선택하십시오.");
+        return;
+    }
+    if(this.$("#grdInfoList").selectedRowIds().length>0) {
+    	for(var i=this.$("#grdInfoList").selectedRowIds().length-1; i>=0; i--) {
+    		var row = this.$("#grdInfoList").flexGetRow(this.$("#grdInfoList").selectedRowIds()[i]);
+    		if(row._updtId == undefined || row._updtId != "I") {
+            	this._deleteCtrtChangeList[this._deleteCtrtChangeList.length] = row;
+			}
+        	this.$("#grdInfoList").flexRemoveRow(this.$("#grdInfoList").selectedRowIds()[i]);
+        	this._edited=true;
+		}
+    	alert("삭제되었습니다.");
+	}
+    this.$("#gamPopupCtrtChangeMngtForm :input").val("");
+};
 
 GamPopupCtrtChangeMngtModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
-	case "btnEntrpsSearch":
-		var searchOpt=this.makeFormArgs("#gamPopupCtrtChangeMngtForm");
-	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
-	 	throw 0;
-		break;
-	case "btnOk":
-		var inputVO = this.$('#grdInfoList').flexGetData();
-		this.closeDialog("ok", inputVO);
-		break;
-	case "cancel":
-		this.cancelDialog();
-	// 추가
-	case "addBtn":
-		this.$('#gamPopupCtrtChangeMngtForm :input').val('');
-		this.$("#grdInfoList").flexAddRow({'changeDt':'','changeRsn':'','changeCtrtPdFrom':'','changeCtrtPdTo':'','changeCtrtAmt':'','lastCtrtAmt':'' ,'rm':''});
-		var all_rows = this.$('#grdInfoList').flexGetData();
-		var sel_row_id = all_rows.length - 1;
-		this.$("#grdInfoList").selectRowId(sel_row_id);
-	break;
+		case "btnOk":
+			this.returnMergeData();
+			break;
+		case "btnCancel":
+			this.cancelDialog();
+			break;
+		case "btnAdd":
+			this.addCtrtChangeItem();
+			break;
 		case "btnRemove":
 			this.removeCtrtChangeItem();
-		break;
+			break;
 	}
 };
-
-GamPopupCtrtChangeMngtModule.prototype.removeCtrtChangeItem = function() {
-	var rows = this.$("#grdInfoList").selectedRows();
-
-    if(rows.length == 0){
-        alert("파일목록에서 삭제할 행을 선택하십시오.");
-        return;
-    }
-
-    if(this.$("#grdInfoList").selectedRowIds().length>0) {
-    	for(var i=this.$("#grdInfoList").selectedRowIds().length-1; i>=0; i--) {
-
-    		var row = this.$("#grdInfoList").flexGetRow(this.$("#grdInfoList").selectedRowIds()[i]);
-
-        	this.$("#grdInfoList").flexRemoveRow(this.$("#grdInfoList").selectedRowIds()[i]);
-
-        	this._edited=true;
-		}
-
-    	alert("삭제되었습니다.");
-	}
-
-    this.$("#gamPopupCtrtChangeMngtForm").find(":input").val("");
-    this._editDataFile = null;
-};
-
-GamPopupCtrtChangeMngtModule.prototype.onSubmit = function() {
-	//this.showAlert(this.$("#prtCode").val()+"을(를) 조회 하였습니다");
-	this.loadData();
-};
-
-GamPopupCtrtChangeMngtModule.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs("#gamPopupCtrtChangeMngtForm");
- 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
-};
-
 
 // 다음 변수는 고정 적으로 정의 해야 함
 var popup_instance = new GamPopupCtrtChangeMngtModule();
@@ -186,10 +168,10 @@ var popup_instance = new GamPopupCtrtChangeMngtModule();
 		<div class="emdPanel fillHeight">
 	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>
 	        <div class="emdControlPanel">
-	            <button id="addBtn">추가</button>
+	            <button id="btnAdd">추가</button>
 	            <button id="btnRemove">삭제</button>
 	            <button id="btnOk">확인</button>
-            	<button id="cancel">취소</button>
+            	<button id="btnCancel">취소</button>
 	        </div>
 		<form id="gamPopupCtrtChangeMngtForm">
 			<table class="searchPanel">

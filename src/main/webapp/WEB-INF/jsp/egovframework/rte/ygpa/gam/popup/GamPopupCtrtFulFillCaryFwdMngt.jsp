@@ -6,7 +6,7 @@
 <%
   /**
   * @Class Name : GamPopupCtrtFulFillCaryFwdMngt.jsp
-  * @Description :  계약변경 추가/삭제 팝업 (Prototype)
+  * @Description :  계약이행이월 추가/삭제 팝업 (Prototype)
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -29,6 +29,7 @@ GamPopupCtrtFulFillCaryFwdMngtModule.prototype = new EmdPopupModule(1000, 480);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamPopupCtrtFulFillCaryFwdMngtModule.prototype.loadComplete = function(fcltyCtrtFulFillCaryFwdList) {
+	this._deleteCtrtFulFillCaryFwdList = [];
 	this.resizable(true);
 
 	this.$("#grdInfoList").flexigrid({
@@ -46,15 +47,8 @@ GamPopupCtrtFulFillCaryFwdMngtModule.prototype.loadComplete = function(fcltyCtrt
 
 	this.$("#grdInfoList").flexAddData({resultList: fcltyCtrtFulFillCaryFwdList});
 	
-	
-	this.$("#grdInfoList").on("onItemSelected", function(event, module, row, grid, param) {
-	});
-
-	this.$("#grdInfoList").on("onItemUnSelected", function(event, module, row, grid, param) {
-	});
-
 	this.$(".EditItem").bind("change keyup", {module: this}, function(event) {
-		event.data.module.ctrtJoinContrChanged(event.target);
+		event.data.module.ctrtFulFillCaryFwdChanged(event.target);
 	});
 
 	this.$("#grdInfoList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -64,7 +58,7 @@ GamPopupCtrtFulFillCaryFwdMngtModule.prototype.loadComplete = function(fcltyCtrt
 };
 
 //속성 변경 된 경우 이벤트 실행
-GamPopupCtrtFulFillCaryFwdMngtModule.prototype.ctrtJoinContrChanged = function(target) {
+GamPopupCtrtFulFillCaryFwdMngtModule.prototype.ctrtFulFillCaryFwdChanged = function(target) {
 	var changed=false;
 	var row={};
 	var selectRow = this.$('#grdInfoList').selectedRows();
@@ -92,70 +86,60 @@ GamPopupCtrtFulFillCaryFwdMngtModule.prototype.ctrtJoinContrChanged = function(t
 };
 
 
-// 사용자 설정 함수 추가
+//계약이행이월 병합 리턴
+GamPopupCtrtFulFillCaryFwdMngtModule.prototype.returnMergeData = function() {
+	var resultList = this.$('#grdInfoList').flexGetData();
+	var mergeData = {'resultList' : resultList, 'deleteCtrtFulFillCaryFwdList' : this._deleteCtrtFulFillCaryFwdList};
+	this.closeDialog("ok", mergeData);
+};
+
+// 계약이행이월 추가
+GamPopupCtrtFulFillCaryFwdMngtModule.prototype.addCtrtFulFillCaryFwdItem = function() {
+	this.$('#gamPopupCtrtFulFillCaryFwdMngtForm :input').val('');
+	this.$("#grdInfoList").flexAddRow({'_updtId': 'I', 'ctrtNo':'', 'seq':'', 'fulfillCaryFwdYear':'','fulfillAmt':'','caryFwdAmt':''});
+	var allRows = this.$('#grdInfoList').flexGetData();
+	var selRowId = allRows.length - 1;
+	this.$("#grdInfoList").selectRowId(selRowId);
+};
+
+// 계약이행이월 삭제
+GamPopupCtrtFulFillCaryFwdMngtModule.prototype.removeCtrtFulFillCaryFwdItem = function() {
+	var rows = this.$("#grdInfoList").selectedRows();
+    if(rows.length == 0){
+        alert("계약이행이월목록에서 삭제할 행을 선택하십시오.");
+        return;
+    }
+    if(this.$("#grdInfoList").selectedRowIds().length>0) {
+    	for(var i=this.$("#grdInfoList").selectedRowIds().length-1; i>=0; i--) {
+    		var row = this.$("#grdInfoList").flexGetRow(this.$("#grdInfoList").selectedRowIds()[i]);
+    		if(row._updtId == undefined || row._updtId != "I") {
+            	this._deleteCtrtFulFillCaryFwdList[this._deleteCtrtFulFillCaryFwdList.length] = row;
+			}
+        	this.$("#grdInfoList").flexRemoveRow(this.$("#grdInfoList").selectedRowIds()[i]);
+        	this._edited=true;
+		}
+    	alert("삭제되었습니다.");
+	}
+    this.$("#gamPopupCtrtFulFillCaryFwdMngtForm :input").val("");
+};
+
 
 GamPopupCtrtFulFillCaryFwdMngtModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
-	case "btnEntrpsSearch":
-		var searchOpt=this.makeFormArgs("#gamPopupCtrtFulFillCaryFwdMngtForm");
-	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
-	 	throw 0;
-		break;
-	case "btnOk":
-		var inputVO = this.$('#grdInfoList').flexGetData();
-		this.closeDialog("ok", inputVO);
-		break;
-	case "cancel":
-		this.cancelDialog();
-	// 추가
-	case "addBtn":
-		this.$('#gamPopupCtrtFulFillCaryFwdMngtForm :input').val('');
-		this.$("#grdInfoList").flexAddRow({'fulfillCaryFwdYear':'','fulfillAmt':'','caryFwdAmt':''});
-		var all_rows = this.$('#grdInfoList').flexGetData();
-		var sel_row_id = all_rows.length - 1;
-		this.$("#grdInfoList").selectRowId(sel_row_id);
-	break;
+		case "btnOk":
+			this.returnMergeData();
+			break;
+		case "btnCancel":
+			this.cancelDialog();
+			break;
+		case "btnAdd":
+			this.addCtrtFulFillCaryFwdItem();
+			break;
 		case "btnRemove":
 			this.removeCtrtFulFillCaryFwdItem();
-		break;
+			break;
 	}
 };
-
-GamPopupCtrtFulFillCaryFwdMngtModule.prototype.removeCtrtFulFillCaryFwdItem = function() {
-	var rows = this.$("#grdInfoList").selectedRows();
-
-    if(rows.length == 0){
-        alert("파일목록에서 삭제할 행을 선택하십시오.");
-        return;
-    }
-
-    if(this.$("#grdInfoList").selectedRowIds().length>0) {
-    	for(var i=this.$("#grdInfoList").selectedRowIds().length-1; i>=0; i--) {
-
-    		var row = this.$("#grdInfoList").flexGetRow(this.$("#grdInfoList").selectedRowIds()[i]);
-
-        	this.$("#grdInfoList").flexRemoveRow(this.$("#grdInfoList").selectedRowIds()[i]);
-
-        	this._edited=true;
-		}
-
-    	alert("삭제되었습니다.");
-	}
-
-    this.$("#gamPopupCtrtFulFillCaryFwdMngtForm").find(":input").val("");
-    this._editDataFile = null;
-};
-
-GamPopupCtrtFulFillCaryFwdMngtModule.prototype.onSubmit = function() {
-	//this.showAlert(this.$("#prtCode").val()+"을(를) 조회 하였습니다");
-	this.loadData();
-};
-
-GamPopupCtrtFulFillCaryFwdMngtModule.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs("#gamPopupCtrtFulFillCaryFwdMngtForm");
- 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
-};
-
 
 // 다음 변수는 고정 적으로 정의 해야 함
 var popup_instance = new GamPopupCtrtFulFillCaryFwdMngtModule();
@@ -166,10 +150,10 @@ var popup_instance = new GamPopupCtrtFulFillCaryFwdMngtModule();
 		<div class="emdPanel fillHeight">
 	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>
 	        <div class="emdControlPanel">
-	            <button id="addBtn">추가</button>
+	            <button id="btnAdd">추가</button>
 	            <button id="btnRemove">삭제</button>
 	            <button id="btnOk">확인</button>
-            	<button id="cancel">취소</button>
+            	<button id="btnCancel">취소</button>
 	        </div>
 		<form id="gamPopupCtrtFulFillCaryFwdMngtForm">
 			<table class="searchPanel">

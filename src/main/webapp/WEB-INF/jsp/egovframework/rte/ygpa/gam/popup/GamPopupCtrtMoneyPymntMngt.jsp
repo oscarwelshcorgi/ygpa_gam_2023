@@ -29,6 +29,7 @@ GamPopupCtrtMoneyPymntMngtModule.prototype = new EmdPopupModule(1000, 480);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamPopupCtrtMoneyPymntMngtModule.prototype.loadComplete = function(fcltyCtrtMoneyPymntList) {
+	this._deleteCtrtMoneyPymntList = [];
 	this.resizable(true);
 
 	this.$("#grdInfoList").flexigrid({
@@ -50,15 +51,8 @@ GamPopupCtrtMoneyPymntMngtModule.prototype.loadComplete = function(fcltyCtrtMone
 
 	this.$("#grdInfoList").flexAddData({resultList: fcltyCtrtMoneyPymntList});
 	
-	
-	this.$("#grdInfoList").on("onItemSelected", function(event, module, row, grid, param) {
-	});
-
-	this.$("#grdInfoList").on("onItemUnSelected", function(event, module, row, grid, param) {
-	});
-
 	this.$(".EditItem").bind("change keyup", {module: this}, function(event) {
-		event.data.module.ctrtJoinContrChanged(event.target);
+		event.data.module.ctrtMoneyPymntChanged(event.target);
 	});
 
 	this.$("#grdInfoList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -68,7 +62,7 @@ GamPopupCtrtMoneyPymntMngtModule.prototype.loadComplete = function(fcltyCtrtMone
 };
 
 //속성 변경 된 경우 이벤트 실행
-GamPopupCtrtMoneyPymntMngtModule.prototype.ctrtJoinContrChanged = function(target) {
+GamPopupCtrtMoneyPymntMngtModule.prototype.ctrtMoneyPymntChanged = function(target) {
 	var changed=false;
 	var row={};
 	var selectRow = this.$('#grdInfoList').selectedRows();
@@ -112,70 +106,59 @@ GamPopupCtrtMoneyPymntMngtModule.prototype.ctrtJoinContrChanged = function(targe
 };
 
 
-// 사용자 설정 함수 추가
+//계약대금지급 병합 리턴
+GamPopupCtrtMoneyPymntMngtModule.prototype.returnMergeData = function() {
+	var resultList = this.$('#grdInfoList').flexGetData();
+	var mergeData = {'resultList' : resultList, 'deleteCtrtMoneyPymntList' : this._deleteCtrtMoneyPymntList};
+	this.closeDialog("ok", mergeData);
+};
+
+// 계약대금지급 추가
+GamPopupCtrtMoneyPymntMngtModule.prototype.addCtrtMoneyPymntItem = function() {
+	this.$('#gamPopupCtrtMoneyPymntMngtForm :input').val('');
+	this.$("#grdInfoList").flexAddRow({'_updtId': 'I', 'ctrtNo':'', 'seq':'', 'pymntCl':'','pymntDt':'','thisTimeEstbAmt':'','depositExcclcAmt':'','pymntAmt':'','pymntAggrAmt':'' ,'rm':''});
+	var allRows = this.$('#grdInfoList').flexGetData();
+	var selRowId = allRows.length - 1;
+	this.$("#grdInfoList").selectRowId(selRowId);
+};
+
+// 계약대금지급 삭제
+GamPopupCtrtMoneyPymntMngtModule.prototype.removeCtrtMoneyPymntItem = function() {
+	var rows = this.$("#grdInfoList").selectedRows();
+    if(rows.length == 0){
+        alert("계약대금지급목록에서 삭제할 행을 선택하십시오.");
+        return;
+    }
+    if(this.$("#grdInfoList").selectedRowIds().length>0) {
+    	for(var i=this.$("#grdInfoList").selectedRowIds().length-1; i>=0; i--) {
+    		var row = this.$("#grdInfoList").flexGetRow(this.$("#grdInfoList").selectedRowIds()[i]);
+    		if(row._updtId == undefined || row._updtId != "I") {
+            	this._deleteCtrtMoneyPymntList[this._deleteCtrtMoneyPymntList.length] = row;
+			}
+        	this.$("#grdInfoList").flexRemoveRow(this.$("#grdInfoList").selectedRowIds()[i]);
+        	this._edited=true;
+		}
+    	alert("삭제되었습니다.");
+	}
+    this.$("#gamPopupCtrtMoneyPymntMngtForm :input").val("");
+};
 
 GamPopupCtrtMoneyPymntMngtModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
-	case "btnEntrpsSearch":
-		var searchOpt=this.makeFormArgs("#gamPopupCtrtMoneyPymntMngtForm");
-	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
-	 	throw 0;
-		break;
-	case "btnOk":
-		var inputVO = this.$('#grdInfoList').flexGetData();
-		this.closeDialog("ok", inputVO);
-		break;
-	case "cancel":
-		this.cancelDialog();
-	// 추가
-	case "addBtn":
-		this.$('#gamPopupCtrtMoneyPymntMngtForm :input').val('');
-		this.$("#grdInfoList").flexAddRow({'pymntCl':'','pymntDt':'','thisTimeEstbAmt':'','depositExcclcAmt':'','pymntAmt':'','pymntAggrAmt':'' ,'rm':''});
-		var all_rows = this.$('#grdInfoList').flexGetData();
-		var sel_row_id = all_rows.length - 1;
-		this.$("#grdInfoList").selectRowId(sel_row_id);
-	break;
+		case "btnOk":
+			this.returnMergeData();
+			break;
+		case "btnCancel":
+			this.cancelDialog();
+			break;
+		case "btnAdd":
+			this.addCtrtMoneyPymntItem();
+			break;
 		case "btnRemove":
 			this.removeCtrtMoneyPymntItem();
-		break;
+			break;
 	}
 };
-
-GamPopupCtrtMoneyPymntMngtModule.prototype.removeCtrtMoneyPymntItem = function() {
-	var rows = this.$("#grdInfoList").selectedRows();
-
-    if(rows.length == 0){
-        alert("파일목록에서 삭제할 행을 선택하십시오.");
-        return;
-    }
-
-    if(this.$("#grdInfoList").selectedRowIds().length>0) {
-    	for(var i=this.$("#grdInfoList").selectedRowIds().length-1; i>=0; i--) {
-
-    		var row = this.$("#grdInfoList").flexGetRow(this.$("#grdInfoList").selectedRowIds()[i]);
-
-        	this.$("#grdInfoList").flexRemoveRow(this.$("#grdInfoList").selectedRowIds()[i]);
-
-        	this._edited=true;
-		}
-
-    	alert("삭제되었습니다.");
-	}
-
-    this.$("#gamPopupCtrtMoneyPymntMngtForm").find(":input").val("");
-    this._editDataFile = null;
-};
-
-GamPopupCtrtMoneyPymntMngtModule.prototype.onSubmit = function() {
-	//this.showAlert(this.$("#prtCode").val()+"을(를) 조회 하였습니다");
-	this.loadData();
-};
-
-GamPopupCtrtMoneyPymntMngtModule.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs("#gamPopupCtrtMoneyPymntMngtForm");
- 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
-};
-
 
 // 다음 변수는 고정 적으로 정의 해야 함
 var popup_instance = new GamPopupCtrtMoneyPymntMngtModule();
@@ -186,10 +169,10 @@ var popup_instance = new GamPopupCtrtMoneyPymntMngtModule();
 		<div class="emdPanel fillHeight">
 	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>
 	        <div class="emdControlPanel">
-	            <button id="addBtn">추가</button>
+	            <button id="btnAdd">추가</button>
 	            <button id="btnRemove">삭제</button>
 	            <button id="btnOk">확인</button>
-            	<button id="cancel">취소</button>
+            	<button id="btnCancel">취소</button>
 	        </div>
 		<form id="gamPopupCtrtMoneyPymntMngtForm">
 			<table class="searchPanel">

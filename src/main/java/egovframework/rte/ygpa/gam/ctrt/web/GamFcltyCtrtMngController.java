@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.ctrt.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,12 +73,17 @@ public class GamFcltyCtrtMngController {
     	return "/ygpa/gam/ctrt/GamFcltyCtrtMng";
     }
 
+	/**
+	 * 계약정보 목록조회
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return map
+	 * @exception Exception
+	 */	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/ctrt/selectFcltyCtrtMngList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtMngList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		int totalCnt;
-		long sumPlanAmt, sumPrmtAmt, sumScsbidAmt, sumBaseAmt;
-    	Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -100,26 +106,28 @@ public class GamFcltyCtrtMngController {
 		GamFcltyCtrtMngVO fcltyCtrtMngSum = gamFcltyCtrtMngService.selectFcltyCtrtMngSum(searchVO);
     	
 		totalCnt = fcltyCtrtMngSum.getTotalCnt();
-		sumPlanAmt = fcltyCtrtMngSum.getSumPlanAmt();
-		sumPrmtAmt = fcltyCtrtMngSum.getSumPrmtAmt();
-		sumScsbidAmt = fcltyCtrtMngSum.getSumScsbidAmt();
-		sumBaseAmt = fcltyCtrtMngSum.getSumBaseAmt();
-    	
-    	paginationInfo.setTotalRecordCount(totalCnt);
+
+		paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
  
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
-    	map.put("sumPlanAmt", sumPlanAmt);
-    	map.put("sumPrmtAmt", sumPrmtAmt);
-    	map.put("sumScsbidAmt", sumScsbidAmt);
-    	map.put("sumBaseAmt", sumBaseAmt);
+    	map.put("sumPlanAmt", fcltyCtrtMngSum.getSumPlanAmt());
+    	map.put("sumPrmtAmt", fcltyCtrtMngSum.getSumPrmtAmt());
+    	map.put("sumScsbidAmt", fcltyCtrtMngSum.getSumScsbidAmt());
+    	map.put("sumBaseAmt", fcltyCtrtMngSum.getSumBaseAmt());
     	map.put("resultList", fcltyCtrtMngList);
     	map.put("searchOption", searchVO);
 
     	return map;
     }
 
+	/**
+	 * 계약정보 상세정보조회
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return map
+	 * @exception Exception
+	 */	
 	@RequestMapping(value="/ctrt/selectFcltyCtrtInfoDetailInquire.do")
 	@ResponseBody Map<String, Object> selectFcltyCtrtInfoDetailInquire( @ModelAttribute("gamFcltyCtrtMngVO") GamFcltyCtrtMngVO gamFcltyCtrtMngVO, BindingResult bindingResult)
 			throws Exception {
@@ -144,11 +152,17 @@ public class GamFcltyCtrtMngController {
     	return map;
     }
     
+	/**
+	 * 계약공동도급 목록조회
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return map
+	 * @exception Exception
+	 */	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/ctrt/selectFcltyCtrtJoinContrList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtJoinContrList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		int totalCnt;
-    	Map<String, Object> map = new HashMap<String, Object>();
+    	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -182,11 +196,17 @@ public class GamFcltyCtrtMngController {
     	return map;
     }
 
+	/**
+	 * 계약하도급 목록조회
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return map
+	 * @exception Exception
+	 */		
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/ctrt/selectFcltyCtrtSubCtrtList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtSubCtrtList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -220,11 +240,17 @@ public class GamFcltyCtrtMngController {
     	return map;
     }
 
+	/**
+	 * 계약변경 목록조회
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return map
+	 * @exception Exception
+	 */		
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/ctrt/selectFcltyCtrtChangeList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtChangeList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -259,12 +285,17 @@ public class GamFcltyCtrtMngController {
     	return map;
     }
 
-
+	/**
+	 * 계약대금지급 목록조회
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return map
+	 * @exception Exception
+	 */		
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/ctrt/selectFcltyCtrtMoneyPymntList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtMoneyPymntList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -298,11 +329,17 @@ public class GamFcltyCtrtMngController {
     	return map;
     }
 	
+	/**
+	 * 계약이행이월 목록조회
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return map
+	 * @exception Exception
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/ctrt/selectFcltyCtrtFulFillCaryFwdList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtFulFillCaryFwdList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -336,85 +373,32 @@ public class GamFcltyCtrtMngController {
     	return map;
     }
 	
+	/**
+	 * 계약정보 삽입
+	 * @param map - 삽입할 정보가 담긴 map
+	 * @return map
+	 * @exception Exception
+	 */		
     @RequestMapping(value="/ctrt/insertFcltyCtrtInfo.do")
-	@ResponseBody Map insertFcltyCtrtInfo(@RequestParam Map ctrtInfoData) throws Exception {
-    	Map map = new HashMap();
+	@ResponseBody Map<String, Object> insertFcltyCtrtInfo(@RequestParam Map<String, Object> ctrtInfoData) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
 
-    	ObjectMapper mapper = new ObjectMapper();
-    	Map<String, Object> ctrtInfo = new HashMap<String, Object>();
-    	List<HashMap<String,String>> ctrtJoinContrList = null;
-    	List<HashMap<String,String>> ctrtSubCtrtList = null;
-    	List<HashMap<String,String>> ctrtChangeList = null;
-    	List<HashMap<String,String>> ctrtMoneyPymntList = null;
-    	List<HashMap<String,String>> ctrtFulFillCaryFwdList = null;
-    	
-    	Map<String, String> subData = null;
-    	
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-		
-    	ctrtInfo = mapper.readValue((String)ctrtInfoData.get("ctrtInfo"),new TypeReference<HashMap<String,String>>(){});
-    	ctrtJoinContrList = mapper.readValue((String)ctrtInfoData.get("ctrtJoinContrList"),new TypeReference<List<HashMap<String,String>>>(){});
-    	ctrtSubCtrtList = mapper.readValue((String)ctrtInfoData.get("ctrtSubCtrtList"),new TypeReference<List<HashMap<String,String>>>(){});
-    	ctrtChangeList = mapper.readValue((String)ctrtInfoData.get("ctrtChangeList"),new TypeReference<List<HashMap<String,String>>>(){});
-    	ctrtMoneyPymntList = mapper.readValue((String)ctrtInfoData.get("ctrtMoneyPymntList"),new TypeReference<List<HashMap<String,String>>>(){});
-    	ctrtFulFillCaryFwdList = mapper.readValue((String)ctrtInfoData.get("ctrtFulFillCaryFwdList"),new TypeReference<List<HashMap<String,String>>>(){});
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+    	ctrtInfoData.put("regUsr", user.getId());
     	
-    	    	
     	try {
-    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-    		
-    		ctrtInfo.put("regUsr", loginVo.getId());
-    		gamFcltyCtrtMngService.insertFcltyCtrtInfoDetail(ctrtInfo);
-	    	
-	    	for(int i = 0, seq = 1; i < ctrtJoinContrList.size(); i++, seq++) {
-	    		subData = ctrtJoinContrList.get(i);
-	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
-	    		subData.put("seq", String.valueOf(seq));
-	    		subData.put("regUsr", loginVo.getId());
-	    		subData.put("updUsr", loginVo.getId());
-	    		gamFcltyCtrtMngService.insertFcltyCtrtJoinContrDetail(subData);
-	    	}
-	    	for(int i = 0, seq = 1; i < ctrtSubCtrtList.size(); i++, seq++) {
-	    		subData = ctrtSubCtrtList.get(i);
-	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
-	    		subData.put("seq", String.valueOf(seq));
-	    		subData.put("regUsr", loginVo.getId());
-	    		subData.put("updUsr", loginVo.getId());
-	    		gamFcltyCtrtMngService.insertFcltyCtrtSubCtrtDetail(subData);
-	    	}
-	    	for(int i = 0, seq = 1; i < ctrtChangeList.size(); i++, seq++) {
-	    		subData = ctrtChangeList.get(i);
-	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
-	    		subData.put("seq", String.valueOf(seq));
-	    		subData.put("regUsr", loginVo.getId());
-	    		subData.put("updUsr", loginVo.getId());
-	    		gamFcltyCtrtMngService.insertFcltyCtrtChangeDetail(subData);
-	    	}
-	    	for(int i = 0, seq = 1; i < ctrtMoneyPymntList.size(); i++, seq++) {
-	    		subData = ctrtMoneyPymntList.get(i);
-	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
-	    		subData.put("seq", String.valueOf(seq));
-	    		subData.put("regUsr", loginVo.getId());
-	    		subData.put("updUsr", loginVo.getId());
-	    		gamFcltyCtrtMngService.insertFcltyCtrtMoneyPymntDetail(subData);
-	    	}
-	    	for(int i = 0, seq = 1; i < ctrtFulFillCaryFwdList.size(); i++, seq++) {
-	    		subData = ctrtFulFillCaryFwdList.get(i);
-	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
-	    		subData.put("seq", String.valueOf(seq));
-	    		subData.put("regUsr", loginVo.getId());
-	    		subData.put("updUsr", loginVo.getId());
-	    		gamFcltyCtrtMngService.insertFcltyCtrtFulFillCaryFwdDetail(subData);
-	    	}
-	
+    		gamFcltyCtrtMngService.insertFcltyCtrtInfoDetail(ctrtInfoData);
     		map.put("resultCode", 0);			// return ok
-    		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-    	} catch (Exception e) {
+            map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
@@ -422,93 +406,32 @@ public class GamFcltyCtrtMngController {
     	return map;
     }	
 
+	/**
+	 * 계약정보 수정
+	 * @param map - 수정할 정보가 담긴 map
+	 * @return map
+	 * @exception Exception
+	 */		
     @RequestMapping(value="/ctrt/updateFcltyCtrtInfo.do")
-	@ResponseBody Map updateFcltyCtrtInfo(@RequestParam Map ctrtInfoData) throws Exception {
-    	Map map = new HashMap();
+	@ResponseBody Map<String, Object> updateFcltyCtrtInfo(@RequestParam Map<String, Object> ctrtInfoData) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
 
-    	ObjectMapper mapper = new ObjectMapper();
-    	Map<String, Object> ctrtInfo = new HashMap<String, Object>();
-    	List<HashMap<String,String>> ctrtJoinContrList = null;
-    	List<HashMap<String,String>> ctrtSubCtrtList = null;
-    	List<HashMap<String,String>> ctrtChangeList = null;
-    	List<HashMap<String,String>> ctrtMoneyPymntList = null;
-    	List<HashMap<String,String>> ctrtFulFillCaryFwdList = null;
-    	
-    	Map<String, String> subData = null;
-    	
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-		
-    	ctrtInfo = mapper.readValue((String)ctrtInfoData.get("ctrtInfo"),new TypeReference<HashMap<String,String>>(){});
-    	ctrtJoinContrList = mapper.readValue((String)ctrtInfoData.get("ctrtJoinContrList"),new TypeReference<List<HashMap<String,String>>>(){});
-    	ctrtSubCtrtList = mapper.readValue((String)ctrtInfoData.get("ctrtSubCtrtList"),new TypeReference<List<HashMap<String,String>>>(){});
-    	ctrtChangeList = mapper.readValue((String)ctrtInfoData.get("ctrtChangeList"),new TypeReference<List<HashMap<String,String>>>(){});
-    	ctrtMoneyPymntList = mapper.readValue((String)ctrtInfoData.get("ctrtMoneyPymntList"),new TypeReference<List<HashMap<String,String>>>(){});
-    	ctrtFulFillCaryFwdList = mapper.readValue((String)ctrtInfoData.get("ctrtFulFillCaryFwdList"),new TypeReference<List<HashMap<String,String>>>(){});
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+    	ctrtInfoData.put("regUsr", user.getId());
     	
     	try {
-    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-    		
-    		ctrtInfo.put("updUsr", loginVo.getId());
-    		gamFcltyCtrtMngService.updateFcltyCtrtInfoDetail(ctrtInfo);
-	    	
-    		gamFcltyCtrtMngService.deleteFcltyCtrtJoinContrAll(ctrtInfo);
-	    	for(int i = 0, seq = 1; i < ctrtJoinContrList.size(); i++, seq++) {
-	    		subData = ctrtJoinContrList.get(i);
-	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
-	    		subData.put("seq", String.valueOf(seq));
-	    		subData.put("regUsr", loginVo.getId());
-	    		subData.put("updUsr", loginVo.getId());
-	    		gamFcltyCtrtMngService.insertFcltyCtrtJoinContrDetail(subData);
-	    	}
-	    	
-	    	gamFcltyCtrtMngService.deleteFcltyCtrtSubCtrtAll(ctrtInfo);
-	    	for(int i = 0, seq = 1; i < ctrtSubCtrtList.size(); i++, seq++) {
-	    		subData = ctrtSubCtrtList.get(i);
-	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
-	    		subData.put("seq", String.valueOf(seq));
-	    		subData.put("regUsr", loginVo.getId());
-	    		subData.put("updUsr", loginVo.getId());
-	    		gamFcltyCtrtMngService.insertFcltyCtrtSubCtrtDetail(subData);
-	    	}
-	    	
-	    	gamFcltyCtrtMngService.deleteFcltyCtrtChangeAll(ctrtInfo);
-	    	for(int i = 0, seq = 1; i < ctrtChangeList.size(); i++, seq++) {
-	    		subData = ctrtChangeList.get(i);
-	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
-	    		subData.put("seq", String.valueOf(seq));
-	    		subData.put("regUsr", loginVo.getId());
-	    		subData.put("updUsr", loginVo.getId());
-	    		gamFcltyCtrtMngService.insertFcltyCtrtChangeDetail(subData);
-	    	}
-	    	
-	    	gamFcltyCtrtMngService.deleteFcltyCtrtMoneyPymntAll(ctrtInfo);
-	    	for(int i = 0, seq = 1; i < ctrtMoneyPymntList.size(); i++, seq++) {
-	    		subData = ctrtMoneyPymntList.get(i);
-	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
-	    		subData.put("seq", String.valueOf(seq));
-	    		subData.put("regUsr", loginVo.getId());
-	    		subData.put("updUsr", loginVo.getId());
-	    		gamFcltyCtrtMngService.insertFcltyCtrtMoneyPymntDetail(subData);
-	    	}
-	    	
-	    	gamFcltyCtrtMngService.deleteFcltyCtrtFulFillCaryFwdAll(ctrtInfo);
-	    	for(int i = 0, seq = 1; i < ctrtFulFillCaryFwdList.size(); i++, seq++) {
-	    		subData = ctrtFulFillCaryFwdList.get(i);
-	    		subData.put("ctrtNo", (String)ctrtInfo.get("ctrtNo"));
-	    		subData.put("seq", String.valueOf(seq));
-	    		subData.put("regUsr", loginVo.getId());
-	    		subData.put("updUsr", loginVo.getId());
-	    		gamFcltyCtrtMngService.insertFcltyCtrtFulFillCaryFwdDetail(subData);
-	    	}
-	
+    		gamFcltyCtrtMngService.updateFcltyCtrtInfoDetail(ctrtInfoData);
     		map.put("resultCode", 0);			// return ok
-    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
-    	} catch (Exception e) {
+            map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
@@ -516,27 +439,308 @@ public class GamFcltyCtrtMngController {
     	return map;
     }	
 
-    @RequestMapping(value="/ctrt/deleteFcltyCtrtInfo.do")
-	@ResponseBody Map deleteFcltyCtrtInfo(@RequestParam Map deleteMap) throws Exception {
-    	Map map = new HashMap();
+	/**
+	 * 계약공동도급 병합저장
+	 * @param map - 병합저장할 정보가 담긴 map
+	 * @return map
+	 * @exception Exception
+	 */		
+	@RequestMapping(value="/ctrt/mergeFcltyCtrtJoinContr.do")
+	@ResponseBody Map<String, Object> mergeFcltyCtrtJoinContr(@RequestParam Map<String, Object> dataList) throws Exception {
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String, String> userMap = new HashMap<String, String>();
+		ObjectMapper mapper = new ObjectMapper();
 
-    	ObjectMapper mapper = new ObjectMapper();
-    	
+    	List<HashMap<String,String>> insertList=null;
+    	List<HashMap<String,String>> updateList=null;
+    	List<HashMap<String,String>> deleteList=null;
+    	List<Map<String,String>> userList=null;
+
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-		
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	
+		insertList = mapper.readValue((String)dataList.get("insertList"),
+		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		updateList = mapper.readValue((String)dataList.get("updateList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		deleteList = mapper.readValue((String)dataList.get("deleteList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+		
+		userList = new ArrayList<Map<String,String>>();
+		userMap.put("id",  loginVO.getId());
+		userList.add(userMap);
+
+		Map<String,Object> mergeMap = new HashMap<String,Object>();
+		insertList.addAll(updateList);
+		mergeMap.put("CU", insertList);
+		mergeMap.put("D", deleteList);
+		mergeMap.put("USER", userList);
+		
+		try {
+			gamFcltyCtrtMngService.mergeFcltyCtrtJoinContrDetail(mergeMap);
+	        map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+		} catch(Exception e) {
+	        map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.merge"));
+		}
+		return map;
+	}	
+    
+	/**
+	 * 계약하도급 병합저장
+	 * @param map - 병합저장할 정보가 담긴 map
+	 * @return map
+	 * @exception Exception
+	 */		
+	@RequestMapping(value="/ctrt/mergeFcltyCtrtSubCtrt.do")
+	@ResponseBody Map<String, Object> mergeFcltyCtrtSubCtrt(@RequestParam Map<String, Object> dataList) throws Exception {
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String, String> userMap = new HashMap<String, String>();
+		ObjectMapper mapper = new ObjectMapper();
+
+    	List<HashMap<String,String>> insertList=null;
+    	List<HashMap<String,String>> updateList=null;
+    	List<HashMap<String,String>> deleteList=null;
+    	List<Map<String,String>> userList=null;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+		insertList = mapper.readValue((String)dataList.get("insertList"),
+		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		updateList = mapper.readValue((String)dataList.get("updateList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		deleteList = mapper.readValue((String)dataList.get("deleteList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+		
+		userList = new ArrayList<Map<String,String>>();
+		userMap.put("id",  loginVO.getId());
+		userList.add(userMap);
+
+		Map<String,Object> mergeMap = new HashMap<String,Object>();
+		insertList.addAll(updateList);
+		mergeMap.put("CU", insertList);
+		mergeMap.put("D", deleteList);
+		mergeMap.put("USER", userList);
+
+		try {
+			gamFcltyCtrtMngService.mergeFcltyCtrtSubCtrtDetail(mergeMap);
+	        map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+		} catch(Exception e) {
+	        map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.merge"));			
+		}
+		return map;
+	}	
+
+	/**
+	 * 계약변경 병합저장
+	 * @param map - 병합저장할 정보가 담긴 map
+	 * @return map
+	 * @exception Exception
+	 */		
+	@RequestMapping(value="/ctrt/mergeFcltyCtrtChange.do")
+	@ResponseBody Map<String, Object> mergeFcltyCtrtChange(@RequestParam Map<String, Object> dataList) throws Exception {
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String, String> userMap = new HashMap<String, String>();
+		ObjectMapper mapper = new ObjectMapper();
+
+    	List<HashMap<String,String>> insertList=null;
+    	List<HashMap<String,String>> updateList=null;
+    	List<HashMap<String,String>> deleteList=null;
+    	List<Map<String,String>> userList=null;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+		insertList = mapper.readValue((String)dataList.get("insertList"),
+		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		updateList = mapper.readValue((String)dataList.get("updateList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		deleteList = mapper.readValue((String)dataList.get("deleteList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+		
+		userList = new ArrayList<Map<String,String>>();
+		userMap.put("id",  loginVO.getId());
+		userList.add(userMap);
+
+		Map<String,Object> mergeMap = new HashMap<String,Object>();
+		insertList.addAll(updateList);
+		mergeMap.put("CU", insertList);
+		mergeMap.put("D", deleteList);
+		mergeMap.put("USER", userList);
+		
+		try {
+			gamFcltyCtrtMngService.mergeFcltyCtrtChangeDetail(mergeMap);
+	        map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+		} catch(Exception e) {
+	        map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.merge"));
+		}
+		
+		return map;
+	}	
+	
+	/**
+	 * 계약대금지급 병합저장
+	 * @param map - 병합저장할 정보가 담긴 map
+	 * @return map
+	 * @exception Exception
+	 */		
+	@RequestMapping(value="/ctrt/mergeFcltyCtrtMoneyPymnt.do")
+	@ResponseBody Map<String, Object> mergeFcltyCtrtMoneyPymnt(@RequestParam Map<String, Object> dataList) throws Exception {
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String, String> userMap = new HashMap<String, String>();
+		ObjectMapper mapper = new ObjectMapper();
+
+    	List<HashMap<String,String>> insertList=null;
+    	List<HashMap<String,String>> updateList=null;
+    	List<HashMap<String,String>> deleteList=null;
+    	List<Map<String,String>> userList=null;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+		insertList = mapper.readValue((String)dataList.get("insertList"),
+		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		updateList = mapper.readValue((String)dataList.get("updateList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		deleteList = mapper.readValue((String)dataList.get("deleteList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+		
+		userList = new ArrayList<Map<String,String>>();
+		userMap.put("id",  loginVO.getId());
+		userList.add(userMap);
+
+		Map<String,Object> mergeMap = new HashMap<String,Object>();
+		insertList.addAll(updateList);
+		mergeMap.put("CU", insertList);
+		mergeMap.put("D", deleteList);
+		mergeMap.put("USER", userList);
+
+		try {
+			gamFcltyCtrtMngService.mergeFcltyCtrtMoneyPymntDetail(mergeMap);
+	        map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+		} catch(Exception e) {
+	        map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.merge"));			
+		}
+		return map;
+	}	
+
+	/**
+	 * 계약이행이월 병합저장
+	 * @param map - 병합저장할 정보가 담긴 map
+	 * @return map
+	 * @exception Exception
+	 */		
+	@RequestMapping(value="/ctrt/mergeFcltyCtrtFulFillCaryFwd.do")
+	@ResponseBody Map<String, Object> mergeFcltyCtrtFulFillCaryFwd(@RequestParam Map<String, Object> dataList) throws Exception {
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String, String> userMap = new HashMap<String, String>();
+		ObjectMapper mapper = new ObjectMapper();
+
+    	List<HashMap<String,String>> insertList=null;
+    	List<HashMap<String,String>> updateList=null;
+    	List<HashMap<String,String>> deleteList=null;
+    	List<Map<String,String>> userList=null;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+		insertList = mapper.readValue((String)dataList.get("insertList"),
+		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		updateList = mapper.readValue((String)dataList.get("updateList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		deleteList = mapper.readValue((String)dataList.get("deleteList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+		
+		userList = new ArrayList<Map<String,String>>();
+		userMap.put("id",  loginVO.getId());
+		userList.add(userMap);
+
+		Map<String,Object> mergeMap = new HashMap<String,Object>();
+		insertList.addAll(updateList);
+		mergeMap.put("CU", insertList);
+		mergeMap.put("D", deleteList);
+		mergeMap.put("USER", userList);
+
+		try {
+			gamFcltyCtrtMngService.mergeFcltyCtrtMoneyPymntDetail(mergeMap);
+	        map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+		} catch(Exception e) {
+	        map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.merge"));
+		}
+		return map;
+	}	
+
+	/**
+	 * 계약정보(하위 포함) 삭제
+	 * @param map - 삭제할 정보가 담긴 map
+	 * @return map
+	 * @exception Exception
+	 */		
+	@RequestMapping(value="/ctrt/deleteFcltyCtrtInfo.do")
+	@ResponseBody Map<String, Object> deleteFcltyCtrtInfo(@RequestParam Map<String, Object> deleteMap) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
     	try {
-    		gamFcltyCtrtMngService.deleteFcltyCtrtJoinContrAll(deleteMap);
-	    	gamFcltyCtrtMngService.deleteFcltyCtrtSubCtrtAll(deleteMap);
-	    	gamFcltyCtrtMngService.deleteFcltyCtrtChangeAll(deleteMap);
-	    	gamFcltyCtrtMngService.deleteFcltyCtrtMoneyPymntAll(deleteMap);
-	    	gamFcltyCtrtMngService.deleteFcltyCtrtFulFillCaryFwdAll(deleteMap);
+    		gamFcltyCtrtMngService.deleteFcltyCtrtJoinContrList(deleteMap);
+	    	gamFcltyCtrtMngService.deleteFcltyCtrtSubCtrtList(deleteMap);
+	    	gamFcltyCtrtMngService.deleteFcltyCtrtChangeList(deleteMap);
+	    	gamFcltyCtrtMngService.deleteFcltyCtrtMoneyPymntList(deleteMap);
+	    	gamFcltyCtrtMngService.deleteFcltyCtrtFulFillCaryFwdList(deleteMap);
 	    	gamFcltyCtrtMngService.deleteFcltyCtrtInfoDetail(deleteMap);
 	    	
     		map.put("resultCode", 0);			// return ok
@@ -545,7 +749,6 @@ public class GamFcltyCtrtMngController {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
-
     	return map;
     }	
 }

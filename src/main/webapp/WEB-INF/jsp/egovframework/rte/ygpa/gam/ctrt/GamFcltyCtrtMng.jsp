@@ -69,7 +69,12 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
     });
 	
 	this._cmd = '';
-
+	this._deleteCtrtJoinContrList = null;
+	this._deleteCtrtSubCtrtList = null;
+	this._deleteCtrtChangeList = null;
+	this._deleteCtrtMoneyPymntList = null;
+	this._deleteCtrtFulFillCaryFwdList = null;
+	
 	this.$("#fcltyCtrtMngList").on("onItemSelected", function(event, module, row, grid, param) {
 		module._cmd = "modify";
 	});
@@ -176,6 +181,31 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
     });
 };
 
+//화면 및 변수 초기화
+GamFcltyCtrtMngModule.prototype.initDisplay = function() {
+	this._deleteCtrtJoinContrList = [];
+	this._deleteCtrtSubCtrtList = [];
+	this._deleteCtrtChangeList = [];
+	this._deleteCtrtMoneyPymntList = [];
+	this._deleteCtrtFulFillCaryFwdList = [];
+
+	this.$('#gamFcltyCtrtMngDetailForm :input').val('');
+	this.$("#fcltyCtrtJoinContrList").flexEmptyData();
+	this.$("#fcltyCtrtSubCtrtList").flexEmptyData();
+	this.$("#fcltyCtrtChangeList").flexEmptyData();
+	this.$("#fcltyCtrtMoneyPymntList").flexEmptyData();
+	this.$("#fcltyCtrtFulFillCaryFwdList").flexEmptyData();
+	if(this._cmd == 'insert') {
+		this.$('#ctrtNo').enable();
+		this.$("#fcltyCtrtMngListTab").tabs("option", {active: 1});
+	} else if (this._cmd == 'modify') {
+		this.$('#ctrtNo').disable();
+	} else {
+		this.$('#ctrtNo').disable();
+		this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
+	}
+};
+
 GamFcltyCtrtMngModule.prototype.onSubmit = function() {
     this.loadData();
 };
@@ -211,63 +241,33 @@ GamFcltyCtrtMngModule.prototype.loadDetailData = function() {
 	}
 };
 
-//화면 및 변수 초기화
-GamFcltyCtrtMngModule.prototype.initDisplay = function() {
-	this.$('#gamFcltyCtrtMngDetailForm :input').val('');
-	this.$("#fcltyCtrtJoinContrList").flexEmptyData();
-	this.$("#fcltyCtrtSubCtrtList").flexEmptyData();
-	this.$("#fcltyCtrtChangeList").flexEmptyData();
-	this.$("#fcltyCtrtMoneyPymntList").flexEmptyData();
-	this.$("#fcltyCtrtFulFillCaryFwdList").flexEmptyData();
-	if(this._cmd == 'insert') {
-		this.$('#ctrtNo').enable();
-		this.$("#fcltyCtrtMngListTab").tabs("option", {active: 1});
-	} else if (this._cmd == 'modify') {
-		this.$('#ctrtNo').disable();
-	} else {
-		this.$('#ctrtNo').disable();
-		this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
-	}
-};
-
-// 계약정보를 하나로 병합.
-GamFcltyCtrtMngModule.prototype.mergeData = function() {
-	var ctrtInfo = JSON.stringify(this.getFormValues("#gamFcltyCtrtMngDetailForm"));
-	var ctrtJoinContrList = JSON.stringify(this.$('#fcltyCtrtJoinContrList').flexGetData());
-	var ctrtSubCtrtList = JSON.stringify(this.$('#fcltyCtrtSubCtrtList').flexGetData());
-	var ctrtChangeList = JSON.stringify(this.$('#fcltyCtrtChangeList').flexGetData());
-	var ctrtMoneyPymntList = JSON.stringify(this.$('#fcltyCtrtMoneyPymntList').flexGetData());
-	var ctrtFulFillCaryFwdList = JSON.stringify(this.$('#fcltyCtrtFulFillCaryFwdList').flexGetData());
-	
-	var opts = [];
-	opts[opts.length] = {name:'ctrtInfo', value: ctrtInfo};
-	opts[opts.length] = {name:'ctrtJoinContrList', value: ctrtJoinContrList};
-	opts[opts.length] = {name:'ctrtSubCtrtList', value: ctrtSubCtrtList};
-	opts[opts.length] = {name:'ctrtChangeList', value: ctrtChangeList};
-	opts[opts.length] = {name:'ctrtMoneyPymntList', value: ctrtMoneyPymntList};
-	opts[opts.length] = {name:'ctrtFulFillCaryFwdList',value: ctrtFulFillCaryFwdList};
-	
-	return opts;
-};
-
 //계약정보 데이터 삽입
 GamFcltyCtrtMngModule.prototype.insertData = function() {
-	var data = this.mergeData();
-	this.doAction('/ctrt/insertFcltyCtrtInfo.do', data, function(module, result) {
-		if(result.resultCode == 0) {
-			module._cmd = 'modify';
-			module.$('#ctrtNo').disable();
+	var data = this.makeFormArgs("#gamFcltyCtrtMngDetailForm");
+ 	this.doAction('/ctrt/insertFcltyCtrtInfo.do', data, function(module, result) {
+ 		if(result.resultCode == "0"){
+ 			module._cmd = "modify";
+			module.saveCtrtJoinContrList();
+			module.saveCtrtSubCtrtList();
+			module.saveCtrtChangeList();
+			module.saveCtrtMoneyPymntList();
+			module.saveCtrtFulFillCaryFwdList();
 			module.loadData();
-		}
-		alert(result.resultMsg);
-	});	
+ 		}
+ 		alert(result.resultMsg);
+ 	});	
 };
 
 //계약정보 데이터 수정
 GamFcltyCtrtMngModule.prototype.updateData = function() {
-	var data = this.mergeData();
+	var data = this.makeFormArgs("#gamFcltyCtrtMngDetailForm");
 	this.doAction('/ctrt/updateFcltyCtrtInfo.do', data, function(module, result) {
 		if(result.resultCode == 0) {
+			module.saveCtrtJoinContrList();
+			module.saveCtrtSubCtrtList();
+			module.saveCtrtChangeList();
+			module.saveCtrtMoneyPymntList();
+			module.saveCtrtFulFillCaryFwdList();
 			module.loadData();
 		}
 		alert(result.resultMsg);
@@ -308,13 +308,161 @@ GamFcltyCtrtMngModule.prototype.deleteData = function() {
 	}
 };
 
+//계약공동도급 수정 팝업
+GamFcltyCtrtMngModule.prototype.showModifyCtrtJoinContrList = function() {
+	var allRows = this.$('#fcltyCtrtJoinContrList').flexGetData();
+	this.doExecuteDialog('updateCtrtJoinContr', '계약공동도급관리', '/popup/showCtrtJoinContrMngt.do', {}, allRows);
+};
+
+//계약공동도급 병합 저장
+GamFcltyCtrtMngModule.prototype.saveCtrtJoinContrList = function() {
+	var dataList = this.$("#fcltyCtrtJoinContrList").flexGetData();
+	for(var i=0; i<dataList.length; i++) {
+		dataList[i]["ctrtNo"] = this.$("#ctrtNo").val();
+	}
+    var inputVO=[];
+    inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltyCtrtJoinContrList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyCtrtJoinContrList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteCtrtJoinContrList) };
+    this.doAction('/ctrt/mergeFcltyCtrtJoinContr.do', inputVO, function(module, result) {
+        if(result.resultCode == 0){
+			module._deleteCtrtJoinContrList = [];				    	
+			var opts = [
+		           		{name: 'sCtrtNo', value: module.$("#ctrtNo").val() }
+			           ];
+			module.$("#fcltyCtrtJoinContrList").flexOptions({params:opts}).flexReload();
+        }
+        else {
+        	alert(result.resultMsg);
+        }
+    });	
+};
+
+//계약하도급 수정 팝업
+GamFcltyCtrtMngModule.prototype.showModifyCtrtSubCtrtList = function() {
+	var allRows = this.$('#fcltyCtrtSubCtrtList').flexGetData();
+	this.doExecuteDialog('updateCtrtSubCtrt', '계약하도급관리', '/popup/showCtrtSubCtrtMngt.do', {}, allRows);
+};
+
+//계약하도급 병합저장
+GamFcltyCtrtMngModule.prototype.saveCtrtSubCtrtList = function() {
+	var dataList = this.$("#fcltyCtrtSubCtrtList").flexGetData();
+	for(var i=0; i<dataList.length; i++) {
+		dataList[i]["ctrtNo"] = this.$("#ctrtNo").val();
+	}
+    var inputVO=[];
+    inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltyCtrtSubCtrtList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyCtrtSubCtrtList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteCtrtSubCtrtList) };
+    this.doAction('/ctrt/mergeFcltyCtrtSubCtrt.do', inputVO, function(module, result) {
+        if(result.resultCode == 0){
+			module._deleteCtrtSubCtrtList = [];				    	
+			var opts = [
+		           		{name: 'sCtrtNo', value: module.$("#ctrtNo").val() }
+			           ];
+			module.$("#fcltyCtrtSubCtrtList").flexOptions({params:opts}).flexReload();
+        }
+        else {
+        	alert(result.resultMsg);
+        }
+    });	
+};
+
+//계약변경 수정 팝업
+GamFcltyCtrtMngModule.prototype.showModifyCtrtChangeList = function() {
+	var allRows = this.$('#fcltyCtrtChangeList').flexGetData();
+	this.doExecuteDialog('updateCtrtChange', '계약변경관리', '/popup/showCtrtChangeMngt.do', {}, allRows);
+};
+
+//계약변경 병합저장
+GamFcltyCtrtMngModule.prototype.saveCtrtChangeList = function() {
+	var dataList = this.$("#fcltyCtrtChangeList").flexGetData();
+	for(var i=0; i<dataList.length; i++) {
+		dataList[i]["ctrtNo"] = this.$("#ctrtNo").val();
+	}
+    var inputVO=[];
+    inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltyCtrtChangeList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyCtrtChangeList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteCtrtChangeList) };
+    this.doAction('/ctrt/mergeFcltyCtrtChange.do', inputVO, function(module, result) {
+        if(result.resultCode == 0){
+			module._deleteCtrtChangeList = [];				    	
+			var opts = [
+		           		{name: 'sCtrtNo', value: module.$("#ctrtNo").val() }
+			           ];
+			module.$("#fcltyCtrtChangeList").flexOptions({params:opts}).flexReload();
+        }
+        else {
+        	alert(result.resultMsg);
+        }
+    });	
+};
+
+//계약대금지급 수정 팝업
+GamFcltyCtrtMngModule.prototype.showModifyCtrtMoneyPymntList = function() {
+	var allRows = this.$('#fcltyCtrtMoneyPymntList').flexGetData();
+	this.doExecuteDialog('updateCtrtMoneyPymnt', '계약대금지급관리', '/popup/showCtrtMoneyPymntMngt.do', {}, allRows);
+};
+
+//계약대금지급 병합저장
+GamFcltyCtrtMngModule.prototype.saveCtrtMoneyPymntList = function() {
+	var dataList = this.$("#fcltyCtrtMoneyPymntList").flexGetData();
+	for(var i=0; i<dataList.length; i++) {
+		dataList[i]["ctrtNo"] = this.$("#ctrtNo").val();
+	}
+    var inputVO=[];
+    inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltyCtrtMoneyPymntList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyCtrtMoneyPymntList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteCtrtMoneyPymntList) };
+    this.doAction('/ctrt/mergeFcltyCtrtMoneyPymnt.do', inputVO, function(module, result) {
+        if(result.resultCode == 0){
+			module._deleteCtrtMoneyPymntList = [];				    	
+			var opts = [
+		           		{name: 'sCtrtNo', value: module.$("#ctrtNo").val() }
+			           ];
+			module.$("#fcltyCtrtMoneyPymntList").flexOptions({params:opts}).flexReload();
+        }
+        else {
+        	alert(result.resultMsg);
+        }
+    });	
+};
+
+//계약이행이월 수정 팝업
+GamFcltyCtrtMngModule.prototype.showModifyCtrtFulFillCaryFwdList = function() {
+	var allRows = this.$('#fcltyCtrtFulFillCaryFwdList').flexGetData();
+	this.doExecuteDialog('updateCtrtFulFillCaryFwd', '계약이행이월관리', '/popup/showCtrtFulFillCaryFwdMngt.do', {}, allRows);
+};
+
+//계약이행이월 병합저장
+GamFcltyCtrtMngModule.prototype.saveCtrtFulFillCaryFwdList = function() {
+	var dataList = this.$("#fcltyCtrtFulFillCaryFwdList").flexGetData();
+	for(var i=0; i<dataList.length; i++) {
+		dataList[i]["ctrtNo"] = this.$("#ctrtNo").val();
+	}
+    var inputVO=[];
+    inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltyCtrtFulFillCaryFwdList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyCtrtFulFillCaryFwdList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteCtrtFulFillCaryFwdList) };
+    this.doAction('/ctrt/mergeFcltyCtrtFulFillCaryFwd.do', inputVO, function(module, result) {
+        if(result.resultCode == 0){
+			module._deleteCtrtFulFillCaryFwdList = [];				    	
+			var opts = [
+		           		{name: 'sCtrtNo', value: module.$("#ctrtNo").val() }
+			           ];
+			module.$("#fcltyCtrtFulFillCaryFwdList").flexOptions({params:opts}).flexReload();
+        }
+        else {
+        	alert(result.resultMsg);
+        }
+    });	
+};
+
 /**
  * 정의 된 버튼 클릭 시
  */
 GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 	var opts = null;
-	var allRows = null;
-	
     switch(buttonId) {
         case 'searchBtn': //조회
         	this._cmd = "";
@@ -338,24 +486,19 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
             this.doExecuteDialog('selectEntrpsInfoPopup2', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
         case 'btnCtrtJoinContrUpdate': //계약공동도급관리 편집
-        	allRows = this.$('#fcltyCtrtJoinContrList').flexGetData();
-        	this.doExecuteDialog('updateCtrtJoinContr', '계약공동도급관리', '/popup/showCtrtJoinContrMngt.do', {}, allRows);
+        	this.showModifyCtrtJoinContrList();
         	break;
         case 'btnCtrtSubCtrtUpdate': //계약하도급관리 편집
-        	allRows = this.$('#fcltyCtrtSubCtrtList').flexGetData();
-        	this.doExecuteDialog('updateCtrtSubCtrt', '계약하도급관리', '/popup/showCtrtSubCtrtMngt.do', {}, allRows);
+        	this.showModifyCtrtSubCtrtList();
         	break;
         case 'btnCtrtChangeUpdate': //계약변경관리 편집
-        	allRows = this.$('#fcltyCtrtChangeList').flexGetData();
-        	this.doExecuteDialog('updateCtrtChange', '계약변경관리', '/popup/showCtrtChangeMngt.do', {}, allRows);
+        	this.showModifyCtrtChangeList();
         	break;
         case 'btnCtrtMoneyPymntUpdate': //계약대금지급 편집
-        	allRows = this.$('#fcltyCtrtMoneyPymntList').flexGetData();
-        	this.doExecuteDialog('updateCtrtMoneyPymnt', '계약대금지급관리', '/popup/showCtrtMoneyPymntMngt.do', {}, allRows);
+        	this.showModifyCtrtMoneyPymntList();
         	break;
         case 'btnCtrtFulFillCaryFwdUpdate': //계약이행이월 편집
-        	allRows = this.$('#fcltyCtrtFulFillCaryFwdList').flexGetData();
-        	this.doExecuteDialog('updateCtrtFulFillCaryFwd', '계약대금지급관리', '/popup/showCtrtFulFillCaryFwdMngt.do', {}, allRows);
+        	this.showModifyCtrtFulFillCaryFwdList();
         	break;
     }
 };
@@ -366,13 +509,16 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 GamFcltyCtrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	if(oldTabId == 'tabs1' && this._cmd == 'modify') {
 		this.initDisplay();
-		this.$('#tabs2').scrollTop(0);
 		this.loadDetailData();
 	}
     switch(newTabId) {
 	    case 'tabs1':
 	        break;
 	    case 'tabs2':
+			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
+				this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
+				alert('계약정보목록을 선택하시거나 추가버튼을 누르세요.');
+			} 	    	
 	        break;
 	    case 'tabs3':
 			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
@@ -423,23 +569,28 @@ GamFcltyCtrtMngModule.prototype.onClosePopup = function(popupId, msg, value) {
 	    	break;
 		case 'updateCtrtJoinContr' : //계약공동도급관리 편집
 			this.$("#fcltyCtrtJoinContrList").flexEmptyData();
-			this.$("#fcltyCtrtJoinContrList").flexAddData({resultList: value});
+			this.$("#fcltyCtrtJoinContrList").flexAddData({resultList: value["resultList"]});
+			this._deleteCtrtJoinContrList = value["deleteCtrtJoinContrList"];
 	 		break;
 		case 'updateCtrtSubCtrt' : //계약하도급관리 편집
 			this.$("#fcltyCtrtSubCtrtList").flexEmptyData();
-			this.$("#fcltyCtrtSubCtrtList").flexAddData({resultList: value});
+			this.$("#fcltyCtrtSubCtrtList").flexAddData({resultList: value["resultList"]});
+			this._deleteCtrtSubCtrtList = value["deleteCtrtSubCtrtList"];
 	 		break;
 		case 'updateCtrtChange' : //계약변경관리 편집
 			this.$("#fcltyCtrtChangeList").flexEmptyData();
-			this.$("#fcltyCtrtChangeList").flexAddData({resultList: value});
+			this.$("#fcltyCtrtChangeList").flexAddData({resultList: value["resultList"]});
+			this._deleteCtrtChangeList = value["deleteCtrtChangeList"];
 	 		break;
 		case 'updateCtrtMoneyPymnt' : //계약변경관리 편집
 			this.$("#fcltyCtrtMoneyPymntList").flexEmptyData();
-			this.$("#fcltyCtrtMoneyPymntList").flexAddData({resultList: value});
+			this.$("#fcltyCtrtMoneyPymntList").flexAddData({resultList: value["resultList"]});
+			this._deleteCtrtMoneyPymntList = value["deleteCtrtMoneyPymntList"];
 	 		break;
 		case 'updateCtrtFulFillCaryFwd' : //계약이행이월 편집
 			this.$("#fcltyCtrtFulFillCaryFwdList").flexEmptyData();
-			this.$("#fcltyCtrtFulFillCaryFwdList").flexAddData({resultList: value});
+			this.$("#fcltyCtrtFulFillCaryFwdList").flexAddData({resultList: value["resultList"]});
+			this._deleteCtrtFulFillCaryFwdList = value["deleteCtrtFulFillCaryFwdList"];
 	 		break;
 	 	default:
         	alert('알수없는 팝업 이벤트가 호출 되었습니다.');
@@ -532,6 +683,18 @@ var module_instance = new GamFcltyCtrtMngModule();
 								<th width="8%" height="20">기초금액</th>
 								<td><input type="text" size="16" id="sumBaseAmt" class="ygpaNumber" disabled="disabled" /></td>
 							</tr>
+						</table>
+					</form>
+                </div>
+                <div class="emdControlPanel">
+					<form id="form1">
+    	               	<table style="width:100%;">
+	                        <tr>
+	                            <td style="text-align: right">
+	                            	<button id="btnAdd">추가</button>
+	                                <button id="btnRemove">삭제</button>
+	                            </td>
+	                        </tr>
 						</table>
 					</form>
                 </div>
@@ -662,9 +825,7 @@ var module_instance = new GamFcltyCtrtMngModule();
     	               	<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button id="btnAdd">추가</button>
 	                                <button id="btnSave">저장</button>
-	                                <button id="btnRemove">삭제</button>
 	                            </td>
 	                        </tr>
 						</table>

@@ -89,10 +89,11 @@ public class GamMechFcltySpecMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/selectMechFcltySpecMngList.do")
-	@ResponseBody Map<String, Object> selectMechFcltySpecMngList(GamMechFcltySpecMngVO searchVO) throws Exception {
+	@ResponseBody Map selectMechFcltySpecMngList(GamMechFcltySpecMngVO searchVO) throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -133,9 +134,10 @@ public class GamMechFcltySpecMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })	
 	@RequestMapping(value="/fclty/selectMechFcltySpecMngDetail.do")
-    @ResponseBody Map<String, Object> selectMechFcltySpecMngDetail(@RequestParam Map searchVO) throws Exception {
-    	Map<String, Object> map = new HashMap<String, Object>();
+    @ResponseBody Map selectMechFcltySpecMngDetail(@RequestParam Map searchVO) throws Exception {
+    	Map map = new HashMap();
     	EgovMap result=null;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -160,6 +162,12 @@ public class GamMechFcltySpecMngController {
         return map;		
 	}
 	
+	/**
+	 * 기계 시설정보 삽입
+	 * @param map
+	 * @return map
+	 * @throws Exception
+	 */	
 	@RequestMapping(value="/fclty/insertMechFcltySpecMngDetail.do")
     @ResponseBody Map<String, Object> insertMechFcltySpecMngDetail(@RequestParam Map<String, Object> insertMap) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -192,6 +200,12 @@ public class GamMechFcltySpecMngController {
       	return map;		
 	}
 	
+	/**
+	 * 기계 시설정보 수정
+	 * @param map
+	 * @return map
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/fclty/updateMechFcltySpecMngDetail.do")
     @ResponseBody Map<String, Object> updateMechFcltySpecMngDetail(@RequestParam Map<String, Object> updateMap) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -222,8 +236,14 @@ public class GamMechFcltySpecMngController {
       	return map;		
 	}
 
+	/**
+	 * 기계 시설정보(하위 포함) 삭제
+	 * @param map
+	 * @return map
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/fclty/deleteMechFcltySpecMngDetail.do")
-    @ResponseBody Map<String, Object> deleteMechFcltySpecMngDetail(@RequestParam Map deleteMap) throws Exception {
+    @ResponseBody Map<String, Object> deleteMechFcltySpecMngDetail(@RequestParam Map<String, Object> deleteMap) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -232,8 +252,6 @@ public class GamMechFcltySpecMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
     	try {
     		gamMechFcltySpecMngService.deleteMechFcltySpecFileList(deleteMap);
@@ -250,9 +268,16 @@ public class GamMechFcltySpecMngController {
       	return map;		
 	}
 	
+	/**
+	 * 기계 첨부파일 목록 조회
+	 * @param map
+	 * @return map
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/selectMechFcltySpecFileList.do")
-    @ResponseBody Map<String, Object> selectMechFcltySpecFileList(GamMechFcltySpecMngVO searchVO) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
+    @ResponseBody Map selectMechFcltySpecFileList(GamMechFcltySpecMngVO searchVO) throws Exception {
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -286,8 +311,14 @@ public class GamMechFcltySpecMngController {
     	return map;
 	}
 	
+	/**
+	 * 기계 첨부파일 병합저장
+	 * @param map
+	 * @return map
+	 * @throws Exception
+	 */	
 	@RequestMapping(value="/fclty/mergeMechFcltySpecAtchFile.do")
-	@ResponseBody Map<String, Object> mergeGamMechFcltySpecAtchFile(@RequestParam Map<String, Object> dataList) throws Exception {
+	@ResponseBody Map<String, Object> mergeMechFcltySpecAtchFile(@RequestParam Map<String, Object> dataList) throws Exception {
 
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -299,9 +330,6 @@ public class GamMechFcltySpecMngController {
     	List<HashMap<String,String>> deleteList=null;
     	List<Map<String,String>> userList=null;
 
-    	int resultCode = -1;
-    	String resultMsg = "";
-
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -309,7 +337,6 @@ public class GamMechFcltySpecMngController {
         	return map;
     	}
     	
-    	System.out.println("test :: fileupload");
 		insertList = mapper.readValue((String)dataList.get("insertList"),
 		    new TypeReference<List<HashMap<String,String>>>(){});
 
@@ -319,23 +346,24 @@ public class GamMechFcltySpecMngController {
 		deleteList = mapper.readValue((String)dataList.get("deleteList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
 
-		userList = new ArrayList();
+		userList = new ArrayList<Map<String,String>>();
 		userMap.put("id",  loginVO.getId());
 		userList.add(userMap);
 
 		Map<String,Object> mergeMap = new HashMap<String,Object>();
-
 		insertList.addAll(updateList);
-
 		mergeMap.put("CU", insertList);
 		mergeMap.put("D", deleteList);
 		mergeMap.put("USER", userList);
-
-		gamMechFcltySpecMngService.mergeFcltyFileMngt(mergeMap);
-
-        map.put("resultCode", 0);
-		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
-
+		
+		try {
+			gamMechFcltySpecMngService.mergeFcltyFileMngt(mergeMap);
+	        map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+		} catch(Exception e) {
+	        map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.merge"));			
+		}
 		return map;
 	}
 	

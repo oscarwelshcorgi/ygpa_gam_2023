@@ -113,7 +113,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 
 	 * @exception Exception
 	 */
-	void deleteFcltyCtrtJoinContrAll(Map deleteMap) throws Exception;
+	void deleteFcltyCtrtJoinContrList(Map deleteMap) throws Exception;
 
 
 	/**
@@ -155,7 +155,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 
 	 * @exception Exception
 	 */
-	void deleteFcltyCtrtSubCtrtAll(Map deleteMap) throws Exception;
+	void deleteFcltyCtrtSubCtrtList(Map deleteMap) throws Exception;
 
 	/**
 	 * 계약변경 목록을 가져온다.
@@ -196,7 +196,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 
 	 * @exception Exception
 	 */
-	void deleteFcltyCtrtChangeAll(Map deleteMap) throws Exception;
+	void deleteFcltyCtrtChangeList(Map deleteMap) throws Exception;
 	
 
 	/**
@@ -238,7 +238,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 
 	 * @exception Exception
 	 */
-	void deleteFcltyCtrtMoneyPymntAll(Map deleteMap) throws Exception;
+	void deleteFcltyCtrtMoneyPymntList(Map deleteMap) throws Exception;
 
 
 	/**
@@ -280,5 +280,5 @@ public interface GamFcltyCtrtMngService {
 	 * @return 
 	 * @exception Exception
 	 */
-	void deleteFcltyCtrtFulFillCaryFwdAll(Map deleteMap) throws Exception;	
+	void deleteFcltyCtrtFulFillCaryFwdList(Map deleteMap) throws Exception;	
 }

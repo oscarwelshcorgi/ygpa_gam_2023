@@ -214,9 +214,6 @@ GamFcltyQcwWrtMngModule.prototype.updateData = function() {
 
 //점검관리내역 삽입 및 수정저장
 GamFcltyQcwWrtMngModule.prototype.saveData = function() {
-	//if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){ 		
-	//	return;
-	//}
  	if(this._cmd == "insert") {
  		this.insertData();
 	} else if (this._cmd == "modify") { 
@@ -250,7 +247,6 @@ GamFcltyQcwWrtMngModule.prototype.deleteData = function() {
 
 //점검관리내역 데이터 조회
 GamFcltyQcwWrtMngModule.prototype.loadDetailData = function() {
-	this.initDisplay();
 	var rows = this.$('#qcMngDtlsList').selectedRows();
 	if(rows.length > 0) {
 		var row = rows[0];
@@ -267,7 +263,8 @@ GamFcltyQcwWrtMngModule.prototype.loadDetailData = function() {
 				module.$("#qcMngResultItemList").flexOptions({params:opts}).flexReload();
 			}
 			else {
-				this._cmd="";
+				module._cmd="";
+				module.initDisplay();
 				alert(result.resultMsg);
 			}
 		});	
@@ -433,9 +430,7 @@ GamFcltyQcwWrtMngModule.prototype.selectAtchFileItem = function() {
 			var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
 			if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
 				var imgURL = this.getPfPhotoUrl(filenm);
-				//this.$("#previewImage").fadeIn(400, function() {
-			    	this.$("#previewImage").attr("src", imgURL);
-			    //});
+			    this.$("#previewImage").attr("src", imgURL);
 			}else{
 				this.$("#previewImage").attr(src, "#");
 			}
@@ -528,6 +523,7 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
  */
 GamFcltyQcwWrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	if(oldTabId == 'tabs1' && this._cmd == 'modify') {
+		this.initDisplay();
 		this.loadDetailData();
 	}
 	switch(newTabId) {
@@ -771,7 +767,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 				<table id="qcMngObjFcltsList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="btnModifyQcMngObjFclts">추가/삭제</button>
+					<button id="btnModifyQcMngObjFclts">편집</button>
 					<button id="btnSave">저장</button>
 				</div>
 			</div>
@@ -780,7 +776,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 			<div id="tabs4" class="emdTabPage" style="overflow: scroll;">
 				<table id="qcMngResultItemList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="btnModifyQcMngResultItem">추가/삭제</button>
+					<button id="btnModifyQcMngResultItem">편집</button>
 					<button id="btnSave">저장</button>
 				</div>
 			</div>			

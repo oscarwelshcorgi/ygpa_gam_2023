@@ -89,10 +89,11 @@ public class GamCivilFcltySpecMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/selectCivilFcltySpecMngList.do")
 	@ResponseBody Map<String, Object> selectCivilFcltySpecMngList(GamCivilFcltySpecMngVO searchVO) throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -133,9 +134,10 @@ public class GamCivilFcltySpecMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/selectCivilFcltySpecMngDetail.do")
     @ResponseBody Map<String, Object> selectCivilFcltySpecMngDetail(@RequestParam Map searchVO) throws Exception {
-    	Map<String, Object> map = new HashMap<String, Object>();
+    	Map map = new HashMap();
     	EgovMap result=null;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -160,6 +162,12 @@ public class GamCivilFcltySpecMngController {
         return map;		
 	}
 	
+	/**
+	 * 토목 시설정보 삽입
+	 * @param map
+	 * @return map
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/fclty/insertCivilFcltySpecMngDetail.do")
     @ResponseBody Map<String, Object> insertCivilFcltySpecMngDetail(@RequestParam Map<String, Object> insertMap) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -192,6 +200,12 @@ public class GamCivilFcltySpecMngController {
       	return map;		
 	}
 	
+	/**
+	 * 토목 시설정보 수정
+	 * @param map
+	 * @return map
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/fclty/updateCivilFcltySpecMngDetail.do")
     @ResponseBody Map<String, Object> updateCivilFcltySpecMngDetail(@RequestParam Map<String, Object> updateMap) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -222,8 +236,14 @@ public class GamCivilFcltySpecMngController {
       	return map;		
 	}
 
+	/**
+	 * 토목 시설정보(하위 포함) 삭제
+	 * @param map
+	 * @return map
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/fclty/deleteCivilFcltySpecMngDetail.do")
-    @ResponseBody Map<String, Object> deleteCivilFcltySpecMngDetail(@RequestParam Map deleteMap) throws Exception {
+    @ResponseBody Map<String, Object> deleteCivilFcltySpecMngDetail(@RequestParam Map<String, Object> deleteMap) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -232,8 +252,6 @@ public class GamCivilFcltySpecMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
     	try {
     		gamCivilFcltySpecMngService.deleteCivilFcltySpecFileList(deleteMap);
@@ -250,9 +268,16 @@ public class GamCivilFcltySpecMngController {
       	return map;		
 	}
 	
+	/**
+	 * 토목 첨부파일 목록 조회
+	 * @param map
+	 * @return map
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/selectCivilFcltySpecFileList.do")
-    @ResponseBody Map<String, Object> selectCivilFcltySpecFileList(GamCivilFcltySpecMngVO searchVO) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
+    @ResponseBody Map selectCivilFcltySpecFileList(GamCivilFcltySpecMngVO searchVO) throws Exception {
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -287,6 +312,12 @@ public class GamCivilFcltySpecMngController {
     	return map;
 	}
 	
+	/**
+	 * 토목 첨부파일 병합저장
+	 * @param map
+	 * @return map
+	 * @throws Exception
+	 */	
 	@RequestMapping(value="/fclty/mergeCivilFcltySpecAtchFile.do")
 	@ResponseBody Map<String, Object> mergeCivilFcltySpecAtchFile(@RequestParam Map<String, Object> dataList) throws Exception {
 
@@ -299,9 +330,6 @@ public class GamCivilFcltySpecMngController {
     	List<HashMap<String,String>> updateList=null;
     	List<HashMap<String,String>> deleteList=null;
     	List<Map<String,String>> userList=null;
-
-    	int resultCode = -1;
-    	String resultMsg = "";
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -319,24 +347,24 @@ public class GamCivilFcltySpecMngController {
 		deleteList = mapper.readValue((String)dataList.get("deleteList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
 
-		userList = new ArrayList();
+		userList = new ArrayList<Map<String,String>>();
 		userMap.put("id",  loginVO.getId());
 		userList.add(userMap);
 
 		Map<String,Object> mergeMap = new HashMap<String,Object>();
-
 		insertList.addAll(updateList);
-
 		mergeMap.put("CU", insertList);
 		mergeMap.put("D", deleteList);
 		mergeMap.put("USER", userList);
-
-		gamCivilFcltySpecMngService.mergeFcltyFileMngt(mergeMap);
-
-        map.put("resultCode", 0);
-		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
-
+		
+		try {
+			gamCivilFcltySpecMngService.mergeFcltyFileMngt(mergeMap);
+	        map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+		} catch(Exception e) {
+	        map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.merge"));			
+		}
 		return map;
-	}
-	
+	}	
 }

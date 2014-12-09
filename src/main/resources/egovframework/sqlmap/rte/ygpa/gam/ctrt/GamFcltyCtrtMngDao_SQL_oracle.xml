@@ -488,7 +488,7 @@
 		  	AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
 	</delete>
 
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrAll">
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrList">
 		DELETE FROM CTRT_JOIN_CONTR_F
 		  WHERE
 		    CTRT_NO = #ctrtNo#
@@ -602,7 +602,7 @@
 		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
 	</delete>
 	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtAll">
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtList">
 		DELETE FROM CTRT_SUBCTRT_F
 		  WHERE
 		    CTRT_NO = #ctrtNo#  
@@ -712,7 +712,7 @@
 		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
 	</delete>
 	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtChangeAll">
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtChangeList">
 		DELETE FROM CTRT_CHANGE_F
 		  WHERE
 		    CTRT_NO = #ctrtNo#  
@@ -820,7 +820,7 @@
 		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
 	</delete>
 
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntAll">
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntList">
 		DELETE FROM CTRT_MONEY_PYMNT_F
 		  WHERE
 		    CTRT_NO = #ctrtNo#  
@@ -912,7 +912,7 @@
 		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
 	</delete>
 	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdAll">
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdList">
 		DELETE FROM CTRT_FULFILL_CARY_FWD_F
 		  WHERE
 		    CTRT_NO = #ctrtNo#  

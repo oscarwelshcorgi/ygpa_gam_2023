@@ -143,8 +143,8 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtJoinContrAll(Map deleteMap) throws Exception {
-		gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrAll(deleteMap);
+	public void deleteFcltyCtrtJoinContrList(Map deleteMap) throws Exception {
+		gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrList(deleteMap);
 	}
 
 
@@ -195,8 +195,8 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtSubCtrtAll(Map deleteMap) throws Exception {
-		gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtAll(deleteMap);
+	public void deleteFcltyCtrtSubCtrtList(Map deleteMap) throws Exception {
+		gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtList(deleteMap);
 	}
 
 	/**
@@ -246,8 +246,8 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtChangeAll(Map deleteMap) throws Exception {
-		gamFcltyCtrtMngDao.deleteFcltyCtrtChangeAll(deleteMap);
+	public void deleteFcltyCtrtChangeList(Map deleteMap) throws Exception {
+		gamFcltyCtrtMngDao.deleteFcltyCtrtChangeList(deleteMap);
 	}
 	
 
@@ -298,8 +298,8 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtMoneyPymntAll(Map deleteMap) throws Exception {
-		gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntAll(deleteMap);
+	public void deleteFcltyCtrtMoneyPymntList(Map deleteMap) throws Exception {
+		gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntList(deleteMap);
 	}
 	
 	/**
@@ -349,8 +349,8 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtFulFillCaryFwdAll(Map deleteMap) throws Exception {
-		gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdAll(deleteMap);
+	public void deleteFcltyCtrtFulFillCaryFwdList(Map deleteMap) throws Exception {
+		gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdList(deleteMap);
 	}
 	
 }

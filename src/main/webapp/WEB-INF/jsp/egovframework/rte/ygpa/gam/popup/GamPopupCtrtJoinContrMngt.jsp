@@ -29,6 +29,7 @@ GamPopupCtrtJoinContrMngtModule.prototype = new EmdPopupModule(1000, 480);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamPopupCtrtJoinContrMngtModule.prototype.loadComplete = function(fcltyCtrtJoinContrList) {
+	this._deleteCtrtJoinContrList = [];
 	this.resizable(true);
 
 	this.$("#grdInfoList").flexigrid({
@@ -60,12 +61,6 @@ GamPopupCtrtJoinContrMngtModule.prototype.loadComplete = function(fcltyCtrtJoinC
 	this.$("#grdInfoList").flexAddData({resultList: fcltyCtrtJoinContrList});
 	
 	
-	this.$("#grdInfoList").on("onItemSelected", function(event, module, row, grid, param) {
-	});
-
-	this.$("#grdInfoList").on("onItemUnSelected", function(event, module, row, grid, param) {
-	});
-
 	this.$(".EditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.ctrtJoinContrChanged(event.target);
 	});
@@ -157,71 +152,59 @@ GamPopupCtrtJoinContrMngtModule.prototype.ctrtJoinContrChanged = function(target
 	}
 };
 
+// 계약공동도급 병합 리턴
+GamPopupCtrtJoinContrMngtModule.prototype.returnMergeData = function() {
+	var resultList = this.$('#grdInfoList').flexGetData();
+	var mergeData = {'resultList' : resultList, 'deleteCtrtJoinContrList' : this._deleteCtrtJoinContrList};
+	this.closeDialog("ok", mergeData);
+};
 
-// 사용자 설정 함수 추가
+// 계약공동도급 추가
+GamPopupCtrtJoinContrMngtModule.prototype.addCtrtJoinContrItem = function() {
+	this.$('#gamPopupCtrtJoinContrMngtForm :input').val('');
+	this.$("#grdInfoList").flexAddRow({'_updtId': 'I', 'ctrtNo':'', 'seq':'', 'entrpsNm':'','rprsntv':'','qotaRate':'','induty':'','stplPrdlst':'','bsnmNo':'' ,'dealRelate':'','tlphonNo':'','faxNo':'','postNo':'','roadnmAdres':'','lnmAdres':'','charger':'','chargerOfcPos':'','chargerMoblphonNo':'','chargerEmail':''});
+	var allRows = this.$('#grdInfoList').flexGetData();
+	var selRowId = allRows.length - 1;
+	this.$("#grdInfoList").selectRowId(selRowId);
+};
+
+// 계약공동도급 삭제
+GamPopupCtrtJoinContrMngtModule.prototype.removeCtrtJoinContrItem = function() {
+	var rows = this.$("#grdInfoList").selectedRows();
+    if(rows.length == 0){
+        alert("계약공동도급목록에서 삭제할 행을 선택하십시오.");
+        return;
+    }
+    if(this.$("#grdInfoList").selectedRowIds().length>0) {
+    	for(var i=this.$("#grdInfoList").selectedRowIds().length-1; i>=0; i--) {
+    		var row = this.$("#grdInfoList").flexGetRow(this.$("#grdInfoList").selectedRowIds()[i]);
+    		if(row._updtId == undefined || row._updtId != "I") {
+            	this._deleteCtrtJoinContrList[this._deleteCtrtJoinContrList.length] = row;
+			}
+        	this.$("#grdInfoList").flexRemoveRow(this.$("#grdInfoList").selectedRowIds()[i]);
+        	this._edited=true;
+		}
+    	alert("삭제되었습니다.");
+	}
+    this.$("#gamPopupCtrtJoinContrMngtForm :input").val("");
+};
 
 GamPopupCtrtJoinContrMngtModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
-	case "btnEntrpsSearch":
-		var searchOpt=this.makeFormArgs("#gamPopupCtrtJoinContrMngtForm");
-	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
-	 	throw 0;
-		break;
-	case "btnOk":
-		var inputVO = this.$('#grdInfoList').flexGetData();
-		this.closeDialog("ok", inputVO);
-		break;
-	case "cancel":
-		this.cancelDialog();
-	// 추가
-	case "addBtn":
-		this.$('#gamPopupCtrtJoinContrMngtForm :input').val('');
-		this.$("#grdInfoList").flexAddRow({'entrpsNm':'','rprsntv':'','qotaRate':'','induty':'','stplPrdlst':'','bsnmNo':'' ,'dealRelate':'','tlphonNo':'','faxNo':'','postNo':'','roadnmAdres':'','lnmAdres':'','charger':'','chargerOfcPos':'','chargerMoblphonNo':'','chargerEmail':''});
-		var all_rows = this.$('#grdInfoList').flexGetData();
-		var sel_row_id = all_rows.length - 1;
-		this.$("#grdInfoList").selectRowId(sel_row_id);
-	break;
+		case "btnOk":
+			this.returnMergeData();
+			break;
+		case "btnCancel":
+			this.cancelDialog();
+			break;
+		case "btnAdd":
+			this.addCtrtJoinContrItem();
+			break;
 		case "btnRemove":
 			this.removeCtrtJoinContrItem();
-		break;
+			break;
 	}
 };
-
-GamPopupCtrtJoinContrMngtModule.prototype.removeCtrtJoinContrItem = function() {
-	var rows = this.$("#grdInfoList").selectedRows();
-
-    if(rows.length == 0){
-        alert("파일목록에서 삭제할 행을 선택하십시오.");
-        return;
-    }
-
-    if(this.$("#grdInfoList").selectedRowIds().length>0) {
-    	for(var i=this.$("#grdInfoList").selectedRowIds().length-1; i>=0; i--) {
-
-    		var row = this.$("#grdInfoList").flexGetRow(this.$("#grdInfoList").selectedRowIds()[i]);
-
-        	this.$("#grdInfoList").flexRemoveRow(this.$("#grdInfoList").selectedRowIds()[i]);
-
-        	this._edited=true;
-		}
-
-    	alert("삭제되었습니다.");
-	}
-
-    this.$("#gamPopupCtrtJoinContrMngtForm").find(":input").val("");
-    this._editDataFile = null;
-};
-
-GamPopupCtrtJoinContrMngtModule.prototype.onSubmit = function() {
-	//this.showAlert(this.$("#prtCode").val()+"을(를) 조회 하였습니다");
-	this.loadData();
-};
-
-GamPopupCtrtJoinContrMngtModule.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs("#gamPopupCtrtJoinContrMngtForm");
- 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
-};
-
 
 // 다음 변수는 고정 적으로 정의 해야 함
 var popup_instance = new GamPopupCtrtJoinContrMngtModule();
@@ -232,10 +215,10 @@ var popup_instance = new GamPopupCtrtJoinContrMngtModule();
 		<div class="emdPanel fillHeight">
 	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>
 	        <div class="emdControlPanel">
-	            <button id="addBtn">추가</button>
+	            <button id="btnAdd">추가</button>
 	            <button id="btnRemove">삭제</button>
 	            <button id="btnOk">확인</button>
-            	<button id="cancel">취소</button>
+            	<button id="btnCancel">취소</button>
 	        </div>
 		<form id="gamPopupCtrtJoinContrMngtForm">
 			<table class="searchPanel">

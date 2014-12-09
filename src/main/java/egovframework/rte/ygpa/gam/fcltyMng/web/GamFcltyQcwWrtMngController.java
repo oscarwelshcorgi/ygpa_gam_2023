@@ -400,12 +400,15 @@ public class GamFcltyQcwWrtMngController {
 		mergeMap.put("CU", insertList);
 		mergeMap.put("D", deleteList);
 		mergeMap.put("USER", userList);
-
-		gamFcltyQcwWrtMngService.mergeQcMngObjFclts(mergeMap);
-
-        map.put("resultCode", 0);
-		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
-
+		
+		try {
+			gamFcltyQcwWrtMngService.mergeQcMngObjFclts(mergeMap);
+	        map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+		} catch (Exception e) {
+	        map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.merge"));
+		}
 		return map;
 	}	
 	
@@ -459,12 +462,15 @@ public class GamFcltyQcwWrtMngController {
 		mergeMap.put("CU", insertList);
 		mergeMap.put("D", deleteList);
 		mergeMap.put("USER", userList);
-
-		gamFcltyQcwWrtMngService.mergeQcMngResultItem(mergeMap);
-
-        map.put("resultCode", 0);
-		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
-
+		
+		try {
+			gamFcltyQcwWrtMngService.mergeQcMngResultItem(mergeMap);
+	        map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+		} catch(Exception e) {
+	        map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.merge"));			
+		}
 		return map;
 	}	
 	
@@ -518,12 +524,16 @@ public class GamFcltyQcwWrtMngController {
 		mergeMap.put("CU", insertList);
 		mergeMap.put("D", deleteList);
 		mergeMap.put("USER", userList);
-
-		gamFcltyQcwWrtMngService.mergeQcMngAtchFile(mergeMap);
-
-        map.put("resultCode", 0);
-		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
-
+		
+		try {
+			gamFcltyQcwWrtMngService.mergeQcMngAtchFile(mergeMap);
+	        map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+		} catch (Exception e) {
+	        map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.merge"));			
+		}
+		
 		return map;
 	}	
 
