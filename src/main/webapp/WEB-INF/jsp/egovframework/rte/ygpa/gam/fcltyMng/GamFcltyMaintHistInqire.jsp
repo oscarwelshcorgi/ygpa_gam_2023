@@ -195,8 +195,8 @@ var module_instance = new GamFcltyMaintHistInqireModule();
 						<tr>
 							<th>유지보수 시설명</th>
 							<td>
-								<input type="text" size="14" id="sFcltsMngNo" />
-								<input type="text" size="40" id="sPrtFcltyNm" disabled="disabled"  title="유지보수 시설명" />
+								<input type="text" size="10" id="sFcltsMngNo" />
+								<input type="text" size="20" id="sPrtFcltyNm" disabled="disabled"  title="유지보수 시설명" />
 								<button id="btnSearchFcltsMngNo" class="popupButton">선택</button>
 							</td>
 							<th>유지보수공사시작일</th>
