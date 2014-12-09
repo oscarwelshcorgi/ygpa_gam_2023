@@ -136,6 +136,42 @@ GamFcltyMaintHistInqireModule.prototype.onTabChange = function(newTabId, oldTabI
 };
 
 
+/**
+ * 정의 된 버튼 클릭 시
+ */
+ GamFcltyMaintHistInqireModule.prototype.onButtonClick = function(buttonId) {
+
+	switch(buttonId) {
+		case "btnSearchFcltsMngNo":
+			this.doExecuteDialog("selectFcltsMngNo", "시설물 관리 그룹 번호", '/popup/selectFcltsMngNo.do', {});
+		break;
+
+	}
+};
+
+
+
+
+/**
+ * 팝업 close 이벤트
+ */
+ GamFcltyMaintHistInqireModule.prototype.onClosePopup = function(popupId, msg, value){
+
+	switch(popupId){
+
+		case "selectFcltsMngNo":
+			this.$("#sFcltsMngNo").val(value["fcltsMngNo"]);
+			this.$("#sPrtFcltyNm").val(value["prtFcltyNm"]);
+		break;
+
+		default:
+			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
+
+		break;
+	}
+};
+
+
 
 
 // 다음 변수는 고정 적으로 정의 해야 함
@@ -152,13 +188,17 @@ var module_instance = new GamFcltyMaintHistInqireModule();
 				<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>유지보수 시설명</th>
-							<td colspan="3"><input type="text" id="sPrtFcltyNm" size="140" title="유지보수 시설명" /></td>
+							<th>시공업체명</th>
+							<td colspan="3"><input type="text" id="sCnstrtr" size="100" title="시공업체" /></td>
 							<td rowspan="2"><button class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
-							<th>시공업체명</th>
-							<td><input type="text" id="sCnstrtr" size="50" title="시공업체" /></td>
+							<th>유지보수 시설명</th>
+							<td>
+								<input type="text" size="14" id="sFcltsMngNo" />
+								<input type="text" size="40" id="sPrtFcltyNm" disabled="disabled"  title="유지보수 시설명" />
+								<button id="btnSearchFcltsMngNo" class="popupButton">선택</button>
+							</td>
 							<th>유지보수공사시작일</th>
 							<td>
 								<input id="sMntnRprCnstStartDtFr" type="text" class="emdcal" size="15" title="유지보수공사검색시작일" /> ~ <input id="sMntnRprCnstStartDtTo" type="text" class="emdcal" size="15" title="유지보수공사검색종료일" />

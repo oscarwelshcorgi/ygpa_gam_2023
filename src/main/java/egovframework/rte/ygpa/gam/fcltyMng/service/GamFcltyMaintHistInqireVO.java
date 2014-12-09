@@ -36,6 +36,9 @@ public class GamFcltyMaintHistInqireVO extends ComDefaultVO {
 	/** 유지보수 시설명 */
 	private String sPrtFcltyNm;
 	
+	/** 유지보수 시설코드 */
+	private String sFcltsMngNo;
+	
 	/** 유지보수공사시작일 검색 Fr */
 	private String sMntnRprCnstStartDtFr;
 	
@@ -97,6 +100,20 @@ public class GamFcltyMaintHistInqireVO extends ComDefaultVO {
 	 */
 	public void setsPrtFcltyNm(String sPrtFcltyNm) {
 		this.sPrtFcltyNm = sPrtFcltyNm;
+	}
+
+	/**
+	 * @return the sFcltsMngNo
+	 */
+	public String getsFcltsMngNo() {
+		return sFcltsMngNo;
+	}
+
+	/**
+	 * @param sFcltsMngNo the sFcltsMngNo to set
+	 */
+	public void setsFcltsMngNo(String sFcltsMngNo) {
+		this.sFcltsMngNo = sFcltsMngNo;
 	}
 
 	
