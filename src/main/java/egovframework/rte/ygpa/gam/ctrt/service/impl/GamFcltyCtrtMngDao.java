@@ -111,18 +111,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	public int selectFcltyCtrtJoinContrListCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrListCnt", searchVO);
 	}
-	
-	
-	/**
-	 * 계약공동도급정보를 등록한다.
-	 * @param insertMap - 등록할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void insertFcltyCtrtJoinContrDetail(Map insertMap) throws Exception {
-		insert("gamFcltyCtrtMngDao.insertFcltyCtrtJoinContrDetail", insertMap);
-	}
-
+		
 	/**
 	 * 계약공동도급정보를 병합저장한다.
 	 * @param map - 병합저장할 정보가 담긴 Map
@@ -162,17 +151,6 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 */
 	public int selectFcltyCtrtSubCtrtListCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtListCnt", searchVO);
-	}
-	
-	
-	/**
-	 * 계약하도급정보를 등록한다.
-	 * @param insertMap - 등록할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void insertFcltyCtrtSubCtrtDetail(Map insertMap) throws Exception {
-		insert("gamFcltyCtrtMngDao.insertFcltyCtrtSubCtrtDetail", insertMap);
 	}
 	
 	/**
@@ -218,16 +196,6 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	
 	
 	/**
-	 * 계약변경정보를 등록한다.
-	 * @param insertMap - 등록할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void insertFcltyCtrtChangeDetail(Map insertMap) throws Exception {
-		insert("gamFcltyCtrtMngDao.insertFcltyCtrtChangeDetail", insertMap);
-	}
-	
-	/**
 	 * 계약변경정보를 병합저장한다.
 	 * @param map - 병합저장할 정보가 담긴 Map
 	 * @return 
@@ -269,16 +237,6 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 계약대금지급정보를 등록한다.
-	 * @param insertMap - 등록할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void insertFcltyCtrtMoneyPymntDetail(Map insertMap) throws Exception {
-		insert("gamFcltyCtrtMngDao.insertFcltyCtrtMoneyPymntDetail", insertMap);
-	}
-
-	/**
 	 * 계약대금지급정보를 병합저장한다.
 	 * @param map - 병합저장할 정보가 담긴 Map
 	 * @return 
@@ -316,17 +274,6 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 */
 	public int selectFcltyCtrtFulFillCaryFwdListCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdListCnt", searchVO);
-	}
-	
-	
-	/**
-	 * 계약이행이월정보를 등록한다.
-	 * @param insertMap - 등록할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void insertFcltyCtrtFulFillCaryFwdDetail(Map insertMap) throws Exception {
-		insert("gamFcltyCtrtMngDao.insertFcltyCtrtFulFillCaryFwdDetail", insertMap);
 	}
 	
 	/**

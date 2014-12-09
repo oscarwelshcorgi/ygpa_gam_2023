@@ -709,7 +709,7 @@ public class GamFcltyCtrtMngController {
 		mergeMap.put("USER", userList);
 
 		try {
-			gamFcltyCtrtMngService.mergeFcltyCtrtMoneyPymntDetail(mergeMap);
+			gamFcltyCtrtMngService.mergeFcltyCtrtFulFillCaryFwdDetail(mergeMap);
 	        map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
 		} catch(Exception e) {

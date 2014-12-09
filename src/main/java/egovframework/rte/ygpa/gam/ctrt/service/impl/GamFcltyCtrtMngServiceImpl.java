@@ -118,16 +118,6 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	
 	
 	/**
-	 * 계약공동도급정보를 등록한다.
-	 * @param insertMap - 등록할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void insertFcltyCtrtJoinContrDetail(Map insertMap) throws Exception {
-		gamFcltyCtrtMngDao.insertFcltyCtrtJoinContrDetail(insertMap);
-	}
-
-	/**
 	 * 계약공동도급정보를 병합저장한다.
 	 * @param map - 병합저장할 정보가 담긴 Map
 	 * @return 
@@ -166,17 +156,6 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 */
 	public int selectFcltyCtrtSubCtrtListCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtListCnt(searchVO);
-	}
-	
-	
-	/**
-	 * 계약하도급정보를 등록한다.
-	 * @param insertMap - 등록할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void insertFcltyCtrtSubCtrtDetail(Map insertMap) throws Exception {
-		gamFcltyCtrtMngDao.insertFcltyCtrtSubCtrtDetail(insertMap);
 	}
 	
 	/**
@@ -219,17 +198,6 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 		return gamFcltyCtrtMngDao.selectFcltyCtrtChangeListCnt(searchVO);
 	}
 	
-	
-	/**
-	 * 계약변경정보를 등록한다.
-	 * @param insertMap - 등록할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void insertFcltyCtrtChangeDetail(Map insertMap) throws Exception {
-		gamFcltyCtrtMngDao.insertFcltyCtrtChangeDetail(insertMap);
-	}
-
 	/**
 	 * 계약변경정보를 병합저장한다.
 	 * @param map - 병합저장할 정보가 담긴 Map
@@ -273,16 +241,6 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	
 	
 	/**
-	 * 계약대금지급정보를 등록한다.
-	 * @param insertMap - 등록할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void insertFcltyCtrtMoneyPymntDetail(Map insertMap) throws Exception {
-		gamFcltyCtrtMngDao.insertFcltyCtrtMoneyPymntDetail(insertMap);
-	}
-	
-	/**
 	 * 계약대금지급정보를 병합저장한다.
 	 * @param map - 병합저장할 정보가 담긴 Map
 	 * @return 
@@ -322,17 +280,6 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 		return gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdListCnt(searchVO);
 	}
 	
-	
-	/**
-	 * 계약이행이월정보를 등록한다.
-	 * @param insertMap - 등록할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void insertFcltyCtrtFulFillCaryFwdDetail(Map insertMap) throws Exception {
-		gamFcltyCtrtMngDao.insertFcltyCtrtFulFillCaryFwdDetail(insertMap);
-	}
-
 	/**
 	 * 계약이행이월정보를 병합저장한다.
 	 * @param map - 병합저장할 정보가 담긴 Map
