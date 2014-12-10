@@ -119,6 +119,7 @@ GamMechFcltySpecInqireModule.prototype.loadDetailData = function() {
 	row = selectRows[0];
 	var opts = [{name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
 	if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
+		this.$("#mechFcltySpecInqireTab").tabs("option", {active: 0});
 		alert('시설물 관리번호에 오류가 있습니다.');
 		this._cmd = '';
 		return;
@@ -196,13 +197,13 @@ GamMechFcltySpecInqireModule.prototype.downloadAtchFileItem = function() {
 		if(oldTabId == 'tabs1') {
 			this.$("#tabs2").scrollTop(0);
 		}
-		if((this._cmd != 'insert') && (this._cmd != 'modify')) {
+		if(this._cmd != 'modify') {
 			this.$("#mechFcltySpecInqireTab").tabs("option", {active: 0});
 			alert('기계시설항목을 선택하시거나 시설추가버튼을 누르세요.');
 		} 
 		break;
 	case "tabs3":
-		if((this._cmd != 'insert') && (this._cmd != 'modify')) {
+		if(this._cmd != 'modify') {
 			this.$("#mechFcltySpecInqireTab").tabs("option", {active: 0});
 			alert('기계시설항목을 선택하시거나 시설추가버튼을 누르세요.');
 		} 

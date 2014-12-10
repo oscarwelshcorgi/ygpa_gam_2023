@@ -235,15 +235,14 @@ GamConstFcltySpecInqireModule.prototype.clearFilePage = function() {
 			if(oldTabId == 'tabs1') {
 				this.$("#tabs2").scrollTop(0);
 			}
-			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
+			if(this._cmd != 'modify') {
 				this.$("#constFcltySpecInqireListTab").tabs("option", {active: 0});
 				alert('건축시설 항목을 선택 하세요.');
 			} 
 			break;
 	
 		case "tabs4":
-			this._deleteDataFileList=[];
-			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
+			if(this._cmd != 'modify') {
 				this.$("#constFcltySpecInqireListTab").tabs("option", {active: 0});
 				alert('건축시설 항목을 선택 하세요.');
 			} 
