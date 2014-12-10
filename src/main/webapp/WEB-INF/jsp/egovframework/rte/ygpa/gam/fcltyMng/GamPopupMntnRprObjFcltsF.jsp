@@ -211,20 +211,20 @@ var popup_instance = new GamPopupMntnRprObjFcltsFModule();
                         <th>관리번호</th>
                         <td><input id="fcltsMngNo" type="text" style="width: 150px;" title="관리번호" maxlength="20" class="EditItem"/></td>
                         <th>유지보수공법</th>
-                        <td><input id="mntnRprCnstMth" type="text" style="width: 150px;" title="유지보수공법" maxlength="20" class="EditItem"/></td>
+                        <td><input id="mntnRprCnstMth" type="text" style="width: 150px;" title="유지보수공법" maxlength="33" class="EditItem"/></td>
 						<th>단위</th>
-                        <td><input id="unit" type="text" style="width: 150px;" title="단위" maxlength="20" class="EditItem"/></td>
+                        <td><input id="unit" type="text" style="width: 150px;" title="단위" maxlength="3" class="EditItem"/></td>
                         <th>수량</th>
-                        <td ><input id="qy" type="text" style="width: 150px;" title="수량" maxlength="20" class="EditItem"/></td>
+                        <td ><input id="qy" type="text" style="width: 150px;" title="수량" maxlength="10" class="ygpaNumber EditItem"/></td>
 
 					</tr>
 					<tr>
                     	<th>단가</th>
-						<td><input id="price" type="text" style="width: 150px;" title="단가" maxlength="20" class="EditItem"/></td>
+						<td><input id="price" type="text" style="width: 150px;" title="단가" maxlength="16" class="ygpaNumber EditItem"/></td>
 						<th>공사금액</th>
-						<td><input id="mntnRprCnstAmt" type="text" style="width: 150px;" title="공사금액" maxlength="20" class="EditItem"/></td>
+						<td><input id="mntnRprCnstAmt" type="text" style="width: 150px;" title="공사금액" maxlength="16" class="ygpaNumber EditItem"/></td>
 						<th>비고</th>
-						<td colspan="3"><input id="rm" type="text" style="width: 380px;" title="비고" maxlength="20" class="EditItem"/></td>
+						<td colspan="3"><input id="rm" type="text" style="width: 380px;" title="비고" maxlength="333" class="EditItem"/></td>
 					</tr>
 				</tbody>
 			</table>

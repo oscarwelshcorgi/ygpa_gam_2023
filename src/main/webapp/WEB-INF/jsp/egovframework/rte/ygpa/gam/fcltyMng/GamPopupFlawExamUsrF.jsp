@@ -194,11 +194,11 @@ var popup_instance = new GamPopupFlawExamUsrFModule();
 				<tbody>
 					<tr>
                         <th>순번</th>
-                        <td><input id="seq" type="text" style="width: 150px;" title="순번" maxlength="20" class="EditItem"/></td>
+                        <td><input id="seq" type="text" style="width: 150px;" title="순번" maxlength="3" class="ygpaNumber EditItem"/></td>
                         <th>하자검사자</th>
                         <td><input id="flawExamUsr" type="text" style="width: 150px;" title="하자검사자" maxlength="20" class="EditItem"/></td>
 						<th>하자검사일자</th>
-                        <td><input id="flawExamDt" type="text" style="width: 150px;" title="하자검사일자" maxlength="20" class="emdcal EditItem"/></td>
+                        <td><input id="flawExamDt" type="text" style="width: 150px;" title="하자검사일자" class="emdcal EditItem"/></td>
                         <th>하자검사완료여부</th>
                         <td >
                         	<select id="flawExamComptYn" class="EditItem">

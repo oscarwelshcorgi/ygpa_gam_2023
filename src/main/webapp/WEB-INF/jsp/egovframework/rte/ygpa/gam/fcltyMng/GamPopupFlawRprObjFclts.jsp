@@ -38,7 +38,7 @@ GamPopupFlawRprObjFcltsModule.prototype.loadComplete = function(qcMngObjFcltsLis
 		url: '',
 		dataType: "json",
 		colModel : [
-					{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
+					//{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
 					{display:"시설물관리번호",	name:"fcltsMngNo",	width:100,		sortable:true,		align:"center"},
 					{display:"시설물명",		name:"prtFcltyNm",	width:150,		sortable:true,		align:"left"},
 					{display:"하자유무",		name:"flawEnnc",	width:90,		sortable:true,		align:"center"},
@@ -184,11 +184,11 @@ var popup_instance = new GamPopupFlawRprObjFcltsModule();
 					</tr>
 					<tr>
 						<th>하자검사결과</th>
-						<td colspan="7"><textarea id="flawExamResult" cols="120" rows="7" class="EditItem"></textarea></td>
+						<td colspan="7"><textarea id="flawExamResult" cols="120" rows="7" class="EditItem" maxlength="1333"></textarea></td>
 					</tr>
 					<tr>
 						<th>비고</th>
-						<td colspan="7"><input id="rm" type="text" style="width: 500px;" maxlength="1000" class="EditItem"/></td>
+						<td colspan="7"><input id="rm" type="text" style="width: 500px;" maxlength="333" class="EditItem"/></td>
 					</tr>
 				</tbody>
 			</table>

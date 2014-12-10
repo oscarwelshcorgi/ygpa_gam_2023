@@ -683,43 +683,43 @@ var module_instance = new GamFcltyMaintMngModule();
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">공사명</th>
-							<td colspan="5"><input id="mntnRprCnstNm" type="text" size="125" title="공사명"  /></td>
+							<td colspan="5"><input id="mntnRprCnstNm" type="text" size="125" title="공사명" maxlength="25" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">유지보수부위</th>
-							<td colspan="5"><input id="mntnRprPart" type="text" size="125" title="유지보수부위"  /></td>
+							<td colspan="5"><input id="mntnRprPart" type="text" size="125" title="유지보수부위" maxlength="25" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">예산</th>
-							<td colspan="3"><input id="mntnRprBdgt" type="text" size="80" title="예산" class="ygpaNumber" /></td>
+							<td colspan="3"><input id="mntnRprBdgt" type="text" size="80" title="예산" class="ygpaNumber" maxlength="16" /></td>
 							<th width="15%" height="23" class="required_text">공사시작일자</th>
 							<td><input id="mntnRprCnstStartDt" type="text" size="20" title="공사시작일자" class="emdcal" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">공사금액</th>
-							<td colspan="3"><input id="mntnRprCnstAmt" type="text" size="80" title="공사금액" class="ygpaNumber" /></td>
+							<td colspan="3"><input id="mntnRprCnstAmt" type="text" size="80" title="공사금액" class="ygpaNumber" maxlength="16" /></td>
 							<th width="15%" height="23" class="required_text">공사종료일자</th>
 							<td><input id="mntnRprCnstEndDt" type="text" size="20" title="공사종료일자" class="emdcal" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">설계자</th>
-							<td><input id="plannerNm" type="text" size="20" title="설계자"  /></td>
+							<td><input id="plannerNm" type="text" size="20" title="설계자" maxlength="6" /></td>
 							<th width="15%" height="23" class="required_text">시공자</th>
-							<td colspan="3"><input id="cnstrtr" type="text" size="80" title="시공자"  /></td>
+							<td colspan="3"><input id="cnstrtr" type="text" size="80" title="시공자" maxlength="20" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">책임기술자</th>
-							<td><input id="responEngineer" type="text" size="20" title="책임기술자"  /></td>
+							<td><input id="responEngineer" type="text" size="20" title="책임기술자" maxlength="20" /></td>
 							<th width="15%" height="23" class="required_text">공사감독자</th>
-							<td colspan="3"><input id="cnstChargNm" type="text" size="80" title="공사감독자"  /></td>
+							<td colspan="3"><input id="cnstChargNm" type="text" size="80" title="공사감독자" maxlength="20" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">유지보수내용</th>
-							<td colspan="5"><textarea id="mntnRprCn" cols="130" rows="10" title="유지보수내용"></textarea></td>
+							<td colspan="5"><textarea id="mntnRprCn" cols="130" rows="10" title="유지보수내용" maxlength="1333"></textarea></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">비고</th>
-							<td colspan="5"><input id="rm" type="text" size="125" title="비고"  /></td>
+							<td colspan="5"><input id="rm" type="text" size="125" title="비고" maxlength="333" /></td>
 						</tr>
 					</table>
 				</form>
@@ -758,7 +758,7 @@ var module_instance = new GamFcltyMaintMngModule();
                                 </select>
 							</td>
 							<th width="15%" height="23" class="required_text">파일제목</th>
-							<td><input id="atchFileSj" type="text" size="20" class="fileEditItem" maxlength="40" title="파일제목"/></td>
+							<td><input id="atchFileSj" type="text" size="20" class="fileEditItem" maxlength="16" title="파일제목"/></td>
 							<th width="15%" height="23" class="required_text">작성일자</th>
 							<td><input id="atchFileWritngDt" type="text" size="18" class="emdcal fileEditItem" maxlength="10" readonly="readonly" title="작성일자" /></td>
 						</tr>

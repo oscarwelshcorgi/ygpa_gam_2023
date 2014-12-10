@@ -61,7 +61,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectFlawRprObjFcltsF.do',
 		dataType: 'json',
 		colModel : [
-					{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
+					//{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
 					{display:"시설물관리번호",	name:"fcltsMngNo",	width:100,		sortable:true,		align:"center"},
 					{display:"시설물명",		name:"prtFcltyNm",	width:150,		sortable:true,		align:"left"},
 					{display:"하자유무",		name:"flawEnnc",	width:90,		sortable:true,		align:"center"},
@@ -746,7 +746,7 @@ var module_instance = new GamFcltyRepairMngModule();
 								</select>
 							</td>
 							<th width="15%" height="23" class="required_text">하자보수유형</th>
-							<td><input type="text" size="20" id="flawRprTy" title="하자보수유형" /></td>
+							<td><input type="text" size="20" id="flawRprTy" title="하자보수유형" maxlength="13" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
@@ -768,11 +768,11 @@ var module_instance = new GamFcltyRepairMngModule();
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">하자보수명</th>
-							<td colspan="7"><input id="flawRprNm" type="text" size="125" title="하자보수명"  /></td>
+							<td colspan="7"><input id="flawRprNm" type="text" size="125" title="하자보수명" maxlength="85" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">하자보수업체명</th>
-							<td colspan="7"><input id="flawRprEntrpsNm" type="text" size="125" title="하자보수업체명"  /></td>
+							<td colspan="7"><input id="flawRprEntrpsNm" type="text" size="125" title="하자보수업체명" maxlength="33" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">하자보수완료여부</th>
@@ -784,7 +784,7 @@ var module_instance = new GamFcltyRepairMngModule();
 								</select>
 							</td>
 							<th width="15%" height="23" class="required_text">하자보수금액</th>
-							<td colspan="3"><input id="flawRprAmt" type="text" size="50" title="하자보수금액" class="ygpaNumber"  /></td>
+							<td colspan="3"><input id="flawRprAmt" type="text" size="50" title="하자보수금액" class="ygpaNumber" maxlength="16" /></td>
 							<th>하자검사구분</th>
 							<td>
 								<select id="flawExamSe" title="하자검사구분">
@@ -807,15 +807,15 @@ var module_instance = new GamFcltyRepairMngModule();
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">하자보수내용</th>
-							<td colspan="7"><textarea id="flawRprContents" cols="130" rows="10" title="하자보수내용"></textarea></td>
+							<td colspan="7"><textarea id="flawRprContents" cols="130" rows="10" title="하자보수내용" maxlength="1333"></textarea></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">하자보수결과</th>
-							<td colspan="7"><textarea id="flawExamResult" cols="130" rows="10" title="하자보수결과"></textarea></td>
+							<td colspan="7"><textarea id="flawExamResult" cols="130" rows="10" title="하자보수결과" maxlength="1333"></textarea></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">비고</th>
-							<td colspan="7"><input id="rm" type="text" size="125" title="비고"  /></td>
+							<td colspan="7"><input id="rm" type="text" size="125" title="비고" maxlength="333" /></td>
 						</tr>
 					</table>
 				</form>
@@ -863,7 +863,7 @@ var module_instance = new GamFcltyRepairMngModule();
                                 </select>
 							</td>
 							<th width="15%" height="23" class="required_text">파일제목</th>
-							<td><input id="atchFileSj" type="text" size="20" class="fileEditItem" maxlength="40" title="파일제목"/></td>
+							<td><input id="atchFileSj" type="text" size="20" class="fileEditItem" maxlength="26" title="파일제목"/></td>
 							<th width="15%" height="23" class="required_text">작성일자</th>
 							<td><input id="atchFileWritngDt" type="text" size="18" class="emdcal fileEditItem" maxlength="10" readonly="readonly" title="작성일자" /></td>
 						</tr>

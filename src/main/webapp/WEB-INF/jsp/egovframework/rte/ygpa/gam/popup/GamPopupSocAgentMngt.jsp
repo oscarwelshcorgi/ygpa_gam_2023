@@ -232,19 +232,19 @@ var popup_instance = new GamPopupSocAgentMngtModule();
 				<tbody>
 					<tr>
                         <th>업체코드</th>
-                        <td><input id="agentCode" type="text" style="width: 150px;" title="업체코드" maxlength="20" class="EditItem"/></td>
+                        <td><input id="agentCode" type="text" style="width: 150px;" title="업체코드" maxlength="9" class="EditItem"/></td>
                         <th>업체명</th>
-                        <td><input id="firmKorNm" type="text" style="width: 150px;" title="업체명" class="EditItem"/></td>
+                        <td><input id="firmKorNm" type="text" style="width: 150px;" title="업체명" class="EditItem" readonly="readonly"/></td>
 						<th>허가원부일련번호</th>
-                        <td><input id="constNo" type="text" style="width: 150px;" title="허가원부일련번호" maxlength="20" class="EditItem"/></td>
+                        <td><input id="constNo" type="text" style="width: 150px;" title="허가원부일련번호" maxlength="6" class="EditItem"/></td>
 					</tr>
 					<tr>
                     	<th>보전처리대상금액</th>
-                        <td><input id="totalAmnt" type="text" style="width: 150px;" title="보전처리대상금액" maxlength="20" class="EditItem"/></td>
+                        <td><input id="totalAmnt" type="text" style="width: 150px;" title="보전처리대상금액" maxlength="13" class="ygpaNumber EditItem"/></td>
                         <th>보전처리누계액</th>
-                        <td><input id="accFee" type="text" style="width: 150px;" title="보전처리누계액" maxlength="20" class="EditItem"/></td>
+                        <td><input id="accFee" type="text" style="width: 150px;" title="보전처리누계액" maxlength="13" class="ygpaNumber EditItem"/></td>
 						<th>비고</th>
-                        <td><input id="remark" type="text" style="width: 150px;" title="비고" class="EditItem"/></td>
+                        <td><input id="remark" type="text" style="width: 150px;" title="비고" class="EditItem" maxlength="116"/></td>
 					</tr>
 				</tbody>
 			</table>

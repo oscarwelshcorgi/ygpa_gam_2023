@@ -323,7 +323,7 @@ var module_instance = new GamFcltsClCdModule();
 							</td>
 							<th width="20%" height="23" class="required_text">분류코드</th>
 							<td>
-								<input type="text" id="fcltsClCd" size="15" />
+								<input type="text" id="fcltsClCd" size="15" disabled="disabled" />
 								<input type="hidden" id="oriFcltsClCd"/>
 							</td>
 						</tr>
@@ -349,7 +349,7 @@ var module_instance = new GamFcltsClCdModule();
 						</tr>
 						<tr>
 							<th width="20%" height="23" class="required_text">분류코드명</th>
-							<td><input type="text" size="40" id="fcltsClCdNm" maxlength="60" /></td>
+							<td><input type="text" size="40" id="fcltsClCdNm" maxlength="20" /></td>
 							<th width="20%" height="23" class="required_text"> LEAF 여부</th>
 							<td>
 								<select id="leafYn">

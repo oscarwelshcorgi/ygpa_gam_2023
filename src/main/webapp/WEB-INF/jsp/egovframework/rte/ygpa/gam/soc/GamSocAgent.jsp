@@ -364,7 +364,7 @@ var module_instance = new GamSocAgentMngtModule();
 	                            </td>
 	                            <th>공사일련번호</th>
 	                            <td>
-	                            	<input id="constNo" type="text" size="15">
+	                            	<input id="constNo" type="text" size="15" maxlength="6">
 	                            </td>
 	                        </tr>
                             <tr>
@@ -379,24 +379,24 @@ var module_instance = new GamSocAgentMngtModule();
                                     <!-- <input type="text" size="4" id="prtAtCodeStr" disabled/> -->
                                 </td>
                                 <th width="16%">대표자</th>
-                                <td><input type="text" id="agentOwner"></td>
+                                <td><input type="text" id="agentOwner" maxlength="26"></td>
                             </tr>
                             <tr>
                                 <th width="16%">*공사명</th>
-                                <td colspan="3"><input type="text" id="socCnstNm" size="55"></td>
+                                <td colspan="3"><input type="text" id="socCnstNm" size="55" maxlength="26"></td>
                                 <th width="16%">*공사승인일자</th>
                                 <td><input id="aprvDt" type="text" class="emdcal" size="20"></td>
                             </tr>
                             <tr>
                                 <th width="16%">위치</th>
-                                <td colspan="3"><input type="text" id="cnstLoc" size="55"></td>
+                                <td colspan="3"><input type="text" id="cnstLoc" size="55" maxlength="26"></td>
                                 <th width="16%">*공사허가일자</th>
                                 <td><input id="perfDt" type="text" class="emdcal" size="20"></td>
                             </tr>
                             <tr>
                                 <th width="16%">*업체코드</th>
                                 <td colspan="3">
-                                	<input id="agentCode" type="text" size="10">&nbsp; &nbsp;
+                                	<input id="agentCode" type="text" size="10" maxlength="9">&nbsp; &nbsp;
 	                            	<input id="agentName" type="text" size="15" disabled="disabled">&nbsp; &nbsp;
 	                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                                 </td>
@@ -405,13 +405,13 @@ var module_instance = new GamSocAgentMngtModule();
                             </tr>
                             <tr>
                                 <th width="16%">주소</th>
-                                <td colspan='5'><input input="text" id="agentAddr" size="120" ></td>
+                                <td colspan='5'><input type="text" id="agentAddr" size="120" maxlength="26"></td>
                             </tr>
                             <tr>
                                 <th width="16%">*총공사금액</th>
-                                <td colspan="3"><input type="text" id="totalBuildFee" class="ygpaNumber" size="55" ></td>
+                                <td colspan="3"><input type="text" id="totalBuildFee" class="ygpaNumber" size="55" maxlength="13" ></td>
                                 <th width="16%">보전처리누계액</th>
-                                <td><input id="totalAmnt" type="text" class="ygpaNumber" size="20"></td>
+                                <td><input id="totalAmnt" type="text" class="ygpaNumber" size="20" maxlength="13"></td>
                             </tr>
                         </table>
                         <table style="width:100%;">
@@ -457,45 +457,45 @@ var module_instance = new GamSocAgentMngtModule();
                         <table class="detailPanel">
                             <tr>
 								<th width="20%" height="18">목적</th>
-                                <td colspan="3"><input type="text" size="120" id="socObj"/></td>
+                                <td colspan="3"><input type="text" size="120" id="socObj" maxlength="26"/></td>
                             </tr>
                             <tr>
 								<th width="20%" height="18">시행기간</th>
-                                <td colspan="3"><input type="text" size="120" id="socGigian"/></td>
+                                <td colspan="3"><input type="text" size="120" id="socGigian" maxlength="26"/></td>
                             </tr>
                             <tr>
 								<th width="20%" height="18">국가비귀속 대상시설</th>
-                                <td colspan="3"><input type="text" size="120" id="socPrivate"/></td>
+                                <td colspan="3"><input type="text" size="120" id="socPrivate" maxlength="26"/></td>
                             </tr>
                             <tr>
 								<th width="20%" height="18">국가귀속 대상시설</th>
-                                <td colspan="3"><input type="text" size="120" id="socNation"/></td>
+                                <td colspan="3"><input type="text" size="120" id="socNation" maxlength="26"/></td>
                             </tr>
                             <tr>
 								<th width="20%" height="18">시행면적</th>
-                                <td colspan="3"><input type="text" size="120" id="socWidth" class="ygpaNumber" /></td>
+                                <td colspan="3"><input type="text" size="120" id="socWidth" class="ygpaNumber" maxlength="26" /></td>
                             </tr>
                             <tr>
 								<th width="20%" height="18">조사비</th>
-                                <td><input type="text" size="45" id="reserachAmnt" class="ygpaNumber" /></td>
+                                <td><input type="text" size="45" id="reserachAmnt" class="ygpaNumber" maxlength="13"/></td>
                                 <th width="20%" height="18">순공사비</th>
-                                <td><input type="text" size="45" id="pureAmnt" class="ygpaNumber" /></td>
+                                <td><input type="text" size="45" id="pureAmnt" class="ygpaNumber" maxlength="13"/></td>
                             </tr>
                             <tr>
 								<th width="20%" height="18">기타비용</th>
                                 <td colspan="3">
-                                	<input type="text" size="30" id="extraAmnt1" maxlength="80" class="ygpaNumber"/>
-                                	<input type="text" size="30" id="extraAmnt2" maxlength="80" class="ygpaNumber"/>
-                                	<input type="text" size="30" id="extraAmnt3" maxlength="80" class="ygpaNumber"/>
+                                	<input type="text" size="30" id="extraAmnt1" class="ygpaNumber" maxlength="13"/>
+                                	<input type="text" size="30" id="extraAmnt2" class="ygpaNumber" maxlength="13"/>
+                                	<input type="text" size="30" id="extraAmnt3" class="ygpaNumber" maxlength="13"/>
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">주요허가조건</th>
-                                <td colspan="3"><input type="text" size="120" id="primeTxt" maxlength="90"/></td>
+                                <td colspan="3"><input type="text" size="120" id="primeTxt" maxlength="33"/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">변경사항</th>
-                                <td colspan="3"><input type="text" size="120" id="modifyTxt" maxlength="90"/></td>
+                                <td colspan="3"><input type="text" size="120" id="modifyTxt" maxlength="33"/></td>
 							</tr>
 							<tr>
 								<th width="20%" height="18">착공일</th>

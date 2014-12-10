@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 
 @Controller
-public class GamPopupSocAgentMngt {
+public class GamPopupSocAgentMngtController {
 	
 	
 	
