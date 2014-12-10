@@ -36,7 +36,7 @@
 							, G.PRT_FCLTY_NM
 						FROM
 							FLAW_RPR_DTLS_F F, GIS_PRT_FCLTY_CD_F G, FLAW_RPR_OBJ_FCLTS_F O
-						WHERE
+						WHERE 
 							F.FCLTS_MNG_GROUP_NO = G.FCLTS_MNG_GROUP_NO
 							AND F.FCLTS_MNG_GROUP_NO = O.FCLTS_MNG_GROUP_NO
 						<isNotEmpty property="sFcltsMngNo">
