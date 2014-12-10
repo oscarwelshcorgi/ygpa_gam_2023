@@ -450,7 +450,15 @@ GamInfoTechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 
 		// 저장
 		case "btnSave":
-			this.saveAtchFile();
+        	if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){
+        		return;
+        	}
+			opts = this.makeFormArgs("#fcltyManageVO");
+		 	if(this._cmd == "insert") {
+		 		this.insertFcltsData(opts);
+			} else if (this._cmd == "modify") {
+				this.updateFcltsData(opts);
+			}
 			break;
 
 		//파일업로드

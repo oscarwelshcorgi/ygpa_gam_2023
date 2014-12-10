@@ -6,7 +6,7 @@
 <%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
   /**
-  * @Class Name : GamCivilFcltySpecInqire.jsp
+  * @Class Name : GamElctyFcltySpecInqire.jsp
   * @Description : 전기시설 제원 조회
   * @Modification Information
   *
@@ -94,7 +94,7 @@ GamElctyFcltySpecInqireModule.prototype.loadComplete = function(params) {
 					{display:"구분",		name:"atchFileSeNm",		width:40,		sortable:true,		align:"center"},
 					{display:"파일제목",	name:"atchFileSj",			width:160,		sortable:true,		align:"left"},
 					{display:"논리파일명",	name:"atchFileNmLogic",		width:160,		sortable:true,		align:"left"},
-					{display:"물리파일명",	name:"atchFileNmPhysicl",	width:180,		sortable:true,		align:"left"},
+					{display:"물리파일명",	name:"atchFileNmPhysicl",	width:200,		sortable:true,		align:"left"},
 					{display:"작성일자",	name:"atchFileWritngDt",	width:120,		sortable:true,		align:"center"}
 			],
 		height: "auto"
@@ -128,13 +128,16 @@ GamElctyFcltySpecInqireModule.prototype.loadComplete = function(params) {
 };
 
 GamElctyFcltySpecInqireModule.prototype.onSubmit = function() {
-	this.loadData();
+this.loadData();
+
+console.log('debug');
 };
 
 //시설목록 로드
 GamElctyFcltySpecInqireModule.prototype.loadData = function() {
 	var searchOpt = this.makeFormArgs("#searchElctyFcltySpecInqireForm");
 	this.$("#elctyFcltySpecInqireList").flexOptions({params:searchOpt}).flexReload();
+	console.log(searchOpt);
 };
 
 //시설재원데이터 로드
@@ -498,7 +501,7 @@ var module_instance = new GamElctyFcltySpecInqireModule();
 							<th width="12%" height="17" class="required_text">전압</th>
 							<td><span id="volt"  title="전압" ></span></td>
 							<th width="12%" height="17" class="required_text">출력</th>
-							<td><span id="output" style="width:20" title="출력"></span></td>
+							<td><span id="output" title="출력"></span></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">형식</th>
@@ -538,7 +541,7 @@ var module_instance = new GamElctyFcltySpecInqireModule();
 							<th width="12%" height="17" class="required_text">연료소비량</th>
 							<td><span id="fuelConsum" class="ygpaNumber" data-decimal-point="2" title="연료소비량" ></span></td>
 							<th width="12%" height="17" class="required_text">연료탱크</th>
-							<td><span id="fuelTank" class="ygpaNumber" data-decimal-point="2" title="연료탱크" ></span></td>
+							<td><span id="fuelTank" class="ygpaNumber" data-decimal-point="2"  title="연료탱크" ></span></td>
 							<th width="12%" height="17" class="required_text">유량</th>
 							<td><span id="oilQty" class="ygpaNumber" data-decimal-point="2" title="유량" ></span></td>
 						</tr>

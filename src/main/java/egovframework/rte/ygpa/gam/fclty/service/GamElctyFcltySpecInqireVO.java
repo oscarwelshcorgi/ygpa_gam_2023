@@ -40,6 +40,8 @@ public class GamElctyFcltySpecInqireVO extends ComDefaultVO {
 	/** 시설명 (조회조건) **/
 	private String sPrtFcltyNm;
 
+	private String searchFcltyCd;
+
 	/** 시설물 관리 번호 (조회조건-첨부파일) **/
 	private String sFcltsMngNo;
 
@@ -129,6 +131,20 @@ public class GamElctyFcltySpecInqireVO extends ComDefaultVO {
 	 */
 	public void setGisPrtFcltyCd(String gisPrtFcltyCd) {
 		this.gisPrtFcltyCd = gisPrtFcltyCd;
+	}
+
+	/**
+	 * @return the searchFcltyCd
+	 */
+	public String getSearchFcltyCd() {
+		return searchFcltyCd;
+	}
+
+	/**
+	 * @param searchFcltyCd the searchFcltyCd to set
+	 */
+	public void setSearchFcltyCd(String searchFcltyCd) {
+		this.searchFcltyCd = searchFcltyCd;
 	}
 
 }

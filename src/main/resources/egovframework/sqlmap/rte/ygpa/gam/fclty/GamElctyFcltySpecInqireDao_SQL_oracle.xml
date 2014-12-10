@@ -61,6 +61,9 @@
 						  <isNotEmpty property="gisPrtFcltyCd">
 						    AND F.GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
 						  </isNotEmpty>
+						  <isNotEmpty property="searchFcltyCd">
+	           				AND F.GIS_PRT_FCLTY_CD = #searchFcltyCd#
+	           				</isNotEmpty>
 						  <isNotEmpty property="sPrtFcltyNm">
 						  	AND F.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
 						  </isNotEmpty>

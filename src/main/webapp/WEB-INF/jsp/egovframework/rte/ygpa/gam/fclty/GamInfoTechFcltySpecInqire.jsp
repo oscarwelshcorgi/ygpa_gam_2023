@@ -297,13 +297,13 @@ GamInfoTechFcltySpecInqireModule.prototype.onTabChange = function(newTabId, oldT
 	case "tabs2":
 		if(this._cmd != 'modify') {
 			this.$("#infoTechFcltySpecInqireTab").tabs("option", {active: 0});
-			alert('먼저 토목시설항목을 선택 하세요.');
+			alert('먼저 정보통신 시설항목을 선택 하세요.');
 		}
 		break;
 	case "tabs3":
 		if(this._cmd != 'modify') {
 			this.$("#infoTechFcltySpecInqireTab").tabs("option", {active: 0});
-			alert('먼저 토목시설항목을 선택하세요.');
+			alert('먼저 정보통신 항목을 선택하세요.');
 		}
 		break;
 	}
@@ -506,13 +506,7 @@ var module_instance = new GamInfoTechFcltySpecInqireModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">설치구분</th>
-							<td>
-								<select id="instlSe">
-                                    <option value=""></option>
-                                    <option value="Y">Y</option>
-                                    <option value="N">N</option>
-                                </select>
-                            </td>
+							<td><span id="instlSe"> </span></td>
 							<th width="12%" height="17" class="required_text">설치번호</th>
 							<td><span id="instlNo" ></span></td>
 							<th width="12%" height="17" class="required_text">기능</th>

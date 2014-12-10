@@ -435,7 +435,7 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
 							<td colspan="5">
-						<span id="fcltsMngGroupNo" style="width:14"></span>&nbsp;-&nbsp;<span id="fcltsMngGroupNoNm" style="width:40"></span>
+						<span id="fcltsMngGroupNo"></span>&nbsp;-&nbsp;<span id="fcltsMngGroupNoNm" ></span>
 							</td>
 						</tr>
 						<tr>
