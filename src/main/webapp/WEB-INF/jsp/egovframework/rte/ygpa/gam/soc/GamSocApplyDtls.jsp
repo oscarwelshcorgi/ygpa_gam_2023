@@ -69,39 +69,34 @@ GamSocApplyDtlsModule.prototype.loadComplete = function() {
     });
 };
 
-/**
- * 정의 된 버튼 클릭 시
- */
-GamSocApplyDtlsModule.prototype.onButtonClick = function(buttonId) {
-	var opts = null;
-    switch(buttonId) {
-        case 'searchBtn':
-        	if(!validateGamSocApplyDtls(this.$('#gamSocApplyDtlsSearchForm')[0])){
-        		return;
-        	}
-        	opts = this.makeFormArgs('#gamSocApplyDtlsSearchForm');
-        	this.$("#socApplyDtlsList").flexOptions({params:opts}).flexReload();
-            break;
-        case 'popupFeeTpInfo' : //요금종류버튼
-        	opts = { prtAtCode : this.$('#sPrtAtCode').val() };
-			this.doExecuteDialog('selectFeeTpInfo', '요금 선택',
-					'/popup/showSocPayCd.do', opts);
-        	break;
-        case 'popupEntrpsInfo' : //업체코드버튼
-			this.doExecuteDialog('selectEntrpsInfo', '업체 선택',
-					'/popup/showSocEntrpsInfo.do', opts);
-        	break;
-     }
-};
-
 GamSocApplyDtlsModule.prototype.onSubmit = function() {
     this.loadData();
 };
 
 GamSocApplyDtlsModule.prototype.loadData = function() {
-    this.$("#socApplyDtlsListTab").tabs("option", {active: 0});
-    var searchOpt=this.makeFormArgs('#gamSocApplyDtlsSearchForm');
-    this.$('#socApplyDtlsList').flexOptions({params:searchOpt}).flexReload();
+	opts = this.makeFormArgs('#gamSocApplyDtlsSearchForm');
+	this.$("#socApplyDtlsList").flexOptions({params:opts}).flexReload();
+};
+
+/**
+ * 정의 된 버튼 클릭 시
+ */
+GamSocApplyDtlsModule.prototype.onButtonClick = function(buttonId) {
+    switch(buttonId) {
+        case 'searchBtn':
+        	if(!validateGamSocApplyDtls(this.$('#gamSocApplyDtlsSearchForm')[0])){
+        		return;
+        	}
+        	this.loadData();
+            break;
+        case 'popupFeeTpInfo' : //요금종류버튼
+        	var opts = { prtAtCode : this.$('#sPrtAtCode').val() };
+			this.doExecuteDialog('selectFeeTpInfo', '요금 선택', '/popup/showSocPayCd.do', opts);
+        	break;
+        case 'popupEntrpsInfo' : //업체코드버튼
+			this.doExecuteDialog('selectEntrpsInfo', '업체 선택', '/popup/showSocEntrpsInfo.do', {});
+        	break;
+     }
 };
 
 GamSocApplyDtlsModule.prototype.onTabChange = function(newTabId, oldTabId) {

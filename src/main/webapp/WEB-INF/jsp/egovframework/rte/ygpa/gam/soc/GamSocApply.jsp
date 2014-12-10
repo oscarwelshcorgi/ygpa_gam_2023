@@ -201,55 +201,6 @@ GamSocApplyModule.prototype.deleteData = function() {
 	}	
 };
 
-/**
- * 정의 된 버튼 클릭 시
- */
-GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
-    switch(buttonId) {
-        case 'searchBtn':
-        	if(!validateGamSocApply(this.$('#gamSocApplySearchForm')[0])){ 		
-        		return;
-        	}
-        	this.loadData();
-            break;
-        case 'btnNew' : //등록버튼 처리시
-        	this._cmd = 'insert';
-        	this.initDisplay();
-        	break;
-        case 'btnSave' : //저장
-        	this.saveData();
-        	break;
-        case 'btnDelete' : //삭제
-        	this.deleteData();
-        	break;
-        case 'popupApplyEntrpsInfo' : //면제요청업체 선택
-			this.doExecuteDialog('selectApplyEntrpsInfo', '면제요청업체 선택', '/popup/showSocEntrpsInfo.do', {});
-        	break;
-        case 'popupEntrpsInfo' : //공사업체 선택
-			this.doExecuteDialog('selectEntrpsInfo', '공사업체 선택', '/popup/showSocEntrpsInfo.do', {});
-        	break;
-        case 'popupSocApplyInfo' : //면제요청 선택
-        	var opts = this.makeFormArgs('#gamSocApplySearchForm');
-			this.doExecuteDialog('selectApplyInfo', '면제요청 선택', '/popup/showSocApplyInfo.do', opts);
-        	break;
-        case 'popupSocAgentInfo' : //허가원부 선택
-			this.doExecuteDialog('selectAgentInfo', '허가원부 선택', '/popup/showSocAgentFInfo.do', {});
-        	break;
-        case 'btnAddApplyFacilItem' : //시설물 추가
-        	this.addApplyFacilItem();
-        	break;
-        case 'btnRemoveApplyFacilItem' : //시설물 삭제
-        	this.removeApplyFacilItem();
-        	break;
-        case 'btnAddApplyFeeItem' : //요금 추가
-        	this.addApplyFeeItem();
-        	break;
-        case 'btnRemoveApplyFeeItem' : //요금 삭제 
-        	this.removeApplyFeeItem();
-        	break;
-    }
-};
-
 //시설물 추가
 GamSocApplyModule.prototype.addApplyFacilItem = function() {
 	if((this._cmd == 'insert') || (this._cmd == 'modify')) {
@@ -304,6 +255,55 @@ GamSocApplyModule.prototype.removeApplyFeeItem = function() {
 	} else {
 		alert("등록이나 조회를 선택한 후에 사용하세요.");
 	}
+};
+
+/**
+ * 정의 된 버튼 클릭 시
+ */
+GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
+    switch(buttonId) {
+        case 'searchBtn':
+        	if(!validateGamSocApply(this.$('#gamSocApplySearchForm')[0])){ 		
+        		return;
+        	}
+        	this.loadData();
+            break;
+        case 'btnNew' : //등록버튼 처리시
+        	this._cmd = 'insert';
+        	this.initDisplay();
+        	break;
+        case 'btnSave' : //저장
+        	this.saveData();
+        	break;
+        case 'btnDelete' : //삭제
+        	this.deleteData();
+        	break;
+        case 'popupApplyEntrpsInfo' : //면제요청업체 선택
+			this.doExecuteDialog('selectApplyEntrpsInfo', '면제요청업체 선택', '/popup/showSocEntrpsInfo.do', {});
+        	break;
+        case 'popupEntrpsInfo' : //공사업체 선택
+			this.doExecuteDialog('selectEntrpsInfo', '공사업체 선택', '/popup/showSocEntrpsInfo.do', {});
+        	break;
+        case 'popupSocApplyInfo' : //면제요청 선택
+        	var opts = this.makeFormArgs('#gamSocApplySearchForm');
+			this.doExecuteDialog('selectApplyInfo', '면제요청 선택', '/popup/showSocApplyInfo.do', opts);
+        	break;
+        case 'popupSocAgentInfo' : //허가원부 선택
+			this.doExecuteDialog('selectAgentInfo', '허가원부 선택', '/popup/showSocAgentFInfo.do', {});
+        	break;
+        case 'btnAddApplyFacilItem' : //시설물 추가
+        	this.addApplyFacilItem();
+        	break;
+        case 'btnRemoveApplyFacilItem' : //시설물 삭제
+        	this.removeApplyFacilItem();
+        	break;
+        case 'btnAddApplyFeeItem' : //요금 추가
+        	this.addApplyFeeItem();
+        	break;
+        case 'btnRemoveApplyFeeItem' : //요금 삭제 
+        	this.removeApplyFeeItem();
+        	break;
+    }
 };
 
 GamSocApplyModule.prototype.onTabChange = function(newTabId, oldTabId) {

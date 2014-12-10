@@ -186,8 +186,7 @@ GamSocExmpMngtModule.prototype.deleteData = function() {
 
 GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
-        // 조회
-        case 'searchBtn':
+        case 'searchBtn': //조회
         	if(!validateGamSocExmpMngt(this.$('#gamSocExmpMngtSearchForm')[0])){ 		
         		return;
         	}

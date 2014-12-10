@@ -248,80 +248,59 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 				<div style="margin-bottom:10px;">
 					<table  class="detailPanel"  style="width:100%;">
 						<tr>
-							<th width="12%" height="17">시설물관리그룹</th>
-							<td colspan="3">
-								<span id="fcltsMngGroupNo"></span>
-								<span id="fcltsMngGroupNm"></span>
-							</td>
-							<th width="12%" height="17">점검관리순번</th>
-							<td>
-								<span id="qcMngSeq"></span>
-							</td>
+							<th width="30px" height="17">시설물관리그룹</th>
+							<td colspan="3"><span id="fcltsMngGroupNo"></span></td>
+							<th width="30px" height="17">점검관리순번</th>
+							<td><span id="qcMngSeq"></span></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17">시설물업무구분</th>
-							<td>
-								<span id="fcltsJobSe"></span>
-								<span id="fcltsJobSeNm"></span>
-							</td>
-							<th width="12%" height="17">점검관리명</th>
-							<td colspan="3">
-								<span id="qcMngNm"></span>
-							</td>
+							<th height="17">시설물업무구분</th>
+							<td><span id="fcltsJobSe"></span></td>
+							<th height="17">점검관리명</th>
+							<td colspan="3"><span id="qcMngNm"></span></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17">시행년도</th>
-							<td>
-								<span id="enforceYear"></span>
-							</td>
-							<th width="12%" height="17">점검진단일자</th>
-							<td><span id="qcInspDt"></span></td>
-							<th width="12%" height="17">점검진단기관명</th>
+							<th height="17">시행년도</th>
+							<td width="200px"><span id="enforceYear"></span></td>
+							<th width="30px" height="17">점검진단일자</th>
+							<td width="200px"><span id="qcInspDt"></span></td>
+							<th height="17">점검진단기관명</th>
 							<td><span id="qcInspInsttNm"></span></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17">점검진단구분</th>
-							<td>
-								<span id="qcInspSe"></span>
-								<span id="qcInspSeNm"></span>
-							</td>
-							<th width="12%" height="17">점검시작일자</th>
+							<th height="17">점검진단구분</th>
+							<td><span id="qcInspSe"></span></td>
+							<th height="17">점검시작일자</th>
 							<td><span id="qcBeginDt"></span></td>
-							<th width="12%" height="17">점검종료일자</th>
-							<td colspan="3"><span id="qcEndDt"></span></td>
+							<th height="17">점검종료일자</th>
+							<td><span id="qcEndDt"></span></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17">책임기술자명</th>
+							<th height="17">책임기술자명</th>
 							<td><span id="responEngineerNm"></span></td>
-							<th width="12%" height="17">점검진단예산</th>
+							<th height="17">점검진단예산</th>
 							<td><span id="qcInspBdgt"></span></td>
-							<th width="12%" height="17">점검진단금액</th>
+							<th height="17">점검진단금액</th>
 							<td><span id="qcInspAmt"></span></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17">상태평가등급</th>
-							<td colspan="5">
-								<span id="sttusEvlLvl"></span>
-								<span id="sttusEvlLvlNm"></span>
-							</td>
+							<th height="17">상태평가등급</th>
+							<td colspan="5"><span id="sttusEvlLvl"></span></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17">점검진단결과</th>
+							<th height="17">점검진단결과</th>
 							<td colspan="5"><textarea id="qcInspResult" cols="120" rows="7" disabled="disabled"></textarea></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17">조치구분</th>
-							<td colspan="5">
-								<span id="actionSe"></span>
-								<span id="actionSeNm"></span>
-							</td>
+							<th height="17">조치구분</th>
+							<td colspan="5"><span id="actionSe"></span></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17">조치내용</th>
+							<th height="17">조치내용</th>
 							<td colspan="5"><textarea id="actionCn" cols="120" rows="7" disabled="disabled"></textarea></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17">비고</th>
+							<th height="17">비고</th>
 							<td colspan="5"><span id="rm"></span></td>
 						</tr>
 					</table>

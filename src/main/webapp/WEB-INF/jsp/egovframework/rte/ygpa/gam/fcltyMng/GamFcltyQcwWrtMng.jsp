@@ -711,7 +711,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							<th width="12%" height="17">점검시작일자</th>
 							<td><input id="qcBeginDt" type="text" class="emdcal" size="20"/></td>
 							<th width="12%" height="17">점검종료일자</th>
-							<td colspan="3"><input id="qcEndDt" type="text" class="emdcal" size="20"/></td>
+							<td><input id="qcEndDt" type="text" class="emdcal" size="20"/></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">책임기술자명</th>
