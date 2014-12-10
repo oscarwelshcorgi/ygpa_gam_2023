@@ -16,7 +16,6 @@ import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticDetailVo;
-import egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeCodeMngVo;
 
 /**
  *

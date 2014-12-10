@@ -113,16 +113,15 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
+	this.$("#detailGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectDetailData();
+	});
+
 	this.$("#detailGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module._detailmode = 'modify';
 		module._detailKeyValue = row.mngMt + row.mngFeeJobSe + row.mngSeq;
 		module.loadSubDetail();
-	});
-
-	this.$("#detailGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module._detailmode = 'modify';
-		module._detailKeyValue = row.mngMt + row.mngFeeJobSe + row.mngSeq;
-		module.loadSubDetail();
+		module.enableSubDetailInputItem();
 	});
 
 	this.$('#mainMngMtYear').on('change',{module:this}, function(event){
@@ -157,7 +156,7 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
 		event.data.module.calcMainMngTotalFee();
 	});
 
-	this.$('#fcltyMngFee').on('keyup change',{module:this}, function(event){
+	this.$('#mngFee').on('keyup change',{module:this}, function(event){
 		event.data.module.calcMngTotalFee();
 	});
 
@@ -207,6 +206,7 @@ GamFcltsMngFeeMngModule.prototype.onClosePopup = function(popupId, msg, value) {
 			if (msg == 'ok') {
 				this.$('#entrpscd').val(value.entrpscd);
 				this.$('#entrpsNm').val(value.entrpsNm);
+				this.$("#usageAr").focus();
 			}
 			break;
 	}
@@ -240,7 +240,6 @@ GamFcltsMngFeeMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnSaveMain':
 			this.saveData();
-			this.selectData();
 			break;
 		case 'btnDeleteMain':
 			this.deleteData();
@@ -250,6 +249,11 @@ GamFcltsMngFeeMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnSaveDetail':
 			this.saveDetailData();
+			break;
+		case 'btnDeleteDetail':
+			this.deleteDetailData();
+			break;
+		case 'btnProcessNticIssue':
 			break;
 		case 'btnFcltsFeeMngNtic':
 			this.openFcltsFeeMngNticModule();
@@ -342,6 +346,8 @@ GamFcltsMngFeeMngModule.prototype.loadDetail = function() {
 		}
 	});
 	this.$('#detailGrid').flexOptions({params:detailOpt}).flexReload();
+	this.makeFormValues('#subDetailForm', {});
+	this.makeDivValues('#subDetailForm', {});
 
 };
 
@@ -378,6 +384,43 @@ GamFcltsMngFeeMngModule.prototype.selectData = function() {
 		//this.$("#mainTab").tabs("option", {active: 1});
 		this.loadDetail();
 		this.enableDetailInputItem();
+		this.enableSubDetailInputItem();
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectDetailData
+ * @DESCRIPTION   : DETAIL DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsMngFeeMngModule.prototype.selectDetailData = function() {
+console.log('asdf');
+	if (this._detailmode != 'insert' && this._detailmode != 'modify') {
+		return;
+	}
+	var detailKeyValue = this._detailKeyValue;
+	if (detailKeyValue == "") {
+		return;
+	}
+	var mngMt = detailKeyValue.substring(0,6);
+	var mngFeeJobSe = detailKeyValue.substring(6,7);
+	var mngSeq = detailKeyValue.substring(7,10);
+	var detailGridRowCount = this.$("#detailGrid").flexGetData().length;
+	var detailRowNo = -1;
+	for(var i=0; i<detailGridRowCount; i++) {
+		var row = this.$("#detailGrid").flexGetRow(i+1);
+		if (row.mngMt == mngMt && row.mngFeeJobSe == mngFeeJobSe && row.mngSeq == mngSeq) {
+			detailRowNo = i;
+			break;
+		}
+	}
+	if (detailRowNo >= 0) {
+		this.$("#detailGrid").selectRowId(detailRowNo);
+		this._detailmode = 'modify';
+		this.loadSubDetail();
 		this.enableSubDetailInputItem();
 	}
 
@@ -472,7 +515,7 @@ GamFcltsMngFeeMngModule.prototype.calcMainMngTotalFee = function() {
 %>
 GamFcltsMngFeeMngModule.prototype.calcMngTotalFee = function() {
 
-	var fcltyMngFee = Number(this.$('#fcltyMngFee').val().replace(/,/gi, ""));
+	var fcltyMngFee = Number(this.$('#mngFee').val().replace(/,/gi, ""));
 	var elctyFee = Number(this.$('#elctyFee').val().replace(/,/gi, ""));
 	var waterFee = Number(this.$('#waterFee').val().replace(/,/gi, ""));
 	var gasFee = Number(this.$('#gasFee').val().replace(/,/gi, ""));
@@ -650,7 +693,7 @@ GamFcltsMngFeeMngModule.prototype.deleteData = function() {
 
 	var mainMngMtYear = this.$('#mainMngMtYear').val();
 	var mainMngMtMon = this.$('#mainMngMtMon').val();
-	var mainMngFeeJobSe = this.$('#sMngFeeJobSe').val();
+	var mainMngFeeJobSe = this.$('#mainMngFeeJobSe').val();
 	var nhtIsueYn = this.$('#mainNhtIsueYn').val();
 	var confirmMessage = "";
 	if (mainMngMtYear > "9999"  || mainMngMtYear < "2000" || mainMngMtYear == "") {
@@ -670,6 +713,7 @@ GamFcltsMngFeeMngModule.prototype.deleteData = function() {
 	}
 	if (nhtIsueYn == "Y") {
 		alert("관리비 상세내역에 고지처리된 자료가 존재합니다!");
+		return;
 	} else if (nhtIsueYn == "N") {
 		confirmMessage = "[" + mainMngMtYear + "-" + mainMngMtMon + "]월 관리비 내역을 삭제하시겠습니까?" +
 						"\r\n(관리비 상세내역이 모두 삭제됩니다)";
@@ -684,6 +728,8 @@ GamFcltsMngFeeMngModule.prototype.deleteData = function() {
 			if (result.resultCode == "0") {
 				this._mode = 'query';
 				this._detailmode = 'query';
+				this._mainKeyValue = '';
+				this._detailKeyValue = '';
 				module.loadData();
 			}
 			alert(result.resultMsg);
@@ -695,7 +741,7 @@ GamFcltsMngFeeMngModule.prototype.deleteData = function() {
 <%
 /**
  * @FUNCTION NAME : addDetailData
- * @DESCRIPTION   : DETAIL DATA ADD (MAIN)
+ * @DESCRIPTION   : DATA ADD (DETAIL)
  * @PARAMETER     : NONE
 **/
 %>
@@ -718,6 +764,7 @@ GamFcltsMngFeeMngModule.prototype.addDetailData = function() {
 		return;
 	}
 	this._detailmode = 'insert';
+	this._detailKeyValue = '';
 	this.$('#mngMt').val(mainMngMtYear + mainMngMtMon);
 	this.$('#mngFeeJobSe').val(mainMngFeeJobSe);
 	mngSeq = this.getNewMngSeq();
@@ -745,8 +792,16 @@ GamFcltsMngFeeMngModule.prototype.addDetailData = function() {
 	this.$('#nticDt').val('');
 	this.$('#payTmlmt').val('');
 	this.$('#prtAtCode').val('622');
-	this.$('#chrgeKnd').val('');
-	this.$('#chrgeKndNm').val('');
+	if (mainMngFeeJobSe == "M") {
+		this.$('#chrgeKnd').val('QM');
+		this.$('#chrgeKndNm').val('마린센터 관리비');
+	} else if (mainMngFeeJobSe == "E") {
+		this.$('#chrgeKnd').val('QE');
+		this.$('#chrgeKndNm').val('전기시설 관리비');
+	} else {
+		this.$('#chrgeKnd').val('');
+		this.$('#chrgeKndNm').val('');
+	}
 	this.$('#accnutYear').val('');
 	this.$('#paynticNoTmlmt').val('');
 	this.$('#rcivSe').val('0');
@@ -760,7 +815,7 @@ GamFcltsMngFeeMngModule.prototype.addDetailData = function() {
 <%
 /**
  * @FUNCTION NAME : saveDetailData
- * @DESCRIPTION   : DETAIL DATA SAVE (MAIN)
+ * @DESCRIPTION   : DATA SAVE (DETAIL)
  * @PARAMETER     : NONE
 **/
 %>
@@ -778,6 +833,7 @@ GamFcltsMngFeeMngModule.prototype.saveDetailData = function() {
 	var gasFee = Number(this.$('#gasFee').val().replace(/,/gi, ""));
 	var envFee = Number(this.$('#envFee').val().replace(/,/gi, ""));
 	var mngTotalFee = Number(this.$('#mngTotalFee').val().replace(/,/gi, ""));
+	var chrgeKnd = this.$('#chrgeKnd').val();
 	if (mngMt > "999912"  || mngMt < "200001" || mngMt == "") {
 		alert('관리 월이 부정확합니다.');
 		return;
@@ -791,7 +847,7 @@ GamFcltsMngFeeMngModule.prototype.saveDetailData = function() {
 		return;
 	}
 	if (usageAr > 99999.99 || usageAr < 0) {
-		alert('시설 관리 용역비가 부정확합니다.');
+		alert('면적이 부정확합니다.');
 		this.$("#usageAr").focus();
 		return;
 	}
@@ -833,11 +889,15 @@ GamFcltsMngFeeMngModule.prototype.saveDetailData = function() {
 		alert('관리비 합계가 부정확합니다.');
 		return;
 	}
+	if (chrgeKnd == "") {
+		alert('요금 종류가 부정확합니다.');
+		return;
+	}
 	if (this._detailmode == "insert") {
 		this.doAction('/mngFee/gamInsertFcltsMngFeeMngDetail.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module._detailKeyValue = mngMt + mngFeeJobSe + mngSeq;
-				module.refreshDetailData();
+				module.refreshData();
 			}
 			alert(result.resultMsg);
 		});
@@ -845,7 +905,54 @@ GamFcltsMngFeeMngModule.prototype.saveDetailData = function() {
 		this.doAction('/mngFee/gamUpdateFcltsMngFeeMngDetail.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module._detailKeyValue = mngMt + mngFeeJobSe + mngSeq;
-				module.refreshDetailData();
+				module.refreshData();
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : deleteDetailData
+ * @DESCRIPTION   : DATA DELETE (DETAIL)
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsMngFeeMngModule.prototype.deleteDetailData = function() {
+
+	var mngMt = this.$('#mngMt').val();
+	var mngFeeJobSe = this.$('#mngFeeJobSe').val();
+	var entrpsNm = this.$('#entrpsNm').val();
+	var nhtIsueYn = this.$('#nhtIsueYn').val();
+	var confirmMessage = "";
+	if (mngMt > "999912"  || mngMt < "200001" || mngMt == "") {
+		alert('관리 월이 부정확합니다.');
+		this.$("#mngMt").focus();
+		return;
+	}
+	if (mngFeeJobSe != "M" && mngFeeJobSe != "E") {
+		alert('업무 구분이 부정확합니다.');
+		this.$("#mngFeeJobSe").focus();
+		return;
+	}
+	if (nhtIsueYn == "Y") {
+		alert("고지처리된 자료입니다!");
+		return;
+	} else if (nhtIsueYn == "N") {
+		confirmMessage = "[" + mngMt + "]월 " + entrpsNm + " 관리비 부과 내역을 삭제하시겠습니까?";
+	} else if (nhtIsueYn == "X") {
+		confirmMessage = "[" + mngMt + "]월 " + entrpsNm + " 관리비 부과 내역을 삭제하시겠습니까?";
+	} else {
+		confirmMessage = "[" + mngMt + "]월 " + entrpsNm + " 관리비 부과 내역을 삭제하시겠습니까?";
+	}
+	if (confirm(confirmMessage)) {
+		var inputVO = this.makeFormArgs("#subDetailForm");
+		this.doAction('/mngFee/gamDeleteFcltsMngFeeMngDetail.do', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module._detailKeyValue = '';
+				module.refreshData();
 			}
 			alert(result.resultMsg);
 		});
@@ -868,6 +975,125 @@ GamFcltsMngFeeMngModule.prototype.downloadExcel = function() {
 		return;
 	}
 	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelFcltsMngFeeMng.do');
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : processNticIssue
+ * @DESCRIPTION   : 시설물 관리비 부과 내역을 고지처리한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsMngFeeMngModule.prototype.processNticIssue = function() {
+
+	var processVO = [];
+	var chrgeKnd = this.$('#chrgeKnd').val();
+	var nhtIsueYn = this.$('#nhtIsueYn').val();
+	var nticDt = this.$('#nticDt').val();
+	var payTmlmt = this.$('#payTmlmt').val();
+	var vatYn = this.$('#vatYn').val();
+	var fee = Number(this.$('#fee').val().replace(/,/gi, ""));
+	var vat = Number(this.$('#vat').val().replace(/,/gi, ""));
+	var nticAmt = Number(this.$('#nticAmt').val().replace(/,/gi, ""));
+	var toDay = new Date();
+	var year = toDay.getFullYear();
+	var month = toDay.getMonth() + 1;
+	var day = toDay.getDate();
+	var todayString = "";
+	var confirmMessage = "";
+	if (month >= 1 && month <= 9) {
+		if (day >= 1 && day <= 9) {
+			todayString = year + "-" + "0" + month + "-" + "0" + day;
+		} else {
+			todayString = year + "-" + "0" + month + "-" + day;
+		}
+	} else {
+		if (day >= 1 && day <= 9) {
+			todayString = year + "-" + month + "-" + "0" + day;
+		} else {
+			todayString = year + "-" + month + "-" + day;
+		}
+	}
+	if (nhtIsueYn == "Y") {
+		alert('고지 처리가 완료된 자료입니다.');
+		return;
+	}
+	if (chrgeKnd == "") {
+		alert('요금 종류가 부정확합니다.');
+		this.$("#chrgeKnd").focus();
+		return;
+	}
+	if (nticDt > todayString || nticDt < "2000-01-01" || nticDt == "") {
+		alert('고지 일자가 부정확합니다.');
+		this.$("#nticDt").focus();
+		return;
+	}
+	if (nticDt > payTmlmt || payTmlmt < "2000-01-01" || payTmlmt == "") {
+		alert('납부 기한이 부정확합니다.');
+		this.$("#payTmlmt").focus();
+		return;
+	}
+	if (fee > 999999999999 || fee <= 0) {
+		alert('사용료가 부정확합니다.');
+		this.$("#fee").focus();
+		return;
+	}
+	if (vat > 999999999999 || vat < 0) {
+		alert('부가세가 부정확합니다.');
+		this.$("#vat").focus();
+		return;
+	}
+	if (vatYn == "0" || vatYn == "1" || vatYn == "3") {
+		if (vat != 0) {
+			alert('부가세가 부정확합니다.');
+			this.$("#vat").focus();
+			return;
+		}
+	} else {
+		if (vat != Math.floor(fee / 10)) {
+			alert('부가세가 부정확합니다.');
+			this.$("#vat").focus();
+			return;
+		}
+	}
+	if (nticAmt > 999999999999 || nticAmt <= 0) {
+		alert('고지 금액이 부정확합니다.');
+		this.$("#fee").focus();
+		return;
+	}
+	if (nticAmt != (fee + vat)) {
+		alert('고지 금액이 (사용료 + 부가세)와 일치하지 않습니다.');
+		this.$("#fee").focus();
+		return;
+	}
+	confirmMessage = "[" + this.$('#chrgeKndNm').val() + "] " + this.$('#fee').val() + "원을 고지하시겠습니까?";
+	if (confirm(confirmMessage)) {
+		processVO={
+			'mngMt':this.$('#mngMt').val(),
+			'mngFeeJobSe':this.$('#mngFeeJobSe').val(),
+			'mngSeq':this.$('#mngSeq').val(),
+			'reqestSeq':this.$('#reqestSeq').val(),
+			'prtAtCode':this.$('#prtAtCode').val(),
+			'chrgeKnd':this.$('#chrgeKnd').val(),
+			'accnutYear':this.$('#accnutYear').val(),
+			'nticNo':this.$('#nticNo').val(),
+			'nticDt':this.$('#nticDt').val(),
+			'payTmlmt':this.$('#payTmlmt').val(),
+			'fee':this.$('#fee').val().replace(/,/gi, ""),
+			'vatYn':this.$('#vatYn').val(),
+			'vat':this.$('#vat').val().replace(/,/gi, ""),
+			'nticAmt':this.$('#nticAmt').val().replace(/,/gi, ""),
+			'nhtIsueYn':"Y",
+			'rm':this.$('#rm').val()
+		};
+		this.doAction('/mngFee/gamProcessFcltsMngFeeMngNticIssue.do', processVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.refreshData();
+			}
+			alert(result.resultMsg);
+		});
+	}
 
 };
 
@@ -1187,6 +1413,8 @@ GamFcltsMngFeeMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.enableDetailInputItem();
 				this.enableSubDetailInputItem();
 			} else if (this._mode=="insert") {
+				this._mainKeyValue = '';
+				this._detailKeyValue = '';
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
 				this.disableDetailInputItem();
@@ -1445,7 +1673,7 @@ var module_instance = new GamFcltsMngFeeMngModule();
 								<td>
 									<input id="entrpscd" type="hidden"/>
 									<input type="text" size="22" id="entrpsNm" disabled>
-									<button id="popupDataEntrpscd" class="popupButton" disabled>선택</button>
+									<button id="popupDataEntrpscd" class="popupButton">선택</button>
 								</td>
                             </tr>
                             <tr>
@@ -1471,6 +1699,7 @@ var module_instance = new GamFcltsMngFeeMngModule();
 									<input id="nticMth" type="hidden"/>
 									<input id="aditNticYn" type="hidden"/>
 									<input id="vatYn" type="hidden"/>
+									<input id="rm" type="hidden"/>
 									<input type="text" size="5" id="nhtIsueYn" disabled>
 									<input type="text" size="5" id="nhtPrintYn" disabled>
 									<input type="text" size="20" id="vatYnNm" disabled/>

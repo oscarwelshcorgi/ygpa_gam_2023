@@ -61,6 +61,7 @@ public class GamFcltsMngFeeMngDetailVo extends ComDefaultVO{
 	private String	rcivSe;				//수납 구분
 	private String	rcivSeNm;			//수납 구분 명
 	private String	rcivDt;				//수납 일자
+	private String	nticMth;			//고지 방법
 	private String	nhtIsueYn;			//고지 여부
 	private String	nhtPrintYn;			//출력 여부
 	private String	aditNticYn;			//추가 고지 여부
@@ -491,6 +492,18 @@ public class GamFcltsMngFeeMngDetailVo extends ComDefaultVO{
 	 */
 	public void setRcivDt(String rcivDt) {
 		this.rcivDt = rcivDt;
+	}
+	/**
+	 * @return the nticMth
+	 */
+	public String getNticMth() {
+		return nticMth;
+	}
+	/**
+	 * @param nticMth the nticMth to set
+	 */
+	public void setNticMth(String nticMth) {
+		this.nticMth = nticMth;
 	}
 	/**
 	 * @return the nhtIsueYn

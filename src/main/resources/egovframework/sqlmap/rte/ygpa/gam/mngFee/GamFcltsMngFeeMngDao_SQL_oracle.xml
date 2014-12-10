@@ -268,7 +268,7 @@
 			  AND MNG_FEE_JOB_SE = #mngFeeJobSe#)
 			,#entrpscd#
 			,TO_NUMBER(REPLACE(#usageAr#,',',''))
-			,TO_NUMBER(REPLACE(#fcltyMngFee#,',',''))
+			,TO_NUMBER(REPLACE(#mngFee#,',',''))
 			,TO_NUMBER(REPLACE(#elctyFee#,',',''))
 			,TO_NUMBER(REPLACE(#waterFee#,',',''))
 			,TO_NUMBER(REPLACE(#gasFee#,',',''))
@@ -284,7 +284,8 @@
 	<update id="gamFcltsMngFeeMngDao.updateFcltsMngFeeMngDetail_S">
 		UPDATE FCLTS_MNG_FEE_DETAIL_F SET
 			 ENTRPSCD = #entrpscd#
-			,MNG_FEE = TO_NUMBER(REPLACE(#fcltyMngFee#,',',''))
+			,USAGE_AR = TO_NUMBER(REPLACE(#usageAr#,',',''))
+			,MNG_FEE = TO_NUMBER(REPLACE(#mngFee#,',',''))
 			,ELCTY_FEE = TO_NUMBER(REPLACE(#elctyFee#,',',''))
 			,WATER_FEE = TO_NUMBER(REPLACE(#waterFee#,',',''))
 			,GAS_FEE = TO_NUMBER(REPLACE(#gasFee#,',',''))
@@ -356,7 +357,7 @@
 			,#reqestSeq#
 			,#entrpscd#
 			,#prtAtCode#
-			,NULL
+			,#chrgeKnd#
 			,NULL
 			,NULL
 			,NULL
@@ -460,9 +461,8 @@
 
 	<delete id="gamFcltsMngFeeMngDao.deleteAllMngFeeLevReqestF_S">
 		DELETE FROM MNG_FEE_LEV_REQEST_F
-		WHERE MNG_MT = #mngMt#
-		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
-		AND MNG_SEQ = #mngSeq#
+		WHERE MNG_MT = #mainMngMtYear# || #mainMngMtMon#
+		AND MNG_FEE_JOB_SE = #mainMngFeeJobSe#
 	</delete>
 
 </sqlMap>

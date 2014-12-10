@@ -63,6 +63,7 @@ public class GamFcltsMngFeeMngServiceImpl extends AbstractServiceImpl implements
 
 	@Override
 	public void deleteFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) throws Exception {
+		gamFcltsMngFeeMngDao.deleteAllMngFeeLevReqestF(gamFcltsMngFeeMngVo);
 		gamFcltsMngFeeMngDao.deleteAllFcltsMngFeeMngDetail(gamFcltsMngFeeMngVo);
 		gamFcltsMngFeeMngDao.deleteFcltsMngFeeMng(gamFcltsMngFeeMngVo);
 	}
@@ -80,15 +81,18 @@ public class GamFcltsMngFeeMngServiceImpl extends AbstractServiceImpl implements
 	@Override
 	public void insertFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) throws Exception {
 		gamFcltsMngFeeMngDao.insertFcltsMngFeeMngDetail(gamFcltsMngFeeMngDetailVo);
+		gamFcltsMngFeeMngDao.insertMngFeeLevReqestF(gamFcltsMngFeeMngDetailVo);
 	}
 
 	@Override
 	public void updateFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) throws Exception {
 		gamFcltsMngFeeMngDao.updateFcltsMngFeeMngDetail(gamFcltsMngFeeMngDetailVo);
+		gamFcltsMngFeeMngDao.updateMngFeeLevReqestF(gamFcltsMngFeeMngDetailVo);
 	}
 
 	@Override
 	public void deleteFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) throws Exception {
+		gamFcltsMngFeeMngDao.deleteMngFeeLevReqestF(gamFcltsMngFeeMngDetailVo);
 		gamFcltsMngFeeMngDao.deleteFcltsMngFeeMngDetail(gamFcltsMngFeeMngDetailVo);
 	}
 

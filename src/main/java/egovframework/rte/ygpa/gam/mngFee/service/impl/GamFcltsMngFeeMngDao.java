@@ -115,4 +115,46 @@ public class GamFcltsMngFeeMngDao extends YGPAAbstractDAO{
 		delete("gamFcltsMngFeeMngDao.deleteFcltsMngFeeMngDetail_S", gamFcltsMngFeeMngDetailVo);
 	}
 
+	/**
+	 * @param gamFcltsMngFeeMngDetailVo
+	 */
+	public void insertMngFeeLevReqestF(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) {
+		insert("gamFcltsMngFeeMngDao.insertMngFeeLevReqestF_S", gamFcltsMngFeeMngDetailVo);
+	}
+
+	/**
+	 * @param gamFcltsMngFeeMngDetailVo
+	 */
+	public void updateMngFeeLevReqestF(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) {
+		update("gamFcltsMngFeeMngDao.updateMngFeeLevReqestF_S", gamFcltsMngFeeMngDetailVo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void updateMngFeeLevReqestFNticIssue(Map<String, Object> vo) {
+		update("gamFcltsMngFeeMngDao.updateMngFeeLevReqestFNticIssue_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void updateMngFeeLevReqestFNhtPrintYn(Map<String, Object> vo) {
+		update("gamFcltsMngFeeMngDao.updateMngFeeLevReqestFNhtPrintYn_S", vo);
+	}
+
+	/**
+	 * @param gamFcltsMngFeeMngDetailVo
+	 */
+	public void deleteMngFeeLevReqestF(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) {
+		delete("gamFcltsMngFeeMngDao.deleteMngFeeLevReqestF_S", gamFcltsMngFeeMngDetailVo);
+	}
+
+	/**
+	 * @param gamFcltsMngFeeMngDetailVo
+	 */
+	public void deleteAllMngFeeLevReqestF(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) {
+		delete("gamFcltsMngFeeMngDao.deleteAllMngFeeLevReqestF_S", gamFcltsMngFeeMngVo);
+	}
+
 }
