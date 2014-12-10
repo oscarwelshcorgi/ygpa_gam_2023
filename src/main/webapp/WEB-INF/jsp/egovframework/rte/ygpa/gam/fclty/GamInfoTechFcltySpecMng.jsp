@@ -156,7 +156,7 @@ GamInfoTechFcltySpecMngModule.prototype.loadDetailData = function() {
 				module.loadFileData();
 			}
 			else {
-				this._cmd="";
+				module._cmd="";
 				module.initDisplay();
 				alert(result.resultMsg);
 			}

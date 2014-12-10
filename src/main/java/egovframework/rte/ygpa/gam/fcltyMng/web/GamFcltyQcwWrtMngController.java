@@ -82,10 +82,11 @@ public class GamFcltyQcwWrtMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectQcMngDtlsList.do")
 	@ResponseBody Map<String, Object> selectQcMngDtlsList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -115,7 +116,6 @@ public class GamFcltyQcwWrtMngController {
     	map.put("totalCount", totCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
-
     	return map;
     }
 	
@@ -125,9 +125,10 @@ public class GamFcltyQcwWrtMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectQcMngDtlsDetail.do")
     @ResponseBody Map<String, Object> selectQcMngDtlsDetail(@RequestParam Map searchVO) throws Exception {
-    	Map<String, Object> map = new HashMap<String, Object>();
+    	Map map = new HashMap();
     	EgovMap result=null;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -139,16 +140,13 @@ public class GamFcltyQcwWrtMngController {
     	
     	try {
         	result = gamFcltyQcwWrtMngService.selectQcMngDtlsDetail(searchVO);
+            map.put("resultCode", 0);
+            map.put("result", result);
     	}
     	catch(Exception e) {
             map.put("resultCode", 1);
             map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
-            return map;
     	}
-
-        map.put("resultCode", 0);
-        map.put("result", result);
-
         return map;		
 	}
 
@@ -158,10 +156,11 @@ public class GamFcltyQcwWrtMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectQcMngObjFcltsList.do")
 	@ResponseBody Map<String, Object> selectQcMngObjFcltsList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -201,10 +200,11 @@ public class GamFcltyQcwWrtMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectQcMngAtchFileList.do")
 	@ResponseBody Map<String, Object> selectQcMngAtchFileList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -234,7 +234,6 @@ public class GamFcltyQcwWrtMngController {
     	map.put("totalCount", totCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
-
     	return map;
     }
 	
@@ -244,10 +243,11 @@ public class GamFcltyQcwWrtMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectQcMngResultItemList.do")
 	@ResponseBody Map<String, Object> selectQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -277,7 +277,6 @@ public class GamFcltyQcwWrtMngController {
     	map.put("totalCount", totCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
-
     	return map;
     }
 
@@ -299,7 +298,6 @@ public class GamFcltyQcwWrtMngController {
     	}
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-
     	insertMap.put("regUsr", user.getId());
     	
     	try {
@@ -313,7 +311,6 @@ public class GamFcltyQcwWrtMngController {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
-
       	return map;		
 	}	
 
@@ -335,19 +332,16 @@ public class GamFcltyQcwWrtMngController {
     	}
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-
     	insertMap.put("updUsr", user.getId());
     	
     	try {
     		gamFcltyQcwWrtMngService.updateQcMngDtls(insertMap);
-    		
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
-
       	return map;		
 	}	
 	
@@ -370,9 +364,6 @@ public class GamFcltyQcwWrtMngController {
     	List<HashMap<String,String>> deleteList=null;
     	List<Map<String,String>> userList=null;
 
-    	int resultCode = -1;
-    	String resultMsg = "";
-
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -389,7 +380,7 @@ public class GamFcltyQcwWrtMngController {
 		deleteList = mapper.readValue((String)dataList.get("deleteList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
 		
-		userList = new ArrayList();
+		userList = new ArrayList<Map<String,String>>();
 		userMap.put("id",  loginVO.getId());
 		userList.add(userMap);
 
@@ -432,9 +423,6 @@ public class GamFcltyQcwWrtMngController {
     	List<HashMap<String,String>> deleteList=null;
     	List<Map<String,String>> userList=null;
 
-    	int resultCode = -1;
-    	String resultMsg = "";
-
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -451,7 +439,7 @@ public class GamFcltyQcwWrtMngController {
 		deleteList = mapper.readValue((String)dataList.get("deleteList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
 		
-		userList = new ArrayList();
+		userList = new ArrayList<Map<String,String>>();
 		userMap.put("id",  loginVO.getId());
 		userList.add(userMap);
 
@@ -494,9 +482,6 @@ public class GamFcltyQcwWrtMngController {
     	List<HashMap<String,String>> deleteList=null;
     	List<Map<String,String>> userList=null;
 
-    	int resultCode = -1;
-    	String resultMsg = "";
-
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -513,7 +498,7 @@ public class GamFcltyQcwWrtMngController {
 		deleteList = mapper.readValue((String)dataList.get("deleteList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
 
-		userList = new ArrayList();
+		userList = new ArrayList<Map<String,String>>();
 		userMap.put("id",  loginVO.getId());
 		userList.add(userMap);
 
@@ -533,7 +518,6 @@ public class GamFcltyQcwWrtMngController {
 	        map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.merge"));			
 		}
-		
 		return map;
 	}	
 
@@ -543,6 +527,7 @@ public class GamFcltyQcwWrtMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/deleteQcMngDtls.do")
     @ResponseBody Map<String, Object> deleteQcMngDtls(@RequestParam Map deleteMap) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -553,8 +538,6 @@ public class GamFcltyQcwWrtMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
     	try {
     		gamFcltyQcwWrtMngService.deleteQcMngAtchFileList(deleteMap);
@@ -568,7 +551,6 @@ public class GamFcltyQcwWrtMngController {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
-
       	return map;		
 	}
 	
@@ -579,6 +561,7 @@ public class GamFcltyQcwWrtMngController {
 	 * @return 
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes" })
 	@RequestMapping(value="/popup/showQcMngObjFcltsPopup.do")
     String showQcMngObjFcltsPopup(@RequestParam Map qcMngObjFcltsList, ModelMap model) throws Exception {
 		model.addAttribute("qcMngObjFcltsList", qcMngObjFcltsList);
@@ -591,6 +574,7 @@ public class GamFcltyQcwWrtMngController {
 	 * @return 
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes" })
 	@RequestMapping(value="/popup/showQcMngResultItemPopup.do")
     String showQcMngResultItemPopup(@RequestParam Map qcMngResultItemList, ModelMap model) throws Exception {
 		model.addAttribute("qcMngResultItemList", qcMngResultItemList);

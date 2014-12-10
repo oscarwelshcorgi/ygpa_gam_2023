@@ -123,7 +123,6 @@ public class GamMechFcltySpecMngController {
     	map.put("totalCount", totCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
-
     	return map;
     }
 
@@ -149,16 +148,13 @@ public class GamMechFcltySpecMngController {
 
     	try {
         	result = gamMechFcltySpecMngService.selectMechFcltySpecMngDetail(searchVO);
+            map.put("resultCode", 0);
+            map.put("result", result);
     	}
     	catch(Exception e) {
             map.put("resultCode", 1);
             map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
-            return map;
     	}
-
-        map.put("resultCode", 0);
-        map.put("result", result);
-
         return map;		
 	}
 	
@@ -180,7 +176,6 @@ public class GamMechFcltySpecMngController {
     	}
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-
     	insertMap.put("regUsr", user.getId());
     	
     	try {
@@ -196,7 +191,6 @@ public class GamMechFcltySpecMngController {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
-
       	return map;		
 	}
 	
@@ -218,7 +212,6 @@ public class GamMechFcltySpecMngController {
     	}
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-
     	updateMap.put("updUsr", user.getId());
     	
     	try {
@@ -232,7 +225,6 @@ public class GamMechFcltySpecMngController {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
-
       	return map;		
 	}
 
@@ -264,7 +256,6 @@ public class GamMechFcltySpecMngController {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
-
       	return map;		
 	}
 	
@@ -307,7 +298,6 @@ public class GamMechFcltySpecMngController {
     	map.put("totalCount", totCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
-
     	return map;
 	}
 	
@@ -366,5 +356,5 @@ public class GamMechFcltySpecMngController {
 		}
 		return map;
 	}
-	
+
 }

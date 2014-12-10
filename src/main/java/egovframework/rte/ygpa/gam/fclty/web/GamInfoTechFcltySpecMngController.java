@@ -124,7 +124,6 @@ public class GamInfoTechFcltySpecMngController {
     	map.put("totalCount", totCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
-
     	return map;
     }
 
@@ -150,16 +149,13 @@ public class GamInfoTechFcltySpecMngController {
 
     	try {
         	result = gamInfoTechFcltySpecMngService.selectInfoTechFcltySpecMngDetail(searchVO);
+            map.put("resultCode", 0);
+            map.put("result", result);
     	}
     	catch(Exception e) {
             map.put("resultCode", 1);
             map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
-            return map;
     	}
-
-        map.put("resultCode", 0);
-        map.put("result", result);
-
         return map;		
 	}
 	
@@ -181,7 +177,6 @@ public class GamInfoTechFcltySpecMngController {
     	}
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-
     	insertMap.put("regUsr", user.getId());
     	
     	try {
@@ -197,7 +192,6 @@ public class GamInfoTechFcltySpecMngController {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
-
       	return map;		
 	}
 	
@@ -219,7 +213,6 @@ public class GamInfoTechFcltySpecMngController {
     	}
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-
     	updateMap.put("updUsr", user.getId());
     	
     	try {
@@ -233,7 +226,6 @@ public class GamInfoTechFcltySpecMngController {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
-
       	return map;		
 	}
 
@@ -265,7 +257,6 @@ public class GamInfoTechFcltySpecMngController {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
-
       	return map;		
 	}
 	
@@ -305,7 +296,6 @@ public class GamInfoTechFcltySpecMngController {
     	map.put("totalCount", totCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
-
     	return map;
 	}
 	

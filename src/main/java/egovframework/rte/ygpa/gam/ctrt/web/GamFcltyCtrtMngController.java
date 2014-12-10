@@ -391,7 +391,6 @@ public class GamFcltyCtrtMngController {
     	}
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-
     	ctrtInfoData.put("regUsr", user.getId());
     	
     	try {
@@ -402,7 +401,6 @@ public class GamFcltyCtrtMngController {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
-
     	return map;
     }	
 
@@ -424,7 +422,6 @@ public class GamFcltyCtrtMngController {
     	}
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-
     	ctrtInfoData.put("regUsr", user.getId());
     	
     	try {
@@ -435,7 +432,6 @@ public class GamFcltyCtrtMngController {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
-
     	return map;
     }	
 

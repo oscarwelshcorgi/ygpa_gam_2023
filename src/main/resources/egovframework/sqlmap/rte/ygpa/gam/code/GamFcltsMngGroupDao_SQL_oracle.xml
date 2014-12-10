@@ -7,196 +7,211 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamFcltsMngGroupVO" type="egovframework.rte.ygpa.gam.code.service.GamFcltsMngGroupVO"/>
     
-    
-    <select id="gamFcltsMngGroupDao.selectMainFcltsMngGroupList_D" resultClass="egovMap">
-		SELECT 
-			SUBSTR(FCLTS_CL_CD,0,1) AS MAIN_FCLTS_CL_CD
-			, MIN(FCLTS_CL_CD_NM) AS MAIN_FCLTS_CL_CD_NM
-		FROM 
-			FCLTS_CL_CD_F 
-		WHERE 
-			<![CDATA[ DEPTH_SORT <= '1' ]]>
-		GROUP BY FCLTS_CL_CD 
-    </select>
-
-
     <select id="gamFcltsMngGroupDao.selectFcltsMngGroupList_D" parameterClass="gamFcltsMngGroupVO" resultClass="egovMap">
-         /* egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecMngDao_SQL_oracle.selectList */
-		SELECT *
-		  FROM
-		       (SELECT Z.*,
-		              ROWNUM AS RNUM
-		         FROM
-		              (
-		              	SELECT
-		              		SUBSTR(FCLTS_CL_CD,0,1) AS MAIN_FCLTS_DIV
-							, FCLTS_CL_CD AS ORI_FCLTS_CL_CD
-	              			, FCLTS_CL_CD
-							, FCLTS_CL_CD_NM
-							, FCLTS_CL_UPPER_CD
-							, DEPTH_SORT
-							, REG_USR
-							, REGIST_DT
-							, UPD_USR
-							, UPDT_DT
-							, LEAF_YN
-		                FROM 
-		                	FCLTS_CL_CD_F
-		                WHERE 
-		                
-		                <![CDATA[ DEPTH_SORT >= 1 ]]>
-		                <isNotEmpty property="sMainFcltsDiv">
-	           				AND FCLTS_CL_CD LIKE #sMainFcltsDiv# || '%'
-	           			</isNotEmpty>
-		                <isNotEmpty property="sFcltsMngGroup">
-	           				AND FCLTS_CL_CD LIKE #sFcltsMngGroup# || '%'
-	           			</isNotEmpty>
-		                <isNotEmpty property="sFcltsMngGroupNm">
-	           				AND FCLTS_CL_CD_NM LIKE '%' || #sFcltsMngGroupNm# || '%'
-	           			</isNotEmpty>
-
-		            	ORDER BY FCLTS_CL_CD
-		              )Z
-		       )
-	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+        SELECT A.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+							FCLTS_MNG_GROUP_NO
+							, FCLTS_MNG_GROUP_NM
+							, FCLTS_GBN
+							, FCLTS_SE
+							, FCLTS_KND
+							, FCLTS_ADRES
+							, MNG_MAINBD
+							, MNG_MAINBD_SE
+							, OWNER
+							, TO_CHAR(BLD_DT, 'YYYY-MM-DD') BLD_DT
+							, TO_CHAR(FLAW_END_DT, 'YYYY-MM-DD') FLAW_END_DT
+							, TO_CHAR(PLAN_BEGIN_DT, 'YYYY-MM-DD') PLAN_BEGIN_DT
+							, TO_CHAR(PLAN_END_DT, 'YYYY-MM-DD') PLAN_END_DT
+							, PLANNER
+							, TO_CHAR(CNST_BEGIN_DT, 'YYYY-MM-DD') CNST_BEGIN_DT
+							, TO_CHAR(CNST_END_DT, 'YYYY-MM-DD') CNST_END_DT
+							, CNSTRTR
+							, TO_CHAR(CNSTRCT_AMT) CNSTRCT_AMT
+							, ERQ_PROOF_PLAN_APPLC_ENNC
+							, TO_CHAR(INSPECT_BEGIN_DT, 'YYYY-MM-DD') INSPECT_BEGIN_DT 
+							, TO_CHAR(INSPECT_END_DT, 'YYYY-MM-DD') INSPECT_END_DT
+							, INSPECTOR
+							, CNST_ORDER_BODY
+							, CNST_NM
+							, CNST_SUPERVISOR
+							, PLAN_BOOK_MNTEN
+							, REMARK
+						FROM
+							FCLTS_MNG_GROUP_F
+						WHERE
+							1 = 1
+						  <isNotEmpty property="sFcltsMngGroupNo">
+						  	AND FCLTS_MNG_GROUP_NO LIKE #sFcltsMngGroupNo# || '%'
+						  </isNotEmpty>
+						  <isNotEmpty property="sFcltsMngGroupNm">
+						  	AND FCLTS_MNG_GROUP_NM LIKE '%' || #sFcltsMngGroupNm# || '%'
+						  </isNotEmpty>
+						ORDER BY
+						  	FCLTS_MNG_GROUP_NO
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>    
     </select>
 
     <select id="gamFcltsMngGroupDao.selectFcltsMngGroupListTotCnt_S" parameterClass="gamFcltsMngGroupVO" resultClass="int">
-		SELECT 
-			COUNT(*) totcnt
-		FROM 
-			FCLTS_CL_CD_F
-		WHERE 
-		<![CDATA[ DEPTH_SORT >= 1 ]]>
-		<isNotEmpty property="sMainFcltsDiv">
-			AND FCLTS_CL_CD LIKE #sMainFcltsDiv# || '%'
-		</isNotEmpty>
-		<isNotEmpty property="sFcltsMngGroup">
-			AND FCLTS_CL_CD LIKE #sFcltsMngGroup# || '%'
-		</isNotEmpty>
-		<isNotEmpty property="sFcltsMngGroupNm">
-			AND FCLTS_CL_CD_NM LIKE '%' || #sFcltsMngGroupNm# || '%'
-		</isNotEmpty>
-	</select>
+    	SELECT
+    	  	COUNT(*) TOTCNT
+		FROM
+		  	FCLTS_MNG_GROUP_F
+		WHERE
+			1 = 1
+		  <isNotEmpty property="sFcltsMngGroupNo">
+		  	AND FCLTS_MNG_GROUP_NO LIKE #sFcltsMngGroupNo# || '%'
+		  </isNotEmpty>
+		  <isNotEmpty property="sFcltsMngGroupNm">
+		  	AND FCLTS_MNG_GROUP_NM LIKE '%' || #sFcltsMngGroupNm# || '%'
+		  </isNotEmpty>
+    </select>
 
-    
-    <select id="gamFcltsMngGroupDao.selectNewFcltsMngGroup_S" parameterClass="gamFcltsMngGroupVO" resultClass="String">
-		SELECT 
-			RPAD(
-	<![CDATA[ CASE WHEN $depthSort$ <= 3 THEN  ]]>
-						SUBSTR(#fcltsClUpperCd#,0,$depthSort$-1) || 
-						CASE WHEN SUBSTR(MAX(FCLTS_CL_CD),$depthSort$,1) = '9' THEN 'A' 
-							 WHEN SUBSTR(MAX(FCLTS_CL_CD),$depthSort$,1) IS NULL THEN '1'
-						ELSE CHR(ASCII(SUBSTR(MAX(FCLTS_CL_CD),$depthSort$,1)) + 1)
-						END 
-					 WHEN $depthSort$ = 4 THEN
-						SUBSTR(#fcltsClUpperCd#,1,3) || 
-				        CASE WHEN SUBSTR(MAX(FCLTS_CL_CD),4,1) = '0' THEN LPAD(TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),5,1)) + 1),2,'0')
-				        	 WHEN SUBSTR(MAX(FCLTS_CL_CD),4,1) IS NULL THEN '01'
-				        ELSE 
-				          TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),4,2)) + 1) 
-				        END
-				     WHEN $depthSort$ = 5 THEN
-				     	SUBSTR(#fcltsClUpperCd#,1,5) || 
-				        CASE WHEN SUBSTR(MAX(FCLTS_CL_CD),6,1) = '0' THEN LPAD(TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),7,1)) + 1),2,'0')
-				        	 WHEN SUBSTR(MAX(FCLTS_CL_CD),6,1) IS NULL THEN '01'
-				        ELSE 
-				          TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),6,2)) + 1)
-				        END
-				     WHEN $depthSort$ = 6 THEN
-				     	SUBSTR(#fcltsClUpperCd#,1,7) || 
-				        CASE WHEN SUBSTR(MAX(FCLTS_CL_CD),8,1) = '0' THEN LPAD(TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),9,1)) + 1),2,'0') 
-				        	 WHEN SUBSTR(MAX(FCLTS_CL_CD),8,1) IS NULL THEN '01'
-				        ELSE 
-				          TO_CHAR(TO_NUMBER(SUBSTR(MAX(FCLTS_CL_CD),8,2)) + 1)
-				        END
-				END
-			,10, '0') AS NEW_FCLTS_CL_CD
-		FROM 
-			FCLTS_CL_CD_F 
-		WHERE 
-			FCLTS_CL_UPPER_CD  = #fcltsClUpperCd#
-	</select>
+    <select id="gamFcltsMngGroupDao.selectFcltsMngGroupDetail_S" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+			FCLTS_MNG_GROUP_NO
+			, FCLTS_MNG_GROUP_NM
+			, FCLTS_GBN
+			, FCLTS_SE
+			, FCLTS_KND
+			, FCLTS_ADRES
+			, MNG_MAINBD
+			, MNG_MAINBD_SE
+			, OWNER
+			, TO_CHAR(BLD_DT, 'YYYY-MM-DD') BLD_DT
+			, TO_CHAR(FLAW_END_DT, 'YYYY-MM-DD') FLAW_END_DT
+			, TO_CHAR(PLAN_BEGIN_DT, 'YYYY-MM-DD') PLAN_BEGIN_DT
+			, TO_CHAR(PLAN_END_DT, 'YYYY-MM-DD') PLAN_END_DT
+			, PLANNER
+			, TO_CHAR(CNST_BEGIN_DT, 'YYYY-MM-DD') CNST_BEGIN_DT
+			, TO_CHAR(CNST_END_DT, 'YYYY-MM-DD') CNST_END_DT
+			, CNSTRTR
+			, TO_CHAR(CNSTRCT_AMT) CNSTRCT_AMT
+			, ERQ_PROOF_PLAN_APPLC_ENNC
+			, TO_CHAR(INSPECT_BEGIN_DT, 'YYYY-MM-DD') INSPECT_BEGIN_DT 
+			, TO_CHAR(INSPECT_END_DT, 'YYYY-MM-DD') INSPECT_END_DT
+			, INSPECTOR
+			, CNST_ORDER_BODY
+			, CNST_NM
+			, CNST_SUPERVISOR
+			, PLAN_BOOK_MNTEN
+			, REMARK
+		FROM
+			FCLTS_MNG_GROUP_F
+		WHERE
+			FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#			
+    </select>
 
-    <insert id="gamFcltsMngGroupDao.insertFcltsMngGroup">
-
-    	<![CDATA[
-		INSERT
-		  INTO FCLTS_CL_CD_F
-		       (
-					FCLTS_CL_CD
-					, FCLTS_CL_CD_NM
-					, FCLTS_CL_UPPER_CD
-					, DEPTH_SORT
-					, LEAF_YN
-					, REG_USR
-					, REGIST_DT
-		       )
-		       VALUES 
-		       (
-					#fcltsClCd#
-					, #fcltsClCdNm#
-					, #fcltsClUpperCd#
-					, $depthSort$
-					, 'Y'
-					, #regUsr#
-					, SYSDATE
-		        )
-        ]]>
-  		
-    </insert>
-    
-    
-    <update id="gamFcltsMngGroupDao.updateFcltsMngGroup">
-	    
-    	<![CDATA[
-		UPDATE 
-			FCLTS_CL_CD_F 
-		SET
-			FCLTS_CL_CD_NM = #fcltsClCdNm#
-			, UPD_USR = #updUsr#
-			, UPDT_DT = SYSDATE
-		WHERE 
-			FCLTS_CL_CD = #oriFcltsMngGroup#
-		]]>
-    </update>
-    
-    
-    <delete id="gamFcltsMngGroupDao.deleteFcltsMngGroup">
-    
-		DELETE FROM 
-			FCLTS_CL_CD_F 
-		WHERE 
-			FCLTS_CL_CD LIKE CASE  
-					   <![CDATA[ WHEN $depthSort$ <= 3 THEN SUBSTR(#oriFcltsMngGroup#,1,DEPTH_SORT) ]]>
-							     WHEN $depthSort$ = 4 THEN SUBSTR(#oriFcltsMngGroup#,1,5)
-							     WHEN $depthSort$ = 5 THEN SUBSTR(#oriFcltsMngGroup#,1,7)
-							     WHEN $depthSort$ = 6 THEN SUBSTR(#oriFcltsMngGroup#,1,9)
-						   END || '%'
-
-    </delete>
-    
-    
-    <update id="gamFcltsMngGroupDao.updateChnageParentLeafYn">
-	    
-    	<![CDATA[
-		UPDATE 
-			FCLTS_CL_CD_F 
-		SET
-			LEAF_YN = #leafYn#
-		WHERE 
-			FCLTS_CL_CD = #fcltsClUpperCd#
-		]]>
-    </update>
-    
-    
-    <select id="gamFcltsMngGroupDao.selectFcltsClParentCdListCnt_S" parameterClass="gamFcltsMngGroupVO" resultClass="int">
-		SELECT 
-			COUNT(*) parentCdCnt
-		FROM 
-			FCLTS_CL_CD_F
-		WHERE 
-			FCLTS_CL_UPPER_CD = #fcltsClUpperCd#
-	</select>
-
+	<insert id="gamFcltsMngGroupDao.insertFcltsMngGroupDetail_S">
+		INSERT INTO
+			FCLTS_MNG_GROUP_F (
+				FCLTS_MNG_GROUP_NO
+				, FCLTS_MNG_GROUP_NM
+				, FCLTS_GBN
+				, FCLTS_SE
+				, FCLTS_KND
+				, FCLTS_ADRES
+				, MNG_MAINBD
+				, MNG_MAINBD_SE
+				, OWNER
+				, BLD_DT
+				, FLAW_END_DT
+				, PLAN_BEGIN_DT
+				, PLAN_END_DT
+				, PLANNER
+				, CNST_BEGIN_DT
+				, CNST_END_DT
+				, CNSTRTR
+				, CNSTRCT_AMT
+				, ERQ_PROOF_PLAN_APPLC_ENNC
+				, INSPECT_BEGIN_DT
+				, INSPECT_END_DT
+				, INSPECTOR
+				, CNST_ORDER_BODY
+				, CNST_NM
+				, CNST_SUPERVISOR
+				, PLAN_BOOK_MNTEN
+				, REMARK
+				, REG_USR
+				, REGIST_DT
+			)
+		VALUES
+			(
+				#fcltsMngGroupNo#
+				, #fcltsMngGroupNm#
+				, #fcltsGbn#
+				, #fcltsSe#
+				, #fcltsKnd#
+				, #fcltsAdres#
+				, #mngMainbd#
+				, #mngMainbdSe#
+				, #owner#
+				, TO_DATE(#bldDt#, 'YYYY-MM-DD')
+				, TO_DATE(#flawEndDt#, 'YYYY-MM-DD')
+				, TO_DATE(#planBeginDt#, 'YYYY-MM-DD')
+				, TO_DATE(#planEndDt#, 'YYYY-MM-DD')
+				, #planner#
+				, TO_DATE(#cnstBeginDt#, 'YYYY-MM-DD')
+				, TO_DATE(#cnstEndDt#, 'YYYY-MM-DD')
+				, #cnstrtr#
+				, TO_NUMBER(REPLACE(#cnstrctAmt#, ',', ''))
+				, #erqProofPlanApplcEnnc#
+				, TO_DATE(#inspectBeginDt#, 'YYYY-MM-DD')
+				, TO_DATE(#inspectEndDt#, 'YYYY-MM-DD')
+				, #inspector#
+				, #cnstOrderBody#
+				, #cnstNm#
+				, #cnstSupervisor#
+				, #planBookMnten#
+				, #remark#
+				, #regUsr#
+				, SYSDATE
+			)						
+	</insert>
+	
+	<update id="gamFcltsMngGroupDao.updateFcltsMngGroupDetail_S">
+		UPDATE FCLTS_MNG_GROUP_F
+			SET
+				FCLTS_MNG_GROUP_NM = #fcltsMngGroupNm#
+				, FCLTS_GBN = #fcltsGbn#
+				, FCLTS_SE = #fcltsSe#
+				, FCLTS_KND = #fcltsKnd#				
+				, FCLTS_ADRES = #fcltsAdres#
+				, MNG_MAINBD = #mngMainbd#
+				, MNG_MAINBD_SE = #mngMainbdSe#
+				, OWNER = #owner#
+				, BLD_DT = TO_DATE(#bldDt#, 'YYYY-MM-DD')
+				, FLAW_END_DT = TO_DATE(#flawEndDt#, 'YYYY-MM-DD')
+				, PLAN_BEGIN_DT = TO_DATE(#planBeginDt#, 'YYYY-MM-DD')
+				, PLAN_END_DT = TO_DATE(#planEndDt#, 'YYYY-MM-DD')
+				, PLANNER = #planner#
+				, CNST_BEGIN_DT = TO_DATE(#cnstBeginDt#, 'YYYY-MM-DD')
+				, CNST_END_DT = TO_DATE(#cnstEndDt#, 'YYYY-MM-DD')
+				, CNSTRTR = #cnstrtr#
+				, CNSTRCT_AMT = TO_NUMBER(REPLACE(#cnstrctAmt#, ',', ''))
+				, ERQ_PROOF_PLAN_APPLC_ENNC = #erqProofPlanApplcEnnc#
+				, INSPECT_BEGIN_DT = TO_DATE(#inspectBeginDt#, 'YYYY-MM-DD')
+				, INSPECT_END_DT = TO_DATE(#inspectEndDt#, 'YYYY-MM-DD')
+				, INSPECTOR = #inspector#
+				, CNST_ORDER_BODY = #cnstOrderBody#
+				, CNST_NM = #cnstNm#
+				, CNST_SUPERVISOR = #cnstSupervisor#
+				, PLAN_BOOK_MNTEN = #planBookMnten#
+				, REMARK = #remark#
+				, UPD_USR = #updUsr#
+				, UPDT_DT = SYSDATE
+			WHERE
+				FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+	</update>
+	
+	<delete id="gamFcltsMngGroupDao.deleteFcltsMngGroupDetail_S">
+		DELETE FROM FCLTS_MNG_GROUP_F
+			WHERE
+				FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+	</delete>		
 </sqlMap>

@@ -14,8 +14,8 @@ import egovframework.rte.ygpa.gam.code.service.GamFcltsMngGroupVO;
 
 /**
  * 
- * @author HNJ
- * @since 2014. 12. 5.
+ * @author 김종민
+ * @since 2014. 12. 10.
  * @version 1.0
  * @see
  * <pre>
@@ -23,126 +23,70 @@ import egovframework.rte.ygpa.gam.code.service.GamFcltsMngGroupVO;
  *   
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
- *  2014. 12. 5.		HNJ		최초 생성
+ *  2014. 12. 10.		김종민		최초 생성
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
 @Repository("gamFcltsMngGroupDao")
 public class GamFcltsMngGroupDao extends YGPAAbstractDAO {
-	
 	/**
-	 *  메인시설물 목록 조회
+	 * 시설물관리그룹 목록 조회
 	 * @param vo
 	 * @return list
 	 * @throws Exception
-	 */
-	public List selectMainFcltsMngGroupList() throws Exception {
-
-		return list("gamFcltsMngGroupDao.selectMainFcltsMngGroupList_D", null);
+	 */	
+	public List selectFcltsMngGroupList(GamFcltsMngGroupVO searchVO) throws Exception {
+		return list("gamFcltsMngGroupDao.selectFcltsMngGroupList_D", searchVO);
 	}
 	
-	
-	
 	/**
-	 *  시설물 분류관리 목록 조회
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */
-	public List selectFcltsMngGroupList(GamFcltsMngGroupVO vo) throws Exception {
-		// TODO Auto-generated method stub
-		return list("gamFcltsMngGroupDao.selectFcltsMngGroupList_D", vo);
-	}
-
-	/**
-	 *  시설물 분류관리 목록 총수
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */
-	public int selectFcltsMngGroupListTotCnt(GamFcltsMngGroupVO vo) throws Exception {
-		// TODO Auto-generated method stub
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltsMngGroupDao.selectFcltsMngGroupListTotCnt_S", vo);
-	}
-	
-	
-	/**
-	 *  시설물 분류관리 상세보기/수정
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */
-	public EgovMap selectFcltsMngGroupDetail (Map vo) throws Exception {
-		// TODO Auto-generated method stub
-		return (EgovMap) selectByPk("gamFcltsMngGroupDao.selectFcltsMngGroupDetail_S", vo);
-	}
-
-	
-	/**
-	 *  시설물 분류관리 신규코드 생성
-	 * @param vo
-	 * @return String
-	 * @throws Exception
-	 */
-	public String selectNewFcltsMngGroup (GamFcltsMngGroupVO vo) throws Exception {
-		return (String) selectByPk("gamFcltsMngGroupDao.selectNewFcltsMngGroup_S", vo);
-	}
-	
-	
-	/**
-	 * 시설물그룹관리 코드입력
-	 * @param GamFcltsMngGroupVO
-	 * @return map
-	 * @throws Exception
-	 */
-	public void insertFcltsMngGroup (GamFcltsMngGroupVO vo) throws Exception{
-		insert("gamFcltsMngGroupDao.insertFcltsMngGroup", vo);
-	}
-	
-	
-	/**
-	 * 시설물그룹관리 코드수정
-	 * @param GamFcltsMngGroupVO
-	 * @return map
-	 * @throws Exception
-	 */
-	public void updateFcltsMngGroup (GamFcltsMngGroupVO vo) throws Exception{
-		update("gamFcltsMngGroupDao.updateFcltsMngGroup", vo);
-	}
-	
-	
-	/**
-	 * 시설물그룹관리 코드삭제
-	 * @param GamFcltsMngGroupVO
-	 * @return map
-	 * @throws Exception
-	 */
-	public void deleteFcltsMngGroup (GamFcltsMngGroupVO vo) throws Exception{
-		delete("gamFcltsMngGroupDao.deleteFcltsMngGroup", vo);
-	}
-	
-	
-	/**
-	 * 시설물그룹관리 상위코드 LEAF_YN값 수정
-	 * @param GamFcltsMngGroupVO
-	 * @return map
-	 * @throws Exception
-	 */
-	public void updateChnageParentLeafYn (GamFcltsMngGroupVO vo) throws Exception{
-		update("gamFcltsMngGroupDao.updateChnageParentLeafYn", vo);
-	}
-	
-	
-	/**
-	 *  시설물그룹관리 상위코드에 따르는 하위코드 총수
+	 * 시설물관리그룹 목록 총수
 	 * @param vo
 	 * @return int
 	 * @throws Exception
-	 */
-	public int selectFcltsClParentCdListCnt(GamFcltsMngGroupVO vo) throws Exception {
-		// TODO Auto-generated method stub
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltsMngGroupDao.selectFcltsClParentCdListCnt_S", vo);
+	 */		
+	public int selectFcltsMngGroupListTotCnt(GamFcltsMngGroupVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltsMngGroupDao.selectFcltsMngGroupListTotCnt_S", searchVO);
 	}
-
+	
+	/**
+	 * 시설물 관리그룹 데이터 조회
+	 * @param vo
+	 * @return egovMap
+	 * @throws Exception
+	 */		
+	public EgovMap selectFcltsMngGroupDetail(Map searchVO) throws Exception {
+		return (EgovMap)selectByPk("gamFcltsMngGroupDao.selectFcltsMngGroupDetail_S", searchVO);
+	}
+	
+	/**
+	 * 시설물관리그룹 데이터를 삽입한다.
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */		
+	public void insertFcltsMngGroupDetail(Map<String, Object> vo) throws Exception {
+		insert("gamFcltsMngGroupDao.insertFcltsMngGroupDetail_S", vo);
+	}
+	
+	/**
+	 * 시설물관리그룹 데이터를 수정한다.
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */		
+	public void updateFcltsMngGroupDetail(Map<String, Object> vo) throws Exception {
+		update("gamFcltsMngGroupDao.updateFcltsMngGroupDetail_S", vo);
+	}
+	
+	/**
+	 * 시설물관리그룹 데이터를 삭제한다.
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */		
+	public void deleteFcltsMngGroupDetail(Map<String, Object> vo) throws Exception {
+		delete("gamFcltsMngGroupDao.deleteFcltsMngGroupDetail_S", vo);
+	}	
 }

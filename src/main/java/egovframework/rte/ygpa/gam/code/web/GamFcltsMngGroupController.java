@@ -28,8 +28,8 @@ import egovframework.rte.ygpa.gam.code.service.GamFcltsMngGroupVO;
 
 /**
  * 
- * @author HNJ
- * @since 2014. 12. 5.
+ * @author 김종민
+ * @since 2014. 12. 10.
  * @version 1.0
  * @see
  * <pre>
@@ -37,7 +37,7 @@ import egovframework.rte.ygpa.gam.code.service.GamFcltsMngGroupVO;
  *   
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
- *  2014. 12. 5.		HNJ		최초 생성
+ *  2014. 12. 10.		김종민		최초 생성
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
@@ -65,28 +65,22 @@ public class GamFcltsMngGroupController {
     
 	@RequestMapping(value="/code/gamFcltsMngGroup.do")
     String indexFcltsMngGroup(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-		
-		List<?> mainFcltsMngGroupList = gamFcltsMngGroupService.selectMainFcltsMngGroupList();
-		
     	model.addAttribute("windowId", windowId);
-    	model.addAttribute("mainFcltsMngGroupList", mainFcltsMngGroupList);
     	return "/ygpa/gam/code/GamFcltsMngGroup";
-    	
     }
 	
-	
 	/**
-	 * 시설물그룹관리목록 조회
-	 * @param searchVO
+	 * 시설물관리그룹 목록 조회
+	 * @param vo
 	 * @return map
 	 * @throws Exception
-	 */
+	 */	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/code/selectFcltsMngGroupList.do")
-	@ResponseBody Map<String, Object> selectFcltsMngGroupList(GamFcltsMngGroupVO searchVO)throws Exception {
+	@ResponseBody Map<String, Object> selectFcltsMngGroupList(GamFcltsMngGroupVO searchVO) throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
-    	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -104,34 +98,31 @@ public class GamFcltsMngGroupController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		/** List Data */
-
-		List<?> fcltyClCdList = gamFcltsMngGroupService.selectFcltsMngGroupList(searchVO);
-
-        int totCnt = gamFcltsMngGroupService.selectFcltsMngGroupListTotCnt(searchVO);
-
+		List resultList = gamFcltsMngGroupService.selectFcltsMngGroupList(searchVO);
+		int totCnt = gamFcltsMngGroupService.selectFcltsMngGroupListTotCnt(searchVO);
+		
         paginationInfo.setTotalRecordCount(totCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
-    	map.put("resultList", fcltyClCdList);
+    	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
 
     	return map;
     }
-	
-	
+
+
 	/**
-	 * 시설물그룹관리 상세
-	 * @param fcltyManageVO
+	 * 시설물 관리그룹 데이터 조회
+	 * @param map
 	 * @return map
 	 * @throws Exception
-	 */
+	 */		
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/code/selectFcltsMngGroupDetail.do")
-    @ResponseBody Map<String, Object> selectFcltsMngGroupDetail(@RequestParam Map<String, Object> fcltsClCdVO) throws Exception {
-
-    	Map<String, Object> map = new HashMap<String, Object>();
+    @ResponseBody Map<String, Object> selectFcltsMngGroupDetail(@RequestParam Map searchVO) throws Exception {
+    	Map map = new HashMap();
     	EgovMap result=null;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -140,31 +131,28 @@ public class GamFcltsMngGroupController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	
-    	result = gamFcltsMngGroupService.selectFcltsMngGroupDetail(fcltsClCdVO);
-    	
-    	fcltsClCdVO.put("mainFcltsDiv", result.get("mainFcltsDiv"));
-    	fcltsClCdVO.put("depthSort", result.get("depthSort"));
 
-        map.put("resultCode", 0);
-        map.put("result", result);
-
-        return map;
-    }
-	
-	
+    	try {
+        	result = gamFcltsMngGroupService.selectFcltsMngGroupDetail(searchVO);
+            map.put("resultCode", 0);
+            map.put("result", result);
+    	}
+    	catch(Exception e) {
+            map.put("resultCode", 1);
+            map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+    	}
+        return map;		
+	}
 	
 	/**
-	 * 시설물분류 코드입력
-	 * @param GamFcltsMngGroupVO
-	 * @return map
+	 * 시설물관리그룹 데이터를 삽입한다.
+	 * @param map
+	 * @return 
 	 * @throws Exception
-	 */
-	@RequestMapping(value="/code/insertFcltsMngGroup.do")
-    @ResponseBody Map<String, Object> insertFcltsMngGroup(GamFcltsMngGroupVO insertVO) throws Exception {
-
+	 */		
+	@RequestMapping(value="/code/insertFcltsMngGroupDetail.do")
+    @ResponseBody Map<String, Object> insertFcltsMngGroupDetail(@RequestParam Map<String, Object> insertMap) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
-    	String newFcltsMngGroup;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -174,41 +162,28 @@ public class GamFcltsMngGroupController {
     	}
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	insertVO.setRegUsr(user.getId());
+    	insertMap.put("regUsr", user.getId());
     	
     	try {
-    		
-    		newFcltsMngGroup = gamFcltsMngGroupService.selectNewFcltsMngGroup(insertVO);
-    		insertVO.setFcltsMngGroup(newFcltsMngGroup);
-	    	gamFcltsMngGroupService.insertFcltsMngGroup(insertVO);
-	    	
-	    	insertVO.setLeafYn("N");
-	    	gamFcltsMngGroupService.updateChnageParentLeafYn(insertVO);
-	    	
-	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-	        map.put("resultCode", 0);
-    	} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
+    		gamFcltsMngGroupService.insertFcltsMngGroupDetail(insertMap);
+    		map.put("resultCode", 0);			// return ok
+            map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
-
-        return map;
-    }
-	
+      	return map;		
+	}
 	
 	/**
-	 * 시설물분류 코드수정
-	 * @param GamFcltsMngGroupVO
+	 * 시설물관리그룹 데이터를 수정한다.
+	 * @param map
 	 * @return map
 	 * @throws Exception
-	 */
-	@RequestMapping(value="/code/updateFcltsMngGroup.do")
-    @ResponseBody Map<String, Object> updateFcltsMngGroup(GamFcltsMngGroupVO updateVO) throws Exception {
-
+	 */		
+	@RequestMapping(value="/code/updateFcltsMngGroupDetail.do")
+    @ResponseBody Map<String, Object> updateFcltsMngGroupDetail(@RequestParam Map<String, Object> updateMap) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
-    	String newFcltsMngGroup;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -218,38 +193,28 @@ public class GamFcltsMngGroupController {
     	}
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	updateVO.setUpdUsr(user.getId());
+    	updateMap.put("updUsr", user.getId());
     	
     	try {
-    		
-    		newFcltsMngGroup = gamFcltsMngGroupService.selectNewFcltsMngGroup(updateVO);
-    		updateVO.setFcltsMngGroup(newFcltsMngGroup);
-	    	gamFcltsMngGroupService.updateFcltsMngGroup(updateVO);
-	    	
-	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
-	        map.put("resultCode", 0);
-    	} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
+    		gamFcltsMngGroupService.updateFcltsMngGroupDetail(updateMap);
+    		map.put("resultCode", 0);			// return ok
+            map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
+      	return map;		
+	}
 
-        return map;
-    }
-	
-	
 	/**
-	 * 시설물분류 코드삭제
-	 * @param GamFcltsMngGroupVO
+	 * 시설물관리그룹 데이터를 삭제한다.
+	 * @param map
 	 * @return map
 	 * @throws Exception
-	 */
-	@RequestMapping(value="/code/deleteFcltsMngGroup.do")
-    @ResponseBody Map<String, Object> deleteFcltsMngGroup(GamFcltsMngGroupVO deleteVO) throws Exception {
-
+	 */		
+	@RequestMapping(value="/code/deleteFcltsMngGroupDetail.do")
+    @ResponseBody Map<String, Object> deleteFcltsMngGroupDetail(@RequestParam Map<String, Object> deleteMap) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
-    	int codCnt;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -257,28 +222,16 @@ public class GamFcltsMngGroupController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	
-    	try {
-	    	gamFcltsMngGroupService.deleteFcltsMngGroup(deleteVO);
-	    	
-	    	codCnt = gamFcltsMngGroupService.selectFcltsClParentCdListCnt(deleteVO);
-	    	
-	    	if(codCnt == 0){
-	    		deleteVO.setLeafYn("Y");
-	    		gamFcltsMngGroupService.updateChnageParentLeafYn(deleteVO);
-	    	}
 
-	    	map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
-	        map.put("resultCode", 0);
-    	} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
+    	try {
+    		gamFcltsMngGroupService.deleteFcltsMngGroupDetail(deleteMap);
+    		map.put("resultCode", 0);			// return ok
+            map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
-
-        return map;
-    }
-    
-
+      	return map;		
+	}
+	
 }
