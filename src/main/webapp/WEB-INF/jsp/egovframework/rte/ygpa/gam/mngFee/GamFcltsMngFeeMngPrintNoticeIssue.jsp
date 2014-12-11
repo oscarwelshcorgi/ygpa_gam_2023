@@ -7,8 +7,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 /**
- * @Class Name : GamFcltsFeeMngPrintNoticeIssue.jsp
- * @Description : 고지서 출력 화면 (시설물 관리비 고지)
+ * @Class Name : GamFcltsMngFeeMngPrintNoticeIssue.jsp
+ * @Description : 고지서 출력 화면 (시설물 관리비 관리)
  * @Modification Information
  *
  *   수정일         수정자                   수정내용
@@ -798,7 +798,7 @@ div.notice {
 			          ];
 
 			$.ajax({
-				url: '/mngFee/gamPrintFcltsFeeMngNticIssue.do',
+				url: '/mngFee/gamPrintFcltsMngFeeMngNticIssue.do',
 				type: 'POST',
 				module: this,
 				dataType: 'json',

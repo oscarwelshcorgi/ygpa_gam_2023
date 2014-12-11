@@ -10,10 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
-import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngDetailVo;
-import egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeCodeMngVo;
 
 /**
  *
@@ -48,6 +46,14 @@ public class GamFcltsMngFeeMngDao extends YGPAAbstractDAO{
 	 */
 	public List selectFcltsMngFeeMngList(GamFcltsMngFeeMngVo searchVO) {
 		return list("gamFcltsMngFeeMngDao.selectFcltsMngFeeMngList_D", searchVO);
+	}
+
+	/**
+	 * @param gamFcltsMngFeeMngVo
+	 * @return
+	 */
+	public List selectFcltsMngFeeMngMonthCntList(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) {
+		return list("gamFcltsMngFeeMngDao.selectFcltsMngFeeMngMonthCntList_S", gamFcltsMngFeeMngVo);
 	}
 
 	/**
@@ -116,6 +122,22 @@ public class GamFcltsMngFeeMngDao extends YGPAAbstractDAO{
 	}
 
 	/**
+	 * @param vo
+	 * @return
+	 */
+	public EgovMap selectMngFeeLevRequestFByPk(Map<String, Object> vo) throws Exception {
+		return (EgovMap)selectByPk("gamFcltsMngFeeMngDao.selectMngFeeLevRequestFByPk_S", vo);
+	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public List selectFcltsMngFeeMngPrintNoticeIssueList(Map searchVO) {
+		return list("gamFcltsMngFeeMngDao.selectFcltsMngFeeMngPrintNoticeIssueList_D", searchVO);
+	}
+
+	/**
 	 * @param gamFcltsMngFeeMngDetailVo
 	 */
 	public void insertMngFeeLevReqestF(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) {
@@ -155,6 +177,94 @@ public class GamFcltsMngFeeMngDao extends YGPAAbstractDAO{
 	 */
 	public void deleteAllMngFeeLevReqestF(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) {
 		delete("gamFcltsMngFeeMngDao.deleteAllMngFeeLevReqestF_S", gamFcltsMngFeeMngVo);
+	}
+
+	/**
+	 * @param vo
+	 * @return
+	 */
+	public EgovMap selectRevCollF(Map<String, Object> vo) throws Exception {
+		return (EgovMap)selectByPk("gamFcltsMngFeeMngDao.selectRevCollF_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void insertRevCollF(Map<String, Object> vo) {
+		insert("gamFcltsMngFeeMngDao.insertRevCollF_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void updateRevCollFBillPrtYn(Map<String, Object> vo) {
+		update("gamFcltsMngFeeMngDao.updateRevCollFBillPrtYn_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void deleteRevCollF(Map<String, Object> vo) {
+		delete("gamFcltsMngFeeMngDao.deleteRevCollF_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void updateUnpaidFDlyBillPrtYn(Map<String, Object> vo) {
+		update("gamFcltsMngFeeMngDao.updateUnpaidFDlyBillPrtYn_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 * @return
+	 */
+	public EgovMap selectEgiroMaxInfo(Map<String, Object> vo) throws Exception {
+		return (EgovMap)selectByPk("gamFcltsMngFeeMngDao.selectEgiroMaxInfo_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 * @return
+	 */
+	public String insertEgiro(Map<String, Object> vo) throws Exception {
+		return (String)insert("gamFcltsMngFeeMngDao.insertEgiro_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void updateEgiroCancel(Map<String, Object> vo) throws Exception {
+		update("gamFcltsMngFeeMngDao.updateEgiroCancel_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void copyFcltsMngFeeF(Map<String, Object> vo) {
+		delete("gamFcltsMngFeeMngDao.copyFcltsMngFeeF_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void copyFcltsMngFeeDetailF(Map<String, Object> vo) {
+		delete("gamFcltsMngFeeMngDao.copyFcltsMngFeeDetailF_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void copyMngFeeLevReqestF(Map<String, Object> vo) {
+		delete("gamFcltsMngFeeMngDao.copyMngFeeLevReqestF_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 * @return
+	 */
+	public List selectFcltsMngFeeMngChartList(Map<String, Object> vo) {
+		return list("gamFcltsMngFeeMngDao.selectFcltsMngFeeMngChartList_D", vo);
 	}
 
 }

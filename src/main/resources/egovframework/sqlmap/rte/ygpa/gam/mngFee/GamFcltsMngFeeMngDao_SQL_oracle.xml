@@ -116,6 +116,18 @@
 		</isNotEmpty>
 	</select>
 
+	<select id="gamFcltsMngFeeMngDao.selectFcltsMngFeeMngMonthCntList_S" parameterClass="gamFcltsMngFeeMngVo" resultClass="egovMap">
+		SELECT
+				 TO_CHAR(COUNT(*)) AS MT_CNT
+				,TO_CHAR(ADD_MONTHS(TO_DATE(#sEndMngYear# || #sEndMngMt#,'YYYYMM'),-1),'YYYYMM') AS PREV_MT
+				,TO_CHAR(NVL(MIN((SELECT COUNT(*) FROM FCLTS_MNG_FEE_F WHERE MNG_MT = TO_CHAR(ADD_MONTHS(TO_DATE(#sEndMngYear# || #sEndMngMt#,'YYYYMM'),-1),'YYYYMM') AND MNG_FEE_JOB_SE = #sMngFeeJobSe#)),0)) AS MAIN_CNT
+				,TO_CHAR(NVL(MIN((SELECT COUNT(*) FROM FCLTS_MNG_FEE_DETAIL_F WHERE MNG_MT = TO_CHAR(ADD_MONTHS(TO_DATE(#sEndMngYear# || #sEndMngMt#,'YYYYMM'),-1),'YYYYMM') AND MNG_FEE_JOB_SE = #sMngFeeJobSe#)),0)) AS DETAIL_CNT
+				,TO_CHAR(NVL(MIN((SELECT COUNT(*) FROM MNG_FEE_LEV_REQEST_F WHERE MNG_MT = TO_CHAR(ADD_MONTHS(TO_DATE(#sEndMngYear# || #sEndMngMt#,'YYYYMM'),-1),'YYYYMM') AND MNG_FEE_JOB_SE = #sMngFeeJobSe#)),0)) AS REQEST_CNT
+			FROM FCLTS_MNG_FEE_F
+		WHERE MNG_MT = #sEndMngYear# || #sEndMngMt#
+		AND MNG_FEE_JOB_SE = #sMngFeeJobSe#
+	</select>
+
 	<insert id="gamFcltsMngFeeMngDao.insertFcltsMngFeeMng_S">
 		INSERT INTO FCLTS_MNG_FEE_F
 		(
@@ -185,7 +197,7 @@
 				,T1.MNG_SEQ
 				,T1.ENTRPSCD
 				,T2.ENTRPS_NM
-				,LTRIM(TO_CHAR(NVL(T1.USAGE_AR,0),'999,990.00')) AS USAGE_AR
+				,LTRIM(TO_CHAR(NVL(T1.USAGE_AR,0),'999,990.0')) AS USAGE_AR
 				,LTRIM(TO_CHAR(NVL(T1.MNG_FEE,0),'999,999,999,990')) AS MNG_FEE
 				,LTRIM(TO_CHAR(NVL(T1.ELCTY_FEE,0),'999,999,999,990')) AS ELCTY_FEE
 				,LTRIM(TO_CHAR(NVL(T1.WATER_FEE,0),'999,999,999,990')) AS WATER_FEE
@@ -313,6 +325,100 @@
 		AND MNG_SEQ=#mngSeq#
 	</select>
 
+	<select id="gamFcltsMngFeeMngDao.selectMngFeeLevRequestFByPk_S" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+				 T1.MNG_MT
+				,T1.MNG_FEE_JOB_SE
+				,T1.MNG_SEQ
+				,T1.REQEST_SEQ
+				,T1.ENTRPSCD
+				,T1.PRT_AT_CODE
+				,T1.CHRGE_KND
+				,GAM_GET_FEE_TP(T1.CHRGE_KND) AS FEE_TP
+				,T1.ACCNUT_YEAR
+				,T1.NTIC_NO
+				,TO_CHAR(T1.NTIC_DT,'YYYY-MM-DD') AS NTIC_DT
+				,TO_CHAR(T1.PAY_TMLMT,'YYYY-MM-DD') AS PAY_TMLMT
+				,NVL(T1.FEE,0) AS FEE
+				,T1.VAT_YN
+				,NVL(T1.VAT,0) AS VAT
+				,NVL(T1.NTIC_AMT,0) AS NTIC_AMT
+				,T1.NHT_ISUE_YN
+				,T1.NHT_PRINT_YN
+				,T1.ADIT_NTIC_YN
+				,T1.ARRRG_NO
+				,NVL(T1.ARRRG_AMT,0) AS ARRRG_AMT
+			FROM MNG_FEE_LEV_REQEST_F T1
+		WHERE T1.MNG_MT = #mngMt#
+		AND T1.MNG_FEE_JOB_SE = #mngFeeJobSe#
+		AND T1.MNG_SEQ = #mngSeq#
+		AND T1.REQEST_SEQ = #reqestSeq#
+	</select>
+
+	<select id="gamFcltsMngFeeMngDao.selectFcltsMngFeeMngPrintNoticeIssueList_D" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+				 T1.MNG_MT
+				,T1.MNG_FEE_JOB_SE
+				,T1.MNG_SEQ
+				,T1.REQEST_SEQ
+				,T1.ENTRPSCD
+				,T4.ENTRPS_NM
+				,T4.BIZRNO
+				,T4.RPRSNTV_NM
+				,T4.ADRES
+				,T4.ADRES2
+				,T4.ZIP
+				,T3.MNG_FEE_SJ
+				,LTRIM(TO_CHAR(NVL((CASE WHEN T1.ADIT_NTIC_YN='N' THEN T2.USAGE_AR END),0),'999,990.00')) AS USAGE_AR
+				,LTRIM(TO_CHAR(NVL((CASE WHEN T1.ADIT_NTIC_YN='N' THEN T2.MNG_FEE END),0),'999,999,999,990')) AS MNG_FEE
+				,LTRIM(TO_CHAR(NVL((CASE WHEN T1.ADIT_NTIC_YN='N' THEN T2.ELCTY_FEE END),0),'999,999,999,990')) AS ELCTY_FEE
+				,LTRIM(TO_CHAR(NVL((CASE WHEN T1.ADIT_NTIC_YN='N' THEN T2.WATER_FEE END),0),'999,999,999,990')) AS WATER_FEE
+				,LTRIM(TO_CHAR(NVL((CASE WHEN T1.ADIT_NTIC_YN='N' THEN T2.GAS_FEE END),0),'999,999,999,990')) AS GAS_FEE
+				,LTRIM(TO_CHAR(NVL((CASE WHEN T1.ADIT_NTIC_YN='N' THEN T2.ENV_FEE END),0),'999,999,999,990')) AS ENV_FEE
+				,LTRIM(TO_CHAR(NVL((CASE WHEN T1.ADIT_NTIC_YN='N' THEN T2.MNG_TOTAL_FEE END),0),'999,999,999,990')) AS MNG_TOTAL_FEE
+				,(CASE WHEN T1.MNG_FEE_JOB_SE='M' THEN '[M]:마린센터'
+					   WHEN T1.MNG_FEE_JOB_SE='E' THEN '[E]:전기시설'
+					   ELSE '[' || T1.MNG_FEE_JOB_SE || ']:' || 'UNKNOWN'
+				  END) AS MNG_FEE_JOB_SE_NM
+				,SUBSTRB(T1.MNG_MT,1,4) AS MNG_MT_YEAR
+				,SUBSTRB(T1.MNG_MT,5,2) AS MNG_MT_MON
+				,T1.PRT_AT_CODE
+				,T1.CHRGE_KND
+				,GAM_GETCODENAME('GAM024',T1.CHRGE_KND) AS CHRGE_KND_NM
+				,T1.ACCNUT_YEAR
+				,T1.NTIC_NO
+				,TO_CHAR(T1.NTIC_DT,'YYYY-MM-DD') AS NTIC_DT
+				,TO_CHAR(T1.PAY_TMLMT,'YYYY-MM-DD') AS PAY_TMLMT
+				,LTRIM(TO_CHAR(NVL(T1.FEE,0),'999,999,999,990')) AS FEE
+				,T1.VAT_YN
+				,GAM_GETCODENAME('GAM016',T1.VAT_YN) AS VAT_YN_NM
+				,LTRIM(TO_CHAR(NVL(T1.VAT,0),'999,999,999,990')) AS VAT
+				,LTRIM(TO_CHAR(NVL(T1.NTIC_AMT,0),'999,999,999,990')) AS NTIC_AMT
+				,T1.NHT_ISUE_YN
+				,T1.NHT_PRINT_YN
+				,T1.ADIT_NTIC_YN
+				,T1.SETOFF_YN
+				,T1.NTIC_MTH
+				,T1.ARRRG_NO
+				,LTRIM(TO_CHAR(T1.ARRRG_AMT,'999,999,999,990')) AS ARRRG_AMT
+				,LTRIM(TO_CHAR(T1.ARRRG_TARIFF,'0.000')) AS ARRRG_TARIFF
+				,LTRIM(TO_CHAR(T1.ARRRG_PAY_DATES,'999,990')) AS ARRRG_PAY_DATES
+				,P2MGR.SF_MAKEDIGIT@YGPA_P2MGR(T1.PRT_AT_CODE || ASCII(SUBSTR(T5.FEE_TP,1,1)) || SUBSTR(T5.FEE_TP,2,1) || T1.ACCNUT_YEAR || T1.NTIC_NO || NVL(T1.ARRRG_NO,'0'),'BILLNO') AS CSTMR_REF_CODE
+				,DECODE(T1.PRT_AT_CODE,'620','1','621','2','3') || T5.FEE_TP_MAP || SUBSTR(T1.ACCNUT_YEAR,3,2) || T1.NTIC_NO || NVL(T1.ARRRG_NO,'00') AS ELEC_PAY_NO
+				,DECODE(T1.PRT_AT_CODE,'622','6374594','6374604') AS GIRO_NO
+				,P2MGR.SF_MAKEDIGIT@YGPA_P2MGR(T1.NTIC_AMT,'AMT') AS ELEC_NTIC_AMT
+				,'01' AS NTIC_CNT
+			FROM MNG_FEE_LEV_REQEST_F T1
+			LEFT OUTER JOIN FCLTS_MNG_FEE_DETAIL_F T2 ON (T1.MNG_MT=T2.MNG_MT AND T1.MNG_FEE_JOB_SE=T2.MNG_FEE_JOB_SE AND T1.MNG_SEQ=T2.MNG_SEQ)
+			LEFT OUTER JOIN FCLTS_MNG_FEE_F T3 ON (T1.MNG_MT=T3.MNG_MT AND T1.MNG_FEE_JOB_SE=T3.MNG_FEE_JOB_SE)
+			LEFT OUTER JOIN ENTRPS_INFO_F T4 ON (T1.ENTRPSCD=T4.ENTRPSCD)
+			LEFT OUTER JOIN P2MGR.FEE_TP_F@YGPA_P2MGR T5 ON (T1.PRT_AT_CODE=T5.PRT_AT_CODE AND GAM_GET_FEE_TP(T1.CHRGE_KND)=T5.FEE_TP)
+		WHERE T1.MNG_MT = #mngMt#
+		AND T1.MNG_FEE_JOB_SE = #mngFeeJobSe#
+		AND T1.MNG_SEQ = #mngSeq#
+		AND T1.REQEST_SEQ = #reqestSeq#
+	</select>
+
 	<insert id="gamFcltsMngFeeMngDao.insertMngFeeLevReqestF_S">
 		INSERT INTO MNG_FEE_LEV_REQEST_F
 		(
@@ -399,6 +505,7 @@
 			,NTIC_AMT = TO_NUMBER(REPLACE(#nticAmt#,',',''))
 			,RM = #rm#
 			,NHT_ISUE_YN = 'N'
+			,DEPT_CD = #deptCd#
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
 		WHERE MNG_MT = #mngMt#
@@ -434,6 +541,7 @@
 			,RM = #rm#
 			</isEmpty>
 			,NHT_ISUE_YN = #nhtIsueYn#
+			,DEPT_CD = #deptCd#
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
 		WHERE MNG_MT = #mngMt#
@@ -464,5 +572,457 @@
 		WHERE MNG_MT = #mainMngMtYear# || #mainMngMtMon#
 		AND MNG_FEE_JOB_SE = #mainMngFeeJobSe#
 	</delete>
+
+	<select id="gamFcltsMngFeeMngDao.selectRevCollF_S" parameterClass="map" resultClass="egovMap">
+		SELECT
+				 T2.PRT_AT_CODE
+				,T2.FEE_TP
+				,T2.FISCAL_YR
+				,T2.BILL_NO
+				,T2.AGENT_CODE
+				,T2.BILL_AMNT
+				,TO_CHAR(T2.BILL_DT,'YYYYMM') AS BILL_YYYYMM
+				,TO_CHAR(T2.BILL_DT,'YYYYMMDD') AS BILL_DT
+				,T2.BILL_PRT_YN
+				,TO_CHAR(T2.DUE_DATE,'YYYYMMDD') AS REV_DUE_DATE
+				,T2.BZ_RGST_ID
+				,T2.AGENT_NAME
+				,T2.DEPT
+				,T2.EMPL
+				,T2.WORK_CODE
+				,T2.USER_NAME
+				,T1.NTIC_AMT AS BILL_SUM_AMNT
+				,NVL(T1.ARRRG_NO,'00') AS DLY_SER_NO
+				,TO_CHAR(T1.PAY_TMLMT,'YYYYMMDD') AS DLY_DUE_DATE
+				,(CASE WHEN T1.ARRRG_NO > '00' THEN TO_CHAR(T1.PAY_TMLMT,'YYYYMMDD') ELSE TO_CHAR(T2.DUE_DATE,'YYYYMMDD') END) AS DUE_DATE
+				,(CASE WHEN T1.ARRRG_NO > '00' THEN TO_CHAR(ADD_MONTHS(T1.PAY_TMLMT,1),'YYYYMMDD') ELSE TO_CHAR(ADD_MONTHS(T2.DUE_DATE,1),'YYYYMMDD') END) AS CLOSE_DATE
+				,(CASE WHEN T1.ARRRG_NO > '00' THEN '1' ELSE '0' END) AS BILL_TYPE
+				,T3.TRANID
+				,T4.RPRSNTV_NM AS KOR_NM
+				,T4.ADRES AS ADDR
+				,P2MGR.SF_MAKEDIGIT@YGPA_P2MGR(T1.PRT_AT_CODE || ASCII(SUBSTR(T2.FEE_TP,1,1)) || SUBSTR(T2.FEE_TP,2,1) || T1.ACCNUT_YEAR || T1.NTIC_NO || NVL(T1.ARRRG_NO,'0'),'BILLNO') AS CUSTOMER_NUM
+				,TO_CHAR(SYSDATE,'YYYYMMDD') AS PRINT_DT
+				,DECODE(T1.PRT_AT_CODE,'622','6374594','6374604') AS GIRO_NUM
+				,DECODE(T1.PRT_AT_CODE,'620','1','621','2','3') || T5.FEE_TP_MAP || SUBSTR(T1.ACCNUT_YEAR,3,2) || T1.NTIC_NO || NVL(T1.ARRRG_NO,'00') AS EGIRO_NUM
+			FROM MNG_FEE_LEV_REQEST_F T1
+			LEFT OUTER JOIN REV_COLL_F T2 ON (T1.PRT_AT_CODE=T2.PRT_AT_CODE AND T1.CHRGE_KND=T2.WORK_CODE AND T1.ACCNUT_YEAR=T2.FISCAL_YR AND T1.NTIC_NO=T2.BILL_NO)
+			LEFT OUTER JOIN PAYEOSU.EGIRO@YGPA_PORTMIS T3 ON (T1.PRT_AT_CODE=T3.PRT_AT_CODE AND GAM_GET_FEE_TP(T1.CHRGE_KND)=T3.FEE_TP AND T1.ACCNUT_YEAR=T3.FISCAL_YR AND T1.NTIC_NO=T3.BILL_NO AND NVL(T1.ARRRG_NO,'00')=T3.DLY_SER_NO AND TO_CHAR(SYSDATE,'YYYYMMDD')=T3.WORK_DT AND T3.CANCEL_DT IS NULL)
+			LEFT OUTER JOIN ENTRPS_INFO_F T4 ON (T1.ENTRPSCD=T4.ENTRPSCD)
+			LEFT OUTER JOIN P2MGR.FEE_TP_F@YGPA_P2MGR T5 ON (T1.PRT_AT_CODE=T5.PRT_AT_CODE AND GAM_GET_FEE_TP(T1.CHRGE_KND)=T5.FEE_TP)
+		WHERE T1.MNG_MT = #mngMt#
+		AND T1.MNG_FEE_JOB_SE = #mngFeeJobSe#
+		AND T1.MNG_SEQ = #mngSeq#
+		AND T1.REQEST_SEQ = #reqestSeq#
+	</select>
+
+	<insert id="gamFcltsMngFeeMngDao.insertRevCollF_S" parameterClass="map">
+        INSERT INTO REV_COLL_F
+		(
+			 PRT_AT_CODE
+			,FEE_TP
+			,WORK_CODE
+			,FISCAL_YR
+			,BILL_NO
+			,AGENT_CODE
+			,BZ_RGST_ID
+			,AGENT_NAME
+			,BILL_DT
+			,DUE_DATE
+			,BILL_PRT_YN
+			,FIRST_BILL_DT
+			,BILL_AMNT
+			,VAT_YN
+			,VAT
+			,OVER_AMNT
+			,DC_AMNT
+			,AMNT_RSN
+			,DEPT
+			,EMPL
+			,USER_NAME
+			,RCVD_TP
+			,UPDT_UID
+			,UPDT_DATE
+		)
+		SELECT
+				 T1.PRT_AT_CODE
+				,GAM_GET_FEE_TP(T1.CHRGE_KND)
+				,T1.CHRGE_KND
+				,T1.ACCNUT_YEAR
+				,T1.NTIC_NO
+				,T1.ENTRPSCD
+				,T2.BIZRNO
+				,T2.ENTRPS_NM
+				,T1.NTIC_DT
+				,T1.PAY_TMLMT
+				,NVL(T1.NHT_PRINT_YN,'N')
+				,T1.NTIC_DT
+				,T1.FEE
+				,T1.VAT_YN
+				,T1.VAT
+				,0
+				,0
+				,#rm#
+				,#deptCd#
+				,#updUsr#
+				,#userName#
+				,'0'
+				,#updUsr#
+				,SYSDATE
+			FROM MNG_FEE_LEV_REQEST_F T1
+			LEFT OUTER JOIN ENTRPS_INFO_F T2 ON (T1.ENTRPSCD=T2.ENTRPSCD)
+			LEFT OUTER JOIN FCLTS_MNG_FEE_F T3 ON (T1.MNG_MT=T3.MNG_MT AND T1.MNG_FEE_JOB_SE=T3.MNG_FEE_JOB_SE)
+		WHERE T1.MNG_MT = #mngMt#
+		AND T1.MNG_FEE_JOB_SE = #mngFeeJobSe#
+		AND T1.MNG_SEQ = #mngSeq#
+		AND T1.REQEST_SEQ = #reqestSeq#
+	</insert>
+
+	<update id="gamFcltsMngFeeMngDao.updateRevCollFBillPrtYn_S" parameterClass="map">
+		UPDATE REV_COLL_F SET
+			BILL_PRT_YN = #nhtPrintYn#
+		WHERE (PRT_AT_CODE, FEE_TP, FISCAL_YR, BILL_NO) =
+			(SELECT	PRT_AT_CODE, GAM_GET_FEE_TP(CHRGE_KND), ACCNUT_YEAR, NTIC_NO
+				FROM MNG_FEE_LEV_REQEST_F
+			WHERE MNG_MT = #mngMt#
+			AND MNG_FEE_JOB_SE = #mngFeeJobSe#
+			AND MNG_SEQ = #mngSeq#
+			AND REQEST_SEQ = #reqestSeq#)
+	</update>
+
+	<delete id="gamFcltsMngFeeMngDao.deleteRevCollF_S" parameterClass="map">
+		DELETE FROM REV_COLL_F
+		WHERE (PRT_AT_CODE, FEE_TP, FISCAL_YR, BILL_NO) =
+			(SELECT	PRT_AT_CODE, GAM_GET_FEE_TP(CHRGE_KND), ACCNUT_YEAR, NTIC_NO
+				FROM MNG_FEE_LEV_REQEST_F
+			WHERE MNG_MT = #mngMt#
+			AND MNG_FEE_JOB_SE = #mngFeeJobSe#
+			AND MNG_SEQ = #mngSeq#
+			AND REQEST_SEQ = #reqestSeq#)
+	</delete>
+
+	<update id="gamFcltsMngFeeMngDao.updateUnpaidFDlyBillPrtYn_S" parameterClass="map">
+		UPDATE UNPAID_F SET
+			DLY_BILL_PRT_YN = #nhtPrintYn#
+		WHERE (PRT_AT_CODE, FEE_TP, FISCAL_YR, BILL_NO, DLY_SER_NO) =
+				(SELECT
+						PRT_AT_CODE, GAM_GET_FEE_TP(CHRGE_KND), ACCNUT_YEAR, NTIC_NO, ARRRG_NO
+					FROM MNG_FEE_LEV_REQEST_F
+				WHERE MNG_MT = #mngMt#
+				AND MNG_FEE_JOB_SE = #mngFeeJobSe#
+				AND MNG_SEQ = #mngSeq#
+				AND REQEST_SEQ = #reqestSeq#)
+	</update>
+
+	<select id="gamFcltsMngFeeMngDao.selectEgiroMaxInfo_S" parameterClass="map" resultClass="egovMap">
+		SELECT
+				 TRANID,
+				,WORK_DT
+				,CANCEL_DT
+				,PRINT_DT
+			FROM PAYEOSU.EGIRO@YGPA_PORTMIS
+		WHERE TRANID = (SELECT MAX(TRANID)
+							FROM PAYEOSU.EGIRO@YGPA_PORTMIS
+						WHERE PRT_AT_CODE = #prtAtCode#
+						AND FEE_TP = #feeTp#
+						AND FISCAL_YR = #fiscalYr#
+						AND BILL_NO = #billNo#
+						AND DLY_SER_NO = #dlySerNo#
+						AND CANCEL_DT IS NULL)
+	</select>
+
+	<insert id="gamFcltsMngFeeMngDao.insertEgiro_S" parameterClass="map">
+		INSERT INTO PAYEOSU.EGIRO@YGPA_PORTMIS
+		(
+			 PRT_AT_CODE
+			,TRANID
+			,WORK_DT
+			,PRINT_DT
+			,CANCEL_DT
+			,EGIRO_TYPE
+			,DATA_TYPE
+			,SEQ_NUM
+			,CUSTOMER_NUM
+			,AMOUNT
+			,AMOUNT_AF
+			,DATA_FORMAT
+			,DUE_DATE
+			,CLOSE_DATE
+			,GIRO_NUM
+			,EGIRO_NUM
+			,AGENT_CODE
+			,BILL_TYPE
+			,ETC_TYPE
+			,KOR_NM
+			,BZ_RGST_ID
+			,BILL_YYYYMM
+			,ADDR
+			,RET_CODE
+			,RCVD_SEQ
+			,CHENAP_TIME
+			,CHENAP_MM
+			,ETC_COUNT
+			,ETC_TITLE
+			,ETC_TXT
+			,SEND_YN
+			,FEE_TP
+			,FISCAL_YR
+			,BILL_NO
+			,DLY_SER_NO
+		)
+		VALUES
+		(
+			 #prtAtCode#
+			,TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSSSSFF') || RPAD(NVL(#prtAtCode#,' '),3)
+			,TO_CHAR(SYSDATE,'YYYYMMDD')
+			,#printDt#
+			,#cancelDt#
+			,'GR6533'
+			,'22'
+			,''
+			,#customerNum#
+			,#amount#
+			,#amouuntAf#
+			,'A'
+			,#dueDate#
+			,#closeDate#
+			,#giroNum#
+			,#egiroNum#
+			,#agentCode#
+			,#billType#
+			,'00'
+			,#korNm#
+			,#bzRgstId#
+			,#billYyyymm#
+			,#addr#
+			,' '
+			,'0'
+			,''
+			,''
+			,'00'
+			,''
+			,''
+			,''
+			,#feeTp#
+			,#fiscalYr#
+			,#billNo#
+			,#dlySerNo#
+		)
+	</insert>
+
+	<update id="gamFcltsMngFeeMngDao.updateEgiroCancel_S" parameterClass="map">
+		UPDATE PAYEOSU.EGIRO@YGPA_PORTMIS SET
+			 CANCEL_DT = TO_CHAR(SYSDATE,'YYYYMMDD')
+			,DUE_DATE = TO_CHAR(SYSDATE+1,'YYYYMMDD')
+		WHERE PRT_AT_CODE = #prtAtCode#
+		AND FEE_TP = #feeTp#
+		AND FISCAL_YR = #fiscalYr#
+		AND BILL_NO = #billNo#
+		AND DLY_SER_NO = #dlySerNo#
+		AND TRANID = #tranid#
+	</update>
+
+	<insert id="gamFcltsMngFeeMngDao.copyFcltsMngFeeF_S" parameterClass="map">
+		INSERT INTO FCLTS_MNG_FEE_F
+		(
+			 MNG_MT
+			,MNG_FEE_JOB_SE
+			,MNG_FEE_SJ
+			,FCLTY_MNG_FEE
+			,ELCTY_FEE
+			,WATER_FEE
+			,GAS_FEE
+			,ENV_FEE
+			,MNG_TOTAL_FEE
+			,REG_USR
+			,REGIST_DT
+			,UPD_USR
+			,UPDT_DT
+		)
+		SELECT
+				 #mngMtYear# || #mngMtMon#
+				,MNG_FEE_JOB_SE
+				,#mngMtYear# || '년 ' || #mngMtMon# || '월 관리비'
+				,FCLTY_MNG_FEE
+				,ELCTY_FEE
+				,WATER_FEE
+				,GAS_FEE
+				,ENV_FEE
+				,MNG_TOTAL_FEE
+				,#regUsr#
+				,SYSDATE
+				,#regUsr#
+				,SYSDATE
+			FROM FCLTS_MNG_FEE_F
+		WHERE MNG_MT = #prevMngMt#
+		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
+	</insert>
+
+	<insert id="gamFcltsMngFeeMngDao.copyFcltsMngFeeDetailF_S" parameterClass="map">
+		INSERT INTO FCLTS_MNG_FEE_DETAIL_F
+		(
+			 MNG_MT
+			,MNG_FEE_JOB_SE
+			,MNG_SEQ
+			,ENTRPSCD
+			,USAGE_AR
+			,MNG_FEE
+			,ELCTY_FEE
+			,WATER_FEE
+			,GAS_FEE
+			,ENV_FEE
+			,MNG_TOTAL_FEE
+			,REG_USR
+			,REGIST_DT
+			,UPD_USR
+			,UPDT_DT
+		)
+		SELECT
+				 #mngMtYear# || #mngMtMon#
+				,MNG_FEE_JOB_SE
+				,MNG_SEQ
+				,ENTRPSCD
+				,USAGE_AR
+				,MNG_FEE
+				,ELCTY_FEE
+				,WATER_FEE
+				,GAS_FEE
+				,ENV_FEE
+				,MNG_TOTAL_FEE
+				,#regUsr#
+				,SYSDATE
+				,#regUsr#
+				,SYSDATE
+			FROM FCLTS_MNG_FEE_DETAIL_F
+		WHERE MNG_MT = #prevMngMt#
+		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
+	</insert>
+
+	<insert id="gamFcltsMngFeeMngDao.copyMngFeeLevReqestF_S">
+		INSERT INTO MNG_FEE_LEV_REQEST_F
+		(
+			 MNG_MT
+			,MNG_FEE_JOB_SE
+			,MNG_SEQ
+			,REQEST_SEQ
+			,ENTRPSCD
+			,PRT_AT_CODE
+			,CHRGE_KND
+			,ACCNUT_YEAR
+			,NTIC_NO
+			,NTIC_DT
+			,PAY_TMLMT
+			,FEE
+			,VAT_YN
+			,VAT
+			,NTIC_AMT
+			,RM
+			,RCIV_SE
+			,RCIV_DT
+			,NHT_ISUE_YN
+			,DEPT_CD
+			,NTIC_MTH
+			,NHT_PRINT_YN
+			,ARRRG_NO
+			,ARRRG_AMT
+			,ARRRG_TARIFF
+			,ARRRG_PAY_DATES
+			,ADIT_NTIC_YN
+			,SETOFF_YN
+			,REG_USR
+			,REGIST_DT
+			,UPD_USR
+			,UPDT_DT
+		)
+		SELECT
+				 #mngMtYear# || #mngMtMon#
+				,MNG_FEE_JOB_SE
+				,MNG_SEQ
+				,REQEST_SEQ
+				,ENTRPSCD
+				,PRT_AT_CODE
+				,CHRGE_KND
+				,NULL
+				,NULL
+				,NULL
+				,NULL
+				,FEE
+				,VAT_YN
+				,VAT
+				,NTIC_AMT
+				,#mngMtYear# || '년 ' || #mngMtMon# || '월 관리비'
+				,'0'
+				,NULL
+				,'N'
+				,#deptCd#
+				,'1'
+				,'N'
+				,NULL
+				,NULL
+				,NULL
+				,NULL
+				,'N'
+				,'N'
+				,#regUsr#
+				,SYSDATE
+				,#regUsr#
+				,SYSDATE
+			FROM MNG_FEE_LEV_REQEST_F
+		WHERE MNG_MT = #prevMngMt#
+		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
+		AND ADIT_NTIC_YN = 'N'
+	</insert>
+
+	<select id="gamFcltsMngFeeMngDao.selectFcltsMngFeeMngChartList_D" parameterClass="hashMap" resultClass="egovMap">
+		SELECT /*+ INDEX (T2 PK_FCLTS_MNG_FEE_DETAIL_F) */
+				 T1.MT
+
+				<isEqual property="statMngFeeSe" compareValue="M">
+				,NVL(SUM(T2.MNG_FEE),0) AS STAT_VALUE
+				</isEqual>
+
+				<isEqual property="statMngFeeSe" compareValue="E">
+				,NVL(SUM(T2.ELCTY_FEE),0) AS STAT_VALUE
+				</isEqual>
+
+				<isEqual property="statMngFeeSe" compareValue="W">
+				,NVL(SUM(T2.WATER_FEE),0) AS STAT_VALUE
+				</isEqual>
+
+				<isEqual property="statMngFeeSe" compareValue="G">
+				,NVL(SUM(T2.GAS_FEE),0) AS STAT_VALUE
+				</isEqual>
+
+				<isEqual property="statMngFeeSe" compareValue="I">
+				,NVL(SUM(T2.ENV_FEE),0) AS STAT_VALUE
+				</isEqual>
+
+				<isEqual property="statMngFeeSe" compareValue="T">
+				,NVL(SUM(T2.MNG_TOTAL_FEE),0) AS STAT_VALUE
+				</isEqual>
+
+			FROM (
+				SELECT
+						 #statEntrpscd# AS ENTRPSCD
+						,#statMngFeeJobSe# AS MNG_FEE_JOB_SE
+						,#statMngMtYear# || LTRIM(TO_CHAR(LEVEL,'00')) AS MNG_MT
+						,LTRIM(TO_CHAR(LEVEL,'00')) AS MT
+					FROM DUAL
+				CONNECT BY LEVEL <![CDATA[ <= ]]> 12
+				) T1
+			LEFT OUTER JOIN FCLTS_MNG_FEE_DETAIL_F T2 ON (
+				T1.MNG_MT=T2.MNG_MT
+
+				<isNotEmpty prepend="AND " property="statMngFeeJobSe">
+				T1.MNG_FEE_JOB_SE=T2.MNG_FEE_JOB_SE
+				</isNotEmpty>
+
+				<isNotEmpty prepend="AND " property="statEntrpscd">
+				T1.ENTRPSCD=T2.ENTRPSCD
+				</isNotEmpty>
+
+			)
+		GROUP BY T1.MT
+		ORDER BY T1.MT
+	</select>
 
 </sqlMap>

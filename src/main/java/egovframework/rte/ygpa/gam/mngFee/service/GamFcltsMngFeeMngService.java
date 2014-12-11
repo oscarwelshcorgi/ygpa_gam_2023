@@ -39,6 +39,12 @@ public interface GamFcltsMngFeeMngService {
 
 	/**
 	 * @param gamFcltsMngFeeMngVo
+	 * @return
+	 */
+	List selectFcltsMngFeeMngMonthCntList(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) throws Exception;
+
+	/**
+	 * @param gamFcltsMngFeeMngVo
 	 */
 	void insertFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) throws Exception;
 
@@ -78,5 +84,37 @@ public interface GamFcltsMngFeeMngService {
 	 * @param gamFcltsMngFeeMngDetailVo
 	 */
 	void deleteFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) throws Exception;
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	List selectFcltsMngFeeMngPrintNoticeIssueList(Map searchVO) throws Exception;
+
+	/**
+	 * @param vo
+	 */
+	void processFcltsMngFeeMngNticIssue(Map<String, Object> vo) throws Exception;
+
+	/**
+	 * @param vo
+	 */
+	void cancelFcltsMngFeeMngNticIssue(Map<String, Object> vo) throws Exception;
+
+	/**
+	 * @param vo
+	 */
+	void updateFcltsMngFeeMngNticIssuePrintYn(Map<String, Object> vo) throws Exception;
+
+	/**
+	 * @param vo
+	 */
+	void copyFcltsMngFeeMng(Map<String, Object> vo) throws Exception;
+
+	/**
+	 * @param vo
+	 * @return
+	 */
+	List selectFcltsMngFeeMngChartList(Map<String, Object> vo) throws Exception;
 
 }

@@ -579,7 +579,7 @@ var module_instance = new GamGrHseEmitQyMngModule();
 					<form id="listSumForm">
 						<table style="width:100%;">
 							<tr>
-								<th width="20%" height="20">조회 자료수</th>
+								<th width="20%" height="20" style="text-align: center">조회 자료수</th>
 								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align: right">
 									<button data-cmd="btnAdd">추가</button>

@@ -132,7 +132,12 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
-	this.$('#vatYn').on('keyup',{module:this}, function(event){
+	this.$('#chrgeKnd').on('change',{module:this}, function(event){
+		var chrgeKndNm = event.data.module.$('#chrgeKnd_select').find('option:selected').text();
+		event.data.module.$('#chrgeKndNm').val(chrgeKndNm);
+	});
+
+	this.$('#vatYn').on('change',{module:this}, function(event){
 		event.data.module.calcNticAmt();
 	});
 
@@ -736,7 +741,7 @@ GamFcltsFeeMngNticModule.prototype.printNticIssue = function() {
 		alert('고지 처리가 완료된 자료가 아닙니다.');
 		return;
 	}
-	this.printPage('/mngFee/printFcltsFeeMngNticNoticeIssue.do', row);
+	this.printPage('/mngFee/gamPrintPreviewFcltsFeeMngNoticeIssue.do', row);
 	alert("고지서 출력이 완료됐습니다.");
 	this.loadData();
 
@@ -823,8 +828,8 @@ GamFcltsFeeMngNticModule.prototype.deleteNticIssue = function() {
 %>
 GamFcltsFeeMngNticModule.prototype.downloadExcel = function() {
 
-	var totalCount = Number(this.$('#totalCount').val().replace(/,/gi, ""));
-	if (totalCount <= 0) {
+	var mainGridRowCount = this.$("#mainGrid").flexRowCount();
+	if (mainGridRowCount <= 0) {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
@@ -1282,6 +1287,7 @@ var module_instance = new GamFcltsFeeMngNticModule();
 									<input id="fiscalYr" type="hidden"/>
 									<input id="billNo" type="hidden"/>
 									<input id="rcvdTp" type="hidden"/>
+									<input id="chrgeKndNm" type="hidden"/>
 									<input id="chrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM024" disabled/>
 									<input type="text" id="reqestSeq" size="7" disabled/>
 								</td>

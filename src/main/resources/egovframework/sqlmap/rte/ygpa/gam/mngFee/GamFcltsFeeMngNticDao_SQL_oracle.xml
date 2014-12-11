@@ -367,6 +367,8 @@
 			,SETOFF_YN
 			,REG_USR
 			,REGIST_DT
+			,UPD_USR
+			,UPDT_DT
 		)
 		VALUES
 		(
@@ -400,6 +402,8 @@
 			,#setoffYn#
 			,#regUsr#
 			,SYSDATE
+			,#updUsr#
+			,SYSDATE
 		)
 	</insert>
 
@@ -416,6 +420,7 @@
 			,NTIC_AMT = TO_NUMBER(REPLACE(#nticAmt#,',',''))
 			,RM = #rm#
 			,NHT_ISUE_YN = 'N'
+			,DEPT_CD = #deptCd#
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
 		WHERE MNG_MT = #mngMt#
@@ -451,6 +456,7 @@
 			,RM = #rm#
 			</isEmpty>
 			,NHT_ISUE_YN = #nhtIsueYn#
+			,DEPT_CD = #deptCd#
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
 		WHERE MNG_MT = #mngMt#

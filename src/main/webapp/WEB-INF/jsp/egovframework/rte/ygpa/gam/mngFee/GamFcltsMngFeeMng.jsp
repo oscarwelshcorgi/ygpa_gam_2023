@@ -176,12 +176,22 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
 		event.data.module.calcMngTotalFee();
 	});
 
+	this.$('#nticDt').on('keyup change',{module:this}, function(event){
+		event.data.module.setPayTmlmt();
+	});
+
+	this.$('#chrgeKnd').on('change',{module:this}, function(event){
+		var chrgeKndNm = event.data.module.$('#chrgeKnd_select').find('option:selected').text();
+		event.data.module.$('#chrgeKndNm').val(chrgeKndNm);
+	});
+
 	var mon = new Date().getMonth()+1;
 	if (mon.length==1) {
 		mon="0"+mon;
 	}
 	this.$('#sStartMngMt').val(mon);
 	this.$('#sEndMngMt').val(mon);
+	this.$('#statMngMtMon').val(mon);
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnFcltsFeeMngNtic').disable({disableClass:"ui-state-disabled"});
@@ -206,7 +216,7 @@ GamFcltsMngFeeMngModule.prototype.onClosePopup = function(popupId, msg, value) {
 			if (msg == 'ok') {
 				this.$('#entrpscd').val(value.entrpscd);
 				this.$('#entrpsNm').val(value.entrpsNm);
-				this.$("#usageAr").focus();
+				this.$("#mngFee").focus();
 			}
 			break;
 	}
@@ -238,6 +248,9 @@ GamFcltsMngFeeMngModule.prototype.onButtonClick = function(buttonId) {
 				this.deleteData();
 			}
 			break;
+		case 'btnCopy':
+			this.copyData();
+			break;
 		case 'btnSaveMain':
 			this.saveData();
 			break;
@@ -254,12 +267,22 @@ GamFcltsMngFeeMngModule.prototype.onButtonClick = function(buttonId) {
 			this.deleteDetailData();
 			break;
 		case 'btnProcessNticIssue':
+			this.processNticIssue();
+			break;
+		case 'btnCancelNticIssue':
+			this.cancelNticIssue();
+			break;
+		case 'btnPrintNticIssue':
+			this.printNticIssue();
 			break;
 		case 'btnFcltsFeeMngNtic':
 			this.openFcltsFeeMngNticModule();
 			break;
 		case 'btnExcelDownload':
 			this.downloadExcel();
+			break;
+		case 'btnExcelDownloadDetail':
+			this.downloadExcelDetail();
 			break;
 		case 'popupDataEntrpscd':
 			this.doExecuteDialog('popupDataEntrpscd', '업체 선택', '/popup/showEntrpsInfo.do', null);
@@ -532,6 +555,63 @@ GamFcltsMngFeeMngModule.prototype.calcMngTotalFee = function() {
 
 <%
 /**
+ * @FUNCTION NAME : setPayTmlmt
+ * @DESCRIPTION   : 납부 기한을 설정한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsMngFeeMngModule.prototype.setPayTmlmt = function() {
+
+	var billDt = this.$('#nticDt').val();
+	var toDay = new Date();
+	var year = "";
+	var month = "";
+	var day = "";
+	var payTmlmt = "";
+	if (billDt == "") {
+		year = toDay.getFullYear();
+		month = toDay.getMonth() + 1;
+		day = toDay.getDate();
+		if (month >= 1 && month <= 9) {
+			if (day >= 1 && day <= 9) {
+				billDt = year + "-" + "0" + month + "-" + "0" + day;
+			} else {
+				billDt = year + "-" + "0" + month + "-" + day;
+			}
+		} else {
+			if (day >= 1 && day <= 9) {
+				billDt = year + "-" + month + "-" + "0" + day;
+			} else {
+				billDt = year + "-" + month + "-" + day;
+			}
+		}
+		this.$('#nticDt').val(billDt);
+	}
+	var dueDate = EMD.util.strToDate(this.$('#nticDt').val());
+	var dayOfMonth = dueDate.getDate();
+	dueDate.setDate(dayOfMonth + 15);
+	year = dueDate.getFullYear();
+	month = dueDate.getMonth() + 1;
+	day = dueDate.getDate();
+	if (month >= 1 && month <= 9) {
+		if (day >= 1 && day <= 9) {
+			payTmlmt = year + "-" + "0" + month + "-" + "0" + day;
+		} else {
+			payTmlmt = year + "-" + "0" + month + "-" + day;
+		}
+	} else {
+		if (day >= 1 && day <= 9) {
+			payTmlmt = year + "-" + month + "-" + "0" + day;
+		} else {
+			payTmlmt = year + "-" + month + "-" + day;
+		}
+	}
+	this.$('#payTmlmt').val(payTmlmt);
+
+};
+
+<%
+/**
  * @FUNCTION NAME : getNewMngSeq
  * @DESCRIPTION   : 새로운 관리 순번을 구한다.
  * @PARAMETER     : NONE
@@ -740,6 +820,66 @@ GamFcltsMngFeeMngModule.prototype.deleteData = function() {
 
 <%
 /**
+ * @FUNCTION NAME : copyData
+ * @DESCRIPTION   : 이전 월 자료를 복사한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsMngFeeMngModule.prototype.copyData = function() {
+
+	var copyVO = [];
+	var searchVO = this.makeFormArgs("#searchForm");
+	var sQueryMngYear = this.$('#sEndMngYear').val();
+	var sQueryMngMt = this.$('#sEndMngMt').val();
+	var sQueryMngFeeJobSe = this.$('#sMngFeeJobSe').val();
+	var mtCnt=0;
+	var prevMngMt = "";
+	var mainCnt = "";
+	var detailCnt = "";
+	var reqestCnt = "";
+	if (sQueryMngFeeJobSe != "M" && sQueryMngFeeJobSe != "E") {
+		alert('업무 구분이 부정확합니다.');
+		this.$("#sMngFeeJobSe").focus();
+		return;
+	}
+	if (confirm("이전월의 자료를 [" + sQueryMngYear + "-" + sQueryMngMt + "월] 자료로 복사하시겠습니까?") != true) {
+		return;
+	}
+	this.doAction('<c:url value="/mngFee/gamSelectFcltsMngFeeMngMonthCnt.do" />', searchVO, function(module, result) {
+		if (result.resultCode != "0") {
+			alert('자료 확인이 실패했습니다!');
+			return;
+		}
+		mtCnt=result.resultList[0]['mtCnt']*1;
+		if (mtCnt > 0) {
+			alert('[' + sQueryMngYear + '-' + sQueryMngMt + '월] 자료가 존재합니다.');
+			return;
+		}
+		prevMngMt = result.resultList[0]['prevMngMt'];
+		mainCnt = result.resultList[0]['mainCnt'];
+		detailCnt = result.resultList[0]['detailCnt'];
+		reqestCnt = result.resultList[0]['reqestCnt'];
+		processVO={
+			'mngMtYear':sQueryMngYear,
+			'mngMtMon':sQueryMngMt,
+			'mngFeeJobSe':sQueryMngFeeJobSe,
+			'prevMngMt':prevMngMt,
+			'mainCnt':mainCnt,
+			'detailCnt':detailCnt,
+			'reqestCnt':reqestCnt
+		};
+		module.doAction('<c:url value="/mngFee/gamCopyFcltsMngFeeMng.do" />', copyVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.loadData();
+			}
+			alert(result.resultMsg);
+		});
+	});
+
+};
+
+<%
+/**
  * @FUNCTION NAME : addDetailData
  * @DESCRIPTION   : DATA ADD (DETAIL)
  * @PARAMETER     : NONE
@@ -750,6 +890,7 @@ GamFcltsMngFeeMngModule.prototype.addDetailData = function() {
 	var mainMngMtYear = this.$('#mainMngMtYear').val();
 	var mainMngMtMon = this.$('#mainMngMtMon').val();
 	var mainMngFeeJobSe = this.$('#mainMngFeeJobSe').val();
+	var mainMngFeeSj = this.$('#mainMngFeeSj').val();
 	var mngSeq = "";
 	if (mainMngMtYear > "9999"  || mainMngMtYear < "2000" || mainMngMtYear == "") {
 		alert('관리 년도가 부정확합니다.');
@@ -803,10 +944,11 @@ GamFcltsMngFeeMngModule.prototype.addDetailData = function() {
 		this.$('#chrgeKndNm').val('');
 	}
 	this.$('#accnutYear').val('');
-	this.$('#paynticNoTmlmt').val('');
+	this.$('#nticNo').val('');
 	this.$('#rcivSe').val('0');
 	this.$('#rcivSeNm').val('');
 	this.$('#rcivDt').val('');
+	this.$('#rm').val(mainMngFeeSj);
 	this.enableSubDetailInputItem();
 	this.$('#usageAr').focus();
 
@@ -962,24 +1104,6 @@ GamFcltsMngFeeMngModule.prototype.deleteDetailData = function() {
 
 <%
 /**
- * @FUNCTION NAME : downloadExcel
- * @DESCRIPTION   : 리스트를 엑셀로 다운로드한다.
- * @PARAMETER     : NONE
-**/
-%>
-GamFcltsMngFeeMngModule.prototype.downloadExcel = function() {
-
-	var totalCount = Number(this.$('#totalCount').val().replace(/,/gi, ""));
-	if (totalCount <= 0) {
-		alert("조회된 자료가 없습니다.");
-		return;
-	}
-	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelFcltsMngFeeMng.do');
-
-};
-
-<%
-/**
  * @FUNCTION NAME : processNticIssue
  * @DESCRIPTION   : 시설물 관리비 부과 내역을 고지처리한다.
  * @PARAMETER     : NONE
@@ -1099,6 +1223,94 @@ GamFcltsMngFeeMngModule.prototype.processNticIssue = function() {
 
 <%
 /**
+ * @FUNCTION NAME : cancelNticIssue
+ * @DESCRIPTION   : 시설물 관리비 부과 내역을 고지취소한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsMngFeeMngModule.prototype.cancelNticIssue = function() {
+
+	var cancelVO = [];
+	var chrgeKnd = this.$('#chrgeKnd').val();
+	var nhtIsueYn = this.$('#nhtIsueYn').val();
+	var rcivSe = this.$('#rcivSe').val();
+	var accnutYear = this.$('#accnutYear').val();
+	var nticNo = this.$('#nticNo').val();
+	var confirmMessage = "";
+	if (nhtIsueYn != "Y") {
+		alert('고지 처리가 완료된 자료가 아닙니다.');
+		return;
+	}
+	if (rcivSe != "0") {
+		alert('미수납된 자료가 아닙니다.');
+		return;
+	}
+	if (chrgeKnd == "") {
+		alert('요금 종류가 부정확합니다.');
+		return;
+	}
+	if (accnutYear > "2999" || accnutYear < "2000" || accnutYear == "") {
+		alert('회계 년도가 부정확합니다.');
+		return;
+	}
+	if (nticNo > "999999" || nticNo < "000001" || nticNo == "") {
+		alert('고지 번호가 부정확합니다.');
+		return;
+	}
+	confirmMessage = "[" + this.$('#chrgeKndNm').val() + "] " + this.$('#fee').val() + "원을 고지 취소하시겠습니까?";
+	if (confirm(confirmMessage)) {
+		cancelVO={
+				'mngMt':this.$('#mngMt').val(),
+				'mngFeeJobSe':this.$('#mngFeeJobSe').val(),
+				'mngSeq':this.$('#mngSeq').val(),
+				'reqestSeq':this.$('#reqestSeq').val(),
+				'prtAtCode':this.$('#prtAtCode').val(),
+				'chrgeKnd':this.$('#chrgeKnd').val(),
+				'accnutYear':this.$('#accnutYear').val(),
+				'nticNo':this.$('#nticNo').val(),
+				'nticDt':this.$('#nticDt').val(),
+				'payTmlmt':this.$('#payTmlmt').val(),
+				'fee':this.$('#fee').val().replace(/,/gi, ""),
+				'vatYn':this.$('#vatYn').val(),
+				'vat':this.$('#vat').val().replace(/,/gi, ""),
+				'nticAmt':this.$('#nticAmt').val().replace(/,/gi, ""),
+				'nhtIsueYn':"N",
+				'nhtPrintYn':this.$('#nhtPrintYn').val(),
+				'arrrgNo':this.$('#arrrgNo').val(),
+				'rm':this.$('#rm').val()
+		};
+		this.doAction('/mngFee/gamCancelFcltsMngFeeMngNticIssue.do', cancelVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.refreshData();
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : printNticIssue
+ * @DESCRIPTION   : 시설물 관리비 고지 내역 지로 고지서를 출력한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsMngFeeMngModule.prototype.printNticIssue = function() {
+
+	var row = this.$('#detailGrid').selectedRows()[0];
+	if (row['nhtIsueYn'] != "Y") {
+		alert('고지 처리가 완료된 자료가 아닙니다.');
+		return;
+	}
+	this.printPage('/mngFee/gamPrintPreviewFcltsMngFeeMngNoticeIssue.do', row);
+	alert("고지서 출력이 완료됐습니다.");
+	this.refreshData();
+
+};
+
+<%
+/**
  * @FUNCTION NAME : openFcltsFeeMngNticModule
  * @DESCRIPTION   : 시설물 관리비 고지화면 MODULE OPEN
  * @PARAMETER     : NONE
@@ -1106,8 +1318,44 @@ GamFcltsMngFeeMngModule.prototype.processNticIssue = function() {
 %>
 GamFcltsMngFeeMngModule.prototype.openFcltsFeeMngNticModule = function() {
 
-	var gridRowCount = this.$("#mainGrid").flexGetData().length;
+	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	alert(gridRowCount);
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 리스트를 엑셀로 다운로드한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsMngFeeMngModule.prototype.downloadExcel = function() {
+
+	var mainGridRowCount = this.$("#mainGrid").flexRowCount();
+	if (mainGridRowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelFcltsMngFeeMng.do');
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : downloadExcelDetail
+ * @DESCRIPTION   : DETAIL 리스트를 엑셀로 다운로드한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsMngFeeMngModule.prototype.downloadExcelDetail = function() {
+
+	var detailGridRowCount = this.$("#detailGrid").flexRowCount();
+	if (detailGridRowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	this.$('#detailGrid').flexExcelDown('/mngFee/gamExcelFcltsMngFeeMngDetail.do');
 
 };
 
@@ -1285,6 +1533,10 @@ GamFcltsMngFeeMngModule.prototype.enableSubDetailInputItem = function() {
 		this.$('#waterFee').enable();
 		this.$('#gasFee').enable();
 		this.$('#envFee').enable();
+		this.$('#nticDt').disable();
+		this.$('#payTmlmt').disable();
+		this.$('#rm').disable();
+		this.$('#chrgeKnd').enable();
 		this.$('#btnAddDetail').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnSaveDetail').enable();
 		this.$('#btnSaveDetail').removeClass('ui-state-disabled');
@@ -1301,6 +1553,10 @@ GamFcltsMngFeeMngModule.prototype.enableSubDetailInputItem = function() {
 			this.$('#waterFee').disable();
 			this.$('#gasFee').disable();
 			this.$('#envFee').disable();
+			this.$('#nticDt').disable();
+			this.$('#payTmlmt').disable();
+			this.$('#rm').disable();
+			this.$('#chrgeKnd').disable();
 			this.$('#btnAddDetail').enable();
 			this.$('#btnAddDetail').removeClass('ui-state-disabled');
 			this.$('#btnSaveDetail').disable({disableClass:"ui-state-disabled"});
@@ -1319,6 +1575,10 @@ GamFcltsMngFeeMngModule.prototype.enableSubDetailInputItem = function() {
 			this.$('#waterFee').enable();
 			this.$('#gasFee').enable();
 			this.$('#envFee').enable();
+			this.$('#nticDt').enable();
+			this.$('#payTmlmt').enable();
+			this.$('#rm').enable();
+			this.$('#chrgeKnd').enable();
 			this.$('#btnAddDetail').enable();
 			this.$('#btnAddDetail').removeClass('ui-state-disabled');
 			this.$('#btnSaveDetail').enable();
@@ -1337,6 +1597,10 @@ GamFcltsMngFeeMngModule.prototype.enableSubDetailInputItem = function() {
 			this.$('#waterFee').disable();
 			this.$('#gasFee').disable();
 			this.$('#envFee').disable();
+			this.$('#nticDt').disable();
+			this.$('#payTmlmt').disable();
+			this.$('#rm').disable();
+			this.$('#chrgeKnd').disable();
 			this.$('#btnAddDetail').enable();
 			this.$('#btnAddDetail').removeClass('ui-state-disabled');
 			this.$('#btnSaveDetail').disable({disableClass:"ui-state-disabled"});
@@ -1352,6 +1616,10 @@ GamFcltsMngFeeMngModule.prototype.enableSubDetailInputItem = function() {
 			this.$('#waterFee').disable();
 			this.$('#gasFee').disable();
 			this.$('#envFee').disable();
+			this.$('#nticDt').disable();
+			this.$('#payTmlmt').disable();
+			this.$('#rm').disable();
+			this.$('#chrgeKnd').disable();
 			if (this.$('#mainMngMt').val() != "" && this.$('#mainMngFeeJobSe').val() != "") {
 				this.$('#btnAddDetail').enable();
 				this.$('#btnAddDetail').removeClass('ui-state-disabled');
@@ -1384,6 +1652,10 @@ GamFcltsMngFeeMngModule.prototype.disableSubDetailInputItem = function() {
 	this.$('#waterFee').disable();
 	this.$('#gasFee').disable();
 	this.$('#envFee').disable();
+	this.$('#nticDt').disable();
+	this.$('#payTmlmt').disable();
+	this.$('#rm').disable();
+	this.$('#chrgeKnd').disable();
 	this.$('#btnAddDetail').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSaveDetail').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDeleteDetail').disable({disableClass:"ui-state-disabled"});
@@ -1432,6 +1704,8 @@ GamFcltsMngFeeMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.makeDivValues('#subDetailForm', {});
 				this.disableSubDetailInputItem();
 			}
+			break;
+		case 'statTab':
 			break;
 	}
 
@@ -1526,6 +1800,7 @@ var module_instance = new GamFcltsMngFeeMngModule();
 			<ul>
 				<li><a href="#listTab" class="emdTab">시설물 관리비 현황</a></li>
 				<li><a href="#detailTab" class="emdTab">시설물 관리비 내역</a></li>
+				<li><a href="#statTab" class="emdTab">시설물 관리비 통계</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage fillHeight" style="overflow: hidden;" >
@@ -1560,6 +1835,7 @@ var module_instance = new GamFcltsMngFeeMngModule();
 								<button id="btnDelete">　　삭　제　　</button>
 								<button id="btnExcelDownload">엑셀　다운로드</button>
 								<button id="btnExcelUpload">엑셀　　업로드</button>
+								<button id="btnCopy">이전월자료복사</button>
 								<button id="btnFcltsFeeMngNtic">고지내역　조회</button>
 								<button id="btnFcltsFeeMngInqire">납부현황　조회</button>
 							</td>
@@ -1654,26 +1930,40 @@ var module_instance = new GamFcltsMngFeeMngModule();
 									<button id="btnProcessNticIssue">　　고　지　　</button>
 									<button id="btnCancelNticIssue">　고지　취소　</button>
 									<button id="btnPrintNticIssue">고지서　　출력</button>
+									<button id="btnExcelDownloadDetail">엑셀　다운로드</button>
 								</td>
 							</tr>
 						</table>
 						<table id="detailGrid" style="display:none"></table>
 						<table class="detailPanel" style="width:100%">
                             <tr>
-								<th width="10%" height="18">순번</th>
+								<th width="10%" height="18">순번/사용 면적</th>
 								<td>
 									<input id="mngMt" type="hidden"/>
 									<input id="mngFeeJobSe" type="hidden"/>
 									<input id="reqestSeq" type="hidden"/>
-									<input type="text" size="33" id="mngSeq" disabled/>
+									<input type="text" size="5" id="mngSeq" disabled/>／
+									<input type="text" size="24" class="ygpaNumber" id="usageAr" disabled/>
 								</td>
-								<th width="10%" height="18">사용 면적</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="usageAr" disabled/></td>
 								<th width="10%" height="18">부과 업체</th>
 								<td>
 									<input id="entrpscd" type="hidden"/>
 									<input type="text" size="22" id="entrpsNm" disabled>
 									<button id="popupDataEntrpscd" class="popupButton">선택</button>
+								</td>
+								<!--
+								<th width="10%" height="18">사용 면적</th>
+								<td><input type="text" size="33" class="ygpaNumber" id="usageAr" disabled/></td>
+								 -->
+								<th width="10%" height="18">고지/출력/요금</th>
+								<td>
+									<input id="setoffYn" type="hidden"/>
+									<input id="nticMth" type="hidden"/>
+									<input id="chrgeKndNm" type="hidden"/>
+									<input id="aditNticYn" type="hidden"/>
+									<input type="text" size="2" id="nhtIsueYn" disabled>/
+									<input type="text" size="2" id="nhtPrintYn" disabled>/
+									<input id="chrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM024" disabled/>
 								</td>
                             </tr>
                             <tr>
@@ -1693,20 +1983,14 @@ var module_instance = new GamFcltsMngFeeMngModule();
 								<td><input type="text" size="33" class="ygpaNumber" id="mngTotalFee" disabled/></td>
                             </tr>
                             <tr>
-								<th width="10%" height="18">고지/출력/과세</th>
+								<th width="10%" height="18">고지일/납부기한</th>
 								<td>
-									<input id="setoffYn" type="hidden"/>
-									<input id="nticMth" type="hidden"/>
-									<input id="aditNticYn" type="hidden"/>
-									<input id="vatYn" type="hidden"/>
-									<input id="rm" type="hidden"/>
-									<input type="text" size="5" id="nhtIsueYn" disabled>
-									<input type="text" size="5" id="nhtPrintYn" disabled>
-									<input type="text" size="20" id="vatYnNm" disabled/>
+                                	<input type="text" size="12" id="nticDt"  class="emdcal" disabled/>／
+                                	<input type="text" size="11" id="payTmlmt" class="emdcal" disabled/>
 								</td>
 								<th width="10%" height="18">사용료/부가세</th>
 								<td>
-									<input type="text" size="16" class="ygpaNumber" id="fee" disabled>
+									<input type="text" size="15" class="ygpaNumber" id="fee" disabled>／
 									<input type="text" size="15" class="ygpaNumber" id="vat" disabled>
 								</td>
 								<th width="10%" height="18">고지 금액</th>
@@ -1715,26 +1999,96 @@ var module_instance = new GamFcltsMngFeeMngModule();
 								</td>
                             </tr>
                             <tr>
-								<th width="10%" height="18">고지일/납부기한</th>
+								<th width="10%" height="18">비고</th>
 								<td>
-                                	<input type="text" size="16" id="nticDt" disabled/>
-                                	<input type="text" size="15" id="payTmlmt" disabled/>
+									<input type="text" size="33" id="rm" disabled/>
 								</td>
 								<th width="10%" height="18">회계 정보</th>
 								<td>
 									<input id="prtAtCode" type="hidden"/>
-									<input id="chrgeKnd" type="hidden"/>
-									<input type="text" size="18" id="chrgeKndNm" disabled>
-									<input type="text" size="6" id="accnutYear" disabled>
+									<input id="vatYn" type="hidden"/>
+									<input type="text" size="20" id="vatYnNm" disabled/>
+									<input type="text" size="4" id="accnutYear" disabled>
 									<input type="text" size="6" id="nticNo" disabled>
 								</td>
 								<th width="10%" height="18">수납 정보</th>
 								<td>
+									<input id="arrrgNo" type="hidden"/>
+									<input id="arrrgPayDates" type="hidden"/>
+									<input id="arrrgAmt" type="hidden"/>
 									<input id="rcivSe" type="hidden"/>
-									<input type="text" size="16" id="rcivSeNm" disabled>
+									<input type="text" size="15" id="rcivSeNm" disabled>／
                                 	<input type="text" size="15" id="rcivDt" disabled/>
 								</td>
                             </tr>
+						</table>
+					</form>
+				</div>
+			</div>
+			<!-- 213. TAB 3 AREA (STAT) -->
+			<div id="statTab" class="emdTabPage" style="overflow:scroll;">
+				<div class="emdControlPanel">
+					<form id="statForm">
+						<table class="detailPanel" style="width:100%">
+							<tr>
+								<th width="10%" height="30">관리 년월</th>
+								<td >
+									<select id="statMngMtYear" class='selt'>
+										<option value="">선택</option>
+										<c:forEach items="${yearsList}" var="yearListItem">
+											<option value="${yearListItem.code }" <c:if test="${yearListItem.code == thisyear}">selected</c:if> >${yearListItem.codeNm }</option>
+										</c:forEach>
+									</select>
+									<select id="statMngMtMon" class='selt'>
+										<option value="">선택</option>
+										<option value="01">01월</option>
+										<option value="02">02월</option>
+										<option value="03">03월</option>
+										<option value="04">04월</option>
+										<option value="05">05월</option>
+										<option value="06">06월</option>
+										<option value="07">07월</option>
+										<option value="08">08월</option>
+										<option value="09">09월</option>
+										<option value="10">10월</option>
+										<option value="11">11월</option>
+										<option value="12">12월</option>
+									</select>
+								</td>
+								<th width="10%" height="30">업무 구분</th>
+								<td >
+									<select id="statMngFeeJobSe" disabled>
+										<option value="">선택</option>
+										<option value="M">마린센터</option>
+										<option value="E">전기시설</option>
+									</select>
+								</td>
+								<th width="10%" height="30">부과 업체</th>
+								<td>
+									<input id="statEntrpscd" type="hidden"/>
+									<input id="statEntrpsNm" type="text" size="20" disabled="disabled">
+									<button id="popupStatEntrpscd" class="popupButton">선택</button>
+								</td>
+								<th width="10%" height="30">조회 구분</th>
+								<td >
+									<select id="statMngFeeSe" disabled>
+										<option value="M">관리비</option>
+										<option value="E">전기 요금</option>
+										<option value="W">상하수도 요금</option>
+										<option value="G">도시가스 요금</option>
+										<option value="I">환경개선 부담금</option>
+										<option value="T" selected>관리비 합계</option>
+									</select>
+								</td>
+								<td>
+									<button id="btnStatSearch">통계 조회</button>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="7" style="padding-left:4px;">
+									<div id="fcltyMngFeeMngSttusChart" style="width:955px;height:450px;border:1px solid #A4BED4;"></div>
+								</td>
+							</tr>
 						</table>
 					</form>
 				</div>

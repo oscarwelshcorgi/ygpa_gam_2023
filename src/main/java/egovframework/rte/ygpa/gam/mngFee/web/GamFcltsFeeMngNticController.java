@@ -224,8 +224,8 @@ public class GamFcltsFeeMngNticController {
 
 	}
 
-	@RequestMapping(value="/mngFee/printFcltsFeeMngNticNoticeIssue.do")
-	String printFcltsFeeMngNticNoticeIssue(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
+	@RequestMapping(value="/mngFee/gamPrintPreviewFcltsFeeMngNticNoticeIssue.do")
+	String printPreviewFcltsFeeMngNticNoticeIssue(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
 
 		model.addAttribute("searchOpt", approvalOpt);
 
@@ -260,6 +260,7 @@ public class GamFcltsFeeMngNticController {
 
 		try {
 			gamFcltsFeeMngNticVo.setRegUsr((String)user.getId());
+			gamFcltsFeeMngNticVo.setUpdUsr((String)user.getId());
 			gamFcltsFeeMngNticVo.setDeptCd((String)user.getDeptCd());
 			gamFcltsFeeMngNticService.insertFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
 
@@ -291,6 +292,7 @@ public class GamFcltsFeeMngNticController {
 
 		try {
 			gamFcltsFeeMngNticVo.setUpdUsr((String)user.getId());
+			gamFcltsFeeMngNticVo.setDeptCd((String)user.getDeptCd());
 			gamFcltsFeeMngNticVo.setDeptCd((String)user.getDeptCd());
 			gamFcltsFeeMngNticService.updateFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
 

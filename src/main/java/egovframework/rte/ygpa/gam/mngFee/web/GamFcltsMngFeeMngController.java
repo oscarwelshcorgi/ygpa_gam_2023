@@ -3,8 +3,6 @@
  */
 package egovframework.rte.ygpa.gam.mngFee.web;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,11 +34,9 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngFeeMngDetailVo;
-import egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeCodeMngVo;
 
 
 /**
@@ -142,6 +138,26 @@ public class GamFcltsMngFeeMngController {
 
 	}
 
+	@RequestMapping(value="/mngFee/gamSelectFcltsMngFeeMngMonthCnt.do" , method=RequestMethod.POST)
+	@ResponseBody Map selectFcltsMngFeeMngMonthCntList(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		List resultList = gamFcltsMngFeeMngService.selectFcltsMngFeeMngMonthCntList(gamFcltsMngFeeMngVo);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+
+		return map;
+	}
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/mngFee/gamExcelFcltsMngFeeMng.do" , method=RequestMethod.POST)
 	@ResponseBody ModelAndView excelFcltsMngFeeMngList(@RequestParam Map<String, Object> excelParam) throws Exception {
@@ -230,6 +246,41 @@ public class GamFcltsMngFeeMngController {
 		map.put("sMaxMngSeq", sMaxMngSeq);
 
 		return map;
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/mngFee/gamExcelFcltsMngFeeMngDetail.do" , method=RequestMethod.POST)
+	@ResponseBody ModelAndView excelFcltsMngFeeMngDetailList(@RequestParam Map<String, Object> excelParam) throws Exception {
+
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return new ModelAndView("gridExcelView", "gridResultMap", map);
+		}
+
+		header = mapper.readValue((String)excelParam.get("header"),
+								  new TypeReference<List<HashMap<String,String>>>(){});
+		excelParam.remove("header");
+
+		GamFcltsMngFeeMngDetailVo searchVO= new GamFcltsMngFeeMngDetailVo();
+		searchVO = mapper.convertValue(excelParam, GamFcltsMngFeeMngDetailVo.class);
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		List resultList = gamFcltsMngFeeMngService.selectFcltsMngFeeMngDetailList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("header", header);
+
+		return new ModelAndView("gridExcelView", "gridResultMap", map);
 
 	}
 
@@ -339,6 +390,7 @@ public class GamFcltsMngFeeMngController {
 		try {
 			gamFcltsMngFeeMngDetailVo.setRegUsr((String)user.getId());
 			gamFcltsMngFeeMngDetailVo.setUpdUsr((String)user.getId());
+			gamFcltsMngFeeMngDetailVo.setDeptCd((String)user.getDeptCd());
 			gamFcltsMngFeeMngService.insertFcltsMngFeeMngDetail(gamFcltsMngFeeMngDetailVo);
 
 			map.put("resultCode", 0);
@@ -369,6 +421,7 @@ public class GamFcltsMngFeeMngController {
 
 		try {
 			gamFcltsMngFeeMngDetailVo.setUpdUsr((String)user.getId());
+			gamFcltsMngFeeMngDetailVo.setDeptCd((String)user.getDeptCd());
 			gamFcltsMngFeeMngService.updateFcltsMngFeeMngDetail(gamFcltsMngFeeMngDetailVo);
 
 			map.put("resultCode", 0);
@@ -408,6 +461,178 @@ public class GamFcltsMngFeeMngController {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
+
+		return map;
+
+	}
+
+	@RequestMapping(value="/mngFee/gamProcessFcltsMngFeeMngNticIssue.do")
+	@ResponseBody Map<String, Object> processFcltsMngFeeMngNticIssue(@RequestParam Map<String, Object> processVo)	throws Exception {
+
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			processVo.put("updUsr", (String)user.getId());
+			processVo.put("deptCd", (String)user.getDeptCd());
+			processVo.put("userName", (String)user.getName());
+			gamFcltsMngFeeMngService.processFcltsMngFeeMngNticIssue(processVo);
+
+			map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+
+		return map;
+
+	}
+
+	@RequestMapping(value="/mngFee/gamCancelFcltsMngFeeMngNticIssue.do")
+	@ResponseBody Map<String, Object> cancelFcltsMngFeeMngNticIssue(@RequestParam Map<String, Object> cancelVo)	throws Exception {
+
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			cancelVo.put("updUsr", (String)user.getId());
+			cancelVo.put("deptCd", (String)user.getDeptCd());
+			cancelVo.put("userName", (String)user.getName());
+			gamFcltsMngFeeMngService.cancelFcltsMngFeeMngNticIssue(cancelVo);
+
+			map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+		}
+
+		return map;
+
+	}
+
+	@RequestMapping(value="/mngFee/gamPrintPreviewFcltsMngFeeMngNoticeIssue.do")
+	String printPreviewFcltsMngFeeMngNoticeIssue(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
+
+		model.addAttribute("searchOpt", approvalOpt);
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			model.addAttribute("resultCode", 1);
+			model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+		} else {
+    		List list = gamFcltsMngFeeMngService.selectFcltsMngFeeMngPrintNoticeIssueList(approvalOpt);
+
+			model.addAttribute("resultCode", 0);
+			model.addAttribute("resultList", list);
+			model.addAttribute("resultMsg", "");
+		}
+
+		return "ygpa/gam/mngFee/GamFcltsMngFeeMngPrintNoticeIssue";
+
+	}
+
+	@RequestMapping(value="/mngFee/gamPrintFcltsMngFeeMngNticIssue.do")
+	public @ResponseBody Map printFcltsMngFeeMngNticIssue(@RequestParam Map<String, Object> printVo, ModelMap model)	throws Exception {
+
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
+		String resultMsg = "";
+		int resultCode = 1;
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+    		printVo.put("nhtPrintYn", "Y");
+			printVo.put("updUsr", (String)user.getId());
+			printVo.put("deptCd", (String)user.getDeptCd());
+			printVo.put("userName", (String)user.getName());
+    		gamFcltsMngFeeMngService.updateFcltsMngFeeMngNticIssuePrintYn(printVo);
+			resultCode = 0;
+			resultMsg = egovMessageSource.getMessage("success.common.update");
+		} catch(Exception e) {
+			resultCode = 1;
+			resultMsg = egovMessageSource.getMessage("fail.common.update");
+		}
+
+		map.put("resultCode", resultCode);
+		map.put("resultMsg", resultMsg);
+
+		return map;
+
+	}
+
+	@RequestMapping(value="/mngFee/gamCopyFcltsMngFeeMng.do")
+	@ResponseBody Map<String, Object> copyFcltsMngFeeMng(@RequestParam Map<String, Object> copyVo)	throws Exception {
+
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			copyVo.put("regUsr", (String)user.getId());
+			copyVo.put("deptCd", (String)user.getDeptCd());
+
+			gamFcltsMngFeeMngService.copyFcltsMngFeeMng(copyVo);
+
+			map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+
+		return map;
+	}
+
+	@RequestMapping(value="/mngFee/gamSelectFcltsMngFeeMngChart.do" , method=RequestMethod.POST)
+	@ResponseBody Map selectFcltsMngFeeMngChartList(@RequestParam Map<String, Object> statVo) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		List resultList = gamFcltsMngFeeMngService.selectFcltsMngFeeMngChartList(statVo);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
 
 		return map;
 
