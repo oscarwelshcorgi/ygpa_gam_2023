@@ -35,13 +35,13 @@ GamPopupFcltsMngNoModule.prototype.loadComplete = function() {
 		url: '/popup/selectFcltsMngNoInfoList.do',
 		dataType: "json",
 		colModel : [
-					{display:"시설물그룹번호", name:"fcltsMngGroupNo",   width:150, sortable:true, align:"center"},
-					{display:"시설물그룹명",  name:"fcltsMngGroupNm", 	width:200, sortable:true, align:"center"},
-					{display:"공사명",  name:"cnstNm", width:200, sortable:true, align:"center"},
-					{display:"관리주체",  name:"mngMainbd", 	width:150, sortable:true, align:"center"},
-					{display:"소유자",  name:"owner", 	width:150, sortable:true, align:"center"},
-					{display:"시공자",  name:"cnstrtr", 	width:150, sortable:true, align:"center"},
-					{display:"주소",  name:"fcltsAdres", 	width:400, sortable:true, align:"center"},
+					{display:"시설물번호", 		name:"fcltsMngNo",   		width:150, sortable:true, align:"center"},
+					{display:"항만시설명",  	name:"prtFcltyNm", 			width:200, sortable:true, align:"left"},
+					{display:"항만시설규격",  	name:"prtFcltyStndrd", 		width:200, sortable:true, align:"center"},
+					{display:"항만시설단위",  	name:"prtFcltyUnit", 		width:150, sortable:true, align:"center"},
+					{display:"설치일자",  		name:"prtFcltyInstDt", 		width:90,  sortable:true, align:"center"},
+					{display:"변경일자",  		name:"prtFcltyChangeDt", 	width:90,  sortable:true, align:"center"},
+					{display:"시설물관리그룹명", name:"fcltsMngGroupNm", 		width:200, sortable:true, align:"left"},
 			],
 		height: "320"
 	});
@@ -93,7 +93,7 @@ var popup_instance = new GamPopupFcltsMngNoModule();
 			<table class="searchPanel">
 				<tbody>
 					<tr>
-                        <th>시설물 관리번호</th>
+                        <th>시설물관리번호</th>
                         <td>
                         	<input id="sFcltsMngNo" type="text" size="14" maxlength="14" />
                         </td>
@@ -108,7 +108,7 @@ var popup_instance = new GamPopupFcltsMngNoModule();
 		<div class="emdPanel fillHeight">
 	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>
 	        <div class="emdControlPanel">
-	            <button id="btnOk">시설물 관리그룹 선택</button>
+	            <button id="btnOk">시설물관리번호 선택</button>
             	<button id="btnCancel">취소</button>
 	        </div>
 	    </div>

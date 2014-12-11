@@ -37,14 +37,14 @@ GamPopupCtrtSubCtrtMngtModule.prototype.loadComplete = function(fcltyCtrtSubCtrt
 		url: '',
 		dataType: "json",
 		colModel : [
-                    {display:'업체명', name:'entrpsNm', width:150, sortable:true, align:'center'},
-                    {display:'대금지급합의', name:'moneyPymntAgree', width:90, sortable:true, align:'center'},
-                    {display:'공증', name:'workClass', width:80, sortable:true, align:'center'},
-                    {display:'하도급율', name:'subctrtRate', width:80, sortable:true, align:'right'},
-                    {display:'원도급금액', name:'orginlContrAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'하도급계약금액', name:'subctrtCtrtAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'계약시작일', name:'ctrtDtFrom', width:100, sortable:true, align:'center'},
-                    {display:'계약종료일', name:'ctrtDtTo', width:100, sortable:true, align:'center'}
+                    {display:'업체명', 		name:'entrpsNm', 		width:150, sortable:true, align:'center'},
+                    {display:'대금지급합의',	name:'moneyPymntAgree', width:90, sortable:true, align:'center'},
+                    {display:'공증', 			name:'workClass', 		width:80, sortable:true, align:'center'},
+                    {display:'하도급율', 		name:'subctrtRate', 	width:80, sortable:true, align:'right'},
+                    {display:'원도급금액', 		name:'orginlContrAmt', 	width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'하도급계약금액', 	name:'subctrtCtrtAmt', 	width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'계약시작일', 		name:'ctrtDtFrom', 		width:100, sortable:true, align:'center'},
+                    {display:'계약종료일', 		name:'ctrtDtTo', 		width:100, sortable:true, align:'center'}
 				],
 		height: "280",
 	});

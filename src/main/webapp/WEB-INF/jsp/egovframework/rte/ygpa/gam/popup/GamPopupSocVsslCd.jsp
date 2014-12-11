@@ -35,8 +35,8 @@ GamPopupSocVsslCdModule.prototype.loadComplete = function() {
 		url: '/popup/selectSocVsslInfoList.do',
 		dataType: "json",
 		colModel : [
-					{display:"호출부호코드",		name:"callLetter", 	width:150, 		sortable:true, 		align:"center"},
-					{display:"호출선박명",			name:"vsslKorNm", 	width:350, 		sortable:true, 		align:"left"}
+					{display:"호출부호코드",		name:"callLetter", 	width:150, 	sortable:true, 	align:"center"},
+					{display:"호출선박명",			name:"vsslKorNm", 	width:350, 	sortable:true, 	align:"left"}
 			],
 		height: "320"
 	});

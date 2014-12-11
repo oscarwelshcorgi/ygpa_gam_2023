@@ -35,13 +35,13 @@ GamPopupFcltsMngGroupModule.prototype.loadComplete = function() {
 		url: '/popup/selectFcltsMngGroupInfoList.do',
 		dataType: "json",
 		colModel : [
-					{display:"시설물그룹번호", name:"fcltsMngGroupNo",   width:150, sortable:true, align:"center"},
-					{display:"시설물그룹명",  name:"fcltsMngGroupNm", 	width:200, sortable:true, align:"center"},
-					{display:"공사명",  name:"cnstNm", width:200, sortable:true, align:"center"},
-					{display:"관리주체",  name:"mngMainbd", 	width:150, sortable:true, align:"center"},
-					{display:"소유자",  name:"owner", 	width:150, sortable:true, align:"center"},
-					{display:"시공자",  name:"cnstrtr", 	width:150, sortable:true, align:"center"},
-					{display:"주소",  name:"fcltsAdres", 	width:400, sortable:true, align:"center"},
+					{display:"시설물그룹번호", 	name:"fcltsMngGroupNo", width:150, sortable:true, align:"center"},
+					{display:"시설물그룹명",  	name:"fcltsMngGroupNm",	width:200, sortable:true, align:"center"},
+					{display:"공사명",  		name:"cnstNm", 			width:200, sortable:true, align:"center"},
+					{display:"관리주체",  		name:"mngMainbd", 		width:150, sortable:true, align:"center"},
+					{display:"소유자",  		name:"owner", 			width:150, sortable:true, align:"center"},
+					{display:"시공자",  		name:"cnstrtr", 		width:150, sortable:true, align:"center"},
+					{display:"주소",  		name:"fcltsAdres", 		width:400, sortable:true, align:"center"},
 			],
 		height: "320"
 	});

@@ -37,13 +37,13 @@ GamPopupCtrtMoneyPymntMngtModule.prototype.loadComplete = function(fcltyCtrtMone
 		url: '',
 		dataType: "json",
 		colModel : [
-                    {display:'지급분류', name:'pymntCl', width:80, sortable:true, align:'center'},
-                    {display:'지급일자', name:'pymntDt', width:80, sortable:true, align:'center'},
-                    {display:'금회기성금액', name:'thisTimeEstbAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'선금정산금액', name:'depositExcclcAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'지급금액', name:'pymntAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'지급누계금액', name:'pymntAggrAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'비고', name:'rm', width:210, sortable:true, align:'left'}
+                    {display:'지급분류', 	 name:'pymntCl', 		width:80, sortable:true, align:'center'},
+                    {display:'지급일자', 	 name:'pymntDt', 		width:80, sortable:true, align:'center'},
+                    {display:'금회기성금액', name:'thisTimeEstbAmt',width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'선금정산금액', name:'depositExcclcAmt',width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'지급금액', 	 name:'pymntAmt', 		width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'지급누계금액', name:'pymntAggrAmt', 	width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'비고', 		 name:'rm', 			width:210, sortable:true, align:'left'}
 				],
 		height: "270",
 	});

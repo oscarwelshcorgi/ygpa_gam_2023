@@ -35,10 +35,10 @@ GamPopupSocFacCdModule.prototype.loadComplete = function() {
 		url: '/popup/selectSocFacInfoList.do',
 		dataType: "json",
 		colModel : [
-					{display:"항명",		name:"prtKorNm", 	width:100, 		sortable:true, 		align:"center"},
-					{display:"시설코드",		name:"facCode", 	width:100, 		sortable:true, 		align:"center"},
-					{display:"시설부코드",		name:"facSubCode", 	width:150, 		sortable:true, 		align:"center"},
-					{display:"시설명",		name:"facKorNm", 	width:255, 		sortable:true, 		align:"left"}
+					{display:"항명",		name:"prtKorNm", 	width:100, 	sortable:true, 	align:"center"},
+					{display:"시설코드",	name:"facCode", 	width:100, 	sortable:true, 	align:"center"},
+					{display:"시설부코드",	name:"facSubCode", 	width:150, 	sortable:true, 	align:"center"},
+					{display:"시설명",	name:"facKorNm", 	width:255, 	sortable:true, 	align:"left"}
 			],
 		height: "320"
 	});

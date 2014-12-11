@@ -38,8 +38,8 @@ GamPopupCtrtFulFillCaryFwdMngtModule.prototype.loadComplete = function(fcltyCtrt
 		dataType: "json",
 		colModel : [
                     {display:'이행이월년도', name:'fulfillCaryFwdYear', width:100, sortable:true, align:'center'},
-                    {display:'이행금액', name:'fulfillAmt', width:200, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'이월금액', name:'caryFwdAmt', width:200, sortable:true, align:'right', displayFormat:'number'}
+                    {display:'이행금액', 	 name:'fulfillAmt', 		width:200, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'이월금액', 	 name:'caryFwdAmt', 		width:200, sortable:true, align:'right', displayFormat:'number'}
 				],
 		height: "300",
 	});
