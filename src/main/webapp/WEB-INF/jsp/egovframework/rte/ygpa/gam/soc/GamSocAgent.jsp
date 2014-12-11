@@ -107,7 +107,7 @@ GamSocAgentMngtModule.prototype.makeRegiFormat = function() {
     this.makeFormValues('#form2',{});
     this.makeFormValues('#gamSocAgentForm',{});
     
-    this.loadData();
+    this.$('#socAgentMngtList').flexEmptyData();
     
     this.$("#cmd").val("insert");
 
@@ -276,6 +276,15 @@ GamSocAgentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
 			}
 			this.$("#socAgentMngtList").flexEmptyData();
 			this.$("#socAgentMngtList").flexAddData({resultList: value, socAgentInfo:this._socAgentInfo });
+			
+			var all_rows = this.$('#socAgentMngtList').flexGetData();
+			
+			var sumAccFee = 0;
+			for(i=0;i<all_rows.length;i++){
+				sumAccFee = parseInt(sumAccFee) + parseInt(all_rows[i]["accFee"]);
+			}
+			
+			this.$('#accFee').val($.number(sumAccFee));
 			 
 			break;
 		default:
@@ -397,7 +406,7 @@ var module_instance = new GamSocAgentMngtModule();
                                 <th width="16%">*업체코드</th>
                                 <td colspan="3">
                                 	<input id="agentCode" type="text" size="10" maxlength="9">&nbsp; &nbsp;
-	                            	<input id="agentName" type="text" size="15" disabled="disabled">&nbsp; &nbsp;
+	                            	<input id="agentName" type="text" size="15">&nbsp; &nbsp;
 	                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                                 </td>
                                 <th width="16%">*공사준공일자</th>
@@ -409,9 +418,9 @@ var module_instance = new GamSocAgentMngtModule();
                             </tr>
                             <tr>
                                 <th width="16%">*총공사금액</th>
-                                <td colspan="3"><input type="text" id="totalBuildFee" class="ygpaNumber" size="55" maxlength="13" ></td>
+                                <td colspan="3"><input type="text" id="totalAmnt" class="ygpaNumber" size="55" maxlength="13" ></td>
                                 <th width="16%">보전처리누계액</th>
-                                <td><input id="totalAmnt" type="text" class="ygpaNumber" size="20" maxlength="13"></td>
+                                <td><input id="accFee" type="text" class="ygpaNumber" size="20" maxlength="13" disabled="disabled"></td>
                             </tr>
                         </table>
                         <table style="width:100%;">
