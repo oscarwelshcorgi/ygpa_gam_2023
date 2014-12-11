@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC
+    "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN"
+    "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<form-validation>
+    <formset>
+        <form name="gamFcltsMngGroup">
+            <field property="fcltsMngGroupNo" depends="required">
+                <arg0 key="시설물관리그룹 번호" resource="false"/>
+                <arg1 key="14" resource="false"/>
+                <var>
+	                <var-name>maxlength</var-name>
+	                <var-value>14</var-value>
+                </var>
+            </field>
+        </form>
+    </formset>
+</form-validation>
