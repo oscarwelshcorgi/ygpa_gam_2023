@@ -3,6 +3,8 @@
  */
 package egovframework.rte.ygpa.gam.popup.service;
 
+import java.util.List;
+
 /**
  * 
  * @author 김종민
@@ -21,5 +23,19 @@ package egovframework.rte.ygpa.gam.popup.service;
  */
 
 public interface GamPopupFcltsMngNoService {
+    /**
+	 * 시설물번호 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    List selectFcltsMngNoList(GamPopupFcltsMngNoVO searchVO) throws Exception;
 
+    /**
+	 * 시설물번호 목록 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return cnt
+	 * @exception
+	 */
+    int selectFcltsMngNoListTotCnt(GamPopupFcltsMngNoVO searchVO) throws Exception;
 }
