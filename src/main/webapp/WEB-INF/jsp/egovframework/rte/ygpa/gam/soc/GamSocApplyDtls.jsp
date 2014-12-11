@@ -39,23 +39,23 @@ GamSocApplyDtlsModule.prototype.loadComplete = function() {
         url: '/soc/gamSelectSocApplyDtlsList.do',
         dataType: 'json',
         colModel : [
-                    {display:'공사항구', name:'appPrtAtCode',width:70, sortable:false,align:'center'},
-                    {display:'공사항구명', name:'appPrtAtKorNm',width:80, sortable:false,align:'center'},
-                    {display:'시행업체', name:'agentCode',width:70, sortable:false,align:'left'},
-                    {display:'시행업체명', name:'agentName',width:100, sortable:false,align:'left'},
-                    {display:'준공년도', name:'cmplYr',width:70, sortable:false,align:'center'},
-                    {display:'공사번호', name:'constNo',width:70, sortable:false,align:'center'},
-                    {display:'요금종류', name:'feeTp',width:70, sortable:false,align:'center'},
-                    {display:'횟수', name:'useNo',width:50, sortable:false,align:'center'},
-                    {display:'요율', name:'rateGubun',width:40, sortable:false,align:'center'},
-                    {display:'적용', name:'useYn',width:40, sortable:false,align:'center'},
-                    {display:'보전기간시작일', name:'periodFr',width:90, sortable:false,align:'center'},
-                    {display:'보전기간종료일', name:'periodTo',width:90, sortable:false,align:'center'},
-                    {display:'신청일자', name:'applDate',width:80, sortable:false,align:'center'},
-                    {display:'허가일자', name:'perfDt',width:80, sortable:false,align:'center'},
-                    {display:'보전신청액', name:'exmpAmnt',width:130, sortable:false,align:'right',displayFormat: 'number'},
-                    {display:'보전누계액', name:'exmpAcc',width:130, sortable:false,align:'right',displayFormat: 'number'},
-                    {display:'보전 잔액', name:'exmpRemain',width:130, sortable:false,align:'right',displayFormat: 'number'}
+                    {display:'공사항구', 	name:'appPrtAtCode',	width:70, sortable:false,align:'center'},
+                    {display:'공사항구명',	name:'appPrtAtKorNm',	width:80, sortable:false,align:'center'},
+                    {display:'시행업체', 	name:'agentCode',		width:70, sortable:false,align:'left'},
+                    {display:'시행업체명', 	name:'agentName',		width:100, sortable:false,align:'left'},
+                    {display:'준공년도', 	name:'cmplYr',			width:70, sortable:false,align:'center'},
+                    {display:'공사번호', 	name:'constNo',			width:70, sortable:false,align:'center'},
+                    {display:'요금종류', 	name:'feeTp',			width:70, sortable:false,align:'center'},
+                    {display:'횟수', 		name:'useNo',			width:50, sortable:false,align:'center'},
+                    {display:'요율', 		name:'rateGubun',		width:40, sortable:false,align:'center'},
+                    {display:'적용', 		name:'useYn',			width:40, sortable:false,align:'center'},
+                    {display:'보전기간시작일',name:'periodFr',		width:90, sortable:false,align:'center'},
+                    {display:'보전기간종료일',name:'periodTo',		width:90, sortable:false,align:'center'},
+                    {display:'신청일자', 	name:'applDate',		width:80, sortable:false,align:'center'},
+                    {display:'허가일자', 	name:'perfDt',			width:80, sortable:false,align:'center'},
+                    {display:'보전신청액', 	name:'exmpAmnt',		width:130, sortable:false,align:'right',displayFormat: 'number'},
+                    {display:'보전누계액', 	name:'exmpAcc',			width:130, sortable:false,align:'right',displayFormat: 'number'},
+                    {display:'보전 잔액', 	name:'exmpRemain',		width:130, sortable:false,align:'right',displayFormat: 'number'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -74,7 +74,10 @@ GamSocApplyDtlsModule.prototype.onSubmit = function() {
 };
 
 GamSocApplyDtlsModule.prototype.loadData = function() {
-	opts = this.makeFormArgs('#gamSocApplyDtlsSearchForm');
+	if(!validateGamSocApplyDtls(this.$('#gamSocApplyDtlsSearchForm')[0])){
+		return;
+	}
+	var opts = this.makeFormArgs('#gamSocApplyDtlsSearchForm');
 	this.$("#socApplyDtlsList").flexOptions({params:opts}).flexReload();
 };
 
@@ -84,9 +87,6 @@ GamSocApplyDtlsModule.prototype.loadData = function() {
 GamSocApplyDtlsModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         case 'searchBtn':
-        	if(!validateGamSocApplyDtls(this.$('#gamSocApplyDtlsSearchForm')[0])){
-        		return;
-        	}
         	this.loadData();
             break;
         case 'popupFeeTpInfo' : //요금종류버튼

@@ -39,20 +39,20 @@ GamSocAgentProcessRealloadNewModule.prototype.loadComplete = function() {
         url: '/soc/gamSelectSocAgentProcessRealloadNewList.do',
         dataType: 'json',
         colModel : [
-                    {display:'호출부호', name:'callLetter',width:70, sortable:false,align:'center'},
-                    {display:'선명', name:'vsslNm',width:80, sortable:false,align:'center'},
-                    {display:'요금종류', name:'feeTp',width:70, sortable:false,align:'left'},
-                    {display:'요금종류명', name:'feeTpNm',width:100, sortable:false,align:'left'},
-                    {display:'입항년도', name:'yr',width:70, sortable:false,align:'center'},
-                    {display:'입출항일자', name:'ioDt',width:70, sortable:false,align:'center'},
-                    {display:'시설코드', name:'facilNm',width:100, sortable:false,align:'center'},
-                    {display:'회계년도', name:'fiscalYr',width:70, sortable:false,align:'center'},
-                    {display:'고지번호', name:'billNo',width:100, sortable:false,align:'center'},
-                    {display:'적용요율', name:'standardFee',width:70, sortable:false,align:'center'},
-                    {display:'징수톤', name:'realTn',width:50, sortable:false,align:'center'},
-                    {display:'고지일자', name:'billDt',width:70, sortable:false,align:'center'},
-                    {display:'할인율', name:'dcRateNm',width:70, sortable:false,align:'center'},
-                    {display:'면제금액', name:'exmpAmnt',width:100, sortable:false,align:'right',displayFormat: 'number'}
+                    {display:'호출부호', 	name:'callLetter',	width:70, sortable:false,align:'center'},
+                    {display:'선명', 		name:'vsslNm',		width:80, sortable:false,align:'center'},
+                    {display:'요금종류', 	name:'feeTp',		width:70, sortable:false,align:'left'},
+                    {display:'요금종류명', 	name:'feeTpNm',		width:100, sortable:false,align:'left'},
+                    {display:'입항년도', 	name:'yr',			width:70, sortable:false,align:'center'},
+                    {display:'입출항일자', 	name:'ioDt',		width:70, sortable:false,align:'center'},
+                    {display:'시설코드', 	name:'facilNm',		width:100, sortable:false,align:'center'},
+                    {display:'회계년도', 	name:'fiscalYr',	width:70, sortable:false,align:'center'},
+                    {display:'고지번호', 	name:'billNo',		width:100, sortable:false,align:'center'},
+                    {display:'적용요율', 	name:'standardFee',	width:70, sortable:false,align:'center'},
+                    {display:'징수톤', 	name:'realTn',		width:50, sortable:false,align:'center'},
+                    {display:'고지일자', 	name:'billDt',		width:70, sortable:false,align:'center'},
+                    {display:'할인율', 	name:'dcRateNm',	width:70, sortable:false,align:'center'},
+                    {display:'면제금액', 	name:'exmpAmnt',	width:100, sortable:false,align:'right',displayFormat: 'number'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -70,33 +70,27 @@ GamSocAgentProcessRealloadNewModule.prototype.onSubmit = function() {
 
 //업체별투자비보전처리목록 로드
 GamSocAgentProcessRealloadNewModule.prototype.loadData = function() {
-	var opts = this.makeFormArgs('#gamSocAgentProcessRealloadNewSearchForm');
-	this.$("#socAgentProcessRealloadNewList").flexOptions({params:opts}).flexReload();
-};
-
-//업체별투자비보전처리목록 조회
-GamSocAgentProcessRealloadNewModule.prototype.searchData = function() {
 	if(!validateGamAgentProcessRealloadNew(this.$('#gamSocAgentProcessRealloadNewSearchForm')[0])){ 		
 		return;
 	}
-	this.loadData();
+	var opts = this.makeFormArgs('#gamSocAgentProcessRealloadNewSearchForm');
+	this.$("#socAgentProcessRealloadNewList").flexOptions({params:opts}).flexReload();
 };
 
 /**
  * 정의 된 버튼 클릭 시
  */
 GamSocAgentProcessRealloadNewModule.prototype.onButtonClick = function(buttonId) {
-	var opts = null;
     switch(buttonId) {
-        case 'searchBtn':
-        	this.searchData();
+        case 'btnSearch':
+        	this.loadData();
             break;
         case 'popupFeeTpInfo' : //요금종류 선택
-        	opts = { prtAtCode : this.$('#sAppPrtAtCode').val() };
+        	var opts = { prtAtCode : this.$('#sAppPrtAtCode').val() };
 			this.doExecuteDialog('selectFeeTpInfo', '요금 선택', '/popup/showSocPayCd.do', opts);        	
         	break;
         case 'popupEntrpsInfo' : //업체코드버튼
-			this.doExecuteDialog('selectEntrpsInfo', '업체 선택', '/popup/showSocEntrpsInfo.do', opts);
+			this.doExecuteDialog('selectEntrpsInfo', '업체 선택', '/popup/showSocEntrpsInfo.do', {});
         	break;
     }
 };
@@ -167,7 +161,7 @@ var module_instance = new GamSocAgentProcessRealloadNewModule();
                             	</select>
                             </td>
                             <td  rowSpan="2">
-								<button id="searchBtn" class="buttonSearch">조회</button>
+								<button id="btnSearch" class="buttonSearch">조회</button>
                             </td>
                         </tr>
                         <tr>

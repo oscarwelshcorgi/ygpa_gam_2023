@@ -39,25 +39,25 @@ GamSocAgentProcessDtlsSttusModule.prototype.loadComplete = function() {
         url: '/soc/gamSelectSocAgentProcessDtlsSttusList.do',
         dataType: 'json',
         colModel : [
-                    {display:'등록항구', name:'appPrtAtCode',width:70, sortable:false,align:'center'},
-                    {display:'등록항구명', name:'appPrtAtKorNm',width:100, sortable:false,align:'center'},
-                    {display:'요금종류', name:'feeTp',width:70, sortable:false,align:'left'},
-                    {display:'요금종류명', name:'feeTpNm',width:100, sortable:false,align:'left'},
-                    {display:'횟수', name:'useNo',width:40, sortable:false,align:'left'},
-                    {display:'관리번호', name:'socNo',width:70, sortable:false,align:'left'},
-                    {display:'신고업체', name:'exmpAgentCode',width:70, sortable:false,align:'center'},
-                    {display:'신고업체명', name:'exmpAgentNm',width:100, sortable:false,align:'center'},
-                    {display:'요율금액', name:'standardFee',width:80, sortable:false,align:'right',displayFormat: 'number'},
-                    {display:'상계금액', name:'exmpAmnt',width:80, sortable:false,align:'right',displayFormat: 'number'},
-                    {display:'호출부호', name:'callLetter',width:70, sortable:false,align:'center'},
-                    {display:'보전누계액', name:'exmpAcc',width:130, sortable:false,align:'right',displayFormat: 'number'},
-                    {display:'입항횟수', name:'serNo',width:80, sortable:false,align:'center'},
-                    {display:'외내항', name:'inOut',width:50, sortable:false,align:'center'},
-                    {display:'시설코드', name:'facCode',width:70, sortable:false,align:'center'},
-                    {display:'시설부코드', name:'facSubCode',width:100, sortable:false,align:'center'},
-                    {display:'시설명', name:'facilNm',width:100, sortable:false,align:'center'},
-                    {display:'운임톤', name:'realTn',width:80, sortable:false,align:'center'},
-                    {display:'고지일자', name:'billDt',width:80, sortable:false,align:'center'}
+                    {display:'등록항구', 	name:'appPrtAtCode',	width:70, sortable:false,align:'center'},
+                    {display:'등록항구명',	name:'appPrtAtKorNm',	width:100, sortable:false,align:'center'},
+                    {display:'요금종류', 	name:'feeTp',			width:70, sortable:false,align:'left'},
+                    {display:'요금종류명', 	name:'feeTpNm',			width:100, sortable:false,align:'left'},
+                    {display:'횟수', 		name:'useNo',			width:40, sortable:false,align:'left'},
+                    {display:'관리번호', 	name:'socNo',			width:70, sortable:false,align:'left'},
+                    {display:'신고업체', 	name:'exmpAgentCode',	width:70, sortable:false,align:'center'},
+                    {display:'신고업체명', 	name:'exmpAgentNm',		width:100, sortable:false,align:'center'},
+                    {display:'요율금액', 	name:'standardFee',		width:80, sortable:false,align:'right',displayFormat: 'number'},
+                    {display:'상계금액', 	name:'exmpAmnt',		width:80, sortable:false,align:'right',displayFormat: 'number'},
+                    {display:'호출부호', 	name:'callLetter',		width:70, sortable:false,align:'center'},
+                    {display:'보전누계액', 	name:'exmpAcc',			width:130, sortable:false,align:'right',displayFormat: 'number'},
+                    {display:'입항횟수', 	name:'serNo',			width:80, sortable:false,align:'center'},
+                    {display:'외내항', 	name:'inOut',			width:50, sortable:false,align:'center'},
+                    {display:'시설코드', 	name:'facCode',			width:70, sortable:false,align:'center'},
+                    {display:'시설부코드', 	name:'facSubCode',		width:100, sortable:false,align:'center'},
+                    {display:'시설명', 	name:'facilNm',			width:100, sortable:false,align:'center'},
+                    {display:'운임톤', 	name:'realTn',			width:80, sortable:false,align:'center'},
+                    {display:'고지일자', 	name:'billDt',			width:80, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -73,49 +73,44 @@ GamSocAgentProcessDtlsSttusModule.prototype.loadComplete = function() {
     });
 };
 
-/**
- * 정의 된 버튼 클릭 시
- */
-GamSocAgentProcessDtlsSttusModule.prototype.onButtonClick = function(buttonId) {
-	var opts = null;
-    switch(buttonId) {
-        case 'searchBtn':
-        	if(!validateGamSocAgentProcessDtlsSttus(this.$('#gamSocAgentProcessDtlsSttusSearchForm')[0])){ 		
-        		return;
-        	}
-        	opts = this.makeFormArgs('#gamSocAgentProcessDtlsSttusSearchForm');
-        	this.$("#socAgentProcessDtlsSttusList").flexOptions({params:opts}).flexReload();
-            break;
-        case 'popupApplyInfo' : //투자비보전신청업체 선택
-			this.doExecuteDialog('selectApplyInfo', '투자비보전 신청업체 선택',
-					'/popup/showSocApplyInfo.do', opts);
-        	break;
-        case 'popupFeeTpInfo' : //요금종류 선택
-        	opts = { prtAtCode : this.$('#sAppPrtAtCode').val() };
-			this.doExecuteDialog('selectFeeTpInfo', '요금 선택',
-					'/popup/showSocPayCd.do', opts);        	
-        	break;
-        case 'popupEntrpsInfo' : //업체코드버튼
-			this.doExecuteDialog('selectEntrpsInfo', '업체 선택',
-					'/popup/showSocEntrpsInfo.do', opts);
-        	break;
-    }
-};
-
 GamSocAgentProcessDtlsSttusModule.prototype.onSubmit = function() {
     this.loadData();
 };
 
 GamSocAgentProcessDtlsSttusModule.prototype.loadData = function() {
-    this.$("#socAgentProcessDtlsSttusListTab").tabs("option", {active: 0});
-    var searchOpt=this.makeFormArgs('#gamSocAgentProcessDtlsSttusSearchForm');
-    this.$('#socAgentProcessDtlsSttusList').flexOptions({params:searchOpt}).flexReload();
+	var opts = null;
+	if(!validateGamSocAgentProcessDtlsSttus(this.$('#gamSocAgentProcessDtlsSttusSearchForm')[0])){ 		
+		return;
+	}
+	opts = this.makeFormArgs('#gamSocAgentProcessDtlsSttusSearchForm');
+	this.$("#socAgentProcessDtlsSttusList").flexOptions({params:opts}).flexReload();
 };
 
 GamSocAgentProcessDtlsSttusModule.prototype.onTabChange = function(newTabId, oldTabId) {
     switch(newTabId) {
     case 'tabs1':
         break;
+    }
+};
+
+/**
+ * 정의 된 버튼 클릭 시
+ */
+GamSocAgentProcessDtlsSttusModule.prototype.onButtonClick = function(buttonId) {
+    switch(buttonId) {
+        case 'btnSearch':
+        	this.loadData();
+            break;
+        case 'popupApplyInfo' : //투자비보전신청업체 선택
+			this.doExecuteDialog('selectApplyInfo', '투자비보전 신청업체 선택', '/popup/showSocApplyInfo.do', opts);
+        	break;
+        case 'popupFeeTpInfo' : //요금종류 선택
+        	var opts = { prtAtCode : this.$('#sAppPrtAtCode').val() };
+			this.doExecuteDialog('selectFeeTpInfo', '요금 선택', '/popup/showSocPayCd.do', opts);        	
+        	break;
+        case 'popupEntrpsInfo' : //업체코드버튼
+			this.doExecuteDialog('selectEntrpsInfo', '업체 선택', '/popup/showSocEntrpsInfo.do', {});
+        	break;
     }
 };
 
@@ -184,7 +179,7 @@ var module_instance = new GamSocAgentProcessDtlsSttusModule();
                             	<button id="popupApplyInfo" class="popupButton">투자보전 신청업체 찾기</button>
                             </td>
                             <td  rowSpan="2">
-								<button id="searchBtn" class="buttonSearch">조회</button>
+								<button id="btnSearch" class="buttonSearch">조회</button>
                             </td>
                         </tr>
                         <tr>

@@ -39,22 +39,22 @@ GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.loadComplete = function() {
         url: '/soc/gamSelectSocPrtFcltyFeeExmpRqestSttusList.do',
         dataType: 'json',
         colModel : [
-                    {display:'관리청', name:'prtAtCode',width:50, sortable:false,align:'center'},
-                    {display:'준공년도', name:'cmplYr',width:70, sortable:false,align:'center'},
-                    {display:'공사번호', name:'constNo',width:100, sortable:false,align:'center'},
-                    {display:'면제요청청', name:'appPrtAtCode',width:80, sortable:false,align:'center'},
-                    {display:'요청업체', name:'appAgentCode',width:70, sortable:false,align:'center'},
-                    {display:'요청업체명', name:'appAgentName',width:100, sortable:false,align:'center'},
-                    {display:'신청횟수', name:'useNo',width:70, sortable:false,align:'center'},
-                    {display:'적용요율', name:'rateGubun',width:70, sortable:false,align:'center'},
-                    {display:'면제신청액', name:'exmpAmnt',width:130, sortable:false,align:'right',displayFormat: 'number'},
-                    {display:'누계액', name:'exmpAcc',width:130, sortable:false,align:'right',displayFormat: 'number'},
-                    {display:'신청일자', name:'applDate',width:80, sortable:false,align:'center'},
-                    {display:'면제기간시작일', name:'periodFr',width:90, sortable:false,align:'center'},
-                    {display:'면제기간종료일', name:'periodTo',width:90, sortable:false,align:'center'},
-                    {display:'사용여부', name:'useYn',width:80, sortable:false,align:'center'},
-                    {display:'처리조건', name:'exmpCond',width:130, sortable:false,align:'center'},
-                    {display:'비고', name:'remark',width:130, sortable:false,align:'center'}
+                    {display:'관리청', 	name:'prtAtCode',	width:50, sortable:false,align:'center'},
+                    {display:'준공년도', 	name:'cmplYr',		width:70, sortable:false,align:'center'},
+                    {display:'공사번호', 	name:'constNo',		width:100, sortable:false,align:'center'},
+                    {display:'면제요청청', 	name:'appPrtAtCode',width:80, sortable:false,align:'center'},
+                    {display:'요청업체', 	name:'appAgentCode',width:70, sortable:false,align:'center'},
+                    {display:'요청업체명', 	name:'appAgentName',width:100, sortable:false,align:'center'},
+                    {display:'신청횟수', 	name:'useNo',		width:70, sortable:false,align:'center'},
+                    {display:'적용요율', 	name:'rateGubun',	width:70, sortable:false,align:'center'},
+                    {display:'면제신청액', 	name:'exmpAmnt',	width:130, sortable:false,align:'right',displayFormat: 'number'},
+                    {display:'누계액', 	name:'exmpAcc',		width:130, sortable:false,align:'right',displayFormat: 'number'},
+                    {display:'신청일자', 	name:'applDate',	width:80, sortable:false,align:'center'},
+                    {display:'면제기간시작일',name:'periodFr',	width:90, sortable:false,align:'center'},
+                    {display:'면제기간종료일',name:'periodTo',	width:90, sortable:false,align:'center'},
+                    {display:'사용여부', 	name:'useYn',		width:80, sortable:false,align:'center'},
+                    {display:'처리조건', 	name:'exmpCond',	width:130, sortable:false,align:'center'},
+                    {display:'비고', 		name:'remark',		width:130, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -72,6 +72,9 @@ GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.onSubmit = function() {
 };
 
 GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.loadData = function() {
+	if(!validateGamSocPrtFcltyFeeExmpRqestSttus(this.$('#gamSocPrtFcltyFeeExmpRqestSttusSearchForm')[0])){ 		
+		return;
+	}
     var searchOpt=this.makeFormArgs('#gamSocPrtFcltyFeeExmpRqestSttusSearchForm');
     this.$('#socPrtFcltyFeeExmpRqestSttusList').flexOptions({params:searchOpt}).flexReload();
 };
@@ -81,10 +84,7 @@ GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.loadData = function() {
  */
 GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
-        case 'searchBtn':
-        	if(!validateGamSocPrtFcltyFeeExmpRqestSttus(this.$('#gamSocPrtFcltyFeeExmpRqestSttusSearchForm')[0])){ 		
-        		return;
-        	}
+        case 'btnSearch':
         	this.loadData();
             break;
         case 'popupEntrpsInfo' : //업체코드버튼
@@ -146,7 +146,7 @@ var module_instance = new GamSocPrtFcltyFeeExmpRqestSttusModule();
                             	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
                             <td  rowSpan="2">
-								<button id="searchBtn" class="buttonSearch">조회</button>
+								<button id="btnSearch" class="buttonSearch">조회</button>
                             </td>
                         </tr>
                         <tr>

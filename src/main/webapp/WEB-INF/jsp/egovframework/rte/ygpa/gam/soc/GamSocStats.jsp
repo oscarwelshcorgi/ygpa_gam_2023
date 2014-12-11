@@ -39,12 +39,12 @@ GamSocStatsModule.prototype.loadComplete = function() {
         url: '/soc/gamSelectSocStatsList.do',
         dataType: 'json',
         colModel : [
-                    {display:'업체명', name:'exmpAgentNm',width:200, sortable:false,align:'center'},
-                    {display:'년월', name:'exmpMonth',width:100, sortable:false,align:'center'},
-                    {display:'요금종류명', name:'feeNm',width:150, sortable:false,align:'center'},
-                    {display:'상계금액(청)', name:'exmpAmntSum',width:150, sortable:false,align:'right',displayFormat:'number'},
-                    {display:'상계금액(공사)', name:'exmpAmntPaSum',width:150, sortable:false,align:'right',displayFormat:'number'},
-                    {display:'합계', name:'exmpAmntTotSum',width:150, sortable:false,align:'right',displayFormat: 'number'}
+                    {display:'업체명', 		name:'exmpAgentNm',		width:200, sortable:false,align:'center'},
+                    {display:'년월', 			name:'exmpMonth',		width:100, sortable:false,align:'center'},
+                    {display:'요금종류명', 		name:'feeNm',			width:150, sortable:false,align:'center'},
+                    {display:'상계금액(청)', 	name:'exmpAmntSum',		width:150, sortable:false,align:'right',displayFormat:'number'},
+                    {display:'상계금액(공사)', 	name:'exmpAmntPaSum',	width:150, sortable:false,align:'right',displayFormat:'number'},
+                    {display:'합계', 			name:'exmpAmntTotSum',	width:150, sortable:false,align:'right',displayFormat: 'number'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -73,7 +73,30 @@ GamSocStatsModule.prototype.onSubmit = function() {
 
 //투자비보전집계목록 로드
 GamSocStatsModule.prototype.loadData = function() {
-	opts = this.makeFormArgs('#gamSocStatsSearchForm');
+	if(!validateGamSocStats(this.$('#gamSocStatsSearchForm')[0])){ 		
+		return;
+	}
+	if(this.$('#sSearchTarget').val() == '1') {
+    	if(this.$('#sExmpAgentCode').val() == '') {
+    		alert('업체코드를 선택하세요.');
+    		return;
+    	}
+	} else if(this.$('#sSearchTarget').val() == '2') {
+    	if(this.$('#sSearchFr').val() == '' || this.$('#sSearchTo').val() == '') {
+    		alert('조회월을 입력하세요.');
+    		return;
+    	}
+	} else {
+    	if(this.$('#sExmpAgentCode').val() == '') {
+    		alert('업체코드를 선택하세요.');
+    		return;
+    	}
+    	if(this.$('#sSearchFr').val() == '' || this.$('#sSearchTo').val() == '') {
+    		alert('조회월을 입력하세요.');
+    		return;
+    	}        	
+    }
+	var opts = this.makeFormArgs('#gamSocStatsSearchForm');
 	this.$("#socStatsList").flexOptions({params:opts}).flexReload();
 };
 
@@ -103,41 +126,13 @@ GamSocStatsModule.prototype.initDisplay = function() {
 	}
 };
 
-//투자비보전집계조회
-GamSocStatsModule.prototype.searchData = function() {
-	if(!validateGamSocStats(this.$('#gamSocStatsSearchForm')[0])){ 		
-		return;
-	}
-	if(this.$('#sSearchTarget').val() == '1') {
-    	if(this.$('#sExmpAgentCode').val() == '') {
-    		alert('업체코드를 선택하세요.');
-    		return;
-    	}
-	} else if(this.$('#sSearchTarget').val() == '2') {
-    	if(this.$('#sSearchFr').val() == '' || this.$('#sSearchTo').val() == '') {
-    		alert('조회월을 입력하세요.');
-    		return;
-    	}
-	} else {
-    	if(this.$('#sExmpAgentCode').val() == '') {
-    		alert('업체코드를 선택하세요.');
-    		return;
-    	}
-    	if(this.$('#sSearchFr').val() == '' || this.$('#sSearchTo').val() == '') {
-    		alert('조회월을 입력하세요.');
-    		return;
-    	}        	
-    }
-	this.loadData();	
-};
-
 /**
  * 정의 된 버튼 클릭 시
  */
 GamSocStatsModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
-        case 'searchBtn': //집계조회
-        	this.searchData();
+        case 'btnSearch': //집계조회
+        	this.loadData();
             break;
         case 'popupEntrpsInfo' : //업체코드버튼
 			this.doExecuteDialog('selectEntrpsInfo', '업체 선택', '/popup/showSocEntrpsInfo.do', {});
@@ -207,7 +202,7 @@ var module_instance = new GamSocStatsModule();
                                 </select>
                             </td>
                             <td  rowSpan="2">
-								<button id="searchBtn" class="buttonSearch">조회</button>
+								<button id="btnSearch" class="buttonSearch">조회</button>
                             </td>
                         </tr>
                         <tr>

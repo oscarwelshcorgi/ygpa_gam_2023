@@ -58,6 +58,5 @@ public class GamPopupFcltsMngGroupVO extends ComDefaultVO  {
 	public void setsFcltsMngGroupNm(String sFcltsMngGroupNm) {
 		this.sFcltsMngGroupNm = sFcltsMngGroupNm;
 	}
-
 	
 }

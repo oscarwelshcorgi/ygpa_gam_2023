@@ -90,22 +90,22 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
         url: '/ctrt/selectFcltyCtrtJoinContrList.do',
         dataType: 'json',
         colModel : [
-                    {display:'업체명', name:'entrpsNm',width:120, sortable:false,align:'center'},
-                    {display:'대표자', name:'rprsntv',width:70, sortable:false,align:'center'},
-                    {display:'지분율', name:'qotaRate',width:70, sortable:false,align:'right'},
-                    {display:'업종', name:'induty',width:80, sortable:false,align:'center'},
-                    {display:'주요품목', name:'stplPrdlst',width:100, sortable:false,align:'center'},
-                    {display:'사업자번호', name:'bsnmNo',width:100, sortable:false,align:'center'},
-                    {display:'거래관계', name:'dealRelate',width:80, sortable:false,align:'center'},
-                    {display:'전화번호', name:'tlphonNo',width:100, sortable:false,align:'center'},
-                    {display:'fax번호', name:'faxNo',width:100, sortable:false,align:'center'},
-                    {display:'우편번호', name:'postNo',width:80, sortable:false,align:'center'},
-                    {display:'도로명주소', name:'roadnmAdres',width:150, sortable:false,align:'center'},
-                    {display:'지번주소', name:'lnmAdres',width:150, sortable:false,align:'center'},
-                    {display:'담당자', name:'charger',width:70, sortable:false,align:'center'},
-                    {display:'담당자직위', name:'chargerOfcPos',width:120, sortable:false,align:'center'},
-                    {display:'담당자휴대폰번호', name:'chargerMoblphonNo',width:150, sortable:false,align:'center'},
-                    {display:'담당자email', name:'chargerEmail',width:150, sortable:false,align:'center'}
+                    {display:'업체명', 	name:'entrpsNm',		width:120, sortable:false,align:'center'},
+                    {display:'대표자', 	name:'rprsntv',			width:70, sortable:false,align:'center'},
+                    {display:'지분율', 	name:'qotaRate',		width:70, sortable:false,align:'right'},
+                    {display:'업종', 		name:'induty',			width:80, sortable:false,align:'center'},
+                    {display:'주요품목', 	name:'stplPrdlst',		width:100, sortable:false,align:'center'},
+                    {display:'사업자번호', 	name:'bsnmNo',			width:100, sortable:false,align:'center'},
+                    {display:'거래관계', 	name:'dealRelate',		width:80, sortable:false,align:'center'},
+                    {display:'전화번호', 	name:'tlphonNo',		width:100, sortable:false,align:'center'},
+                    {display:'fax번호',	name:'faxNo',			width:100, sortable:false,align:'center'},
+                    {display:'우편번호', 	name:'postNo',			width:80, sortable:false,align:'center'},
+                    {display:'도로명주소', 	name:'roadnmAdres',		width:150, sortable:false,align:'center'},
+                    {display:'지번주소', 	name:'lnmAdres',		width:150, sortable:false,align:'center'},
+                    {display:'담당자', 	name:'charger',			width:70, sortable:false,align:'center'},
+                    {display:'담당자직위', 	name:'chargerOfcPos',	width:120, sortable:false,align:'center'},
+                    {display:'담당자휴대폰번호',name:'chargerMoblphonNo',width:150, sortable:false,align:'center'},
+                    {display:'담당자email',name:'chargerEmail',	width:150, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto'
@@ -117,14 +117,14 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
         url: '/ctrt/selectFcltyCtrtSubCtrtList.do',
         dataType: 'json',
         colModel : [
-                    {display:'업체명', name:'entrpsNm', width:150, sortable:true, align:'center'},
-                    {display:'대금지급합의', name:'moneyPymntAgree', width:90, sortable:true, align:'center'},
-                    {display:'공증', name:'workClass', width:80, sortable:true, align:'center'},
-                    {display:'하도급율', name:'subctrtRate', width:80, sortable:true, align:'right'},
-                    {display:'원도급금액', name:'orginlContrAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'하도급계약금액', name:'subctrtCtrtAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'계약시작일', name:'ctrtDtFrom', width:100, sortable:true, align:'center'},
-                    {display:'계약종료일', name:'ctrtDtTo', width:100, sortable:true, align:'center'}
+                    {display:'업체명', 	name:'entrpsNm', 		width:150, sortable:true, align:'center'},
+                    {display:'대금지급합의',name:'moneyPymntAgree', width:90, sortable:true, align:'center'},
+                    {display:'공증', 		name:'workClass', 		width:80, sortable:true, align:'center'},
+                    {display:'하도급율', 	name:'subctrtRate', 	width:80, sortable:true, align:'right'},
+                    {display:'원도급금액', 	name:'orginlContrAmt', 	width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'하도급계약금액',name:'subctrtCtrtAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'계약시작일', name:'ctrtDtFrom', 		width:100, sortable:true, align:'center'},
+                    {display:'계약종료일', name:'ctrtDtTo', 		width:100, sortable:true, align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto'
@@ -136,13 +136,13 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
         url: '/ctrt/selectFcltyCtrtChangeList.do',
         dataType: 'json',
         colModel : [
-                    {display:'변경일자', name:'changeDt', width:80, sortable:true, align:'center'},
-                    {display:'변경사유', name:'changeRsn', width:120, sortable:true, align:'center'},
-                    {display:'변경계약시작일', name:'changeCtrtPdFrom', width:100, sortable:true, align:'center'},
-                    {display:'변경계약종료일', name:'changeCtrtPdTo', width:100, sortable:true, align:'center'},
-                    {display:'변경계약금액', name:'changeCtrtAmt', width:100, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'최종계약금액', name:'lastCtrtAmt', width:100, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'비고', name:'rm', width:250, sortable:true, align:'left'}
+                    {display:'변경일자', 		name:'changeDt', 		width:80, sortable:true, align:'center'},
+                    {display:'변경사유', 		name:'changeRsn', 		width:120, sortable:true, align:'center'},
+                    {display:'변경계약시작일', 	name:'changeCtrtPdFrom',width:100, sortable:true, align:'center'},
+                    {display:'변경계약종료일', 	name:'changeCtrtPdTo', 	width:100, sortable:true, align:'center'},
+                    {display:'변경계약금액', 	name:'changeCtrtAmt', 	width:100, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'최종계약금액', 	name:'lastCtrtAmt', 	width:100, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'비고', 			name:'rm', 				width:250, sortable:true, align:'left'}
                     ],
         showTableToggleBtn: false,
         height: 'auto'
@@ -154,13 +154,13 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
         url: '/ctrt/selectFcltyCtrtMoneyPymntList.do',
         dataType: 'json',
         colModel : [
-                    {display:'지급분류', name:'pymntCl', width:80, sortable:true, align:'center'},
-                    {display:'지급일자', name:'pymntDt', width:80, sortable:true, align:'center'},
-                    {display:'금회기성금액', name:'thisTimeEstbAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'선금정산금액', name:'depositExcclcAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'지급금액', name:'pymntAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'지급누계금액', name:'pymntAggrAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'비고', name:'rm', width:210, sortable:true, align:'left'}
+                    {display:'지급분류', 		name:'pymntCl', 		width:80, sortable:true, align:'center'},
+                    {display:'지급일자', 		name:'pymntDt', 		width:80, sortable:true, align:'center'},
+                    {display:'금회기성금액', 	name:'thisTimeEstbAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'선금정산금액', 	name:'depositExcclcAmt',width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'지급금액', 		name:'pymntAmt', 		width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'지급누계금액', 	name:'pymntAggrAmt', 	width:120, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'비고', 			name:'rm', 				width:210, sortable:true, align:'left'}
                     ],
         showTableToggleBtn: false,
         height: 'auto'
@@ -172,9 +172,9 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
         url: '/ctrt/selectFcltyCtrtFulFillCaryFwdList.do',
         dataType: 'json',
         colModel : [
-                    {display:'이행이월년도', name:'fulfillCaryFwdYear', width:100, sortable:true, align:'left'},
-                    {display:'이행금액', name:'fulfillAmt', width:200, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'이월금액', name:'caryFwdAmt', width:200, sortable:true, align:'right', displayFormat:'number'}
+                    {display:'이행이월년도',name:'fulfillCaryFwdYear', 	width:100, sortable:true, align:'left'},
+                    {display:'이행금액', 	name:'fulfillAmt', 			width:200, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'이월금액', 	name:'caryFwdAmt', 			width:200, sortable:true, align:'right', displayFormat:'number'}
                     ],
         showTableToggleBtn: false,
         height: 'auto'
@@ -464,7 +464,7 @@ GamFcltyCtrtMngModule.prototype.saveCtrtFulFillCaryFwdList = function() {
 GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 	var opts = null;
     switch(buttonId) {
-        case 'searchBtn': //조회
+        case 'btnSearch': //조회
         	this._cmd = "";
         	this.initDisplay();
         	this.loadData();
@@ -631,7 +631,7 @@ var module_instance = new GamFcltyCtrtMngModule();
                             </td>
                             
                             <td rowspan="2">
-								<button id="searchBtn" class="buttonSearch">조회</button>
+								<button id="btnSearch" class="buttonSearch">조회</button>
                             </td>
                         </tr>
                         <tr>

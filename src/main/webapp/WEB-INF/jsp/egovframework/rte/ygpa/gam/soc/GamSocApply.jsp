@@ -37,23 +37,23 @@ GamSocApplyModule.prototype.loadComplete = function() {
         url: '/soc/gamSelectSocApplyList.do',
         dataType: 'json',
         colModel : [
-					{display:'관리청코드', name:'prtAtCode',width:80, sortable:false,align:'center'},
-					{display:'관리청', name:'prtAtKorNm',width:45, sortable:false,align:'center'},
-                    {display:'준공년도', name:'cmplYr',width:70, sortable:false,align:'center'},
-                    {display:'공사번호', name:'constNo',width:80, sortable:false,align:'center'},
-                    {display:'요청청코드', name:'appPrtAtCode',width:80, sortable:false,align:'center'},
-                    {display:'요청청', name:'appPrtAtKorNm',width:45, sortable:false,align:'center'},
-                    {display:'요청업체코드', name:'appAgentCode',width:100, sortable:false,align:'left'},
-                    {display:'요청업체명', name:'appAgentName',width:150, sortable:false,align:'left'},
-                    {display:'횟수', name:'useNo',width:45, sortable:false,align:'center'},
-                    {display:'사용여부', name:'useYn',width:70, sortable:false,align:'center'},
-                    {display:'보전요청액', name:'exmpAmnt',width:80, sortable:false,align:'right',displayFormat: 'number'},
-                    {display:'보전기간시작일', name:'periodFr',width:100, sortable:false,align:'center'},
-                    {display:'보전기간종료일', name:'periodTo',width:100, sortable:false,align:'center'},
-                    {display:'신청일자', name:'applDate',width:80, sortable:false,align:'center'},
-                    {display:'조건', name:'exmpCond',width:80, sortable:false,align:'center'},
-                    {display:'적용요율', name:'rateGubun',width:80, sortable:false,align:'center'},
-                    {display:'보전누계액', name:'exmpAcc',width:80, sortable:false,align:'right',displayFormat: 'number'}
+					{display:'관리청코드', 	name:'prtAtCode',	width:80, sortable:false,align:'center'},
+					{display:'관리청', 	name:'prtAtKorNm',	width:45, sortable:false,align:'center'},
+                    {display:'준공년도', 	name:'cmplYr',		width:70, sortable:false,align:'center'},
+                    {display:'공사번호', 	name:'constNo',		width:80, sortable:false,align:'center'},
+                    {display:'요청청코드', 	name:'appPrtAtCode',width:80, sortable:false,align:'center'},
+                    {display:'요청청', 	name:'appPrtAtKorNm',width:45, sortable:false,align:'center'},
+                    {display:'요청업체코드',name:'appAgentCode',width:100, sortable:false,align:'left'},
+                    {display:'요청업체명', 	name:'appAgentName',width:150, sortable:false,align:'left'},
+                    {display:'횟수', 		name:'useNo',		width:45, sortable:false,align:'center'},
+                    {display:'사용여부', 	name:'useYn',		width:70, sortable:false,align:'center'},
+                    {display:'보전요청액', 	name:'exmpAmnt',	width:80, sortable:false,align:'right',displayFormat: 'number'},
+                    {display:'보전기간시작일',name:'periodFr',	width:100, sortable:false,align:'center'},
+                    {display:'보전기간종료일',name:'periodTo',	width:100, sortable:false,align:'center'},
+                    {display:'신청일자', 	name:'applDate',	width:80, sortable:false,align:'center'},
+                    {display:'조건', 		name:'exmpCond',	width:80, sortable:false,align:'center'},
+                    {display:'적용요율',	name:'rateGubun',	width:80, sortable:false,align:'center'},
+                    {display:'보전누계액', 	name:'exmpAcc',		width:80, sortable:false,align:'right',displayFormat: 'number'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -70,9 +70,9 @@ GamSocApplyModule.prototype.loadComplete = function() {
         url: '/soc/gamSelectSocApplyFacilList.do',
         dataType: 'json',
         colModel : [
-                    {display:'시설코드', name:'facCode',width:70, sortable:false,align:'center'},
-                    {display:'시설하위코드', name:'facSubCode',width:80, sortable:false,align:'center'},
-                    {display:'시설명', name:'facKorNm',width:230, sortable:false,align:'center'}
+                    {display:'시설코드', 	name:'facCode',		width:70, sortable:false,align:'center'},
+                    {display:'시설하위코드',name:'facSubCode',	width:80, sortable:false,align:'center'},
+                    {display:'시설명', 	name:'facKorNm',	width:230, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: true,
         height: '300'
@@ -84,8 +84,8 @@ GamSocApplyModule.prototype.loadComplete = function() {
         url: '/soc/gamSelectSocApplyFeeList.do',
         dataType: 'json',
         colModel : [
-                    {display:'요금코드', name:'feeTp', width:100, sortable:true, align:'left'},
-                    {display:'요금명', name:'feeTpKorNm', width:280, sortable:true, align:'left'}
+                    {display:'요금코드', 	name:'feeTp', 		width:100, sortable:true, align:'left'},
+                    {display:'요금명', 	name:'feeTpKorNm', 	width:280, sortable:true, align:'left'}
                     ],
         showTableToggleBtn: false,
         height: '300'
@@ -110,6 +110,9 @@ GamSocApplyModule.prototype.onSubmit = function() {
 
 //비관리청 신청 데이터 로드
 GamSocApplyModule.prototype.loadData = function() {
+	if(!validateGamSocApply(this.$('#gamSocApplySearchForm')[0])){ 		
+		return;
+	}
 	var opts = this.makeFormArgs('#gamSocApplySearchForm');
 	this.doAction('/soc/gamSelectApplyDetailInquire.do', opts, function(module, result) {
 		if(result.resultCode == 0) {
@@ -207,7 +210,7 @@ GamSocApplyModule.prototype.addApplyFacilItem = function() {
 		var opts = [{ name: 'prtAtCode', value: this.$('#sPrtAtCode').val()}];
 		this.doExecuteDialog('selectFacInfo', '시설물 선택', '/popup/showSocFacCd.do', opts);        		
 	} else {
-		alert("등록이나 조회를 선택한 후에 사용하세요.");
+		alert("추가나 조회를 선택한 후에 사용하세요.");
 	}
 };
 
@@ -225,7 +228,7 @@ GamSocApplyModule.prototype.removeApplyFacilItem = function() {
 			}
 		}
 	} else {
-		alert("등록이나 조회를 선택한 후에 사용하세요.");
+		alert("추가나 조회를 선택한 후에 사용하세요.");
 	}
 };
 
@@ -235,7 +238,7 @@ GamSocApplyModule.prototype.addApplyFeeItem = function() {
 		var opts = [{ name: 'prtAtCode', value: this.$('#sPrtAtCode').val()}];
 		this.doExecuteDialog('selectFeeInfo', '요금종류 선택', '/popup/showSocPayCd.do', opts);        		
 	} else {
-		alert("등록이나 조회를 선택한 후에 사용하세요.");
+		alert("추가나 조회를 선택한 후에 사용하세요.");
 	}
 };
 
@@ -253,7 +256,7 @@ GamSocApplyModule.prototype.removeApplyFeeItem = function() {
 			}
 		}
 	} else {
-		alert("등록이나 조회를 선택한 후에 사용하세요.");
+		alert("추가나 조회를 선택한 후에 사용하세요.");
 	}
 };
 
@@ -262,13 +265,10 @@ GamSocApplyModule.prototype.removeApplyFeeItem = function() {
  */
 GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
-        case 'searchBtn':
-        	if(!validateGamSocApply(this.$('#gamSocApplySearchForm')[0])){ 		
-        		return;
-        	}
+        case 'btnSearch':
         	this.loadData();
             break;
-        case 'btnNew' : //등록버튼 처리시
+        case 'btnNew' : //추가버튼 처리시
         	this._cmd = 'insert';
         	this.initDisplay();
         	break;
@@ -308,10 +308,10 @@ GamSocApplyModule.prototype.onButtonClick = function(buttonId) {
 
 GamSocApplyModule.prototype.onTabChange = function(newTabId, oldTabId) {
     switch(newTabId) {
-    case 'tabs1':
-        break;
-    case 'tabs2':
-        break;
+	    case 'tabs1':
+	        break;
+	    case 'tabs2':
+	        break;
     }
 };
 
@@ -392,7 +392,7 @@ var module_instance = new GamSocApplyModule();
 				                <button id="popupSocAgentInfo" class="popupButton">허가원부</button>
                             </td>
                             <td  rowSpan="2">
-								<button id="searchBtn" class="buttonSearch">조회</button>
+								<button id="btnSearch" class="buttonSearch">조회</button>
                             </td>
                         </tr>
                         <tr>

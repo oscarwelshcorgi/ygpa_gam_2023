@@ -51,6 +51,9 @@ GamSocExmpMngtModule.prototype.onSubmit = function() {
 
 //면제관리 데이터 로드
 GamSocExmpMngtModule.prototype.loadData = function() { 
+	if(!validateGamSocExmpMngt(this.$('#gamSocExmpMngtSearchForm')[0])){ 		
+		return;
+	}
 	var opts = this.makeFormArgs('#gamSocExmpMngtSearchForm');
 	this.doAction('/soc/gamSelectSocExmpMngtDetailInquire.do', opts, function(module, result) {
 		module.$('#btnNewSocNo').hide();
@@ -186,10 +189,7 @@ GamSocExmpMngtModule.prototype.deleteData = function() {
 
 GamSocExmpMngtModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
-        case 'searchBtn': //조회
-        	if(!validateGamSocExmpMngt(this.$('#gamSocExmpMngtSearchForm')[0])){ 		
-        		return;
-        	}
+        case 'btnSearch': //조회
         	this.loadData();
             break;
         case 'btnAdd' : //추가버튼
@@ -238,36 +238,36 @@ GamSocExmpMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamSocExmpMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
-     case 'selectChrgeKndCd' : //요금조회
-    	 this.$("#sAppPrtAtCode").val(value["prtAtCode"]);
-    	 this.$("#sFeeTp").val(value["feeTp"]);
-    	 this.$("#sFeeTpKorNm").val(value["feeTpKorNm"]);
-    	 break;
-     case 'selectApplyInfo' : //신청업체(투자비 보전 신청업체) 조회
-    	 this.$("#appAgentCode").val(value["appAgentCode"]);
-    	 this.$("#appAgentName").val(value["appAgentName"]);
-    	 this.$("#useNo").val(value["useNo"]);
-    	 this.$("#cmplYr").val(value["cmplYr"]);
-    	 this.$("#constNo").val(value["constNo"]);
-    	 this.$("#appPrtAtCode").val(value["appPrtAtCode"]);
-    	 this.$("#prtAtCode").val(value["prtAtCode"]);
-    	 break;
-     case 'selectEntrpsInfo' : //면제업체 조회
-    	 this.$("#exmpAgentCode").val(value["agentCode"]);
-    	 this.$("#exmpAgentName").val(value["firmKorNm"]);
-    	 break;
-     case 'selectFacilCd' : //시설조회
-    	 this.$("#facCode").val(value["facCode"]);
-    	 this.$("#facSubCode").val(value["facSubCode"]);
-    	 this.$("#facKorNm").val(value["facKorNm"]);
-    	 break;
-     case 'selectVsslCd' : //선박 호출부호 조회
-    	 this.$("#callLetter").val(value["callLetter"]);
-    	 this.$("#callLetterNm").val(value["vsslKorNm"]); 
-    	 break;
-     default:
-         alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-         break;
+	    case 'selectChrgeKndCd' : //요금조회
+	    	this.$("#sAppPrtAtCode").val(value["prtAtCode"]);
+	    	this.$("#sFeeTp").val(value["feeTp"]);
+	    	this.$("#sFeeTpKorNm").val(value["feeTpKorNm"]);
+	    	break;
+	    case 'selectApplyInfo' : //신청업체(투자비 보전 신청업체) 조회
+	    	this.$("#appAgentCode").val(value["appAgentCode"]);
+	    	this.$("#appAgentName").val(value["appAgentName"]);
+	    	this.$("#useNo").val(value["useNo"]);
+	    	this.$("#cmplYr").val(value["cmplYr"]);
+	    	this.$("#constNo").val(value["constNo"]);
+	    	this.$("#appPrtAtCode").val(value["appPrtAtCode"]);
+	    	this.$("#prtAtCode").val(value["prtAtCode"]);
+	    	break;
+	    case 'selectEntrpsInfo' : //면제업체 조회
+	    	this.$("#exmpAgentCode").val(value["agentCode"]);
+	    	this.$("#exmpAgentName").val(value["firmKorNm"]);
+	    	break;
+	    case 'selectFacilCd' : //시설조회
+	    	this.$("#facCode").val(value["facCode"]);
+	    	this.$("#facSubCode").val(value["facSubCode"]);
+	    	this.$("#facKorNm").val(value["facKorNm"]);
+	    	break;
+	    case 'selectVsslCd' : //선박 호출부호 조회
+	    	this.$("#callLetter").val(value["callLetter"]);
+	    	this.$("#callLetterNm").val(value["vsslKorNm"]); 
+	    	break;
+	    default:
+	        alert('알수없는 팝업 이벤트가 호출 되었습니다.');
+	        break;
      }
 };
 
@@ -300,7 +300,7 @@ var module_instance = new GamSocExmpMngtModule();
                                 <input type="text" size="20" id="sFeeTpKorNm" disabled/>
                                 <button id="popupChrgeKndCd" class="popupButton">선택</button>
                             </td>
-                            <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
+                            <td rowspan="2"><button id="btnSearch" class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>                            
                             <th>회계년도</th>
