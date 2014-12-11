@@ -485,19 +485,19 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
         case 'popupEntrpsInfo2': // 업체선택 팝업을 호출한다.(계약정보관리)
             this.doExecuteDialog('selectEntrpsInfoPopup2', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
-        case 'btnCtrtJoinContrUpdate': //계약공동도급관리 편집
+        case 'popupCtrtJoinContrUpdate': //계약공동도급관리 편집
         	this.showModifyCtrtJoinContrList();
         	break;
-        case 'btnCtrtSubCtrtUpdate': //계약하도급관리 편집
+        case 'popupCtrtSubCtrtUpdate': //계약하도급관리 편집
         	this.showModifyCtrtSubCtrtList();
         	break;
-        case 'btnCtrtChangeUpdate': //계약변경관리 편집
+        case 'popupCtrtChangeUpdate': //계약변경관리 편집
         	this.showModifyCtrtChangeList();
         	break;
-        case 'btnCtrtMoneyPymntUpdate': //계약대금지급 편집
+        case 'popupCtrtMoneyPymntUpdate': //계약대금지급 편집
         	this.showModifyCtrtMoneyPymntList();
         	break;
-        case 'btnCtrtFulFillCaryFwdUpdate': //계약이행이월 편집
+        case 'popupCtrtFulFillCaryFwdUpdate': //계약이행이월 편집
         	this.showModifyCtrtFulFillCaryFwdList();
         	break;
     }
@@ -837,7 +837,7 @@ var module_instance = new GamFcltyCtrtMngModule();
             <div id="tabs3" class="emdTabPage fillHeight" style="overflow: hidden;">
 				<table id="fcltyCtrtJoinContrList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-				    <button id="btnCtrtJoinContrUpdate" class="popupButton">편집</button>
+				    <button id="popupCtrtJoinContrUpdate" class="popupButton">편집</button>
 				    <button id="btnSave">저장</button>
 				</div>
             </div>
@@ -846,7 +846,7 @@ var module_instance = new GamFcltyCtrtMngModule();
             <div id="tabs4" class="emdTabPage fillHeight" style="overflow: hidden;">
 				<table id="fcltyCtrtSubCtrtList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-				    <button id="btnCtrtSubCtrtUpdate" class="popupButton">편집</button>
+				    <button id="popupCtrtSubCtrtUpdate" class="popupButton">편집</button>
 				    <button id="btnSave">저장</button>
 				</div>
             </div>
@@ -855,7 +855,7 @@ var module_instance = new GamFcltyCtrtMngModule();
             <div id="tabs5" class="emdTabPage fillHeight" style="overflow: hidden;">
 				<table id="fcltyCtrtChangeList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-				    <button id="btnCtrtChangeUpdate" class="popupButton">편집</button>
+				    <button id="popupCtrtChangeUpdate" class="popupButton">편집</button>
 				    <button id="btnSave">저장</button>
 				</div>
             </div>
@@ -864,7 +864,7 @@ var module_instance = new GamFcltyCtrtMngModule();
             <div id="tabs6" class="emdTabPage fillHeight" style="overflow: hidden;">
 				<table id="fcltyCtrtMoneyPymntList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-				    <button id="btnCtrtMoneyPymntUpdate" class="popupButton">편집</button>
+				    <button id="popupCtrtMoneyPymntUpdate" class="popupButton">편집</button>
 				    <button id="btnSave">저장</button>
 				</div>
             </div>
@@ -873,7 +873,7 @@ var module_instance = new GamFcltyCtrtMngModule();
             <div id="tabs7" class="emdTabPage fillHeight" style="overflow: hidden;">
 				<table id="fcltyCtrtFulFillCaryFwdList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-				    <button id="btnCtrtFulFillCaryFwdUpdate" class="popupButton">편집</button>
+				    <button id="popupCtrtFulFillCaryFwdUpdate" class="popupButton">편집</button>
 				    <button id="btnSave">저장</button>
 				</div>
             </div>

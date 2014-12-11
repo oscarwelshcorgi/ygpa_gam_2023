@@ -77,7 +77,10 @@ GamFcltyQcHistInqireModule.prototype.loadData = function() {
  */
 GamFcltyQcHistInqireModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
-		case "searchBtn":
+		case "btnSearch":
+			break;
+		case "popupSearchFcltsMngNo":
+			this.doExecuteDialog('selectFcltsMngNo', '시설물 선택', '/popup/showFcltsMngNo.do', {});
 			break;
 	}
 };
@@ -97,6 +100,10 @@ GamFcltyQcHistInqireModule.prototype.onTabChange = function(newTabId, oldTabId) 
  */
 GamFcltyQcHistInqireModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch(popupId){
+		case 'selectFcltsMngNo': //시설물 선택(조회)
+        	this.$('#sFcltsMngNo').val(value['fcltsMngNo']);
+        	this.$('#sPrtFcltyNm').val(value['prtFcltyNm']);
+    		break;		
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
 			break;
@@ -118,14 +125,14 @@ var module_instance = new GamFcltyQcHistInqireModule();
 						<tr>
 							<th>점검진단 기관명</th>
 							<td colspan="3"><input type="text" id="sQcInspInsttNm" size="60"/></td>
-							<td rowspan="2"><button class="buttonSearch">조회</button></td>
+							<td rowspan="2"><button id="btnSearch" class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
 							<th>점검 시설명</th>
 							<td>
 								<input type="text" size="15" id="sFcltsMngNo" />
 								<input type="text" size="30" id="sPrtFcltyNm" disabled="disabled"/>
-								<button id="btnSearchFcltsMngNo" class="popupButton">선택</button>
+								<button id="popupSearchFcltsMngNo" class="popupButton">선택</button>
 							</td>
 							<th>점검진단일자</th>
 							<td>

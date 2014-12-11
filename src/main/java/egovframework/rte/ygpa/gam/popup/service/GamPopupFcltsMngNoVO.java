@@ -25,5 +25,39 @@ import egovframework.com.cmm.ComDefaultVO;
 public class GamPopupFcltsMngNoVO extends ComDefaultVO {
 	private static final long serialVersionUID = 1L;
 	
+	/** 시설물 관리 번호 (조회조건) **/
+	private String sFcltsMngNo;
+	
+	/** 항만 시설명 (조회조건) **/
+	private String sPrtFcltyNm;
+
+	/**
+	 * @return the sFcltsMngNo
+	 */
+	public String getsFcltsMngNo() {
+		return sFcltsMngNo;
+	}
+
+	/**
+	 * @param sFcltsMngNo the sFcltsMngNo to set
+	 */
+	public void setsFcltsMngNo(String sFcltsMngNo) {
+		this.sFcltsMngNo = sFcltsMngNo;
+	}
+
+	/**
+	 * @return the sPrtFcltyNm
+	 */
+	public String getsPrtFcltyNm() {
+		return sPrtFcltyNm;
+	}
+
+	/**
+	 * @param sPrtFcltyNm the sPrtFcltyNm to set
+	 */
+	public void setsPrtFcltyNm(String sPrtFcltyNm) {
+		this.sPrtFcltyNm = sPrtFcltyNm;
+	}
+	
 	
 }
