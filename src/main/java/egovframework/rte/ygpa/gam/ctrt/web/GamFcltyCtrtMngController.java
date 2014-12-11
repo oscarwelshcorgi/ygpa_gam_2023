@@ -103,7 +103,7 @@ public class GamFcltyCtrtMngController {
 
     	List fcltyCtrtMngList = gamFcltyCtrtMngService.selectFcltyCtrtMngList(searchVO);
     	
-		GamFcltyCtrtMngVO fcltyCtrtMngSum = gamFcltyCtrtMngService.selectFcltyCtrtMngSum(searchVO);
+		GamFcltyCtrtMngVO fcltyCtrtMngSum = gamFcltyCtrtMngService.selectFcltyCtrtMngTotSum(searchVO);
     	
 		totalCnt = fcltyCtrtMngSum.getTotalCnt();
 
@@ -182,7 +182,7 @@ public class GamFcltyCtrtMngController {
 		
     	List ctrtJoinContrList = gamFcltyCtrtMngService.selectFcltyCtrtJoinContrList(searchVO);
     	
-		totalCnt = gamFcltyCtrtMngService.selectFcltyCtrtJoinContrListCnt(searchVO);
+		totalCnt = gamFcltyCtrtMngService.selectFcltyCtrtJoinContrListTotCnt(searchVO);
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -227,7 +227,7 @@ public class GamFcltyCtrtMngController {
 		
     	List ctrtSubCtrtList = gamFcltyCtrtMngService.selectFcltyCtrtSubCtrtList(searchVO);
     	
-		totalCnt = gamFcltyCtrtMngService.selectFcltyCtrtSubCtrtListCnt(searchVO);
+		totalCnt = gamFcltyCtrtMngService.selectFcltyCtrtSubCtrtListTotCnt(searchVO);
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -271,7 +271,7 @@ public class GamFcltyCtrtMngController {
 		
     	List ctrtChangeList = gamFcltyCtrtMngService.selectFcltyCtrtChangeList(searchVO);
     	
-		totalCnt = gamFcltyCtrtMngService.selectFcltyCtrtChangeListCnt(searchVO);
+		totalCnt = gamFcltyCtrtMngService.selectFcltyCtrtChangeListTotCnt(searchVO);
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -316,7 +316,7 @@ public class GamFcltyCtrtMngController {
 		
     	List ctrtMoneyPymntList = gamFcltyCtrtMngService.selectFcltyCtrtMoneyPymntList(searchVO);
     	
-		totalCnt = gamFcltyCtrtMngService.selectFcltyCtrtMoneyPymntListCnt(searchVO);
+		totalCnt = gamFcltyCtrtMngService.selectFcltyCtrtMoneyPymntListTotCnt(searchVO);
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -360,7 +360,7 @@ public class GamFcltyCtrtMngController {
 		
     	List ctrtFulFillCaryFwdList = gamFcltyCtrtMngService.selectFcltyCtrtFulFillCaryFwdList(searchVO);
     	
-		totalCnt = gamFcltyCtrtMngService.selectFcltyCtrtFulFillCaryFwdListCnt(searchVO);
+		totalCnt = gamFcltyCtrtMngService.selectFcltyCtrtFulFillCaryFwdListTotCnt(searchVO);
     	
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());

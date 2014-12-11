@@ -39,7 +39,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 계약정보목록 통계정보 VO
 	 * @exception Exception
 	 */
-	GamFcltyCtrtMngVO selectFcltyCtrtMngSum(GamFcltyCtrtMngVO searchVO) throws Exception;
+	GamFcltyCtrtMngVO selectFcltyCtrtMngTotSum(GamFcltyCtrtMngVO searchVO) throws Exception;
 	
 	/**
 	 * 계약정보를 조회한다.
@@ -88,7 +88,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 계약공동도급 목록 총개수
 	 * @exception Exception
 	 */
-	int selectFcltyCtrtJoinContrListCnt(GamFcltyCtrtMngVO searchVO) throws Exception;
+	int selectFcltyCtrtJoinContrListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception;
 	
 		
 	/**
@@ -122,7 +122,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 계약하도급 목록 총개수
 	 * @exception Exception
 	 */
-	int selectFcltyCtrtSubCtrtListCnt(GamFcltyCtrtMngVO searchVO) throws Exception;
+	int selectFcltyCtrtSubCtrtListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception;
 	
 	
 	/**
@@ -155,7 +155,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 계약변경 목록 총개수
 	 * @exception Exception
 	 */
-	int selectFcltyCtrtChangeListCnt(GamFcltyCtrtMngVO searchVO) throws Exception;
+	int selectFcltyCtrtChangeListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception;
 	
 	
 	/**
@@ -189,7 +189,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 계약대금지급 목록 총개수
 	 * @exception Exception
 	 */
-	int selectFcltyCtrtMoneyPymntListCnt(GamFcltyCtrtMngVO searchVO) throws Exception;
+	int selectFcltyCtrtMoneyPymntListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception;
 	
 	
 	/**
@@ -223,7 +223,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 계약이행이월 목록 총개수
 	 * @exception Exception
 	 */
-	int selectFcltyCtrtFulFillCaryFwdListCnt(GamFcltyCtrtMngVO searchVO) throws Exception;
+	int selectFcltyCtrtFulFillCaryFwdListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception;
 	
 	
 	/**

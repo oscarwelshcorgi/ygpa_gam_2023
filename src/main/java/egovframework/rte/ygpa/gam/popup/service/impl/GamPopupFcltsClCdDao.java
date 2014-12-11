@@ -36,7 +36,7 @@ public class GamPopupFcltsClCdDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
     public List selectFcltsClCdList(GamPopupFcltsClCdVO searchVO) throws Exception {
-    	return list("gamPopupFcltsClCdDao.selectFcltsClCdList", searchVO);
+    	return list("gamPopupFcltsClCdDao.selectFcltsClCdList_D", searchVO);
     }
 
     /**
@@ -46,6 +46,6 @@ public class GamPopupFcltsClCdDao extends YGPAAbstractDAO {
 	 * @exception
 	 */
     public int selectFcltsClCdListTotCnt(GamPopupFcltsClCdVO searchVO) throws Exception {
-    	return (Integer)getSqlMapClientTemplate().queryForObject("gamPopupFcltsClCdDao.selectFcltsClCdListTotCnt", searchVO);
+    	return (Integer)getSqlMapClientTemplate().queryForObject("gamPopupFcltsClCdDao.selectFcltsClCdListTotCnt_S", searchVO);
     }
 }

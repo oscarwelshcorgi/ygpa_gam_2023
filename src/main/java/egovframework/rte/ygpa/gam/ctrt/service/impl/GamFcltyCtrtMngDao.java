@@ -38,7 +38,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List selectFcltyCtrtMngList(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return list("gamFcltyCtrtMngDao.selectFcltyCtrtMngList", searchVO);
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtMngList_D", searchVO);
 	}
 	
 	/**
@@ -47,8 +47,8 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 계약정보목록 통계정보 VO
 	 * @exception Exception
 	 */
-	public GamFcltyCtrtMngVO selectFcltyCtrtMngSum(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return (GamFcltyCtrtMngVO)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngSum", searchVO);
+	public GamFcltyCtrtMngVO selectFcltyCtrtMngTotSum(GamFcltyCtrtMngVO searchVO) throws Exception {
+		return (GamFcltyCtrtMngVO)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngTotSum_S", searchVO);
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public GamFcltyCtrtMngVO selectFcltyCtrtInfoDetail(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return (GamFcltyCtrtMngVO)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtInfoDetail_D", searchVO);
+		return (GamFcltyCtrtMngVO)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtInfoDetail_S", searchVO);
 	}
 	
 	/**
@@ -68,7 +68,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public void insertFcltyCtrtInfoDetail(Map insertMap) throws Exception {
-		insert("gamFcltyCtrtMngDao.insertFcltyCtrtInfoDetail", insertMap);
+		insert("gamFcltyCtrtMngDao.insertFcltyCtrtInfoDetail_S", insertMap);
 	}
 	
 	/**
@@ -78,7 +78,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public void updateFcltyCtrtInfoDetail(Map updateMap) throws Exception {
-		update("gamFcltyCtrtMngDao.updateFcltyCtrtInfoDetail", updateMap);
+		update("gamFcltyCtrtMngDao.updateFcltyCtrtInfoDetail_S", updateMap);
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public void deleteFcltyCtrtInfoDetail(Map deleteMap) throws Exception {
-		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtInfoDetail", deleteMap);
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtInfoDetail_S", deleteMap);
 	}
 	
 	
@@ -99,7 +99,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List selectFcltyCtrtJoinContrList(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return list("gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrList", searchVO);
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrList_D", searchVO);
 	}
 	
 	/**
@@ -108,8 +108,8 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 계약공동도급 목록 총개수
 	 * @exception Exception
 	 */
-	public int selectFcltyCtrtJoinContrListCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrListCnt", searchVO);
+	public int selectFcltyCtrtJoinContrListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrListTotCnt_S", searchVO);
 	}
 		
 	/**
@@ -119,7 +119,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List mergeFcltyCtrtJoinContrDetail(Map map) throws Exception {
-		return this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtJoinContrDetail", "gamFcltyCtrtMngDao.updateFcltyCtrtJoinContrDetail", "gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrDetail");
+		return this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtJoinContrDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtJoinContrDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrDetail_S");
 	}
 	
 	/**
@@ -129,7 +129,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public void deleteFcltyCtrtJoinContrList(Map deleteMap) throws Exception {
-		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrList", deleteMap);
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrList_S", deleteMap);
 	}
 	
 
@@ -140,7 +140,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List selectFcltyCtrtSubCtrtList(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return list("gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtList", searchVO);
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtList_D", searchVO);
 	}
 	
 	/**
@@ -149,8 +149,8 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 계약하도급 목록 총개수
 	 * @exception Exception
 	 */
-	public int selectFcltyCtrtSubCtrtListCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtListCnt", searchVO);
+	public int selectFcltyCtrtSubCtrtListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtListTotCnt_S", searchVO);
 	}
 	
 	/**
@@ -160,7 +160,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List mergeFcltyCtrtSubCtrtDetail(Map map) throws Exception {
-		return this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtSubCtrtDetail", "gamFcltyCtrtMngDao.updateFcltyCtrtSubCtrtDetail", "gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtDetail");
+		return this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtSubCtrtDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtSubCtrtDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtDetail_S");
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public void deleteFcltyCtrtSubCtrtList(Map deleteMap) throws Exception {
-		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtList", deleteMap);
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtList_S", deleteMap);
 	}
 
 	
@@ -181,7 +181,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List selectFcltyCtrtChangeList(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return list("gamFcltyCtrtMngDao.selectFcltyCtrtChangeList", searchVO);
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtChangeList_D", searchVO);
 	}
 	
 	/**
@@ -190,8 +190,8 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 계약변경 목록 총개수
 	 * @exception Exception
 	 */
-	public int selectFcltyCtrtChangeListCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtChangeListCnt", searchVO);
+	public int selectFcltyCtrtChangeListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtChangeListTotCnt_S", searchVO);
 	}
 	
 	
@@ -202,7 +202,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List mergeFcltyCtrtChangeDetail(Map map) throws Exception {
-		return this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtChangeDetail", "gamFcltyCtrtMngDao.updateFcltyCtrtChangeDetail", "gamFcltyCtrtMngDao.deleteFcltyCtrtChangeDetail");
+		return this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtChangeDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtChangeDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtChangeDetail_S");
 	}
 
 	/**
@@ -212,7 +212,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public void deleteFcltyCtrtChangeList(Map deleteMap) throws Exception {
-		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtChangeList", deleteMap);
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtChangeList_S", deleteMap);
 	}
 	
 
@@ -223,7 +223,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List selectFcltyCtrtMoneyPymntList(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return list("gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntList", searchVO);
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntList_D", searchVO);
 	}
 	
 	/**
@@ -232,8 +232,8 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 계약대금지급 목록 총개수
 	 * @exception Exception
 	 */
-	public int selectFcltyCtrtMoneyPymntListCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntListCnt", searchVO);
+	public int selectFcltyCtrtMoneyPymntListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntListTotCnt_S", searchVO);
 	}
 	
 	/**
@@ -243,7 +243,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List mergeFcltyCtrtMoneyPymntDetail(Map map) throws Exception {
-		return this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtMoneyPymntDetail", "gamFcltyCtrtMngDao.updateFcltyCtrtMoneyPymntDetail", "gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntDetail");
+		return this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtMoneyPymntDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtMoneyPymntDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntDetail_S");
 	}
 	
 	/**
@@ -253,7 +253,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public void deleteFcltyCtrtMoneyPymntList(Map deleteMap) throws Exception {
-		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntList", deleteMap);
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntList_S", deleteMap);
 	}
 
 	/**
@@ -263,7 +263,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List selectFcltyCtrtFulFillCaryFwdList(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return list("gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdList", searchVO);
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdList_D", searchVO);
 	}
 	
 	/**
@@ -272,8 +272,8 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 계약이행이월 목록 총개수
 	 * @exception Exception
 	 */
-	public int selectFcltyCtrtFulFillCaryFwdListCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdListCnt", searchVO);
+	public int selectFcltyCtrtFulFillCaryFwdListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdListTotCnt_S", searchVO);
 	}
 	
 	/**
@@ -283,7 +283,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List mergeFcltyCtrtFulFillCaryFwdDetail(Map map) throws Exception {
-		return this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtFulFillCaryFwdDetail", "gamFcltyCtrtMngDao.updateFcltyCtrtFulFillCaryFwdDetail", "gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdDetail");
+		return this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtFulFillCaryFwdDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtFulFillCaryFwdDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdDetail_S");
 	}
 
 	/**
@@ -293,6 +293,6 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public void deleteFcltyCtrtFulFillCaryFwdList(Map deleteMap) throws Exception {
-		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdList", deleteMap);
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdList_S", deleteMap);
 	}
 }

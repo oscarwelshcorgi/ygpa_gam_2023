@@ -11,7 +11,7 @@
         <result property="sumExmpAcc" column="SUM_EXMP_ACC" columnIndex="3" javaType="java.lang.String"/>
     </resultMap>
 	
-	<select id="gamSocPrtFcltyFeeExmpRqestSttusDAO.selectSocPrtFcltyFeeExmpRqestSttusList_S" parameterClass="gamSocPrtFcltyFeeExmpRqestSttusVO" resultClass="egovMap">
+	<select id="gamSocPrtFcltyFeeExmpRqestSttusDAO.selectSocPrtFcltyFeeExmpRqestSttusList_D" parameterClass="gamSocPrtFcltyFeeExmpRqestSttusVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*

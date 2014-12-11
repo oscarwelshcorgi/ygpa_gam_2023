@@ -36,7 +36,7 @@ public class GamSocAgentProcessRealloadNewDAO extends YGPAAbstractDAO {
 	 * @exception
 	 */
 	public List selectSocAgentProcessRealloadNewList(GamSocAgentProcessRealloadNewVO searchVO) {
-		return list("gamSocAgentProcessRealloadNewDAO.selectSocAgentProcessRealloadNewList_S", searchVO);
+		return list("gamSocAgentProcessRealloadNewDAO.selectSocAgentProcessRealloadNewList_D", searchVO);
 	}
 
 	/**

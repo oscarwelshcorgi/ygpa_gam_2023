@@ -8,7 +8,7 @@
     <typeAlias alias="gamPopupSocFacCdVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupSocFacCdVO"/>
     
 
-    <select id="gamPopupSocFacCdDao.selectSocFacCdList_S" parameterClass="gamPopupSocFacCdVO" resultClass="egovMap">
+    <select id="gamPopupSocFacCdDao.selectSocFacCdList_D" parameterClass="gamPopupSocFacCdVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*

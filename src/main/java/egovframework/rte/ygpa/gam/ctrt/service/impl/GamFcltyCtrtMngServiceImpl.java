@@ -51,8 +51,8 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약정보목록 통계정보 VO
 	 * @exception Exception
 	 */
-	public GamFcltyCtrtMngVO selectFcltyCtrtMngSum(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return gamFcltyCtrtMngDao.selectFcltyCtrtMngSum(searchVO);
+	public GamFcltyCtrtMngVO selectFcltyCtrtMngTotSum(GamFcltyCtrtMngVO searchVO) throws Exception {
+		return gamFcltyCtrtMngDao.selectFcltyCtrtMngTotSum(searchVO);
 	}
 	
 	/**
@@ -112,8 +112,8 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약공동도급 목록 총개수
 	 * @exception Exception
 	 */
-	public int selectFcltyCtrtJoinContrListCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrListCnt(searchVO);
+	public int selectFcltyCtrtJoinContrListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
+		return gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrListTotCnt(searchVO);
 	}
 	
 	
@@ -154,8 +154,8 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약하도급 목록 총개수
 	 * @exception Exception
 	 */
-	public int selectFcltyCtrtSubCtrtListCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtListCnt(searchVO);
+	public int selectFcltyCtrtSubCtrtListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
+		return gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtListTotCnt(searchVO);
 	}
 	
 	/**
@@ -194,8 +194,8 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약변경 목록 총개수
 	 * @exception Exception
 	 */
-	public int selectFcltyCtrtChangeListCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return gamFcltyCtrtMngDao.selectFcltyCtrtChangeListCnt(searchVO);
+	public int selectFcltyCtrtChangeListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
+		return gamFcltyCtrtMngDao.selectFcltyCtrtChangeListTotCnt(searchVO);
 	}
 	
 	/**
@@ -235,8 +235,8 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약대금지급 목록 총개수
 	 * @exception Exception
 	 */
-	public int selectFcltyCtrtMoneyPymntListCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntListCnt(searchVO);
+	public int selectFcltyCtrtMoneyPymntListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
+		return gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntListTotCnt(searchVO);
 	}
 	
 	
@@ -276,8 +276,8 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약이행이월 목록 총개수
 	 * @exception Exception
 	 */
-	public int selectFcltyCtrtFulFillCaryFwdListCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdListCnt(searchVO);
+	public int selectFcltyCtrtFulFillCaryFwdListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
+		return gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdListTotCnt(searchVO);
 	}
 	
 	/**

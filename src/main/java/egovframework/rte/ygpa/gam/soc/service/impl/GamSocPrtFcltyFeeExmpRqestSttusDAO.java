@@ -36,7 +36,7 @@ public class GamSocPrtFcltyFeeExmpRqestSttusDAO extends YGPAAbstractDAO {
 	 * @exception
 	 */
 	List selectSocPrtFcltyFeeExmpRqestSttusList(GamSocPrtFcltyFeeExmpRqestSttusVO searchVO) {
-		return list("gamSocPrtFcltyFeeExmpRqestSttusDAO.selectSocPrtFcltyFeeExmpRqestSttusList_S", searchVO);
+		return list("gamSocPrtFcltyFeeExmpRqestSttusDAO.selectSocPrtFcltyFeeExmpRqestSttusList_D", searchVO);
 	}
 	
 	/**

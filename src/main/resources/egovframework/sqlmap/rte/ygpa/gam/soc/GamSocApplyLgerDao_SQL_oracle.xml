@@ -5,7 +5,7 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamSocApplyLgerVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocApplyLgerVO" />
 	
-	<select id="gamSocApplyLgerDAO.selectSocApplyLgerList_S" parameterClass="gamSocApplyLgerVO" resultClass="egovMap">
+	<select id="gamSocApplyLgerDAO.selectSocApplyLgerList_D" parameterClass="gamSocApplyLgerVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*

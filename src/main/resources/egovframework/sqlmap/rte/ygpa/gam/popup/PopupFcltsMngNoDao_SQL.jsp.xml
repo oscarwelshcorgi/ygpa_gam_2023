@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.popup">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamPopupFcltsMngNoVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupFcltsMngNoVO"/>
+    
+
+    <select id="gamPopupFcltsMngNoDao.selectFcltsMngNoList_D" parameterClass="gamPopupFcltsMngNoVO" resultClass="egovMap">
+           SELECT A.*
+           FROM (
+                   SELECT  ROWNUM RNUM, S.*
+                     FROM (
+							SELECT
+								G.FCLTS_MNG_NO
+								, G.PRT_FCLTY_NM
+								, G.PRT_FCLTY_STNDRD
+								, G.PRT_FCLTY_UNIT
+								, G.TO_CHAR(PRT_FCLTY_INSTL_DT, 'YYYY-MM-DD') PRT_FCLTY_INSTL_DT
+								, G.TO_CHAR(PRT_FCLTY_CHANGE_DT, 'YYYY-MM-DD') PRT_FCLTY_CHANGE_DT
+							FROM
+							    GIS_PRT_FCLTY_CD_F G
+							WHERE
+								G.FCLTS_MNG_NO IS NOT NULL
+							    <isNotEmpty property="sFcltsMngNo">
+							    	AND G.FCLTS_MNG_NO LIKE #sFcltsMngNo# || '%'
+							    </isNotEmpty>
+							    <isNotEmpty property="sPrtFcltyNm">
+							    	AND G.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
+							    </isNotEmpty>
+							ORDER BY G.FCLTS_MNG_NO                                                  
+                ) S	
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+    
+    <select id="gamPopupFcltsMngNoDao.selectFcltsMngNoListTotCnt_S" parameterClass="gamPopupFcltsMngNoVO" resultClass="int">
+			SELECT
+			    COUNT(*) CNT
+			FROM
+			    GIS_PRT_FCLTY_CD_F G
+			WHERE
+				1 = 1
+				G.FCLTS_MNG_NO IS NOT NULL
+			    <isNotEmpty property="sFcltsMngNo">
+			    	AND G.FCLTS_MNG_NO LIKE #sFcltsMngNo# || '%'
+			    </isNotEmpty>
+			    <isNotEmpty property="sPrtFcltyNm">
+			    	AND G.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
+			    </isNotEmpty>
+    </select>
+</sqlMap>

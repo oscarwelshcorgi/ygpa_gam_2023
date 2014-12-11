@@ -12,7 +12,7 @@
         <result property="sumExmpRemain" column="SUM_EXMP_REMAIN" columnIndex="4" javaType="java.lang.String"/>
     </resultMap>
 	
-	<select id="gamSocApplyDtlsDAO.selectSocApplyDtlsList_S" parameterClass="gamSocApplyDtlsVO" resultClass="egovMap">
+	<select id="gamSocApplyDtlsDAO.selectSocApplyDtlsList_D" parameterClass="gamSocApplyDtlsVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*

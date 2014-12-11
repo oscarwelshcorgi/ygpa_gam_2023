@@ -10,7 +10,7 @@
         <result property="sumExmpAmnt" column="SUM_EXMP_AMNT" columnIndex="2" javaType="java.lang.String"/>
     </resultMap>
 	
-	<select id="gamSocAgentProcessDtlsSttusDAO.selectSocAgentProcessDtlsSttusList_S" parameterClass="gamSocAgentProcessDtlsSttusVO" resultClass="egovMap">
+	<select id="gamSocAgentProcessDtlsSttusDAO.selectSocAgentProcessDtlsSttusList_D" parameterClass="gamSocAgentProcessDtlsSttusVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*

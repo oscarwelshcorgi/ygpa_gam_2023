@@ -41,7 +41,6 @@ GamPopupFcltsMngNoModule.prototype.loadComplete = function() {
 					{display:"항만시설단위",  	name:"prtFcltyUnit", 		width:150, sortable:true, align:"center"},
 					{display:"설치일자",  		name:"prtFcltyInstDt", 		width:90,  sortable:true, align:"center"},
 					{display:"변경일자",  		name:"prtFcltyChangeDt", 	width:90,  sortable:true, align:"center"},
-					{display:"시설물관리그룹명", name:"fcltsMngGroupNm", 		width:200, sortable:true, align:"left"},
 			],
 		height: "320"
 	});

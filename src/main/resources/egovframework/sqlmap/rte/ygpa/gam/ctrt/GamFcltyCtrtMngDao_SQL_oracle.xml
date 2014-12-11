@@ -64,7 +64,7 @@
     </resultMap>
 	
 	<!-- 계약 정보 -->
-    <select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngList" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
+    <select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngList_D" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -117,7 +117,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngSum" parameterClass="gamFcltyCtrtMngVO" resultMap="gamFcltyCtrtMngSumMap">
+    <select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngTotSum_S" parameterClass="gamFcltyCtrtMngVO" resultMap="gamFcltyCtrtMngSumMap">
         SELECT 
         		COUNT(*) AS TOTAL_CNT
         		, NVL(SUM(PLAN_AMT),0) AS SUM_PLAN_AMT
@@ -150,7 +150,7 @@
 				</isNotEmpty>
     </select>
 	
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtInfoDetail_D" parameterClass="gamFcltyCtrtMngVO" resultMap="gamFcltyCtrtMngSearchMap">
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtInfoDetail_S" parameterClass="gamFcltyCtrtMngVO" resultMap="gamFcltyCtrtMngSearchMap">
 		SELECT
 		    I.CTRT_NO
 		    , I.CTRT_SE
@@ -202,7 +202,7 @@
 		    I.CTRT_NO = #sCtrtNo#
 	</select>
 	
-	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtInfoDetail">
+	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtInfoDetail_S">
 		INSERT INTO CTRT_INFO_F 
 		  (
 		    CTRT_NO
@@ -295,7 +295,7 @@
 		  )	
 	</insert>
 	
-	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtInfoDetail">
+	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtInfoDetail_S">
 		UPDATE CTRT_INFO_F
 		  SET 
 		    CTRT_SE = #ctrtSe#
@@ -343,14 +343,14 @@
 		    CTRT_NO = #ctrtNo#	
 	</update>
 	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtInfoDetail">
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtInfoDetail_S">
 		DELETE FROM CTRT_INFO_F
 		  WHERE
 		    CTRT_NO = #ctrtNo#
 	</delete>
 
 	<!-- 계약공동도급 -->
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrList" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrList_D" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
 	    SELECT A.*
           FROM (
              SELECT  ROWNUM RNUM, S.*
@@ -388,7 +388,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
 	</select>	
 
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrListCnt" parameterClass="gamFcltyCtrtMngVO" resultClass="int">
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrListTotCnt_S" parameterClass="gamFcltyCtrtMngVO" resultClass="int">
 		SELECT
 		    COUNT(*) CNT
 		  FROM
@@ -397,7 +397,7 @@
 		    CTRT_NO = #sCtrtNo#
 	</select>
 	
-	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtJoinContrDetail">
+	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtJoinContrDetail_S">
     	<selectKey keyProperty="maxSeq" resultClass="String">
     		SELECT
     		  TO_CHAR(NVL(MAX(SEQ),0) + 1)
@@ -454,7 +454,7 @@
 		  )
 	</insert>
 
-	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtJoinContrDetail">
+	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtJoinContrDetail_S">
 		UPDATE 
 			CTRT_JOIN_CONTR_F
 		  SET
@@ -481,21 +481,21 @@
 		  	AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
 	</update>
 	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrDetail">
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrDetail_S">
 		DELETE FROM CTRT_JOIN_CONTR_F
 		  WHERE
 		  	CTRT_NO = #ctrtNo#
 		  	AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
 	</delete>
 
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrList">
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrList_S">
 		DELETE FROM CTRT_JOIN_CONTR_F
 		  WHERE
 		    CTRT_NO = #ctrtNo#
 	</delete>
 	
 	<!-- 계약 하도급 -->
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtList" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtList_D" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
 	    SELECT A.*
           FROM (
              SELECT  ROWNUM RNUM, S.*
@@ -527,7 +527,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
 	</select>	
 
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtListCnt" parameterClass="gamFcltyCtrtMngVO" resultClass="int">
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtListTotCnt_S" parameterClass="gamFcltyCtrtMngVO" resultClass="int">
 		SELECT
 		    COUNT(*) CNT
 		  FROM
@@ -536,7 +536,7 @@
 		    CTRT_NO = #sCtrtNo#
 	</select>
 	
-	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtSubCtrtDetail">
+	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtSubCtrtDetail_S">
     	<selectKey keyProperty="maxSeq" resultClass="String">
     		SELECT
     		  TO_CHAR(NVL(MAX(SEQ),0) + 1)
@@ -577,7 +577,7 @@
 		  )
 	</insert>
 
-	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtSubCtrtDetail">
+	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtSubCtrtDetail_S">
 		UPDATE CTRT_SUBCTRT_F
 		  SET
 		    ENTRPS_NM = #entrpsNm#
@@ -595,21 +595,21 @@
 		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
 	</update>
 	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtDetail">
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtDetail_S">
 		DELETE FROM CTRT_SUBCTRT_F
 		  WHERE
 		    CTRT_NO = #ctrtNo#
 		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
 	</delete>
 	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtList">
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtList_S">
 		DELETE FROM CTRT_SUBCTRT_F
 		  WHERE
 		    CTRT_NO = #ctrtNo#  
 	</delete>
 
 	<!-- 계약 변경 -->
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtChangeList" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtChangeList_D" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
 	    SELECT A.*
           FROM (
              SELECT  ROWNUM RNUM, S.*
@@ -640,7 +640,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
 	</select>	
 
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtChangeListCnt" parameterClass="gamFcltyCtrtMngVO" resultClass="int">
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtChangeListTotCnt_S" parameterClass="gamFcltyCtrtMngVO" resultClass="int">
 		SELECT
 		    COUNT(*) CNT
 		  FROM
@@ -649,7 +649,7 @@
 		    CTRT_NO = #sCtrtNo#
 	</select>
 	
-	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtChangeDetail">
+	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtChangeDetail_S">
     	<selectKey keyProperty="maxSeq" resultClass="String">
     		SELECT
     		  TO_CHAR(NVL(MAX(SEQ),0) + 1)
@@ -688,7 +688,7 @@
 		  )
 	</insert>
 
-	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtChangeDetail">
+	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtChangeDetail_S">
 		UPDATE CTRT_CHANGE_F
 		  SET
 		    CHANGE_RSN = #changeRsn#
@@ -705,21 +705,21 @@
 		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
 	</update>
 	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtChangeDetail">
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtChangeDetail_S">
 		DELETE FROM CTRT_CHANGE_F
 		  WHERE
 		    CTRT_NO = #ctrtNo#
 		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
 	</delete>
 	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtChangeList">
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtChangeList_S">
 		DELETE FROM CTRT_CHANGE_F
 		  WHERE
 		    CTRT_NO = #ctrtNo#  
 	</delete>
 	
 	<!-- 계약대금지급 -->
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntList" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntList_D" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
 	    SELECT A.*
           FROM (
              SELECT  ROWNUM RNUM, S.*
@@ -748,7 +748,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
 	</select>	
 
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntListCnt" parameterClass="gamFcltyCtrtMngVO" resultClass="int">
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntListTotCnt_S" parameterClass="gamFcltyCtrtMngVO" resultClass="int">
 		SELECT
 		    COUNT(*) CNT
 		  FROM
@@ -757,7 +757,7 @@
 		    CTRT_NO = #sCtrtNo#
 	</select>
 	
-	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtMoneyPymntDetail">
+	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtMoneyPymntDetail_S">
     	<selectKey keyProperty="maxSeq" resultClass="String">
     		SELECT
     		  TO_CHAR(NVL(MAX(SEQ),0) + 1)
@@ -796,7 +796,7 @@
 		  )
 	</insert>
 
-	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtMoneyPymntDetail">
+	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtMoneyPymntDetail_S">
 		UPDATE CTRT_MONEY_PYMNT_F
 		  SET
 		    PYMNT_CL = #pymntCl#
@@ -813,21 +813,21 @@
 		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
 	</update>
 	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntDetail">
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntDetail_S">
 		DELETE FROM CTRT_MONEY_PYMNT_F
 		  WHERE
 		    CTRT_NO = #ctrtNo#
 		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
 	</delete>
 
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntList">
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntList_S">
 		DELETE FROM CTRT_MONEY_PYMNT_F
 		  WHERE
 		    CTRT_NO = #ctrtNo#  
 	</delete>
 
 	<!-- 계약이행이월 -->		
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdList" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdList_D" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
 	    SELECT A.*
           FROM (
              SELECT  ROWNUM RNUM, S.*
@@ -852,7 +852,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
 	</select>	
 
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdListCnt" parameterClass="gamFcltyCtrtMngVO" resultClass="int">
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdListTotCnt_S" parameterClass="gamFcltyCtrtMngVO" resultClass="int">
 		SELECT
 		    COUNT(*) CNT
 		  FROM
@@ -861,7 +861,7 @@
 		    CTRT_NO = #sCtrtNo#
 	</select>
 	
-	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtFulFillCaryFwdDetail">
+	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtFulFillCaryFwdDetail_S">
     	<selectKey keyProperty="maxSeq" resultClass="String">
     		SELECT
     		  TO_CHAR(NVL(MAX(SEQ),0) + 1)
@@ -892,7 +892,7 @@
 		  )
 	</insert>
 	
-	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtFulFillCaryFwdDetail">
+	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtFulFillCaryFwdDetail_S">
 		UPDATE CTRT_FULFILL_CARY_FWD_F
 		  SET
 		    FULFILL_CARY_FWD_YEAR = #fulfillCaryFwdYear#
@@ -905,14 +905,14 @@
 		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
 	</update>
 
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdDetail">
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdDetail_S">
 		DELETE FROM CTRT_FULFILL_CARY_FWD_F
 		  WHERE
 		    CTRT_NO = #ctrtNo#
 		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
 	</delete>
 	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdList">
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdList_S">
 		DELETE FROM CTRT_FULFILL_CARY_FWD_F
 		  WHERE
 		    CTRT_NO = #ctrtNo#  

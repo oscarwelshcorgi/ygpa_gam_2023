@@ -8,7 +8,7 @@
     <typeAlias alias="gamPopupFcltsClCdVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupFcltsClCdVO"/>
     
 
-    <select id="gamPopupFcltsClCdDao.selectFcltsClCdList" parameterClass="gamPopupFcltsClCdVO" resultClass="egovMap">
+    <select id="gamPopupFcltsClCdDao.selectFcltsClCdList_D" parameterClass="gamPopupFcltsClCdVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -39,7 +39,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamPopupFcltsClCdDao.selectFcltsClCdListTotCnt" parameterClass="gamPopupFcltsClCdVO" resultClass="int">
+    <select id="gamPopupFcltsClCdDao.selectFcltsClCdListTotCnt_S" parameterClass="gamPopupFcltsClCdVO" resultClass="int">
 			SELECT
 			    COUNT(*) CNT
 			FROM

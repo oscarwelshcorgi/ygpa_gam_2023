@@ -6,7 +6,7 @@
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias  alias="gamPopupConsFcltyInfoSearchVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupConsFcltyInfoVO"/>
 
-	<select id="gamPopupConsFcltyInfoDAO.selectConsFcltyInfoList" parameterClass="gamPopupConsFcltyInfoSearchVO" resultClass="egovMap">
+	<select id="gamPopupConsFcltyInfoDAO.selectConsFcltyInfoList_D" parameterClass="gamPopupConsFcltyInfoSearchVO" resultClass="egovMap">
 		SELECT *
 		  FROM
 		       (SELECT Z.*,
@@ -51,7 +51,7 @@
 	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
 	</select>
 	
-	<select id="gamPopupConsFcltyInfoDAO.selectConsFcltyInfoListTotCnt" parameterClass="gamPopupConsFcltyInfoSearchVO" resultClass="int">
+	<select id="gamPopupConsFcltyInfoDAO.selectConsFcltyInfoListTotCnt_S" parameterClass="gamPopupConsFcltyInfoSearchVO" resultClass="int">
    		SELECT 
    			COUNT(*) TOTCNT
  		FROM 

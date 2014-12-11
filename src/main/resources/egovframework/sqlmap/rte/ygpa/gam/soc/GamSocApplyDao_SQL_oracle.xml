@@ -32,7 +32,7 @@
 		<result property="r22Rate" column="R22_RATE" columnIndex="23" />
 	</resultMap>
 
-	<select id="gamSocApplyDAO.selectSocApplyDetail_D" parameterClass="gamSocApplyVO" resultMap="gamSocApplySearchMap">
+	<select id="gamSocApplyDAO.selectSocApplyDetail_S" parameterClass="gamSocApplyVO" resultMap="gamSocApplySearchMap">
 		SELECT
 				A.PRT_AT_CODE
 				, A.CMPL_YR
@@ -83,7 +83,7 @@
 	</select>
 	
 	
-    <select id="gamSocApplyDAO.selectSocApplyList_S" parameterClass="gamSocApplyVO" resultClass="egovMap">
+    <select id="gamSocApplyDAO.selectSocApplyList_D" parameterClass="gamSocApplyVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -150,7 +150,7 @@
 			</isNotEmpty>						        
     </select>
     
-    <insert id="gamSocApplyDao.insertSocApplyDetail">
+    <insert id="gamSocApplyDao.insertSocApplyDetail_S">
     	INSERT INTO P2MGR.SOC_APPLY_F@YGPA_P2MGR
     		(
     			PRT_AT_CODE
@@ -208,7 +208,7 @@
       			, SYSDATE
       		)
     </insert>	
-    <update id="gamSocApplyDao.updateSocApplyDetail">
+    <update id="gamSocApplyDao.updateSocApplyDetail_S">
     	UPDATE P2MGR.SOC_APPLY_F@YGPA_P2MGR
     	SET
       			AGENT_CODE = #agentCode#
@@ -239,7 +239,7 @@
     			AND USE_NO = #useNo#
     </update>
     
-    <delete id="gamSocApplyDao.deleteSocApplyDetail">
+    <delete id="gamSocApplyDao.deleteSocApplyDetail_S">
     	DELETE FROM
     			P2MGR.SOC_APPLY_F@YGPA_P2MGR
     	WHERE
@@ -251,7 +251,7 @@
     			AND USE_NO = #useNo#
     </delete>
     
-    <select id="gamSocApplyDao.selectSocApplyFacilList" parameterClass="gamSocApplyVO" resultClass="egovMap">
+    <select id="gamSocApplyDao.selectSocApplyFacilList_D" parameterClass="gamSocApplyVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -288,7 +288,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamSocApplyDao.selectSocApplyFacilListTotCnt" parameterClass="gamSocApplyVO" resultClass="int">
+    <select id="gamSocApplyDao.selectSocApplyFacilListTotCnt_S" parameterClass="gamSocApplyVO" resultClass="int">
       SELECT
       		COUNT(*) TOTCNT
       FROM 
@@ -314,7 +314,7 @@
 		</isNotEmpty>
     </select>
    
-    <select id="gamSocApplyDao.selectSocApplyFacilInfoCnt" resultClass="int">
+    <select id="gamSocApplyDao.selectSocApplyFacilInfoCnt_S" resultClass="int">
       SELECT
       		COUNT(*) CNT
       FROM 
@@ -346,7 +346,7 @@
 		</isNotEmpty>
     </select>   
     
-    <insert id="gamSocApplyDao.insertSocApplyFacilInfo">
+    <insert id="gamSocApplyDao.insertSocApplyFacilInfo_S">
 		INSERT INTO 
 			P2MGR.SOC_FACIL_F@YGPA_P2MGR
 			(
@@ -372,7 +372,7 @@
 			)	
 	</insert>
     
-    <delete id="gamSocApplyDao.deleteSocApplyFacilList">
+    <delete id="gamSocApplyDao.deleteSocApplyFacilList_S">
 	    DELETE 
 	    FROM 
 	       		P2MGR.SOC_FACIL_F@YGPA_P2MGR F
@@ -385,7 +385,7 @@
 				AND F.USE_NO = #useNo#    	
     </delete>
     
-    <select id="gamSocApplyDao.selectSocApplyFeeList" parameterClass="gamSocApplyVO" resultClass="egovMap">
+    <select id="gamSocApplyDao.selectSocApplyFeeList_D" parameterClass="gamSocApplyVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -421,7 +421,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamSocApplyDao.selectSocApplyFeeListTotCnt" parameterClass="gamSocApplyVO" resultClass="int">
+    <select id="gamSocApplyDao.selectSocApplyFeeListTotCnt_S" parameterClass="gamSocApplyVO" resultClass="int">
       SELECT
       		COUNT(*) TOTCNT
       FROM 
@@ -447,7 +447,7 @@
 		</isNotEmpty>
     </select>
 
-    <select id="gamSocApplyDao.selectSocApplyFeeInfoCnt" resultClass="int">
+    <select id="gamSocApplyDao.selectSocApplyFeeInfoCnt_S" resultClass="int">
       SELECT
       		COUNT(*) CNT
       FROM 
@@ -476,7 +476,7 @@
 		</isNotEmpty>
     </select>
     
-    <insert id="gamSocApplyDao.insertSocApplyFeeInfo">
+    <insert id="gamSocApplyDao.insertSocApplyFeeInfo_S">
 		INSERT INTO 
 			P2MGR.SOC_FEE_F@YGPA_P2MGR
 			(
@@ -501,7 +501,7 @@
 
     </insert>
         
-    <delete id="gamSocApplyDao.deleteSocApplyFeeList">
+    <delete id="gamSocApplyDao.deleteSocApplyFeeList_S">
 	    DELETE 
 	    FROM 
 	       		P2MGR.SOC_FEE_F@YGPA_P2MGR F

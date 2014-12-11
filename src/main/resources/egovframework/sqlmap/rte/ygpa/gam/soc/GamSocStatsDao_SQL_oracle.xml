@@ -13,7 +13,7 @@
     </resultMap>
 
 	<!-- 업체별 집계 -->
-	<select id="gamSocStatsDao.selectSocEntprStatsList_S" parameterClass="gamSocStatsVO" resultClass="egovMap">
+	<select id="gamSocStatsDao.selectSocEntprStatsList_D" parameterClass="gamSocStatsVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -67,7 +67,7 @@
 	</select>
 	
 	<!-- 월별 집계 -->
-	<select id="gamSocStatsDao.selectSocMonthStatsList_S" parameterClass="gamSocStatsVO" resultClass="egovMap">
+	<select id="gamSocStatsDao.selectSocMonthStatsList_D" parameterClass="gamSocStatsVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -122,7 +122,7 @@
 	</select>
 	
 	<!-- 업체기준 월별 집계 -->
-	<select id="gamSocStatsDao.selectSocEntprBasisMonthStatsList_S" parameterClass="gamSocStatsVO" resultClass="egovMap">
+	<select id="gamSocStatsDao.selectSocEntprBasisMonthStatsList_D" parameterClass="gamSocStatsVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -182,7 +182,7 @@
 	</select>
 	
 	<!-- 월기준 업체별 집계 -->
-	<select id="gamSocStatsDao.selectSocMonthBasisEntprStatsList_S" parameterClass="gamSocStatsVO" resultClass="egovMap">
+	<select id="gamSocStatsDao.selectSocMonthBasisEntprStatsList_D" parameterClass="gamSocStatsVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*

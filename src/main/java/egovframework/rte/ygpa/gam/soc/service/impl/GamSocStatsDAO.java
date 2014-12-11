@@ -36,7 +36,7 @@ public class GamSocStatsDAO extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List selectSocEntprStatsList(GamSocStatsVO searchVO) {
-		return list("gamSocStatsDao.selectSocEntprStatsList_S", searchVO);
+		return list("gamSocStatsDao.selectSocEntprStatsList_D", searchVO);
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class GamSocStatsDAO extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List selectSocMonthStatsList(GamSocStatsVO searchVO) {
-		return list("gamSocStatsDao.selectSocMonthStatsList_S", searchVO);
+		return list("gamSocStatsDao.selectSocMonthStatsList_D", searchVO);
 	}
 	
 	/**
@@ -77,7 +77,7 @@ public class GamSocStatsDAO extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List selectSocEntprBasisMonthStatsList(GamSocStatsVO searchVO) {
-		return list("gamSocStatsDao.selectSocEntprBasisMonthStatsList_S", searchVO);
+		return list("gamSocStatsDao.selectSocEntprBasisMonthStatsList_D", searchVO);
 	}
 	
 	/**
@@ -97,7 +97,7 @@ public class GamSocStatsDAO extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List selectSocMonthBasisEntprStatsList(GamSocStatsVO searchVO) {
-		return list("gamSocStatsDao.selectSocMonthBasisEntprStatsList_S", searchVO);
+		return list("gamSocStatsDao.selectSocMonthBasisEntprStatsList_D", searchVO);
 	}
 	
 	/**

@@ -35,7 +35,7 @@ public class GamSocExmpMngtDAO extends YGPAAbstractDAO {
 	 * @exception
 	 */
 	GamSocExmpMngtVO selectSocExmpMngtDetailInquire(GamSocExmpMngtVO searchVO) {
-		return (GamSocExmpMngtVO) selectByPk("gamSocExmpMngtDAO.selectSocExmpMngtDetail_D", searchVO);
+		return (GamSocExmpMngtVO) selectByPk("gamSocExmpMngtDAO.selectSocExmpMngtDetail_S", searchVO);
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class GamSocExmpMngtDAO extends YGPAAbstractDAO {
 	 * @exception
 	 */
 	String selectSocExmpMngtGetNextSocNo(GamSocExmpMngtVO searchVO) {
-		return (String)getSqlMapClientTemplate().queryForObject("gamSocExmpMngtDAO.selectSocExmpMngtGetNextSocNo", searchVO);
+		return (String)getSqlMapClientTemplate().queryForObject("gamSocExmpMngtDAO.selectSocExmpMngtGetNextSocNo_S", searchVO);
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class GamSocExmpMngtDAO extends YGPAAbstractDAO {
 	 * @exception
 	 */
 	public void insertSocExmpMngtDetail(GamSocExmpMngtVO insertVO) {
-		insert("gamSocExmpMngtDAO.insertSocExmpMngtDetail", insertVO);
+		insert("gamSocExmpMngtDAO.insertSocExmpMngtDetail_S", insertVO);
 	}
 	
 	/**
@@ -75,7 +75,7 @@ public class GamSocExmpMngtDAO extends YGPAAbstractDAO {
 	 * @exception
 	 */
 	public void updateSocExmpMngtDetail(GamSocExmpMngtVO updateVO) {
-		update("gamSocExmpMngtDAO.updateSocExmpMngtDetail", updateVO);
+		update("gamSocExmpMngtDAO.updateSocExmpMngtDetail_S", updateVO);
 	}
 
 	/**
@@ -85,6 +85,6 @@ public class GamSocExmpMngtDAO extends YGPAAbstractDAO {
 	 * @exception
 	 */
 	public void deleteSocExmpMngtDetail(GamSocExmpMngtVO deleteVO) {
-		delete("gamSocExmpMngtDAO.deleteSocExmpMngtDetail", deleteVO);	
+		delete("gamSocExmpMngtDAO.deleteSocExmpMngtDetail_S", deleteVO);	
 	}
 }
