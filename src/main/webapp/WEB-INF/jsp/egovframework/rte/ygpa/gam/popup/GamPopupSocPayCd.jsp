@@ -46,33 +46,6 @@ GamPopupSocPayCdModule.prototype.loadComplete = function() {
 		module.closeDialog("ok", row);
 	});
 
-	this.$("#grdInfoList").on("onItemSelected", function(event, module, row, grid, param) {
-	});
-
-	this.$("#grdInfoList").on("onItemUnSelected", function(event, module, row, grid, param) {
-	});	
-
-};
-// 사용자 설정 함수 추가
-
-GamPopupSocPayCdModule.prototype.onButtonClick = function(buttonId) {
-	switch(buttonId) {
-	case "btnSearch":
-		var searchOpt=this.makeFormArgs("#gamPopupSocPayForm");
-	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
-		break;
-	case "btnOk":
-		var row = this.$("#grdInfoList").selectedRows();
-		if(row.length>0) {
-			this.closeDialog("ok", row[0]);
-		}
-		else {
-			alert("먼저 입력 하고자 하는 항목을 선택 하십시요.");
-		}
-		break;
-	case "cancel":
-		this.cancelDialog();
-	}
 };
 
 GamPopupSocPayCdModule.prototype.onSubmit = function() {
@@ -80,8 +53,32 @@ GamPopupSocPayCdModule.prototype.onSubmit = function() {
 };
 
 GamPopupSocPayCdModule.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs("#gamPopupEntrpsForm");
+	var searchOpt=this.makeFormArgs("#gamPopupSocPayForm");
  	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
+};
+
+GamPopupSocPayCdModule.prototype.returnData = function() {
+	var rows = this.$("#grdInfoList").selectedRows();
+	if(rows.length>0) {
+		this.closeDialog("ok", rows[0]);
+	}
+	else {
+		alert("먼저 입력 하고자 하는 항목을 선택 하십시요.");
+	}
+};
+
+GamPopupSocPayCdModule.prototype.onButtonClick = function(buttonId) {
+	switch(buttonId) {
+		case "btnSearch":
+			this.loadData();
+			break;
+		case "btnOk":
+			this.returnData();
+			break;
+		case "btnCancel":
+			this.cancelDialog();
+			break;
+	}
 };
 
 // 다음 변수는 고정 적으로 정의 해야 함
@@ -123,7 +120,7 @@ var popup_instance = new GamPopupSocPayCdModule();
 	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>
 	        <div class="emdControlPanel">
 	            <button id="btnOk">요금 선택</button>
-            <button id="cancel">취소</button>
+            	<button id="btnCancel">취소</button>
 	        </div>
 	    </div>
 

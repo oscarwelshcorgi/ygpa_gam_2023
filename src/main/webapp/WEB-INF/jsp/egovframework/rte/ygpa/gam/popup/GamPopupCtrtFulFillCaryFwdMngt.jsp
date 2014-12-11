@@ -87,7 +87,7 @@ GamPopupCtrtFulFillCaryFwdMngtModule.prototype.ctrtFulFillCaryFwdChanged = funct
 
 
 //계약이행이월 병합 리턴
-GamPopupCtrtFulFillCaryFwdMngtModule.prototype.returnMergeData = function() {
+GamPopupCtrtFulFillCaryFwdMngtModule.prototype.returnData = function() {
 	var resultList = this.$('#grdInfoList').flexGetData();
 	var mergeData = {'resultList' : resultList, 'deleteCtrtFulFillCaryFwdList' : this._deleteCtrtFulFillCaryFwdList};
 	this.closeDialog("ok", mergeData);
@@ -127,7 +127,7 @@ GamPopupCtrtFulFillCaryFwdMngtModule.prototype.removeCtrtFulFillCaryFwdItem = fu
 GamPopupCtrtFulFillCaryFwdMngtModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 		case "btnOk":
-			this.returnMergeData();
+			this.returnData();
 			break;
 		case "btnCancel":
 			this.cancelDialog();

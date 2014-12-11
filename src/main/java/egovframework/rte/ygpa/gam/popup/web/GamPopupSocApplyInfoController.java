@@ -73,6 +73,7 @@ public class GamPopupSocApplyInfoController {
      * @return "/ygpa/gam/popup/GamPopupPayCd"
      * @throws Exception the exception  
      */
+	@SuppressWarnings("rawtypes")
 	@RequestMapping("/popup/showSocApplyInfo.do")
 	String showApplyInfo(GamPopupSocApplyInfoVO searchOpt, ModelMap model) throws Exception {
 		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();

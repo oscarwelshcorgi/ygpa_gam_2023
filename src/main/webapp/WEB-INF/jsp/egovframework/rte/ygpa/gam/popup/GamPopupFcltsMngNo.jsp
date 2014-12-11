@@ -5,16 +5,16 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
   /**
-  * @Class Name : GamPopupFcltsClCd.jsp
-  * @Description : 시설물 분류코드 팝업 (Prototype)
+  * @Class Name : GamPopupFcltsMngNo.jsp
+  * @Description : 시설물 관리번호 팝업 (Prototype)
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
-  *  2014.11.05  김종민          최초 생성
+  *  2014.12.11  김종민          최초 생성
   *
   * author 김종민
-  * since 2014.11.05
+  * since 2014.12.11
   *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
@@ -23,21 +23,25 @@
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
  */
-function GamPopupFcltsClCdModule() {}
+function GamPopupFcltsMngNoModule() {}
 
-GamPopupFcltsClCdModule.prototype = new EmdPopupModule(640, 480);
+GamPopupFcltsMngNoModule.prototype = new EmdPopupModule(640, 480);
 
 // 팝업이 호출 되었을때 호출 되는 함수
-GamPopupFcltsClCdModule.prototype.loadComplete = function() {
+GamPopupFcltsMngNoModule.prototype.loadComplete = function() {
 	this.resizable(true);
 	this.$("#grdInfoList").flexigrid({
 		module: this,
-		url: '/popup/selectFcltsClCdInfoList.do',
+		url: '/popup/selectFcltsMngNoInfoList.do',
 		dataType: "json",
 		colModel : [
-					{display:"시설물분류코드", name:"fcltsClCd", 		width:105, sortable:true, align:"center"},
-					{display:"시설물분류명",  name:"fcltsClCdNm", 	width:210, sortable:true, align:"center"},
-					{display:"시설물상위분류명",  name:"fcltsClUpperCdNm", 	width:210, sortable:true, align:"center"}
+					{display:"시설물그룹번호", name:"fcltsMngGroupNo",   width:150, sortable:true, align:"center"},
+					{display:"시설물그룹명",  name:"fcltsMngGroupNm", 	width:200, sortable:true, align:"center"},
+					{display:"공사명",  name:"cnstNm", width:200, sortable:true, align:"center"},
+					{display:"관리주체",  name:"mngMainbd", 	width:150, sortable:true, align:"center"},
+					{display:"소유자",  name:"owner", 	width:150, sortable:true, align:"center"},
+					{display:"시공자",  name:"cnstrtr", 	width:150, sortable:true, align:"center"},
+					{display:"주소",  name:"fcltsAdres", 	width:400, sortable:true, align:"center"},
 			],
 		height: "320"
 	});
@@ -45,19 +49,18 @@ GamPopupFcltsClCdModule.prototype.loadComplete = function() {
 	this.$("#grdInfoList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module.closeDialog("ok", row);
 	});
-
 };
 
-GamPopupFcltsClCdModule.prototype.onSubmit = function() {
+GamPopupFcltsMngNoModule.prototype.onSubmit = function() {
 	this.loadData();
 };
 
-GamPopupFcltsClCdModule.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs("#gamPopupFcltsClCdForm");
+GamPopupFcltsMngNoModule.prototype.loadData = function() {
+	var searchOpt=this.makeFormArgs("#gamPopupFcltsMngNoForm");
  	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 };
 
-GamPopupFcltsClCdModule.prototype.returnData = function() {
+GamPopupFcltsMngNoModule.prototype.returnData = function() {
 	var rows = this.$("#grdInfoList").selectedRows();
 	if(rows.length>0) {
 		this.closeDialog("ok", rows[0]);
@@ -67,36 +70,35 @@ GamPopupFcltsClCdModule.prototype.returnData = function() {
 	}
 };
 
-GamPopupFcltsClCdModule.prototype.onButtonClick = function(buttonId) {
+GamPopupFcltsMngNoModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
-	case "btnSearch":
-		this.loadData();
-		break;
-	case "btnOk":
-		this.returnData();
-		break;
-	case "btnCancel":
-		this.cancelDialog();
-		break;
+		case "btnSearch":
+			this.loadData();
+			break;
+		case "btnOk":
+			this.returnData();
+			break;
+		case "btnCancel":
+			this.cancelDialog();
+			break;
 	}
 };
 
 // 다음 변수는 고정 적으로 정의 해야 함
-var popup_instance = new GamPopupFcltsClCdModule();
+var popup_instance = new GamPopupFcltsMngNoModule();
 </script>
 <div class="dialog">
 	<div class="emdPanel">
-		<form id="gamPopupFcltsClCdForm">
+		<form id="gamPopupFcltsMngNoForm">
 			<table class="searchPanel">
 				<tbody>
 					<tr>
-                        <th>시설물분류코드</th>
+                        <th>시설물 관리번호</th>
                         <td>
-                        	<input id="sFcltsClCdChar" type="hidden" value="${searchOpt.sFcltsClCdChar}" />
-                        	<input id="sFcltsClCd" type="text" size="12"/>
+                        	<input id="sFcltsMngNo" type="text" size="14" maxlength="14" />
                         </td>
-						<th>시설물분류명</th>
-                        <td><input id="sFcltsClCdNm" type="text" size="25" /></td>
+						<th>항만시설명</th>
+                        <td><input id="sPrtFcltyNm" type="text" size="20" /></td>
 						<td><button id="btnSearch">조회</button></td>
 					</tr>
 				</tbody>
@@ -106,7 +108,7 @@ var popup_instance = new GamPopupFcltsClCdModule();
 		<div class="emdPanel fillHeight">
 	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>
 	        <div class="emdControlPanel">
-	            <button id="btnOk">시설물 분류 선택</button>
+	            <button id="btnOk">시설물 관리그룹 선택</button>
             	<button id="btnCancel">취소</button>
 	        </div>
 	    </div>

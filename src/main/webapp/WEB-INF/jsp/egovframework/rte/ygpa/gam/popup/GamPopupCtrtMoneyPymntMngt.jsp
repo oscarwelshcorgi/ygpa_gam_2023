@@ -107,7 +107,7 @@ GamPopupCtrtMoneyPymntMngtModule.prototype.ctrtMoneyPymntChanged = function(targ
 
 
 //계약대금지급 병합 리턴
-GamPopupCtrtMoneyPymntMngtModule.prototype.returnMergeData = function() {
+GamPopupCtrtMoneyPymntMngtModule.prototype.returnData = function() {
 	var resultList = this.$('#grdInfoList').flexGetData();
 	var mergeData = {'resultList' : resultList, 'deleteCtrtMoneyPymntList' : this._deleteCtrtMoneyPymntList};
 	this.closeDialog("ok", mergeData);
@@ -146,7 +146,7 @@ GamPopupCtrtMoneyPymntMngtModule.prototype.removeCtrtMoneyPymntItem = function()
 GamPopupCtrtMoneyPymntMngtModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 		case "btnOk":
-			this.returnMergeData();
+			this.returnData();
 			break;
 		case "btnCancel":
 			this.cancelDialog();

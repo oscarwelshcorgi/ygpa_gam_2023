@@ -14,7 +14,7 @@
   *  2014.11.14  김종민          최초 생성
   *
   * author 김종민
-  * since 2014.11.05
+  * since 2014.11.14
   *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
@@ -23,12 +23,12 @@
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
  */
-function GamPopupFcltsClCdModule() {}
+function GamPopupFcltsMngGroupModule() {}
 
-GamPopupFcltsClCdModule.prototype = new EmdPopupModule(640, 480);
+GamPopupFcltsMngGroupModule.prototype = new EmdPopupModule(640, 480);
 
 // 팝업이 호출 되었을때 호출 되는 함수
-GamPopupFcltsClCdModule.prototype.loadComplete = function() {
+GamPopupFcltsMngGroupModule.prototype.loadComplete = function() {
 	this.resizable(true);
 	this.$("#grdInfoList").flexigrid({
 		module: this,
@@ -49,46 +49,43 @@ GamPopupFcltsClCdModule.prototype.loadComplete = function() {
 	this.$("#grdInfoList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module.closeDialog("ok", row);
 	});
-
-	this.$("#grdInfoList").on("onItemSelected", function(event, module, row, grid, param) {
-	});
-
-	this.$("#grdInfoList").on("onItemUnSelected", function(event, module, row, grid, param) {
-	});	
-
-};
-// 사용자 설정 함수 추가
-
-GamPopupFcltsClCdModule.prototype.onButtonClick = function(buttonId) {
-	switch(buttonId) {
-	case "btnSearch":
-		this.loadData();
-		break;
-	case "btnOk":
-		var row = this.$("#grdInfoList").selectedRows();
-		if(row.length>0) {
-			this.closeDialog("ok", row[0]);
-		}
-		else {
-			alert("먼저 입력 하고자 하는 항목을 선택 하십시요.");
-		}
-		break;
-	case "cancel":
-		this.cancelDialog();
-	}
 };
 
-GamPopupFcltsClCdModule.prototype.onSubmit = function() {
+GamPopupFcltsMngGroupModule.prototype.onSubmit = function() {
 	this.loadData();
 };
 
-GamPopupFcltsClCdModule.prototype.loadData = function() {
+GamPopupFcltsMngGroupModule.prototype.loadData = function() {
 	var searchOpt=this.makeFormArgs("#gamPopupFcltsMngGroupForm");
  	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 };
 
+GamPopupFcltsMngGroupModule.prototype.returnData = function() {
+	var rows = this.$("#grdInfoList").selectedRows();
+	if(rows.length>0) {
+		this.closeDialog("ok", rows[0]);
+	}
+	else {
+		alert("먼저 입력 하고자 하는 항목을 선택 하십시요.");
+	}
+};
+
+GamPopupFcltsMngGroupModule.prototype.onButtonClick = function(buttonId) {
+	switch(buttonId) {
+		case "btnSearch":
+			this.loadData();
+			break;
+		case "btnOk":
+			this.returnData();
+			break;
+		case "btnCancel":
+			this.cancelDialog();
+			break;
+	}
+};
+
 // 다음 변수는 고정 적으로 정의 해야 함
-var popup_instance = new GamPopupFcltsClCdModule();
+var popup_instance = new GamPopupFcltsMngGroupModule();
 </script>
 <div class="dialog">
 	<div class="emdPanel">
@@ -112,7 +109,7 @@ var popup_instance = new GamPopupFcltsClCdModule();
 	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>
 	        <div class="emdControlPanel">
 	            <button id="btnOk">시설물 관리그룹 선택</button>
-            <button id="cancel">취소</button>
+            	<button id="btnCancel">취소</button>
 	        </div>
 	    </div>
 

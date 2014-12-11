@@ -40,7 +40,7 @@ GamPopupConsFcltyInfoModule.prototype.loadComplete = function() {
 					{display:"자산코드",		name:"gisAssetsDisplay",	width:60,		sortable:false,		align:"center"},
 					{display:"건축시설코드", 	name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
 					{display:"건축시설명",		name:"prtFcltyNm",			width:180,		sortable:false,		align:"left"},
-					{display:"건축시설분류",	 	name:"prtFcltyCdNm",		width:80,		sortable:false,		align:"center"}
+					{display:"건축시설분류",	name:"prtFcltyCdNm",		width:80,		sortable:false,		align:"center"}
 			],
 		height: "320"
 	});
@@ -48,33 +48,6 @@ GamPopupConsFcltyInfoModule.prototype.loadComplete = function() {
 	this.$("#grdInfoList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module.closeDialog("ok", row);
 	});
-
-	this.$("#grdInfoList").on("onItemSelected", function(event, module, row, grid, param) {
-	});
-
-	this.$("#grdInfoList").on("onItemUnSelected", function(event, module, row, grid, param) {
-	});	
-
-};
-// 사용자 설정 함수 추가
-
-GamPopupConsFcltyInfoModule.prototype.onButtonClick = function(buttonId) {
-	switch(buttonId) {
-	case "btnSearch":
-		this.loadData();
-		break;
-	case "btnOk":
-		var row = this.$("#grdInfoList").selectedRows();
-		if(row.length>0) {
-			this.closeDialog("ok", row[0]);
-		}
-		else {
-			alert("먼저 입력 하고자 하는 항목을 선택 하십시요.");
-		}
-		break;
-	case "cancel":
-		this.cancelDialog();
-	}
 };
 
 GamPopupConsFcltyInfoModule.prototype.onSubmit = function() {
@@ -84,6 +57,30 @@ GamPopupConsFcltyInfoModule.prototype.onSubmit = function() {
 GamPopupConsFcltyInfoModule.prototype.loadData = function() {
 	var searchOpt=this.makeFormArgs("#gamPopupConsFcltyInfoForm");
  	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
+};
+
+GamPopupConsFcltyInfoModule.prototype.returnData = function() {
+	var row = this.$("#grdInfoList").selectedRows();
+	if(row.length>0) {
+		this.closeDialog("ok", row[0]);
+	}
+	else {
+		alert("먼저 입력 하고자 하는 항목을 선택 하십시요.");
+	}
+};
+
+GamPopupConsFcltyInfoModule.prototype.onButtonClick = function(buttonId) {
+	switch(buttonId) {
+	case "btnSearch":
+		this.loadData();
+		break;
+	case "btnOk":
+		this.returnData();
+		break;
+	case "btnCancel":
+		this.cancelDialog();
+		break;
+	}
 };
 
 // 다음 변수는 고정 적으로 정의 해야 함
@@ -115,7 +112,7 @@ var popup_instance = new GamPopupConsFcltyInfoModule();
 	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>
 	        <div class="emdControlPanel">
 	            <button id="btnOk">건축 시설 선택</button>
-            <button id="cancel">취소</button>
+            	<button id="btnCancel">취소</button>
 	        </div>
 	    </div>
 	</div>

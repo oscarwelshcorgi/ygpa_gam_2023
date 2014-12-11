@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class GamPopupCtrtJoinContrMngtController {
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/popup/showCtrtJoinContrMngt.do")
     String showCtrtJoinContrMngt(@RequestParam Map ctrtJoinContrList, ModelMap model) throws Exception {
 		model.addAttribute("ctrtJoinContrList", ctrtJoinContrList);

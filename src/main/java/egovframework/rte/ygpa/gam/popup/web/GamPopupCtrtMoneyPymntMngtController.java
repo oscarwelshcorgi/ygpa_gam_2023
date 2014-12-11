@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class GamPopupCtrtMoneyPymntMngtController {
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/popup/showCtrtMoneyPymntMngt.do")
     String showCtrtMoneyPymntMngt(@RequestParam Map ctrtMoneyPymntList, ModelMap model) throws Exception {
 		model.addAttribute("ctrtMoneyPymntList", ctrtMoneyPymntList);

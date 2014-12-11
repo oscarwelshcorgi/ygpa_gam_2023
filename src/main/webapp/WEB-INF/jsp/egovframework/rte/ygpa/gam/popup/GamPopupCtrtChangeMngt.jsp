@@ -106,7 +106,7 @@ GamPopupCtrtChangeMngtModule.prototype.ctrtChangeChanged = function(target) {
 };
 
 //계약변경 병합 리턴
-GamPopupCtrtChangeMngtModule.prototype.returnMergeData = function() {
+GamPopupCtrtChangeMngtModule.prototype.returnData = function() {
 	var resultList = this.$('#grdInfoList').flexGetData();
 	var mergeData = {'resultList' : resultList, 'deleteCtrtChangeList' : this._deleteCtrtChangeList};
 	this.closeDialog("ok", mergeData);
@@ -145,7 +145,7 @@ GamPopupCtrtChangeMngtModule.prototype.removeCtrtChangeItem = function() {
 GamPopupCtrtChangeMngtModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 		case "btnOk":
-			this.returnMergeData();
+			this.returnData();
 			break;
 		case "btnCancel":
 			this.cancelDialog();

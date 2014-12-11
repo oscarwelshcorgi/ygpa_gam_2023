@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 public class GamPopupCtrtChangeMngtController {
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/popup/showCtrtChangeMngt.do")
     String showCtrtChangeMngt(@RequestParam Map ctrtChangeList, ModelMap model) throws Exception {
 		model.addAttribute("ctrtChangeList", ctrtChangeList);

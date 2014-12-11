@@ -153,7 +153,7 @@ GamPopupCtrtJoinContrMngtModule.prototype.ctrtJoinContrChanged = function(target
 };
 
 // 계약공동도급 병합 리턴
-GamPopupCtrtJoinContrMngtModule.prototype.returnMergeData = function() {
+GamPopupCtrtJoinContrMngtModule.prototype.returnData = function() {
 	var resultList = this.$('#grdInfoList').flexGetData();
 	var mergeData = {'resultList' : resultList, 'deleteCtrtJoinContrList' : this._deleteCtrtJoinContrList};
 	this.closeDialog("ok", mergeData);
@@ -192,7 +192,7 @@ GamPopupCtrtJoinContrMngtModule.prototype.removeCtrtJoinContrItem = function() {
 GamPopupCtrtJoinContrMngtModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 		case "btnOk":
-			this.returnMergeData();
+			this.returnData();
 			break;
 		case "btnCancel":
 			this.cancelDialog();

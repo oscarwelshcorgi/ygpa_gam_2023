@@ -112,7 +112,7 @@ GamPopupCtrtSubCtrtMngtModule.prototype.ctrtSubCtrtChanged = function(target) {
 
 
 //계약하도급 병합 리턴
-GamPopupCtrtSubCtrtMngtModule.prototype.returnMergeData = function() {
+GamPopupCtrtSubCtrtMngtModule.prototype.returnData = function() {
 	var resultList = this.$('#grdInfoList').flexGetData();
 	var mergeData = {'resultList' : resultList, 'deleteCtrtSubCtrtList' : this._deleteCtrtSubCtrtList};
 	this.closeDialog("ok", mergeData);
@@ -151,7 +151,7 @@ GamPopupCtrtSubCtrtMngtModule.prototype.removeCtrtSubCtrtItem = function() {
 GamPopupCtrtSubCtrtMngtModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 		case "btnOk":
-			this.returnMergeData();
+			this.returnData();
 			break;
 		case "btnCancel":
 			this.cancelDialog();
