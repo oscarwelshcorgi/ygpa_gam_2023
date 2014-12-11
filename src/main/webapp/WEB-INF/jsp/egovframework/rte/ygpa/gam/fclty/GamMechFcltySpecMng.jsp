@@ -159,14 +159,14 @@ GamMechFcltySpecMngModule.prototype.initDisplay = function() {
 	this.$('#fcltsFileList').flexEmptyData();
 	if(this._cmd == "insert") {
 		this.$("#selectGisPrtFcltyCd").enable();
-		this.$("#searchGisCodeBtn2").show();
+		this.$("#popupSearchGisCode2").show();
 		this.$("#mechFcltySpecMngTab").tabs("option", {active: 1});		
 	} else if (this._cmd == "modify") {
 		this.$("#selectGisPrtFcltyCd").disable();
-		this.$("#searchGisCodeBtn2").hide();
+		this.$("#popupSearchGisCode2").hide();
 	} else {
 		this.$("#selectGisPrtFcltyCd").enable();
-		this.$("#searchGisCodeBtn2").show();
+		this.$("#popupSearchGisCode2").show();
 		this.$("#mechFcltySpecMngTab").tabs("option", {active: 0});
 	}
 };
@@ -182,7 +182,7 @@ GamMechFcltySpecMngModule.prototype.insertData = function() {
 			module.$("#fcltsMngNo").val(module.$("#gisAssetsPrtAtCode").val() + module.$("#gisAssetsCd").val() + module.$("#gisAssetsSubCd").val() + module.$("#gisPrtFcltyCd").val() + result.gisPrtFcltySeq + module._prtFcltySe);
 			module.$("#dispfcltsMngNo").text(module.$("#fcltsMngNo").val());
 			module.$("#selectGisPrtFcltyCd").disable();
-			module.$("#searchGisCodeBtn2").hide();
+			module.$("#popupSearchGisCode2").hide();
 			module.saveAtchFile();
  			module.loadData();
  		}
@@ -360,37 +360,12 @@ GamMechFcltySpecMngModule.prototype.removeAtchFileItem = function() {
  */
 GamMechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
-		case "searchBtn": //조회
+		case "btnSearch": //조회
 			this._cmd = "";
 			this.initDisplay();
 			this.loadData();
 			break;
-		
-		// 자산코드 팝업(조회화면)
-		case "searchGisCodeBtn":
-			this.doExecuteDialog("selectGisCode", "자산코드", '/popup/showAssetsCd.do', {});
-			break;
-
-		// 자산코드 팝업(디테일 화면)
-		case "searchGisCodeBtn2":
-			this.doExecuteDialog("selectGisCode2", "자산코드", '/popup/showAssetsCd.do', {});
-			break;
-
-		// 시설물관리그룹(디테일 화면)
-		case "searchFcltsMngGroupNo":
-			this.doExecuteDialog("selectFcltsMngGroup", "시설물그룹번호", '/popup/showFcltsMngGroup.do', {});
-			break;
-			
-		// 시설물 분류코드(디테일 화면)
-		case "searchFcltsClCd" :
-			this.doExecuteDialog("selectFcltsClCd", "시설물분류코드", '/popup/showFcltsClCd.do', { sFcltsClCdChar : this._prtFcltySe });			
-			break;
-			
-		// 건축시설물 관리번호(디테일 화면) 			
-		case "searchArchFcltsMngNo":
-			this.doExecuteDialog("selectArchFcltsMngNo", "건축시설번호", '/popup/showConsFcltyInfo.do', {});
-			break;
-			
+				
 		// 시설추가
 		case "btnAdd":
 			this._cmd = "insert";
@@ -421,7 +396,32 @@ GamMechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		case "btnRemoveFile":
 			this.removeAtchFileItem();
 			break;
-		
+
+		// 자산코드 팝업(조회화면)
+		case "popupSearchGisCode":
+			this.doExecuteDialog("selectGisCode", "자산코드", '/popup/showAssetsCd.do', {});
+			break;
+
+		// 자산코드 팝업(디테일 화면)
+		case "popupSearchGisCode2":
+			this.doExecuteDialog("selectGisCode2", "자산코드", '/popup/showAssetsCd.do', {});
+			break;
+
+		// 시설물관리그룹(디테일 화면)
+		case "popupSearchFcltsMngGroupNo":
+			this.doExecuteDialog("selectFcltsMngGroup", "시설물그룹번호", '/popup/showFcltsMngGroup.do', {});
+			break;
+			
+		// 시설물 분류코드(디테일 화면)
+		case "popupSearchFcltsClCd" :
+			this.doExecuteDialog("selectFcltsClCd", "시설물분류코드", '/popup/showFcltsClCd.do', { sFcltsClCdChar : this._prtFcltySe });			
+			break;
+			
+		// 건축시설물 관리번호(디테일 화면) 			
+		case "popupSearchArchFcltsMngNo":
+			this.doExecuteDialog("selectArchFcltsMngNo", "건축시설번호", '/popup/showConsFcltyInfo.do', {});
+			break;
+			
 		case "registLocation":	// 위치 등록
 			var module=this;
 			EMD.gis.addPrtFcltyMarker(this._fcltyItem, function(value) {
@@ -534,13 +534,13 @@ var module_instance = new GamMechFcltySpecMngModule();
 							<td>
 								<input id="sAssetsCd" type="text" size="3" maxlength="3" />&nbsp;-&nbsp;
 								<input id="sAssetsSubCd" type="text" size="2" maxlength="2" />
-								<button id="searchGisCodeBtn" class="popupButton">선택</button>
+								<button id="popupSearchGisCode" class="popupButton">선택</button>
 							</td>
 							<th>기계시설분류</th>
 							<td>
 								<input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM058" />
 							</td>
-							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
+							<td rowspan="2"><button id="btnSearch" class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
 							<th>기계시설명</th>
@@ -548,9 +548,6 @@ var module_instance = new GamMechFcltySpecMngModule();
 						</tr>
 					</tbody>
 				</table>
-				<!-- <div class="emdControlPanel">
-					<button id="searchBtn">조회</button>
-				</div> -->
 			</form>
 		</div>
 	</div>
@@ -592,7 +589,7 @@ var module_instance = new GamMechFcltySpecMngModule();
 								<input type="text" size="4" id="gisAssetsCd" disabled="disabled" data-required="true"/>-
 								<input type="text" size="3" id="gisAssetsSubCd" disabled="disabled"/>-
 								<input type="text" size="4" id="gisAssetsPrtAtCode2" disabled="disabled"/>
-								<button id="searchGisCodeBtn2" class="popupButton">선택</button>
+								<button id="popupSearchGisCode2" class="popupButton">선택</button>
 							</td>
 						</tr>
 						<tr>
@@ -625,7 +622,7 @@ var module_instance = new GamMechFcltySpecMngModule();
 							<td colspan="5">
 								<input type="text" size="14" id="fcltsMngGroupNo" disabled="disabled"/>
 								<input type="text" size="40" id="fcltsMngGroupNoNm" disabled="disabled"/>
-								<button id="searchFcltsMngGroupNo" class="popupButton">선택</button>
+								<button id="popupSearchFcltsMngGroupNo" class="popupButton">선택</button>
 							</td>
 						</tr>
 						<tr>
@@ -660,8 +657,6 @@ var module_instance = new GamMechFcltySpecMngModule();
 								<input id="stndrd" type="text" size="50" maxlength="50" />
 								<input id="instlDt" type="hidden"/>	
 							</td>
-							<!-- <th width="12%" height="17" class="required_text">설치일자</th>
-							<td><input id="instlDt" type="text" class="emdcal" size="20" /></td>-->
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">사용시작일자</th>
@@ -766,7 +761,7 @@ var module_instance = new GamMechFcltySpecMngModule();
 							<td colspan="5">
 								<input id="mechFcltsClCd" type="text" size="20" disabled="disabled" />
 								<input id="mechFcltsClCdNm" type="text" size="50" disabled="disabled" />
-								<button id="searchFcltsClCd" class="popupButton">선택</button>
+								<button id="popupSearchFcltsClCd" class="popupButton">선택</button>
 							</td>
 						</tr>
 						<tr>
@@ -774,7 +769,7 @@ var module_instance = new GamMechFcltySpecMngModule();
 							<td colspan="5">
 								<input id="archFcltsMngNo" type="text" size="20" disabled="disabled" />
 								<input id="archFcltsMngNoNm" type="text" size="50" disabled="disabled" />
-								<button id="searchArchFcltsMngNo" class="popupButton">선택</button>
+								<button id="popupSearchArchFcltsMngNo" class="popupButton">선택</button>
 							</td>
 						</tr>
 						<tr>

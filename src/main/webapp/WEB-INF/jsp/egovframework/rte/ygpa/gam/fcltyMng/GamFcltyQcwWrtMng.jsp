@@ -157,15 +157,15 @@ GamFcltyQcwWrtMngModule.prototype.initDisplay = function() {
 	if(this._cmd == "insert") {
 		this.$("#fcltsMngGroupNo").enable();
 		this.$("#fcltsJobSe").enable();
-		this.$("#btnSearchFcltsMngGroup").show();
+		this.$("#popupSearchFcltsMngGroup").show();
 		this.$("#fcltyQcwWrtMngTab").tabs("option", {active: 1});		
 	} else if (this._cmd == "modify") {
 		this.$("#fcltsMngGroupNo").disable();
 		this.$("#fcltsJobSe").disable();
-		this.$("#btnSearchFcltsMngGroup").hide();
+		this.$("#popupSearchFcltsMngGroup").hide();
 	} else {
 		this.$("#fcltsJobSe").enable();
-		this.$("#btnSearchFcltsMngGroup").show();
+		this.$("#popupSearchFcltsMngGroup").show();
 		this.$("#fcltyQcwWrtMngTab").tabs("option", {active: 0});
 	}
 	
@@ -463,7 +463,7 @@ GamFcltyQcwWrtMngModule.prototype.downloadAtchFileItem = function() {
 GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 		//점검관리내역 목록 조회
-		case "searchBtn":
+		case "btnSearch":
 			this._cmd = '';
 			this.initDisplay();
 			this.loadData();
@@ -499,12 +499,7 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 		case "btnRemoveFile":
 			this.removeAtchFileItem();
 			break;
-			
-		//시설물관리그룹선택
-		case "btnSearchFcltsMngGroup":
-			this.doExecuteDialog("selectFcltsMngGroup", "시설물관리그룹", '/popup/showFcltsMngGroup.do', {});
-			break;
-			
+						
 		//점검관리대상시설물 수정
 		case "btnModifyQcMngObjFclts":
 			this.showModifyQcMngObjFcltsList();
@@ -514,6 +509,11 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 		case "btnModifyQcMngResultItem":
 			this.showModifyQcMngResultItemList();
 			break;
+		
+		//시설물관리그룹선택
+		case "popupSearchFcltsMngGroup":
+			this.doExecuteDialog("selectFcltsMngGroup", "시설물관리그룹", '/popup/showFcltsMngGroup.do', {});
+			break;			
 	}
 };
 
@@ -606,7 +606,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							</td>
 							<th>점검관리명</th>
 							<td><input type="text" id="sQcMngNm" size="50" /></td>
-							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
+							<td rowspan="2"><button id="btnSearch" class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
 							<th>점검진단구분</th>
@@ -660,7 +660,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							<td colspan="3">
 								<input type="text" size="14" id="fcltsMngGroupNo" maxlength="14" />
 								<input type="text" size="40" id="fcltsMngGroupNm" disabled="disabled"/>
-								<button id="btnSearchFcltsMngGroup" class="popupButton">선택</button>
+								<button id="popupSearchFcltsMngGroup" class="popupButton">선택</button>
 							</td>
 							<th width="12%" height="17">점검관리순번</th>
 							<td>
