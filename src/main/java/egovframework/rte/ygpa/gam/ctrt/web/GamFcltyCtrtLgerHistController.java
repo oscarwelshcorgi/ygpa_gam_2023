@@ -382,8 +382,8 @@ public class GamFcltyCtrtLgerHistController {
 		GamFcltyCtrtLgerHistVO fcltyCtrtFulfillCaryFwdFListSum = gamFcltyCtrtLgerHistService.selectFcltyCtrtFulfillCaryFwdFListSum(searchVO);
     	
 		totalCnt = fcltyCtrtFulfillCaryFwdFListSum.getTotalCnt();
-		sumFulfillAmt = fcltyCtrtFulfillCaryFwdFListSum.getSumThisTimeEstbAmt();
-		sumCaryFwdAmt = fcltyCtrtFulfillCaryFwdFListSum.getSumDepositExcclcAmt();
+		sumFulfillAmt = fcltyCtrtFulfillCaryFwdFListSum.getSumFulfillAmt();
+		sumCaryFwdAmt = fcltyCtrtFulfillCaryFwdFListSum.getSumCaryFwdAmt();
 
     	
     	paginationInfo.setTotalRecordCount(totalCnt);

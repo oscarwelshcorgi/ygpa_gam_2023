@@ -207,7 +207,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
-        	
+        	alert(data.sumFulfillAmt);
         	//자료수, 합산금액 입력
             module.$('#tabs6TotalCount').val($.number(data.totalCount));
             module.$('#sumFulfillAmt').val($.number(data.sumFulfillAmt));
