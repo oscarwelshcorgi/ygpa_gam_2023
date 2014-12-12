@@ -147,7 +147,40 @@ GamSocApplyModule.prototype.loadDetailData = function() {
 	this.$("#socApplyFeeList").flexOptions({params:searchOpt}).flexReload();	
 };
 
-//비관리청 신청 자장
+GamSocApplyModule.prototype.getApplyData = function () {
+	var applyData = JSON.stringify(this.getFormValues("#gamSocApplyDetailForm"));
+	var applyFacilList = JSON.stringify(this.$('#socApplyFacilList').flexGetData());
+	var applyFeeList = JSON.stringify(this.$('#socApplyFeeList').flexGetData());
+	
+	var opts = [];
+	
+	opts[opts.length] = {name: 'applyData',value: applyData};
+	opts[opts.length] = {name: 'applyFacilList',value: applyFacilList};
+	opts[opts.length] = {name: 'applyFeeList',value: applyFeeList};
+	
+	return opts;
+};
+
+//비관리청 신청 삽입
+GamSocApplyModule.prototype.insertData = function() {
+	var opts = this.getApplyData();
+	this.doAction('/soc/gamInsertSocApplyDetail.do', opts, function(module, result) {
+		if(result.resultCode == 0) {
+			module._cmd = 'modify';
+		} 
+		alert(result.resultMsg);
+	});	
+};
+
+//비관리청 신청 수정
+GamSocApplyModule.prototype.updateData = function() {
+	var opts = this.getApplyData();
+	this.doAction('/soc/gamUpdateSocApplyDetail.do', opts, function(module, result) {
+		alert(result.resultMsg);
+	});
+};
+
+//비관리청 신청 삽입 및 수정
 GamSocApplyModule.prototype.saveData = function() {
 	if(this._cmd == 'insert') {
     	if(!validateGamSocApply(this.$('#gamSocApplySearchForm')[0])){ 		
@@ -163,27 +196,10 @@ GamSocApplyModule.prototype.saveData = function() {
 	if(!validateGamSocApply(this.$('#gamSocApplyDetailForm')[0])){ 		
 		return;
 	}        	
-	var applyData = JSON.stringify(this.getFormValues("#gamSocApplyDetailForm"));
-	var applyFacilList = JSON.stringify(this.$('#socApplyFacilList').flexGetData());
-	var applyFeeList = JSON.stringify(this.$('#socApplyFeeList').flexGetData());
-	
-	var opts = [];
-	
-	opts[opts.length] = {name: 'applyData',value: applyData};
-	opts[opts.length] = {name: 'applyFacilList',value: applyFacilList};
-	opts[opts.length] = {name: 'applyFeeList',value: applyFeeList};
-	
 	if(this._cmd == 'insert') {
-    	this.doAction('/soc/gamInsertSocApplyDetail.do', opts, function(module, result) {
-    		if(result.resultCode == 0) {
-    			module._cmd = 'modify';
-    		} 
-    		alert(result.resultMsg);
-    	});
+		this.insertData();
 	} else if (this._cmd == 'modify') {
-    	this.doAction('/soc/gamUpdateSocApplyDetail.do', opts, function(module, result) {
-    		alert(result.resultMsg);
-    	});
+		this.updateData();
 	}
 };
 
@@ -191,15 +207,7 @@ GamSocApplyModule.prototype.saveData = function() {
 GamSocApplyModule.prototype.deleteData = function() { 
 	if(this._cmd == 'modify') {
     	if(confirm('데이터를 삭제하시겠습니까?')) {
-    		var applyData = JSON.stringify(this.getFormValues("#gamSocApplyDetailForm"));
-        	var applyFacilList = JSON.stringify(this.$('#socApplyFacilList').flexGetData());
-        	var applyFeeList = JSON.stringify(this.$('#socApplyFeeList').flexGetData());
-        	
-        	var opts = [];
-        	
-        	opts[opts.length] = {name: 'applyData',value: applyData};
-        	opts[opts.length] = {name: 'applyFacilList',value: applyFacilList};
-        	opts[opts.length] = {name: 'applyFeeList',value: applyFeeList};
+        	var opts = this.getApplyData();
         	this.doAction('/soc/gamDeleteSocApplyDetail.do', opts, function(module, result) {
         		if(result.resultCode == 0) {
         			module._cmd = '';
