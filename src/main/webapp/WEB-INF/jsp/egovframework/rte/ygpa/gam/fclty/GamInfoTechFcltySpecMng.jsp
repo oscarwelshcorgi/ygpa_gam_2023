@@ -101,24 +101,7 @@ GamInfoTechFcltySpecMngModule.prototype.loadComplete = function(params) {
 	});
 
 	this.$("#fcltsFileList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.$("#fcltsFileForm input").val('');
-		module.makeFormValues("#fcltsFileForm", row);
-
-		if(row.atchFileNmPhysicl != null || row.atchFileNmPhysicl != "") {
-			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
-			var filenm = row["atchFileNmPhysicl"];
-			var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
-
-			if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
-				$imgURL = module.getPfPhotoUrl(filenm);
-				module.$("#previewImage").fadeIn(400, function() {
-			    	module.$("#previewImage").attr("src", $imgURL);
-			    });
-			}else{
-				module.$("#previewImage").attr(src, "#");
-			}
-		}
-
+		module.selectAtchFileItem();
 	});
 
 	//첨부파일 정보 변화 이벤트 처리기
@@ -351,9 +334,7 @@ GamInfoTechFcltySpecMngModule.prototype.selectAtchFileItem = function() {
 			var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
 			if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
 				var imgURL = this.getPfPhotoUrl(filenm);
-				//this.$("#previewImage").fadeIn(400, function() {
-			    	this.$("#previewImage").attr("src", imgURL);
-			    //});
+			    this.$("#previewImage").attr("src", imgURL);
 			}else{
 				this.$("#previewImage").attr(src, "#");
 			}

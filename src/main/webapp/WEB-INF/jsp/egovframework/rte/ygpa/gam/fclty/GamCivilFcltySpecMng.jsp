@@ -305,9 +305,7 @@ GamCivilFcltySpecMngModule.prototype.selectAtchFileItem = function() {
 			var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
 			if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
 				var imgURL = this.getPfPhotoUrl(filenm);
-				//this.$("#previewImage").fadeIn(400, function() {
-			    	this.$("#previewImage").attr("src", imgURL);
-			    //});
+			    this.$("#previewImage").attr("src", imgURL);
 			}else{
 				this.$("#previewImage").attr(src, "#");
 			}
