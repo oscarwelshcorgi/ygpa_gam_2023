@@ -517,7 +517,7 @@ GamInfoTechFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabI
 				alert('정보통신시설항목을 선택하시거나 시설추가버튼을 누르세요.');
 			}
 			break;
-		}
+	}
 };
 
 /**
