@@ -38,8 +38,8 @@ GamPopupEntrpsModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"업체코드",			name:"entrpscd", 	width:80, 		sortable:true, 		align:"center"},
-					{display:"업체 명",			name:"entrpsNm", 	width:250, 		sortable:true, 		align:"center"},
-					{display:"대표자 명",			name:"rprsntvNm", 	width:100, 		sortable:true, 		align:"center"},
+					{display:"업체명",			name:"entrpsNm", 	width:250, 		sortable:true, 		align:"center"},
+					{display:"대표자명",			name:"rprsntvNm", 	width:100, 		sortable:true, 		align:"center"},
 					{display:"사업자등록번호",		name:"bizrno", 		width:120, 		sortable:true, 		align:"center"},
 					{display:"업종",				name:"induty", 		width:100, 		sortable:true, 		align:"center"}
 			],
@@ -47,18 +47,8 @@ GamPopupEntrpsModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#grdInfoList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-		// 이벤트내에선 모듈에 대해 선택한다.
 		module.closeDialog("ok", row);
 	});
-
-	this.$("#grdInfoList").on("onItemSelected", function(event, module, row, grid, param) {
-		//alert("row " + row["assetCls"]+"-"+row["assetNo"]+"-"+row["assetNoSeq"]+" is selected");
-	});
-
-	this.$("#grdInfoList").on("onItemUnSelected", function(event, module, row, grid, param) {
-		//alert("row " + row["assetCls"]+"-"+row["assetNo"]+"-"+row["assetNoSeq"]+" is unselected");
-	});
-
 };
 
 // 사용자 설정 함수 추가
@@ -66,15 +56,6 @@ GamPopupEntrpsModule.prototype.loadComplete = function() {
 GamPopupEntrpsModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case "btnEntrpsSearch":
-		/*
-		if(this.$("#entrpscd").val() == "" && this.$("#bizrno").val() == ""){
-			if(this.$("#entrpsNm").val() == "" || this.$("#entrpsNm").val().length < 2){
-				this.$("#entrpsNm").focus();
-				alert("업체 명은 2자 이상 입력하십시오.");
-				return;
-			}
-		}
-		 */
 		var searchOpt=this.makeFormArgs("#gamPopupEntrpsForm");
 	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 	 	
@@ -112,12 +93,12 @@ var popup_instance = new GamPopupEntrpsModule();
 			<table class="searchPanel">
 				<tbody>
 					<tr>
-                        <th>업체 명</th>
-                        <td><input id="entrpsNm" type="text" style="width: 120px;" title="업체 명" maxlength="20" /></td>
+                        <th>업체명</th>
+                        <td><input id="entrpsNm" type="text" style="width: 120px;"/></td>
 						<th>업체코드</th>
-                        <td><input id="entrpscd" type="text" style="width: 80px;" title="업체코드" maxlength="10" /></td>
-                    	<th>사업자 번호</th>
-						<td><input id="bizrno" type="text" style="width: 80px;" title="사업자 등록번호" maxlength="12" /></td>
+                        <td><input id="entrpscd" type="text" style="width: 80px;"/></td>
+                    	<th>사업자번호</th>
+						<td><input id="bizrno" type="text" style="width: 80px;"/></td>
 						<td><button id="btnEntrpsSearch" class="buttonSubmit">조회</button>
 						</td>
 					</tr>
