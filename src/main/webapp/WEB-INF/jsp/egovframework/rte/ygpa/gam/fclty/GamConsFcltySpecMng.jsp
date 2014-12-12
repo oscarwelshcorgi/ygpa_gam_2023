@@ -46,7 +46,7 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"항코드명",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
 					{display:"자산코드",		name:"gisAssetsDisplay",	width:80,		sortable:false,		align:"center"},
 					{display:"자산명",		name:"gisAssetsNm",			width:200,		sortable:false,		align:"left"},
-					{display:"시설코드", 		name:"gisPrtFcltyDisplay",	width:120,		sortable:false,		align:"center"},
+					{display:"시설코드", 		name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
 					{display:"시설명",		name:"prtFcltyNm",			width:280,		sortable:false,		align:"left"},
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:100,		sortable:false,		align:"center"}
 

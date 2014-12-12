@@ -42,12 +42,12 @@ GamConstFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		url: '/fclty/gamConstFcltySpecInqireList.do',
 		dataType: "json",
 		colModel : [
-					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:50,		sortable:false,		align:"center"},
-					{display:"항코드명",		name:"gisAssetsPrtAtName",	width:60,		sortable:false,		align:"center"},
-					{display:"자산코드",		name:"gisAssetsDisplay",	width:60,		sortable:false,		align:"center"},
+					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:80,		sortable:false,		align:"center"},
+					{display:"항코드명",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
+					{display:"자산코드",		name:"gisAssetsDisplay",	width:80,		sortable:false,		align:"center"},
 					{display:"자산명",		name:"gisAssetsNm",			width:200,		sortable:false,		align:"left"},
-					{display:"건축시설코드", 	name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
-					{display:"건축시설명",		name:"prtFcltyNm",			width:280,		sortable:false,		align:"left"},
+					{display:"시설코드", 		name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
+					{display:"시설명",		name:"prtFcltyNm",			width:280,		sortable:false,		align:"left"},
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:100,		sortable:false,		align:"left"}
 
 			],
