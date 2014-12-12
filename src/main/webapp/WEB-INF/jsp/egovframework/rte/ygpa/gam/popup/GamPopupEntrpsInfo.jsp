@@ -37,10 +37,10 @@ GamPopupEntrpsModule.prototype.loadComplete = function() {
 		url: '/popup/selectEntrpsInfoList.do',
 		dataType: "json",
 		colModel : [
-					{display:"업체코드",			name:"entrpscd", 	width:60, 		sortable:true, 		align:"center"},
-					{display:"업체 명",			name:"entrpsNm", 	width:200, 		sortable:true, 		align:"center"},
-					{display:"대표자 명",			name:"rprsntvNm", 	width:60, 		sortable:true, 		align:"center"},
-					{display:"사업자등록번호",	name:"bizrno", 		width:120, 		sortable:true, 		align:"center"},
+					{display:"업체코드",			name:"entrpscd", 	width:80, 		sortable:true, 		align:"center"},
+					{display:"업체 명",			name:"entrpsNm", 	width:250, 		sortable:true, 		align:"center"},
+					{display:"대표자 명",			name:"rprsntvNm", 	width:100, 		sortable:true, 		align:"center"},
+					{display:"사업자등록번호",		name:"bizrno", 		width:120, 		sortable:true, 		align:"center"},
 					{display:"업종",				name:"induty", 		width:100, 		sortable:true, 		align:"center"}
 			],
 		height: "300"

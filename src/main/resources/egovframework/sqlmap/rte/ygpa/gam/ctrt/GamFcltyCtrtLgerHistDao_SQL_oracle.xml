@@ -124,6 +124,7 @@
 					        		, TO_CHAR(BID_PBLANC_DT, 'YYYY-MM-DD') AS BID_PBLANC_DT
 					        		, TO_CHAR(BID_DT, 'YYYY-MM-DD') AS BID_DT
 					        		, REGIST_ENTRPS_CD
+					        		, GAM_GETENTRPSNM(REGIST_ENTRPS_CD, 1) AS REGIST_ENTRPS_NM
 					        		, SITE_DESC
 					        		, CTRT_NM
 					        		, PLAN_AMT
@@ -445,7 +446,7 @@
                                     CTRT_NO
 								    , SEQ
 								    , PYMNT_CL
-								    , PYMNT_DT
+								    , TO_CHAR(PYMNT_DT, 'YYYY-MM-DD') PYMNT_DT
 								    , THIS_TIME_ESTB_AMT
 								    , DEPOSIT_EXCCLC_AMT
 								    , PYMNT_AMT

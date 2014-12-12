@@ -115,13 +115,6 @@ GamFcltyCtrtSttusInqireModule.prototype.loadComplete = function() {
 		case 'btnFcltyCtrtSttusInqireListExcelDownload':
 			this.$('#fcltyCtrtSttusInqireList').flexExcelDown('/ctrt/gamSelectFcltyCtrtSttusInqireExcel.do');
 		break;
-
-        case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
-            var opts;
-            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
-            break;
-            
-        
     }
 };
 
@@ -194,25 +187,21 @@ var module_instance = new GamFcltyCtrtSttusInqireModule();
                                 </select>
                             </td>
                             <th width="10%">등록업체</th>
-                            <td>
-                            	<input id="sRegistEntrpsCd" type="text" size="7" disabled="disabled">&nbsp; &nbsp;
-                         		<input id="sRegistEntrpsNm" type="text" size="30" disabled="disabled">&nbsp; &nbsp;
-                         		<button id="popupEntrpsInfo" class="popupButton">선택</button>
-                         	</td>
+                            <td><input id="sEntrpsNm" type="text" size="70"></td>
                             <td rowspan="2">
 								<button id="searchBtn" class="buttonSearch">조회</button>
                             </td>
                         </tr>
                         <tr>
-                        	<th width="10%">계약명</th>
-                            <td>
-                            	<input id="sCtrtNm" type="text" size="25">
-                         	</td>
-							<th width="10%">계약연도</th>
+                        	<th width="10%">계약연도</th>
                             <td>
                             	<select id="sCtrtYr"></select>
                                 <input type="hidden" id="sPrevCtrtYr">
                             </td>
+                        	<th width="10%">계약명</th>
+                            <td>
+                            	<input id="sCtrtNm" type="text" size="70">
+                         	</td>
                         </tr>
                     </tbody>
                 </table>

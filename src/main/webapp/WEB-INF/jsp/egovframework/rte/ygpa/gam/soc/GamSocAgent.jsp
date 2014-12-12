@@ -41,8 +41,8 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
 					{display:'업체코드', 			name:'agentCode',	width:80, 		sortable:false,		align:'center'},
-                    {display:'업체명', 			name:'firmKorNm',	width:160, 		sortable:false,		align:'center'},
-                    {display:'허가원부일련번호', 	name:'constNo',		width:110, 		sortable:false,		align:'center'},
+                    {display:'업체명', 			name:'firmKorNm',	width:260, 		sortable:false,		align:'center'},
+                    {display:'허가원부일련번호', 	name:'constNo',		width:130, 		sortable:false,		align:'center'},
                     {display:'보전처리대상금액', 	name:'totalAmnt',	width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'보전처리누계액', 		name:'accFee',		width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'비고', 				name:'remark',		width:240, 		sortable:false,		align:'left'}
@@ -373,7 +373,7 @@ var module_instance = new GamSocAgentMngtModule();
 	                            </td>
 	                            <th>공사일련번호</th>
 	                            <td>
-	                            	<input id="constNo" type="text" size="15" maxlength="6">
+	                            	<input id="constNo" type="text" size="20" maxlength="6">
 	                            </td>
 	                        </tr>
                             <tr>
@@ -388,7 +388,7 @@ var module_instance = new GamSocAgentMngtModule();
                                     <!-- <input type="text" size="4" id="prtAtCodeStr" disabled/> -->
                                 </td>
                                 <th width="16%">대표자</th>
-                                <td><input type="text" id="agentOwner" maxlength="26"></td>
+                                <td><input type="text" id="agentOwner" size="20" maxlength="26"></td>
                             </tr>
                             <tr>
                                 <th width="16%">*공사명</th>
@@ -420,7 +420,7 @@ var module_instance = new GamSocAgentMngtModule();
                                 <th width="16%">*총공사금액</th>
                                 <td colspan="3"><input type="text" id="totalAmnt" class="ygpaNumber" size="55" maxlength="13" ></td>
                                 <th width="16%">보전처리누계액</th>
-                                <td><input id="accFee" type="text" class="ygpaNumber" size="20" maxlength="13" disabled="disabled"></td>
+                                <td><input id="accFee" type="text" class="ygpaNumber" size="25" maxlength="13" disabled="disabled"></td>
                             </tr>
                         </table>
                         <table style="width:100%;">

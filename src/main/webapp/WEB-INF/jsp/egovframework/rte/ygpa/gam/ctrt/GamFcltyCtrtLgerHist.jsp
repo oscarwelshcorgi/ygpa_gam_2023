@@ -89,8 +89,8 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
 					{display:'계약번호', 		name:'ctrtNo',			width:150, 		sortable:false,		align:'center'},
-                    {display:'순번', 			name:'seq',				width:40, 		sortable:false,		align:'center'},
-                    {display:'지분율', 		name:'qotaRate',		width:60, 		sortable:false,		align:'right'},
+                    {display:'순번', 			name:'seq',				width:60, 		sortable:false,		align:'center'},
+                    {display:'지분율', 		name:'qotaRate',		width:80, 		sortable:false,		align:'right'},
                     {display:'업체명', 		name:'entrpsNm',		width:200, 		sortable:false,		align:'left'},
                     {display:'대표자', 		name:'rprsntv',			width:80, 		sortable:false,		align:'center'},
                     {display:'전화번호', 		name:'tlphonNo',		width:120, 		sortable:false,		align:'center'},
@@ -133,10 +133,6 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
                     {display:'변경계약금액', 		name:'changeCtrtAmt',		width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'최종계약금액', 		name:'lastCtrtAmt',			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'비고', 				name:'rm',					width:200, 		sortable:false,		align:'left'},
-                    {display:'등록자', 			name:'regUsr',				width:80, 		sortable:false,		align:'center'},
-                    {display:'등록일시', 			name:'registDt',			width:80, 		sortable:false,		align:'center'},
-                    {display:'수정자', 			name:'updUsr',				width:80, 		sortable:false,		align:'center'},
-                    {display:'수정일시', 			name:'updtDt',				width:80, 		sortable:false,		align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -159,18 +155,14 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
 					{display:'계약번호', 		name:'ctrtNo',				width:150, 		sortable:false,		align:'center'},
-                    {display:'순번', 			name:'seq',					width:60, 		sortable:false,		align:'center'},
-                    {display:'지급분류', 		name:'pymntCl',				width:60, 		sortable:false,		align:'right'},
+                    {display:'순번', 			name:'seq',					width:80, 		sortable:false,		align:'center'},
+                    {display:'지급분류', 		name:'pymntCl',				width:100, 		sortable:false,		align:'right'},
                     {display:'지급일자', 		name:'pymntDt',				width:80, 		sortable:false,		align:'center'},
                     {display:'금회기성금액', 	name:'thisTimeEstbAmt',		width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'선금정산금액', 	name:'depositExcclcAmt',	width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'지급금액', 		name:'pymntAmt',			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'지급누계금액', 	name:'pymntAggrAmt',		width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'비고', 			name:'rm',					width:200, 		sortable:false,		align:'left'},
-                    {display:'등록자', 		name:'regUsr',				width:80, 		sortable:false,		align:'center'},
-                    {display:'등록일시', 		name:'registDt',			width:80, 		sortable:false,		align:'center'},
-                    {display:'수정자', 		name:'updUsr',				width:80, 		sortable:false,		align:'center'},
-                    {display:'수정일시', 		name:'updtDt',				width:80, 		sortable:false,		align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -194,20 +186,16 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
         url: '/ctrt/gamSelectFcltyCtrtFulfillCaryFwdFList.do',
         dataType: 'json',
         colModel : [
-					{display:'계약번호', 		name:'ctrtNo',				width:150, 		sortable:false,		align:'center'},
-                    {display:'순번', 			name:'seq',					width:60, 		sortable:false,		align:'center'},
-                    {display:'이행이월년도', 	name:'fulfillCaryFwdYear',	width:80, 		sortable:false,		align:'center'},
-                    {display:'이행금액', 		name:'fulfillAmt',			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-                    {display:'이월금액', 		name:'caryFwdAmt',			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-                    {display:'등록자', 		name:'regUsr',				width:80, 		sortable:false,		align:'center'},
-                    {display:'등록일시', 		name:'registDt',			width:80, 		sortable:false,		align:'center'},
-                    {display:'수정자', 		name:'updUsr',				width:80, 		sortable:false,		align:'center'},
-                    {display:'수정일시', 		name:'updtDt',				width:80, 		sortable:false,		align:'center'}
+					{display:'계약번호', 		name:'ctrtNo',				width:200, 		sortable:false,		align:'center'},
+                    {display:'순번', 			name:'seq',					width:80, 		sortable:false,		align:'center'},
+                    {display:'이행이월년도', 	name:'fulfillCaryFwdYear',	width:150, 		sortable:false,		align:'center'},
+                    {display:'이행금액', 		name:'fulfillAmt',			width:250, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+                    {display:'이월금액', 		name:'caryFwdAmt',			width:250, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     ],
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
-        	alert(data.sumFulfillAmt);
+
         	//자료수, 합산금액 입력
             module.$('#tabs6TotalCount').val($.number(data.totalCount));
             module.$('#sumFulfillAmt').val($.number(data.sumFulfillAmt));
@@ -378,7 +366,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
                         <tr>
                         	<th width="10%">등록업체</th>
                             <td colspan="3">
-                            	<input id="sRegistEntrpsCd" type="text" size="7" disabled="disabled">&nbsp; &nbsp;
+                            	<input id="sRegistEntrpsCd" type="text" size="11">&nbsp; &nbsp;
                          		<input id="sRegistEntrpsNm" type="text" size="30" disabled="disabled">&nbsp; &nbsp;
                          		<button id="popupEntrpsInfo" class="popupButton">선택</button>
                          	</td>
@@ -433,9 +421,9 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
                         <table class="detailPanel">
                             <tr>
 								<th width="10%" height="18">계약구분</th>
-                                <td width="15%"><span id="ctrtSe" ></span><input type="hidden" id="ctrtNo" ></td>
+                                <td width="20%"><span id="ctrtSe" ></span><input type="hidden" id="ctrtNo" ></td>
                                 <th width="10%" height="18">계약번호</th>
-                                <td width="15%"><span id="ctrtNo" ></span></td>
+                                <td width="20%"><span id="ctrtNo" ></span></td>
                                 <th width="10%" height="18">계약명</th>
                                 <td><span id="ctrtNm" ></span></td>
                             </tr>

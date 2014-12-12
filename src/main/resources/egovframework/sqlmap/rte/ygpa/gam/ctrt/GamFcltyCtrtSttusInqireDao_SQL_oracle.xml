@@ -41,13 +41,9 @@
 							                          T2.CTRT_DT <![CDATA[ <=  ]]>TO_DATE(#sCtrtYr# || '1231235959','YYYYMMDDHH24MISS') THEN
 							                          NVL(T2.CTRT_AMT,0) * NVL(T1.QOTA_RATE,0) END),0) AS CURR_CTRT_AMT
 							FROM 
-								CTRT_JOIN_CONTR_F T1
-							LEFT OUTER JOIN 
-								CTRT_INFO_F T2 
-							ON 
-								(T1.CTRT_NO=T2.CTRT_NO)
+								CTRT_JOIN_CONTR_F T1, CTRT_INFO_F T2 
 							WHERE 
-								1=1
+								T1.CTRT_NO=T2.CTRT_NO
 							<isNotEmpty property="sCtrtSe">
 								AND T2.CTRT_SE = #sCtrtSe#
 							</isNotEmpty>
@@ -61,8 +57,8 @@
 								<![CDATA[ AND T2.CTRT_DT<=TO_DATE(#sCtrtYr# || '1231235959','YYYYMMDDHH24MISS')  ]]>
 							</isNotEmpty>
 							
-							<isNotEmpty property="sRegistEntrpsCd">
-								AND T2.REGIST_ENTRPS_CD = #sRegistEntrpsCd#
+							<isNotEmpty property="sEntrpsNm">
+								AND T1.ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%' 
 							</isNotEmpty>
 							
 							GROUP BY T1.ENTRPS_NM
@@ -86,13 +82,9 @@
 	                          T2.CTRT_DT <![CDATA[ <=  ]]>TO_DATE(#sCtrtYr# || '1231235959','YYYYMMDDHH24MISS') THEN
 	                          NVL(T2.CTRT_AMT,0) * NVL(T1.QOTA_RATE,0) END)),0) AS SUM_CURR_CTRT_AMT
 		FROM 
-			CTRT_JOIN_CONTR_F T1
-		LEFT OUTER JOIN 
-			CTRT_INFO_F T2 
-		ON 
-			(T1.CTRT_NO=T2.CTRT_NO)
+			CTRT_JOIN_CONTR_F T1, CTRT_INFO_F T2 
 		WHERE 
-			1=1
+			T1.CTRT_NO=T2.CTRT_NO
 		<isNotEmpty property="sCtrtSe">
 			AND T2.CTRT_SE = #sCtrtSe#
 		</isNotEmpty>
@@ -106,8 +98,8 @@
 			<![CDATA[ AND T2.CTRT_DT<=TO_DATE(#sCtrtYr# || '1231235959','YYYYMMDDHH24MISS')  ]]>
 		</isNotEmpty>
 		
-		<isNotEmpty property="sRegistEntrpsCd">
-			AND T2.REGIST_ENTRPS_CD = #sRegistEntrpsCd#
+		<isNotEmpty property="sEntrpsNm">
+			AND T1.ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%' 
 		</isNotEmpty>
 		
 		GROUP BY T1.ENTRPS_NM

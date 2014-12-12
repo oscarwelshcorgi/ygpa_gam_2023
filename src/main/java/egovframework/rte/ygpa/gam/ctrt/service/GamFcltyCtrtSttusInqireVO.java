@@ -43,8 +43,8 @@ public class GamFcltyCtrtSttusInqireVO extends ComDefaultVO {
     
     
     
-    /** 등록업체코드 */
-    private String sRegistEntrpsCd;
+    /** 등록업체명 */
+    private String sEntrpsNm;
     
         
     /** 자료 총갯수 */
@@ -112,19 +112,7 @@ public class GamFcltyCtrtSttusInqireVO extends ComDefaultVO {
 		this.sPrevCtrtYr = sPrevCtrtYr;
 	}
 
-	/**
-	 * @return the sRegistEntrpsCd
-	 */
-	public String getsRegistEntrpsCd() {
-		return sRegistEntrpsCd;
-	}
-
-	/**
-	 * @param sRegistEntrpsCd the sRegistEntrpsCd to set
-	 */
-	public void setsRegistEntrpsCd(String sRegistEntrpsCd) {
-		this.sRegistEntrpsCd = sRegistEntrpsCd;
-	}
+	
 
 	/**
 	 * @return the totalCnt
@@ -167,6 +155,20 @@ public class GamFcltyCtrtSttusInqireVO extends ComDefaultVO {
 	 */
 	public void setSumCurrCtrtAmt(long sumCurrCtrtAmt) {
 		this.sumCurrCtrtAmt = sumCurrCtrtAmt;
+	}
+
+	/**
+	 * @return the sEntrpsNm
+	 */
+	public String getsEntrpsNm() {
+		return sEntrpsNm;
+	}
+
+	/**
+	 * @param sEntrpsNm the sEntrpsNm to set
+	 */
+	public void setsEntrpsNm(String sEntrpsNm) {
+		this.sEntrpsNm = sEntrpsNm;
 	}
 
     
