@@ -86,7 +86,7 @@ GamSocApplyDtlsModule.prototype.loadData = function() {
  */
 GamSocApplyDtlsModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
-        case 'searchBtn':
+        case 'btnSearch':
         	this.loadData();
             break;
         case 'popupFeeTpInfo' : //요금종류버튼
@@ -159,7 +159,7 @@ var module_instance = new GamSocApplyDtlsModule();
                                 </select>
                             </td>
                             <td  rowSpan="2">
-								<button id="searchBtn" class="buttonSearch">조회</button>
+								<button id="btnSearch" class="buttonSearch">조회</button>
                             </td>
                         </tr>
                         <tr>
