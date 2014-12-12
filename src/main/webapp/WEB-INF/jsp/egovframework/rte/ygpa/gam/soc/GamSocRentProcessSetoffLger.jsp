@@ -41,11 +41,11 @@ GamSocRentProcessSetoffLgerModule.prototype.loadComplete = function() {
         colModel : [
 					{display:'관리번호', 		name:'fiscalSocNo',		width:120, 		sortable:false,		align:'center'},
 					{display:'상계일자', 		name:'billDt',			width:120, 		sortable:false,		align:'center'},
-					{display:'적용요율', 		name:'standardFee',		width:60, 		sortable:false,		align:'center'},
+					{display:'적용요율', 		name:'standardFee',		width:100, 		sortable:false,		align:'center'},
 					{display:'임대업체', 		name:'mctmc',			width:120, 		sortable:false,		align:'center'},
 					{display:'임대업체명', 	name:'agentNm3',		width:150, 		sortable:false,		align:'center'},
 					{display:'처리항구', 		name:'prtKorNm',		width:120, 		sortable:false,		align:'center'},
-					{display:'요금종류', 		name:'feeTp',			width:80, 		sortable:false,		align:'center'},
+					{display:'요금종류', 		name:'feeTp',			width:100, 		sortable:false,		align:'center'},
 					{display:'요금종류명', 	name:'feeTpKorNm',		width:120, 		sortable:false,		align:'center'},
 					{display:'상계금액(청)', 	name:'exmpAmnt',		width:150, 		sortable:false,		align:'right', 	displayFormat: 'number'},
 					{display:'상계금액(공사)', 	name:'exmpAmntPa',		width:150, 		sortable:false,		align:'right', 	displayFormat: 'number'},
@@ -228,7 +228,7 @@ var module_instance = new GamSocRentProcessSetoffLgerModule();
                             <th>문서번호</th>
                             <td>
                                 <input id="sCmplYr" type="text" size="5" />
-                                <input type="text" size="15" id="sConstNo" disabled/>
+                                <input type="text" size="25" id="sConstNo" disabled/>
                             </td>
                             <td rowspan="4"><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
@@ -245,7 +245,7 @@ var module_instance = new GamSocRentProcessSetoffLgerModule();
                             </td>                   
                             <th>신청횟수</th>
                             <td>
-                                <input id="sUseNo" type="text" size="15" />
+                                <input id="sUseNo" type="text" size="36" />
                             </td>
                         </tr>
                         <tr>            
@@ -268,7 +268,7 @@ var module_instance = new GamSocRentProcessSetoffLgerModule();
                         <tr>
                             <th>보전누계액</th>
                             <td>
-                                <input id="sExmpAcc" type="text" size="15" />
+                                <input id="sExmpAcc" type="text" size="31" />
                             </td>
                             <th>입출항일자</th>
                             <td colspan="3">
@@ -315,11 +315,11 @@ var module_instance = new GamSocRentProcessSetoffLgerModule();
                         </td>
                         <th>준공년도</th>
                         <td>
-                            <input id="cmplYr" type="text" size="5" readOnly="readonly" />
+                            <input id="cmplYr" type="text" size="32" readOnly="readonly" />
                         </td>
                         <th>공사번호</th>
                         <td>
-                            <input id="constNo" type="text" size="10" readOnly="readonly" />
+                            <input id="constNo" type="text" size="30" readOnly="readonly" />
                         </td>
 					</tr>
 					<tr>    
@@ -341,11 +341,11 @@ var module_instance = new GamSocRentProcessSetoffLgerModule();
                      <tr>
                         <th>신청횟수</th>
                         <td>
-                            <input id="useNo" type="text" size="10" class="ygpaNumber" readOnly="readonly" />
+                            <input id="useNo" type="text" size="21" class="ygpaNumber" readOnly="readonly" />
                         </td>
                         <th>총공사금액</th>
                         <td>
-                            <input id="totalAmnt" type="text" size="30" class="ygpaNumber" readOnly="readonly" />
+                            <input id="totalAmnt" type="text" size="32" class="ygpaNumber" readOnly="readonly" />
                         </td>
                         <th>보전처리대상금액</th>
                         <td>

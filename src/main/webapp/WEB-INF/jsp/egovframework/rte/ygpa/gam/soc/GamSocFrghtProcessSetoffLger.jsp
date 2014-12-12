@@ -41,10 +41,10 @@ GamSocFrghtProcessSetoffLgerModule.prototype.loadComplete = function() {
         colModel : [
 					{display:'선명', 			name:'dVsslKorNm',		width:80, 		sortable:false,		align:'center'},
 					{display:'호출부호', 		name:'callLetter',		width:80, 		sortable:false,		align:'center'},
-					{display:'입항횟수', 		name:'yicn',			width:60, 		sortable:false,		align:'center'},
+					{display:'입항횟수', 		name:'yicn',			width:100, 		sortable:false,		align:'center'},
 					{display:'관리번호', 		name:'fiscalSocNo',		width:120, 		sortable:false,		align:'center'},
 					{display:'상계일자', 		name:'billDt',			width:120, 		sortable:false,		align:'center'},
-					{display:'적용요율', 		name:'standardFee',		width:60, 		sortable:false,		align:'center'},
+					{display:'적용요율', 		name:'standardFee',		width:100, 		sortable:false,		align:'center'},
 					{display:'입출항일자', 	name:'ioDt',			width:120, 		sortable:false,		align:'center'},
 					{display:'내외항', 		name:'ixtn',			width:80, 		sortable:false,		align:'center'},
 					{display:'신고업체', 		name:'mctmc',			width:120, 		sortable:false,		align:'center'},
@@ -54,7 +54,7 @@ GamSocFrghtProcessSetoffLgerModule.prototype.loadComplete = function() {
 					{display:'요금종류명', 	name:'feeTpKorNm',		width:120, 		sortable:false,		align:'center'},
 					{display:'할인율코드', 	name:'dcCode',			width:100, 		sortable:false,		align:'center'},
 					{display:'할인율(%)', 	name:'rate',			width:80, 		sortable:false,		align:'center'},
-					{display:'운임톤', 		name:'realTn',			width:60, 		sortable:false,		align:'right', 	displayFormat: 'number'},
+					{display:'운임톤', 		name:'realTn',			width:100, 		sortable:false,		align:'right', 	displayFormat: 'number'},
 					{display:'상계금액(청)', 	name:'exmpAmnt',		width:150, 		sortable:false,		align:'right', 	displayFormat: 'number'},
 					{display:'상계금액(공사)', 	name:'exmpAmntPa',		width:150, 		sortable:false,		align:'right', 	displayFormat: 'number'},
 					{display:'특이사항', 		name:'remark',			width:200, 		sortable:false,		align:'center'}
@@ -236,7 +236,7 @@ var module_instance = new GamSocFrghtProcessSetoffLgerModule();
                             <th>문서번호</th>
                             <td>
                                 <input id="sCmplYr" type="text" size="5" />
-                                <input type="text" size="15" id="sConstNo" disabled/>
+                                <input type="text" size="25" id="sConstNo" disabled/>
                             </td>
                             <td rowspan="4"><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
@@ -253,7 +253,7 @@ var module_instance = new GamSocFrghtProcessSetoffLgerModule();
                             </td>                   
                             <th>신청횟수</th>
                             <td>
-                                <input id="sUseNo" type="text" size="15" />
+                                <input id="sUseNo" type="text" size="36" />
                             </td>
                         </tr>
                         <tr>            
@@ -276,7 +276,7 @@ var module_instance = new GamSocFrghtProcessSetoffLgerModule();
                         <tr>
                             <th>보전누계액</th>
                             <td>
-                                <input id="sExmpAcc" type="text" size="15" />
+                                <input id="sExmpAcc" type="text" size="31" />
                             </td>
                             <th>입출항일자</th>
                             <td colspan="3">
@@ -323,11 +323,11 @@ var module_instance = new GamSocFrghtProcessSetoffLgerModule();
                         </td>
                         <th>준공년도</th>
                         <td>
-                            <input id="cmplYr" type="text" size="5" readOnly="readonly" />
+                            <input id="cmplYr" type="text" size="32" readOnly="readonly" />
                         </td>
                         <th>공사번호</th>
                         <td>
-                            <input id="constNo" type="text" size="10" readOnly="readonly" />
+                            <input id="constNo" type="text" size="30" readOnly="readonly" />
                         </td>
 					</tr>
 					<tr>    
@@ -349,11 +349,11 @@ var module_instance = new GamSocFrghtProcessSetoffLgerModule();
                      <tr>
                         <th>신청횟수</th>
                         <td>
-                            <input id="useNo" type="text" size="10" class="ygpaNumber" readOnly="readonly" />
+                            <input id="useNo" type="text" size="21" class="ygpaNumber" readOnly="readonly" />
                         </td>
                         <th>총공사금액</th>
                         <td>
-                            <input id="totalAmnt" type="text" size="30" class="ygpaNumber" readOnly="readonly" />
+                            <input id="totalAmnt" type="text" size="32" class="ygpaNumber" readOnly="readonly" />
                         </td>
                         <th>보전처리대상금액</th>
                         <td>

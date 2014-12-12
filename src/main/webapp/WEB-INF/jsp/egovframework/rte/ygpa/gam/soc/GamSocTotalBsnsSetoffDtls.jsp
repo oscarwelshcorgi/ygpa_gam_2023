@@ -39,9 +39,9 @@ GamSocTotalBsnsSetoffDtlsModule.prototype.loadComplete = function() {
         url: '/soc/gamSelectSocTotalBsnsSetoffDtlsList.do',
         dataType: 'json',
         colModel : [
-					{display:'공사항구코드', 			name:'socPrtAtCode',	width:80, 		sortable:false,		align:'center'},
+					{display:'공사항구코드', 			name:'socPrtAtCode',	width:100, 		sortable:false,		align:'center'},
                     {display:'공사항구명', 			name:'socPrtKorNm',		width:120, 		sortable:false,		align:'center'},
-                    {display:'등록항구코드', 			name:'prtAtCode',		width:80, 		sortable:false,		align:'center'},
+                    {display:'등록항구코드', 			name:'prtAtCode',		width:100, 		sortable:false,		align:'center'},
                     {display:'등록항구명', 			name:'prtKorNm',		width:120, 		sortable:false,		align:'center'},
                     {display:'공사명', 				name:'socCnstNm',		width:320, 		sortable:false,		align:'left'},
                     {display:'시공업체', 				name:'agentCode',		width:130, 		sortable:false,		align:'center'},
@@ -83,16 +83,16 @@ GamSocTotalBsnsSetoffDtlsModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
 					{display:'선명', 					name:'vsslKey',			width:120, 		sortable:false,		align:'center'},
-                    {display:'호출부호', 				name:'callLetter',		width:80, 		sortable:false,		align:'center'},
+                    {display:'호출부호', 				name:'callLetter',		width:100, 		sortable:false,		align:'center'},
                     {display:'입항횟수', 				name:'serNo',			width:100, 		sortable:false,		align:'center'},
                     {display:'관리번호', 				name:'socNo',			width:130, 		sortable:false,		align:'center'},
                     {display:'상계일자', 				name:'',				width:130, 		sortable:false,		align:'center'},
-                    {display:'적용요율', 				name:'dcRate',			width:60, 		sortable:false,		align:'center'},
-                    {display:'내외항', 				name:'',				width:60, 		sortable:false,		align:'center'},
+                    {display:'적용요율', 				name:'dcRate',			width:100, 		sortable:false,		align:'center'},
+                    {display:'내외항', 				name:'',				width:80, 		sortable:false,		align:'center'},
                     {display:'신고업체', 				name:'appAgentCode',	width:80, 		sortable:false,		align:'center'},
                     {display:'신고업체명', 			name:'',				width:150, 		sortable:false,		align:'center'},
-                    {display:'처리항구', 				name:'prtAtCode',		width:60, 		sortable:false,		align:'center'},
-                    {display:'요금종류', 				name:'feeTp',			width:60, 		sortable:false,		align:'center'},
+                    {display:'처리항구', 				name:'prtAtCode',		width:100, 		sortable:false,		align:'center'},
+                    {display:'요금종류', 				name:'feeTp',			width:100, 		sortable:false,		align:'center'},
                     {display:'요금종류명', 			name:'',				width:100, 		sortable:false,		align:'center'},
                     {display:'할인율', 				name:'',				width:60, 		sortable:false,		align:'center'},
                     {display:'상계금액(청)', 			name:'',				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
@@ -227,7 +227,7 @@ var module_instance = new GamSocTotalBsnsSetoffDtlsModule();
                             </td>
                             <th>요금종류코드</th>
                             <td>
-                                <input id="sFeeTp" type="text" size="2" />
+                                <input id="sFeeTp" type="text" size="7" />
                                 <input type="text" size="20" id="sFeeTpKorNm" disabled/>
                                 <button id="popupChrgeKndCd" class="popupButton">선택</button>
                             </td>
@@ -242,7 +242,7 @@ var module_instance = new GamSocTotalBsnsSetoffDtlsModule();
 						<tr>                            
                             <th>보전횟수</th>
                             <td width="100px">
-                                <input id="sUseNo" type="text" size="15">
+                                <input id="sUseNo" type="text" size="14">
                             </td>                            
                             <th>처리기간</th>
                             <td>
