@@ -147,6 +147,7 @@ GamSocApplyModule.prototype.loadDetailData = function() {
 	this.$("#socApplyFeeList").flexOptions({params:searchOpt}).flexReload();	
 };
 
+//화면에 존재하는 비관리청 신청 데이터 리턴
 GamSocApplyModule.prototype.getApplyData = function () {
 	var applyData = JSON.stringify(this.getFormValues("#gamSocApplyDetailForm"));
 	var applyFacilList = JSON.stringify(this.$('#socApplyFacilList').flexGetData());
