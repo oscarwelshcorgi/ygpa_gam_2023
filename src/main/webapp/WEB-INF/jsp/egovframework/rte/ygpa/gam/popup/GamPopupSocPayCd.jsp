@@ -107,9 +107,9 @@ var popup_instance = new GamPopupSocPayCdModule();
                             </select>
                         </td>
 						<th>요금코드</th>
-                        <td><input id="feeTp" type="text" size="12" title="요금코드" maxlength="10" /></td>
+                        <td><input id="feeTp" type="text" size="5"/></td>
                     	<th>요금명</th>
-						<td><input id="feeTpKorNm" type="text" size="12" title="요금명" maxlength="12" /></td>
+						<td><input id="feeTpKorNm" type="text" size="20"/></td>
 						<td><button id="btnSearch">조회</button></td>
 					</tr>
 				</tbody>

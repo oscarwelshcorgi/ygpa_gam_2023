@@ -57,7 +57,7 @@ public class GamSocApplyDAO extends YGPAAbstractDAO {
 	 * @exception
 	 */
 	int selectSocApplyListTotCnt(GamSocApplyVO searchVO) {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamSocApplDao.selectSocApplyListTotCnt_S", searchVO);
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamSocApplyDao.selectSocApplyListTotCnt_S", searchVO);
 	}
 	
 	/**

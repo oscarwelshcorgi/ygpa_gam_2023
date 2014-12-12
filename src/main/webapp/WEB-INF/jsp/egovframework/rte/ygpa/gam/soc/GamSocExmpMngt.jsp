@@ -376,7 +376,7 @@ var module_instance = new GamSocExmpMngtModule();
                                 <td>
                                     <input type="text" size="9" id="appAgentCode" readonly/>
                                     <input type="text" size="25" id="appAgentName" disabled/>
-                                    <button id="popupApplyInfo" class="popupButton">선택</button>
+                                    <button id="popupApplyInfo" class="popupButton">투자비보전신청업체선택</button>
                                 </td>
                             </tr>
                         	<tr>
@@ -389,8 +389,6 @@ var module_instance = new GamSocExmpMngtModule();
                             <tr>
 								<th width="10%" height="18">면제처리청</th>
                                 <td colspan="5">
-                                    <!--<input id="exmpPrtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" />
-                                    <input type="text" size="4" id="exmpPrtAtKorNm" disabled/>-->
                                 	<select id="exmpPrtAtCode">
 	                                    <option value="" selected="selected">선택</option>
 	                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
@@ -440,9 +438,9 @@ var module_instance = new GamSocExmpMngtModule();
                             <tr>
 								<th width="10%" height="18">시설코드</th>
                                 <td colspan="3">
-                                    <input type="text" size="3" id="facCode" />
-                                    <input type="text" size="2" id="facSubCode" />
-                                    <input type="text" size="25" id="facKorNm" disabled/>
+                                    <input type="text" size="4" id="facCode" />
+                                    <input type="text" size="3" id="facSubCode" />
+                                    <input type="text" size="24" id="facKorNm" disabled/>
                                     <button id="popupFacCd" class="popupButton">선택</button>
                                 </td>
 								<th width="10%" height="18">고지일자</th>

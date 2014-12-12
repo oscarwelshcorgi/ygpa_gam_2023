@@ -449,20 +449,15 @@ GamCivilFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 		this.loadDetailData();
 	}
 	switch(newTabId) {
-	case "tabs1":
-		break;
-	case "tabs2":
-		if((this._cmd != 'insert') && (this._cmd != 'modify')) {
-			this.$("#civilFcltySpecMngTab").tabs("option", {active: 0});
-			alert('토목시설항목을 선택하시거나 시설추가버튼을 누르세요.');
-		} 
-		break;
-	case "tabs3":
-		if((this._cmd != 'insert') && (this._cmd != 'modify')) {
-			this.$("#civilFcltySpecMngTab").tabs("option", {active: 0});
-			alert('토목시설항목을 선택하시거나 시설추가버튼을 누르세요.');
-		} 
-		break;
+		case "tabs1":
+			break;
+		case "tabs2":
+		case "tabs3":
+			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
+				this.$("#civilFcltySpecMngTab").tabs("option", {active: 0});
+				alert('토목시설항목을 선택하시거나 시설추가버튼을 누르세요.');
+			} 
+			break;
 	}
 };
 

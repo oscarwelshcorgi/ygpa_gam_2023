@@ -70,9 +70,9 @@ GamSocApplyModule.prototype.loadComplete = function() {
         url: '/soc/gamSelectSocApplyFacilList.do',
         dataType: 'json',
         colModel : [
-                    {display:'시설코드', 	name:'facCode',		width:70, sortable:false,align:'center'},
-                    {display:'시설하위코드',name:'facSubCode',	width:80, sortable:false,align:'center'},
-                    {display:'시설명', 	name:'facKorNm',	width:230, sortable:false,align:'center'}
+                    {display:'시설코드', 	name:'facCode',		width:90, sortable:false,align:'center'},
+                    {display:'시설하위코드',name:'facSubCode',	width:110, sortable:false,align:'center'},
+                    {display:'시설명', 	name:'facKorNm',	width:260, sortable:false,align:'left'}
                     ],
         showTableToggleBtn: true,
         height: '300'
@@ -84,12 +84,22 @@ GamSocApplyModule.prototype.loadComplete = function() {
         url: '/soc/gamSelectSocApplyFeeList.do',
         dataType: 'json',
         colModel : [
-                    {display:'요금코드', 	name:'feeTp', 		width:100, sortable:true, align:'left'},
-                    {display:'요금명', 	name:'feeTpKorNm', 	width:280, sortable:true, align:'left'}
+                    {display:'요금코드', 	name:'feeTp', 		width:150, sortable:true, align:'center'},
+                    {display:'요금명', 	name:'feeTpKorNm', 	width:310, sortable:true, align:'left'}
                     ],
         showTableToggleBtn: false,
         height: '300'
     });
+    
+    this.fillSelectBoxYear('#sCmplYr');
+};
+
+//2000년부터 현재년도까지 select 박스에 채워넣는 함수.
+GamSocApplyModule.prototype.fillSelectBoxYear = function(id) {
+	var curYear = (new Date()).getFullYear();
+	for(var i=curYear; i>=2000; i--) {
+		this.$(id).append('<option value="' + i + '">' + i + '</option>');
+	}
 };
 
 //화면 및 변수 초기화
@@ -378,10 +388,7 @@ var module_instance = new GamSocApplyModule();
                             <th>공사준공년도</th>
                             <td width="250px">
                                 <select id="sCmplYr">
-                                    <option value="" selected="selected">년</option>
-                                    <c:forEach  items="${yearsList}" var="yearsItem">
-                                        <option value="${yearsItem}">${yearsItem}</option>
-                                    </c:forEach>
+                                    <option value="" selected="selected">선택</option>
                                 </select>
                             </td>
                             <th>공사번호</th>
@@ -443,17 +450,17 @@ var module_instance = new GamSocApplyModule();
 						<input type="hidden" id="useNo" />
     	               	<table class="detailForm"  style="width:100%;">
                             <tr>
-                                <th width="16%">보전처리신청금액</th>
-                                <td><input type="text" id="exmpAmnt" size="20" class="ygpaNumber" /></td>
-                                <th width="16%">보전처리누계액</th>
+                                <th width="12%">보전처리신청금액</th>
+                                <td width="38%"><input type="text" id="exmpAmnt" size="20" class="ygpaNumber" /></td>
+                                <th width="12%">보전처리누계액</th>
                                 <td><input type="text" id="exmpAcc" size="20" class="ygpaNumber" /></td>
                             </tr>
                             <tr>
-                                <th width="16%">보전처리기간</th>
+                                <th>보전처리기간</th>
                                 <td>
-									<input id="periodFr" type="text" class="emdcal" size="20"> ~ <input id="periodTo" type="text" class="emdcal" size="20">
+									<input id="periodFr" type="text" class="emdcal" size="15"> ~ <input id="periodTo" type="text" class="emdcal" size="15">
                                 </td>
-                                <th width="16%">보전처리조건</th>
+                                <th>보전처리조건</th>
                                 <td>
                                 	<select id="exmpCond">
                                 		<option value="" selected="selected">선택</option>
@@ -463,13 +470,13 @@ var module_instance = new GamSocApplyModule();
                                 </td>
                             </tr>
                             <tr>
-                            	<th width="16%">공사업체</th>
+                            	<th>공사업체</th>
                                 <td>
                                 	<input id="agentCode" type="text" size="10">&nbsp; &nbsp;
-	                            	<input id="agentName" type="text" size="15" disabled="disabled">&nbsp; &nbsp;
+	                            	<input id="agentName" type="text" size="25" disabled="disabled">&nbsp; &nbsp;
 	                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                                 </td>
-                                <th width="16%">적용요율</th>
+                                <th>적용요율</th>
                                 <td>
                                 	<select id="rateGubun">
                                 		<option value="" selected="selected">선택</option>
@@ -479,13 +486,13 @@ var module_instance = new GamSocApplyModule();
                                 </td>
                             </tr>
                             <tr>
-                                <th width="16%">특이사항</th>
+                                <th>특이사항</th>
                                 <td colSpan="3"><input type="text" id="remark" size="120"></td>
                             </tr>
                             <tr>
-                                <th width="16%">공사명칭</th>
+                                <th>공사명칭</th>
                                 <td><input type="text" id="item" size="55"></td>
-                                <th width="16%">사용여부</th>
+                                <th>사용여부</th>
                                 <td>
                                 	<select id="useYn">
                                 		<option value="" selected="selected">선택</option>
@@ -495,22 +502,24 @@ var module_instance = new GamSocApplyModule();
                                 </td>
                             </tr>
                             <tr>
-                                <th width="16%">사업자등록번호</th>
+                                <th>사업자등록번호</th>
                                 <td><input type="text" id="bzRgstId" size="20" ></td>
-                                <th width="16%">신청일자</th>
-                                <td><input id="applDate" type="text" class="emdcal" size="10"></td>
+                                <th>신청일자</th>
+                                <td><input id="applDate" type="text" class="emdcal" size="15"></td>
                             </tr>
                         </table><br>
                         <table class="detailForm"  style="width:100%;">
                             <tr>
-                                <th width="16%">외항접안</th>
+                            	<th width="2%"></th>
+                                <th width="10%" style="text-align:right">외항접안</th>
                                 <td><input type="text" id="r11Rate"></td>
-                                <th width="16%">내항접안</th>
+                                <th width="10%" style="text-align:right">내항접안</th>
                                 <td><input type="text" id="r12Rate"></td>
-                                <th width="16%">외항정박</th>
+                                <th width="10%" style="text-align:right">외항정박</th>
                                 <td><input type="text" id="r21Rate"></td>
-                                <th width="16%">내항정박</th>
+                                <th width="10%" style="text-align:right">내항정박</th>
                                 <td><input type="text" id="r22Rate"></td>
+                                <th width="5%"></th>
                             </tr>
                         </table>
 					</form>

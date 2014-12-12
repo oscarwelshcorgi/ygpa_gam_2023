@@ -88,32 +88,13 @@ public class GamSocApplyController {
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		
 		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
-		List yearsList = this.getYears(); // 조회연도
 		
 		model.addAttribute("prtAtCdList", prtAtCdList);
 		model.addAttribute("windowId", windowId);
-		model.addAttribute("yearsList", yearsList);
 
     	return "/ygpa/gam/soc/GamSocApply";
     }
     
-    /**
-     * 조회기간 연도를 가져온다
-     *
-     */
-	public List getYears(){
-
-		java.util.Calendar cal = java.util.Calendar.getInstance();
-		int currentYear = cal.get(cal.YEAR);
-		List result = new ArrayList();
-   		
-   		for (int i = 2000; i <= currentYear; i++) {
-   			result.add(String.valueOf(i));
-   		}
-
-   		return result;
-   	}
-	
     @RequestMapping(value="/soc/gamSelectApplyDetailInquire.do")
 	@ResponseBody Map selectSocApplyDetailInquire(
 			@ModelAttribute("gamSocApplyVO") GamSocApplyVO gamSocApplyVO,

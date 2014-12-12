@@ -107,11 +107,11 @@ var popup_instance = new GamPopupSocFacCdModule();
                             </select>
                         </td>					
                         <th>시설코드</th>
-                        <td><input id="sFacCode" type="text" size="3" title="요금코드" maxlength="10" /></td>
+                        <td><input id="sFacCode" type="text" size="4"/></td>
 						<th>시설부코드</th>
-                        <td><input id="sFacSubCode" type="text" size="2" title="요금코드" maxlength="10" /></td>
+                        <td><input id="sFacSubCode" type="text" size="3"/></td>
                     	<th>시설명</th>
-						<td><input id="sFacKorNm" type="text" size="12" title="요금명" maxlength="12" /></td>
+						<td><input id="sFacKorNm" type="text" size="12"/></td>
 						<td><button id="btnSearch">조회</button></td>
 					</tr>
 				</tbody>

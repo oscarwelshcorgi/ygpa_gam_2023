@@ -508,21 +508,16 @@ GamInfoTechFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabI
 		this.loadDetailData();
 	}
 	switch(newTabId) {
-	case "tabs1":
-		break;
-	case "tabs2":
-		if((this._cmd != 'insert') && (this._cmd != 'modify')) {
-			this.$("#infoTechFcltySpecMngTab").tabs("option", {active: 0});
-			alert('정보통신시설항목을 선택하시거나 시설추가버튼을 누르세요.');
+		case "tabs1":
+			break;
+		case "tabs2":
+		case "tabs3":
+			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
+				this.$("#infoTechFcltySpecMngTab").tabs("option", {active: 0});
+				alert('정보통신시설항목을 선택하시거나 시설추가버튼을 누르세요.');
+			}
+			break;
 		}
-		break;
-	case "tabs3":
-		if((this._cmd != 'insert') && (this._cmd != 'modify')) {
-			this.$("#infoTechFcltySpecMngTab").tabs("option", {active: 0});
-			alert('정보통신시설항목을 선택하시거나 시설추가버튼을 누르세요.');
-		}
-		break;
-	}
 };
 
 /**
