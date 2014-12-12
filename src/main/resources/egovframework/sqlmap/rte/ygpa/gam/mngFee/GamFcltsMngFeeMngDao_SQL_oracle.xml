@@ -973,6 +973,7 @@
 	</insert>
 
 	<select id="gamFcltsMngFeeMngDao.selectFcltsMngFeeMngChartList_D" parameterClass="hashMap" resultClass="egovMap">
+		<isEqual property="statTypeSe" compareValue="M">
 		SELECT /*+ INDEX (T2 PK_FCLTS_MNG_FEE_DETAIL_F) */
 				 T1.MT
 
@@ -1000,7 +1001,9 @@
 				,NVL(SUM(T2.MNG_TOTAL_FEE),0) AS STAT_VALUE
 				</isEqual>
 
-			FROM (
+				,COUNT(*) OVER () AS DATA_COUNT
+			FROM
+				(
 				SELECT
 						 #statEntrpscd# AS ENTRPSCD
 						,#statMngFeeJobSe# AS MNG_FEE_JOB_SE
@@ -1023,6 +1026,60 @@
 			)
 		GROUP BY T1.MT
 		ORDER BY T1.MT
+		</isEqual>
+
+		<isEqual property="statTypeSe" compareValue="E">
+		SELECT /*+ INDEX (T2 PK_FCLTS_MNG_FEE_DETAIL_F) */
+				 T1.ENTRPS_NM AS MT
+
+				<isEqual property="statMngFeeSe" compareValue="M">
+				,NVL(SUM(T2.MNG_FEE),0) AS STAT_VALUE
+				</isEqual>
+
+				<isEqual property="statMngFeeSe" compareValue="E">
+				,NVL(SUM(T2.ELCTY_FEE),0) AS STAT_VALUE
+				</isEqual>
+
+				<isEqual property="statMngFeeSe" compareValue="W">
+				,NVL(SUM(T2.WATER_FEE),0) AS STAT_VALUE
+				</isEqual>
+
+				<isEqual property="statMngFeeSe" compareValue="G">
+				,NVL(SUM(T2.GAS_FEE),0) AS STAT_VALUE
+				</isEqual>
+
+				<isEqual property="statMngFeeSe" compareValue="I">
+				,NVL(SUM(T2.ENV_FEE),0) AS STAT_VALUE
+				</isEqual>
+
+				<isEqual property="statMngFeeSe" compareValue="T">
+				,NVL(SUM(T2.MNG_TOTAL_FEE),0) AS STAT_VALUE
+				</isEqual>
+
+				,COUNT(*) OVER () AS DATA_COUNT
+			FROM FCLTS_MNG_FEE_DETAIL_F T2
+			LEFT OUTER JOIN ENTRPS_INFO_F T1 ON (T2.ENTRPSCD=T1.ENTRPSCD)
+
+		<isNotEmpty property="statMngMtMon">
+		WHERE T2.MNG_MT = #statMngMtYear# || #statMngMtMon#
+		</isNotEmpty>
+
+		<isEmpty property="statMngMtMon">
+		WHERE T2.MNG_MT LIKE #statMngMtYear# || '%'
+		</isEmpty>
+
+		<isNotEmpty prepend="AND " property="statMngFeeJobSe">
+		T2.MNG_FEE_JOB_SE = #statMngFeeJobSe#
+		</isNotEmpty>
+
+		<isNotEmpty prepend="AND " property="statEntrpscd">
+		T2.ENTRPSCD = #statEntrpscd#
+		</isNotEmpty>
+
+		GROUP BY T1.ENTRPS_NM
+		ORDER BY T1.ENTRPS_NM
+		</isEqual>
+
 	</select>
 
 </sqlMap>

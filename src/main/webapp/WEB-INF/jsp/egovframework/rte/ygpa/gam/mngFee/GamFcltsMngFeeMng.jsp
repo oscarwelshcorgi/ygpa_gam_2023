@@ -194,8 +194,106 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
 	this.$('#statMngMtMon').val(mon);
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
-	this.$('#btnFcltsFeeMngNtic').disable({disableClass:"ui-state-disabled"});
-	this.$('#btnFcltsFeeMngInqire').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnOpenFcltsFeeMngNtic').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnOpenFcltsFeeMngInqire').disable({disableClass:"ui-state-disabled"});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : drawChart
+ * @DESCRIPTION   : CHART DRAW
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsMngFeeMngModule.prototype.drawChart = function() {
+
+	var statVO = [];
+	var statValueArr=[];
+	var maxStatValue=0;
+	var statValue=0;
+	var statMt="";
+	var statMngFeeSeNm = this.$('#statMngFeeSe option:selected').text();
+	var statType = this.$('#statTypeSe').val();
+	var statTypeSeNm = this.$('#statTypeSe option:selected').text();
+	statVO={
+			'statMngMtYear':this.$('#statMngMtYear').val(),
+			'statMngMtMon':this.$('#statMngMtMon').val(),
+			'statTypeSe':this.$('#statTypeSe').val(),
+			'statMngFeeJobSe':this.$('#statMngFeeJobSe').val(),
+			'statEntrpscd':this.$('#statEntrpscd').val(),
+			'statMngFeeSe':this.$('#statMngFeeSe').val()
+	};
+	this.doAction('<c:url value="/mngFee/gamSelectFcltsMngFeeMngChart.do" />', statVO, function(module, result) {
+		if (result.resultCode == "0") {
+			var dataCount = result.resultList[0]['dataCount']*1;
+			if (dataCount > 0) {
+				for (var i=0; i<dataCount; i++) {
+					if (statType == "M") {
+						statMt=result.resultList[i]['mt'] + "월";
+					} else {
+						statMt=result.resultList[i]['mt'];
+					}
+					statValue=result.resultList[i]['statValue']*1;
+					statValueArr[i]={month: statMt, gauge: statValue};
+					if (maxStatValue<statValue) {
+						maxStatValue=statValue;
+					}
+				};
+			} else {
+				for (var i=0; i<12; i++) {
+					statMt="" + i;
+					statValue=0;
+					statValueArr[i]={month: statMt, gauge: statValue};
+				};
+			}
+		} else {
+			for (var i=0; i<12; i++) {
+				statMt="" + i;
+				statValue=0;
+				statValueArr[i]={month: statMt, gauge: statValue};
+			};
+		}
+		if (maxStatValue<10) {
+			maxStatValue=10;
+		}
+		if (module.statChart==null) {
+			module.statChart = new dhtmlXChart({
+				view			: "bar",
+				container		: module.$('#fcltyMngFeeMngSttusChart')[0],
+				value			: "#gauge#",
+				color			: "#000BE0",
+	            gradient		: "rising",
+				width			: 30,
+				tooltip			: "#gauge# 원",
+				label			: "#gauge#",
+				xAxis			: {
+					title 		: "관리비 부과 현황 " + "(" + statTypeSeNm + ")",
+					template	: "#month#"
+				},
+				yAxis			: {
+					start		: 0,
+					end			: maxStatValue + 10,
+					step		: Math.ceil(maxStatValue / 10),
+					title		: statMngFeeSeNm + " (단위 : 원)"
+				}
+			});
+		} else {
+			module.statChart.clearAll();
+			module.statChart.define("xAxis", {
+				title 			: "관리비 부과 현황 " + "(" + statTypeSeNm + ")",
+				template		: "#month#"
+			});
+			module.statChart.define("yAxis", {
+				start			: 0,
+				end				: maxStatValue + 10,
+				step 			: Math.ceil(maxStatValue / 10),
+				title			: statMngFeeSeNm + " (단위 : 원)"
+			});
+		}
+		module.statChart.parse(statValueArr, "json");
+		module.statChart.refresh();
+	});
 
 };
 
@@ -219,10 +317,16 @@ GamFcltsMngFeeMngModule.prototype.onClosePopup = function(popupId, msg, value) {
 				this.$("#mngFee").focus();
 			}
 			break;
+		case 'popupStatEntrpscd':
+			if (msg == 'ok') {
+				this.$('#statEntrpscd').val(value.entrpscd);
+				this.$('#statEntrpsNm').val(value.entrpsNm);
+				this.$("#statMngFeeSe").focus();
+			}
+			break;
 	}
 
 };
-
 
 <%
 /**
@@ -275,8 +379,14 @@ GamFcltsMngFeeMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnPrintNticIssue':
 			this.printNticIssue();
 			break;
-		case 'btnFcltsFeeMngNtic':
+		case 'btnPrintReport':
+			this.printReport();
+			break;
+		case 'btnOpenFcltsFeeMngNtic':
 			this.openFcltsFeeMngNticModule();
+			break;
+		case 'btnOpenFcltsFeeMngInqire':
+			this.openFcltsFeeMngInqireModule();
 			break;
 		case 'btnExcelDownload':
 			this.downloadExcel();
@@ -284,8 +394,14 @@ GamFcltsMngFeeMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnExcelDownloadDetail':
 			this.downloadExcelDetail();
 			break;
+		case 'btnStatSearch':
+			this.drawChart();
+			break;
 		case 'popupDataEntrpscd':
 			this.doExecuteDialog('popupDataEntrpscd', '업체 선택', '/popup/showEntrpsInfo.do', null);
+			break;
+		case 'popupStatEntrpscd':
+			this.doExecuteDialog('popupStatEntrpscd', '업체 선택', '/popup/showEntrpsInfo.do', null);
 			break;
 	}
 
@@ -420,7 +536,7 @@ GamFcltsMngFeeMngModule.prototype.selectData = function() {
 **/
 %>
 GamFcltsMngFeeMngModule.prototype.selectDetailData = function() {
-console.log('asdf');
+
 	if (this._detailmode != 'insert' && this._detailmode != 'modify') {
 		return;
 	}
@@ -1311,15 +1427,62 @@ GamFcltsMngFeeMngModule.prototype.printNticIssue = function() {
 
 <%
 /**
+ * @FUNCTION NAME : printReport
+ * @DESCRIPTION   : 시설물 관리비 내역서를 출력한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsMngFeeMngModule.prototype.printReport = function() {
+
+	var row = this.$('#detailGrid').selectedRows()[0];
+	if (row == null) {
+		return;
+	}
+	this.printPage('/mngFee/gamPrintPreviewFcltsMngFeeMngReport.do', row);
+
+};
+
+<%
+/**
  * @FUNCTION NAME : openFcltsFeeMngNticModule
- * @DESCRIPTION   : 시설물 관리비 고지화면 MODULE OPEN
+ * @DESCRIPTION   : [시설물 관리비 고지] 화면 MODULE OPEN
  * @PARAMETER     : NONE
 **/
 %>
 GamFcltsMngFeeMngModule.prototype.openFcltsFeeMngNticModule = function() {
 
-	var gridRowCount = this.$("#mainGrid").flexRowCount();
-	alert(gridRowCount);
+	var row = this.$('#mainGrid').selectedRows();
+    var formParams = {};
+	if (row.length==0) {
+		return;
+	}
+	formParams = {
+		action: 'selectFcltsFeeMngNtic',
+		paramVo:{ mngMtYear: rows[0].mainMngMtYear, mngMtMon: rows[0].mainMngMtMon, mngFeeJobSe: rows[0].mainMngFeeJobSe }
+	};
+	EMD.util.create_window('시설물 관리비 고지', '/mngFee/gamFcltsFeeMngNtic.do', null, formParams);
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : openFcltsFeeMngInqireModule
+ * @DESCRIPTION   : [시설물 관리비 관리비 납부현황 조회] 화면 MODULE OPEN
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsMngFeeMngModule.prototype.openFcltsFeeMngInqireModule = function() {
+
+	var row = this.$('#mainGrid').selectedRows();
+    var formParams = {};
+	if (row.length==0) {
+		return;
+	}
+	formParams = {
+		action: 'selectFcltsFeeMngInqire',
+		paramVo:{ mngMtYear: rows[0].mainMngMtYear, mngMtMon: rows[0].mainMngMtMon, mngFeeJobSe: rows[0].mainMngFeeJobSe }
+	};
+	EMD.util.create_window('시설물 관리비 납부현황 조회', '/mngFee/gamFcltsFeeMngInqire.do', null, formParams);
 
 };
 
@@ -1371,41 +1534,41 @@ GamFcltsMngFeeMngModule.prototype.enableListButtonItem = function() {
 	if (this._mode == "insert") {
 		this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
-		this.$('#btnFcltsFeeMngNtic').disable({disableClass:"ui-state-disabled"});
-		this.$('#btnFcltsFeeMngInqire').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnOpenFcltsFeeMngNtic').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnOpenFcltsFeeMngInqire').disable({disableClass:"ui-state-disabled"});
 	} else {
 		this.$('#btnAdd').enable();
 		this.$('#btnAdd').removeClass('ui-state-disabled');
 		var row = this.$('#mainGrid').selectedRows()[0];
 		if (row == null) {
 			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
-			this.$('#btnFcltsFeeMngNtic').disable({disableClass:"ui-state-disabled"});
-			this.$('#btnFcltsFeeMngInqire').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnOpenFcltsFeeMngNtic').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnOpenFcltsFeeMngInqire').disable({disableClass:"ui-state-disabled"});
 			return;
 		}
 		var nhtIsueYn = row['mainNhtIsueYn'];
 		if (nhtIsueYn == "Y") {
 			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
-			this.$('#btnFcltsFeeMngNtic').enable();
-			this.$('#btnFcltsFeeMngNtic').removeClass('ui-state-disabled');
-			this.$('#btnFcltsFeeMngInqire').enable();
-			this.$('#btnFcltsFeeMngInqire').removeClass('ui-state-disabled');
+			this.$('#btnOpenFcltsFeeMngNtic').enable();
+			this.$('#btnOpenFcltsFeeMngNtic').removeClass('ui-state-disabled');
+			this.$('#btnOpenFcltsFeeMngInqire').enable();
+			this.$('#btnOpenFcltsFeeMngInqire').removeClass('ui-state-disabled');
 		} else if (nhtIsueYn == "N") {
 			this.$('#btnDelete').enable();
 			this.$('#btnDelete').removeClass('ui-state-disabled');
-			this.$('#btnFcltsFeeMngNtic').enable();
-			this.$('#btnFcltsFeeMngNtic').removeClass('ui-state-disabled');
-			this.$('#btnFcltsFeeMngInqire').enable();
-			this.$('#btnFcltsFeeMngInqire').removeClass('ui-state-disabled');
+			this.$('#btnOpenFcltsFeeMngNtic').enable();
+			this.$('#btnOpenFcltsFeeMngNtic').removeClass('ui-state-disabled');
+			this.$('#btnOpenFcltsFeeMngInqire').enable();
+			this.$('#btnOpenFcltsFeeMngInqire').removeClass('ui-state-disabled');
 		} else if (nhtIsueYn == "X") {
 			this.$('#btnDelete').enable();
 			this.$('#btnDelete').removeClass('ui-state-disabled');
-			this.$('#btnFcltsFeeMngNtic').disable({disableClass:"ui-state-disabled"});
-			this.$('#btnFcltsFeeMngInqire').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnOpenFcltsFeeMngNtic').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnOpenFcltsFeeMngInqire').disable({disableClass:"ui-state-disabled"});
 		} else {
 			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
-			this.$('#btnFcltsFeeMngNtic').disable({disableClass:"ui-state-disabled"});
-			this.$('#btnFcltsFeeMngInqire').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnOpenFcltsFeeMngNtic').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnOpenFcltsFeeMngInqire').disable({disableClass:"ui-state-disabled"});
 		}
 	}
 
@@ -1544,6 +1707,7 @@ GamFcltsMngFeeMngModule.prototype.enableSubDetailInputItem = function() {
 		this.$('#btnProcessNticIssue').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnPrintReport').disable({disableClass:"ui-state-disabled"});
 	} else {
 		if (nhtIsueYn == "Y") {
 			this.$('#usageAr').disable();
@@ -1566,6 +1730,8 @@ GamFcltsMngFeeMngModule.prototype.enableSubDetailInputItem = function() {
 			this.$('#btnCancelNticIssue').removeClass('ui-state-disabled');
 			this.$('#btnPrintNticIssue').enable();
 			this.$('#btnPrintNticIssue').removeClass('ui-state-disabled');
+			this.$('#btnPrintReport').enable();
+			this.$('#btnPrintReport').removeClass('ui-state-disabled');
 		} else if (nhtIsueYn == "N") {
 			this.$('#usageAr').enable();
 			this.$('#popupDataEntrpscd').enable();
@@ -1589,6 +1755,7 @@ GamFcltsMngFeeMngModule.prototype.enableSubDetailInputItem = function() {
 			this.$('#btnProcessNticIssue').removeClass('ui-state-disabled');
 			this.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnPrintReport').disable({disableClass:"ui-state-disabled"});
 		} else if (nhtIsueYn == "X") {
 			this.$('#usageAr').disable();
 			this.$('#popupDataEntrpscd').disable({disableClass:"ui-state-disabled"});
@@ -1608,6 +1775,7 @@ GamFcltsMngFeeMngModule.prototype.enableSubDetailInputItem = function() {
 			this.$('#btnProcessNticIssue').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnPrintReport').disable({disableClass:"ui-state-disabled"});
 		} else {
 			this.$('#usageAr').disable();
 			this.$('#popupDataEntrpscd').disable({disableClass:"ui-state-disabled"});
@@ -1631,6 +1799,7 @@ GamFcltsMngFeeMngModule.prototype.enableSubDetailInputItem = function() {
 			this.$('#btnProcessNticIssue').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnPrintReport').disable({disableClass:"ui-state-disabled"});
 		}
 	}
 
@@ -1662,6 +1831,7 @@ GamFcltsMngFeeMngModule.prototype.disableSubDetailInputItem = function() {
 	this.$('#btnProcessNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnPrintReport').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -1706,6 +1876,7 @@ GamFcltsMngFeeMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			}
 			break;
 		case 'statTab':
+			this.$('#statMngFeeJobSe').val(this.$('#sMngFeeJobSe').val());
 			break;
 	}
 
@@ -1836,8 +2007,8 @@ var module_instance = new GamFcltsMngFeeMngModule();
 								<button id="btnExcelDownload">엑셀　다운로드</button>
 								<button id="btnExcelUpload">엑셀　　업로드</button>
 								<button id="btnCopy">이전월자료복사</button>
-								<button id="btnFcltsFeeMngNtic">고지내역　조회</button>
-								<button id="btnFcltsFeeMngInqire">납부현황　조회</button>
+								<button id="btnOpenFcltsFeeMngNtic">고지내역　조회</button>
+								<button id="btnOpenFcltsFeeMngInqire">납부현황　조회</button>
 							</td>
 					</table>
 				</div>
@@ -1924,13 +2095,14 @@ var module_instance = new GamFcltsMngFeeMngModule();
 							<tr>
 								<td>시설물 관리비 상세 내역</td>
 								<td style="text-align: right">
-									<button id="btnAddDetail">상세내역　추가</button>
-									<button id="btnSaveDetail">상세내역　저장</button>
-									<button id="btnDeleteDetail">상세내역　삭제</button>
-									<button id="btnProcessNticIssue">　　고　지　　</button>
-									<button id="btnCancelNticIssue">　고지　취소　</button>
-									<button id="btnPrintNticIssue">고지서　　출력</button>
-									<button id="btnExcelDownloadDetail">엑셀　다운로드</button>
+									<button id="btnAddDetail">상세내역 추가</button>
+									<button id="btnSaveDetail">상세내역 저장</button>
+									<button id="btnDeleteDetail">상세내역 삭제</button>
+									<button id="btnProcessNticIssue">　　고 지　　</button>
+									<button id="btnCancelNticIssue">　고지 취소　</button>
+									<button id="btnPrintNticIssue">고지서　 출력</button>
+									<button id="btnPrintReport">내역서　 출력</button>
+									<button id="btnExcelDownloadDetail">엑셀 다운로드</button>
 								</td>
 							</tr>
 						</table>
@@ -1951,10 +2123,6 @@ var module_instance = new GamFcltsMngFeeMngModule();
 									<input type="text" size="22" id="entrpsNm" disabled>
 									<button id="popupDataEntrpscd" class="popupButton">선택</button>
 								</td>
-								<!--
-								<th width="10%" height="18">사용 면적</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="usageAr" disabled/></td>
-								 -->
 								<th width="10%" height="18">고지/출력/요금</th>
 								<td>
 									<input id="setoffYn" type="hidden"/>
@@ -2054,11 +2222,14 @@ var module_instance = new GamFcltsMngFeeMngModule();
 										<option value="11">11월</option>
 										<option value="12">12월</option>
 									</select>
+									<select id="statTypeSe">
+										<option value="M" selected>월별</option>
+										<option value="E">업체별</option>
+									</select>
 								</td>
 								<th width="10%" height="30">업무 구분</th>
 								<td >
-									<select id="statMngFeeJobSe" disabled>
-										<option value="">선택</option>
+									<select id="statMngFeeJobSe">
 										<option value="M">마린센터</option>
 										<option value="E">전기시설</option>
 									</select>
@@ -2071,7 +2242,7 @@ var module_instance = new GamFcltsMngFeeMngModule();
 								</td>
 								<th width="10%" height="30">조회 구분</th>
 								<td >
-									<select id="statMngFeeSe" disabled>
+									<select id="statMngFeeSe">
 										<option value="M">관리비</option>
 										<option value="E">전기 요금</option>
 										<option value="W">상하수도 요금</option>
@@ -2085,7 +2256,7 @@ var module_instance = new GamFcltsMngFeeMngModule();
 								</td>
 							</tr>
 							<tr>
-								<td colspan="7" style="padding-left:4px;">
+								<td colspan="9" style="padding-left:4px;">
 									<div id="fcltyMngFeeMngSttusChart" style="width:955px;height:450px;border:1px solid #A4BED4;"></div>
 								</td>
 							</tr>

@@ -638,4 +638,68 @@ public class GamFcltsMngFeeMngController {
 
 	}
 
+	@RequestMapping(value="/mngFee/gamPrintPreviewFcltsMngFeeMngReport.do")
+	public String printPreviewFcltsMngFeeMngReport(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo, ModelMap model) throws	Exception {
+
+		String sMngMtYear = "";
+		String sMngMtMon = "";
+		String sEntrpsNm = "";
+		String sNticDt = "";
+		String sPayTmlmt = "";
+		String sMngYrMt = "";
+		String sDueDt = "";
+		String sBillDt = "";
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			model.addAttribute("resultCode", 1);
+			model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+		} else {
+			sMngMtYear = (String)gamFcltsMngFeeMngDetailVo.getMngMtYear();
+			sMngMtMon = (String)gamFcltsMngFeeMngDetailVo.getMngMtMon();
+			sEntrpsNm = (String)gamFcltsMngFeeMngDetailVo.getEntrpsNm();
+			sNticDt = (String)gamFcltsMngFeeMngDetailVo.getNticDt();
+			sPayTmlmt = (String)gamFcltsMngFeeMngDetailVo.getPayTmlmt();
+			sMngYrMt = sMngMtYear + "년 " + sMngMtMon + "월";
+			sDueDt = sPayTmlmt.substring(0,4) + "년 " + sPayTmlmt.substring(5,7)	+ "월 "	+ sPayTmlmt.substring(8,10)	+ "일";
+			sBillDt = sNticDt.substring(0,4)	+ "년 "	+ sNticDt.substring(5,7) + "월 " + sNticDt.substring(8,10) + "일";
+			model.addAttribute("mngYrMt", sMngYrMt);
+			model.addAttribute("entrpsNm", sEntrpsNm);
+			model.addAttribute("usageAr", (String)gamFcltsMngFeeMngDetailVo.getUsageAr());
+			model.addAttribute("rentFee", "");
+			model.addAttribute("rentVat", "");
+			model.addAttribute("rentAmt", "");
+			model.addAttribute("rentRm", "");
+			model.addAttribute("mngFee", (String)gamFcltsMngFeeMngDetailVo.getFee());
+			model.addAttribute("mngVat", (String)gamFcltsMngFeeMngDetailVo.getVat());
+			model.addAttribute("mngAmt", (String)gamFcltsMngFeeMngDetailVo.getNticAmt());
+			model.addAttribute("mngRm",	"세금계산서발행분");
+			model.addAttribute("arrrgFee", (String)gamFcltsMngFeeMngDetailVo.getArrrgAmt());
+			model.addAttribute("arrrgVat", "");
+			model.addAttribute("arrrgAmt", (String)gamFcltsMngFeeMngDetailVo.getArrrgAmt());
+			model.addAttribute("arrrgRm", "전월연체료");
+			model.addAttribute("nticFee", (String)gamFcltsMngFeeMngDetailVo.getFee());
+			model.addAttribute("nticVat", (String)gamFcltsMngFeeMngDetailVo.getVat());
+			model.addAttribute("nticAmt", (String)gamFcltsMngFeeMngDetailVo.getNticAmt());
+			model.addAttribute("nticRm", "");
+			model.addAttribute("fcltyMngFee", (String)gamFcltsMngFeeMngDetailVo.getMngFee());
+			model.addAttribute("nticVat", (String)gamFcltsMngFeeMngDetailVo.getVat());
+			model.addAttribute("nticAmt", (String)gamFcltsMngFeeMngDetailVo.getNticAmt());
+			model.addAttribute("mngFeeRm", "관리비");
+			model.addAttribute("elctyFee", (String)gamFcltsMngFeeMngDetailVo.getElctyFee());
+			model.addAttribute("waterFee", (String)gamFcltsMngFeeMngDetailVo.getWaterFee());
+			model.addAttribute("gasFee", (String)gamFcltsMngFeeMngDetailVo.getGasFee());
+			model.addAttribute("payTmlmt", sDueDt);
+			model.addAttribute("bankNm", "외환은행 광양지점");
+			model.addAttribute("bankAccountNo",	"631-000305-679");
+			model.addAttribute("bankOwnerNm", "여수광양항만공사");
+			model.addAttribute("nticDt", sBillDt);
+			model.addAttribute("resultCode", 0);
+			model.addAttribute("resultMsg", "");
+		}
+
+		return "ygpa/gam/mngFee/GamFcltsMngFeeMngPrintReport";
+
+	}
+
 }

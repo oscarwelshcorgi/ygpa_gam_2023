@@ -153,12 +153,25 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 		event.data.module.setPayTmlmt();
 	});
 
-	var mon = new Date().getMonth()+1;
-	if (mon.length==1) {
-		mon="0"+mon;
+	if (params != null) {
+		if (params.action == "selectFcltsFeeMngNtic") {
+        	this.$('#sStartMngYear').val(params.paramVo.mngMtYear);
+        	this.$('#sStartMngMt').val(params.paramVo.mngMtMon);
+        	this.$('#sEndMngYear').val(params.paramVo.mngMtYear);
+        	this.$('#sEndMngMt').val(params.paramVo.mngMtMon);
+        	this.$('#sMngFeeJobSe').val(params.paramVo.mngFeeJobSe);
+        	this._mode="query";
+        	var searchOpt=this.makeFormArgs('#searchForm');
+        	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+		}
+	} else {
+		var mon = new Date().getMonth()+1;
+		if (mon.length==1) {
+			mon="0"+mon;
+		}
+		this.$('#sStartMngMt').val(mon);
+		this.$('#sEndMngMt').val(mon);
 	}
-	this.$('#sStartMngMt').val(mon);
-	this.$('#sEndMngMt').val(mon);
 	this.$('#btnProcessNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
