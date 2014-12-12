@@ -206,7 +206,7 @@ var module_instance = new GamSocShipProcessRealloadModule();
                             </td>
                             <th>호출부호</th>
                             <td>
-                                <input id="sVsslKey" type="text" size="2" />
+                                <input id="sVsslKey" type="text" size="7" />
                                 <input type="text" size="20" id="sVsslNm" disabled/>
                                 <button id="popupVsslCd" class="popupButton">선택</button>
                             </td>
