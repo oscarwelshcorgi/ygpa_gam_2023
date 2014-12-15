@@ -37,9 +37,9 @@ GamFcltyQcHistInqireModule.prototype.loadComplete = function(params) {
 	this._params = params;	// 파라미터를 저장한다.
 
 	// 테이블 설정
-	this.$("#qcHistInquireList").flexigrid({
+	this.$("#qcHistDtlsList").flexigrid({
 		module: this,
-		url: '/fcltyMng/selectQcHistInquireList.do',
+		url: '/fcltyMng/selectQcHistDtlsList.do',
 		dataType: "json",
 		colModel : [
 					{display:"점검진단기관명",	name:"qcInspInsttNm",		width:120,		sortable:false,		align:"center"},
@@ -60,16 +60,49 @@ GamFcltyQcHistInqireModule.prototype.loadComplete = function(params) {
 		height: "auto"
 	});
 		
-	this.$("#qcHistInquireList").on('onItemSelected', function(event, module, row, grid, param) {
+	this.$("#qcHistDtlsList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		module.$("#fcltyQcHistInqireTab").tabs("option", {active: 1});
 	});
-
 };
 
 GamFcltyQcHistInqireModule.prototype.onSubmit = function() {
 	this.loadData();
 };
 
+//화면 및 데이터 초기화
+GamFcltyQcHistInqireModule.prototype.initDisplay = function() {	
+	this.makeDivValues("#fcltyQcHistInqireVO", {});
+};
+
+//점검이력 목록 조회
 GamFcltyQcHistInqireModule.prototype.loadData = function() {
+	var searchOpt = this.makeFormArgs("#searchFcltyQcHistInqireForm");
+	this.$("#qcHistDtlsList").flexOptions({params:searchOpt}).flexReload();
+	this.$("#fcltyQcHistInqireTab").tabs("option", {active: 0});
+};
+
+//점검이력 데이터 조회
+GamFcltyQcHistInqireModule.prototype.loadDetailData = function() {
+	var rows = this.$('#qcHistDtlsList').selectedRows();
+	if(rows.length > 0) {
+		var row = rows[0];
+		var opts = [
+	           		{name: 'sFcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
+	           		{name: 'sFcltsJobSe', value: row['fcltsJobSe'] },
+	           		{name: 'sQcMngSeq', value: row['qcMngSeq'] },
+	           		{name: 'sFcltsMngNo', value: row['fcltsMngNo'] }
+		           ];
+		this.doAction('/fcltyMng/selectQcHistDtlsDetail.do', opts, function(module, result) { 
+			if(result.resultCode == "0"){
+				module.makeDivValues('#fcltyQcHistInqireVO', result.result);
+				module.$("#qcInspResult").text(result.result.qcInspResult);
+			}
+			else {
+				module.initDisplay();
+				alert(result.resultMsg);
+			}
+		});	
+	}
 };
 
 /**
@@ -78,6 +111,8 @@ GamFcltyQcHistInqireModule.prototype.loadData = function() {
 GamFcltyQcHistInqireModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 		case "btnSearch":
+			this.initDisplay();
+			this.loadData();
 			break;
 		case "popupSearchFcltsMngNo":
 			this.doExecuteDialog('selectFcltsMngNo', '시설물 선택', '/popup/showFcltsMngNo.do', {});
@@ -89,6 +124,10 @@ GamFcltyQcHistInqireModule.prototype.onButtonClick = function(buttonId) {
  * 탭 변경시 실행 이벤트
  */
 GamFcltyQcHistInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
+	if(oldTabId == 'tabs1') {
+		this.initDisplay();
+		this.loadDetailData();
+	}
 	switch(newTabId) {
 		case "tabs1":
 			break;
@@ -119,7 +158,7 @@ var module_instance = new GamFcltyQcHistInqireModule();
 	<!-- 조회 조건 -->
 	<div class="emdPanel">
 		<div class="viewStack">
-			<form id="searchFcltyQcwWrtMngForm">
+			<form id="searchFcltyQcHistInqireForm">
 				<table class="searchPanel">
 					<tbody>
 						<tr>
@@ -136,7 +175,7 @@ var module_instance = new GamFcltyQcHistInqireModule();
 							</td>
 							<th>점검진단일자</th>
 							<td>
-								<input id="sQcInspDtFrom" type="text" class="emdcal" size="10" /> ~ <input id="sQcInspDtTo" type="text" class="emdcal" size="10" />
+								<input id="sQcInspDtFr" type="text" class="emdcal" size="10" /> ~ <input id="sQcInspDtTo" type="text" class="emdcal" size="10" />
 							</td>
 						</tr>
 					</tbody>
@@ -146,7 +185,7 @@ var module_instance = new GamFcltyQcHistInqireModule();
 	</div>
 
 	<div class="emdPanel fillHeight">
-		<div id="fcltyQcHistInquireTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+		<div id="fcltyQcHistInqireTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">점검이력목록</a></li>
 				<li><a href="#tabs2" class="emdTab">점검이력내역</a></li>
@@ -154,22 +193,23 @@ var module_instance = new GamFcltyQcHistInqireModule();
 			
 			<!-- 시설물점검이력목록 -->
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
-				<table id="qcHistInquireList" style="display:none" class="fillHeight"></table>
+				<table id="qcHistDtlsList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 				</div>
 			</div>
 
 			<!-- 시설물점검이력내역 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
+				<form id="fcltyQcHistInqireVO">
 				<div style="margin-bottom:10px;">
 					<table  class="detailPanel"  style="width:100%;">
 						<tr>
 							<th width="30px" height="17">점검진단기관명</th>
 							<td colspan="3">
-								<span id="fcltsJobSeNm"></span>
+								<span id="qcInspInsttNm"></span>
 							</td>
 							<th width="30px" height="17">점검시설명</th>
-							<td><span id="prtfcltyNm"></span></td>
+							<td><span id="prtFcltyNm"></span></td>
 						</tr>
 						<tr>
 							<th height="17">점검진단일자</th>
@@ -215,6 +255,7 @@ var module_instance = new GamFcltyQcHistInqireModule();
 				</div>
 				<div class="emdControlPanel">
 				</div>
+				</form>
 			</div>
 						
 		</div>

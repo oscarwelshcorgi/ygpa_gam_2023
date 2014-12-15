@@ -1,3 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
-<sqlMap />
+<sqlMap namespace="ygpa.gam.fcltyMng">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="gamFcltyQcHistInqireVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcHistInqireVO"/>
+    
+    <!-- 점검이력조회 -->
+	<select id="gamFcltyQcHistInqireDao.selectQcHistDtlsList_D" parameterClass="gamFcltyQcHistInqireVO" resultClass="egovMap">
+        SELECT A.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
+						SELECT
+							O.FCLTS_MNG_GROUP_NO
+							, (SELECT FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F WHERE FCLTS_MNG_GROUP_NO = O.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GROUP_NM
+							, O.FCLTS_JOB_SE
+							, TO_CHAR(O.QC_MNG_SEQ) QC_MNG_SEQ
+							, O.FCLTS_MNG_NO
+							, (SELECT PRT_FCLTY_NM FROM GIS_PRT_FCLTY_CD_F WHERE FCLTS_MNG_NO = O.FCLTS_MNG_NO) PRT_FCLTY_NM
+							, O.QC_INSP_SE
+							, TO_CHAR(O.QC_INSP_DT, 'YYYY-MM-DD') QC_INSP_DT
+							, O.INSPECTOR
+							, O.QC_INSP_RESULT
+							, O.RM
+							, Q.ENFORCE_YEAR
+							, Q.QC_MNG_NM
+							, Q.QC_INSP_INSTT_NM
+							, Q.RESPON_ENGINEER_NM
+							, TO_CHAR(Q.QC_BEGIN_DT, 'YYYY-MM-DD') QC_BEGIN_DT
+							, TO_CHAR(Q.QC_END_DT, 'YYYY-MM-DD') QC_END_DT
+							, Q.QC_INSP_BDGT
+							, Q.QC_INSP_AMT
+							, Q.STTUS_EVL_LVL
+							, Q.ACTION_CN
+							, Q.ACTION_SE
+						FROM
+							QC_MNG_OBJ_FCLTS_F O
+						INNER JOIN
+							QC_MNG_DTLS_F Q
+						ON
+							O.FCLTS_MNG_GROUP_NO = Q.FCLTS_MNG_GROUP_NO
+							AND O.FCLTS_JOB_SE = Q.FCLTS_JOB_SE
+							AND O.QC_MNG_SEQ = Q.QC_MNG_SEQ
+						WHERE
+							1 = 1
+						<isNotEmpty property="sQcInspInsttNm">
+						  	AND Q.QC_INSP_INSTT_NM LIKE '%' || #sQcInspInsttNm# || '%' 
+						</isNotEmpty>
+						<isNotEmpty property="sFcltsMngNo">
+						  	AND O.FCLTS_MNG_NO = LIKE #sFcltsMngNo# || '%'
+						</isNotEmpty>
+						<isNotEmpty property="sQcInspDtFr">
+						  	<![CDATA[ AND O.QC_INSP_DT >= TO_DATE(#sQcInspDtFr#, 'YYYY-MM-DD') ]]>
+						</isNotEmpty>
+						<isNotEmpty property="sQcInspDtTo">
+						  	<![CDATA[ AND O.QC_INSP_DT <= TO_DATE(#sQcInspDtTo#, 'YYYY-MM-DD') ]]>
+						</isNotEmpty>
+						ORDER BY
+							O.FCLTS_MNG_GROUP_NO
+							, O.FCLTS_JOB_SE
+							, O.QC_MNG_SEQ
+							, O.FCLTS_MNG_NO
+                ) S
+             ) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+	</select>
+
+	<select id="gamFcltyQcHistInqireDao.selectQcHistDtlsListTotCnt_S" parameterClass="gamFcltyQcHistInqireVO" resultClass="int">
+		SELECT
+			COUNT(*) TOTCNT
+		FROM
+			QC_MNG_OBJ_FCLTS_F O
+		INNER JOIN
+			QC_MNG_DTLS_F Q
+		ON
+			O.FCLTS_MNG_GROUP_NO = Q.FCLTS_MNG_GROUP_NO
+			AND O.FCLTS_JOB_SE = Q.FCLTS_JOB_SE
+			AND O.QC_MNG_SEQ = Q.QC_MNG_SEQ
+		WHERE
+			1 = 1
+		<isNotEmpty property="sQcInspInsttNm">
+		  	AND Q.QC_INSP_INSTT_NM LIKE '%' || #sQcInspInsttNm# || '%' 
+		</isNotEmpty>
+		<isNotEmpty property="sFcltsMngNo">
+		  	AND O.FCLTS_MNG_NO = LIKE #sFcltsMngNo# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="sQcInspDtFr">
+		  	<![CDATA[ AND O.QC_INSP_DT >= TO_DATE(#sQcInspDtFr#, 'YYYY-MM-DD') ]]>
+		</isNotEmpty>
+		<isNotEmpty property="sQcInspDtTo">
+		  	<![CDATA[ AND O.QC_INSP_DT <= TO_DATE(#sQcInspDtTo#, 'YYYY-MM-DD') ]]>
+		</isNotEmpty>
+	</select>
+
+	<select id="gamFcltyQcHistInqireDao.selectQcHistDtlsDetail_S" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+			O.FCLTS_MNG_GROUP_NO
+			, (SELECT FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F WHERE FCLTS_MNG_GROUP_NO = O.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GROUP_NM
+			, O.FCLTS_JOB_SE
+			, TO_CHAR(O.QC_MNG_SEQ) QC_MNG_SEQ
+			, O.FCLTS_MNG_NO
+			, (SELECT PRT_FCLTY_NM FROM GIS_PRT_FCLTY_CD_F WHERE FCLTS_MNG_NO = O.FCLTS_MNG_NO) PRT_FCLTY_NM
+			, O.QC_INSP_SE
+			, TO_CHAR(O.QC_INSP_DT, 'YYYY-MM-DD') QC_INSP_DT
+			, O.INSPECTOR
+			, O.QC_INSP_RESULT
+			, O.RM
+			, Q.ENFORCE_YEAR
+			, Q.QC_MNG_NM
+			, Q.QC_INSP_INSTT_NM
+			, Q.RESPON_ENGINEER_NM
+			, TO_CHAR(Q.QC_BEGIN_DT, 'YYYY-MM-DD') QC_BEGIN_DT
+			, TO_CHAR(Q.QC_END_DT, 'YYYY-MM-DD') QC_END_DT
+			, Q.QC_INSP_BDGT
+			, Q.QC_INSP_AMT
+			, Q.STTUS_EVL_LVL
+			, Q.ACTION_CN
+			, Q.ACTION_SE
+		FROM
+			QC_MNG_OBJ_FCLTS_F O
+		INNER JOIN
+			QC_MNG_DTLS_F Q
+		ON
+			O.FCLTS_MNG_GROUP_NO = Q.FCLTS_MNG_GROUP_NO
+			AND O.FCLTS_JOB_SE = Q.FCLTS_JOB_SE
+			AND O.QC_MNG_SEQ = Q.QC_MNG_SEQ
+		WHERE
+			O.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo# 
+			AND O.FCLTS_JOB_SE = #sFcltsJobSe#
+			AND O.QC_MNG_SEQ = TO_NUMBER(#sQcMngSeq#)
+			AND O.FCLTS_MNG_NO = #sFcltsMngNo#
+	</select>
+</sqlMap>
