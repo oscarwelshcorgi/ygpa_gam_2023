@@ -42,7 +42,7 @@ public class GamSocPrtFcltyFeeExmpRqestSttusServiceImpl extends AbstractServiceI
 	 * @return 항만시설사용료 면제요청현황  리스트
 	 * @exception
 	 */
-	public List selectSocPrtFcltyFeeExmpRqestSttusList(GamSocPrtFcltyFeeExmpRqestSttusVO searchVO) {
+	public List<?> selectSocPrtFcltyFeeExmpRqestSttusList(GamSocPrtFcltyFeeExmpRqestSttusVO searchVO) {
 		return gamSocPrtFcltyFeeExmpRqestSttusDao.selectSocPrtFcltyFeeExmpRqestSttusList(searchVO);
 	}
 

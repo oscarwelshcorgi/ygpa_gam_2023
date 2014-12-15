@@ -37,7 +37,7 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List selectQcMngDtlsList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+	public List<?> selectQcMngDtlsList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
 		return list("gamFcltyQcwWrtMngDao.selectQcMngDtlsList_D", searchVO);
 	}
 	
@@ -57,7 +57,7 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 * @return EgovMap
 	 * @throws Exception
 	 */		
-	public EgovMap selectQcMngDtlsDetail(Map searchVO) throws Exception {
+	public EgovMap selectQcMngDtlsDetail(Map<?, ?> searchVO) throws Exception {
 		return (EgovMap) selectByPk("gamFcltyQcwWrtMngDao.selectQcMngDtlsDetail_S", searchVO);
 	}
 	
@@ -67,7 +67,7 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 * @return String
 	 * @throws Exception
 	 */		
-	public String selectNextQcMngSeq(Map<String, Object> vo) throws Exception {
+	public String selectNextQcMngSeq(Map<?, ?> vo) throws Exception {
 		return (String)getSqlMapClientTemplate().queryForObject("gamFcltyQcwWrtMngDao.selectNextQcMngSeq", vo);
 	}
 	
@@ -77,7 +77,7 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void insertQcMngDtls(Map<String, Object> vo) throws Exception {
+	public void insertQcMngDtls(Map<?, ?> vo) throws Exception {
 		insert("gamFcltyQcwWrtMngDao.insertQcMngDtls_S", vo);
 	}
 	
@@ -87,7 +87,7 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void updateQcMngDtls(Map<String, Object> vo) throws Exception {
+	public void updateQcMngDtls(Map<?, ?> vo) throws Exception {
 		update("gamFcltyQcwWrtMngDao.updateQcMngDtls_S", vo);
 	}
 	
@@ -97,7 +97,7 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void deleteQcMngDtls(Map<String, Object> vo) throws Exception {
+	public void deleteQcMngDtls(Map<?, ?> vo) throws Exception {
 		delete("gamFcltyQcwWrtMngDao.deleteQcMngDtls_S", vo);
 	}
 		
@@ -107,7 +107,7 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List selectQcMngObjFcltsList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+	public List<?> selectQcMngObjFcltsList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
 		return list("gamFcltyQcwWrtMngDao.selectQcMngObjFcltsList_D", searchVO);
 	}
 	
@@ -127,8 +127,8 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List mergeQcMngObjFclts(Map mergeMap) throws Exception {
-		return merge(mergeMap, "gamFcltyQcwWrtMngDao.insertQcMngObjFclts_S", "gamFcltyQcwWrtMngDao.updateQcMngObjFclts_S", "gamFcltyQcwWrtMngDao.deleteQcMngObjFclts_S");
+	public void mergeQcMngObjFclts(Map<String, Object> mergeMap) throws Exception {
+		this.merge(mergeMap, "gamFcltyQcwWrtMngDao.insertQcMngObjFclts_S", "gamFcltyQcwWrtMngDao.updateQcMngObjFclts_S", "gamFcltyQcwWrtMngDao.deleteQcMngObjFclts_S");
 	}
 	
 	/**
@@ -137,7 +137,7 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void deleteQcMngObjFcltsList(Map<String, Object> vo) throws Exception {
+	public void deleteQcMngObjFcltsList(Map<?, ?> vo) throws Exception {
 		delete("gamFcltyQcwWrtMngDao.deleteQcMngObjFcltsList_S", vo);
 	}
 	
@@ -147,7 +147,7 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List selectQcMngAtchFileList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+	public List<?> selectQcMngAtchFileList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
 		return list("gamFcltyQcwWrtMngDao.selectQcMngAtchFileList_D", searchVO);
 	}
 	
@@ -167,8 +167,8 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List mergeQcMngAtchFile(Map mergeMap) throws Exception {
-		return merge(mergeMap, "gamFcltyQcwWrtMngDao.insertQcMngAtchFile_S", "gamFcltyQcwWrtMngDao.updateQcMngAtchFile_S", "gamFcltyQcwWrtMngDao.deleteQcMngAtchFile_S");
+	public void mergeQcMngAtchFile(Map<String, Object> mergeMap) throws Exception {
+		this.merge(mergeMap, "gamFcltyQcwWrtMngDao.insertQcMngAtchFile_S", "gamFcltyQcwWrtMngDao.updateQcMngAtchFile_S", "gamFcltyQcwWrtMngDao.deleteQcMngAtchFile_S");
 	}
 	
 	/**
@@ -177,7 +177,7 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void deleteQcMngAtchFileList(Map<String, Object> vo) throws Exception {
+	public void deleteQcMngAtchFileList(Map<?, ?> vo) throws Exception {
 		delete("gamFcltyQcwWrtMngDao.deleteQcMngAtchFileList_S", vo);
 	}
 	
@@ -188,7 +188,7 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List selectQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+	public List<?> selectQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
 		return list("gamFcltyQcwWrtMngDao.selectQcMngResultItemList_D", searchVO);
 	}
 	
@@ -208,8 +208,8 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List mergeQcMngResultItem(Map mergeMap) throws Exception {
-		return merge(mergeMap, "gamFcltyQcwWrtMngDao.insertQcMngResultItem_S", "gamFcltyQcwWrtMngDao.updateQcMngResultItem_S", "gamFcltyQcwWrtMngDao.deleteQcMngResultItem_S");
+	public void mergeQcMngResultItem(Map<String, Object> mergeMap) throws Exception {
+		this.merge(mergeMap, "gamFcltyQcwWrtMngDao.insertQcMngResultItem_S", "gamFcltyQcwWrtMngDao.updateQcMngResultItem_S", "gamFcltyQcwWrtMngDao.deleteQcMngResultItem_S");
 	}
 	
 	/**
@@ -218,7 +218,7 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 * @return
 	 * @throws Exception
 	 */		
-	public void deleteQcMngResultItemList(Map<String, Object> vo) throws Exception {
+	public void deleteQcMngResultItemList(Map<?, ?> vo) throws Exception {
 		delete("gamFcltyQcwWrtMngDao.deleteQcMngResultItemList_S", vo);
 	}
 	

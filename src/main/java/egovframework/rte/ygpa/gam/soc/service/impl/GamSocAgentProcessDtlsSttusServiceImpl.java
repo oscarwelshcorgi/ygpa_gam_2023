@@ -41,7 +41,7 @@ public class GamSocAgentProcessDtlsSttusServiceImpl extends AbstractServiceImpl 
 	 * @return 투자비보전처리현황 리스트
 	 * @exception
 	 */	
-	public List selectSocAgentProcessDtlsSttusList(GamSocAgentProcessDtlsSttusVO searchVO) {
+	public List<?> selectSocAgentProcessDtlsSttusList(GamSocAgentProcessDtlsSttusVO searchVO) {
 		return gamSocAgentProcessDtlsSttusDao.selectSocAgentProcessDtlsSttusList(searchVO);
 	}
 

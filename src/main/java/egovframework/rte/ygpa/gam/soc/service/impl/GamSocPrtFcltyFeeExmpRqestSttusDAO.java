@@ -35,7 +35,7 @@ public class GamSocPrtFcltyFeeExmpRqestSttusDAO extends YGPAAbstractDAO {
 	 * @return 면제요청내역 리스트
 	 * @exception
 	 */
-	List selectSocPrtFcltyFeeExmpRqestSttusList(GamSocPrtFcltyFeeExmpRqestSttusVO searchVO) {
+	List<?> selectSocPrtFcltyFeeExmpRqestSttusList(GamSocPrtFcltyFeeExmpRqestSttusVO searchVO) {
 		return list("gamSocPrtFcltyFeeExmpRqestSttusDAO.selectSocPrtFcltyFeeExmpRqestSttusList_D", searchVO);
 	}
 	

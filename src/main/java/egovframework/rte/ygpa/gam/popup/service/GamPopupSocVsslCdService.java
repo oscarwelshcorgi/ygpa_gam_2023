@@ -29,7 +29,7 @@ public interface GamPopupSocVsslCdService {
 	 * @return list
 	 * @exception Exception
 	 */
-	public List selectSocVsslCdList(GamPopupSocVsslCdVO searchVO) throws Exception;
+	public List<?> selectSocVsslCdList(GamPopupSocVsslCdVO searchVO) throws Exception;
 	
 	
 	/**

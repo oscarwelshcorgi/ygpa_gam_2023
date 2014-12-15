@@ -30,7 +30,7 @@ public interface GamGisPrtFcltyCdMngtService {
 	 * @return
 	 * @exception Exception
 	 */	
-	public void insertGisPrtFclty(Map<String, Object> vo) throws Exception;
+	public void insertGisPrtFclty(Map<?, ?> vo) throws Exception;
 	
 	/**
 	 * GIS 항만시설코드 정보를 수정한다.
@@ -38,7 +38,7 @@ public interface GamGisPrtFcltyCdMngtService {
 	 * @return
 	 * @exception Exception
 	 */	
-	public void updateGisPrtFclty(Map<String, Object> vo) throws Exception;
+	public void updateGisPrtFclty(Map<?, ?> vo) throws Exception;
 	
 	/**
 	 * GIS 항만시설코드 정보를 삭제한다.
@@ -46,7 +46,7 @@ public interface GamGisPrtFcltyCdMngtService {
 	 * @return
 	 * @exception Exception
 	 */	
-	public void deleteGisPrtFclty(Map<String, Object> vo) throws Exception;	
+	public void deleteGisPrtFclty(Map<?, ?> vo) throws Exception;	
 	
 	/**
 	 * GIS 항만시설순번 다음순번을 가져온다.
@@ -54,6 +54,6 @@ public interface GamGisPrtFcltyCdMngtService {
 	 * @return
 	 * @exception Exception
 	 */	
-	public String selectNextFcltySeq(Map<String, Object> vo) throws Exception;
+	public String selectNextFcltySeq(Map<?, ?> vo) throws Exception;
 	
 }

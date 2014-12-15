@@ -35,7 +35,7 @@ public class GamSocAgentProcessRealloadNewDAO extends YGPAAbstractDAO {
 	 * @return 업체별투자비보전상계내역 리스트
 	 * @exception
 	 */
-	public List selectSocAgentProcessRealloadNewList(GamSocAgentProcessRealloadNewVO searchVO) {
+	public List<?> selectSocAgentProcessRealloadNewList(GamSocAgentProcessRealloadNewVO searchVO) {
 		return list("gamSocAgentProcessRealloadNewDAO.selectSocAgentProcessRealloadNewList_D", searchVO);
 	}
 

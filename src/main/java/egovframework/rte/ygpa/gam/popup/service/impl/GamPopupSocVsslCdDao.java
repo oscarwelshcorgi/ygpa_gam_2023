@@ -35,7 +35,7 @@ public class GamPopupSocVsslCdDao extends YGPAAbstractDAO {
 	 * @return 요금종류 목록
 	 * @exception Exception
 	 */
-    public List selectSocVsslCdList(GamPopupSocVsslCdVO searchVO) throws Exception {
+    public List<?> selectSocVsslCdList(GamPopupSocVsslCdVO searchVO) throws Exception {
         return list("gamPopupSocVsslCdDao.selectSocVsslCdList_D", searchVO);
     }
 

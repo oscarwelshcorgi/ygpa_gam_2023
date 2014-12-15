@@ -29,7 +29,7 @@ public interface GamPopupConsFcltyInfoService {
 	 * @return list
 	 * @exception Exception
 	 */
-    List selectConsFcltyInfoList(GamPopupConsFcltyInfoVO searchVO) throws Exception;
+    List<?> selectConsFcltyInfoList(GamPopupConsFcltyInfoVO searchVO) throws Exception;
 
     /**
 	 * 건축시설물 목록 총 갯수를 조회한다.

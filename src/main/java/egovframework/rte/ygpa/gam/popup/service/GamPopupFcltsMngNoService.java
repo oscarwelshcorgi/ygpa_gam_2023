@@ -29,7 +29,7 @@ public interface GamPopupFcltsMngNoService {
 	 * @return list
 	 * @exception Exception
 	 */
-    List selectFcltsMngNoList(GamPopupFcltsMngNoVO searchVO) throws Exception;
+    List<?> selectFcltsMngNoList(GamPopupFcltsMngNoVO searchVO) throws Exception;
 
     /**
 	 * 시설물번호 목록 총 갯수를 조회한다.

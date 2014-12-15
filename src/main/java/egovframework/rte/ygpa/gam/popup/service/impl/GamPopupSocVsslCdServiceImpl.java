@@ -41,7 +41,7 @@ public class GamPopupSocVsslCdServiceImpl extends AbstractServiceImpl implements
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectSocVsslCdList(GamPopupSocVsslCdVO searchVO) throws Exception {
+    public List<?> selectSocVsslCdList(GamPopupSocVsslCdVO searchVO) throws Exception {
         return gamPopupSocVsslCdDao.selectSocVsslCdList(searchVO);
     }
 

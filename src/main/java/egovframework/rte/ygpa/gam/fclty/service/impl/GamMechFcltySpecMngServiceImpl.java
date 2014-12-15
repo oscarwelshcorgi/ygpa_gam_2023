@@ -41,7 +41,7 @@ public class GamMechFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	 * @return list
 	 * @throws Exception
 	 */	
-	public List selectMechFcltySpecMngList(GamMechFcltySpecMngVO searchVO) throws Exception {
+	public List<?> selectMechFcltySpecMngList(GamMechFcltySpecMngVO searchVO) throws Exception {
 		return gamMechFcltySpecMngDao.selectMechFcltySpecMngList(searchVO);
 	}
 	
@@ -61,7 +61,7 @@ public class GamMechFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	 * @return egovMap
 	 * @throws Exception
 	 */		
-	public EgovMap selectMechFcltySpecMngDetail(Map searchVO) throws Exception {
+	public EgovMap selectMechFcltySpecMngDetail(Map<?, ?> searchVO) throws Exception {
 		return gamMechFcltySpecMngDao.selectMechFcltySpecMngDetail(searchVO);
 	}
 	
@@ -71,7 +71,7 @@ public class GamMechFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void insertMechFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+	public void insertMechFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
 		gamMechFcltySpecMngDao.insertMechFcltySpecMngDetail(vo);
 	}
 	
@@ -81,7 +81,7 @@ public class GamMechFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void updateMechFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+	public void updateMechFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
 		gamMechFcltySpecMngDao.updateMechFcltySpecMngDetail(vo);
 	}
 	
@@ -91,7 +91,7 @@ public class GamMechFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void deleteMechFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+	public void deleteMechFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
 		gamMechFcltySpecMngDao.deleteMechFcltySpecMngDetail(vo);
 	}	
 	
@@ -101,7 +101,7 @@ public class GamMechFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	 * @return list 
 	 * @throws Exception
 	 */		
-	public List selectMechFcltySpecFileList(GamMechFcltySpecMngVO searchVO) throws Exception {
+	public List<?> selectMechFcltySpecFileList(GamMechFcltySpecMngVO searchVO) throws Exception {
 		return gamMechFcltySpecMngDao.selectMechFcltySpecFileList(searchVO);
 	}
 
@@ -115,44 +115,13 @@ public class GamMechFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 		return gamMechFcltySpecMngDao.selectMechFcltySpecFileListTotCnt(searchVO);
 	}
 
-
-	/**
-	 * 기계시설재원관리 첨부파일 데이터를 삽입한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	public void insertMechFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
-		gamMechFcltySpecMngDao.insertMechFcltySpecFileDetail(vo);
-	}
-	
-	/**
-	 * 기계시설재원관리 첨부파일 데이터를 수정한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	public void updateMechFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
-		gamMechFcltySpecMngDao.updateMechFcltySpecFileDetail(vo);
-	}
-
-	/**
-	 * 기계시설재원관리 첨부파일 데이터를 삭제한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */			
-	public void deleteMechFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
-		gamMechFcltySpecMngDao.deleteMechFcltySpecFileDetail(vo);
-	}
-
 	/**
 	 * 기계시설재원관리 첨부파일 목록을 삭제한다.
 	 * @param vo
 	 * @return 
 	 * @throws Exception
 	 */			
-	public void deleteMechFcltySpecFileList(Map<String, Object> vo) throws Exception {
+	public void deleteMechFcltySpecFileList(Map<?, ?> vo) throws Exception {
 		gamMechFcltySpecMngDao.deleteMechFcltySpecFileList(vo);
 	}
 	
@@ -162,8 +131,8 @@ public class GamMechFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	 * @return 
 	 * @throws Exception
 	 */			
-	public List mergeFcltyFileMngt(Map mergeMap) throws Exception{
-		return gamMechFcltySpecMngDao.mergeFcltyFile(mergeMap);
+	public void mergeFcltyFileMngt(Map<String, Object> mergeMap) throws Exception{
+		gamMechFcltySpecMngDao.mergeFcltyFile(mergeMap);
 	}
 	
 }

@@ -41,7 +41,7 @@ public class GamPopupConsFcltyInfoServiceImpl extends AbstractServiceImpl implem
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectConsFcltyInfoList(GamPopupConsFcltyInfoVO searchVO) throws Exception {
+    public List<?> selectConsFcltyInfoList(GamPopupConsFcltyInfoVO searchVO) throws Exception {
     	return gamPopupConsFcltyInfoDao.selectConsFcltyInfoList(searchVO);
     }
 

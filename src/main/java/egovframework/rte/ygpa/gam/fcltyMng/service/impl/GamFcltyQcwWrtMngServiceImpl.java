@@ -42,7 +42,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List selectQcMngDtlsList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+	public List<?> selectQcMngDtlsList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
 		return gamFcltyQcwWrtMngDao.selectQcMngDtlsList(searchVO);
 	}
 	
@@ -62,7 +62,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 * @return EgovMap
 	 * @throws Exception
 	 */		
-	public EgovMap selectQcMngDtlsDetail(Map searchVO) throws Exception {
+	public EgovMap selectQcMngDtlsDetail(Map<?, ?> searchVO) throws Exception {
 		return gamFcltyQcwWrtMngDao.selectQcMngDtlsDetail(searchVO);
 	}
 
@@ -72,7 +72,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 * @return String
 	 * @throws Exception
 	 */		
-	public String selectNextQcMngSeq(Map<String, Object> vo) throws Exception {
+	public String selectNextQcMngSeq(Map<?, ?> vo) throws Exception {
 		return gamFcltyQcwWrtMngDao.selectNextQcMngSeq(vo);
 	}
 	
@@ -82,7 +82,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void insertQcMngDtls(Map<String, Object> vo) throws Exception {
+	public void insertQcMngDtls(Map<?, ?> vo) throws Exception {
 		gamFcltyQcwWrtMngDao.insertQcMngDtls(vo);
 	}
 	
@@ -92,7 +92,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void updateQcMngDtls(Map<String, Object> vo) throws Exception {
+	public void updateQcMngDtls(Map<?, ?> vo) throws Exception {
 		gamFcltyQcwWrtMngDao.updateQcMngDtls(vo);
 	}
 	
@@ -102,7 +102,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void deleteQcMngDtls(Map<String, Object> vo) throws Exception {
+	public void deleteQcMngDtls(Map<?, ?> vo) throws Exception {
 		gamFcltyQcwWrtMngDao.deleteQcMngDtls(vo);
 	}
 		
@@ -112,7 +112,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List selectQcMngObjFcltsList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+	public List<?> selectQcMngObjFcltsList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
 		return gamFcltyQcwWrtMngDao.selectQcMngObjFcltsList(searchVO);
 	}
 	
@@ -129,11 +129,11 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	/**
 	 * 점검관리대상시설물 데이터 병합 저장
 	 * @param vo
-	 * @return list
+	 * @return 
 	 * @throws Exception
 	 */		
-	public List mergeQcMngObjFclts(Map mergeMap) throws Exception {
-		return gamFcltyQcwWrtMngDao.mergeQcMngObjFclts(mergeMap);
+	public void mergeQcMngObjFclts(Map<String, Object> mergeMap) throws Exception {
+		gamFcltyQcwWrtMngDao.mergeQcMngObjFclts(mergeMap);
 	}
 	
 	/**
@@ -142,7 +142,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void deleteQcMngObjFcltsList(Map<String, Object> vo) throws Exception {
+	public void deleteQcMngObjFcltsList(Map<?, ?> vo) throws Exception {
 		gamFcltyQcwWrtMngDao.deleteQcMngObjFcltsList(vo);
 	}
 	
@@ -152,7 +152,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List selectQcMngAtchFileList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+	public List<?> selectQcMngAtchFileList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
 		return gamFcltyQcwWrtMngDao.selectQcMngAtchFileList(searchVO);
 	}
 	
@@ -169,11 +169,11 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	/**
 	 * 점검관리첨부파일 데이터 병합 저장
 	 * @param vo
-	 * @return list
+	 * @return 
 	 * @throws Exception
 	 */		
-	public List mergeQcMngAtchFile(Map mergeMap) throws Exception {
-		return gamFcltyQcwWrtMngDao.mergeQcMngAtchFile(mergeMap);
+	public void mergeQcMngAtchFile(Map<String, Object> mergeMap) throws Exception {
+		gamFcltyQcwWrtMngDao.mergeQcMngAtchFile(mergeMap);
 	}
 	
 	/**
@@ -182,7 +182,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void deleteQcMngAtchFileList(Map<String, Object> vo) throws Exception {
+	public void deleteQcMngAtchFileList(Map<?, ?> vo) throws Exception {
 		gamFcltyQcwWrtMngDao.deleteQcMngAtchFileList(vo);
 	}
 	
@@ -193,7 +193,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List selectQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+	public List<?> selectQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
 		return gamFcltyQcwWrtMngDao.selectQcMngResultItemList(searchVO);
 	}
 	
@@ -213,8 +213,8 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List mergeQcMngResultItem(Map mergeMap) throws Exception {
-		return gamFcltyQcwWrtMngDao.mergeQcMngResultItem(mergeMap);
+	public void mergeQcMngResultItem(Map<String, Object> mergeMap) throws Exception {
+		gamFcltyQcwWrtMngDao.mergeQcMngResultItem(mergeMap);
 	}
 	
 	/**
@@ -223,7 +223,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 * @return
 	 * @throws Exception
 	 */		
-	public void deleteQcMngResultItemList(Map<String, Object> vo) throws Exception {
+	public void deleteQcMngResultItemList(Map<?, ?> vo) throws Exception {
 		gamFcltyQcwWrtMngDao.deleteQcMngResultItemList(vo);
 	}	
 }

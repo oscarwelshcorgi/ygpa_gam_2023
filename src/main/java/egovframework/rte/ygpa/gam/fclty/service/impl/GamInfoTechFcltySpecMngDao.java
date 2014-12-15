@@ -36,7 +36,7 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */	
-	public List selectInfoTechFcltySpecMngList(GamInfoTechFcltySpecMngVO searchVO) throws Exception {
+	public List<?> selectInfoTechFcltySpecMngList(GamInfoTechFcltySpecMngVO searchVO) throws Exception {
 		return list("gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecMngList_D", searchVO);
 	}
 	
@@ -57,7 +57,7 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @return egovMap
 	 * @throws Exception
 	 */		
-	public EgovMap selectInfoTechFcltySpecMngDetail(Map searchVO) throws Exception {
+	public EgovMap selectInfoTechFcltySpecMngDetail(Map<?, ?> searchVO) throws Exception {
 		return (EgovMap)selectByPk("gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecMngDetail_S", searchVO);
 	}
 	
@@ -67,7 +67,7 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void insertInfoTechFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+	public void insertInfoTechFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
 		insert("gamInfoTechFcltySpecMngDao.insertInfoTechFcltySpecMngDetail_S", vo);
 	}
 	
@@ -77,7 +77,7 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void updateInfoTechFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+	public void updateInfoTechFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
 		update("gamInfoTechFcltySpecMngDao.updateInfoTechFcltySpecMngDetail_S", vo);
 	}
 	
@@ -87,7 +87,7 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void deleteInfoTechFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+	public void deleteInfoTechFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
 		delete("gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecMngDetail_S", vo);
 	}
 	
@@ -98,7 +98,7 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @return list 
 	 * @throws Exception
 	 */		
-	public List selectInfoTechFcltySpecFileList(GamInfoTechFcltySpecMngVO searchVO) throws Exception {
+	public List<?> selectInfoTechFcltySpecFileList(GamInfoTechFcltySpecMngVO searchVO) throws Exception {
 		return list("gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecFileList_D", searchVO);
 	}
 
@@ -112,44 +112,13 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 		return (Integer)getSqlMapClientTemplate().queryForObject("gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecFileListTotCnt_S", searchVO);
 	}
 
-
-	/**
-	 * 정보통신시설재원관리 첨부파일 데이터를 삽입한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	public void insertInfoTechFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
-		insert("gamInfoTechFcltySpecMngDao.insertInfoTechFcltySpecFileDetail_S", vo);
-	}
-	
-	/**
-	 * 정보통신시설재원관리 첨부파일 데이터를 수정한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	public void updateInfoTechFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
-		update("gamInfoTechFcltySpecMngDao.updateInfoTechFcltySpecFileDetail_S", vo);
-	}
-
-	/**
-	 * 정보통신시설재원관리 첨부파일 데이터를 삭제한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */			
-	public void deleteInfoTechFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
-		delete("gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecFileDetail_S", vo);
-	}
-
 	/**
 	 * 정보통신시설재원관리 첨부파일 목록을 삭제한다.
 	 * @param vo
 	 * @return 
 	 * @throws Exception
 	 */			
-	public void deleteInfoTechFcltySpecFileList(Map<String, Object> vo) throws Exception {
+	public void deleteInfoTechFcltySpecFileList(Map<?, ?> vo) throws Exception {
 		delete("gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecFileList_S", vo);
 	}
 	
@@ -159,8 +128,8 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @throws Exception
 	 */			
-    public List mergeFcltyFile(Map vo) throws Exception{
-		return this.merge(vo, "gamInfoTechFcltySpecMngDao.insertInfoTechFcltySpecFileDetail_S", "gamInfoTechFcltySpecMngDao.updateInfoTechFcltySpecFileDetail_S", "gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecFileDetail_S");
+    public void mergeFcltyFile(Map<String, Object> vo) throws Exception{
+    	this.merge(vo, "gamInfoTechFcltySpecMngDao.insertInfoTechFcltySpecFileDetail_S", "gamInfoTechFcltySpecMngDao.updateInfoTechFcltySpecFileDetail_S", "gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecFileDetail_S");
     }
 	
 }

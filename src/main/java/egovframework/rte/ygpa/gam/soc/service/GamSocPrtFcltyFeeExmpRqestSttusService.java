@@ -29,7 +29,7 @@ public interface GamSocPrtFcltyFeeExmpRqestSttusService {
 	 * @return 항만시설사용료 면제요청현황  리스트
 	 * @exception
 	 */
-	List selectSocPrtFcltyFeeExmpRqestSttusList(GamSocPrtFcltyFeeExmpRqestSttusVO searchVO);
+	List<?> selectSocPrtFcltyFeeExmpRqestSttusList(GamSocPrtFcltyFeeExmpRqestSttusVO searchVO);
 	
 	/**
 	 * 항만시설사용료 면제요청현황 리스트의 총계를 조회한다. 

@@ -31,7 +31,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 계약정보목록
 	 * @exception Exception
 	 */
-	List selectFcltyCtrtMngList(GamFcltyCtrtMngVO searchVO) throws Exception;
+	List<?> selectFcltyCtrtMngList(GamFcltyCtrtMngVO searchVO) throws Exception;
 	
 	/**
 	 * 계약정보목록 통계정보를 조회한다.
@@ -55,7 +55,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 
 	 * @exception Exception
 	 */
-	void insertFcltyCtrtInfoDetail(Map insertMap) throws Exception;
+	void insertFcltyCtrtInfoDetail(Map<?, ?> insertMap) throws Exception;
 	
 	/**
 	 * 계약정보를 수정한다.
@@ -63,7 +63,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 
 	 * @exception Exception
 	 */
-	void updateFcltyCtrtInfoDetail(Map updateMap) throws Exception;
+	void updateFcltyCtrtInfoDetail(Map<?, ?> updateMap) throws Exception;
 
 	/**
 	 * 계약정보를 삭제한다.
@@ -71,7 +71,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 
 	 * @exception Exception
 	 */
-	void deleteFcltyCtrtInfoDetail(Map deleteMap) throws Exception;
+	void deleteFcltyCtrtInfoDetail(Map<?, ?> deleteMap) throws Exception;
 	
 	
 	/**
@@ -80,7 +80,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 계약공동도급 목록
 	 * @exception Exception
 	 */
-	List selectFcltyCtrtJoinContrList(GamFcltyCtrtMngVO searchVO) throws Exception;
+	List<?> selectFcltyCtrtJoinContrList(GamFcltyCtrtMngVO searchVO) throws Exception;
 	
 	/**
 	 * 계약공동도급 목록의 총개수를 가져온다.
@@ -97,7 +97,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 
 	 * @exception Exception
 	 */
-	void mergeFcltyCtrtJoinContrDetail(Map map) throws Exception;
+	void mergeFcltyCtrtJoinContrDetail(Map<String, Object> map) throws Exception;
 	
 	/**
 	 * 계약번호에 해당하는 계약공동도급정보를 삭제한다.
@@ -105,7 +105,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 
 	 * @exception Exception
 	 */
-	void deleteFcltyCtrtJoinContrList(Map deleteMap) throws Exception;
+	void deleteFcltyCtrtJoinContrList(Map<?, ?> deleteMap) throws Exception;
 
 
 	/**
@@ -114,7 +114,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 계약하도급 목록
 	 * @exception Exception
 	 */
-	List selectFcltyCtrtSubCtrtList(GamFcltyCtrtMngVO searchVO) throws Exception;
+	List<?> selectFcltyCtrtSubCtrtList(GamFcltyCtrtMngVO searchVO) throws Exception;
 	
 	/**
 	 * 계약하도급 목록의 총개수를 가져온다.
@@ -131,7 +131,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 
 	 * @exception Exception
 	 */
-	void mergeFcltyCtrtSubCtrtDetail(Map map) throws Exception;
+	void mergeFcltyCtrtSubCtrtDetail(Map<String, Object> map) throws Exception;
 	
 	/**
 	 * 계약번호에 해당하는 계약하도급정보를 삭제한다.
@@ -139,7 +139,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 
 	 * @exception Exception
 	 */
-	void deleteFcltyCtrtSubCtrtList(Map deleteMap) throws Exception;
+	void deleteFcltyCtrtSubCtrtList(Map<?, ?> deleteMap) throws Exception;
 
 	/**
 	 * 계약변경 목록을 가져온다.
@@ -147,7 +147,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 계약변경 목록
 	 * @exception Exception
 	 */
-	List selectFcltyCtrtChangeList(GamFcltyCtrtMngVO searchVO) throws Exception;
+	List<?> selectFcltyCtrtChangeList(GamFcltyCtrtMngVO searchVO) throws Exception;
 	
 	/**
 	 * 계약변경 목록의 총개수를 가져온다.
@@ -164,7 +164,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 
 	 * @exception Exception
 	 */
-	void mergeFcltyCtrtChangeDetail(Map map) throws Exception;
+	void mergeFcltyCtrtChangeDetail(Map<String, Object> map) throws Exception;
 	
 	/**
 	 * 계약번호에 해당하는 계약변경정보를 삭제한다.
@@ -172,7 +172,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 
 	 * @exception Exception
 	 */
-	void deleteFcltyCtrtChangeList(Map deleteMap) throws Exception;
+	void deleteFcltyCtrtChangeList(Map<?, ?> deleteMap) throws Exception;
 	
 
 	/**
@@ -181,7 +181,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 계약대금지급 목록
 	 * @exception Exception
 	 */
-	List selectFcltyCtrtMoneyPymntList(GamFcltyCtrtMngVO searchVO) throws Exception;
+	List<?> selectFcltyCtrtMoneyPymntList(GamFcltyCtrtMngVO searchVO) throws Exception;
 	
 	/**
 	 * 계약대금지급 목록의 총개수를 가져온다.
@@ -198,7 +198,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 
 	 * @exception Exception
 	 */
-	void mergeFcltyCtrtMoneyPymntDetail(Map map) throws Exception;
+	void mergeFcltyCtrtMoneyPymntDetail(Map<String, Object> map) throws Exception;
 	
 	/**
 	 * 계약번호에 해당하는 계약대금지급정보를 삭제한다.
@@ -206,7 +206,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 
 	 * @exception Exception
 	 */
-	void deleteFcltyCtrtMoneyPymntList(Map deleteMap) throws Exception;
+	void deleteFcltyCtrtMoneyPymntList(Map<?, ?> deleteMap) throws Exception;
 
 
 	/**
@@ -215,7 +215,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 계약이행이월 목록
 	 * @exception Exception
 	 */
-	List selectFcltyCtrtFulFillCaryFwdList(GamFcltyCtrtMngVO searchVO) throws Exception;
+	List<?> selectFcltyCtrtFulFillCaryFwdList(GamFcltyCtrtMngVO searchVO) throws Exception;
 	
 	/**
 	 * 계약이행이월 목록의 총개수를 가져온다.
@@ -232,7 +232,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 
 	 * @exception Exception
 	 */
-	void mergeFcltyCtrtFulFillCaryFwdDetail(Map map) throws Exception;
+	void mergeFcltyCtrtFulFillCaryFwdDetail(Map<String, Object> map) throws Exception;
 	
 	/**
 	 * 계약번호에 해당하는 계약이행이월정보를 삭제한다.
@@ -240,5 +240,5 @@ public interface GamFcltyCtrtMngService {
 	 * @return 
 	 * @exception Exception
 	 */
-	void deleteFcltyCtrtFulFillCaryFwdList(Map deleteMap) throws Exception;	
+	void deleteFcltyCtrtFulFillCaryFwdList(Map<?, ?> deleteMap) throws Exception;	
 }

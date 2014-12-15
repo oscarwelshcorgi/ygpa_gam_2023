@@ -35,7 +35,7 @@ public class GamPopupSocFacCdDao extends YGPAAbstractDAO {
 	 * @return 시설 목록
 	 * @exception Exception
 	 */
-    public List selectSocFacCdList(GamPopupSocFacCdVO searchVO) throws Exception {
+    public List<?> selectSocFacCdList(GamPopupSocFacCdVO searchVO) throws Exception {
         return list("gamPopupSocFacCdDao.selectSocFacCdList_D", searchVO);
     }
 

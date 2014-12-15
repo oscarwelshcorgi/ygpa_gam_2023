@@ -30,7 +30,7 @@ public interface GamSocAgentProcessRealloadNewService {
 	 * @return 업체별투자비보전상계내역 리스트
 	 * @exception
 	 */
-	List selectSocAgentProcessRealloadNewList(GamSocAgentProcessRealloadNewVO searchVO);
+	List<?> selectSocAgentProcessRealloadNewList(GamSocAgentProcessRealloadNewVO searchVO);
 	
 	/**
 	 * 업체별투자비보전상계내역 리스트의 총 개수와 합계금액을 조회한다. 

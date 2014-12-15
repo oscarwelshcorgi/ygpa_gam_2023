@@ -30,7 +30,7 @@ public interface GamSocAgentProcessDtlsSttusService {
 	 * @return 투자비보전처리현황 리스트
 	 * @exception
 	 */
-	List selectSocAgentProcessDtlsSttusList(GamSocAgentProcessDtlsSttusVO searchVO);
+	List<?> selectSocAgentProcessDtlsSttusList(GamSocAgentProcessDtlsSttusVO searchVO);
 	
 	/**
 	 * 투자비보전처리현황 리스트의 총계데이터를 조회한다. 

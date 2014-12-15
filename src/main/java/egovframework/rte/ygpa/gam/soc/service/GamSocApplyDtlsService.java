@@ -29,7 +29,7 @@ public interface GamSocApplyDtlsService {
 	 * @return 면제요청내역 리스트
 	 * @exception
 	 */
-	List selectSocApplyDtlsList(GamSocApplyDtlsVO searchVO);
+	List<?> selectSocApplyDtlsList(GamSocApplyDtlsVO searchVO);
 	
 	/**
 	 * 투자비보전신청내역 리스트의 총계 자료를 조회한다. 

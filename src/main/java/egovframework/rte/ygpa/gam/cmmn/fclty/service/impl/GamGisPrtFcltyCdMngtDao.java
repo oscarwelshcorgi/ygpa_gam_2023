@@ -29,19 +29,19 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 @Repository("gamGisPrtFcltyCdMngtDao")
 public class GamGisPrtFcltyCdMngtDao extends YGPAAbstractDAO {
 	
-	public void insertGisPrtFclty(Map<String, Object> vo) throws Exception {
+	public void insertGisPrtFclty(Map<?, ?> vo) throws Exception {
 		insert("gamGisPrtFcltyCdMngtDao.insertGisPrtFclty", vo);
 	}
 
-	public void updateGisPrtFclty(Map<String, Object> vo) throws Exception {
+	public void updateGisPrtFclty(Map<?, ?> vo) throws Exception {
 		update("gamGisPrtFcltyCdMngtDao.updateGisPrtFclty", vo);
 	}
 	
-	public void deleteGisPrtFclty(Map<String, Object> vo) throws Exception {
+	public void deleteGisPrtFclty(Map<?, ?> vo) throws Exception {
 		delete("gamGisPrtFcltyCdMngtDao.deleteGisPrtFclty", vo);
 	}
 	
-	public String selectNextFcltySeq(Map<String, Object> vo) throws Exception {
+	public String selectNextFcltySeq(Map<?, ?> vo) throws Exception {
 		return (String) getSqlMapClient().queryForObject("gamGisPrtFcltyCdMngtDao.selectNextFcltySeq", vo); 
 	}
 }

@@ -42,7 +42,7 @@ public class GamPopupFcltsClCdServiceImpl extends AbstractServiceImpl implements
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectFcltsClCdList(GamPopupFcltsClCdVO searchVO) throws Exception {
+    public List<?> selectFcltsClCdList(GamPopupFcltsClCdVO searchVO) throws Exception {
     	return gamPopupFcltsClCdDao.selectFcltsClCdList(searchVO);
     }
 

@@ -40,7 +40,7 @@ public class GamSocStatsServiceImpl extends AbstractServiceImpl implements GamSo
 	 * @return 업체별 투자비보전 집계 목록
 	 * @exception Exception
 	 */
-	public List selectSocEntprStatsList(GamSocStatsVO searchVO) {
+	public List<?> selectSocEntprStatsList(GamSocStatsVO searchVO) {
 		return gamSocStatsDao.selectSocEntprStatsList(searchVO);
 	}
 	
@@ -61,7 +61,7 @@ public class GamSocStatsServiceImpl extends AbstractServiceImpl implements GamSo
 	 * @return 월별 투자비보전 집계 목록
 	 * @exception Exception
 	 */
-	public List selectSocMonthStatsList(GamSocStatsVO searchVO) {
+	public List<?> selectSocMonthStatsList(GamSocStatsVO searchVO) {
 		return gamSocStatsDao.selectSocMonthStatsList(searchVO);
 	}
 	
@@ -81,7 +81,7 @@ public class GamSocStatsServiceImpl extends AbstractServiceImpl implements GamSo
 	 * @return 업체기준 월별 투자비보전 집계 목록
 	 * @exception Exception
 	 */
-	public List selectSocEntprBasisMonthStatsList(GamSocStatsVO searchVO) {
+	public List<?> selectSocEntprBasisMonthStatsList(GamSocStatsVO searchVO) {
 		return gamSocStatsDao.selectSocEntprBasisMonthStatsList(searchVO);
 	}
 	
@@ -101,7 +101,7 @@ public class GamSocStatsServiceImpl extends AbstractServiceImpl implements GamSo
 	 * @return 업체별 투자비보전 집계 목록
 	 * @exception Exception
 	 */
-	public List selectSocMonthBasisEntprStatsList(GamSocStatsVO searchVO) {
+	public List<?> selectSocMonthBasisEntprStatsList(GamSocStatsVO searchVO) {
 		return gamSocStatsDao.selectSocMonthBasisEntprStatsList(searchVO);
 	}
 	

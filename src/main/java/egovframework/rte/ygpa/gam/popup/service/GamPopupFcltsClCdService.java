@@ -29,7 +29,7 @@ public interface GamPopupFcltsClCdService {
 	 * @return list
 	 * @exception Exception
 	 */
-    List selectFcltsClCdList(GamPopupFcltsClCdVO searchVO) throws Exception;
+    List<?> selectFcltsClCdList(GamPopupFcltsClCdVO searchVO) throws Exception;
 
     /**
 	 * 시설물 분류 목록 총 갯수를 조회한다.

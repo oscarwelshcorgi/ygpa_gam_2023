@@ -35,7 +35,7 @@ public class GamSocApplyDtlsDAO extends YGPAAbstractDAO {
 	 * @return 면제요청내역 리스트
 	 * @exception
 	 */
-	List selectSocApplyDtlsList(GamSocApplyDtlsVO searchVO) {
+	List<?> selectSocApplyDtlsList(GamSocApplyDtlsVO searchVO) {
 		return list("gamSocApplyDtlsDAO.selectSocApplyDtlsList_D", searchVO);
 	}
 	

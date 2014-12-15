@@ -33,7 +33,7 @@ public interface GamCivilFcltySpecMngService {
 	 * @return list
 	 * @throws Exception
 	 */	
-	List selectCivilFcltySpecMngList(GamCivilFcltySpecMngVO searchVO) throws Exception;
+	List<?> selectCivilFcltySpecMngList(GamCivilFcltySpecMngVO searchVO) throws Exception;
 	
 	/**
 	 * 토목시설재원관리 목록 총수 조회
@@ -49,7 +49,7 @@ public interface GamCivilFcltySpecMngService {
 	 * @return egovMap
 	 * @throws Exception
 	 */		
-	EgovMap selectCivilFcltySpecMngDetail(Map searchVO) throws Exception;
+	EgovMap selectCivilFcltySpecMngDetail(Map<?, ?> searchVO) throws Exception;
 	
 	/**
 	 * 토목시설재원관리 데이터를 삽입한다.
@@ -57,7 +57,7 @@ public interface GamCivilFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void insertCivilFcltySpecMngDetail(Map<String, Object> vo) throws Exception;
+	void insertCivilFcltySpecMngDetail(Map<?, ?> vo) throws Exception;
 	
 	/**
 	 * 토목시설재원관리 데이터를 수정한다.
@@ -65,7 +65,7 @@ public interface GamCivilFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void updateCivilFcltySpecMngDetail(Map<String, Object> vo) throws Exception;
+	void updateCivilFcltySpecMngDetail(Map<?, ?> vo) throws Exception;
 	
 	/**
 	 * 토목시설재원관리 데이터를 삭제한다.
@@ -73,7 +73,7 @@ public interface GamCivilFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void deleteCivilFcltySpecMngDetail(Map<String, Object> vo) throws Exception;
+	void deleteCivilFcltySpecMngDetail(Map<?, ?> vo) throws Exception;
 	
 	/**
 	 * 토목시설재원관리 첨부파일 목록을 가져온다.
@@ -81,7 +81,7 @@ public interface GamCivilFcltySpecMngService {
 	 * @return list 
 	 * @throws Exception
 	 */		
-	List selectCivilFcltySpecFileList(GamCivilFcltySpecMngVO searchVO) throws Exception;
+	List<?> selectCivilFcltySpecFileList(GamCivilFcltySpecMngVO searchVO) throws Exception;
 	
 	/**
 	 * 토목시설재원관리 첨부파일 목록 총수를 가져온다.
@@ -91,29 +91,6 @@ public interface GamCivilFcltySpecMngService {
 	 */		
 	int selectCivilFcltySpecFileListTotCnt(GamCivilFcltySpecMngVO searchVO) throws Exception;	
 	
-	/**
-	 * 토목시설재원관리 첨부파일 데이터를 삽입한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	void insertCivilFcltySpecFileDetail(Map<String, Object> vo) throws Exception;
-	
-	/**
-	 * 토목시설재원관리 첨부파일 데이터를 수정한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	void updateCivilFcltySpecFileDetail(Map<String, Object> vo) throws Exception;
-	
-	/**
-	 * 토목시설재원관리 첨부파일 데이터를 삭제한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */			
-	void deleteCivilFcltySpecFileDetail(Map<String, Object> vo) throws Exception;
 	
 	/**
 	 * 토목시설재원관리 첨부파일 목록을 삭제한다.
@@ -121,7 +98,7 @@ public interface GamCivilFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */			
-	void deleteCivilFcltySpecFileList(Map<String, Object> vo) throws Exception;
+	void deleteCivilFcltySpecFileList(Map<?, ?> vo) throws Exception;
 	
 	/**
 	 * 토목시설재원관리 첨부파일을 병합저장한다..
@@ -129,6 +106,6 @@ public interface GamCivilFcltySpecMngService {
 	 * @return list
 	 * @throws Exception
 	 */			
-	public List mergeFcltyFileMngt(Map mergeList) throws Exception;
+	public void mergeFcltyFileMngt(Map<String, Object> mergeList) throws Exception;
 	
 }

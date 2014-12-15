@@ -41,7 +41,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약정보목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtMngList(GamFcltyCtrtMngVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtMngList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtMngList(searchVO);
 	}
 	
@@ -71,7 +71,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void insertFcltyCtrtInfoDetail(Map insertMap) throws Exception {
+	public void insertFcltyCtrtInfoDetail(Map<?, ?> insertMap) throws Exception {
 		gamFcltyCtrtMngDao.insertFcltyCtrtInfoDetail(insertMap);
 	}
 	
@@ -81,7 +81,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void updateFcltyCtrtInfoDetail(Map updateMap) throws Exception {
+	public void updateFcltyCtrtInfoDetail(Map<?, ?> updateMap) throws Exception {
 		gamFcltyCtrtMngDao.updateFcltyCtrtInfoDetail(updateMap);
 	}
 
@@ -91,7 +91,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtInfoDetail(Map deleteMap) throws Exception {
+	public void deleteFcltyCtrtInfoDetail(Map<?, ?> deleteMap) throws Exception {
 		gamFcltyCtrtMngDao.deleteFcltyCtrtInfoDetail(deleteMap);
 	}
 	
@@ -102,7 +102,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약공동도급 목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtJoinContrList(GamFcltyCtrtMngVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtJoinContrList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrList(searchVO);
 	}
 	
@@ -123,7 +123,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void mergeFcltyCtrtJoinContrDetail(Map map) throws Exception {
+	public void mergeFcltyCtrtJoinContrDetail(Map<String, Object> map) throws Exception {
 		gamFcltyCtrtMngDao.mergeFcltyCtrtJoinContrDetail(map);
 	}
 	
@@ -133,7 +133,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtJoinContrList(Map deleteMap) throws Exception {
+	public void deleteFcltyCtrtJoinContrList(Map<?, ?> deleteMap) throws Exception {
 		gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrList(deleteMap);
 	}
 
@@ -144,7 +144,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약하도급 목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtSubCtrtList(GamFcltyCtrtMngVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtSubCtrtList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtList(searchVO);
 	}
 	
@@ -164,7 +164,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void mergeFcltyCtrtSubCtrtDetail(Map map) throws Exception {
+	public void mergeFcltyCtrtSubCtrtDetail(Map<String, Object> map) throws Exception {
 		gamFcltyCtrtMngDao.mergeFcltyCtrtSubCtrtDetail(map);
 	}
 	
@@ -174,7 +174,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtSubCtrtList(Map deleteMap) throws Exception {
+	public void deleteFcltyCtrtSubCtrtList(Map<?, ?> deleteMap) throws Exception {
 		gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtList(deleteMap);
 	}
 
@@ -184,7 +184,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약변경 목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtChangeList(GamFcltyCtrtMngVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtChangeList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtChangeList(searchVO);
 	}
 	
@@ -204,7 +204,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void mergeFcltyCtrtChangeDetail(Map map) throws Exception {
+	public void mergeFcltyCtrtChangeDetail(Map<String, Object> map) throws Exception {
 		gamFcltyCtrtMngDao.mergeFcltyCtrtChangeDetail(map);
 	}
 	
@@ -214,7 +214,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtChangeList(Map deleteMap) throws Exception {
+	public void deleteFcltyCtrtChangeList(Map<?, ?> deleteMap) throws Exception {
 		gamFcltyCtrtMngDao.deleteFcltyCtrtChangeList(deleteMap);
 	}
 	
@@ -225,7 +225,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약대금지급 목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtMoneyPymntList(GamFcltyCtrtMngVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtMoneyPymntList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntList(searchVO);
 	}
 	
@@ -246,7 +246,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void mergeFcltyCtrtMoneyPymntDetail(Map map) throws Exception {
+	public void mergeFcltyCtrtMoneyPymntDetail(Map<String, Object> map) throws Exception {
 		gamFcltyCtrtMngDao.mergeFcltyCtrtMoneyPymntDetail(map);
 	}
 
@@ -256,7 +256,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtMoneyPymntList(Map deleteMap) throws Exception {
+	public void deleteFcltyCtrtMoneyPymntList(Map<?, ?> deleteMap) throws Exception {
 		gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntList(deleteMap);
 	}
 	
@@ -266,7 +266,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약이행이월 목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtFulFillCaryFwdList(GamFcltyCtrtMngVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtFulFillCaryFwdList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdList(searchVO);
 	}
 	
@@ -286,7 +286,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void mergeFcltyCtrtFulFillCaryFwdDetail(Map map) throws Exception {
+	public void mergeFcltyCtrtFulFillCaryFwdDetail(Map<String, Object> map) throws Exception {
 		gamFcltyCtrtMngDao.mergeFcltyCtrtFulFillCaryFwdDetail(map);
 	}
 	
@@ -296,7 +296,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtFulFillCaryFwdList(Map deleteMap) throws Exception {
+	public void deleteFcltyCtrtFulFillCaryFwdList(Map<?, ?> deleteMap) throws Exception {
 		gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdList(deleteMap);
 	}
 	

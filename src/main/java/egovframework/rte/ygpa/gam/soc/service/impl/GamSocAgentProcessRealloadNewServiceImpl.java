@@ -40,7 +40,7 @@ public class GamSocAgentProcessRealloadNewServiceImpl extends AbstractServiceImp
 	 * @return 업체별투자비보전상계내역 리스트
 	 * @exception
 	 */
-	public List selectSocAgentProcessRealloadNewList(GamSocAgentProcessRealloadNewVO searchVO) {
+	public List<?> selectSocAgentProcessRealloadNewList(GamSocAgentProcessRealloadNewVO searchVO) {
 		return gamSocAgentProcessRealloadNewDao.selectSocAgentProcessRealloadNewList(searchVO);
 	}
 

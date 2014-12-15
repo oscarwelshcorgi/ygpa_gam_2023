@@ -29,7 +29,7 @@ public interface GamSocApplyLgerService {
 	 * @return 투자비보전신청대장 리스트
 	 * @exception
 	 */
-	List selectSocApplyLgerList(GamSocApplyLgerVO searchVO);
+	List<?> selectSocApplyLgerList(GamSocApplyLgerVO searchVO);
 	
 	/**
 	 * 투자비보전신청대장 리스트의 총 개수를 조회한다. 

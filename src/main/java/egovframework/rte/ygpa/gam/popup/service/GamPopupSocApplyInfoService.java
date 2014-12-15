@@ -29,7 +29,7 @@ public interface GamPopupSocApplyInfoService {
 	 * @return list
 	 * @exception Exception
 	 */
-	public List selectSocApplyInfoList(GamPopupSocApplyInfoVO searchVO) throws Exception;
+	public List<?> selectSocApplyInfoList(GamPopupSocApplyInfoVO searchVO) throws Exception;
 	
 	
 	/**

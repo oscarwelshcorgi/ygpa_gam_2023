@@ -33,7 +33,7 @@ public interface GamInfoTechFcltySpecMngService {
 	 * @return list
 	 * @throws Exception
 	 */	
-	List selectInfoTechFcltySpecMngList(GamInfoTechFcltySpecMngVO searchVO) throws Exception;
+	List<?> selectInfoTechFcltySpecMngList(GamInfoTechFcltySpecMngVO searchVO) throws Exception;
 	
 	/**
 	 * 정보통신시설재원관리 목록 총수 조회
@@ -49,7 +49,7 @@ public interface GamInfoTechFcltySpecMngService {
 	 * @return egovMap
 	 * @throws Exception
 	 */		
-	EgovMap selectInfoTechFcltySpecMngDetail(Map searchVO) throws Exception;
+	EgovMap selectInfoTechFcltySpecMngDetail(Map<?, ?> searchVO) throws Exception;
 	
 	/**
 	 * 정보통신시설재원관리 데이터를 삽입한다.
@@ -57,7 +57,7 @@ public interface GamInfoTechFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void insertInfoTechFcltySpecMngDetail(Map<String, Object> vo) throws Exception;
+	void insertInfoTechFcltySpecMngDetail(Map<?, ?> vo) throws Exception;
 	
 	/**
 	 * 정보통신시설재원관리 데이터를 수정한다.
@@ -65,7 +65,7 @@ public interface GamInfoTechFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void updateInfoTechFcltySpecMngDetail(Map<String, Object> vo) throws Exception;
+	void updateInfoTechFcltySpecMngDetail(Map<?, ?> vo) throws Exception;
 	
 	/**
 	 * 정보통신시설재원관리 데이터를 삭제한다.
@@ -73,7 +73,7 @@ public interface GamInfoTechFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void deleteInfoTechFcltySpecMngDetail(Map<String, Object> vo) throws Exception;
+	void deleteInfoTechFcltySpecMngDetail(Map<?, ?> vo) throws Exception;
 	
 	/**
 	 * 정보통신시설재원관리 첨부파일 목록을 가져온다.
@@ -81,7 +81,7 @@ public interface GamInfoTechFcltySpecMngService {
 	 * @return list 
 	 * @throws Exception
 	 */		
-	List selectInfoTechFcltySpecFileList(GamInfoTechFcltySpecMngVO searchVO) throws Exception;
+	List<?> selectInfoTechFcltySpecFileList(GamInfoTechFcltySpecMngVO searchVO) throws Exception;
 	
 	/**
 	 * 정보통신시설재원관리 첨부파일 목록 총수를 가져온다.
@@ -92,36 +92,12 @@ public interface GamInfoTechFcltySpecMngService {
 	int selectInfoTechFcltySpecFileListTotCnt(GamInfoTechFcltySpecMngVO searchVO) throws Exception;	
 	
 	/**
-	 * 정보통신시설재원관리 첨부파일 데이터를 삽입한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	void insertInfoTechFcltySpecFileDetail(Map<String, Object> vo) throws Exception;
-	
-	/**
-	 * 정보통신시설재원관리 첨부파일 데이터를 수정한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	void updateInfoTechFcltySpecFileDetail(Map<String, Object> vo) throws Exception;
-	
-	/**
-	 * 정보통신시설재원관리 첨부파일 데이터를 삭제한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */			
-	void deleteInfoTechFcltySpecFileDetail(Map<String, Object> vo) throws Exception;
-	
-	/**
 	 * 정보통신시설재원관리 첨부파일 목록을 삭제한다.
 	 * @param vo
 	 * @return 
 	 * @throws Exception
 	 */			
-	void deleteInfoTechFcltySpecFileList(Map<String, Object> vo) throws Exception;
+	void deleteInfoTechFcltySpecFileList(Map<?, ?> vo) throws Exception;
 	
 	/**
 	 * 정보통신시설재원관리 첨부파일을 병합저장한다..
@@ -129,6 +105,6 @@ public interface GamInfoTechFcltySpecMngService {
 	 * @return list
 	 * @throws Exception
 	 */			
-	public List mergeFcltyFileMngt(Map mergeList) throws Exception;
+	public void mergeFcltyFileMngt(Map<String, Object> mergeList) throws Exception;
 	
 }

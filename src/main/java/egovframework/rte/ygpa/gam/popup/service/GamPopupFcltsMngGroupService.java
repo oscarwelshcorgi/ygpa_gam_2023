@@ -29,7 +29,7 @@ public interface GamPopupFcltsMngGroupService {
 	 * @return list
 	 * @exception Exception
 	 */
-    List selectFcltsMngGroupList(GamPopupFcltsMngGroupVO searchVO) throws Exception;
+    List<?> selectFcltsMngGroupList(GamPopupFcltsMngGroupVO searchVO) throws Exception;
 
     /**
 	 * 시설물 관리 그룹 목록 총 갯수를 조회한다.

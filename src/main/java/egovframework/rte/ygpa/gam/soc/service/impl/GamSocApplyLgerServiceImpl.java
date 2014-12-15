@@ -41,7 +41,7 @@ public class GamSocApplyLgerServiceImpl extends AbstractServiceImpl implements G
 	 * @return 투자비보전신청대장 리스트
 	 * @exception
 	 */	
-	public List selectSocApplyLgerList(GamSocApplyLgerVO searchVO) {
+	public List<?> selectSocApplyLgerList(GamSocApplyLgerVO searchVO) {
 		return gamSocApplyLgerDao.selectSocApplyLgerList(searchVO);
 	}
 

@@ -41,7 +41,7 @@ public class GamSocApplyDtlsServiceImpl extends AbstractServiceImpl implements G
 	 * @return 면제요청내역 리스트
 	 * @exception
 	 */	
-	public List selectSocApplyDtlsList(GamSocApplyDtlsVO searchVO) {
+	public List<?> selectSocApplyDtlsList(GamSocApplyDtlsVO searchVO) {
 		return gamSocApplyDtlsDao.selectSocApplyDtlsList(searchVO);
 	}
 

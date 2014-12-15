@@ -32,7 +32,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return list
 	 * @throws Exception
 	 */		
-	List selectQcMngDtlsList(GamFcltyQcwWrtMngVO searchVO) throws Exception;
+	List<?> selectQcMngDtlsList(GamFcltyQcwWrtMngVO searchVO) throws Exception;
 	
 	/**
 	 * 점검관리내역 목록 총수 조회
@@ -48,7 +48,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return EgovMap
 	 * @throws Exception
 	 */		
-	EgovMap selectQcMngDtlsDetail(Map searchVO) throws Exception;
+	EgovMap selectQcMngDtlsDetail(Map<?, ?> searchVO) throws Exception;
 	
 	/**
 	 * 현재 +1 점검관리순번 조회 
@@ -56,7 +56,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return String
 	 * @throws Exception
 	 */		
-	String selectNextQcMngSeq(Map<String, Object> vo) throws Exception;
+	String selectNextQcMngSeq(Map<?, ?> vo) throws Exception;
 	
 	/**
 	 * 점검관리내역 데이터 삽입
@@ -64,7 +64,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void insertQcMngDtls(Map<String, Object> vo) throws Exception;
+	void insertQcMngDtls(Map<?, ?> vo) throws Exception;
 	
 	/**
 	 * 점검관리내역 데이터 수정
@@ -72,7 +72,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void updateQcMngDtls(Map<String, Object> vo) throws Exception;
+	void updateQcMngDtls(Map<?, ?> vo) throws Exception;
 	
 	/**
 	 * 점검관리내역 데이터 삭제
@@ -80,7 +80,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void deleteQcMngDtls(Map<String, Object> vo) throws Exception;
+	void deleteQcMngDtls(Map<?, ?> vo) throws Exception;
 		
 	/**
 	 * 점검관리대상시설물 목록 조회
@@ -88,7 +88,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return list
 	 * @throws Exception
 	 */		
-	List selectQcMngObjFcltsList(GamFcltyQcwWrtMngVO searchVO) throws Exception;
+	List<?> selectQcMngObjFcltsList(GamFcltyQcwWrtMngVO searchVO) throws Exception;
 	
 	/**
 	 * 점검관리대상시설물 목록 총수 조회
@@ -104,7 +104,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return list
 	 * @throws Exception
 	 */		
-	List mergeQcMngObjFclts(Map mergeMap) throws Exception;
+	void mergeQcMngObjFclts(Map<String, Object> mergeMap) throws Exception;
 	
 	/**
 	 * 점검관리대상시설물 목록 삭제
@@ -112,7 +112,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void deleteQcMngObjFcltsList(Map<String, Object> vo) throws Exception;
+	void deleteQcMngObjFcltsList(Map<?, ?> vo) throws Exception;
 	
 	/**
 	 * 점검관리첨부파일 목록 조회
@@ -120,7 +120,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return list
 	 * @throws Exception
 	 */		
-	List selectQcMngAtchFileList(GamFcltyQcwWrtMngVO searchVO) throws Exception;
+	List<?> selectQcMngAtchFileList(GamFcltyQcwWrtMngVO searchVO) throws Exception;
 	
 	/**
 	 * 점검관리첨부파일 목록 총수 조회
@@ -136,7 +136,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return list
 	 * @throws Exception
 	 */		
-	List mergeQcMngAtchFile(Map mergeMap) throws Exception;
+	void mergeQcMngAtchFile(Map<String, Object> mergeMap) throws Exception;
 	
 	/**
 	 * 점검관리첨부파일 목록 삭제
@@ -144,7 +144,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void deleteQcMngAtchFileList(Map<String, Object> vo) throws Exception;
+	void deleteQcMngAtchFileList(Map<?, ?> vo) throws Exception;
 	
 
 	/**
@@ -153,7 +153,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return list
 	 * @throws Exception
 	 */		
-	List selectQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception;
+	List<?> selectQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception;
 	
 	/**
 	 * 점검관리결과항목 목록 총수 조회
@@ -169,7 +169,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return list
 	 * @throws Exception
 	 */		
-	List mergeQcMngResultItem(Map mergeMap) throws Exception;
+	void mergeQcMngResultItem(Map<String, Object> mergeMap) throws Exception;
 	
 	/**
 	 * 점검관리결과항목 목록 삭제
@@ -177,5 +177,5 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return
 	 * @throws Exception
 	 */		
-	void deleteQcMngResultItemList(Map<String, Object> vo) throws Exception;
+	void deleteQcMngResultItemList(Map<?, ?> vo) throws Exception;
 }

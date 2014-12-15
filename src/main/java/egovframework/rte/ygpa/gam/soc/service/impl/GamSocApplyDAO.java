@@ -46,7 +46,7 @@ public class GamSocApplyDAO extends YGPAAbstractDAO {
 	 * @return 면제요청내역 리스트
 	 * @exception
 	 */
-	List selectSocApplyList(GamSocApplyVO searchVO) {
+	List<?> selectSocApplyList(GamSocApplyVO searchVO) {
 		return list("gamSocApplyDAO.selectSocApplyList_D", searchVO);
 	}
 	
@@ -66,7 +66,7 @@ public class GamSocApplyDAO extends YGPAAbstractDAO {
 	 * @return 
 	 * @exception
 	 */
-	void insertSocApplyDetail(Map insertMap) {
+	void insertSocApplyDetail(Map<?, ?> insertMap) {
 		insert("gamSocApplyDao.insertSocApplyDetail_S", insertMap);
 	}
 	
@@ -76,7 +76,7 @@ public class GamSocApplyDAO extends YGPAAbstractDAO {
 	 * @return 
 	 * @exception
 	 */	
-	void updateSocApplyDetail(Map updateMap) {
+	void updateSocApplyDetail(Map<?, ?> updateMap) {
 		update("gamSocApplyDao.updateSocApplyDetail_S", updateMap);
 	}
 	
@@ -86,7 +86,7 @@ public class GamSocApplyDAO extends YGPAAbstractDAO {
 	 * @return
 	 * @exception
 	 */	
-	void deleteSocApplyDetail(Map deleteMap) {
+	void deleteSocApplyDetail(Map<?, ?> deleteMap) {
 		delete("gamSocApplyDao.deleteSocApplyDetail_S", deleteMap);
 	}
 	
@@ -96,7 +96,7 @@ public class GamSocApplyDAO extends YGPAAbstractDAO {
 	 * @return
 	 * @exception
 	 */	
-	List selectSocApplyFacilList(GamSocApplyVO searchVO) {
+	List<?> selectSocApplyFacilList(GamSocApplyVO searchVO) {
 		return list("gamSocApplyDao.selectSocApplyFacilList_D", searchVO);
 	}
 
@@ -116,7 +116,7 @@ public class GamSocApplyDAO extends YGPAAbstractDAO {
 	 * @return
 	 * @exception
 	 */	
-	int selectSocApplyFacilInfoCnt(Map searchMap) {
+	int selectSocApplyFacilInfoCnt(Map<?, ?> searchMap) {
 		return (Integer)getSqlMapClientTemplate().queryForObject("gamSocApplyDao.selectSocApplyFacilInfoCnt_S", searchMap);
 	}
 	
@@ -127,7 +127,7 @@ public class GamSocApplyDAO extends YGPAAbstractDAO {
 	 * @return
 	 * @exception
 	 */	
-	void insertSocApplyFacilInfo(Map insertMap) {
+	void insertSocApplyFacilInfo(Map<?, ?> insertMap) {
 		insert("gamSocApplyDao.insertSocApplyFacilInfo_S", insertMap);
 	}
 	
@@ -137,7 +137,7 @@ public class GamSocApplyDAO extends YGPAAbstractDAO {
 	 * @return
 	 * @exception
 	 */	
-	void deleteSocApplyFacilList(Map deleteMap) {
+	void deleteSocApplyFacilList(Map<?, ?> deleteMap) {
 		delete("gamSocApplyDao.deleteSocApplyFacilList_S", deleteMap);
 	}
 
@@ -147,7 +147,7 @@ public class GamSocApplyDAO extends YGPAAbstractDAO {
 	 * @return
 	 * @exception
 	 */	
-	List selectSocApplyFeeList(GamSocApplyVO searchVO) {
+	List<?> selectSocApplyFeeList(GamSocApplyVO searchVO) {
 		return list("gamSocApplyDao.selectSocApplyFeeList_D", searchVO);
 	}
 
@@ -167,7 +167,7 @@ public class GamSocApplyDAO extends YGPAAbstractDAO {
 	 * @return
 	 * @exception
 	 */	
-	int selectSocApplyFeeInfoCnt(Map searchMap) {
+	int selectSocApplyFeeInfoCnt(Map<?, ?> searchMap) {
 		return (Integer)getSqlMapClientTemplate().queryForObject("gamSocApplyDao.selectSocApplyFeeInfoCnt", searchMap);
 	}
 	
@@ -177,7 +177,7 @@ public class GamSocApplyDAO extends YGPAAbstractDAO {
 	 * @return
 	 * @exception
 	 */	
-	void insertSocApplyFeeInfo(Map insertMap) {
+	void insertSocApplyFeeInfo(Map<?, ?> insertMap) {
 		insert("gamSocApplyDao.insertSocApplyFeeInfo_S", insertMap);
 	}
 	
@@ -187,7 +187,7 @@ public class GamSocApplyDAO extends YGPAAbstractDAO {
 	 * @return
 	 * @exception
 	 */	
-	void deleteSocApplyFeeList(Map deleteMap) {
+	void deleteSocApplyFeeList(Map<?, ?> deleteMap) {
 		delete("gamSocApplyDao.deleteSocApplyFeeList_S", deleteMap);
 	}
 }

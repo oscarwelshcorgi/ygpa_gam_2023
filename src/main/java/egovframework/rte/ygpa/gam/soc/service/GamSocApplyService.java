@@ -38,7 +38,7 @@ public interface GamSocApplyService {
 	 * @return 면제요청내역 리스트
 	 * @exception
 	 */
-	List selectSocApplyList(GamSocApplyVO searchVO);
+	List<?> selectSocApplyList(GamSocApplyVO searchVO);
 	
 	/**
 	 * 면제요청내역 리스트의 총 개수를 조회한다. 
@@ -54,7 +54,7 @@ public interface GamSocApplyService {
 	 * @return 
 	 * @exception
 	 */
-	void insertSocApplyDetail(Map insertMap);
+	void insertSocApplyDetail(Map<?, ?> insertMap);
 	
 	/**
 	 * 면제요청내역관리 데이터를 수정한다. 
@@ -62,7 +62,7 @@ public interface GamSocApplyService {
 	 * @return 
 	 * @exception
 	 */	
-	void updateSocApplyDetail(Map updateMap);
+	void updateSocApplyDetail(Map<?, ?> updateMap);
 	
 	/**
 	 * 면제요청내역관리 데이터를 삭제한다. 
@@ -70,7 +70,7 @@ public interface GamSocApplyService {
 	 * @return
 	 * @exception
 	 */	
-	void deleteSocApplyDetail(Map deleteMap);
+	void deleteSocApplyDetail(Map<?, ?> deleteMap);
 	
 	/**
 	 * 면제요청내역관리 데이터에 해당하는 시섧물리스트를  조회한다. 
@@ -78,7 +78,7 @@ public interface GamSocApplyService {
 	 * @return
 	 * @exception
 	 */	
-	List selectSocApplyFacilList(GamSocApplyVO searchVO);
+	List<?> selectSocApplyFacilList(GamSocApplyVO searchVO);
 
 	/**
 	 * 면제요청내역관리 데이터에 해당하는 시섧물리스트 총갯슈를  조회한다. 
@@ -94,7 +94,7 @@ public interface GamSocApplyService {
 	 * @return
 	 * @exception
 	 */	
-	int selectSocApplyFacilInfoCnt(Map searchMap);
+	int selectSocApplyFacilInfoCnt(Map<?, ?> searchMap);
 	
 	
 	/**
@@ -103,7 +103,7 @@ public interface GamSocApplyService {
 	 * @return
 	 * @exception
 	 */	
-	void insertSocApplyFacilInfo(Map insertMap);
+	void insertSocApplyFacilInfo(Map<?, ?> insertMap);
 	
 	/**
 	 * 면제요청내역관리 데이터에 해당하는 시섧물데이터전체를 삭제한다. 
@@ -111,7 +111,7 @@ public interface GamSocApplyService {
 	 * @return
 	 * @exception
 	 */	
-	void deleteSocApplyFacilList(Map deleteMap);
+	void deleteSocApplyFacilList(Map<?, ?> deleteMap);
 
 	/**
 	 * 면제요청내역관리 데이터에 해당하는 요금종류리스트를  조회한다. 
@@ -119,7 +119,7 @@ public interface GamSocApplyService {
 	 * @return
 	 * @exception
 	 */	
-	List selectSocApplyFeeList(GamSocApplyVO searchVO);
+	List<?> selectSocApplyFeeList(GamSocApplyVO searchVO);
 
 	/**
 	 * 면제요청내역관리 데이터에 해당하는 요금종류리스트 총갯슈를  조회한다. 
@@ -135,7 +135,7 @@ public interface GamSocApplyService {
 	 * @return
 	 * @exception
 	 */	
-	int selectSocApplyFeeInfoCnt(Map searchMap);;
+	int selectSocApplyFeeInfoCnt(Map<?, ?> searchMap);;
 	
 	/**
 	 * 면제요청내역관리 데이터에 해당하는 요금종류데이터를 삽입한다. 
@@ -143,7 +143,7 @@ public interface GamSocApplyService {
 	 * @return
 	 * @exception
 	 */	
-	void insertSocApplyFeeInfo(Map insertMap);
+	void insertSocApplyFeeInfo(Map<?, ?> insertMap);
 	
 	/**
 	 * 면제요청내역관리 데이터에 해당하는 요금종류데이터전체를 삭제한다. 
@@ -151,5 +151,5 @@ public interface GamSocApplyService {
 	 * @return
 	 * @exception
 	 */	
-	void deleteSocApplyFeeList(Map deleteMap);
+	void deleteSocApplyFeeList(Map<?, ?> deleteMap);
 }

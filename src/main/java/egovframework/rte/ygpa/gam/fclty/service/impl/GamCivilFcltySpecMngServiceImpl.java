@@ -41,7 +41,7 @@ public class GamCivilFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return list
 	 * @throws Exception
 	 */	
-	public List selectCivilFcltySpecMngList(GamCivilFcltySpecMngVO searchVO) throws Exception {
+	public List<?> selectCivilFcltySpecMngList(GamCivilFcltySpecMngVO searchVO) throws Exception {
 		return gamCivilFcltySpecMngDao.selectCivilFcltySpecMngList(searchVO);
 	}
 	
@@ -61,7 +61,7 @@ public class GamCivilFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return egovMap
 	 * @throws Exception
 	 */		
-	public EgovMap selectCivilFcltySpecMngDetail(Map searchVO) throws Exception {
+	public EgovMap selectCivilFcltySpecMngDetail(Map<?, ?> searchVO) throws Exception {
 		return gamCivilFcltySpecMngDao.selectCivilFcltySpecMngDetail(searchVO);
 	}
 	
@@ -71,7 +71,7 @@ public class GamCivilFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void insertCivilFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+	public void insertCivilFcltySpecMngDetail(Map<?,?> vo) throws Exception {
 		gamCivilFcltySpecMngDao.insertCivilFcltySpecMngDetail(vo);
 	}
 	
@@ -81,7 +81,7 @@ public class GamCivilFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void updateCivilFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+	public void updateCivilFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
 		gamCivilFcltySpecMngDao.updateCivilFcltySpecMngDetail(vo);
 	}
 	
@@ -91,7 +91,7 @@ public class GamCivilFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void deleteCivilFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+	public void deleteCivilFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
 		gamCivilFcltySpecMngDao.deleteCivilFcltySpecMngDetail(vo);
 	}	
 	
@@ -101,7 +101,7 @@ public class GamCivilFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return list 
 	 * @throws Exception
 	 */		
-	public List selectCivilFcltySpecFileList(GamCivilFcltySpecMngVO searchVO) throws Exception {
+	public List<?> selectCivilFcltySpecFileList(GamCivilFcltySpecMngVO searchVO) throws Exception {
 		return gamCivilFcltySpecMngDao.selectCivilFcltySpecFileList(searchVO);
 	}
 
@@ -115,44 +115,13 @@ public class GamCivilFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 		return gamCivilFcltySpecMngDao.selectCivilFcltySpecFileListTotCnt(searchVO);
 	}
 
-
-	/**
-	 * 토목시설재원관리 첨부파일 데이터를 삽입한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	public void insertCivilFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
-		gamCivilFcltySpecMngDao.insertCivilFcltySpecFileDetail(vo);
-	}
-	
-	/**
-	 * 토목시설재원관리 첨부파일 데이터를 수정한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	public void updateCivilFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
-		gamCivilFcltySpecMngDao.updateCivilFcltySpecFileDetail(vo);
-	}
-
-	/**
-	 * 토목시설재원관리 첨부파일 데이터를 삭제한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */			
-	public void deleteCivilFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
-		gamCivilFcltySpecMngDao.deleteCivilFcltySpecFileDetail(vo);
-	}
-
 	/**
 	 * 토목시설재원관리 첨부파일 목록을 삭제한다.
 	 * @param vo
 	 * @return 
 	 * @throws Exception
 	 */			
-	public void deleteCivilFcltySpecFileList(Map<String, Object> vo) throws Exception {
+	public void deleteCivilFcltySpecFileList(Map<?, ?> vo) throws Exception {
 		gamCivilFcltySpecMngDao.deleteCivilFcltySpecFileList(vo);
 	}
 	
@@ -162,8 +131,8 @@ public class GamCivilFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return 
 	 * @throws Exception
 	 */			
-	public List mergeFcltyFileMngt(Map mergeMap) throws Exception{
-		return gamCivilFcltySpecMngDao.mergeFcltyFile(mergeMap);
+	public void mergeFcltyFileMngt(Map<String, Object> mergeMap) throws Exception{
+		gamCivilFcltySpecMngDao.mergeFcltyFile(mergeMap);
 	}
 	
 }

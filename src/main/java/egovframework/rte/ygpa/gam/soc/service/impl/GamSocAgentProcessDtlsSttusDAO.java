@@ -34,7 +34,7 @@ public class GamSocAgentProcessDtlsSttusDAO extends YGPAAbstractDAO {
 	 * @return 투자비보전처리현황 리스트
 	 * @exception
 	 */
-	List selectSocAgentProcessDtlsSttusList(GamSocAgentProcessDtlsSttusVO searchVO) {
+	List<?> selectSocAgentProcessDtlsSttusList(GamSocAgentProcessDtlsSttusVO searchVO) {
 		return list("gamSocAgentProcessDtlsSttusDAO.selectSocAgentProcessDtlsSttusList_D", searchVO);
 	}
 	

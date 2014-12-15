@@ -42,7 +42,7 @@ public class GamPopupSocApplyInfoServiceImpl extends AbstractServiceImpl impleme
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectSocApplyInfoList(GamPopupSocApplyInfoVO searchVO) throws Exception {
+    public List<?> selectSocApplyInfoList(GamPopupSocApplyInfoVO searchVO) throws Exception {
         return gamPopupSocApplyInfoDao.selectSocApplyInfoList(searchVO);
     }
 

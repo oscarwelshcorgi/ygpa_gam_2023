@@ -29,7 +29,7 @@ public interface GamSocStatsService {
 	 * @return 업체별 투자비보전 집계 목록
 	 * @exception Exception
 	 */
-	List selectSocEntprStatsList(GamSocStatsVO searchVO);
+	List<?> selectSocEntprStatsList(GamSocStatsVO searchVO);
 	
 	/**
 	 * 업체별 투자비보전 집계 목록 자료수와 상계금액을 조회한다.
@@ -46,7 +46,7 @@ public interface GamSocStatsService {
 	 * @return 월별 투자비보전 집계 목록
 	 * @exception Exception
 	 */
-	List selectSocMonthStatsList(GamSocStatsVO searchVO);
+	List<?> selectSocMonthStatsList(GamSocStatsVO searchVO);
 	
 	/**
 	 * 월별 투자비보전 집계 목록 자료수와 상계금액을 조회한다.
@@ -62,7 +62,7 @@ public interface GamSocStatsService {
 	 * @return 업체기준 월별 투자비보전 집계 목록
 	 * @exception Exception
 	 */
-	List selectSocEntprBasisMonthStatsList(GamSocStatsVO searchVO);
+	List<?> selectSocEntprBasisMonthStatsList(GamSocStatsVO searchVO);
 	
 	/**
 	 * 업체기준 월별 투자비보전 집계 목록 자료수와 상계금액을 조회한다.
@@ -78,7 +78,7 @@ public interface GamSocStatsService {
 	 * @return 업체별 투자비보전 집계 목록
 	 * @exception Exception
 	 */
-	List selectSocMonthBasisEntprStatsList(GamSocStatsVO searchVO);
+	List<?> selectSocMonthBasisEntprStatsList(GamSocStatsVO searchVO);
 	
 	/**
 	 * 월기준 업체별 투자비보전 집계 목록 자료수와 상계금액을 조회한다.

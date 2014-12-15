@@ -50,7 +50,7 @@ public class GamSocApplyServiceImpl implements GamSocApplyService {
 	 * @return 면제요청내역 리스트
 	 * @exception
 	 */
-	public List selectSocApplyList(GamSocApplyVO searchVO) {
+	public List<?> selectSocApplyList(GamSocApplyVO searchVO) {
 		return gamSocApplyDao.selectSocApplyList(searchVO);
 	}
 
@@ -70,7 +70,7 @@ public class GamSocApplyServiceImpl implements GamSocApplyService {
 	 * @return 
 	 * @exception
 	 */
-	public void insertSocApplyDetail(Map insertMap) {
+	public void insertSocApplyDetail(Map<?, ?> insertMap) {
 		gamSocApplyDao.insertSocApplyDetail(insertMap);
 	}
 
@@ -80,7 +80,7 @@ public class GamSocApplyServiceImpl implements GamSocApplyService {
 	 * @return 
 	 * @exception
 	 */	
-	public void updateSocApplyDetail(Map updateMap) {
+	public void updateSocApplyDetail(Map<?, ?> updateMap) {
 		gamSocApplyDao.updateSocApplyDetail(updateMap);
 	}
 
@@ -90,7 +90,7 @@ public class GamSocApplyServiceImpl implements GamSocApplyService {
 	 * @return
 	 * @exception
 	 */	
-	public void deleteSocApplyDetail(Map deleteMap) {
+	public void deleteSocApplyDetail(Map<?, ?> deleteMap) {
 		gamSocApplyDao.deleteSocApplyDetail(deleteMap);
 	}
 	
@@ -100,7 +100,7 @@ public class GamSocApplyServiceImpl implements GamSocApplyService {
 	 * @return
 	 * @exception
 	 */	
-	public List selectSocApplyFacilList(GamSocApplyVO searchVO) {
+	public List<?> selectSocApplyFacilList(GamSocApplyVO searchVO) {
 		return gamSocApplyDao.selectSocApplyFacilList(searchVO);
 	}
 
@@ -120,7 +120,7 @@ public class GamSocApplyServiceImpl implements GamSocApplyService {
 	 * @return
 	 * @exception
 	 */	
-	public int selectSocApplyFacilInfoCnt(Map searchMap) {
+	public int selectSocApplyFacilInfoCnt(Map<?, ?> searchMap) {
 		return gamSocApplyDao.selectSocApplyFacilInfoCnt(searchMap);
 	}
 	
@@ -131,7 +131,7 @@ public class GamSocApplyServiceImpl implements GamSocApplyService {
 	 * @return
 	 * @exception
 	 */	
-	public void insertSocApplyFacilInfo(Map insertMap) {
+	public void insertSocApplyFacilInfo(Map<?, ?> insertMap) {
 		gamSocApplyDao.insertSocApplyFacilInfo(insertMap);
 	}
 	
@@ -141,7 +141,7 @@ public class GamSocApplyServiceImpl implements GamSocApplyService {
 	 * @return
 	 * @exception
 	 */	
-	public void deleteSocApplyFacilList(Map deleteMap) {
+	public void deleteSocApplyFacilList(Map<?, ?> deleteMap) {
 		gamSocApplyDao.deleteSocApplyFacilList(deleteMap);
 	}
 
@@ -151,7 +151,7 @@ public class GamSocApplyServiceImpl implements GamSocApplyService {
 	 * @return
 	 * @exception
 	 */	
-	public List selectSocApplyFeeList(GamSocApplyVO searchVO) {
+	public List<?> selectSocApplyFeeList(GamSocApplyVO searchVO) {
 		return gamSocApplyDao.selectSocApplyFeeList(searchVO);
 	}
 
@@ -171,7 +171,7 @@ public class GamSocApplyServiceImpl implements GamSocApplyService {
 	 * @return
 	 * @exception
 	 */	
-	public int selectSocApplyFeeInfoCnt(Map searchMap) {
+	public int selectSocApplyFeeInfoCnt(Map<?, ?> searchMap) {
 		return gamSocApplyDao.selectSocApplyFeeInfoCnt(searchMap);
 	}
 	
@@ -181,7 +181,7 @@ public class GamSocApplyServiceImpl implements GamSocApplyService {
 	 * @return
 	 * @exception
 	 */	
-	public void insertSocApplyFeeInfo(Map insertMap) {
+	public void insertSocApplyFeeInfo(Map<?, ?> insertMap) {
 		gamSocApplyDao.insertSocApplyFeeInfo(insertMap);
 	}
 	
@@ -191,7 +191,7 @@ public class GamSocApplyServiceImpl implements GamSocApplyService {
 	 * @return
 	 * @exception
 	 */	
-	public void deleteSocApplyFeeList(Map deleteMap) {
+	public void deleteSocApplyFeeList(Map<?, ?> deleteMap) {
 		gamSocApplyDao.deleteSocApplyFeeList(deleteMap);
 	}
 

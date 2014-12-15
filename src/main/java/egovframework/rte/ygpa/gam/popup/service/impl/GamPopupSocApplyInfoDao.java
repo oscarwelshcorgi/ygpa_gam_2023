@@ -35,7 +35,7 @@ public class GamPopupSocApplyInfoDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @exception Exception
 	 */
-	public List selectSocApplyInfoList(GamPopupSocApplyInfoVO searchVO) throws Exception {
+	public List<?> selectSocApplyInfoList(GamPopupSocApplyInfoVO searchVO) throws Exception {
 		return list("gamPopupSocApplyInfoDao.selectSocApplyInfoList_D", searchVO);
 	}
 	

@@ -40,7 +40,7 @@ public class GamGisPrtFcltyCdMngtServiceImpl extends AbstractServiceImpl impleme
 	 * @return
 	 * @exception Exception
 	 */	
-	public void insertGisPrtFclty(Map<String, Object> vo) throws Exception {
+	public void insertGisPrtFclty(Map<?, ?> vo) throws Exception {
 		gamGisPrtFcltyCdMngtDao.insertGisPrtFclty(vo);
 	}
 	
@@ -50,7 +50,7 @@ public class GamGisPrtFcltyCdMngtServiceImpl extends AbstractServiceImpl impleme
 	 * @return
 	 * @exception Exception
 	 */	
-	public void updateGisPrtFclty(Map<String, Object> vo) throws Exception {
+	public void updateGisPrtFclty(Map<?, ?> vo) throws Exception {
 		gamGisPrtFcltyCdMngtDao.updateGisPrtFclty(vo);
 	}
 	
@@ -60,7 +60,7 @@ public class GamGisPrtFcltyCdMngtServiceImpl extends AbstractServiceImpl impleme
 	 * @return
 	 * @exception Exception
 	 */	
-	public void deleteGisPrtFclty(Map<String, Object> vo) throws Exception {
+	public void deleteGisPrtFclty(Map<?, ?> vo) throws Exception {
 		gamGisPrtFcltyCdMngtDao.deleteGisPrtFclty(vo);
 	}
 	
@@ -70,7 +70,7 @@ public class GamGisPrtFcltyCdMngtServiceImpl extends AbstractServiceImpl impleme
 	 * @return
 	 * @exception Exception
 	 */	
-	public String selectNextFcltySeq(Map<String, Object> vo) throws Exception {
+	public String selectNextFcltySeq(Map<?, ?> vo) throws Exception {
 		return gamGisPrtFcltyCdMngtDao.selectNextFcltySeq(vo);
 	}
 

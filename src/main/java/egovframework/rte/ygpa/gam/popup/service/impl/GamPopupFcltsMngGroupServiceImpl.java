@@ -40,7 +40,7 @@ public class GamPopupFcltsMngGroupServiceImpl extends AbstractServiceImpl implem
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectFcltsMngGroupList(GamPopupFcltsMngGroupVO searchVO) throws Exception {
+    public List<?> selectFcltsMngGroupList(GamPopupFcltsMngGroupVO searchVO) throws Exception {
     	return gamPopupFcltsMngGroupDao.selectFcltsMngGroupList(searchVO);
     }
 

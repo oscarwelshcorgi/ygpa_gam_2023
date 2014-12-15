@@ -37,7 +37,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 계약정보목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtMngList(GamFcltyCtrtMngVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtMngList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return list("gamFcltyCtrtMngDao.selectFcltyCtrtMngList_D", searchVO);
 	}
 	
@@ -67,7 +67,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @exception Exception
 	 */
-	public void insertFcltyCtrtInfoDetail(Map insertMap) throws Exception {
+	public void insertFcltyCtrtInfoDetail(Map<?,?> insertMap) throws Exception {
 		insert("gamFcltyCtrtMngDao.insertFcltyCtrtInfoDetail_S", insertMap);
 	}
 	
@@ -77,7 +77,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @exception Exception
 	 */
-	public void updateFcltyCtrtInfoDetail(Map updateMap) throws Exception {
+	public void updateFcltyCtrtInfoDetail(Map<?,?> updateMap) throws Exception {
 		update("gamFcltyCtrtMngDao.updateFcltyCtrtInfoDetail_S", updateMap);
 	}
 
@@ -87,7 +87,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtInfoDetail(Map deleteMap) throws Exception {
+	public void deleteFcltyCtrtInfoDetail(Map<?,?> deleteMap) throws Exception {
 		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtInfoDetail_S", deleteMap);
 	}
 	
@@ -98,7 +98,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 계약공동도급 목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtJoinContrList(GamFcltyCtrtMngVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtJoinContrList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return list("gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrList_D", searchVO);
 	}
 	
@@ -118,8 +118,8 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @exception Exception
 	 */
-	public List mergeFcltyCtrtJoinContrDetail(Map map) throws Exception {
-		return this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtJoinContrDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtJoinContrDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrDetail_S");
+	public void mergeFcltyCtrtJoinContrDetail(Map<String, Object> map) throws Exception {
+		this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtJoinContrDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtJoinContrDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrDetail_S");
 	}
 	
 	/**
@@ -128,7 +128,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtJoinContrList(Map deleteMap) throws Exception {
+	public void deleteFcltyCtrtJoinContrList(Map<?, ?> deleteMap) throws Exception {
 		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrList_S", deleteMap);
 	}
 	
@@ -139,7 +139,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 계약하도급 목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtSubCtrtList(GamFcltyCtrtMngVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtSubCtrtList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return list("gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtList_D", searchVO);
 	}
 	
@@ -159,8 +159,8 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @exception Exception
 	 */
-	public List mergeFcltyCtrtSubCtrtDetail(Map map) throws Exception {
-		return this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtSubCtrtDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtSubCtrtDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtDetail_S");
+	public void mergeFcltyCtrtSubCtrtDetail(Map<String, Object> map) throws Exception {
+		this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtSubCtrtDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtSubCtrtDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtDetail_S");
 	}
 
 	/**
@@ -169,7 +169,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtSubCtrtList(Map deleteMap) throws Exception {
+	public void deleteFcltyCtrtSubCtrtList(Map<?, ?> deleteMap) throws Exception {
 		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtList_S", deleteMap);
 	}
 
@@ -180,7 +180,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 계약변경 목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtChangeList(GamFcltyCtrtMngVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtChangeList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return list("gamFcltyCtrtMngDao.selectFcltyCtrtChangeList_D", searchVO);
 	}
 	
@@ -201,8 +201,8 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @exception Exception
 	 */
-	public List mergeFcltyCtrtChangeDetail(Map map) throws Exception {
-		return this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtChangeDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtChangeDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtChangeDetail_S");
+	public void mergeFcltyCtrtChangeDetail(Map<String, Object> map) throws Exception {
+		this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtChangeDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtChangeDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtChangeDetail_S");
 	}
 
 	/**
@@ -211,7 +211,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtChangeList(Map deleteMap) throws Exception {
+	public void deleteFcltyCtrtChangeList(Map<?, ?> deleteMap) throws Exception {
 		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtChangeList_S", deleteMap);
 	}
 	
@@ -222,7 +222,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 계약대금지급 목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtMoneyPymntList(GamFcltyCtrtMngVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtMoneyPymntList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return list("gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntList_D", searchVO);
 	}
 	
@@ -242,8 +242,8 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @exception Exception
 	 */
-	public List mergeFcltyCtrtMoneyPymntDetail(Map map) throws Exception {
-		return this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtMoneyPymntDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtMoneyPymntDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntDetail_S");
+	public void mergeFcltyCtrtMoneyPymntDetail(Map<String, Object> map) throws Exception {
+		this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtMoneyPymntDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtMoneyPymntDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntDetail_S");
 	}
 	
 	/**
@@ -252,7 +252,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtMoneyPymntList(Map deleteMap) throws Exception {
+	public void deleteFcltyCtrtMoneyPymntList(Map<?, ?> deleteMap) throws Exception {
 		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntList_S", deleteMap);
 	}
 
@@ -262,7 +262,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 계약이행이월 목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtFulFillCaryFwdList(GamFcltyCtrtMngVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtFulFillCaryFwdList(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return list("gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdList_D", searchVO);
 	}
 	
@@ -282,8 +282,8 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @exception Exception
 	 */
-	public List mergeFcltyCtrtFulFillCaryFwdDetail(Map map) throws Exception {
-		return this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtFulFillCaryFwdDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtFulFillCaryFwdDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdDetail_S");
+	public void mergeFcltyCtrtFulFillCaryFwdDetail(Map<String, Object> map) throws Exception {
+		this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtFulFillCaryFwdDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtFulFillCaryFwdDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdDetail_S");
 	}
 
 	/**
@@ -292,7 +292,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @exception Exception
 	 */
-	public void deleteFcltyCtrtFulFillCaryFwdList(Map deleteMap) throws Exception {
+	public void deleteFcltyCtrtFulFillCaryFwdList(Map<?, ?> deleteMap) throws Exception {
 		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdList_S", deleteMap);
 	}
 }

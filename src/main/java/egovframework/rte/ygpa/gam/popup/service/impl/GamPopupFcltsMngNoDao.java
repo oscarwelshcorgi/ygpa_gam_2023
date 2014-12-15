@@ -34,7 +34,7 @@ public class GamPopupFcltsMngNoDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectFcltsMngNoList(GamPopupFcltsMngNoVO searchVO) throws Exception {
+    public List<?> selectFcltsMngNoList(GamPopupFcltsMngNoVO searchVO) throws Exception {
     	return list("gamPopupFcltsMngNoDao.selectFcltsMngNoList_D", searchVO);
     }
 

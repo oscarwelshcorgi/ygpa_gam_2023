@@ -41,7 +41,7 @@ public class GamInfoTechFcltySpecMngServiceImpl extends AbstractServiceImpl impl
 	 * @return list
 	 * @throws Exception
 	 */	
-	public List selectInfoTechFcltySpecMngList(GamInfoTechFcltySpecMngVO searchVO) throws Exception {
+	public List<?> selectInfoTechFcltySpecMngList(GamInfoTechFcltySpecMngVO searchVO) throws Exception {
 		return gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecMngList(searchVO);
 	}
 	
@@ -61,7 +61,7 @@ public class GamInfoTechFcltySpecMngServiceImpl extends AbstractServiceImpl impl
 	 * @return egovMap
 	 * @throws Exception
 	 */		
-	public EgovMap selectInfoTechFcltySpecMngDetail(Map searchVO) throws Exception {
+	public EgovMap selectInfoTechFcltySpecMngDetail(Map<?, ?> searchVO) throws Exception {
 		return gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecMngDetail(searchVO);
 	}
 	
@@ -71,7 +71,7 @@ public class GamInfoTechFcltySpecMngServiceImpl extends AbstractServiceImpl impl
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void insertInfoTechFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+	public void insertInfoTechFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
 		gamInfoTechFcltySpecMngDao.insertInfoTechFcltySpecMngDetail(vo);
 	}
 	
@@ -81,7 +81,7 @@ public class GamInfoTechFcltySpecMngServiceImpl extends AbstractServiceImpl impl
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void updateInfoTechFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+	public void updateInfoTechFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
 		gamInfoTechFcltySpecMngDao.updateInfoTechFcltySpecMngDetail(vo);
 	}
 	
@@ -91,7 +91,7 @@ public class GamInfoTechFcltySpecMngServiceImpl extends AbstractServiceImpl impl
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void deleteInfoTechFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+	public void deleteInfoTechFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
 		gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecMngDetail(vo);
 	}	
 	
@@ -101,7 +101,7 @@ public class GamInfoTechFcltySpecMngServiceImpl extends AbstractServiceImpl impl
 	 * @return list 
 	 * @throws Exception
 	 */		
-	public List selectInfoTechFcltySpecFileList(GamInfoTechFcltySpecMngVO searchVO) throws Exception {
+	public List<?> selectInfoTechFcltySpecFileList(GamInfoTechFcltySpecMngVO searchVO) throws Exception {
 		return gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecFileList(searchVO);
 	}
 
@@ -115,44 +115,13 @@ public class GamInfoTechFcltySpecMngServiceImpl extends AbstractServiceImpl impl
 		return gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecFileListTotCnt(searchVO);
 	}
 
-
-	/**
-	 * 정보통신시설재원관리 첨부파일 데이터를 삽입한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	public void insertInfoTechFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
-		gamInfoTechFcltySpecMngDao.insertInfoTechFcltySpecFileDetail(vo);
-	}
-	
-	/**
-	 * 정보통신시설재원관리 첨부파일 데이터를 수정한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	public void updateInfoTechFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
-		gamInfoTechFcltySpecMngDao.updateInfoTechFcltySpecFileDetail(vo);
-	}
-
-	/**
-	 * 정보통신시설재원관리 첨부파일 데이터를 삭제한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */			
-	public void deleteInfoTechFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
-		gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecFileDetail(vo);
-	}
-
 	/**
 	 * 정보통신시설재원관리 첨부파일 목록을 삭제한다.
 	 * @param vo
 	 * @return 
 	 * @throws Exception
 	 */			
-	public void deleteInfoTechFcltySpecFileList(Map<String, Object> vo) throws Exception {
+	public void deleteInfoTechFcltySpecFileList(Map<?, ?> vo) throws Exception {
 		gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecFileList(vo);
 	}
 	
@@ -162,8 +131,7 @@ public class GamInfoTechFcltySpecMngServiceImpl extends AbstractServiceImpl impl
 	 * @return 
 	 * @throws Exception
 	 */			
-	public List mergeFcltyFileMngt(Map mergeMap) throws Exception{
-		return gamInfoTechFcltySpecMngDao.mergeFcltyFile(mergeMap);
-	}
-	
+	public void mergeFcltyFileMngt(Map<String, Object> mergeMap) throws Exception{
+		gamInfoTechFcltySpecMngDao.mergeFcltyFile(mergeMap);
+	}	
 }

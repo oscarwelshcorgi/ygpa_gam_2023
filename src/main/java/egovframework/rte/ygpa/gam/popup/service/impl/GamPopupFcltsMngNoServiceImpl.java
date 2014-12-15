@@ -41,7 +41,7 @@ public class GamPopupFcltsMngNoServiceImpl extends AbstractServiceImpl implement
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectFcltsMngNoList(GamPopupFcltsMngNoVO searchVO) throws Exception {
+    public List<?> selectFcltsMngNoList(GamPopupFcltsMngNoVO searchVO) throws Exception {
     	return gamPopupFcltsMngNoDao.selectFcltsMngNoList(searchVO);
     }
 
