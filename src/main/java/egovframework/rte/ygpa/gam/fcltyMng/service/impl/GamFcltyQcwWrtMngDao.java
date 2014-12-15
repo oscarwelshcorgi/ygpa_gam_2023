@@ -221,5 +221,4 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	public void deleteQcMngResultItemList(Map<?, ?> vo) throws Exception {
 		delete("gamFcltyQcwWrtMngDao.deleteQcMngResultItemList_S", vo);
 	}
-	
 }
