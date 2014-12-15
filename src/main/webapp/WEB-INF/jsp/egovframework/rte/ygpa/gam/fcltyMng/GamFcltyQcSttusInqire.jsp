@@ -82,7 +82,7 @@ GamFcltyQcSttusInqireModule.prototype.loadComplete = function(params) {
 	
 	this.$("#qcSttusResultItemList").flexigrid({
 		module: this,
-		url: '/fcltyMng/selectQcMngResultItemList.do',
+		url: '/fcltyMng/selectQcSttusResultItemList.do',
 		dataType: 'json',
 		colModel : [
 					{display:"순번",			name:"seq",				width:90,		sortable:true,		align:"center"},
@@ -95,7 +95,7 @@ GamFcltyQcSttusInqireModule.prototype.loadComplete = function(params) {
 
 	this.$("#qcSttusAtchFileList").flexigrid({
 		module: this,
-		url: '/fcltyMng/selectQcMngAtchFileList.do',
+		url: '/fcltyMng/selectQcSttusAtchFileList.do',
 		dataType: 'json',
 		colModel : [
 					{display:"순번",		name:"atchFileSeq",			width:40,		sortable:true,		align:"center"},
@@ -149,6 +149,8 @@ GamFcltyQcSttusInqireModule.prototype.loadDetailData = function() {
 		this.doAction('/fcltyMng/selectQcSttusDtlsDetail.do', opts, function(module, result) { 
 			if(result.resultCode == "0"){
 				module.makeDivValues('#fcltyQcSttusInqireVO', result.result);
+				module.$("#qcInspResult").text(result.result.qcInspResult);
+				module.$("#actionCn").text(result.result.actionCn);
 				module.$("#qcSttusObjFcltsList").flexOptions({params:opts}).flexReload();
 				module.$("#qcSttusAtchFileList").flexOptions({params:opts}).flexReload();
 				module.$("#qcSttusResultItemList").flexOptions({params:opts}).flexReload();
