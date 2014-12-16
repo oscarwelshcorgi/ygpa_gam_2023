@@ -227,7 +227,7 @@ GamInfoTechFcltySpecMngModule.prototype.updateData = function() {
 	this.doAction('/fclty/updateInfoTechFcltySpecMngDetail.do', data, function(module, result) {
 		if(result.resultCode == "0"){
 			module.saveAtchFile();
-			module.loadData();
+			//module.loadData();
 		}
 		alert(result.resultMsg);
 	});

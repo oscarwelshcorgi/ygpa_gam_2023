@@ -14,8 +14,8 @@
   *  -------    --------    ---------------------------
   *  2014.12.10  	 김종민          화면단 최초 생성
   *
-  * author HNJ
-  * since 2014.12.5
+  * author 김종민
+  * since 2014.12.10
   *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
@@ -122,6 +122,7 @@ GamFcltsMngGroupModule.prototype.insertData = function() {
  		if(result.resultCode == "0"){
  			module._cmd = "modify";
  			module.$('#fcltsMngGroupNo').disable();
+ 			module.loadData();
  		}
  		alert(result.resultMsg);
  	});	
@@ -131,9 +132,9 @@ GamFcltsMngGroupModule.prototype.insertData = function() {
 GamFcltsMngGroupModule.prototype.updateData = function() {
 	var data = this.makeFormArgs("#fcltsMngGroupDetailForm");
 	this.doAction('/code/updateFcltsMngGroupDetail.do', data, function(module, result) {
-		if(result.resultCode == "0"){
-			module.loadData();
-		}
+		//if(result.resultCode == "0"){
+		//	module.loadData();
+		//}
 		alert(result.resultMsg);
 	});	
 };

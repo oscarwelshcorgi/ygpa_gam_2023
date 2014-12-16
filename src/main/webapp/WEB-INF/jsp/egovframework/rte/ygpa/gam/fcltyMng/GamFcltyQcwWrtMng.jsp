@@ -206,7 +206,7 @@ GamFcltyQcwWrtMngModule.prototype.updateData = function() {
 			module.saveQcMngObjFclts();
 			module.saveQcMngResultItem();
 			module.saveAtchFile();
-			module.loadData();
+			//module.loadData();
  		}
  		alert(result.resultMsg);
  	});	
