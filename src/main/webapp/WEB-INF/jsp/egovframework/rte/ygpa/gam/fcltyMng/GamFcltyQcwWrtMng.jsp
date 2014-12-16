@@ -181,6 +181,32 @@ GamFcltyQcwWrtMngModule.prototype.loadData = function() {
 	this.$("#qcMngDtlsList").flexOptions({params:searchOpt}).flexReload();
 };
 
+//점검관리내역 데이터 조회
+GamFcltyQcwWrtMngModule.prototype.loadDetailData = function() {
+	var rows = this.$('#qcMngDtlsList').selectedRows();
+	if(rows.length > 0) {
+		var row = rows[0];
+		var opts = [
+	           		{name: 'sFcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
+	           		{name: 'sFcltsJobSe', value: row['fcltsJobSe'] },
+	           		{name: 'sQcMngSeq', value: row['qcMngSeq'] }
+		           ];
+		this.doAction('/fcltyMng/selectQcMngDtlsDetail.do', opts, function(module, result) { 
+			if(result.resultCode == "0"){
+				module.makeFormValues('#fcltyQcwWrtMngVO', result.result);
+				module.$("#qcMngObjFcltsList").flexOptions({params:opts}).flexReload();
+				module.$("#qcMngAtchFileList").flexOptions({params:opts}).flexReload();
+				module.$("#qcMngResultItemList").flexOptions({params:opts}).flexReload();
+			}
+			else {
+				module._cmd="";
+				module.initDisplay();
+				alert(result.resultMsg);
+			}
+		});	
+	}
+};
+
 //점검관리내역 삽입
 GamFcltyQcwWrtMngModule.prototype.insertData = function() {
 	var data = this.makeFormArgs("#fcltyQcwWrtMngVO");
@@ -227,45 +253,13 @@ GamFcltyQcwWrtMngModule.prototype.deleteData = function() {
 		return;
 	}
 	if(confirm("점검관리내역을 삭제하시겠습니까?")) {
-		var row = rows[0];
-		var opts = [
-	           		{name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
-	           		{name: 'fcltsJobSe', value: row['fcltsJobSe'] },
-	           		{name: 'qcMngSeq', value: row['qcMngSeq'] }
-		           ];
-	 	this.doAction('/fcltyMng/deleteQcMngDtls.do', opts, function(module, result) {
+	 	this.doAction('/fcltyMng/deleteQcMngDtls.do', rows[0], function(module, result) {
 	 		if(result.resultCode == "0") {
 				module._cmd = "";
 	 			module.loadData();
 	 		}
 	 		alert(result.resultMsg);
 	 	});
-	}
-};
-
-//점검관리내역 데이터 조회
-GamFcltyQcwWrtMngModule.prototype.loadDetailData = function() {
-	var rows = this.$('#qcMngDtlsList').selectedRows();
-	if(rows.length > 0) {
-		var row = rows[0];
-		var opts = [
-	           		{name: 'sFcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
-	           		{name: 'sFcltsJobSe', value: row['fcltsJobSe'] },
-	           		{name: 'sQcMngSeq', value: row['qcMngSeq'] }
-		           ];
-		this.doAction('/fcltyMng/selectQcMngDtlsDetail.do', opts, function(module, result) { 
-			if(result.resultCode == "0"){
-				module.makeFormValues('#fcltyQcwWrtMngVO', result.result);
-				module.$("#qcMngObjFcltsList").flexOptions({params:opts}).flexReload();
-				module.$("#qcMngAtchFileList").flexOptions({params:opts}).flexReload();
-				module.$("#qcMngResultItemList").flexOptions({params:opts}).flexReload();
-			}
-			else {
-				module._cmd="";
-				module.initDisplay();
-				alert(result.resultMsg);
-			}
-		});	
 	}
 };
 

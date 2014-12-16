@@ -155,9 +155,7 @@ GamFcltsMngGroupModule.prototype.deleteData = function() {
 		return;
 	}
 	if(confirm("시설물관리그룹을 삭제하시겠습니까?")) {
-		var row = rows[0];
-		var data = { 'fcltsMngGroupNo': row['fcltsMngGroupNo'] };
-	 	this.doAction('/code/deleteFcltsMngGroupDetail.do', data, function(module, result) {
+	 	this.doAction('/code/deleteFcltsMngGroupDetail.do', rows[0], function(module, result) {
 	 		if(result.resultCode == "0") {
 				module._cmd = "";
 				module.initDisplay();

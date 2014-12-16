@@ -131,8 +131,7 @@ GamInfoTechFcltySpecMngModule.prototype.loadDetailData = function() {
 			this.initDisplay();
 			return;
 		}
-		var opts = [{name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
-		this.doAction('/fclty/selectInfoTechFcltySpecMngDetail.do', opts, function(module, result) {
+		this.doAction('/fclty/selectInfoTechFcltySpecMngDetail.do', row, function(module, result) {
 			if(result.resultCode == "0"){
 				module.makeFormValues('#fcltyManageVO', result.result);
 				module.$("#dispfcltsMngNo").text(module.$("#fcltsMngNo").val());
@@ -256,8 +255,7 @@ GamInfoTechFcltySpecMngModule.prototype.deleteData = function() {
 			alert('시설물 관리번호에 오류가 있습니다.');
 			return;
 		}
-		var data = { 'fcltsMngNo': row['fcltsMngNo'] };
-	 	this.doAction('/fclty/deleteInfoTechFcltySpecMngDetail.do', data, function(module, result) {
+	 	this.doAction('/fclty/deleteInfoTechFcltySpecMngDetail.do', row, function(module, result) {
 	 		if(result.resultCode == "0") {
 				module._cmd = "";
 				module.initDisplay();
@@ -347,7 +345,7 @@ GamInfoTechFcltySpecMngModule.prototype.uploadAtchFileItem = function() {
 		$.each(result, function(){
 			module.$("#fcltsFileList").flexAddRow({_updtId:'I', fcltsMngNo:module.$('#fcltsMngNo').val(), atchFileSe:'D', atchFileSeNm :'문서', atchFileNmLogic:this.logicalFileNm, atchFileNmPhysicl: this.physcalFileNm, atchFileWritingDt:''});
 		});
-	}, "토목시설파일 업로드");
+	}, "정보통신시설파일 업로드");
 };
 
 //첨부파일 다운로드
@@ -404,15 +402,7 @@ GamInfoTechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 
 		// 저장
 		case "btnSave":
-        	if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){
-        		return;
-        	}
-			opts = this.makeFormArgs("#fcltyManageVO");
-		 	if(this._cmd == "insert") {
-		 		this.insertFcltsData(opts);
-			} else if (this._cmd == "modify") {
-				this.updateFcltsData(opts);
-			}
+			this.saveData();
 			break;
 
 		//파일업로드

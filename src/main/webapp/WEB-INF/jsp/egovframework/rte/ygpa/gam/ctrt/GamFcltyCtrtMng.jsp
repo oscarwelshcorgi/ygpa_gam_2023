@@ -293,9 +293,7 @@ GamFcltyCtrtMngModule.prototype.deleteData = function() {
 			alert("삭제할 계약정보를 선택하십시오.");
 			return;
 		}
-		var row = rows[0];
-		var opts = [{name: 'ctrtNo', value: row['ctrtNo'] }];
-	 	this.doAction('/ctrt/deleteFcltyCtrtInfo.do', opts, function(module, result) {
+	 	this.doAction('/ctrt/deleteFcltyCtrtInfo.do', rows[0], function(module, result) {
 	 		if(result.resultCode == "0") {
 				module._cmd = "";
 				module.initDisplay();

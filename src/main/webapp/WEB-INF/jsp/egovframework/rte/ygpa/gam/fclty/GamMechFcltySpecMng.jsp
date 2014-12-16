@@ -128,8 +128,7 @@ GamMechFcltySpecMngModule.prototype.loadDetailData = function() {
 			this.initDisplay();
 			return;
 		}
-		var opts = [{name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
-		this.doAction('/fclty/selectMechFcltySpecMngDetail.do', opts, function(module, result) { 
+		this.doAction('/fclty/selectMechFcltySpecMngDetail.do', row, function(module, result) { 
 			if(result.resultCode == "0"){
 				module.makeFormValues('#fcltyManageVO', result.result);
 				module.$("#dispfcltsMngNo").text(module.$("#fcltsMngNo").val());
@@ -226,8 +225,7 @@ GamMechFcltySpecMngModule.prototype.deleteData = function() {
 			alert('시설물 관리번호에 오류가 있습니다.');
 			return;
 		}
-		var data = { 'fcltsMngNo': row['fcltsMngNo'] };
-	 	this.doAction('/fclty/deleteMechFcltySpecMngDetail.do', data, function(module, result) {
+	 	this.doAction('/fclty/deleteMechFcltySpecMngDetail.do', row, function(module, result) {
 	 		if(result.resultCode == "0") {
 				module._cmd = "";
 				module.initDisplay();
