@@ -100,7 +100,7 @@ public class GamCarRefuelSttusMngController {
 	@RequestMapping(value="/mngFee/gamSelectCarRefuelSttusMng.do" , method=RequestMethod.POST)
 	@ResponseBody Map gamSelectCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
 
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		Map map = new HashMap();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -128,6 +128,34 @@ public class GamCarRefuelSttusMngController {
 
 		return map;
 
+	}
+
+	@RequestMapping(value="/mngFee/gamSelectCarRefuelSttusMngPk.do")
+	@ResponseBody Map<String, Object> selectCarRefuelSttusMngPk(GamCarRefuelSttusMngVo searchVO)	throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			Map result = gamCarRefuelSttusMngService.selectCarRefuelSttusMngPk(searchVO);
+
+			map.put("resultCode", 0);
+			map.put("result", result);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+		}
+
+		return map;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -185,7 +213,7 @@ public class GamCarRefuelSttusMngController {
 			gamCarRefuelSttusMngVo.setUpdUsr((String)user.getId());
 			gamCarRefuelSttusMngService.insertCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -215,7 +243,7 @@ public class GamCarRefuelSttusMngController {
 			gamCarRefuelSttusMngVo.setUpdUsr((String)user.getId());
 			gamCarRefuelSttusMngService.updateCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -245,7 +273,7 @@ public class GamCarRefuelSttusMngController {
 			gamCarRefuelSttusMngVo.setUpdUsr((String)user.getId());
 			gamCarRefuelSttusMngService.deleteCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {
 			// TODO: handle exception

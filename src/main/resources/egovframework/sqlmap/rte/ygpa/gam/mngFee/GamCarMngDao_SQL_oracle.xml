@@ -94,6 +94,45 @@
 		</isNotEmpty>
 	</select>
 
+	<select id="gamCarMngDao.selectCarMngPk_S" parameterClass="gamCarMngVo" resultClass="egovMap">
+		SELECT
+				 CAR_REGIST_NO
+				,CAR_KND
+				,CAR_PRPOS
+				,CAR_NM
+				,CAR_FMT
+				,CAR_YR_MDL
+				,CAR_BODY_NO
+				,TURBINE_FMT
+				,USAGE_STRHLD
+				,OWNER_NM
+				,OWNER_ADRES
+				,TO_CHAR(CAR_REGIST_DT, 'YYYY-MM-DD') AS CAR_REGIST_DT
+				,REGIST_GOV_OFC
+				,SPEC_MNG_NO
+				,CAR_LT
+				,CAR_WD
+				,CAR_HT
+				,CAR_GR_WQNT
+				,EXHAUSTQY
+				,RATE_OUTPUT
+				,RIDE_QUOTA_CAPA
+				,MAX_CAPA_QY
+				,CYLINDER_CNT
+				,FUEL_KND
+				,FUEL_EFFT
+				,TO_CHAR(EXAM_VALID_BEGIN_DT, 'YYYY-MM-DD') AS EXAM_VALID_BEGIN_DT
+				,TO_CHAR(EXAM_VALID_END_DT, 'YYYY-MM-DD') AS EXAM_VALID_END_DT
+				,LTRIM(TO_CHAR(NVL(ACQ_PRCE,0),'999,999,999,990')) AS ACQ_PRCE
+				,RM
+				,REG_USR
+				,TO_CHAR(REGIST_DT, 'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,UPD_USR
+				,TO_CHAR(UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+			FROM CAR_INFO_F
+		WHERE CAR_REGIST_NO = #carRegistNo#
+	</select>
+
 	<insert id="gamCarMngDao.insertCarMng_S">
 		<![CDATA[
 		INSERT INTO CAR_INFO_F

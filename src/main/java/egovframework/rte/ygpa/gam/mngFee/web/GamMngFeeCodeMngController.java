@@ -88,7 +88,7 @@ public class GamMngFeeCodeMngController {
 	@RequestMapping(value="/mngFee/gamSelectMngFeeCodeMng.do" , method=RequestMethod.POST)
 	@ResponseBody Map selectMngFeeCodeMngList(GamMngFeeCodeMngVo searchVO) throws Exception {
 
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		Map map = new HashMap();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -118,6 +118,34 @@ public class GamMngFeeCodeMngController {
 
 	}
 
+	@RequestMapping(value="/mngFee/gamSelectMngFeeCodeMngPk.do")
+	@ResponseBody Map<String, Object> selectMngFeeCodeMngPk(GamMngFeeCodeMngVo searchVO)	throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			Map result = gamMngFeeCodeMngService.selectMngFeeCodeMngPk(searchVO);
+
+			map.put("resultCode", 0);
+			map.put("result", result);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+		}
+
+		return map;
+	}
+
 	@RequestMapping(value="/mngFee/gamCodeMngFeeFcltySeMng.do" , method=RequestMethod.POST)
 	@ResponseBody Map<String, Object> codeMngFeeFcltySeMngList(@RequestParam Map<String, Object> searchVO) throws Exception {
 
@@ -138,7 +166,7 @@ public class GamMngFeeCodeMngController {
 		return map;
 	}
 
-	@RequestMapping(value="/mngFee/gamMngFeeCodeMngMaxFcltyCd.do" , method=RequestMethod.POST)
+	@RequestMapping(value="/mngFee/gamSelectMngFeeCodeMngMaxFcltyCd.do" , method=RequestMethod.POST)
 	@ResponseBody Map selectMngFeeCodeMngMaxFcltyCd(GamMngFeeCodeMngVo gamMngFeeCodeMngVo) throws Exception {
 
 		String sMaxFcltyCd;
@@ -258,7 +286,6 @@ public class GamMngFeeCodeMngController {
 	@RequestMapping(value="/mngFee/gamDeleteMngFeeCodeMng.do")
 	@ResponseBody Map<String, Object> deleteMngFeeCodeMng(GamMngFeeCodeMngVo gamMngFeeCodeMngVo)	throws Exception {
 
-		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

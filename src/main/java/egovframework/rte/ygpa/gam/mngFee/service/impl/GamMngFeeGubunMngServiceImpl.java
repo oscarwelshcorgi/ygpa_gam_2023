@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngVo;
 
@@ -35,59 +36,38 @@ public class GamMngFeeGubunMngServiceImpl extends AbstractServiceImpl implements
 	@Resource(name="gamMngFeeGubunMngDao")
 	private GamMngFeeGubunMngDao gamMngFeeGubunMngDao;
 
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngService#selectCarMngListTotCnt(egovframework.rte.ygpa.gam.mngFee.service.GamCarMngVo)
-	 */
-
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngService#selectMngFeeGubunMngListTotCnt(egovframework.rte.ygpa.gam.mngFee.service.GamCarMngVo)
-	 */
 	@Override
 	public int selectMngFeeGubunMngListTotCnt(GamMngFeeGubunMngVo searchVO) throws Exception {
 		return gamMngFeeGubunMngDao.selectMngFeeGubunMngListTotCnt(searchVO);
 	}
 
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngService#selectMngFeeGubunMngList(egovframework.rte.ygpa.gam.mngFee.service.GamCarMngVo)
-	 */
 	@Override
 	public List selectMngFeeGubunMngList(GamMngFeeGubunMngVo searchVO) throws Exception {
 		return gamMngFeeGubunMngDao.selectMngFeeGubunMngList(searchVO);
 	}
 
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngService#InsertMngFeeGubunMng(egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngVo)
-	 */
+	@Override
+	public EgovMap selectMngFeeGubunMngPk(GamMngFeeGubunMngVo searchVO) throws Exception {
+		return gamMngFeeGubunMngDao.selectMngFeeGubunMngPk(searchVO);
+	}
+
 	@Override
 	public void insertMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) throws Exception {
-		// TODO Auto-generated method stub
 		gamMngFeeGubunMngDao.insertMngFeeGubunMng(gamMngFeeGubunMngVo);
 	}
 
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngService#gamUpdateMngFeeGubunMng(egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngVo)
-	 */
 	@Override
 	public void updateMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) throws Exception {
-		// TODO Auto-generated method stub
 		gamMngFeeGubunMngDao.updateMngFeeGubunMng(gamMngFeeGubunMngVo);
 	}
 
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngService#DeleteMngFeeGubunMng(egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngVo)
-	 */
 	@Override
 	public void deleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo) throws Exception  {
-		// TODO Auto-generated method stub
 		gamMngFeeGubunMngDao.deleteMngFeeGubunMng(gamMngFeeGubunMngVo);
 	}
 
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngService#checkSeFeeGubunMng(java.lang.String)
-	 */
 	@Override
 	public int checkSeFeeGubunMng(String checkSe) throws Exception {
-		// TODO Auto-generated method stub
 		return gamMngFeeGubunMngDao.checkSeFeeGubunMng(checkSe);
 	}
 

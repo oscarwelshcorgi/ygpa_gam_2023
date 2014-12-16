@@ -99,7 +99,7 @@ public class GamElctyUsageSttusMngController {
 	@RequestMapping(value="/mngFee/gamSelectElctyUsageSttusMng.do" , method=RequestMethod.POST)
 	@ResponseBody Map gamSelectElctyUsageSttusMngList(GamElctyUsageSttusMngVo searchVO) throws Exception {
 
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		Map map = new HashMap();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -127,6 +127,34 @@ public class GamElctyUsageSttusMngController {
 
 		return map;
 
+	}
+
+	@RequestMapping(value="/mngFee/gamSelectElctyUsageSttusMngPk.do")
+	@ResponseBody Map<String, Object> selectElctyUsageSttusMngPk(GamElctyUsageSttusMngVo searchVO)	throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			Map result = gamElctyUsageSttusMngService.selectElctyUsageSttusMngPk(searchVO);
+
+			map.put("resultCode", 0);
+			map.put("result", result);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+		}
+
+		return map;
 	}
 
 	@RequestMapping(value="/mngFee/gamElctyUsageSttusMngChart.do" , method=RequestMethod.POST)
@@ -245,7 +273,7 @@ public class GamElctyUsageSttusMngController {
 			gamElctyUsageSttusMngVo.setRegUsr((String)user.getId());
 			gamElctyUsageSttusMngService.insertElctyUsageSttusMng(gamElctyUsageSttusMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -275,7 +303,7 @@ public class GamElctyUsageSttusMngController {
 			gamElctyUsageSttusMngVo.setUpdUsr((String)user.getId());
 			gamElctyUsageSttusMngService.updateElctyUsageSttusMng(gamElctyUsageSttusMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -291,7 +319,6 @@ public class GamElctyUsageSttusMngController {
 	@RequestMapping(value="/mngFee/gamDeleteElctyUsageSttusMng.do")
 	@ResponseBody Map<String, Object> deleteElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo)	throws Exception {
 
-		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -304,7 +331,7 @@ public class GamElctyUsageSttusMngController {
 		try {
 			gamElctyUsageSttusMngService.deleteElctyUsageSttusMng(gamElctyUsageSttusMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -334,7 +361,7 @@ public class GamElctyUsageSttusMngController {
 			gamElctyUsageSttusMngVo.setRegUsr((String)user.getId());
 			gamElctyUsageSttusMngService.copyElctyUsageSttusMng(gamElctyUsageSttusMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception

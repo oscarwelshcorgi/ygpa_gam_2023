@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.mngFee.service.GamCarMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamCarMngVo;
 
@@ -35,13 +36,20 @@ public class GamCarMngServiceImpl extends AbstractServiceImpl implements GamCarM
 	@Resource(name="gamCarMngDao")
 	private GamCarMngDao gamCarMngDao;
 
+	@Override
 	public List selectCarMngList(GamCarMngVo searchVO) throws Exception {
 		return gamCarMngDao.selectCarMngList(searchVO);
 	}
 
+	@Override
 	public int selectCarMngListTotCnt(GamCarMngVo searchVO) throws Exception {
         return gamCarMngDao.selectCarMngListTotCnt(searchVO);
     }
+
+	@Override
+	public EgovMap selectCarMngPk(GamCarMngVo searchVO) throws Exception {
+		return gamCarMngDao.selectCarMngPk(searchVO);
+	}
 
 	@Override
 	public void insertCarMng(GamCarMngVo gamCarMngVo) throws Exception {

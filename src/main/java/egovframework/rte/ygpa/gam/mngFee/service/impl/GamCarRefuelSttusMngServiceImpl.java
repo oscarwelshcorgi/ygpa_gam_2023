@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.mngFee.service.GamCarRefuelSttusMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamCarRefuelSttusMngVo;
 
@@ -35,32 +36,34 @@ public class GamCarRefuelSttusMngServiceImpl extends AbstractServiceImpl impleme
 	@Resource(name="gamCarRefuelSttusMngDao")
 	private GamCarRefuelSttusMngDao gamCarRefuelSttusMngDao;
 
+	@Override
 	public int selectCarRefuelSttusMngListTotCnt(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
-		// TODO Auto-generated method stub
 		return gamCarRefuelSttusMngDao.selectCarRefuelSttusMngListTotCnt(gamCarRefuelSttusMngVo);
 	}
 
+	@Override
 	public List selectCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
-		// TODO Auto-generated method stub
 		return gamCarRefuelSttusMngDao.selectCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
 	}
 
 	@Override
+	public EgovMap selectCarRefuelSttusMngPk(GamCarRefuelSttusMngVo searchVO) throws Exception {
+		return gamCarRefuelSttusMngDao.selectCarRefuelSttusMngPk(searchVO);
+	}
+
+	@Override
 	public void insertCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
-		// TODO Auto-generated method stub
 		gamCarRefuelSttusMngDao.deleteCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
 		gamCarRefuelSttusMngDao.insertCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
 	}
 
 	@Override
 	public void updateCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
-		// TODO Auto-generated method stub
 		gamCarRefuelSttusMngDao.updateCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
 	}
 
 	@Override
 	public void deleteCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
-		// TODO Auto-generated method stub
 		gamCarRefuelSttusMngDao.deleteCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
 	}
 

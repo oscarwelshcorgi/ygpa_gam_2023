@@ -5,6 +5,8 @@ package egovframework.rte.ygpa.gam.mngFee.service;
 
 import java.util.List;
 
+import egovframework.rte.psl.dataaccess.util.EgovMap;
+
 /**
  *
  * @author Lee
@@ -35,6 +37,12 @@ public interface GamGrHseEmitQyMngService {
 	 * @return
 	 */
 	List selectGrHseEmitQyMngList(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception;
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	EgovMap selectGrHseEmitQyMngPk(GamGrHseEmitQyMngVo searchVO) throws Exception;
 
 	/**
 	 * @param gamGrHseEmitQyMngVo

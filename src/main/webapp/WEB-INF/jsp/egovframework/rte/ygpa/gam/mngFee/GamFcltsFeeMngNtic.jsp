@@ -122,13 +122,19 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 		height: '110'
 	});
 
+	this.$("#mainGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectData();
+	});
+
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mode = 'modify';
+		module._mainKeyValue = row.mainMngMt + row.mainMngFeeJobSe + row.mngSeq + row.reqestSeq;
 		module.enableListButtonItem();
 	});
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._mode = 'modify';
+		module._mainKeyValue = row.mainMngMt + row.mainMngFeeJobSe + row.mngSeq + row.reqestSeq;
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
@@ -161,6 +167,7 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
         	this.$('#sEndMngMt').val(params.paramVo.mngMtMon);
         	this.$('#sMngFeeJobSe').val(params.paramVo.mngFeeJobSe);
         	this._mode="query";
+    		module._mainKeyValue = "";
         	var searchOpt=this.makeFormArgs('#searchForm');
         	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 		}
@@ -177,6 +184,7 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 	this.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnAddNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelNticIssue').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnOpenFcltsFeeMngInqire').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -225,7 +233,7 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnProcessNticIssue':
 			if (this._mode=="modify") {
-				this.loadDetail();
+				this.loadDetail('listTab');
 				this.enableDetailInputItem();
 				this.processNticIssue();
 			}
@@ -235,7 +243,7 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnCancelNticIssue':
 			if (this._mode=="modify") {
-				this.loadDetail();
+				this.loadDetail('listTab');
 				this.enableDetailInputItem();
 				this.cancelNticIssue();
 			}
@@ -245,7 +253,7 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnPrintNticIssue':
 			if (this._mode=="modify") {
-				this.loadDetail();
+				this.loadDetail('listTab');
 				this.enableDetailInputItem();
 				this.printNticIssue();
 			}
@@ -255,7 +263,7 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnAddNticIssue':
 			if (this._mode=="modify") {
-				this.loadDetail();
+				this.loadDetail('listTab');
 				this.enableDetailInputItem();
 				this.addNticIssue();
 			}
@@ -265,7 +273,7 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnDelNticIssue':
 			if (this._mode=="modify") {
-				this.loadDetail();
+				this.loadDetail('listTab');
 				this.enableDetailInputItem();
 				this.deleteNticIssue();
 			}
@@ -275,6 +283,9 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnExcelDownload':
 			this.downloadExcel();
+			break;
+		case 'btnOpenFcltsFeeMngInqire':
+			this.openFcltsFeeMngInqireModule();
 			break;
 		case 'popupSearchEntrpscd':
 			this.doExecuteDialog('popupSearchEntrpscd', '업체 선택', '/popup/showEntrpsInfo.do', null);
@@ -296,6 +307,7 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 GamFcltsFeeMngNticModule.prototype.onSubmit = function() {
 
 	this._mode="query";
+	this._mainKeyValue = '';
 	this.loadData();
 	this.enableListButtonItem();
 
@@ -318,24 +330,78 @@ GamFcltsFeeMngNticModule.prototype.loadData = function() {
 
 <%
 /**
- * @FUNCTION NAME : loadDetail
- * @DESCRIPTION   : 상세항목을 로딩 한다.
+ * @FUNCTION NAME : refreshData
+ * @DESCRIPTION   : DATA REFRESH (LIST)
  * @PARAMETER     : NONE
 **/
 %>
-GamFcltsFeeMngNticModule.prototype.loadDetail = function() {
+ GamFcltsFeeMngNticModule.prototype.refreshData = function() {
 
-	var row = this.$('#mainGrid').selectedRows();
+	var searchOpt=this.makeFormArgs('#searchForm');
+	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 
-	if (row.length==0) {
-		alert('선택된 항목이 없습니다.');
-		this.$("#mainTab").tabs("option", {active: 0});
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadDetail
+ * @DESCRIPTION   : 상세항목을 로딩 한다.
+ * @PARAMETER     :
+ *   1. tabId - TAB ID
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.loadDetail = function(tabId) {
+
+	if (tabId == 'listTab') {
+		var row = this.$('#mainGrid').selectedRows();
+		if (row.length==0) {
+			alert('선택된 항목이 없습니다.');
+			this.$("#mainTab").tabs("option", {active: 0});
+			return;
+		}
+		this.makeFormValues('#detailForm', row[0]);
+		this.makeDivValues('#detailForm', row[0]);
+	    var detailOpt=this.makeFormArgs('#detailForm');
+	    this.$('#detailGrid').flexOptions({params:detailOpt}).flexReload();
+	} else {
+		var searchVO = this.getFormValues('#detailForm');
+		this.doAction('/mngFee/gamSelectFcltsFeeMngNticPk.do', searchVO, function(module, result){
+			if (result.resultCode == "0") {
+				module.makeFormValues('#detailForm', result.result);
+				module.makeDivValues('#detailForm', result.result);
+			    var detailOpt=module.makeFormArgs('#detailForm');
+			    module.$('#detailGrid').flexOptions({params:detailOpt}).flexReload();
+			}
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectData
+ * @DESCRIPTION   : DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.selectData = function() {
+
+	if (this._mode == 'query') {
+		var gridRowCount = this.$("#mainGrid").flexRowCount();
+		if (gridRowCount == 0) {
+			alert('해당 조건의 자료가 존재하지 않습니다!');
+		}
+		return;
+	} else if (this._mode != 'insert' && this._mode != 'modify') {
 		return;
 	}
-	this.makeFormValues('#detailForm', row[0]);
-	this.makeDivValues('#detailForm', row[0]);
-    var detailOpt=this.makeFormArgs('#detailForm');
-    this.$('#detailGrid').flexOptions({params:detailOpt}).flexReload();
+	var mainKeyValue = this._mainKeyValue;
+	if (mainKeyValue == "") {
+		return;
+	}
+	this._mode = 'modify';
+	this.loadDetail('detailTab');
+	this.enableDetailInputItem();
 
 };
 
@@ -544,7 +610,7 @@ GamFcltsFeeMngNticModule.prototype.saveNticIssue = function() {
 	} else {
 		this.doAction('/mngFee/gamSaveFcltsFeeMngNticIssue.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module.loadData();
+				module.refreshData();
 			}
 			alert(result.resultMsg);
 		});
@@ -641,7 +707,6 @@ GamFcltsFeeMngNticModule.prototype.processNticIssue = function() {
 		this.$("#fee").focus();
 		return;
 	}
-	//confirmMessage = "[" + this.$('#chrgeKnd').find('option:selected').text() + "] " + this.$('#fee').val() + "원을 고지하시겠습니까?";
 	confirmMessage = "[" + this.$('#chrgeKnd_select').find('option:selected').text() + "] " + this.$('#fee').val() + "원을 고지하시겠습니까?";
 	if (confirm(confirmMessage)) {
 		processVO={
@@ -664,7 +729,7 @@ GamFcltsFeeMngNticModule.prototype.processNticIssue = function() {
 		};
 		this.doAction('/mngFee/gamProcessFcltsFeeMngNticIssue.do', processVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module.loadData();
+				module.refreshData();
 			}
 			alert(result.resultMsg);
 		});
@@ -732,7 +797,7 @@ GamFcltsFeeMngNticModule.prototype.cancelNticIssue = function() {
 		};
 		this.doAction('/mngFee/gamCancelFcltsFeeMngNticIssue.do', cancelVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module.loadData();
+				module.refreshData();
 			}
 			alert(result.resultMsg);
 		});
@@ -756,7 +821,7 @@ GamFcltsFeeMngNticModule.prototype.printNticIssue = function() {
 	}
 	this.printPage('/mngFee/gamPrintPreviewFcltsFeeMngNoticeIssue.do', row);
 	alert("고지서 출력이 완료됐습니다.");
-	this.loadData();
+	this.refreshData();
 
 };
 
@@ -770,6 +835,7 @@ GamFcltsFeeMngNticModule.prototype.printNticIssue = function() {
 GamFcltsFeeMngNticModule.prototype.addNticIssue = function() {
 
 	this._mode="insert";
+	this._mainKeyValue = '';
 	this.$('#prtAtCode').val('622');
 	this.$('#feeTp').val('');
 	this.$('#fiscalYr').val('');
@@ -825,11 +891,35 @@ GamFcltsFeeMngNticModule.prototype.deleteNticIssue = function() {
 		var inputVO = this.makeFormArgs("#detailForm");
 		this.doAction('/mngFee/gamDeleteFcltsFeeMngNtic.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
+				this._mode = 'query';
+				this._mainKeyValue = '';
 				module.loadData();
 			}
 			alert(result.resultMsg);
 		});
 	}
+};
+
+<%
+/**
+ * @FUNCTION NAME : openFcltsFeeMngInqireModule
+ * @DESCRIPTION   : [시설물 관리비 관리비 납부현황 조회] 화면 MODULE OPEN
+ * @PARAMETER     : NONE
+**/
+%>
+ GamFcltsFeeMngNticModule.prototype.openFcltsFeeMngInqireModule = function() {
+console.log('asdf');
+	var rows = this.$('#mainGrid').selectedRows();
+    var formParams = {};
+	if (rows.length==0) {
+		return;
+	}
+	formParams = {
+		action: 'selectFcltsFeeMngInqire',
+		paramVo:{ mngMtYear: rows[0].mngMtYear, mngMtMon: rows[0].mngMtMon, mngFeeJobSe: rows[0].mngFeeJobSe }
+	};
+	EMD.util.create_window('시설물 관리비 납부현황 조회', '/mngFee/gamFcltsFeeMngInqire.do', null, formParams);
+
 };
 
 <%
@@ -865,6 +955,7 @@ GamFcltsFeeMngNticModule.prototype.enableListButtonItem = function() {
 		this.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnAddNticIssue').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnDelNticIssue').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnOpenFcltsFeeMngInqire').disable({disableClass:"ui-state-disabled"});
 	} else {
 		var row = this.$('#mainGrid').selectedRows()[0];
 		if (row == null) {
@@ -873,6 +964,7 @@ GamFcltsFeeMngNticModule.prototype.enableListButtonItem = function() {
 			this.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnAddNticIssue').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnDelNticIssue').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnOpenFcltsFeeMngInqire').disable({disableClass:"ui-state-disabled"});
 		}
 		var nhtIsueYn = row['nhtIsueYn'];
 		var rcivSe = row['rcivSe'];
@@ -884,11 +976,15 @@ GamFcltsFeeMngNticModule.prototype.enableListButtonItem = function() {
 				this.$('#btnCancelNticIssue').removeClass('ui-state-disabled');
 				this.$('#btnPrintNticIssue').enable();
 				this.$('#btnPrintNticIssue').removeClass('ui-state-disabled');
+				this.$('#btnOpenFcltsFeeMngInqire').enable();
+				this.$('#btnOpenFcltsFeeMngInqire').removeClass('ui-state-disabled');
 			} else {
 				this.$('#btnProcessNticIssue').enable();
 				this.$('#btnProcessNticIssue').removeClass('ui-state-disabled');
 				this.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
 				this.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
+				this.$('#btnOpenFcltsFeeMngInqire').enable();
+				this.$('#btnOpenFcltsFeeMngInqire').removeClass('ui-state-disabled');
 			}
 			this.$('#btnAddNticIssue').enable();
 			this.$('#btnAddNticIssue').removeClass('ui-state-disabled');
@@ -906,12 +1002,15 @@ GamFcltsFeeMngNticModule.prototype.enableListButtonItem = function() {
 			this.$('#btnAddNticIssue').enable();
 			this.$('#btnAddNticIssue').removeClass('ui-state-disabled');
 			this.$('#btnDelNticIssue').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnOpenFcltsFeeMngInqire').enable();
+			this.$('#btnOpenFcltsFeeMngInqire').removeClass('ui-state-disabled');
 		} else {
 			this.$('#btnProcessNticIssue').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnAddNticIssue').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnDelNticIssue').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnOpenFcltsFeeMngInqire').disable({disableClass:"ui-state-disabled"});
 		}
 	}
 
@@ -1065,7 +1164,7 @@ GamFcltsFeeMngNticModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			break;
 		case 'detailTab':
 			if (this._mode=="modify") {
-				this.loadDetail();
+				this.loadDetail(oldTabId);
 				this.enableDetailInputItem();
 			} else {
 				this.makeFormValues('#detailForm', {});
@@ -1196,19 +1295,19 @@ var module_instance = new GamFcltsFeeMngNticModule();
 				<li><a href="#detailTab" class="emdTab">시설물 관리비 고지내역</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
-			<div id="listTab" class="emdTabPage fillHeight" style="overflow: hidden;" >
-				<table id="mainGrid" style="display:none" class="fillHeight"></table>
+			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
+				<table id="mainGrid" style="display:none;" class="fillHeight"></table>
 				<div id="listSumPanel" class="emdControlPanel">
 					<form id="listSumForm">
 						<table style="width:100%;">
 							<tr>
-								<th width="10%" height="20" style="text-align: center">자료수</th>
+								<th style="width=10%; height=20; text-align:center;">자료수</th>
 								<td><input type="text" size="15" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="10%" height="20" style="text-align: center">총사용료</th>
+								<th style="width=10%; height=20; text-align:center;">총사용료</th>
 								<td><input type="text" size="25" id="sumFee" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="10%" height="20" style="text-align: center">총부가세</th>
+								<th style="width=10%; height=20; text-align:center;">총부가세</th>
 								<td><input type="text" size="25" id="sumVat" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="10%" height="20" style="text-align: center">총고지금액</th>
+								<th style="width=10%; height=20; text-align:center;">총고지금액</th>
 								<td><input type="text" size="25" id="sumNticAmt" class="ygpaNumber" disabled="disabled" /></td>
 							</tr>
 						</table>
@@ -1219,21 +1318,21 @@ var module_instance = new GamFcltsFeeMngNticModule();
 					<button id="btnAddNticIssue">추가고지　입력</button>
 					<button id="btnDelNticIssue">추가고지　삭제</button>
 					<button id="btnExcelDownload">엑셀　다운로드</button>
-					<button id="btnFcltsFeeMngInqire">납부현황　조회</button>
+					<button id="btnOpenFcltsFeeMngInqire">납부현황　조회</button>
 				</div>
 			</div>
 			<!-- 213. TAB 2 AREA (DETAIL) -->
 			<div id="detailTab" class="emdTabPage" style="overflow:scroll;">
 				<div class="emdControlPanel">
 					<form id="detailForm">
-						<table class="summaryPanel" style="width:100%">
+						<table class="summaryPanel" style="width:100%;">
 							<tr>
 								<td>시설물 관리비 부과 내역</td>
 							</tr>
 						</table>
-						<table class="detailPanel" style="width:100%">
+						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th width="10%" height="18">관리 년월</th>
+								<th style="width:10%; height:18;">관리 년월</th>
 								<td>
 									<input id="mngMt" type="hidden"/>
 									<input id="mngMtYear" type="hidden"/>
@@ -1241,12 +1340,12 @@ var module_instance = new GamFcltsFeeMngNticModule();
 									<input type="text" size="20" id="mngYrMt" disabled>
 									<input type="text" size="12" id="mngSeq" disabled>
 								</td>
-								<th width="10%" height="18">업무 구분</th>
+								<th style="width:10%; height:18;">업무 구분</th>
 								<td>
 									<input id="mngFeeJobSe" type="hidden"/>
 									<input type="text" size="33" id="mngFeeJobSeNm" disabled>
 								</td>
-								<th width="10%" height="18">부과 업체</th>
+								<th style="width:10%; height:18;">부과 업체</th>
 								<td>
 									<input id="entrpscd" type="hidden"/>
 									<input type="text" size="33" id="entrpsNm" disabled>
@@ -1256,32 +1355,32 @@ var module_instance = new GamFcltsFeeMngNticModule();
 								</td>
 							</tr>
                             <tr>
-								<th width="10%" height="18">관리비 제목</th>
+								<th style="width:10%; height:18;">관리비 제목</th>
 								<td colspan="3"><input type="text" size="87" id="mngFeeSj" disabled/></td>
-								<th width="10%" height="18">사용 면적</th>
+								<th style="width:10%; height:18;">사용 면적</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="usageAr" disabled/></td>
                             </tr>
                             <tr>
-								<th width="10%" height="18">시설 관리 용역비</th>
+								<th style="width:10%; height:18;">시설 관리 용역비</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="mngFee" disabled/></td>
-								<th width="10%" height="18">전기 요금</th>
+								<th style="width:10%; height:18;">전기 요금</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="elctyFee" disabled/></td>
-								<th width="10%" height="18">상하수도 요금</th>
+								<th style="width:10%; height:18;">상하수도 요금</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="waterFee" disabled/></td>
                             </tr>
                             <tr>
-								<th width="10%" height="18">도시가스 요금</th>
+								<th style="width:10%; height:18;">도시가스 요금</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="gasFee" disabled/></td>
-								<th width="10%" height="18">환경개선 부담금</th>
+								<th style="width:10%; height:18;">환경개선 부담금</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="envFee" disabled/></td>
-								<th width="10%" height="18">관리비 합계</th>
+								<th style="width:10%; height:18;">관리비 합계</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="mngTotalFee" disabled/></td>
                             </tr>
 						</table>
-						<table class="summaryPanel" style="width:100%">
+						<table class="summaryPanel" style="width:100%;">
 							<tr>
 								<td>시설물 관리비 고지 내역</td>
-								<td style="text-align: right">
+								<td style="text-align:right;">
 									<button id="btnProcessNticIssue2">　　고　지　　</button>
 									<button id="btnCancelNticIssue2">　고지　취소　</button>
 									<button id="btnPrintNticIssue2">고지서　　출력</button>
@@ -1291,9 +1390,9 @@ var module_instance = new GamFcltsFeeMngNticModule();
 								</td>
 							</tr>
 						</table>
-						<table class="detailPanel" style="width:100%">
+						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th width="10%" height="18">요금 종류</th>
+								<th style="width:10%; height:18;">요금 종류</th>
 								<td>
 									<input id="prtAtCode" type="hidden"/>
 									<input id="feeTp" type="hidden"/>
@@ -1304,40 +1403,40 @@ var module_instance = new GamFcltsFeeMngNticModule();
 									<input id="chrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM024" disabled/>
 									<input type="text" id="reqestSeq" size="7" disabled/>
 								</td>
-								<th width="10%" height="18">고지 번호</th>
+								<th style="width:10%; height:18;">고지 번호</th>
 								<td>
 									<input type="text" size="16" id="accnutYear" disabled>
 									<input type="text" size="16" id="nticNo" disabled>
 								</td>
-								<th width="10%" height="18">부가세 구분</th>
+								<th style="width:10%; height:18;">부가세 구분</th>
 								<td>
 									<input id="vatYn" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM016" disabled/>
 								</td>
 							</tr>
                             <tr>
-								<th width="10%" height="18">사용료</th>
+								<th style="width:10%; height:18;">사용료</th>
 								<td>
 									<input type="text" size="33" class="ygpaNumber" id="fee" disabled/>
 								</td>
-								<th width="10%" height="18">부가세</th>
+								<th style="width:10%; height:18;">부가세</th>
 								<td>
 									<input type="text" size="33" class="ygpaNumber" id="vat" disabled/>
 								</td>
-								<th width="10%" height="18">고지 금액</th>
+								<th style="width:10%; height:18;">고지 금액</th>
 								<td>
 									<input type="text" size="33" class="ygpaNumber" id="nticAmt" disabled/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">고지 일자</th>
+								<th style="width:10%; height:18;">고지 일자</th>
 								<td>
                                 	<input type="text" size="30" id="nticDt" class="emdcal" disabled/>
 								</td>
-								<th width="10%" height="18">납부 기한</th>
+								<th style="width:10%; height:18;">납부 기한</th>
 								<td>
                                 	<input type="text" size="30" id="payTmlmt" class="emdcal" disabled/>
 								</td>
-								<th width="10%" height="18">수납 일자</th>
+								<th style="width:10%; height:18;">수납 일자</th>
 								<td>
 									<input id="rcivSe" type="hidden"/>
 									<input type="text" size="16" id="rcivSeNm" disabled>
@@ -1345,16 +1444,16 @@ var module_instance = new GamFcltsFeeMngNticModule();
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">연체 번호</th>
+								<th style="width:10%; height:18;">연체 번호</th>
 								<td>
 									<input type="text" size="16" id="arrrgNo" disabled>
 									<input type="text" size="16" class="ygpaNumber" id="arrrgPayDates" disabled/>
 								</td>
-								<th width="10%" height="18">연체 금액</th>
+								<th style="width:10%; height:18;">연체 금액</th>
 								<td>
 									<input type="text" size="33" class="ygpaNumber" id="arrrgAmt" disabled/>
 								</td>
-								<th width="10%" height="18">고지/출력/추가</th>
+								<th style="width:10%; height:18;">고지/출력/추가</th>
 								<td>
 									<input id="setoffYn" type="hidden"/>
 									<input id="nticMth" type="hidden"/>
@@ -1364,11 +1463,11 @@ var module_instance = new GamFcltsFeeMngNticModule();
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">비고</th>
+								<th style="width:10%; height:18;">비고</th>
                                 <td colspan="5"><input type="text" size="140" id="rm"/></td>
 							</tr>
 						</table>
-						<table id="detailGrid" style="display:none"></table>
+						<table id="detailGrid" style="display:none;"></table>
 					</form>
 				</div>
 			</div>

@@ -75,6 +75,27 @@
 		</isNotEmpty>
 	</select>
 
+	<select id="gamMngFeeCodeMngDao.selectMngFeeCodeMngPk_S" parameterClass="gamMngFeeCodeMngVo" resultClass="egovMap">
+		SELECT
+				 T1.MNG_FEE_FCLTY_CD
+				,T1.MNG_FEE_FCLTY_SE
+				,T1.MNG_FEE_FCLTY_NM
+				,T1.MNG_FEE_JOB_SE
+				,T1.REG_USR
+				,TO_CHAR(T1.REGIST_DT, 'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR
+				,TO_CHAR(T1.UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,'[' || T1.MNG_FEE_FCLTY_SE || ']:' || T2.MNG_FEE_FCLTY_SE_NM AS MNG_FEE_FCLTY_SE_NM
+				,(CASE WHEN T1.MNG_FEE_JOB_SE='M' THEN '[M]:마린센터'
+					   WHEN T1.MNG_FEE_JOB_SE='E' THEN '[E]:전기시설'
+					   ELSE '[' || T1.MNG_FEE_JOB_SE || ']:' || 'UNKNOWN'
+				  END) AS MNG_FEE_JOB_SE_NM
+			FROM MNG_FEE_FCLTY_CD_F T1
+			LEFT OUTER JOIN MNG_FEE_FCLTY_SE_F T2 ON (T1.MNG_FEE_FCLTY_SE=T2.MNG_FEE_FCLTY_SE)
+		WHERE T1.MNG_FEE_FCLTY_CD = #mngFeeFcltyCd#
+		AND T1.MNG_FEE_JOB_SE = #mngFeeJobSe#
+	</select>
+
 	<select id="gamMngFeeCodeMngDao.selectMngFeeFcltySeMngList_D" parameterClass="hashMap"  resultClass="egovMap">
 		SELECT
 				 MNG_FEE_FCLTY_SE
@@ -83,7 +104,7 @@
 		ORDER BY MNG_FEE_FCLTY_SE
     </select>
 
-	<select id="gamMngFeeCodeMngDao.selectMngFeeCodeMngMaxFcltyCd_S" parameterClass="hashMap" resultClass="java.lang.String">
+	<select id="gamMngFeeCodeMngDao.selectMngFeeCodeMngMaxFcltyCd_S" parameterClass="gamMngFeeCodeMngVo" resultClass="java.lang.String">
 		SELECT #mngFeeJobSe# || LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(SUBSTRB(MNG_FEE_FCLTY_CD,2,3))),0)+1,'000'))
 			FROM MNG_FEE_FCLTY_CD_F
 		WHERE MNG_FEE_JOB_SE = #mngFeeJobSe#

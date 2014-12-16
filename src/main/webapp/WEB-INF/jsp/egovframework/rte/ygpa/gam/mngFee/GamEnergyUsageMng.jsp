@@ -69,14 +69,24 @@ GamEnergyUsageMngModule.prototype.loadComplete = function() {
 		}
 	});
 
+	this.$("#mainGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectData();
+	});
+
     this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mode = 'modify';
+		module._mainKeyValue = row.mngYear + row.fuelCd;
+		module.enableListButtonItem();
     });
 
     this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._mode = 'modify';
+		module._mainKeyValue = row.mngYear + row.fuelCd;
 		module.$("#mainTab").tabs("option", {active: 1});
     });
+
+	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -88,13 +98,13 @@ GamEnergyUsageMngModule.prototype.loadComplete = function() {
 **/
 %>
 GamEnergyUsageMngModule.prototype.drawChart = function() {
+
 	var grHseCoefArr=[];
 	var maxGrHseCoef=0;
 	var grHseCoef=0;
 	var mngYear=0;
 	var searchVO = this.makeFormArgs("#detailForm");
-
-	this.doAction('<c:url value="/mngFee/gamEnergyUsageMngChart.do" />', searchVO, function(module, result) {
+	this.doAction('/mngFee/gamEnergyUsageMngChart.do', searchVO, function(module, result) {
 		if (result.resultCode == "0") {
 			for (var i=0; i<10; i++) {
 				mngYear=result.resultList[i]['mngYear']*1;
@@ -121,6 +131,7 @@ GamEnergyUsageMngModule.prototype.drawChart = function() {
 				color			: "#000BE0",
 	            gradient		: "rising",
 				width			: 30,
+				label			: "#gauge#",
 				tooltip			: "#gauge# 온실가스 계수",
 				xAxis			: {
 					title 		: "에너지 사용량 계수 현황",
@@ -145,6 +156,7 @@ GamEnergyUsageMngModule.prototype.drawChart = function() {
 		module.barChart.parse(grHseCoefArr, "json");
 		module.barChart.refresh();
 	});
+
 };
 
 <%
@@ -159,12 +171,21 @@ GamEnergyUsageMngModule.prototype.onButtonClick = function(buttonId) {
 
 	switch (buttonId) {
 		case 'btnAdd':
-	    	this.addData();
+			this._mode = 'insert';
+			this._mainKeyValue = '';
+			this.$("#mainTab").tabs("option", {active: 1});
 			break;
 	    case 'btnSave':
 	    	this.saveData();
 			break;
 		case 'btnDelete':
+			if (this._mode=="modify") {
+				this.loadDetail('listTab');
+				this.enableDetailInputItem();
+				this.deleteData();
+			}
+			break;
+		case 'btnRemove':
 			this.deleteData();
 			break;
 		case 'btnCopy':
@@ -186,7 +207,10 @@ GamEnergyUsageMngModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamEnergyUsageMngModule.prototype.onSubmit = function() {
 
+	this._mode = 'query';
+	this._mainKeyValue = '';
 	this.loadData();
+	this.enableListButtonItem();
 
 };
 
@@ -207,24 +231,75 @@ GamEnergyUsageMngModule.prototype.loadData = function() {
 
 <%
 /**
- * @FUNCTION NAME : loadDetail
- * @DESCRIPTION   : 상세항목을 로딩 한다.
+ * @FUNCTION NAME : refreshData
+ * @DESCRIPTION   : DATA REFRESH (LIST)
  * @PARAMETER     : NONE
 **/
 %>
-GamEnergyUsageMngModule.prototype.loadDetail = function() {
+ GamEnergyUsageMngModule.prototype.refreshData = function() {
 
-	var row = this.$('#mainGrid').selectedRows();
+	var searchOpt=this.makeFormArgs('#searchForm');
+	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 
-	if (row.length==0) {
-		alert('선택된 항목이 없습니다.');
-		this.$("#mainTab").tabs("option", {active: 0});
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadDetail
+ * @DESCRIPTION   : 상세항목을 로딩 한다.
+ * @PARAMETER     :
+ *   1. tabId - TAB ID
+**/
+%>
+GamEnergyUsageMngModule.prototype.loadDetail = function(tabId) {
+
+	if (tabId == 'listTab') {
+		var row = this.$('#mainGrid').selectedRows();
+		if (row.length==0) {
+			alert('선택된 항목이 없습니다.');
+			this.$("#mainTab").tabs("option", {active: 0});
+			return;
+		}
+		this.makeFormValues('#detailForm', row[0]);
+		this.makeDivValues('#detailForm', row[0]);
+	} else {
+		var searchVO = this.getFormValues('#detailForm');
+		this.doAction('/mngFee/gamSelectEnergyUsageMngPk.do', searchVO, function(module, result){
+			if (result.resultCode == "0") {
+				module.makeFormValues('#detailForm', result.result);
+				module.makeDivValues('#detailForm', result.result);
+			}
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectData
+ * @DESCRIPTION   : DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamEnergyUsageMngModule.prototype.selectData = function() {
+
+	if (this._mode == 'query') {
+		var gridRowCount = this.$("#mainGrid").flexRowCount();
+		if (gridRowCount == 0) {
+			alert('해당 조건의 자료가 존재하지 않습니다!');
+		}
+		return;
+	} else if (this._mode != 'insert' && this._mode != 'modify') {
 		return;
 	}
-	this.$('#mngYear').disable();
-	this.$('#fuelCd').disable();
-	this.makeFormValues('#detailForm', row[0]);
-	this.makeDivValues('#detailForm', row[0]);
+	var mainKeyValue = this._mainKeyValue;
+	if (mainKeyValue == "") {
+		return;
+	}
+	this._mode = 'modify';
+	this.loadDetail('detailTab');
+	this.enableDetailInputItem();
+	this.drawChart();
 
 };
 
@@ -237,13 +312,20 @@ GamEnergyUsageMngModule.prototype.loadDetail = function() {
 %>
 GamEnergyUsageMngModule.prototype.addData = function() {
 
-	var mngYear = new Date().getFullYear();
-	this._mode="insert";
-	this.$("#mainTab").tabs("option", {active: 1});
+	var mngYear = this.$('#sMngYear').val();
+	if (mngYear == "") {
+		mngYear = new Date().getFullYear();
+	}
 	this.$('#mngYear').val(mngYear);
-	this.$('#energyTotalCalVal').val('0');
-	this.$('#energyNetCalVal').val('0');
-	this.$('#grHseCoef').val('0');
+	this.$('#fuelCd').val("");
+	this.$('#fuelNm').val("");
+	this.$('#energyUnit').val("");
+	this.$('#energyTotalCalVal').val("0");
+	this.$('#energyNetCalVal').val("0");
+	this.$('#grHseUnit').val("");
+	this.$('#grHseCoef').val("0");
+	this.enableDetailInputItem();
+	this.$('#mngYear').focus();
 
 };
 
@@ -259,6 +341,7 @@ GamEnergyUsageMngModule.prototype.saveData = function() {
 	var inputVO = this.makeFormArgs("#detailForm");
 	var mngYear = this.$('#mngYear').val();
 	var fuelCd = this.$('#fuelCd').val();
+	var fuelNm = this.$('#fuelNm').val();
 	var energyTotalCalVal = Number(this.$('#energyTotalCalVal').val().replace(/,/gi, ""));
 	var energyNetCalVal = Number(this.$('#energyNetCalVal').val().replace(/,/gi, ""));
 	var grHseCoef = Number(this.$('#grHseCoef').val().replace(/,/gi, ""));
@@ -272,7 +355,7 @@ GamEnergyUsageMngModule.prototype.saveData = function() {
 		this.$("#fuelCd").focus();
 		return;
 	}
-	if (this.$('#fuelNm').val() == "") {
+	if (fuelNm == "") {
 		alert('연료 명이 부정확합니다.');
 		this.$("#fuelNm").focus();
 		return;
@@ -293,16 +376,17 @@ GamEnergyUsageMngModule.prototype.saveData = function() {
 		return;
 	}
 	if (this._mode == "insert") {
+		this._mainKeyValue = mngYear + fuelCd;
 		this.doAction('/mngFee/gamInsertEnergyUsageMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module.loadData();
+				module.refreshData();
 			}
 			alert(result.resultMsg);
 		});
 	} else {
 		this.doAction('/mngFee/gamUpdateEnergyUsageMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module.loadData();
+				module.refreshData();
 			}
 			alert(result.resultMsg);
 		});
@@ -319,25 +403,24 @@ GamEnergyUsageMngModule.prototype.saveData = function() {
 %>
 GamEnergyUsageMngModule.prototype.deleteData = function() {
 
-	var row = this.$('#mainGrid').selectedRows();
-	if (row.length==0) {
-		alert('선택된 항목이 없습니다.');
-		this.$("#mainTab").tabs("option", {active: 0});
-		return;
-	}
-	if (this.$('#mngYear').val() == "") {
+	var mngYear = this.$('#mngYear').val();
+	var fuelCd = this.$('#fuelCd').val();
+	if (mngYear == "") {
 		alert('관리 년도가 부정확합니다.');
 		this.$("#mngYear").focus();
 		return;
 	}
-	if (this.$('#fuelCd').val() == "") {
+	if (fuelCd == "") {
 		alert('연료 코드가 부정확합니다.');
 		this.$("#fuelCd").focus();
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
-		this.doAction('/mngFee/gamDeleteEnergyUsageMng.do', row[0], function(module, result) {
+		var deleteVO = this.makeFormArgs("#detailForm");
+		this.doAction('/mngFee/gamDeleteEnergyUsageMng.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
+				this._mode = 'query';
+				this._mainKeyValue = '';
 				module.loadData();
 			}
 			alert(result.resultMsg);
@@ -361,7 +444,7 @@ GamEnergyUsageMngModule.prototype.copyData = function() {
 	if (confirm("이전년도의 자료를 [" + sQueryMngYear + "년] 자료로 복사하시겠습니까?") != true) {
 		return;
 	}
-	this.doAction('<c:url value="/mngFee/gamSelectEnergyUsageMngYearCnt.do" />', searchVO, function(module, result) {
+	this.doAction('/mngFee/gamSelectEnergyUsageMngYearCnt.do', searchVO, function(module, result) {
 		if (result.resultCode != "0") {
 			alert('자료 확인이 실패했습니다!');
 			return;
@@ -373,6 +456,8 @@ GamEnergyUsageMngModule.prototype.copyData = function() {
 		}
 		module.doAction('/mngFee/gamCopyEnergyUsageMng.do', searchVO, function(module, result) {
 			if (result.resultCode == "0") {
+				this._mode = 'query';
+				this._mainKeyValue = '';
 				module.loadData();
 			}
 			alert(result.resultMsg);
@@ -390,12 +475,115 @@ GamEnergyUsageMngModule.prototype.copyData = function() {
 %>
 GamEnergyUsageMngModule.prototype.downloadExcel = function() {
 
-	var totalCount = Number(this.$('#totalCount').val().replace(/,/gi, ""));
-	if (totalCount <= 0) {
+	var mainGridRowCount = this.$("#mainGrid").flexRowCount();
+	if (mainGridRowCount <= 0) {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
 	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelEnergyUsageMng.do');
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : enableListButtonItem
+ * @DESCRIPTION   : LIST 버튼항목을 ENABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamEnergyUsageMngModule.prototype.enableListButtonItem = function() {
+
+	if (this._mode == "insert") {
+		this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+	} else {
+		this.$('#btnAdd').enable();
+		this.$('#btnAdd').removeClass('ui-state-disabled');
+		var row = this.$('#mainGrid').selectedRows()[0];
+		if (row == null) {
+			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+			return;
+		}
+		if (this._mainKeyValue != "") {
+			this.$('#btnDelete').enable();
+			this.$('#btnDelete').removeClass('ui-state-disabled');
+		} else {
+			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : enableDetailInputItem
+ * @DESCRIPTION   : DETAIL 입력항목을 ENABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamEnergyUsageMngModule.prototype.enableDetailInputItem = function() {
+
+	if (this._mode == "insert") {
+		this.$('#mngYear').enable();
+		this.$('#fuelCd').enable();
+		this.$('#fuelNm').enable();
+		this.$('#energyUnit').enable();
+		this.$('#energyTotalCalVal').enable();
+		this.$('#energyNetCalVal').enable();
+		this.$('#grHseUnit').enable();
+		this.$('#grHseCoef').enable();
+		this.$('#btnSave').enable();
+		this.$('#btnSave').removeClass('ui-state-disabled');
+		this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+	} else {
+		if (this._mainKeyValue != "") {
+			this.$('#mngYear').disable();
+			this.$('#fuelCd').disable();
+			this.$('#fuelNm').enable();
+			this.$('#energyUnit').enable();
+			this.$('#energyTotalCalVal').enable();
+			this.$('#energyNetCalVal').enable();
+			this.$('#grHseUnit').enable();
+			this.$('#grHseCoef').enable();
+			this.$('#btnSave').enable();
+			this.$('#btnSave').removeClass('ui-state-disabled');
+			this.$('#btnRemove').enable();
+			this.$('#btnRemove').removeClass('ui-state-disabled');
+		} else {
+			this.$('#mngYear').disable();
+			this.$('#fuelCd').disable();
+			this.$('#fuelNm').disable();
+			this.$('#energyUnit').disable();
+			this.$('#energyTotalCalVal').disable();
+			this.$('#energyNetCalVal').disable();
+			this.$('#grHseUnit').disable();
+			this.$('#grHseCoef').disable();
+			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : disableDetailInputItem
+ * @DESCRIPTION   : DETAIL 입력항목을 DISABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamEnergyUsageMngModule.prototype.disableDetailInputItem = function() {
+
+	this.$('#mngYear').disable();
+	this.$('#fuelCd').disable();
+	this.$('#fuelNm').disable();
+	this.$('#energyUnit').disable();
+	this.$('#energyTotalCalVal').disable();
+	this.$('#energyNetCalVal').disable();
+	this.$('#grHseUnit').disable();
+	this.$('#grHseCoef').disable();
+	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -415,12 +603,17 @@ GamEnergyUsageMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			break;
 		case 'detailTab':
 			if (this._mode=="modify") {
-				this.loadDetail();
+				this.loadDetail(oldTabId);
+				this.enableDetailInputItem();
+			} else if (this._mode=="insert") {
+				this.makeFormValues('#detailForm', {});
+				this.makeDivValues('#detailForm', {});
+				this.disableDetailInputItem();
+				this.addData();
 			} else {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
-				this.$('#mngYear').enable();
-				this.$('#fuelCd').enable();
+				this.disableDetailInputItem();
 			}
 			this.drawChart();
 			break;
@@ -485,19 +678,19 @@ var module_instance = new GamEnergyUsageMngModule();
 				<li><a href="#detailTab" class="emdTab">에너지 사용량 상세</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
-			<div id="listTab" class="emdTabPage fillHeight" style="overflow: hidden;" >
-				<table id="mainGrid" style="display:none" class="fillHeight"></table>
+			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
+				<table id="mainGrid" style="display:none;" class="fillHeight"></table>
 				<div id="listSumPanel" class="emdControlPanel">
 					<form id="listSumForm">
 						<table style="width:100%;" class="summaryPanel">
 							<tr>
-								<th width="10%" height="20">조회 자료수</th>
+								<th style="width:20%; height:20; text-align:center;">조회 자료수</th>
 								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
-								<td style="text-align: right">
-									<button data-cmd="btnAdd">추가</button>
-									<button data-cmd="btnDelete">삭제</button>
-									<button data-cmd="btnCopy">이전년도 자료 복사</button>
-	                                <button data-cmd="btnExcelDownload">엑셀다운로드</button>
+								<td style="text-align:right;">
+									<button id="btnAdd">추가</button>
+									<button id="btnDelete">삭제</button>
+									<button id="btnCopy">이전년도 자료 복사</button>
+	                                <button id="btnExcelDownload">엑셀다운로드</button>
 								</td>
 							</tr>
 						</table>
@@ -510,8 +703,8 @@ var module_instance = new GamEnergyUsageMngModule();
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th width="14%" height="26">관리 년도</th>
-								<td >
+								<th style="width:15%; height:26;">관리 년도</th>
+								<td>
 									<select id="mngYear" class='selt'>
 										<option value="">선택</option>
 										<c:forEach items="${yearsList}" var="yearListItem">
@@ -524,57 +717,56 @@ var module_instance = new GamEnergyUsageMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">연료 코드</th>
-								<td ><input type="text" size="20" id="fuelCd" /></td>
+								<th style="width:15%; height:26;">연료 코드</th>
+								<td><input type="text" size="20" id="fuelCd" /></td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">연료 명</th>
-								<td ><input type="text" size="20" id="fuelNm" /></td>
+								<th style="width:15%; height:26;">연료 명</th>
+								<td><input type="text" size="20" id="fuelNm" /></td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">에너지 단위</th>
-								<td ><input type="text" size="20" id="energyUnit" /></td>
+								<th style="width:15%; height:26;">에너지 단위</th>
+								<td><input type="text" size="20" id="energyUnit" /></td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">에너지 총발열량</th>
-								<td ><input type="text" size="20" id="energyTotalCalVal"/></td>
+								<th style="width:15%; height:26;">에너지 총발열량</th>
+								<td><input type="text" size="20" id="energyTotalCalVal"/></td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">에너지 순발열량</th>
-								<td ><input type="text" size="20" id="energyNetCalVal"/></td>
+								<th style="width:15%; height:26;">에너지 순발열량</th>
+								<td><input type="text" size="20" id="energyNetCalVal"/></td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">온실가스 단위</th>
-								<td ><input type="text" size="20" id="grHseUnit" /></td>
+								<th style="width:15%; height:26;">온실가스 단위</th>
+								<td><input type="text" size="20" id="grHseUnit" /></td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">온실가스 계수</th>
-								<td ><input type="text" size="20" id="grHseCoef"/></td>
+								<th style="width:15%; height:26;">온실가스 계수</th>
+								<td><input type="text" size="20" id="grHseCoef"/></td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">등록자</th>
+								<th style="width:15%; height:26;">등록자</th>
                                	<td><span data-column-id="regUsr"></span></td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">등록일시</th>
+								<th style="width:15%; height:26;">등록일시</th>
 								<td><span data-column-id="registDt"></span></td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">수정자</th>
+								<th style="width:15%; height:26;">수정자</th>
                                	<td><span data-column-id="updUsr"></span></td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">수정일시</th>
+								<th style="width:15%; height:26;">수정일시</th>
 								<td><span data-column-id="updtDt"></span></td>
 							</tr>
 						</table>
 					</form>
-					<table style="width:100%">
+					<table style="width:100%;">
 						<tr>
-							<td width="100"></td>
-							<td style="text-align:right">
-								<button data-cmd="btnSave" class="buttonSave">저장</button>
-								<button data-cmd="btnDelete" class="buttonDelete">삭제</button>
+							<td style="text-align:right;">
+								<button id="btnSave" class="buttonSave">저장</button>
+								<button id="btnRemove" class="buttonDelete">삭제</button>
 							</td>
 						</tr>
 					</table>

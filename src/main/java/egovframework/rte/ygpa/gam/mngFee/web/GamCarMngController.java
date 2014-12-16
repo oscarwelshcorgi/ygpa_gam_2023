@@ -14,8 +14,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -87,7 +85,7 @@ public class GamCarMngController {
 	@RequestMapping(value="/mngFee/gamSelectCarMngList.do" , method=RequestMethod.POST)
 	@ResponseBody Map selectCarMngList(GamCarMngVo searchVO) throws Exception {
 
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		Map map = new HashMap();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -115,6 +113,34 @@ public class GamCarMngController {
 
 		return map;
 
+	}
+
+	@RequestMapping(value="/mngFee/gamSelectCarMngPk.do")
+	@ResponseBody Map<String, Object> selectCarMngPk(GamCarMngVo searchVO)	throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			Map result = gamCarMngService.selectCarMngPk(searchVO);
+
+			map.put("resultCode", 0);
+			map.put("result", result);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+		}
+
+		return map;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

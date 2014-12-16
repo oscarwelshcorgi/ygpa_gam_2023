@@ -3,8 +3,6 @@
  */
 package egovframework.rte.ygpa.gam.mngFee.web;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -101,7 +99,7 @@ public class GamGasUsageSttusMngController {
 	@RequestMapping(value="/mngFee/gamSelectGasUsageSttusMng.do" , method=RequestMethod.POST)
 	@ResponseBody Map selectGasUsageSttusMng(GamGasUsageSttusMngVo searchVO) throws Exception {
 
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		Map map = new HashMap();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -129,6 +127,34 @@ public class GamGasUsageSttusMngController {
 
 		return map;
 
+	}
+
+	@RequestMapping(value="/mngFee/gamSelectGasUsageSttusMngPk.do")
+	@ResponseBody Map<String, Object> selectGasUsageSttusMngPk(GamGasUsageSttusMngVo searchVO)	throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			Map result = gamGasUsageSttusMngService.selectGasUsageSttusMngPk(searchVO);
+
+			map.put("resultCode", 0);
+			map.put("result", result);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+		}
+
+		return map;
 	}
 
 	@RequestMapping(value="/mngFee/gamGasUsageSttusMngChart.do" , method=RequestMethod.POST)
@@ -272,7 +298,6 @@ public class GamGasUsageSttusMngController {
 	@RequestMapping(value="/mngFee/gamDeleteGasUsageSttusMng.do")
 	@ResponseBody Map<String, Object> deleteGasUsageSttusMng(GamGasUsageSttusMngVo gamGasUsageSttusMngVo)	throws Exception {
 
-		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

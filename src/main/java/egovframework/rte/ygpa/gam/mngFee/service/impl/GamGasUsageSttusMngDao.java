@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngVo;
 
 /**
@@ -43,6 +44,14 @@ public class GamGasUsageSttusMngDao extends YGPAAbstractDAO{
 	 */
 	public List selectGasUsageSttusMngList(GamGasUsageSttusMngVo searchVO) {
 		return list("gamGasUsageSttusMngDao.selectGasUsageSttusMngList_D", searchVO);
+	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public EgovMap selectGasUsageSttusMngPk(GamGasUsageSttusMngVo searchVO) {
+		return (EgovMap)selectByPk("gamGasUsageSttusMngDao.selectGasUsageSttusMngPk_S", searchVO);
 	}
 
 	/**

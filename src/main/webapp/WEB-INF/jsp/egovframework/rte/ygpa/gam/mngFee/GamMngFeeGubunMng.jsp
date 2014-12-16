@@ -67,14 +67,24 @@ GamMngFeeGubunMngModule.prototype.loadComplete = function() {
 		}
 	});
 
+	this.$("#mainGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectData();
+	});
+
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mode = 'modify';
+		module._mainKeyValue = row.mngFeeFcltySe;
+		module.enableListButtonItem();
 	});
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._mode = 'modify';
+		module._mainKeyValue = row.mngFeeFcltySe;
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
+
+	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -90,12 +100,21 @@ GamMngFeeGubunMngModule.prototype.onButtonClick = function(buttonId) {
 
 	switch (buttonId) {
 		case 'btnAdd':
-        	this.addData();
+			this._mode = 'insert';
+			this._mainKeyValue = '';
+			this.$("#mainTab").tabs("option", {active: 1});
 			break;
         case 'btnSave':
         	this.saveData();
 			break;
 		case 'btnDelete':
+			if (this._mode=="modify") {
+				this.loadDetail('listTab');
+				this.enableDetailInputItem();
+				this.deleteData();
+			}
+			break;
+		case 'btnRemove':
 			this.deleteData();
 			break;
 		case 'btnIdCheck':
@@ -117,7 +136,10 @@ GamMngFeeGubunMngModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamMngFeeGubunMngModule.prototype.onSubmit = function() {
 
+	this._mode = 'query';
+	this._mainKeyValue = '';
 	this.loadData();
+	this.enableListButtonItem();
 
 };
 
@@ -138,23 +160,74 @@ GamMngFeeGubunMngModule.prototype.loadData = function() {
 
 <%
 /**
- * @FUNCTION NAME : loadDetail
- * @DESCRIPTION   : 상세항목을 로딩 한다.
+ * @FUNCTION NAME : refreshData
+ * @DESCRIPTION   : DATA REFRESH (LIST)
  * @PARAMETER     : NONE
 **/
 %>
-GamMngFeeGubunMngModule.prototype.loadDetail = function() {
+ GamMngFeeGubunMngModule.prototype.refreshData = function() {
 
-	var row = this.$('#mainGrid').selectedRows();
-	if (row.length==0) {
-		alert('선택된 항목이 없습니다.');
-		this.$("#mainTab").tabs("option", {active: 0});
+	var searchOpt=this.makeFormArgs('#searchForm');
+	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadDetail
+ * @DESCRIPTION   : 상세항목을 로딩 한다.
+ * @PARAMETER     :
+ *   1. tabId - TAB ID
+**/
+%>
+GamMngFeeGubunMngModule.prototype.loadDetail = function(tabId) {
+
+	if (tabId == 'listTab') {
+		var row = this.$('#mainGrid').selectedRows();
+		if (row.length==0) {
+			alert('선택된 항목이 없습니다.');
+			this.$("#mainTab").tabs("option", {active: 0});
+			return;
+		}
+		this.makeFormValues('#detailForm', row[0]);
+		this.makeDivValues('#detailForm', row[0]);
+	} else {
+		var searchVO = this.getFormValues('#detailForm');
+		this.doAction('/mngFee/gamSelectMngFeeGubunMngPk.do', searchVO, function(module, result){
+			if (result.resultCode == "0") {
+				module.makeFormValues('#detailForm', result.result);
+				module.makeDivValues('#detailForm', result.result);
+			}
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectData
+ * @DESCRIPTION   : DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamMngFeeGubunMngModule.prototype.selectData = function() {
+
+	if (this._mode == 'query') {
+		var gridRowCount = this.$("#mainGrid").flexRowCount();
+		if (gridRowCount == 0) {
+			alert('해당 조건의 자료가 존재하지 않습니다!');
+		}
+		return;
+	} else if (this._mode != 'insert' && this._mode != 'modify') {
 		return;
 	}
-	this.$("#btnIdCheck").disable({disableClass:"ui-state-disabled"});
-	this.$('#mngFeeFcltySe').disable();
-	this.makeFormValues('#detailForm', row[0]);
-	this.makeDivValues('#detailForm', row[0]);
+	var mainKeyValue = this._mainKeyValue;
+	if (mainKeyValue == "") {
+		return;
+	}
+	this._mode = 'modify';
+	this.loadDetail('detailTab');
+	this.enableDetailInputItem();
 
 };
 
@@ -167,8 +240,10 @@ GamMngFeeGubunMngModule.prototype.loadDetail = function() {
 %>
 GamMngFeeGubunMngModule.prototype.addData = function() {
 
-	this._mode="insert";
-	this.$("#mainTab").tabs("option", {active: 1});
+	this.$('#mngFeeFcltySe').val("");
+	this.$('#mngFeeFcltySeNm').val("");
+	this.enableDetailInputItem();
+	this.$('#mngFeeFcltySe').focus();
 
 };
 
@@ -183,27 +258,29 @@ GamMngFeeGubunMngModule.prototype.saveData = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
 	var mngFeeFcltySe = this.$('#mngFeeFcltySe').val();
+	var mngFeeFcltySeNm = this.$('#mngFeeFcltySeNm').val();
 	if (mngFeeFcltySe == "" || mngFeeFcltySe.length != 2) {
 		alert('시설 구분이 부정확합니다.');
 		this.$("#mngFeeFcltySe").focus();
 		return;
 	}
-	if (this.$('#mngFeeFcltySeNm').val() == "") {
+	if (mngFeeFcltySeNm == "") {
 		alert('시설 구분 명이 부정확합니다.');
 		this.$("#mngFeeFcltySeNm").focus();
 		return;
 	}
 	if (this._mode == "insert") {
+		this._mainKeyValue = mngFeeFcltySe;
 		this.doAction('/mngFee/gamInsertMngFeeGubunMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module.loadData();
+				module.refreshData();
 			}
 			alert(result.resultMsg);
 		});
 	} else {
 		this.doAction('/mngFee/gamUpdateMngFeeGubunMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module.loadData();
+				module.refreshData();
 			}
 			alert(result.resultMsg);
 		});
@@ -220,20 +297,18 @@ GamMngFeeGubunMngModule.prototype.saveData = function() {
 %>
 GamMngFeeGubunMngModule.prototype.deleteData = function() {
 
-	var row = this.$('#mainGrid').selectedRows();
-	if (row.length==0) {
-		alert('선택된 항목이 없습니다.');
-		this.$("#mainTab").tabs("option", {active: 0});
-		return;
-	}
-	if (this.$('#mngFeeFcltySe').val() == "") {
+	var mngFeeFcltySe = this.$('#mngFeeFcltySe').val();
+	if (mngFeeFcltySe == "") {
 		alert('시설 구분이 부정확합니다.');
 		this.$("#mngFeeFcltySe").focus();
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
-		this.doAction('/mngFee/gamDeleteMngFeeGubunMng.do', row[0], function(module, result) {
+		var deleteVO = this.makeFormArgs("#detailForm");
+		this.doAction('/mngFee/gamDeleteMngFeeGubunMng.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
+				this._mode = 'query';
+				this._mainKeyValue = '';
 				module.loadData();
 			}
 			alert(result.resultMsg);
@@ -251,7 +326,8 @@ GamMngFeeGubunMngModule.prototype.deleteData = function() {
 %>
 GamMngFeeGubunMngModule.prototype.checkId = function() {
 
-	if (this.$("#mngFeeFcltySe").val() == "") {
+	var mngFeeFcltySe = this.$('#mngFeeFcltySe').val();
+	if (mngFeeFcltySe == "") {
 		this.$("#mngFeeFcltySe").focus();
 		alert("코드를 입력하십시오.");
 		return;
@@ -260,8 +336,8 @@ GamMngFeeGubunMngModule.prototype.checkId = function() {
 		if (result.resultCode == 0) {
 			if (result.checkSeCnt != "0") {
 				alert("이미 사용중인 코드가 존재합니다.");
-				module.$("#mngFeeFcltySe").focus();
 				module.$("#mngFeeFcltySe").val("");
+				module.$("#mngFeeFcltySe").focus();
 			} else {
 				if (confirm("해당 코드를 사용하시겠습니까?")) {
 					module.$("#mngFeeFcltySe").val(result.checkSe);
@@ -285,12 +361,96 @@ GamMngFeeGubunMngModule.prototype.checkId = function() {
 %>
 GamMngFeeGubunMngModule.prototype.downloadExcel = function() {
 
-	var totalCount = Number(this.$('#totalCount').val().replace(/,/gi, ""));
-	if (totalCount <= 0) {
+	var mainGridRowCount = this.$("#mainGrid").flexRowCount();
+	if (mainGridRowCount <= 0) {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
 	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelMngFeeGubunMng.do');
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : enableListButtonItem
+ * @DESCRIPTION   : LIST 버튼항목을 ENABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamMngFeeGubunMngModule.prototype.enableListButtonItem = function() {
+
+	if (this._mode == "insert") {
+		this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+	} else {
+		this.$('#btnAdd').enable();
+		this.$('#btnAdd').removeClass('ui-state-disabled');
+		var row = this.$('#mainGrid').selectedRows()[0];
+		if (row == null) {
+			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+			return;
+		}
+		if (this._mainKeyValue != "") {
+			this.$('#btnDelete').enable();
+			this.$('#btnDelete').removeClass('ui-state-disabled');
+		} else {
+			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : enableDetailInputItem
+ * @DESCRIPTION   : DETAIL 입력항목을 ENABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamMngFeeGubunMngModule.prototype.enableDetailInputItem = function() {
+
+	if (this._mode == "insert") {
+		this.$('#mngFeeFcltySe').enable();
+		this.$('#mngFeeFcltySeNm').enable();
+		this.$('#btnIdCheck').enable();
+		this.$('#btnIdCheck').removeClass('ui-state-disabled');
+		this.$('#btnSave').enable();
+		this.$('#btnSave').removeClass('ui-state-disabled');
+		this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+	} else {
+		if (this._mainKeyValue != "") {
+			this.$('#mngFeeFcltySe').disable();
+			this.$('#mngFeeFcltySeNm').enable();
+			this.$('#btnIdCheck').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnSave').enable();
+			this.$('#btnSave').removeClass('ui-state-disabled');
+			this.$('#btnRemove').enable();
+			this.$('#btnRemove').removeClass('ui-state-disabled');
+		} else {
+			this.$('#mngFeeFcltySe').disable();
+			this.$('#mngFeeFcltySe').disable();
+			this.$('#btnIdCheck').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : disableDetailInputItem
+ * @DESCRIPTION   : DETAIL 입력항목을 DISABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamMngFeeGubunMngModule.prototype.disableDetailInputItem = function() {
+
+	this.$('#mngFeeFcltySe').disable();
+	this.$('#mngFeeFcltySe').disable();
+	this.$('#btnIdCheck').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -310,14 +470,17 @@ GamMngFeeGubunMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			break;
 		case 'detailTab':
 			if (this._mode=="modify") {
-				this.loadDetail();
-			} else {
-				this._mode="insert";
+				this.loadDetail(oldTabId);
+				this.enableDetailInputItem();
+			} else if (this._mode=="insert") {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
-				this.$('#mngFeeFcltySe').enable();
-				this.$("#btnIdCheck").removeClass("ui-state-disabled");
-				this.$("#btnIdCheck").enable();
+				this.disableDetailInputItem();
+				this.addData();
+			} else {
+				this.makeFormValues('#detailForm', {});
+				this.makeDivValues('#detailForm', {});
+				this.disableDetailInputItem();
 			}
 			break;
 	}
@@ -374,17 +537,17 @@ var module_instance = new GamMngFeeGubunMngModule();
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage fillHeight" style="overflow: hidden;" >
-				<table id="mainGrid" style="display:none" class="fillHeight"></table>
+				<table id="mainGrid" style="display:none;" class="fillHeight"></table>
 				<div id="listSumPanel" class="emdControlPanel">
 					<form id="listSumForm">
 						<table style="width:100%;">
 							<tr>
-								<th width="20%" height="20">조회 자료수</th>
+								<th style="width:20%; height:20; text-align:center;">조회 자료수</th>
 								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
-								<td style="text-align: right">
-									<button data-cmd="btnAdd">추가</button>
-									<button data-cmd="btnDelete">삭제</button>
-	                                <button data-cmd="btnExcelDownload">엑셀다운로드</button>
+								<td style="text-align: right;">
+									<button id="btnAdd">추가</button>
+									<button id="btnDelete">삭제</button>
+	                                <button id="btnExcelDownload">엑셀다운로드</button>
 								</td>
 							</tr>
 						</table>
@@ -395,34 +558,33 @@ var module_instance = new GamMngFeeGubunMngModule();
 			<div id="detailTab" class="emdTabPage" style="overflow:scroll;">
 				<div class="emdControlPanel">
 					<form id="detailForm">
-						<table class="detailPanel" style="width:100%">
+						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th width="20%" height="25">시설 구분</th>
+								<th style="width:20%; height:25;">시설 구분</th>
 								<td><input type="text" size="25" id="mngFeeFcltySe" maxlength="2"/></td>
 								<td><button id="btnIdCheck">시 설 구 분 중 복 여 부 검 사</button>
 							</tr>
 							<tr>
-								<th width="20%" height="25">시설 구분 명</th>
+								<th style="width:20%; height:25;">시설 구분 명</th>
 								<td colspan="2"><input type="text" size="70" id="mngFeeFcltySeNm" maxlength="20"/></td>
 							</tr>
 							<tr>
-								<th width="20%" height="25">등록자</th>
+								<th style="width:20%; height:25;">등록자</th>
                                	<td><span data-column-id="regUsr"></span></td>
 								<td><span data-column-id="registDt"></span></td>
 							</tr>
 							<tr>
-								<th width="20%" height="25">수정자</th>
+								<th style="width:20%; height:25;">수정자</th>
                                	<td><span data-column-id="updUsr"></span></td>
 								<td><span data-column-id="updtDt"></span></td>
 							</tr>
 						</table>
 					</form>
-					<table style="width:100%">
+					<table style="width:100%;">
 						<tr>
-							<td width="100"></td>
-							<td style="text-align:right">
-								<button data-cmd="btnSave" class="buttonSave">저장</button>
-								<button data-cmd="btnDelete" class="buttonDelete">삭제</button>
+							<td style="text-align:right;">
+								<button id="btnSave" class="buttonSave">저장</button>
+								<button id="btnRemove" class="buttonDelete">삭제</button>
 							</td>
 						</tr>
 					</table>

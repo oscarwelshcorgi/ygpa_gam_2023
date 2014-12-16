@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamEnergyUsageMngVo;
 
@@ -43,6 +44,11 @@ public class GamEnergyUsageMngServiceImpl extends AbstractServiceImpl implements
 	@Override
 	public List selectEnergyUsageMngList(GamEnergyUsageMngVo searchVO) throws Exception {
 		return gamEnergyUsageMngDao.selectEnergyUsageMngList(searchVO);
+	}
+
+	@Override
+	public EgovMap selectEnergyUsageMngPk(GamEnergyUsageMngVo searchVO) throws Exception {
+		return gamEnergyUsageMngDao.selectEnergyUsageMngPk(searchVO);
 	}
 
 	@Override

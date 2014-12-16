@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngVo;
 
@@ -43,6 +44,11 @@ public class GamGrHseEmitQyMngServiceImpl extends AbstractServiceImpl implements
 	@Override
 	public List selectGrHseEmitQyMngList(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
 		return gamGrHseEmitQyMngDao.selectGrHseEmitQyMngList(gamGrHseEmitQyMngVo);
+	}
+
+	@Override
+	public EgovMap selectGrHseEmitQyMngPk(GamGrHseEmitQyMngVo searchVO) throws Exception {
+		return gamGrHseEmitQyMngDao.selectGrHseEmitQyMngPk(searchVO);
 	}
 
 	@Override

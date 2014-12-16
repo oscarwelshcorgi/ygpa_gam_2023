@@ -100,7 +100,7 @@ public class GamEnergyUsageMngController {
 	@RequestMapping(value="/mngFee/gamSelectEnergyUsageMng.do" , method=RequestMethod.POST)
 	@ResponseBody Map selectEnergyUsageMngList(GamEnergyUsageMngVo searchVO) throws Exception {
 
-		int totalCnt, page, firstIndex, yearCnt;
+		int totalCnt;
 		Map map = new HashMap();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -128,6 +128,34 @@ public class GamEnergyUsageMngController {
 
 		return map;
 
+	}
+
+	@RequestMapping(value="/mngFee/gamSelectEnergyUsageMngPk.do")
+	@ResponseBody Map<String, Object> selectEnergyUsageMngPk(GamEnergyUsageMngVo searchVO)	throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			Map result = gamEnergyUsageMngService.selectEnergyUsageMngPk(searchVO);
+
+			map.put("resultCode", 0);
+			map.put("result", result);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+		}
+
+		return map;
 	}
 
 	@RequestMapping(value="/mngFee/gamEnergyUsageMngChart.do" , method=RequestMethod.POST)
@@ -224,7 +252,7 @@ public class GamEnergyUsageMngController {
 			gamEnergyUsageMngVo.setRegUsr((String)user.getId());
 			gamEnergyUsageMngService.insertEnergyUsageMng(gamEnergyUsageMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -254,7 +282,7 @@ public class GamEnergyUsageMngController {
 			gamEnergyUsageMngVo.setUpdUsr((String)user.getId());
 			gamEnergyUsageMngService.updateEnergyUsageMng(gamEnergyUsageMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -270,7 +298,6 @@ public class GamEnergyUsageMngController {
 	@RequestMapping(value="/mngFee/gamDeleteEnergyUsageMng.do")
 	@ResponseBody Map<String, Object> deleteEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
 
-		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -283,7 +310,7 @@ public class GamEnergyUsageMngController {
 		try {
 			gamEnergyUsageMngService.deleteEnergyUsageMng(gamEnergyUsageMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -313,7 +340,7 @@ public class GamEnergyUsageMngController {
 			gamEnergyUsageMngVo.setRegUsr((String)user.getId());
 			gamEnergyUsageMngService.copyEnergyUsageMng(gamEnergyUsageMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception

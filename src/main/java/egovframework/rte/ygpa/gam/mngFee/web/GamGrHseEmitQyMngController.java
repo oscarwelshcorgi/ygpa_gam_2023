@@ -99,7 +99,7 @@ public class GamGrHseEmitQyMngController {
 	@RequestMapping(value="/mngFee/gamSelectGrHseEmitQyMng.do" , method=RequestMethod.POST)
 	@ResponseBody Map selectGrHseEmitQyMngList(GamGrHseEmitQyMngVo searchVO) throws Exception {
 
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		Map map = new HashMap();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -127,6 +127,34 @@ public class GamGrHseEmitQyMngController {
 
 		return map;
 
+	}
+
+	@RequestMapping(value="/mngFee/gamSelectGrHseEmitQyMngPk.do")
+	@ResponseBody Map<String, Object> selectGrHseEmitQyMngPk(GamGrHseEmitQyMngVo searchVO)	throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			Map result = gamGrHseEmitQyMngService.selectGrHseEmitQyMngPk(searchVO);
+
+			map.put("resultCode", 0);
+			map.put("result", result);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+		}
+
+		return map;
 	}
 
 	@RequestMapping(value="/mngFee/gamSelectGrHseEmitQyMngChart.do" , method=RequestMethod.POST)
@@ -267,7 +295,6 @@ public class GamGrHseEmitQyMngController {
 	@RequestMapping(value="/mngFee/gamDeleteGrHseEmitQyMng.do")
 	@ResponseBody Map<String, Object> deleteGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo)	throws Exception {
 
-		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

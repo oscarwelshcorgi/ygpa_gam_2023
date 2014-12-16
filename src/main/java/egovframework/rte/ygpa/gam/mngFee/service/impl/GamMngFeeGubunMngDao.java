@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngVo;
 
 /**
@@ -43,6 +44,14 @@ public class GamMngFeeGubunMngDao extends YGPAAbstractDAO{
 	 */
 	public List selectMngFeeGubunMngList(GamMngFeeGubunMngVo searchVO) {
 		return list("gamMngFeeGubunMngDao.selectMngFeeGubunMngList_D", searchVO);
+	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public EgovMap selectMngFeeGubunMngPk(GamMngFeeGubunMngVo searchVO) {
+		return (EgovMap)selectByPk("gamMngFeeGubunMngDao.selectMngFeeGubunMngPk_S", searchVO);
 	}
 
 	/**

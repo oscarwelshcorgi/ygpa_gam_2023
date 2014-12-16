@@ -45,7 +45,7 @@ GamFcltsFeeMngInqireModule.prototype = new EmdModule(1000, 645);
  * @PARAMETER     : NONE
 **/
 %>
-GamFcltsFeeMngInqireModule.prototype.loadComplete = function() {
+GamFcltsFeeMngInqireModule.prototype.loadComplete = function(params) {
 
 	this.$("#mainGrid").flexigrid({
 		module : this,
@@ -133,12 +133,12 @@ GamFcltsFeeMngInqireModule.prototype.loadComplete = function() {
 **/
 %>
 GamFcltsFeeMngInqireModule.prototype.drawChart = function() {
+
 	var feeArr=[];
 	var maxFee=0;
 	var fee=0;
 	var searchVO = this.makeFormArgs("#detailForm");
-
-	this.doAction('<c:url value="/mngFee/gamFcltsFeeMngInqireChart.do" />', searchVO, function(module, result) {
+	this.doAction('/mngFee/gamFcltsFeeMngInqireChart.do', searchVO, function(module, result) {
 		if (result.resultCode == "0") {
 			for (var i=0; i<12; i++) {
 				fee=result.resultList[i]['fee']*1;
@@ -164,6 +164,7 @@ GamFcltsFeeMngInqireModule.prototype.drawChart = function() {
 				color			: "#000BE0",
 	            gradient		: "rising",
 				width			: 30,
+				label			: "#gauge#",
 				tooltip			: "#gauge# 원",
 				xAxis			: {
 					title 		: "관리비 고지 현황",
@@ -188,6 +189,7 @@ GamFcltsFeeMngInqireModule.prototype.drawChart = function() {
 		module.barChart.parse(feeArr, "json");
 		module.barChart.refresh();
 	});
+
 };
 
 <%
@@ -295,6 +297,11 @@ GamFcltsFeeMngInqireModule.prototype.loadDetail = function() {
 %>
 GamFcltsFeeMngInqireModule.prototype.updateRcivData = function() {
 
+	var mainGridRowCount = this.$("#mainGrid").flexRowCount();
+	if (mainGridRowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
 	var all_rows = JSON.stringify(this.$('#mainGrid').flexGetData());
 	var updateVO = [];
 	updateVO[updateVO.length] = {name: 'updateList', value: all_rows};
@@ -315,8 +322,8 @@ GamFcltsFeeMngInqireModule.prototype.updateRcivData = function() {
 %>
 GamFcltsFeeMngInqireModule.prototype.downloadExcel = function() {
 
-	var totalCount = Number(this.$('#totalCount').val().replace(/,/gi, ""));
-	if (totalCount <= 0) {
+	var mainGridRowCount = this.$("#mainGrid").flexRowCount();
+	if (mainGridRowCount <= 0) {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
@@ -470,23 +477,23 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 				<li><a href="#detailTab" class="emdTab">시설물 관리비 납부내역</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
-			<div id="listTab" class="emdTabPage fillHeight" style="overflow: hidden;" >
-				<table id="mainGrid" style="display:none" class="fillHeight"></table>
+			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
+				<table id="mainGrid" style="display:none;" class="fillHeight"></table>
 				<div id="listSumPanel" class="emdControlPanel">
 					<form id="listSumForm">
 						<table style="width:100%;">
 							<tr>
-								<th width="10%" height="20">자료수</th>
+								<th style="width:10%; height:20; text-align:center;">자료수</th>
 								<td><input type="text" size="8" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="10%" height="20">총사용료</th>
+								<th style="width:10%; height:20; text-align:center;">총사용료</th>
 								<td><input type="text" size="15" id="sumFee" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="10%" height="20">총부가세</th>
+								<th style="width:10%; height:20; text-align:center;">총부가세</th>
 								<td><input type="text" size="15" id="sumVat" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="10%" height="20">총고지금액</th>
+								<th style="width:10%; height:20; text-align:center;">총고지금액</th>
 								<td><input type="text" size="15" id="sumNticAmt" class="ygpaNumber" disabled="disabled" /></td>
-								<td style="text-align: right">
-									<button data-cmd="btnRcivDataUpdate">수납여부 갱신</button>
-	                                <button data-cmd="btnExcelDownload">엑셀다운로드</button>
+								<td style="text-align:right;">
+									<button id="btnRcivDataUpdate">수납여부 갱신</button>
+	                                <button id="btnExcelDownload">엑셀다운로드</button>
 								</td>
 							</tr>
 						</table>
@@ -497,14 +504,14 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 			<div id="detailTab" class="emdTabPage" style="overflow:scroll;">
 				<div class="emdControlPanel">
 					<form id="detailForm">
-						<table class="summaryPanel" style="width:100%">
+						<table class="summaryPanel" style="width:100%;">
 							<tr>
 								<td>시설물 관리비 부과 내역</td>
 							</tr>
 						</table>
-						<table class="detailPanel" style="width:100%">
+						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th width="10%" height="18">관리 년월</th>
+								<th style="width:10%; height:18;">관리 년월</th>
 								<td>
 									<input id="mngMt" type="hidden"/>
 									<input id="mngMtYear" type="hidden"/>
@@ -513,51 +520,51 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 									<input type="text" size="20" id="mngYrMt" disabled>
 									<input type="text" size="12" id="mngSeq" disabled>
 								</td>
-								<th width="10%" height="18">업무 구분</th>
+								<th style="width:10%; height:18;">업무 구분</th>
 								<td>
 									<input id="mngFeeJobSe" type="hidden"/>
 									<input type="text" size="33" id="mngFeeJobSeNm" disabled>
 								</td>
-								<th width="10%" height="18">부과 업체</th>
+								<th style="width:10%; height:18;">부과 업체</th>
 								<td>
 									<input id="entrpscd" type="hidden"/>
 									<input type="text" size="33" id="entrpsNm" disabled>
 								</td>
 							</tr>
                             <tr>
-								<th width="10%" height="18">관리비 제목</th>
+								<th style="width:10%; height:18;">관리비 제목</th>
 								<td colspan="3"><input type="text" size="87" id="mngFeeSj" disabled/></td>
-								<th width="10%" height="18">사용 면적</th>
+								<th style="width:10%; height:18;">사용 면적</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="usageAr" disabled/></td>
                             </tr>
                             <tr>
-								<th width="10%" height="18">시설 관리 용역비</th>
+								<th style="width:10%; height:18;">시설 관리 용역비</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="mngFee" disabled/></td>
-								<th width="10%" height="18">전기 요금</th>
+								<th style="width:10%; height:18;">전기 요금</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="elctyFee" disabled/></td>
-								<th width="10%" height="18">상하수도 요금</th>
+								<th style="width:10%; height:18;">상하수도 요금</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="waterFee" disabled/></td>
                             </tr>
                             <tr>
-								<th width="10%" height="18">도시가스 요금</th>
+								<th style="width:10%; height:18;">도시가스 요금</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="gasFee" disabled/></td>
-								<th width="10%" height="18">환경개선 부담금</th>
+								<th style="width:10%; height:18;">환경개선 부담금</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="envFee" disabled/></td>
-								<th width="10%" height="18">관리비 합계</th>
+								<th style="width:10%; height:18;">관리비 합계</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="mngTotalFee" disabled/></td>
                             </tr>
 						</table>
-						<table class="summaryPanel" style="width:100%">
+						<table class="summaryPanel" style="width:100%;">
 							<tr>
 								<td>시설물 관리비 고지 내역</td>
 							</tr>
 						</table>
-						<table class="detailPanel" style="width:100%">
+						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th width="15%" height="18">요금 종류</th>
+								<th style="width:15%; height:18;">요금 종류</th>
 								<td>
 									<input id="prtAtCode" type="hidden"/>
-									<input type="text" size="4" id="chrgeKnd" disabled>
+									<input type="text" size="3" id="chrgeKnd" disabled>
 									<input type="text" size="15" id="chrgeKndNm" disabled>
 								</td>
 								<td rowspan="11" style="padding-left:4px;">
@@ -565,53 +572,54 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 								</td>
 							</tr>
                             <tr>
-								<th width="15%" height="18">고지 번호</th>
+								<th style="width:15%; height:18;">고지 번호/추가여부</th>
 								<td>
-									<input type="text" size="9" id="accnutYear" disabled>
-									<input type="text" size="10" id="nticNo" disabled>
+									<input type="text" size="6" id="accnutYear" disabled>
+									<input type="text" size="8" id="nticNo" disabled>
+									<input type="text" size="3" id="aditNticYn" disabled>
 								</td>
 							</tr>
                             <tr>
-								<th width="15%" height="18">고지 / 출력 / 추가</th>
+								<th style="width:15%; height:18;">고지/출력/부가세구분</th>
 								<td>
-									<input type="text" size="6" id="nhtIsueYn" disabled>
-									<input type="text" size="6" id="nhtPrintYn" disabled>
-									<input type="text" size="6" id="aditNticYn" disabled>
+									<input id="vatYn" type="hidden"/>
+									<input type="text" size="1" id="nhtIsueYn" disabled>
+									<input type="text" size="1" id="nhtPrintYn" disabled>
+									<input type="text" size="15" id="vatYnNm" disabled>
 								</td>
 							</tr>
                             <tr>
-								<th width="15%" height="18">사용료</th>
+								<th style="width:15%; height:18;">사용료</th>
 								<td>
 									<input type="text" size="20" class="ygpaNumber" id="fee" disabled/>
 								</td>
 							</tr>
                             <tr>
-								<th width="15%" height="18">부가세</th>
+								<th style="width:15%; height:18;">부가세</th>
 								<td>
-									<input type="text" size="6" id="vatYn" disabled>
-									<input type="text" size="12" class="ygpaNumber" id="vat" disabled/>
+									<input type="text" size="20" class="ygpaNumber" id="vat" disabled/>
 								</td>
 							</tr>
                             <tr>
-								<th width="15%" height="18">고지 금액</th>
+								<th style="width:15%; height:18;">고지 금액</th>
 								<td>
 									<input type="text" size="20" class="ygpaNumber" id="nticAmt" disabled/>
 								</td>
                             </tr>
                             <tr>
-								<th width="15%" height="18">고지 일자</th>
+								<th style="width:15%; height:18;">고지 일자</th>
                                 <td>
                                 	<input type="text" size="20" id="nticDt" disabled/>
                                 </td>
 							</tr>
                             <tr>
-								<th width="15%" height="18">납부 기한</th>
+								<th style="width:15%; height:18;">납부 기한</th>
                                 <td>
                                 	<input type="text" size="20" id="payTmlmt" disabled/>
                                 </td>
 							</tr>
                             <tr>
-								<th width="15%" height="18">수납 일자</th>
+								<th style="width:15%; height:18;">수납 일자</th>
                                 <td>
 									<input id="rcivSe" type="hidden"/>
 									<input type="text" size="6" id="rcivSeNm" disabled>
@@ -619,14 +627,14 @@ var module_instance = new GamFcltsFeeMngInqireModule();
                                 </td>
                             </tr>
                             <tr>
-								<th width="15%" height="18">연체 번호/일수</th>
+								<th style="width:15%; height:18;">연체 번호/일수</th>
 								<td>
 									<input type="text" size="6" id="arrrgNo" disabled>
 									<input type="text" size="12" class="ygpaNumber" id="arrrgPayDates" disabled/>
 								</td>
 							</tr>
                             <tr>
-								<th width="15%" height="18">연체 금액</th>
+								<th style="width:15%; height:18;">연체 금액</th>
 								<td>
 									<input type="text" size="20" class="ygpaNumber" id="arrrgAmt" disabled/>
 								</td>

@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGasUsageSttusMngVo;
 
@@ -43,6 +44,11 @@ public class GamGasUsageSttusMngServiceImpl extends AbstractServiceImpl implemen
 	@Override
 	public List selectGasUsageSttusMngList(GamGasUsageSttusMngVo searchVO) throws Exception {
 		return gamGasUsageSttusMngDao.selectGasUsageSttusMngList(searchVO);
+	}
+
+	@Override
+	public EgovMap selectGasUsageSttusMngPk(GamGasUsageSttusMngVo searchVO) throws Exception {
+		return gamGasUsageSttusMngDao.selectGasUsageSttusMngPk(searchVO);
 	}
 
 	@Override

@@ -83,6 +83,34 @@
 		</isNotEmpty>
 	</select>
 
+	<select id="gamGasUsageSttusMngDao.selectGasUsageSttusMngPk_S" parameterClass="gamGasUsageSttusMngVo" resultClass="egovMap">
+		SELECT
+				 T1.USAGE_MT
+				,T1.MNG_FEE_FCLTY_CD
+				,T1.MNG_FEE_JOB_SE
+				,LTRIM(TO_CHAR(NVL(T1.PREV_MT_USAGE_QY,0),'999,999,990.99')) AS PREV_MT_USAGE_QY
+				,LTRIM(TO_CHAR(NVL(T1.SAID_MT_USAGE_QY,0),'999,999,990.99')) AS SAID_MT_USAGE_QY
+				,LTRIM(TO_CHAR(NVL(T1.APPLC_COEF,0),'0.99')) AS APPLC_COEF
+				,LTRIM(TO_CHAR(NVL(T1.NET_USAGE_QY,0),'999,999,990.99')) AS NET_USAGE_QY
+				,T1.REG_USR
+				,TO_CHAR(T1.REGIST_DT, 'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR
+				,TO_CHAR(T1.UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,SUBSTRB(T1.USAGE_MT,1,4) AS USAGE_MT_YEAR
+				,SUBSTRB(T1.USAGE_MT,5,2) AS USAGE_MT_MON
+				,SUBSTRB(T1.USAGE_MT,1,4) || '-' || SUBSTRB(T1.USAGE_MT,5,2) AS USAGE_YR_MT
+				,(CASE WHEN T1.MNG_FEE_JOB_SE='M' THEN '[M]:마린센터'
+					   WHEN T1.MNG_FEE_JOB_SE='E' THEN '[E]:전기시설'
+					   ELSE '[' || T1.MNG_FEE_JOB_SE || ']:' || 'UNKNOWN'
+				  END) AS MNG_FEE_JOB_SE_NM
+				,T2.MNG_FEE_FCLTY_NM
+			FROM GAS_USAGE_STTUS_F T1
+			LEFT OUTER JOIN MNG_FEE_FCLTY_CD_F T2 ON (T1.MNG_FEE_FCLTY_CD = T2.MNG_FEE_FCLTY_CD AND T1.MNG_FEE_JOB_SE = T2.MNG_FEE_JOB_SE)
+		WHERE T1.USAGE_MT = #usageMtYear# || #usageMtMon#
+		AND T1.MNG_FEE_FCLTY_CD = #mngFeeFcltyCd#
+		AND T1.MNG_FEE_JOB_SE = #mngFeeJobSe#
+	</select>
+
 	<select id="gamGasUsageSttusMngDao.selectGasUsageSttusMngChartList_D" parameterClass="gamGasUsageSttusMngVo" resultClass="egovMap">
 		SELECT /*+ INDEX (T2 PK_GAS_USAGE_STTUS_F) */
 				 T1.MT

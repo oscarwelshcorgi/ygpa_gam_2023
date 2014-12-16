@@ -49,7 +49,7 @@ GamGasUsageSttusMngModule.prototype.loadComplete = function() {
 
 	this.$("#mainGrid").flexigrid({
 		module : this,
-		url : '<c:url value="/mngFee/gamSelectGasUsageSttusMng.do" />',
+		url : '/mngFee/gamSelectGasUsageSttusMng.do',
 		dataType : 'json',
 		colModel : [
 					{display:'업무 구분',	 	name:'mngFeeJobSeNm',	width:120, 		sortable:false,		align:'center'},
@@ -68,23 +68,30 @@ GamGasUsageSttusMngModule.prototype.loadComplete = function() {
 		}
 	});
 
+	this.$("#mainGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectData();
+	});
+
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mode = 'modify';
+		module._mainKeyValue = row.mngFeeFcltyCd + row.usageMt + row.mngFeeJobSe;
+		module.enableListButtonItem();
 	});
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._mode = 'modify';
+		module._mainKeyValue = row.mngFeeFcltyCd + row.usageMt + row.mngFeeJobSe;
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
 	this.$('#usageMtYear').on('change',{module:this}, function(event){
-		var module=event.data.module;
-		module.getPrevMtUsageQy();
+		event.data.module.setUsageMt();
+		event.data.module.getPrevMtUsageQy();
 	});
 
 	this.$('#usageMtMon').on('change',{module:this}, function(event){
-		var module=event.data.module;
-		module.getPrevMtUsageQy();
+		event.data.module.setUsageMt();
+		event.data.module.getPrevMtUsageQy();
 	});
 
 	this.$('#mngFeeJobSe').on('change',{module:this}, function(event){
@@ -112,6 +119,8 @@ GamGasUsageSttusMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$('#sApplcCoef').val('0.63');
+	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -123,12 +132,12 @@ GamGasUsageSttusMngModule.prototype.loadComplete = function() {
 **/
 %>
 GamGasUsageSttusMngModule.prototype.drawChart = function() {
+
 	var netUsageQyArr=[];
 	var maxNetUsageQy=0;
 	var netUsageQy=0;
 	var searchVO = this.makeFormArgs("#detailForm");
-
-	this.doAction('<c:url value="/mngFee/gamGasUsageSttusMngChart.do" />', searchVO, function(module, result) {
+	this.doAction('/mngFee/gamGasUsageSttusMngChart.do', searchVO, function(module, result) {
 		if (result.resultCode == "0") {
 			for (var i=0; i<12; i++) {
 				netUsageQy=result.resultList[i]['netUsageQy']*1;
@@ -154,6 +163,7 @@ GamGasUsageSttusMngModule.prototype.drawChart = function() {
 				color			: "#000BE0",
 	            gradient		: "rising",
 				width			: 30,
+				label			: "#gauge#",
 				tooltip			: "#gauge# kcal/h",
 				xAxis			: {
 					title 		: "가스 사용 현황",
@@ -178,6 +188,7 @@ GamGasUsageSttusMngModule.prototype.drawChart = function() {
 		module.barChart.parse(netUsageQyArr, "json");
 		module.barChart.refresh();
 	});
+
 };
 
 <%
@@ -192,12 +203,21 @@ GamGasUsageSttusMngModule.prototype.onButtonClick = function(buttonId) {
 
 	switch (buttonId) {
 		case 'btnAdd':
-	    	this.addData();
+			this._mode = 'insert';
+			this._mainKeyValue = '';
+			this.$("#mainTab").tabs("option", {active: 1});
 			break;
 	    case 'btnSave':
 	    	this.saveData();
 			break;
 		case 'btnDelete':
+			if (this._mode=="modify") {
+				this.loadDetail('listTab');
+				this.enableDetailInputItem();
+				this.deleteData();
+			}
+			break;
+		case 'btnRemove':
 			this.deleteData();
 			break;
 		case 'btnExcelDownload':
@@ -216,7 +236,10 @@ GamGasUsageSttusMngModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamGasUsageSttusMngModule.prototype.onSubmit = function() {
 
+	this._mode = 'query';
+	this._mainKeyValue = '';
 	this.loadData();
+	this.enableListButtonItem();
 
 };
 
@@ -237,25 +260,75 @@ GamGasUsageSttusMngModule.prototype.loadData = function() {
 
 <%
 /**
- * @FUNCTION NAME : loadDetail
- * @DESCRIPTION   : 상세항목을 로딩 한다.
+ * @FUNCTION NAME : refreshData
+ * @DESCRIPTION   : DATA REFRESH (LIST)
  * @PARAMETER     : NONE
 **/
 %>
-GamGasUsageSttusMngModule.prototype.loadDetail = function() {
+ GamGasUsageSttusMngModule.prototype.refreshData = function() {
 
-	var row = this.$('#mainGrid').selectedRows();
+	var searchOpt=this.makeFormArgs('#searchForm');
+	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 
-	if (row.length==0) {
-		alert('선택된 항목이 없습니다.');
-		this.$("#mainTab").tabs("option", {active: 0});
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadDetail
+ * @DESCRIPTION   : 상세항목을 로딩 한다.
+ * @PARAMETER     :
+ *   1. tabId - TAB ID
+**/
+%>
+GamGasUsageSttusMngModule.prototype.loadDetail = function(tabId) {
+
+	if (tabId == 'listTab') {
+		var row = this.$('#mainGrid').selectedRows();
+		if (row.length==0) {
+			alert('선택된 항목이 없습니다.');
+			this.$("#mainTab").tabs("option", {active: 0});
+			return;
+		}
+		this.makeFormValues('#detailForm', row[0]);
+		this.makeDivValues('#detailForm', row[0]);
+	} else {
+		var searchVO = this.getFormValues('#detailForm');
+		this.doAction('/mngFee/gamSelectGasUsageSttusMngPk.do', searchVO, function(module, result){
+			if (result.resultCode == "0") {
+				module.makeFormValues('#detailForm', result.result);
+				module.makeDivValues('#detailForm', result.result);
+			}
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectData
+ * @DESCRIPTION   : DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamGasUsageSttusMngModule.prototype.selectData = function() {
+
+	if (this._mode == 'query') {
+		var gridRowCount = this.$("#mainGrid").flexRowCount();
+		if (gridRowCount == 0) {
+			alert('해당 조건의 자료가 존재하지 않습니다!');
+		}
+		return;
+	} else if (this._mode != 'insert' && this._mode != 'modify') {
 		return;
 	}
-	this.$('#usageMtYear').disable();
-	this.$('#usageMtMon').disable();
-	this.$('#mngFeeJobSe').disable();
-	this.makeFormValues('#detailForm', row[0]);
-	this.makeDivValues('#detailForm', row[0]);
+	var mainKeyValue = this._mainKeyValue;
+	if (mainKeyValue == "") {
+		return;
+	}
+	this._mode = 'modify';
+	this.loadDetail('detailTab');
+	this.enableDetailInputItem();
+	this.drawChart();
 
 };
 
@@ -268,27 +341,35 @@ GamGasUsageSttusMngModule.prototype.loadDetail = function() {
 %>
 GamGasUsageSttusMngModule.prototype.addData = function() {
 
-	var usageMtYear = new Date().getFullYear();
-	var usageMtMon = new Date().getMonth()+1;
-	var sMngFeeJobSe = this.$('#sMngFeeJobSe').val();
+	var usageMtYear = this.$('#sUsageYear').val();
+	var usageMtMon = this.$('#sUsageMt').val();
+	var mngFeeJobSe = this.$('#sMngFeeJobSe').val();
 	var sApplcCoef = Number(this.$('#sApplcCoef').val().replace(/,/gi, ""));
-	this._mode="insert";
-	this.$("#mainTab").tabs("option", {active: 1});
+	if (usageMtYear == "") {
+		usageMtYear = new Date().getFullYear();
+	}
 	this.$('#usageMtYear').val(usageMtYear);
-	if(usageMtMon.length==1) {
+	if (usageMtMon == "") {
+		usageMtMon = new Date().getMonth()+1;
+	}
+	if (usageMtMon.length==1) {
 		usageMtMon="0"+usageMtMon;
 	}
 	this.$('#usageMtMon').val(usageMtMon);
-	if (sMngFeeJobSe == 'M') {
-		this.$('#mngFeeJobSe').val('M');
-		this.$('#mngFeeFcltyCd').val(sMngFeeJobSe + '000');
+	this.$('#usageMt').val(usageMtYear + usageMtMon);
+	if (mngFeeJobSe == "M") {
+		this.$('#mngFeeJobSe').val(mngFeeJobSe);
+		this.$('#mngFeeJobSeNm').val('[M]:마린센터');
+		this.$('#mngFeeFcltyCd').val(mngFeeJobSe + '000');
 		this.$('#mngFeeFcltyNm').val('마린센터');
-	} else if (sMngFeeJobSe == 'E') {
-		this.$('#mngFeeJobSe').val('E');
-		this.$('#mngFeeFcltyCd').val(sMngFeeJobSe + '000');
+	} else if (mngFeeJobSe == "E") {
+		this.$('#mngFeeJobSe').val(mngFeeJobSe);
+		this.$('#mngFeeJobSeNm').val('[E]:전기시설');
+		this.$('#mngFeeFcltyCd').val(mngFeeJobSe + '000');
 		this.$('#mngFeeFcltyNm').val('전기시설');
 	} else {
 		this.$('#mngFeeJobSe').val('M');
+		this.$('#mngFeeJobSeNm').val('[M]:마린센터');
 		this.$('#mngFeeFcltyCd').val('M000');
 		this.$('#mngFeeFcltyNm').val('마린센터');
 	}
@@ -296,6 +377,8 @@ GamGasUsageSttusMngModule.prototype.addData = function() {
 	this.$('#saidMtUsageQy').val('0');
 	this.$('#applcCoef').val(sApplcCoef);
 	this.$('#netUsageQy').val('0');
+	this.enableDetailInputItem();
+	this.$('#usageMtYear').focus();
 
 };
 
@@ -311,7 +394,11 @@ GamGasUsageSttusMngModule.prototype.saveData = function() {
 	var inputVO = this.makeFormArgs("#detailForm");
 	var usageMtYear = this.$('#usageMtYear').val();
 	var usageMtMon = this.$('#usageMtMon').val();
+	var mngFeeJobSe = this.$('#mngFeeJobSe').val();
 	var mngFeeFcltyCd = this.$('#mngFeeFcltyCd').val();
+	var prevMtUsageQy = Number(this.$('#prevMtUsageQy').val().replace(/,/gi, ""));
+	var saidMtUsageQy = Number(this.$('#saidMtUsageQy').val().replace(/,/gi, ""));
+	var netUsageQy = Number(this.$('#netUsageQy').val().replace(/,/gi, ""));
 	var applcCoef = Number(this.$('#applcCoef').val().replace(/,/gi, ""));
 	if (usageMtYear > "9999"  || usageMtYear < "2000" || usageMtYear == "") {
 		alert('사용 년도가 부정확합니다.');
@@ -323,7 +410,7 @@ GamGasUsageSttusMngModule.prototype.saveData = function() {
 		this.$("#usageMtMon").focus();
 		return;
 	}
-	if (this.$('#mngFeeJobSe').val() == "") {
+	if (mngFeeJobSe != "M" && mngFeeJobSe != "E") {
 		alert('업무 구분이 부정확합니다.');
 		this.$("#mngFeeJobSe").focus();
 		return;
@@ -333,22 +420,37 @@ GamGasUsageSttusMngModule.prototype.saveData = function() {
 		this.$("#mngFeeFcltyCd").focus();
 		return;
 	}
+	if (prevMtUsageQy > 99999999.99 || prevMtUsageQy < 0) {
+		alert('전월 사용 량이 부정확합니다.');
+		return;
+	}
+	if (saidMtUsageQy > 99999999.99 || saidMtUsageQy < 0) {
+		alert('당월 사용 량이 부정확합니다.');
+		this.$("#saidMtUsageQy").focus();
+		return;
+	}
 	if (applcCoef >= 1  || applcCoef < 0) {
 		alert('적용 계수가 부정확합니다.');
 		this.$("#applcCoef").focus();
 		return;
 	}
+	if (netUsageQy > 99999999.99 || netUsageQy < 0) {
+		alert('순 사용 량이 부정확합니다.');
+		this.$("#netUsageQy").focus();
+		return;
+	}
 	if (this._mode == "insert") {
-		this.doAction('<c:url value="/mngFee/gamInsertGasUsageSttusMng.do" />', inputVO, function(module, result) {
+		this._mainKeyValue = mngFeeFcltyCd + usageMtYear + usageMtMon + mngFeeJobSe;
+		this.doAction('/mngFee/gamInsertGasUsageSttusMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module.loadData();
+				module.refreshData();
 			}
 			alert(result.resultMsg);
 		});
 	} else {
-		this.doAction('<c:url value="/mngFee/gamUpdateGasUsageSttusMng.do" />', inputVO, function(module, result) {
+		this.doAction('/mngFee/gamUpdateGasUsageSttusMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module.loadData();
+				module.refreshData();
 			}
 			alert(result.resultMsg);
 		});
@@ -365,35 +467,36 @@ GamGasUsageSttusMngModule.prototype.saveData = function() {
 %>
 GamGasUsageSttusMngModule.prototype.deleteData = function() {
 
-	var row = this.$('#mainGrid').selectedRows();
-	if (row.length==0) {
-		alert('선택된 항목이 없습니다.');
-		this.$("#mainTab").tabs("option", {active: 0});
-		return;
-	}
-	if (this.$('#usageMtYear').val() == "") {
+	var usageMtYear = this.$('#usageMtYear').val();
+	var usageMtMon = this.$('#usageMtMon').val();
+	var mngFeeJobSe = this.$('#mngFeeJobSe').val();
+	var mngFeeFcltyCd = this.$('#mngFeeFcltyCd').val();
+	if (usageMtYear == "") {
 		alert('사용 년도가 부정확합니다.');
 		this.$("#usageMtYear").focus();
 		return;
 	}
-	if (this.$('#usageMtMon').val() == "") {
+	if (usageMtMon == "") {
 		alert('사용 월이 부정확합니다.');
 		this.$("#usageMtMon").focus();
 		return;
 	}
-	if (this.$('#mngFeeJobSe').val() == "") {
+	if (mngFeeJobSe == "") {
 		alert('업무 구분이 부정확합니다.');
 		this.$("#mngFeeJobSe").focus();
 		return;
 	}
-	if (this.$('#mngFeeFcltyCd').val() == "") {
+	if (mngFeeFcltyCd == "") {
 		alert('시설 코드가 부정확합니다.');
 		this.$("#mngFeeFcltyCd").focus();
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
-		this.doAction('<c:url value="/mngFee/gamDeleteGasUsageSttusMng.do" />', row[0], function(module, result) {
+		var deleteVO = this.makeFormArgs("#detailForm");
+		this.doAction('/mngFee/gamDeleteGasUsageSttusMng.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
+				this._mode = 'query';
+				this._mainKeyValue = '';
 				module.loadData();
 			}
 			alert(result.resultMsg);
@@ -411,12 +514,31 @@ GamGasUsageSttusMngModule.prototype.deleteData = function() {
 %>
 GamGasUsageSttusMngModule.prototype.downloadExcel = function() {
 
-	var totalCount = Number(this.$('#totalCount').val().replace(/,/gi, ""));
-	if (totalCount <= 0) {
+	var mainGridRowCount = this.$("#mainGrid").flexRowCount();
+	if (mainGridRowCount <= 0) {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
 	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelGasUsageSttusMng.do');
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : setUsageMt
+ * @DESCRIPTION   : 사용 월을 설정한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamGasUsageSttusMngModule.prototype.setUsageMt = function() {
+
+	var usageMtYear = this.$('#usageMtYear').val();
+	var usageMtMon = this.$('#usageMtMon').val();
+	var usageMt = "";
+	if (usageMtYear != "" && usageMtMon != "") {
+		usageMt = usageMtYear + usageMtMon;
+	}
+	this.$('#usageMt').val(usageMt);
 
 };
 
@@ -455,13 +577,112 @@ GamGasUsageSttusMngModule.prototype.getPrevMtUsageQy = function() {
 		this.$('#prevMtUsageQy').val('0');
 		return;
 	}
-	this.doAction('<c:url value="/mngFee/gamGasUsageSttusMngPrevMtUsageQy.do" />', searchVO, function(module, result) {
+	this.doAction('/mngFee/gamGasUsageSttusMngPrevMtUsageQy.do', searchVO, function(module, result) {
 		if (result.resultCode == "0") {
 			module.$('#prevMtUsageQy').val('' + $.number(result.sPrevMtUsageQy));
 		} else {
 			module.$('#prevMtUsageQy').val('0');
 		}
 	});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : enableListButtonItem
+ * @DESCRIPTION   : LIST 버튼항목을 ENABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamGasUsageSttusMngModule.prototype.enableListButtonItem = function() {
+
+	if (this._mode == "insert") {
+		this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+	} else {
+		this.$('#btnAdd').enable();
+		this.$('#btnAdd').removeClass('ui-state-disabled');
+		var row = this.$('#mainGrid').selectedRows()[0];
+		if (row == null) {
+			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+			return;
+		}
+		if (this._mainKeyValue != "") {
+			this.$('#btnDelete').enable();
+			this.$('#btnDelete').removeClass('ui-state-disabled');
+		} else {
+			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : enableDetailInputItem
+ * @DESCRIPTION   : DETAIL 입력항목을 ENABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamGasUsageSttusMngModule.prototype.enableDetailInputItem = function() {
+
+	if (this._mode == "insert") {
+		this.$('#usageMtYear').enable();
+		this.$('#usageMtMon').enable();
+		this.$('#mngFeeJobSe').enable();
+		this.$('#prevMtUsageQy').enable();
+		this.$('#saidMtUsageQy').enable();
+		this.$('#applcCoef').enable();
+		this.$('#netUsageQy').enable();
+		this.$('#btnSave').enable();
+		this.$('#btnSave').removeClass('ui-state-disabled');
+		this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+	} else {
+		if (this._mainKeyValue != "") {
+			this.$('#usageMtYear').disable();
+			this.$('#usageMtMon').disable();
+			this.$('#mngFeeJobSe').disable();
+			this.$('#prevMtUsageQy').enable();
+			this.$('#saidMtUsageQy').enable();
+			this.$('#applcCoef').enable();
+			this.$('#netUsageQy').enable();
+			this.$('#btnSave').enable();
+			this.$('#btnSave').removeClass('ui-state-disabled');
+			this.$('#btnRemove').enable();
+			this.$('#btnRemove').removeClass('ui-state-disabled');
+		} else {
+			this.$('#usageMtYear').disable();
+			this.$('#usageMtMon').disable();
+			this.$('#mngFeeJobSe').disable();
+			this.$('#prevMtUsageQy').disable();
+			this.$('#saidMtUsageQy').disable();
+			this.$('#applcCoef').disable();
+			this.$('#netUsageQy').disable();
+			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : disableDetailInputItem
+ * @DESCRIPTION   : DETAIL 입력항목을 DISABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamGasUsageSttusMngModule.prototype.disableDetailInputItem = function() {
+
+	this.$('#usageMtYear').disable();
+	this.$('#usageMtMon').disable();
+	this.$('#mngFeeJobSe').disable();
+	this.$('#prevMtUsageQy').disable();
+	this.$('#saidMtUsageQy').disable();
+	this.$('#applcCoef').disable();
+	this.$('#netUsageQy').disable();
+	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -481,13 +702,17 @@ GamGasUsageSttusMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			break;
 		case 'detailTab':
 			if (this._mode=="modify") {
-				this.loadDetail();
+				this.loadDetail(oldTabId);
+				this.enableDetailInputItem();
+			} else if (this._mode=="insert") {
+				this.makeFormValues('#detailForm', {});
+				this.makeDivValues('#detailForm', {});
+				this.disableDetailInputItem();
+				this.addData();
 			} else {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
-				this.$('#usageMtYear').enable();
-				this.$('#usageMtMon').enable();
-				this.$('#mngFeeJobSe').enable();
+				this.disableDetailInputItem();
 			}
 			this.drawChart();
 			break;
@@ -574,18 +799,18 @@ var module_instance = new GamGasUsageSttusMngModule();
 				<li><a href="#detailTab" class="emdTab">가스 사용현황 상세</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
-			<div id="listTab" class="emdTabPage fillHeight" style="overflow: hidden;" >
-				<table id="mainGrid" style="display:none" class="fillHeight"></table>
+			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
+				<table id="mainGrid" style="display:none;" class="fillHeight"></table>
 				<div id="listSumPanel" class="emdControlPanel">
 					<form id="listSumForm">
 						<table style="width:100%;">
 							<tr>
-								<th width="20%" height="20" style="text-align: center">조회 자료수</th>
+								<th style="width:20%; height:20; text-align:center;">조회 자료수</th>
 								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
-								<td style="text-align: right">
-									<button data-cmd="btnAdd">추가</button>
-									<button data-cmd="btnDelete">삭제</button>
-	                                <button data-cmd="btnExcelDownload">엑셀다운로드</button>
+								<td style="text-align:right;">
+									<button id="btnAdd">추가</button>
+									<button id="btnDelete">삭제</button>
+	                                <button id="btnExcelDownload">엑셀다운로드</button>
 								</td>
 							</tr>
 						</table>
@@ -596,10 +821,11 @@ var module_instance = new GamGasUsageSttusMngModule();
 			<div id="detailTab" class="emdTabPage" style="overflow:scroll;">
 				<div class="emdControlPanel">
 					<form id="detailForm">
-						<table class="detailPanel" style="width:100%">
+						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th width="15%" height="26">사용 년월</th>
-								<td >
+								<th style="width:15%; height:26;">사용 년월</th>
+								<td>
+									<input id="usageMt" type="hidden"/>
 									<select id="usageMtYear" class='selt'>
 										<option value="">선택</option>
 										<c:forEach items="${yearsList}" var="yearListItem">
@@ -627,8 +853,9 @@ var module_instance = new GamGasUsageSttusMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">업무 구분</th>
-								<td >
+								<th style="width:15%; height:26;">업무 구분</th>
+								<td>
+									<input id="mngFeeJobSeNm" type="hidden"/>
 									<select id="mngFeeJobSe">
 										<option value="M">마린센터</option>
 										<option value="E">전기시설</option>
@@ -636,53 +863,52 @@ var module_instance = new GamGasUsageSttusMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">시설 코드</th>
-								<td ><input type="text" size="20" id="mngFeeFcltyCd" disabled/></td>
+								<th style="width:15%; height:26;">시설 코드</th>
+								<td><input type="text" size="20" id="mngFeeFcltyCd" disabled/></td>
 							</tr>
 							<tr>
 								<th width="15%" height="26">시설 명</th>
-								<td ><input type="text" size="20" id="mngFeeFcltyNm" disabled/></td>
+								<td><input type="text" size="20" id="mngFeeFcltyNm" disabled/></td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">전월 사용 량</th>
-								<td ><input type="text" size="20" id="prevMtUsageQy" disabled/></td>
+								<th style="width:15%; height:26;">전월 사용 량</th>
+								<td><input type="text" size="20" id="prevMtUsageQy" disabled/></td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">당월 사용 량</th>
-								<td ><input type="text" size="20" id="saidMtUsageQy"/></td>
+								<th style="width:15%; height:26;">당월 사용 량</th>
+								<td><input type="text" size="20" id="saidMtUsageQy"/></td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">적용 계수</th>
-								<td ><input type="text" size="20" id="applcCoef"/></td>
+								<th style="width:15%; height:26;">적용 계수</th>
+								<td><input type="text" size="20" id="applcCoef"/></td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">순 사용 량</th>
-								<td ><input type="text" size="20" id="netUsageQy"/></td>
+								<th style="width:15%; height:26;">순 사용 량</th>
+								<td><input type="text" size="20" id="netUsageQy"/></td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">등록자</th>
+								<th style="width:15%; height:26;">등록자</th>
                                	<td><span data-column-id="regUsr"></span></td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">등록일시</th>
+								<th style="width:15%; height:26;">등록일시</th>
 								<td><span data-column-id="registDt"></span></td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">수정자</th>
+								<th style="width:15%; height:26;">수정자</th>
                                	<td><span data-column-id="updUsr"></span></td>
 							</tr>
 							<tr>
-								<th width="15%" height="26">수정일시</th>
+								<th style="width:15%; height:26;">수정일시</th>
 								<td><span data-column-id="updtDt"></span></td>
 							</tr>
 						</table>
 					</form>
-					<table style="width:100%">
+					<table style="width:100%;">
 						<tr>
-							<td width="100"></td>
-							<td style="text-align:right">
-								<button data-cmd="btnSave" class="buttonSave">저장</button>
-								<button data-cmd="btnDelete" class="buttonDelete">삭제</button>
+							<td style="text-align:right;">
+								<button id="btnSave" class="buttonSave">저장</button>
+								<button id="btnRemove" class="buttonDelete">삭제</button>
 							</td>
 						</tr>
 					</table>

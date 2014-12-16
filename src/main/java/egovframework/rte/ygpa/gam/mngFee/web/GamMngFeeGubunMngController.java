@@ -84,7 +84,7 @@ public class GamMngFeeGubunMngController {
 	@RequestMapping(value="/mngFee/gamSelectMngFeeGubunMng.do" , method=RequestMethod.POST)
 	@ResponseBody Map selectMngFeeGubunMngList(GamMngFeeGubunMngVo searchVO) throws Exception {
 
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		Map map = new HashMap();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -112,6 +112,34 @@ public class GamMngFeeGubunMngController {
 
 		return map;
 
+	}
+
+	@RequestMapping(value="/mngFee/gamSelectMngFeeGubunMngPk.do")
+	@ResponseBody Map<String, Object> selectMngFeeGubunMngPk(GamMngFeeGubunMngVo searchVO)	throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			Map result = gamMngFeeGubunMngService.selectMngFeeGubunMngPk(searchVO);
+
+			map.put("resultCode", 0);
+			map.put("result", result);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+		}
+
+		return map;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -212,7 +240,6 @@ public class GamMngFeeGubunMngController {
 	@RequestMapping(value="/mngFee/gamDeleteMngFeeGubunMng.do")
 	@ResponseBody Map<String, Object> deleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo)	throws Exception {
 
-		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -240,7 +267,6 @@ public class GamMngFeeGubunMngController {
 	@RequestMapping(value="/mngFee/gamCheckSeFeeGubunMng.do")
 	@ResponseBody Map<String, Object> checkSeFeeGubunMng(@RequestParam("checkSe") String checkSe)	throws Exception {
 
-		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

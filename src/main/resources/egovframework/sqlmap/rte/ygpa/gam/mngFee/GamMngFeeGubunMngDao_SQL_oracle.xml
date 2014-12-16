@@ -37,6 +37,18 @@
 		]]>
 	</select>
 
+	<select id="gamMngFeeGubunMngDao.selectMngFeeGubunMngPk_S" parameterClass="gamMngFeeGubunMngVo" resultClass="egovMap">
+		SELECT
+				 MNG_FEE_FCLTY_SE
+				,MNG_FEE_FCLTY_SE_NM
+				,REG_USR
+				,TO_CHAR(REGIST_DT, 'YYYY-MM-DD HH24:MI:SS') REGIST_DT
+				,UPD_USR
+				,TO_CHAR(UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') UPDT_DT
+			FROM MNG_FEE_FCLTY_SE_F
+		WHERE MNG_FEE_FCLTY_SE = #mngFeeFcltySe#
+	</select>
+
 	<select id="gamMngFeeGubunMngDao.selectMngFeeGubunMngListTotCnt_S" parameterClass="gamMngFeeGubunMngVo" resultClass="int">
 		SELECT COUNT(*) totcnt
 			FROM MNG_FEE_FCLTY_SE_F

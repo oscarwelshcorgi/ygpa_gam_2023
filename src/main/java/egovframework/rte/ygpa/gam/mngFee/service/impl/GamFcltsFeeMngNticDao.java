@@ -12,7 +12,6 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticDetailVo;
-import egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeCodeMngVo;
 
 /**
  *
@@ -47,6 +46,14 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	 */
 	public List selectFcltsFeeMngNticList(GamFcltsFeeMngNticVo searchVO) {
 		return list("gamFcltsFeeMngNticDao.selectFcltsFeeMngNticList_D", searchVO);
+	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public EgovMap selectFcltsFeeMngNticPk(GamFcltsFeeMngNticVo searchVO) {
+		return (EgovMap)selectByPk("gamFcltsFeeMngNticDao.selectFcltsFeeMngNticPk_S", searchVO);
 	}
 
 	/**

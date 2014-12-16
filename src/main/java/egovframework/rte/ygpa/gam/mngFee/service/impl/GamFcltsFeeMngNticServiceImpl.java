@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticDetailVo;
@@ -47,6 +48,11 @@ public class GamFcltsFeeMngNticServiceImpl extends AbstractServiceImpl implement
 	@Override
 	public List selectFcltsFeeMngNticList(GamFcltsFeeMngNticVo searchVO) throws Exception {
 		return gamFcltsFeeMngNticDao.selectFcltsFeeMngNticList(searchVO);
+	}
+
+	@Override
+	public EgovMap selectFcltsFeeMngNticPk(GamFcltsFeeMngNticVo searchVO) throws Exception {
+		return gamFcltsFeeMngNticDao.selectFcltsFeeMngNticPk(searchVO);
 	}
 
 	@Override

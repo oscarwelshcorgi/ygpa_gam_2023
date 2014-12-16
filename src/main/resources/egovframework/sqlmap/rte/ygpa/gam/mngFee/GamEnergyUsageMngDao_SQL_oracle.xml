@@ -65,6 +65,25 @@
 		</isNotEmpty>
 	</select>
 
+	<select id="gamEnergyUsageMngDao.selectEnergyUsageMngPk_S" parameterClass="gamEnergyUsageMngVo" resultClass="egovMap">
+		SELECT
+				 FUEL_CD
+				,FUEL_NM
+				,ENERGY_UNIT
+				,LTRIM(TO_CHAR(NVL(ENERGY_TOTAL_CAL_VAL,0),'999,999,990.0')) AS ENERGY_TOTAL_CAL_VAL
+				,LTRIM(TO_CHAR(NVL(ENERGY_NET_CAL_VAL,0),'999,999,990.0')) AS ENERGY_NET_CAL_VAL
+				,GR_HSE_UNIT
+				,LTRIM(TO_CHAR(NVL(GR_HSE_COEF,0),'0.9999')) AS GR_HSE_COEF
+				,MNG_YEAR
+				,REG_USR
+				,TO_CHAR(REGIST_DT, 'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,UPD_USR
+				,TO_CHAR(UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+			FROM ENERGY_USAGEQY_COEF_F
+		WHERE MNG_YEAR = #mngYear#
+		AND FUEL_CD = #fuelCd#
+	</select>
+
 	<select id="gamEnergyUsageMngDao.selectEnergyUsageMngYearCntList_S" parameterClass="gamEnergyUsageMngVo" resultClass="egovMap">
 		SELECT COUNT(*) AS YEAR_CNT
 			FROM ENERGY_USAGEQY_COEF_F

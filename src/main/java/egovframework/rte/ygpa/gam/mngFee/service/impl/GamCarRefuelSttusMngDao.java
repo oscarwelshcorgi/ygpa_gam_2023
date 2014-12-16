@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.mngFee.service.GamCarRefuelSttusMngVo;
 
 /**
@@ -30,29 +31,35 @@ import egovframework.rte.ygpa.gam.mngFee.service.GamCarRefuelSttusMngVo;
 public class GamCarRefuelSttusMngDao extends YGPAAbstractDAO{
 
 	/**
-	 * @param gamCarRefuelSttusMngVo
+	 * @param searchVO
 	 * @return
 	 */
-	public int selectCarRefuelSttusMngListTotCnt(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) {
-		// TODO Auto-generated method stub
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamCarRefuelSttusMngDao.selectCarRefuelSttusMngListTotCnt_S", gamCarRefuelSttusMngVo);
+	public int selectCarRefuelSttusMngListTotCnt(GamCarRefuelSttusMngVo searchVO) {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamCarRefuelSttusMngDao.selectCarRefuelSttusMngListTotCnt_S", searchVO);
 	}
 
 	/**
-	 * @param gamCarRefuelSttusMngVo
+	 * @param searchVO
 	 * @return
 	 */
-	public List selectCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) {
+	public List selectCarRefuelSttusMngList(GamCarRefuelSttusMngVo searchVO) {
 		// TODO Auto-generated method stub
-		return list("gamCarRefuelSttusMngDao.selectCarRefuelSttusMngList_D", gamCarRefuelSttusMngVo);
+		return list("gamCarRefuelSttusMngDao.selectCarRefuelSttusMngList_D", searchVO);
 
+	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public EgovMap selectCarRefuelSttusMngPk(GamCarRefuelSttusMngVo searchVO) {
+		return (EgovMap)selectByPk("gamCarRefuelSttusMngDao.selectCarRefuelSttusMngPk_S", searchVO);
 	}
 
 	/**
 	 * @param gamCarRefuelSttusMngVo
 	 */
 	public void insertCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) {
-		// TODO Auto-generated method stub
 		insert("gamCarRefuelSttusMngDao.insertCarRefuelSttusMngList_S", gamCarRefuelSttusMngVo);
 	}
 
@@ -60,7 +67,6 @@ public class GamCarRefuelSttusMngDao extends YGPAAbstractDAO{
 	 * @param gamCarRefuelSttusMngVo
 	 */
 	public void updateCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) {
-		// TODO Auto-generated method stub
 		update("gamCarRefuelSttusMngDao.updateCarRefuelSttusMngList_S", gamCarRefuelSttusMngVo);
 	}
 
@@ -68,7 +74,6 @@ public class GamCarRefuelSttusMngDao extends YGPAAbstractDAO{
 	 * @param gamCarRefuelSttusMngVo
 	 */
 	public void deleteCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) {
-		// TODO Auto-generated method stub
 		delete("gamCarRefuelSttusMngDao.deleteCarRefuelSttusMngList_S", gamCarRefuelSttusMngVo);
 	}
 

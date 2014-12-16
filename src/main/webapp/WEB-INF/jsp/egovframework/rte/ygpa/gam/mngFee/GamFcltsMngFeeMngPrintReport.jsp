@@ -39,6 +39,38 @@
 					window.print();
 				});
 			});
+			body {
+				margin : 0;
+				padding : 0;
+				font-family : 굴림체;
+				font-size : 12px;
+			};
+			div.d1title {
+				width:20%;
+				height:25;
+				border-right-style : solid;
+				text-align : center;
+				font-family : 굴림체;
+				font-size : 12px;
+			};
+			div.d2title {
+				width:20%;
+				height:25;
+				border-right-style : solid;
+				border-bottom-style : solid;
+				text-align : center;
+				font-family : 굴림체;
+				font-size : 12px;
+			};
+			div.d3title {
+				width:20%;
+				height:25;
+				border-right-style : solid;
+				border-bottom-style : solid;
+				text-align : center;
+				font-family : 굴림체;
+				font-size : 12px;
+			};
 		</script>
 	</head>
 	<body>
@@ -137,25 +169,25 @@
 									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"> </td>
 									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"> </td>
 									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"> </td>
-									<td style="width:20%; height:25; text-align:center; border-right-style: solid;"> </td>
+									<td style="width:20%; height:25; text-align:center;"> </td>
 								</tr>
 							</tbody>
 						</table>
 						<br />
 						<br />
-						<p align="center"><c:out value="${mngYrMt }" />분 임대료 및 관리비를 <c:out value="${payTmlmt }" />까지</p>
+						<p style="text-align:center;"><c:out value="${mngYrMt }" />분 임대료 및 관리비를 <c:out value="${payTmlmt }" />까지</p>
 						<br />
-						<p align="center">아래의 계좌로 입금하여 주시기 바랍니다.</p>
-						<br />
-						<br />
-						<p align="center">은 행 명 : <c:out value="${bankNm }" /></p>
-						<br />
-						<p align="center">계좌번호 : <c:out value="${bankAccountNo }" /></p>
-						<br />
-						<p align="center">예 금 주 : <c:out value="${bankOwnerNm }" /></p>
+						<p style="text-align:center;">아래의 계좌로 입금하여 주시기 바랍니다.</p>
 						<br />
 						<br />
-						<p align="center"><c:out value="${nticDt }" /></p>
+						<p style="text-align:center;">은 행 명 : <c:out value="${bankNm }" /></p>
+						<br />
+						<p style="text-align:center;">계좌번호 : <c:out value="${bankAccountNo }" /></p>
+						<br />
+						<p style="text-align:center;">예 금 주 : <c:out value="${bankOwnerNm }" /></p>
+						<br />
+						<br />
+						<p style="text-align:center;"><c:out value="${nticDt }" /></p>
 						<br />
 						<br />
 						<br />

@@ -79,18 +79,28 @@ GamCarRefuelSttusMngModule.prototype.loadComplete = function() {
 		}
 	});
 
+	this.$("#mainGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectData();
+	});
+
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mode = 'modify';
+		module._mainKeyValue = row.carRegistNo;
+		module.enableListButtonItem();
 	});
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._mode = 'modify';
+		module._mainKeyValue = row.carRegistNo;
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
 	this.$('#sRefuelMt').on('change', {module: this}, function(event) {
 		event.data.module.$('#refuelMt').val(event.data.module.$('#sRefuelMt').val());
 	});
+
+	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -102,11 +112,11 @@ GamCarRefuelSttusMngModule.prototype.loadComplete = function() {
 **/
 %>
 GamCarRefuelSttusMngModule.prototype.drawChart = function() {
+
 	var values = this.getFormValues('#detailForm');
 	var fuelArr=[];
 	var maxFuel=0;
 	var fuel=0;
-
 	for (var i=0; i<12; i++) {
 		fuel=values['m'+(i+1)].replace(",","")*1;
 		fuelArr[i]={month: (i+1), gauge: fuel};
@@ -125,6 +135,7 @@ GamCarRefuelSttusMngModule.prototype.drawChart = function() {
 			color			: "#000BE0",
             gradient		: "rising",
 			width			: 30,
+			label			: "#gauge#",
 			tooltip			: "#gauge# 리터",
 			xAxis			: {
 				title 		: "차량 연간 주유 현황",
@@ -148,6 +159,7 @@ GamCarRefuelSttusMngModule.prototype.drawChart = function() {
 	}
 	this.barChart.parse(fuelArr, "json");
 	this.barChart.refresh();
+
 };
 
 <%
@@ -162,12 +174,21 @@ GamCarRefuelSttusMngModule.prototype.onButtonClick = function(buttonId) {
 
 	switch (buttonId) {
 		case 'btnAdd':
-	    	this.addData();
+			this._mode = 'insert';
+			this._mainKeyValue = '';
+			this.$("#mainTab").tabs("option", {active: 1});
 			break;
 	    case 'btnSave':
 	    	this.saveData();
 			break;
 		case 'btnDelete':
+			if (this._mode=="modify") {
+				this.loadDetail('listTab');
+				this.enableDetailInputItem();
+				this.deleteData();
+			}
+			break;
+		case 'btnRemove':
 			this.deleteData();
 			break;
 		case 'btnExcelDownload':
@@ -186,7 +207,10 @@ GamCarRefuelSttusMngModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamCarRefuelSttusMngModule.prototype.onSubmit = function() {
 
+	this._mode = 'query';
+	this._mainKeyValue = '';
 	this.loadData();
+	this.enableListButtonItem();
 
 };
 
@@ -237,22 +261,77 @@ GamCarRefuelSttusMngModule.prototype.loadData = function() {
 
 <%
 /**
- * @FUNCTION NAME : loadDetail
- * @DESCRIPTION   : 상세항목을 로딩 한다.
+ * @FUNCTION NAME : refreshData
+ * @DESCRIPTION   : DATA REFRESH (LIST)
  * @PARAMETER     : NONE
 **/
 %>
-GamCarRefuelSttusMngModule.prototype.loadDetail = function() {
+ GamCarRefuelSttusMngModule.prototype.refreshData = function() {
 
-	var row = this.$('#mainGrid').selectedRows();
+	var searchOpt=this.makeFormArgs('#searchForm');
+	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 
-	if (row.length==0) {
-		alert('선택된 항목이 없습니다.');
-		this.$("#mainTab").tabs("option", {active: 0});
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadDetail
+ * @DESCRIPTION   : 상세항목을 로딩 한다.
+ * @PARAMETER     :
+ *   1. tabId - TAB ID
+**/
+%>
+GamCarRefuelSttusMngModule.prototype.loadDetail = function(tabId) {
+
+	if (tabId == 'listTab') {
+		var row = this.$('#mainGrid').selectedRows();
+		if (row.length==0) {
+			alert('선택된 항목이 없습니다.');
+			this.$("#mainTab").tabs("option", {active: 0});
+			return;
+		}
+		this.makeFormValues('#detailForm', row[0]);
+		this.makeDivValues('#detailForm', row[0]);
+		this.$('#refuelMt').val(this.$('#sRefuelMt').val());
+	} else {
+		var searchVO = this.getFormValues('#detailForm');
+		this.doAction('/mngFee/gamSelectCarRefuelSttusMngPk.do', searchVO, function(module, result){
+			if (result.resultCode == "0") {
+				module.makeFormValues('#detailForm', result.result);
+				module.makeDivValues('#detailForm', result.result);
+				module.$('#refuelMt').val(module.$('#sRefuelMt').val());
+			}
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectData
+ * @DESCRIPTION   : DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamCarRefuelSttusMngModule.prototype.selectData = function() {
+
+	if (this._mode == 'query') {
+		var gridRowCount = this.$("#mainGrid").flexRowCount();
+		if (gridRowCount == 0) {
+			alert('해당 조건의 자료가 존재하지 않습니다!');
+		}
+		return;
+	} else if (this._mode != 'insert' && this._mode != 'modify') {
 		return;
 	}
-	this.makeFormValues('#detailForm', row[0]);
-	this.makeDivValues('#detailForm', row[0]);
+	var mainKeyValue = this._mainKeyValue;
+	if (mainKeyValue == "") {
+		return;
+	}
+	this._mode = 'modify';
+	this.loadDetail('detailTab');
+	this.enableDetailInputItem();
+	this.drawChart();
 
 };
 
@@ -265,14 +344,66 @@ GamCarRefuelSttusMngModule.prototype.loadDetail = function() {
 %>
 GamCarRefuelSttusMngModule.prototype.addData = function() {
 
-	var row = this.$('#mainGrid').selectedRows();
-	if (row.length==0) {
-		alert('선택된 항목이 없습니다.');
-		this.$("#mainTab").tabs("option", {active: 0});
-		return;
+	var month = new Date().getMonth()+1;
+	this.$('#m1').val("0");
+	if (month >= 2) {
+		this.$('#m2').val("0");
+	} else {
+		this.$('#m2').val("");
 	}
-	this._mode="insert";
-	this.$("#mainTab").tabs("option", {active: 1});
+	if (month >= 3) {
+		this.$('#m3').val("0");
+	} else {
+		this.$('#m3').val("");
+	}
+	if (month >= 4) {
+		this.$('#m4').val("0");
+	} else {
+		this.$('#m4').val("");
+	}
+	if (month >= 5) {
+		this.$('#m5').val("0");
+	} else {
+		this.$('#m5').val("");
+	}
+	if (month >= 6) {
+		this.$('#m6').val("0");
+	} else {
+		this.$('#m6').val("");
+	}
+	if (month >= 7) {
+		this.$('#m7').val("0");
+	} else {
+		this.$('#m7').val("");
+	}
+	if (month >= 8) {
+		this.$('#m8').val("0");
+	} else {
+		this.$('#m8').val("");
+	}
+	if (month >= 9) {
+		this.$('#m9').val("0");
+	} else {
+		this.$('#m9').val("");
+	}
+	if (month >= 10) {
+		this.$('#m10').val("0");
+	} else {
+		this.$('#m10').val("");
+	}
+	if (month >= 11) {
+		this.$('#m11').val("0");
+	} else {
+		this.$('#m11').val("");
+	}
+	if (month >= 12) {
+		this.$('#m12').val("0");
+	} else {
+		this.$('#m12').val("");
+	}
+	this.$('#refuelMt').val(this.$('#sRefuelMt').val());
+	this.enableDetailInputItem();
+	this.$('#m1').focus();
 
 };
 
@@ -286,14 +417,15 @@ GamCarRefuelSttusMngModule.prototype.addData = function() {
 GamCarRefuelSttusMngModule.prototype.saveData = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
-	if (this.$('#carRegistNo').val() == "") {
+	var carRegistNo = this.$('#carRegistNo').val();
+	if (carRegistNo == "") {
 		alert('차량 등록 번호가 부정확합니다.');
 		this.$("#carRegistNo").focus();
 		return;
 	}
 	this.doAction('/mngFee/gamInsertCarRefuelSttusMng.do', inputVO, function(module, result) {
 		if (result.resultCode == "0") {
-			module.loadData();
+			module.refreshData();
 		}
 		alert(result.resultMsg);
 	});
@@ -309,20 +441,18 @@ GamCarRefuelSttusMngModule.prototype.saveData = function() {
 %>
 GamCarRefuelSttusMngModule.prototype.deleteData = function() {
 
-	var row = this.$('#mainGrid').selectedRows();
-	if (row.length==0) {
-		alert('선택된 항목이 없습니다.');
-		this.$("#mainTab").tabs("option", {active: 0});
-		return;
-	}
-	if (this.$('#carRegistNo').val() == "") {
+	var carRegistNo = this.$('#carRegistNo').val();
+	if (carRegistNo == "") {
 		alert('차량 등록 번호가 부정확합니다.');
 		this.$("#carRegistNo").focus();
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
-		this.doAction('/mngFee/gamDeleteCarRefuelSttusMng.do', row[0], function(module, result) {
+		var deleteVO = this.makeFormArgs("#detailForm");
+		this.doAction('/mngFee/gamDeleteCarRefuelSttusMng.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
+				this._mode = 'query';
+				this._mainKeyValue = '';
 				module.loadData();
 			}
 			alert(result.resultMsg);
@@ -340,12 +470,135 @@ GamCarRefuelSttusMngModule.prototype.deleteData = function() {
 %>
 GamCarRefuelSttusMngModule.prototype.downloadExcel = function() {
 
-	var totalCount = Number(this.$('#totalCount').val().replace(/,/gi, ""));
-	if (totalCount <= 0) {
+	var mainGridRowCount = this.$("#mainGrid").flexRowCount();
+	if (mainGridRowCount <= 0) {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
 	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelCarRefuelSttusMng.do');
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : enableListButtonItem
+ * @DESCRIPTION   : LIST 버튼항목을 ENABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamCarRefuelSttusMngModule.prototype.enableListButtonItem = function() {
+
+	if (this._mode == "insert") {
+		this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+	} else {
+		this.$('#btnAdd').enable();
+		this.$('#btnAdd').removeClass('ui-state-disabled');
+		var row = this.$('#mainGrid').selectedRows()[0];
+		if (row == null) {
+			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+			return;
+		}
+		if (this._mainKeyValue != "") {
+			this.$('#btnDelete').enable();
+			this.$('#btnDelete').removeClass('ui-state-disabled');
+		} else {
+			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : enableDetailInputItem
+ * @DESCRIPTION   : DETAIL 입력항목을 ENABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamCarRefuelSttusMngModule.prototype.enableDetailInputItem = function() {
+
+	if (this._mode == "insert") {
+		this.$('#carRegistNo').disable();
+		this.$('#m1').enable();
+		this.$('#m2').enable();
+		this.$('#m3').enable();
+		this.$('#m4').enable();
+		this.$('#m5').enable();
+		this.$('#m6').enable();
+		this.$('#m7').enable();
+		this.$('#m8').enable();
+		this.$('#m9').enable();
+		this.$('#m10').enable();
+		this.$('#m11').enable();
+		this.$('#m12').enable();
+		this.$('#btnSave').enable();
+		this.$('#btnSave').removeClass('ui-state-disabled');
+		this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+	} else {
+		if (this._mainKeyValue != "") {
+			this.$('#carRegistNo').disable();
+			this.$('#m1').enable();
+			this.$('#m2').enable();
+			this.$('#m3').enable();
+			this.$('#m4').enable();
+			this.$('#m5').enable();
+			this.$('#m6').enable();
+			this.$('#m7').enable();
+			this.$('#m8').enable();
+			this.$('#m9').enable();
+			this.$('#m10').enable();
+			this.$('#m11').enable();
+			this.$('#m12').enable();
+			this.$('#btnSave').enable();
+			this.$('#btnSave').removeClass('ui-state-disabled');
+			this.$('#btnRemove').enable();
+			this.$('#btnRemove').removeClass('ui-state-disabled');
+		} else {
+			this.$('#carRegistNo').disable();
+			this.$('#m1').disable();
+			this.$('#m2').disable();
+			this.$('#m3').disable();
+			this.$('#m4').disable();
+			this.$('#m5').disable();
+			this.$('#m6').disable();
+			this.$('#m7').disable();
+			this.$('#m8').disable();
+			this.$('#m9').disable();
+			this.$('#m10').disable();
+			this.$('#m11').disable();
+			this.$('#m12').disable();
+			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : disableDetailInputItem
+ * @DESCRIPTION   : DETAIL 입력항목을 DISABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamCarRefuelSttusMngModule.prototype.disableDetailInputItem = function() {
+
+	this.$('#carRegistNo').disable();
+	this.$('#m1').disable();
+	this.$('#m2').disable();
+	this.$('#m3').disable();
+	this.$('#m4').disable();
+	this.$('#m5').disable();
+	this.$('#m6').disable();
+	this.$('#m7').disable();
+	this.$('#m8').disable();
+	this.$('#m9').disable();
+	this.$('#m10').disable();
+	this.$('#m11').disable();
+	this.$('#m12').disable();
+	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -364,14 +617,18 @@ GamCarRefuelSttusMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 		case 'listTab':
 			break;
 		case 'detailTab':
-			var row = this.$('#mainGrid').selectedRows();
 			if (this._mode=="modify") {
-				this.loadDetail();
-				this.$('#refuelMt').val(this.$('#sRefuelMt').val());
+				this.loadDetail(oldTabId);
+				this.enableDetailInputItem();
+			} else if (this._mode=="insert") {
+				this.makeFormValues('#detailForm', {});
+				this.makeDivValues('#detailForm', {});
+				this.disableDetailInputItem();
+				this.addData();
 			} else {
-				this.makeFormValues('#detailForm', row[0]);
-				this.makeDivValues('#detailForm', row[0]);
-				this.$('#refuelMt').val(this.$('#sRefuelMt').val());
+				this.makeFormValues('#detailForm', {});
+				this.makeDivValues('#detailForm', {});
+				this.disableDetailInputItem();
 			}
 			this.drawChart();
 			break;
@@ -448,18 +705,18 @@ var module_instance = new GamCarRefuelSttusMngModule();
 				<li><a href="#detailTab" class="emdTab">차량주유 현황 상세</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
-			<div id="listTab" class="emdTabPage fillHeight" style="overflow: hidden;" >
-				<table id="mainGrid" style="display:none" class="fillHeight"></table>
+			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
+				<table id="mainGrid" style="display:none;" class="fillHeight"></table>
 				<div id="listSumPanel" class="emdControlPanel">
 					<form id="listSumForm">
 						<table style="width:100%;">
 							<tr>
-								<th width="20%" height="20">조회 자료수</th>
+								<th style="width:20%; height:20; text-align:center;">조회 자료수</th>
 								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
-								<td style="text-align: right">
-									<button data-cmd="btnAdd">추가</button>
-									<button data-cmd="btnDelete">삭제</button>
-	                                <button data-cmd="btnExcelDownload">엑셀다운로드</button>
+								<td style="text-align:right;">
+									<button id="btnAdd">추가</button>
+									<button id="btnDelete">삭제</button>
+	                                <button id="btnExcelDownload">엑셀다운로드</button>
 								</td>
 							</tr>
 						</table>
@@ -473,24 +730,24 @@ var module_instance = new GamCarRefuelSttusMngModule();
 						<input type="hidden" id="refuelMt"/>
 						<table class="detailPanel" style="width:100%">
 							<tr>
-								<th width="15%" height="23">차량 등록 번호</th>
-								<td ><input type="text" size="20" id="carRegistNo" readonly="readonly"/></td>
-								<th width="15%" height="23">연료 구분</th>
-								<td ><input type="text" size="20" id="fuelKnd" readonly="readonly"/></td>
-								<th width="15%" height="23">차량 명</th>
-								<td ><input type="text" size="20" id="carNm" readonly="readonly"/></td>
+								<th style="width:15%; height:23;">차량 등록 번호</th>
+								<td><input type="text" size="20" id="carRegistNo" readonly="readonly"/></td>
+								<th style="width:15%; height:23;">연료 구분</th>
+								<td><input type="text" size="20" id="fuelKnd" readonly="readonly"/></td>
+								<th style="width:15%; height:23;">차량 명</th>
+								<td><input type="text" size="20" id="carNm" readonly="readonly"/></td>
 							</tr>
 						</table>
 						<table class="detailPanel" style="width:100%">
 							<tr>
-								<th width="15%" height="23">1월</th>
-								<td width="15%"><input type="text" size="20" id="m1" class="ygpaNumber"></td>
+								<th style="width:15%; height:23;">1월</th>
+								<td style="width:15%;"><input type="text" size="20" id="m1" class="ygpaNumber"></td>
 								<td rowspan="15" style="padding-left:4px;">
 									<div id="fuelChart" style="width:670px;height:370px;border:1px solid #A4BED4;"></div>
 								</td>
 							</tr>
 							<tr>
-								<th width="15%" height="23">2월</th>
+								<th style="width:15%; height:23;">2월</th>
 								<td><input type="text" size="20" id="m2" class="ygpaNumber"></td>
 							</tr>
 							<tr>
@@ -498,49 +755,48 @@ var module_instance = new GamCarRefuelSttusMngModule();
 								<td><input type="text" size="20" id="m3" class="ygpaNumber"></td>
 							</tr>
 							<tr>
-								<th width="15%" height="23">4월</th>
+								<th style="width:15%; height:23;">4월</th>
 								<td><input type="text" size="20" id="m4" class="ygpaNumber"></td>
 							</tr>
 							<tr>
-								<th width="15%" height="23">5월</th>
+								<th style="width:15%; height:23;">5월</th>
 								<td><input type="text" size="20" id="m5" class="ygpaNumber"></td>
 							</tr>
 							<tr>
-								<th width="15%" height="23">6월</th>
+								<th style="width:15%; height:23;">6월</th>
 								<td><input type="text" size="20" id="m6" class="ygpaNumber"></td>
 							</tr>
 							<tr>
-								<th width="15%" height="23">7월</th>
+								<th style="width:15%; height:23;">7월</th>
 								<td><input type="text" size="20" id="m7" class="ygpaNumber"></td>
 							</tr>
 							<tr>
-								<th width="15%" height="23">8월</th>
+								<th style="width:15%; height:23;">8월</th>
 								<td><input type="text" size="20" id="m8" class="ygpaNumber"></td>
 							</tr>
 							<tr>
-								<th width="15%" height="23">9월</th>
+								<th style="width:15%; height:23;">9월</th>
 								<td><input type="text" size="20" id="m9" class="ygpaNumber"></td>
 							</tr>
 							<tr>
-								<th width="15%" height="23">10월</th>
+								<th style="width:15%; height:23;">10월</th>
 								<td><input type="text" size="20" id="m10" class="ygpaNumber"></td>
 							</tr>
 							<tr>
-								<th width="15%" height="23">11월</th>
+								<th style="width:15%; height:23;">11월</th>
 								<td><input type="text" size="20" id="m11" class="ygpaNumber"></td>
 							</tr>
 							<tr>
-								<th width="15%" height="23">12월</th>
+								<th style="width:15%; height:23;">12월</th>
 								<td><input type="text" size="20" id="m12" class="ygpaNumber"></td>
 							</tr>
                         </table>
 					</form>
-					<table style="width:100%">
+					<table style="width:100%;">
 						<tr>
-							<td width="100"></td>
-							<td style="text-align:right">
-								<button data-cmd="btnSave" class="buttonSave">저장</button>
-								<button data-cmd="btnDelete" class="buttonDelete">삭제</button>
+							<td style="text-align:right;">
+								<button id="btnSave" class="buttonSave">저장</button>
+								<button id="btnRemove" class="buttonDelete">삭제</button>
 							</td>
 						</tr>
 					</table>

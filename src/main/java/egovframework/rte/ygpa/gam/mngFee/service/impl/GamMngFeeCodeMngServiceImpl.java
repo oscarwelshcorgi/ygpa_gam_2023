@@ -11,8 +11,10 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeCodeMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeCodeMngVo;
+import egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngVo;
 
 /**
  *
@@ -44,6 +46,11 @@ public class GamMngFeeCodeMngServiceImpl extends AbstractServiceImpl implements 
 	@Override
 	public List selectMngFeeCodeMngList(GamMngFeeCodeMngVo searchVO) throws Exception {
 		return gamMngFeeCodeMngDao.selectMngFeeCodeMngList(searchVO);
+	}
+
+	@Override
+	public EgovMap selectMngFeeCodeMngPk(GamMngFeeCodeMngVo searchVO) throws Exception {
+		return gamMngFeeCodeMngDao.selectMngFeeCodeMngPk(searchVO);
 	}
 
 	@Override

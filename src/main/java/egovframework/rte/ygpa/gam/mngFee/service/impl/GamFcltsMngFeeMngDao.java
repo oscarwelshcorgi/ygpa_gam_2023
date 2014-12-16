@@ -49,6 +49,14 @@ public class GamFcltsMngFeeMngDao extends YGPAAbstractDAO{
 	}
 
 	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public EgovMap selectFcltsMngFeeMngPk(GamFcltsMngFeeMngVo searchVO) {
+		return (EgovMap)selectByPk("gamFcltsMngFeeMngDao.selectFcltsMngFeeMngPk_S", searchVO);
+	}
+
+	/**
 	 * @param gamFcltsMngFeeMngVo
 	 * @return
 	 */
