@@ -215,7 +215,6 @@ GamInfoTechFcltySpecMngModule.prototype.insertData = function() {
 			module.$("#selectGisPrtFcltyCd").disable();
 			module.$("#popupSearchGisCode2").hide();
 			module.saveAtchFile();
- 			module.loadData();
  		}
  		alert(result.resultMsg);
  	});
@@ -227,7 +226,6 @@ GamInfoTechFcltySpecMngModule.prototype.updateData = function() {
 	this.doAction('/fclty/updateInfoTechFcltySpecMngDetail.do', data, function(module, result) {
 		if(result.resultCode == "0"){
 			module.saveAtchFile();
-			//module.loadData();
 		}
 		alert(result.resultMsg);
 	});

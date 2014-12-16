@@ -122,7 +122,6 @@ GamFcltsMngGroupModule.prototype.insertData = function() {
  		if(result.resultCode == "0"){
  			module._cmd = "modify";
  			module.$('#fcltsMngGroupNo').disable();
- 			module.loadData();
  		}
  		alert(result.resultMsg);
  	});	
@@ -132,9 +131,6 @@ GamFcltsMngGroupModule.prototype.insertData = function() {
 GamFcltsMngGroupModule.prototype.updateData = function() {
 	var data = this.makeFormArgs("#fcltsMngGroupDetailForm");
 	this.doAction('/code/updateFcltsMngGroupDetail.do', data, function(module, result) {
-		//if(result.resultCode == "0"){
-		//	module.loadData();
-		//}
 		alert(result.resultMsg);
 	});	
 };

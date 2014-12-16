@@ -191,7 +191,6 @@ GamFcltyQcwWrtMngModule.prototype.insertData = function() {
 			module.saveQcMngObjFclts();
 			module.saveQcMngResultItem();
 			module.saveAtchFile();
-			module.loadData();
  		}
  		alert(result.resultMsg);
  	});	
@@ -206,7 +205,6 @@ GamFcltyQcwWrtMngModule.prototype.updateData = function() {
 			module.saveQcMngObjFclts();
 			module.saveQcMngResultItem();
 			module.saveAtchFile();
-			//module.loadData();
  		}
  		alert(result.resultMsg);
  	});	

@@ -252,7 +252,6 @@ GamFcltyCtrtMngModule.prototype.insertData = function() {
 			module.saveCtrtChangeList();
 			module.saveCtrtMoneyPymntList();
 			module.saveCtrtFulFillCaryFwdList();
-			module.loadData();
  		}
  		alert(result.resultMsg);
  	});	
@@ -268,7 +267,6 @@ GamFcltyCtrtMngModule.prototype.updateData = function() {
 			module.saveCtrtChangeList();
 			module.saveCtrtMoneyPymntList();
 			module.saveCtrtFulFillCaryFwdList();
-			//module.loadData();
 		}
 		alert(result.resultMsg);
 	});	
