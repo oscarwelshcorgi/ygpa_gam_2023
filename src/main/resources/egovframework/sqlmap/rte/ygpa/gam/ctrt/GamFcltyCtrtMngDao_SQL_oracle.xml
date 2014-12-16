@@ -460,7 +460,7 @@
 		  SET
 		    QOTA_RATE = TO_NUMBER(REPLACE(#qotaRate#, ',', ''))
 		    , ENTRPS_NM = #entrpsNm#
-		    , RPRSNTV = #tlphonNo#
+		    , RPRSNTV = #rprsntv#
 		    , TLPHON_NO = #tlphonNo# 
 		    , FAX_NO = #faxNo#
 		    , POST_NO = #postNo#
