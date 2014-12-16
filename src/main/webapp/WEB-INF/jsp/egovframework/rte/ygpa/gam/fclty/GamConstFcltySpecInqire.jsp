@@ -36,6 +36,7 @@ GamConstFcltySpecInqireModule.prototype.loadComplete = function(params) {
 
 	this._params = params;	// 파라미터를 저장한다.
 	
+	console.log(params);
 	// 테이블 설정
 	this.$("#constFcltySpecInqireList").flexigrid({
 		module: this,
@@ -155,7 +156,7 @@ GamConstFcltySpecInqireModule.prototype.loadDetail = function() {
 
 GamConstFcltySpecInqireModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
 
-	if((newTabId=='tabs2' || newTabId=='tabs4') && this._cmd != 'insert') {
+	if(newTabId=='tabs2' || newTabId=='tabs4') {
 		if(this.$('#constFcltySpecInqireList').selectedRowCount()!=1) {
 			alert('건축시설 항목을 선택 하세요.');
 			return false;
@@ -489,6 +490,7 @@ var module_instance = new GamConstFcltySpecInqireModule();
 							<th width="12%" height="17" class="required_text">주차대수</th>
 							<td>
 								<span id="prkCnt"></span>
+							</td>
 							<th width="12%" height="17" class="required_text">옥내주차대수</th>
 							<td>
 								<span id="isdPrkCnt"></span>
