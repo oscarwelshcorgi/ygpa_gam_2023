@@ -37,7 +37,7 @@ public class GamFcltyCtrtSttusInqireDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
     public List selectFcltyCtrtSttusInqireList(GamFcltyCtrtSttusInqireVO searchVO) throws Exception {
-        return list("gamFcltyCtrtSttusInqireDao.selectFcltyCtrtSttusInqireList", searchVO);
+        return list("gamFcltyCtrtSttusInqireDao.selectFcltyCtrtSttusInqireList_D", searchVO);
     }
 
 
@@ -48,7 +48,7 @@ public class GamFcltyCtrtSttusInqireDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
     public GamFcltyCtrtSttusInqireVO selectFcltyCtrtSttusInqireInfoSum(GamFcltyCtrtSttusInqireVO searchVO) throws Exception {
-    	return (GamFcltyCtrtSttusInqireVO) selectByPk("gamFcltyCtrtSttusInqireDao.selectFcltyCtrtSttusInqireInfoSum", searchVO);
+    	return (GamFcltyCtrtSttusInqireVO) selectByPk("gamFcltyCtrtSttusInqireDao.selectFcltyCtrtSttusInqireInfoSum_S", searchVO);
     }
 
 

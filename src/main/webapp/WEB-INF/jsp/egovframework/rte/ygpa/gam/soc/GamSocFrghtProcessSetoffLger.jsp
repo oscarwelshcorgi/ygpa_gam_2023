@@ -92,16 +92,6 @@ GamSocFrghtProcessSetoffLgerModule.prototype.loadComplete = function() {
 
     switch(buttonId) {
 
-        // 조회
-        case 'searchBtn':
-        	if(!validateGamSocFrghtProcessSetoffLger(this.$('#gamSocFrghtProcessSetoffLgerSearchForm')[0])){ 		
-        		return;
-        	}
-        	
-			this.loadData();
-
-            break;
-            
         case 'popupFeeInfo' : //요금종류조회
         	var opts;
         	this.doExecuteDialog('selectFeeInfo', '금종류 선택','/popup/showSocPayCd.do', opts);
@@ -147,6 +137,11 @@ GamSocFrghtProcessSetoffLgerModule.prototype.onSubmit = function() {
 };
 
 GamSocFrghtProcessSetoffLgerModule.prototype.loadData = function() {
+	
+	if(!validateGamSocFrghtProcessSetoffLger(this.$('#gamSocFrghtProcessSetoffLgerSearchForm')[0])){ 		
+		return;
+	}
+	
     var searchOpt=this.makeFormArgs('#gamSocFrghtProcessSetoffLgerSearchForm');
 
     this.$('#socFrghtProcessSetoffLgerList').flexOptions({params:searchOpt}).flexReload();
@@ -238,7 +233,7 @@ var module_instance = new GamSocFrghtProcessSetoffLgerModule();
                                 <input id="sCmplYr" type="text" size="5" />
                                 <input type="text" size="25" id="sConstNo" disabled/>
                             </td>
-                            <td rowspan="4"><button id="searchBtn" class="buttonSearch">조회</button></td>
+                            <td rowspan="4"><button class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>    
 							<th>요금종류</th>
@@ -377,7 +372,7 @@ var module_instance = new GamSocFrghtProcessSetoffLgerModule();
 								<th width="10%" height="25">총계(전체)</th>
 								<td><input type="text" size="17" id="sumAmnt" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align:right;">
-    	                        	<button data-role="printPage" data-search-option="gamSocFrghtProcessSetoffLgerSearchForm" data-url="<c:url value='/soc/gamSelectSocFrghtProcessSetoffLgerListPrint.do'/>">인쇄</button>
+    	                        	<button data-role="printPage" data-search-option="gamSocFrghtProcessSetoffLgerSearchForm" data-url="/soc/gamSelectSocFrghtProcessSetoffLgerListPrint.do">인쇄</button>
         	                    </td>
 							</tr>
 						</table>

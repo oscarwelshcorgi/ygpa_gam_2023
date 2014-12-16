@@ -69,15 +69,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
         }
     });
     
-    
-    this.$("#fcltyCtrtLgerHistList").on('onItemSelected', function(event, module, row, grid, param) {
-    	module.loadDetail();
-	});
-    
 	this.$("#fcltyCtrtLgerHistList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-		module.loadDetail();
-		
-		// Tab 이동
 		module.$("#fcltyCtrtLgerHistListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 	});
     
@@ -109,12 +101,8 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
     });
  	
  	
-    this.$("#fcltyCtrtJoinContrFList").on('onItemSelected', function(event, module, row, grid, param) {
-    	module.makeDivValues('#fcltyCtrtJoinContrFDetailForm',row);
-	});
- 	
-    this.$("#fcltyCtrtJoinContrFList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-		module.makeDivValues('#fcltyCtrtJoinContrFDetailForm',row);
+    this.$("#fcltyCtrtJoinContrFList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+    	module.loadFcltyCtrtJoinContrFDetail();
 	});
  	
  	
@@ -215,37 +203,10 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
 
     switch(buttonId) {
 
-        // 조회
-        case 'searchBtn':
-
-        	var searchVO = [{name: 'ctrtNo',value: ''}];
-        	
-        	//tabs2 초기화
-    		this.makeDivValues('#gamFcltyCtrtLgerHistForm',{});
-    		this.makeFormValues('#gamFcltyCtrtLgerHistForm',{});
-        	
-        	// tabs3 초기화
-        	this.$('#fcltyCtrtJoinContrFList').flexOptions({params:searchVO}).flexReload();
-        	this.makeDivValues('#fcltyCtrtJoinContrFDetailForm',{});
-        	
-        	// tabs4 초기화
-        	this.$('#fcltyCtrtChangeFList').flexOptions({params:searchVO}).flexReload();
-        	
-        	// tabs5 초기화
-        	this.$('#fcltyCtrtMoneyPymntFList').flexOptions({params:searchVO}).flexReload();
-        	
-        	// tabs6 초기화
-        	this.$('#fcltyCtrtFulfillCaryFwdFList').flexOptions({params:searchVO}).flexReload();
-        	
-			this.loadData();
-            break;
-            
-
         case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
             var opts;
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
-            break;
-            
+        break;
         
     }
 };
@@ -256,11 +217,29 @@ GamFcltyCtrtLgerHistModule.prototype.onSubmit = function() {
 };
 
 GamFcltyCtrtLgerHistModule.prototype.loadData = function() {
+	
     this.$("#fcltyCtrtLgerHistListTab").tabs("option", {active: 0});
+  	this.initDisplay();
+	
     var searchOpt=this.makeFormArgs('#gamFcltyCtrtLgerHistSearchForm');
-
     this.$('#fcltyCtrtLgerHistList').flexOptions({params:searchOpt}).flexReload();
 
+};
+
+
+GamFcltyCtrtLgerHistModule.prototype.initDisplay = function() {
+	//tabs2 초기화
+	this.makeDivValues('#gamFcltyCtrtLgerHistForm',{});
+	this.makeFormValues('#gamFcltyCtrtLgerHistForm',{});
+	// tabs3 초기화
+	this.$('#fcltyCtrtJoinContrFList').flexEmptyData();
+	this.makeDivValues('#fcltyCtrtJoinContrFDetailForm',{});
+	// tabs4 초기화
+	this.$('#fcltyCtrtChangeFList').flexEmptyData();
+	// tabs5 초기화
+	this.$('#fcltyCtrtMoneyPymntFList').flexEmptyData();
+	// tabs6 초기화
+	this.$('#fcltyCtrtFulfillCaryFwdFList').flexEmptyData();
 };
 
 GamFcltyCtrtLgerHistModule.prototype.loadDetail = function(){
@@ -274,29 +253,68 @@ GamFcltyCtrtLgerHistModule.prototype.loadDetail = function(){
 	}
 	
 	row = row[0];
-	
-	// tabs3  하부 테이블 초기화
-	this.makeDivValues('#fcltyCtrtJoinContrFDetailForm',{});
-
- 	//계약대장 상세 정보 tabs2에 입력
-	this.makeDivValues('#gamFcltyCtrtLgerHistForm',row);
-	//인쇄시 파라메타 전달을 위해 한번 더씀
-	this.makeFormValues('#gamFcltyCtrtLgerHistForm',row);
-	
 	var searchVO = [{name: 'ctrtNo',value: row["ctrtNo"]}];
-	this.$('#fcltyCtrtJoinContrFList').flexOptions({params:searchVO}).flexReload();
-	this.$('#fcltyCtrtChangeFList').flexOptions({params:searchVO}).flexReload();
-	this.$('#fcltyCtrtMoneyPymntFList').flexOptions({params:searchVO}).flexReload();
-	this.$('#fcltyCtrtFulfillCaryFwdFList').flexOptions({params:searchVO}).flexReload();
+	this.doAction('/ctrt/gamSelectFcltyCtrtLgerHistDetail.do', searchVO, function(module, result) {
+		if(result.resultCode == 0) {
+			
+			//계약대장 상세 정보 tabs2에 입력
+			module.makeDivValues('#gamFcltyCtrtLgerHistForm', result.resultDetail);
+			//인쇄시 파라메타 전달을 위해 한번 더씀
+			module.makeFormValues('#gamFcltyCtrtLgerHistForm', result.resultDetail);
+			
+			module.$('#fcltyCtrtJoinContrFList').flexOptions({params:searchVO}).flexReload();
+			module.makeDivValues('#fcltyCtrtJoinContrFDetailForm',{});
+			module.$('#fcltyCtrtChangeFList').flexOptions({params:searchVO}).flexReload();
+			module.$('#fcltyCtrtMoneyPymntFList').flexOptions({params:searchVO}).flexReload();
+			module.$('#fcltyCtrtFulfillCaryFwdFList').flexOptions({params:searchVO}).flexReload();
+		}
+		else {
+			module.initDisplay();
+			alert(result.resultMsg);
+		}
+	});
 	
 };
 
+GamFcltyCtrtLgerHistModule.prototype.loadFcltyCtrtJoinContrFDetail = function(){
+	
+	var row = this.$('#fcltyCtrtJoinContrFList').selectedRows();
+	
+	row = row[0];
+	var searchVO = [
+	                {name: 'ctrtNo',value: row["ctrtNo"]},
+	                {name: 'seq',value: row["seq"]}
+	               ];
+	this.doAction('/ctrt/gamSelectFcltyCtrtJoinContrFDetail.do', searchVO, function(module, result) {
+		if(result.resultCode == 0) {
+			module.makeDivValues('#fcltyCtrtJoinContrFDetailForm', result.resultDetail);
+		}
+		else {
+			module.makeDivValues('#fcltyCtrtJoinContrFDetailForm',{});
+			alert(result.resultMsg);
+		}
+	});
+	
+};
+
+
 GamFcltyCtrtLgerHistModule.prototype.onTabChange = function(newTabId, oldTabId) {
+	if(oldTabId == 'tabs1') {
+		this.loadDetail();
+	}
     switch(newTabId) {
-    case 'tabs1':
-        break;
-    case 'tabs2':
-        break;
+	    case 'tabs1':
+	        break;
+	    case 'tabs2':
+	        break;
+	    case 'tabs3':
+	        break;
+	    case 'tabs4':
+	        break;
+	    case 'tabs5':
+	        break;
+	    case 'tabs6':
+	        break;
     
     }
 };
@@ -312,7 +330,6 @@ GamFcltyCtrtLgerHistModule.prototype.onClosePopup = function(popupId, msg, value
          if (msg != 'cancel') {
              this.$('#sRegistEntrpsCd').val(value.entrpscd);
              this.$('#sRegistEntrpsNm').val(value.entrpsNm);
-			 //this.loadData();
          } else {
              alert('취소 되었습니다');
          }
@@ -360,7 +377,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
                             </td>
                             
                             <td rowspan="2">
-								<button id="searchBtn" class="buttonSearch">조회</button>
+								<button class="buttonSearch">조회</button>
                             </td>
                         </tr>
                         <tr>

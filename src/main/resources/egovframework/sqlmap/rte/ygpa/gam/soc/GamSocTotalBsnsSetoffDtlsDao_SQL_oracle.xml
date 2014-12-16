@@ -13,7 +13,7 @@
     </resultMap>
     
 
-    <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsList" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="egovMap">
+    <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsList_D" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -84,7 +84,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListTotCnt" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="int">
+    <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListTotCnt_S" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="int">
             SELECT 
             	COUNT(*) TOTCNT
             FROM 
@@ -139,7 +139,7 @@
     
     
     
-    <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsDetail" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="egovMap">
+    <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsDetail_D" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -236,7 +236,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsDetailSum" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultMap="socTotalBsnsSetoffDtlsDetailSumMap">
+    <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsDetailSum_S" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultMap="socTotalBsnsSetoffDtlsDetailSumMap">
         SELECT 
         		COUNT(*) AS TOTAL_CNT
         		, NVL(SUM(EXMP_AMNT),0) AS SUM_PRT_TOTAL_AMNT
@@ -287,7 +287,7 @@
     </select>
     
     
-    <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListPrint" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="egovMap">
+    <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListPrint_D" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -389,7 +389,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListPrintTotCnt" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="int">
+    <select id="gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListPrintTotCnt_S" parameterClass="gamSocTotalBsnsSetoffDtlsVO" resultClass="int">
             SELECT 
             	COUNT(*) TOTCNT
             FROM 

@@ -13,7 +13,7 @@
     </resultMap>
     
     
-    <select id="gamFcltyCtrtSttusInqireDao.selectFcltyCtrtSttusInqireList" parameterClass="gamFcltyCtrtSttusInqireVO" resultClass="egovMap">
+    <select id="gamFcltyCtrtSttusInqireDao.selectFcltyCtrtSttusInqireList_D" parameterClass="gamFcltyCtrtSttusInqireVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -71,7 +71,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamFcltyCtrtSttusInqireDao.selectFcltyCtrtSttusInqireInfoSum" parameterClass="gamFcltyCtrtSttusInqireVO" resultMap="selectFcltyCtrtSttusInqireInfoSumMap">
+    <select id="gamFcltyCtrtSttusInqireDao.selectFcltyCtrtSttusInqireInfoSum_S" parameterClass="gamFcltyCtrtSttusInqireVO" resultMap="selectFcltyCtrtSttusInqireInfoSumMap">
 
         SELECT 
         	COUNT(*) AS TOTAL_CNT

@@ -29,16 +29,10 @@
 		         FROM
 		              (
 		              	SELECT
-		              		SUBSTR(FCLTS_CL_CD,0,1) AS MAIN_FCLTS_DIV
-							, FCLTS_CL_CD AS ORI_FCLTS_CL_CD
-	              			, FCLTS_CL_CD
+	              			FCLTS_CL_CD
 							, FCLTS_CL_CD_NM
 							, FCLTS_CL_UPPER_CD
 							, DEPTH_SORT
-							, REG_USR
-							, REGIST_DT
-							, UPD_USR
-							, UPDT_DT
 							, LEAF_YN
 		                FROM 
 		                	FCLTS_CL_CD_F
@@ -77,6 +71,25 @@
 		<isNotEmpty property="sFcltsClCdNm">
 			AND FCLTS_CL_CD_NM LIKE '%' || #sFcltsClCdNm# || '%'
 		</isNotEmpty>
+	</select>
+	
+	<select id="gamFcltsClCdDao.selectFcltsClCdDetail_S" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+           	SUBSTR(FCLTS_CL_CD,0,1) AS MAIN_FCLTS_DIV
+			, FCLTS_CL_CD AS ORI_FCLTS_CL_CD
+	        , FCLTS_CL_CD
+			, FCLTS_CL_CD_NM
+			, FCLTS_CL_UPPER_CD
+			, DEPTH_SORT
+			, REG_USR
+			, REGIST_DT
+			, UPD_USR
+			, UPDT_DT
+			, LEAF_YN
+        FROM 
+            FCLTS_CL_CD_F
+        WHERE 
+            FCLTS_CL_CD = #fcltsClCd#
 	</select>
 	
 	

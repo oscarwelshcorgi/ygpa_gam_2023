@@ -25,7 +25,7 @@
         <result property="sumRAll" column="SUM_R_ALL" columnIndex="16" javaType="java.lang.Long"/>
     </resultMap>
 
-    <select id="gamSocShipProcessSetoffLgerDao.selectSocShipProcessSetoffLgerList" parameterClass="gamSocShipProcessSetoffLgerVO" resultClass="egovMap">
+    <select id="gamSocShipProcessSetoffLgerDao.selectSocShipProcessSetoffLgerList_D" parameterClass="gamSocShipProcessSetoffLgerVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -146,7 +146,7 @@
     </select>
     
     
-    <select id="gamSocShipProcessSetoffLgerDao.selectSocShipProcessSetoffLgerListSum" parameterClass="gamSocShipProcessSetoffLgerVO" resultMap="selectSocShipProcessSetoffLgerListSumMap">
+    <select id="gamSocShipProcessSetoffLgerDao.selectSocShipProcessSetoffLgerListSum_S" parameterClass="gamSocShipProcessSetoffLgerVO" resultMap="selectSocShipProcessSetoffLgerListSumMap">
         SELECT 
         		COUNT(*) AS TOTAL_CNT
         		, NVL(SUM(R1_FARE),0) AS SUM_R1_FARE

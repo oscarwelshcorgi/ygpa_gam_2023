@@ -11,7 +11,7 @@
         <result property="sumExmpAmnt" column="SUM_EXMP_AMNT" columnIndex="2" javaType="java.lang.Long"/>
     </resultMap>
 
-    <select id="gamSocShipProcessRealloadDao.selectSocShipProcessRealloadList" parameterClass="gamSocShipProcessRealloadVO" resultClass="egovMap">
+    <select id="gamSocShipProcessRealloadDao.selectSocShipProcessRealloadList_D" parameterClass="gamSocShipProcessRealloadVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -50,7 +50,7 @@
     </select>
     
     
-    <select id="gamSocShipProcessRealloadDao.selectSocShipProcessRealloadListTotCnt" parameterClass="gamSocShipProcessRealloadVO" resultClass="int">
+    <select id="gamSocShipProcessRealloadDao.selectSocShipProcessRealloadListTotCnt_S" parameterClass="gamSocShipProcessRealloadVO" resultClass="int">
             SELECT 
             	COUNT(DISTINCT(FEE_TP)) TOTCNT
             FROM 
@@ -73,7 +73,7 @@
     </select>
     
     
-    <select id="gamSocShipProcessRealloadDao.selectSocShipProcessRealloadDetail" parameterClass="gamSocShipProcessRealloadVO" resultClass="egovMap">
+    <select id="gamSocShipProcessRealloadDao.selectSocShipProcessRealloadDetail_D" parameterClass="gamSocShipProcessRealloadVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -135,7 +135,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamSocShipProcessRealloadDao.selectSocShipProcessRealloadDetailSum" parameterClass="gamSocShipProcessRealloadVO" resultMap="selectSocShipProcessRealloadListSumMap">
+    <select id="gamSocShipProcessRealloadDao.selectSocShipProcessRealloadDetailSum_S" parameterClass="gamSocShipProcessRealloadVO" resultMap="selectSocShipProcessRealloadListSumMap">
         SELECT 
         		COUNT(*) AS TOTAL_CNT
         		, NVL(SUM(EXMP_AMNT),0) AS SUM_EXMP_AMNT
@@ -171,7 +171,7 @@
     
     
     
-    <select id="gamSocShipProcessRealloadDao.selectSocShipProcessRealloadListPrint" parameterClass="gamSocShipProcessRealloadVO" resultClass="egovMap">
+    <select id="gamSocShipProcessRealloadDao.selectSocShipProcessRealloadListPrint_D" parameterClass="gamSocShipProcessRealloadVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -233,7 +233,7 @@
     </select>
     
     
-    <select id="gamSocShipProcessRealloadDao.selectSocShipProcessRealloadListPrintTotCnt" parameterClass="gamSocShipProcessRealloadVO" resultMap="selectSocShipProcessRealloadListSumMap">
+    <select id="gamSocShipProcessRealloadDao.selectSocShipProcessRealloadListPrintTotCnt_S" parameterClass="gamSocShipProcessRealloadVO" resultMap="selectSocShipProcessRealloadListSumMap">
             SELECT 
             	COUNT(*) AS TOTAL_CNT
         		, NVL(SUM(EXMP_AMNT),0) AS SUM_EXMP_AMNT

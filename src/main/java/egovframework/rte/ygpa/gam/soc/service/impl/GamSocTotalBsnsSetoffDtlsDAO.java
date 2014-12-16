@@ -39,7 +39,7 @@ public class GamSocTotalBsnsSetoffDtlsDAO extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
     List selectSocTotalBsnsSetoffDtlsList(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception{
-    	return list("gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsList", searchVO);
+    	return list("gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsList_D", searchVO);
     }
     
     
@@ -50,7 +50,7 @@ public class GamSocTotalBsnsSetoffDtlsDAO extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
     int selectSocTotalBsnsSetoffDtlsListTotCnt(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception{
-    	return (Integer)getSqlMapClientTemplate().queryForObject("gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListTotCnt", searchVO);
+    	return (Integer)getSqlMapClientTemplate().queryForObject("gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListTotCnt_S", searchVO);
     }
     
     
@@ -62,7 +62,7 @@ public class GamSocTotalBsnsSetoffDtlsDAO extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
     List selectSocTotalBsnsSetoffDtlsDetail(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception{
-    	return list("gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsDetail", searchVO);
+    	return list("gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsDetail_D", searchVO);
     }
     
     
@@ -74,7 +74,7 @@ public class GamSocTotalBsnsSetoffDtlsDAO extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
     GamSocTotalBsnsSetoffDtlsVO selectSocTotalBsnsSetoffDtlsDetailSum(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception{
-    	return (GamSocTotalBsnsSetoffDtlsVO) selectByPk("gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsDetailSum", searchVO);
+    	return (GamSocTotalBsnsSetoffDtlsVO) selectByPk("gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsDetailSum_S", searchVO);
     }
     
     
@@ -85,7 +85,7 @@ public class GamSocTotalBsnsSetoffDtlsDAO extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
     List selectSocTotalBsnsSetoffDtlsListPrint(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception{
-    	return list("gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListPrint", searchVO);
+    	return list("gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListPrint_D", searchVO);
     }
     
     
@@ -96,7 +96,7 @@ public class GamSocTotalBsnsSetoffDtlsDAO extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
     int selectSocTotalBsnsSetoffDtlsListPrintTotCnt(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception{
-    	return (Integer)getSqlMapClientTemplate().queryForObject("gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListPrintTotCnt", searchVO);
+    	return (Integer)getSqlMapClientTemplate().queryForObject("gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListPrintTotCnt_S", searchVO);
     }
 
 }

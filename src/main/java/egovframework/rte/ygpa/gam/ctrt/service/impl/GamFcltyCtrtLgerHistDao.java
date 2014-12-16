@@ -36,7 +36,7 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
     public List selectFcltyCtrtLgerHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-        return list("gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistList", searchVO);
+        return list("gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistList_D", searchVO);
     }
 
 
@@ -47,7 +47,7 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
     public GamFcltyCtrtLgerHistVO selectFcltyCtrtLgerHistInfoSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-    	return (GamFcltyCtrtLgerHistVO) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistInfoSum", searchVO);
+    	return (GamFcltyCtrtLgerHistVO) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistInfoSum_S", searchVO);
     }
     
     
@@ -58,7 +58,7 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
     public GamFcltyCtrtLgerHistVO selectFcltyCtrtLgerHistDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-    	return (GamFcltyCtrtLgerHistVO) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistDetail", searchVO);
+    	return (GamFcltyCtrtLgerHistVO) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistDetail_S", searchVO);
     }
     
     
@@ -69,7 +69,7 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List selectFcltyCtrtJoinContrFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return list("gamFcltyCtrtLgerHistDao.selectFcltyCtrtJoinContrFList", searchVO);
+		return list("gamFcltyCtrtLgerHistDao.selectFcltyCtrtJoinContrFList_D", searchVO);
 	}
 	
 	
@@ -80,7 +80,7 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public int selectFcltyCtrtJoinContrFTotalCnt(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamCustTpSalesSttutsCreatDao.selectFcltyCtrtJoinContrFTotalCnt", searchVO);
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamCustTpSalesSttutsCreatDao.selectFcltyCtrtJoinContrFTotalCnt_S", searchVO);
 	}
 	
 	
@@ -91,7 +91,7 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public GamFcltyCtrtLgerHistVO selectFcltyCtrtJoinContrFDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return (GamFcltyCtrtLgerHistVO) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtJoinContrFDetail", searchVO);
+		return (GamFcltyCtrtLgerHistVO) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtJoinContrFDetail_S", searchVO);
 	}
 	
 	
@@ -102,7 +102,7 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List selectFcltyCtrtChangeFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return list("gamFcltyCtrtLgerHistDao.selectFcltyCtrtChangeFList", searchVO);
+		return list("gamFcltyCtrtLgerHistDao.selectFcltyCtrtChangeFList_D", searchVO);
 	}
 	
 	
@@ -113,7 +113,7 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public GamFcltyCtrtLgerHistVO selectFcltyCtrtChangeFListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return (GamFcltyCtrtLgerHistVO) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtChangeFListSum", searchVO);
+		return (GamFcltyCtrtLgerHistVO) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtChangeFListSum_S", searchVO);
 	}
 	
 	
@@ -124,7 +124,7 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List selectFcltyCtrtMoneyPymntFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return list("gamFcltyCtrtLgerHistDao.selectFcltyCtrtMoneyPymntFList", searchVO);
+		return list("gamFcltyCtrtLgerHistDao.selectFcltyCtrtMoneyPymntFList_D", searchVO);
 	}
 	
 	
@@ -135,7 +135,7 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public GamFcltyCtrtLgerHistVO selectFcltyCtrtMoneyPymntFListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return (GamFcltyCtrtLgerHistVO) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtMoneyPymntFListSum", searchVO);
+		return (GamFcltyCtrtLgerHistVO) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtMoneyPymntFListSum_S", searchVO);
 	}
 	
 	
@@ -146,7 +146,7 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List selectFcltyCtrtFulfillCaryFwdFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return list("gamFcltyCtrtLgerHistDao.selectFcltyCtrtFulfillCaryFwdFList", searchVO);
+		return list("gamFcltyCtrtLgerHistDao.selectFcltyCtrtFulfillCaryFwdFList_D", searchVO);
 	}
 	
 	
@@ -157,7 +157,7 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public GamFcltyCtrtLgerHistVO selectFcltyCtrtFulfillCaryFwdFListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return (GamFcltyCtrtLgerHistVO) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtFulfillCaryFwdFListSum", searchVO);
+		return (GamFcltyCtrtLgerHistVO) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtFulfillCaryFwdFListSum_S", searchVO);
 	}
 
 }

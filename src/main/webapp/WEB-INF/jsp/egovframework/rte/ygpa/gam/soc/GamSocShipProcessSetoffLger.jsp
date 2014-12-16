@@ -104,16 +104,6 @@ GamSocShipProcessSetoffLgerModule.prototype.loadComplete = function() {
  GamSocShipProcessSetoffLgerModule.prototype.onButtonClick = function(buttonId) {
 
     switch(buttonId) {
-
-        // 조회
-        case 'searchBtn':
-        	if(!validateGamSocShipProcessSetoffLger(this.$('#gamSocShipProcessSetoffLgerSearchForm')[0])){ 		
-	    		return;
-	    	}
-    	
-		this.loadData();
-
-        break;
             
         case 'popupFeeInfo' : //요금종류조회
         	var opts;
@@ -160,8 +150,11 @@ GamSocShipProcessSetoffLgerModule.prototype.onSubmit = function() {
 };
 
 GamSocShipProcessSetoffLgerModule.prototype.loadData = function() {
+	
+	if(!validateGamSocShipProcessSetoffLger(this.$('#gamSocShipProcessSetoffLgerSearchForm')[0])){ 		
+		return;
+	}
     var searchOpt=this.makeFormArgs('#gamSocShipProcessSetoffLgerSearchForm');
-
     this.$('#socShipProcessSetoffLgerList').flexOptions({params:searchOpt}).flexReload();
 
 };
@@ -251,7 +244,7 @@ var module_instance = new GamSocShipProcessSetoffLgerModule();
                                 <input id="sCmplYr" type="text" size="5" />
                                 <input type="text" size="25" id="sConstNo" disabled/>
                             </td>
-                            <td rowspan="4"><button id="searchBtn" class="buttonSearch">조회</button></td>
+                            <td rowspan="4"><button class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>    
 							<th>요금종류</th>

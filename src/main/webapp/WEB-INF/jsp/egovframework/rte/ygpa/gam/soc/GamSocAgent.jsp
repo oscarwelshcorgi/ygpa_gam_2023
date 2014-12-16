@@ -86,6 +86,12 @@ GamSocAgentMngtModule.prototype.loadComplete = function() {
     
     
 	// 연도 셀렉트 옵션에 뿌리기
+	this.addSelectOption();
+
+};
+
+GamSocAgentMngtModule.prototype.addSelectOption = function() {
+	
 	var toDate = new Date();
 	var toYear = toDate.getFullYear();
 	
@@ -135,7 +141,6 @@ GamSocAgentMngtModule.prototype.saveItem = function() {
 	 		if(result.resultCode == "0"){
 	 			var searchOpt = module.makeFormArgs("#gamSocAgentMngtSearchForm");
 				module.$("#socAgentMngtList").flexOptions({params:searchOpt}).flexReload();
-				module.$("#socAgentListTab").tabs("option", {active: 0});
 	 		}
 	 		alert(result.resultMsg);
 	 	});
@@ -144,7 +149,6 @@ GamSocAgentMngtModule.prototype.saveItem = function() {
 	 		if(result.resultCode == "0"){
 	 			var searchOpt = module.makeFormArgs("#gamSocAgentMngtSearchForm");
 				module.$("#socAgentMngtList").flexOptions({params:searchOpt}).flexReload();
-				module.$("#socAgentListTab").tabs("option", {active: 0});
 	 		}
 	 		alert(result.resultMsg);
 	 	});
@@ -219,14 +223,14 @@ GamSocAgentMngtModule.prototype.removeItem = function() {
 
 
 GamSocAgentMngtModule.prototype.onSubmit = function() {
-	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){ 		
-		return;
-	}
     this.loadData();
 };
 
 GamSocAgentMngtModule.prototype.loadData = function() {
 	
+	if(!validateGamSocAgent(this.$('#gamSocAgentMngtSearchForm')[0])){ 		
+		return;
+	}
     this.$("#socAgentListTab").tabs("option", {active: 0});
     var searchOpt=this.makeFormArgs('#gamSocAgentMngtSearchForm');
 
@@ -234,15 +238,6 @@ GamSocAgentMngtModule.prototype.loadData = function() {
 
 };
 
-GamSocAgentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
-	switch(newTabId) {
-		case 'tabs1':
-			break;
-		case 'tabs2':
-			break;
-	
-	}
-};
 
 //팝업이 종료 될때 리턴 값이 오출 된다.
 //popupId : 팝업 대화상자 아이디

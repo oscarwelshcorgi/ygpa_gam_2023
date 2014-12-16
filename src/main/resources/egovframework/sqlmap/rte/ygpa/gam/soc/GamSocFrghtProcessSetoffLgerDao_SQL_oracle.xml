@@ -13,7 +13,7 @@
         <result property="sumAmnt" column="SUM_AMNT" columnIndex="4" javaType="java.lang.Long"/>
     </resultMap>
 
-    <select id="gamSocFrghtProcessSetoffLgerDao.selectSocFrghtProcessSetoffLgerList" parameterClass="gamSocFrghtProcessSetoffLgerVO" resultClass="egovMap">
+    <select id="gamSocFrghtProcessSetoffLgerDao.selectSocFrghtProcessSetoffLgerList_D" parameterClass="gamSocFrghtProcessSetoffLgerVO" resultClass="egovMap">
         SELECT A.*
            FROM (
            		SELECT  ROWNUM RNUM, S.*
@@ -91,7 +91,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
-    <select id="gamSocFrghtProcessSetoffLgerDao.selectSocFrghtProcessSetoffLgerListSum" parameterClass="gamSocFrghtProcessSetoffLgerVO" resultMap="selectSocFrghtProcessSetoffLgerListSumMap">
+    <select id="gamSocFrghtProcessSetoffLgerDao.selectSocFrghtProcessSetoffLgerListSum_S" parameterClass="gamSocFrghtProcessSetoffLgerVO" resultMap="selectSocFrghtProcessSetoffLgerListSumMap">
         SELECT 
         		COUNT(*) AS TOTAL_CNT
         		, NVL(SUM(DECODE(JINGSUJA,'PAT',0,A.EXMP_AMNT )),0) AS SUM_EXMP_AMNT

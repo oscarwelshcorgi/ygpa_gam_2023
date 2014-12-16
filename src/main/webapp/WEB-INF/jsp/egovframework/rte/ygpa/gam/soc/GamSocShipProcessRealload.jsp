@@ -54,12 +54,12 @@ GamSocShipProcessRealloadModule.prototype.loadComplete = function() {
     this.$("#socShipProcessRealloadList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		
     	var detailInput = [
-   		   				{name: 'sPrtAtCode', value: row["sPrtAtCode"]},
-   		   				{name: 'sFrDt', value: row["sFrDt"]},
-   		   				{name: 'sToDt', value: row["sToDt"]},
-   		   				{name: 'sExmpAgentCode', value: row["sExmpAgentCode"]},
-   		   				{name: 'sVsslKey', value: row["sVsslKey"]},
-   		   				{name: 'feeTp', value: row["feeTp"]}
+	   		   				{name: 'sPrtAtCode', 		value: row["sPrtAtCode"]},
+	   		   				{name: 'sFrDt', 			value: row["sFrDt"]},
+	   		   				{name: 'sToDt', 			value: row["sToDt"]},
+	   		   				{name: 'sExmpAgentCode', 	value: row["sExmpAgentCode"]},
+	   		   				{name: 'sVsslKey', 			value: row["sVsslKey"]},
+	   		   				{name: 'feeTp', 			value: row["feeTp"]}
    		                   ]; 
 		module.$('#socShipProcessRealloadDetail').flexOptions({params:detailInput}).flexReload();
 	});
@@ -72,16 +72,16 @@ GamSocShipProcessRealloadModule.prototype.loadComplete = function() {
         colModel : [
 					{display:'업체코드', 			name:'exmpAgentCode',	width:80, 		sortable:false,		align:'center'},
                     {display:'호출부호', 			name:'callLetter',		width:120, 		sortable:false,		align:'center'},
-                    {display:'선박명', 				name:'vsslNm',			width:150, 		sortable:false,		align:'center'},
+                    {display:'선박명', 			name:'vsslNm',			width:150, 		sortable:false,		align:'center'},
                     {display:'입항연도', 			name:'yr',				width:120, 		sortable:false,		align:'center'},
-                    {display:'입출항일자', 			name:'ioDt',			width:130, 		sortable:false,		align:'center'},
+                    {display:'입출항일자', 		name:'ioDt',			width:130, 		sortable:false,		align:'center'},
                     {display:'시설코드', 			name:'facilNm',			width:130, 		sortable:false,		align:'center'},
                     {display:'회계연도', 			name:'fiscalYr',		width:130, 		sortable:false,		align:'center'},
                     {display:'고지번호', 			name:'billNo',			width:130, 		sortable:false,		align:'center'},
                     {display:'적용요율', 			name:'standardFee',		width:130, 		sortable:false,		align:'center'},
-                    {display:'징수톤', 				name:'realTn',			width:130, 		sortable:false,		align:'center'},
+                    {display:'징수톤', 			name:'realTn',			width:130, 		sortable:false,		align:'center'},
                     {display:'고지일자', 			name:'billDt',			width:130, 		sortable:false,		align:'center'},
-                    {display:'할인률(%)', 			name:'rateNm',			width:130, 		sortable:false,		align:'center'},
+                    {display:'할인률(%)', 		name:'rateNm',			width:130, 		sortable:false,		align:'center'},
                     {display:'면제금액', 			name:'exmpAmnt',		width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'}
                     ],
         showTableToggleBtn: false,

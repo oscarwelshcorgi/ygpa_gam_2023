@@ -112,8 +112,15 @@ GamFcltsClCdModule.prototype.loadDetail = function() {
 		this.$("#fcltsClCdListTab").tabs("option", {active: 0});
 		return;
 	}
+	
+	this.doAction('/code/selectFcltsClCdDetail.do', row[0], function(module, result) {
 
-	this.makeFormValues('#fcltsClCdVO', row[0]);
+ 		if(result.resultCode == "0"){
+ 			module.makeFormValues('#fcltsClCdVO', result.result);
+ 		}
+ 	});
+	
+	// 해당 샐렉트값 가져오기
 	this.selectFcltsClUpperCdList(row[0]);
 
 };

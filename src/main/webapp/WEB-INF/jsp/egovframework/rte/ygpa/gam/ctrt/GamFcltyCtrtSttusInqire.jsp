@@ -69,10 +69,22 @@ GamFcltyCtrtSttusInqireModule.prototype.loadComplete = function() {
         }
     });
  	
- 	// 연도 셀렉트 옵션에 뿌리기
+ 	// 연도 셀렉트 옵션에 뿌리기 + 기본값 설정
+	this.addSelectOption();
+ 	
+	// 셀렉트박스의 값이 변경시 검색을 위해 이전연도를 히든에 재설정
+    this.$('#sCtrtYr').on('change', {module: this}, function(e) {
+    	var prevCtrtYr = e.data.module.$('#sCtrtYr > option:selected').val() - 1;
+    	e.data.module.$('#sPrevCtrtYr').val(prevCtrtYr);
+	});
+
+};
+
+
+GamFcltyCtrtSttusInqireModule.prototype.addSelectOption = function() {
+	
 	var toDate = new Date();
 	var toYear = toDate.getFullYear();
-	var serchPreYr = toYear - 1;
 	
 	var option = "";
 	for(var i = 2000;i<=toYear;i++){
@@ -80,20 +92,11 @@ GamFcltyCtrtSttusInqireModule.prototype.loadComplete = function() {
 	}
 	this.$("#sCtrtYr").append(option);
 	
-	
+	// 셀렉트박스 기본값 설정 
 	this.$('#sCtrtYr').val(toYear);
+	// 검색을 위해 이전연도를 히든에 설정
+	var serchPreYr = toYear - 1;
 	this.$('#sPrevCtrtYr').val(serchPreYr);
- 	
- 	
-    this.$('#sCtrtYr').on('change', {module: this}, function(e) {
-    	var prevCtrtYr;
-    	if(e.data.module.$('#sCtrtYr > option:selected').val()){
-    		prevCtrtYr = e.data.module.$('#sCtrtYr > option:selected').val() - 1;
-    	}else{
-    		prevCtrtYr = "";
-    	}
-    	e.data.module.$('#sPrevCtrtYr').val(prevCtrtYr);
-	});
 
 };
 
@@ -105,13 +108,7 @@ GamFcltyCtrtSttusInqireModule.prototype.loadComplete = function() {
 
     switch(buttonId) {
 
-        // 조회
-        case 'searchBtn':
-
-			this.loadData();
-            break;
-        
-         // 시설물계약이력 엑셀 다운로드
+        // 시설물계약이력 엑셀 다운로드
 		case 'btnFcltyCtrtSttusInqireListExcelDownload':
 			this.$('#fcltyCtrtSttusInqireList').flexExcelDown('/ctrt/gamSelectFcltyCtrtSttusInqireExcel.do');
 		break;
@@ -129,14 +126,6 @@ GamFcltyCtrtSttusInqireModule.prototype.loadData = function() {
 
     this.$('#fcltyCtrtSttusInqireList').flexOptions({params:searchOpt}).flexReload();
 
-};
-
-GamFcltyCtrtSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
-    switch(newTabId) {
-    case 'tabs1':
-        break;
-   
-    }
 };
 
 //팝업이 종료 될때 리턴 값이 오출 된다.
@@ -189,7 +178,7 @@ var module_instance = new GamFcltyCtrtSttusInqireModule();
                             <th width="10%">등록업체</th>
                             <td><input id="sEntrpsNm" type="text" size="70"></td>
                             <td rowspan="2">
-								<button id="searchBtn" class="buttonSearch">조회</button>
+								<button class="buttonSearch">조회</button>
                             </td>
                         </tr>
                         <tr>

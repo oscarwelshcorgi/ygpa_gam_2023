@@ -124,7 +124,7 @@ public class GamFcltsClCdController {
 	
 	/**
 	 * 시설물분류코드 상세
-	 * @param fcltyManageVO
+	 * @param fcltyManageVO 
 	 * @return map
 	 * @throws Exception
 	 */
@@ -142,15 +142,9 @@ public class GamFcltsClCdController {
     	}
     	
     	result = gamFcltsClCdService.selectFcltsClCdDetail(fcltsClCdVO);
-    	
-    	fcltsClCdVO.put("mainFcltsDiv", result.get("mainFcltsDiv"));
-    	fcltsClCdVO.put("depthSort", result.get("depthSort"));
-    	
-    	List<?> fcltsClUpperCdList = gamFcltsClCdService.selectFcltsClUpperCdList(fcltsClCdVO);
 
         map.put("resultCode", 0);
         map.put("result", result);
-        map.put("fcltsClUpperCdList", fcltsClUpperCdList);
 
         return map;
     }

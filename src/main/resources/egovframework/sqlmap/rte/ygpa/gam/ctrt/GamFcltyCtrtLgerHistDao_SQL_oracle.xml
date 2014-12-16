@@ -110,7 +110,7 @@
     </resultMap>
     
 
-    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistList" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="egovMap">
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistList_D" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -121,48 +121,16 @@
 											WHEN CTRT_SE = '2' THEN '조달'
 									  END) AS CTRT_SE
 					        		, BID_PBLANC_NO
+					        		, CTRT_NM
 					        		, TO_CHAR(BID_PBLANC_DT, 'YYYY-MM-DD') AS BID_PBLANC_DT
 					        		, TO_CHAR(BID_DT, 'YYYY-MM-DD') AS BID_DT
 					        		, REGIST_ENTRPS_CD
 					        		, GAM_GETENTRPSNM(REGIST_ENTRPS_CD, 1) AS REGIST_ENTRPS_NM
-					        		, SITE_DESC
-					        		, CTRT_NM
 					        		, PLAN_AMT
 					        		, PRMT_AMT
 					        		, SCSBID_AMT
 					        		, SCSBID_RATE
 					        		, BASE_AMT
-					        		, BID_MTH
-					        		, CTRT_MTH
-					        		, TO_CHAR(CTRT_DT, 'YYYY-MM-DD') AS CTRT_DT
-					        		, CTRT_AMT
-					        		, TO_CHAR(CTRT_PD_FROM, 'YYYY-MM-DD') AS CTRT_PD_FROM
-					        		, TO_CHAR(CTRT_PD_TO, 'YYYY-MM-DD') AS CTRT_PD_TO
-					        		, CTRT_GRNTY_AMT
-					        		, PRCU_PBLANC_NO
-					        		, CTRT_GRNTY_MTH
-					        		, TO_CHAR(CTRT_EXAM_DT, 'YYYY-MM-DD') AS CTRT_EXAM_DT
-					        		, INTENDANT_1
-					        		, INTENDANT_2
-					        		, INTENDANT_3
-					        		, CARY_FWD_BDGT_AMT
-					        		, ELCTRN_SANCTN_TRNSMIS_SE
-					        		, ELCTRN_SANCTN_PROGRS_CD
-					        		, TO_CHAR(ELCTRN_SANCTN_TRNSMIS_DT, 'YYYY-MM-DD') AS ELCTRN_SANCTN_TRNSMIS_DT
-					        		, ELCTRN_SANCTN_INTERLOCK_INFO
-					        		, ELCTRN_SANCTN_DOC_ID
-					        		, TO_CHAR(CONFM_DT, 'YYYY-MM-DD') AS CONFM_DT
-					        		, CONFMER_CD
-					        		, REG_USR
-					        		, TO_CHAR(REGIST_DT, 'YYYY-MM-DD') AS REGIST_DT
-					        		, UPD_USR
-					        		, TO_CHAR(UPDT_DT, 'YYYY-MM-DD') AS UPDT_DT
-					        		, ORDER_MTHD
-					        		, SLDRT_GRNTY
-					        		, JOB_CHRG_DEPT_CD
-					        		, TO_CHAR(FLAW_PD_FROM, 'YYYY-MM-DD') AS FLAW_PD_FROM
-					        		, TO_CHAR(FLAW_PD_TO, 'YYYY-MM-DD') AS FLAW_PD_TO
-					        		, CAUSE_ACT
                              FROM 
 					              	CTRT_INFO_F
 					              
@@ -204,7 +172,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistInfoSum" parameterClass="gamFcltyCtrtLgerHistVO" resultMap="selectFcltyCtrtLgerHistInfoSumMap">
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistInfoSum_S" parameterClass="gamFcltyCtrtLgerHistVO" resultMap="selectFcltyCtrtLgerHistInfoSumMap">
 
         SELECT 
         		COUNT(*) AS TOTAL_CNT
@@ -247,7 +215,7 @@
     </select>
     
     
-    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistDetail" parameterClass="gamFcltyCtrtLgerHistVO" resultMap="selectFcltyCtrtLgerHistDetailMap">
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistDetail_S" parameterClass="gamFcltyCtrtLgerHistVO" resultMap="selectFcltyCtrtLgerHistDetailMap">
 
         SELECT 
         		CTRT_NO
@@ -304,7 +272,7 @@
     </select>
     
     
-    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtJoinContrFList" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="egovMap">
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtJoinContrFList_D" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -317,21 +285,8 @@
 							    , RPRSNTV
 							    , TLPHON_NO
 							    , FAX_NO
-							    , POST_NO
-							    , ROADNM_ADRES
-							    , LNM_ADRES
-							    , DEAL_RELATE
-							    , INDUTY
-							    , STPL_PRDLST
-							    , BSNM_NO
 							    , CHARGER
 							    , CHARGER_OFC_POS
-							    , CHARGER_MOBLPHON_NO
-							    , CHARGER_EMAIL
-							    , REG_USR
-							    , TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT
-							    , UPD_USR
-							    , TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT
                              FROM 
 					              	CTRT_JOIN_CONTR_F
 					              
@@ -344,7 +299,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamCustTpSalesSttutsCreatDao.selectFcltyCtrtJoinContrFTotalCnt" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="int">
+    <select id="gamCustTpSalesSttutsCreatDao.selectFcltyCtrtJoinContrFTotalCnt_S" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="int">
 
         SELECT 
         		COUNT(*) AS TOTAL_CNT
@@ -356,12 +311,12 @@
     </select>
     
     
-    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtJoinContrFDetail" parameterClass="gamFcltyCtrtLgerHistVO" resultMap="selectFcltyCtrtJoinContrFDetailMap">
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtJoinContrFDetail_S" parameterClass="gamFcltyCtrtLgerHistVO" resultMap="selectFcltyCtrtJoinContrFDetailMap">
 
         SELECT 
         		CTRT_NO
 			    , SEQ
-			    , QOTA_RATE
+			    , (TO_CHAR(QOTA_RATE * 100) || '%')  QOTA_RATE
 			    , ENTRPS_NM
 			    , RPRSNTV
 			    , TLPHON_NO
@@ -391,7 +346,7 @@
     </select>
     
     
-    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtChangeFList" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="egovMap">
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtChangeFList_D" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -422,7 +377,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtChangeFListSum" parameterClass="gamFcltyCtrtLgerHistVO" resultMap="selectFcltyCtrtChangeFListSumMap">
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtChangeFListSum_S" parameterClass="gamFcltyCtrtLgerHistVO" resultMap="selectFcltyCtrtChangeFListSumMap">
 
         SELECT 
         		COUNT(*) AS TOTAL_CNT
@@ -437,7 +392,7 @@
     
     
     
-    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtMoneyPymntFList" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="egovMap">
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtMoneyPymntFList_D" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -468,7 +423,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtMoneyPymntFListSum" parameterClass="gamFcltyCtrtLgerHistVO" resultMap="selectFcltyCtrtMoneyPymntFListSumMap">
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtMoneyPymntFListSum_S" parameterClass="gamFcltyCtrtLgerHistVO" resultMap="selectFcltyCtrtMoneyPymntFListSumMap">
 
         SELECT 
         		COUNT(*) AS TOTAL_CNT
@@ -484,7 +439,7 @@
     </select>
     
     
-    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtFulfillCaryFwdFList" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="egovMap">
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtFulfillCaryFwdFList_D" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -511,7 +466,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
-    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtFulfillCaryFwdFListSum" parameterClass="gamFcltyCtrtLgerHistVO" resultMap="selectFcltyCtrtFulfillCaryFwdFListSumMap">
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtFulfillCaryFwdFListSum_S" parameterClass="gamFcltyCtrtLgerHistVO" resultMap="selectFcltyCtrtFulfillCaryFwdFListSumMap">
 
         SELECT 
         		COUNT(*) AS TOTAL_CNT

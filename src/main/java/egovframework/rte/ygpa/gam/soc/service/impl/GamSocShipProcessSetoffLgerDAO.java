@@ -36,7 +36,7 @@ public class GamSocShipProcessSetoffLgerDAO extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List selectSocShipProcessSetoffLgerList(GamSocShipProcessSetoffLgerVO searchVO) throws Exception {
-		return list("gamSocShipProcessSetoffLgerDao.selectSocShipProcessSetoffLgerList", searchVO);
+		return list("gamSocShipProcessSetoffLgerDao.selectSocShipProcessSetoffLgerList_D", searchVO);
 	}
 	
 
@@ -47,7 +47,7 @@ public class GamSocShipProcessSetoffLgerDAO extends YGPAAbstractDAO {
 	 * @exception
 	 */
 	public GamSocShipProcessSetoffLgerVO selectSocShipProcessSetoffLgerListSum(GamSocShipProcessSetoffLgerVO searchVO) throws Exception {
-		return (GamSocShipProcessSetoffLgerVO) selectByPk("gamSocShipProcessSetoffLgerDao.selectSocShipProcessSetoffLgerListSum", searchVO);
+		return (GamSocShipProcessSetoffLgerVO) selectByPk("gamSocShipProcessSetoffLgerDao.selectSocShipProcessSetoffLgerListSum_S", searchVO);
 	}
 
 }

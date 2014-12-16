@@ -37,7 +37,7 @@ public class GamSocShipProcessRealloadDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List selectSocShipProcessRealloadList(GamSocShipProcessRealloadVO searchVO) throws Exception {
-		return list("gamSocShipProcessRealloadDao.selectSocShipProcessRealloadList", searchVO);
+		return list("gamSocShipProcessRealloadDao.selectSocShipProcessRealloadList_D", searchVO);
 	}
 	
 	
@@ -48,7 +48,7 @@ public class GamSocShipProcessRealloadDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public int selectSocShipProcessRealloadListTotCnt(GamSocShipProcessRealloadVO searchVO)  throws Exception{
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamSocShipProcessRealloadDao.selectSocShipProcessRealloadListTotCnt", searchVO);
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamSocShipProcessRealloadDao.selectSocShipProcessRealloadListTotCnt_S", searchVO);
 	}
 	
 	
@@ -59,7 +59,7 @@ public class GamSocShipProcessRealloadDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List selectSocShipProcessRealloadDetail(GamSocShipProcessRealloadVO searchVO) throws Exception {
-		return list("gamSocShipProcessRealloadDao.selectSocShipProcessRealloadDetail", searchVO);
+		return list("gamSocShipProcessRealloadDao.selectSocShipProcessRealloadDetail_D", searchVO);
 	}
 	
 
@@ -70,7 +70,7 @@ public class GamSocShipProcessRealloadDao extends YGPAAbstractDAO {
 	 * @exception
 	 */
 	public GamSocShipProcessRealloadVO selectSocShipProcessRealloadDetailSum(GamSocShipProcessRealloadVO searchVO) throws Exception {
-		return (GamSocShipProcessRealloadVO) selectByPk("gamSocShipProcessRealloadDao.selectSocShipProcessRealloadDetailSum", searchVO);
+		return (GamSocShipProcessRealloadVO) selectByPk("gamSocShipProcessRealloadDao.selectSocShipProcessRealloadDetailSum_S", searchVO);
 	}
 	
 	
@@ -82,7 +82,7 @@ public class GamSocShipProcessRealloadDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public List selectSocShipProcessRealloadListPrint(GamSocShipProcessRealloadVO searchVO) throws Exception {
-		return list("gamSocShipProcessRealloadDao.selectSocShipProcessRealloadListPrint", searchVO);
+		return list("gamSocShipProcessRealloadDao.selectSocShipProcessRealloadListPrint_D", searchVO);
 	}
 	
 	
@@ -93,7 +93,7 @@ public class GamSocShipProcessRealloadDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
 	public GamSocShipProcessRealloadVO selectSocShipProcessRealloadListPrintTotCnt(GamSocShipProcessRealloadVO searchVO)  throws Exception{
-		return (GamSocShipProcessRealloadVO) selectByPk("gamSocShipProcessRealloadDao.selectSocShipProcessRealloadListPrintTotCnt", searchVO);
+		return (GamSocShipProcessRealloadVO) selectByPk("gamSocShipProcessRealloadDao.selectSocShipProcessRealloadListPrintTotCnt_S", searchVO);
 	}
 
 }

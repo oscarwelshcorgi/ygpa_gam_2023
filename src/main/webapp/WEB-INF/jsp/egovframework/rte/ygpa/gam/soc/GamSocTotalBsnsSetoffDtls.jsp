@@ -122,23 +122,7 @@ GamSocTotalBsnsSetoffDtlsModule.prototype.loadComplete = function() {
  GamSocTotalBsnsSetoffDtlsModule.prototype.onButtonClick = function(buttonId) {
 
     switch(buttonId) {
-
-        // 조회
-        case 'searchBtn':
-			
-        	if(!validateGamSocTotalBsnsSetoffDtls(this.$('#gamSocTotalBsnsSetoffDtlsSearchForm')[0])){ 		
-        		return;
-        	}
-        	
-			this.loadData();
-        	
-        	var searchOpt = [
-        	                 {prtAtCode:'', cmplYr:'', constNo:''}
-        	                 ];
-
-        	this.$('#socTotalBsnsSetoffDtlsDetail').flexOptions({params:searchOpt}).flexReload();
-            break;
-
+    
         case 'popupChrgeKndCd' : //요금코드조회
         	var opts;
 			this.doExecuteDialog('selectChrgeKndCd', '요금 선택', '/popup/showSocPayCd.do', opts);
@@ -148,11 +132,6 @@ GamSocTotalBsnsSetoffDtlsModule.prototype.loadComplete = function() {
         	var opts;
 			this.doExecuteDialog('selectAgentInfo', '면제업체 선택', '/popup/showSocAgentFInfo.do', opts);
         	break;
-            
-        case 'btnPopupSaveSocAgent':
-    		var all_rows = this.$('#socAgentMngtList').flexGetData();
-    		this.doExecuteDialog("addSocAgentPopup", "항만공사시행허가원부추가", '/popup/showSocAgent.do', {},all_rows);
-            break;
 
     }
 };
@@ -163,9 +142,13 @@ GamSocTotalBsnsSetoffDtlsModule.prototype.onSubmit = function() {
 };
 
 GamSocTotalBsnsSetoffDtlsModule.prototype.loadData = function() {
+	
+	if(!validateGamSocTotalBsnsSetoffDtls(this.$('#gamSocTotalBsnsSetoffDtlsSearchForm')[0])){ 		
+		return;
+	}
     var searchOpt=this.makeFormArgs('#gamSocTotalBsnsSetoffDtlsSearchForm');
-
     this.$('#socTotalBsnsSetoffDtlsList').flexOptions({params:searchOpt}).flexReload();
+    this.$('#socTotalBsnsSetoffDtlsDetail').flexEmptyData();
 
 };
 
@@ -182,7 +165,6 @@ GamSocTotalBsnsSetoffDtlsModule.prototype.onClosePopup = function(popupId, msg, 
         	 this.$('#sPrtAtCode').val(value["prtAtCode"]);
              this.$('#sFeeTp').val(value["feeTp"]);
              this.$('#sFeeTpKorNm').val(value["feeTpKorNm"]);
-			 //this.loadData();
          } else {
              alert('취소 되었습니다');
          }
@@ -237,7 +219,7 @@ var module_instance = new GamSocTotalBsnsSetoffDtlsModule();
                                 <input type="text" size="25" id="sExmpAgentName" disabled/>
                                 <button id="popupAgentInfo" class="popupButton">선택</button>
                             </td>
-                            <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
+                            <td rowspan="2"><button class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>                            
                             <th>보전횟수</th>
@@ -290,13 +272,6 @@ var module_instance = new GamSocTotalBsnsSetoffDtlsModule();
         	                    </td>
 							</tr>
 						</table>
-						<!-- <table style="width:100%;">
-	                        <tr>
-	                            <td style="text-align: right">
-	                                <button id="btnPopupSaveSocAgent">행추가/삭제</button>
-	                            </td>
-	                        </tr>
-						</table> -->
 					</form>
                 </div>
             </div>
