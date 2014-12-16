@@ -180,7 +180,7 @@ var popup_instance = new GamPopupCtrtChangeMngtModule();
                         <th>변경일자</th>
                         <td><input id="changeDt" type="text" style="width: 150px;" class="EditItem emdcal"/></td>
                         <th>변경사유</th>
-                        <td><input id="changeRsn" type="text" style="width: 200px;" class="EditItem"/></td>
+                        <td><input id="changeRsn" type="text" style="width: 200px;" class="EditItem" maxlength="100"/></td>
 					</tr>
 					<tr>
                     	<th>변경계약기간</th>
@@ -198,7 +198,7 @@ var popup_instance = new GamPopupCtrtChangeMngtModule();
 					<tr>
                     	<th>비고</th>
                         <td colspan="3">
-                        	<input id="rm" type="text" style="width: 450px;" class="EditItem"/>
+                        	<input id="rm" type="text" style="width: 450px;" class="EditItem" maxlength="200"/>
                         </td>
 					</tr>
 				</tbody>

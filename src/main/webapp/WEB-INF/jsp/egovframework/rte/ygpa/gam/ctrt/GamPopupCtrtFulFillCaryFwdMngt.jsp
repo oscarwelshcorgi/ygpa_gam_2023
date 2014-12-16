@@ -160,7 +160,7 @@ var popup_instance = new GamPopupCtrtFulFillCaryFwdMngtModule();
 				<tbody>
 					<tr>
                         <th>이행이월년도</th>
-                        <td><input id="fulfillCaryFwdYear" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <td><input id="fulfillCaryFwdYear" type="text" style="width: 150px;" class="EditItem" maxlength="4"/></td>
                         <th>변경계약금액</th>
                         <td><input id="fulfillAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
 						<th>최종계약금액</th>

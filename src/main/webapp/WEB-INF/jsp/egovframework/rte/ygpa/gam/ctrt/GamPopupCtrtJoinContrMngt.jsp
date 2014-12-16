@@ -225,47 +225,47 @@ var popup_instance = new GamPopupCtrtJoinContrMngtModule();
 				<tbody>
 					<tr>
                         <th>업체명</th>
-                        <td><input id="entrpsNm" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <td><input id="entrpsNm" type="text" style="width: 150px;" class="EditItem" maxlength="100"/></td>
                         <th>대표자</th>
-                        <td><input id="rprsntv" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <td><input id="rprsntv" type="text" style="width: 150px;" class="EditItem" maxlength="100"/></td>
 						<th>지분율</th>
                         <td><input id="qotaRate" type="text" style="width: 150px;" class="EditItem ygpaNumber" data-decimal-point="5"/></td>
 					</tr>
 					<tr>
                     	<th>업종</th>
-                        <td><input id="induty" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <td><input id="induty" type="text" style="width: 150px;" class="EditItem" maxlength="40"/></td>
                         <th>주요품목</th>
-                        <td><input id="stplPrdlst" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <td><input id="stplPrdlst" type="text" style="width: 150px;" class="EditItem" maxlength="40"/></td>
 						<th>사업자번호</th>
-                        <td><input id="bsnmNo" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <td><input id="bsnmNo" type="text" style="width: 150px;" class="EditItem" maxlength="14"/></td>
 					</tr>
 					<tr>
                     	<th>거래관계</th>
-                        <td><input id="dealRelate" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <td><input id="dealRelate" type="text" style="width: 150px;" class="EditItem" maxlength="2"/></td>
                         <th>전화번호</th>
-                        <td><input id="tlphonNo" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <td><input id="tlphonNo" type="text" style="width: 150px;" class="EditItem" maxlength="100"/></td>
 						<th>팩스번호</th>
-                        <td><input id="faxNo" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <td><input id="faxNo" type="text" style="width: 150px;" class="EditItem" maxlength="100"/></td>
 					</tr>
 					<tr>
                     	<th>담당자</th>
-                        <td><input id="charger" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <td><input id="charger" type="text" style="width: 150px;" class="EditItem" maxlength="20"/></td>
                         <th>담당자직위</th>
-                        <td><input id="chargerOfcPos" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <td><input id="chargerOfcPos" type="text" style="width: 150px;" class="EditItem" maxlength="20"/></td>
 						<th>담당자휴대폰번호</th>
-                        <td><input id="chargerMoblphonNo" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <td><input id="chargerMoblphonNo" type="text" style="width: 150px;" class="EditItem" maxlength="20"/></td>
 					</tr>
 					<tr>
                     	<th>담당자이메일</th>
-                        <td><input id="chargerEmail" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <td><input id="chargerEmail" type="text" style="width: 150px;" class="EditItem" maxlength="50"/></td>
                         <th>도로명 주소</th>
-                        <td colspan="3"><input id="roadnmAdres" type="text" style="width: 300px;" class="EditItem"/></td>
+                        <td colspan="3"><input id="roadnmAdres" type="text" style="width: 300px;" class="EditItem" maxlength="200"/></td>
 					</tr>					
 					<tr>
                     	<th>우편번호</th>
-                        <td><input id="postNo" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <td><input id="postNo" type="text" style="width: 150px;" class="EditItem" maxlength="7"/></td>
                         <th>지번주소</th>
-                        <td colspan="3"><input id="lnmAdres" type="text" style="width: 300px;" class="EditItem"/></td>
+                        <td colspan="3"><input id="lnmAdres" type="text" style="width: 300px;" class="EditItem" maxlength="200"/></td>
 					</tr>
 				</tbody>
 			</table>

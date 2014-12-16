@@ -179,7 +179,7 @@ var popup_instance = new GamPopupCtrtMoneyPymntMngtModule();
 				<tbody>
 					<tr>
                         <th>지급분류</th>
-                        <td><input id="pymntCl" type="text" style="width: 150px;" class="EditItem"/></td>
+                        <td><input id="pymntCl" type="text" style="width: 150px;" class="EditItem" maxlength="2"/></td>
                         <th>지급일자</th>
                         <td><input id="pymntDt" type="text" style="width: 150px;" class="EditItem  emdcal"/></td>
                         <th>금회기성금액</th>
@@ -196,7 +196,7 @@ var popup_instance = new GamPopupCtrtMoneyPymntMngtModule();
 					<tr>
                     	<th>비고</th>
                         <td colspan="3">
-                        	<input id="rm" type="text" style="width: 450px;" class="EditItem"/>
+                        	<input id="rm" type="text" style="width: 450px;" class="EditItem" maxlength="200"/>
                         </td>
 					</tr>
 				</tbody>
