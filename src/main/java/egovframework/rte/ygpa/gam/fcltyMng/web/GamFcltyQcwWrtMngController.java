@@ -530,7 +530,7 @@ public class GamFcltyQcwWrtMngController {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/deleteQcMngDtls.do")
     @ResponseBody Map<String, Object> deleteQcMngDtls(@RequestParam Map deleteMap) throws Exception {
-    	Map<String, Object> map = new HashMap<String, Object>();
+    	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
