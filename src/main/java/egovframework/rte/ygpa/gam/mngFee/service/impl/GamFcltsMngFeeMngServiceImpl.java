@@ -107,6 +107,11 @@ public class GamFcltsMngFeeMngServiceImpl extends AbstractServiceImpl implements
 	}
 
 	@Override
+	public EgovMap selectMngFeeLevRequestFByPk(Map searchVO) throws Exception {
+		return gamFcltsMngFeeMngDao.selectMngFeeLevRequestFByPk(searchVO);
+	}
+
+	@Override
 	public List selectFcltsMngFeeMngPrintNoticeIssueList(Map searchVO) throws Exception {
 		return gamFcltsMngFeeMngDao.selectFcltsMngFeeMngPrintNoticeIssueList(searchVO);
 	}

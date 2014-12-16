@@ -79,16 +79,16 @@
 			<div class="book">
 				<div class="page">
 					<div class="subpage ygpa_report" >
-						<h1 class="ygpa_report_h1"><c:out value="${mngYrMt }" /> 임대료/관리비 내역서</h1>
+						<h1 class="ygpa_report_h1"><c:out value="${result.mngMt }" /> 임대료/관리비 내역서</h1>
 						<br />
 						<br />
 						<table class="rpr_form_table" style="border:3px double;">
 							<tbody>
 								<tr>
 									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">상    호</th>
-									<td colspan="2" style="width:40%; height:25; text-align:center; border-right-style: solid;"><c:out value="${entrpsNm }" /></td>
+									<td colspan="2" style="width:40%; height:25; text-align:center; border-right-style: solid;"><c:out value="${result.entrpsNm }" /></td>
 									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">임대면적</th>
-									<td style="width:40%; height:25; text-align:right;"><c:out value="${usageAr }" /></td>
+									<td style="width:40%; height:25; text-align:right;"><c:out value="${result.usageAr }" /></td>
 								</tr>
 							</tbody>
 						</table>
@@ -106,31 +106,31 @@
 								</tr>
 								<tr style="border-bottom-style: solid;">
 									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">임 대 료</th>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${rentFee }" /></td>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${rentVat }" /></td>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${rentAmt }" /></td>
-									<td style="width:20%; height:25; text-align:center;"><c:out value="${rentRm }" /></td>
+									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.rentFee }" /></td>
+									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.rentVat }" /></td>
+									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.rentAmt }" /></td>
+									<td style="width:20%; height:25; text-align:center;"><c:out value="${result.rentRm }" /></td>
 								</tr>
 								<tr style="border-bottom-style: solid;">
 									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">관 리 비</th>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${mngFee }" /></td>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${mngVat }" /></td>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${mngAmt }" /></td>
-									<td style="width:20%; height:25; text-align:center;"><c:out value="${mngRm }" /></td>
+									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.mngFee }" /></td>
+									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.mngVat }" /></td>
+									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.mngAmt }" /></td>
+									<td style="width:20%; height:25; text-align:center;"><c:out value="${result.mngRm }" /></td>
 								</tr>
 								<tr style="border-bottom-style: solid;">
 									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">연 체 료</th>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${arrrgFee }" /></td>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${arrrgVat }" /></td>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${arrrgAmt }" /></td>
-									<td style="width:20%; height:25; text-align:center;"><c:out value="${arrrgRm }" /></td>
+									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.arrrgFee }" /></td>
+									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.arrrgVat }" /></td>
+									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.arrrgAmt }" /></td>
+									<td style="width:20%; height:25; text-align:center;"><c:out value="${result.arrrgRm }" /></td>
 								</tr>
 								<tr>
 									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">납부금액</th>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${nticFee }" /></td>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${nticVat }" /></td>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${nticAmt }" /></td>
-									<td style="width:20%; height:25; text-align:center;"><c:out value="${nticRm }" /></td>
+									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.nticFee }" /></td>
+									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.nticVat }" /></td>
+									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.nticAmt }" /></td>
+									<td style="width:20%; height:25; text-align:center;"><c:out value="${result.nticRm }" /></td>
 								</tr>
 							</tbody>
 						</table>
@@ -147,22 +147,22 @@
 								</tr>
 								<tr style="border-bottom-style: solid;">
 									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">시설관리비</th>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${fcltyMngFee }" /></td>
-									<td rowspan="4" style="width:20%; text-align:right; border-right-style: solid;"><c:out value="${nticVat }" /></td>
-									<td rowspan="4" style="width:20%; text-align:right; border-right-style: solid;"><c:out value="${nticAmt }" /></td>
-									<td rowspan="4" style="width:20%; text-align:center;"><c:out value="${mngFeeRm }" /></td>
+									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.fcltyMngFee }" /></td>
+									<td rowspan="4" style="width:20%; text-align:right; border-right-style: solid;"><c:out value="${result.nticVat }" /></td>
+									<td rowspan="4" style="width:20%; text-align:right; border-right-style: solid;"><c:out value="${result.nticAmt }" /></td>
+									<td rowspan="4" style="width:20%; text-align:center;"><c:out value="${result.mngFeeRm }" /></td>
 								</tr>
 								<tr style="border-bottom-style: solid;">
 									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">전기사용료</th>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${elctyFee }" /></td>
+									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.elctyFee }" /></td>
 								</tr>
 								<tr style="border-bottom-style: solid;">
 									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">상하수도비</th>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${waterFee }" /></td>
+									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.waterFee }" /></td>
 								</tr>
 								<tr>
 									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">냉난방비</th>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${gasFee }" /></td>
+									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.gasFee }" /></td>
 								</tr>
 								<tr>
 									<th style="width:20%; height:25; text-align:center; border-right-style: solid;"> </th>
@@ -175,19 +175,19 @@
 						</table>
 						<br />
 						<br />
-						<p style="text-align:center;"><c:out value="${mngYrMt }" />분 임대료 및 관리비를 <c:out value="${payTmlmt }" />까지</p>
+						<p style="text-align:center;"><c:out value="${result.mngMt }" />분 임대료 및 관리비를 <c:out value="${result.payTmlmt }" />까지</p>
 						<br />
 						<p style="text-align:center;">아래의 계좌로 입금하여 주시기 바랍니다.</p>
 						<br />
 						<br />
-						<p style="text-align:center;">은 행 명 : <c:out value="${bankNm }" /></p>
+						<p style="text-align:center;">은 행 명 : <c:out value="${result.bankNm }" /></p>
 						<br />
-						<p style="text-align:center;">계좌번호 : <c:out value="${bankAccountNo }" /></p>
+						<p style="text-align:center;">계좌번호 : <c:out value="${result.bankAccountNo }" /></p>
 						<br />
-						<p style="text-align:center;">예 금 주 : <c:out value="${bankOwnerNm }" /></p>
+						<p style="text-align:center;">예 금 주 : <c:out value="${result.bankOwnerNm }" /></p>
 						<br />
 						<br />
-						<p style="text-align:center;"><c:out value="${nticDt }" /></p>
+						<p style="text-align:center;"><c:out value="${result.nticDt }" /></p>
 						<br />
 						<br />
 						<br />

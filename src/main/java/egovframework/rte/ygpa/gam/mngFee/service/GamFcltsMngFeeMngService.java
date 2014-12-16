@@ -97,6 +97,12 @@ public interface GamFcltsMngFeeMngService {
 	 * @param searchVO
 	 * @return
 	 */
+	EgovMap selectMngFeeLevRequestFByPk(Map searchVO) throws Exception;
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
 	List selectFcltsMngFeeMngPrintNoticeIssueList(Map searchVO) throws Exception;
 
 	/**
