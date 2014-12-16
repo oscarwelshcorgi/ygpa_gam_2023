@@ -78,11 +78,10 @@ GamSocAgentProcessDtlsSttusModule.prototype.onSubmit = function() {
 };
 
 GamSocAgentProcessDtlsSttusModule.prototype.loadData = function() {
-	var opts = null;
 	if(!validateGamSocAgentProcessDtlsSttus(this.$('#gamSocAgentProcessDtlsSttusSearchForm')[0])){ 		
 		return;
 	}
-	opts = this.makeFormArgs('#gamSocAgentProcessDtlsSttusSearchForm');
+	var opts = this.makeFormArgs('#gamSocAgentProcessDtlsSttusSearchForm');
 	this.$("#socAgentProcessDtlsSttusList").flexOptions({params:opts}).flexReload();
 };
 
