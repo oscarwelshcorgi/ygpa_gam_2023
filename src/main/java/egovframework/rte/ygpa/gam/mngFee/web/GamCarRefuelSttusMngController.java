@@ -3,12 +3,16 @@
  */
 package egovframework.rte.ygpa.gam.mngFee.web;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
@@ -29,6 +35,7 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
+import egovframework.rte.fdl.excel.EgovExcelService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamCarRefuelSttusMngService;
@@ -71,6 +78,9 @@ public class GamCarRefuelSttusMngController {
 	@Resource(name = "gamCarRefuelSttusMngService")
 	private GamCarRefuelSttusMngService gamCarRefuelSttusMngService;
 
+	@Resource(name = "excelCarRefuelSttusService")
+	private EgovExcelService excelCarRefuelSttusService;
+
 	@RequestMapping(value="/mngFee/gamCarRefuelSttusMng.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
@@ -98,7 +108,7 @@ public class GamCarRefuelSttusMngController {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/mngFee/gamSelectCarRefuelSttusMng.do" , method=RequestMethod.POST)
-	@ResponseBody Map gamSelectCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
+	@ResponseBody Map gamSelectCarRefuelSttusMng(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
 
 		int totalCnt;
 		Map map = new HashMap();
@@ -131,7 +141,7 @@ public class GamCarRefuelSttusMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamSelectCarRefuelSttusMngPk.do")
-	@ResponseBody Map<String, Object> selectCarRefuelSttusMngPk(GamCarRefuelSttusMngVo searchVO)	throws Exception {
+	@ResponseBody Map<String, Object> gamSelectCarRefuelSttusMngPk(GamCarRefuelSttusMngVo searchVO)	throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -159,8 +169,8 @@ public class GamCarRefuelSttusMngController {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/mngFee/gamExcelCarRefuelSttusMng.do" , method=RequestMethod.POST)
-	@ResponseBody ModelAndView excelCarRefuelSttusMngList(@RequestParam Map<String, Object> excelParam) throws Exception {
+	@RequestMapping(value="/mngFee/gamExcelDownloadCarRefuelSttusMng.do" , method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelDownloadCarRefuelSttusMng(@RequestParam Map<String, Object> excelParam) throws Exception {
 
 		Map map = new HashMap();
 		List header;
@@ -195,7 +205,7 @@ public class GamCarRefuelSttusMngController {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/mngFee/gamInsertCarRefuelSttusMng.do" , method=RequestMethod.POST)
-	@ResponseBody Map gamInsertCarRefuelSttusMngList(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
+	@ResponseBody Map gamInsertCarRefuelSttusMng(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
 
 		Map map = new HashMap();
 
@@ -226,8 +236,8 @@ public class GamCarRefuelSttusMngController {
 
 	}
 
-	@RequestMapping(value="/mngFee/gamUpdateCarRefuelSttusMngList.do")
-	@ResponseBody Map<String, Object> UpdateCarRefuelSttusMngList	(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo)	throws Exception {
+	@RequestMapping(value="/mngFee/gamUpdateCarRefuelSttusMng.do")
+	@ResponseBody Map<String, Object> gamUpdateCarRefuelSttusMng(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -256,8 +266,8 @@ public class GamCarRefuelSttusMngController {
 
 	}
 
-	@RequestMapping(value="/mngFee/gamDeleteCarRefuelSttusMngList.do")
-	@ResponseBody Map<String, Object> DeleteCarRefuelSttusMngList	(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo)	throws Exception {
+	@RequestMapping(value="/mngFee/gamDeleteCarRefuelSttusMng.do")
+	@ResponseBody Map<String, Object> gamDeleteCarRefuelSttusMng(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -282,6 +292,56 @@ public class GamCarRefuelSttusMngController {
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
 
+		return map;
+
+	}
+
+	@RequestMapping(value = "/mngFee/gamExcelUploadCarRefuelSttusMng.do")
+	@ResponseBody Map<String, Object> gamExcelUploadCarRefuelSttusMng(final HttpServletRequest request) throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+		final Map<String, MultipartFile> files = multiRequest.getFileMap();
+		InputStream fis = null;
+		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
+		MultipartFile file;
+
+		while (itr.hasNext()) {
+			Entry<String, MultipartFile> entry = itr.next();
+			file = entry.getValue();
+			if (!"".equals(file.getOriginalFilename())) {
+				if (file.getOriginalFilename().endsWith(".xls") ||
+					file.getOriginalFilename().endsWith(".xlsx") ||
+					file.getOriginalFilename().endsWith(".XLS") ||
+					file.getOriginalFilename().endsWith(".XLSX")) {
+					try {
+						fis = file.getInputStream();
+						excelCarRefuelSttusService.uploadExcel("gamCarRefuelSttusMngDao.insertCarRefuelSttusF_S", fis, 1, (long)5000);
+					} catch(Exception e) {
+						throw e;
+					} finally {
+						if (fis != null) {
+							fis.close();
+						}
+					}
+				} else {
+					map.put("resultCode", 3);
+					map.put("resultMsg", "xls, xlsx 파일 타입만 등록이 가능합니다.");
+					return map;
+				}
+			}
+		}
+
+		map.put("resultCode", 0);
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		return map;
 
 	}

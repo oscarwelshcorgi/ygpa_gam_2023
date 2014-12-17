@@ -20,4 +20,9 @@
 		<property name="sqlMapClient" ref="sqlMapClient" />
 	</bean>
 
+	<bean id="excelCarRefuelSttusService" class="egovframework.rte.fdl.excel.impl.EgovExcelServiceImpl">
+		<property name="mapClass" value="egovframework.rte.ygpa.gam.mngFee.service.impl.GamCarRefuelSttusExcelMapping" />
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
 </beans>

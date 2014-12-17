@@ -891,8 +891,8 @@ GamFcltsFeeMngNticModule.prototype.deleteNticIssue = function() {
 		var inputVO = this.makeFormArgs("#detailForm");
 		this.doAction('/mngFee/gamDeleteFcltsFeeMngNtic.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
-				this._mode = 'query';
-				this._mainKeyValue = '';
+				module._mode = 'query';
+				module._mainKeyValue = '';
 				module.loadData();
 			}
 			alert(result.resultMsg);
@@ -1315,9 +1315,9 @@ var module_instance = new GamFcltsFeeMngNticModule();
 					<button id="btnProcessNticIssue">　　고　지　　</button>
 					<button id="btnCancelNticIssue">　고지　취소　</button>
 					<button id="btnPrintNticIssue">고지서　　출력</button>
-					<button id="btnAddNticIssue">추가고지　입력</button>
-					<button id="btnDelNticIssue">추가고지　삭제</button>
-					<button id="btnExcelDownload">엑셀　다운로드</button>
+					<button id="btnAddNticIssue" class="buttonAdd">추가고지　입력</button>
+					<button id="btnDelNticIssue" class="buttonDelete">추가고지　삭제</button>
+					<button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
 					<button id="btnOpenFcltsFeeMngInqire">납부현황　조회</button>
 				</div>
 			</div>
@@ -1384,9 +1384,9 @@ var module_instance = new GamFcltsFeeMngNticModule();
 									<button id="btnProcessNticIssue2">　　고　지　　</button>
 									<button id="btnCancelNticIssue2">　고지　취소　</button>
 									<button id="btnPrintNticIssue2">고지서　　출력</button>
-									<button id="btnAddNticIssue2">추가고지　입력</button>
-									<button id="btnDelNticIssue2">추가고지　삭제</button>
-									<button id="btnSaveNticIssue">　　저　장　　</button>
+									<button id="btnAddNticIssue2" class="buttonAdd">추가고지　입력</button>
+									<button id="btnDelNticIssue2" class="buttonDelete">추가고지　삭제</button>
+									<button id="btnSaveNticIssue" class="buttonSave">　　저　장　　</button>
 								</td>
 							</tr>
 						</table>

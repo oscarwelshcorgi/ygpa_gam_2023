@@ -492,8 +492,8 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 								<th style="width:10%; height:20; text-align:center;">총고지금액</th>
 								<td><input type="text" size="15" id="sumNticAmt" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align:right;">
-									<button id="btnRcivDataUpdate">수납여부 갱신</button>
-	                                <button id="btnExcelDownload">엑셀다운로드</button>
+									<button id="btnRcivDataUpdate" class="buttonSave">수납여부　갱신</button>
+	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
 								</td>
 							</tr>
 						</table>

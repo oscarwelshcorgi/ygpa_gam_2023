@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.mngFee.service.GamCarRefuelSttusExcelVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamCarRefuelSttusMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamCarRefuelSttusMngVo;
 

@@ -194,6 +194,9 @@ GamCarRefuelSttusMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnExcelDownload':
 			this.downloadExcel();
 			break;
+		case 'btnExcelUpload':
+			this.uploadExcel();
+			break;
 	}
 
 };
@@ -451,8 +454,8 @@ GamCarRefuelSttusMngModule.prototype.deleteData = function() {
 		var deleteVO = this.makeFormArgs("#detailForm");
 		this.doAction('/mngFee/gamDeleteCarRefuelSttusMng.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
-				this._mode = 'query';
-				this._mainKeyValue = '';
+				module._mode = 'query';
+				module._mainKeyValue = '';
 				module.loadData();
 			}
 			alert(result.resultMsg);
@@ -475,7 +478,25 @@ GamCarRefuelSttusMngModule.prototype.downloadExcel = function() {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
-	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelCarRefuelSttusMng.do');
+	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelDownloadCarRefuelSttusMng.do');
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : uploadExcel
+ * @DESCRIPTION   : 리스트를 엑셀로 업로드한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamCarRefuelSttusMngModule.prototype.uploadExcel = function() {
+
+	this.uploadXlsFile('xlsCarRefuelSttusMngUpload', function(module, result) {
+		module._mode = 'query';
+		module._mainKeyValue = '';
+		module.loadData();
+		alert(result.resultMsg);
+	}, '차량 주유현황 엑셀파일 업로드', '/mngFee/gamExcelUploadCarRefuelSttusMng.do');
 
 };
 
@@ -714,9 +735,10 @@ var module_instance = new GamCarRefuelSttusMngModule();
 								<th style="width:20%; height:20; text-align:center;">조회 자료수</th>
 								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align:right;">
-									<button id="btnAdd">추가</button>
-									<button id="btnDelete">삭제</button>
-	                                <button id="btnExcelDownload">엑셀다운로드</button>
+									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
+									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
+	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+	                                <button id="btnExcelUpload" class="buttonExcel">엑셀　　업로드</button>
 								</td>
 							</tr>
 						</table>

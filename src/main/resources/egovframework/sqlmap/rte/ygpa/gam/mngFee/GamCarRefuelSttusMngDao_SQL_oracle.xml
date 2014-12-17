@@ -5,6 +5,7 @@
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 	<typeAlias alias="gamCarRefuelSttusMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamCarRefuelSttusMngVo"/>
+	<typeAlias alias="GamCarRefuelSttusExcelVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamCarRefuelSttusExcelVo"/>
 
 	<select id="gamCarRefuelSttusMngDao.selectCarRefuelSttusMngList_D" parameterClass="gamCarRefuelSttusMngVo" resultClass="egovMap">
 		SELECT A.*
@@ -48,8 +49,8 @@
 										,SUM(CASE WHEN SUBSTRB(T.REFUEL_MT,5,2)='12' THEN T.REFUEL_QY END) AS M12
 									FROM CAR_REFUEL_STTUS_F T
 								<![CDATA[
-								WHERE T.REFUEL_MT>= #sRefuelMt# || '01'
-								AND T.REFUEL_MT<= #sRefuelMt# || '12'
+								WHERE T.REFUEL_MT >= #sRefuelMt# || '01'
+								AND T.REFUEL_MT <= #sRefuelMt# || '12'
 								]]>
 
 								<isNotEmpty property="sCarRegistNo">
@@ -75,8 +76,8 @@
 			SELECT 'Y'
 				FROM CAR_REFUEL_STTUS_F
 			<![CDATA[
-			WHERE REFUEL_MT>= #sRefuelMt# || '01'
-			AND REFUEL_MT<= #sRefuelMt# || '12'
+			WHERE REFUEL_MT >= #sRefuelMt# || '01'
+			AND REFUEL_MT <= #sRefuelMt# || '12'
 			]]>
 
 			<isNotEmpty property="sCarRegistNo">
@@ -107,15 +108,14 @@
 			FROM CAR_REFUEL_STTUS_F T1
 			LEFT OUTER JOIN CAR_INFO_F T2 ON (T1.CAR_REGIST_NO=T2.CAR_REGIST_NO)
 		<![CDATA[
-		WHERE T1.REFUEL_MT>= #refuelMt# || '01'
-		AND T1.REFUEL_MT<= #refuelMt# || '12'
+		WHERE T1.REFUEL_MT >= #refuelMt# || '01'
+		AND T1.REFUEL_MT <= #refuelMt# || '12'
 		]]>
 		AND T1.CAR_REGIST_NO = #carRegistNo#
 		GROUP BY T1.CAR_REGIST_NO
 	</select>
 
 	<insert id="gamCarRefuelSttusMngDao.insertCarRefuelSttusMngList_S">
-		<![CDATA[
 		INSERT INTO CAR_REFUEL_STTUS_F
 		(
 			 CAR_REGIST_NO
@@ -147,12 +147,11 @@
 				,#updUsr# AS UPD_USR
 				,SYSDATE AS UPDT_DT
 			FROM DUAL
-			CONNECT BY LEVEL <= 12
-		]]>
+			CONNECT BY LEVEL <![CDATA[ <= ]]> 12
+
 	</insert>
 
 	<update id="gamCarRefuelSttusMngDao.updateCarRefuelSttusMngList_S">
-		<![CDATA[
 		UPDATE CAR_REFUEL_STTUS_F SET
 			 REFUEL_QY = (CASE WHEN REFUEL_MT=#refuelMt# || '01' THEN NVL(TO_NUMBER(REPLACE(#m1#,',','')),0)
 							   WHEN REFUEL_MT=#refuelMt# || '02' THEN NVL(TO_NUMBER(REPLACE(#m2#,',','')),0)
@@ -170,16 +169,36 @@
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
 		WHERE CAR_REGIST_NO = #carRegistNo#
-		]]>
 	</update>
 
 	<delete id="gamCarRefuelSttusMngDao.deleteCarRefuelSttusMngList_S">
-		<![CDATA[
 		DELETE FROM CAR_REFUEL_STTUS_F
-		WHERE REFUEL_MT>= #refuelMt# || '01'
-		AND REFUEL_MT<= #refuelMt# || '12'
-		AND CAR_REGIST_NO = #carRegistNo#
+		<![CDATA[
+		WHERE REFUEL_MT >= #refuelMt# || '01'
+		AND REFUEL_MT <= #refuelMt# || '12'
 		]]>
+		AND CAR_REGIST_NO = #carRegistNo#
 	</delete>
+
+	<insert id="gamCarRefuelSttusMngDao.insertCarRefuelSttusF_S" parameterClass="gamCarRefuelSttusExcelVo">
+		INSERT INTO CAR_REFUEL_STTUS_F
+		(
+			 CAR_REGIST_NO
+			,REFUEL_MT
+			,REFUEL_QY
+			,REG_USR
+			,REGIST_DT
+			,UPD_USR
+			,UPDT_DT
+		)
+		VALUES
+		(
+			 #carRegistNo#
+			,#refuelMt#
+			,NVL(TO_NUMBER(REPLACE(#refuelQy#,',','')),0)
+			,#regUsr#
+			,SYSDATE
+		)
+	</insert>
 
 </sqlMap>

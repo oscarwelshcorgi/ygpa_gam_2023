@@ -928,10 +928,10 @@ GamFcltsMngFeeMngModule.prototype.deleteData = function() {
 		var inputVO = this.makeFormArgs("#detailForm");
 		this.doAction('/mngFee/gamDeleteFcltsMngFeeMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
-				this._mode = 'query';
-				this._detailmode = 'query';
-				this._mainKeyValue = '';
-				this._detailKeyValue = '';
+				module._mode = 'query';
+				module._detailmode = 'query';
+				module._mainKeyValue = '';
+				module._detailKeyValue = '';
 				module.loadData();
 			}
 			alert(result.resultMsg);
@@ -2008,11 +2008,11 @@ var module_instance = new GamFcltsMngFeeMngModule();
 								<input type="text" size="9" id="totalCount" class="ygpaNumber" disabled="disabled" />
 							</td>
 							<td style="text-align:right;">
-								<button id="btnAdd">　　추　가　　</button>
-								<button id="btnDelete">　　삭　제　　</button>
-								<button id="btnExcelDownload">엑셀　다운로드</button>
-								<button id="btnExcelUpload">엑셀　　업로드</button>
-								<button id="btnCopy">이전월자료복사</button>
+								<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
+								<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
+								<button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+								<button id="btnExcelUpload" class="buttonExcel">엑셀　　업로드</button>
+								<button id="btnCopy">이전월　자료복사</button>
 								<button id="btnOpenFcltsFeeMngNtic">고지내역　조회</button>
 								<button id="btnOpenFcltsFeeMngInqire">납부현황　조회</button>
 							</td>
@@ -2101,14 +2101,14 @@ var module_instance = new GamFcltsMngFeeMngModule();
 							<tr>
 								<td>시설물 관리비 상세 내역</td>
 								<td style="text-align:right;">
-									<button id="btnAddDetail">상세내역 추가</button>
-									<button id="btnSaveDetail">상세내역 저장</button>
-									<button id="btnDeleteDetail">상세내역 삭제</button>
+									<button id="btnAddDetail" class="buttonAdd">상세내역 추가</button>
+									<button id="btnSaveDetail" class="buttonSave">상세내역 저장</button>
+									<button id="btnDeleteDetail" class="buttonDelete">상세내역 삭제</button>
 									<button id="btnProcessNticIssue">　　고 지　　</button>
 									<button id="btnCancelNticIssue">　고지 취소　</button>
 									<button id="btnPrintNticIssue">고지서　 출력</button>
 									<button id="btnPrintReport">내역서　 출력</button>
-									<button id="btnExcelDownloadDetail">엑셀 다운로드</button>
+									<button id="btnExcelDownloadDetail" class="buttonExcel">엑셀 다운로드</button>
 								</td>
 							</tr>
 						</table>

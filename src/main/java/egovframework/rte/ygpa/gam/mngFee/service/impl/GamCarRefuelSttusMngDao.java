@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.mngFee.service.GamCarRefuelSttusExcelVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamCarRefuelSttusMngVo;
 
 /**

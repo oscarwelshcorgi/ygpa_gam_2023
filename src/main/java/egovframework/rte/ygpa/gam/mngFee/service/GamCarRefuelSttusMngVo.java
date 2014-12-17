@@ -88,7 +88,6 @@ public class GamCarRefuelSttusMngVo extends ComDefaultVO{
 	public void setsRefuelMt(String sRefuelMt) {
 		this.sRefuelMt = sRefuelMt;
 	}
-
 	/**
 	 * @return the check
 	 */

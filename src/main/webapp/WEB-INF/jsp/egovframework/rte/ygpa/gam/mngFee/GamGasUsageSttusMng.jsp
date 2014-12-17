@@ -495,8 +495,8 @@ GamGasUsageSttusMngModule.prototype.deleteData = function() {
 		var deleteVO = this.makeFormArgs("#detailForm");
 		this.doAction('/mngFee/gamDeleteGasUsageSttusMng.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
-				this._mode = 'query';
-				this._mainKeyValue = '';
+				module._mode = 'query';
+				module._mainKeyValue = '';
 				module.loadData();
 			}
 			alert(result.resultMsg);
@@ -808,9 +808,9 @@ var module_instance = new GamGasUsageSttusMngModule();
 								<th style="width:20%; height:20; text-align:center;">조회 자료수</th>
 								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align:right;">
-									<button id="btnAdd">추가</button>
-									<button id="btnDelete">삭제</button>
-	                                <button id="btnExcelDownload">엑셀다운로드</button>
+									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
+									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
+	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
 								</td>
 							</tr>
 						</table>
