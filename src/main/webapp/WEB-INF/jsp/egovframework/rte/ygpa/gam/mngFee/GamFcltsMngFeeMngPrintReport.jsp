@@ -70,13 +70,13 @@
 				border-bottom: 3px double;
 				vertical-align: middle;
 				padding: 3;
+				font-size: 16;
 			}
 
 			p.notice {
 				width: 500;
-				margin-left: 30;
 				height: 30;
-				margin-bottom: 30;
+				margin: 30 30 30 0;
 				font-size: 16;
 			}
 
@@ -213,9 +213,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<br />
-						<br />
-						<p class="notice"><c:out value="${result.mngMt }" />분 임대료 및 관리비를 <c:out value="${result.payTmlmt }" />까지 아래의 계좌로 입금하여 주시기 바랍니다.</p>
+						<p class="notice"><c:out value="${result.mngMt }" />분 임대료 및 관리비를 <c:out value="${result.payTmlmt }" />까지 <br/>아래의 계좌로 입금하여 주시기 바랍니다.</p>
 						<p class="bankinfo">은 행 명 : <c:out value="${result.bankNm }" /></p>
 						<p class="bankinfo">계좌번호 : <c:out value="${result.bankAccountNo }" /></p>
 						<p class="bankinfo">예 금 주 : <c:out value="${result.bankOwnerNm }" /></p>
