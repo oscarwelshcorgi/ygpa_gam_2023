@@ -3,7 +3,6 @@
  */
 package egovframework.rte.ygpa.gam.soc.web;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,16 +26,14 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
-import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.soc.service.GamSocApplyService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocApplyVO;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
-import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
 
 /**
  *
@@ -81,12 +78,9 @@ public class GamSocApplyController {
     @Resource(name = "gamSocApplyService")
     private GamSocApplyService gamSocApplyService;
     
-    @RequestMapping(value="/soc/gamSocApply.do")
+    @SuppressWarnings("rawtypes")
+	@RequestMapping(value="/soc/gamSocApply.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-
-		//login정보
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		
 		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
 		
 		model.addAttribute("prtAtCdList", prtAtCdList);
@@ -95,13 +89,13 @@ public class GamSocApplyController {
     	return "/ygpa/gam/soc/GamSocApply";
     }
     
-    @RequestMapping(value="/soc/gamSelectApplyDetailInquire.do")
-	@ResponseBody Map selectSocApplyDetailInquire(
-			@ModelAttribute("gamSocApplyVO") GamSocApplyVO gamSocApplyVO,
-	     	BindingResult bindingResult)
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/soc/gamSelectApplyDetailInquire.do")
+	@ResponseBody Map selectSocApplyDetailInquire(@ModelAttribute("gamSocApplyVO") GamSocApplyVO gamSocApplyVO, BindingResult bindingResult)
 	        throws Exception {
 		Map map = new HashMap();
-
+		EgovMap result = null;
+		
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -109,16 +103,15 @@ public class GamSocApplyController {
         	return map;
     	}
 		
-		GamSocApplyVO resultVO = gamSocApplyService.selectSocApplyDetailInquire(gamSocApplyVO);
-		
-		if(resultVO == null) {
+    	try {
+    		result = gamSocApplyService.selectSocApplyDetailInquire(gamSocApplyVO);
+			map.put("resultCode", 0);
+			map.put("resultVO", result);
+    	} catch(Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
-		} else {
-			map.put("resultCode", 0);
-			map.put("resultVO", resultVO);
-		}
-		
+    	}
+    	
     	return map;
     }
 	
@@ -126,7 +119,7 @@ public class GamSocApplyController {
     @RequestMapping(value="/soc/gamSelectSocApplyList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectSocApplyList(GamSocApplyVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -160,7 +153,8 @@ public class GamSocApplyController {
     	return map;
     }
 
-    @RequestMapping(value="/soc/gamInsertSocApplyDetail.do")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/soc/gamInsertSocApplyDetail.do")
 	@ResponseBody Map insertSocApplyDetail(@RequestParam Map socApplyData) throws Exception {
     	Map map = new HashMap();
 
@@ -220,7 +214,8 @@ public class GamSocApplyController {
     	return map;
     }
     
-    @RequestMapping(value="/soc/gamUpdateSocApplyDetail.do")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/soc/gamUpdateSocApplyDetail.do")
 	@ResponseBody Map updateSocApplyDetail(@RequestParam Map socApplyData) throws Exception {
     	Map map = new HashMap();
 
@@ -282,7 +277,8 @@ public class GamSocApplyController {
     	return map;
     }
     
-    @RequestMapping(value="/soc/gamDeleteSocApplyDetail.do")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/soc/gamDeleteSocApplyDetail.do")
 	@ResponseBody Map deleteSocApplyDetail(@RequestParam Map socApplyData) throws Exception {
 		Map map = new HashMap();
 
@@ -317,7 +313,7 @@ public class GamSocApplyController {
     @RequestMapping(value="/soc/gamSelectSocApplyFacilList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectSocApplyFacilList(GamSocApplyVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -356,7 +352,7 @@ public class GamSocApplyController {
     @RequestMapping(value="/soc/gamSelectSocApplyFeeList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectSocApplyFeeList(GamSocApplyVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

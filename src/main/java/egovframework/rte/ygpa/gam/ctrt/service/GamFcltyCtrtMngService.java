@@ -6,6 +6,8 @@ package egovframework.rte.ygpa.gam.ctrt.service;
 import java.util.List;
 import java.util.Map;
 
+import egovframework.rte.psl.dataaccess.util.EgovMap;
+
 /**
  * 
  * @author 김종민
@@ -47,7 +49,7 @@ public interface GamFcltyCtrtMngService {
 	 * @return 계약정보 VO
 	 * @exception Exception
 	 */
-	GamFcltyCtrtMngVO selectFcltyCtrtInfoDetail(GamFcltyCtrtMngVO searchVO) throws Exception;
+	EgovMap selectFcltyCtrtInfoDetail(GamFcltyCtrtMngVO searchVO) throws Exception;
 	
 	/**
 	 * 계약정보를 등록한다.

@@ -223,7 +223,7 @@ GamFcltyCtrtMngModule.prototype.loadDetailData = function() {
 	if(rows.length > 0) {
 		var row = rows[0];
 		var opts = [{ name: 'sCtrtNo', value: row['ctrtNo']}];
-		this.doAction('/ctrt/selectFcltyCtrtInfoDetailInquire.do', opts, function(module, result) {
+		this.doAction('/ctrt/selectFcltyCtrtInfoDetail.do', opts, function(module, result) {
 			if(result.resultCode == 0) {
 				module.$('#gamFcltyCtrtMngDetailForm :input').val('');
 				module.makeFormValues('#gamFcltyCtrtMngDetailForm', result.resultVO);

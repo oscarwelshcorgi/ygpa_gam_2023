@@ -3,10 +3,13 @@
  */
 package egovframework.rte.ygpa.gam.soc.service.impl;
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.soc.service.GamSocExmpMngtService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocExmpMngtVO;
 
@@ -40,18 +43,8 @@ public class GamSocExmpMngtServiceImpl implements GamSocExmpMngtService {
 	 * @return 투자비보전내역 데이터 VO
 	 * @exception
 	 */
-	public GamSocExmpMngtVO selectSocExmpMngtDetailInquire(GamSocExmpMngtVO searchVO) {
+	public EgovMap selectSocExmpMngtDetail(GamSocExmpMngtVO searchVO) {
 		return gamSocExmpMngtDAO.selectSocExmpMngtDetailInquire(searchVO);
-	}
-
-	/**
-	 * 투자비보전내역관리 데이터의 총 개수를 조회한다. 
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 투자비보전내역 데이터 VO
-	 * @exception
-	 */
-	public int selectSocExmpMngtDetailTotCnt(GamSocExmpMngtVO searchVO) {
-		return gamSocExmpMngtDAO.selectSocExmpMngtDetailTotCnt(searchVO);
 	}
 
 	/**
@@ -70,8 +63,8 @@ public class GamSocExmpMngtServiceImpl implements GamSocExmpMngtService {
 	 * @return 투자비보전내역 데이터 VO
 	 * @exception
 	 */
-	public void insertSocExmpMngtDetail(GamSocExmpMngtVO insertVO) {
-		gamSocExmpMngtDAO.insertSocExmpMngtDetail(insertVO);
+	public void insertSocExmpMngtDetail(Map<?, ?> vo) {
+		gamSocExmpMngtDAO.insertSocExmpMngtDetail(vo);
 	}
 
 	/**
@@ -80,8 +73,8 @@ public class GamSocExmpMngtServiceImpl implements GamSocExmpMngtService {
 	 * @return 투자비보전내역 데이터 VO
 	 * @exception
 	 */
-	public void updateSocExmpMngtDetail(GamSocExmpMngtVO updateVO) {
-		gamSocExmpMngtDAO.updateSocExmpMngtDetail(updateVO);
+	public void updateSocExmpMngtDetail(Map<?, ?> vo) {
+		gamSocExmpMngtDAO.updateSocExmpMngtDetail(vo);
 	}
 
 	/**
@@ -90,7 +83,7 @@ public class GamSocExmpMngtServiceImpl implements GamSocExmpMngtService {
 	 * @return 투자비보전내역 데이터 VO
 	 * @exception
 	 */
-	public void deleteSocExmpMngtDetail(GamSocExmpMngtVO deleteVO) {
-		gamSocExmpMngtDAO.deleteSocExmpMngtDetail(deleteVO);
+	public void deleteSocExmpMngtDetail(Map<?, ?> vo) {
+		gamSocExmpMngtDAO.deleteSocExmpMngtDetail(vo);
 	}
 }

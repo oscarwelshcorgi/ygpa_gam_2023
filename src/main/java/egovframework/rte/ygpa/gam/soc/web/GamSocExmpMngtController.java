@@ -3,7 +3,6 @@
  */
 package egovframework.rte.ygpa.gam.soc.web;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
@@ -29,9 +27,7 @@ import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.ygpa.gam.asset.service.GamAssetEvlDtlsInqireVO;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtService;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocExmpMngtService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocExmpMngtVO;
@@ -79,7 +75,8 @@ public class GamSocExmpMngtController {
     @Resource(name="gamSocCmmUseService")
     private GamSocCmmUseService gamSocCmmUseService;
     
-    @RequestMapping(value="/soc/gamSocExmpMngt.do")
+    @SuppressWarnings("rawtypes")
+	@RequestMapping(value="/soc/gamSocExmpMngt.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
 		//login정보
@@ -97,10 +94,11 @@ public class GamSocExmpMngtController {
 		return "/ygpa/gam/soc/GamSocExmpMngt";
     }
     
-    @RequestMapping(value="/soc/gamSelectSocExmpMngtDetailInquire.do")
-	@ResponseBody Map<String, Object> selectSocExmpMngtDetailInquire(@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO, BindingResult bindingResult) throws Exception {
+    @RequestMapping(value="/soc/selectSocExmpMngtDetail.do")
+	@ResponseBody Map<String, Object> selectSocExmpMngtDetail(@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO, BindingResult bindingResult) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-
+		EgovMap result = null;
+		
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -108,16 +106,15 @@ public class GamSocExmpMngtController {
         	return map;
     	}
 		
-		GamSocExmpMngtVO resultVO = gamSocExmpMngtService.selectSocExmpMngtDetailInquire(gamSocExmpMngtVO);
-		
-		if(resultVO == null) {
+    	try {
+    		result = gamSocExmpMngtService.selectSocExmpMngtDetail(gamSocExmpMngtVO);
+			map.put("resultCode", 0);
+			map.put("resultVO", result);
+    	} catch(Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
-		} else {
-			map.put("resultCode", 0);
-		}
-		map.put("resultVO", resultVO);
-		
+    	}
+    	
     	return map;
     }
 
@@ -141,7 +138,7 @@ public class GamSocExmpMngtController {
     }
     
     @RequestMapping(value="/soc/insertSocExmpMngtDetail.do")
-	@ResponseBody Map<String, Object> insertSocExmpMngtDetail(@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO, BindingResult bindingResult) throws Exception {
+	@ResponseBody Map<String, Object> insertSocExmpMngtDetail(@RequestParam Map<String, Object> insertMap) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -152,7 +149,7 @@ public class GamSocExmpMngtController {
     	}
 		
     	try {
-    		gamSocExmpMngtService.insertSocExmpMngtDetail(gamSocExmpMngtVO);
+    		gamSocExmpMngtService.insertSocExmpMngtDetail(insertMap);
     		map.put("resultCode", 0);
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
     	}
@@ -165,7 +162,7 @@ public class GamSocExmpMngtController {
     }
     
     @RequestMapping(value="/soc/updateSocExmpMngtDetail.do")
-	@ResponseBody Map<String, Object> updateSocExmpMngtDetail(@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO, BindingResult bindingResult) throws Exception {
+	@ResponseBody Map<String, Object> updateSocExmpMngtDetail(@RequestParam Map<String, Object> updateMap) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -176,7 +173,7 @@ public class GamSocExmpMngtController {
     	}
 
     	try {
-    		gamSocExmpMngtService.updateSocExmpMngtDetail(gamSocExmpMngtVO);
+    		gamSocExmpMngtService.updateSocExmpMngtDetail(updateMap);
     		map.put("resultCode", 0);
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
     	}
@@ -188,7 +185,7 @@ public class GamSocExmpMngtController {
     }
     
     @RequestMapping(value="/soc/deleteSocExmpMngtDetail.do")
-	@ResponseBody Map<String, Object> deleteSocExmpMngtDetail(@ModelAttribute("gamSocExmpMngtVO") GamSocExmpMngtVO gamSocExmpMngtVO, BindingResult bindingResult) throws Exception {
+	@ResponseBody Map<String, Object> deleteSocExmpMngtDetail(@RequestParam Map<String, Object> deleteMap) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -199,7 +196,7 @@ public class GamSocExmpMngtController {
     	}
 		
     	try {
-    		gamSocExmpMngtService.deleteSocExmpMngtDetail(gamSocExmpMngtVO);
+    		gamSocExmpMngtService.deleteSocExmpMngtDetail(deleteMap);
     		map.put("resultCode", 0);
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
     	}

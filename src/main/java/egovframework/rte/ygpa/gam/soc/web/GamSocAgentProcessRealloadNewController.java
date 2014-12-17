@@ -23,7 +23,6 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -75,12 +74,9 @@ public class GamSocAgentProcessRealloadNewController {
     @Resource(name = "gamSocAgentProcessRealloadNewService")
     private GamSocAgentProcessRealloadNewService gamSocAgentProcessRealloadNewService;
     
-    @RequestMapping(value="/soc/gamSocAgentProcessRealloadNew.do")
+    @SuppressWarnings("rawtypes")
+	@RequestMapping(value="/soc/gamSocAgentProcessRealloadNew.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-
-		//login정보
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		
 		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
 		
 		model.addAttribute("prtAtCdList", prtAtCdList);
@@ -93,7 +89,7 @@ public class GamSocAgentProcessRealloadNewController {
     @RequestMapping(value="/soc/gamSelectSocAgentProcessRealloadNewList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectSocAgentProcessRealloadNewList(GamSocAgentProcessRealloadNewVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -132,7 +128,7 @@ public class GamSocAgentProcessRealloadNewController {
     @RequestMapping(value="/soc/gamSelectSocAgentProcessRealloadNewListPrint.do")
 	public String selectSocAgentProcessRealloadNewListPrint(@RequestParam Map<String, Object> socAgentProcessRealloadNewOpt, ModelMap model) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

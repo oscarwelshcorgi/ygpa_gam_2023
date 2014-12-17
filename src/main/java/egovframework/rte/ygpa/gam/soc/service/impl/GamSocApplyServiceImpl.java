@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.soc.service.GamSocApplyService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocApplyVO;
 /**
@@ -40,7 +41,7 @@ public class GamSocApplyServiceImpl implements GamSocApplyService {
 	 * @return 면제요청내역관리 VO
 	 * @exception
 	 */
-	public GamSocApplyVO selectSocApplyDetailInquire(GamSocApplyVO searchVO) {
+	public EgovMap selectSocApplyDetailInquire(GamSocApplyVO searchVO) {
 		return gamSocApplyDao.selectSocApplyDetailInquire(searchVO);
 	}
 

@@ -23,7 +23,6 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -76,12 +75,9 @@ public class GamSocApplyDtlsController {
     @Resource(name = "gamSocApplyDtlsService")
     private GamSocApplyDtlsService gamSocApplyDtlsService;
     
-    @RequestMapping(value="/soc/gamSocApplyDtls.do")
+    @SuppressWarnings("rawtypes")
+	@RequestMapping(value="/soc/gamSocApplyDtls.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-
-		//login정보
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		
 		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
 		
 		model.addAttribute("prtAtCdList", prtAtCdList);
@@ -94,7 +90,7 @@ public class GamSocApplyDtlsController {
     @RequestMapping(value="/soc/gamSelectSocApplyDtlsList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectSocApplyDtlsList(GamSocApplyDtlsVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -132,12 +128,10 @@ public class GamSocApplyDtlsController {
     	return map;
     }    
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes" })
     @RequestMapping(value="/soc/gamSelectSocApplyDtlsListPrint.do")
 	public String selectSocApplyDtlsListPrint(@RequestParam Map<String, Object> socApplyDtlsOpt, ModelMap model) throws Exception {
-		
-		int totalCnt, page, firstIndex;
-    	Map map = new HashMap();
+		int totalCnt;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {

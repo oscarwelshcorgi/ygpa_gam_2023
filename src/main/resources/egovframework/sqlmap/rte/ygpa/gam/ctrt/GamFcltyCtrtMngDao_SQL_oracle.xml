@@ -6,54 +6,6 @@
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamFcltyCtrtMngVO" type="egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngVO"/>
-
-	<resultMap id="gamFcltyCtrtMngSearchMap" class="egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngVO">
-		<result property="ctrtNo" column="CTRT_NO" columnIndex="1" />
-		<result property="ctrtSe" column="CTRT_SE" columnIndex="2" />
-		<result property="orderMthd" column="ORDER_MTHD" columnIndex="3" />
-		<result property="bidPblancNo" column="BID_PBLANC_NO" columnIndex="4" />
-		<result property="bidPblancDt" column="BID_PBLANC_DT" columnIndex="5" />
-		<result property="bidDt" column="BID_DT" columnIndex="6" />
-		<result property="registEntrpsCd" column="REGIST_ENTRPS_CD" columnIndex="7" />
-		<result property="siteDesc" column="SITE_DESC" columnIndex="8" />
-		<result property="ctrtNm" column="CTRT_NM" columnIndex="9" />
-		<result property="planAmt" column="PLAN_AMT" columnIndex="10" />
-		<result property="prmtAmt" column="PRMT_AMT" columnIndex="11" />
-		<result property="scsbidAmt" column="SCSBID_AMT" columnIndex="12" />
-		<result property="scsbidRate" column="SCSBID_RATE" columnIndex="13" />
-		<result property="baseAmt" column="BASE_AMT" columnIndex="14" />
-		<result property="bidMth" column="BID_MTH" columnIndex="15" />
-		<result property="ctrtMth" column="CTRT_MTH" columnIndex="16" />
-		<result property="ctrtDt" column="CTRT_DT" columnIndex="17" />
-		<result property="ctrtAmt" column="CTRT_AMT" columnIndex="18" />
-		<result property="ctrtPdFrom" column="CTRT_PD_FROM" columnIndex="19" />
-		<result property="ctrtPdTo" column="CTRT_PD_TO" columnIndex="20" />
-		<result property="ctrtGrntyAmt" column="CTRT_GRNTY_AMT" columnIndex="21" />
-		<result property="prcuPblancNo" column="PRCU_PBLANC_NO" columnIndex="22" />
-		<result property="ctrtGrntyMth" column="CTRT_GRNTY_MTH" columnIndex="23" />
-		<result property="ctrtExamDt" column="CTRT_EXAM_DT" columnIndex="24" />
-		<result property="intendant1" column="INTENDANT_1" columnIndex="25" />
-		<result property="intendant2" column="INTENDANT_2" columnIndex="26" />
-		<result property="intendant3" column="INTENDANT_3" columnIndex="27" />
-		<result property="caryFwdBdgtAmt" column="CARY_FWD_BDGT_AMT" columnIndex="28" />
-		<result property="elctrnSanctnTrnsmisSe" column="ELCTRN_SANCTN_TRNSMIS_SE" columnIndex="29" />
-		<result property="elctrnSanctnProgrsCd" column="ELCTRN_SANCTN_PROGRS_CD" columnIndex="30" />
-		<result property="elctrnSanctnTransmisDt" column="ELCTRN_SANCTN_TRNSMIS_DT" columnIndex="31" />
-		<result property="elctrnSanctnInterlockInfo" column="ELCTRN_SANCTN_INTERLOCK_INFO" columnIndex="32" />
-		<result property="elctrnSanctnDocId" column="ELCTRN_SANCTN_DOC_ID" columnIndex="33" />
-		<result property="confmDt" column="CONFM_DT" columnIndex="34" />
-		<result property="confmerCd" column="CONFMER_CD" columnIndex="35" />
-		<result property="regUsr" column="REG_USR" columnIndex="36" />
-		<result property="registDt" column="REGIST_DT" columnIndex="37" />
-		<result property="updUsr" column="UPD_USR" columnIndex="38" />
-		<result property="updtDt" column="UPDT_DT" columnIndex="39" />
-		<result property="sldrtGrnty" column="SLDRT_GRNTY" columnIndex="40" />
-		<result property="jobChrgDeptCd" column="JOB_CHRG_DEPT_CD" columnIndex="41" />
-		<result property="flawPdFrom" column="FLAW_PD_FROM" columnIndex="42" />
-		<result property="flawPdTo" column="FLAW_PD_TO" columnIndex="43" />
-		<result property="causeAct" column="CAUSE_ACT" columnIndex="44" />
-		<result property="registEntrpsNm" column="REGIST_ENTRPS_NM" columnIndex="45" />
-	</resultMap>
 	
 	<resultMap id="gamFcltyCtrtMngSumMap" class="gamFcltyCtrtMngVO">
 		<result property="totalCnt" column="TOTAL_CNT" columnIndex="1" javaType="int"/>
@@ -150,7 +102,7 @@
 				</isNotEmpty>
     </select>
 	
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtInfoDetail_S" parameterClass="gamFcltyCtrtMngVO" resultMap="gamFcltyCtrtMngSearchMap">
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtInfoDetail_S" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
 		SELECT
 		    I.CTRT_NO
 		    , I.CTRT_SE

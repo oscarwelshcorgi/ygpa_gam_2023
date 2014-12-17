@@ -3,6 +3,10 @@
  */
 package egovframework.rte.ygpa.gam.soc.service;
 
+import java.util.Map;
+
+import egovframework.rte.psl.dataaccess.util.EgovMap;
+
 /**
  * 
  * @author 김종민
@@ -27,16 +31,8 @@ public interface GamSocExmpMngtService {
 	 * @return 투자비보전내역 데이터 VO
 	 * @exception
 	 */
-	GamSocExmpMngtVO selectSocExmpMngtDetailInquire(GamSocExmpMngtVO searchVO);
+	EgovMap selectSocExmpMngtDetail(GamSocExmpMngtVO searchVO);
 
-	/**
-	 * 투자비보전내역관리 데이터의 총 개수를 조회한다. 
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return cnt
-	 * @exception
-	 */
-	int selectSocExmpMngtDetailTotCnt(GamSocExmpMngtVO searchVO);
-	
 	/**
 	 * 투자비보전내역관리 데이터에 새로운 soc 일련번호를 가져온다. 
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -51,7 +47,7 @@ public interface GamSocExmpMngtService {
 	 * @return 투자비보전내역 데이터 VO
 	 * @exception
 	 */
-	void insertSocExmpMngtDetail(GamSocExmpMngtVO insertVO);
+	void insertSocExmpMngtDetail(Map<?, ?> vo);
 	
 	/**
 	 * 투자비보전내역관리 데이터를 수정한다. 
@@ -59,7 +55,7 @@ public interface GamSocExmpMngtService {
 	 * @return 투자비보전내역 데이터 VO
 	 * @exception
 	 */
-	void updateSocExmpMngtDetail(GamSocExmpMngtVO updateVO);
+	void updateSocExmpMngtDetail(Map<?, ?> vo);
 	
 	/**
 	 * 투자비보전내역관리 데이터를 삭제한다. 
@@ -67,5 +63,5 @@ public interface GamSocExmpMngtService {
 	 * @return 투자비보전내역 데이터 VO
 	 * @exception
 	 */
-	void deleteSocExmpMngtDetail(GamSocExmpMngtVO deleteVO);
+	void deleteSocExmpMngtDetail(Map<?, ?> vo);
 }

@@ -55,7 +55,7 @@ GamSocExmpMngtModule.prototype.loadData = function() {
 		return;
 	}
 	var opts = this.makeFormArgs('#gamSocExmpMngtSearchForm');
-	this.doAction('/soc/gamSelectSocExmpMngtDetailInquire.do', opts, function(module, result) {
+	this.doAction('/soc/selectSocExmpMngtDetail.do', opts, function(module, result) {
 		module.$('#btnNewSocNo').hide();
 		if(result.resultCode == 0) {
 			module._cmd = 'modify';

@@ -75,12 +75,9 @@ public class GamSocStatsController {
     @Resource(name = "gamSocStatsService")
     private GamSocStatsService gamSocStatsService;
     
-    @RequestMapping(value="/soc/gamSocStats.do")
+    @SuppressWarnings("rawtypes")
+	@RequestMapping(value="/soc/gamSocStats.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-
-		//login정보
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		
 		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
 		
 		model.addAttribute("prtAtCdList", prtAtCdList);
@@ -93,7 +90,7 @@ public class GamSocStatsController {
     @RequestMapping(value="/soc/gamSelectSocStatsList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectSocStatsList(GamSocStatsVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -152,11 +149,9 @@ public class GamSocStatsController {
     	return map;
     }    
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes" })
     @RequestMapping(value="/soc/gamSelectSocStatsListPrint.do")
 	public String selectSocStatsListPrint(@RequestParam Map<String, Object> socStatsOpt, ModelMap model) throws Exception {
-		int totalCnt, page, firstIndex;
-    	Map map = new HashMap();
     	String printPageName = null;
    
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

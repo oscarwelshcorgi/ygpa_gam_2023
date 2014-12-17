@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.soc.service.GamSocApplyVO;
 
 /**
@@ -35,8 +36,8 @@ public class GamSocApplyDAO extends YGPAAbstractDAO {
 	 * @return 면제요청내역관리 VO
 	 * @exception
 	 */
-	GamSocApplyVO selectSocApplyDetailInquire(GamSocApplyVO searchVO) {
-		return (GamSocApplyVO) selectByPk("gamSocApplyDAO.selectSocApplyDetail_S", searchVO);
+	EgovMap selectSocApplyDetailInquire(GamSocApplyVO searchVO) {
+		return (EgovMap) selectByPk("gamSocApplyDAO.selectSocApplyDetail_S", searchVO);
 	}
 	
 

@@ -23,7 +23,6 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -75,12 +74,9 @@ public class GamSocPrtFcltyFeeExmpRqestSttusController {
     @Resource(name = "gamSocPrtFcltyFeeExmpRqestSttusService")
     private GamSocPrtFcltyFeeExmpRqestSttusService gamSocPrtFcltyFeeExmpRqestSttusService;
     
-    @RequestMapping(value="/soc/gamSocPrtFcltyFeeExmpRqestSttus.do")
+    @SuppressWarnings("rawtypes")
+	@RequestMapping(value="/soc/gamSocPrtFcltyFeeExmpRqestSttus.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-
-		//login정보
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		
 		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
 		
 		model.addAttribute("prtAtCdList", prtAtCdList);
@@ -93,7 +89,7 @@ public class GamSocPrtFcltyFeeExmpRqestSttusController {
     @RequestMapping(value="/soc/gamSelectSocPrtFcltyFeeExmpRqestSttusList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectSocPrtFcltyFeeExmpRqestSttusList(GamSocPrtFcltyFeeExmpRqestSttusVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -134,7 +130,7 @@ public class GamSocPrtFcltyFeeExmpRqestSttusController {
     @RequestMapping(value="/soc/gamSelectSocPrtFcltyFeeExmpRqestSttusListPrint.do")
 	public String selectSocPrtFcltyFeeExmpRqestSttusList(@RequestParam Map<String, Object> socPrtFcltyFeeExmpRqestSttusOpt, ModelMap model) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

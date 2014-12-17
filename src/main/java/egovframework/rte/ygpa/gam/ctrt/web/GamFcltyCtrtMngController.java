@@ -28,6 +28,7 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngService;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngVO;
@@ -128,11 +129,12 @@ public class GamFcltyCtrtMngController {
 	 * @return map
 	 * @exception Exception
 	 */	
-	@RequestMapping(value="/ctrt/selectFcltyCtrtInfoDetailInquire.do")
-	@ResponseBody Map<String, Object> selectFcltyCtrtInfoDetailInquire( @ModelAttribute("gamFcltyCtrtMngVO") GamFcltyCtrtMngVO gamFcltyCtrtMngVO, BindingResult bindingResult)
+	@RequestMapping(value="/ctrt/selectFcltyCtrtInfoDetail.do")
+	@ResponseBody Map<String, Object> selectFcltyCtrtInfoDetail( @ModelAttribute("gamFcltyCtrtMngVO") GamFcltyCtrtMngVO gamFcltyCtrtMngVO, BindingResult bindingResult)
 			throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-
+		EgovMap result = null;
+		
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -140,14 +142,14 @@ public class GamFcltyCtrtMngController {
         	return map;
     	}
 		
-    	GamFcltyCtrtMngVO resultVO = gamFcltyCtrtMngService.selectFcltyCtrtInfoDetail(gamFcltyCtrtMngVO);
-		if(resultVO == null) {
+    	try {
+    		result = gamFcltyCtrtMngService.selectFcltyCtrtInfoDetail(gamFcltyCtrtMngVO);
+			map.put("resultCode", 0);
+			map.put("resultVO", result);
+    	} catch(Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
-		} else {
-			map.put("resultCode", 0);
-			map.put("resultVO", resultVO);
-		}
+    	}
 		
     	return map;
     }

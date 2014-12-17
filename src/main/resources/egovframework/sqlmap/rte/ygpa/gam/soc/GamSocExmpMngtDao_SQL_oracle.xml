@@ -6,51 +6,7 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamSocExmpMngtVO" type="egovframework.rte.ygpa.gam.soc.service.GamSocExmpMngtVO" />
 	
-	<resultMap id="gamSocExmpMngtSearchMap" class="egovframework.rte.ygpa.gam.soc.service.GamSocExmpMngtVO">
-		<result property="appPrtAtCode" column="APP_PRT_AT_CODE" columnIndex="1"/>
-		<result property="appPrtAtKorNm" column="APP_PRT_AT_KOR_NM" columnIndex="2"/>
-		<result property="feeTp" column="FEE_TP" columnIndex="3"/>
-		<result property="fiscalYr" column="FISCAL_YR" columnIndex="4"/>
-		<result property="socNo" column="SOC_NO" columnIndex="5"/>
-		<result property="appAgentCode" column="APP_AGENT_CODE" columnIndex="6"/>
-		<result property="appAgentName" column="APP_AGENT_NAME" columnIndex="7"/>
-		<result property="useNo" column="USE_NO" columnIndex="8"/>
-        <result property="prtAtCode" column="PRT_AT_CODE" columnIndex="9"/>
-		<result property="prtAtKorNm" column="PRT_AT_KOR_NM" columnIndex="10"/>
-		<result property="cmplYr" column="CMPL_YR" columnIndex="11"/>
-		<result property="constNo" column="CONST_NO" columnIndex="12"/>
-		<result property="exmpAgentCode" column="EXMP_AGENT_CODE" columnIndex="13"/>
-		<result property="exmpAgentName" column="EXMP_AGENT_NAME" columnIndex="14"/>
-		<result property="vsslKey" column="VSSL_KEY" columnIndex="15"/>
-		<result property="yr" column="YR" columnIndex="16"/>
-		<result property="serNo" column="SER_NO" columnIndex="17"/>
-		<result property="billNo" column="BILL_NO" columnIndex="18"/>
-		<result property="exmpAmnt" column="EXMP_AMNT" columnIndex="19"/>
-		<result property="inOut" column="IN_OUT" columnIndex="20"/>
-		<result property="inOutName" column="IN_OUT_NM" columnIndex="21"/>
-		<result property="billUseNo" column="BILL_USE_NO" columnIndex="22"/>
-		<result property="facCode" column="FAC_CODE" columnIndex="23"/>
-		<result property="facSubCode" column="FAC_SUB_CODE" columnIndex="24"/>
-		<result property="facKorNm" column="FAC_KOR_NM" columnIndex="25"/>
-		<result property="ioDt" column="IO_DT" columnIndex="26"/>
-		<result property="dcCode" column="DC_CODE" columnIndex="27"/>
-		<result property="dcRate" column="DC_RATE" columnIndex="28"/>
-		<result property="billDt" column="BILL_DT" columnIndex="29"/>
-		<result property="standardFee" column="STANDARD_FEE" columnIndex="30"/>
-		<result property="realTn" column="REAL_TN" columnIndex="31"/>
-		<result property="remark" column="REMARK" columnIndex="32"/>
-		<result property="exmpType" column="EXMP_TYPE" columnIndex="33"/>
-		<result property="updtUid" column="UPDT_UID" columnIndex="34" />
-		<result property="updtDate" column="UPDT_DATE" columnIndex="35"/>
-		<result property="callLetter" column="CALL_LETTER" columnIndex="36"/>
-		<result property="callLetterNm" column="CALL_LETTER_NM" columnIndex="37"/>
-		<result property="dcRateNm" column="DC_RATE_NM" columnIndex="38"/>
-		<result property="exmpPrtAtCode" column="EXMP_PRT_AT_CODE" columnIndex="39"/>
-		<result property="exmpPrtAtKorNm" column="EXMP_PRT_AT_KOR_NM" columnIndex="40"/>
-		<result property="jingsuja" column="JINGSUJA" columnIndex="41"/>
-	</resultMap>
-	
-	<select id="gamSocExmpMngtDAO.selectSocExmpMngtDetail_S" parameterClass="gamSocExmpMngtVO" resultMap="gamSocExmpMngtSearchMap">
+	<select id="gamSocExmpMngtDAO.selectSocExmpMngtDetail_S" parameterClass="gamSocExmpMngtVO" resultClass="egovMap">
 		SELECT
 				E.APP_PRT_AT_CODE
 				, P2MGR.SF_PRT_AT_NM(E.APP_PRT_AT_CODE) APP_PRT_AT_KOR_NM
@@ -112,27 +68,6 @@
 			  </isNotEmpty>
 	</select>
 
-	<select id="gamSocExmpMngtDAO.selectSocExmpMngtDetailTotCnt_S" parameterClass="gamSocExmpMngtVO" resultClass="int">
-		SELECT
-				COUNT(*) TOTCNT
-		FROM
-				P2MGR.SOC_EXMP_F@YGPA_P2MGR E
-		WHERE 
-				1 = 1
-			  <isNotEmpty prepend="AND" property="appPrtAtCode">
-				E.APP_PRT_AT_CODE=#appPrtAtCode#
-			  </isNotEmpty>
-			  <isNotEmpty prepend="AND" property="feeTp">
-				E.FEE_TP=#feeTp#
-			  </isNotEmpty>
-			  <isNotEmpty prepend="AND" property="fiscalYr">
-				E.FISCAL_YR=#fiscalYr#
-			  </isNotEmpty>
-			  <isNotEmpty prepend="AND" property="socNo">
-				E.SOC_NO=#socNo#
-			  </isNotEmpty>
-	</select>
-
 	<select id="gamSocExmpMngtDAO.selectSocExmpMngtGetNextSocNo_S" parameterClass="gamSocExmpMngtVO" resultClass="String">
 		SELECT LPAD(NVL(MAX(TO_NUMBER(SOC_NO)),0) + 1,'6','0')				
 		FROM
@@ -150,7 +85,7 @@
 			  </isNotEmpty>
 	</select>
 	
-	<insert id="gamSocExmpMngtDAO.insertSocExmpMngtDetail_S" parameterClass="gamSocExmpMngtVO">
+	<insert id="gamSocExmpMngtDAO.insertSocExmpMngtDetail_S">
 		INSERT INTO P2MGR.SOC_EXMP_F@YGPA_P2MGR
 			(
 				APP_PRT_AT_CODE
@@ -225,7 +160,7 @@
 			)
 	</insert>
 	
-	<update id="gamSocExmpMngtDAO.updateSocExmpMngtDetail_S" parameterClass="gamSocExmpMngtVO">
+	<update id="gamSocExmpMngtDAO.updateSocExmpMngtDetail_S">
 		UPDATE P2MGR.SOC_EXMP_F@YGPA_P2MGR SET
 				APP_AGENT_CODE = #appAgentCode#
 				, USE_NO = #useNo#
@@ -263,7 +198,7 @@
 				AND SOC_NO=#socNo#			
 	</update>
 	
-	<delete id="gamSocExmpMngtDAO.deleteSocExmpMngtDetail_S" parameterClass="gamSocExmpMngtVO">
+	<delete id="gamSocExmpMngtDAO.deleteSocExmpMngtDetail_S">
 		DELETE FROM 
 				P2MGR.SOC_EXMP_F@YGPA_P2MGR
 		WHERE

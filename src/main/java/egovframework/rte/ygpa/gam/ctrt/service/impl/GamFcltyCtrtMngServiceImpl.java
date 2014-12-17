@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngService;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngVO;
 
@@ -61,7 +62,7 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	 * @return 계약정보 VO
 	 * @exception Exception
 	 */
-	public GamFcltyCtrtMngVO selectFcltyCtrtInfoDetail(GamFcltyCtrtMngVO searchVO) throws Exception {
+	public EgovMap selectFcltyCtrtInfoDetail(GamFcltyCtrtMngVO searchVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtInfoDetail(searchVO);
 	}
 	

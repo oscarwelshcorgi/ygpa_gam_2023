@@ -6,6 +6,8 @@ package egovframework.rte.ygpa.gam.soc.service;
 import java.util.List;
 import java.util.Map;
 
+import egovframework.rte.psl.dataaccess.util.EgovMap;
+
 /**
  * 
  * @author 김종민
@@ -30,7 +32,7 @@ public interface GamSocApplyService {
 	 * @return 면제요청내역관리 VO
 	 * @exception
 	 */
-	GamSocApplyVO selectSocApplyDetailInquire(GamSocApplyVO searchVO);
+	EgovMap selectSocApplyDetailInquire(GamSocApplyVO searchVO);
 		
 	/**
 	 * 면제요청내역 리스트를 조회한다. 

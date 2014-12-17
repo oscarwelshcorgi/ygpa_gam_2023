@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngVO;
 
 /**
@@ -57,8 +58,8 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 * @return 계약정보 VO
 	 * @exception Exception
 	 */
-	public GamFcltyCtrtMngVO selectFcltyCtrtInfoDetail(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return (GamFcltyCtrtMngVO)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtInfoDetail_S", searchVO);
+	public EgovMap selectFcltyCtrtInfoDetail(GamFcltyCtrtMngVO searchVO) throws Exception {
+		return (EgovMap)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtInfoDetail_S", searchVO);
 	}
 	
 	/**

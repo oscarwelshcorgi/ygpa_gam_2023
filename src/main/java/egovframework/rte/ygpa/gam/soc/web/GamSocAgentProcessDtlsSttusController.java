@@ -23,9 +23,9 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
+//import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.soc.service.GamSocAgentProcessDtlsSttusService;
@@ -76,12 +76,9 @@ public class GamSocAgentProcessDtlsSttusController {
     @Resource(name = "gamSocAgentProcessDtlsSttusService")
     private GamSocAgentProcessDtlsSttusService gamSocAgentProcessDtlsSttusService;
 
-    @RequestMapping(value="/soc/gamSocAgentProcessDtlsSttus.do")
+    @SuppressWarnings("rawtypes")
+	@RequestMapping(value="/soc/gamSocAgentProcessDtlsSttus.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-
-		//login정보
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		
 		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
 		
 		model.addAttribute("prtAtCdList", prtAtCdList);
@@ -94,7 +91,7 @@ public class GamSocAgentProcessDtlsSttusController {
     @RequestMapping(value="/soc/gamSelectSocAgentProcessDtlsSttusList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectSocAgentProcessDtlsSttusList(GamSocAgentProcessDtlsSttusVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -133,7 +130,7 @@ public class GamSocAgentProcessDtlsSttusController {
     @RequestMapping(value="/soc/gamSelectSocAgentProcessDtlsSttusListPrint.do")
 	public String selectSocAgentProcessDtlsSttusListPrint(@RequestParam Map<String, Object> socAgentProcessRealloadNewOpt, ModelMap model) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
