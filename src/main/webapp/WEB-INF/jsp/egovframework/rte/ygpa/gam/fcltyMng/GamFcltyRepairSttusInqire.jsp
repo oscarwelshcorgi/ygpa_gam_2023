@@ -188,18 +188,25 @@ GamFcltyRepairSttusInqireModule.prototype.loadDetail = function(){
 	                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
 	                { name: 'flawRprSeq', value: row['flawRprSeq'] }
 	               ];
-
-	// tabs2 항목 데이타로딩
-	this.makeDivValues('#fcltyRepairSttusInqireListVO', row);
-	// tabs3 그리드 리로드
-	this.$('#flawRprSttusObjFcltsF').flexOptions({params:searchVO}).flexReload();
-	// tabs4 그리드 리로드
-	this.$('#flawExamUsrSttusF').flexOptions({params:searchVO}).flexReload();
-	// tabs5 항목 데이타 로딩/ 그리드 리로드
-	this.makeDivValues('#fcltyRepairSttusInqireFileForm', {});
-	this.$("#previewImage").attr("src", "");
-	this.$('#fcltyRepairSttusFileList').flexOptions({params:searchVO}).flexReload();
 	
+	// tabs2 항목 데이타로딩
+	this.doAction('/fcltyMng/selectFcltyRepairSttusInqireDetail.do', searchVO, function(module, result) {
+		if(result.resultCode == "0"){
+			module.makeDivValues('#fcltyRepairSttusInqireListVO', result.result);
+			
+			// tabs3 그리드 리로드
+			module.$('#flawRprSttusObjFcltsF').flexOptions({params:searchVO}).flexReload();
+			// tabs4 그리드 리로드
+			module.$('#flawExamUsrSttusF').flexOptions({params:searchVO}).flexReload();
+			// tabs5 항목 데이타 로딩/ 그리드 리로드
+			module.makeDivValues('#fcltyRepairSttusInqireFileForm', {});
+			module.$("#previewImage").attr("src", "");
+			module.$('#fcltyRepairSttusFileList').flexOptions({params:searchVO}).flexReload();
+		}else{
+			module.$("#fcltyRepairSttusInqireListTab").tabs("option", {active: 0});
+		}
+    });
+
 };
 
 
@@ -367,11 +374,11 @@ var module_instance = new GamFcltyRepairSttusInqireModule();
 						</tr>
 						<tr>
 							<th height="23" class="required_text">하자보수내용</th>
-							<td colspan="7"><textarea id="flawRprContents" cols="130" rows="10" disabled="disabled" title="하자보수내용"></textarea></td>
+							<td colspan="7"><span id="flawRprContents" title="하자보수내용"></span></td>
 						</tr>
 						<tr>
 							<th height="23" class="required_text">하자보수결과</th>
-							<td colspan="7"><textarea id="flawExamResult" cols="130" rows="10" disabled="disabled" title="하자보수결과"></textarea></td>
+							<td colspan="7"><span id="flawExamResult" title="하자보수결과"></span></td>
 						</tr>
 						<tr>
 							<th height="23" class="required_text">비고</th>

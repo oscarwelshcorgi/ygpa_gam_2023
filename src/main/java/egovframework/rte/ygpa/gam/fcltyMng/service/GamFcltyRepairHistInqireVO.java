@@ -43,6 +43,13 @@ public class GamFcltyRepairHistInqireVO extends ComDefaultVO  {
 	
 	/** 하자보수공사시작일 검색 To */
 	private String sFlawRprStartDtTo;
+	
+	private String fcltsJobSe;
+	
+	private String fcltsMngGroupNo;
+	
+	private String flawRprSeq;
+	
 
 	/**
 	 * @return the sFlawRprEntrpsNm
@@ -112,6 +119,48 @@ public class GamFcltyRepairHistInqireVO extends ComDefaultVO  {
 	 */
 	public void setsFlawRprStartDtTo(String sFlawRprStartDtTo) {
 		this.sFlawRprStartDtTo = sFlawRprStartDtTo;
+	}
+
+	/**
+	 * @return the fcltsJobSe
+	 */
+	public String getFcltsJobSe() {
+		return fcltsJobSe;
+	}
+
+	/**
+	 * @param fcltsJobSe the fcltsJobSe to set
+	 */
+	public void setFcltsJobSe(String fcltsJobSe) {
+		this.fcltsJobSe = fcltsJobSe;
+	}
+
+	/**
+	 * @return the fcltsMngGroupNo
+	 */
+	public String getFcltsMngGroupNo() {
+		return fcltsMngGroupNo;
+	}
+
+	/**
+	 * @param fcltsMngGroupNo the fcltsMngGroupNo to set
+	 */
+	public void setFcltsMngGroupNo(String fcltsMngGroupNo) {
+		this.fcltsMngGroupNo = fcltsMngGroupNo;
+	}
+
+	/**
+	 * @return the flawRprSeq
+	 */
+	public String getFlawRprSeq() {
+		return flawRprSeq;
+	}
+
+	/**
+	 * @param flawRprSeq the flawRprSeq to set
+	 */
+	public void setFlawRprSeq(String flawRprSeq) {
+		this.flawRprSeq = flawRprSeq;
 	}
 	
 	

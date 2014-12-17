@@ -23,13 +23,10 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.soc.service.GamSocAgentVO;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
-import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
 import egovframework.rte.ygpa.gam.soc.service.GamSocTotalBsnsSetoffDtlsService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocTotalBsnsSetoffDtlsVO;
 
@@ -76,9 +73,6 @@ public class GamSocTotalBsnsSetoffDtlsController {
     
     @RequestMapping(value="/soc/gamSocTotalBsnsSetoffDtls.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-    	
-    	//login정보 
-    	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
 		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
 		
@@ -102,7 +96,6 @@ public class GamSocTotalBsnsSetoffDtlsController {
 	public @ResponseBody Map selectSocTotalBsnsSetoffDtlsList(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception {
 		
 		int totalCnt, page, firstIndex;
-		long sumTotalAmnt, sumAccFee;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

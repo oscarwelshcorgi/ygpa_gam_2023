@@ -170,50 +170,6 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
         return (Integer)getSqlMapClientTemplate().queryForObject("gamConsFcltySpecMngDao.selectFcltyFileMaxSeq", vo);
     }
     
-    
-    
-    /**
-	 * 제원관리 층수 목록 조회
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */
-	public List selectFcltyinfo9List(GamConsFcltySpecMngVO vo) throws Exception{
-		return list("gamConsFcltySpecMngDao.selectFcltyinfo9List", vo);
-	}
-
-
-	/**
-	 * 제원관리 층수 목록 총 수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	public int selectFcltyinfo9ListTotCnt(GamConsFcltySpecMngVO vo) throws Exception {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamConsFcltySpecMngDao.selectFcltyinfo9ListTotCnt", vo);
-    }
-	
-	
-	/**
-	 * 시설 층수 정보 삭제
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	public void deleteFcltyFloorSpecData(Map vo) throws Exception{
-		delete("gamConsFcltySpecMngDao.deleteFcltyFloorSpecData", vo);
-	}
-	
-	
-	/**
-	 * 시설 층수 정보 저장/삭제
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */
-	public List mergeFcltyFloorMngt(Map mergeList) throws Exception{
-		return this.merge(mergeList, "gamConsFcltySpecMngDao.insertFcltyFloorSpecList", "gamConsFcltySpecMngDao.updateFcltyFloorSpecList", "gamConsFcltySpecMngDao.deleteFcltyFloorSpecList");
-	}
 	
 	
 

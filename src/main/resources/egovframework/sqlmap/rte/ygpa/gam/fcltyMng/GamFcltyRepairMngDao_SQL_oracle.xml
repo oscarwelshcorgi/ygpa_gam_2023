@@ -101,6 +101,43 @@
 	</select>
 	
 	
+	<select id="gamFcltyRepairMngDao.selectFcltyRepairMngDetail_S" parameterClass="gamFcltyRepairMngVO" resultClass="egovMap">
+	
+		SELECT
+			TO_CHAR(FLAW_RPR_START_DT,'YYYY-MM-DD') FLAW_RPR_START_DT
+			, TO_CHAR(FLAW_RPR_END_DT,'YYYY-MM-DD') FLAW_RPR_END_DT
+			, FLAW_RPR_AMT
+			, FLAW_RPR_CONTENTS
+			, REG_USR
+			, TO_CHAR(REGIST_DT,'YYYY-MM-DD') REGIST_DT
+			, UPD_USR
+			, TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DT
+			, FLAW_RPR_ENTRPS_NM
+			, FLAW_RPR_TY
+			, TO_CHAR(FLAW_OCCRRNC_DT,'YYYY-MM-DD') FLAW_OCCRRNC_DT
+			, FLAW_RPR_COMPT_YN
+			, FLAW_EXAM_SE
+			, ENFORCE_YEAR
+			, FLAW_RPR_NM
+			, FCLTS_MNG_GROUP_NO
+			, FCLTS_JOB_SE
+			, FLAW_RPR_SEQ
+			, TO_CHAR(FLAW_EXAM_DT,'YYYY-MM-DD') FLAW_EXAM_DT
+			, FLAW_ENNC
+			, FLAW_EXAM_RESULT
+			, RM
+			, CTRT_NO
+		FROM
+			FLAW_RPR_DTLS_F 
+		WHERE 
+			FCLTS_JOB_SE = #fcltsJobSe#
+			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FLAW_RPR_SEQ = #flawRprSeq#
+		
+		
+	</select>
+	
+	
 	<!-- 하자보수대상시설물내역 -->
 	<select id="gamFcltyRepairMngDao.selectFlawRprObjFcltsFList_D" parameterClass="gamFcltyRepairMngVO" resultClass="egovMap">
         SELECT A.*

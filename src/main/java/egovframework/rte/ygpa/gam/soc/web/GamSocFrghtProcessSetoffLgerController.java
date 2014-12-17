@@ -105,7 +105,7 @@ public class GamSocFrghtProcessSetoffLgerController {
 		
 		int totalCnt, page, firstIndex;
 		long sumExmpAmnt,sumExmpAmntPa,sumAmnt;
-		String feeTp, feeTpNm;
+		
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

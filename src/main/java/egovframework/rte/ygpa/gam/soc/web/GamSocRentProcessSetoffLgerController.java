@@ -23,7 +23,6 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -76,8 +75,6 @@ public class GamSocRentProcessSetoffLgerController {
     @RequestMapping(value="/soc/gamSocRentProcessSetoffLger.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	
-    	//login정보 
-    	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
     	GamSocCmmUseVO codeVo = new GamSocCmmUseVO();
 		
@@ -105,7 +102,7 @@ public class GamSocRentProcessSetoffLgerController {
 		
 		int totalCnt, page, firstIndex;
 		long sumExmpAmnt,sumExmpAmntPa,sumAmnt;
-		String feeTp, feeTpNm;
+
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

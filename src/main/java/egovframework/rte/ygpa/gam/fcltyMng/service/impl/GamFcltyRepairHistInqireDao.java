@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairHistInqireVO;
 
 /**
@@ -50,6 +51,18 @@ public class GamFcltyRepairHistInqireDao extends YGPAAbstractDAO {
 	 */
 	public int selectFcltyRepairHistInqireListTotCnt(GamFcltyRepairHistInqireVO vo) throws Exception {
 		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyRepairHistInqireDao.selectFcltyRepairHistInqireListTotCnt_S", vo);
+	}
+	
+	
+	
+	/**
+	 * 하자보수상세내역 조회
+	 * @param searchVO
+	 * @return map
+	 * @throws Exception
+	 */
+	public EgovMap selectFcltyRepairHistInqireDetail(GamFcltyRepairHistInqireVO vo) throws Exception{
+		return (EgovMap) selectByPk("gamFcltyRepairHistInqireDao.selectFcltyRepairHistInqireDetail_S", vo);
 	}
 	
 	

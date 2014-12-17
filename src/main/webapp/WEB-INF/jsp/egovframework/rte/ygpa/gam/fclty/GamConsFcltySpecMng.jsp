@@ -32,9 +32,8 @@ GamConstFcltySpecMngModule.prototype = new EmdModule(1000,700);	// 초기 시작
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
-	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다.
 
-	this._params = params;	// 파라미터를 저장한다.
+	this._fcltyItem = null;
 
 	// 테이블 설정
 	this.$("#constFcltySpecMngList").flexigrid({
@@ -54,36 +53,13 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 		height: "auto"
 	});
 
-	/* this.$("#fcltyinfo9").flexigrid({
-		module: this,
-		url: '/fclty/gamFcltyinfo9.do',
-		dataType: "json",
-		colModel : [
-					{display:"구역",			name:"bound",			width:60,		sortable:false,		align:"center"},
-					{display:"층구분",		name:"strySe",			width:60,		sortable:false,		align:"center"},
-					{display:"면적",			name:"ar",				width:80,		sortable:false,		align:"center"},
-					{display:"벽마감재",		name:"wallFnsh",		width:140,		sortable:false,		align:"center"},
-					{display:"바닥마감재",		name:"flrFnsh",			width:140,		sortable:false,		align:"center"},
-					{display:"천장",			name:"ceil",			width:140,		sortable:false,		align:"center"},
-					{display:"사용용도",		name:"usagePrpos",		width:140,		sortable:false,		align:"center"},
-					{display:"비고",			name:"rm",				width:140,		sortable:false,		align:"center"}
-			],
-		height: "auto"
-	}); */
-//	this.$("#fcltyinfo9").flexOptions({params:null}).flexReload();
-// 	this.$("#constFcltySpecMngList").flexReload();
-	this._fcltyItem = null;
-
 	this.$("#constFcltySpecMngList").on("onItemSelected", function(event, module, row, grid, param) {
 		module._cmd="modify";
 	});
 
-
 	this.$("#constFcltySpecMngList").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._cmd="modify";
-		
 		module.$("#constFcltySpecMngListTab").tabs("option", {active: 1});	// 탭을 전환 한다.
-		
 	});
 
 
@@ -96,20 +72,6 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 	this.$(".fileEditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.applyFileChanged(event.target);
 	});
-
-	this.$(".text").bind("change keyup", {module: this}, function(event) {
-		var limit_char = /[|]/;
-		if(limit_char.test(event.target.value)){
-			alert('|'+"(파이프) 특수문자는 사용 하실수 없습니다.");
-			var rep= event.target.value.replace(limit_char,"");
-			event.target.value = rep;
-			return;
-		}
-
-// 		event.target.value
-
-	});
-
 
 	this.$("#fcltyFileList").flexigrid({
 		module: this,
@@ -127,37 +89,56 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 	});
 
 	this.$("#fcltyFileList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.$("#fcltyGisFileForm input").val('');
-		module.makeFormValues("#fcltyGisFileForm", row);
-		module._editDataFile = module.getFormValues("#fcltyGisFileForm", row);
-		module._editRowFile = module.$("#fcltyFileList").selectedRowIds()[0];
-		if(row.atchFileNmPhysicl != null || row.atchFileNmPhysicl != "") {
-
-			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
-			var filenm = row["atchFileNmPhysicl"];
-			var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
-
-			if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
-
-				$imgURL = module.getPfPhotoUrl(filenm);
-				module.$("#previewImage").fadeIn(400, function() {
-			    	module.$("#previewImage").attr("src", $imgURL);
-			    });
-			}else{
-				module.$("#previewImage").attr("src", "");
-			}
-		}
+		module.imagePreview();
 	});
 
 
+};
+
+GamConstFcltySpecMngModule.prototype.onSubmit = function() {
+	this.loadData();
+};
+
+
+GamConstFcltySpecMngModule.prototype.loadData = function() {
+	this._cmd="";
+	this.makeFormValues('#fcltyManageVO', {});
+	var searchOpt=this.makeFormArgs("#fcltyForm");
+ 	this.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
+ 	this.$("#constFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();
+};
+
+GamConstFcltySpecMngModule.prototype.imagePreview = function() {
+	
+	var row = this.$('#fcltyFileList').selectedRows();
+	row = row[0];
+
+	this.$("#fcltyGisFileForm input").val('');
+	this.makeFormValues("#fcltyGisFileForm", row);
+	this._editDataFile = this.getFormValues("#fcltyGisFileForm", row);
+	this._editRowFile = this.$("#fcltyFileList").selectedRowIds()[0];
+	if(row.atchFileNmPhysicl != null || row.atchFileNmPhysicl != "") {
+
+		// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
+		var filenm = row["atchFileNmPhysicl"];
+		var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
+
+		if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
+
+			$imgURL = this.getPfPhotoUrl(filenm);
+			//this.$("#previewImage").fadeIn(400, function() {
+		    	this.$("#previewImage").attr("src", $imgURL);
+		    //});
+		}else{
+			this.$("#previewImage").attr("src", "");
+		}
+	}
 };
 
 GamConstFcltySpecMngModule.prototype.loadDetail = function() {
 
 	var row = this.$('#constFcltySpecMngList').selectedRows();
 	row = row[0];
-	var prtFclty = [{ name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
-
 	if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
 		this.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
 		alert('시설물 관리번호에 오류가 있습니다.');
@@ -167,6 +148,7 @@ GamConstFcltySpecMngModule.prototype.loadDetail = function() {
 	}
 
 	// 건축시설 제원 처리
+	var prtFclty = [{ name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
 	this.doAction('/fclty/gamConstFcltySpecDetail.do', prtFclty, function(specModule, result) {
  		if(result.resultCode == "0"){
  			specModule.clearCodePage();
@@ -177,16 +159,10 @@ GamConstFcltySpecMngModule.prototype.loadDetail = function() {
 	 		specModule.$("#beforeGisPrtFcltyCd").val(specModule.$("#gisPrtFcltyCd").val());
             specModule.$("#beforeGisPrtFcltySeq").val(specModule.$("#gisPrtFcltySeq").val());
  		}
- 		else {
- 			//alert(result.resultMsg);
- 		}
-
+ 	
  		specModule.$("#gisCodePopupBtn").hide();
  		specModule.$("#selectedGAM005").disable();
  	});
-
-	// 층별제원처리
-	//this.$('#fcltyinfo9').flexOptions({params:prtFclty}).flexReload();
 
 	// 첨부파일 처리
 	this.$('#fcltyFileList').flexOptions({params:prtFclty}).flexReload();
@@ -194,71 +170,55 @@ GamConstFcltySpecMngModule.prototype.loadDetail = function() {
 
 };
 
-GamConstFcltySpecMngModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
-
-	if((newTabId=='tabs2' || newTabId=='tabs4') && this._cmd != 'insert') {
-		if(this.$('#constFcltySpecMngList').selectedRowCount()!=1) {
-			alert('건축시설 항목을 선택 하세요.');
-			return false;
-		}
-	}
-	/* if(newTabId=='tabs1'){
-		this.$('#constFcltySpecMngList').selectRowId();
-	} */
-
-	return true;
+GamConstFcltySpecMngModule.prototype.addFcltyMode = function() {
+	this._cmd="insert";
+	this.$('#fcltyFileList').flexEmptyData();
+	this.$("#fcltyManageVO :input").val("");
+	this.$("#titleFcltsMngNo").text('');
+	this.$("#selectedGAM005").enable();
+	this.$("#gisCodePopupBtn").show();
+	this.$("#constFcltySpecMngListTab").tabs("option", {active: 1});
 };
 
-GamConstFcltySpecMngModule.prototype.applyFileChanged = function(target) {
-	var changed=false;
-	var row={};
-	// // console.log("change event occur");
 
-	var selectRow = this.$('#fcltyFileList').selectedRows();
-
-	if(selectRow.length > 0) {
-		row=selectRow[0];
-		if(this.$('#atchFileSe').is(target)) {
-			row['atchFileSeNm'] = $(target).find('option:selected').text();
-			row['atchFileSe'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#atchFileSj').is(target)) {
-			row['atchFileSj'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#atchFileWritngDt').is(target)) {
-			row['atchFileWritngDt'] = $(target).val();
-			changed=true;
-		}
+GamConstFcltySpecMngModule.prototype.saveFcltyData = function() {
+	if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){
+		return;
 	}
-	if(changed) {
-		var rowid=this.$("#fcltyFileList").selectedRowIds()[0];
-		if(row['_updtId']!='I') row['_updtId']='U';
-		this.edited=true;
-		this.$('#fcltyFileList').flexUpdateRow(rowid, row);
+	var inputVO = this.makeFormArgs("#fcltyManageVO");
+	var fcltsMngNo="";
+	// 건축시설제원 입력/수정처리
+ 	if(this._cmd == "insert") {
+	 	this.doAction('/fclty/gamConstFcltySpecInsert.do', inputVO, function(module, result) {
+	 		if(result.resultCode == "0"){
+	 			var searchOpt = module.makeFormArgs("#fcltyForm");
+				module.$("#constFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();
+
+				fcltsMngNo = result.fcltsMngNo;
+
+				// 첨부파일 입력/수정처리
+				module.insertFcltySpecFile(fcltsMngNo);
+	 		}
+	 		alert(result.resultMsg);
+	 	});
+	}else{
+	 	this.doAction('/fclty/gamConstFcltySpecUpdate.do', inputVO, function(module, result) {
+	 		if(result.resultCode == "0"){
+	 			var searchOpt = module.makeFormArgs("#fcltyForm");
+				module.$("#constFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();
+
+				fcltsMngNo = result.fcltsMngNo;
+
+				// 첨부파일 입력/수정처리
+				module.insertFcltySpecFile(fcltsMngNo);
+
+	 		}
+	 		alert(result.resultMsg);
+	 	});
+
+	 	this._cmd="";
 	}
 };
-
-/* GamConstFcltySpecMngModule.prototype.insertFcltyFloorSpec = function(fcltsMngNo) {
-
-	var all_rows = this.$('#fcltyinfo9').flexGetData();
-
-	for(i=0;i<all_rows.length;i++){
-		all_rows[i]["fcltsMngNo"] = fcltsMngNo;
-	}
-
-	var inputFloorVO = [];
-	inputFloorVO[inputFloorVO.length]={name: 'updateList', value :JSON.stringify(this.$('#fcltyinfo9').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-	inputFloorVO[inputFloorVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyinfo9').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-	inputFloorVO[inputFloorVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFloorSpecList) };
-
-	this.doAction('/fclty/gamFcltyFloorSpecSave.do', inputFloorVO, function(floorModule, floorResult) {
-        if(floorResult.resultCode == 0){
-
-        }
-    });
-}; */
 
 
 GamConstFcltySpecMngModule.prototype.insertFcltySpecFile = function(fcltsMngNo) {
@@ -282,187 +242,32 @@ GamConstFcltySpecMngModule.prototype.insertFcltySpecFile = function(fcltsMngNo) 
 
 };
 
+GamConstFcltySpecMngModule.prototype.deleteFcltyData = function() {
+	var row = this.$("#constFcltySpecMngList").selectedRows();
 
-/**
- * 정의 된 버튼 클릭 시
- */
-GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
+	if(row.length == "0"){
+		alert("삭제할 시설을 선택 하십시오.");
+		return;
+	}
 
-	switch(buttonId) {
+	if(confirm("선택한 건축시설을 삭제하시겠습니까?")){
+		row=row[0];
 
-		// 조회
-		case "searchBtn":
-			this._cmd="";
-			var searchOpt=this.makeFormArgs("#fcltyForm");
-		 	this.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
-		 	this.$("#constFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();
+		var inputVO = { 'fcltsMngNo': row['fcltsMngNo'] };
+	 	this.doAction('/fclty/gamConstFcltySpecDelete.do', inputVO, function(module, result) {
+	 		if(result.resultCode == "0"){
+	 			var searchOpt = module.makeFormArgs("#fcltyForm");
+				module.$("#constFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();
+				module.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
+				module.$("#fcltyManageVO :input").val("");
+	 		}
+	 		alert(result.resultMsg);
+	 	});
 
-		break;
-
-		// 추가
-		case "addBtn":
-			this._cmd="insert";
-			this.$('#fcltyFileList').flexEmptyData();
-			//this.$('#fcltyinfo9').flexEmptyData();
-			this.$("#fcltyManageVO :input").val("");
-			this.$("#titleFcltsMngNo").text('');
-			this.$("#selectedGAM005").enable();
-			this.$("#gisCodePopupBtn").show();
-			this.$("#constFcltySpecMngListTab").tabs("option", {active: 1});
-
-		break;
-
-		// 자산코드 팝업
-		case "gisCodePopupBtn":
-			this.doExecuteDialog("searchGisCodePopup", "자산코드", '/popup/showAssetsCd.do', {});
-		break;
-
-		// 자산코드 팝업
-		case "searchPopupBtn":
-			this.doExecuteDialog("searchGisCodePopup2", "자산코드", '/popup/showAssetsCd.do', {});
-		break;
-		
-		// 시설물 분류코드(디테일 화면)
-		case "searchFcltsClCd" :
-			this.doExecuteDialog("selectFcltsClCd", "시설물 분류코드", '/popup/showFcltsClCd.do', { sFcltsClCdChar : this._prtFcltySe });			
-			break;
-			
-		// 시설물관리그룹(디테일 화면)
-		case "searchFcltsMngGroupNo":
-			this.doExecuteDialog("selectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
-			break;
-
-		/* case "fcltyinfo9PopupBtn":
-			var all_rows = this.$('#fcltyinfo9').flexGetData();
-			for(i=0;i<all_rows.length;i++){
-				all_rows[i]["_updtId"] = "";
-			}
-			console.log('debug');
-
-			this.doExecuteDialog("fcltyinfo9Popup", "건축물현황", '/popup/fcltySpecinfo9ListPopup.do', {},all_rows);
-		break; */
-
-		// 저장
-		case "saveBtn":
-			if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){
-        		return;
-        	}
-			var inputVO = this.makeFormArgs("#fcltyManageVO");
-			var fcltsMngNo="";
-			// 건축시설제원 입력/수정처리
-		 	if(this._cmd == "insert") {
-			 	this.doAction('/fclty/gamConstFcltySpecInsert.do', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#fcltyForm");
-						module.$("#constFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();
-						//module.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
-						//module.$("#fcltyManageVO :input").val("");
-
-						fcltsMngNo = result.fcltsMngNo;
-
-						// 층별제원 입력/수정처리
-						//module.insertFcltyFloorSpec(fcltsMngNo);
-
-						// 첨부파일 입력/수정처리
-						module.insertFcltySpecFile(fcltsMngNo);
-			 		}
-			 		alert(result.resultMsg);
-			 	});
-			}else{
-			 	this.doAction('/fclty/gamConstFcltySpecUpdate.do', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#fcltyForm");
-						module.$("#constFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();
-						//module.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
-						//module.$("#fcltyManageVO :input").val("");
-
-						fcltsMngNo = result.fcltsMngNo;
-
-						// 층별제원 입력/수정처리
-						//module.insertFcltyFloorSpec(fcltsMngNo);
-
-						// 첨부파일 입력/수정처리
-						module.insertFcltySpecFile(fcltsMngNo);
-
-			 		}
-			 		alert(result.resultMsg);
-			 	});
-
-			 	this._cmd="";
-			}
-
-		break;
-
-		// 삭제
-		case "deleteBtn":
-			var row = this.$("#constFcltySpecMngList").selectedRows();
-
-			if(row.length == "0"){
-				alert("삭제할 시설을 선택 하십시오.");
-				return;
-			}
-
-			if(confirm("선택한 건축시설을 삭제하시겠습니까?")){
-				row=row[0];
-
-				var inputVO = { 'fcltsMngNo': row['fcltsMngNo'] };
-			 	this.doAction('/fclty/gamConstFcltySpecDelete.do', inputVO, function(module, result) {
-			 		if(result.resultCode == "0"){
-			 			var searchOpt = module.makeFormArgs("#fcltyForm");
-						module.$("#constFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();
-						module.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
-						module.$("#fcltyManageVO :input").val("");
-			 		}
-			 		alert(result.resultMsg);
-			 	});
-
-			 	this._cmd="";
-			}
-		break;
-
-		case "registLocation":	// 위치 등록
-			var module=this;
-			EMD.gis.addPrtFcltyMarker(this._fcltyItem, function(value) {
-				module.$('#laCrdnt').val(value.laCrdnt);
-				module.$('#loCrdnt').val(value.loCrdnt);
-			});
-			break;
-		case "gotoLocation":	// 위치 조회
-			if(this._fcltyItem.laCrdnt!=null && this._fcltyItem.laCrdnt!=null) {
-				EMD.gis.goLocation(this._fcltyItem.laCrdnt, this._fcltyItem.loCrdnt);
-				EMD.gis.selectPrtFclty(this._fcltyItem);
-			} else if(this._fcltyItem.lat!=null && this._fcltyItem.lng!=null){
-				EMD.gis.goLocation4326(this._fcltyItem.lat, this._fcltyItem.lng);
-				EMD.gis.selectPrtFclty(this._fcltyItem);
-			} else {
-				alert("시설위치가 등록되지 않았습니다.");
-			}
-			break;
-		// 파일 업로드
-		case "btnUploadFile":
-
-			// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
-			this.uploadPfPhoto("uploadFile", function(module, result) {
-
-				$.each(result, function(){
-					module.$("#fcltyFileList").flexAddRow({_updtId:'I', atchFileSeq:"", fcltsMngNo:"", atchFileSe:"D", atchFileSeNm:"문서",  atchFileSj: "", atchFileNmLogic: this.logicalFileNm, atchFileNmPhysicl: this.physcalFileNm, atchFileWritngDt: ""});
-				});
-			}, "첨부파일 업로드");
-			break;
-		case 'btnDownloadFile':
-			var selectRow = this.$('#fcltyFileList').selectedRows();
-			if(selectRow.length > 0) {
-				var row=selectRow[0];
-				this.downPfPhoto(row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
-			}
-			break;
-
-		case "btnRemoveFile":
-			this.removefcltyFileItem();
-		break;
-
+	 	this._cmd="";
 	}
 };
+
 
 GamConstFcltySpecMngModule.prototype.removefcltyFileItem = function() {
 	var rows = this.$("#fcltyFileList").selectedRows();
@@ -494,6 +299,44 @@ GamConstFcltySpecMngModule.prototype.removefcltyFileItem = function() {
 };
 
 
+GamConstFcltySpecMngModule.prototype.uploadFile = function() {
+	// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
+	this.uploadPfPhoto("uploadFile", function(module, result) {
+
+		$.each(result, function(){
+			module.$("#fcltyFileList").flexAddRow({_updtId:'I', atchFileSeq:"", fcltsMngNo:"", atchFileSe:"D", atchFileSeNm:"문서",  atchFileSj: "", atchFileNmLogic: this.logicalFileNm, atchFileNmPhysicl: this.physcalFileNm, atchFileWritngDt: ""});
+		});
+	}, "첨부파일 업로드");
+};
+
+GamConstFcltySpecMngModule.prototype.downloadFile = function() {
+	var selectRow = this.$('#fcltyFileList').selectedRows();
+	if(selectRow.length > 0) {
+		var row=selectRow[0];
+		this.downPfPhoto(row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
+	}
+};
+
+GamConstFcltySpecMngModule.prototype.registLocation = function() {
+	var module=this;
+	EMD.gis.addPrtFcltyMarker(this._fcltyItem, function(value) {
+		module.$('#laCrdnt').val(value.laCrdnt);
+		module.$('#loCrdnt').val(value.loCrdnt);
+	});
+};
+
+GamConstFcltySpecMngModule.prototype.gotoLocation = function() {
+	if(this._fcltyItem.laCrdnt!=null && this._fcltyItem.laCrdnt!=null) {
+		EMD.gis.goLocation(this._fcltyItem.laCrdnt, this._fcltyItem.loCrdnt);
+		EMD.gis.selectPrtFclty(this._fcltyItem);
+	} else if(this._fcltyItem.lat!=null && this._fcltyItem.lng!=null){
+		EMD.gis.goLocation4326(this._fcltyItem.lat, this._fcltyItem.lng);
+		EMD.gis.selectPrtFclty(this._fcltyItem);
+	} else {
+		alert("시설위치가 등록되지 않았습니다.");
+	}
+};
+
 
 GamConstFcltySpecMngModule.prototype.clearCodePage = function() {
 	this.$('#fcltyManageVO :input').val('');
@@ -505,6 +348,119 @@ GamConstFcltySpecMngModule.prototype.clearFilePage = function() {
 	this.$('#previewImage').attr('src', '');
 };
 
+
+GamConstFcltySpecMngModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
+
+	if((newTabId=='tabs2' || newTabId=='tabs3') && this._cmd != 'insert') {
+		if(this.$('#constFcltySpecMngList').selectedRowCount()!=1) {
+			alert('건축시설 항목을 선택 하세요.');
+			return false;
+		}
+	}
+
+	return true;
+};
+
+GamConstFcltySpecMngModule.prototype.applyFileChanged = function(target) {
+	var changed=false;
+	var row={};
+
+	var selectRow = this.$('#fcltyFileList').selectedRows();
+
+	if(selectRow.length > 0) {
+		row=selectRow[0];
+		if(this.$('#atchFileSe').is(target)) {
+			row['atchFileSeNm'] = $(target).find('option:selected').text();
+			row['atchFileSe'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#atchFileSj').is(target)) {
+			row['atchFileSj'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#atchFileWritngDt').is(target)) {
+			row['atchFileWritngDt'] = $(target).val();
+			changed=true;
+		}
+	}
+	if(changed) {
+		var rowid=this.$("#fcltyFileList").selectedRowIds()[0];
+		if(row['_updtId']!='I') row['_updtId']='U';
+		this.edited=true;
+		this.$('#fcltyFileList').flexUpdateRow(rowid, row);
+	}
+};
+
+
+/**
+ * 정의 된 버튼 클릭 시
+ */
+GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
+
+	switch(buttonId) {
+
+		// 추가
+		case "addBtn":
+			this.addFcltyMode();
+		break;
+		
+		// 저장
+		case "saveBtn":
+			this.saveFcltyData();
+		break;
+
+		// 삭제
+		case "deleteBtn":
+			this.deleteFcltyData();
+		break;
+		
+		// 파일 업로드
+		case "btnUploadFile":
+			this.uploadFile();
+		break;
+		
+		// 파일 다운로드
+		case 'btnDownloadFile':
+			this.downloadFile();
+		break;
+
+		case "btnRemoveFile":
+			this.removefcltyFileItem();
+		break;
+		
+		// 위치 등록
+		case "registLocation":	
+			this.registLocation();
+		break;
+		
+		// 위치 조회
+		case "gotoLocation":	
+			this.gotoLocation();
+		break;
+		
+		// 자산코드 팝업
+		case "gisCodePopupBtn":
+			this.doExecuteDialog("searchGisCodePopup", "자산코드", '/popup/showAssetsCd.do', {});
+		break;
+
+		// 자산코드 팝업
+		case "searchPopupBtn":
+			this.doExecuteDialog("searchGisCodePopup2", "자산코드", '/popup/showAssetsCd.do', {});
+		break;
+		
+		// 시설물 분류코드(디테일 화면)
+		case "searchFcltsClCd" :
+			this.doExecuteDialog("selectFcltsClCd", "시설물 분류코드", '/popup/showFcltsClCd.do', { sFcltsClCdChar : this._prtFcltySe });			
+		break;
+			
+		// 시설물관리그룹(디테일 화면)
+		case "searchFcltsMngGroupNo":
+			this.doExecuteDialog("selectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
+		break;
+	}
+};
+
+
 /**
  * 탭 변경시 실행 이벤트
  */
@@ -514,7 +470,6 @@ GamConstFcltySpecMngModule.prototype.clearFilePage = function() {
 	}
 	switch(newTabId) {
 		case "tabs1":
-	
 			break;
 		case "tabs2":
 			if(oldTabId == 'tabs1') {
@@ -526,11 +481,7 @@ GamConstFcltySpecMngModule.prototype.clearFilePage = function() {
 			} 
 			break;
 	
-		/* case "tabs3":
-			this._deleteDataFloorSpecList=[];
-			break; */
-	
-		case "tabs4":
+		case "tabs3":
 			this._deleteDataFileList=[];
 			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
 				this.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
@@ -574,17 +525,7 @@ GamConstFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 			this.$("#prtFcltyMngEntrpsCd").val(value["entrpscd"]);
 			this.$("#prtFcltyMngEntrpsNm").val(value["entrpsNm"]);
 		break;
-		// 건축물현황
-		/* case "fcltyinfo9Popup":
-			if(msg == 'ok'){
-				this.$("#fcltyinfo9").flexEmptyData();
-			}
-			this.$("#fcltyinfo9").flexAddData({resultList: value["inputVo"] });
 
-			this._deleteDataFloorSpecList = value["deleteDataFloorSpecList"]; */
-
-		break;
-		
 		case "selectFcltsClCd":
 			this.$("#archFcltsClCd").val(value["fcltsClCd"]);
 			this.$("#archFcltsClCdNm").val(value["fcltsClCdNm"]);			
@@ -626,7 +567,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<td>
 								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" />
 							</td>
-							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
+							<td rowspan="2"><button class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
 							<th>건축시설명</th>
@@ -638,16 +579,12 @@ var module_instance = new GamConstFcltySpecMngModule();
 		</div>
 	</div>
 
-
-
-
 	<div class="emdPanel fillHeight">
 		<div id="constFcltySpecMngListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" data-onchange-before="onTabChangeBefore">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">건축시설 목록</a></li>
 				<li><a href="#tabs2" class="emdTab">건축시설 제원</a></li>
-				<!-- <li><a href="#tabs3" class="emdTab">건축시설 층별제원</a></li> -->
-				<li><a href="#tabs4" class="emdTab">건축시설 첨부파일</a></li>
+				<li><a href="#tabs3" class="emdTab">건축시설 첨부파일</a></li>
 			</ul>
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
@@ -909,17 +846,8 @@ var module_instance = new GamConstFcltySpecMngModule();
 				</div>
 			</div>
 
-			<!-- 건축시설 층별제원 -->
-			<!-- <div id="tabs3" class="emdTabPage" style="overflow: scroll;">
-				<table id="fcltyinfo9" style="display:none" class="fillHeight"></table>
-				<div class="emdControlPanel">
-					<button id="fcltyinfo9PopupBtn">추가/편집</button>
-					<button id="saveBtn">저장</button>
-				</div>
-			</div> -->
-
 			<!-- 건축시설 첨부파일 -->
-			<div id="tabs4" class="emdTabPage" style="overflow: scroll;">
+			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 				<table id="fcltyFileList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button id="btnUploadFile">업로드</button>

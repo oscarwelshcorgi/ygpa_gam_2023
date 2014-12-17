@@ -102,32 +102,6 @@ public interface GamConsFcltySpecMngService {
 	public List mergeFcltyFileMngt(Map mergeList) throws Exception;
 	
 	
-	/**
-	 * 제원관리 층수 목록 조회
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */
-	List selectFcltyinfo9List(GamConsFcltySpecMngVO vo) throws Exception;
-
-
-	/**
-	 * 제원관리 층수 목록 총 수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	int selectFcltyinfo9ListTotCnt(GamConsFcltySpecMngVO vo) throws Exception;
-	
-	
-	/**
-	 * 시설 층수 정보 삭제
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	void deleteFcltyFloorSpecData(Map vo) throws Exception;
-	
 	
 	
 	/**
@@ -138,12 +112,4 @@ public interface GamConsFcltySpecMngService {
 	 */
 	void deleteFcltyTotalFile(Map vo) throws Exception;
 	
-	
-	/**
-	 * 시설 층수 정보 저장/삭제
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */
-	List mergeFcltyFloorMngt(Map mergeList) throws Exception;
 }

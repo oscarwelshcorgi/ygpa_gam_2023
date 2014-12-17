@@ -23,13 +23,10 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.soc.service.GamSocAgentVO;
 import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseService;
-import egovframework.rte.ygpa.gam.soc.service.GamSocCmmUseVO;
 import egovframework.rte.ygpa.gam.soc.service.GamSocShipProcessRealloadService;
 import egovframework.rte.ygpa.gam.soc.service.GamSocShipProcessRealloadVO;
 
@@ -77,9 +74,6 @@ public class GamSocShipProcessRealloadController {
     
     @RequestMapping(value="/soc/gamSocShipProcessRealload.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-    	
-    	//login정보 
-    	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
 		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
 		
@@ -102,8 +96,6 @@ public class GamSocShipProcessRealloadController {
 	public @ResponseBody Map selectSocShipProcessRealloadList(GamSocShipProcessRealloadVO searchVO) throws Exception {
 		
 		int totalCnt, page, firstIndex;
-		long sumExmpAmnt;
-		String feeTp, feeTpNm;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -155,7 +147,7 @@ public class GamSocShipProcessRealloadController {
 		
 		int totalCnt, page, firstIndex;
 		long sumExmpAmnt;
-		String feeTp, feeTpNm;
+
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

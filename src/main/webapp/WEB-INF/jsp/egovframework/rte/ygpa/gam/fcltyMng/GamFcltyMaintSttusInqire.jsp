@@ -174,15 +174,22 @@ GamFcltyMaintSttusInqireModule.prototype.loadDetail = function(){
 	                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
 	                { name: 'mntnRprSeq', value: row['mntnRprSeq'] }
 	               ];
-
+	
 	// tabs2 항목 데이타로딩
-	this.makeDivValues('#fcltyMaintSttusInqireListVO', row);
-	// tabs3 그리드 리로드
-	this.$('#mntnSttusRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
-	// tabs4 항목 데이타 로딩/ 그리드 리로드
-	this.makeDivValues('#fcltyMaintSttusInqireFileForm', {});
-	this.$("#previewImage").attr("src", "");
-	this.$('#fcltyMaintSttusFileList').flexOptions({params:searchVO}).flexReload();
+	this.doAction('/fcltyMng/selectFcltyMaintSttusInqireDetail.do', searchVO, function(module, result) {
+		if(result.resultCode == "0"){
+			module.makeDivValues('#fcltyMaintSttusInqireListVO', result.result);
+			
+			// tabs3 그리드 리로드
+			module.$('#mntnSttusRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
+			// tabs4 항목 데이타 로딩/ 그리드 리로드
+			module.makeDivValues('#fcltyMaintSttusInqireFileForm', {});
+			module.$("#previewImage").attr("src", "");
+			module.$('#fcltyMaintSttusFileList').flexOptions({params:searchVO}).flexReload();
+		}else{
+			module.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
+		}
+    });
 	
 };
 

@@ -4,13 +4,13 @@
 package egovframework.rte.ygpa.gam.fcltyMng.service.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairSttusInqireService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairSttusInqireVO;
 
@@ -57,6 +57,18 @@ public class GamFcltyRepairSttusInqireServiceImpl extends AbstractServiceImpl im
 	public int selectFcltyRepairSttusInqireListTotCnt(GamFcltyRepairSttusInqireVO vo) throws Exception {
 		return gamFcltyRepairSttusInqireDao.selectFcltyRepairSttusInqireListTotCnt(vo);
 	}
+	
+	
+	/**
+	 * 하자보수상세내역 조회
+	 * @param searchVO
+	 * @return map
+	 * @throws Exception
+	 */
+	public EgovMap selectFcltyRepairSttusInqireDetail(GamFcltyRepairSttusInqireVO vo) throws Exception{
+		return gamFcltyRepairSttusInqireDao.selectFcltyRepairSttusInqireDetail(vo);
+	}
+	
 	
 	
 	/**

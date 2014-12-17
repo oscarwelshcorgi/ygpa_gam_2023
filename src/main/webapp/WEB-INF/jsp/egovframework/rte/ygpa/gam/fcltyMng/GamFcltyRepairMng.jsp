@@ -61,7 +61,6 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectFlawRprObjFcltsF.do',
 		dataType: 'json',
 		colModel : [
-					//{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
 					{display:"시설물관리번호",	name:"fcltsMngNo",	width:100,		sortable:true,		align:"center"},
 					{display:"시설물명",		name:"prtFcltyNm",	width:150,		sortable:true,		align:"left"},
 					{display:"하자유무",		name:"flawEnnc",	width:90,		sortable:true,		align:"center"},
@@ -77,7 +76,6 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectFlawExamUsrFList.do',
 		dataType: "json",
 		colModel : [
-					//{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
 					{display:"순번",				name:"seq",					width:100,		sortable:false,		align:"center"},
 					{display:"하자검사자",			name:"flawExamUsr",			width:250,		sortable:false,		align:"center"},
 					{display:"하자검사일자",		name:"flawExamDt",			width:250,		sortable:false,		align:"center"},
@@ -124,8 +122,13 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		event.data.module.applyFileChanged(event.target);
 	});
 	
-	
 	// 연도 셀렉트 옵션에 뿌리기
+	this.applySelectYear();
+	
+};
+
+
+GamFcltyRepairMngModule.prototype.applySelectYear = function(){
 	var toDate = new Date();
 	var toYear = toDate.getFullYear();
 	
@@ -134,8 +137,6 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		option = option + "<option value='" + i + "'>" + i + "년</option>";
 	}
 	this.$("#enforceYear").append(option);
-
-
 };
 
 
@@ -226,9 +227,7 @@ GamFcltyRepairMngModule.prototype.loadData = function(){
 
 
 GamFcltyRepairMngModule.prototype.loadDetail = function(){
-	
 	var row = this.$('#fcltyRepairMngList').selectedRows();
-	
 	if(row.length==0) {
 		alert('선택된 항목이 없습니다.');
 		this.$("#fcltyRepairMngListTab").tabs("option", {active: 0});
@@ -236,24 +235,29 @@ GamFcltyRepairMngModule.prototype.loadDetail = function(){
 	}
 	
 	row = row[0];
-	
 	var searchVO = [
 	                { name: 'fcltsJobSe', value: row['fcltsJobSe'] },
 	                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
 	                { name: 'flawRprSeq', value: row['flawRprSeq'] }
 	               ];
-
-	// tabs2 항목 데이타로딩
-	this.makeFormValues('#fcltyRepairMngListVO', row);
-	// tabs3 그리드 리로드
-	this.$('#flawRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
-	// tabs4 그리드 리로드
-	this.$('#flawExamUsrF').flexOptions({params:searchVO}).flexReload();
-	// tabs5 항목 데이타 로딩/ 그리드 리로드
-	this.makeFormValues('#fcltyRepairMngFileForm', {});
-	this.$("#previewImage").attr("src", "");
-	this.$('#fcltyRepairFileList').flexOptions({params:searchVO}).flexReload();
 	
+	// tabs2 항목 데이타로딩
+	this.doAction('/fcltyMng/selectFcltyRepairMngDetail.do', searchVO, function(module, result) {
+		if(result.resultCode == "0"){
+			module.makeFormValues('#fcltyRepairMngListVO', result.result);
+			
+			// tabs3 그리드 리로드
+			module.$('#flawRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
+			// tabs4 그리드 리로드
+			module.$('#flawExamUsrF').flexOptions({params:searchVO}).flexReload();
+			// tabs5 항목 데이타 로딩/ 그리드 리로드
+			module.makeFormValues('#fcltyRepairMngFileForm', {});
+			module.$("#previewImage").attr("src", "");
+			module.$('#fcltyRepairFileList').flexOptions({params:searchVO}).flexReload();
+		}else{
+			module.$("#fcltyRepairMngListTab").tabs("option", {active: 0});
+		}
+    });
 };
 
 

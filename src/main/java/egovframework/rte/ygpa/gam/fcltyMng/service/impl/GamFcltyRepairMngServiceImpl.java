@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngVO;
 
@@ -57,6 +58,18 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	public int selectFcltyRepairMngListTotCnt(GamFcltyRepairMngVO vo) throws Exception {
 		return gamFcltyRepairMngDao.selectFcltyRepairMngListTotCnt(vo);
 	}
+	
+	
+	/**
+	 * 하자보수상세내역 조회
+	 * @param searchVO
+	 * @return map
+	 * @throws Exception
+	 */
+	public EgovMap selectFcltyRepairMngDetail(GamFcltyRepairMngVO vo) throws Exception{
+		return gamFcltyRepairMngDao.selectFcltyRepairMngDetail(vo);
+	}
+	
 	
 	
 	/**

@@ -75,16 +75,6 @@ GamElctyFcltySpecMngModule.prototype.loadComplete = function(params) {
 		event.data.module.$("#gisPrtFcltyCd").val($(this).val());
 	});
 
-	this.$(".text").bind("change keyup", {module: this}, function(event) {
-		var limit_char = /[|]/;
-		if(limit_char.test(event.target.value)){
-			alert('|'+"(파이프) 특수문자는 사용 하실수 없습니다.");
-			var rep= event.target.value.replace(limit_char,"");
-			event.target.value = rep;
-			return;
-		}
-	});
-
 	this.$("#fcltsFileList").flexigrid({
 		module: this,
 		url: '/fclty/selectElctyFcltySpecFileList.do',
@@ -101,24 +91,7 @@ GamElctyFcltySpecMngModule.prototype.loadComplete = function(params) {
 	});
 
 	this.$("#fcltsFileList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.$("#fcltsFileForm input").val('');
-		module.makeFormValues("#fcltsFileForm", row);
-
-		if(row.atchFileNmPhysicl != null || row.atchFileNmPhysicl != "") {
-			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
-			var filenm = row["atchFileNmPhysicl"];
-			var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
-
-			if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
-				$imgURL = module.getPfPhotoUrl(filenm);
-				module.$("#previewImage").fadeIn(400, function() {
-			    	module.$("#previewImage").attr("src", $imgURL);
-			    });
-			}else{
-				module.$("#previewImage").attr(src, "#");
-			}
-		}
-
+		module.imagePreview();
 	});
 
 	//첨부파일 정보 변화 이벤트 처리기
@@ -169,6 +142,32 @@ GamElctyFcltySpecMngModule.prototype.loadFileData = function() {
 	var searchOpt = [{name: 'sFcltsMngNo', value: this.$("#fcltsMngNo").val()}];
 	this.$("#fcltsFileList").flexOptions({params:searchOpt}).flexReload();
 };
+
+
+//시설 첨부파일 텍스트박스에 체우기 및 이미지 미리보기
+GamElctyFcltySpecMngModule.prototype.imagePreview = function() {
+	
+	var row = this.$('#fcltsFileList').selectedRows();
+	row = row[0];
+	this.$("#fcltsFileForm input").val('');
+	this.makeFormValues("#fcltsFileForm", row);
+
+	if(row.atchFileNmPhysicl != null || row.atchFileNmPhysicl != "") {
+		// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
+		var filenm = row["atchFileNmPhysicl"];
+		var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
+
+		if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
+			$imgURL = this.getPfPhotoUrl(filenm);
+			//this.$("#previewImage").fadeIn(400, function() {
+		    	this.$("#previewImage").attr("src", $imgURL);
+		    //});
+		}else{
+			this.$("#previewImage").attr(src, "#");
+		}
+	}
+};
+
 
 // 화면 및 데이터 초기화 처리
 GamElctyFcltySpecMngModule.prototype.initDisplay = function() {

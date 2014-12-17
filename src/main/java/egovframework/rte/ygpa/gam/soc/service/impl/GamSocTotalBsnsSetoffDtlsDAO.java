@@ -8,7 +8,6 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
-import egovframework.rte.ygpa.gam.cmmn.itgrn.service.GamNticPayListVO;
 import egovframework.rte.ygpa.gam.soc.service.GamSocTotalBsnsSetoffDtlsVO;
 
 /**

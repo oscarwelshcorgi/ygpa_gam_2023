@@ -5,6 +5,8 @@ package egovframework.rte.ygpa.gam.fcltyMng.service;
 
 import java.util.List;
 
+import egovframework.rte.psl.dataaccess.util.EgovMap;
+
 
 /**
  * 
@@ -44,6 +46,14 @@ public interface GamFcltyRepairHistInqireService {
 	int selectFcltyRepairHistInqireListTotCnt(GamFcltyRepairHistInqireVO vo) throws Exception;
 	
 
+	
+	/**
+	 * 하자보수상세내역 조회
+	 * @param searchVO
+	 * @return map
+	 * @throws Exception
+	 */
+	EgovMap selectFcltyRepairHistInqireDetail(GamFcltyRepairHistInqireVO vo) throws Exception;
 	
 	
 

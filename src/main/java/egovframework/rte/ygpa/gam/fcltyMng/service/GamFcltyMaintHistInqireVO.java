@@ -44,6 +44,13 @@ public class GamFcltyMaintHistInqireVO extends ComDefaultVO {
 	
 	/** 유지보수공사시작일 검색 To */
 	private String sMntnRprCnstStartDtTo;
+	
+	
+	private String fcltsJobSe;
+	
+	private String fcltsMngGroupNo;
+	
+	private String mntnRprSeq;
 
 
 	/**
@@ -114,6 +121,48 @@ public class GamFcltyMaintHistInqireVO extends ComDefaultVO {
 	 */
 	public void setsFcltsMngNo(String sFcltsMngNo) {
 		this.sFcltsMngNo = sFcltsMngNo;
+	}
+
+	/**
+	 * @return the fcltsJobSe
+	 */
+	public String getFcltsJobSe() {
+		return fcltsJobSe;
+	}
+
+	/**
+	 * @param fcltsJobSe the fcltsJobSe to set
+	 */
+	public void setFcltsJobSe(String fcltsJobSe) {
+		this.fcltsJobSe = fcltsJobSe;
+	}
+
+	/**
+	 * @return the fcltsMngGroupNo
+	 */
+	public String getFcltsMngGroupNo() {
+		return fcltsMngGroupNo;
+	}
+
+	/**
+	 * @param fcltsMngGroupNo the fcltsMngGroupNo to set
+	 */
+	public void setFcltsMngGroupNo(String fcltsMngGroupNo) {
+		this.fcltsMngGroupNo = fcltsMngGroupNo;
+	}
+
+	/**
+	 * @return the mntnRprSeq
+	 */
+	public String getMntnRprSeq() {
+		return mntnRprSeq;
+	}
+
+	/**
+	 * @param mntnRprSeq the mntnRprSeq to set
+	 */
+	public void setMntnRprSeq(String mntnRprSeq) {
+		this.mntnRprSeq = mntnRprSeq;
 	}
 
 	

@@ -3,8 +3,6 @@
  */
 package egovframework.rte.ygpa.gam.fclty.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -107,50 +105,6 @@ public class GamConsFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	public EgovMap fcltySpecMngSelectView(Map vo)
 			throws Exception {
 		return gamConsFcltySpecMngDao.fcltySpecMngSelectView(vo);
-	}
-	
-	
-	/**
-	 * 제원관리 층수 목록 조회
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */
-	public List selectFcltyinfo9List(GamConsFcltySpecMngVO vo) throws Exception {
-   		return (List)gamConsFcltySpecMngDao.selectFcltyinfo9List(vo);
-	}
-
-
-	/**
-	 * 제원관리 층수 목록 총 수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	public int selectFcltyinfo9ListTotCnt(GamConsFcltySpecMngVO vo) throws Exception {
-		return gamConsFcltySpecMngDao.selectFcltyinfo9ListTotCnt(vo);
-    }
-	
-	
-	/**
-	 * 시설 층수 정보 삭제
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	public void deleteFcltyFloorSpecData(Map vo) throws Exception{
-		gamConsFcltySpecMngDao.deleteFcltyFloorSpecData(vo);
-	}
-	
-	
-	/**
-	 * 시설 층수 정보 저장/삭제
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */
-	public List mergeFcltyFloorMngt(Map mergeList) throws Exception{
-		return gamConsFcltySpecMngDao.mergeFcltyFloorMngt(mergeList);
 	}
 
 	

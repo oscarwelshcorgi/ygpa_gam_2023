@@ -163,7 +163,6 @@ GamFcltsClCdModule.prototype.saveData = function() {
 	if(!validateFcltsClCdVO(this.$("#fcltsClCdVO")[0])) return;
 
  	var inputVO = this.makeFormArgs("#fcltsClCdVO");
- 	//alert(this._mode);
 	if(this._mode == "insert") {
 	 	this.doAction('/code/insertFcltsClCd.do', inputVO, function(module, result) {
 	 		if(result.resultCode == "0"){

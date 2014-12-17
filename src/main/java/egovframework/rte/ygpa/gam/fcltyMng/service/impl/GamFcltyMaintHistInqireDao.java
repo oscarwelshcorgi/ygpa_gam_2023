@@ -4,11 +4,10 @@
 package egovframework.rte.ygpa.gam.fcltyMng.service.impl;
 
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyMaintHistInqireVO;
 
 /**
@@ -51,6 +50,17 @@ public class GamFcltyMaintHistInqireDao extends YGPAAbstractDAO {
 	 */
 	public int selectFcltyMaintHistInqireListTotCnt(GamFcltyMaintHistInqireVO vo) throws Exception {
 		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyMaintHistInqireDao.selectFcltyMaintHistInqireListTotCnt_S", vo);
+	}
+	
+	
+	/**
+	 * 유지보수상세내역 조회
+	 * @param searchVO
+	 * @return map
+	 * @throws Exception
+	 */
+	public EgovMap selectFcltyMaintHistInqireDetail(GamFcltyMaintHistInqireVO vo) throws Exception{
+		return (EgovMap) selectByPk("gamFcltyMaintHistInqireDao.selectFcltyMaintHistInqireDetail_S", vo);
 	}
 	
 

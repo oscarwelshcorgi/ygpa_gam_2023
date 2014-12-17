@@ -94,5 +94,41 @@
 	
 	
 	
+	
+	<select id="gamFcltyRepairHistInqireDao.selectFcltyRepairHistInqireDetail_S" parameterClass="gamFcltyRepairHistInqireVO" resultClass="egovMap">
+		SELECT
+			TO_CHAR(F.FLAW_RPR_START_DT,'YYYY-MM-DD') FLAW_RPR_START_DT
+			, TO_CHAR(F.FLAW_RPR_END_DT,'YYYY-MM-DD') FLAW_RPR_END_DT
+			, F.FLAW_RPR_AMT
+			, F.FLAW_RPR_CONTENTS
+			, F.FLAW_RPR_ENTRPS_NM
+			, F.FLAW_RPR_TY
+			, TO_CHAR(F.FLAW_OCCRRNC_DT,'YYYY-MM-DD') FLAW_OCCRRNC_DT
+			, F.FLAW_RPR_COMPT_YN
+			, F.FLAW_EXAM_SE
+			, F.ENFORCE_YEAR
+			, F.FLAW_RPR_NM
+			, F.FCLTS_MNG_GROUP_NO
+			, F.FCLTS_JOB_SE
+			, F.FLAW_RPR_SEQ
+			, TO_CHAR(F.FLAW_EXAM_DT,'YYYY-MM-DD') FLAW_EXAM_DT
+			, F.FLAW_ENNC
+			, F.FLAW_EXAM_RESULT
+			, F.RM
+			, F.CTRT_NO
+			, O.FCLTS_MNG_NO
+			, G.PRT_FCLTY_NM
+		FROM
+			FLAW_RPR_DTLS_F F, GIS_PRT_FCLTY_CD_F G, FLAW_RPR_OBJ_FCLTS_F O
+		WHERE 
+			F.FCLTS_MNG_GROUP_NO = G.FCLTS_MNG_GROUP_NO
+			AND F.FCLTS_MNG_GROUP_NO = O.FCLTS_MNG_GROUP_NO
+			AND F.FCLTS_JOB_SE = #fcltsJobSe#
+			AND F.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND F.FLAW_RPR_SEQ = #flawRprSeq#
+	</select>
+	
+	
+	
 
 </sqlMap>

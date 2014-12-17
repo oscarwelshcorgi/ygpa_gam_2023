@@ -101,9 +101,15 @@ GamFcltyMaintHistInqireModule.prototype.loadDetail = function(){
 	}
 	
 	row = row[0];
-
+	
 	// tabs2 항목 데이타로딩
-	this.makeDivValues('#fcltyMaintHistInqireListVO', row);
+	this.doAction('/fcltyMng/selectFcltyMaintHistInqireDetail.do', row, function(module, result) {
+		if(result.resultCode == "0"){
+			module.makeDivValues('#fcltyMaintHistInqireListVO', result.result);
+		}else{
+			module.$("#fcltyMaintHistInqireListTab").tabs("option", {active: 0});
+		}
+    });
 	
 };
 

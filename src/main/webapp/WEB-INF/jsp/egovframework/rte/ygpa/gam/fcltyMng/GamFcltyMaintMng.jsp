@@ -59,7 +59,6 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 		url: '/fcltyMng/selectMntnRprObjFcltsFList.do',
 		dataType: "json",
 		colModel : [
-					//{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
 					{display:"관리번호",			name:"fcltsMngNo",			width:60,		sortable:false,		align:"center"},
 					{display:"유지보수공법",		name:"mntnRprCnstMth",		width:80,		sortable:false,		align:"center"},
 					{display:"단위",				name:"unit",				width:80,		sortable:false,		align:"center"},
@@ -78,7 +77,6 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 		url: '/fcltyMng/selectFcltyMaintFileList.do',
 		dataType: 'json',
 		colModel : [
-					//{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
 					{display:"순번",		name:"atchFileSeq",				width:40,		sortable:true,		align:"center"},
 					{display:"구분",		name:"atchFileSeNm",			width:40,		sortable:true,		align:"center"},
 					{display:"파일제목",	name:"atchFileSj",				width:240,		sortable:true,		align:"left"},
@@ -111,6 +109,14 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 	
 	
 	// 연도 셀렉트 옵션에 뿌리기
+	this.applySelectYear();
+
+
+};
+
+
+//하단부 데이타 수정시 그리드 반영
+GamFcltyMaintMngModule.prototype.applySelectYear = function(){
 	var toDate = new Date();
 	var toYear = toDate.getFullYear();
 	
@@ -119,9 +125,8 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 		option = option + "<option value='" + i + "'>" + i + "년</option>";
 	}
 	this.$("#enforceYear").append(option);
-
-
 };
+
 
 // 하단부 데이타 수정시 그리드 반영
 GamFcltyMaintMngModule.prototype.applyFileChanged = function(target){
@@ -225,14 +230,21 @@ GamFcltyMaintMngModule.prototype.loadDetail = function(){
 	               ];
 
 	// tabs2 항목 데이타로딩
-	this.makeFormValues('#fcltyMaintMngListVO', row);
-	// tabs3 그리드 리로드
-	this.$('#mntnRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
-	// tabs4 항목 데이타 로딩/ 그리드 리로드
-	this.makeFormValues('#fcltyMaintMngFileForm', {});
-	this.$("#previewImage").attr("src", "");
-	this.$('#fcltyMaintFileList').flexOptions({params:searchVO}).flexReload();
-	
+	this.doAction('/fcltyMng/selectFcltyMaintMngDetail.do', searchVO, function(module, result) {
+		if(result.resultCode == "0"){
+			module.makeFormValues('#fcltyMaintMngListVO', result.result);
+			
+			// tabs3 그리드 리로드
+			module.$('#mntnRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
+			// tabs4 항목 데이타 로딩/ 그리드 리로드
+			module.makeFormValues('#fcltyMaintMngFileForm', {});
+			module.$("#previewImage").attr("src", "");
+			module.$('#fcltyMaintFileList').flexOptions({params:searchVO}).flexReload();
+		}else{
+			module.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
+		}
+    });
+
 };
 
 

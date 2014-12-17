@@ -100,6 +100,39 @@
 	</select>
 	
 	
+	<select id="gamFcltyMaintMngDao.selectFcltyMaintMngDetail_S" parameterClass="gamFcltyMaintMngVO" resultClass="egovMap">
+		SELECT
+			MNTN_RPR_CNST_NM
+			, PLANNER_NM
+			, CNST_CHARG_NM
+			, TO_CHAR(MNTN_RPR_CNST_START_DT,'YYYY-MM-DD') MNTN_RPR_CNST_START_DT
+			, TO_CHAR(MNTN_RPR_CNST_END_DT,'YYYY-MM-DD') MNTN_RPR_CNST_END_DT
+			, MNTN_RPR_CNST_AMT
+			, RM
+			, REG_USR
+			, REGIST_DT
+			, UPD_USR
+			, UPDT_DT
+			, CTRT_NO
+			, FCLTS_JOB_SE
+			, FCLTS_MNG_GROUP_NO
+			, MNTN_RPR_SEQ
+			, MNTN_RPR_SE
+			, MNTN_RPR_PART
+			, MNTN_RPR_CN
+			, MNTN_RPR_BDGT
+			, CNSTRTR
+			, RESPON_ENGINEER
+			, ENFORCE_YEAR
+		FROM
+			MNTN_RPR_DTLS_F 
+		WHERE 
+			FCLTS_JOB_SE = #fcltsJobSe#
+			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND MNTN_RPR_SEQ = #mntnRprSeq#
+	</select>
+	
+	
 	<!-- 유지보수대상시설물내역 -->
 	<select id="gamFcltyMaintMngDao.selectMntnRprObjFcltsFList_D" parameterClass="gamFcltyMaintMngVO" resultClass="egovMap">
         SELECT A.*

@@ -4,7 +4,8 @@
 package egovframework.rte.ygpa.gam.fcltyMng.service;
 
 import java.util.List;
-import java.util.Map;
+
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 /**
  * 
@@ -42,5 +43,14 @@ public interface GamFcltyMaintHistInqireService {
 	 * @throws Exception
 	 */
 	int selectFcltyMaintHistInqireListTotCnt(GamFcltyMaintHistInqireVO vo) throws Exception;
+	
+	
+	/**
+	 * 유지보수상세내역 조회
+	 * @param searchVO
+	 * @return map
+	 * @throws Exception
+	 */
+	EgovMap selectFcltyMaintHistInqireDetail(GamFcltyMaintHistInqireVO vo) throws Exception;
 	
 }

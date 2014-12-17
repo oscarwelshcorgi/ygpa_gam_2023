@@ -94,9 +94,15 @@ GamFcltyRepairHistInqireModule.prototype.loadDetail = function(){
 	}
 	
 	row = row[0];
-
+	
 	// tabs2 항목 데이타로딩
-	this.makeDivValues('#fcltyRepairHistInqireListVO', row);
+	this.doAction('/fcltyMng/selectFcltyRepairHistInqireDetail.do', row, function(module, result) {
+		if(result.resultCode == "0"){
+			module.makeDivValues('#fcltyRepairHistInqireListVO', result.result);
+		}else{
+			module.$("#fcltyRepairHistInqireListTab").tabs("option", {active: 0});
+		}
+    });
 	
 };
 
@@ -273,11 +279,11 @@ var module_instance = new GamFcltyRepairHistInqireModule();
 						</tr>
 						<tr>
 							<th height="23" class="required_text">하자보수내용</th>
-							<td colspan="7"><textarea id="flawRprContents" cols="130" rows="10" disabled="disabled" title="하자보수내용"></textarea></td>
+							<td colspan="7"><span id="flawRprContents" title="하자보수내용" ></span></td>
 						</tr>
 						<tr>
 							<th height="23" class="required_text">하자보수결과</th>
-							<td colspan="7"><textarea id="flawExamResult" cols="130" rows="10" disabled="disabled" title="하자보수결과"></textarea></td>
+							<td colspan="7"><span id="flawExamResult" title="하자보수결과" ></span></td>
 						</tr>
 						<tr>
 							<th height="23" class="required_text">비고</th>

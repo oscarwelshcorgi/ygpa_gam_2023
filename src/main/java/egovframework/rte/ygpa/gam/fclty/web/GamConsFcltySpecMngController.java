@@ -21,7 +21,6 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import egovframework.com.cmm.ComDefaultVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
@@ -361,9 +360,6 @@ public class GamConsFcltySpecMngController {
     		// 건축시설 제원 삭제
     		gamConsFcltySpecMngService.deleteFcltySpec(fcltyManageVO);
     		
-    		// 건축시설 층별제원 삭제
-    		gamConsFcltySpecMngService.deleteFcltyFloorSpecData(fcltyManageVO);
-    		
     		// 건축시설 첨부파일 삭제
     		gamConsFcltySpecMngService.deleteFcltyTotalFile(fcltyManageVO);
 
@@ -380,134 +376,6 @@ public class GamConsFcltySpecMngController {
     	return map;
     }
 
-	
-	
-	/**
-	 * 건축시설 파일 목록
-	 * @param searchVO
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/fclty/gamFcltyinfo9.do")
-	@ResponseBody Map<String, Object> selectFcltyinfo9List(GamConsFcltySpecMngVO searchVO)throws Exception {
-
-		Map<String, Object> map = new HashMap<String, Object>();
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-
-		// 내역 조회
-		/** pageing */
-		PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
-		/** List Data */
-		searchVO.setPrtFcltySe(prtFcltySe);
-
-		List<ComDefaultVO> fcltyinfo9List = gamConsFcltySpecMngService.selectFcltyinfo9List(searchVO);
-		int totCnt = gamConsFcltySpecMngService.selectFcltyinfo9ListTotCnt(searchVO);
-
-		paginationInfo.setTotalRecordCount(totCnt);
-		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-
-		map.put("resultCode", 0);			// return ok
-		map.put("totalCount", totCnt);
-		map.put("resultList", fcltyinfo9List);
-		map.put("searchOption", searchVO);
-
-		return map;
-	}
-	
-
-	/**
-     * /건축물현황/층수 추가편집 팝업
-     *
-     * 건축물 층수 팝업
-     */
-	@RequestMapping(value="/popup/fcltySpecinfo9ListPopup.do")
-    String showFloorSpecInfo(@RequestParam Map fcltyinfo9List, ModelMap model) throws Exception {
-
-		model.addAttribute("fcltyinfo9List", fcltyinfo9List);
-    	return "/ygpa/gam/fclty/GamPopupFcltySpecPopup";
-    }
-	
-	
-	/**
-	 * 건축시설층별제원 입력
-	 * @param fcltyFloorSpecList
-	 * @return map
-	 * @throws Exception
-	 */
-    @SuppressWarnings("unchecked")
-	@RequestMapping("/fclty/gamFcltyFloorSpecSave.do")
-    @ResponseBody Map<String, Object> insertFcltyFloorSpecList(@RequestParam Map fcltyFloorSpecList)throws Exception {
-
-    	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		Map<String,Object> map = new HashMap<String,Object>();
-		Map<String, String> userMap = new HashMap<String, String>();
-		ObjectMapper mapper = new ObjectMapper();
-		
-		int resultCode;
-		String resultMsg;
-
-    	List<HashMap<String,String>> insertList=null;
-    	List<HashMap<String,String>> updateList=null;
-    	List<HashMap<String,String>> deleteList=null;
-    	List<Map<String,String>> userList=null;
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-    	
-    	insertList = mapper.readValue((String)fcltyFloorSpecList.get("insertList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		updateList = mapper.readValue((String)fcltyFloorSpecList.get("updateList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		deleteList = mapper.readValue((String)fcltyFloorSpecList.get("deleteList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		userList = new ArrayList();
-		userMap.put("id",  loginVO.getId());
-		userList.add(userMap);
-
-		Map<String,Object> mergeMap = new HashMap<String,Object>();
-
-		insertList.addAll(updateList);
-
-		mergeMap.put("CU", insertList);
-		mergeMap.put("D", deleteList);
-		mergeMap.put("USER", userList);
-
-    	try {
-    		
-    		gamConsFcltySpecMngService.mergeFcltyFloorMngt(mergeMap);
-    		
-    		map.put("resultCode", 0);			// return ok
-    		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
-		}
-
-    	return map;
-    }
     
     @RequestMapping(value="/fclty/mergeGamConstFcltySpecFileMngt.do")
 	@ResponseBody Map<String, Object> mergeGamGisAssetFileMngt(@RequestParam Map<String, Object> dataList) throws Exception {
