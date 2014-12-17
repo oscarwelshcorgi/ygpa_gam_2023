@@ -30,47 +30,87 @@
 		<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/reset.css'/>" />
 		<link rel="stylesheet" href="<c:url value='/css/demo/jquery-ui-1.10.4.custom.css' />" />
 		<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ygpa_report.css' />" />
+		<style type="text/css">
+			h1.title {
+				width:100%;
+				text-align: center;
+				border: none;
+				font-family: 굴림체;
+				font-size: 30;
+				font-weight: bold;
+			}
+
+			table.userGrid {
+				width: 100%;
+				border:3px double;
+			}
+
+			table.userGrid tbody tr td {
+				height: 30;
+				text-align: center;
+				border: black 1px solid;
+				vertical-align: middle;
+				padding: 3;
+				font-size: 16;
+			}
+
+			table.userGrid tbody tr td.number {
+				height: 30;
+				text-align: right;
+				border: black 1px solid;
+				vertical-align: middle;
+				padding: 3;
+				font-size: 16;
+			}
+
+			table.userGrid tbody tr th {
+				height: 30;
+				text-align: center;
+				border: black 1px solid;
+				border-bottom: 3px double;
+				vertical-align: middle;
+				padding: 3;
+			}
+
+			p.notice {
+				width: 500;
+				margin-left: 30;
+				height: 30;
+				margin-bottom: 30;
+				font-size: 16;
+			}
+
+			p.bankinfo {
+				margin-left: 180;
+				margin-bottom: 10;
+				font-size: 16;
+			}
+
+			p.notice_date {
+				width: 100%;
+				text-align: center;
+				margin-top: 30;
+				font-size: 16;
+			}
+
+			p.bottom_title {
+				width: 100%;
+				text-align: right;
+				font-weight: bolder;
+				font-size: large;
+				margin-top: 60;
+			}
+
+		</style>
 		<script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
 		<script src="<c:url value='/js/jquery-migrate-1.2.1.min.js'/>"></script>
 		<script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
 		<script>
-			$( window ).load(function() {
+			$(window).load(function() {
 				$('#printButton').button().click(function(){
 					window.print();
 				});
 			});
-			body {
-				margin : 0;
-				padding : 0;
-				font-family : 굴림체;
-				font-size : 12px;
-			};
-			div.d1title {
-				width:20%;
-				height:25;
-				border-right-style : solid;
-				text-align : center;
-				font-family : 굴림체;
-				font-size : 12px;
-			};
-			div.d2title {
-				width:20%;
-				height:25;
-				border-right-style : solid;
-				border-bottom-style : solid;
-				text-align : center;
-				font-family : 굴림체;
-				font-size : 12px;
-			};
-			div.d3title {
-				width:20%;
-				height:25;
-				border-right-style : solid;
-				border-bottom-style : solid;
-				text-align : center;
-				font-family : 굴림체;
-				font-size : 12px;
-			};
 		</script>
 	</head>
 	<body>
@@ -79,119 +119,108 @@
 			<div class="book">
 				<div class="page">
 					<div class="subpage ygpa_report" >
-						<h1 class="ygpa_report_h1"><c:out value="${result.mngMt }" /> 임대료/관리비 내역서</h1>
+						<h1 class="title"><c:out value="${result.mngMt }" /> 임대료/관리비 내역서</h1>
 						<br />
 						<br />
-						<table class="rpr_form_table" style="border:3px double;">
+						<table class="userGrid">
 							<tbody>
 								<tr>
-									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">상    호</th>
-									<td colspan="2" style="width:40%; height:25; text-align:center; border-right-style: solid;"><c:out value="${result.entrpsNm }" /></td>
-									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">임대면적</th>
-									<td style="width:40%; height:25; text-align:right;"><c:out value="${result.usageAr }" /></td>
+									<td>상    호</td>
+									<td style="font-weight: bolder;"><c:out value="${result.entrpsNm }" /></td>
+									<td>임대면적</td>
+									<td class="number"><c:out value="${result.usageAr }" /></td>
 								</tr>
 							</tbody>
 						</table>
 						<br />
 						<br />
 						<br />
-						<table class="rpr_form_table" style="border:3px double;">
+						<table class="userGrid">
 							<tbody>
-								<tr style="border-bottom-style:3px double;">
-									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">구    분</th>
-									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">공급가액</th>
-									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">부 가 세</th>
-									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">합    계</th>
-									<th style="width:20%; height:25; text-align:center;">비    고</th>
-								</tr>
-								<tr style="border-bottom-style: solid;">
-									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">임 대 료</th>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.rentFee }" /></td>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.rentVat }" /></td>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.rentAmt }" /></td>
-									<td style="width:20%; height:25; text-align:center;"><c:out value="${result.rentRm }" /></td>
-								</tr>
-								<tr style="border-bottom-style: solid;">
-									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">관 리 비</th>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.mngFee }" /></td>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.mngVat }" /></td>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.mngAmt }" /></td>
-									<td style="width:20%; height:25; text-align:center;"><c:out value="${result.mngRm }" /></td>
-								</tr>
-								<tr style="border-bottom-style: solid;">
-									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">연 체 료</th>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.arrrgFee }" /></td>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.arrrgVat }" /></td>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.arrrgAmt }" /></td>
-									<td style="width:20%; height:25; text-align:center;"><c:out value="${result.arrrgRm }" /></td>
+								<tr>
+									<th>구    분</th>
+									<th>공급가액</th>
+									<th>부 가 세</th>
+									<th>합    계</th>
+									<th>비    고</th>
 								</tr>
 								<tr>
-									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">납부금액</th>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.nticFee }" /></td>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.nticVat }" /></td>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.nticAmt }" /></td>
-									<td style="width:20%; height:25; text-align:center;"><c:out value="${result.nticRm }" /></td>
+									<td>임 대 료</td>
+									<td class="number"><c:out value="${result.rentFee }" /></td>
+									<td class="number"><c:out value="${result.rentVat }" /></td>
+									<td class="number"><c:out value="${result.rentAmt }" /></td>
+									<td><c:out value="${result.rentRm }" /></td>
+								</tr>
+								<tr>
+									<td>관 리 비</td>
+									<td class="number"><c:out value="${result.mngFee }" /></td>
+									<td class="number"><c:out value="${result.mngVat }" /></td>
+									<td class="number"><c:out value="${result.mngAmt }" /></td>
+									<td><c:out value="${result.mngRm }" /></td>
+								</tr>
+								<tr>
+									<td>연 체 료</td>
+									<td class="number"><c:out value="${result.arrrgFee }" /></td>
+									<td class="number"><c:out value="${result.arrrgVat }" /></td>
+									<td class="number"><c:out value="${result.arrrgAmt }" /></td>
+									<td><c:out value="${result.arrrgRm }" /></td>
+								</tr>
+								<tr>
+									<td>납부금액</td>
+									<td class="number"><c:out value="${result.nticFee }" /></td>
+									<td class="number"><c:out value="${result.nticVat }" /></td>
+									<td class="number"><c:out value="${result.nticAmt }" /></td>
+									<td><c:out value="${result.nticRm }" /></td>
 								</tr>
 							</tbody>
 						</table>
 						<br />
 						<br />
-						<table class="rpr_form_table" style="border:3px double;">
+						<table class="userGrid">
 							<tbody>
-								<tr style="border-bottom-style:3px double;">
-									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">항    목</th>
-									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">공급가액</th>
-									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">부 가 세</th>
-									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">합    계</th>
-									<th style="width:20%; height:25; text-align:center;">비    고</th>
-								</tr>
-								<tr style="border-bottom-style: solid;">
-									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">시설관리비</th>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.fcltyMngFee }" /></td>
-									<td rowspan="4" style="width:20%; text-align:right; border-right-style: solid;"><c:out value="${result.nticVat }" /></td>
-									<td rowspan="4" style="width:20%; text-align:right; border-right-style: solid;"><c:out value="${result.nticAmt }" /></td>
-									<td rowspan="4" style="width:20%; text-align:center;"><c:out value="${result.mngFeeRm }" /></td>
-								</tr>
-								<tr style="border-bottom-style: solid;">
-									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">전기사용료</th>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.elctyFee }" /></td>
-								</tr>
-								<tr style="border-bottom-style: solid;">
-									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">상하수도비</th>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.waterFee }" /></td>
+								<tr>
+									<th>항    목</th>
+									<th>공급가액</th>
+									<th>부 가 세</th>
+									<th>합    계</th>
+									<th>비    고</th>
 								</tr>
 								<tr>
-									<th style="width:20%; height:25; text-align:center; border-right-style: solid;">냉난방비</th>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"><c:out value="${result.gasFee }" /></td>
+									<td>시설관리비</td>
+									<td class="number"><c:out value="${result.fcltyMngFee }" /></td>
+									<td rowspan="4" class="number"><c:out value="${result.nticVat }" /></td>
+									<td rowspan="4" class="number"><c:out value="${result.nticAmt }" /></td>
+									<td rowspan="4"><c:out value="${result.mngFeeRm }" /></td>
 								</tr>
 								<tr>
-									<th style="width:20%; height:25; text-align:center; border-right-style: solid;"> </th>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"> </td>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"> </td>
-									<td style="width:20%; height:25; text-align:right; border-right-style: solid;"> </td>
-									<td style="width:20%; height:25; text-align:center;"> </td>
+									<td>전기사용료</td>
+									<td class="number"><c:out value="${result.elctyFee }" /></td>
+								</tr>
+								<tr>
+									<td>상하수도비</td>
+									<td class="number"><c:out value="${result.waterFee }" /></td>
+								</tr>
+								<tr>
+									<td>냉난방비</td>
+									<td class="number"><c:out value="${result.gasFee }" /></td>
+								</tr>
+								<tr>
+									<th> </th>
+									<td> </td>
+									<td> </td>
+									<td> </td>
+									<td> </td>
 								</tr>
 							</tbody>
 						</table>
 						<br />
 						<br />
-						<p style="text-align:center;"><c:out value="${result.mngMt }" />분 임대료 및 관리비를 <c:out value="${result.payTmlmt }" />까지</p>
-						<br />
-						<p style="text-align:center;">아래의 계좌로 입금하여 주시기 바랍니다.</p>
-						<br />
-						<br />
-						<p style="text-align:center;">은 행 명 : <c:out value="${result.bankNm }" /></p>
-						<br />
-						<p style="text-align:center;">계좌번호 : <c:out value="${result.bankAccountNo }" /></p>
-						<br />
-						<p style="text-align:center;">예 금 주 : <c:out value="${result.bankOwnerNm }" /></p>
-						<br />
-						<br />
-						<p style="text-align:center;"><c:out value="${result.nticDt }" /></p>
-						<br />
-						<br />
-						<br />
-						<h1 class="ygpa_report_h1" align="center">여수광양항만공사               (직인생략)</h1>
+						<p class="notice"><c:out value="${result.mngMt }" />분 임대료 및 관리비를 <c:out value="${result.payTmlmt }" />까지 아래의 계좌로 입금하여 주시기 바랍니다.</p>
+						<p class="bankinfo">은 행 명 : <c:out value="${result.bankNm }" /></p>
+						<p class="bankinfo">계좌번호 : <c:out value="${result.bankAccountNo }" /></p>
+						<p class="bankinfo">예 금 주 : <c:out value="${result.bankOwnerNm }" /></p>
+						<p class="notice_date"><c:out value="${result.nticDt }" /></p>
+						<p class="bottom_title">여수광양항만공사               (직인생략)</p>
 					</div>
 				</div>
 			</div>
