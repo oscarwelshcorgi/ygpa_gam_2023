@@ -202,7 +202,7 @@ GamFcltyQcSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 			this.loadData();
 			break;
 			
-			//첨부파일다운로드			
+		//첨부파일다운로드			
 		case "btnDownloadFile":
 			this.downloadAtchFileItem();
 			break;			
