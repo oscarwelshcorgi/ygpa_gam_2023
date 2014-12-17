@@ -84,11 +84,9 @@ GamFcltsMngGroupModule.prototype.loadData = function() {
 
 //시설물관리그룹 상세보기
 GamFcltsMngGroupModule.prototype.loadDetailData = function() {
-	var selectRows = this.$('#fcltsMngGroupList').selectedRows();
-	if(selectRows.length > 0) {
-		var row = selectRows[0];
-		var opts = [{name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] }];
-		this.doAction('/code/selectFcltsMngGroupDetail.do', opts, function(module, result) { 
+	var rows = this.$('#fcltsMngGroupList').selectedRows();
+	if(rows.length > 0) {
+		this.doAction('/code/selectFcltsMngGroupDetail.do', rows[0], function(module, result) { 
 			if(result.resultCode == "0"){
 				module.makeFormValues('#fcltsMngGroupDetailForm', result.result);
 			}

@@ -218,10 +218,10 @@ GamFcltyCtrtMngModule.prototype.loadData = function() {
 
 //계약정보 데이터 로드
 GamFcltyCtrtMngModule.prototype.loadDetailData = function() {
-	var selectRows = this.$('#fcltyCtrtMngList').selectedRows();
+	var rows = this.$('#fcltyCtrtMngList').selectedRows();
 	
-	if(selectRows.length > 0) {
-		var row = selectRows[0];
+	if(rows.length > 0) {
+		var row = rows[0];
 		var opts = [{ name: 'sCtrtNo', value: row['ctrtNo']}];
 		this.doAction('/ctrt/selectFcltyCtrtInfoDetailInquire.do', opts, function(module, result) {
 			if(result.resultCode == 0) {

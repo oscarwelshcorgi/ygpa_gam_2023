@@ -122,9 +122,9 @@ GamCivilFcltySpecMngModule.prototype.loadData = function() {
 
 //시설재원데이터 로드
 GamCivilFcltySpecMngModule.prototype.loadDetailData = function() {
-	var selectRows = this.$('#civilFcltySpecMngList').selectedRows();
-	if(selectRows.length > 0) {
-		var row = selectRows[0];
+	var rows = this.$('#civilFcltySpecMngList').selectedRows();
+	if(rows.length > 0) {
+		var row = rows[0];
 		if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
 			alert('시설물 관리번호에 오류가 있습니다.');
 			this._cmd = '';
