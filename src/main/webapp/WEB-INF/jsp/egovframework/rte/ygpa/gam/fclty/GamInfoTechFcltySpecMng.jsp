@@ -75,16 +75,6 @@ GamInfoTechFcltySpecMngModule.prototype.loadComplete = function(params) {
 		event.data.module.$("#gisPrtFcltyCd").val($(this).val());
 	});
 
-	this.$(".text").bind("change keyup", {module: this}, function(event) {
-		var limit_char = /[|]/;
-		if(limit_char.test(event.target.value)){
-			alert('|'+"(파이프) 특수문자는 사용 하실수 없습니다.");
-			var rep= event.target.value.replace(limit_char,"");
-			event.target.value = rep;
-			return;
-		}
-	});
-
 	this.$("#fcltsFileList").flexigrid({
 		module: this,
 		url: '/fclty/selectInfoTechFcltySpecFileList.do',
