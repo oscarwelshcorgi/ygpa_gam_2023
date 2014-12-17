@@ -188,12 +188,10 @@
 			,REFUEL_QY
 			,REG_USR
 			,REGIST_DT
-			,UPD_USR
-			,UPDT_DT
 		)
 		VALUES
 		(
-			 #carRegistNo#
+			 TRIM(#carRegistNo#)
 			,#refuelMt#
 			,NVL(TO_NUMBER(REPLACE(#refuelQy#,',','')),0)
 			,#regUsr#
