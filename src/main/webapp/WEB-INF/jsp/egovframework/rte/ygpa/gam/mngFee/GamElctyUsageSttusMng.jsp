@@ -127,7 +127,7 @@ GamElctyUsageSttusMngModule.prototype.drawChart = function() {
 	var maxNetUsageQy=0;
 	var netUsageQy=0;
 	var searchVO = this.makeFormArgs("#detailForm");
-	this.doAction('/mngFee/gamElctyUsageSttusMngChart.do', searchVO, function(module, result) {
+	this.doAction('/mngFee/gamSelectElctyUsageSttusMngChart.do', searchVO, function(module, result) {
 		if (result.resultCode == "0") {
 			for (var i=0; i<12; i++) {
 				netUsageQy=result.resultList[i]['netUsageQy']*1;
@@ -241,6 +241,9 @@ GamElctyUsageSttusMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnExcelDownload':
 			this.downloadExcel();
+			break;
+		case 'btnExcelUpload':
+			this.uploadExcel();
 			break;
 		case 'popupMngFeeFcltyCd':
 			this.doExecuteDialog('popupMngFeeFcltyCd', '시설 선택', '/popup/showMngCode.do', null);
@@ -576,7 +579,25 @@ GamElctyUsageSttusMngModule.prototype.downloadExcel = function() {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
-	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelElctyUsageSttusMng.do');
+	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelDownloadElctyUsageSttusMng.do');
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : uploadExcel
+ * @DESCRIPTION   : 리스트를 엑셀로 업로드한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyUsageSttusMngModule.prototype.uploadExcel = function() {
+
+	this.uploadXlsFile('xlsElctyUsageSttusMngUpload', function(module, result) {
+		module._mode = 'query';
+		module._mainKeyValue = '';
+		module.loadData();
+		alert(result.resultMsg);
+	}, '전기 사용현황 엑셀파일 업로드', '/mngFee/gamExcelUploadElctyUsageSttusMng.do');
 
 };
 
@@ -637,7 +658,7 @@ GamElctyUsageSttusMngModule.prototype.getPrevMtUsageQy = function() {
 		this.$('#prevMtUsageQy').val('0');
 		return;
 	}
-	this.doAction('/mngFee/gamElctyUsageSttusMngPrevMtUsageQy.do', searchVO, function(module, result) {
+	this.doAction('/mngFee/gamSelectElctyUsageSttusMngPrevMtUsageQy.do', searchVO, function(module, result) {
 		if (result.resultCode == "0") {
 			module.$('#prevMtUsageQy').val('' + $.number(result.sPrevMtUsageQy));
 			if (module.$('#saidMtUsageQy').val() == "0") {
@@ -879,6 +900,7 @@ var module_instance = new GamElctyUsageSttusMngModule();
 									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
 									<button id="btnCopy">이전월　자료복사</button>
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+	                                <button id="btnExcelUpload" class="buttonExcel">엑셀　　업로드</button>
 								</td>
 							</tr>
 						</table>

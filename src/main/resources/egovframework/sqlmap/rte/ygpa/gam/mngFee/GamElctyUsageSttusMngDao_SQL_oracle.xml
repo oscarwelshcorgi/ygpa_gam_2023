@@ -147,7 +147,6 @@
 	</select>
 
 	<insert id="gamElctyUsageSttusMngDao.insertElctyUsageSttusMng_S">
-		<![CDATA[
 		INSERT INTO ELCTY_USAGE_STTUS_F
 		(
 			 USAGE_MT
@@ -172,11 +171,9 @@
 			,#regUsr#
 			,SYSDATE
 		)
-		]]>
 	</insert>
 
 	<update id="gamElctyUsageSttusMngDao.updateElctyUsageSttusMng_S">
-		<![CDATA[
 		UPDATE ELCTY_USAGE_STTUS_F SET
 			 PREV_MT_USAGE_QY = TO_NUMBER(REPLACE(#prevMtUsageQy#,',',''))
 			,SAID_MT_USAGE_QY = TO_NUMBER(REPLACE(#saidMtUsageQy#,',',''))
@@ -187,20 +184,16 @@
 		WHERE USAGE_MT = #usageMtYear# || #usageMtMon#
 		AND MNG_FEE_FCLTY_CD = #mngFeeFcltyCd#
 		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
-		]]>
 	</update>
 
 	<delete id="gamElctyUsageSttusMngDao.deleteElctyUsageSttusMng_S">
-		<![CDATA[
 		DELETE FROM ELCTY_USAGE_STTUS_F
 		WHERE USAGE_MT = #usageMtYear# || #usageMtMon#
 		AND MNG_FEE_FCLTY_CD = #mngFeeFcltyCd#
 		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
-		]]>
 	</delete>
 
 	<insert id="gamElctyUsageSttusMngDao.copyElctyUsageSttusMng_S">
-		<![CDATA[
 		INSERT INTO ELCTY_USAGE_STTUS_F
 		(
 			 USAGE_MT
@@ -225,7 +218,33 @@
 				,SYSDATE
 			FROM ELCTY_USAGE_STTUS_F
 		WHERE USAGE_MT = TO_CHAR(ADD_MONTHS(TO_DATE(#sUsageYear# || #sUsageMt#,'YYYYMM'),-1),'YYYYMM')
-		]]>
+	</insert>
+
+	<insert id="gamElctyUsageSttusMngDao.insertElctyUsageSttusF_S">
+		INSERT INTO ELCTY_USAGE_STTUS_F
+		(
+			 USAGE_MT
+			,MNG_FEE_FCLTY_CD
+			,MNG_FEE_JOB_SE
+			,PREV_MT_USAGE_QY
+			,SAID_MT_USAGE_QY
+			,APPLC_COEF
+			,NET_USAGE_QY
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 REPLACE(#usageMt#,'-','')
+			,#mngFeeFcltyCd#
+			,NVL(SUBSTRB(#mngFeeFcltyCd#,1,1),'M')
+			,NVL(TO_NUMBER(REPLACE(#prevMtUsageQy#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#saidMtUsageQy#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#applcCoef#,',','')),0)
+			,(NVL(TO_NUMBER(REPLACE(#saidMtUsageQy#,',','')),0) - NVL(TO_NUMBER(REPLACE(#prevMtUsageQy#,',','')),0)) * NVL(TO_NUMBER(REPLACE(#applcCoef#,',','')),0)
+			,#regUsr#
+			,SYSDATE
+		)
 	</insert>
 
 </sqlMap>

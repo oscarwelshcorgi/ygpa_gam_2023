@@ -192,7 +192,7 @@
 		VALUES
 		(
 			 TRIM(#carRegistNo#)
-			,#refuelMt#
+			,REPLACE(#refuelMt#,'-','')
 			,NVL(TO_NUMBER(REPLACE(#refuelQy#,',','')),0)
 			,#regUsr#
 			,SYSDATE

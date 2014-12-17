@@ -3,7 +3,6 @@
  */
 package egovframework.rte.ygpa.gam.mngFee.service;
 
-import egovframework.com.cmm.ComDefaultVO;
 import egovframework.rte.ygpa.gam.cmmn.service.GamDefaultVO;
 
 /**
