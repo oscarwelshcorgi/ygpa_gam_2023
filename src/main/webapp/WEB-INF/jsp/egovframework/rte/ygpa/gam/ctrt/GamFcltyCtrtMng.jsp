@@ -253,6 +253,7 @@ GamFcltyCtrtMngModule.prototype.loadDetailData = function() {
 				module.$("#fcltyCtrtChangeList").flexOptions({params:opts}).flexReload();
 				module.$("#fcltyCtrtMoneyPymntList").flexOptions({params:opts}).flexReload();
 				module.$("#fcltyCtrtFulFillCaryFwdList").flexOptions({params:opts}).flexReload();
+				module.$("#fcltyCtrtScsbidInfoList").flexOptions({params:opts}).flexReload();
 			}
 			else {
 	        	module.$('#gamFcltyCtrtMngDetailForm :input').val('');
@@ -273,6 +274,7 @@ GamFcltyCtrtMngModule.prototype.insertData = function() {
 			module.saveCtrtChangeList();
 			module.saveCtrtMoneyPymntList();
 			module.saveCtrtFulFillCaryFwdList();
+			module.saveCtrtScsbidInfoList();
  		}
  		alert(result.resultMsg);
  	});	
@@ -288,6 +290,7 @@ GamFcltyCtrtMngModule.prototype.updateData = function() {
 			module.saveCtrtChangeList();
 			module.saveCtrtMoneyPymntList();
 			module.saveCtrtFulFillCaryFwdList();
+			module.saveCtrtScsbidInfoList();
 		}
 		alert(result.resultMsg);
 	});	

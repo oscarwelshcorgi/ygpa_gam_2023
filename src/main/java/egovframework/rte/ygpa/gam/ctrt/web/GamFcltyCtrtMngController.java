@@ -404,7 +404,7 @@ public class GamFcltyCtrtMngController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-    	List ctrtFulFillCaryFwdList = gamFcltyCtrtMngService.selectFcltyCtrtScsbidInfoList(searchVO);
+    	List ctrtScsbidInfoList = gamFcltyCtrtMngService.selectFcltyCtrtScsbidInfoList(searchVO);
     	
 		totalCnt = gamFcltyCtrtMngService.selectFcltyCtrtScsbidInfoListTotCnt(searchVO);
     	
@@ -413,7 +413,7 @@ public class GamFcltyCtrtMngController {
         
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
-    	map.put("resultList", ctrtFulFillCaryFwdList);
+    	map.put("resultList", ctrtScsbidInfoList);
     	map.put("searchOption", searchVO);
 
     	return map;
@@ -918,7 +918,7 @@ public class GamFcltyCtrtMngController {
 
 	/**
 	 * 계약낙찰정보 팝업 호출
-	 * @param map - 계약이행이월 리스트
+	 * @param map - 계약낙찰정보 리스트
 	 * @return 
 	 * @exception Exception
 	 */		

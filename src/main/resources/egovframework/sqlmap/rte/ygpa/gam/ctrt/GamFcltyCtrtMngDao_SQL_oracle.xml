@@ -267,8 +267,8 @@
 		    , CTRT_MTH = #ctrtMth#
 		    , CTRT_DT = TO_DATE(#ctrtDt#, 'YYYY-MM-DD')
 		    , CTRT_AMT = TO_NUMBER(REPLACE(#ctrtAmt#, ',', ''))
-		    , CTRT_PD_FROM = TO_DATE(#ctrtDtFrom#, 'YYYY-MM-DD')
-		    , CTRT_PD_TO = TO_DATE(#ctrtDtTo#, 'YYYY-MM-DD')
+		    , CTRT_DT_FROM = TO_DATE(#ctrtDtFrom#, 'YYYY-MM-DD')
+		    , CTRT_DT_TO = TO_DATE(#ctrtDtTo#, 'YYYY-MM-DD')
 		    , CTRT_GRNTY_AMT = TO_NUMBER(REPLACE(#ctrtGrntyAmt#, ',', ''))
 		    , PRCU_PBLANC_NO = #prcuPblancNo#
 		    , CTRT_GRNTY_MTH = #ctrtGrntyMth#
@@ -288,8 +288,8 @@
 		    , UPDT_DT = SYSDATE
 		    , SLDRT_GRNTY = #sldrtGrnty#
 		    , JOB_CHRG_DEPT_CD = #jobChrgDeptCd#
-		    , FLAW_PD_FROM = TO_DATE(#flawDtFrom#, 'YYYY-MM-DD')
-		    , FLAW_PD_TO = TO_DATE(#flawDtTo#, 'YYYY-MM-DD')
+		    , FLAW_DT_FROM = TO_DATE(#flawDtFrom#, 'YYYY-MM-DD')
+		    , FLAW_DT_TO = TO_DATE(#flawDtTo#, 'YYYY-MM-DD')
 		    , CAUSE_ACT = #causeAct#
 		  WHERE
 		    CTRT_NO = #ctrtNo#	
