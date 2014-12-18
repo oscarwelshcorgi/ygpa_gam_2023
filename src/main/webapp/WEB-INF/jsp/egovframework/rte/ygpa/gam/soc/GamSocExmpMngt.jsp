@@ -311,7 +311,7 @@ var module_instance = new GamSocExmpMngtModule();
                             </td>                            
                             <th>관리번호</th>
                             <td>
-                                <input id="sSocNo" type="text" size="6" maxlength="6" />&nbsp; &nbsp;
+                                <input id="sSocNo" type="text" size="8" maxlength="6" />&nbsp; &nbsp;
                                 <button id="btnNewSocNo" class="popupButton">신규관리번호생성</button>
                             </td>
                         </tr>
@@ -332,7 +332,7 @@ var module_instance = new GamSocExmpMngtModule();
                     <form id="gamSocExmpMngtForm">
                         <table class="editForm">
                         	<tr>
-                        		<td colspan="6">조회내역</td>
+                        		<th colspan="6" >조회내역</th>
                         	</tr>
                             <tr>
 								<th width="10%" height="18">공사관리청</th>
@@ -351,18 +351,16 @@ var module_instance = new GamSocExmpMngtModule();
                                 </td>
 								<th width="10%" height="18">공사준공년도</th>
                                 <td>
-                                    <input type="text" size="4" id="cmplYr"/>
+                                    <input type="text" size="6" id="cmplYr" maxlength="4"/>
                                 </td>
 								<th width="10%" height="18">공사일련번호</th>
                                 <td>
-                                    <input type="text" size="6" id="constNo"/>
+                                    <input type="text" size="8" id="constNo" maxlength="6"/>
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">면제요청청</th>
                                 <td>
-                                    <!--<input id="appPrtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" />
-                                    <input type="text" size="4" id="appPrtAtKorNm" disabled/>-->
                                 	<select id="appPrtAtCode">
 	                                    <option value="" selected="selected">선택</option>
 	                                    <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
@@ -371,10 +369,10 @@ var module_instance = new GamSocExmpMngtModule();
 	                                </select>                                    
                                 </td>
 								<th width="10%" height="18">신청횟수</th>
-                                <td><input type="text" size="2" id="useNo" /></td>
+                                <td><input type="text" size="3" id="useNo" maxlength="2" /></td>
 								<th width="10%" height="18">신청업체</th>
                                 <td>
-                                    <input type="text" size="9" id="appAgentCode" readonly/>
+                                    <input type="text" size="11" id="appAgentCode" maxlength="9"/>
                                     <input type="text" size="25" id="appAgentName" disabled/>
                                     <button id="popupApplyInfo" class="popupButton">투자비보전신청업체선택</button>
                                 </td>
@@ -384,7 +382,7 @@ var module_instance = new GamSocExmpMngtModule();
                         		</td>
                         	</tr>
                         	<tr>
-                        		<td colspan="6">투자비보전처리 상세 정보</td>
+                        		<th colspan="6">투자비보전처리 상세 정보</th>
                         	</tr>
                             <tr>
 								<th width="10%" height="18">면제처리청</th>
@@ -400,7 +398,7 @@ var module_instance = new GamSocExmpMngtModule();
                             <tr>
 								<th width="10%" height="18">면제업체</th>
                                 <td colspan="3">
-                                    <input type="text" size="9" id="exmpAgentCode" maxlength="10" readonly/>
+                                    <input type="text" size="11" id="exmpAgentCode" maxlength="9"/>
                                     <input type="text" size="25" id="exmpAgentName" disabled/>
                                     <button id="popupEntrpsInfo" class="popupButton">선택</button>
                                 </td>
@@ -417,29 +415,29 @@ var module_instance = new GamSocExmpMngtModule();
                             <tr>
 								<th width="10%" height="18">외내항구분</th>
                                 <td colspan="5">
-                                    <input type="text" size="1" id="inOut" />
+                                    <input type="text" size="2" id="inOut" maxlength="1" />
                                     <input type="text" size="10" id="inOutName" disabled/>
-                                    <span>선박관리 : 1.외항, 2.내항   화물관리 : 1.외입, 2.외출, 3.내입, 4.내출, 5.항내운입, 6.항내운출</span>
+                                    <span>선박관리 : 1.외항, 2.내항 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 화물관리 : 1.외입, 2.외출, 3.내입, 4.내출, 5.항내운입, 6.항내운출</span>
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">호출부호</th>
                                 <td colspan="3">
-                                    <input type="text" size="9" id="callLetter" />
+                                    <input type="text" size="11" id="callLetter" maxlength="9" />
                                     <input type="text" size="25" id="callLetterNm" disabled/>
                                     <button id="popupVsslCd" class="popupButton">선택</button>
                                 </td>
 								<th width="10%" height="18">입항횟수</th>
                                 <td>
-                                    <input type="text" size="4" id="yr" />
-                                    <input type="text" size="3" id="serNo" />
+                                    <input type="text" size="6" id="yr" maxlength="4"/>
+                                    <input type="text" size="5" id="serNo" maxlength="3" />
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">시설코드</th>
                                 <td colspan="3">
-                                    <input type="text" size="4" id="facCode" />
-                                    <input type="text" size="3" id="facSubCode" />
+                                    <input type="text" size="5" id="facCode" maxlength="3" />
+                                    <input type="text" size="4" id="facSubCode" maxlength="2" />
                                     <input type="text" size="24" id="facKorNm" disabled/>
                                     <button id="popupFacCd" class="popupButton">선택</button>
                                 </td>
@@ -455,23 +453,23 @@ var module_instance = new GamSocExmpMngtModule();
                                 </td>
 								<th width="10%" height="18">면제금액</th>
                                 <td>
-                                	<input type="text" size="15" id="exmpAmnt" class="ygpaNumber" /> 원
+                                	<input type="text" size="20" id="exmpAmnt" class="ygpaNumber" /> 원
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">기본료</th>
                                 <td colspan="3">
-                                    <input type="text" size="15" id="standardFee" class="ygpaNumber" /> 원
+                                    <input type="text" size="16" id="standardFee" class="ygpaNumber" /> 원
                                 </td>
 								<th width="10%" height="18">고지번호</th>
                                 <td>
-                                	<input type="text" size="6" id="billNo"/>
+                                	<input type="text" size="9" id="billNo" maxlength="6" />
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">운임톤</th>
                                 <td colspan="3">
-                                    <input type="text" size="14" id="realTn" class="ygpaNumber" />
+                                    <input type="text" size="16" id="realTn" class="ygpaNumber" />
                                 </td>
 								<th width="10%" height="18">접수자</th>
                                 <td>
@@ -486,27 +484,19 @@ var module_instance = new GamSocExmpMngtModule();
                             <tr>
 								<th width="10%" height="18">비고</th>
                                 <td colspan="5">
-                                    <input type="text" size="120" id="remark" />
+                                    <input type="text" size="120" id="remark" maxlength="350"/>
                                 </td>
                             </tr>                            
                         </table>
                     </form>
 
 	                 <table style="width:100%">
-<!--
 	                    <tr>
-	                        <td style="text-align:right" colspan="3"><button id="btnInsertItemDetail" class="buttonAdd">임대상세추가</button><button id="btnRemoveItemDetail" class="buttonDelete">임대상세삭제</button></td>
-	                    </tr>
--->
-	                    <tr>
-	                        <td><!-- <button id="xxxx">GIS 등록</button><button id="xxxx">위치조회</button> --></td>
 	                        <td width="100"></td>
 	                        <td style="text-align:right">
 	                        	<button id="btnAdd">추가</button>
 	                            <button id="btnSave" class="buttonSave">저장</button>
 	                            <button id="btnDelete" class="buttonDelete">삭제</button>
-	                            <!-- <button id="btnNoticeAdit2">추가고지</button> -->
-	                            <!-- <button id="btnCancelItem">취소</button>  -->
 	                        </td>
 	                    </tr>
 	                 </table>
