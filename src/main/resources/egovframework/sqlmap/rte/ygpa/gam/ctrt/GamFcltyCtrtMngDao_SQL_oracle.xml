@@ -33,6 +33,7 @@
                                   , TO_CHAR(BID_DT, 'YYYY-MM-DD') AS BID_DT
                                   , REGIST_ENTRPS_CD
                                   , GAM_GETENTRPSNM(REGIST_ENTRPS_CD, 1) AS REGIST_ENTRPS_NM
+                                  , CTRT_AMT
                                   , PLAN_AMT
                                   , PRMT_AMT
                                   , SCSBID_AMT
@@ -56,11 +57,11 @@
 									<isNotEmpty property="sRegistEntrpsCd">
 										AND REGIST_ENTRPS_CD = #sRegistEntrpsCd#
 									</isNotEmpty>
-									<isNotEmpty property="sBidFrDt">
-										<![CDATA[ AND BID_DT >= #sBidFrDt# ]]>
+									<isNotEmpty property="sCtrtAmtFr">
+										<![CDATA[ AND CTRT_AMT >= TO_NUMBER(REPLACE(#sCtrtAmtFr#, ',', '')) ]]>
 									</isNotEmpty>
-									<isNotEmpty property="sBidToDt">
-										<![CDATA[ AND BID_DT <= #sBidToDt# ]]>
+									<isNotEmpty property="sCtrtAmtTo">
+										<![CDATA[ AND CTRT_AMT <= TO_NUMBER(REPLACE(#sCtrtAmtTo#, ',', '')) ]]>
 									</isNotEmpty>
                              <!-- ORDER BY REGIST_DT DESC -->
                              ORDER BY CTRT_NO DESC, CTRT_DT DESC
@@ -94,11 +95,11 @@
 				<isNotEmpty property="sRegistEntrpsCd">
 					AND REGIST_ENTRPS_CD = #sRegistEntrpsCd#
 				</isNotEmpty>
-				<isNotEmpty property="sBidFrDt">
-					<![CDATA[ AND BID_DT >= #sBidFrDt# ]]>
+				<isNotEmpty property="sCtrtAmtFr">
+					<![CDATA[ AND CTRT_AMT >= TO_NUMBER(REPLACE(#sCtrtAmtFr#, ',', '')) ]]>
 				</isNotEmpty>
-				<isNotEmpty property="sBidToDt">
-					<![CDATA[ AND BID_DT <= #sBidToDt# ]]>
+				<isNotEmpty property="sCtrtAmtTo">
+					<![CDATA[ AND CTRT_AMT <= TO_NUMBER(REPLACE(#sCtrtAmtTo#, ',', '')) ]]>
 				</isNotEmpty>
     </select>
 	

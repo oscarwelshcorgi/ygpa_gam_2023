@@ -43,11 +43,11 @@ public class GamFcltyCtrtMngVO extends ComDefaultVO {
     /** 등록업체코드 */
     private String sRegistEntrpsCd;
     
-    /** 입찰일 검색조건 시작일 */
-    private String sBidFrDt;
+    /** 계약금액 from */
+    private String sCtrtAmtFr;
     
-    /** 입찰일 검색조건 종료일 */
-    private String sBidToDt;
+    /** 계약금액 to */
+    private String sCtrtAmtTo;
     
     /** 자료 총갯수 */
     private int totalCnt;
@@ -149,31 +149,31 @@ public class GamFcltyCtrtMngVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the sBidFrDt
+	 * @return the sCtrtAmtFr
 	 */
-	public String getsBidFrDt() {
-		return sBidFrDt;
+	public String getsCtrtAmtFr() {
+		return sCtrtAmtFr;
 	}
 
 	/**
-	 * @param sBidFrDt the sBidFrDt to set
+	 * @param sCtrtAmtFr the sCtrtAmtFr to set
 	 */
-	public void setsBidFrDt(String sBidFrDt) {
-		this.sBidFrDt = sBidFrDt;
+	public void setsCtrtAmtFr(String sCtrtAmtFr) {
+		this.sCtrtAmtFr = sCtrtAmtFr;
 	}
 
 	/**
-	 * @return the sBidToDt
+	 * @return the sCtrtAmtTo
 	 */
-	public String getsBidToDt() {
-		return sBidToDt;
+	public String getsCtrtAmtTo() {
+		return sCtrtAmtTo;
 	}
 
 	/**
-	 * @param sBidToDt the sBidToDt to set
+	 * @param sCtrtAmtTo the sCtrtAmtTo to set
 	 */
-	public void setsBidToDt(String sBidToDt) {
-		this.sBidToDt = sBidToDt;
+	public void setsCtrtAmtTo(String sCtrtAmtTo) {
+		this.sCtrtAmtTo = sCtrtAmtTo;
 	}
 
 	/**
@@ -245,5 +245,4 @@ public class GamFcltyCtrtMngVO extends ComDefaultVO {
 	public void setSumBaseAmt(long sumBaseAmt) {
 		this.sumBaseAmt = sumBaseAmt;
 	}
-	
 }

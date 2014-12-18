@@ -49,6 +49,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
                     {display:'입찰일', 		name:'bidDt',				width:80, 		sortable:false,		align:'center'},
                     {display:'등록업체코드', 	name:'registEntrpsCd',		width:100, 		sortable:false,		align:'left'},
                     {display:'등록업체명', 		name:'registEntrpsNm',		width:150, 		sortable:false,		align:'left'},
+                    {display:'계약금액', 		name:'ctrtAmt',				width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'설계금액', 		name:'planAmt',				width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'예정금액', 		name:'prmtAmt',				width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'낙찰금액', 		name:'scsbidAmt',			width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
@@ -660,8 +661,8 @@ var module_instance = new GamFcltyCtrtMngModule();
                          	</td>
 							<th width="10%">계약기간</th>
                             <td>
-                            	<input id="sCtrtFrDt" type="text" class="emdcal" size="10"> ~ 
-                            	<input id="sCtrtToDt" type="text" class="emdcal" size="10">
+                            	<input id="sCtrtFrDt" type="text" class="emdcal" size="12"> ~ 
+                            	<input id="sCtrtToDt" type="text" class="emdcal" size="12">
                             </td>
                             
                             <td rowspan="2">
@@ -675,10 +676,10 @@ var module_instance = new GamFcltyCtrtMngModule();
                          		<input id="sRegistEntrpsNm" type="text" size="20" disabled="disabled">&nbsp; &nbsp;
                          		<button id="popupEntrpsInfo" class="popupButton">선택</button>
                          	</td>
-                         	<th width="10%">입찰기간</th>
+                         	<th width="10%">계약금액</th>
                             <td>
-                            	<input id="sBidFrDt" type="text" class="emdcal" size="10"> ~ 
-                            	<input id="sBidToDt" type="text" class="emdcal" size="10">
+                            	<input id="sCtrtAmtFr" type="text" class="ygpaNumber" size="12"> ~ 
+                            	<input id="sCtrtAmtTo" type="text" class="ygpaNumber" size="12">원
                             </td>
                         </tr>
                     </tbody>
@@ -742,7 +743,7 @@ var module_instance = new GamFcltyCtrtMngModule();
     	               	<table class="detailForm"  style="width:100%;">
                             <tr>
 								<th width="10%" height="18">계약구분</th>
-                                <td width="15%">
+                                <td width="20%">
 	                                <select id="ctrtSe">
 	                                    <option value="" selected="selected">선택</option>
 	                                    <option value="1">자체</option>
@@ -750,41 +751,41 @@ var module_instance = new GamFcltyCtrtMngModule();
 	                                </select>
                                 </td>
                                 <th width="10%" height="18">계약번호</th>
-                                <td width="18%"><input type="text" size="20" id="ctrtNo" maxlength="100" disabled="disabled" /></td>
+                                <td width="20%"><input type="text" size="20" id="ctrtNo" maxlength="100" disabled="disabled" /></td>
                                 <th width="10%" height="18">계약명</th>
-                                <td><input type="text" size="35" id="ctrtNm" maxlength="100" /></td>
+                                <td><input type="text" size="40" id="ctrtNm" maxlength="100" /></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">발주방식</th>
-                                <td><input type="text" size="12" id="orderMthd" maxlength="100" /></td>
+                                <td><input type="text" size="20" id="orderMthd" maxlength="100" /></td>
                                 <th width="10%" height="18">계약방법</th>
-                                <td><input type="text" size="5" id="ctrtSe" maxlength="2" /></td>
+                                <td><input type="text" size="20" id="ctrtSe" maxlength="2" /></td>
                                 <th width="10%" height="18">입찰공고번호</th>
-                                <td><input type="text" size="20" id="bidPblancNo" maxlength="100" /></td>
+                                <td><input type="text" size="40" id="bidPblancNo" maxlength="100" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">입찰공고일자</th>
-                                <td><input type="text" size="12" id="bidPblancDt" class="emdcal" /></td>
+                                <td><input type="text" size="20" id="bidPblancDt" class="emdcal" /></td>
 								<th width="10%" height="18">입찰일자</th>
-                                <td><input type="text" size="12" id="bidDt" class="emdcal" /></td>
+                                <td><input type="text" size="20" id="bidDt" class="emdcal" /></td>
                             	<th width="10%" height="18">하자기간</th>
-                                <td><input type="text" size="12" id="flawDtFrom" class="emdcal" /> ~ <input type="text" size="12" id="flawDtTo" class="emdcal" /></td>
+                                <td><input type="text" size="15" id="flawDtFrom" class="emdcal" /> ~ <input type="text" size="15" id="flawDtTo" class="emdcal" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">입찰방법</th>
-                                <td><input type="text" size="12" id="bidMth" maxlength="100" /></td>
+                                <td><input type="text" size="20" id="bidMth" maxlength="100" /></td>
                             	<th width="10%" height="18">업무담당부서코드</th>
-                                <td><input type="text" size="12" id="jobChrgDeptCd" maxlength="8"/></td>
+                                <td><input type="text" size="20" id="jobChrgDeptCd" maxlength="8"/></td>
                                 <th width="10%" height="18">등록업체</th>
                                 <td>
                                 	<input type="text" size="10" id="registEntrpsCd" maxlength="10" /> 
-                                	<input type="text" size="25" id="registEntrpsNm" disabled="disabled" /> 
+                                	<input type="text" size="15" id="registEntrpsNm" disabled="disabled" /> 
                                 	<button id="popupEntrpsInfo2" class="popupButton">선택</button> 
                                 </td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">원인행위</th>
-                                <td><input type="text" size="12" id="causeAct" maxlength="100" /></td>
+                                <td><input type="text" size="20" id="causeAct" maxlength="100" /></td>
 								<th width="10%" height="18">설계금액</th>
                                 <td><input type="text" size="20" id="planAmt" class="ygpaNumber" />원</td>
                                 <th width="10%" height="18">예정금액</th>
