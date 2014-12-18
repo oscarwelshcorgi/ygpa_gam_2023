@@ -374,6 +374,50 @@ public class GamFcltyCtrtMngController {
 
     	return map;
     }
+
+	/**
+	 * 계약낙찰정보 목록조회
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return map
+	 * @exception Exception
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/ctrt/selectFcltyCtrtScsbidInfoList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectFcltyCtrtScsbidInfoList(GamFcltyCtrtMngVO searchVO) throws Exception {
+		
+		int totalCnt;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+    	List ctrtFulFillCaryFwdList = gamFcltyCtrtMngService.selectFcltyCtrtScsbidInfoList(searchVO);
+    	
+		totalCnt = gamFcltyCtrtMngService.selectFcltyCtrtScsbidInfoListTotCnt(searchVO);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+        
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", ctrtFulFillCaryFwdList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
 	
 	/**
 	 * 계약정보 삽입
@@ -718,6 +762,62 @@ public class GamFcltyCtrtMngController {
 	}	
 
 	/**
+	 * 계약낙찰정보 병합저장
+	 * @param map - 병합저장할 정보가 담긴 map
+	 * @return map
+	 * @exception Exception
+	 */		
+	@RequestMapping(value="/ctrt/mergeFcltyCtrtScsbidInfo.do")
+	@ResponseBody Map<String, Object> mergeFcltyCtrtScsbidInfo(@RequestParam Map<String, Object> dataList) throws Exception {
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String, String> userMap = new HashMap<String, String>();
+		ObjectMapper mapper = new ObjectMapper();
+
+    	List<HashMap<String,String>> insertList=null;
+    	List<HashMap<String,String>> updateList=null;
+    	List<HashMap<String,String>> deleteList=null;
+    	List<Map<String,String>> userList=null;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	
+		insertList = mapper.readValue((String)dataList.get("insertList"),
+		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		updateList = mapper.readValue((String)dataList.get("updateList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		deleteList = mapper.readValue((String)dataList.get("deleteList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+		
+		userList = new ArrayList<Map<String,String>>();
+		userMap.put("id",  loginVO.getId());
+		userList.add(userMap);
+
+		Map<String,Object> mergeMap = new HashMap<String,Object>();
+		insertList.addAll(updateList);
+		mergeMap.put("CU", insertList);
+		mergeMap.put("D", deleteList);
+		mergeMap.put("USER", userList);
+
+		try {
+			gamFcltyCtrtMngService.mergeFcltyCtrtScsbidInfoDetail(mergeMap);
+	        map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+		} catch(Exception e) {
+	        map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.merge"));
+		}
+		return map;
+	}
+	
+	/**
 	 * 계약정보(하위 포함) 삭제
 	 * @param map - 삭제할 정보가 담긴 map
 	 * @return map
@@ -739,8 +839,9 @@ public class GamFcltyCtrtMngController {
 	    	gamFcltyCtrtMngService.deleteFcltyCtrtChangeList(deleteMap);
 	    	gamFcltyCtrtMngService.deleteFcltyCtrtMoneyPymntList(deleteMap);
 	    	gamFcltyCtrtMngService.deleteFcltyCtrtFulFillCaryFwdList(deleteMap);
+	    	gamFcltyCtrtMngService.deleteFcltyCtrtScsbidInfoList(deleteMap);
 	    	gamFcltyCtrtMngService.deleteFcltyCtrtInfoDetail(deleteMap);
-	    	
+	    
     		map.put("resultCode", 0);			// return ok
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
     	} catch (Exception e) {
@@ -813,6 +914,19 @@ public class GamFcltyCtrtMngController {
     String showCtrtFulFillCaryFwdMngt(@RequestParam Map ctrtFulFillCaryFwdList, ModelMap model) throws Exception {
 		model.addAttribute("ctrtFulFillCaryFwdList", ctrtFulFillCaryFwdList);
     	return "/ygpa/gam/ctrt/GamPopupCtrtFulFillCaryFwdMngt";
+    }
+
+	/**
+	 * 계약낙찰정보 팝업 호출
+	 * @param map - 계약이행이월 리스트
+	 * @return 
+	 * @exception Exception
+	 */		
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value="/popup/showCtrtScsbidInfoMngt.do")
+    String showCtrtScsbidInfoMngt(@RequestParam Map ctrtScsbidInfoList, ModelMap model) throws Exception {
+		model.addAttribute("ctrtScsbidInfoList", ctrtScsbidInfoList);
+    	return "/ygpa/gam/ctrt/GamPopupCtrtScsbidInfoMngt";
     }
 }
 

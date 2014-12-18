@@ -868,5 +868,110 @@
 		DELETE FROM CTRT_FULFILL_CARY_FWD_F
 		  WHERE
 		    CTRT_NO = #ctrtNo#  
-	</delete>		
+	</delete>
+	
+	
+	<!-- 계약낙찰정보 -->		
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtScsbidInfoList_D" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
+	    SELECT A.*
+          FROM (
+             SELECT  ROWNUM RNUM, S.*
+               FROM (
+					SELECT
+					    B.CTRT_NO
+					    , B.SEQ
+					    , B.SCSBID_RANK
+					    , B.ENTRPS_NM
+					    , B.BSNM_NO
+					    , B.RPRSNTV
+					    , B.TLPHON_NO
+					    , B.FAX_NO
+					    , B.REG_USR
+					    , TO_CHAR(B.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+					    , B.UPD_USR
+					    , TO_CHAR(B.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
+					  FROM
+					    CTRT_SCSBID_INFO_F B
+					  WHERE
+					    B.CTRT_NO = #sCtrtNo#
+					  ORDER BY B.SEQ  
+               		) S
+             	) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
+	</select>	
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtScsbidInfoListTotCnt_S" parameterClass="gamFcltyCtrtMngVO" resultClass="int">
+		SELECT
+		    COUNT(*) CNT
+		  FROM
+		    CTRT_SCSBID_INFO_F
+		  WHERE
+		    CTRT_NO = #sCtrtNo#
+	</select>
+	
+	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtScsbidInfoDetail_S">
+    	<selectKey keyProperty="maxSeq" resultClass="String">
+    		SELECT
+    		  TO_CHAR(NVL(MAX(SEQ),0) + 1)
+    		FROM
+    		  CTRT_SCSBID_INFO_F
+    		WHERE
+    		  CTRT_NO = #ctrtNo# 
+    	</selectKey>
+		INSERT INTO CTRT_SCSBID_INFO_F
+		  (
+		    CTRT_NO
+		    , SEQ
+		    , SCSBID_RANK
+		    , ENTRPS_NM
+		    , BSNM_NO
+		    , RPRSNTV
+		    , TLPHON_NO
+		    , FAX_NO
+		    , REG_USR
+		    , REGIST_DT
+		  )
+		  VALUES
+		  (
+		    #ctrtNo#
+		    , TO_NUMBER(#maxSeq#)
+		    , TO_NUMBER(REPLACE(#scsbidRank#, ',', ''))
+		    , #entrpsNm#
+		    , #bsnmNo#
+		    , #rprsntv#
+		    , #tlphonNo#
+		    , #faxNo#
+		    , #regUsr#
+		    , SYSDATE
+		  )
+	</insert>
+	
+	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtScsbidInfoDetail_S">
+		UPDATE CTRT_SCSBID_INFO_F
+		  SET
+		    SCSBID_RANK = TO_NUMBER(REPLACE(#scsbidRank#, ',', ''))
+		    , ENTRPS_NM = #entrpsNm# 
+		    , BSNM_NO = #bsnmNo# 
+		    , RPRSNTV = #rprsntv#
+		    , TLPHON_NO = #tlphonNo# 
+		    , FAX_NO = #faxNo#
+		    , UPD_USR = #updUsr# 
+		    , UPDT_DT = SYSDATE
+		  WHERE
+		    CTRT_NO = #ctrtNo#
+		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
+	</update>
+
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtScsbidInfoDetail_S">
+		DELETE FROM CTRT_SCSBID_INFO_F
+		  WHERE
+		    CTRT_NO = #ctrtNo#
+		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
+	</delete>
+	
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtScsbidInfoList_S">
+		DELETE FROM CTRT_SCSBID_INFO_F
+		  WHERE
+		    CTRT_NO = #ctrtNo#  
+	</delete>			
 </sqlMap>

@@ -74,6 +74,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 	this._deleteCtrtChangeList = null;
 	this._deleteCtrtMoneyPymntList = null;
 	this._deleteCtrtFulFillCaryFwdList = null;
+	this._deleteCtrtScsbidInfoList = null;
 	
 	this.$("#fcltyCtrtMngList").on("onItemSelected", function(event, module, row, grid, param) {
 		module._cmd = "modify";
@@ -179,6 +180,23 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
         showTableToggleBtn: false,
         height: 'auto'
     });
+   
+    //계약낙찰정보 리스트
+    this.$("#fcltyCtrtScsbidInfoList").flexigrid({
+        module: this,
+        url: '/ctrt/selectFcltyCtrtScsbidInfoList.do',
+        dataType: 'json',
+        colModel : [
+                    {display:'낙찰순위', 	name:'scsbidRank',		width:90, sortable:false,align:'center'},
+                    {display:'업체명', 	name:'entrpsNm',		width:150, sortable:false,align:'center'},
+                    {display:'대표자', 	name:'rprsntv',			width:100, sortable:false,align:'center'},
+                    {display:'사업자번호', 	name:'bsnmNo',			width:100, sortable:false,align:'center'},
+                    {display:'전화번호', 	name:'tlphonNo',		width:100, sortable:false,align:'center'},
+                    {display:'fax번호',	name:'faxNo',			width:100, sortable:false,align:'center'},
+                    ],
+        showTableToggleBtn: false,
+        height: 'auto'
+    });
 };
 
 //화면 및 변수 초기화
@@ -188,6 +206,7 @@ GamFcltyCtrtMngModule.prototype.initDisplay = function() {
 	this._deleteCtrtChangeList = [];
 	this._deleteCtrtMoneyPymntList = [];
 	this._deleteCtrtFulFillCaryFwdList = [];
+	this._deleteCtrtScsbidInfoList = [];
 
 	this.$('#gamFcltyCtrtMngDetailForm :input').val('');
 	this.$("#fcltyCtrtJoinContrList").flexEmptyData();
@@ -195,6 +214,8 @@ GamFcltyCtrtMngModule.prototype.initDisplay = function() {
 	this.$("#fcltyCtrtChangeList").flexEmptyData();
 	this.$("#fcltyCtrtMoneyPymntList").flexEmptyData();
 	this.$("#fcltyCtrtFulFillCaryFwdList").flexEmptyData();
+	this.$("#fcltyCtrtScsbidInfoList").flexEmptyData();
+	
 	if(this._cmd == 'insert') {
 		this.$('#ctrtNo').enable();
 		this.$("#fcltyCtrtMngListTab").tabs("option", {active: 1});
@@ -454,6 +475,36 @@ GamFcltyCtrtMngModule.prototype.saveCtrtFulFillCaryFwdList = function() {
     });	
 };
 
+//계약낙찰정보 수정 팝업
+GamFcltyCtrtMngModule.prototype.showModifyCtrtScsbidInfoList = function() {
+	var allRows = this.$('#fcltyCtrtScsbidInfoList').flexGetData();
+	this.doExecuteDialog('updateCtrtScsbidInfo', '계약낙찰정보관리', '/popup/showCtrtScsbidInfoMngt.do', {}, allRows);
+};
+
+//계약낙찰정보 병합저장
+GamFcltyCtrtMngModule.prototype.saveCtrtScsbidInfoList = function() {
+	var dataList = this.$("#fcltyCtrtScsbidInfoList").flexGetData();
+	for(var i=0; i<dataList.length; i++) {
+		dataList[i]["ctrtNo"] = this.$("#ctrtNo").val();
+	}
+    var inputVO=[];
+    inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltyCtrtScsbidInfoList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyCtrtScsbidInfoList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteCtrtFulFillCaryFwdList) };
+    this.doAction('/ctrt/mergeFcltyCtrtScsbidInfo.do', inputVO, function(module, result) {
+        if(result.resultCode == 0){
+			module._deleteCtrtScsbidInfoList = [];				    	
+			var opts = [
+		           		{name: 'sCtrtNo', value: module.$("#ctrtNo").val() }
+			           ];
+			module.$("#fcltyCtrtScsbidInfoList").flexOptions({params:opts}).flexReload();
+        }
+        else {
+        	alert(result.resultMsg);
+        }
+    });	
+};
+
 /**
  * 정의 된 버튼 클릭 시
  */
@@ -496,6 +547,9 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
         case 'popupCtrtFulFillCaryFwdUpdate': //계약이행이월 편집
         	this.showModifyCtrtFulFillCaryFwdList();
         	break;
+        case 'popupCtrtScsbidInfoUpdate': //계약낙찰정보 편집
+        	this.showModifyCtrtScsbidInfoList();
+        	break;
     }
 };
 
@@ -516,6 +570,7 @@ GamFcltyCtrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	    case 'tabs5':
 	    case 'tabs6':
 	    case 'tabs7':
+	    case 'tabs8':
 			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
 				this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
 				alert('계약정보목록을 선택하시거나 추가버튼을 누르세요.');
@@ -563,7 +618,12 @@ GamFcltyCtrtMngModule.prototype.onClosePopup = function(popupId, msg, value) {
 			this.$("#fcltyCtrtFulFillCaryFwdList").flexAddData({resultList: value["resultList"]});
 			this._deleteCtrtFulFillCaryFwdList = value["deleteCtrtFulFillCaryFwdList"];
 	 		break;
-	 	default:
+		case 'updateCtrtScsbidInfo' : //계약이행이월 편집
+			this.$("#fcltyCtrtScsbidInfoList").flexEmptyData();
+			this.$("#fcltyCtrtScsbidInfoList").flexAddData({resultList: value["resultList"]});
+			this._deleteCtrtScsbidInfoList = value["deleteCtrtScsbidInfoList"];
+	 		break;
+		default:
         	alert('알수없는 팝업 이벤트가 호출 되었습니다.');
         	break;
     }
@@ -634,6 +694,7 @@ var module_instance = new GamFcltyCtrtMngModule();
                 <li><a href="#tabs5" class="emdTab">계약변경관리</a></li>
                 <li><a href="#tabs6" class="emdTab">계약대금지급관리</a></li>
                 <li><a href="#tabs7" class="emdTab">계약이행이월관리</a></li>
+                <li><a href="#tabs8" class="emdTab">계약낙찰정보관리</a></li>
             </ul>
 			
 			<!-- 계약정보목록 -->
@@ -845,6 +906,15 @@ var module_instance = new GamFcltyCtrtMngModule();
 				<table id="fcltyCtrtFulFillCaryFwdList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 				    <button id="popupCtrtFulFillCaryFwdUpdate" class="popupButton">편집</button>
+				    <button id="btnSave">저장</button>
+				</div>
+            </div>
+
+            <!-- 계약낙찰정보관리 -->
+            <div id="tabs8" class="emdTabPage fillHeight" style="overflow: hidden;">
+				<table id="fcltyCtrtScsbidInfoList" style="display:none" class="fillHeight"></table>
+				<div class="emdControlPanel">
+				    <button id="popupCtrtScsbidInfoUpdate" class="popupButton">편집</button>
 				    <button id="btnSave">저장</button>
 				</div>
             </div>

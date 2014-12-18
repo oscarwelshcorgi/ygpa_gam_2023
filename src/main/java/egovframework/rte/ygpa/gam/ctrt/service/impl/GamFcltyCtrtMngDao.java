@@ -296,4 +296,44 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	public void deleteFcltyCtrtFulFillCaryFwdList(Map<?, ?> deleteMap) throws Exception {
 		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdList_S", deleteMap);
 	}
+
+	/**
+	 * 계약낙찰정보 목록을 가져온다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약낙찰정보 목록
+	 * @exception Exception
+	 */
+	public List<?> selectFcltyCtrtScsbidInfoList(GamFcltyCtrtMngVO searchVO) throws Exception {
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtScsbidInfoList_D", searchVO);
+	}
+	
+	/**
+	 * 계약낙찰정보 목록의 총개수를 가져온다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약낙찰정보 목록 총개수
+	 * @exception Exception
+	 */
+	public int selectFcltyCtrtScsbidInfoListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtScsbidInfoListTotCnt_S", searchVO);
+	}
+	
+	/**
+	 * 계약낙찰정보를 병합저장한다.
+	 * @param map - 병합저장할 정보가 담긴 Map
+	 * @return 
+	 * @exception Exception
+	 */
+	public void mergeFcltyCtrtScsbidInfoDetail(Map<String, Object> map) throws Exception {
+		this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtScsbidInfoDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtScsbidInfoDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtScsbidInfoDetail_S");
+	}
+
+	/**
+	 * 계약번호에 해당하는 계약낙찰정보를 삭제한다.
+	 * @param deleteMap - 삭제할 정보가 담긴 Map
+	 * @return 
+	 * @exception Exception
+	 */
+	public void deleteFcltyCtrtScsbidInfoList(Map<?, ?> deleteMap) throws Exception {
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtScsbidInfoList_S", deleteMap);
+	}
 }

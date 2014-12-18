@@ -229,7 +229,7 @@ var popup_instance = new GamPopupCtrtJoinContrMngtModule();
                         <th>대표자</th>
                         <td><input id="rprsntv" type="text" style="width: 150px;" class="EditItem" maxlength="100"/></td>
 						<th>지분율</th>
-                        <td><input id="qotaRate" type="text" style="width: 150px;" class="EditItem ygpaNumber" data-decimal-point="5"/></td>
+                        <td><input id="qotaRate" type="text" style="width: 150px;" class="EditItem ygpaNumber" data-decimal-point="5"/>%</td>
 					</tr>
 					<tr>
                     	<th>업종</th>

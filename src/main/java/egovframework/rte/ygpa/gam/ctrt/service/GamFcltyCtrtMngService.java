@@ -243,4 +243,37 @@ public interface GamFcltyCtrtMngService {
 	 * @exception Exception
 	 */
 	void deleteFcltyCtrtFulFillCaryFwdList(Map<?, ?> deleteMap) throws Exception;	
+
+	/**
+	 * 계약낙찰정보 목록을 가져온다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약낙찰정보 목록
+	 * @exception Exception
+	 */
+	List<?> selectFcltyCtrtScsbidInfoList(GamFcltyCtrtMngVO searchVO) throws Exception;
+	
+	/**
+	 * 계약낙찰정보 목록의 총개수를 가져온다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약낙찰정보 목록 총개수
+	 * @exception Exception
+	 */
+	int selectFcltyCtrtScsbidInfoListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception;
+	
+	/**
+	 * 계약낙찰정보를 병합저장한다.
+	 * @param map - 병합저장할 정보가 담긴 Map
+	 * @return 
+	 * @exception Exception
+	 */
+	void mergeFcltyCtrtScsbidInfoDetail(Map<String, Object> map) throws Exception;
+	
+	/**
+	 * 계약번호에 해당하는 계약낙찰정보를 삭제한다.
+	 * @param deleteMap - 삭제할 정보가 담긴 Map
+	 * @return 
+	 * @exception Exception
+	 */
+	void deleteFcltyCtrtScsbidInfoList(Map<?, ?> deleteMap) throws Exception;
+
 }
