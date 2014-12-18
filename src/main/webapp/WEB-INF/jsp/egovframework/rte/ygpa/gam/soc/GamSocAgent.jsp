@@ -387,13 +387,13 @@ var module_instance = new GamSocAgentMngtModule();
                             </tr>
                             <tr>
                                 <th width="16%">*공사명</th>
-                                <td colspan="3"><input type="text" id="socCnstNm" size="55" maxlength="26"></td>
+                                <td colspan="3"><input type="text" id="socCnstNm" size="67" maxlength="26"></td>
                                 <th width="16%">*공사승인일자</th>
                                 <td><input id="aprvDt" type="text" class="emdcal" size="20"></td>
                             </tr>
                             <tr>
                                 <th width="16%">위치</th>
-                                <td colspan="3"><input type="text" id="cnstLoc" size="55" maxlength="26"></td>
+                                <td colspan="3"><input type="text" id="cnstLoc" size="67" maxlength="26"></td>
                                 <th width="16%">*공사허가일자</th>
                                 <td><input id="perfDt" type="text" class="emdcal" size="20"></td>
                             </tr>
@@ -401,7 +401,7 @@ var module_instance = new GamSocAgentMngtModule();
                                 <th width="16%">*업체코드</th>
                                 <td colspan="3">
                                 	<input id="agentCode" type="text" size="10" maxlength="9">&nbsp; &nbsp;
-	                            	<input id="agentName" type="text" size="15">&nbsp; &nbsp;
+	                            	<input id="agentName" type="text" size="40">&nbsp; &nbsp;
 	                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                                 </td>
                                 <th width="16%">*공사준공일자</th>
@@ -413,7 +413,7 @@ var module_instance = new GamSocAgentMngtModule();
                             </tr>
                             <tr>
                                 <th width="16%">*총공사금액</th>
-                                <td colspan="3"><input type="text" id="totalAmnt" class="ygpaNumber" size="55" maxlength="13" ></td>
+                                <td colspan="3"><input type="text" id="totalAmnt" class="ygpaNumber" size="67" maxlength="13" ></td>
                                 <th width="16%">보전처리누계액</th>
                                 <td><input id="accFee" type="text" class="ygpaNumber" size="25" maxlength="13" disabled="disabled"></td>
                             </tr>

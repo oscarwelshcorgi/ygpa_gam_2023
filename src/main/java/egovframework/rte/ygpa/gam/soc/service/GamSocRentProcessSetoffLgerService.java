@@ -30,7 +30,7 @@ public interface GamSocRentProcessSetoffLgerService {
 	 * @return 투자비보전(임대)상계처리대장 목록
 	 * @exception Exception
 	 */
-	List selectSocRentProcessSetoffLgerList(GamSocRentProcessSetoffLgerVO searchVO)  throws Exception;
+	List<?> selectSocRentProcessSetoffLgerList(GamSocRentProcessSetoffLgerVO searchVO)  throws Exception;
 
 	
 	

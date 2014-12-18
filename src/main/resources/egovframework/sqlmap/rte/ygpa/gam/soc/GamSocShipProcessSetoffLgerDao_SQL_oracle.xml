@@ -127,7 +127,7 @@
 						      AND A.CMPL_YR = #sCmplYr# 
 						      AND A.APP_AGENT_CODE = #sAppAgentCode# 
 						      AND A.FEE_TP LIKE #sFeeTp# || '%'
-						      <![CDATA[ AND ((A.BILL_DT >= #sDtFr# AND A.BILL_DT < #sDtTo#) OR (A.IO_DT >= #sIoDt# AND A.IO_DT < #sIoDt2#)) ]]>
+						      <![CDATA[ AND ((A.BILL_DT >= TO_DATE(#sDtFr#,'YYYY-MM-DD') AND A.BILL_DT < TO_DATE(#sDtTo#,'YYYY-MM-DD') + 1) OR (A.IO_DT >= TO_DATE(#sIoDt#,'YYYY-MM-DD') AND A.IO_DT < TO_DATE(#sIoDt2#,'YYYY-MM-DD') + 1)) ]]>
 						      AND A.FAC_CODE LIKE #sFacCode#||'%'
 						      AND A.FAC_SUB_CODE LIKE #sFacSubCode#||'%'
 						      AND (A.APP_PRT_AT_CODE = B.PRT_AT_CODE(+))
@@ -262,7 +262,7 @@
 				      AND A.CMPL_YR = #sCmplYr# 
 				      AND A.APP_AGENT_CODE = #sAppAgentCode# 
 				      AND A.FEE_TP LIKE #sFeeTp# || '%'
-				      <![CDATA[ AND ((A.BILL_DT >= #sDtFr# AND A.BILL_DT < #sDtTo#) OR (A.IO_DT >= #sIoDt# AND A.IO_DT < #sIoDt2#)) ]]>
+				      <![CDATA[ AND ((A.BILL_DT >= TO_DATE(#sDtFr#,'YYYY-MM-DD') AND A.BILL_DT < TO_DATE(#sDtTo#,'YYYY-MM-DD') + 1) OR (A.IO_DT >= TO_DATE(#sIoDt#,'YYYY-MM-DD') AND A.IO_DT < TO_DATE(#sIoDt2#,'YYYY-MM-DD') + 1)) ]]>
 				      AND A.FAC_CODE LIKE #sFacCode#||'%'
 				      AND A.FAC_SUB_CODE LIKE #sFacSubCode#||'%'
 				      AND (A.APP_PRT_AT_CODE = B.PRT_AT_CODE(+))

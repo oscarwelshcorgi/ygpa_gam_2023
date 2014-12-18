@@ -44,7 +44,7 @@ public class GamSocTotalBsnsSetoffDtlsServiceImpl extends AbstractServiceImpl im
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectSocTotalBsnsSetoffDtlsList(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception {
+    public List<?> selectSocTotalBsnsSetoffDtlsList(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception {
         return gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsList(searchVO);
     }
     
@@ -68,7 +68,7 @@ public class GamSocTotalBsnsSetoffDtlsServiceImpl extends AbstractServiceImpl im
 	 * @return 총사업비상계처리상세내역 목록
 	 * @exception Exception
 	 */
-    public List selectSocTotalBsnsSetoffDtlsDetail(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception{
+    public List<?> selectSocTotalBsnsSetoffDtlsDetail(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception{
     	return gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsDetail(searchVO);
     }
     
@@ -91,7 +91,7 @@ public class GamSocTotalBsnsSetoffDtlsServiceImpl extends AbstractServiceImpl im
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectSocTotalBsnsSetoffDtlsListPrint(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception {
+    public List<?> selectSocTotalBsnsSetoffDtlsListPrint(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception {
         return gamSocTotalBsnsSetoffDtlsDAO.selectSocTotalBsnsSetoffDtlsListPrint(searchVO);
     }
     

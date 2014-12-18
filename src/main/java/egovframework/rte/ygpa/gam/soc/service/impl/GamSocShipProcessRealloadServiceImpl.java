@@ -43,7 +43,7 @@ public class GamSocShipProcessRealloadServiceImpl extends AbstractServiceImpl im
 	 * @exception Exception
 	 */
 	@Override
-	public List selectSocShipProcessRealloadList(GamSocShipProcessRealloadVO searchVO) throws Exception {
+	public List<?> selectSocShipProcessRealloadList(GamSocShipProcessRealloadVO searchVO) throws Exception {
 		return gamSocShipProcessRealloadDao.selectSocShipProcessRealloadList(searchVO);
 	}
 	
@@ -66,7 +66,7 @@ public class GamSocShipProcessRealloadServiceImpl extends AbstractServiceImpl im
 	 * @exception Exception
 	 */
 	@Override
-	public List selectSocShipProcessRealloadDetail(GamSocShipProcessRealloadVO searchVO) throws Exception {
+	public List<?> selectSocShipProcessRealloadDetail(GamSocShipProcessRealloadVO searchVO) throws Exception {
 		return gamSocShipProcessRealloadDao.selectSocShipProcessRealloadDetail(searchVO);
 	}
 	
@@ -90,7 +90,7 @@ public class GamSocShipProcessRealloadServiceImpl extends AbstractServiceImpl im
 	 * @exception Exception
 	 */
 	@Override
-	public List selectSocShipProcessRealloadListPrint(GamSocShipProcessRealloadVO searchVO) throws Exception {
+	public List<?> selectSocShipProcessRealloadListPrint(GamSocShipProcessRealloadVO searchVO) throws Exception {
 		return gamSocShipProcessRealloadDao.selectSocShipProcessRealloadListPrint(searchVO);
 	}
 	

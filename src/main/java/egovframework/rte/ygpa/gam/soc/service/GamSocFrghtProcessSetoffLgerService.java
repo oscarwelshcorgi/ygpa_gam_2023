@@ -30,7 +30,7 @@ public interface GamSocFrghtProcessSetoffLgerService {
 	 * @return 투자비보전(화물)상계처리대장 목록
 	 * @exception Exception
 	 */
-	List selectSocFrghtProcessSetoffLgerList(GamSocFrghtProcessSetoffLgerVO searchVO)  throws Exception;
+	List<?> selectSocFrghtProcessSetoffLgerList(GamSocFrghtProcessSetoffLgerVO searchVO)  throws Exception;
 
 	
 	

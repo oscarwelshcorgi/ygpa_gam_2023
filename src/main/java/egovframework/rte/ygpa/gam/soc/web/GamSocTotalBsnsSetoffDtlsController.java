@@ -71,6 +71,7 @@ public class GamSocTotalBsnsSetoffDtlsController {
     private GamSocTotalBsnsSetoffDtlsService gamSocTotalBsnsSetoffDtlsService;
     
     
+    @SuppressWarnings("rawtypes")
     @RequestMapping(value="/soc/gamSocTotalBsnsSetoffDtls.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
@@ -95,7 +96,7 @@ public class GamSocTotalBsnsSetoffDtlsController {
     @RequestMapping(value="/soc/gamSelectSocTotalBsnsSetoffDtlsList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectSocTotalBsnsSetoffDtlsList(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -144,7 +145,7 @@ public class GamSocTotalBsnsSetoffDtlsController {
     @RequestMapping(value="/soc/gamSelectSocTotalBsnsSetoffDtlsDetail.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectSocTotalBsnsSetoffDtlsDetail(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		long sumPrtTotalAmnt, sumAppTotalAmnt;
     	Map map = new HashMap();
 
@@ -201,7 +202,7 @@ public class GamSocTotalBsnsSetoffDtlsController {
     @RequestMapping(value="/soc/gamSelectSocTotalBsnsSetoffDtlsListPrint.do")
 	public String selectSocTotalBsnsSetoffDtlsListPrint(@RequestParam Map<String, Object> socTotalBsnsSetoffDtlsOpt, ModelMap model) throws Exception {
 
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		String frDt,toDt;
     	Map map = new HashMap();
 

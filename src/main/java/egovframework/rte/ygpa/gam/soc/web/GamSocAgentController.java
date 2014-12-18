@@ -74,7 +74,7 @@ public class GamSocAgentController {
     @Resource(name = "gamSocAgentService")
     private GamSocAgentService gamSocAgentService;
 
-
+    @SuppressWarnings("rawtypes")
     @RequestMapping(value="/soc/gamSocAgent.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
@@ -102,7 +102,7 @@ public class GamSocAgentController {
     @RequestMapping(value="/soc/gamSelectSocAgentList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectSocAgentList(GamSocAgentVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		long sumTotalAmnt, sumAccFee;
     	Map map = new HashMap();
 
@@ -164,19 +164,18 @@ public class GamSocAgentController {
 	 * @return map
 	 * @throws Exception
 	 */
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping("/soc/gamInsertSocAgentList.do")
-    @ResponseBody Map<String, Object> insertSocAgentList(@RequestParam Map socAgentList)throws Exception {
+	public @ResponseBody Map insertSocAgentList(@RequestParam Map socAgentList)throws Exception {
 
-    	Map<String, Object> map = new HashMap<String, Object>();
-    	Map<String, Object> updateTotal = new HashMap<String, Object>();
-    	Map<String, Object> updateData = new HashMap<String, Object>();
-    	Map<String, Object> updateData1 = new HashMap<String, Object>();
-    	//Map<String, Object> searchData = new HashMap<String, Object>();
-    	Map<String, Object> updateSubData = new HashMap<String, Object>();
+    	Map map = new HashMap();
+    	Map updateTotal = new HashMap();
+    	Map updateData = new HashMap();
+    	Map updateData1 = new HashMap();
+    	Map updateSubData = new HashMap();
     	ObjectMapper mapper = new ObjectMapper();
     	
-    	List<HashMap<String,String>> updateList=null;
+    	List<HashMap> updateList=null;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -187,16 +186,13 @@ public class GamSocAgentController {
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	
-    	updateList = mapper.readValue((String)socAgentList.get("updateList"),new TypeReference<List<HashMap<String,String>>>(){});
-    	
-    	//searchData = mapper.readValue((String)socAgentList.get("searchData"),new TypeReference<HashMap<String,String>>(){});
-    	updateData = mapper.readValue((String)socAgentList.get("updateData"),new TypeReference<HashMap<String,String>>(){});
-    	updateData1 = mapper.readValue((String)socAgentList.get("updateData1"),new TypeReference<HashMap<String,String>>(){});
+    	updateList = mapper.readValue((String)socAgentList.get("updateList"),new TypeReference<List<HashMap>>(){});
+    	updateData = mapper.readValue((String)socAgentList.get("updateData"),new TypeReference<HashMap>(){});
+    	updateData1 = mapper.readValue((String)socAgentList.get("updateData1"),new TypeReference<HashMap>(){});
 
     	updateTotal.putAll(updateData);
     	updateTotal.putAll(updateData1);
     	updateTotal.put("updtUid",user.getId());
-    	//updateTotal.putAll(searchData);
 
     	try {
     		
@@ -231,19 +227,18 @@ public class GamSocAgentController {
 	 * @return map
 	 * @throws Exception
 	 */
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping("/soc/gamUpdateSocAgentList.do")
-    @ResponseBody Map<String, Object> updateSocAgentList(@RequestParam Map socAgentList)throws Exception {
+	public @ResponseBody Map updateSocAgentList(@RequestParam Map socAgentList)throws Exception {
 
-    	Map<String, Object> map = new HashMap<String, Object>();
-    	Map<String, Object> updateTotal = new HashMap<String, Object>();
-    	Map<String, Object> updateData = new HashMap<String, Object>();
-    	Map<String, Object> updateData1 = new HashMap<String, Object>();
-    	//Map<String, Object> searchData = new HashMap<String, Object>();
-    	Map<String, Object> updateSubData = new HashMap<String, Object>();
+    	Map map = new HashMap();
+    	Map updateTotal = new HashMap();
+    	Map updateData = new HashMap();
+    	Map updateData1 = new HashMap();
+    	Map updateSubData = new HashMap();
     	ObjectMapper mapper = new ObjectMapper();
     	
-    	List<HashMap<String,String>> updateList=null;
+    	List<HashMap> updateList=null;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -254,18 +249,13 @@ public class GamSocAgentController {
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
-
-    	
-    	updateList = mapper.readValue((String)socAgentList.get("updateList"),new TypeReference<List<HashMap<String,String>>>(){});
-    	
-    	//searchData = mapper.readValue((String)socAgentList.get("searchData"),new TypeReference<HashMap<String,String>>(){});
-    	updateData = mapper.readValue((String)socAgentList.get("updateData"),new TypeReference<HashMap<String,String>>(){});
-    	updateData1 = mapper.readValue((String)socAgentList.get("updateData1"),new TypeReference<HashMap<String,String>>(){});
+    	updateList = mapper.readValue((String)socAgentList.get("updateList"),new TypeReference<List<HashMap>>(){});
+    	updateData = mapper.readValue((String)socAgentList.get("updateData"),new TypeReference<HashMap>(){});
+    	updateData1 = mapper.readValue((String)socAgentList.get("updateData1"),new TypeReference<HashMap>(){});
 
     	updateTotal.putAll(updateData);
     	updateTotal.putAll(updateData1);
     	updateTotal.put("updtUid",user.getId());
-    	//updateTotal.putAll(searchData);
 
     	try {
     		
@@ -302,25 +292,22 @@ public class GamSocAgentController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping("/soc/gamDeleteSocAgentList.do")
-    @ResponseBody Map<String, Object> deleteSocAgentList(@RequestParam Map socAgentList)throws Exception {
+	public @ResponseBody Map deleteSocAgentList(@RequestParam Map socAgentList)throws Exception {
 
-    	Map<String, Object> map = new HashMap<String, Object>();
-    	Map<String, Object> searchData = new HashMap<String, Object>();
+    	Map map = new HashMap();
+    	Map searchData = new HashMap();
     	ObjectMapper mapper = new ObjectMapper();
     	
-
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-
     	
-    	searchData = mapper.readValue((String)socAgentList.get("searchData"),new TypeReference<HashMap<String,String>>(){});
+    	searchData = mapper.readValue((String)socAgentList.get("searchData"),new TypeReference<HashMap>(){});
 
     	try {
     		

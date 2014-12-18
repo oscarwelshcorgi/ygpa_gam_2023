@@ -41,7 +41,7 @@ public interface GamSocAgentService {
 	 * @return 항만공사허가원부 목록
 	 * @exception Exception
 	 */
-    List selectSocAgentList(GamSocAgentVO searchVO) throws Exception;
+    List<?> selectSocAgentList(GamSocAgentVO searchVO) throws Exception;
     
     
     
@@ -59,7 +59,7 @@ public interface GamSocAgentService {
 	 * @param Map
 	 * @exception
 	 */
-    public void insertSocAgentData(Map form) throws Exception;
+    public void insertSocAgentData(Map<?, ?> form) throws Exception;
     
     
     /**
@@ -67,7 +67,7 @@ public interface GamSocAgentService {
 	 * @param Map
 	 * @exception
 	 */
-    public void updateSocAgentData(Map form) throws Exception;
+    public void updateSocAgentData(Map<?, ?> form) throws Exception;
     
     
     /**
@@ -75,7 +75,7 @@ public interface GamSocAgentService {
 	 * @param Map
 	 * @exception
 	 */
-    public void deleteSocAgentData(Map search) throws Exception;
+    public void deleteSocAgentData(Map<?, ?> search) throws Exception;
     
     
     /**
@@ -83,7 +83,7 @@ public interface GamSocAgentService {
 	 * @param Map
 	 * @exception
 	 */
-    public void insertSocAgentList(Map form) throws Exception;
+    public void insertSocAgentList(Map<?, ?> form) throws Exception;
     
     
     /**
@@ -91,6 +91,6 @@ public interface GamSocAgentService {
 	 * @param Map
 	 * @exception
 	 */
-    public void deleteSocAgentList(Map form) throws Exception;
+    public void deleteSocAgentList(Map<?, ?> form) throws Exception;
     
 }

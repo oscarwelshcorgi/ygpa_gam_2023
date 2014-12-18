@@ -30,7 +30,7 @@ public interface GamSocTotalBsnsSetoffDtlsService {
 	 * @return 총사업비상계처리내역 목록
 	 * @exception Exception
 	 */
-    List selectSocTotalBsnsSetoffDtlsList(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception;
+    List<?> selectSocTotalBsnsSetoffDtlsList(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception;
     
     
     /**
@@ -49,7 +49,7 @@ public interface GamSocTotalBsnsSetoffDtlsService {
 	 * @return 총사업비상계처리상세내역 목록
 	 * @exception Exception
 	 */
-    List selectSocTotalBsnsSetoffDtlsDetail(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception;
+    List<?> selectSocTotalBsnsSetoffDtlsDetail(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception;
     
     
     
@@ -68,7 +68,7 @@ public interface GamSocTotalBsnsSetoffDtlsService {
 	 * @return 총사업비상계처리내역 프린트목록
 	 * @exception Exception
 	 */
-    List selectSocTotalBsnsSetoffDtlsListPrint(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception;
+    List<?> selectSocTotalBsnsSetoffDtlsListPrint(GamSocTotalBsnsSetoffDtlsVO searchVO) throws Exception;
     
     
     /**

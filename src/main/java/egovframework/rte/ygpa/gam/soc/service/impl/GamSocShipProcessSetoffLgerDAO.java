@@ -35,7 +35,7 @@ public class GamSocShipProcessSetoffLgerDAO extends YGPAAbstractDAO {
 	 * @return Map
 	 * @exception Exception
 	 */
-	public List selectSocShipProcessSetoffLgerList(GamSocShipProcessSetoffLgerVO searchVO) throws Exception {
+	public List<?> selectSocShipProcessSetoffLgerList(GamSocShipProcessSetoffLgerVO searchVO) throws Exception {
 		return list("gamSocShipProcessSetoffLgerDao.selectSocShipProcessSetoffLgerList_D", searchVO);
 	}
 	

@@ -54,7 +54,7 @@ public class GamSocAgentServiceImpl extends AbstractServiceImpl implements GamSo
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectSocAgentList(GamSocAgentVO searchVO) throws Exception {
+    public List<?> selectSocAgentList(GamSocAgentVO searchVO) throws Exception {
         return gamSocAgentDao.selectSocAgentList(searchVO);
     }
 
@@ -76,7 +76,7 @@ public class GamSocAgentServiceImpl extends AbstractServiceImpl implements GamSo
 	 * @param Map
 	 * @exception
 	 */
-    public void insertSocAgentData(Map form) throws Exception {
+    public void insertSocAgentData(Map<?, ?> form) throws Exception {
 		gamSocAgentDao.insertSocAgentData(form);
 	}
     
@@ -86,7 +86,7 @@ public class GamSocAgentServiceImpl extends AbstractServiceImpl implements GamSo
 	 * @param Map
 	 * @exception
 	 */
-    public void updateSocAgentData(Map form) throws Exception {
+    public void updateSocAgentData(Map<?, ?> form) throws Exception {
 		gamSocAgentDao.updateSocAgentData(form);
 	}
     
@@ -96,7 +96,7 @@ public class GamSocAgentServiceImpl extends AbstractServiceImpl implements GamSo
 	 * @param Map
 	 * @exception
 	 */
-    public void deleteSocAgentData(Map search) throws Exception {
+    public void deleteSocAgentData(Map<?, ?> search) throws Exception {
 		gamSocAgentDao.deleteSocAgentData(search);
 	}
     
@@ -106,7 +106,7 @@ public class GamSocAgentServiceImpl extends AbstractServiceImpl implements GamSo
 	 * @param Map
 	 * @exception
 	 */
-    public void insertSocAgentList(Map form) throws Exception {
+    public void insertSocAgentList(Map<?, ?> form) throws Exception {
 		gamSocAgentDao.insertSocAgentList(form);
 	}
     
@@ -116,7 +116,7 @@ public class GamSocAgentServiceImpl extends AbstractServiceImpl implements GamSo
 	 * @param Map
 	 * @exception
 	 */
-    public void deleteSocAgentList(Map form) throws Exception {
+    public void deleteSocAgentList(Map<?, ?> form) throws Exception {
 		gamSocAgentDao.deleteSocAgentList(form);
 	}
 

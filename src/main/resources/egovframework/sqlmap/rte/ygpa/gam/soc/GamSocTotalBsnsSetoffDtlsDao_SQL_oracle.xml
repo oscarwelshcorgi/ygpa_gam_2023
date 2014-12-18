@@ -69,10 +69,10 @@
 							         	
 							         	<isNotEmpty property="sType">
 											<isNotEmpty property="sFrDt">
-												<![CDATA[ AND $sType$ >= #sFrDt# ]]>
+												<![CDATA[ AND $sType$ >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
 									        </isNotEmpty>
 									        <isNotEmpty property="sToDt">
-									        	<![CDATA[ AND $sType$ <= #sToDt# ]]>
+									        	<![CDATA[ AND $sType$ < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
 									        </isNotEmpty>
 										</isNotEmpty>
                              	)
@@ -128,10 +128,10 @@
 		         	
 		         	<isNotEmpty property="sType">
 						<isNotEmpty property="sFrDt">
-							<![CDATA[ AND $sType$ >= #sFrDt# ]]>
+							<![CDATA[ AND $sType$ >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
 				        </isNotEmpty>
 				        <isNotEmpty property="sToDt">
-				        	<![CDATA[ AND $sType$ <= #sToDt# ]]>
+				        	<![CDATA[ AND $sType$ < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
 				        </isNotEmpty>
 					</isNotEmpty>
                  )
@@ -218,10 +218,10 @@
 					         	
 					         	<isNotEmpty property="sType">
 									<isNotEmpty property="sFrDt">
-										<![CDATA[ AND $sType$ >= #sFrDt# ]]>
+										<![CDATA[ AND $sType$ >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
 							        </isNotEmpty>
 							        <isNotEmpty property="sToDt">
-							        	<![CDATA[ AND $sType$ <= #sToDt# ]]>
+							        	<![CDATA[ AND $sType$ < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
 							        </isNotEmpty>
 								</isNotEmpty>
 						         
@@ -275,10 +275,10 @@
 	         	
 	         	<isNotEmpty property="sType">
 					<isNotEmpty property="sFrDt">
-						<![CDATA[ AND $sType$ >= #sFrDt# ]]>
+						<![CDATA[ AND $sType$ >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
 			        </isNotEmpty>
 			        <isNotEmpty property="sToDt">
-			        	<![CDATA[ AND $sType$ <= #sToDt# ]]>
+			        	<![CDATA[ AND $sType$ < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
 			        </isNotEmpty>
 				</isNotEmpty>
 		         
@@ -375,10 +375,10 @@
 					         	
 					         	<isNotEmpty property="sType">
 									<isNotEmpty property="sFrDt">
-										<![CDATA[ AND $sType$ >= #sFrDt# ]]>
+										<![CDATA[ AND $sType$ >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
 							        </isNotEmpty>
 							        <isNotEmpty property="sToDt">
-							        	<![CDATA[ AND $sType$ <= #sToDt# ]]>
+							        	<![CDATA[ AND $sType$ < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
 							        </isNotEmpty>
 								</isNotEmpty>
                              	
@@ -431,10 +431,10 @@
 	         	
 	         	<isNotEmpty property="sType">
 					<isNotEmpty property="sFrDt">
-						<![CDATA[ AND $sType$ >= #sFrDt# ]]>
+						<![CDATA[ AND $sType$ >= TO_DATE(#sFrDt#,'YYYY-MM-DD') ]]>
 			        </isNotEmpty>
 			        <isNotEmpty property="sToDt">
-			        	<![CDATA[ AND $sType$ <= #sToDt# ]]>
+			        	<![CDATA[ AND $sType$ < TO_DATE(#sToDt#,'YYYY-MM-DD') + 1 ]]>
 			        </isNotEmpty>
 				</isNotEmpty>
     </select>

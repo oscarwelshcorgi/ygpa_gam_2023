@@ -30,7 +30,7 @@ public interface GamSocShipProcessSetoffLgerService {
 	 * @return 투자비보전(선석)상계처리대장 목록
 	 * @exception Exception
 	 */
-	List selectSocShipProcessSetoffLgerList(GamSocShipProcessSetoffLgerVO searchVO)  throws Exception;
+	List<?> selectSocShipProcessSetoffLgerList(GamSocShipProcessSetoffLgerVO searchVO)  throws Exception;
 	
 	
 	

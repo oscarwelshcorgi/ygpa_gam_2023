@@ -44,7 +44,7 @@ public class GamSocShipProcessSetoffLgerServiceImpl extends AbstractServiceImpl 
 	 * @exception Exception
 	 */
 	@Override
-	public List selectSocShipProcessSetoffLgerList(GamSocShipProcessSetoffLgerVO searchVO) throws Exception {
+	public List<?> selectSocShipProcessSetoffLgerList(GamSocShipProcessSetoffLgerVO searchVO) throws Exception {
 		return gamSocShipProcessSetoffLgerDao.selectSocShipProcessSetoffLgerList(searchVO);
 	}
 

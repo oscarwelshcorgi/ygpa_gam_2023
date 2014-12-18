@@ -72,6 +72,7 @@ public class GamSocShipProcessRealloadController {
     private GamSocShipProcessRealloadService gamSocShipProcessRealloadService;
     
     
+    @SuppressWarnings("rawtypes")
     @RequestMapping(value="/soc/gamSocShipProcessRealload.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
@@ -95,7 +96,7 @@ public class GamSocShipProcessRealloadController {
     @RequestMapping(value="/soc/gamSocShipProcessRealloadList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectSocShipProcessRealloadList(GamSocShipProcessRealloadVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -145,7 +146,7 @@ public class GamSocShipProcessRealloadController {
     @RequestMapping(value="/soc/gamSocShipProcessRealloadDetail.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectSocShipProcessRealloadDetail(GamSocShipProcessRealloadVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		long sumExmpAmnt;
 
     	Map map = new HashMap();
@@ -199,9 +200,9 @@ public class GamSocShipProcessRealloadController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/soc/gamSelectSocShipProcessRealloadListPrint.do")
-	public String selectSocShipProcessRealloadListPrint(@RequestParam Map<String, Object> socShipProcessRealloadOpt, ModelMap model) throws Exception {
+	public String selectSocShipProcessRealloadListPrint(@RequestParam Map socShipProcessRealloadOpt, ModelMap model) throws Exception {
 
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		String prtAtCode, prtKorNm, frDt, toDt;
 		long sumExmpAmnt;
     	Map map = new HashMap();

@@ -43,7 +43,7 @@ public class GamSocFrghtProcessSetoffLgerServiceImpl extends AbstractServiceImpl
 	 * @exception Exception
 	 */
 	@Override
-	public List selectSocFrghtProcessSetoffLgerList(GamSocFrghtProcessSetoffLgerVO searchVO) throws Exception {
+	public List<?> selectSocFrghtProcessSetoffLgerList(GamSocFrghtProcessSetoffLgerVO searchVO) throws Exception {
 		return gamSocFrghtProcessSetoffLgerDao.selectSocFrghtProcessSetoffLgerList(searchVO);
 	}
 	

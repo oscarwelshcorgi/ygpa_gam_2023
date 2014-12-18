@@ -23,7 +23,6 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -72,12 +71,10 @@ public class GamSocFrghtProcessSetoffLgerController {
     @Resource(name = "gamSocFrghtProcessSetoffLgerService")
     private GamSocFrghtProcessSetoffLgerService gamSocFrghtProcessSetoffLgerService;
 
-
+    
+    @SuppressWarnings("rawtypes")
     @RequestMapping(value="/soc/gamSocFrghtProcessSetoffLger.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-    	
-    	//login정보 
-    	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
     	GamSocCmmUseVO codeVo = new GamSocCmmUseVO();
 		
@@ -103,7 +100,7 @@ public class GamSocFrghtProcessSetoffLgerController {
     @RequestMapping(value="/soc/gamSocFrghtProcessSetoffLgerList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectSocFrghtProcessSetoffLgerList(GamSocFrghtProcessSetoffLgerVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		long sumExmpAmnt,sumExmpAmntPa,sumAmnt;
 		
     	Map map = new HashMap();
@@ -164,7 +161,7 @@ public class GamSocFrghtProcessSetoffLgerController {
     @RequestMapping(value="/soc/gamSelectSocFrghtProcessSetoffLgerListPrint.do")
 	public String selectSocFrghtProcessSetoffLgerListPrint(@RequestParam Map<String, Object> socFrghtProcessSetoffLgerOpt, ModelMap model) throws Exception {
 
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		String ioDt, ioDt2, dtFr, dtTo, exmpAcc;
 
     	Map map = new HashMap();

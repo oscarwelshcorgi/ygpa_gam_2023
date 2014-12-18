@@ -71,7 +71,7 @@ public class GamSocRentProcessSetoffLgerController {
     @Resource(name = "gamSocRentProcessSetoffLgerService")
     private GamSocRentProcessSetoffLgerService gamSocRentProcessSetoffLgerService;
 
-
+    @SuppressWarnings("rawtypes")
     @RequestMapping(value="/soc/gamSocRentProcessSetoffLger.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	
@@ -100,7 +100,7 @@ public class GamSocRentProcessSetoffLgerController {
     @RequestMapping(value="/soc/gamSocRentProcessSetoffLgerList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectSocRentProcessSetoffLgerList(GamSocRentProcessSetoffLgerVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		long sumExmpAmnt,sumExmpAmntPa,sumAmnt;
 
     	Map map = new HashMap();
@@ -161,7 +161,7 @@ public class GamSocRentProcessSetoffLgerController {
     @RequestMapping(value="/soc/gamSelectSocRentProcessSetoffLgerListPrint.do")
 	public String selectSocRentProcessSetoffLgerListPrint(@RequestParam Map<String, Object> socRentProcessSetoffLgerOpt, ModelMap model) throws Exception {
 
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		String ioDt, ioDt2, dtFr, dtTo, exmpAcc;
 
     	Map map = new HashMap();

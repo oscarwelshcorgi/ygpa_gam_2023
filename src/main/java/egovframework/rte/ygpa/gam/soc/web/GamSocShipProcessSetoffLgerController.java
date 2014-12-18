@@ -72,7 +72,7 @@ public class GamSocShipProcessSetoffLgerController {
     @Resource(name = "gamSocShipProcessSetoffLgerService")
     private GamSocShipProcessSetoffLgerService gamSocShipProcessSetoffLgerService;
 
-
+    @SuppressWarnings("rawtypes")
     @RequestMapping(value="/soc/gamSocShipProcessSetoffLger.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
@@ -100,7 +100,7 @@ public class GamSocShipProcessSetoffLgerController {
     @RequestMapping(value="/soc/gamSocShipProcessSetoffLgerList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectSocShipProcessSetoffLgerList(GamSocShipProcessSetoffLgerVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		long sumR1Fare,sumR2Fare,sumR3Fare,sumR6Fare,sumRFare;
 		long sumR1FarePa,sumR2FarePa,sumR3FarePa,sumR6FarePa,sumRFarePa;
 		long sumR1All,sumR2All,sumR3All,sumR6All,sumRAll;
@@ -192,7 +192,7 @@ public class GamSocShipProcessSetoffLgerController {
     @RequestMapping(value="/soc/gamSelectSocShipProcessSetoffLgerListPrint.do")
 	public String selectSocShipProcessSetoffLgerListPrint(@RequestParam Map<String, Object> socShipProcessSetoffLgerOpt, ModelMap model) throws Exception {
 
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		String ioDt, ioDt2, dtFr, dtTo, exmpAcc;
 
     	Map map = new HashMap();

@@ -31,7 +31,7 @@ public interface GamSocShipProcessRealloadService {
 	 * @return 투자비보전 처리실적 목록
 	 * @exception Exception
 	 */
-	List selectSocShipProcessRealloadList(GamSocShipProcessRealloadVO searchVO)  throws Exception;
+	List<?> selectSocShipProcessRealloadList(GamSocShipProcessRealloadVO searchVO)  throws Exception;
 	
 	
 	/**
@@ -49,7 +49,7 @@ public interface GamSocShipProcessRealloadService {
 	 * @return 투자비보전 처리실적 목록
 	 * @exception Exception
 	 */
-	List selectSocShipProcessRealloadDetail(GamSocShipProcessRealloadVO searchVO)  throws Exception;
+	List<?> selectSocShipProcessRealloadDetail(GamSocShipProcessRealloadVO searchVO)  throws Exception;
 	
 	
 	/**
@@ -67,7 +67,7 @@ public interface GamSocShipProcessRealloadService {
 	 * @return 투자비보전 처리실적 목록
 	 * @exception Exception
 	 */
-	List selectSocShipProcessRealloadListPrint(GamSocShipProcessRealloadVO searchVO)  throws Exception;
+	List<?> selectSocShipProcessRealloadListPrint(GamSocShipProcessRealloadVO searchVO)  throws Exception;
 	
 	
 	/**

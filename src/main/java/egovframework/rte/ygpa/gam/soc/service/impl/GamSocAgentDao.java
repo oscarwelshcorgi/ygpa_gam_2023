@@ -49,7 +49,7 @@ public class GamSocAgentDao extends YGPAAbstractDAO {
 	 * @return 항만공사허가원부 목록
 	 * @exception Exception
 	 */
-    public List selectSocAgentList(GamSocAgentVO searchVO) throws Exception {
+    public List<?> selectSocAgentList(GamSocAgentVO searchVO) throws Exception {
         return list("gamSocAgentDao.selectSocAgentList_D", searchVO);
     }
     
@@ -70,11 +70,8 @@ public class GamSocAgentDao extends YGPAAbstractDAO {
 	 * @param Map
 	 * @exception
 	 */
-	public void insertSocAgentData(Map form){
-		
+	public void insertSocAgentData(Map<?, ?> form){
 		insert("gamSocAgentDao.insertSocAgentData", form);
-
-//		return (String)form.get("maxSocAgentListSeq");
 	}
 	
 	
@@ -83,11 +80,8 @@ public class GamSocAgentDao extends YGPAAbstractDAO {
 	 * @param Map
 	 * @exception
 	 */
-    public void updateSocAgentData(Map form) {
-    	
-    	// 메인테이블 정보 업데이트
+    public void updateSocAgentData(Map<?, ?> form) {
     	update("gamSocAgentDao.updateSocAgentData",form);
-
     }
     
     
@@ -96,11 +90,8 @@ public class GamSocAgentDao extends YGPAAbstractDAO {
 	 * @param Map
 	 * @exception
 	 */
-    public void deleteSocAgentData(Map search) {
-    	
-    	// 메인테이블 정보 업데이트
+    public void deleteSocAgentData(Map<?, ?> search) {
     	update("gamSocAgentDao.deleteSocAgentData",search);
-
     }
     
 	
@@ -109,10 +100,8 @@ public class GamSocAgentDao extends YGPAAbstractDAO {
 	 * @param Map
 	 * @exception
 	 */
-    public void insertSocAgentList(Map form) {
-
+    public void insertSocAgentList(Map<?, ?> form) {
     	insert("gamSocAgentDao.insertNewSocAgentList", form);
-    	
     }
     
     
@@ -121,7 +110,7 @@ public class GamSocAgentDao extends YGPAAbstractDAO {
 	 * @param Map
 	 * @exception
 	 */
-    public void deleteSocAgentList(Map form) throws Exception{
+    public void deleteSocAgentList(Map<?, ?> form) throws Exception{
     	delete("gamSocAgentDao.deleteOldSocAgentList", form);
     }
 
