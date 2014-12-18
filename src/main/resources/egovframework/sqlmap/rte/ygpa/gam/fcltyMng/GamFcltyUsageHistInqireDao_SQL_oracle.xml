@@ -7,10 +7,7 @@
     <typeAlias alias="gamFcltyUsageHistInqireVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageHistInqireVO"/>
 	
 	<select id="gamFcltyUsageHistInqireDao.selectFcltyUsageHistInqireList" parameterClass="gamFcltyUsageHistInqireVO" resultClass="egovMap">
-		select 
-			GIS_ASSETS_PRT_AT_CODE,
-			GAM_GETCODENAME('GAM044', PRT_FCLTY_SE) PRT_FCLTY_SE_NM
-		FROM GIS_PRT_FCLTY_CD_F
+		
 	</select>
 	<!-- 
 	<select id="gamFcltyUsageHistInqireDao.selectFcltyUsageHistInqireListTotCnt" parameterClass="gamFcltyUsageHistInqireVO" resultClass="int">

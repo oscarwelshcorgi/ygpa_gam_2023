@@ -37,16 +37,17 @@ GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/gamFcltyUsageHistInqireList.do',
 		dataType: "json",
 		colModel : [
-					{display : '항코드',		name : 'gisAssetsPrtAtCode', 		width : 50, 	sortable : false, 	align : 'center'},
-					{display : '시설구분',		name : 'prtFcltySeNm', 			width : 60, 	sortable : false, 	align : 'center'},
-					{display : '시설코드',		name : 'gisPrtFcltyCd',		width : 80, 	sortable : false, 	align : 'center'},
-					{display : '시설명',		name : 'prtFcltyNm', 		width : 200, 	sortable : false, 	align : 'center'},
-					{display : '사용기간',		name : 'UsagePd', 			width : 120, 	sortable : false, 	align : 'center'},
-					{display : '업체코드',		name : 'EntrpsCd', 			width : 80, 	sortable : false, 	align : 'center'},
-					{display : '업체명',		name : 'EntrpsNm', 			width : 120, 	sortable : false, 	align : 'center'},
-					{display : '사용료',		name : 'useFee', 			width : 100, 	sortable : false, 	align : 'center', displayFormat : 'number'},
-					{display : '임대정보',		name : 'RentInfo', 			width : 60, 	sortable : false, 	align : 'center'},
-					{display : '제원정보',		name : 'SpecInfo', 			width : 60, 	sortable : false, 	align : 'center'}
+					{display : '항코드',			name : 'gisAssetsPrtAtCode', 		width : 50, 	sortable : false, 	align : 'center'},
+					{display : '항코드명',			name : 'prtAtCodeNm', 				width : 60, 	sortable : false, 	align : 'center'},
+					{display : '자산코드',			name : 'gisAssetsDisplay',		width : 80, 	sortable : false, 	align : 'center'},
+					{display : '자산명',			name : 'gisAssetsNm', 				width : 200, 	sortable : false, 	align : 'left'},
+					{display : '사용시작일자',		name : 'usagePdFrom', 					width : 100, 	sortable : false, 	align : 'center'},
+					{display : '사용종료일자',		name : 'usagePdTo', 					width : 100, 	sortable : false, 	align : 'center'},
+					{display : '업체코드',			name : 'entrpsSe', 					width : 80, 	sortable : false, 	align : 'center'},
+					{display : '업체명',			name : 'entrpsNm', 					width : 120, 	sortable : false, 	align : 'left'},
+					{display : '사용료',			name : 'fee', 						width : 100, 	sortable : false, 	align : 'right', displayFormat : 'number'},
+					{display : '임대정보',			name : 'RentInfo', 					width : 60, 	sortable : false, 	align : 'center'},
+					{display : '제원정보',			name : 'SpecInfo', 					width : 60, 	sortable : false, 	align : 'center'}
 			],
 		height: "auto"
 	});
