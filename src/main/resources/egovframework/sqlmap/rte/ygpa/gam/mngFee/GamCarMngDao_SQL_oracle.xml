@@ -198,7 +198,7 @@
 			,#fuelEfft#
 			,TO_DATE(#examValidBeginDt#,'YYYY-MM-DD')
 			,TO_DATE(#examValidEndDt#,'YYYY-MM-DD')
-			,TO_NUMBER(REPLACE(#acqPrce#,',',''))
+			,NVL(TO_NUMBER(REPLACE(#acqPrce#,',','')),0)
 			,#rm#
 			,#regUsr#
 			,SYSDATE
@@ -235,7 +235,7 @@
 			,FUEL_EFFT = #fuelEfft#
 			,EXAM_VALID_BEGIN_DT = TO_DATE(#examValidBeginDt#,'YYYY-MM-DD')
 			,EXAM_VALID_END_DT = TO_DATE(#examValidEndDt#,'YYYY-MM-DD')
-			,ACQ_PRCE = TO_NUMBER(REPLACE(#acqPrce#,',',''))
+			,ACQ_PRCE = NVL(TO_NUMBER(REPLACE(#acqPrce#,',','')),0)
 			,RM = #rm#
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE

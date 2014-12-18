@@ -82,7 +82,7 @@ public class GamMngFeeGubunMngController {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/mngFee/gamSelectMngFeeGubunMng.do" , method=RequestMethod.POST)
-	@ResponseBody Map selectMngFeeGubunMngList(GamMngFeeGubunMngVo searchVO) throws Exception {
+	@ResponseBody Map gamSelectMngFeeGubunMng(GamMngFeeGubunMngVo searchVO) throws Exception {
 
 		int totalCnt;
 		Map map = new HashMap();
@@ -115,7 +115,7 @@ public class GamMngFeeGubunMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamSelectMngFeeGubunMngPk.do")
-	@ResponseBody Map<String, Object> selectMngFeeGubunMngPk(GamMngFeeGubunMngVo searchVO)	throws Exception {
+	@ResponseBody Map<String, Object> gamSelectMngFeeGubunMngPk(GamMngFeeGubunMngVo searchVO)	throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -143,8 +143,8 @@ public class GamMngFeeGubunMngController {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/mngFee/gamExcelMngFeeGubunMng.do" , method=RequestMethod.POST)
-	@ResponseBody ModelAndView excelMngFeeGubunMngList(@RequestParam Map<String, Object> excelParam) throws Exception {
+	@RequestMapping(value="/mngFee/gamExcelDownloadMngFeeGubunMng.do" , method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelDownloadMngFeeGubunMng(@RequestParam Map<String, Object> excelParam) throws Exception {
 
 		Map map = new HashMap();
 		List header;
@@ -178,7 +178,7 @@ public class GamMngFeeGubunMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamInsertMngFeeGubunMng.do")
-	@ResponseBody Map<String, Object> insertMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamInsertMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -194,7 +194,7 @@ public class GamMngFeeGubunMngController {
 			gamMngFeeGubunMngVo.setRegUsr((String)user.getId());
 			gamMngFeeGubunMngService.insertMngFeeGubunMng(gamMngFeeGubunMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -208,7 +208,7 @@ public class GamMngFeeGubunMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamUpdateMngFeeGubunMng.do")
-	@ResponseBody Map<String, Object> updateMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamUpdateMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -224,7 +224,7 @@ public class GamMngFeeGubunMngController {
 			gamMngFeeGubunMngVo.setUpdUsr((String)user.getId());
 			gamMngFeeGubunMngService.updateMngFeeGubunMng(gamMngFeeGubunMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -238,7 +238,7 @@ public class GamMngFeeGubunMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamDeleteMngFeeGubunMng.do")
-	@ResponseBody Map<String, Object> deleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamDeleteMngFeeGubunMng(GamMngFeeGubunMngVo gamMngFeeGubunMngVo)	throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -252,7 +252,7 @@ public class GamMngFeeGubunMngController {
 		try {
 			gamMngFeeGubunMngService.deleteMngFeeGubunMng(gamMngFeeGubunMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -265,7 +265,7 @@ public class GamMngFeeGubunMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamCheckSeFeeGubunMng.do")
-	@ResponseBody Map<String, Object> checkSeFeeGubunMng(@RequestParam("checkSe") String checkSe)	throws Exception {
+	@ResponseBody Map<String, Object> gamCheckSeFeeGubunMng(@RequestParam("checkSe") String checkSe)	throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 

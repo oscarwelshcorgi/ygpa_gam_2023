@@ -182,12 +182,12 @@
 			 #mainMngMtYear# || #mainMngMtMon#
 			,#mainMngFeeJobSe#
 			,#mainMngFeeSj#
-			,TO_NUMBER(REPLACE(#mainFcltyMngFee#,',',''))
-			,TO_NUMBER(REPLACE(#mainElctyFee#,',',''))
-			,TO_NUMBER(REPLACE(#mainWaterFee#,',',''))
-			,TO_NUMBER(REPLACE(#mainGasFee#,',',''))
-			,TO_NUMBER(REPLACE(#mainEnvFee#,',',''))
-			,TO_NUMBER(REPLACE(#mainMngTotalFee#,',',''))
+			,NVL(TO_NUMBER(REPLACE(#mainFcltyMngFee#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#mainElctyFee#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#mainWaterFee#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#mainGasFee#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#mainEnvFee#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#mainMngTotalFee#,',','')),0)
 			,#mainRegUsr#
 			,SYSDATE
 			,#mainUpdUsr#
@@ -198,12 +198,12 @@
 	<update id="gamFcltsMngFeeMngDao.updateFcltsMngFeeMng_S">
 		UPDATE FCLTS_MNG_FEE_F SET
 			 MNG_FEE_SJ = #mainMngFeeSj#
-			,FCLTY_MNG_FEE = TO_NUMBER(REPLACE(#mainFcltyMngFee#,',',''))
-			,ELCTY_FEE = TO_NUMBER(REPLACE(#mainElctyFee#,',',''))
-			,WATER_FEE = TO_NUMBER(REPLACE(#mainWaterFee#,',',''))
-			,GAS_FEE = TO_NUMBER(REPLACE(#mainGasFee#,',',''))
-			,ENV_FEE = TO_NUMBER(REPLACE(#mainEnvFee#,',',''))
-			,MNG_TOTAL_FEE = TO_NUMBER(REPLACE(#mainMngTotalFee#,',',''))
+			,FCLTY_MNG_FEE = NVL(TO_NUMBER(REPLACE(#mainFcltyMngFee#,',','')),0)
+			,ELCTY_FEE = NVL(TO_NUMBER(REPLACE(#mainElctyFee#,',','')),0)
+			,WATER_FEE = NVL(TO_NUMBER(REPLACE(#mainWaterFee#,',','')),0)
+			,GAS_FEE = NVL(TO_NUMBER(REPLACE(#mainGasFee#,',','')),0)
+			,ENV_FEE = NVL(TO_NUMBER(REPLACE(#mainEnvFee#,',','')),0)
+			,MNG_TOTAL_FEE = NVL(TO_NUMBER(REPLACE(#mainMngTotalFee#,',','')),0)
 			,UPD_USR = #mainUpdUsr#
 			,UPDT_DT = SYSDATE
 		WHERE MNG_MT = #mainMngMtYear# || #mainMngMtMon#
@@ -249,6 +249,8 @@
 				,GAM_GETCODENAME('GAM024',T3.CHRGE_KND) AS CHRGE_KND_NM
 				,T3.ACCNUT_YEAR
 				,T3.NTIC_NO
+				,TO_CHAR(T3.FIRST_NTIC_DT,'YYYY-MM-DD') AS FIRST_NTIC_DT
+				,TO_CHAR(T3.FIRST_PAY_TMLMT,'YYYY-MM-DD') AS FIRST_PAY_TMLMT
 				,TO_CHAR(T3.NTIC_DT,'YYYY-MM-DD') AS NTIC_DT
 				,TO_CHAR(T3.PAY_TMLMT,'YYYY-MM-DD') AS PAY_TMLMT
 				,LTRIM(TO_CHAR(NVL(T3.FEE,0),'999,999,999,990')) AS FEE
@@ -256,6 +258,7 @@
 				,GAM_GETCODENAME('GAM016',T3.VAT_YN) AS VAT_YN_NM
 				,LTRIM(TO_CHAR(NVL(T3.VAT,0),'999,999,999,990')) AS VAT
 				,LTRIM(TO_CHAR(NVL(T3.NTIC_AMT,0),'999,999,999,990')) AS NTIC_AMT
+				,LTRIM(TO_CHAR(NVL(T3.TOT_NTIC_AMT,0),'999,999,999,990')) AS TOT_NTIC_AMT
 				,T3.RCIV_SE
 				,(CASE WHEN T3.NHT_ISUE_YN='Y' THEN GAM_GETCODENAME('GAM025',T3.RCIV_SE) ELSE '미고지' END) AS RCIV_SE_NM
 				,TO_CHAR(T3.RCIV_DT,'YYYY-MM-DD') AS RCIV_DT
@@ -311,13 +314,13 @@
 			  WHERE MNG_MT = #mngMt#
 			  AND MNG_FEE_JOB_SE = #mngFeeJobSe#)
 			,#entrpscd#
-			,TO_NUMBER(REPLACE(#usageAr#,',',''))
-			,TO_NUMBER(REPLACE(#mngFee#,',',''))
-			,TO_NUMBER(REPLACE(#elctyFee#,',',''))
-			,TO_NUMBER(REPLACE(#waterFee#,',',''))
-			,TO_NUMBER(REPLACE(#gasFee#,',',''))
-			,TO_NUMBER(REPLACE(#envFee#,',',''))
-			,TO_NUMBER(REPLACE(#mngTotalFee#,',',''))
+			,NVL(TO_NUMBER(REPLACE(#usageAr#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#mngFee#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#elctyFee#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#waterFee#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#gasFee#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#envFee#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#mngTotalFee#,',','')),0)
 			,#regUsr#
 			,SYSDATE
 			,#updUsr#
@@ -328,13 +331,13 @@
 	<update id="gamFcltsMngFeeMngDao.updateFcltsMngFeeMngDetail_S">
 		UPDATE FCLTS_MNG_FEE_DETAIL_F SET
 			 ENTRPSCD = #entrpscd#
-			,USAGE_AR = TO_NUMBER(REPLACE(#usageAr#,',',''))
-			,MNG_FEE = TO_NUMBER(REPLACE(#mngFee#,',',''))
-			,ELCTY_FEE = TO_NUMBER(REPLACE(#elctyFee#,',',''))
-			,WATER_FEE = TO_NUMBER(REPLACE(#waterFee#,',',''))
-			,GAS_FEE = TO_NUMBER(REPLACE(#gasFee#,',',''))
-			,ENV_FEE = TO_NUMBER(REPLACE(#envFee#,',',''))
-			,MNG_TOTAL_FEE = TO_NUMBER(REPLACE(#mngTotalFee#,',',''))
+			,USAGE_AR = NVL(TO_NUMBER(REPLACE(#usageAr#,',','')),0)
+			,MNG_FEE = NVL(TO_NUMBER(REPLACE(#mngFee#,',','')),0)
+			,ELCTY_FEE = NVL(TO_NUMBER(REPLACE(#elctyFee#,',','')),0)
+			,WATER_FEE = NVL(TO_NUMBER(REPLACE(#waterFee#,',','')),0)
+			,GAS_FEE = NVL(TO_NUMBER(REPLACE(#gasFee#,',','')),0)
+			,ENV_FEE = NVL(TO_NUMBER(REPLACE(#envFee#,',','')),0)
+			,MNG_TOTAL_FEE = NVL(TO_NUMBER(REPLACE(#mngTotalFee#,',','')),0)
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
 		WHERE MNG_MT = #mngMt#
@@ -374,10 +377,10 @@
 				,LTRIM(TO_CHAR(NVL(T1.ARRRG_AMT,0),'999,999,999,990')) AS ARRRG_FEE
 				,'-' AS ARRRG_VAT
 				,LTRIM(TO_CHAR(NVL(T1.ARRRG_AMT,0),'999,999,999,990')) AS ARRRG_AMT
-				,'전월연체료' ASARRRG_RM
-				,LTRIM(TO_CHAR(NVL(T1.FEE,0),'999,999,999,990')) AS NTIC_FEE
+				,'전월연체료' AS ARRRG_RM
+				,LTRIM(TO_CHAR(NVL(T1.FEE,0) + NVL(T1.ARRRG_AMT,0),'999,999,999,990')) AS NTIC_FEE
 				,LTRIM(TO_CHAR(NVL(T1.VAT,0),'999,999,999,990')) AS NTIC_VAT
-				,LTRIM(TO_CHAR(NVL(T1.NTIC_AMT,0),'999,999,999,990')) AS NTIC_AMT
+				,LTRIM(TO_CHAR(NVL(T1.TOT_NTIC_AMT,0),'999,999,999,990')) AS NTIC_AMT
 				,NULL AS NTIC_RM
 				,LTRIM(TO_CHAR(NVL(T2.USAGE_AR,0),'999,990.0')) AS USAGE_AR
 				,LTRIM(TO_CHAR(NVL(T2.MNG_FEE,0),'999,999,999,990')) AS FCLTY_MNG_FEE
@@ -429,6 +432,8 @@
 				,GAM_GETCODENAME('GAM024',T1.CHRGE_KND) AS CHRGE_KND_NM
 				,T1.ACCNUT_YEAR
 				,T1.NTIC_NO
+				,TO_CHAR(T1.FIRST_NTIC_DT,'YYYY-MM-DD') AS FIRST_NTIC_DT
+				,TO_CHAR(T1.FIRST_PAY_TMLMT,'YYYY-MM-DD') AS FIRST_PAY_TMLMT
 				,TO_CHAR(T1.NTIC_DT,'YYYY-MM-DD') AS NTIC_DT
 				,TO_CHAR(T1.PAY_TMLMT,'YYYY-MM-DD') AS PAY_TMLMT
 				,LTRIM(TO_CHAR(NVL(T1.FEE,0),'999,999,999,990')) AS FEE
@@ -436,6 +441,7 @@
 				,GAM_GETCODENAME('GAM016',T1.VAT_YN) AS VAT_YN_NM
 				,LTRIM(TO_CHAR(NVL(T1.VAT,0),'999,999,999,990')) AS VAT
 				,LTRIM(TO_CHAR(NVL(T1.NTIC_AMT,0),'999,999,999,990')) AS NTIC_AMT
+				,LTRIM(TO_CHAR(NVL(T1.TOT_NTIC_AMT,0),'999,999,999,990')) AS TOT_NTIC_AMT
 				,T1.NHT_ISUE_YN
 				,T1.NHT_PRINT_YN
 				,T1.ADIT_NTIC_YN
@@ -473,12 +479,15 @@
 			,CHRGE_KND
 			,ACCNUT_YEAR
 			,NTIC_NO
+			,FIRST_NTIC_DT
+			,FIRST_PAY_TMLMT
 			,NTIC_DT
 			,PAY_TMLMT
 			,FEE
 			,VAT_YN
 			,VAT
 			,NTIC_AMT
+			,TOT_NTIC_AMT
 			,RM
 			,RCIV_SE
 			,RCIV_DT
@@ -510,10 +519,13 @@
 			,NULL
 			,NULL
 			,NULL
-			,TO_NUMBER(REPLACE(#fee#,',',''))
+			,NULL
+			,NULL
+			,NVL(TO_NUMBER(REPLACE(#fee#,',','')),0)
 			,#vatYn#
-			,TO_NUMBER(REPLACE(#vat#,',',''))
-			,TO_NUMBER(REPLACE(#nticAmt#,',',''))
+			,NVL(TO_NUMBER(REPLACE(#vat#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#nticAmt#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#nticAmt#,',','')),0)
 			,#rm#
 			,'0'
 			,NULL
@@ -539,12 +551,15 @@
 			 CHRGE_KND = #chrgeKnd#
 			,ACCNUT_YEAR = NULL
 			,NTIC_NO = NULL
+			,FIRST_NTIC_DT = NULL
+			,FIRST_PAY_TMLMT = NULL
 			,NTIC_DT = NULL
 			,PAY_TMLMT = NULL
-			,FEE = TO_NUMBER(REPLACE(#fee#,',',''))
+			,FEE = NVL(TO_NUMBER(REPLACE(#fee#,',','')),0)
 			,VAT_YN = #vatYn#
-			,VAT = TO_NUMBER(REPLACE(#vat#,',',''))
-			,NTIC_AMT = TO_NUMBER(REPLACE(#nticAmt#,',',''))
+			,VAT = NVL(TO_NUMBER(REPLACE(#vat#,',','')),0)
+			,NTIC_AMT = NVL(TO_NUMBER(REPLACE(#nticAmt#,',','')),0)
+			,TOT_NTIC_AMT = NVL(TO_NUMBER(REPLACE(#nticAmt#,',','')),0)
 			,RM = #rm#
 			,NHT_ISUE_YN = 'N'
 			,DEPT_CD = #deptCd#
@@ -566,20 +581,25 @@
 						WHERE PRT_AT_CODE = #prtAtCode#
 						AND FEE_TP = GAM_GET_FEE_TP(#chrgeKnd#)
 						AND FISCAL_YR = TO_CHAR(SYSDATE,'YYYY'))
+			,FIRST_NTIC_DT = TO_DATE(#nticDt#,'YYYY-MM-DD')
+			,FIRST_PAY_TMLMT = TO_DATE(#payTmlmt#,'YYYY-MM-DD')
 			,NTIC_DT = TO_DATE(#nticDt#,'YYYY-MM-DD')
 			,PAY_TMLMT = TO_DATE(#payTmlmt#,'YYYY-MM-DD')
 			</isEqual>
 			<isEqual property="nhtIsueYn" compareValue="N">
 			,ACCNUT_YEAR = NULL
 			,NTIC_NO = NULL
+			,FIRST_NTIC_DT = NULL
+			,FIRST_PAY_TMLMT = NULL
 			,NTIC_DT = NULL
 			,PAY_TMLMT = NULL
 			</isEqual>
 			<isEmpty property="accnutYear">
-			,FEE = TO_NUMBER(REPLACE(#fee#,',',''))
+			,FEE = NVL(TO_NUMBER(REPLACE(#fee#,',','')),0)
 			,VAT_YN = #vatYn#
-			,VAT = TO_NUMBER(REPLACE(#vat#,',',''))
-			,NTIC_AMT = TO_NUMBER(REPLACE(#nticAmt#,',',''))
+			,VAT = NVL(TO_NUMBER(REPLACE(#vat#,',','')),0)
+			,NTIC_AMT = NVL(TO_NUMBER(REPLACE(#nticAmt#,',','')),0)
+			,TOT_NTIC_AMT = NVL(TO_NUMBER(REPLACE(#nticAmt#,',','')),0)
 			,RM = #rm#
 			</isEmpty>
 			,NHT_ISUE_YN = #nhtIsueYn#
@@ -633,7 +653,8 @@
 				,T2.EMPL
 				,T2.WORK_CODE
 				,T2.USER_NAME
-				,T1.NTIC_AMT AS BILL_SUM_AMNT
+				,T1.NTIC_AMT AS NTIC_AMT
+				,T1.TOT_NTIC_AMT AS BILL_SUM_AMNT
 				,NVL(T1.ARRRG_NO,'00') AS DLY_SER_NO
 				,TO_CHAR(T1.PAY_TMLMT,'YYYYMMDD') AS DLY_DUE_DATE
 				,(CASE WHEN T1.ARRRG_NO > '00' THEN TO_CHAR(T1.PAY_TMLMT,'YYYYMMDD') ELSE TO_CHAR(T2.DUE_DATE,'YYYYMMDD') END) AS DUE_DATE
@@ -697,7 +718,7 @@
 				,T1.NTIC_DT
 				,T1.PAY_TMLMT
 				,NVL(T1.NHT_PRINT_YN,'N')
-				,T1.NTIC_DT
+				,T1.FIRST_NTIC_DT
 				,T1.FEE
 				,T1.VAT_YN
 				,T1.VAT
@@ -951,12 +972,15 @@
 			,CHRGE_KND
 			,ACCNUT_YEAR
 			,NTIC_NO
+			,FIRST_NTIC_DT
+			,FIRST_PAY_TMLMT
 			,NTIC_DT
 			,PAY_TMLMT
 			,FEE
 			,VAT_YN
 			,VAT
 			,NTIC_AMT
+			,TOT_NTIC_AMT
 			,RM
 			,RCIV_SE
 			,RCIV_DT
@@ -987,10 +1011,13 @@
 				,NULL
 				,NULL
 				,NULL
+				,NULL
+				,NULL
 				,FEE
 				,VAT_YN
 				,VAT
 				,NTIC_AMT
+				,TOT_NTIC_AMT
 				,#mngMtYear# || '년 ' || #mngMtMon# || '월 관리비'
 				,'0'
 				,NULL

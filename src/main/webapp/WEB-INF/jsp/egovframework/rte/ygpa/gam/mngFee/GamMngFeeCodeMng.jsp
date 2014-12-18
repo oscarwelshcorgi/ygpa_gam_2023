@@ -362,7 +362,7 @@ GamMngFeeCodeMngModule.prototype.downloadExcel = function() {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
-	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelMngFeeCodeMng.do');
+	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelDownloadMngFeeCodeMng.do');
 
 };
 

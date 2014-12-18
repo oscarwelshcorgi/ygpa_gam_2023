@@ -135,9 +135,9 @@
 			 #fuelCd#
 			,#mngYear#
 			,#mngMtYear# || #mngMtMon#
-			,TO_NUMBER(REPLACE(#usageQy#,',',''))
-			,TO_NUMBER(REPLACE(#energyUsageQy#,',',''))
-			,TO_NUMBER(REPLACE(#grHseEmitQy#,',',''))
+			,NVL(TO_NUMBER(REPLACE(#usageQy#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#energyUsageQy#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#grHseEmitQy#,',','')),0)
 			,#regUsr#
 			,SYSDATE
 		)
@@ -147,9 +147,9 @@
 	<update id="gamGrHseEmitQyMngDao.updateGrHseEmitQyMng_S">
 		<![CDATA[
 		UPDATE GR_HSE_EMIT_STTUS_F SET
-			 USAGE_QY = TO_NUMBER(REPLACE(#usageQy#,',',''))
-			,ENERGY_USAGE_QY = TO_NUMBER(REPLACE(#energyUsageQy#,',',''))
-			,GR_HSE_EMIT_QY = TO_NUMBER(REPLACE(#grHseEmitQy#,',',''))
+			 USAGE_QY = NVL(TO_NUMBER(REPLACE(#usageQy#,',','')),0)
+			,ENERGY_USAGE_QY = NVL(TO_NUMBER(REPLACE(#energyUsageQy#,',','')),0)
+			,GR_HSE_EMIT_QY = NVL(TO_NUMBER(REPLACE(#grHseEmitQy#,',','')),0)
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
 		WHERE FUEL_CD = #fuelCd#

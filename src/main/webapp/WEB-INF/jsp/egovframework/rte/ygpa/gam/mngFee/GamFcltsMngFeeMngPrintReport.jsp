@@ -36,7 +36,7 @@
 				text-align: center;
 				border: none;
 				font-family: 굴림체;
-				font-size: 30;
+				font-size: 24;
 				font-weight: bold;
 			}
 
@@ -46,58 +46,65 @@
 			}
 
 			table.userGrid tbody tr td {
-				height: 30;
+				width: 20%;
+				height: 37;
 				text-align: center;
 				border: black 1px solid;
 				vertical-align: middle;
 				padding: 3;
-				font-size: 16;
+				font-size: 15;
 			}
 
 			table.userGrid tbody tr td.number {
-				height: 30;
+				width: 20%;
+				height: 37;
 				text-align: right;
 				border: black 1px solid;
 				vertical-align: middle;
 				padding: 3;
-				font-size: 16;
+				font-size: 15;
 			}
 
 			table.userGrid tbody tr th {
-				height: 30;
+				width: 20%;
+				height: 37;
 				text-align: center;
 				border: black 1px solid;
 				border-bottom: 3px double;
 				vertical-align: middle;
 				padding: 3;
-				font-size: 16;
+				font-size: 15;
 			}
 
 			p.notice {
-				width: 500;
-				height: 30;
-				margin: 30 30 30 0;
-				font-size: 16;
+				width: 100%;
+				text-align: center;
+				margin-top: 10;
+				font-family: 굴림체;
+				font-size: 15;
 			}
 
 			p.bankinfo {
 				margin-left: 180;
 				margin-bottom: 10;
-				font-size: 16;
+				font-family: 굴림체;
+				font-size: 15;
 			}
 
 			p.notice_date {
 				width: 100%;
 				text-align: center;
 				margin-top: 30;
-				font-size: 16;
+				font-family: 굴림체;
+				font-size: 15;
 			}
 
 			p.bottom_title {
 				width: 100%;
 				text-align: right;
+				font-family: 굴림체;
 				font-weight: bolder;
-				font-size: large;
+				font-size: 20;
 				margin-top: 60;
 			}
 
@@ -119,6 +126,8 @@
 			<div class="book">
 				<div class="page">
 					<div class="subpage ygpa_report" >
+						<br />
+						<br />
 						<h1 class="title"><c:out value="${result.mngMt }" /> 임대료/관리비 내역서</h1>
 						<br />
 						<br />
@@ -126,9 +135,9 @@
 							<tbody>
 								<tr>
 									<td>상    호</td>
-									<td style="font-weight: bolder;"><c:out value="${result.entrpsNm }" /></td>
+									<td style="width:40%; font-weight: bolder;"><c:out value="${result.entrpsNm }" /></td>
 									<td>임대면적</td>
-									<td class="number"><c:out value="${result.usageAr }" /></td>
+									<td class="number"><c:out value="${result.usageAr }" /> ㎡　</td>
 								</tr>
 							</tbody>
 						</table>
@@ -146,30 +155,30 @@
 								</tr>
 								<tr>
 									<td>임 대 료</td>
-									<td class="number"><c:out value="${result.rentFee }" /></td>
-									<td class="number"><c:out value="${result.rentVat }" /></td>
-									<td class="number"><c:out value="${result.rentAmt }" /></td>
+									<td class="number"><c:out value="${result.rentFee }" />　</td>
+									<td class="number"><c:out value="${result.rentVat }" />　</td>
+									<td class="number"><c:out value="${result.rentAmt }" />　</td>
 									<td><c:out value="${result.rentRm }" /></td>
 								</tr>
 								<tr>
-									<td>관 리 비</td>
-									<td class="number"><c:out value="${result.mngFee }" /></td>
-									<td class="number"><c:out value="${result.mngVat }" /></td>
-									<td class="number"><c:out value="${result.mngAmt }" /></td>
+									<td>관리비(1)</td>
+									<td class="number"><c:out value="${result.mngFee }" />　</td>
+									<td class="number"><c:out value="${result.mngVat }" />　</td>
+									<td class="number"><c:out value="${result.mngAmt }" />　</td>
 									<td><c:out value="${result.mngRm }" /></td>
 								</tr>
 								<tr>
 									<td>연 체 료</td>
-									<td class="number"><c:out value="${result.arrrgFee }" /></td>
-									<td class="number"><c:out value="${result.arrrgVat }" /></td>
-									<td class="number"><c:out value="${result.arrrgAmt }" /></td>
+									<td class="number"><c:out value="${result.arrrgFee }" />　</td>
+									<td class="number"><c:out value="${result.arrrgVat }" />　</td>
+									<td class="number"><c:out value="${result.arrrgAmt }" />　</td>
 									<td><c:out value="${result.arrrgRm }" /></td>
 								</tr>
 								<tr>
 									<td>납부금액</td>
-									<td class="number"><c:out value="${result.nticFee }" /></td>
-									<td class="number"><c:out value="${result.nticVat }" /></td>
-									<td class="number"><c:out value="${result.nticAmt }" /></td>
+									<td class="number"><c:out value="${result.nticFee }" />　</td>
+									<td class="number"><c:out value="${result.nticVat }" />　</td>
+									<td class="number"><c:out value="${result.nticAmt }" />　</td>
 									<td><c:out value="${result.nticRm }" /></td>
 								</tr>
 							</tbody>
@@ -187,22 +196,22 @@
 								</tr>
 								<tr>
 									<td>시설관리비</td>
-									<td class="number"><c:out value="${result.fcltyMngFee }" /></td>
-									<td rowspan="4" class="number"><c:out value="${result.nticVat }" /></td>
-									<td rowspan="4" class="number"><c:out value="${result.nticAmt }" /></td>
+									<td class="number"><c:out value="${result.fcltyMngFee }" />　</td>
+									<td rowspan="4" class="number"><c:out value="${result.nticVat }" />　</td>
+									<td rowspan="4" class="number"><c:out value="${result.nticAmt }" />　</td>
 									<td rowspan="4"><c:out value="${result.mngFeeRm }" /></td>
 								</tr>
 								<tr>
 									<td>전기사용료</td>
-									<td class="number"><c:out value="${result.elctyFee }" /></td>
+									<td class="number"><c:out value="${result.elctyFee }" />　</td>
 								</tr>
 								<tr>
 									<td>상하수도비</td>
-									<td class="number"><c:out value="${result.waterFee }" /></td>
+									<td class="number"><c:out value="${result.waterFee }" />　</td>
 								</tr>
 								<tr>
 									<td>냉난방비</td>
-									<td class="number"><c:out value="${result.gasFee }" /></td>
+									<td class="number"><c:out value="${result.gasFee }" />　</td>
 								</tr>
 								<tr>
 									<th> </th>
@@ -213,12 +222,17 @@
 								</tr>
 							</tbody>
 						</table>
-						<p class="notice"><c:out value="${result.mngMt }" />분 임대료 및 관리비를 <c:out value="${result.payTmlmt }" />까지 <br/>아래의 계좌로 입금하여 주시기 바랍니다.</p>
+						<br/>
+						<p class="notice"><c:out value="${result.mngMt }" />분 임대료 및 관리비를 <c:out value="${result.payTmlmt }" />까지</p>
+						<p class="notice">아래의 계좌로 입금하여 주시기 바랍니다.</p>
+						<br/>
+						<br/>
 						<p class="bankinfo">은 행 명 : <c:out value="${result.bankNm }" /></p>
 						<p class="bankinfo">계좌번호 : <c:out value="${result.bankAccountNo }" /></p>
 						<p class="bankinfo">예 금 주 : <c:out value="${result.bankOwnerNm }" /></p>
 						<p class="notice_date"><c:out value="${result.nticDt }" /></p>
-						<p class="bottom_title">여수광양항만공사               (직인생략)</p>
+						<br/>
+						<p class="bottom_title">여수광양항만공사　사장　　　　　　　　(직인생략)</p>
 					</div>
 				</div>
 			</div>

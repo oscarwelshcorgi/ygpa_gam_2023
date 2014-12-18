@@ -137,7 +137,7 @@ GamGasUsageSttusMngModule.prototype.drawChart = function() {
 	var maxNetUsageQy=0;
 	var netUsageQy=0;
 	var searchVO = this.makeFormArgs("#detailForm");
-	this.doAction('/mngFee/gamGasUsageSttusMngChart.do', searchVO, function(module, result) {
+	this.doAction('/mngFee/gamSelectGasUsageSttusMngChart.do', searchVO, function(module, result) {
 		if (result.resultCode == "0") {
 			for (var i=0; i<12; i++) {
 				netUsageQy=result.resultList[i]['netUsageQy']*1;
@@ -222,6 +222,9 @@ GamGasUsageSttusMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnExcelDownload':
 			this.downloadExcel();
+			break;
+		case 'btnExcelUpload':
+			this.uploadExcel();
 			break;
 	}
 
@@ -519,7 +522,25 @@ GamGasUsageSttusMngModule.prototype.downloadExcel = function() {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
-	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelGasUsageSttusMng.do');
+	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelDownloadGasUsageSttusMng.do');
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : uploadExcel
+ * @DESCRIPTION   : 리스트를 엑셀로 업로드한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamGasUsageSttusMngModule.prototype.uploadExcel = function() {
+
+	this.uploadXlsFile('xlsGasUsageSttusMngUpload', function(module, result) {
+		module._mode = 'query';
+		module._mainKeyValue = '';
+		module.loadData();
+		alert(result.resultMsg);
+	}, '가스 사용현황 엑셀파일 업로드', '/mngFee/gamExcelUploadGasUsageSttusMng.do');
 
 };
 
@@ -577,7 +598,7 @@ GamGasUsageSttusMngModule.prototype.getPrevMtUsageQy = function() {
 		this.$('#prevMtUsageQy').val('0');
 		return;
 	}
-	this.doAction('/mngFee/gamGasUsageSttusMngPrevMtUsageQy.do', searchVO, function(module, result) {
+	this.doAction('/mngFee/gamSelectGasUsageSttusMngPrevMtUsageQy.do', searchVO, function(module, result) {
 		if (result.resultCode == "0") {
 			module.$('#prevMtUsageQy').val('' + $.number(result.sPrevMtUsageQy));
 		} else {
@@ -811,6 +832,7 @@ var module_instance = new GamGasUsageSttusMngModule();
 									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
 									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+	                                <button id="btnExcelUpload" class="buttonExcel">엑셀　　업로드</button>
 								</td>
 							</tr>
 						</table>

@@ -49,6 +49,8 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 	private String	chrgeKndNm;			//요금 종류 명
 	private String	accnutYear;			//회계 년도
 	private String	nticNo;				//고지 번호
+	private String	firstNticDt;		//최초 고지 일자
+	private String	firstPayTmlmt;		//최초 납부 기한
 	private String	nticDt;				//고지 일자
 	private String	payTmlmt;			//납부 기한
 	private String	fee;				//사용료
@@ -56,6 +58,7 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 	private String	vatYnNm;			//부가세 구분 명
 	private String	vat;				//부가세
 	private String	nticAmt;			//고지 금액
+	private String	totNticAmt;			//총 고지 금액
 	private String	rcivSe;				//수납 구분
 	private String	rcivSeNm;			//수납 구분 명
 	private String	rcivDt;				//수납 일자
@@ -84,6 +87,7 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 	private String	sumFee;				//총사용료
 	private String	sumVat;				//총부가세
 	private String	sumNticAmt;			//총고지금액
+	private String	sumArrrgAmt;		//총연체금액
 
 	private	String	sStartMngYear;		//검색 시작 관리 년도
 	private	String	sStartMngMt;		//검색 시작 관리 월
@@ -369,8 +373,32 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 	/**
 	 * @param nticNo the nticNo to set
 	 */
-	public void setNticno(String nticNo) {
+	public void setNticNo(String nticNo) {
 		this.nticNo = nticNo;
+	}
+	/**
+	 * @return the firstNticDt
+	 */
+	public String getFirstNticDt() {
+		return firstNticDt;
+	}
+	/**
+	 * @param firstNticDt the firstNticDt to set
+	 */
+	public void setFirstNticDt(String firstNticDt) {
+		this.firstNticDt = firstNticDt;
+	}
+	/**
+	 * @return the firstPayTmlmt
+	 */
+	public String getFirstPayTmlmt() {
+		return firstPayTmlmt;
+	}
+	/**
+	 * @param firstPayTmlmt the firstPayTmlmt to set
+	 */
+	public void setFirstPayTmlmt(String firstPayTmlmt) {
+		this.firstPayTmlmt = firstPayTmlmt;
 	}
 	/**
 	 * @return the nticDt
@@ -455,6 +483,18 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 	 */
 	public void setNticAmt(String nticAmt) {
 		this.nticAmt = nticAmt;
+	}
+	/**
+	 * @return the totNticAmt
+	 */
+	public String getTotNticAmt() {
+		return totNticAmt;
+	}
+	/**
+	 * @param totNticAmt the totNticAmt to set
+	 */
+	public void setTotNticAmt(String totNticAmt) {
+		this.totNticAmt = totNticAmt;
 	}
 	/**
 	 * @return the rcivSe
@@ -779,6 +819,18 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 	 */
 	public void setSumNticAmt(String sumNticAmt) {
 		this.sumNticAmt = sumNticAmt;
+	}
+	/**
+	 * @return the sumArrrgAmt
+	 */
+	public String getSumArrrgAmt() {
+		return sumArrrgAmt;
+	}
+	/**
+	 * @param sumArrrgAmt the sumArrrgAmt to set
+	 */
+	public void setSumArrrgAmt(String sumArrrgAmt) {
+		this.sumArrrgAmt = sumArrrgAmt;
 	}
 	/**
 	 * @return the sStartMngYear

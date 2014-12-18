@@ -95,6 +95,7 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 			module.$('#sumFee').val(data.sumFee);
 			module.$('#sumVat').val(data.sumVat);
 			module.$('#sumNticAmt').val(data.sumNticAmt);
+			module.$('#sumArrrgAmt').val(data.sumArrrgAmt);
 			module.makeDivValues('#listSumForm', data);
 			return data;
 		}
@@ -1302,13 +1303,15 @@ var module_instance = new GamFcltsFeeMngNticModule();
 						<table style="width:100%;">
 							<tr>
 								<th style="width=10%; height=20; text-align:center;">자료수</th>
-								<td><input type="text" size="15" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="10" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<th style="width=10%; height=20; text-align:center;">총사용료</th>
-								<td><input type="text" size="25" id="sumFee" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="18" id="sumFee" class="ygpaNumber" disabled="disabled" /></td>
 								<th style="width=10%; height=20; text-align:center;">총부가세</th>
-								<td><input type="text" size="25" id="sumVat" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="18" id="sumVat" class="ygpaNumber" disabled="disabled" /></td>
 								<th style="width=10%; height=20; text-align:center;">총고지금액</th>
-								<td><input type="text" size="25" id="sumNticAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="18" id="sumNticAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<th style="width=10%; height=20; text-align:center;">총연체금액</th>
+								<td><input type="text" size="18" id="sumArrrgAmt" class="ygpaNumber" disabled="disabled" /></td>
 							</tr>
 						</table>
 					</form>

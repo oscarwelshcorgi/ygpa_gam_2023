@@ -45,6 +45,7 @@ public class GamFcltsFeeMngNticDetailVo extends ComDefaultVO {
 	private String	vatYnNm;			//부가세 구분 명
 	private String	vat;				//부가세
 	private String	nticAmt;			//고지 금액
+	private String	totNticAmt;			//총 고지 금액
 	private String	rcivSe;				//수납 구분
 	private String	rcivSeNm;			//수납 구분 명
 	private String	rcivDt;				//수납 일자
@@ -278,6 +279,18 @@ public class GamFcltsFeeMngNticDetailVo extends ComDefaultVO {
 	 */
 	public void setNticAmt(String nticAmt) {
 		this.nticAmt = nticAmt;
+	}
+	/**
+	 * @return the totNticAmt
+	 */
+	public String getTotNticAmt() {
+		return totNticAmt;
+	}
+	/**
+	 * @param totNticAmt the totNticAmt to set
+	 */
+	public void setTotNticAmt(String totNticAmt) {
+		this.totNticAmt = totNticAmt;
 	}
 	/**
 	 * @return the rcivSe

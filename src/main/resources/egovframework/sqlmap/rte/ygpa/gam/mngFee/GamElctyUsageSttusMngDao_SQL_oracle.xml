@@ -164,10 +164,10 @@
 			 #usageMtYear# || #usageMtMon#
 			,#mngFeeFcltyCd#
 			,#mngFeeJobSe#
-			,TO_NUMBER(REPLACE(#prevMtUsageQy#,',',''))
-			,TO_NUMBER(REPLACE(#saidMtUsageQy#,',',''))
-			,TO_NUMBER(REPLACE(#applcCoef#,',',''))
-			,TO_NUMBER(REPLACE(#netUsageQy#,',',''))
+			,NVL(TO_NUMBER(REPLACE(#prevMtUsageQy#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#saidMtUsageQy#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#applcCoef#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#netUsageQy#,',','')),0)
 			,#regUsr#
 			,SYSDATE
 		)
@@ -175,10 +175,10 @@
 
 	<update id="gamElctyUsageSttusMngDao.updateElctyUsageSttusMng_S">
 		UPDATE ELCTY_USAGE_STTUS_F SET
-			 PREV_MT_USAGE_QY = TO_NUMBER(REPLACE(#prevMtUsageQy#,',',''))
-			,SAID_MT_USAGE_QY = TO_NUMBER(REPLACE(#saidMtUsageQy#,',',''))
-			,APPLC_COEF = TO_NUMBER(REPLACE(#applcCoef#,',',''))
-			,NET_USAGE_QY = TO_NUMBER(REPLACE(#netUsageQy#,',',''))
+			 PREV_MT_USAGE_QY = NVL(TO_NUMBER(REPLACE(#prevMtUsageQy#,',','')),0)
+			,SAID_MT_USAGE_QY = NVL(TO_NUMBER(REPLACE(#saidMtUsageQy#,',','')),0)
+			,APPLC_COEF = NVL(TO_NUMBER(REPLACE(#applcCoef#,',','')),0)
+			,NET_USAGE_QY = NVL(TO_NUMBER(REPLACE(#netUsageQy#,',','')),0)
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
 		WHERE USAGE_MT = #usageMtYear# || #usageMtMon#

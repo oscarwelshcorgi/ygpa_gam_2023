@@ -811,8 +811,8 @@ var module_instance = new GamGrHseEmitQyMngModule();
 					<form id="listSumForm">
 						<table style="width:100%;">
 							<tr>
-								<th style="width:20%; height:20; text-align:center;">조회 자료수</th>
-								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
+								<th style="width:10%; height:20; text-align:center;">조회 자료수</th>
+								<td><input type="text" size="10" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align: right">
 									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
 									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>

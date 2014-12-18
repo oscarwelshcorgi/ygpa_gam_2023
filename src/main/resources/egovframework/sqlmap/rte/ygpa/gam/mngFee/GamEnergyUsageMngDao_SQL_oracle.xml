@@ -126,10 +126,10 @@
 			 #fuelCd#
 			,#fuelNm#
 			,#energyUnit#
-			,TO_NUMBER(REPLACE(#energyTotalCalVal#,',',''))
-			,TO_NUMBER(REPLACE(#energyNetCalVal#,',',''))
+			,NVL(TO_NUMBER(REPLACE(#energyTotalCalVal#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#energyNetCalVal#,',','')),0)
 			,#grHseUnit#
-			,TO_NUMBER(REPLACE(#grHseCoef#,',',''))
+			,NVL(TO_NUMBER(REPLACE(#grHseCoef#,',','')),0)
 			,#mngYear#
 			,#regUsr#
 			,SYSDATE
@@ -142,10 +142,10 @@
 		UPDATE ENERGY_USAGEQY_COEF_F SET
 			 FUEL_NM = #fuelNm#
 			,ENERGY_UNIT = #energyUnit#
-			,ENERGY_TOTAL_CAL_VAL = TO_NUMBER(REPLACE(#energyTotalCalVal#,',',''))
-			,ENERGY_NET_CAL_VAL = TO_NUMBER(REPLACE(#energyNetCalVal#,',',''))
+			,ENERGY_TOTAL_CAL_VAL = NVL(TO_NUMBER(REPLACE(#energyTotalCalVal#,',','')),0)
+			,ENERGY_NET_CAL_VAL = NVL(TO_NUMBER(REPLACE(#energyNetCalVal#,',','')),0)
 			,GR_HSE_UNIT = #grHseUnit#
-			,GR_HSE_COEF = TO_NUMBER(REPLACE(#grHseCoef#,',',''))
+			,GR_HSE_COEF = NVL(TO_NUMBER(REPLACE(#grHseCoef#,',','')),0)
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
 		WHERE MNG_YEAR = #mngYear#

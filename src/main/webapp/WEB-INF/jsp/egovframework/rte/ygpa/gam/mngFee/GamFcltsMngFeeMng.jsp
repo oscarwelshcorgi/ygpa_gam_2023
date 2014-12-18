@@ -2027,8 +2027,8 @@ var module_instance = new GamFcltsMngFeeMngModule();
 							<tr>
 								<td>시설물 관리비 관리 내역</td>
 								<td style="text-align:right;">
-									<button id="btnSaveMain">관리내역　저장</button>
-									<button id="btnDeleteMain">관리내역　삭제</button>
+									<button id="btnSaveMain" class="buttonSave">관리내역 저장</button>
+									<button id="btnDeleteMain" class="buttonDelete">관리내역 삭제</button>
 								</td>
 							</tr>
 						</table>
@@ -2101,13 +2101,13 @@ var module_instance = new GamFcltsMngFeeMngModule();
 							<tr>
 								<td>시설물 관리비 상세 내역</td>
 								<td style="text-align:right;">
-									<button id="btnAddDetail" class="buttonAdd">상세내역 추가</button>
-									<button id="btnSaveDetail" class="buttonSave">상세내역 저장</button>
-									<button id="btnDeleteDetail" class="buttonDelete">상세내역 삭제</button>
-									<button id="btnProcessNticIssue">　　고 지　　</button>
-									<button id="btnCancelNticIssue">　고지 취소　</button>
-									<button id="btnPrintNticIssue">고지서　 출력</button>
-									<button id="btnPrintReport">내역서　 출력</button>
+									<button id="btnAddDetail" class="buttonAdd">상세　추가</button>
+									<button id="btnSaveDetail" class="buttonSave">상세　저장</button>
+									<button id="btnDeleteDetail" class="buttonDelete">상세　삭제</button>
+									<button id="btnProcessNticIssue">고　　　지</button>
+									<button id="btnCancelNticIssue">고지　취소</button>
+									<button id="btnPrintNticIssue">고지서 출력</button>
+									<button id="btnPrintReport">내역서 출력</button>
 									<button id="btnExcelDownloadDetail" class="buttonExcel">엑셀 다운로드</button>
 								</td>
 							</tr>
