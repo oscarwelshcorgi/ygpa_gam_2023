@@ -116,8 +116,8 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
                     {display:'순번', 				name:'seq',					width:60, 		sortable:false,		align:'center'},
                     {display:'변경사유', 			name:'changeRsn',			width:150, 		sortable:false,		align:'center'},
                     {display:'변경일자', 			name:'changeDt',			width:80, 		sortable:false,		align:'center'},
-                    {display:'변경계약시작일', 	name:'changeCtrtPdFrom',	width:110, 		sortable:false,		align:'center'},
-                    {display:'변경계약종료일', 		name:'changeCtrtPdTo',		width:110, 		sortable:false,		align:'center'},
+                    {display:'변경계약시작일', 		name:'changeCtrtDtFrom',	width:110, 		sortable:false,		align:'center'},
+                    {display:'변경계약종료일', 		name:'changeCtrtDtTo',		width:110, 		sortable:false,		align:'center'},
                     {display:'변경계약금액', 		name:'changeCtrtAmt',		width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'최종계약금액', 		name:'lastCtrtAmt',			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'비고', 				name:'rm',					width:200, 		sortable:false,		align:'left'},
@@ -490,7 +490,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
                                 <th width="10%" height="18">계약보증금액</th>
                                 <td style="text-align:right;"><span id="ctrtGrntyAmt" class="ygpaNumber"></span></td>
                                 <th width="10%" height="18">계약기간</th>
-                                <td><span id="ctrtPdFrom" ></span> ~ <span id="ctrtPdTo" ></span></td>
+                                <td><span id="ctrtDtFrom" ></span> ~ <span id="ctrtDtTo" ></span></td>
                             </tr>
                             <tr>
                                 <th width="10%" height="18">계약보증방법</th>

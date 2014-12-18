@@ -32,8 +32,8 @@
 		<result property="ctrtMth" column="CTRT_MTH" columnIndex="15"/>
 		<result property="ctrtDt" column="CTRT_DT" columnIndex="16"/>
 		<result property="ctrtAmt" column="CTRT_AMT" columnIndex="17"/>
-		<result property="ctrtPdFrom" column="CTRT_PD_FROM" columnIndex="18"/>
-		<result property="ctrtPdTo" column="CTRT_PD_TO" columnIndex="19"/>
+		<result property="ctrtDtFrom" column="CTRT_DT_FROM" columnIndex="18"/>
+		<result property="ctrtDtTo" column="CTRT_DT_TO" columnIndex="19"/>
 		<result property="ctrtGrntyAmt" column="CTRT_GRNTY_AMT" columnIndex="20"/>
 		<result property="prcuPblancNo" column="PRCU_PBLANC_NO" columnIndex="21"/>
 		<result property="ctrtGrntyMth" column="CTRT_GRNTY_MTH" columnIndex="22"/>
@@ -56,8 +56,8 @@
 		<result property="orderMthd" column="ORDER_MTHD" columnIndex="39"/>
 		<result property="sldrtGrnty" column="SLDRT_GRNTY" columnIndex="40"/>
 		<result property="jobChrgDeptCd" column="JOB_CHRG_DEPT_CD" columnIndex="41"/>
-		<result property="flawPdFrom" column="FLAW_PD_FROM" columnIndex="42"/>
-		<result property="flawPdTo" column="FLAW_PD_TO" columnIndex="43"/>
+		<result property="flawDtFrom" column="FLAW_DT_FROM" columnIndex="42"/>
+		<result property="flawDtTo" column="FLAW_DT_TO" columnIndex="43"/>
 		<result property="causeAct" column="CAUSE_ACT" columnIndex="44"/>
     </resultMap>
     
@@ -145,11 +145,11 @@
 									</isNotEmpty>
 									
 									<isNotEmpty property="sCtrtFrDt">
-										<![CDATA[ AND CTRT_DT >= #sCtrtFrDt# ]]>
+										<![CDATA[ AND CTRT_DT >= TO_DATE(#sCtrtFrDt#,'YYYY-MM-DD') ]]>
 									</isNotEmpty>
 									
 									<isNotEmpty property="sCtrtToDt">
-										<![CDATA[ AND CTRT_DT <= #sCtrtToDt# ]]>
+										<![CDATA[ AND CTRT_DT < TO_DATE(#sCtrtToDt#,'YYYY-MM-DD') + 1 ]]>
 									</isNotEmpty>
 									
 									<isNotEmpty property="sRegistEntrpsCd">
@@ -157,11 +157,11 @@
 									</isNotEmpty>
 									
 									<isNotEmpty property="sBidFrDt">
-										<![CDATA[ AND BID_DT >= #sBidFrDt# ]]>
+										<![CDATA[ AND BID_DT >= TO_DATE(#sBidFrDt#,'YYYY-MM-DD') ]]>
 									</isNotEmpty>
 									
 									<isNotEmpty property="sBidToDt">
-										<![CDATA[ AND BID_DT <= #sBidToDt# ]]>
+										<![CDATA[ AND BID_DT < TO_DATE(#sBidToDt#,'YYYY-MM-DD') + 1 ]]>
 									</isNotEmpty>
 									
 
@@ -194,11 +194,11 @@
 				</isNotEmpty>
 				
 				<isNotEmpty property="sCtrtFrDt">
-					<![CDATA[ AND CTRT_DT >= #sCtrtFrDt# ]]>
+					<![CDATA[ AND CTRT_DT >= TO_DATE(#sCtrtFrDt#,'YYYY-MM-DD') ]]>
 				</isNotEmpty>
 				
 				<isNotEmpty property="sCtrtToDt">
-					<![CDATA[ AND CTRT_DT <= #sCtrtToDt# ]]>
+					<![CDATA[ AND CTRT_DT < TO_DATE(#sCtrtToDt#,'YYYY-MM-DD') + 1 ]]>
 				</isNotEmpty>
 				
 				<isNotEmpty property="sRegistEntrpsCd">
@@ -206,11 +206,11 @@
 				</isNotEmpty>
 				
 				<isNotEmpty property="sBidFrDt">
-					<![CDATA[ AND BID_DT >= #sBidFrDt# ]]>
+					<![CDATA[ AND BID_DT >= TO_DATE(#sBidFrDt#,'YYYY-MM-DD') ]]>
 				</isNotEmpty>
 				
 				<isNotEmpty property="sBidToDt">
-					<![CDATA[ AND BID_DT <= #sBidToDt# ]]>
+					<![CDATA[ AND BID_DT < TO_DATE(#sBidToDt#,'YYYY-MM-DD') + 1 ]]>
 				</isNotEmpty>
     </select>
     
@@ -237,8 +237,8 @@
         		, CTRT_MTH
         		, TO_CHAR(CTRT_DT, 'YYYY-MM-DD') AS CTRT_DT
         		, CTRT_AMT
-        		, TO_CHAR(CTRT_PD_FROM, 'YYYY-MM-DD') AS CTRT_PD_FROM
-        		, TO_CHAR(CTRT_PD_TO, 'YYYY-MM-DD') AS CTRT_PD_TO
+        		, TO_CHAR(CTRT_DT_FROM, 'YYYY-MM-DD') AS CTRT_DT_FROM
+        		, TO_CHAR(CTRT_DT_TO, 'YYYY-MM-DD') AS CTRT_DT_TO
         		, CTRT_GRNTY_AMT
         		, PRCU_PBLANC_NO
         		, CTRT_GRNTY_MTH
@@ -261,8 +261,8 @@
         		, ORDER_MTHD
         		, SLDRT_GRNTY
         		, JOB_CHRG_DEPT_CD
-        		, TO_CHAR(FLAW_PD_FROM, 'YYYY-MM-DD') AS FLAW_PD_FROM
-        		, TO_CHAR(FLAW_PD_TO, 'YYYY-MM-DD') AS FLAW_PD_TO
+        		, TO_CHAR(FLAW_DT_FROM, 'YYYY-MM-DD') AS FLAW_DT_FROM
+        		, TO_CHAR(FLAW_DT_TO, 'YYYY-MM-DD') AS FLAW_DT_TO
         		, CAUSE_ACT
               FROM 
               	CTRT_INFO_F
@@ -341,7 +341,7 @@
               
 			  WHERE 
 			  	CTRT_NO = #ctrtNo#
-			  	AND SEQ = #seq#
+			  	AND SEQ = TO_NUMBER(#seq#)
 
     </select>
     
@@ -356,8 +356,8 @@
 								    , SEQ
 								    , CHANGE_RSN
 								    , TO_CHAR(CHANGE_DT, 'YYYY-MM-DD') CHANGE_DT
-								    , TO_CHAR(CHANGE_CTRT_PD_FROM, 'YYYY-MM-DD') CHANGE_CTRT_PD_FROM
-								    , TO_CHAR(CHANGE_CTRT_PD_TO, 'YYYY-MM-DD') CHANGE_CTRT_PD_TO
+								    , TO_CHAR(CHANGE_CTRT_DT_FROM, 'YYYY-MM-DD') CHANGE_CTRT_DT_FROM
+								    , TO_CHAR(CHANGE_CTRT_DT_TO, 'YYYY-MM-DD') CHANGE_CTRT_DT_TO
 								    , CHANGE_CTRT_AMT
 								    , LAST_CTRT_AMT
 								    , RM

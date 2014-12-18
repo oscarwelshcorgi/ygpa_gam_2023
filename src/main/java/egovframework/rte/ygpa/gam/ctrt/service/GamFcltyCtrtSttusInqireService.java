@@ -28,7 +28,7 @@ public interface GamFcltyCtrtSttusInqireService {
 	 * @return 계약이력목록
 	 * @exception Exception
 	 */
-	List selectFcltyCtrtSttusInqireList(GamFcltyCtrtSttusInqireVO searchVO) throws Exception;
+	List<?> selectFcltyCtrtSttusInqireList(GamFcltyCtrtSttusInqireVO searchVO) throws Exception;
 	
 	
 	/**

@@ -36,7 +36,7 @@ public class GamFcltyCtrtSttusInqireDao extends YGPAAbstractDAO {
 	 * @return 계약이력목록
 	 * @exception Exception
 	 */
-    public List selectFcltyCtrtSttusInqireList(GamFcltyCtrtSttusInqireVO searchVO) throws Exception {
+    public List<?> selectFcltyCtrtSttusInqireList(GamFcltyCtrtSttusInqireVO searchVO) throws Exception {
         return list("gamFcltyCtrtSttusInqireDao.selectFcltyCtrtSttusInqireList_D", searchVO);
     }
 

@@ -82,7 +82,7 @@ public class GamFcltyCtrtLgerHistController {
     @RequestMapping(value="/ctrt/gamSelectFcltyCtrtLgerHistList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtLgerHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		long sumPlanAmt, sumPrmtAmt, sumScsbidAmt, sumBaseAmt;
     	Map map = new HashMap();
 
@@ -174,7 +174,7 @@ public class GamFcltyCtrtLgerHistController {
     @RequestMapping(value="/ctrt/gamSelectFcltyCtrtJoinContrFList.do")
 	public @ResponseBody Map selectFcltyCtrtJoinContrFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -255,7 +255,7 @@ public class GamFcltyCtrtLgerHistController {
     @RequestMapping(value="/ctrt/gamSelectFcltyCtrtChangeFList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtChangeFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		long sumChangeCtrtAmt, sumLastCtrtAmt;
     	Map map = new HashMap();
 
@@ -313,7 +313,7 @@ public class GamFcltyCtrtLgerHistController {
     @RequestMapping(value="/ctrt/gamSelectFcltyCtrtMoneyPymntFList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtMoneyPymntFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		long sumThisTimeEstbAmt, sumDepositExcclcAmt, sumPymntAmt, sumPymntAggrAmt;
     	Map map = new HashMap();
 
@@ -374,7 +374,7 @@ public class GamFcltyCtrtLgerHistController {
     @RequestMapping(value="/ctrt/gamSelectFcltyCtrtFulfillCaryFwdFList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtFulfillCaryFwdFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		long sumFulfillAmt, sumCaryFwdAmt;
     	Map map = new HashMap();
 
@@ -434,7 +434,6 @@ public class GamFcltyCtrtLgerHistController {
     @RequestMapping(value="/ctrt/gamSelectFcltyCtrtLgerHistPrint.do")
 	public String selectFcltyCtrtLgerHistDetailPrint(@RequestParam Map<String, Object> fcltyCtrtLgerHistOpt, ModelMap model) throws Exception {
 
-		int joinTotalCnt, changeTotalCnt, moneyTotalCnt, page, firstIndex;
     	Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리

@@ -115,11 +115,11 @@
 				</tr>
 				<tr>
 					<td><c:out value="${fcltyCtrtLgerHistDetail.ctrtDt }" /></td>
-					<td><c:out value="${fcltyCtrtLgerHistDetail.ctrtPdFrom }" /> ~ <c:out value="${fcltyCtrtLgerHistDetail.ctrtPdTo }" /></td>
-					<td><c:out value="${fcltyCtrtChangeFList[0].changeCtrtPdFrom }" /> ~ <c:out value="${fcltyCtrtChangeFList[0].changeCtrtPdTo }" /></td>
-					<td><c:out value="${fcltyCtrtChangeFList[1].changeCtrtPdFrom }" /> ~ <c:out value="${fcltyCtrtChangeFList[1].changeCtrtPdTo }" /></td>
-					<td><c:out value="${fcltyCtrtChangeFList[2].changeCtrtPdFrom }" /> ~ <c:out value="${fcltyCtrtChangeFList[2].changeCtrtPdTo }" /></td>
-					<td><c:out value="${fcltyCtrtChangeFList[3].changeCtrtPdFrom }" /> ~ <c:out value="${fcltyCtrtChangeFList[3].changeCtrtPdTo }" /></td>
+					<td><c:out value="${fcltyCtrtLgerHistDetail.ctrtDtFrom }" /> ~ <c:out value="${fcltyCtrtLgerHistDetail.ctrtDtTo }" /></td>
+					<td><c:out value="${fcltyCtrtChangeFList[0].changeCtrtDtFrom }" /> ~ <c:out value="${fcltyCtrtChangeFList[0].changeCtrtDtTo }" /></td>
+					<td><c:out value="${fcltyCtrtChangeFList[1].changeCtrtDtFrom }" /> ~ <c:out value="${fcltyCtrtChangeFList[1].changeCtrtDtTo }" /></td>
+					<td><c:out value="${fcltyCtrtChangeFList[2].changeCtrtDtFrom }" /> ~ <c:out value="${fcltyCtrtChangeFList[2].changeCtrtDtTo }" /></td>
+					<td><c:out value="${fcltyCtrtChangeFList[3].changeCtrtDtFrom }" /> ~ <c:out value="${fcltyCtrtChangeFList[3].changeCtrtDtTo }" /></td>
 				</tr>
 				<tr>
 					<th>계약금액</th>
@@ -266,7 +266,7 @@
 					<td><c:out value="${result.changeDt }" /></td>
 					<td><c:out value="${result.changeRsn }" /></td>
 					<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.lastCtrtAmt }" /></td>
-					<td><c:out value="${result.changeCtrtPdFrom }" /> ~ <c:out value="${result.changeCtrtPdTo }" /></td>
+					<td><c:out value="${result.changeCtrtDtFrom }" /> ~ <c:out value="${result.changeCtrtDtTo }" /></td>
 					<td><c:out value="${result.rm }" /></td>
 				</tr>
 			<c:set var="rowNum" value="${rowNum+1}" />

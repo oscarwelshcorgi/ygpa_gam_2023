@@ -83,8 +83,8 @@ public class GamFcltyCtrtLgerHistVO extends ComDefaultVO {
 	private String ctrtMth;
 	private String ctrtDt;
 	private String ctrtAmt;
-	private String ctrtPdFrom;
-	private String ctrtPdTo;
+	private String ctrtDtFrom;
+	private String ctrtDtTo;
 	private String ctrtGrntyAmt;
 	private String prcuPblancNo;
 	private String ctrtGrntyMth;
@@ -107,8 +107,8 @@ public class GamFcltyCtrtLgerHistVO extends ComDefaultVO {
 	private String orderMthd;
 	private String sldrtGrnty;
 	private String jobChrgDeptCd;
-	private String flawPdFrom;
-	private String flawPdTo;
+	private String flawDtFrom;
+	private String flawDtTo;
 	private String causeAct;
 	
 	
@@ -564,32 +564,34 @@ public class GamFcltyCtrtLgerHistVO extends ComDefaultVO {
 		this.ctrtAmt = ctrtAmt;
 	}
 
+	
+
 	/**
-	 * @return the ctrtPdFrom
+	 * @return the ctrtDtFrom
 	 */
-	public String getCtrtPdFrom() {
-		return ctrtPdFrom;
+	public String getCtrtDtFrom() {
+		return ctrtDtFrom;
 	}
 
 	/**
-	 * @param ctrtPdFrom the ctrtPdFrom to set
+	 * @param ctrtDtFrom the ctrtDtFrom to set
 	 */
-	public void setCtrtPdFrom(String ctrtPdFrom) {
-		this.ctrtPdFrom = ctrtPdFrom;
+	public void setCtrtDtFrom(String ctrtDtFrom) {
+		this.ctrtDtFrom = ctrtDtFrom;
 	}
 
 	/**
-	 * @return the ctrtPdTo
+	 * @return the ctrtDtTo
 	 */
-	public String getCtrtPdTo() {
-		return ctrtPdTo;
+	public String getCtrtDtTo() {
+		return ctrtDtTo;
 	}
 
 	/**
-	 * @param ctrtPdTo the ctrtPdTo to set
+	 * @param ctrtDtTo the ctrtDtTo to set
 	 */
-	public void setCtrtPdTo(String ctrtPdTo) {
-		this.ctrtPdTo = ctrtPdTo;
+	public void setCtrtDtTo(String ctrtDtTo) {
+		this.ctrtDtTo = ctrtDtTo;
 	}
 
 	/**
@@ -900,33 +902,7 @@ public class GamFcltyCtrtLgerHistVO extends ComDefaultVO {
 		this.jobChrgDeptCd = jobChrgDeptCd;
 	}
 
-	/**
-	 * @return the flawPdFrom
-	 */
-	public String getFlawPdFrom() {
-		return flawPdFrom;
-	}
-
-	/**
-	 * @param flawPdFrom the flawPdFrom to set
-	 */
-	public void setFlawPdFrom(String flawPdFrom) {
-		this.flawPdFrom = flawPdFrom;
-	}
-
-	/**
-	 * @return the flawPdTo
-	 */
-	public String getFlawPdTo() {
-		return flawPdTo;
-	}
-
-	/**
-	 * @param flawPdTo the flawPdTo to set
-	 */
-	public void setFlawPdTo(String flawPdTo) {
-		this.flawPdTo = flawPdTo;
-	}
+	
 
 	/**
 	 * @return the causeAct
@@ -1292,6 +1268,34 @@ public class GamFcltyCtrtLgerHistVO extends ComDefaultVO {
 	 */
 	public void setSumCaryFwdAmt(long sumCaryFwdAmt) {
 		this.sumCaryFwdAmt = sumCaryFwdAmt;
+	}
+
+	/**
+	 * @return the flawDtFrom
+	 */
+	public String getFlawDtFrom() {
+		return flawDtFrom;
+	}
+
+	/**
+	 * @param flawDtFrom the flawDtFrom to set
+	 */
+	public void setFlawDtFrom(String flawDtFrom) {
+		this.flawDtFrom = flawDtFrom;
+	}
+
+	/**
+	 * @return the flawDtTo
+	 */
+	public String getFlawDtTo() {
+		return flawDtTo;
+	}
+
+	/**
+	 * @param flawDtTo the flawDtTo to set
+	 */
+	public void setFlawDtTo(String flawDtTo) {
+		this.flawDtTo = flawDtTo;
 	}
 
 }

@@ -35,7 +35,7 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	 * @return 목록
 	 * @exception Exception
 	 */
-    public List selectFcltyCtrtLgerHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+    public List<?> selectFcltyCtrtLgerHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
         return list("gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistList_D", searchVO);
     }
 
@@ -68,7 +68,7 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	 * @return 계약공동도급목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtJoinContrFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtJoinContrFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		return list("gamFcltyCtrtLgerHistDao.selectFcltyCtrtJoinContrFList_D", searchVO);
 	}
 	
@@ -101,7 +101,7 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	 * @return 계약대장목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtChangeFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtChangeFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		return list("gamFcltyCtrtLgerHistDao.selectFcltyCtrtChangeFList_D", searchVO);
 	}
 	
@@ -123,7 +123,7 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	 * @return 계약대금지급목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtMoneyPymntFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtMoneyPymntFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		return list("gamFcltyCtrtLgerHistDao.selectFcltyCtrtMoneyPymntFList_D", searchVO);
 	}
 	
@@ -145,7 +145,7 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	 * @return 계약이행이월목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtFulfillCaryFwdFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtFulfillCaryFwdFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		return list("gamFcltyCtrtLgerHistDao.selectFcltyCtrtFulfillCaryFwdFList_D", searchVO);
 	}
 	

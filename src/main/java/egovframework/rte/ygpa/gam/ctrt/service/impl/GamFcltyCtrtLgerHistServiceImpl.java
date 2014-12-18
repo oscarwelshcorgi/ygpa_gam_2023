@@ -46,7 +46,7 @@ public class GamFcltyCtrtLgerHistServiceImpl  extends AbstractServiceImpl implem
 	 * @return list
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtLgerHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtLgerHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistList(searchVO);
 	}
 
@@ -79,7 +79,7 @@ public class GamFcltyCtrtLgerHistServiceImpl  extends AbstractServiceImpl implem
 	 * @return 계약공동도급목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtJoinContrFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtJoinContrFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtJoinContrFList(searchVO);
 	}
 	
@@ -114,7 +114,7 @@ public class GamFcltyCtrtLgerHistServiceImpl  extends AbstractServiceImpl implem
 	 * @return 계약대장목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtChangeFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtChangeFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtChangeFList(searchVO);
 	}
 	
@@ -136,7 +136,7 @@ public class GamFcltyCtrtLgerHistServiceImpl  extends AbstractServiceImpl implem
 	 * @return 계약대금지급목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtMoneyPymntFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtMoneyPymntFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtMoneyPymntFList(searchVO);
 	}
 	
@@ -159,7 +159,7 @@ public class GamFcltyCtrtLgerHistServiceImpl  extends AbstractServiceImpl implem
 	 * @return 계약이행이월목록
 	 * @exception Exception
 	 */
-	public List selectFcltyCtrtFulfillCaryFwdFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+	public List<?> selectFcltyCtrtFulfillCaryFwdFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtFulfillCaryFwdFList(searchVO);
 	}
 	

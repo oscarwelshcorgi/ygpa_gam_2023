@@ -87,7 +87,7 @@ public class GamFcltyCtrtSttusInqireController {
     @RequestMapping(value="/ctrt/gamSelectFcltyCtrtSttusInqireList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtSttusInqireList(GamFcltyCtrtSttusInqireVO searchVO) throws Exception {
 		
-		int totalCnt, page, firstIndex;
+		int totalCnt;
 		long sumPrevCtrtAmt, sumCurrCtrtAmt;
     	Map map = new HashMap();
 
@@ -145,7 +145,6 @@ public class GamFcltyCtrtSttusInqireController {
     @RequestMapping(value="/ctrt/gamSelectFcltyCtrtSttusInqirePrint.do")
 	public String selectFcltyCtrtSttusInqirePrint(@RequestParam Map<String, Object> fcltyCtrtSttusInqireOpt, ModelMap model) throws Exception {
 
-		int joinTotalCnt, changeTotalCnt, moneyTotalCnt, page, firstIndex;
 		String sPrevCtrtYr, sCtrtYr;
     	Map map = new HashMap();
 

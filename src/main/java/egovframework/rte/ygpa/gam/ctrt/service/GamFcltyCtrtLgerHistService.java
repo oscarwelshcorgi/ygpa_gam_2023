@@ -28,7 +28,7 @@ public interface GamFcltyCtrtLgerHistService {
 	 * @return 계약대장목록
 	 * @exception Exception
 	 */
-	List selectFcltyCtrtLgerHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	List<?> selectFcltyCtrtLgerHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
 	
 	
 	/**
@@ -55,7 +55,7 @@ public interface GamFcltyCtrtLgerHistService {
 	 * @return 계약공동도급목록
 	 * @exception Exception
 	 */
-	List selectFcltyCtrtJoinContrFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	List<?> selectFcltyCtrtJoinContrFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
 	
 	
 	/**
@@ -82,7 +82,7 @@ public interface GamFcltyCtrtLgerHistService {
 	 * @return 계약대장목록
 	 * @exception Exception
 	 */
-	List selectFcltyCtrtChangeFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	List<?> selectFcltyCtrtChangeFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
 	
 	
 	/**
@@ -100,7 +100,7 @@ public interface GamFcltyCtrtLgerHistService {
 	 * @return 계약대금지급목록
 	 * @exception Exception
 	 */
-	List selectFcltyCtrtMoneyPymntFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	List<?> selectFcltyCtrtMoneyPymntFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
 	
 	
 	/**
@@ -118,7 +118,7 @@ public interface GamFcltyCtrtLgerHistService {
 	 * @return 계약이행이월목록
 	 * @exception Exception
 	 */
-	List selectFcltyCtrtFulfillCaryFwdFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	List<?> selectFcltyCtrtFulfillCaryFwdFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
 	
 	
 	/**
