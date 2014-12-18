@@ -39,8 +39,8 @@ GamPopupCtrtChangeMngtModule.prototype.loadComplete = function(fcltyCtrtChangeLi
 		colModel : [
                     {display:'변경일자', 		name:'changeDt', 		width:80,  sortable:true, align:'center'},
                     {display:'변경사유', 		name:'changeRsn', 		width:120, sortable:true, align:'center'},
-                    {display:'변경계약시작일', 	name:'changeCtrtPdFrom',width:100, sortable:true, align:'center'},
-                    {display:'변경계약종료일', 	name:'changeCtrtPdTo', 	width:100, sortable:true, align:'center'},
+                    {display:'변경계약시작일', 	name:'changeCtrtDtFrom',width:100, sortable:true, align:'center'},
+                    {display:'변경계약종료일', 	name:'changeCtrtDtTo', 	width:100, sortable:true, align:'center'},
                     {display:'변경계약금액', 	name:'changeCtrtAmt', 	width:100, sortable:true, align:'right', displayFormat:'number'},
                     {display:'최종계약금액', 	name:'lastCtrtAmt', 	width:100, sortable:true, align:'right', displayFormat:'number'},
                     {display:'비고', 			name:'rm', 				width:250, sortable:true, align:'left'}
@@ -115,7 +115,7 @@ GamPopupCtrtChangeMngtModule.prototype.returnData = function() {
 // 계약변경 추가
 GamPopupCtrtChangeMngtModule.prototype.addCtrtChangeItem = function() {
 	this.$('#gamPopupCtrtChangeMngtForm :input').val('');
-	this.$("#grdInfoList").flexAddRow({'_updtId': 'I', 'ctrtNo':'', 'seq':'', 'changeDt':'','changeRsn':'','changeCtrtPdFrom':'','changeCtrtPdTo':'','changeCtrtAmt':'','lastCtrtAmt':'' ,'rm':''});
+	this.$("#grdInfoList").flexAddRow({'_updtId': 'I', 'ctrtNo':'', 'seq':'', 'changeDt':'','changeRsn':'','changeCtrtDtFrom':'','changeCtrtDtTo':'','changeCtrtAmt':'','lastCtrtAmt':'' ,'rm':''});
 	var allRows = this.$('#grdInfoList').flexGetData();
 	var selRowId = allRows.length - 1;
 	this.$("#grdInfoList").selectRowId(selRowId);
@@ -185,8 +185,8 @@ var popup_instance = new GamPopupCtrtChangeMngtModule();
 					<tr>
                     	<th>변경계약기간</th>
                         <td colspan="3">
-                        	<input id="changeCtrtPdFrom" type="text" style="width: 150px;" class="EditItem emdcal"/>
-                        	~<input id="changeCtrtPdTo" type="text" style="width: 150px;" class="EditItem emdcal"/>
+                        	<input id="changeCtrtDtFrom" type="text" style="width: 150px;" class="EditItem emdcal"/>
+                        	~<input id="changeCtrtDtTo" type="text" style="width: 150px;" class="EditItem emdcal"/>
                         </td>
 					</tr>
 					<tr>
@@ -198,7 +198,7 @@ var popup_instance = new GamPopupCtrtChangeMngtModule();
 					<tr>
                     	<th>비고</th>
                         <td colspan="3">
-                        	<input id="rm" type="text" style="width: 450px;" class="EditItem" maxlength="200"/>
+                        	<input id="rm" type="text" style="width: 450px;" class="EditItem" maxlength="1000"/>
                         </td>
 					</tr>
 				</tbody>

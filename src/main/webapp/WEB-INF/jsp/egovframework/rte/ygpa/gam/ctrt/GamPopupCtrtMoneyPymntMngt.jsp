@@ -196,7 +196,7 @@ var popup_instance = new GamPopupCtrtMoneyPymntMngtModule();
 					<tr>
                     	<th>비고</th>
                         <td colspan="3">
-                        	<input id="rm" type="text" style="width: 450px;" class="EditItem" maxlength="200"/>
+                        	<input id="rm" type="text" style="width: 450px;" class="EditItem" maxlength="1000"/>
                         </td>
 					</tr>
 				</tbody>

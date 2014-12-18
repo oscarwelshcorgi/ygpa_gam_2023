@@ -32,7 +32,7 @@
 							  , NVL(A.EXMP_ACC, 0) EXMP_ACC
 							  , TO_CHAR(A.PERIOD_FR, 'YYYY-MM-DD') PERIOD_FR
 							  , TO_CHAR(A.PERIOD_TO, 'YYYY-MM-DD') PERIOD_TO
-							  , A.EXMP_COND
+							  , (CASE WHEN A.EXMP_COND = '1' THEN '금액' WHEN A.EXMP_COND = '2' THEN '기간' ELSE '' END) AS EXMP_COND
 							  , (CASE WHEN A.RATE_GUBUN = '1' THEN '과거' WHEN A.RATE_GUBUN = '2' THEN '현재' ELSE '' END) AS RATE_GUBUN
 							  , A.REMARK
 							  , A.ITEM

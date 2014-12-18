@@ -138,8 +138,8 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
         colModel : [
                     {display:'변경일자', 		name:'changeDt', 		width:80, sortable:true, align:'center'},
                     {display:'변경사유', 		name:'changeRsn', 		width:120, sortable:true, align:'center'},
-                    {display:'변경계약시작일', 	name:'changeCtrtPdFrom',width:100, sortable:true, align:'center'},
-                    {display:'변경계약종료일', 	name:'changeCtrtPdTo', 	width:100, sortable:true, align:'center'},
+                    {display:'변경계약시작일', 	name:'changeCtrtDtFrom',width:100, sortable:true, align:'center'},
+                    {display:'변경계약종료일', 	name:'changeCtrtDtTo', 	width:100, sortable:true, align:'center'},
                     {display:'변경계약금액', 	name:'changeCtrtAmt', 	width:100, sortable:true, align:'right', displayFormat:'number'},
                     {display:'최종계약금액', 	name:'lastCtrtAmt', 	width:100, sortable:true, align:'right', displayFormat:'number'},
                     {display:'비고', 			name:'rm', 				width:250, sortable:true, align:'left'}
@@ -595,7 +595,7 @@ var module_instance = new GamFcltyCtrtMngModule();
                             <td>
                             	<input id="sCtrtNm" type="text" size="25">
                          	</td>
-							<th width="10%">계약일</th>
+							<th width="10%">계약기간</th>
                             <td>
                             	<input id="sCtrtFrDt" type="text" class="emdcal" size="10"> ~ 
                             	<input id="sCtrtToDt" type="text" class="emdcal" size="10">
@@ -612,7 +612,7 @@ var module_instance = new GamFcltyCtrtMngModule();
                          		<input id="sRegistEntrpsNm" type="text" size="20" disabled="disabled">&nbsp; &nbsp;
                          		<button id="popupEntrpsInfo" class="popupButton">선택</button>
                          	</td>
-                         	<th width="10%">입찰일</th>
+                         	<th width="10%">입찰기간</th>
                             <td>
                             	<input id="sBidFrDt" type="text" class="emdcal" size="10"> ~ 
                             	<input id="sBidToDt" type="text" class="emdcal" size="10">
@@ -704,7 +704,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 								<th width="10%" height="18">입찰일자</th>
                                 <td><input type="text" size="12" id="bidDt" class="emdcal" /></td>
                             	<th width="10%" height="18">하자기간</th>
-                                <td><input type="text" size="12" id="flawPdFrom" class="emdcal" /> ~ <input type="text" size="12" id="flawPdTo" class="emdcal" /></td>
+                                <td><input type="text" size="12" id="flawDtFrom" class="emdcal" /> ~ <input type="text" size="12" id="flawDtTo" class="emdcal" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">입찰방법</th>
@@ -740,7 +740,7 @@ var module_instance = new GamFcltyCtrtMngModule();
                             	<th width="10%" height="18">계약금액</th>
                                 <td><input type="text" size="20" id="ctrtAmt" class="ygpaNumber" />원</td>
                                 <th width="10%" height="18">계약기간</th>
-                                <td><input type="text" size="12" id="ctrtPdFrom" class="emdcal" /> ~ <input type="text" size="12" id="ctrtPdTo" class="emdcal" /></td>
+                                <td><input type="text" size="12" id="ctrtDtFrom" class="emdcal" /> ~ <input type="text" size="12" id="ctrtDtTo" class="emdcal" /></td>
                             </tr>
                             <tr>
                             	<th width="10%" height="18">계약보증금액</th>

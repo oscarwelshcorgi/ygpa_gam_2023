@@ -122,8 +122,8 @@
 		    , I.CTRT_MTH
 		    , TO_CHAR(I.CTRT_DT, 'YYYY-MM-DD') CTRT_DT
 		    , NVL(I.CTRT_AMT, 0) CTRT_AMT
-		    , TO_CHAR(I.CTRT_PD_FROM, 'YYYY-MM-DD') CTRT_PD_FROM
-		    , TO_CHAR(I.CTRT_PD_TO, 'YYYY-MM-DD') CTRT_PD_TO
+		    , TO_CHAR(I.CTRT_DT_FROM, 'YYYY-MM-DD') CTRT_PD_FROM
+		    , TO_CHAR(I.CTRT_DT_TO, 'YYYY-MM-DD') CTRT_PD_TO
 		    , NVL(I.CTRT_GRNTY_AMT, 0) CTRT_GRNTY_AMT 
 		    , I.PRCU_PBLANC_NO
 		    , I.CTRT_GRNTY_MTH
@@ -145,8 +145,8 @@
 		    , TO_CHAR(I.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
 		    , I.SLDRT_GRNTY
 		    , I.JOB_CHRG_DEPT_CD
-		    , TO_CHAR(I.FLAW_PD_FROM, 'YYYY-MM-DD') FLAW_PD_FROM
-		    , TO_CHAR(I.FLAW_PD_TO, 'YYYY-MM-DD') FLAW_PD_TO
+		    , TO_CHAR(I.FLAW_DT_FROM, 'YYYY-MM-DD') FLAW_DT_FROM
+		    , TO_CHAR(I.FLAW_DT_TO, 'YYYY-MM-DD') FLAW_DT_TO
 		    , I.CAUSE_ACT
 		    , GAM_GETENTRPSNM(I.REGIST_ENTRPS_CD, 1) AS REGIST_ENTRPS_NM
 		  FROM CTRT_INFO_F I
@@ -175,8 +175,8 @@
 		    , CTRT_MTH
 		    , CTRT_DT
 		    , CTRT_AMT
-		    , CTRT_PD_FROM
-		    , CTRT_PD_TO
+		    , CTRT_DT_FROM
+		    , CTRT_DT_TO
 		    , CTRT_GRNTY_AMT
 		    , PRCU_PBLANC_NO
 		    , CTRT_GRNTY_MTH
@@ -196,8 +196,8 @@
 		    , REGIST_DT
 		    , SLDRT_GRNTY
 		    , JOB_CHRG_DEPT_CD
-		    , FLAW_PD_FROM
-		    , FLAW_PD_TO
+		    , FLAW_DT_FROM
+		    , FLAW_DT_TO
 		    , CAUSE_ACT
 		  )
 		VALUES
@@ -220,8 +220,8 @@
 		    , #ctrtMth#
 		    , TO_DATE(#ctrtDt#, 'YYYY-MM-DD')
 		    , TO_NUMBER(REPLACE(#ctrtAmt#, ',', ''))
-		    , TO_DATE(#ctrtPdFrom#, 'YYYY-MM-DD')
-		    , TO_DATE(#ctrtPdTo#, 'YYYY-MM-DD')
+		    , TO_DATE(#ctrtDtFrom#, 'YYYY-MM-DD')
+		    , TO_DATE(#ctrtDtTo#, 'YYYY-MM-DD')
 		    , TO_NUMBER(REPLACE(#ctrtGrntyAmt#, ',', ''))
 		    , #prcuPblancNo#
 		    , #ctrtGrntyMth#
@@ -241,8 +241,8 @@
 		    , SYSDATE
 		    , #sldrtGrnty#
 		    , #jobChrgDeptCd#
-		    , TO_DATE(#flawPdFrom#, 'YYYY-MM-DD')
-		    , TO_DATE(#flawPdTo#, 'YYYY-MM-DD')
+		    , TO_DATE(#flawDtFrom#, 'YYYY-MM-DD')
+		    , TO_DATE(#flawDtTo#, 'YYYY-MM-DD')
 		    , #causeAct#
 		  )	
 	</insert>
@@ -267,8 +267,8 @@
 		    , CTRT_MTH = #ctrtMth#
 		    , CTRT_DT = TO_DATE(#ctrtDt#, 'YYYY-MM-DD')
 		    , CTRT_AMT = TO_NUMBER(REPLACE(#ctrtAmt#, ',', ''))
-		    , CTRT_PD_FROM = TO_DATE(#ctrtPdFrom#, 'YYYY-MM-DD')
-		    , CTRT_PD_TO = TO_DATE(#ctrtPdTo#, 'YYYY-MM-DD')
+		    , CTRT_PD_FROM = TO_DATE(#ctrtDtFrom#, 'YYYY-MM-DD')
+		    , CTRT_PD_TO = TO_DATE(#ctrtDtTo#, 'YYYY-MM-DD')
 		    , CTRT_GRNTY_AMT = TO_NUMBER(REPLACE(#ctrtGrntyAmt#, ',', ''))
 		    , PRCU_PBLANC_NO = #prcuPblancNo#
 		    , CTRT_GRNTY_MTH = #ctrtGrntyMth#
@@ -288,8 +288,8 @@
 		    , UPDT_DT = SYSDATE
 		    , SLDRT_GRNTY = #sldrtGrnty#
 		    , JOB_CHRG_DEPT_CD = #jobChrgDeptCd#
-		    , FLAW_PD_FROM = TO_DATE(#flawPdFrom#, 'YYYY-MM-DD')
-		    , FLAW_PD_TO = TO_DATE(#flawPdTo#, 'YYYY-MM-DD')
+		    , FLAW_PD_FROM = TO_DATE(#flawDtFrom#, 'YYYY-MM-DD')
+		    , FLAW_PD_TO = TO_DATE(#flawDtTo#, 'YYYY-MM-DD')
 		    , CAUSE_ACT = #causeAct#
 		  WHERE
 		    CTRT_NO = #ctrtNo#	
@@ -572,8 +572,8 @@
 					    , C.SEQ
 					    , C.CHANGE_RSN
 					    , TO_CHAR(C.CHANGE_DT, 'YYYY-MM-DD') CHANGE_DT
-					    , TO_CHAR(C.CHANGE_CTRT_PD_FROM, 'YYYY-MM-DD') CHANGE_CTRT_PD_FROM
-					    , TO_CHAR(C.CHANGE_CTRT_PD_TO, 'YYYY-MM-DD') CHANGE_CTRT_PD_TO
+					    , TO_CHAR(C.CHANGE_CTRT_DT_FROM, 'YYYY-MM-DD') CHANGE_CTRT_DT_FROM
+					    , TO_CHAR(C.CHANGE_CTRT_DT_TO, 'YYYY-MM-DD') CHANGE_CTRT_DT_TO
 					    , NVL(C.CHANGE_CTRT_AMT, 0) CHANGE_CTRT_AMT
 					    , NVL(C.LAST_CTRT_AMT, 0) LAST_CTRT_AMT
 					    , C.RM
@@ -616,8 +616,8 @@
 		    , SEQ
 		    , CHANGE_RSN
 		    , CHANGE_DT
-		    , CHANGE_CTRT_PD_FROM
-		    , CHANGE_CTRT_PD_TO
+		    , CHANGE_CTRT_DT_FROM
+		    , CHANGE_CTRT_DT_TO
 		    , CHANGE_CTRT_AMT
 		    , LAST_CTRT_AMT
 		    , RM
@@ -630,8 +630,8 @@
 		    , TO_NUMBER(#maxSeq#)
 		    , #changeRsn#
 		    , TO_DATE(#changeDt#, 'YYYY-MM-DD')
-		    , TO_DATE(#changeCtrtPdFrom#, 'YYYY-MM-DD')
-		    , TO_DATE(#changeCtrtPdTo#, 'YYYY-MM-DD')
+		    , TO_DATE(#changeCtrtDtFrom#, 'YYYY-MM-DD')
+		    , TO_DATE(#changeCtrtDtTo#, 'YYYY-MM-DD')
 		    , TO_NUMBER(REPLACE(#changeCtrtAmt#, ',', ''))
 		    , TO_NUMBER(REPLACE(#lastCtrtAmt#, ',', ''))
 		    , #rm#
@@ -645,8 +645,8 @@
 		  SET
 		    CHANGE_RSN = #changeRsn#
 		    , CHANGE_DT = TO_DATE(#changeDt#, 'YYYY-MM-DD')
-		    , CHANGE_CTRT_PD_FROM = TO_DATE(#changeCtrtPdFrom#, 'YYYY-MM-DD')
-		    , CHANGE_CTRT_PD_TO = TO_DATE(#changeCtrtPdTo#, 'YYYY-MM-DD')
+		    , CHANGE_CTRT_DT_FROM = TO_DATE(#changeCtrtDtFrom#, 'YYYY-MM-DD')
+		    , CHANGE_CTRT_DT_TO = TO_DATE(#changeCtrtDtTo#, 'YYYY-MM-DD')
 		    , CHANGE_CTRT_AMT = TO_NUMBER(REPLACE(#changeCtrtAmt#, ',', ''))
 		    , LAST_CTRT_AMT = TO_NUMBER(REPLACE(#lastCtrtAmt#, ',', ''))
 		    , RM = #rm# 

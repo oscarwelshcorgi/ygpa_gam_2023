@@ -81,6 +81,7 @@ GamSocApplyLgerModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         case 'btnSearch':
         	this.loadData();
+        	break;
         case 'popupFeeTpInfo' : //요금종류버튼
         	var opts = { prtAtCode : this.$('#sPrtAtCode').val() };
 			this.doExecuteDialog('selectFeeTpInfo', '요금 선택', '/popup/showSocPayCd.do', opts);        	
