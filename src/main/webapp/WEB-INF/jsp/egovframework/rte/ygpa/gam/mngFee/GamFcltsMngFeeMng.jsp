@@ -79,7 +79,7 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
 
 	this.$("#detailGrid").flexigrid({
 		module : this,
-		url : '/mngFee/gamSelectFcltsMngFeeMngDetailList.do',
+		url : '/mngFee/gamSelectFcltsMngFeeMngDetail.do',
 		dataType : 'json',
 		colModel : [
 					{display:'관리 월',				name:'mngYrMt',				width:60,		sortable:false,		align:'center'},
@@ -1506,7 +1506,7 @@ GamFcltsMngFeeMngModule.prototype.downloadExcel = function() {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
-	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelFcltsMngFeeMng.do');
+	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelDownloadFcltsMngFeeMng.do');
 
 };
 
@@ -1524,7 +1524,7 @@ GamFcltsMngFeeMngModule.prototype.downloadExcelDetail = function() {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
-	this.$('#detailGrid').flexExcelDown('/mngFee/gamExcelFcltsMngFeeMngDetail.do');
+	this.$('#detailGrid').flexExcelDown('/mngFee/gamExcelDownloadFcltsMngFeeMngDetail.do');
 
 };
 

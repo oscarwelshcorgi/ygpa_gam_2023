@@ -38,6 +38,8 @@ public class GamFcltsFeeMngNticDetailVo extends ComDefaultVO {
 	private String	chrgeKndNm;			//요금 종류 명
 	private String	accnutYear;			//회계 년도
 	private String	nticNo;				//고지 번호
+	private String	firstNticDt;		//최초 고지 일자
+	private String	firstPayTmlmt;		//최초 납부 기한
 	private String	nticDt;				//고지 일자
 	private String	payTmlmt;			//납부 기한
 	private String	fee;				//사용료
@@ -195,6 +197,30 @@ public class GamFcltsFeeMngNticDetailVo extends ComDefaultVO {
 	 */
 	public void setNticNo(String nticNo) {
 		this.nticNo = nticNo;
+	}
+	/**
+	 * @return the firstNticDt
+	 */
+	public String getFirstNticDt() {
+		return firstNticDt;
+	}
+	/**
+	 * @param firstNticDt the firstNticDt to set
+	 */
+	public void setFirstNticDt(String firstNticDt) {
+		this.firstNticDt = firstNticDt;
+	}
+	/**
+	 * @return the firstPayTmlmt
+	 */
+	public String getFirstPayTmlmt() {
+		return firstPayTmlmt;
+	}
+	/**
+	 * @param firstPayTmlmt the firstPayTmlmt to set
+	 */
+	public void setFirstPayTmlmt(String firstPayTmlmt) {
+		this.firstPayTmlmt = firstPayTmlmt;
 	}
 	/**
 	 * @return the nticDt

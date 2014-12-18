@@ -82,8 +82,8 @@ public class GamCarMngController {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/mngFee/gamSelectCarMngList.do" , method=RequestMethod.POST)
-	@ResponseBody Map selectCarMngList(GamCarMngVo searchVO) throws Exception {
+	@RequestMapping(value="/mngFee/gamSelectCarMng.do" , method=RequestMethod.POST)
+	@ResponseBody Map gamSelectCarMngList(GamCarMngVo searchVO) throws Exception {
 
 		int totalCnt;
 		Map map = new HashMap();
@@ -116,7 +116,7 @@ public class GamCarMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamSelectCarMngPk.do")
-	@ResponseBody Map<String, Object> selectCarMngPk(GamCarMngVo searchVO)	throws Exception {
+	@ResponseBody Map<String, Object> gamSelectCarMngPk(GamCarMngVo searchVO)	throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -144,8 +144,8 @@ public class GamCarMngController {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/mngFee/gamExcelCarMng.do" , method=RequestMethod.POST)
-	@ResponseBody ModelAndView excelCarMngList(@RequestParam Map<String, Object> excelParam) throws Exception {
+	@RequestMapping(value="/mngFee/gamExcelDownloadCarMng.do" , method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelDownloadCarMng(@RequestParam Map<String, Object> excelParam) throws Exception {
 
 		Map map = new HashMap();
 		List header;
@@ -179,7 +179,7 @@ public class GamCarMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamInsertCarMng.do")
-	@ResponseBody Map<String, Object> insertCarMng	(GamCarMngVo gamCarMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamInsertCarMng	(GamCarMngVo gamCarMngVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -195,7 +195,7 @@ public class GamCarMngController {
 			gamCarMngVo.setRegUsr((String)user.getId());
 			gamCarMngService.insertCarMng(gamCarMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -209,7 +209,7 @@ public class GamCarMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamUpdateCarMng.do")
-	@ResponseBody Map<String, Object> updateCarMng	(GamCarMngVo gamCarMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamUpdateCarMng	(GamCarMngVo gamCarMngVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -225,7 +225,7 @@ public class GamCarMngController {
 			gamCarMngVo.setUpdUsr((String)user.getId());
 			gamCarMngService.updateCarMng(gamCarMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -239,7 +239,7 @@ public class GamCarMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamDeleteCarMng.do")
-	@ResponseBody Map<String, Object> deleteCarMng	(GamCarMngVo gamCarMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamDeleteCarMng	(GamCarMngVo gamCarMngVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -254,7 +254,7 @@ public class GamCarMngController {
 		try {
 			gamCarMngService.deleteCarMng(gamCarMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {
 			// TODO: handle exception

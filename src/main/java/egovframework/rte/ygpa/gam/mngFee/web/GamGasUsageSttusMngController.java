@@ -168,7 +168,7 @@ public class GamGasUsageSttusMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamSelectGasUsageSttusMngChart.do" , method=RequestMethod.POST)
-	@ResponseBody Map gamSelectGasUsageSttusMngChartList(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) throws Exception {
+	@ResponseBody Map gamSelectGasUsageSttusMngChart(GamGasUsageSttusMngVo gamGasUsageSttusMngVo) throws Exception {
 
 		Map map = new HashMap();
 

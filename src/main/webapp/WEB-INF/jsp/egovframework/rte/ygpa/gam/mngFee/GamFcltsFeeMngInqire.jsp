@@ -138,7 +138,7 @@ GamFcltsFeeMngInqireModule.prototype.drawChart = function() {
 	var maxFee=0;
 	var fee=0;
 	var searchVO = this.makeFormArgs("#detailForm");
-	this.doAction('/mngFee/gamFcltsFeeMngInqireChart.do', searchVO, function(module, result) {
+	this.doAction('/mngFee/gamSelectFcltsFeeMngInqireChart.do', searchVO, function(module, result) {
 		if (result.resultCode == "0") {
 			for (var i=0; i<12; i++) {
 				fee=result.resultList[i]['fee']*1;
@@ -327,7 +327,7 @@ GamFcltsFeeMngInqireModule.prototype.downloadExcel = function() {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
-	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelFcltsFeeMngInqire.do');
+	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelDownloadFcltsFeeMngInqire.do');
 
 };
 

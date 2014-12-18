@@ -98,7 +98,7 @@ public class GamFcltsFeeMngInqireController {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/mngFee/gamSelectFcltsFeeMngInqire.do" , method=RequestMethod.POST)
-	@ResponseBody Map gamSelectFcltsFeeMngInqireList(GamFcltsFeeMngInqireVo searchVO) throws Exception {
+	@ResponseBody Map gamSelectFcltsFeeMngInqire(GamFcltsFeeMngInqireVo searchVO) throws Exception {
 
 		int page, firstIndex;
 		Map map = new HashMap();
@@ -133,8 +133,8 @@ public class GamFcltsFeeMngInqireController {
 
 	}
 
-	@RequestMapping(value="/mngFee/gamFcltsFeeMngInqireChart.do" , method=RequestMethod.POST)
-	@ResponseBody Map selectFcltsFeeMngInqireChartList(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception {
+	@RequestMapping(value="/mngFee/gamSelectFcltsFeeMngInqireChart.do" , method=RequestMethod.POST)
+	@ResponseBody Map gamSelectFcltsFeeMngInqireChart(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception {
 
 		Map map = new HashMap();
 
@@ -155,8 +155,8 @@ public class GamFcltsFeeMngInqireController {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/mngFee/gamExcelFcltsFeeMngInqire.do" , method=RequestMethod.POST)
-	@ResponseBody ModelAndView excelFcltsFeeMngInqireList(@RequestParam Map<String, Object> excelParam) throws Exception {
+	@RequestMapping(value="/mngFee/gamExcelDownloadFcltsFeeMngInqire.do" , method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelDownloadFcltsFeeMngInqire(@RequestParam Map<String, Object> excelParam) throws Exception {
 
 		Map map = new HashMap();
 		List header;
@@ -191,7 +191,7 @@ public class GamFcltsFeeMngInqireController {
 
     @SuppressWarnings("unchecked")
 	@RequestMapping(value="/mngFee/gamUpdateFcltsFeeMngInqire.do")
-	@ResponseBody Map<String, Object> updateFcltsFeeMngInqire(@RequestParam Map gamFcltsFeeMngInqireList)	throws Exception {
+	@ResponseBody Map<String, Object> gamUpdateFcltsFeeMngInqire(@RequestParam Map gamFcltsFeeMngInqireList)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		List<HashMap<String,String>> updateList=null;
@@ -214,7 +214,7 @@ public class GamFcltsFeeMngInqireController {
 				gamFcltsFeeMngInqireService.updateFcltsFeeMngInqire(updateData);
 			}
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
 			// TODO: handle exception

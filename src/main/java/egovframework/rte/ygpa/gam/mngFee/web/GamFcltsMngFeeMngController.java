@@ -99,7 +99,7 @@ public class GamFcltsMngFeeMngController {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/mngFee/gamSelectFcltsMngFeeMng.do" , method=RequestMethod.POST)
-	@ResponseBody Map gamSelectFcltsMngFeeMngList(GamFcltsMngFeeMngVo searchVO) throws Exception {
+	@ResponseBody Map gamSelectFcltsMngFeeMng(GamFcltsMngFeeMngVo searchVO) throws Exception {
 
 		Map map = new HashMap();
 
@@ -137,7 +137,7 @@ public class GamFcltsMngFeeMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamSelectFcltsMngFeeMngPk.do")
-	@ResponseBody Map<String, Object> selectFcltsMngFeeMngPk(GamFcltsMngFeeMngVo searchVO)	throws Exception {
+	@ResponseBody Map<String, Object> gamSelectFcltsMngFeeMngPk(GamFcltsMngFeeMngVo searchVO)	throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -165,7 +165,7 @@ public class GamFcltsMngFeeMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamSelectFcltsMngFeeMngMonthCnt.do" , method=RequestMethod.POST)
-	@ResponseBody Map selectFcltsMngFeeMngMonthCntList(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) throws Exception {
+	@ResponseBody Map gamSelectFcltsMngFeeMngMonthCnt(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo) throws Exception {
 
 		Map map = new HashMap();
 
@@ -185,8 +185,8 @@ public class GamFcltsMngFeeMngController {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/mngFee/gamExcelFcltsMngFeeMng.do" , method=RequestMethod.POST)
-	@ResponseBody ModelAndView excelFcltsMngFeeMngList(@RequestParam Map<String, Object> excelParam) throws Exception {
+	@RequestMapping(value="/mngFee/gamExcelDownloadFcltsMngFeeMng.do" , method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelDownloadFcltsMngFeeMng(@RequestParam Map<String, Object> excelParam) throws Exception {
 
 		Map map = new HashMap();
 		List header;
@@ -220,8 +220,8 @@ public class GamFcltsMngFeeMngController {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/mngFee/gamSelectFcltsMngFeeMngDetailList", method=RequestMethod.POST)
-	public @ResponseBody Map gamSelectFcltsMngFeeMngDetailList(GamFcltsMngFeeMngDetailVo searchVO) throws Exception {
+	@RequestMapping(value="/mngFee/gamSelectFcltsMngFeeMngDetail.do", method=RequestMethod.POST)
+	public @ResponseBody Map gamSelectFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo searchVO) throws Exception {
 
 		Map map = new HashMap();
 
@@ -254,7 +254,7 @@ public class GamFcltsMngFeeMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamSelectFcltsMngFeeMngDetailMaxMngSeq.do" , method=RequestMethod.POST)
-	@ResponseBody Map selectFcltsMngFeeMngDetailMaxMngSeq(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) throws Exception {
+	@ResponseBody Map gamSelectFcltsMngFeeMngDetailMaxMngSeq(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) throws Exception {
 
 		String sMaxMngSeq;
 		Map map = new HashMap();
@@ -276,8 +276,8 @@ public class GamFcltsMngFeeMngController {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/mngFee/gamExcelFcltsMngFeeMngDetail.do" , method=RequestMethod.POST)
-	@ResponseBody ModelAndView excelFcltsMngFeeMngDetailList(@RequestParam Map<String, Object> excelParam) throws Exception {
+	@RequestMapping(value="/mngFee/gamExcelDownloadFcltsMngFeeMngDetail.do" , method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelDownloadFcltsMngFeeMngDetail(@RequestParam Map<String, Object> excelParam) throws Exception {
 
 		Map map = new HashMap();
 		List header;
@@ -311,7 +311,7 @@ public class GamFcltsMngFeeMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamInsertFcltsMngFeeMng.do")
-	@ResponseBody Map<String, Object> insertFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamInsertFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -342,7 +342,7 @@ public class GamFcltsMngFeeMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamUpdateFcltsMngFeeMng.do")
-	@ResponseBody Map<String, Object> updateFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamUpdateFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -372,7 +372,7 @@ public class GamFcltsMngFeeMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamDeleteFcltsMngFeeMng.do")
-	@ResponseBody Map<String, Object> deleteFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamDeleteFcltsMngFeeMng(GamFcltsMngFeeMngVo gamFcltsMngFeeMngVo)	throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -400,7 +400,7 @@ public class GamFcltsMngFeeMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamInsertFcltsMngFeeMngDetail.do")
-	@ResponseBody Map<String, Object> insertFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamInsertFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -432,7 +432,7 @@ public class GamFcltsMngFeeMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamUpdateFcltsMngFeeMngDetail.do")
-	@ResponseBody Map<String, Object> updateFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamUpdateFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -463,7 +463,7 @@ public class GamFcltsMngFeeMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamDeleteFcltsMngFeeMngDetail.do")
-	@ResponseBody Map<String, Object> deleteFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamDeleteFcltsMngFeeMngDetail(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo)	throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -491,7 +491,7 @@ public class GamFcltsMngFeeMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamProcessFcltsMngFeeMngNticIssue.do")
-	@ResponseBody Map<String, Object> processFcltsMngFeeMngNticIssue(@RequestParam Map<String, Object> processVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamProcessFcltsMngFeeMngNticIssue(@RequestParam Map<String, Object> processVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -523,7 +523,7 @@ public class GamFcltsMngFeeMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamCancelFcltsMngFeeMngNticIssue.do")
-	@ResponseBody Map<String, Object> cancelFcltsMngFeeMngNticIssue(@RequestParam Map<String, Object> cancelVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamCancelFcltsMngFeeMngNticIssue(@RequestParam Map<String, Object> cancelVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -555,7 +555,7 @@ public class GamFcltsMngFeeMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamPrintPreviewFcltsMngFeeMngNoticeIssue.do")
-	String printPreviewFcltsMngFeeMngNoticeIssue(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
+	String gamPrintPreviewFcltsMngFeeMngNoticeIssue(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
 
 		model.addAttribute("searchOpt", approvalOpt);
 
@@ -576,7 +576,7 @@ public class GamFcltsMngFeeMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamPrintFcltsMngFeeMngNticIssue.do")
-	public @ResponseBody Map printFcltsMngFeeMngNticIssue(@RequestParam Map<String, Object> printVo, ModelMap model)	throws Exception {
+	public @ResponseBody Map gamPrintFcltsMngFeeMngNticIssue(@RequestParam Map<String, Object> printVo, ModelMap model)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -611,7 +611,7 @@ public class GamFcltsMngFeeMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamCopyFcltsMngFeeMng.do")
-	@ResponseBody Map<String, Object> copyFcltsMngFeeMng(@RequestParam Map<String, Object> copyVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamCopyFcltsMngFeeMng(@RequestParam Map<String, Object> copyVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -642,7 +642,7 @@ public class GamFcltsMngFeeMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamSelectFcltsMngFeeMngChart.do" , method=RequestMethod.POST)
-	@ResponseBody Map selectFcltsMngFeeMngChartList(@RequestParam Map<String, Object> statVo) throws Exception {
+	@ResponseBody Map gamSelectFcltsMngFeeMngChart(@RequestParam Map<String, Object> statVo) throws Exception {
 
 		Map map = new HashMap();
 
@@ -663,7 +663,7 @@ public class GamFcltsMngFeeMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamPrintPreviewFcltsMngFeeMngReport.do")
-	public String printPreviewFcltsMngFeeMngReport(@RequestParam Map<String, Object> reportVO, ModelMap model) throws	Exception {
+	public String gamPrintPreviewFcltsMngFeeMngReport(@RequestParam Map<String, Object> reportVO, ModelMap model) throws	Exception {
 
 		model.addAttribute("searchOpt", reportVO);
 

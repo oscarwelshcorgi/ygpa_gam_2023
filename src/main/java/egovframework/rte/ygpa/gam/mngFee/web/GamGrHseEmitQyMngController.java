@@ -97,7 +97,7 @@ public class GamGrHseEmitQyMngController {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/mngFee/gamSelectGrHseEmitQyMng.do" , method=RequestMethod.POST)
-	@ResponseBody Map selectGrHseEmitQyMngList(GamGrHseEmitQyMngVo searchVO) throws Exception {
+	@ResponseBody Map gamSelectGrHseEmitQyMng(GamGrHseEmitQyMngVo searchVO) throws Exception {
 
 		int totalCnt;
 		Map map = new HashMap();
@@ -130,7 +130,7 @@ public class GamGrHseEmitQyMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamSelectGrHseEmitQyMngPk.do")
-	@ResponseBody Map<String, Object> selectGrHseEmitQyMngPk(GamGrHseEmitQyMngVo searchVO)	throws Exception {
+	@ResponseBody Map<String, Object> gamSelectGrHseEmitQyMngPk(GamGrHseEmitQyMngVo searchVO)	throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -158,7 +158,7 @@ public class GamGrHseEmitQyMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamSelectGrHseEmitQyMngChart.do" , method=RequestMethod.POST)
-	@ResponseBody Map selectGrHseEmitQyMngChartList(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
+	@ResponseBody Map gamSelectGrHseEmitQyMngChart(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
 
 		Map map = new HashMap();
 
@@ -179,7 +179,7 @@ public class GamGrHseEmitQyMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamSelectGrHseEmitQyMngMonthCnt.do" , method=RequestMethod.POST)
-	@ResponseBody Map selectGrHseEmitQyMngMonthCntList(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
+	@ResponseBody Map gamSelectGrHseEmitQyMngMonthCnt(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo) throws Exception {
 
 		Map map = new HashMap();
 
@@ -199,8 +199,8 @@ public class GamGrHseEmitQyMngController {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/mngFee/gamExcelGrHseEmitQyMng.do" , method=RequestMethod.POST)
-	@ResponseBody ModelAndView excelGrHseEmitQyMngList(@RequestParam Map<String, Object> excelParam) throws Exception {
+	@RequestMapping(value="/mngFee/gamExcelDownloadGrHseEmitQyMng.do" , method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelDownloadGrHseEmitQyMng(@RequestParam Map<String, Object> excelParam) throws Exception {
 
 		Map map = new HashMap();
 		List header;
@@ -234,7 +234,7 @@ public class GamGrHseEmitQyMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamInsertGrHseEmitQyMng.do")
-	@ResponseBody Map<String, Object> insertGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamInsertGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -250,7 +250,7 @@ public class GamGrHseEmitQyMngController {
 			gamGrHseEmitQyMngVo.setRegUsr((String)user.getId());
 			gamGrHseEmitQyMngService.insertGrHseEmitQyMng(gamGrHseEmitQyMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -263,7 +263,7 @@ public class GamGrHseEmitQyMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamUpdateGrHseEmitQyMng.do")
-	@ResponseBody Map<String, Object> updateGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamUpdateGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -279,7 +279,7 @@ public class GamGrHseEmitQyMngController {
 			gamGrHseEmitQyMngVo.setUpdUsr((String)user.getId());
 			gamGrHseEmitQyMngService.updateGrHseEmitQyMng(gamGrHseEmitQyMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -293,7 +293,7 @@ public class GamGrHseEmitQyMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamDeleteGrHseEmitQyMng.do")
-	@ResponseBody Map<String, Object> deleteGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamDeleteGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo)	throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -307,7 +307,7 @@ public class GamGrHseEmitQyMngController {
 		try {
 			gamGrHseEmitQyMngService.deleteGrHseEmitQyMng(gamGrHseEmitQyMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -320,7 +320,7 @@ public class GamGrHseEmitQyMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamCopyGrHseEmitQyMng.do")
-	@ResponseBody Map<String, Object> copyGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamCopyGrHseEmitQyMng(GamGrHseEmitQyMngVo gamGrHseEmitQyMngVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -336,7 +336,7 @@ public class GamGrHseEmitQyMngController {
 			gamGrHseEmitQyMngVo.setRegUsr((String)user.getId());
 			gamGrHseEmitQyMngService.copyGrHseEmitQyMng(gamGrHseEmitQyMngVo);
 
-			map.put("resultCode", 0);			// return ok
+			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception

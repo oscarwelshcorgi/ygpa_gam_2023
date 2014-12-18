@@ -48,7 +48,7 @@ GamCarMngModule.prototype.loadComplete = function() {
 
 	this.$("#mainGrid").flexigrid({
 		module : this,
-		url : '/mngFee/gamSelectCarMngList.do',
+		url : '/mngFee/gamSelectCarMng.do',
 		dataType : 'json',
 		colModel : [
 					{display:'차량 등록 번호', 	name:'carRegistNo',	width:100, 		sortable:false,		align:'center'},
@@ -363,7 +363,7 @@ GamCarMngModule.prototype.downloadExcel = function() {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
-	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelCarMng.do');
+	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelDownloadCarMng.do');
 
 };
 

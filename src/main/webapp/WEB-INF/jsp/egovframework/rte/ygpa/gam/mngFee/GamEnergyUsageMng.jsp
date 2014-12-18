@@ -104,7 +104,7 @@ GamEnergyUsageMngModule.prototype.drawChart = function() {
 	var grHseCoef=0;
 	var mngYear=0;
 	var searchVO = this.makeFormArgs("#detailForm");
-	this.doAction('/mngFee/gamEnergyUsageMngChart.do', searchVO, function(module, result) {
+	this.doAction('/mngFee/gamSelectEnergyUsageMngChart.do', searchVO, function(module, result) {
 		if (result.resultCode == "0") {
 			for (var i=0; i<10; i++) {
 				mngYear=result.resultList[i]['mngYear']*1;
@@ -480,7 +480,7 @@ GamEnergyUsageMngModule.prototype.downloadExcel = function() {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
-	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelEnergyUsageMng.do');
+	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelDownloadEnergyUsageMng.do');
 
 };
 

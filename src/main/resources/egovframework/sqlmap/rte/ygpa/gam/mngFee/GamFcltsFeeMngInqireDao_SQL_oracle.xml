@@ -11,6 +11,7 @@
 		<result property="sumFee" column="SUM_FEE" columnIndex="2"/>
 		<result property="sumVat" column="SUM_VAT" columnIndex="3"/>
 		<result property="sumNticAmt" column="SUM_NTIC_AMT" columnIndex="4"/>
+		<result property="sumArrrgAmt" column="SUM_ARRRG_AMT" columnIndex="5"/>
 	</resultMap>
 
 	<select id="gamFcltsFeeMngInqireDao.selectFcltsFeeMngInqireList_D" parameterClass="gamFcltsFeeMngInqireVo" resultClass="egovMap">
@@ -45,6 +46,8 @@
 								,GAM_GETCODENAME('GAM024',T1.CHRGE_KND) AS CHRGE_KND_NM
 								,T1.ACCNUT_YEAR
 								,T1.NTIC_NO
+								,TO_CHAR(T1.FIRST_NTIC_DT,'YYYY-MM-DD') AS FIRST_NTIC_DT
+								,TO_CHAR(T1.FIRST_PAY_TMLMT,'YYYY-MM-DD') AS FIRST_PAY_TMLMT
 								,TO_CHAR(T1.NTIC_DT,'YYYY-MM-DD') AS NTIC_DT
 								,TO_CHAR(T1.PAY_TMLMT,'YYYY-MM-DD') AS PAY_TMLMT
 								,LTRIM(TO_CHAR(NVL(T1.FEE,0),'999,999,999,990')) AS FEE
@@ -52,6 +55,7 @@
 								,GAM_GETCODENAME('GAM016',T1.VAT_YN) AS VAT_YN_NM
 								,LTRIM(TO_CHAR(NVL(T1.VAT,0),'999,999,999,990')) AS VAT
 								,LTRIM(TO_CHAR(NVL(T1.NTIC_AMT,0),'999,999,999,990')) AS NTIC_AMT
+								,LTRIM(TO_CHAR(NVL(T1.TOT_NTIC_AMT,0),'999,999,999,990')) AS TOT_NTIC_AMT
 								,T1.RCIV_SE
 								,GAM_GETCODENAME('GAM025',T1.RCIV_SE) AS RCIV_SE_NM
 								,TO_CHAR(T1.RCIV_DT,'YYYY-MM-DD') AS RCIV_DT
@@ -130,6 +134,7 @@
 				,LTRIM(TO_CHAR(NVL(SUM(FEE),0),'999,999,999,990')) AS SUM_FEE
 				,LTRIM(TO_CHAR(NVL(SUM(VAT),0),'999,999,999,990')) AS SUM_VAT
 				,LTRIM(TO_CHAR(NVL(SUM(NTIC_AMT),0),'999,999,999,990')) AS SUM_NTIC_AMT
+				,LTRIM(TO_CHAR(NVL(SUM(ARRRG_AMT),0),'999,999,999,990')) AS SUM_ARRRG_AMT
 			FROM MNG_FEE_LEV_REQEST_F
 		WHERE 1=1
 

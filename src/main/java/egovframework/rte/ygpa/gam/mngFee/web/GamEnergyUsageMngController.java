@@ -98,7 +98,7 @@ public class GamEnergyUsageMngController {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/mngFee/gamSelectEnergyUsageMng.do" , method=RequestMethod.POST)
-	@ResponseBody Map selectEnergyUsageMngList(GamEnergyUsageMngVo searchVO) throws Exception {
+	@ResponseBody Map gamSelectEnergyUsageMng(GamEnergyUsageMngVo searchVO) throws Exception {
 
 		int totalCnt;
 		Map map = new HashMap();
@@ -131,7 +131,7 @@ public class GamEnergyUsageMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamSelectEnergyUsageMngPk.do")
-	@ResponseBody Map<String, Object> selectEnergyUsageMngPk(GamEnergyUsageMngVo searchVO)	throws Exception {
+	@ResponseBody Map<String, Object> gamSelectEnergyUsageMngPk(GamEnergyUsageMngVo searchVO)	throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -158,8 +158,8 @@ public class GamEnergyUsageMngController {
 		return map;
 	}
 
-	@RequestMapping(value="/mngFee/gamEnergyUsageMngChart.do" , method=RequestMethod.POST)
-	@ResponseBody Map selectEnergyUsageMngChartList(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception {
+	@RequestMapping(value="/mngFee/gamSelectEnergyUsageMngChart.do" , method=RequestMethod.POST)
+	@ResponseBody Map gamSelectEnergyUsageMngChart(GamEnergyUsageMngVo gamEnergyUsageMngVo) throws Exception {
 
 		Map map = new HashMap();
 
@@ -180,7 +180,7 @@ public class GamEnergyUsageMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamSelectEnergyUsageMngYearCnt.do" , method=RequestMethod.POST)
-	@ResponseBody Map selectEnergyUsageMngYearCntList(GamEnergyUsageMngVo searchVO) throws Exception {
+	@ResponseBody Map gamSelectEnergyUsageMngYearCnt(GamEnergyUsageMngVo searchVO) throws Exception {
 
 		Map map = new HashMap();
 
@@ -201,8 +201,8 @@ public class GamEnergyUsageMngController {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/mngFee/gamExcelEnergyUsageMng.do" , method=RequestMethod.POST)
-	@ResponseBody ModelAndView excelEnergyUsageMngList(@RequestParam Map<String, Object> excelParam) throws Exception {
+	@RequestMapping(value="/mngFee/gamExcelDownloadEnergyUsageMng.do" , method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelDownloadEnergyUsageMng(@RequestParam Map<String, Object> excelParam) throws Exception {
 
 		Map map = new HashMap();
 		List header;
@@ -236,7 +236,7 @@ public class GamEnergyUsageMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamInsertEnergyUsageMng.do")
-	@ResponseBody Map<String, Object> insertEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamInsertEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -266,7 +266,7 @@ public class GamEnergyUsageMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamUpdateEnergyUsageMng.do")
-	@ResponseBody Map<String, Object> updateEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamUpdateEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -296,7 +296,7 @@ public class GamEnergyUsageMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamDeleteEnergyUsageMng.do")
-	@ResponseBody Map<String, Object> deleteEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamDeleteEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -324,7 +324,7 @@ public class GamEnergyUsageMngController {
 	}
 
 	@RequestMapping(value="/mngFee/gamCopyEnergyUsageMng.do")
-	@ResponseBody Map<String, Object> copyEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
+	@ResponseBody Map<String, Object> gamCopyEnergyUsageMng(GamEnergyUsageMngVo gamEnergyUsageMngVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
