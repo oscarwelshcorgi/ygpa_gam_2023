@@ -128,7 +128,7 @@ GamSocTotalBsnsSetoffDtlsModule.prototype.loadComplete = function() {
         	break;
 
         case 'popupAgentInfo' : //면제업체 조회
-			this.doExecuteDialog('selectAgentInfo', '면제업체 선택', '/popup/showSocAgentFInfo.do', opts);
+        	this.doExecuteDialog('selectApplyEntrpsInfo', '보전업체 선택', '/popup/showSocEntrpsInfo.do', {});
         	break;
 
     }
@@ -168,9 +168,9 @@ GamSocTotalBsnsSetoffDtlsModule.prototype.onClosePopup = function(popupId, msg, 
          }
          break;
          
-     case 'selectAgentInfo' : //면제업체 조회
+     case 'selectApplyEntrpsInfo' : //보전업체 조회
     	 this.$("#sExmpAgentCode").val(value["agentCode"]);
-    	 this.$("#sExmpAgentName").val(value["agentName"]);
+    	 this.$("#sExmpAgentName").val(value["firmKorNm"]);
     	 break;
      
      default:
