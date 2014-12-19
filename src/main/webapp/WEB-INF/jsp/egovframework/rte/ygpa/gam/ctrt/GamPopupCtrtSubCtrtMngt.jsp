@@ -184,11 +184,11 @@ var popup_instance = new GamPopupCtrtSubCtrtMngtModule();
 				<tbody>
 					<tr>
                         <th>업체명</th>
-                        <td><input id="entrpsNm" type="text" style="width: 150px;" class="EditItem" maxlength="100"/></td>
+                        <td><input id="entrpsNm" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
                         <th>대금지급합의</th>
                         <td><input id="moneyPymntAgree" type="text" style="width: 150px;" class="EditItem" maxlength="2"/></td>
 						<th>공증</th>
-                        <td><input id="workClass" type="text" style="width: 150px;" class="EditItem" maxlength="100"/></td>
+                        <td><input id="workClass" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
 					</tr>
 					<tr>
                     	<th>하도급율</th>

@@ -402,7 +402,7 @@ var module_instance = new GamSocApplyModule();
                             </td>
                             <th>공사번호</th>
                             <td>
-                            	<input id="sConstNo" type="text" size="6">
+                            	<input id="sConstNo" type="text" size="6" maxlength="6">
                             </td>
                             <td style="text-align:right;">
 				                <button id="popupSocAgentInfo" class="popupButton">허가원부</button>
@@ -423,13 +423,13 @@ var module_instance = new GamSocApplyModule();
                             </td>
                             <th>면제요청업체</th>
                             <td>
-                                <input id="sAppAgentCode" type="text" size="7">
+                                <input id="sAppAgentCode" type="text" size="10" maxlength="9">
                             	<input id="sAppAgentName" type="text" size="6" disabled="disabled">&nbsp; &nbsp;
                             	<button id="popupApplyEntrpsInfo" class="popupButton">선택</button>
                             </td>
                             <th>요청횟수</th>
                             <td>
-                            	<input id="sUseNo" type="text" size="2">
+                            	<input id="sUseNo" type="text" size="6" maxlength="2">
                             </td>
                             <td style="text-align:right;">
 				                <button id="popupSocApplyInfo" class="popupButton">면제요청</button>
@@ -460,15 +460,15 @@ var module_instance = new GamSocApplyModule();
     	               	<table class="detailForm"  style="width:100%;">
                             <tr>
                                 <th width="12%">보전처리신청금액</th>
-                                <td width="38%"><input type="text" id="exmpAmnt" size="20" class="ygpaNumber" /></td>
-                                <th width="12%">보전처리누계액</th>
-                                <td><input type="text" id="exmpAcc" size="20" class="ygpaNumber" /></td>
-                            </tr>
-                            <tr>
+                                <td width="38%"><input type="text" id="exmpAmnt" size="35" class="ygpaNumber" /></td>
                                 <th>보전처리기간</th>
                                 <td>
 									<input id="periodFr" type="text" class="emdcal" size="15"> ~ <input id="periodTo" type="text" class="emdcal" size="15">
                                 </td>
+                            </tr>
+                            <tr>
+                                <th width="12%">보전처리누계액</th>
+                                <td><input type="text" id="exmpAcc" size="35" class="ygpaNumber" /></td>
                                 <th>보전처리조건</th>
                                 <td>
                                 	<select id="exmpCond">
@@ -481,8 +481,8 @@ var module_instance = new GamSocApplyModule();
                             <tr>
                             	<th>공사업체</th>
                                 <td>
-                                	<input id="agentCode" type="text" size="10">&nbsp; &nbsp;
-	                            	<input id="agentName" type="text" size="25" disabled="disabled">&nbsp; &nbsp;
+                                	<input id="agentCode" type="text" size="10" maxlength="9">&nbsp; &nbsp;
+	                            	<input id="agentName" type="text" size="30" disabled="disabled">&nbsp; &nbsp;
 	                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                                 </td>
                                 <th>적용요율</th>
@@ -496,11 +496,11 @@ var module_instance = new GamSocApplyModule();
                             </tr>
                             <tr>
                                 <th>특이사항</th>
-                                <td colSpan="3"><input type="text" id="remark" size="120"></td>
+                                <td colSpan="3"><input type="text" id="remark" size="140" maxlength="110"></td>
                             </tr>
                             <tr>
                                 <th>공사명칭</th>
-                                <td><input type="text" id="item" size="55"></td>
+                                <td><input type="text" id="item" size="35" maxlength="150"></td>
                                 <th>사용여부</th>
                                 <td>
                                 	<select id="useYn">
@@ -512,7 +512,7 @@ var module_instance = new GamSocApplyModule();
                             </tr>
                             <tr>
                                 <th>사업자등록번호</th>
-                                <td><input type="text" id="bzRgstId" size="20" ></td>
+                                <td><input type="text" id="bzRgstId" size="35" maxlength="12"></td>
                                 <th>신청일자</th>
                                 <td><input id="applDate" type="text" class="emdcal" size="15"></td>
                             </tr>
@@ -521,13 +521,13 @@ var module_instance = new GamSocApplyModule();
                             <tr>
                             	<th width="2%"></th>
                                 <th width="10%" style="text-align:right">외항접안</th>
-                                <td><input type="text" id="r11Rate"></td>
+                                <td><input type="text" id="r11Rate" class="ygpaNumber"></td>
                                 <th width="10%" style="text-align:right">내항접안</th>
-                                <td><input type="text" id="r12Rate"></td>
+                                <td><input type="text" id="r12Rate" class="ygpaNumber"></td>
                                 <th width="10%" style="text-align:right">외항정박</th>
-                                <td><input type="text" id="r21Rate"></td>
+                                <td><input type="text" id="r21Rate" class="ygpaNumber"></td>
                                 <th width="10%" style="text-align:right">내항정박</th>
-                                <td><input type="text" id="r22Rate"></td>
+                                <td><input type="text" id="r22Rate" class="ygpaNumber"></td>
                                 <th width="5%"></th>
                             </tr>
                         </table>

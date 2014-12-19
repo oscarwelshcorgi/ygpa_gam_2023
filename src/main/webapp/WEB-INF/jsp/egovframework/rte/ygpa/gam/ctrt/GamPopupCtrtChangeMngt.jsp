@@ -179,10 +179,6 @@ var popup_instance = new GamPopupCtrtChangeMngtModule();
 					<tr>
                         <th>변경일자</th>
                         <td><input id="changeDt" type="text" style="width: 150px;" class="EditItem emdcal"/></td>
-                        <th>변경사유</th>
-                        <td><input id="changeRsn" type="text" style="width: 200px;" class="EditItem" maxlength="100"/></td>
-					</tr>
-					<tr>
                     	<th>변경계약기간</th>
                         <td colspan="3">
                         	<input id="changeCtrtDtFrom" type="text" style="width: 150px;" class="EditItem emdcal"/>
@@ -196,9 +192,11 @@ var popup_instance = new GamPopupCtrtChangeMngtModule();
                         <td colspan=><input id="lastCtrtAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
 					</tr>
 					<tr>
+                        <th>변경사유</th>
+                        <td><input id="changeRsn" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
                     	<th>비고</th>
-                        <td colspan="3">
-                        	<input id="rm" type="text" style="width: 450px;" class="EditItem" maxlength="1000"/>
+                        <td>
+                        	<input id="rm" type="text" style="width: 350px;" class="EditItem" maxlength="333"/>
                         </td>
 					</tr>
 				</tbody>

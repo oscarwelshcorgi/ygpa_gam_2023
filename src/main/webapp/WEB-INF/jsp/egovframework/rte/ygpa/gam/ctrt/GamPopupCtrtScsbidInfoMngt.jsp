@@ -175,9 +175,9 @@ var popup_instance = new GamPopupCtrtScsbidInfoMngtModule();
 						<th>낙찰순위</th>
                         <td><input id="scsbidRank" type="text" style="width: 150px;" class="EditItem ygpaNumber" maxlength="3"/></td>
                         <th>업체명</th>
-                        <td><input id="entrpsNm" type="text" style="width: 150px;" class="EditItem" maxlength="100"/></td>
+                        <td><input id="entrpsNm" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
                         <th>대표자</th>
-                        <td><input id="rprsntv" type="text" style="width: 150px;" class="EditItem" maxlength="100"/></td>
+                        <td><input id="rprsntv" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
 					</tr>
 					<tr>
 						<th>사업자번호</th>

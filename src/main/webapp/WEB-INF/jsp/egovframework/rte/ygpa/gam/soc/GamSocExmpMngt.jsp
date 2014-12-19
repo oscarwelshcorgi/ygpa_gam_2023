@@ -286,7 +286,7 @@ var module_instance = new GamSocExmpMngtModule();
                     <tbody>
                         <tr>
                             <th>항코드</th>
-                            <td>
+                            <td width="30%">
                                 <select id="sAppPrtAtCode">
 	                            	<option value="" selected="selected">선택</option>
 	                                <c:forEach  items="${prtAtCdList}" var="prtAtCdItem">
@@ -296,7 +296,7 @@ var module_instance = new GamSocExmpMngtModule();
                             </td>
                             <th>요금종류코드</th>
                             <td>
-                                <input id="sFeeTp" type="text" size="2" />
+                                <input id="sFeeTp" type="text" size="8" maxlength="2" />
                                 <input type="text" size="20" id="sFeeTpKorNm" disabled/>
                                 <button id="popupChrgeKndCd" class="popupButton">선택</button>
                             </td>
@@ -337,7 +337,6 @@ var module_instance = new GamSocExmpMngtModule();
                             <tr>
 								<th width="10%" height="18">공사관리청</th>
                                 <td>
-                            		<input id="cmd" type="hidden"/>
                                 	<input id="tempAppPrtAtCode" type="hidden" />
                                 	<input id="feeTp" type="hidden"/>
                                 	<input id="fiscalYr" type="hidden"/>
@@ -355,7 +354,7 @@ var module_instance = new GamSocExmpMngtModule();
                                 </td>
 								<th width="10%" height="18">공사일련번호</th>
                                 <td>
-                                    <input type="text" size="8" id="constNo" maxlength="6"/>
+                                    <input type="text" size="11" id="constNo" maxlength="6"/>
                                 </td>
                             </tr>
                             <tr>
@@ -369,7 +368,7 @@ var module_instance = new GamSocExmpMngtModule();
 	                                </select>                                    
                                 </td>
 								<th width="10%" height="18">신청횟수</th>
-                                <td><input type="text" size="3" id="useNo" maxlength="2" /></td>
+                                <td><input type="text" size="6" id="useNo" maxlength="2" /></td>
 								<th width="10%" height="18">신청업체</th>
                                 <td>
                                     <input type="text" size="11" id="appAgentCode" maxlength="9"/>
@@ -415,8 +414,8 @@ var module_instance = new GamSocExmpMngtModule();
                             <tr>
 								<th width="10%" height="18">외내항구분</th>
                                 <td colspan="5">
-                                    <input type="text" size="2" id="inOut" maxlength="1" />
-                                    <input type="text" size="10" id="inOutName" disabled/>
+                                    <input type="text" size="11" id="inOut" maxlength="1" />
+                                    <input type="text" size="25" id="inOutName" disabled/>
                                     <span>선박관리 : 1.외항, 2.내항 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 화물관리 : 1.외입, 2.외출, 3.내입, 4.내출, 5.항내운입, 6.항내운출</span>
                                 </td>
                             </tr>
@@ -443,33 +442,33 @@ var module_instance = new GamSocExmpMngtModule();
                                 </td>
 								<th width="10%" height="18">고지일자</th>
                                 <td>
-                                	<input id="billDt" type="text" class="emdcal" size="12" />
+                                	<input id="billDt" type="text" class="emdcal" size="14" />
                                 </td>
                             </tr>
                             <tr>
-								<th width="10%" height="18">입출항일자</th>
-                                <td colspan="3">
-                                    <input id="ioDt" type="text" class="emdcal" size="12" />
-                                </td>
 								<th width="10%" height="18">면제금액</th>
-                                <td>
+                                <td colspan="3">
                                 	<input type="text" size="20" id="exmpAmnt" class="ygpaNumber" /> 원
+                                </td>
+								<th width="10%" height="18">입출항일자</th>
+                                <td>
+                                    <input id="ioDt" type="text" class="emdcal" size="14" />
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">기본료</th>
                                 <td colspan="3">
-                                    <input type="text" size="16" id="standardFee" class="ygpaNumber" /> 원
+                                    <input type="text" size="20" id="standardFee" class="ygpaNumber" /> 원
                                 </td>
 								<th width="10%" height="18">고지번호</th>
                                 <td>
-                                	<input type="text" size="9" id="billNo" maxlength="6" />
+                                	<input type="text" size="14" id="billNo" maxlength="6" />
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">운임톤</th>
                                 <td colspan="3">
-                                    <input type="text" size="16" id="realTn" class="ygpaNumber" />
+                                    <input type="text" size="20" id="realTn" class="ygpaNumber" />
                                 </td>
 								<th width="10%" height="18">접수자</th>
                                 <td>
@@ -484,7 +483,7 @@ var module_instance = new GamSocExmpMngtModule();
                             <tr>
 								<th width="10%" height="18">비고</th>
                                 <td colspan="5">
-                                    <input type="text" size="120" id="remark" maxlength="350"/>
+                                    <input type="text" size="115" id="remark" maxlength="110"/>
                                 </td>
                             </tr>                            
                         </table>
