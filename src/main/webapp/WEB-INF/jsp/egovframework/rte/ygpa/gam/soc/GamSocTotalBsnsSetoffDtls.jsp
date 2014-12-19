@@ -207,8 +207,8 @@ var module_instance = new GamSocTotalBsnsSetoffDtlsModule();
                             </td>
                             <th>요금종류코드</th>
                             <td>
-                                <input id="sFeeTp" type="text" size="7" />
-                                <input type="text" size="20" id="sFeeTpKorNm" disabled/>
+                                <input id="sFeeTp" type="text" size="5" />
+                                <input type="text" size="15" id="sFeeTpKorNm" disabled/>
                                 <button id="popupChrgeKndCd" class="popupButton">선택</button>
                             </td>
                             <th>보전업체</th>
@@ -226,8 +226,8 @@ var module_instance = new GamSocTotalBsnsSetoffDtlsModule();
                             </td>                            
                             <th>처리기간</th>
                             <td>
-                                <input id="sFrDt" type="text" class="emdcal" size="15"> ~ 
-                                <input id="sToDt" type="text" class="emdcal" size="15">
+                                <input id="sFrDt" type="text" class="emdcal" size="12"> ~ 
+                                <input id="sToDt" type="text" class="emdcal" size="12">
                             </td>
                             <th>구분</th> 
                             <td>
