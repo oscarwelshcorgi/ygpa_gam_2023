@@ -51,6 +51,10 @@ GamPopupSocVsslCdModule.prototype.onSubmit = function() {
 };
 
 GamPopupSocVsslCdModule.prototype.loadData = function() {
+	if(!this.$("#callLetter").val() && !this.$("#vsslKorNm").val()) {
+		alert('조회조건 중 하나라도 입력해야 검색이 됩니다.');
+		return;
+	}
 	var searchOpt=this.makeFormArgs("#gamPopupVsslForm");
  	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 };

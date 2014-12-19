@@ -53,6 +53,10 @@ GamPopupSocPayCdModule.prototype.onSubmit = function() {
 };
 
 GamPopupSocPayCdModule.prototype.loadData = function() {
+	if(!this.$("#prtAtCode").val() && !this.$("#feeTp").val() && !this.$("#feeTpKorNm").val()) {
+		alert('조회조건 중 하나라도 입력해야 검색이 됩니다.');
+		return;
+	}
 	var searchOpt=this.makeFormArgs("#gamPopupSocPayForm");
  	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 };

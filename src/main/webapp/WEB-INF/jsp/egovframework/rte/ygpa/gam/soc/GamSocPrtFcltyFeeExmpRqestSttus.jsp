@@ -142,7 +142,7 @@ var module_instance = new GamSocPrtFcltyFeeExmpRqestSttusModule();
                             <th>업체코드</th>
                             <td>
                                 <input id="sAppAgentCode" type="text" size="7" />
-                            	<input id="sAppAgentName" type="text" size="30" disabled="disabled" />&nbsp; &nbsp;
+                            	<input id="sAppAgentName" type="text" size="20" disabled="disabled" />&nbsp; &nbsp;
                             	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
                             <td  rowSpan="2">
@@ -160,7 +160,7 @@ var module_instance = new GamSocPrtFcltyFeeExmpRqestSttusModule();
                             </td>
                             <th>공사준공년도</th>
                             <td>
-                                <input id="sCmplYr" type="text" size="4">
+                                <input id="sCmplYr" type="text" size="7">
                             </td>
                         </tr>
                     </tbody>

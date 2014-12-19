@@ -144,8 +144,8 @@ var module_instance = new GamSocApplyLgerModule();
                             </td>
                             <th>요금종류</th>
                             <td>
-                                <input id="sFeeTp" type="text" size="3">
-                            	<input id="sFeeTpKorNm" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
+                                <input id="sFeeTp" type="text" size="7">
+                            	<input id="sFeeTpKorNm" type="text" size="20" disabled="disabled">&nbsp; &nbsp;
                             	<button id="popupFeeTpInfo" class="popupButton">선택</button>
                             </td>
                             <td  rowSpan="2">
@@ -153,12 +153,6 @@ var module_instance = new GamSocApplyLgerModule();
                             </td>
                         </tr>
                         <tr>
-                            <th>업체코드</th>
-                            <td>
-                                <input id="sAppAgentCode" type="text" size="7">
-                            	<input id="sAppAgentName" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
-                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
-                            </td>
                             <th>사용유무</th>
                             <td>
                                 <select id="sUseYn">
@@ -166,6 +160,12 @@ var module_instance = new GamSocApplyLgerModule();
                                 	<option value="Y">사용</option>
                                 	<option value="N">사용안함</option>
                                 </select>
+                            </td>
+                            <th>업체코드</th>
+                            <td>
+                                <input id="sAppAgentCode" type="text" size="7">
+                            	<input id="sAppAgentName" type="text" size="20" disabled="disabled">&nbsp; &nbsp;
+                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
                         </tr>
                     </tbody>

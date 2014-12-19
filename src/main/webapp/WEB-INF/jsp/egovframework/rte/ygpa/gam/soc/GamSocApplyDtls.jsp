@@ -149,6 +149,17 @@ var module_instance = new GamSocApplyDtlsModule();
                                     </c:forEach>
                                 </select>
                             </td>
+                            <th>업체코드</th>
+                            <td>
+                                <input id="sAppAgentCode" type="text" size="7">
+                            	<input id="sAppAgentName" type="text" size="20" disabled="disabled">&nbsp; &nbsp;
+                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
+                            </td>
+                            <td  rowSpan="2">
+								<button id="btnSearch" class="buttonSearch">조회</button>
+                            </td>
+                        </tr>
+                        <tr>
                             <th>공사항구</th>
                             <td>
                                 <select id="sPrtAtCode">
@@ -158,21 +169,10 @@ var module_instance = new GamSocApplyDtlsModule();
                                     </c:forEach>
                                 </select>
                             </td>
-                            <td  rowSpan="2">
-								<button id="btnSearch" class="buttonSearch">조회</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>업체코드</th>
-                            <td>
-                                <input id="sAppAgentCode" type="text" size="7">
-                            	<input id="sAppAgentName" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
-                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
-                            </td>
                             <th>요금종류</th>
                             <td>
-                                <input id="sFeeTp" type="text" size="3">
-                            	<input id="sFeeTpKorNm" type="text" size="10" disabled="disabled">&nbsp; &nbsp;
+                                <input id="sFeeTp" type="text" size="7">
+                            	<input id="sFeeTpKorNm" type="text" size="20" disabled="disabled">&nbsp; &nbsp;
                             	<button id="popupFeeTpInfo" class="popupButton">선택</button>
                             </td>
                         </tr>

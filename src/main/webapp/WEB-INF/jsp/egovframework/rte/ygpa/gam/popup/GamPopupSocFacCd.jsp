@@ -53,6 +53,10 @@ GamPopupSocFacCdModule.prototype.onSubmit = function() {
 };
 
 GamPopupSocFacCdModule.prototype.loadData = function() {
+	if(!this.$("#sPrtAtCode").val() && !this.$("#sFacCode").val() && !this.$("#sFacSubCode").val() && !this.$("#sFacKorNm").val()) {
+		alert('조회조건 중 하나라도 입력해야 검색이 됩니다.');
+		return;
+	}
 	var searchOpt=this.makeFormArgs("#gamPopupFacForm");
  	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 };
