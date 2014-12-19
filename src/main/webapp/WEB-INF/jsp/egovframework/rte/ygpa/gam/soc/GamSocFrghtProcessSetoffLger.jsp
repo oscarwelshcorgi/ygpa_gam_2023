@@ -89,32 +89,30 @@ GamSocFrghtProcessSetoffLgerModule.prototype.loadComplete = function() {
  * 정의 된 버튼 클릭 시
  */
  GamSocFrghtProcessSetoffLgerModule.prototype.onButtonClick = function(buttonId) {
-
+	
+	var opts = null;
     switch(buttonId) {
 
         case 'popupFeeInfo' : //요금종류조회
-        	var opts;
         	this.doExecuteDialog('selectFeeInfo', '금종류 선택','/popup/showSocPayCd.do', opts);
         	break;
 
         case 'popupAgentInfo' : //신청업체조회
-        	var opts;
         	this.doExecuteDialog('selectAgentInfo', '신청업체 선택','/popup/showSocEntrpsInfo.do', opts);
         	break;
 
         case 'popupFcltyInfo' : //신청시설 조회
-        	var opts;
 			this.doExecuteDialog('selectFcltyInfo', '신청시설 선택', '/popup/showSocFacCd.do', opts);
         	break;
         	
         case 'popupTotalPortInfo' : //전체 조회
-        	var opts = {'gubun': 'L'}; 
+        	opts = {'gubun': 'L'}; 
 			this.doExecuteDialog('selectPortInfo', '투자비보전 전체 선택', '/popup/showSocApplyEntrpsInfo.do',{}, opts);
         	break;
         	
         case 'popupSelectPortInfo' : //해당항별 조회
         	var appPrtAtCode = this.$("#sAppPrtAtCode").val();
-        	var opts = {'gubun': 'L',
+        	opts = {'gubun': 'L',
         	            'appPrtAtCode': appPrtAtCode}; 
 			this.doExecuteDialog('selectPortInfo', '투자비보전 해당항별 선택', '/popup/showSocApplyEntrpsInfo.do',{}, opts);
         	break;
@@ -122,7 +120,7 @@ GamSocFrghtProcessSetoffLgerModule.prototype.loadComplete = function() {
         case 'popupIngPortInfo' : //해당항진행 조회
         
         	var appPrtAtCode = this.$("#sAppPrtAtCode").val();
-        	var opts = {'gubun': 'L',
+        	opts = {'gubun': 'L',
    		   				'appPrtAtCode': appPrtAtCode,
    		   				'useYn': 'Y'}; 
 			this.doExecuteDialog('selectPortInfo', '투자비보전 해당항 진행 선택', '/popup/showSocApplyEntrpsInfo.do',{}, opts);

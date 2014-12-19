@@ -20,8 +20,7 @@
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
-<%-- <validator:javascript formName="gamFcltyCtrtLgerHistSearchForm" method="validateGamFcltyCtrtLgerHist" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="form1" method="validateGamFcltyCtrtLgerHistDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" /> --%>
+<validator:javascript formName="gamFcltyCtrtLgerHistSearchForm" method="validateGamFcltyCtrtLgerHist" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 
 <script>
 /*
@@ -37,7 +36,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
     // 시설물계약대장 테이블 설정
     this.$("#fcltyCtrtLgerHistList").flexigrid({
         module: this,
-        url: '/ctrt/gamSelectFcltyCtrtLgerHistList.do',
+        url: '/ctrt/selectFcltyCtrtLgerHistList.do',
         dataType: 'json',
         colModel : [
 					{display:'계약번호', 		name:'ctrtNo',				width:120, 		sortable:false,		align:'center'},
@@ -48,6 +47,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
                     {display:'입찰일', 		name:'bidDt',				width:80, 		sortable:false,		align:'center'},
                     {display:'등록업체코드', 	name:'registEntrpsCd',		width:100, 		sortable:false,		align:'left'},
                     {display:'등록업체명', 	name:'registEntrpsNm',		width:150, 		sortable:false,		align:'left'},
+                    {display:'계약금액', 		name:'ctrtAmt',				width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'설계금액', 		name:'planAmt',				width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'예정금액', 		name:'prmtAmt',				width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'낙찰금액', 		name:'scsbidAmt',			width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
@@ -77,7 +77,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
  	// 계약공동도급 테이블 설정
     this.$("#fcltyCtrtJoinContrFList").flexigrid({
         module: this,
-        url: '/ctrt/gamSelectFcltyCtrtJoinContrFList.do',
+        url: '/ctrt/selectFcltyCtrtJoinContrFHistList.do',
         dataType: 'json',
         colModel : [
 					{display:'계약번호', 		name:'ctrtNo',			width:150, 		sortable:false,		align:'center'},
@@ -109,7 +109,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
 	// 계약변경 테이블 설정
     this.$("#fcltyCtrtChangeFList").flexigrid({
         module: this,
-        url: '/ctrt/gamSelectFcltyCtrtChangeFList.do',
+        url: '/ctrt/selectFcltyCtrtChangeFHistList.do',
         dataType: 'json',
         colModel : [
 					{display:'계약번호', 			name:'ctrtNo',				width:150, 		sortable:false,		align:'center'},
@@ -139,7 +139,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
 	// 계약대금지급 테이블 설정
     this.$("#fcltyCtrtMoneyPymntFList").flexigrid({
         module: this,
-        url: '/ctrt/gamSelectFcltyCtrtMoneyPymntFList.do',
+        url: '/ctrt/selectFcltyCtrtMoneyPymntFHistList.do',
         dataType: 'json',
         colModel : [
 					{display:'계약번호', 		name:'ctrtNo',				width:150, 		sortable:false,		align:'center'},
@@ -171,7 +171,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
 	// 계약이행이월 테이블 설정
     this.$("#fcltyCtrtFulfillCaryFwdFList").flexigrid({
         module: this,
-        url: '/ctrt/gamSelectFcltyCtrtFulfillCaryFwdFList.do',
+        url: '/ctrt/selectFcltyCtrtFulfillCaryFwdFHistList.do',
         dataType: 'json',
         colModel : [
 					{display:'계약번호', 		name:'ctrtNo',				width:200, 		sortable:false,		align:'center'},
@@ -192,6 +192,24 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
             return data;
         }
     });
+	
+	
+	//계약낙찰정보 리스트
+    this.$("#fcltyCtrtScsbidInfoList").flexigrid({
+        module: this,
+        url: '/ctrt/selectFcltyCtrtScsbidInfoHistList.do',
+        dataType: 'json',
+        colModel : [
+                    {display:'낙찰순위', 	name:'scsbidRank',		width:90, sortable:false,align:'center'},
+                    {display:'업체명', 	name:'entrpsNm',		width:280, sortable:false,align:'center'},
+                    {display:'대표자', 	name:'rprsntv',			width:100, sortable:false,align:'center'},
+                    {display:'사업자번호', name:'bsnmNo',			width:150, sortable:false,align:'center'},
+                    {display:'전화번호', 	name:'tlphonNo',		width:150, sortable:false,align:'center'},
+                    {display:'fax번호',	name:'faxNo',			width:150, sortable:false,align:'center'},
+                    ],
+        showTableToggleBtn: false,
+        height: 'auto'
+    });
 
 };
 
@@ -204,7 +222,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
     switch(buttonId) {
 
         case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
-            var opts;
+            var opts = null;
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
         break;
         
@@ -213,6 +231,10 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
 
 
 GamFcltyCtrtLgerHistModule.prototype.onSubmit = function() {
+	
+	if(!validateGamFcltyCtrtLgerHist(this.$('#gamFcltyCtrtLgerHistSearchForm')[0])){ 		
+		return;
+	}
     this.loadData();
 };
 
@@ -254,7 +276,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadDetail = function(){
 	
 	row = row[0];
 	var searchVO = [{name: 'ctrtNo',value: row["ctrtNo"]}];
-	this.doAction('/ctrt/gamSelectFcltyCtrtLgerHistDetail.do', searchVO, function(module, result) {
+	this.doAction('/ctrt/selectFcltyCtrtLgerHistDetail.do', searchVO, function(module, result) {
 		if(result.resultCode == 0) {
 			
 			//계약대장 상세 정보 tabs2에 입력
@@ -267,6 +289,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadDetail = function(){
 			module.$('#fcltyCtrtChangeFList').flexOptions({params:searchVO}).flexReload();
 			module.$('#fcltyCtrtMoneyPymntFList').flexOptions({params:searchVO}).flexReload();
 			module.$('#fcltyCtrtFulfillCaryFwdFList').flexOptions({params:searchVO}).flexReload();
+			module.$('#fcltyCtrtScsbidInfoList').flexOptions({params:searchVO}).flexReload();
 		}
 		else {
 			module.initDisplay();
@@ -285,7 +308,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadFcltyCtrtJoinContrFDetail = function(){
 	                {name: 'ctrtNo',value: row["ctrtNo"]},
 	                {name: 'seq',value: row["seq"]}
 	               ];
-	this.doAction('/ctrt/gamSelectFcltyCtrtJoinContrFDetail.do', searchVO, function(module, result) {
+	this.doAction('/ctrt/selectFcltyCtrtJoinContrFHistDetail.do', searchVO, function(module, result) {
 		if(result.resultCode == 0) {
 			module.makeDivValues('#fcltyCtrtJoinContrFDetailForm', result.resultDetail);
 		}
@@ -314,6 +337,8 @@ GamFcltyCtrtLgerHistModule.prototype.onTabChange = function(newTabId, oldTabId) 
 	    case 'tabs5':
 	        break;
 	    case 'tabs6':
+	        break;
+	    case 'tabs7':
 	        break;
     
     }
@@ -387,10 +412,10 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
                          		<input id="sRegistEntrpsNm" type="text" size="30" disabled="disabled">&nbsp; &nbsp;
                          		<button id="popupEntrpsInfo" class="popupButton">선택</button>
                          	</td>
-                         	<th width="10%">입찰일</th>
+                         	<th width="10%">계약금액</th>
                             <td>
-                            	<input id="sBidFrDt" type="text" class="emdcal" size="10"> ~ 
-                            	<input id="sBidToDt" type="text" class="emdcal" size="10">
+                            	<input id="sCtrtAmtFr" type="text" class="ygpaNumber" size="13"> ~ 
+                            	<input id="sCtrtAmtTo" type="text" class="ygpaNumber" size="13">
                             </td>
                         </tr>
                     </tbody>
@@ -408,6 +433,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
                 <li><a href="#tabs4" class="emdTab">계약변경정보</a></li>
                 <li><a href="#tabs5" class="emdTab">계약대금지급정보</a></li>
                 <li><a href="#tabs6" class="emdTab">계약이행이월정보</a></li>
+                <li><a href="#tabs7" class="emdTab">계약낙찰정보관리</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
@@ -552,7 +578,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
                         <table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'>계약대장인쇄</button>
+	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url='/ctrt/selectFcltyCtrtLgerHistPrint.do'>계약대장인쇄</button>
 	                            </td>
 	                        </tr>
 						</table>
@@ -571,7 +597,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 								<th width="15%" height="25">자료수</th>
 								<td><input type="text" size="100" id="tabs3TotalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td>
-    	                        	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'>계약대장인쇄</button>
+    	                        	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url='/ctrt/selectFcltyCtrtLgerHistPrint.do'>계약대장인쇄</button>
         	                    </td>
 							</tr>
 						</table>
@@ -660,7 +686,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'>계약대장인쇄</button>
+	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url='/ctrt/selectFcltyCtrtLgerHistPrint.do'>계약대장인쇄</button>
 	                            </td>
 	                        </tr>
 						</table>
@@ -689,7 +715,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'>계약대장인쇄</button>
+	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url='/ctrt/selectFcltyCtrtLgerHistPrint.do'>계약대장인쇄</button>
 	                            </td>
 	                        </tr>
 						</table>
@@ -714,13 +740,19 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url='/ctrt/gamSelectFcltyCtrtLgerHistPrint.do'>계약대장인쇄</button>
+	                            	<button data-role="printPage" data-search-option="gamFcltyCtrtLgerHistForm" data-url='/ctrt/selectFcltyCtrtLgerHistPrint.do'>계약대장인쇄</button>
 	                            </td>
 	                        </tr>
 						</table>
 					</form>
                 </div>
             </div>
+            
+            <!-- 계약낙찰정보관리 -->
+            <div id="tabs7" class="emdTabPage fillHeight" style="overflow: hidden;">
+				<table id="fcltyCtrtScsbidInfoList" style="display:none" class="fillHeight"></table>
+            </div>
+            
             
         </div>
     </div>

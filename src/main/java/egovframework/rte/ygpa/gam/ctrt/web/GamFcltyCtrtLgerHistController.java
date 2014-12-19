@@ -79,7 +79,7 @@ public class GamFcltyCtrtLgerHistController {
      * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtLgerHistList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/ctrt/selectFcltyCtrtLgerHistList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtLgerHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		
 		int totalCnt;
@@ -140,7 +140,7 @@ public class GamFcltyCtrtLgerHistController {
      * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtLgerHistDetail.do", method=RequestMethod.POST)
+    @RequestMapping(value="/ctrt/selectFcltyCtrtLgerHistDetail.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtLgerHistDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		
     	Map map = new HashMap();
@@ -171,7 +171,7 @@ public class GamFcltyCtrtLgerHistController {
      * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtJoinContrFList.do")
+    @RequestMapping(value="/ctrt/selectFcltyCtrtJoinContrFHistList.do")
 	public @ResponseBody Map selectFcltyCtrtJoinContrFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		
 		int totalCnt;
@@ -221,7 +221,7 @@ public class GamFcltyCtrtLgerHistController {
      * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtJoinContrFDetail.do", method=RequestMethod.POST)
+    @RequestMapping(value="/ctrt/selectFcltyCtrtJoinContrFHistDetail.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtJoinContrFDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		
     	Map map = new HashMap();
@@ -252,7 +252,7 @@ public class GamFcltyCtrtLgerHistController {
      * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtChangeFList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/ctrt/selectFcltyCtrtChangeFHistList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtChangeFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		
 		int totalCnt;
@@ -310,7 +310,7 @@ public class GamFcltyCtrtLgerHistController {
      * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtMoneyPymntFList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/ctrt/selectFcltyCtrtMoneyPymntFHistList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtMoneyPymntFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		
 		int totalCnt;
@@ -371,7 +371,7 @@ public class GamFcltyCtrtLgerHistController {
      * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtFulfillCaryFwdFList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/ctrt/selectFcltyCtrtFulfillCaryFwdFHistList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectFcltyCtrtFulfillCaryFwdFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		
 		int totalCnt;
@@ -431,7 +431,7 @@ public class GamFcltyCtrtLgerHistController {
      */
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/gamSelectFcltyCtrtLgerHistPrint.do")
+    @RequestMapping(value="/ctrt/selectFcltyCtrtLgerHistPrint.do")
 	public String selectFcltyCtrtLgerHistDetailPrint(@RequestParam Map<String, Object> fcltyCtrtLgerHistOpt, ModelMap model) throws Exception {
 
     	Map map = new HashMap();
@@ -494,6 +494,51 @@ public class GamFcltyCtrtLgerHistController {
 		model.addAttribute("resultMsg", "");
 
     	return "ygpa/gam/ctrt/GamFcltyCtrtLgerHistPrint";
+    }
+	
+	
+	/**
+	 * 계약낙찰정보 목록조회
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return map
+	 * @exception Exception
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/ctrt/selectFcltyCtrtScsbidInfoHistList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectFcltyCtrtScsbidInfoHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+		
+		int totalCnt;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+    	List ctrtFulFillCaryFwdList = gamFcltyCtrtLgerHistService.selectFcltyCtrtScsbidInfoHistList(searchVO);
+    	
+		totalCnt = gamFcltyCtrtLgerHistService.selectFcltyCtrtScsbidInfoHistListTotCnt(searchVO);
+    	
+    	paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+        
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", ctrtFulFillCaryFwdList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
     }
 
 }

@@ -20,8 +20,7 @@
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
-<%-- <validator:javascript formName="gamFcltyCtrtSttusInqireSearchForm" method="validateGamFcltyCtrtSttusInqire" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="form1" method="validateGamFcltyCtrtSttusInqireDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" /> --%>
+<validator:javascript formName="gamFcltyCtrtSttusInqireSearchForm" method="validateGamFcltyCtrtSttusInqire" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 
 <script>
 /*
@@ -117,6 +116,9 @@ GamFcltyCtrtSttusInqireModule.prototype.addSelectOption = function() {
 
 
 GamFcltyCtrtSttusInqireModule.prototype.onSubmit = function() {
+	if(!validateGamFcltyCtrtSttusInqire(this.$('#gamFcltyCtrtSttusInqireSearchForm')[0])){ 		
+		return;
+	}
     this.loadData();
 };
 

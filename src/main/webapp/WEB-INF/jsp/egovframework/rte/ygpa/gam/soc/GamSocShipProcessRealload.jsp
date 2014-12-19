@@ -108,15 +108,13 @@ GamSocShipProcessRealloadModule.prototype.loadComplete = function() {
  * 정의 된 버튼 클릭 시
  */
  GamSocShipProcessRealloadModule.prototype.onButtonClick = function(buttonId) {
-
+	var opts = null;
     switch(buttonId) {
         case 'popupVsslCd' : //호출부호조회
-        	var opts;
         	this.doExecuteDialog('selectVsslCd', '선박 선택','/popup/showSocVsslCd.do', opts);
         	break;
 
         case 'popupAgentInfo' : //면제업체 조회
-        	var opts;
 			this.doExecuteDialog('selectAgentInfo', '면제업체 선택', '/popup/showSocAgentFInfo.do', opts);
         	break;
     }

@@ -12,6 +12,7 @@
   *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.01.22  heroine          최초 생성
+  *  2014.12.19  HNJ          	  검색조건 필수입력값 지정 및 소스 정리
   *
   * author heroine
   * since 2014.01.22
@@ -55,31 +56,29 @@ GamPopupEntrpsModule.prototype.loadComplete = function() {
 
 GamPopupEntrpsModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
-	case "btnEntrpsSearch":
-		var searchOpt=this.makeFormArgs("#gamPopupEntrpsForm");
-	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
-	 	
-		break;
-	case "btnOk":
-		var row = this.$("#grdInfoList").selectedRows();
-		if(row.length>0) {
-			this.closeDialog("ok", row[0]);
-		}
-		else {
-			alert("먼저 입력 하고자 하는 항목을 선택 하십시요.");
-		}
-		break;
-	case "cancel":
-		this.cancelDialog();
+		case "btnOk":
+			var row = this.$("#grdInfoList").selectedRows();
+			if(row.length>0) {
+				this.closeDialog("ok", row[0]);
+			}
+			else {
+				alert("먼저 입력 하고자 하는 항목을 선택 하십시요.");
+			}
+			break;
+		case "cancel":
+			this.cancelDialog();
 	}
 };
 
 GamPopupEntrpsModule.prototype.onSubmit = function() {
-	//this.showAlert(this.$("#prtCode").val()+"을(를) 조회 하였습니다");
 	this.loadData();
 };
 
 GamPopupEntrpsModule.prototype.loadData = function() {
+	if(!this.$('#entrpsNm').val() && !this.$('#entrpscd').val() && !this.$('#bizrno').val()){
+		alert('업체명, 업체코드, 사업자번호 중 하나 이상 검색어를 입력하세요.');
+		return;
+	}
 	var searchOpt=this.makeFormArgs("#gamPopupEntrpsForm");
  	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 };
@@ -99,7 +98,7 @@ var popup_instance = new GamPopupEntrpsModule();
                         <td><input id="entrpscd" type="text" style="width: 80px;"/></td>
                     	<th>사업자번호</th>
 						<td><input id="bizrno" type="text" style="width: 80px;"/></td>
-						<td><button id="btnEntrpsSearch" class="buttonSubmit">조회</button>
+						<td><button class="buttonSearch">조회</button>
 						</td>
 					</tr>
 				</tbody>

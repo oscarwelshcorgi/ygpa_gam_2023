@@ -64,54 +64,36 @@ GamPopupSocApplyEntrpsInfoModule.prototype.loadComplete = function(searchOption)
 		module.closeDialog("ok", row);
 	});
 
-	this.$("#grdInfoList").on("onItemSelected", function(event, module, row, grid, param) {
-		//alert("row " + row["assetCls"]+"-"+row["assetNo"]+"-"+row["assetNoSeq"]+" is selected");
-	});
-
-	this.$("#grdInfoList").on("onItemUnSelected", function(event, module, row, grid, param) {
-		//alert("row " + row["assetCls"]+"-"+row["assetNo"]+"-"+row["assetNoSeq"]+" is unselected");
-	});
-
 };
 
 // 사용자 설정 함수 추가
 
 GamPopupSocApplyEntrpsInfoModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
-	case "btnEntrpsSearch":
-		/*
-		if(this.$("#entrpscd").val() == "" && this.$("#bizrno").val() == ""){
-			if(this.$("#entrpsNm").val() == "" || this.$("#entrpsNm").val().length < 2){
-				this.$("#entrpsNm").focus();
-				alert("업체 명은 2자 이상 입력하십시오.");
-				return;
+
+		case "btnOk":
+			var row = this.$("#grdInfoList").selectedRows();
+			if(row.length>0) {
+				this.closeDialog("ok", row[0]);
 			}
-		}
-		 */
-		var searchOpt=this.makeFormArgs("#gamPopupSocApplyEntrpsInfoForm");
-	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
-	 	
-		break;
-	case "btnOk":
-		var row = this.$("#grdInfoList").selectedRows();
-		if(row.length>0) {
-			this.closeDialog("ok", row[0]);
-		}
-		else {
-			alert("먼저 입력 하고자 하는 항목을 선택 하십시요.");
-		}
-		break;
-	case "cancel":
-		this.cancelDialog();
+			else {
+				alert("먼저 입력 하고자 하는 항목을 선택 하십시요.");
+			}
+			break;
+		case "cancel":
+			this.cancelDialog();
 	}
 };
 
 GamPopupSocApplyEntrpsInfoModule.prototype.onSubmit = function() {
-	//this.showAlert(this.$("#prtCode").val()+"을(를) 조회 하였습니다");
 	this.loadData();
 };
 
 GamPopupSocApplyEntrpsInfoModule.prototype.loadData = function() {
+	if(!this.$('#firmKorNm').val() && !this.$('#appAgentCode').val()){
+		alert('업체명나 업체코드를 입력하세요.');
+		return;
+	}
 	var searchOpt=this.makeFormArgs("#gamPopupSocApplyEntrpsInfoForm");
  	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 };
@@ -132,7 +114,7 @@ var popup_instance = new GamPopupSocApplyEntrpsInfoModule();
                         <td><input id="firmKorNm" type="text" style="width: 120px;" title="업체 명" maxlength="20" /></td>
 						<th>업체코드</th>
                         <td><input id="appAgentCode" type="text" style="width: 80px;" title="업체코드" maxlength="10" /></td>
-						<td><button id="btnEntrpsSearch" class="buttonSubmit">조회</button>
+						<td><button class="buttonSearch">조회</button>
 						</td>
 					</tr>
 				</tbody>

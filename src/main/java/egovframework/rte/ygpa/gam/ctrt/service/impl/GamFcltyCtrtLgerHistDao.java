@@ -159,5 +159,28 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	public GamFcltyCtrtLgerHistVO selectFcltyCtrtFulfillCaryFwdFListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		return (GamFcltyCtrtLgerHistVO) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtFulfillCaryFwdFListSum_S", searchVO);
 	}
+	
+	
+	/**
+	 * 계약낙찰정보 목록을 가져온다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약낙찰정보 목록
+	 * @exception Exception
+	 */
+	public List<?> selectFcltyCtrtScsbidInfoHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+		return list("gamFcltyCtrtLgerHistDao.selectFcltyCtrtScsbidInfoHistList_D", searchVO);
+	}
+	
+	/**
+	 * 계약낙찰정보 목록의 총개수를 가져온다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약낙찰정보 목록 총개수
+	 * @exception Exception
+	 */
+	public int selectFcltyCtrtScsbidInfoHistListTotCnt(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtLgerHistDao.selectFcltyCtrtScsbidInfoHistListTotCnt_S", searchVO);
+	}
+	
+	
 
 }

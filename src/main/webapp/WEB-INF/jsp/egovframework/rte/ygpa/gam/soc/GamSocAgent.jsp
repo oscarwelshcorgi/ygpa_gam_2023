@@ -183,7 +183,8 @@ GamSocAgentMngtModule.prototype.removeItem = function() {
  * 정의 된 버튼 클릭 시
  */
  GamSocAgentMngtModule.prototype.onButtonClick = function(buttonId) {
-
+	
+	var opts = null;
     switch(buttonId) {
             
 		// 등록포맷으로 변환 -- 초기화 및 상태값 변경
@@ -204,12 +205,11 @@ GamSocAgentMngtModule.prototype.removeItem = function() {
             break;
             
         case 'popupSocAgentFInfo': // 허가원부선택 팝업을 호출한다.(조회)
-            var opts;
             this.doExecuteDialog('selectSocAgentFInfoPopup', '허가원부선택', '/popup/showSocAgentFInfo.do', opts);
             break;
 
         case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
-            var opts;
+            
             this.doExecuteDialog('selectSocEntrpsInfoPopup', '업체 선택', '/popup/showSocEntrpsInfo.do', opts);
             break;
             
@@ -250,7 +250,6 @@ GamSocAgentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
 			if (msg != 'cancel') {
 			    this.$('#agentCode').val(value.agentCode);
 			    this.$('#agentName').val(value.firmKorNm);
-			//this.loadData();
 			} else {
 			    alert('취소 되었습니다');
 			}
@@ -275,7 +274,7 @@ GamSocAgentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
 			var all_rows = this.$('#socAgentMngtList').flexGetData();
 			
 			var sumAccFee = 0;
-			for(i=0;i<all_rows.length;i++){
+			for(var i=0;i<all_rows.length;i++){
 				sumAccFee = parseInt(sumAccFee) + parseInt(all_rows[i]["accFee"]);
 			}
 			

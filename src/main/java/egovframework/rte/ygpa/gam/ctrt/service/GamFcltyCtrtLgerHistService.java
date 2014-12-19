@@ -128,5 +128,22 @@ public interface GamFcltyCtrtLgerHistService {
 	 * @exception Exception
 	 */
 	GamFcltyCtrtLgerHistVO selectFcltyCtrtFulfillCaryFwdFListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	
+	
+	/**
+	 * 계약낙찰정보 목록을 가져온다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약낙찰정보 목록
+	 * @exception Exception
+	 */
+	List<?> selectFcltyCtrtScsbidInfoHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	
+	/**
+	 * 계약낙찰정보 목록의 총개수를 가져온다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약낙찰정보 목록 총개수
+	 * @exception Exception
+	 */
+	int selectFcltyCtrtScsbidInfoHistListTotCnt(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
 
 }

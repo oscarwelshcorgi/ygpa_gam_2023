@@ -126,6 +126,7 @@
 					        		, TO_CHAR(BID_DT, 'YYYY-MM-DD') AS BID_DT
 					        		, REGIST_ENTRPS_CD
 					        		, GAM_GETENTRPSNM(REGIST_ENTRPS_CD, 1) AS REGIST_ENTRPS_NM
+					        		, CTRT_AMT
 					        		, PLAN_AMT
 					        		, PRMT_AMT
 					        		, SCSBID_AMT
@@ -156,12 +157,12 @@
 										AND REGIST_ENTRPS_CD = #sRegistEntrpsCd#
 									</isNotEmpty>
 									
-									<isNotEmpty property="sBidFrDt">
-										<![CDATA[ AND BID_DT >= TO_DATE(#sBidFrDt#,'YYYY-MM-DD') ]]>
+									<isNotEmpty property="sCtrtAmtFr">
+										<![CDATA[ AND CTRT_AMT >= TO_NUMBER(#sCtrtAmtFr#) ]]>
 									</isNotEmpty>
 									
-									<isNotEmpty property="sBidToDt">
-										<![CDATA[ AND BID_DT < TO_DATE(#sBidToDt#,'YYYY-MM-DD') + 1 ]]>
+									<isNotEmpty property="sCtrtAmtTo">
+										<![CDATA[ AND CTRT_AMT <= TO_NUMBER(#sCtrtAmtTo#) ]]>
 									</isNotEmpty>
 									
 
@@ -205,12 +206,12 @@
 					AND REGIST_ENTRPS_CD = #sRegistEntrpsCd#
 				</isNotEmpty>
 				
-				<isNotEmpty property="sBidFrDt">
-					<![CDATA[ AND BID_DT >= TO_DATE(#sBidFrDt#,'YYYY-MM-DD') ]]>
+				<isNotEmpty property="sCtrtAmtFr">
+					<![CDATA[ AND CTRT_AMT >= TO_NUMBER(#sCtrtAmtFr#) ]]>
 				</isNotEmpty>
 				
-				<isNotEmpty property="sBidToDt">
-					<![CDATA[ AND BID_DT < TO_DATE(#sBidToDt#,'YYYY-MM-DD') + 1 ]]>
+				<isNotEmpty property="sCtrtAmtTo">
+					<![CDATA[ AND CTRT_AMT <= TO_NUMBER(#sCtrtAmtTo#) ]]>
 				</isNotEmpty>
     </select>
     
@@ -479,5 +480,45 @@
 	 	WHERE  
 	 			CTRT_NO = #ctrtNo#
     </select>
+    
+    
+    <!-- 계약낙찰정보 -->		
+	<select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtScsbidInfoHistList_D" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="egovMap">
+	    SELECT A.*
+          FROM (
+             SELECT  ROWNUM RNUM, S.*
+               FROM (
+					SELECT
+					    B.CTRT_NO
+					    , B.SEQ
+					    , B.SCSBID_RANK
+					    , B.ENTRPS_NM
+					    , B.BSNM_NO
+					    , B.RPRSNTV
+					    , B.TLPHON_NO
+					    , B.FAX_NO
+					    , B.REG_USR
+					    , TO_CHAR(B.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+					    , B.UPD_USR
+					    , TO_CHAR(B.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
+					  FROM
+					    CTRT_SCSBID_INFO_F B
+					  WHERE
+					    B.CTRT_NO = #ctrtNo#
+					  ORDER BY B.SEQ  
+               		) S
+             	) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
+	</select>	
+
+	<select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtScsbidInfoHistListTotCnt_S" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="int">
+		SELECT
+		    COUNT(*) CNT
+		  FROM
+		    CTRT_SCSBID_INFO_F
+		  WHERE
+		    CTRT_NO = #ctrtNo#
+	</select>
+    
     
 </sqlMap>

@@ -44,11 +44,11 @@ public class GamFcltyCtrtLgerHistVO extends ComDefaultVO {
     /** 등록업체코드 */
     private String sRegistEntrpsCd;
     
-    /** 입찰일 검색조건 시작일 */
-    private String sBidFrDt;
+    /** 계약금액 검색조건 시작 */
+    private String sCtrtAmtFr;
     
-    /** 입찰일 검색조건 종료일 */
-    private String sBidToDt;
+    /** 계약금액 검색조건 종료 */
+    private String sCtrtAmtTo;
     
     /** 자료 총갯수 */
     private int totalCnt;
@@ -224,34 +224,6 @@ public class GamFcltyCtrtLgerHistVO extends ComDefaultVO {
 	 */
 	public void setsRegistEntrpsCd(String sRegistEntrpsCd) {
 		this.sRegistEntrpsCd = sRegistEntrpsCd;
-	}
-
-	/**
-	 * @return the sBidfrDt
-	 */
-	public String getsBidFrDt() {
-		return sBidFrDt;
-	}
-
-	/**
-	 * @param sBidfrDt the sBidfrDt to set
-	 */
-	public void setsBidFrDt(String sBidFrDt) {
-		this.sBidFrDt = sBidFrDt;
-	}
-
-	/**
-	 * @return the sBidtoDt
-	 */
-	public String getsBidToDt() {
-		return sBidToDt;
-	}
-
-	/**
-	 * @param sBidtoDt the sBidtoDt to set
-	 */
-	public void setsBidToDt(String sBidToDt) {
-		this.sBidToDt = sBidToDt;
 	}
 
 
@@ -1296,6 +1268,34 @@ public class GamFcltyCtrtLgerHistVO extends ComDefaultVO {
 	 */
 	public void setFlawDtTo(String flawDtTo) {
 		this.flawDtTo = flawDtTo;
+	}
+
+	/**
+	 * @return the sCtrtAmtFr
+	 */
+	public String getsCtrtAmtFr() {
+		return sCtrtAmtFr;
+	}
+
+	/**
+	 * @param sCtrtAmtFr the sCtrtAmtFr to set
+	 */
+	public void setsCtrtAmtFr(String sCtrtAmtFr) {
+		this.sCtrtAmtFr = sCtrtAmtFr;
+	}
+
+	/**
+	 * @return the sCtrtAmtTo
+	 */
+	public String getsCtrtAmtTo() {
+		return sCtrtAmtTo;
+	}
+
+	/**
+	 * @param sCtrtAmtTo the sCtrtAmtTo to set
+	 */
+	public void setsCtrtAmtTo(String sCtrtAmtTo) {
+		this.sCtrtAmtTo = sCtrtAmtTo;
 	}
 
 }

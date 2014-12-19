@@ -120,16 +120,14 @@ GamSocTotalBsnsSetoffDtlsModule.prototype.loadComplete = function() {
  * 정의 된 버튼 클릭 시
  */
  GamSocTotalBsnsSetoffDtlsModule.prototype.onButtonClick = function(buttonId) {
-
+	
+	var opts = null;
     switch(buttonId) {
-    
         case 'popupChrgeKndCd' : //요금코드조회
-        	var opts;
 			this.doExecuteDialog('selectChrgeKndCd', '요금 선택', '/popup/showSocPayCd.do', opts);
         	break;
 
         case 'popupAgentInfo' : //면제업체 조회
-        	var opts;
 			this.doExecuteDialog('selectAgentInfo', '면제업체 선택', '/popup/showSocAgentFInfo.do', opts);
         	break;
 

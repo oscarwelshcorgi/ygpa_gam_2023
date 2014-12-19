@@ -284,7 +284,7 @@
 		</c:forEach>
 				<tr>
 					<th>하자기간</th>
-					<td colSpan="5"><c:out value="${fcltyCtrtLgerHistDetail.flawPdFrom }" /> ~ <c:out value="${fcltyCtrtLgerHistDetail.flawPdTo }" /></td>
+					<td colSpan="5"><c:out value="${fcltyCtrtLgerHistDetail.flawDtFrom }" /> ~ <c:out value="${fcltyCtrtLgerHistDetail.flawDtTo }" /></td>
 				</tr>
 			</tbody>
 		</table>

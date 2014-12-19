@@ -173,5 +173,26 @@ public class GamFcltyCtrtLgerHistServiceImpl  extends AbstractServiceImpl implem
 	public GamFcltyCtrtLgerHistVO selectFcltyCtrtFulfillCaryFwdFListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtFulfillCaryFwdFListSum(searchVO);
 	}
+	
+	
+	/**
+	 * 계약낙찰정보 목록을 가져온다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약낙찰정보 목록
+	 * @exception Exception
+	 */
+	public List<?> selectFcltyCtrtScsbidInfoHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtScsbidInfoHistList(searchVO);
+	}
+	
+	/**
+	 * 계약낙찰정보 목록의 총개수를 가져온다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 계약낙찰정보 목록 총개수
+	 * @exception Exception
+	 */
+	public int selectFcltyCtrtScsbidInfoHistListTotCnt(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtScsbidInfoHistListTotCnt(searchVO);
+	}
 
 }

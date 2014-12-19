@@ -61,61 +61,36 @@ GamPopupSocAgentFModule.prototype.loadComplete = function() {
 		module.closeDialog("ok", row);
 	});
 
-	this.$("#grdInfoList").on("onItemSelected", function(event, module, row, grid, param) {
-		//alert("row " + row["assetCls"]+"-"+row["assetNo"]+"-"+row["assetNoSeq"]+" is selected");
-	});
-
-	this.$("#grdInfoList").on("onItemUnSelected", function(event, module, row, grid, param) {
-		//alert("row " + row["assetCls"]+"-"+row["assetNo"]+"-"+row["assetNoSeq"]+" is unselected");
-	});
-
 };
 
 // 사용자 설정 함수 추가 
 GamPopupSocAgentFModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
-	case "btnAgentFSearch":
-		
-		/*
-		if(this.$("#entrpscd").val() == "" && this.$("#bizrno").val() == ""){
-			if(this.$("#entrpsNm").val() == "" || this.$("#entrpsNm").val().length < 2){
-				this.$("#entrpsNm").focus();
-				alert("업체 명은 2자 이상 입력하십시오.");
-				return;
-			}
-		}
-		 */
-		var searchOpt=this.makeFormArgs("#gamPopupSocAgentFForm");
-	 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
-	 	//console.log('debug');
-		break;
-	case "popupEntrpsInfo":
-		
-		var opts;
-		alert('kk');
-		EMD.util.create_window('업체 선택', '/popup/showSocEntrpsInfo.do', null, opts);
-    	break;
 
-	case "btnOk":
-		var row = this.$("#grdInfoList").selectedRows();
-		if(row.length>0) {
-			this.closeDialog("ok", row[0]);
-		}
-		else {
-			alert("먼저 입력 하고자 하는 항목을 선택 하십시요.");
-		}
-		break;
-	case "cancel":
-		this.cancelDialog();
+		case "btnOk":
+			var row = this.$("#grdInfoList").selectedRows();
+			if(row.length>0) {
+				this.closeDialog("ok", row[0]);
+			}
+			else {
+				alert("먼저 입력 하고자 하는 항목을 선택 하십시요.");
+			}
+			break;
+		case "cancel":
+			this.cancelDialog();
+			
 	}
 };
 
 GamPopupSocAgentFModule.prototype.onSubmit = function() {
-	//this.showAlert(this.$("#prtCode").val()+"을(를) 조회 하였습니다");
 	this.loadData();
 };
 
 GamPopupSocAgentFModule.prototype.loadData = function() {
+	if(!this.$('#sAgentName').val() && !this.$('#sAgentCode').val()){
+		alert('업체명이나 업체코드를 입력하세요.');
+		return;
+	}
 	var searchOpt=this.makeFormArgs("#gamPopupSocAgentFForm");
  	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 };
@@ -148,7 +123,7 @@ var popup_instance = new GamPopupSocAgentFModule();
                            	<input id="sAgentName" type="text" size="15">
                         </td>
 						<td>
-							<button id="btnAgentFSearch" class="buttonSubmit">조회</button>
+							<button class="buttonSearch">조회</button>
 						</td>
 					</tr>
 				</tbody>
