@@ -220,7 +220,7 @@ GamConstFcltySpecMngModule.prototype.insertFcltySpecFile = function(fcltsMngNo) 
 
 	var all_rows = this.$('#fcltyFileList').flexGetData();
 
-	for(i=0;i<all_rows.length;i++){
+	for(var i=0;i<all_rows.length;i++){
 		all_rows[i]["fcltsMngNo"] = fcltsMngNo;
 	}
 
@@ -553,22 +553,20 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<th>항구분</th>
 							<td><input id="searchPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>시설물관리그룹</th>
-							<td>
-								<input id="sFcltsMngGroupNo" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
-								<input id="sFcltsMngGroupNoNm" type="text" size="2" maxlength="2" title="검색조건" />
+							<td colspan="3">
+								<input id="sFcltsMngGroupNo" type="text" size="14" title="시설물관리그룹넘버" />&nbsp;-&nbsp;
+								<input id="sFcltsMngGroupNoNm" type="text" size="56" title="시설물관리그룹명" />
 								<button id="searchPopupBtn" class="popupButton">선택</button>
-							</td>
-							<th>시설분류</th>
-							<td>
-								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" />
 							</td>
 							<td rowspan="2"><button class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
+							<th>시설분류</th>
+							<td><input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" /></td>
 							<th>시설명</th>
-							<td><input id="searchKeyword" type="text" size="30" maxlength="40" title="검색조건"  /></td>
+							<td><input id="searchKeyword" type="text" size="30" title="시설명"  /></td>
 							<th>소재지</th>
-							<td colspan="3"><input id="searchLoc" type="text" size="67" maxlength="40" title="검색조건"  /></td>
+							<td><input id="searchLoc" type="text" size="30" title="소재지"  /></td>
 						</tr>
 					</tbody>
 				</table>
