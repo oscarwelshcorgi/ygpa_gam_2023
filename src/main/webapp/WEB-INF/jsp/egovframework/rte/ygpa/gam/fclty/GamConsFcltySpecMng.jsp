@@ -438,9 +438,9 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			this.doExecuteDialog("searchGisCodePopup", "자산코드", '/popup/showAssetsCd.do', {});
 		break;
 
-		// 자산코드 팝업
+		// 검색조건 시설물 관리 그룹 팝업
 		case "searchPopupBtn":
-			this.doExecuteDialog("searchGisCodePopup2", "자산코드", '/popup/showAssetsCd.do', {});
+			this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
 		break;
 		
 		// 시설물 분류코드(디테일 화면)
@@ -509,10 +509,10 @@ GamConstFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 			if(this._cmd!="insert") alert('변경된 내용은 페이지를 새로고침을 해야 반영 됩니다.');
 		break;
 
-		// 조회화면
-		case "searchGisCodePopup2":
-			this.$("#searchAssetsCd").val(value["gisAssetsCd"]);
-			this.$("#searchAssetsSubCd").val(value["gisAssetsSubCd"]);
+		// 검색조건 시설물 관리 그룹 
+		case "sSelectFcltsMngGroup":
+			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
+			this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
 		break;
 
 		// 업체조회화면
@@ -554,8 +554,8 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<td><input id="searchPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>시설물관리그룹</th>
 							<td>
-								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
-								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />
+								<input id="sFcltsMngGroupNo" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
+								<input id="sFcltsMngGroupNoNm" type="text" size="2" maxlength="2" title="검색조건" />
 								<button id="searchPopupBtn" class="popupButton">선택</button>
 							</td>
 							<th>시설분류</th>
