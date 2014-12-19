@@ -41,11 +41,8 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 		url: '/fclty/gamConstFcltySpecMngList.do',
 		dataType: "json",
 		colModel : [
-					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:80,		sortable:false,		align:"center"},
-					{display:"항코드명",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
-					{display:"자산코드",		name:"gisAssetsDisplay",	width:80,		sortable:false,		align:"center"},
+					{display:"항분류",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
 					{display:"자산명",		name:"gisAssetsNm",			width:200,		sortable:false,		align:"left"},
-					{display:"시설코드", 		name:"gisPrtFcltyDisplay",	width:80,		sortable:false,		align:"center"},
 					{display:"시설명",		name:"prtFcltyNm",			width:280,		sortable:false,		align:"left"},
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:100,		sortable:false,		align:"center"}
 
@@ -82,8 +79,6 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"구분",		name:"atchFileSeNm",			width:40,		sortable:true,		align:"center"},
 					{display:"파일제목",	name:"atchFileSj",				width:240,		sortable:true,		align:"left"},
 					{display:"논리파일명",	name:"atchFileNmLogic",			width:200,		sortable:true,		align:"left"},
-					{display:"물리파일명",	name:"atchFileNmPhysicl",		width:200,		sortable:true,		align:"left"},
-					{display:"작성일자",	name:"atchFileWritngDt",		width:120,		sortable:true,		align:"center"}
 			],
 		height: "auto"
 	});
@@ -555,23 +550,25 @@ var module_instance = new GamConstFcltySpecMngModule();
 				<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>항코드</th>
+							<th>항구분</th>
 							<td><input id="searchPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
-							<th>자산코드</th>
+							<th>시설물관리그룹</th>
 							<td>
 								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
 								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />
 								<button id="searchPopupBtn" class="popupButton">선택</button>
 							</td>
-							<th>건축시설코드</th>
+							<th>시설분류</th>
 							<td>
 								<input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" />
 							</td>
 							<td rowspan="2"><button class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
-							<th>건축시설명</th>
-							<td colspan="5"><input id="searchKeyword" type="text" size="72" maxlength="40" title="검색조건"  /></td>
+							<th>시설명</th>
+							<td><input id="searchKeyword" type="text" size="30" maxlength="40" title="검색조건"  /></td>
+							<th>소재지</th>
+							<td colspan="3"><input id="searchLoc" type="text" size="67" maxlength="40" title="검색조건"  /></td>
 						</tr>
 					</tbody>
 				</table>
