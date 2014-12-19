@@ -43,11 +43,8 @@ GamMechFcltySpecMngModule.prototype.loadComplete = function(params) {
 		url: '/fclty/selectMechFcltySpecMngList.do',
 		dataType: "json",
 		colModel : [
-					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:80,		sortable:false,		align:"center"},
-					{display:"항코드명",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
-					{display:"자산코드",		name:"gisAssetsDisplayCd",	width:80,		sortable:false,		align:"center"},
+					{display:"항구분명",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
 					{display:"자산명",		name:"gisAssetsNm",			width:200,		sortable:false,		align:"left"},
-					{display:"시설코드", 	    name:"gisPrtFcltyDisplayCd",width:80,		sortable:false,		align:"center"},
 					{display:"시설명",		name:"prtFcltyNm",			width:280,		sortable:false,		align:"left"},
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:100,		sortable:false,		align:"left"},
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"}
@@ -91,8 +88,6 @@ GamMechFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"구분",		name:"atchFileSeNm",		width:40,		sortable:true,		align:"center"},
 					{display:"파일제목",	name:"atchFileSj",			width:160,		sortable:true,		align:"left"},
 					{display:"논리파일명",	name:"atchFileNmLogic",		width:160,		sortable:true,		align:"left"},
-					{display:"물리파일명",	name:"atchFileNmPhysicl",	width:160,		sortable:true,		align:"left"},
-					{display:"작성일자",	name:"atchFileWritngDt",	width:120,		sortable:true,		align:"center"}
 			],
 		height: "auto"
 	});
@@ -158,14 +153,14 @@ GamMechFcltySpecMngModule.prototype.initDisplay = function() {
 	this.$('#fcltsFileList').flexEmptyData();
 	if(this._cmd == "insert") {
 		this.$("#selectGisPrtFcltyCd").enable();
-		this.$("#popupSearchGisCode2").show();
+		this.$("#popupSearchGisCode").show();
 		this.$("#mechFcltySpecMngTab").tabs("option", {active: 1});		
 	} else if (this._cmd == "modify") {
 		this.$("#selectGisPrtFcltyCd").disable();
-		this.$("#popupSearchGisCode2").hide();
+		this.$("#popupSearchGisCode").hide();
 	} else {
 		this.$("#selectGisPrtFcltyCd").enable();
-		this.$("#popupSearchGisCode2").show();
+		this.$("#popupSearchGisCode").show();
 		this.$("#mechFcltySpecMngTab").tabs("option", {active: 0});
 	}
 };
@@ -181,7 +176,7 @@ GamMechFcltySpecMngModule.prototype.insertData = function() {
 			module.$("#fcltsMngNo").val(module.$("#gisAssetsPrtAtCode").val() + module.$("#gisAssetsCd").val() + module.$("#gisAssetsSubCd").val() + module.$("#gisPrtFcltyCd").val() + result.gisPrtFcltySeq + module._prtFcltySe);
 			module.$("#dispfcltsMngNo").text(module.$("#fcltsMngNo").val());
 			module.$("#selectGisPrtFcltyCd").disable();
-			module.$("#popupSearchGisCode2").hide();
+			module.$("#popupSearchGisCode").hide();
 			module.saveAtchFile();
  		}
  		alert(result.resultMsg);
@@ -391,19 +386,19 @@ GamMechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			this.removeAtchFileItem();
 			break;
 
-		// 자산코드 팝업(조회화면)
+		// 자산코드 팝업(디테일 화면)
 		case "popupSearchGisCode":
 			this.doExecuteDialog("selectGisCode", "자산코드", '/popup/showAssetsCd.do', {});
 			break;
 
-		// 자산코드 팝업(디테일 화면)
-		case "popupSearchGisCode2":
-			this.doExecuteDialog("selectGisCode2", "자산코드", '/popup/showAssetsCd.do', {});
-			break;
-
-		// 시설물관리그룹(디테일 화면)
+		// 시설물관리그룹(조회 화면)
 		case "popupSearchFcltsMngGroupNo":
 			this.doExecuteDialog("selectFcltsMngGroup", "시설물그룹번호", '/popup/showFcltsMngGroup.do', {});
+			break;
+			
+		// 시설물관리그룹(디테일 화면)
+		case "popupSearchFcltsMngGroupNo2":
+			this.doExecuteDialog("selectFcltsMngGroup2", "시설물그룹번호", '/popup/showFcltsMngGroup.do', {});
 			break;
 			
 		// 시설물 분류코드(디테일 화면)
@@ -465,13 +460,7 @@ GamMechFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
  */
 GamMechFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch(popupId){
-		// 조회화면
 		case "selectGisCode":
-			this.$("#sAssetsCd").val(value["gisAssetsCd"]);
-			this.$("#sAssetsSubCd").val(value["gisAssetsSubCd"]);
-			break;
-
-		case "selectGisCode2":
 			this.$("#gisAssetsPrtAtCode").val(value["gisAssetsPrtAtCode"]);
 			this.$("#gisAssetsPrtAtCode2").val(value["gisAssetsPrtAtCode"]);
 			this.$("#gisAssetsPrtAtName").val(value["gisAssetsPrtAtCodeNm"]);
@@ -493,11 +482,18 @@ GamMechFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value)
 			this.$("#archFcltsMngNoNm").val(value["prtFcltyNm"]);			
 			break;
 		
+		//조회화면
 		case "selectFcltsMngGroup":
+			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
+			this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
+			break;
+		
+		//디테일화면
+		case "selectFcltsMngGroup2":
 			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#fcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
 			break;
-		
+
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
 			break;
@@ -517,23 +513,23 @@ var module_instance = new GamMechFcltySpecMngModule();
 				<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>항코드</th>
+							<th>항구분</th>
 							<td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
-							<th>자산코드</th>
-							<td>
-								<input id="sAssetsCd" type="text" size="3" maxlength="3" />&nbsp;-&nbsp;
-								<input id="sAssetsSubCd" type="text" size="2" maxlength="2" />
-								<button id="popupSearchGisCode" class="popupButton">선택</button>
-							</td>
-							<th>기계시설분류</th>
-							<td>
-								<input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM058" />
+							<th>시설물관리그룹</th>
+							<td colspan="3">
+								<input id="sFcltsMngGroupNo" type="text" size="14"/>&nbsp;-&nbsp;
+								<input id="sFcltsMngGroupNoNm" type="text" size="56"/>
+								<button id="popupSearchFcltsMngGroupNo" class="popupButton">선택</button>
 							</td>
 							<td rowspan="2"><button id="btnSearch" class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
-							<th>기계시설명</th>
-							<td colspan="5"><input id="sPrtFcltyNm" type="text" size="60" maxlength="40"  /></td>
+							<th>시설분류</th>
+							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM058" /></td>
+							<th>시설명</th>
+							<td><input id="sPrtFcltyNm" type="text" size="30"/></td>
+							<th>소재지</th>
+							<td><input id="sLoc" type="text" size="30"/></td>							
 						</tr>
 					</tbody>
 				</table>
@@ -571,14 +567,14 @@ var module_instance = new GamMechFcltySpecMngModule();
 					</table>
 					<table class="detailPanel" style="width:100%;">
 						<tr>
-							<th width="12%" height="17" class="required_text">항코드</th>
+							<th width="12%" height="17" class="required_text">항구분</th>
 							<td><input type="text" size="5" id="gisAssetsPrtAtCode" disabled="disabled"/>  <input type="text" size="15" id="gisAssetsPrtAtName" disabled="disabled"/></td>
 							<th width="12%" height="17" class="required_text">GIS 자산코드</th>
 							<td colspan="3">
 								<input type="text" size="4" id="gisAssetsCd" disabled="disabled" data-required="true"/>-
 								<input type="text" size="3" id="gisAssetsSubCd" disabled="disabled"/>-
 								<input type="text" size="4" id="gisAssetsPrtAtCode2" disabled="disabled"/>
-								<button id="popupSearchGisCode2" class="popupButton">선택</button>
+								<button id="popupSearchGisCode" class="popupButton">선택</button>
 							</td>
 						</tr>
 						<tr>
@@ -603,7 +599,7 @@ var module_instance = new GamMechFcltySpecMngModule();
 								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM058" id="selectGisPrtFcltyCd" data-required="true" data-column-id="gisPrtFcltyCd"/>
 								<input type="hidden" id="prtFcltySeNm" disabled="disabled" />
 							</td>
-							<th width="12%" height="17" class="required_text">기계시설명</th>
+							<th width="12%" height="17" class="required_text">시설명</th>
 							<td><input type="text" size="32" id="prtFcltyNm" maxlength="80" /></td>
 						</tr>
 						<tr>
@@ -742,11 +738,11 @@ var module_instance = new GamMechFcltySpecMngModule();
 							<td colspan="5"><input id="structWqnt" type="text" size="100" maxlength="100" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">위치</th>
+							<th width="12%" height="17" class="required_text">소재지</th>
 							<td colspan="5"><input id="loc" type="text" size="110" maxlength="150" /></td>
 						</tr>
 						<tr>							
-							<th width="12%" height="17" class="required_text">기계시설물분류코드</th>
+							<th width="12%" height="17" class="required_text">시설물분류코드</th>
 							<td colspan="5">
 								<input id="mechFcltsClCd" type="text" size="20" disabled="disabled" />
 								<input id="mechFcltsClCdNm" type="text" size="50" disabled="disabled" />
