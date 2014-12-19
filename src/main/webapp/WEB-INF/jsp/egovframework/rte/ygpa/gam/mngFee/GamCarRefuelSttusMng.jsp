@@ -99,7 +99,6 @@ GamCarRefuelSttusMngModule.prototype.loadComplete = function() {
 		event.data.module.$('#refuelMt').val(event.data.module.$('#sRefuelMt').val());
 	});
 
-	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 
 };
@@ -173,11 +172,6 @@ GamCarRefuelSttusMngModule.prototype.drawChart = function() {
 GamCarRefuelSttusMngModule.prototype.onButtonClick = function(buttonId) {
 
 	switch (buttonId) {
-		case 'btnAdd':
-			this._mode = 'insert';
-			this._mainKeyValue = '';
-			this.$("#mainTab").tabs("option", {active: 1});
-			break;
 	    case 'btnSave':
 	    	this.saveData();
 			break;
@@ -340,78 +334,6 @@ GamCarRefuelSttusMngModule.prototype.selectData = function() {
 
 <%
 /**
- * @FUNCTION NAME : addData
- * @DESCRIPTION   : 항목을 추가한다.
- * @PARAMETER     : NONE
-**/
-%>
-GamCarRefuelSttusMngModule.prototype.addData = function() {
-
-	var month = new Date().getMonth()+1;
-	this.$('#m1').val("0");
-	if (month >= 2) {
-		this.$('#m2').val("0");
-	} else {
-		this.$('#m2').val("");
-	}
-	if (month >= 3) {
-		this.$('#m3').val("0");
-	} else {
-		this.$('#m3').val("");
-	}
-	if (month >= 4) {
-		this.$('#m4').val("0");
-	} else {
-		this.$('#m4').val("");
-	}
-	if (month >= 5) {
-		this.$('#m5').val("0");
-	} else {
-		this.$('#m5').val("");
-	}
-	if (month >= 6) {
-		this.$('#m6').val("0");
-	} else {
-		this.$('#m6').val("");
-	}
-	if (month >= 7) {
-		this.$('#m7').val("0");
-	} else {
-		this.$('#m7').val("");
-	}
-	if (month >= 8) {
-		this.$('#m8').val("0");
-	} else {
-		this.$('#m8').val("");
-	}
-	if (month >= 9) {
-		this.$('#m9').val("0");
-	} else {
-		this.$('#m9').val("");
-	}
-	if (month >= 10) {
-		this.$('#m10').val("0");
-	} else {
-		this.$('#m10').val("");
-	}
-	if (month >= 11) {
-		this.$('#m11').val("0");
-	} else {
-		this.$('#m11').val("");
-	}
-	if (month >= 12) {
-		this.$('#m12').val("0");
-	} else {
-		this.$('#m12').val("");
-	}
-	this.$('#refuelMt').val(this.$('#sRefuelMt').val());
-	this.enableDetailInputItem();
-	this.$('#m1').focus();
-
-};
-
-<%
-/**
  * @FUNCTION NAME : saveData
  * @DESCRIPTION   : 항목을 저장한다.
  * @PARAMETER     : NONE
@@ -510,11 +432,8 @@ GamCarRefuelSttusMngModule.prototype.uploadExcel = function() {
 GamCarRefuelSttusMngModule.prototype.enableListButtonItem = function() {
 
 	if (this._mode == "insert") {
-		this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 	} else {
-		this.$('#btnAdd').enable();
-		this.$('#btnAdd').removeClass('ui-state-disabled');
 		var row = this.$('#mainGrid').selectedRows()[0];
 		if (row == null) {
 			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
@@ -645,7 +564,6 @@ GamCarRefuelSttusMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
 				this.disableDetailInputItem();
-				this.addData();
 			} else {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
@@ -735,7 +653,6 @@ var module_instance = new GamCarRefuelSttusMngModule();
 								<th style="width:20%; height:20; text-align:center;">조회 자료수</th>
 								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align:right;">
-									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
 									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
 	                                <button id="btnExcelUpload" class="buttonExcel">엑셀　　업로드</button>
