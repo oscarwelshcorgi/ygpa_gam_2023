@@ -219,7 +219,7 @@ var module_instance = new GamSocTotalBsnsSetoffDtlsModule();
                             </td>
                             <td rowspan="2"><button class="buttonSearch">조회</button></td>
 						</tr>
-						<tr>                            
+						<tr> 
                             <th>보전횟수</th>
                             <td width="100px">
                                 <input id="sUseNo" type="text" size="14">
