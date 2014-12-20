@@ -607,11 +607,11 @@ var module_instance = new GamCarMngModule();
 						<tr>
 							<th>차량 등록번호</th>
 							<td>
-								<input type="text" size="15" id="sCarRegistNo">
+								<input type="text" size="15" id="sCarRegistNo" maxlength="14">
 							</td>
 							<th>차량 명</th>
 							<td>
-								<input type="text" size="15" id="sCarNm">
+								<input type="text" size="15" id="sCarNm" maxlength="20">
 							</td>
 							<th>연료 종류</th>
 							<td>
@@ -669,75 +669,75 @@ var module_instance = new GamCarMngModule();
 						<table class="detailPanel">
 							<tr>
 								<th style="width:20%; height:18;">차량 등록 번호</th>
-								<td><input type="text" size="46" id="carRegistNo"/></td>
+								<td><input type="text" size="46" id="carRegistNo" maxlength="14"/></td>
 								<th style="width:20%; height:18;">차량 종류 / 용도</th>
 								<td>
-									<input type="text" size="22" id="carKnd"/>
-									<input type="text" size="22" id="carPrpos"/>
+									<input type="text" size="22" id="carKnd" maxlength="10"/>
+									<input type="text" size="22" id="carPrpos" maxlength="10"/>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:20%; height:18;">차량 명</th>
-								<td><input type="text" size="46" id="carNm"/></td>
+								<td><input type="text" size="46" id="carNm" maxlength="20"/></td>
 								<th style="width:20%; height:18;">소유자 / 등록 관청</th>
 								<td>
-									<input type="text" size="22" id="ownerNm"/>
-									<input type="text" size="22" id="registGovOfc"/>
+									<input type="text" size="22" id="ownerNm" maxlength="20"/>
+									<input type="text" size="22" id="registGovOfc" maxlength="30"/>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:20%; height:18;">차량 형식</th>
-								<td><input type="text" size="46" id="carFmt"/></td>
+								<td><input type="text" size="46" id="carFmt" maxlength="20"/></td>
 								<th style="width:20%; height:18;">차량 연식</th>
-								<td><input type="text" size="46" id="carYrMdl"/></td>
+								<td><input type="text" size="46" id="carYrMdl" maxlength="4"/></td>
 							</tr>
 							<tr>
 								<th style="width:20%; height:18;">차대 번호</th>
-								<td><input type="text" size="46" id="carBodyNo"/></td>
+								<td><input type="text" size="46" id="carBodyNo" maxlength="20"/></td>
 								<th style="width:20%; height:18;">원동기 형식</th>
-								<td><input type="text" size="46" id="turbineFmt"/></td>
+								<td><input type="text" size="46" id="turbineFmt" maxlength="10"/></td>
 							</tr>
 							<tr>
 								<th style="width:20%; height:18;">사용 본거지</th>
-								<td colspan="3"><input type="text" size="119" id="usageStrhld"/></td>
+								<td colspan="3"><input type="text" size="119" id="usageStrhld" maxlength="160"/></td>
 							</tr>
 							<tr>
 								<th style="width:20%; height:18;">소유자 주소</th>
-								<td colspan="3"><input type="text" size="119" id="ownerAdres"/></td>
+								<td colspan="3"><input type="text" size="119" id="ownerAdres" maxlength="160"/></td>
 							</tr>
 							<tr>
 								<th style="width:20%; height:18;">차량 등록 일자</th>
 								<td><input type="text" size="43" id="carRegistDt" class="emdcal"/></td>
 								<th style="width:20%; height:18;">제원 관리 번호</th>
-								<td><input type="text" size="46" id="specMngNo"/></td>
+								<td><input type="text" size="46" id="specMngNo" maxlength="20"/></td>
 							</tr>
 							<tr>
 								<th style="width:20%; height:18;">차량 길이</th>
-								<td><input type="text" size="46" id="carLt"/></td>
+								<td><input type="text" size="46" id="carLt" maxlength="10"/></td>
 								<th style="width:20%; height:18;">차량 너비</th>
-								<td><input type="text" size="46" id="carWd"/></td>
+								<td><input type="text" size="46" id="carWd" maxlength="10"/></td>
 							</tr>
 							<tr>
 								<th style="width:20%; height:18;">차량 높이</th>
-								<td><input type="text" size="46" id="carHt"/></td>
+								<td><input type="text" size="46" id="carHt" maxlength="10"/></td>
 								<th style="width:20%; height:18;">차량 총 중량</th>
-								<td><input type="text" size="46" id="carGrWqnt"/></td>
+								<td><input type="text" size="46" id="carGrWqnt" maxlength="10"/></td>
 							</tr>
 							<tr>
 								<th style="width:20%; height:18;">배기량</th>
-								<td><input type="text" size="46" id="exhaustqy"/></td>
+								<td><input type="text" size="46" id="exhaustqy" maxlength="20"/></td>
 								<th style="width:20%; height:18;">정격 출력</th>
-								<td><input type="text" size="46" id="rateOutput"/></td>
+								<td><input type="text" size="46" id="rateOutput" maxlength="10"/></td>
 							</tr>
 							<tr>
 								<th style="width:20%; height:18;">승차 정원</th>
-								<td><input type="text" size="46" id="rideQuotaCapa"/></td>
+								<td><input type="text" size="46" id="rideQuotaCapa" maxlength="10"/></td>
 								<th style="width:20%; height:18;">최대 적재 량</th>
-								<td><input type="text" size="46" id="maxCapaQy"/></td>
+								<td><input type="text" size="46" id="maxCapaQy" maxlength="10"/></td>
 							</tr>
 							<tr>
 								<th style="width:20%; height:18;">기통 갯수</th>
-								<td><input type="text" size="46" id="cylinderCnt"/></td>
+								<td><input type="text" size="46" id="cylinderCnt" maxlength="10"/></td>
 								<th style="width:20%; height:18;">연료 종류 / 연비</th>
 								<td>
 									<select id="fuelKnd">
@@ -748,12 +748,12 @@ var module_instance = new GamCarMngModule();
 										<option value="하이브리드">하이브리드</option>
 										<option value="기타">기타</option>
 									</select>
-									<input type="text" size="31" id="fuelEfft"/>
+									<input type="text" size="31" id="fuelEfft" maxlength="10"/>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:20%; height:18;">취득 가격</th>
-								<td><input type="text" size="46" id="acqPrce"/></td>
+								<td><input type="text" size="46" id="acqPrce" maxlength="15"/></td>
 								<th style="width:20%; height:18;">검사 유효 기간</th>
 								<td>
 									<input type="text" size="18" id="examValidBeginDt" class="emdcal"/> ~
