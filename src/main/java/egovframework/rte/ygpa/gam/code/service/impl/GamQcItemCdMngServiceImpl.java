@@ -53,6 +53,16 @@ public class GamQcItemCdMngServiceImpl extends AbstractServiceImpl implements Ga
 	}
 
 	@Override
+	public String selectQcItemCdMngNewQcItemCd(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
+		return gamQcItemCdMngDao.selectQcItemCdMngNewQcItemCd(gamQcItemCdMngVo);
+	}
+
+	@Override
+	public List selectQcItemCdMngTreeList(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
+		return gamQcItemCdMngDao.selectQcItemCdMngTreeList(gamQcItemCdMngVo);
+	}
+
+	@Override
 	public void insertQcItemCdMng(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
 		gamQcItemCdMngDao.insertQcItemCdMng(gamQcItemCdMngVo);
 	}

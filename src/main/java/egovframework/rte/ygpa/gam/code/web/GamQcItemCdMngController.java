@@ -169,6 +169,50 @@ public class GamQcItemCdMngController {
 
 	}
 
+	@RequestMapping(value="/code/gamSelectQcItemCdMngNewQcItemCd.do" , method=RequestMethod.POST)
+	@ResponseBody Map gamSelectQcItemCdMngNewQcItemCd(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
+
+		String sNewQcItemCd;
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		sNewQcItemCd = gamQcItemCdMngService.selectQcItemCdMngNewQcItemCd(gamQcItemCdMngVo);
+
+		map.put("resultCode", 0);
+		map.put("sNewQcItemCd", sNewQcItemCd);
+
+		return map;
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/code/gamSelectQcItemCdMngTree.do" , method=RequestMethod.POST)
+	@ResponseBody Map gamSelectQcItemCdMngTree(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		List resultList = gamQcItemCdMngService.selectQcItemCdMngTreeList(gamQcItemCdMngVo);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+
+		return map;
+
+	}
+
 	@RequestMapping(value="/code/gamInsertQcItemCdMng.do")
 	@ResponseBody Map<String, Object> gamInsertQcItemCdMng(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
 

@@ -46,6 +46,18 @@ public interface GamQcItemCdMngService {
 
 	/**
 	 * @param gamQcItemCdMngVo
+	 * @return
+	 */
+	List selectQcItemCdMngTreeList(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception;
+
+	/**
+	 * @param gamQcItemCdMngVo
+	 * @return
+	 */
+	String selectQcItemCdMngNewQcItemCd(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception;
+
+	/**
+	 * @param gamQcItemCdMngVo
 	 */
 	void insertQcItemCdMng(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception;
 

@@ -59,6 +59,22 @@ public class GamQcItemCdMngDao extends YGPAAbstractDAO {
 	 * @param gamQcItemCdMngVo
 	 * @return
 	 */
+	public String selectQcItemCdMngNewQcItemCd(GamQcItemCdMngVo gamQcItemCdMngVo) {
+		return (String)getSqlMapClientTemplate().queryForObject("gamQcItemCdMngDao.selectQcItemCdMngNewQcItemCd_S", gamQcItemCdMngVo);
+	}
+
+	/**
+	 * @param gamQcItemCdMngVo
+	 * @return
+	 */
+	public List selectQcItemCdMngTreeList(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
+		return list("gamQcItemCdMngDao.selectQcItemCdMngTreeList_D", gamQcItemCdMngVo);
+	}
+
+	/**
+	 * @param gamQcItemCdMngVo
+	 * @return
+	 */
 	public void insertQcItemCdMng(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
 		insert("gamQcItemCdMngDao.insertQcItemCdMng_S", gamQcItemCdMngVo);
 	}
