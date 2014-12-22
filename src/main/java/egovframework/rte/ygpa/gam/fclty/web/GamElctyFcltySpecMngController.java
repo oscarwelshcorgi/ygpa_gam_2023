@@ -89,10 +89,11 @@ public class GamElctyFcltySpecMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/selectElctyFcltySpecMngList.do")
-	@ResponseBody Map<String, Object> selectElctyFcltySpecMngList(GamElctyFcltySpecMngVO searchVO) throws Exception {
+	@ResponseBody Map selectElctyFcltySpecMngList(GamElctyFcltySpecMngVO searchVO) throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -133,9 +134,10 @@ public class GamElctyFcltySpecMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/selectElctyFcltySpecMngDetail.do")
-    @ResponseBody Map<String, Object> selectElctyFcltySpecMngDetail(@RequestParam Map searchVO) throws Exception {
-    	Map<String, Object> map = new HashMap<String, Object>();
+    @ResponseBody Map selectElctyFcltySpecMngDetail(@RequestParam Map searchVO) throws Exception {
+    	Map map = new HashMap();
     	EgovMap result=null;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -160,9 +162,10 @@ public class GamElctyFcltySpecMngController {
         return map;		
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/insertElctyFcltySpecMngDetail.do")
-    @ResponseBody Map<String, Object> insertElctyFcltySpecMngDetail(@RequestParam Map<String, Object> insertMap) throws Exception {
-    	Map<String, Object> map = new HashMap<String, Object>();
+    @ResponseBody Map insertElctyFcltySpecMngDetail(@RequestParam Map insertMap) throws Exception {
+    	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -192,9 +195,10 @@ public class GamElctyFcltySpecMngController {
       	return map;		
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/updateElctyFcltySpecMngDetail.do")
-    @ResponseBody Map<String, Object> updateElctyFcltySpecMngDetail(@RequestParam Map<String, Object> updateMap) throws Exception {
-    	Map<String, Object> map = new HashMap<String, Object>();
+    @ResponseBody Map updateElctyFcltySpecMngDetail(@RequestParam Map updateMap) throws Exception {
+    	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -221,10 +225,11 @@ public class GamElctyFcltySpecMngController {
 
       	return map;		
 	}
-
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/deleteElctyFcltySpecMngDetail.do")
-    @ResponseBody Map<String, Object> deleteElctyFcltySpecMngDetail(@RequestParam Map deleteMap) throws Exception {
-    	Map<String, Object> map = new HashMap<String, Object>();
+    @ResponseBody Map deleteElctyFcltySpecMngDetail(@RequestParam Map deleteMap) throws Exception {
+    	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -232,8 +237,6 @@ public class GamElctyFcltySpecMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
     	try {
     		gamElctyFcltySpecMngService.deleteElctyFcltySpecFileList(deleteMap);
@@ -250,9 +253,10 @@ public class GamElctyFcltySpecMngController {
       	return map;		
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/selectElctyFcltySpecFileList.do")
-    @ResponseBody Map<String, Object> selectElctyFcltySpecFileList(GamElctyFcltySpecMngVO searchVO) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
+    @ResponseBody Map selectElctyFcltySpecFileList(GamElctyFcltySpecMngVO searchVO) throws Exception {
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -286,6 +290,7 @@ public class GamElctyFcltySpecMngController {
     	return map;
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/mergeElctyFcltySpecAtchFile.do")
 	@ResponseBody Map<String, Object> mergeElctyFcltySpecAtchFile(@RequestParam Map<String, Object> dataList) throws Exception {
 
@@ -298,9 +303,6 @@ public class GamElctyFcltySpecMngController {
     	List<HashMap<String,String>> updateList=null;
     	List<HashMap<String,String>> deleteList=null;
     	List<Map<String,String>> userList=null;
-
-    	int resultCode = -1;
-    	String resultMsg = "";
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {

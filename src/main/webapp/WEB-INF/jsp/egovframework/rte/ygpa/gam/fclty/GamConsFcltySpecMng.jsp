@@ -828,8 +828,8 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<td colSpan="5"><input id="rm" type="text" size="124" title="비고" maxlength="330" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">위치</th>
-							<td colSpan="5"><input id="loc" type="text" size="124" title="위치" maxlength="50" /></td>
+							<th width="12%" height="17" class="required_text">소재지</th>
+							<td colSpan="5"><input id="loc" type="text" size="124" title="소재지" maxlength="50" /></td>
 						</tr>
 
 					</table>

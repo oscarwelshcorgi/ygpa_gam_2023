@@ -43,11 +43,8 @@ GamElctyFcltySpecMngModule.prototype.loadComplete = function(params) {
 		url: '/fclty/selectElctyFcltySpecMngList.do',
 		dataType: "json",
 		colModel : [
-					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:80,		sortable:false,		align:"center"},
-					{display:"항코드명",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
-					{display:"자산코드",		name:"gisAssetsDisplayCd",	width:80,		sortable:false,		align:"center"},
+					{display:"항분류",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
 					{display:"자산명",		name:"gisAssetsNm",			width:200,		sortable:false,		align:"left"},
-					{display:"시설코드", 	    name:"gisPrtFcltyDisplayCd",width:80,		sortable:false,		align:"center"},
 					{display:"시설명",	    name:"prtFcltyNm",			width:280,		sortable:false,		align:"left"},
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:100,		sortable:false,		align:"left"},
 					{display:"시설규격",	    name:"prtFcltyStndrd",		width:230,		sortable:false,		align:"left"},
@@ -84,8 +81,6 @@ GamElctyFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"구분",		name:"atchFileSeNm",		width:40,		sortable:true,		align:"center"},
 					{display:"파일제목",	name:"atchFileSj",			width:160,		sortable:true,		align:"left"},
 					{display:"논리파일명",	name:"atchFileNmLogic",		width:160,		sortable:true,		align:"left"},
-					{display:"물리파일명",	name:"atchFileNmPhysicl",	width:160,		sortable:true,		align:"left"},
-					{display:"작성일자",	name:"atchFileWritngDt",	width:120,		sortable:true,		align:"center"}
 			],
 		height: "auto"
 	});
@@ -275,9 +270,9 @@ GamElctyFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			this.loadData();
 			break;
 		
-		// 자산코드 팝업(조회화면)
-		case "searchGisCodeBtn":
-			this.doExecuteDialog("selectGisCode", "자산코드", '/popup/showAssetsCd.do', {});
+			// 검색조건 시설물 관리 그룹 팝업
+		case "searchPopupBtn":
+			this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
 			break;
 
 		// 자산코드 팝업(디테일 화면)
@@ -458,9 +453,9 @@ GamElctyFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 GamElctyFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch(popupId){
 		// 조회화면
-		case "selectGisCode":
-			this.$("#sAssetsCd").val(value["gisAssetsCd"]);
-			this.$("#sAssetsSubCd").val(value["gisAssetsSubCd"]);
+		case "sSelectFcltsMngGroup":
+			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
+			this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
 			break;
 			
 		case "selectFcltsMngGroup":
@@ -509,23 +504,23 @@ var module_instance = new GamElctyFcltySpecMngModule();
 				<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>항코드</th>
+							<th>항구분</th>
 							<td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
-							<th>자산코드</th>
-							<td>
-								<input id="sAssetsCd" type="text" size="3" maxlength="3" />&nbsp;-&nbsp;
-								<input id="sAssetsSubCd" type="text" size="2" maxlength="2" />
-								<button id="searchGisCodeBtn" class="popupButton">선택</button>
-							</td>
-							<th>전기시설분류</th>
-							<td>
-								<input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM061" />
+							<th>시설물관리그룹</th>
+							<td colspan="3">
+								<input id="sFcltsMngGroupNo" type="text" size="14" title="시설물관리그룹넘버" />&nbsp;-&nbsp;
+								<input id="sFcltsMngGroupNoNm" type="text" size="56" title="시설물관리그룹명" />
+								<button id="searchPopupBtn" class="popupButton">선택</button>
 							</td>
 							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
-							<th>전기시설명</th>
-							<td colspan="5"><input id="sPrtFcltyNm" type="text" size="60" maxlength="40"  /></td>
+							<th>시설분류</th>
+							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM061" /></td>
+							<th>시설명</th>
+							<td><input id="sPrtFcltyNm" type="text" size="30"  /></td>
+							<th>소재지</th>
+							<td><input id="searchLoc" type="text" size="30" title="소재지"  /></td>
 						</tr>
 					</tbody>
 				</table>
