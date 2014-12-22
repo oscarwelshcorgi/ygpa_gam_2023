@@ -63,6 +63,11 @@ public class GamQcItemCdMngServiceImpl extends AbstractServiceImpl implements Ga
 	}
 
 	@Override
+	public List selectQcItemCdMngLowerDataCnt(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
+		return gamQcItemCdMngDao.selectQcItemCdMngLowerDataCnt(gamQcItemCdMngVo);
+	}
+
+	@Override
 	public void insertQcItemCdMng(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
 		gamQcItemCdMngDao.insertQcItemCdMng(gamQcItemCdMngVo);
 	}
@@ -74,7 +79,13 @@ public class GamQcItemCdMngServiceImpl extends AbstractServiceImpl implements Ga
 
 	@Override
 	public void deleteQcItemCdMng(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
+		gamQcItemCdMngDao.deleteQcItemCdMngLowerData(gamQcItemCdMngVo);
 		gamQcItemCdMngDao.deleteQcItemCdMng(gamQcItemCdMngVo);
+	}
+
+	@Override
+	public void deleteQcItemCdMngLowerData(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
+		gamQcItemCdMngDao.deleteQcItemCdMngLowerData(gamQcItemCdMngVo);
 	}
 
 }

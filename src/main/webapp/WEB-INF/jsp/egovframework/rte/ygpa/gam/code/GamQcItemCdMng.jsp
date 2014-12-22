@@ -394,17 +394,32 @@ GamQcItemCdMngModule.prototype.deleteData = function() {
 		this.$("#qcItemCd").focus();
 		return;
 	}
-	if (confirm("삭제하시겠습니까?")) {
-		var deleteVO = this.makeFormArgs("#detailForm");
-		this.doAction('/code/gamDeleteQcItemCdMng.do', deleteVO, function(module, result) {
-			if (result.resultCode == "0") {
-				module._mode = 'query';
-				module._mainKeyValue = '';
-				module.loadData();
-			}
-			alert(result.resultMsg);
-		});
-	}
+	var deleteVO = this.makeFormArgs("#detailForm");
+	var lowerDataCnt=0;
+	var confirmMessage = "";
+	this.doAction('/code/gamSelectQcItemCdMngLowerDataCnt.do', deleteVO, function(module, result) {
+		if (result.resultCode != "0") {
+			alert('삭제 자료 확인이 실패했습니다!');
+			return;
+		}
+		lowerDataCnt=result.resultList[0]['lowerDataCnt']*1;
+		if (lowerDataCnt > 0) {
+			confirmMessage = "[" + lowerDataCnt + "]건의 하위 자료도 함께 삭제됩니다!" +
+							 "\r\n삭제하시겠습니까?";
+		} else {
+			confirmMessage = "삭제하시겠습니까?";
+		}
+		if (confirm(confirmMessage)) {
+			module.doAction('/code/gamDeleteQcItemCdMng.do', deleteVO, function(module, result) {
+				if (result.resultCode == "0") {
+					module._mode = 'query';
+					module._mainKeyValue = '';
+					module.loadData();
+				}
+				alert(result.resultMsg);
+			});
+		}
+	});
 
 };
 

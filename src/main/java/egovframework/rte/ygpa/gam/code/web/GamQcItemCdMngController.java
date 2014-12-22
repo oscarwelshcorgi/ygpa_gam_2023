@@ -213,6 +213,27 @@ public class GamQcItemCdMngController {
 
 	}
 
+	@RequestMapping(value="/code/gamSelectQcItemCdMngLowerDataCnt.do" , method=RequestMethod.POST)
+	@ResponseBody Map gamSelectQcItemCdMngLowerDataCnt(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		List resultList = gamQcItemCdMngService.selectQcItemCdMngLowerDataCnt(gamQcItemCdMngVo);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+
+		return map;
+
+	}
+
 	@RequestMapping(value="/code/gamInsertQcItemCdMng.do")
 	@ResponseBody Map<String, Object> gamInsertQcItemCdMng(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
 

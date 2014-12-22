@@ -75,6 +75,14 @@ public class GamQcItemCdMngDao extends YGPAAbstractDAO {
 	 * @param gamQcItemCdMngVo
 	 * @return
 	 */
+	public List selectQcItemCdMngLowerDataCnt(GamQcItemCdMngVo gamQcItemCdMngVo) {
+		return list("gamQcItemCdMngDao.selectQcItemCdMngLowerDataCnt_S", gamQcItemCdMngVo);
+	}
+
+	/**
+	 * @param gamQcItemCdMngVo
+	 * @return
+	 */
 	public void insertQcItemCdMng(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
 		insert("gamQcItemCdMngDao.insertQcItemCdMng_S", gamQcItemCdMngVo);
 	}
@@ -93,6 +101,14 @@ public class GamQcItemCdMngDao extends YGPAAbstractDAO {
 	 */
 	public void deleteQcItemCdMng(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
 		delete("gamQcItemCdMngDao.deleteQcItemCdMng_S", gamQcItemCdMngVo);
+	}
+
+	/**
+	 * @param gamQcItemCdMngVo
+	 * @return
+	 */
+	public void deleteQcItemCdMngLowerData(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
+		delete("gamQcItemCdMngDao.deleteQcItemCdMngLowerData_S", gamQcItemCdMngVo);
 	}
 
 }

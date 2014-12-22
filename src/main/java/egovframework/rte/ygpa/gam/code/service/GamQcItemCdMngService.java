@@ -58,6 +58,12 @@ public interface GamQcItemCdMngService {
 
 	/**
 	 * @param gamQcItemCdMngVo
+	 * @return
+	 */
+	List selectQcItemCdMngLowerDataCnt(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception;
+
+	/**
+	 * @param gamQcItemCdMngVo
 	 */
 	void insertQcItemCdMng(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception;
 
@@ -70,5 +76,10 @@ public interface GamQcItemCdMngService {
 	 * @param gamQcItemCdMngVo
 	 */
 	void deleteQcItemCdMng(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception;
+
+	/**
+	 * @param gamQcItemCdMngVo
+	 */
+	void deleteQcItemCdMngLowerData(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception;
 
 }
