@@ -113,10 +113,8 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 					{display:"구분",		name:"atchFileSeNm",		width:40,		sortable:true,		align:"center"},
 					{display:"제목",		name:"atchFileSj",			width:200,		sortable:true,		align:"left"},
 					{display:"논리파일명",	name:"atchFileNmLogic",		width:200,		sortable:true,		align:"left"},
-					{display:"물리파일명",	name:"atchFileNmPhysicl",	width:200,		sortable:true,		align:"left"},
-					{display:"작성일시",	name:"atchFileWritingDt",	width:120,		sortable:true,		align:"center"}
 			],
-		height: "auto"
+		height: "400"
 	});
 
 	this.$("#qcMngAtchFileList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -152,7 +150,7 @@ GamFcltyQcwWrtMngModule.prototype.initDisplay = function() {
 	this.$('#qcMngResultItemList').flexEmptyData();
 	this.$('#qcMngAtchFileList').flexEmptyData();
 	
-	this.$("#previewImage").attr("src", "#");
+	this.$("#previewImage").removeAttr("src");
 	
 	if(this._cmd == "insert") {
 		this.$("#fcltsMngGroupNo").enable();
@@ -403,7 +401,7 @@ GamFcltyQcwWrtMngModule.prototype.removeAtchFileItem = function() {
 			}
         	this.$("#qcMngAtchFileList").flexRemoveRow(this.$("#qcMngAtchFileList").selectedRowIds()[i]);
 		}
-    	this.$("#previewImage").attr("src","#");
+    	this.$("#previewImage").removeAttr("src");
     	alert("삭제되었습니다.");
 	}
     this.$("#qcMngAtchFileForm").find(":input").val("");
@@ -424,7 +422,7 @@ GamFcltyQcwWrtMngModule.prototype.selectAtchFileItem = function() {
 				var imgURL = this.getPfPhotoUrl(filenm);
 			    this.$("#previewImage").attr("src", imgURL);
 			}else{
-				this.$("#previewImage").attr(src, "#");
+				this.$("#previewImage").removeAttr("src");
 			}
 		}
 	}
@@ -764,32 +762,39 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 
 			<!-- 점검관리첨부파일 -->
 			<div id="tabs5" class="emdTabPage" style="overflow: scroll;">
-				<table id="qcMngAtchFileList" style="display:none" class="fillHeight"></table>
-				<div class="emdControlPanel">
-					<button id="btnUploadFile">업로드</button>
-					<button id="btnDownloadFile">다운로드</button>
-					<button id="btnRemoveFile">삭제</button>
-					<button id="btnSave">저장</button>
-				</div>
-				<form id="qcMngAtchFileForm">
-					<table class="searchPanel editForm">
-						<tr>
-							<th width="15%" height="23" class="required_text">파일구분</th>
-							<td>
-								<select id="atchFileSe" class="photoEditItem">
-                                    <option value="D">문서</option>
-                                    <option value="P">사진</option>
-                                    <option value="Z">기타</option>
-                                </select>
-							</td>
-							<th width="15%" height="23" class="required_text">파일제목</th>
-							<td><input id="atchFileSj" type="text" size="20" class="photoEditItem" maxlength="40" /></td>
-							<th width="15%" height="23" class="required_text">작성일자</th>
-							<td><input id="atchFileWritingDt" type="text" size="18" class="emdcal photoEditItem" maxlength="10" readonly="readonly"/></td>
-						</tr>
-					</table>
-				</form>
-				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
+				<table border="1">
+					<tr>
+						<td width="50%">
+							<table id="qcMngAtchFileList" style="display:none" class="fillHeight"></table>
+							<div class="emdControlPanel">
+								<button id="btnUploadFile">업로드</button>
+								<button id="btnDownloadFile">다운로드</button>
+								<button id="btnRemoveFile">삭제</button>
+								<button id="btnSave">저장</button>
+							</div>
+			
+							<form id="qcMngAtchFileForm">
+								<table class="searchPanel editForm">
+									<tr>
+										<th width="15%" height="23" class="required_text">파일구분</th>
+										<td>
+											<select id="atchFileSe" class="photoEditItem">
+												<option value="D">문서</option>
+			                                    <option value="P">사진</option>
+			                                    <option value="Z">기타</option>
+			                                </select>
+										</td>
+										<th width="15%" height="23" class="required_text">파일제목</th>
+										<td><input id="atchFileSj" type="text" size="45" class="photoEditItem" maxlength="25" /></td>
+									</tr>
+								</table>
+							</form>
+						</td>
+						<td style="text-align:center;vertical-align:middle;">
+							<img id="previewImage" style="border: 1px solid #000; max-width:300px; max-height: 300px" src="">
+						</td>
+					</tr>
+				</table>
 			</div>
 
 		</div>

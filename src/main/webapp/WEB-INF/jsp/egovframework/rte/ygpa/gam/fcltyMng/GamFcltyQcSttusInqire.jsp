@@ -102,10 +102,8 @@ GamFcltyQcSttusInqireModule.prototype.loadComplete = function(params) {
 					{display:"구분",		name:"atchFileSeNm",		width:40,		sortable:true,		align:"center"},
 					{display:"제목",		name:"atchFileSj",			width:200,		sortable:true,		align:"left"},
 					{display:"논리파일명",	name:"atchFileNmLogic",		width:200,		sortable:true,		align:"left"},
-					{display:"물리파일명",	name:"atchFileNmPhysicl",	width:200,		sortable:true,		align:"left"},
-					{display:"작성일시",	name:"atchFileWritingDt",	width:120,		sortable:true,		align:"center"}
 			],
-		height: "auto"
+		height: "500"
 	});
 
 	this.$("#qcSttusAtchFileList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -126,7 +124,7 @@ GamFcltyQcSttusInqireModule.prototype.initDisplay = function() {
 	this.$('#qcSttusResultItemList').flexEmptyData();
 	this.$('#qcSttusAtchFileList').flexEmptyData();
 	
-	this.$("#previewImage").attr("src", "#");
+	this.$("#previewImage").removeAttr("src");
 };
 
 //점검관리내역 조회
@@ -176,7 +174,7 @@ GamFcltyQcSttusInqireModule.prototype.selectAtchFileItem = function() {
 				var imgURL = this.getPfPhotoUrl(filenm);
 			    this.$("#previewImage").attr("src", imgURL);
 			}else{
-				this.$("#previewImage").attr(src, "#");
+				this.$("#previewImage").removeAttr("src");
 			}
 		}
 	}
@@ -392,13 +390,20 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 
 			<!-- 점검관리첨부파일 -->
 			<div id="tabs5" class="emdTabPage" style="overflow: scroll;">
-				<table id="qcSttusAtchFileList" style="display:none" class="fillHeight"></table>
-				<div class="emdControlPanel">
-					<button id="btnDownloadFile">다운로드</button>
-				</div>
-				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
+				<table border="1">
+					<tr>
+						<td width="50%">
+							<table id="qcSttusAtchFileList" style="display:none" class="fillHeight"></table>
+							<div class="emdControlPanel">
+								<button id="btnDownloadFile">다운로드</button>
+							</div>
+						</td>
+						<td style="text-align:center;vertical-align:middle;">
+							<img id="previewImage" style="border: 1px solid #000; max-width:300px; max-height: 300px" src="">
+						</td>
+					</tr>
+				</table>				
 			</div>
-
 		</div>
 	</div>
 </div>
