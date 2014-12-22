@@ -5,20 +5,20 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
-  /**
-  * @Class Name : GamFcltsMngGroupMng.jsp
-  * @Description : 시설물 관리 그룹 화면
-  * @Modification Information
-  *
-  *   수정일         수정자                   수정내용
-  *  -------    --------    ---------------------------
-  *  2014.12.10  	 김종민          화면단 최초 생성
-  *
-  * author 김종민
-  * since 2014.12.10
-  *
-  * Copyright (C) 2013 by LFIT  All right reserved.
-  */
+/**
+ * @Class Name : GamFcltsMngGroupMng.jsp
+ * @Description : 시설물 관리 그룹 화면
+ * @Modification Information
+ *
+ *   수정일         수정자                   수정내용
+ *  -------    --------    ---------------------------
+ *  2014.12.10  	 김종민          화면단 최초 생성
+ *
+ * author 김종민
+ * since 2014.12.10
+ *
+ * Copyright (C) 2013 by LFIT  All right reserved.
+**/
 %>
 <%
 /******************************** SCRIPT START ********************************/
@@ -44,23 +44,23 @@ GamFcltsMngGroupMngModule.prototype.loadComplete = function() {
 		url : '/code/gamSelectFcltsMngGroupMng.do',
 		dataType : "json",
 		colModel : [
-					{display:"관리 그룹 번호",	name:"fcltsMngGroupNo",   	width:100,		sortable:true, align:"center"},
-					{display:"관리 그룹 명",	name:"fcltsMngGroupNm", 	width:150,		sortable:true, align:"left"},
-					{display:"시설물 내용",		name:"fcltsCn", 			width:150,		sortable:true, align:"left"},
-					{display:"시설물 구조",		name:"fcltsStrct", 			width:150,		sortable:true, align:"left"},
-					{display:"준공 일자",		name:"bldDt", 				width:80,		sortable:true, align:"center"},
-					{display:"건축 갯수",		name:"archFcltsCnt", 		width:80,		sortable:true, align:"right"},
-					{display:"토목 갯수",		name:"cvlEngFcltsCnt", 		width:80,		sortable:true, align:"right"},
-					{display:"기계 갯수",		name:"mechFcltsCnt", 		width:80,		sortable:true, align:"right"},
-					{display:"전기 갯수",		name:"elctyFcltsCnt", 		width:80,		sortable:true, align:"right"},
-					{display:"정보통신 갯수",	name:"infoCommFcltsCnt", 	width:100,		sortable:true, align:"right"},
-					{display:"기타 갯수",		name:"etcFcltsCnt", 		width:80,		sortable:true, align:"right"},
-					{display:"위치",			name:"loc",					width:200,		sortable:true, align:"left"},
-					{display:"소유자",			name:"owner", 				width:100,		sortable:true, align:"left"},
-					{display:"공사 시작 일자",	name:"cnstBeginDt", 		width:100,		sortable:true, align:"center"},
-					{display:"공사 종료 일자",	name:"cnstEndDt", 			width:100,		sortable:true, align:"center"},
-					{display:"시공자",			name:"cnstrtr", 			width:150,		sortable:true, align:"left"},
-					{display:"시공 금액",		name:"cnstrctAmt", 			width:100,		sortable:true, align:"right"}
+					{display:"관리 그룹 번호",	name:"fcltsMngGroupNo",		width:100,		sortable:true,	align:"center"},
+					{display:"관리 그룹 명",	name:"fcltsMngGroupNm",		width:150,		sortable:true,	align:"left"},
+					{display:"시설물 내용",		name:"fcltsCn",				width:150,		sortable:true,	align:"left"},
+					{display:"시설물 구조",		name:"fcltsStrct",			width:150,		sortable:true,	align:"left"},
+					{display:"준공 일자",		name:"bldDt",				width:80,		sortable:true,	align:"center"},
+					{display:"건축 갯수",		name:"archFcltsCnt",		width:80,		sortable:true,	align:"right"},
+					{display:"토목 갯수",		name:"cvlEngFcltsCnt",		width:80,		sortable:true,	align:"right"},
+					{display:"기계 갯수",		name:"mechFcltsCnt",		width:80,		sortable:true,	align:"right"},
+					{display:"전기 갯수",		name:"elctyFcltsCnt",		width:80,		sortable:true,	align:"right"},
+					{display:"정보통신 갯수",	name:"infoCommFcltsCnt",	width:100,		sortable:true,	align:"right"},
+					{display:"기타 갯수",		name:"etcFcltsCnt",			width:80,		sortable:true,	align:"right"},
+					{display:"위치",			name:"loc",					width:200,		sortable:true,	align:"left"},
+					{display:"소유자",			name:"owner",				width:100,		sortable:true,	align:"left"},
+					{display:"공사 시작 일자",	name:"cnstBeginDt",			width:100,		sortable:true,	align:"center"},
+					{display:"공사 종료 일자",	name:"cnstEndDt",			width:100,		sortable:true,	align:"center"},
+					{display:"시공자",			name:"cnstrtr",				width:150,		sortable:true,	align:"left"},
+					{display:"시공 금액",		name:"cnstrctAmt",			width:100,		sortable:true,	align:"right"}
 					],
 		showTableToggleBtn : false,
 		height : 'auto',
@@ -172,7 +172,7 @@ GamFcltsMngGroupMngModule.prototype.loadData = function() {
  * @PARAMETER     : NONE
 **/
 %>
- GamFcltsMngGroupMngModule.prototype.refreshData = function() {
+GamFcltsMngGroupMngModule.prototype.refreshData = function() {
 
 	var searchOpt=this.makeFormArgs('#searchForm');
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
@@ -688,19 +688,19 @@ var module_instance = new GamFcltsMngGroupMngModule();
 								<td><input type="text" size="13" id="sumEtcFcltsCnt" class="ygpaNumber" disabled="disabled" /></td>
 							</tr>
 						</table>
+						<table style="width:100%;">
+							<tr>
+								<th style="width=10%; height=20; text-align:center;">자료수</th>
+								<td>
+									<input type="text" size="9" id="totalCount" class="ygpaNumber" disabled="disabled" />
+								</td>
+								<td style="text-align:right;">
+									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
+									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
+									<button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+								</td>
+						</table>
 					</form>
-					<table style="width:100%;">
-						<tr>
-							<th style="width=10%; height=20; text-align:center;">자료수</th>
-							<td>
-								<input type="text" size="9" id="totalCount" class="ygpaNumber" disabled="disabled" />
-							</td>
-							<td style="text-align:right;">
-								<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
-								<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
-								<button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
-							</td>
-					</table>
 				</div>
 			</div>
 			<!-- 213. TAB 2 AREA (DETAIL) -->
@@ -710,18 +710,18 @@ var module_instance = new GamFcltsMngGroupMngModule();
 						<table class="detailPanel">
 							<tr>
 								<th style="width:15%; height:18;">시설물 관리 그룹 번호</th>
-								<td><input type="text" id="fcltsMngGroupNo" size="46" maxlength="14"/></td>
+								<td><input type="text" id="fcltsMngGroupNo" size="35" maxlength="14"/></td>
 								<th style="width:15%; height:18;">시설물 관리 그룹 명</th>
-								<td><input type="text" id="fcltsMngGroupNm" size="46" maxlength="80"/></td>
+								<td><input type="text" id="fcltsMngGroupNm" size="35" maxlength="80"/></td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:18;">소유자 / 준공일자</th>
 								<td>
-									<input type="text" id="owner" size="22" maxlength="60"/>
-									<input type="text" id="bldDt" size="22" class="emdcal"/>
+									<input type="text" id="owner" size="17" maxlength="60"/>
+									<input type="text" id="bldDt" size="15" class="emdcal"/>
 								</td>
-								<th style="width:15%; height:18;"></th>
-								<td><input type="text" id="loc" size="46" maxlength="150"/></td>
+								<th style="width:15%; height:18;">위치</th>
+								<td><input type="text" id="loc" size="35" maxlength="150"/></td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:18;">시설물 내용</th>
@@ -734,36 +734,36 @@ var module_instance = new GamFcltsMngGroupMngModule();
 							<tr>
 								<th style="width:15%; height:18;">건축 갯수 / 토목 갯수</th>
 								<td>
-									<input type="text" class="ygpaNumber" id="archFcltsCnt" size="22" maxlength="6"/>
-									<input type="text" class="ygpaNumber" id="cvlEngFcltsCnt" size="22" maxlength="6"/>
+									<input type="text" class="ygpaNumber" id="archFcltsCnt" size="17" maxlength="6"/>
+									<input type="text" class="ygpaNumber" id="cvlEngFcltsCnt" size="17" maxlength="6"/>
 								</td>
 								<th style="width:15%; height:18;">기계 갯수 / 전기 갯수</th>
 								<td>
-									<input type="text" class="ygpaNumber" id="mechFcltsCnt" size="22" maxlength="6"/>
-									<input type="text" class="ygpaNumber" id="elctyFcltsCnt" size="22" maxlength="6"/>
+									<input type="text" class="ygpaNumber" id="mechFcltsCnt" size="17" maxlength="6"/>
+									<input type="text" class="ygpaNumber" id="elctyFcltsCnt" size="17" maxlength="6"/>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:18;">정보통신 / 기타 갯수</th>
 								<td>
-									<input type="text" class="ygpaNumber" id="infoCommFcltsCnt" size="22" maxlength="6"/>
-									<input type="text" class="ygpaNumber" id="etcFcltsCnt" size="22" maxlength="6"/>
+									<input type="text" class="ygpaNumber" id="infoCommFcltsCnt" size="17" maxlength="6"/>
+									<input type="text" class="ygpaNumber" id="etcFcltsCnt" size="17" maxlength="6"/>
 								</td>
 								<th style="width:15%; height:18;">공사 기간</th>
 								<td>
-									<input type="text" size="18" id="cnstBeginDt" class="emdcal"/> ~
-									<input type="text" size="18" id="cnstEndDt" class="emdcal"/>
+									<input type="text" size="15" id="cnstBeginDt" class="emdcal"/> ~
+									<input type="text" size="15" id="cnstEndDt" class="emdcal"/>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:18;">시공자</th>
-								<td><input type="text" id="cnstrtr" size="46" maxlength="60"/></td>
+								<td><input type="text" id="cnstrtr" size="35" maxlength="60"/></td>
 								<th style="width:15%; height:18;">시공금액</th>
-								<td><input type="text" class="ygpaNumber" id="cnstrctAmt" size="46" maxlength="20"/></td>
+								<td><input type="text" class="ygpaNumber" id="cnstrctAmt" size="35" maxlength="20"/></td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:18;">비고</th>
-								<td colspan="3"><input type="text" id="rm" size="119" maxlength="1000"/></td>
+								<td colspan="3"><input type="text" id="rm" size="90" maxlength="1000"/></td>
 							</tr>
 						</table>
 					</form>
