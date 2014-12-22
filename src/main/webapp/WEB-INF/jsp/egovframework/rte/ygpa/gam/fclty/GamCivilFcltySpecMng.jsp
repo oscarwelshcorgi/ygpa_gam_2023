@@ -153,7 +153,7 @@ GamCivilFcltySpecMngModule.prototype.initDisplay = function() {
 	this.$("#fcltyManageVO :input").val("");
 	this.$("#dispfcltsMngNo").text("");
 	this.$('#fcltsFileList').flexEmptyData();
-	this.$("#previewImage").attr("src", "");
+	this.$("#previewImage").removeAttr("src");
 	if(this._cmd == "insert") {
 		this.$("#selectGisPrtFcltyCd").enable();
 		this.$("#popupSearchGisCode").show();
@@ -298,7 +298,7 @@ GamCivilFcltySpecMngModule.prototype.selectAtchFileItem = function() {
 				var imgURL = this.getPfPhotoUrl(filenm);
 			    this.$("#previewImage").attr("src", imgURL);
 			}else{
-				this.$("#previewImage").attr(src, "");
+				this.$("#previewImage").removeAttr("src");
 			}
 		}
 	}
@@ -338,7 +338,7 @@ GamCivilFcltySpecMngModule.prototype.removeAtchFileItem = function() {
 			}
         	this.$("#fcltsFileList").flexRemoveRow(this.$("#fcltsFileList").selectedRowIds()[i]);
 		}
-    	this.$("#previewImage").attr("src","");
+    	this.$("#previewImage").removeAttr("src");
     	alert("삭제되었습니다.");
 	}
     this.$("#fcltsFileForm").find(":input").val("");

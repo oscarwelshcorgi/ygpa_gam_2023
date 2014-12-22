@@ -149,7 +149,7 @@ GamMechFcltySpecMngModule.prototype.initDisplay = function() {
 	this._deleteDataFileList = [];
 	this.$("#fcltyManageVO :input").val("");
 	this.$("#dispfcltsMngNo").text("");
-	this.$("#previewImage").attr("src", "");
+	this.$("#previewImage").removeAttr("src");
 	this.$('#fcltsFileList').flexEmptyData();
 	if(this._cmd == "insert") {
 		this.$("#selectGisPrtFcltyCd").enable();
@@ -337,7 +337,7 @@ GamMechFcltySpecMngModule.prototype.removeAtchFileItem = function() {
 			}
         	this.$("#fcltsFileList").flexRemoveRow(this.$("#fcltsFileList").selectedRowIds()[i]);
 		}
-    	this.$("#previewImage").attr("src","");
+    	this.$("#previewImage").removeAttr("src");
     	alert("삭제되었습니다.");
 	}
     this.$("#fcltsFileForm").find(":input").val("");
