@@ -7,7 +7,11 @@
     <typeAlias alias="gamFcltyUsageHistInqireVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageHistInqireVO"/>
 	
 	<select id="gamFcltyUsageHistInqireDao.selectFcltyUsageHistInqireList" parameterClass="gamFcltyUsageHistInqireVO" resultClass="egovMap">
-		
+		SELECT B.GIS_ASSETS_LOCPLC ||' '|| B.GIS_ASSETS_LNM ||'-'|| B.GIS_ASSETS_LNM_SUB AS GIS_ASSETS_LOCPLC
+		FROM ASSETS_RENT_DETAIL_F A, GIS_ASSETS_CD_F B
+		WHERE A.GIS_ASSETS_PRT_AT_CODE = B.GIS_ASSETS_PRT_AT_CODE
+      	AND A.GIS_ASSETS_CD = B.GIS_ASSETS_CD
+      	AND A.GIS_ASSETS_SUB_CD = B.GIS_ASSETS_SUB_CD
 	</select>
 	<!-- 
 	<select id="gamFcltyUsageHistInqireDao.selectFcltyUsageHistInqireListTotCnt" parameterClass="gamFcltyUsageHistInqireVO" resultClass="int">

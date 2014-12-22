@@ -37,18 +37,15 @@ GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/gamFcltyUsageHistInqireList.do',
 		dataType: "json",
 		colModel : [
-					{display : '항코드',			name : 'gisAssetsPrtAtCode', 		width : 50, 	sortable : false, 	align : 'center'},
-					{display : '항코드명',			name : 'prtAtCodeNm', 				width : 60, 	sortable : false, 	align : 'center'},
-					{display : '자산코드',			name : 'gisAssetsDisplay',		width : 80, 	sortable : false, 	align : 'center'},
-					{display : '자산명',			name : 'gisAssetsNm', 				width : 200, 	sortable : false, 	align : 'left'},
-					{display : '사용시작일자',		name : 'usagePdFrom', 					width : 100, 	sortable : false, 	align : 'center'},
-					{display : '사용종료일자',		name : 'usagePdTo', 					width : 100, 	sortable : false, 	align : 'center'},
-					{display : '업체코드',			name : 'entrpsSe', 					width : 80, 	sortable : false, 	align : 'center'},
-					{display : '업체명',			name : 'entrpsNm', 					width : 120, 	sortable : false, 	align : 'left'},
-					{display : '사용료',			name : 'fee', 						width : 100, 	sortable : false, 	align : 'right', displayFormat : 'number'},
-					{display : '임대정보',			name : 'RentInfo', 					width : 60, 	sortable : false, 	align : 'center'},
-					{display : '제원정보',			name : 'SpecInfo', 					width : 60, 	sortable : false, 	align : 'center'}
-			],
+						{display : '항구명',		name : 'PRT_AT_CODE',		width : 80, 	sortable : false, 	align : 'center'},
+						{display : '업체명', 	    name : 'ENTRPSCD',			width : 180, 	sortable : false, 	align : 'center'},
+						{display : '소재지',   	name : 'gisAssetsLocplc',	width : 180, 	sortable : false, 	align : 'left'},
+						{display : '신청 일자',	name : 'REQST_DT',			width : 100, 	sortable : false, 	align : 'center'},
+						{display : '허가 여부',	name : 'PRMISN_YN',			width : 80, 	sortable : false, 	align : 'center'},
+						{display : '결재 상태',	name : 'SANCTN_STTUS',		width : 80, 	sortable : false, 	align : 'center'},
+						{display : '총 면적',  	name : 'GR_AR',				width : 80, 	sortable : false, 	align : 'center'},
+						{display : '총 사용료',	name : 'GR_FEE',			width : 150, 	sortable : false, 	align : 'center'}
+					],
 		height: "auto"
 	});
 };
