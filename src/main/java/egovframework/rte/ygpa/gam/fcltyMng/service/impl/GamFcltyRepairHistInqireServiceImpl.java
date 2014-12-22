@@ -43,8 +43,8 @@ public class GamFcltyRepairHistInqireServiceImpl extends AbstractServiceImpl imp
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFcltyRepairHistInqireList(GamFcltyRepairHistInqireVO vo) throws Exception {
-		return (List)gamFcltyRepairHistInqireDao.selectFcltyRepairHistInqireList(vo);
+	public List<?> selectFcltyRepairHistInqireList(GamFcltyRepairHistInqireVO vo) throws Exception {
+		return (List<?>)gamFcltyRepairHistInqireDao.selectFcltyRepairHistInqireList(vo);
 	}
 
 	

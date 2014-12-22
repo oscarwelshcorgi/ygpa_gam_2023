@@ -49,9 +49,6 @@ public class GamFcltyMaintSttusInqireController {
 	@Autowired
 	private DefaultBeanValidator beanValidator;
 
-//	@Resource(name = "gamFcltyMaintSttusInqireService")
-//	protected GamFcltyMaintSttusInqireService gamFcltyMaintSttusInqireService;
-
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
@@ -72,7 +69,7 @@ public class GamFcltyMaintSttusInqireController {
      * @throws Exception
      */
 	@RequestMapping(value="/fcltyMng/gamFcltyMaintSttusInqire.do")
-    String indexFcltyMaintSttusInqire(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+    public String indexFcltyMaintSttusInqire(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/fcltyMng/GamFcltyMaintSttusInqire";
     }
@@ -84,10 +81,11 @@ public class GamFcltyMaintSttusInqireController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectFcltyMaintSttusInqireList.do")
-	@ResponseBody Map<String, Object> selectFcltyMaintSttusInqireList(GamFcltyMaintSttusInqireVO searchVO)throws Exception {
+	public @ResponseBody Map selectFcltyMaintSttusInqireList(GamFcltyMaintSttusInqireVO searchVO)throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -108,7 +106,7 @@ public class GamFcltyMaintSttusInqireController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List<?> fcltyMaintSttusInqireList = gamFcltyMaintSttusInqireService.selectFcltyMaintSttusInqireList(searchVO);
+		List fcltyMaintSttusInqireList = gamFcltyMaintSttusInqireService.selectFcltyMaintSttusInqireList(searchVO);
 
         int totCnt = gamFcltyMaintSttusInqireService.selectFcltyMaintSttusInqireListTotCnt(searchVO);
 
@@ -130,10 +128,11 @@ public class GamFcltyMaintSttusInqireController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectFcltyMaintSttusInqireDetail.do")
-	@ResponseBody Map<String, Object> selectFcltyMaintSttusInqireDetail(GamFcltyMaintSttusInqireVO searchVO)throws Exception {
+	public @ResponseBody Map selectFcltyMaintSttusInqireDetail(GamFcltyMaintSttusInqireVO searchVO)throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 		EgovMap result = null;
 
     	// 0. Spring Security 사용자권한 처리
@@ -160,10 +159,11 @@ public class GamFcltyMaintSttusInqireController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectMntnSttusRprObjFcltsFList.do")
-	@ResponseBody Map<String, Object> selectMntnSttusRprObjFcltsFList(GamFcltyMaintSttusInqireVO searchVO)throws Exception {
+	public @ResponseBody Map selectMntnSttusRprObjFcltsFList(GamFcltyMaintSttusInqireVO searchVO)throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -184,7 +184,7 @@ public class GamFcltyMaintSttusInqireController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List<?> mntnSttusRprObjFcltsFList = gamFcltyMaintSttusInqireService.selectMntnSttusRprObjFcltsFList(searchVO);
+		List mntnSttusRprObjFcltsFList = gamFcltyMaintSttusInqireService.selectMntnSttusRprObjFcltsFList(searchVO);
 
         int totCnt = gamFcltyMaintSttusInqireService.selectMntnSttusRprObjFcltsFListTotCnt(searchVO);
 
@@ -206,10 +206,11 @@ public class GamFcltyMaintSttusInqireController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectFcltyMaintSttusFileList.do")
-	@ResponseBody Map<String, Object> selectFcltyMaintSttusFileList(GamFcltyMaintSttusInqireVO searchVO)throws Exception {
+	public @ResponseBody Map selectFcltyMaintSttusFileList(GamFcltyMaintSttusInqireVO searchVO)throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -230,7 +231,7 @@ public class GamFcltyMaintSttusInqireController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List<?> fcltyMaintSttusFileList = gamFcltyMaintSttusInqireService.selectFcltyMaintSttusFileList(searchVO);
+		List fcltyMaintSttusFileList = gamFcltyMaintSttusInqireService.selectFcltyMaintSttusFileList(searchVO);
 
         int totCnt = gamFcltyMaintSttusInqireService.selectFcltyMaintSttusFileListTotCnt(searchVO);
 

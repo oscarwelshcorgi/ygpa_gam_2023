@@ -34,7 +34,7 @@ public interface GamFcltyMaintMngService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectFcltyMaintMngList(GamFcltyMaintMngVO vo) throws Exception;
+	List<?> selectFcltyMaintMngList(GamFcltyMaintMngVO vo) throws Exception;
 	
 	
 	/**
@@ -61,7 +61,7 @@ public interface GamFcltyMaintMngService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectMntnRprObjFcltsFList(GamFcltyMaintMngVO vo) throws Exception;
+	List<?> selectMntnRprObjFcltsFList(GamFcltyMaintMngVO vo) throws Exception;
 	
 	
 	/**
@@ -79,7 +79,7 @@ public interface GamFcltyMaintMngService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectFcltyMaintFileList(GamFcltyMaintMngVO vo) throws Exception;
+	List<?> selectFcltyMaintFileList(GamFcltyMaintMngVO vo) throws Exception;
 	
 	
 	/**
@@ -97,7 +97,7 @@ public interface GamFcltyMaintMngService {
 	 * @return String
 	 * @throws Exception
 	 */
-	int selectNextMntnRprSeq(Map<String, Object> vo) throws Exception;
+	int selectNextMntnRprSeq(Map<?,?> vo) throws Exception;
 	
 	
 	/**
@@ -106,7 +106,7 @@ public interface GamFcltyMaintMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	void insertFcltyMaintMng(Map<String, Object> vo) throws Exception;
+	void insertFcltyMaintMng(Map<?,?> vo) throws Exception;
 	
 	
 	/**
@@ -115,7 +115,7 @@ public interface GamFcltyMaintMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	void updateFcltyMaintMng(Map<String, Object> vo) throws Exception;
+	void updateFcltyMaintMng(Map<?,?> vo) throws Exception;
 	
 	
 	/**
@@ -124,7 +124,7 @@ public interface GamFcltyMaintMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	void deleteFcltyMaintMng(Map<String, Object> vo) throws Exception;
+	void deleteFcltyMaintMng(Map<?,?> vo) throws Exception;
 	
 	
 	/**
@@ -133,7 +133,7 @@ public interface GamFcltyMaintMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	void deleteMntnRprObjFcltsF(Map<String, Object> vo) throws Exception;
+	void deleteMntnRprObjFcltsF(Map<?,?> vo) throws Exception;
 	
 	
 	/**
@@ -142,7 +142,7 @@ public interface GamFcltyMaintMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	void deleteFcltyMaintFile(Map<String, Object> vo) throws Exception;
+	void deleteFcltyMaintFile(Map<?,?> vo) throws Exception;
 	
 	
 	
@@ -152,7 +152,7 @@ public interface GamFcltyMaintMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	List mergeMntnRprObjFcltsF(Map<String, Object> mergeList) throws Exception;
+	List<?> mergeMntnRprObjFcltsF(Map<String, Object> mergeList) throws Exception;
 	
 	
 	
@@ -162,6 +162,6 @@ public interface GamFcltyMaintMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	List mergeFcltyMaintFile(Map<String, Object> mergeList) throws Exception;
+	List<?> mergeFcltyMaintFile(Map<String, Object> mergeList) throws Exception;
 
 }

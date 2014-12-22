@@ -42,8 +42,8 @@ public class GamConsFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	/**
 	 * 시설관리 목록
 	 */
-	public List selectFcltySpecMngList(GamConsFcltySpecMngVO vo) throws Exception {
-   		return (List)gamConsFcltySpecMngDao.selectFcltySpecMngList(vo);
+	public List<?> selectFcltySpecMngList(GamConsFcltySpecMngVO vo) throws Exception {
+   		return (List<?>)gamConsFcltySpecMngDao.selectFcltySpecMngList(vo);
 	}
 
 
@@ -73,36 +73,34 @@ public class GamConsFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 
 
 	// 시설관리 저장
-	public void insertFcltySpec(Map form) throws Exception{
+	public void insertFcltySpec(Map<?,?> form) throws Exception{
 		gamConsFcltySpecMngDao.insertFcltySpec(form);
 	}
 
 	// 시설관리 수정
-	public void updateFcltySpec(Map form) throws Exception{
+	public void updateFcltySpec(Map<?,?> form) throws Exception{
 		gamConsFcltySpecMngDao.updateFcltySpec(form);
 	}
 
 	// 시설 정보 삭제
-	public void deleteFcltySpec(Map vo) throws Exception{
+	public void deleteFcltySpec(Map<?,?> vo) throws Exception{
 		gamConsFcltySpecMngDao.deleteFcltySpec(vo);
 	}
 
 	// 시설 파일 입력/수정/삭제
-	public List mergeFcltyFileMngt(Map mergeMap) throws Exception{
+	public List<?> mergeFcltyFileMngt(Map<String,Object> mergeMap) throws Exception{
 		return gamConsFcltySpecMngDao.mergeFcltyFile(mergeMap);
 	}
 
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecMngService#fcltyMngSelectView(java.util.Map)
-	 */
+
 	@Override
-	public EgovMap fcltyMngSelectView(Map vo)
+	public EgovMap fcltyMngSelectView(Map<?,?> vo)
 			throws Exception {
 		return gamConsFcltySpecMngDao.fcltyMngSelectView(vo);
 	}
 	
 	
-	public EgovMap fcltySpecMngSelectView(Map vo)
+	public EgovMap fcltySpecMngSelectView(Map<?,?> vo)
 			throws Exception {
 		return gamConsFcltySpecMngDao.fcltySpecMngSelectView(vo);
 	}
@@ -115,7 +113,7 @@ public class GamConsFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	 * @return 
 	 * @throws Exception
 	 */
-	public void deleteFcltyTotalFile(Map vo) throws Exception{
+	public void deleteFcltyTotalFile(Map<?,?> vo) throws Exception{
 		gamConsFcltySpecMngDao.deleteFcltyTotalFile(vo);
 	}
 

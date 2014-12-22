@@ -38,7 +38,7 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
 	 * 시설관리 저장
 	 * @param fcltyMngtList
 	 */
-	public void insertFcltySpec(Map form){
+	public void insertFcltySpec(Map<?,?> form){
 		insert("gamConsFcltySpecMngDao.insertFcltySpec", form);
 	}
 
@@ -47,7 +47,7 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
 	 * 시설관리 파일 저장
 	 * @param fcltyMngtList
 	 */
-	public void insertFcltyFile(Map fileList){
+	public void insertFcltyFile(Map<?,?> fileList){
 		insert("gamConsFcltySpecMngDao.insertFcltyFile", fileList);
 	}
 
@@ -56,7 +56,7 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
      * 시설관리 수정화면
      * @param vo
      */
-    public void updateFcltySpec(Map form){
+    public void updateFcltySpec(Map<?,?> form){
         update("gamConsFcltySpecMngDao.updateFcltySpec",form);
     }
 
@@ -65,7 +65,7 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
      * 시설관리 파일 저장
      * @param vo
      */
-    public void updateFcltyFile(Map fileList){
+    public void updateFcltyFile(Map<?,?> fileList){
     	update("gamConsFcltySpecMngDao.updateFcltyFile",fileList);
     }
 
@@ -74,7 +74,7 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
      * 시설관리 파일 삭제
      * @param vo
      */
-    public void deleteFcltyFile(Map fileList){
+    public void deleteFcltyFile(Map<?,?> fileList){
     	update("gamConsFcltySpecMngDao.deleteFcltyFile",fileList);
     }
     
@@ -83,7 +83,7 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
      * 시설관리 전체파일 삭제
      * @param vo
      */
-    public void deleteFcltyTotalFile(Map fileList){
+    public void deleteFcltyTotalFile(Map<?,?> fileList){
     	update("gamConsFcltySpecMngDao.deleteFcltyTotalFile",fileList);
     }
 
@@ -96,7 +96,7 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<ComDefaultVO> selectFcltySpecMngList(GamConsFcltySpecMngVO vo) throws Exception{
-		return list("gamConsFcltySpecMngDao.selectFcltySpecMngList", vo);
+		return list("gamConsFcltySpecMngDao.selectFcltySpecMngList_D", vo);
 	}
 
 
@@ -107,7 +107,7 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
 	 * @exception Exception
 	 */
     public int selectFcltySpecMngListTotCnt(GamConsFcltySpecMngVO vo) throws Exception {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamConsFcltySpecMngDao.selectFcltySpecMngListTotCnt", vo);
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamConsFcltySpecMngDao.selectFcltySpecMngListTotCnt_S", vo);
     }
 
 
@@ -119,7 +119,7 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
      */
     @SuppressWarnings("unchecked")
     public List<ComDefaultVO> selectFcltySpecMngFileList(GamConsFcltySpecMngVO vo) throws Exception{
-    	return list("gamConsFcltySpecMngDao.selectFcltySpecMngFileList", vo);
+    	return list("gamConsFcltySpecMngDao.selectFcltySpecMngFileList_D", vo);
     }
 
 
@@ -130,7 +130,7 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
      * @exception Exception
      */
     public int selectFcltySpecMngFileListTotCnt(GamConsFcltySpecMngVO vo) throws Exception {
-    	return (Integer)getSqlMapClientTemplate().queryForObject("gamConsFcltySpecMngDao.selectFcltySpecMngFileListTotCnt", vo);
+    	return (Integer)getSqlMapClientTemplate().queryForObject("gamConsFcltySpecMngDao.selectFcltySpecMngFileListTotCnt_S", vo);
     }
 
 
@@ -140,8 +140,8 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
      * @param vo
      * @return GamFcltyManageVO
      */
-    public EgovMap fcltyMngSelectView(Map vo) throws Exception{
-        return (EgovMap) selectByPk("gamConsFcltySpecMngDao.fcltyMngSelectView", vo);
+    public EgovMap fcltyMngSelectView(Map<?,?> vo) throws Exception{
+        return (EgovMap) selectByPk("gamConsFcltySpecMngDao.fcltyMngSelectView_S", vo);
     }
     
     /**
@@ -149,8 +149,8 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
      * @param vo
      * @return GamFcltyManageVO
      */
-    public EgovMap fcltySpecMngSelectView(Map vo) throws Exception{
-        return (EgovMap) selectByPk("gamConsFcltySpecMngDao.fcltySpecMngSelectView", vo);
+    public EgovMap fcltySpecMngSelectView(Map<?,?> vo) throws Exception{
+        return (EgovMap) selectByPk("gamConsFcltySpecMngDao.fcltySpecMngSelectView_S", vo);
     }
 
 
@@ -158,19 +158,13 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
      * 시설관리 삭제화면
      * @param vo
      */
-    public void deleteFcltySpec(Map vo) throws Exception{
+    public void deleteFcltySpec(Map<?,?> vo) throws Exception{
     	delete("gamConsFcltySpecMngDao.deleteFcltySpec", vo);
     }
 
-    public List mergeFcltyFile(Map vo) throws Exception{
+    public List<?> mergeFcltyFile(Map<String,Object> vo) throws Exception{
 		return this.merge(vo, "gamConsFcltySpecMngDao.insertFcltyFile", "gamConsFcltySpecMngDao.updateFcltyFile", "gamConsFcltySpecMngDao.deleteFcltyFile");
     }
-
-    public Integer selectFcltyFileMaxSeq(Map vo) throws Exception {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamConsFcltySpecMngDao.selectFcltyFileMaxSeq", vo);
-    }
     
-	
-	
-
+    
 }

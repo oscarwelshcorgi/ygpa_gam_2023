@@ -6,7 +6,7 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamElctyFcltySpecMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamElctyFcltySpecMngVO"/>
     
-    <select id="gamElctyFcltySpecMngDao.selectElctyFcltySpecMngList" parameterClass="gamElctyFcltySpecMngVO" resultClass="egovMap">
+    <select id="gamElctyFcltySpecMngDao.selectElctyFcltySpecMngList_D" parameterClass="gamElctyFcltySpecMngVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                 SELECT ROWNUM RNUM, S.*
@@ -75,7 +75,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamElctyFcltySpecMngDao.selectElctyFcltySpecMngListTotCnt" parameterClass="gamElctyFcltySpecMngVO" resultClass="int">
+    <select id="gamElctyFcltySpecMngDao.selectElctyFcltySpecMngListTotCnt_S" parameterClass="gamElctyFcltySpecMngVO" resultClass="int">
     	SELECT 
     	  COUNT(*) TOTCNT
 		FROM
@@ -105,7 +105,7 @@
 		  </isNotEmpty>
     </select>
     
-    <select id="gamElctyFcltySpecMngDao.selectElctyFcltySpecMngDetail" parameterClass="hashMap" resultClass="egovMap">
+    <select id="gamElctyFcltySpecMngDao.selectElctyFcltySpecMngDetail_S" parameterClass="hashMap" resultClass="egovMap">
     	SELECT
 			F.GIS_ASSETS_PRT_AT_CODE
 			, (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND CODE = F.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NAME
@@ -336,7 +336,7 @@
 		    FCLTS_MNG_NO = #fcltsMngNo#
     </delete>
     
-    <select id="gamElctyFcltySpecMngDao.selectElctyFcltySpecFileList" parameterClass="gamElctyFcltySpecMngVO" resultClass="egovMap">
+    <select id="gamElctyFcltySpecMngDao.selectElctyFcltySpecFileList_D" parameterClass="gamElctyFcltySpecMngVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                 SELECT ROWNUM RNUM, S.*
@@ -364,7 +364,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>    	
     </select>
 
-    <select id="gamElctyFcltySpecMngDao.selectElctyFcltySpecFileListTotCnt" parameterClass="gamElctyFcltySpecMngVO" resultClass="int">
+    <select id="gamElctyFcltySpecMngDao.selectElctyFcltySpecFileListTotCnt_S" parameterClass="gamElctyFcltySpecMngVO" resultClass="int">
     	SELECT 
     	  COUNT(*) TOTCNT
 		FROM

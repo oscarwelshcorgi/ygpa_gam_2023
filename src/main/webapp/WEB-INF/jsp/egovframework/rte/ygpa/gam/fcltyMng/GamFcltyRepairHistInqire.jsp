@@ -48,7 +48,6 @@ GamFcltyRepairHistInqireModule.prototype.loadComplete = function(params) {
 					{display:"시설물명",		name:"prtFcltyNm",	width:200,		sortable:true,		align:"left"},
 					{display:"하자보수순번", 		name:"flawRprSeq",				width:120, 		sortable:false,		align:"center"},
 					{display:"하자검사구분",		name:"flawExamSe",				width:80, 		sortable:false,		align:"center"},
-					
 					{display:"하자유무",		name:"flawEnnc",	width:90,		sortable:true,		align:"center"},
 					{display:"하자검사일자",	name:"flawExamDt",	width:100,		sortable:true,		align:"center"},
 					{display:"하자보수유형",		name:"flawRprTy",				width:80, 		sortable:false,		align:"center"},

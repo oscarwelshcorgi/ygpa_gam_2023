@@ -207,14 +207,14 @@ var module_instance = new GamSocTotalBsnsSetoffDtlsModule();
                             </td>
                             <th>요금종류코드</th>
                             <td>
-                                <input id="sFeeTp" type="text" size="5" />
+                                <input id="sFeeTp" type="text" size="3" />
                                 <input type="text" size="15" id="sFeeTpKorNm" disabled/>
                                 <button id="popupChrgeKndCd" class="popupButton">선택</button>
                             </td>
                             <th>보전업체</th>
                             <td>
-                                <input type="text" size="9" id="sExmpAgentCode" maxlength="10"/>
-                                <input type="text" size="25" id="sExmpAgentName" disabled/>
+                                <input type="text" size="5" id="sExmpAgentCode" maxlength="10"/>
+                                <input type="text" size="24" id="sExmpAgentName" disabled/>
                                 <button id="popupAgentInfo" class="popupButton">선택</button>
                             </td>
                             <td rowspan="2"><button class="buttonSearch">조회</button></td>

@@ -38,7 +38,7 @@ public class GamFcltyRepairSttusInqireDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFcltyRepairSttusInqireList(GamFcltyRepairSttusInqireVO vo) throws Exception {
+	public List<?> selectFcltyRepairSttusInqireList(GamFcltyRepairSttusInqireVO vo) throws Exception {
 		return list("gamFcltyRepairSttusInqireDao.selectFcltyRepairSttusInqireList_D", vo);
 	}
 	
@@ -72,7 +72,7 @@ public class GamFcltyRepairSttusInqireDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFlawRprSttusObjFcltsFList(GamFcltyRepairSttusInqireVO vo) throws Exception {
+	public List<?> selectFlawRprSttusObjFcltsFList(GamFcltyRepairSttusInqireVO vo) throws Exception {
 		return list("gamFcltyRepairSttusInqireDao.selectFlawRprSttusObjFcltsFList_D", vo);
 	}
 	
@@ -95,7 +95,7 @@ public class GamFcltyRepairSttusInqireDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFlawExamUsrSttusFList(GamFcltyRepairSttusInqireVO vo) throws Exception {
+	public List<?> selectFlawExamUsrSttusFList(GamFcltyRepairSttusInqireVO vo) throws Exception {
 		return list("gamFcltyRepairSttusInqireDao.selectFlawExamUsrSttusFList_D", vo);
 	}
 	
@@ -117,7 +117,7 @@ public class GamFcltyRepairSttusInqireDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFcltyRepairSttusFileList(GamFcltyRepairSttusInqireVO vo) throws Exception {
+	public List<?> selectFcltyRepairSttusFileList(GamFcltyRepairSttusInqireVO vo) throws Exception {
 		return list("gamFcltyRepairSttusInqireDao.selectFcltyRepairSttusFileList_D", vo);
 	}
 	

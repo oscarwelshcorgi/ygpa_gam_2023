@@ -200,7 +200,7 @@ public class GamSocTotalBsnsSetoffDtlsController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/soc/gamSelectSocTotalBsnsSetoffDtlsListPrint.do")
-	public String selectSocTotalBsnsSetoffDtlsListPrint(@RequestParam Map<String, Object> socTotalBsnsSetoffDtlsOpt, ModelMap model) throws Exception {
+	public String selectSocTotalBsnsSetoffDtlsListPrint(@RequestParam Map socTotalBsnsSetoffDtlsOpt, ModelMap model) throws Exception {
 
 		int totalCnt;
 		String frDt,toDt;

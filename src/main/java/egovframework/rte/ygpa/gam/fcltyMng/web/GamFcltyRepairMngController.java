@@ -76,7 +76,7 @@ public class GamFcltyRepairMngController {
      * @return String
      * @throws Exception
      */
-	@RequestMapping(value="/fcltyMng/gamFcltyRepairMng.do")
+	public @RequestMapping(value="/fcltyMng/gamFcltyRepairMng.do")
     String indexFcltyRepairMng(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/fcltyMng/GamFcltyRepairMng";
@@ -89,10 +89,11 @@ public class GamFcltyRepairMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectFcltyRepairMngList.do")
-	@ResponseBody Map<String, Object> selectFcltyRepairMngList(GamFcltyRepairMngVO searchVO)throws Exception {
+	public @ResponseBody Map selectFcltyRepairMngList(GamFcltyRepairMngVO searchVO)throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -113,7 +114,7 @@ public class GamFcltyRepairMngController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List<?> fcltyRepairMngList = gamFcltyRepairMngService.selectFcltyRepairMngList(searchVO);
+		List fcltyRepairMngList = gamFcltyRepairMngService.selectFcltyRepairMngList(searchVO);
 
         int totCnt = gamFcltyRepairMngService.selectFcltyRepairMngListTotCnt(searchVO);
 
@@ -135,10 +136,11 @@ public class GamFcltyRepairMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectFcltyRepairMngDetail.do")
-	@ResponseBody Map<String, Object> selectFcltyRepairMngDetail(GamFcltyRepairMngVO searchVO)throws Exception {
+	public @ResponseBody Map selectFcltyRepairMngDetail(GamFcltyRepairMngVO searchVO)throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 		EgovMap result = null;
 
     	// 0. Spring Security 사용자권한 처리
@@ -165,10 +167,11 @@ public class GamFcltyRepairMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectFlawRprObjFcltsF.do")
-	@ResponseBody Map<String, Object> selectFlawRprObjFcltsFList(GamFcltyRepairMngVO searchVO)throws Exception {
+	public @ResponseBody Map selectFlawRprObjFcltsFList(GamFcltyRepairMngVO searchVO)throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -189,7 +192,7 @@ public class GamFcltyRepairMngController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List<?> flawRprObjFcltsFList = gamFcltyRepairMngService.selectFlawRprObjFcltsFList(searchVO);
+		List flawRprObjFcltsFList = gamFcltyRepairMngService.selectFlawRprObjFcltsFList(searchVO);
 
         int totCnt = gamFcltyRepairMngService.selectFlawRprObjFcltsFListTotCnt(searchVO);
 
@@ -211,10 +214,11 @@ public class GamFcltyRepairMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectFlawExamUsrFList.do")
-	@ResponseBody Map<String, Object> selectFlawExamUsrFList(GamFcltyRepairMngVO searchVO)throws Exception {
+	public @ResponseBody Map selectFlawExamUsrFList(GamFcltyRepairMngVO searchVO)throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -235,7 +239,7 @@ public class GamFcltyRepairMngController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List<?> flawExamUsrFList = gamFcltyRepairMngService.selectFlawExamUsrFList(searchVO);
+		List flawExamUsrFList = gamFcltyRepairMngService.selectFlawExamUsrFList(searchVO);
 
         int totCnt = gamFcltyRepairMngService.selectFlawExamUsrFListTotCnt(searchVO);
 
@@ -257,10 +261,11 @@ public class GamFcltyRepairMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectFcltyRepairFileList.do")
-	@ResponseBody Map<String, Object> selectFcltyRepairFileList(GamFcltyRepairMngVO searchVO)throws Exception {
+	public @ResponseBody Map selectFcltyRepairFileList(GamFcltyRepairMngVO searchVO)throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -281,7 +286,7 @@ public class GamFcltyRepairMngController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List<?> fcltyRepairFileList = gamFcltyRepairMngService.selectFcltyRepairFileList(searchVO);
+		List fcltyRepairFileList = gamFcltyRepairMngService.selectFcltyRepairFileList(searchVO);
 
         int totCnt = gamFcltyRepairMngService.selectFcltyRepairFileListTotCnt(searchVO);
 
@@ -303,10 +308,11 @@ public class GamFcltyRepairMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/insertFcltyRepairMng.do")
-    @ResponseBody Map<String, Object> insertFcltyRepairMng(@RequestParam Map<String, Object> fcltyRepairItem) throws Exception {
+    public @ResponseBody Map insertFcltyRepairMng(@RequestParam Map fcltyRepairItem) throws Exception {
 
-    	Map<String, Object> map = new HashMap<String, Object>();
+    	Map map = new HashMap();
     	int flawRprSeq;
     	String fcltsMngGroupNo,fcltsJobSe;
 
@@ -341,7 +347,6 @@ public class GamFcltyRepairMngController {
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
             
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
@@ -357,10 +362,11 @@ public class GamFcltyRepairMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/updateFcltyRepairMng.do")
-    @ResponseBody Map<String, Object> updateFcltyRepairMng(@RequestParam Map<String, Object> fcltyRepairItem) throws Exception {
+    public @ResponseBody Map updateFcltyRepairMng(@RequestParam Map fcltyRepairItem) throws Exception {
 
-    	Map<String, Object> map = new HashMap<String, Object>();
+    	Map map = new HashMap();
     	int flawRprSeq;
     	String fcltsMngGroupNo,fcltsJobSe;
 
@@ -392,7 +398,6 @@ public class GamFcltyRepairMngController {
             map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
             
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
@@ -408,12 +413,11 @@ public class GamFcltyRepairMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/deleteFcltyRepairMng.do")
-    @ResponseBody Map<String, Object> deleteFcltyRepairMng(@RequestParam Map<String, Object> fcltyRepairItem) throws Exception {
+    public @ResponseBody Map deleteFcltyRepairMng(@RequestParam Map fcltyRepairItem) throws Exception {
 
-    	Map<String, Object> map = new HashMap<String, Object>();
-    	int flawRprSeq;
-    	String fcltsMngGroupNo,fcltsJobSe;
+    	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -441,7 +445,6 @@ public class GamFcltyRepairMngController {
             map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
             
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
@@ -457,18 +460,15 @@ public class GamFcltyRepairMngController {
 	 * @return map
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping("/fcltyMng/mergeFlawRprObjFcltsF.do")
-    @ResponseBody Map<String, Object> mergeFlawRprObjFcltsF(@RequestParam Map mergeFlawRprObjFcltsFList)throws Exception {
+    public @ResponseBody Map mergeFlawRprObjFcltsF(@RequestParam Map mergeFlawRprObjFcltsFList)throws Exception {
 
     	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String,Object> map = new HashMap<String,Object>();
 		Map<String, String> userMap = new HashMap<String, String>();
 		ObjectMapper mapper = new ObjectMapper();
 		
-		int resultCode;
-		String resultMsg;
-
     	List<HashMap<String,String>> insertList=null;
     	List<HashMap<String,String>> updateList=null;
     	List<HashMap<String,String>> deleteList=null;
@@ -509,7 +509,6 @@ public class GamFcltyRepairMngController {
     		map.put("resultCode", 0);			// return ok
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
@@ -525,18 +524,15 @@ public class GamFcltyRepairMngController {
 	 * @return map
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping("/fcltyMng/mergeFlawExamUsrF.do")
-    @ResponseBody Map<String, Object> mergeFlawExamUsrF(@RequestParam Map mntnRprObjFcltsFList)throws Exception {
+    public @ResponseBody Map mergeFlawExamUsrF(@RequestParam Map mntnRprObjFcltsFList)throws Exception {
 
     	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String,Object> map = new HashMap<String,Object>();
 		Map<String, String> userMap = new HashMap<String, String>();
 		ObjectMapper mapper = new ObjectMapper();
 		
-		int resultCode;
-		String resultMsg;
-
     	List<HashMap<String,String>> insertList=null;
     	List<HashMap<String,String>> updateList=null;
     	List<HashMap<String,String>> deleteList=null;
@@ -577,7 +573,6 @@ public class GamFcltyRepairMngController {
     		map.put("resultCode", 0);			// return ok
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
@@ -592,8 +587,9 @@ public class GamFcltyRepairMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/mergeFcltyRepairFile.do")
-	@ResponseBody Map<String, Object> mergeFcltyRepairFile(@RequestParam Map<String, Object> fcltyRepairFileList) throws Exception {
+	public @ResponseBody Map mergeFcltyRepairFile(@RequestParam Map fcltyRepairFileList) throws Exception {
 
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -604,9 +600,6 @@ public class GamFcltyRepairMngController {
     	List<HashMap<String,String>> updateList=null;
     	List<HashMap<String,String>> deleteList=null;
     	List<Map<String,String>> userList=null;
-
-    	int resultCode = -1;
-    	String resultMsg = "";
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -651,8 +644,9 @@ public class GamFcltyRepairMngController {
 	 * @return 
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/popup/showFlawRprObjFcltsPopup.do")
-    String showFlawRprObjFcltsPopup(@RequestParam Map flawRprObjFcltsList, ModelMap model) throws Exception {
+    public String showFlawRprObjFcltsPopup(@RequestParam Map flawRprObjFcltsList, ModelMap model) throws Exception {
 		model.addAttribute("flawRprObjFcltsList", flawRprObjFcltsList);
     	return "/ygpa/gam/fcltyMng/GamPopupFlawRprObjFclts";
     }
@@ -664,8 +658,9 @@ public class GamFcltyRepairMngController {
      *
      * 하자보수 검사자 팝업
      */
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/popup/selectFlawExamUsrFPopup.do")
-    String selectFlawExamUsrFPopup(@RequestParam Map selectFlawExamUsrF, ModelMap model) throws Exception {
+    public String selectFlawExamUsrFPopup(@RequestParam Map selectFlawExamUsrF, ModelMap model) throws Exception {
 
 		model.addAttribute("selectFlawExamUsrF", selectFlawExamUsrF);
     	return "/ygpa/gam/fcltyMng/GamPopupFlawExamUsrF";

@@ -32,7 +32,7 @@ public interface GamFcltyMaintSttusInqireService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectFcltyMaintSttusInqireList(GamFcltyMaintSttusInqireVO vo) throws Exception;
+	List<?> selectFcltyMaintSttusInqireList(GamFcltyMaintSttusInqireVO vo) throws Exception;
 	
 	
 	/**
@@ -59,7 +59,7 @@ public interface GamFcltyMaintSttusInqireService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectMntnSttusRprObjFcltsFList(GamFcltyMaintSttusInqireVO vo) throws Exception;
+	List<?> selectMntnSttusRprObjFcltsFList(GamFcltyMaintSttusInqireVO vo) throws Exception;
 	
 	
 	/**
@@ -77,7 +77,7 @@ public interface GamFcltyMaintSttusInqireService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectFcltyMaintSttusFileList(GamFcltyMaintSttusInqireVO vo) throws Exception;
+	List<?> selectFcltyMaintSttusFileList(GamFcltyMaintSttusInqireVO vo) throws Exception;
 	
 	
 	/**

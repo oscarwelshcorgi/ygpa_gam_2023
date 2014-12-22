@@ -125,7 +125,7 @@ GamConstFcltySpecMngModule.prototype.imagePreview = function() {
 		    	this.$("#previewImage").attr("src", $imgURL);
 		    //});
 		}else{
-			this.$("#previewImage").attr("src", "");
+			this.$("#previewImage").removeAttr("src");
 		}
 	}
 };
@@ -555,7 +555,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<th>시설물관리그룹</th>
 							<td colspan="3">
 								<input id="sFcltsMngGroupNo" type="text" size="14" title="시설물관리그룹넘버" />&nbsp;-&nbsp;
-								<input id="sFcltsMngGroupNoNm" type="text" size="56" title="시설물관리그룹명" />
+								<input id="sFcltsMngGroupNoNm" type="text" size="56" title="시설물관리그룹명" disabled="disabled" />
 								<button id="searchPopupBtn" class="popupButton">선택</button>
 							</td>
 							<td rowspan="2"><button class="buttonSearch">조회</button></td>
@@ -843,7 +843,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 
 			<!-- 건축시설 첨부파일 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
-				<table border=1>
+				<table>
 					<tr>
 						<td width="50%">
 							<table id="fcltyFileList" style="display:none" class="fillHeight"></table>
@@ -876,7 +876,6 @@ var module_instance = new GamConstFcltySpecMngModule();
 						</td>
 					</tr>
 				</table>
-				<!-- <div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div> -->
 			</div>
 		</div>
 	</div>

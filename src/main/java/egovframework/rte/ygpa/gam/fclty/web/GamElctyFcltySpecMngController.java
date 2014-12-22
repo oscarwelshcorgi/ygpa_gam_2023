@@ -42,7 +42,7 @@ import egovframework.rte.ygpa.gam.fclty.service.GamElctyFcltySpecMngVO;
  *   
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
- *  2014. 11. 19.		HNJ		최초 생성
+ *  2014. 11. 19.		HNJ		최초 생성 
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
@@ -77,7 +77,7 @@ public class GamElctyFcltySpecMngController {
      * @throws Exception
      */
 	@RequestMapping(value="/fclty/gamElctyFcltySpecMng.do")
-    String indexElctyFcltySpecMng(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+    public String indexElctyFcltySpecMng(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/fclty/GamElctyFcltySpecMng";
     }
@@ -91,7 +91,7 @@ public class GamElctyFcltySpecMngController {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/selectElctyFcltySpecMngList.do")
-	@ResponseBody Map selectElctyFcltySpecMngList(GamElctyFcltySpecMngVO searchVO) throws Exception {
+	public @ResponseBody Map selectElctyFcltySpecMngList(GamElctyFcltySpecMngVO searchVO) throws Exception {
 
 		Map map = new HashMap();
 
@@ -136,7 +136,7 @@ public class GamElctyFcltySpecMngController {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/selectElctyFcltySpecMngDetail.do")
-    @ResponseBody Map selectElctyFcltySpecMngDetail(@RequestParam Map searchVO) throws Exception {
+    public @ResponseBody Map selectElctyFcltySpecMngDetail(@RequestParam Map searchVO) throws Exception {
     	Map map = new HashMap();
     	EgovMap result=null;
 
@@ -164,7 +164,7 @@ public class GamElctyFcltySpecMngController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/insertElctyFcltySpecMngDetail.do")
-    @ResponseBody Map insertElctyFcltySpecMngDetail(@RequestParam Map insertMap) throws Exception {
+    public @ResponseBody Map insertElctyFcltySpecMngDetail(@RequestParam Map insertMap) throws Exception {
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -228,7 +228,7 @@ public class GamElctyFcltySpecMngController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/deleteElctyFcltySpecMngDetail.do")
-    @ResponseBody Map deleteElctyFcltySpecMngDetail(@RequestParam Map deleteMap) throws Exception {
+    public @ResponseBody Map deleteElctyFcltySpecMngDetail(@RequestParam Map deleteMap) throws Exception {
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -255,7 +255,7 @@ public class GamElctyFcltySpecMngController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/selectElctyFcltySpecFileList.do")
-    @ResponseBody Map selectElctyFcltySpecFileList(GamElctyFcltySpecMngVO searchVO) throws Exception {
+    public @ResponseBody Map selectElctyFcltySpecFileList(GamElctyFcltySpecMngVO searchVO) throws Exception {
 		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
@@ -292,7 +292,7 @@ public class GamElctyFcltySpecMngController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/mergeElctyFcltySpecAtchFile.do")
-	@ResponseBody Map<String, Object> mergeElctyFcltySpecAtchFile(@RequestParam Map<String, Object> dataList) throws Exception {
+	public @ResponseBody Map<String, Object> mergeElctyFcltySpecAtchFile(@RequestParam Map<String, Object> dataList) throws Exception {
 
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String,Object> map = new HashMap<String,Object>();

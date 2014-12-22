@@ -44,8 +44,8 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFcltyRepairMngList(GamFcltyRepairMngVO vo) throws Exception {
-		return (List)gamFcltyRepairMngDao.selectFcltyRepairMngList(vo);
+	public List<?> selectFcltyRepairMngList(GamFcltyRepairMngVO vo) throws Exception {
+		return (List<?>)gamFcltyRepairMngDao.selectFcltyRepairMngList(vo);
 	}
 
 	
@@ -78,8 +78,8 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFlawRprObjFcltsFList(GamFcltyRepairMngVO vo) throws Exception {
-		return (List)gamFcltyRepairMngDao.selectFlawRprObjFcltsFList(vo);
+	public List<?> selectFlawRprObjFcltsFList(GamFcltyRepairMngVO vo) throws Exception {
+		return (List<?>)gamFcltyRepairMngDao.selectFlawRprObjFcltsFList(vo);
 	}
 	
 	
@@ -101,8 +101,8 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFlawExamUsrFList(GamFcltyRepairMngVO vo) throws Exception {
-		return (List)gamFcltyRepairMngDao.selectFlawExamUsrFList(vo);
+	public List<?> selectFlawExamUsrFList(GamFcltyRepairMngVO vo) throws Exception {
+		return (List<?>)gamFcltyRepairMngDao.selectFlawExamUsrFList(vo);
 	}
 	
 	
@@ -123,8 +123,8 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFcltyRepairFileList(GamFcltyRepairMngVO vo) throws Exception {
-		return (List)gamFcltyRepairMngDao.selectFcltyRepairFileList(vo);
+	public List<?> selectFcltyRepairFileList(GamFcltyRepairMngVO vo) throws Exception {
+		return (List<?>)gamFcltyRepairMngDao.selectFcltyRepairFileList(vo);
 	}
 	
 	
@@ -145,7 +145,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @return String
 	 * @throws Exception
 	 */
-	public int selectNextMntnRprSeq(Map<String, Object> vo) throws Exception{
+	public int selectNextMntnRprSeq(Map<?,?> vo) throws Exception{
 		return gamFcltyRepairMngDao.selectNextMntnRprSeq(vo);
 	}
 	
@@ -156,7 +156,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @return 
 	 * @throws Exception
 	 */
-	public void insertFcltyRepairMng(Map<String, Object> vo) throws Exception{
+	public void insertFcltyRepairMng(Map<?,?> vo) throws Exception{
 		gamFcltyRepairMngDao.insertFcltyRepairMng(vo);
 	}
 	
@@ -167,7 +167,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @return 
 	 * @throws Exception
 	 */
-	public void updateFcltyRepairMng(Map<String, Object> vo) throws Exception{
+	public void updateFcltyRepairMng(Map<?,?> vo) throws Exception{
 		gamFcltyRepairMngDao.updateFcltyRepairMng(vo);
 	}
 	
@@ -178,7 +178,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @return 
 	 * @throws Exception
 	 */
-	public void deleteFcltyRepairMng(Map<String, Object> vo) throws Exception{
+	public void deleteFcltyRepairMng(Map<?,?> vo) throws Exception{
 		gamFcltyRepairMngDao.deleteFcltyRepairMng(vo);
 	}
 	
@@ -189,7 +189,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @return 
 	 * @throws Exception
 	 */
-	public void deleteFlawRprObjFcltsF(Map<String, Object> vo) throws Exception{
+	public void deleteFlawRprObjFcltsF(Map<?,?> vo) throws Exception{
 		gamFcltyRepairMngDao.deleteFlawRprObjFcltsF(vo);
 	}
 	
@@ -200,7 +200,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @return 
 	 * @throws Exception
 	 */
-	public void deleteFlawExamUsrF(Map<String, Object> vo) throws Exception{
+	public void deleteFlawExamUsrF(Map<?,?> vo) throws Exception{
 		gamFcltyRepairMngDao.deleteFlawExamUsrF(vo);
 	}
 	
@@ -211,7 +211,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @return 
 	 * @throws Exception
 	 */
-	public void deleteFcltyRepairFile(Map<String, Object> vo) throws Exception{
+	public void deleteFcltyRepairFile(Map<?,?> vo) throws Exception{
 		gamFcltyRepairMngDao.deleteFcltyRepairFile(vo);
 	}
 	
@@ -222,8 +222,8 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @return 
 	 * @throws Exception
 	 */
-	public List mergeFlawRprObjFcltsF(Map<String, Object> mergeList) throws Exception{
-		return (List)gamFcltyRepairMngDao.mergeFlawRprObjFcltsF(mergeList);
+	public List<?> mergeFlawRprObjFcltsF(Map<String, Object> mergeList) throws Exception{
+		return (List<?>)gamFcltyRepairMngDao.mergeFlawRprObjFcltsF(mergeList);
 	}
 	
 	
@@ -233,8 +233,8 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @return 
 	 * @throws Exception
 	 */
-	public List mergeFlawExamUsrF(Map<String, Object> mergeList) throws Exception{
-		return (List)gamFcltyRepairMngDao.mergeFlawExamUsrF(mergeList);
+	public List<?> mergeFlawExamUsrF(Map<String, Object> mergeList) throws Exception{
+		return (List<?>)gamFcltyRepairMngDao.mergeFlawExamUsrF(mergeList);
 	}
 	
 	
@@ -245,8 +245,8 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @return 
 	 * @throws Exception
 	 */
-	public List mergeFcltyRepairFile(Map<String, Object> mergeList) throws Exception{
-		return (List)gamFcltyRepairMngDao.mergeFcltyRepairFile(mergeList);
+	public List<?> mergeFcltyRepairFile(Map<String, Object> mergeList) throws Exception{
+		return (List<?>)gamFcltyRepairMngDao.mergeFcltyRepairFile(mergeList);
 	}
 	
 

@@ -39,7 +39,7 @@ public class GamFcltyMaintMngDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFcltyMaintMngList(GamFcltyMaintMngVO vo) throws Exception {
+	public List<?> selectFcltyMaintMngList(GamFcltyMaintMngVO vo) throws Exception {
 		return list("gamFcltyMaintMngDao.selectFcltyMaintMngList_D", vo);
 	}
 	
@@ -72,7 +72,7 @@ public class GamFcltyMaintMngDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectMntnRprObjFcltsFList(GamFcltyMaintMngVO vo) throws Exception {
+	public List<?> selectMntnRprObjFcltsFList(GamFcltyMaintMngVO vo) throws Exception {
 		return list("gamFcltyMaintMngDao.selectMntnRprObjFcltsFList_D", vo);
 	}
 	
@@ -94,7 +94,7 @@ public class GamFcltyMaintMngDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFcltyMaintFileList(GamFcltyMaintMngVO vo) throws Exception {
+	public List<?> selectFcltyMaintFileList(GamFcltyMaintMngVO vo) throws Exception {
 		return list("gamFcltyMaintMngDao.selectFcltyMaintFileList_D", vo);
 	}
 	
@@ -116,7 +116,7 @@ public class GamFcltyMaintMngDao extends YGPAAbstractDAO {
 	 * @return String
 	 * @throws Exception
 	 */
-	public int selectNextMntnRprSeq(Map<String, Object> vo) throws Exception{
+	public int selectNextMntnRprSeq(Map<?,?> vo) throws Exception{
 		return (Integer) getSqlMapClient().queryForObject("gamFcltyMaintMngDao.selectNextMntnRprSeq_S", vo); 
 	}
 	
@@ -127,7 +127,7 @@ public class GamFcltyMaintMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @throws Exception
 	 */
-	public void insertFcltyMaintMng(Map<String, Object> vo) throws Exception{
+	public void insertFcltyMaintMng(Map<?,?> vo) throws Exception{
 		insert("gamFcltyMaintMngDao.insertFcltyMaintMng", vo);
 	}
 	
@@ -138,7 +138,7 @@ public class GamFcltyMaintMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @throws Exception
 	 */
-	public void updateFcltyMaintMng(Map<String, Object> vo) throws Exception{
+	public void updateFcltyMaintMng(Map<?,?> vo) throws Exception{
 		insert("gamFcltyMaintMngDao.updateFcltyMaintMng", vo);
 	}
 	
@@ -149,7 +149,7 @@ public class GamFcltyMaintMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @throws Exception
 	 */
-	public void deleteFcltyMaintMng(Map<String, Object> vo) throws Exception{
+	public void deleteFcltyMaintMng(Map<?,?> vo) throws Exception{
 		insert("gamFcltyMaintMngDao.deleteFcltyMaintMng", vo);
 	}
 	
@@ -159,7 +159,7 @@ public class GamFcltyMaintMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @throws Exception
 	 */
-	public void deleteMntnRprObjFcltsF(Map<String, Object> vo) throws Exception{
+	public void deleteMntnRprObjFcltsF(Map<?,?> vo) throws Exception{
 		delete("gamFcltyMaintMngDao.deleteMntnRprObjFcltsF", vo);
 	}
 	
@@ -170,7 +170,7 @@ public class GamFcltyMaintMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @throws Exception
 	 */
-	public void deleteFcltyMaintFile(Map<String, Object> vo) throws Exception{
+	public void deleteFcltyMaintFile(Map<?,?> vo) throws Exception{
 		delete("gamFcltyMaintMngDao.deleteFcltyMaintFile", vo);
 	}
 	
@@ -183,7 +183,7 @@ public class GamFcltyMaintMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @throws Exception
 	 */
-	public List mergeMntnRprObjFcltsF(Map<String, Object> mergeList) throws Exception{
+	public List<?> mergeMntnRprObjFcltsF(Map<String, Object> mergeList) throws Exception{
 		return this.merge(mergeList, "gamFcltyMaintMngDao.insertMntnRprObjFcltsF", "gamFcltyMaintMngDao.updateMntnRprObjFcltsF", "gamFcltyMaintMngDao.deleteMntnRprObjFcltsF");
 	}
 	
@@ -195,7 +195,7 @@ public class GamFcltyMaintMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @throws Exception
 	 */
-	public List mergeFcltyMaintFile(Map<String, Object> mergeList) throws Exception{
+	public List<?> mergeFcltyMaintFile(Map<String, Object> mergeList) throws Exception{
 		return this.merge(mergeList, "gamFcltyMaintMngDao.insertFcltyMaintFile", "gamFcltyMaintMngDao.updateFcltyMaintFile", "gamFcltyMaintMngDao.deleteFcltyMaintFile");
 	}
 

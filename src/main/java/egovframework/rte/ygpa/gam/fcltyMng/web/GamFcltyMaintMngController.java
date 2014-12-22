@@ -74,7 +74,7 @@ public class GamFcltyMaintMngController {
      * @throws Exception
      */
 	@RequestMapping(value="/fcltyMng/gamFcltyMaintMng.do")
-    String indexFcltyMaintMng(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+    public String indexFcltyMaintMng(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/fcltyMng/GamFcltyMaintMng";
     }
@@ -86,10 +86,11 @@ public class GamFcltyMaintMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectFcltyMaintMngList.do")
-	@ResponseBody Map<String, Object> selectFcltyMaintMngList(GamFcltyMaintMngVO searchVO)throws Exception {
+	public @ResponseBody Map selectFcltyMaintMngList(GamFcltyMaintMngVO searchVO)throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -132,10 +133,11 @@ public class GamFcltyMaintMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectFcltyMaintMngDetail.do")
-	@ResponseBody Map<String, Object> selectFcltyMaintMngDetail(GamFcltyMaintMngVO searchVO)throws Exception {
+	public @ResponseBody Map selectFcltyMaintMngDetail(GamFcltyMaintMngVO searchVO)throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 		EgovMap result = null;
 
     	// 0. Spring Security 사용자권한 처리
@@ -163,10 +165,11 @@ public class GamFcltyMaintMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectMntnRprObjFcltsFList.do")
-	@ResponseBody Map<String, Object> selectMntnRprObjFcltsFList(GamFcltyMaintMngVO searchVO)throws Exception {
+	public @ResponseBody Map selectMntnRprObjFcltsFList(GamFcltyMaintMngVO searchVO)throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -209,10 +212,11 @@ public class GamFcltyMaintMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectFcltyMaintFileList.do")
-	@ResponseBody Map<String, Object> selectFcltyMaintFileList(GamFcltyMaintMngVO searchVO)throws Exception {
+	public @ResponseBody Map selectFcltyMaintFileList(GamFcltyMaintMngVO searchVO)throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -233,7 +237,7 @@ public class GamFcltyMaintMngController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List<?> fcltyMaintFileList = gamFcltyMaintMngService.selectFcltyMaintFileList(searchVO);
+		List fcltyMaintFileList = gamFcltyMaintMngService.selectFcltyMaintFileList(searchVO);
 
         int totCnt = gamFcltyMaintMngService.selectFcltyMaintFileListTotCnt(searchVO);
 
@@ -255,10 +259,11 @@ public class GamFcltyMaintMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/insertFcltyMaintMng.do")
-    @ResponseBody Map<String, Object> insertFcltyMaintMng(@RequestParam Map<String, Object> fcltyMaintItem) throws Exception {
+    public @ResponseBody Map insertFcltyMaintMng(@RequestParam Map fcltyMaintItem) throws Exception {
 
-    	Map<String, Object> map = new HashMap<String, Object>();
+    	Map map = new HashMap();
     	int mntnRprSeq;
     	String fcltsMngGroupNo,fcltsJobSe;
 
@@ -293,7 +298,6 @@ public class GamFcltyMaintMngController {
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
             
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
@@ -309,10 +313,11 @@ public class GamFcltyMaintMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/updateFcltyMaintMng.do")
-    @ResponseBody Map<String, Object> updateFcltyMaintMng(@RequestParam Map<String, Object> fcltyMaintItem) throws Exception {
+    public @ResponseBody Map updateFcltyMaintMng(@RequestParam Map fcltyMaintItem) throws Exception {
 
-    	Map<String, Object> map = new HashMap<String, Object>();
+    	Map map = new HashMap();
     	int mntnRprSeq;
     	String fcltsMngGroupNo,fcltsJobSe;
 
@@ -344,7 +349,6 @@ public class GamFcltyMaintMngController {
             map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
             
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
@@ -360,12 +364,11 @@ public class GamFcltyMaintMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/deleteFcltyMaintMng.do")
-    @ResponseBody Map<String, Object> deleteFcltyMaintMng(@RequestParam Map<String, Object> fcltyMaintItem) throws Exception {
+    public @ResponseBody Map deleteFcltyMaintMng(@RequestParam Map fcltyMaintItem) throws Exception {
 
-    	Map<String, Object> map = new HashMap<String, Object>();
-    	int mntnRprSeq;
-    	String fcltsMngGroupNo,fcltsJobSe;
+    	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -390,7 +393,6 @@ public class GamFcltyMaintMngController {
             map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
             
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
@@ -406,18 +408,15 @@ public class GamFcltyMaintMngController {
 	 * @return map
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping("/fcltyMng/mergeMntnRprObjFcltsF.do")
-    @ResponseBody Map<String, Object> mergeMntnRprObjFcltsF(@RequestParam Map mntnRprObjFcltsFList)throws Exception {
+    public @ResponseBody Map mergeMntnRprObjFcltsF(@RequestParam Map mntnRprObjFcltsFList)throws Exception {
 
     	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String,Object> map = new HashMap<String,Object>();
 		Map<String, String> userMap = new HashMap<String, String>();
 		ObjectMapper mapper = new ObjectMapper();
 		
-		int resultCode;
-		String resultMsg;
-
     	List<HashMap<String,String>> insertList=null;
     	List<HashMap<String,String>> updateList=null;
     	List<HashMap<String,String>> deleteList=null;
@@ -458,7 +457,6 @@ public class GamFcltyMaintMngController {
     		map.put("resultCode", 0);			// return ok
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
@@ -473,8 +471,9 @@ public class GamFcltyMaintMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/mergeFcltyMaintFile.do")
-	@ResponseBody Map<String, Object> mergeFcltyMaintFile(@RequestParam Map<String, Object> fcltyMaintFileList) throws Exception {
+	public @ResponseBody Map mergeFcltyMaintFile(@RequestParam Map fcltyMaintFileList) throws Exception {
 
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -485,9 +484,6 @@ public class GamFcltyMaintMngController {
     	List<HashMap<String,String>> updateList=null;
     	List<HashMap<String,String>> deleteList=null;
     	List<Map<String,String>> userList=null;
-
-    	int resultCode = -1;
-    	String resultMsg = "";
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -533,8 +529,9 @@ public class GamFcltyMaintMngController {
      *
      * 유지보수 대상시설물 팝업
      */
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value="/popup/selectMntnRprObjFcltsFPopup.do")
-    String selectMntnRprObjFcltsFPopup(@RequestParam Map selectMntnRprObjFcltsF, ModelMap model) throws Exception {
+    public String selectMntnRprObjFcltsFPopup(@RequestParam Map selectMntnRprObjFcltsF, ModelMap model) throws Exception {
 
 		model.addAttribute("selectMntnRprObjFcltsF", selectMntnRprObjFcltsF);
     	return "/ygpa/gam/fcltyMng/GamPopupMntnRprObjFcltsF";

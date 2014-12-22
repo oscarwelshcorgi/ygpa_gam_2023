@@ -28,13 +28,6 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 public interface GamConsFcltySpecMngService {
 
-	/**
-	 * 메뉴 정보를 등록
-	 * @param vo GamConsFcltySpecMngVO
-	 * @exception Exception
-	 */
-//	void insertFcltyManage(Map fcltyMngtList) throws Exception;
-
 
 	/**
 	 * 시설관리 목록 조회
@@ -42,7 +35,7 @@ public interface GamConsFcltySpecMngService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectFcltySpecMngList(GamConsFcltySpecMngVO vo) throws Exception;
+	List<?> selectFcltySpecMngList(GamConsFcltySpecMngVO vo) throws Exception;
 
 
 	/**
@@ -60,7 +53,7 @@ public interface GamConsFcltySpecMngService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectFcltySpecMngFileList(GamConsFcltySpecMngVO vo) throws Exception;
+	List<?> selectFcltySpecMngFileList(GamConsFcltySpecMngVO vo) throws Exception;
 
 
 	/**
@@ -78,7 +71,7 @@ public interface GamConsFcltySpecMngService {
 	 * @return GamConsFcltySpecMngVO
 	 * @throws Exception
 	 */
-	public EgovMap fcltyMngSelectView(Map vo) throws Exception;
+	public EgovMap fcltyMngSelectView(Map<?,?> vo) throws Exception;
 	
 	/**
 	 * 시설관리 상세화면(제원)
@@ -86,20 +79,20 @@ public interface GamConsFcltySpecMngService {
 	 * @return GamConsFcltySpecMngVO
 	 * @throws Exception
 	 */
-	public EgovMap fcltySpecMngSelectView(Map vo) throws Exception;
+	public EgovMap fcltySpecMngSelectView(Map<?,?> vo) throws Exception;
 	
 
 	// 시설관리 저장
-	public void insertFcltySpec(Map form) throws Exception;
+	void insertFcltySpec(Map<?,?> form) throws Exception;
 
 	// 시설관리 수정
-	public void updateFcltySpec(Map form) throws Exception;
+	void updateFcltySpec(Map<?,?> form) throws Exception;
 
 	// 시설 정보 삭제
-	public void deleteFcltySpec(Map vo) throws Exception;
+	void deleteFcltySpec(Map<?,?> vo) throws Exception;
 
 	// 시설 파일 저장
-	public List mergeFcltyFileMngt(Map mergeList) throws Exception;
+	List<?> mergeFcltyFileMngt(Map<String,Object> mergeList) throws Exception;
 	
 	
 	
@@ -110,6 +103,6 @@ public interface GamConsFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	void deleteFcltyTotalFile(Map vo) throws Exception;
+	void deleteFcltyTotalFile(Map<?,?> vo) throws Exception;
 	
 }

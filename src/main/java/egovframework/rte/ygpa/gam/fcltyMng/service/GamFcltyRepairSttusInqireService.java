@@ -34,7 +34,7 @@ public interface GamFcltyRepairSttusInqireService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectFcltyRepairSttusInqireList(GamFcltyRepairSttusInqireVO vo) throws Exception;
+	List<?> selectFcltyRepairSttusInqireList(GamFcltyRepairSttusInqireVO vo) throws Exception;
 	
 	
 	/**
@@ -61,7 +61,7 @@ public interface GamFcltyRepairSttusInqireService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectFlawRprSttusObjFcltsFList(GamFcltyRepairSttusInqireVO vo) throws Exception;
+	List<?> selectFlawRprSttusObjFcltsFList(GamFcltyRepairSttusInqireVO vo) throws Exception;
 	
 	
 	/**
@@ -79,7 +79,7 @@ public interface GamFcltyRepairSttusInqireService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectFlawExamUsrSttusFList(GamFcltyRepairSttusInqireVO vo) throws Exception;
+	List<?> selectFlawExamUsrSttusFList(GamFcltyRepairSttusInqireVO vo) throws Exception;
 	
 	
 	/**
@@ -97,7 +97,7 @@ public interface GamFcltyRepairSttusInqireService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectFcltyRepairSttusFileList(GamFcltyRepairSttusInqireVO vo) throws Exception;
+	List<?> selectFcltyRepairSttusFileList(GamFcltyRepairSttusInqireVO vo) throws Exception;
 	
 	
 	/**

@@ -34,7 +34,7 @@ public interface GamFcltyRepairMngService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectFcltyRepairMngList(GamFcltyRepairMngVO vo) throws Exception;
+	List<?> selectFcltyRepairMngList(GamFcltyRepairMngVO vo) throws Exception;
 	
 	
 	/**
@@ -61,7 +61,7 @@ public interface GamFcltyRepairMngService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectFlawRprObjFcltsFList(GamFcltyRepairMngVO vo) throws Exception;
+	List<?> selectFlawRprObjFcltsFList(GamFcltyRepairMngVO vo) throws Exception;
 	
 	
 	/**
@@ -79,7 +79,7 @@ public interface GamFcltyRepairMngService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectFlawExamUsrFList(GamFcltyRepairMngVO vo) throws Exception;
+	List<?> selectFlawExamUsrFList(GamFcltyRepairMngVO vo) throws Exception;
 	
 	
 	/**
@@ -97,7 +97,7 @@ public interface GamFcltyRepairMngService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectFcltyRepairFileList(GamFcltyRepairMngVO vo) throws Exception;
+	List<?> selectFcltyRepairFileList(GamFcltyRepairMngVO vo) throws Exception;
 	
 	
 	/**
@@ -115,7 +115,7 @@ public interface GamFcltyRepairMngService {
 	 * @return String
 	 * @throws Exception
 	 */
-	int selectNextMntnRprSeq(Map<String, Object> vo) throws Exception;
+	int selectNextMntnRprSeq(Map<?,?> vo) throws Exception;
 	
 	
 	/**
@@ -124,7 +124,7 @@ public interface GamFcltyRepairMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	void insertFcltyRepairMng(Map<String, Object> vo) throws Exception;
+	void insertFcltyRepairMng(Map<?,?> vo) throws Exception;
 	
 	
 	/**
@@ -133,7 +133,7 @@ public interface GamFcltyRepairMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	void updateFcltyRepairMng(Map<String, Object> vo) throws Exception;
+	void updateFcltyRepairMng(Map<?,?> vo) throws Exception;
 	
 	
 	/**
@@ -142,7 +142,7 @@ public interface GamFcltyRepairMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	void deleteFcltyRepairMng(Map<String, Object> vo) throws Exception;
+	void deleteFcltyRepairMng(Map<?,?> vo) throws Exception;
 	
 	/**
 	 * 하자보수내역 하위 대상시설물 전체 삭제
@@ -150,7 +150,7 @@ public interface GamFcltyRepairMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	void deleteFlawRprObjFcltsF(Map<String, Object> vo) throws Exception;
+	void deleteFlawRprObjFcltsF(Map<?,?> vo) throws Exception;
 	
 	
 	/**
@@ -159,7 +159,7 @@ public interface GamFcltyRepairMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	void deleteFlawExamUsrF(Map<String, Object> vo) throws Exception;
+	void deleteFlawExamUsrF(Map<?,?> vo) throws Exception;
 	
 	
 	/**
@@ -168,7 +168,7 @@ public interface GamFcltyRepairMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	void deleteFcltyRepairFile(Map<String, Object> vo) throws Exception;
+	void deleteFcltyRepairFile(Map<?,?> vo) throws Exception;
 	
 	
 	
@@ -178,7 +178,7 @@ public interface GamFcltyRepairMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	List mergeFlawRprObjFcltsF(Map<String, Object> mergeList) throws Exception;
+	List<?> mergeFlawRprObjFcltsF(Map<String, Object> mergeList) throws Exception;
 	
 	
 	
@@ -188,7 +188,7 @@ public interface GamFcltyRepairMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	List mergeFlawExamUsrF(Map<String, Object> mergeList) throws Exception;
+	List<?> mergeFlawExamUsrF(Map<String, Object> mergeList) throws Exception;
 	
 	
 	
@@ -198,6 +198,6 @@ public interface GamFcltyRepairMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	List mergeFcltyRepairFile(Map<String, Object> mergeList) throws Exception;
+	List<?> mergeFcltyRepairFile(Map<String, Object> mergeList) throws Exception;
 
 }

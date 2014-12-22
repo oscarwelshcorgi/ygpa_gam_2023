@@ -82,7 +82,7 @@ GamElctyFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"파일제목",	name:"atchFileSj",			width:160,		sortable:true,		align:"left"},
 					{display:"논리파일명",	name:"atchFileNmLogic",		width:160,		sortable:true,		align:"left"},
 			],
-		height: "auto"
+		height: "400"
 	});
 
 	this.$("#fcltsFileList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -158,7 +158,7 @@ GamElctyFcltySpecMngModule.prototype.imagePreview = function() {
 		    	this.$("#previewImage").attr("src", $imgURL);
 		    //});
 		}else{
-			this.$("#previewImage").attr(src, "#");
+			this.$("#previewImage").removeAttr("src");
 		}
 	}
 };
@@ -509,7 +509,7 @@ var module_instance = new GamElctyFcltySpecMngModule();
 							<th>시설물관리그룹</th>
 							<td colspan="3">
 								<input id="sFcltsMngGroupNo" type="text" size="14" title="시설물관리그룹넘버" />&nbsp;-&nbsp;
-								<input id="sFcltsMngGroupNoNm" type="text" size="56" title="시설물관리그룹명" />
+								<input id="sFcltsMngGroupNoNm" type="text" size="56" title="시설물관리그룹명" disabled="disabled" />
 								<button id="searchPopupBtn" class="popupButton">선택</button>
 							</td>
 							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
@@ -766,32 +766,38 @@ var module_instance = new GamElctyFcltySpecMngModule();
 			
 			<!-- 전기시설 첨부파일 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
-				<table id="fcltsFileList" style="display:none" class="fillHeight"></table>
-				<div class="emdControlPanel">
-					<button id="btnUploadFile">업로드</button>
-					<button id="btnDownloadFile">다운로드</button>
-					<button id="btnRemoveFile">삭제</button>
-					<button id="btnSave">저장</button>
-				</div>
-				<form id="fcltsFileForm">
-					<table class="searchPanel editForm">
-						<tr>
-							<th width="15%" height="23" class="required_text">파일구분</th>
-							<td>
-								<select id="atchFileSe" class="photoEditItem">
-                                    <option value="D">문서</option>
-                                    <option value="P">사진</option>
-                                    <option value="Z">기타</option>
-                                </select>
-							</td>
-							<th width="15%" height="23" class="required_text">파일제목</th>
-							<td><input id="atchFileSj" type="text" size="20" class="photoEditItem" maxlength="25" /></td>
-							<th width="15%" height="23" class="required_text">작성일자</th>
-							<td><input id="atchFileWritngDt" type="text" size="18" class="emdcal photoEditItem" maxlength="10" readonly="readonly"/></td>
-						</tr>
-					</table>
-				</form>
-				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
+				<table>
+					<tr>
+						<td width="50%">
+							<table id="fcltsFileList" style="display:none" class="fillHeight"></table>
+							<div class="emdControlPanel">
+								<button id="btnUploadFile">업로드</button>
+								<button id="btnDownloadFile">다운로드</button>
+								<button id="btnRemoveFile">삭제</button>
+								<button id="btnSave">저장</button>
+							</div>
+							<form id="fcltsFileForm">
+								<table class="searchPanel editForm">
+									<tr>
+										<th width="15%" height="23" class="required_text">파일구분</th>
+										<td>
+											<select id="atchFileSe" class="photoEditItem">
+			                                    <option value="D">문서</option>
+			                                    <option value="P">사진</option>
+			                                    <option value="Z">기타</option>
+			                                </select>
+										</td>
+										<th width="15%" height="23" class="required_text">파일제목</th>
+										<td><input id="atchFileSj" type="text" size="45" class="photoEditItem" maxlength="25" /></td>
+									</tr>
+								</table>
+							</form>
+						</td>
+						<td style="text-align:center;vertical-align:middle;">
+							<img id="previewImage" style="border: 1px solid #000; max-width:300px; max-height: 300px" src="">
+						</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>

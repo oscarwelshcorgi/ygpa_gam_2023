@@ -10,6 +10,12 @@
             <field property="sPrtAtCode" depends="required">
                 <arg0 key="항코드" resource="false"/>
             </field>
+            <field property="sFrDt" depends="required">
+                <arg0 key="처리기간시작일" resource="false"/>
+            </field>
+            <field property="sToDt" depends="required">
+                <arg0 key="처리기간종료일" resource="false"/>
+            </field>
         </form>
     </formset>
 

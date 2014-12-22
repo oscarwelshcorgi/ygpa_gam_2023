@@ -53,7 +53,7 @@
 					           , P2MGR.SF_AGENT_NM@YGPA_P2MGR(APP_AGENT_CODE) AGENT_NM2
 					           , SUBSTR(A.APP_AGENT_CODE,1,2)||'-'||SUBSTR(A.APP_AGENT_CODE,3,1)||'-'||SUBSTR(A.APP_AGENT_CODE,4,4) AGENT_CODE1
 					           , A.YR||'-'||A.SER_NO AS YICN
-					           , A.BILL_DT
+					           , TO_CHAR(A.BILL_DT,'YYYY-MM-DD') BILL_DT
 					           , A.DC_CODE
 					           , A.EXMP_AGENT_CODE
 					           , DECODE(A.IN_OUT ,'1','외항','2','내항') AS IXTN

@@ -41,7 +41,7 @@ public class GamElctyFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return list
 	 * @throws Exception
 	 */	
-	public List selectElctyFcltySpecMngList(GamElctyFcltySpecMngVO searchVO) throws Exception {
+	public List<?> selectElctyFcltySpecMngList(GamElctyFcltySpecMngVO searchVO) throws Exception {
 		return gamElctyFcltySpecMngDao.selectElctyFcltySpecMngList(searchVO);
 	}
 	
@@ -61,7 +61,7 @@ public class GamElctyFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return egovMap
 	 * @throws Exception
 	 */		
-	public EgovMap selectElctyFcltySpecMngDetail(Map searchVO) throws Exception {
+	public EgovMap selectElctyFcltySpecMngDetail(Map<?,?> searchVO) throws Exception {
 		return gamElctyFcltySpecMngDao.selectElctyFcltySpecMngDetail(searchVO);
 	}
 	
@@ -71,7 +71,7 @@ public class GamElctyFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void insertElctyFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+	public void insertElctyFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
 		gamElctyFcltySpecMngDao.insertElctyFcltySpecMngDetail(vo);
 	}
 	
@@ -81,7 +81,7 @@ public class GamElctyFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void updateElctyFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+	public void updateElctyFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
 		gamElctyFcltySpecMngDao.updateElctyFcltySpecMngDetail(vo);
 	}
 	
@@ -91,7 +91,7 @@ public class GamElctyFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void deleteElctyFcltySpecMngDetail(Map<String, Object> vo) throws Exception {
+	public void deleteElctyFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
 		gamElctyFcltySpecMngDao.deleteElctyFcltySpecMngDetail(vo);
 	}	
 	
@@ -101,7 +101,7 @@ public class GamElctyFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return list 
 	 * @throws Exception
 	 */		
-	public List selectElctyFcltySpecFileList(GamElctyFcltySpecMngVO searchVO) throws Exception {
+	public List<?> selectElctyFcltySpecFileList(GamElctyFcltySpecMngVO searchVO) throws Exception {
 		return gamElctyFcltySpecMngDao.selectElctyFcltySpecFileList(searchVO);
 	}
 
@@ -122,7 +122,7 @@ public class GamElctyFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void insertElctyFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
+	public void insertElctyFcltySpecFileDetail(Map<?, ?> vo) throws Exception {
 		gamElctyFcltySpecMngDao.insertElctyFcltySpecFileDetail(vo);
 	}
 	
@@ -132,7 +132,7 @@ public class GamElctyFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void updateElctyFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
+	public void updateElctyFcltySpecFileDetail(Map<?, ?> vo) throws Exception {
 		gamElctyFcltySpecMngDao.updateElctyFcltySpecFileDetail(vo);
 	}
 
@@ -142,7 +142,7 @@ public class GamElctyFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return 
 	 * @throws Exception
 	 */			
-	public void deleteElctyFcltySpecFileDetail(Map<String, Object> vo) throws Exception {
+	public void deleteElctyFcltySpecFileDetail(Map<?, ?> vo) throws Exception {
 		gamElctyFcltySpecMngDao.deleteElctyFcltySpecFileDetail(vo);
 	}
 
@@ -152,7 +152,7 @@ public class GamElctyFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return 
 	 * @throws Exception
 	 */			
-	public void deleteElctyFcltySpecFileList(Map<String, Object> vo) throws Exception {
+	public void deleteElctyFcltySpecFileList(Map<?, ?> vo) throws Exception {
 		gamElctyFcltySpecMngDao.deleteElctyFcltySpecFileList(vo);
 	}
 	
@@ -162,7 +162,7 @@ public class GamElctyFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return 
 	 * @throws Exception
 	 */			
-	public List mergeFcltyFileMngt(Map mergeMap) throws Exception{
+	public List<?> mergeFcltyFileMngt(Map<String,Object> mergeMap) throws Exception{
 		return gamElctyFcltySpecMngDao.mergeFcltyFile(mergeMap);
 	}
 	

@@ -70,7 +70,7 @@ public class GamFcltyRepairHistInqireController {
      * @throws Exception
      */
 	@RequestMapping(value="/fcltyMng/gamFcltyRepairHistInqire.do")
-    String indexFcltyRepairHistInqire(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+    public String indexFcltyRepairHistInqire(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/fcltyMng/GamFcltyRepairHistInqire";
     }
@@ -82,10 +82,11 @@ public class GamFcltyRepairHistInqireController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectFcltyRepairHistInqireList.do")
-	@ResponseBody Map<String, Object> selectFcltyRepairHistInqireList(GamFcltyRepairHistInqireVO searchVO)throws Exception {
+	public @ResponseBody Map selectFcltyRepairHistInqireList(GamFcltyRepairHistInqireVO searchVO)throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -106,7 +107,7 @@ public class GamFcltyRepairHistInqireController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List<?> fcltyRepairHistInqireList = gamFcltyRepairHistInqireService.selectFcltyRepairHistInqireList(searchVO);
+		List fcltyRepairHistInqireList = gamFcltyRepairHistInqireService.selectFcltyRepairHistInqireList(searchVO);
 
         int totCnt = gamFcltyRepairHistInqireService.selectFcltyRepairHistInqireListTotCnt(searchVO);
 
@@ -129,10 +130,11 @@ public class GamFcltyRepairHistInqireController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectFcltyRepairHistInqireDetail.do")
-	@ResponseBody Map<String, Object> selectFcltyRepairHistInqireDetail(GamFcltyRepairHistInqireVO searchVO)throws Exception {
+	public @ResponseBody Map selectFcltyRepairHistInqireDetail(GamFcltyRepairHistInqireVO searchVO)throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 		EgovMap result = null;
 
     	// 0. Spring Security 사용자권한 처리

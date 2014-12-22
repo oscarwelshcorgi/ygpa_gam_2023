@@ -189,7 +189,7 @@ var module_instance = new GamFcltyMaintHistInqireModule();
 					<tbody>
 						<tr>
 							<th>시공업체명</th>
-							<td colspan="3"><input type="text" id="sCnstrtr" size="100" title="시공업체" /></td>
+							<td colspan="3"><input type="text" id="sCnstrtr" size="130" title="시공업체" /></td>
 							<td rowspan="2"><button class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>

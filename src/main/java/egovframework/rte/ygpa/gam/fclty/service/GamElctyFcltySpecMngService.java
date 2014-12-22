@@ -33,7 +33,7 @@ public interface GamElctyFcltySpecMngService {
 	 * @return list
 	 * @throws Exception
 	 */	
-	List selectElctyFcltySpecMngList(GamElctyFcltySpecMngVO searchVO) throws Exception;
+	List<?> selectElctyFcltySpecMngList(GamElctyFcltySpecMngVO searchVO) throws Exception;
 	
 	/**
 	 * 전기시설재원관리 목록 총수 조회
@@ -49,7 +49,7 @@ public interface GamElctyFcltySpecMngService {
 	 * @return egovMap
 	 * @throws Exception
 	 */		
-	EgovMap selectElctyFcltySpecMngDetail(Map searchVO) throws Exception;
+	EgovMap selectElctyFcltySpecMngDetail(Map<?,?> searchVO) throws Exception;
 	
 	/**
 	 * 전기시설재원관리 데이터를 삽입한다.
@@ -57,7 +57,7 @@ public interface GamElctyFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void insertElctyFcltySpecMngDetail(Map<String, Object> vo) throws Exception;
+	void insertElctyFcltySpecMngDetail(Map<?, ?> vo) throws Exception;
 	
 	/**
 	 * 전기시설재원관리 데이터를 수정한다.
@@ -65,7 +65,7 @@ public interface GamElctyFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void updateElctyFcltySpecMngDetail(Map<String, Object> vo) throws Exception;
+	void updateElctyFcltySpecMngDetail(Map<?, ?> vo) throws Exception;
 	
 	/**
 	 * 전기시설재원관리 데이터를 삭제한다.
@@ -73,7 +73,7 @@ public interface GamElctyFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void deleteElctyFcltySpecMngDetail(Map<String, Object> vo) throws Exception;
+	void deleteElctyFcltySpecMngDetail(Map<?,?> vo) throws Exception;
 	
 	/**
 	 * 전기시설재원관리 첨부파일 목록을 가져온다.
@@ -81,7 +81,7 @@ public interface GamElctyFcltySpecMngService {
 	 * @return list 
 	 * @throws Exception
 	 */		
-	List selectElctyFcltySpecFileList(GamElctyFcltySpecMngVO searchVO) throws Exception;
+	List<?> selectElctyFcltySpecFileList(GamElctyFcltySpecMngVO searchVO) throws Exception;
 	
 	/**
 	 * 전기시설재원관리 첨부파일 목록 총수를 가져온다.
@@ -97,7 +97,7 @@ public interface GamElctyFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void insertElctyFcltySpecFileDetail(Map<String, Object> vo) throws Exception;
+	void insertElctyFcltySpecFileDetail(Map<?,?> vo) throws Exception;
 	
 	/**
 	 * 전기시설재원관리 첨부파일 데이터를 수정한다.
@@ -105,7 +105,7 @@ public interface GamElctyFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void updateElctyFcltySpecFileDetail(Map<String, Object> vo) throws Exception;
+	void updateElctyFcltySpecFileDetail(Map<?,?> vo) throws Exception;
 	
 	/**
 	 * 전기시설재원관리 첨부파일 데이터를 삭제한다.
@@ -113,7 +113,7 @@ public interface GamElctyFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */			
-	void deleteElctyFcltySpecFileDetail(Map<String, Object> vo) throws Exception;
+	void deleteElctyFcltySpecFileDetail(Map<?,?> vo) throws Exception;
 	
 	/**
 	 * 전기시설재원관리 첨부파일 목록을 삭제한다.
@@ -121,7 +121,7 @@ public interface GamElctyFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */			
-	void deleteElctyFcltySpecFileList(Map<String, Object> vo) throws Exception;
+	void deleteElctyFcltySpecFileList(Map<?,?> vo) throws Exception;
 	
 	/**
 	 * 전기시설재원관리 첨부파일을 병합저장한다..
@@ -129,6 +129,6 @@ public interface GamElctyFcltySpecMngService {
 	 * @return list
 	 * @throws Exception
 	 */			
-	public List mergeFcltyFileMngt(Map mergeList) throws Exception;
+	public List<?> mergeFcltyFileMngt(Map<String,Object> mergeList) throws Exception;
 	
 }

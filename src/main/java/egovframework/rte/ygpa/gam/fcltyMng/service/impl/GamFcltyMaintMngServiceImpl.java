@@ -44,8 +44,8 @@ public class GamFcltyMaintMngServiceImpl extends AbstractServiceImpl implements 
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFcltyMaintMngList(GamFcltyMaintMngVO vo) throws Exception {
-		return (List)gamFcltyMaintMngDao.selectFcltyMaintMngList(vo);
+	public List<?> selectFcltyMaintMngList(GamFcltyMaintMngVO vo) throws Exception {
+		return (List<?>)gamFcltyMaintMngDao.selectFcltyMaintMngList(vo);
 	}
 
 	
@@ -77,8 +77,8 @@ public class GamFcltyMaintMngServiceImpl extends AbstractServiceImpl implements 
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectMntnRprObjFcltsFList(GamFcltyMaintMngVO vo) throws Exception {
-		return (List)gamFcltyMaintMngDao.selectMntnRprObjFcltsFList(vo);
+	public List<?> selectMntnRprObjFcltsFList(GamFcltyMaintMngVO vo) throws Exception {
+		return (List<?>)gamFcltyMaintMngDao.selectMntnRprObjFcltsFList(vo);
 	}
 	
 	
@@ -99,8 +99,8 @@ public class GamFcltyMaintMngServiceImpl extends AbstractServiceImpl implements 
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFcltyMaintFileList(GamFcltyMaintMngVO vo) throws Exception {
-		return (List)gamFcltyMaintMngDao.selectFcltyMaintFileList(vo);
+	public List<?> selectFcltyMaintFileList(GamFcltyMaintMngVO vo) throws Exception {
+		return (List<?>)gamFcltyMaintMngDao.selectFcltyMaintFileList(vo);
 	}
 	
 	
@@ -121,7 +121,7 @@ public class GamFcltyMaintMngServiceImpl extends AbstractServiceImpl implements 
 	 * @return String
 	 * @throws Exception
 	 */
-	public int selectNextMntnRprSeq(Map<String, Object> vo) throws Exception{
+	public int selectNextMntnRprSeq(Map<?,?> vo) throws Exception{
 		return gamFcltyMaintMngDao.selectNextMntnRprSeq(vo);
 	}
 	
@@ -132,7 +132,7 @@ public class GamFcltyMaintMngServiceImpl extends AbstractServiceImpl implements 
 	 * @return 
 	 * @throws Exception
 	 */
-	public void insertFcltyMaintMng(Map<String, Object> vo) throws Exception{
+	public void insertFcltyMaintMng(Map<?,?> vo) throws Exception{
 		gamFcltyMaintMngDao.insertFcltyMaintMng(vo);
 	}
 	
@@ -143,7 +143,7 @@ public class GamFcltyMaintMngServiceImpl extends AbstractServiceImpl implements 
 	 * @return 
 	 * @throws Exception
 	 */
-	public void updateFcltyMaintMng(Map<String, Object> vo) throws Exception{
+	public void updateFcltyMaintMng(Map<?,?> vo) throws Exception{
 		gamFcltyMaintMngDao.updateFcltyMaintMng(vo);
 	}
 	
@@ -154,7 +154,7 @@ public class GamFcltyMaintMngServiceImpl extends AbstractServiceImpl implements 
 	 * @return 
 	 * @throws Exception
 	 */
-	public void deleteFcltyMaintMng(Map<String, Object> vo) throws Exception{
+	public void deleteFcltyMaintMng(Map<?,?> vo) throws Exception{
 		gamFcltyMaintMngDao.deleteFcltyMaintMng(vo);
 	}
 	
@@ -165,7 +165,7 @@ public class GamFcltyMaintMngServiceImpl extends AbstractServiceImpl implements 
 	 * @return 
 	 * @throws Exception
 	 */
-	public void deleteMntnRprObjFcltsF(Map<String, Object> vo) throws Exception{
+	public void deleteMntnRprObjFcltsF(Map<?,?> vo) throws Exception{
 		gamFcltyMaintMngDao.deleteMntnRprObjFcltsF(vo);
 	}
 	
@@ -176,7 +176,7 @@ public class GamFcltyMaintMngServiceImpl extends AbstractServiceImpl implements 
 	 * @return 
 	 * @throws Exception
 	 */
-	public void deleteFcltyMaintFile(Map<String, Object> vo) throws Exception{
+	public void deleteFcltyMaintFile(Map<?,?> vo) throws Exception{
 		gamFcltyMaintMngDao.deleteFcltyMaintFile(vo);
 	}
 	
@@ -187,8 +187,8 @@ public class GamFcltyMaintMngServiceImpl extends AbstractServiceImpl implements 
 	 * @return 
 	 * @throws Exception
 	 */
-	public List mergeMntnRprObjFcltsF(Map<String, Object> mergeList) throws Exception{
-		return (List)gamFcltyMaintMngDao.mergeMntnRprObjFcltsF(mergeList);
+	public List<?> mergeMntnRprObjFcltsF(Map<String, Object> mergeList) throws Exception{
+		return (List<?>)gamFcltyMaintMngDao.mergeMntnRprObjFcltsF(mergeList);
 	}
 	
 	
@@ -199,8 +199,8 @@ public class GamFcltyMaintMngServiceImpl extends AbstractServiceImpl implements 
 	 * @return 
 	 * @throws Exception
 	 */
-	public List mergeFcltyMaintFile(Map<String, Object> mergeList) throws Exception{
-		return (List)gamFcltyMaintMngDao.mergeFcltyMaintFile(mergeList);
+	public List<?> mergeFcltyMaintFile(Map<String, Object> mergeList) throws Exception{
+		return (List<?>)gamFcltyMaintMngDao.mergeFcltyMaintFile(mergeList);
 	}
 	
 

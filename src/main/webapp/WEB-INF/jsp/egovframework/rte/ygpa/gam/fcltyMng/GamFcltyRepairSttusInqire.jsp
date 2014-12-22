@@ -93,11 +93,9 @@ GamFcltyRepairSttusInqireModule.prototype.loadComplete = function(params) {
 					{display:"순번",		name:"atchFileSeq",				width:40,		sortable:true,		align:"center"},
 					{display:"구분",		name:"atchFileSeNm",			width:40,		sortable:true,		align:"center"},
 					{display:"파일제목",	name:"atchFileSj",				width:240,		sortable:true,		align:"left"},
-					{display:"논리파일명",	name:"atchFileNmLogic",			width:200,		sortable:true,		align:"left"},
-					{display:"물리파일명",	name:"atchFileNmPhysicl",		width:200,		sortable:true,		align:"left"},
-					{display:"생성일시",	name:"atchFileWritngDt",		width:120,		sortable:true,		align:"center"}
+					{display:"논리파일명",	name:"atchFileNmLogic",			width:200,		sortable:true,		align:"left"}
 			],
-		height: "auto"
+		height: "400"
 	});
 
  	
@@ -138,7 +136,7 @@ GamFcltyRepairSttusInqireModule.prototype.applyFileDataChanged = function(){
 				this.$("#previewImage").attr("src", imgURL);
 		    //});
 		}else{
-			this.$("#previewImage").attr("src", "");
+			this.$("#previewImage").removeAttr("src");
 		}
 	}
 };
@@ -400,8 +398,16 @@ var module_instance = new GamFcltyRepairSttusInqireModule();
 
 			<!-- 하자보수내역 첨부파일 -->
 			<div id="tabs5" class="emdTabPage" style="overflow: scroll;">
-				<table id="fcltyRepairSttusFileList" style="display:none" class="fillHeight"></table>
-				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
+				<table>
+					<tr>
+						<td width="50%">
+							<table id="fcltyRepairSttusFileList" style="display:none" class="fillHeight"></table>
+						</td>
+						<td style="text-align:center;vertical-align:middle;">
+							<img id="previewImage" style="border: 1px solid #000; max-width:300px; max-height: 300px" src="">
+						</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>

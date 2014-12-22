@@ -34,7 +34,7 @@ public interface GamFcltyRepairHistInqireService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectFcltyRepairHistInqireList(GamFcltyRepairHistInqireVO vo) throws Exception;
+	List<?> selectFcltyRepairHistInqireList(GamFcltyRepairHistInqireVO vo) throws Exception;
 	
 	
 	/**

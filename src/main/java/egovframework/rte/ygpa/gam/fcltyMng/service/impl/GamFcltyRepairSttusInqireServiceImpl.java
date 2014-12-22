@@ -43,8 +43,8 @@ public class GamFcltyRepairSttusInqireServiceImpl extends AbstractServiceImpl im
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFcltyRepairSttusInqireList(GamFcltyRepairSttusInqireVO vo) throws Exception {
-		return (List)gamFcltyRepairSttusInqireDao.selectFcltyRepairSttusInqireList(vo);
+	public List<?> selectFcltyRepairSttusInqireList(GamFcltyRepairSttusInqireVO vo) throws Exception {
+		return (List<?>)gamFcltyRepairSttusInqireDao.selectFcltyRepairSttusInqireList(vo);
 	}
 
 	
@@ -77,8 +77,8 @@ public class GamFcltyRepairSttusInqireServiceImpl extends AbstractServiceImpl im
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFlawRprSttusObjFcltsFList(GamFcltyRepairSttusInqireVO vo) throws Exception {
-		return (List)gamFcltyRepairSttusInqireDao.selectFlawRprSttusObjFcltsFList(vo);
+	public List<?> selectFlawRprSttusObjFcltsFList(GamFcltyRepairSttusInqireVO vo) throws Exception {
+		return (List<?>)gamFcltyRepairSttusInqireDao.selectFlawRprSttusObjFcltsFList(vo);
 	}
 	
 	
@@ -100,8 +100,8 @@ public class GamFcltyRepairSttusInqireServiceImpl extends AbstractServiceImpl im
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFlawExamUsrSttusFList(GamFcltyRepairSttusInqireVO vo) throws Exception {
-		return (List)gamFcltyRepairSttusInqireDao.selectFlawExamUsrSttusFList(vo);
+	public List<?> selectFlawExamUsrSttusFList(GamFcltyRepairSttusInqireVO vo) throws Exception {
+		return (List<?>)gamFcltyRepairSttusInqireDao.selectFlawExamUsrSttusFList(vo);
 	}
 	
 	
@@ -122,8 +122,8 @@ public class GamFcltyRepairSttusInqireServiceImpl extends AbstractServiceImpl im
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFcltyRepairSttusFileList(GamFcltyRepairSttusInqireVO vo) throws Exception {
-		return (List)gamFcltyRepairSttusInqireDao.selectFcltyRepairSttusFileList(vo);
+	public List<?> selectFcltyRepairSttusFileList(GamFcltyRepairSttusInqireVO vo) throws Exception {
+		return (List<?>)gamFcltyRepairSttusInqireDao.selectFcltyRepairSttusFileList(vo);
 	}
 	
 	
