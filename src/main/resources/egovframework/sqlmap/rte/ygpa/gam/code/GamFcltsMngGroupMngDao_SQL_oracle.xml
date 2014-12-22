@@ -7,7 +7,7 @@
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 	<typeAlias alias="gamFcltsMngGroupMngVo" type="egovframework.rte.ygpa.gam.code.service.GamFcltsMngGroupMngVo"/>
 
-	<resultMap id="gamFcltsMngGroupMngSumMap" class="egovframework.rte.ygpa.gam.mngFee.service.GamFcltsMngGroupMngVo">
+	<resultMap id="gamFcltsMngGroupMngSumMap" class="egovframework.rte.ygpa.gam.code.service.GamFcltsMngGroupMngVo">
 		<result property="dataCount" column="DATA_COUNT" columnIndex="1"/>
 		<result property="sumArchFcltsCnt" column="SUM_ARCH_FCLTS_CNT" columnIndex="2"/>
 		<result property="sumCvlEngFcltsCnt" column="SUM_CVL_ENG_FCLTS_CNT" columnIndex="3"/>

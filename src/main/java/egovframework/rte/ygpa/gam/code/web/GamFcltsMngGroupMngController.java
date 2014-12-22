@@ -132,7 +132,6 @@ public class GamFcltsMngGroupMngController {
 			map.put("result", result);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
@@ -196,7 +195,6 @@ public class GamFcltsMngGroupMngController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
@@ -226,7 +224,6 @@ public class GamFcltsMngGroupMngController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
@@ -239,7 +236,6 @@ public class GamFcltsMngGroupMngController {
 	@RequestMapping(value="/code/gamDeleteFcltsMngGroupMng.do")
 	@ResponseBody Map<String, Object> gamDeleteFcltsMngGroupMng(GamFcltsMngGroupMngVo gamFcltsMngGroupMngVo) throws Exception {
 
-		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -255,7 +251,6 @@ public class GamFcltsMngGroupMngController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));

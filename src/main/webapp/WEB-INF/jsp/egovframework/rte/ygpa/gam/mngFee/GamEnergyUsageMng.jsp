@@ -283,8 +283,8 @@ GamEnergyUsageMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamEnergyUsageMngModule.prototype.selectData = function() {
 
+	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
-		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
@@ -295,6 +295,19 @@ GamEnergyUsageMngModule.prototype.selectData = function() {
 	var mainKeyValue = this._mainKeyValue;
 	if (mainKeyValue == "") {
 		return;
+	}
+	var mngYear = mainKeyValue.substring(0,4);
+	var fuelCd = mainKeyValue.substring(4,8);
+	var mainRowNo = -1;
+	for(var i=0; i<gridRowCount; i++) {
+		var row = this.$("#mainGrid").flexGetRow(i+1);
+		if (row.mngYear == mngYear && row.fuelCd == fuelCd) {
+			mainRowNo = i;
+			break;
+		}
+	}
+	if (mainRowNo >= 0) {
+		this.$("#mainGrid").selectRowId(mainRowNo);
 	}
 	this._mode = 'modify';
 	this.loadDetail('detailTab');

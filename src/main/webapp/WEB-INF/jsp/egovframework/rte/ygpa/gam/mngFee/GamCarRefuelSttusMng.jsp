@@ -163,6 +163,37 @@ GamCarRefuelSttusMngModule.prototype.drawChart = function() {
 
 <%
 /**
+ * @FUNCTION NAME : allSelectQueryFuelKnd
+ * @DESCRIPTION   : 조회조건 주유구분의 모든 항목을 선택한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamCarRefuelSttusMngModule.prototype.allSelectQueryFuelKnd = function() {
+
+	$('input[name="FuelKndCheck"]').each(function(){
+		$(this).attr('checked', true);
+	});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : allUnselectQueryFuelKnd
+ * @DESCRIPTION   : 조회조건 주유구분의 모든 항목을 선택해제한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamCarRefuelSttusMngModule.prototype.allUnselectQueryFuelKnd = function() {
+console.log('asdf');
+	$('input[name="FuelKndCheck"]').each(function(){
+		$(this).attr('checked', false);
+		//this.checked = false;
+	});
+
+};
+
+<%
+/**
  * @FUNCTION NAME : onButtonClick
  * @DESCRIPTION   : BUTTON CLICK EVENT
  * @PARAMETER     :
@@ -172,6 +203,12 @@ GamCarRefuelSttusMngModule.prototype.drawChart = function() {
 GamCarRefuelSttusMngModule.prototype.onButtonClick = function(buttonId) {
 
 	switch (buttonId) {
+		case 'btnAllSelect':
+	    	this.allSelectQueryFuelKnd();
+			break;
+		case 'btnAllUnselect':
+	    	this.allUnselectQueryFuelKnd();
+			break;
 	    case 'btnSave':
 	    	this.saveData();
 			break;
@@ -312,8 +349,8 @@ GamCarRefuelSttusMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamCarRefuelSttusMngModule.prototype.selectData = function() {
 
+	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
-		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
@@ -324,6 +361,18 @@ GamCarRefuelSttusMngModule.prototype.selectData = function() {
 	var mainKeyValue = this._mainKeyValue;
 	if (mainKeyValue == "") {
 		return;
+	}
+	var carRegistNo = mainKeyValue;
+	var mainRowNo = -1;
+	for(var i=0; i<gridRowCount; i++) {
+		var row = this.$("#mainGrid").flexGetRow(i+1);
+		if (row.carRegistNo == carRegistNo) {
+			mainRowNo = i;
+			break;
+		}
+	}
+	if (mainRowNo >= 0) {
+		this.$("#mainGrid").selectRowId(mainRowNo);
 	}
 	this._mode = 'modify';
 	this.loadDetail('detailTab');
@@ -618,12 +667,14 @@ var module_instance = new GamCarRefuelSttusMngModule();
 								<input id="sFuelKnd4" type="hidden" />
 								<input id="sFuelKnd5" type="hidden" />
 								<input id="sFuelKnd6" type="hidden" />
-								휘발류<input type="checkbox" size="10" name="check" id="sFuelKndCheck1" style="vertical-align: middle;" value="휘발류" checked="checked" class="chk">
-								경유<input type="checkbox" size="10" name="check" id="sFuelKndCheck2" style="vertical-align: middle;" value="경유"	checked="checked"	class="chk">
-								LPG<input type="checkbox" size="10" name="check" id="sFuelKndCheck3" style="vertical-align: middle;" value="LPG"	checked="checked"	class="chk">
-								전기<input type="checkbox" size="10" name="check" id="sFuelKndCheck4" style="vertical-align: middle;" value="전기"	checked="checked"	class="chk">
-								하이브리드<input type="checkbox" size="10" name="check" id="sFuelKndCheck5" style="vertical-align: middle;" value="HYBRID"	checked="checked"	class="chk">
-								기타<input type="checkbox" size="10" name="check" id="sFuelKndCheck6" style="vertical-align: middle;" value="기타"	checked="checked"	class="chk">
+								휘발류<input type="checkbox" size="10" name="FuelKndCheck" id="sFuelKndCheck1" style="vertical-align: middle;" value="휘발류" checked="checked" class="chk">
+								경유<input type="checkbox" size="10" name="FuelKndCheck" id="sFuelKndCheck2" style="vertical-align: middle;" value="경유"	checked="checked"	class="chk">
+								LPG<input type="checkbox" size="10" name="FuelKndCheck" id="sFuelKndCheck3" style="vertical-align: middle;" value="LPG"	checked="checked"	class="chk">
+								전기<input type="checkbox" size="10" name="FuelKndCheck" id="sFuelKndCheck4" style="vertical-align: middle;" value="전기"	checked="checked"	class="chk">
+								하이브리드<input type="checkbox" size="10" name="FuelKndCheck" id="sFuelKndCheck5" style="vertical-align: middle;" value="하이브리드"	checked="checked"	class="chk">
+								기타<input type="checkbox" size="10" name="FuelKndCheck" id="sFuelKndCheck6" style="vertical-align: middle;" value="기타"	checked="checked"	class="chk">
+								<button id="btnAllSelect">선택</button>
+								<button id="btnAllUnselect">해제</button>
 							</td>
 							<td>
 								<button class="buttonSearch">조회</button>

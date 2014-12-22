@@ -55,4 +55,10 @@ public class GamFcltsFeeMngInqireServiceImpl extends AbstractServiceImpl impleme
 	public void updateFcltsFeeMngInqire(Map gamFcltsFeeMngInqireMap) throws Exception {
 		gamFcltsFeeMngInqireDao.updateFcltsFeeMngInqire(gamFcltsFeeMngInqireMap);
 	}
+
+	@Override
+	public String selectEntrpsNm(Map searchVO) throws Exception {
+		return gamFcltsFeeMngInqireDao.selectEntrpsNm(searchVO);
+	}
+
 }

@@ -252,6 +252,28 @@ public class GamFcltsFeeMngNticController {
 
 	}
 
+	@RequestMapping(value="/mngFee/gamSelectFcltsFeeMngNticEntrpsNm.do" , method=RequestMethod.POST)
+	@ResponseBody Map gamSelectFcltsFeeMngNticEntrpsNm(@RequestParam Map<String, Object> searchVO) throws Exception {
+
+		String sEntrpsNm;
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		sEntrpsNm = gamFcltsFeeMngNticService.selectEntrpsNm(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("sEntrpsNm", sEntrpsNm);
+
+		return map;
+
+	}
+
 	@RequestMapping(value="/mngFee/gamPrintPreviewFcltsFeeMngNticNoticeIssue.do")
 	String gamPrintPreviewFcltsFeeMngNticNoticeIssue(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
 

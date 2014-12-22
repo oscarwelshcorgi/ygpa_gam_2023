@@ -337,8 +337,8 @@ GamElctyUsageSttusMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamElctyUsageSttusMngModule.prototype.selectData = function() {
 
+	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
-		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
@@ -349,6 +349,20 @@ GamElctyUsageSttusMngModule.prototype.selectData = function() {
 	var mainKeyValue = this._mainKeyValue;
 	if (mainKeyValue == "") {
 		return;
+	}
+	var mngFeeFcltyCd = mainKeyValue.substring(0,2);
+	var usageMt = mainKeyValue.substring(2,8);
+	var mngFeeJobSe = mainKeyValue.substring(8,9);
+	var mainRowNo = -1;
+	for(var i=0; i<gridRowCount; i++) {
+		var row = this.$("#mainGrid").flexGetRow(i+1);
+		if (row.mngFeeFcltyCd == mngFeeFcltyCd && row.usageMt == usageMt && row.mngFeeJobSe == mngFeeJobSe) {
+			mainRowNo = i;
+			break;
+		}
+	}
+	if (mainRowNo >= 0) {
+		this.$("#mainGrid").selectRowId(mainRowNo);
 	}
 	this._mode = 'modify';
 	this.loadDetail('detailTab');
@@ -864,9 +878,9 @@ var module_instance = new GamElctyUsageSttusMngModule();
 									<option value="E">전기시설</option>
 								</select>
 							</td>
-							<th>적용 계수</th>
+							<th style="text-align:right;">적용 계수(조회조건 아님)</th>
 							<td>
-								<input type="text" size="10" id="sApplcCoef" class="ygpaNumber" data-decimal-point="2" />
+								<input type="text" size="4" id="sApplcCoef" class="ygpaNumber" data-decimal-point="2" />
 							</td>
 							<td>
 								<button class="buttonSearch">조회</button>

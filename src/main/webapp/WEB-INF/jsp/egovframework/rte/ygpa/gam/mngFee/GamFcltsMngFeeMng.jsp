@@ -400,6 +400,10 @@ GamFcltsMngFeeMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'popupDataEntrpscd':
 			this.doExecuteDialog('popupDataEntrpscd', '업체 선택', '/popup/showEntrpsInfo.do', null);
 			break;
+		case 'btnStatEntrpscdRemove':
+			this.$('#statEntrpscd').val("");
+			this.$('#statEntrpsNm').val("");
+			break;
 		case 'popupStatEntrpscd':
 			this.doExecuteDialog('popupStatEntrpscd', '업체 선택', '/popup/showEntrpsInfo.do', null);
 			break;
@@ -514,8 +518,8 @@ GamFcltsMngFeeMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamFcltsMngFeeMngModule.prototype.selectData = function() {
 
+	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
-		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
@@ -526,6 +530,19 @@ GamFcltsMngFeeMngModule.prototype.selectData = function() {
 	var mainKeyValue = this._mainKeyValue;
 	if (mainKeyValue == "") {
 		return;
+	}
+	var mngMt = mainKeyValue.substring(0,6);
+	var mngFeeJobSe = mainKeyValue.substring(6,7);
+	var mainRowNo = -1;
+	for(var i=0; i<gridRowCount; i++) {
+		var row = this.$("#mainGrid").flexGetRow(i+1);
+		if (row.mngMt == mngMt && row.mngFeeJobSe == mngFeeJobSe) {
+			mainRowNo = i;
+			break;
+		}
+	}
+	if (mainRowNo >= 0) {
+		this.$("#mainGrid").selectRowId(mainRowNo);
 	}
 	this._mode = 'modify';
 	this.loadDetail('detailTab');
@@ -1421,6 +1438,10 @@ GamFcltsMngFeeMngModule.prototype.cancelNticIssue = function() {
 GamFcltsMngFeeMngModule.prototype.printNticIssue = function() {
 
 	var row = this.$('#detailGrid').selectedRows()[0];
+	if (row == null) {
+		alert('자료가 선택되지 않았습니다.');
+		return;
+	}
 	if (row['nhtIsueYn'] != "Y") {
 		alert('고지 처리가 완료된 자료가 아닙니다.');
 		return;
@@ -2244,6 +2265,7 @@ var module_instance = new GamFcltsMngFeeMngModule();
 								<td>
 									<input id="statEntrpscd" type="hidden"/>
 									<input id="statEntrpsNm" type="text" size="20" disabled="disabled">
+									<button id="btnStatEntrpscdRemove">X</button>
 									<button id="popupStatEntrpscd" class="popupButton">선택</button>
 								</td>
 								<th style="width:10%; height:30;">조회 구분</th>

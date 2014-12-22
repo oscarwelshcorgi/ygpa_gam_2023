@@ -48,4 +48,10 @@ public interface GamFcltsFeeMngInqireService {
 	 */
 	void updateFcltsFeeMngInqire(Map gamFcltsFeeMngInqireMap) throws Exception;
 
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	String selectEntrpsNm(Map searchVO) throws Exception;
+
 }

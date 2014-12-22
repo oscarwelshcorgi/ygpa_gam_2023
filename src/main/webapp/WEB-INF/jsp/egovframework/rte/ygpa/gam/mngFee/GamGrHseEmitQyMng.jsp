@@ -330,9 +330,9 @@ GamGrHseEmitQyMngModule.prototype.loadDetail = function(tabId) {
 **/
 %>
 GamGrHseEmitQyMngModule.prototype.selectData = function() {
-console.log('asdf');
+
+	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
-		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
@@ -343,6 +343,20 @@ console.log('asdf');
 	var mainKeyValue = this._mainKeyValue;
 	if (mainKeyValue == "") {
 		return;
+	}
+	var fuelCd = mainKeyValue.substring(0,4);
+	var mngYear = mainKeyValue.substring(4,8);
+	var mngMt = mainKeyValue.substring(8,14);
+	var mainRowNo = -1;
+	for(var i=0; i<gridRowCount; i++) {
+		var row = this.$("#mainGrid").flexGetRow(i+1);
+		if (row.fuelCd == fuelCd && row.mngYear == mngYear && row.mngMt == mngMt) {
+			mainRowNo = i;
+			break;
+		}
+	}
+	if (mainRowNo >= 0) {
+		this.$("#mainGrid").selectRowId(mainRowNo);
 	}
 	this._mode = 'modify';
 	this.loadDetail('detailTab');

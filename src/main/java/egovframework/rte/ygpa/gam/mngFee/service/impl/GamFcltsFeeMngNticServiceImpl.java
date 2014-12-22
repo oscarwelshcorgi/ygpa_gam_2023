@@ -71,6 +71,11 @@ public class GamFcltsFeeMngNticServiceImpl extends AbstractServiceImpl implement
 	}
 
 	@Override
+	public String selectEntrpsNm(Map searchVO) throws Exception {
+		return gamFcltsFeeMngNticDao.selectEntrpsNm(searchVO);
+	}
+
+	@Override
 	public void insertFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) throws Exception {
 		gamFcltsFeeMngNticDao.insertFcltsFeeMngNtic(gamFcltsFeeMngNticVo);
 	}

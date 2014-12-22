@@ -129,14 +129,18 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mode = 'modify';
-		module._mainKeyValue = row.mainMngMt + row.mainMngFeeJobSe + row.mngSeq + row.reqestSeq;
+		module._mainKeyValue = row.mngMt + row.mngFeeJobSe + row.mngSeq + row.reqestSeq;
 		module.enableListButtonItem();
 	});
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._mode = 'modify';
-		module._mainKeyValue = row.mainMngMt + row.mainMngFeeJobSe + row.mngSeq + row.reqestSeq;
+		module._mainKeyValue = row.mngMt + row.mngFeeJobSe + row.mngSeq + row.reqestSeq;
 		module.$("#mainTab").tabs("option", {active: 1});
+	});
+
+	this.$("#sEntrpscd").bind("keyup change", {module: this}, function(event) {
+		event.data.module.getQueryEntrpsNm();
 	});
 
 	this.$('#chrgeKnd').on('change',{module:this}, function(event){
@@ -168,7 +172,7 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
         	this.$('#sEndMngMt').val(params.paramVo.mngMtMon);
         	this.$('#sMngFeeJobSe').val(params.paramVo.mngFeeJobSe);
         	this._mode="query";
-    		module._mainKeyValue = "";
+        	this._mainKeyValue = "";
         	var searchOpt=this.makeFormArgs('#searchForm');
         	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 		}
@@ -265,11 +269,13 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnAddNticIssue':
 			if (this._mode=="modify") {
 				this.loadDetail('listTab');
-				this.enableDetailInputItem();
+				this._mode="insert";
+				this.$("#mainTab").tabs("option", {active: 1});
 				this.addNticIssue();
 			}
 			break;
 		case 'btnAddNticIssue2':
+			this._mode="insert";
 			this.addNticIssue();
 			break;
 		case 'btnDelNticIssue':
@@ -386,9 +392,9 @@ GamFcltsFeeMngNticModule.prototype.loadDetail = function(tabId) {
 **/
 %>
 GamFcltsFeeMngNticModule.prototype.selectData = function() {
-
+console.log('asdf');
+	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
-		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
@@ -399,6 +405,21 @@ GamFcltsFeeMngNticModule.prototype.selectData = function() {
 	var mainKeyValue = this._mainKeyValue;
 	if (mainKeyValue == "") {
 		return;
+	}
+	var mngMt = mainKeyValue.substring(0,6);
+	var mngFeeJobSe = mainKeyValue.substring(6,7);
+	var mngSeq = mainKeyValue.substring(7,10);
+	var reqestSeq = mainKeyValue.substring(10,13);
+	var mainRowNo = -1;
+	for(var i=0; i<gridRowCount; i++) {
+		var row = this.$("#mainGrid").flexGetRow(i+1);
+		if (row.mngMt == mngMt && row.mngFeeJobSe == mngFeeJobSe && row.mngSeq == mngSeq && row.reqestSeq == reqestSeq) {
+			mainRowNo = i;
+			break;
+		}
+	}
+	if (mainRowNo >= 0) {
+		this.$("#mainGrid").selectRowId(mainRowNo);
 	}
 	this._mode = 'modify';
 	this.loadDetail('detailTab');
@@ -503,11 +524,34 @@ GamFcltsFeeMngNticModule.prototype.getNewReqestSeq = function() {
 	if (this.$('#mngMt').val() == "" || this.$('#mngFeeJobSe').val() == "" || this.$('#mngSeq').val() == "") {
 		return;
 	}
-	this.doAction('<c:url value="/mngFee/gamFcltsFeeMngNticMaxReqestSeq.do" />', searchVO, function(module, result) {
+	this.doAction('/mngFee/gamSelectFcltsFeeMngNticMaxReqestSeq.do', searchVO, function(module, result) {
 		if (result.resultCode == "0") {
 			module.$('#reqestSeq').val(result.sMaxReqestSeq);
 		}
 	});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : getQueryEntrpsNm
+ * @DESCRIPTION   : 조회조건 고지업체 명을 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.getQueryEntrpsNm = function() {
+
+	var sEntrpscd = this.$('#sEntrpscd').val();
+	if (sEntrpscd.length == 8) {
+		var searchVO = { 'sEntrpscd':sEntrpscd };
+		this.doAction('/mngFee/gamSelectFcltsFeeMngNticEntrpsNm.do', searchVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.$('#sEntrpsNm').val(result.sEntrpsNm);
+			}
+		});
+	} else {
+		this.$('#sEntrpsNm').val('');
+	}
 
 };
 
@@ -816,12 +860,16 @@ GamFcltsFeeMngNticModule.prototype.cancelNticIssue = function() {
 GamFcltsFeeMngNticModule.prototype.printNticIssue = function() {
 
 	var row = this.$('#mainGrid').selectedRows()[0];
+	if (row == null) {
+		alert('자료가 선택되지 않았습니다.');
+		return;
+	}
 	if (row['nhtIsueYn'] != "Y") {
 		alert('고지 처리가 완료된 자료가 아닙니다.');
 		return;
 	}
-	this.printPage('/mngFee/gamPrintPreviewFcltsFeeMngNoticeIssue.do', row);
-	alert("고지서 출력이 완료됐습니다.");
+	this.printPage('/mngFee/gamPrintPreviewFcltsFeeMngNticNoticeIssue.do', row);
+	//alert("고지서 출력이 완료됐습니다.");
 	this.refreshData();
 
 };
@@ -835,8 +883,6 @@ GamFcltsFeeMngNticModule.prototype.printNticIssue = function() {
 %>
 GamFcltsFeeMngNticModule.prototype.addNticIssue = function() {
 
-	this._mode="insert";
-	this._mainKeyValue = '';
 	this.$('#prtAtCode').val('622');
 	this.$('#feeTp').val('');
 	this.$('#fiscalYr').val('');
@@ -909,7 +955,7 @@ GamFcltsFeeMngNticModule.prototype.deleteNticIssue = function() {
 **/
 %>
  GamFcltsFeeMngNticModule.prototype.openFcltsFeeMngInqireModule = function() {
-console.log('asdf');
+
 	var rows = this.$('#mainGrid').selectedRows();
     var formParams = {};
 	if (rows.length==0) {
@@ -966,6 +1012,7 @@ GamFcltsFeeMngNticModule.prototype.enableListButtonItem = function() {
 			this.$('#btnAddNticIssue').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnDelNticIssue').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnOpenFcltsFeeMngInqire').disable({disableClass:"ui-state-disabled"});
+			return;
 		}
 		var nhtIsueYn = row['nhtIsueYn'];
 		var rcivSe = row['rcivSe'];
@@ -1167,6 +1214,8 @@ GamFcltsFeeMngNticModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			if (this._mode=="modify") {
 				this.loadDetail(oldTabId);
 				this.enableDetailInputItem();
+			} else if (this._mode=="insert") {
+				this.$('#chrgeKnd').focus();
 			} else {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
@@ -1251,7 +1300,7 @@ var module_instance = new GamFcltsFeeMngNticModule();
 							</td>
 							<th>고지 업체</th>
 							<td>
-								<input id="sEntrpscd" type="text" size="6" readonly>&nbsp; &nbsp;
+								<input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;
 								<input id="sEntrpsNm" type="text" size="15" disabled="disabled">&nbsp; &nbsp;
 								<button id="popupSearchEntrpscd" class="popupButton">선택</button>
 							</td>

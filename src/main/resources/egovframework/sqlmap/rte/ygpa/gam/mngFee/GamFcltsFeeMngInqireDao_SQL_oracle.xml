@@ -205,7 +205,6 @@
 	</select>
 
 	<update id="gamFcltsFeeMngInqireDao.updateFcltsFeeMngInqire_S">
-		<![CDATA[
 		UPDATE MNG_FEE_LEV_REQEST_F T SET
 		(
 			 T.RCIV_SE
@@ -226,7 +225,12 @@
 		AND CHRGE_KND = #chrgeKnd#
 		AND ACCNUT_YEAR = #accnutYear#
 		AND NTIC_NO = #nticNo#
-		]]>
 	</update>
+
+	<select id="gamFcltsFeeMngInqireDao.selectEntrpsNm_S" parameterClass="hashmap" resultClass="java.lang.String">
+		SELECT ENTRPS_NM
+			FROM ENTRPS_INFO_F
+		WHERE ENTRPSCD = #sEntrpscd#
+	</select>
 
 </sqlMap>

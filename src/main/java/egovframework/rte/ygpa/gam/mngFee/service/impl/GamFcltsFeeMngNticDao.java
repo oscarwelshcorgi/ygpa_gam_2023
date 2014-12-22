@@ -89,6 +89,14 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	}
 
 	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public String selectEntrpsNm(Map searchVO) {
+		return (String)getSqlMapClientTemplate().queryForObject("gamFcltsFeeMngNticDao.selectEntrpsNm_S", searchVO);
+	}
+
+	/**
 	 * @param vo
 	 */
 	public void insertFcltsFeeMngNtic(GamFcltsFeeMngNticVo gamFcltsFeeMngNticVo) {

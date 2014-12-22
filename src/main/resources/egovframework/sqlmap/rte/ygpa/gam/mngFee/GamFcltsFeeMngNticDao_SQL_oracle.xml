@@ -419,6 +419,12 @@
 		AND MNG_SEQ = #mngSeq#
 	</select>
 
+	<select id="gamFcltsFeeMngNticDao.selectEntrpsNm_S" parameterClass="hashmap" resultClass="java.lang.String">
+		SELECT ENTRPS_NM
+			FROM ENTRPS_INFO_F
+		WHERE ENTRPSCD = #sEntrpscd#
+	</select>
+
 	<insert id="gamFcltsFeeMngNticDao.insertFcltsFeeMngNtic_S">
 		INSERT INTO MNG_FEE_LEV_REQEST_F
 		(

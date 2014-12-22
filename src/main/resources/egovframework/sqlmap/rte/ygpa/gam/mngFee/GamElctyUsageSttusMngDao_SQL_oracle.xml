@@ -143,7 +143,7 @@
 				 COUNT(*) AS MT_CNT
 				,TO_CHAR(ADD_MONTHS(TO_DATE(#sUsageYear# || #sUsageMt#,'YYYYMM'),-1),'YYYYMM') AS PREV_MT
 			FROM ELCTY_USAGE_STTUS_F
-		WHERE MNG_MT = #sUsageYear# || #sUsageMt#
+		WHERE USAGE_MT = #sUsageYear# || #sUsageMt#
 	</select>
 
 	<insert id="gamElctyUsageSttusMngDao.insertElctyUsageSttusMng_S">

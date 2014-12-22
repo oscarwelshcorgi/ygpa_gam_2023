@@ -104,6 +104,10 @@ GamFcltsFeeMngInqireModule.prototype.loadComplete = function(params) {
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
+	this.$("#sEntrpscd").bind("keyup change", {module: this}, function(event) {
+		event.data.module.getQueryEntrpsNm();
+	});
+
 	if (params != null) {
 		if (params.action == "selectFcltsFeeMngInqire") {
         	this.$('#sStartMngYear').val(params.paramVo.mngMtYear);
@@ -290,6 +294,29 @@ GamFcltsFeeMngInqireModule.prototype.loadDetail = function() {
 
 <%
 /**
+ * @FUNCTION NAME : getQueryEntrpsNm
+ * @DESCRIPTION   : 조회조건 고지업체 명을 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngInqireModule.prototype.getQueryEntrpsNm = function() {
+
+	var sEntrpscd = this.$('#sEntrpscd').val();
+	if (sEntrpscd.length == 8) {
+		var searchVO = { 'sEntrpscd':sEntrpscd };
+		this.doAction('/mngFee/gamSelectFcltsFeeMngInqireEntrpsNm.do', searchVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.$('#sEntrpsNm').val(result.sEntrpsNm);
+			}
+		});
+	} else {
+		this.$('#sEntrpsNm').val('');
+	}
+
+};
+
+<%
+/**
  * @FUNCTION NAME : updateRcivData
  * @DESCRIPTION   : 수납여부를 갱신한다.
  * @PARAMETER     : NONE
@@ -432,7 +459,7 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 							</td>
 							<th>고지 업체</th>
 							<td>
-                            	<input id="sEntrpscd" type="text" size="6" readonly>&nbsp; &nbsp;
+                            	<input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;
                             	<input id="sEntrpsNm" type="text" size="15" disabled="disabled">&nbsp; &nbsp;
                             	<button id="popupEntrpscd" class="popupButton">선택</button>
 							</td>

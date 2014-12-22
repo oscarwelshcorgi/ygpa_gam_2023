@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.code">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamQcItemCdMngVo" type="egovframework.rte.ygpa.gam.code.service.GamQcItemCdMngVo"/>
+
+	<resultMap id="gamQcItemCdMngSumMap" class="egovframework.rte.ygpa.gam.code.service.GamQcItemCdMngVo">
+		<result property="dataCount" column="DATA_COUNT" columnIndex="1"/>
+	</resultMap>
+
+	<select id="gamQcItemCdMngDao.selectQcItemCdMngList_D" parameterClass="gamQcItemCdMngVo" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.QC_ITEM_CD
+								,T1.QC_ITEM_NM
+								,T1.FCLTS_JOB_SE
+								,T1.QC_ITEM_DTLS
+								,(CASE WHEN T1.FCLTS_JOB_SE = 'A' THEN '건축시설'
+									   WHEN T1.FCLTS_JOB_SE = 'C' THEN '토목시설'
+									   WHEN T1.FCLTS_JOB_SE = 'M' THEN '기계시설'
+									   WHEN T1.FCLTS_JOB_SE = 'E' THEN '전기시설'
+									   WHEN T1.FCLTS_JOB_SE = 'I' THEN '정보통신시설'
+								  END) AS FCLTS_JOB_SE_NM
+								,T1.QC_ITEM_UPPER_CD
+								,T2.QC_ITEM_NM AS QC_ITEM_UPPER_NM
+								,TO_CHAR(T1.DEPTH_SORT) AS DEPTH_SORT
+								,T1.USE_YN
+								,T1.REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+							FROM QC_ITEM_CD_F T1
+							LEFT OUTER JOIN QC_ITEM_CD_F T2 ON (T1.QC_ITEM_UPPER_CD=T2.QC_ITEM_CD)
+						WHERE 1 = 1
+
+						<isNotEmpty property="sQcItemCd">
+						AND T1.QC_ITEM_CD LIKE #sQcItemCd# || '%'
+						</isNotEmpty>
+
+						<isNotEmpty property="sQcItemNm">
+						AND T1.QC_ITEM_NM LIKE '%' || #sQcItemNm# || '%'
+						</isNotEmpty>
+
+						<isNotEmpty property="sFcltsJobSe">
+						AND T1.FCLTS_JOB_SE = #sFcltsJobSe#
+						</isNotEmpty>
+
+						<isNotEmpty property="sDepthSort">
+						AND T1.DEPTH_SORT = TO_NUMBER(#sDepthSort#)
+						</isNotEmpty>
+
+						ORDER BY T1.QC_ITEM_CD
+				) S
+		) A
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<select id="gamQcItemCdMngDao.selectQcItemCdMngListTotCnt_S" parameterClass="gamQcItemCdMngVo" resultMap="gamQcItemCdMngSumMap">
+		SELECT
+				 LTRIM(TO_CHAR(COUNT(*),'999,999,999,990')) AS DATA_COUNT
+			FROM QC_ITEM_CD_F
+		WHERE 1=1
+
+		<isNotEmpty property="sQcItemCd">
+		AND QC_ITEM_CD LIKE #sQcItemCd# || '%'
+		</isNotEmpty>
+
+		<isNotEmpty property="sQcItemNm">
+		AND QC_ITEM_NM LIKE '%' || #sQcItemNm# || '%'
+		</isNotEmpty>
+
+		<isNotEmpty property="sFcltsJobSe">
+		AND FCLTS_JOB_SE = #sFcltsJobSe#
+		</isNotEmpty>
+
+		<isNotEmpty property="sDepthSort">
+		AND DEPTH_SORT = TO_NUMBER(#sDepthSort#)
+		</isNotEmpty>
+
+	</select>
+
+	<select id="gamQcItemCdMngDao.selectQcItemCdMngPk_S" parameterClass="gamQcItemCdMngVo" resultClass="egovMap">
+		SELECT
+				 T1.QC_ITEM_CD
+				,T1.QC_ITEM_NM
+				,T1.FCLTS_JOB_SE
+				,T1.QC_ITEM_DTLS
+				,(CASE WHEN T1.FCLTS_JOB_SE = 'A' THEN '건축시설'
+					   WHEN T1.FCLTS_JOB_SE = 'C' THEN '토목시설'
+					   WHEN T1.FCLTS_JOB_SE = 'M' THEN '기계시설'
+					   WHEN T1.FCLTS_JOB_SE = 'E' THEN '전기시설'
+					   WHEN T1.FCLTS_JOB_SE = 'I' THEN '정보통신시설'
+				  END) AS FCLTS_JOB_SE_NM
+				,T1.QC_ITEM_UPPER_CD
+				,T2.QC_ITEM_NM AS QC_ITEM_UPPER_NM
+				,TO_CHAR(T1.DEPTH_SORT) AS DEPTH_SORT
+				,T1.USE_YN
+				,T1.REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+			FROM QC_ITEM_CD_F T1
+			LEFT OUTER JOIN QC_ITEM_CD_F T2 ON (T1.QC_ITEM_UPPER_CD=T2.QC_ITEM_CD)
+		WHERE T1.QC_ITEM_CD = #qcItemCd#
+	</select>
+
+	<select id="gamQcItemCdMngDao.selectQcItemCdMngNewQcItemCd_S" parameterClass="gamQcItemCdMngVo" resultClass="java.lang.String">
+		SELECT
+				<isEqual property="depthSort" compareValue="0">
+				 #fcltsJobSe# || '000000' AS NEW_QC_ITEM_CD
+				</isEqual>
+
+				<isEqual property="depthSort" compareValue="1">
+				 #fcltsJobSe# || LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(SUBSTRB(QC_ITEM_CD,2,2))),0)+1,'00')) || '0000' AS NEW_QC_ITEM_CD
+				</isEqual>
+
+				<isEqual property="depthSort" compareValue="2">
+				 #fcltsJobSe# || SUBSTRB(#qcItemUpperCd#,2,2) || LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(SUBSTRB(QC_ITEM_CD,4,2))),0)+1,'00')) || '00' AS NEW_QC_ITEM_CD
+				</isEqual>
+
+				<isEqual property="depthSort" compareValue="3">
+				 #fcltsJobSe# || SUBSTRB(#qcItemUpperCd#,2,4) || LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(SUBSTRB(QC_ITEM_CD,6,2))),0)+1,'00')) AS NEW_QC_ITEM_CD
+				</isEqual>
+
+			FROM QC_ITEM_CD_F
+		WHERE FCLTS_JOB_SE = #fcltsJobSe#
+		AND DEPTH_SORT = TO_NUMBER(#depthSort#)
+
+		<isEqual property="depthSort" compareValue="2">
+		AND QC_ITEM_CD LIKE SUBSTRB(#qcItemUpperCd#,1,3)|| '%'
+		</isEqual>
+
+		<isEqual property="depthSort" compareValue="3">
+		AND QC_ITEM_CD LIKE SUBSTRB(#qcItemUpperCd#,1,5)|| '%'
+		</isEqual>
+	</select>
+
+	<insert id="gamQcItemCdMngDao.insertQcItemCdMng_S">
+		INSERT INTO QC_ITEM_CD_F
+		(
+			 QC_ITEM_CD
+			,QC_ITEM_NM
+			,FCLTS_JOB_SE
+			,QC_ITEM_DTLS
+			,QC_ITEM_UPPER_CD
+			,DEPTH_SORT
+			,USE_YN
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 #qcItemCd#
+			,#qcItemNm#
+			,#fcltsJobSe#
+			,#qcItemDtls#
+			,#qcItemUpperCd#
+			,NVL(TO_NUMBER(REPLACE(#depthSort#,',','')),0)
+			,#useYn#
+			,#regUsr#
+			,SYSDATE
+		)
+	</insert>
+
+	<update id="gamQcItemCdMngDao.updateQcItemCdMng_S">
+		UPDATE QC_ITEM_CD_F SET
+			 QC_ITEM_NM = #qcItemNm#
+			,FCLTS_JOB_SE = #fcltsJobSe#
+			,QC_ITEM_DTLS = #qcItemDtls#
+			,QC_ITEM_UPPER_CD = #qcItemUpperCd#
+			,DEPTH_SORT = NVL(TO_NUMBER(REPLACE(#depthSort#,',','')),0)
+			,USE_YN = #useYn#
+			,UPD_USR = #regUsr#
+			,UPDT_DT = SYSDATE
+		WHERE QC_ITEM_CD = #qcItemCd#
+	</update>
+
+	<delete id="gamQcItemCdMngDao.deleteQcItemCdMng_S">
+		DELETE FROM QC_ITEM_CD_F
+		WHERE QC_ITEM_CD = #qcItemCd#
+	</delete>
+
+</sqlMap>

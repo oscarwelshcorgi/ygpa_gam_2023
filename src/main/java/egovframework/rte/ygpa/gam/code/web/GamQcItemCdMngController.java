@@ -1,17 +1,14 @@
 /**
  *
  */
-package egovframework.rte.ygpa.gam.mngFee.web;
+package egovframework.rte.ygpa.gam.code.web;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,21 +22,18 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
-import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireService;
-import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireVo;
-
+import egovframework.rte.ygpa.gam.code.service.GamQcItemCdMngService;
+import egovframework.rte.ygpa.gam.code.service.GamQcItemCdMngVo;
 
 /**
  *
- * @author Lee
- * @since 2014. 10. 22.
+ * @author ACEWOLF
+ * @since 2014. 12. 22.
  * @version 1.0
  * @see
  * <pre>
@@ -47,15 +41,14 @@ import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireVo;
  *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
- *  2014. 10. 22.		Lee		최초 생성
+ *  2014. 12. 22.		ACEWOLF		최초 생성
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
-@Controller
-public class GamFcltsFeeMngInqireController {
 
-	protected Log log = LogFactory.getLog(this.getClass());
+@Controller
+public class GamQcItemCdMngController {
 
 	/** Validator */
 	@Autowired
@@ -69,38 +62,22 @@ public class GamFcltsFeeMngInqireController {
 	@Resource(name="egovMessageSource")
 	EgovMessageSource egovMessageSource;
 
-	@Resource(name = "gamFcltsFeeMngInqireService")
-	private GamFcltsFeeMngInqireService gamFcltsFeeMngInqireService;
+	@Resource(name = "gamQcItemCdMngService")
+	protected GamQcItemCdMngService gamQcItemCdMngService;
 
-	@RequestMapping(value="/mngFee/gamFcltsFeeMngInqire.do")
+	@RequestMapping(value="/code/gamQcItemCdMng.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
-		///login정보
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		int year = Integer.parseInt(EgovDateUtil.getToday().substring(0,4));
-		List yearList = new ArrayList();
-		Map yearMap = null;
-
-		for ( int i = year ; i >= year-10 ; i-- ) {
-			yearMap = new HashMap();
-			yearMap.put("code", i);
-			yearMap.put("codeNm", i+"년");
-			yearList.add(yearMap);
-		}
-
-		model.addAttribute("yearsList", yearList);
-		model.addAttribute("thisyear", year);
 		model.addAttribute("windowId", windowId);
 
-		return "/ygpa/gam/mngFee/GamFcltsFeeMngInqire";
+		return "/ygpa/gam/code/GamQcItemCdMng";
 
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/mngFee/gamSelectFcltsFeeMngInqire.do" , method=RequestMethod.POST)
-	@ResponseBody Map gamSelectFcltsFeeMngInqire(GamFcltsFeeMngInqireVo searchVO) throws Exception {
+	@RequestMapping(value="/code/gamSelectQcItemCdMng.do" , method=RequestMethod.POST)
+	@ResponseBody Map gamSelectQcItemCdMng(GamQcItemCdMngVo searchVO) throws Exception {
 
-		int page, firstIndex;
 		Map map = new HashMap();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -119,24 +96,21 @@ public class GamFcltsFeeMngInqireController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		GamFcltsFeeMngInqireVo resultSum = gamFcltsFeeMngInqireService.selectFcltsFeeMngInqireListTotCnt(searchVO);
-		List resultList = gamFcltsFeeMngInqireService.selectFcltsFeeMngInqireList(searchVO);
+		GamQcItemCdMngVo resultSum = gamQcItemCdMngService.selectQcItemCdMngListTotCnt(searchVO);
+		List resultList = gamQcItemCdMngService.selectQcItemCdMngList(searchVO);
 
 		map.put("resultCode", 0);
 		map.put("totalCount", resultSum.getDataCount());
-		map.put("sumFee", resultSum.getSumFee());
-		map.put("sumVat", resultSum.getSumVat());
-		map.put("sumNticAmt", resultSum.getSumNticAmt());
 		map.put("resultList", resultList);
 
 		return map;
 
 	}
 
-	@RequestMapping(value="/mngFee/gamSelectFcltsFeeMngInqireChart.do" , method=RequestMethod.POST)
-	@ResponseBody Map gamSelectFcltsFeeMngInqireChart(GamFcltsFeeMngInqireVo gamFcltsFeeMngInqireVo) throws Exception {
+	@RequestMapping(value="/code/gamSelectQcItemCdMngPk.do")
+	@ResponseBody Map<String, Object> gamSelectQcItemCdMngPk(GamQcItemCdMngVo searchVO)	throws Exception {
 
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		if (!isAuthenticated) {
@@ -145,18 +119,24 @@ public class GamFcltsFeeMngInqireController {
 			return map;
 		}
 
-		List resultList = gamFcltsFeeMngInqireService.selectFcltsFeeMngInqireChartList(gamFcltsFeeMngInqireVo);
+		try {
+			Map result = gamQcItemCdMngService.selectQcItemCdMngPk(searchVO);
 
-		map.put("resultCode", 0);
-		map.put("resultList", resultList);
+			map.put("resultCode", 0);
+			map.put("result", result);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+		}
 
 		return map;
-
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/mngFee/gamExcelDownloadFcltsFeeMngInqire.do" , method=RequestMethod.POST)
-	@ResponseBody ModelAndView gamExcelDownloadFcltsFeeMngInqire(@RequestParam Map<String, Object> excelParam) throws Exception {
+	@RequestMapping(value="/code/gamExcelDownloadQcItemCdMng.do" , method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelDownloadQcItemCdMng(@RequestParam Map<String, Object> excelParam) throws Exception {
 
 		Map map = new HashMap();
 		List header;
@@ -173,13 +153,13 @@ public class GamFcltsFeeMngInqireController {
 								  new TypeReference<List<HashMap<String,String>>>(){});
 		excelParam.remove("header");
 
-		GamFcltsFeeMngInqireVo searchVO= new GamFcltsFeeMngInqireVo();
-		searchVO = mapper.convertValue(excelParam, GamFcltsFeeMngInqireVo.class);
+		GamQcItemCdMngVo searchVO= new GamQcItemCdMngVo();
+		searchVO = mapper.convertValue(excelParam, GamQcItemCdMngVo.class);
 		searchVO.setFirstIndex(0);
 		searchVO.setLastIndex(9999);
 		searchVO.setRecordCountPerPage(9999);
 
-		List resultList = gamFcltsFeeMngInqireService.selectFcltsFeeMngInqireList(searchVO);
+		List resultList = gamQcItemCdMngService.selectQcItemCdMngList(searchVO);
 
 		map.put("resultCode", 0);
 		map.put("resultList", resultList);
@@ -189,15 +169,11 @@ public class GamFcltsFeeMngInqireController {
 
 	}
 
-    @SuppressWarnings("unchecked")
-	@RequestMapping(value="/mngFee/gamUpdateFcltsFeeMngInqire.do")
-	@ResponseBody Map<String, Object> gamUpdateFcltsFeeMngInqire(@RequestParam Map gamFcltsFeeMngInqireList)	throws Exception {
+	@RequestMapping(value="/code/gamInsertQcItemCdMng.do")
+	@ResponseBody Map<String, Object> gamInsertQcItemCdMng(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		List<HashMap<String,String>> updateList=null;
 		Map<String, Object> map = new HashMap<String, Object>();
-		Map<String, Object> updateData = new HashMap<String, Object>();
-		ObjectMapper mapper = new ObjectMapper();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		if (!isAuthenticated) {
@@ -206,18 +182,42 @@ public class GamFcltsFeeMngInqireController {
 			return map;
 		}
 
-    	updateList = mapper.readValue((String)gamFcltsFeeMngInqireList.get("updateList"),new TypeReference<List<HashMap<String,String>>>(){});
+		try {
+			gamQcItemCdMngVo.setRegUsr((String)user.getId());
+			gamQcItemCdMngService.insertQcItemCdMng(gamQcItemCdMngVo);
+
+			map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+
+		return map;
+
+	}
+
+	@RequestMapping(value="/code/gamUpdateQcItemCdMng.do")
+	@ResponseBody Map<String, Object> gamUpdateQcItemCdMng(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
+
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
 
 		try {
-			for (int i=0; i<updateList.size(); i++) {
-				updateData = (HashMap)updateList.get(i);
-				gamFcltsFeeMngInqireService.updateFcltsFeeMngInqire(updateData);
-			}
+			gamQcItemCdMngVo.setUpdUsr((String)user.getId());
+			gamQcItemCdMngService.updateQcItemCdMng(gamQcItemCdMngVo);
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
@@ -227,11 +227,10 @@ public class GamFcltsFeeMngInqireController {
 
 	}
 
-	@RequestMapping(value="/mngFee/gamSelectFcltsFeeMngInqireEntrpsNm.do" , method=RequestMethod.POST)
-	@ResponseBody Map gamSelectFcltsFeeMngInqireEntrpsNm(@RequestParam Map<String, Object> searchVO) throws Exception {
+	@RequestMapping(value="/code/gamDeleteQcItemCdMng.do")
+	@ResponseBody Map<String, Object> gamDeleteQcItemCdMng(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
 
-		String sEntrpsNm;
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		if (!isAuthenticated) {
@@ -240,10 +239,16 @@ public class GamFcltsFeeMngInqireController {
 			return map;
 		}
 
-		sEntrpsNm = gamFcltsFeeMngInqireService.selectEntrpsNm(searchVO);
+		try {
+			gamQcItemCdMngService.deleteQcItemCdMng(gamQcItemCdMngVo);
 
-		map.put("resultCode", 0);
-		map.put("sEntrpsNm", sEntrpsNm);
+			map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+		}
 
 		return map;
 

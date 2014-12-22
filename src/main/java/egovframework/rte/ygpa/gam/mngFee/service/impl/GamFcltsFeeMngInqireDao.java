@@ -61,4 +61,12 @@ public class GamFcltsFeeMngInqireDao extends YGPAAbstractDAO{
 		update("gamFcltsFeeMngInqireDao.updateFcltsFeeMngInqire_S",gamFcltsFeeMngInqireMap);
 	}
 
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public String selectEntrpsNm(Map searchVO) {
+		return (String)getSqlMapClientTemplate().queryForObject("gamFcltsFeeMngInqireDao.selectEntrpsNm_S", searchVO);
+	}
+
 }

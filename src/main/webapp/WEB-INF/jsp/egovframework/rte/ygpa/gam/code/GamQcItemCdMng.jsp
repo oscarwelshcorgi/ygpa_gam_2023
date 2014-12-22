@@ -6,21 +6,20 @@
 <%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
 /**
- * @Class Name : GamMngFeeGubunMng.jsp
- * @Description : 관리비 시설구분 관리
+ * @Class Name : GamQcItemCdMng.jsp
+ * @Description : 점검 항목 코드 관리 화면
  * @Modification Information
  *
- *   수정일          수정자                   수정내용
- *  -------    --------    ---------------------------
- *  2014.09.22  Lee          최초 생성
+ *   수정일         수정자               수정내용
+ *  ----------     ---------    ---------------------------
+ *  2014.12.10  	ACEWOLF          화면단 최초 생성
  *
- * author Lee
- * since 2014.09.22
+ * author ACEWOLF
+ * since 2014.12.20
  *
- * Copyright (C) 2013 by LFIT  All right reserved.
+ * Copyright (C) 2014 by LFIT  All right reserved.
 **/
 %>
-
 <%
 /******************************** SCRIPT START ********************************/
 %>
@@ -29,35 +28,30 @@
 
 <%
 /**
- * @FUNCTION NAME : GamMngFeeGubunMngModule
+ * @FUNCTION NAME : GamQcItemCdMngModule
  * @DESCRIPTION   : MODULE 고유 함수
  * @PARAMETER     : NONE
 **/
 %>
-function GamMngFeeGubunMngModule() {}
+function GamQcItemCdMngModule() {}
 
-GamMngFeeGubunMngModule.prototype = new EmdModule(600, 500);
+GamQcItemCdMngModule.prototype = new EmdModule(800, 600);
 
-<%
-/**
- * @FUNCTION NAME : loadComplete
- * @DESCRIPTION   : PAGE LOAD COMPLETE (페이지 호출시 실행되는 함수)
- * @PARAMETER     : NONE
-**/
-%>
-GamMngFeeGubunMngModule.prototype.loadComplete = function() {
+GamQcItemCdMngModule.prototype.loadComplete = function() {
 
 	this.$("#mainGrid").flexigrid({
 		module : this,
-		url : '/mngFee/gamSelectMngFeeGubunMng.do',
-		dataType : 'json',
+		url : '/code/gamSelectQcItemCdMng.do',
+		dataType : "json",
 		colModel : [
-					{display:'시설 구분', 		name:'mngFeeFcltySe',		width:100, 		sortable:false,		align:'center'},
-                    {display:'시설 구분 명', 	name:'mngFeeFcltySeNm',		width:180, 		sortable:false,		align:'left'},
-					{display:'등록자', 			name:'regUsr',				width:100, 		sortable:false,		align:'center'},
-                    {display:'등록일시', 		name:'registDt',			width:150, 		sortable:false,		align:'center'}
-                    ],
-		mergeRows : "mngFeeFcltySe,mngFeeFcltySeNm",
+					{display:"단계",				name:"depthSort",		width:50,		sortable:true,	align:"center"},
+					{display:"점검 항목 코드",		name:"qcItemCd",		width:100,		sortable:true,	align:"center"},
+					{display:"점검 항목 명",		name:"qcItemNm",		width:150,		sortable:true,	align:"left"},
+					{display:"시설물 업무 구분",	name:"fcltsJobSeNm",	width:100,		sortable:true,	align:"left"},
+					{display:"점검 항목 상위",		name:"qcItemUpperNm",	width:150,		sortable:true,	align:"left"},
+					{display:"사용 여부",			name:"useYn",			width:80,		sortable:true,	align:"center"},
+					{display:"점검 항목 상세",		name:"qcItemDtls",		width:200,		sortable:true,	align:"left"}
+					],
 		showTableToggleBtn : false,
 		height : 'auto',
 		preProcess : function(module,data) {
@@ -73,14 +67,18 @@ GamMngFeeGubunMngModule.prototype.loadComplete = function() {
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mode = 'modify';
-		module._mainKeyValue = row.mngFeeFcltySe;
+		module._mainKeyValue = row.qcItemCd;
 		module.enableListButtonItem();
-	});
+    });
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._mode = 'modify';
-		module._mainKeyValue = row.mngFeeFcltySe;
+		module._mainKeyValue = row.qcItemCd;
 		module.$("#mainTab").tabs("option", {active: 1});
+	});
+
+	this.$('#fcltsJobSe').on('change',{module:this}, function(event){
+		event.data.module.setFcltsJobSeNm();
 	});
 
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
@@ -96,7 +94,7 @@ GamMngFeeGubunMngModule.prototype.loadComplete = function() {
  *   1. buttonId - BUTTON ID
 **/
 %>
-GamMngFeeGubunMngModule.prototype.onButtonClick = function(buttonId) {
+GamQcItemCdMngModule.prototype.onButtonClick = function(buttonId) {
 
 	switch (buttonId) {
 		case 'btnAdd':
@@ -104,8 +102,8 @@ GamMngFeeGubunMngModule.prototype.onButtonClick = function(buttonId) {
 			this._mainKeyValue = '';
 			this.$("#mainTab").tabs("option", {active: 1});
 			break;
-        case 'btnSave':
-        	this.saveData();
+	    case 'btnSave':
+	    	this.saveData();
 			break;
 		case 'btnDelete':
 			if (this._mode=="modify") {
@@ -116,9 +114,6 @@ GamMngFeeGubunMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnRemove':
 			this.deleteData();
-			break;
-		case 'btnIdCheck':
-			this.checkId();
 			break;
 		case 'btnExcelDownload':
 			this.downloadExcel();
@@ -134,7 +129,7 @@ GamMngFeeGubunMngModule.prototype.onButtonClick = function(buttonId) {
  * @PARAMETER     : NONE
 **/
 %>
-GamMngFeeGubunMngModule.prototype.onSubmit = function() {
+GamQcItemCdMngModule.prototype.onSubmit = function() {
 
 	this._mode = 'query';
 	this._mainKeyValue = '';
@@ -150,7 +145,7 @@ GamMngFeeGubunMngModule.prototype.onSubmit = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamMngFeeGubunMngModule.prototype.loadData = function() {
+GamQcItemCdMngModule.prototype.loadData = function() {
 
 	this.$("#mainTab").tabs("option", {active: 0});
 	var searchOpt=this.makeFormArgs('#searchForm');
@@ -165,7 +160,7 @@ GamMngFeeGubunMngModule.prototype.loadData = function() {
  * @PARAMETER     : NONE
 **/
 %>
- GamMngFeeGubunMngModule.prototype.refreshData = function() {
+GamQcItemCdMngModule.prototype.refreshData = function() {
 
 	var searchOpt=this.makeFormArgs('#searchForm');
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
@@ -180,7 +175,7 @@ GamMngFeeGubunMngModule.prototype.loadData = function() {
  *   1. tabId - TAB ID
 **/
 %>
-GamMngFeeGubunMngModule.prototype.loadDetail = function(tabId) {
+GamQcItemCdMngModule.prototype.loadDetail = function(tabId) {
 
 	if (tabId == 'listTab') {
 		var row = this.$('#mainGrid').selectedRows();
@@ -193,7 +188,7 @@ GamMngFeeGubunMngModule.prototype.loadDetail = function(tabId) {
 		this.makeDivValues('#detailForm', row[0]);
 	} else {
 		var searchVO = this.getFormValues('#detailForm');
-		this.doAction('/mngFee/gamSelectMngFeeGubunMngPk.do', searchVO, function(module, result){
+		this.doAction('/code/gamSelectQcItemCdMngPk.do', searchVO, function(module, result){
 			if (result.resultCode == "0") {
 				module.makeFormValues('#detailForm', result.result);
 				module.makeDivValues('#detailForm', result.result);
@@ -210,10 +205,10 @@ GamMngFeeGubunMngModule.prototype.loadDetail = function(tabId) {
  * @PARAMETER     : NONE
 **/
 %>
-GamMngFeeGubunMngModule.prototype.selectData = function() {
+GamQcItemCdMngModule.prototype.selectData = function() {
 
-	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
+		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
@@ -224,18 +219,6 @@ GamMngFeeGubunMngModule.prototype.selectData = function() {
 	var mainKeyValue = this._mainKeyValue;
 	if (mainKeyValue == "") {
 		return;
-	}
-	var mngFeeFcltySe = mainKeyValue;
-	var mainRowNo = -1;
-	for(var i=0; i<gridRowCount; i++) {
-		var row = this.$("#mainGrid").flexGetRow(i+1);
-		if (row.mngFeeFcltySe == mngFeeFcltySe) {
-			mainRowNo = i;
-			break;
-		}
-	}
-	if (mainRowNo >= 0) {
-		this.$("#mainGrid").selectRowId(mainRowNo);
 	}
 	this._mode = 'modify';
 	this.loadDetail('detailTab');
@@ -250,12 +233,17 @@ GamMngFeeGubunMngModule.prototype.selectData = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamMngFeeGubunMngModule.prototype.addData = function() {
+GamQcItemCdMngModule.prototype.addData = function() {
 
-	this.$('#mngFeeFcltySe').val("");
-	this.$('#mngFeeFcltySeNm').val("");
+	this.$('#fcltsJobSe').val("");
+	this.$('#qcItemCd').val("");
+	this.$('#qcItemNm').val("");
+	this.$('#qcItemDtls').val("");
+	this.$('#depthSort').val("");
+	this.$('#qcItemUpperCd').val("");
+	this.$('#useYn').val("");
 	this.enableDetailInputItem();
-	this.$('#mngFeeFcltySe').focus();
+	this.$('#fcltsJobSe').focus();
 
 };
 
@@ -266,31 +254,57 @@ GamMngFeeGubunMngModule.prototype.addData = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamMngFeeGubunMngModule.prototype.saveData = function() {
+GamQcItemCdMngModule.prototype.saveData = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
-	var mngFeeFcltySe = this.$('#mngFeeFcltySe').val();
-	var mngFeeFcltySeNm = this.$('#mngFeeFcltySeNm').val();
-	if (mngFeeFcltySe == "" || mngFeeFcltySe.length != 2) {
-		alert('시설 구분이 부정확합니다.');
-		this.$("#mngFeeFcltySe").focus();
+	var fcltsJobSe = this.$('#fcltsJobSe').val();
+	var qcItemCd = this.$('#qcItemCd').val();
+	var qcItemNm = this.$('#qcItemNm').val();
+	var depthSort = Number(this.$('#depthSort').val().replace(/,/gi, ""));
+	var qcItemUpperCd = this.$('#qcItemUpperCd').val();
+	var useYn = this.$('#useYn').val();
+	if (fcltsJobSe != "A" && fcltsJobSe != "C" && fcltsJobSe != "M" && fcltsJobSe != "E" && fcltsJobSe != "I") {
+		alert('시설물 업무 구분이 부정확합니다.');
+		this.$("#fcltsJobSe").focus();
 		return;
 	}
-	if (mngFeeFcltySeNm == "") {
-		alert('시설 구분 명이 부정확합니다.');
-		this.$("#mngFeeFcltySeNm").focus();
+	if (qcItemCd == "") {
+		alert('점검 항목 코드가 부정확합니다.');
+		this.$("#qcItemCd").focus();
+		return;
+	}
+	if (qcItemNm == "") {
+		alert('점검 항목 명이 부정확합니다.');
+		this.$("#qcItemNm").focus();
+		return;
+	}
+	if (depthSort > 5 || depthSort < 0) {
+		alert('단계가 부정확합니다.');
+		this.$("#depthSort").focus();
+		return;
+	}
+	if (depthSort > 0) {
+		if (qcItemUpperCd == "") {
+			alert('점검 항목 상위가 부정확합니다.');
+			this.$("#qcItemUpperCd").focus();
+			return;
+		}
+	}
+	if (useYn != "N" && useYn != "Y") {
+		alert('사용 여부가 부정확합니다.');
+		this.$("#useYn").focus();
 		return;
 	}
 	if (this._mode == "insert") {
-		this._mainKeyValue = mngFeeFcltySe;
-		this.doAction('/mngFee/gamInsertMngFeeGubunMng.do', inputVO, function(module, result) {
+		this._mainKeyValue = qcItemCd;
+		this.doAction('/code/gamInsertQcItemCdMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.refreshData();
 			}
 			alert(result.resultMsg);
 		});
 	} else {
-		this.doAction('/mngFee/gamUpdateMngFeeGubunMng.do', inputVO, function(module, result) {
+		this.doAction('/code/gamUpdateQcItemCdMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.refreshData();
 			}
@@ -307,17 +321,17 @@ GamMngFeeGubunMngModule.prototype.saveData = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamMngFeeGubunMngModule.prototype.deleteData = function() {
+GamQcItemCdMngModule.prototype.deleteData = function() {
 
-	var mngFeeFcltySe = this.$('#mngFeeFcltySe').val();
-	if (mngFeeFcltySe == "") {
-		alert('시설 구분이 부정확합니다.');
-		this.$("#mngFeeFcltySe").focus();
+	var qcItemCd = this.$('#qcItemCd').val();
+	if (qcItemCd == "") {
+		alert('점검 항목 코드가 부정확합니다.');
+		this.$("#qcItemCd").focus();
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
 		var deleteVO = this.makeFormArgs("#detailForm");
-		this.doAction('/mngFee/gamDeleteMngFeeGubunMng.do', deleteVO, function(module, result) {
+		this.doAction('/code/gamDeleteQcItemCdMng.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module._mode = 'query';
 				module._mainKeyValue = '';
@@ -331,54 +345,45 @@ GamMngFeeGubunMngModule.prototype.deleteData = function() {
 
 <%
 /**
- * @FUNCTION NAME : checkId
- * @DESCRIPTION   : 구분코드 중복 체크 한다..
- * @PARAMETER     : NONE
-**/
-%>
-GamMngFeeGubunMngModule.prototype.checkId = function() {
-
-	var mngFeeFcltySe = this.$('#mngFeeFcltySe').val();
-	if (mngFeeFcltySe == "") {
-		this.$("#mngFeeFcltySe").focus();
-		alert("코드를 입력하십시오.");
-		return;
-	}
-	this.doAction('/mngFee/gamCheckSeFeeGubunMng.do', {checkSe : this.$("#mngFeeFcltySe").val()}, function(module, result) {
-		if (result.resultCode == 0) {
-			if (result.checkSeCnt != "0") {
-				alert("이미 사용중인 코드가 존재합니다.");
-				module.$("#mngFeeFcltySe").val("");
-				module.$("#mngFeeFcltySe").focus();
-			} else {
-				if (confirm("해당 코드를 사용하시겠습니까?")) {
-					module.$("#mngFeeFcltySe").val(result.checkSe);
-					module.$("#mngFeeFcltySe").disable();
-				} else {
-					module.$("#mngFeeFcltySe").val("");
-					module.$("#mngFeeFcltySe").focus();
-				}
-			}
-		}
-	});
-
-};
-
-<%
-/**
  * @FUNCTION NAME : downloadExcel
  * @DESCRIPTION   : 리스트를 엑셀로 다운로드한다.
  * @PARAMETER     : NONE
 **/
 %>
-GamMngFeeGubunMngModule.prototype.downloadExcel = function() {
+GamQcItemCdMngModule.prototype.downloadExcel = function() {
 
 	var mainGridRowCount = this.$("#mainGrid").flexRowCount();
 	if (mainGridRowCount <= 0) {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
-	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelDownloadMngFeeGubunMng.do');
+	this.$('#mainGrid').flexExcelDown('/code/gamExcelDownloadQcItemCdMng.do');
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : setFcltsJobSeNm
+ * @DESCRIPTION   : 시설물 업무 구분을 설정한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamQcItemCdMngModule.prototype.setFcltsJobSeNm = function() {
+
+	var fcltsJobSe = this.$('#fcltsJobSe').val();
+	var fcltsJobSeNm = "";
+	if (fcltsJobSe == "A") {
+		mainMngFeeJobSeNm = "건축시설";
+	} else if (fcltsJobSe == "C") {
+		mainMngFeeJobSeNm = "토목시설";
+	} else if (fcltsJobSe == "M") {
+		mainMngFeeJobSeNm = "기계시설";
+	} else if (fcltsJobSe == "E") {
+		mainMngFeeJobSeNm = "전기시설";
+	} else if (fcltsJobSe == "I") {
+		mainMngFeeJobSeNm = "정보통신시설";
+	}
+	this.$('#fcltsJobSeNm').val(fcltsJobSeNm);
 
 };
 
@@ -389,7 +394,7 @@ GamMngFeeGubunMngModule.prototype.downloadExcel = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamMngFeeGubunMngModule.prototype.enableListButtonItem = function() {
+GamQcItemCdMngModule.prototype.enableListButtonItem = function() {
 
 	if (this._mode == "insert") {
 		this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
@@ -419,29 +424,40 @@ GamMngFeeGubunMngModule.prototype.enableListButtonItem = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamMngFeeGubunMngModule.prototype.enableDetailInputItem = function() {
+GamQcItemCdMngModule.prototype.enableDetailInputItem = function() {
 
 	if (this._mode == "insert") {
-		this.$('#mngFeeFcltySe').enable();
-		this.$('#mngFeeFcltySeNm').enable();
-		this.$('#btnIdCheck').enable();
-		this.$('#btnIdCheck').removeClass('ui-state-disabled');
+		this.$('#fcltsJobSe').enable();
+		this.$('#qcItemCd').enable();
+		this.$('#qcItemNm').enable();
+		this.$('#qcItemDtls').enable();
+		this.$('#depthSort').enable();
+		this.$('#qcItemUpperCd').enable();
+		this.$('#useYn').enable();
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
 		this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 	} else {
 		if (this._mainKeyValue != "") {
-			this.$('#mngFeeFcltySe').disable();
-			this.$('#mngFeeFcltySeNm').enable();
-			this.$('#btnIdCheck').disable({disableClass:"ui-state-disabled"});
+			this.$('#fcltsJobSe').disable();
+			this.$('#qcItemCd').enable();
+			this.$('#qcItemNm').enable();
+			this.$('#qcItemDtls').enable();
+			this.$('#depthSort').enable();
+			this.$('#qcItemUpperCd').enable();
+			this.$('#useYn').enable();
 			this.$('#btnSave').enable();
 			this.$('#btnSave').removeClass('ui-state-disabled');
 			this.$('#btnRemove').enable();
 			this.$('#btnRemove').removeClass('ui-state-disabled');
 		} else {
-			this.$('#mngFeeFcltySe').disable();
-			this.$('#mngFeeFcltySe').disable();
-			this.$('#btnIdCheck').disable({disableClass:"ui-state-disabled"});
+			this.$('#fcltsJobSe').disable();
+			this.$('#qcItemCd').disable();
+			this.$('#qcItemNm').disable();
+			this.$('#qcItemDtls').disable();
+			this.$('#depthSort').disable();
+			this.$('#qcItemUpperCd').disable();
+			this.$('#useYn').disable();
 			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 		}
@@ -456,11 +472,15 @@ GamMngFeeGubunMngModule.prototype.enableDetailInputItem = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamMngFeeGubunMngModule.prototype.disableDetailInputItem = function() {
+GamQcItemCdMngModule.prototype.disableDetailInputItem = function() {
 
-	this.$('#mngFeeFcltySe').disable();
-	this.$('#mngFeeFcltySe').disable();
-	this.$('#btnIdCheck').disable({disableClass:"ui-state-disabled"});
+	this.$('#fcltsJobSe').disable();
+	this.$('#qcItemCd').disable();
+	this.$('#qcItemNm').disable();
+	this.$('#qcItemDtls').disable();
+	this.$('#depthSort').disable();
+	this.$('#qcItemUpperCd').disable();
+	this.$('#useYn').disable();
 	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 
@@ -475,7 +495,7 @@ GamMngFeeGubunMngModule.prototype.disableDetailInputItem = function() {
  *   2. oldTabId - OLD TAB ID
 **/
 %>
-GamMngFeeGubunMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
+ GamQcItemCdMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 
 	switch (newTabId) {
 		case 'listTab':
@@ -499,7 +519,7 @@ GamMngFeeGubunMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 
 };
 
-var module_instance = new GamMngFeeGubunMngModule();
+var module_instance = new GamQcItemCdMngModule();
 
 </script>
 
@@ -516,18 +536,26 @@ var module_instance = new GamMngFeeGubunMngModule();
 <div class="window_main">
 	<!-- 11. SEARCH AREA (조회조건 영역) -->
 	<div id="searchViewStack" class="emdPanel">
-        <div class="viewPanel">
-            <form id="searchForm">
+		<div class="viewPanel">
+			<form id="searchForm">
 				<table style="width:100%;" class="searchPanel">
 					<tbody>
 						<tr>
-							<th>시설 구분</th>
+							<th>점검 항목</th>
 							<td>
-								<input type="text" size="10" id="sMngFeeFcltySe" maxlength="2">
+								<input id="sQcItemCd" type="text" size="15" maxlength="14"/>
 							</td>
-							<th>시설 구분 명</th>
+							<th>점검 항목 명</th>
 							<td>
-								<input type="text" size="10" id="sMngFeeFcltySeNm" maxlength="20">
+								<input id="sQcItemNm" type="text" size="30" maxlength="80"/>
+							</td>
+							<th>업무 구분</th>
+							<td>
+								<input id="sFcltsJobSe" type="text" size="30" maxlength="80"/>
+							</td>
+							<th>단계</th>
+							<td>
+								<input id="sDepthSort" type="text" size="30" maxlength="80"/>
 							</td>
 							<td>
 								<button class="buttonSearch">조회</button>
@@ -544,24 +572,25 @@ var module_instance = new GamMngFeeGubunMngModule();
 		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<!-- 211. TAB 정의 -->
 			<ul>
-				<li><a href="#listTab" class="emdTab">관리비 시설구분</a></li>
-				<li><a href="#detailTab" class="emdTab">관리비 시설구분 상세</a></li>
+				<li><a href="#listTab" class="emdTab">점검 항목 리스트</a></li>
+				<li><a href="#detailTab" class="emdTab">점검 항목 상세</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
-			<div id="listTab" class="emdTabPage fillHeight" style="overflow: hidden;" >
+			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
 				<table id="mainGrid" style="display:none;" class="fillHeight"></table>
 				<div id="listSumPanel" class="emdControlPanel">
 					<form id="listSumForm">
 						<table style="width:100%;">
 							<tr>
-								<th style="width:20%; height:20; text-align:center;">조회 자료수</th>
-								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
-								<td style="text-align: right;">
+								<th style="width=10%; height=20; text-align:center;">자료수</th>
+								<td>
+									<input type="text" size="9" id="totalCount" class="ygpaNumber" disabled="disabled"/>
+								</td>
+								<td style="text-align:right;">
 									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
 									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
-	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+									<button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
 								</td>
-							</tr>
 						</table>
 					</form>
 				</div>
@@ -570,31 +599,57 @@ var module_instance = new GamMngFeeGubunMngModule();
 			<div id="detailTab" class="emdTabPage" style="overflow:scroll;">
 				<div class="emdControlPanel">
 					<form id="detailForm">
-						<table class="detailPanel" style="width:100%;">
+						<table class="detailPanel">
 							<tr>
-								<th style="width:20%; height:25;">시설 구분</th>
-								<td><input type="text" size="25" id="mngFeeFcltySe" maxlength="2"/></td>
-								<td><button id="btnIdCheck">시 설 구 분 중 복 여 부 검 사</button>
+								<th style="width:15%; height:18;">시설물 업무 구분</th>
+								<td>
+									<input id="fcltsJobSeNm" type="hidden"/>
+									<select id="fcltsJobSe">
+										<option value="A">건축시설</option>
+										<option value="C">토목시설</option>
+										<option value="M">기계시설</option>
+										<option value="E">전기시설</option>
+										<option value="I">정보통신시설</option>
+									</select>
+								</td>
+								<th style="width:15%; height:18;">단계</th>
+								<td>
+									<input type="text" id="depthSort" size="35" maxlength="1"/>
+								</td>
 							</tr>
 							<tr>
-								<th style="width:20%; height:25;">시설 구분 명</th>
-								<td colspan="2"><input type="text" size="70" id="mngFeeFcltySeNm" maxlength="20"/></td>
+								<th style="width:15%; height:18;">점검 항목 상위</th>
+								<td>
+									<input type="text" id="qcItemUpperCd" size="7" maxlength="7"/>
+									<input type="text" id="qcItemUpperNm" size="20" maxlength="50"/>
+									<button id="popupQcItemUpperCd" class="popupButton">선택</button>
+								</td>
+								<th style="width:15%; height:18;">사용 여부</th>
+								<td>
+									<input type="text" id="useYn" size="35" maxlength="1"/>
+								</td>
 							</tr>
 							<tr>
-								<th style="width:20%; height:25;">등록자</th>
-                               	<td><span data-column-id="regUsr"></span></td>
-								<td><span data-column-id="registDt"></span></td>
+								<th style="width:15%; height:18;">점검 항목 코드</th>
+								<td>
+									<input type="text" id="qcItemCd" size="35" maxlength="7"/>
+								</td>
+								<th style="width:15%; height:18;">점검 항목 명</th>
+								<td>
+									<input type="text" id="qcItemNm" size="35" maxlength="50"/>
+								</td>
 							</tr>
 							<tr>
-								<th style="width:20%; height:25;">수정자</th>
-                               	<td><span data-column-id="updUsr"></span></td>
-								<td><span data-column-id="updtDt"></span></td>
+								<th style="width:15%; height:18;">점검 항목 상세</th>
+								<td colspan="3">
+									<input type="text" id="qcItemDtls" size="90" maxlength="100"/>
+								</td>
 							</tr>
 						</table>
 					</form>
 					<table style="width:100%;">
 						<tr>
-							<td style="text-align:right;">
+							<td style="text-align:right">
 								<button id="btnSave" class="buttonSave">저장</button>
 								<button id="btnRemove" class="buttonDelete">삭제</button>
 							</td>
@@ -605,6 +660,7 @@ var module_instance = new GamMngFeeGubunMngModule();
 		</div>
 	</div>
 </div>
+
 
 <%
 /******************************** UI       END ********************************/
