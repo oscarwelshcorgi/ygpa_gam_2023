@@ -866,7 +866,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 			                                </select>
 										</td>
 										<th width="15%" height="23" class="required_text">파일제목</th>
-										<td><input id="atchFileSj" type="text" size="30" class="fileEditItem" maxlength="25" /></td>
+										<td><input id="atchFileSj" type="text" size="45" class="fileEditItem" maxlength="25" /></td>
 									</tr>
 								</table>
 							</form>
