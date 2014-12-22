@@ -82,7 +82,7 @@ GamInfoTechFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"파일제목",	name:"atchFileSj",			width:160,		sortable:true,		align:"left"},
 					{display:"논리파일명",	name:"atchFileNmLogic",		width:160,		sortable:true,		align:"left"},
 			],
-		height: "auto"
+		height: "400"
 	});
 
 	this.$("#fcltsFileList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -142,7 +142,7 @@ GamInfoTechFcltySpecMngModule.prototype.initDisplay = function() {
 	this._deleteDataFileList = [];
 	this.$("#fcltyManageVO :input").val("");
 	this.$("#dispfcltsMngNo").text("");
-	this.$("#previewImage").attr("src", "#");
+	this.$("#previewImage").attr("src", "");
 	this.$('#fcltsFileList').flexEmptyData();
 	if(this._cmd == "insert") {
 		this.$("#selectGisPrtFcltyCd").enable();
@@ -304,11 +304,11 @@ GamInfoTechFcltySpecMngModule.prototype.atchFileInfoChanged = function(target) {
 
 //첨부파일 항목선택
 GamInfoTechFcltySpecMngModule.prototype.selectAtchFileItem = function() {
-	var rows = this.$('#qcMngAtchFileList').selectedRows();
+	var rows = this.$('#fcltsFileList').selectedRows();
 	if(rows.length > 0) {
 		var row = rows[0];
-		this.$("#qcMngAtchFileForm input").val('');
-		this.makeFormValues("#qcMngAtchFileForm", row);
+		this.$("#fcltsFileForm input").val('');
+		this.makeFormValues("#fcltsFileForm", row);
 		if(row.atchFileNmPhysicl != null || row.atchFileNmPhysicl != "") {
 			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
 			var filenm = row["atchFileNmPhysicl"];
@@ -317,7 +317,7 @@ GamInfoTechFcltySpecMngModule.prototype.selectAtchFileItem = function() {
 				var imgURL = this.getPfPhotoUrl(filenm);
 			    this.$("#previewImage").attr("src", imgURL);
 			}else{
-				this.$("#previewImage").attr(src, "#");
+				this.$("#previewImage").attr(src, "");
 			}
 		}
 	}
@@ -357,7 +357,7 @@ GamInfoTechFcltySpecMngModule.prototype.removeAtchFileItem = function() {
 			}
         	this.$("#fcltsFileList").flexRemoveRow(this.$("#fcltsFileList").selectedRowIds()[i]);
 		}
-    	this.$("#previewImage").attr("src","#");
+    	this.$("#previewImage").attr("src","");
     	alert("삭제되었습니다.");
 	}
     this.$("#fcltsFileForm").find(":input").val("");
@@ -536,8 +536,8 @@ var module_instance = new GamInfoTechFcltySpecMngModule();
 							<td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>시설물관리그룹</th>
 							<td colspan="3">
-								<input id="sFcltsMngGroupNo" type="text" size="14"/>&nbsp;-&nbsp;
-								<input id="sFcltsMngGroupNoNm" type="text" size="56"/>
+								<input id="sFcltsMngGroupNo" type="text" size="14"/>
+								<input id="sFcltsMngGroupNoNm" type="text" size="57" disabled="disabled"/>
 								<button id="popupSearchFcltsMngGroupNo" class="popupButton">선택</button>
 							</td>
 							<td rowspan="2"><button id="btnSearch" class="buttonSearch">조회</button></td>
@@ -734,32 +734,39 @@ var module_instance = new GamInfoTechFcltySpecMngModule();
 
 			<!-- 정보통신시설 첨부파일 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
-				<table id="fcltsFileList" style="display:none" class="fillHeight"></table>
-				<div class="emdControlPanel">
-					<button id="btnUploadFile">업로드</button>
-					<button id="btnDownloadFile">다운로드</button>
-					<button id="btnRemoveFile">삭제</button>
-					<button id="btnSave">저장</button>
-				</div>
-				<form id="fcltsFileForm">
-					<table class="searchPanel editForm">
-						<tr>
-							<th width="15%" height="23" class="required_text">파일구분</th>
-							<td>
-								<select id="atchFileSe" class="photoEditItem">
-                                    <option value="D">문서</option>
-                                    <option value="P">사진</option>
-                                    <option value="Z">기타</option>
-                                </select>
-							</td>
-							<th width="15%" height="23" class="required_text">파일제목</th>
-							<td><input id="atchFileSj" type="text" size="20" class="photoEditItem" maxlength="40" /></td>
-							<th width="15%" height="23" class="required_text">작성일자</th>
-							<td><input id="atchFileWritngDt" type="text" size="18" class="emdcal photoEditItem" maxlength="10" readonly="readonly"/></td>
-						</tr>
-					</table>
-				</form>
-				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
+				<table border="1">
+					<tr>
+						<td width="50%">
+							<table id="fcltsFileList" style="display:none" class="fillHeight"></table>
+							<div class="emdControlPanel">
+								<button id="btnUploadFile">업로드</button>
+								<button id="btnDownloadFile">다운로드</button>
+								<button id="btnRemoveFile">삭제</button>
+								<button id="btnSave">저장</button>
+							</div>
+			
+							<form id="fcltsFileForm">
+								<table class="searchPanel editForm">
+									<tr>
+										<th width="15%" height="23" class="required_text">파일구분</th>
+										<td>
+											<select id="atchFileSe" class="photoEditItem">
+												<option value="D">문서</option>
+			                                    <option value="P">사진</option>
+			                                    <option value="Z">기타</option>
+			                                </select>
+										</td>
+										<th width="15%" height="23" class="required_text">파일제목</th>
+										<td><input id="atchFileSj" type="text" size="45" class="photoEditItem" maxlength="25" /></td>
+									</tr>
+								</table>
+							</form>
+						</td>
+						<td style="text-align:center;vertical-align:middle;">
+							<img id="previewImage" style="border: 1px solid #000; max-width:300px; max-height: 300px" src="">
+						</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>
