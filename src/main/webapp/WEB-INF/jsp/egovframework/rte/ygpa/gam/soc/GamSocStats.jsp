@@ -238,13 +238,13 @@ var module_instance = new GamSocStatsModule();
 					<form id="socStatsListSumForm">
     	               	<table style="width:100%;" class="summaryPanel">
         	               	<tr>
-								<th width="17%" height="25">자료수</th>
+								<th width="10%" height="25">자료수</th>
 								<td><input type="text" size="8" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="18%" height="25">상계금액(청)</th>
+								<th width="10%" height="25">상계금액(청)</th>
 								<td><input type="text" size="20" id="totExmpAmntSum" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="18%" height="25">상계금액(공사)</th>
+								<th width="10%" height="25">상계금액(공사)</th>
 								<td><input type="text" size="20" id="totExmpAmntPaSum" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="18%" height="25">합계금액</th>
+								<th width="10%" height="25">합계금액</th>
 								<td><input type="text" size="20" id="totExmpAmntTotSum" class="ygpaNumber" disabled="disabled" /></td>
 								<td>
     	                        	<button data-role="printPage" data-search-option="gamSocStatsSearchForm" data-url="<c:url value='/soc/gamSelectSocStatsListPrint.do'/>">인쇄</button>
