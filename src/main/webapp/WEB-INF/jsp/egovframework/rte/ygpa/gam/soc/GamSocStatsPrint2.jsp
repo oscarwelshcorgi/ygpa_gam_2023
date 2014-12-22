@@ -46,7 +46,10 @@
   <c:set var="exmpCntSum" value="0" />
   <c:set var="exmpAmntSum" value="0" />
   <c:set var="exmpAmntPaSum" value="0" />
-  <c:set var="pagePerCount" value="18"/>
+  <c:set var="pagePerCount" value="28"/>
+  <c:set var="printRecordCount" value="0"/>
+    <c:set var="pageSkip" value="true" />
+  
   <c:if test="${resultCode==0 }">
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
@@ -73,7 +76,13 @@
 			</tr>
 	</c:if>
     <c:forEach var="result" items="${resultList }" varStatus="resultStatus">
-           			<c:if test="${resultStatus.index%pagePerCount==0 }"> <% /*  페이지 당 출력 갯수 */ %>
+    				<c:if test="${pageSkip == false}">
+    					<c:if test="${printRecordCount >= pagePerCount }">
+    						<c:set var="pageSkip" value="true"/>
+							<c:set var="printRecordCount" value="0" />
+    					</c:if>
+    				</c:if>
+           			<c:if test="${pageSkip == true}"> <% /*  페이지 당 출력 갯수 */ %>
            				<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
 			        		</tbody>
 			        		</table>
@@ -83,6 +92,7 @@
 						        <div class="subpage ygpa_report" >
            				</c:if>
         				<!--  헤더 반복  -->
+        				<c:set var="pageSkip" value="false" />
        		        	<table class="rpr_main_table">
 			        		<thead>
 					  			<tr>
@@ -94,7 +104,7 @@
 					  				<th colspan="2">상계금액(공사)</th>
 					  				<th colspan="2">합계</th>
 					 			</tr>
-			        		</thead>
+			        		</thead>			        		
 			        		<tbody>
         			</c:if>
         			<c:if test="${result.exmpMonth != exmpMonth}">
@@ -108,11 +118,13 @@
 							<c:set var="exmpCntSum" value="0" />
 							<c:set var="exmpAmntSum" value="0" />
 							<c:set var="exmpAmntPaSum" value="0" />
+							<c:set var="printRecordCount" value="${printRecordCount+1}"/>
         				</c:if>
         				<c:set var="exmpMonth" value="${result.exmpMonth}"/>
         				<tr>
         					<td style="text-align: center" colspan="8"><c:out value="${exmpMonth}" /></td>
         				</tr>
+        				<c:set var="printRecordCount" value="${printRecordCount+1}"/>
         			</c:if>
         			<tr>
         				<td><c:out value="${result.feeTp }" /></td>
@@ -124,6 +136,7 @@
         			<c:set var="exmpCntSum" value="${ exmpCntSum + 1 }" />
 					<c:set var="exmpAmntSum" value="${ exmpAmntSum + result.exmpAmntSum }" />
 					<c:set var="exmpAmntPaSum" value="${ exmpAmntPaSum + result.exmpAmntPaSum }" />
+					<c:set var="printRecordCount" value="${printRecordCount+1}"/>
     </c:forEach>
         					<tr>
         						<td colspan="2"> 월별합계 </td>
