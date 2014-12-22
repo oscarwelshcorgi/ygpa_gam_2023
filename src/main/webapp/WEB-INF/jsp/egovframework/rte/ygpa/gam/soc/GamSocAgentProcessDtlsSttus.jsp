@@ -220,13 +220,13 @@ var module_instance = new GamSocAgentProcessDtlsSttusModule();
 					<form id="form1">
 					    <table style="width:100%;" class="summaryPanel">
         	               	<tr>
-								<th width="17%" height="25">적용요율</th>
+								<th width="10%" height="25">적용요율</th>
 								<td><input type="text" size="8" id="rateGubun" disabled="disabled" /></td>
-								<th width="18%" height="25">보전신청액</th>
+								<th width="10%" height="25">보전신청액</th>
 								<td><input type="text" size="20" id="exmpAmnt" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="18%" height="25">보전누계액</th>
+								<th width="10%" height="25">보전누계액</th>
 								<td><input type="text" size="20" id="exmpAcc" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="18%" height="25">보전차액</th>
+								<th width="10%" height="25">보전차액</th>
 								<td><input type="text" size="20" id="exmpRemain" class="ygpaNumber" disabled="disabled" /></td>
 								<td>
     	                        	<button data-role="printPage" data-search-option="gamSocAgentProcessDtlsSttusSearchForm" data-url="<c:url value='/soc/gamSelectSocAgentProcessDtlsSttusListPrint.do'/>">인쇄</button>

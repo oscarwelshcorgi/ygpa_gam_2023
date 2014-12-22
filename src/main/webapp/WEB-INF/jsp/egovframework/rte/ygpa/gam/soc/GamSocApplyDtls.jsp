@@ -196,13 +196,13 @@ var module_instance = new GamSocApplyDtlsModule();
 					<form id="form1">
 					    <table style="width:100%;" class="summaryPanel">
         	               	<tr>
-								<th width="17%" height="25">자료수</th>
+								<th width="10%" height="25">자료수</th>
 								<td><input type="text" size="8" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="18%" height="25">총신청액</th>
+								<th width="10%" height="25">총신청액</th>
 								<td><input type="text" size="20" id="sumExmpAmnt" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="18%" height="25">총누계액</th>
+								<th width="10%" height="25">총누계액</th>
 								<td><input type="text" size="20" id="sumExmpAcc" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="18%" height="25">총잔액</th>
+								<th width="10%" height="25">총잔액</th>
 								<td><input type="text" size="20" id="sumExmpRemain" class="ygpaNumber" disabled="disabled" /></td>
 								<td>
     	                        	<button data-role="printPage" data-search-option="gamSocApplyDtlsSearchForm" data-url="/soc/gamSelectSocApplyDtlsListPrint.do">인쇄</button>

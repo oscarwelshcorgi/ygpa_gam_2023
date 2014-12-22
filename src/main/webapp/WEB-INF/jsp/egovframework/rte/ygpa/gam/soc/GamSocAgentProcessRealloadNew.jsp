@@ -49,8 +49,8 @@ GamSocAgentProcessRealloadNewModule.prototype.loadComplete = function() {
                     {display:'회계년도', 	name:'fiscalYr',	width:70, sortable:false,align:'center'},
                     {display:'고지번호', 	name:'billNo',		width:100, sortable:false,align:'center'},
                     {display:'적용요율', 	name:'standardFee',	width:70, sortable:false,align:'center'},
-                    {display:'징수톤', 	name:'realTn',		width:50, sortable:false,align:'center'},
-                    {display:'고지일자', 	name:'billDt',		width:70, sortable:false,align:'center'},
+                    {display:'징수톤', 	name:'realTn',		width:70, sortable:false,align:'center'},
+                    {display:'고지일자', 	name:'billDt',		width:90, sortable:false,align:'center'},
                     {display:'할인율', 	name:'dcRateNm',	width:70, sortable:false,align:'center'},
                     {display:'면제금액', 	name:'exmpAmnt',	width:100, sortable:false,align:'right',displayFormat: 'number'}
                     ],

@@ -47,13 +47,13 @@ GamSocApplyModule.prototype.loadComplete = function() {
                     {display:'요청업체명', 	name:'appAgentName',width:150, sortable:false,align:'left'},
                     {display:'횟수', 		name:'useNo',		width:45, sortable:false,align:'center'},
                     {display:'사용여부', 	name:'useYn',		width:70, sortable:false,align:'center'},
-                    {display:'보전요청액', 	name:'exmpAmnt',	width:80, sortable:false,align:'right',displayFormat: 'number'},
+                    {display:'보전요청액', 	name:'exmpAmnt',	width:150, sortable:false,align:'right',displayFormat: 'number'},
                     {display:'보전기간시작일',name:'periodFr',	width:100, sortable:false,align:'center'},
                     {display:'보전기간종료일',name:'periodTo',	width:100, sortable:false,align:'center'},
                     {display:'신청일자', 	name:'applDate',	width:80, sortable:false,align:'center'},
                     {display:'조건', 		name:'exmpCond',	width:80, sortable:false,align:'center'},
                     {display:'적용요율',	name:'rateGubun',	width:80, sortable:false,align:'center'},
-                    {display:'보전누계액', 	name:'exmpAcc',		width:80, sortable:false,align:'right',displayFormat: 'number'}
+                    {display:'보전누계액', 	name:'exmpAcc',		width:200, sortable:false,align:'right',displayFormat: 'number'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',

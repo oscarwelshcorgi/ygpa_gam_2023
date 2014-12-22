@@ -133,7 +133,7 @@ var popup_instance = new GamPopupSocApplyInfoModule();
 		<div class="emdPanel fillHeight">
 	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>
 	        <div class="emdControlPanel">
-	            <button id="btnOk">시설 선택</button>
+	            <button id="btnOk">면제요청 선택</button>
             	<button id="btnCancel">취소</button>
 	        </div>
 	    </div>

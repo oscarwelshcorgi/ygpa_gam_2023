@@ -48,7 +48,7 @@
   <c:set var="exmpCntSum" value="0" />
   <c:set var="exmpAmntSum" value="0" />
   <c:set var="exmpAmntPaSum" value="0" />
-  <c:set var="pagePerCount" value="13"/>
+  <c:set var="pagePerCount" value="10"/>
   <c:if test="${resultCode==0 }">
   <a id="printButton" href="#">인쇄</a>
 <div class="book">

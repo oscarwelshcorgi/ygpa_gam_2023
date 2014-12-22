@@ -10,6 +10,12 @@
             <field property="sAppPrtAtCode" depends="required">
                 <arg0 key="청코드" resource="false"/>
             </field>
+            <field property="sSearchDtFr" depends="required">
+                <arg0 key="조회기간 시작일" resource="false"/>
+            </field>
+            <field property="sSearchDtTo" depends="required">
+                <arg0 key="조회기간 종료일" resource="false"/>
+            </field>            
         </form>
     </formset>
 
