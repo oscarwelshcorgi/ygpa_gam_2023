@@ -92,7 +92,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
                     {display:'담당자직위', 	name:'chargerOfcPos',	width:80, 		sortable:false,		align:'center'}
                     ],
         showTableToggleBtn: false,
-        height: 'auto',
+        height: '220',
         preProcess: function(module,data) {
 			//자료수 입력
             module.$('#tabs3TotalCount').val($.number(data.totalCount));
@@ -589,7 +589,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
             
             <div id="tabs3" class="emdTabPage fillHeight" style="overflow: hidden;" >
             
-                <table id="fcltyCtrtJoinContrFList" style="display:none" class="fillHeight"></table>
+                <table id="fcltyCtrtJoinContrFList" style="display:none"></table>
                 
                 <div id="fcltyCtrtJoinContrFListSum" class="emdControlPanel">
 					<form id="fcltyCtrtJoinContrFListSumForm">

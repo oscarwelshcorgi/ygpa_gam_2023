@@ -122,6 +122,9 @@ public class GamConsFcltySpecMngVO extends ComDefaultVO{
 
     /**예전 시설 시설 코드 서브*/
     private String gisPrtFcltyCdSub;
+    
+    /**소재지*/
+    private String searchLoc;
 
 
     /**
@@ -704,5 +707,19 @@ public class GamConsFcltySpecMngVO extends ComDefaultVO{
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	/**
+	 * @return the searchLoc
+	 */
+	public String getSearchLoc() {
+		return searchLoc;
+	}
+
+	/**
+	 * @param searchLoc the searchLoc to set
+	 */
+	public void setSearchLoc(String searchLoc) {
+		this.searchLoc = searchLoc;
 	}
 }

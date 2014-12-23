@@ -158,11 +158,15 @@
 			                    , F.PRT_PRT_FCLTY_MNGER PRT_PRT_FCLTY_MNGER
 			                    , F.INFO INFO
 			                    , F.FCLTS_MNG_NO
-		                FROM GIS_PRT_FCLTY_CD_F F, GIS_ASSETS_CD_F A
+		                FROM 
+		                	GIS_PRT_FCLTY_CD_F F, 
+		                	GIS_ASSETS_CD_F A,
+		                	ARCH_FCLTY_SPEC_F R
 		                WHERE 1 = 1
                         AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
                         AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
                         AND F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
+                        AND F.FCLTS_MNG_NO = R.FCLTS_MNG_NO
 		                AND F.PRT_FCLTY_SE = #prtFcltySe#
 		                <isNotEmpty property="searchPrtAtCode">
 	           				AND F.GIS_ASSETS_PRT_AT_CODE = #searchPrtAtCode#
@@ -182,6 +186,9 @@
 		                <isNotEmpty property="searchKeyword">
 	           				AND F.PRT_FCLTY_NM LIKE '%' || #searchKeyword# || '%'
 	           			</isNotEmpty>
+	           			<isNotEmpty property="searchLoc">
+						    AND R.LOC LIKE '%' || #searchLoc# || '%'
+						  </isNotEmpty>
 		            ORDER BY F.GIS_ASSETS_CD DESC ,
 		                     F.GIS_ASSETS_PRT_AT_CODE DESC ,
 		                     F.GIS_ASSETS_SUB_CD DESC ,
@@ -194,11 +201,15 @@
 
     <select id="gamConsFcltySpecMngDao.selectFcltySpecMngListTotCnt_S" parameterClass="comDefaultVO" resultClass="int">
             SELECT COUNT(*) totcnt
-             FROM GIS_PRT_FCLTY_CD_F F, GIS_ASSETS_CD_F A
+             FROM 
+	             GIS_PRT_FCLTY_CD_F F, 
+	             GIS_ASSETS_CD_F A,
+		         ARCH_FCLTY_SPEC_F R
              WHERE 1 = 1
 			 AND F.GIS_ASSETS_CD = A.GIS_ASSETS_CD
              AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
              AND F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
+             AND F.FCLTS_MNG_NO = R.FCLTS_MNG_NO
              AND PRT_FCLTY_SE = #prtFcltySe#
              <isNotEmpty property="searchPrtAtCode">
            		AND F.GIS_ASSETS_PRT_AT_CODE = #searchPrtAtCode#
@@ -218,6 +229,9 @@
 	        <isNotEmpty property="searchKeyword">
            		AND PRT_FCLTY_NM LIKE '%' || #searchKeyword# || '%'
            	</isNotEmpty>
+           	<isNotEmpty property="searchLoc">
+		    AND R.LOC LIKE '%' || #searchLoc# || '%'
+		  </isNotEmpty>
     </select>
 
     <select id="gamConsFcltySpecMngDao.selectFcltySpecMngFileList_D" parameterClass="gamConsFcltySpecMngVO" resultClass="egovMap">

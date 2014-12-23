@@ -43,6 +43,9 @@ public class GamElctyFcltySpecMngVO extends ComDefaultVO {
 	/** 시설물 관리 번호 (조회조건-첨부파일) **/
 	private String sFcltsMngNo;
 	
+	/**소재지*/
+    private String searchLoc;
+	
 	/**
 	 * @return the sPrtAtCode
 	 */
@@ -129,6 +132,20 @@ public class GamElctyFcltySpecMngVO extends ComDefaultVO {
 	 */
 	public void setGisPrtFcltyCd(String gisPrtFcltyCd) {
 		this.gisPrtFcltyCd = gisPrtFcltyCd;
+	}
+
+	/**
+	 * @return the searchLoc
+	 */
+	public String getSearchLoc() {
+		return searchLoc;
+	}
+
+	/**
+	 * @param searchLoc the searchLoc to set
+	 */
+	public void setSearchLoc(String searchLoc) {
+		this.searchLoc = searchLoc;
 	}
 	
 }
