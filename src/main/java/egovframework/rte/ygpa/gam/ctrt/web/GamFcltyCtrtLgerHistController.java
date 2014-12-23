@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtLgerHistService;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtLgerHistVO;
@@ -74,7 +75,7 @@ public class GamFcltyCtrtLgerHistController {
 	/**
      * 계약정보목록을 조회한다.
      *
-     * @param searchVO
+     * @param searchVO 
      * @return map
      * @throws Exception the exception
      */
@@ -144,6 +145,7 @@ public class GamFcltyCtrtLgerHistController {
 	public @ResponseBody Map selectFcltyCtrtLgerHistDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		
     	Map map = new HashMap();
+    	EgovMap fcltyCtrtLgerHistDetail = null;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -153,7 +155,7 @@ public class GamFcltyCtrtLgerHistController {
     	}
 		
 		//계약정보상세
-    	GamFcltyCtrtLgerHistVO fcltyCtrtLgerHistDetail = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistDetail(searchVO);
+    	fcltyCtrtLgerHistDetail = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistDetail(searchVO);
         
     	map.put("resultCode", 0);	// return ok
     	map.put("resultDetail", fcltyCtrtLgerHistDetail);
@@ -225,6 +227,7 @@ public class GamFcltyCtrtLgerHistController {
 	public @ResponseBody Map selectFcltyCtrtJoinContrFDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		
     	Map map = new HashMap();
+    	EgovMap fcltyCtrtJoinContrFDetail = null;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -234,7 +237,7 @@ public class GamFcltyCtrtLgerHistController {
     	}
 		
 		//계약대장목록
-    	GamFcltyCtrtLgerHistVO fcltyCtrtJoinContrFDetail = gamFcltyCtrtLgerHistService.selectFcltyCtrtJoinContrFDetail(searchVO);
+    	fcltyCtrtJoinContrFDetail = gamFcltyCtrtLgerHistService.selectFcltyCtrtJoinContrFDetail(searchVO);
         
     	map.put("resultCode", 0);	// return ok
     	map.put("resultDetail", fcltyCtrtJoinContrFDetail);
@@ -458,7 +461,7 @@ public class GamFcltyCtrtLgerHistController {
 		searchVO.setRecordCountPerPage(9999);
 		
 		//계약대장상세내역
-    	GamFcltyCtrtLgerHistVO fcltyCtrtLgerHistDetail = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistDetail(searchVO);
+		EgovMap fcltyCtrtLgerHistDetail = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistDetail(searchVO);
 
     	//계약공동도급목록
     	List fcltyCtrtJoinContrF = gamFcltyCtrtLgerHistService.selectFcltyCtrtJoinContrFList(searchVO);

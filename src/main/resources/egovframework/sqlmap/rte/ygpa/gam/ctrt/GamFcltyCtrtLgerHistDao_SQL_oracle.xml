@@ -14,79 +14,6 @@
         <result property="sumBaseAmt" column="SUM_BASE_AMT" columnIndex="5" javaType="java.lang.Long"/>
     </resultMap>
     
-    <resultMap id="selectFcltyCtrtLgerHistDetailMap" class="gamFcltyCtrtLgerHistVO">
-		<result property="ctrtNo" column="CTRT_NO" columnIndex="1"/>
-		<result property="ctrtSe" column="CTRT_SE" columnIndex="2"/>
-		<result property="bidPblancNo" column="BID_PBLANC_NO" columnIndex="3"/>
-		<result property="bidPblancDt" column="BID_PBLANC_DT" columnIndex="4"/>
-		<result property="bidDt" column="BID_DT" columnIndex="5"/>
-		<result property="registEntrpsCd" column="REGIST_ENTRPS_CD" columnIndex="6"/>
-		<result property="siteDesc" column="SITE_DESC" columnIndex="7"/>
-		<result property="ctrtNm" column="CTRT_NM" columnIndex="8"/>
-		<result property="planAmt" column="PLAN_AMT" columnIndex="9"/>
-		<result property="prmtAmt" column="PRMT_AMT" columnIndex="10"/>
-		<result property="scsbidAmt" column="SCSBID_AMT" columnIndex="11"/>
-		<result property="scsbidRate" column="SCSBID_RATE" columnIndex="12"/>
-		<result property="baseAmt" column="BASE_AMT" columnIndex="13"/>
-		<result property="bidMth" column="BID_MTH" columnIndex="14"/>
-		<result property="ctrtMth" column="CTRT_MTH" columnIndex="15"/>
-		<result property="ctrtDt" column="CTRT_DT" columnIndex="16"/>
-		<result property="ctrtAmt" column="CTRT_AMT" columnIndex="17"/>
-		<result property="ctrtDtFrom" column="CTRT_DT_FROM" columnIndex="18"/>
-		<result property="ctrtDtTo" column="CTRT_DT_TO" columnIndex="19"/>
-		<result property="ctrtGrntyAmt" column="CTRT_GRNTY_AMT" columnIndex="20"/>
-		<result property="prcuPblancNo" column="PRCU_PBLANC_NO" columnIndex="21"/>
-		<result property="ctrtGrntyMth" column="CTRT_GRNTY_MTH" columnIndex="22"/>
-		<result property="ctrtExamDt" column="CTRT_EXAM_DT" columnIndex="23"/>
-		<result property="intendant1" column="INTENDANT_1" columnIndex="24"/>
-		<result property="intendant2" column="INTENDANT_2" columnIndex="25"/>
-		<result property="intendant3" column="INTENDANT_3" columnIndex="26"/>
-		<result property="caryFwd_bdgtAmt" column="CARY_FWD_BDGT_AMT" columnIndex="27"/>
-		<result property="elctrnSanctnTrnsmisSe" column="ELCTRN_SANCTN_TRNSMIS_SE" columnIndex="28"/>
-		<result property="elctrnSanctnProgrsCd" column="ELCTRN_SANCTN_PROGRS_CD" columnIndex="29"/>
-		<result property="elctrnSanctnTrnsmisDt" column="ELCTRN_SANCTN_TRNSMIS_DT" columnIndex="30"/>
-		<result property="elctrnSanctnInterlockInfo" column="ELCTRN_SANCTN_INTERLOCK_INFO" columnIndex="31"/>
-		<result property="elctrnSanctnDocId" column="ELCTRN_SANCTN_DOC_ID" columnIndex="32"/>
-		<result property="confmDt" column="CONFM_DT" columnIndex="33"/>
-		<result property="confmerCd" column="CONFMER_CD" columnIndex="34"/>
-		<result property="regUsr" column="REG_USR" columnIndex="35"/>
-		<result property="registDt" column="REGIST_DT" columnIndex="36"/>
-		<result property="updUsr" column="UPD_USR" columnIndex="37"/>
-		<result property="updtDt" column="UPDT_DT" columnIndex="38"/>
-		<result property="orderMthd" column="ORDER_MTHD" columnIndex="39"/>
-		<result property="sldrtGrnty" column="SLDRT_GRNTY" columnIndex="40"/>
-		<result property="jobChrgDeptCd" column="JOB_CHRG_DEPT_CD" columnIndex="41"/>
-		<result property="flawDtFrom" column="FLAW_DT_FROM" columnIndex="42"/>
-		<result property="flawDtTo" column="FLAW_DT_TO" columnIndex="43"/>
-		<result property="causeAct" column="CAUSE_ACT" columnIndex="44"/>
-    </resultMap>
-    
-    
-    <resultMap id="selectFcltyCtrtJoinContrFDetailMap" class="gamFcltyCtrtLgerHistVO">
-		<result property="ctrtNo" column="CTRT_NO" columnIndex="1"/>
-		<result property="seq" column="SEQ" columnIndex="2"/>
-		<result property="qotaRate" column="QOTA_RATE" columnIndex="3"/>
-		<result property="entrpsNm" column="ENTRPS_NM" columnIndex="4"/>
-		<result property="rprsntv" column="RPRSNTV" columnIndex="5"/>
-		<result property="tlphonNo" column="TLPHON_NO" columnIndex="6"/>
-		<result property="faxNo" column="FAX_NO" columnIndex="7"/>
-		<result property="postNo" column="POST_NO" columnIndex="8"/>
-		<result property="roadnmAdres" column="ROADNM_ADRES" columnIndex="9"/>
-		<result property="lnmAdres" column="LNM_ADRES" columnIndex="10"/>
-		<result property="dealRelate" column="DEAL_RELATE" columnIndex="11"/>
-		<result property="induty" column="INDUTY" columnIndex="12"/>
-		<result property="stplPrdlst" column="STPL_PRDLST" columnIndex="13"/>
-		<result property="bsnmNo" column="BSNM_NO" columnIndex="14"/>
-		<result property="charger" column="CHARGER" columnIndex="15"/>
-		<result property="chargerOfcPos" column="CHARGER_OFC_POS" columnIndex="16"/>
-		<result property="chargerMoblphonNo" column="CHARGER_MOBLPHON_NO" columnIndex="17"/>
-		<result property="chargerEmail" column="CHARGER_EMAIL" columnIndex="18"/>
-		<result property="regUsr" column="REG_USR" columnIndex="19"/>
-		<result property="registDt" column="REGIST_DT" columnIndex="20"/>
-		<result property="updUsr" column="UPD_USR" columnIndex="21"/>
-		<result property="updtDt" column="UPDT_DT" columnIndex="22"/>
-    </resultMap>
-    
     
     <resultMap id="selectFcltyCtrtChangeFListSumMap" class="gamFcltyCtrtLgerHistVO">
 		<result property="totalCnt" column="TOTAL_CNT" columnIndex="1" javaType="int"/>
@@ -126,6 +53,7 @@
 					        		, TO_CHAR(BID_DT, 'YYYY-MM-DD') AS BID_DT
 					        		, REGIST_ENTRPS_CD
 					        		, GAM_GETENTRPSNM(REGIST_ENTRPS_CD, 1) AS REGIST_ENTRPS_NM
+					        		, TO_CHAR(CTRT_DT, 'YYYY-MM-DD') CTRT_DT
 					        		, CTRT_AMT
 					        		, PLAN_AMT
 					        		, PRMT_AMT
@@ -216,7 +144,7 @@
     </select>
     
     
-    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistDetail_S" parameterClass="gamFcltyCtrtLgerHistVO" resultMap="selectFcltyCtrtLgerHistDetailMap">
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistDetail_S" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="egovMap">
 
         SELECT 
         		CTRT_NO
@@ -227,6 +155,7 @@
         		, TO_CHAR(BID_PBLANC_DT, 'YYYY-MM-DD') AS BID_PBLANC_DT
         		, TO_CHAR(BID_DT, 'YYYY-MM-DD') AS BID_DT
         		, REGIST_ENTRPS_CD
+        		, GAM_GETENTRPSNM(REGIST_ENTRPS_CD, 1) AS REGIST_ENTRPS_NM
         		, SITE_DESC
         		, CTRT_NM
         		, PLAN_AMT
@@ -312,7 +241,7 @@
     </select>
     
     
-    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtJoinContrFDetail_S" parameterClass="gamFcltyCtrtLgerHistVO" resultMap="selectFcltyCtrtJoinContrFDetailMap">
+    <select id="gamFcltyCtrtLgerHistDao.selectFcltyCtrtJoinContrFDetail_S" parameterClass="gamFcltyCtrtLgerHistVO" resultClass="egovMap">
 
         SELECT 
         		CTRT_NO

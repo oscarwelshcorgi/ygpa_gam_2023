@@ -74,12 +74,7 @@ public class GamSocRentProcessSetoffLgerController {
     @SuppressWarnings("rawtypes")
     @RequestMapping(value="/soc/gamSocRentProcessSetoffLger.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-    	
-
-    	GamSocCmmUseVO codeVo = new GamSocCmmUseVO();
-		
-		codeVo.setCodeId("GAM019"); //항코드 
-		
+	
 		List prtAtCdList = gamSocCmmUseService.selectSocPrtAtCodeDetail();
 		
 		model.addAttribute("prtAtCdList", prtAtCdList);

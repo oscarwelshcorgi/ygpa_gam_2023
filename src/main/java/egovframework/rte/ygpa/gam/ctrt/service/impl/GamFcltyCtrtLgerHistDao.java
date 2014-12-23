@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtLgerHistVO;
 
 /**
@@ -57,8 +58,8 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	 * @return 계약대장 상세내역
 	 * @exception Exception
 	 */
-    public GamFcltyCtrtLgerHistVO selectFcltyCtrtLgerHistDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-    	return (GamFcltyCtrtLgerHistVO) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistDetail_S", searchVO);
+    public EgovMap selectFcltyCtrtLgerHistDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+    	return (EgovMap) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistDetail_S", searchVO);
     }
     
     
@@ -90,8 +91,8 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	 * @return 계약공동도급 상세내역
 	 * @exception Exception
 	 */
-	public GamFcltyCtrtLgerHistVO selectFcltyCtrtJoinContrFDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return (GamFcltyCtrtLgerHistVO) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtJoinContrFDetail_S", searchVO);
+	public EgovMap selectFcltyCtrtJoinContrFDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+		return (EgovMap) selectByPk("gamFcltyCtrtLgerHistDao.selectFcltyCtrtJoinContrFDetail_S", searchVO);
 	}
 	
 	

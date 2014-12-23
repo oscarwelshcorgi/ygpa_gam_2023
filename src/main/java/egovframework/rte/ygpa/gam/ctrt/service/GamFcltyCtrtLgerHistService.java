@@ -2,6 +2,8 @@ package egovframework.rte.ygpa.gam.ctrt.service;
 
 import java.util.List;
 
+import egovframework.rte.psl.dataaccess.util.EgovMap;
+
 
 /**
  * 
@@ -46,7 +48,7 @@ public interface GamFcltyCtrtLgerHistService {
 	 * @return 계약대장 상세내역
 	 * @exception Exception
 	 */
-	GamFcltyCtrtLgerHistVO selectFcltyCtrtLgerHistDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	EgovMap selectFcltyCtrtLgerHistDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
 	
 	
 	/**
@@ -73,7 +75,7 @@ public interface GamFcltyCtrtLgerHistService {
 	 * @return 계약공동도급 상세내역
 	 * @exception Exception
 	 */
-	GamFcltyCtrtLgerHistVO selectFcltyCtrtJoinContrFDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	EgovMap selectFcltyCtrtJoinContrFDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
 	
 	
 	/**

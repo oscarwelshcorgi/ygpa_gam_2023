@@ -226,9 +226,10 @@ public class GamSocTotalBsnsSetoffDtlsController {
 		searchVO.setFirstIndex(0);
 		searchVO.setLastIndex(9999);
 		searchVO.setRecordCountPerPage(9999);
-
+		
+		List socTotalBsnsSetoffDtlsList = gamSocTotalBsnsSetoffDtlsService.selectSocTotalBsnsSetoffDtlsListPrint(searchVO);
     	totalCnt = gamSocTotalBsnsSetoffDtlsService.selectSocTotalBsnsSetoffDtlsListPrintTotCnt(searchVO);
-    	List socTotalBsnsSetoffDtlsList = gamSocTotalBsnsSetoffDtlsService.selectSocTotalBsnsSetoffDtlsListPrint(searchVO);
+    	
     	
     	frDt = searchVO.getsFrDt();
     	toDt = searchVO.getsToDt();

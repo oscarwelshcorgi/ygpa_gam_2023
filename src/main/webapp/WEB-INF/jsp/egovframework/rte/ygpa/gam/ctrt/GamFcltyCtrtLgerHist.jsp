@@ -43,6 +43,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
 					{display:'구분', 			name:'ctrtSe',				width:60, 		sortable:false,		align:'center'},
                     {display:'공고번호', 		name:'bidPblancNo',			width:100, 		sortable:false,		align:'center'},
                     {display:'계약명', 		name:'ctrtNm',				width:300, 		sortable:false,		align:'left'},
+                    {display:'계약일', 		name:'ctrtDt',				width:80, 		sortable:false,		align:'left'},
                     {display:'입찰공고일', 	name:'bidPblancDt',			width:80, 		sortable:false,		align:'center'},
                     {display:'입찰일', 		name:'bidDt',				width:80, 		sortable:false,		align:'center'},
                     {display:'등록업체코드', 	name:'registEntrpsCd',		width:100, 		sortable:false,		align:'left'},
@@ -480,7 +481,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
                             </tr>
                             <tr>
                             	<th width="10%" height="18">하자기간</th>
-                                <td><span id="flawPdFrom" ></span> ~ <span id="flawPdTo" ></span></td>
+                                <td><span id="flawDtFrom" ></span> ~ <span id="flawDtTo" ></span></td>
 								<th width="10%" height="18">입찰일자</th>
                                 <td><span id="bidDt" ></span></td>
                                 <th width="10%" height="18">입찰방법</th>

@@ -32,7 +32,7 @@ GamSocTotalBsnsSetoffDtlsModule.prototype = new EmdModule(1000, 645);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamSocTotalBsnsSetoffDtlsModule.prototype.loadComplete = function() {
-
+	console.log('GamSocTotalBsnsSetoffDtlsModule');
     // 자산임대 테이블 설정
     this.$("#socTotalBsnsSetoffDtlsList").flexigrid({
         module: this,
@@ -86,18 +86,18 @@ GamSocTotalBsnsSetoffDtlsModule.prototype.loadComplete = function() {
                     {display:'호출부호', 				name:'callLetter',		width:100, 		sortable:false,		align:'center'},
                     {display:'입항횟수', 				name:'serNo',			width:100, 		sortable:false,		align:'center'},
                     {display:'관리번호', 				name:'socNo',			width:130, 		sortable:false,		align:'center'},
-                    {display:'상계일자', 				name:'',				width:130, 		sortable:false,		align:'center'},
+                    {display:'상계일자', 				name:'billDt',			width:130, 		sortable:false,		align:'center'},
                     {display:'적용요율', 				name:'dcRate',			width:100, 		sortable:false,		align:'center'},
-                    {display:'내외항', 				name:'',				width:80, 		sortable:false,		align:'center'},
-                    {display:'신고업체', 				name:'appAgentCode',	width:80, 		sortable:false,		align:'center'},
-                    {display:'신고업체명', 			name:'',				width:150, 		sortable:false,		align:'center'},
+                    {display:'내외항', 				name:'inOutNm',			width:80, 		sortable:false,		align:'center'},
+                    {display:'신고업체', 				name:'exmpAgentCode',	width:80, 		sortable:false,		align:'center'},
+                    {display:'신고업체명', 			name:'exmpAgentNm',		width:150, 		sortable:false,		align:'center'},
                     {display:'처리항구', 				name:'prtAtCode',		width:100, 		sortable:false,		align:'center'},
                     {display:'요금종류', 				name:'feeTp',			width:100, 		sortable:false,		align:'center'},
-                    {display:'요금종류명', 			name:'',				width:100, 		sortable:false,		align:'center'},
-                    {display:'할인율', 				name:'',				width:60, 		sortable:false,		align:'center'},
-                    {display:'상계금액(청)', 			name:'',				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-                    {display:'상계금액(공사)', 			name:'',				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-                    {display:'운임톤', 				name:'realTn',			width:60, 		sortable:false,		align:'center'},
+                    {display:'요금종류명', 			name:'feeTpNm',			width:100, 		sortable:false,		align:'center'},
+                    {display:'할인율', 				name:'dcRate',			width:60, 		sortable:false,		align:'center'},
+                    {display:'상계금액(청)', 			name:'mapExmpAmnt',		width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+                    {display:'상계금액(공사)', 			name:'patExmpAmnt',		width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+                    {display:'운임톤', 				name:'realTn',			width:60, 		sortable:false,		align:'right', 		displayFormat: 'number'},
                     {display:'특이사항', 				name:'remark',			width:250, 		sortable:false,		align:'left'}
                     ],
         showTableToggleBtn: false,

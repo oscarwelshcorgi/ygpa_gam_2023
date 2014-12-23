@@ -26,13 +26,13 @@
     <title>여수광양항만공사 - GIS기반 자산관리 시스템</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/reset.css'/>" />
-<link rel="stylesheet" href="<c:url value='/css/demo/jquery-ui-1.10.4.custom.css' />" />
-<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ygpa_report.css' />" />
+	<link rel="stylesheet" href="/css/ygpa/gam/reset.css">
+	<link rel="stylesheet" href="/css/demo/jquery-ui-1.10.4.custom.css">
+	<link rel="stylesheet" href="/css/ygpa/gam/ygpa_report_l.css" >
 
-	<script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
-	<script src="<c:url value='/js/jquery-migrate-1.2.1.min.js'/>"></script>
-	<script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
+	<script src="/js/jquery-1.10.2.min.js"></script>
+	<script src="/js/jquery-migrate-1.2.1.min.js"></script>
+	<script src="/js/jquery-ui.min.js"></script>
 	<script>
 	$( window ).load(function() {
 		$('#printButton').button().click(function(){
@@ -42,7 +42,7 @@
 	</script>
   </head>
   <body>
-  <c:set var="pagePerCount" value="13"/>
+  <c:set var="pagePerCount" value="8"/>
   <c:set var="appPrtAtCode" value=""/>
   <c:set var="appPrtAtNm" value=""/>
   <c:set var="prtAtCode" value="" />
@@ -117,13 +117,12 @@
 			</tr>
 	</c:if>
     <c:forEach var="result" items="${resultList }" varStatus="resultStatus">
-    
     				<c:if test="${pageSkip == false}">
-    					<c:if test="${(result.prtAtCode != prePrtAtCode) and (result.cmplYr != preCmplYr) and (result.constNo != preConstNo) }">
+    					<c:if test="${(result.prtAtCode != prePrtAtCode) or (result.cmplYr != preCmplYr) or (result.constNo != preConstNo) }">
     						<c:set var="pageSkip" value="true"/>
     					</c:if>
     				</c:if>
-           			<c:if test="${checkIndex%pagePerCount==0 or (pageSkip == true) }"> <% /*  페이지 당 출력 갯수 */ %>
+           			<c:if test="${checkIndex%pagePerCount==0 or pageSkip == true }"> <% /*  페이지 당 출력 갯수 */ %>
            				<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
 			        		</tbody>
 			        		</table>
@@ -199,21 +198,21 @@
         				<td><c:out value="${result.callLetter }" /></td>
         				<td><c:out value="${result.serNo }" /></td>
         				<td><c:out value="${result.socNo }" /></td>
-        				<td><c:out value="" /></td>
+        				<td><c:out value="${result.billDt }" /></td>
         				<td><c:out value="${result.dcRate }" /></td>
         				<td><c:out value="" /></td>
-        				<td><c:out value="" /></td>
-        				<td><c:out value="${result.appAgentCode }" /></td>
-        				<td><c:out value="" /></td>
+        				<td><c:out value="${result.inOutNm }" /></td>
+        				<td><c:out value="${result.exmpAgentCode }" /></td>
+        				<td><c:out value="${result.exmpAgentNm }" /></td>
         			</tr>
         			<tr>
         				<td></td>
         				<td><c:out value="${result.prtAtCode }" /></td>
         				<td><c:out value="${result.feeTp }" /></td>
-        				<td><c:out value="" /></td>
-        				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="" /></td>
-        				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="" /></td>
-        				<td><c:out value="${result.realTn }" /></td>
+        				<td><c:out value="${result.dcRate }" /></td>
+        				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.mapExmpAmnt }" /></td>
+        				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.patExmpAmnt }" /></td>
+        				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.realTn }" /></td>
         				<td></td>
         				<td></td>
         				<td><c:out value="${result.remark }" /></td>
@@ -221,18 +220,6 @@
         		
     </c:forEach>
         		</tbody>
-        		<%-- <tfoot>
-        			<tr>
-        				<th>총계</th>
-        				<td style="text-align: right"><c:out value="${sumCnt }" /></td>
-        				<th>총 면적</th>
-        				<td style="text-align: right"><c:out value="${sumAr }" /> m<sup>2</sup></td>
-        				<th>총 사용료</th>
-        				<td colspan="2" style="text-align: right"><c:out value="${sumFee }" /> 원</td>
-        				<th>총 면제 금액</th>
-        				<td colspan="2" style="text-align: right"><c:out value="${sumRdcxptFee }" /> 원</td>
-        			</tr>
-        		</tfoot> --%>
         	</table>
         </div>
     </div>
