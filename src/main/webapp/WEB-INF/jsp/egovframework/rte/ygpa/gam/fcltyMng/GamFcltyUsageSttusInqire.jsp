@@ -23,7 +23,7 @@
 
 <%
 /**
- * @FUNCTION NAME : GamFcltyUsageMngModule
+ * @FUNCTION NAME : GamFcltyUsageSttusInqireModule
  * @DESCRIPTION   : MODULE 고유 함수
  * @PARAMETER     : NONE
 **/
@@ -69,21 +69,21 @@
 			return data;
 		}
 	});
-	this.$("#sUsagePdFrom").val(EMD.util.getDate(EMD.util.addMonths(-1)));
-	this.$("#sUsagePdTo").val(EMD.util.getDate());
 
-/* 클릭 더블클릭 주석처리
-		// 마우스 클릭
-		this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
-			module._mode = 'modify';
-		});
+this.$("#sUsagePdFrom").val(EMD.util.getDate(EMD.util.addMonths(-1)));
+this.$("#sUsagePdTo").val(EMD.util.getDate());
 
-	// 마우스 더블 킬릭
-		this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-			module._mode = 'modify';
-			module.$("#mainTab").tabs("option", {active: 1});
-		});
-*/
+// 마우스 클릭
+this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
+	module._mode = 'modify';
+});
+
+// 마우스 더블 킬릭
+this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
+	module._mode = 'modify';
+//		module.$("#mainTab").tabs("option", {active: 1});
+});
+
 /*
 		this.$("#prtFcltyUseSttusInqireFileList").on(
 				'onItemSelected',
@@ -153,10 +153,10 @@ GamFcltyUsageSttusInqireModule.prototype.onButtonClick = function(buttonId) {
  * @PARAMETER     : NONE
 **/
 %>
-	//////////// 확인 부분 ?
-	GamFcltyUsageSttusInqireModule.prototype.onSubmit = function() {
-		this.loadData();
-	};
+//////////// 확인 부분 ?
+GamFcltyUsageSttusInqireModule.prototype.onSubmit = function() {
+	this.loadData();
+};
 
 <%
 /**
@@ -165,14 +165,13 @@ GamFcltyUsageSttusInqireModule.prototype.onButtonClick = function(buttonId) {
  * @PARAMETER     : NONE
 **/
 %>
-	//////////// 확인 부분 ?
-/*
-	V.prototype.loadData = function() {
-		this.$("#mainTab").tabs("option", {active: 0});
-		var searchOpt=this.makeFormArgs('#searchForm');
-		this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
-	};
-*/
+//////////// 확인 부분 ?
+GamFcltyUsageSttusInqireModule.prototype.loadData = function() {
+	this.$("#mainTab").tabs("option", {active: 0});
+	var searchOpt=this.makeFormArgs('#searchForm');
+	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+};
+
 <%
 /**
  * @FUNCTION NAME : downloadExcel
@@ -181,68 +180,43 @@ GamFcltyUsageSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 **/
 %>
 
-GamFcltyUsageMngModule.prototype.downloadExcel = function() {
+GamFcltyUsageSttusInqireModule.prototype.downloadExcel = function() {
 
 	var totalCount = Number(this.$('#totalCount').val().replace(/,/gi, ""));
 	if (totalCount <= 0) {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
-	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelMngFeeGubunMng.do');
+	this.$('#mainGrid').flexExcelDown('/fcltyMng/gamExcelFcltyUsageSttusInqireList.do');
 
 };
 
 
-
 // 수정해야 하는 부분
-alert('1');
-	GamFcltyUsageSttusInqireModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
-		if (oldTabId == "tabs1"
-				&& this.$('mainGrid').selectedRowCount() == 0) {
-			alert('먼저 항목을 선택 하시기 바랍니다.');
-			return false;
-		}
-		return true;
-	};
-	alert('2');
+GamFcltyUsageSttusInqireModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
+	if (oldTabId == "tabs1"
+			&& this.$('mainGrid').selectedRowCount() == 0) {
+		alert('먼저 항목을 선택 하시기 바랍니다.');
+		return false;
+	}
+	return true;
+};
 
-/*
-	GamFcltyUsageSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {s
-		console.log(oldTabId);
-		switch (newTabId) {
-		case 'tabs1':
-			console.log("aaaa");
-			break;
-		case 'tabs2':
-			alert("aaaaa");
-			break;
-		}
-	};
-*/
-	/*
-	//팝업이 종료 될때 리턴 값이 오출 된다.
-	//popupId : 팝업 대화상자 아이디
-	//msg : 팝업에서 전송한 메시지 (취소는 cancel)
-	//value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
-	GamFcltyUsageMngModule.prototype.onClosePopup = function(popupId, msg, value) {
-	    switch (popupId) {
-	     case 'selectEntrpsInfoPopup':
-	         if (msg != 'cancel') {
-	             this.$('#sEntrpscd').val(value.entrpscd);
-	             this.$('#sEntrpsNm').val(value.entrpsNm);
-	         } else {
-	             alert('취소 되었습니다');
-	         }
-	         break;
-	     default:
-	         alert('알수없는 팝업 이벤트가 호출 되었습니다.');
 
-	         break;
-	     }
-	};
-	 */
-	// 다음 변수는 고정 적으로 정의 해야 함
-	var module_instance = new GamFcltyUsageSttusInqireModule();
+
+GamFcltyUsageSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
+	if(oldTabId != 'tabs1') {
+
+	}
+	switch(newTabId) {
+		case "tabs1":
+			break;
+	}
+};
+
+
+// 다음 변수는 고정 적으로 정의 해야 함
+var module_instance = new GamFcltyUsageSttusInqireModule();
 
 </script>
 
@@ -275,11 +249,13 @@ alert('1');
 	</div>
 
 	<div class="emdPanel fillHeight">
-<!-- 		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" data-onchange-before="onTabChangeBefore">  -->
-		<div id="mainTab" class="emdTabPanel fillHeight">
+ 		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" data-onchange-before="onTabChangeBefore">
 			<ul>
-				<li><a href="#tabs1" class="emdTab">시설물 사용현황 목록</a></li>
-				<li><a href="#tabs2" class="emdTab">시설물 사용현황 내역</a></li>
+				<li><a href="#tabs1" class="emdTab">1</a></li>
+				<li><a href="#tabs2" class="emdTab">2</a></li>
+				<li><a href="#tabs3" class="emdTab">3</a></li>
+				<li><a href="#tabs4" class="emdTab">4</a></li>
+				<li><a href="#tabs5" class="emdTab">5</a></li>
 			</ul>
 
 			<!-- TAB 1 AREA (LIST) -->
@@ -307,48 +283,48 @@ alert('1');
 
 
 
-			<!-- 탭2 -->
+<!-- 탭2 -->
 			<div id="tabs2" class="emdTabPage" style="overflow:scroll;">
 				<div class="emdControlPanel">
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%">
-						2
-
-<!--
-							<tr>
-								<th width="20%" height="25">시설 구분</th>
-								<td><input type="text" size="25" id="mngFeeFcltySe" maxlength="2"/></td>
-								<td><button id="btnIdCheck">시 설 구 분 중 복 여 부 검 사</button>
-							</tr>
-							<tr>
-								<th width="20%" height="25">시설 구분 명</th>
-								<td colspan="2"><input type="text" size="70" id="mngFeeFcltySeNm" maxlength="20"/></td>
-							</tr>
-							<tr>
-								<th width="20%" height="25">등록자</th>
-                               	<td><span data-column-id="regUsr"></span></td>
-								<td><span data-column-id="registDt"></span></td>
-							</tr>
-							<tr>
-								<th width="20%" height="25">수정자</th>
-                               	<td><span data-column-id="updUsr"></span></td>
-								<td><span data-column-id="updtDt"></span></td>
+							<tr>2
 							</tr>
 						</table>
 					</form>
-					<table style="width:100%">
-						<tr>
-							<td width="100"></td>
-							<td style="text-align:right">
-								<button data-cmd="btnSave" class="buttonSave">저장</button>
-								<button data-cmd="btnDelete" class="buttonDelete">삭제</button>
-							</td>
-						</tr>
-					</table>
--->
-					</table>
-				</form>
-
+				</div>
+			</div>
+<!-- 탭3 -->
+			<div id="tabs3" class="emdTabPage" style="overflow:scroll;">
+				<div class="emdControlPanel">
+					<form id="detailForm">
+						<table class="detailPanel" style="width:100%">
+							<tr>3
+							</tr>
+						</table>
+					</form>
+				</div>
+			</div>
+<!-- 탭4 -->
+			<div id="tabs4" class="emdTabPage" style="overflow:scroll;">
+				<div class="emdControlPanel">
+					<form id="detailForm">
+						<table class="detailPanel" style="width:100%">
+							<tr>4
+							</tr>
+						</table>
+					</form>
+				</div>
+			</div>
+<!-- 탭5 -->
+			<div id="tabs5" class="emdTabPage" style="overflow:scroll;">
+				<div class="emdControlPanel">
+					<form id="detailForm">
+						<table class="detailPanel" style="width:100%">
+							<tr>5
+							</tr>
+						</table>
+					</form>
 				</div>
 			</div>
 

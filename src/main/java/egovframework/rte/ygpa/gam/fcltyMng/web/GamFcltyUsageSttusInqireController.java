@@ -95,7 +95,7 @@ public class GamFcltyUsageSttusInqireController {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/fcltyMng/gamFcltyUsageSttusInqireList.do", method = RequestMethod.POST)
 	@ResponseBody
-	Map selectFcltyUsageMngList(GamFcltyUsageSttusInqireVO searchVO) throws Exception {
+	Map selectFcltyUsageSttusInqireList(GamFcltyUsageSttusInqireVO searchVO) throws Exception {
 		int totalCnt, page, firstIndex;
 		Map map = new HashMap();
 
