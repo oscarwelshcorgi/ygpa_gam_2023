@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="ygpa.gam.fcltyMng">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="GamFcltyUsageSttusInqireVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageSttusInqireVO"/>
+
+<!--
+	<resultMap id="GamFcltyUsageMngMap" class="egov framework.rte.ygpa.gam.ctrt.service.GamFcltyUsageSttusInqireVO">
+		<result property="prtAtCode" column="PRT_AT_CODE" columnIndex="1" />
+		<result property="mngYearNo" column="MNG_YEAR_NO" columnIndex="2" />
+		<result property="gisAssets" column="GIS_ASSETS" columnIndex="3" />
+		<result property="docNo" column="DOC_NO" columnIndex="4" />
+		<result property="nticMth" column="NTIC_MTH" columnIndex="5" />
+		<result property="usagePurps" column="USAGE_PURPS" columnIndex="6" />
+		<result property="usageDtls" column="USAGE_DTLS" columnIndex="7" />
+		<result property="usageAr" column="USAGE_AR" columnIndex="8" />
+		<result property="fee" column="FRR" columnIndex="9" />
+		<result property="prmisnDt" column="PRMISN_DT" columnIndex="10" />
+	</resultMap>
+ -->
+
+    <select id="gamFcltyUsageSttusInqireDao.selectFcltyUsageSttusInqireList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+							SELECT GAM_GETCODENAME('GAM019', D.PRT_AT_CODE) AS PRT_AT_CODE
+			         		, D.MNG_YEAR||'-'||D.MNG_NO||'-'||D.MNG_CNT AS MNG_YEAR_NO
+							, D.GIS_ASSETS_PRT_AT_CODE ||'-'|| D.GIS_ASSETS_CD||'-'||D.GIS_ASSETS_SUB_CD AS GIS_ASSETS
+							, M.DOC_NO AS DOC_NO
+							, GAM_GETCODENAME('GAM008', M.NTIC_MTH) AS NTIC_MTH
+							, D.USAGE_PURPS AS USAGE_PURPS
+							, D.USAGE_DTLS AS USAGE_DTLS
+							, D.USAGE_AR AS USAGE_AR
+							, D.FEE AS FEE
+							, TO_CHAR(M.PRMISN_DT,'YYYY.MM.DD') AS PRMISN_DT
+					   FROM ASSETS_RENT_F M, ASSETS_RENT_DETAIL_F D
+					  WHERE 1=1
+					  		AND M.PRT_AT_CODE = D.PRT_AT_CODE
+							AND M.MNG_YEAR = D.MNG_YEAR
+							AND M.MNG_NO = D.MNG_NO
+							AND M.MNG_CNT = D.MNG_CNT
+
+							<isNotEmpty property="sPrtAtCode" prepend="AND">
+	           				D.PRT_AT_CODE = #sPrtAtCode#
+	           				</isNotEmpty>
+
+	           				<isNotEmpty property="sUsagePdFrom" prepend="AND">
+	           				<![CDATA[
+	           				D.USAGE_PD_FROM >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+	           				]]>
+	           				</isNotEmpty>
+
+	           				<isNotEmpty property="sUsagePdTo" prepend="AND">
+	           				<![CDATA[
+	           				D.USAGE_PD_FROM < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
+	           				]]>
+	           				</isNotEmpty>
+
+							ORDER BY D.PRT_AT_CODE DESC, D.MNG_YEAR DESC, D.MNG_NO, D.MNG_CNT
+
+					) S
+			) A
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+
+    </select>
+
+	<select id="gamFcltyUsageSttusInqireDao.selectFcltyUsageSttusInqireListTotCnt" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="int">
+		SELECT COUNT(*) totcnt
+	      FROM ASSETS_RENT_F M, ASSETS_RENT_DETAIL_F D
+	     WHERE 1=1
+	  		   AND M.PRT_AT_CODE = D.PRT_AT_CODE
+			   AND M.MNG_YEAR = D.MNG_YEAR
+			   AND M.MNG_NO = D.MNG_NO
+			   AND M.MNG_CNT = D.MNG_CNT
+
+			<isNotEmpty property="sPrtAtCode" prepend="AND">
+   				D.PRT_AT_CODE = #sPrtAtCode#
+			</isNotEmpty>
+
+   			<isNotEmpty property="sUsagePdFrom" prepend="AND">
+   				<![CDATA[
+   					D.USAGE_PD_FROM >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+   				]]>
+   			</isNotEmpty>
+
+   			<isNotEmpty property="sUsagePdTo" prepend="AND">
+   				<![CDATA[
+   					D.USAGE_PD_FROM < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
+   				]]>
+   			</isNotEmpty>
+
+	</select>
+</sqlMap>
