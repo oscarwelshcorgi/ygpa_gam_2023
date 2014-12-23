@@ -28,7 +28,7 @@
 									   WHEN T1.FCLTS_JOB_SE = 'I' THEN '정보통신시설'
 								  END) AS FCLTS_JOB_SE_NM
 								,T1.QC_ITEM_UPPER_CD
-								,(CASE WHEN T1.QC_ITEM_UPPER_CD = '0000000' THEN '점검 항목 메인' ELSE T2.QC_ITEM_NM END) AS QC_ITEM_UPPER_NM
+								,(CASE WHEN T1.QC_ITEM_UPPER_CD = '000000000' THEN '점검 항목 메인' ELSE T2.QC_ITEM_NM END) AS QC_ITEM_UPPER_NM
 								,TO_CHAR(T1.DEPTH_SORT) AS DEPTH_SORT
 								,T1.USE_YN
 								,T1.REG_USR
@@ -100,7 +100,7 @@
 					   WHEN T1.FCLTS_JOB_SE = 'I' THEN '정보통신시설'
 				  END) AS FCLTS_JOB_SE_NM
 				,T1.QC_ITEM_UPPER_CD
-				,(CASE WHEN T1.QC_ITEM_UPPER_CD = '0000000' THEN '점검 항목 메인' ELSE T2.QC_ITEM_NM END) AS QC_ITEM_UPPER_NM
+				,(CASE WHEN T1.QC_ITEM_UPPER_CD = '000000000' THEN '점검 항목 메인' ELSE T2.QC_ITEM_NM END) AS QC_ITEM_UPPER_NM
 				,TO_CHAR(T1.DEPTH_SORT) AS DEPTH_SORT
 				,T1.USE_YN
 				,T1.REG_USR
@@ -115,19 +115,23 @@
 	<select id="gamQcItemCdMngDao.selectQcItemCdMngNewQcItemCd_S" parameterClass="gamQcItemCdMngVo" resultClass="java.lang.String">
 		SELECT
 				<isEqual property="depthSort" compareValue="1">
-				 NVL(MAX(#fcltsJobSe# || '000000'),#fcltsJobSe# || '000000') AS NEW_QC_ITEM_CD
+				 (CASE WHEN COUNT(*) = 0 THEN NVL(MAX(#fcltsJobSe# || '00000000'),#fcltsJobSe# || '00000000') ELSE '!00000000' END) AS NEW_QC_ITEM_CD
 				</isEqual>
 
 				<isEqual property="depthSort" compareValue="2">
-				 #fcltsJobSe# || LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(SUBSTRB(QC_ITEM_CD,2,2))),0)+1,'00')) || '0000' AS NEW_QC_ITEM_CD
+				 #fcltsJobSe# || LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(SUBSTRB(QC_ITEM_CD,2,2))),0)+1,'00')) || '000000' AS NEW_QC_ITEM_CD
 				</isEqual>
 
 				<isEqual property="depthSort" compareValue="3">
-				 #fcltsJobSe# || SUBSTRB(#qcItemUpperCd#,2,2) || LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(SUBSTRB(QC_ITEM_CD,4,2))),0)+1,'00')) || '00' AS NEW_QC_ITEM_CD
+				 #fcltsJobSe# || SUBSTRB(#qcItemUpperCd#,2,2) || LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(SUBSTRB(QC_ITEM_CD,4,2))),0)+1,'00')) || '0000' AS NEW_QC_ITEM_CD
 				</isEqual>
 
 				<isEqual property="depthSort" compareValue="4">
-				 #fcltsJobSe# || SUBSTRB(#qcItemUpperCd#,2,4) || LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(SUBSTRB(QC_ITEM_CD,6,2))),0)+1,'00')) AS NEW_QC_ITEM_CD
+				 #fcltsJobSe# || SUBSTRB(#qcItemUpperCd#,2,4) || LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(SUBSTRB(QC_ITEM_CD,6,2))),0)+1,'00')) || '00' AS NEW_QC_ITEM_CD
+				</isEqual>
+
+				<isEqual property="depthSort" compareValue="5">
+				 #fcltsJobSe# || SUBSTRB(#qcItemUpperCd#,2,6) || LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(SUBSTRB(QC_ITEM_CD,8,2))),0)+1,'00')) AS NEW_QC_ITEM_CD
 				</isEqual>
 
 			FROM QC_ITEM_CD_F
@@ -141,15 +145,19 @@
 		<isEqual property="depthSort" compareValue="4">
 		AND QC_ITEM_CD LIKE SUBSTRB(#qcItemUpperCd#,1,5) || '%'
 		</isEqual>
+
+		<isEqual property="depthSort" compareValue="5">
+		AND QC_ITEM_CD LIKE SUBSTRB(#qcItemUpperCd#,1,7) || '%'
+		</isEqual>
 	</select>
 
 	<select id="gamQcItemCdMngDao.selectQcItemCdMngTreeList_D" parameterClass="gamQcItemCdMngVo" resultClass="egovMap">
 		<![CDATA[
 		SELECT
-				 TO_NUMBER('1' || SUBSTRB(QC_ITEM_CD,2,6)) AS QC_ITEM_CD
+				 TO_NUMBER('1' || SUBSTRB(QC_ITEM_CD,2,8)) AS QC_ITEM_CD
 				,DEPTH_SORT
 				,QC_ITEM_NM
-				,(CASE WHEN DEPTH_SORT > 1 THEN TO_NUMBER('1' || SUBSTRB(QC_ITEM_UPPER_CD,2,6)) ELSE 0 END) AS QC_ITEM_UPPER_CD
+				,(CASE WHEN DEPTH_SORT > 1 THEN TO_NUMBER('1' || SUBSTRB(QC_ITEM_UPPER_CD,2,8)) ELSE 0 END) AS QC_ITEM_UPPER_CD
 			FROM QC_ITEM_CD_F
 		WHERE FCLTS_JOB_SE = #fcltsJobSe#
 		ORDER BY QC_ITEM_CD,DEPTH_SORT
@@ -176,6 +184,10 @@
 		</isEqual>
 
 		<isEqual property="depthSort" compareValue="4">
+		AND QC_ITEM_UPPER_CD LIKE SUBSTRB(#qcItemCd#,1,7) || '%'
+		</isEqual>
+
+		<isEqual property="depthSort" compareValue="5">
 		AND QC_ITEM_UPPER_CD = #qcItemCd#
 		</isEqual>
 	</select>
@@ -215,7 +227,7 @@
 			,QC_ITEM_UPPER_CD = #qcItemUpperCd#
 			,DEPTH_SORT = NVL(TO_NUMBER(REPLACE(#depthSort#,',','')),0)
 			,USE_YN = #useYn#
-			,UPD_USR = #regUsr#
+			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
 		WHERE QC_ITEM_CD = #qcItemCd#
 	</update>
@@ -243,6 +255,10 @@
 		</isEqual>
 
 		<isEqual property="depthSort" compareValue="4">
+		AND QC_ITEM_UPPER_CD LIKE SUBSTRB(#qcItemCd#,1,7) || '%'
+		</isEqual>
+
+		<isEqual property="depthSort" compareValue="5">
 		AND QC_ITEM_UPPER_CD = #qcItemCd#
 		</isEqual>
 	</delete>

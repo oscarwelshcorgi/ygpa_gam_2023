@@ -120,7 +120,7 @@ GamQcItemCdMngModule.prototype.displayTreeData = function() {
 	this.$("#qcItemTreeList").empty();
 	var inputVO = this.makeFormArgs("#detailForm");
 	var fcltsJobSe = this.$('#fcltsJobSe').val();
-	var qcItemCd = '1' + this.$('#qcItemCd').val().substring(1,7);
+	var qcItemCd = '1' + this.$('#qcItemCd').val().substring(1,9);
 	if (fcltsJobSe != "A" && fcltsJobSe != "C" && fcltsJobSe != "M" && fcltsJobSe != "E" && fcltsJobSe != "I") {
 		return;
 	}
@@ -223,6 +223,8 @@ GamQcItemCdMngModule.prototype.onButtonClick = function(buttonId) {
 				depthSort = "2";
 			} else if (depthSort == "4") {
 				depthSort = "3";
+			} else if (depthSort == "5") {
+				depthSort = "4";
 			} else {
 				depthSort = "";
 			}
@@ -377,7 +379,7 @@ GamQcItemCdMngModule.prototype.addData = function() {
 		this.$('#fcltsJobSe').val("");
 		this.$('#fcltsJobSeNm').val("");
 	}
-	if (depthSort > "0" && depthSort < "5") {
+	if (depthSort > "0" && depthSort < "6") {
 		this.$('#depthSort').val(depthSort);
 	} else {
 		this.$('#depthSort').val("");
@@ -429,7 +431,7 @@ GamQcItemCdMngModule.prototype.saveData = function() {
 		this.$("#fcltsJobSe").focus();
 		return;
 	}
-	if (qcItemCd == "") {
+	if (qcItemCd == "" || qcItemCd.length != 9) {
 		alert('점검 항목 코드가 부정확합니다.');
 		this.$("#qcItemCd").focus();
 		return;
@@ -439,12 +441,12 @@ GamQcItemCdMngModule.prototype.saveData = function() {
 		this.$("#qcItemNm").focus();
 		return;
 	}
-	if (depthSort > 4 || depthSort < 1) {
+	if (depthSort > 5 || depthSort < 1) {
 		alert('단계가 부정확합니다.');
 		this.$("#depthSort").focus();
 		return;
 	}
-	if (qcItemUpperCd == "") {
+	if (qcItemUpperCd == "" || qcItemUpperCd.length != 9) {
 		alert('점검 항목 상위가 부정확합니다.');
 		this.$("#qcItemUpperCd").focus();
 		return;
@@ -585,23 +587,23 @@ GamQcItemCdMngModule.prototype.setQcItemUpperCd = function() {
 	var qcItemUpperCd = "";
 	var qcItemUpperNm = "";
 	if (depthSort == 1) {
-		qcItemUpperCd = "0000000";
+		qcItemUpperCd = "000000000";
 		qcItemUpperNm = "점검 항목 메인";
 	} else if (depthSort == 2) {
 		if (fcltsJobSe == "A") {
-			qcItemUpperCd = "A000000";
+			qcItemUpperCd = "A00000000";
 			qcItemUpperNm = "건축 시설 점검 항목";
 		} else if (fcltsJobSe == "C") {
-			qcItemUpperCd = "C000000";
+			qcItemUpperCd = "C00000000";
 			qcItemUpperNm = "토목 시설 점검 항목";
 		} else if (fcltsJobSe == "M") {
-			qcItemUpperCd = "M000000";
+			qcItemUpperCd = "M00000000";
 			qcItemUpperNm = "기계 시설 점검 항목";
 		} else if (fcltsJobSe == "E") {
-			qcItemUpperCd = "E000000";
+			qcItemUpperCd = "E00000000";
 			qcItemUpperNm = "전기 시설 점검 항목";
 		} else if (fcltsJobSe == "I") {
-			qcItemUpperCd = "I000000";
+			qcItemUpperCd = "I00000000";
 			qcItemUpperNm = "정보통신 시설 점검 항목";
 		}
 	}
@@ -627,7 +629,7 @@ GamQcItemCdMngModule.prototype.getNewQcItemCd = function() {
 		this.$('#qcItemNm').val('');
 		return;
 	}
-	if (depthSort > 4 || depthSort < 1) {
+	if (depthSort > 5 || depthSort < 1) {
 		this.$('#qcItemCd').val('');
 		this.$('#qcItemNm').val('');
 		return;
@@ -642,6 +644,7 @@ GamQcItemCdMngModule.prototype.getNewQcItemCd = function() {
 		if (result.resultCode == "0") {
 			module.$('#qcItemCd').val(result.sNewQcItemCd);
 			if (depthSort == 1) {
+				var qcItemCheck = result.sNewQcItemCd.substring(0,1);
 				var qcItemNm = "";
 				if (fcltsJobSe == "A") {
 					qcItemNm = "건축 시설 점검 항목";
@@ -654,8 +657,17 @@ GamQcItemCdMngModule.prototype.getNewQcItemCd = function() {
 				} else if (fcltsJobSe == "I") {
 					qcItemNm = "정보통신 시설 점검 항목";
 				}
-				module.$('#qcItemNm').val(qcItemNm);
-				module.$('#qcItemDtls').val(qcItemNm);
+				if (qcItemCheck == "!") {
+					module.$('#qcItemCd').val("");
+					module.$('#qcItemNm').val("");
+					module.$('#qcItemDtls').val("");
+				} else {
+					module.$('#qcItemNm').val(qcItemNm);
+					module.$('#qcItemDtls').val(qcItemNm);
+				}
+			} else {
+				module.$('#qcItemNm').val("");
+				module.$('#qcItemDtls').val("");
 			}
 		}
 	});
@@ -833,7 +845,7 @@ var module_instance = new GamQcItemCdMngModule();
 						<tr>
 							<th>점검 항목</th>
 							<td>
-								<input id="sQcItemCd" type="text" size="4" maxlength="7"/>
+								<input id="sQcItemCd" type="text" size="6" maxlength="9"/>
 							</td>
 							<th>점검 항목 명</th>
 							<td>
@@ -917,8 +929,8 @@ var module_instance = new GamQcItemCdMngModule();
 							<tr>
 								<th style="width:15%; height:18;">점검 항목 상위</th>
 								<td>
-									<input type="text" id="qcItemUpperCd" size="8" maxlength="7"/>
-									<input type="text" id="qcItemUpperNm" size="21" maxlength="100"/>
+									<input type="text" id="qcItemUpperCd" size="10" maxlength="9"/>
+									<input type="text" id="qcItemUpperNm" size="20" maxlength="100"/>
 									<button id="popupQcItemUpperCd" class="popupButton">선택</button>
 								</td>
 								<th style="width:15%; height:18;">사용 여부</th>
@@ -929,7 +941,7 @@ var module_instance = new GamQcItemCdMngModule();
 							<tr>
 								<th style="width:15%; height:18;">점검 항목 코드</th>
 								<td>
-									<input type="text" id="qcItemCd" size="42" maxlength="7"/>
+									<input type="text" id="qcItemCd" size="42" maxlength="9"/>
 								</td>
 								<th style="width:15%; height:18;">점검 항목 명</th>
 								<td>
