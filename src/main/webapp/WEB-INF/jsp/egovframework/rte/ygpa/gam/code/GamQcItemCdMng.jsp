@@ -70,6 +70,8 @@ GamQcItemCdMngModule.prototype.loadComplete = function() {
 		module._mainKeyValue = row.qcItemCd;
 		module._saveFcltsJobSe = row.fcltsJobSe;
 		module._saveDepthSort = row.depthSort;
+		module._saveQcItemUpperCd = row.qcItemUpperCd;
+		module._saveQcItemUpperNm = row.qcItemUpperNm;
 		module.enableListButtonItem();
     });
 
@@ -78,6 +80,8 @@ GamQcItemCdMngModule.prototype.loadComplete = function() {
 		module._mainKeyValue = row.qcItemCd;
 		module._saveFcltsJobSe = row.fcltsJobSe;
 		module._saveDepthSort = row.depthSort;
+		module._saveQcItemUpperCd = row.qcItemUpperCd;
+		module._saveQcItemUpperNm = row.qcItemUpperNm;
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
@@ -116,7 +120,7 @@ GamQcItemCdMngModule.prototype.displayTreeData = function() {
 	this.$("#qcItemTreeList").empty();
 	var inputVO = this.makeFormArgs("#detailForm");
 	var fcltsJobSe = this.$('#fcltsJobSe').val();
-	var qcItemCd = this.$('#qcItemCd').val();
+	var qcItemCd = '1' + this.$('#qcItemCd').val().substring(1,7);
 	if (fcltsJobSe != "A" && fcltsJobSe != "C" && fcltsJobSe != "M" && fcltsJobSe != "E" && fcltsJobSe != "I") {
 		return;
 	}
@@ -142,6 +146,31 @@ GamQcItemCdMngModule.prototype.displayTreeData = function() {
 			}
 		}
 	});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : onClosePopup
+ * @DESCRIPTION   : CLOSE POPUP EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+ *   2. msg      - MESSAGE
+ *   3. value    - VALUE
+**/
+%>
+GamQcItemCdMngModule.prototype.onClosePopup = function(popupId, msg, value) {
+
+	switch (popupId) {
+		case 'popupQcItemUpperCd':
+			if (msg == 'ok') {
+				this.$('#qcItemUpperCd').val(value.qcItemCd);
+				this.$('#qcItemUpperNm').val(value.qcItemNm);
+				this.getNewQcItemCd();
+				this.$('#qcItemNm').focus();
+			}
+			break;
+	}
 
 };
 
@@ -184,6 +213,24 @@ GamQcItemCdMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnExcelDownload':
 			this.downloadExcel();
+			break;
+		case 'popupQcItemUpperCd':
+			var fcltsJobSe = this.$('#fcltsJobSe').val();
+			var depthSort = this.$('#depthSort').val();
+			if (depthSort == "2") {
+				depthSort = "1";
+			} else if (depthSort == "3") {
+				depthSort = "2";
+			} else if (depthSort == "4") {
+				depthSort = "3";
+			} else {
+				depthSort = "";
+			}
+            var searchOpts = {
+				'sFcltsJobSe':fcltsJobSe,
+				'sDepthSort':depthSort
+            };
+			this.doExecuteDialog('popupQcItemUpperCd', '점검 항목 상위 선택', '/popup/showQcItemCdPopup.do', null, searchOpts);
 			break;
 	}
 
@@ -295,6 +342,8 @@ GamQcItemCdMngModule.prototype.selectData = function() {
 			mainRowNo = i;
 			this._saveFcltsJobSe = row.fcltsJobSe;
 			this._saveDepthSort = row.depthSort;
+			this._saveQcItemUpperCd = row.qcItemUpperCd;
+			this._saveQcItemUpperNm = row.qcItemUpperNm;
 			break;
 		}
 	}
@@ -304,6 +353,7 @@ GamQcItemCdMngModule.prototype.selectData = function() {
 	this._mode = 'modify';
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();
+	this.displayTreeData();
 
 };
 
@@ -318,10 +368,14 @@ GamQcItemCdMngModule.prototype.addData = function() {
 
 	var fcltsJobSe = this._saveFcltsJobSe;
 	var depthSort = this._saveDepthSort;
+	var qcItemUpperCd = this._saveQcItemUpperCd;
+	var qcItemUpperNm = this._saveQcItemUpperNm;
 	if (fcltsJobSe == "A" || fcltsJobSe == "C" || fcltsJobSe == "M" || fcltsJobSe == "I") {
 		this.$('#fcltsJobSe').val(fcltsJobSe);
+		this.setFcltsJobSeNm();
 	} else {
 		this.$('#fcltsJobSe').val("");
+		this.$('#fcltsJobSeNm').val("");
 	}
 	if (depthSort > "0" && depthSort < "5") {
 		this.$('#depthSort').val(depthSort);
@@ -331,13 +385,22 @@ GamQcItemCdMngModule.prototype.addData = function() {
 	this.$('#qcItemCd').val("");
 	this.$('#qcItemNm').val("");
 	this.$('#qcItemDtls').val("");
-	this.$('#qcItemUpperCd').val("");
+	if (fcltsJobSe != "" && depthSort != "") {
+		if (qcItemUpperCd != "") {
+			this.$('#qcItemUpperCd').val(qcItemUpperCd);
+			this.$('#qcItemUpperNm').val(qcItemUpperNm);
+			this.getNewQcItemCd();
+		} else {
+			this.setQcItemUpperCd();
+			this.getNewQcItemCd();
+		}
+	} else {
+		this.$('#qcItemUpperCd').val("");
+		this.$('#qcItemUpperNm').val("");
+	}
 	this.$('#useYn').val("Y");
 	this.enableDetailInputItem();
-	if (fcltsJobSe != "" && depthSort != "") {
-		this.setFcltsJobSeNm();
-		this.setQcItemUpperCd();
-		this.getNewQcItemCd();
+	if (this.$('#qcItemUpperCd').val() != "") {
 		this.$('#qcItemNm').focus();
 	} else {
 		this.$('#fcltsJobSe').focus();
@@ -560,12 +623,18 @@ GamQcItemCdMngModule.prototype.getNewQcItemCd = function() {
 	var depthSort = Number(this.$('#depthSort').val().replace(/,/gi, ""));
 	var qcItemUpperCd = this.$('#qcItemUpperCd').val();
 	if (fcltsJobSe != "A" && fcltsJobSe != "C" && fcltsJobSe != "M" && fcltsJobSe != "E" && fcltsJobSe != "I") {
+		this.$('#qcItemCd').val('');
+		this.$('#qcItemNm').val('');
 		return;
 	}
 	if (depthSort > 4 || depthSort < 1) {
+		this.$('#qcItemCd').val('');
+		this.$('#qcItemNm').val('');
 		return;
 	}
 	if (qcItemUpperCd == "") {
+		this.$('#qcItemCd').val('');
+		this.$('#qcItemNm').val('');
 		return;
 	}
 	var searchVO = this.makeFormArgs("#detailForm");
@@ -641,6 +710,8 @@ GamQcItemCdMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#useYn').enable();
 		this.$('#qcItemUpperCd').disable();
 		this.$('#qcItemUpperNm').disable();
+		this.$('#popupQcItemUpperCd').enable();
+		this.$('#popupQcItemUpperCd').removeClass('ui-state-disabled');
 		this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
@@ -655,6 +726,7 @@ GamQcItemCdMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#useYn').enable();
 			this.$('#qcItemUpperCd').disable();
 			this.$('#qcItemUpperNm').disable();
+			this.$('#popupQcItemUpperCd').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnInsert').enable();
 			this.$('#btnInsert').removeClass('ui-state-disabled');
 			this.$('#btnSave').enable();
@@ -669,6 +741,8 @@ GamQcItemCdMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#depthSort').disable();
 			this.$('#useYn').disable();
 			this.$('#qcItemUpperCd').disable();
+			this.$('#qcItemUpperNm').disable();
+			this.$('#popupQcItemUpperCd').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
@@ -694,6 +768,7 @@ GamQcItemCdMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#useYn').disable();
 	this.$('#qcItemUpperCd').disable();
 	this.$('#qcItemUpperNm').disable();
+	this.$('#popupQcItemUpperCd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
@@ -762,7 +837,7 @@ var module_instance = new GamQcItemCdMngModule();
 							</td>
 							<th>점검 항목 명</th>
 							<td>
-								<input id="sQcItemNm" type="text" size="20" maxlength="50"/>
+								<input id="sQcItemNm" type="text" size="20" maxlength="100"/>
 							</td>
 							<th>업무 구분</th>
 							<td>
@@ -843,7 +918,7 @@ var module_instance = new GamQcItemCdMngModule();
 								<th style="width:15%; height:18;">점검 항목 상위</th>
 								<td>
 									<input type="text" id="qcItemUpperCd" size="8" maxlength="7"/>
-									<input type="text" id="qcItemUpperNm" size="21" maxlength="50"/>
+									<input type="text" id="qcItemUpperNm" size="21" maxlength="100"/>
 									<button id="popupQcItemUpperCd" class="popupButton">선택</button>
 								</td>
 								<th style="width:15%; height:18;">사용 여부</th>
@@ -858,13 +933,13 @@ var module_instance = new GamQcItemCdMngModule();
 								</td>
 								<th style="width:15%; height:18;">점검 항목 명</th>
 								<td>
-									<input type="text" id="qcItemNm" size="42" maxlength="50"/>
+									<input type="text" id="qcItemNm" size="42" maxlength="100"/>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:18;">점검 항목 상세</th>
 								<td colspan="3">
-									<input type="text" id="qcItemDtls" size="104" maxlength="100"/>
+									<input type="text" id="qcItemDtls" size="104" maxlength="200"/>
 								</td>
 							</tr>
 						</table>

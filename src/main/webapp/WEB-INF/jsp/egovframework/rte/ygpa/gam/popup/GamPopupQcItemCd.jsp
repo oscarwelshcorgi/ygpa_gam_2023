@@ -44,7 +44,7 @@ GamPopupQcItemCdModule.prototype = new EmdPopupModule(600, 440);
  * @PARAMETER     : NONE
 **/
 %>
-GamPopupQcItemCdModule.prototype.loadComplete = function() {
+GamPopupQcItemCdModule.prototype.loadComplete = function(params) {
 
 	this.resizable(true);
 	this.$("#mainGrid").flexigrid({
@@ -64,6 +64,13 @@ GamPopupQcItemCdModule.prototype.loadComplete = function() {
 	this.$("#mainGrid").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module.closeDialog("ok", row);
 	});
+
+	if (params != null) {
+       	this.$('#sFcltsJobSe').val(params.sFcltsJobSe);
+       	this.$('#sDepthSort').val(params.sDepthSort);
+       	var searchOpt=this.makeFormArgs('#searchForm');
+       	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+	}
 
 };
 
@@ -166,13 +173,9 @@ var popup_instance = new GamPopupQcItemCdModule();
 			<table class="searchPanel">
 				<tbody>
 					<tr>
-						<th>점검 항목</th>
-						<td>
-							<input id="sQcItemCd" type="text" size="4" maxlength="7"/>
-						</td>
 						<th>점검 항목 명</th>
 						<td>
-							<input id="sQcItemNm" type="text" size="20" maxlength="50"/>
+							<input id="sQcItemNm" type="text" size="20" maxlength="100"/>
 						</td>
 						<th>업무 구분</th>
 						<td>
@@ -200,8 +203,8 @@ var popup_instance = new GamPopupQcItemCdModule();
 		<div class="emdPanel fillHeight">
 			<table id="mainGrid" style="display: none" class="fillHeight"></table>
 			<div class="emdControlPanel">
-				<button data-cmd="btnOk">선택</button>
-				<button data-cmd="cancel">취소</button>
+				<button id="btnOk">선택</button>
+				<button id="btnCancel">취소</button>
 			</div>
 		</div>
 	</div>
