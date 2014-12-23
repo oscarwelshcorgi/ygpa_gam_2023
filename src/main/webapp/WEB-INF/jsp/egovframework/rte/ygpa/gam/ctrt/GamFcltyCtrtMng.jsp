@@ -759,7 +759,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 								<th width="10%" height="18">발주방식</th>
                                 <td><input type="text" size="20" id="orderMthd" maxlength="33" /></td>
                                 <th width="10%" height="18">계약방법</th>
-                                <td><input type="text" size="20" id="ctrtSe" maxlength="2" /></td>
+                                <td><input type="text" size="20" id="ctrtMth" maxlength="2" /></td>
                                 <th width="10%" height="18">입찰공고번호</th>
                                 <td><input type="text" size="20" id="bidPblancNo" maxlength="100" /></td>
                             </tr>
