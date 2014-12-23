@@ -40,17 +40,38 @@ public class GamFcltyUsageSttusInqireServiceImpl extends AbstractServiceImpl imp
 
 	/**
 	 * 시설물 사용현황 목록 조회
+	 * @param searchVO
+	 * @return
 	 */
 	public List selectFcltyUsageSttusInqireList(GamFcltyUsageSttusInqireVO vo) throws Exception{
 		return gamFcltyUsageSttusInqireDao.selectFcltyUsageSttusInqireList(vo);
 	}
 
 	/**
+	 * 시설물 사용현황 목록 수
 	 * @param searchVO
 	 * @return
 	 */
 	public int selectFcltyUsageSttusInqireListTotCnt(GamFcltyUsageSttusInqireVO vo) throws Exception{
 		return gamFcltyUsageSttusInqireDao.selectFcltyUsageSttusInqireListTotCnt(vo);
+	}
+
+	/**
+	 * GIS 자산 목록 조회
+	 * @param searchVO
+	 * @return
+	 */
+	public List selectFcltyGisAssetsCdFList(GamFcltyUsageSttusInqireVO vo) throws Exception{
+		return gamFcltyUsageSttusInqireDao.selectFcltyGisAssetsCdFList(vo);
+	}
+
+	/**
+	 * GIS 자산 목록 수
+	 * @param searchVO
+	 * @return
+	 */
+	public int selectFcltyGisAssetsCdFListTotCnt(GamFcltyUsageSttusInqireVO vo) throws Exception{
+		return gamFcltyUsageSttusInqireDao.selectFcltyGisAssetsCdFListTotCnt(vo);
 	}
 
 	/* (non-Javadoc)

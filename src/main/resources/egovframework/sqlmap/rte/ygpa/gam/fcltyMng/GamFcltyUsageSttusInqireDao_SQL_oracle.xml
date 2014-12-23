@@ -6,20 +6,35 @@
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="GamFcltyUsageSttusInqireVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageSttusInqireVO"/>
 
-<!--
-	<resultMap id="GamFcltyUsageMngMap" class="egov framework.rte.ygpa.gam.ctrt.service.GamFcltyUsageSttusInqireVO">
-		<result property="prtAtCode" column="PRT_AT_CODE" columnIndex="1" />
-		<result property="mngYearNo" column="MNG_YEAR_NO" columnIndex="2" />
-		<result property="gisAssets" column="GIS_ASSETS" columnIndex="3" />
-		<result property="docNo" column="DOC_NO" columnIndex="4" />
-		<result property="nticMth" column="NTIC_MTH" columnIndex="5" />
-		<result property="usagePurps" column="USAGE_PURPS" columnIndex="6" />
-		<result property="usageDtls" column="USAGE_DTLS" columnIndex="7" />
-		<result property="usageAr" column="USAGE_AR" columnIndex="8" />
-		<result property="fee" column="FRR" columnIndex="9" />
-		<result property="prmisnDt" column="PRMISN_DT" columnIndex="10" />
-	</resultMap>
- -->
+	<select id="gamFcltyUsageSttusInqireDao.selectFcltyGisAssetsCdFListTotCnt" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
+		SELECT A.*
+		  FROM (
+		      SELECT ROWNUM RNUM, S.*
+		        FROM (
+		              SELECT GIS_ASSETS_PRT_AT_CODE||'-'||GIS_ASSETS_CD||'-'||GIS_ASSETS_SUB_CD AS GIS_ASSETS
+		                    ,GAM_GETCODENAME('GAM003', PRT_FCLTY_SE) AS PRT_FCLTY_SE
+		                    ,PRT_FCLTY_NM AS PRT_FCLTY_NM
+		                    ,PRT_FCLTY_STNDRD AS PRT_FCLTY_STNDRD
+		                    ,PRT_FCLTY_UNIT AS PRT_FCLTY_UNIT
+		                    ,TO_CHAR(PRT_FCLTY_INSTL_DT, 'YYYY.MM.DD') AS PRT_FCLTY_INSTL_DT
+		                    ,TO_CHAR(PRT_FCLTY_CHANGE_DT, 'YYYY.MM.DD') AS PRT_FCLTY_CHANGE_DT
+		                    ,GAM_GETENTRPSNM(PRT_FCLTY_MNG_ENTRPS_CD,'1') AS PRT_FCLTY_MNG_ENTRPS
+		                    ,TO_CHAR(PRT_FCLTY_EXPR_DT, 'YYYY.MM.DD') AS PRT_FCLTY_EXPR_DT
+		                    ,PRT_PRT_FCLTY_CNT AS PRT_PRT_FCLTY_CNT
+		                    ,PRT_PRT_FCLTY_MNGER AS PRT_PRT_FCLTY_MNGER
+		                    ,FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
+		                FROM GIS_PRT_FCLTY_CD_F
+		             ) S
+		        ) A
+
+	</select>
+
+	<select id="gamFcltyUsageSttusInqireDao.selectFcltyGisAssetsCdFListTotCnt" parameterClass="GamFcltyUsageSttusInqireVo" resultClass="egovMap">
+		SELECT COUNT(*) totcnt
+	      FROM GIS_PRT_FCLTY_CD_F
+
+	</select>
+
 
     <select id="gamFcltyUsageSttusInqireDao.selectFcltyUsageSttusInqireList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
 		SELECT A.*
@@ -95,4 +110,38 @@
    			</isNotEmpty>
 
 	</select>
+
 </sqlMap>
+
+<!--
+	<resultMap id="GamFcltyUsageMngMap" class="egov framework.rte.ygpa.gam.ctrt.service.GamFcltyUsageSttusInqireVO">
+		<result property="prtAtCode" column="PRT_AT_CODE" columnIndex="1" />
+		<result property="mngYearNo" column="MNG_YEAR_NO" columnIndex="2" />
+		<result property="gisAssets" column="GIS_ASSETS" columnIndex="3" />
+		<result property="docNo" column="DOC_NO" columnIndex="4" />
+		<result property="nticMth" column="NTIC_MTH" columnIndex="5" />
+		<result property="usagePurps" column="USAGE_PURPS" columnIndex="6" />
+		<result property="usageDtls" column="USAGE_DTLS" columnIndex="7" />
+		<result property="usageAr" column="USAGE_AR" columnIndex="8" />
+		<result property="fee" column="FRR" columnIndex="9" />
+		<result property="prmisnDt" column="PRMISN_DT" columnIndex="10" />
+	</resultMap>
+ -->
+
+<!-- GIS 항만 시설코드
+SELECT GIS_ASSETS_PRT_AT_CODE||'-'||GIS_ASSETS_CD||'-'||GIS_ASSETS_SUB_CD AS GIS_ASSETS
+      ,GAM_GETCODENAME('GAM003', PRT_FCLTY_SE) AS PRT_FCLTY_SE
+      ,PRT_FCLTY_NM AS PRT_FCLTY_NM
+      ,PRT_FCLTY_STNDRD AS PRT_FCLTY_STNDRD
+      ,PRT_FCLTY_UNIT AS PRT_FCLTY_UNIT
+      ,TO_CHAR(PRT_FCLTY_INSTL_DT, 'YYYY.MM.DD') AS PRT_FCLTY_INSTL_DT
+      ,TO_CHAR(PRT_FCLTY_CHANGE_DT, 'YYYY.MM.DD') AS PRT_FCLTY_CHANGE_DT
+      ,GAM_GETENTRPSNM(PRT_FCLTY_MNG_ENTRPS_CD,'1') AS PRT_FCLTY_MNG_ENTRPS
+      ,TO_CHAR(PRT_FCLTY_EXPR_DT, 'YYYY.MM.DD') AS PRT_FCLTY_EXPR_DT
+      ,PRT_PRT_FCLTY_CNT AS PRT_PRT_FCLTY_CNT
+      ,PRT_PRT_FCLTY_MNGER AS PRT_PRT_FCLTY_MNGER
+      ,FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
+  FROM GIS_PRT_FCLTY_CD_F
+ WHERE PRT_FCLTY_STNDRD IS NOT NULL
+
+ -->

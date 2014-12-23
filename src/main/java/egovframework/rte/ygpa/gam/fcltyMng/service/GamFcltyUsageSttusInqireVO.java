@@ -33,6 +33,21 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	private String sUsagePdFrom;
 	private String sUsagePdTo;
 
+// ==== 자산 임대 ==== //
+	private String GisAssets;
+	private String PrtFcltySe;
+	private String PrtFcltyNm;
+	private String PrtFcltyDtndrd;
+	private String PrtFcltyUnit;
+	private String PrtFcltyInstlDt;
+	private String PrtFcltyChangeDt;
+	private String PrtFcltyMngEntrps;
+	private String PrtFcltyExprDt;
+	private String PrtPrtFcltyCnt;
+	private String PrtPrtFcltyMnger;
+	private String FcltsMngGroupNo;
+
+// ==== 자산 임대 ==== //
 	/** 항코드 **/
 	private String prtAtCode;
 
@@ -68,6 +83,160 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	 */
 	public String getsPrtAtCode() {
 		return sPrtAtCode;
+	}
+
+	/**
+	 * @return the prtFcltySe
+	 */
+	public String getPrtFcltySe() {
+		return PrtFcltySe;
+	}
+
+	/**
+	 * @param prtFcltySe the prtFcltySe to set
+	 */
+	public void setPrtFcltySe(String prtFcltySe) {
+		PrtFcltySe = prtFcltySe;
+	}
+
+	/**
+	 * @return the prtFcltyNm
+	 */
+	public String getPrtFcltyNm() {
+		return PrtFcltyNm;
+	}
+
+	/**
+	 * @param prtFcltyNm the prtFcltyNm to set
+	 */
+	public void setPrtFcltyNm(String prtFcltyNm) {
+		PrtFcltyNm = prtFcltyNm;
+	}
+
+	/**
+	 * @return the prtFcltyDtndrd
+	 */
+	public String getPrtFcltyDtndrd() {
+		return PrtFcltyDtndrd;
+	}
+
+	/**
+	 * @param prtFcltyDtndrd the prtFcltyDtndrd to set
+	 */
+	public void setPrtFcltyDtndrd(String prtFcltyDtndrd) {
+		PrtFcltyDtndrd = prtFcltyDtndrd;
+	}
+
+	/**
+	 * @return the prtFcltyUnit
+	 */
+	public String getPrtFcltyUnit() {
+		return PrtFcltyUnit;
+	}
+
+	/**
+	 * @param prtFcltyUnit the prtFcltyUnit to set
+	 */
+	public void setPrtFcltyUnit(String prtFcltyUnit) {
+		PrtFcltyUnit = prtFcltyUnit;
+	}
+
+	/**
+	 * @return the prtFcltyInstlDt
+	 */
+	public String getPrtFcltyInstlDt() {
+		return PrtFcltyInstlDt;
+	}
+
+	/**
+	 * @param prtFcltyInstlDt the prtFcltyInstlDt to set
+	 */
+	public void setPrtFcltyInstlDt(String prtFcltyInstlDt) {
+		PrtFcltyInstlDt = prtFcltyInstlDt;
+	}
+
+	/**
+	 * @return the prtFcltyChangeDt
+	 */
+	public String getPrtFcltyChangeDt() {
+		return PrtFcltyChangeDt;
+	}
+
+	/**
+	 * @param prtFcltyChangeDt the prtFcltyChangeDt to set
+	 */
+	public void setPrtFcltyChangeDt(String prtFcltyChangeDt) {
+		PrtFcltyChangeDt = prtFcltyChangeDt;
+	}
+
+	/**
+	 * @return the prtFcltyMngEntrps
+	 */
+	public String getPrtFcltyMngEntrps() {
+		return PrtFcltyMngEntrps;
+	}
+
+	/**
+	 * @param prtFcltyMngEntrps the prtFcltyMngEntrps to set
+	 */
+	public void setPrtFcltyMngEntrps(String prtFcltyMngEntrps) {
+		PrtFcltyMngEntrps = prtFcltyMngEntrps;
+	}
+
+	/**
+	 * @return the prtFcltyExprDt
+	 */
+	public String getPrtFcltyExprDt() {
+		return PrtFcltyExprDt;
+	}
+
+	/**
+	 * @param prtFcltyExprDt the prtFcltyExprDt to set
+	 */
+	public void setPrtFcltyExprDt(String prtFcltyExprDt) {
+		PrtFcltyExprDt = prtFcltyExprDt;
+	}
+
+	/**
+	 * @return the prtPrtFcltyCnt
+	 */
+	public String getPrtPrtFcltyCnt() {
+		return PrtPrtFcltyCnt;
+	}
+
+	/**
+	 * @param prtPrtFcltyCnt the prtPrtFcltyCnt to set
+	 */
+	public void setPrtPrtFcltyCnt(String prtPrtFcltyCnt) {
+		PrtPrtFcltyCnt = prtPrtFcltyCnt;
+	}
+
+	/**
+	 * @return the prtPrtFcltyMnger
+	 */
+	public String getPrtPrtFcltyMnger() {
+		return PrtPrtFcltyMnger;
+	}
+
+	/**
+	 * @param prtPrtFcltyMnger the prtPrtFcltyMnger to set
+	 */
+	public void setPrtPrtFcltyMnger(String prtPrtFcltyMnger) {
+		PrtPrtFcltyMnger = prtPrtFcltyMnger;
+	}
+
+	/**
+	 * @return the fcltsMngGroupNo
+	 */
+	public String getFcltsMngGroupNo() {
+		return FcltsMngGroupNo;
+	}
+
+	/**
+	 * @param fcltsMngGroupNo the fcltsMngGroupNo to set
+	 */
+	public void setFcltsMngGroupNo(String fcltsMngGroupNo) {
+		FcltsMngGroupNo = fcltsMngGroupNo;
 	}
 
 	/**

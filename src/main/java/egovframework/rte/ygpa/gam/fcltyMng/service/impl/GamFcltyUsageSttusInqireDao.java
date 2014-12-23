@@ -48,4 +48,14 @@ public class GamFcltyUsageSttusInqireDao extends YGPAAbstractDAO{
 	public int selectFcltyUsageSttusInqireListTotCnt(GamFcltyUsageSttusInqireVO vo) {
 		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyUsageSttusInqireDao.selectFcltyUsageSttusInqireListTotCnt", vo);
 	}
+
+	public List selectFcltyGisAssetsCdFList(GamFcltyUsageSttusInqireVO vo) throws Exception{
+		return list("gamFcltyUsageSttusInqireDao.selectFcltyGisAssetsCdFList", vo);
+	}
+
+	public int selectFcltyGisAssetsCdFListTotCnt(GamFcltyUsageSttusInqireVO vo) {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyUsageSttusInqireDao.selectFcltyGisAssetsCdFListTotCnt", vo);
+	}
+
+
 }

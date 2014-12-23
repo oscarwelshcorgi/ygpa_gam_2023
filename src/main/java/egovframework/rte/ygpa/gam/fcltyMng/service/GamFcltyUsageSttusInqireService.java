@@ -44,4 +44,23 @@ public interface GamFcltyUsageSttusInqireService {
 	 */
 	int selectFcltyUsageSttusInqireListTotCnt(GamFcltyUsageSttusInqireVO vo) throws Exception;
 
+	/**
+	 * 카운트
+	 * @param vo
+	 * @return List
+	 * @throws Exception
+	 */
+	List selectFcltyGisAssetsCdFList(GamFcltyUsageSttusInqireVO vo) throws Exception;
+
+	/**
+	 * GIS 자산
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	int selectFcltyGisAssetsCdFListTotCnt(GamFcltyUsageSttusInqireVO vo) throws Exception;
+
+
+
+
 }

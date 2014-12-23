@@ -84,11 +84,8 @@ public class GamFcltyUsageSttusInqireController {
 	}
 
 	/**
-	 * 시설물 사용현황 목록
+	 * GIS 자산 코드
 	 * @param searchVO
-	 * @param drwLstRegistYear
-	 * @param drwLstSeq
-	 * @param drwLstNm
 	 * @return map
 	 * @throws Exception
 	 */
@@ -96,6 +93,56 @@ public class GamFcltyUsageSttusInqireController {
 	@RequestMapping(value = "/fcltyMng/gamFcltyUsageSttusInqireList.do", method = RequestMethod.POST)
 	@ResponseBody
 	Map selectFcltyUsageSttusInqireList(GamFcltyUsageSttusInqireVO searchVO) throws Exception {
+		int totalCnt, page, firstIndex;
+		Map map = new HashMap();
+
+		// 0. Spring Security 사용자권한 처리
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		// 내역 조회
+		/** pageing */
+		// 수정 안해도됨!
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		/** List Data */
+		// 데이터 쿼리 데이터
+
+		totalCnt = gamFcltyUsageSttusInqireService.selectFcltyGisAssetsCdFListTotCnt(searchVO);
+		List resultList = gamFcltyUsageSttusInqireService.selectFcltyGisAssetsCdFList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("totalCount", totalCnt);
+		map.put("resultList", resultList);
+
+		return map;
+	}
+
+
+	/**
+	 * 시설물 사용현황 목록
+	 * @param searchVO
+	 * @param sPrtAtCode
+	 * @param sUsagePdFrom
+	 * @param sUsagePdTo
+	 * @return map
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/fcltyMng/gamFcltyGisAssetsCdFList.do", method = RequestMethod.POST)
+	@ResponseBody
+	Map selectFcltyGisAssetsCdFList(GamFcltyUsageSttusInqireVO searchVO) throws Exception {
 		int totalCnt, page, firstIndex;
 		Map map = new HashMap();
 
