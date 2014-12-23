@@ -222,8 +222,10 @@
 	</delete>
 
 	<delete id="gamQcItemCdMngDao.deleteQcItemCdMngLowerData_S">
+	<![CDATA[
 		DELETE FROM QC_ITEM_CD_F
-		WHERE DEPTH_SORT > NVL(TO_NUMBER(#depthSort),10)
+		WHERE DEPTH_SORT > NVL(TO_NUMBER(#depthSort#),10)
+	]]>
 		<isEqual property="depthSort" compareValue="1">
 		AND QC_ITEM_UPPER_CD LIKE SUBSTRB(#qcItemCd#,1,1) || '%'
 		</isEqual>
