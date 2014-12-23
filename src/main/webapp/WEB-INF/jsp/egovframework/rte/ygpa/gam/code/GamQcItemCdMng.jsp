@@ -68,12 +68,16 @@ GamQcItemCdMngModule.prototype.loadComplete = function() {
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mode = 'modify';
 		module._mainKeyValue = row.qcItemCd;
+		module._saveFcltsJobSe = row.fcltsJobSe;
+		module._saveDepthSort = row.depthSort;
 		module.enableListButtonItem();
     });
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._mode = 'modify';
 		module._mainKeyValue = row.qcItemCd;
+		module._saveFcltsJobSe = row.fcltsJobSe;
+		module._saveDepthSort = row.depthSort;
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
@@ -86,6 +90,13 @@ GamQcItemCdMngModule.prototype.loadComplete = function() {
 		event.data.module.setFcltsJobSeNm();
 		event.data.module.setQcItemUpperCd();
 		event.data.module.getNewQcItemCd();
+	});
+
+	this.$('#qcItemNm').on('change',{module:this}, function(event){
+		qcItemNm = event.data.module.$("#qcItemNm").val();
+		if (event.data.module.$("#qcItemDtls").val() == "") {
+			event.data.module.$("#qcItemDtls").val(qcItemNm);
+		}
 	});
 
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
@@ -114,7 +125,7 @@ GamQcItemCdMngModule.prototype.displayTreeData = function() {
 			if (result.resultList.length > 0) {
 				var qcItemTreeNode = module.$('#qcItemTreeList');
 				var qcItemTreeItems = [];
-				for (var i=0; i< result.resultList.length; i++) {
+				for (var i=0; i < result.resultList.length; i++) {
 					var qcItem = result.resultList[i];
 					qcItemTreeItems[qcItemTreeItems.length] = [qcItem.qcItemCd, qcItem.qcItemUpperCd, qcItem.qcItemNm];
 				}
@@ -122,6 +133,7 @@ GamQcItemCdMngModule.prototype.displayTreeData = function() {
 				module.tree.setImagePath("./js/codebase/imgs/dhxtree_skyblue/");
 				module.tree.loadJSArray(qcItemTreeItems);
 				module.tree.setUserData('module', module);
+				module.tree.openAllItems(0);
 				module.tree.module = module;
 				if (qcItemCd != "") {
 					module.tree.selectItem(qcItemCd);
@@ -281,6 +293,8 @@ GamQcItemCdMngModule.prototype.selectData = function() {
 		var row = this.$("#mainGrid").flexGetRow(i+1);
 		if (row.qcItemCd == qcItemCd) {
 			mainRowNo = i;
+			this._saveFcltsJobSe = row.fcltsJobSe;
+			this._saveDepthSort = row.depthSort;
 			break;
 		}
 	}
@@ -302,15 +316,32 @@ GamQcItemCdMngModule.prototype.selectData = function() {
 %>
 GamQcItemCdMngModule.prototype.addData = function() {
 
-	this.$('#fcltsJobSe').val("");
+	var fcltsJobSe = this._saveFcltsJobSe;
+	var depthSort = this._saveDepthSort;
+	if (fcltsJobSe == "A" || fcltsJobSe == "C" || fcltsJobSe == "M" || fcltsJobSe == "I") {
+		this.$('#fcltsJobSe').val(fcltsJobSe);
+	} else {
+		this.$('#fcltsJobSe').val("");
+	}
+	if (depthSort > "0" && depthSort < "5") {
+		this.$('#depthSort').val(depthSort);
+	} else {
+		this.$('#depthSort').val("");
+	}
 	this.$('#qcItemCd').val("");
 	this.$('#qcItemNm').val("");
 	this.$('#qcItemDtls').val("");
-	this.$('#depthSort').val("");
 	this.$('#qcItemUpperCd').val("");
 	this.$('#useYn').val("Y");
 	this.enableDetailInputItem();
-	this.$('#fcltsJobSe').focus();
+	if (fcltsJobSe != "" && depthSort != "") {
+		this.setFcltsJobSeNm();
+		this.setQcItemUpperCd();
+		this.getNewQcItemCd();
+		this.$('#qcItemNm').focus();
+	} else {
+		this.$('#fcltsJobSe').focus();
+	}
 
 };
 
@@ -352,6 +383,16 @@ GamQcItemCdMngModule.prototype.saveData = function() {
 	}
 	if (qcItemUpperCd == "") {
 		alert('점검 항목 상위가 부정확합니다.');
+		this.$("#qcItemUpperCd").focus();
+		return;
+	}
+	if (fcltsJobSe != qcItemCd.substring(0,1)) {
+		alert('점검 항목 코드가 시설물 업무 구분과 일치하지 않습니다.');
+		this.$("#qcItemCd").focus();
+		return;
+	}
+	if (fcltsJobSe != qcItemUpperCd.substring(0,1)) {
+		alert('점검 항목 상위가 시설물 업무 구분과 일치하지 않습니다.');
 		this.$("#qcItemUpperCd").focus();
 		return;
 	}
@@ -687,6 +728,7 @@ GamQcItemCdMngModule.prototype.disableDetailInputItem = function() {
 				this.makeDivValues('#detailForm', {});
 				this.disableDetailInputItem();
 			}
+			this.displayTreeData();
 			break;
 	}
 
@@ -800,8 +842,8 @@ var module_instance = new GamQcItemCdMngModule();
 							<tr>
 								<th style="width:15%; height:18;">점검 항목 상위</th>
 								<td>
-									<input type="text" id="qcItemUpperCd" size="7" maxlength="7"/>
-									<input type="text" id="qcItemUpperNm" size="22" maxlength="50"/>
+									<input type="text" id="qcItemUpperCd" size="8" maxlength="7"/>
+									<input type="text" id="qcItemUpperNm" size="21" maxlength="50"/>
 									<button id="popupQcItemUpperCd" class="popupButton">선택</button>
 								</td>
 								<th style="width:15%; height:18;">사용 여부</th>

@@ -144,18 +144,20 @@
 	</select>
 
 	<select id="gamQcItemCdMngDao.selectQcItemCdMngTreeList_D" parameterClass="gamQcItemCdMngVo" resultClass="egovMap">
+		<![CDATA[
 		SELECT
-				 QC_ITEM_CD
+				 TO_NUMBER('1' || SUBSTRB(QC_ITEM_CD,2,6)) AS QC_ITEM_CD
 				,DEPTH_SORT
 				,QC_ITEM_NM
-				,QC_ITEM_UPPER_CD
+				,(CASE WHEN DEPTH_SORT > 1 THEN TO_NUMBER('1' || SUBSTRB(QC_ITEM_UPPER_CD,2,6)) ELSE 0 END) AS QC_ITEM_UPPER_CD
 			FROM QC_ITEM_CD_F
 		WHERE FCLTS_JOB_SE = #fcltsJobSe#
 		ORDER BY QC_ITEM_CD,DEPTH_SORT
+		]]>
 	</select>
 
 	<select id="gamQcItemCdMngDao.selectQcItemCdMngLowerDataCnt_S" parameterClass="gamQcItemCdMngVo" resultClass="egovMap">
-	<![CDATA[
+		<![CDATA[
 		SELECT
 				 COUNT(*) AS LOWER_DATA_CNT
 			FROM QC_ITEM_CD_F
@@ -224,10 +226,10 @@
 	</delete>
 
 	<delete id="gamQcItemCdMngDao.deleteQcItemCdMngLowerData_S">
-	<![CDATA[
+		<![CDATA[
 		DELETE FROM QC_ITEM_CD_F
 		WHERE DEPTH_SORT > NVL(TO_NUMBER(#depthSort#),10)
-	]]>
+		]]>
 		<isEqual property="depthSort" compareValue="1">
 		AND QC_ITEM_UPPER_CD LIKE SUBSTRB(#qcItemCd#,1,1) || '%'
 		</isEqual>

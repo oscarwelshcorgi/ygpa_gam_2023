@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.popup">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamPopupQcItemCdVo" type="egovframework.rte.ygpa.gam.popup.service.GamPopupQcItemCdVo"/>
+
+	<select id="PopupQcItemCdDao.selectQcItemCdList_D" parameterClass="gamPopupQcItemCdVo" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.QC_ITEM_CD
+								,T1.QC_ITEM_NM
+								,T1.FCLTS_JOB_SE
+								,T1.QC_ITEM_DTLS
+								,(CASE WHEN T1.FCLTS_JOB_SE = 'A' THEN '건축시설'
+									   WHEN T1.FCLTS_JOB_SE = 'C' THEN '토목시설'
+									   WHEN T1.FCLTS_JOB_SE = 'M' THEN '기계시설'
+									   WHEN T1.FCLTS_JOB_SE = 'E' THEN '전기시설'
+									   WHEN T1.FCLTS_JOB_SE = 'I' THEN '정보통신시설'
+								  END) AS FCLTS_JOB_SE_NM
+								,TO_CHAR(T1.DEPTH_SORT) AS DEPTH_SORT
+								,T1.USE_YN
+							FROM QC_ITEM_CD_F T1
+						WHERE 1=1
+
+						<isNotEmpty property="sQcItemCd">
+						AND T1.QC_ITEM_CD LIKE #sQcItemCd# || '%'
+						</isNotEmpty>
+
+						<isNotEmpty property="sQcItemNm">
+						AND T1.QC_ITEM_NM LIKE '%' || #sQcItemNm# || '%'
+						</isNotEmpty>
+
+						<isNotEmpty property="sFcltsJobSe">
+						AND T1.FCLTS_JOB_SE = #sFcltsJobSe#
+						</isNotEmpty>
+
+						<isNotEmpty property="sDepthSort">
+						AND T1.DEPTH_SORT = TO_NUMBER(#sDepthSort#)
+						</isNotEmpty>
+
+						ORDER BY T1.QC_ITEM_CD
+				) S
+		) A
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<select id="PopupQcItemCdDao.selectQcItemCdListTotCnt_S" parameterClass="gamPopupQcItemCdVo" resultClass="int">
+		SELECT COUNT(*) totcnt
+			FROM QC_ITEM_CD_F
+		WHERE 1=1
+
+		<isNotEmpty property="sQcItemCd">
+		AND QC_ITEM_CD LIKE #sQcItemCd# || '%'
+		</isNotEmpty>
+
+		<isNotEmpty property="sQcItemNm">
+		AND QC_ITEM_NM LIKE '%' || #sQcItemNm# || '%'
+		</isNotEmpty>
+
+		<isNotEmpty property="sFcltsJobSe">
+		AND FCLTS_JOB_SE = #sFcltsJobSe#
+		</isNotEmpty>
+
+		<isNotEmpty property="sDepthSort">
+		AND DEPTH_SORT = TO_NUMBER(#sDepthSort#)
+		</isNotEmpty>
+
+	</select>
+
+</sqlMap>

@@ -26,4 +26,7 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupCtrtNoDao_SQL.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupFuelCodeDao_SQL.xml" />
 
-<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupFcltsMngNoDao_SQL.xml" /></sqlMapConfig>
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupFcltsMngNoDao_SQL.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupQcItemCdDao_SQL.xml" />
+
+</sqlMapConfig>
