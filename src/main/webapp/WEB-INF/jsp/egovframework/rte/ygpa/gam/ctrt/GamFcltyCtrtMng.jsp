@@ -121,7 +121,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
         colModel : [
                     {display:'업체명', 	name:'entrpsNm', 		width:150, sortable:true, align:'center'},
                     {display:'대금지급합의',name:'moneyPymntAgree', width:90, sortable:true, align:'center'},
-                    {display:'공증', 		name:'workClass', 		width:80, sortable:true, align:'center'},
+                    {display:'공종', 		name:'workClass', 		width:80, sortable:true, align:'center'},
                     {display:'하도급율', 	name:'subctrtRate', 	width:80, sortable:true, align:'right'},
                     {display:'원도급금액', 	name:'orginlContrAmt', 	width:120, sortable:true, align:'right', displayFormat:'number'},
                     {display:'하도급계약금액',name:'subctrtCtrtAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
@@ -659,7 +659,7 @@ var module_instance = new GamFcltyCtrtMngModule();
                             <td>
                             	<input id="sCtrtNm" type="text" size="25">
                          	</td>
-							<th width="10%">계약기간</th>
+							<th width="10%">계약일자</th>
                             <td>
                             	<input id="sCtrtFrDt" type="text" class="emdcal" size="12"> ~ 
                             	<input id="sCtrtToDt" type="text" class="emdcal" size="12">
@@ -711,13 +711,13 @@ var module_instance = new GamFcltyCtrtMngModule();
 								<th width="8%" height="20">자료수</th>
 								<td><input type="text" size="6" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="8%" height="20">설계금액</th>
-								<td><input type="text" size="16" id="sumPlanAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="17" id="sumPlanAmt" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="8%" height="20">예정금액</th>
-								<td><input type="text" size="16" id="sumPrmtAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="17" id="sumPrmtAmt" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="8%" height="20">낙찰금액</th>
-								<td><input type="text" size="16" id="sumScsbidAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="17" id="sumScsbidAmt" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="8%" height="20">기초금액</th>
-								<td><input type="text" size="16" id="sumBaseAmt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="17" id="sumBaseAmt" class="ygpaNumber" disabled="disabled" /></td>
 							</tr>
 						</table>
 					</form>

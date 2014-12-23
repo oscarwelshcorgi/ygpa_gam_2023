@@ -39,7 +39,7 @@ GamPopupCtrtSubCtrtMngtModule.prototype.loadComplete = function(fcltyCtrtSubCtrt
 		colModel : [
                     {display:'업체명', 		name:'entrpsNm', 		width:150, sortable:true, align:'center'},
                     {display:'대금지급합의',	name:'moneyPymntAgree', width:90, sortable:true, align:'center'},
-                    {display:'공증', 			name:'workClass', 		width:80, sortable:true, align:'center'},
+                    {display:'공종', 			name:'workClass', 		width:80, sortable:true, align:'center'},
                     {display:'하도급율', 		name:'subctrtRate', 	width:80, sortable:true, align:'right'},
                     {display:'원도급금액', 		name:'orginlContrAmt', 	width:120, sortable:true, align:'right', displayFormat:'number'},
                     {display:'하도급계약금액', 	name:'subctrtCtrtAmt', 	width:120, sortable:true, align:'right', displayFormat:'number'},
@@ -187,7 +187,7 @@ var popup_instance = new GamPopupCtrtSubCtrtMngtModule();
                         <td><input id="entrpsNm" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
                         <th>대금지급합의</th>
                         <td><input id="moneyPymntAgree" type="text" style="width: 150px;" class="EditItem" maxlength="2"/></td>
-						<th>공증</th>
+						<th>공종</th>
                         <td><input id="workClass" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
 					</tr>
 					<tr>
