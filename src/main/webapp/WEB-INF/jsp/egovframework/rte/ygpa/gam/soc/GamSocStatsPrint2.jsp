@@ -91,8 +91,8 @@
 						    <div class="page">
 						        <div class="subpage ygpa_report" >
            				</c:if>
-        				<!--  헤더 반복  -->
         				<c:set var="pageSkip" value="false" />
+        				<!--  헤더 반복  -->
        		        	<table class="rpr_main_table">
 			        		<thead>
 					  			<tr>
@@ -115,10 +115,10 @@
         						<td style="text-align: right" colspan="2"><fmt:formatNumber value="${exmpAmntPaSum }" type="currency" currencySymbol=""/></td>
         						<td style="text-align: right" colspan="2"><fmt:formatNumber value="${ exmpAmntSum + exmpAmntPaSum }" type="currency" currencySymbol=""/></td>
         					</tr>	
+							<c:set var="printRecordCount" value="${printRecordCount+1}"/>
 							<c:set var="exmpCntSum" value="0" />
 							<c:set var="exmpAmntSum" value="0" />
 							<c:set var="exmpAmntPaSum" value="0" />
-							<c:set var="printRecordCount" value="${printRecordCount+1}"/>
         				</c:if>
         				<c:set var="exmpMonth" value="${result.exmpMonth}"/>
         				<tr>
@@ -133,10 +133,10 @@
         				<td style="text-align: right" colspan="2"><fmt:formatNumber value="${result.exmpAmntPaSum }" type="currency" currencySymbol=""/></td>
         				<td style="text-align: right" colspan="2"><fmt:formatNumber value="${result.exmpAmntTotSum }" type="currency" currencySymbol=""/></td>
         			</tr>
+					<c:set var="printRecordCount" value="${printRecordCount+1}"/>
         			<c:set var="exmpCntSum" value="${ exmpCntSum + 1 }" />
 					<c:set var="exmpAmntSum" value="${ exmpAmntSum + result.exmpAmntSum }" />
 					<c:set var="exmpAmntPaSum" value="${ exmpAmntPaSum + result.exmpAmntPaSum }" />
-					<c:set var="printRecordCount" value="${printRecordCount+1}"/>
     </c:forEach>
         					<tr>
         						<td colspan="2"> 월별합계 </td>

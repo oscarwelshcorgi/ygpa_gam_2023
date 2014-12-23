@@ -47,7 +47,9 @@
   <c:set var="exmpCntSum" value="0" />
   <c:set var="exmpAmntSum" value="0" />
   <c:set var="exmpAmntPaSum" value="0" />
-  <c:set var="pagePerCount" value="12"/>
+  <c:set var="pagePerCount" value="28"/>
+  <c:set var="printRecordCount" value="0"/>
+    <c:set var="pageSkip" value="true" />
   <c:if test="${resultCode==0 }">
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
@@ -74,7 +76,13 @@
 			</tr>
 	</c:if>
     <c:forEach var="result" items="${resultList }" varStatus="resultStatus">
-           			<c:if test="${resultStatus.index%pagePerCount==0 }"> <% /*  페이지 당 출력 갯수 */ %>
+    				<c:if test="${pageSkip == false}">
+    					<c:if test="${printRecordCount >= pagePerCount }">
+    						<c:set var="pageSkip" value="true"/>
+							<c:set var="printRecordCount" value="0" />
+    					</c:if>
+    				</c:if>
+           			<c:if test="${pageSkip == true}"> <% /*  페이지 당 출력 갯수 */ %>
            				<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
 			        		</tbody>
 			        		</table>
@@ -83,6 +91,7 @@
 						    <div class="page">
 						        <div class="subpage ygpa_report" >
            				</c:if>
+        				<c:set var="pageSkip" value="false" />
         				<!--  헤더 반복  -->
        		        	<table class="rpr_main_table">
 			        		<thead>
@@ -109,6 +118,7 @@
 							<c:set var="exmpCntSum" value="0" />
 							<c:set var="exmpAmntSum" value="0" />
 							<c:set var="exmpAmntPaSum" value="0" />
+ 							<c:set var="printRecordCount" value="${printRecordCount+1}"/>
         				</c:if>
         				<c:set var="exmpAgentCode" value="${result.exmpAgentCode}"/>
         				<c:set var="exmpAgentName" value="${result.exmpAgentNm}"/>
@@ -116,6 +126,7 @@
         					<td colspan="2"><c:out value="${exmpAgentCode}" /></td>
         					<td colspan="6"><c:out value="${exmpAgentName}" /></td>
         				</tr>
+						<c:set var="printRecordCount" value="${printRecordCount+1}"/>
         			</c:if>
         			<tr>
         				<td><c:out value="${result.feeTp }" /></td>
@@ -124,6 +135,7 @@
         				<td style="text-align: right" colspan="2"><fmt:formatNumber value="${result.exmpAmntPaSum }" type="currency" currencySymbol=""/></td>
         				<td style="text-align: right" colspan="2"><fmt:formatNumber value="${result.exmpAmntTotSum }" type="currency" currencySymbol=""/></td>
         			</tr>
+					<c:set var="printRecordCount" value="${printRecordCount+1}"/>
         			<c:set var="exmpCntSum" value="${ exmpCntSum + 1 }" />
 					<c:set var="exmpAmntSum" value="${ exmpAmntSum + result.exmpAmntSum }" />
 					<c:set var="exmpAmntPaSum" value="${ exmpAmntPaSum + result.exmpAmntPaSum }" />
