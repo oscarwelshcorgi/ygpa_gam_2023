@@ -517,8 +517,8 @@ var module_instance = new GamMechFcltySpecMngModule();
 							<td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>시설물관리그룹</th>
 							<td colspan="3">
-								<input id="sFcltsMngGroupNo" type="text" size="14"/>
-								<input id="sFcltsMngGroupNoNm" type="text" size="59" disabled="disabled"/>
+								<input id="sFcltsMngGroupNo" type="text" size="18"/>
+								<input id="sFcltsMngGroupNoNm" type="text" size="55" disabled="disabled"/>
 								<button id="popupSearchFcltsMngGroupNo" class="popupButton">선택</button>
 							</td>
 							<td rowspan="2"><button id="btnSearch" class="buttonSearch">조회</button></td>
@@ -605,8 +605,8 @@ var module_instance = new GamMechFcltySpecMngModule();
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
 							<td colspan="5">
-								<input type="text" size="14" id="fcltsMngGroupNo" disabled="disabled"/>
-								<input type="text" size="40" id="fcltsMngGroupNoNm" disabled="disabled"/>
+								<input type="text" size="18" id="fcltsMngGroupNo" disabled="disabled"/>
+								<input type="text" size="36" id="fcltsMngGroupNoNm" disabled="disabled"/>
 								<button id="popupSearchFcltsMngGroupNo" class="popupButton">선택</button>
 							</td>
 						</tr>
