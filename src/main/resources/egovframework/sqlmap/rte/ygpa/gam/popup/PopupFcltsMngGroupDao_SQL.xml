@@ -14,24 +14,37 @@
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
 							SELECT
-							    F.FCLTS_MNG_GROUP_NO
-							    , F.FCLTS_MNG_GROUP_NM
-							    , F.FCLTS_ADRES
-							    , F.MNG_MAINBD
-							    , F.MNG_MAINBD_SE
-							    , F.OWNER
-							    , F.CNSTRTR
-							    , F.CNST_ORDER_BODY
-							    , F.CNST_NM
+								 FCLTS_MNG_GROUP_NO
+								,FCLTS_MNG_GROUP_NM
+								,LOC
+								,OWNER
+								,TO_CHAR(BLD_DT,'YYYY-MM-DD') AS BLD_DT
+								,TO_CHAR(CNST_BEGIN_DT,'YYYY-MM-DD') AS CNST_BEGIN_DT
+								,TO_CHAR(CNST_END_DT,'YYYY-MM-DD') AS CNST_END_DT
+								,CNSTRTR
+								,LTRIM(TO_CHAR(NVL(CNSTRCT_AMT,0),'999,999,999,990')) AS CNSTRCT_AMT
+								,FCLTS_CN
+								,FCLTS_STRCT
+								,LTRIM(TO_CHAR(NVL(ARCH_FCLTS_CNT,0),'999,999,999,990')) AS ARCH_FCLTS_CNT
+								,LTRIM(TO_CHAR(NVL(CVL_ENG_FCLTS_CNT,0),'999,999,999,990')) AS CVL_ENG_FCLTS_CNT
+								,LTRIM(TO_CHAR(NVL(MECH_FCLTS_CNT,0),'999,999,999,990')) AS MECH_FCLTS_CNT
+								,LTRIM(TO_CHAR(NVL(ELCTY_FCLTS_CNT,0),'999,999,999,990')) AS ELCTY_FCLTS_CNT
+								,LTRIM(TO_CHAR(NVL(INFO_COMM_FCLTS_CNT,0),'999,999,999,990')) AS INFO_COMM_FCLTS_CNT
+								,LTRIM(TO_CHAR(NVL(ETC_FCLTS_CNT,0),'999,999,999,990')) AS ETC_FCLTS_CNT
+								,RM
+								,REG_USR
+								,TO_CHAR(REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,UPD_USR
+								,TO_CHAR(UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
 							FROM
-							    FCLTS_MNG_GROUP_F F
+							    FCLTS_MNG_GROUP_F
 							WHERE
 								1 = 1
 							    <isNotEmpty property="sFcltsMngGroupNo">
-							    	AND F.FCLTS_MNG_GROUP_NO LIKE #sFcltsMngGroupNo# || '%'
+							    	AND FCLTS_MNG_GROUP_NO LIKE #sFcltsMngGroupNo# || '%'
 							    </isNotEmpty>
 							    <isNotEmpty property="sFcltsMngGroupNm">
-							    	AND F.FCLTS_CL_CD LIKE '%' || #sFcltsMngGroupNm# || '%'
+							    	AND FCLTS_MNG_GROUP_NM LIKE '%' || #sFcltsMngGroupNm# || '%'
 							    </isNotEmpty>
 							ORDER BY FCLTS_MNG_GROUP_NO                                                  
                 ) S	
@@ -43,14 +56,14 @@
 			SELECT
 			    COUNT(*) CNT
 			FROM
-			    FCLTS_MNG_GROUP_F F
+			    FCLTS_MNG_GROUP_F
 			WHERE
 				1 = 1
 			    <isNotEmpty property="sFcltsMngGroupNo">
-			    	AND F.FCLTS_MNG_GROUP_NO LIKE #sFcltsMngGroupNo# || '%'
+			    	AND FCLTS_MNG_GROUP_NO LIKE #sFcltsMngGroupNo# || '%'
 			    </isNotEmpty>
 			    <isNotEmpty property="sFcltsMngGroupNm">
-			    	AND F.FCLTS_CL_CD LIKE '%' || #sFcltsMngGroupNm# || '%'
+			    	AND FCLTS_MNG_GROUP_NM LIKE '%' || #sFcltsMngGroupNm# || '%'
 			    </isNotEmpty>
     </select>
 </sqlMap>
