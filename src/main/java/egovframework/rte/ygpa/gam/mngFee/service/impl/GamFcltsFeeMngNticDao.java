@@ -190,4 +190,42 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 		update("gamFcltsFeeMngNticDao.updateEgiroCancel_S", vo);
 	}
 
+	/**
+	 * @param vo
+	 * @return
+	 */
+	public String selectRevCollMagamFMagamCheck(Map<String, Object> vo) {
+		return (String)getSqlMapClientTemplate().queryForObject("gamFcltsFeeMngNticDao.selectRevCollMagamFMagamCheck_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 * @return
+	 */
+	public String selectUnpaidFMaxDlySerNo(Map<String, Object> vo) {
+		return (String)getSqlMapClientTemplate().queryForObject("gamFcltsFeeMngNticDao.selectUnpaidFMaxDlySerNo_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 * @return
+	 */
+	public EgovMap selectUnpaidF(Map<String, Object> vo) throws Exception {
+		return (EgovMap)selectByPk("gamFcltsFeeMngNticDao.selectUnpaidF_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void insertUnpaidF(Map<String, Object> vo) {
+		insert("gamFcltsFeeMngNticDao.insertUnpaidF_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void updateFcltsFeeMngNticArrrgInfo(Map<String, Object> vo) {
+		insert("gamFcltsFeeMngNticDao.updateFcltsFeeMngNticArrrgInfo_S", vo);
+	}
+
 }

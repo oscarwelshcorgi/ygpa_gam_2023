@@ -46,9 +46,10 @@ GamFcltsMngGroupMngModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:"관리 그룹 번호",	name:"fcltsMngGroupNo",		width:100,		sortable:true,	align:"center"},
 					{display:"관리 그룹 명",	name:"fcltsMngGroupNm",		width:150,		sortable:true,	align:"left"},
-					{display:"시설물 내용",		name:"fcltsCn",				width:150,		sortable:true,	align:"left"},
-					{display:"시설물 구조",		name:"fcltsStrct",			width:150,		sortable:true,	align:"left"},
+					{display:"시설물 내용",		name:"fcltsCn",				width:200,		sortable:true,	align:"left"},
+					{display:"시설물 구조",		name:"fcltsStrct",			width:200,		sortable:true,	align:"left"},
 					{display:"준공 일자",		name:"bldDt",				width:80,		sortable:true,	align:"center"},
+					{display:"소유자",			name:"owner",				width:100,		sortable:true,	align:"left"},
 					{display:"건축 갯수",		name:"archFcltsCnt",		width:80,		sortable:true,	align:"right"},
 					{display:"토목 갯수",		name:"cvlEngFcltsCnt",		width:80,		sortable:true,	align:"right"},
 					{display:"기계 갯수",		name:"mechFcltsCnt",		width:80,		sortable:true,	align:"right"},
@@ -56,7 +57,6 @@ GamFcltsMngGroupMngModule.prototype.loadComplete = function() {
 					{display:"정보통신 갯수",	name:"infoCommFcltsCnt",	width:100,		sortable:true,	align:"right"},
 					{display:"기타 갯수",		name:"etcFcltsCnt",			width:80,		sortable:true,	align:"right"},
 					{display:"위치",			name:"loc",					width:200,		sortable:true,	align:"left"},
-					{display:"소유자",			name:"owner",				width:100,		sortable:true,	align:"left"},
 					{display:"공사 시작 일자",	name:"cnstBeginDt",			width:100,		sortable:true,	align:"center"},
 					{display:"공사 종료 일자",	name:"cnstEndDt",			width:100,		sortable:true,	align:"center"},
 					{display:"시공자",			name:"cnstrtr",				width:150,		sortable:true,	align:"left"},
@@ -113,6 +113,14 @@ GamFcltsMngGroupMngModule.prototype.onButtonClick = function(buttonId) {
 			this._mode = 'insert';
 			this._mainKeyValue = '';
 			this.$("#mainTab").tabs("option", {active: 1});
+			break;
+		case 'btnInsert':
+			this._mode = 'insert';
+			this._mainKeyValue = '';
+			this.makeFormValues('#detailForm', {});
+			this.makeDivValues('#detailForm', {});
+			this.disableDetailInputItem();
+			this.addData();
 			break;
 	    case 'btnSave':
 	    	this.saveData();
@@ -219,8 +227,8 @@ GamFcltsMngGroupMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamFcltsMngGroupMngModule.prototype.selectData = function() {
 
+	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
-		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
@@ -231,6 +239,18 @@ GamFcltsMngGroupMngModule.prototype.selectData = function() {
 	var mainKeyValue = this._mainKeyValue;
 	if (mainKeyValue == "") {
 		return;
+	}
+	var fcltsMngGroupNo = mainKeyValue;
+	var mainRowNo = -1;
+	for(var i=0; i<gridRowCount; i++) {
+		var row = this.$("#mainGrid").flexGetRow(i+1);
+		if (row.fcltsMngGroupNo == fcltsMngGroupNo) {
+			mainRowNo = i;
+			break;
+		}
+	}
+	if (mainRowNo >= 0) {
+		this.$("#mainGrid").selectRowId(mainRowNo);
 	}
 	this._mode = 'modify';
 	this.loadDetail('detailTab');
@@ -247,17 +267,24 @@ GamFcltsMngGroupMngModule.prototype.selectData = function() {
 %>
 GamFcltsMngGroupMngModule.prototype.addData = function() {
 
-	this.$('#fcltsMngGroupNo').val("");
+	var fcltsCnTemplete =   "(*) 건축 시설물" + "\r\n" + "     - " + "\r\n" +
+							"(*) 토목 시설물" + "\r\n" + "     - " + "\r\n" +
+							"(*) 기계 시설물" + "\r\n" + "     - " + "\r\n" +
+							"(*) 전기 시설물" + "\r\n" + "     - " + "\r\n" +
+							"(*) 정보통신 시설물" + "\r\n" + "     - " + "\r\n" +
+							"(*) 기타 시설물" + "\r\n" + "     - ";
+	var currentYear = new Date().getFullYear();
+	this.$('#fcltsMngGroupNo').val("622-" + currentYear + "-00001");
 	this.$('#fcltsMngGroupNm').val("");
 	this.$('#loc').val("");
-	this.$('#owner').val("");
+	this.$('#owner').val("여수광양항만공사");
 	this.$('#bldDt').val("");
 	this.$('#cnstBeginDt').val("");
 	this.$('#cnstEndDt').val("");
 	this.$('#cnstrtr').val("");
 	this.$('#cnstrctAmt').val("0");
-	this.$('#fcltsCn').val("");
-	this.$('#fcltsStrct').val("");
+	this.$('#fcltsCn').val(fcltsCnTemplete);
+	this.$('#fcltsStrct').val(fcltsCnTemplete);
 	this.$('#archFcltsCnt').val("0");
 	this.$('#cvlEngFcltsCnt').val("0");
 	this.$('#mechFcltsCnt').val("0");
@@ -501,6 +528,7 @@ GamFcltsMngGroupMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#infoCommFcltsCnt').enable();
 		this.$('#etcFcltsCnt').enable();
 		this.$('#rm').enable();
+		this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
 		this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
@@ -524,6 +552,8 @@ GamFcltsMngGroupMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#infoCommFcltsCnt').enable();
 			this.$('#etcFcltsCnt').enable();
 			this.$('#rm').enable();
+			this.$('#btnInsert').enable();
+			this.$('#btnInsert').removeClass('ui-state-disabled');
 			this.$('#btnSave').enable();
 			this.$('#btnSave').removeClass('ui-state-disabled');
 			this.$('#btnRemove').enable();
@@ -547,6 +577,7 @@ GamFcltsMngGroupMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#infoCommFcltsCnt').disable();
 			this.$('#etcFcltsCnt').disable();
 			this.$('#rm').disable();
+			this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 		}
@@ -581,6 +612,7 @@ GamFcltsMngGroupMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#infoCommFcltsCnt').disable();
 	this.$('#etcFcltsCnt').disable();
 	this.$('#rm').disable();
+	this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 
@@ -675,24 +707,24 @@ var module_instance = new GamFcltsMngGroupMngModule();
 						<table style="width:100%;">
 							<tr>
 								<th style="width:10%; height:20; text-align:center;">총건축갯수</th>
-								<td><input type="text" size="13" id="sumArchFcltsCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="10" id="sumArchFcltsCnt" class="ygpaNumber" disabled="disabled" /></td>
 								<th style="width:10%; height:20; text-align:center;">총토목갯수</th>
-								<td><input type="text" size="13" id="sumCvlEngFcltsCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="10" id="sumCvlEngFcltsCnt" class="ygpaNumber" disabled="disabled" /></td>
 								<th style="width:10%; height:20; text-align:center;">총기계갯수</th>
-								<td><input type="text" size="13" id="sumMechFcltsCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="10" id="sumMechFcltsCnt" class="ygpaNumber" disabled="disabled" /></td>
 								<th style="width:10%; height:20; text-align:center;">총전기갯수</th>
-								<td><input type="text" size="13" id="sumElctyFcltsCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="10" id="sumElctyFcltsCnt" class="ygpaNumber" disabled="disabled" /></td>
 								<th style="width:10%; height:20; text-align:center;">총통신갯수</th>
-								<td><input type="text" size="13" id="suminfoCommFcltsCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="10" id="suminfoCommFcltsCnt" class="ygpaNumber" disabled="disabled" /></td>
 								<th style="width:10%; height:20; text-align:center;">총기타갯수</th>
-								<td><input type="text" size="13" id="sumEtcFcltsCnt" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="10" id="sumEtcFcltsCnt" class="ygpaNumber" disabled="disabled" /></td>
 							</tr>
 						</table>
 						<table style="width:100%;">
 							<tr>
 								<th style="width=10%; height=20; text-align:center;">자료수</th>
 								<td>
-									<input type="text" size="9" id="totalCount" class="ygpaNumber" disabled="disabled" />
+									<input type="text" size="10" id="totalCount" class="ygpaNumber" disabled="disabled" />
 								</td>
 								<td style="text-align:right;">
 									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
@@ -709,67 +741,89 @@ var module_instance = new GamFcltsMngGroupMngModule();
 					<form id="detailForm">
 						<table class="detailPanel">
 							<tr>
-								<th style="width:15%; height:18;">시설물 관리 그룹 번호</th>
-								<td><input type="text" id="fcltsMngGroupNo" size="35" maxlength="14"/></td>
-								<th style="width:15%; height:18;">시설물 관리 그룹 명</th>
-								<td><input type="text" id="fcltsMngGroupNm" size="35" maxlength="80"/></td>
-							</tr>
-							<tr>
-								<th style="width:15%; height:18;">소유자 / 준공일자</th>
+								<th style="width:15%; height:20;">시설물 관리 그룹 번호</th>
 								<td>
-									<input type="text" id="owner" size="17" maxlength="60"/>
-									<input type="text" id="bldDt" size="15" class="emdcal"/>
+									<input type="text" id="fcltsMngGroupNo" size="48" maxlength="14"/>
 								</td>
-								<th style="width:15%; height:18;">위치</th>
-								<td><input type="text" id="loc" size="35" maxlength="150"/></td>
-							</tr>
-							<tr>
-								<th style="width:15%; height:18;">시설물 내용</th>
-								<td colspan="3"><input type="text" id="fcltsCn" size="90" maxlength="1000"/></td>
-							</tr>
-							<tr>
-								<th style="width:15%; height:18;">시설물 구조</th>
-								<td colspan="3"><input type="text" id="fcltsStrct" size="90" maxlength="1000"/></td>
-							</tr>
-							<tr>
-								<th style="width:15%; height:18;">건축 갯수 / 토목 갯수</th>
+								<th style="width:15%; height:20;">시설물 관리 그룹 명</th>
 								<td>
-									<input type="text" class="ygpaNumber" id="archFcltsCnt" size="17" maxlength="6"/>
-									<input type="text" class="ygpaNumber" id="cvlEngFcltsCnt" size="17" maxlength="6"/>
-								</td>
-								<th style="width:15%; height:18;">기계 갯수 / 전기 갯수</th>
-								<td>
-									<input type="text" class="ygpaNumber" id="mechFcltsCnt" size="17" maxlength="6"/>
-									<input type="text" class="ygpaNumber" id="elctyFcltsCnt" size="17" maxlength="6"/>
+									<input type="text" id="fcltsMngGroupNm" size="48" maxlength="80"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:18;">정보통신 / 기타 갯수</th>
+								<th style="width:15%; height:20;">소유자 / 준공일자</th>
 								<td>
-									<input type="text" class="ygpaNumber" id="infoCommFcltsCnt" size="17" maxlength="6"/>
-									<input type="text" class="ygpaNumber" id="etcFcltsCnt" size="17" maxlength="6"/>
+									<input type="text" id="owner" size="22" maxlength="60"/>
+									&nbsp; / &nbsp;
+									<input type="text" id="bldDt" size="18" class="emdcal"/>
 								</td>
-								<th style="width:15%; height:18;">공사 기간</th>
+								<th style="width:15%; height:20;">위치</th>
 								<td>
-									<input type="text" size="15" id="cnstBeginDt" class="emdcal"/> ~
-									<input type="text" size="15" id="cnstEndDt" class="emdcal"/>
+									<input type="text" id="loc" size="48" maxlength="150"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:18;">시공자</th>
-								<td><input type="text" id="cnstrtr" size="35" maxlength="60"/></td>
-								<th style="width:15%; height:18;">시공금액</th>
-								<td><input type="text" class="ygpaNumber" id="cnstrctAmt" size="35" maxlength="20"/></td>
+								<th style="width:15%; height:20;">시설물 내용</th>
+								<td colspan="3">
+									<textarea rows="7" cols="117" id="fcltsCn" maxlength="1000"></textarea>
+								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:18;">비고</th>
-								<td colspan="3"><input type="text" id="rm" size="90" maxlength="1000"/></td>
+								<th style="width:15%; height:20;">시설물 구조</th>
+								<td colspan="3">
+									<textarea rows="7" cols="117" id="fcltsStrct" maxlength="1000"></textarea>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:15%; height:20;">건축 갯수 / 토목 갯수</th>
+								<td>
+									<input type="text" class="ygpaNumber" id="archFcltsCnt" size="21" maxlength="6"/>
+									&nbsp; / &nbsp;
+									<input type="text" class="ygpaNumber" id="cvlEngFcltsCnt" size="21" maxlength="6"/>
+								</td>
+								<th style="width:15%; height:20;">기계 갯수 / 전기 갯수</th>
+								<td>
+									<input type="text" class="ygpaNumber" id="mechFcltsCnt" size="21" maxlength="6"/>
+									&nbsp; / &nbsp;
+									<input type="text" class="ygpaNumber" id="elctyFcltsCnt" size="21" maxlength="6"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:15%; height:20;">정보통신 / 기타 갯수</th>
+								<td>
+									<input type="text" class="ygpaNumber" id="infoCommFcltsCnt" size="21" maxlength="6"/>
+									&nbsp; / &nbsp;
+									<input type="text" class="ygpaNumber" id="etcFcltsCnt" size="21" maxlength="6"/>
+								</td>
+								<th style="width:15%; height:20;">공사 기간</th>
+								<td>
+									<input type="text" size="18" id="cnstBeginDt" class="emdcal"/>
+									&nbsp; ~ &nbsp;
+									<input type="text" size="18" id="cnstEndDt" class="emdcal"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:15%; height:20;">시공자</th>
+								<td>
+									<input type="text" id="cnstrtr" size="48" maxlength="60"/>
+								</td>
+								<th style="width:15%; height:20;">시공금액</th>
+								<td>
+									<input type="text" class="ygpaNumber" id="cnstrctAmt" size="48" maxlength="20"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:15%; height:20;">비고</th>
+								<td colspan="3">
+									<textarea rows="3" cols="117" id="rm" maxlength="1000"></textarea>
+								</td>
 							</tr>
 						</table>
 					</form>
 					<table style="width:100%;">
 						<tr>
 							<td style="text-align:right">
+								<button id="btnInsert" class="buttonAdd">추가</button>
 								<button id="btnSave" class="buttonSave">저장</button>
 								<button id="btnRemove" class="buttonDelete">삭제</button>
 							</td>

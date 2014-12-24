@@ -117,7 +117,9 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 					{display:'고지 일자',		name:'nticDt',			width:80,		sortable:false,		align:'center'},
 					{display:'납부 기한',		name:'payTmlmt',		width:80,		sortable:false,		align:'center'},
 					{display:'수납 구분',		name:'rcivSeNm',		width:70,		sortable:false,		align:'center'},
-					{display:'수납 일자',		name:'rcivDt',			width:80,		sortable:false,		align:'center'}
+					{display:'수납 일자',		name:'rcivDt',			width:80,		sortable:false,		align:'center'},
+					{display:'최초 고지 일자',	name:'firstNticDt',		width:100,		sortable:false,		align:'center'},
+					{display:'최초 납부 기한',	name:'firstPayTmlmt',	width:100,		sortable:false,		align:'center'}
 					],
 		showTableToggleBtn: true,
 		height: '110'
@@ -1482,11 +1484,15 @@ var module_instance = new GamFcltsFeeMngNticModule();
 							<tr>
 								<th style="width:10%; height:18;">고지 일자</th>
 								<td>
-                                	<input type="text" size="30" id="nticDt" class="emdcal" disabled/>
+									최초
+                                	<input type="text" size="11" id="firstNticDt" disabled/> /
+                                	<input type="text" size="12" id="nticDt" class="emdcal" disabled/>
 								</td>
 								<th style="width:10%; height:18;">납부 기한</th>
 								<td>
-                                	<input type="text" size="30" id="payTmlmt" class="emdcal" disabled/>
+									최초
+                                	<input type="text" size="11" id="firstPayTmlmt" disabled/> /
+                                	<input type="text" size="12" id="payTmlmt" class="emdcal" disabled/>
 								</td>
 								<th style="width:10%; height:18;">수납 일자</th>
 								<td>

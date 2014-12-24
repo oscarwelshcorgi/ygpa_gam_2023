@@ -836,4 +836,147 @@
 		AND TRANID = #tranid#
 	</update>
 
+	<select id="gamFcltsFeeMngNticDao.selectRevCollMagamFMagamCheck_S" parameterClass="map" resultClass="java.lang.String">
+		SELECT NVL(A.MAGAM_CHECK,'N') AS MAGAM_CHECK
+			FROM P2MGR.REV_COLL_MAGAM_F@YGPA_P2MGR
+		WHERE PRT_AT_CODE = #prtAtCode#
+		AND MAGAM_YR = SUBSTRB(#magamCheckDt#,1,4)
+		AND MAGAM_MM = SUBSTRB(#magamCheckDt#,5,2)
+	</select>
+
+	<select id="gamFcltsFeeMngNticDao.selectUnpaidFMaxDlySerNo_S" parameterClass="map" resultClass="java.lang.String">
+		SELECT LTRIM(TO_CHAR(TO_NUMBER(NVL(MAX(DLY_SER_NO),'00'))+1,'00'))
+			FROM UNPAID_F
+		WHERE PRT_AT_CODE = #prtAtCode#
+		AND FEE_TP = #feeTp#
+		AND FISCAL_YR = #fiscalYr#
+		AND BILL_NO = #billNo#
+	</select>
+
+	<select id="gamFcltsFeeMngNticDao.selectUnpaidF_S" parameterClass="map" resultClass="egovMap">
+		SELECT
+				,TO_CHAR(NVL(DLY_BILL_AMNT,0)) AS DLY_BILL_AMNT
+				,TO_CHAR(DLY_BILL_DT,'YYYY-MM-DD') AS DLY_BILL_DT
+				,TO_CHAR(DLY_DUE_DT,'YYYY-MM-DD') AS DLY_DUE_DT
+				,DLY_BILL_PRT_YN
+				,TO_CHAR(NVL(DBILL_AMNT,0)) AS DBILL_AMNT
+				,TO_CHAR(PRV_BILL_DT,'YYYY-MM-DD') AS PRV_BILL_DT
+				,TO_CHAR(PRV_DUE_DT,'YYYY-MM-DD') AS PRV_DUE_DT
+				,TO_CHAR(NVL(ARRRG_TARIFF,0)) AS ARRRG_TARIFF
+				,TO_CHAR(NVL(ARRRG_PAY_DATES,0)) AS ARRRG_PAY_DATES
+			FROM UNPAID_F
+		WHERE PRT_AT_CODE = #prtAtCode#
+		AND FEE_TP = #feeTp#
+		AND FISCAL_YR = #fiscalYr#
+		AND BILL_NO = #billNo#
+		AND DLY_SER_NO = #dlySerNo#
+	</select>
+
+	<insert id="gamFcltsFeeMngNticDao.insertUnpaidF_S" parameterClass="map">
+		INSERT INTO UNPAID_F
+		(
+			 PRT_AT_CODE
+			,FEE_TP
+			,WORK_CODE
+			,FISCAL_YR
+			,BILL_NO
+			,DLY_SER_NO
+			,DLY_BILL_AMNT
+			,DLY_BILL_DT
+			,DLY_DUE_DT
+			,DLY_BILL_PRT_YN
+			,DLY_RCVD_DT
+			,DLY_RCVD_TP
+			,FIRST_BILL_DT
+			,DBILL_AMNT
+			,PRV_BILL_DT
+			,PRV_DUE_DT
+			,DJIRO_AMNT
+			,AGENT_CODE
+			,BZ_RGST_ID
+			,DLY_BILL_RSN
+			,ACCNT_CODE
+			,ICHE_STATUS
+			,POST_BILL_YN
+			,DEPT
+			,EMPL
+			,USER_NAME
+			,UPDT_UID
+			,UPDT_DATE
+			,ARRRG_TARIFF
+			,ARRRG_PAY_DATES
+		)
+		SELECT
+				 T1.PRT_AT_CODE
+				,GAM_GET_FEE_TP(T1.CHRGE_KND)
+				,T1.CHRGE_KND
+				,T1.ACCNUT_YEAR
+				,T1.NTIC_NO
+				,#dlySerNo#
+				,NVL(TO_NUMBER(REPLACE(#dlyBillAmnt#,',','')),0)
+				,TO_DATE(#dlyBillDt#,'YYYY-MM-DD'),
+				,TO_DATE(#dlyDueDt#,'YYYY-MM-DD')
+				,'N'
+				,NULL
+				,'1'
+				,T1.FIRST_NTIC_DT
+				,NVL(TO_NUMBER(REPLACE(#dBillAmnt#,',','')),0)
+				,T1.NTIC_DT
+				,T1.PAY_TMLMT
+				,TRUNC(T1.NTIC_AMT + NVL(TO_NUMBER(REPLACE(#dlyBillAmnt#,',','')),0),-1)
+				,T1.ENTRPSCD
+				,T2.BIZRNO
+				,#dlyBillRsn#
+				,'194'
+				,'N'
+				,'N'
+				,#deptCd#
+				,#emplNo#
+				,#userName#
+				,#updUsr#
+				,SYSDATE
+				,NVL(TO_NUMBER(REPLACE(#arrrgTariff#,',','')),0)
+				,NVL(TO_NUMBER(REPLACE(#applyPayDates#,',','')),0)
+			FROM MNG_FEE_LEV_REQEST_F T1
+			LEFT OUTER JOIN ENTRPS_INFO_F T2 ON (T1.ENTRPSCD=T2.ENTRPSCD)
+		WHERE T1.MNG_MT = #mngMt#
+		AND T1.MNG_FEE_JOB_SE = #mngFeeJobSe#
+		AND T1.MNG_SEQ = #mngSeq#
+		AND T1.REQEST_SEQ = #reqestSeq#
+	</insert>
+
+	<update id="gamFcltsFeeMngNticDao.updateFcltsFeeMngNticArrrgInfo_S" parameterClass="map">
+		UPDATE MNG_FEE_LEV_REQEST_F SET
+
+			<isNotEmpty property="dlySerNo">
+			 NTIC_DT = TO_DATE(#dlyBillDt#,'YYYY-MM-DD')
+			,PAY_TMLMT = TO_DATE(#dlyDueDt#,'YYYY-MM-DD')
+			,ARRRG_NO = #dlySerNo#
+			,ARRRG_AMT = NVL(TO_NUMBER(REPLACE(#dlyBillAmnt#,',','')),0)
+			,ARRRG_TARIFF = NVL(TO_NUMBER(REPLACE(#arrrgTariff#,',','')),0)
+			,ARRRG_PAY_DATES = NVL(TO_NUMBER(REPLACE(#applyPayDates#,',','')),0)
+			,TOT_NTIC_AMT = TRUNC(NTIC_AMT + NVL(TO_NUMBER(REPLACE(#dlyBillAmnt#,',','')),0),-1)
+			,RCIV_SE = '1'
+			</isNotEmpty>
+
+			<isEmpty property="dlySerNo">
+			 NTIC_DT = FIRST_NTIC_DT
+			,PAY_TMLMT = FIRST_PAY_TMLMT
+			,ARRRG_NO = NULL
+			,ARRRG_AMT = NULL
+			,ARRRG_TARIFF = NULL
+			,ARRRG_PAY_DATES = NULL
+			,TOT_NTIC_AMT = NTIC_AMT
+			,RCIV_SE = '0'
+			</isEmpty>
+
+			,DEPT_CD = #deptCd#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE MNG_MT = #mngMt#
+		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
+		AND MNG_SEQ = #mngSeq#
+		AND REQEST_SEQ = #reqestSeq#
+	</update>
+
 </sqlMap>
