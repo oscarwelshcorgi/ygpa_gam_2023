@@ -42,15 +42,14 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectFcltyUseUnuseSttusInqireList.do',
 		dataType: "json",
 		colModel : [
-				{display:"항코드",				name:"gisAssetsPrtAtCode",		width:60,		sortable:false,		align:"center"},
-				{display:"시설구분",		 	name:"prtFcltySeNm",		width:100,		sortable:false,		align:"left"},
-				{display:"시설코드", 			name:"gisPrtFcltyDisplayCd",		width:80,		sortable:false,		align:"center"},
-				{display:"시설명",				name:"prtFcltyNm",			width:230,		sortable:false,		align:"left"},
-				{display:"사용기간From",			name:"usagePdFrom",				width:80, 		sortable:false,		align:"center"},
-				{display:"사용기간To",			name:"usagePdTo",				width:80, 		sortable:false,		align:"center"},
-				{display:"업체코드",			name:"entrpsCd",				width:60, 		sortable:false,		align:"center"  },
-				{display:"업체명", 				name:"entrpsNm",				width:100, 		sortable:false,		align:"right" },
-				{display:"사용료", 				name:"fee",						width:240, 		sortable:false,		align:"center",  displayFormat: 'number'}
+				{display:"항구분",				name:"gisAssetsPrtAtName",		width:60,		sortable:false,		align:"center"},
+				{display:"자산명",		 	name:"gisAssetsNm",		width:180,		sortable:false,		align:"left"},
+				{display:"소재지", 			name:"gisAssetsLocplc",		width:200,		sortable:false,		align:"left"},
+				{display:"사용면적", 				name:"usageAr",				width:100, 		sortable:false,		align:"right" },
+				{display:"자산면적",				name:"gisAssetsAr",			width:100,		sortable:false,		align:"right"},
+				{display:"실제임대면적",			name:"gisAssetsRealRentAr",				width:100, 		sortable:false,		align:"right"},
+				{display:"기간From",			name:"usagePdFrom",				width:80, 		sortable:false,		align:"center"},
+				{display:"기간To",			name:"usagePdTo",				width:80, 		sortable:false,		align:"center"  }
 			],
 		height: "auto"
 	});
@@ -76,9 +75,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadData = function() {
 GamFcltyUseUnuseSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 
 	switch(buttonId) {
-		case "searchBtn": //조회
-// 			this._cmd = "";
-// 			this.initDisplay();
+		case "btnSearch": //조회
 			this.loadData();
 			break;
 	}
@@ -97,18 +94,22 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 				<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>항코드</th>
+						<th>항코드</th>
 							<td><input id="searchPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
-							<th>시설구분</th>
-							<td><input id="searchFcltyCdSub" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM044" /></td>
-							   <td rowSpan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
+							<th>사용 기간</th>
+                        	 <td>
+                            	<input id="searchDtFr" type="text" class="emdcal" size="8"> ~
+                            	<input id="searchDtTo" type="text" class="emdcal" size="8">
+                             </td>
+                              <td colspan="2"><button id="btnSearch" class="buttonSearch">조회</button></td>
 							</tr>
 							<tr>
-							  <th>기간</th>
-                        	 <td>
-                            	<input id="sSearchDtFr" type="text" class="emdcal" size="8"> ~
-                            	<input id="sSearchDtTo" type="text" class="emdcal" size="8">
-                             </td>
+							<th>시설명</th>
+							<td><input id="searchFcltyNm" type="text" size=30/></td>
+							<th>소재지</th>
+							<td><input id="searchLoc" type="text" size=30/></td>
+							
+                             
 					</tr>
 					</tbody>
 				</table>

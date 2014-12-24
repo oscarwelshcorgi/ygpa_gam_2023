@@ -8,84 +8,106 @@
 
 
 	<select id="gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireList_D" parameterClass="gamFcltyUseUnuseSttusInqireVO" resultClass="egovMap">
+           SELECT B.*
+           FROM (
+                SELECT ROWNUM RNUM, S.*
+                	FROM (
 
-  	SELECT
-			F.GIS_ASSETS_PRT_AT_CODE
-			, F.GIS_ASSETS_CD
-			, F.GIS_ASSETS_SUB_CD
-			, F.PRT_FCLTY_NM
-			, F.GIS_PRT_FCLTY_CD ||'-'|| F.GIS_PRT_FCLTY_SEQ AS GIS_PRT_FCLTY_DISPLAY_CD
-			, F.GIS_ASSETS_CD || '-' || F.GIS_ASSETS_SUB_CD AS GIS_ASSETS_DISPLAY_CD
-			, GAM_GETCODENAME('GAM044', PRT_FCLTY_SE) PRT_FCLTY_SE_NM
-, TO_CHAR(C.USAGE_PD_FROM,'YYYY-MM-DD') AS USAGE_PD_FROM
-			, TO_CHAR(C.USAGE_PD_TO,'YYYY-MM-DD') AS USAGE_PD_TO
-			,C.FEE
-	FROM 	GIS_PRT_FCLTY_CD_F F
+	SELECT
+	A.GIS_ASSETS_PRT_AT_CODE
+	,A.GIS_ASSETS_LOCPLC
+	,A.GIS_ASSETS_NM
+	,A.GIS_ASSETS_LNM
+	,A.GIS_ASSETS_AR
+	,A.GIS_ASSETS_REAL_RENT_AR
+	,SUM(C.USAGE_AR) AS USAGE_AR
+	,TO_CHAR(C.USAGE_PD_FROM,'YYYY-MM-DD') AS USAGE_PD_FROM
+	,TO_CHAR(C.USAGE_PD_TO,'YYYY-MM-DD') AS USAGE_PD_TO
+	,(SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND CODE =
+	A.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NAME
+	
+	FROM
+		 GIS_ASSETS_CD_F A
+	LEFT OUTER JOIN 
+		ASSETS_RENT_DETAIL_F C
+	ON 	
+		A.GIS_ASSETS_PRT_AT_CODE = C.GIS_ASSETS_PRT_AT_CODE
+	AND A.GIS_ASSETS_CD = C.GIS_ASSETS_CD
+	AND A.GIS_ASSETS_SUB_CD = C.GIS_ASSETS_SUB_CD
+ 	WHERE
+ 	A.GIS_ASSETS_AR IS NOT NULL
 
-	LEFT OUTER JOIN(
-		SELECT
-				A.PRT_AT_CODE
-				, A.MNG_YEAR
-				, A.MNG_NO
-				, A.MNG_CNT
-				, B.FEE
-				, B.USAGE_PD_FROM
-				, B.USAGE_PD_TO
-				, B.GIS_ASSETS_PRT_AT_CODE
-				, B.GIS_ASSETS_CD
-				, B.GIS_ASSETS_SUB_CD
-			FROM
-				ASSETS_RENT_F A, ASSETS_RENT_DETAIL_F B
-			WHERE
-				 A.PRT_AT_CODE = B.PRT_AT_CODE
-			AND	 A.MNG_YEAR = B.MNG_YEAR
-			AND  A.MNG_NO = B.MNG_NO
-			AND  A.MNG_CNT = B.MNG_CNT
-		GROUP BY
-				 A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT , B.FEE
-				, B.USAGE_PD_FROM
-				, B.USAGE_PD_TO
-				, B.GIS_ASSETS_PRT_AT_CODE
-				, B.GIS_ASSETS_CD
-				, B.GIS_ASSETS_SUB_CD
-						) C
-						ON C.GIS_ASSETS_PRT_AT_CODE = F.GIS_ASSETS_PRT_AT_CODE
-						AND C.GIS_ASSETS_CD = F.GIS_ASSETS_CD
-         				AND C.GIS_ASSETS_SUB_CD = F.GIS_ASSETS_SUB_CD
-
-						WHERE C.GIS_ASSETS_PRT_AT_CODE = F.GIS_ASSETS_PRT_AT_CODE
-						AND C.GIS_ASSETS_CD = F.GIS_ASSETS_CD
-						AND C.GIS_ASSETS_SUB_CD = F.GIS_ASSETS_SUB_CD
-					<isNotEmpty property="searchPrtAtCode">
-	           				AND F.GIS_ASSETS_PRT_AT_CODE = #searchPrtAtCode#
+	 					<isNotEmpty property="searchPrtAtCode">
+	           				AND A.GIS_ASSETS_PRT_AT_CODE = #searchPrtAtCode#
 	           			</isNotEmpty>
-		ORDER BY F.GIS_ASSETS_PRT_AT_CODE, F.GIS_ASSETS_CD, F.GIS_ASSETS_SUB_CD
+						  <isNotEmpty property="searchFcltyNm">
+						  	AND A.GIS_ASSETS_NM LIKE '%' || #searchFcltyNm# || '%'
+						  </isNotEmpty>
+						  <isNotEmpty property="searchLoc">
+						    AND A.GIS_ASSETS_LOCPLC LIKE '%' || #searchLoc# || '%'
+						  </isNotEmpty>
+						  <isNotEmpty property="searchDtFr">
+						 <![CDATA[ AND C.USAGE_PD_FROM >= TO_DATE(#searchDtFr#, 'yyyy-mm-dd') ]]>
+					        </isNotEmpty>
+					        <isNotEmpty property="searchDtTo">
+						<![CDATA[ AND C.USAGE_PD_TO < TO_DATE(#searchDtTo#, 'yyyy-mm-dd') + 1 ]]>
+								        </isNotEmpty>
+	GROUP BY A.GIS_ASSETS_PRT_AT_CODE
+	, A.GIS_ASSETS_LOCPLC
+	, A.GIS_ASSETS_NM
+	, A.GIS_ASSETS_LNM
+	, A.GIS_ASSETS_AR
+	, A.GIS_ASSETS_REAL_RENT_AR
+	, USAGE_PD_FROM
+	, USAGE_PD_TO
+
+	ORDER BY
+	GIS_ASSETS_PRT_AT_NAME
+	,A.GIS_ASSETS_NM
+	,A.GIS_ASSETS_LOCPLC
+	,GIS_ASSETS_AR
+	,GIS_ASSETS_REAL_RENT_AR
+   	 ) S
+ ) B
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>        			
+	           			
+	           			
 <!-- 소재지 지번 자산명 총면적 사용면적 실제임대면적 -->
-						  <!--        <isNotEmpty property="sBillGubun">
-						         	<isEqual property="sBillGubun" compareValue="1">
-								        <isNotEmpty property="sSearchDtFr">
-								             <![CDATA[ AND E.UPDT_DATE >= TO_DATE(#sSearchDtFr#, 'yyyy-mm-dd') ]]>
-								        </isNotEmpty>
-								        <isNotEmpty property="sSearchDtTo">
-								             <![CDATA[ AND E.UPDT_DATE < TO_DATE(#sSearchDtTo#, 'yyyy-mm-dd') + 1 ]]>
-								        </isNotEmpty>
-						         	</isEqual>
-						         	<isEqual property="sBillGubun" compareValue="2">
-								        <isNotEmpty property="sSearchDtFr">
-								             <![CDATA[ AND E.BILL_DT >= TO_DATE(#sSearchDtFr#, 'yyyy-mm-dd') ]]>
-								        </isNotEmpty>
-								        <isNotEmpty property="sSearchDtTo">
-								             <![CDATA[ AND E.BILL_DT < TO_DATE(#sSearchDtTo#, 'yyyy-mm-dd') + 1 ]]>
-								        </isNotEmpty>
-						         	</isEqual>
-						         </isNotEmpty> -->
+
 </select>
 
 
-<!-- 	<select id="gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireListTotCnt_S" parameterClass="gamFcltyUseUnuseSttusInqireVO" resultClass="int">
+<select id="gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireListTotCnt_S" parameterClass="gamFcltyUseUnuseSttusInqireVO" resultClass="int">
+		SELECT 
+    	  COUNT(*) TOTCNT
+    	FROM
+    	 GIS_ASSETS_CD_F A
+	LEFT OUTER JOIN 
+		ASSETS_RENT_DETAIL_F C
+	ON 	
+		A.GIS_ASSETS_PRT_AT_CODE = C.GIS_ASSETS_PRT_AT_CODE
+	AND A.GIS_ASSETS_CD = C.GIS_ASSETS_CD
+	AND A.GIS_ASSETS_SUB_CD = C.GIS_ASSETS_SUB_CD
+ 	WHERE
+ 	A.GIS_ASSETS_AR IS NOT NULL
+
+	 					<isNotEmpty property="searchPrtAtCode">
+	           				AND A.GIS_ASSETS_PRT_AT_CODE = #searchPrtAtCode#
+	           			</isNotEmpty>
+						  <isNotEmpty property="searchFcltyNm">
+						  	AND A.GIS_ASSETS_NM LIKE '%' || #searchFcltyNm# || '%'
+						  </isNotEmpty>
+						  <isNotEmpty property="searchLoc">
+						    AND A.GIS_ASSETS_LOCPLC LIKE '%' || #searchLoc# || '%'
+						  </isNotEmpty>
+						  <isNotEmpty property="searchDtFr">
+						 <![CDATA[ AND C.USAGE_PD_FROM >= TO_DATE(#searchDtFr#, 'yyyy-mm-dd') ]]>
+					        </isNotEmpty>
+					        <isNotEmpty property="searchDtTo">
+						<![CDATA[ AND C.USAGE_PD_TO < TO_DATE(#searchDtTo#, 'yyyy-mm-dd') + 1 ]]>
+								        </isNotEmpty>
 </select>
 
--->
 
 </sqlMap>
 

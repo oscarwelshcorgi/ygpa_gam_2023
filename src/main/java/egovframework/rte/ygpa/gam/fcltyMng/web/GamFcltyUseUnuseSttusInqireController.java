@@ -97,12 +97,12 @@ String indexFcltyUsageSttusInqire(@RequestParam("window_id") String windowId, Mo
 	searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 	List resultList = gamFcltyUseUnuseSttusInqireService.selectFcltyUseUnuseSttusInqireList(searchVO);
-//	int totCnt = gamFcltyUseUnuseSttusInqireService.selectFcltyUseUnuseSttusInqireListTotCnt(searchVO);
-//	paginationInfo.setTotalRecordCount(totCnt);
+	int totCnt = gamFcltyUseUnuseSttusInqireService.selectFcltyUseUnuseSttusInqireListTotCnt(searchVO);
+	paginationInfo.setTotalRecordCount(totCnt);
     searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 	map.put("resultCode", 0);			// return ok
-//	map.put("totalCount", totCnt);
+	map.put("totalCount", totCnt);
 	map.put("resultList", resultList);
 	map.put("searchOption", searchVO);
 

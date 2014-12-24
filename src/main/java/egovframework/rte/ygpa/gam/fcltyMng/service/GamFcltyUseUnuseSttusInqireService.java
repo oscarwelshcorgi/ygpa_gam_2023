@@ -38,7 +38,15 @@ public interface GamFcltyUseUnuseSttusInqireService {
 
 
 
-//	int selectFcltyUseUnuseSttusInqireListTotCnt(GamFcltyUseUnuseSttusInqireVO searchVO) throws Exception;
+	int selectFcltyUseUnuseSttusInqireListTotCnt(GamFcltyUseUnuseSttusInqireVO searchVO) throws Exception;
+	
+
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	
 
 
 

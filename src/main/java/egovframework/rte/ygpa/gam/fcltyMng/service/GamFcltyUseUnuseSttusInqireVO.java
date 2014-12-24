@@ -32,17 +32,17 @@ public class GamFcltyUseUnuseSttusInqireVO extends ComDefaultVO  {
 	/** 항코드 */
     private String searchPrtAtCode;
 
-    /** 시설구분 */
-    private String searchFcltyCdSub;
+    /** 시설명 */
+    private String searchFcltyNm;
 
-	/** 조회시작일(조회조건) **/
-	private String sSearchDtFr;
+    /** 소재지*/
+    private String searchLoc;
+
+    /** 조회시작일(조회조건) **/
+	private String searchDtFr;
 
 	/** 조회종료일(조회조건) **/
-	private String sSearchDtTo;
-
-
-
+	private String searchDtTo;
 
 	/**
 	 * @return the searchPrtAtCode
@@ -59,44 +59,60 @@ public class GamFcltyUseUnuseSttusInqireVO extends ComDefaultVO  {
 	}
 
 	/**
-	 * @return the searchFcltyCdSub
+	 * @return the searchFcltyNm
 	 */
-	public String getSearchFcltyCdSub() {
-		return searchFcltyCdSub;
+	public String getSearchFcltyNm() {
+		return searchFcltyNm;
 	}
 
 	/**
-	 * @param searchFcltyCdSub the searchFcltyCdSub to set
+	 * @param searchFcltyNm the searchFcltyNm to set
 	 */
-	public void setSearchFcltyCdSub(String searchFcltyCdSub) {
-		this.searchFcltyCdSub = searchFcltyCdSub;
+	public void setSearchFcltyNm(String searchFcltyNm) {
+		this.searchFcltyNm = searchFcltyNm;
 	}
 
 	/**
-	 * @return the sSearchDtFr
+	 * @return the searchDtFr
 	 */
-	public String getsSearchDtFr() {
-		return sSearchDtFr;
+	public String getSearchDtFr() {
+		return searchDtFr;
 	}
 
 	/**
-	 * @param sSearchDtFr the sSearchDtFr to set
+	 * @param searchDtFr the searchDtFr to set
 	 */
-	public void setsSearchDtFr(String sSearchDtFr) {
-		this.sSearchDtFr = sSearchDtFr;
+	public void setSearchDtFr(String searchDtFr) {
+		this.searchDtFr = searchDtFr;
 	}
 
 	/**
-	 * @return the sSearchDtTo
+	 * @return the searchDtTo
 	 */
-	public String getsSearchDtTo() {
-		return sSearchDtTo;
+	public String getSearchDtTo() {
+		return searchDtTo;
 	}
 
 	/**
-	 * @param sSearchDtTo the sSearchDtTo to set
+	 * @param searchDtTo the searchDtTo to set
 	 */
-	public void setsSearchDtTo(String sSearchDtTo) {
-		this.sSearchDtTo = sSearchDtTo;
+	public void setSearchDtTo(String searchDtTo) {
+		this.searchDtTo = searchDtTo;
+	}
+
+	/**
+	 * @return the searchLoc
+	 */
+	public String getSearchLoc() {
+		return searchLoc;
+	}
+
+	/**
+	 * @param searchLoc the searchLoc to set
+	 */
+	public void setSearchLoc(String searchLoc) {
+		this.searchLoc = searchLoc;
 	}
 }
+
+
