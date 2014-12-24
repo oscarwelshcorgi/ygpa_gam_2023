@@ -44,7 +44,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function(params) {
 		colModel : [
 				{display:"항구분",				name:"gisAssetsPrtAtName",		width:60,		sortable:false,		align:"center"},
 				{display:"자산명",		 	name:"gisAssetsNm",		width:180,		sortable:false,		align:"left"},
-				{display:"소재지", 			name:"gisAssetsLocplc",		width:200,		sortable:false,		align:"left"},
+				{display:"소재지", 			name:"gisAssetsLnms",		width:200,		sortable:false,		align:"left"},
 				{display:"사용면적", 				name:"usageAr",				width:100, 		sortable:false,		align:"right" },
 				{display:"자산면적",				name:"gisAssetsAr",			width:100,		sortable:false,		align:"right"},
 				{display:"실제임대면적",			name:"gisAssetsRealRentAr",				width:100, 		sortable:false,		align:"right"},
