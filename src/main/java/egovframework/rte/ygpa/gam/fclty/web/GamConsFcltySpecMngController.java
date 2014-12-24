@@ -266,7 +266,6 @@ public class GamConsFcltySpecMngController {
     	try {
         	result = gamConsFcltySpecMngService.fcltyMngSelectView(fcltyManageVO);
         	
-        	System.out.print("test : " + result);
         	fcltsMngNo = (String) result.get("fcltsMngNo");
         	fcltyManageVO.put("fcltsMngNo", fcltsMngNo);
         	

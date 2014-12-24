@@ -61,9 +61,9 @@ GamFcltyRepairSttusInqireModule.prototype.loadComplete = function(params) {
 		dataType: 'json',
 		colModel : [
 					{display:"시설물관리번호",	name:"fcltsMngNo",	width:100,		sortable:true,		align:"center"},
-					{display:"시설물명",		name:"prtFcltyNm",	width:150,		sortable:true,		align:"left"},
 					{display:"하자유무",		name:"flawEnnc",	width:90,		sortable:true,		align:"center"},
 					{display:"하자검사일자",	name:"flawExamDt",	width:100,		sortable:true,		align:"center"},
+					{display:"하자검사결과",	name:"flawExamResult",	width:350,		sortable:true,		align:"left"},
 					{display:"비고",			name:"rm",			width:350,		sortable:true,		align:"left"}
 			],
 		height: "auto"

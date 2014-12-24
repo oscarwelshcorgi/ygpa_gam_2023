@@ -38,12 +38,11 @@ GamPopupFlawRprObjFcltsModule.prototype.loadComplete = function(qcMngObjFcltsLis
 		url: '',
 		dataType: "json",
 		colModel : [
-					//{display:"상태",			name:"_updtId",				width:60,		sortable:false,		align:"center"},
-					{display:"시설물관리번호",	name:"fcltsMngNo",	width:100,		sortable:true,		align:"center"},
-					{display:"시설물명",		name:"prtFcltyNm",	width:150,		sortable:true,		align:"left"},
-					{display:"하자유무",		name:"flawEnnc",	width:90,		sortable:true,		align:"center"},
-					{display:"하자검사일자",	name:"flawExamDt",	width:100,		sortable:true,		align:"center"},
-					{display:"비고",			name:"rm",			width:350,		sortable:true,		align:"left"}
+					{display:"시설물관리번호",	name:"fcltsMngNo",		width:100,		sortable:true,		align:"center"},
+					{display:"하자유무",		name:"flawEnnc",		width:90,		sortable:true,		align:"center"},
+					{display:"하자검사일자",	name:"flawExamDt",		width:100,		sortable:true,		align:"center"},
+					{display:"하자검사결과",	name:"flawExamResult",	width:350,		sortable:true,		align:"left"},
+					{display:"비고",			name:"rm",				width:350,		sortable:true,		align:"left"}
 			],
 		height: "200",
 	});
@@ -107,7 +106,7 @@ GamPopupFlawRprObjFcltsModule.prototype.returnMergeData = function() {
 //하자보수 대상 시설물 추가
 GamPopupFlawRprObjFcltsModule.prototype.addObjFcltsItem = function() {
 	this.$('#gamPopupObjFcltsForm :input').val('');
-	this.$("#grdInfoList").flexAddRow({'_updtId': 'I', 'fcltsMngGroupNo':'', 'fcltsJobSe':'', 'flawRprSeq':'', 'fcltsMngNo':'', 'prtFcltyNm':'', 'flawEnnc':'', 'flawExamDt':'', 'flawExamResult':'', 'rm':''});
+	this.$("#grdInfoList").flexAddRow({'_updtId': 'I', 'fcltsMngGroupNo':'', 'fcltsJobSe':'', 'flawRprSeq':'', 'fcltsMngNo':'', 'flawEnnc':'', 'flawExamDt':'', 'flawExamResult':'', 'rm':''});
 	var allRows = this.$('#grdInfoList').flexGetData();
 	var selRowId = allRows.length - 1;
 	this.$("#grdInfoList").selectRowId(selRowId);	

@@ -5,7 +5,6 @@
 
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="comDefaultVO" type="egovframework.com.cmm.ComDefaultVO"/>
     <typeAlias alias="gamConsFcltySpecMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamConsFcltySpecMngVO"/>
 
     <insert id="gamConsFcltySpecMngDao.insertFcltySpec">
@@ -117,7 +116,7 @@
 		]]>
 	</insert>
 
-    <select id="gamConsFcltySpecMngDao.selectFcltySpecMngList_D" parameterClass="comDefaultVO" resultClass="egovMap">
+    <select id="gamConsFcltySpecMngDao.selectFcltySpecMngList_D" parameterClass="gamConsFcltySpecMngVO" resultClass="egovMap">
          /* egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecMngDao_SQL_oracle.selectList */
 		SELECT *
 		  FROM
@@ -168,27 +167,21 @@
                         AND F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
                         AND F.FCLTS_MNG_NO = R.FCLTS_MNG_NO
 		                AND F.PRT_FCLTY_SE = #prtFcltySe#
-		                <isNotEmpty property="searchPrtAtCode">
-	           				AND F.GIS_ASSETS_PRT_AT_CODE = #searchPrtAtCode#
+		                <isNotEmpty property="sPrtAtCode">
+	           				AND F.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
 	           			</isNotEmpty>
-		                <isNotEmpty property="searchAssetsCd">
-	           				AND F.GIS_ASSETS_CD = #searchAssetsCd#
+	           			<isNotEmpty property="sFcltsMngGroupNo">
+						  	AND F.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+						</isNotEmpty>
+		                <isNotEmpty property="sPrtFcltyCd">
+	           				AND F.GIS_PRT_FCLTY_CD = #sPrtFcltyCd#
 	           			</isNotEmpty>
-		                <isNotEmpty property="searchAssetsSubCd">
-	           				AND F.GIS_ASSETS_SUB_CD = #searchAssetsSubCd#
+		                <isNotEmpty property="sPrtFcltyNm">
+	           				AND F.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
 	           			</isNotEmpty>
-		                <isNotEmpty property="searchFcltyCd">
-	           				AND F.GIS_PRT_FCLTY_CD = #searchFcltyCd#
-	           			</isNotEmpty>
-		                <isNotEmpty property="searchFcltySeq">
-	           				AND F.GIS_PRT_FCLTY_SEQ = #searchFcltySeq#
-	           			</isNotEmpty>
-		                <isNotEmpty property="searchKeyword">
-	           				AND F.PRT_FCLTY_NM LIKE '%' || #searchKeyword# || '%'
-	           			</isNotEmpty>
-	           			<isNotEmpty property="searchLoc">
-						    AND R.LOC LIKE '%' || #searchLoc# || '%'
-						  </isNotEmpty>
+	           			<isNotEmpty property="sLoc">
+						    AND R.LOC LIKE '%' || #sLoc# || '%'
+						</isNotEmpty>
 		            ORDER BY F.GIS_ASSETS_CD DESC ,
 		                     F.GIS_ASSETS_PRT_AT_CODE DESC ,
 		                     F.GIS_ASSETS_SUB_CD DESC ,
@@ -199,7 +192,7 @@
 	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
-    <select id="gamConsFcltySpecMngDao.selectFcltySpecMngListTotCnt_S" parameterClass="comDefaultVO" resultClass="int">
+    <select id="gamConsFcltySpecMngDao.selectFcltySpecMngListTotCnt_S" parameterClass="gamConsFcltySpecMngVO" resultClass="int">
             SELECT COUNT(*) totcnt
              FROM 
 	             GIS_PRT_FCLTY_CD_F F, 
@@ -211,27 +204,21 @@
              AND F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
              AND F.FCLTS_MNG_NO = R.FCLTS_MNG_NO
              AND PRT_FCLTY_SE = #prtFcltySe#
-             <isNotEmpty property="searchPrtAtCode">
-           		AND F.GIS_ASSETS_PRT_AT_CODE = #searchPrtAtCode#
-           	</isNotEmpty>
-	        <isNotEmpty property="searchAssetsCd">
-           		AND F.GIS_ASSETS_CD = #searchAssetsCd#
-           	</isNotEmpty>
-	        <isNotEmpty property="searchAssetsSubCd">
-           		AND F.GIS_ASSETS_SUB_CD = #searchAssetsSubCd#
-           	</isNotEmpty>
-	        <isNotEmpty property="searchFcltyCd">
-           		AND F.GIS_PRT_FCLTY_CD = #searchFcltyCd#
-           	</isNotEmpty>
-	        <isNotEmpty property="searchFcltySeq">
-           		AND F.GIS_PRT_FCLTY_SEQ = #searchFcltySeq#
-           	</isNotEmpty>
-	        <isNotEmpty property="searchKeyword">
-           		AND PRT_FCLTY_NM LIKE '%' || #searchKeyword# || '%'
-           	</isNotEmpty>
-           	<isNotEmpty property="searchLoc">
-		    AND R.LOC LIKE '%' || #searchLoc# || '%'
-		  </isNotEmpty>
+		<isNotEmpty property="sPrtAtCode">
+         	AND F.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+        </isNotEmpty>
+        <isNotEmpty property="sFcltsMngGroupNo">
+			AND F.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+		</isNotEmpty>
+        <isNotEmpty property="sPrtFcltyCd">
+         	AND F.GIS_PRT_FCLTY_CD = #sPrtFcltyCd#
+        </isNotEmpty>
+        <isNotEmpty property="sPrtFcltyNm">
+         	AND F.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
+        </isNotEmpty>
+        <isNotEmpty property="sLoc">
+			AND R.LOC LIKE '%' || #sLoc# || '%'
+		</isNotEmpty>
     </select>
 
     <select id="gamConsFcltySpecMngDao.selectFcltySpecMngFileList_D" parameterClass="gamConsFcltySpecMngVO" resultClass="egovMap">

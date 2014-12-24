@@ -551,7 +551,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 					<tbody>
 						<tr>
 							<th>항구분</th>
-							<td><input id="searchPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
+							<td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>시설물관리그룹</th>
 							<td colspan="3">
 								<input id="sFcltsMngGroupNo" type="text" size="14" title="시설물관리그룹넘버" />&nbsp;-&nbsp;
@@ -562,11 +562,11 @@ var module_instance = new GamConstFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th>시설분류</th>
-							<td><input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" /></td>
+							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" /></td>
 							<th>시설명</th>
-							<td><input id="searchKeyword" type="text" size="30" title="시설명"  /></td>
+							<td><input id="sPrtFcltyNm" type="text" size="30" title="시설명"  /></td>
 							<th>소재지</th>
-							<td><input id="searchLoc" type="text" size="30" title="소재지"  /></td>
+							<td><input id="sLoc" type="text" size="30" title="소재지"  /></td>
 						</tr>
 					</tbody>
 				</table>

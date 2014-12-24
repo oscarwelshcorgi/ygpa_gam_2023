@@ -520,7 +520,7 @@ var module_instance = new GamElctyFcltySpecMngModule();
 							<th>시설명</th>
 							<td><input id="sPrtFcltyNm" type="text" size="30"  /></td>
 							<th>소재지</th>
-							<td><input id="searchLoc" type="text" size="30" title="소재지"  /></td>
+							<td><input id="sLoc" type="text" size="30" title="소재지"  /></td>
 						</tr>
 					</tbody>
 				</table>

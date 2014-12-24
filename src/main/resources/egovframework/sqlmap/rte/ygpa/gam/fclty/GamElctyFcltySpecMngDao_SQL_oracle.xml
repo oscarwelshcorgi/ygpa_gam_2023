@@ -52,20 +52,17 @@
 						  <isNotEmpty property="sPrtAtCode">
 						  	AND F.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
 						  </isNotEmpty>
-						  <isNotEmpty property="sAssetsCd">
-						  	AND F.GIS_ASSETS_CD = #sAssetsCd#
+						  <isNotEmpty property="sFcltsMngGroupNo">
+						  	AND F.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
 						  </isNotEmpty>
-						  <isNotEmpty property="sAssetsSubCd">
-						    AND F.GIS_ASSETS_SUB_CD = #sAssetsSubCd#
-						  </isNotEmpty>
-						  <isNotEmpty property="gisPrtFcltyCd">
-						    AND F.GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
+						  <isNotEmpty property="sPrtFcltyCd">
+						    AND F.GIS_PRT_FCLTY_CD = #sPrtFcltyCd#
 						  </isNotEmpty>
 						  <isNotEmpty property="sPrtFcltyNm">
 						  	AND F.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
 						  </isNotEmpty>
-						  <isNotEmpty property="searchLoc">
-						    AND E.LOC LIKE '%' || #searchLoc# || '%'
+						  <isNotEmpty property="sLoc">
+						    AND E.LOC LIKE '%' || #sLoc# || '%'
 						  </isNotEmpty>
 						ORDER BY
 						  F.GIS_ASSETS_CD DESC
@@ -94,20 +91,17 @@
 		  <isNotEmpty property="sPrtAtCode">
 		  	AND F.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
 		  </isNotEmpty>
-		  <isNotEmpty property="sAssetsCd">
-		  	AND F.GIS_ASSETS_CD = #sAssetsCd#
+		  <isNotEmpty property="sFcltsMngGroupNo">
+		  	AND F.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
 		  </isNotEmpty>
-		  <isNotEmpty property="sAssetsSubCd">
-		    AND F.GIS_ASSETS_SUB_CD = #sAssetsSubCd#
-		  </isNotEmpty>
-		  <isNotEmpty property="gisPrtFcltyCd">
-		    AND F.GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
+		  <isNotEmpty property="sPrtFcltyCd">
+		    AND F.GIS_PRT_FCLTY_CD = #sPrtFcltyCd#
 		  </isNotEmpty>
 		  <isNotEmpty property="sPrtFcltyNm">
 		  	AND F.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
 		  </isNotEmpty>
-		  <isNotEmpty property="searchLoc">
-		    AND E.LOC LIKE '%' || #searchLoc# || '%'
+		  <isNotEmpty property="sLoc">
+		    AND E.LOC LIKE '%' || #sLoc# || '%'
 		  </isNotEmpty>
     </select>
     

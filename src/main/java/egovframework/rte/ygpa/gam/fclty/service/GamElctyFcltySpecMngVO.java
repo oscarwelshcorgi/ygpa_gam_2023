@@ -25,27 +25,23 @@ import egovframework.com.cmm.ComDefaultVO;
 public class GamElctyFcltySpecMngVO extends ComDefaultVO {
 	private static final long serialVersionUID = 1L;
 
-	/** 항코드 (조회조건) **/
-	private String sPrtAtCode;
-	
-	/** 자산코드 (조회조건) **/
-	private String sAssetsCd;
+	/** 항구분 */
+    private String sPrtAtCode;
+    
+    /** 시설물관리그룹넘버 */
+    private String sFcltsMngGroupNo;
+    
+    /** 시설분류 */
+    private String sPrtFcltyCd;
+    
+    /** 시설명 */
+    private String sPrtFcltyNm;
+    
+    /**소재지*/
+    private String sLoc;
+    
+    private String sFcltsMngNo;
 
-	/** 자산부코드 (조회조건) **/
-	private String sAssetsSubCd;
-
-	/** 시설코드 (조회조건) **/
-	private String gisPrtFcltyCd;
-
-	/** 시설명 (조회조건) **/
-	private String sPrtFcltyNm;
-
-	/** 시설물 관리 번호 (조회조건-첨부파일) **/
-	private String sFcltsMngNo;
-	
-	/**소재지*/
-    private String searchLoc;
-	
 	/**
 	 * @return the sPrtAtCode
 	 */
@@ -61,36 +57,32 @@ public class GamElctyFcltySpecMngVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the sAssetsCd
+	 * @return the sFcltsMngGroupNo
 	 */
-	public String getsAssetsCd() {
-		return sAssetsCd;
+	public String getsFcltsMngGroupNo() {
+		return sFcltsMngGroupNo;
 	}
 
 	/**
-	 * @param sAssetsCd the sAssetsCd to set
+	 * @param sFcltsMngGroupNo the sFcltsMngGroupNo to set
 	 */
-	public void setsAssetsCd(String sAssetsCd) {
-		this.sAssetsCd = sAssetsCd;
+	public void setsFcltsMngGroupNo(String sFcltsMngGroupNo) {
+		this.sFcltsMngGroupNo = sFcltsMngGroupNo;
 	}
 
 	/**
-	 * @return the sAssetsSubCd
+	 * @return the sPrtFcltyCd
 	 */
-	public String getsAssetsSubCd() {
-		return sAssetsSubCd;
+	public String getsPrtFcltyCd() {
+		return sPrtFcltyCd;
 	}
 
 	/**
-	 * @param sAssetsSubCd the sAssetsSubCd to set
+	 * @param sPrtFcltyCd the sPrtFcltyCd to set
 	 */
-	public void setsAssetsSubCd(String sAssetsSubCd) {
-		this.sAssetsSubCd = sAssetsSubCd;
+	public void setsPrtFcltyCd(String sPrtFcltyCd) {
+		this.sPrtFcltyCd = sPrtFcltyCd;
 	}
-
-
-
-	
 
 	/**
 	 * @return the sPrtFcltyNm
@@ -107,6 +99,20 @@ public class GamElctyFcltySpecMngVO extends ComDefaultVO {
 	}
 
 	/**
+	 * @return the sLoc
+	 */
+	public String getsLoc() {
+		return sLoc;
+	}
+
+	/**
+	 * @param sLoc the sLoc to set
+	 */
+	public void setsLoc(String sLoc) {
+		this.sLoc = sLoc;
+	}
+
+	/**
 	 * @return the sFcltsMngNo
 	 */
 	public String getsFcltsMngNo() {
@@ -120,32 +126,6 @@ public class GamElctyFcltySpecMngVO extends ComDefaultVO {
 		this.sFcltsMngNo = sFcltsMngNo;
 	}
 
-	/**
-	 * @return the gisPrtFcltyCd
-	 */
-	public String getGisPrtFcltyCd() {
-		return gisPrtFcltyCd;
-	}
-
-	/**
-	 * @param gisPrtFcltyCd the gisPrtFcltyCd to set
-	 */
-	public void setGisPrtFcltyCd(String gisPrtFcltyCd) {
-		this.gisPrtFcltyCd = gisPrtFcltyCd;
-	}
-
-	/**
-	 * @return the searchLoc
-	 */
-	public String getSearchLoc() {
-		return searchLoc;
-	}
-
-	/**
-	 * @param searchLoc the searchLoc to set
-	 */
-	public void setSearchLoc(String searchLoc) {
-		this.searchLoc = searchLoc;
-	}
+	
 	
 }
