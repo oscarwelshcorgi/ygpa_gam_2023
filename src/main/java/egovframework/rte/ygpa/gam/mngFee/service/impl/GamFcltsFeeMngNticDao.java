@@ -162,13 +162,6 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 
 	/**
 	 * @param vo
-	 */
-	public void updateUnpaidFDlyBillPrtYn(Map<String, Object> vo) {
-		update("gamFcltsFeeMngNticDao.updateUnpaidFDlyBillPrtYn_S", vo);
-	}
-
-	/**
-	 * @param vo
 	 * @return
 	 */
 	public EgovMap selectEgiroMaxInfo(Map<String, Object> vo) throws Exception {
@@ -210,6 +203,14 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	 * @param vo
 	 * @return
 	 */
+	public EgovMap calcDlyBillAmnt(Map<String, Object> vo) throws Exception {
+		return (EgovMap)selectByPk("gamFcltsFeeMngNticDao.calcDlyBillAmnt_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 * @return
+	 */
 	public EgovMap selectUnpaidF(Map<String, Object> vo) throws Exception {
 		return (EgovMap)selectByPk("gamFcltsFeeMngNticDao.selectUnpaidF_S", vo);
 	}
@@ -219,6 +220,20 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	 */
 	public void insertUnpaidF(Map<String, Object> vo) {
 		insert("gamFcltsFeeMngNticDao.insertUnpaidF_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void updateUnpaidFDlyBillPrtYn(Map<String, Object> vo) {
+		update("gamFcltsFeeMngNticDao.updateUnpaidFDlyBillPrtYn_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void deleteUnpaidF(Map<String, Object> vo) {
+		insert("gamFcltsFeeMngNticDao.deleteUnpaidF_S", vo);
 	}
 
 	/**

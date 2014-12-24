@@ -250,17 +250,11 @@ public class GamFcltsMngFeeMngServiceImpl extends AbstractServiceImpl implements
 		}
 	}
 
-	@SuppressWarnings({ "rawtypes"})
 	@Override
 	public void cancelFcltsMngFeeMngNticIssue(Map<String, Object> vo) throws Exception {
 		String strNhtPrintYn = (String)vo.get("nhtPrintYn");
 		if ("Y".equals(strNhtPrintYn)) {
-			Map map = gamFcltsMngFeeMngDao.selectMngFeeLevRequestFByPk(vo);
 			gamFcltsMngFeeMngDao.updateMngFeeLevReqestFNhtPrintYn(vo);
-			String strArrrgNo = (String)map.get("arrrgNo");
-			if (strArrrgNo == null && !"".equals(strArrrgNo) && !"00".equals(strArrrgNo)) {
-				gamFcltsMngFeeMngDao.updateUnpaidFDlyBillPrtYn(vo);
-			}
 			gamFcltsMngFeeMngDao.updateRevCollFBillPrtYn(vo);
 			processCancelEgiro(vo);
 		}
@@ -268,7 +262,6 @@ public class GamFcltsMngFeeMngServiceImpl extends AbstractServiceImpl implements
 		gamFcltsMngFeeMngDao.updateMngFeeLevReqestFNticIssue(vo);
 	}
 
-	@SuppressWarnings({ "rawtypes"})
 	@Override
 	public void copyFcltsMngFeeMng(Map<String, Object> vo) throws Exception {
 		String strMainCnt = (String)vo.get("mainCnt");

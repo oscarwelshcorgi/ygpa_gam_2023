@@ -75,6 +75,7 @@ public class GamFcltsMngFeeMngDetailVo extends ComDefaultVO{
 	private String	arrrgPayDates;		//연체 일수
 	private String	rm;					//비고
 	private	String	deptCd;				//부서코드
+	private String	arrrgSttus;			//연체 상태
 
 	/**
 	 * @return the mngMt
@@ -663,6 +664,18 @@ public class GamFcltsMngFeeMngDetailVo extends ComDefaultVO{
 	 */
 	public void setDeptCd(String deptCd) {
 		this.deptCd = deptCd;
+	}
+	/**
+	 * @return the arrrgSttus
+	 */
+	public String getArrrgSttus() {
+		return arrrgSttus;
+	}
+	/**
+	 * @param arrrgSttus the arrrgSttus to set
+	 */
+	public void setArrrgSttus(String arrrgSttus) {
+		this.arrrgSttus = arrrgSttus;
 	}
 
 }

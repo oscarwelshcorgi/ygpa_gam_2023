@@ -59,6 +59,14 @@ public class GamFcltsMngGroupMngDao extends YGPAAbstractDAO {
 	 * @param gamFcltsMngGroupMngVo
 	 * @return
 	 */
+	public String selectFcltsMngGroupMngMaxGroupNo(GamFcltsMngGroupMngVo gamFcltsMngGroupMngVo) {
+		return (String)getSqlMapClientTemplate().queryForObject("gamFcltsMngGroupMngDao.selectFcltsMngGroupMngMaxGroupNo_S", gamFcltsMngGroupMngVo);
+	}
+
+	/**
+	 * @param gamFcltsMngGroupMngVo
+	 * @return
+	 */
 	public void insertFcltsMngGroupMng(GamFcltsMngGroupMngVo gamFcltsMngGroupMngVo) throws Exception {
 		insert("gamFcltsMngGroupMngDao.insertFcltsMngGroupMng_S", gamFcltsMngGroupMngVo);
 	}

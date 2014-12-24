@@ -99,4 +99,26 @@ public interface GamFcltsFeeMngNticService {
 	 */
 	void updateFcltsFeeMngNticIssuePrintYn(Map<String, Object> vo) throws Exception;
 
+	/**
+	 * @param gamFcltsFeeMngNticVo
+	 * @return
+	 */
+	String selectUnpaidFMaxDlySerNo(Map<String, Object> vo) throws Exception;
+
+	/**
+	 * @param vo
+	 * @return
+	 */
+	EgovMap calcDlyBillAmnt(Map<String, Object> vo) throws Exception;
+
+	/**
+	 * @param vo
+	 */
+	void processFcltsFeeMngNticIssueUnpaid(Map<String, Object> vo) throws Exception;
+
+	/**
+	 * @param vo
+	 */
+	void cancelFcltsFeeMngNticIssueUnpaid(Map<String, Object> vo) throws Exception;
+
 }

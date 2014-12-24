@@ -175,6 +175,28 @@ public class GamFcltsMngGroupMngController {
 
 	}
 
+	@RequestMapping(value="/code/gamSelectFcltsMngGroupMngMaxGroupNo.do" , method=RequestMethod.POST)
+	@ResponseBody Map gamSelectFcltsMngGroupMngMaxGroupNo(GamFcltsMngGroupMngVo gamFcltsMngGroupMngVo) throws Exception {
+
+		String sMaxGroupNo;
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		sMaxGroupNo = gamFcltsMngGroupMngService.selectFcltsMngGroupMngMaxGroupNo(gamFcltsMngGroupMngVo);
+
+		map.put("resultCode", 0);
+		map.put("sMaxGroupNo", sMaxGroupNo);
+
+		return map;
+
+	}
+
 	@RequestMapping(value="/code/gamInsertFcltsMngGroupMng.do")
 	@ResponseBody Map<String, Object> gamInsertFcltsMngGroupMng(GamFcltsMngGroupMngVo gamFcltsMngGroupMngVo) throws Exception {
 

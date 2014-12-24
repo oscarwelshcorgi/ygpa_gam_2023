@@ -181,7 +181,8 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$('#chrgeKnd').on('change',{module:this}, function(event){
-		var chrgeKndNm = event.data.module.$('#chrgeKnd option:selected').text();
+		var chrgeKndNm = event.data.module.$('#chrgeKnd_select').find('option:selected').text();
+		//var chrgeKndNm = event.data.module.$('#chrgeKnd option:selected').text();
 		event.data.module.$('#chrgeKndNm').val(chrgeKndNm);
 	});
 
@@ -1375,6 +1376,7 @@ GamFcltsMngFeeMngModule.prototype.cancelNticIssue = function() {
 	var rcivSe = this.$('#rcivSe').val();
 	var accnutYear = this.$('#accnutYear').val();
 	var nticNo = this.$('#nticNo').val();
+	var arrrgNo = this.$('#arrrgNo').val();
 	var confirmMessage = "";
 	if (nhtIsueYn != "Y") {
 		alert('고지 처리가 완료된 자료가 아닙니다.');
@@ -1394,6 +1396,10 @@ GamFcltsMngFeeMngModule.prototype.cancelNticIssue = function() {
 	}
 	if (nticNo > "999999" || nticNo < "000001" || nticNo == "") {
 		alert('고지 번호가 부정확합니다.');
+		return;
+	}
+	if (arrrgNo != "") {
+		alert('연체 고지 자료가 존재합니다.\r\n연체 고지 취소를 먼저 수행하시길 바랍니다.');
 		return;
 	}
 	confirmMessage = "[" + this.$('#chrgeKndNm').val() + "] " + this.$('#fee').val() + "원을 고지 취소하시겠습니까?";

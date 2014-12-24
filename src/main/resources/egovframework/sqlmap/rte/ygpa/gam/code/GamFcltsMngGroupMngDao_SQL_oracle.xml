@@ -25,6 +25,8 @@
 						SELECT
 								 FCLTS_MNG_GROUP_NO
 								,FCLTS_MNG_GROUP_NM
+								,PRT_AT_CODE
+								,GAM_GETCODENAME('GAM019',PRT_AT_CODE) AS PRT_AT_CODE_NM
 								,LOC
 								,OWNER
 								,TO_CHAR(BLD_DT,'YYYY-MM-DD') AS BLD_DT
@@ -90,6 +92,8 @@
 		SELECT
 				 FCLTS_MNG_GROUP_NO
 				,FCLTS_MNG_GROUP_NM
+				,PRT_AT_CODE
+				,GAM_GETCODENAME('GAM019',PRT_AT_CODE) AS PRT_AT_CODE_NM
 				,LOC
 				,OWNER
 				,TO_CHAR(BLD_DT,'YYYY-MM-DD') AS BLD_DT
@@ -114,11 +118,18 @@
 		WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 	</select>
 
+	<select id="gamFcltsMngGroupMngDao.selectFcltsMngGroupMngMaxGroupNo_S" parameterClass="gamFcltsMngGroupMngVo" resultClass="java.lang.String">
+		SELECT #prtAtCode# || '-' || SUBSTRB(#bldDt#,1,4) || '-' || LTRIM(TO_CHAR(TO_NUMBER(NVL(MAX(SUBSTRB(FCLTS_MNG_GROUP_NO,10,5)),'00000'))+1,'00000'))
+			FROM FCLTS_MNG_GROUP_F
+		WHERE FCLTS_MNG_GROUP_NO LIKE #prtAtCode# || '-' || SUBSTRB(#bldDt#,1,4) || '%'
+	</select>
+
 	<insert id="gamFcltsMngGroupMngDao.insertFcltsMngGroupMng_S">
 		INSERT INTO FCLTS_MNG_GROUP_F
 		(
 			 FCLTS_MNG_GROUP_NO
 			,FCLTS_MNG_GROUP_NM
+			,PRT_AT_CODE
 			,LOC
 			,OWNER
 			,BLD_DT
@@ -142,6 +153,7 @@
 		(
 			 #fcltsMngGroupNo#
 			,#fcltsMngGroupNm#
+			,#prtAtCode#
 			,#loc#
 			,#owner#
 			,TO_DATE(#bldDt#,'YYYY-MM-DD')
@@ -165,8 +177,8 @@
 
 	<update id="gamFcltsMngGroupMngDao.updateFcltsMngGroupMng_S">
 		UPDATE FCLTS_MNG_GROUP_F SET
-			 FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			,FCLTS_MNG_GROUP_NM = #fcltsMngGroupNm#
+			 FCLTS_MNG_GROUP_NM = #fcltsMngGroupNm#
+			,PRT_AT_CODE = #prtAtCode#
 			,LOC = #loc#
 			,OWNER = #owner#
 			,BLD_DT = TO_DATE(#bldDt#,'YYYY-MM-DD')

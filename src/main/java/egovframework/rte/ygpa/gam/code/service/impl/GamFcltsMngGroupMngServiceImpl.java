@@ -54,6 +54,11 @@ public class GamFcltsMngGroupMngServiceImpl extends AbstractServiceImpl implemen
 	}
 
 	@Override
+	public String selectFcltsMngGroupMngMaxGroupNo(GamFcltsMngGroupMngVo gamFcltsMngGroupMngVo) throws Exception {
+		return gamFcltsMngGroupMngDao.selectFcltsMngGroupMngMaxGroupNo(gamFcltsMngGroupMngVo);
+	}
+
+	@Override
 	public void insertFcltsMngGroupMng(GamFcltsMngGroupMngVo gamFcltsMngGroupMngVo) throws Exception {
 		gamFcltsMngGroupMngDao.insertFcltsMngGroupMng(gamFcltsMngGroupMngVo);
 	}

@@ -229,17 +229,39 @@ public class GamFcltsFeeMngNticServiceImpl extends AbstractServiceImpl implement
 	public void cancelFcltsFeeMngNticIssue(Map<String, Object> vo) throws Exception {
 		String strNhtPrintYn = (String)vo.get("nhtPrintYn");
 		if ("Y".equals(strNhtPrintYn)) {
-			Map map = gamFcltsFeeMngNticDao.selectMngFeeLevRequestFByPk(vo);
 			gamFcltsFeeMngNticDao.updateFcltsFeeMngNticNhtPrintYn(vo);
-			String strArrrgNo = (String)map.get("arrrgNo");
-			if (strArrrgNo == null && !"".equals(strArrrgNo) && !"00".equals(strArrrgNo)) {
-				gamFcltsFeeMngNticDao.updateUnpaidFDlyBillPrtYn(vo);
-			}
 			gamFcltsFeeMngNticDao.updateRevCollFBillPrtYn(vo);
 			processCancelEgiro(vo);
 		}
 		gamFcltsFeeMngNticDao.deleteRevCollF(vo);
 		gamFcltsFeeMngNticDao.updateFcltsFeeMngNticIssue(vo);
+	}
+
+	@Override
+	public String selectUnpaidFMaxDlySerNo(Map<String, Object> vo) throws Exception {
+		return gamFcltsFeeMngNticDao.selectUnpaidFMaxDlySerNo(vo);
+	}
+
+	@Override
+	public EgovMap calcDlyBillAmnt(Map<String, Object> vo) throws Exception {
+		return gamFcltsFeeMngNticDao.calcDlyBillAmnt(vo);
+	}
+
+	@Override
+	public void processFcltsFeeMngNticIssueUnpaid(Map<String, Object> vo) throws Exception {
+		gamFcltsFeeMngNticDao.updateFcltsFeeMngNticArrrgInfo(vo);
+		gamFcltsFeeMngNticDao.insertUnpaidF(vo);
+	}
+
+	@Override
+	public void cancelFcltsFeeMngNticIssueUnpaid(Map<String, Object> vo) throws Exception {
+		String strDlyBillPrtYn = (String)vo.get("dlyBillPrtYn");
+		if ("Y".equals(strDlyBillPrtYn)) {
+			gamFcltsFeeMngNticDao.updateUnpaidFDlyBillPrtYn(vo);
+			processCancelEgiro(vo);
+		}
+		gamFcltsFeeMngNticDao.deleteUnpaidF(vo);
+		gamFcltsFeeMngNticDao.updateFcltsFeeMngNticArrrgInfo(vo);
 	}
 
 }

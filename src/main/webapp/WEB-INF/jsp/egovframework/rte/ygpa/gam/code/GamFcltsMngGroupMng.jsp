@@ -56,6 +56,7 @@ GamFcltsMngGroupMngModule.prototype.loadComplete = function() {
 					{display:"전기 갯수",		name:"elctyFcltsCnt",		width:80,		sortable:true,	align:"right"},
 					{display:"정보통신 갯수",	name:"infoCommFcltsCnt",	width:100,		sortable:true,	align:"right"},
 					{display:"기타 갯수",		name:"etcFcltsCnt",			width:80,		sortable:true,	align:"right"},
+					{display:"항구분",			name:"prtAtCodeNm",			width:60,		sortable:true,	align:"left"},
 					{display:"위치",			name:"loc",					width:200,		sortable:true,	align:"left"},
 					{display:"공사 시작 일자",	name:"cnstBeginDt",			width:100,		sortable:true,	align:"center"},
 					{display:"공사 종료 일자",	name:"cnstEndDt",			width:100,		sortable:true,	align:"center"},
@@ -91,6 +92,20 @@ GamFcltsMngGroupMngModule.prototype.loadComplete = function() {
 		module._mode = 'modify';
 		module._mainKeyValue = row.fcltsMngGroupNo;
 		module.$("#mainTab").tabs("option", {active: 1});
+	});
+
+	this.$('#prtAtCode').on('change',{module:this}, function(event){
+		var prtAtCodeNm = event.data.module.$('#prtAtCode').find('option:selected').text();
+		event.data.module.$('#prtAtCodeNm').val(prtAtCodeNm);
+		if (event.data.module._mode == 'insert') {
+			event.data.module.getNewFcltsMngGroupNo();
+		}
+	});
+
+	this.$('#bldDt').on('keyup change',{module:this}, function(event){
+		if (event.data.module._mode == 'insert') {
+			event.data.module.getNewFcltsMngGroupNo();
+		}
 	});
 
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
@@ -273,8 +288,9 @@ GamFcltsMngGroupMngModule.prototype.addData = function() {
 							"(*) 전기 시설물" + "\r\n" + "     - " + "\r\n" +
 							"(*) 정보통신 시설물" + "\r\n" + "     - " + "\r\n" +
 							"(*) 기타 시설물" + "\r\n" + "     - ";
-	var currentYear = new Date().getFullYear();
-	this.$('#fcltsMngGroupNo').val("622-" + currentYear + "-00001");
+	this.$('#prtAtCode').val("622");
+	this.$('#prtAtCodeNm').val("광양항");
+	this.$('#fcltsMngGroupNo').val("");
 	this.$('#fcltsMngGroupNm').val("");
 	this.$('#loc').val("");
 	this.$('#owner').val("여수광양항만공사");
@@ -307,6 +323,7 @@ GamFcltsMngGroupMngModule.prototype.addData = function() {
 GamFcltsMngGroupMngModule.prototype.saveData = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
+	var prtAtCode = this.$('#prtAtCode').val();
 	var fcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();
 	var fcltsMngGroupNm = this.$('#fcltsMngGroupNm').val();
 	var owner = this.$('#owner').val();
@@ -322,6 +339,11 @@ GamFcltsMngGroupMngModule.prototype.saveData = function() {
 	var elctyFcltsCnt = Number(this.$('#elctyFcltsCnt').val().replace(/,/gi, ""));
 	var infoCommFcltsCnt = Number(this.$('#infoCommFcltsCnt').val().replace(/,/gi, ""));
 	var etcFcltsCnt = Number(this.$('#etcFcltsCnt').val().replace(/,/gi, ""));
+	if (prtAtCode == "") {
+		alert('항구분이 부정확합니다.');
+		this.$("#prtAtCode").focus();
+		return;
+	}
 	if (fcltsMngGroupNo == "") {
 		alert('시설물 관리 그룹 번호가 부정확합니다.');
 		this.$("#fcltsMngGroupNo").focus();
@@ -347,18 +369,18 @@ GamFcltsMngGroupMngModule.prototype.saveData = function() {
 		this.$("#fcltsStrct").focus();
 		return;
 	}
-	if (bldDt > "2999-12-31" || bldDt <= "19000101") {
+	if (bldDt > "2999-12-31" || bldDt <= "1900-01-01") {
 		alert('준공 일자가 부정확합니다.');
 		this.$("#bldDt").focus();
 		return;
 	}
 	if (cnstBeginDt != "" || cnstEndDt != "") {
-		if (cnstBeginDt > "2999-12-31" || cnstBeginDt <= "19000101") {
+		if (cnstBeginDt > "2999-12-31" || cnstBeginDt <= "1900-01-01") {
 			alert('공사 시작 일자가 부정확합니다.');
 			this.$("#cnstBeginDt").focus();
 			return;
 		}
-		if (cnstEndDt > "2999-12-31" || cnstEndDt <= "19000101") {
+		if (cnstEndDt > "2999-12-31" || cnstEndDt <= "1900-01-01") {
 			alert('공사 종료 일자가 부정확합니다.');
 			this.$("#cnstEndDt").focus();
 			return;
@@ -472,6 +494,27 @@ GamFcltsMngGroupMngModule.prototype.downloadExcel = function() {
 
 <%
 /**
+ * @FUNCTION NAME : getNewReqestSeq
+ * @DESCRIPTION   : 새로운 징수 의뢰 순번를 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsMngGroupMngModule.prototype.getNewFcltsMngGroupNo = function() {
+
+	var searchVO = this.makeFormArgs("#detailForm");
+	if (this.$('#prtAtCode').val() == "" || this.$('#bldDt').val() == "") {
+		return;
+	}
+	this.doAction('/code/gamSelectFcltsMngGroupMngMaxGroupNo.do', searchVO, function(module, result) {
+		if (result.resultCode == "0") {
+			module.$('#fcltsMngGroupNo').val(result.sMaxGroupNo);
+		}
+	});
+
+};
+
+<%
+/**
  * @FUNCTION NAME : enableListButtonItem
  * @DESCRIPTION   : LIST 버튼항목을 ENABLE 한다.
  * @PARAMETER     : NONE
@@ -510,7 +553,7 @@ GamFcltsMngGroupMngModule.prototype.enableListButtonItem = function() {
 GamFcltsMngGroupMngModule.prototype.enableDetailInputItem = function() {
 
 	if (this._mode == "insert") {
-		this.$('#fcltsMngGroupNo').enable();
+		this.$('#prtAtCode').enable();
 		this.$('#fcltsMngGroupNm').enable();
 		this.$('#loc').enable();
 		this.$('#owner').enable();
@@ -534,7 +577,7 @@ GamFcltsMngGroupMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 	} else {
 		if (this._mainKeyValue != "") {
-			this.$('#fcltsMngGroupNo').disable();
+			this.$('#prtAtCode').enable();
 			this.$('#fcltsMngGroupNm').enable();
 			this.$('#loc').enable();
 			this.$('#owner').enable();
@@ -559,7 +602,7 @@ GamFcltsMngGroupMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnRemove').enable();
 			this.$('#btnRemove').removeClass('ui-state-disabled');
 		} else {
-			this.$('#fcltsMngGroupNo').disable();
+			this.$('#prtAtCode').disable();
 			this.$('#fcltsMngGroupNm').disable();
 			this.$('#loc').disable();
 			this.$('#owner').disable();
@@ -594,7 +637,7 @@ GamFcltsMngGroupMngModule.prototype.enableDetailInputItem = function() {
 %>
 GamFcltsMngGroupMngModule.prototype.disableDetailInputItem = function() {
 
-	this.$('#fcltsMngGroupNo').disable();
+	this.$('#prtAtCode').disable();
 	this.$('#fcltsMngGroupNm').disable();
 	this.$('#loc').disable();
 	this.$('#owner').disable();
@@ -743,19 +786,21 @@ var module_instance = new GamFcltsMngGroupMngModule();
 							<tr>
 								<th style="width:15%; height:20;">시설물 관리 그룹 번호</th>
 								<td>
-									<input type="text" id="fcltsMngGroupNo" size="48" maxlength="14"/>
+									<input id="prtAtCodeNm" type="hidden"/>
+									<input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" />
+									<input type="text" id="fcltsMngGroupNo" size="35" maxlength="14" disabled/>
 								</td>
-								<th style="width:15%; height:20;">시설물 관리 그룹 명</th>
-								<td>
-									<input type="text" id="fcltsMngGroupNm" size="48" maxlength="80"/>
-								</td>
-							</tr>
-							<tr>
 								<th style="width:15%; height:20;">소유자 / 준공일자</th>
 								<td>
 									<input type="text" id="owner" size="22" maxlength="60"/>
 									&nbsp; / &nbsp;
 									<input type="text" id="bldDt" size="18" class="emdcal"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:15%; height:20;">시설물 관리 그룹 명</th>
+								<td>
+									<input type="text" id="fcltsMngGroupNm" size="48" maxlength="80"/>
 								</td>
 								<th style="width:15%; height:20;">위치</th>
 								<td>

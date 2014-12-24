@@ -184,7 +184,7 @@ GamCarRefuelSttusMngModule.prototype.allSelectQueryFuelKnd = function() {
 **/
 %>
 GamCarRefuelSttusMngModule.prototype.allUnselectQueryFuelKnd = function() {
-console.log('asdf');
+
 	$('input[name="FuelKndCheck"]').each(function(){
 		$(this).attr('checked', false);
 		//this.checked = false;
@@ -245,6 +245,41 @@ GamCarRefuelSttusMngModule.prototype.onSubmit = function() {
 	this._mainKeyValue = '';
 	this.loadData();
 	this.enableListButtonItem();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : rowSpanGrid
+ * @DESCRIPTION   : GRID DATA ROW SPAN
+ * @PARAMETER     : NONE
+**/
+%>
+GamCarRefuelSttusMngModule.prototype.rowSpanGridData = function() {
+
+	var gridRowCount = this.$("#mainGrid").flexRowCount();
+	if (gridRowCount == 0) {
+		return;
+	}
+	var fuelKnd = "";
+	var startRowNo = 0;
+	var endRowNo = 0;
+	for(var i=0; i<gridRowCount; i++) {
+		var row = this.$("#mainGrid").flexGetRow(i+1);
+		if (fuelKnd == "") {
+			fuelKnd = row.fuelKnd;
+		}
+		if (row.fuelKnd != fuelKnd) {
+			endRowNo = i - 1;
+			if (endRowNo > startRowNo) {
+				this.$('#mainGrid')[0].dgrid.setRowspan(startRowNo + 1,0,(endRowNo - startRowNo) + 1);
+				this.$('#mainGrid')[0].dgrid.setColVAlign("middle");
+				this.$('#mainGrid')[0].dgrid.setRowspan(startRowNo + 1,3,(endRowNo - startRowNo) + 1);
+			}
+			startRowNo = i;
+			fuelKnd = row.fuelKnd;
+		}
+	}
 
 };
 
@@ -349,6 +384,7 @@ GamCarRefuelSttusMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamCarRefuelSttusMngModule.prototype.selectData = function() {
 
+	this.rowSpanGridData();
 	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
 		if (gridRowCount == 0) {

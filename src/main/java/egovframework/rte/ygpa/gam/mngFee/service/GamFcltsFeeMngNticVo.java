@@ -82,6 +82,7 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 	private String	billNo;				//세입징수 고지 번호
 	private String	rcvdTp;				//세입징수 수납 구분
 	private	String	userName;			//등록자명
+	private String	arrrgSttus;			//연체 상태
 
 	private String	dataCount;			//자료수
 	private String	sumFee;				//총사용료
@@ -771,6 +772,18 @@ public class GamFcltsFeeMngNticVo  extends ComDefaultVO {
 	 */
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	/**
+	 * @return the arrrgSttus
+	 */
+	public String getArrrgSttus() {
+		return arrrgSttus;
+	}
+	/**
+	 * @param arrrgSttus the arrrgSttus to set
+	 */
+	public void setArrrgSttus(String arrrgSttus) {
+		this.arrrgSttus = arrrgSttus;
 	}
 	/**
 	 * @return the dataCount

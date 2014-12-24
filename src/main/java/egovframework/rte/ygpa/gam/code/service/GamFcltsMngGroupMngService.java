@@ -46,6 +46,12 @@ public interface GamFcltsMngGroupMngService {
 
 	/**
 	 * @param gamFcltsMngGroupMngVo
+	 * @return
+	 */
+	String selectFcltsMngGroupMngMaxGroupNo(GamFcltsMngGroupMngVo gamFcltsMngGroupMngVo) throws Exception;
+
+	/**
+	 * @param gamFcltsMngGroupMngVo
 	 */
 	void insertFcltsMngGroupMng(GamFcltsMngGroupMngVo gamFcltsMngGroupMngVo) throws Exception;
 

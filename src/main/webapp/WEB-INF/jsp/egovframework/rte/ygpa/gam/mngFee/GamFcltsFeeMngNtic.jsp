@@ -293,6 +293,12 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnExcelDownload':
 			this.downloadExcel();
 			break;
+		case 'btnProcessNticIssueUnpaid':
+			this.processNticIssueUnpaid();
+			break;
+		case 'btnCancelNticIssueUnpaid':
+			this.cancelNticIssueUnpaid();
+			break;
 		case 'btnOpenFcltsFeeMngInqire':
 			this.openFcltsFeeMngInqireModule();
 			break;
@@ -394,7 +400,7 @@ GamFcltsFeeMngNticModule.prototype.loadDetail = function(tabId) {
 **/
 %>
 GamFcltsFeeMngNticModule.prototype.selectData = function() {
-console.log('asdf');
+
 	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
 		if (gridRowCount == 0) {
@@ -799,6 +805,7 @@ GamFcltsFeeMngNticModule.prototype.cancelNticIssue = function() {
 	var rcivSe = this.$('#rcivSe').val();
 	var accnutYear = this.$('#accnutYear').val();
 	var nticNo = this.$('#nticNo').val();
+	var arrrgNo = this.$('#arrrgNo').val();
 	var confirmMessage = "";
 	if (nhtIsueYn != "Y") {
 		alert('고지 처리가 완료된 자료가 아닙니다.');
@@ -818,6 +825,10 @@ GamFcltsFeeMngNticModule.prototype.cancelNticIssue = function() {
 	}
 	if (nticNo > "999999" || nticNo < "000001" || nticNo == "") {
 		alert('고지 번호가 부정확합니다.');
+		return;
+	}
+	if (arrrgNo != "") {
+		alert('연체 고지 자료가 존재합니다.\r\n연체 고지 취소를 먼저 수행하시길 바랍니다.');
 		return;
 	}
 	confirmMessage = "[" + this.$('#chrgeKnd_select').find('option:selected').text() + "] " + this.$('#fee').val() + "원을 고지 취소하시겠습니까?";
@@ -1019,11 +1030,16 @@ GamFcltsFeeMngNticModule.prototype.enableListButtonItem = function() {
 		var nhtIsueYn = row['nhtIsueYn'];
 		var rcivSe = row['rcivSe'];
 		var aditNticYn = row['aditNticYn'];
+		var arrrgNo = row['#arrrgNo'];
 		if (rcivSe == "0" || rcivSe == "1") {
 			if (nhtIsueYn == "Y") {
 				this.$('#btnProcessNticIssue').disable({disableClass:"ui-state-disabled"});
-				this.$('#btnCancelNticIssue').enable();
-				this.$('#btnCancelNticIssue').removeClass('ui-state-disabled');
+				if (arrrgNo != "") {
+					this.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
+				} else {
+					this.$('#btnCancelNticIssue').enable();
+					this.$('#btnCancelNticIssue').removeClass('ui-state-disabled');
+				}
 				this.$('#btnPrintNticIssue').enable();
 				this.$('#btnPrintNticIssue').removeClass('ui-state-disabled');
 				this.$('#btnOpenFcltsFeeMngInqire').enable();
@@ -1078,6 +1094,8 @@ GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 	var nhtIsueYn = this.$('#nhtIsueYn').val();
 	var rcivSe = this.$('#rcivSe').val();
 	var aditNticYn = this.$('#aditNticYn').val();
+	var arrrgNo = this.$('#arrrgNo').val();
+	var arrrgSttus = this.$('#arrrgSttus').val();
 	if (this._mode == "insert") {
 		this.$('#chrgeKnd').enable();
 		this.$('#vatYn').enable();
@@ -1094,6 +1112,8 @@ GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 		this.$('#btnDelNticIssue2').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnSaveNticIssue').enable();
 		this.$('#btnSaveNticIssue').removeClass('ui-state-disabled');
+		this.$('#btnProcessNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnCancelNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
 	} else {
 		if (rcivSe == "0" || rcivSe == "1") {
 			if (nhtIsueYn == "Y") {
@@ -1106,8 +1126,12 @@ GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 				this.$('#payTmlmt').disable();
 				this.$('#rm').disable();
 				this.$('#btnProcessNticIssue2').disable({disableClass:"ui-state-disabled"});
-				this.$('#btnCancelNticIssue2').enable();
-				this.$('#btnCancelNticIssue2').removeClass('ui-state-disabled');
+				if (arrrgNo != "") {
+					this.$('#btnCancelNticIssue2').disable({disableClass:"ui-state-disabled"});
+				} else {
+					this.$('#btnCancelNticIssue2').enable();
+					this.$('#btnCancelNticIssue2').removeClass('ui-state-disabled');
+				}
 				this.$('#btnPrintNticIssue2').enable();
 				this.$('#btnPrintNticIssue2').removeClass('ui-state-disabled');
 				this.$('#btnSaveNticIssue').disable({disableClass:"ui-state-disabled"});
@@ -1135,6 +1159,19 @@ GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 			} else {
 				this.$('#btnDelNticIssue2').disable({disableClass:"ui-state-disabled"});
 			}
+			if (arrrgSttus != "") {
+				this.$('#btnProcessNticIssueUnpaid').enable();
+				this.$('#btnProcessNticIssueUnpaid').removeClass('ui-state-disabled');
+				if (arrrgNo != "") {
+					this.$('#btnProcessNticIssueUnpaid').enable();
+					this.$('#btnProcessNticIssueUnpaid').removeClass('ui-state-disabled');
+				} else {
+					this.$('#btnCancelNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
+				}
+			} else {
+				this.$('#btnProcessNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
+				this.$('#btnCancelNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
+			}
 		} else if (rcivSe == "2" || rcivSe == "3" || rcivSe == "4") {
 			this.$('#chrgeKnd').disable();
 			this.$('#vatYn').disable();
@@ -1152,6 +1189,8 @@ GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnAddNticIssue2').removeClass('ui-state-disabled');
 			this.$('#btnDelNticIssue2').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSaveNticIssue').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnProcessNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnCancelNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
 		} else {
 			this.$('#chrgeKnd').disable();
 			this.$('#vatYn').disable();
@@ -1167,6 +1206,8 @@ GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnAddNticIssue2').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnDelNticIssue2').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSaveNticIssue').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnProcessNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnCancelNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
 		}
 	}
 
@@ -1195,6 +1236,8 @@ GamFcltsFeeMngNticModule.prototype.disableDetailInputItem = function() {
 	this.$('#btnAddNticIssue2').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelNticIssue2').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSaveNticIssue').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnProcessNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnCancelNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -1366,7 +1409,7 @@ var module_instance = new GamFcltsFeeMngNticModule();
 							</tr>
 						</table>
 					</form>
-					<button id="btnProcessNticIssue">　　고　지　　</button>
+					<button id="btnProcessNticIssue">　고지　처리　</button>
 					<button id="btnCancelNticIssue">　고지　취소　</button>
 					<button id="btnPrintNticIssue">고지서　　출력</button>
 					<button id="btnAddNticIssue" class="buttonAdd">추가고지　입력</button>
@@ -1435,7 +1478,7 @@ var module_instance = new GamFcltsFeeMngNticModule();
 							<tr>
 								<td>시설물 관리비 고지 내역</td>
 								<td style="text-align:right;">
-									<button id="btnProcessNticIssue2">　　고　지　　</button>
+									<button id="btnProcessNticIssue2">　고지　처리　</button>
 									<button id="btnCancelNticIssue2">　고지　취소　</button>
 									<button id="btnPrintNticIssue2">고지서　　출력</button>
 									<button id="btnAddNticIssue2" class="buttonAdd">추가고지　입력</button>
@@ -1502,15 +1545,26 @@ var module_instance = new GamFcltsFeeMngNticModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">연체 번호</th>
+								<th style="width:10%; height:18;">연체 요율/일수</th>
 								<td>
-									<input type="text" size="16" id="arrrgNo" disabled>
-									<input type="text" size="16" class="ygpaNumber" id="arrrgPayDates" disabled/>
+									<input type="text" size="10" id="arrrgNo" disabled>
+									<input type="text" size="10" class="ygpaNumber" id="arrrgTariff" disabled/>
+									<input type="text" size="10" class="ygpaNumber" id="arrrgPayDates" disabled/>
 								</td>
 								<th style="width:10%; height:18;">연체 금액</th>
 								<td>
-									<input type="text" size="33" class="ygpaNumber" id="arrrgAmt" disabled/>
+									<input type="text" size="22" class="ygpaNumber" id="arrrgAmt" disabled/>
+									<input type="text" size="10" id="arrrgSttus" style="background:yellow;" disabled>
 								</td>
+								<th style="width:10%; height:18;">연체 처리</th>
+								<td>
+									<button id="btnProcessNticIssueUnpaid">연체 고지 처리</button>
+									<button id="btnCancelNticIssueUnpaid">연체 고지 취소</button>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18;">비고</th>
+                                <td colspan="3"><input type="text" size="87" id="rm"/></td>
 								<th style="width:10%; height:18;">고지/출력/추가</th>
 								<td>
 									<input id="setoffYn" type="hidden"/>
@@ -1519,10 +1573,6 @@ var module_instance = new GamFcltsFeeMngNticModule();
 									<input type="text" size="10" id="nhtPrintYn" disabled>
 									<input type="text" size="10" id="aditNticYn" disabled>
 								</td>
-							</tr>
-							<tr>
-								<th style="width:10%; height:18;">비고</th>
-                                <td colspan="5"><input type="text" size="140" id="rm"/></td>
 							</tr>
 						</table>
 						<table id="detailGrid" style="display:none;"></table>

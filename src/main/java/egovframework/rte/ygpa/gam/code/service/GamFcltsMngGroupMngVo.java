@@ -32,6 +32,8 @@ public class GamFcltsMngGroupMngVo  extends ComDefaultVO {
 	/** 자료컬럼 **/
 	private String fcltsMngGroupNo;			//시설물 관리 그룹 번호
 	private String fcltsMngGroupNm;			//시설물 관리 그룹 명
+	private String prtAtCode;				//항구분
+	private String prtAtCodeNm;				//항구분명
 	private String loc;						//위치
 	private String owner;					//소유자
 	private String bldDt;					//준공 일자
@@ -87,6 +89,30 @@ public class GamFcltsMngGroupMngVo  extends ComDefaultVO {
 	 */
 	public void setFcltsMngGroupNm(String fcltsMngGroupNm) {
 		this.fcltsMngGroupNm = fcltsMngGroupNm;
+	}
+	/**
+	 * @return the prtAtCode
+	 */
+	public String getPrtAtCode() {
+		return prtAtCode;
+	}
+	/**
+	 * @param prtAtCode the prtAtCode to set
+	 */
+	public void setPrtAtCode(String prtAtCode) {
+		this.prtAtCode = prtAtCode;
+	}
+	/**
+	 * @return the prtAtCodeNm
+	 */
+	public String getPrtAtCodeNm() {
+		return prtAtCodeNm;
+	}
+	/**
+	 * @param prtAtCodeNm the prtAtCodeNm to set
+	 */
+	public void setPrtAtCodeNm(String prtAtCodeNm) {
+		this.prtAtCodeNm = prtAtCodeNm;
 	}
 	/**
 	 * @return the loc
