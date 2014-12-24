@@ -40,7 +40,7 @@
 						  , A.GIS_ASSETS_LOC_CD
 						  , GAM_GETCODENAME('GAM002', A.GIS_ASSETS_LOC_CD) GIS_ASSETS_LOC_NM
 						FROM
-						  GIS_PRT_FCLTY_CD_F F
+						  GIS_PRT_FCLTY_CD_F F ,MECH_FCLTY_SPEC_F C
 						INNER JOIN  
 						  GIS_ASSETS_CD_F A
 						ON
@@ -49,6 +49,7 @@
 						  AND F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
 						WHERE
 						  F.PRT_FCLTY_SE = 'E'  
+						  AND F.FCLTS_MNG_NO = C.FCLTS_MNG_NO
  						  <isNotEmpty property="sPrtAtCode">
 						  	AND F.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
 						  </isNotEmpty>
@@ -80,7 +81,7 @@
     	SELECT 
     	  COUNT(*) TOTCNT
 		FROM
-		  GIS_PRT_FCLTY_CD_F F
+		  GIS_PRT_FCLTY_CD_F F ,MECH_FCLTY_SPEC_F C
 		INNER JOIN  
 		  GIS_ASSETS_CD_F A
 		ON
@@ -89,6 +90,7 @@
 		  AND F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
 		WHERE
 		  F.PRT_FCLTY_SE = 'E'  
+		  AND F.FCLTS_MNG_NO = C.FCLTS_MNG_NO
  						  <isNotEmpty property="sPrtAtCode">
 						  	AND F.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
 						  </isNotEmpty>
