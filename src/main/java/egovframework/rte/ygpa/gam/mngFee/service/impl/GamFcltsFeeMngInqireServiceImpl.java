@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireService;
+import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireUnpaidVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireVo;
 
 /**
@@ -59,6 +60,11 @@ public class GamFcltsFeeMngInqireServiceImpl extends AbstractServiceImpl impleme
 	@Override
 	public String selectEntrpsNm(Map searchVO) throws Exception {
 		return gamFcltsFeeMngInqireDao.selectEntrpsNm(searchVO);
+	}
+
+	@Override
+	public List selectFcltsFeeMngInqireUnpaidList(GamFcltsFeeMngInqireUnpaidVo searchVO) throws Exception {
+		return gamFcltsFeeMngInqireDao.selectFcltsFeeMngInqireUnpaidList(searchVO);
 	}
 
 }

@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireUnpaidVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireVo;
 
 /**
@@ -67,6 +68,14 @@ public class GamFcltsFeeMngInqireDao extends YGPAAbstractDAO{
 	 */
 	public String selectEntrpsNm(Map searchVO) {
 		return (String)getSqlMapClientTemplate().queryForObject("gamFcltsFeeMngInqireDao.selectEntrpsNm_S", searchVO);
+	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public List selectFcltsFeeMngInqireUnpaidList(GamFcltsFeeMngInqireUnpaidVo searchVO) {
+		return list("gamFcltsFeeMngInqireDao.selectFcltsFeeMngInqireUnpaidList_D", searchVO);
 	}
 
 }

@@ -54,4 +54,10 @@ public interface GamFcltsFeeMngInqireService {
 	 */
 	String selectEntrpsNm(Map searchVO) throws Exception;
 
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	List selectFcltsFeeMngInqireUnpaidList(GamFcltsFeeMngInqireUnpaidVo searchVO) throws Exception;
+
 }

@@ -97,6 +97,31 @@ GamFcltsFeeMngInqireModule.prototype.loadComplete = function(params) {
 		}
 	});
 
+	this.$("#unpaidGrid").flexigrid({
+		module : this,
+		url : '/mngFee/gamSelectFcltsFeeMngInqireUnpaid.do',
+		dataType : 'json',
+		colModel : [
+					{display:'연체 순번', 		name:'dlySerNo',		width:70,		sortable:false,		align:'center'},
+					{display:'회계 년도',		name:'fiscalYr',		width:70,		sortable:false,		align:'center'},
+					{display:'고지 번호',		name:'billNo',			width:70,		sortable:false,		align:'center'},
+					{display:'고지 일자',		name:'dlyBillDt',		width:80,		sortable:false,		align:'center'},
+					{display:'납부 기한',		name:'dlyDueDt',		width:80,		sortable:false,		align:'center'},
+					{display:'연체 금액',		name:'dlyBillAmnt',		width:90,		sortable:false,		align:'right'},
+					{display:'연체 요율',		name:'arrrgTriff',		width:70,		sortable:false,		align:'right'},
+					{display:'연체 일수',		name:'arrrgPayDates',	width:70,		sortable:false,		align:'right'},
+					{display:'출력 여부',		name:'dlyBillPrtYn',	width:70,		sortable:false,		align:'center'},
+					{display:'수납 구분',		name:'dlyRcvdTpNm',		width:70,		sortable:false,		align:'center'},
+					{display:'수납 일자',		name:'dlyRcvdDt',		width:80,		sortable:false,		align:'center'},
+					{display:'산출 내역',		name:'dlyBillRsn',		width:200,		sortable:false,		align:'left'},
+					{display:'지로 금액',		name:'djiroAmnt',		width:90,		sortable:false,		align:'right'},
+					{display:'이전 고지 일자',	name:'prvBillDt',		width:100,		sortable:false,		align:'center'},
+					{display:'이전 납부 기한',	name:'prvDueDt',		width:100,		sortable:false,		align:'center'}
+					],
+		showTableToggleBtn : true,
+		height : '290'
+	});
+
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mode = 'modify';
 	});
@@ -128,6 +153,8 @@ GamFcltsFeeMngInqireModule.prototype.loadComplete = function(params) {
 		this.$('#sStartMngMt').val(mon);
 		this.$('#sEndMngMt').val(mon);
 	}
+	this._detailDisplay = 'unpaid';
+	this.$('#fcltsFeeMngSttusChart').hide();
 
 };
 
@@ -241,6 +268,22 @@ GamFcltsFeeMngInqireModule.prototype.onButtonClick = function(buttonId) {
 		case 'popupEntrpscd':
 			this.doExecuteDialog('popupEntrpscd', '업체 선택', '/popup/showEntrpsInfo.do', null);
 			break;
+		case 'btnArrrgList':
+			if (this._detailDisplay != 'unpaid') {
+				this._detailDisplay = 'unpaid';
+				this.$('#fcltsFeeMngSttusChart').hide();
+				this.$('#unpaidGrid').show();
+				this.loadUnpaidData();
+			}
+			break;
+		case 'btnNticGraph':
+			if (this._detailDisplay != 'graph') {
+				this._detailDisplay = 'graph';
+				this.$('#unpaidGrid').hide();
+				this.drawChart();
+				this.$('#fcltsFeeMngSttusChart').show();
+			}
+			break;
 	}
 
 };
@@ -291,6 +334,20 @@ GamFcltsFeeMngInqireModule.prototype.loadDetail = function() {
 	}
 	this.makeFormValues('#detailForm', row[0]);
 	this.makeDivValues('#detailForm', row[0]);
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadUnpaidData
+ * @DESCRIPTION   : UNPAID DATA LOAD (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngInqireModule.prototype.loadUnpaidData = function() {
+
+	var searchOpt=this.makeFormArgs('#detailForm');
+	this.$('#unpaidGrid').flexOptions({params:searchOpt}).flexReload();
 
 };
 
@@ -381,7 +438,11 @@ GamFcltsFeeMngInqireModule.prototype.onTabChange = function(newTabId, oldTabId) 
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
 			}
-			this.drawChart();
+			if (this._detailDisplay == 'unpaid') {
+				this.loadUnpaidData();
+			} else {
+				this.drawChart();
+			}
 			break;
 	}
 
@@ -602,6 +663,7 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 								</td>
 								<td rowspan="11" style="padding-left:4px;">
 									<div id="fcltsFeeMngSttusChart" style="width:650px;height:290px;border:1px solid #A4BED4;"></div>
+									<table id="unpaidGrid" style="display:none;"></table>
 								</td>
 							</tr>
                             <tr>

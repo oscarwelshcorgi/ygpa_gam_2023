@@ -5,6 +5,7 @@
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 	<typeAlias alias="gamFcltsFeeMngInqireVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireVo"/>
+	<typeAlias alias="gamFcltsFeeMngInqireUnpaidVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireUnpaidVo"/>
 
 	<resultMap id="gamFcltsFeeMngInqireSumMap" class="egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngInqireVo">
 		<result property="dataCount" column="DATA_COUNT" columnIndex="1"/>
@@ -231,6 +232,34 @@
 		SELECT ENTRPS_NM
 			FROM ENTRPS_INFO_F
 		WHERE ENTRPSCD = #sEntrpscd#
+	</select>
+
+	<select id="gamFcltsFeeMngInqireDao.selectFcltsFeeMngInqireUnpaidList_D" parameterClass="gamFcltsFeeMngInqireUnpaidVo" resultClass="egovMap">
+		SELECT
+				 T1.PRT_AT_CODE
+				,T1.FEE_TP
+				,T1.FISCAL_YR
+				,T1.BILL_NO
+				,T1.DLY_SER_NO
+				,LTRIM(TO_CHAR(NVL(T1.DLY_BILL_AMNT,0),'999,999,999,990')) AS DLY_BILL_AMNT
+				,TO_CHAR(T1.DLY_BILL_DT,'YYYY-MM-DD') AS DLY_BILL_DT
+				,TO_CHAR(T1.DLY_DUE_DT,'YYYY-MM-DD') AS DLY_DUE_DT
+				,T1.DLY_BILL_PRT_YN
+				,LTRIM(TO_CHAR(NVL(T1.DBILL_AMNT,0),'999,999,999,990')) AS DBILL_AMNT
+				,TO_CHAR(T1.PRV_BILL_DT,'YYYY-MM-DD') AS PRV_BILL_DT
+				,TO_CHAR(T1.PRV_DUE_DT,'YYYY-MM-DD') AS PRV_DUE_DT
+				,TO_CHAR(NVL(T1.ARRRG_TARIFF,0)) AS ARRRG_TARIFF
+				,TO_CHAR(NVL(T1.ARRRG_PAY_DATES,0)) AS ARRRG_PAY_DATES
+				,T1.DLY_BILL_RSN
+				,T1.DLY_RCVD_TP
+				,GAM_GETCODENAME('GAM025',T1.DLY_RCVD_TP) AS DLY_RCVD_TP_NM
+				,TO_CHAR(T1.DLY_RCVD_DT,'YYYY-MM-DD') AS DLY_RCVD_DT
+				,LTRIM(TO_CHAR(NVL(T1.DJIRO_AMNT,0),'999,999,999,990')) AS DJIRO_AMNT
+			FROM UNPAID_F T1
+		WHERE T1.PRT_AT_CODE = #prtAtCode#
+		AND T1.FEE_TP = GAM_GET_FEE_TP(#chrgeKnd#)
+		AND T1.FISCAL_YR = #accnutYear#
+		AND T1.BILL_NO = #nticNo#
 	</select>
 
 </sqlMap>
