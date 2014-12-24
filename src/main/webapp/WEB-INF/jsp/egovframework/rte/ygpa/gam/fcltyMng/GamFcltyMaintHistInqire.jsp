@@ -39,6 +39,7 @@ GamFcltyMaintHistInqireModule.prototype.loadComplete = function() {
 		url: '/fcltyMng/selectFcltyMaintHistInqireList.do',
 		dataType: "json",
 		colModel : [
+					{display:"도", 			name:"fcltsMngNo",				width:60, 		sortable:false,		align:"center"},
 					{display:"시행년도", 			name:"enforceYear",				width:60, 		sortable:false,		align:"center"},
 					{display:"계약번호", 			name:"ctrtNo",					width:200, 		sortable:false,		align:"center"},
 					{display:"시공업체", 			name:"cnstrtr",					width:200, 		sortable:false,		align:"center"},

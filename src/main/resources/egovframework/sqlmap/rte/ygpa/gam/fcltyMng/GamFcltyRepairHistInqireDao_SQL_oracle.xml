@@ -125,7 +125,8 @@
 			AND F.FCLTS_MNG_GROUP_NO = O.FCLTS_MNG_GROUP_NO
 			AND F.FCLTS_JOB_SE = #fcltsJobSe#
 			AND F.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND F.FLAW_RPR_SEQ = #flawRprSeq#
+			AND F.FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
+			AND O.FCLTS_MNG_NO = #fcltsMngNo#
 	</select>
 	
 	

@@ -129,7 +129,7 @@
 		WHERE 
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND MNTN_RPR_SEQ = #mntnRprSeq#
+			AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	</select>
 	
 	
@@ -159,7 +159,7 @@
 						WHERE
 							FCLTS_JOB_SE = #fcltsJobSe#
 							AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-							AND MNTN_RPR_SEQ = #mntnRprSeq#
+							AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	           			
 						ORDER BY
 							MNTN_RPR_SEQ ASC
@@ -176,7 +176,7 @@
 		WHERE
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND MNTN_RPR_SEQ = #mntnRprSeq#
+			AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	</select>
 	
 	
@@ -212,7 +212,7 @@
 						WHERE
 							FCLTS_JOB_SE = #fcltsJobSe#
 							AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-							AND MNTN_RPR_SEQ = #mntnRprSeq#
+							AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	           			
 						ORDER BY
 							MNTN_RPR_SEQ ASC
@@ -229,7 +229,7 @@
 		WHERE
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND MNTN_RPR_SEQ = #mntnRprSeq#
+			AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	</select>
 	
 	
@@ -320,7 +320,7 @@
 			WHERE 
 				FCLTS_JOB_SE = #fcltsJobSe#
 				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-				AND MNTN_RPR_SEQ = $mntnRprSeq$
+				AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	</update>
 	
 	<!-- 유지보수내역삭제 -->
@@ -330,7 +330,7 @@
 		WHERE 
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND MNTN_RPR_SEQ = $mntnRprSeq$
+			AND MNTN_RPR_SEQ = $TO_NUMBER(#mntnRprSeq#)
 	</delete>
 	
 	
@@ -385,7 +385,7 @@
 			WHERE 
 				FCLTS_JOB_SE = #fcltsJobSe#
 				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-				AND MNTN_RPR_SEQ = $mntnRprSeq$
+				AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 				AND FCLTS_MNG_NO = #fcltsMngNo#
 	</update>
 	
@@ -397,7 +397,7 @@
 		WHERE 
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND MNTN_RPR_SEQ = $mntnRprSeq$
+			AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 		<isNotEmpty property="fcltsMngNo">
 			AND FCLTS_MNG_NO = #fcltsMngNo#
 		</isNotEmpty>
@@ -416,7 +416,7 @@
 			WHERE 
 				FCLTS_JOB_SE = #fcltsJobSe#
 				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-				AND MNTN_RPR_SEQ = #mntnRprSeq#
+				AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	    </selectKey>
 	    
 		INSERT INTO 
@@ -465,8 +465,8 @@
 			WHERE 
 				FCLTS_JOB_SE = #fcltsJobSe#
 				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-				AND MNTN_RPR_SEQ = $mntnRprSeq$
-				AND ATCH_FILE_SEQ = $atchFileSeq$
+				AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
+				AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)
 	</update>
 	
 	
@@ -477,9 +477,9 @@
 		WHERE 
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND MNTN_RPR_SEQ = $mntnRprSeq$
+			AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 		<isNotEmpty property="atchFileSeq">
-			AND ATCH_FILE_SEQ = $atchFileSeq$
+			AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)
 		</isNotEmpty>
 			
 	</delete>

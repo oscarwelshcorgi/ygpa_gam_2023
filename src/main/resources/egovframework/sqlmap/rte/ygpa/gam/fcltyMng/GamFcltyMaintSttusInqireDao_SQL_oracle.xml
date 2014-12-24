@@ -129,7 +129,7 @@
 		WHERE 
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND MNTN_RPR_SEQ = #mntnRprSeq#
+			AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	</select>
 	
 	
@@ -159,7 +159,7 @@
 						WHERE
 							FCLTS_JOB_SE = #fcltsJobSe#
 							AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-							AND MNTN_RPR_SEQ = #mntnRprSeq#
+							AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	           			
 						ORDER BY
 							MNTN_RPR_SEQ ASC
@@ -176,7 +176,7 @@
 		WHERE
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND MNTN_RPR_SEQ = #mntnRprSeq#
+			AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	</select>
 	
 	
@@ -212,7 +212,7 @@
 						WHERE
 							FCLTS_JOB_SE = #fcltsJobSe#
 							AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-							AND MNTN_RPR_SEQ = #mntnRprSeq#
+							AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	           			
 						ORDER BY
 							MNTN_RPR_SEQ ASC
@@ -229,7 +229,7 @@
 		WHERE
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND MNTN_RPR_SEQ = #mntnRprSeq#
+			AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	</select>
 	
 	

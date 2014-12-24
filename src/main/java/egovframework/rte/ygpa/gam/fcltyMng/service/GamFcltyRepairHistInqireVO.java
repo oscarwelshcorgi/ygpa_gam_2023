@@ -50,6 +50,8 @@ public class GamFcltyRepairHistInqireVO extends ComDefaultVO  {
 	
 	private String flawRprSeq;
 	
+	private String fcltsMngNo;
+	
 
 	/**
 	 * @return the sFlawRprEntrpsNm
@@ -161,6 +163,20 @@ public class GamFcltyRepairHistInqireVO extends ComDefaultVO  {
 	 */
 	public void setFlawRprSeq(String flawRprSeq) {
 		this.flawRprSeq = flawRprSeq;
+	}
+
+	/**
+	 * @return the fcltsMngNo
+	 */
+	public String getFcltsMngNo() {
+		return fcltsMngNo;
+	}
+
+	/**
+	 * @param fcltsMngNo the fcltsMngNo to set
+	 */
+	public void setFcltsMngNo(String fcltsMngNo) {
+		this.fcltsMngNo = fcltsMngNo;
 	}
 	
 	

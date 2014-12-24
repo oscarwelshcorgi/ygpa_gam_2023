@@ -132,7 +132,7 @@
 		WHERE 
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND FLAW_RPR_SEQ = #flawRprSeq#
+			AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 		
 		
 	</select>
@@ -162,7 +162,7 @@
 						WHERE
 							FCLTS_JOB_SE = #fcltsJobSe#
 							AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-							AND FLAW_RPR_SEQ = $flawRprSeq$
+							AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 	           			
 						ORDER BY
 							FLAW_RPR_SEQ ASC
@@ -179,7 +179,7 @@
 		WHERE
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND FLAW_RPR_SEQ = $flawRprSeq$
+			AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 	</select>
 	
 	
@@ -206,7 +206,7 @@
 						WHERE
 							FCLTS_JOB_SE = #fcltsJobSe#
 							AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-							AND FLAW_RPR_SEQ = $flawRprSeq$
+							AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 	           			
 						ORDER BY
 							FLAW_RPR_SEQ ASC
@@ -223,7 +223,7 @@
 		WHERE
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND FLAW_RPR_SEQ = $flawRprSeq$
+			AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 	</select>
 	
 	
@@ -259,7 +259,7 @@
 						WHERE
 							FCLTS_JOB_SE = #fcltsJobSe#
 							AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-							AND FLAW_RPR_SEQ = $flawRprSeq$
+							AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 	           			
 						ORDER BY
 							FLAW_RPR_SEQ ASC
@@ -276,7 +276,7 @@
 		WHERE
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND FLAW_RPR_SEQ = $flawRprSeq$
+			AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 	</select>
 	
 	
@@ -373,7 +373,7 @@
 			WHERE 
 				FCLTS_JOB_SE = #fcltsJobSe#
 				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-				AND FLAW_RPR_SEQ = $flawRprSeq$
+				AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 	</update>
 	
 	<!-- 하자보수내역삭제 -->
@@ -383,7 +383,7 @@
 		WHERE 
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND FLAW_RPR_SEQ = $flawRprSeq$
+			AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 	</delete>
 	
 	
@@ -432,7 +432,7 @@
 			WHERE 
 				FCLTS_JOB_SE = #fcltsJobSe#
 				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-				AND FLAW_RPR_SEQ = $flawRprSeq$
+				AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 				AND FCLTS_MNG_NO = #fcltsMngNo#
 	</update>
 	
@@ -445,7 +445,7 @@
 		WHERE 
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND FLAW_RPR_SEQ = $flawRprSeq$
+			AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 		<isNotEmpty property="fcltsMngNo">
 			AND FCLTS_MNG_NO = #fcltsMngNo#
 		</isNotEmpty>
@@ -495,8 +495,8 @@
 			WHERE 
 				FCLTS_JOB_SE = #fcltsJobSe#
 				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-				AND FLAW_RPR_SEQ = $flawRprSeq$
-				AND SEQ = $seq$
+				AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
+				AND SEQ = TO_NUMBER(#seq#)
 	</update>
 	
 
@@ -507,9 +507,9 @@
 		WHERE 
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND FLAW_RPR_SEQ = $flawRprSeq$
+			AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 		<isNotEmpty property="seq">
-			AND SEQ = $seq$
+			AND SEQ = TO_NUMBER(#seq#)
 		</isNotEmpty>
 			
 	</delete>
@@ -526,7 +526,7 @@
 			WHERE 
 				FCLTS_JOB_SE = #fcltsJobSe#
 				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-				AND FLAW_RPR_SEQ = $flawRprSeq$
+				AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 	    </selectKey>
 	    
 		INSERT INTO 
@@ -575,8 +575,8 @@
 			WHERE 
 				FCLTS_JOB_SE = #fcltsJobSe#
 				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-				AND FLAW_RPR_SEQ = $flawRprSeq$
-				AND ATCH_FILE_SEQ = $atchFileSeq$
+				AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
+				AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)
 	</update>
 	
 	
@@ -587,9 +587,9 @@
 		WHERE 
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND FLAW_RPR_SEQ = $flawRprSeq$
+			AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 		<isNotEmpty property="atchFileSeq">
-			AND ATCH_FILE_SEQ = $atchFileSeq$
+			AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)
 		</isNotEmpty>
 			
 	</delete>

@@ -37,7 +37,7 @@ public class GamFcltyMaintHistInqireDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */
-	public List selectFcltyMaintHistInqireList(GamFcltyMaintHistInqireVO vo) throws Exception {
+	public List<?> selectFcltyMaintHistInqireList(GamFcltyMaintHistInqireVO vo) throws Exception {
 		return list("gamFcltyMaintHistInqireDao.selectFcltyMaintHistInqireList_D", vo);
 	}
 	

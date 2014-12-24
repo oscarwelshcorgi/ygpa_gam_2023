@@ -95,7 +95,7 @@ public class GamFcltyMaintHistInqireController {
         	return map;
     	}
     	// 내역 조회
-    	/** pageing */
+    	/** pageing */ 
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());

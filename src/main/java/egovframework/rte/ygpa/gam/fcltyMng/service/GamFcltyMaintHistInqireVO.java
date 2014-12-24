@@ -51,6 +51,8 @@ public class GamFcltyMaintHistInqireVO extends ComDefaultVO {
 	private String fcltsMngGroupNo;
 	
 	private String mntnRprSeq;
+	
+	private String fcltsMngNo;
 
 
 	/**
@@ -163,6 +165,20 @@ public class GamFcltyMaintHistInqireVO extends ComDefaultVO {
 	 */
 	public void setMntnRprSeq(String mntnRprSeq) {
 		this.mntnRprSeq = mntnRprSeq;
+	}
+
+	/**
+	 * @return the fcltsMngNo
+	 */
+	public String getFcltsMngNo() {
+		return fcltsMngNo;
+	}
+
+	/**
+	 * @param fcltsMngNo the fcltsMngNo to set
+	 */
+	public void setFcltsMngNo(String fcltsMngNo) {
+		this.fcltsMngNo = fcltsMngNo;
 	}
 
 	

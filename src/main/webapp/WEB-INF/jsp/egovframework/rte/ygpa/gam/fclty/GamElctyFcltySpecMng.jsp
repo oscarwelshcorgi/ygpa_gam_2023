@@ -508,7 +508,7 @@ var module_instance = new GamElctyFcltySpecMngModule();
 							<td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>시설물관리그룹</th>
 							<td colspan="3">
-								<input id="sFcltsMngGroupNo" type="text" size="14" title="시설물관리그룹넘버" />&nbsp;-&nbsp;
+								<input id="sFcltsMngGroupNo" type="text" size="18" title="시설물관리그룹넘버" />&nbsp;-&nbsp;
 								<input id="sFcltsMngGroupNoNm" type="text" size="56" title="시설물관리그룹명" disabled="disabled" />
 								<button id="searchPopupBtn" class="popupButton">선택</button>
 							</td>
@@ -598,8 +598,8 @@ var module_instance = new GamElctyFcltySpecMngModule();
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
 							<td colspan="5">
-								<input type="text" size="14" id="fcltsMngGroupNo" disabled="disabled"/>
-								<input type="text" size="40" id="fcltsMngGroupNoNm" disabled="disabled"/>
+								<input type="text" size="18" id="fcltsMngGroupNo" disabled="disabled"/>
+								<input type="text" size="36" id="fcltsMngGroupNoNm" disabled="disabled"/>
 								<button id="searchFcltsMngGroupNo" class="popupButton">선택</button>
 							</td>
 						</tr>
