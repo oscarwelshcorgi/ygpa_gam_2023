@@ -72,6 +72,7 @@ GamCarRefuelSttusMngModule.prototype.loadComplete = function() {
 					],
 		showTableToggleBtn: false,
 		height : 'auto',
+		mergeRows : 'fuelKnd,total',
 		preProcess : function(module,data) {
 			module.$('#totalCount').val(data.totalCount);
 			module.makeDivValues('#listSumForm', data);
@@ -384,7 +385,7 @@ GamCarRefuelSttusMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamCarRefuelSttusMngModule.prototype.selectData = function() {
 
-	this.rowSpanGridData();
+	//this.rowSpanGridData();
 	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
 		if (gridRowCount == 0) {

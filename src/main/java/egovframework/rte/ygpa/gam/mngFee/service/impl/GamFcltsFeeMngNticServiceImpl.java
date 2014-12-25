@@ -249,18 +249,53 @@ public class GamFcltsFeeMngNticServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public void processFcltsFeeMngNticIssueUnpaid(Map<String, Object> vo) throws Exception {
-		gamFcltsFeeMngNticDao.updateFcltsFeeMngNticArrrgInfo(vo);
+		String strRcvdTp = (String)vo.get("rcvdTp");
+		Map unpaidFPrvData = gamFcltsFeeMngNticDao.selectUnpaidFPrvData(vo);
+		String strPrvDlySerNo = (String)unpaidFPrvData.get("prvDlySerNo");
+		String strPrvDlyBillAmnt = (String)unpaidFPrvData.get("prvDlyBillAmnt");
+		String strPrvDlyBillDt = (String)unpaidFPrvData.get("prvDlyBillDt");
+		String strPrvDlyDueDt = (String)unpaidFPrvData.get("prvDlyDueDt");
+		String strPrvArrrgTariff = (String)unpaidFPrvData.get("prvArrrgTariff");
+		String strPrvArrrgPayDates = (String)unpaidFPrvData.get("prvArrrgPayDates");
+		vo.put("prvDlySerNo", strPrvDlySerNo);
+		vo.put("prvDlyBillAmnt", strPrvDlyBillAmnt);
+		vo.put("prvDlyBillDt", strPrvDlyBillDt);
+		vo.put("prvDlyDueDt", strPrvDlyDueDt);
+		vo.put("prvArrrgTariff", strPrvArrrgTariff);
+		vo.put("prvArrrgPayDates", strPrvArrrgPayDates);
 		gamFcltsFeeMngNticDao.insertUnpaidF(vo);
+		if ("0".equals(strRcvdTp)) {
+			gamFcltsFeeMngNticDao.updateRevCollFRcvdTp(vo);
+		}
+		gamFcltsFeeMngNticDao.updateFcltsFeeMngNticArrrgInfo(vo);
 	}
 
 	@Override
 	public void cancelFcltsFeeMngNticIssueUnpaid(Map<String, Object> vo) throws Exception {
-		String strDlyBillPrtYn = (String)vo.get("dlyBillPrtYn");
+		String strRcvdTp = (String)vo.get("rcvdTp");
+		Map unpaidFPrvData = gamFcltsFeeMngNticDao.selectUnpaidFPrvData(vo);
+		String strPrvDlySerNo = (String)unpaidFPrvData.get("prvDlySerNo");
+		String strPrvDlyBillAmnt = (String)unpaidFPrvData.get("prvDlyBillAmnt");
+		String strPrvDlyBillDt = (String)unpaidFPrvData.get("prvDlyBillDt");
+		String strPrvDlyDueDt = (String)unpaidFPrvData.get("prvDlyDueDt");
+		String strPrvArrrgTariff = (String)unpaidFPrvData.get("prvArrrgTariff");
+		String strPrvArrrgPayDates = (String)unpaidFPrvData.get("prvArrrgPayDates");
+		vo.put("prvDlySerNo", strPrvDlySerNo);
+		vo.put("prvDlyBillAmnt", strPrvDlyBillAmnt);
+		vo.put("prvDlyBillDt", strPrvDlyBillDt);
+		vo.put("prvDlyDueDt", strPrvDlyDueDt);
+		vo.put("prvArrrgTariff", strPrvArrrgTariff);
+		vo.put("prvArrrgPayDates", strPrvArrrgPayDates);
+		String strDlyBillPrtYn = gamFcltsFeeMngNticDao.selectUnpaidFDlyBillPrtYn(vo);
+		vo.put("dlyBillPrtYn", strDlyBillPrtYn);
 		if ("Y".equals(strDlyBillPrtYn)) {
 			gamFcltsFeeMngNticDao.updateUnpaidFDlyBillPrtYn(vo);
 			processCancelEgiro(vo);
 		}
 		gamFcltsFeeMngNticDao.deleteUnpaidF(vo);
+		if ("1".equals(strRcvdTp) && "".equals(strPrvDlySerNo)) {
+			gamFcltsFeeMngNticDao.updateRevCollFRcvdTp(vo);
+		}
 		gamFcltsFeeMngNticDao.updateFcltsFeeMngNticArrrgInfo(vo);
 	}
 

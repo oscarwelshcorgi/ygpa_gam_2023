@@ -27,11 +27,15 @@ import egovframework.com.cmm.ComDefaultVO;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GamFcltsFeeMngNticDetailVo extends ComDefaultVO {
 
+	private static final long serialVersionUID = 1L;
+
 	private	String	mngMt;				//관리 월
 	private	String	mngFeeJobSe;		//관리비 업무 구분
 	private	String	mngSeq;				//관리 순번
 	private	String	reqestSeq;			//의뢰 순번
 	private	String	entrpscd;			//업체코드
+	private	String	entrpsNm;			//업체명
+	private	String	bizrno;				//사업자번호
 	private	String	mngFeeJobSeNm;		//관리비 업무 구분 명
 	private String	prtAtCode;			//항 코드
 	private String	chrgeKnd;			//요금 종류
@@ -125,6 +129,30 @@ public class GamFcltsFeeMngNticDetailVo extends ComDefaultVO {
 	 */
 	public void setEntrpscd(String entrpscd) {
 		this.entrpscd = entrpscd;
+	}
+	/**
+	 * @return the entrpsNm
+	 */
+	public String getEntrpsNm() {
+		return entrpsNm;
+	}
+	/**
+	 * @param entrpsNm the entrpsNm to set
+	 */
+	public void setEntrpsNm(String entrpsNm) {
+		this.entrpsNm = entrpsNm;
+	}
+	/**
+	 * @return the bizrno
+	 */
+	public String getBizrno() {
+		return bizrno;
+	}
+	/**
+	 * @param bizrno the bizrno to set
+	 */
+	public void setBizrno(String bizrno) {
+		this.bizrno = bizrno;
 	}
 	/**
 	 * @return the mngFeeJobSeNm

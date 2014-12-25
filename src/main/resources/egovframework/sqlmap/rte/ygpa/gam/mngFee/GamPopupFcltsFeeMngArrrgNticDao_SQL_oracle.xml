@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="ygpa.gam.mngFee">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<select id="gamPopupFcltsFeeMngArrrgNticDao.calcDlyBillAmnt_S" parameterClass="hashMap" resultClass="egovMap">
+		<![CDATA[
+		SELECT
+				 DLY_TERM
+				,DLY_RATE
+				,TRIM(TO_CHAR(TRUNC(BILL_AMNT * DLY_RATE * DLY_TERM / 365,-1),'999,999,999,999')) AS DLY_BILL_AMNT
+				,TRIM(TO_CHAR((BILL_AMNT + VAT + TRUNC(BILL_AMNT * DLY_RATE * DLY_TERM / 365,-1)),'999,999,999,999')) AS DJIRO_AMNT
+				,TRIM(TO_CHAR(TRUNC(BILL_AMNT * DLY_RATE * DLY_TERM / 365,-1) - PRV_DLY_BILL_AMNT,'999,999,999,999')) AS DBILL_AMNT
+				,'( ' || TRIM(TO_CHAR(BILL_AMNT,'999,999,999,999')) || ' * ' || TRIM(TO_CHAR(DLY_RATE,'0.00')) || ' * ' || TO_CHAR(DLY_TERM) || ' / 365 )' AS DLY_BILL_RSN
+			FROM (
+				SELECT
+						 MONTH_TERM
+						,DAY_TERM
+						,BILL_AMNT
+						,VAT
+						,PRV_DLY_BILL_AMNT
+						,(CASE  WHEN BILL_AMNT < 1000000 THEN 0.12
+								WHEN BILL_AMNT >= 1000000 AND MONTH_TERM < 1 THEN 0.12
+								WHEN BILL_AMNT >= 1000000 AND MONTH_TERM >= 1 AND MONTH_TERM < 3 THEN 0.13
+								WHEN BILL_AMNT >= 1000000 AND MONTH_TERM >= 3 AND MONTH_TERM < 6 THEN 0.14
+								WHEN BILL_AMNT >= 1000000 AND MONTH_TERM >= 6 THEN 0.15
+						  END) AS DLY_RATE
+						,(CASE WHEN MONTH_TERM >= 6 OR DAY_TERM >= 1800 THEN 1800 ELSE DAY_TERM END) AS DLY_TERM
+					FROM (
+							SELECT
+									 NVL(TO_NUMBER(REPLACE(#billAmnt#,',','')),0) AS BILL_AMNT
+									,NVL(TO_NUMBER(REPLACE(#vat#,',','')),0) AS VAT
+									,NVL(TO_NUMBER(REPLACE(#prvDlybillAmnt#,',','')),0) AS PRV_DLY_BILL_AMNT
+									,TRUNC(MONTHS_BETWEEN(TO_DATE(#firstBillDt#,'YYYY-MM-DD'),TO_DATE(#dlyBillDt#,'YYYY-MM-DD'))) AS MONTH_TERM
+									,TO_DATE(#dlyBillDt#,'YYYY-MM-DD') - TO_DATE(#firstBillDt#,'YYYY-MM-DD') AS DAY_TERM
+								FROM DUAL
+						 )
+				 )
+		]]>
+	</select>
+
+</sqlMap>

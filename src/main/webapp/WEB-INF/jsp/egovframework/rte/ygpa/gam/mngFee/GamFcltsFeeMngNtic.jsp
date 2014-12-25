@@ -151,6 +151,8 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 	});
 
 	this.$('#vatYn').on('change',{module:this}, function(event){
+		var vatYnNm = event.data.module.$('#vatYn_select').find('option:selected').text();
+		event.data.module.$('#vatYnNm').val(vatYnNm);
 		event.data.module.calcNticAmt();
 	});
 
@@ -218,7 +220,11 @@ GamFcltsFeeMngNticModule.prototype.onClosePopup = function(popupId, msg, value) 
 			if (msg == 'ok') {
 				this.$('#entrpscd').val(value.entrpscd);
 				this.$('#entrpsNm').val(value.entrpsNm);
+				this.$('#bizrno').val(value.bizrno);
 			}
+			break;
+		case 'popupProcessNticIssueUnpaid':
+			this.processNticIssueUnpaid(value);
 			break;
 	}
 
@@ -294,10 +300,10 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 			this.downloadExcel();
 			break;
 		case 'btnProcessNticIssueUnpaid':
-			this.processNticIssueUnpaid();
+			this.popupArrrgNticIssue();
 			break;
 		case 'btnCancelNticIssueUnpaid':
-			this.cancelNticIssueUnpaid();
+			//this.cancelNticIssueUnpaid();
 			break;
 		case 'btnOpenFcltsFeeMngInqire':
 			this.openFcltsFeeMngInqireModule();
@@ -378,6 +384,9 @@ GamFcltsFeeMngNticModule.prototype.loadDetail = function(tabId) {
 		this.makeDivValues('#detailForm', row[0]);
 	    var detailOpt=this.makeFormArgs('#detailForm');
 	    this.$('#detailGrid').flexOptions({params:detailOpt}).flexReload();
+	    if (this.$('#arrrgSttus').val() == "연체상태") {
+			this.getNewDlySerNo();
+	    }
 	} else {
 		var searchVO = this.getFormValues('#detailForm');
 		this.doAction('/mngFee/gamSelectFcltsFeeMngNticPk.do', searchVO, function(module, result){
@@ -386,6 +395,9 @@ GamFcltsFeeMngNticModule.prototype.loadDetail = function(tabId) {
 				module.makeDivValues('#detailForm', result.result);
 			    var detailOpt=module.makeFormArgs('#detailForm');
 			    module.$('#detailGrid').flexOptions({params:detailOpt}).flexReload();
+			    if (this.$('#arrrgSttus').val() == "연체상태") {
+					this.getNewDlySerNo();
+			    }
 			}
 		});
 	}
@@ -560,6 +572,36 @@ GamFcltsFeeMngNticModule.prototype.getQueryEntrpsNm = function() {
 	} else {
 		this.$('#sEntrpsNm').val('');
 	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : getNewDlySerNo
+ * @DESCRIPTION   : 새로운 연체 횟수를 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.getNewDlySerNo = function() {
+
+	var prtAtCode = this.$('#prtAtCode').val();
+	var feeTp = this.$('#feeTp').val();
+	var fiscalYr = this.$('#fiscalYr').val();
+	var billNo = this.$('#billNo').val();
+	if (prtAtCode == "" || feeTp == "" || fiscalYr == "" || billNo == "") {
+		return("");
+	}
+	var searchVO = {
+		'prtAtCode':prtAtCode,
+		'feeTp':feeTp,
+		'fiscalYr':fiscalYr,
+		'billNo':billNo
+	};
+	this.doAction('/mngFee/gamSelectFcltsFeeMngNticUnpaidFMaxDlySerNo.do', searchVO, function(module, result) {
+		if (result.resultCode == "0") {
+			module.$('#newDlySerNo').val(result.sMaxDlySerNo);
+		}
+	});
 
 };
 
@@ -997,6 +1039,183 @@ GamFcltsFeeMngNticModule.prototype.downloadExcel = function() {
 		return;
 	}
 	this.$('#mainGrid').flexExcelDown('/mngFee/gamExcelDownloadFcltsFeeMngNtic.do');
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : popupArrrgNticIssue
+ * @DESCRIPTION   : 시설물 관리비 연체 고지 POPUP을 호출한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.popupArrrgNticIssue = function() {
+
+	var processVO = [];
+	var toDay = new Date();
+	var year = "";
+	var month = "";
+	var day = "";
+	var dlyBillDt = "";
+	var dlyDueDt = "";
+	var prtAtCode = this.$('#prtAtCode').val();
+	var feeTp = this.$('#feeTp').val();
+	var fiscalYr = this.$('#fiscalYr').val();
+	var billNo = this.$('#billNo').val();
+	var billDt = this.$('#nticDt').val();
+	var dueDt = this.$('#payTmlmt').val();
+	var nhtIsueYn = this.$('#nhtIsueYn').val();
+	var rcivSe = this.$('#rcivSe').val();
+	var dlySerNo = this.$('#newDlySerNo').val();
+	if (nhtIsueYn != "Y") {
+		alert('고지 처리가 완료된 자료가 아닙니다.');
+		return;
+	}
+	if (rcivSe != "0" && rcivSe != "1") {
+		alert('미수납된 자료가 아닙니다.');
+		return;
+	}
+	if (prtAtCode == "" || feeTp == "" || fiscalYr == "" || billNo == "") {
+		alert("고지 정보가 부정확합니다.");
+		return;
+	}
+	year = toDay.getFullYear();
+	month = toDay.getMonth() + 1;
+	day = toDay.getDate();
+	if (month >= 1 && month <= 9) {
+		if (day >= 1 && day <= 9) {
+			dlyBillDt = year + "-" + "0" + month + "-" + "0" + day;
+		} else {
+			dlyBillDt = year + "-" + "0" + month + "-" + day;
+		}
+	} else {
+		if (day >= 1 && day <= 9) {
+			dlyBillDt = year + "-" + month + "-" + "0" + day;
+		} else {
+			dlyBillDt = year + "-" + month + "-" + day;
+		}
+	}
+	if (dlyBillDt <= dueDt) {
+		alert("연체상태가 아닙니다. (납부 기한 내)");
+		return;
+	}
+	var dueDate = EMD.util.strToDate(dlyBillDt);
+	var dayOfMonth = dueDate.getDate();
+	dueDate.setDate(dayOfMonth + 15);
+	year = dueDate.getFullYear();
+	month = dueDate.getMonth() + 1;
+	day = dueDate.getDate();
+	if (month >= 1 && month <= 9) {
+		if (day >= 1 && day <= 9) {
+			dlyDueDt = year + "-" + "0" + month + "-" + "0" + day;
+		} else {
+			dlyDueDt = year + "-" + "0" + month + "-" + day;
+		}
+	} else {
+		if (day >= 1 && day <= 9) {
+			dlyDueDt = year + "-" + month + "-" + "0" + day;
+		} else {
+			dlyDueDt = year + "-" + month + "-" + day;
+		}
+	}
+	processVO={
+		'mngMt':this.$('#mngMt').val(),
+		'mngFeeJobSe':this.$('#mngFeeJobSe').val(),
+		'mngSeq':this.$('#mngSeq').val(),
+		'reqestSeq':this.$('#reqestSeq').val(),
+		'prtAtCode':prtAtCode,
+		'chrgeKnd':this.$('#chrgeKnd').val(),
+		'chrgeKndNm':this.$('#chrgeKndNm').val(),
+		'feeTp':feeTp,
+		'fiscalYr':fiscalYr,
+		'billNo':billNo,
+		'dlySerNo':dlySerNo,
+		'entrpscd':this.$('#entrpscd').val(),
+		'entrpsNm':this.$('#entrpsNm').val(),
+		'bizrno':this.$('#bizrno').val(),
+		'firstBillDt':this.$('#firstNticDt').val(),
+		'billDt':billDt,
+		'firstDueDt':this.$('#firstPayTmlmt').val(),
+		'dueDt':dueDt,
+		'prvBillDt':billDt,
+		'prvDueDt':dueDt,
+		'billAmnt':this.$('#fee').val(),
+		'vatYn':this.$('#vatYn').val(),
+		'vatYnNm':this.$('#vatYnNm').val(),
+		'vat':this.$('#vat').val(),
+		'sumBillAmnt':this.$('#nticAmt').val(),
+		'rcvdTp':this.$('#rcvdTp').val(),
+		'dlyBillDt':dlyBillDt,
+		'dlyDueDt':dlyDueDt,
+		'arrrgTariff':"0.00",
+		'arrrgPayDates':"0",
+		'dlyBillAmnt':"0",
+		'prvDlyBillAmnt':this.$('#arrrgAmt').val(),
+		'dlyBillRsn':"",
+		'processMode':"I"
+	};
+	this.doExecuteDialog('popupProcessNticIssueUnpaid', '연체 고지 처리', '/mngFee/showFcltsFeeMngArrrgNticPopup.do', null, processVO);
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : processNticIssueUnpaid
+ * @DESCRIPTION   : 시설물 관리비 연체 내역을 고지처리한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.processNticIssueUnpaid = function(processVo) {
+
+	var prtAtCode = processVo.prtAtCode;
+	var chrgeKndNm = processVo.chrgeKndNm;
+	var feeTp = processVo.feeTp;
+	var fiscalYr = processVo.fiscalYr;
+	var billNo = processVo.billNo;
+	var dlySerNo = processVo.dlySerNo;
+	var dlyBillDt = processVo.dlyBillDt;
+	var dlyDueDt = processVo.dlyDueDt;
+	var arrrgTariff = processVo.arrrgTariff;
+	var arrrgPayDates = processVo.arrrgPayDates;
+	var dlyBillAmnt = processVo.dlyBillAmnt;
+	var dataValue = 0;
+	var confirmMessage = "";
+	if (prtAtCode == "" || feeTp == "" || fiscalYr == "" || billNo == "") {
+		alert("고지 정보가 부정확합니다.");
+		return;
+	}
+	if (dlySerNo == "" || dlySerNo >= "99" || dlySerNo <= "00") {
+		alert("연체 고지 횟수가 부정확합니다.");
+		return;
+	}
+	if (dlyBillDt > dlyDueDt) {
+		alert("연체 고지 일자가 연체 납부 기한보다 큽니다.");
+		return;
+	}
+	dataValue = Number(dlyBillAmnt);
+	if (dataValue > 999999999999 || dataValue <= 0) {
+		alert("연체 금액이 부정확합니다.");
+		return;
+	}
+	dataValue = Number(arrrgPayDates);
+	if (dataValue > 1800 || dataValue <= 0) {
+		alert("연체 일수가 부정확합니다.");
+		return;
+	}
+	dataValue = Number(arrrgTariff);
+	if (dataValue > 0.15 || dataValue <= 0) {
+		alert("연체 요율이 부정확합니다.");
+		return;
+	}
+	confirmMessage = "[" + chrgeKndNm + "] 연체 금액 " + dlyBillAmnt + "원을 고지하시겠습니까?";
+	if (confirm(confirmMessage)) {
+		//this.doAction('/mngFee/gamProcessFcltsFeeMngNticIssueUnpaid.do', processVo, function(module, result) {
+		//	if (result.resultCode == "0") {
+		//		module.refreshData();
+		//	}
+		//	alert(result.resultMsg);
+		//});
+	}
 
 };
 
@@ -1445,6 +1664,7 @@ var module_instance = new GamFcltsFeeMngNticModule();
 								<th style="width:10%; height:18;">부과 업체</th>
 								<td>
 									<input id="entrpscd" type="hidden"/>
+									<input id="bizrno" type="hidden"/>
 									<input type="text" size="33" id="entrpsNm" disabled>
 									<!--
 									<button id="popupDataEntrpscd" class="popupButton">선택</button>
@@ -1507,6 +1727,7 @@ var module_instance = new GamFcltsFeeMngNticModule();
 								</td>
 								<th style="width:10%; height:18;">부가세 구분</th>
 								<td>
+									<input id="vatYnNm" type="hidden"/>
 									<input id="vatYn" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM016" disabled/>
 								</td>
 							</tr>
@@ -1528,25 +1749,26 @@ var module_instance = new GamFcltsFeeMngNticModule();
 								<th style="width:10%; height:18;">고지 일자</th>
 								<td>
 									최초
-                                	<input type="text" size="11" id="firstNticDt" disabled/> /
-                                	<input type="text" size="12" id="nticDt" class="emdcal" disabled/>
+									<input type="text" size="11" id="firstNticDt" disabled/> /
+									<input type="text" size="12" id="nticDt" class="emdcal" disabled/>
 								</td>
 								<th style="width:10%; height:18;">납부 기한</th>
 								<td>
 									최초
-                                	<input type="text" size="11" id="firstPayTmlmt" disabled/> /
-                                	<input type="text" size="12" id="payTmlmt" class="emdcal" disabled/>
+									<input type="text" size="11" id="firstPayTmlmt" disabled/> /
+									<input type="text" size="12" id="payTmlmt" class="emdcal" disabled/>
 								</td>
 								<th style="width:10%; height:18;">수납 일자</th>
 								<td>
 									<input id="rcivSe" type="hidden"/>
 									<input type="text" size="16" id="rcivSeNm" disabled>
-                                	<input type="text" size="16" id="rcivDt" disabled/>
+									<input type="text" size="16" id="rcivDt" disabled/>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:18;">연체 요율/일수</th>
 								<td>
+									<input id="newDlySerNo" type="hidden"/>
 									<input type="text" size="10" id="arrrgNo" disabled>
 									<input type="text" size="10" class="ygpaNumber" id="arrrgTariff" disabled/>
 									<input type="text" size="10" class="ygpaNumber" id="arrrgPayDates" disabled/>

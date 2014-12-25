@@ -187,8 +187,8 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	 * @param vo
 	 * @return
 	 */
-	public String selectRevCollMagamFMagamCheck(Map<String, Object> vo) {
-		return (String)getSqlMapClientTemplate().queryForObject("gamFcltsFeeMngNticDao.selectRevCollMagamFMagamCheck_S", vo);
+	public String selectUnpaidFDlyBillPrtYn(Map<String, Object> vo) {
+		return (String)selectByPk("gamFcltsFeeMngNticDao.selectUnpaidFDlyBillPrtYn_S", vo);
 	}
 
 	/**
@@ -196,7 +196,7 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	 * @return
 	 */
 	public String selectUnpaidFMaxDlySerNo(Map<String, Object> vo) {
-		return (String)getSqlMapClientTemplate().queryForObject("gamFcltsFeeMngNticDao.selectUnpaidFMaxDlySerNo_S", vo);
+		return (String)selectByPk("gamFcltsFeeMngNticDao.selectUnpaidFMaxDlySerNo_S", vo);
 	}
 
 	/**
@@ -211,8 +211,8 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	 * @param vo
 	 * @return
 	 */
-	public EgovMap selectUnpaidF(Map<String, Object> vo) throws Exception {
-		return (EgovMap)selectByPk("gamFcltsFeeMngNticDao.selectUnpaidF_S", vo);
+	public EgovMap selectUnpaidFPrvData(Map<String, Object> vo) throws Exception {
+		return (EgovMap)selectByPk("gamFcltsFeeMngNticDao.selectUnpaidFPrvData_S", vo);
 	}
 
 	/**
@@ -241,6 +241,13 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	 */
 	public void updateFcltsFeeMngNticArrrgInfo(Map<String, Object> vo) {
 		insert("gamFcltsFeeMngNticDao.updateFcltsFeeMngNticArrrgInfo_S", vo);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void updateRevCollFRcvdTp(Map<String, Object> vo) {
+		insert("gamFcltsFeeMngNticDao.updateRevCollFRcvdTp_S", vo);
 	}
 
 }
