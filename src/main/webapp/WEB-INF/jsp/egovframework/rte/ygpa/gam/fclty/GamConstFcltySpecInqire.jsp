@@ -180,27 +180,11 @@ GamConstFcltySpecInqireModule.prototype.onTabChangeBefore = function(newTabId, o
 		case "gotoLocation":	
 			this.gotoLocation();
 		break;
-		
-		// 자산코드 팝업
-		case "gisCodePopupBtn":
-			this.doExecuteDialog("searchGisCodePopup", "자산코드", '/popup/showAssetsCd.do', {});
-		break;
 	
 		// 검색조건 시설물 관리 그룹 팝업
 		case "searchPopupBtn":
 			this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
 		break;
-		
-		// 시설물 분류코드(디테일 화면)
-		case "searchFcltsClCd" :
-			this.doExecuteDialog("selectFcltsClCd", "시설물 분류코드", '/popup/showFcltsClCd.do', { sFcltsClCdChar : this._prtFcltySe });			
-		break;
-			
-		// 시설물관리그룹(디테일 화면)
-		case "searchFcltsMngGroupNo":
-			this.doExecuteDialog("selectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
-		break;
-
 	}
 };
 
@@ -266,30 +250,31 @@ GamConstFcltySpecInqireModule.prototype.clearFilePage = function() {
 			if(this._cmd!="insert") alert('변경된 내용은 페이지를 새로고침을 해야 반영 됩니다.');
 		break;
 
-		// 조회화면
-		case "searchGisCodePopup2":
-			this.$("#searchAssetsCd").val(value["gisAssetsCd"]);
-			this.$("#searchAssetsSubCd").val(value["gisAssetsSubCd"]);
+		// 검색조건 시설물 관리 그룹 
+		case "sSelectFcltsMngGroup":
+			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
+			this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
 		break;
 
 		// 업체조회화면
 		case "searchEntrpsCdPopup":
-			this.$("#prtFcltyInqireEntrpsCd").val(value["entrpscd"]);
-			this.$("#prtFcltyInqireEntrpsNm").val(value["entrpsNm"]);
+			this.$("#prtFcltyMngEntrpsCd").val(value["entrpscd"]);
+			this.$("#prtFcltyMngEntrpsNm").val(value["entrpsNm"]);
 		break;
-		
+
 		case "selectFcltsClCd":
 			this.$("#archFcltsClCd").val(value["fcltsClCd"]);
 			this.$("#archFcltsClCdNm").val(value["fcltsClCdNm"]);			
 			break;
 			
-		case "selectFcltsInqireGroup":
-			this.$("#fcltsInqireGroupNo").val(value["fcltsInqireGroupNo"]);
-			this.$("#fcltsInqireGroupNoNm").val(value["fcltsInqireGroupNm"]);
+		case "selectFcltsMngGroup":
+			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
+			this.$("#fcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
 			break;
 
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
+
 		break;
 	}
 };
@@ -307,7 +292,7 @@ var module_instance = new GamConstFcltySpecInqireModule();
 					<tbody>
 						<tr>
 							<th>항구분</th>
-							<td><input id="searchPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
+							<td><input id="prtFcltySe" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>시설물관리그룹</th>
 							<td colspan="3">
 								<input id="sFcltsMngGroupNo" type="text" size="14" title="시설물관리그룹넘버" />&nbsp;-&nbsp;
@@ -318,11 +303,11 @@ var module_instance = new GamConstFcltySpecInqireModule();
 						</tr>
 						<tr>
 							<th>시설분류</th>
-							<td><input id="searchFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" /></td>
+							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" /></td>
 							<th>시설명</th>
-							<td><input id="searchKeyword" type="text" size="30" title="시설명"  /></td>
+							<td><input id="sPrtFcltyNm" type="text" size="30" title="시설명"  /></td>
 							<th>소재지</th>
-							<td><input id="searchLoc" type="text" size="30" title="소재지"  /></td>
+							<td><input id="sLoc" type="text" size="30" title="소재지"  /></td>
 						</tr>
 					</tbody>
 				</table>
@@ -410,8 +395,8 @@ var module_instance = new GamConstFcltySpecInqireModule();
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
 							<td colspan="5">
-								<span id="fcltsInqireGroupNo"></span>&nbsp;&nbsp;&nbsp;
-								<span id="fcltsInqireGroupNoNm"></span>
+								<span id="fcltsMngGroupNo"></span>&nbsp;&nbsp;&nbsp;
+								<span id="fcltsMngGroupNoNm"></span>
 							</td>
 						</tr>
 					</table>

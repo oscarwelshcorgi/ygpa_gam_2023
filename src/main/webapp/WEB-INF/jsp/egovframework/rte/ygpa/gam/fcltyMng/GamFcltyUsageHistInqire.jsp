@@ -43,7 +43,7 @@ GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
 						{display : '업체명', 	    name : 'entrpsNm',			width : 150, 	sortable : false, 	align : 'left'},
 						{display : '사용시작일',	name : 'usagePdFrom',		width : 100, 	sortable : false, 	align : 'center'},
 						{display : '사용종료일',	name : 'usagePdTo',			width : 100, 	sortable : false, 	align : 'center'},
-						{display : '사용면적(㎡)',	name : 'usageAr',			width : 80, 	sortable : false, 	align : 'right'},
+						{display : '사용면적(㎡)',	name : 'usageAr',			width : 80, 	sortable : false, 	align : 'right', 		displayFormat: 'number'},
 						{display : '사용료',		name : 'fee',				width : 120, 	sortable : false, 	align : 'right', 		displayFormat: 'number'}
 					],
 		height: "auto"

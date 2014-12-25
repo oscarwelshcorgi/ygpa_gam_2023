@@ -48,7 +48,7 @@
 						  AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
 						  AND F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
 						WHERE
-						  F.PRT_FCLTY_SE = #prtFcltySe#  
+						  F.PRT_FCLTY_SE = 'M'
 						  <isNotEmpty property="sPrtAtCode">
 						  	AND F.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
 						  </isNotEmpty>

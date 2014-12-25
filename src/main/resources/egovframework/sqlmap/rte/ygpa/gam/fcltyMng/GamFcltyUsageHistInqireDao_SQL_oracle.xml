@@ -112,15 +112,6 @@
 						<isNotEmpty property="searchKeyword">
 							AND G.GIS_ASSETS_NM LIKE '%' || #searchKeyword# || '%'
 						</isNotEmpty>
-						<!-- 
-						<isNotEmpty property="">
-							AND G.GIS_ASSETS_LNM = ##
-						</isNotEmpty>
-						<isNotEmpty property="">
-							AND G.GIS_ASSETS_LNM_SUB = ##
-						</isNotEmpty>
-						ORDER BY G.GIS_ASSETS_PRT_AT_CODE, G.GIS_ASSETS_CD, G.GIS_ASSETS_SUB_CD
-						 -->
 						ORDER BY C.MNG_YEAR DESC, C.MNG_NO DESC, C.MNG_CNT DESC
 					) a
 				) a

@@ -21,14 +21,13 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.fclty.service.GamMechFcltySpecInqireService;
-import egovframework.rte.ygpa.gam.fclty.service.GamMechFcltySpecInqireVO;
-import egovframework.rte.ygpa.gam.fclty.service.GamMechFcltySpecMngVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamConstFcltySpecInqireService;
+import egovframework.rte.ygpa.gam.fclty.service.GamConstFcltySpecInqireVO;
 
 /**
  * 
  * @author LFIT
- * @since 2014. 12. 9.
+ * @since 2014. 12. 5.
  * @version 1.0
  * @see
  * <pre>
@@ -36,46 +35,47 @@ import egovframework.rte.ygpa.gam.fclty.service.GamMechFcltySpecMngVO;
  *   
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
- *  2014. 12. 9.		김영길		최초 생성
+ *  2014. 12. 5.		김영길		최초 생성
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
-@Controller
-public class GamMechFcltySpecInqireController {
 
+@Controller
+public class GamConstFcltySpecInqireController {
+	
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
+	
+	@Resource(name = "GamConstFcltySpecInqireService")
+	protected GamConstFcltySpecInqireService gamConstFcltySpecInqireService;
 	
 	/** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
     
-    @Resource(name="gamMechFcltySpecInqireService")
-    GamMechFcltySpecInqireService gamMechFcltySpecInqireService;
-    
+    /**
+	 * 건축시설 조회화면호출
+	 * @param windowId
+	 * @param model
+	 * @return String
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fclty/gamConstFcltySpecInqire.do")
+	String indexConstFcltySpecInqire(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+		model.addAttribute("windowId", windowId);
+		return "/ygpa/gam/fclty/GamConstFcltySpecInqire";
+	}
+
 	/**
-     * 기계시설 관리화면호출
-     * @param windowId
-     * @param model
-     * @return String
-     * @throws Exception
-     */
-	@RequestMapping(value="/fclty/gamMechFcltySpecInqire.do")
-    String indexMechFcltySpecMng(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-    	model.addAttribute("windowId", windowId);
-    	return "/ygpa/gam/fclty/GamMechFcltySpecInqire";
-    }
-	
-	/**
-	 * 기계시설관리목록 조회
+	 * 건축시설목록 조회
 	 * @param searchVO
 	 * @return map
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/fclty/selectMechFcltySpecInqireList.do")
-	@ResponseBody Map<String, Object> selectMechFcltySpecMngList(GamMechFcltySpecInqireVO searchVO) throws Exception {
+	@RequestMapping(value="/fclty/gamConstFcltySpecInqireList.do")
+	@ResponseBody Map<String, Object> selectFcltySpecInqireList(GamConstFcltySpecInqireVO searchVO)throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -97,13 +97,14 @@ public class GamMechFcltySpecInqireController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		List resultList = gamMechFcltySpecInqireService.selectMechFcltySpecInqireList(searchVO);
-		int totCnt = gamMechFcltySpecInqireService.selectMechFcltySpecInqireListTotCnt(searchVO);
-		
+		/** List Data */
+		List resultList = gamConstFcltySpecInqireService.selectFcltySpecInqireList(searchVO);
+        int totCnt = gamConstFcltySpecInqireService.selectFcltySpecInqireListTotCnt(searchVO);
+
         paginationInfo.setTotalRecordCount(totCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
-		map.put("resultCode", 0);			// return ok
+		map.put("resultCode", 0);
     	map.put("totalCount", totCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
@@ -112,13 +113,13 @@ public class GamMechFcltySpecInqireController {
     }
 	
 	/**
-	 * 기계 시설관리 상세
+	 * 건축 시설관리 상세
 	 * @param fcltyManageVO
 	 * @return map
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/fclty/selectMechFcltySpecInqireDetail.do")
-    @ResponseBody Map<String, Object> selectMechFcltySpecMngDetail(@RequestParam Map searchVO) throws Exception {
+	@RequestMapping(value="/fclty/gamConstFcltySpecInqireDetail.do")
+    @ResponseBody Map<String, Object> fcltyInqireSelectView(@RequestParam Map searchVO) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
     	EgovMap result=null;
 
@@ -130,7 +131,7 @@ public class GamMechFcltySpecInqireController {
     	}
 
     	try {
-        	result = gamMechFcltySpecInqireService.selectMechFcltySpecInqireDetail(searchVO);
+        	result = gamConstFcltySpecInqireService.selectFcltySpecInqireDetail(searchVO);
     	}
     	catch(Exception e) {
             map.put("resultCode", 1);
@@ -140,30 +141,29 @@ public class GamMechFcltySpecInqireController {
 
         map.put("resultCode", 0);
         map.put("result", result);
-
-        return map;		
-	}
-
+        
+        return map;
+    }
+	
 	/**
-	 * 기계시설 파일 목록
+	 * 건축시설 파일 목록
 	 * @param searchVO
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/fclty/selectMechFcltySpecInqireFileList.do")
-    @ResponseBody Map<String, Object> selectMechFcltySpecFileList(GamMechFcltySpecInqireVO searchVO) throws Exception {
+	@RequestMapping(value="/fclty/gamConstFcltySpecInqireFileList.do")
+	@ResponseBody Map<String, Object> selectFcltySpecInqireFileList(GamConstFcltySpecInqireVO searchVO)throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		
-    	// 0. Spring Security 사용자권한 처리
+
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	// 내역 조회
-    	/** pageing */
-    	PaginationInfo paginationInfo = new PaginationInfo();
+		// 내역 조회
+		/** pageing */
+		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
@@ -172,18 +172,19 @@ public class GamMechFcltySpecInqireController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		List resultList = gamMechFcltySpecInqireService.selectMechFcltySpecInqireFileList(searchVO);
-		int totCnt = gamMechFcltySpecInqireService.selectMechFcltySpecInqireFileListTotCnt(searchVO);
-		
-        paginationInfo.setTotalRecordCount(totCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+		/** List Data */
+		List resultList = gamConstFcltySpecInqireService.selectFcltySpecInqireFileList(searchVO);
+		int totCnt = gamConstFcltySpecInqireService.selectFcltySpecInqireFileListTotCnt(searchVO);
+
+		paginationInfo.setTotalRecordCount(totCnt);
+		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 		map.put("resultCode", 0);			// return ok
-    	map.put("totalCount", totCnt);
-    	map.put("resultList", resultList);
-    	map.put("searchOption", searchVO);
+		map.put("totalCount", totCnt);
+		map.put("resultList", resultList);
+		map.put("searchOption", searchVO);
 
-    	return map;
-	}
-	
+		return map;
+	}	
+
 }
