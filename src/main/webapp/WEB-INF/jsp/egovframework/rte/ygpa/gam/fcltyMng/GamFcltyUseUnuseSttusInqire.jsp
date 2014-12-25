@@ -120,13 +120,6 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 	</div>
 
 	<div class="emdPanel fillHeight">
-		<div id="fcltyUseUnuseSttusInqireTab" class="emdTabPanel fillHeight">
-			<ul>
-				<li><a href="#tabs1" class="emdTab">시설물 사용/미사용시설 조회</a></li>
-
-			</ul>
-
-			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="fcltyUseUnuseSttusInqireList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 
@@ -136,5 +129,4 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 
 
 		</div>
-	</div>
-</div>
+	
