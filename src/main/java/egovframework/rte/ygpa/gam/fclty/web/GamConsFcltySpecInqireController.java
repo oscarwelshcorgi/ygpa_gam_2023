@@ -54,6 +54,7 @@ public class GamConsFcltySpecInqireController {
 	/** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
+    
     private final static String prtFcltySe = "A";
     
     

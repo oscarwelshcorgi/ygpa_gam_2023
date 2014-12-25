@@ -33,21 +33,17 @@ GamMechFcltySpecInqireModule.prototype = new EmdModule(1000,700);	// 초기 시�
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamMechFcltySpecInqireModule.prototype.loadComplete = function(params) {
-	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다.
 
-	this._params = params;	// 파라미터를 저장한다.
-
+	this._fcltyItem = null;
+	
 	// 테이블 설정
 	this.$("#mechFcltySpecInqireList").flexigrid({
 		module: this,
 		url: '/fclty/selectMechFcltySpecInqireList.do',
 		dataType: "json",
 		colModel : [
-					{display:"항코드",		name:"gisAssetsPrtAtCode",	width:80,		sortable:false,		align:"center"},
-					{display:"항코드명",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
-					{display:"자산코드",		name:"gisAssetsDisplayCd",	width:80,		sortable:false,		align:"center"},
+					{display:"항구분명",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
 					{display:"자산명",		name:"gisAssetsNm",			width:200,		sortable:false,		align:"left"},
-					{display:"시설코드", 	    name:"gisPrtFcltyDisplayCd",width:80,		sortable:false,		align:"center"},
 					{display:"시설명",		name:"prtFcltyNm",			width:280,		sortable:false,		align:"left"},
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:100,		sortable:false,		align:"left"},
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"}
@@ -67,83 +63,105 @@ GamMechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 	this.$("#selectGisPrtFcltyCd").on("change", {module: this}, function(event) {
 		event.data.module.$("#gisPrtFcltyCd").val($(this).val());
 	});
-	
-	this.$(".text").bind("change keyup", {module: this}, function(event) {
-		var limit_char = /[|]/;
-		if(limit_char.test(event.target.value)){
-			alert('|'+"(파이프) 특수문자는 사용 하실수 없습니다.");
-			var rep= event.target.value.replace(limit_char,"");
-			event.target.value = rep;
-			return;
-		}
-	});
 
-	this.$("#fcltsFileList").flexigrid({
+	this.$("#fcltyFileList").flexigrid({
 		module: this,
 		url: '/fclty/selectMechFcltySpecInqireFileList.do',
 		dataType: 'json',
 		colModel : [
-					{display:"순번",		name:"atchFileSeq",			width:40,		sortable:true,		align:"center"},
-					{display:"구분",		name:"atchFileSeNm",		width:40,		sortable:true,		align:"center"},
-					{display:"파일제목",	name:"atchFileSj",			width:160,		sortable:true,		align:"left"},
-					{display:"논리파일명",	name:"atchFileNmLogic",		width:160,		sortable:true,		align:"left"},
-					{display:"물리파일명",	name:"atchFileNmPhysicl",	width:160,		sortable:true,		align:"left"},
-					{display:"작성일자",	name:"atchFileWritngDt",	width:120,		sortable:true,		align:"center"}
+					{display:"순번",		name:"atchFileSeq",				width:40,		sortable:true,		align:"center"},
+					{display:"구분",		name:"atchFileSeNm",			width:40,		sortable:true,		align:"center"},
+					{display:"파일제목",	name:"atchFileSj",				width:240,		sortable:true,		align:"left"},
+					{display:"논리파일명",	name:"atchFileNmLogic",			width:200,		sortable:true,		align:"left"}
 			],
 		height: "auto"
 	});
 
-	this.$("#fcltsFileList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.$("#fcltsFileList").selectedRowIds()[0];
-		if(row.atchFileNmPhysicl != null || row.atchFileNmPhysicl != "") {
-			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
-			var filenm = row["atchFileNmPhysicl"];
-			var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
-			
-			if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
-				
-				imgURL = module.getPfPhotoUrl(filenm);
-				module.$("#previewImage").fadeIn(400, function() {
-				module.$("#previewImage").attr("src", imgURL);
-				});
-			}else{
-				module.$("#previewImage").attr("src", "#");
-			}
-		}
+	this.$("#fcltyFileList").on("onItemSelected", function(event, module, row, grid, param) {
+		module.imagePreview();
 	});
 };
 
+GamMechFcltySpecInqireModule.prototype.onSubmit = function() {
+	this.loadData();
+};
+
+GamMechFcltySpecInqireModule.prototype.loadData = function() {
+	this._cmd="";
+	this.makeFormValues('#fcltyManageVO', {});
+	var searchOpt=this.makeFormArgs("#fcltyForm");
+ 	this.$("#mechFcltySpecInqireTab").tabs("option", {active: 0});
+ 	this.$("#mechFcltySpecInqireList").flexOptions({params:searchOpt}).flexReload();
+};
+
+GamMechFcltySpecInqireModule.prototype.imagePreview = function() {
+	
+	var row = this.$('#fcltyFileList').selectedRows();
+	row = row[0];
+
+	this.$("#fcltyGisFileForm input").val('');
+	this.makeFormValues("#fcltyGisFileForm", row);
+	this._editDataFile = this.getFormValues("#fcltyGisFileForm", row);
+	this._editRowFile = this.$("#fcltyFileList").selectedRowIds()[0];
+	if(row.atchFileNmPhysicl != null || row.atchFileNmPhysicl != "") {
+
+		// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
+		var filenm = row["atchFileNmPhysicl"];
+		var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
+
+		if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
+
+			$imgURL = this.getPfPhotoUrl(filenm);
+			//this.$("#previewImage").fadeIn(400, function() {
+		    	this.$("#previewImage").attr("src", $imgURL);
+		    //});
+		}else{
+			this.$("#previewImage").removeAttr("src");
+		}
+	}
+};
+
 //시설제원데이터 로드
-GamMechFcltySpecInqireModule.prototype.loadDetailData = function() {
-	var selectRows = this.$('#mechFcltySpecInqireList').selectedRows();
-	row = selectRows[0];
-	var opts = [{name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
+GamMechFcltySpecInqireModule.prototype.loadDetail = function() {
+	var row = this.$('#mechFcltySpecInqireList').selectedRows();
+	row = row[0];
 	if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
 		this.$("#mechFcltySpecInqireTab").tabs("option", {active: 0});
 		alert('시설물 관리번호에 오류가 있습니다.');
 		this._cmd = '';
+		this.initDisplay();
 		return;
 	}
 	// 기계시설 제원 처리
-	this.doAction('/fclty/selectMechFcltySpecInqireDetail.do', opts, function(module, result) {
+	var prtFclty = [{ name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
+	this.doAction('/fclty/selectMechFcltySpecInqireDetail.do', prtFclty, function(module, result) {
 		if(result.resultCode == "0"){
 			module.clearCodePage();
+			module._fcltyItem=result.result;
 			module.makeDivValues('#fcltyManageVO', result.result);
 			module.$("#dispfcltsMngNo").text(result.result["fcltsMngNo"]);
+			
+			module.$("#beforeGisPrtFcltyCd").val(specModule.$("#gisPrtFcltyCd").val());
+			module.$("#beforeGisPrtFcltySeq").val(specModule.$("#gisPrtFcltySeq").val());
 		}
+		module.$("#gisCodePopupBtn").hide();
+		module.$("#selectGisPrtFcltyCd").disable();
 	});
-	var searchOpt = [{name: 'sFcltsMngNo', value: row['fcltsMngNo'] }];
-	this.$("#fcltsFileList").flexOptions({params:searchOpt}).flexReload();
+	
+	this.$("#fcltyFileList").flexOptions({params:searchOpt}).flexReload();
 	this.clearFilePage();
 };
 
-//첨부파일 다운로드
-GamMechFcltySpecInqireModule.prototype.downloadAtchFileItem = function() {
-	var selectRow = this.$('#fcltsFileList').selectedRows();
-	if(selectRow.length > 0) {
-		var row=selectRow[0];
-		this.downPfPhoto(row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
+GamMechFcltySpecInqireModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
+
+	if(newTabId=='tabs2' || newTabId=='tabs3') {
+		if(this.$('#mechFcltySpecInqireList').selectedRowCount()!=1) {
+			alert('기계시설 항목을 선택 하세요.');
+			return false;
+		}
 	}
+
+	return true;
 };
 
 /**
@@ -151,36 +169,47 @@ GamMechFcltySpecInqireModule.prototype.downloadAtchFileItem = function() {
  */
  GamMechFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
-		// 조회
-		case "searchBtn":
-			this._cmd = "";
-			var searchOpt = this.makeFormArgs("#searchMechFcltySpecInqireForm");
-			this.$("#mechFcltySpecInqireTab").tabs("option", {active: 0});
-			this.$("#mechFcltySpecInqireList").flexOptions({params:searchOpt}).flexReload();
-			break;
+	
+		// 파일 다운로드
+		case 'btnDownloadFile':
+			this.downloadFile();
+		break;
+	
+		// 위치 조회
+		case "gotoLocation":	
+			this.gotoLocation();
+		break;
 		
-		// 자산코드 팝업(조회화면)
-		case "searchGisCodeBtn":
-			this.doExecuteDialog("selectGisCode", "자산코드", '/popup/showAssetsCd.do', {});
-			break;
+		// 자산코드 팝업
+		case "gisCodePopupBtn":
+			this.doExecuteDialog("searchGisCodePopup", "자산코드", '/popup/showAssetsCd.do', {});
+		break;
+	
+		// 검색조건 시설물 관리 그룹 팝업
+		case "searchPopupBtn":
+			this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
+		break;
+		
+		// 시설물 분류코드(디테일 화면)
+		case "searchFcltsClCd" :
+			this.doExecuteDialog("selectFcltsClCd", "시설물 분류코드", '/popup/showFcltsClCd.do', { sFcltsClCdChar : this._prtFcltySe });			
+		break;
 			
-		//파일다운로드			
-		case "btnDownloadFile":
-			this.downloadAtchFileItem();
-			break;
-						
-		case "gotoLocation":	// 위치 조회
-			if(this._fcltyItem.laCrdnt!=null && this._fcltyItem.laCrdnt!=null) {
-				EMD.gis.goLocation(this._fcltyItem.laCrdnt, this._fcltyItem.loCrdnt);
-				EMD.gis.selectPrtFclty(this._fcltyItem);
-			} else if(this._fcltyItem.lat!=null && this._fcltyItem.lng!=null){
-				EMD.gis.goLocation4326(this._fcltyItem.lat, this._fcltyItem.lng);
-				EMD.gis.selectPrtFclty(this._fcltyItem);
-			} else {
-				alert("시설위치가 등록되지 않았습니다.");
-			}
-			break;
+		// 시설물관리그룹(디테일 화면)
+		case "searchFcltsMngGroupNo":
+			this.doExecuteDialog("selectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
+		break;
 	}
+};
+
+GamMechFcltySpecInqireModule.prototype.clearCodePage = function() {
+	this.$('#fcltyManageVO :input').val('');
+};
+
+GamMechFcltySpecInqireModule.prototype.clearFilePage = function() {
+	this.$('#fcltyFileList').flexEmptyData();
+	this.$('#fcltyGisFileForm :input[type=text]').val('');
+	this.$('#previewImage').attr('src', '');
 };
 
 /**
@@ -188,7 +217,7 @@ GamMechFcltySpecInqireModule.prototype.downloadAtchFileItem = function() {
  */
  GamMechFcltySpecInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	if(oldTabId == 'tabs1' && this._cmd == 'modify') {
-		this.loadDetailData();
+		this.loadDetail();
 	}
 	switch(newTabId) {
 	case "tabs1":
@@ -199,13 +228,13 @@ GamMechFcltySpecInqireModule.prototype.downloadAtchFileItem = function() {
 		}
 		if(this._cmd != 'modify') {
 			this.$("#mechFcltySpecInqireTab").tabs("option", {active: 0});
-			alert('기계시설항목을 선택하시거나 시설추가버튼을 누르세요.');
+			alert('기계시설 항목을 선택 하세요.');
 		} 
 		break;
 	case "tabs3":
 		if(this._cmd != 'modify') {
 			this.$("#mechFcltySpecInqireTab").tabs("option", {active: 0});
-			alert('기계시설항목을 선택하시거나 시설추가버튼을 누르세요.');
+			alert('기계시설 항목을 선택 하세요.');
 		} 
 		break;
 	}
@@ -255,15 +284,6 @@ GamMechFcltySpecInqireModule.prototype.downloadAtchFileItem = function() {
 	}
 };
 
-GamMechFcltySpecInqireModule.prototype.clearCodePage = function() {
-	this.$('#fcltyManageVO :input').val('');
-};
-
-GamMechFcltySpecInqireModule.prototype.clearFilePage = function() {
-	this.$('#fcltsFileList').flexEmptyData();
-	this.$('#previewImage').attr('src', '');
-};
-
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamMechFcltySpecInqireModule();
 </script>
@@ -273,27 +293,27 @@ var module_instance = new GamMechFcltySpecInqireModule();
 	<!-- 조회 조건 -->
 	<div class="emdPanel">
 		<div class="viewStack">
-			<form id="searchMechFcltySpecInqireForm">
+			<form id="fcltyForm">
 				<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>항코드</th>
+							<th>항구분</th>
 							<td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
-							<th>자산코드</th>
-							<td>
-								<input id="sAssetsCd" type="text" size="3" maxlength="3" />&nbsp;-&nbsp;
-								<input id="sAssetsSubCd" type="text" size="2" maxlength="2" />
-								<button id="searchGisCodeBtn" class="popupButton">선택</button>
+							<th>시설물관리그룹</th>
+							<td colspan="3">
+								<input id="sFcltsMngGroupNo" type="text" size="14"/>
+								<input id="sFcltsMngGroupNoNm" type="text" size="59" disabled="disabled"/>
+								<button id="popupSearchFcltsMngGroupNo" class="popupButton">선택</button>
 							</td>
-							<th>기계시설분류</th>
-							<td>
-								<input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM058" />
-							</td>
-							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
+							<td rowspan="2"><button class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
-							<th>기계시설명</th>
-							<td colspan="5"><input id="sPrtFcltyNm" type="text" size="60" maxlength="40"  /></td>
+							<th>시설분류</th>
+							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM058" /></td>
+							<th>시설명</th>
+							<td><input id="sPrtFcltyNm" type="text" size="30"/></td>
+							<th>소재지</th>
+							<td><input id="sLoc" type="text" size="30"/></td>							
 						</tr>
 					</tbody>
 				</table>
@@ -619,7 +639,7 @@ var module_instance = new GamMechFcltySpecInqireModule();
 			
 			<!-- 기계시설 첨부파일 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
-				<table id="fcltsFileList" style="display:none" class="fillHeight"></table>
+				<table id="fcltyFileList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<button id="btnDownloadFile">다운로드</button>
 				</div>

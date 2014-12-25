@@ -44,6 +44,9 @@ public class GamMechFcltySpecInqireVO extends ComDefaultVO {
 	/** 시설물 관리 번호 (조회조건-첨부파일) **/
 	private String sFcltsMngNo;
 
+	/** 항만시설 구분 */
+    private String prtFcltySe;
+	
 	/**
 	 * @return the sPrtAtCode
 	 */
@@ -127,5 +130,21 @@ public class GamMechFcltySpecInqireVO extends ComDefaultVO {
 	public void setsFcltsMngNo(String sFcltsMngNo) {
 		this.sFcltsMngNo = sFcltsMngNo;
 	}
+
+	/**
+	 * @return the prtFcltySe
+	 */
+	public String getPrtFcltySe() {
+		return prtFcltySe;
+	}
+
+	/**
+	 * @param prtFcltySe the prtFcltySe to set
+	 */
+	public void setPrtFcltySe(String prtFcltySe) {
+		this.prtFcltySe = prtFcltySe;
+	}
+	
+	
 
 }

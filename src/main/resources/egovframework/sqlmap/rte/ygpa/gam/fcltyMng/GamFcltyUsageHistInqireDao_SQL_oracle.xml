@@ -7,11 +7,123 @@
     <typeAlias alias="gamFcltyUsageHistInqireVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageHistInqireVO"/>
 	
 	<select id="gamFcltyUsageHistInqireDao.selectFcltyUsageHistInqireList" parameterClass="gamFcltyUsageHistInqireVO" resultClass="egovMap">
-		SELECT B.GIS_ASSETS_LOCPLC ||' '|| B.GIS_ASSETS_LNM ||'-'|| B.GIS_ASSETS_LNM_SUB AS GIS_ASSETS_LOCPLC
-		FROM ASSETS_RENT_DETAIL_F A, GIS_ASSETS_CD_F B
-		WHERE A.GIS_ASSETS_PRT_AT_CODE = B.GIS_ASSETS_PRT_AT_CODE
-      	AND A.GIS_ASSETS_CD = B.GIS_ASSETS_CD
-      	AND A.GIS_ASSETS_SUB_CD = B.GIS_ASSETS_SUB_CD
+		SELECT
+				*
+			FROM
+				(SELECT 
+				       a.*,
+				       ROWNUM RNUM 
+				  FROM 
+					(	
+					
+						SELECT
+						G.GIS_ASSETS_SUB_CD
+						, G.GIS_ASSETS_CD
+						, G.GIS_ASSETS_NM
+						, G.GIS_ASSETS_MNG_DEPT_CD
+						, G.GIS_ASSETS_OPER_DEPT_CD
+						, G.GIS_ASSETS_LOCPLC
+						, G.GIS_ASSETS_LNM
+						, G.GIS_ASSETS_LNM_SUB
+						, G.GIS_ASSETS_PRT_AT_CODE
+						, G.GIS_ASSETS_AR
+						, G.GIS_ASSETS_USAGE_YN
+						, G.GIS_ASSETS_ACQ_PRI
+						, G.GIS_ASSETS_STNDRD
+						, G.GIS_ASSETS_BLDDATE
+						, TO_CHAR(G.GIS_ASSETS_BLD_DT, 'YYYY-MM-DD') GIS_ASSETS_BLD_DT
+						, G.GIS_ASSETS_RM
+						, G.REG_USR
+						, TO_CHAR(G.REGISTDT, 'YYYY-MM-DD') REGISTDT
+						, G.UPD_USR
+						, TO_CHAR(G.UPDTDT, 'YYYY-MM-DD') UPDTDT
+						, G.GIS_ASSETS_QUAY_GROUP_CD
+						, G.GIS_ASSETS_LOC_CD
+						, G.GIS_ASSETS_SE_CD
+						, G.GIS_ASSETS_PRPRTY_SE_CD
+						, G.GIS_ASSETS_INVSTMNT_MTHD
+						, G.GIS_ASSETS_GIS_CD
+						, G.GIS_ASSETS_REAL_RENT_AR
+						, G.DRW_LST_REGIST_YEAR
+						, G.DRW_LST_SEQ
+						, G.GIS_ASSETS_VAL_AMT
+						, TO_CHAR(G.GIS_ASSETS_VAL_INQIRE_DT, 'YYYY-MM-DD')	GIS_ASSETS_VAL_INQIRE_DT
+						, G.ERP_ASSETS_CLS
+						, G.ERP_ASSETS_NO
+						, G.ERP_ASSETS_NO_SEQ
+						, G.ERP_ASSETS_DISUSE_REGIST_YN
+						, G.ERP_ASSETS_DISUSE_RSN
+						, G.GIS_ASSETS_QUAY_CD
+						, C.USAGE_AR
+						, C.FEE
+						, C.RDCXPT_FEE
+						, CASE
+							WHEN NVL(C.USAGE_AR,0) > 0 AND NVL(G.GIS_ASSETS_AR,0) > 0
+							THEN (NVL(C.USAGE_AR,0) / NVL(G.GIS_ASSETS_AR,0))
+							ELSE 0
+						END USAGE_RATIO
+						, TO_CHAR(C.USAGE_PD_FROM, 'YYYY-MM-DD') USAGE_PD_FROM
+						, TO_CHAR(C.USAGE_PD_TO, 'YYYY-MM-DD') USAGE_PD_TO
+						, C.PRT_AT_CODE
+						, C.MNG_YEAR || '-' || C.MNG_NO || '-' || C.MNG_CNT AS RENT_MNG_NO
+						, GAM_GETCODENAME('GAM019', C.PRT_AT_CODE) PRT_AT_CODE_NM
+						, C.ENTRPSCD
+						, GAM_GETENTRPSNM(C.ENTRPSCD, '1') ENTRPS_NM
+						, NVL(C.GR_FEE,0) GR_FEE
+						, NVL(C.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
+						, (G.GIS_ASSETS_PRT_AT_CODE || '-' || G.GIS_ASSETS_CD || '-' || G.GIS_ASSETS_SUB_CD) ASSETS_CD_STR
+						, GAM_GETCODENAME('GAM001', G.GIS_ASSETS_PRPRTY_SE_CD) GIS_ASSETS_PRPRTY_SE_CD_NM
+						, GAM_GETCODENAME('GAM002', G.GIS_ASSETS_LOC_CD) GIS_ASSETS_LOC_CD_NM
+						, GAM_GETCODENAME('GAM003', G.GIS_ASSETS_QUAY_CD) GIS_ASSETS_QUAY_CD_NM
+						, GAM_GETCODENAME('GAM007', C.USAGE_PRPOS_CD) USAGE_PRPOS_CD_NM
+						, C.PRMISN_YN
+						FROM GIS_ASSETS_CD_F G LEFT OUTER JOIN
+							(SELECT
+								A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT, MAX(A.ENTRPSCD) ENTRPSCD, MAX(A.GR_FEE) GR_FEE, MAX(A.GR_RDCXPT_FEE) GR_RDCXPT_FEE,
+								MAX(B.GIS_ASSETS_PRT_AT_CODE) GIS_ASSETS_PRT_AT_CODE, MAX(B.GIS_ASSETS_CD) GIS_ASSETS_CD, MAX(B.GIS_ASSETS_SUB_CD) GIS_ASSETS_SUB_CD,
+								SUM(B.USAGE_AR) USAGE_AR,SUM(B.FEE) FEE, SUM(B.RDCXPT_FEE) RDCXPT_FEE, SUM(B.USAGE_PRPOS_CD) USAGE_PRPOS_CD, MIN(B.USAGE_PD_FROM) USAGE_PD_FROM,
+								MAX(B.USAGE_PD_TO) USAGE_PD_TO, A.PRMISN_YN								
+							FROM ASSETS_RENT_F A, ASSETS_RENT_DETAIL_F B
+							WHERE A.PRT_AT_CODE = B.PRT_AT_CODE
+								AND A.MNG_YEAR = B.MNG_YEAR
+								AND A.MNG_NO = B.MNG_NO
+								AND A.MNG_CNT = B.MNG_CNT
+								<isNotEmpty property="searchDtFr" prepend="AND">
+									A.GR_USAGE_PD_FROM <![CDATA[>=]]>TO_DATE(#searchDtFr#,'yyyy-mm-dd')
+								</isNotEmpty>
+								<isNotEmpty property="searchDtTo" prepend="AND">
+									A.GR_USAGE_PD_TO <![CDATA[<]]>TO_DATE(#searchDtTo#,'yyyy-mm-dd')+1
+								</isNotEmpty>
+							group by A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT, A.PRMISN_YN  
+							) C
+						ON C.GIS_ASSETS_PRT_AT_CODE = G.GIS_ASSETS_PRT_AT_CODE
+						AND C.GIS_ASSETS_CD         = G.GIS_ASSETS_CD
+						AND C.GIS_ASSETS_SUB_CD     = G.GIS_ASSETS_SUB_CD
+						WHERE C.GIS_ASSETS_PRT_AT_CODE = G.GIS_ASSETS_PRT_AT_CODE
+						AND C.GIS_ASSETS_CD 		= G.GIS_ASSETS_CD
+						AND C.GIS_ASSETS_SUB_CD 	= G.GIS_ASSETS_SUB_CD
+						AND C.PRMISN_YN				= 'Y'
+						<isNotEmpty property="searchPrtAtCode">
+							AND C.PRT_AT_CODE = #searchPrtAtCode#
+						</isNotEmpty>
+						<isNotEmpty property="entrpsCd">
+							AND C.ENTRPSCD = #entrpsCd#
+						</isNotEmpty>
+						<isNotEmpty property="searchKeyword">
+							AND G.GIS_ASSETS_NM LIKE '%' || #searchKeyword# || '%'
+						</isNotEmpty>
+						<!-- 
+						<isNotEmpty property="">
+							AND G.GIS_ASSETS_LNM = ##
+						</isNotEmpty>
+						<isNotEmpty property="">
+							AND G.GIS_ASSETS_LNM_SUB = ##
+						</isNotEmpty>
+						ORDER BY G.GIS_ASSETS_PRT_AT_CODE, G.GIS_ASSETS_CD, G.GIS_ASSETS_SUB_CD
+						 -->
+						ORDER BY C.MNG_YEAR DESC, C.MNG_NO DESC, C.MNG_CNT DESC
+					) a
+				) a
 	</select>
 	<!-- 
 	<select id="gamFcltyUsageHistInqireDao.selectFcltyUsageHistInqireListTotCnt" parameterClass="gamFcltyUsageHistInqireVO" resultClass="int">

@@ -37,14 +37,14 @@ GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/gamFcltyUsageHistInqireList.do',
 		dataType: "json",
 		colModel : [
-						{display : '항구명',		name : 'PRT_AT_CODE',		width : 80, 	sortable : false, 	align : 'center'},
-						{display : '업체명', 	    name : 'ENTRPSCD',			width : 180, 	sortable : false, 	align : 'center'},
-						{display : '소재지',   	name : 'gisAssetsLocplc',	width : 180, 	sortable : false, 	align : 'left'},
-						{display : '신청 일자',	name : 'REQST_DT',			width : 100, 	sortable : false, 	align : 'center'},
-						{display : '허가 여부',	name : 'PRMISN_YN',			width : 80, 	sortable : false, 	align : 'center'},
-						{display : '결재 상태',	name : 'SANCTN_STTUS',		width : 80, 	sortable : false, 	align : 'center'},
-						{display : '총 면적',  	name : 'GR_AR',				width : 80, 	sortable : false, 	align : 'center'},
-						{display : '총 사용료',	name : 'GR_FEE',			width : 150, 	sortable : false, 	align : 'center'}
+						{display : '관리번호',		name : 'rentMngNo',			width : 100, 	sortable : false, 	align : 'center'},
+						{display : '항구명',		name : 'prtAtCodeNm',		width : 80, 	sortable : false, 	align : 'center'},
+						{display : '자산명',   	name : 'gisAssetsNm',		width : 150, 	sortable : false, 	align : 'left'},
+						{display : '업체명', 	    name : 'entrpsNm',			width : 150, 	sortable : false, 	align : 'left'},
+						{display : '사용시작일',	name : 'usagePdFrom',		width : 100, 	sortable : false, 	align : 'center'},
+						{display : '사용종료일',	name : 'usagePdTo',			width : 100, 	sortable : false, 	align : 'center'},
+						{display : '사용면적(㎡)',	name : 'usageAr',			width : 80, 	sortable : false, 	align : 'right'},
+						{display : '사용료',		name : 'fee',				width : 120, 	sortable : false, 	align : 'right', 		displayFormat: 'number'}
 					],
 		height: "auto"
 	});
@@ -87,16 +87,10 @@ GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
 
 		// 업체 조회
 		case 'selectEntrpsInfo' : 
-	    	 this.$("#EntrpsCd").val(value["agentCode"]);
-	    	 this.$("#EntrpsNm").val(value["firmKorNm"]);
+	    	 this.$("#entrpsCd").val(value["agentCode"]);
+	    	 this.$("#entrpsNm").val(value["firmKorNm"]);
 		 break;
 		
-		// 
-		case "selectFcltsClCd":
-			this.$("#sRegistEntrpsCd").val(value["fcltsClCd"]);
-			this.$("#sRegistEntrpsNm").val(value["fcltsClCdNm"]);			
-		break;
-
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
 		break;
@@ -116,28 +110,28 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 					<tbody>
 						<tr>
 							<th>항코드</th>
-							<td><input id="searchPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
-							<th>자산코드</th>
 							<td>
-								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
-								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />
-								<button id="searchPopupBtn" class="popupButton">선택</button>
+								<input id="searchPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
 							</td>
-							<th width="10%">등록업체</th>
-                            <td colspan="3">
-                            	<input id="EntrpsCd" type="text" size="7">&nbsp; &nbsp;
-                         		<input id="EntrpsNm" type="text" size="20" disabled="disabled">&nbsp; &nbsp;
+							<th>등록업체</th>
+                            <td>
+                            	<input id="entrpsCd" type="text" size="7">&nbsp; &nbsp;
+                         		<input id="entrpsNm" type="text" size="20" disabled="disabled">&nbsp; &nbsp;
                          		<button id="popupEntrpsInfo" class="popupButton">선택</button>
                          	</td>
-							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
+							<td rowspan="2">
+								<button id="searchBtn" class="buttonSearch">조회</button>
+							</td>
 						</tr>
 						<tr>
-							<th>시설명</th>
-							<td colspan="3"><input id="searchKeyword" type="text" size="50" maxlength="40" title="검색조건"  /></td>
-							<th>기간</th>
+							<th>자산명</th>
+							<td>
+								<input id="searchKeyword" type="text" size="50" maxlength="40" title="검색조건"  />
+							</td>
+							<th>사용기간</th>
                             <td>
-                            	<input id="sSearchDtFr" type="text" class="emdcal" size="8"> ~ 
-                            	<input id="sSearchDtTo" type="text" class="emdcal" size="8">
+                            	<input id="searchDtFr" type="text" class="emdcal" size="8"> ~ 
+                            	<input id="searchDtTo" type="text" class="emdcal" size="8">
                             </td>
 						</tr>
 					</tbody>

@@ -25,13 +25,7 @@ import egovframework.com.cmm.ComDefaultVO;
 public class GamFcltyUsageHistInqireVO extends ComDefaultVO{
 
 	/** 항코드 (조회조건) **/
-	private String prtAtCode;
-	
-	/** 자산코드 (조회조건) **/
-	private String assetsCd;
-
-	/** 자산부코드 (조회조건) **/
-	private String assetsSubCd;
+	private String searchPrtAtCode;
 	
 	/** 신청업체(조회조건) **/
 	private String entrpsCd;
@@ -43,45 +37,17 @@ public class GamFcltyUsageHistInqireVO extends ComDefaultVO{
 	private String searchDtTo;
 
 	/**
-	 * @return the prtAtCode
+	 * @return the searchPrtAtCode
 	 */
-	public String getPrtAtCode() {
-		return prtAtCode;
+	public String getsearchPrtAtCode() {
+		return searchPrtAtCode;
 	}
 
 	/**
-	 * @param prtAtCode the prtAtCode to set
+	 * @param searchPrtAtCode the searchPrtAtCode to set
 	 */
-	public void setPrtAtCode(String prtAtCode) {
-		this.prtAtCode = prtAtCode;
-	}
-
-	/**
-	 * @return the assetsCd
-	 */
-	public String getAssetsCd() {
-		return assetsCd;
-	}
-
-	/**
-	 * @param assetsCd the assetsCd to set
-	 */
-	public void setAssetsCd(String assetsCd) {
-		this.assetsCd = assetsCd;
-	}
-
-	/**
-	 * @return the assetsSubCd
-	 */
-	public String getAssetsSubCd() {
-		return assetsSubCd;
-	}
-
-	/**
-	 * @param assetsSubCd the assetsSubCd to set
-	 */
-	public void setAssetsSubCd(String assetsSubCd) {
-		this.assetsSubCd = assetsSubCd;
+	public void setsearchPrtAtCode(String searchPrtAtCode) {
+		this.searchPrtAtCode = searchPrtAtCode;
 	}
 
 	/**

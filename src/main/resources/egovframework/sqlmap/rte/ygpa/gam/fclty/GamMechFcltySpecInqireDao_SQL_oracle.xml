@@ -2,7 +2,6 @@
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="ygpa.gam.fclty">
 
-
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamMechFcltySpecInqireVO" type="egovframework.rte.ygpa.gam.fclty.service.GamMechFcltySpecInqireVO"/>
@@ -49,7 +48,7 @@
 						  AND F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD
 						  AND F.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
 						WHERE
-						  F.PRT_FCLTY_SE = 'M'  
+						  F.PRT_FCLTY_SE = #prtFcltySe#  
 						  <isNotEmpty property="sPrtAtCode">
 						  	AND F.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
 						  </isNotEmpty>

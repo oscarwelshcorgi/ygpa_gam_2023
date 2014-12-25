@@ -55,7 +55,6 @@ public class GamMechFcltySpecInqireController {
     @Resource(name="gamMechFcltySpecInqireService")
     GamMechFcltySpecInqireService gamMechFcltySpecInqireService;
     
-	
 	private final static String prtFcltySe = "M";
 	
 	/**
@@ -100,6 +99,7 @@ public class GamMechFcltySpecInqireController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
+		searchVO.setPrtFcltySe(prtFcltySe);
 		List resultList = gamMechFcltySpecInqireService.selectMechFcltySpecInqireList(searchVO);
 		int totCnt = gamMechFcltySpecInqireService.selectMechFcltySpecInqireListTotCnt(searchVO);
 		
