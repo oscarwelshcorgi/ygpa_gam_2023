@@ -267,7 +267,15 @@ table.detailPanel {
 overflow: hidden;
 }
 
-input[type="text"]:disabled { color: #000; background-color: white; border-style: none; }
+input[type="text"]:disabled {
+	color: #000;
+	background-color: white;
+	/* border-style: none; */
+	border-bottom: solid #d9d9d9 1px;
+	border-left: none;
+	border-right: none;
+	border-top: none;
+}
 select:disabled, textarea:disabled { color: #000; background-color: #ebebe4; border-style: dotted; }
 
 .prtFcltyInfo div {
