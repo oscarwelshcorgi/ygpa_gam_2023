@@ -640,20 +640,21 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th style="width: 70px">항코드</th>
-                            <td style="width: 170px"><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
-                            <th style="width: 70px">고지업체</th>
-                            <td>
-                                <input type="text" size="6" id="sEntrpscd" maxlength="10"/>
-                                <input type="text" size="12" id="sEntrpsNm" disabled/>
-                                <button id="popupEntrpsInfo" class="popupButton">선택</button>
-                            </td>
                             <th style="width: 70px">납부구분</th>
                             <td>
                             	<select id="rcivSe">
                             		<option value="N" selected>미납</option>
                             		<option value="Y">수납</option>
                             	</select>
+                           	</td>
+                            <th style="width: 70px">고지업체</th>
+                            <td>
+                                <input type="text" size="6" id="sEntrpscd" maxlength="10"/>
+                                <input type="text" size="12" id="sEntrpsNm" disabled/>
+                                <button id="popupEntrpsInfo" class="popupButton">선택</button>
+                            </td>
+                            <th>요금종류</th>
+                            <td><input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM053" /></td>
                             <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
                         </tr>
 
@@ -665,9 +666,8 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
                                 <input id="sMngCnt" type="text" class="mngCnt">
                             </td>
                             <th>고지일자</th>
-                            <td><input id="sNticDtFrom" data-column-id="nticPdFrom" type="text" class="emdcal"size="8"> ~ <input id="sNticDtTo" data-column-id="nticPdTo" type="text"class="emdcal" size="8"></td>
-                            <th>요금종류</th>
-                            <td><input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM024" /></td>
+                            <td colspan="3"
+                            ><input id="sNticDtFrom" data-column-id="nticPdFrom" type="text" class="emdcal"size="8"> ~ <input id="sNticDtTo" data-column-id="nticPdTo" type="text"class="emdcal" size="8"></td>
                         </tr>
                     </tbody>
                 </table>

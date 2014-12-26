@@ -451,12 +451,9 @@ var module_instance = new GamAssetRentFeeMngtModule();
     <div id="searchViewStack" class="emdPanel">
         <div class="viewPanel">
             <form id="gamAssetRentFeeSearchForm">
+            	<input id="sPrtAtCode" type="hidden" value="622"/>
                 <table style="width:100%;" class="searchPanel">
                         <tr>
-                            <th>항코드</th>
-                            <td>
-								<input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019"  />
-                            </td>
                             <th>관리번호</th>
                             <td>
                                 <input id="sMngYear" type="text" class="mngYear" style="width: 30px">
@@ -476,14 +473,10 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             <td width="100px">
                          		<input id="sNhtIsueYn" class="ygpaYnSelect" data-default-prompt="전체" data-column-id="sNhtIsueYn" />
                             </td>
-                        	<th>고지방법</th>
-                            <td width="100px">
-                         		<input id="sNticMth" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM008" data-column-id="sNticMth" />
-                            </td>
                             <th>고지일자</th>
                             <td>
-                            	<input id="sNticPdFrom" type="text" class="emdcal" size="10"> ~
-                            	<input id="sNticPdTo" type="text" class="emdcal" size="10">
+                            	<input id="sNticPdFrom" type="text" class="emdcal" size="8"> ~
+                            	<input id="sNticPdTo" type="text" class="emdcal" size="8">
                             </td>
                         </tr>
                 </table>
@@ -649,7 +642,6 @@ var module_instance = new GamAssetRentFeeMngtModule();
 	                            <th style="text-align:center; width: 50px"><span class="label">고지구분</span></th>
 	                            <th style="text-align:center; width: 70px"><span class="label">회계년도</span></th>
 	                            <th style="text-align:center; width: 70px"><span class="label">고지번호</span></th>
-	                        	<th style="text-align:center; width: 150px"><span class="label">요금종류</span></th>
 	                        	<th style="text-align:center; width: 90px"><span class="label">고지금액</span></th>
 	                            <th style="text-align:center; width: 110px"><span class="label">고지일자</span></th>
 	                            <th style="text-align:center; width: 110px"><span class="label">납부기한일자</span></th>
@@ -659,12 +651,11 @@ var module_instance = new GamAssetRentFeeMngtModule();
                     	</thead>
                     	<tbody id="detailFeeInfo" >
                     		<tr>
-	                            <td style="text-align:center;"><span data-column-id="BILL_TP"></span></td>
-	                            <td style="text-align:center;"><span data-column-id="FISCAL_YR"></span></td>
-	                            <td style="text-align:center;"><span data-column-id="WORK_CODE"></span></td>
-	                            <td style="text-align:left;"><span data-column-id="BILL_NO"></span> (<span data-column-id="chrgeKnd"></span>)</td>
-	                            <td style="text-align:right;"><span data-column-id="BILL_AMNT" class="ygpaNumber"> 원</span></td>
-	                            <td style="text-align:center;"><span data-column-id="BILL_DT"></span></td>
+	                            <td style="text-align:center;"><span data-column-id="billTp"></span></td>
+	                            <td style="text-align:center;"><span data-column-id="fiscalYr"></span></td>
+	                            <td style="text-align:center;"><span data-column-id="billNo"></span></td>
+	                            <td style="text-align:right;"><span data-column-id="billAmnt" class="ygpaNumber"> 원</span></td>
+	                            <td style="text-align:center;"><span data-column-id="billDt"></span></td>
 	                            <td style="text-align:center;"><span data-column-id="dueDate"></span></td>
 		                        <td style="text-align:center;"><span data-column-id="rcvdTp" class="ygpaCmmnCd" data-code-id="GAM025"></span></td>
 	                            <td style="text-align:center;"><span data-column-id="rcivDt"></span></td>
@@ -673,9 +664,9 @@ var module_instance = new GamAssetRentFeeMngtModule();
                     </table>
                     <table id="summaryFeeInfo" class="summaryPanel">
                         <tr>
-                            <th><span class="label">사용료</span></th>
+                            <th><span class="label">총 사용료</span></th>
                             <td style="text-align:right; width: 92px"><span data-column-id="sumFee" class="ygpaNumber"></span></td>
-                        	<th><span class="label">고지금액</span></th>
+                        	<th><span class="label">총 고지금액</span></th>
                             <td style="text-align:right; width: 92px"><span data-column-id="sumNticAmt" class="ygpaNumber"></span></td>
                             <th><span class="label">관리비</span></th>
                             <td style="text-align:right; width: 92px"><span data-column-id="sumFeeA4" class="ygpaNumber"></span></td>

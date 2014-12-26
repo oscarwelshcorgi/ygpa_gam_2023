@@ -147,42 +147,46 @@
                              FROM ASSETS_RENT_F A
                             WHERE A.QUAY_GROUP_CD='H'
 
-                              <isNotEmpty property="sEntrpscd">
-				                 AND A.ENTRPSCD = #sEntrpscd#
+							<isNotEmpty property="sRentAreaCd" prepend="AND">
+				                A.RENT_AREA_CD = #sRentAreaCd#
+				            </isNotEmpty>
+
+                              <isNotEmpty property="sEntrpscd" prepend="AND">
+				                 A.ENTRPSCD = #sEntrpscd#
 				             </isNotEmpty>
 
 				             <isEmpty property="sEntrpscd">
-					             <isNotEmpty property="sEntrpsNm">
-					                 AND A.ENTRPSCD IN (SELECT ENTRPSCD FROM ENTRPS_INFO_F WHERE ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%')
+					             <isNotEmpty property="sEntrpsNm" prepend="AND">
+					                 A.ENTRPSCD IN (SELECT ENTRPSCD FROM ENTRPS_INFO_F WHERE ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%')
 					             </isNotEmpty>
 				             </isEmpty>
 
-				             <isNotEmpty property="sGrUsagePdFrom">
+				             <isNotEmpty property="sGrUsagePdFrom" prepend="AND">
 				             <![CDATA[
-				                 AND A.GR_USAGE_PD_TO >= TO_DATE(#sGrUsagePdFrom#,'YYYY-MM-DD')
+				                 A.GR_USAGE_PD_TO >= TO_DATE(#sGrUsagePdFrom#,'YYYY-MM-DD')
 				                 ]]>
 				             </isNotEmpty>
 
-				             <isNotEmpty property="sGrUsagePdTo">
+				             <isNotEmpty property="sGrUsagePdTo" prepend="AND">
 				             <![CDATA[
-				                 AND A.GR_USAGE_PD_FROM < TO_DATE(#sGrUsagePdTo#, 'YYYY-MM-DD')
+				                 A.GR_USAGE_PD_FROM < TO_DATE(#sGrUsagePdTo#, 'YYYY-MM-DD')
 				                 ]]>
 				             </isNotEmpty>
 
-				             <isNotEmpty property="sMngYear">
-				                 AND A.MNG_YEAR = #sMngYear#
+				             <isNotEmpty property="sMngYear" prepend="AND">
+				                 A.MNG_YEAR = #sMngYear#
 				             </isNotEmpty>
 
-				             <isNotEmpty property="sMngNo">
-				                 AND A.MNG_NO = #sMngNo#
+				             <isNotEmpty property="sMngNo" prepend="AND">
+				                 A.MNG_NO = #sMngNo#
 				             </isNotEmpty>
 
-				             <isNotEmpty property="sMngCnt">
-				                 AND A.MNG_CNT = #sMngCnt#
+				             <isNotEmpty property="sMngCnt" prepend="AND">
+				                 A.MNG_CNT = #sMngCnt#
 				             </isNotEmpty>
 
-							 <isNotEmpty property="sPrmisnYn">
-				                 AND A.PRMISN_YN = #sPrmisnYn#
+							 <isNotEmpty property="sPrmisnYn" prepend="AND">
+				                 A.PRMISN_YN = #sPrmisnYn#
 				             </isNotEmpty>
 
                              ORDER BY A.RENT_AREA_CD ASC, ENTRPS_NM, GR_AR DESC
@@ -197,45 +201,45 @@
               FROM ASSETS_RENT_F A
              WHERE A.QUAY_GROUP_CD='H'
 
-			<isNotEmpty property="sRentAreaCd">
-                AND A.RENT_AREA_CD = #sRentAreaCd#
+			<isNotEmpty property="sRentAreaCd" prepend="AND">
+                A.RENT_AREA_CD = #sRentAreaCd#
             </isNotEmpty>
-			<isNotEmpty property="sEntrpscd">
-                AND A.ENTRPSCD = #sEntrpscd#
+			<isNotEmpty property="sEntrpscd" prepend="AND">
+                A.ENTRPSCD = #sEntrpscd#
             </isNotEmpty>
 
             <isEmpty property="sEntrpscd">
-             <isNotEmpty property="sEntrpsNm">
-                 AND A.ENTRPSCD IN (SELECT ENTRPSCD FROM ENTRPS_INFO_F WHERE ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%')
+             <isNotEmpty property="sEntrpsNm" prepend="AND">
+                 A.ENTRPSCD IN (SELECT ENTRPSCD FROM ENTRPS_INFO_F WHERE ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%')
              </isNotEmpty>
             </isEmpty>
 
-            <isNotEmpty property="sGrUsagePdFrom">
+            <isNotEmpty property="sGrUsagePdFrom" prepend="AND">
             <![CDATA[
-                AND A.GR_USAGE_PD_FROM >= TO_DATE(#sGrUsagePdFrom#,'YYYY-MM-DD')
+                A.GR_USAGE_PD_FROM >= TO_DATE(#sGrUsagePdFrom#,'YYYY-MM-DD')
                 ]]>
             </isNotEmpty>
 
-            <isNotEmpty property="sGrUsagePdTo">
+            <isNotEmpty property="sGrUsagePdTo" prepend="AND">
             <![CDATA[
-                AND A.GR_USAGE_PD_TO < TO_DATE(#sGrUsagePdTo#, 'YYYY-MM-DD')+1
+                A.GR_USAGE_PD_TO < TO_DATE(#sGrUsagePdTo#, 'YYYY-MM-DD')+1
                 ]]>
             </isNotEmpty>
 
-            <isNotEmpty property="sMngYear">
-                AND A.MNG_YEAR = #sMngYear#
+            <isNotEmpty property="sMngYear" prepend="AND">
+                A.MNG_YEAR = #sMngYear#
             </isNotEmpty>
 
-            <isNotEmpty property="sMngNo">
-                AND A.MNG_NO = #sMngNo#
+            <isNotEmpty property="sMngNo" prepend="AND">
+                A.MNG_NO = #sMngNo#
             </isNotEmpty>
 
-            <isNotEmpty property="sMngCnt">
-                AND A.MNG_CNT = #sMngCnt#
+            <isNotEmpty property="sMngCnt" prepend="AND">
+                A.MNG_CNT = #sMngCnt#
             </isNotEmpty>
 
-		 <isNotEmpty property="sPrmisnYn">
-                AND A.PRMISN_YN = #sPrmisnYn#
+		 <isNotEmpty property="sPrmisnYn" prepend="AND">
+                A.PRMISN_YN = #sPrmisnYn#
             </isNotEmpty>
     </select>
 
@@ -247,45 +251,45 @@
                , TRIM(TO_CHAR(NVL(SUM(A.GR_RDCXPT_FEE),0), '999,999,999,999')) SUM_GR_RDCXPT_FEE
           FROM ASSETS_RENT_F A
          WHERE A.QUAY_GROUP_CD='H'
-			<isNotEmpty property="sRentAreaCd">
-                AND A.RENT_AREA_CD = #sRentAreaCd#
+			<isNotEmpty property="sRentAreaCd" prepend="AND">
+                A.RENT_AREA_CD = #sRentAreaCd#
             </isNotEmpty>
-			<isNotEmpty property="sEntrpscd">
-                AND A.ENTRPSCD = #sEntrpscd#
+			<isNotEmpty property="sEntrpscd" prepend="AND">
+                A.ENTRPSCD = #sEntrpscd#
             </isNotEmpty>
 
             <isEmpty property="sEntrpscd">
-             <isNotEmpty property="sEntrpsNm">
-                 AND A.ENTRPSCD IN (SELECT ENTRPSCD FROM ENTRPS_INFO_F WHERE ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%')
+             <isNotEmpty property="sEntrpsNm" prepend="AND">
+                 A.ENTRPSCD IN (SELECT ENTRPSCD FROM ENTRPS_INFO_F WHERE ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%')
              </isNotEmpty>
             </isEmpty>
 
-            <isNotEmpty property="sGrUsagePdFrom">
+            <isNotEmpty property="sGrUsagePdFrom" prepend="AND">
             <![CDATA[
-                AND A.GR_USAGE_PD_FROM >= TO_DATE(#sGrUsagePdFrom#,'YYYY-MM-DD')
+                A.GR_USAGE_PD_FROM >= TO_DATE(#sGrUsagePdFrom#,'YYYY-MM-DD')
                 ]]>
             </isNotEmpty>
 
-            <isNotEmpty property="sGrUsagePdTo">
+            <isNotEmpty property="sGrUsagePdTo" prepend="AND">
             <![CDATA[
-                AND A.GR_USAGE_PD_TO < TO_DATE(#sGrUsagePdTo#, 'YYYY-MM-DD')+1
+                A.GR_USAGE_PD_TO < TO_DATE(#sGrUsagePdTo#, 'YYYY-MM-DD')+1
                 ]]>
             </isNotEmpty>
 
-            <isNotEmpty property="sMngYear">
-                AND A.MNG_YEAR = #sMngYear#
+            <isNotEmpty property="sMngYear" prepend="AND">
+                A.MNG_YEAR = #sMngYear#
             </isNotEmpty>
 
-            <isNotEmpty property="sMngNo">
-                AND A.MNG_NO = #sMngNo#
+            <isNotEmpty property="sMngNo" prepend="AND">
+                A.MNG_NO = #sMngNo#
             </isNotEmpty>
 
-            <isNotEmpty property="sMngCnt">
-                AND A.MNG_CNT = #sMngCnt#
+            <isNotEmpty property="sMngCnt" prepend="AND">
+                A.MNG_CNT = #sMngCnt#
             </isNotEmpty>
 
-		 <isNotEmpty property="sPrmisnYn">
-                AND A.PRMISN_YN = #sPrmisnYn#
+		 <isNotEmpty property="sPrmisnYn" prepend="AND">
+                A.PRMISN_YN = #sPrmisnYn#
             </isNotEmpty>
     </select>
 

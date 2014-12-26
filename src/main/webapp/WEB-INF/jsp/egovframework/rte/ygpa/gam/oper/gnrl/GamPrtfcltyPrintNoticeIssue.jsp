@@ -587,7 +587,7 @@ div.notice {
 
 	 div.feeAmount {
 		position: absolute;
-		left: 7.35cm;
+		left: 7.25cm;
 		top: 2.4cm;
 		width: 4.4cm;
 		height: 0.46cm;
@@ -599,7 +599,7 @@ div.notice {
 	 div.feeDetail {
 		position: absolute;
 		left: 8.4cm;
-		top: 3.2cm;
+		top: 3.1cm;
 		width: 3.3cm;
 		height: 4.8cm;
 		font-size: 0.32cm;
@@ -673,7 +673,7 @@ div.notice {
 	 #elecPayNo {
 		position: absolute;
 		left: 8.2cm;
-		top: 4.4cm;
+		top: 4.3cm;
 		width: 6.8cm;
 		height: 0.8cm;
 		font-size: 0.4cm;
@@ -685,7 +685,7 @@ div.notice {
 	 .girocode {
 		position: absolute;
 		left: 0.45cm;
-		top: 3.2cm;
+		top: 3.1cm;
 		width: 13.2cm;
 		height: 0.4cm;
 		font-size: 0.4cm;
@@ -719,7 +719,7 @@ div.notice {
 	 .giroDetail {
 		position: absolute;
 		left: 2.7cm;
-		top: 5.4cm;
+		top: 5.3cm;
 		width: 11.9cm;
 		height: 1.3cm;
 		font-size: 0.35cm;
