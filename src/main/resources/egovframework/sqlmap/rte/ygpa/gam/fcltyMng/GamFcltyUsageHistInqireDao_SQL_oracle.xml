@@ -88,6 +88,7 @@
 								AND A.MNG_YEAR = B.MNG_YEAR
 								AND A.MNG_NO = B.MNG_NO
 								AND A.MNG_CNT = B.MNG_CNT
+								AND A.PRMISN_YN = 'Y'
 								<isNotEmpty property="searchDtFr" prepend="AND">
 									A.GR_USAGE_PD_FROM <![CDATA[>=]]>TO_DATE(#searchDtFr#,'yyyy-mm-dd')
 								</isNotEmpty>
@@ -102,7 +103,6 @@
 						WHERE C.GIS_ASSETS_PRT_AT_CODE = G.GIS_ASSETS_PRT_AT_CODE
 						AND C.GIS_ASSETS_CD 		= G.GIS_ASSETS_CD
 						AND C.GIS_ASSETS_SUB_CD 	= G.GIS_ASSETS_SUB_CD
-						AND C.PRMISN_YN				= 'Y'
 						<isNotEmpty property="searchPrtAtCode">
 							AND C.PRT_AT_CODE = #searchPrtAtCode#
 						</isNotEmpty>

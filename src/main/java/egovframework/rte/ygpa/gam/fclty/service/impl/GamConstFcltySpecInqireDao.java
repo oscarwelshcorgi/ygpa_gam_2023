@@ -39,7 +39,6 @@ public class GamConstFcltySpecInqireDao extends YGPAAbstractDAO{
 	 * @return List
 	 * @exception Exception
 	 */
-	@SuppressWarnings("unchecked")
 	public List<ComDefaultVO> selectFcltySpecInqireList(GamConstFcltySpecInqireVO searchVO) throws Exception{
 		return list("GamConstFcltySpecInqireDao.selectFcltySpecInqireList", searchVO);
 	}

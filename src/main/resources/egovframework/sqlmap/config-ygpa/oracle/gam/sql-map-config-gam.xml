@@ -154,7 +154,7 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/ctrt/GamFcltyCtrtMngDao_SQL_oracle.xml" />
 
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamConsFcltySpecMngDao_SQL_oracle.xml" />
-	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamConsFcltySpecInqireDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamConstFcltySpecInqireDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamCivilFcltySpecMngDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamCivilFcltySpecInqireDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fclty/GamMechFcltySpecMngDao_SQL_oracle.xml" />

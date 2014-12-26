@@ -131,7 +131,6 @@ GamMechFcltySpecInqireModule.prototype.loadDetail = function() {
 	}
 	// 기계시설 제원 처리
 	var prtFclty = [{ name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
-	console.log(prtFclty);
 	this.doAction('/fclty/selectMechFcltySpecInqireDetail.do', prtFclty, function(module, result) {
 		if(result.resultCode == "0"){
 			module.clearCodePage();

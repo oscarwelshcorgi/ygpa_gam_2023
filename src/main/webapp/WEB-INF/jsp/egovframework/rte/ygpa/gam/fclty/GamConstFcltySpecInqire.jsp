@@ -131,7 +131,6 @@ GamConstFcltySpecInqireModule.prototype.loadDetail = function() {
 	}
 	// 건축시설 제원 처리
 	var prtFclty = [{ name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
-	console.log(prtFclty);
 	this.doAction('/fclty/gamConstFcltySpecInqireDetail.do', prtFclty, function(module, result) {
  		if(result.resultCode == "0"){
  			module.clearCodePage();
