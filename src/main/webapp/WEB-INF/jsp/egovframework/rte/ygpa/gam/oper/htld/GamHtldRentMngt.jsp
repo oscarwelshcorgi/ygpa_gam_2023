@@ -1,43 +1,41 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
-<%
-  /**
-  * @Class Name : GamHtldRentMngt.jsp
-  * @Description : 배후단지임대관리
-  * @Modification Information
-  *
-  *   수정일         수정자                   수정내용
-  *  ------------ 	----------	---------------------------
-  *  2014.01.10  heroine     최초 생성
-  *  2014.12.16	eunsungj	죄다 뜯어 고침 ㅡㅡ;
-  *
-  * author eunsungj
-  * since 2014.01.10
-  *
-  * Copyright (C) 2013 by LFIT  All right reserved.
-  */
-%>
+<%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld"%>
+<%--
+  @Class Name : GamHtldRentMngt.jsp
+  @Description : 배후단지임대관리
+  @Modification Information
+
+     수정일         수정자                   수정내용
+    ------------ 	----------	---------------------------
+    2014.01.10  heroine     최초 생성
+    2014.12.16	eunsungj	죄다 뜯어 고침 ㅡㅡ;
+
+   author eunsungj
+   since 2014.01.10
+
+  Copyright (C) 2013 by LFIT  All right reserved.
+--%>
 <validator:javascript formName="gamHtldRentMngt" method="validateGamAssetRent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 <validator:javascript formName="gamHtldRentMngtDetail" method="validateGamAssetRentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 <validator:javascript formName="gamHtldRentMngtPhoto" method="validateGamAssetRentFile" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 <script>
- <%
- 	// 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.	(주석 표준화 할 것!!)
-%>
+<%--
+ 	아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.	(주석 표준화 할 것!!)
+--%>
 function GamAssetRentMngtModule() {}
 
-<%
-	// EmdModule을 상속하여 모듈 클래스를 정의한다.
-%>
+<%--
+	EmdModule을 상속하여 모듈 클래스를 정의한다.
+--%>
 GamAssetRentMngtModule.prototype = new EmdModule(900, 645);
 
-<%
-// 페이지가 호출 되었을때 호출 되는 함수
-%>
+<%--
+	페이지가 호출 되었을때 호출 되는 함수
+--%>
 GamAssetRentMngtModule.prototype.loadComplete = function() {
 
     // 자산임대 테이블 설정
@@ -180,9 +178,9 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
     console.log('debug');	// debug가 종료 되면 반드시 제거 할 것
 };
 
-<%
-	// 이벤트 정의
-%>
+<%--
+	이벤트 정의
+--%>
 GamAssetRentMngtModule.prototype.setEvents = function() {
 	// tabs 2
     this.$('#applcTariff').on('change', {module: this}, function(event) {
@@ -226,9 +224,9 @@ GamAssetRentMngtModule.prototype.setEvents = function() {
     });
 };
 
-<%
-	// 버튼 상태 설정
-%>
+<%--
+	버튼 상태 설정
+--%>
 GamAssetRentMngtModule.prototype.setButtonStatus = function() {
 	var tab_active = this.$('#assetRentListTab').tabs('option', 'active');
 	switch(tab_active) {
@@ -366,9 +364,9 @@ GamAssetRentMngtModule.prototype.setButtonStatus = function() {
 	}
 };
 
-<%
-	// 자산코드와 주소를 문자열로 변환한다
-%>
+<%--
+	자산코드와 주소를 문자열로 변환한다
+--%>
 GamAssetRentMngtModule.prototype.makeAssetCd = function(assetCd) {
 	assetCd.gisAssetsCdStr = assetCd.gisAssetsCd+'-'+assetCd.gisAssetsSubCd;
 	assetCd.gisAssetsLocplcAll = assetCd.gisAssetsLocplc;
@@ -380,9 +378,9 @@ GamAssetRentMngtModule.prototype.makeAssetCd = function(assetCd) {
 	}
 };
 
-<%
-	// 적용방법이 수정 되었을때 호출되는 이벤트 핸들러
-%>
+<%--
+	적용방법이 수정 되었을때 호출되는 이벤트 핸들러
+--%>
 GamAssetRentMngtModule.prototype.onChangeNticMth = function(nticMth) {
     //alert($(this).val());
     if( nticMth != '' && nticMth != '1' ) {
@@ -396,9 +394,9 @@ GamAssetRentMngtModule.prototype.onChangeNticMth = function(nticMth) {
     this.calcFirstPaymentAmount();
 };
 
-<%
-	// 분납 이자율이 변경 되었을 때 호출 되는 이벤트 핸들러
-%>
+<%--
+	분납 이자율이 변경 되었을 때 호출 되는 이벤트 핸들러
+--%>
 GamAssetRentMngtModule.prototype.onCofixListChange = function(cofix) {
 	//alert('||'+$(this).val()+'||');
     if( cofix == '' ) {
@@ -416,9 +414,9 @@ GamAssetRentMngtModule.prototype.onCofixListChange = function(cofix) {
     }
 };
 
-<%
-	// 업체 담당자 정보를 로딩한다.
-%>
+<%--
+	업체 담당자 정보를 로딩한다.
+--%>
 GamAssetRentMngtModule.prototype.loadEntrpsChargerList = function() {
 	var entrpsCd=this.$('#entrpscd').val();
 	this.$('#chargerTlphonNo').text('');
@@ -468,9 +466,9 @@ GamAssetRentMngtModule.prototype.loadEntrpsChargerList = function() {
 	}
 };
 
-<%
-// 요금 산정 방식에 따른 첫회 사용료 계산 함수
-%>
+<%--
+요금 산정 방식에 따른 첫회 사용료 계산 함수
+--%>
 GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 	var firstAmt=0;
 	var nticMth=this.$('#nticMth').val();
@@ -588,9 +586,9 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 	this.$('#firstPayValStr').text(firstPayValStr);
 };
 
-<%
-	// 적용방법에 따른 변경 이벤트 핸들러
-%>
+<%--
+	적용방법에 따른 변경 이벤트 핸들러
+--%>
 GamAssetRentMngtModule.prototype.onApplcMthChange = function(applcMth) {
 	switch(applcMth) {
 	case '1':	// 국유재산법
@@ -623,9 +621,9 @@ GamAssetRentMngtModule.prototype.onApplcMthChange = function(applcMth) {
     this.onCalc();
 };
 
-<%
-	// 면제 구분 방식에 변경의 이벤트 핸들러
-%>
+<%--
+	면제 구분 방식에 변경의 이벤트 핸들러
+--%>
 GamAssetRentMngtModule.prototype.onExemptSeChange = function(exemptSe) {
     if(exemptSe=='0') {
     	this.$('.exempt').hide();
@@ -648,9 +646,9 @@ GamAssetRentMngtModule.prototype.onExemptSeChange = function(exemptSe) {
     }
 };
 
-<%
-	// 국유재산법 사용료 계산
-%>
+<%--
+	국유재산법 사용료 계산
+--%>
 GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
     if( this.$('#olnlp').val() != '' && this.$('#usagePdFrom').val() != '' && this.$('#usagePdTo').val() != ''
         && this.$('#usageAr').val() != '' && this.$('#applcTariff').val() != '' && this.$('#exemptSe').val() != ''
@@ -780,9 +778,9 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
 
 };
 
-<%
-	// 기간에 대한 달 수 계산 함수
-%>
+<%--
+	기간에 대한 달 수 계산 함수
+--%>
 GamAssetRentMngtModule.prototype.calcMonth = function(dtFrom, dtTo) {
 	var retval={month: 0, day: 0, lastMonthDay: 31};
 
@@ -807,9 +805,9 @@ GamAssetRentMngtModule.prototype.calcMonth = function(dtFrom, dtTo) {
 	return retval;
 };
 
-<%
-	// 무역항규정 사용료 계산 함수
-%>
+<%--
+	무역항규정 사용료 계산 함수
+--%>
 GamAssetRentMngtModule.prototype.calcTradePortLaw = function() {
     if( this.$('#usagePdFrom').val() != '' && this.$('#usagePdTo').val() != ''
         && this.$('#usageAr').val() != '' && this.$('#applcPrice').val() != '' && this.$('#exemptSe').val() != ''
@@ -922,9 +920,9 @@ GamAssetRentMngtModule.prototype.calcTradePortLaw = function() {
     }
 };
 
-<%
-	// 적용방법에 따른 요금 계산
-%>
+<%--
+	적용방법에 따른 요금 계산
+--%>
 GamAssetRentMngtModule.prototype.onCalc = function() {
 	switch(this.$('#applcMth').val()) {
 	case '1':	// 국유재산법
@@ -945,9 +943,9 @@ GamAssetRentMngtModule.prototype.onCalc = function() {
 	}
 };
 
-<%
-	// 총사용료, 총면적 계산 함수
-%>
+<%--
+	총사용료, 총면적 계산 함수
+--%>
 GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
     var fee = 0;
     var rdcxptFee = 0;
@@ -1006,9 +1004,9 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
     this.calcFirstPaymentAmount();
 };
 
-<%
-	// 문자열을 받아서 숫자로 리턴한다. (EMD.util.getNumber 추가 예정)
-%>
+<%--
+	문자열을 받아서 숫자로 리턴한다. (EMD.util.getNumber 추가 예정)
+--%>
 GamAssetRentMngtModule.prototype.getNumber = function(value) {
     var rnum=value!=undefined?value:0;
 
@@ -1016,11 +1014,11 @@ GamAssetRentMngtModule.prototype.getNumber = function(value) {
 	return rnum;
 };
 
-<%
-// 버튼 클릭에 대한 이벤트 핸들러 (EmdModule에서 Overriding 된 함수임 모듈에서 자동으로 호출 됨)
-// 스위치문 안에 코드가 길어지면 반드시 하위 함수로 분리 할 것.
-    	// case 문에 주석을 달때는 case 문 뒤에 붙일 것
-%>
+<%--
+버튼 클릭에 대한 이벤트 핸들러 (EmdModule에서 Overriding 된 함수임 모듈에서 자동으로 호출 됨)
+스위치문 안에 코드가 길어지면 반드시 하위 함수로 분리 할 것.
+    	case 문에 주석을 달때는 case 문 뒤에 붙일 것
+--%>
  GamAssetRentMngtModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
 	    case 'popupEntrpsInfo': // 팝업을 호출한다.(조회 조건)
@@ -1141,9 +1139,9 @@ GamAssetRentMngtModule.prototype.getNumber = function(value) {
     }
 };
 
-<%
-	// 전자결재 연동
-%>
+<%--
+	전자결재 연동
+--%>
 GamAssetRentMngtModule.prototype.approvalEA = function() {
     if(this.$('#assetRentMngtList').selectedRowCount()>0) {
 
@@ -1175,9 +1173,9 @@ GamAssetRentMngtModule.prototype.approvalEA = function() {
     }
 };
 
-<%
-	// 임대계약 추가
-%>
+<%--
+	임대계약 추가
+--%>
 GamAssetRentMngtModule.prototype.addRentData = function() {
 	this.$("#assetRentMngtList").noSelect();
 	this._detailMode="I";
@@ -1199,9 +1197,9 @@ GamAssetRentMngtModule.prototype.addRentData = function() {
     this.doExecuteDialog('insertEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', {});
 };
 
-<%
-	// 임대계약 연장
-%>
+<%--
+	임대계약 연장
+--%>
 GamAssetRentMngtModule.prototype.extendRentData = function() {
             var rows = this.$('#assetRentMngtList').selectedRows();
 
@@ -1223,9 +1221,9 @@ GamAssetRentMngtModule.prototype.extendRentData = function() {
             }
 };
 
-<%
-// 임대계약 저장
-%>
+<%--
+임대계약 저장
+--%>
 GamAssetRentMngtModule.prototype.storeRentData = function() {
         	if(!validateGamAssetRent(this.$('#gamAssetRentForm')[0])) {
                 return;
@@ -1276,9 +1274,9 @@ GamAssetRentMngtModule.prototype.storeRentData = function() {
     }
 };
 
-<%
-	// 임대계약 삭제
-%>
+<%--
+	임대계약 삭제
+--%>
 GamAssetRentMngtModule.prototype.deleteRentData = function() {
             var rows = this.$('#assetRentMngtList').selectedRows();
 
@@ -1302,9 +1300,9 @@ GamAssetRentMngtModule.prototype.deleteRentData = function() {
 
             };
 
-<%
-	// 사용승낙
-%>
+<%--
+	사용승낙
+--%>
 GamAssetRentMngtModule.prototype.confirmPrmisn = function() {
             var rows = this.$('#assetRentMngtList').selectedRows();
             var row = rows[0];
@@ -1337,9 +1335,9 @@ GamAssetRentMngtModule.prototype.confirmPrmisn = function() {
             }
 };
 
-<%
-	// 사용승낙 취소
-%>
+<%--
+	사용승낙 취소
+--%>
 GamAssetRentMngtModule.prototype.cancelPrmisn = function() {
             var rows = this.$('#assetRentMngtList').selectedRows();
             var row = this.$('#assetRentMngtList').selectedRows()[0];
@@ -1369,9 +1367,9 @@ GamAssetRentMngtModule.prototype.cancelPrmisn = function() {
             }
 };
 
-<%
-	// 추가고지 기존 고지분에 추가로 고지를 한다.
-%>
+<%--
+	추가고지 기존 고지분에 추가로 고지를 한다.
+--%>
 GamAssetRentMngtModule.prototype.addNoticeAdit = function() {
             var rows = this.$('#assetRentMngtList').selectedRows();
 
@@ -1388,9 +1386,9 @@ GamAssetRentMngtModule.prototype.addNoticeAdit = function() {
             }
 };
 
-<%
-	// 임대 상세 추가.
-%>
+<%--
+	임대 상세 추가.
+--%>
 GamAssetRentMngtModule.prototype.addRentDetailItem = function() {
 	this.$('#assetRentDetailList').noSelect();
 	this._rentDetailMode='I';
@@ -1402,9 +1400,9 @@ GamAssetRentMngtModule.prototype.addRentDetailItem = function() {
 	this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '/popup/showAssetsCd.do', {});
 };
 
-<%
-	// 임대 상세 삭제
-%>
+<%--
+	임대 상세 삭제
+--%>
 GamAssetRentMngtModule.prototype.deleteRentDetailItem = function() {
     var rowId=this.$('#assetRentDetailList').selectedRowIds();
 
@@ -1424,9 +1422,9 @@ GamAssetRentMngtModule.prototype.deleteRentDetailItem = function() {
     }
 };
 
-<%
-	// 임대 내역 밸리데이션
-%>
+<%--
+	임대 내역 밸리데이션
+--%>
 GamAssetRentMngtModule.prototype.validateRentDetail = function() {
         	if(!validateGamAssetRentDetail(this.$('#gamAssetRentDetailForm')[0])) {
         return false;
@@ -1510,9 +1508,9 @@ GamAssetRentMngtModule.prototype.validateRentDetail = function() {
 	return true;
 };
 
-<%
-	// 임대 상세 적용
-%>
+<%--
+	임대 상세 적용
+--%>
 GamAssetRentMngtModule.prototype.applyRentDetailItem = function() {
 	if(!this.validateRentDetail()) {
                     return;
@@ -1535,9 +1533,9 @@ GamAssetRentMngtModule.prototype.applyRentDetailItem = function() {
     this._editChanged=true;
             	};
 
-<%
-	// 파일 적용
-%>
+<%--
+	파일 적용
+--%>
 GamAssetRentMngtModule.prototype.applyPhotoData = function() {
 
 	if(!validateGamAssetRentFile(this.$('#gamAssetRentFileForm')[0])) {
@@ -1557,17 +1555,17 @@ GamAssetRentMngtModule.prototype.applyPhotoData = function() {
     }
 };
 
-<%
-	// EmdModule에서 Overriding 된 Submit 함수.
-	// 모듈에서 엔터키를 입력 하거나 submitButton 클래스의 버튼이 눌려졌을때 호출되는 이벤트 함수. (포커스에 따라 동작 안될 때도 있음.)
-%>
+<%--
+	EmdModule에서 Overriding 된 Submit 함수.
+	모듈에서 엔터키를 입력 하거나 submitButton 클래스의 버튼이 눌려졌을때 호출되는 이벤트 함수. (포커스에 따라 동작 안될 때도 있음.)
+--%>
 GamAssetRentMngtModule.prototype.onSubmit = function() {
     this.loadData();
 };
 
-<%
-	// 메인 그리드의 데이터를 조회 한다.
-%>
+<%--
+	메인 그리드의 데이터를 조회 한다.
+--%>
 GamAssetRentMngtModule.prototype.loadData = function() {
     this.$("#assetRentListTab").tabs("option", {active: 0});
     var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
@@ -1576,9 +1574,9 @@ GamAssetRentMngtModule.prototype.loadData = function() {
     this._deleteDataList=[];
 };
 
-<%
-// 탭이 변경 되기 전에 호출되는 이벤트 핸들러 : 리턴값이 false이면 탭 변경이 취소되어 탭이 바뀌질 않는다.
-%>
+<%--
+탭이 변경 되기 전에 호출되는 이벤트 핸들러 : 리턴값이 false이면 탭 변경이 취소되어 탭이 바뀌질 않는다.
+--%>
 GamAssetRentMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
     switch(newTabId) {
     case 'tabs1':
@@ -1618,9 +1616,9 @@ GamAssetRentMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId
 	return true;
 };
 
-<%
-	// 탭이 변경 된 후 호출 되는 이벤트 핸들러
-%>
+<%--
+	탭이 변경 된 후 호출 되는 이벤트 핸들러
+--%>
 GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
     switch(newTabId) {
     case 'tabs1':
@@ -1637,10 +1635,10 @@ GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
         }
 };
 
-<%
-	// 탭 변경 시 상세 폼 데이터를 로딩 한다.
-	// 탭이 이후 탭에서도 변경 될 때를 체크하기위해 _loadedItem 변수를 두어 체크 하게 함. (다시 로딩 시에는 _loadedItem을 false로 만들 것)
-%>
+<%--
+	탭 변경 시 상세 폼 데이터를 로딩 한다.
+	탭이 이후 탭에서도 변경 될 때를 체크하기위해 _loadedItem 변수를 두어 체크 하게 함. (다시 로딩 시에는 _loadedItem을 false로 만들 것)
+--%>
 GamAssetRentMngtModule.prototype.loadDetail  = function(mode) {
 	var row;
 	if(this._loadedItem) {
@@ -1725,9 +1723,9 @@ GamAssetRentMngtModule.prototype.loadDetail  = function(mode) {
 	this.setButtonStatus();
 };
 
-<%
-	// 탭 변경 시 임대 상세 폼 데이터를 로딩 한다.
-%>
+<%--
+	탭 변경 시 임대 상세 폼 데이터를 로딩 한다.
+--%>
 GamAssetRentMngtModule.prototype.loadRentDetail  = function() {
 	var row=null;
 	if(this._rentDetailMode=='I') {
@@ -1766,12 +1764,12 @@ GamAssetRentMngtModule.prototype.loadRentDetail  = function() {
     this.makeFormValues('#gamAssetRentDetailForm', row);
 };
 
-<%
-	// 팝업이 종료 될때 리턴 값이 오출 된다.	EmdModule에서 호출 함.
-//popupId : 팝업 대화상자 아이디
-//msg : 팝업에서 전송한 메시지 (취소는 cancel)
-//value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
-%>
+<%--
+	팝업이 종료 될때 리턴 값이 오출 된다.	EmdModule에서 호출 함.
+		popupId : 팝업 대화상자 아이디
+		msg : 팝업에서 전송한 메시지 (취소는 cancel)
+		value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
+--%>
 GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
      case 'selectEntrpsInfoPopup':
@@ -1842,9 +1840,9 @@ GamAssetRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
      }
 };
 
-<%
-	// 시설코드에 따른 공시 지가를 로드 한다.
-%>
+<%--
+	시설코드에 따른 공시 지가를 로드 한다.
+--%>
 GamAssetRentMngtModule.prototype.loadOlnlpList = function(prtFcltyCd, sel_price) {
 	this.$('#olnlpList').empty();
 	if(prtFcltyCd==null || prtFcltyCd['gisAssetsPrtAtCode']==undefined
@@ -1881,17 +1879,16 @@ GamAssetRentMngtModule.prototype.loadOlnlpList = function(prtFcltyCd, sel_price)
 };
 
 
-<%
-// 다음 변수는 고정 적으로 정의 해야 함
-	// module_instance는 고정 변수 GamAssetRentMngtModule은 위에서 EmdModule을 상속 받는 이 윈도우의 모듈 함수로 정의 됨.
-%>
+<%--
+다음 변수는 고정 적으로 정의 해야 함
+	module_instance는 고정 변수 GamAssetRentMngtModule은 위에서 EmdModule을 상속 받는 이 윈도우의 모듈 함수로 정의 됨.
+--%>
 var module_instance = new GamAssetRentMngtModule();
 
 </script>
-<!-- 이 페 -->
-<%
-	// 이 페이지를 로딩 하기 위한 window_id 변수. jsp를 호출 하는 model에 담겨서 와야 함.
-%>
+<%--
+	이 페이지를 로딩 하기 위한 window_id 변수. jsp를 호출 하는 model에 담겨서 와야 함.
+--%>
 <input type="hidden" id="window_id" value='${windowId}' />
 <div class="window_main">
 

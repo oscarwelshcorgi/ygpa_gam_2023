@@ -55,7 +55,7 @@
     margin: 0cm auto;
     border: 1px #D3D3D3 solid;
     border-radius: 5px;
-    background-image:url('<c:url value="/images/egovframework/ygpa/gam/misc/giro_page.png" />"');
+    background-image:url('<c:url value="/images/egovframework/ygpa/gam/misc/giro_page.png" />');
     -webkit-background-size: cover; /* For WebKit*/
     -moz-background-size: cover;    /* Mozilla*/
     -o-background-size: cover;      /* Opera*/
