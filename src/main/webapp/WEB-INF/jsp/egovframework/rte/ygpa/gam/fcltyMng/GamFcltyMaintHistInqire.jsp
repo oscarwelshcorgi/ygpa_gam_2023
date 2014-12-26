@@ -39,7 +39,6 @@ GamFcltyMaintHistInqireModule.prototype.loadComplete = function() {
 		url: '/fcltyMng/selectFcltyMaintHistInqireList.do',
 		dataType: "json",
 		colModel : [
-					{display:"도", 			name:"fcltsMngNo",				width:60, 		sortable:false,		align:"center"},
 					{display:"시행년도", 			name:"enforceYear",				width:60, 		sortable:false,		align:"center"},
 					{display:"계약번호", 			name:"ctrtNo",					width:200, 		sortable:false,		align:"center"},
 					{display:"시공업체", 			name:"cnstrtr",					width:200, 		sortable:false,		align:"center"},
@@ -283,7 +282,7 @@ var module_instance = new GamFcltyMaintHistInqireModule();
 						</tr>
 						<tr>
 							<th height="23" class="required_text">유지보수내용</th>
-							<td colspan="5"><textarea id="mntnRprCn" cols="130" rows="10" title="유지보수내용" disabled="disabled"></textarea></td>
+							<td colspan="5"><span id="mntnRprCn" title="유지보수내용"></span></td>
 						</tr>
 						<tr>
 							<th height="23" class="required_text">비고</th>

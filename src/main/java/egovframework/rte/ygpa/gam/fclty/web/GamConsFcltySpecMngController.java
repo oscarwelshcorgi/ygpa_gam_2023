@@ -94,7 +94,7 @@ public class GamConsFcltySpecMngController {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/gamConstFcltySpecMngList.do")
-	public @ResponseBody Map<String, Object> selectFcltySpecMngList(GamConsFcltySpecMngVO searchVO)throws Exception {
+	public @ResponseBody Map selectFcltySpecMngList(GamConsFcltySpecMngVO searchVO)throws Exception {
 
 		Map map = new HashMap();
 
@@ -167,7 +167,7 @@ public class GamConsFcltySpecMngController {
 		/** List Data */
 		searchVO.setPrtFcltySe(prtFcltySe);
 
-		List<?> fcltyMngtFileList = gamConsFcltySpecMngService.selectFcltySpecMngFileList(searchVO);
+		List fcltyMngtFileList = gamConsFcltySpecMngService.selectFcltySpecMngFileList(searchVO);
 		int totCnt = gamConsFcltySpecMngService.selectFcltySpecMngFileListTotCnt(searchVO);
 
 		paginationInfo.setTotalRecordCount(totCnt);
@@ -190,10 +190,11 @@ public class GamConsFcltySpecMngController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/gamConstFcltySpecInsert.do")
-    @ResponseBody Map<String, Object> insertFclty(@RequestParam Map<String, Object> fcltyItem) throws Exception {
+    @ResponseBody Map insertFclty(@RequestParam Map fcltyItem) throws Exception {
 
-    	Map<String, Object> map = new HashMap<String, Object>();
+    	Map map = new HashMap();
     	String fcltsMngNo, gisAssetsPrtAtCode, gisAssetsCd, gisAssetsSubCd, gisPrtFcltyCd, gisPrtFcltySeq;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -249,7 +250,7 @@ public class GamConsFcltySpecMngController {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/gamConstFcltySpecDetail.do")
-    public @ResponseBody Map<String, Object> fcltyMngSelectView(@RequestParam Map fcltyManageVO) throws Exception {
+    public @ResponseBody Map fcltyMngSelectView(@RequestParam Map fcltyManageVO) throws Exception {
 
     	Map map = new HashMap();
     	String fcltsMngNo;
