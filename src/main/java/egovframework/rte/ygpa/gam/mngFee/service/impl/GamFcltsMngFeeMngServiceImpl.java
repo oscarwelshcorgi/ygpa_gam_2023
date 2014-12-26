@@ -283,4 +283,9 @@ public class GamFcltsMngFeeMngServiceImpl extends AbstractServiceImpl implements
 		return gamFcltsMngFeeMngDao.selectFcltsMngFeeMngChartList(vo);
 	}
 
+	@Override
+	public String selectEntrpsNm(Map searchVO) throws Exception {
+		return gamFcltsMngFeeMngDao.selectEntrpsNm(searchVO);
+	}
+
 }

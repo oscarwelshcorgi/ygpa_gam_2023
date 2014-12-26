@@ -119,7 +119,7 @@ GamFcltsFeeMngInqireModule.prototype.loadComplete = function(params) {
 					{display:'이전 납부 기한',	name:'prvDueDt',		width:100,		sortable:false,		align:'center'}
 					],
 		showTableToggleBtn : true,
-		height : '290'
+		height : '270'
 	});
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
@@ -533,8 +533,9 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 						<tr>
 							<th>고지 기간</th>
 							<td>
-								<input id="sStartNticDt" type="text" class="emdcal" data-role="dtFrom" data-dt-to="sEndNticDt" size="8"> ~
-								<input id="sEndNticDt" type="text" class="emdcal" data-role="dtTo" data-dt-from="sStartNticDt" size="8">
+								<input id="sStartNticDt" type="text" class="emdcal" data-role="dtFrom" data-dt-to="sEndNticDt" size="12">
+								&nbsp; ~ &nbsp;
+								<input id="sEndNticDt" type="text" class="emdcal" data-role="dtTo" data-dt-from="sStartNticDt" size="12">
 							</td>
 							<th>수납 구분</th>
 							<td>
@@ -596,7 +597,7 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 					<form id="detailForm">
 						<table class="summaryPanel" style="width:100%;">
 							<tr>
-								<td>시설물 관리비 부과 내역</td>
+								<th style="font-weight:bold; height:20px;">시설물 관리비 부과 내역</th>
 							</tr>
 						</table>
 						<table class="detailPanel" style="width:100%;">
@@ -608,7 +609,7 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 									<input id="mngMtMon" type="hidden"/>
 									<input id="reqestSeq" type="hidden"/>
 									<input type="text" size="20" id="mngYrMt" disabled>
-									<input type="text" size="12" id="mngSeq" disabled>
+									<input type="text" size="11" id="mngSeq" disabled>
 								</td>
 								<th style="width:10%; height:18;">업무 구분</th>
 								<td>
@@ -623,7 +624,7 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 							</tr>
                             <tr>
 								<th style="width:10%; height:18;">관리비 제목</th>
-								<td colspan="3"><input type="text" size="87" id="mngFeeSj" disabled/></td>
+								<td colspan="3"><input type="text" size="92" id="mngFeeSj" disabled/></td>
 								<th style="width:10%; height:18;">사용 면적</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="usageAr" disabled/></td>
                             </tr>
@@ -646,7 +647,7 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 						</table>
 						<table class="summaryPanel" style="width:100%;">
 							<tr>
-								<td>시설물 관리비 고지 내역</td>
+								<th style="font-weight:bold; height:20px;">시설물 관리비 고지 내역</th>
 								<td style="text-align:right;">
 									<button id="btnArrrgList">연체 내역</button>
 									<button id="btnNticGraph">고지현황 그래프</button>
@@ -655,87 +656,82 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 						</table>
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:15%; height:18;">요금 종류</th>
+								<th style="width:15%; height:19px;">요금 종류</th>
 								<td>
 									<input id="prtAtCode" type="hidden"/>
 									<input type="text" size="3" id="chrgeKnd" disabled>
-									<input type="text" size="19" id="chrgeKndNm" disabled>
+									<input type="text" size="20" id="chrgeKndNm" disabled>
 								</td>
-								<td rowspan="11" style="padding-left:4px;">
-									<div id="fcltsFeeMngSttusChart" style="width:650px;height:290px;border:1px solid #A4BED4;"></div>
+								<td rowspan="10" style="padding-left:4px;">
 									<table id="unpaidGrid" style="display:none;"></table>
+									<div id="fcltsFeeMngSttusChart" style="width:647px;height:270px;border:1px solid #A4BED4;"></div>
 								</td>
 							</tr>
                             <tr>
-								<th style="width:15%; height:18;">고지 번호/추가여부</th>
+								<th style="width:15%; height:19px;">고지 번호/추가여부</th>
 								<td>
 									<input type="text" size="6" id="accnutYear" disabled>
-									<input type="text" size="8" id="nticNo" disabled>
+									<input type="text" size="9" id="nticNo" disabled>
 									<input type="text" size="6" id="aditNticYn" disabled>
 								</td>
 							</tr>
                             <tr>
-								<th style="width:15%; height:18;">고지/출력/부가세구분</th>
+								<th style="width:15%; height:19px;">고지/출력/부가세구분</th>
 								<td>
 									<input id="vatYn" type="hidden"/>
 									<input type="text" size="1" id="nhtIsueYn" disabled>
 									<input type="text" size="1" id="nhtPrintYn" disabled>
-									<input type="text" size="18" id="vatYnNm" disabled>
+									<input type="text" size="19" id="vatYnNm" disabled>
 								</td>
 							</tr>
                             <tr>
-								<th style="width:15%; height:18;">사용료</th>
+								<th style="width:15%; height:19px;">사용료</th>
 								<td>
-									<input type="text" size="23" class="ygpaNumber" id="fee" disabled/>
+									<input type="text" size="25" class="ygpaNumber" id="fee" disabled/>
 								</td>
 							</tr>
                             <tr>
-								<th style="width:15%; height:18;">부가세</th>
+								<th style="width:15%; height:19px;">부가세</th>
 								<td>
-									<input type="text" size="23" class="ygpaNumber" id="vat" disabled/>
+									<input type="text" size="25" class="ygpaNumber" id="vat" disabled/>
 								</td>
 							</tr>
                             <tr>
-								<th style="width:15%; height:18;">고지 금액</th>
+								<th style="width:15%; height:19px;">고지 금액</th>
 								<td>
-									<input type="text" size="23" class="ygpaNumber" id="nticAmt" disabled/>
+									<input type="text" size="25" class="ygpaNumber" id="nticAmt" disabled/>
 								</td>
                             </tr>
                             <tr>
-								<th style="width:15%; height:18;">(최초)고지 일자</th>
+								<th style="width:15%; height:19px;">(최초)고지 일자</th>
                                 <td>
-                                	<input type="text" size="10" id="firstNticDt" disabled/> /
-                                	<input type="text" size="10" id="nticDt" disabled/>
+                                	<input type="text" size="11" id="firstNticDt" disabled/> /
+                                	<input type="text" size="11" id="nticDt" disabled/>
                                 </td>
 							</tr>
                             <tr>
-								<th style="width:15%; height:18;">(최초)납부 기한</th>
+								<th style="width:15%; height:19px;">(최초)납부 기한</th>
                                 <td>
-                                	<input type="text" size="10" id="firstPayTmlmt" disabled/> /
-                                	<input type="text" size="10" id="payTmlmt" disabled/>
+                                	<input type="text" size="11" id="firstPayTmlmt" disabled/> /
+                                	<input type="text" size="11" id="payTmlmt" disabled/>
                                 </td>
 							</tr>
                             <tr>
-								<th style="width:15%; height:18;">수납 일자</th>
+								<th style="width:15%; height:19px;">수납 일자</th>
                                 <td>
 									<input id="rcivSe" type="hidden"/>
-									<input type="text" size="7" id="rcivSeNm" disabled>
+									<input type="text" size="9" id="rcivSeNm" disabled>
                                 	<input type="text" size="14" id="rcivDt" disabled/>
                                 </td>
                             </tr>
                             <tr>
-								<th style="width:15%; height:18;">연체 번호/일수</th>
+								<th style="width:15%; height:19px;">연체 번호/일수/금액</th>
 								<td>
-									<input type="text" size="7" id="arrrgNo" disabled>
-									<input type="text" size="14" class="ygpaNumber" id="arrrgPayDates" disabled/>
+									<input type="text" size="3" id="arrrgNo" disabled>
+									<input type="text" size="5" class="ygpaNumber" id="arrrgPayDates" disabled/>
+									<input type="text" size="13" class="ygpaNumber" id="arrrgAmt" disabled/>
 								</td>
 							</tr>
-                            <tr>
-								<th style="width:15%; height:18;">연체 금액</th>
-								<td>
-									<input type="text" size="23" class="ygpaNumber" id="arrrgAmt" disabled/>
-								</td>
-                            </tr>
 						</table>
 					</form>
 				</div>

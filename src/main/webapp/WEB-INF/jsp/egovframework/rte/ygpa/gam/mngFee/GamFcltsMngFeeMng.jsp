@@ -94,7 +94,7 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
 					{display:'관리비 합계',			name:'mngTotalFee',			width:95,		sortable:false,		align:'right'},
 					],
 		showTableToggleBtn: true,
-		height: '180'
+		height: '175'
 	});
 
 	this.$("#mainGrid").on('onLoadDataComplete', function(event, module, data) {
@@ -184,6 +184,10 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
 		var chrgeKndNm = event.data.module.$('#chrgeKnd_select').find('option:selected').text();
 		//var chrgeKndNm = event.data.module.$('#chrgeKnd option:selected').text();
 		event.data.module.$('#chrgeKndNm').val(chrgeKndNm);
+	});
+
+	this.$("#statEntrpscd").bind("keyup change", {module: this}, function(event) {
+		event.data.module.getQueryEntrpsNm();
 	});
 
 	var mon = new Date().getMonth()+1;
@@ -384,9 +388,11 @@ GamFcltsMngFeeMngModule.prototype.onButtonClick = function(buttonId) {
 			this.printReport();
 			break;
 		case 'btnOpenFcltsFeeMngNtic':
+		case 'btnOpenFcltsFeeMngNtic2':
 			this.openFcltsFeeMngNticModule();
 			break;
 		case 'btnOpenFcltsFeeMngInqire':
+		case 'btnOpenFcltsFeeMngInqire2':
 			this.openFcltsFeeMngInqireModule();
 			break;
 		case 'btnExcelDownload':
@@ -400,10 +406,6 @@ GamFcltsMngFeeMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'popupDataEntrpscd':
 			this.doExecuteDialog('popupDataEntrpscd', '업체 선택', '/popup/showEntrpsInfo.do', null);
-			break;
-		case 'btnStatEntrpscdRemove':
-			this.$('#statEntrpscd').val("");
-			this.$('#statEntrpsNm').val("");
 			break;
 		case 'popupStatEntrpscd':
 			this.doExecuteDialog('popupStatEntrpscd', '업체 선택', '/popup/showEntrpsInfo.do', null);
@@ -1244,6 +1246,29 @@ GamFcltsMngFeeMngModule.prototype.deleteDetailData = function() {
 
 <%
 /**
+ * @FUNCTION NAME : getQueryEntrpsNm
+ * @DESCRIPTION   : 조회조건 고지업체 명을 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsMngFeeMngModule.prototype.getQueryEntrpsNm = function() {
+
+	var sEntrpscd = this.$('#statEntrpscd').val();
+	if (sEntrpscd.length == 8) {
+		var searchVO = { 'sEntrpscd':sEntrpscd };
+		this.doAction('/mngFee/gamSelectFcltsMngFeeMngEntrpsNm.do', searchVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.$('#statEntrpsNm').val(result.sEntrpsNm);
+			}
+		});
+	} else {
+		this.$('#statEntrpsNm').val('');
+	}
+
+};
+
+<%
+/**
  * @FUNCTION NAME : processNticIssue
  * @DESCRIPTION   : 시설물 관리비 부과 내역을 고지처리한다.
  * @PARAMETER     : NONE
@@ -1630,6 +1655,8 @@ GamFcltsMngFeeMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#btnSaveMain').enable();
 		this.$('#btnSaveMain').removeClass('ui-state-disabled');
 		this.$('#btnDeleteMain').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnOpenFcltsFeeMngNtic2').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnOpenFcltsFeeMngInqire2').disable({disableClass:"ui-state-disabled"});
 	} else {
 		if (nhtIsueYn == "Y") {
 			this.$('#mainMngMtYear').disable();
@@ -1643,6 +1670,10 @@ GamFcltsMngFeeMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#mainEnvFee').disable();
 			this.$('#btnSaveMain').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnDeleteMain').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnOpenFcltsFeeMngNtic2').enable();
+			this.$('#btnOpenFcltsFeeMngNtic2').removeClass('ui-state-disabled');
+			this.$('#btnOpenFcltsFeeMngInqire2').enable();
+			this.$('#btnOpenFcltsFeeMngInqire2').removeClass('ui-state-disabled');
 		} else if (nhtIsueYn == "N") {
 			this.$('#mainMngMtYear').disable();
 			this.$('#mainMngMtMon').disable();
@@ -1656,6 +1687,10 @@ GamFcltsMngFeeMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnSaveMain').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnDeleteMain').enable();
 			this.$('#btnDeleteMain').removeClass('ui-state-disabled');
+			this.$('#btnOpenFcltsFeeMngNtic2').enable();
+			this.$('#btnOpenFcltsFeeMngNtic2').removeClass('ui-state-disabled');
+			this.$('#btnOpenFcltsFeeMngInqire2').enable();
+			this.$('#btnOpenFcltsFeeMngInqire2').removeClass('ui-state-disabled');
 		} else if (nhtIsueYn == "X") {
 			this.$('#mainMngMtYear').enable();
 			this.$('#mainMngMtMon').enable();
@@ -1670,6 +1705,8 @@ GamFcltsMngFeeMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnSaveMain').removeClass('ui-state-disabled');
 			this.$('#btnDeleteMain').enable();
 			this.$('#btnDeleteMain').removeClass('ui-state-disabled');
+			this.$('#btnOpenFcltsFeeMngNtic2').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnOpenFcltsFeeMngInqire2').disable({disableClass:"ui-state-disabled"});
 		} else {
 			this.$('#mainMngMtYear').disable();
 			this.$('#mainMngMtMon').disable();
@@ -1682,6 +1719,8 @@ GamFcltsMngFeeMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#mainEnvFee').disable();
 			this.$('#btnSaveMain').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnDeleteMain').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnOpenFcltsFeeMngNtic2').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnOpenFcltsFeeMngInqire2').disable({disableClass:"ui-state-disabled"});
 		}
 	}
 
@@ -1707,6 +1746,8 @@ GamFcltsMngFeeMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#mainEnvFee').disable();
 	this.$('#btnSaveMain').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDeleteMain').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnOpenFcltsFeeMngNtic2').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnOpenFcltsFeeMngInqire2').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -2052,10 +2093,12 @@ var module_instance = new GamFcltsMngFeeMngModule();
 					<form id="detailForm">
 						<table class="summaryPanel" style="width:100%;">
 							<tr>
-								<td>시설물 관리비 관리 내역</td>
+								<th style="font-weight:bold; height:20px;">시설물 관리비 관리 내역</th>
 								<td style="text-align:right;">
 									<button id="btnSaveMain" class="buttonSave">관리내역 저장</button>
 									<button id="btnDeleteMain" class="buttonDelete">관리내역 삭제</button>
+									<button id="btnOpenFcltsFeeMngNtic2">고지내역　조회</button>
+									<button id="btnOpenFcltsFeeMngInqire2">납부현황　조회</button>
 								</td>
 							</tr>
 						</table>
@@ -2097,13 +2140,13 @@ var module_instance = new GamFcltsMngFeeMngModule();
 								<th style="width:10%; height:18;">수정자</th>
 								<td>
 									<input id="mainNhtIsueYn" type="hidden"/>
-									<input type="text" size="16" id="mainUpdUsr" disabled>
-									<input type="text" size="16" id="mainUpdtDt" disabled>
+									<input type="text" size="9" id="mainUpdUsr" disabled>
+									<input type="text" size="22" id="mainUpdtDt" disabled>
 								</td>
 							</tr>
                             <tr>
 								<th style="width:10%; height:18;">관리비 제목</th>
-								<td colspan="5"><input type="text" size="139" id="mainMngFeeSj" disabled/></td>
+								<td colspan="5"><input type="text" size="148" id="mainMngFeeSj" disabled/></td>
                             </tr>
                             <tr>
 								<th style="width:10%; height:18;">시설 관리 용역비</th>
@@ -2126,7 +2169,7 @@ var module_instance = new GamFcltsMngFeeMngModule();
 					<form id="subDetailForm">
 						<table class="summaryPanel" style="width:100%;">
 							<tr>
-								<td>시설물 관리비 상세 내역</td>
+								<th style="font-weight:bold; height:20px;">시설물 관리비 상세 내역</th>
 								<td style="text-align:right;">
 									<button id="btnAddDetail" class="buttonAdd">상세　추가</button>
 									<button id="btnSaveDetail" class="buttonSave">상세　저장</button>
@@ -2147,8 +2190,8 @@ var module_instance = new GamFcltsMngFeeMngModule();
 									<input id="mngMt" type="hidden"/>
 									<input id="mngFeeJobSe" type="hidden"/>
 									<input id="reqestSeq" type="hidden"/>
-									<input type="text" size="5" id="mngSeq" disabled/>／
-									<input type="text" size="24" class="ygpaNumber" id="usageAr" disabled/>
+									<input type="text" size="5" id="mngSeq" disabled/> ／
+									<input type="text" size="23" class="ygpaNumber" id="usageAr" disabled/>
 								</td>
 								<th style="width:10%; height:18;">부과 업체</th>
 								<td>
@@ -2162,8 +2205,8 @@ var module_instance = new GamFcltsMngFeeMngModule();
 									<input id="nticMth" type="hidden"/>
 									<input id="chrgeKndNm" type="hidden"/>
 									<input id="aditNticYn" type="hidden"/>
-									<input type="text" size="2" id="nhtIsueYn" disabled>/
-									<input type="text" size="2" id="nhtPrintYn" disabled>/
+									<input type="text" size="1" id="nhtIsueYn" disabled>/
+									<input type="text" size="1" id="nhtPrintYn" disabled>/
 									<input id="chrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM024" disabled/>
 								</td>
                             </tr>
@@ -2186,17 +2229,18 @@ var module_instance = new GamFcltsMngFeeMngModule();
                             <tr>
 								<th style="width:10%; height:18;">고지일/납부기한</th>
 								<td>
-                                	<input type="text" size="12" id="nticDt"  class="emdcal" disabled/>／
-                                	<input type="text" size="11" id="payTmlmt" class="emdcal" disabled/>
+                                	<input type="text" size="14" id="nticDt"  class="emdcal" disabled/> ／
+                                	<input type="text" size="14" id="payTmlmt" class="emdcal" disabled/>
 								</td>
 								<th style="width:10%; height:18;">사용료/부가세</th>
 								<td>
-									<input type="text" size="15" class="ygpaNumber" id="fee" disabled>／
-									<input type="text" size="15" class="ygpaNumber" id="vat" disabled>
+									<input type="text" size="14" class="ygpaNumber" id="fee" disabled> ／
+									<input type="text" size="14" class="ygpaNumber" id="vat" disabled>
 								</td>
 								<th style="width:10%; height:18;">고지 금액</th>
 								<td>
-									<input type="text" size="33" class="ygpaNumber" id="nticAmt" disabled>
+									<input type="text" size="21" class="ygpaNumber" id="nticAmt" disabled>
+									<input type="text" size="10" id="arrrgSttus" style="font-weight:bold; background:yellow; text-align:center;" disabled>
 								</td>
                             </tr>
                             <tr>
@@ -2208,7 +2252,7 @@ var module_instance = new GamFcltsMngFeeMngModule();
 								<td>
 									<input id="prtAtCode" type="hidden"/>
 									<input id="vatYn" type="hidden"/>
-									<input type="text" size="19" id="vatYnNm" disabled/>
+									<input type="text" size="18" id="vatYnNm" disabled/>
 									<input type="text" size="4" id="accnutYear" disabled>
 									<input type="text" size="7" id="nticNo" disabled>
 								</td>
@@ -2218,8 +2262,8 @@ var module_instance = new GamFcltsMngFeeMngModule();
 									<input id="arrrgPayDates" type="hidden"/>
 									<input id="arrrgAmt" type="hidden"/>
 									<input id="rcivSe" type="hidden"/>
-									<input type="text" size="15" id="rcivSeNm" disabled>／
-                                	<input type="text" size="15" id="rcivDt" disabled/>
+									<input type="text" size="14" id="rcivSeNm" disabled> ／
+                                	<input type="text" size="14" id="rcivDt" disabled/>
 								</td>
                             </tr>
 						</table>
@@ -2230,7 +2274,7 @@ var module_instance = new GamFcltsMngFeeMngModule();
 			<div id="statTab" class="emdTabPage" style="overflow:scroll;">
 				<div class="emdControlPanel">
 					<form id="statForm">
-						<table class="detailPanel" style="width:100%;">
+						<table style="width:100%;" class="searchPanel">
 							<tr>
 								<th style="width:10%; height:30;">관리 년월</th>
 								<td >
@@ -2267,11 +2311,15 @@ var module_instance = new GamFcltsMngFeeMngModule();
 										<option value="E">전기시설</option>
 									</select>
 								</td>
+								<td rowspan="2">
+									<button id="btnStatSearch">통계 조회</button>
+								</td>
+							</tr>
+							<tr>
 								<th style="width:10%; height:30;">부과 업체</th>
 								<td>
-									<input id="statEntrpscd" type="hidden"/>
-									<input id="statEntrpsNm" type="text" size="20" disabled="disabled">
-									<button id="btnStatEntrpscdRemove">X</button>
+									<input id="statEntrpscd" type="text" size="10">&nbsp; &nbsp;
+									<input id="statEntrpsNm" type="text" size="30" disabled="disabled">
 									<button id="popupStatEntrpscd" class="popupButton">선택</button>
 								</td>
 								<th style="width:10%; height:30;">조회 구분</th>
@@ -2285,13 +2333,10 @@ var module_instance = new GamFcltsMngFeeMngModule();
 										<option value="T" selected>관리비 합계</option>
 									</select>
 								</td>
-								<td>
-									<button id="btnStatSearch">통계 조회</button>
-								</td>
 							</tr>
 							<tr>
 								<td colspan="9" style="padding-left:4px;">
-									<div id="fcltyMngFeeMngSttusChart" style="width:955px;height:450px;border:1px solid #A4BED4;"></div>
+									<div id="fcltyMngFeeMngSttusChart" style="width:955px;height:420px;border:1px solid #A4BED4;"></div>
 								</td>
 							</tr>
 						</table>

@@ -69,6 +69,7 @@ public class GamFcltsFeeMngNticDetailVo extends ComDefaultVO {
 	private	String	registDt;			//등록일시
 	private	String	updUsr;				//수정자
 	private	String	updtDt;				//수정일시
+	private String	arrrgSttus;			//연체 상태
 
 	/**
 	 * @return the mngMt
@@ -549,6 +550,18 @@ public class GamFcltsFeeMngNticDetailVo extends ComDefaultVO {
 	 */
 	public void setUpdtDt(String updtDt) {
 		this.updtDt = updtDt;
+	}
+	/**
+	 * @return the arrrgSttus
+	 */
+	public String getArrrgSttus() {
+		return arrrgSttus;
+	}
+	/**
+	 * @param arrrgSttus the arrrgSttus to set
+	 */
+	public void setArrrgSttus(String arrrgSttus) {
+		this.arrrgSttus = arrrgSttus;
 	}
 
 }

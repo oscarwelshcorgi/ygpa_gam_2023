@@ -47,10 +47,7 @@ GamPopupFcltsFeeMngArrrgNticModule.prototype = new EmdPopupModule(570, 400);
 GamPopupFcltsFeeMngArrrgNticModule.prototype.loadComplete = function(params) {
 
 	this.$('#dlyBillDt').on('keyup change',{module:this}, function(event){
-		event.data.module.calcDlyBillAmnt();
-	});
-
-	this.$('#dlyDueDt').on('keyup change',{module:this}, function(event){
+		event.data.module.setDlyDueDt();
 		event.data.module.calcDlyBillAmnt();
 	});
 
@@ -86,12 +83,68 @@ GamPopupFcltsFeeMngArrrgNticModule.prototype.loadComplete = function(params) {
        	this.$('#arrrgTariff').val(params.arrrgTariff);
        	this.$('#arrrgPayDates').val(params.arrrgPayDates);
        	this.$('#dlyBillAmnt').val(params.dlyBillAmnt);
-    	this.$('#prvDlybillAmnt').val(params.prvDlyBillAmnt);
     	this.$('#dbillAmnt').val("0");
     	this.$('#djiroAmnt').val("0");
        	this.$('#dlyBillRsn').val(params.dlyBillRsn);
        	this.calcDlyBillAmnt();
 	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : setDlyDueDt
+ * @DESCRIPTION   : 연체 납부 기한을 설정한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamPopupFcltsFeeMngArrrgNticModule.prototype.setDlyDueDt = function() {
+
+	var dlyBillDt = this.$('#dlyBillDt').val();
+	var toDay = new Date();
+	var year = "";
+	var month = "";
+	var day = "";
+	var dlyDueDt = "";
+	if (dlyBillDt == "") {
+		year = toDay.getFullYear();
+		month = toDay.getMonth() + 1;
+		day = toDay.getDate();
+		if (month >= 1 && month <= 9) {
+			if (day >= 1 && day <= 9) {
+				dlyBillDt = year + "-" + "0" + month + "-" + "0" + day;
+			} else {
+				dlyBillDt = year + "-" + "0" + month + "-" + day;
+			}
+		} else {
+			if (day >= 1 && day <= 9) {
+				dlyBillDt = year + "-" + month + "-" + "0" + day;
+			} else {
+				dlyBillDt = year + "-" + month + "-" + day;
+			}
+		}
+		this.$('#dlyBillDt').val(dlyBillDt);
+	}
+	var dueDate = EMD.util.strToDate(this.$('#dlyBillDt').val());
+	var dayOfMonth = dueDate.getDate();
+	dueDate.setDate(dayOfMonth + 15);
+	year = dueDate.getFullYear();
+	month = dueDate.getMonth() + 1;
+	day = dueDate.getDate();
+	if (month >= 1 && month <= 9) {
+		if (day >= 1 && day <= 9) {
+			dlyDueDt = year + "-" + "0" + month + "-" + "0" + day;
+		} else {
+			dlyDueDt = year + "-" + "0" + month + "-" + day;
+		}
+	} else {
+		if (day >= 1 && day <= 9) {
+			dlyDueDt = year + "-" + month + "-" + "0" + day;
+		} else {
+			dlyDueDt = year + "-" + month + "-" + day;
+		}
+	}
+	this.$('#dlyDueDt').val(dlyDueDt);
 
 };
 
@@ -257,7 +310,6 @@ GamPopupFcltsFeeMngArrrgNticModule.prototype.processOk = function() {
 			'dlyBillAmnt':dlyBillAmnt,
 			'dbillAmnt':dbillAmnt,
 			'djiroAmnt':djiroAmnt,
-			'prvDlyBillAmnt':this.$('#arrrgAmt').val(),
 			'dlyBillRsn':dlyBillRsn,
 			'processMode':"I"
 	};
@@ -331,8 +383,6 @@ var popup_instance = new GamPopupFcltsFeeMngArrrgNticModule();
 							<input type="text" size="13"  id="vatYnNm" disabled/>
 							<input type="text" size="11" class="ygpaNumber" id="vat" disabled/>
 						</td>
-					</tr>
-                    <tr>
 					</tr>
                     <tr>
 						<th style="width:15%; height:20px;">고지 금액</th>

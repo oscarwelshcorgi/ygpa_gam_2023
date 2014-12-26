@@ -131,4 +131,10 @@ public interface GamFcltsMngFeeMngService {
 	 */
 	List selectFcltsMngFeeMngChartList(Map<String, Object> vo) throws Exception;
 
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	String selectEntrpsNm(Map searchVO) throws Exception;
+
 }

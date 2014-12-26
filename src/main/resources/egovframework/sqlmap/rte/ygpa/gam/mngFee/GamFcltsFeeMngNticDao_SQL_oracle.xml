@@ -27,6 +27,7 @@
 								,T1.REQEST_SEQ
 								,T1.ENTRPSCD
 								,T4.ENTRPS_NM
+								,T4.BIZRNO
 								,T3.MNG_FEE_SJ
 								,LTRIM(TO_CHAR(NVL((CASE WHEN T1.ADIT_NTIC_YN='N' THEN T2.USAGE_AR END),0),'999,990.00')) AS USAGE_AR
 								,LTRIM(TO_CHAR(NVL((CASE WHEN T1.ADIT_NTIC_YN='N' THEN T2.MNG_FEE END),0),'999,999,999,990')) AS MNG_FEE
@@ -200,6 +201,7 @@
 				,T1.REQEST_SEQ
 				,T1.ENTRPSCD
 				,T4.ENTRPS_NM
+				,T4.BIZRNO
 				,T3.MNG_FEE_SJ
 				,LTRIM(TO_CHAR(NVL((CASE WHEN T1.ADIT_NTIC_YN='N' THEN T2.USAGE_AR END),0),'999,990.00')) AS USAGE_AR
 				,LTRIM(TO_CHAR(NVL((CASE WHEN T1.ADIT_NTIC_YN='N' THEN T2.MNG_FEE END),0),'999,999,999,990')) AS MNG_FEE
@@ -832,15 +834,17 @@
 		AND TRANID = #tranid#
 	</update>
 
-	<select id="gamFcltsFeeMngNticDao.selectRevCollMagamFMagamCheck_S" parameterClass="map" resultClass="java.lang.String">
-		SELECT NVL(A.MAGAM_CHECK,'N') AS MAGAM_CHECK
-			FROM P2MGR.REV_COLL_MAGAM_F@YGPA_P2MGR
+	<select id="gamFcltsFeeMngNticDao.selectUnpaidFDlyBillPrtYn_S" parameterClass="hashMap" resultClass="java.lang.String">
+		SELECT NVL(MIN(DLY_BILL_PRT_YN),'N') AS DLY_BILL_PRT_YN
+			FROM UNPAID_F
 		WHERE PRT_AT_CODE = #prtAtCode#
-		AND MAGAM_YR = SUBSTRB(#magamCheckDt#,1,4)
-		AND MAGAM_MM = SUBSTRB(#magamCheckDt#,5,2)
+		AND FEE_TP = #feeTp#
+		AND FISCAL_YR = #fiscalYr#
+		AND BILL_NO = #billNo#
+		AND DLY_SER_NO = #dlySerNo#
 	</select>
 
-	<select id="gamFcltsFeeMngNticDao.selectUnpaidFMaxDlySerNo_S" parameterClass="map" resultClass="java.lang.String">
+	<select id="gamFcltsFeeMngNticDao.selectUnpaidFMaxDlySerNo_S" parameterClass="hashMap" resultClass="java.lang.String">
 		SELECT LTRIM(TO_CHAR(TO_NUMBER(NVL(MAX(DLY_SER_NO),'00'))+1,'00'))
 			FROM UNPAID_F
 		WHERE PRT_AT_CODE = #prtAtCode#
@@ -849,14 +853,14 @@
 		AND BILL_NO = #billNo#
 	</select>
 
-	<select id="gamFcltsFeeMngNticDao.calcDlyBillAmnt_S" parameterClass="map" resultClass="egovMap">
+	<select id="gamFcltsFeeMngNticDao.calcDlyBillAmnt_S" parameterClass="hashMap" resultClass="egovMap">
 		<![CDATA[
 		SELECT
 				 DLY_TERM
 				,DLY_RATE
-				,TRUNC(BILL_AMNT * DLY_RATE * DLY_TERM / 365,-1) AS DLY_BILL_AMNT
-				,(BILL_AMNT + VAT + TRUNC(BILL_AMNT * DLY_RATE * DLY_TERM / 365,-1)) AS DJIRO_AMNT
-				,TRUNC(BILL_AMNT * DLY_RATE * DLY_TERM / 365,-1) - PRV_DLY_BILL_AMNT AS DBILL_AMNT
+				,TRIM(TO_CHAR(TRUNC(BILL_AMNT * DLY_RATE * DLY_TERM / 365,-1),'999,999,999,999')) AS DLY_BILL_AMNT
+				,TRIM(TO_CHAR((BILL_AMNT + VAT + TRUNC(BILL_AMNT * DLY_RATE * DLY_TERM / 365,-1)),'999,999,999,999')) AS DJIRO_AMNT
+				,TRIM(TO_CHAR(TRUNC(BILL_AMNT * DLY_RATE * DLY_TERM / 365,-1) - PRV_DLY_BILL_AMNT,'999,999,999,999')) AS DBILL_AMNT
 				,'( ' || TRIM(TO_CHAR(BILL_AMNT,'999,999,999,999')) || ' * ' || TRIM(TO_CHAR(DLY_RATE,'0.00')) || ' * ' || TO_CHAR(DLY_TERM) || ' / 365 )' AS DLY_BILL_RSN
 			FROM (
 				SELECT
@@ -874,34 +878,31 @@
 						,(CASE WHEN MONTH_TERM >= 6 OR DAY_TERM >= 1800 THEN 1800 ELSE DAY_TERM END) AS DLY_TERM
 					FROM (
 							SELECT
-									 NVL(TO_NUMBER(REPLACE(#billAmnt#,',',''),0) AS BILL_AMNT
-									,NVL(TO_NUMBER(REPLACE(#vat#,',',''),0) AS VAT
-									,NVL(TO_NUMBER(REPLACE(#prvDlybillAmnt#,',',''),0) AS PRV_DLY_BILL_AMNT
-									,TRUNC(MONTHS_BETWEEN(TO_DATE(#billDt#,'YYYY-MM-DD'),TO_DATE(#dueDt#,'YYYY-MM-DD'))) AS MONTH_TERM
-									,TO_DATE(#billDt#,'YYYY-MM-DD') - TO_DATE(#dueDt#,'YYYY-MM-DD') AS DAY_TERM
+									 NVL(TO_NUMBER(REPLACE(#billAmnt#,',','')),0) AS BILL_AMNT
+									,NVL(TO_NUMBER(REPLACE(#vat#,',','')),0) AS VAT
+									,NVL(TO_NUMBER(REPLACE(#prvDlybillAmnt#,',','')),0) AS PRV_DLY_BILL_AMNT
+									,TRUNC(MONTHS_BETWEEN(TO_DATE(#firstBillDt#,'YYYY-MM-DD'),TO_DATE(#dlyBillDt#,'YYYY-MM-DD'))) AS MONTH_TERM
+									,TO_DATE(#dlyBillDt#,'YYYY-MM-DD') - TO_DATE(#firstBillDt#,'YYYY-MM-DD') AS DAY_TERM
 								FROM DUAL
 						 )
 				 )
 		]]>
 	</select>
 
-	<select id="gamFcltsFeeMngNticDao.selectUnpaidF_S" parameterClass="map" resultClass="egovMap">
+	<select id="gamFcltsFeeMngNticDao.selectUnpaidFPrvData_S" parameterClass="hashMap" resultClass="egovMap">
 		SELECT
-				,TO_CHAR(NVL(DLY_BILL_AMNT,0)) AS DLY_BILL_AMNT
-				,TO_CHAR(DLY_BILL_DT,'YYYY-MM-DD') AS DLY_BILL_DT
-				,TO_CHAR(DLY_DUE_DT,'YYYY-MM-DD') AS DLY_DUE_DT
-				,DLY_BILL_PRT_YN
-				,TO_CHAR(NVL(DBILL_AMNT,0)) AS DBILL_AMNT
-				,TO_CHAR(PRV_BILL_DT,'YYYY-MM-DD') AS PRV_BILL_DT
-				,TO_CHAR(PRV_DUE_DT,'YYYY-MM-DD') AS PRV_DUE_DT
-				,TO_CHAR(NVL(ARRRG_TARIFF,0)) AS ARRRG_TARIFF
-				,TO_CHAR(NVL(ARRRG_PAY_DATES,0)) AS ARRRG_PAY_DATES
+				 MIN(DLY_SER_NO) AS PRV_DLY_SER_NO
+				,TO_CHAR(MIN(DLY_BILL_AMNT)) AS PRV_DLY_BILL_AMNT
+				,TO_CHAR(MIN(DLY_BILL_DT),'YYYY-MM-DD') AS PRV_DLY_BILL_DT
+				,TO_CHAR(MIN(DLY_DUE_DT),'YYYY-MM-DD') AS PRV_DLY_DUE_DT
+				,TO_CHAR(MIN(ARRRG_TARIFF)) AS PRV_ARRRG_TARIFF
+				,TO_CHAR(MIN(ARRRG_PAY_DATES)) AS PRV_ARRRG_PAY_DATES
 			FROM UNPAID_F
 		WHERE PRT_AT_CODE = #prtAtCode#
 		AND FEE_TP = #feeTp#
 		AND FISCAL_YR = #fiscalYr#
 		AND BILL_NO = #billNo#
-		AND DLY_SER_NO = #dlySerNo#
+		AND DLY_SER_NO = LTRIM(TO_CHAR(NVL(TO_NUMBER(#dlySerNo#),1) - 1,'00'))
 	</select>
 
 	<insert id="gamFcltsFeeMngNticDao.insertUnpaidF_S" parameterClass="map">
@@ -938,43 +939,39 @@
 			,ARRRG_TARIFF
 			,ARRRG_PAY_DATES
 		)
-		SELECT
-				 T1.PRT_AT_CODE
-				,GAM_GET_FEE_TP(T1.CHRGE_KND)
-				,T1.CHRGE_KND
-				,T1.ACCNUT_YEAR
-				,T1.NTIC_NO
-				,#dlySerNo#
-				,NVL(TO_NUMBER(REPLACE(#dlyBillAmnt#,',','')),0)
-				,TO_DATE(#dlyBillDt#,'YYYY-MM-DD'),
-				,TO_DATE(#dlyDueDt#,'YYYY-MM-DD')
-				,'N'
-				,NULL
-				,'1'
-				,T1.FIRST_NTIC_DT
-				,NVL(TO_NUMBER(REPLACE(#dBillAmnt#,',','')),0)
-				,T1.NTIC_DT
-				,T1.PAY_TMLMT
-				,TRUNC(T1.NTIC_AMT + NVL(TO_NUMBER(REPLACE(#dlyBillAmnt#,',','')),0),-1)
-				,T1.ENTRPSCD
-				,T2.BIZRNO
-				,#dlyBillRsn#
-				,'194'
-				,'N'
-				,'N'
-				,#deptCd#
-				,#emplNo#
-				,#userName#
-				,#updUsr#
-				,SYSDATE
-				,NVL(TO_NUMBER(REPLACE(#arrrgTariff#,',','')),0)
-				,NVL(TO_NUMBER(REPLACE(#applyPayDates#,',','')),0)
-			FROM MNG_FEE_LEV_REQEST_F T1
-			LEFT OUTER JOIN ENTRPS_INFO_F T2 ON (T1.ENTRPSCD=T2.ENTRPSCD)
-		WHERE T1.MNG_MT = #mngMt#
-		AND T1.MNG_FEE_JOB_SE = #mngFeeJobSe#
-		AND T1.MNG_SEQ = #mngSeq#
-		AND T1.REQEST_SEQ = #reqestSeq#
+		VALUES
+		(
+			 #prtAtCode#
+			,#feeTp#
+			,#chrgeKnd#
+			,#fiscalYr#
+			,#billNo#
+			,#dlySerNo#
+			,NVL(TO_NUMBER(REPLACE(#dlyBillAmnt#,',','')),0)
+			,TO_DATE(#dlyBillDt#,'YYYY-MM-DD')
+			,TO_DATE(#dlyDueDt#,'YYYY-MM-DD')
+			,'N'
+			,NULL
+			,'1'
+			,#firstBillDt#
+			,NVL(TO_NUMBER(REPLACE(#dbillAmnt#,',','')),0)
+			,TO_DATE(#prvBillDt#,'YYYY-MM-DD')
+			,TO_DATE(#prvDueDt#,'YYYY-MM-DD')
+			,NVL(TO_NUMBER(REPLACE(#djiroAmnt#,',','')),0)
+			,#entrpscd#
+			,#bizrno#
+			,#dlyBillRsn#
+			,'194'
+			,'N'
+			,'N'
+			,#deptCd#
+			,#emplNo#
+			,#userName#
+			,#updUsr#
+			,SYSDATE
+			,NVL(TO_NUMBER(REPLACE(#arrrgTariff#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#applyPayDates#,',','')),0)
+		)
 	</insert>
 
 	<update id="gamFcltsFeeMngNticDao.updateUnpaidFDlyBillPrtYn_S" parameterClass="map">
@@ -999,18 +996,31 @@
 	<update id="gamFcltsFeeMngNticDao.updateFcltsFeeMngNticArrrgInfo_S" parameterClass="map">
 		UPDATE MNG_FEE_LEV_REQEST_F SET
 
-			<isNotEmpty property="dlySerNo">
+			<isEqual property="processMode" compareValue="I">
 			 NTIC_DT = TO_DATE(#dlyBillDt#,'YYYY-MM-DD')
 			,PAY_TMLMT = TO_DATE(#dlyDueDt#,'YYYY-MM-DD')
 			,ARRRG_NO = #dlySerNo#
 			,ARRRG_AMT = NVL(TO_NUMBER(REPLACE(#dlyBillAmnt#,',','')),0)
 			,ARRRG_TARIFF = NVL(TO_NUMBER(REPLACE(#arrrgTariff#,',','')),0)
 			,ARRRG_PAY_DATES = NVL(TO_NUMBER(REPLACE(#applyPayDates#,',','')),0)
-			,TOT_NTIC_AMT = TRUNC(NTIC_AMT + NVL(TO_NUMBER(REPLACE(#dlyBillAmnt#,',','')),0),-1)
+			,TOT_NTIC_AMT = (NTIC_AMT + VAT + NVL(TO_NUMBER(REPLACE(#dlyBillAmnt#,',','')),0)
+			,RCIV_SE = '1'
+			</isEqual>
+
+			<isEqual property="processMode" compareValue="D">
+
+			<isNotEmpty property="prvDlySerNo">
+			 NTIC_DT = TO_DATE(#prvDlyBillDt#,'YYYY-MM-DD')
+			,PAY_TMLMT = TO_DATE(#prvDlyDueDt#,'YYYY-MM-DD')
+			,ARRRG_NO = #prvDlySerNo#
+			,ARRRG_AMT = NVL(TO_NUMBER(REPLACE(#prvDlyBillAmnt#,',','')),0)
+			,ARRRG_TARIFF = NVL(TO_NUMBER(REPLACE(#prvArrrgTariff#,',','')),0)
+			,ARRRG_PAY_DATES = NVL(TO_NUMBER(REPLACE(#prvArrrgPayDates#,',','')),0)
+			,TOT_NTIC_AMT = (NTIC_AMT + NVL(TO_NUMBER(REPLACE(#prvDlyBillAmnt#,',','')),0)
 			,RCIV_SE = '1'
 			</isNotEmpty>
 
-			<isEmpty property="dlySerNo">
+			<isEmpty property="prvDlySerNo">
 			 NTIC_DT = FIRST_NTIC_DT
 			,PAY_TMLMT = FIRST_PAY_TMLMT
 			,ARRRG_NO = NULL
@@ -1021,6 +1031,8 @@
 			,RCIV_SE = '0'
 			</isEmpty>
 
+			</isEqual>
+
 			,DEPT_CD = #deptCd#
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
@@ -1028,6 +1040,31 @@
 		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
 		AND MNG_SEQ = #mngSeq#
 		AND REQEST_SEQ = #reqestSeq#
+	</update>
+
+	<update id="gamFcltsFeeMngNticDao.updateRevCollFRcvdTp_S" parameterClass="map">
+		UPDATE REV_COLL_F SET
+
+			<isEqual property="processMode" compareValue="I">
+			RCVD_TP = '1'
+			</isEqual>
+
+			<isEqual property="processMode" compareValue="D">
+
+			<isNotEmpty property="prvDlySerNo">
+			RCVD_TP = '1'
+			</isNotEmpty>
+
+			<isEmpty property="prvDlySerNo">
+			RCVD_TP = '0'
+			</isEmpty>
+
+			</isEqual>
+
+		WHERE PRT_AT_CODE = #prtAtCode#
+		AND FEE_TP = #feeTp#
+		AND FISCAL_YR = #fiscalYr#
+		AND BILL_NO = #billNo#
 	</update>
 
 </sqlMap>

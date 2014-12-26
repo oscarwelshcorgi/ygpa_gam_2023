@@ -67,7 +67,7 @@ public class GamFcltsFeeMngInqireDao extends YGPAAbstractDAO{
 	 * @return
 	 */
 	public String selectEntrpsNm(Map searchVO) {
-		return (String)getSqlMapClientTemplate().queryForObject("gamFcltsFeeMngInqireDao.selectEntrpsNm_S", searchVO);
+		return (String)selectByPk("gamFcltsFeeMngInqireDao.selectEntrpsNm_S", searchVO);
 	}
 
 	/**

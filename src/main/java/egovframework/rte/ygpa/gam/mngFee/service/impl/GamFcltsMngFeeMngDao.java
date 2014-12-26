@@ -105,7 +105,7 @@ public class GamFcltsMngFeeMngDao extends YGPAAbstractDAO{
 	 * @return
 	 */
 	public String selectFcltsMngFeeMngDetailMaxMngSeq(GamFcltsMngFeeMngDetailVo gamFcltsMngFeeMngDetailVo) {
-		return (String)getSqlMapClientTemplate().queryForObject("gamFcltsMngFeeMngDao.selectFcltsMngFeeMngDetailMaxMngSeq_S", gamFcltsMngFeeMngDetailVo);
+		return (String)selectByPk("gamFcltsMngFeeMngDao.selectFcltsMngFeeMngDetailMaxMngSeq_S", gamFcltsMngFeeMngDetailVo);
 	}
 
 	/**
@@ -273,6 +273,14 @@ public class GamFcltsMngFeeMngDao extends YGPAAbstractDAO{
 	 */
 	public List selectFcltsMngFeeMngChartList(Map<String, Object> vo) {
 		return list("gamFcltsMngFeeMngDao.selectFcltsMngFeeMngChartList_D", vo);
+	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public String selectEntrpsNm(Map searchVO) {
+		return (String)selectByPk("gamFcltsMngFeeMngDao.selectEntrpsNm_S", searchVO);
 	}
 
 }
