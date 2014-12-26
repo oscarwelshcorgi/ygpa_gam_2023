@@ -140,29 +140,30 @@
                 SELECT ROWNUM RNUM, S.*
                 	FROM (
 						SELECT
-							FCLTS_JOB_SE
-							, FCLTS_MNG_GROUP_NO
-							, MNTN_RPR_SEQ
-							, MNTN_RPR_CNST_MTH
-							, UNIT
-							, QY
-							, PRICE
-							, MNTN_RPR_CNST_AMT
-							, RM
-							, FCLTS_MNG_NO
-							, REG_USR
-							, REGIST_DT
-							, UPD_USR
-							, UPDT_DT
+							O.FCLTS_JOB_SE
+							, O.FCLTS_MNG_GROUP_NO
+							, O.MNTN_RPR_SEQ
+							, O.MNTN_RPR_CNST_MTH
+							, O.UNIT
+							, O.QY
+							, O.PRICE
+							, O.MNTN_RPR_CNST_AMT
+							, O.RM
+							, O.FCLTS_MNG_NO
+							, (SELECT PRT_FCLTY_NM FROM GIS_PRT_FCLTY_CD_F G WHERE G.FCLTS_MNG_NO = O.FCLTS_MNG_NO) PRT_FCLTY_NM
+							, O.REG_USR
+							, O.REGIST_DT
+							, O.UPD_USR
+							, O.UPDT_DT
 						FROM
-							MNTN_RPR_OBJ_FCLTS_F 
+							MNTN_RPR_OBJ_FCLTS_F O 
 						WHERE
-							FCLTS_JOB_SE = #fcltsJobSe#
-							AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-							AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
+							O.FCLTS_JOB_SE = #fcltsJobSe#
+							AND O.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+							AND O.MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	           			
 						ORDER BY
-							MNTN_RPR_SEQ ASC
+							O.MNTN_RPR_SEQ ASC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		

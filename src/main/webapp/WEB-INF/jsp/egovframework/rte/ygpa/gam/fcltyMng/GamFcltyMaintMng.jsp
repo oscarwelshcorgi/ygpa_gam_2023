@@ -34,6 +34,7 @@ GamFcltyMaintMngModule.prototype = new EmdModule(1000,600);	// 초기 시작 창
 GamFcltyMaintMngModule.prototype.loadComplete = function() {
 	
 	this._mode = "";
+
 	//console.log("GamFcltyMaintMngModule");
 	// 테이블 설정
 	this.$("#fcltyMngMngtList").flexigrid({
@@ -60,6 +61,7 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"관리번호",			name:"fcltsMngNo",			width:150,		sortable:false,		align:"center"},
+					{display:"시설명",			name:"prtFcltyNm",			width:250,		sortable:false,		align:"left"},
 					{display:"유지보수공법",		name:"mntnRprCnstMth",		width:80,		sortable:false,		align:"center"},
 					{display:"단위",				name:"unit",				width:80,		sortable:false,		align:"center"},
 					{display:"수량",				name:"qy",					width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
@@ -67,7 +69,18 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 					{display:"공사금액",			name:"mntnRprCnstAmt",		width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"비고",				name:"rm",					width:200,		sortable:false,		align:"center"}
 			],
-		height: "auto"
+		height: "300"
+	});
+	
+	
+	this.$(".EditItem").bind("change keyup", {module: this}, function(event) {
+		event.data.module.applyDataChanged(event.target);
+	});
+
+	this.$("#mntnRprObjFcltsF").on("onItemSelected", function(event, module, row, grid, param) {
+
+		module.$("#gamPopupMaintForm input").val('');
+		module.makeFormValues("#gamPopupMaintForm", row);
 	});
 
 
@@ -112,8 +125,6 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 
 };
 
-
-//하단부 데이타 수정시 그리드 반영
 GamFcltyMaintMngModule.prototype.applySelectYear = function(){
 	var toDate = new Date();
 	var toYear = toDate.getFullYear();
@@ -123,6 +134,58 @@ GamFcltyMaintMngModule.prototype.applySelectYear = function(){
 		option = option + "<option value='" + i + "'>" + i + "년</option>";
 	}
 	this.$("#enforceYear").append(option);
+};
+
+
+
+//속성 변경 된 경우 이벤트 실행
+GamFcltyMaintMngModule.prototype.applyDataChanged = function(target) {
+	var changed=false;
+	var row={};
+
+	var selectRow = this.$('#mntnRprObjFcltsF').selectedRows();
+	if(selectRow.length > 0) {
+		row=selectRow[0];
+		if(this.$('#fcltsMngNo').is(target)) {
+			row['fcltsMngNo'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#prtFcltyNm').is(target)) {
+			row['prtFcltyNm'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#mntnRprCnstMth').is(target)) {
+			row['mntnRprCnstMth'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#unit').is(target)) {
+			row['unit'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#qy').is(target)) {
+			row['qy'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#price').is(target)) {
+			row['price'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#mntnRprCnstAmt').is(target)) {
+			row['mntnRprCnstAmt'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#rm').is(target)) {
+			row['rm'] = $(target).val();
+			changed=true;
+		}
+
+	}
+	if(changed) {
+		var rowid=this.$("#mntnRprObjFcltsF").selectedRowIds()[0];
+		if(row['_updtId']!='I') row['_updtId']='U';
+		this.edited=true;
+		this.$('#mntnRprObjFcltsF').flexUpdateRow(rowid, row);
+	}
 };
 
 
@@ -382,13 +445,6 @@ GamFcltyMaintMngModule.prototype.deleteData = function() {
 };
 
 
-GamFcltyMaintMngModule.prototype.addEditData = function() {
-	var all_rows = this.$('#mntnRprObjFcltsF').flexGetData();
-	
-	this.doExecuteDialog("mntnRprObjFcltsFPopup", "유지보수대상시설물현황", '/popup/selectMntnRprObjFcltsFPopup.do', {},all_rows);
-};
-
-
 GamFcltyMaintMngModule.prototype.uploadFileData = function() {
 	// 파일을 업로드하고 업로드한 파일 목록을 result에 어레이로 리턴한다.
 	this.uploadPfPhoto("uploadFile", function(module, result) {
@@ -438,6 +494,44 @@ GamFcltyMaintMngModule.prototype.removeFileData = function() {
 };
 
 
+GamFcltyMaintMngModule.prototype.delMaintItem = function() {
+	var rows = this.$("#mntnRprObjFcltsF").selectedRows();
+
+    if(rows.length == 0){
+        alert("파일목록에서 삭제할 행을 선택하십시오.");
+        return;
+    }
+
+    if(this.$("#mntnRprObjFcltsF").selectedRowIds().length>0) {
+    	for(var i=this.$("#mntnRprObjFcltsF").selectedRowIds().length-1; i>=0; i--) {
+
+    		var row = this.$("#mntnRprObjFcltsF").flexGetRow(this.$("#mntnRprObjFcltsF").selectedRowIds()[i]);
+
+    		if(row._updtId == undefined || row._updtId != "I") {
+            	this._deleteDataMaintList[this._deleteDataMaintList.length] = row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
+			}
+        	this.$("#mntnRprObjFcltsF").flexRemoveRow(this.$("#mntnRprObjFcltsF").selectedRowIds()[i]);
+
+        	this._edited=true;
+		}
+
+    	alert("삭제되었습니다.");
+	}
+
+    this._editDataFile = null;
+};
+
+
+GamFcltyMaintMngModule.prototype.addMaintItem = function() {
+	this.$('#gamPopupMaintForm :input').val('');
+
+	this.$("#mntnRprObjFcltsF").flexAddRow({'_updtId': 'I','fcltsMngNo':'','mntnRprCnstMth':'','unit':'','qy':'','price':'','mntnRprCnstAmt':'','rm':''});
+	var all_rows = this.$('#mntnRprObjFcltsF').flexGetData();
+	var sel_row_id = all_rows.length - 1;
+	this.$("#mntnRprObjFcltsF").selectRowId(sel_row_id);
+};
+
+
 
 /**
  * 정의 된 버튼 클릭 시
@@ -445,6 +539,15 @@ GamFcltyMaintMngModule.prototype.removeFileData = function() {
  GamFcltyMaintMngModule.prototype.onButtonClick = function(buttonId) {
 
 	switch(buttonId) {
+	
+		// 추가
+		case "addMaintItemBtn":
+			this.addMaintItem();
+		break;
+		
+		case "delMaintItemBtn":
+			this.delMaintItem();
+		break;
 
 		// 추가
 		case "addBtn":
@@ -459,11 +562,6 @@ GamFcltyMaintMngModule.prototype.removeFileData = function() {
 		// 삭제
 		case "deleteBtn":
 			this.deleteData();
-		break;
-		
-		// 추가/편집
-		case "mntnRprObjFcltsFPopupBtn":
-			this.addEditData();
 		break;
 		
 		// 파일업로드
@@ -542,16 +640,6 @@ GamFcltyMaintMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
  GamFcltyMaintMngModule.prototype.onClosePopup = function(popupId, msg, value){
 
 	switch(popupId){
-
-		// 상세화면
-		case "mntnRprObjFcltsFPopup":
-			if(msg == 'ok'){
-				this.$("#mntnRprObjFcltsF").flexEmptyData();
-			}
-			this.$("#mntnRprObjFcltsF").flexAddData({resultList: value["inputVo"] });
-
-			this._deleteDataMaintList = value["deleteDataMaintList"];
-		break;
 		
 		case "selectFcltsMngGroup":
 			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
@@ -738,9 +826,40 @@ var module_instance = new GamFcltyMaintMngModule();
 			
 			<!-- 유지보수 대상 시설물 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
-				<table id="mntnRprObjFcltsF" style="display:none" class="fillHeight"></table>
+				<table id="mntnRprObjFcltsF" style="display:none"></table>
 				<div class="emdControlPanel">
-					<button class="text" id="mntnRprObjFcltsFPopupBtn">추가/편집</button>
+		            <button id="addMaintItemBtn">추가</button>
+		            <button id="delMaintItemBtn">삭제</button>
+		        </div>
+				<div class="emdControlPanel">
+					<form id="gamPopupMaintForm">
+						<table class="searchPanel">
+							<tbody>
+								<tr>
+			                        <th>관리번호</th>
+			                        <td colspan="3">
+			                        	<input id="fcltsMngNo" type="text" style="width: 150px;" title="관리번호" maxlength="20" class="EditItem" disabled="disabled"/>
+			                        	<input id="prtFcltyNm" type="text" style="width: 175px;" title="시설명" maxlength="20" class="EditItem" disabled="disabled"/>
+			                        	<button id="searchFcltsMngNo" class="popupButton">선택</button>
+			                        </td>
+									<th>단위</th>
+			                        <td><input id="unit" type="text" style="width: 50px;" title="단위" maxlength="3" class="EditItem"/></td>
+			                        <th>수량</th>
+			                        <td ><input id="qy" type="text" style="width: 50px;" title="수량" maxlength="10" class="ygpaNumber EditItem"/></td>
+			                        <th>유지보수공법</th>
+			                        <td><input id="mntnRprCnstMth" type="text" style="width: 150px;" title="유지보수공법" maxlength="33" class="EditItem"/></td>
+								</tr>
+								<tr>
+			                    	<th>단가</th>
+									<td><input id="price" type="text" style="width: 150px;" title="단가" maxlength="16" class="ygpaNumber EditItem"/></td>
+									<th>공사금액</th>
+									<td><input id="mntnRprCnstAmt" type="text" style="width: 150px;" title="공사금액" maxlength="16" class="ygpaNumber EditItem"/></td>
+									<th>비고</th>
+									<td colspan="5"><input id="rm" type="text" style="width: 415px;" title="비고" maxlength="333" class="EditItem"/></td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
 					<button id="saveBtn">저장</button>
 				</div>
 			</div>
@@ -750,7 +869,7 @@ var module_instance = new GamFcltyMaintMngModule();
 				<table>
 					<tr>
 						<td width="50%">
-							<table id="fcltyMaintFileList" style="display:none" class="fillHeight"></table>
+							<table id="fcltyMaintFileList" style="display:none"></table>
 							<div class="emdControlPanel">
 								<button id="btnUploadFile">업로드</button>
 								<button id="btnDownloadFile">다운로드</button>
