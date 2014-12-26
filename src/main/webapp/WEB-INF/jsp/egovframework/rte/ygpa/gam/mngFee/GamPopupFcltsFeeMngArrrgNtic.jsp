@@ -355,7 +355,7 @@ var popup_instance = new GamPopupFcltsFeeMngArrrgNticModule();
 				</table>
 				<table class="detailPanel" style="width:100%;">
 					<tr>
-						<th style="width:15%; height:20px;">요금 종류</th>
+						<th style="width:15%; height:20px;">요　금　종　류</th>
 						<td>
 							<input id="mngMt" type="hidden"/>
 							<input id="mngFeeJobSe" type="hidden"/>
@@ -363,34 +363,34 @@ var popup_instance = new GamPopupFcltsFeeMngArrrgNticModule();
 							<input id="reqestSeq" type="hidden"/>
 							<input id="feeTp" type="hidden"/>
 							<input type="text" size="2" id="chrgeKnd" disabled>
-							<input type="text" size="22" id="chrgeKndNm" disabled>
+							<input type="text" size="21" id="chrgeKndNm" disabled>
 						</td>
-						<th style="width:15%; height:20px;">고지 번호</th>
+						<th style="width:15%; height:20px;">고　지　번　호</th>
 						<td>
 							<input type="text" size="4" id="prtAtCode" disabled>
-							<input type="text" size="9" id="fiscalYr" disabled>
+							<input type="text" size="8" id="fiscalYr" disabled>
 							<input type="text" size="9" id="billNo" disabled>
 						</td>
 					</tr>
                     <tr>
-						<th style="width:15%; height:20px;">사용료</th>
+						<th style="width:15%; height:20px;">사　　용　　료</th>
 						<td>
 							<input type="text" size="25" class="ygpaNumber" id="billAmnt" disabled/>
 						</td>
-						<th style="width:15%; height:20px;">부가세</th>
+						<th style="width:15%; height:20px;">부　　가　　세</th>
 						<td>
 							<input id="vatYn" type="hidden"/>
 							<input type="text" size="13"  id="vatYnNm" disabled/>
-							<input type="text" size="11" class="ygpaNumber" id="vat" disabled/>
+							<input type="text" size="10" class="ygpaNumber" id="vat" disabled/>
 						</td>
 					</tr>
                     <tr>
-						<th style="width:15%; height:20px;">고지 금액</th>
+						<th style="width:15%; height:20px;">고　지　금　액</th>
 						<td>
 							<input id="rcvdTp" type="hidden"/>
 							<input type="text" size="25" class="ygpaNumber" id="sumBillAmnt" disabled/>
 						</td>
-						<th style="width:15%; height:20px;">고지 업체</th>
+						<th style="width:15%; height:20px;">고　지　업　체</th>
 						<td>
 							<input id="entrpscd" type="hidden"/>
 							<input id="bizrno" type="hidden"/>
@@ -439,11 +439,11 @@ var popup_instance = new GamPopupFcltsFeeMngArrrgNticModule();
 					<tr>
 						<th style="width:15%; height:20px;">횟수/요율/일수</th>
 						<td>
-							<input type="text" size="3" id="dlySerNo" disabled>
-							<input type="text" size="9" class="ygpaNumber" id="arrrgTariff" disabled/>
-							<input type="text" size="9" class="ygpaNumber" id="arrrgPayDates" disabled/>
+							<input type="text" size="4" id="dlySerNo" disabled>
+							<input type="text" size="8" class="ygpaNumber" id="arrrgTariff" disabled/>
+							<input type="text" size="8" class="ygpaNumber" id="arrrgPayDates" disabled/>
 						</td>
-						<th style="width:15%; height:20px;">연체 금액</th>
+						<th style="width:15%; height:20px;">연　체　금　액</th>
 						<td>
 							<input id="prvDlybillAmnt" type="hidden"/>
 							<input id="dbillAmnt" type="hidden"/>
@@ -454,7 +454,7 @@ var popup_instance = new GamPopupFcltsFeeMngArrrgNticModule();
 					<tr>
 						<th style="width:15%; height:20px;">연체 산출 내역</th>
 						<td colspan="3">
-							<input type="text" size="68" id="dlyBillRsn" disabled/>
+							<input type="text" size="71" id="dlyBillRsn" disabled/>
 						</td>
 					</tr>
 				</table>

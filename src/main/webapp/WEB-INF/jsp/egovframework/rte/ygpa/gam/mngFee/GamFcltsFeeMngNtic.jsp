@@ -1603,7 +1603,7 @@ var module_instance = new GamFcltsFeeMngNticModule();
 				<table style="width:100%;" class="searchPanel">
 					<tbody>
 						<tr>
-                            <th>관리 기간</th>
+                            <th style="width:6%; height:18;">관리 기간</th>
 							<td>
 								<select id="sStartMngYear">
 									<c:forEach items="${yearsList}" var="yearListItem">
@@ -1645,7 +1645,7 @@ var module_instance = new GamFcltsFeeMngNticModule();
 									<option value="12">12월</option>
 								</select>
 							</td>
-							<th>업무 구분</th>
+							<th style="width:6%; height:18;">업무 구분</th>
 							<td>
 								<select id="sMngFeeJobSe">
 									<option value="">전체</option>
@@ -1653,7 +1653,7 @@ var module_instance = new GamFcltsFeeMngNticModule();
 									<option value="E">전기시설</option>
 								</select>
 							</td>
-							<th>고지 업체</th>
+							<th style="width:6%; height:18;">고지 업체</th>
 							<td>
 								<input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;
 								<input id="sEntrpsNm" type="text" size="15" disabled="disabled">&nbsp; &nbsp;
@@ -1664,13 +1664,13 @@ var module_instance = new GamFcltsFeeMngNticModule();
 							</td>
 						</tr>
 						<tr>
-							<th>고지 기간</th>
+							<th style="width:6%; height:18;">고지 기간</th>
 							<td>
 								<input id="sStartNticDt" type="text" class="emdcal" data-role="dtFrom" data-dt-to="sEndNticDt" size="12">
 								&nbsp; ~ &nbsp;
 								<input id="sEndNticDt" type="text" class="emdcal" data-role="dtTo" data-dt-from="sStartNticDt" size="12">
 							</td>
-							<th>수납 구분</th>
+							<th style="width:6%; height:18;">수납 구분</th>
 							<td>
 								<select id="sRcivSe">
 									<option value="" selected>전체</option>
@@ -1681,7 +1681,7 @@ var module_instance = new GamFcltsFeeMngNticModule();
 									<option value="4">불납</option>
 								</select>
 							</td>
-							<th>요금종류</th>
+							<th style="width:6%; height:18;">요금 종류</th>
 							<td>
 								<input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM024" />
 							</td>
@@ -1740,7 +1740,7 @@ var module_instance = new GamFcltsFeeMngNticModule();
 						</table>
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:10%; height:18;">관리 년월</th>
+								<th style="width:10%; height:18;">관　리　년　월</th>
 								<td>
 									<input id="mngMt" type="hidden"/>
 									<input id="mngMtYear" type="hidden"/>
@@ -1748,12 +1748,12 @@ var module_instance = new GamFcltsFeeMngNticModule();
 									<input type="text" size="20" id="mngYrMt" disabled>
 									<input type="text" size="11" id="mngSeq" disabled>
 								</td>
-								<th style="width:10%; height:18;">업무 구분</th>
+								<th style="width:10%; height:18;">업　무　구　분</th>
 								<td>
 									<input id="mngFeeJobSe" type="hidden"/>
 									<input type="text" size="33" id="mngFeeJobSeNm" disabled>
 								</td>
-								<th style="width:10%; height:18;">부과 업체</th>
+								<th style="width:10%; height:18;">부　과　업　체</th>
 								<td>
 									<input id="entrpscd" type="hidden"/>
 									<input id="bizrno" type="hidden"/>
@@ -1764,25 +1764,25 @@ var module_instance = new GamFcltsFeeMngNticModule();
 								</td>
 							</tr>
                             <tr>
-								<th style="width:10%; height:18;">관리비 제목</th>
-								<td colspan="3"><input type="text" size="92" id="mngFeeSj" disabled/></td>
-								<th style="width:10%; height:18;">사용 면적</th>
+								<th style="width:10%; height:18;">관리비　　제목</th>
+								<td colspan="3"><input type="text" size="93" id="mngFeeSj" disabled/></td>
+								<th style="width:10%; height:18;">사　용　면　적</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="usageAr" disabled/></td>
                             </tr>
                             <tr>
-								<th style="width:10%; height:18;">시설 관리 용역비</th>
+								<th style="width:10%; height:18;">시설관리용역비</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="mngFee" disabled/></td>
-								<th style="width:10%; height:18;">전기 요금</th>
+								<th style="width:10%; height:18;">전　기　요　금</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="elctyFee" disabled/></td>
-								<th style="width:10%; height:18;">상하수도 요금</th>
+								<th style="width:10%; height:18;">상하수도　요금</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="waterFee" disabled/></td>
                             </tr>
                             <tr>
-								<th style="width:10%; height:18;">도시가스 요금</th>
+								<th style="width:10%; height:18;">도시가스　요금</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="gasFee" disabled/></td>
-								<th style="width:10%; height:18;">환경개선 부담금</th>
+								<th style="width:10%; height:18;">환경개선부담금</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="envFee" disabled/></td>
-								<th style="width:10%; height:18;">관리비 합계</th>
+								<th style="width:10%; height:18;">관리비　　합계</th>
 								<td><input type="text" size="33" class="ygpaNumber" id="mngTotalFee" disabled/></td>
                             </tr>
 						</table>
@@ -1801,7 +1801,7 @@ var module_instance = new GamFcltsFeeMngNticModule();
 						</table>
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:10%; height:18;">요금 종류</th>
+								<th style="width:10%; height:18;">요　금　종　류</th>
 								<td>
 									<input id="prtAtCode" type="hidden"/>
 									<input id="feeTp" type="hidden"/>
@@ -1812,45 +1812,45 @@ var module_instance = new GamFcltsFeeMngNticModule();
 									<input id="chrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM024" disabled/>
 									<input type="text" id="reqestSeq" size="5" disabled/>
 								</td>
-								<th style="width:10%; height:18;">고지 번호</th>
+								<th style="width:10%; height:18;">고　지　번　호</th>
 								<td>
-									<input type="text" size="16" id="accnutYear" disabled>
+									<input type="text" size="15" id="accnutYear" disabled>
 									<input type="text" size="16" id="nticNo" disabled>
 								</td>
-								<th style="width:10%; height:18;">부가세 구분</th>
+								<th style="width:10%; height:18;">부가세　　구분</th>
 								<td>
 									<input id="vatYnNm" type="hidden"/>
 									<input id="vatYn" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM016" disabled/>
 								</td>
 							</tr>
                             <tr>
-								<th style="width:10%; height:18;">사용료</th>
+								<th style="width:10%; height:18;">사　　용　　료</th>
 								<td>
 									<input type="text" size="33" class="ygpaNumber" id="fee" disabled/>
 								</td>
-								<th style="width:10%; height:18;">부가세</th>
+								<th style="width:10%; height:18;">부　　가　　세</th>
 								<td>
 									<input type="text" size="33" class="ygpaNumber" id="vat" disabled/>
 								</td>
-								<th style="width:10%; height:18;">고지 금액</th>
+								<th style="width:10%; height:18;">고　지　금　액</th>
 								<td>
 									<input type="text" size="33" class="ygpaNumber" id="nticAmt" disabled/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">고지 일자</th>
+								<th style="width:10%; height:18;">고　지　일　자</th>
 								<td>
-									최초
-									<input type="text" size="11" id="firstNticDt" disabled/> /
+									최초:
+									<input type="text" size="12" id="firstNticDt" disabled/> /
 									<input type="text" size="12" id="nticDt" class="emdcal" disabled/>
 								</td>
-								<th style="width:10%; height:18;">납부 기한</th>
+								<th style="width:10%; height:18;">납　부　기　한</th>
 								<td>
-									최초
-									<input type="text" size="11" id="firstPayTmlmt" disabled/> /
+									최초:
+									<input type="text" size="12" id="firstPayTmlmt" disabled/> /
 									<input type="text" size="12" id="payTmlmt" class="emdcal" disabled/>
 								</td>
-								<th style="width:10%; height:18;">수납 일자</th>
+								<th style="width:10%; height:18;">수　납　일　자</th>
 								<td>
 									<input id="rcivSe" type="hidden"/>
 									<input type="text" size="16" id="rcivSeNm" disabled>
@@ -1858,27 +1858,27 @@ var module_instance = new GamFcltsFeeMngNticModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">연체　요율／일수</th>
+								<th style="width:10%; height:18;">연체요율／일수</th>
 								<td>
 									<input id="newDlySerNo" type="hidden"/>
 									<input type="text" size="9" id="arrrgNo" disabled>
 									<input type="text" size="10" class="ygpaNumber" id="arrrgTariff" disabled/>
 									<input type="text" size="10" class="ygpaNumber" id="arrrgPayDates" disabled/>
 								</td>
-								<th style="width:10%; height:18;">연체 금액</th>
+								<th style="width:10%; height:18;">연　체　금　액</th>
 								<td>
-									<input type="text" size="22" class="ygpaNumber" id="arrrgAmt" disabled/>
+									<input type="text" size="21" class="ygpaNumber" id="arrrgAmt" disabled/>
 									<input type="text" size="10" id="arrrgSttus" style="font-weight:bold; background:yellow; text-align:center;" disabled>
 								</td>
-								<th style="width:10%; height:18;">연체 처리</th>
+								<th style="width:10%; height:18;">연　체　처　리</th>
 								<td>
-									<button id="btnProcessNticIssueUnpaid">연체 고지 처리</button>
-									<button id="btnCancelNticIssueUnpaid">연체 고지 취소</button>
+									<button id="btnProcessNticIssueUnpaid">연체고지 처리</button>
+									<button id="btnCancelNticIssueUnpaid">연체고지 취소</button>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">비고</th>
-                                <td colspan="3"><input type="text" size="87" id="rm"/></td>
+								<th style="width:10%; height:18;">비　　　　　고</th>
+                                <td colspan="3"><input type="text" size="92" id="rm"/></td>
 								<th style="width:10%; height:18;">고지/출력/추가</th>
 								<td>
 									<input id="setoffYn" type="hidden"/>
