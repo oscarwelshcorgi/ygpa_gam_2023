@@ -55,20 +55,20 @@ GamCarRefuelSttusMngModule.prototype.loadComplete = function() {
 					{display:'연료 구분', 		name:'fuelKnd',		width:80, 		sortable:false,		align:'center'},
 					{display:'차량 명', 		name:'carNm',		width:80, 		sortable:false,		align:'center'},
 					{display:'차량 등록 번호', 	name:'carRegistNo',	width:100, 		sortable:false,		align:'center'},
-					{display:'합계', 			name:'total',		width:60, 		sortable:false,		align:'center',		displayFormat: 'number'},
-					{display:'소계', 			name:'mtotal',		width:60, 		sortable:false,		align:'center',		displayFormat: 'number'},
-					{display:'1월', 			name:'m1',			width:45, 		sortable:false,		align:'center',		displayFormat: 'number'},
-					{display:'2월', 			name:'m2',			width:45, 		sortable:false,		align:'center',		displayFormat: 'number'},
-					{display:'3월', 			name:'m3',			width:45, 		sortable:false,		align:'center',		displayFormat: 'number'},
-					{display:'4월', 			name:'m4',			width:45, 		sortable:false,		align:'center',		displayFormat: 'number'},
-					{display:'5월', 			name:'m5',			width:45, 		sortable:false,		align:'center',		displayFormat: 'number'},
-					{display:'6월', 			name:'m6',			width:45, 		sortable:false,		align:'center',		displayFormat: 'number'},
-					{display:'7월', 			name:'m7',			width:45, 		sortable:false,		align:'center',		displayFormat: 'number'},
-					{display:'8월', 			name:'m8',			width:45, 		sortable:false,		align:'center',		displayFormat: 'number'},
-					{display:'9월', 			name:'m9',			width:45, 		sortable:false,		align:'center',		displayFormat: 'number'},
-					{display:'10월', 			name:'m10',			width:45, 		sortable:false,		align:'center',		displayFormat: 'number'},
-					{display:'11월', 			name:'m11',			width:45, 		sortable:false,		align:'center',		displayFormat: 'number'},
-					{display:'12월', 			name:'m12',			width:45, 		sortable:false,		align:'center',		displayFormat: 'number'}
+					{display:'합계', 			name:'total',		width:60, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'소계', 			name:'mtotal',		width:60, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'1월', 			name:'m1',			width:47, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'2월', 			name:'m2',			width:47, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'3월', 			name:'m3',			width:47, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'4월', 			name:'m4',			width:47, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'5월', 			name:'m5',			width:47, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'6월', 			name:'m6',			width:47, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'7월', 			name:'m7',			width:47, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'8월', 			name:'m8',			width:47, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'9월', 			name:'m9',			width:47, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'10월', 			name:'m10',			width:47, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'11월', 			name:'m11',			width:47, 		sortable:false,		align:'right',		displayFormat: 'number'},
+					{display:'12월', 			name:'m12',			width:47, 		sortable:false,		align:'right',		displayFormat: 'number'}
 					],
 		showTableToggleBtn: false,
 		height : 'auto',
@@ -545,6 +545,8 @@ GamCarRefuelSttusMngModule.prototype.enableDetailInputItem = function() {
 
 	if (this._mode == "insert") {
 		this.$('#carRegistNo').disable();
+		this.$('#fuelKnd').disable();
+		this.$('#carNm').disable();
 		this.$('#m1').enable();
 		this.$('#m2').enable();
 		this.$('#m3').enable();
@@ -563,6 +565,8 @@ GamCarRefuelSttusMngModule.prototype.enableDetailInputItem = function() {
 	} else {
 		if (this._mainKeyValue != "") {
 			this.$('#carRegistNo').disable();
+			this.$('#fuelKnd').disable();
+			this.$('#carNm').disable();
 			this.$('#m1').enable();
 			this.$('#m2').enable();
 			this.$('#m3').enable();
@@ -581,6 +585,8 @@ GamCarRefuelSttusMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnRemove').removeClass('ui-state-disabled');
 		} else {
 			this.$('#carRegistNo').disable();
+			this.$('#fuelKnd').disable();
+			this.$('#carNm').disable();
 			this.$('#m1').disable();
 			this.$('#m2').disable();
 			this.$('#m3').disable();
@@ -610,6 +616,8 @@ GamCarRefuelSttusMngModule.prototype.enableDetailInputItem = function() {
 GamCarRefuelSttusMngModule.prototype.disableDetailInputItem = function() {
 
 	this.$('#carRegistNo').disable();
+	this.$('#fuelKnd').disable();
+	this.$('#carNm').disable();
 	this.$('#m1').disable();
 	this.$('#m2').disable();
 	this.$('#m3').disable();
@@ -682,7 +690,7 @@ var module_instance = new GamCarRefuelSttusMngModule();
 				<table style="width:100%;" class="searchPanel">
 					<tbody>
 						<tr>
-							<th>주유 년도</th>
+							<th style="width:8%; height:18;">주　유　년　도</th>
 							<td>
 								<select id="sRefuelMt">
 									<option value="">선택</option>
@@ -691,11 +699,11 @@ var module_instance = new GamCarRefuelSttusMngModule();
 									</c:forEach>
                                 </select>
 							</td>
-							<th>차량 등록 번호</th>
+							<th style="width:8%; height:18;">차량 등록 번호</th>
 							<td>
-								<input id="sCarRegistNo" type="text" size="15">
+								<input id="sCarRegistNo" type="text" size="15" maxlength="14">
 							</td>
-							<th>주유 구분</th>
+							<th style="width:8%; height:18;">주　유　구　분</th>
 							<td>
 								<input id="sFuelKnd1" type="hidden" />
 								<input id="sFuelKnd2" type="hidden" />
@@ -758,62 +766,62 @@ var module_instance = new GamCarRefuelSttusMngModule();
 							<tr>
 								<th style="width:15%; height:23;">차량 등록 번호</th>
 								<td><input type="text" size="20" id="carRegistNo" readonly="readonly"/></td>
-								<th style="width:15%; height:23;">연료 구분</th>
+								<th style="width:15%; height:23;">연　료　구　분</th>
 								<td><input type="text" size="20" id="fuelKnd" readonly="readonly"/></td>
-								<th style="width:15%; height:23;">차량 명</th>
+								<th style="width:15%; height:23;">차　　량　　명</th>
 								<td><input type="text" size="20" id="carNm" readonly="readonly"/></td>
 							</tr>
 						</table>
 						<table class="detailPanel" style="width:100%">
 							<tr>
-								<th style="width:15%; height:23;">1월</th>
+								<th style="width:15%; height:23;">1월 　　주유량</th>
 								<td style="width:15%;"><input type="text" size="20" id="m1" class="ygpaNumber"></td>
 								<td rowspan="15" style="padding-left:4px;">
 									<div id="fuelChart" style="width:670px;height:370px;border:1px solid #A4BED4;"></div>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:23;">2월</th>
+								<th style="width:15%; height:23;">2월 　　주유량</th>
 								<td><input type="text" size="20" id="m2" class="ygpaNumber"></td>
 							</tr>
 							<tr>
-								<th width="15%" height="23">3월</th>
+								<th width="15%" height="23">3월 　　주유량</th>
 								<td><input type="text" size="20" id="m3" class="ygpaNumber"></td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:23;">4월</th>
+								<th style="width:15%; height:23;">4월 　　주유량</th>
 								<td><input type="text" size="20" id="m4" class="ygpaNumber"></td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:23;">5월</th>
+								<th style="width:15%; height:23;">5월 　　주유량</th>
 								<td><input type="text" size="20" id="m5" class="ygpaNumber"></td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:23;">6월</th>
+								<th style="width:15%; height:23;">6월 　　주유량</th>
 								<td><input type="text" size="20" id="m6" class="ygpaNumber"></td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:23;">7월</th>
+								<th style="width:15%; height:23;">7월 　　주유량</th>
 								<td><input type="text" size="20" id="m7" class="ygpaNumber"></td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:23;">8월</th>
+								<th style="width:15%; height:23;">8월 　　주유량</th>
 								<td><input type="text" size="20" id="m8" class="ygpaNumber"></td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:23;">9월</th>
+								<th style="width:15%; height:23;">9월 　　주유량</th>
 								<td><input type="text" size="20" id="m9" class="ygpaNumber"></td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:23;">10월</th>
+								<th style="width:15%; height:23;">10월　　주유량</th>
 								<td><input type="text" size="20" id="m10" class="ygpaNumber"></td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:23;">11월</th>
+								<th style="width:15%; height:23;">11월　　주유량</th>
 								<td><input type="text" size="20" id="m11" class="ygpaNumber"></td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:23;">12월</th>
+								<th style="width:15%; height:23;">12월　　주유량</th>
 								<td><input type="text" size="20" id="m12" class="ygpaNumber"></td>
 							</tr>
                         </table>
@@ -821,8 +829,8 @@ var module_instance = new GamCarRefuelSttusMngModule();
 					<table style="width:100%;">
 						<tr>
 							<td style="text-align:right;">
-								<button id="btnSave" class="buttonSave">저장</button>
-								<button id="btnRemove" class="buttonDelete">삭제</button>
+								<button id="btnSave" class="buttonSave">　　저　장　　</button>
+								<button id="btnRemove" class="buttonDelete">　　삭　제　　</button>
 							</td>
 						</tr>
 					</table>

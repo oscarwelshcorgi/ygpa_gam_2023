@@ -53,7 +53,7 @@ GamMngFeeGubunMngModule.prototype.loadComplete = function() {
 		dataType : 'json',
 		colModel : [
 					{display:'시설 구분', 		name:'mngFeeFcltySe',		width:100, 		sortable:false,		align:'center'},
-                    {display:'시설 구분 명', 	name:'mngFeeFcltySeNm',		width:180, 		sortable:false,		align:'left'},
+                    {display:'시설 구분 명', 	name:'mngFeeFcltySeNm',		width:195, 		sortable:false,		align:'left'},
 					{display:'등록자', 			name:'regUsr',				width:100, 		sortable:false,		align:'center'},
                     {display:'등록일시', 		name:'registDt',			width:150, 		sortable:false,		align:'center'}
                     ],
@@ -521,11 +521,11 @@ var module_instance = new GamMngFeeGubunMngModule();
 				<table style="width:100%;" class="searchPanel">
 					<tbody>
 						<tr>
-							<th>시설 구분</th>
+							<th style="width:10%; height:18;">시　설　구　분</th>
 							<td>
 								<input type="text" size="10" id="sMngFeeFcltySe" maxlength="2">
 							</td>
-							<th>시설 구분 명</th>
+							<th style="width:10%; height:18;">시설　구분　명</th>
 							<td>
 								<input type="text" size="10" id="sMngFeeFcltySeNm" maxlength="20">
 							</td>
@@ -572,31 +572,39 @@ var module_instance = new GamMngFeeGubunMngModule();
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:20%; height:25;">시설 구분</th>
-								<td><input type="text" size="25" id="mngFeeFcltySe" maxlength="2"/></td>
-								<td><button id="btnIdCheck">시 설 구 분 중 복 여 부 검 사</button>
+								<th style="width:20%; height:35px;">시　설　구　분</th>
+								<td><input type="text" size="35" id="mngFeeFcltySe" maxlength="2"/></td>
+								<td><button id="btnIdCheck">시　설　구　분　　중　복　검　사</button>
 							</tr>
 							<tr>
-								<th style="width:20%; height:25;">시설 구분 명</th>
-								<td colspan="2"><input type="text" size="70" id="mngFeeFcltySeNm" maxlength="20"/></td>
+								<th style="width:20%; height:35px;">시설　구분　명</th>
+								<td colspan="2"><input type="text" size="75" id="mngFeeFcltySeNm" maxlength="20"/></td>
 							</tr>
 							<tr>
-								<th style="width:20%; height:25;">등록자</th>
-                               	<td><span data-column-id="regUsr"></span></td>
-								<td><span data-column-id="registDt"></span></td>
+								<th style="width:20%; height:35px;">등　　록　　자</th>
+								<td>
+									<input type="text" size="35" id="regUsr" disabled>
+								</td>
+								<td>
+									<input type="text" size="35" id="registDt" disabled>
+								</td>
 							</tr>
 							<tr>
-								<th style="width:20%; height:25;">수정자</th>
-                               	<td><span data-column-id="updUsr"></span></td>
-								<td><span data-column-id="updtDt"></span></td>
+								<th style="width:20%; height:35px;">수　　정　　자</th>
+								<td>
+									<input type="text" size="35" id="updUsr" disabled>
+								</td>
+								<td>
+									<input type="text" size="35" id="updtDt" disabled>
+								</td>
 							</tr>
 						</table>
 					</form>
 					<table style="width:100%;">
 						<tr>
 							<td style="text-align:right;">
-								<button id="btnSave" class="buttonSave">저장</button>
-								<button id="btnRemove" class="buttonDelete">삭제</button>
+								<button id="btnSave" class="buttonSave">　　저　장　　</button>
+								<button id="btnRemove" class="buttonDelete">　　삭　제　　</button>
 							</td>
 						</tr>
 					</table>

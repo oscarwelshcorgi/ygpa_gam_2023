@@ -306,6 +306,7 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 			this.cancelNticIssueUnpaid();
 			break;
 		case 'btnOpenFcltsFeeMngInqire':
+		case 'btnOpenFcltsFeeMngInqire2':
 			this.openFcltsFeeMngInqireModule();
 			break;
 		case 'popupSearchEntrpscd':
@@ -1424,6 +1425,7 @@ GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 		this.$('#btnSaveNticIssue').removeClass('ui-state-disabled');
 		this.$('#btnProcessNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnCancelNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnOpenFcltsFeeMngInqire2').disable({disableClass:"ui-state-disabled"});
 	} else {
 		if (rcivSe == "0" || rcivSe == "1") {
 			if (nhtIsueYn == "Y") {
@@ -1482,6 +1484,8 @@ GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 				this.$('#btnProcessNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
 				this.$('#btnCancelNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
 			}
+			this.$('#btnOpenFcltsFeeMngInqire2').enable();
+			this.$('#btnOpenFcltsFeeMngInqire2').removeClass('ui-state-disabled');
 		} else if (rcivSe == "2" || rcivSe == "3" || rcivSe == "4") {
 			this.$('#chrgeKnd').disable();
 			this.$('#vatYn').disable();
@@ -1501,6 +1505,8 @@ GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnSaveNticIssue').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnProcessNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnCancelNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnOpenFcltsFeeMngInqire2').enable();
+			this.$('#btnOpenFcltsFeeMngInqire2').removeClass('ui-state-disabled');
 		} else {
 			this.$('#chrgeKnd').disable();
 			this.$('#vatYn').disable();
@@ -1518,6 +1524,7 @@ GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnSaveNticIssue').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnProcessNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnCancelNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnOpenFcltsFeeMngInqire2').disable({disableClass:"ui-state-disabled"});
 		}
 	}
 
@@ -1548,6 +1555,7 @@ GamFcltsFeeMngNticModule.prototype.disableDetailInputItem = function() {
 	this.$('#btnSaveNticIssue').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnProcessNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnCancelNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnOpenFcltsFeeMngInqire2').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -1736,6 +1744,9 @@ var module_instance = new GamFcltsFeeMngNticModule();
 						<table class="summaryPanel" style="width:100%;">
 							<tr>
 								<th style="font-weight:bold; height:20px;">시설물 관리비 부과 내역</th>
+								<td style="text-align:right;">
+									<button id="btnOpenFcltsFeeMngInqire2">납부현황　조회</button>
+								</td>
 							</tr>
 						</table>
 						<table class="detailPanel" style="width:100%;">

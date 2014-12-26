@@ -54,8 +54,8 @@ GamMngFeeCodeMngModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:'시설 코드', 	name:'mngFeeFcltyCd',		width:80, 		sortable:false,		align:'center'},
 					{display:'시설 명', 	name:'mngFeeFcltyNm',		width:180, 		sortable:false,		align:'left'},
-					{display:'시설 구분', 	name:'mngFeeFcltySeNm',		width:110, 		sortable:false,		align:'left'},
-					{display:'업무 구분', 	name:'mngFeeJobSeNm',		width:110, 		sortable:false,		align:'left'},
+					{display:'시설 구분', 	name:'mngFeeFcltySeNm',		width:117, 		sortable:false,		align:'left'},
+					{display:'업무 구분', 	name:'mngFeeJobSeNm',		width:117, 		sortable:false,		align:'left'},
 					{display:'등록자', 		name:'regUsr',				width:100, 		sortable:false,		align:'center'},
 					{display:'등록일시', 	name:'registDt',			width:150, 		sortable:false,		align:'center'}
 					],
@@ -545,15 +545,15 @@ var module_instance = new GamMngFeeCodeMngModule();
 				<table style="width:100%;" class="searchPanel">
 					<tbody>
 						<tr>
-							<th>시설 코드</th>
+							<th style="width:10%; height:18;">시　설　코　드</th>
 							<td>
-								<input type="text" size="5" id="sMngFeeFcltyCd">
+								<input type="text" size="4" id="sMngFeeFcltyCd" maxlength="4">
 							</td>
-							<th>시설 명</th>
+							<th style="width:10%; height:18;">시　　설　　명</th>
 							<td>
-								<input type="text" size="15" id="sMngFeeFcltyNm">
+								<input type="text" size="25" id="sMngFeeFcltyNm" maxlength="20">
 							</td>
-							<th>업무 구분</th>
+							<th style="width:10%; height:18;">업　무　구　분</th>
 							<td>
 								<select id="sMngFeeJobSe">
 									<option value="">전체</option>
@@ -604,14 +604,14 @@ var module_instance = new GamMngFeeCodeMngModule();
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:20%; height:25;">업무 구분</th>
+								<th style="width:20%; height:35px;">업　무　구　분</th>
 								<td>
 									<select id="mngFeeJobSe">
 										<option value="M">마린센터</option>
 										<option value="E">전기시설</option>
 									</select>
 								</td>
-								<th style="width:20%; height:25;">시설 구분</th>
+								<th style="width:20%; height:35px;">시　설　구　분</th>
 								<td>
 									<select id="mngFeeFcltySe">
 										<option value="">선택</option>
@@ -622,30 +622,42 @@ var module_instance = new GamMngFeeCodeMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:20%; height:25;">시설 코드</th>
-								<td><input type="text" size="35" id="mngFeeFcltyCd" maxlength="4"/></td>
-								<th style="width:20%; height:25;">시설 명</th>
-								<td><input type="text" size="35" id="mngFeeFcltyNm" maxlength="20"/></td>
+								<th style="width:20%; height:35px;">시　설　코　드</th>
+								<td>
+									<input type="text" size="35" id="mngFeeFcltyCd" maxlength="4"/>
+								</td>
+								<th style="width:20%; height:35px;">시　　설　　명</th>
+								<td>
+									<input type="text" size="35" id="mngFeeFcltyNm" maxlength="20"/>
+								</td>
 							</tr>
 							<tr>
-								<th style="width:20%; height:25;">등록자</th>
-                               	<td><span data-column-id="regUsr"></span></td>
-								<th style="width:20%; height:25;">등록일시</th>
-								<td><span data-column-id="registDt"></span></td>
+								<th style="width:20%; height:35px;">등　　록　　자</th>
+								<td>
+									<input type="text" size="35" id="regUsr" disabled>
+								</td>
+								<th style="width:20%; height:35px;">등　록　일　시</th>
+								<td>
+									<input type="text" size="35" id="registDt" disabled>
+								</td>
 							</tr>
 							<tr>
-								<th style="width:20%; height:25;">수정자</th>
-                               	<td><span data-column-id="updUsr"></span></td>
-								<th style="width:20%; height:25;">수정일시</th>
-								<td><span data-column-id="updtDt"></span></td>
+								<th style="width:20%; height:35px;">수　　정　　자</th>
+								<td>
+									<input type="text" size="35" id="updUsr" disabled>
+								</td>
+								<th style="width:20%; height:35px;">수　정　일　시</th>
+								<td>
+									<input type="text" size="35" id="updtDt" disabled>
+								</td>
 							</tr>
 						</table>
 					</form>
 					<table style="width:100%;">
 						<tr>
 							<td style="text-align:right;">
-								<button id="btnSave" class="buttonSave">저장</button>
-								<button id="btnRemove" class="buttonDelete">삭제</button>
+								<button id="btnSave" class="buttonSave">　　저　장　　</button>
+								<button id="btnRemove" class="buttonDelete">　　삭　제　　</button>
 							</td>
 						</tr>
 					</table>
