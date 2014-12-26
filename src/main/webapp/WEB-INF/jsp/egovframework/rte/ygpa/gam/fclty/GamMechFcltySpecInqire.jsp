@@ -74,7 +74,7 @@ GamMechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 					{display:"파일제목",	name:"atchFileSj",				width:240,		sortable:true,		align:"left"},
 					{display:"논리파일명",	name:"atchFileNmLogic",			width:200,		sortable:true,		align:"left"}
 			],
-		height: "auto"
+		height: "400"
 	});
 
 	this.$("#fcltyFileList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -180,25 +180,11 @@ GamMechFcltySpecInqireModule.prototype.onTabChangeBefore = function(newTabId, ol
 			this.gotoLocation();
 		break;
 		
-		// 자산코드 팝업
-		case "gisCodePopupBtn":
-			this.doExecuteDialog("searchGisCodePopup", "자산코드", '/popup/showAssetsCd.do', {});
-		break;
-	
 		// 검색조건 시설물 관리 그룹 팝업
 		case "searchPopupBtn":
 			this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
 		break;
 		
-		// 시설물 분류코드(디테일 화면)
-		case "searchFcltsClCd" :
-			this.doExecuteDialog("selectFcltsClCd", "시설물 분류코드", '/popup/showFcltsClCd.do', { sFcltsClCdChar : this._prtFcltySe });			
-		break;
-			
-		// 시설물관리그룹(디테일 화면)
-		case "searchFcltsMngGroupNo":
-			this.doExecuteDialog("selectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
-		break;
 	}
 };
 
@@ -244,14 +230,8 @@ GamMechFcltySpecInqireModule.prototype.clearFilePage = function() {
  * 팝업 close 이벤트
  */
  GamMechFcltySpecInqireModule.prototype.onClosePopup = function(popupId, msg, value){
-	switch(popupId){
-		// 조회화면
+	 switch(popupId){
 		case "selectGisCode":
-			this.$("#sAssetsCd").val(value["gisAssetsCd"]);
-			this.$("#sAssetsSubCd").val(value["gisAssetsSubCd"]);
-			break;
-
-		case "selectGisCode2":
 			this.$("#gisAssetsPrtAtCode").val(value["gisAssetsPrtAtCode"]);
 			this.$("#gisAssetsPrtAtCode2").val(value["gisAssetsPrtAtCode"]);
 			this.$("#gisAssetsPrtAtName").val(value["gisAssetsPrtAtCodeNm"]);
@@ -263,16 +243,16 @@ GamMechFcltySpecInqireModule.prototype.clearFilePage = function() {
 			this.$("#gisAssetsLnmSub").val(value["gisAssetsLnmSub"]);			// 서브지번
 			break;
 		
-		case "selectFcltsClCd":
-			this.$("#mechFcltsClCd").val(value["fcltsClCd"]);
-			this.$("#mechFcltsClCdNm").val(value["fcltsClCdNm"]);			
-			break;
+		case "sSelectFcltsMngGroup":
+			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
+			this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
+		break;
 
-		case "selectArchFcltsMngNo":
-			this.$("#archFcltsMngNo").val(value["fcltsMngNo"]);
-			this.$("#archFcltsMngNoNm").val(value["prtFcltyNm"]);			
+		case "selectFcltsClCd":
+			this.$("#archFcltsClCd").val(value["fcltsClCd"]);
+			this.$("#archFcltsClCdNm").val(value["fcltsClCdNm"]);			
 			break;
-		
+			
 		case "selectFcltsMngGroup":
 			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#fcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
@@ -303,7 +283,7 @@ var module_instance = new GamMechFcltySpecInqireModule();
 							<td colspan="3">
 								<input id="sFcltsMngGroupNo" type="text" size="14"/>
 								<input id="sFcltsMngGroupNoNm" type="text" size="59" disabled="disabled"/>
-								<button id="popupSearchFcltsMngGroupNo" class="popupButton">선택</button>
+								<button id="searchPopupBtn" class="popupButton">선택</button>
 							</td>
 							<td rowspan="2"><button class="buttonSearch">조회</button></td>
 						</tr>
@@ -639,11 +619,19 @@ var module_instance = new GamMechFcltySpecInqireModule();
 			
 			<!-- 기계시설 첨부파일 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
-				<table id="fcltyFileList" style="display:none" class="fillHeight"></table>
-				<div class="emdControlPanel">
-					<button id="btnDownloadFile">다운로드</button>
-				</div>
-				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
+				<table>
+					<tr>
+						<td width="50%">
+							<table id="fcltyFileList" style="display:none" class="fillHeight"></table>
+							<div class="emdControlPanel">
+								<button id="btnDownloadFile">다운로드</button>
+							</div>
+						</td>
+						<td style="text-align:center;vertical-align:middle;">
+							<img id="previewImage" style="border: 1px solid #000; max-width:300px; max-height: 300px" src="">
+						</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>

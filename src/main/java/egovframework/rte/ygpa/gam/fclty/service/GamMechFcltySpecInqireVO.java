@@ -29,24 +29,21 @@ public class GamMechFcltySpecInqireVO extends ComDefaultVO {
 	/** 항코드 (조회조건) **/
 	private String sPrtAtCode;
 	
-	/** 자산코드 (조회조건) **/
-	private String sAssetsCd;
+	/** 시설물관리그룹 (조회조건) **/
+	private String sFcltsMngGroupNo;
 
-	/** 자산부코드 (조회조건) **/
-	private String sAssetsSubCd;
-
-	/** 시설코드 (조회조건) **/
+	/** 시설분류 (조회조건) **/
 	private String sPrtFcltyCd;
 
 	/** 시설명 (조회조건) **/
 	private String sPrtFcltyNm;
 
-	/** 시설물 관리 번호 (조회조건-첨부파일) **/
+	/** 소재지 (조회조건) **/
+	private String sLoc;
+
+	/** 시설물 관리 번호 (조회조건-첨부파일정보출력시 사용) **/
 	private String sFcltsMngNo;
 
-	/** 항만시설 구분 */
-    private String prtFcltySe;
-	
 	/**
 	 * @return the sPrtAtCode
 	 */
@@ -62,31 +59,17 @@ public class GamMechFcltySpecInqireVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the sAssetsCd
+	 * @return the sFcltsMngGroupNo
 	 */
-	public String getsAssetsCd() {
-		return sAssetsCd;
+	public String getsFcltsMngGroupNo() {
+		return sFcltsMngGroupNo;
 	}
 
 	/**
-	 * @param sAssetsCd the sAssetsCd to set
+	 * @param sFcltsMngGroupNo the sFcltsMngGroupNo to set
 	 */
-	public void setsAssetsCd(String sAssetsCd) {
-		this.sAssetsCd = sAssetsCd;
-	}
-
-	/**
-	 * @return the sAssetsSubCd
-	 */
-	public String getsAssetsSubCd() {
-		return sAssetsSubCd;
-	}
-
-	/**
-	 * @param sAssetsSubCd the sAssetsSubCd to set
-	 */
-	public void setsAssetsSubCd(String sAssetsSubCd) {
-		this.sAssetsSubCd = sAssetsSubCd;
+	public void setsFcltsMngGroupNo(String sFcltsMngGroupNo) {
+		this.sFcltsMngGroupNo = sFcltsMngGroupNo;
 	}
 
 	/**
@@ -118,6 +101,20 @@ public class GamMechFcltySpecInqireVO extends ComDefaultVO {
 	}
 
 	/**
+	 * @return the sLoc
+	 */
+	public String getsLoc() {
+		return sLoc;
+	}
+
+	/**
+	 * @param sLoc the sLoc to set
+	 */
+	public void setsLoc(String sLoc) {
+		this.sLoc = sLoc;
+	}
+
+	/**
 	 * @return the sFcltsMngNo
 	 */
 	public String getsFcltsMngNo() {
@@ -132,19 +129,10 @@ public class GamMechFcltySpecInqireVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the prtFcltySe
+	 * @return the serialversionuid
 	 */
-	public String getPrtFcltySe() {
-		return prtFcltySe;
-	}
-
-	/**
-	 * @param prtFcltySe the prtFcltySe to set
-	 */
-	public void setPrtFcltySe(String prtFcltySe) {
-		this.prtFcltySe = prtFcltySe;
-	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}	
 	
-	
-
 }

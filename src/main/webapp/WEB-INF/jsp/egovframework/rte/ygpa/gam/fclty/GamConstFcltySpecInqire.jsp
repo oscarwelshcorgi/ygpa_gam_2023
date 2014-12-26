@@ -73,7 +73,7 @@ GamConstFcltySpecInqireModule.prototype.loadComplete = function(params) {
 					{display:"파일제목",	name:"atchFileSj",				width:240,		sortable:true,		align:"left"},
 					{display:"논리파일명",	name:"atchFileNmLogic",			width:200,		sortable:true,		align:"left"}
 			],
-		height: "auto"
+		height: "400"
 	});
 
 	this.$("#fcltyFileList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -254,12 +254,6 @@ GamConstFcltySpecInqireModule.prototype.clearFilePage = function() {
 		case "sSelectFcltsMngGroup":
 			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
-		break;
-
-		// 업체조회화면
-		case "searchEntrpsCdPopup":
-			this.$("#prtFcltyMngEntrpsCd").val(value["entrpscd"]);
-			this.$("#prtFcltyMngEntrpsNm").val(value["entrpsNm"]);
 		break;
 
 		case "selectFcltsClCd":
@@ -625,12 +619,19 @@ var module_instance = new GamConstFcltySpecInqireModule();
 			
 			<!-- 건축시설 첨부파일 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
-				<table id="fcltyFileList" style="display:none" class="fillHeight"></table>
-				<div class="emdControlPanel">
-					<button id="btnDownloadFile">다운로드</button>
-				</div>
-
-				<div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
+				<table>
+					<tr>
+						<td width="50%">
+							<table id="fcltyFileList" style="display:none" class="fillHeight"></table>
+							<div class="emdControlPanel">
+								<button id="btnDownloadFile">다운로드</button>
+							</div>
+						</td>
+						<td style="text-align:center;vertical-align:middle;">
+							<img id="previewImage" style="border: 1px solid #000; max-width:300px; max-height: 300px" src="">
+						</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>
