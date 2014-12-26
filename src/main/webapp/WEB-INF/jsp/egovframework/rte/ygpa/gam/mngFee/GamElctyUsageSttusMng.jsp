@@ -52,8 +52,8 @@ GamElctyUsageSttusMngModule.prototype.loadComplete = function() {
 		url : '/mngFee/gamSelectElctyUsageSttusMng.do',
 		dataType : 'json',
 		colModel : [
-					{display:'업무 구분',		name:'mngFeeJobSeNm',	width:80, 		sortable:false,		align:'center'},
-					{display:'관리비 시설',		name:'mngFeeFcltyNm',	width:160, 		sortable:false,		align:'left'},
+					{display:'업무 구분',		name:'mngFeeJobSeNm',	width:90, 		sortable:false,		align:'center'},
+					{display:'시설 명',			name:'mngFeeFcltyNm',	width:175, 		sortable:false,		align:'left'},
 					{display:'사용 월',			name:'usageYrMt',		width:80, 		sortable:false,		align:'center'},
 					{display:'전월 사용 량',	name:'prevMtUsageQy',	width:100, 		sortable:false,		align:'right'},
 					{display:'당월 사용 량',	name:'saidMtUsageQy',	width:100, 		sortable:false,		align:'right'},
@@ -927,7 +927,7 @@ var module_instance = new GamElctyUsageSttusMngModule();
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:15%; height:26;">사용 년월</th>
+								<th style="width:10%; height:26;">사　용　년　월</th>
 								<td>
 									<input id="usageMt" type="hidden"/>
 									<select id="usageMtYear" class='selt'>
@@ -957,7 +957,7 @@ var module_instance = new GamElctyUsageSttusMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">업무 구분</th>
+								<th style="width:10%; height:26;">업　무　구　분</th>
 								<td>
 									<input id="mngFeeJobSeNm" type="hidden"/>
 									<select id="mngFeeJobSe" disabled>
@@ -967,55 +967,73 @@ var module_instance = new GamElctyUsageSttusMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">시설 코드</th>
+								<th style="width:10%; height:26;">시　설　코　드</th>
 								<td>
-									<input type="text" size="8" id="mngFeeFcltyCd" disabled/>
+									<input type="text" size="13" id="mngFeeFcltyCd" disabled/>
 									<button id="popupMngFeeFcltyCd" class="popupButton">선택</button>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">시설 명</th>
-								<td><input type="text" size="20" id="mngFeeFcltyNm" disabled/></td>
+								<th style="width:10%; height:26;">시　　설　　명</th>
+								<td>
+									<input type="text" size="25" id="mngFeeFcltyNm" disabled/>
+								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">전월 사용 량</th>
-								<td><input type="text" size="20" id="prevMtUsageQy" disabled/></td>
+								<th style="width:10%; height:26;">전월　　사용량</th>
+								<td>
+									<input type="text" size="25" id="prevMtUsageQy" disabled/>
+								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">당월 사용 량</th>
-								<td><input type="text" size="20" id="saidMtUsageQy"/></td>
+								<th style="width:10%; height:26;">당월　　사용량</th>
+								<td>
+									<input type="text" size="25" id="saidMtUsageQy" maxlength="16"/>
+								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">적용 계수</th>
-								<td><input type="text" size="20" id="applcCoef"/></td>
+								<th style="width:10%; height:26;">적　용　계　수</th>
+								<td>
+									<input type="text" size="25" id="applcCoef" maxlength="9"/>
+								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">순 사용 량</th>
-								<td><input type="text" size="20" id="netUsageQy"/></td>
+								<th style="width:10%; height:26;">순　사　용　량</th>
+								<td>
+									<input type="text" size="25" id="netUsageQy" maxlength="16"/>
+								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">등록자</th>
-                               	<td><span data-column-id="regUsr"></span></td>
+								<th style="width:10%; height:26;">등　　록　　자</th>
+								<td>
+									<input type="text" size="25" id="regUsr" disabled>
+								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">등록일시</th>
-								<td><span data-column-id="registDt"></span></td>
+								<th style="width:10%; height:26;">등　록　일　시</th>
+								<td>
+									<input type="text" size="25" id="registDt" disabled>
+								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">수정자</th>
-                               	<td><span data-column-id="updUsr"></span></td>
+								<th style="width:10%; height:26;">수　　정　　자</th>
+								<td>
+									<input type="text" size="25" id="updUsr" disabled>
+								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">수정일시</th>
-								<td><span data-column-id="updtDt"></span></td>
+								<th style="width:10%; height:26;">수　정　일　시</th>
+								<td>
+									<input type="text" size="25" id="updtDt" disabled>
+								</td>
 							</tr>
 						</table>
 					</form>
 					<table style="width:100%;">
 						<tr>
 							<td style="text-align:right;">
-								<button id="btnSave" class="buttonSave">저장</button>
-								<button id="btnRemove" class="buttonDelete">삭제</button>
+								<button id="btnSave" class="buttonSave">　　저　장　　</button>
+								<button id="btnRemove" class="buttonDelete">　　삭　제　　</button>
 							</td>
 						</tr>
 					</table>

@@ -52,8 +52,8 @@ GamEnergyUsageMngModule.prototype.loadComplete = function() {
 		url : '/mngFee/gamSelectEnergyUsageMng.do',
 		dataType : 'json',
 		colModel : [
-					{display:'연료 코드', 			name:'fuelCd',				width:80, 		sortable:false,		align:'center'	},
-					{display:'연료 명', 			name:'fuelNm',				width:150, 		sortable:false,		align:'left'	},
+					{display:'연료 코드', 			name:'fuelCd',				width:85, 		sortable:false,		align:'center'	},
+					{display:'연료 명', 			name:'fuelNm',				width:160, 		sortable:false,		align:'left'	},
 					{display:'에너지 단위', 		name:'energyUnit',			width:100, 		sortable:false,		align:'left'	},
 					{display:'에너지 총발열량', 	name:'energyTotalCalVal',	width:100, 		sortable:false,		align:'right'	},
 					{display:'에너지 순발열량',		name:'energyNetCalVal',		width:100, 		sortable:false,		align:'right'	},
@@ -656,7 +656,7 @@ var module_instance = new GamEnergyUsageMngModule();
 				<table style="width:100%;" class="searchPanel">
 					<tbody>
 						<tr>
-							<th>에너지 사용년도</th>
+							<th style="width:10%; height:18;">에너지사용년도</th>
 							<td>
 								<select id="sMngYear">
 									<c:forEach items="${yearsList}" var="yearListItem">
@@ -664,13 +664,13 @@ var module_instance = new GamEnergyUsageMngModule();
 									</c:forEach>
 								</select>
 							</td>
-							<th>연료 코드</th>
+							<th style="width:10%; height:18;">연　료　코　드</th>
 							<td>
-								<input type="text" size="10" id="sFuelCd">
+								<input type="text" size="4" id="sFuelCd" maxlength="4">
 							</td>
-							<th>연료 명</th>
+							<th style="width:10%; height:18;">연　　료　　명</th>
 							<td>
-								<input type="text" size="20" id="sFuelNm">
+								<input type="text" size="25" id="sFuelNm" maxlength="20">
 							</td>
 							<td>
 								<button class="buttonSearch">조회</button>
@@ -716,7 +716,7 @@ var module_instance = new GamEnergyUsageMngModule();
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:15%; height:26;">관리 년도</th>
+								<th style="width:10%; height:26;">관　리　년　도</th>
 								<td>
 									<select id="mngYear" class='selt'>
 										<option value="">선택</option>
@@ -730,56 +730,64 @@ var module_instance = new GamEnergyUsageMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">연료 코드</th>
-								<td><input type="text" size="20" id="fuelCd" /></td>
+								<th style="width:10%; height:26;">연　료　코　드</th>
+								<td><input type="text" size="25" id="fuelCd" maxlength="4"/></td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">연료 명</th>
-								<td><input type="text" size="20" id="fuelNm" /></td>
+								<th style="width:10%; height:26;">연　　료　　명</th>
+								<td><input type="text" size="25" id="fuelNm" maxlength="20"/></td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">에너지 단위</th>
-								<td><input type="text" size="20" id="energyUnit" /></td>
+								<th style="width:10%; height:26;">에너지　　단위</th>
+								<td><input type="text" size="25" id="energyUnit" maxlength="10"/></td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">에너지 총발열량</th>
-								<td><input type="text" size="20" id="energyTotalCalVal"/></td>
+								<th style="width:10%; height:26;">에너지총발열량</th>
+								<td><input type="text" size="25" id="energyTotalCalVal" maxlength="9"/></td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">에너지 순발열량</th>
-								<td><input type="text" size="20" id="energyNetCalVal"/></td>
+								<th style="width:10%; height:26;">에너지순발열량</th>
+								<td><input type="text" size="25" id="energyNetCalVal" maxlength="9"/></td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">온실가스 단위</th>
-								<td><input type="text" size="20" id="grHseUnit" /></td>
+								<th style="width:10%; height:26;">온실가스　단위</th>
+								<td><input type="text" size="25" id="grHseUnit" maxlength="10"/></td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">온실가스 계수</th>
-								<td><input type="text" size="20" id="grHseCoef"/></td>
+								<th style="width:10%; height:26;">온실가스　계수</th>
+								<td><input type="text" size="25" id="grHseCoef" maxlength="9"/></td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">등록자</th>
-                               	<td><span data-column-id="regUsr"></span></td>
+								<th style="width:10%; height:26;">등　　록　　자</th>
+								<td>
+									<input type="text" size="25" id="regUsr" disabled>
+								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">등록일시</th>
-								<td><span data-column-id="registDt"></span></td>
+								<th style="width:10%; height:26;">등　록　일　시</th>
+								<td>
+									<input type="text" size="25" id="registDt" disabled>
+								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">수정자</th>
-                               	<td><span data-column-id="updUsr"></span></td>
+								<th style="width:10%; height:26;">수　　정　　자</th>
+								<td>
+									<input type="text" size="25" id="updUsr" disabled>
+								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:26;">수정일시</th>
-								<td><span data-column-id="updtDt"></span></td>
+								<th style="width:10%; height:26;">수　정　일　시</th>
+								<td>
+									<input type="text" size="25" id="updtDt" disabled>
+								</td>
 							</tr>
 						</table>
 					</form>
 					<table style="width:100%;">
 						<tr>
 							<td style="text-align:right;">
-								<button id="btnSave" class="buttonSave">저장</button>
-								<button id="btnRemove" class="buttonDelete">삭제</button>
+								<button id="btnSave" class="buttonSave">　　저　장　　</button>
+								<button id="btnRemove" class="buttonDelete">　　삭　제　　</button>
 							</td>
 						</tr>
 					</table>

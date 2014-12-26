@@ -525,7 +525,7 @@ var module_instance = new GamMngFeeGubunMngModule();
 							<td>
 								<input type="text" size="10" id="sMngFeeFcltySe" maxlength="2">
 							</td>
-							<th style="width:10%; height:18;">시설　구분　명</th>
+							<th style="width:10%; height:18;">시설　　구분명</th>
 							<td>
 								<input type="text" size="10" id="sMngFeeFcltySeNm" maxlength="20">
 							</td>
@@ -577,7 +577,7 @@ var module_instance = new GamMngFeeGubunMngModule();
 								<td><button id="btnIdCheck">시　설　구　분　　중　복　검　사</button>
 							</tr>
 							<tr>
-								<th style="width:20%; height:35px;">시설　구분　명</th>
+								<th style="width:20%; height:35px;">시설　　구분명</th>
 								<td colspan="2"><input type="text" size="75" id="mngFeeFcltySeNm" maxlength="20"/></td>
 							</tr>
 							<tr>
