@@ -822,7 +822,7 @@ div.notice {
   <fmt:parseDate value='${result.payTmlmt}' var='payTmlmtDate' pattern="yyyy-MM-dd" scope="page"/>
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
-    <c:forEach var="result" items="${resultList }">
+    <c:set var="result" value="${resultList[0] }"/>
     <div class="page">
         <div class="subpage">
         	<div class="subpage1">
@@ -879,7 +879,6 @@ div.notice {
 	      			<p>면 적 : <fmt:formatNumber type="number" maxIntegerDigits="10" value="${result.grAr}" /> m<sup>2</sup></p>
 	      			<h2>산출근거</h2>
 	      			<p><c:out value="${result.chrgeKndNm}"/> : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${result.fee}" /> 원</p>
-	      			<p>산출공식 : <c:out value="${result.computDtls}"/></p>
 	      			<c:if test="${result.feeA3>0}">
 		      			<p>분할납부이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeA3}" /> 원</p>
 	      			</c:if>
@@ -922,7 +921,6 @@ div.notice {
 			</div>
         </div>
     </div>
-    </c:forEach>
 </div>
   </c:if>
     <c:if test="${resultCode!=0 }">

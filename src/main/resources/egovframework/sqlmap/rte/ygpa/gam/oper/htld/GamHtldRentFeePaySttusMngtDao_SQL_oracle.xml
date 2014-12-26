@@ -142,9 +142,13 @@
 							       AND L.MNG_CNT     = #sMngCnt#
 							   </isNotEmpty>
 
-							   <isNotEmpty property="rcivSe">
-							   	AND L.RCIV_SE = #rcivSe#
-							   </isNotEmpty>
+								<isEqual property="rcivSe" compareValue="Y">
+									AND L.RCIV_SE IN ('2','3')
+								</isEqual>
+
+								<isEqual property="rcivSe" compareValue="N">
+									AND L.RCIV_SE IN ('0','1', '4')
+								</isEqual>
 
 							   <isNotEmpty property="sChrgeKnd">
 							   	AND L.CHRGE_KND = #sChrgeKnd#

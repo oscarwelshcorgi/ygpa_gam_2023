@@ -39,26 +39,28 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         url: '/oper/gnrl/gamSelectPrtFcltyRentFeePaySttusMngtList.do',
         dataType: 'json',
         colModel : [
-					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
-                    {display:'항코드명', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
-					{display:'요금종류', name:'chrgeKnd',width:55, sortable:false,align:'center'},
-					{display:'요금종류명', name:'chrgeKndNm',width:100, sortable:false,align:'left'},
-					{display:'회계년도', name:'accnutYear',width:55, sortable:false,align:'center'},
-					{display:'고지번호', name:'nticno',width:55, sortable:false,align:'center'},
+					{display:'항구분', name:'prtAtCodeNmStr',width:80, sortable:false,align:'center'},
+//					{display:'요금종류', name:'chrgeKnd',width:55, sortable:false,align:'center'},
+					{display:'회계년도', name:'accnutYear',width:68, sortable:false,align:'center'},
+					{display:'고지번호', name:'nticno',width:70, sortable:false,align:'center'},
 					{display:'고지업체', name:'entrpscd',width:60, sortable:false,align:'center'},
 					{display:'고지업체명', name:'entrpsNm',width:140, sortable:false,align:'left'},
+					{display:'요금종류', name:'chrgeKndNm',width:100, sortable:false,align:'left'},
 					{display:'고지금액', name:'totalNticAmount',width:100, sortable:false,align:'right', displayFormat: 'number'},
 					{display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
+					{display:'수납', name:'rcivSeNm',width:68, sortable:false,align:'center'},
+					{display:'수납일자', name:'rcivDt',width:80, sortable:false,align:'center'},
 					{display:'납부기한', name:'payTmlmt',width:80, sortable:false,align:'center'},
                     {display:'사용료', name:'fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'number'},
-					{display:'수납구분', name:'rcivSeNm',width:55, sortable:false,align:'center'},
-					{display:'수납일자', name:'rcivDt',width:80, sortable:false,align:'center'}
+                    {display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'number'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
         	module.makeFormValues('#summaryForm', data);
+            $.each(data.resultList, function() {
+            	this.prtAtCodeNmStr = this.prtAtCodeNm+" ["+this.prtAtCode+"]";
+            });
         	/*
             module.$('#sumCnt').val(data.sumCnt);
             module.$('#sumNhtIsueAmt').val(data.sumNhtIsueAmt);
@@ -142,7 +144,7 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         this.$('#sUsagePdTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
     	*/
     }
-    console.log('loadCompleted');
+//    console.log('loadCompleted');
 };
 
 /**

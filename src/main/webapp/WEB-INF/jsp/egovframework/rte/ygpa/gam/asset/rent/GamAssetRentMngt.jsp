@@ -1234,7 +1234,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 			EMD.map.zoomToExtent(this._editData.feature.geometry.getBounds());
         	break;
         case 'btnRentDetailApply': //임대상세적용
-		console.log('hello');
+		//console.log('hello');
         	if(!validateGamAssetRentDetail(this.$('#gamAssetRentDetailForm')[0])) {
                 return;
             }

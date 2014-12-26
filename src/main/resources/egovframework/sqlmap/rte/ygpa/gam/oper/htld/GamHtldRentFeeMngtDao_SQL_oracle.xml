@@ -1293,137 +1293,110 @@
     </select>
 
      <select id="gamHtldRentFeeMngtDao.selectAssetRentFeeDetailList_D" parameterClass="gamHtldRentFeeMngtVO" resultClass="egovMap">
-           SELECT ROWNUM RNUM, A.*
-           FROM (
 	                       SELECT
-				         L.NTIC_CNT
-				         , DECODE(L.NTIC_CNT, #nticCnt#, 'Y', 'N') CURR_LEV_REQEST
-				       , L.FCLTY_SE
-				       , L.CHRGE_KND
-				       , GAM_GETCODENAME('GAM053', L.CHRGE_KND) CHRGE_KND_NM
-				       , L.ENTRPSCD
-				       , L.ENTRPS_NM
-				       , TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
-				       , TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO
-				       , L.ACCNUT_YEAR
-				       , L.NTICNO
-				       , TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
-				       , TO_CHAR(L.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT
-				       , L.SANCTN_STTUS
-				       , L.SANCTNER_EMPL_NO
-				       , TO_CHAR(L.SANCTN_DT) SANCTN_DT
-				       , GAM_GETCODENAME('GAM046', L.SANCTN_STTUS) SANCTN_STTUS_NM
-				       , NVL(L.OLNLP,0) OLNLP
-				       , NVL(L.FEE,0) FEE
-				       , L.VAT_YN
-				       , NVL(L.VAT,0) VAT
-				       , NVL(L.NTIC_AMT,0) NTIC_AMT
-				       , L.RM
-				       , L.RCIV_SE
-				       , TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
-				       , L.NHT_ISUE_YN
-				       , NVL(L.NHT_PRINT_YN, 'N') AS NHT_PRINT_YN
-				       , L.ARRRG_NO
-				       , NVL(L.ARRRG_AMT,0) ARRRG_AMT
-				       , L.ARRRG_TARIFF
-				       , L.ARRRG_PAY_DATES
-				       , L.REQEST_SEQ
-				       , L.DEPTCD
-				       , L.NTIC_MTH
-				       , L.REG_USR
-				       , TO_CHAR(L.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
-				       , L.UPD_USR
-				       , TO_CHAR(L.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
-				       , L.PRT_AT_CODE
-				       , L.MNG_YEAR
-				       , L.MNG_NO
-				       , L.MNG_CNT
-				       , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = L.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM
-							       , GAM_GETDEPTNAME(L.DEPTCD) DEPTCD_NM
-							       , NVL(A.GR_AR,0) GR_AR
-							       , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
-							       , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
-							       , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
-							       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
-							       , L.REIM_FEE
-				  FROM ASSETS_RENT_F A,
-				       LEV_REQEST_F L
-				 WHERE 1 = 1
-				   AND A.PRT_AT_CODE = L.PRT_AT_CODE
-	                           AND A.MNG_YEAR = L.MNG_YEAR
-	                           AND A.MNG_NO = L.MNG_NO
-	                           AND A.MNG_CNT = L.MNG_CNT
-				   AND A.QUAY_GROUP_CD='H'
-			       AND L.PRT_AT_CODE = #prtAtCode#
+				'고지' BILL_TP,
+        R.FISCAL_YR,
+        R.WORK_CODE,
+        R.BILL_NO,
+        R.BILL_AMNT,
+        R.BILL_DT,
+        R.DUE_DATE,
+        R.RCVD_TP,
+        TO_CHAR(R.RCVD_DT, 'YYYY-MM-DD') RCVD_DT,
+        TO_CHAR(R.OCR_DT, 'YYYY-MM-DD') OCR_DT,
+        R.DEPT,
+        R.EMPL,
+        to_char(R.STR_DATE, 'YYYY-MM-DD') STR_DATE,
+        to_char(R.END_DATE, 'YYYY-MM-DD') END_DATE
+		  FROM LEV_REQEST_F L, REV_COLL_F R
+		 WHERE 1 = 1
+      AND L.PRT_AT_CODE=R.PRT_AT_CODE
+      AND L.ACCNUT_YEAR=R.FISCAL_YR
+      AND L.CHRGE_KND=R.WORK_CODE
+      AND L.NTICNO=R.BILL_NO
+     AND L.PRT_AT_CODE = #prtAtCode#
+	AND L.MNG_YEAR = #mngYear#
+	AND L.MNG_NO = #mngNo#
+	AND L.MNG_CNT = #mngCnt#
+     AND L.CHRGE_KND     = #chrgeKnd#
+    AND L.NTIC_CNT = #nticCnt#
+      union
+      SELECT '연체' BILL_TP,
+      U.FISCAL_YR,
+        U.WORK_CODE,
+        U.BILL_NO,
+        U.djiro_amnt bill_amnt,
+        u.dly_bill_dt bill_dt,
+        U.DLY_DUE_DT due_date,
+        U.DLY_RCVD_TP rcvd_tp,
+        TO_CHAR(U.DLY_RCVD_DT, 'YYYY-MM-DD') RCVD_DT,
+        TO_CHAR(U.OCR_DT, 'YYYY-MM-DD') ocr_dt,
+        U.DEPT dept,
+        U.EMPL empl,
+        '' STR_DATE,
+        '' END_DATE
+        FROM LEV_REQEST_F L, UNPAID_F U WHERE L.PRT_AT_CODE=U.PRT_AT_CODE AND L.ACCNUT_YEAR=U.FISCAL_YR AND L.CHRGE_KND=U.WORK_CODE AND L.NTICNO=U.BILL_NO
+              AND L.PRT_AT_CODE = #prtAtCode#
 			       AND L.MNG_YEAR = #mngYear#
 			       AND L.MNG_NO = #mngNo#
 			       AND L.MNG_CNT = #mngCnt#
                   AND L.CHRGE_KND     = #chrgeKnd#
-                ORDER BY L.NTIC_CNT ASC, L.NTIC_DT ASC
-             ) A
+                  AND L.NTIC_CNT = #nticCnt#
+                  ORDER BY BILL_DT
     </select>
 
     <select id="gamHtldRentFeeMngtDao.selectAssetRentFeeDetailMstPk_S" parameterClass="gamHtldRentFeeMngtVO" resultClass="egovMap">
 		SELECT
 				L.PRT_AT_CODE
-		       , GAM_GETCODENAME('GAM019', L.PRT_AT_CODE) PRT_AT_CODE_NM
 		       , L.MNG_YEAR
 		       , L.MNG_NO
 		       , L.MNG_CNT
 		        , L.NTIC_CNT
-		       , L.FCLTY_SE
 		       , L.CHRGE_KND
-		       , GAM_GETCODENAME('GAM053', L.CHRGE_KND) CHRGE_KND_NM
 		       , L.ENTRPSCD
 		       , L.ENTRPS_NM
 		       , TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
 		       , TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO
+		       , GAM_GETCODENAME('GAM053', L.CHRGE_KND) CHRGE_KND_NM
+		       , NVL(L.FEE,0) FEE
+		       , L.VAT_YN
+		       , NVL(L.VAT,0) VAT
+		       , NVL(L.REIM_FEE, 0) REIM_FEE
+		       , TO_CHAR(L.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT
+		       , L.NHT_ISUE_YN
+		       , NVL(L.NHT_PRINT_YN,'N') AS NHT_PRINT_YN
+		       , TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
+		       , NVL(L.NTIC_AMT,0) NTIC_AMT
+		       , NVL(L.ARRRG_AMT,0) ARRRG_AMT
+		       , NVL(L.INTR_AMNT,0) INTR_AMNT
+		       , L.RCIV_SE
+		       , TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
+		       , L.RM
+		       , L.NTIC_MTH
+		       , GAM_GETCODENAME('GAM008', L.NTIC_MTH) NTIC_MTH_NM
+		       , L.DEPTCD
+				, GAM_GETDEPTNAME(L.DEPTCD) DEPTCD_NM
+		       , L.REG_USR
+		       , TO_CHAR(L.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+		       , L.UPD_USR
+		       , TO_CHAR(L.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
+
 		       , L.ACCNUT_YEAR
 		       , L.NTICNO
-		       , TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
-		       , TO_CHAR(L.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT
 		       , L.SANCTN_STTUS
 		       , L.SANCTNER_EMPL_NO
 		       , TO_CHAR(L.SANCTN_DT, 'YYYY-MM-DD') SANCTN_DT
 		       , GAM_GETCODENAME('GAM046', L.SANCTN_STTUS) SANCTN_STTUS_NM
 		       , NVL(L.OLNLP,0) OLNLP
-		       , NVL(L.FEE,0) FEE
-		       , L.VAT_YN
-		       , NVL(L.VAT,0) VAT
-		       , NVL(L.NTIC_AMT,0) NTIC_AMT
-		       , L.RM
-		       , L.RCIV_SE
-		       , TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
-		       , L.NHT_ISUE_YN
-		       , NVL(L.NHT_PRINT_YN,'N') AS NHT_PRINT_YN
 		       , L.ARRRG_NO
-		       , NVL(L.ARRRG_AMT,0) ARRRG_AMT
 		       , L.ARRRG_TARIFF
 		       , L.ARRRG_PAY_DATES
-		       , L.DEPTCD
-		       , L.NTIC_MTH
-		       , GAM_GETCODENAME('GAM008', L.NTIC_MTH) NTIC_MTH_NM
-		       , L.REG_USR
-		       , TO_CHAR(L.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
-		       , L.UPD_USR
-		       , TO_CHAR(L.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
-				, GAM_GETDEPTNAME(L.DEPTCD) DEPTCD_NM
-		       , NVL(A.GR_FEE,0) GR_FEE
-		       , NVL(A.GR_AR,0) GR_AR
-		       , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
-		       , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
-		       , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
-		       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
-		       , NVL(L.REIM_FEE, 0) REIM_FEE
-		  FROM ASSETS_RENT_F A,
-		       LEV_REQEST_F L
+		       , L.PAYINST_INTRRATE
+		       , L.INTR_CHRGE_KND
+		       , L.INTR_FEE_NTICNO
+		  FROM LEV_REQEST_F L
 		 WHERE 1 = 1
-		   AND A.PRT_AT_CODE = L.PRT_AT_CODE
-                          AND A.MNG_YEAR = L.MNG_YEAR
-                          AND A.MNG_NO = L.MNG_NO
-                          AND A.MNG_CNT = L.MNG_CNT
-		   AND A.QUAY_GROUP_CD='H'
-	       AND L.PRT_AT_CODE = #prtAtCode#
+		   AND L.PRT_AT_CODE = #prtAtCode#
 	       AND L.MNG_YEAR = #mngYear#
 	       AND L.MNG_NO = #mngNo#
 	       AND L.MNG_CNT = #mngCnt#
@@ -1434,20 +1407,19 @@
     <select id="gamHtldRentFeeMngtDao.selectAssetRentFeeDetailSumPk_S" parameterClass="gamHtldRentFeeMngtVO" resultClass="egovMap">
          SELECT
                  COUNT(*) SUM_CNT
-               , SUM(DECODE(L.CHRGE_KND, 'A3', 0, 'A4', 0, 'D1', 0, 'D2', 0, L.FEE)) SUM_FEE
-                   	,SUM(DECODE(L.CHRGE_KND, 'A3', L.FEE, 0)) SUM_FEE_A3
-                   	,SUM(DECODE(L.CHRGE_KND, 'A4', L.FEE, 0)) SUM_FEE_A4
-                   	,SUM(DECODE(L.CHRGE_KND, 'D1', L.FEE, 0)) SUM_FEE_D1
-                   	,SUM(DECODE(L.CHRGE_KND, 'D2', L.FEE, 0)) SUM_FEE_D2
+               , SUM(L.FEE) SUM_FEE
+               , SUM(NVL(L.NTIC_AMT,0)) SUM_NTIC_AMT
+                   	,SUM(L.INTR_AMNT) SUM_FEE_A3
+                   	,SUM(L.ARRRG_AMT) SUM_FEE_D1
+                   	,SUM(L.REIM_FEE) SUM_FEE_D2
                 , SUM(NVL(L.NTIC_AMT, 0)) SUM_NHT_ISUE_AMT
                , SUM(NVL(L.VAT, 0)) SUM_VAT
-               , SUM(NVL(L.NTIC_AMT,0)) SUM_NTIC_AMT
           FROM ASSETS_RENT_F A, LEV_REQEST_F L
 		 WHERE 1 = 1
 		   AND A.PRT_AT_CODE = L.PRT_AT_CODE
-                          AND A.MNG_YEAR = L.MNG_YEAR
-                          AND A.MNG_NO = L.MNG_NO
-                          AND A.MNG_CNT = L.MNG_CNT
+			AND A.MNG_YEAR = L.MNG_YEAR
+			AND A.MNG_NO = L.MNG_NO
+			AND A.MNG_CNT = L.MNG_CNT
 		   AND A.QUAY_GROUP_CD='H'
 	       AND L.PRT_AT_CODE = #prtAtCode#
 	       AND L.MNG_YEAR = #mngYear#

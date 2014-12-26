@@ -999,7 +999,7 @@ public class GamHtldRentFeeMngtController {
      * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/htld/gamSelectHtldRentFeeMngtListDetail.do", method=RequestMethod.POST)
+    @RequestMapping(value="/oper/htld/selectHtldRentFeeDetailByPk.do", method=RequestMethod.POST)
 	public @ResponseBody Map gamSelectAssetRentFeeMngtListDetail(GamHtldRentFeeMngtVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
@@ -1022,8 +1022,8 @@ public class GamHtldRentFeeMngtController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		//자산임대상세
-    	List resultList = gamHtldRentFeeMngtService.selectAssetRentFeeDetailList(searchVO);
     	Map master = gamHtldRentFeeMngtService.selectAssetRentFeeDetailMstPk(searchVO);
+    	List resultList = gamHtldRentFeeMngtService.selectAssetRentFeeDetailList(searchVO);
     	Map summary = gamHtldRentFeeMngtService.selectAssetRentFeeDetailSumPk(searchVO);
 
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());

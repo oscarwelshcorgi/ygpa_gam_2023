@@ -36,7 +36,21 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         url: '/oper/htld/gamSelectHtldRentFeePaySttusMngtList.do',
         dataType: 'json',
         colModel : [
-					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
+    				{display:'관리번호', name:'rentMngNo',width:96, sortable:false,align:'center'},
+    				{display:'횟수', name:'nticCnt',width:50, sortable:false,align:'center'},
+    				{display:'고지업체명', name:'entrpsNm',width:200, sortable:false,align:'left'},
+    				{display:'요금종류명', name:'chrgeKndNm',width:180, sortable:false,align:'left'},
+    				{display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
+    				{display:'고지금액', name:'nticAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
+					{display:'납부기한', name:'payTmlmt',width:80, sortable:false,align:'center'},
+					{display:'수납구분', name:'rcivSeNm',width:80, sortable:false,align:'center'},
+					{display:'수납일자', name:'rcivDt',width:100, sortable:false,align:'center'}
+/*					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
+    				{display:'고지', name:'nhtIsueYn',width:50, sortable:false,align:'center'},
+    				{display:'출력', name:'nhtPrintYn',width:50, sortable:false,align:'center'},
+    				{display:'고지대상기간', name:'nticPdDate',width:160, sortable:false,align:'center'},
+    				{display:'사용료', name:'fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+    				{display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'항코드명', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
 					{display:'요금종류', name:'chrgeKnd',width:55, sortable:false,align:'center'},
 					{display:'요금종류명', name:'chrgeKndNm',width:100, sortable:false,align:'left'},
@@ -46,11 +60,9 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
 					{display:'고지업체명', name:'entrpsNm',width:140, sortable:false,align:'left'},
 					{display:'고지금액', name:'totalNticAmount',width:100, sortable:false,align:'right', displayFormat: 'number'},
 					{display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
-					{display:'납부기한', name:'payTmlmt',width:80, sortable:false,align:'center'},
                     {display:'사용료', name:'fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'number'},
-					{display:'수납구분', name:'rcivSeNm',width:55, sortable:false,align:'center'},
-					{display:'수납일자', name:'rcivDt',width:80, sortable:false,align:'center'}
+					*/
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -513,11 +525,16 @@ GamHtldRentFeePaySttusMngtModule.prototype.getDayInterval = function (fdate,tdat
   	return td-fd;
 };
 
+<%
+	/*
+	체납된 세율을 국세 징수법에 따라 계산 함.
+	*/
+%>
 GamHtldRentFeePaySttusMngtModule.prototype.calculateArrrgFee = function() {
 	 var fBasicRate = "" ;
 	 var strText = "" ;
 	// 연체료 계산
-	// console.log('arrrg calc');
+	console.log('arrrg calc');
 	var dlyBillDt = EMD.util.strToDate(this.$('#dlyBillDt').val());
 	var payTmlmt = EMD.util.strToDate(this.resultDetail.payTmlmt);
 
@@ -530,28 +547,32 @@ GamHtldRentFeePaySttusMngtModule.prototype.calculateArrrgFee = function() {
  		iTermDay   = 1800;
  	}
 
- 	// 연체기간 1개월 미만의 사용료 12%
+ 	// 연체기간 1개월 미만의 연체료는 고지 금액에 3%
+ 		fBasicRate = 0.03;
+	 this.fBasicRate = fBasicRate;
  	if(iTermMonth < 1){
- 		fBasicRate = 0.12;
- 		strText    = " 12%";
- 	}else if(iTermMonth < 3){
- 		// 연체기간 1개월 - 3개월 미만의 사용료 13%
- 		fBasicRate = 0.13;
- 		strText    = " 13%";
- 	}else if(iTermMonth < 6){
- 		// 연체기간 3개월 - 6개월 미만의 사용료 14%
- 		fBasicRate = 0.14;
- 		strText    = " 14%";
- 	}else{
- 		// 연체기간 6개월 - 60개월 까지의 사용료 15%
- 		fBasicRate = 0.15;
- 		strText    = " 15%";
+ 		strText    = " 3%";
+ 	 	// 산출내역 뿌려줌.
+ 	 	this.$('#dlyBillRsn').val("" + $.number(this.resultArrrg.billAmnt) + " * 3/100 ");
+ 	 	iDlyAmnt = Math.floor(this.resultArrrg.billAmnt * 0.3/10)*10;
+ 	} else{
+ 		strText    = " 3%";
+ 	 	// 산출내역 뿌려줌.
+ 	 	this.$('#dlyBillRsn').val("( " + $.number(this.resultArrrg.billAmnt) + " * 3/100 + ( " + $.number(this.resultArrrg.billAmnt) +" * 0.012 * " +iTermMonth-1 + " ) )");
+ 	 	iDlyAmnt = Math.floor((this.resultArrrg.billAmnt * 0.3+this.resultArrrg.billAmnt * 0.3*iTermMonth-1)/10 )*10;
  	}
  //alert("계산61==>"+iTermMonth+"::"+iTermDay+"::"+fBasicRate+"::"+strText);
-	 this.fBasicRate = fBasicRate;
- 	// 산출내역 뿌려줌.
- 	this.$('#dlyBillRsn').val("( " + $.number(this.resultArrrg.billAmnt) + " * " + fBasicRate + " * " + iTermDay + "/365 )");
- 	iDlyAmnt = Math.floor(parseInt(this.resultArrrg.billAmnt * fBasicRate * iTermDay / 365)/10)*10;
+ 	if(iTermMonth < 1){
+ 		strText    = " 3%";
+ 	 	// 산출내역 뿌려줌.
+ 	 	this.$('#dlyBillRsn').val("" + $.number(this.resultArrrg.billAmnt) + " * 3/100 ");
+ 	 	iDlyAmnt = Math.floor(this.resultArrrg.billAmnt * 0.3/10)*10;
+ 	} else{
+ 		strText    = " 3%";
+ 	 	// 산출내역 뿌려줌.
+ 	 	this.$('#dlyBillRsn').val("( " + $.number(this.resultArrrg.billAmnt) + " * 3/100 + ( " + $.number(this.resultArrrg.billAmnt) +" * 0.012 * " +iTermMonth-1 + " ) )");
+ 	 	iDlyAmnt = Math.floor((this.resultArrrg.billAmnt * 0.3+this.resultArrrg.billAmnt * 0.3*iTermMonth-1)/10 )*10;
+ 	}
 
  	this._iTermDay=iTermDay;
 
@@ -628,7 +649,11 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
                                 <button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
                             <th style="width: 70px">납부구분</th>
-                            <td><input id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025" data-default-prompt="전체" value="0" /></td>
+                            <td>
+                            	<select id="rcivSe">
+                            		<option value="N" selected>미납</option>
+                            		<option value="Y">수납</option>
+                            	</select>
                             <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
                         </tr>
 

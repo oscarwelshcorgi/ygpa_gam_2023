@@ -9,6 +9,7 @@
 
 	<properties>
 		<spring.maven.artifact.version>3.1.2.RELEASE</spring.maven.artifact.version>
+		<jackson.version>2.0.4</jackson.version>
 	</properties>
 
 	<repositories>
@@ -259,7 +260,7 @@
 			<artifactId>log4j</artifactId>
 			<version>1.3alpha-8</version>
 		</dependency>
-<!-- 
+<!--
 		<dependency>
 			<groupId>net.sf</groupId>
 			<artifactId>log4jdbc3</artifactId>
@@ -306,17 +307,17 @@
     <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
-        <version>2.2.2</version>
+        <version>${jackson.version}</version>
     </dependency>
     <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-annotations</artifactId>
-        <version>2.2.2</version>
+        <version>${jackson.version}</version>
     </dependency>
     <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-core</artifactId>
-        <version>2.2.2</version>
+        <version>${jackson.version}</version>
     </dependency>
 
 <!--
@@ -454,7 +455,7 @@
 			<artifactId>xercesImpl</artifactId>
 			<version>2.10.0</version>
 		</dependency>
-<!-- 
+<!--
 	<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-core</artifactId>
@@ -587,6 +588,14 @@
 		<artifactId>commons-httpclient</artifactId>
 		<version>3.1</version>
 	</dependency>
+
+	<dependency>
+    <groupId>org.imgscalr</groupId>
+    <artifactId>imgscalr-lib</artifactId>
+    <version>4.2</version>
+    <type>jar</type>
+  </dependency>
+
 	</dependencies>
 		<profiles>
 			<profile>

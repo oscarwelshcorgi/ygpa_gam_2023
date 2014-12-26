@@ -6,7 +6,7 @@
 <form-validation>
 
     <formset>
-        <form name="gamHtldRentMngtPhotoVld">
+        <form name="gamHtldRentMngtPhoto">
             <field property="photoSj" depends="maxlength">
                 <arg0 key="제목" resource="false"/>
                 <arg1 key="80" resource="false"/>

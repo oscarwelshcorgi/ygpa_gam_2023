@@ -98,9 +98,9 @@
         <form-login login-processing-url="/j_spring_security_check"
                     authentication-failure-url="/uat/uia/YGLoginUsr.do?login_error=1"
                     default-target-url="/main/gamMain.do"
-                    login-page="/uat/uia/YGLoginUsr.do" />
+                    login-page="/uat/uia/YGLoginNotFound.do" />
         <anonymous/>
-        <logout logout-url="/j_spring_security_logout" logout-success-url="/uat/uia/YGLoginUsr.do" />
+        <logout logout-url="/j_spring_security_logout" logout-success-url="/uat/uia/YGLogoutSucces.do" />
         <concurrent-session-control max-sessions="500" exception-if-maximum-exceeded="false" expired-url="/uat/uia/YGLoginUsr.do" />
     </http>
 

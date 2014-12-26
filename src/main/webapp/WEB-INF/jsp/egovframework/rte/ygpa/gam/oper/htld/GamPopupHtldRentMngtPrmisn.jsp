@@ -47,7 +47,7 @@ GamPopupPrtOperRentModule.prototype.onButtonClick = function(buttonId) {
 			var inputVO=this.makeFormArgs('#gamPopupPrmisnForm');
 
 	        //this.doAction('/oper/htld/gamInsertHtldRentMngtPrmisn.do', inputVO, function(module, result) {
-	        this.doAction('/oper/htld/gamUpdateHtldRentMngtPrmisn.do', inputVO, function(module, result) {
+	        this.doAction('/oper/htld/confirmHtldRentPrmisn.do', inputVO, function(module, result) {
 	            alert(result.resultMsg);
 
 	            module.closeDialog('ok', result.resultCode);
@@ -76,11 +76,12 @@ var popup_instance = new GamPopupPrtOperRentModule();
 <div class="dialog">
 	<div class="emdPanel">
 		<form id="gamPopupPrmisnForm">
-		    <input type="hidden" id="prtAtCode" value="<c:out value="${gamHtldRentMngtInfo.prtAtCode }"/>"/>
-		    <input type="hidden" id="mngYear" value="<c:out value="${gamHtldRentMngtInfo.mngYear }"/>"/>
-		    <input type="hidden" id="mngNo" value="<c:out value="${gamHtldRentMngtInfo.mngNo }"/>"/>
-		    <input type="hidden" id="mngCnt" value="<c:out value="${gamHtldRentMngtInfo.mngCnt }"/>"/>
-			<input type="hidden" id="taxtSe" value="<c:out value="${gamHtldRentMngtInfo.taxtSe }"/>"/>
+		    <input type="hidden" id="prtAtCode" value="<c:out value="${gamHtldRentMngtVO.prtAtCode }"/>"/>
+		    <input type="hidden" id="mngYear" value="<c:out value="${gamHtldRentMngtVO.mngYear }"/>"/>
+		    <input type="hidden" id="mngNo" value="<c:out value="${gamHtldRentMngtVO.mngNo }"/>"/>
+		    <input type="hidden" id="mngCnt" value="<c:out value="${gamHtldRentMngtVO.mngCnt }"/>"/>
+			<input type="hidden" id="quayGroupCd" value="<c:out value="${gamHtldRentMngtVO.quayGroupCd }"/>"/>
+			<input type="hidden" id="taxtSe" value="<c:out value="${gamHtldRentMngtVO.taxtSe }"/>"/>
 			<table class="searchPanel">
 				<tbody>
 					<tr>

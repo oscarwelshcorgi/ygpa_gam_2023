@@ -84,18 +84,6 @@ public class GamHtldUseExprInqireController {
 	@RequestMapping(value="/oper/htld/gamHtldUseExprInqire.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
-		//login정보
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-
-		//공시지가정보
-		GamHtldUseExprInqireVO gvo = new GamHtldUseExprInqireVO();
-//		List olnlpList = gamHtldUseExprInqireService.selectOlnlpInfo();
-
-//		model.addAttribute("olnlpList", olnlpList);
-		model.addAttribute("loginOrgnztId", loginVO.getOrgnztId());
-		model.addAttribute("loginUserId", loginVO.getId());
-		model.addAttribute("grUsagePdFromStr", EgovDateUtil.formatDate(EgovDateUtil.getToday(), "-"));
-		model.addAttribute("grUsagePdToStr",   EgovDateUtil.formatDate(EgovDateUtil.addYearMonthDay(EgovDateUtil.getToday(),0,1,0), "-"));
 		model.addAttribute("windowId", windowId);
 
     	return "/ygpa/gam/oper/htld/GamHtldUseExprInqire";

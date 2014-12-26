@@ -103,7 +103,7 @@ GamMenuCreatPopupModule.prototype.loadData = function() {
 			module.tree=new dhtmlXTreeObject(treeNode.attr('id'),"100%","100%",0);
 
 			module.tree.setSkin('dhx_skyblue');
-			module.tree.setImagePath("./js/codebase/imgs/dhxtree_skyblue/");
+			module.tree.setImagePath("<c:url value='/js/codebase/imgs/dhxtree_skyblue/'/>");
 			module.tree.enableCheckBoxes(1);
 			module.tree.enableThreeStateCheckboxes(true);
 			module.tree.loadJSArray(treeItems);

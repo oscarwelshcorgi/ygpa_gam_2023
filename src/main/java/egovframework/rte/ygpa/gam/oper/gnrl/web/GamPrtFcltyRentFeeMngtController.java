@@ -118,6 +118,8 @@ public class GamPrtFcltyRentFeeMngtController {
 		model.addAttribute("fcltySeCdList", fcltySeCdList);
 		model.addAttribute("rcivSeCdList", rcivSeCdList);*/
 		model.addAttribute("windowId", windowId);
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		model.addAttribute("loginId", loginVO.getId());
 
     	return "/ygpa/gam/oper/gnrl/GamPrtFcltyRentFeeMngt";
     }

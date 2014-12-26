@@ -653,7 +653,7 @@ ul.submenu li:hover ul {
 .ui-tabs .ui-tabs-panel {
 	display: block;
 	border-width: 0;
- 	padding: 0px 8px;
+ 	padding: 0px 8px 0px 0px;
 	background: none;
 }
 

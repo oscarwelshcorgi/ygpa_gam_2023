@@ -6,7 +6,7 @@
 <%
   /**
   * @Class Name : GamHtldPopupInqire.jsp
-  * @Description : 배후단지 정보현황알림
+  * @Description : 배후단지 임대현황 알림
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -25,42 +25,10 @@
  */
 function GamAssetLndValInqireModule() {}
 
-GamAssetLndValInqireModule.prototype = new EmdModule(585, 285);
+GamAssetLndValInqireModule.prototype = new EmdModule(500, 200);
 
 //페이지가 호출 되었을때 호출 되는 함수
 GamAssetLndValInqireModule.prototype.loadComplete = function() {
-
- // 테이블 설정 //
- this.$("#assetLndValInqireList").flexigrid({
-     module: this,
-     url: '/oper/htld/gamHtldPopupInqire.do',
-     dataType: 'json',
-     colModel : [
-                 {display:'GIS 자산 면적', name:'gisAssetsAr',width:100, sortable:false,align:'center'},
-                 {display:'공시지가', name:'olnlp',width:100, sortable:false,align:'center'},
-                 {display:'면적대비 공시지가', name:'arOlnlp',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 코드', name:'gisAssetsCd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 명', name:'gisAssetsNm',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 소재지', name:'gisAssetsLocplc',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 지번', name:'gisAssetsLnm',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 사용 여부', name:'gisAssetsUsageYn',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 취득가액', name:'gisAssetsAcqPri',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 규격', name:'gisAssetsStndrd',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 준공년도', name:'gisAssetsBlddate',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 준공 일자', name:'gisAssetsBldDt',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 비고', name:'gisAssetsRm',width:100, sortable:false,align:'center'},
-                 {display:'GIS 자산 실제 임대 면적', name:'gisAssetsRealRentAr',width:100, sortable:false,align:'center'},
-                 {display:'등록자', name:'regUsr',width:100, sortable:false,align:'center'},
-                 {display:'등록일자', name:'registdt',width:100, sortable:false,align:'center'},
-                 {display:'수정자', name:'updUsr',width:100, sortable:false,align:'center'},
-                 {display:'수정일자', name:'updtdt',width:100, sortable:false,align:'center'},
-                 ],
-     usepager: true,
-     useRp: true,
-     rp: 24,
-     showTableToggleBtn: false,
-     height: '290'
- });
  this.$('#chk').on('click', {module: this}, function(event) {
 		var d = new Date();
 		d.setDate(d.getDate()+1);
@@ -76,47 +44,18 @@ GamAssetLndValInqireModule.prototype.loadComplete = function() {
 GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
 
  switch(buttonId) {
-
-     // 조회
-     case 'searchBtn':
-         var searchOpt=this.makeFormArgs('#gamAssetLndValInqireSearchForm');
-         this.$('#assetLndValInqireList').flexOptions({params:searchOpt}).flexReload();
-
-         break;
-
      case 'btnHtldRent':
-    	 EMD.util.create_window('배후단지 목록 관리', '/oper/htld/gamHtldRentMngt.do', null);
+    	 EMD.util.create_window('배후단지 계약 관리', '/oper/htld/gamHtldRentMngt.do', null);
     	 break;
      case 'btnHtldFeeMngt':
-    	 EMD.util.create_window('배후단지 사용료 관리', '/oper/htld/gamHtldRentFeeMngt.do', null);
+    	 EMD.util.create_window('배후단지 임대료 관리', '/oper/htld/gamHtldRentFeeMngt.do', null);
     	 break;
      case 'btnHtldRentFeePayDtlsMngt':
-    	 EMD.util.create_window('배후단지 사용료납부관리', '/oper/htld/gamHtldRentFeePaySttusMngt.do', null);
+    	 EMD.util.create_window('배후단지 임대료 미납관리', '/oper/htld/gamHtldRentFeePaySttusMngt.do', null);
     	 break;
      case 'btnHtldUseExprInqire':
-    	 EMD.util.create_window('배후단지 만기도래자료조회', '/oper/htld/gamHtldUseExprInqire.do', null);
+    	 EMD.util.create_window('배후단지 계약만기도래조회', '/oper/htld/gamHtldUseExprInqire.do', null);
     	 break;
- }
-};
-
-GamAssetLndValInqireModule.prototype.onSubmit = function() {
- //this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
-
- this.loadData();
-};
-
-GamAssetLndValInqireModule.prototype.loadData = function() {
- var searchOpt=this.makeFormArgs('#gamAssetLndValInqireSearchForm');
- //this.showAlert(searchOpt);
- this.$('#assetLndValInqireList').flexOptions({params:searchOpt}).flexReload();
-};
-
-GamAssetLndValInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
- switch(newTabId) {
- case 'tabs1':
-     break;
- case 'tabs2':
-     break;
  }
 };
 
@@ -126,76 +65,40 @@ var module_instance = new GamAssetLndValInqireModule();
 <!-- 아래는 고정 -->
 <input type="hidden" id="window_id" value='${windowId}' />
 <div class="window_main">
-
-
-
     <div class="emdPanel fillHeight">
-        <div id="assetRentFeeListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
-            <ul>
-                <!--
-                <li><a href="#tabs1" class="emdTab">자산정보현황 목록</a></li>
-                <li><a href="#tabs2" class="emdTab">자산정보현황 상세</a></li>
-                 -->
-
-                <li><a href="#tabs1" class="emdTab">항만시설정보현황알림</a></li>
-            </ul>
-
-            <div id="tabs1" class="emdTabPage" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
-                <!--
-                <div style="width: 100%; height: 100%; overflow:auto">
-                        <table id="assetLndValInqireList" style="display:none"></table>
-                </div>
-                -->
-
-
-                <div class="emdControlPanel">
                     <table style="width:100%;" >
-                        <form id="form1">
                         <tr>
-                            <th>
-                                * 시설임대/사용신청 건수
-                            </th>
+				<th>* 임대 계약 신청 건수</th>
+				<td><input id="totalResultCnt1" size="10" readonly
+					value="<c:out value="${prmisnYnCnt}"/>"></td>
                             <td>
-                                <input id="totalResultCnt1" size="10" readonly value="<c:out value="${prmisnYnCnt}"/>">
-                            </td>
-                            <td>
-                                <button id="btnHtldRent">배후단지 목록 관리</button>
+					<button id="btnHtldRent">배후단지 계약 관리</button>
                             </td>
                         </tr>
                         <tr>
-                            <th>
-                                * 고지도래자료 건수
-                            </th>
+				<th>* 고지도래자료 건수</th>
+				<td><input id="totalResultCnt2" size="10" readonly
+					value="<c:out value="${nticPdCnt}"/>"></td>
                             <td>
-                                <input id="totalResultCnt2" size="10" readonly value="<c:out value="${nticPdCnt}"/>">
-                            </td>
-                            <td>
-                                <button id="btnHtldFeeMngt">배후단지 사용료고지 관리</button>
+					<button id="btnHtldFeeMngt">배후단지 임대료 고지</button>
                             </td>
                         </tr>
                         <tr>
-                            <th>
-                                * 미수납자료 건수
-                            </th>
+				<th>* 미수납자료 건수</th>
+				<td><input id="totalResultCnt3" size="10" readonly
+					value="<c:out value="${nhtIsueCnt}"/>"></td>
                             <td>
-                                <input id="totalResultCnt3" size="10" readonly value="<c:out value="${nhtIsueCnt}"/>">
-                            </td>
-                            <td>
-                                <button id="btnHtldRentFeePayDtlsMngt">배후단지 사용료납부관리</button>
+					<button id="btnHtldRentFeePayDtlsMngt">배후단지 임대료 미납관리</button>
                             </td>
                         </tr>
                         <tr>
-                            <th>
-                                * 계약만료자료 건수
-                            </th>
+				<th>* 계약만기 도래자료 건수</th>
+				<td><input id="totalResultCnt4" size="10" readonly
+					value="<c:out value="${rcivSeCnt}"/>"></td>
                             <td>
-                                <input id="totalResultCnt4" size="10" readonly value="<c:out value="${rcivSeCnt}"/>">
-                            </td>
-                            <td>
-                                <button id="btnHtldUseExprInqire">배후단지 만기도래자료조회</button>
+					<button id="btnHtldUseExprInqire">배후단지 계약만기도래 조회</button>
                             </td>
                         </tr>
-                        </form>
                     </table>
                 </div>
 				<form>
@@ -204,5 +107,3 @@ var module_instance = new GamAssetLndValInqireModule();
 					</div>
 				</form>
             </div>
-    </div>
-</div>

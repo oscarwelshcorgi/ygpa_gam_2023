@@ -40,21 +40,23 @@ GamAssetCodePopupModule.prototype.loadComplete = function() {
 		//dataType: "json",
 		colModel : [
 					{display:"순번", 					name:"rnum", 				width:40, 	sortable:true, align:"center"},
-					{display:"항코드", 					name:"gisAssetsPrtAtCode",	width:60, 	sortable:true, align:"center"},
-					{display:"항코드명",                name:"gisAssetsPrtAtCodeNm",  width:60,   sortable:true, align:"center"},
+					{display:"항구분", 					name:"prtAtCodeName",	width:60, 	sortable:true, align:"center"},
 					{display:"자산코드", 				name:"gisAssetsCode", 		width:60, 	sortable:true, align:"center"},
 					{display:"자산명", 					name:"gisAssetsNm", 		width:120, 	sortable:true, align:"center"},
-					{display:"소재지", 					name:"gisAssetsLocplc", 	width:180, 	sortable:true, align:"center"},
+					{display:"소재지", 					name:"gisAssetsLocplcAll", 	width:180, 	sortable:true, align:"center"},
 					{display:"사용여부",					name:"gisAssetsUsageYn",	width:80, 	sortable:true, align:"center"}
 					],
 		height: '300',
 		preProcess: function(module, data) {
 			$.each(data.resultList, function() {
-				if(this.gisAssetsLocplc==null) this.gisAssetsLocplc="";
-				if(this.gisAssetsLnm!=undefined && this.gisAssetsLnm!=null) this.gisAssetsLocplc+=" "+this.gisAssetsLnm;
+				this.gisAssetsLocplcAll=this.gisAssetsLocplc;
+				if(this.gisAssetsLnm!=undefined && this.gisAssetsLnm!=null) {
+					this.gisAssetsLocplcAll+=" "+this.gisAssetsLnm;
 				if(this.gisAssetsLnmSub!=undefined && this.gisAssetsLnmSub!=null) {
-					this.gisAssetsLocplc = this.gisAssetsLocplc+"-"+this.gisAssetsLnmSub;
+						this.gisAssetsLocplcAll = this.gisAssetsLocplcAll+"-"+this.gisAssetsLnmSub;
 				}
+				}
+				this.prtAtCodeName=this.gisAssetsPrtAtCodeNm+" ["+this.gisAssetsPrtAtCode+"]"
 			});
 			return data;
 		}
@@ -65,7 +67,7 @@ GamAssetCodePopupModule.prototype.loadComplete = function() {
 		module.closeDialog("ok", row);
 	});
 
-	// console.log('load complete');
+	console.log('load complete');
 };
 
 

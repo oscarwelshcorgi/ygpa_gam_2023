@@ -36,40 +36,28 @@ GamHtldNticArrvlDtaInqireModule.prototype.loadComplete = function() {
         url: '/oper/htld/gamSelectHtldNticArrvlDtaInqireList.do',
         dataType: 'json',
         colModel : [
-					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
-					{display:'항코드명', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
-					{display:'관리번호', name:'rentMngNo',width:80, sortable:false,align:'center'},
-					{display:'요금종류', name:'chrgeKnd',width:55, sortable:false,align:'center'},
+    				{display:'관리번호', name:'rentMngNo',width:96, sortable:false,align:'center'},
+    				{display:'횟수', name:'nticCnt',width:30, sortable:false,align:'center'},
+    				{display:'고지업체명', name:'entrpsNm',width:140, sortable:false,align:'left'},
 					{display:'요금종류명', name:'chrgeKndNm',width:100, sortable:false,align:'left'},
-					{display:'회계년도', name:'accnutYear',width:55, sortable:false,align:'center'},
-					{display:'고지번호', name:'nticno',width:55, sortable:false,align:'center'},
-					{display:'고지횟수', name:'nticCnt',width:55, sortable:false,align:'center'},
+    				{display:'고지', name:'nhtIsueYn',width:30, sortable:false,align:'center'},
+    				{display:'출력', name:'nhtPrintYn',width:30, sortable:false,align:'center'},
+    				{display:'고지금액', name:'nticAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
+    				{display:'결재상태', name:'sanctnSttusNm',width:60, sortable:false,align:'center'},
 					{display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
-					{display:'고지업체', name:'entrpscd',width:80, sortable:false,align:'center'},
-					{display:'고지업체명', name:'entrpsNm',width:100, sortable:false,align:'left'},
-					{display:'사용료', name:'fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
-					{display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'number'},
-					{display:'과세구분', name:'vatYn',width:55, sortable:false,align:'center'},
-					{display:'고지금액', name:'nticAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
-					{display:'사용시작일', name:'nticPdFrom',width:80, sortable:false,align:'center'},
-					{display:'사용종료일', name:'nticPdTo',width:80, sortable:false,align:'center'},
-					{display:'고지방법', name:'nticMthNm',width:55, sortable:false,align:'center'},
-					{display:'신청구분', name:'reqstSeCdNm',width:55, sortable:false,align:'center'},
-					{display:'총면적', name:'grAr',width:100, sortable:false,align:'right', displayFormat: 'number'},
-					{display:'총사용료', name:'grFee',width:100, sortable:false,align:'right', displayFormat: 'number'},
-					{display:'신청일자', name:'reqstDt',width:80, sortable:false,align:'center'},
-					{display:'최초신청일자', name:'frstReqstDt',width:80, sortable:false,align:'center'},
-					{display:'최초승낙일자', name:'frstPrmisnDt',width:80, sortable:false,align:'center'},
-					{display:'승낙일자', name:'prmisnDt',width:80, sortable:false,align:'center'},
-					{display:'총사용시작일', name:'grUsagePdFrom',width:80, sortable:false,align:'center'},
-					{display:'총사용종료일', name:'grUsagePdTo',width:80, sortable:false,align:'center'},
-					{display:'총감면사용료', name:'grRdcxptFee',width:100, sortable:false,align:'right', displayFormat: 'number'}
+    				{display:'사용기간', name:'grUsagePd',width:140, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
             module.$('#totalResultCnt').text(data.totalCount);
             module.$('#totalNticAmt').text(data.totalNticAmt);
+
+        	$.each(data.resultList, function() {
+        		this.nticPdDate = this.nticPdFrom+ '~'+ this.nticPdTo;
+        		this.grUsagePd = this.grUsagePdFrom+ '~'+ this.grUsagePdTo;
+        	});
+
             return data;
         }
     });

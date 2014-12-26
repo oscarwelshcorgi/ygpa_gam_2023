@@ -267,7 +267,7 @@ table.detailPanel {
 overflow: hidden;
 }
 
-input[type="text"]:disabled { color: #000; background-color: white; border-style: none none solid; }
+input[type="text"]:disabled { color: #000; background-color: white; border-style: none; }
 select:disabled, textarea:disabled { color: #000; background-color: #ebebe4; border-style: dotted; }
 
 .prtFcltyInfo div {

@@ -34,22 +34,13 @@ GamHtldUseExprInqireModule.prototype.loadComplete = function() {
         url: '/oper/htld/gamSelectHtldUseExprInqireList.do',
         dataType: 'json',
         colModel : [
-					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
-                    {display:'항코드명', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
-                    {display:'관리번호', name:'rentMngNo',width:80, sortable:false,align:'center'},
-                    {display:'신청업체', name:'entrpscd',width:80, sortable:false,align:'center'},
-                    {display:'신청업체명', name:'entrpsNm',width:100, sortable:false,align:'left'},
-                    {display:'신청구분', name:'reqstSeCdNm',width:55, sortable:false,align:'center'},
-                    {display:'고지방법', name:'nticMthNm',width:55, sortable:false,align:'center'},
-                    {display:'총면적', name:'grAr',width:100, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'총사용료', name:'grFee',width:100, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'신청일자', name:'reqstDt',width:80, sortable:false,align:'center'},
-                    {display:'최초신청일자', name:'frstReqstDt',width:80, sortable:false,align:'center'},
-                    {display:'최초승낙일자', name:'frstPrmisnDt',width:80, sortable:false,align:'center'},
-                    {display:'승낙일자', name:'prmisnDt',width:80, sortable:false,align:'center'},
-                    {display:'총사용시작일', name:'grUsagePdFrom',width:80, sortable:false,align:'center'},
-                    {display:'총사용종료일', name:'grUsagePdTo',width:80, sortable:false,align:'center'},
-                    {display:'총감면사용료', name:'grRdcxptFee',width:100, sortable:false,align:'right', displayFormat: 'number'}
+					{display:'구역', name:'rentArea',width:82, sortable:false,align:'center'},
+                    {display:'관리번호', name:'rentMngNo',width:82, sortable:false,align:'center'},
+                    {display:'업체명', name:'entrpsNm',width:250, sortable:false,align:'left'},
+                    {display:'입주면적', name:'grAr',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'계약기간', name:'grUsagePdPeriod',width:200, sortable:false,align:'center'},
+                    {display:'운영연월', name:'operYrMt',width:82, sortable:false,align:'center'},
+                    {display:'취급화종', name:'frghtTp',width:82, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -71,7 +62,9 @@ GamHtldUseExprInqireModule.prototype.loadComplete = function() {
     });
 
 	this.$("#sGrUsagePdFrom").val(EMD.util.getDate());
-	this.$("#sGrUsagePdTo").val(EMD.util.getDate());
+	var td = EMD.util.getDate();
+	td.setMonth(td.getMonth());
+	this.$("#sGrUsagePdTo").val(EMD.util.getDate(td));
 };
 
 GamHtldUseExprInqireModule.prototype.loadUseList = function() {
@@ -194,41 +187,29 @@ var module_instance = new GamHtldUseExprInqireModule();
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>
-                            <th>항코드</th>
-                            <td>
-                                <input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM019 />
-                            </td>
                             <th>관리번호</th>
                             <td>
                                 <input id="sMngYear" type="text" class="mngYear">
                                 <input id="sMngNo" type="text" class="mngNo">
                                 <input id="sMngCnt" type="text" class="mngCnt">
                             </td>
-                            <th>신청업체</th>
-                            <td>
-                            	<input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;
-                            	<input id="sEntrpsNm" type="text" size="25" disabled="disabled">&nbsp; &nbsp;
-                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
-                            </td>
-                            <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
-                        </tr>
-                        <tr>
-                            <th>신청구분</th>
-                            <td width="100px">
-                                <input id="sReqstSeCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id=GAM011 />
-                            </td>
                             <th>만기도래기간</th>
                             <td>
                             <input id="sGrUsagePdFrom" type="text" class="emdcal"
-                                size="8" value="<c:out value="${grUsagePdFromStr}"/>" readonly> ~ <input id="sGrUsagePdTo" type="text"
-                                class="emdcal" size="8" value="<c:out value="${grUsagePdToStr}"/>" readonly>
+                                size="8" readonly> ~ <input id="sGrUsagePdTo" type="text"
+                                class="emdcal" size="8" readonly>
                             </td>
-                            <th>자산코드</th>
+                            <th>신청업체</th>
                             <td>
-                                <input id="searchAssetsCd" type="text" size="8">&nbsp;-&nbsp; 
-                                <input id="searchAssetsSubCd" type="text" size="7">&nbsp;　　　　　　　　&nbsp; 
-                                <button id="popupGisCode" class="popupButton">선택</button>
+                            <!--
+                            	<input id="sEntrpscd" type="text" size="10">
+                            	 -->
+                            	<input id="sEntrpsNm" type="text" size="20">
+                            	<!--
+                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
+                            	 -->
                             </td>
+                            <td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
                         </tr>
                     </tbody>
                 </table>

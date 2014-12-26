@@ -8,14 +8,14 @@
   * @Class Name : GamAssetCodeMngt.jsp
   * @Description : 자산코드관리
   * @Modification Information
-  * 
-  *   수정일         수정자                   수정내용 
+  *
+  *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
   *  2014.02.03  kok          최초 생성
   *
   * author kok
   * since 2014.02.03
-  *  
+  *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
@@ -30,16 +30,17 @@ GamAssetCodeModule.prototype = new EmdModule();
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAssetCodeModule.prototype.loadComplete = function() {
 	this.$('#prtAtCode').val('820');	// 기본 항코드 설정
-	
+
 	this.$('#submitButton').button().click({parent: this}, function(event) {
 		event.data.parent.onSubmit();
 	});
-	
+
 	// 테이블 설정
 	this.$("#assetCodeList").flexigrid({
 		url: '/code/mngt/selectAssetCodeList.do',
 		dataType: 'json',
 		colModel : [
+					{display:'선택', 			name:'CHK_ROLE',					width:60, 		sortable:false,		align:'center', displayFormat: 'checkbox'},
 					{display:'항코드', 			name:'PRT_AT_CODE',					width:60, 		sortable:false,		align:'center'},
 					{display:'자산Sub 코드', 	name:'GIS_ASSETS_SUB_CD',			width:200,		sortable:false,		align:'center'},
 					{display:'부서구분 코드', 	name:'ASSETS_RENT_DEPT_SE_CD',		width:200, 		sortable:false,		align:'center'},
@@ -56,7 +57,7 @@ GamAssetCodeModule.prototype.loadComplete = function() {
 		showTableToggleBtn: false,
 	});
 };
-		
+
 // 사용자 설정 함수 추가
 // 아래 함수는 인라인에서 module_instance.함수명 으로 호출 한다.
 GamAssetCodeModule.prototype.showModuleAlert = function(msg) {
@@ -88,7 +89,7 @@ GamAssetCodeModule.prototype.onSubmit = function() {
 GamAssetCodeModule.prototype.loadData = function() {
 	var searchOpt=this.makeFormArgs('#searchForm');
 	//this.showAlert(searchOpt);
- 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload(); 
+ 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 //	this.$('#assetList').flexOptions(searchOpt).flexReload();
 }
 

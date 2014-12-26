@@ -36,27 +36,18 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         url: '/oper/htld/gamSelectHtldRentFeeMngtList.do',
         dataType: 'json',
         colModel : [
-//				{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
-//				{display:'항코드명', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
 				{display:'관리번호', name:'rentMngNo',width:96, sortable:false,align:'center'},
-				{display:'횟수', name:'nticCnt',width:30, sortable:false,align:'center'},
-				{display:'고지업체', name:'entrpscd',width:80, sortable:false,align:'center'},
+				{display:'횟수', name:'nticCnt',width:50, sortable:false,align:'center'},
 				{display:'고지업체명', name:'entrpsNm',width:140, sortable:false,align:'left'},
 				{display:'고지대상기간', name:'nticPdDate',width:160, sortable:false,align:'center'},
-				{display:'요금', name:'chrgeKnd',width:30, sortable:false,align:'center'},
 				{display:'요금종류명', name:'chrgeKndNm',width:100, sortable:false,align:'left'},
-				{display:'고지', name:'nhtIsueYn',width:30, sortable:false,align:'center'},
-				{display:'출력', name:'nhtPrintYn',width:30, sortable:false,align:'center'},
+				{display:'고지', name:'nhtIsueYn',width:50, sortable:false,align:'center'},
+				{display:'출력', name:'nhtPrintYn',width:50, sortable:false,align:'center'},
+				{display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
+				{display:'고지금액', name:'nticAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
 				{display:'사용료', name:'fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
 				{display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'number'},
-				{display:'고지금액', name:'nticAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
-				{display:'결재상태', name:'sanctnSttusNm',width:60, sortable:false,align:'center'},
-				{display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
-				{display:'고지번호', name:'nticno',width:60, sortable:false,align:'center'},
-				{display:'부서명', name:'deptcdNm',width:100, sortable:false,align:'left'},
-				{display:'사용면적', name:'grAr',width:80, sortable:false,align:'right', displayFormat: 'number'},
-				{display:'사용기간', name:'grUsagePd',width:140, sortable:false,align:'center'},
-				{display:'허가일자', name:'prmisnDt',width:80, sortable:false,align:'center'}
+				{display:'결재상태', name:'sanctnSttusNm',width:60, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -374,6 +365,12 @@ GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
     case 'tabs1':
         break;
     case 'tabs2':
+    	this.loadDetail();
+		break;
+    }
+};
+
+GamAssetRentFeeMngtModule.prototype.loadDetail = function() {
     	var row = this.$('#assetRentFeeList').selectedRows()[0];
 
 		var nticDetail = [
@@ -384,13 +381,8 @@ GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		               { name: 'nticCnt', value: row.nticCnt },
 		               { name: 'chrgeKnd', value: row.chrgeKnd }
 		             ];
-		this.doAction('/oper/htld/gamSelectHtldRentFeeMngtListDetail.do', nticDetail, function(module, result) {
+	this.doAction('/oper/htld/selectHtldRentFeeDetailByPk.do', nticDetail, function(module, result) {
 			if (result.resultCode == "0") {
-				/*
-				if(result.resultMaster.nhtIsueYn == 'N'){
-					result.resultMaster.payTmlmt = EMD.util.getDate(EMD.util.addDates(15));
-				}
-				*/
 				if(result.resultMaster.payTmlmt==null) {
 					result.resultMaster.payTmlmt = EMD.util.getDate(EMD.util.addDates(15));
 				}
@@ -411,12 +403,13 @@ GamAssetRentFeeMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			}
 		});
     }
-};
 
+<%
 //팝업이 종료 될때 리턴 값이 오출 된다.
 //popupId : 팝업 대화상자 아이디
 //msg : 팝업에서 전송한 메시지 (취소는 cancel)
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
+%>
 GamAssetRentFeeMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
     case 'selectEntrpsInfoFeePopup':
@@ -470,10 +463,6 @@ var module_instance = new GamAssetRentFeeMngtModule();
                                 <input id="sMngNo" type="text" class="mngNo" style="width: 25px">
                                 <input id="sMngCnt" type="text" class="mngCnt" style="width: 20px">
                             </td>
-                            <th>고지횟수</th>
-                            <td width="100px">
-                         		<input id="sNticCnt" type="text" size="5"/>
-                            </td>
                             <th>신청업체</th>
                             <td>
                                 <input type="text" size="6" id="sEntrpscd" maxlength="10"/>
@@ -483,10 +472,6 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
                         </tr>
                         <tr>
-                            <th>결재여부</th>
-                            <td width="100px">
-                         		<input id="sanctnSttus" class="ygpaCmmnCd" data-code-id="GAM046" data-default-prompt="전체" data-column-id="sanctnSttus" />
-                            </td>
                         	<th>고지여부</th>
                             <td width="100px">
                          		<input id="sNhtIsueYn" class="ygpaYnSelect" data-default-prompt="전체" data-column-id="sNhtIsueYn" />
@@ -495,10 +480,10 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             <td width="100px">
                          		<input id="sNticMth" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM008" data-column-id="sNticMth" />
                             </td>
-                            <th>사용시작일자</th>
+                            <th>고지일자</th>
                             <td>
-                            	<input id="sUsagePdFrom" type="text" class="emdcal" size="10"> ~
-                            	<input id="sUsagePdTo" type="text" class="emdcal" size="10">
+                            	<input id="sNticPdFrom" type="text" class="emdcal" size="10"> ~
+                            	<input id="sNticPdTo" type="text" class="emdcal" size="10">
                             </td>
                         </tr>
                 </table>
@@ -586,36 +571,24 @@ var module_instance = new GamAssetRentFeeMngtModule();
                    	<input type="hidden" data-column-id="mngCnt"/>
                    	<input type="hidden" data-column-id="nticCnt"/>
                    	<input type="hidden" data-column-id="chrgeKnd"/>
-                    <table id="masterFeeInfo" class="detailPanel">
+                    <table id="masterFeeInfo" class="detailPanel" style="width:100%;">
                         <tr>
-                        	<th style="width: 100px"><span class="label">항구분</span></th>
-                            <td style="width: 180px"><span class="ygpaCmmnCd" data-code-id="GAM019" data-column-id="prtAtCode"></span> (<span data-column-id="prtAtCode"></span>)</td>
-                            <th style="width: 100px"><span class="label">회계년도</span></th>
-                            <td style="width: 70px"><span data-column-id="accnutYear"></span></td>
                             <th style="width: 100px"><span class="label">고지횟수</span></th>
                             <td style="width: 70px"><span data-column-id="nticCnt"></span></td>
-                            <th style="width: 100px"><span class="label">고지번호</span></th>
-                            <td style="width: 120px"><span data-column-id="nticno"></span></td>
-                        </tr>
-                        <tr>
-                        	<th><span class="label">총사용기간</span></th>
+                        	<th><span class="label">업체</span></th>
                             <td>
-                            	<span data-column-id="grUsagePdFrom"></span>~
-                            	<span data-column-id="grUsagePdTo"></span>
+                            	<span data-column-id="entrpsNm"></span> (<span data-column-id="entrpscd"></span>)
                             </td>
-                            <th><span class="label">총사용면적</span></th>
-                            <td colspan="3"><span data-column-id="grAr"></span> m²</td>
-                        	<th><span class="label">총사용료</span></th>
-                            <td style="text-align:right;"><span data-column-id="grFee" class="ygpaNumber"></span> 원</td>
+                        	<th><span class="label">고지대상기간</span></th>
+                            <td colspan="3">
+                            	<span data-column-id="nticPdFrom"></span>~
+                            	<span data-column-id="nticPdTo"></span>
+                            </td>
                         </tr>
                         <tr>
                         	<th><span class="label">요금종류</span></th>
-                            <td>
-                            	<span data-column-id="chrgeKndNm"></span> (<span data-column-id="chrgeKnd"></span>)
-                            </td>
-                        	<th><span class="label">업체</span></th>
                             <td colspan="3">
-                            	<span data-column-id="entrpsNm"></span> (<span data-column-id="entrpscd"></span>)
+                            	<span data-column-id="chrgeKndNm"></span>
                             </td>
                         	<th><span class="label">사용료</span></th>
                             <td style="text-align:right;"><input data-column-id="fee" class="ygpaNumber" size="11"/> 원</td>
@@ -626,43 +599,23 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             	<span data-column-id="vatYn" class="ygpaCmmnCd" data-code-id="GAM016"></span>
                             </td>
                         	<th><span class="label">부가세</span></th>
-                            <td colspan="3">
+                            <td>
                             	<span data-column-id="vat" class="ygpaNumber"></span> 원
                             </td>
                         	<th><span class="label">변상금</span></th>
                             <td style="text-align:right;"><input data-column-id="reimFee" class="ygpaNumber" size="11"/> 원</td>
-                        </tr>
-                        <tr>
-                            <th><span class="label">고지기간</span></th>
-                            <td>
-                            	<span data-column-id="nticPdFrom"></span>~
-                            	<span data-column-id="nticPdTo"></span>
-                            </td>
-                            <th><span class="label">결재구분/결재일</span></th>
-                            <td colspan="3">
-                            	<span data-column-id="sanctnSttusNm"></span>/
-                            	<span data-column-id="sanctnDt"></span>
-                            </td>
-                            <th><span class="label">결재자</span></th>
-                            <td><span data-column-id="sanctnerEmplNo"></span></td>
-                        </tr>
-                        <tr>
-                            <th><span class="label">고지여부</span></th>
-                            <td><span data-column-id="nhtIsueYn" class="ygpaYnSelect" data-y-prompt="고지" data-n-prompt="미고지"></span></td>
-                            <th><span class="label">고지일자</span></th>
-                            <td colspan="3"><span data-column-id="nticDt"></span></td>
-                        	<th><span class="label">고지금액</span></th>
-                            <td style="text-align:right;" colspan="3"><span data-column-id="nticAmt" class="ygpaNumber"></span> 원</td>
-                        </tr>
-                        <tr>
                             <th><span class="label">납부기한일자</span></th>
-                            <td><input id="payTmlmt" data-column-id="payTmlmt" class="emdcal" /></td>
-                        	<th><span class="label">수납구분</span></th>
-                            <td><span data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025"></span></td>
+                            <td><input id="payTmlmt" data-column-id="payTmlmt" class="emdcal" size="8" /></td>
+                        </tr>
+                        <tr>
                         	<th><span class="label">고지서출력여부</span></th>
                             <td><span data-column-id="nhtPrintYn" ></span></td>
+                        	<th><span class="label">최종고지일자</span></th>
+                            <td><span data-column-id="nticDt"></span></td>
+                        	<th><span class="label">수납구분</span></th>
+                            <td><span data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025"></span></td>
                             <th><span class="label">수납일자</span></th>
-                            <td colspan="5"><span data-column-id="rcivDt"></span></td>
+                            <td><span data-column-id="rcivDt"></span></td>
                         </tr>
                    		<tr>
                    			<th>비고</th>
@@ -677,7 +630,6 @@ var module_instance = new GamAssetRentFeeMngtModule();
 					<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th width="40%">사용료목록</th>
 							<th style="text-align:right">
 								<button id="btnEApproval2">결재요청</button>
 								<button id="btnExecNticIssue2">고지</button>
@@ -690,13 +642,11 @@ var module_instance = new GamAssetRentFeeMngtModule();
 						</tr>
 					</tbody>
 					</table>
-<!--
-					<h2>전체 사용료 목록</h2>
- -->
+					<h2>고지내역</h2>
                		<table class="detailPanel">
                     	<thead>
                     		<tr>
-	                            <th style="text-align:center; width: 50px"><span class="label">회차</span></th>
+	                            <th style="text-align:center; width: 50px"><span class="label">고지구분</span></th>
 	                            <th style="text-align:center; width: 70px"><span class="label">회계년도</span></th>
 	                            <th style="text-align:center; width: 70px"><span class="label">고지번호</span></th>
 	                        	<th style="text-align:center; width: 150px"><span class="label">요금종류</span></th>
@@ -709,14 +659,14 @@ var module_instance = new GamAssetRentFeeMngtModule();
                     	</thead>
                     	<tbody id="detailFeeInfo" >
                     		<tr>
-	                            <td style="text-align:center;"><span data-column-id="nticCnt"></span></td>
-	                            <td style="text-align:center;"><span data-column-id="accnutYear"></span></td>
-	                            <td style="text-align:center;"><span data-column-id="nticno"></span></td>
-	                            <td style="text-align:left;"><span data-column-id="chrgeKndNm"></span> (<span data-column-id="chrgeKnd"></span>)</td>
-	                            <td style="text-align:right;"><span data-column-id="fee" class="ygpaNumber"> 원</span></td>
-	                            <td style="text-align:center;"><span data-column-id="nticDt"></span></td>
-	                            <td style="text-align:center;"><span data-column-id="payTmlmt"></span></td>
-		                        <td style="text-align:center;"><span data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025"></span></td>
+	                            <td style="text-align:center;"><span data-column-id="BILL_TP"></span></td>
+	                            <td style="text-align:center;"><span data-column-id="FISCAL_YR"></span></td>
+	                            <td style="text-align:center;"><span data-column-id="WORK_CODE"></span></td>
+	                            <td style="text-align:left;"><span data-column-id="BILL_NO"></span> (<span data-column-id="chrgeKnd"></span>)</td>
+	                            <td style="text-align:right;"><span data-column-id="BILL_AMNT" class="ygpaNumber"> 원</span></td>
+	                            <td style="text-align:center;"><span data-column-id="BILL_DT"></span></td>
+	                            <td style="text-align:center;"><span data-column-id="dueDate"></span></td>
+		                        <td style="text-align:center;"><span data-column-id="rcvdTp" class="ygpaCmmnCd" data-code-id="GAM025"></span></td>
 	                            <td style="text-align:center;"><span data-column-id="rcivDt"></span></td>
                             </tr>
                     	</tbody>

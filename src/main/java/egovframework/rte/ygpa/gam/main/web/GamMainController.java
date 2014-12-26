@@ -112,4 +112,14 @@ public class GamMainController {
     	return "validator";
     }
 
+    @RequestMapping(value="/code404.do")
+    String code404(ModelMap model) throws Exception {
+    	return "ygpa/gam/main/error404";
+    }
+
+    @RequestMapping(value="/code500.do")
+    String code500(ModelMap model) throws Exception {
+    	return "ygpa/gam/main/error500";
+    }
+
 }

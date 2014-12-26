@@ -38,24 +38,21 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 		module: this,
 		url: '/code/assets/selectGisAssetCodeList.do',
 		colModel : [
-			{display:'항코드', name:'gisAssetsPrtAtCode', width:40, sortable:false, align:'center'},
-			{display:'항코드명', name:'prtAtCodeNm', width:55, sortable:false, align:'center'},
+			{display:'선택<div id="'+this.getId('title_chkRole')+'" style="padding-right:3px"></div>',name:'chkRole', width:40, sortable:false, align:'center', displayFormat: 'checkbox'},
+			{display:'항구분', name:'prtAtNm', width:75, sortable:false, align:'center'},
 			{display:'자산코드', name:'assetCode', width:60, sortable:false, align:'center'},
 			{display:'자산명', name:'gisAssetsNm', width:180, sortable:false, align:'left'},
-			{display:'재산', name:'gisAssetsPrprtyNm', width:80, sortable:false, align:'center'},
-			{display:'위치', name:'gisAssetsLocNm', width:80, sortable:false, align:'center'},
-			{display:'부두', name:'gisAssetsQuayNm', width:80, sortable:false, align:'center'},
-			{display:'소재지', name:'gisAssetsLocplc', width:180, sortable:false, align:'left'},
-			{display:'지번', name:'lotcode', width:50, sortable:false, align:'center'},
-			{display:'면적', name:'gisAssetsAr', width:80, sortable:false, align:'right', displayFormat: 'number'},
+			{display:'재산', name:'gisAssetsPrprtyNm', width:48, sortable:false, align:'center'},
+			{display:'위치', name:'gisAssetsLocNm', width:110, sortable:false, align:'center'},
+			{display:'부두', name:'gisAssetsQuayNm', width:94, sortable:false, align:'center'},
+			{display:'소재지', name:'gisAssetsLocplc', width:120, sortable:false, align:'left'},
+			{display:'지번', name:'lotcode', width:66, sortable:false, align:'center'},
+			{display:'면적(m²)', name:'gisAssetsAr', width:80, sortable:false, align:'right', displayFormat: 'number', displayOption: '0,000.00'},
 			{display:'실임대면적', name:'gisAssetsRealRentAr', width:80, sortable:false, align:'right', displayFormat:'number'},
 			{display:'취득가액', name:'gisAssetsAcqPri', width:100, sortable:false, align:'right', displayFormat: 'number'},
 			{display:'관리부서', name:'mngDeptNm', width:80, sortable:false, align:'center'},
 			{display:'운영부서', name:'operDeptNm', width:80, sortable:false, align:'center'},
-/* 			{display:'규격', name:'gisAssetsStndrd', width:120, sortable:false, align:'center'},
-			{display:'준공년도', name:'gisAssetsBlddate', width:32, sortable:false, align:'center'},
-			{display:'준공 일자', name:'gisAssetsBldDt', width:128, sortable:false, align:'center'}, */
-			{display:'사용', name:'gisAssetsUsageYn', width:30, sortable:false, align:'center'}
+			{display:'사용여부', name:'gisAssetsUsageYn', width:86, sortable:false, align:'center'}
 			],
 		height: 'auto',
 		preProcess: function(module, data) {
@@ -65,10 +62,13 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 				if(this.gisAssetsLnmSub!=null && this.gisAssetsLnmSub.length>0) {
 					this.lotcode += "-"+this.gisAssetsLnmSub;
 				}
+				this.prtAtNm = this.prtAtCodeNm+' ['+this.gisAssetsPrtAtCode+']';
 			});
 			return data;
 		}
 	});
+
+	this.$('#title_chkRole').append('');
 
 	this.$("#assetCodeList").on('onItemSelected', function(event, module, row, grid, param) {
 		if(row==null) return;

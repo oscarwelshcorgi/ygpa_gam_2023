@@ -519,8 +519,9 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 				newArrrgAmt = newArrrgAmt.subtract(arrrgAmt);	// 이 금액을 추가 고지 한다.
 				// 추가 고지 한다.
 			}
-			vo.put("dbillAmnt", newArrrgAmt);
+			vo.put("dBillAmnt", newArrrgAmt);
 		}
+		else vo.put("dBillAmnt", newArrrgAmt);
 
 		gamNticRequestMngtDAO.insertNticRequestRevCollFC1(vo);
 

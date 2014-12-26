@@ -6,7 +6,7 @@
 <form-validation>
 
     <formset>
-        <form name="gamHtldRentMngtDetailVld">
+        <form name="gamHtldRentMngtDetail">
             <field property="gisAssetsCd" depends="required">
                 <arg0 key="자산코드" resource="false"/>
             </field>
@@ -24,6 +24,7 @@
                     <var-value>yyyy-MM-dd</var-value>
                 </var>
             </field>
+            <!--
             <field property="olnlp" depends="required">
                 <arg0 key="공시지가" resource="false"/>
                 <arg1 key="13" resource="false"/>
@@ -31,7 +32,8 @@
                 <var-name>maxlength</var-name>
                 <var-value>13</var-value>
                 </var>
-            </field>   
+            </field>
+             -->
             <field property="usageAr" depends="required">
                 <arg0 key="사용면적" resource="false"/>
                 <arg1 key="8" resource="false"/>
@@ -39,13 +41,15 @@
                 <var-name>maxlength</var-name>
                 <var-value>8</var-value>
                 </var>
-            </field>  
-            <field property="applcTariff" depends="required">
-                <arg0 key="적용요율" resource="false"/>
             </field>
             <field property="applcMth" depends="required">
                 <arg0 key="적용방법" resource="false"/>
             </field>
+            <!--
+            <field property="applcTariff" depends="required">
+                <arg0 key="적용요율" resource="false"/>
+            </field>
+             -->
             <field property="exemptSe" depends="required">
                 <arg0 key="면제구분" resource="false"/>
             </field>

@@ -39,24 +39,24 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 //					{display:'항코드', name:'prtAtCode',width:40, sortable:false,align:'center'},
 //                    {display:'항코드명', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
                     {display:'관리번호', name:'rentMngNo',width:96, sortable:false,align:'center'},
-                    {display:'횟수', name:'nticCnt',width:30, sortable:false,align:'center'},
-                    {display:'고지업체', name:'entrpscd',width:60, sortable:false,align:'center'},
+                    {display:'횟수', name:'nticCnt',width:40, sortable:false,align:'center'},
                     {display:'고지업체명', name:'entrpsNm',width:140, sortable:false,align:'left'},
-                    {display:'고지대상기간', name:'nticPdDate',width:140, sortable:false,align:'center'},
-                    {display:'요금', name:'chrgeKnd',width:30, sortable:false,align:'center'},
-                    {display:'요금종류명', name:'chrgeKndNm',width:100, sortable:false,align:'left'},
-                    {display:'고지', name:'nhtIsueYn',width:30, sortable:false,align:'center'},
-                    {display:'출력', name:'nhtPrintYn',width:30, sortable:false,align:'center'},
+                    {display:'업체코드', name:'entrpscd',width:70, sortable:false,align:'center'},
+                    {display:'요금종류', name:'chrgeKndNm',width:100, sortable:false,align:'left'},
+                    {display:'고지', name:'nhtIsueYnStr',width:40, sortable:false,align:'center'},
+                    {display:'출력', name:'nhtPrintYnStr',width:40, sortable:false,align:'center'},
+//                    {display:'요금', name:'chrgeKnd',width:30, sortable:false,align:'center'},
+                    {display:'고지금액', name:'nticAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
                     {display:'사용료', name:'fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'고지금액', name:'nticAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'결재상태', name:'sanctnSttusNm',width:60, sortable:false,align:'center'},
-                    {display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
-                    {display:'고지번호', name:'nticno',width:60, sortable:false,align:'center'},
-                    {display:'부서명', name:'deptcdNm',width:100, sortable:false,align:'left'},
-                    {display:'사용면적', name:'grAr',width:80, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'사용기간', name:'grUsagePd',width:140, sortable:false,align:'center'},
-                    {display:'허가일자', name:'prmisnDt',width:80, sortable:false,align:'center'}
+                    {display:'결재', name:'sanctnSttusNm',width:60, sortable:false,align:'center'},
+//                    {display:'고지번호', name:'nticno',width:60, sortable:false,align:'center'},
+//                    {display:'부서명', name:'deptcdNm',width:100, sortable:false,align:'left'},
+//                    {display:'사용면적', name:'grAr',width:80, sortable:false,align:'right', displayFormat: 'number'},
+//                    {display:'고지대상기간', name:'nticPdDate',width:140, sortable:false,align:'center'},
+                    {display:'허가일자', name:'prmisnDt',width:80, sortable:false,align:'center'},
+                    {display:'사용기간', name:'grUsagePd',width:140, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -65,6 +65,8 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         	$.each(data.resultList, function() {
         		this.nticPdDate = this.nticPdFrom+ '~'+ this.nticPdTo;
         		this.grUsagePd = this.grUsagePdFrom+ '~'+ this.grUsagePdTo;
+        		this.nhtIsueYnStr = this.nhtIsueYn=="Y"?"고지":"";
+        		this.nhtPrintYnStr = this.nhtPrintYn=="Y"?"출력":"";
         	});
 
         	module.makeDivValues('#summaryTable', data);
@@ -105,11 +107,13 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
     this.$('#payTmlmt').on("change", {module:this}, function(e) {
     	var module = e.data.module;
         var rows = module.$('#assetRentFeeList').selectedRows()[0];
-		rows['payTmlmt']=this.val();
+		rows['payTmlmt']=$(this).val();
     });
 
     var searchOpt=this.makeFormArgs('#gamAssetRentFeeSearchForm');
     this.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
+
+    console.log('loadComplete.');
 };
 
 /**
@@ -164,6 +168,47 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
             }
             break;
         case 'btnExecNticIssue':	// 고지 의뢰
+            if(this.$('#assetRentFeeList').selectedRowCount()>0) {
+
+                //alert(EMD.context_root);
+
+                var rows = this.$('#assetRentFeeList').selectedRows()[0];
+
+                if( rows['sanctnSttus'] != '1' ) {
+                	if(!confirm("결재완료 되지 않았습니다. 결재 처리 되지 않은 자료를 고지 하시겠습니까?")) {
+                        return;
+                	}
+                	/*                 	alert("결재가 완료 되지 않았습니다.");
+                	return; */
+                }
+
+                if( rows['nhtIsueYn'] == 'Y' ) {
+                	alert("이미 고지된 건 입니다.");
+                	return;
+                }
+
+                if( confirm("선택한 건을 고지 하시겠습니까?") ) {
+                	if(EMD.userinfo.emplNo=='11076') {
+                    	rows['payTmlmt']=EMD.util.getDate(EMD.util.addDates(15));
+                	}
+                	if(rows['payTmlmt']==null || rows['payTmlmt']=="") rows['payTmlmt']=EMD.util.getDate(EMD.util.addDates(15));
+
+                    this.doAction('/oper/gnrl/insertPrtFcltyRentFeeNticSingle.do', rows, function(module, result) {
+
+                        if(result.resultCode=='0') {
+                            var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
+                            module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
+                            module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
+                        }
+
+                        alert(result.resultMsg);
+                    });
+                }
+            } else {
+            	alert("목록에서 고지 할 건을 선택하십시오.");
+            	return;
+            }
+        	break;
         case 'btnExecNticIssue2':
             if(this.$('#assetRentFeeList').selectedRowCount()>0) {
 
@@ -185,8 +230,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
                 }
 
                 if( confirm("선택한 건을 고지 하시겠습니까?") ) {
-//                	rows['payTmlmt']=EMD.util.getDate(EMD.util.addDates(15));
-//                 	rows['payTmlmt']=this.$('#payTmlmt').val();
+                	rows['payTmlmt'] = this.$('#payTmlmt').val();
                     this.doAction('/oper/gnrl/insertPrtFcltyRentFeeNticSingle.do', rows, function(module, result) {
 
                         if(result.resultCode=='0') {

@@ -1119,7 +1119,7 @@ var EMD = (function($, window, document, undefined) {
     				  if(sub instanceof Array) {
     	    				 for(var j=0; j<sub.length; j++) {
     	    					 	EMD.userFunc[sub[j].url]=sub[j].menuNm;
-//    	    			          	EMD.util.create_window(sub[j].menuNm, EMD.context_root+sub[j].url, null, {
+//    	    			          	EMD.util.create_window(sub[j].menuNm, sub[j].url, null, {
 //    	    			          		action: "loadStart"
 //    	    			  			});
     	    				 }
@@ -1130,7 +1130,7 @@ var EMD = (function($, window, document, undefined) {
     				  if(sub instanceof Array) {
     	    				 for(var j=0; j<sub.length; j++) {
     	    					 	EMD.popupMenu[sub[j].progrmStrePath]=sub[j].url;
-//    	    			          	EMD.util.create_window(sub[j].menuNm, EMD.context_root+sub[j].url, null, {
+//    	    			          	EMD.util.create_window(sub[j].menuNm, sub[j].url, null, {
 //    	    			          		action: "loadStart"
 //    	    			  			});
     	    				 }
@@ -1141,7 +1141,7 @@ var EMD = (function($, window, document, undefined) {
     				  if(sub instanceof Array) {
     	    				 for(var j=0; j<sub.length; j++) {
     	    					 	EMD.layerDisplay[sub[j].progrmStrePath]=sub[j].url;
-//    	    			          	EMD.util.create_window(sub[j].menuNm, EMD.context_root+sub[j].url, null, {
+//    	    			          	EMD.util.create_window(sub[j].menuNm, sub[j].url, null, {
 //    	    			          		action: "loadStart"
 //    	    			  			});
     	    				 }
@@ -1283,7 +1283,7 @@ var EMD = (function($, window, document, undefined) {
         		  //&& ($(ev.target).is('#desktop') || $(ev.target).is('.window'))) {
             EMD.util.clear_active();
             ev.preventDefault();
-            ev.stopPropagation();;
+            ev.stopPropagation();
           }
         });
 
@@ -1987,7 +1987,7 @@ var EMD = (function($, window, document, undefined) {
 							      var vec=new OpenLayers.Feature.Vector(poly, event.data.feature.attributes);
 							      vec.data.locplc=locplc;
 
-	                    	EMD.util.create_window('자산정보추가', EMD.context_root+'/code/assets/gamAssetCodeMngt.do', null, {action: "addLotcodeFeature", feature: vec});
+	                    	EMD.util.create_window('자산정보추가', '/code/assets/gamAssetCodeMngt.do', null, {action: "addLotcodeFeature", feature: vec});
 	                    });
 	                });
 	            });
@@ -2154,7 +2154,7 @@ var EMD = (function($, window, document, undefined) {
 				url: EMD.gis_engine_url,
 				featureNS: "http://geogate.g-inno.com/dataserver/datahouse",
 				featurePrefix: "datahouse",
-				featureType: "GIS_ASSETS_CD_F_A",
+				featureType: "GIS_ASSETS_CD_E",
 				srsName: "EPSG:5186",
 				geometryName: "G2_SPATIAL"
 			});
@@ -2372,7 +2372,7 @@ var EMD = (function($, window, document, undefined) {
 						      var vec=new OpenLayers.Feature.Vector(polygon, event.data.feature.attributes);
 						      vec.data.locplc=locplc;
 
-                    	EMD.util.create_window('자산정보추가', EMD.context_root+'/code/assets/gamAssetCodeMngt.do', null, {action: "addLotcodeFeature", feature: vec});
+                    	EMD.util.create_window('자산정보추가', '/code/assets/gamAssetCodeMngt.do', null, {action: "addLotcodeFeature", feature: vec});
                     });
                 });
             });
@@ -2433,7 +2433,7 @@ var EMD = (function($, window, document, undefined) {
 			                // 버튼 이벤트
 			                $("button[data-role='assetMngt']", popup.contentDiv).button({icons: {
   							  	primary: 'ui-icon-wrench'}}).click(function(event) {
-      		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetCodeMngt.do", null, {
+      		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetCodeMngt.do", null, {
       		                    		action: "prtFcltyInqire"
   		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
   		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -2442,7 +2442,7 @@ var EMD = (function($, window, document, undefined) {
   							  });
 			                $("button[data-role='assetInqire']", popup.contentDiv).button({icons: {
 							  primary: 'ui-icon-folder-open'}}).click(function(event) {
-    		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetCodeList.do", null, {
+    		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetCodeList.do", null, {
       		                    		action: "prtFcltyInqire"
   		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
   		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -2452,7 +2452,7 @@ var EMD = (function($, window, document, undefined) {
 			                // 피처 수정 버튼
 			                $("button[data-role='modifyFeature']", popup.contentDiv).button({icons: {
   							  	primary: 'ui-icon-wrench'}}).click({feature: feature}, function(event) {
-      		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetCodeMngt.do", null, {
+      		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetCodeMngt.do", null, {
       		                    		action: "modifyFeature"
   		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
   		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -2607,7 +2607,7 @@ var EMD = (function($, window, document, undefined) {
 			                // 버튼 이벤트
 			                $("button[data-role='assetMngt']", popup.contentDiv).button({icons: {
   							  	primary: 'ui-icon-wrench'}}).click(function(event) {
-      		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetCodeMngt.do", null, {
+      		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetCodeMngt.do", null, {
       		                    		action: "prtFcltyInqire"
   		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
   		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -2616,7 +2616,7 @@ var EMD = (function($, window, document, undefined) {
   							  });
 			                $("button[data-role='assetInqire']", popup.contentDiv).button({icons: {
 							  primary: 'ui-icon-folder-open'}}).click(function(event) {
-    		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetCodeList.do", null, {
+    		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetCodeList.do", null, {
       		                    		action: "prtFcltyInqire"
   		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
   		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -2626,7 +2626,7 @@ var EMD = (function($, window, document, undefined) {
 			                // 피처 수정 버튼
 			                $("button[data-role='modifyFeature']", popup.contentDiv).button({icons: {
   							  	primary: 'ui-icon-wrench'}}).click({feature: feature}, function(event) {
-      		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetCodeMngt.do", null, {
+      		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetCodeMngt.do", null, {
       		                    		action: "modifyFeature"
   		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
   		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -2696,7 +2696,7 @@ var EMD = (function($, window, document, undefined) {
 			                // 버튼 이벤트
 			                $("button[data-role='assetMngt']", popup.contentDiv).button({icons: {
   							  	primary: 'ui-icon-wrench'}}).click(function(event) {
-      		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetCodeMngt.do", null, {
+      		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetCodeMngt.do", null, {
       		                    		action: "prtFcltyInqire"
   		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
   		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -2705,7 +2705,7 @@ var EMD = (function($, window, document, undefined) {
   							  });
 			                $("button[data-role='assetInqire']", popup.contentDiv).button({icons: {
 							  primary: 'ui-icon-folder-open'}}).click(function(event) {
-    		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetCodeList.do", null, {
+    		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetCodeList.do", null, {
       		                    		action: "prtFcltyInqire"
   		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
   		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -2715,7 +2715,7 @@ var EMD = (function($, window, document, undefined) {
 			                // 피처 수정 버튼
 			                $("button[data-role='modifyFeature']", popup.contentDiv).button({icons: {
   							  	primary: 'ui-icon-wrench'}}).click({feature: feature}, function(event) {
-      		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetCodeMngt.do", null, {
+      		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetCodeMngt.do", null, {
       		                    		action: "modifyFeature"
   		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
   		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -2786,7 +2786,7 @@ var EMD = (function($, window, document, undefined) {
 			                // 버튼 이벤트
 			                $("button[data-role='assetRentMngt']", popup.contentDiv).button({icons: {
   							  	primary: 'ui-icon-wrench'}}).click(function(event) {
-      		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetRentMngt.do", null, {
+      		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetRentMngt.do", null, {
       		                    		action: "assetRentMngt"
   		                    			,prtAtCode: $(this).data("prt-at-code")
   		                    			,mngYear: $(this).data("mng-year")
@@ -2796,7 +2796,7 @@ var EMD = (function($, window, document, undefined) {
   							  });
 			                $("button[data-role='assetRentInqire']", popup.contentDiv).button({icons: {
 							  primary: 'ui-icon-folder-open'}}).click(function(event) {
-    		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetRentInqire.do", null, {
+    		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetRentInqire.do", null, {
       		                    		action: "assetRentInqire"
   		                    			,prtAtCode: $(this).data("prt-at-code")
   		                    			,mngYear: $(this).data("mng-year")
@@ -2857,7 +2857,7 @@ var EMD = (function($, window, document, undefined) {
 			                // 버튼 이벤트
 			                $("button[data-role='assetRentMngt']", popup.contentDiv).button({icons: {
   							  	primary: 'ui-icon-wrench'}}).click(function(event) {
-      		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetRentMngt.do", null, {
+      		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetRentMngt.do", null, {
       		                    		action: "assetRentMngt"
   		                    			,prtAtCode: $(this).data("prt-at-code")
   		                    			,mngYear: $(this).data("mng-year")
@@ -2867,7 +2867,7 @@ var EMD = (function($, window, document, undefined) {
   							  });
 			                $("button[data-role='assetRentInqire']", popup.contentDiv).button({icons: {
 							  primary: 'ui-icon-folder-open'}}).click(function(event) {
-    		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetRentInqire.do", null, {
+    		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetRentInqire.do", null, {
       		                    		action: "assetRentInqire"
   		                    			,prtAtCode: $(this).data("prt-at-code")
   		                    			,mngYear: $(this).data("mng-year")
@@ -2928,7 +2928,7 @@ var EMD = (function($, window, document, undefined) {
 			                // 버튼 이벤트
 			                $("button[data-role='assetRentMngt']", popup.contentDiv).button({icons: {
   							  	primary: 'ui-icon-wrench'}}).click(function(event) {
-      		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetRentMngt.do", null, {
+      		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetRentMngt.do", null, {
       		                    		action: "assetRentMngt"
   		                    			,prtAtCode: $(this).data("prt-at-code")
   		                    			,mngYear: $(this).data("mng-year")
@@ -2938,7 +2938,7 @@ var EMD = (function($, window, document, undefined) {
   							  });
 			                $("button[data-role='assetRentInqire']", popup.contentDiv).button({icons: {
 							  primary: 'ui-icon-folder-open'}}).click(function(event) {
-    		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetRentInqire.do", null, {
+    		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetRentInqire.do", null, {
       		                    		action: "assetRentInqire"
   		                    			,prtAtCode: $(this).data("prt-at-code")
   		                    			,mngYear: $(this).data("mng-year")
@@ -2999,7 +2999,7 @@ var EMD = (function($, window, document, undefined) {
 			                // 버튼 이벤트
 			                $("button[data-role='assetRentMngt']", popup.contentDiv).button({icons: {
   							  	primary: 'ui-icon-wrench'}}).click(function(event) {
-      		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetRentMngt.do", null, {
+      		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetRentMngt.do", null, {
       		                    		action: "assetRentMngt"
   		                    			,prtAtCode: $(this).data("prt-at-code")
   		                    			,mngYear: $(this).data("mng-year")
@@ -3009,7 +3009,7 @@ var EMD = (function($, window, document, undefined) {
   							  });
 			                $("button[data-role='assetRentInqire']", popup.contentDiv).button({icons: {
 							  primary: 'ui-icon-folder-open'}}).click(function(event) {
-    		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetRentInqire.do", null, {
+    		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetRentInqire.do", null, {
       		                    		action: "assetRentInqire"
   		                    			,prtAtCode: $(this).data("prt-at-code")
   		                    			,mngYear: $(this).data("mng-year")
@@ -3070,7 +3070,7 @@ var EMD = (function($, window, document, undefined) {
 			                // 버튼 이벤트
 			                $("button[data-role='assetRentMngt']", popup.contentDiv).button({icons: {
   							  	primary: 'ui-icon-wrench'}}).click(function(event) {
-      		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetRentMngt.do", null, {
+      		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetRentMngt.do", null, {
       		                    		action: "assetRentMngt"
   		                    			,prtAtCode: $(this).data("prt-at-code")
   		                    			,mngYear: $(this).data("mng-year")
@@ -3080,7 +3080,7 @@ var EMD = (function($, window, document, undefined) {
   							  });
 			                $("button[data-role='assetRentInqire']", popup.contentDiv).button({icons: {
 							  primary: 'ui-icon-folder-open'}}).click(function(event) {
-    		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetRentInqire.do", null, {
+    		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetRentInqire.do", null, {
       		                    		action: "assetRentInqire"
   		                    			,prtAtCode: $(this).data("prt-at-code")
   		                    			,mngYear: $(this).data("mng-year")
@@ -3141,7 +3141,7 @@ var EMD = (function($, window, document, undefined) {
 			                // 버튼 이벤트
 			                $("button[data-role='assetRentMngt']", popup.contentDiv).button({icons: {
   							  	primary: 'ui-icon-wrench'}}).click(function(event) {
-      		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetRentMngt.do", null, {
+      		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetRentMngt.do", null, {
       		                    		action: "assetRentMngt"
   		                    			,prtAtCode: $(this).data("prt-at-code")
   		                    			,mngYear: $(this).data("mng-year")
@@ -3151,7 +3151,7 @@ var EMD = (function($, window, document, undefined) {
   							  });
 			                $("button[data-role='assetRentInqire']", popup.contentDiv).button({icons: {
 							  primary: 'ui-icon-folder-open'}}).click(function(event) {
-    		                    	EMD.util.create_window($(this).text(), EMD.context_root+"/code/assets/gamAssetRentInqire.do", null, {
+    		                    	EMD.util.create_window($(this).text(), "/code/assets/gamAssetRentInqire.do", null, {
       		                    		action: "assetRentInqire"
   		                    			,prtAtCode: $(this).data("prt-at-code")
   		                    			,mngYear: $(this).data("mng-year")
@@ -3442,7 +3442,7 @@ var EMD = (function($, window, document, undefined) {
 	        								  url="/fclty/gamMechFcltyMngt.do";
 	        								  break;
 	        							  }
-	      		                    	EMD.util.create_window(title, EMD.context_root+url, null, {
+	      		                    	EMD.util.create_window(title, url, null, {
 	      		                    		action: "prtFcltyMngt"
 	      		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
 	      		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -3478,7 +3478,7 @@ var EMD = (function($, window, document, undefined) {
 	        								  url="/fclty/gamMechFcltyInqire.do";
 	        								  break;
 	        							  }
-	      		                    	EMD.util.create_window(title, EMD.context_root+url, null, {
+	      		                    	EMD.util.create_window(title, url, null, {
 	      		                    		action: "prtFcltyMngt"
 	      		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
 	      		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -3597,7 +3597,7 @@ var EMD = (function($, window, document, undefined) {
 	        							  var url="";
         								  title ='건축 시설 관리';
         								  url=EMD.popupMenu['fcltyConstPopMngt'];
-	      		                    	EMD.util.create_window(title, EMD.context_root+url, null, {
+	      		                    	EMD.util.create_window(title, url, null, {
 	      		                    		action: "prtFcltyMngt"
 	      		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
 	      		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -3617,7 +3617,7 @@ var EMD = (function($, window, document, undefined) {
 	        							  var url="";
         								  title ='건축 시설 조회';
         								  url=EMD.popupMenu['fcltyConstPopInqire'];
-	      		                    	EMD.util.create_window(title, EMD.context_root+url, null, {
+	      		                    	EMD.util.create_window(title, url, null, {
 	      		                    		action: "prtFcltyMngt"
 	      		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
 	      		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -3737,7 +3737,7 @@ var EMD = (function($, window, document, undefined) {
 	        							  var url="";
         								  title ='토목 시설 관리';
         								  url=EMD.popupMenu['fcltyConstPopMngt'];
-	      		                    	EMD.util.create_window(title, EMD.context_root+url, null, {
+	      		                    	EMD.util.create_window(title, url, null, {
 	      		                    		action: "prtFcltyMngt"
 	      		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
 	      		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -3757,7 +3757,7 @@ var EMD = (function($, window, document, undefined) {
 	        							  var url="";
         								  title ='건축 시설 조회';
         								  url=EMD.popupMenu['fcltyConstPopInqire'];
-	      		                    	EMD.util.create_window(title, EMD.context_root+url, null, {
+	      		                    	EMD.util.create_window(title, url, null, {
 	      		                    		action: "prtFcltyMngt"
 	      		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
 	      		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -3877,7 +3877,7 @@ var EMD = (function($, window, document, undefined) {
 	        							  var url="";
         								  title ='기계 시설 관리';
         								  url=EMD.popupMenu['fcltyMechPopMngt'];
-	      		                    	EMD.util.create_window(title, EMD.context_root+url, null, {
+	      		                    	EMD.util.create_window(title, url, null, {
 	      		                    		action: "prtFcltyMngt"
 	      		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
 	      		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -3897,7 +3897,7 @@ var EMD = (function($, window, document, undefined) {
 	        							  var url="";
         								  title ='기계 시설 조회';
         								  url=EMD.popupMenu['fcltyMechPopInqire'];
-	      		                    	EMD.util.create_window(title, EMD.context_root+url, null, {
+	      		                    	EMD.util.create_window(title, url, null, {
 	      		                    		action: "prtFcltyMngt"
 	      		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
 	      		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -4017,7 +4017,7 @@ var EMD = (function($, window, document, undefined) {
 	        							  var url="";
         								  title ='정보통신 시설 관리';
         								  url=EMD.popupMenu['fcltyInfoTechPopMngt'];
-	      		                    	EMD.util.create_window(title, EMD.context_root+url, null, {
+	      		                    	EMD.util.create_window(title, url, null, {
 	      		                    		action: "prtFcltyMngt"
 	      		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
 	      		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -4037,7 +4037,7 @@ var EMD = (function($, window, document, undefined) {
 	        							  var url="";
         								  title ='정보통신 시설 조회';
         								  url=EMD.popupMenu['fcltyInfoTechPopInqire'];
-	      		                    	EMD.util.create_window(title, EMD.context_root+url, null, {
+	      		                    	EMD.util.create_window(title, url, null, {
 	      		                    		action: "prtFcltyMngt"
 	      		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
 	      		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -4157,7 +4157,7 @@ var EMD = (function($, window, document, undefined) {
 	        							  var url="";
         								  title ='전기 시설 관리';
         								  url=EMD.popupMenu['fcltyElecPopMngt'];
-	      		                    	EMD.util.create_window(title, EMD.context_root+url, null, {
+	      		                    	EMD.util.create_window(title, url, null, {
 	      		                    		action: "prtFcltyMngt"
 	      		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
 	      		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -4177,7 +4177,7 @@ var EMD = (function($, window, document, undefined) {
 	        							  var url="";
         								  title ='전기 시설 조회';
         								  url=EMD.popupMenu['fcltyElecPopInqire'];
-	      		                    	EMD.util.create_window(title, EMD.context_root+url, null, {
+	      		                    	EMD.util.create_window(title, url, null, {
 	      		                    		action: "prtFcltyMngt"
 	      		                    			,gisPrtAtCode: $(this).data("assets-prt-at-code")
 	      		                    			,gisAssetsCd: $(this).data("assets-cd")
@@ -4816,7 +4816,7 @@ var EMD = (function($, window, document, undefined) {
 				 }
 				 if(i!=cv.length) continue;
 			 }
-	          	EMD.util.create_window(EMD.loadAtStartWindow[j].menuNm, EMD.context_root+EMD.loadAtStartWindow[j].url, null, {
+	          	EMD.util.create_window(EMD.loadAtStartWindow[j].menuNm, EMD.loadAtStartWindow[j].url, null, {
 	          		action: "loadStart"
 	  			});
 		 }
@@ -5951,24 +5951,6 @@ var EMD = (function($, window, document, undefined) {
 						}
 					}
 					if(foundFeatures.length==0) {// new feature
-						EMD.modifyFeature=new OpenLayers.Control.DynamicMeasure(OpenLayers.Handler.Polygon,
-			            	    {
-									drawingLayer: layer,
-									handlerOptions: {holeModifier: "altKey"},
-									featureAdded: function(feature) {
-	//									var polygon= feature.geometry;
-	//									feature.geometry = polygon.transform(
-	//											EMD.map.getProjection(), layer.projection
-	//							          );
-										layer.addFeatures(feature);
-										layer.redraw();
-										module[code]['_feature']=feature;
-										EMD.modifyFeature.deactivate();
-										module.showWindow();
-	//			    	    			EMD.saveStrategy.save();
-			            	    }});
-			            EMD.map.addControl(EMD.modifyFeature);
-			            EMD.modifyFeature.activate();
 					}
 					else {	// edit feature
 			    		var ext;
@@ -5982,12 +5964,12 @@ var EMD = (function($, window, document, undefined) {
 		    			}
 		    			EMD.map.zoomToExtent(ext);
 
-		    			EMD.wfs.removeAllFeatures();
-		    			EMD.wfs.addFeatures(modifyFeatures);
-		    			layer.removeFeatures(foundFeatures);
-
-		    			EMD.editControls={
-  			                  addFeature: new OpenLayers.Control.DynamicMeasure(OpenLayers.Handler.Polygon, {
+//		    			EMD.wfs.removeAllFeatures();
+//		    			EMD.wfs.addFeatures(modifyFeatures);
+//		    			layer.removeFeatures(foundFeatures);
+					}
+	    			EMD.editControls={
+			                  addFeature: new OpenLayers.Control.DynamicMeasure(OpenLayers.Handler.Polygon, {
 									drawingLayer: EMD.wfs,
 									handlerOptions: {holeModifier: "altKey"}
 			            }),
@@ -6135,7 +6117,6 @@ var EMD = (function($, window, document, undefined) {
 //			                new OpenLayers.Control.Button({displayClass: 'saveButton', trigger: function() {saveStrategy.save()}, title: 'Save changes' }),
 //			                navControl
 //			            ]);
-					}
 				}
 				else {
 					EMD.modifyFeature=new OpenLayers.Control.ModifyFeature(layer,
@@ -6581,7 +6562,7 @@ var EMD = (function($, window, document, undefined) {
 		    			title: "저장",
 		    			trigger: function() {
 		    				EMD.panel.removeControl(EMD.save);
-		    				callback(module, EMD.draw.feature)
+		    				callback(module, EMD.draw.feature);
 			    			EMD.draw.deactivate();
 		    			},
 		    			displayClass: "olControlSaveFeatures"
@@ -6593,7 +6574,7 @@ var EMD = (function($, window, document, undefined) {
 		    				EMD.panel.removeControl(EMD.save);
 			    			EMD.map.addControl(EMD.draw);
 			    			EMD.draw.deactivate();
-		    				callback(module, null)
+		    				callback(module, null);
 		    			},
 		    			displayClass: "olControlSaveFeatures"
 		    		});
@@ -6624,7 +6605,7 @@ var EMD = (function($, window, document, undefined) {
 		    			title: "저장",
 		    			trigger: function() {
 		    				EMD.panel.removeControls(EMD.save);
-		    				callback(EMD.edit.feature)
+		    				callback(EMD.edit.feature);
 		    			},
 		    			displayClass: "olControlSaveFeatures"
 		    		});
@@ -7505,6 +7486,35 @@ var EMD = (function($, window, document, undefined) {
     },
     util: {
     	/**
+    	 * 그리드를 프린트 한다. (현재는 그리드가 아니고 프린트 페이지를 출력 한다.)
+    	 * @param module - 실행 모듈 명
+    	 * @param url - 실행 주소
+    	 * @param gridNm - 그리드 명
+    	 * @param searchOptNm - 조회 조건
+    	 * @returns
+    	 */
+    	printPageGrid: function(module, url, gridNm, searchOptNm) {
+    		var params = {};
+    		if(searchOptNm!=null) {
+    			params = module.getFormValues('#'+searchOptNm);
+    		}
+    		module.printPage(url, params);
+		},
+		/**
+		 * 페이지를 프린트 한다.
+		 * @param module - 실행 모듈 명
+		 * @param url - 실행 주소
+		 * @param searchOptNm - 조회조건 폼 이름
+		 * @returns
+		 */
+    	printPageValue: function(module, url, searchOptNm) {
+    		var params = {};
+    		if(searchOptNm!=null) {
+    			params = module.getFormValues('#'+searchOptNm);
+    		}
+    		module.printPage(url, params);
+		},
+    	/**
     	 * 오브젝트를 JSON 형태로 변환 하여 리턴 한다.
     	 * 함수명 : EMD.util.printObj(obj, replacer)
     	 * 파라메터 : obj	- 오브젝트나 리스트 변수
@@ -7708,7 +7718,7 @@ var EMD = (function($, window, document, undefined) {
 //    		  $(x).data("init-param", EMD.util.printObj(init_params));
     		  if(win_url!=undefined) {
     			  EMD.util.showProgress();
-    			  $(x+ ' .window_content' ).load(win_url, {"window_id": x.substring(1), "args": argv},
+    			  $(x+ ' .window_content' ).load(EMD.context_root+win_url, {"window_id": x.substring(1), "args": argv},
         			  function( response, status, xhr ) {
     				  		EMD.util.hideProgress();
         				  if ( status == "error" ) {
@@ -7740,7 +7750,7 @@ var EMD = (function($, window, document, undefined) {
 //        					  EMD.module_instance[win_id.substring(win_id.lastIndexOf('_')+1)]=module_instance;
 //        					  module_script.prototype=new EmdModule();
         					  module_instance.setWindowId(win_id);
-        					  EMD.util.modify_window(win_id);
+        					  EMD.util.modify_window(module_instance, win_id);
         					  var x, y, w, h;
         					  x=EMD.win_x;
         					  y=EMD.win_y;
@@ -7890,15 +7900,15 @@ var EMD = (function($, window, document, undefined) {
   	  				if(h>10) {
   	  				if($(resizeFill).is(".emdTabPanel")) {
   	  					$(resizeFill).height(h);
-	  				    	$(resizeFill).tabs("option", "heightStyle", "fill");
-	  				    	$(resizeFill).children(".emdTabPage").each(function() {
-	  	  				    	func(func, this);	// 탭페이지에 리사이즈 적용
-	  				    	});
-						}
+  				    	$(resizeFill).tabs("option", "heightStyle", "fill");
+  				    	$(resizeFill).children(".emdTabPage").each(function() {
+  	  				    	func(func, this);	// 탭페이지에 리사이즈 적용
+  				    	});
+					}
   	  				else {
   	  					$(resizeFill).height(h);
-  	  					if($(resizeFill).hasClass("flexigrid")) {
-  	  					$(resizeFill).find(".bDiv>table").resizeGrid();
+  	  					if($(resizeFill).hasClass("gridbox")) {
+  	  						$(resizeFill).resizeGrid();
   	  					}
   	  					else
   	  						func(func, resizeFill);
@@ -7913,7 +7923,9 @@ var EMD = (function($, window, document, undefined) {
 			if($(win).is('#__dialog-modal')) {
 				resizeFunc(resizeFunc, $(win).find(".dialog")[0]);
 			}
-			else resizeFunc(resizeFunc, $(win).find(".window_main")[0]);
+			else {
+				resizeFunc(resizeFunc, $(win).find(".window_main")[0]);
+			}
       },
       //
       // Zero out window z-index.
@@ -8040,7 +8052,7 @@ var EMD = (function($, window, document, undefined) {
     		  if($(this).attr("data-grid")!=undefined) $(this).attr("data-grid",win_id+"_"+$(this).attr("id"));
     	  });
       },
-      modify_window: function(win_id) {
+      modify_window: function(module_instance,win_id) {
     	  var win = $('#'+win_id);
     	  EMD.util.modify_id(win_id, $('#'+win_id));
 //    	  $('#'+win_id).children().each(function() {
@@ -8075,9 +8087,7 @@ var EMD = (function($, window, document, undefined) {
 
   					if(onchangeId!=null)
   						$(this).closest('.window')[0].module[onchangeId](newId, oldId);
-//  					ui.newPanel.trigger('resizeWindow');
-//  					ui.newPanel.closest(".window_main").trigger('resize');
-  					EMD.util.window_resized($(this).closest('.window'));
+//  					EMD.util.window_resized($(this).closest('.window'));
   				},
   				select: function(e, i) {
   					currentTab = i.index;
@@ -8114,10 +8124,11 @@ var EMD = (function($, window, document, undefined) {
     	  });
     	  // button mapping
     	  win.find("button").each(function() {
-    		  var id=$(this).attr('id')==null||$(this).attr('id').length<win_id.length+1?$(this).attr('class'):$(this).attr('id').substring(win_id.length+1);
+    		  var id=$(this).data("cmd");
     		  var but = $(this);
     		  var isbutton=false;
     		  var icon=null;
+    		  if(id==null) id=$(this).attr('id')==null||$(this).attr('id').length<win_id.length+1?$(this).attr('class'):$(this).attr('id').substring(win_id.length+1);
     		  if(but.attr('class')!=null) {
         		  var classes = $(this).attr('class').split(/\s+/);
         		  $.each(classes, function(index, item) {
@@ -8145,6 +8156,10 @@ var EMD = (function($, window, document, undefined) {
         				  break;
         			  case 'buttonExcel':
         				  icon='ui-icon-document';
+        				  break;
+        			  case 'popupDialog':
+        				  icon='ui-icon-newwin';
+        				  break;
         			  }
         			  if (icon!=null && icon.indexOf('ui-icon-') === 0) {
         				  $(but).button(
@@ -8684,6 +8699,131 @@ var EMD = (function($, window, document, undefined) {
   				});
   		});
 
+  		$('#'+win_id).find("input.selectBox").each(function() {
+  			var default_prompt='';
+  			var default_value='';
+  			var input_item=this;
+  			var input_id=$(this).attr('id');
+  			var url=$(this).data('url');
+  			var params=$(this).data('params');
+  			var parentSB=$(this).data('parent-select');
+  			if($(this).data('code-id')==undefined) return;
+  			if($(this).data('default-prompt')!=null) {
+  				if($(this).data('default-prompt')!=null) default_prompt=$(this).data('default-prompt');
+  				else default_prompt="선택";
+  				if($(this).data('default-value')!=null) default_value=$(this).data('default-value');
+  				else default_value="";
+  			}
+  			if($(this).data('display-value')==null) {
+  				try {
+  	  	  			$(this).attr("type", "hidden");
+  				}
+  				catch(err) {
+  	  	  			$(this).attr("id", input_id+"_backup");
+  	  	  			$(this).after('<input type="hidden" id="'+input_id+'" />');
+  	  	  			input_item = $('#'+win_id+' #'+input_id)[0];
+  	  	  			$(this).remove();
+				}
+  				$(input_item).after('<select id="'+input_id+'_select" class="frmwrkAuto"></select>');
+  			}
+  			else if($(this).data('display-value')=='N') {
+  	  			$(this).attr("readonly", "readonly");
+  	  			$(this).before('<select id="'+input_id+'_select" class="frmwrkAuto"></select>');
+  			}
+  			else {
+  	  			$(this).attr("readonly", "readonly");
+  	  			$(this).after('<select id="'+input_id+'_select" class="frmwrkAuto"></select>');
+  			}
+			if(default_prompt!='') {
+					if($(input_item).data('value')==null) $('#'+win_id).find('#'+input_id+'_select').append('<option value="'+default_value+'" selected>'+default_prompt+'</option>');
+					else $('#'+win_id).find('#'+input_id+'_select').append('<option value="'+default_value+'">'+default_prompt+'</option>');
+			}
+			$(this).focus(function() {
+				$('#'+$(this).attr("id")+"_select")[0].focus();
+			});
+			var p=[];
+			if(params!=null) {
+				$.each(params.split(','), function() {
+					var d=this.split('=');
+					p[p.length]={name:parentSB, value:d[1]};
+				});
+			}
+
+			input_item._setValue = function(data) {
+				if(data.resultCode!=null && data.resultCode!=0) {
+					if(data.resultCode==1) {	// 로그인 에러
+						alert(data.resultMsg);
+						location.reload();
+					}
+				}
+				else {
+					var selected_code='';
+					var comp_id='#'+$(this).attr('id')+'_select';
+					if($(this).val()!=null) {
+						selected_code=$(this).val();
+	  					for(var i=0; i<data.resultList.length; i++) {
+	  						if(selected_code==data.resultList[i].value) {
+		  	  					$('#'+win_id).find(comp_id).append('<option value="'+data.resultList[i].value+'" selected>'+data.resultList[i].name+'</option>');
+	  						}
+	  						else {
+		  	  					$('#'+win_id).find(comp_id).append('<option value="'+data.resultList[i].value+'">'+data.resultList[i].name+'</option>');
+	  						}
+	  					}
+					}
+					else {
+	  					for(var i=0; i<data.resultList.length; i++) {
+	  	  					$('#'+win_id).find(comp_id).append('<option value="'+data.resultList[i].value+'">'+data.resultList[i].name+'</option>');
+	  					}
+					}
+					$('#'+win_id).find(comp_id).change({module: this}, function(event){
+						$(event.data.module).val( $(this).find("option:selected").val() );
+						$(event.data.module).trigger('change');
+					});
+					if($(this).attr("readonly")=="readonly") $(comp_id).attr("readonly", "readonly");
+					if($(this).attr("disabled")=="disabled") $(comp_id).attr("disabled", "disabled");
+				}
+			};
+
+			this._params=p.slice();
+			if(parentSB!=null) {
+				var val = module_instance.$('#'+parentSB).val();
+				module_instance.$('#'+parentSB).data("id", parentSB);
+				p[p.length]={name:parentSB, value:val};
+				module_instance.$('#'+parentSB).on("change", {module:this}, function(e) {
+					var module=e.data.module;
+					var p=module._params.slice();
+					p[p.length]={name:$(this).data("id"), value:$(this).val()};
+					$.ajax({
+		  				url: EMD.context_root+$(module).data('url'),
+		  				type: 'POST',
+		  				module: module,
+		  				dataType: 'json',
+		  				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		  				data: p,
+						success: function (data) {
+							this.module._setValue(data);
+						},
+						error: function (XMLHttpRequest, textStatus, errorThrown) {
+						}
+		  				});
+				});
+			}
+			else {
+	  			$.ajax({
+	  				url: EMD.context_root+url,
+	  				type: 'POST',
+	  				module: input_item,
+	  				dataType: 'json',
+	  				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+	  				data: p,
+					success: function (data) {
+						this.module._setValue(data);
+					},
+					error: function (XMLHttpRequest, textStatus, errorThrown) {
+					}
+	  				});
+			}
+  		});
 
   	// Y/N 선택 처리
   		$('#'+win_id).find("input.ygpaYnSelect").each(function() {
@@ -8802,11 +8942,10 @@ var EMD = (function($, window, document, undefined) {
 		  });
 
 		$('#'+win_id).find(".emdcal").each(function() {
+			var dateFormat=$(this).data('date-format')||'yy-mm-dd';
+			var disabled = $(this).attr('disabled')!=undefined;
 			$(this).datepicker({
-			showOn: "button",
-		    buttonImage: EMD.context_root+"/images/egovframework/rte/icon_date_picker.jpg",
- 		    buttonImageOnly: true,
-		    dateFormat: 'yy-mm-dd',
+			    dateFormat: dateFormat,
 		    prevText: '이전 달',
 		    nextText: '다음 달',
 		    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
@@ -8815,8 +8954,16 @@ var EMD = (function($, window, document, undefined) {
 		    dayNamesShort: ['일','월','화','수','목','금','토'],
 		    dayNamesMin: ['일','월','화','수','목','금','토'],
 		    changeMonth: true,
-		    changeYear: true
+			    changeYear: true,
+			    disabled: disabled
 		  });
+			if(!disabled) {
+				$(this).datepicker("option", {
+					showOn: "button",
+				    buttonImage: EMD.context_root+"/images/egovframework/rte/icon_date_picker.jpg",
+		 		    buttonImageOnly: true,
+				});
+			}
 			if($(this).data("role")=="dtFrom") {
 				$('#'+win_id+'_'+$(this).data("dt-to")).on('change', {dtFrom: this}, function(event){
 					$(event.data.dtFrom).datepicker("option", "maxDate", $(this).datepicker("getDate"));
@@ -8869,6 +9016,53 @@ var EMD = (function($, window, document, undefined) {
       _clickButtonExec: function(module, button, button_id) {
 		  var role=button.data('role');
 		  switch(role) {
+			case 'printPage':
+			  var src=button.data('flexi-grid');
+			  var url=button.data('url');
+			  if(src==null) {
+				  EMD.util.printPageValue(module, url, button.data('search-option'));
+				}
+			  else {	// load list
+				  EMD.util.printPageGrid(module, url, button.data('flexi-grid'), button.data('search-option'));
+			  }
+			  break;
+		  case 'popupDialog':
+			  var p={};
+			  var dp={};
+			  var params=button.data('params');
+			  var params_func=button.data('params-func');
+			  var direct_params=button.data('direct-params');
+			  var direct_params_func=button.data('direct-params-func');
+			  if(params!=undefined) {
+				  if(params.indexOf(",")>=0) {
+					  $.each(params.split(","), function() {
+						  var d=this.split("=");
+						  p[d[0]]=d[1];
+					  });
+				  }
+				  else {
+					  p=module[params];
+				  }
+			  }
+			  else if(params_func!=undefined) {
+				  p=module[params]();
+			  }
+			  if(direct_params!=undefined) {
+				  if(direct_params.indexOf(",")>=0) {
+					  $.each(direct_params.split(","), function() {
+						  var d=this.split("=");
+						  dp[d[0]]=d[1];
+					  });
+				  }
+				  else {
+					  dp=module[direct_params];
+				  }
+			  }
+			  else if(direct_params_func!=undefined) {
+				  dp=module[direct_params]();
+			  }
+			  module.doExecuteDialog(button_id, button.data('title'), EMD.context_root+button.data('url'), p,dp);
+			  break;
 		  case 'loadMap':
 			  var src=button.data('flexi-grid');
 			  if(src==null) {
@@ -8936,7 +9130,15 @@ var EMD = (function($, window, document, undefined) {
  * @param width	- 생성 화면 폭
  * @param height	- 생성 화면 높이
  */
-function EmdModule(width, height) {
+function /**
+ * @author EUNSUNGJ
+ *
+ */
+/**
+ * @author EUNSUNGJ
+ *
+ */
+EmdModule(width, height) {
 	this._parent=null;
 	this._window_id =null;
 	this._selectedRow=null;
@@ -8990,6 +9192,13 @@ EmdModule.prototype.showMap = function(gridId, layerName) {
 	EMD.util.window_hide_all();
 };
 
+/**
+ * 피처 코드를 편집한다.
+ * 모듈명 : EmdModule
+ * 함수명 : showMap
+ * @param layerName	- 레이어명
+ * @param value	- 코드 값
+ */
 EmdModule.prototype.modifyFeatureCode = function(layerName, value, newfeature) {
 	EMD.gis.modifyFeatureCode(this, layerName, value, newfeature);
 };
@@ -9097,6 +9306,13 @@ EmdModule.prototype.$ = function(selector) {
 };
 
 /**
+ * 모듈에 아이디를 생성한다.
+ */
+EmdModule.prototype.getId = function(id) {
+	return this._window_id+'_'+id;
+};
+
+/**
  * 폼 변수 생성 함수
  * 모듈 : EmdModule
  * 함수명 : makeFormArgs
@@ -9109,7 +9325,7 @@ EmdModule.prototype.makeFormArgs = function(selector) {
 	this.$(selector).find(':input').not('.frmwrkAuto').not(".skipValue").each( function() {
 		var value='';
 		if($(this).hasClass('ygpaNumber') || $(this).hasClass('ygpaCurrency')) {
-			value=$(this).number(false).val();
+			value=$(this).number(true).val();
 		}
 		else value=$(this).val();
 		if($(this).data('column-id')!=null) {
@@ -9166,7 +9382,8 @@ EmdModule.prototype.makeFormValues = function(selector, obj) {
 		}
 		if(obj[column_id]!=null) {
 			if($(this).hasClass('ygpaNumber') || $(this).hasClass('ygpaCurrency')) {
-				$(this).val($.number(obj[column_id]));
+				var dp=$(this).data("decimal-point");
+				$(this).val($.number(obj[column_id], dp));
 			}
 			else {
 				if($(this).hasClass('ygpaDeptSelect') || $(this).hasClass('ygpaCmmnCl') || $(this).hasClass('ygpaCmmnCode') || $(this).hasClass('ygpaCmmnCd')  || $(this).hasClass('ygpaYnSelect')){
@@ -9387,7 +9604,7 @@ EmdModule.prototype.getFormValues = function(selector, obj) {
 	this.$(selector).find(':input').not('.frmwrkAuto').each( function() {
 		var value='';
 		if($(this).hasClass('ygpaNumber') || $(this).hasClass('ygpaCurrency')) {
-			value=$(this).number(false).val();
+			value=$(this).number(true).val();
 		}
 		else value=$(this).val();
 		if($(this).data('column-id')!=null) {
@@ -9417,7 +9634,7 @@ EmdModule.prototype.getFormValues = function(selector, obj) {
  */
 EmdModule.prototype.doAction = function(addr, args, retfunc) {
 	$.ajax({
-		url: addr,
+		url: EMD.context_root+addr,
 		type: 'POST',
 		module: this,
 		dataType: 'json',
@@ -9450,7 +9667,7 @@ EmdModule.prototype.doExecuteDialog = function(dlgId, dlgTitle, dlgAddr, dlgOpts
 	  EMD.popupId=dlgId;
 	  EMD.popupParams = dlgParams;
 	  if(dlgAddr!=undefined) {
-		  $('#__dialog-modal' ).load(dlgAddr, dlgOpts,
+		  $('#__dialog-modal' ).load(EMD.context_root+dlgAddr, dlgOpts,
 			  function( response, status, xhr ) {
 				  if ( status == "error" ) {
 				    var msg = "에러가 발생했습니다. 에러번호: ";
@@ -9478,7 +9695,7 @@ EmdModule.prototype.doExecuteDialog = function(dlgId, dlgTitle, dlgAddr, dlgOpts
 
 */
 					  // 윈도우 속성 적용
-					  EMD.util.modify_window('__dialog-modal');
+					  EMD.util.modify_window(popup_instance, '__dialog-modal');
 
 /*					  // 버튼에 스타일 적용
 					  $('#__dialog-modal').find("button").each(function() {
@@ -9982,7 +10199,7 @@ EmdModule.prototype.downPfPhoto = function(filePhysiclNm, logicalName) {
  * @param uploadcomplete	- 업로드가 끝난 후 호출 할 함수
  * @param dlgTitle				- 업로드 대화상자 타이틀 명
  */
-EmdModule.prototype.uploadXlsFile = function(upload_id, uploadcomplete, dlgTitle) {
+EmdModule.prototype.uploadXlsFile = function(upload_id, uploadcomplete, dlgTitle, url) {
 	if(dlgTitle==null) dlgTitle="업로드 파일";
 
 	  $('#xlsfile_upload_dialog').dialog("option", {title: dlgTitle, closeOnEscape: true});
@@ -9997,8 +10214,8 @@ EmdModule.prototype.uploadXlsFile = function(upload_id, uploadcomplete, dlgTitle
 	  ]});
 	  $('#xlsfile_upload_dialog').dialog("open");
 
+      $('#xlsfileupload').attr('action', EMD.context_root+url);
       $('#xlsfileupload').data('module', this);
-
       $('#xlsfile_upload_dialog').off('fileUploaded');
 	  $('#xlsfile_upload_dialog').on('fileUploaded', {done: uploadcomplete, module: this}, function(event) {
 		  event.data.done(event.data.module, null);
@@ -10209,7 +10426,7 @@ EmdModule.prototype.printPayNotice = function(url, params, retfunc) {
 	$(form).append(mngCnt);
 	$(form).append(nticCnt);
 	$(form).append(chrgeKnd);
-	$(form).attr("action", url);
+	$(form).attr("action", EMD.context_root+url);
 	$('#__tempDiv').append(form);
 
 	var win = window.open("","payNotice","width=800, height=600, menubar=no,status=no,scrollbars=yes");
@@ -10253,7 +10470,7 @@ EmdModule.prototype.printTaxNotice = function(url, params, retfunc) {
 	$(form).append(mngNo);
 	$(form).append(mngCnt);
 	$(form).append(nticCnt);
-	$(form).attr("action", url);
+	$(form).attr("action", EMD.context_root+url);
 	$('#__tempDiv').append(form);
 
 	var win = window.open("","taxNotice","width=800, height=600, menubar=no,status=no,scrollbars=yes");
@@ -10267,6 +10484,32 @@ EmdModule.prototype.printTaxNotice = function(url, params, retfunc) {
 			);
 */
 	form.target = "taxNotice";
+	form.submit();
+};
+
+/**
+ * 인쇄 페이지를 호출 한다.
+ */
+EmdModule.prototype.printPage = function(url, params) {
+	$('#__tempDiv').empty();
+	var form = document.createElement("form");
+	$(form).attr("id", "__printPayNoticeForm");
+	for(var pn in params) {
+		var e = document.createElement("input");
+		$(e).attr("name", pn);
+		$(e).val(params[pn]);
+		$(form).append(e);
+	}
+	$(form).attr("action", EMD.context_root+url);
+	$('#__tempDiv').append(form);
+
+	var win = window.open("","printPage","width=800, height=600, menubar=no,status=no,scrollbars=yes");
+
+	$(win).on("");
+
+	var module=this;
+
+	form.target = "printPage";
 	form.submit();
 };
 
@@ -10656,7 +10899,7 @@ EmdPopupModule.prototype.$ = function(selector) {
 
 EmdPopupModule.prototype.doAction = function(addr, args, retfunc) {
 	$.ajax({
-		url: addr,
+		url: EMD.context_root+addr,
 		type: 'POST',
 		module: this,
 		dataType: 'json',
@@ -11781,7 +12024,12 @@ if (!Array.prototype.indexOf) {
             $('#'+$this.attr('id')+'_select').removeAttr('disabled');
             if(opts.enableClass !== '') {
                  $this.addClass(opts.enableClass);
+                 $('#'+$this.attr('id')+'_select').addClass(opts.enableClass);
             }
+			if(opts.disableClass !== '') {
+				$this.removeClass(opts.disableClass);
+	            $('#'+$this.attr('id')+'_select').removeClass(opts.disableClass);
+			}
         }
 
         return this.each(function() {
@@ -11792,7 +12040,8 @@ if (!Array.prototype.indexOf) {
      };
 
     $.fn.enable.defaults = {
-        enableClass: ''
+        enableClass: '',
+        disableClass: ''
     };
 
     // readonly On/Off

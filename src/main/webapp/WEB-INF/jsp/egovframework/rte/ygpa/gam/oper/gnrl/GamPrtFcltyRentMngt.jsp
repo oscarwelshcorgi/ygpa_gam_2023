@@ -375,6 +375,9 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 		}
 
     });
+
+	console.log('debug');
+	// end of load complete
 };
 
 GamAssetRentMngtModule.prototype.loadEntrpsChargerList = function() {
@@ -433,8 +436,10 @@ GamAssetRentMngtModule.prototype.loadEntrpsChargerList = function() {
 GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 	var firstAmt=0;
 	var nticMth=this.$('#nticMth').val();
-	var totalAmount=Number(this.$('#grFee').val().replace(/,/gi, ""));
-	var payinstIntrrate=Number(this.$('#payinstIntrrate').val().replace(/,/gi, ""))/100;
+	var total = this.$('#grFee').val();
+	var totalAmount=Number(typeof total=="string"?total.replace(/,/gi, ""):total);
+	var payinst=this.$('#payinstIntrrate').val();
+	var payinstIntrrate=Number(typeof payinst=="string"?payinst.replace(/,/gi, ""):payinst)/100;
     var grUsagePdFrom = new Date(Date.parse(this.$('#grUsagePdFrom').val())); //총사용기간FROM
     var grUsagePdTo = new Date(Date.parse(this.$('#grUsagePdTo').val())); //총사용기간To
     var fromDt, toDt;
