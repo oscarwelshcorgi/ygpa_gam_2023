@@ -6,12 +6,15 @@
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="GamFcltyUsageSttusInqireVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageSttusInqireVO"/>
 
-	<select id="gamFcltyUsageSttusInqireDao.selectFcltyGisAssetsCdFListTotCnt" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
+	<select id="gamFcltyUsageSttusInqireDao.selectFcltyGisPrtFcltyCdList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
 		SELECT A.*
 		  FROM (
 		      SELECT ROWNUM RNUM, S.*
 		        FROM (
-		              SELECT GIS_ASSETS_PRT_AT_CODE||'-'||GIS_ASSETS_CD||'-'||GIS_ASSETS_SUB_CD AS GIS_ASSETS
+		              SELECT GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE
+		              		,GIS_ASSETS_CD AS GIS_ASSETS_CD
+		              		,GIS_ASSETS_SUB_CD AS GIS_ASSETS_SUB_CD
+		              		,GIS_ASSETS_PRT_AT_CODE||'-'||GIS_ASSETS_CD||'-'||GIS_ASSETS_SUB_CD AS GIS_ASSETS
 		                    ,GAM_GETCODENAME('GAM003', PRT_FCLTY_SE) AS PRT_FCLTY_SE
 		                    ,PRT_FCLTY_NM AS PRT_FCLTY_NM
 		                    ,PRT_FCLTY_STNDRD AS PRT_FCLTY_STNDRD
@@ -29,14 +32,14 @@
 
 	</select>
 
-	<select id="gamFcltyUsageSttusInqireDao.selectFcltyGisAssetsCdFListTotCnt" parameterClass="GamFcltyUsageSttusInqireVo" resultClass="egovMap">
+	<select id="gamFcltyUsageSttusInqireDao.selectFcltyGisPrtFcltyCdListTotCnt" parameterClass="GamFcltyUsageSttusInqireVo" resultClass="int">
 		SELECT COUNT(*) totcnt
 	      FROM GIS_PRT_FCLTY_CD_F
 
 	</select>
 
 
-    <select id="gamFcltyUsageSttusInqireDao.selectFcltyUsageSttusInqireList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
+    <select id="gamFcltyUsageSttusInqireDao.selectFcltyAssetsRentList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
 		SELECT A.*
 			FROM (
 				SELECT  ROWNUM RNUM, S.*
@@ -84,7 +87,7 @@
 
     </select>
 
-	<select id="gamFcltyUsageSttusInqireDao.selectFcltyUsageSttusInqireListTotCnt" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="int">
+	<select id="gamFcltyUsageSttusInqireDao.selectFcltyAssetsRentListTotCnt" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="int">
 		SELECT COUNT(*) totcnt
 	      FROM ASSETS_RENT_F M, ASSETS_RENT_DETAIL_F D
 	     WHERE 1=1

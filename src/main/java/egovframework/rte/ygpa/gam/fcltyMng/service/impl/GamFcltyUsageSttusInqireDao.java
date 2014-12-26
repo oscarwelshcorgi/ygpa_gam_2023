@@ -35,27 +35,31 @@ import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageSttusInqireVO;
 public class GamFcltyUsageSttusInqireDao extends YGPAAbstractDAO{
 
     /**
+     * GIS 항만시설 목록 조회
+     * @param vo ComDefaultVO
+     * @return List
+     * @exception Exception
+     */
+	public List selectFcltyGisPrtFcltyCdList(GamFcltyUsageSttusInqireVO vo) throws Exception{
+		return list("gamFcltyUsageSttusInqireDao.selectFcltyGisPrtFcltyCdList", vo);
+	}
+
+	public int selectFcltyGisPrtFcltyCdListTotCnt(GamFcltyUsageSttusInqireVO vo) {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyUsageSttusInqireDao.selectFcltyGisPrtFcltyCdListTotCnt", vo);
+	}
+
+	/**
      * 시설물 사용현황 목록 조회
      * @param vo ComDefaultVO
      * @return List
      * @exception Exception
      */
 	@SuppressWarnings("unchecked")
-	public List selectFcltyUsageSttusInqireList(GamFcltyUsageSttusInqireVO vo) throws Exception{
-		return list("gamFcltyUsageSttusInqireDao.selectFcltyUsageSttusInqireList", vo);
+	public List selectFcltyAssetsRentList(GamFcltyUsageSttusInqireVO vo) throws Exception{
+		return list("gamFcltyUsageSttusInqireDao.selectFcltyAssetsRentList", vo);
 	}
 
-	public int selectFcltyUsageSttusInqireListTotCnt(GamFcltyUsageSttusInqireVO vo) {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyUsageSttusInqireDao.selectFcltyUsageSttusInqireListTotCnt", vo);
+	public int selectFcltyAssetsRentListTotCnt(GamFcltyUsageSttusInqireVO vo) {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyUsageSttusInqireDao.selectFcltyAssetsRentListTotCnt", vo);
 	}
-
-	public List selectFcltyGisAssetsCdFList(GamFcltyUsageSttusInqireVO vo) throws Exception{
-		return list("gamFcltyUsageSttusInqireDao.selectFcltyGisAssetsCdFList", vo);
-	}
-
-	public int selectFcltyGisAssetsCdFListTotCnt(GamFcltyUsageSttusInqireVO vo) {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyUsageSttusInqireDao.selectFcltyGisAssetsCdFListTotCnt", vo);
-	}
-
-
 }

@@ -84,15 +84,15 @@ public class GamFcltyUsageSttusInqireController {
 	}
 
 	/**
-	 * GIS 자산 코드
+	 * GIS 항만 시설
 	 * @param searchVO
 	 * @return map
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/fcltyMng/gamFcltyUsageSttusInqireList.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/fcltyMng/gamFcltyGisPrtFcltyCdList.do", method = RequestMethod.POST)
 	@ResponseBody
-	Map selectFcltyUsageSttusInqireList(GamFcltyUsageSttusInqireVO searchVO) throws Exception {
+	Map selectFcltyGisPrtFcltyCdList(GamFcltyUsageSttusInqireVO searchVO) throws Exception {
 		int totalCnt, page, firstIndex;
 		Map map = new HashMap();
 
@@ -119,8 +119,8 @@ public class GamFcltyUsageSttusInqireController {
 		/** List Data */
 		// 데이터 쿼리 데이터
 
-		totalCnt = gamFcltyUsageSttusInqireService.selectFcltyGisAssetsCdFListTotCnt(searchVO);
-		List resultList = gamFcltyUsageSttusInqireService.selectFcltyGisAssetsCdFList(searchVO);
+		totalCnt = gamFcltyUsageSttusInqireService.selectFcltyGisPrtFcltyCdListTotCnt(searchVO);
+		List resultList = gamFcltyUsageSttusInqireService.selectFcltyGisPrtFcltyCdList(searchVO);
 
 		map.put("resultCode", 0);
 		map.put("totalCount", totalCnt);
@@ -140,9 +140,9 @@ public class GamFcltyUsageSttusInqireController {
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/fcltyMng/gamFcltyGisAssetsCdFList.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/fcltyMng/gamFcltyAssetsRentList.do", method = RequestMethod.POST)
 	@ResponseBody
-	Map selectFcltyGisAssetsCdFList(GamFcltyUsageSttusInqireVO searchVO) throws Exception {
+	Map selectFcltyAssetsRentList(GamFcltyUsageSttusInqireVO searchVO) throws Exception {
 		int totalCnt, page, firstIndex;
 		Map map = new HashMap();
 
@@ -169,8 +169,8 @@ public class GamFcltyUsageSttusInqireController {
 		/** List Data */
 		// 데이터 쿼리 데이터
 
-		totalCnt = gamFcltyUsageSttusInqireService.selectFcltyUsageSttusInqireListTotCnt(searchVO);
-		List resultList = gamFcltyUsageSttusInqireService.selectFcltyUsageSttusInqireList(searchVO);
+		totalCnt = gamFcltyUsageSttusInqireService.selectFcltyAssetsRentListTotCnt(searchVO);
+		List resultList = gamFcltyUsageSttusInqireService.selectFcltyAssetsRentList(searchVO);
 
 		map.put("resultCode", 0);
 		map.put("totalCount", totalCnt);
@@ -179,8 +179,17 @@ public class GamFcltyUsageSttusInqireController {
 		return map;
 	}
 
+	/**
+	 * 엑셀 다운로드
+	 * @param searchVO
+	 * @param sPrtAtCode
+	 * @param sUsagePdFrom
+	 * @param sUsagePdTo
+	 * @return map
+	 * @throws Exception
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/fcltyMng/gamExcelFcltyUsageSttusInqireList.do" , method=RequestMethod.POST)
+	@RequestMapping(value="/fcltyMng/gamExcelFcltyAssetsRentList.do" , method=RequestMethod.POST)
 	@ResponseBody ModelAndView gamExcelFcltyUsageSttusInqireList(@RequestParam Map<String, Object> excelParam) throws Exception {
 
 		Map map = new HashMap();
@@ -204,7 +213,7 @@ public class GamFcltyUsageSttusInqireController {
 		searchVO.setLastIndex(9999);
 		searchVO.setRecordCountPerPage(9999);
 
-		List resultList = gamFcltyUsageSttusInqireService.selectFcltyUsageSttusInqireList(searchVO);
+		List resultList = gamFcltyUsageSttusInqireService.selectFcltyAssetsRentList(searchVO);
 
 		map.put("resultCode", 0);
 		map.put("resultList", resultList);

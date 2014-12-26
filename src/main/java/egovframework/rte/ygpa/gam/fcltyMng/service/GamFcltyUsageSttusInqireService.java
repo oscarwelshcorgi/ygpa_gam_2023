@@ -29,28 +29,12 @@ import egovframework.rte.ygpa.gam.mngFee.service.GamMngFeeGubunMngVo;
 
 public interface GamFcltyUsageSttusInqireService {
 	/**
-	 * 시설물 사용현황 목록 조회
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */
-	List selectFcltyUsageSttusInqireList(GamFcltyUsageSttusInqireVO vo) throws Exception;
-
-	/**
-	 * 카운트
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	int selectFcltyUsageSttusInqireListTotCnt(GamFcltyUsageSttusInqireVO vo) throws Exception;
-
-	/**
-	 * 카운트
+	 * GIS 항만 시설
 	 * @param vo
 	 * @return List
 	 * @throws Exception
 	 */
-	List selectFcltyGisAssetsCdFList(GamFcltyUsageSttusInqireVO vo) throws Exception;
+	List selectFcltyGisPrtFcltyCdList(GamFcltyUsageSttusInqireVO vo) throws Exception;
 
 	/**
 	 * GIS 자산
@@ -58,7 +42,25 @@ public interface GamFcltyUsageSttusInqireService {
 	 * @return int
 	 * @throws Exception
 	 */
-	int selectFcltyGisAssetsCdFListTotCnt(GamFcltyUsageSttusInqireVO vo) throws Exception;
+	int selectFcltyGisPrtFcltyCdListTotCnt(GamFcltyUsageSttusInqireVO vo) throws Exception;
+
+	/**
+	 * 시설물 사용현황 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	List selectFcltyAssetsRentList(GamFcltyUsageSttusInqireVO vo) throws Exception;
+
+	/**
+	 * 카운트
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	int selectFcltyAssetsRentListTotCnt(GamFcltyUsageSttusInqireVO vo) throws Exception;
+
+
 
 
 

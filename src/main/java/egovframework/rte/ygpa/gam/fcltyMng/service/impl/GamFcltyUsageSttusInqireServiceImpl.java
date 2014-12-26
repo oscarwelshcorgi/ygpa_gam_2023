@@ -39,12 +39,30 @@ public class GamFcltyUsageSttusInqireServiceImpl extends AbstractServiceImpl imp
     private GamFcltyUsageSttusInqireDao gamFcltyUsageSttusInqireDao;
 
 	/**
+	 * GIS 항만 시설
+	 * @param searchVO
+	 * @return
+	 */
+	public List selectFcltyGisPrtFcltyCdList(GamFcltyUsageSttusInqireVO vo) throws Exception{
+		return gamFcltyUsageSttusInqireDao.selectFcltyGisPrtFcltyCdList(vo);
+	}
+
+	/**
+	 * GIS 항만 시설
+	 * @param searchVO
+	 * @return
+	 */
+	public int selectFcltyGisPrtFcltyCdListTotCnt(GamFcltyUsageSttusInqireVO vo) throws Exception{
+		return gamFcltyUsageSttusInqireDao.selectFcltyGisPrtFcltyCdListTotCnt(vo);
+	}
+
+	/**
 	 * 시설물 사용현황 목록 조회
 	 * @param searchVO
 	 * @return
 	 */
-	public List selectFcltyUsageSttusInqireList(GamFcltyUsageSttusInqireVO vo) throws Exception{
-		return gamFcltyUsageSttusInqireDao.selectFcltyUsageSttusInqireList(vo);
+	public List selectFcltyAssetsRentList(GamFcltyUsageSttusInqireVO vo) throws Exception{
+		return gamFcltyUsageSttusInqireDao.selectFcltyAssetsRentList(vo);
 	}
 
 	/**
@@ -52,30 +70,8 @@ public class GamFcltyUsageSttusInqireServiceImpl extends AbstractServiceImpl imp
 	 * @param searchVO
 	 * @return
 	 */
-	public int selectFcltyUsageSttusInqireListTotCnt(GamFcltyUsageSttusInqireVO vo) throws Exception{
-		return gamFcltyUsageSttusInqireDao.selectFcltyUsageSttusInqireListTotCnt(vo);
+	public int selectFcltyAssetsRentListTotCnt(GamFcltyUsageSttusInqireVO vo) throws Exception{
+		return gamFcltyUsageSttusInqireDao.selectFcltyAssetsRentListTotCnt(vo);
 	}
-
-	/**
-	 * GIS 자산 목록 조회
-	 * @param searchVO
-	 * @return
-	 */
-	public List selectFcltyGisAssetsCdFList(GamFcltyUsageSttusInqireVO vo) throws Exception{
-		return gamFcltyUsageSttusInqireDao.selectFcltyGisAssetsCdFList(vo);
-	}
-
-	/**
-	 * GIS 자산 목록 수
-	 * @param searchVO
-	 * @return
-	 */
-	public int selectFcltyGisAssetsCdFListTotCnt(GamFcltyUsageSttusInqireVO vo) throws Exception{
-		return gamFcltyUsageSttusInqireDao.selectFcltyGisAssetsCdFListTotCnt(vo);
-	}
-
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageSttusInqireService#selectFcltyUsageMngList(egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageSttusInqireVO)
-	 */
 
 }

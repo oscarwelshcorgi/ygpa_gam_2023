@@ -41,12 +41,45 @@
  * @PARAMETER     : NONE
 **/
 %>
+
  GamFcltyUsageSttusInqireModule.prototype.loadComplete = function() {
+	// 자산임대 테이블 설정
+/* GIS 자산 리스트 */
+	this.$("#gisPrtFcltyCdGrid").flexigrid({
+		module : this,
+		url : '<c:url value="/fcltyMng/gamFcltyGisPrtFcltyCdList.do" />',
+		dataType : 'json',
+		colModel : [ {display : 'GIS 자산', name : 'gisAssets', width : 80, sortable : false, align : 'center'},
+		             {display : '시설 구분', name : 'prtFcltySe', width : 80, sortable : false, align : 'center'},
+		             {display : '시설 명', name : 'prtFcltyNm', width : 100, sortable : false, align : 'center'},
+		             {display : '시설 규격', name : 'prtFcltyDtndrd', width : 80, sortable : false, align : 'center'},
+		             {display : '시설 단위', name : 'prtFcltyUnit', width : 60, sortable : false, align : 'center'},
+		             {display : '시설 설치 일자', name : 'prtFcltyInstlDt', width : 90, sortable : false, align : 'center'},
+		             {display : '시설 변경 일자', name : 'prtFcltyChangeDt', width : 90, sortable : false, align : 'center'},
+		             {display : '관리 업체', name : 'prtFcltyMngEntrps', width : 80, sortable : false, align : 'center'},
+		             {display : '시설 만료 일자', name : 'prtFcltyExprDt', width : 90, sortable : false, align : 'center'},
+		             {display : '시설 수량', name : 'prtPrtFcltyCnt', width : 65, sortable : false, align : 'center'},
+		             {display : '시설 담당', name : 'prtPrtFcltyMnger', width : 70, sortable : false, align : 'center'},
+		             {display : '시설물 관리 그룹', name : 'fcltsMngGroupNo', width : 130, sortable : false, align : 'center'}
+
+		             /*{display : '항코드', name : 'prtAtCode', width : 40, sortable : false, align : 'center', displayFormat : 'number'},*/
+		],
+		showTableToggleBtn : false,
+		height : 'auto',
+		preProcess : function(module,data) {
+			module.$('#totalCount').val(data.totalCount);
+			module.makeDivValues('#gisPrtFcltyCdForm', data);
+			module.makeFormValues('#searchForm', data.result);
+			return data;
+		}
+	});
+
+/* 시설물 사용현황 */
 	//	console.log("aaaaa");
 	// 자산임대 테이블 설정
-	this.$("#mainGrid").flexigrid({
+	this.$("#assetsRentGrid").flexigrid({
 		module : this,
-		url : '<c:url value="/fcltyMng/gamFcltyUsageSttusInqireList.do" />',
+		url : '<c:url value="/fcltyMng/gamFcltyAssetsRentList.do" />',
 		dataType : 'json',
 		colModel : [ {display : '항코드', name : 'prtAtCode', width : 50, sortable : false, align : 'center'},
 		             {display : '관리번호', name : 'mngYearNo', width : 100, sortable : false, align : 'center'},
@@ -58,32 +91,32 @@
 		             {display : '면적', name : 'usageAr', width : 80, sortable : false, align : 'right', displayFormat : 'number'},
 		             {display : '금액', name : 'fee', width : 100, sortable : false, align : 'right', displayFormat : 'number'},
 		             {display : '허가일', name : 'prmisnDt', width : 90, sortable : false, align : 'center'}
-
-		             /*{display : '항코드', name : 'prtAtCode', width : 40, sortable : false, align : 'center', displayFormat : 'number'},*/
-		],
+				],
 		showTableToggleBtn : false,
 		height : 'auto',
 		preProcess : function(module,data) {
-			module.$('#totalCount').val(data.totalCount);
-			module.makeDivValues('#listSumForm', data);
+			module.$('#totalCount2').val(data.totalCount);
+			module.makeDivValues('#assetsRentForm', data);
+			module.makeFormValues('#searchForm', data.result);
 			return data;
 		}
 	});
 
-this.$("#sUsagePdFrom").val(EMD.util.getDate(EMD.util.addMonths(-1)));
-this.$("#sUsagePdTo").val(EMD.util.getDate());
+	this.$("#sUsagePdFrom").val(EMD.util.getDate(EMD.util.addMonths(-1)));
+	this.$("#sUsagePdTo").val(EMD.util.getDate());
 
-// 마우스 클릭
-this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
-	module._mode = 'modify';
-});
+	// 마우스 클릭
+	this.$("#gisPrtFcltyCdGrid").on('onItemSelected', function(event, module, row, grid, param) {
+//		module._mode = 'modify';
+	});
 
-// 마우스 더블 킬릭
-this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-	module._mode = 'modify';
-//		module.$("#mainTab").tabs("option", {active: 1});
-});
-
+	// 마우스 더블 킬릭
+	this.$("#gisPrtFcltyCdGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		module.loadGisPtrFcltyCd();
+		module.$("#mainTab").tabs("option", {active: 1});
+	//		module.$("#mainTab").tabs("option", {active: 1});
+	});
+ };
 /*
 		this.$("#prtFcltyUseSttusInqireFileList").on(
 				'onItemSelected',
@@ -111,7 +144,7 @@ this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, p
 		this.$("#sGrUsagePdFrom").val(EMD.util.getDate(EMD.util.addMonths(-1)));
 		this.$("#sGrUsagePdTo").val(EMD.util.getDate());
 */
-	};
+
 
 <%
 /**
@@ -123,27 +156,27 @@ this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, p
 %>
 
 GamFcltyUsageSttusInqireModule.prototype.onButtonClick = function(buttonId) {
-		switch (buttonId) {
+	switch (buttonId) {
 /*
-			case 'btnAdd':
-	        	this.addData();
-				break;
-	        case 'btnSave':
-	        	this.saveData();
-				break;
-			case 'btnDelete':
-				this.deleteData();
-				break;
-			case 'btnIdCheck':
-				this.checkId();
-				break;
+		case 'btnAdd':
+        	this.addData();
+			break;
+        case 'btnSave':
+        	this.saveData();
+			break;
+		case 'btnDelete':
+			this.deleteData();
+			break;
+		case 'btnIdCheck':
+			this.checkId();
+			break;
 */
-			case 'btnExcelDownload':
-				this.downloadExcel();
-				break;
-		}
+		case 'btnExcelDownload':
+			this.downloadExcel();
+			break;
+	}
 
-	};
+};
 
 
 <%
@@ -168,8 +201,51 @@ GamFcltyUsageSttusInqireModule.prototype.onSubmit = function() {
 //////////// 확인 부분 ?
 GamFcltyUsageSttusInqireModule.prototype.loadData = function() {
 	this.$("#mainTab").tabs("option", {active: 0});
-	var searchOpt=this.makeFormArgs('#searchForm');
-	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+	var searchVO=this.makeFormArgs('#searchForm');
+	this.$('#gisPrtFcltyCdGrid').flexOptions({params:searchVO}).flexReload();
+};
+
+
+/* 수정 중 */
+
+GamFcltyUsageSttusInqireModule.prototype.loadGisPtrFcltyCd = function() {
+var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
+
+	if(row.length==0) {
+		alert('선택된 항목이 없습니다.');
+		this.$("#mainTab").tabs("option", {active: 0});
+		return;
+	}
+
+	row = row[0];
+
+	var searchVO = [
+	                { name: 'gisAssetsPrtAtCode', value: row['gisAssetsPrtAtCode'] },
+	                { name: 'gisAssetsCd', value: row['gisAssetsCd'] },
+	                { name: 'gisAssetsSubCd', value: row['gisAssetsSubCd'] }
+	               ];
+
+	console.log(searchVO);
+// 아래 this.doAction 대처 가능???
+	this.$('#assetsRentGrid').flexOptions({params:searchVO}).flexReload();
+
+/*
+	// tabs2 항목 데이타로딩
+	this.doAction('/fcltyMng/gamFcltyAssetsRentList.do', searchVO, function(module, result) {
+		if(result.resultCode == "0"){
+			module.makeFormValues('#searchForm', result.result);
+			// tabs3 그리드 리로드
+			module.$('#mntnRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
+			// tabs4 항목 데이타 로딩/ 그리드 리로드
+			module.makeFormValues('#fcltyMaintMngFileForm', {});
+			module.$("#previewImage").attr("src", "");
+			module.$('#fcltyMaintFileList').flexOptions({params:searchVO}).flexReload();
+
+		}else{
+			module.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
+		}
+*/
+
 };
 
 <%
@@ -187,16 +263,16 @@ GamFcltyUsageSttusInqireModule.prototype.downloadExcel = function() {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
-	this.$('#mainGrid').flexExcelDown('/fcltyMng/gamExcelFcltyUsageSttusInqireList.do');
+	this.$('#gisPrtFcltyCdGrid').flexExcelDown('/fcltyMng/gamExcelFcltyAssetsRentList.do');
 
 };
 
 
 // 수정해야 하는 부분
 GamFcltyUsageSttusInqireModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
-	if (oldTabId == "tabs1"
-			&& this.$('mainGrid').selectedRowCount() == 0) {
+	if (oldTabId == "tabs1" && this.$('gisPrtFcltyCdGrid').selectedRowCount() == 0) {
 		alert('먼저 항목을 선택 하시기 바랍니다.');
+		this.$("#mainTab").tabs("option", {active: 0});
 		return false;
 	}
 	return true;
@@ -210,6 +286,13 @@ GamFcltyUsageSttusInqireModule.prototype.onTabChange = function(newTabId, oldTab
 	}
 	switch(newTabId) {
 		case "tabs1":
+			break;
+		case "tabs2":
+			if (oldTabId == "tabs1" && this.$('#gisPrtFcltyCdGrid').selectedRowCount() == 0) {
+				alert('먼저 항목을 선택 하시기 바랍니다.');
+				this.$("#mainTab").tabs("option", {active: 0});
+				return false;
+			}
 			break;
 	}
 };
@@ -251,29 +334,24 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 	<div class="emdPanel fillHeight">
  		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" data-onchange-before="onTabChangeBefore">
 			<ul>
-				<li><a href="#tabs1" class="emdTab">1</a></li>
-				<li><a href="#tabs2" class="emdTab">2</a></li>
-				<li><a href="#tabs3" class="emdTab">3</a></li>
-				<li><a href="#tabs4" class="emdTab">4</a></li>
-				<li><a href="#tabs5" class="emdTab">5</a></li>
+				<li><a href="#tabs1" class="emdTab">시설물 사용현황</a></li>
+				<li><a href="#tabs2" class="emdTab">시설물 임대현황</a></li>
+				<li><a href="#tabs3" class="emdTab">시설물 점검기록</a></li>
+				<li><a href="#tabs4" class="emdTab">시설물 유지보수기록</a></li>
+				<li><a href="#tabs5" class="emdTab">시설물 하자보수기록</a></li>
 			</ul>
 
 			<!-- TAB 1 AREA (LIST) -->
 			<div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
-				<table id="mainGrid" style="display:none" class="fillHeight"></table>
+				<table id="gisPrtFcltyCdGrid" style="display:none" class="fillHeight"></table>
 				<div id="listSumPanel" class="emdControlPanel">
-					<form id="listSumForm">
+					<form id="gisPrtFcltyCdForm">
 						<table style="width:100%;">
 							<tr>
 								<th width="20%" height="20">조회 자료수</th>
 								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align: right">
-<!--
-									<button data-cmd="btnAdd">추가</button>
-									<button data-cmd="btnDelete">삭제</button>
- -->
 	                                <button data-cmd="btnExcelDownload">엑셀다운로드</button>
-
 								</td>
 							</tr>
 						</table>
@@ -281,14 +359,18 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 				</div>
 			</div>
 
-
-
 <!-- 탭2 -->
-			<div id="tabs2" class="emdTabPage" style="overflow:scroll;">
-				<div class="emdControlPanel">
-					<form id="detailForm">
-						<table class="detailPanel" style="width:100%">
-							<tr>2
+			<div id="tabs2" class="emdTabPage fillHeight" style="overflow: hidden;" >
+				<table id="assetsRentGrid" style="display:none" class="fillHeight"></table>
+				<div id="listSumPanel" class="emdControlPanel">
+					<form id="assetsRentForm">
+						<table style="width:100%;">
+							<tr>
+								<th width="20%" height="20">조회 자료수</th>
+								<td><input type="text" size="12" id="totalCount2" class="ygpaNumber" disabled="disabled" /></td>
+								<td style="text-align: right">
+	                                <button data-cmd="btnExcelDownload">엑셀다운로드</button>
+								</td>
 							</tr>
 						</table>
 					</form>

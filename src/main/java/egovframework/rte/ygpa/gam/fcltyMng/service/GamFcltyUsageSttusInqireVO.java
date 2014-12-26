@@ -34,18 +34,50 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	private String sUsagePdTo;
 
 // ==== 자산 임대 ==== //
-	private String GisAssets;
-	private String PrtFcltySe;
-	private String PrtFcltyNm;
-	private String PrtFcltyDtndrd;
-	private String PrtFcltyUnit;
-	private String PrtFcltyInstlDt;
-	private String PrtFcltyChangeDt;
-	private String PrtFcltyMngEntrps;
-	private String PrtFcltyExprDt;
-	private String PrtPrtFcltyCnt;
-	private String PrtPrtFcltyMnger;
-	private String FcltsMngGroupNo;
+	/** GIS 자산 **/
+	private String gisAssets;
+
+	/** GIS 자산 항코드 **/
+	private String gisAssetsPrtAtCode;
+
+	/** GIS 자산 코드**/
+	private String gisAssetsCd;
+
+	/** GIS 자산 서브 코드**/
+	private String gisAssetsSubCd;
+
+	/** 항만시설 구분 **/
+	private String prtFcltySe;
+
+	/** 항만시설 명 **/
+	private String prtFcltyNm;
+
+	/** 항만시설 규격 **/
+	private String prtFcltyDtndrd;
+
+	/** 항만시설 단위 **/
+	private String prtFcltyUnit;
+
+	/** 항만시설 설치 일자 **/
+	private String prtFcltyInstlDt;
+
+	/** 항만시설 변경일자 **/
+	private String prtFcltyChangeDt;
+
+	/** 항만시설 관리 업체 **/
+	private String prtFcltyMngEntrps;
+
+	/** 시설 만료일자 **/
+	private String prtFcltyExprDt;
+
+	/** 시설 수량 **/
+	private String prtPrtFcltyCnt;
+
+	/** 시설 담당 **/
+	private String prtPrtFcltyMnger;
+
+	/** 시설물 관리 그룹 **/
+	private String fcltsMngGroupNo;
 
 // ==== 자산 임대 ==== //
 	/** 항코드 **/
@@ -55,7 +87,7 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	private String mngYearNo;
 
 	/** GIS 코드 **/
-	private String gisAssets;
+//	private String gisAssets;
 
 	/** 문서번호 **/
 	private String docNo;
@@ -83,167 +115,6 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	 */
 	public String getsPrtAtCode() {
 		return sPrtAtCode;
-	}
-
-	/**
-	 * @return the prtFcltySe
-	 */
-	public String getPrtFcltySe() {
-		return PrtFcltySe;
-	}
-
-	/**
-	 * @param prtFcltySe the prtFcltySe to set
-	 */
-	public void setPrtFcltySe(String prtFcltySe) {
-		PrtFcltySe = prtFcltySe;
-	}
-
-	/**
-	 * @return the prtFcltyNm
-	 */
-	public String getPrtFcltyNm() {
-		return PrtFcltyNm;
-	}
-
-	/**
-	 * @param prtFcltyNm the prtFcltyNm to set
-	 */
-	public void setPrtFcltyNm(String prtFcltyNm) {
-		PrtFcltyNm = prtFcltyNm;
-	}
-
-	/**
-	 * @return the prtFcltyDtndrd
-	 */
-	public String getPrtFcltyDtndrd() {
-		return PrtFcltyDtndrd;
-	}
-
-	/**
-	 * @param prtFcltyDtndrd the prtFcltyDtndrd to set
-	 */
-	public void setPrtFcltyDtndrd(String prtFcltyDtndrd) {
-		PrtFcltyDtndrd = prtFcltyDtndrd;
-	}
-
-	/**
-	 * @return the prtFcltyUnit
-	 */
-	public String getPrtFcltyUnit() {
-		return PrtFcltyUnit;
-	}
-
-	/**
-	 * @param prtFcltyUnit the prtFcltyUnit to set
-	 */
-	public void setPrtFcltyUnit(String prtFcltyUnit) {
-		PrtFcltyUnit = prtFcltyUnit;
-	}
-
-	/**
-	 * @return the prtFcltyInstlDt
-	 */
-	public String getPrtFcltyInstlDt() {
-		return PrtFcltyInstlDt;
-	}
-
-	/**
-	 * @param prtFcltyInstlDt the prtFcltyInstlDt to set
-	 */
-	public void setPrtFcltyInstlDt(String prtFcltyInstlDt) {
-		PrtFcltyInstlDt = prtFcltyInstlDt;
-	}
-
-	/**
-	 * @return the prtFcltyChangeDt
-	 */
-	public String getPrtFcltyChangeDt() {
-		return PrtFcltyChangeDt;
-	}
-
-	/**
-	 * @param prtFcltyChangeDt the prtFcltyChangeDt to set
-	 */
-	public void setPrtFcltyChangeDt(String prtFcltyChangeDt) {
-		PrtFcltyChangeDt = prtFcltyChangeDt;
-	}
-
-	/**
-	 * @return the prtFcltyMngEntrps
-	 */
-	public String getPrtFcltyMngEntrps() {
-		return PrtFcltyMngEntrps;
-	}
-
-	/**
-	 * @param prtFcltyMngEntrps the prtFcltyMngEntrps to set
-	 */
-	public void setPrtFcltyMngEntrps(String prtFcltyMngEntrps) {
-		PrtFcltyMngEntrps = prtFcltyMngEntrps;
-	}
-
-	/**
-	 * @return the prtFcltyExprDt
-	 */
-	public String getPrtFcltyExprDt() {
-		return PrtFcltyExprDt;
-	}
-
-	/**
-	 * @param prtFcltyExprDt the prtFcltyExprDt to set
-	 */
-	public void setPrtFcltyExprDt(String prtFcltyExprDt) {
-		PrtFcltyExprDt = prtFcltyExprDt;
-	}
-
-	/**
-	 * @return the prtPrtFcltyCnt
-	 */
-	public String getPrtPrtFcltyCnt() {
-		return PrtPrtFcltyCnt;
-	}
-
-	/**
-	 * @param prtPrtFcltyCnt the prtPrtFcltyCnt to set
-	 */
-	public void setPrtPrtFcltyCnt(String prtPrtFcltyCnt) {
-		PrtPrtFcltyCnt = prtPrtFcltyCnt;
-	}
-
-	/**
-	 * @return the prtPrtFcltyMnger
-	 */
-	public String getPrtPrtFcltyMnger() {
-		return PrtPrtFcltyMnger;
-	}
-
-	/**
-	 * @param prtPrtFcltyMnger the prtPrtFcltyMnger to set
-	 */
-	public void setPrtPrtFcltyMnger(String prtPrtFcltyMnger) {
-		PrtPrtFcltyMnger = prtPrtFcltyMnger;
-	}
-
-	/**
-	 * @return the fcltsMngGroupNo
-	 */
-	public String getFcltsMngGroupNo() {
-		return FcltsMngGroupNo;
-	}
-
-	/**
-	 * @param fcltsMngGroupNo the fcltsMngGroupNo to set
-	 */
-	public void setFcltsMngGroupNo(String fcltsMngGroupNo) {
-		FcltsMngGroupNo = fcltsMngGroupNo;
-	}
-
-	/**
-	 * @param sPrtAtCode the sPrtAtCode to set
-	 */
-	public void setsPrtAtCode(String sPrtAtCode) {
-		this.sPrtAtCode = sPrtAtCode;
 	}
 
 	/**
@@ -275,6 +146,216 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	}
 
 	/**
+	 * @return the gisAssets
+	 */
+	public String getGisAssets() {
+		return gisAssets;
+	}
+
+	/**
+	 * @param gisAssets the gisAssets to set
+	 */
+	public void setGisAssets(String gisAssets) {
+		this.gisAssets = gisAssets;
+	}
+
+	/**
+	 * @return the gisAssetsPrtAtCode
+	 */
+	public String getGisAssetsPrtAtCode() {
+		return gisAssetsPrtAtCode;
+	}
+
+	/**
+	 * @param gisAssetsPrtAtCode the gisAssetsPrtAtCode to set
+	 */
+	public void setGisAssetsPrtAtCode(String gisAssetsPrtAtCode) {
+		this.gisAssetsPrtAtCode = gisAssetsPrtAtCode;
+	}
+
+	/**
+	 * @return the gisAssetsCd
+	 */
+	public String getGisAssetsCd() {
+		return gisAssetsCd;
+	}
+
+	/**
+	 * @param gisAssetsCd the gisAssetsCd to set
+	 */
+	public void setGisAssetsCd(String gisAssetsCd) {
+		this.gisAssetsCd = gisAssetsCd;
+	}
+
+	/**
+	 * @return the gisAssetsSubCd
+	 */
+	public String getGisAssetsSubCd() {
+		return gisAssetsSubCd;
+	}
+
+	/**
+	 * @param gisAssetsSubCd the gisAssetsSubCd to set
+	 */
+	public void setGisAssetsSubCd(String gisAssetsSubCd) {
+		this.gisAssetsSubCd = gisAssetsSubCd;
+	}
+
+	/**
+	 * @return the prtFcltySe
+	 */
+	public String getPrtFcltySe() {
+		return prtFcltySe;
+	}
+
+	/**
+	 * @param prtFcltySe the prtFcltySe to set
+	 */
+	public void setPrtFcltySe(String prtFcltySe) {
+		this.prtFcltySe = prtFcltySe;
+	}
+
+	/**
+	 * @return the prtFcltyNm
+	 */
+	public String getPrtFcltyNm() {
+		return prtFcltyNm;
+	}
+
+	/**
+	 * @param prtFcltyNm the prtFcltyNm to set
+	 */
+	public void setPrtFcltyNm(String prtFcltyNm) {
+		this.prtFcltyNm = prtFcltyNm;
+	}
+
+	/**
+	 * @return the prtFcltyDtndrd
+	 */
+	public String getPrtFcltyDtndrd() {
+		return prtFcltyDtndrd;
+	}
+
+	/**
+	 * @param prtFcltyDtndrd the prtFcltyDtndrd to set
+	 */
+	public void setPrtFcltyDtndrd(String prtFcltyDtndrd) {
+		this.prtFcltyDtndrd = prtFcltyDtndrd;
+	}
+
+	/**
+	 * @return the prtFcltyUnit
+	 */
+	public String getPrtFcltyUnit() {
+		return prtFcltyUnit;
+	}
+
+	/**
+	 * @param prtFcltyUnit the prtFcltyUnit to set
+	 */
+	public void setPrtFcltyUnit(String prtFcltyUnit) {
+		this.prtFcltyUnit = prtFcltyUnit;
+	}
+
+	/**
+	 * @return the prtFcltyInstlDt
+	 */
+	public String getPrtFcltyInstlDt() {
+		return prtFcltyInstlDt;
+	}
+
+	/**
+	 * @param prtFcltyInstlDt the prtFcltyInstlDt to set
+	 */
+	public void setPrtFcltyInstlDt(String prtFcltyInstlDt) {
+		this.prtFcltyInstlDt = prtFcltyInstlDt;
+	}
+
+	/**
+	 * @return the prtFcltyChangeDt
+	 */
+	public String getPrtFcltyChangeDt() {
+		return prtFcltyChangeDt;
+	}
+
+	/**
+	 * @param prtFcltyChangeDt the prtFcltyChangeDt to set
+	 */
+	public void setPrtFcltyChangeDt(String prtFcltyChangeDt) {
+		this.prtFcltyChangeDt = prtFcltyChangeDt;
+	}
+
+	/**
+	 * @return the prtFcltyMngEntrps
+	 */
+	public String getPrtFcltyMngEntrps() {
+		return prtFcltyMngEntrps;
+	}
+
+	/**
+	 * @param prtFcltyMngEntrps the prtFcltyMngEntrps to set
+	 */
+	public void setPrtFcltyMngEntrps(String prtFcltyMngEntrps) {
+		this.prtFcltyMngEntrps = prtFcltyMngEntrps;
+	}
+
+	/**
+	 * @return the prtFcltyExprDt
+	 */
+	public String getPrtFcltyExprDt() {
+		return prtFcltyExprDt;
+	}
+
+	/**
+	 * @param prtFcltyExprDt the prtFcltyExprDt to set
+	 */
+	public void setPrtFcltyExprDt(String prtFcltyExprDt) {
+		this.prtFcltyExprDt = prtFcltyExprDt;
+	}
+
+	/**
+	 * @return the prtPrtFcltyCnt
+	 */
+	public String getPrtPrtFcltyCnt() {
+		return prtPrtFcltyCnt;
+	}
+
+	/**
+	 * @param prtPrtFcltyCnt the prtPrtFcltyCnt to set
+	 */
+	public void setPrtPrtFcltyCnt(String prtPrtFcltyCnt) {
+		this.prtPrtFcltyCnt = prtPrtFcltyCnt;
+	}
+
+	/**
+	 * @return the prtPrtFcltyMnger
+	 */
+	public String getPrtPrtFcltyMnger() {
+		return prtPrtFcltyMnger;
+	}
+
+	/**
+	 * @param prtPrtFcltyMnger the prtPrtFcltyMnger to set
+	 */
+	public void setPrtPrtFcltyMnger(String prtPrtFcltyMnger) {
+		this.prtPrtFcltyMnger = prtPrtFcltyMnger;
+	}
+
+	/**
+	 * @return the fcltsMngGroupNo
+	 */
+	public String getFcltsMngGroupNo() {
+		return fcltsMngGroupNo;
+	}
+
+	/**
+	 * @param fcltsMngGroupNo the fcltsMngGroupNo to set
+	 */
+	public void setFcltsMngGroupNo(String fcltsMngGroupNo) {
+		this.fcltsMngGroupNo = fcltsMngGroupNo;
+	}
+
+	/**
 	 * @return the prtAtCode
 	 */
 	public String getPrtAtCode() {
@@ -300,20 +381,6 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	 */
 	public void setMngYearNo(String mngYearNo) {
 		this.mngYearNo = mngYearNo;
-	}
-
-	/**
-	 * @return the gisAssets
-	 */
-	public String getGisAssets() {
-		return gisAssets;
-	}
-
-	/**
-	 * @param gisAssets the gisAssets to set
-	 */
-	public void setGisAssets(String gisAssets) {
-		this.gisAssets = gisAssets;
 	}
 
 	/**
@@ -420,5 +487,14 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	/**
+	 * @param sPrtAtCode the sPrtAtCode to set
+	 */
+	public void setsPrtAtCode(String sPrtAtCode) {
+		this.sPrtAtCode = sPrtAtCode;
+	}
+
+
 
 }
