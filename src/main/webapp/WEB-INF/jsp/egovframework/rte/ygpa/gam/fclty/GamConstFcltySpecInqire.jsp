@@ -27,8 +27,8 @@
  */
 function GamConstFcltySpecInqireModule() {
 }
-
-GamConstFcltySpecInqireModule.prototype = new EmdModule(1000,700);	// 초기 시작 창크기 지정
+// 초기 시작 창크기 지정
+GamConstFcltySpecInqireModule.prototype = new EmdModule(1000,700);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamConstFcltySpecInqireModule.prototype.loadComplete = function(params) {
@@ -94,7 +94,6 @@ GamConstFcltySpecInqireModule.prototype.loadData = function() {
 };
 
 GamConstFcltySpecInqireModule.prototype.imagePreview = function() {
-	
 	var row = this.$('#fcltyFileList').selectedRows();
 	row = row[0];
 
@@ -111,15 +110,14 @@ GamConstFcltySpecInqireModule.prototype.imagePreview = function() {
 		if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
 
 			$imgURL = this.getPfPhotoUrl(filenm);
-			//this.$("#previewImage").fadeIn(400, function() {
 		    	this.$("#previewImage").attr("src", $imgURL);
-		    //});
 		}else{
 			this.$("#previewImage").removeAttr("src");
 		}
 	}
 };
 
+//시설제원데이터 로드
 GamConstFcltySpecInqireModule.prototype.loadDetail = function() {
 	var row = this.$('#constFcltySpecInqireList').selectedRows();
 	row = row[0];
@@ -133,24 +131,22 @@ GamConstFcltySpecInqireModule.prototype.loadDetail = function() {
 	}
 	// 건축시설 제원 처리
 	var prtFclty = [{ name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
+	console.log(prtFclty);
 	this.doAction('/fclty/gamConstFcltySpecInqireDetail.do', prtFclty, function(module, result) {
  		if(result.resultCode == "0"){
  			module.clearCodePage();
  			module._fcltyItem=result.result;
  			module.makeDivValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
  			module.$("#titlefcltsInqireNo").text(result.result["fcltsMngNo"]);	// 결과값을 채운다.
-
- 			module.$("#beforeGisPrtFcltyCd").val(specModule.$("#gisPrtFcltyCd").val());
- 			module.$("#beforeGisPrtFcltySeq").val(specModule.$("#gisPrtFcltySeq").val());
+ 			module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
+ 			module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
  		}
- 		module.$("#gisCodePopupBtn").hide();
  		module.$("#selectedGAM005").disable();
  	});
 
 	// 첨부파일 처리
 	this.$('#fcltyFileList').flexOptions({params:prtFclty}).flexReload();
 	this.clearFilePage();
-
 };
 
 GamConstFcltySpecInqireModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
@@ -185,6 +181,14 @@ GamConstFcltySpecInqireModule.prototype.onTabChangeBefore = function(newTabId, o
 		case "searchPopupBtn":
 			this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
 		break;
+	}
+};
+
+GamConstFcltySpecInqireModule.prototype.downloadFile = function() {
+	var selectRow = this.$('#fcltyFileList').selectedRows();
+	if(selectRow.length > 0) {
+		var row=selectRow[0];
+		this.downPfPhoto(row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
 	}
 };
 
@@ -231,9 +235,7 @@ GamConstFcltySpecInqireModule.prototype.clearFilePage = function() {
  * 팝업 close 이벤트
  */
  GamConstFcltySpecInqireModule.prototype.onClosePopup = function(popupId, msg, value){
-
 	switch(popupId){
-
 		// 상세화면
 		case "searchGisCodePopup":
 			this.$("#gisAssetsPrtAtCodeStr").val(value["gisAssetsPrtAtCode"]);
@@ -242,12 +244,9 @@ GamConstFcltySpecInqireModule.prototype.clearFilePage = function() {
 			this.$("#gisAssetsSubCd").val(value["gisAssetsSubCd"]);				// GIS SUB자산코드
 			this.$("#gisAssetsCd").val(value["gisAssetsCd"]);					// GIS 자산코드
 			this.$("#gisAssetsNm").val(value["gisAssetsNm"]);					// GIS 자산명
-
 			this.$("#gisAssetsLocplc").val(value["gisAssetsLocplc"]); 			// 소재지
 			this.$("#gisAssetsLnm").val(value["gisAssetsLnm"]);					// 지번
 			this.$("#gisAssetsLnmSub").val(value["gisAssetsLnmSub"]);			// 서브지번
-
-			if(this._cmd!="insert") alert('변경된 내용은 페이지를 새로고침을 해야 반영 됩니다.');
 		break;
 
 		// 검색조건 시설물 관리 그룹 

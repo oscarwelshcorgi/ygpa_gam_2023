@@ -42,7 +42,7 @@ public class GamMechFcltySpecInqireVO extends ComDefaultVO {
 	private String sLoc;
 
 	/** 시설물 관리 번호 (조회조건-첨부파일정보출력시 사용) **/
-	private String sFcltsMngNo;
+	private String fcltsMngNo;
 
 	/**
 	 * @return the sPrtAtCode
@@ -115,17 +115,17 @@ public class GamMechFcltySpecInqireVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the sFcltsMngNo
+	 * @return the fcltsMngNo
 	 */
-	public String getsFcltsMngNo() {
-		return sFcltsMngNo;
+	public String getFcltsMngNo() {
+		return fcltsMngNo;
 	}
 
 	/**
-	 * @param sFcltsMngNo the sFcltsMngNo to set
+	 * @param fcltsMngNo the fcltsMngNo to set
 	 */
-	public void setsFcltsMngNo(String sFcltsMngNo) {
-		this.sFcltsMngNo = sFcltsMngNo;
+	public void setFcltsMngNo(String fcltsMngNo) {
+		this.fcltsMngNo = fcltsMngNo;
 	}
 
 	/**
