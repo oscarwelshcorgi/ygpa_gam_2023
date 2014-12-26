@@ -12,7 +12,7 @@
 			FROM
 				(SELECT 
 				       a.*,
-				       ROWNUM RNUM 
+				       ROWNUM RNUM
 				  FROM 
 					(	
 					
@@ -115,10 +115,52 @@
 						ORDER BY C.MNG_YEAR DESC, C.MNG_NO DESC, C.MNG_CNT DESC
 					) a
 				) a
+				WHERE 1=1
+					<isNotEmpty property="firstIndex">
+						<![CDATA[
+						AND a.RNUM > #firstIndex#
+						AND a.RNUM <= #firstIndex# + #recordCountPerPage#
+						]]>
+					</isNotEmpty>
 	</select>
-	<!-- 
+
 	<select id="gamFcltyUsageHistInqireDao.selectFcltyUsageHistInqireListTotCnt" parameterClass="gamFcltyUsageHistInqireVO" resultClass="int">
-		
+		SELECT COUNT(*) totcnt
+			FROM GIS_ASSETS_CD_F G LEFT OUTER JOIN
+							(SELECT
+								A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT, MAX(A.ENTRPSCD) ENTRPSCD, MAX(A.GR_FEE) GR_FEE, MAX(A.GR_RDCXPT_FEE) GR_RDCXPT_FEE,
+								MAX(B.GIS_ASSETS_PRT_AT_CODE) GIS_ASSETS_PRT_AT_CODE, MAX(B.GIS_ASSETS_CD) GIS_ASSETS_CD, MAX(B.GIS_ASSETS_SUB_CD) GIS_ASSETS_SUB_CD,
+								SUM(B.USAGE_AR) USAGE_AR,SUM(B.FEE) FEE, SUM(B.RDCXPT_FEE) RDCXPT_FEE, SUM(B.USAGE_PRPOS_CD) USAGE_PRPOS_CD, MIN(B.USAGE_PD_FROM) USAGE_PD_FROM,
+								MAX(B.USAGE_PD_TO) USAGE_PD_TO, A.PRMISN_YN								
+							FROM ASSETS_RENT_F A, ASSETS_RENT_DETAIL_F B
+							WHERE A.PRT_AT_CODE = B.PRT_AT_CODE
+								AND A.MNG_YEAR = B.MNG_YEAR
+								AND A.MNG_NO = B.MNG_NO
+								AND A.MNG_CNT = B.MNG_CNT
+								AND A.PRMISN_YN = 'Y'
+								<isNotEmpty property="searchDtFr" prepend="AND">
+									A.GR_USAGE_PD_FROM <![CDATA[>=]]>TO_DATE(#searchDtFr#,'yyyy-mm-dd')
+								</isNotEmpty>
+								<isNotEmpty property="searchDtTo" prepend="AND">
+									A.GR_USAGE_PD_TO <![CDATA[<]]>TO_DATE(#searchDtTo#,'yyyy-mm-dd')+1
+								</isNotEmpty>
+							group by A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT, A.PRMISN_YN  
+							) C
+						ON C.GIS_ASSETS_PRT_AT_CODE = G.GIS_ASSETS_PRT_AT_CODE
+						AND C.GIS_ASSETS_CD         = G.GIS_ASSETS_CD
+						AND C.GIS_ASSETS_SUB_CD     = G.GIS_ASSETS_SUB_CD
+						WHERE C.GIS_ASSETS_PRT_AT_CODE = G.GIS_ASSETS_PRT_AT_CODE
+						AND C.GIS_ASSETS_CD 		= G.GIS_ASSETS_CD
+						AND C.GIS_ASSETS_SUB_CD 	= G.GIS_ASSETS_SUB_CD
+						<isNotEmpty property="searchPrtAtCode">
+							AND C.PRT_AT_CODE = #searchPrtAtCode#
+						</isNotEmpty>
+						<isNotEmpty property="entrpsCd">
+							AND C.ENTRPSCD = #entrpsCd#
+						</isNotEmpty>
+						<isNotEmpty property="searchKeyword">
+							AND G.GIS_ASSETS_NM LIKE '%' || #searchKeyword# || '%'
+						</isNotEmpty>
+						ORDER BY C.MNG_YEAR DESC, C.MNG_NO DESC, C.MNG_CNT DESC
 	</select>
-	 -->
 </sqlMap>

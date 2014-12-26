@@ -97,15 +97,14 @@ public class GamFcltyUsageHistInqireController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List usageHistInqireList = gamFcltyUsageHistInqireService.selectFcltyUsageHistInqireList(searchVO);
-		
-		//int totCnt = gamFcltyUsageHistInqireService.selectFcltyUsageHistInqireListTotCnt(searchVO);
+		List<?> usageHistInqireList = gamFcltyUsageHistInqireService.selectFcltyUsageHistInqireList(searchVO);
+		int totCnt = gamFcltyUsageHistInqireService.selectFcltyUsageHistInqireListTotCnt(searchVO);
 
-        //paginationInfo.setTotalRecordCount(totCnt);
+        paginationInfo.setTotalRecordCount(totCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 		map.put("resultCode", 0);
-    	//map.put("totalCount", totCnt);
+		map.put("totalCount", totCnt);
     	map.put("resultList", usageHistInqireList);
     	map.put("searchOption", searchVO);
 
