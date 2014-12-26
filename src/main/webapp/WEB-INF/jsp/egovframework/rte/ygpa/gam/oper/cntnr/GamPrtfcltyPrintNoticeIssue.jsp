@@ -55,7 +55,7 @@
     margin: 0cm auto;
     border: 1px #D3D3D3 solid;
     border-radius: 5px;
-    background-image:url('/images/egovframework/ygpa/gam/misc/giro_page.png');
+    background-image:url('<c:url value="/images/egovframework/ygpa/gam/misc/giro_page.png" />"');
     -webkit-background-size: cover; /* For WebKit*/
     -moz-background-size: cover;    /* Mozilla*/
     -o-background-size: cover;      /* Opera*/
@@ -756,7 +756,7 @@ div.notice {
 			          ];
 
 			$.ajax({
-				url: '/asset/rent/printAssetRentFeePayNoticeIssue.do',
+				url: '<c:url value="/asset/rent/printAssetRentFeePayNoticeIssue.do"/>',
 				type: 'POST',
 				module: this,
 				dataType: 'json',
@@ -778,7 +778,10 @@ div.notice {
   <fmt:parseDate value='${result.payTmlmt}' var='payTmlmtDate' pattern="yyyy-MM-dd" scope="page"/>
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
+<c:set var="result" value="${resultList[0] }" />
+<%--
     <c:forEach var="result" items="${resultList }">
+--%>
     <div class="page">
         <div class="subpage">
 			<div class="sender">
@@ -868,7 +871,9 @@ div.notice {
 			</div>
         </div>
     </div>
+    <%--
     </c:forEach>
+    --%>
 </div>
   </c:if>
     <c:if test="${resultCode!=0 }">

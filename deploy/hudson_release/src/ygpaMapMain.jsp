@@ -39,18 +39,9 @@
 
 <link rel="stylesheet" href="<c:url value='/js/codebase/dhtmlx.css'/>">
 
-<%-- <link rel="stylesheet" href="<c:url value='/css/jtree/themes/default/style.min.css'/>">
- --%><!--[if lt IE 9]>
+<!--[if lt IE 9]>
 <link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ie.css'/>" />
 <![endif]-->
-
-    <style>
-/*       html, body, #map-canvas {
-        height: 100%;
-        margin: 0px;
-        padding: 0px
-      }
- */    </style>
 
     <script src="<c:url value='/js/OpenLayers.debug.js'/>"></script>
     <script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
@@ -66,9 +57,6 @@
     <script src="<c:url value='/js/codebase/dhtmlx.js'/>"></script>
 
     <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
-    <!--
-    <script src="<c:url value='/js/emf.map.desktop.js'/>"></script>
-     -->
     <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
     <script type="text/javascript">
 	var $DEBUG=false;
@@ -101,9 +89,7 @@
 					</c:forEach>
 				];
 	   	   </c:if>
-//	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
 	    	EMD.go("${pageContext.request.contextPath}", "http://xdworld.vworld.kr:8080/2d/Base/201310", "http://192.168.200.61:8080/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
-//	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
  	 });
     </script>
   </head>

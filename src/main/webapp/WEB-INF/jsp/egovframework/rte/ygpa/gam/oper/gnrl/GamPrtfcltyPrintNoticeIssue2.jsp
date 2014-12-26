@@ -55,7 +55,7 @@
     margin: 0cm auto;
     border: 1px #D3D3D3 solid;
     border-radius: 5px;
-    background-image:url('/images/egovframework/ygpa/gam/misc/giro_page.png');
+    background-image:url('<c:url value="/images/egovframework/ygpa/gam/misc/giro_page.png" />"');
     -webkit-background-size: cover; /* For WebKit*/
     -moz-background-size: cover;    /* Mozilla*/
     -o-background-size: cover;      /* Opera*/
@@ -756,7 +756,7 @@ div.notice {
 			          ];
 
 			$.ajax({
-				url: '/asset/rent/printAssetRentFeePayNoticeIssue.do',
+				url: '<c:url value="/asset/rent/printAssetRentFeePayNoticeIssue.do" />',
 				type: 'POST',
 				module: this,
 				dataType: 'json',
@@ -778,7 +778,10 @@ div.notice {
   <fmt:parseDate value='${result.payTmlmt}' var='payTmlmtDate' pattern="yyyy-MM-dd" scope="page"/>
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
+<c:set var="result" value="${resultList[0] }" />
+<%--
     <c:forEach var="result" items="${resultList }">
+--%>
     <div class="page">
         <div class="subpage">
 			<div class="sender">
@@ -832,7 +835,6 @@ div.notice {
       			<p>면 적 : <fmt:formatNumber type="number" maxIntegerDigits="10" value="${result.grAr}" /> m<sup>2</sup></p>
       			<c:if test="${result.arrrgAmt>0}">
 	      			<p>연체료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.arrrgAmt}" /> 원 (연체일 : <c:out value="${result.arrrgPayDates}"/>)</p>
-      			<p>산출공식 : <c:out value="${result.dlyBillRsn}"/></p>
       			</c:if>
       			<p class="summary">소 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.arrrgAmt}" /> 원</p>
       			<p class="summary">합 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.nticAmt}" /> 원</p>
@@ -857,7 +859,9 @@ div.notice {
 			</div>
         </div>
     </div>
+    <%--
     </c:forEach>
+    --%>
 </div>
   </c:if>
     <c:if test="${resultCode!=0 }">

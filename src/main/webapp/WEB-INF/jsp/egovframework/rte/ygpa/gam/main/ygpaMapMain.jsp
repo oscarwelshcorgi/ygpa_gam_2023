@@ -64,15 +64,11 @@
 	<script src="<c:url value='/js/Proj4js/defs/EPSG4326.js'/>"></script>
 
     <script src="<c:url value='/js/codebase/dhtmlx.js'/>"></script>
-    <script src="<c:url value='/js/codebase/dhtmlxgrid.js'/>"></script>
 
     <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
     <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
     <script src="<c:url value='/js/emf.map.desktop.js'/>"></script>
     <script src="<c:url value='/js/dhtmlx.flexigrid.ygpa.js'/>"></script>
-    <!--
-    <script src="<c:url value='/js/flexigrid.ygpa.js'/>"></script>
-     -->
     <script type="text/javascript">
 	var $DEBUG=false;
 

@@ -38,18 +38,9 @@
 
 <link rel="stylesheet" href="<c:url value='/js/codebase/dhtmlx.css'/>">
 
-<%-- <link rel="stylesheet" href="<c:url value='/css/jtree/themes/default/style.min.css'/>">
- --%><!--[if lt IE 9]>
+<!--[if lt IE 9]>
 <link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ie.css'/>" />
 <![endif]-->
-
-    <style>
-/*       html, body, #map-canvas {
-        height: 100%;
-        margin: 0px;
-        padding: 0px
-      }
- */    </style>
 
     <script src="<c:url value='/js/OpenLayers.js'/>"></script>
     <script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
