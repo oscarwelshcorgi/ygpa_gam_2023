@@ -57,7 +57,7 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function() {
 		url: '/fcltyMng/selectMntnSttusRprObjFcltsFList.do',
 		dataType: "json",
 		colModel : [
-					{display:"관리번호",			name:"fcltsMngNo",			width:60,		sortable:false,		align:"center"},
+					{display:"관리번호",			name:"fcltsMngNo",			width:150,		sortable:false,		align:"center"},
 					{display:"유지보수공법",		name:"mntnRprCnstMth",		width:80,		sortable:false,		align:"center"},
 					{display:"단위",				name:"unit",				width:80,		sortable:false,		align:"center"},
 					{display:"수량",				name:"qy",					width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
@@ -213,7 +213,7 @@ GamFcltyMaintSttusInqireModule.prototype.onTabChange = function(newTabId, oldTab
 
 		case "tabs2":
 			if(oldTabId == 'tabs1') {
-				this.$("#tabs2").scrollTop(0);
+				this.$("#tabs2").scrollTop(0);                                                                                                                                                                                                                                                                         
 			}
 		break;
 		
