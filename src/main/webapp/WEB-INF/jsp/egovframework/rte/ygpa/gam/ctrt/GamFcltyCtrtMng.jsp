@@ -115,7 +115,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#fcltyCtrtJoinContrList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.$("#gamCtrtJoinContrMngtForm input").val('');
+		module.$("#gamCtrtJoinContrMngtForm :input").val('');
 		module.makeFormValues("#gamCtrtJoinContrMngtForm", row);
 	});
 	
@@ -143,9 +143,9 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#fcltyCtrtSubCtrtList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.$("#gamCtrtSubCtrtMngtForm input").val('');
+		module.$("#gamCtrtSubCtrtMngtForm :input").val('');
 		module.makeFormValues("#gamCtrtSubCtrtMngtForm", row);
-		module.$("#entrpsNm1").val(row["entrpsNm"]); // 공동도급의 업체명과 하도급의 업체명 text id를 다르게 처리.
+		module.$("#subCtrtEntrpsNm").val(row["entrpsNm"]); // 공동도급의 업체명과 하도급의 업체명 text id를 다르게 처리.
 		module.$("#subCtrtDtFrom").val(row["ctrtDtFrom"]); //디테일의 계약기간과 text id를 다르게 처리.
 		module.$("#subCtrtDtTo").val(row["ctrtDtTo"]); //디테일의 계약기간과 text id를 다르게 처리.
 	});
@@ -173,7 +173,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#fcltyCtrtChangeList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.$("#gamCtrtChangeMngtForm input").val('');
+		module.$("#gamCtrtChangeMngtForm :input").val('');
 		module.makeFormValues("#gamCtrtChangeMngtForm", row);
 	});
     
@@ -200,9 +200,9 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#fcltyCtrtMoneyPymntList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.$("#gamCtrtMoneyPymntMngtForm input").val('');
+		module.$("#gamCtrtMoneyPymntMngtForm :input").val('');
 		module.makeFormValues("#gamCtrtMoneyPymntMngtForm", row);
-		module.$("#rm1").val(row["rm"]); //계약변경의 비고와 text id를 다르게 처리.
+		module.$("#ctrtMoneyPymntRm").val(row["rm"]); //계약변경의 비고와 text id를 다르게 처리.
 	});
     
     //계약이행이월 리스트
@@ -224,7 +224,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#fcltyCtrtFulFillCaryFwdList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.$("#gamCtrtFulFillCaryFwdMngtForm input").val('');
+		module.$("#gamCtrtFulFillCaryFwdMngtForm :input").val('');
 		module.makeFormValues("#gamCtrtFulFillCaryFwdMngtForm", row);
 	});
     
@@ -250,13 +250,13 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#fcltyCtrtScsbidInfoList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.$("#gamCtrtScsbidInfoMngtForm input").val('');
+		module.$("#gamCtrtScsbidInfoMngtForm :input").val('');
 		module.makeFormValues("#gamCtrtScsbidInfoMngtForm", row);
-		module.$("#entrpsNm2").val(row["entrpsNm"]); // 공동도급의 업체명과 하도급의 업체명 그리고 낙찰정보의 업체명 text id를 다르게 처리.
-		module.$("#rprsntv2").val(row["rprsntv"]); // 공동도급의 대표자와 낙찰정보의 대표자 text id를 다르게 처리.
-		module.$("#bsnmNo2").val(row["bsnmNo"]); // 공동도급의 사업자번호와 낙찰정보의 사업자번호 text id를 다르게 처리.
-		module.$("#tlphonNo2").val(row["tlphonNo"]); // 공동도급의 전화번호와 낙찰정보의 전화번호 text id를 다르게 처리.
-		module.$("#faxNo2").val(row["faxNo"]); // 공동도급의 팩스번호와 낙찰정보의 팩스번호 text id를 다르게 처리.
+		module.$("#scsbidEntrpsNm").val(row["entrpsNm"]); // 공동도급의 업체명과 하도급의 업체명 그리고 낙찰정보의 업체명 text id를 다르게 처리.
+		module.$("#scsbidRprsntv").val(row["rprsntv"]); // 공동도급의 대표자와 낙찰정보의 대표자 text id를 다르게 처리.
+		module.$("#scsbidBsnmNo").val(row["bsnmNo"]); // 공동도급의 사업자번호와 낙찰정보의 사업자번호 text id를 다르게 처리.
+		module.$("#scsbidTlphonNo").val(row["tlphonNo"]); // 공동도급의 전화번호와 낙찰정보의 전화번호 text id를 다르게 처리.
+		module.$("#scsbidFaxNo").val(row["faxNo"]); // 공동도급의 팩스번호와 낙찰정보의 팩스번호 text id를 다르게 처리.
 	});
     
 };
@@ -533,7 +533,7 @@ GamFcltyCtrtMngModule.prototype.ctrtSubCtrtChanged = function(target) {
 	var selectRow = this.$('#fcltyCtrtSubCtrtList').selectedRows();
 	if(selectRow.length > 0) {
 		row=selectRow[0];
-		if(this.$('#entrpsNm1').is(target)) {
+		if(this.$('#subCtrtEntrpsNm').is(target)) {
 			row['entrpsNm'] = $(target).val();
 			changed=true;
 		}
@@ -757,7 +757,7 @@ GamFcltyCtrtMngModule.prototype.ctrtMoneyPymntChanged = function(target) {
 			row['pymntAggrAmt'] = $(target).val();
 			changed=true;
 		}
-		if(this.$('#rm1').is(target)) {
+		if(this.$('#ctrtMoneyPymntRm').is(target)) {
 			row['rm'] = $(target).val();
 			changed=true;
 		}
@@ -918,23 +918,23 @@ GamFcltyCtrtMngModule.prototype.ctrtScsbidInfoChanged = function(target) {
 			row['scsbidRank'] = $(target).val();
 			changed=true;
 		}
-		if(this.$('#entrpsNm2').is(target)) {
+		if(this.$('#scsbidEntrpsNm').is(target)) {
 			row['entrpsNm'] = $(target).val();
 			changed=true;
 		}
-		if(this.$('#rprsntv2').is(target)) {
+		if(this.$('#scsbidRprsntv').is(target)) {
 			row['rprsntv'] = $(target).val();
 			changed=true;
 		}
-		if(this.$('#bsnmNo2').is(target)) {
+		if(this.$('#scsbidBsnmNo').is(target)) {
 			row['bsnmNo'] = $(target).val();
 			changed=true;
 		}
-		if(this.$('#tlphonNo2').is(target)) {
+		if(this.$('#scsbidTlphonNo').is(target)) {
 			row['tlphonNo'] = $(target).val();
 			changed=true;
 		}
-		if(this.$('#faxNo2').is(target)) {
+		if(this.$('#scsbidFaxNo').is(target)) {
 			row['faxNo'] = $(target).val();
 			changed=true;
 		}
@@ -1203,7 +1203,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 					</form>
                 </div>
                 <div class="emdControlPanel">
-					<form id="form1">
+					<form id="foctrtMoneyPymntRm">
     	               	<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
@@ -1337,7 +1337,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 					</form>
                 </div>
                 <div class="emdControlPanel">
-					<form id="form1">
+					<form id="foctrtMoneyPymntRm">
     	               	<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
@@ -1422,7 +1422,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 						<tbody>
 							<tr>
 		                        <th>업체명</th>
-		                        <td><input id="entrpsNm1" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
+		                        <td><input id="subCtrtEntrpsNm" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
 		                        <th>대금지급합의</th>
 		                        <td><input id="moneyPymntAgree" type="text" style="width: 150px;" class="EditItem" maxlength="2"/></td>
 								<th>공종</th>
@@ -1517,7 +1517,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 							<tr>
 		                    	<th>비고</th>
 		                        <td colspan="3">
-		                        	<input id="rm1" type="text" style="width: 475px;" class="EditItem" maxlength="333"/>
+		                        	<input id="ctrtMoneyPymntRm" type="text" style="width: 475px;" class="EditItem" maxlength="333"/>
 		                        </td>
 							</tr>
 						</tbody>
@@ -1564,17 +1564,17 @@ var module_instance = new GamFcltyCtrtMngModule();
 								<th>낙찰순위</th>
 		                        <td><input id="scsbidRank" type="text" style="width: 150px;" class="EditItem ygpaNumber" maxlength="3"/></td>
 		                        <th>업체명</th>
-		                        <td><input id="entrpsNm2" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
+		                        <td><input id="scsbidEntrpsNm" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
 		                        <th>대표자</th>
-		                        <td><input id="rprsntv2" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
+		                        <td><input id="scsbidRprsntv" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
 							</tr>
 							<tr>
 								<th>사업자번호</th>
-		                        <td><input id="bsnmNo2" type="text" style="width: 150px;" class="EditItem" maxlength="14"/></td>
+		                        <td><input id="scsbidBsnmNo" type="text" style="width: 150px;" class="EditItem" maxlength="14"/></td>
 		                        <th>전화번호</th>
-		                        <td><input id="tlphonNo2" type="text" style="width: 150px;" class="EditItem" maxlength="100"/></td>
+		                        <td><input id="scsbidTlphonNo" type="text" style="width: 150px;" class="EditItem" maxlength="100"/></td>
 								<th>팩스번호</th>
-		                        <td><input id="faxNo2" type="text" style="width: 150px;" class="EditItem" maxlength="100"/></td>
+		                        <td><input id="scsbidFaxNo" type="text" style="width: 150px;" class="EditItem" maxlength="100"/></td>
 							</tr>
 						</tbody>
 					</table>

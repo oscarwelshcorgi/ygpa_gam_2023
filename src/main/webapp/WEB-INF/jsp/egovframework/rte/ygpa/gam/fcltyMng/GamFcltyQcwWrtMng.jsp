@@ -88,7 +88,22 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 					{display:"점검자",		name:"inspector",	width:100,		sortable:true,		align:"left"},
 					{display:"비고",			name:"rm",			width:350,		sortable:true,		align:"left"}
 			],
-		height: "auto"
+		height: "300"
+	});
+	
+	this.$("#gamQcMngObjFcltsForm").find(".EditItem").bind("change keyup", {module: this}, function(event) {
+		event.data.module.qcMngObjFcltsChanged(event.target);
+	});
+
+	this.$("#qcMngObjFcltsList").on("onItemSelected", function(event, module, row, grid, param) {
+		module.$("#gamQcMngObjFcltsForm :input").val('');
+		module.$("#objMngFcltsMngNo").val(row["fcltsMngNo"]); //row의 col명과 form의 id가 달라서 직접대입.
+		module.$("#objMngPrtFcltyNm").val(row["prtFcltyNm"]);
+		module.$("#objMngQcInspSe").val(row["qcInspSe"]);
+		module.$("#objMngQcInspDt").val(row["qcInspDt"]);
+		module.$("#objMngInspector").val(row["inspector"]);
+		module.$("#objMngRm").val(row["rm"]);
+		module.$("#objMngQcInspResult").val(row["qcInspResult"]);
 	});
 	
 	this.$("#qcMngResultItemList").flexigrid({
@@ -97,13 +112,23 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 		dataType: 'json',
 		colModel : [
 					{display:"순번",			name:"seq",				width:90,		sortable:true,		align:"center"},
-					{display:"점검항목코드",	name:"qcItemCd",		width:100,		sortable:true,		align:"center"},
-					{display:"점검항목명",		name:"qcItemNm",		width:150,		sortable:true,		align:"left"},
+					{display:"점검항목코드",	name:"qcItemCd",		width:150,		sortable:true,		align:"center"},
+					{display:"점검항목명",		name:"qcItemNm",		width:250,		sortable:true,		align:"left"},
 					{display:"점검항목결과구분",	name:"inspResultChk",	width:120,		sortable:true,		align:"center"}
 			],
-		height: "auto"
+		height: "300"
 	});
 
+	this.$("#gamQcMngResultItemForm").find(".EditItem").bind("change keyup", {module: this}, function(event) {
+		event.data.module.qcMngResultItemDataChanged(event.target);
+	});
+
+	this.$("#qcMngResultItemList").on("onItemSelected", function(event, module, row, grid, param) {
+		module.$("#gamQcMngResultItemForm :input").val('');
+		module.makeFormValues("#gamQcMngResultItemForm", row);
+		module.$("#qcMngResultItemSeq").val(row["seq"]);
+	});
+	
 	this.$("#qcMngAtchFileList").flexigrid({
 		module: this,
 		url: '/fcltyMng/selectQcMngAtchFileList.do',
@@ -261,10 +286,95 @@ GamFcltyQcwWrtMngModule.prototype.deleteData = function() {
 	}
 };
 
-//점검관리 대상시설물 수정 팝업
-GamFcltyQcwWrtMngModule.prototype.showModifyQcMngObjFcltsList = function() {
+//점검관리 대상 시설물 정보 변화 처리
+GamFcltyQcwWrtMngModule.prototype.qcMngObjFcltsChanged = function(target) {
+	var changed=false;
+	var row={};
+	var selectRow = this.$('#qcMngObjFcltsList').selectedRows();
+	if(selectRow.length > 0) {
+		row=selectRow[0];
+		if(this.$('#objMngFcltsMngNo').is(target)) {
+			row['fcltsMngNo'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#objMngQcInspSe').is(target)) {
+			row['qcInspSe'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#objMngQcInspDt').is(target)) {
+			row['qcInspDt'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#objMngInspector').is(target)) {
+			row['inspector'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#objMngRm').is(target)) {
+			row['rm'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#objMngQcInspResult').is(target)) {
+			row['qcInspResult'] = $(target).val();
+			changed=true;
+		}
+	}
+	if(changed) {
+		var rowid=this.$("#qcMngObjFcltsList").selectedRowIds()[0];
+		if(row['_updtId']!='I') row['_updtId']='U';
+		this.edited=true;
+		this.$('#qcMngObjFcltsList').flexUpdateRow(rowid, row);
+	}
+};
+
+//점검관리 대상 시설물번호 팝업 데이터 선택시 실행
+GamFcltyQcwWrtMngModule.prototype.qcMngObjFcltsMngNoChanged = function(value) {
+	var changed=false;
+	var row={};
+	var selectRow = this.$('#qcMngObjFcltsList').selectedRows();
+	if(selectRow.length > 0) {
+		row=selectRow[0];
+		if(row['fcltsMngNo'] != value['fcltsMngNo']) {
+			row['fcltsMngNo'] = value['fcltsMngNo'];
+			row['prtFcltyNm'] = value['prtFcltyNm'];
+			changed=true;
+		}
+	}
+	if(changed) {
+		var rowid=this.$("#qcMngObjFcltsList").selectedRowIds()[0];
+		if(row['_updtId']!='I') row['_updtId']='U';
+		this.edited=true;
+		this.$('#qcMngObjFcltsList').flexUpdateRow(rowid, row);
+	}
+};
+
+//점검관리 대상 시설물 추가
+GamFcltyQcwWrtMngModule.prototype.addQcMngObjFcltsItem = function() {
+	this.$('#gamQcMngObjFcltsForm :input').val('');
+	this.$("#qcMngObjFcltsList").flexAddRow({'_updtId': 'I', 'fcltsMngGroupNo':'', 'fcltsJobSe':'', 'qcMngSeq':'', 'fcltsMngNo':'', 'qcInspSe':'', 'qcInspDt':'', 'inspector':'', 'qcInspResult':'', 'rm':''});
 	var allRows = this.$('#qcMngObjFcltsList').flexGetData();
-	this.doExecuteDialog("modifiedQcMngObjFclts", "점검관리대상시설물목록", '/popup/showQcMngObjFcltsPopup.do', {}, allRows);
+	var selRowId = allRows.length - 1;
+	this.$("#qcMngObjFcltsList").selectRowId(selRowId);	
+};
+
+//점검관리 대상 시설물 데이터 삭제
+GamFcltyQcwWrtMngModule.prototype.removeQcMngObjFcltsItem = function() {
+	var rows = this.$("#qcMngObjFcltsList").selectedRows();
+    if(rows.length == 0){
+        alert("점검관리대상 시설물목록에서 삭제할 행을 선택하십시오.");
+        return;
+    }
+    if(this.$("#qcMngObjFcltsList").selectedRowIds().length>0) {
+    	for(var i=this.$("#qcMngObjFcltsList").selectedRowIds().length-1; i>=0; i--) {
+    		var row = this.$("#qcMngObjFcltsList").flexGetRow(this.$("#qcMngObjFcltsList").selectedRowIds()[i]);
+    		if(row._updtId == undefined || row._updtId != "I") {
+            	this._deleteObjFcltsList[this._deleteObjFcltsList.length] = row;
+			}
+        	this.$("#qcMngObjFcltsList").flexRemoveRow(this.$("#qcMngObjFcltsList").selectedRowIds()[i]);
+        	this._edited=true;
+		}
+    	alert("삭제되었습니다.");
+	}
+    this.$("#gamQcMngObjFcltsForm").find(":input").val("");
 };
 
 //점검관리 대상시설물 병합저장
@@ -278,7 +388,7 @@ GamFcltyQcwWrtMngModule.prototype.saveQcMngObjFclts = function() {
     var inputVO=[];
     inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#qcMngObjFcltsList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
     inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#qcMngObjFcltsList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteAtchFileList) };
+    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteObjFcltsList) };
     this.doAction('/fcltyMng/mergeQcMngObjFclts.do', inputVO, function(module, result) {
         if(result.resultCode == 0){
 			module._deleteObjFcltsList = [];				    	
@@ -295,10 +405,87 @@ GamFcltyQcwWrtMngModule.prototype.saveQcMngObjFclts = function() {
     });	
 };
 
-//점검관리 결과항목 수정 팝업
-GamFcltyQcwWrtMngModule.prototype.showModifyQcMngResultItemList = function() {
+//점검관리 결과항목 정보 변화 처리
+GamFcltyQcwWrtMngModule.prototype.qcMngResultItemDataChanged = function(target) {
+	var changed=false;
+	var row={};
+	var selectRow = this.$('#qcMngResultItemList').selectedRows();
+	if(selectRow.length > 0) {
+		row=selectRow[0];
+		if(this.$('#qcMngResultItemSeq').is(target)) {
+			row['seq'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#qcItemCd').is(target)) {
+			row['qcItemCd'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#inspResultChk').is(target)) {
+			row['inspResultChk'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#inspResultCn').is(target)) {
+			row['inspResultCn'] = $(target).val();
+			changed=true;
+		}
+	}
+	if(changed) {
+		var rowid=this.$("#qcMngResultItemList").selectedRowIds()[0];
+		if(row['_updtId']!='I') row['_updtId']='U';
+		this.edited=true;
+		this.$('#qcMngResultItemList').flexUpdateRow(rowid, row);
+	}
+};
+
+//점검관리 결과항목 팝업 데이터 선택시 실행
+GamFcltyQcwWrtMngModule.prototype.qcMngItemCdChanged = function(value) {
+	var changed=false;
+	var row={};
+	var selectRow = this.$('#qcMngResultItemList').selectedRows();
+	if(selectRow.length > 0) {
+		row=selectRow[0];
+		if(row['qcItemCd'] != value['qcItemCd']) {
+			row['qcItemCd'] = value['qcItemCd'];
+			row['qcItemNm'] = value['qcItemNm'];
+			changed=true;
+		}
+	}
+	if(changed) {
+		var rowid=this.$("#qcMngResultItemList").selectedRowIds()[0];
+		if(row['_updtId']!='I') row['_updtId']='U';
+		this.edited=true;
+		this.$('#qcMngResultItemList').flexUpdateRow(rowid, row);
+	}
+};
+
+//점검관리 결과항목 추가
+GamFcltyQcwWrtMngModule.prototype.addQcMngResultItem = function() {
+	this.$('#gamQcMngResultItemForm :input').val('');
+	this.$("#qcMngResultItemList").flexAddRow({'_updtId': 'I', 'fcltsMngGroupNo':'', 'fcltsJobSe':'', 'qcMngSeq':'', 'qcItemCd':'', 'seq':'', 'inspResultChk':'', 'inspResultCn':''});
 	var allRows = this.$('#qcMngResultItemList').flexGetData();
-	this.doExecuteDialog("modifiedQcMngResultItem", "점검관리결과항목목록", '/popup/showQcMngResultItemPopup.do', {}, allRows);
+	var selRowId = allRows.length - 1;
+	this.$("#qcMngResultItemList").selectRowId(selRowId);	
+};
+
+//점검관리 결과항목 삭제
+GamFcltyQcwWrtMngModule.prototype.removeQcMngResultItem = function() {
+	var rows = this.$("#qcMngResultItemList").selectedRows();
+    if(rows.length == 0){
+        alert("점검관리 결과항목목록에서 삭제할 행을 선택하십시오.");
+        return;
+    }
+    if(this.$("#qcMngResultItemList").selectedRowIds().length>0) {
+    	for(var i=this.$("#qcMngResultItemList").selectedRowIds().length-1; i>=0; i--) {
+    		var row = this.$("#qcMngResultItemList").flexGetRow(this.$("#qcMngResultItemList").selectedRowIds()[i]);
+    		if(row._updtId == undefined || row._updtId != "I") {
+            	this._deleteResultItemList[this._deleteResultItemList.length] = row;
+			}
+        	this.$("#qcMngResultItemList").flexRemoveRow(this.$("#qcMngResultItemList").selectedRowIds()[i]);
+        	this._edited=true;
+		}
+    	alert("삭제되었습니다.");
+	}
+    this.$("#gamQcMngResultItemForm").find(":input").val("");
 };
 
 //점검관리 결과항목 병합저장
@@ -475,6 +662,26 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 			this.saveData();
 			break;
 		
+		//점검관리 대상 시설물 추가
+		case "btnQcMngObjFcltsAdd" :
+			this.addQcMngObjFcltsItem();
+			break;
+
+		//점검관리 대상 시설물 삭제
+		case "btnQcMngObjFcltsRemove" :
+			this.removeQcMngObjFcltsItem();
+			break;
+			
+		//점검관리 결과항목 추가
+		case "btnQcMngResultItemAdd" :
+			this.addQcMngResultItem();
+			break;
+			
+		//점검관리 결과항목 삭제
+		case "btnQcMngResultItemRemove" :
+			this.removeQcMngResultItem();
+			break;
+			
 		//첨부파일업로드
 		case "btnUploadFile":
 			this.uploadAtchFileItem();
@@ -490,19 +697,19 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 			this.removeAtchFileItem();
 			break;
 						
-		//점검관리대상시설물 수정
-		case "btnModifyQcMngObjFclts":
-			this.showModifyQcMngObjFcltsList();
-			break;
-			
-		//점검관리결과항목 수정			
-		case "btnModifyQcMngResultItem":
-			this.showModifyQcMngResultItemList();
-			break;
-		
 		//시설물관리그룹선택
 		case "popupSearchFcltsMngGroup":
 			this.doExecuteDialog("selectFcltsMngGroup", "시설물관리그룹", '/popup/showFcltsMngGroup.do', {});
+			break;
+		
+		//시설물번호선택
+		case "popupSearchFcltsMngNo":
+			this.doExecuteDialog('selectFcltsMngNo', '시설물 선택', '/popup/showFcltsMngNo.do', {});
+			break;
+		
+		//점검항목선택
+		case "popupSearchQcItemCd" : 
+			this.doExecuteDialog('selectQcItemCd', '점검항목 선택', '/popup/showQcItemCdPopup.do', {});
 			break;			
 	}
 };
@@ -541,17 +748,17 @@ GamFcltyQcwWrtMngModule.prototype.onClosePopup = function(popupId, msg, value){
 			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#fcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
 			break;
-		//점검관리 대상시설물 수정			
-		case "modifiedQcMngObjFclts":
-			this.$("#qcMngObjFcltsList").flexEmptyData();
-			this.$("#qcMngObjFcltsList").flexAddData({resultList: value["resultList"] });
-			this._deleteObjFcltsList = value["deleteObjFcltsList"];
-			break;
-		//점검관리 결과항목 수정			
-		case "modifiedQcMngResultItem":
-			this.$("#qcMngResultItemList").flexEmptyData();
-			this.$("#qcMngResultItemList").flexAddData({resultList: value["resultList"] });
-			this._deleteResultItemList = value["deleteResultItemList"];
+		//시설물 선택
+		case 'selectFcltsMngNo':
+        	this.$('#objMngFcltsMngNo').val(value['fcltsMngNo']);
+        	this.$('#objMngPrtFcltyNm').val(value['prtFcltyNm']);
+        	this.qcMngObjFcltsMngNoChanged(value);
+    		break;
+    	//점검항목선택
+		case 'selectQcItemCd':
+        	this.$('#qcItemCd').val(value['qcItemCd']);
+        	this.$('#qcItemNm').val(value['qcItemNm']);
+        	this.qcMngItemCdChanged(value);
 			break;
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
@@ -744,20 +951,96 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 			
 			<!-- 점검관리대상시설물 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
-				<table id="qcMngObjFcltsList" style="display:none" class="fillHeight"></table>
-				<div class="emdControlPanel">
-					<button id="btnModifyQcMngObjFclts">편집</button>
-					<button id="btnSave">저장</button>
-				</div>
+				<table id="qcMngObjFcltsList" style="display:none"></table>
+		        <div class="emdControlPanel">
+		            <button id="btnQcMngObjFcltsAdd">추가</button>
+		            <button id="btnQcMngObjFcltsRemove">삭제</button>
+		            <button id="btnSave">저장</button>
+		        </div>
+				<form id="gamQcMngObjFcltsForm">
+					<table class="searchPanel">
+						<tbody>
+							<tr>
+		                        <th>시설물관리번호</th>
+		                        <td>
+		                        	<input id="objMngFcltsMngNo" type="text" style="width: 150px;" maxlength="20" class="EditItem"/>
+		                        	<input id="objMngPrtFcltyNm" type="text" style="width: 200px;" disabled="disabled" class="EditItem"/>
+		                        	<button id="popupSearchFcltsMngNo" class="popupButton">선택</button>
+		                    	</td>
+		                        <th>점검진단구분</th>
+		                        <td>
+		                       		<select id="objMngQcInspSe" class="EditItem">
+										<option value="">선택</option>
+										<option value="E">전기시설물</option>
+										<option value="M">기계시설물</option>
+										<option value="C">토목시설물</option>
+										<option value="A">건축시설물</option>
+										<option value="I">정보통신시설물</option>
+									</select>
+		                        </td>
+		                    </tr>
+		                    <tr>
+		                        <th>점검자</th>
+		                        <td ><input id="objMngInspector" type="text" style="width: 150px;" maxlength="60" class="EditItem"/></td>
+								<th>점검진단일자</th>
+		                        <td><input id="objMngQcInspDt" type="text" style="width: 100px;" maxlength="10" class="emdcal EditItem"/></td>
+							</tr>
+							<tr>
+								<th>점검진단결과</th>
+								<td colspan="3"><textarea id="objMngQcInspResult" cols="133" rows="7" class="EditItem"></textarea></td>
+							</tr>
+							<tr>
+								<th>비고</th>
+								<td colspan="3"><input id="objMngRm" type="text" style="width: 759px;" maxlength="330" class="EditItem"/></td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
 			</div>
 			
-			<!-- 점검관리결과 -->
+			<!-- 점검관리결과항목 -->
 			<div id="tabs4" class="emdTabPage" style="overflow: scroll;">
-				<table id="qcMngResultItemList" style="display:none" class="fillHeight"></table>
-				<div class="emdControlPanel">
-					<button id="btnModifyQcMngResultItem">편집</button>
-					<button id="btnSave">저장</button>
-				</div>
+				<table id="qcMngResultItemList" style="display:none"></table>
+		        <div class="emdControlPanel">
+		            <button id="btnQcMngResultItemAdd">추가</button>
+		            <button id="btnQcMngResultItemRemove">삭제</button>
+		            <button id="btnSave">저장</button>
+		        </div>
+				<form id="gamQcMngResultItemForm">
+					<table class="searchPanel">
+						<tbody>
+							<tr>
+		                        <th>순번</th>
+		                        <td><input id="qcMngResultItemSeq" type="text" style="width: 150px;" class="EditItem ygpaNumber"/></td>
+		                    </tr>
+							<tr>
+		                        <th>점검항목코드</th>
+		                        <td>
+		                        	<input id="qcItemCd" type="text" style="width: 150px;" maxlength="20" class="EditItem"/>
+		                        	<input id="qcItemNm" type="text" style="width: 200px;" disabled="disabled" class="EditItem"/>
+		                        	<button id="popupSearchQcItemCd" class="popupButton">선택</button>
+		                        </td>							
+							</tr>
+		                    <tr>
+		                        <th>점검결과구분</th>
+		                        <td>
+		                       		<select id="inspResultChk" class="EditItem">
+										<option value="">선택</option>
+										<option value="1">구분1</option>
+										<option value="2">구분2</option>
+										<option value="3">구분3</option>
+										<option value="4">구분4</option>
+										<option value="5">구분5</option>
+									</select>
+		                        </td>
+							</tr>
+							<tr>
+								<th>점검결과내용</th>
+								<td><textarea id="inspResultCn" cols="133" rows="7" class="EditItem"></textarea></td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
 			</div>			
 
 			<!-- 점검관리첨부파일 -->

@@ -168,39 +168,39 @@ var popup_instance = new GamPopupQcMngObjFcltsModule();
 	            <button id="btnOk">확인</button>
             	<button id="btnCancel">취소</button>
 	        </div>
-		<form id="gamPopupObjFcltsForm">
-			<table class="searchPanel">
-				<tbody>
-					<tr>
-                        <th>시설물관리번호</th>
-                        <td><input id="fcltsMngNo" type="text" style="width: 150px;" maxlength="20" class="EditItem"/></td>
-                        <th>점검진단구분</th>
-                        <td>
-                       		<select id="qcInspSe" class="EditItem">
-								<option value="">선택</option>
-								<option value="E">전기시설물</option>
-								<option value="M">기계시설물</option>
-								<option value="C">토목시설물</option>
-								<option value="A">건축시설물</option>
-								<option value="I">정보통신시설물</option>
-							</select>
-                        </td>
-						<th>점검진단일자</th>
-                        <td><input id="qcInspDt" type="text" style="width: 100px;" maxlength="10" class="emdcal EditItem"/></td>
-                        <th>점검자</th>
-                        <td ><input id="inspector" type="text" style="width: 150px;" maxlength="60" class="EditItem"/></td>
-					</tr>
-					<tr>
-						<th>점검진단결과</th>
-						<td colspan="7"><textarea id="qcInspResult" cols="120" rows="7" class="EditItem"></textarea></td>
-					</tr>
-					<tr>
-						<th>비고</th>
-						<td colspan="7"><input id="rm" type="text" style="width: 500px;" maxlength="1000" class="EditItem"/></td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
+			<form id="gamPopupObjFcltsForm">
+				<table class="searchPanel">
+					<tbody>
+						<tr>
+	                        <th>시설물관리번호</th>
+	                        <td><input id="fcltsMngNo" type="text" style="width: 150px;" maxlength="20" class="EditItem"/></td>
+	                        <th>점검진단구분</th>
+	                        <td>
+	                       		<select id="qcInspSe" class="EditItem">
+									<option value="">선택</option>
+									<option value="E">전기시설물</option>
+									<option value="M">기계시설물</option>
+									<option value="C">토목시설물</option>
+									<option value="A">건축시설물</option>
+									<option value="I">정보통신시설물</option>
+								</select>
+	                        </td>
+							<th>점검진단일자</th>
+	                        <td><input id="qcInspDt" type="text" style="width: 100px;" maxlength="10" class="emdcal EditItem"/></td>
+	                        <th>점검자</th>
+	                        <td ><input id="inspector" type="text" style="width: 150px;" maxlength="60" class="EditItem"/></td>
+						</tr>
+						<tr>
+							<th>점검진단결과</th>
+							<td colspan="7"><textarea id="qcInspResult" cols="120" rows="7" class="EditItem"></textarea></td>
+						</tr>
+						<tr>
+							<th>비고</th>
+							<td colspan="7"><input id="rm" type="text" style="width: 500px;" maxlength="1000" class="EditItem"/></td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
 	    </div>
 
 	</div>

@@ -154,33 +154,33 @@ var popup_instance = new GamPopupQcMngResultItemModule();
 	            <button id="btnOk">확인</button>
             	<button id="btnCancel">취소</button>
 	        </div>
-		<form id="gamPopupResultItemForm">
-			<table class="searchPanel">
-				<tbody>
-					<tr>
-                        <th>순번</th>
-                        <td><input id="seq" type="text" style="width: 100px;" disabled="disabled" /></td>
-                        <th>점검항목코드</th>
-                        <td><input id="qcItemCd" type="text" style="width: 150px;" maxlength="20" class="EditItem"/></td>
-                        <th>점검결과구분</th>
-                        <td>
-                       		<select id="inspResultChk" class="EditItem">
-								<option value="">선택</option>
-								<option value="1">구분1</option>
-								<option value="2">구분2</option>
-								<option value="3">구분3</option>
-								<option value="4">구분4</option>
-								<option value="5">구분5</option>
-							</select>
-                        </td>
-					</tr>
-					<tr>
-						<th>점검결과내용</th>
-						<td colspan="7"><textarea id="inspResultCn" cols="120" rows="7" class="EditItem"></textarea></td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
+			<form id="gamPopupResultItemForm">
+				<table class="searchPanel">
+					<tbody>
+						<tr>
+	                        <th>순번</th>
+	                        <td><input id="seq" type="text" style="width: 100px;" disabled="disabled" /></td>
+	                        <th>점검항목코드</th>
+	                        <td><input id="qcItemCd" type="text" style="width: 150px;" maxlength="20" class="EditItem"/></td>
+	                        <th>점검결과구분</th>
+	                        <td>
+	                       		<select id="inspResultChk" class="EditItem">
+									<option value="">선택</option>
+									<option value="1">구분1</option>
+									<option value="2">구분2</option>
+									<option value="3">구분3</option>
+									<option value="4">구분4</option>
+									<option value="5">구분5</option>
+								</select>
+	                        </td>
+						</tr>
+						<tr>
+							<th>점검결과내용</th>
+							<td colspan="7"><textarea id="inspResultCn" cols="120" rows="7" class="EditItem"></textarea></td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
 	    </div>
 
 	</div>

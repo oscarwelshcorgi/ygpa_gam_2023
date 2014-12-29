@@ -288,7 +288,7 @@
 		WHERE
 			FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 			AND FCLTS_JOB_SE = #fcltsJobSe#
-			AND QC_MNG_SEQ = TO_NUMBER(TO_NUMBER(#qcMngSeq#))
+			AND QC_MNG_SEQ = TO_NUMBER(#qcMngSeq#)
 			AND FCLTS_MNG_NO = #fcltsMngNo# 		
 	</update>
 	
@@ -444,7 +444,7 @@
 							, R.FCLTS_JOB_SE
 							, R.QC_MNG_SEQ
 							, R.QC_ITEM_CD
-							, (SELECT QC_ITEM FROM QC_ITEM_CD_F WHERE QC_ITEM_CD = R.QC_ITEM_CD) QC_ITEM_NM
+							, (SELECT QC_ITEM_NM FROM QC_ITEM_CD_F WHERE QC_ITEM_CD = R.QC_ITEM_CD) QC_ITEM_NM
 							, R.SEQ
 							, R.INSP_RESULT_CHK
 							, R.INSP_RESULT_CN
