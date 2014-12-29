@@ -28,7 +28,7 @@
 function GamFcltyUseUnuseSttusInqireModule() {
 }
 
-GamFcltyUseUnuseSttusInqireModule.prototype = new EmdModule(1000,600);	// 초기 시작 창크기 지정
+GamFcltyUseUnuseSttusInqireModule.prototype = new EmdModule(1000,800);	// 초기 시작 창크기 지정
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function(params) {
@@ -37,7 +37,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function(params) {
 	this._params = params;	// 파라미터를 저장한다.
 
 	// 테이블 설정
-	this.$("#fcltyUseUnuseSttusInqireList").flexigrid({
+	this.$("#mainGrid").flexigrid({
 		module: this,
 		url: '/fcltyMng/selectFcltyUseUnuseSttusInqireList.do',
 		dataType: "json",
@@ -46,27 +46,124 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function(params) {
 				{display:"자산명",			name:"gisAssetsNm",			width:180,		sortable:false,		align:"left"},
 				{display:"소재지", 			name:"gisAssetsLnms",		width:200,		sortable:false,		align:"left"},
 				{display:"자산면적㎡",		name:"gisAssetsAr",			width:100,		sortable:false,		align:"right"},
-				{display:"실제임대면적㎡",	name:"gisAssetsRealRentAr",	width:100, 		sortable:false,		align:"right"},
+				{display:"임대가용면적㎡",	name:"gisAssetsRealRentAr",	width:100, 		sortable:false,		align:"right"},
 				{display:"사용면적㎡",	 	name:"usageAr",				width:100, 		sortable:false,		align:"right" },
-				{display:"미사용면적㎡", 	name:"noUsageAr",			width:100, 		sortable:false,		align:"right" },
+				{display:"미사용면적㎡", 	name:"noUsageAr",			width:100, 		sortable:false,		align:"right",  displayFormat: 'number'},
 				{display:"사용률％", 		name:"usageArPer",			width:65, 		sortable:false,		align:"right" },
 				{display:"기간From",			name:"usagePdFrom",				width:80, 		sortable:false,		align:"center"},
 				{display:"기간To",			name:"usagePdTo",				width:80, 		sortable:false,		align:"center"  }
 			],
-		height: "auto"
-	});
-	};
-	
+		height: "200"
+			, preProcess: function(module,data) {
 
+		            return data;
+		        }
+		
+	});
+	console.log('debug');
+	this.$("#mainGrid").on("onItemDoubleClick", function(event, module, row, grid, param) {
+		
+		var searchOpt = [
+						{name: 'gisAssetsPrtAtCode', value: row["gisAssetsPrtAtCode"]},
+						{name: 'mngisAssetsCd', value: row["gisAssetsCd"]},
+						{name: 'gisAssetsSubCd', value: row["gisAssetsSubCd"]},
+						{name: 'searchDtFr', value:module.$("#searchDtFr").val()},
+						{name: 'searchDtTo', value:module.$("#searchDtTo").val()},
+		];				
+	module.$('#detailGrid').flexOptions({params:searchOpt}).flexReload();
+	
+	})
+	
+	// 시설물 사용/미사용 시설 상세
+    this.$("#detailGrid").flexigrid({
+        module: this,
+        url: '/fcltyMng/selectFcltyUseUnuseSttusInqireDetailList.do',
+        dataType: 'json',
+        colModel : [
+                	{display:"항구분",			name:"mngYear",	width:60,		sortable:false,		align:"center"},
+    				{display:"자산명",			name:"mngNo",			width:180,		sortable:false,		align:"left"},
+    				{display:"업체명",		name:"mngCnt",			width:180,		sortable:false,		align:"left"},
+        			{display:"소재지", 			name:"gisAssetsLnms",		width:200,		sortable:false,		align:"left"},
+    				{display:"자산면적㎡",		name:"gisAssetsAr",			width:100,		sortable:false,		align:"right"},
+    				{display:"임대가용면적㎡",	name:"gisAssetsRealRentAr",	width:100, 		sortable:false,		align:"right"},
+    				{display:"사용면적㎡",	 	name:"usageAr",				width:100, 		sortable:false,		align:"right" },
+    				{display:"미사용면적㎡", 	name:"noUsageAr",			width:100, 		sortable:false,		align:"right",  displayFormat: 'number'},
+    				{display:"사용률％", 		name:"usageArPer",			width:65, 		sortable:false,		align:"right" },
+    				{display:"기간From",			name:"usagePdFrom",				width:80, 		sortable:false,		align:"center"},
+    				{display:"기간To",			name:"usagePdTo",				width:80, 		sortable:false,		align:"center"  }
+                    ],
+        showTableToggleBtn: false,
+        height: 'auto'
+        	,preProcess : function(module,data) {
+    			module.$('#totalCount').val(data.totalCount);
+    			module.makeDivValues('#emdControlPanelForm', data);
+    				return data;
+    			} 
+    });
+
+/* 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
+		module._cmd = 'modify';
+	});
+
+ 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		module._cmd = 'modify';
+ 		module.$("#mainTab").tabs("option", {active: 1});
+ 	}); */
+
+};
 GamFcltyUseUnuseSttusInqireModule.prototype.onSubmit = function() {
 	this.loadData();
 	};
 
 	//시설목록 로드
+	
 GamFcltyUseUnuseSttusInqireModule.prototype.loadData = function() {
-	var searchOpt = this.makeFormArgs("#searchFcltyUseUnuseSttusInqireForm");
-	this.$("#fcltyUseUnuseSttusInqireList").flexOptions({params:searchOpt}).flexReload();
+	var searchOpt = this.makeFormArgs("#searchForm");
+	this.$("#mainGrid").flexOptions({params:searchOpt}).flexReload();
 	};
+
+
+	
+	
+GamFcltyUseUnuseSttusInqireModule.prototype.loadDetailData = function() {
+		
+	var row = this.$('#MainGrid').selectedRows();
+		
+		if (row.length==0) {
+				alert('선택된 항목이 없습니다.');
+				this.$("#mainTab").tabs("option", {active: 0});
+				return;
+			}else if (row.length > 0 ){
+		
+				this.doAction('/fcltyMng/selectFcltyUseUnuseSttusInqireDetailList.do', row, function(module, result) {
+			
+				if(result.resultCode == "0"){
+					module._usageFcltyVO=result.result;
+					module.makeDivValues('#usageFcltyVO', module._usageFcltyVO);
+				} else {
+					this._cmd="";
+					module.initDisplay();
+					alert(result.resultMsg);
+				}
+			});
+		}
+};
+
+// 탭 변경시 실행
+
+GamFcltyUseUnuseSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
+	
+	if(newTabId == 'tabs2' && this._cmd == 'modify') {
+		this.initDisplay();
+		this.$('#tabs2').scrollTop(0);
+		this.loadDetailData();
+	}else{
+		alert("항목을 반드시 선택해주세요.")
+	}
+
+};
+
+
 
 
 
@@ -83,6 +180,17 @@ GamFcltyUseUnuseSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 	}
 };
 
+
+//화면 및 데이터 초기화 처리
+
+GamFcltyUseUnuseSttusInqireModule.prototype.initDisplay = function() {
+	
+	this.$("#usageFcltyVO :input").val("");
+	
+
+};
+
+
 	// 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 </script>
@@ -92,7 +200,7 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 	<!-- 조회 조건 -->
 	<div class="emdPanel">
 		<div class="viewStack">
-			<form id="searchFcltyUseUnuseSttusInqireForm">
+			<form id="searchForm">
 				<table class="searchPanel">
 					<tbody>
 						<tr>
@@ -110,8 +218,6 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 							<td><input id="searchFcltyNm" type="text" size=30/></td>
 							<th>소재지</th>
 							<td><input id="searchLoc" type="text" size=30/></td>
-							
-                             
 					</tr>
 					</tbody>
 				</table>
@@ -121,13 +227,159 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 	</div>
 
 	<div class="emdPanel fillHeight">
-				<table id="fcltyUseUnuseSttusInqireList" style="display:none" class="fillHeight"></table>
-				<div class="emdControlPanel">
+		<div id="mainTab" class="emdTabPanel fillHeight">
+			<ul>
+				<li><a href="#tabs1" class="emdTab">시설물 사용/미사용시설 조회</a></li>
+				<li><a href="#tabs2" class="emdTab">시설물 사용/미사용시설 상세</a></li>
+			</ul>
 
-					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="fcltyUseUnuseSttusInqireList" data-style="default">맵조회</button>
+			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
+				<table id="mainGrid" style="display: none"></table>
+				 <table id="detailGrid" syle="display: none" class="fillHeight"></table>
+			<div id="emdControlPanel" class="emdControlPanel">
+					<form id="emdControlPanelForm">
+						<table style="width: 100%;">
+							<tr>
+								<th style="text-align: center;">자료수</th>
+						<td><input type="text" size="8" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
+
+								<button data-role="showMap" data-gis-layer="gisAssetsCd"
+									data-flexi-grid="fcltyUseUnuseSttusInqireList" data-style="default">맵조회</button>
+							</tr>
+						</table>
+					</form>
 				</div>
 			</div>
 
+           <div id="tabs2" class="emdTabPage" style="overflow:scroll;">
+           
+                <div class="emdControlPanel">
+                    <form id="gamAssetRentForm">
+                        <input type="hidden" id="cmd"/>
+		
+                        <table class="editForm">
+                            <tr>
+								<th width="10%" height="18">항코드</th>
+                                <td>
+                                    <input type="text" size="20" id="prtAtCodeStr" title="항코드" disabled/>
+                                </td>
+								
+								<th width="10%" height="18">관리번호</th>
+                                <td>
+                                    <span id="mngYear">-
+                                    <span id="mngNo">-
+                                    <span id="mngCnt">
+                                </td>
+                            </tr>
+                            <tr>
+								<th width="10%" height="18">최초신청일자</th>
+                                <td><input type="text" size="20" id="frstReqstDt" disabled/></td>
+								<th width="10%" height="18">신청일자</th>
+                                <td><input type="text" class="emdcal" size="14" id="reqstDt" readonly/></td>
+								<th width="10%" height="18">신청업체</th>
+                                <td>
+                                    <input type="text" size="8" id="entrpscd" maxlength="10" readonly/>
+                                    <input type="text" size="18" id="entrpsNm" disabled/>
+                                    <button id="popupEntrpsInfoInput" class="popupButton">선택</button>
+                                </td>
+                            </tr>
+                            <tr>
+								<th width="10%" height="18">승낙여부</th>
+                                <td>
+                                    <select id="prmisnYn" disabled>
+                                        <option value="">선택</option>
+                                        <option value="Y">Y</option>
+                                        <option value="N" selected="selected">N</option>
+                                    </select>
+                                </td>
+								<th width="10%" height="18">승낙일자</th>
+                                <td><input type="text" size="18" id="prmisnDt" disabled></td>
+								<th width="10%" height="18">총사용기간</th>
+                                <td>
+                                    <input type="text" size="18" id="grUsagePdFrom" disabled/>~
+                                    <input type="text" size="18" id="grUsagePdTo" disabled/>
+                                </td>
+                            </tr>
+                            <tr>
+								<th width="10%" height="18">총사용면적</th>
+                                <td><input type="text" size="18" class="ygpaNumber" id="grAr" disabled/>㎡</td>
+								<th width="10%" height="18">총사용료</th>
+                                <td><input type="text" size="18" class="ygpaNumber" id="grFee" disabled/></td>
+								<th width="10%" height="18">총감면사용료</th>
+                                <td><input type="text" size="18" class="ygpaNumber" id="grRdcxptFee" disabled/></td>
+                            </tr>
+                            <tr>
+								<th width="10%" height="18">납부방법</th>
+                                <td>
+                                    <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM043" />
+                                </td>
+								<th width="10%" height="18">고지방법</th>
+                                <td>
+                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM008" />
+                                </td>
+								<th width="10%" height="18">분납이자율</th>
+                                <td>
+                                    <input type="text" size="19" id="payinstIntrrate" maxlength="4" size="5"/>
+                                    <select id="cofixList">
+                                        <option value="">선택</option>
+                                        <c:forEach items="${cofixList}" var="cofixListItem">
+                                            <option value="${cofixListItem.code }">${cofixListItem.codeNm }</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+								<th width="10%" height="18">과세구분</th>
+                                <td>
+                                    <input id="taxtSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM016" />
+                                </td>
+								<th width="10%" height="18">첫회 사용료</th>
+                                <td colspan="3">
+                                	<input type="text" size="13" id="firstPayVal" class="skipValue" disabled="disabled"/> 원
+                                </td>
+                            </tr>
+                            <tr>
+								<th width="10%" height="18">코멘트</th>
+                                <td colspan="5">
+                                	<input type="text" size="100" id="cmt" maxlength="80"/>
+                                	<button id="btnSaveComment">코멘트저장</button>
+                                </td>
+                            </tr>
+                            <tr>
+								<th width="10%" height="18">비고</th>
+                                <td colspan="5"><input type="text" size="100" id="rm" maxlength="90"/></td>
+                            </tr>
+                            <tr>
+								<th width="10%" height="18">담당자</th>
+                                <td>
+									<input id="chargerNo" type="hidden" />
+									<select id="selectCharger" class="skipValue">
+                                        <option value="">선택</option>
+                                    </select>
+								</td>
+								<th width="10%" height="18">담당자 전화</th>
+                                <td>
+                                	<span id="chargerTlphonNo"></span>
+								</td>
+								<th width="10%" height="18">휴대전화</th>
+                                <td>
+                                	
+                                    
+								</td>
+							</tr>
+                        </table>
+                    </form>
+
+
+	                 
+	
+                 </div>
+            </div>
 
 		</div>
-	
+
+
+
+	</div>
+</div>
+</div>

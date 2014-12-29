@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
-
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUseUnuseSttusInqireVO;
 
 /**
@@ -53,4 +53,17 @@ public class GamFcltyUseUnuseSttusInqireDao extends YGPAAbstractDAO {
 		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireListTotCnt_S", searchVO);
 	}
 
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public EgovMap selectFcltyUseUnuseSttusInqireDetail(GamFcltyUseUnuseSttusInqireVO searchVO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
+	
+
+	

@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageHistInqireService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageHistInqireVO;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUseUnuseSttusInqireService;
@@ -46,4 +47,7 @@ public class GamFcltyUseUnuseSttusInqireServiceImpl implements GamFcltyUseUnuseS
 
 	}
 
+	public List selectFcltyUseUnuseSttusInqireDetail(GamFcltyUseUnuseSttusInqireVO searchVO){
+		return (List) gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireDetail(searchVO);
+	}
 }

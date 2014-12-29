@@ -20,6 +20,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltySpecInqireVO;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUseUnuseSttusInqireService;
@@ -108,6 +109,37 @@ String indexFcltyUsageSttusInqire(@RequestParam("window_id") String windowId, Mo
 
 	return map;
 	}
+
+
+
+@RequestMapping(value="/fcltyMng/selectFcltyUseUnuseSttusInqireDetailList.do")
+@ResponseBody Map<String, Object> selectFcltyUseUnuseSttusInqireDetail(GamFcltyUseUnuseSttusInqireVO searchVO) throws Exception {
+	
+	Map<String, Object> map = new HashMap<String, Object>();
+	List result;
+	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+	if(!isAuthenticated) {
+        map.put("resultCode", 1);
+		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    	return map;
+	}
+
+	try {
+		result = gamFcltyUseUnuseSttusInqireService.selectFcltyUseUnuseSttusInqireDetail(searchVO);
+		
+    }
+
+	catch(Exception e) {
+        map.put("resultCode", 1);
+        map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+        return map;
+	}
+
+    map.put("resultCode", 0);
+    map.put("result", result);
+
+    return map;
+}
 }
 
 

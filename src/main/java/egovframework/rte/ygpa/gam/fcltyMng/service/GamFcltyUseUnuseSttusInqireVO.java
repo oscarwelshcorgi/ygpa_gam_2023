@@ -44,6 +44,85 @@ public class GamFcltyUseUnuseSttusInqireVO extends ComDefaultVO  {
 	/** 조회종료일(조회조건) **/
 	private String searchDtTo;
 
+	public String prtAtCode;
+	
+	public String mngYear;
+	
+	public String mngNo;
+	
+	public String mngCnt;
+	/**
+	 * @return the prtAtCode
+	 */
+	public String getPrtAtCode() {
+		return prtAtCode;
+	}
+
+
+
+	/**
+	 * @param prtAtCode the prtAtCode to set
+	 */
+	public void setPrtAtCode(String prtAtCode) {
+		this.prtAtCode = prtAtCode;
+	}
+
+
+
+	/**
+	 * @return the mngYear
+	 */
+	public String getMngYear() {
+		return mngYear;
+	}
+
+
+
+	/**
+	 * @param mngYear the mngYear to set
+	 */
+	public void setMngYear(String mngYear) {
+		this.mngYear = mngYear;
+	}
+
+
+
+	/**
+	 * @return the mngNo
+	 */
+	public String getMngNo() {
+		return mngNo;
+	}
+
+
+
+	/**
+	 * @param mngNo the mngNo to set
+	 */
+	public void setMngNo(String mngNo) {
+		this.mngNo = mngNo;
+	}
+
+
+
+	/**
+	 * @return the mngCnt
+	 */
+	public String getMngCnt() {
+		return mngCnt;
+	}
+
+
+
+	/**
+	 * @param mngCnt the mngCnt to set
+	 */
+	public void setMngCnt(String mngCnt) {
+		this.mngCnt = mngCnt;
+	}
+
+
+
 	/**
 	 * @return the searchPrtAtCode
 	 */
@@ -51,6 +130,8 @@ public class GamFcltyUseUnuseSttusInqireVO extends ComDefaultVO  {
 		return searchPrtAtCode;
 	}
 
+	
+	
 	/**
 	 * @param searchPrtAtCode the searchPrtAtCode to set
 	 */

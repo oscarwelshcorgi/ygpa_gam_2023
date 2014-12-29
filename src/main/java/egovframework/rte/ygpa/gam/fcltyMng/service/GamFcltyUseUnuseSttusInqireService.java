@@ -6,6 +6,8 @@ package egovframework.rte.ygpa.gam.fcltyMng.service;
 import java.util.List;
 import java.util.Map;
 
+import egovframework.rte.psl.dataaccess.util.EgovMap;
+
 
 /**
 *
@@ -39,13 +41,22 @@ public interface GamFcltyUseUnuseSttusInqireService {
 
 
 	int selectFcltyUseUnuseSttusInqireListTotCnt(GamFcltyUseUnuseSttusInqireVO searchVO) throws Exception;
-	
+
+
+
+	List selectFcltyUseUnuseSttusInqireDetail(GamFcltyUseUnuseSttusInqireVO searchVO) throws Exception;
+
 
 
 	/**
-	 * @param searchVO
+	 * @param searchVO 
 	 * @return
 	 */
+	
+
+
+
+
 	
 
 
