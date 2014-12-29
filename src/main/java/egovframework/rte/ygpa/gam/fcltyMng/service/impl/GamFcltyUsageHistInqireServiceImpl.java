@@ -40,7 +40,7 @@ public class GamFcltyUsageHistInqireServiceImpl implements GamFcltyUsageHistInqi
 	}
 
 	@Override
-	public int selectFcltyUsageHistInqireListTotCnt(GamFcltyUsageHistInqireVO searchVO) throws Exception{
+	public GamFcltyUsageHistInqireVO selectFcltyUsageHistInqireListTotCnt(GamFcltyUsageHistInqireVO searchVO) throws Exception{
 		return gamFcltyUsageHistInqireDao.selectFcltyUsageHistInqireListTotCnt(searchVO);
 	}
 

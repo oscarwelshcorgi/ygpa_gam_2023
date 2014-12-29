@@ -28,7 +28,7 @@ public class GamFcltyUsageHistInqireVO extends ComDefaultVO{
 	private String searchPrtAtCode;
 	
 	/** 신청업체(조회조건) **/
-	private String entrpsCd;
+	private String entrpsNm;
 	
 	/** 조회시작일(조회조건) **/
 	private String searchDtFr;
@@ -36,32 +36,36 @@ public class GamFcltyUsageHistInqireVO extends ComDefaultVO{
 	/** 조회종료일(조회조건) **/
 	private String searchDtTo;
 
+	private String	dataCount;
+	private	String	sumAr;
+	private String	sumFee;
+	
 	/**
 	 * @return the searchPrtAtCode
 	 */
-	public String getsearchPrtAtCode() {
+	public String getSearchPrtAtCode() {
 		return searchPrtAtCode;
 	}
 
 	/**
 	 * @param searchPrtAtCode the searchPrtAtCode to set
 	 */
-	public void setsearchPrtAtCode(String searchPrtAtCode) {
+	public void setSearchPrtAtCode(String searchPrtAtCode) {
 		this.searchPrtAtCode = searchPrtAtCode;
 	}
 
 	/**
-	 * @return the entrpsCd
+	 * @return the entrpsNm
 	 */
-	public String getEntrpsCd() {
-		return entrpsCd;
+	public String getEntrpsNm() {
+		return entrpsNm;
 	}
 
 	/**
-	 * @param entrpsCd the entrpsCd to set
+	 * @param entrpsNm the entrpsNm to set
 	 */
-	public void setEntrpsCd(String entrpsCd) {
-		this.entrpsCd = entrpsCd;
+	public void setEntrpsNm(String entrpsNm) {
+		this.entrpsNm = entrpsNm;
 	}
 
 	/**
@@ -92,5 +96,48 @@ public class GamFcltyUsageHistInqireVO extends ComDefaultVO{
 		this.searchDtTo = searchDtTo;
 	}
 
+	/**
+	 * @return the dataCount
+	 */
+	public String getDataCount() {
+		return dataCount;
+	}
+
+	/**
+	 * @param dataCount the dataCount to set
+	 */
+	public void setDataCount(String dataCount) {
+		this.dataCount = dataCount;
+	}
+
+	/**
+	 * @return the sumAr
+	 */
+	public String getSumAr() {
+		return sumAr;
+	}
+
+	/**
+	 * @param sumAr the sumAr to set
+	 */
+	public void setSumAr(String sumAr) {
+		this.sumAr = sumAr;
+	}
+
+	/**
+	 * @return the sumFee
+	 */
+	public String getSumFee() {
+		return sumFee;
+	}
+
+	/**
+	 * @param sumFee the sumFee to set
+	 */
+	public void setSumFee(String sumFee) {
+		this.sumFee = sumFee;
+	}
+	
+	
 	
 }

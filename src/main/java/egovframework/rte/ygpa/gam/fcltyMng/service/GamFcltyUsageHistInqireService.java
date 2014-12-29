@@ -34,6 +34,6 @@ public interface GamFcltyUsageHistInqireService {
 	 * @param searchVO
 	 * @return
 	 */
-	int selectFcltyUsageHistInqireListTotCnt(GamFcltyUsageHistInqireVO searchVO) throws Exception;
+	GamFcltyUsageHistInqireVO selectFcltyUsageHistInqireListTotCnt(GamFcltyUsageHistInqireVO searchVO) throws Exception;
 
 }

@@ -5,6 +5,12 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="gamFcltyUsageHistInqireVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageHistInqireVO"/>
+    
+    <resultMap id="gamFcltyUsageHistInqireSumMap" class="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageHistInqireVO">
+		<result property="dataCount" column="DATA_COUNT" columnIndex="1"/>
+		<result property="sumAr" column="SUM_AR" columnIndex="2"/>
+		<result property="sumFee" column="SUM_FEE" columnIndex="3"/>
+	</resultMap>
 	
 	<select id="gamFcltyUsageHistInqireDao.selectFcltyUsageHistInqireList" parameterClass="gamFcltyUsageHistInqireVO" resultClass="egovMap">
 		SELECT
@@ -67,8 +73,7 @@
 						, C.PRT_AT_CODE
 						, C.MNG_YEAR || '-' || C.MNG_NO || '-' || C.MNG_CNT AS RENT_MNG_NO
 						, GAM_GETCODENAME('GAM019', C.PRT_AT_CODE) PRT_AT_CODE_NM
-						, C.ENTRPSCD
-						, GAM_GETENTRPSNM(C.ENTRPSCD, '1') ENTRPS_NM
+						, C.ENTRPS_NM
 						, NVL(C.GR_FEE,0) GR_FEE
 						, NVL(C.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
 						, (G.GIS_ASSETS_PRT_AT_CODE || '-' || G.GIS_ASSETS_CD || '-' || G.GIS_ASSETS_SUB_CD) ASSETS_CD_STR
@@ -79,7 +84,7 @@
 						, C.PRMISN_YN
 						FROM GIS_ASSETS_CD_F G LEFT OUTER JOIN
 							(SELECT
-								A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT, MAX(A.ENTRPSCD) ENTRPSCD, MAX(A.GR_FEE) GR_FEE, MAX(A.GR_RDCXPT_FEE) GR_RDCXPT_FEE,
+								A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT, GAM_GETENTRPSNM(MAX(A.ENTRPSCD), '1') ENTRPS_NM, MAX(A.GR_FEE) GR_FEE, MAX(A.GR_RDCXPT_FEE) GR_RDCXPT_FEE,
 								MAX(B.GIS_ASSETS_PRT_AT_CODE) GIS_ASSETS_PRT_AT_CODE, MAX(B.GIS_ASSETS_CD) GIS_ASSETS_CD, MAX(B.GIS_ASSETS_SUB_CD) GIS_ASSETS_SUB_CD,
 								SUM(B.USAGE_AR) USAGE_AR,SUM(B.FEE) FEE, SUM(B.RDCXPT_FEE) RDCXPT_FEE, SUM(B.USAGE_PRPOS_CD) USAGE_PRPOS_CD, MIN(B.USAGE_PD_FROM) USAGE_PD_FROM,
 								MAX(B.USAGE_PD_TO) USAGE_PD_TO, A.PRMISN_YN								
@@ -106,8 +111,8 @@
 						<isNotEmpty property="searchPrtAtCode">
 							AND C.PRT_AT_CODE = #searchPrtAtCode#
 						</isNotEmpty>
-						<isNotEmpty property="entrpsCd">
-							AND C.ENTRPSCD = #entrpsCd#
+						<isNotEmpty property="entrpsNm">
+							AND C.ENTRPS_NM LIKE '%' || #entrpsNm# || '%'
 						</isNotEmpty>
 						<isNotEmpty property="searchKeyword">
 							AND G.GIS_ASSETS_NM LIKE '%' || #searchKeyword# || '%'
@@ -124,11 +129,13 @@
 					</isNotEmpty>
 	</select>
 
-	<select id="gamFcltyUsageHistInqireDao.selectFcltyUsageHistInqireListTotCnt" parameterClass="gamFcltyUsageHistInqireVO" resultClass="int">
-		SELECT COUNT(*) totcnt
+	<select id="gamFcltyUsageHistInqireDao.selectFcltyUsageHistInqireListTotCnt" parameterClass="gamFcltyUsageHistInqireVO" resultMap="gamFcltyUsageHistInqireSumMap">
+		SELECT COUNT(*) AS DATA_COUNT
+			,SUM(C.USAGE_AR) AS SUM_AR
+			,SUM(C.FEE) AS SUM_FEE
 			FROM GIS_ASSETS_CD_F G LEFT OUTER JOIN
 							(SELECT
-								A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT, MAX(A.ENTRPSCD) ENTRPSCD, MAX(A.GR_FEE) GR_FEE, MAX(A.GR_RDCXPT_FEE) GR_RDCXPT_FEE,
+								A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT, GAM_GETENTRPSNM(MAX(A.ENTRPSCD), '1') ENTRPS_NM, MAX(A.GR_FEE) GR_FEE, MAX(A.GR_RDCXPT_FEE) GR_RDCXPT_FEE,
 								MAX(B.GIS_ASSETS_PRT_AT_CODE) GIS_ASSETS_PRT_AT_CODE, MAX(B.GIS_ASSETS_CD) GIS_ASSETS_CD, MAX(B.GIS_ASSETS_SUB_CD) GIS_ASSETS_SUB_CD,
 								SUM(B.USAGE_AR) USAGE_AR,SUM(B.FEE) FEE, SUM(B.RDCXPT_FEE) RDCXPT_FEE, SUM(B.USAGE_PRPOS_CD) USAGE_PRPOS_CD, MIN(B.USAGE_PD_FROM) USAGE_PD_FROM,
 								MAX(B.USAGE_PD_TO) USAGE_PD_TO, A.PRMISN_YN								
@@ -155,8 +162,8 @@
 						<isNotEmpty property="searchPrtAtCode">
 							AND C.PRT_AT_CODE = #searchPrtAtCode#
 						</isNotEmpty>
-						<isNotEmpty property="entrpsCd">
-							AND C.ENTRPSCD = #entrpsCd#
+						<isNotEmpty property="entrpsNm">
+							AND C.ENTRPS_NM LIKE '%' || #entrpsNm# || '%'
 						</isNotEmpty>
 						<isNotEmpty property="searchKeyword">
 							AND G.GIS_ASSETS_NM LIKE '%' || #searchKeyword# || '%'

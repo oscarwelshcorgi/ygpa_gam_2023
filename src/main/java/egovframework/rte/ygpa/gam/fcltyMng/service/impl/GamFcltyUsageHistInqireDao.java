@@ -42,8 +42,8 @@ public class GamFcltyUsageHistInqireDao extends YGPAAbstractDAO{
 	 * @param searchVO
 	 * @return
 	 */
-	public int selectFcltyUsageHistInqireListTotCnt(GamFcltyUsageHistInqireVO searchVO) {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyUsageHistInqireDao.selectFcltyUsageHistInqireListTotCnt", searchVO);
+	public GamFcltyUsageHistInqireVO selectFcltyUsageHistInqireListTotCnt(GamFcltyUsageHistInqireVO searchVO) {
+		return (GamFcltyUsageHistInqireVO)selectByPk("gamFcltyUsageHistInqireDao.selectFcltyUsageHistInqireListTotCnt", searchVO);
 	}
 
 	
