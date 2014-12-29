@@ -33,9 +33,7 @@ GamFcltyRepairMngModule.prototype = new EmdModule(1000,600);	// 초기 시작 �
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
-	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다.
-
-	this._params = params;	// 파라미터를 저장한다.
+	this._mode = "";
 
 	// 테이블 설정
 	this.$("#fcltyRepairMngList").flexigrid({
@@ -67,7 +65,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 					{display:"하자검사결과",	name:"flawExamResult",	width:350,		sortable:true,		align:"left"},
 					{display:"비고",			name:"rm",				width:350,		sortable:true,		align:"left"}
 			],
-		height: "auto"
+		height: "190"
 	});
 
 
@@ -81,7 +79,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 					{display:"하자검사일자",		name:"flawExamDt",			width:250,		sortable:false,		align:"center"},
 					{display:"하자검사완료여부",		name:"flawExamComptYn",		width:250,		sortable:false,		align:"center"}
 			],
-		height: "auto"
+		height: "340"
 	});
 
 
@@ -114,6 +112,25 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 	});
  	
  	
+ 	this.$("#flawRprObjFcltsF").on('onItemSelected', function(event, module, row, grid, param) {
+ 		module.applyObjDataChanged();
+	});
+ 	
+ 	
+ 	this.$(".objFcltsEditItem").bind("change keyup", {module: this}, function(event) {
+		event.data.module.objFcltsDataChanged(event.target);
+	});
+ 	
+ 	
+ 	this.$(".EditItem").bind("change keyup", {module: this}, function(event) {
+		event.data.module.applyExamDataChanged(event.target);
+	});
+
+	this.$("#flawExamUsrF").on("onItemSelected", function(event, module, row, grid, param) {
+		module.setExamDataChanged();
+	});
+ 	
+ 	
 	// 파일 정보 속성이 변경 된 경우 이벤트 실행
 	this.$(".fileEditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.applyFileChanged(event.target);
@@ -134,6 +151,69 @@ GamFcltyRepairMngModule.prototype.applySelectYear = function(){
 		option = option + "<option value='" + i + "'>" + i + "년</option>";
 	}
 	this.$("#enforceYear").append(option);
+};
+
+
+GamFcltyRepairMngModule.prototype.setExamDataChanged = function(){
+	
+	var row = this.$('#flawExamUsrF').selectedRows();
+	row = row[0];
+	
+	this.$('#eSeq').val(row['seq']);
+	this.$('#eFlawExamUsr').val(row['flawExamUsr']);
+	this.$('#eFlawExamDt').val(row['flawExamDt']);
+	this.$('#eFlawExamComptYn').val(row['flawExamComptYn']);
+
+};
+
+//속성 변경 된 경우 이벤트 실행
+GamFcltyRepairMngModule.prototype.applyExamDataChanged = function(target) {
+	var changed=false;
+	var row={};
+	// // console.log("change event occur");
+
+	var selectRow = this.$('#flawExamUsrF').selectedRows();
+	if(selectRow.length > 0) {
+		row=selectRow[0];
+		if(this.$('#eSeq').is(target)) {
+			row['seq'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#eFlawExamUsr').is(target)) {
+			row['flawExamUsr'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#eFlawExamDt').is(target)) {
+			row['flawExamDt'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#eFlawExamComptYn').is(target)) {
+			row['flawExamComptYn'] = $(target).find('option:selected').text();
+			changed=true;
+		}
+
+	}
+	if(changed) {
+		var rowid=this.$("#flawExamUsrF").selectedRowIds()[0];
+		if(row['_updtId']!='I') row['_updtId']='U';
+		this.edited=true;
+		this.$('#flawExamUsrF').flexUpdateRow(rowid, row);
+	}
+};
+
+
+GamFcltyRepairMngModule.prototype.applyObjDataChanged = function(){
+	
+	var row = this.$('#flawRprObjFcltsF').selectedRows();
+	row = row[0];
+	
+	this.$('#oFcltsMngNo').val(row['fcltsMngNo']);
+	this.$('#prtFcltyNm').val(row['prtFcltyNm']);
+	this.$('#oFlawExamDt').val(row['flawExamDt']);
+	this.$('#oFlawEnnc').val(row['flawEnnc']);
+	this.$('#oFlawExamResult').val(row['flawExamResult']);
+	this.$('#oRm').val(row['rm']);
+
 };
 
 
@@ -207,9 +287,12 @@ GamFcltyRepairMngModule.prototype.loadData = function(){
 	
 	// tabs3 그리드 초기화
 	this.$('#flawRprObjFcltsF').flexEmptyData();
+	this.$('#gamObjFcltsForm input').val('');
+	this.$('#gamObjFcltsForm textarea').val('');
 	
 	// tabs4 그리드 초기화
 	this.$('#flawExamUsrF').flexEmptyData();
+	this.$('#gamPopupRepairForm input').val('');
 	
 	// tabs5 항목/그리드 초기화
 	this.makeFormValues('#fcltyRepairMngFileForm', {});
@@ -432,13 +515,6 @@ GamFcltyRepairMngModule.prototype.deleteData = function() {
 };
 
 
-GamFcltyRepairMngModule.prototype.addEditData = function() {
-	var all_rows = this.$('#flawExamUsrF').flexGetData();
-	
-	this.doExecuteDialog("flawExamUsrFPopup", "하자보수검사자현황", '/popup/selectFlawExamUsrFPopup.do', {},all_rows);
-};
-
-
 GamFcltyRepairMngModule.prototype.uploadFileData = function() {
 	// 파일을 업로드하고 업로드한 파일 목록을 result에 어레이로 리턴한다.
 	this.uploadPfPhoto("uploadFile", function(module, result) {
@@ -488,6 +564,116 @@ GamFcltyRepairMngModule.prototype.removeFileData = function() {
 };
 
 
+//하자보수 대상 시설물 데이터 삭제
+GamFcltyRepairMngModule.prototype.delObjFcltsItem = function() {
+	var rows = this.$("#flawRprObjFcltsF").selectedRows();
+    if(rows.length == 0){
+        alert("하자보수대상 시설물목록에서 삭제할 행을 선택하십시오.");
+        return;
+    }
+    if(this.$("#flawRprObjFcltsF").selectedRowIds().length>0) {
+    	for(var i=this.$("#flawRprObjFcltsF").selectedRowIds().length-1; i>=0; i--) {
+    		var row = this.$("#flawRprObjFcltsF").flexGetRow(this.$("#flawRprObjFcltsF").selectedRowIds()[i]);
+    		if(row._updtId == undefined || row._updtId != "I") {
+            	this._deleteObjFcltsList[this._deleteObjFcltsList.length] = row;
+			}
+        	this.$("#flawRprObjFcltsF").flexRemoveRow(this.$("#flawRprObjFcltsF").selectedRowIds()[i]);
+        	this._edited=true;
+		}
+    	alert("삭제되었습니다.");
+	}
+    this.$("#gamObjFcltsForm").find(":input").val("");
+};
+
+
+//하자보수 대상 시설물 추가
+GamFcltyRepairMngModule.prototype.addObjFcltsItem = function() {
+	this.$('#gamObjFcltsForm :input').val('');
+	this.$("#flawRprObjFcltsF").flexAddRow({'_updtId': 'I', 'fcltsMngGroupNo':'', 'fcltsJobSe':'', 'flawRprSeq':'', 'fcltsMngNo':'', 'flawEnnc':'', 'flawExamDt':'', 'flawExamResult':'', 'rm':''});
+	var allRows = this.$('#flawRprObjFcltsF').flexGetData();
+	var selRowId = allRows.length - 1;
+	this.$("#flawRprObjFcltsF").selectRowId(selRowId);	
+};
+
+
+//속성 변경 된 경우 이벤트 실행
+GamFcltyRepairMngModule.prototype.objFcltsDataChanged = function(target) {
+	var changed=false;
+	var row={};
+	var selectRow = this.$('#flawRprObjFcltsF').selectedRows();
+	if(selectRow.length > 0) {
+		row=selectRow[0];
+		if(this.$('#oFcltsMngNo').is(target)) {
+			row['fcltsMngNo'] = $(target).val();
+			changed=true;
+		}
+
+		if(this.$('#oFlawExamDt').is(target)) {
+			row['flawExamDt'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#oFlawEnnc').is(target)) {
+			row['flawEnnc'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#oRm').is(target)) {
+			row['rm'] = $(target).val();
+			changed=true;
+		}
+		if(this.$('#oFlawExamResult').is(target)) {
+			row['flawExamResult'] = $(target).val();
+			changed=true;
+		}
+	}
+	if(changed) {
+		var rowid=this.$("#flawRprObjFcltsF").selectedRowIds()[0];
+		if(row['_updtId']!='I') row['_updtId']='U';
+		this.edited=true;
+		this.$('#flawRprObjFcltsF').flexUpdateRow(rowid, row);
+	}
+};
+
+
+//하자보수 검사자 추가
+GamFcltyRepairMngModule.prototype.addExamUsrItem = function() {
+	this.$('#fcltsMngNo').enable();
+	this.$('#gamPopupRepairForm :input').val('');
+
+	this.$("#flawExamUsrF").flexAddRow({'_updtId': 'I','seq':'','flawExamUsr':'','flawExamDt':'','flawExamComptYn':''});
+	var all_rows = this.$('#flawExamUsrF').flexGetData();
+	var sel_row_id = all_rows.length - 1;
+	this.$("#flawExamUsrF").selectRowId(sel_row_id);
+};
+
+
+//하자보수 검사자 삭제
+GamFcltyRepairMngModule.prototype.delExamUsrItem = function() {
+	var rows = this.$("#flawExamUsrF").selectedRows();
+
+    if(rows.length == 0){
+        alert("파일목록에서 삭제할 행을 선택하십시오.");
+        return;
+    }
+
+    if(this.$("#flawExamUsrF").selectedRowIds().length>0) {
+    	for(var i=this.$("#flawExamUsrF").selectedRowIds().length-1; i>=0; i--) {
+
+    		var row = this.$("#flawExamUsrF").flexGetRow(this.$("#flawExamUsrF").selectedRowIds()[i]);
+
+    		if(row._updtId == undefined || row._updtId != "I") {
+            	this._deleteDataRepairList[this._deleteDataRepairList.length] = row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
+			}
+        	this.$("#flawExamUsrF").flexRemoveRow(this.$("#flawExamUsrF").selectedRowIds()[i]);
+
+        	this._edited=true;
+		}
+
+    	alert("삭제되었습니다.");
+	}
+
+    this._editDataFile = null;
+};
+
 
 /**
  * 정의 된 버튼 클릭 시
@@ -495,6 +681,24 @@ GamFcltyRepairMngModule.prototype.removeFileData = function() {
  GamFcltyRepairMngModule.prototype.onButtonClick = function(buttonId) {
 
 	switch(buttonId) {
+	
+		// 추가
+		case "addObjItemBtn":
+			this.addObjFcltsItem();
+		break;
+		
+		case "delObjItemBtn":
+			this.delObjFcltsItem();
+		break;
+		
+		// 추가
+		case "addExamItemBtn":
+			this.addExamUsrItem();
+		break;
+		
+		case "delExamItemBtn":
+			this.delExamUsrItem();
+		break;
 
 		// 추가
 		case "addBtn":
@@ -531,6 +735,11 @@ GamFcltyRepairMngModule.prototype.removeFileData = function() {
 			this.removeFileData();
 		break;
 		
+		// 대상시설물
+		case "searchFcltsMngNo":
+			this.doExecuteDialog("selectFcltsMngNo", "대상시설물 관리번호", '/popup/showFcltsMngNo.do', {});
+		break;
+		
 		// 시설물관리그룹
 		case "searchFcltsMngGroupNo":
 			this.doExecuteDialog("selectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
@@ -540,12 +749,7 @@ GamFcltyRepairMngModule.prototype.removeFileData = function() {
 		case "ctrtNoPopupBtn":
 			this.doExecuteDialog("selectCtrtNo", "계약번호", '/popup/popupCtrtNo.do', {});
 		break;
-		
-		// 하자보수대상시설물 수정
-		case "flawRprObjFcltsFPopupBtn":
-			var allRows = this.$('#flawRprObjFcltsF').flexGetData();
-			this.doExecuteDialog("modifiedFlawRprObjFclts", "하자보수대상시설물목록", '/popup/showFlawRprObjFcltsPopup.do', {}, allRows);
-			break;
+
 	}
 };
 
@@ -554,6 +758,7 @@ GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	if(oldTabId == 'tabs1' && this._mode == 'modify') {
 		this.loadDetail();
 	}
+	
 	switch(newTabId) {
 		case "tabs1":
 		break;
@@ -573,7 +778,7 @@ GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		break;
 		
 		case "tabs3":
-			this._deleteDataRepairObjList=[];
+			this._deleteObjFcltsList=[];
 			if((this._mode != 'insert') && (this._mode != 'modify')) {
 				this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
 				alert('하자보수 항목을 선택 하세요.');
@@ -606,17 +811,15 @@ GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
  GamFcltyRepairMngModule.prototype.onClosePopup = function(popupId, msg, value){
 
 	switch(popupId){
-
-		// 상세화면
-		case "flawExamUsrFPopup":
-			if(msg == 'ok'){
-				this.$("#flawExamUsrF").flexEmptyData();
-			}
-			this.$("#flawExamUsrF").flexAddData({resultList: value["inputVo"] });
-
-			this._deleteDataRepairList = value["deleteDataRepairList"];
-		break;
 		
+		case "selectFcltsMngNo":
+			this.$("#oFcltsMngNo").val(value["fcltsMngNo"]);
+			this.$("#prtFcltyNm").val(value["prtFcltyNm"]);
+			
+			// 대상시설물 팝업에서 상태값 변경시 그리드 적용
+			this.$(".objFcltsEditItem").trigger("change");
+		break;
+	
 		case "selectFcltsMngGroup":
 			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#fcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
@@ -625,14 +828,6 @@ GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		case "selectCtrtNo":
 			this.$("#ctrtNo").val(value["ctrtNo"]);
 			this.$("#ctrtNm").val(value["ctrtNm"]);
-		break;
-		
-		case "modifiedFlawRprObjFclts":
-			if(msg == 'ok'){
-				this.$("#flawRprObjFcltsF").flexEmptyData();
-			}
-			this.$("#flawRprObjFcltsF").flexAddData({resultList: value["resultList"] });
-			this._deleteObjFcltsList = value["deleteObjFcltsList"];
 		break;
 
 		default:
@@ -827,18 +1022,79 @@ var module_instance = new GamFcltyRepairMngModule();
 			
 			<!-- 하자보수 대상 시설물 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
-				<table id="flawRprObjFcltsF" style="display:none" class="fillHeight"></table>
+				<table id="flawRprObjFcltsF" style="display:none"></table>
 				<div class="emdControlPanel">
-					<button id="flawRprObjFcltsFPopupBtn">추가/삭제</button>
+					<button id="addObjItemBtn">추가</button>
+		            <button id="delObjItemBtn">삭제</button>
+				</div>
+				<div class="emdControlPanel">
+					<form id="gamObjFcltsForm">
+						<table class="searchPanel">
+							<tbody>
+								<tr>
+			                        <th>대상시설물</th>
+			                        <td>
+			                        	<input id="oFcltsMngNo" type="text" style="width: 150px;" title="시설물관리번호" maxlength="20" class="objFcltsEditItem" disabled="disabled"/>
+			                        	<input id="prtFcltyNm" type="text" style="width: 175px;" title="시설명" maxlength="20" class="objFcltsEditItem" disabled="disabled"/>
+			                        	<button id="searchFcltsMngNo" class="popupButton">선택</button>
+			                        </td>
+									<th>하자검사일자</th>
+			                        <td><input id="oFlawExamDt" type="text" style="width: 100px;" maxlength="10" class="emdcal objFcltsEditItem"/></td>
+			                        <th>하자유무</th>
+			                        <td>
+			                        	<select id="oFlawEnnc" class="objFcltsEditItem">
+			                        		<option value="">선택</option>
+			                        		<option value="Y">유</option>
+			                        		<option value="N">무</option>
+			                        	</select>
+			                        </td>
+								</tr>
+								<tr>
+									<th>하자검사결과</th>
+									<td colspan="7"><textarea id="oFlawExamResult" cols="120" rows="7" class="objFcltsEditItem" maxlength="1333"></textarea></td>
+								</tr>
+								<tr>
+									<th>비고</th>
+									<td colspan="7"><input id="oRm" type="text" style="width: 500px;" maxlength="333" class="objFcltsEditItem"/></td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
 					<button id="saveBtn">저장</button>
 				</div>
 			</div>
 			
 			<!-- 하자보수 검사자 -->
 			<div id="tabs4" class="emdTabPage" style="overflow: scroll;">
-				<table id="flawExamUsrF" style="display:none" class="fillHeight"></table>
+				<table id="flawExamUsrF" style="display:none"></table>
 				<div class="emdControlPanel">
-					<button class="text" id="flawExamUsrFPopupBtn">추가/편집</button>
+					<button id="addExamItemBtn">추가</button>
+		            <button id="delExamItemBtn">삭제</button>
+				</div>
+				<div class="emdControlPanel">
+					<form id="gamPopupRepairForm">
+						<table class="searchPanel">
+							<tbody>
+								<tr>
+			                        <th>순번</th>
+			                        <td><input id="eSeq" type="text" style="width: 150px;" title="순번" maxlength="3" class="ygpaNumber EditItem" disabled="disabled" /></td>
+			                        <th>하자검사자</th>
+			                        <td><input id="eFlawExamUsr" type="text" style="width: 150px;" title="하자검사자" maxlength="20" class="EditItem"/></td>
+									<th>하자검사일자</th>
+			                        <td><input id="eFlawExamDt" type="text" style="width: 150px;" title="하자검사일자" class="emdcal EditItem"/></td>
+			                        <th>하자검사완료여부</th>
+			                        <td >
+			                        	<select id="eFlawExamComptYn" class="EditItem">
+			                        		<option value="">선택</option>
+			                        		<option value="Y">Y</option>
+			                        		<option value="N">N</option>
+			                        	</select>
+			                        </td>
+			
+								</tr>
+							</tbody>
+						</table>
+					</form>
 					<button id="saveBtn">저장</button>
 				</div>
 			</div>

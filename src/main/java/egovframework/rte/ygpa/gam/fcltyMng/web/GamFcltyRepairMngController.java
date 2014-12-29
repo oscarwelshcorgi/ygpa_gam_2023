@@ -637,37 +637,5 @@ public class GamFcltyRepairMngController {
 		return map;
 	}
 	
-	
-	/**
-	 * 하자보수대상물목록 수정 팝업
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/popup/showFlawRprObjFcltsPopup.do")
-    public String showFlawRprObjFcltsPopup(@RequestParam Map flawRprObjFcltsList, ModelMap model) throws Exception {
-		model.addAttribute("flawRprObjFcltsList", flawRprObjFcltsList);
-    	return "/ygpa/gam/fcltyMng/GamPopupFlawRprObjFclts";
-    }
-	
-	
-	
-	/**
-     * 하자보수 검사자 추가편집 팝업
-     *
-     * 하자보수 검사자 팝업
-     */
-	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/popup/selectFlawExamUsrFPopup.do")
-    public String selectFlawExamUsrFPopup(@RequestParam Map selectFlawExamUsrF, ModelMap model) throws Exception {
-
-		model.addAttribute("selectFlawExamUsrF", selectFlawExamUsrF);
-    	return "/ygpa/gam/fcltyMng/GamPopupFlawExamUsrF";
-    }
-	
-	
-
-	
 
 }

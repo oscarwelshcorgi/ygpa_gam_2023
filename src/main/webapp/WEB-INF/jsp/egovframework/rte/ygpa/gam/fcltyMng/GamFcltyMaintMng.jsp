@@ -579,6 +579,11 @@ GamFcltyMaintMngModule.prototype.addMaintItem = function() {
 			this.removeFileData();
 		break;
 		
+		// 대상시설물
+		case "searchFcltsMngNo":
+			this.doExecuteDialog("selectFcltsMngNo", "대상시설물 관리번호", '/popup/showFcltsMngNo.do', {});
+		break;
+		
 		// 시설물관리그룹
 		case "searchFcltsMngGroupNo":
 			this.doExecuteDialog("selectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
@@ -641,6 +646,14 @@ GamFcltyMaintMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 
 	switch(popupId){
 		
+		case "selectFcltsMngNo":
+			this.$("#fcltsMngNo").val(value["fcltsMngNo"]);
+			this.$("#prtFcltyNm").val(value["prtFcltyNm"]);
+			
+			// 대상시설물 팝업에서 상태값 변경시 그리드 적용
+			this.$(".EditItem").trigger("change");
+		break;
+	
 		case "selectFcltsMngGroup":
 			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#fcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
@@ -836,7 +849,7 @@ var module_instance = new GamFcltyMaintMngModule();
 						<table class="searchPanel">
 							<tbody>
 								<tr>
-			                        <th>관리번호</th>
+			                        <th>대상시설물</th>
 			                        <td colspan="3">
 			                        	<input id="fcltsMngNo" type="text" style="width: 150px;" title="관리번호" maxlength="20" class="EditItem" disabled="disabled"/>
 			                        	<input id="prtFcltyNm" type="text" style="width: 175px;" title="시설명" maxlength="20" class="EditItem" disabled="disabled"/>
