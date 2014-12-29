@@ -873,24 +873,24 @@ div.notice {
 	      			<h2>부과내역</h2>
 	      			<p>제      목 : <c:out value="${result.mngFeeSj}"/></p>
 	      			<p>업      체 : <c:out value="${result.entrpsNm}"/> (<c:out value="${result.entrpscd}"/>)</p>
-	      			<p>면      적 : <c:out value="${result.usageAr}" /> m<sup>2</sup></p>
+	      			<p>면      적 : <fmt:formatNumber type="number" maxIntegerDigits="12" maxFractionDigits="2" value="${result.usageAr}" /> m<sup>2</sup></p>
 	      			<h2>산출  근거</h2>
 	      			<p>임  대  료 : 0 원</p>
-	      			<p>시설관리비 : <c:out value="${result.mngFee}"/> 원</p>
-	      			<p>전기사용료 : <c:out value="${result.elctyFee}"/> 원</p>
-	      			<p>상하수도비 : <c:out value="${result.waterFee}"/> 원</p>
-	      			<p>냉난방비   : <c:out value="${result.gasFee}"/> 원</p>
-	      			<p class="summary">소      계 : <c:out value="${result.mngTotalFee}" /> 원</p>
-	      			<p class="summary">부  가  세 (<c:out value="${result.vatYnNm}"/>) : <c:out value="${result.vat}" /> 원</p>
+	      			<p>시설관리비 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.mngFee}"/> 원</p>
+	      			<p>전기사용료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.elctyFee}"/> 원</p>
+	      			<p>상하수도비 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.waterFee}"/> 원</p>
+    	  			<p>냉난방비   : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.gasFee}"/> 원</p>
+      				<p class="summary">소      계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.mngTotalFee}" /> 원</p>
+      				<p class="summary">부  가  세 (<c:out value="${result.vatYnNm}"/>) : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.vat}" /> 원</p>
 	      			<c:if test="${result.arrrgAmt>0}">
-		      			<p>연  체  료 : <c:out value="${result.arrrgAmt}" /> 원 (연체일 : <c:out value="${result.arrrgPayDates}"/>일)</p>
+		      			<p>연  체  료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.arrrgAmt}" /> 원 (연체일 : <c:out value="${result.arrrgPayDates}"/>일)</p>
 	      			</c:if>
-	      			<p class="summary">합      계 : <c:out value="${result.nticAmt}" /> 원</p>
+	      			<p class="summary">합      계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.totNticAmt}" /> 원</p>
 	      		</div>
 	   		</div>
 	   		<div class="subpage3">
 				<div class="giro">
-		       		<div id="totalAmount"><c:out value="${result.nticAmt}" /></div>
+		       		<div id="totalAmount"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.totNticAmt}" /></div>
 		       		<div id="elecPayNo"><c:out value="${result.elecPayNo}"/></div>
 		       		<div class="girocode">
 		       			<div id="girono">&lt;${result.giroNo}+</div>
@@ -916,6 +916,5 @@ div.notice {
     <c:if test="${resultCode!=0 }">
     	<h2>인쇄 할 대상이 존재하지 않습니다.</h2>
     </c:if>
-
   </body>
 </html>
