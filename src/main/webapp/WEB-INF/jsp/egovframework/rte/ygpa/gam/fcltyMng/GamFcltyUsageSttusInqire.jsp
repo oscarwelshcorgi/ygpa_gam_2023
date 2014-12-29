@@ -67,8 +67,7 @@
 		showTableToggleBtn : false,
 		height : 'auto',
 		preProcess : function(module,data) {
-			module.$('#totalCount').val(data.totalCount);
-			module.makeDivValues('#gisPrtFcltyCdForm', data);
+			module.$('#totalCount').val(data.totalCount);;
 			module.makeFormValues('#searchForm', data.result);
 			return data;
 		}
@@ -96,11 +95,52 @@
 		height : 'auto',
 		preProcess : function(module,data) {
 			module.$('#totalCount2').val(data.totalCount);
-			module.makeDivValues('#assetsRentForm', data);
 			module.makeFormValues('#searchForm', data.result);
 			return data;
 		}
 	});
+
+	this.$("#0").flexigrid({
+		module : this,
+		url : '<c:url value="/fcltyMng/gamFcltyAssetsRentList.do" />',
+		dataType : 'json',
+		colModel : [ {display : '항코드', name : 'prtAtCode', width : 50, sortable : false, align : 'center'},
+		             {display : '관리번호', name : 'mngYearNo', width : 100, sortable : false, align : 'center'},
+		             {display : 'GIS 코드', name : 'gisAssets', width : 100, sortable : false, align : 'center'},
+		             {display : '문서번호', name : 'docNo', width : 100, sortable : false, align : 'center'},
+		             {display : '고지방법', name : 'nticMth', width : 60, sortable : false, align : 'center'},
+		             {display : '사용목적', name : 'usagePurps', width : 140, sortable : false, align : 'center'},
+		             {display : '사용내역', name : 'usageDtls', width : 120, sortable : false, align : 'center'},
+		             {display : '면적', name : 'usageAr', width : 80, sortable : false, align : 'right', displayFormat : 'number'},
+		             {display : '금액', name : 'fee', width : 100, sortable : false, align : 'right', displayFormat : 'number'},
+		             {display : '허가일', name : 'prmisnDt', width : 90, sortable : false, align : 'center'}
+				],
+		height : 'auto'
+	});
+
+	this.$("#1").flexigrid({
+		module : this,
+		url : '<c:url value="/fcltyMng/gamFcltyAssetsRentList.do" />',
+		dataType : 'json',
+		colModel : [ {display : '항코드', name : 'prtAtCode', width : 50, sortable : false, align : 'center'},
+		             {display : '관리번호', name : 'mngYearNo', width : 100, sortable : false, align : 'center'},
+		             {display : '금액', name : 'fee', width : 100, sortable : false, align : 'right', displayFormat : 'number'},
+		             {display : '허가일', name : 'prmisnDt', width : 90, sortable : false, align : 'center'}
+				],
+		height : 'auto'
+	});
+	this.$("#2").flexigrid({
+		module : this,
+		url : '<c:url value="/fcltyMng/gamFcltyAssetsRentList.do" />',
+		dataType : 'json',
+		colModel : [ {display : '항코드', name : 'prtAtCode', width : 50, sortable : false, align : 'center'},
+		             {display : '관리번호', name : 'mngYearNo', width : 100, sortable : false, align : 'center'},
+		             {display : '금액', name : 'fee', width : 100, sortable : false, align : 'right', displayFormat : 'number'},
+		             {display : '허가일', name : 'prmisnDt', width : 90, sortable : false, align : 'center'}
+				],
+		height : 'auto'
+	});
+
 
 	this.$("#sUsagePdFrom").val(EMD.util.getDate(EMD.util.addMonths(-1)));
 	this.$("#sUsagePdTo").val(EMD.util.getDate());
@@ -114,7 +154,6 @@
 	this.$("#gisPrtFcltyCdGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module.loadGisPtrFcltyCd();
 		module.$("#mainTab").tabs("option", {active: 1});
-	//		module.$("#mainTab").tabs("option", {active: 1});
 	});
  };
 /*
@@ -225,7 +264,7 @@ var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
 	                { name: 'gisAssetsSubCd', value: row['gisAssetsSubCd'] }
 	               ];
 
-	console.log(searchVO);
+//	console.log(searchVO);
 // 아래 this.doAction 대처 가능???
 	this.$('#assetsRentGrid').flexOptions({params:searchVO}).flexReload();
 
@@ -337,8 +376,8 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 				<li><a href="#tabs1" class="emdTab">시설물 사용현황</a></li>
 				<li><a href="#tabs2" class="emdTab">시설물 임대현황</a></li>
 				<li><a href="#tabs3" class="emdTab">시설물 점검기록</a></li>
-				<li><a href="#tabs4" class="emdTab">시설물 유지보수기록</a></li>
-				<li><a href="#tabs5" class="emdTab">시설물 하자보수기록</a></li>
+				<li><a href="#tabs4" class="emdTab">시설물 유지보수</a></li>
+				<li><a href="#tabs5" class="emdTab">시설물 하자보수</a></li>
 			</ul>
 
 			<!-- TAB 1 AREA (LIST) -->
@@ -363,28 +402,38 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 			<div id="tabs2" class="emdTabPage fillHeight" style="overflow: hidden;" >
 				<table id="assetsRentGrid" style="display:none" class="fillHeight"></table>
 				<div id="listSumPanel" class="emdControlPanel">
-					<form id="assetsRentForm">
-						<table style="width:100%;">
-							<tr>
-								<th width="20%" height="20">조회 자료수</th>
-								<td><input type="text" size="12" id="totalCount2" class="ygpaNumber" disabled="disabled" /></td>
-								<td style="text-align: right">
-	                                <button data-cmd="btnExcelDownload">엑셀다운로드</button>
-								</td>
-							</tr>
-						</table>
-					</form>
+					<table style="width:100%;">
+						<tr>
+							<th width="20%" height="20">조회 자료수</th>
+							<td><input type="text" size="12" id="totalCount2" class="ygpaNumber" disabled="disabled" /></td>
+							<td style="text-align: right">
+                                <button data-cmd="btnExcelDownload">엑셀다운로드</button>
+							</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 <!-- 탭3 -->
 			<div id="tabs3" class="emdTabPage" style="overflow:scroll;">
-				<div class="emdControlPanel">
-					<form id="detailForm">
-						<table class="detailPanel" style="width:100%">
-							<tr>3
-							</tr>
-						</table>
-					</form>
+				<div class="listSumPanel">
+					<table style="width:100%">
+						<tr>
+							<td colspan="QcMngDtlsFGrid">
+								<table id='0' style="width:100%, height=100">
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<table id='1' style="width:100%, height=100">
+								</table>
+							</td>
+							<td>
+								<table id='2' style="width:100%, height=100">
+								</table>
+							</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 <!-- 탭4 -->
@@ -392,7 +441,8 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 				<div class="emdControlPanel">
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%">
-							<tr>4
+							<tr>
+								<td>4</td>
 							</tr>
 						</table>
 					</form>
@@ -403,7 +453,8 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 				<div class="emdControlPanel">
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%">
-							<tr>5
+							<tr>
+								<td>5</td>
 							</tr>
 						</table>
 					</form>

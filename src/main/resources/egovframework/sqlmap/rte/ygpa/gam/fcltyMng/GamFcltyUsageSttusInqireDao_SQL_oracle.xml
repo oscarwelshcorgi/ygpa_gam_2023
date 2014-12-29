@@ -61,21 +61,9 @@
 							AND M.MNG_NO = D.MNG_NO
 							AND M.MNG_CNT = D.MNG_CNT
 
-							<isNotEmpty property="sPrtAtCode" prepend="AND">
-	           				D.PRT_AT_CODE = #sPrtAtCode#
-	           				</isNotEmpty>
-
-	           				<isNotEmpty property="sUsagePdFrom" prepend="AND">
-	           				<![CDATA[
-	           				D.USAGE_PD_FROM >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
-	           				]]>
-	           				</isNotEmpty>
-
-	           				<isNotEmpty property="sUsagePdTo" prepend="AND">
-	           				<![CDATA[
-	           				D.USAGE_PD_FROM < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
-	           				]]>
-	           				</isNotEmpty>
+	           				AND D.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+	           				AND D.GIS_ASSETS_CD = #gisAssetsCd#
+	           				AND D.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
 
 							ORDER BY D.PRT_AT_CODE DESC, D.MNG_YEAR DESC, D.MNG_NO, D.MNG_CNT
 
@@ -96,21 +84,9 @@
 			   AND M.MNG_NO = D.MNG_NO
 			   AND M.MNG_CNT = D.MNG_CNT
 
-			<isNotEmpty property="sPrtAtCode" prepend="AND">
-   				D.PRT_AT_CODE = #sPrtAtCode#
-			</isNotEmpty>
-
-   			<isNotEmpty property="sUsagePdFrom" prepend="AND">
-   				<![CDATA[
-   					D.USAGE_PD_FROM >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
-   				]]>
-   			</isNotEmpty>
-
-   			<isNotEmpty property="sUsagePdTo" prepend="AND">
-   				<![CDATA[
-   					D.USAGE_PD_FROM < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
-   				]]>
-   			</isNotEmpty>
+			   AND D.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+     		   AND D.GIS_ASSETS_CD = #gisAssetsCd#
+     		   AND D.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
 
 	</select>
 
