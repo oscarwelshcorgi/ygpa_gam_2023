@@ -10,7 +10,7 @@ import egovframework.com.cmm.ComDefaultVO;
 /**
  *
  * @author ACEWOLF
- * @since 2014. 12. 24.
+ * @since 2014. 12. 29.
  * @version 1.0
  * @see
  * <pre>
@@ -18,14 +18,14 @@ import egovframework.com.cmm.ComDefaultVO;
  *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
- *  2014. 12. 24.		ACEWOLF		최초 생성
+ *  2014. 12. 29.		ACEWOLF		최초 생성
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GamFcltsFeeMngInqireUnpaidVo extends ComDefaultVO {
+public class GamFcltsFeeMngNticUnpaidVo extends ComDefaultVO {
 
 	private static final long serialVersionUID = 1L;
 

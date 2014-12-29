@@ -26,23 +26,23 @@ import egovframework.com.cmm.ComDefaultVO;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GamMngFeeCodeMngVo extends ComDefaultVO {
 
-	private	String	mngFeeFcltyCd;	//관리비 시설 코드
-	private	String	mngFeeFcltySe;	//관리비 시설 구분
-	private	String	mngFeeFcltyNm;	//관리비 시설 명
-	private	String	mngFeeJobSe;	//관리비 업무 구분
-	private	String	regUsr;	//등록자
-	private	String	registDt;	//등록일시
-	private	String	updUsr;	//수정자
-	private	String	updtDt;	//수정일시
+	private static final long serialVersionUID = 1L;
+
+	private	String	mngFeeFcltyCd;		//관리비 시설 코드
+	private	String	mngFeeFcltySe;		//관리비 시설 구분
+	private	String	mngFeeFcltyNm;		//관리비 시설 명
+	private	String	mngFeeJobSe;		//관리비 업무 구분
+	private	String	regUsr;				//등록자
+	private	String	registDt;			//등록일시
+	private	String	updUsr;				//수정자
+	private	String	updtDt;				//수정일시
 	private	String	mngFeeFcltySeNm;	//관리비 시설 구분 명
 	private	String	mngFeeJobSeNm;		//관리비 업무 구분 명
 
-
-	private	String	sMngFeeFcltyCd;	//검색 관리비 시설 코드
-	private	String	sMngFeeFcltySe;	//검색 관리비 시설 구분
-	private	String	sMngFeeFcltyNm;	//검색 관리비 시설 명
-	private	String	sMngFeeJobSe;	//검색 관리비 업무 구분
-
+	private	String	sMngFeeFcltyCd;		//검색 관리비 시설 코드
+	private	String	sMngFeeFcltySe;		//검색 관리비 시설 구분
+	private	String	sMngFeeFcltyNm;		//검색 관리비 시설 명
+	private	String	sMngFeeJobSe;		//검색 관리비 업무 구분
 
 	/**
 	 * @return the sMngFeeFcltyCd

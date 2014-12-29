@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticUnpaidVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticDetailVo;
 
@@ -241,6 +242,14 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	 */
 	public void updateFcltsFeeMngNticArrrgInfo(Map<String, Object> vo) {
 		insert("gamFcltsFeeMngNticDao.updateFcltsFeeMngNticArrrgInfo_S", vo);
+	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public List selectFcltsFeeMngNticUnpaidList(GamFcltsFeeMngNticUnpaidVo searchVO) {
+		return list("gamFcltsFeeMngNticDao.selectFcltsFeeMngNticUnpaidList_D", searchVO);
 	}
 
 }

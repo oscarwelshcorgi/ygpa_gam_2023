@@ -26,29 +26,31 @@ import egovframework.com.cmm.ComDefaultVO;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GamGrHseEmitQyMngVo  extends ComDefaultVO{
 
-	private	String	fuelCd;	//연료 코드
-	private	String	mngYear;	//관리 년도
-	private	String	mngMt;	//관리 월
-	private	String	usageQy;	//사용 량
-	private	String	energyUsageQy;	//에너지 사용 량
-	private	String	grHseEmitQy;	//온실가스 배출 량
-	private	String	fuelNm;	//연료 명
-	private	String	energyUnit;	//에너지 단위
+	private static final long serialVersionUID = 1L;
+
+	private	String	fuelCd;				//연료 코드
+	private	String	mngYear;			//관리 년도
+	private	String	mngMt;				//관리 월
+	private	String	usageQy;			//사용 량
+	private	String	energyUsageQy;		//에너지 사용 량
+	private	String	grHseEmitQy;		//온실가스 배출 량
+	private	String	fuelNm;				//연료 명
+	private	String	energyUnit;			//에너지 단위
 	private	String	energyTotalCalVal;	//에너지 총발열량
 	private	String	energyNetCalVal;	//에너지 순발열량
-	private	String	grHseUnit;	//온실가스 단위
-	private	String	grHseCoef;	//온실가스 계수
-	private	String	regUsr;	//등록자
-	private	String	registDt;	//등록일시
-	private	String	updtDt;	//수정일시
-	private	String	updUsr;	//수정자
-	private	String	mngMtYear;	//관리 년
-	private	String	mngMtMon;	//관리 월
-	private	String	mngYrMt;	//관리 년-월
+	private	String	grHseUnit;			//온실가스 단위
+	private	String	grHseCoef;			//온실가스 계수
+	private	String	regUsr;				//등록자
+	private	String	registDt;			//등록일시
+	private	String	updtDt;				//수정일시
+	private	String	updUsr;				//수정자
+	private	String	mngMtYear;			//관리 년
+	private	String	mngMtMon;			//관리 월
+	private	String	mngYrMt;			//관리 년-월
 
-	private	String	sFuelCd;	//연료 코드
-	private	String	sMngYear;	//관리 년도
-	private	String	sMngMt;	//관리 월
+	private	String	sFuelCd;			//연료 코드
+	private	String	sMngYear;			//관리 년도
+	private	String	sMngMt;				//관리 월
 
 	/**
 	 * @return the fuelCd

@@ -121,4 +121,10 @@ public interface GamFcltsFeeMngNticService {
 	 */
 	void cancelFcltsFeeMngNticIssueUnpaid(Map<String, Object> vo) throws Exception;
 
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	List selectFcltsFeeMngNticUnpaidList(GamFcltsFeeMngNticUnpaidVo searchVO) throws Exception;
+
 }

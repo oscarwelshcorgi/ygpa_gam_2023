@@ -25,28 +25,31 @@ import egovframework.com.cmm.ComDefaultVO;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GamElctyUsageSttusMngVo extends ComDefaultVO{
-	private	String	usageMt;	//사용 년월
-	private	String	prevMtUsageQy;	//전월 사용 량
-	private	String	saidMtUsageQy;	//당월 사용 량
-	private	String	applcCoef;	//적용 계수
-	private	String	netUsageQy;	//순 사용 량
-	private	String	regUsr;	//등록자
-	private	String	registDt;	//등록일시
-	private	String	updUsr;	//수정자
-	private	String	updtDt;	//수정일시
-	private	String	mngFeeFcltyCd;	//관리비 시설 코드
-	private	String	mngFeeJobSe;	//관리비 업무 구분
-	private	String	mngFeeJobSeNm;	//관리비 업무 구분 명
-	private	String	mngFeeFcltyNm;	//관리비 시설 명
-	private	String	usageMtYear;	//사용 년
-	private	String	usageMtMon;	//사용 월
-	private	String	usageYrMt;	//사용 년-월
 
-	private	String	sUsageYear;	//검색 사용 년도
-	private	String	sUsageMt;	//검색 사용 월
-	private	String	sMngFeeJobSe;	//검색 관리비 업무 구분
-	private	String	sMngFeeFcltyCd;	//검색 관리비 코드
-	private	String	sApplcCoef;	//적용 계수
+	private static final long serialVersionUID = 1L;
+
+	private	String	usageMt;			//사용 년월
+	private	String	prevMtUsageQy;		//전월 사용 량
+	private	String	saidMtUsageQy;		//당월 사용 량
+	private	String	applcCoef;			//적용 계수
+	private	String	netUsageQy;			//순 사용 량
+	private	String	regUsr;				//등록자
+	private	String	registDt;			//등록일시
+	private	String	updUsr;				//수정자
+	private	String	updtDt;				//수정일시
+	private	String	mngFeeFcltyCd;		//관리비 시설 코드
+	private	String	mngFeeJobSe;		//관리비 업무 구분
+	private	String	mngFeeJobSeNm;		//관리비 업무 구분 명
+	private	String	mngFeeFcltyNm;		//관리비 시설 명
+	private	String	usageMtYear;		//사용 년
+	private	String	usageMtMon;			//사용 월
+	private	String	usageYrMt;			//사용 년-월
+
+	private	String	sUsageYear;			//검색 사용 년도
+	private	String	sUsageMt;			//검색 사용 월
+	private	String	sMngFeeJobSe;		//검색 관리비 업무 구분
+	private	String	sMngFeeFcltyCd;		//검색 관리비 코드
+	private	String	sApplcCoef;			//적용 계수
 
 	/**
 	 * @return the sUsageMt

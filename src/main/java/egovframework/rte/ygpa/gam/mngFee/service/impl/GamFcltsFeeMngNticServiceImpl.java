@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticService;
+import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticUnpaidVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticDetailVo;
 
@@ -262,6 +263,11 @@ public class GamFcltsFeeMngNticServiceImpl extends AbstractServiceImpl implement
 		}
 		gamFcltsFeeMngNticDao.deleteUnpaidF(vo);
 		gamFcltsFeeMngNticDao.updateFcltsFeeMngNticArrrgInfo(vo);
+	}
+
+	@Override
+	public List selectFcltsFeeMngNticUnpaidList(GamFcltsFeeMngNticUnpaidVo searchVO) throws Exception {
+		return gamFcltsFeeMngNticDao.selectFcltsFeeMngNticUnpaidList(searchVO);
 	}
 
 }

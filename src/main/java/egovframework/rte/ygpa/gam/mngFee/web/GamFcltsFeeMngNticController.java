@@ -33,6 +33,7 @@ import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticService;
+import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticUnpaidVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticVo;
 import egovframework.rte.ygpa.gam.mngFee.service.GamFcltsFeeMngNticDetailVo;
 
@@ -594,6 +595,40 @@ public class GamFcltsFeeMngNticController {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
+
+		return map;
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/mngFee/gamSelectFcltsFeeMngNticUnpaid.do", method=RequestMethod.POST)
+	public @ResponseBody Map gamSelectFcltsFeeMngNticUnpaid(GamFcltsFeeMngNticUnpaidVo searchVO) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamFcltsFeeMngNticService.selectFcltsFeeMngNticUnpaidList(searchVO);
+
+		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("searchOption", searchVO);
 
 		return map;
 

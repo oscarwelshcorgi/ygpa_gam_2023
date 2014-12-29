@@ -26,12 +26,15 @@ import egovframework.com.cmm.ComDefaultVO;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GamMngFeeGubunMngVo extends ComDefaultVO{
 
+	private static final long serialVersionUID = 1L;
+
 	private	String	mngFeeFcltySe;		//관리비 시설 구분
 	private	String	mngFeeFcltySeNm;	//관리비 시설 구분 명
 	private	String	regUsr;				//등록자
 	private	String	registDt;			//등록일시
-	private	String	updUsr;					//수정자
+	private	String	updUsr;				//수정자
 	private	String	updtDt;				//수정일시
+
 	private	String	sMngFeeFcltySe;		// 검색 관리비 시설 구분
 	private	String	sMngFeeFcltySeNm;	// 검색 관리비 시설 구분 명
 

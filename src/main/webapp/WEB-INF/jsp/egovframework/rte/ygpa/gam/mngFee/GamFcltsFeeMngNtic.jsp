@@ -125,6 +125,31 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 		height: '100'
 	});
 
+	this.$("#unpaidGrid").flexigrid({
+		module : this,
+		url : '/mngFee/gamSelectFcltsFeeMngInqireUnpaid.do',
+		dataType : 'json',
+		colModel : [
+					{display:'연체 순번', 		name:'dlySerNo',		width:70,		sortable:false,		align:'center'},
+					{display:'회계 년도',		name:'fiscalYr',		width:70,		sortable:false,		align:'center'},
+					{display:'고지 번호',		name:'billNo',			width:70,		sortable:false,		align:'center'},
+					{display:'고지 일자',		name:'dlyBillDt',		width:80,		sortable:false,		align:'center'},
+					{display:'납부 기한',		name:'dlyDueDt',		width:80,		sortable:false,		align:'center'},
+					{display:'연체 금액',		name:'dlyBillAmnt',		width:90,		sortable:false,		align:'right'},
+					{display:'연체 요율',		name:'arrrgTriff',		width:70,		sortable:false,		align:'right'},
+					{display:'연체 일수',		name:'arrrgPayDates',	width:70,		sortable:false,		align:'right'},
+					{display:'출력 여부',		name:'dlyBillPrtYn',	width:70,		sortable:false,		align:'center'},
+					{display:'수납 구분',		name:'dlyRcvdTpNm',		width:70,		sortable:false,		align:'center'},
+					{display:'수납 일자',		name:'dlyRcvdDt',		width:80,		sortable:false,		align:'center'},
+					{display:'산출 내역',		name:'dlyBillRsn',		width:200,		sortable:false,		align:'left'},
+					{display:'지로 금액',		name:'djiroAmnt',		width:90,		sortable:false,		align:'right'},
+					{display:'이전 고지 일자',	name:'prvBillDt',		width:100,		sortable:false,		align:'center'},
+					{display:'이전 납부 기한',	name:'prvDueDt',		width:100,		sortable:false,		align:'center'}
+					],
+		showTableToggleBtn : true,
+		height : '100'
+	});
+
 	this.$("#mainGrid").on('onLoadDataComplete', function(event, module, data) {
 		module.selectData();
 	});
@@ -168,6 +193,8 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 		event.data.module.setPayTmlmt();
 	});
 
+	this._detailDisplay = 'detail';
+	this.$('#unpaidGrid').hide();
 	if (params != null) {
 		if (params.action == "selectFcltsFeeMngNtic") {
         	this.$('#sStartMngYear').val(params.paramVo.mngMtYear);
@@ -315,6 +342,21 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 		case 'popupDataEntrpscd':
 			this.doExecuteDialog('popupDataEntrpscd', '업체 선택', '/popup/showEntrpsInfo.do', null);
 			break;
+		case 'btnArrrgList':
+			if (this._detailDisplay != 'unpaid') {
+				this._detailDisplay = 'unpaid';
+				this.$('#detailGrid').hide();
+				this.$('#unpaidGrid').show();
+				this.loadUnpaidData();
+			}
+			break;
+		case 'btnNticList':
+			if (this._detailDisplay != 'detail') {
+				this._detailDisplay = 'detail';
+				this.$('#unpaidGrid').hide();
+				this.$('#detailGrid').show();
+			}
+			break;
 	}
 
 };
@@ -447,6 +489,20 @@ GamFcltsFeeMngNticModule.prototype.selectData = function() {
 	this.disableDetailInputItem();
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadUnpaidData
+ * @DESCRIPTION   : UNPAID DATA LOAD (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.loadUnpaidData = function() {
+
+	var searchOpt=this.makeFormArgs('#detailForm');
+	this.$('#unpaidGrid').flexOptions({params:searchOpt}).flexReload();
 
 };
 
@@ -672,12 +728,12 @@ GamFcltsFeeMngNticModule.prototype.saveNticIssue = function() {
 		alert('고지 처리가 완료된 자료입니다.');
 		return;
 	}
-	if (chrgeKnd == "") {
+	if (chrgeKnd == null || chrgeKnd == "") {
 		alert('요금 종류가 부정확합니다.');
 		this.$("#chrgeKnd").focus();
 		return;
 	}
-	if (nticDt != "") {
+	if (nticDt != null && nticDt != "") {
 		if (nticDt > todayString || nticDt < "2000-01-01" || nticDt == "") {
 			alert('고지 일자가 부정확합니다.');
 			this.$("#nticDt").focus();
@@ -896,7 +952,7 @@ GamFcltsFeeMngNticModule.prototype.cancelNticIssue = function() {
 		alert('고지 번호가 부정확합니다.');
 		return;
 	}
-	if (arrrgNo != "") {
+	if (arrrgNo != null && arrrgNo != "") {
 		alert('연체 고지 자료가 존재합니다.\r\n연체 고지 취소를 먼저 수행하시길 바랍니다.');
 		return;
 	}
@@ -1077,9 +1133,7 @@ GamFcltsFeeMngNticModule.prototype.downloadExcel = function() {
 **/
 %>
 GamFcltsFeeMngNticModule.prototype.popupArrrgNticIssue = function() {
-condole.log(this.$('#fee').val());
-condole.log(this.$('#vat').val());
-condole.log(this.$('#nticAmt').val());
+
 	var processVO = [];
 	var toDay = new Date();
 	var year = "";
@@ -1096,6 +1150,9 @@ condole.log(this.$('#nticAmt').val());
 	var nhtIsueYn = this.$('#nhtIsueYn').val();
 	var rcivSe = this.$('#rcivSe').val();
 	var dlySerNo = this.$('#newDlySerNo').val();
+	var fee = this.$('#fee').val();
+	var vat = this.$('#vat').val();
+	var nticAmt = this.$('#nticAmt').val();
 	if (nhtIsueYn != "Y") {
 		alert('고지 처리가 완료된 자료가 아닙니다.');
 		return;
@@ -1168,11 +1225,11 @@ condole.log(this.$('#nticAmt').val());
 		'dueDt':dueDt,
 		'prvBillDt':billDt,
 		'prvDueDt':dueDt,
-		'billAmnt':this.$('#fee').val(),
+		'billAmnt':$.number(fee),
 		'vatYn':this.$('#vatYn').val(),
 		'vatYnNm':this.$('#vatYnNm').val(),
-		'vat':this.$('#vat').val(),
-		'sumBillAmnt':this.$('#nticAmt').val(),
+		'vat':$.number(vat),
+		'sumBillAmnt':$.number(nticAmt),
 		'rcvdTp':this.$('#rcvdTp').val(),
 		'dlyBillDt':dlyBillDt,
 		'dlyDueDt':dlyDueDt,
@@ -1373,7 +1430,7 @@ GamFcltsFeeMngNticModule.prototype.enableListButtonItem = function() {
 		if (rcivSe == "0" || rcivSe == "1") {
 			if (nhtIsueYn == "Y") {
 				this.$('#btnProcessNticIssue').disable({disableClass:"ui-state-disabled"});
-				if (arrrgNo != "") {
+				if (arrrgNo != null && arrrgNo != "") {
 					this.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
 				} else {
 					this.$('#btnCancelNticIssue').enable();
@@ -1466,7 +1523,7 @@ GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 				this.$('#payTmlmt').disable();
 				this.$('#rm').disable();
 				this.$('#btnProcessNticIssue2').disable({disableClass:"ui-state-disabled"});
-				if (arrrgNo != "") {
+				if (arrrgNo != null && arrrgNo != "") {
 					this.$('#btnCancelNticIssue2').disable({disableClass:"ui-state-disabled"});
 				} else {
 					this.$('#btnCancelNticIssue2').enable();
@@ -1499,17 +1556,17 @@ GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 			} else {
 				this.$('#btnDelNticIssue2').disable({disableClass:"ui-state-disabled"});
 			}
-			if (arrrgSttus != "") {
+			if (arrrgSttus != null && arrrgSttus != "") {
 				this.$('#btnProcessNticIssueUnpaid').enable();
 				this.$('#btnProcessNticIssueUnpaid').removeClass('ui-state-disabled');
-				if (arrrgNo != "") {
+				if (arrrgNo != null && arrrgNo != "") {
 					this.$('#btnProcessNticIssueUnpaid').enable();
 					this.$('#btnProcessNticIssueUnpaid').removeClass('ui-state-disabled');
 				} else {
 					this.$('#btnCancelNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
 				}
 			} else {
-				if (arrrgNo != "") {
+				if (arrrgNo != null && arrrgNo != "") {
 					this.$('#btnProcessNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
 					this.$('#btnCancelNticIssueUnpaid').enable();
 					this.$('#btnCancelNticIssueUnpaid').removeClass('ui-state-disabled');
@@ -1617,6 +1674,9 @@ GamFcltsFeeMngNticModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
 				this.disableDetailInputItem();
+			}
+			if (this._detailDisplay == 'unpaid') {
+				this.loadUnpaidData();
 			}
 			break;
 	}
@@ -1780,6 +1840,8 @@ var module_instance = new GamFcltsFeeMngNticModule();
 								<th style="font-weight:bold; height:20px;">시설물 관리비 부과 내역</th>
 								<td style="text-align:right;">
 									<button id="btnOpenFcltsFeeMngInqire2">납부현황　조회</button>
+									<button id="btnNticList">고지 내역 보기</button>
+									<button id="btnArrrgList">연체 내역 보기</button>
 								</td>
 							</tr>
 						</table>
@@ -1935,6 +1997,7 @@ var module_instance = new GamFcltsFeeMngNticModule();
 							</tr>
 						</table>
 						<table id="detailGrid" style="display:none;"></table>
+						<table id="unpaidGrid" style="display:none;"></table>
 					</form>
 				</div>
 			</div>

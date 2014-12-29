@@ -26,6 +26,8 @@ import egovframework.com.cmm.ComDefaultVO;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GamFcltsMngFeeMngVo extends ComDefaultVO{
 
+	private static final long serialVersionUID = 1L;
+
 	private	String	mainMngMt;				//관리 월
 	private	String	mainMngMtYear;			//관리 년
 	private	String	mainMngMtMon;			//관리 월

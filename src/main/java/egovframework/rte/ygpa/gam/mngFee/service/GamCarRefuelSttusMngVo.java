@@ -26,55 +26,54 @@ import egovframework.com.cmm.ComDefaultVO;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GamCarRefuelSttusMngVo extends ComDefaultVO{
 
-	private	String	carRegistNo;	//차량 등록 번호
-	private	String	carKnd;			//차량 종류
-	private	String	carPrpos;		//차량 용도
-	private	String	carNm;			//차량 명
-	private	String	carFmt;			//차량 형식
-	private	String	carYrMdl;		//차량 연식
-	private	String	carBodyNo;		//차대 번호
-	private	String	turbineFmt;		//원동기 형식
-	private	String	usageStrhld;	//사용 본거지
-	private	String	ownerNm;		//소유자 명
-	private	String	ownerAdres;		//소유자 주소
-	private	String	carRegistDt;	//차량 등록 일자
-	private	String	registGovOfc;	//등록 관청
-	private	String	specMngNo;		//제원 관리 번호
-	private	String	carLt;			//차량 길이
-	private	String	carWd;			//차량 너비
-	private	String	carHt;			//차량 높이
-	private	String	carGrWqnt;		//차량 총 중량
-	private	String	exhaustqy;		//배기량
-	private	String	rateOutput;		//정격 출력
-	private	String	rideQuotaCapa;	//승차 정원
-	private	String	maxCapaQy;		//최대 적재 량
-	private	String	cylinderCnt;	//기통 갯수
-	private	String	fuelKnd;		//연료 종류
-	private	String	fuelEfft;		//연비
+	private static final long serialVersionUID = 1L;
+
+	private	String	carRegistNo;		//차량 등록 번호
+	private	String	carKnd;				//차량 종류
+	private	String	carPrpos;			//차량 용도
+	private	String	carNm;				//차량 명
+	private	String	carFmt;				//차량 형식
+	private	String	carYrMdl;			//차량 연식
+	private	String	carBodyNo;			//차대 번호
+	private	String	turbineFmt;			//원동기 형식
+	private	String	usageStrhld;		//사용 본거지
+	private	String	ownerNm;			//소유자 명
+	private	String	ownerAdres;			//소유자 주소
+	private	String	carRegistDt;		//차량 등록 일자
+	private	String	registGovOfc;		//등록 관청
+	private	String	specMngNo;			//제원 관리 번호
+	private	String	carLt;				//차량 길이
+	private	String	carWd;				//차량 너비
+	private	String	carHt;				//차량 높이
+	private	String	carGrWqnt;			//차량 총 중량
+	private	String	exhaustqy;			//배기량
+	private	String	rateOutput;			//정격 출력
+	private	String	rideQuotaCapa;		//승차 정원
+	private	String	maxCapaQy;			//최대 적재 량
+	private	String	cylinderCnt;		//기통 갯수
+	private	String	fuelKnd;			//연료 종류
+	private	String	fuelEfft;			//연비
 	private	String	examValidBeginDt;	//검사 유효 시작일
-	private	String	examValidEndDt;	//검사 유효 종료일
-	private	String	acqPrce;		//취득 가격
-	private	String	regUsr;			//등록자
-	private	String	updUsr;			//수정자
-	private	String	updtDt;			//수정일시
-	private	String	registDt;		//등록일시
+	private	String	examValidEndDt;		//검사 유효 종료일
+	private	String	acqPrce;			//취득 가격
+	private	String	regUsr;				//등록자
+	private	String	updUsr;				//수정자
+	private	String	updtDt;				//수정일시
+	private	String	registDt;			//등록일시
+	private String refuelMt;			//주유 년/월
+	private String refuelQy;			//주유 량
 
-	private String sCarRegistNo;	//검색 차량 등록번호
-	private String sCarNm;	//검색 차량 명
-	private String sCarBodyNo;	//검색 차대 번호
-	private String sRefuelMt;	//검색 주유 월
-	private	String sFuelKnd1;	// 검색 연료 종류 1
-	private	String sFuelKnd2;	// 검색 연료 종류 2
-	private	String sFuelKnd3;	// 검색 연료 종류 3
-	private	String sFuelKnd4;	// 검색 연료 종류 4
-	private	String sFuelKnd5;	// 검색 연료 종류 5
-	private	String sFuelKnd6;	// 검색 연료 종류 6
-
-	private String refuelMt;		//주유 년/월
-	private String refuelQy;		//주유 량
-
+	private String sCarRegistNo;		//검색 차량 등록번호
+	private String sCarNm;				//검색 차량 명
+	private String sCarBodyNo;			//검색 차대 번호
+	private String sRefuelMt;			//검색 주유 월
+	private	String sFuelKnd1;			// 검색 연료 종류 1
+	private	String sFuelKnd2;			// 검색 연료 종류 2
+	private	String sFuelKnd3;			// 검색 연료 종류 3
+	private	String sFuelKnd4;			// 검색 연료 종류 4
+	private	String sFuelKnd5;			// 검색 연료 종류 5
+	private	String sFuelKnd6;			// 검색 연료 종류 6
 	private String check[];
-
 
 	/**
 	 * @return the sRefuelMt
