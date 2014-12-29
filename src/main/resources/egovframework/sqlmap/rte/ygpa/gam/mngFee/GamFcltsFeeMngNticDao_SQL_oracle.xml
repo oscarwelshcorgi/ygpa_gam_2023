@@ -970,7 +970,7 @@
 			,#updUsr#
 			,SYSDATE
 			,NVL(TO_NUMBER(REPLACE(#arrrgTariff#,',','')),0)
-			,NVL(TO_NUMBER(REPLACE(#applyPayDates#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#arrrgPayDates#,',','')),0)
 		)
 	</insert>
 
@@ -1002,8 +1002,8 @@
 			,ARRRG_NO = #dlySerNo#
 			,ARRRG_AMT = NVL(TO_NUMBER(REPLACE(#dlyBillAmnt#,',','')),0)
 			,ARRRG_TARIFF = NVL(TO_NUMBER(REPLACE(#arrrgTariff#,',','')),0)
-			,ARRRG_PAY_DATES = NVL(TO_NUMBER(REPLACE(#applyPayDates#,',','')),0)
-			,TOT_NTIC_AMT = (NTIC_AMT + VAT + NVL(TO_NUMBER(REPLACE(#dlyBillAmnt#,',','')),0)
+			,ARRRG_PAY_DATES = NVL(TO_NUMBER(REPLACE(#arrrgPayDates#,',','')),0)
+			,TOT_NTIC_AMT = (NTIC_AMT + NVL(TO_NUMBER(REPLACE(#dlyBillAmnt#,',','')),0))
 			,RCIV_SE = '1'
 			</isEqual>
 
@@ -1016,7 +1016,7 @@
 			,ARRRG_AMT = NVL(TO_NUMBER(REPLACE(#prvDlyBillAmnt#,',','')),0)
 			,ARRRG_TARIFF = NVL(TO_NUMBER(REPLACE(#prvArrrgTariff#,',','')),0)
 			,ARRRG_PAY_DATES = NVL(TO_NUMBER(REPLACE(#prvArrrgPayDates#,',','')),0)
-			,TOT_NTIC_AMT = (NTIC_AMT + NVL(TO_NUMBER(REPLACE(#prvDlyBillAmnt#,',','')),0)
+			,TOT_NTIC_AMT = (NTIC_AMT + NVL(TO_NUMBER(REPLACE(#prvDlyBillAmnt#,',','')),0))
 			,RCIV_SE = '1'
 			</isNotEmpty>
 

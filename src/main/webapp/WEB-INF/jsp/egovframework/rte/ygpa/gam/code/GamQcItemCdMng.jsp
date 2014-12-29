@@ -45,7 +45,7 @@ GamQcItemCdMngModule.prototype.loadComplete = function() {
 		dataType : "json",
 		colModel : [
 					{display:"단계",				name:"depthSort",		width:50,		sortable:true,	align:"center"},
-					{display:"점검 항목 코드",		name:"qcItemCd",		width:100,		sortable:true,	align:"center"},
+					{display:"점검 항목 코드",		name:"qcItemCd",		width:105,		sortable:true,	align:"center"},
 					{display:"점검 항목 명",		name:"qcItemNm",		width:180,		sortable:true,	align:"left"},
 					{display:"시설물 업무 구분",	name:"fcltsJobSeNm",	width:110,		sortable:true,	align:"left"},
 					{display:"점검 항목 상위",		name:"qcItemUpperNm",	width:220,		sortable:true,	align:"left"},
@@ -372,7 +372,7 @@ GamQcItemCdMngModule.prototype.addData = function() {
 	var depthSort = this._saveDepthSort;
 	var qcItemUpperCd = this._saveQcItemUpperCd;
 	var qcItemUpperNm = this._saveQcItemUpperNm;
-	if (fcltsJobSe == "A" || fcltsJobSe == "C" || fcltsJobSe == "M" || fcltsJobSe == "I") {
+	if (fcltsJobSe == "A" || fcltsJobSe == "C" || fcltsJobSe == "M" || fcltsJobSe == "E" || fcltsJobSe == "I") {
 		this.$('#fcltsJobSe').val(fcltsJobSe);
 		this.setFcltsJobSeNm();
 	} else {
@@ -908,9 +908,9 @@ var module_instance = new GamQcItemCdMngModule();
 			<div id="detailTab" class="emdTabPage" style="overflow:scroll;">
 				<div class="emdControlPanel">
 					<form id="detailForm">
-						<table class="detailPanel">
+						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:15%; height:18;">시설물 업무 구분</th>
+								<th style="width:15%; height:18;">업　무　구　분</th>
 								<td>
 									<input id="fcltsJobSeNm" type="hidden"/>
 									<select id="fcltsJobSe">
@@ -921,37 +921,37 @@ var module_instance = new GamQcItemCdMngModule();
 										<option value="I">정보통신시설</option>
 									</select>
 								</td>
-								<th style="width:15%; height:18;">단계</th>
+								<th style="width:15%; height:18;">단　　　　　계</th>
 								<td>
-									<input type="text" id="depthSort" size="42" maxlength="1"/>
+									<input type="text" id="depthSort" size="45" maxlength="1"/>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:18;">점검 항목 상위</th>
 								<td>
-									<input type="text" id="qcItemUpperCd" size="10" maxlength="9"/>
+									<input type="text" id="qcItemUpperCd" size="11" maxlength="9"/>
 									<input type="text" id="qcItemUpperNm" size="20" maxlength="100"/>
 									<button id="popupQcItemUpperCd" class="popupButton">선택</button>
 								</td>
-								<th style="width:15%; height:18;">사용 여부</th>
+								<th style="width:15%; height:18;">사　용　여　부</th>
 								<td>
-									<input type="text" id="useYn" size="42" maxlength="1"/>
+									<input type="text" id="useYn" size="45" maxlength="1"/>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:18;">점검 항목 코드</th>
 								<td>
-									<input type="text" id="qcItemCd" size="42" maxlength="9"/>
+									<input type="text" id="qcItemCd" size="45" maxlength="9"/>
 								</td>
-								<th style="width:15%; height:18;">점검 항목 명</th>
+								<th style="width:15%; height:18;">점검　항목　명</th>
 								<td>
-									<input type="text" id="qcItemNm" size="42" maxlength="100"/>
+									<input type="text" id="qcItemNm" size="45" maxlength="100"/>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:18;">점검 항목 상세</th>
 								<td colspan="3">
-									<input type="text" id="qcItemDtls" size="104" maxlength="200"/>
+									<input type="text" id="qcItemDtls" size="114" maxlength="200"/>
 								</td>
 							</tr>
 						</table>
@@ -959,9 +959,9 @@ var module_instance = new GamQcItemCdMngModule();
 					<table style="width:100%;">
 						<tr>
 							<td style="text-align:right">
-								<button id="btnInsert" class="buttonAdd">추가</button>
-								<button id="btnSave" class="buttonSave">저장</button>
-								<button id="btnRemove" class="buttonDelete">삭제</button>
+								<button id="btnInsert" class="buttonAdd">　　추　가　　</button>
+								<button id="btnSave" class="buttonSave">　　저　장　　</button>
+								<button id="btnRemove" class="buttonDelete">　　삭　제　　</button>
 							</td>
 						</tr>
 					</table>

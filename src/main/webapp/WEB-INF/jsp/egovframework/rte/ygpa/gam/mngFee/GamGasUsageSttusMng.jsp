@@ -208,6 +208,14 @@ GamGasUsageSttusMngModule.prototype.onButtonClick = function(buttonId) {
 			this._mainKeyValue = '';
 			this.$("#mainTab").tabs("option", {active: 1});
 			break;
+		case 'btnInsert':
+			this._mode = 'insert';
+			this._mainKeyValue = '';
+			this.makeFormValues('#detailForm', {});
+			this.makeDivValues('#detailForm', {});
+			this.disableDetailInputItem();
+			this.addData();
+			break;
 	    case 'btnSave':
 	    	this.saveData();
 			break;
@@ -316,8 +324,8 @@ GamGasUsageSttusMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamGasUsageSttusMngModule.prototype.selectData = function() {
 
+	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
-		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
@@ -670,6 +678,7 @@ GamGasUsageSttusMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#saidMtUsageQy').enable();
 		this.$('#applcCoef').enable();
 		this.$('#netUsageQy').enable();
+		this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
 		this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
@@ -682,6 +691,8 @@ GamGasUsageSttusMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#saidMtUsageQy').enable();
 			this.$('#applcCoef').enable();
 			this.$('#netUsageQy').enable();
+			this.$('#btnInsert').enable();
+			this.$('#btnInsert').removeClass('ui-state-disabled');
 			this.$('#btnSave').enable();
 			this.$('#btnSave').removeClass('ui-state-disabled');
 			this.$('#btnRemove').enable();
@@ -694,6 +705,7 @@ GamGasUsageSttusMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#saidMtUsageQy').disable();
 			this.$('#applcCoef').disable();
 			this.$('#netUsageQy').disable();
+			this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 		}
@@ -717,6 +729,7 @@ GamGasUsageSttusMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#saidMtUsageQy').disable();
 	this.$('#applcCoef').disable();
 	this.$('#netUsageQy').disable();
+	this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 
@@ -964,6 +977,7 @@ var module_instance = new GamGasUsageSttusMngModule();
 					<table style="width:100%;">
 						<tr>
 							<td style="text-align:right;">
+								<button id="btnInsert" class="buttonAdd">　　추　가　　</button>
 								<button id="btnSave" class="buttonSave">　　저　장　　</button>
 								<button id="btnRemove" class="buttonDelete">　　삭　제　　</button>
 							</td>

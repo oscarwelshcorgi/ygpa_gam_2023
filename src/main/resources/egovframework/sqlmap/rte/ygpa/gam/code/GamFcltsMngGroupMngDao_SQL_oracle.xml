@@ -36,6 +36,18 @@
 								,LTRIM(TO_CHAR(NVL(CNSTRCT_AMT,0),'999,999,999,990')) AS CNSTRCT_AMT
 								,FCLTS_CN
 								,FCLTS_STRCT
+								,ARCH_FCLTS_CN
+								,ARCH_FCLTS_STRCT
+								,CVL_ENG_FCLTS_CN
+								,CVL_ENG_FCLTS_STRCT
+								,MECH_FCLTS_CN
+								,MECH_FCLTS_STRCT
+								,ELCTY_FCLTS_CN
+								,ELCTY_FCLTS_STRCT
+								,INFO_COMM_FCLTS_CN
+								,INFO_COMM_FCLTS_STRCT
+								,ETC_FCLTS_CN
+								,ETC_FCLTS_STRCT
 								,LTRIM(TO_CHAR(NVL(ARCH_FCLTS_CNT,0),'999,999,999,990')) AS ARCH_FCLTS_CNT
 								,LTRIM(TO_CHAR(NVL(CVL_ENG_FCLTS_CNT,0),'999,999,999,990')) AS CVL_ENG_FCLTS_CNT
 								,LTRIM(TO_CHAR(NVL(MECH_FCLTS_CNT,0),'999,999,999,990')) AS MECH_FCLTS_CNT
@@ -103,6 +115,18 @@
 				,LTRIM(TO_CHAR(NVL(CNSTRCT_AMT,0),'999,999,999,990')) AS CNSTRCT_AMT
 				,FCLTS_CN
 				,FCLTS_STRCT
+				,ARCH_FCLTS_CN
+				,ARCH_FCLTS_STRCT
+				,CVL_ENG_FCLTS_CN
+				,CVL_ENG_FCLTS_STRCT
+				,MECH_FCLTS_CN
+				,MECH_FCLTS_STRCT
+				,ELCTY_FCLTS_CN
+				,ELCTY_FCLTS_STRCT
+				,INFO_COMM_FCLTS_CN
+				,INFO_COMM_FCLTS_STRCT
+				,ETC_FCLTS_CN
+				,ETC_FCLTS_STRCT
 				,LTRIM(TO_CHAR(NVL(ARCH_FCLTS_CNT,0),'999,999,999,990')) AS ARCH_FCLTS_CNT
 				,LTRIM(TO_CHAR(NVL(CVL_ENG_FCLTS_CNT,0),'999,999,999,990')) AS CVL_ENG_FCLTS_CNT
 				,LTRIM(TO_CHAR(NVL(MECH_FCLTS_CNT,0),'999,999,999,990')) AS MECH_FCLTS_CNT
@@ -139,6 +163,18 @@
 			,CNSTRCT_AMT
 			,FCLTS_CN
 			,FCLTS_STRCT
+			,ARCH_FCLTS_CN
+			,ARCH_FCLTS_STRCT
+			,CVL_ENG_FCLTS_CN
+			,CVL_ENG_FCLTS_STRCT
+			,MECH_FCLTS_CN
+			,MECH_FCLTS_STRCT
+			,ELCTY_FCLTS_CN
+			,ELCTY_FCLTS_STRCT
+			,INFO_COMM_FCLTS_CN
+			,INFO_COMM_FCLTS_STRCT
+			,ETC_FCLTS_CN
+			,ETC_FCLTS_STRCT
 			,ARCH_FCLTS_CNT
 			,CVL_ENG_FCLTS_CNT
 			,MECH_FCLTS_CNT
@@ -163,6 +199,18 @@
 			,NVL(TO_NUMBER(REPLACE(#cnstrctAmt#,',','')),0)
 			,#fcltsCn#
 			,#fcltsStrct#
+			,#archFcltsCn#
+			,#archFcltsStrct#
+			,#cvlEngFcltsCn#
+			,#cvlEngFcltsStrct#
+			,#mechFcltsCn#
+			,#mechFcltsStrct#
+			,#elctyFcltsCn#
+			,#elctyFcltsStrct#
+			,#infoCommFcltsCn#
+			,#infoCommFcltsStrct#
+			,#etcFcltsCn#
+			,#etcFcltsStrct#
 			,NVL(TO_NUMBER(REPLACE(#archFcltsCnt#,',','')),0)
 			,NVL(TO_NUMBER(REPLACE(#cvlEngFcltsCnt#,',','')),0)
 			,NVL(TO_NUMBER(REPLACE(#mechFcltsCnt#,',','')),0)
@@ -188,6 +236,18 @@
 			,CNSTRCT_AMT = NVL(TO_NUMBER(REPLACE(#cnstrctAmt#,',','')),0)
 			,FCLTS_CN = #fcltsCn#
 			,FCLTS_STRCT = #fcltsStrct#
+			,ARCH_FCLTS_CN = #archFcltsCn#
+			,ARCH_FCLTS_STRCT = #archFcltsStrct#
+			,CVL_ENG_FCLTS_CN = #cvlEngFcltsCn#
+			,CVL_ENG_FCLTS_STRCT = #cvlEngFcltsStrct#
+			,MECH_FCLTS_CN = #mechFcltsCn#
+			,MECH_FCLTS_STRCT = #mechFcltsStrct#
+			,ELCTY_FCLTS_CN = #elctyFcltsCn#
+			,ELCTY_FCLTS_STRCT = #elctyFcltsStrct#
+			,INFO_COMM_FCLTS_CN = #infoCommFcltsCn#
+			,INFO_COMM_FCLTS_STRCT = #infoCommFcltsStrct#
+			,ETC_FCLTS_CN = #etcFcltsCn#
+			,ETC_FCLTS_STRCT = #etcFcltsStrct#
 			,ARCH_FCLTS_CNT = NVL(TO_NUMBER(REPLACE(#archFcltsCnt#,',','')),0)
 			,CVL_ENG_FCLTS_CNT = NVL(TO_NUMBER(REPLACE(#cvlEngFcltsCnt#,',','')),0)
 			,MECH_FCLTS_CNT = NVL(TO_NUMBER(REPLACE(#mechFcltsCnt#,',','')),0)

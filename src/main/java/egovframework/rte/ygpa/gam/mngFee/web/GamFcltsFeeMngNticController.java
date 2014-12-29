@@ -485,6 +485,28 @@ public class GamFcltsFeeMngNticController {
 
 	}
 
+	@RequestMapping(value="/mngFee/gamSelectFcltsFeeMngNticUnpaidFMaxDlySerNo.do" , method=RequestMethod.POST)
+	@ResponseBody Map gamSelectFcltsFeeMngNticUnpaidFMaxDlySerNo(@RequestParam Map<String, Object> searchVo) throws Exception {
+
+		String sMaxDlySerNo;
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		sMaxDlySerNo = gamFcltsFeeMngNticService.selectUnpaidFMaxDlySerNo(searchVo);
+
+		map.put("resultCode", 0);
+		map.put("sMaxDlySerNo", sMaxDlySerNo);
+
+		return map;
+
+	}
+
 	@RequestMapping(value="/mngFee/gamCalcDlyBillAmnt.do")
 	@ResponseBody Map<String, Object> gamCalcDlyBillAmnt(@RequestParam Map<String, Object> calcVo)	throws Exception {
 
@@ -528,6 +550,7 @@ public class GamFcltsFeeMngNticController {
 
 		try {
 			processVo.put("updUsr", (String)user.getId());
+			processVo.put("emplNo", (String)user.getId());
 			processVo.put("deptCd", (String)user.getDeptCd());
 			processVo.put("userName", (String)user.getName());
 			gamFcltsFeeMngNticService.processFcltsFeeMngNticIssueUnpaid(processVo);

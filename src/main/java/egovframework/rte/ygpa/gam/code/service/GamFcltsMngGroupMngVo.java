@@ -43,6 +43,18 @@ public class GamFcltsMngGroupMngVo  extends ComDefaultVO {
 	private String cnstrctAmt;				//시공 금액
 	private String fcltsCn;					//시설물 내용
 	private String fcltsStrct;				//시설물 구조
+	private String archFcltsCn;				//건축 시설물 내용
+	private String archFcltsStrct;			//건축 시설물 구조
+	private String cvlEngFcltsCn;			//토목 시설물 내용
+	private String cvlEngFcltsStrct;		//토목 시설물 구조
+	private String mechFcltsCn;				//기계 시설물 내용
+	private String mechFcltsStrct;			//기계 시설물 구조
+	private String elctyFcltsCn;			//전기 시설물 내용
+	private String elctyFcltsStrct;			//전기 시설물 구조
+	private String infoCommFcltsCn;			//정보 통신 시설물 내용
+	private String infoCommFcltsStrct;		//정보 통신 시설물 구조
+	private String etcFcltsCn;				//기타 시설물 내용
+	private String etcFcltsStrct;			//기타 시설물 구조
 	private String archFcltsCnt;			//건축 시설물 갯수
 	private String cvlEngFcltsCnt;			//토목 시설물 갯수
 	private String mechFcltsCnt;			//기계 시설물 갯수
@@ -221,6 +233,150 @@ public class GamFcltsMngGroupMngVo  extends ComDefaultVO {
 	 */
 	public void setFcltsStrct(String fcltsStrct) {
 		this.fcltsStrct = fcltsStrct;
+	}
+	/**
+	 * @return the archFcltsCn
+	 */
+	public String getArchFcltsCn() {
+		return archFcltsCn;
+	}
+	/**
+	 * @param archFcltsCn the archFcltsCn to set
+	 */
+	public void setArchFcltsCn(String archFcltsCn) {
+		this.archFcltsCn = archFcltsCn;
+	}
+	/**
+	 * @return the archFcltsStrct
+	 */
+	public String getArchFcltsStrct() {
+		return archFcltsStrct;
+	}
+	/**
+	 * @param archFcltsStrct the archFcltsStrct to set
+	 */
+	public void setArchFcltsStrct(String archFcltsStrct) {
+		this.archFcltsStrct = archFcltsStrct;
+	}
+	/**
+	 * @return the cvlEngFcltsCn
+	 */
+	public String getCvlEngFcltsCn() {
+		return cvlEngFcltsCn;
+	}
+	/**
+	 * @param cvlEngFcltsCn the cvlEngFcltsCn to set
+	 */
+	public void setCvlEngFcltsCn(String cvlEngFcltsCn) {
+		this.cvlEngFcltsCn = cvlEngFcltsCn;
+	}
+	/**
+	 * @return the cvlEngFcltsStrct
+	 */
+	public String getCvlEngFcltsStrct() {
+		return cvlEngFcltsStrct;
+	}
+	/**
+	 * @param cvlEngFcltsStrct the cvlEngFcltsStrct to set
+	 */
+	public void setCvlEngFcltsStrct(String cvlEngFcltsStrct) {
+		this.cvlEngFcltsStrct = cvlEngFcltsStrct;
+	}
+	/**
+	 * @return the mechFcltsCn
+	 */
+	public String getMechFcltsCn() {
+		return mechFcltsCn;
+	}
+	/**
+	 * @param mechFcltsCn the mechFcltsCn to set
+	 */
+	public void setMechFcltsCn(String mechFcltsCn) {
+		this.mechFcltsCn = mechFcltsCn;
+	}
+	/**
+	 * @return the mechFcltsStrct
+	 */
+	public String getMechFcltsStrct() {
+		return mechFcltsStrct;
+	}
+	/**
+	 * @param mechFcltsStrct the mechFcltsStrct to set
+	 */
+	public void setMechFcltsStrct(String mechFcltsStrct) {
+		this.mechFcltsStrct = mechFcltsStrct;
+	}
+	/**
+	 * @return the elctyFcltsCn
+	 */
+	public String getElctyFcltsCn() {
+		return elctyFcltsCn;
+	}
+	/**
+	 * @param elctyFcltsCn the elctyFcltsCn to set
+	 */
+	public void setElctyFcltsCn(String elctyFcltsCn) {
+		this.elctyFcltsCn = elctyFcltsCn;
+	}
+	/**
+	 * @return the elctyFcltsStrct
+	 */
+	public String getElctyFcltsStrct() {
+		return elctyFcltsStrct;
+	}
+	/**
+	 * @param elctyFcltsStrct the elctyFcltsStrct to set
+	 */
+	public void setElctyFcltsStrct(String elctyFcltsStrct) {
+		this.elctyFcltsStrct = elctyFcltsStrct;
+	}
+	/**
+	 * @return the infoCommFcltsCn
+	 */
+	public String getInfoCommFcltsCn() {
+		return infoCommFcltsCn;
+	}
+	/**
+	 * @param infoCommFcltsCn the infoCommFcltsCn to set
+	 */
+	public void setInfoCommFcltsCn(String infoCommFcltsCn) {
+		this.infoCommFcltsCn = infoCommFcltsCn;
+	}
+	/**
+	 * @return the infoCommFcltsStrct
+	 */
+	public String getInfoCommFcltsStrct() {
+		return infoCommFcltsStrct;
+	}
+	/**
+	 * @param infoCommFcltsStrct the infoCommFcltsStrct to set
+	 */
+	public void setInfoCommFcltsStrct(String infoCommFcltsStrct) {
+		this.infoCommFcltsStrct = infoCommFcltsStrct;
+	}
+	/**
+	 * @return the etcFcltsCn
+	 */
+	public String getEtcFcltsCn() {
+		return etcFcltsCn;
+	}
+	/**
+	 * @param etcFcltsCn the etcFcltsCn to set
+	 */
+	public void setEtcFcltsCn(String etcFcltsCn) {
+		this.etcFcltsCn = etcFcltsCn;
+	}
+	/**
+	 * @return the etcFcltsStrct
+	 */
+	public String getEtcFcltsStrct() {
+		return etcFcltsStrct;
+	}
+	/**
+	 * @param etcFcltsStrct the etcFcltsStrct to set
+	 */
+	public void setEtcFcltsStrct(String etcFcltsStrct) {
+		this.etcFcltsStrct = etcFcltsStrct;
 	}
 	/**
 	 * @return the archFcltsCnt

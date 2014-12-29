@@ -223,6 +223,14 @@ GamElctyUsageSttusMngModule.prototype.onButtonClick = function(buttonId) {
 			this._mainKeyValue = '';
 			this.$("#mainTab").tabs("option", {active: 1});
 			break;
+		case 'btnInsert':
+			this._mode = 'insert';
+			this._mainKeyValue = '';
+			this.makeFormValues('#detailForm', {});
+			this.makeDivValues('#detailForm', {});
+			this.disableDetailInputItem();
+			this.addData();
+			break;
 	    case 'btnSave':
 	    	this.saveData();
 			break;
@@ -734,6 +742,7 @@ GamElctyUsageSttusMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#netUsageQy').enable();
 		this.$('#popupMngFeeFcltyCd').enable();
 		this.$('#popupMngFeeFcltyCd').removeClass('ui-state-disabled');
+		this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
 		this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
@@ -747,6 +756,8 @@ GamElctyUsageSttusMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#applcCoef').enable();
 			this.$('#netUsageQy').enable();
 			this.$('#popupMngFeeFcltyCd').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnInsert').enable();
+			this.$('#btnInsert').removeClass('ui-state-disabled');
 			this.$('#btnSave').enable();
 			this.$('#btnSave').removeClass('ui-state-disabled');
 			this.$('#btnRemove').enable();
@@ -760,6 +771,7 @@ GamElctyUsageSttusMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#applcCoef').disable();
 			this.$('#netUsageQy').disable();
 			this.$('#popupMngFeeFcltyCd').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 		}
@@ -784,6 +796,7 @@ GamElctyUsageSttusMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#applcCoef').disable();
 	this.$('#netUsageQy').disable();
 	this.$('#popupMngFeeFcltyCd').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 
@@ -1032,6 +1045,7 @@ var module_instance = new GamElctyUsageSttusMngModule();
 					<table style="width:100%;">
 						<tr>
 							<td style="text-align:right;">
+								<button id="btnInsert" class="buttonAdd">　　추　가　　</button>
 								<button id="btnSave" class="buttonSave">　　저　장　　</button>
 								<button id="btnRemove" class="buttonDelete">　　삭　제　　</button>
 							</td>

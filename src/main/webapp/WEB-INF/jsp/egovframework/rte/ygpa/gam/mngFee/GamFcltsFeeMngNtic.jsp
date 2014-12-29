@@ -414,6 +414,7 @@ GamFcltsFeeMngNticModule.prototype.loadDetail = function(tabId) {
 %>
 GamFcltsFeeMngNticModule.prototype.selectData = function() {
 
+	this.rowColorGridData();
 	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
 		if (gridRowCount == 0) {
@@ -443,8 +444,33 @@ GamFcltsFeeMngNticModule.prototype.selectData = function() {
 		this.$("#mainGrid").selectRowId(mainRowNo);
 	}
 	this._mode = 'modify';
+	this.disableDetailInputItem();
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : rowColorGridData
+ * @DESCRIPTION   : GRID DATA ROW COLOR 설정
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.rowColorGridData = function() {
+
+	var gridRowCount = this.$("#mainGrid").flexRowCount();
+	if (gridRowCount == 0) {
+		return;
+	}
+	for(var i=0; i<gridRowCount; i++) {
+		var row = this.$("#mainGrid").flexGetRow(i+1);
+		if (row.arrrgSttus != null && row.arrrgSttus != "") {
+			this.$('#mainGrid')[0].dgrid.setRowColor(i + 1,"yellow");
+		} else {
+			this.$('#mainGrid')[0].dgrid.setRowColor(i + 1,"white");
+		}
+	}
 
 };
 
@@ -1051,7 +1077,9 @@ GamFcltsFeeMngNticModule.prototype.downloadExcel = function() {
 **/
 %>
 GamFcltsFeeMngNticModule.prototype.popupArrrgNticIssue = function() {
-
+condole.log(this.$('#fee').val());
+condole.log(this.$('#vat').val());
+condole.log(this.$('#nticAmt').val());
 	var processVO = [];
 	var toDay = new Date();
 	var year = "";
@@ -1237,7 +1265,7 @@ GamFcltsFeeMngNticModule.prototype.cancelNticIssueUnpaid = function() {
 	var dlySerNo = this.$('#arrrgNo').val();
 	var dlyBillDt = this.$('#nticDt').val();
 	var dlyDueDt = this.$('#payTmlmt').val();
-	var dlyBillAmnt = this.$('#arrrgAmt').val();
+	var dlyBillAmnt = this.$('#arrrgAmt').val().replace(/,/gi, "");
 	var nhtIsueYn = this.$('#nhtIsueYn').val();
 	var rcivSe = this.$('#rcivSe').val();
 	var dataValue = 0;
@@ -1293,7 +1321,7 @@ GamFcltsFeeMngNticModule.prototype.cancelNticIssueUnpaid = function() {
 			'vatYnNm':this.$('#vatYnNm').val(),
 			'vat':this.$('#vat').val(),
 			'sumBillAmnt':this.$('#nticAmt').val(),
-			'rcvdTp':rcvdTp,
+			'rcvdTp':this.$('#rcvdTp').val(),
 			'dlyBillDt':dlyBillDt,
 			'dlyDueDt':dlyDueDt,
 			'arrrgTariff':this.$('#arrrgTariff').val(),
@@ -1481,8 +1509,14 @@ GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 					this.$('#btnCancelNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
 				}
 			} else {
-				this.$('#btnProcessNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
-				this.$('#btnCancelNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
+				if (arrrgNo != "") {
+					this.$('#btnProcessNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
+					this.$('#btnCancelNticIssueUnpaid').enable();
+					this.$('#btnCancelNticIssueUnpaid').removeClass('ui-state-disabled');
+				} else {
+					this.$('#btnProcessNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
+					this.$('#btnCancelNticIssueUnpaid').disable({disableClass:"ui-state-disabled"});
+				}
 			}
 			this.$('#btnOpenFcltsFeeMngInqire2').enable();
 			this.$('#btnOpenFcltsFeeMngInqire2').removeClass('ui-state-disabled');

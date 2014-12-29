@@ -175,6 +175,14 @@ GamEnergyUsageMngModule.prototype.onButtonClick = function(buttonId) {
 			this._mainKeyValue = '';
 			this.$("#mainTab").tabs("option", {active: 1});
 			break;
+		case 'btnInsert':
+			this._mode = 'insert';
+			this._mainKeyValue = '';
+			this.makeFormValues('#detailForm', {});
+			this.makeDivValues('#detailForm', {});
+			this.disableDetailInputItem();
+			this.addData();
+			break;
 	    case 'btnSave':
 	    	this.saveData();
 			break;
@@ -545,6 +553,7 @@ GamEnergyUsageMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#energyNetCalVal').enable();
 		this.$('#grHseUnit').enable();
 		this.$('#grHseCoef').enable();
+		this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
 		this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
@@ -558,6 +567,8 @@ GamEnergyUsageMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#energyNetCalVal').enable();
 			this.$('#grHseUnit').enable();
 			this.$('#grHseCoef').enable();
+			this.$('#btnInsert').enable();
+			this.$('#btnInsert').removeClass('ui-state-disabled');
 			this.$('#btnSave').enable();
 			this.$('#btnSave').removeClass('ui-state-disabled');
 			this.$('#btnRemove').enable();
@@ -571,6 +582,7 @@ GamEnergyUsageMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#energyNetCalVal').disable();
 			this.$('#grHseUnit').disable();
 			this.$('#grHseCoef').disable();
+			this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 		}
@@ -595,6 +607,7 @@ GamEnergyUsageMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#energyNetCalVal').disable();
 	this.$('#grHseUnit').disable();
 	this.$('#grHseCoef').disable();
+	this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 
@@ -786,6 +799,7 @@ var module_instance = new GamEnergyUsageMngModule();
 					<table style="width:100%;">
 						<tr>
 							<td style="text-align:right;">
+								<button id="btnInsert" class="buttonAdd">　　추　가　　</button>
 								<button id="btnSave" class="buttonSave">　　저　장　　</button>
 								<button id="btnRemove" class="buttonDelete">　　삭　제　　</button>
 							</td>

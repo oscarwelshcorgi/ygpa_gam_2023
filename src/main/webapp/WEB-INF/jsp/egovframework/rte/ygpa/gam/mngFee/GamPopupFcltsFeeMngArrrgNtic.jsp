@@ -362,8 +362,8 @@ var popup_instance = new GamPopupFcltsFeeMngArrrgNticModule();
 							<input id="mngSeq" type="hidden"/>
 							<input id="reqestSeq" type="hidden"/>
 							<input id="feeTp" type="hidden"/>
-							<input type="text" size="2" id="chrgeKnd" disabled>
-							<input type="text" size="21" id="chrgeKndNm" disabled>
+							<input type="text" size="3" id="chrgeKnd" disabled>
+							<input type="text" size="20" id="chrgeKndNm" disabled>
 						</td>
 						<th style="width:15%; height:20px;">고　지　번　호</th>
 						<td>

@@ -107,6 +107,14 @@ GamCarMngModule.prototype.onButtonClick = function(buttonId) {
 			this._mainKeyValue = '';
 			this.$("#mainTab").tabs("option", {active: 1});
 			break;
+		case 'btnInsert':
+			this._mode = 'insert';
+			this._mainKeyValue = '';
+			this.makeFormValues('#detailForm', {});
+			this.makeDivValues('#detailForm', {});
+			this.disableDetailInputItem();
+			this.addData();
+			break;
 	    case 'btnSave':
 	    	this.saveData();
 			break;
@@ -447,6 +455,7 @@ GamCarMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#examValidBeginDt').enable();
 		this.$('#examValidEndDt').enable();
 		this.$('#rm').enable();
+		this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
 		this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
@@ -480,6 +489,8 @@ GamCarMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#examValidBeginDt').enable();
 			this.$('#examValidEndDt').enable();
 			this.$('#rm').enable();
+			this.$('#btnInsert').enable();
+			this.$('#btnInsert').removeClass('ui-state-disabled');
 			this.$('#btnSave').enable();
 			this.$('#btnSave').removeClass('ui-state-disabled');
 			this.$('#btnRemove').enable();
@@ -513,6 +524,7 @@ GamCarMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#examValidBeginDt').disable();
 			this.$('#examValidEndDt').disable();
 			this.$('#rm').disable();
+			this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 		}
@@ -557,6 +569,7 @@ GamCarMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#examValidBeginDt').disable();
 	this.$('#examValidEndDt').disable();
 	this.$('#rm').disable();
+	this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 
@@ -784,6 +797,7 @@ var module_instance = new GamCarMngModule();
 					<table style="width:100%;">
 						<tr>
 							<td style="text-align:right">
+								<button id="btnInsert" class="buttonAdd">　　추　가　　</button>
 								<button id="btnSave" class="buttonSave">　　저　장　　</button>
 								<button id="btnRemove" class="buttonDelete">　　삭　제　　</button>
 							</td>
