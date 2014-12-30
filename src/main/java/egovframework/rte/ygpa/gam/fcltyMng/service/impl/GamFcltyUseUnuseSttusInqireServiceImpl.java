@@ -46,8 +46,8 @@ public class GamFcltyUseUnuseSttusInqireServiceImpl implements GamFcltyUseUnuseS
 		return gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireListTotCnt(searchVO);
 
 	}
-
-	public List selectFcltyUseUnuseSttusInqireDetail(GamFcltyUseUnuseSttusInqireVO searchVO){
+	
+	public List  selectFcltyUseUnuseSttusInqireDetail(GamFcltyUseUnuseSttusInqireVO searchVO){
 		return (List) gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireDetail(searchVO);
 	}
 }

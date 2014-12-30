@@ -58,9 +58,9 @@ public class GamFcltyUseUnuseSttusInqireDao extends YGPAAbstractDAO {
 	 * @param searchVO
 	 * @return
 	 */
-	public EgovMap selectFcltyUseUnuseSttusInqireDetail(GamFcltyUseUnuseSttusInqireVO searchVO) {
+	public List selectFcltyUseUnuseSttusInqireDetail(GamFcltyUseUnuseSttusInqireVO searchVO) {
 		// TODO Auto-generated method stub
-		return null;
+		return list("gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireDetailList_D",searchVO);
 	}
 
 }

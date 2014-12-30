@@ -116,27 +116,36 @@ String indexFcltyUsageSttusInqire(@RequestParam("window_id") String windowId, Mo
 @ResponseBody Map<String, Object> selectFcltyUseUnuseSttusInqireDetail(GamFcltyUseUnuseSttusInqireVO searchVO) throws Exception {
 	
 	Map<String, Object> map = new HashMap<String, Object>();
-	List result;
+	
+	System.out.println(searchVO);
 	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 	if(!isAuthenticated) {
         map.put("resultCode", 1);
 		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
     	return map;
 	}
+	
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
 
-	try {
-		result = gamFcltyUseUnuseSttusInqireService.selectFcltyUseUnuseSttusInqireDetail(searchVO);
-		
-    }
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+	
+		List resultList = gamFcltyUseUnuseSttusInqireService.selectFcltyUseUnuseSttusInqireDetail(searchVO);
 
-	catch(Exception e) {
-        map.put("resultCode", 1);
-        map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
-        return map;
-	}
+//      paginationInfo.setTotalRecordCount(totalCnt);
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+    
+        map.put("resultCode", 0);
+        map.put("resultList", resultList);
+//		map.put("totalCount", totalCnt);
+        map.put("searchOption", searchVO);
+    
 
-    map.put("resultCode", 0);
-    map.put("result", result);
+
 
     return map;
 }

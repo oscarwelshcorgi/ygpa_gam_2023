@@ -3,6 +3,8 @@
  */
 package egovframework.rte.ygpa.gam.fcltyMng.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
@@ -21,9 +23,9 @@ import egovframework.com.cmm.ComDefaultVO;
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GamFcltyUseUnuseSttusInqireVO extends ComDefaultVO  {
-
+	
 	/**
 	 *
 	 */
@@ -44,81 +46,64 @@ public class GamFcltyUseUnuseSttusInqireVO extends ComDefaultVO  {
 	/** 조회종료일(조회조건) **/
 	private String searchDtTo;
 
-	public String prtAtCode;
 	
-	public String mngYear;
+	private String gisAssetsPrtAtCode;
+	private String gisAssetsCd;
+	private String gisAssetsSubCd;
+
 	
-	public String mngNo;
-	
-	public String mngCnt;
+
+
 	/**
-	 * @return the prtAtCode
+	 * @return the gisAssetsPrtAtCode
 	 */
-	public String getPrtAtCode() {
-		return prtAtCode;
+	public String getGisAssetsPrtAtCode() {
+		return gisAssetsPrtAtCode;
 	}
 
 
 
 	/**
-	 * @param prtAtCode the prtAtCode to set
+	 * @param gisAssetsPrtAtCode the gisAssetsPrtAtCode to set
 	 */
-	public void setPrtAtCode(String prtAtCode) {
-		this.prtAtCode = prtAtCode;
+	public void setGisAssetsPrtAtCode(String gisAssetsPrtAtCode) {
+		this.gisAssetsPrtAtCode = gisAssetsPrtAtCode;
 	}
 
 
 
 	/**
-	 * @return the mngYear
+	 * @return the gisAssetsCd
 	 */
-	public String getMngYear() {
-		return mngYear;
+	public String getGisAssetsCd() {
+		return gisAssetsCd;
 	}
 
 
 
 	/**
-	 * @param mngYear the mngYear to set
+	 * @param gisAssetsCd the gisAssetsCd to set
 	 */
-	public void setMngYear(String mngYear) {
-		this.mngYear = mngYear;
+	public void setGisAssetsCd(String gisAssetsCd) {
+		this.gisAssetsCd = gisAssetsCd;
 	}
 
 
 
 	/**
-	 * @return the mngNo
+	 * @return the gisAssetsSubCd
 	 */
-	public String getMngNo() {
-		return mngNo;
+	public String getGisAssetsSubCd() {
+		return gisAssetsSubCd;
 	}
 
 
 
 	/**
-	 * @param mngNo the mngNo to set
+	 * @param gisAssetsSubCd the gisAssetsSubCd to set
 	 */
-	public void setMngNo(String mngNo) {
-		this.mngNo = mngNo;
-	}
-
-
-
-	/**
-	 * @return the mngCnt
-	 */
-	public String getMngCnt() {
-		return mngCnt;
-	}
-
-
-
-	/**
-	 * @param mngCnt the mngCnt to set
-	 */
-	public void setMngCnt(String mngCnt) {
-		this.mngCnt = mngCnt;
+	public void setGisAssetsSubCd(String gisAssetsSubCd) {
+		this.gisAssetsSubCd = gisAssetsSubCd;
 	}
 
 

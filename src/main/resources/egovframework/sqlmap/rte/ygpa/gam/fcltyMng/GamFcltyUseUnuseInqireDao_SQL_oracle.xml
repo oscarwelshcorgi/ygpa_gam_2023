@@ -103,9 +103,9 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>      		
 
 
-<!-- 소재지 지번 자산명 총면적 사용면적 실제임대면적 NVL(SUM(gac.GIS_ASSETS_REAL_RENT_AR)- SUM(B.USAGE_AR),0) -->
 
 </select>
+ <!-- 소재지 지번 자산명 총면적 사용면적 실제임대면적 NVL(SUM(gac.GIS_ASSETS_REAL_RENT_AR)- SUM(B.USAGE_AR),0) -->
  
 <select id="gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireListTotCnt_S" parameterClass="gamFcltyUseUnuseSttusInqireVO" resultClass="int">
 	
@@ -191,19 +191,19 @@ SELECT
 
 <select id="gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireDetailList_D" parameterClass="gamFcltyUseUnuseSttusInqireVO" resultClass="egovMap">
 SELECT
-		A.GIS_ASSETS_PRT_AT_CODE
+		A.GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE2
 	, A.GIS_ASSETS_CD
 	, A.GIS_ASSETS_SUB_CD
   	,(SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND CODE = A.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NAME
     ,GIS_ASSETS_NM
 	,A.GIS_ASSETS_LOCPLC || NVL2(GIS_ASSETS_LNM_SUB,GIS_ASSETS_LNM || '-' || GIS_ASSETS_LNM_SUB,GIS_ASSETS_LNM) AS GIS_ASSETS_LNMS
-	,TO_CHAR(NVL(A.GIS_ASSETS_AR,0)) AS GIS_ASSETS_AR
+	,TO_CHAR(NVL(A.GIS_ASSETS_AR,0)) AS GIS_ASSETS_AR2
   ,TO_CHAR(NVL(A.GIS_ASSETS_REAL_RENT_AR,0)) AS GIS_ASSETS_REAL_RENT_AR
-  ,TO_CHAR(NVL(C.USAGE_AR,0)) AS USAGE_AR
-	,TO_CHAR(C.USAGE_PD_FROM,'YYYY-MM-DD') AS USAGE_PD_FROM
-	,TO_CHAR(C.USAGE_PD_TO,'YYYY-MM-DD') AS USAGE_PD_TO
+  ,TO_CHAR(NVL(C.USAGE_AR,0)) AS USAGE_AR2
+	,TO_CHAR(C.USAGE_PD_FROM,'YYYY-MM-DD') AS USAGE_PD_FROM2
+	,TO_CHAR(C.USAGE_PD_TO,'YYYY-MM-DD') AS USAGE_PD_TO2
 	,TO_CHAR(NVL(A.GIS_ASSETS_REAL_RENT_AR-C.USAGE_AR,0)) AS NO_USAGE_AR
- 	,RTRIM(TO_CHAR(NVL(ROUND((C.USAGE_AR/NULLIF(A.GIS_ASSETS_REAL_RENT_AR,0))*100,2),0),'FM9990D99'),'.' ) AS USAGE_AR_PER
+ 	,RTRIM(TO_CHAR(NVL(ROUND((C.USAGE_AR/NULLIF(A.GIS_ASSETS_REAL_RENT_AR,0))*100,2),0),'FM9990D99'),'.' ) AS USAGE_AR_PER2
 	,C.ENTRPSCD
   ,GAM_GETENTRPSNM(C.ENTRPSCD, '1') ENTRPS_NM
   
@@ -297,13 +297,13 @@ SELECT
 						         </isNotEmpty>
 						         
 						  
-						  <isNotEmpty property="searchDtFr">
+<!-- 						  <isNotEmpty property="searchDtFr">
 						 <![CDATA[ AND C.USAGE_PD_FROM >= TO_DATE(#searchDtFr#, 'yyyy-mm-dd') ]]>
 					        </isNotEmpty>
 					        <isNotEmpty property="searchDtTo">
 						<![CDATA[ AND C.USAGE_PD_TO < TO_DATE(#searchDtTo#, 'yyyy-mm-dd') + 1 ]]>
 								        </isNotEmpty> 
-								        
+								         -->
   
 	GROUP BY A.GIS_ASSETS_PRT_AT_CODE
 	, A.GIS_ASSETS_CD
@@ -354,7 +354,7 @@ SELECT
 		,A.GIS_ASSETS_NM
 		,GIS_ASSETS_LNMS 
 		DESC
-    ;
+    
     
     
 </select>

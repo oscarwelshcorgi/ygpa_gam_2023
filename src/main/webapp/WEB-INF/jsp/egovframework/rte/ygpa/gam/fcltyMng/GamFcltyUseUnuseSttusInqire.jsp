@@ -5,6 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
+
   /**
   * @Class Name :	GamFcltyUseUnuseSttusInqire.jsp
   * @Description : 시설물 사용/미사용시설 조회
@@ -20,7 +21,7 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
-
+<validator:javascript formName="searchForm" method="validateGamFcltyUseUnuseSttusInqire" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -31,11 +32,12 @@ function GamFcltyUseUnuseSttusInqireModule() {
 GamFcltyUseUnuseSttusInqireModule.prototype = new EmdModule(1000,800);	// 초기 시작 창크기 지정
 
 // 페이지가 호출 되었을때 호출 되는 함수
-GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function(params) {
-	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다.
+GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
+	
+/* 	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다.
 
 	this._params = params;	// 파라미터를 저장한다.
-
+ */
 	// 테이블 설정
 	this.$("#mainGrid").flexigrid({
 		module: this,
@@ -53,65 +55,62 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function(params) {
 				{display:"기간From",			name:"usagePdFrom",				width:80, 		sortable:false,		align:"center"},
 				{display:"기간To",			name:"usagePdTo",				width:80, 		sortable:false,		align:"center"  }
 			],
-		height: "200"
-			, preProcess: function(module,data) {
-
-		            return data;
-		        }
+			showTableToggleBtn: false,
+			height: "200"
+				,preProcess : function(module,data) {
+				return data;
+			}
+		
 		
 	});
-	console.log('debug');
-	this.$("#mainGrid").on("onItemDoubleClick", function(event, module, row, grid, param) {
+
+	this.$("#mainGrid").on("onItemSelected", function(event, module, row, grid, param) {
 		
 		var searchOpt = [
 						{name: 'gisAssetsPrtAtCode', value: row["gisAssetsPrtAtCode"]},
-						{name: 'mngisAssetsCd', value: row["gisAssetsCd"]},
+						{name: 'gisAssetsCd', value: row["gisAssetsCd"]},
 						{name: 'gisAssetsSubCd', value: row["gisAssetsSubCd"]},
-						{name: 'searchDtFr', value:module.$("#searchDtFr").val()},
-						{name: 'searchDtTo', value:module.$("#searchDtTo").val()},
-		];				
-	module.$('#detailGrid').flexOptions({params:searchOpt}).flexReload();
-	
-	})
-	
+					/* 	{name: 'searchDtFr', value:module.$("#searchDtFr").val()},
+						{name: 'searchDtTo', value:module.$("#searchDtTo").val()}, */
+						];				
+		console.log(searchOpt);
+
+	module.$("#detailGrid").flexOptions({params:searchOpt}).flexReload();
+	});
+
 	// 시설물 사용/미사용 시설 상세
+	
     this.$("#detailGrid").flexigrid({
         module: this,
         url: '/fcltyMng/selectFcltyUseUnuseSttusInqireDetailList.do',
         dataType: 'json',
         colModel : [
-                	{display:"항구분",			name:"mngYear",	width:60,		sortable:false,		align:"center"},
-    				{display:"자산명",			name:"mngNo",			width:180,		sortable:false,		align:"left"},
-    				{display:"업체명",		name:"mngCnt",			width:180,		sortable:false,		align:"left"},
-        			{display:"소재지", 			name:"gisAssetsLnms",		width:200,		sortable:false,		align:"left"},
-    				{display:"자산면적㎡",		name:"gisAssetsAr",			width:100,		sortable:false,		align:"right"},
-    				{display:"임대가용면적㎡",	name:"gisAssetsRealRentAr",	width:100, 		sortable:false,		align:"right"},
-    				{display:"사용면적㎡",	 	name:"usageAr",				width:100, 		sortable:false,		align:"right" },
-    				{display:"미사용면적㎡", 	name:"noUsageAr",			width:100, 		sortable:false,		align:"right",  displayFormat: 'number'},
-    				{display:"사용률％", 		name:"usageArPer",			width:65, 		sortable:false,		align:"right" },
-    				{display:"기간From",			name:"usagePdFrom",				width:80, 		sortable:false,		align:"center"},
-    				{display:"기간To",			name:"usagePdTo",				width:80, 		sortable:false,		align:"center"  }
+         			{display:"업체명",			name:"entrpsNm",			width:180,		sortable:false,		align:"left"},
+        			{display:"소재지", 			name:"gisAssetsPrtAtCode2",		width:200,		sortable:false,		align:"left"},
+    				{display:"자산면적㎡",		name:"computDtls",			width:100,		sortable:false,		align:"right"},
+    				{display:"임대가용면적㎡",	name:"gisAssetsAr2",	width:100, 		sortable:false,		align:"right"},
+    				{display:"사용면적㎡",	 	name:"usageAr2",				width:100, 		sortable:false,		align:"right" },
+    				{display:"사용률％", 		name:"usageArPer2",			width:65, 		sortable:false,		align:"right" },
+    				{display:"기간From",			name:"usagePdFrom2",				width:80, 		sortable:false,		align:"center"},
+    				{display:"기간To",			name:"usagePdTo2",				width:80, 		sortable:false,		align:"center"  }
                     ],
-        showTableToggleBtn: false,
+
+          showTableToggleBtn: false,
         height: 'auto'
-        	,preProcess : function(module,data) {
+        /* 	,preProcess : function(module,data) {
     			module.$('#totalCount').val(data.totalCount);
     			module.makeDivValues('#emdControlPanelForm', data);
     				return data;
-    			} 
+    			} */
+
     });
 
-/* 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
-		module._cmd = 'modify';
-	});
-
- 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module._cmd = 'modify';
- 		module.$("#mainTab").tabs("option", {active: 1});
- 	}); */
 
 };
 GamFcltyUseUnuseSttusInqireModule.prototype.onSubmit = function() {
+	if(!validateGamFcltyUseUnuseSttusInqire(this.$('#searchForm')[0])){ 		
+		return;
+	}
 	this.loadData();
 	};
 
@@ -173,11 +172,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.onTabChange = function(newTabId, old
 	 */
 GamFcltyUseUnuseSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 
-	switch(buttonId) {
-		case "btnSearch": //조회
-			this.loadData();
-			break;
-	}
+	
 };
 
 
@@ -206,12 +201,12 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 						<tr>
 						<th>항코드</th>
 							<td><input id="searchPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
-							<th>사용 기간</th>
+							<th>조회 기간</th>
                         	 <td>
                             	<input id="searchDtFr" type="text" class="emdcal" size="8"> ~
                             	<input id="searchDtTo" type="text" class="emdcal" size="8">
                              </td>
-                              <td colspan="2"><button id="btnSearch" class="buttonSearch">조회</button></td>
+                              <td colspan="2"><button class="buttonSearch">조회</button></td>
 							</tr>
 							<tr>
 							<th>시설명</th>
@@ -234,8 +229,21 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 			</ul>
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
+				<table class="summaryPanel" style="width:100%;" >
+							<tr>
+					<tr>
+			<th style="font-weight:bold; height:20px;">시설물 사용시설 내역</th>
+					</tr>
+					</table>
+					
 				<table id="mainGrid" style="display: none"></table>
-				 <table id="detailGrid" syle="display: none" class="fillHeight"></table>
+				<table class="detailPanel" style="width:100%;">
+				<tr>
+				<th style="font-weight:bold; height:20px;">시설물 사용시설 상세내역</th>
+				</tr>
+				</table>
+				 <table id="detailGrid" style="display: none" class="fillHeight"></table>
+				 
 			<div id="emdControlPanel" class="emdControlPanel">
 					<form id="emdControlPanelForm">
 						<table style="width: 100%;">
@@ -377,7 +385,6 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
             </div>
 
 		</div>
-
 
 
 	</div>
