@@ -58,6 +58,8 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
 			showTableToggleBtn: false,
 			height: "200"
 				,preProcess : function(module,data) {
+					module.$('#totalCount').val(data.totalCount);
+	    			module.makeDivValues('#emdControlPanelForm', data);
 				return data;
 			}
 		
@@ -70,8 +72,8 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
 						{name: 'gisAssetsPrtAtCode', value: row["gisAssetsPrtAtCode"]},
 						{name: 'gisAssetsCd', value: row["gisAssetsCd"]},
 						{name: 'gisAssetsSubCd', value: row["gisAssetsSubCd"]},
-					/* 	{name: 'searchDtFr', value:module.$("#searchDtFr").val()},
-						{name: 'searchDtTo', value:module.$("#searchDtTo").val()}, */
+						{name: 'searchDtFr', value:module.$("#searchDtFr").val()},
+						{name: 'searchDtTo', value:module.$("#searchDtTo").val()}, 
 						];				
 		console.log(searchOpt);
 
@@ -86,23 +88,17 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
          			{display:"업체명",			name:"entrpsNm",			width:180,		sortable:false,		align:"left"},
-        			{display:"소재지", 			name:"gisAssetsPrtAtCode2",		width:200,		sortable:false,		align:"left"},
-    				{display:"자산면적㎡",		name:"computDtls",			width:100,		sortable:false,		align:"right"},
-    				{display:"임대가용면적㎡",	name:"gisAssetsAr2",	width:100, 		sortable:false,		align:"right"},
-    				{display:"사용면적㎡",	 	name:"usageAr2",				width:100, 		sortable:false,		align:"right" },
-    				{display:"사용률％", 		name:"usageArPer2",			width:65, 		sortable:false,		align:"right" },
-    				{display:"기간From",			name:"usagePdFrom2",				width:80, 		sortable:false,		align:"center"},
-    				{display:"기간To",			name:"usagePdTo2",				width:80, 		sortable:false,		align:"center"  }
+        			{display:"업체구분", 			name:"entrpsSe",		width:200,		sortable:false,		align:"left"},
+    				{display:"사용목적",		name:"usagePurps",			width:100,		sortable:false,		align:"right"},
+    				{display:"사용면적㎡",	name:"usageAr",	width:100, 		sortable:false,		align:"right"},
+    				{display:"사용료", 		name:"fee",			width:65, 		sortable:false,		align:"right" },
+    				{display:"기간From",			name:"usagePdFrom",				width:80, 		sortable:false,		align:"center"},
+    				{display:"기간To",			name:"usagePdTo",				width:80, 		sortable:false,		align:"center"  }
                     ],
 
           showTableToggleBtn: false,
         height: 'auto'
-        /* 	,preProcess : function(module,data) {
-    			module.$('#totalCount').val(data.totalCount);
-    			module.makeDivValues('#emdControlPanelForm', data);
-    				return data;
-    			} */
-
+   
     });
 
 
