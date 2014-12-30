@@ -34,6 +34,8 @@ GamFcltyMaintMngModule.prototype = new EmdModule(1000,600);	// 초기 시작 창
 GamFcltyMaintMngModule.prototype.loadComplete = function() {
 	
 	this._mode = "";
+	this._deleteDataMaintList=[];
+	this._deleteDataFileList=[];
 
 	//console.log("GamFcltyMaintMngModule");
 	// 테이블 설정
@@ -620,7 +622,6 @@ GamFcltyMaintMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		break;
 		
 		case "tabs3":
-			this._deleteDataMaintList=[];
 			if((this._mode != 'insert') && (this._mode != 'modify')) {
 				this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
 				alert('유지보수 항목을 선택 하세요.');
@@ -628,7 +629,6 @@ GamFcltyMaintMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		break;
 		
 		case "tabs4":
-			this._deleteDataFileList=[];
 			if((this._mode != 'insert') && (this._mode != 'modify')) {
 				this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
 				alert('유지보수 항목을 선택 하세요.');
