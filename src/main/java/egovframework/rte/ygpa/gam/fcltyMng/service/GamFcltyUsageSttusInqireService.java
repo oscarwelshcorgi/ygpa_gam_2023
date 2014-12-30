@@ -60,9 +60,12 @@ public interface GamFcltyUsageSttusInqireService {
 	 */
 	int selectFcltyAssetsRentListTotCnt(GamFcltyUsageSttusInqireVO vo) throws Exception;
 
-
-
-
-
+	/**
+	 * 점검 관리 내역
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	List selectQcMngDtlsFList(GamFcltyUsageSttusInqireVO vo) throws Exception;
 
 }

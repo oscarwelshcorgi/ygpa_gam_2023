@@ -62,4 +62,16 @@ public class GamFcltyUsageSttusInqireDao extends YGPAAbstractDAO{
 	public int selectFcltyAssetsRentListTotCnt(GamFcltyUsageSttusInqireVO vo) {
 		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyUsageSttusInqireDao.selectFcltyAssetsRentListTotCnt", vo);
 	}
+
+	/**
+     * 점검 관리 내역
+     * @param vo ComDefaultVO
+     * @return List
+     * @exception Exception
+     */
+	public List selectQcMngDtlsFList(GamFcltyUsageSttusInqireVO vo){
+		return list("gamFcltyUsageSttusInqireDao.selectQcMngDtlsFList", vo);
+	}
+
+
 }

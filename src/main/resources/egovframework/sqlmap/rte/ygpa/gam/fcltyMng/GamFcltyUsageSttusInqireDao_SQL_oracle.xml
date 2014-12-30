@@ -6,6 +6,7 @@
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="GamFcltyUsageSttusInqireVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageSttusInqireVO"/>
 
+<!-- GIS 항만시설 목록 조회 -->
 	<select id="gamFcltyUsageSttusInqireDao.selectFcltyGisPrtFcltyCdList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
 		SELECT A.*
 		  FROM (
@@ -38,7 +39,7 @@
 
 	</select>
 
-
+<!-- 시설물 사용현황 목록 조회 -->
     <select id="gamFcltyUsageSttusInqireDao.selectFcltyAssetsRentList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
 		SELECT A.*
 			FROM (
@@ -89,6 +90,37 @@
      		   AND D.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
 
 	</select>
+
+<!-- 점검 관리 내역 -->
+
+	<select id="gamFcltyUsageSttusInqireDao.selectQcMngDtlsFList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+				  FROM (
+		                SELECT FCLTS_MNG_GROUP_NO
+		                      ,FCLTS_JOB_SE
+		                      ,QC_MNG_SEQ
+		                      ,ENFORCE_YEAR
+		                      ,QC_MNG_NM
+		                      ,QC_INSP_DT
+		                      ,QC_INSP_SE
+		                      ,QC_INSP_INSTT_NM
+		                      ,RESPON_ENGINEER_NM
+		                      ,QC_BEGIN_DT
+		                      ,QC_END_DT
+		                      ,QC_INSP_BDGT
+		                      ,QC_INSP_AMT
+		                      ,STTUS_EVL_LVL
+		                      ,QC_INSP_RESULT
+		                      ,ACTION_CN
+		                      ,ACTION_SE
+		                      ,RM
+		                  FROM QC_MNG_DTLS_F
+ 					) S
+				) A
+	</select>
+
 
 </sqlMap>
 

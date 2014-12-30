@@ -74,4 +74,13 @@ public class GamFcltyUsageSttusInqireServiceImpl extends AbstractServiceImpl imp
 		return gamFcltyUsageSttusInqireDao.selectFcltyAssetsRentListTotCnt(vo);
 	}
 
+	/**
+	 * 점검 관리 내역
+	 * @param searchVO
+	 * @return
+	 */
+	public List selectQcMngDtlsFList(GamFcltyUsageSttusInqireVO vo) throws Exception{
+		return gamFcltyUsageSttusInqireDao.selectQcMngDtlsFList(vo);
+	}
+
 }
