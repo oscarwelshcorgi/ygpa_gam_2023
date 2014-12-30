@@ -92,11 +92,13 @@ var popup_instance = new GamPopupFcltsMngNoModule();
 			<table class="searchPanel">
 				<tbody>
 					<tr>
+						<!-- 코드로 검색하는 부분 제거 14.12.30 
                         <th>시설물관리번호</th>
                         <td>
                         	<input id="sFcltsMngNo" type="text" size="14" maxlength="14" />
                         </td>
-						<th>항만시설명</th>
+                        -->
+						<th>시설명</th>
                         <td><input id="sPrtFcltyNm" type="text" size="20" /></td>
 						<td><button id="btnSearch">조회</button></td>
 					</tr>
