@@ -60,6 +60,17 @@ GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
 	});
 };
 
+/**
+ * 정의 된 버튼 클릭 시
+ */
+ GamFcltyUsageHistInqireModule.prototype.onButtonClick = function(buttonId) {
+    switch(buttonId) {
+		case 'btnExcelDownload':
+			this.downloadExcel();
+		break;
+    }
+};
+
 GamFcltyUsageHistInqireModule.prototype.onSubmit = function() {
 	if(!validateGamFcltyUsageHistInqire(this.$('#gamFcltyUsageHistInqireSearchForm')[0])){ 		
 		return;
@@ -71,18 +82,15 @@ GamFcltyUsageHistInqireModule.prototype.loadData = function() {
     this.$("#gamFcltyUsageHistInqireListTab").tabs("option", {active: 0});
     var searchOpt=this.makeFormArgs('#gamFcltyUsageHistInqireSearchForm');
     this.$('#gamFcltyUsageHistInqireList').flexOptions({params:searchOpt}).flexReload();
-
 };
 
-/**
- * 정의 된 버튼 클릭 시
- */
- GamFcltyUsageHistInqireModule.prototype.onButtonClick = function(buttonId) {
-    switch(buttonId) {
-		case 'btnExcelDownload':
-			this.$('gamFcltyUsageHistInqireList').flexExcelDown('/fcltyMng/gamFcltyUsageHistInqireExcel.do');
-		break;
-    }
+GamFcltyUsageHistInqireModule.prototype.downloadExcel = function() {
+	var RowCount = this.$("#gamFcltyUsageHistInqireList").flexRowCount();
+	if (RowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	this.$('#gamFcltyUsageHistInqireList').flexExcelDown('/fcltyMng/gamFcltyUsageHistInqireExcel.do');
 };
 
 //다음 변수는 고정 적으로 정의 해야 함
@@ -151,7 +159,7 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 						<table style="width:100%;">
 	                        <tr>
 	                            <td style="text-align: right">
-	                            	<button id="btnExcelDownload">엑셀</button>
+	                            	<button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
 	                            </td>
 	                        </tr>
 						</table>

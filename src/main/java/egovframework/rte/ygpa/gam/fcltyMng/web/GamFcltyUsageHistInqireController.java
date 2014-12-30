@@ -120,7 +120,8 @@ public class GamFcltyUsageHistInqireController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/gamFcltyUsageHistInqireExcel.do", method=RequestMethod.POST)
-	@ResponseBody ModelAndView selectFcltyUsageHistInqireExcel(@RequestParam Map<String, Object> excelParam) throws Exception {
+	@ResponseBody ModelAndView gamExcelDownloadUsageHistInqire(@RequestParam Map<String, Object> excelParam) throws Exception {
+		
 		Map map = new HashMap();
 		List header;
 		ObjectMapper mapper = new ObjectMapper();
@@ -133,28 +134,20 @@ public class GamFcltyUsageHistInqireController {
     		return new ModelAndView("gridExcelView", "gridResultMap", map);
     	}
 
-    	// 환경설정
-    	/** EgovPropertyService */
-    	GamFcltyUsageHistInqireVO searchVO= new GamFcltyUsageHistInqireVO();
-
         header = mapper.readValue((String)excelParam.get("header"),
 			    new TypeReference<List<HashMap<String,String>>>(){});
-
         excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
-       // System.out.print("test *************************** : " + excelParam);
-		// 조회 조건
+        
+        GamFcltyUsageHistInqireVO searchVO= new GamFcltyUsageHistInqireVO();
 		searchVO = mapper.convertValue(excelParam, GamFcltyUsageHistInqireVO.class);
-
 		searchVO.setFirstIndex(0);
 		searchVO.setLastIndex(9999);
 		searchVO.setRecordCountPerPage(9999);
-
 		
-		//계약이력목록
-    	List usageHistInqireList = gamFcltyUsageHistInqireService.selectFcltyUsageHistInqireList(searchVO);
+    	List resultList = gamFcltyUsageHistInqireService.selectFcltyUsageHistInqireList(searchVO);
 		
-
-    	map.put("resultList", usageHistInqireList);
+    	map.put("resultCode", 0);
+    	map.put("resultList", resultList);
     	map.put("header", header);
 
     	return new ModelAndView("gridExcelView", "gridResultMap", map);
