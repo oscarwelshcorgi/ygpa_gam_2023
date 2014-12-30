@@ -81,8 +81,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectQcMngObjFcltsList.do',
 		dataType: 'json',
 		colModel : [
-					{display:"시설물관리번호",	name:"fcltsMngNo",	width:100,		sortable:true,		align:"center"},
-					{display:"시설물명",		name:"prtFcltyNm",	width:150,		sortable:true,		align:"left"},
+					{display:"시설물",		name:"prtFcltyNm",	width:150,		sortable:true,		align:"left"},
 					{display:"점검진단구분",	name:"qcInspSe",	width:90,		sortable:true,		align:"center"},
 					{display:"점검진단일자",	name:"qcInspDt",	width:100,		sortable:true,		align:"center"},
 					{display:"점검자",		name:"inspector",	width:100,		sortable:true,		align:"left"},
@@ -105,9 +104,8 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 		dataType: 'json',
 		colModel : [
 					{display:"순번",			name:"seq",				width:90,		sortable:true,		align:"center"},
-					{display:"점검항목코드",	name:"qcItemCd",		width:150,		sortable:true,		align:"center"},
-					{display:"점검항목명",		name:"qcItemNm",		width:250,		sortable:true,		align:"left"},
-					{display:"점검항목결과구분",	name:"inspResultChk",	width:120,		sortable:true,		align:"center"}
+					{display:"점검항목",		name:"qcItemNm",		width:300,		sortable:true,		align:"left"},
+					{display:"점검항목결과구분",	name:"inspResultChk",	width:150,		sortable:true,		align:"center"}
 			],
 		height: "300"
 	});
@@ -128,7 +126,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 					{display:"순번",		name:"atchFileSeq",			width:40,		sortable:true,		align:"center"},
 					{display:"구분",		name:"atchFileSeNm",		width:40,		sortable:true,		align:"center"},
 					{display:"제목",		name:"atchFileSj",			width:200,		sortable:true,		align:"left"},
-					{display:"논리파일명",	name:"atchFileNmLogic",		width:200,		sortable:true,		align:"left"},
+					{display:"파일명",	name:"atchFileNmLogic",		width:200,		sortable:true,		align:"left"},
 			],
 		height: "400"
 	});
@@ -323,12 +321,12 @@ GamFcltyQcwWrtMngModule.prototype.qcMngObjFcltsChanged = function(target) {
 
 //점검관리 결과항목 존재유무 체크
 GamFcltyQcwWrtMngModule.prototype.existQcMngFcltsItem = function(fcltsMngNo) {
-	var rows = this.$('#qcMngObjFcltsList').selectedRows();
-	alert('bbb');
+	var rows = this.$('#qcMngObjFcltsList').flexGetData();
 	var result = false;
 	if(rows.length > 0) {
+		var row = null;
 		for(var i=0; i<rows.length; i++) {
-			var row = rows[i];
+			row = rows[i];
 			if(row['fcltsMngNo'] == fcltsMngNo) {
 				result = true;
 				break;
@@ -456,7 +454,7 @@ GamFcltyQcwWrtMngModule.prototype.qcMngResultItemDataChanged = function(target) 
 
 //점검관리 결과항목 존재유무 체크
 GamFcltyQcwWrtMngModule.prototype.existQcMngResultItem = function(qcItemCd) {
-	var rows = this.$('#qcMngResultItemList').selectedRows();
+	var rows = this.$('#qcMngResultItemList').flexGetData();
 	var result = false;
 	if(rows.length > 0) {
 		for(var i=0; i<rows.length; i++) {
@@ -779,8 +777,7 @@ GamFcltyQcwWrtMngModule.prototype.onClosePopup = function(popupId, msg, value){
 			break;
 		//시설물 선택
 		case 'selectFcltsMngNo':
-			alert('aaa');
-			if(existQcMngFcltsItem(value['qcItemCd'])) {
+			if(this.existQcMngFcltsItem(value['fcltsMngNo'])) {
 				alert('시설물이 이미 존재합니다.');
 			} else {
 	        	this.$('#objMngFcltsMngNo').val(value['fcltsMngNo']);
@@ -790,8 +787,8 @@ GamFcltyQcwWrtMngModule.prototype.onClosePopup = function(popupId, msg, value){
     		break;
     	//점검항목선택
 		case 'selectQcItemCd':
-			if(existQcMngResultItem(value['qcItemCd'])) {
-				alert('점검항목이 이미 존재합니다.');
+			if(this.existQcMngResultItem(value['qcItemCd'])) {
+				alert('결과항목이 이미 존재합니다.');
 			} else {
 	        	this.$('#qcItemCd').val(value['qcItemCd']);
 	        	this.$('#qcItemNm').val(value['qcItemNm']);
@@ -999,9 +996,9 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 					<table class="searchPanel">
 						<tbody>
 							<tr>
-		                        <th>시설물관리번호</th>
+		                        <th>시설물</th>
 		                        <td>
-		                        	<input id="objMngFcltsMngNo" type="text" style="width: 150px;" maxlength="20" class="EditItem"/>
+		                        	<input id="objMngFcltsMngNo" type="hidden" class="EditItem"/>
 		                        	<input id="objMngPrtFcltyNm" type="text" style="width: 200px;" disabled="disabled" class="EditItem"/>
 		                        	<button id="popupSearchFcltsMngNo" class="popupButton">선택</button>
 		                    	</td>
@@ -1052,9 +1049,9 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 		                        <td><input id="qcMngResultItemSeq" type="text" style="width: 150px;" class="EditItem ygpaNumber"/></td>
 		                    </tr>
 							<tr>
-		                        <th>점검항목코드</th>
+		                        <th>점검항목</th>
 		                        <td>
-		                        	<input id="qcItemCd" type="text" style="width: 150px;" maxlength="20" class="EditItem"/>
+		                        	<input id="qcItemCd" type="hidden" class="EditItem"/>
 		                        	<input id="qcItemNm" type="text" style="width: 200px;" disabled="disabled" class="EditItem"/>
 		                        	<button id="popupSearchQcItemCd" class="popupButton">선택</button>
 		                        </td>							
