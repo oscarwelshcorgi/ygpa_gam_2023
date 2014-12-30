@@ -35,7 +35,6 @@ GamPopupFcltsMngNoModule.prototype.loadComplete = function() {
 		url: '/popup/selectFcltsMngNoInfoList.do',
 		dataType: "json",
 		colModel : [
-					{display:"시설물번호", 		name:"fcltsMngNo",   		width:150, sortable:true, align:"center"},
 					{display:"항만시설명",  	name:"prtFcltyNm", 			width:200, sortable:true, align:"left"},
 					{display:"항만시설규격",  	name:"prtFcltyStndrd", 		width:200, sortable:true, align:"center"},
 					{display:"항만시설단위",  	name:"prtFcltyUnit", 		width:150, sortable:true, align:"center"},
@@ -92,15 +91,9 @@ var popup_instance = new GamPopupFcltsMngNoModule();
 			<table class="searchPanel">
 				<tbody>
 					<tr>
-						<!-- 코드로 검색하는 부분 제거 14.12.30 
-                        <th>시설물관리번호</th>
-                        <td>
-                        	<input id="sFcltsMngNo" type="text" size="14" maxlength="14" />
-                        </td>
-                        -->
-						<th>시설명</th>
+						<th width="10%">시설명</th>
                         <td><input id="sPrtFcltyNm" type="text" size="20" /></td>
-						<td><button id="btnSearch">조회</button></td>
+						<td width="10%"><button id="btnSearch">조회</button></td>
 					</tr>
 				</tbody>
 			</table>

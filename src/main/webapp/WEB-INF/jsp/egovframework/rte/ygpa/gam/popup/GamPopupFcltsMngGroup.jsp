@@ -35,7 +35,6 @@ GamPopupFcltsMngGroupModule.prototype.loadComplete = function() {
 		url: '/popup/selectFcltsMngGroupInfoList.do',
 		dataType: "json",
 		colModel : [
-					//{display:"관리 그룹 번호",	name:"fcltsMngGroupNo",		width:100,		sortable:true,	align:"center"},
 					{display:"관리그룹",		name:"fcltsMngGroupNm",		width:200,		sortable:true,	align:"left"},
 					{display:"시설물 내용",		name:"fcltsCn",				width:200,		sortable:true,	align:"left"},
 					{display:"시설물 구조",		name:"fcltsStrct",			width:200,		sortable:true,	align:"left"},
@@ -103,12 +102,6 @@ var popup_instance = new GamPopupFcltsMngGroupModule();
 			<table class="searchPanel">
 				<tbody>
 					<tr>
-						<!-- 코드로 검색하는 부분 제거 14.12.30
-                        <th>시설물 관리 그룹번호</th>
-                        <td>
-                        	<input id="sFcltsMngGroupNo" type="text" size="14" maxlength="14" />
-                        </td>
-                        -->
 						<th width="10%">시설물 관리 그룹명</th>
                         <td><input id="sFcltsMngGroupNm" type="text" size="20" /></td>
 						<td width="10%"><button id="btnSearch">조회</button></td>
