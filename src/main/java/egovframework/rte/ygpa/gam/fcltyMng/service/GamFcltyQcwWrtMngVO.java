@@ -40,11 +40,11 @@ public class GamFcltyQcwWrtMngVO extends ComDefaultVO {
 	/**점검관리순번(조회조건)*/
 	private String sQcMngSeq;
 	
-	/**점검시작일(조회조건)*/
-	private String sQcBeginDt;
+	/**시행시작일(조회조건)*/
+	private String sQcInspDtFr;
 	
-	/**점검종료일(조회조건)*/
-	private String sQcEndDt;
+	/**시행종료일(조회조건)*/
+	private String sQcInspDtTo;
 
 	/**
 	 * @return the sFcltsJobSe
@@ -117,32 +117,31 @@ public class GamFcltyQcwWrtMngVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the sQcBeginDt
+	 * @return the sQcInspDtFr
 	 */
-	public String getsQcBeginDt() {
-		return sQcBeginDt;
+	public String getsQcInspDtFr() {
+		return sQcInspDtFr;
 	}
 
 	/**
-	 * @param sQcBeginDt the sQcBeginDt to set
+	 * @param sQcInspDtFr the sQcInspDtFr to set
 	 */
-	public void setsQcBeginDt(String sQcBeginDt) {
-		this.sQcBeginDt = sQcBeginDt;
+	public void setsQcInspDtFr(String sQcInspDtFr) {
+		this.sQcInspDtFr = sQcInspDtFr;
 	}
 
 	/**
-	 * @return the sQcEndDt
+	 * @return the sQcInspDtTo
 	 */
-	public String getsQcEndDt() {
-		return sQcEndDt;
+	public String getsQcInspDtTo() {
+		return sQcInspDtTo;
 	}
 
 	/**
-	 * @param sQcEndDt the sQcEndDt to set
+	 * @param sQcInspDtTo the sQcInspDtTo to set
 	 */
-	public void setsQcEndDt(String sQcEndDt) {
-		this.sQcEndDt = sQcEndDt;
+	public void setsQcInspDtTo(String sQcInspDtTo) {
+		this.sQcInspDtTo = sQcInspDtTo;
 	}
 
-	
 }

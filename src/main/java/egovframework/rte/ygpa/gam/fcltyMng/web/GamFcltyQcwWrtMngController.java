@@ -301,7 +301,6 @@ public class GamFcltyQcwWrtMngController {
     	insertMap.put("regUsr", user.getId());
     	
     	try {
-    		insertMap.put("qcMngSeq", gamFcltyQcwWrtMngService.selectNextQcMngSeq(insertMap));
     		gamFcltyQcwWrtMngService.insertQcMngDtls(insertMap);
     		
     		map.put("resultCode", 0);			// return ok

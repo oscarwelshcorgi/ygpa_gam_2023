@@ -14,22 +14,26 @@
                 	FROM (
 						SELECT
 							Q.FCLTS_MNG_GROUP_NO
+							, (SELECT A.FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F A WHERE A.FCLTS_MNG_GROUP_NO = Q.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GROUP_NM 
 							, Q.FCLTS_JOB_SE
+    						, GAM_GET_FCLTS_JOB_SE_NM(Q.FCLTS_JOB_SE) AS FCLTS_JOB_SE_NM
 							, TO_CHAR(Q.QC_MNG_SEQ) QC_MNG_SEQ
-							, Q.ENFORCE_YEAR
 							, Q.QC_MNG_NM
+							, Q.ENFORCE_YEAR
 							, TO_CHAR(Q.QC_INSP_DT, 'YYYY-MM-DD') QC_INSP_DT
+							, Q.QC_SE
+							, GAM_GET_QC_SE_NM(Q.QC_SE) QC_SE_NM
+                            , Q.QC_INSP_TP
+                            , GAM_GET_QC_INSP_TP_NM(Q.QC_INSP_TP) QC_INSP_TP_NM
 							, Q.QC_INSP_SE
+							, GAM_GET_QC_INSP_SE_NM(Q.QC_INSP_SE) QC_INSP_SE_NM
 							, Q.QC_INSP_INSTT_NM
 							, Q.RESPON_ENGINEER_NM
 							, TO_CHAR(Q.QC_BEGIN_DT, 'YYYY-MM-DD') QC_BEGIN_DT
 							, TO_CHAR(Q.QC_END_DT, 'YYYY-MM-DD') QC_END_DT
-							, Q.QC_INSP_BDGT
 							, Q.QC_INSP_AMT
 							, Q.STTUS_EVL_LVL
-							, Q.QC_INSP_RESULT
-							, Q.ACTION_CN
-							, Q.ACTION_SE
+							, GAM_GET_STTUS_EVL_LVL_NM(Q.STTUS_EVL_LVL) STTUS_EVL_LVL_NM
 							, Q.RM
 						FROM
 							QC_MNG_DTLS_F Q
@@ -44,11 +48,11 @@
 						<isNotEmpty property="sQcInspSe">
 						  	AND Q.QC_INSP_SE = #sQcInspSe#
 						</isNotEmpty>
-						<isNotEmpty property="sQcBeginDt">
-						  	<![CDATA[ AND Q.QC_BEGIN_DT >= TO_DATE(#sQcBeginDt#, 'YYYY-MM-DD') ]]>
+						<isNotEmpty property="sQcInspDtFr">
+						  	<![CDATA[ AND Q.QC_INSP_DT >= TO_DATE(#sQcInspDtFr#, 'YYYY-MM-DD') ]]>
 						</isNotEmpty>
-						<isNotEmpty property="sQcEndDt">
-						  	<![CDATA[ AND Q.QC_END_DT <= TO_DATE(#sQcEndDt#, 'YYYY-MM-DD') ]]>
+						<isNotEmpty property="sQcInspDtTo">
+						  	<![CDATA[ AND Q.QC_INSP_DT <= TO_DATE(#sQcInspDtTo#, 'YYYY-MM-DD') ]]>
 						</isNotEmpty>
 						ORDER BY
 							Q.FCLTS_MNG_GROUP_NO
@@ -75,33 +79,34 @@
 		<isNotEmpty property="sQcInspSe">
 		  	AND Q.QC_INSP_SE = #sQcInspSe#
 		</isNotEmpty>
-		<isNotEmpty property="sQcBeginDt">
-		  	<![CDATA[ AND Q.QC_BEGIN_DT >= TO_DATE(#sQcBeginDt#, 'YYYY-MM-DD') ]]>
+		<isNotEmpty property="sQcInspDtFr">
+		  	<![CDATA[ AND Q.QC_INSP_DT >= TO_DATE(#sQcInspDtFr#, 'YYYY-MM-DD') ]]>
 		</isNotEmpty>
-		<isNotEmpty property="sQcEndDt">
-		  	<![CDATA[ AND Q.QC_END_DT <= TO_DATE(#sQcEndDt#, 'YYYY-MM-DD') ]]>
+		<isNotEmpty property="sQcInspDtTo">
+		  	<![CDATA[ AND Q.QC_INSP_DT <= TO_DATE(#sQcInspDtTo#, 'YYYY-MM-DD') ]]>
 		</isNotEmpty>
 	</select>
 
 	<select id="gamFcltyQcwWrtMngDao.selectQcMngDtlsDetail_S" parameterClass="hashMap" resultClass="egovMap">
 		SELECT
 			Q.FCLTS_MNG_GROUP_NO
+			, (SELECT FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F WHERE FCLTS_MNG_GROUP_NO = Q.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GROUP_NM
 			, Q.FCLTS_JOB_SE
 			, TO_CHAR(Q.QC_MNG_SEQ) QC_MNG_SEQ
-			, Q.ENFORCE_YEAR
 			, Q.QC_MNG_NM
+			, Q.ENFORCE_YEAR
 			, TO_CHAR(Q.QC_INSP_DT, 'YYYY-MM-DD') QC_INSP_DT
+			, Q.QC_SE
+			, Q.QC_INSP_TP
 			, Q.QC_INSP_SE
 			, Q.QC_INSP_INSTT_NM
 			, Q.RESPON_ENGINEER_NM
 			, TO_CHAR(Q.QC_BEGIN_DT, 'YYYY-MM-DD') QC_BEGIN_DT
 			, TO_CHAR(Q.QC_END_DT, 'YYYY-MM-DD') QC_END_DT
-			, Q.QC_INSP_BDGT
 			, Q.QC_INSP_AMT
 			, Q.STTUS_EVL_LVL
 			, Q.QC_INSP_RESULT
 			, Q.ACTION_CN
-			, Q.ACTION_SE
 			, Q.RM
 		FROM
 			QC_MNG_DTLS_F Q
@@ -111,17 +116,16 @@
 			AND Q.QC_MNG_SEQ = TO_NUMBER(#sQcMngSeq#)
 	</select>
 	
-	<select id="gamFcltyQcwWrtMngDao.selectNextQcMngSeq" resultClass="String">
-	   	SELECT
-			TO_CHAR(NVL(MAX(QC_MNG_SEQ),0) + 1)
-		FROM
-			QC_MNG_DTLS_F
-		WHERE 
-			FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo# 
-			AND FCLTS_JOB_SE = #fcltsJobSe#
-	</select>
-	
 	<insert id="gamFcltyQcwWrtMngDao.insertQcMngDtls_S">
+    	<selectKey keyProperty="maxQcMngSeq" resultClass="String">
+		   	SELECT
+				TO_CHAR(NVL(MAX(QC_MNG_SEQ),0) + 1)
+			FROM
+				QC_MNG_DTLS_F
+			WHERE 
+				FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo# 
+				AND FCLTS_JOB_SE = #fcltsJobSe#
+    	</selectKey>	
 		INSERT INTO
 			QC_MNG_DTLS_F (
 				FCLTS_MNG_GROUP_NO
@@ -130,38 +134,38 @@
 				, ENFORCE_YEAR
 				, QC_MNG_NM
 				, QC_INSP_DT
+				, QC_SE
+				, QC_INSP_TP
 				, QC_INSP_SE
 				, QC_INSP_INSTT_NM
 				, RESPON_ENGINEER_NM
 				, QC_BEGIN_DT
 				, QC_END_DT
-				, QC_INSP_BDGT
 				, QC_INSP_AMT
 				, STTUS_EVL_LVL
 				, QC_INSP_RESULT
 				, ACTION_CN
-				, ACTION_SE
 				, RM
 				, REG_USR
 				, REGIST_DT		
 			) VALUES (
 				#fcltsMngGroupNo#
 				, #fcltsJobSe#
-				, TO_NUMBER(#qcMngSeq#)
+				, TO_NUMBER(#maxQcMngSeq#)
 				, #enforceYear#
 				, #qcMngNm#
 				, TO_DATE(#qcInspDt#, 'YYYY-MM-DD')
+				, #qcSe#
+				, #qcInspTp#
 				, #qcInspSe#
 				, #qcInspInsttNm#
 				, #responEngineerNm#
 				, TO_DATE(#qcBeginDt#, 'YYYY-MM-DD')
 				, TO_DATE(#qcEndDt#, 'YYYY-MM-DD')
-				, TO_NUMBER(REPLACE(#qcInspBdgt#, ',', ''))
 				, TO_NUMBER(REPLACE(#qcInspAmt#, ',', ''))
 				, #sttusEvlLvl#
 				, #qcInspResult#
 				, #actionCn#
-				, #actionSe#
 				, #rm#
 				, #regUsr#
 				, SYSDATE
@@ -175,17 +179,17 @@
 			ENFORCE_YEAR = #enforceYear#
 			, QC_MNG_NM = #qcMngNm#
 			, QC_INSP_DT = TO_DATE(#qcInspDt#, 'YYYY-MM-DD')
+			, QC_SE = #qcSe#
+			, QC_INSP_TP = #qcInspTp#
 			, QC_INSP_SE = #qcInspSe#
 			, QC_INSP_INSTT_NM = #qcInspInsttNm#
 			, RESPON_ENGINEER_NM = #responEngineerNm#
 			, QC_BEGIN_DT = TO_DATE(#qcBeginDt#, 'YYYY-MM-DD')
 			, QC_END_DT = TO_DATE(#qcEndDt#, 'YYYY-MM-DD')
-			, QC_INSP_BDGT = TO_NUMBER(REPLACE(#qcInspBdgt#, ',', ''))
 			, QC_INSP_AMT = TO_NUMBER(REPLACE(#qcInspAmt#, ',', ''))
 			, STTUS_EVL_LVL = #sttusEvlLvl#
 			, QC_INSP_RESULT = #qcInspResult#
 			, ACTION_CN = #actionCn#
-			, ACTION_SE = #actionSe#
 			, RM = #rm#
 			, UPD_USR = #updUsr#
 			, UPDT_DT = SYSDATE
@@ -216,7 +220,8 @@
 							, O.QC_MNG_SEQ
 							, O.FCLTS_MNG_NO
 							, (SELECT PRT_FCLTY_NM FROM GIS_PRT_FCLTY_CD_F WHERE FCLTS_MNG_NO = O.FCLTS_MNG_NO) PRT_FCLTY_NM  
-							, O.QC_INSP_SE
+							, O.STTUS_EVL_LVL
+							, GAM_GET_STTUS_EVL_LVL_NM(O.STTUS_EVL_LVL) STTUS_EVL_LVL_NM
 							, TO_CHAR(O.QC_INSP_DT, 'YYYY-MM-DD') QC_INSP_DT
 							, O.INSPECTOR
 							, O.QC_INSP_RESULT
@@ -252,7 +257,7 @@
 				, FCLTS_JOB_SE
 				, QC_MNG_SEQ
 				, FCLTS_MNG_NO
-				, QC_INSP_SE
+				, STTUS_EVL_LVL
 				, QC_INSP_DT
 				, INSPECTOR
 				, QC_INSP_RESULT
@@ -265,7 +270,7 @@
 				, #fcltsJobSe#
 				, TO_NUMBER(#qcMngSeq#)
 				, #fcltsMngNo#
-				, #qcInspSe#
+				, #sttusEvlLvl#
 				, TO_DATE(#qcInspDt#, 'YYYY-MM-DD')
 				, #inspector#
 				, #qcInspResult#
@@ -279,7 +284,7 @@
 		UPDATE
 			QC_MNG_OBJ_FCLTS_F
 		SET
-			QC_INSP_SE = #qcInspSe#
+			STTUS_EVL_LVL = #sttusEvlLvl#
 			, QC_INSP_DT = TO_DATE(#qcInspDt#, 'YYYY-MM-DD')
 			, QC_INSP_RESULT = #qcInspResult#
 			, INSPECTOR = #inspector#		
@@ -385,7 +390,7 @@
 				#fcltsMngGroupNo#
 				, #fcltsJobSe#
 				, TO_NUMBER(#qcMngSeq#)
-				, #maxAtchFileSeq#
+				, TO_NUMBER(#maxAtchFileSeq#)
 				, #atchFileSe#
 				, #atchFileSj#
 				, #atchFileNmLogic#
@@ -448,6 +453,7 @@
 							, (SELECT QC_ITEM_NM FROM QC_ITEM_CD_F WHERE QC_ITEM_CD = R.QC_ITEM_CD) QC_ITEM_NM
 							, R.SEQ
 							, R.INSP_RESULT_CHK
+							, GAM_GET_INSP_RESULT_CHK_NM(R.INSP_RESULT_CHK) INSP_RESULT_CHK_NM
 							, R.INSP_RESULT_CN
 						FROM
 							QC_MNG_RESULT_ITEM_F R
@@ -522,7 +528,6 @@
 			AND FCLTS_JOB_SE = #fcltsJobSe#
 			AND QC_MNG_SEQ = TO_NUMBER(#qcMngSeq#)
 			AND QC_ITEM_CD = #qcItemCd#
-			AND SEQ = TO_NUMBER(#seq#)
 	</update>
 	
 	<delete id="gamFcltyQcwWrtMngDao.deleteQcMngResultItem_S">
@@ -533,7 +538,6 @@
 			AND FCLTS_JOB_SE = #fcltsJobSe#
 			AND QC_MNG_SEQ = TO_NUMBER(#qcMngSeq#)
 			AND QC_ITEM_CD = #qcItemCd#
-			AND SEQ = TO_NUMBER(#seq#)
 	</delete>
 
 	<delete id="gamFcltyQcwWrtMngDao.deleteQcMngResultItemList_S">

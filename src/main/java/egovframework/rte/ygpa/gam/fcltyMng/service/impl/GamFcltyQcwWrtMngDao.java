@@ -62,16 +62,6 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 현재 +1 점검관리순번 조회 
-	 * @param vo
-	 * @return String
-	 * @throws Exception
-	 */		
-	public String selectNextQcMngSeq(Map<?, ?> vo) throws Exception {
-		return (String)getSqlMapClientTemplate().queryForObject("gamFcltyQcwWrtMngDao.selectNextQcMngSeq", vo);
-	}
-	
-	/**
 	 * 점검관리내역 데이터 삽입
 	 * @param vo
 	 * @return 

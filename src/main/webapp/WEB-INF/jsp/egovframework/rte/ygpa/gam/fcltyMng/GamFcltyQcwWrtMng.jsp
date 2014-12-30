@@ -43,21 +43,21 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectQcMngDtlsList.do',
 		dataType: "json",
 		colModel : [
-					{display:"관리그룹번호",	name:"fcltsMngGroupNo",		width:100,		sortable:false,		align:"center"},
-					{display:"업무구분",		name:"fcltsJobSe",			width:60,		sortable:false,		align:"center"},
+					{display:"관리그룹",		name:"fcltsMngGroupNm",		width:150,		sortable:false,		align:"center"},
+					{display:"업무구분",		name:"fcltsJobSeNm",		width:90,		sortable:false,		align:"center"},
 					{display:"점검관리순번",	name:"qcMngSeq",			width:90,		sortable:false,		align:"center"},
-					{display:"점검관리명", 	    name:"qcMngNm",				width:120,		sortable:false,		align:"left"},
+					{display:"점검관리명", 	    name:"qcMngNm",				width:200,		sortable:false,		align:"left"},
 					{display:"시행년도",		name:"enforceYear",			width:60,		sortable:false,		align:"center"},
+					{display:"점검구분",    	name:"qcSeNm",				width:90,		sortable:false,		align:"center"},
+					{display:"점검진단자",    	name:"qcInspTpNm",			width:90,		sortable:false,		align:"center"},
+					{display:"점검진단일자",	name:"qcInspDt",			width:90,		sortable:false,		align:"center"},
+					{display:"점검진단구분",    name:"qcInspSeNm",			width:120,		sortable:false,		align:"center"},
+					{display:"상태평가등급",	name:"sttusEvlLvlNm",		width:90,		sortable:false,		align:"center"},
+					{display:"점검진단금액",	name:"qcInspAmt",			width:120,		sortable:false,		align:"right",	displayFormat: 'number'},
 					{display:"점검시작일자",    name:"qcBeginDt",			width:90,		sortable:false,		align:"center"},
 					{display:"점검종료일자",	name:"qcEndDt",				width:90,		sortable:false,		align:"center"},
-					{display:"점검진단구분",    name:"qcInspSe",			width:90,		sortable:false,		align:"center"},
-					{display:"점검진단일자",	name:"qcInspDt",			width:120,		sortable:false,		align:"center"},
-					{display:"점검진단기관명",	name:"qcInspInsttNm",		width:120,		sortable:false,		align:"left"},
-					{display:"책임기술자명",	name:"responEngineerNm",	width:120,		sortable:false,		align:"left"},
-					{display:"점검진단예산",	name:"qcInspBdgt",			width:90,		sortable:false,		align:"right",	displayFormat: 'number'},
-					{display:"점검진단금액",	name:"qcInspAmt",			width:90,		sortable:false,		align:"right",	displayFormat: 'number'},
-					{display:"상태평가등급",	name:"sttusEvlLvl",			width:90,		sortable:false,		align:"center"},
-					{display:"조치구분",		name:"actionSe",			width:60,		sortable:false,		align:"center"}
+					{display:"점검진단기관명",	name:"qcInspInsttNm",		width:150,		sortable:false,		align:"left"},
+					{display:"책임기술자명",	name:"responEngineerNm",	width:150,		sortable:false,		align:"left"},
 			],
 		height: "auto"
 	});
@@ -81,11 +81,11 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectQcMngObjFcltsList.do',
 		dataType: 'json',
 		colModel : [
-					{display:"시설물",		name:"prtFcltyNm",	width:150,		sortable:true,		align:"left"},
-					{display:"점검진단구분",	name:"qcInspSe",	width:90,		sortable:true,		align:"center"},
-					{display:"점검진단일자",	name:"qcInspDt",	width:100,		sortable:true,		align:"center"},
-					{display:"점검자",		name:"inspector",	width:100,		sortable:true,		align:"left"},
-					{display:"비고",			name:"rm",			width:350,		sortable:true,		align:"left"}
+					{display:"시설물",		name:"prtFcltyNm",		width:150,		sortable:true,		align:"left"},
+					{display:"상태평가등급",	name:"sttusEvlLvlNm",	width:90,		sortable:true,		align:"center"},
+					{display:"점검자",		name:"inspector",		width:100,		sortable:true,		align:"left"},
+					{display:"점검진단일자",	name:"qcInspDt",		width:100,		sortable:true,		align:"center"},
+					{display:"비고",			name:"rm",				width:350,		sortable:true,		align:"left"}
 			],
 		height: "300"
 	});
@@ -105,7 +105,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 		colModel : [
 					{display:"순번",			name:"seq",				width:90,		sortable:true,		align:"center"},
 					{display:"점검항목",		name:"qcItemNm",		width:300,		sortable:true,		align:"left"},
-					{display:"점검항목결과구분",	name:"inspResultChk",	width:150,		sortable:true,		align:"center"}
+					{display:"점검항목결과구분",	name:"inspResultChkNm",	width:150,		sortable:true,		align:"center"}
 			],
 		height: "300"
 	});
@@ -290,8 +290,9 @@ GamFcltyQcwWrtMngModule.prototype.qcMngObjFcltsChanged = function(target) {
 			row['prtFcltyNm'] = $(target).val();
 			changed=true;
 		}
-		if(this.$('#objMngQcInspSe').is(target)) {
-			row['qcInspSe'] = $(target).val();
+		if(this.$('#objMngSttusEvlLvl').is(target)) {
+			row['sttusEvlLvl'] = $(target).val();
+			row['sttusEvlLvlNm'] = $(target).find('option:selected').text();
 			changed=true;
 		}
 		if(this.$('#objMngQcInspDt').is(target)) {
@@ -344,7 +345,7 @@ GamFcltyQcwWrtMngModule.prototype.selectQcMngFcltsItem = function() {
 		this.$("#gamQcMngObjFcltsForm :input").val('');
 		this.$("#objMngFcltsMngNo").val(row["fcltsMngNo"]); //row의 col명과 form의 id가 달라서 직접대입.
 		this.$("#objMngPrtFcltyNm").val(row["prtFcltyNm"]);
-		this.$("#objMngQcInspSe").val(row["qcInspSe"]);
+		this.$("#objMngSttusEvlLvl").val(row["sttusEvlLvl"]);
 		this.$("#objMngQcInspDt").val(row["qcInspDt"]);
 		this.$("#objMngInspector").val(row["inspector"]);
 		this.$("#objMngRm").val(row["rm"]);
@@ -361,7 +362,7 @@ GamFcltyQcwWrtMngModule.prototype.selectQcMngFcltsItem = function() {
 GamFcltyQcwWrtMngModule.prototype.addQcMngObjFcltsItem = function() {
 	this.$("#popupSearchFcltsMngNo").show();
 	this.$('#gamQcMngObjFcltsForm :input').val('');
-	this.$("#qcMngObjFcltsList").flexAddRow({'_updtId': 'I', 'fcltsMngGroupNo':'', 'fcltsJobSe':'', 'qcMngSeq':'', 'fcltsMngNo':'', 'qcInspSe':'', 'qcInspDt':'', 'inspector':'', 'qcInspResult':'', 'rm':''});
+	this.$("#qcMngObjFcltsList").flexAddRow({'_updtId': 'I', 'fcltsMngGroupNo':'', 'fcltsJobSe':'', 'qcMngSeq':'', 'fcltsMngNo':'', 'sttusEvlLvl':'', 'sttusEvlLvlNm':'', 'qcInspDt':'', 'inspector':'', 'qcInspResult':'', 'rm':''});
 	var allRows = this.$('#qcMngObjFcltsList').flexGetData();
 	var selRowId = allRows.length - 1;
 	this.$("#qcMngObjFcltsList").selectRowId(selRowId);	
@@ -409,6 +410,7 @@ GamFcltyQcwWrtMngModule.prototype.saveQcMngObjFclts = function() {
 		           		{name: 'sQcMngSeq', value: module.$("#qcMngSeq").val() }
 			           ];
 			module.$("#qcMngObjFcltsList").flexOptions({params:opts}).flexReload();
+			module.$('#gamQcMngObjFcltsForm :input').val('');
         }
         else {
         	alert(result.resultMsg);
@@ -423,10 +425,6 @@ GamFcltyQcwWrtMngModule.prototype.qcMngResultItemDataChanged = function(target) 
 	var selectRow = this.$('#qcMngResultItemList').selectedRows();
 	if(selectRow.length > 0) {
 		row=selectRow[0];
-		if(this.$('#qcMngResultItemSeq').is(target)) {
-			row['seq'] = $(target).val();
-			changed=true;
-		}
 		if(this.$('#qcItemCd').is(target)) {
 			row['qcItemCd'] = $(target).val();
 			changed=true;
@@ -437,6 +435,7 @@ GamFcltyQcwWrtMngModule.prototype.qcMngResultItemDataChanged = function(target) 
 		}
 		if(this.$('#inspResultChk').is(target)) {
 			row['inspResultChk'] = $(target).val();
+			row['inspResultChkNm'] = $(target).find('option:selected').text();
 			changed=true;
 		}
 		if(this.$('#inspResultCn').is(target)) {
@@ -475,7 +474,6 @@ GamFcltyQcwWrtMngModule.prototype.selectQcMngResultItem = function() {
 		var row = rows[0];
 		this.$("#gamQcMngResultItemForm :input").val('');
 		this.makeFormValues("#gamQcMngResultItemForm", row);
-		this.$("#qcMngResultItemSeq").val(row["seq"]);
 		if(row['_updtId'] == 'I') {
 			this.$("#popupSearchQcItemCd").show();
 		} else {
@@ -488,7 +486,7 @@ GamFcltyQcwWrtMngModule.prototype.selectQcMngResultItem = function() {
 GamFcltyQcwWrtMngModule.prototype.addQcMngResultItem = function() {
 	this.$("#popupSearchQcItemCd").show();
 	this.$('#gamQcMngResultItemForm :input').val('');
-	this.$("#qcMngResultItemList").flexAddRow({'_updtId': 'I', 'fcltsMngGroupNo':'', 'fcltsJobSe':'', 'qcMngSeq':'', 'qcItemCd':'', 'seq':'', 'inspResultChk':'', 'inspResultCn':''});
+	this.$("#qcMngResultItemList").flexAddRow({'_updtId': 'I', 'fcltsMngGroupNo':'', 'fcltsJobSe':'', 'qcMngSeq':'', 'qcItemCd':'', 'seq':'', 'inspResultChk':'', 'inspResultChkNm':'', 'inspResultCn':''});
 	var allRows = this.$('#qcMngResultItemList').flexGetData();
 	var selRowId = allRows.length - 1;
 	this.$("#qcMngResultItemList").selectRowId(selRowId);	
@@ -536,6 +534,7 @@ GamFcltyQcwWrtMngModule.prototype.saveQcMngResultItem = function() {
 		           		{name: 'sQcMngSeq', value: module.$("#qcMngSeq").val() }
 			           ];
 			module.$("#qcMngResultItemList").flexOptions({params:opts}).flexReload();
+			module.$('#gamQcMngResultItemForm :input').val('');
         }
         else {
         	alert(result.resultMsg);
@@ -593,6 +592,7 @@ GamFcltyQcwWrtMngModule.prototype.saveAtchFile = function() {
 		           		{name: 'sQcMngSeq', value: module.$("#qcMngSeq").val() }
 			           ];
 			module.$("#qcMngAtchFileList").flexOptions({params:opts}).flexReload();
+			module.$('#qcMngAtchFileForm :input').val('');
         }
         else {
         	alert(result.resultMsg);
@@ -773,7 +773,7 @@ GamFcltyQcwWrtMngModule.prototype.onClosePopup = function(popupId, msg, value){
 		//시설물 관리 그룹
 		case "selectFcltsMngGroup":
 			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
-			this.$("#fcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
+			this.$("#fcltsMngGroupNm").val(value["fcltsMngGroupNm"]);
 			break;
 		//시설물 선택
 		case 'selectFcltsMngNo':
@@ -818,11 +818,11 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							<td>
 								<select id="sFcltsJobSe">
 									<option value="">선택</option>
-									<option value="E">전기시설물</option>
-									<option value="M">기계시설물</option>
-									<option value="C">토목시설물</option>
-									<option value="A">건축시설물</option>
-									<option value="I">정보통신시설물</option>
+									<option value="E">전기시설</option>
+									<option value="M">기계시설</option>
+									<option value="C">토목시설</option>
+									<option value="A">건축시설</option>
+									<option value="I">정보통신시설</option>
 								</select>
 							</td>
 							<th>점검관리명</th>
@@ -833,17 +833,22 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							<th>점검진단구분</th>
 							<td>
 								<select id="sQcInspSe">
-									<option value="">선택</option>
-									<option value="E">전기시설물</option>
-									<option value="M">기계시설물</option>
-									<option value="C">토목시설물</option>
-									<option value="A">건축시설물</option>
-									<option value="I">정보통신시설물</option>
+                                    <option value="">선택</option>
+                                    <option value="1">정기점검</option>
+                                    <option value="2">정밀점검</option>
+                                    <option value="3">초기점검</option>
+                                    <option value="4">긴급점검(손상)</option>
+                                    <option value="5">긴급점검(특별)</option>
+                                    <option value="6">정밀안전점검(정기)</option>
+                                    <option value="7">정밀안전점검(긴급)</option>
+                                    <option value="8">정밀안전점검(하자)</option>
+                                    <option value="9">기타</option>
 								</select>
 							</td>
-							<th>점검기간</th>
+							<th>시행기간</th>
 							<td>
-								<input id="sQcBeginDt" type="text" class="emdcal" size="15" /> ~ <input id="sQcEndDt" type="text" class="emdcal" size="15" />
+								<input id="sQcInspDtFr" type="text" class="emdcal" size="15" /> ~ 
+								<input id="sQcInspDtTo" type="text" class="emdcal" size="15" />
 							</td>
 						</tr>
 					</tbody>
@@ -879,7 +884,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 						<tr>
 							<th width="12%" height="17">시설물관리그룹</th>
 							<td colspan="3">
-								<input type="text" size="14" id="fcltsMngGroupNo" maxlength="14" />
+								<input type="hidden" id="fcltsMngGroupNo"/>
 								<input type="text" size="40" id="fcltsMngGroupNm" disabled="disabled"/>
 								<button id="popupSearchFcltsMngGroup" class="popupButton">선택</button>
 							</td>
@@ -893,16 +898,16 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							<td>
 								<select id="fcltsJobSe">
 									<option value="">선택</option>
-									<option value="E">전기시설물</option>
-									<option value="M">기계시설물</option>
-									<option value="C">토목시설물</option>
-									<option value="A">건축시설물</option>
-									<option value="I">정보통신시설물</option>
+									<option value="A">건축시설</option>
+									<option value="C">토목시설</option>
+									<option value="E">전기시설</option>
+									<option value="I">정보통신시설</option>
+									<option value="M">기계시설</option>
                                 </select>
 							</td>
 							<th width="12%" height="17">점검관리명</th>
 							<td colspan="3">
-								<input type="text" size="60" id="qcMngNm" maxlength="200" />
+								<input type="text" size="78" id="qcMngNm" maxlength="200" />
 							</td>
 						</tr>
 						<tr>
@@ -910,35 +915,46 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							<td>
 								<!-- 년도 자동 주입 -->
 								<select id="enforceYear">
+									<option value="">선택</option>
                                 </select>
 							</td>
-							<th width="12%" height="17">점검진단일자</th>
+							<th width="12%" height="17">점검구분</th>
+							<td>
+								<select id="qcSe">
+                                    <option value="">선택</option>
+                                    <option value="1">해빙기대비</option>
+                                    <option value="2">풍수해대비</option>
+                                    <option value="3">동절기대비</option>
+                                    <option value="4">우기대비</option>
+                                </select>
+							</td>
+							<th width="12%" height="17">시행일자</th>
 							<td><input id="qcInspDt" type="text" class="emdcal" size="20"/></td>
-							<th width="12%" height="17">점검진단기관명</th>
-							<td><input type="text" size="30" id="qcInspInsttNm" maxlength="60" /></td>
 						</tr>
 						<tr>
+							<th width="12%" height="17">점검진단자</th>
+							<td>
+								<select id="qcInspTp">
+                                    <option value="">선택</option>
+                                    <option value="1">자체점검</option>
+                                    <option value="2">용역점검</option>
+                                </select>
+							</td>
 							<th width="12%" height="17">점검진단구분</th>
 							<td>
 								<select id="qcInspSe">
                                     <option value="">선택</option>
-                                    <option value="A">1선택</option>
-                                    <option value="B">2선택</option>
-                                    <option value="C">3선택</option>
-                                    <option value="D">4선택</option>
-                                    <option value="E">5선택</option>
+                                    <option value="1">정기점검</option>
+                                    <option value="2">정밀점검</option>
+                                    <option value="3">초기점검</option>
+                                    <option value="4">긴급점검(손상)</option>
+                                    <option value="5">긴급점검(특별)</option>
+                                    <option value="6">정밀안전점검(정기)</option>
+                                    <option value="7">정밀안전점검(긴급)</option>
+                                    <option value="8">정밀안전점검(하자)</option>
+                                    <option value="9">기타</option>
                                 </select>
 							</td>
-							<th width="12%" height="17">점검시작일자</th>
-							<td><input id="qcBeginDt" type="text" class="emdcal" size="20"/></td>
-							<th width="12%" height="17">점검종료일자</th>
-							<td><input id="qcEndDt" type="text" class="emdcal" size="20"/></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17">책임기술자명</th>
-							<td><input type="text" size="30" id="responEngineerNm" maxlength="60" /></td>
-							<th width="12%" height="17">점검진단예산</th>
-							<td><input id="qcInspBdgt" type="text" size="20" class="ygpaNumber"/></td>
 							<th width="12%" height="17">점검진단금액</th>
 							<td><input id="qcInspAmt" type="text" size="20" class="ygpaNumber"/></td>
 						</tr>
@@ -947,34 +963,38 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							<td colspan="5">
 								<select id="sttusEvlLvl">
                                     <option value="">선택</option>
-                                    <option value="A">A등급</option>
-                                    <option value="B">B등급</option>
-                                    <option value="C">C등급</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                    <option value="E">E</option>
+                                    <option value="Z">불명</option>
                                 </select>			
 							</td>
 						</tr>
-						<tr>
-							<th width="12%" height="17">점검진단결과</th>
-							<td colspan="5"><textarea id="qcInspResult" cols="120" rows="7"></textarea></td>
+						<tr>							
+							<th width="12%" height="17">점검진단기관명</th>
+							<td><input type="text" size="30" id="qcInspInsttNm" maxlength="60" /></td>
+							<th width="12%" height="17">점검시작일자</th>
+							<td><input id="qcBeginDt" type="text" class="emdcal" size="20"/></td>
+							<th width="12%" height="17">점검종료일자</th>
+							<td><input id="qcEndDt" type="text" class="emdcal" size="20"/></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17">조치구분</th>
-							<td colspan="5">
-								<select id="actionSe">
-                                    <option value="">선택</option>
-                                    <option value="1">조치1</option>
-                                    <option value="2">조치2</option>
-                                    <option value="3">조치3</option>
-                                </select>							
-							</td>
+							<th width="12%" height="17">책임기술자명</th>
+							<td colspan="5"><input type="text" size="30" id="responEngineerNm" maxlength="60" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17">점검진단결과</th>
+							<td colspan="5"><textarea id="qcInspResult" cols="135" rows="7"></textarea></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">조치내용</th>
-							<td colspan="5"><textarea id="actionCn" cols="120" rows="7"></textarea></td>
+							<td colspan="5"><textarea id="actionCn" cols="135" rows="7"></textarea></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">비고</th>
-							<td colspan="5"><input id="rm" type="text" size="110"/></td>
+							<td colspan="5"><input id="rm" type="text" size="137"/></td>
 						</tr>
 					</table>
 				</div>
@@ -1002,16 +1022,17 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 		                        	<input id="objMngPrtFcltyNm" type="text" style="width: 200px;" disabled="disabled" class="EditItem"/>
 		                        	<button id="popupSearchFcltsMngNo" class="popupButton">선택</button>
 		                    	</td>
-		                        <th>점검진단구분</th>
+		                        <th>상태평가등급</th>
 		                        <td>
-		                       		<select id="objMngQcInspSe" class="EditItem">
-										<option value="">선택</option>
-										<option value="E">전기시설물</option>
-										<option value="M">기계시설물</option>
-										<option value="C">토목시설물</option>
-										<option value="A">건축시설물</option>
-										<option value="I">정보통신시설물</option>
-									</select>
+									<select id="objMngSttusEvlLvl" class="EditItem">
+	                                    <option value="">선택</option>
+	                                    <option value="A">A</option>
+	                                    <option value="B">B</option>
+	                                    <option value="C">C</option>
+	                                    <option value="D">D</option>
+	                                    <option value="E">E</option>
+	                                    <option value="Z">불명</option>
+	                                </select>
 		                        </td>
 		                    </tr>
 		                    <tr>
@@ -1045,33 +1066,25 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 					<table class="searchPanel">
 						<tbody>
 							<tr>
-		                        <th>순번</th>
-		                        <td><input id="qcMngResultItemSeq" type="text" style="width: 150px;" class="EditItem ygpaNumber"/></td>
-		                    </tr>
-							<tr>
 		                        <th>점검항목</th>
 		                        <td>
 		                        	<input id="qcItemCd" type="hidden" class="EditItem"/>
-		                        	<input id="qcItemNm" type="text" style="width: 200px;" disabled="disabled" class="EditItem"/>
+		                        	<input id="qcItemNm" type="text" style="width: 300px;" disabled="disabled" class="EditItem"/>
 		                        	<button id="popupSearchQcItemCd" class="popupButton">선택</button>
 		                        </td>							
-							</tr>
-		                    <tr>
-		                        <th>점검결과구분</th>
-		                        <td>
+		                        <th width="5%">점검결과구분</th>
+		                        <td width="30%">
 		                       		<select id="inspResultChk" class="EditItem">
 										<option value="">선택</option>
-										<option value="1">구분1</option>
-										<option value="2">구분2</option>
-										<option value="3">구분3</option>
-										<option value="4">구분4</option>
-										<option value="5">구분5</option>
+										<option value="N">정상</option>
+										<option value="W">요주의</option>
+										<option value="X">불량</option>
 									</select>
 		                        </td>
 							</tr>
 							<tr>
 								<th>점검결과내용</th>
-								<td><textarea id="inspResultCn" cols="133" rows="7" class="EditItem"></textarea></td>
+								<td colspan="3"><textarea id="inspResultCn" cols="133" rows="7" class="EditItem"></textarea></td>
 							</tr>
 						</tbody>
 					</table>
