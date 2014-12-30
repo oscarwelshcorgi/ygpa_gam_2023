@@ -122,6 +122,25 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	private String actionSe;
 	/** 비고 **/
 	private String rm;
+
+	// ==== 점검 관리 대상 시설물 ==== //
+	/** 시설물 관리 번호 **/
+	private String fcltsMngNo;
+	/** 감리자 **/
+	private String inspector;
+
+	// ==== 점검 관리 결과 항목 ==== //
+	/** 점검 항목 코드 **/
+	private String qcItemCd;
+	/** 순번 **/
+	private String seq;
+	/** 점검 결과 구분 **/
+	private String inspResultChk;
+	/** 점검 결과 내용 **/
+	private String inspResultCn;
+
+
+
 	/**
 	 * @return the sPrtAtCode
 	 */
@@ -651,12 +670,81 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 		this.rm = rm;
 	}
 	/**
+	 * @return the fcltsMngNo
+	 */
+	public String getFcltsMngNo() {
+		return fcltsMngNo;
+	}
+	/**
+	 * @param fcltsMngNo the fcltsMngNo to set
+	 */
+	public void setFcltsMngNo(String fcltsMngNo) {
+		this.fcltsMngNo = fcltsMngNo;
+	}
+	/**
+	 * @return the inspector
+	 */
+	public String getInspector() {
+		return inspector;
+	}
+	/**
+	 * @param inspector the inspector to set
+	 */
+	public void setInspector(String inspector) {
+		this.inspector = inspector;
+	}
+	/**
+	 * @return the qcItemCd
+	 */
+	public String getQcItemCd() {
+		return qcItemCd;
+	}
+	/**
+	 * @param qcItemCd the qcItemCd to set
+	 */
+	public void setQcItemCd(String qcItemCd) {
+		this.qcItemCd = qcItemCd;
+	}
+	/**
+	 * @return the seq
+	 */
+	public String getSeq() {
+		return seq;
+	}
+	/**
+	 * @param seq the seq to set
+	 */
+	public void setSeq(String seq) {
+		this.seq = seq;
+	}
+	/**
+	 * @return the inspResultChk
+	 */
+	public String getInspResultChk() {
+		return inspResultChk;
+	}
+	/**
+	 * @param inspResultChk the inspResultChk to set
+	 */
+	public void setInspResultChk(String inspResultChk) {
+		this.inspResultChk = inspResultChk;
+	}
+	/**
+	 * @return the inspResultCn
+	 */
+	public String getInspResultCn() {
+		return inspResultCn;
+	}
+	/**
+	 * @param inspResultCn the inspResultCn to set
+	 */
+	public void setInspResultCn(String inspResultCn) {
+		this.inspResultCn = inspResultCn;
+	}
+	/**
 	 * @return the serialversionuid
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-
-
 }

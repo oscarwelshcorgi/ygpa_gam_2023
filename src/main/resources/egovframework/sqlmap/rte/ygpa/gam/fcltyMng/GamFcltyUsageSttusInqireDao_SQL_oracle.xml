@@ -99,29 +99,53 @@
 				SELECT  ROWNUM RNUM, S.*
 				  FROM (
 		                SELECT FCLTS_MNG_GROUP_NO
-		                      ,FCLTS_JOB_SE
-		                      ,QC_MNG_SEQ
-		                      ,ENFORCE_YEAR
-		                      ,QC_MNG_NM
-		                      ,QC_INSP_DT
-		                      ,QC_INSP_SE
-		                      ,QC_INSP_INSTT_NM
-		                      ,RESPON_ENGINEER_NM
-		                      ,QC_BEGIN_DT
-		                      ,QC_END_DT
-		                      ,QC_INSP_BDGT
-		                      ,QC_INSP_AMT
-		                      ,STTUS_EVL_LVL
-		                      ,QC_INSP_RESULT
-		                      ,ACTION_CN
-		                      ,ACTION_SE
-		                      ,RM
+						      ,GAM_GET_FCLTS_JOB_SE_NM(FCLTS_JOB_SE) AS FCLTS_JOB_SE
+						      ,QC_MNG_SEQ
+						      ,ENFORCE_YEAR
+						      ,QC_MNG_NM
+						      ,QC_INSP_DT
+						      ,QC_INSP_SE
+						      ,QC_INSP_INSTT_NM
+						      ,RESPON_ENGINEER_NM
+						      ,QC_BEGIN_DT
+						      ,QC_END_DT
+						      ,QC_INSP_AMT
+						      ,GAM_GET_STTUS_EVL_LVL_NM(STTUS_EVL_LVL) AS STTUS_EVL_LVL
+						      ,QC_INSP_RESULT
+						      ,ACTION_CN
+						      ,RM
 		                  FROM QC_MNG_DTLS_F
  					) S
 				) A
 	</select>
-
-
+<!-- 점검 관리 대상 시설물 -->
+	<select id="gamFcltyUsageSttusInqireDao.selectQcMngObjFcltsList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+				  FROM (
+		              SELECT M.FCLTS_MNG_NO
+		                    ,M.STTUS_EVL_LVL
+		                    ,TO_CHAR(M.QC_INSP_DT,'YYYY.MM.DD') AS QC_INSP_DT
+		                    ,M.INSPECTOR
+		                    ,M.QC_INSP_RESULT
+		                    ,M.RM
+		                    ,S.QC_ITEM_CD
+		                    ,S.SEQ
+		                    ,S.INSP_RESULT_CHK
+		                    ,S.INSP_RESULT_CN
+		               FROM QC_MNG_OBJ_FCLTS_F M LEFT OUTER JOIN QC_MNG_RESULT_ITEM_F S
+		                 ON M.FCLTS_MNG_GROUP_NO = S.FCLTS_MNG_GROUP_NO
+		                AND M.FCLTS_JOB_SE = S.FCLTS_JOB_SE
+		                AND M.QC_MNG_SEQ = S.QC_MNG_SEQ
+<!--
+		                AND M.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		                AND M.FCLTS_JOB_SE = #fcltsJobSe#
+		                AND M.QC_MNG_SEQ = #qcMngSeq#
+-->
+              		) S
+         		 ) A
+	</select>
 </sqlMap>
 
 <!--

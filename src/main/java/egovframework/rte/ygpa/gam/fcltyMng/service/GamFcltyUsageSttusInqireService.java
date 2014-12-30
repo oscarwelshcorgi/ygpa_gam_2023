@@ -68,4 +68,20 @@ public interface GamFcltyUsageSttusInqireService {
 	 */
 	List selectQcMngDtlsFList(GamFcltyUsageSttusInqireVO vo) throws Exception;
 
+	/**
+	 * 점검 관리 대상 시설물
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	List selectQcMngObjFcltsList(GamFcltyUsageSttusInqireVO vo) throws Exception;
+
+	/**
+	 * 검검 관리 결과 항목
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	List selectQcMngResultItemList(GamFcltyUsageSttusInqireVO vo) throws Exception;
+
 }

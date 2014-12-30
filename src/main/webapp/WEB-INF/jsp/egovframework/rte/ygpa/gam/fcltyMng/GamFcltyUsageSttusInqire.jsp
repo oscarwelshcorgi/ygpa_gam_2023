@@ -80,7 +80,6 @@
 	// 자산임대 테이블 설정
 	this.$("#assetsRentGrid").flexigrid({
 		module : this,
-		url : '<c:url value="/fcltyMng/gamFcltyAssetsRentList.do" />',
 		dataType : 'json',
 		colModel : [ {display : '항코드', name : 'prtAtCode', width : 50, sortable : false, align : 'center'},
 		             {display : '관리번호', name : 'mngYearNo', width : 100, sortable : false, align : 'center'},
@@ -93,18 +92,26 @@
 		             {display : '금액', name : 'fee', width : 100, sortable : false, align : 'right', displayFormat : 'number'},
 		             {display : '허가일', name : 'prmisnDt', width : 90, sortable : false, align : 'center'}
 				],
-		showTableToggleBtn : false,
+		height : 'auto'
+
+/* 		showTableToggleBtn : false,
 		height : 'auto',
 		preProcess : function(module,data) {
 			module.$('#totalCount2').val(data.totalCount);
 			module.makeFormValues('#searchForm', data.result);
 			return data;
 		}
+ */	});
+
+	// 시설물 사용현황 더블 클릭
+	this.$("#gisPrtFcltyCdGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		module.loadQcMngData();
+		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
-	this.$("#QcMngDtlsFGrid").flexigrid({
+	// 점검 관리 내역
+	this.$("#qcMngDtlsFGrid").flexigrid({
 		module : this,
-		url : '<c:url value="/fcltyMng/gamQcMngDtlsFList.do" />',
 		dataType : 'json',
 		colModel : [ {display : '관리 그룹', name : 'fcltsMngGroupNo', width : 50, sortable : false, align : 'center'},
 		             {display : '업무 구분', name : 'fcltsJobSe', width : 100, sortable : false, align : 'center'},
@@ -112,74 +119,57 @@
 		             {display : '시행 년도', name : 'enforceYear', width : 100, sortable : false, align : 'center'},
 		             {display : '관리 명', name : 'qcMngNm', width : 60, sortable : false, align : 'center'},
 		             {display : '진단 일자', name : 'qcInspDt', width : 140, sortable : false, align : 'center'},
-		             {display : '긴단 구분', name : 'qcInspSe', width : 120, sortable : false, align : 'center'},
-		             {display : '긴단 기관 명', name : 'qcInspInsttNm', width : 80, sortable : false, align : 'right', displayFormat : 'number'},
+		             {display : '진단 구분', name : 'qcInspSe', width : 120, sortable : false, align : 'center'},
+		             {display : '진단 기관 명', name : 'qcInspInsttNm', width : 80, sortable : false, align : 'right', displayFormat : 'number'},
 		             {display : '기술자 명', name : 'responEngineerNm', width : 100, sortable : false, align : 'right', displayFormat : 'number'},
 		             {display : '시작일자', name : 'qcBeginDt', width : 90, sortable : false, align : 'center'},
 		             {display : '종료 일자', name : 'qcEndDt', width : 90, sortable : false, align : 'center'},
-		             {display : '진단 예산', name : 'qcInspBdgt', width : 90, sortable : false, align : 'center', displayFormat : 'number'},
+<!--		             {display : '진단 예산', name : 'qcInspBdgt', width : 90, sortable : false, align : 'center', displayFormat : 'number'},	-->
 		             {display : '진단 금액', name : 'qcInspAmt', width : 90, sortable : false, align : 'center', displayFormat : 'number'},
 		             {display : '평가등급', name : 'sttusEvlLvl', width : 90, sortable : false, align : 'center'},
 		             {display : '진단 결과', name : 'qcInspResult', width : 90, sortable : false, align : 'center'},
 		             {display : '조치내용', name : 'actionCn', width : 90, sortable : false, align : 'center'},
-		             {display : '조치 구분', name : 'actionSe', width : 90, sortable : false, align : 'center'},
+<!--		             {display : '조치 구분', name : 'actionSe', width : 90, sortable : false, align : 'center'},	-->
 		             {display : '비고', name : 'rm', width : 90, sortable : false, align : 'center'},
 					],
-		height : 'auto'
+		height : '160'
+	});
+
+// 마우스 클릭
+	this.$("#qcMngDtlsFGrid").on('onItemSelected', function(event, module, row, grid, param) {
+		module.loadQcMngDtailData();
 	});
 
 
+	// 점검 관리 대상
+	this.$("#qcMngObjFcltsGrid").flexigrid({
+		module : this,
+		dataType : 'json',
+		colModel : [ {display : '관리 번호', name : 'fcltsMngNo', width : 50, sortable : false, align : 'center'},
+		             {display : '?????', name : 'sttusEvlLvl', width : 100, sortable : false, align : 'center'},
+		             {display : '진단 일자', name : 'qcInspDt', width : 100, sortable : false, align : 'center'},
+		             {display : '감리자', name : 'inspector', width : 100, sortable : false, align : 'center'},
+		             {display : '진단결과', name : 'qcInspResult', width : 60, sortable : false, align : 'center'},
+		             {display : '비고', name : 'rm', width : 140, sortable : false, align : 'center'},
+		             ],
+		height : '160'
+	});
 
-
+	this.$("#qcMngResultItemGrid").flexigrid({
+		module : this,
+		dataType : 'json',
+		colModel : [ {display : '항목 코드', name : 'qcItemCd', width : 50, sortable : false, align : 'center'},
+		             {display : '순번', name : 'seq', width : 100, sortable : false, align : 'center'},
+		             {display : '결과 구분', name : 'inspResultChk', width : 100, sortable : false, align : 'center'},
+		             {display : '결과내용', name : 'inspResultCn', width : 100, sortable : false, align : 'center'},
+		             ],
+		height : '160'
+	});
 
 	this.$("#sUsagePdFrom").val(EMD.util.getDate(EMD.util.addMonths(-1)));
 	this.$("#sUsagePdTo").val(EMD.util.getDate());
 
-	// 마우스 클릭
-	this.$("#gisPrtFcltyCdGrid").on('onItemSelected', function(event, module, row, grid, param) {
-//		module._mode = 'modify';
-	});
-
-	// 시설물 사용현황 더블 클릭
-	this.$("#gisPrtFcltyCdGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module.loadGisPtrFcltyCd();
-		module.$("#mainTab").tabs("option", {active: 1});
-	});
-
-	// 시설물 임대현황 더블 클릭
-	this.$("#assetsRentGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module.loadQcMngDtlsF();
-		module.$("#mainTab").tabs("option", {active: 2});
-	});
  };
-/*
-		this.$("#prtFcltyUseSttusInqireFileList").on(
-				'onItemSelected',
-				function(event, module, row, grid, param) {
-					module.makeFormValues('#gamPrtFcltyUseSttusInqireFileForm',
-							row);
-
-					if (row.filenmPhysicl != null || row.filenmPhysicl != '') {
-						// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
-						var filenm = row['filenmPhysicl'];
-						var ext = filenm.substring(filenm.lastIndexOf(".") + 1)
-								.toLowerCase();
-						if (ext == 'jpg' || ext == 'jpeg' || ext == 'bmp'
-								|| ext == 'png' || ext == 'gif') {
-							$imgURL = module.getImageUrl(filenm);
-							module.$("#previewImage").fadeIn(400, function() {
-								module.$("#previewImage").attr('src', $imgURL);
-							});
-						} else {
-							module.$("#previewImage").attr(src, '#');
-						}
-					}
-				});
-
-		this.$("#sGrUsagePdFrom").val(EMD.util.getDate(EMD.util.addMonths(-1)));
-		this.$("#sGrUsagePdTo").val(EMD.util.getDate());
-*/
-
 
 <%
 /**
@@ -192,20 +182,6 @@
 
 GamFcltyUsageSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 	switch (buttonId) {
-/*
-		case 'btnAdd':
-        	this.addData();
-			break;
-        case 'btnSave':
-        	this.saveData();
-			break;
-		case 'btnDelete':
-			this.deleteData();
-			break;
-		case 'btnIdCheck':
-			this.checkId();
-			break;
-*/
 		case 'btnExcelDownload':
 			this.downloadExcel();
 			break;
@@ -221,7 +197,7 @@ GamFcltyUsageSttusInqireModule.prototype.onButtonClick = function(buttonId) {
  * @PARAMETER     : NONE
 **/
 %>
-//////////// 확인 부분 ?
+
 GamFcltyUsageSttusInqireModule.prototype.onSubmit = function() {
 	this.loadData();
 };
@@ -240,10 +216,7 @@ GamFcltyUsageSttusInqireModule.prototype.loadData = function() {
 	this.$('#gisPrtFcltyCdGrid').flexOptions({params:searchVO}).flexReload();
 };
 
-
-/* 수정 중 */
-
-GamFcltyUsageSttusInqireModule.prototype.loadGisPtrFcltyCd = function() {
+GamFcltyUsageSttusInqireModule.prototype.loadQcMngData = function() {
 var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
 
 	if(row.length==0) {
@@ -253,48 +226,67 @@ var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
 	}
 
 	row = row[0];
-	this._fcltsMngGroupNo = row['fcltsMngGroupNo'];
-
 	var searchVO = [
 	                { name: 'gisAssetsPrtAtCode', value: row['gisAssetsPrtAtCode'] },
 	                { name: 'gisAssetsCd', value: row['gisAssetsCd'] },
-	                { name: 'gisAssetsSubCd', value: row['gisAssetsSubCd'] }
+	                { name: 'gisAssetsSubCd', value: row['gisAssetsSubCd'] },
+	                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] }
 	               ];
 
 //	console.log(searchVO);
-// 아래 this.doAction 대처 가능???
-	this.$('#assetsRentGrid').flexOptions({params:searchVO}).flexReload();
-	this.loadQcMngDtlsF();
+	this.doAction('/fcltyMng/selectLoadQcMngData.do', searchVO, function(module, data) {
+		if(data.resultCode == "0"){
+			module.$('#assetsRentGrid').flexEmptyData();
+        	var assetsRentList={resultList: data.resultFcltyAssetsRentList};
+//        	module.$('#assetsRentGrid')[0].dgrid.p.preProcess(module, assetsRentList);
+        	module.$('#assetsRentGrid').flexAddData(assetsRentList);
+        	module.$('#assetsRentGrid').selectRowId(0);
 
-/*
-	// tabs2 항목 데이타로딩
-	this.doAction('/fcltyMng/gamFcltyAssetsRentList.do', searchVO, function(module, result) {
-		if(result.resultCode == "0"){
-			module.makeFormValues('#searchForm', result.result);
-			// tabs3 그리드 리로드
-			module.$('#mntnRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
-			// tabs4 항목 데이타 로딩/ 그리드 리로드
-			module.makeFormValues('#fcltyMaintMngFileForm', {});
-			module.$("#previewImage").attr("src", "");
-			module.$('#fcltyMaintFileList').flexOptions({params:searchVO}).flexReload();
+        	module.$('#qcMngDtlsFGrid').flexEmptyData();
+        	var qcMngDtlsFList={resultList: data.resultQcMngDtlsFList};
+        	module.$('#qcMngDtlsFGrid').flexAddData(qcMngDtlsFList);
+        	module.$('#qcMngDtlsFGrid').selectRowId(0);
 
 		}else{
-			module.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
+			module.$("#mainTab").tabs("option", {active: 0});
 		}
-*/
-
+	});
 };
 
-GamFcltyUsageSttusInqireModule.prototype.loadQcMngDtlsF = function() {
+/* 수정 중 */
+GamFcltyUsageSttusInqireModule.prototype.loadQcMngDtailData = function() {
+	var row = this.$('#qcMngDtlsFGrid').selectedRows();
+	row = row[0];
 	var searchVO = [
-	                { name: 'fcltsMngGroupNo', value: this._fcltsMngGroupNo}
+	                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
+	                { name: 'fcltsJobSe', value: row['fcltsJobSe'] },
+	                { name: 'qcMngSeq', value: row['qcMngSeq'] }
 	               ];
 
-	console.log(searchVO);
-// 아래 this.doAction 대처 가능???
-	this.$('#QcMngDtlsFGrid').flexOptions({params:searchVO}).flexReload();
-};
+//	console.log(searchVO);
+	this.doAction('/fcltyMng/selectLoadQcMngDetailData.do', searchVO, function(module, data) {
+		if(data.resultCode == "0"){
+			module.$('#qcMngObjFcltsGrid').flexEmptyData();
+        	var qcMngObjFcltsList={resultList: data.resultQcMngObjFcltsList};
+//        	module.$('#assetsRentGrid')[0].dgrid.p.preProcess(module, assetsRentList);
+        	module.$('#qcMngObjFcltsGrid').flexAddData(qcMngObjFcltsList);
+        	module.$('#qcMngObjFcltsGrid').selectRowId(0);
 
+        	module.$('#qcMngResultItemGrid').flexEmptyData();
+        	module.$('#qcMngResultItemGrid').flexAddData(qcMngObjFcltsList);
+        	module.$('#qcMngResultItemGrid').selectRowId(0);
+
+/*
+        	module.$('#qcMngResultItemGrid').flexEmptyData();
+        	var qcMngResultItemList={resultList: data.resultqcMngResultItemList};
+        	module.$('#qcMngResultItemGrid').flexAddData(qcMngResultItemList);
+        	module.$('#qcMngResultItemGrid').selectRowId(0);
+*/
+		}else{
+			console.log("조회 자료가 없습니다.");
+		}
+	});
+};
 
 <%
 /**
@@ -415,15 +407,15 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 				<table style="width:100%">
 					<tr>
 						<td colspan="2">
-								<table id='QcMngDtlsFGrid' style="display:none" class="fillHeight" ></table>
+								<table id='qcMngDtlsFGrid' style="display:none" class="fillHeight" ></table>
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<table id='1' style="width:100%, height=100">1</table>
+							<table id='qcMngObjFcltsGrid' style="display:none" class="fillHeight" ></table>
 						</td>
 						<td>
-							<table id='2' style="width:100%, height=100">2</table>
+							<table id='qcMngResultItemGrid' style="display:none" class="fillHeight" ></table>
 						</td>
 					</tr>
 				</table>

@@ -130,7 +130,7 @@ public class GamFcltyUsageSttusInqireController {
 	}
 
 	/**
-	 * 시설물 사용현황 목록
+	 * 시설물 사용현황 목록, 검검 관리 내역
 	 * @param searchVO
 	 * @param sPrtAtCode
 	 * @param sUsagePdFrom
@@ -139,9 +139,9 @@ public class GamFcltyUsageSttusInqireController {
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/fcltyMng/gamFcltyAssetsRentList.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/fcltyMng/selectLoadQcMngData.do", method = RequestMethod.POST)
 	@ResponseBody
-	Map selectFcltyAssetsRentList(GamFcltyUsageSttusInqireVO searchVO) throws Exception {
+	Map selectLoadQcMngData(GamFcltyUsageSttusInqireVO searchVO) throws Exception {
 		int totalCnt, page, firstIndex;
 		Map map = new HashMap();
 
@@ -169,63 +169,66 @@ public class GamFcltyUsageSttusInqireController {
 		// 데이터 쿼리 데이터
 
 		totalCnt = gamFcltyUsageSttusInqireService.selectFcltyAssetsRentListTotCnt(searchVO);
-		List resultList = gamFcltyUsageSttusInqireService.selectFcltyAssetsRentList(searchVO);
+		List resultFcltyAssetsRentList = gamFcltyUsageSttusInqireService.selectFcltyAssetsRentList(searchVO);
+		List resultQcMngDtlsFList = gamFcltyUsageSttusInqireService.selectQcMngDtlsFList(searchVO);
 
 		map.put("resultCode", 0);
 		map.put("totalCount", totalCnt);
-		map.put("resultList", resultList);
+		map.put("resultFcltyAssetsRentList", resultFcltyAssetsRentList);
+		map.put("resultQcMngDtlsFList", resultQcMngDtlsFList);
 
 		return map;
 	}
 
-	/**
-	 * 검검 관리 내역
-	 * @param searchVO
-	 * @param sPrtAtCode
-	 * @param
-	 * @param
-	 * @return map
-	 * @throws Exception
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/fcltyMng/gamQcMngDtlsFList.do", method = RequestMethod.POST)
-	@ResponseBody
-	Map selectQcMngDtlsFList(GamFcltyUsageSttusInqireVO searchVO) throws Exception{
-		int totalCnt, page, firstIndex;
-		Map map = new HashMap();
 
-		// 0. Spring Security 사용자권한 처리
-		Boolean isAuthenricated = EgovUserDetailsHelper.isAuthenticated();
-		if(!isAuthenricated){
-			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+		/**
+		 * 시설물 사용현황 목록, 검검 관리 내역
+		 * @param searchVO
+		 * @param sPrtAtCode
+		 * @param sUsagePdFrom
+		 * @param sUsagePdTo
+		 * @return map
+		 * @throws Exception
+		 */
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		@RequestMapping(value = "/fcltyMng/selectLoadQcMngDetailData.do", method = RequestMethod.POST)
+		@ResponseBody
+		Map selectLoadQcMngDetailData(GamFcltyUsageSttusInqireVO searchVO) throws Exception {
+			int totalCnt, page, firstIndex;
+			Map map = new HashMap();
+
+			// 0. Spring Security 사용자권한 처리
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+			if (!isAuthenticated) {
+				map.put("resultCode", 1);
+				map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+				return map;
+			}
+
+			// 내역 조회
+			/** pageing */
+			// 수정 안해도됨!
+			PaginationInfo paginationInfo = new PaginationInfo();
+			paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+			paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+			paginationInfo.setPageSize(searchVO.getPageSize());
+
+			searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+			searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+			searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+
+			/** List Data */
+			// 데이터 쿼리 데이터
+			List resultQcMngObjFcltsList = gamFcltyUsageSttusInqireService.selectQcMngObjFcltsList(searchVO);
+//			List resultQcMngResultItemList = gamFcltyUsageSttusInqireService.selectQcMngResultItemList(searchVO);
+
+			map.put("resultCode", 0);
+			map.put("resultQcMngObjFcltsList", resultQcMngObjFcltsList);
+//			map.put("resultQcMngResultItemList", resultQcMngResultItemList);
+
 			return map;
 		}
-
-		//내역 조회
-		/** pageing */
-		PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
-		/** List Data */
-		// 데이터 쿼리 데이터
-		List resultList = gamFcltyUsageSttusInqireService.selectQcMngDtlsFList(searchVO);
-		map.put("resultCode", 0);
-		map.put("resultList", resultList);
-
-		System.out.println("=======================================================");
-		System.out.println(resultList);
-		System.out.println("=======================================================");
-		return map;
-	}
-
-
 
 
 
