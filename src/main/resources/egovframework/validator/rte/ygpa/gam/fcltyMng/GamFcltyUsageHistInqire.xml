@@ -6,7 +6,7 @@
 <form-validation>
 
     <formset>
-        <form name="gamFcltyUsageHistInqireSearchForm">
+        <form name="searchForm">
             <field property="searchDtFr" depends="required">
                 <arg0 key="사용시작일" resource="false"/>
             </field>

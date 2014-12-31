@@ -39,7 +39,8 @@ public class GamFcltyUsageHistInqireVO extends ComDefaultVO{
 	private String searchDtTo;
 
 	private String	dataCount;
-	private	String	sumAr;
+	private String	sumAssetsAr;
+	private	String	sumUsageAr;
 	private String	sumFee;
 	
 	/**
@@ -111,19 +112,33 @@ public class GamFcltyUsageHistInqireVO extends ComDefaultVO{
 	public void setDataCount(String dataCount) {
 		this.dataCount = dataCount;
 	}
-
+	
 	/**
-	 * @return the sumAr
+	 * @return the sumAssetsAr
 	 */
-	public String getSumAr() {
-		return sumAr;
+	public String getSumAssetsAr() {
+		return sumAssetsAr;
 	}
 
 	/**
-	 * @param sumAr the sumAr to set
+	 * @param sumAssetsAr the sumAssetsAr to set
 	 */
-	public void setSumAr(String sumAr) {
-		this.sumAr = sumAr;
+	public void setSumAssetsAr(String sumAssetsAr) {
+		this.sumAssetsAr = sumAssetsAr;
+	}
+	
+	/**
+	 * @return the sumUsageAr
+	 */
+	public String getSumUsageAr() {
+		return sumUsageAr;
+	}
+
+	/**
+	 * @param sumUsageAr the sumUsageAr to set
+	 */
+	public void setSumUsageAr(String sumUsageAr) {
+		this.sumUsageAr = sumUsageAr;
 	}
 
 	/**

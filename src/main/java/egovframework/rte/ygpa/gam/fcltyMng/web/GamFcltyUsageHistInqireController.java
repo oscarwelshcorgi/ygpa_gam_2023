@@ -110,7 +110,8 @@ public class GamFcltyUsageHistInqireController {
 
 		map.put("resultCode", 0);
 		map.put("dataCount", resultSum.getDataCount());
-		map.put("sumAr", resultSum.getSumAr());
+		map.put("sumAssetsAr", resultSum.getSumAssetsAr());
+		map.put("sumUsageAr", resultSum.getSumUsageAr());
 		map.put("sumFee", resultSum.getSumFee());
     	map.put("resultList", usageHistInqireList);
     	map.put("searchOption", searchVO);
