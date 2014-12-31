@@ -50,8 +50,46 @@ public class GamFcltyUseUnuseSttusInqireVO extends ComDefaultVO  {
 	private String gisAssetsPrtAtCode;
 	private String gisAssetsCd;
 	private String gisAssetsSubCd;
-
+	private String usagePdFrom;
+	private String usagePdTo;
 	
+
+
+	/**
+	 * @return the usagePdTo
+	 */
+	public String getUsagePdTo() {
+		return usagePdTo;
+	}
+
+
+
+	/**
+	 * @param usagePdTo the usagePdTo to set
+	 */
+	public void setUsagePdTo(String usagePdTo) {
+		this.usagePdTo = usagePdTo;
+	}
+
+
+
+	/**
+	 * @return the usagePdFrom
+	 */
+	public String getUsagePdFrom() {
+		return usagePdFrom;
+	}
+
+
+
+	/**
+	 * @param usagePdFrom the usagePdFrom to set
+	 */
+	public void setUsagePdFrom(String usagePdFrom) {
+		this.usagePdFrom = usagePdFrom;
+	}
+
+
 
 
 	/**

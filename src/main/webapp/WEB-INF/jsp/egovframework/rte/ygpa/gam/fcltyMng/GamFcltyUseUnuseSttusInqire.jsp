@@ -47,16 +47,16 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
 				{display:"항구분",			name:"gisAssetsPrtAtName",	width:60,		sortable:false,		align:"center"},
 				{display:"자산명",			name:"gisAssetsNm",			width:180,		sortable:false,		align:"left"},
 				{display:"소재지", 			name:"gisAssetsLnms",		width:200,		sortable:false,		align:"left"},
-				{display:"자산면적㎡",		name:"gisAssetsAr",			width:100,		sortable:false,		align:"right"},
-				{display:"임대가용면적㎡",	name:"gisAssetsRealRentAr",	width:100, 		sortable:false,		align:"right"},
-				{display:"사용면적㎡",	 	name:"usageAr",				width:100, 		sortable:false,		align:"right" },
-				{display:"미사용면적㎡", 	name:"noUsageAr",			width:100, 		sortable:false,		align:"right",  displayFormat: 'number'},
+				{display:"자산면적㎡",		name:"gisAssetsAr",			width:100,		sortable:false,		align:"right" , displayFormat: 'number', displayOption:{format:"0,000.00"}},
+				{display:"임대가용면적㎡",	name:"gisAssetsRealRentAr",	width:100, 		sortable:false,		align:"right" ,displayFormat: 'number', displayOption:{format:"0,000.00"}},
+				{display:"총사용면적㎡",	 	name:"usageAr",				width:100, 		sortable:false,		align:"right" ,displayFormat: 'number', displayOption:{format:"0,000.00"} },
+				{display:"미사용면적㎡", 	name:"noUsageAr",			width:100, 		sortable:false,		align:"right" , displayFormat: 'number', displayOption:{format:"0,000.00"}},
 				{display:"사용률％", 		name:"usageArPer",			width:65, 		sortable:false,		align:"right" },
 				{display:"기간From",			name:"usagePdFrom",				width:80, 		sortable:false,		align:"center"},
 				{display:"기간To",			name:"usagePdTo",				width:80, 		sortable:false,		align:"center"  }
 			],
 			showTableToggleBtn: false,
-			height: "200"
+			height: "250"
 				,preProcess : function(module,data) {
 					module.$('#totalCount').val(data.totalCount);
 	    			module.makeDivValues('#emdControlPanelForm', data);
@@ -65,15 +65,15 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
 		
 		
 	});
-
+ 
 	this.$("#mainGrid").on("onItemSelected", function(event, module, row, grid, param) {
 		
 		var searchOpt = [
 						{name: 'gisAssetsPrtAtCode', value: row["gisAssetsPrtAtCode"]},
 						{name: 'gisAssetsCd', value: row["gisAssetsCd"]},
 						{name: 'gisAssetsSubCd', value: row["gisAssetsSubCd"]},
-						{name: 'searchDtFr', value:module.$("#searchDtFr").val()},
-						{name: 'searchDtTo', value:module.$("#searchDtTo").val()}, 
+						{name: 'usagePdFrom', value: row["usagePdFrom"]},
+						{name: 'usagePdTo', value: row["usagePdTo"]},
 						];				
 		console.log(searchOpt);
 
@@ -87,20 +87,24 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
         url: '/fcltyMng/selectFcltyUseUnuseSttusInqireDetailList.do',
         dataType: 'json',
         colModel : [
-         			{display:"업체명",			name:"entrpsNm",			width:180,		sortable:false,		align:"left"},
-        			{display:"업체구분", 			name:"entrpsSe",		width:200,		sortable:false,		align:"left"},
-    				{display:"사용목적",		name:"usagePurps",			width:100,		sortable:false,		align:"right"},
-    				{display:"사용면적㎡",	name:"usageAr",	width:100, 		sortable:false,		align:"right"},
-    				{display:"사용료", 		name:"fee",			width:65, 		sortable:false,		align:"right" },
-    				{display:"기간From",			name:"usagePdFrom",				width:80, 		sortable:false,		align:"center"},
-    				{display:"기간To",			name:"usagePdTo",				width:80, 		sortable:false,		align:"center"  }
+                	{display:"업체명",			name:"entrpsNm",			width:200,		sortable:false,		align:"left"},
+                	{display:"자산명",		name:"gisAssetsNm",				width:120,		sortable:false,		align:"right"},
+                	{display:"사용목적",		name:"usagePurps",				width:160,		sortable:false,		align:"right"},
+        			{display:"사용면적㎡",	name:"usageAr",					width:120, 		sortable:false,		align:"right"},
+    				{display:"사용료", 		name:"fee",						width:120, 		sortable:false,		align:"right" },
+    				{display:"기간From",			name:"usagePdFrom",				width:120, 		sortable:false,		align:"center"},
+    				{display:"기간To",			name:"usagePdTo",				width:120, 		sortable:false,		align:"center"  }
                     ],
 
           showTableToggleBtn: false,
         height: 'auto'
    
     });
-
+	
+	
+	this.$("#detailGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		module.$("#mainTab").tabs("option", {active: 1});
+	});
 
 };
 GamFcltyUseUnuseSttusInqireModule.prototype.onSubmit = function() {
@@ -108,6 +112,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.onSubmit = function() {
 		return;
 	}
 	this.loadData();
+	this.$('#detailGrid').flexEmptyData();
 	};
 
 	//시설목록 로드
@@ -120,42 +125,48 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadData = function() {
 
 	
 	
-GamFcltyUseUnuseSttusInqireModule.prototype.loadDetailData = function() {
+GamFcltyUseUnuseSttusInqireModule.prototype.loadDetailData = function(data) {
+		console.log('111'+data);
+	
+		alert('까꿍2');
+		 if (row.length > 0 ){
 		
-	var row = this.$('#MainGrid').selectedRows();
-		
-		if (row.length==0) {
-				alert('선택된 항목이 없습니다.');
-				this.$("#mainTab").tabs("option", {active: 0});
-				return;
-			}else if (row.length > 0 ){
-		
-				this.doAction('/fcltyMng/selectFcltyUseUnuseSttusInqireDetailList.do', row, function(module, result) {
-			
-				if(result.resultCode == "0"){
-					module._usageFcltyVO=result.result;
-					module.makeDivValues('#usageFcltyVO', module._usageFcltyVO);
-				} else {
+					module._detailForm=row.result;
+					module.makeDivValues('#detailForm', module._detailForm);
+			} else {
 					this._cmd="";
 					module.initDisplay();
 					alert(result.resultMsg);
 				}
-			});
-		}
+			
+		
 };
 
 // 탭 변경시 실행
 
 GamFcltyUseUnuseSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
+	var row = this.$('#detailGrid').selectedRows();
+	console.log(row);
 	
-	if(newTabId == 'tabs2' && this._cmd == 'modify') {
+	if(oldTabId == 'tabs1' && (row.length > 0) ) {
+		alert('까꿍');
 		this.initDisplay();
 		this.$('#tabs2').scrollTop(0);
-		this.loadDetailData();
-	}else{
-		alert("항목을 반드시 선택해주세요.")
+		this.loadDetailData(row);
 	}
+	switch(newTabId) {
+	case "tabs1":
+		break;
+	case "tabs2":
 
+			if (row.length==0) {
+					alert('상세내역의 항목을 선택해주세요.');
+					this.$("#mainTab").tabs("option", {active: 0});
+					return;
+		
+		}
+		break;
+	}
 };
 
 
@@ -218,7 +229,7 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 	</div>
 
 	<div class="emdPanel fillHeight">
-		<div id="mainTab" class="emdTabPanel fillHeight">
+		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" >
 			<ul>
 				<li><a href="#tabs1" class="emdTab">시설물 사용/미사용시설 조회</a></li>
 				<li><a href="#tabs2" class="emdTab">시설물 사용/미사용시설 상세</a></li>
@@ -258,8 +269,8 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
            <div id="tabs2" class="emdTabPage" style="overflow:scroll;">
            
                 <div class="emdControlPanel">
-                    <form id="gamAssetRentForm">
-                        <input type="hidden" id="cmd"/>
+                    <form id="detailForm">
+                        
 		
                         <table class="editForm">
                             <tr>
@@ -276,16 +287,12 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
                                 </td>
                             </tr>
                             <tr>
-								<th width="10%" height="18">최초신청일자</th>
-                                <td><input type="text" size="20" id="frstReqstDt" disabled/></td>
-								<th width="10%" height="18">신청일자</th>
-                                <td><input type="text" class="emdcal" size="14" id="reqstDt" readonly/></td>
-								<th width="10%" height="18">신청업체</th>
-                                <td>
-                                    <input type="text" size="8" id="entrpscd" maxlength="10" readonly/>
-                                    <input type="text" size="18" id="entrpsNm" disabled/>
-                                    <button id="popupEntrpsInfoInput" class="popupButton">선택</button>
-                                </td>
+								<th width="10%" height="18">사용 면적</th>
+                                <td><input type="text" size="20" id="usageAr" disabled/></td>
+								<th width="10%" height="18">사용 면적2</th>
+                                <td><input type="text" size="14" id="usageAr" readonly/></td>
+								<th width="10%" height="18">사용 면적3</th>
+                                <td><span id="usageAr"></span></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">승낙여부</th>
