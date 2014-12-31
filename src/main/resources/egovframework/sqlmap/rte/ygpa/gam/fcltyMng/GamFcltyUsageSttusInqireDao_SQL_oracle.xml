@@ -103,7 +103,7 @@
 						      ,QC_MNG_SEQ
 						      ,ENFORCE_YEAR
 						      ,QC_MNG_NM
-						      ,QC_INSP_DT
+						      ,TO_CHAR(QC_INSP_DT, 'YYYY.MM.DD') AS QC_INSP_DT
 						      ,QC_INSP_SE
 						      ,QC_INSP_INSTT_NM
 						      ,RESPON_ENGINEER_NM

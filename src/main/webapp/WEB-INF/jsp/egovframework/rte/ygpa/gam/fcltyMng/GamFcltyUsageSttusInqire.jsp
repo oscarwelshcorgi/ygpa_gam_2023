@@ -52,17 +52,17 @@
 		url : '<c:url value="/fcltyMng/gamFcltyGisPrtFcltyCdList.do" />',
 		dataType : 'json',
 		colModel : [ {display : 'GIS 자산', name : 'gisAssets', width : 80, sortable : false, align : 'center'},
-		             {display : '시설 구분', name : 'prtFcltySe', width : 80, sortable : false, align : 'center'},
+		             {display : '시설 구분', name : 'prtFcltySe', width : 78, sortable : false, align : 'center'},
 		             {display : '시설 명', name : 'prtFcltyNm', width : 100, sortable : false, align : 'center'},
 		             {display : '시설 규격', name : 'prtFcltyDtndrd', width : 80, sortable : false, align : 'center'},
 		             {display : '시설 단위', name : 'prtFcltyUnit', width : 60, sortable : false, align : 'center'},
-		             {display : '시설 설치 일자', name : 'prtFcltyInstlDt', width : 90, sortable : false, align : 'center'},
-		             {display : '시설 변경 일자', name : 'prtFcltyChangeDt', width : 90, sortable : false, align : 'center'},
+		             {display : '시설 설치 일자', name : 'prtFcltyInstlDt', width : 88, sortable : false, align : 'center'},
+		             {display : '시설 변경 일자', name : 'prtFcltyChangeDt', width : 88, sortable : false, align : 'center'},
 		             {display : '관리 업체', name : 'prtFcltyMngEntrps', width : 80, sortable : false, align : 'center'},
-		             {display : '시설 만료 일자', name : 'prtFcltyExprDt', width : 90, sortable : false, align : 'center'},
-		             {display : '시설 수량', name : 'prtPrtFcltyCnt', width : 65, sortable : false, align : 'center'},
-		             {display : '시설 담당', name : 'prtPrtFcltyMnger', width : 70, sortable : false, align : 'center'},
-		             {display : '시설물 관리 그룹', name : 'fcltsMngGroupNo', width : 130, sortable : false, align : 'center'}
+		             {display : '시설 만료 일자', name : 'prtFcltyExprDt', width : 88, sortable : false, align : 'center'},
+		             {display : '시설 수량', name : 'prtPrtFcltyCnt', width : 60, sortable : false, align : 'center'},
+		             {display : '시설 담당', name : 'prtPrtFcltyMnger', width : 60, sortable : false, align : 'center'},
+		             {display : '시설물 관리 그룹', name : 'fcltsMngGroupNo', width : 104, sortable : false, align : 'center'}
 
 		             /*{display : '항코드', name : 'prtAtCode', width : 40, sortable : false, align : 'center', displayFormat : 'number'},*/
 		],
@@ -81,14 +81,14 @@
 	this.$("#assetsRentGrid").flexigrid({
 		module : this,
 		dataType : 'json',
-		colModel : [ {display : '항코드', name : 'prtAtCode', width : 50, sortable : false, align : 'center'},
+		colModel : [ {display : '항코드', name : 'prtAtCode', width : 60, sortable : false, align : 'center'},
 		             {display : '관리번호', name : 'mngYearNo', width : 100, sortable : false, align : 'center'},
 		             {display : 'GIS 코드', name : 'gisAssets', width : 100, sortable : false, align : 'center'},
 		             {display : '문서번호', name : 'docNo', width : 100, sortable : false, align : 'center'},
-		             {display : '고지방법', name : 'nticMth', width : 60, sortable : false, align : 'center'},
-		             {display : '사용목적', name : 'usagePurps', width : 140, sortable : false, align : 'center'},
-		             {display : '사용내역', name : 'usageDtls', width : 120, sortable : false, align : 'center'},
-		             {display : '면적', name : 'usageAr', width : 80, sortable : false, align : 'right', displayFormat : 'number'},
+		             {display : '고지방법', name : 'nticMth', width : 70, sortable : false, align : 'center'},
+		             {display : '사용목적', name : 'usagePurps', width : 150, sortable : false, align : 'center'},
+		             {display : '사용내역', name : 'usageDtls', width : 125, sortable : false, align : 'center'},
+		             {display : '면적', name : 'usageAr', width : 70, sortable : false, align : 'right', displayFormat : 'number'},
 		             {display : '금액', name : 'fee', width : 100, sortable : false, align : 'right', displayFormat : 'number'},
 		             {display : '허가일', name : 'prmisnDt', width : 90, sortable : false, align : 'center'}
 				],
@@ -113,24 +113,24 @@
 	this.$("#qcMngDtlsFGrid").flexigrid({
 		module : this,
 		dataType : 'json',
-		colModel : [ {display : '관리 그룹', name : 'fcltsMngGroupNo', width : 50, sortable : false, align : 'center'},
-		             {display : '업무 구분', name : 'fcltsJobSe', width : 100, sortable : false, align : 'center'},
-		             {display : '관리 순번', name : 'qcMngSeq', width : 100, sortable : false, align : 'right', displayFormat : 'number'},
-		             {display : '시행 년도', name : 'enforceYear', width : 100, sortable : false, align : 'center'},
+		colModel : [ {display : '관리 그룹', name : 'fcltsMngGroupNo', width : 80, sortable : false, align : 'center'},
+		             {display : '업무 구분', name : 'fcltsJobSe', width : 70, sortable : false, align : 'center'},
+		             {display : '관리 순번', name : 'qcMngSeq', width : 60, sortable : false, align : 'right', displayFormat : 'number'},
+		             {display : '시행 년도', name : 'enforceYear', width : 60, sortable : false, align : 'center'},
 		             {display : '관리 명', name : 'qcMngNm', width : 60, sortable : false, align : 'center'},
-		             {display : '진단 일자', name : 'qcInspDt', width : 140, sortable : false, align : 'center'},
-		             {display : '진단 구분', name : 'qcInspSe', width : 120, sortable : false, align : 'center'},
+		             {display : '진단 일자', name : 'qcInspDt', width : 75, sortable : false, align : 'center'},
+		             {display : '진단 구분', name : 'qcInspSe', width : 70, sortable : false, align : 'center'},
 		             {display : '진단 기관 명', name : 'qcInspInsttNm', width : 80, sortable : false, align : 'right', displayFormat : 'number'},
-		             {display : '기술자 명', name : 'responEngineerNm', width : 100, sortable : false, align : 'right', displayFormat : 'number'},
-		             {display : '시작일자', name : 'qcBeginDt', width : 90, sortable : false, align : 'center'},
-		             {display : '종료 일자', name : 'qcEndDt', width : 90, sortable : false, align : 'center'},
+		             {display : '기술자 명', name : 'responEngineerNm', width : 80, sortable : false, align : 'right', displayFormat : 'number'},
+		             {display : '시작일자', name : 'qcBeginDt', width : 75, sortable : false, align : 'center'},
+		             {display : '종료 일자', name : 'qcEndDt', width : 75, sortable : false, align : 'center'},
 <!--		             {display : '진단 예산', name : 'qcInspBdgt', width : 90, sortable : false, align : 'center', displayFormat : 'number'},	-->
 		             {display : '진단 금액', name : 'qcInspAmt', width : 90, sortable : false, align : 'center', displayFormat : 'number'},
-		             {display : '평가등급', name : 'sttusEvlLvl', width : 90, sortable : false, align : 'center'},
-		             {display : '진단 결과', name : 'qcInspResult', width : 90, sortable : false, align : 'center'},
-		             {display : '조치내용', name : 'actionCn', width : 90, sortable : false, align : 'center'},
+		             {display : '평가등급', name : 'sttusEvlLvl', width : 60, sortable : false, align : 'center'},
+		             {display : '진단 결과', name : 'qcInspResult', width : 60, sortable : false, align : 'center'},
+		             {display : '조치내용', name : 'actionCn', width : 60, sortable : false, align : 'center'},
 <!--		             {display : '조치 구분', name : 'actionSe', width : 90, sortable : false, align : 'center'},	-->
-		             {display : '비고', name : 'rm', width : 90, sortable : false, align : 'center'},
+		             {display : '비고', name : 'rm', width : 60, sortable : false, align : 'center'},
 					],
 		height : '160'
 	});
@@ -247,6 +247,7 @@ var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
         	module.$('#qcMngDtlsFGrid').flexAddData(qcMngDtlsFList);
         	module.$('#qcMngDtlsFGrid').selectRowId(0);
 
+
 		}else{
 			module.$("#mainTab").tabs("option", {active: 0});
 		}
@@ -328,6 +329,9 @@ GamFcltyUsageSttusInqireModule.prototype.onTabChange = function(newTabId, oldTab
 		case "tabs1":
 			break;
 		case "tabs2":
+		case "tabs3":
+		case "tabs4":
+		case "tabs5":
 			if (oldTabId == "tabs1" && this.$('#gisPrtFcltyCdGrid').selectedRowCount() == 0) {
 				alert('먼저 항목을 선택 하시기 바랍니다.');
 				this.$("#mainTab").tabs("option", {active: 0});
@@ -404,17 +408,20 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 			</div>
 <!-- 탭3 -->
 			<div id="tabs3" class="emdTabPage fillHeight" style="overflow: hidden;">
-				<table style="width:100%">
+				<table>
 					<tr>
 						<td colspan="2">
-								<table id='qcMngDtlsFGrid' style="display:none" class="fillHeight" ></table>
+							점검 관리 내역
+							<table id='qcMngDtlsFGrid' style="display:none" class="fillHeight" ></table>
 						</td>
 					</tr>
 					<tr>
 						<td>
+							점검 관리 대상 시설물
 							<table id='qcMngObjFcltsGrid' style="display:none" class="fillHeight" ></table>
 						</td>
 						<td>
+							점검 관리 결과 항목
 							<table id='qcMngResultItemGrid' style="display:none" class="fillHeight" ></table>
 						</td>
 					</tr>
