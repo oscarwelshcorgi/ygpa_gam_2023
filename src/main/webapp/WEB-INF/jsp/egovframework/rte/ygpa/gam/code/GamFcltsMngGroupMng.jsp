@@ -46,10 +46,13 @@ GamFcltsMngGroupMngModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:"관리 그룹 번호",	name:"fcltsMngGroupNo",		width:105,		sortable:true,	align:"center"},
 					{display:"관리 그룹 명",	name:"fcltsMngGroupNm",		width:150,		sortable:true,	align:"left"},
+					{display:"종별",			name:"fcltsGbnNm",			width:80,		sortable:true,	align:"center"},
+					{display:"구분",			name:"fcltsSeNm",			width:80,		sortable:true,	align:"center"},
+					{display:"종류",			name:"fcltsKndNm",			width:80,		sortable:true,	align:"center"},
+					{display:"준공 일자",		name:"bldDt",				width:80,		sortable:true,	align:"center"},
+					{display:"운영사",			name:"owner",				width:105,		sortable:true,	align:"left"},
 					{display:"시설물 내용",		name:"fcltsCn",				width:200,		sortable:true,	align:"left"},
 					{display:"시설물 구조",		name:"fcltsStrct",			width:200,		sortable:true,	align:"left"},
-					{display:"준공 일자",		name:"bldDt",				width:80,		sortable:true,	align:"center"},
-					{display:"소유자",			name:"owner",				width:105,		sortable:true,	align:"left"},
 					{display:"건축 갯수",		name:"archFcltsCnt",		width:80,		sortable:true,	align:"right"},
 					{display:"토목 갯수",		name:"cvlEngFcltsCnt",		width:80,		sortable:true,	align:"right"},
 					{display:"기계 갯수",		name:"mechFcltsCnt",		width:80,		sortable:true,	align:"right"},
@@ -100,6 +103,15 @@ GamFcltsMngGroupMngModule.prototype.loadComplete = function() {
 		if (event.data.module._mode == 'insert') {
 			event.data.module.getNewFcltsMngGroupNo();
 		}
+	});
+
+	this.$('#fcltsSe').on('change',{module:this}, function(event){
+		event.data.module.makeFcltsKndData("");
+	});
+
+	this.$('#fcltsKndSelect').on('change',{module:this}, function(event){
+		var sFcltsKnd = $(this).val();
+		event.data.module.$('#fcltsKnd').val(sFcltsKnd);
 	});
 
 	this.$('#bldDt').on('keyup change',{module:this}, function(event){
@@ -221,12 +233,14 @@ GamFcltsMngGroupMngModule.prototype.loadDetail = function(tabId) {
 		}
 		this.makeFormValues('#detailForm', row[0]);
 		this.makeDivValues('#detailForm', row[0]);
+		this.makeFcltsKndData(this.$('#fcltsKnd').val());
 	} else {
 		var searchVO = this.getFormValues('#detailForm');
 		this.doAction('/code/gamSelectFcltsMngGroupMngPk.do', searchVO, function(module, result){
 			if (result.resultCode == "0") {
 				module.makeFormValues('#detailForm', result.result);
 				module.makeDivValues('#detailForm', result.result);
+				module.makeFcltsKndData(module.$('#fcltsKnd').val());
 			}
 		});
 	}
@@ -439,34 +453,34 @@ GamFcltsMngGroupMngModule.prototype.saveData = function() {
 		return;
 	}
 	if (archFcltsCn != "") {
-		archFcltsCn = "     " + archFcltsCn;
+		archFcltsCn = "    " + archFcltsCn;
 	} else {
-		archFcltsCn = "     - ";
+		archFcltsCn = "    - ";
 	}
 	if (cvlEngFcltsCn != "") {
-		cvlEngFcltsCn = "     " + cvlEngFcltsCn;
+		cvlEngFcltsCn = "    " + cvlEngFcltsCn;
 	} else {
-		cvlEngFcltsCn = "     - ";
+		cvlEngFcltsCn = "    - ";
 	}
 	if (mechFcltsCn != "") {
-		mechFcltsCn = "     " + mechFcltsCn;
+		mechFcltsCn = "    " + mechFcltsCn;
 	} else {
-		mechFcltsCn = "     - ";
+		mechFcltsCn = "    - ";
 	}
 	if (elctyFcltsCn != "") {
-		elctyFcltsCn = "     " + elctyFcltsCn;
+		elctyFcltsCn = "    " + elctyFcltsCn;
 	} else {
-		elctyFcltsCn = "     - ";
+		elctyFcltsCn = "    - ";
 	}
 	if (infoCommFcltsCn != "") {
-		infoCommFcltsCn = "     " + infoCommFcltsCn;
+		infoCommFcltsCn = "    " + infoCommFcltsCn;
 	} else {
-		infoCommFcltsCn = "     - ";
+		infoCommFcltsCn = "    - ";
 	}
 	if (etcFcltsCn != "") {
-		etcFcltsCn = "     " + etcFcltsCn;
+		etcFcltsCn = "    " + etcFcltsCn;
 	} else {
-		etcFcltsCn = "     - ";
+		etcFcltsCn = "    - ";
 	}
 	fcltsCnTemplete =   "(*) 건축 시설물" + "\r\n" + archFcltsCn + "\r\n" +
 						"(*) 토목 시설물" + "\r\n" + cvlEngFcltsCn + "\r\n" +
@@ -476,34 +490,34 @@ GamFcltsMngGroupMngModule.prototype.saveData = function() {
 						"(*) 기타 시설물" + "\r\n" + etcFcltsCn;
 	this.$('#fcltsCn').val(fcltsCnTemplete);
 	if (archFcltsStrct != "") {
-		archFcltsStrct = "     " + archFcltsCn;
+		archFcltsStrct = "    " + archFcltsStrct;
 	} else {
-		archFcltsStrct = "     - ";
+		archFcltsStrct = "    - ";
 	}
 	if (cvlEngFcltsStrct != "") {
-		cvlEngFcltsStrct = "     " + cvlEngFcltsCn;
+		cvlEngFcltsStrct = "    " + cvlEngFcltsStrct;
 	} else {
-		cvlEngFcltsStrct = "     - ";
+		cvlEngFcltsStrct = "    - ";
 	}
 	if (mechFcltsStrct != "") {
-		mechFcltsStrct = "     " + mechFcltsCn;
+		mechFcltsStrct = "    " + mechFcltsStrct;
 	} else {
-		mechFcltsStrct = "     - ";
+		mechFcltsStrct = "    - ";
 	}
 	if (elctyFcltsStrct != "") {
-		elctyFcltsStrct = "     " + elctyFcltsCn;
+		elctyFcltsStrct = "    " + elctyFcltsStrct;
 	} else {
-		elctyFcltsStrct = "     - ";
+		elctyFcltsStrct = "    - ";
 	}
 	if (infoCommFcltsStrct != "") {
-		infoCommFcltsStrct = "     " + infoCommFcltsCn;
+		infoCommFcltsStrct = "    " + infoCommFcltsStrct;
 	} else {
-		infoCommFcltsStrct = "     - ";
+		infoCommFcltsStrct = "    - ";
 	}
 	if (etcFcltsStrct != "") {
-		etcFcltsStrct = "     " + etcFcltsCn;
+		etcFcltsStrct = "    " + etcFcltsStrct;
 	} else {
-		etcFcltsStrct = "     - ";
+		etcFcltsStrct = "    - ";
 	}
 	fcltsCnTemplete =   "(*) 건축 시설물" + "\r\n" + archFcltsStrct + "\r\n" +
 						"(*) 토목 시설물" + "\r\n" + cvlEngFcltsStrct + "\r\n" +
@@ -598,6 +612,75 @@ GamFcltsMngGroupMngModule.prototype.getNewFcltsMngGroupNo = function() {
 			module.$('#fcltsMngGroupNo').val(result.sMaxGroupNo);
 		}
 	});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : makeFcltsKndData
+ * @DESCRIPTION   : 시설물 종류를 구성한다.
+ * @PARAMETER     :
+ *   1. fcltsKnd - 시설물 종류
+**/
+%>
+GamFcltsMngGroupMngModule.prototype.makeFcltsKndData = function(fcltsKnd) {
+
+	var fcltsSe = this.$('#fcltsSe').val();
+	this.$('#fcltsKndSelect').empty();
+	this.$('#fcltsKndSelect').append("<option value='' selected>선택</option>");
+	if (fcltsSe == "1") {
+		this.$('#fcltsKndSelect').append("<option value='11'>도로교량</option>");
+		this.$('#fcltsKndSelect').append("<option value='12'>복개구조물</option>");
+		this.$('#fcltsKndSelect').append("<option value='13'>철도교량</option>");
+	} else if (fcltsSe == "2") {
+		this.$('#fcltsKndSelect').append("<option value='21'>도로터널</option>");
+		this.$('#fcltsKndSelect').append("<option value='22'>지하차도</option>");
+		this.$('#fcltsKndSelect').append("<option value='23'>철도터널</option>");
+	} else if (fcltsSe == "3") {
+		this.$('#fcltsKndSelect').append("<option value='31'>갑문시설</option>");
+		this.$('#fcltsKndSelect').append("<option value='32'>계류시설</option>");
+	} else if (fcltsSe == "4") {
+		this.$('#fcltsKndSelect').append("<option value='41'>다목적댐</option>");
+		this.$('#fcltsKndSelect').append("<option value='42'>발전용댐</option>");
+		this.$('#fcltsKndSelect').append("<option value='43'>홍수전용댐</option>");
+		this.$('#fcltsKndSelect').append("<option value='44'>용수전용댐</option>");
+		this.$('#fcltsKndSelect').append("<option value='45'>지방상수도전용댐</option>");
+	} else if (fcltsSe == "5") {
+		this.$('#fcltsKndSelect').append("<option value='51'>공동주택</option>");
+		this.$('#fcltsKndSelect').append("<option value='52'>건축물</option>");
+		this.$('#fcltsKndSelect').append("<option value='53'>다중이용건축물</option>");
+		this.$('#fcltsKndSelect').append("<option value='54'>철도역시설</option>");
+		this.$('#fcltsKndSelect').append("<option value='55'>지하도상가</option>");
+	} else if (fcltsSe == "6") {
+		this.$('#fcltsKndSelect').append("<option value='61'>하구둑</option>");
+		this.$('#fcltsKndSelect').append("<option value='62'>수문 및 통문</option>");
+		this.$('#fcltsKndSelect').append("<option value='63'>제방</option>");
+		this.$('#fcltsKndSelect').append("<option value='64'>보</option>");
+	} else if (fcltsSe == "7") {
+		this.$('#fcltsKndSelect').append("<option value='71'>광역상수도</option>");
+		this.$('#fcltsKndSelect').append("<option value='72'>공업용수도</option>");
+		this.$('#fcltsKndSelect').append("<option value='73'>지방상수도</option>");
+		this.$('#fcltsKndSelect').append("<option value='74'>공공하수처리시설</option>");
+		this.$('#fcltsKndSelect').append("<option value='75'>폐기물매립시설</option>");
+	} else if (fcltsSe == "8") {
+		this.$('#fcltsKndSelect').append("<option value='81'>도로옹벽</option>");
+		this.$('#fcltsKndSelect').append("<option value='82'>철도옹벽</option>");
+		this.$('#fcltsKndSelect').append("<option value='83'>항만옹벽</option>");
+		this.$('#fcltsKndSelect').append("<option value='84'>댐옹벽</option>");
+		this.$('#fcltsKndSelect').append("<option value='85'>건축물옹벽</option>");
+		this.$('#fcltsKndSelect').append("<option value='86'>폐기물매립옹벽</option>");
+		this.$('#fcltsKndSelect').append("<option value='87'>기타옹벽</option>");
+	} else if (fcltsSe == "9") {
+		this.$('#fcltsKndSelect').append("<option value='91'>도로사면</option>");
+		this.$('#fcltsKndSelect').append("<option value='92'>철도사면</option>");
+		this.$('#fcltsKndSelect').append("<option value='93'>항만사면</option>");
+		this.$('#fcltsKndSelect').append("<option value='94'>댐사면</option>");
+		this.$('#fcltsKndSelect').append("<option value='95'>건축물사면</option>");
+		this.$('#fcltsKndSelect').append("<option value='96'>기타사면</option>");
+	}
+	if (fcltsKnd != "") {
+		this.$('#fcltsKndSelect').val(fcltsKnd);
+	}
 
 };
 
@@ -920,7 +1003,7 @@ var module_instance = new GamFcltsMngGroupMngModule();
 									<input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" />
 									<input type="text" id="fcltsMngGroupNo" size="37" maxlength="14" disabled/>
 								</td>
-								<th style="width:15%; height:20;">준공일자 / 소유자</th>
+								<th style="width:15%; height:20;">준공일자 / 운영사</th>
 								<td>
 									<input type="text" id="bldDt" size="14" class="emdcal"/>/
 									<input type="text" id="owner" size="30" maxlength="60"/>
@@ -936,6 +1019,37 @@ var module_instance = new GamFcltsMngGroupMngModule();
 								<th style="width:15%; height:20;">위　　　　　치</th>
 								<td>
 									<input type="text" id="loc" size="50" maxlength="150"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:15%; height:20;">시설물 종별</th>
+								<td>
+									<select id="fcltsGbn">
+										<option value="" selected>선택</option>
+										<option value="1">1종</option>
+										<option value="2">2종</option>
+										<option value="3">1종/2종</option>
+										<option value="9">기타</option>
+									</select>
+								</td>
+								<th style="width:15%; height:20;">시설물 종류</th>
+								<td>
+									<input id="fcltsKnd" type="hidden"/>
+									<select id="fcltsSe">
+										<option value="" selected>선택</option>
+										<option value="1">교량</option>
+										<option value="2">터널</option>
+										<option value="3">항만</option>
+										<option value="4">댐</option>
+										<option value="5">건축물</option>
+										<option value="6">하천</option>
+										<option value="7">상하수도</option>
+										<option value="8">옹벽</option>
+										<option value="9">절토사면</option>
+									</select>
+									<select id="fcltsKndSelect">
+										<option value="" selected>선택</option>
+									</select>
 								</td>
 							</tr>
 							<tr>
@@ -1030,7 +1144,7 @@ var module_instance = new GamFcltsMngGroupMngModule();
 							<tr>
 								<th style="width:15%; height:20;">비　　　　　고</th>
 								<td colspan="3">
-									<textarea rows="3" cols="126" id="rm" maxlength="1000"></textarea>
+									<textarea rows="2" cols="126" id="rm" maxlength="1000"></textarea>
 								</td>
 							</tr>
 						</table>

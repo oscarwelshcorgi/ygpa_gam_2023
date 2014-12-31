@@ -31,27 +31,27 @@ import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
 public class GamElctyUsageSttusMngDao extends YGPAAbstractDAO{
 
 	/**
-	 * @param gamElctyUsageSttusMngVo
+	 * @param searchVO
 	 * @return
 	 */
-	public int selectElctyUsageSttusMngListTotCnt(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamElctyUsageSttusMngDao.selectElctyUsageSttusMngListTotCnt_S", gamElctyUsageSttusMngVo);
-	}
-
-	/**
-	 * @param gamElctyUsageSttusMngVo
-	 * @return
-	 */
-	public List selectElctyUsageSttusMngList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
-		return list("gamElctyUsageSttusMngDao.selectElctyUsageSttusMngList_D", gamElctyUsageSttusMngVo);
+	public int selectElctyUsageSttusMngListTotCnt(GamElctyUsageSttusMngVo searchVO) {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamElctyUsageSttusMngDao.selectElctyUsageSttusMngListTotCnt_S", searchVO);
 	}
 
 	/**
 	 * @param searchVO
 	 * @return
 	 */
-	public EgovMap selectElctyUsageSttusMngPk(GamElctyUsageSttusMngVo searchVO) {
-		return (EgovMap)selectByPk("gamElctyUsageSttusMngDao.selectElctyUsageSttusMngPk_S", searchVO);
+	public List selectElctyUsageSttusMngList(GamElctyUsageSttusMngVo searchVO) {
+		return list("gamElctyUsageSttusMngDao.selectElctyUsageSttusMngList_D", searchVO);
+	}
+
+	/**
+	 * @param gamElctyUsageSttusMngVo
+	 * @return
+	 */
+	public EgovMap selectElctyUsageSttusMngPk(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
+		return (EgovMap)selectByPk("gamElctyUsageSttusMngDao.selectElctyUsageSttusMngPk_S", gamElctyUsageSttusMngVo);
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class GamElctyUsageSttusMngDao extends YGPAAbstractDAO{
 	 * @return
 	 */
 	public String selectElctyUsageSttusMngPrevMtUsageQy(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
-		return (String)getSqlMapClientTemplate().queryForObject("gamElctyUsageSttusMngDao.selectElctyUsageSttusMngPrevMtUsageQy_S", gamElctyUsageSttusMngVo);
+		return (String)selectByPk("gamElctyUsageSttusMngDao.selectElctyUsageSttusMngPrevMtUsageQy_S", gamElctyUsageSttusMngVo);
 	}
 
 	/**
@@ -82,28 +82,28 @@ public class GamElctyUsageSttusMngDao extends YGPAAbstractDAO{
 	 * @param gamElctyUsageSttusMngVo
 	 */
 	public void insertElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
-		insert("gamElctyUsageSttusMngDao.insertElctyUsageSttusMng_S",gamElctyUsageSttusMngVo);
+		insert("gamElctyUsageSttusMngDao.insertElctyUsageSttusMng_S", gamElctyUsageSttusMngVo);
 	}
 
 	/**
 	 * @param gamElctyUsageSttusMngVo
 	 */
 	public void updateElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
-		update("gamElctyUsageSttusMngDao.updateElctyUsageSttusMng_S",gamElctyUsageSttusMngVo);
+		update("gamElctyUsageSttusMngDao.updateElctyUsageSttusMng_S", gamElctyUsageSttusMngVo);
 	}
 
 	/**
 	 * @param gamElctyUsageSttusMngVo
 	 */
 	public void deleteElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
-		delete("gamElctyUsageSttusMngDao.deleteElctyUsageSttusMng_S",gamElctyUsageSttusMngVo);
+		delete("gamElctyUsageSttusMngDao.deleteElctyUsageSttusMng_S", gamElctyUsageSttusMngVo);
 	}
 
 	/**
 	 * @param gamElctyUsageSttusMngVo
 	 */
 	public void copyElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) {
-		insert("gamElctyUsageSttusMngDao.copyElctyUsageSttusMng_S",gamElctyUsageSttusMngVo);
+		insert("gamElctyUsageSttusMngDao.copyElctyUsageSttusMng_S", gamElctyUsageSttusMngVo);
 	}
 
 }

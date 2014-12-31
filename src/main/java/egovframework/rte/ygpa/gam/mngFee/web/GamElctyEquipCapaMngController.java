@@ -3,16 +3,12 @@
  */
 package egovframework.rte.ygpa.gam.mngFee.web;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
@@ -38,14 +32,13 @@ import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.rte.fdl.excel.EgovExcelService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngService;
-import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
-
+import egovframework.rte.ygpa.gam.mngFee.service.GamElctyEquipCapaMngService;
+import egovframework.rte.ygpa.gam.mngFee.service.GamElctyEquipCapaMngVo;
 
 /**
  *
- * @author Lee
- * @since 2014. 10. 22.
+ * @author ACEWOLF
+ * @since 2014. 12. 31.
  * @version 1.0
  * @see
  * <pre>
@@ -53,13 +46,14 @@ import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
  *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
- *  2014. 10. 22.		Lee		최초 생성
+ *  2014. 12. 31.		ACEWOLF		최초 생성
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
+
 @Controller
-public class GamElctyUsageSttusMngController {
+public class GamElctyEquipCapaMngController {
 
 	protected Log log = LogFactory.getLog(this.getClass());
 
@@ -75,13 +69,10 @@ public class GamElctyUsageSttusMngController {
 	@Resource(name="egovMessageSource")
 	EgovMessageSource egovMessageSource;
 
-	@Resource(name="gamElctyUsageSttusMngService")
-	GamElctyUsageSttusMngService gamElctyUsageSttusMngService;
+	@Resource(name="gamElctyEquipCapaMngService")
+	GamElctyEquipCapaMngService gamElctyEquipCapaMngService;
 
-	@Resource(name = "excelElctyUsageSttusService")
-	private EgovExcelService excelElctyUsageSttusService;
-
-	@RequestMapping(value="/mngFee/gamElctyUsageSttusMng.do")
+	@RequestMapping(value="/mngFee/gamElctyEquipCapaMng.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
 		///login정보
@@ -101,15 +92,14 @@ public class GamElctyUsageSttusMngController {
 		model.addAttribute("thisyear", year);
 		model.addAttribute("windowId", windowId);
 
-		return "/ygpa/gam/mngFee/GamElctyUsageSttusMng";
+		return "/ygpa/gam/mngFee/GamElctyEquipCapaMng";
 
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/mngFee/gamSelectElctyUsageSttusMng.do" , method=RequestMethod.POST)
-	@ResponseBody Map gamSelectElctyUsageSttusMng(GamElctyUsageSttusMngVo searchVO) throws Exception {
+	@RequestMapping(value="/mngFee/gamSelectElctyEquipCapaMng.do" , method=RequestMethod.POST)
+	@ResponseBody Map gamSelectElctyEquipCapaMng(GamElctyEquipCapaMngVo searchVO) throws Exception {
 
-		int totalCnt;
 		Map map = new HashMap();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -128,19 +118,21 @@ public class GamElctyUsageSttusMngController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		totalCnt = gamElctyUsageSttusMngService.selectElctyUsageSttusMngListTotCnt(searchVO);
-		List resultList = gamElctyUsageSttusMngService.selectElctyUsageSttusMngList(searchVO);
+		GamElctyEquipCapaMngVo resultSum = gamElctyEquipCapaMngService.selectElctyEquipCapaMngListTotCnt(searchVO);
+		List resultList = gamElctyEquipCapaMngService.selectElctyEquipCapaMngList(searchVO);
 
 		map.put("resultCode", 0);
-		map.put("totalCount", totalCnt);
+		map.put("totalCount", resultSum.getDataCount());
+		map.put("sumEquipCapa", resultSum.getSumEquipCapa());
+		map.put("sumCtrtCapa", resultSum.getSumCtrtCapa());
 		map.put("resultList", resultList);
 
 		return map;
 
 	}
 
-	@RequestMapping(value="/mngFee/gamSelectElctyUsageSttusMngPk.do")
-	@ResponseBody Map<String, Object> gamSelectElctyUsageSttusMngPk(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo)	throws Exception {
+	@RequestMapping(value="/mngFee/gamSelectElctyEquipCapaMngPk.do")
+	@ResponseBody Map<String, Object> gamSelectElctyEquipCapaMngPk(GamElctyEquipCapaMngVo gamElctyEquipCapaMngVo)	throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -152,7 +144,7 @@ public class GamElctyUsageSttusMngController {
 		}
 
 		try {
-			Map result = gamElctyUsageSttusMngService.selectElctyUsageSttusMngPk(gamElctyUsageSttusMngVo);
+			Map result = gamElctyEquipCapaMngService.selectElctyEquipCapaMngPk(gamElctyEquipCapaMngVo);
 
 			map.put("resultCode", 0);
 			map.put("result", result);
@@ -166,8 +158,8 @@ public class GamElctyUsageSttusMngController {
 		return map;
 	}
 
-	@RequestMapping(value="/mngFee/gamSelectElctyUsageSttusMngChart.do" , method=RequestMethod.POST)
-	@ResponseBody Map gamSelectElctyUsageSttusMngChart(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
+	@RequestMapping(value="/mngFee/gamSelectElctyEquipCapaMngChart.do" , method=RequestMethod.POST)
+	@ResponseBody Map gamSelectElctyEquipCapaMngChart(GamElctyEquipCapaMngVo gamElctyEquipCapaMngVo) throws Exception {
 
 		Map map = new HashMap();
 
@@ -178,7 +170,7 @@ public class GamElctyUsageSttusMngController {
 			return map;
 		}
 
-		List resultList = gamElctyUsageSttusMngService.selectElctyUsageSttusMngChartList(gamElctyUsageSttusMngVo);
+		List resultList = gamElctyEquipCapaMngService.selectElctyEquipCapaMngChartList(gamElctyEquipCapaMngVo);
 
 		map.put("resultCode", 0);
 		map.put("resultList", resultList);
@@ -187,8 +179,8 @@ public class GamElctyUsageSttusMngController {
 
 	}
 
-	@RequestMapping(value="/mngFee/gamSelectElctyUsageSttusMngPrevMtUsageQy.do" , method=RequestMethod.POST)
-	@ResponseBody Map gamSelectElctyUsageSttusMngPrevMtUsageQy(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
+	@RequestMapping(value="/mngFee/gamSelectElctyEquipCapaMngPrevCapa.do" , method=RequestMethod.POST)
+	@ResponseBody Map gamSelectElctyEquipCapaMngPrevCapa(GamElctyEquipCapaMngVo gamElctyEquipCapaMngVo) throws Exception {
 
 		String sPrevMtUsageQy;
 		Map map = new HashMap();
@@ -200,17 +192,24 @@ public class GamElctyUsageSttusMngController {
 			return map;
 		}
 
-		sPrevMtUsageQy = gamElctyUsageSttusMngService.selectElctyUsageSttusMngPrevMtUsageQy(gamElctyUsageSttusMngVo);
+		try {
+			Map result = gamElctyEquipCapaMngService.selectElctyEquipCapaMngPrevYearCapa(gamElctyEquipCapaMngVo);
 
-		map.put("resultCode", 0);
-		map.put("sPrevMtUsageQy", sPrevMtUsageQy);
+			map.put("resultCode", 0);
+			map.put("result", result);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+		}
 
 		return map;
 
 	}
 
-	@RequestMapping(value="/mngFee/gamSelectElctyUsageSttusMngMonthCnt.do" , method=RequestMethod.POST)
-	@ResponseBody Map gamSelectElctyUsageSttusMngMonthCnt(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
+	@RequestMapping(value="/mngFee/gamSelectElctyEquipCapaMngYearCnt.do" , method=RequestMethod.POST)
+	@ResponseBody Map gamSelectElctyEquipCapaMngYearCnt(GamElctyEquipCapaMngVo gamElctyEquipCapaMngVo) throws Exception {
 
 		Map map = new HashMap();
 
@@ -221,7 +220,7 @@ public class GamElctyUsageSttusMngController {
 			return map;
 		}
 
-		List resultList = gamElctyUsageSttusMngService.selectElctyUsageSttusMngMonthCntList(gamElctyUsageSttusMngVo);
+		List resultList = gamElctyEquipCapaMngService.selectElctyEquipCapaMngYearCntList(gamElctyEquipCapaMngVo);
 
 		map.put("resultCode", 0);
 		map.put("resultList", resultList);
@@ -230,9 +229,31 @@ public class GamElctyUsageSttusMngController {
 
 	}
 
+	@RequestMapping(value="/code/gamSelectElctyEquipCapaMngNewMngSeq.do" , method=RequestMethod.POST)
+	@ResponseBody Map gamSelectElctyEquipCapaMngNewMngSeq(GamElctyEquipCapaMngVo gamElctyEquipCapaMngVo) throws Exception {
+
+		String sNewMngSeq;
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		sNewMngSeq = gamElctyEquipCapaMngService.selectElctyEquipCapaMngNewMngSeq(gamElctyEquipCapaMngVo);
+
+		map.put("resultCode", 0);
+		map.put("sNewMngSeq", sNewMngSeq);
+
+		return map;
+
+	}
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/mngFee/gamExcelDownloadElctyUsageSttusMng.do" , method=RequestMethod.POST)
-	@ResponseBody ModelAndView gamExcelDownloadElctyUsageSttusMng(@RequestParam Map<String, Object> excelParam) throws Exception {
+	@RequestMapping(value="/mngFee/gamExcelDownloadElctyEquipCapaMng.do" , method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelDownloadElctyEquipCapaMng(@RequestParam Map<String, Object> excelParam) throws Exception {
 
 		Map map = new HashMap();
 		List header;
@@ -249,13 +270,13 @@ public class GamElctyUsageSttusMngController {
 								  new TypeReference<List<HashMap<String,String>>>(){});
 		excelParam.remove("header");
 
-		GamElctyUsageSttusMngVo searchVO= new GamElctyUsageSttusMngVo();
-		searchVO = mapper.convertValue(excelParam, GamElctyUsageSttusMngVo.class);
+		GamElctyEquipCapaMngVo searchVO= new GamElctyEquipCapaMngVo();
+		searchVO = mapper.convertValue(excelParam, GamElctyEquipCapaMngVo.class);
 		searchVO.setFirstIndex(0);
 		searchVO.setLastIndex(9999);
 		searchVO.setRecordCountPerPage(9999);
 
-		List resultList = gamElctyUsageSttusMngService.selectElctyUsageSttusMngList(searchVO);
+		List resultList = gamElctyEquipCapaMngService.selectElctyEquipCapaMngList(searchVO);
 
 		map.put("resultCode", 0);
 		map.put("resultList", resultList);
@@ -265,8 +286,8 @@ public class GamElctyUsageSttusMngController {
 
 	}
 
-	@RequestMapping(value="/mngFee/gamInsertElctyUsageSttusMng.do")
-	@ResponseBody Map<String, Object> gamInsertElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo)	throws Exception {
+	@RequestMapping(value="/mngFee/gamInsertElctyEquipCapaMng.do")
+	@ResponseBody Map<String, Object> gamInsertElctyEquipCapaMng(GamElctyEquipCapaMngVo gamElctyEquipCapaMngVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -279,8 +300,8 @@ public class GamElctyUsageSttusMngController {
 		}
 
 		try {
-			gamElctyUsageSttusMngVo.setRegUsr((String)user.getId());
-			gamElctyUsageSttusMngService.insertElctyUsageSttusMng(gamElctyUsageSttusMngVo);
+			gamElctyEquipCapaMngVo.setRegUsr((String)user.getId());
+			gamElctyEquipCapaMngService.insertElctyEquipCapaMng(gamElctyEquipCapaMngVo);
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
@@ -294,8 +315,8 @@ public class GamElctyUsageSttusMngController {
 
 	}
 
-	@RequestMapping(value="/mngFee/gamUpdateElctyUsageSttusMng.do")
-	@ResponseBody Map<String, Object> gamUpdateElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo)	throws Exception {
+	@RequestMapping(value="/mngFee/gamUpdateElctyEquipCapaMng.do")
+	@ResponseBody Map<String, Object> gamUpdateElctyEquipCapaMng(GamElctyEquipCapaMngVo gamElctyEquipCapaMngVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -308,8 +329,8 @@ public class GamElctyUsageSttusMngController {
 		}
 
 		try {
-			gamElctyUsageSttusMngVo.setUpdUsr((String)user.getId());
-			gamElctyUsageSttusMngService.updateElctyUsageSttusMng(gamElctyUsageSttusMngVo);
+			gamElctyEquipCapaMngVo.setUpdUsr((String)user.getId());
+			gamElctyEquipCapaMngService.updateElctyEquipCapaMng(gamElctyEquipCapaMngVo);
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
@@ -323,8 +344,8 @@ public class GamElctyUsageSttusMngController {
 
 	}
 
-	@RequestMapping(value="/mngFee/gamDeleteElctyUsageSttusMng.do")
-	@ResponseBody Map<String, Object> gamDeleteElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo)	throws Exception {
+	@RequestMapping(value="/mngFee/gamDeleteElctyEquipCapaMng.do")
+	@ResponseBody Map<String, Object> gamDeleteElctyEquipCapaMng(GamElctyEquipCapaMngVo gamElctyEquipCapaMngVo)	throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -336,7 +357,7 @@ public class GamElctyUsageSttusMngController {
 		}
 
 		try {
-			gamElctyUsageSttusMngService.deleteElctyUsageSttusMng(gamElctyUsageSttusMngVo);
+			gamElctyEquipCapaMngService.deleteElctyEquipCapaMng(gamElctyEquipCapaMngVo);
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
@@ -350,8 +371,8 @@ public class GamElctyUsageSttusMngController {
 
 	}
 
-	@RequestMapping(value="/mngFee/gamCopyElctyUsageSttusMng.do")
-	@ResponseBody Map<String, Object> gamCopyElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo)	throws Exception {
+	@RequestMapping(value="/mngFee/gamCopyElctyEquipCapaMng.do")
+	@ResponseBody Map<String, Object> gamCopyElctyEquipCapaMng(GamElctyEquipCapaMngVo gamElctyEquipCapaMngVo)	throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -364,8 +385,8 @@ public class GamElctyUsageSttusMngController {
 		}
 
 		try {
-			gamElctyUsageSttusMngVo.setRegUsr((String)user.getId());
-			gamElctyUsageSttusMngService.copyElctyUsageSttusMng(gamElctyUsageSttusMngVo);
+			gamElctyEquipCapaMngVo.setRegUsr((String)user.getId());
+			gamElctyEquipCapaMngService.copyElctyEquipCapaMng(gamElctyEquipCapaMngVo);
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
@@ -375,56 +396,6 @@ public class GamElctyUsageSttusMngController {
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
 
-		return map;
-
-	}
-
-	@RequestMapping(value = "/mngFee/gamExcelUploadElctyUsageSttusMng.do")
-	@ResponseBody Map<String, Object> gamExcelUploadElctyUsageSttusMng(final HttpServletRequest request) throws Exception {
-
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-		if (!isAuthenticated) {
-			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-			return map;
-		}
-
-		final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-		final Map<String, MultipartFile> files = multiRequest.getFileMap();
-		InputStream fis = null;
-		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
-		MultipartFile file;
-
-		while (itr.hasNext()) {
-			Entry<String, MultipartFile> entry = itr.next();
-			file = entry.getValue();
-			if (!"".equals(file.getOriginalFilename())) {
-				if (file.getOriginalFilename().endsWith(".xls") ||
-					file.getOriginalFilename().endsWith(".xlsx") ||
-					file.getOriginalFilename().endsWith(".XLS") ||
-					file.getOriginalFilename().endsWith(".XLSX")) {
-					try {
-						fis = file.getInputStream();
-						excelElctyUsageSttusService.uploadExcel("gamElctyUsageSttusMngDao.insertElctyUsageSttusF_S", fis, 1, (long)5000);
-					} catch(Exception e) {
-						throw e;
-					} finally {
-						if (fis != null) {
-							fis.close();
-						}
-					}
-				} else {
-					map.put("resultCode", 3);
-					map.put("resultMsg", "xls, xlsx 파일 타입만 등록이 가능합니다.");
-					return map;
-				}
-			}
-		}
-
-		map.put("resultCode", 0);
-		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		return map;
 
 	}

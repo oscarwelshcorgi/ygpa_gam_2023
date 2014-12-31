@@ -37,28 +37,28 @@ public class GamElctyUsageSttusMngServiceImpl extends AbstractServiceImpl implem
 	private GamElctyUsageSttusMngDao gamElctyUsageSttusMngDao;
 
 	@Override
-	public int selectElctyUsageSttusMngListTotCnt(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
-		return gamElctyUsageSttusMngDao.selectElctyUsageSttusMngListTotCnt(gamElctyUsageSttusMngVo);
-	}
-
-	@Override
-	public String selectElctyUsageSttusMngPrevMtUsageQy(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
-		return gamElctyUsageSttusMngDao.selectElctyUsageSttusMngPrevMtUsageQy(gamElctyUsageSttusMngVo);
-	}
-
-	@Override
 	public List selectElctyUsageSttusMngMonthCntList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
 		return gamElctyUsageSttusMngDao.selectElctyUsageSttusMngMonthCntList(gamElctyUsageSttusMngVo);
 	}
 
 	@Override
-	public List selectElctyUsageSttusMngList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
-		return gamElctyUsageSttusMngDao.selectElctyUsageSttusMngList(gamElctyUsageSttusMngVo);
+	public List selectElctyUsageSttusMngList(GamElctyUsageSttusMngVo searchVO) throws Exception {
+		return gamElctyUsageSttusMngDao.selectElctyUsageSttusMngList(searchVO);
 	}
 
 	@Override
-	public EgovMap selectElctyUsageSttusMngPk(GamElctyUsageSttusMngVo searchVO) throws Exception {
-		return gamElctyUsageSttusMngDao.selectElctyUsageSttusMngPk(searchVO);
+	public EgovMap selectElctyUsageSttusMngPk(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
+		return gamElctyUsageSttusMngDao.selectElctyUsageSttusMngPk(gamElctyUsageSttusMngVo);
+	}
+
+	@Override
+	public int selectElctyUsageSttusMngListTotCnt(GamElctyUsageSttusMngVo searchVO) throws Exception {
+		return gamElctyUsageSttusMngDao.selectElctyUsageSttusMngListTotCnt(searchVO);
+	}
+
+	@Override
+	public String selectElctyUsageSttusMngPrevMtUsageQy(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception {
+		return gamElctyUsageSttusMngDao.selectElctyUsageSttusMngPrevMtUsageQy(gamElctyUsageSttusMngVo);
 	}
 
 	@Override

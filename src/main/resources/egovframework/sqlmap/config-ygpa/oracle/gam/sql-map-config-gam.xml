@@ -148,6 +148,7 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/mngFee/GamMngFeeGubunMngDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/mngFee/GamMngFeeCodeMngDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/mngFee/GamPopupFcltsFeeMngArrrgNticDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/mngFee/GamElctyEquipCapaMngDao_SQL_oracle.xml" />
 
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/ctrt/GamFcltyCtrtLgerHistDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/ctrt/GamFcltyCtrtSttusInqireDao_SQL_oracle.xml" />

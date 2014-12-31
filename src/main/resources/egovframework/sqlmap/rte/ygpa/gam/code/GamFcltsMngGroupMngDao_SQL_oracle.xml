@@ -34,6 +34,12 @@
 								,TO_CHAR(CNST_END_DT,'YYYY-MM-DD') AS CNST_END_DT
 								,CNSTRTR
 								,LTRIM(TO_CHAR(NVL(CNSTRCT_AMT,0),'999,999,999,990')) AS CNSTRCT_AMT
+								,FCLTS_GBN
+								,GAM_GET_FCLTS_GBN_NM(FCLTS_GBN) AS FCLTS_GBN_NM
+								,FCLTS_SE
+								,GAM_GET_FCLTS_SE_NM(FCLTS_SE) AS FCLTS_SE_NM
+								,FCLTS_KND
+								,GAM_GET_FCLTS_KND_NM(FCLTS_KND) AS FCLTS_KND_NM
 								,FCLTS_CN
 								,FCLTS_STRCT
 								,ARCH_FCLTS_CN
@@ -113,6 +119,12 @@
 				,TO_CHAR(CNST_END_DT,'YYYY-MM-DD') AS CNST_END_DT
 				,CNSTRTR
 				,LTRIM(TO_CHAR(NVL(CNSTRCT_AMT,0),'999,999,999,990')) AS CNSTRCT_AMT
+				,FCLTS_GBN
+				,GAM_GET_FCLTS_GBN_NM(FCLTS_GBN) AS FCLTS_GBN_NM
+				,FCLTS_SE
+				,GAM_GET_FCLTS_SE_NM(FCLTS_SE) AS FCLTS_SE_NM
+				,FCLTS_KND
+				,GAM_GET_FCLTS_KND_NM(FCLTS_KND) AS FCLTS_KND_NM
 				,FCLTS_CN
 				,FCLTS_STRCT
 				,ARCH_FCLTS_CN
@@ -161,6 +173,9 @@
 			,CNST_END_DT
 			,CNSTRTR
 			,CNSTRCT_AMT
+			,FCLTS_GBN
+			,FCLTS_SE
+			,FCLTS_KND
 			,FCLTS_CN
 			,FCLTS_STRCT
 			,ARCH_FCLTS_CN
@@ -197,6 +212,9 @@
 			,TO_DATE(#cnstEndDt#,'YYYY-MM-DD')
 			,#cnstrtr#
 			,NVL(TO_NUMBER(REPLACE(#cnstrctAmt#,',','')),0)
+			,#fcltsGbn#
+			,#fcltsSe#
+			,#fcltsKnd#
 			,#fcltsCn#
 			,#fcltsStrct#
 			,#archFcltsCn#
@@ -234,6 +252,9 @@
 			,CNST_END_DT = TO_DATE(#cnstEndDt#,'YYYY-MM-DD')
 			,CNSTRTR = #cnstrtr#
 			,CNSTRCT_AMT = NVL(TO_NUMBER(REPLACE(#cnstrctAmt#,',','')),0)
+			,FCLTS_GBN = #fcltsGbn#
+			,FCLTS_SE = #fcltsSe#
+			,FCLTS_KND = #fcltsKnd#
 			,FCLTS_CN = #fcltsCn#
 			,FCLTS_STRCT = #fcltsStrct#
 			,ARCH_FCLTS_CN = #archFcltsCn#

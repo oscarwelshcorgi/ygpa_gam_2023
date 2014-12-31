@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="ygpa.gam.mngFee">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamElctyEquipCapaMngVo" type="egovframework.rte.ygpa.gam.mngFee.service.GamElctyEquipCapaMngVo"/>
+
+	<resultMap id="gamElctyEquipCapaMngSumMap" class="egovframework.rte.ygpa.gam.mngFee.service.GamElctyEquipCapaMngVo">
+		<result property="dataCount" column="DATA_COUNT" columnIndex="1"/>
+		<result property="sumEquipCapa" column="SUM_EQUIP_CAPA" columnIndex="2"/>
+		<result property="sumCtrtCapa" column="SUM_CTRT_CAPA" columnIndex="3"/>
+	</resultMap>
+
+	<select id="gamElctyEquipCapaMngDao.selectElctyEquipCapaMngList_D" parameterClass="gamElctyEquipCapaMngVo" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 MNG_YEAR
+								,FCLTS_MNG_GROUP_NO
+								,MNG_SEQ
+								,ELCTY_EQUIP_NM
+								,ELCTY_SE
+								,GAM_GET_ELCTY_SE_NM(ELCTY_SE) AS ELCTY_SE_NM
+								,LTRIM(TO_CHAR(NVL(EQUIP_CAPA,0),'9,999,999,990')) AS EQUIP_CAPA
+								,LTRIM(TO_CHAR(NVL(CTRT_CAPA,0),'9,999,999,990')) AS CTRT_CAPA
+								,LTRIM(TO_CHAR(NVL(USAGE_VOLT,0),'9,999,990')) AS USAGE_VOLT
+								,REG_USR
+								,TO_CHAR(REGIST_DT, 'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,UPD_USR
+								,TO_CHAR(UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+							FROM ELCTY_EQUIP_CAPA_F
+						WHERE 1=1
+
+						<isNotEmpty property="sMngYear">
+						AND MNG_YEAR = #sMngYear#
+						</isNotEmpty>
+
+						<isNotEmpty property="sElctySe">
+						AND ELCTY_SE = #sElctySe#
+						</isNotEmpty>
+
+						<isNotEmpty property="sElctyEquipNm">
+						AND ELCTY_EQUIP_NM LIKE '%' || #sElctyEquipNm# || '%'
+						</isNotEmpty>
+
+						ORDER BY MNG_YEAR, ELCTY_EQUIP_NM
+				) S
+		) A
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<select id="gamElctyEquipCapaMngDao.selectElctyEquipCapaMngListTotCnt_S" parameterClass="gamElctyEquipCapaMngVo" resultMap="gamElctyEquipCapaMngSumMap">
+		SELECT
+				 LTRIM(TO_CHAR(COUNT(*),'999,999,999,990')) AS DATA_COUNT
+				,LTRIM(TO_CHAR(NVL(SUM(EQUIP_CAPA),0),'999,999,999,990')) AS SUM_EQUIP_CAPA
+				,LTRIM(TO_CHAR(NVL(SUM(CTRT_CAPA),0),'999,999,999,990')) AS SUM_CTRT_CAPA
+			FROM ELCTY_EQUIP_CAPA_F
+		WHERE 1=1
+
+		<isNotEmpty property="sMngYear">
+		AND MNG_YEAR = #sMngYear#
+		</isNotEmpty>
+
+		<isNotEmpty property="sElctySe">
+		AND ELCTY_SE = #sElctySe#
+		</isNotEmpty>
+
+		<isNotEmpty property="sElctyEquipNm">
+		AND ELCTY_EQUIP_NM LIKE '%' || #sElctyEquipNm# || '%'
+		</isNotEmpty>
+	</select>
+
+	<select id="gamElctyEquipCapaMngDao.selectElctyEquipCapaMngPk_S" parameterClass="gamElctyEquipCapaMngVo" resultClass="egovMap">
+		SELECT
+				 MNG_YEAR
+				,FCLTS_MNG_GROUP_NO
+				,MNG_SEQ
+				,ELCTY_EQUIP_NM
+				,ELCTY_SE
+				,GAM_GET_ELCTY_SE_NM(ELCTY_SE) AS ELCTY_SE_NM
+				,LTRIM(TO_CHAR(NVL(EQUIP_CAPA,0),'9,999,999,990')) AS EQUIP_CAPA
+				,LTRIM(TO_CHAR(NVL(CTRT_CAPA,0),'9,999,999,990')) AS CTRT_CAPA
+				,LTRIM(TO_CHAR(NVL(USAGE_VOLT,0),'9,999,990')) AS USAGE_VOLT
+				,REG_USR
+				,TO_CHAR(REGIST_DT, 'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,UPD_USR
+				,TO_CHAR(UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+			FROM ELCTY_EQUIP_CAPA_F
+		WHERE MNG_YEAR = #mngYear#
+		AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		AND MNG_SEQ = #mngSeq#
+	</select>
+
+	<select id="gamElctyEquipCapaMngDao.selectElctyEquipCapaMngChartList_D" parameterClass="gamElctyEquipCapaMngVo" resultClass="egovMap">
+		SELECT /*+ INDEX (T1 PK_ELCTY_EQUIP_CAPA_F) */
+				 T1.ELCTY_EQUIP_NM
+				,NVL(SUM(T1.EQUIP_CAPA),0) AS EQUIP_CAPA
+				,NVL(SUM(T1.CTRT_CAPA),0) AS CTRT_CAPA
+				,NVL(SUM(T1.USAGE_VOLT),0) AS USAGE_VOLT
+				,COUNT(*) OVER () AS DATA_COUNT
+			FROM ELCTY_EQUIP_CAPA_F T1
+		WHERE T1.MNG_YEAR = #mngYear#
+		GROUP BY T1.ELCTY_EQUIP_NM
+		ORDER BY T1.ELCTY_EQUIP_NM
+	</select>
+
+	<select id="gamElctyEquipCapaMngDao.selectElctyEquipCapaMngPrevYearCapa_S" parameterClass="gamElctyEquipCapaMngVo" resultClass="egovMap">
+		SELECT
+				 LTRIM(TO_CHAR(NVL(EQUIP_CAPA,0),'9,999,999,990')) AS EQUIP_CAPA
+				,LTRIM(TO_CHAR(NVL(CTRT_CAPA,0),'9,999,999,990')) AS CTRT_CAPA
+				,LTRIM(TO_CHAR(NVL(USAGE_VOLT,0),'9,999,990')) AS USAGE_VOLT
+			FROM ELCTY_EQUIP_CAPA_F
+		WHERE MNG_YEAR = TO_CHAR(TO_NUMBER(#mngYear#) - 1)
+		AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		AND ELCTY_EQUIP_NM = #elctyEquipNm#
+	</select>
+
+	<select id="gamElctyEquipCapaMngDao.selectElctyEquipCapaMngMaxMngSeq_S" parameterClass="gamElctyEquipCapaMngVo" resultClass="java.lang.String">
+		SELECT LTRIM(TO_CHAR(TO_NUMBER(NVL(MAX(MNG_SEQ),'000')) + 1,'000'))
+			FROM ELCTY_EQUIP_CAPA_F
+		WHERE MNG_YEAR = #mngYear#
+		AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+	</select>
+
+	<select id="gamElctyEquipCapaMngDao.selectElctyEquipCapaMngYearCntList_S" parameterClass="gamElctyEquipCapaMngVo" resultClass="egovMap">
+		SELECT
+				 COUNT(*) AS MT_CNT
+				,TO_CHAR(TO_NUMBER(#sMngYear#) - 1) AS PREV_YEAR
+			FROM ELCTY_EQUIP_CAPA_F
+		WHERE MNG_YEAR = #sMngYear#
+	</select>
+
+	<insert id="gamElctyEquipCapaMngDao.insertElctyEquipCapaMng_S">
+		INSERT INTO ELCTY_EQUIP_CAPA_F
+		(
+			 MNG_YEAR
+			,FCLTS_MNG_GROUP_NO
+			,MNG_SEQ
+			,ELCTY_EQUIP_NM
+			,ELCTY_SE
+			,EQUIP_CAPA
+			,CTRT_CAPA
+			,USAGE_VOLT
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 #mngYear#
+			,#fcltsMngGroupNo#
+			,#mngSeq#
+			,#elctyEquipNm#
+			,#elctySe#
+			,NVL(TO_NUMBER(REPLACE(#equipCapa#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#ctrtCapa#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#usageVolt#,',','')),0)
+			,#regUsr#
+			,SYSDATE
+		)
+	</insert>
+
+	<update id="gamElctyEquipCapaMngDao.updateElctyEquipCapaMng_S">
+		UPDATE ELCTY_EQUIP_CAPA_F SET
+			 ELCTY_EQUIP_NM = #elctyEquipNm#
+			,ELCTY_SE = #elctySe#
+			,EQUIP_CAPA = NVL(TO_NUMBER(REPLACE(#equipCapa#,',','')),0)
+			,CTRT_CAPA = NVL(TO_NUMBER(REPLACE(#ctrtCapa#,',','')),0)
+			,USAGE_VOLT = NVL(TO_NUMBER(REPLACE(#usageVolt#,',','')),0)
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE MNG_YEAR = #mngYear#
+		AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		AND MNG_SEQ = #mngSeq#
+	</update>
+
+	<delete id="gamElctyEquipCapaMngDao.deleteElctyEquipCapaMng_S">
+		DELETE FROM ELCTY_EQUIP_CAPA_F
+		WHERE MNG_YEAR = #mngYear#
+		AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		AND MNG_SEQ = #mngSeq#
+	</delete>
+
+	<insert id="gamElctyEquipCapaMngDao.copyElctyEquipCapaMng_S">
+		INSERT INTO ELCTY_EQUIP_CAPA_F
+		(
+			 MNG_YEAR
+			,FCLTS_MNG_GROUP_NO
+			,MNG_SEQ
+			,ELCTY_EQUIP_NM
+			,ELCTY_SE
+			,EQUIP_CAPA
+			,CTRT_CAPA
+			,USAGE_VOLT
+			,REG_USR
+			,REGIST_DT
+		)
+		SELECT
+				 #sMngYear#
+				,FCLTS_MNG_GROUP_NO
+				,MNG_SEQ
+				,ELCTY_EQUIP_NM
+				,ELCTY_SE
+				,EQUIP_CAPA
+				,CTRT_CAPA
+				,USAGE_VOLT
+				,#regUsr#
+				,SYSDATE
+			FROM ELCTY_EQUIP_CAPA_F
+		WHERE MNG_YEAR = TO_CHAR(TO_NUMBER(#sMngYear#) - 1)
+	</insert>
+
+</sqlMap>

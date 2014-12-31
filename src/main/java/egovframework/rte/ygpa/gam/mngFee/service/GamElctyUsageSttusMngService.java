@@ -30,34 +30,34 @@ public interface GamElctyUsageSttusMngService {
 	 * @param searchVO
 	 * @return
 	 */
-	int selectElctyUsageSttusMngListTotCnt(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;
+	int selectElctyUsageSttusMngListTotCnt(GamElctyUsageSttusMngVo searchVO) throws Exception;
 
 	/**
 	 * @param searchVO
 	 * @return
 	 */
-	List selectElctyUsageSttusMngList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;
+	List selectElctyUsageSttusMngList(GamElctyUsageSttusMngVo searchVO) throws Exception;
 
 	/**
-	 * @param searchVO
+	 * @param gamElctyUsageSttusMngVo
 	 * @return
 	 */
-	EgovMap selectElctyUsageSttusMngPk(GamElctyUsageSttusMngVo searchVO) throws Exception;
+	EgovMap selectElctyUsageSttusMngPk(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;
 
 	/**
-	 * @param searchVO
+	 * @param gamElctyUsageSttusMngVo
 	 * @return
 	 */
 	List selectElctyUsageSttusMngChartList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;
 
 	/**
-	 * @param searchVO
+	 * @param gamElctyUsageSttusMngVo
 	 * @return
 	 */
 	String selectElctyUsageSttusMngPrevMtUsageQy(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;
 
 	/**
-	 * @param gamGrHseEmitQyMngVo
+	 * @param gamElctyUsageSttusMngVo
 	 * @return
 	 */
 	List selectElctyUsageSttusMngMonthCntList(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;
@@ -78,7 +78,7 @@ public interface GamElctyUsageSttusMngService {
 	void deleteElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;
 
 	/**
-	 * @param gamGrHseEmitQyMngVo
+	 * @param gamElctyUsageSttusMngVo
 	 */
 	void copyElctyUsageSttusMng(GamElctyUsageSttusMngVo gamElctyUsageSttusMngVo) throws Exception;
 

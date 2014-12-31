@@ -41,6 +41,12 @@ public class GamFcltsMngGroupMngVo  extends ComDefaultVO {
 	private String cnstEndDt;				//공사 종료 일자
 	private String cnstrtr;					//시공자
 	private String cnstrctAmt;				//시공 금액
+	private String fcltsGbn;				//시설물 종별
+	private String fcltsGbnNm;				//시설물 종별 명
+	private String fcltsSe;					//시설물 구분
+	private String fcltsSeNm;				//시설물 구분 명
+	private String fcltsKnd;				//시설물 종류
+	private String fcltsKndNm;				//시설물 종류 명
 	private String fcltsCn;					//시설물 내용
 	private String fcltsStrct;				//시설물 구조
 	private String archFcltsCn;				//건축 시설물 내용
@@ -209,6 +215,78 @@ public class GamFcltsMngGroupMngVo  extends ComDefaultVO {
 	 */
 	public void setCnstrctAmt(String cnstrctAmt) {
 		this.cnstrctAmt = cnstrctAmt;
+	}
+	/**
+	 * @return the fcltsGbn
+	 */
+	public String getFcltsGbn() {
+		return fcltsGbn;
+	}
+	/**
+	 * @param fcltsGbn the fcltsGbn to set
+	 */
+	public void setFcltsGbn(String fcltsGbn) {
+		this.fcltsGbn = fcltsGbn;
+	}
+	/**
+	 * @return the fcltsGbnNm
+	 */
+	public String getFcltsGbnNm() {
+		return fcltsGbnNm;
+	}
+	/**
+	 * @param fcltsGbnNm the fcltsGbnNm to set
+	 */
+	public void setFcltsGbnNm(String fcltsGbnNm) {
+		this.fcltsGbnNm = fcltsGbnNm;
+	}
+	/**
+	 * @return the fcltsSe
+	 */
+	public String getFcltsSe() {
+		return fcltsSe;
+	}
+	/**
+	 * @param fcltsSe the fcltsSe to set
+	 */
+	public void setFcltsSe(String fcltsSe) {
+		this.fcltsSe = fcltsSe;
+	}
+	/**
+	 * @return the fcltsSeNm
+	 */
+	public String getFcltsSeNm() {
+		return fcltsSeNm;
+	}
+	/**
+	 * @param fcltsSeNm the fcltsSeNm to set
+	 */
+	public void setFcltsSeNm(String fcltsSeNm) {
+		this.fcltsSeNm = fcltsSeNm;
+	}
+	/**
+	 * @return the fcltsKnd
+	 */
+	public String getFcltsKnd() {
+		return fcltsKnd;
+	}
+	/**
+	 * @param fcltsKnd the fcltsKnd to set
+	 */
+	public void setFcltsKnd(String fcltsKnd) {
+		this.fcltsKnd = fcltsKnd;
+	}
+	/**
+	 * @return the fcltsKndNm
+	 */
+	public String getFcltsKndNm() {
+		return fcltsKndNm;
+	}
+	/**
+	 * @param fcltsKndNm the fcltsKndNm to set
+	 */
+	public void setFcltsKndNm(String fcltsKndNm) {
+		this.fcltsKndNm = fcltsKndNm;
 	}
 	/**
 	 * @return the fcltsCn
