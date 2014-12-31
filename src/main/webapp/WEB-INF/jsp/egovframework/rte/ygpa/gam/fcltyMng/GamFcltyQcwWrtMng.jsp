@@ -87,7 +87,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 					{display:"점검진단일자",	name:"qcInspDt",		width:100,		sortable:true,		align:"center"},
 					{display:"비고",			name:"rm",				width:350,		sortable:true,		align:"left"}
 			],
-		height: "300"
+		height: "180"
 	});
 	
 	this.$("#gamQcMngObjFcltsForm").find(".EditItem").bind("change keyup", {module: this}, function(event) {
@@ -107,7 +107,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 					{display:"점검항목",		name:"qcItemNm",		width:300,		sortable:true,		align:"left"},
 					{display:"점검항목결과구분",	name:"inspResultChkNm",	width:150,		sortable:true,		align:"center"}
 			],
-		height: "300"
+		height: "230"
 	});
 
 	this.$("#gamQcMngResultItemForm").find(".EditItem").bind("change keyup", {module: this}, function(event) {
@@ -179,8 +179,7 @@ GamFcltyQcwWrtMngModule.prototype.initDisplay = function() {
 		this.$("#fcltsJobSe").enable();
 		this.$("#popupSearchFcltsMngGroup").show();
 		this.$("#fcltyQcwWrtMngTab").tabs("option", {active: 0});
-	}
-	
+	}	
 };
 
 GamFcltyQcwWrtMngModule.prototype.onSubmit = function() {
@@ -206,6 +205,7 @@ GamFcltyQcwWrtMngModule.prototype.loadDetailData = function() {
 		this.doAction('/fcltyMng/selectQcMngDtlsDetail.do', opts, function(module, result) { 
 			if(result.resultCode == "0"){
 				module.makeFormValues('#fcltyQcwWrtMngVO', result.result);
+				module.summaryDisplay();
 				module.$("#qcMngObjFcltsList").flexOptions({params:opts}).flexReload();
 				module.$("#qcMngAtchFileList").flexOptions({params:opts}).flexReload();
 				module.$("#qcMngResultItemList").flexOptions({params:opts}).flexReload();
@@ -217,6 +217,23 @@ GamFcltyQcwWrtMngModule.prototype.loadDetailData = function() {
 			}
 		});	
 	}
+};
+
+//점검관리 대상물과 결과항목에 상세부분 출력
+GamFcltyQcwWrtMngModule.prototype.summaryDisplay = function() {
+	this.$("#summaryFcltsMngGroupNm1").text(this.$("#fcltsMngGroupNm").val());	
+	this.$("#summaryQcMngNm1").text(this.$("#qcMngNm").val());	
+	this.$("#summaryQcInspDtNm1").text(this.$("#qcInspDt").val());
+	this.$("#summaryQcInspTpNm1").text(this.$("#qcInspTp").find('option:selected').text());	
+	this.$("#summaryQcSeNm1").text(this.$("#qcSe").find('option:selected').text());
+	this.$("#summaryQcInspSeNm1").text(this.$("#qcInspSe").find('option:selected').text());	
+
+	this.$("#summaryFcltsMngGroupNm2").text(this.$("#fcltsMngGroupNm").val());	
+	this.$("#summaryQcMngNm2").text(this.$("#qcMngNm").val());	
+	this.$("#summaryQcInspDtNm2").text(this.$("#qcInspDt").val());
+	this.$("#summaryQcInspTpNm2").text(this.$("#qcInspTp").find('option:selected').text());	
+	this.$("#summaryQcSeNm2").text(this.$("#qcSe").find('option:selected').text());
+	this.$("#summaryQcInspSeNm2").text(this.$("#qcInspSe").find('option:selected').text());	
 };
 
 //점검관리내역 삽입
@@ -750,6 +767,9 @@ GamFcltyQcwWrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		this.initDisplay();
 		this.loadDetailData();
 	}
+	if(oldTabId == 'tabs2') {
+		this.summaryDisplay();
+	}
 	switch(newTabId) {
 		case "tabs1":
 			break;
@@ -1004,8 +1024,44 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 				</div>
 			</div>
 			
-			<!-- 점검관리대상시설물 -->
+			<!-- 점검관리대상시설물 -->			
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
+				<div class="emdControlPanel">
+					<table class="summaryPanel"  style="width:100%;">
+						<tbody>
+							<tr>
+								<th style="font-weight:bold;">점검관리 상세내역</th>
+							</tr>
+						</tbody>
+					</table>
+					<table class="detailPanel"  style="width:100%;">
+						<tbody>
+							<tr>
+								<th>시설물관리그룹</th>
+								<td><span id="summaryFcltsMngGroupNm1"></span></td>
+								<th>점검관리명</th>
+								<td><span id="summaryQcMngNm1"></span></td>
+								<th>시행일자</th>
+								<td><span id="summaryQcInspDtNm1"></span></td>
+							</tr>
+							<tr>
+								<th>점검진단자</th>
+								<td><span id="summaryQcInspTpNm1"></span></td>
+								<th>점검구분</th>
+								<td><span id="summaryQcSeNm1"></span></td>
+								<th>점검진단구분</th>
+								<td><span id="summaryQcInspSeNm1"></span></td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="summaryPanel"  style="width:100%;">
+						<tbody>
+							<tr>
+								<th style="font-weight:bold;">점검관리 대상시설물</th>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 				<table id="qcMngObjFcltsList" style="display:none"></table>
 		        <div class="emdControlPanel">
 		            <button id="btnQcMngObjFcltsAdd">추가</button>
@@ -1056,6 +1112,42 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 			
 			<!-- 점검관리결과항목 -->
 			<div id="tabs4" class="emdTabPage" style="overflow: scroll;">
+				<div class="emdControlPanel">
+					<table class="summaryPanel"  style="width:100%;">
+						<tbody>
+							<tr>
+								<th style="font-weight:bold;">점검관리 상세내역</th>
+							</tr>
+						</tbody>
+					</table>
+					<table class="detailPanel"  style="width:100%;">
+						<tbody>
+							<tr>
+								<th>시설물관리그룹</th>
+								<td><span id="summaryFcltsMngGroupNm2"></span></td>
+								<th>점검관리명</th>
+								<td><span id="summaryQcMngNm2"></span></td>
+								<th>시행일자</th>
+								<td><span id="summaryQcInspDtNm2"></span></td>
+							</tr>
+							<tr>
+								<th>점검진단자</th>
+								<td><span id="summaryQcInspTpNm2"></span></td>
+								<th>점검구분</th>
+								<td><span id="summaryQcSeNm2"></span></td>
+								<th>점검진단구분</th>
+								<td><span id="summaryQcInspSeNm2"></span></td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="summaryPanel"  style="width:100%;">
+						<tbody>
+							<tr>
+								<th style="font-weight:bold;">점검관리 결과</th>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 				<table id="qcMngResultItemList" style="display:none"></table>
 		        <div class="emdControlPanel">
 		            <button id="btnQcMngResultItemAdd">추가</button>
