@@ -753,7 +753,7 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 		
 		//점검항목선택
 		case "popupSearchQcItemCd" : 
-			this.doExecuteDialog('selectQcItemCd', '점검항목 선택', '/popup/showQcItemCdPopup.do', {});
+			this.doExecuteDialog('selectQcItemCd', '점검항목 선택', '/popup/showQcItemCdTreePopup.do', {}, {'fcltsJobSe' : this.$('#fcltsJobSe').val()});
 			break;			
 	}
 };
@@ -807,13 +807,26 @@ GamFcltyQcwWrtMngModule.prototype.onClosePopup = function(popupId, msg, value){
     		break;
     	//점검항목선택
 		case 'selectQcItemCd':
+			/*
 			if(this.existQcMngResultItem(value['qcItemCd'])) {
 				alert('결과항목이 이미 존재합니다.');
 			} else {
 	        	this.$('#qcItemCd').val(value['qcItemCd']);
 	        	this.$('#qcItemNm').val(value['qcItemNm']);
 	        	this.$('#gamQcMngResultItemForm').find('.EditItem').trigger('change');
+			}*/
+			var selectedItems = value['qcItemList'];
+			for(var i=0; i<selectedItems.length; i++) {
+				var item = selectedItems[i];
+				//alert(item.qcItemCd + ', ' + item.qcItemNm);
+				//this.$("#popupSearchQcItemCd").show();
+				//this.$('#gamQcMngResultItemForm :input').val('');
+					this.$("#qcMngResultItemList").flexAddRow({'_updtId': 'I', 'fcltsMngGroupNo':'', 'fcltsJobSe':'', 'qcMngSeq':'', 'qcItemCd':item.qcItemCd, 'qcItemNm':item.qcItemNm, 'seq':'', 'inspResultChk':'', 'inspResultChkNm':'', 'inspResultCn':''});
+					var allRows = this.$('#qcMngResultItemList').flexGetData();
+					var selRowId = allRows.length - 1;
+					this.$("#qcMngResultItemList").selectRowId(selRowId);	
 			}
+
 			break;
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");

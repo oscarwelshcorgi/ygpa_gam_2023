@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.popup">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamPopupQcItemCdTreeVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupQcItemCdTreeVO"/>
+
+	<select id="PopupQcItemCdTreeDao.selectQcItemCdTreeList_D" parameterClass="gamPopupQcItemCdTreeVO" resultClass="egovMap">
+		<![CDATA[
+		SELECT
+				 TO_NUMBER('1' || SUBSTRB(QC_ITEM_CD,2,8)) AS QC_ITEM_CD
+				,DEPTH_SORT
+				,QC_ITEM_NM
+				,(CASE WHEN DEPTH_SORT > 1 THEN TO_NUMBER('1' || SUBSTRB(QC_ITEM_UPPER_CD,2,8)) ELSE 0 END) AS QC_ITEM_UPPER_CD
+			FROM QC_ITEM_CD_F
+		WHERE FCLTS_JOB_SE = #fcltsJobSe#
+		ORDER BY QC_ITEM_CD,DEPTH_SORT
+		]]>
+	</select>
+</sqlMap>
