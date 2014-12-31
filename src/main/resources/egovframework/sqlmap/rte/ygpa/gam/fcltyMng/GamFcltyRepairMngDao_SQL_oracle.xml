@@ -111,35 +111,43 @@
 	<select id="gamFcltyRepairMngDao.selectFcltyRepairMngDetail_S" parameterClass="gamFcltyRepairMngVO" resultClass="egovMap">
 	
 		SELECT
-			TO_CHAR(FLAW_RPR_START_DT,'YYYY-MM-DD') FLAW_RPR_START_DT
-			, TO_CHAR(FLAW_RPR_END_DT,'YYYY-MM-DD') FLAW_RPR_END_DT
-			, FLAW_RPR_AMT
-			, FLAW_RPR_CONTENTS
-			, REG_USR
-			, TO_CHAR(REGIST_DT,'YYYY-MM-DD') REGIST_DT
-			, UPD_USR
-			, TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DT
-			, FLAW_RPR_ENTRPS_NM
-			, FLAW_RPR_TY
-			, TO_CHAR(FLAW_OCCRRNC_DT,'YYYY-MM-DD') FLAW_OCCRRNC_DT
-			, FLAW_RPR_COMPT_YN
-			, FLAW_EXAM_SE
-			, ENFORCE_YEAR
-			, FLAW_RPR_NM
-			, FCLTS_MNG_GROUP_NO
-			, FCLTS_JOB_SE
-			, FLAW_RPR_SEQ
-			, TO_CHAR(FLAW_EXAM_DT,'YYYY-MM-DD') FLAW_EXAM_DT
-			, FLAW_ENNC
-			, FLAW_EXAM_RESULT
-			, RM
-			, CTRT_NO
+			TO_CHAR(R.FLAW_RPR_START_DT,'YYYY-MM-DD') FLAW_RPR_START_DT
+			, TO_CHAR(R.FLAW_RPR_END_DT,'YYYY-MM-DD') FLAW_RPR_END_DT
+			, R.FLAW_RPR_AMT
+			, R.FLAW_RPR_CONTENTS
+			, R.REG_USR
+			, TO_CHAR(R.REGIST_DT,'YYYY-MM-DD') REGIST_DT
+			, R.UPD_USR
+			, TO_CHAR(R.UPDT_DT,'YYYY-MM-DD') UPDT_DT
+			, R.FLAW_RPR_ENTRPS_NM
+			, R.FLAW_RPR_TY
+			, TO_CHAR(R.FLAW_OCCRRNC_DT,'YYYY-MM-DD') FLAW_OCCRRNC_DT
+			, R.FLAW_RPR_COMPT_YN
+			, R.FLAW_EXAM_SE
+			, DECODE(R.FLAW_EXAM_SE , '1','상반기'
+									, '2','하반기') FLAW_EXAM_SE_NM
+			, R.ENFORCE_YEAR
+			, R.FLAW_RPR_NM
+			, R.FCLTS_MNG_GROUP_NO
+			, (SELECT G.FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F G WHERE G.FCLTS_MNG_GROUP_NO = R.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GOUP_NO_NM
+			, R.FCLTS_JOB_SE
+			, DECODE(R.FCLTS_JOB_SE ,'A','건축시설물'
+									,'C','토목시설물'
+									,'M','기계시설물'
+									,'E','전기시설물'
+									,'I','정보통신시설물') FCLTS_JOB_SE_NM
+			, R.FLAW_RPR_SEQ
+			, TO_CHAR(R.FLAW_EXAM_DT,'YYYY-MM-DD') FLAW_EXAM_DT
+			, R.FLAW_ENNC
+			, R.FLAW_EXAM_RESULT
+			, R.RM
+			, R.CTRT_NO
 		FROM
-			FLAW_RPR_DTLS_F 
+			FLAW_RPR_DTLS_F R 
 		WHERE 
-			FCLTS_JOB_SE = #fcltsJobSe#
-			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
+			R.FCLTS_JOB_SE = #fcltsJobSe#
+			AND R.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND R.FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 		
 		
 	</select>
@@ -337,7 +345,7 @@
 				, SYSDATE
 				, #flawRprEntrpsNm#
 				, #flawRprTy#
-				, #flaw_occrrncDt#
+				, #flawOccrrncDt#
 				, #flawRprComptYn#
 				, #flawExamSe#
 				, #enforceYear#
@@ -365,7 +373,7 @@
 				, UPDT_DT = SYSDATE
 				, FLAW_RPR_ENTRPS_NM = #flawRprEntrpsNm#
 				, FLAW_RPR_TY = #flawRprTy#
-				, FLAW_OCCRRNC_DT = #flaw_occrrncDt#
+				, FLAW_OCCRRNC_DT = #flawOccrrncDt#
 				, FLAW_RPR_COMPT_YN = #flawRprComptYn#
 				, FLAW_EXAM_SE = #flawExamSe#
 				, ENFORCE_YEAR = #enforceYear#
@@ -464,6 +472,16 @@
 	
 	<!-- 하자보수검사자입력 -->
 	<insert id="gamFcltyRepairMngDao.insertFlawExamUsrF">
+		<selectKey keyProperty="maxExamUsrSeq" resultClass="String">
+	       	SELECT 
+	       		(NVL(MAX(SEQ),0) + 1)
+			FROM 
+				FLAW_EXAM_USR_F
+			WHERE 
+				FCLTS_JOB_SE = #fcltsJobSe#
+				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+				AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
+	    </selectKey>
 		INSERT INTO 
 			FLAW_EXAM_USR_F 
 			(
@@ -483,7 +501,7 @@
 				, #flawExamDt#
 				, #regUsr#
 				, SYSDATE
-				, $seq$
+				, $maxExamUsrSeq$
 				, #flawExamComptYn#
 				, #fcltsMngGroupNo#
 				, #fcltsJobSe#

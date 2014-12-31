@@ -14,27 +14,33 @@
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
 							SELECT
-							    CTRT_NO
-                                , (CASE WHEN CTRT_SE = '1' THEN '자체' 
-                                		  WHEN CTRT_SE = '2' THEN '조달'
+							    I.CTRT_NO
+                                , (CASE WHEN I.CTRT_SE = '1' THEN '자체' 
+                                		  WHEN I.CTRT_SE = '2' THEN '조달'
                                 	END) AS CTRT_SE
-                                , BID_PBLANC_NO
-                                , CTRT_NM
-                                , TO_CHAR(BID_PBLANC_DT, 'YYYY-MM-DD') AS BID_PBLANC_DT
-                                , TO_CHAR(BID_DT, 'YYYY-MM-DD') AS BID_DT
-                                , REGIST_ENTRPS_CD
-                                , GAM_GETENTRPSNM(REGIST_ENTRPS_CD, 1) AS REGIST_ENTRPS_NM
+                                , I.BID_PBLANC_NO
+                                , I.CTRT_NM
+                                , TO_CHAR(I.BID_PBLANC_DT, 'YYYY-MM-DD') AS BID_PBLANC_DT
+                                , TO_CHAR(I.BID_DT, 'YYYY-MM-DD') AS BID_DT
+                                , I.REGIST_ENTRPS_CD
+                                , GAM_GETENTRPSNM(I.REGIST_ENTRPS_CD, 1) AS REGIST_ENTRPS_NM
+                                , J.ENTRPS_NM
                             FROM 
-				            	CTRT_INFO_F
-							WHERE 1=1
+				            	CTRT_INFO_F I
+							LEFT OUTER JOIN 
+								CTRT_JOIN_CONTR_F J 
+							ON 
+								I.CTRT_NO = J.CTRT_NO
+							WHERE 
+								J.SEQ = 1
 								<isNotEmpty property="sCtrtNo">
-									AND CTRT_NO LIKE #sCtrtNo# || '%' 
+									AND I.CTRT_NO LIKE #sCtrtNo# || '%' 
 								</isNotEmpty>
 								<isNotEmpty property="sCtrtNm">
-									AND CTRT_NM LIKE '%' || #sCtrtNm# || '%' 
+									AND I.CTRT_NM LIKE '%' || #sCtrtNm# || '%' 
 								</isNotEmpty>
                             <!-- ORDER BY REGIST_DT DESC -->
-                            ORDER BY CTRT_NO DESC, CTRT_DT DESC                                                
+                            ORDER BY I.CTRT_NO DESC, I.CTRT_DT DESC                                                
                 ) S	
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -43,14 +49,19 @@
     <select id="gamPopupCtrtNoDao.selectCtrtNoListTotCnt_S" parameterClass="gamPopupCtrtNoVO" resultClass="int">
 			SELECT
 			    COUNT(*) TOTAL_CNT
-			FROM
-			    CTRT_INFO_F
-			WHERE 1=1
+			FROM 
+            	CTRT_INFO_F I
+			LEFT OUTER JOIN 
+				CTRT_JOIN_CONTR_F J 
+			ON 
+				I.CTRT_NO = J.CTRT_NO
+			WHERE 
+				J.SEQ = 1
 				<isNotEmpty property="sCtrtNo">
-					AND CTRT_NO LIKE #sCtrtNo# || '%' 
+					AND I.CTRT_NO LIKE #sCtrtNo# || '%' 
 				</isNotEmpty>
 				<isNotEmpty property="sCtrtNm">
-					AND CTRT_NM LIKE '%' || #sCtrtNm# || '%' 
+					AND I.CTRT_NM LIKE '%' || #sCtrtNm# || '%' 
 				</isNotEmpty>
     </select>
 </sqlMap>
