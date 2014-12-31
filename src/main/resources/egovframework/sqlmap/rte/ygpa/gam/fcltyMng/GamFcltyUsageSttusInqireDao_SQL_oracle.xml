@@ -91,9 +91,9 @@
 
 	</select>
 
-<!-- 점검 관리 내역 -->
+<!-- 점검 관리 내역, 점검 관리 대상 시설물 -->
 
-	<select id="gamFcltyUsageSttusInqireDao.selectQcMngDtlsFList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
+	<select id="gamFcltyUsageSttusInqireDao.selectQcMngList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
 		SELECT A.*
 			FROM (
 				SELECT  ROWNUM RNUM, S.*
@@ -107,8 +107,8 @@
 						      ,QC_INSP_SE
 						      ,QC_INSP_INSTT_NM
 						      ,RESPON_ENGINEER_NM
-						      ,QC_BEGIN_DT
-						      ,QC_END_DT
+						      ,TO_CHAR(QC_BEGIN_DT, 'YYYY.MM.DD') AS QC_BEGIN_DT
+						      ,TO_CHAR(QC_END_DT, 'YYYY.MM.DD') AS QC_END_DT
 						      ,QC_INSP_AMT
 						      ,GAM_GET_STTUS_EVL_LVL_NM(STTUS_EVL_LVL) AS STTUS_EVL_LVL
 						      ,QC_INSP_RESULT
@@ -119,7 +119,7 @@
 				) A
 	</select>
 <!-- 점검 관리 대상 시설물 -->
-	<select id="gamFcltyUsageSttusInqireDao.selectQcMngObjFcltsList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
+	<select id="gamFcltyUsageSttusInqireDao.selectQcMngDetailList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
 		SELECT A.*
 			FROM (
 				SELECT  ROWNUM RNUM, S.*

@@ -113,19 +113,19 @@
 	this.$("#qcMngDtlsFGrid").flexigrid({
 		module : this,
 		dataType : 'json',
-		colModel : [ {display : '관리 그룹', name : 'fcltsMngGroupNo', width : 80, sortable : false, align : 'center'},
+		colModel : [ {display : '관리 그룹', name : 'fcltsMngGroupNo', width : 110, sortable : false, align : 'center'},
 		             {display : '업무 구분', name : 'fcltsJobSe', width : 70, sortable : false, align : 'center'},
 		             {display : '관리 순번', name : 'qcMngSeq', width : 60, sortable : false, align : 'right', displayFormat : 'number'},
 		             {display : '시행 년도', name : 'enforceYear', width : 60, sortable : false, align : 'center'},
-		             {display : '관리 명', name : 'qcMngNm', width : 60, sortable : false, align : 'center'},
-		             {display : '진단 일자', name : 'qcInspDt', width : 75, sortable : false, align : 'center'},
-		             {display : '진단 구분', name : 'qcInspSe', width : 70, sortable : false, align : 'center'},
-		             {display : '진단 기관 명', name : 'qcInspInsttNm', width : 80, sortable : false, align : 'right', displayFormat : 'number'},
-		             {display : '기술자 명', name : 'responEngineerNm', width : 80, sortable : false, align : 'right', displayFormat : 'number'},
+		             {display : '관리 명', name : 'qcMngNm', width : 110, sortable : false, align : 'center'},
+		             {display : '진단 일자', name : 'qcInspDt', width : 70, sortable : false, align : 'center'},
+		             {display : '진단 구분', name : 'qcInspSe', width : 60, sortable : false, align : 'center'},
+		             {display : '진단 기관 명', name : 'qcInspInsttNm', width : 70, sortable : false, align : 'right', displayFormat : 'number'},
+		             {display : '기술자 명', name : 'responEngineerNm', width : 70, sortable : false, align : 'right', displayFormat : 'number'},
 		             {display : '시작일자', name : 'qcBeginDt', width : 75, sortable : false, align : 'center'},
 		             {display : '종료 일자', name : 'qcEndDt', width : 75, sortable : false, align : 'center'},
 <!--		             {display : '진단 예산', name : 'qcInspBdgt', width : 90, sortable : false, align : 'center', displayFormat : 'number'},	-->
-		             {display : '진단 금액', name : 'qcInspAmt', width : 90, sortable : false, align : 'center', displayFormat : 'number'},
+		             {display : '진단 금액', name : 'qcInspAmt', width : 80, sortable : false, align : 'right', displayFormat : 'number'},
 		             {display : '평가등급', name : 'sttusEvlLvl', width : 60, sortable : false, align : 'center'},
 		             {display : '진단 결과', name : 'qcInspResult', width : 60, sortable : false, align : 'center'},
 		             {display : '조치내용', name : 'actionCn', width : 60, sortable : false, align : 'center'},
@@ -243,8 +243,8 @@ var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
         	module.$('#assetsRentGrid').selectRowId(0);
 
         	module.$('#qcMngDtlsFGrid').flexEmptyData();
-        	var qcMngDtlsFList={resultList: data.resultQcMngDtlsFList};
-        	module.$('#qcMngDtlsFGrid').flexAddData(qcMngDtlsFList);
+        	var qcMngList={resultList: data.qcMngList};
+        	module.$('#qcMngDtlsFGrid').flexAddData(qcMngList);
         	module.$('#qcMngDtlsFGrid').selectRowId(0);
 
 
@@ -268,13 +268,13 @@ GamFcltyUsageSttusInqireModule.prototype.loadQcMngDtailData = function() {
 	this.doAction('/fcltyMng/selectLoadQcMngDetailData.do', searchVO, function(module, data) {
 		if(data.resultCode == "0"){
 			module.$('#qcMngObjFcltsGrid').flexEmptyData();
-        	var qcMngObjFcltsList={resultList: data.resultQcMngObjFcltsList};
+        	var qcMngDetailList={resultList: data.qcMngDetailList};
 //        	module.$('#assetsRentGrid')[0].dgrid.p.preProcess(module, assetsRentList);
-        	module.$('#qcMngObjFcltsGrid').flexAddData(qcMngObjFcltsList);
+        	module.$('#qcMngObjFcltsGrid').flexAddData(qcMngDetailList);
         	module.$('#qcMngObjFcltsGrid').selectRowId(0);
 
         	module.$('#qcMngResultItemGrid').flexEmptyData();
-        	module.$('#qcMngResultItemGrid').flexAddData(qcMngObjFcltsList);
+        	module.$('#qcMngResultItemGrid').flexAddData(qcMngDetailList);
         	module.$('#qcMngResultItemGrid').selectRowId(0);
 
 /*

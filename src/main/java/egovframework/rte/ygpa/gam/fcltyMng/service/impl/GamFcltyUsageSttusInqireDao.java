@@ -69,29 +69,17 @@ public class GamFcltyUsageSttusInqireDao extends YGPAAbstractDAO{
      * @return List
      * @exception Exception
      */
-	public List selectQcMngDtlsFList(GamFcltyUsageSttusInqireVO vo){
-		return list("gamFcltyUsageSttusInqireDao.selectQcMngDtlsFList", vo);
+	public List selectQcMngList(GamFcltyUsageSttusInqireVO vo){
+		return list("gamFcltyUsageSttusInqireDao.selectQcMngList", vo);
 	}
 
 	/**
-     * 점검 관리 대상 시설물
+     * 점검 관리 대상 시설물, 점검 관리 결과 항목
      * @param vo ComDefaultVO
      * @return List
      * @exception Exception
      */
-	public List selectQcMngObjFcltsList(GamFcltyUsageSttusInqireVO vo){
-		return list("gamFcltyUsageSttusInqireDao.selectQcMngObjFcltsList", vo);
+	public List selectQcMngDetailList(GamFcltyUsageSttusInqireVO vo){
+		return list("gamFcltyUsageSttusInqireDao.selectQcMngDetailList", vo);
 	}
-
-	/**
-     * 점검 관리 결과 항목
-     * @param vo ComDefaultVO
-     * @return List
-     * @exception Exception
-     */
-	public List selectQcMngResultItemList(GamFcltyUsageSttusInqireVO vo){
-		return list("gamFcltyUsageSttusInqireDao.selectQcMngResultItemList", vo);
-	}
-
-
 }

@@ -170,12 +170,12 @@ public class GamFcltyUsageSttusInqireController {
 
 		totalCnt = gamFcltyUsageSttusInqireService.selectFcltyAssetsRentListTotCnt(searchVO);
 		List resultFcltyAssetsRentList = gamFcltyUsageSttusInqireService.selectFcltyAssetsRentList(searchVO);
-		List resultQcMngDtlsFList = gamFcltyUsageSttusInqireService.selectQcMngDtlsFList(searchVO);
+		List qcMngList = gamFcltyUsageSttusInqireService.selectQcMngList(searchVO);
 
 		map.put("resultCode", 0);
 		map.put("totalCount", totalCnt);
 		map.put("resultFcltyAssetsRentList", resultFcltyAssetsRentList);
-		map.put("resultQcMngDtlsFList", resultQcMngDtlsFList);
+		map.put("qcMngList", qcMngList);
 
 		return map;
 	}
@@ -220,11 +220,11 @@ public class GamFcltyUsageSttusInqireController {
 
 			/** List Data */
 			// 데이터 쿼리 데이터
-			List resultQcMngObjFcltsList = gamFcltyUsageSttusInqireService.selectQcMngObjFcltsList(searchVO);
+			List qcMngDetailList = gamFcltyUsageSttusInqireService.selectQcMngDetailList(searchVO);
 //			List resultQcMngResultItemList = gamFcltyUsageSttusInqireService.selectQcMngResultItemList(searchVO);
 
 			map.put("resultCode", 0);
-			map.put("resultQcMngObjFcltsList", resultQcMngObjFcltsList);
+			map.put("qcMngDetailList", qcMngDetailList);
 //			map.put("resultQcMngResultItemList", resultQcMngResultItemList);
 
 			return map;

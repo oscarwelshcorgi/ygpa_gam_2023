@@ -79,26 +79,18 @@ public class GamFcltyUsageSttusInqireServiceImpl extends AbstractServiceImpl imp
 	 * @param searchVO
 	 * @return
 	 */
-	public List selectQcMngDtlsFList(GamFcltyUsageSttusInqireVO vo) throws Exception{
-		return gamFcltyUsageSttusInqireDao.selectQcMngDtlsFList(vo);
+	public List selectQcMngList(GamFcltyUsageSttusInqireVO vo) throws Exception{
+		return gamFcltyUsageSttusInqireDao.selectQcMngList(vo);
 	}
 
 	/**
-	 * 점검 관리 대상 시설물
+	 * 점검 관리 대상 시설물, 점검 관리 결과 항목
 	 * @param searchVO
 	 * @return
 	 */
-	public List selectQcMngObjFcltsList(GamFcltyUsageSttusInqireVO vo) throws Exception{
-		return gamFcltyUsageSttusInqireDao.selectQcMngObjFcltsList(vo);
+	public List selectQcMngDetailList(GamFcltyUsageSttusInqireVO vo) throws Exception{
+		return gamFcltyUsageSttusInqireDao.selectQcMngDetailList(vo);
 	}
 
-	/**
-	 * 점검 관리 결과 항목
-	 * @param searchVO
-	 * @return
-	 */
-	public List selectQcMngResultItemList(GamFcltyUsageSttusInqireVO vo) throws Exception{
-		return gamFcltyUsageSttusInqireDao.selectQcMngResultItemList(vo);
-	}
 
 }
