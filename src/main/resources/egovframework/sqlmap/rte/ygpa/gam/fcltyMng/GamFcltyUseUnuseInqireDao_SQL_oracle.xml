@@ -2,340 +2,165 @@
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="ygpa.gam.fcltyMng">
 
-    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-    <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamFcltyUseUnuseSttusInqireVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUseUnuseSttusInqireVO"/>
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamFcltyUseUnuseSttusInqireVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUseUnuseSttusInqireVO"/>
+
+	<resultMap id="gamFcltyUseUnuseSttusInqireSumMap" class="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUseUnuseSttusInqireVO">
+		<result property="dataCount" column="DATA_COUNT" columnIndex="1"/>
+		<result property="sumAssetsAr" column="SUM_ASSETS_AR" columnIndex="2"/>
+		<result property="sumUsageAr" column="SUM_USAGE_AR" columnIndex="3"/>
+	</resultMap>
 
 
 	<select id="gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireList_D" parameterClass="gamFcltyUseUnuseSttusInqireVO" resultClass="egovMap">
-            SELECT Z.*
-           FROM (
-                SELECT ROWNUM RNUM, S.*
-                	FROM (  
-	 SELECT
-		A.GIS_ASSETS_PRT_AT_CODE
-	, A.GIS_ASSETS_CD
-	, A.GIS_ASSETS_SUB_CD
-	,(SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND CODE = A.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NAME
-    ,A.GIS_ASSETS_NM
-	,A.GIS_ASSETS_LOCPLC || NVL2(GIS_ASSETS_LNM_SUB,GIS_ASSETS_LNM || '-' || GIS_ASSETS_LNM_SUB,GIS_ASSETS_LNM) AS GIS_ASSETS_LNMS
-	,TO_CHAR(NVL(A.GIS_ASSETS_AR,0)) AS GIS_ASSETS_AR
-  	,TO_CHAR(NVL(A.GIS_ASSETS_REAL_RENT_AR,0)) AS GIS_ASSETS_REAL_RENT_AR
-  	,TO_CHAR(NVL(SUM(C.USAGE_AR),0)) AS USAGE_AR
-	,NVL(TO_CHAR(C.USAGE_PD_FROM,'YYYY-MM-DD'),0) AS USAGE_PD_FROM
-    ,NVL(TO_CHAR(C.USAGE_PD_TO,'YYYY-MM-DD'),0) AS USAGE_PD_TO
-	,TO_CHAR(NVL(A.GIS_ASSETS_REAL_RENT_AR-SUM(C.USAGE_AR),0)) AS NO_USAGE_AR
-  	,RTRIM(TO_CHAR(NVL(ROUND((SUM(C.USAGE_AR)/NULLIF(A.GIS_ASSETS_REAL_RENT_AR,0))*100,2),0),'FM9990D99'),'.' ) AS USAGE_AR_PER
-	
-  
-	
-  
-	
-	FROM
-		 GIS_ASSETS_CD_F A
-	LEFT OUTER JOIN ( 
-      SELECT 
-     B.PRMISN_YN
-    ,D.GIS_ASSETS_PRT_AT_CODE
-    ,D.GIS_ASSETS_CD
-    ,D.GIS_ASSETS_SUB_CD
-    ,D.USAGE_AR
-    ,D.USAGE_PD_FROM
-    ,D.USAGE_PD_TO
-   
-    FROM ASSETS_RENT_DETAIL_F D,ASSETS_RENT_F B
-    WHERE B.PRT_AT_CODE = D.PRT_AT_CODE
-    AND B.MNG_YEAR = D.MNG_YEAR
-    AND B.MNG_NO = D.MNG_NO
-    AND B.MNG_CNT = D.MNG_CNT
-    ) C
-	ON  A.GIS_ASSETS_PRT_AT_CODE = C.GIS_ASSETS_PRT_AT_CODE
-    AND A.GIS_ASSETS_CD = C.GIS_ASSETS_CD
-    AND A.GIS_ASSETS_SUB_CD = C.GIS_ASSETS_SUB_CD
-  
-  
- 	WHERE
- 			A.GIS_ASSETS_AR IS NOT NULL
- 		AND A.GIS_ASSETS_USAGE_YN='Y'
-    	AND C.PRMISN_YN='Y'
-    
-  <isNotEmpty property="searchPrtAtCode">
-	           				AND A.GIS_ASSETS_PRT_AT_CODE = #searchPrtAtCode#
-	           			</isNotEmpty>
-						  <isNotEmpty property="searchFcltyNm">
-						  	AND A.GIS_ASSETS_NM LIKE '%' || #searchFcltyNm# || '%'
-						  </isNotEmpty>
-						  <isNotEmpty property="searchLoc">
-						    AND A.GIS_ASSETS_LOCPLC LIKE '%' || #searchLoc# || '%'
-						  </isNotEmpty>
-						  <isNotEmpty property="searchDtFr">
-						 <![CDATA[ AND C.USAGE_PD_FROM >= TO_DATE(#searchDtFr#, 'yyyy-mm-dd') ]]>
-					        </isNotEmpty>
-					        <isNotEmpty property="searchDtTo">
-						<![CDATA[ AND C.USAGE_PD_TO < TO_DATE(#searchDtTo#, 'yyyy-mm-dd') + 1 ]]>
-								        </isNotEmpty>  
-		
-	 					
-	GROUP BY 
-	  A.GIS_ASSETS_PRT_AT_CODE
-	, A.GIS_ASSETS_CD
-	, A.GIS_ASSETS_SUB_CD
-	, A.GIS_ASSETS_LOCPLC
-	, A.GIS_ASSETS_NM
-	, A.GIS_ASSETS_LNM
-	, A.GIS_ASSETS_LNM_SUB
-	, A.GIS_ASSETS_AR
-	, A.GIS_ASSETS_REAL_RENT_AR
-  	, C.PRMISN_YN
-	, C.USAGE_PD_FROM
-	, C.USAGE_PD_TO
-	
-	
-	ORDER BY
-	   	  GIS_ASSETS_PRT_AT_NAME
-		, A.GIS_ASSETS_NM
-		, GIS_ASSETS_LNMS 
-		, C.USAGE_PD_FROM
-		, C.USAGE_PD_TO
-	
-		DESC
-		)S
-	)Z
-  
-  
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.GIS_ASSETS_PRT_AT_CODE
+								,T1.GIS_ASSETS_CD
+								,T1.GIS_ASSETS_SUB_CD
+								,T1.GIS_ASSETS_NM
+								,GAM_GETCODENAME('GAM019',T1.GIS_ASSETS_PRT_AT_CODE) AS PRT_AT_CODE_NM
+								,NVL2(T1.GIS_ASSETS_LNM_SUB,T1.GIS_ASSETS_LOCPLC||' '|| T1.GIS_ASSETS_LNM ||'-'|| T1.GIS_ASSETS_LNM_SUB,T1.GIS_ASSETS_LOCPLC ||' '|| T1.GIS_ASSETS_LNM) AS GIS_ASSETS_LNMS
+								,NVL(T1.GIS_ASSETS_AR,0) AS GIS_ASSETS_AR
+								,NVL(T1.GIS_ASSETS_REAL_RENT_AR,0) AS GIS_ASSETS_REAL_RENT_AR
+								,TO_CHAR(T3.USAGE_PD_FROM,'YYYY-MM-DD') AS USAGE_PD_FROM
+								,TO_CHAR(T3.USAGE_PD_TO,'YYYY-MM-DD') AS USAGE_PD_TO
+								,NVL(T3.USAGE_AR,0) AS USAGE_AR
+								,NVL(T1.GIS_ASSETS_REAL_RENT_AR,0) - NVL(T3.USAGE_AR,0) AS NO_USAGE_AR
+								,ROUND((NVL(T3.USAGE_AR,0) / (CASE WHEN T1.GIS_ASSETS_REAL_RENT_AR IS NULL OR T1.GIS_ASSETS_REAL_RENT_AR = 0 THEN 1 ELSE T1.GIS_ASSETS_REAL_RENT_AR END)) * 100,2) AS USAGE_AR_PER
+							FROM GIS_ASSETS_CD_F T1
+							INNER JOIN (
+								SELECT
+										 T2.GIS_ASSETS_PRT_AT_CODE
+										,T2.GIS_ASSETS_CD
+										,T2.GIS_ASSETS_SUB_CD
+										,MIN(T2.USAGE_PD_FROM) AS USAGE_PD_FROM
+										,MAX(T2.USAGE_PD_TO) AS USAGE_PD_TO
+										,SUM(T2.USAGE_AR) AS USAGE_AR
+									FROM ASSETS_RENT_DETAIL_F T2
+								WHERE 1 = 1 
 
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>      		
+								<isNotEmpty property="searchDtFr">
+								AND T2.USAGE_PD_FROM <![CDATA[ >= ]]> TO_DATE('2010-01-01', 'yyyy-mm-dd')
+								</isNotEmpty>
 
+								<isNotEmpty property="searchDtTo">
+								AND T2.USAGE_PD_TO <![CDATA[ < ]]> TO_DATE('2014-11-30', 'yyyy-mm-dd') + 1
+								</isNotEmpty>
 
+								AND 'Y'=(SELECT PRMISN_YN FROM ASSETS_RENT_F WHERE PRT_AT_CODE=T2.PRT_AT_CODE AND MNG_YEAR=T2.MNG_YEAR AND MNG_NO=T2.MNG_NO AND MNG_CNT=T2.MNG_CNT)
+								GROUP BY T2.GIS_ASSETS_PRT_AT_CODE, T2.GIS_ASSETS_CD, T2.GIS_ASSETS_SUB_CD
+							) T3 ON (T1.GIS_ASSETS_PRT_AT_CODE=T3.GIS_ASSETS_PRT_AT_CODE AND T1.GIS_ASSETS_CD=T3.GIS_ASSETS_CD AND T1.GIS_ASSETS_SUB_CD=T3.GIS_ASSETS_SUB_CD)
+						WHERE 1=1
 
-</select>
- <!-- 소재지 지번 자산명 총면적 사용면적 실제임대면적 NVL(SUM(gac.GIS_ASSETS_REAL_RENT_AR)- SUM(B.USAGE_AR),0) -->
- 
-<select id="gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireListTotCnt_S" parameterClass="gamFcltyUseUnuseSttusInqireVO" resultClass="int">
-	
-	
-SELECT count(*) FROM (
+						<isNotEmpty property="searchPrtAtCode">
+						AND T1.GIS_ASSETS_PRT_AT_CODE = #searchPrtAtCode#
+						</isNotEmpty>
 
-	 SELECT
-		A.GIS_ASSETS_PRT_AT_CODE
-	, A.GIS_ASSETS_CD
-	, A.GIS_ASSETS_SUB_CD
-	,(SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE_ID = 'GAM019' AND CODE = A.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NAME
-    ,A.GIS_ASSETS_NM
-	,A.GIS_ASSETS_LOCPLC || NVL2(GIS_ASSETS_LNM_SUB,GIS_ASSETS_LNM || '-' || GIS_ASSETS_LNM_SUB,GIS_ASSETS_LNM) AS GIS_ASSETS_LNMS
-	,TO_CHAR(NVL(A.GIS_ASSETS_AR,0)) AS GIS_ASSETS_AR
-  	,TO_CHAR(NVL(A.GIS_ASSETS_REAL_RENT_AR,0)) AS GIS_ASSETS_REAL_RENT_AR
-  	,TO_CHAR(NVL(SUM(C.USAGE_AR),0)) AS USAGE_AR
-	,NVL(TO_CHAR(C.USAGE_PD_FROM,'YYYY-MM-DD'),0) AS USAGE_PD_FROM
-    ,NVL(TO_CHAR(C.USAGE_PD_TO,'YYYY-MM-DD'),0) AS USAGE_PD_TO
-	,TO_CHAR(NVL(A.GIS_ASSETS_REAL_RENT_AR-SUM(C.USAGE_AR),0)) AS NO_USAGE_AR
-  	,RTRIM(TO_CHAR(NVL(ROUND((SUM(C.USAGE_AR)/NULLIF(A.GIS_ASSETS_REAL_RENT_AR,0))*100,2),0),'FM9990D99'),'.' ) AS USAGE_AR_PER
-	
-	FROM
-		 GIS_ASSETS_CD_F A
-	LEFT OUTER JOIN ( 
-      SELECT 
-     B.PRMISN_YN
-    ,D.GIS_ASSETS_PRT_AT_CODE
-    ,D.GIS_ASSETS_CD
-    ,D.GIS_ASSETS_SUB_CD
-    ,D.USAGE_AR
-    ,D.USAGE_PD_FROM
-    ,D.USAGE_PD_TO
-   
-    FROM ASSETS_RENT_DETAIL_F D,ASSETS_RENT_F B
-    WHERE B.PRT_AT_CODE = D.PRT_AT_CODE
-    AND B.MNG_YEAR = D.MNG_YEAR
-    AND B.MNG_NO = D.MNG_NO
-    AND B.MNG_CNT = D.MNG_CNT
-    ) C
-	ON  A.GIS_ASSETS_PRT_AT_CODE = C.GIS_ASSETS_PRT_AT_CODE
-    AND A.GIS_ASSETS_CD = C.GIS_ASSETS_CD
-    AND A.GIS_ASSETS_SUB_CD = C.GIS_ASSETS_SUB_CD
-  
-  
- 	WHERE
- 			A.GIS_ASSETS_AR IS NOT NULL
- 		AND A.GIS_ASSETS_USAGE_YN='Y'
-    	AND C.PRMISN_YN='Y'
-    
-  <isNotEmpty property="searchPrtAtCode">
-	           				AND A.GIS_ASSETS_PRT_AT_CODE = #searchPrtAtCode#
-	           			</isNotEmpty>
-						  <isNotEmpty property="searchFcltyNm">
-						  	AND A.GIS_ASSETS_NM LIKE '%' || #searchFcltyNm# || '%'
-						  </isNotEmpty>
-						  <isNotEmpty property="searchLoc">
-						    AND A.GIS_ASSETS_LOCPLC LIKE '%' || #searchLoc# || '%'
-						  </isNotEmpty>
-						  <isNotEmpty property="searchDtFr">
-						 <![CDATA[ AND C.USAGE_PD_FROM >= TO_DATE(#searchDtFr#, 'yyyy-mm-dd') ]]>
-					        </isNotEmpty>
-					        <isNotEmpty property="searchDtTo">
-						<![CDATA[ AND C.USAGE_PD_TO < TO_DATE(#searchDtTo#, 'yyyy-mm-dd') + 1 ]]>
-								        </isNotEmpty>  
-		
-	 					
-	GROUP BY 
-	  A.GIS_ASSETS_PRT_AT_CODE
-	, A.GIS_ASSETS_CD
-	, A.GIS_ASSETS_SUB_CD
-	, A.GIS_ASSETS_LOCPLC
-	, A.GIS_ASSETS_NM
-	, A.GIS_ASSETS_LNM
-	, A.GIS_ASSETS_LNM_SUB
-	, A.GIS_ASSETS_AR
-	, A.GIS_ASSETS_REAL_RENT_AR
-  	, C.PRMISN_YN
-	, C.USAGE_PD_FROM
-	, C.USAGE_PD_TO
-	)
-  
-	
-	
-</select> 
+						<isNotEmpty property="searchFcltyNm">
+						AND T1.GIS_ASSETS_NM LIKE '%' || #searchFcltyNm# || '%'
+						</isNotEmpty>
 
-<select id="gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireDetailList_D" parameterClass="gamFcltyUseUnuseSttusInqireVO" resultClass="egovMap">
+						<isNotEmpty property="searchLoc">
+						AND T1.GIS_ASSETS_LOCPLC LIKE '%' || #searchLoc# || '%'
+						</isNotEmpty>
 
- 
-	 
-SELECT A.GIS_ASSETS_NM ,
-  GAM_GETENTRPSNM(C.ENTRPSCD, '1') ENTRPS_NM ,
-  NVL(C.USAGE_AR,0)                     AS USAGE_AR ,
-  TO_CHAR(C.USAGE_PD_FROM,'YYYY-MM-DD') AS USAGE_PD_FROM ,
-  TO_CHAR(C.USAGE_PD_TO,'YYYY-MM-DD')   AS USAGE_PD_TO ,
-  C.USAGE_PURPS ,
-  USAGE_DTLS ,
-  ENTRPS_SE ,
-  EXEMPT_SE ,
-  EXEMPT_RSN ,
-  TO_CHAR(C.EXEMPT_PD_FROM,'YYYY-MM-DD') AS EXEMPT_PD_FROM ,
-  TO_CHAR(C.EXEMPT_PD_TO,'YYYY-MM-DD')   AS EXEMPT_PD_TO ,
-  C.COMPUT_DTLS                          AS COMPUT_DTLS ,
-  NVL(C.OLNLP,0)                         AS OLNLP ,
-  NVL(C.APPLC_PRICE,0)                   AS APPLC_PRICE ,
-  NVL(C.APPLC_TARIFF,0)                  AS APPLC_TARIFF ,
-  APPLC_MTH ,
-  NVL(C.RDCXPT_FEE,0)               AS RDCXPT_FEE ,
-  NVL(C.FEE,0)                      AS FEE ,
-  TO_CHAR(C.TRMNAT_DT,'YYYY-MM-DD') AS TRMNAT_DT ,
-  C.TRMNAT_RSN ,
-   C.GIS_ASSETS_PRT_AT_CODE,
-  C.GIS_ASSETS_CD,
-  C.GIS_ASSETS_SUB_CD
+						ORDER BY T1.GIS_ASSETS_PRT_AT_CODE, T1.GIS_ASSETS_NM
+				) S
+		) A
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
 
-  
-  
-FROM GIS_ASSETS_CD_F A
+	<select id="gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireListTotCnt_S" parameterClass="gamFcltyUseUnuseSttusInqireVO" resultClass="int">
+		SELECT
+				 COUNT(*) AS DATA_COUNT
+				,SUM(T1.GIS_ASSETS_REAL_RENT_AR) AS SUM_ASSETS_AR
+				,SUM(T3.USAGE_AR) AS SUM_USAGE_AR
+			FROM GIS_ASSETS_CD_F T1
+			INNER JOIN (
+				SELECT
+						 T2.GIS_ASSETS_PRT_AT_CODE
+						,T2.GIS_ASSETS_CD
+						,T2.GIS_ASSETS_SUB_CD
+						,MIN(T2.USAGE_PD_FROM) AS USAGE_PD_FROM
+						,MAX(T2.USAGE_PD_TO) AS USAGE_PD_TO
+						,SUM(T2.USAGE_AR) AS USAGE_AR
+					FROM ASSETS_RENT_DETAIL_F T2
+				WHERE 1 = 1 
 
-LEFT OUTER JOIN
-  (SELECT F.ENTRPSCD ,
-    GAM_GETENTRPSNM(F.ENTRPSCD, '1') ENTRPS_NM ,
-    D.USAGE_AR ,
-    D.USAGE_PD_FROM ,
-    D.USAGE_PD_TO ,
-    D.USAGE_PURPS ,
-    D.USAGE_DTLS ,
-    D.ENTRPS_SE ,
-    D.EXEMPT_SE ,
-    D.EXEMPT_RSN ,
-    D.EXEMPT_PD_FROM ,
-    D.EXEMPT_PD_TO ,
-    D.COMPUT_DTLS ,
-    D.OLNLP ,
-    D.APPLC_PRICE ,
-    D.APPLC_TARIFF ,
-    D.APPLC_MTH ,
-    D.RDCXPT_FEE ,
-    D.FEE ,
-    D.TRMNAT_DT ,
-    D.TRMNAT_RSN,
-    D.GIS_ASSETS_PRT_AT_CODE ,
-    D.GIS_ASSETS_CD ,
-    D.GIS_ASSETS_SUB_CD
-  FROM ASSETS_RENT_F F,
-    ASSETS_RENT_DETAIL_F D
-  WHERE F.PRT_AT_CODE = D.PRT_AT_CODE
-  AND F.MNG_YEAR      = D.MNG_YEAR
-  AND F.MNG_NO        = D.MNG_NO
-  AND F.MNG_CNT       = D.MNG_CNT
-  AND F.PRMISN_YN='Y'
-  )C
-ON C.GIS_ASSETS_PRT_AT_CODE    = A.GIS_ASSETS_PRT_AT_CODE
-AND C.GIS_ASSETS_CD            = A.GIS_ASSETS_CD
-AND C.GIS_ASSETS_SUB_CD        = A.GIS_ASSETS_SUB_CD
+				<isNotEmpty property="searchDtFr">
+				AND T2.USAGE_PD_FROM <![CDATA[ >= ]]> TO_DATE('2010-01-01', 'yyyy-mm-dd')
+				</isNotEmpty>
 
-WHERE C.GIS_ASSETS_PRT_AT_CODE = A.GIS_ASSETS_PRT_AT_CODE
-AND C.GIS_ASSETS_CD            = A.GIS_ASSETS_CD
-AND C.GIS_ASSETS_SUB_CD        = A.GIS_ASSETS_SUB_CD
+				<isNotEmpty property="searchDtTo">
+				AND T2.USAGE_PD_TO <![CDATA[ < ]]> TO_DATE('2014-11-30', 'yyyy-mm-dd') + 1
+				</isNotEmpty>
 
- 							<isNotEmpty property="gisAssetsPrtAtCode">
-					             AND C.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
-					             </isNotEmpty>
-					             <isNotEmpty property="gisAssetsCd">
-						             AND C.GIS_ASSETS_CD = #gisAssetsCd#
-						         </isNotEmpty>
-						         
-						         <isNotEmpty property="gisAssetsSubCd">
-						             AND C.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
-						         </isNotEmpty>
-						         
-						  
-						  <isNotEmpty property="usagePdFrom">
-						 <![CDATA[ AND USAGE_PD_FROM >= TO_DATE(#usagePdFrom#, 'yyyy-mm-dd') ]]>
-					        </isNotEmpty>
-					        <isNotEmpty property="usagePdTo">
-						<![CDATA[ AND USAGE_PD_TO < TO_DATE(#usagePdTo#, 'yyyy-mm-dd') + 1 ]]>
-								        </isNotEmpty> 
-  
+				AND 'Y'=(SELECT PRMISN_YN FROM ASSETS_RENT_F WHERE PRT_AT_CODE=T2.PRT_AT_CODE AND MNG_YEAR=T2.MNG_YEAR AND MNG_NO=T2.MNG_NO AND MNG_CNT=T2.MNG_CNT)
+				GROUP BY T2.GIS_ASSETS_PRT_AT_CODE, T2.GIS_ASSETS_CD, T2.GIS_ASSETS_SUB_CD
+			) T3 ON (T1.GIS_ASSETS_PRT_AT_CODE=T3.GIS_ASSETS_PRT_AT_CODE AND T1.GIS_ASSETS_CD=T3.GIS_ASSETS_CD AND T1.GIS_ASSETS_SUB_CD=T3.GIS_ASSETS_SUB_CD)
+		WHERE 1=1
 
+		<isNotEmpty property="searchPrtAtCode">
+		AND T1.GIS_ASSETS_PRT_AT_CODE = #searchPrtAtCode#
+		</isNotEmpty>
 
+		<isNotEmpty property="searchFcltyNm">
+		AND T1.GIS_ASSETS_NM LIKE '%' || #searchFcltyNm# || '%'
+		</isNotEmpty>
 
+		<isNotEmpty property="searchLoc">
+		AND T1.GIS_ASSETS_LOCPLC LIKE '%' || #searchLoc# || '%'
+		</isNotEmpty>
+	</select>
 
+	<select id="gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireDetailList_D" parameterClass="gamFcltyUseUnuseSttusInqireVO" resultClass="egovMap">
+		SELECT
+				 T1.GIS_ASSETS_NM
+				,GAM_GETENTRPSNM(T3.ENTRPSCD, '1') AS ENTRPS_NM
+				,NVL(T2.USAGE_AR,0) AS USAGE_AR
+				,TO_CHAR(T2.USAGE_PD_FROM,'YYYY-MM-DD') AS USAGE_PD_FROM
+				,TO_CHAR(t2.USAGE_PD_TO,'YYYY-MM-DD') AS USAGE_PD_TO
+				,T2.USAGE_PURPS
+				,T2.USAGE_DTLS
+				,T2.ENTRPS_SE
+				,T2.EXEMPT_SE
+				,T2.EXEMPT_RSN
+				,TO_CHAR(T2.EXEMPT_PD_FROM,'YYYY-MM-DD') AS EXEMPT_PD_FROM
+				,TO_CHAR(T2.EXEMPT_PD_TO,'YYYY-MM-DD') AS EXEMPT_PD_TO
+				,T2.COMPUT_DTLS AS COMPUT_DTLS
+				,NVL(T2.OLNLP,0) AS OLNLP
+				,NVL(T2.APPLC_PRICE,0) AS APPLC_PRICE
+				,NVL(T2.APPLC_TARIFF,0) AS APPLC_TARIFF
+				,T2.APPLC_MTH
+				,NVL(T2.RDCXPT_FEE,0) AS RDCXPT_FEE
+				,NVL(T2.FEE,0) AS FEE
+				,TO_CHAR(T2.TRMNAT_DT,'YYYY-MM-DD') AS TRMNAT_DT
+				,T2.TRMNAT_RSN
+				,T2.GIS_ASSETS_PRT_AT_CODE
+				,T2.GIS_ASSETS_CD
+				,T2.GIS_ASSETS_SUB_CD
+			FROM ASSETS_RENT_DETAIL_F T2
+			LEFT OUTER JOIN ASSETS_RENT_F T3 ON (T2.PRT_AT_CODE=T3.PRT_AT_CODE AND T2.MNG_YEAR=T3.MNG_YEAR AND T2.MNG_NO=T3.MNG_NO AND T2.MNG_CNT=T3.MNG_CNT)
+			LEFT OUTER JOIN GIS_ASSETS_CD_F T1 ON (T2.GIS_ASSETS_PRT_AT_CODE=T1.GIS_ASSETS_PRT_AT_CODE AND T2.GIS_ASSETS_CD=T1.GIS_ASSETS_CD AND T2.GIS_ASSETS_SUB_CD=T1.GIS_ASSETS_SUB_CD)
+		WHERE T2.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+		AND T2.GIS_ASSETS_CD = #gisAssetsCd#
+		AND T2.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
 
-GROUP BY A.GIS_ASSETS_NM ,
-  C.ENTRPSCD ,
-  USAGE_AR ,
-  USAGE_PD_FROM ,
-  USAGE_PD_TO ,
-  USAGE_PURPS ,
-  USAGE_DTLS ,
-  ENTRPS_SE ,
-  EXEMPT_SE ,
-  EXEMPT_RSN ,
-  EXEMPT_PD_FROM ,
-  EXEMPT_PD_TO ,
-  COMPUT_DTLS ,
-  OLNLP ,
-  APPLC_PRICE ,
-  APPLC_TARIFF ,
-  APPLC_MTH ,
-  RDCXPT_FEE ,
-  FEE ,
-  TRMNAT_DT ,
-  TRMNAT_RSN,
-    C.GIS_ASSETS_PRT_AT_CODE,
-  C.GIS_ASSETS_CD,
-  C.GIS_ASSETS_SUB_CD
-  
-  
-  
-  
-  ORDER BY
-  GIS_ASSETS_NM
-  ,ENTRPS_NM
-  ,USAGE_PD_FROM
-  ,USAGE_AR
+		<isNotEmpty property="searchDtFr">
+		AND T2.USAGE_PD_FROM <![CDATA[ >= ]]> TO_DATE('2010-01-01', 'yyyy-mm-dd')
+		</isNotEmpty>
 
-    
-    
-</select>
+		<isNotEmpty property="searchDtTo">
+		AND T2.USAGE_PD_TO <![CDATA[ < ]]> TO_DATE('2014-11-30', 'yyyy-mm-dd') + 1
+		</isNotEmpty>
 
-
+		AND 'Y'=(SELECT PRMISN_YN FROM ASSETS_RENT_F WHERE PRT_AT_CODE=T2.PRT_AT_CODE AND MNG_YEAR=T2.MNG_YEAR AND MNG_NO=T2.MNG_NO AND MNG_CNT=T2.MNG_CNT)
+	</select>
 </sqlMap>
-
-
-
-
-
-

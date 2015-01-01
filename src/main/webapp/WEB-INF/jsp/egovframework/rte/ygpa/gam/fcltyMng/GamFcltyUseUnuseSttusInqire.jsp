@@ -21,9 +21,9 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
-<validator:javascript formName="searchForm" method="validateGamFcltyUseUnuseSttusInqire" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+ <validator:javascript formName="searchForm" method="validateGamFcltyUseUnuseSttusInqire" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" /> 
 <script>
-/*
+/*  
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
  */
 function GamFcltyUseUnuseSttusInqireModule() {
@@ -33,11 +33,8 @@ GamFcltyUseUnuseSttusInqireModule.prototype = new EmdModule(1000,800);	// 초기
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
-	
-/* 	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다.
 
-	this._params = params;	// 파라미터를 저장한다.
- */
+
 	// 테이블 설정
 	this.$("#mainGrid").flexigrid({
 		module: this,
@@ -58,7 +55,8 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
 			showTableToggleBtn: false,
 			height: "250"
 				,preProcess : function(module,data) {
-					module.$('#totalCount').val(data.totalCount);
+			//		module.$('#totalCount').val(data.totalCount);
+					
 	    			module.makeDivValues('#emdControlPanelForm', data);
 				return data;
 			}
@@ -126,40 +124,27 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadData = function() {
 	
 	
 GamFcltyUseUnuseSttusInqireModule.prototype.loadDetailData = function(data) {
-		console.log('111'+data);
-	
-		alert('까꿍2');
-		 if (row.length > 0 ){
 		
-					module._detailForm=row.result;
-					module.makeDivValues('#detailForm', module._detailForm);
-			} else {
-					this._cmd="";
-					module.initDisplay();
-					alert(result.resultMsg);
-				}
-			
-		
+	this.makeDivValues('#detailForm', data);
 };
 
 // 탭 변경시 실행
 
 GamFcltyUseUnuseSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
-	var row = this.$('#detailGrid').selectedRows();
-	console.log(row);
+	var selectRows = this.$('#detailGrid').selectedRows();
+	var row =selectRows[0];
 	
-	if(oldTabId == 'tabs1' && (row.length > 0) ) {
-		alert('까꿍');
-		this.initDisplay();
-		this.$('#tabs2').scrollTop(0);
-		this.loadDetailData(row);
-	}
+		if(oldTabId == 'tabs1' && (selectRows.length >0) ) {
+				this.initDisplay();
+				this.$('#tabs2').scrollTop(0);
+				this.loadDetailData(row);
+		}
 	switch(newTabId) {
 	case "tabs1":
 		break;
 	case "tabs2":
 
-			if (row.length==0) {
+			if (selectRows.length==0) {
 					alert('상세내역의 항목을 선택해주세요.');
 					this.$("#mainTab").tabs("option", {active: 0});
 					return;
@@ -205,6 +190,7 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 			<form id="searchForm">
 				<table class="searchPanel">
 					<tbody>
+
 						<tr>
 						<th>항코드</th>
 							<td><input id="searchPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
@@ -257,7 +243,9 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 							<tr>
 								<th style="text-align: center;">자료수</th>
 						<td><input type="text" size="8" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
-
+						<td><input type="text" size="12" id="sumAssetsAr" class="ygpaNumber" disabled="disabled" /></td>
+						<td><input type="text" size="12" id="sumUsageAr" class="ygpaNumber" disabled="disabled" /></td>
+	
 								<button data-role="showMap" data-gis-layer="gisAssetsCd"
 									data-flexi-grid="fcltyUseUnuseSttusInqireList" data-style="default">맵조회</button>
 							</tr>
@@ -288,9 +276,9 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
                             </tr>
                             <tr>
 								<th width="10%" height="18">사용 면적</th>
-                                <td><input type="text" size="20" id="usageAr" disabled/></td>
+                                <td><input type="text" size="20" id="usageAr4" disabled/></td>
 								<th width="10%" height="18">사용 면적2</th>
-                                <td><input type="text" size="14" id="usageAr" readonly/></td>
+                                <td><input type="text" size="14" id="usageAr2" readonly/></td>
 								<th width="10%" height="18">사용 면적3</th>
                                 <td><span id="usageAr"></span></td>
                             </tr>

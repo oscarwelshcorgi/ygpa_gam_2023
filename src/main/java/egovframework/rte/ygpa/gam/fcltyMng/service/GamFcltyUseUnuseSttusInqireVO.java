@@ -52,7 +52,64 @@ public class GamFcltyUseUnuseSttusInqireVO extends ComDefaultVO  {
 	private String gisAssetsSubCd;
 	private String usagePdFrom;
 	private String usagePdTo;
+	private String dataCount;
+	private String sumAssetsAr;
+	private String sumUsageAr;
+
 	
+
+	/**
+	 * @return the dataCount
+	 */
+	public String getDataCount() {
+		return dataCount;
+	}
+
+
+
+	/**
+	 * @param dataCount the dataCount to set
+	 */
+	public void setDataCount(String dataCount) {
+		this.dataCount = dataCount;
+	}
+
+
+
+	/**
+	 * @return the sumAssetsAr
+	 */
+	public String getSumAssetsAr() {
+		return sumAssetsAr;
+	}
+
+
+
+	/**
+	 * @param sumAssetsAr the sumAssetsAr to set
+	 */
+	public void setSumAssetsAr(String sumAssetsAr) {
+		this.sumAssetsAr = sumAssetsAr;
+	}
+
+
+
+	/**
+	 * @return the sumUsageAr
+	 */
+	public String getSumUsageAr() {
+		return sumUsageAr;
+	}
+
+
+
+	/**
+	 * @param sumUsageAr the sumUsageAr to set
+	 */
+	public void setSumUsageAr(String sumUsageAr) {
+		this.sumUsageAr = sumUsageAr;
+	}
+
 
 
 	/**
