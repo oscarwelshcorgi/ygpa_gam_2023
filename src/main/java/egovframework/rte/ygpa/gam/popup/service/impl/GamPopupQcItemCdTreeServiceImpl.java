@@ -37,9 +37,9 @@ public class GamPopupQcItemCdTreeServiceImpl extends AbstractServiceImpl impleme
 	private GamPopupQcItemCdTreeDao gamPopupQcItemCdTreeDao;
 
 	/**
-	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * 점검관리 결과항목 Tree구조용 리스트
+	 * @param searchVO
 	 * @return list
-	 * @exception Exception
 	 */
 	public List<?> selectQcItemCdTreeList(GamPopupQcItemCdTreeVO searchVO) throws Exception {
 		return gamPopupQcItemCdTreeDao.selectQcItemCdTreeList(searchVO);

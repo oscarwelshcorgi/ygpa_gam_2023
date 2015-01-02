@@ -58,6 +58,7 @@ GamPopupQcItemCdTreeModule.prototype.displayTreeData = function(fcltsJobSe) {
 				module.tree = new dhtmlXTreeObject(qcItemTreeNode.attr('id'), "100%", "100%", 0);
 				module.tree.setImagePath("./js/codebase/imgs/dhxtree_skyblue/");
 				module.tree.loadJSArray(qcItemTreeItems);
+				//tree item에 체크박스 넣기
 				for (var i=0; i < result.resultList.length; i++) {
 					var qcItem = result.resultList[i];
 					module.tree.showItemCheckbox(qcItem.qcItemCd, true);
@@ -65,7 +66,7 @@ GamPopupQcItemCdTreeModule.prototype.displayTreeData = function(fcltsJobSe) {
 				module.tree.setUserData('module', module);
 				module.tree.openAllItems(0);
 				module.tree.module = module;
-				module.dataList = result.resultList;
+				module.dataList = result.resultList; //결과리스트의 참조포인트를 module변수에 저장한다.
 			}
 		}
 	});
@@ -89,7 +90,7 @@ GamPopupQcItemCdTreeModule.prototype.getQcItemList = function(selectedIds) {
 	var selectedItems = [];
 	for(var i=0; i<selectedIds.length; i++) {
 		var qcItemNm = this.getQcItemNm(selectedIds[i]);
-		selectedItems[selectedItems.length] = {'qcItemCd' : this.fcltsJobSe + selectedIds[i], 'qcItemNm' : qcItemNm };
+		selectedItems[selectedItems.length] = {'qcItemCd' : this.fcltsJobSe + selectedIds[i].substring(1), 'qcItemNm' : qcItemNm };
 	}
 	var resultList = {'qcItemList': selectedItems};
 	return resultList;
@@ -100,7 +101,8 @@ GamPopupQcItemCdTreeModule.prototype.processOk = function() {
 	var selectedIds = this.tree.getAllChecked().split(',');
 	if((selectedIds != null) && (selectedIds[0] != ''))
 	{
-		this.closeDialog("ok", this.getQcItemList(selectedIds));
+		var selectedItemList = this.getQcItemList(selectedIds);
+		this.closeDialog("ok", selectedItemList);
 	}
 	else {
 		alert('선택된 항목이 없습니다.');

@@ -23,5 +23,11 @@ import java.util.List;
  */
 
 public interface GamPopupQcItemCdTreeService {
+	
+	/**
+	 * 점검관리 결과항목 Tree구조용 리스트
+	 * @param searchVO
+	 * @return list
+	 */	
 	List<?> selectQcItemCdTreeList(GamPopupQcItemCdTreeVO searchVO) throws Exception;
 }

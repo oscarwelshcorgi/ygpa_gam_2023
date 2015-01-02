@@ -30,8 +30,9 @@ import egovframework.rte.ygpa.gam.popup.service.GamPopupQcItemCdTreeVO;
 @Repository("gamPopupQcItemCdTreeDao")
 public class GamPopupQcItemCdTreeDao extends YGPAAbstractDAO {
 	/**
+	 * 점검관리 결과항목 Tree구조용 리스트
 	 * @param searchVO
-	 * @return
+	 * @return list
 	 */
 	public List<?> selectQcItemCdTreeList(GamPopupQcItemCdTreeVO searchVO) {
 		return list("PopupQcItemCdTreeDao.selectQcItemCdTreeList_D", searchVO);
