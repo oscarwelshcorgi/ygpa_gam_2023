@@ -494,8 +494,17 @@ GamFcltyQcwWrtMngModule.prototype.selectQcMngResultItem = function() {
 	}
 };
 
+GamFcltyQcwWrtMngModule.prototype.addQcMngResultItem = function() {
+	if(this.$('#fcltsJobSe').val() != '') {
+		this.doExecuteDialog('selectQcItemCd', '점검항목 선택', '/popup/showQcItemCdTreePopup.do', {}, {'fcltsJobSe' : this.$('#fcltsJobSe').val()});
+	}
+	else {
+		alert('시설물업무구분을 선택하십시오');
+	}
+};
+
 //점검관리 결과항목 팝업에서 선택된 값들 추가
-GamFcltyQcwWrtMngModule.prototype.addQcMngResultItems = function(selectedItems) {
+GamFcltyQcwWrtMngModule.prototype.selectedQcMngResultItems = function(selectedItems) {
 	for(var i=0; i<selectedItems.length; i++) {
 		var item = selectedItems[i];
 		//항목코드가 현재 리스트에 중복되지 않은 것만 추가
@@ -717,7 +726,7 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 			
 		//점검관리 결과항목 추가
 		case "btnQcMngResultItemAdd" :
-			this.doExecuteDialog('selectQcItemCd', '점검항목 선택', '/popup/showQcItemCdTreePopup.do', {}, {'fcltsJobSe' : this.$('#fcltsJobSe').val()});
+			this.addQcMngResultItem();
 			break;
 			
 		//점검관리 결과항목 삭제
@@ -801,7 +810,7 @@ GamFcltyQcwWrtMngModule.prototype.onClosePopup = function(popupId, msg, value){
     		break;
     	//점검항목선택
 		case 'selectQcItemCd':
-			this.addQcMngResultItems(value['qcItemList']);
+			this.selectedQcMngResultItems(value['qcItemList']);
 			break;
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
@@ -983,10 +992,11 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 						<tr>							
 							<th width="12%" height="17">점검진단기관명</th>
 							<td><input type="text" size="30" id="qcInspInsttNm" maxlength="60" /></td>
-							<th width="12%" height="17">점검시작일자</th>
-							<td><input id="qcBeginDt" type="text" class="emdcal" size="20"/></td>
-							<th width="12%" height="17">점검종료일자</th>
-							<td><input id="qcEndDt" type="text" class="emdcal" size="20"/></td>
+							<th width="12%" height="17">점검기간</th>
+							<td colspan="3">
+								<input id="qcBeginDt" type="text" class="emdcal" size="20"/> ~ 
+								<input id="qcEndDt" type="text" class="emdcal" size="20"/>
+							</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">책임기술자명</th>
