@@ -41,7 +41,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
 		url: '/fcltyMng/selectFcltyUseUnuseSttusInqireList.do',
 		dataType: "json",
 		colModel : [
-				{display:"항구분",			name:"gisAssetsPrtAtName",	width:60,		sortable:false,		align:"center"},
+				{display:"항구분",			name:"prtAtCodeNm",	width:60,		sortable:false,		align:"center"},
 				{display:"자산명",			name:"gisAssetsNm",			width:180,		sortable:false,		align:"left"},
 				{display:"소재지", 			name:"gisAssetsLnms",		width:200,		sortable:false,		align:"left"},
 				{display:"자산면적㎡",		name:"gisAssetsAr",			width:100,		sortable:false,		align:"right" , displayFormat: 'number', displayOption:{format:"0,000.00"}},
@@ -53,11 +53,12 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
 				{display:"기간To",			name:"usagePdTo",				width:80, 		sortable:false,		align:"center"  }
 			],
 			showTableToggleBtn: false,
-			height: "250"
+			height: "auto"
 				,preProcess : function(module,data) {
-			//		module.$('#totalCount').val(data.totalCount);
-					
-	    			module.makeDivValues('#emdControlPanelForm', data);
+					module.$('#dataCount').val(data.dataCount);
+					module.$('#sumAssetsAr').val(data.sumAssetsAr);
+					module.$('#sumUsageAr').val(data.sumUsageAr);
+					module.makeDivValues('#emdControlPanelForm', data);
 				return data;
 			}
 		
@@ -66,7 +67,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
  
 	this.$("#mainGrid").on("onItemSelected", function(event, module, row, grid, param) {
 		
-		var searchOpt = [
+	 	var searchOpt = [
 						{name: 'gisAssetsPrtAtCode', value: row["gisAssetsPrtAtCode"]},
 						{name: 'gisAssetsCd', value: row["gisAssetsCd"]},
 						{name: 'gisAssetsSubCd', value: row["gisAssetsSubCd"]},
@@ -74,8 +75,13 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
 						{name: 'usagePdTo', value: row["usagePdTo"]},
 						];				
 		console.log(searchOpt);
-
+ 
+ 
 	module.$("#detailGrid").flexOptions({params:searchOpt}).flexReload();
+	});
+
+	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
 	// 시설물 사용/미사용 시설 상세
@@ -95,15 +101,9 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
                     ],
 
           showTableToggleBtn: false,
-        height: 'auto'
+        height: '150'
    
     });
-	
-	
-	this.$("#detailGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module.$("#mainTab").tabs("option", {active: 1});
-	});
-
 };
 GamFcltyUseUnuseSttusInqireModule.prototype.onSubmit = function() {
 	if(!validateGamFcltyUseUnuseSttusInqire(this.$('#searchForm')[0])){ 		
@@ -111,6 +111,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.onSubmit = function() {
 	}
 	this.loadData();
 	this.$('#detailGrid').flexEmptyData();
+	this.$("#mainTab").tabs("option", {active: 0});
 	};
 
 	//시설목록 로드
@@ -131,7 +132,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadDetailData = function(data) {
 // 탭 변경시 실행
 
 GamFcltyUseUnuseSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
-	var selectRows = this.$('#detailGrid').selectedRows();
+	var selectRows = this.$('#mainGrid').selectedRows();
 	var row =selectRows[0];
 	
 		if(oldTabId == 'tabs1' && (selectRows.length >0) ) {
@@ -222,40 +223,37 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 			</ul>
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
-				<table class="summaryPanel" style="width:100%;" >
-							<tr>
-					<tr>
-			<th style="font-weight:bold; height:20px;">시설물 사용시설 내역</th>
-					</tr>
-					</table>
-					
-				<table id="mainGrid" style="display: none"></table>
-				<table class="detailPanel" style="width:100%;">
-				<tr>
-				<th style="font-weight:bold; height:20px;">시설물 사용시설 상세내역</th>
-				</tr>
-				</table>
-				 <table id="detailGrid" style="display: none" class="fillHeight"></table>
+				<table id="mainGrid" style="display: none" class="fillHeight"></table>
 				 
 			<div id="emdControlPanel" class="emdControlPanel">
 					<form id="emdControlPanelForm">
-						<table style="width: 100%;">
+						<table style="width: 100%;" class="summaryPanel">
 							<tr>
-								<th style="text-align: center;">자료수</th>
-						<td><input type="text" size="8" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
-						<td><input type="text" size="12" id="sumAssetsAr" class="ygpaNumber" disabled="disabled" /></td>
-						<td><input type="text" size="12" id="sumUsageAr" class="ygpaNumber" disabled="disabled" /></td>
-	
-								<button data-role="showMap" data-gis-layer="gisAssetsCd"
-									data-flexi-grid="fcltyUseUnuseSttusInqireList" data-style="default">맵조회</button>
+								<th width="15%" height="25">자료수</th>
+						<td><input type="text" size="8" id="dataCount" class="ygpaNumber" disabled="disabled" /></td>
+						<th width="15%" height="25">총 자산면적㎡</th>
+						<td><input type="text" size="24" id="sumAssetsAr" class="ygpaNumber" disabled="disabled" /> ㎡</td>
+						<th width="15%" height="25">총 사용면적㎡</th>
+						<td><input type="text" size="24" id="sumUsageAr" class="ygpaNumber" disabled="disabled" /> ㎡</td>
 							</tr>
+						</table>
+						<table style="width:100%;">
+	                        <tr>
+	                        <button data-role="showMap" data-gis-layer="gisAssetsCd"
+									data-flexi-grid="fcltyUseUnuseSttusInqireList" data-style="default">맵조회</button>
+	                        
+	                        
+	                        </tr>
 						</table>
 					</form>
 				</div>
 			</div>
 
            <div id="tabs2" class="emdTabPage" style="overflow:scroll;">
+          
            
+				 <table id="detailGrid" style="display: none"></table>
+			
                 <div class="emdControlPanel">
                     <form id="detailForm">
                         

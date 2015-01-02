@@ -77,7 +77,7 @@
 		]]>
 	</select>
 
-	<select id="gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireListTotCnt_S" parameterClass="gamFcltyUseUnuseSttusInqireVO" resultClass="int">
+	<select id="gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireListTotCnt_S" parameterClass="gamFcltyUseUnuseSttusInqireVO" resultMap="gamFcltyUseUnuseSttusInqireSumMap">
 		SELECT
 				 COUNT(*) AS DATA_COUNT
 				,SUM(T1.GIS_ASSETS_REAL_RENT_AR) AS SUM_ASSETS_AR
