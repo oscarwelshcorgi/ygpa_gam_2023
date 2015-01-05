@@ -25,9 +25,6 @@ import egovframework.com.cmm.ComDefaultVO;
 public class GamConstFcltySpecInqireVO extends ComDefaultVO{
 	
 	private static final long serialVersionUID = 1L;
-	
-	/** 항만시설 구분 */
-    private String prtFcltySe;
     
     /** 항구분 */
     private String sPrtAtCode;
@@ -46,20 +43,6 @@ public class GamConstFcltySpecInqireVO extends ComDefaultVO{
 	
 	/** 시설물관리번호 */
     private String fcltsMngNo;
-
-	/**
-	 * @return the prtFcltySe
-	 */
-	public String getPrtFcltySe() {
-		return prtFcltySe;
-	}
-
-	/**
-	 * @param prtFcltySe the prtFcltySe to set
-	 */
-	public void setPrtFcltySe(String prtFcltySe) {
-		this.prtFcltySe = prtFcltySe;
-	}
 
 	/**
 	 * @return the sPrtAtCode

@@ -5,20 +5,20 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
-  /**
-  * @Class Name : GamFcltyUsageHistInqire.jsp
-  * @Description : 시설물 사용이력 조회
-  * @Modification Information
-  *
-  *   수정일         수정자                   수정내용
-  *  -------    --------    ---------------------------
-  *  2014. 12. 11.		LFIT		최초 생성
-  *
-  * author LFIT
-  * since 2014.12.11
-  *
-  * Copyright (C) 2013 by LFIT  All right reserved.
-  */
+/**
+ * @Class Name : GamFcltyUsageHistInqire.jsp
+ * @Description : 시설물 사용이력 조회
+ * @Modification Information
+ *
+ *   수정일         수정자                   수정내용
+ *  -------    --------    ---------------------------
+ *  2014.12.11	김영길		최초 생성
+ *
+ * author 김영길
+ * since 2014.12.11
+ *
+ * Copyright (C) 2013 by LFIT  All right reserved.
+ */
 %>
 <validator:javascript formName="searchForm" method="validateSearchForm" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 
@@ -75,7 +75,7 @@ GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
 			this.downloadExcel();
 		break;
 	case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
-           this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do');
+           this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', null);
            break;
     }
 };

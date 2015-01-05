@@ -5,38 +5,52 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
-  /**
-  * @Class Name : GamMechFcltySpecInqire.jsp
-  * @Description : 기계시설 제원 조회
-  * @Modification Information
-  *
-  *   수정일         수정자                   수정내용
-  *  -------    --------    ---------------------------
-  *  2014. 12. 9.		김영길		최초 생성
-  *
-  * author LFIT
-  * since 2014. 12. 9.
-  *
-  * Copyright (C) 2013 by LFIT  All right reserved.
-  */
-%>
-<validator:javascript formName="fcltyManageVO" method="validateFcltyManageVO" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<script>
-/*
- * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
+/**
+ * @Class Name : GamMechFcltySpecInqire.jsp
+ * @Description : 기계시설 제원 조회
+ * @Modification Information
+ *
+ *   수정일         수정자             수정내용
+ *  -------    --------    ---------------------------
+ *  2014.12.9	김영길		최초 생성
+ *
+ * author 김영길
+ * since 2014.12.9
+ *
+ * Copyright (C) 2013 by LFIT  All right reserved.
  */
-function GamMechFcltySpecInqireModule() {
-}
+%>
+
+<%
+/******************************** SCRIPT START ********************************/
+%>
+
+<script>
+<%
+/**
+ * @FUNCTION NAME : GamMechFcltySpecInqireModule
+ * @DESCRIPTION   : MODULE 고유 함수 (아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.)
+ * @PARAMETER     : NONE
+**/
+%>
+function GamMechFcltySpecInqireModule() {}
+
 // 초기 시작 창크기 지정
 GamMechFcltySpecInqireModule.prototype = new EmdModule(1000,700);
 
-// 페이지가 호출 되었을때 호출 되는 함수
+<%
+/**
+ * @FUNCTION NAME : loadComplete
+ * @DESCRIPTION   : PAGE LOAD COMPLETE (페이지 호출시 실행되는 함수)
+ * @PARAMETER     : NONE
+**/
+%>
 GamMechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 
 	this._fcltyItem = null;
 	
 	// 테이블 설정
-	this.$("#mechFcltySpecInqireList").flexigrid({
+	this.$("#mainGrid").flexigrid({
 		module: this,
 		url: '/fclty/selectMechFcltySpecInqireList.do',
 		dataType: "json",
@@ -50,13 +64,13 @@ GamMechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		height: "auto"
 	});
 	
-	this.$("#mechFcltySpecInqireList").on('onItemSelected', function(event, module, row, grid, param) {
+	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module._cmd = "modify";
 	});
 	
-	this.$("#mechFcltySpecInqireList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._cmd = "modify";
-		module.$("#mechFcltySpecInqireTab").tabs("option", {active: 1});
+		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
 	this.$("#selectGisPrtFcltyCd").on("change", {module: this}, function(event) {
@@ -81,16 +95,30 @@ GamMechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 	});
 };
 
+<%
+/**
+ * @FUNCTION NAME : onSubmit
+ * @DESCRIPTION   : (프레임워크에서 SUBMIT 이벤트 호출 시 호출 한다.)
+ * @PARAMETER     : NONE
+**/
+%>
 GamMechFcltySpecInqireModule.prototype.onSubmit = function() {
 	this.loadData();
 };
 
+<%
+/**
+ * @FUNCTION NAME : loadData
+ * @DESCRIPTION   : DATA LOAD (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
 GamMechFcltySpecInqireModule.prototype.loadData = function() {
 	this._cmd="";
 	this.makeFormValues('#fcltyManageVO', {});
 	var searchOpt=this.makeFormArgs("#fcltyForm");
- 	this.$("#mechFcltySpecInqireTab").tabs("option", {active: 0});
- 	this.$("#mechFcltySpecInqireList").flexOptions({params:searchOpt}).flexReload();
+ 	this.$("#mainTab").tabs("option", {active: 0});
+ 	this.$("#mainGrid").flexOptions({params:searchOpt}).flexReload();
 };
 
 GamMechFcltySpecInqireModule.prototype.imagePreview = function() {
@@ -117,13 +145,19 @@ GamMechFcltySpecInqireModule.prototype.imagePreview = function() {
 	}
 };
 
-//시설제원데이터 로드
+<%
+/**
+ * @FUNCTION NAME : loadDetail
+ * @DESCRIPTION   : 상세항목을 로딩 한다.
+ * @PARAMETER     : NONE
+**/
+%>
 GamMechFcltySpecInqireModule.prototype.loadDetail = function() {
-	var row = this.$('#mechFcltySpecInqireList').selectedRows();
+	var row = this.$('#mainGrid').selectedRows();
 	row = row[0];
 	
 	if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
-		this.$("#mechFcltySpecInqireTab").tabs("option", {active: 0});
+		this.$("#mainTab").tabs("option", {active: 0});
 		alert('시설물 관리번호에 오류가 있습니다.');
 		this._cmd = '';
 		this.initDisplay();
@@ -151,7 +185,7 @@ GamMechFcltySpecInqireModule.prototype.loadDetail = function() {
 GamMechFcltySpecInqireModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
 
 	if(newTabId=='tabs2' || newTabId=='tabs3') {
-		if(this.$('#mechFcltySpecInqireList').selectedRowCount()!=1) {
+		if(this.$('#mainGrid').selectedRowCount()!=1) {
 			alert('기계시설 항목을 선택 하세요.');
 			return false;
 		}
@@ -160,9 +194,14 @@ GamMechFcltySpecInqireModule.prototype.onTabChangeBefore = function(newTabId, ol
 	return true;
 };
 
+<%
 /**
- * 정의 된 버튼 클릭 시
- */
+ * @FUNCTION NAME : onButtonClick
+ * @DESCRIPTION   : BUTTON CLICK EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
  GamMechFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	
@@ -201,9 +240,27 @@ GamMechFcltySpecInqireModule.prototype.clearFilePage = function() {
 	this.$('#previewImage').attr('src', '');
 };
 
+GamConstFcltySpecInqireModule.prototype.gotoLocation = function() {
+	if(this._fcltyItem.laCrdnt!=null && this._fcltyItem.laCrdnt!=null) {
+		EMD.gis.goLocation(this._fcltyItem.laCrdnt, this._fcltyItem.loCrdnt);
+		EMD.gis.selectPrtFclty(this._fcltyItem);
+	} else if(this._fcltyItem.lat!=null && this._fcltyItem.lng!=null){
+		EMD.gis.goLocation4326(this._fcltyItem.lat, this._fcltyItem.lng);
+		EMD.gis.selectPrtFclty(this._fcltyItem);
+	} else {
+		alert("시설위치가 등록되지 않았습니다.");
+	}
+};
+
+<%
 /**
- * 탭 변경시 실행 이벤트
- */
+ * @FUNCTION NAME : onTabChange
+ * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
+ * @PARAMETER     :
+ *   1. newTabId - NEW TAB ID
+ *   2. oldTabId - OLD TAB ID
+**/
+%>
  GamMechFcltySpecInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	if(oldTabId == 'tabs1' && this._cmd == 'modify') {
 		this.loadDetail();
@@ -216,13 +273,13 @@ GamMechFcltySpecInqireModule.prototype.clearFilePage = function() {
 				this.$("#tabs2").scrollTop(0);
 			}
 			if(this._cmd != 'modify') {
-				this.$("#mechFcltySpecInqireTab").tabs("option", {active: 0});
+				this.$("#mainTab").tabs("option", {active: 0});
 				alert('기계시설 항목을 선택 하세요.');
 			} 
 			break;
 		case "tabs3":
 			if(this._cmd != 'modify') {
-				this.$("#mechFcltySpecInqireTab").tabs("option", {active: 0});
+				this.$("#mainTab").tabs("option", {active: 0});
 				alert('기계시설 항목을 선택 하세요.');
 			} 
 			break;
@@ -234,34 +291,11 @@ GamMechFcltySpecInqireModule.prototype.clearFilePage = function() {
  */
  GamMechFcltySpecInqireModule.prototype.onClosePopup = function(popupId, msg, value){
 	 switch(popupId){
-		// 상세화면
-		case "selectGisCode":
-			this.$("#gisAssetsPrtAtCode").val(value["gisAssetsPrtAtCode"]);
-			this.$("#gisAssetsPrtAtCode2").val(value["gisAssetsPrtAtCode"]);
-			this.$("#gisAssetsPrtAtName").val(value["gisAssetsPrtAtCodeNm"]);
-			this.$("#gisAssetsSubCd").val(value["gisAssetsSubCd"]);				// GIS SUB자산코드
-			this.$("#gisAssetsCd").val(value["gisAssetsCd"]);					// GIS 자산코드
-			this.$("#gisAssetsNm").val(value["gisAssetsNm"]);					// GIS 자산명
-			this.$("#gisAssetsLocplc").val(value["gisAssetsLocplc"]); 			// 소재지
-			this.$("#gisAssetsLnm").val(value["gisAssetsLnm"]);					// 지번
-			this.$("#gisAssetsLnmSub").val(value["gisAssetsLnmSub"]);			// 서브지번
-		break;
-		
 		// 검색조건 시설물 관리 그룹 
 		case "sSelectFcltsMngGroup":
 			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
 		break;
-
-		case "selectFcltsClCd":
-			this.$("#archFcltsClCd").val(value["fcltsClCd"]);
-			this.$("#archFcltsClCdNm").val(value["fcltsClCdNm"]);			
-			break;
-			
-		case "selectFcltsMngGroup":
-			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
-			this.$("#fcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
-			break;
 		
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
@@ -272,6 +306,16 @@ GamMechFcltySpecInqireModule.prototype.clearFilePage = function() {
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamMechFcltySpecInqireModule();
 </script>
+
+<%
+/******************************** SCRIPT   END ********************************/
+%>
+
+
+<%
+/******************************** UI     START ********************************/
+%>
+
 <!-- 아래는 고정 -->
 <input type="hidden" id="window_id" value="<c:out value="${windowId}" />" />
 <div class="window_main">
@@ -307,7 +351,7 @@ var module_instance = new GamMechFcltySpecInqireModule();
 	</div>
 
 	<div class="emdPanel fillHeight">
-		<div id="mechFcltySpecInqireTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">기계시설 목록</a></li>
 				<li><a href="#tabs2" class="emdTab">기계시설 제원</a></li>
@@ -315,9 +359,9 @@ var module_instance = new GamMechFcltySpecInqireModule();
 			</ul>
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
-				<table id="mechFcltySpecInqireList" style="display:none" class="fillHeight"></table>
+				<table id="mainGrid" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="mechFcltySpecInqireList" data-style="default">맵조회</button>
+					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="mainGrid" data-style="default">맵조회</button>
 				</div>
 			</div>
 
