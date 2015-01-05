@@ -92,24 +92,24 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
                 	{display:"업체명",			name:"entrpsNm",			width:200,		sortable:false,		align:"left"},
-                	{display:"자산명",		name:"gisAssetsNm",				width:120,		sortable:false,		align:"right"},
-                	{display:"사용목적",		name:"usagePurps",				width:160,		sortable:false,		align:"right"},
-        			{display:"사용면적㎡",	name:"usageAr",					width:120, 		sortable:false,		align:"right"},
-    				{display:"사용료", 		name:"fee",						width:120, 		sortable:false,		align:"right" },
+                	{display:"사용목적",		name:"usagePurps",				width:160,		sortable:false,		align:"right" },
+        			{display:"사용면적㎡",	name:"usageAr",					width:120, 		sortable:false,		align:"right", displayOption:{format:"0,000.00"}},
+        			{display:"사용률 %",		name:"usageArPer",				width:120,		sortable:false,		align:"right", displayOption:{format:"0,000.00"}},
+        			{display:"사용료 (원)", 		name:"fee",						width:120, 		sortable:false,		align:"right", displayformat:"number"},
     				{display:"기간From",			name:"usagePdFrom",				width:120, 		sortable:false,		align:"center"},
     				{display:"기간To",			name:"usagePdTo",				width:120, 		sortable:false,		align:"center"  }
                     ],
 
           showTableToggleBtn: false,
-        height: '150'
+        height: '500'
    
     });
 };
 GamFcltyUseUnuseSttusInqireModule.prototype.onSubmit = function() {
-	if(!validateGamFcltyUseUnuseSttusInqire(this.$('#searchForm')[0])){ 		
+ 	if(!validateGamFcltyUseUnuseSttusInqire(this.$('#searchForm')[0])){ 		
 		return;
 	}
-	this.loadData();
+ 	this.loadData();
 	this.$('#detailGrid').flexEmptyData();
 	this.$("#mainTab").tabs("option", {active: 0});
 	};
@@ -126,7 +126,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadData = function() {
 	
 GamFcltyUseUnuseSttusInqireModule.prototype.loadDetailData = function(data) {
 		
-	this.makeDivValues('#detailForm', data);
+	this.makeFormValues('#detailForm', data);
 };
 
 // 탭 변경시 실행
@@ -134,12 +134,15 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadDetailData = function(data) {
 GamFcltyUseUnuseSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	var selectRows = this.$('#mainGrid').selectedRows();
 	var row =selectRows[0];
+	var detailRows =this.$('#detailGrid').selectedRows();
+	var detailRow = selectRows[0];
 	
 		if(oldTabId == 'tabs1' && (selectRows.length >0) ) {
 				this.initDisplay();
 				this.$('#tabs2').scrollTop(0);
 				this.loadDetailData(row);
-		}
+		}else if(oldTabId == 'tabs2' &&(detailRows.)))
+		
 	switch(newTabId) {
 	case "tabs1":
 		break;
@@ -151,6 +154,9 @@ GamFcltyUseUnuseSttusInqireModule.prototype.onTabChange = function(newTabId, old
 					return;
 		
 		}
+		break;
+	case "tabs3" :
+		
 		break;
 	}
 };
@@ -220,6 +226,7 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 			<ul>
 				<li><a href="#tabs1" class="emdTab">시설물 사용/미사용시설 조회</a></li>
 				<li><a href="#tabs2" class="emdTab">시설물 사용/미사용시설 상세</a></li>
+				<li><a href="#tabs3" class="emdTab">시설물 사용/미사용시설 업체별 상세</a></li>
 			</ul>
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
@@ -250,120 +257,41 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 			</div>
 
            <div id="tabs2" class="emdTabPage" style="overflow:scroll;">
-          
-           
-				 <table id="detailGrid" style="display: none"></table>
-			
-                <div class="emdControlPanel">
+               <div class="emdControlPanel">
                     <form id="detailForm">
                         
 		
                         <table class="editForm">
-                            <tr>
-								<th width="10%" height="18">항코드</th>
+                                <tr>
+								<th width="10%" height="18">자산코드</th>
                                 <td>
-                                    <input type="text" size="20" id="prtAtCodeStr" title="항코드" disabled/>
+                                	<input type="text" size="3" id="gisAssetsPrtAtCode" disabled/>-<input type="text" size="4" id="gisAssetsCd" disabled/>-<input type="text" size="2" id="gisAssetsSubCd" disabled/>
+                                    <input type="hidden" id="assetsCdStr"/>
                                 </td>
-								
-								<th width="10%" height="18">관리번호</th>
-                                <td>
-                                    <span id="mngYear">-
-                                    <span id="mngNo">-
-                                    <span id="mngCnt">
-                                </td>
+								<th width="10%" height="18">자산면적</th>
+                                <td><input type="text" size="21" class="ygpaNumber" id="gisAssetsAr" disabled/>㎡</td>
+								<th width="10%" height="18">자산명</th>
+                                <td><input type="text" size="44" id="gisAssetsNm" disabled/></td>
                             </tr>
                             <tr>
-								<th width="10%" height="18">사용 면적</th>
-                                <td><input type="text" size="20" id="usageAr4" disabled/></td>
-								<th width="10%" height="18">사용 면적2</th>
-                                <td><input type="text" size="14" id="usageAr2" readonly/></td>
-								<th width="10%" height="18">사용 면적3</th>
-                                <td><span id="usageAr"></span></td>
+								<th width="10%" height="18">지번</th>
+                                <td>
+                                	<input type="text" size="5" id="gisAssetsLnm" disabled/> -
+                                	<input type="text" size="3" id="gisAssetsLnmSub" disabled/>
+                                </td>
+								<th width="10%" height="18">소재지</th>
+                                <td colspan="3"><input type="text" size="83" id="gisAssetsLocplc"  disabled/></td>
                             </tr>
                             <tr>
-								<th width="10%" height="18">승낙여부</th>
-                                <td>
-                                    <select id="prmisnYn" disabled>
-                                        <option value="">선택</option>
-                                        <option value="Y">Y</option>
-                                        <option value="N" selected="selected">N</option>
-                                    </select>
-                                </td>
-								<th width="10%" height="18">승낙일자</th>
-                                <td><input type="text" size="18" id="prmisnDt" disabled></td>
-								<th width="10%" height="18">총사용기간</th>
-                                <td>
-                                    <input type="text" size="18" id="grUsagePdFrom" disabled/>~
-                                    <input type="text" size="18" id="grUsagePdTo" disabled/>
-                                </td>
-                            </tr>
-                            <tr>
-								<th width="10%" height="18">총사용면적</th>
-                                <td><input type="text" size="18" class="ygpaNumber" id="grAr" disabled/>㎡</td>
-								<th width="10%" height="18">총사용료</th>
-                                <td><input type="text" size="18" class="ygpaNumber" id="grFee" disabled/></td>
-								<th width="10%" height="18">총감면사용료</th>
-                                <td><input type="text" size="18" class="ygpaNumber" id="grRdcxptFee" disabled/></td>
-                            </tr>
-                            <tr>
-								<th width="10%" height="18">납부방법</th>
-                                <td>
-                                    <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM043" />
-                                </td>
-								<th width="10%" height="18">고지방법</th>
-                                <td>
-                                    <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM008" />
-                                </td>
-								<th width="10%" height="18">분납이자율</th>
-                                <td>
-                                    <input type="text" size="19" id="payinstIntrrate" maxlength="4" size="5"/>
-                                    <select id="cofixList">
-                                        <option value="">선택</option>
-                                        <c:forEach items="${cofixList}" var="cofixListItem">
-                                            <option value="${cofixListItem.code }">${cofixListItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-								<th width="10%" height="18">과세구분</th>
-                                <td>
-                                    <input id="taxtSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM016" />
-                                </td>
-								<th width="10%" height="18">첫회 사용료</th>
-                                <td colspan="3">
-                                	<input type="text" size="13" id="firstPayVal" class="skipValue" disabled="disabled"/> 원
-                                </td>
-                            </tr>
-                            <tr>
-								<th width="10%" height="18">코멘트</th>
-                                <td colspan="5">
-                                	<input type="text" size="100" id="cmt" maxlength="80"/>
-                                	<button id="btnSaveComment">코멘트저장</button>
-                                </td>
-                            </tr>
-                            <tr>
-								<th width="10%" height="18">비고</th>
-                                <td colspan="5"><input type="text" size="100" id="rm" maxlength="90"/></td>
-                            </tr>
-                            <tr>
-								<th width="10%" height="18">담당자</th>
-                                <td>
-									<input id="chargerNo" type="hidden" />
-									<select id="selectCharger" class="skipValue">
-                                        <option value="">선택</option>
-                                    </select>
-								</td>
-								<th width="10%" height="18">담당자 전화</th>
-                                <td>
-                                	<span id="chargerTlphonNo"></span>
-								</td>
-								<th width="10%" height="18">휴대전화</th>
-                                <td>
-                                	
-                                    
-								</td>
-							</tr>
+								<th width="10%" height="18">실제임대 가용면적</th>
+                                <td><input type="text" size="20" class="ygpaNumber" id="gisAssetsRealRentAr" disabled/>㎡</td>
+								<th width="10%" height="18">총 사용면적</th>
+                                <td><input type="text" size="18" class="ygpaNumber" id="usageAr" disabled/>㎡</td>
+                                <th width="10%" height="18">자산 등록 여부</th>
+                                <td><input type="text" size="2"  id="gisAssetsUsageYn" disabled/></td>
+                                
+                                </tr>
+
                         </table>
                     </form>
 
@@ -371,8 +299,109 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 	                 
 	
                  </div>
+                 
+                 <table class="summaryPanel" style="width:100%;">
+							<tr>
+						<th style="font-weight:bold; height:25px;">업체별 상세 내역</th>
+								</tr>
+					</table>
+                 <table id="detailGrid" style="display: none"></table>
+                 
             </div>
-
+			<div id="tabs3" class="emdTabPage" style="overflow: hidden;">
+										
+							<table class="editForm">			
+								<th width="10%" height="18">신청기간</th>
+                                <td>
+                                	<input type="text" class="emdcal calcInput" size="11" id="usagePdFrom" data-role="dtFrom" data-dt-to="usagePdTo" /> ~
+                                	<input type="text" class="emdcal calcInput" size="11" id="usagePdTo" data-role="dtTo" data-dt-from="usagePdFrom" />
+                                </td>
+                            </tr>
+                            <tr>
+								<th width="10%" height="18">적용방법</th>
+                                <td colspan="3">
+                                    <input size="17" id="applcMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM014" value="1"/>
+                                </td>
+                                <th width="10%" height="18">신청기간 일별 체크</th>
+                                <td>
+                                	<input type="checkbox" class="calcInput" id="usagePdChk" style="width: 20px;height: 20px; vertical-align: middle;" value="N"/>
+                                </td>
+                              </tr>
+                             <tr class="nationAssetLaw">
+                                <th width="10%" height="18">적용요율</th>
+                                <td colspan="5">
+                                    <!--
+                                    <select id="applcTariff">
+                                        <option value="" selected="selected">선택</option>
+                                    </select>
+                                     -->
+                                    <input size="23" id="applcTariff" class="ygpaCmmnCd calcInput" data-default-prompt="선택" data-code-id="GAM023" />
+                                    <!--
+                                    <input type="text" size="14" id="applcTariffStr" readonly/>
+                                     -->
+                                    <input type="hidden" id="applcTariffNm"/>
+                                </td>
+                              </tr>
+                            <tr class="nationAssetLaw">
+								<th width="10%" height="18">공시지가목록</th>
+                                <td colspan="3">
+                                    <select id="olnlpList">
+                                        <option value="">선택</option>
+                                    </select>
+                                </td>
+								<th width="10%" height="18">공시지가</th>
+                                <td><input type="text" size="25" class="ygpaNumber calcInput" id="olnlp" maxlength="13"/></td>
+                            </tr>
+                            <tr class="tradePortLaw">
+                                <th width="10%" height="18">적용단가</th>
+                                <td colspan="5"><input type="text" size="25" class="ygpaNumber calcInput" id="applcPrice" data-decimal-point="1" maxlength="13"/></td>
+                            </tr>
+                            <tr>
+								<th width="10%" height="18">면제구분</th>
+                                <td>
+                                    <input size="17" id="exemptSe" class="ygpaCmmnCd calcInput" data-default-prompt="선택" data-code-id="GAM009" data-column-label-id='exemptSeNm'/>
+                                </td>
+								<th width="10%" height="18">면제기간</th>
+                                <td colspan="3">
+                                	<input type="text" class="emdcal calcInput" size="11" id="exemptPdFrom" data-role="dtFrom" data-dt-to="exemptPdTo" readonly/> ~
+                                	<input type="text" class="emdcal calcInput" size="11" id="exemptPdTo" data-role="dtTo" data-dt-from="exemptPdFrom" readonly/>
+                                </td>
+                            </tr>
+                            <tr>
+								<th width="10%" height="18">면제사유코드</th>
+                                <td colspan="3">
+                                    <input size="50" id="exemptRsnCd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM017" />
+                                    <!--
+                                    <input type="text" size="15" id="exemptRsnCdStr" readonly/>
+                                     -->
+                                </td>
+								<th width="10%" height="18">면제사유</th>
+                                <td><input type="text" size="44" id="exemptRsn" maxlength="95"/></td>
+                            </tr>
+                            <tr>
+								<th width="10%" height="18">감면사용료</th>
+                                <td><input type="text" size="25" class="calcInput" id="rdcxptFee"/></td>
+								<th width="10%" height="18">사용료</th>
+                                <td colspan="3"><input type="text" size="20" class="ygpaCurrency" id="fee" /></td>
+<!-- 								<th width="10%" height="18">부두코드</th>
+                                <td>
+                                	<input type="text" id="quayCd" size="10" disabled/>
+                                	<input type="text" id="quayCdNm" size="32" disabled/>
+                                </td> -->
+                            </tr>
+                            <tr>
+								<th width="10%" height="18">산출내역</th>
+                                <td colspan="5"><textarea type="text" cols="80" rows="2" id="computDtls" maxlength="200"></textarea></td>
+                            </tr>
+                            <tr>
+								<th width="10%" height="18">사용목적</th>
+                                <td colspan="5"><input type="text" size="100" id="usagePurps" maxlength="200"/></td>
+                            </tr>
+                            <tr>
+								<th width="10%" height="18">사용내역</th>
+                                <td colspan="5"><input type="text" size="100" id="usageDtls" maxlength="45"/></td>
+                            </tr>
+                            </table>
 		</div>
 
 
