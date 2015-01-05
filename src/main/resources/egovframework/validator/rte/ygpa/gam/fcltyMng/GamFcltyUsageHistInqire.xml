@@ -7,10 +7,10 @@
 
     <formset>
         <form name="searchForm">
-            <field property="searchDtFr" depends="required">
+            <field property="sDtFr" depends="required">
                 <arg0 key="사용시작일" resource="false"/>
             </field>
-            <field property="searchDtTo" depends="required">
+            <field property="sDtTo" depends="required">
                 <arg0 key="사용종료일" resource="false"/>
             </field>
         </form>

@@ -1,129 +1,125 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="ygpa.gam.fcltyMng">
-	
-    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-    <typeAlias alias="gamFcltyUsageHistInqireVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageHistInqireVO"/>
-    
-    <resultMap id="gamFcltyUsageHistInqireSumMap" class="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageHistInqireVO">
+	<typeAlias alias="gamFcltyUsageHistInqireVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageHistInqireVO"/>
+
+	<resultMap id="gamFcltyUsageHistInqireSumMap" class="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageHistInqireVO">
 		<result property="dataCount" column="DATA_COUNT" columnIndex="1"/>
 		<result property="sumAssetsAr" column="SUM_ASSETS_AR" columnIndex="2"/>
 		<result property="sumUsageAr" column="SUM_USAGE_AR" columnIndex="3"/>
 		<result property="sumFee" column="SUM_FEE" columnIndex="4"/>
 	</resultMap>
-	
+
 	<select id="gamFcltyUsageHistInqireDao.selectFcltyUsageHistInqireList" parameterClass="gamFcltyUsageHistInqireVO" resultClass="egovMap">
-		SELECT
-				*
-			FROM
-				(SELECT 
-				       a.*,
-				       ROWNUM RNUM
-				  FROM 
-					(	SELECT
-								G.GIS_ASSETS_PRT_AT_CODE
-								,G.GIS_ASSETS_CD
-								,G.GIS_ASSETS_SUB_CD
-								,G.GIS_ASSETS_NM
-								, NVL2(G.GIS_ASSETS_LNM_SUB
-										,G.GIS_ASSETS_LOCPLC ||' '|| G.GIS_ASSETS_LNM ||'-'|| G.GIS_ASSETS_LNM_SUB
-										,G.GIS_ASSETS_LOCPLC ||' '|| G.GIS_ASSETS_LNM) AS GIS_ASSETS_LOCPLC
-								,G.GIS_ASSETS_AR
-								,G.GIS_ASSETS_REAL_RENT_AR
-								, GAM_GETCODENAME('GAM019', C.PRT_AT_CODE) PRT_AT_CODE_NM
-								,C.MNG_YEAR
-								,C.MNG_NO
-								,C.MNG_CNT
-								,C.PRMISN_YN
-								,C.ENTRPS_NM
-								,C.USAGE_AR
-								,TO_CHAR(C.USAGE_PD_FROM, 'YYYY-MM-DD') USAGE_PD_FROM
-								,TO_CHAR(C.USAGE_PD_TO, 'YYYY-MM-DD') USAGE_PD_TO
-								,C.FEE
-								FROM GIS_ASSETS_CD_F G LEFT OUTER JOIN
-								  (SELECT
-								        A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT, GAM_GETENTRPSNM(A.ENTRPSCD, '1') ENTRPS_NM, A.PRMISN_YN
-								        ,B.ASSETS_USAGE_SEQ, B.GIS_ASSETS_PRT_AT_CODE, B.GIS_ASSETS_CD, B.GIS_ASSETS_SUB_CD
-								        ,B.USAGE_AR, B.USAGE_PD_FROM, B.USAGE_PD_TO, B.FEE
-								  FROM ASSETS_RENT_F A, ASSETS_RENT_DETAIL_F B
-							      WHERE A.PRT_AT_CODE = B.PRT_AT_CODE
-							      AND A.MNG_YEAR = B.MNG_YEAR
-							      AND A.MNG_NO = B.MNG_NO
-							      AND A.MNG_CNT = B.MNG_CNT
-							      AND A.PRMISN_YN = 'Y'
-							      ) C
-						ON G.GIS_ASSETS_PRT_AT_CODE	= C.GIS_ASSETS_PRT_AT_CODE
-			            AND G.GIS_ASSETS_CD	= C.GIS_ASSETS_CD
-			            AND G.GIS_ASSETS_SUB_CD	= C.GIS_ASSETS_SUB_CD
-			            WHERE G.GIS_ASSETS_PRT_AT_CODE = C.GIS_ASSETS_PRT_AT_CODE
-			            AND G.GIS_ASSETS_CD	= C.GIS_ASSETS_CD
-			            AND G.GIS_ASSETS_SUB_CD	= C.GIS_ASSETS_SUB_CD
-						<isNotEmpty property="searchDtFr" prepend="AND">
-							C.USAGE_PD_FROM <![CDATA[>=]]>TO_DATE(#searchDtFr#,'yyyy-mm-dd')
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.GIS_ASSETS_PRT_AT_CODE
+								,T1.GIS_ASSETS_CD
+								,T1.GIS_ASSETS_SUB_CD
+								,T1.GIS_ASSETS_NM
+								,NVL2(T1.GIS_ASSETS_LNM_SUB,T1.GIS_ASSETS_LOCPLC||' '||T1.GIS_ASSETS_LNM ||'-'||T1.GIS_ASSETS_LNM_SUB
+										,T1.GIS_ASSETS_LOCPLC ||' '|| T1.GIS_ASSETS_LNM) AS GIS_ASSETS_LOCPLC
+								,T1.GIS_ASSETS_AR
+								,T1.GIS_ASSETS_REAL_RENT_AR
+								,T4.PRT_AT_CODE_NM
+								,T4.MNG_YEAR
+								,T4.MNG_NO
+								,T4.MNG_CNT
+								,T4.ENTRPS_NM
+								,T4.USAGE_AR
+								,T4.USAGE_PD_FROM
+								,T4.USAGE_PD_TO
+								,T4.FEE
+							FROM GIS_ASSETS_CD_F T1
+							INNER JOIN (
+									SELECT
+										GAM_GETCODENAME('GAM019', T2.PRT_AT_CODE) AS PRT_AT_CODE_NM
+										,T2.MNG_YEAR
+										,T2.MNG_NO
+										,T2.MNG_CNT
+										,GAM_GETENTRPSNM(T3.ENTRPSCD, '1') ENTRPS_NM
+										,T2.USAGE_AR
+										,TO_CHAR(T2.USAGE_PD_FROM, 'YYYY-MM-DD') AS USAGE_PD_FROM
+										,TO_CHAR(T2.USAGE_PD_TO, 'YYYY-MM-DD') AS USAGE_PD_TO
+										,T2.FEE
+										,T2.GIS_ASSETS_PRT_AT_CODE
+					                    ,T2.GIS_ASSETS_CD
+					                    ,T2.GIS_ASSETS_SUB_CD
+										FROM ASSETS_RENT_DETAIL_F T2 INNER JOIN ASSETS_RENT_F T3
+										ON (T2.PRT_AT_CODE=T3.PRT_AT_CODE AND T2.MNG_YEAR=T3.MNG_YEAR AND T2.MNG_NO=T3.MNG_NO AND T2.MNG_CNT=T3.MNG_CNT)
+										WHERE 1=1
+										AND T3.PRMISN_YN='Y'
+										<isNotEmpty property="sDtFr">
+										AND T2.USAGE_PD_FROM <![CDATA[ >= ]]> TO_DATE(#sDtFr#,'YYYY-MM-DD')
+										</isNotEmpty>
+										<isNotEmpty property="sDtTo">
+										AND T2.USAGE_PD_TO <![CDATA[ < ]]> TO_DATE(#sDtTo#,'YYYY-MM-DD') + 1
+										</isNotEmpty>
+										<isNotEmpty property="sPrtAtCode">
+										AND T2.PRT_AT_CODE = #sPrtAtCode#
+										</isNotEmpty>
+										<isNotEmpty property="sRegistEntrpsCd">
+										AND T3.ENTRPSCD = #sRegistEntrpsCd#
+										</isNotEmpty>
+							)T4	ON (T1.GIS_ASSETS_PRT_AT_CODE=T4.GIS_ASSETS_PRT_AT_CODE AND T1.GIS_ASSETS_CD=T4.GIS_ASSETS_CD AND T1.GIS_ASSETS_SUB_CD=T4.GIS_ASSETS_SUB_CD)
+						WHERE 1=1
+						<isNotEmpty property="sGisAssetsNm">
+						AND T1.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'
 						</isNotEmpty>
-						<isNotEmpty property="searchDtTo" prepend="AND">
-							C.USAGE_PD_TO <![CDATA[<]]>TO_DATE(#searchDtTo#,'yyyy-mm-dd')+1
-						</isNotEmpty>
-						<isNotEmpty property="searchPrtAtCode">
-							AND C.PRT_AT_CODE = #searchPrtAtCode#
-						</isNotEmpty>
-						<isNotEmpty property="entrpsNm">
-							AND C.ENTRPS_NM LIKE '%' || #entrpsNm# || '%'
-						</isNotEmpty>
-						<isNotEmpty property="searchKeyword">
-							AND G.GIS_ASSETS_NM LIKE '%' || #searchKeyword# || '%'
-						</isNotEmpty>
-						ORDER BY C.MNG_YEAR DESC, C.MNG_NO DESC, C.MNG_CNT DESC
-					) a
-				) a
-				WHERE 1=1
-					<isNotEmpty property="firstIndex">
-						<![CDATA[
-						AND a.RNUM > #firstIndex#
-						AND a.RNUM <= #firstIndex# + #recordCountPerPage#
-						]]>
-					</isNotEmpty>
+						ORDER BY T4.MNG_YEAR, T4.MNG_NO, T4.MNG_CNT
+					) S
+			) A
+			<![CDATA[
+			WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+			]]>
 	</select>
 
 	<select id="gamFcltyUsageHistInqireDao.selectFcltyUsageHistInqireListTotCnt" parameterClass="gamFcltyUsageHistInqireVO" resultMap="gamFcltyUsageHistInqireSumMap">
-		SELECT COUNT(*) AS DATA_COUNT
-			,SUM(G.GIS_ASSETS_REAL_RENT_AR) AS SUM_ASSETS_AR
-			,SUM(C.USAGE_AR) AS SUM_USAGE_AR
-			,SUM(C.FEE) AS SUM_FEE
-			FROM GIS_ASSETS_CD_F G LEFT OUTER JOIN
-							(SELECT
-								        A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT, GAM_GETENTRPSNM(A.ENTRPSCD, '1') ENTRPS_NM, A.PRMISN_YN
-								        ,B.ASSETS_USAGE_SEQ, B.GIS_ASSETS_PRT_AT_CODE, B.GIS_ASSETS_CD, B.GIS_ASSETS_SUB_CD
-								        ,B.USAGE_AR, B.USAGE_PD_FROM, B.USAGE_PD_TO, B.FEE
-								  FROM ASSETS_RENT_F A, ASSETS_RENT_DETAIL_F B
-							      WHERE A.PRT_AT_CODE = B.PRT_AT_CODE
-							      AND A.MNG_YEAR = B.MNG_YEAR
-							      AND A.MNG_NO = B.MNG_NO
-							      AND A.MNG_CNT = B.MNG_CNT
-							      AND A.PRMISN_YN = 'Y'
-							      ) C
-						ON C.GIS_ASSETS_PRT_AT_CODE = G.GIS_ASSETS_PRT_AT_CODE
-						AND C.GIS_ASSETS_CD         = G.GIS_ASSETS_CD
-						AND C.GIS_ASSETS_SUB_CD     = G.GIS_ASSETS_SUB_CD
-						WHERE C.GIS_ASSETS_PRT_AT_CODE = G.GIS_ASSETS_PRT_AT_CODE
-						AND C.GIS_ASSETS_CD 		= G.GIS_ASSETS_CD
-						AND C.GIS_ASSETS_SUB_CD 	= G.GIS_ASSETS_SUB_CD
-						<isNotEmpty property="searchDtFr" prepend="AND">
-							C.USAGE_PD_FROM <![CDATA[>=]]>TO_DATE(#searchDtFr#,'yyyy-mm-dd')
-						</isNotEmpty>
-						<isNotEmpty property="searchDtTo" prepend="AND">
-							C.USAGE_PD_TO <![CDATA[<]]>TO_DATE(#searchDtTo#,'yyyy-mm-dd')+1
-						</isNotEmpty>
-						<isNotEmpty property="searchPrtAtCode">
-							AND C.PRT_AT_CODE = #searchPrtAtCode#
-						</isNotEmpty>
-						<isNotEmpty property="entrpsNm">
-							AND C.ENTRPS_NM LIKE '%' || #entrpsNm# || '%'
-						</isNotEmpty>
-						<isNotEmpty property="searchKeyword">
-							AND G.GIS_ASSETS_NM LIKE '%' || #searchKeyword# || '%'
-						</isNotEmpty>
-						ORDER BY C.MNG_YEAR DESC, C.MNG_NO DESC, C.MNG_CNT DESC
+		SELECT
+				 COUNT(*) AS DATA_COUNT
+				,SUM(T1.GIS_ASSETS_REAL_RENT_AR) AS SUM_ASSETS_AR
+				,SUM(T4.USAGE_AR) AS SUM_USAGE_AR
+				,SUM(T4.FEE) AS SUM_FEE
+		FROM GIS_ASSETS_CD_F T1
+		INNER JOIN (
+				SELECT
+					GAM_GETCODENAME('GAM019', T2.PRT_AT_CODE) AS PRT_AT_CODE_NM
+					,T2.MNG_YEAR
+					,T2.MNG_NO
+					,T2.MNG_CNT
+					,T2.USAGE_AR
+					,TO_CHAR(T2.USAGE_PD_FROM, 'YYYY-MM-DD') AS USAGE_PD_FROM
+					,TO_CHAR(T2.USAGE_PD_TO, 'YYYY-MM-DD') AS USAGE_PD_TO
+					,T2.FEE
+					,T2.GIS_ASSETS_PRT_AT_CODE
+                    ,T2.GIS_ASSETS_CD
+                    ,T2.GIS_ASSETS_SUB_CD
+					FROM ASSETS_RENT_DETAIL_F T2 INNER JOIN ASSETS_RENT_F T3
+					ON (T2.PRT_AT_CODE=T3.PRT_AT_CODE AND T2.MNG_YEAR=T3.MNG_YEAR AND T2.MNG_NO=T3.MNG_NO AND T2.MNG_CNT=T3.MNG_CNT)
+					WHERE 1=1
+					AND T3.PRMISN_YN='Y'
+					<isNotEmpty property="sDtFr">
+					AND T2.USAGE_PD_FROM <![CDATA[ >= ]]> TO_DATE(#sDtFr#,'YYYY-MM-DD')
+					</isNotEmpty>
+					<isNotEmpty property="sDtTo">
+					AND T2.USAGE_PD_TO <![CDATA[ < ]]> TO_DATE(#sDtTo#,'YYYY-MM-DD') + 1
+					</isNotEmpty>
+					<isNotEmpty property="sPrtAtCode">
+					AND T2.PRT_AT_CODE = #sPrtAtCode#
+					</isNotEmpty>
+					<isNotEmpty property="sRegistEntrpsCd">
+					AND T3.ENTRPSCD = #sRegistEntrpsCd#
+					</isNotEmpty>
+		)T4	ON (T1.GIS_ASSETS_PRT_AT_CODE=T4.GIS_ASSETS_PRT_AT_CODE AND T1.GIS_ASSETS_CD=T4.GIS_ASSETS_CD AND T1.GIS_ASSETS_SUB_CD=T4.GIS_ASSETS_SUB_CD)
+		WHERE 1=1
+		<isNotEmpty property="sGisAssetsNm">
+		AND T1.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'
+		</isNotEmpty>
 	</select>
 </sqlMap>

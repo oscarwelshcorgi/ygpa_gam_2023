@@ -27,134 +27,131 @@ import egovframework.com.cmm.ComDefaultVO;
 public class GamFcltyUsageHistInqireVO extends ComDefaultVO{
 
 	/** 항코드 (조회조건) **/
-	private String searchPrtAtCode;
+	private String sPrtAtCode;
+	
+	/** 자산명(조회조건) **/
+	private String sGisAssetsNm;
 	
 	/** 신청업체(조회조건) **/
-	private String entrpsNm;
+	private String sRegistEntrpsCd;
 	
 	/** 조회시작일(조회조건) **/
-	private String searchDtFr;
+	private String sDtFr;
 
 	/** 조회종료일(조회조건) **/
-	private String searchDtTo;
-
+	private String sDtTo;
+	
 	private String	dataCount;
 	private String	sumAssetsAr;
 	private	String	sumUsageAr;
 	private String	sumFee;
-	
 	/**
-	 * @return the searchPrtAtCode
+	 * @return the sPrtAtCode
 	 */
-	public String getSearchPrtAtCode() {
-		return searchPrtAtCode;
+	public String getsPrtAtCode() {
+		return sPrtAtCode;
 	}
-
 	/**
-	 * @param searchPrtAtCode the searchPrtAtCode to set
+	 * @param sPrtAtCode the sPrtAtCode to set
 	 */
-	public void setSearchPrtAtCode(String searchPrtAtCode) {
-		this.searchPrtAtCode = searchPrtAtCode;
+	public void setsPrtAtCode(String sPrtAtCode) {
+		this.sPrtAtCode = sPrtAtCode;
 	}
-
 	/**
-	 * @return the entrpsNm
+	 * @return the sGisAssetsNm
 	 */
-	public String getEntrpsNm() {
-		return entrpsNm;
+	public String getsGisAssetsNm() {
+		return sGisAssetsNm;
 	}
-
 	/**
-	 * @param entrpsNm the entrpsNm to set
+	 * @param sGisAssetsNm the sGisAssetsNm to set
 	 */
-	public void setEntrpsNm(String entrpsNm) {
-		this.entrpsNm = entrpsNm;
+	public void setsGisAssetsNm(String sGisAssetsNm) {
+		this.sGisAssetsNm = sGisAssetsNm;
 	}
-
 	/**
-	 * @return the searchDtFr
+	 * @return the sRegistEntrpsCd
 	 */
-	public String getSearchDtFr() {
-		return searchDtFr;
+	public String getsRegistEntrpsCd() {
+		return sRegistEntrpsCd;
 	}
-
 	/**
-	 * @param searchDtFr the searchDtFr to set
+	 * @param sRegistEntrpsCd the sRegistEntrpsCd to set
 	 */
-	public void setSearchDtFr(String searchDtFr) {
-		this.searchDtFr = searchDtFr;
+	public void setsRegistEntrpsCd(String sRegistEntrpsCd) {
+		this.sRegistEntrpsCd = sRegistEntrpsCd;
 	}
-
 	/**
-	 * @return the searchDtTo
+	 * @return the sDtFr
 	 */
-	public String getSearchDtTo() {
-		return searchDtTo;
+	public String getsDtFr() {
+		return sDtFr;
 	}
-
 	/**
-	 * @param searchDtTo the searchDtTo to set
+	 * @param sDtFr the sDtFr to set
 	 */
-	public void setSearchDtTo(String searchDtTo) {
-		this.searchDtTo = searchDtTo;
+	public void setsDtFr(String sDtFr) {
+		this.sDtFr = sDtFr;
 	}
-
+	/**
+	 * @return the sDtTo
+	 */
+	public String getsDtTo() {
+		return sDtTo;
+	}
+	/**
+	 * @param sDtTo the sDtTo to set
+	 */
+	public void setsDtTo(String sDtTo) {
+		this.sDtTo = sDtTo;
+	}
 	/**
 	 * @return the dataCount
 	 */
 	public String getDataCount() {
 		return dataCount;
 	}
-
 	/**
 	 * @param dataCount the dataCount to set
 	 */
 	public void setDataCount(String dataCount) {
 		this.dataCount = dataCount;
 	}
-	
 	/**
 	 * @return the sumAssetsAr
 	 */
 	public String getSumAssetsAr() {
 		return sumAssetsAr;
 	}
-
 	/**
 	 * @param sumAssetsAr the sumAssetsAr to set
 	 */
 	public void setSumAssetsAr(String sumAssetsAr) {
 		this.sumAssetsAr = sumAssetsAr;
 	}
-	
 	/**
 	 * @return the sumUsageAr
 	 */
 	public String getSumUsageAr() {
 		return sumUsageAr;
 	}
-
 	/**
 	 * @param sumUsageAr the sumUsageAr to set
 	 */
 	public void setSumUsageAr(String sumUsageAr) {
 		this.sumUsageAr = sumUsageAr;
 	}
-
 	/**
 	 * @return the sumFee
 	 */
 	public String getSumFee() {
 		return sumFee;
 	}
-
 	/**
 	 * @param sumFee the sumFee to set
 	 */
 	public void setSumFee(String sumFee) {
 		this.sumFee = sumFee;
 	}
-	
-	
 	
 }

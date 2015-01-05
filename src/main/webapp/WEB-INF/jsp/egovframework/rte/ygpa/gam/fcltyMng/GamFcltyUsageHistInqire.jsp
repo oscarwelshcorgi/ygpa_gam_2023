@@ -42,7 +42,7 @@ GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
 						{display : '자산명',   	name : 'gisAssetsNm',			width : 150, 	sortable : false, 	align : 'left'},
 						{display : '소재지', 	    name : 'gisAssetsLocplc',		width : 150, 	sortable : false, 	align : 'left'},
 						{display : '자산면적(㎡)', 	name : 'gisAssetsRealRentAr',	width : 100, 	sortable : false, 	align : 'right', 		displayFormat: 'number'},
-						{display : '업체명', 	    name : 'entrpsNm',				width : 150, 	sortable : false, 	align : 'left'},
+						{display : '등록업체', 	name : 'entrpsNm',				width : 150, 	sortable : false, 	align : 'left'},
 						{display : '사용시작일',	name : 'usagePdFrom',			width : 100, 	sortable : false, 	align : 'center'},
 						{display : '사용종료일',	name : 'usagePdTo',				width : 100, 	sortable : false, 	align : 'center'},
 						{display : '사용면적(㎡)',	name : 'usageAr',				width : 100, 	sortable : false, 	align : 'right', 		displayFormat: 'number'},
@@ -74,6 +74,25 @@ GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
 		case 'btnExcelDownload':
 			this.downloadExcel();
 		break;
+	case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
+           this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do');
+           break;
+    }
+};
+
+//팝업이 종료 될때 리턴 값이 오출 된다.
+//popupId : 팝업 대화상자 아이디
+//msg : 팝업에서 전송한 메시지 (취소는 cancel)
+//value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
+GamFcltyUsageHistInqireModule.prototype.onClosePopup = function(popupId, msg, value) {
+	switch (popupId) {
+		case 'selectEntrpsInfoPopup': //등록업체 선택(조회)
+	        this.$('#sRegistEntrpsCd').val(value['entrpscd']);
+	        this.$('#sRegistEntrpsNm').val(value['entrpsNm']);
+	    	break;
+		default:
+        	alert('알수없는 팝업 이벤트가 호출 되었습니다.');
+        	break;
     }
 };
 
@@ -151,12 +170,12 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 						<tr>
 							<th>항코드</th>
 							<td>
-								<input id="searchPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
+								<input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
 							</td>
 							<th>사용기간</th>
                             <td>
-                            	<input id="searchDtFr" type="text" class="emdcal" size="8"> ~ 
-                            	<input id="searchDtTo" type="text" class="emdcal" size="8">
+                            	<input id="sDtFr" type="text" class="emdcal" size="8"> ~ 
+                            	<input id="sDtTo" type="text" class="emdcal" size="8">
                             </td>
 							<td rowspan="2">
 								<button class="buttonSearch">조회</button>
@@ -165,11 +184,13 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 						<tr>
 							<th>자산명</th>
 							<td>
-								<input id="searchKeyword" type="text" size="40" maxlength="40" title="검색조건"  />
+								<input id=sGisAssetsNm type="text" size="40" maxlength="40" title="검색조건"  />
 							</td>
-							<th>업체명</th>
-                            <td>
-                         		<input id="entrpsNm" type="text" size="30">
+							<th>업체선택</th>
+							<td>
+                            	<input id="sRegistEntrpsCd" type="text" size="7">&nbsp; &nbsp;
+                         		<input id="sRegistEntrpsNm" type="text" size="27" disabled="disabled">&nbsp; &nbsp;
+                         		<button id="popupEntrpsInfo" class="popupButton">선택</button>
                          	</td>
 						</tr>
 					</tbody>
