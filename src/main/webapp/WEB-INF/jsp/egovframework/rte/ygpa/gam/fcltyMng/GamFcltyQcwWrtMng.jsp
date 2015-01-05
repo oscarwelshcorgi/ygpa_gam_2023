@@ -494,6 +494,7 @@ GamFcltyQcwWrtMngModule.prototype.selectQcMngResultItem = function() {
 	}
 };
 
+//점검관리 결과항목 추가(팝업)
 GamFcltyQcwWrtMngModule.prototype.addQcMngResultItem = function() {
 	if(this.$('#fcltsJobSe').val() != '') {
 		this.doExecuteDialog('selectQcItemCd', '점검항목 선택', '/popup/showQcItemCdTreePopup.do', {}, {'fcltsJobSe' : this.$('#fcltsJobSe').val()});

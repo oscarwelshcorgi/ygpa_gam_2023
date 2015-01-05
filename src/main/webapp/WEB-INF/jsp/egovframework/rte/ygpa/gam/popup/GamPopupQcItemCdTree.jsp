@@ -58,6 +58,8 @@ GamPopupQcItemCdTreeModule.prototype.displayTreeData = function(fcltsJobSe) {
 				module.tree = new dhtmlXTreeObject(qcItemTreeNode.attr('id'), "100%", "100%", 0);
 				module.tree.setImagePath("./js/codebase/imgs/dhxtree_skyblue/");
 				module.tree.loadJSArray(qcItemTreeItems);
+				module.tree.enableCheckBoxes(true);
+				module.tree.enableThreeStateCheckboxes(true);
 				//tree item에 체크박스 넣기
 				for (var i=0; i < result.resultList.length; i++) {
 					var qcItem = result.resultList[i];
@@ -66,7 +68,7 @@ GamPopupQcItemCdTreeModule.prototype.displayTreeData = function(fcltsJobSe) {
 				module.tree.setUserData('module', module);
 				module.tree.openAllItems(0);
 				module.tree.module = module;
-				module.dataList = result.resultList; //결과리스트의 참조포인트를 module변수에 저장한다.
+				module.dataList = result.resultList; //결과리스트의 참조포인트를 module객체 변수에 저장한다. 이름검색시 사용.
 			}
 		}
 	});
