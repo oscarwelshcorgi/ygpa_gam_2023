@@ -436,9 +436,9 @@ GamFcltyRepairMngModule.prototype.applyExamDataChanged = function(target) {
 GamFcltyRepairMngModule.prototype.addExamUsrItem = function() {
 	// TODO: 향후 수정 --- 아래의 코드를 사용하니 인터넷익스플로러에서 에러 발생(달력클릭이 안됨) - 그래서 아래에 각각 val('') 처리해줌
 	// this.$('#gamPopupRepairForm :input').val('');
-	this.$('#flawExamUsr').val('');
-	this.$('#flawExamDt').val('');
-	this.$('#flawExamComptYn').val('');
+	this.$('#eFlawExamUsr').val('');
+	this.$('#eFlawExamDt').val('');
+	this.$('#eFlawExamComptYn').val('');
 	
 	this.$("#flawExamUsrF").flexAddRow({'_updtId': 'I','seq':'','flawExamUsr':'','flawExamDt':'','flawExamComptYn':''});
 	var all_rows = this.$('#flawExamUsrF').flexGetData();
@@ -471,8 +471,10 @@ GamFcltyRepairMngModule.prototype.delExamUsrItem = function() {
 
     	alert("삭제되었습니다.");
 	}
+    
+    this.$("#gamPopupRepairForm").find(":input").val("");
 
-    this._editDataFile = null;
+    //this._editDataFile = null;
 };
 
 
@@ -717,8 +719,21 @@ GamFcltyRepairMngModule.prototype.removeFileData = function() {
     this._editDataFile = null;
 };
 
-// 엑셀 다운로드 
-GamFcltyRepairMngModule.prototype.downloadExcelData = function() {
+
+GamFcltyRepairMngModule.prototype.fillTitleData = function() {
+	var changData = this.makeFormArgs('#fcltyRepairMngListVO');
+	this.makeDivValues('#gamObjFcltsDetailForm',changData);
+	this.makeDivValues('#gamExamUsrDetailForm',changData);
+	
+	// 셀렉트박스는 한글처리
+	var fcltsJobSeNm = this.$('#fcltsJobSe').find('option:selected').text();
+	var flawExamSeNm = this.$('#flawExamSe').find('option:selected').text();
+	
+	this.$('#objFcltsJobSeNm').text(fcltsJobSeNm);
+	this.$('#objFlawExamSeNm').text(flawExamSeNm);
+	
+	this.$('#examFcltsJobSeNm').text(fcltsJobSeNm);
+	this.$('#examFlawExamSeNm').text(flawExamSeNm);
 	
 };
 
@@ -785,7 +800,7 @@ GamFcltyRepairMngModule.prototype.downloadExcelData = function() {
 		
 		// 엑셀다운로드
 		case "btnFcltyRepairMngListExcelDownload":
-			this.downloadExcelData();
+			this.$('#fcltyRepairMngList').flexExcelDown('/fcltyMng/selectFcltyRepairMngListExcel.do');
 		break;
 		
 		// 대상시설물
@@ -821,6 +836,7 @@ GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.$("#fcltyRepairMngListTab").tabs("option", {active: 0});
 				alert('하자보수 항목을 선택 하세요.');
 			} 
+
 			if(oldTabId == 'tabs1') {
 				this.$("#tabs2").scrollTop(0);
 			}
@@ -835,6 +851,10 @@ GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.$("#fcltyRepairMngListTab").tabs("option", {active: 0});
 				alert('하자보수 항목을 선택 하세요.');
 			} 
+			if(this._mode=="modify"){
+				// tabs2에서 수정사항발생시 반영 
+				this.fillTitleData();
+			}
 		break;
 		
 		case "tabs4":
@@ -842,6 +862,10 @@ GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.$("#fcltyRepairMngListTab").tabs("option", {active: 0});
 				alert('하자보수 항목을 선택 하세요.');
 			} 
+			if(this._mode=="modify"){
+				// tabs2에서 수정사항발생시 반영
+				this.fillTitleData();
+			}
 		break;
 		
 		case "tabs5":
@@ -1088,9 +1112,9 @@ var module_instance = new GamFcltyRepairMngModule();
 									<th>시설물관리그룹</th>
 									<td><span id="fcltsMngGoupNoNm"></span></td>
 									<th>업무구분</th>
-									<td><span id="fcltsJobSeNm"></span></td>
+									<td><span id="objFcltsJobSeNm"></span></td>
 									<th>하자검사구분</th>
-									<td><span id="flawExamSeNm"></span></td>
+									<td><span id="objFlawExamSeNm"></span></td>
 								</tr>
 								<tr>
 									<th>계약번호</th>
@@ -1170,9 +1194,9 @@ var module_instance = new GamFcltyRepairMngModule();
 								<th>시설물관리그룹</th>
 								<td><span id="fcltsMngGoupNoNm"></span></td>
 								<th>업무구분</th>
-								<td><span id="fcltsJobSeNm"></span></td>
+								<td><span id="examFcltsJobSeNm"></span></td>
 								<th>하자검사구분</th>
-								<td><span id="flawExamSeNm"></span></td>
+								<td><span id="examFlawExamSeNm"></span></td>
 							</tr>
 							<tr>
 								<th>계약번호</th>
