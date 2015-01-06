@@ -105,12 +105,10 @@ public class GamFcltyUsageHistInqireController {
 		List<?> usageHistInqireList = gamFcltyUsageHistInqireService.selectFcltyUsageHistInqireList(searchVO);
 		GamFcltyUsageHistInqireVO resultSum = gamFcltyUsageHistInqireService.selectFcltyUsageHistInqireListTotCnt(searchVO);
 
-        //paginationInfo.setTotalRecordCount(totCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 		map.put("resultCode", 0);
 		map.put("dataCount", resultSum.getDataCount());
-		map.put("sumAssetsAr", resultSum.getSumAssetsAr());
 		map.put("sumUsageAr", resultSum.getSumUsageAr());
 		map.put("sumFee", resultSum.getSumFee());
     	map.put("resultList", usageHistInqireList);

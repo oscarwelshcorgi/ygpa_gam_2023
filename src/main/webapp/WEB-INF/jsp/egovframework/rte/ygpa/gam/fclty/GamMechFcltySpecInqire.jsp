@@ -286,9 +286,16 @@ GamConstFcltySpecInqireModule.prototype.gotoLocation = function() {
 	}
 };
 
+<%
 /**
- * 팝업 close 이벤트
- */
+ * @FUNCTION NAME : onClosePopup
+ * @DESCRIPTION   : CLOSE POPUP EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+ *   2. msg      - MESSAGE
+ *   3. value    - VALUE
+**/
+%>
  GamMechFcltySpecInqireModule.prototype.onClosePopup = function(popupId, msg, value){
 	 switch(popupId){
 		// 검색조건 시설물 관리 그룹 

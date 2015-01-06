@@ -22,15 +22,28 @@
 %>
 <validator:javascript formName="searchForm" method="validateSearchForm" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 
+<%
+/******************************** SCRIPT START ********************************/
+%>
 <script>
-/*
- * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
- */
+<%
+/**
+ * @FUNCTION NAME : GamFcltyUsageHistInqireModule
+ * @DESCRIPTION   : MODULE 고유 함수 (아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.)
+ * @PARAMETER     : NONE
+**/
+%>
 function GamFcltyUsageHistInqireModule() {}
 
 GamFcltyUsageHistInqireModule.prototype = new EmdModule(1100,700);	// 초기 시작 창크기 지정
 
-//페이지가 호출 되었을때 호출 되는 함수
+<%
+/**
+ * @FUNCTION NAME : loadComplete
+ * @DESCRIPTION   : PAGE LOAD COMPLETE (페이지 호출시 실행되는 함수)
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
 	// 테이블 설정
 	this.$("#mainGrid").flexigrid({
@@ -41,22 +54,18 @@ GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
 						{display : '항구분',		name : 'prtAtCodeNm',			width : 60, 	sortable : false, 	align : 'center'},
 						{display : '자산명',   	name : 'gisAssetsNm',			width : 150, 	sortable : false, 	align : 'left'},
 						{display : '소재지', 	    name : 'gisAssetsLocplc',		width : 150, 	sortable : false, 	align : 'left'},
-						{display : '자산면적(㎡)', 	name : 'gisAssetsRealRentAr',	width : 100, 	sortable : false, 	align : 'right', 		displayFormat: 'number'},
+						{display : '자산면적(㎡)', 	name : 'gisAssetsRealRentAr',	width : 100, 	sortable : false, 	align : 'right', 		displayFormat: 'number', displayOption:{format:"0,000.00"} },
 						{display : '등록업체', 	name : 'entrpsNm',				width : 150, 	sortable : false, 	align : 'left'},
 						{display : '사용시작일',	name : 'usagePdFrom',			width : 100, 	sortable : false, 	align : 'center'},
 						{display : '사용종료일',	name : 'usagePdTo',				width : 100, 	sortable : false, 	align : 'center'},
-						{display : '사용면적(㎡)',	name : 'usageAr',				width : 100, 	sortable : false, 	align : 'right', 		displayFormat: 'number'},
+						{display : '사용면적(㎡)',	name : 'usageAr',				width : 100, 	sortable : false, 	align : 'right', 		displayFormat: 'number', displayOption:{format:"0,000.00"} },
 						{display : '사용료',		name : 'fee',					width : 120, 	sortable : false, 	align : 'right', 		displayFormat: 'number'}
 					],
 		showTableToggleBtn: false,
 		height: "auto",
 		preProcess: function(module,data) {
 			//자료수 입력
-            module.$('#dataCount').val($.number(data.dataCount));
-            module.$('#sumAssetsAr').val($.number(data.sumAssetsAr));
-            module.$('#sumUsageAr').val($.number(data.sumUsageAr));
-            module.$('#sumFee').val($.number(data.sumFee));
-			
+            module.makeFormValues('#listSumForm', data);
             return data;
         }
 	});
@@ -66,9 +75,14 @@ GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
 	});
 };
 
+<%
 /**
- * 정의 된 버튼 클릭 시
- */
+ * @FUNCTION NAME : onButtonClick
+ * @DESCRIPTION   : BUTTON CLICK EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
  GamFcltyUsageHistInqireModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
 		case 'btnExcelDownload':
@@ -80,10 +94,16 @@ GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
     }
 };
 
-//팝업이 종료 될때 리턴 값이 오출 된다.
-//popupId : 팝업 대화상자 아이디
-//msg : 팝업에서 전송한 메시지 (취소는 cancel)
-//value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
+<%
+/**
+ * @FUNCTION NAME : onClosePopup
+ * @DESCRIPTION   : CLOSE POPUP EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID(팝업 대화상자 아이디)
+ *   2. msg      - MESSAGE(팝업에서 전송한 메시지 / 취소는 cancel)
+ *   3. value    - VALUE(팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0)
+**/
+%>
 GamFcltyUsageHistInqireModule.prototype.onClosePopup = function(popupId, msg, value) {
 	switch (popupId) {
 		case 'selectEntrpsInfoPopup': //등록업체 선택(조회)
@@ -96,6 +116,13 @@ GamFcltyUsageHistInqireModule.prototype.onClosePopup = function(popupId, msg, va
     }
 };
 
+<%
+/**
+ * @FUNCTION NAME : onSubmit
+ * @DESCRIPTION   : (프레임워크에서 SUBMIT 이벤트 호출 시 호출 한다.)
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyUsageHistInqireModule.prototype.onSubmit = function() {
 	if(!validateSearchForm(this.$('#searchForm')[0])){ 		
 		return;
@@ -103,12 +130,26 @@ GamFcltyUsageHistInqireModule.prototype.onSubmit = function() {
     this.loadData();
 };
 
+<%
+/**
+ * @FUNCTION NAME : loadData
+ * @DESCRIPTION   : DATA LOAD (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyUsageHistInqireModule.prototype.loadData = function() {
     this.$("#mianTab").tabs("option", {active: 0});
     var searchOpt=this.makeFormArgs('#searchForm');
     this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 };
 
+<%
+/**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 리스트를 엑셀로 다운로드한다.
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyUsageHistInqireModule.prototype.downloadExcel = function() {
 	var RowCount = this.$("#mainGrid").flexRowCount();
 	if (RowCount <= 0) {
@@ -118,10 +159,24 @@ GamFcltyUsageHistInqireModule.prototype.downloadExcel = function() {
 	this.$('#mainGrid').flexExcelDown('/fcltyMng/gamFcltyUsageHistInqireExcel.do');
 };
 
+<%
+/**
+ * @FUNCTION NAME : selectData
+ * @DESCRIPTION   : DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyUsageHistInqireModule.prototype.selectData = function() {
 	this.rowSpanGridData();
 };
 
+<%
+/**
+ * @FUNCTION NAME : rowSpanGrid
+ * @DESCRIPTION   : GRID DATA ROW SPAN
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyUsageHistInqireModule.prototype.rowSpanGridData = function() {
 	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (gridRowCount == 0) {
@@ -158,6 +213,16 @@ GamFcltyUsageHistInqireModule.prototype.rowSpanGridData = function() {
 //다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamFcltyUsageHistInqireModule();
 </script>
+
+<%
+/******************************** SCRIPT   END ********************************/
+%>
+
+
+<%
+/******************************** UI     START ********************************/
+%>
+
 <!-- 아래는 고정 -->
 <input type="hidden" id="window_id" value="<c:out value="${windowId}" />" />
 <div class="window_main">
@@ -186,7 +251,7 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 							<td>
 								<input id=sGisAssetsNm type="text" size="40" maxlength="40" title="검색조건"  />
 							</td>
-							<th>업체선택</th>
+							<th>등록업체</th>
 							<td>
                             	<input id="sRegistEntrpsCd" type="text" size="7">&nbsp; &nbsp;
                          		<input id="sRegistEntrpsNm" type="text" size="27" disabled="disabled">&nbsp; &nbsp;
@@ -214,12 +279,10 @@ var module_instance = new GamFcltyUsageHistInqireModule();
         	               	<tr>
 								<th width="15%" height="25">자료수</th>
 								<td><input type="text" size="13" id="dataCount" class="ygpaNumber" disabled="disabled" /></td>
-								<!-- 
-								<th width="15%" height="25">총 자산면적</th>
-								<td><input type="text" size="24" id="sumAssetsAr" class="ygpaNumber" disabled="disabled" /></td>
-								 -->
 								<th width="15%" height="25">총 사용면적</th>
-								<td><input type="text" size="24" id="sumUsageAr" class="ygpaNumber" disabled="disabled" /></td>
+								<td>
+									<input type="text" size="24" id="sumUsageAr" disabled="disabled" style="text-align: right;" />
+								</td>
 								<th width="15%" height="25">총 사용료</th>
 								<td><input type="text" size="24" id="sumFee" class="ygpaNumber" disabled="disabled" /></td>
 							</tr>
@@ -237,3 +300,7 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 		</div>
 	</div>
 </div>
+
+<%
+/******************************** UI       END ********************************/
+%>
