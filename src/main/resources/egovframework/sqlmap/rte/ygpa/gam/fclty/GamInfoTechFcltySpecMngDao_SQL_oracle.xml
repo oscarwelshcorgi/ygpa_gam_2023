@@ -248,10 +248,7 @@
 						  FCLTS_MNG_NO
 						  , ATCH_FILE_SEQ
 						  , ATCH_FILE_SE
-						  , (CASE WHEN ATCH_FILE_SE = 'D' THEN '문서' 
-                                  WHEN ATCH_FILE_SE = 'P' THEN '사진'
-                                  WHEN ATCH_FILE_SE = 'Z' THEN '기타'
-                            END) AS ATCH_FILE_SE_NM
+						  , GAM_GET_FILE_SE_NM(ATCH_FILE_SE) ATCH_FILE_SE_NM
 						  , ATCH_FILE_SJ
 						  , ATCH_FILE_NM_LOGIC
 						  , ATCH_FILE_NM_PHYSICL

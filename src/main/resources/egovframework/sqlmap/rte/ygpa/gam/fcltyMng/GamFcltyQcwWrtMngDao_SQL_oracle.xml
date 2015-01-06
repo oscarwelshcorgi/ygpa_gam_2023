@@ -329,10 +329,7 @@
 							, F.QC_MNG_SEQ
 						  	, F.ATCH_FILE_SEQ
 						  	, F.ATCH_FILE_SE
-						  	, (CASE WHEN F.ATCH_FILE_SE = 'D' THEN '문서' 
-                                  	WHEN F.ATCH_FILE_SE = 'P' THEN '사진'
-                                 	WHEN F.ATCH_FILE_SE = 'Z' THEN '기타'
-                            	END) AS ATCH_FILE_SE_NM
+						  	, GAM_GET_FILE_SE_NM(F.ATCH_FILE_SE) ATCH_FILE_SE_NM
 						  	, F.ATCH_FILE_SJ
 						  	, F.ATCH_FILE_NM_LOGIC
 						  	, F.ATCH_FILE_NM_PHYSICL
