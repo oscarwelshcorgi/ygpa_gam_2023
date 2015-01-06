@@ -21,7 +21,6 @@
   */
 %>
 
-<validator:javascript formName="fcltyManageVO" method="validateFcltyManageVO" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -234,16 +233,33 @@ GamFcltyQcwWrtMngModule.prototype.summaryDisplay = function() {
 	this.$("#summaryFcltsMngGroupNm1").text(this.$("#fcltsMngGroupNm").val());	
 	this.$("#summaryQcMngNm1").text(this.$("#qcMngNm").val());	
 	this.$("#summaryQcInspDtNm1").text(this.$("#qcInspDt").val());
-	this.$("#summaryQcInspTpNm1").text(this.$("#qcInspTp").find('option:selected').text());	
-	this.$("#summaryQcSeNm1").text(this.$("#qcSe").find('option:selected').text());
-	this.$("#summaryQcInspSeNm1").text(this.$("#qcInspSe").find('option:selected').text());	
+	this.$("#summaryQcInspTpNm1").text((this.$("#qcInspTp").find('option:selected').text() == '선택') ? '' : this.$("#qcInspTp").find('option:selected').text());	
+	this.$("#summaryQcSeNm1").text((this.$("#qcSe").find('option:selected').text() == '선택') ? '' : this.$("#qcSe").find('option:selected').text());
+	this.$("#summaryQcInspSeNm1").text((this.$("#qcInspSe").find('option:selected').text() == '선택') ? '' : this.$("#qcInspSe").find('option:selected').text());	
 
-	this.$("#summaryFcltsMngGroupNm2").text(this.$("#fcltsMngGroupNm").val());	
-	this.$("#summaryQcMngNm2").text(this.$("#qcMngNm").val());	
-	this.$("#summaryQcInspDtNm2").text(this.$("#qcInspDt").val());
-	this.$("#summaryQcInspTpNm2").text(this.$("#qcInspTp").find('option:selected').text());	
-	this.$("#summaryQcSeNm2").text(this.$("#qcSe").find('option:selected').text());
-	this.$("#summaryQcInspSeNm2").text(this.$("#qcInspSe").find('option:selected').text());	
+	this.$("#summaryFcltsMngGroupNm2").text(this.$("#summaryFcltsMngGroupNm1").text());	
+	this.$("#summaryQcMngNm2").text(this.$("#summaryQcMngNm1").text());	
+	this.$("#summaryQcInspDtNm2").text(this.$("#summaryQcInspDtNm1").text());
+	this.$("#summaryQcInspTpNm2").text(this.$("#summaryQcInspTpNm1").text());	
+	this.$("#summaryQcSeNm2").text(this.$("#summaryQcSeNm1").text());
+	this.$("#summaryQcInspSeNm2").text(this.$("#summaryQcInspSeNm1").text());	
+};
+
+//점검관리내역 필수입력 체크
+GamFcltyQcwWrtMngModule.prototype.validateData = function() {
+	if(this.$("#fcltsMngGroupNo").val() == '') {
+		alert('관리그룹을 입력하세요.');
+		return false;
+	}
+	if(this.$("#fcltsJobSe").val() == '') {
+		alert('업무구분을 입력하세요.');
+		return false;
+	}
+	if((this._cmd == 'modify') && (this.$("#qcMngSeq").val() == '')) {
+		alert('잘못된 순번입니다.');
+		return false;
+	}
+	return true;
 };
 
 //점검관리내역 삽입
@@ -277,11 +293,13 @@ GamFcltyQcwWrtMngModule.prototype.updateData = function() {
 
 //점검관리내역 삽입 및 수정저장
 GamFcltyQcwWrtMngModule.prototype.saveData = function() {
- 	if(this._cmd == "insert") {
- 		this.insertData();
-	} else if (this._cmd == "modify") { 
-		this.updateData();
-	}			
+	if(this.validateData()) {
+	 	if(this._cmd == "insert") {
+	 		this.insertData();
+		} else if (this._cmd == "modify") { 
+			this.updateData();
+		}
+	}
 };
 
 //점검관리내역 삭제
