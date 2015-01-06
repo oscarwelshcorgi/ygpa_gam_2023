@@ -12,7 +12,32 @@
 		  FROM (
 		      SELECT ROWNUM RNUM, S.*
 		        FROM (
-		              SELECT GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE
+					SELECT M.GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE
+					      ,M.GIS_ASSETS_CD AS GIS_ASSETS_CD
+					      ,M.GIS_ASSETS_SUB_CD AS GIS_ASSETS_SUB_CD
+					      ,M.GIS_ASSETS_PRT_AT_CODE||'-'||M.GIS_ASSETS_CD||'-'||M.GIS_ASSETS_SUB_CD AS GIS_ASSETS
+					      ,NVL(D.CODE_NM, '') AS PRT_FCLTY_SE
+					      ,M.PRT_FCLTY_NM AS PRT_FCLTY_NM
+					      ,M.PRT_FCLTY_STNDRD AS PRT_FCLTY_STNDRD
+					      ,M.PRT_FCLTY_UNIT AS PRT_FCLTY_UNIT
+					      ,TO_CHAR(M.PRT_FCLTY_INSTL_DT, 'YYYY.MM.DD') AS PRT_FCLTY_INSTL_DT
+					      ,TO_CHAR(M.PRT_FCLTY_CHANGE_DT, 'YYYY.MM.DD') AS PRT_FCLTY_CHANGE_DT
+					      ,GAM_GETENTRPSNM(M.PRT_FCLTY_MNG_ENTRPS_CD,'1') AS PRT_FCLTY_MNG_ENTRPS
+					      ,TO_CHAR(M.PRT_FCLTY_EXPR_DT, 'YYYY.MM.DD') AS PRT_FCLTY_EXPR_DT
+					      ,M.PRT_PRT_FCLTY_CNT AS PRT_PRT_FCLTY_CNT
+					      ,M.PRT_PRT_FCLTY_MNGER AS PRT_PRT_FCLTY_MNGER
+					      ,M.FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
+					  FROM GIS_PRT_FCLTY_CD_F M LEFT OUTER JOIN
+					       COMTCCMMNDETAILCODE D ON (D.CODE = M.PRT_FCLTY_SE)
+					 WHERE D.CODE_ID = 'GAM003'
+					<isNotEmpty property="sPrtAtCode" prepend="AND">
+						   M.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+					</isNotEmpty>
+					<isNotEmpty property="sFcltsJobSe" prepend="AND">
+						   D.CODE_NM like '%'||#sFcltsJobSe#||'%'
+					</isNotEmpty>
+
+<!--		              SELECT GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE
 		              		,GIS_ASSETS_CD AS GIS_ASSETS_CD
 		              		,GIS_ASSETS_SUB_CD AS GIS_ASSETS_SUB_CD
 		              		,GIS_ASSETS_PRT_AT_CODE||'-'||GIS_ASSETS_CD||'-'||GIS_ASSETS_SUB_CD AS GIS_ASSETS
@@ -28,6 +53,7 @@
 		                    ,PRT_PRT_FCLTY_MNGER AS PRT_PRT_FCLTY_MNGER
 		                    ,FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
 		                FROM GIS_PRT_FCLTY_CD_F
+ -->
 		             ) S
 		        ) A
 
@@ -46,27 +72,27 @@
 				SELECT  ROWNUM RNUM, S.*
 					FROM (
 							SELECT GAM_GETCODENAME('GAM019', D.PRT_AT_CODE) AS PRT_AT_CODE
-			         		, D.MNG_YEAR||'-'||D.MNG_NO||'-'||D.MNG_CNT AS MNG_YEAR_NO
-							, D.GIS_ASSETS_PRT_AT_CODE ||'-'|| D.GIS_ASSETS_CD||'-'||D.GIS_ASSETS_SUB_CD AS GIS_ASSETS
-							, M.DOC_NO AS DOC_NO
-							, GAM_GETCODENAME('GAM008', M.NTIC_MTH) AS NTIC_MTH
-							, D.USAGE_PURPS AS USAGE_PURPS
-							, D.USAGE_DTLS AS USAGE_DTLS
-							, D.USAGE_AR AS USAGE_AR
-							, D.FEE AS FEE
-							, TO_CHAR(M.PRMISN_DT,'YYYY.MM.DD') AS PRMISN_DT
-					   FROM ASSETS_RENT_F M, ASSETS_RENT_DETAIL_F D
-					  WHERE 1=1
-					  		AND M.PRT_AT_CODE = D.PRT_AT_CODE
-							AND M.MNG_YEAR = D.MNG_YEAR
-							AND M.MNG_NO = D.MNG_NO
-							AND M.MNG_CNT = D.MNG_CNT
+				         		  , D.MNG_YEAR||'-'||D.MNG_NO||'-'||D.MNG_CNT AS MNG_YEAR_NO
+								  , D.GIS_ASSETS_PRT_AT_CODE ||'-'|| D.GIS_ASSETS_CD||'-'||D.GIS_ASSETS_SUB_CD AS GIS_ASSETS
+								  , M.DOC_NO AS DOC_NO
+								  , GAM_GETCODENAME('GAM008', M.NTIC_MTH) AS NTIC_MTH
+								  , D.USAGE_PURPS AS USAGE_PURPS
+								  , D.USAGE_DTLS AS USAGE_DTLS
+								  , D.USAGE_AR AS USAGE_AR
+								  , D.FEE AS FEE
+								  , TO_CHAR(M.PRMISN_DT,'YYYY.MM.DD') AS PRMISN_DT
+						     FROM ASSETS_RENT_DETAIL_F D, ASSETS_RENT_F M
+						    WHERE 1=1
+						  		  AND D.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+		           				  AND D.GIS_ASSETS_CD = #gisAssetsCd#
+		           				  AND D.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
 
-	           				AND D.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
-	           				AND D.GIS_ASSETS_CD = #gisAssetsCd#
-	           				AND D.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+						  		  AND D.PRT_AT_CODE = M.PRT_AT_CODE
+								  AND D.MNG_YEAR = M.MNG_YEAR
+								  AND D.MNG_NO = M.MNG_NO
+								  AND D.MNG_CNT = M.MNG_CNT
 
-							ORDER BY D.PRT_AT_CODE DESC, D.MNG_YEAR DESC, D.MNG_NO, D.MNG_CNT
+								  ORDER BY D.PRT_AT_CODE DESC, D.MNG_YEAR DESC, D.MNG_NO, D.MNG_CNT
 
 					) S
 			) A
@@ -78,16 +104,16 @@
 
 	<select id="gamFcltyUsageSttusInqireDao.selectFcltyAssetsRentListTotCnt" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="int">
 		SELECT COUNT(*) totcnt
-	      FROM ASSETS_RENT_F M, ASSETS_RENT_DETAIL_F D
+	      FROM ASSETS_RENT_DETAIL_F D, ASSETS_RENT_F M
 	     WHERE 1=1
-	  		   AND M.PRT_AT_CODE = D.PRT_AT_CODE
-			   AND M.MNG_YEAR = D.MNG_YEAR
-			   AND M.MNG_NO = D.MNG_NO
-			   AND M.MNG_CNT = D.MNG_CNT
-
 			   AND D.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
      		   AND D.GIS_ASSETS_CD = #gisAssetsCd#
      		   AND D.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+
+	  		   AND D.PRT_AT_CODE = M.PRT_AT_CODE
+			   AND D.MNG_YEAR = M.MNG_YEAR
+			   AND D.MNG_NO = M.MNG_NO
+			   AND D.MNG_CNT = M.MNG_CNT
 
 	</select>
 
@@ -99,7 +125,7 @@
 				SELECT  ROWNUM RNUM, S.*
 				  FROM (
 		                SELECT FCLTS_MNG_GROUP_NO
-						      ,GAM_GET_FCLTS_JOB_SE_NM(FCLTS_JOB_SE) AS FCLTS_JOB_SE
+							  ,GAM_GET_FCLTS_JOB_SE_NM(FCLTS_JOB_SE) AS FCLTS_JOB_SE
 						      ,QC_MNG_SEQ
 						      ,ENFORCE_YEAR
 						      ,QC_MNG_NM
@@ -125,7 +151,7 @@
 				SELECT  ROWNUM RNUM, S.*
 				  FROM (
 		              SELECT M.FCLTS_MNG_NO
-		                    ,M.STTUS_EVL_LVL
+		                    ,GAM_GET_STTUS_EVL_LVL_NM(M.STTUS_EVL_LVL) AS STTUS_EVL_LVL
 		                    ,TO_CHAR(M.QC_INSP_DT,'YYYY.MM.DD') AS QC_INSP_DT
 		                    ,M.INSPECTOR
 		                    ,M.QC_INSP_RESULT
@@ -134,11 +160,12 @@
 		                    ,S.SEQ
 		                    ,S.INSP_RESULT_CHK
 		                    ,S.INSP_RESULT_CN
-		               FROM QC_MNG_OBJ_FCLTS_F M LEFT OUTER JOIN QC_MNG_RESULT_ITEM_F S
-		                 ON M.FCLTS_MNG_GROUP_NO = S.FCLTS_MNG_GROUP_NO
+		               FROM QC_MNG_OBJ_FCLTS_F M LEFT OUTER JOIN
+		               		QC_MNG_RESULT_ITEM_F S ON (M.FCLTS_MNG_GROUP_NO = S.FCLTS_MNG_GROUP_NO
 		                AND M.FCLTS_JOB_SE = S.FCLTS_JOB_SE
-		                AND M.QC_MNG_SEQ = S.QC_MNG_SEQ
+		                AND M.QC_MNG_SEQ = S.QC_MNG_SEQ)
 <!--
+					  WHERE
 		                AND M.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 		                AND M.FCLTS_JOB_SE = #fcltsJobSe#
 		                AND M.QC_MNG_SEQ = #qcMngSeq#

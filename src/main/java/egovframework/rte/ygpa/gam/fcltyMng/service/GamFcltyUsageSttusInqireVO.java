@@ -29,6 +29,9 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	/** 항코드 (조회조건) **/
 	private String sPrtAtCode;
 
+	/** 시설구분(조회조건) **/
+	private String sFcltsJobSe;
+
 	/** 사용기간 (조회조건) **/
 	private String sUsagePdFrom;
 	private String sUsagePdTo;
@@ -152,6 +155,18 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	 */
 	public void setsPrtAtCode(String sPrtAtCode) {
 		this.sPrtAtCode = sPrtAtCode;
+	}
+	/**
+	 * @return the sFcltsJobSe
+	 */
+	public String getsFcltsJobSe() {
+		return sFcltsJobSe;
+	}
+	/**
+	 * @param sFcltsJobSe the sFcltsJobSe to set
+	 */
+	public void setsFcltsJobSe(String sFcltsJobSe) {
+		this.sFcltsJobSe = sFcltsJobSe;
 	}
 	/**
 	 * @return the sUsagePdFrom

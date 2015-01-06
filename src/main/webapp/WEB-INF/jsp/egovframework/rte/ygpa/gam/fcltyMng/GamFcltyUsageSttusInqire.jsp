@@ -145,12 +145,12 @@
 	this.$("#qcMngObjFcltsGrid").flexigrid({
 		module : this,
 		dataType : 'json',
-		colModel : [ {display : '관리 번호', name : 'fcltsMngNo', width : 50, sortable : false, align : 'center'},
-		             {display : '?????', name : 'sttusEvlLvl', width : 100, sortable : false, align : 'center'},
-		             {display : '진단 일자', name : 'qcInspDt', width : 100, sortable : false, align : 'center'},
-		             {display : '감리자', name : 'inspector', width : 100, sortable : false, align : 'center'},
-		             {display : '진단결과', name : 'qcInspResult', width : 60, sortable : false, align : 'center'},
-		             {display : '비고', name : 'rm', width : 140, sortable : false, align : 'center'},
+		colModel : [ {display : '관리 번호', name : 'fcltsMngNo', width : 110, sortable : false, align : 'center'},
+		             {display : '상태 평가', name : 'sttusEvlLvl', width : 65, sortable : false, align : 'center'},
+		             {display : '진단 일자', name : 'qcInspDt', width : 75, sortable : false, align : 'center'},
+		             {display : '감리자', name : 'inspector', width : 60, sortable : false, align : 'center'},
+		             {display : '진단결과', name : 'qcInspResult', width : 70, sortable : false, align : 'center'},
+		             {display : '비고', name : 'rm', width : 100, sortable : false, align : 'center'},
 		             ],
 		height : '160'
 	});
@@ -158,10 +158,10 @@
 	this.$("#qcMngResultItemGrid").flexigrid({
 		module : this,
 		dataType : 'json',
-		colModel : [ {display : '항목 코드', name : 'qcItemCd', width : 50, sortable : false, align : 'center'},
-		             {display : '순번', name : 'seq', width : 100, sortable : false, align : 'center'},
-		             {display : '결과 구분', name : 'inspResultChk', width : 100, sortable : false, align : 'center'},
-		             {display : '결과내용', name : 'inspResultCn', width : 100, sortable : false, align : 'center'},
+		colModel : [ {display : '항목 코드', name : 'qcItemCd', width : 70, sortable : false, align : 'center'},
+		             {display : '순번', name : 'seq', width : 60, sortable : false, align : 'center'},
+		             {display : '결과 구분', name : 'inspResultChk', width : 80, sortable : false, align : 'center'},
+		             {display : '결과내용', name : 'inspResultCn', width : 270, sortable : false, align : 'center'},
 		             ],
 		height : '160'
 	});
@@ -199,6 +199,7 @@ GamFcltyUsageSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 %>
 
 GamFcltyUsageSttusInqireModule.prototype.onSubmit = function() {
+//	alert(module.$("#sPrtAtCode").val);
 	this.loadData();
 };
 
@@ -360,12 +361,13 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 							<th>항코드</th>
 							<td><input id="sPrtAtCode" class="ygpaCmmnCd"
 								data-default-prompt="전체" data-code-id="GAM019" /></td>
-
+							<th>시설구분</th>
+							<td><input type="text" id="sFcltsJobSe"/></td>
 							<td rowSpan="2" width="20%"><button class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
 							<th>사용기간</th>
-							<td colspan="1"><input id="sUsagePdFrom" type="text" class="emdcal"
+							<td colspan="2"><input id="sUsagePdFrom" type="text" class="emdcal"
 								size="8"> ~ <input id="sUsagePdTo" type="text"
 								class="emdcal" size="8"></td>
 						</tr>
