@@ -865,6 +865,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							</td>
 							<th></th>
 							<td></td>
+							<td rowspan="3"><button id="btnSearch" class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
 							<th>업무구분</th>
@@ -880,7 +881,6 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							</td>
 							<th>점검관리명</th>
 							<td><input type="text" id="sQcMngNm" size="50" /></td>
-							<td rowspan="3"><button id="btnSearch" class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
 							<th>점검진단구분</th>
