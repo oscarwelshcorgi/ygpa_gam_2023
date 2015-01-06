@@ -752,7 +752,7 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 						
 		//시설물관리그룹선택
 		case "popupSearchFcltsMngGroup":
-			this.doExecuteDialog("selectFcltsMngGroup", "시설물관리그룹", '/popup/showFcltsMngGroup.do', {});
+			this.doExecuteDialog("selectFcltsMngGroup", "관리그룹 선택", '/popup/showFcltsMngGroup.do', {});
 			break;
 		
 		//시설물번호선택
@@ -900,7 +900,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 				<div style="margin-bottom:10px;">
 					<table  class="detailPanel"  style="width:100%;">
 						<tr>
-							<th width="12%" height="17">시설물관리그룹</th>
+							<th width="12%" height="17">관리그룹</th>
 							<td colspan="3">
 								<input type="hidden" id="fcltsMngGroupNo"/>
 								<input type="text" size="40" id="fcltsMngGroupNm" disabled="disabled"/>
@@ -1036,7 +1036,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 					<table class="detailPanel"  style="width:100%;">
 						<tbody>
 							<tr>
-								<th>시설물관리그룹</th>
+								<th>관리그룹</th>
 								<td><span id="summaryFcltsMngGroupNm1"></span></td>
 								<th>점검관리명</th>
 								<td><span id="summaryQcMngNm1"></span></td>
@@ -1122,7 +1122,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 					<table class="detailPanel"  style="width:100%;">
 						<tbody>
 							<tr>
-								<th>시설물관리그룹</th>
+								<th>관리그룹</th>
 								<td><span id="summaryFcltsMngGroupNm2"></span></td>
 								<th>점검관리명</th>
 								<td><span id="summaryQcMngNm2"></span></td>
