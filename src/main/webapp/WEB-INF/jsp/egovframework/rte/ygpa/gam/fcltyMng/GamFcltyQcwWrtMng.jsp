@@ -1041,11 +1041,11 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17">점검진단결과</th>
-							<td colspan="5"><textarea id="qcInspResult" cols="135" rows="7"></textarea></td>
+							<td colspan="5"><textarea id="qcInspResult" cols="135" rows="8"></textarea></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">조치내용</th>
-							<td colspan="5"><textarea id="actionCn" cols="135" rows="7"></textarea></td>
+							<td colspan="5"><textarea id="actionCn" cols="135" rows="8"></textarea></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">비고</th>
@@ -1134,7 +1134,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							</tr>
 							<tr>
 								<th>점검진단결과</th>
-								<td colspan="3"><textarea id="objMngQcInspResult" cols="133" rows="7" class="EditItem"></textarea></td>
+								<td colspan="3"><textarea id="objMngQcInspResult" cols="133" rows="4" class="EditItem"></textarea></td>
 							</tr>
 							<tr>
 								<th>비고</th>
@@ -1210,7 +1210,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							</tr>
 							<tr>
 								<th>점검결과내용</th>
-								<td colspan="3"><textarea id="inspResultCn" cols="133" rows="7" class="EditItem"></textarea></td>
+								<td colspan="3"><textarea id="inspResultCn" cols="133" rows="5" class="EditItem"></textarea></td>
 							</tr>
 						</tbody>
 					</table>
