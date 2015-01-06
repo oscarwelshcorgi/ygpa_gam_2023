@@ -805,7 +805,7 @@ GamFcltyRepairMngModule.prototype.fillTitleData = function() {
 		
 		// 대상시설물
 		case "searchFcltsMngNo":
-			this.doExecuteDialog("selectFcltsMngNo", "대상시설물 관리번호", '/popup/showFcltsMngNo.do', {});
+			this.doExecuteDialog("selectFcltsMngNo", "대상시설물 관리번호", '/popup/showFcltsMngNo.do', {}, {'fcltsJobSe' : this.$('#fcltsJobSe').val()});
 		break;
 		
 		// 시설물관리그룹

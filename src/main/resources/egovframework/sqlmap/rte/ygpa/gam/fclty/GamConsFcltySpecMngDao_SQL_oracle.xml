@@ -238,12 +238,7 @@
 							, UPD_USR
 							, TO_CHAR(UPDT_DT, 'YYYY-MM-DD') AS UPDT_DT
 							, ATCH_FILE_SE
-							, (
-							  CASE  WHEN ATCH_FILE_SE = 'D' THEN '문서'
-									WHEN ATCH_FILE_SE = 'P' THEN '사진'
-							  		WHEN ATCH_FILE_SE = 'Z' THEN '기타'
-							  END
-							) AS ATCH_FILE_SE_NM
+							, GAM_GET_FILE_SE_NM(ATCH_FILE_SE) AS ATCH_FILE_SE_NM
 							, TO_CHAR(ATCH_FILE_WRITNG_DT, 'YYYY-MM-DD') AS ATCH_FILE_WRITNG_DT
 		                FROM 
 		                	FCLTS_SPEC_ATCH_FILE_F

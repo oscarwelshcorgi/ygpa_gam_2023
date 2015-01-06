@@ -92,7 +92,7 @@ public class GamFcltyMaintMngController {
 
 		Map map = new HashMap();
 
-    	// 0. Spring Security 사용자권한 처리
+    	// 0. Spring Security 사용자권한 처리 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
