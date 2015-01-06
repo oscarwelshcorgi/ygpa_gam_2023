@@ -64,7 +64,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
 		
 		
 	});
- 
+ 	
 	this.$("#mainGrid").on("onItemSelected", function(event, module, row, grid, param) {
 		
 	 	var searchOpt = [
@@ -81,6 +81,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
@@ -104,13 +105,25 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
         height: '500'
    
     });
+    this.$("#detailGrid").on("onItemSelected", function(event, module, row, grid, param) {
+    	
+    	module.makeFormValues('#detailForm', row);
+    	
+    });
+ 	
+    this.$("#detailGrid").on("onItemDoubleClick", function(event, module, row, grid, param) {
+    	
+    	module.$("#mainTab").tabs("option", {active: 2});
+    	
+    });
 };
 GamFcltyUseUnuseSttusInqireModule.prototype.onSubmit = function() {
- 	if(!validateGamFcltyUseUnuseSttusInqire(this.$('#searchForm')[0])){ 		
+/*  	if(!validateGamFcltyUseUnuseSttusInqire(this.$('#searchForm')[0])){ 		
 		return;
 	}
+ */ 	
  	this.loadData();
-	this.$('#detailGrid').flexEmptyData();
+ 	this.$('#detailGrid').flexEmptyData();
 	this.$("#mainTab").tabs("option", {active: 0});
 	};
 
@@ -126,41 +139,48 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadData = function() {
 	
 GamFcltyUseUnuseSttusInqireModule.prototype.loadDetailData = function(data) {
 		
-	this.makeFormValues('#detailForm', data);
+	this.makeFormValues('#summaryForm', data);
 };
 
 // 탭 변경시 실행
 
 GamFcltyUseUnuseSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
-	var selectRows = this.$('#mainGrid').selectedRows();
-	var row =selectRows[0];
-	var detailRows =this.$('#detailGrid').selectedRows();
-	var detailRow = selectRows[0];
+	var mainRows = this.$('#mainGrid').selectedRows();
+	var detailRows = this.$('#detailGrid').selectedRows();
 	
-		if(oldTabId == 'tabs1' && (selectRows.length >0) ) {
-				this.initDisplay();
-				this.$('#tabs2').scrollTop(0);
-				this.loadDetailData(row);
-		}else if(oldTabId == 'tabs2' &&(detailRows.)))
+	
+	if((oldTabId == 'tabs1') && (mainRows.length > 0)  ) {
+		var mainRow = mainRows[0];		
+			this.$('#tabs2').scrollTop(0);
+			this.loadDetailData(mainRow);
+ 	}
 		
 	switch(newTabId) {
 	case "tabs1":
 		break;
 	case "tabs2":
-
-			if (selectRows.length==0) {
-					alert('상세내역의 항목을 선택해주세요.');
+			if (mainRows.length == 0) {
+					alert('항목을 선택해주세요.');
 					this.$("#mainTab").tabs("option", {active: 0});
 					return;
 		
 		}
 		break;
-	case "tabs3" :
-		
-		break;
+	case "tabs3" : 
+			if(mainRows.length == 0){
+				this.initDisplay();
+				alert('항목을 선택해주세요.');
+				this.$("#mainTab").tabs("option", {active: 0});
+				return;
+			}else if (detailRows.length == 0){
+				this.initDisplay();
+				alert('상세 내역을 선택해주세요.');
+				this.$('#mainTab').tabs("option",{active: 1});
+				return;
+			}
+		break;	
 	}
 };
-
 
 
 
@@ -179,8 +199,8 @@ GamFcltyUseUnuseSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 
 GamFcltyUseUnuseSttusInqireModule.prototype.initDisplay = function() {
 	
-	this.$("#usageFcltyVO :input").val("");
-	
+	this.$("#summaryForm :input").val("");
+	this.$("#detailForm :input").val("");
 
 };
 
@@ -258,29 +278,31 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 
            <div id="tabs2" class="emdTabPage" style="overflow:scroll;">
                <div class="emdControlPanel">
-                    <form id="detailForm">
+                    <form id="summaryForm">
                         
 		
-                        <table class="editForm">
+                        <table class="editForm" >
                                 <tr>
+                                <th width="10%" height="18">항구분</th>
+                                <td><input type="text" size="10" id="prtAtCodeNm2" disabled/> </td>
 								<th width="10%" height="18">자산코드</th>
                                 <td>
-                                	<input type="text" size="3" id="gisAssetsPrtAtCode" disabled/>-<input type="text" size="4" id="gisAssetsCd" disabled/>-<input type="text" size="2" id="gisAssetsSubCd" disabled/>
-                                    <input type="hidden" id="assetsCdStr"/>
+                               <input type="text" size="3" id="gisAssetsPrtAtCode" disabled/>-<input type="text" size="4" id="gisAssetsCd" disabled/>-<input type="text" size="2" id="gisAssetsSubCd" disabled/>
                                 </td>
-								<th width="10%" height="18">자산면적</th>
-                                <td><input type="text" size="21" class="ygpaNumber" id="gisAssetsAr" disabled/>㎡</td>
 								<th width="10%" height="18">자산명</th>
-                                <td><input type="text" size="44" id="gisAssetsNm" disabled/></td>
+                                <td><input type="text" size="21" id="gisAssetsNm" disabled/></td>
                             </tr>
                             <tr>
+								<th width="10%" height="18">자산면적</th>
+                                <td><input type="text" size="20" class="ygpaNumber" id="gisAssetsAr" disabled/>㎡</td>
+								
 								<th width="10%" height="18">지번</th>
                                 <td>
                                 	<input type="text" size="5" id="gisAssetsLnm" disabled/> -
                                 	<input type="text" size="3" id="gisAssetsLnmSub" disabled/>
                                 </td>
 								<th width="10%" height="18">소재지</th>
-                                <td colspan="3"><input type="text" size="83" id="gisAssetsLocplc"  disabled/></td>
+                                <td><input type="text" size="44" id="gisAssetsLocplc"  disabled/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">실제임대 가용면적</th>
@@ -308,100 +330,83 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
                  <table id="detailGrid" style="display: none"></table>
                  
             </div>
-			<div id="tabs3" class="emdTabPage" style="overflow: hidden;">
-										
-							<table class="editForm">			
+			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
+						<form id="detailForm">				
+							<table class="editForm" style="width : 100%">			
+							<tr>	
+								<th width="10%" height="18">업체명 </th>
+								<td><input type="text" size="20" id="entrpsNm" disabled/></td>
 								<th width="10%" height="18">신청기간</th>
-                                <td>
-                                	<input type="text" class="emdcal calcInput" size="11" id="usagePdFrom" data-role="dtFrom" data-dt-to="usagePdTo" /> ~
-                                	<input type="text" class="emdcal calcInput" size="11" id="usagePdTo" data-role="dtTo" data-dt-from="usagePdFrom" />
+                                <td colspan="3">
+                                	<input type="text" size="11" id="usagePdFrom" disabled/> ~
+                                	<input type="text"size="11" id="usagePdTo" disabled/>
                                 </td>
+       					                      
                             </tr>
                             <tr>
+                    <tr>
 								<th width="10%" height="18">적용방법</th>
-                                <td colspan="3">
-                                    <input size="17" id="applcMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM014" value="1"/>
+                                <td colspan="5">
+                                    <input size="17" id="applcMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM014" value="1" disabled/>
                                 </td>
-                                <th width="10%" height="18">신청기간 일별 체크</th>
-                                <td>
-                                	<input type="checkbox" class="calcInput" id="usagePdChk" style="width: 20px;height: 20px; vertical-align: middle;" value="N"/>
-                                </td>
+                             
                               </tr>
                              <tr class="nationAssetLaw">
                                 <th width="10%" height="18">적용요율</th>
                                 <td colspan="5">
-                                    <!--
-                                    <select id="applcTariff">
-                                        <option value="" selected="selected">선택</option>
-                                    </select>
-                                     -->
-                                    <input size="23" id="applcTariff" class="ygpaCmmnCd calcInput" data-default-prompt="선택" data-code-id="GAM023" />
-                                    <!--
-                                    <input type="text" size="14" id="applcTariffStr" readonly/>
-                                     -->
-                                    <input type="hidden" id="applcTariffNm"/>
-                                </td>
+                                  
+                                    <input size="23" id="applcTariff" class="ygpaCmmnCd calcInput" data-default-prompt="선택" data-code-id="GAM023" disabled/>
+                                       </td>
                               </tr>
-                            <tr class="nationAssetLaw">
-								<th width="10%" height="18">공시지가목록</th>
-                                <td colspan="3">
-                                    <select id="olnlpList">
-                                        <option value="">선택</option>
-                                    </select>
-                                </td>
-								<th width="10%" height="18">공시지가</th>
-                                <td><input type="text" size="25" class="ygpaNumber calcInput" id="olnlp" maxlength="13"/></td>
+                            <tr >
+									<th width="10%" height="18">공시지가</th>
+                                <td colspan="5"><input type="text" size="25" class="ygpaNumber calcInput" id="olnlp"  disabled/>원</td>
                             </tr>
-                            <tr class="tradePortLaw">
+                            <tr>
                                 <th width="10%" height="18">적용단가</th>
-                                <td colspan="5"><input type="text" size="25" class="ygpaNumber calcInput" id="applcPrice" data-decimal-point="1" maxlength="13"/></td>
+                                <td colspan="5"><input type="text" size="25" class="ygpaNumber calcInput" id="applcPrice" data-decimal-point="1"  disabled/>원</td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">면제구분</th>
                                 <td>
-                                    <input size="17" id="exemptSe" class="ygpaCmmnCd calcInput" data-default-prompt="선택" data-code-id="GAM009" data-column-label-id='exemptSeNm'/>
+                                    <input size="17" id="exemptSe" class="ygpaCmmnCd calcInput" data-default-prompt="선택" data-code-id="GAM009" data-column-label-id='exemptSeNm' disabled/>
                                 </td>
 								<th width="10%" height="18">면제기간</th>
                                 <td colspan="3">
-                                	<input type="text" class="emdcal calcInput" size="11" id="exemptPdFrom" data-role="dtFrom" data-dt-to="exemptPdTo" readonly/> ~
-                                	<input type="text" class="emdcal calcInput" size="11" id="exemptPdTo" data-role="dtTo" data-dt-from="exemptPdFrom" readonly/>
+                                	<input type="text"  size="11" id="exemptPdFrom"  disabled/> ~
+                                	<input type="text"  size="11" id="exemptPdTo"disabled/>
                                 </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">면제사유코드</th>
                                 <td colspan="3">
-                                    <input size="50" id="exemptRsnCd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM017" />
-                                    <!--
-                                    <input type="text" size="15" id="exemptRsnCdStr" readonly/>
-                                     -->
+                                    <input size="50" id="exemptRsnCd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM017" disabled/>
                                 </td>
 								<th width="10%" height="18">면제사유</th>
-                                <td><input type="text" size="44" id="exemptRsn" maxlength="95"/></td>
+                                <td><input type="text" size="44" id="exemptRsn"  disabled/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">감면사용료</th>
-                                <td><input type="text" size="25" class="calcInput" id="rdcxptFee"/></td>
+                                <td><input type="text" size="25" class="calcInput" id="rdcxptFee" disabled/></td>
 								<th width="10%" height="18">사용료</th>
-                                <td colspan="3"><input type="text" size="20" class="ygpaCurrency" id="fee" /></td>
-<!-- 								<th width="10%" height="18">부두코드</th>
-                                <td>
-                                	<input type="text" id="quayCd" size="10" disabled/>
-                                	<input type="text" id="quayCdNm" size="32" disabled/>
-                                </td> -->
+                                <td colspan="3"><input type="text" size="20" class="ygpaCurrency" id="fee" disabled/>원</td>
+
                             </tr>
                             <tr>
 								<th width="10%" height="18">산출내역</th>
-                                <td colspan="5"><textarea type="text" cols="80" rows="2" id="computDtls" maxlength="200"></textarea></td>
+                                <td colspan="5"><input type="text" size="100" rows="2" id="computDtls" disabled/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">사용목적</th>
-                                <td colspan="5"><input type="text" size="100" id="usagePurps" maxlength="200"/></td>
+                                <td colspan="5"><input type="text" size="100" id="usagePurps" disabled/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">사용내역</th>
-                                <td colspan="5"><input type="text" size="100" id="usageDtls" maxlength="45"/></td>
+                                <td colspan="5"><input type="text" size="100" id="usageDtls"  disabled/></td>
                             </tr>
+
                             </table>
+                            </form>
 		</div>
 
 
