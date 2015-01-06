@@ -811,7 +811,7 @@ GamFcltyQcwWrtMngModule.prototype.onClosePopup = function(popupId, msg, value){
     		break;
     	//점검항목선택
 		case 'selectQcItemCd':
-			this.selectedQcMngResultItems(value['qcItemList']);
+			this.selectedQcMngResultItems(value['selectedQcResultItemList']);
 			break;
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");

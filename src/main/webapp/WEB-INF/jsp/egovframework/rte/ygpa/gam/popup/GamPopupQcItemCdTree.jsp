@@ -94,7 +94,7 @@ GamPopupQcItemCdTreeModule.prototype.getQcItemList = function(selectedIds) {
 		var qcItemNm = this.getQcItemNm(selectedIds[i]);
 		selectedItems[selectedItems.length] = {'qcItemCd' : this.fcltsJobSe + selectedIds[i].substring(1), 'qcItemNm' : qcItemNm };
 	}
-	var resultList = {'qcItemList': selectedItems};
+	var resultList = {'selectedQcResultItemList': selectedItems};
 	return resultList;
 };
 
