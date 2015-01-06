@@ -121,6 +121,12 @@ public class GamFcltyQcwWrtMngController {
     	return map;
     }
 
+	/**
+	 * 점검관리목록 엑셀다운로드
+	 * @param map
+	 * @return modelAndView
+	 * @throws Exception
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/excelDownloadQcMngDtlsList.do" , method=RequestMethod.POST)
 	@ResponseBody ModelAndView excelDownloadQcMngDtlsList(@RequestParam Map<String, Object> excelParam) throws Exception {
