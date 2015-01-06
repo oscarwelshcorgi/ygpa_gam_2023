@@ -28,8 +28,12 @@ function GamPopupFcltsMngNoModule() {}
 GamPopupFcltsMngNoModule.prototype = new EmdPopupModule(640, 480);
 
 // 팝업이 호출 되었을때 호출 되는 함수
-GamPopupFcltsMngNoModule.prototype.loadComplete = function() {
+GamPopupFcltsMngNoModule.prototype.loadComplete = function(params) {
 	this.resizable(true);
+	
+	//시설물 업무 구분(조회조건)
+	this.$('#sFcltsJobSe').val(params['fcltsJobSe']);
+	
 	this.$("#grdInfoList").flexigrid({
 		module: this,
 		url: '/popup/selectFcltsMngNoInfoList.do',
@@ -92,7 +96,10 @@ var popup_instance = new GamPopupFcltsMngNoModule();
 				<tbody>
 					<tr>
 						<th width="10%">시설명</th>
-                        <td><input id="sPrtFcltyNm" type="text" size="20" /></td>
+                        <td>
+                        	<input id="sPrtFcltyNm" type="text" size="20" />
+                        	<input id="sFcltsJobSe" type="hidden" />
+                        </td>
 						<td width="10%"><button id="btnSearch">조회</button></td>
 					</tr>
 				</tbody>

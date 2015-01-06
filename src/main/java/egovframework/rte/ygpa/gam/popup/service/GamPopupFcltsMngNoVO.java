@@ -24,27 +24,15 @@ import egovframework.com.cmm.ComDefaultVO;
 
 public class GamPopupFcltsMngNoVO extends ComDefaultVO {
 	private static final long serialVersionUID = 1L;
-	
-	/** 시설물 관리 번호 (조회조건) **/
-	private String sFcltsMngNo;
-	
 	/** 항만 시설명 (조회조건) **/
 	private String sPrtFcltyNm;
-
-	/**
-	 * @return the sFcltsMngNo
-	 */
-	public String getsFcltsMngNo() {
-		return sFcltsMngNo;
-	}
-
-	/**
-	 * @param sFcltsMngNo the sFcltsMngNo to set
-	 */
-	public void setsFcltsMngNo(String sFcltsMngNo) {
-		this.sFcltsMngNo = sFcltsMngNo;
-	}
-
+	
+	/** 시설물 업무구분(조회조건) **/
+	private String sFcltsJobSe;
+	
+	/** 시설물 업무구분(파라미터) **/
+	private String fcltsJobSe;
+	
 	/**
 	 * @return the sPrtFcltyNm
 	 */
@@ -57,6 +45,34 @@ public class GamPopupFcltsMngNoVO extends ComDefaultVO {
 	 */
 	public void setsPrtFcltyNm(String sPrtFcltyNm) {
 		this.sPrtFcltyNm = sPrtFcltyNm;
+	}
+
+	/**
+	 * @return the sFcltsJobSe
+	 */
+	public String getsFcltsJobSe() {
+		return sFcltsJobSe;
+	}
+
+	/**
+	 * @param sFcltsJobSe the sFcltsJobSe to set
+	 */
+	public void setsFcltsJobSe(String sFcltsJobSe) {
+		this.sFcltsJobSe = sFcltsJobSe;
+	}
+
+	/**
+	 * @return the fcltsJobSe
+	 */
+	public String getFcltsJobSe() {
+		return fcltsJobSe;
+	}
+
+	/**
+	 * @param fcltsJobSe the fcltsJobSe to set
+	 */
+	public void setFcltsJobSe(String fcltsJobSe) {
+		this.fcltsJobSe = fcltsJobSe;
 	}
 	
 	

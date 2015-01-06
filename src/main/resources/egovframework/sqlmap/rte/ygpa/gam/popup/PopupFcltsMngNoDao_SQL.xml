@@ -24,8 +24,9 @@
 							    GIS_PRT_FCLTY_CD_F G
 							WHERE
 								G.FCLTS_MNG_NO IS NOT NULL
-							    <isNotEmpty property="sFcltsMngNo">
-							    	AND G.FCLTS_MNG_NO LIKE #sFcltsMngNo# || '%'
+								<!-- 시설물 업무구분으로 끝나는 관리번호만 가져온다. -->
+							    <isNotEmpty property="sFcltsJobSe">
+							    	AND G.FCLTS_MNG_NO LIKE  '%' || #sFcltsJobSe#
 							    </isNotEmpty>
 							    <isNotEmpty property="sPrtFcltyNm">
 							    	AND G.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
@@ -43,8 +44,8 @@
 		    GIS_PRT_FCLTY_CD_F G
 		WHERE
 			G.FCLTS_MNG_NO IS NOT NULL
-		    <isNotEmpty property="sFcltsMngNo">
-		    	AND G.FCLTS_MNG_NO LIKE #sFcltsMngNo# || '%'
+		    <isNotEmpty property="sFcltsJobSe">
+		    	AND G.FCLTS_MNG_NO LIKE '%' || #sFcltsJobSe#
 		    </isNotEmpty>
 		    <isNotEmpty property="sPrtFcltyNm">
 		    	AND G.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'

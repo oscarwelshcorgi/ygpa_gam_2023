@@ -500,7 +500,7 @@ GamFcltyQcwWrtMngModule.prototype.addQcMngResultItem = function() {
 		this.doExecuteDialog('selectQcItemCd', '점검항목 선택', '/popup/showQcItemCdTreePopup.do', {}, {'fcltsJobSe' : this.$('#fcltsJobSe').val()});
 	}
 	else {
-		alert('시설물업무구분을 선택하십시오');
+		alert('업무구분을 선택하십시오');
 	}
 };
 
@@ -757,7 +757,7 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 		
 		//시설물번호선택
 		case "popupSearchFcltsMngNo":
-			this.doExecuteDialog('selectFcltsMngNo', '시설물 선택', '/popup/showFcltsMngNo.do', {});
+			this.doExecuteDialog('selectFcltsMngNo', '시설물 선택', '/popup/showFcltsMngNo.do', {}, {'fcltsJobSe' : this.$('#fcltsJobSe').val()});
 			break;
 	}
 };
@@ -832,7 +832,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 				<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>시설물업무구분</th>
+							<th>업무구분</th>
 							<td>
 								<select id="sFcltsJobSe">
 									<option value="">선택</option>
@@ -912,7 +912,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							</td>
 						</tr>
 						<tr>
-							<th width="12%" height="17">시설물업무구분</th>
+							<th width="12%" height="17">업무구분</th>
 							<td>
 								<select id="fcltsJobSe">
 									<option value="">선택</option>
