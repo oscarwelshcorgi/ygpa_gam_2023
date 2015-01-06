@@ -3,6 +3,8 @@
  */
 package egovframework.rte.ygpa.gam.fcltyMng.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
@@ -22,6 +24,7 @@ import egovframework.com.cmm.ComDefaultVO;
  * </pre>
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GamFcltyQcwWrtMngVO extends ComDefaultVO {
 	private static final long serialVersionUID = 1L;
 

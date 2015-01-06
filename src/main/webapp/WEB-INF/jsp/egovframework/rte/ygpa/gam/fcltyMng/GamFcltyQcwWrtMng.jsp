@@ -192,6 +192,16 @@ GamFcltyQcwWrtMngModule.prototype.loadData = function() {
 	this.$("#qcMngDtlsList").flexOptions({params:searchOpt}).flexReload();
 };
 
+//점검관리목록 엑셀다운로드
+GamFcltyQcwWrtMngModule.prototype.downloadExcel = function() {
+	var rowCount = this.$("#qcMngDtlsList").flexRowCount();
+	if (rowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	this.$('#qcMngDtlsList').flexExcelDown('/fcltyMng/excelDownloadQcMngDtlsList.do');
+};
+
 //점검관리내역 데이터 조회
 GamFcltyQcwWrtMngModule.prototype.loadDetailData = function() {
 	var rows = this.$('#qcMngDtlsList').selectedRows();
@@ -692,19 +702,23 @@ GamFcltyQcwWrtMngModule.prototype.downloadAtchFileItem = function() {
  */
 GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
-		//점검관리내역 목록 조회
+		//점검관리목록 조회
 		case "btnSearch":
 			this._cmd = '';
 			this.initDisplay();
 			this.loadData();
 			break;
 			
+		//점검관리목록 엑셀 다운로드 
+		case 'btnExcelDownload':
+			this.downloadExcel();
+			break;	
+			
 		//점검관리내역 추가			
 		case "btnAdd" :
 			this._cmd = 'insert';
 			this.initDisplay();
 			break;
-			
 		//점검관리내역 삭제	
 		case "btnDelete" :
 			this.deleteData();
@@ -889,8 +903,9 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="qcMngDtlsList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="btnAdd">점검추가</button>
-					<button id="btnDelete">점검삭제</button>
+					<button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+					<button id="btnAdd">추가</button>
+					<button id="btnDelete">삭제</button>
 				</div>
 			</div>
 
