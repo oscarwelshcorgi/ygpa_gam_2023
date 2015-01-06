@@ -51,7 +51,7 @@
 		module : this,
 		url : '<c:url value="/fcltyMng/gamFcltyGisPrtFcltyCdList.do" />',
 		dataType : 'json',
-		colModel : [ {display : 'GIS 자산', name : 'gisAssets', width : 80, sortable : false, align : 'center'},
+		colModel : [ {display : '항구분', name : 'gisAssetsPrtAtNm', width : 60, sortable : false, align : 'center'},
 		             {display : '시설 구분', name : 'prtFcltySe', width : 78, sortable : false, align : 'center'},
 		             {display : '시설 명', name : 'prtFcltyNm', width : 100, sortable : false, align : 'center'},
 		             {display : '시설 규격', name : 'prtFcltyDtndrd', width : 80, sortable : false, align : 'center'},
@@ -81,7 +81,7 @@
 	this.$("#assetsRentGrid").flexigrid({
 		module : this,
 		dataType : 'json',
-		colModel : [ {display : '항코드', name : 'prtAtCode', width : 60, sortable : false, align : 'center'},
+		colModel : [ {display : '항구분', name : 'prtAtCode', width : 60, sortable : false, align : 'center'},
 		             {display : '관리번호', name : 'mngYearNo', width : 100, sortable : false, align : 'center'},
 		             {display : 'GIS 코드', name : 'gisAssets', width : 100, sortable : false, align : 'center'},
 		             {display : '문서번호', name : 'docNo', width : 100, sortable : false, align : 'center'},
@@ -358,14 +358,18 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 				<table style="width: 100%;" class="searchPanel">
 					<tbody>
 						<tr>
-							<th>항코드</th>
+							<th>항구분</th>
 							<td><input id="sPrtAtCode" class="ygpaCmmnCd"
 								data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>시설구분</th>
 							<td><input type="text" id="sFcltsJobSe"/></td>
+							<th>시설명</th>
+							<td><input type="text" id="sPrtFcltyNm"/></td>
 							<td rowSpan="2" width="20%"><button class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
+							<th>시설물 관리 그룹</th>
+							<td><input type="text" id="sFcltsMngNo"/></td>
 							<th>사용기간</th>
 							<td colspan="2"><input id="sUsagePdFrom" type="text" class="emdcal"
 								size="8"> ~ <input id="sUsagePdTo" type="text"

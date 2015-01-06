@@ -32,6 +32,12 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	/** 시설구분(조회조건) **/
 	private String sFcltsJobSe;
 
+	/** 시설명(조회조건) **/
+	private String sPrtFcltyNm;
+
+	/** 시설물 관리번호(조회조건) **/
+	private String sFcltsMngNo;
+
 	/** 사용기간 (조회조건) **/
 	private String sUsagePdFrom;
 	private String sUsagePdTo;
@@ -41,6 +47,8 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	private String gisAssets;
 	/** GIS 자산 항코드 **/
 	private String gisAssetsPrtAtCode;
+	/** GIS 자산 항코드 명 **/
+	private String gisAssetsPrtAtNm;
 	/** GIS 자산 코드**/
 	private String gisAssetsCd;
 	/** GIS 자산 서브 코드**/
@@ -65,6 +73,8 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	private String prtPrtFcltyCnt;
 	/** 시설 담당 **/
 	private String prtPrtFcltyMnger;
+	/** 시설물 관리 번호 **/
+	private String fcltsMngNo;
 	/** 시설물 관리 그룹 **/
 	private String fcltsMngGroupNo;
 
@@ -127,8 +137,6 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	private String rm;
 
 	// ==== 점검 관리 대상 시설물 ==== //
-	/** 시설물 관리 번호 **/
-	private String fcltsMngNo;
 	/** 감리자 **/
 	private String inspector;
 
@@ -761,5 +769,41 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	/**
+	 * @return the sPrtFcltyNm
+	 */
+	public String getsPrtFcltyNm() {
+		return sPrtFcltyNm;
+	}
+	/**
+	 * @param sPrtFcltyNm the sPrtFcltyNm to set
+	 */
+	public void setsPrtFcltyNm(String sPrtFcltyNm) {
+		this.sPrtFcltyNm = sPrtFcltyNm;
+	}
+	/**
+	 * @return the sFcltsMngNo
+	 */
+	public String getsFcltsMngNo() {
+		return sFcltsMngNo;
+	}
+	/**
+	 * @param sFcltsMngNo the sFcltsMngNo to set
+	 */
+	public void setsFcltsMngNo(String sFcltsMngNo) {
+		this.sFcltsMngNo = sFcltsMngNo;
+	}
+	/**
+	 * @return the gisAssetsPrtAtNm
+	 */
+	public String getGisAssetsPrtAtNm() {
+		return gisAssetsPrtAtNm;
+	}
+	/**
+	 * @param gisAssetsPrtAtNm the gisAssetsPrtAtNm to set
+	 */
+	public void setGisAssetsPrtAtNm(String gisAssetsPrtAtNm) {
+		this.gisAssetsPrtAtNm = gisAssetsPrtAtNm;
 	}
 }

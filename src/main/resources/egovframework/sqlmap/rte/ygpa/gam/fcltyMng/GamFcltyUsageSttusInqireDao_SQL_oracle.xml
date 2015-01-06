@@ -15,7 +15,8 @@
 					SELECT M.GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE
 					      ,M.GIS_ASSETS_CD AS GIS_ASSETS_CD
 					      ,M.GIS_ASSETS_SUB_CD AS GIS_ASSETS_SUB_CD
-					      ,M.GIS_ASSETS_PRT_AT_CODE||'-'||M.GIS_ASSETS_CD||'-'||M.GIS_ASSETS_SUB_CD AS GIS_ASSETS
+					      ,GAM_GETCODENAME('GAM019', M.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NM
+<!-- 					      ,M.GIS_ASSETS_PRT_AT_CODE||'-'||M.GIS_ASSETS_CD||'-'||M.GIS_ASSETS_SUB_CD AS GIS_ASSETS	 -->
 					      ,NVL(D.CODE_NM, '') AS PRT_FCLTY_SE
 					      ,M.PRT_FCLTY_NM AS PRT_FCLTY_NM
 					      ,M.PRT_FCLTY_STNDRD AS PRT_FCLTY_STNDRD
@@ -26,6 +27,7 @@
 					      ,TO_CHAR(M.PRT_FCLTY_EXPR_DT, 'YYYY.MM.DD') AS PRT_FCLTY_EXPR_DT
 					      ,M.PRT_PRT_FCLTY_CNT AS PRT_PRT_FCLTY_CNT
 					      ,M.PRT_PRT_FCLTY_MNGER AS PRT_PRT_FCLTY_MNGER
+					      ,M.FCLTS_MNG_NO AS FCLTS_MNG_NO
 					      ,M.FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
 					  FROM GIS_PRT_FCLTY_CD_F M LEFT OUTER JOIN
 					       COMTCCMMNDETAILCODE D ON (D.CODE = M.PRT_FCLTY_SE)
@@ -36,7 +38,12 @@
 					<isNotEmpty property="sFcltsJobSe" prepend="AND">
 						   D.CODE_NM like '%'||#sFcltsJobSe#||'%'
 					</isNotEmpty>
-
+					<isNotEmpty property="sPrtFcltyNm" prepend="AND">
+						   M.PRT_FCLTY_NM like '%'||#sPrtFcltyNm#||'%'
+					</isNotEmpty>
+					<isNotEmpty property="sFcltsMngNo" prepend="AND">
+						   M.FCLTS_MNG_NO like '%'||#sFcltsMngNo#||'%'
+					</isNotEmpty>
 <!--		              SELECT GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE
 		              		,GIS_ASSETS_CD AS GIS_ASSETS_CD
 		              		,GIS_ASSETS_SUB_CD AS GIS_ASSETS_SUB_CD
@@ -61,7 +68,24 @@
 
 	<select id="gamFcltyUsageSttusInqireDao.selectFcltyGisPrtFcltyCdListTotCnt" parameterClass="GamFcltyUsageSttusInqireVo" resultClass="int">
 		SELECT COUNT(*) totcnt
-	      FROM GIS_PRT_FCLTY_CD_F
+	      FROM GIS_PRT_FCLTY_CD_F M LEFT OUTER JOIN
+       		   COMTCCMMNDETAILCODE D ON (D.CODE = M.PRT_FCLTY_SE)
+		 WHERE D.CODE_ID = 'GAM003'
+		<isNotEmpty property="sPrtAtCode" prepend="AND">
+			   M.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+		</isNotEmpty>
+		<isNotEmpty property="sFcltsJobSe" prepend="AND">
+			   D.CODE_NM like '%'||#sFcltsJobSe#||'%'
+		</isNotEmpty>
+		<isNotEmpty property="sPrtFcltyNm" prepend="AND">
+			   M.PRT_FCLTY_NM like '%'||#sPrtFcltyNm#||'%'
+		</isNotEmpty>
+		<isNotEmpty property="sFcltsMngNo" prepend="AND">
+			   M.FCLTS_MNG_NO like '%'||#sFcltsMngNo#||'%'
+		</isNotEmpty>
+
+
+
 
 	</select>
 
