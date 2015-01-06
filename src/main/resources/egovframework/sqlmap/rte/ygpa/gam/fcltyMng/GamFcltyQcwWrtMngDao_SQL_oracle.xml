@@ -39,6 +39,9 @@
 							QC_MNG_DTLS_F Q
 						WHERE
 							1 = 1
+						<isNotEmpty property="sFcltsMngGroupNo">
+						  	AND Q.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+						</isNotEmpty>
 						<isNotEmpty property="sFcltsJobSe">
 						  	AND Q.FCLTS_JOB_SE = #sFcltsJobSe#
 						</isNotEmpty>
@@ -67,9 +70,12 @@
 		SELECT
 			COUNT(*) TOTCNT
 		FROM
-			QC_MNG_DTLS_F
+			QC_MNG_DTLS_F Q
 		WHERE
 			1 = 1
+		<isNotEmpty property="sFcltsMngGroupNo">
+		  	AND Q.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+		</isNotEmpty>
 		<isNotEmpty property="sFcltsJobSe">
 		  	AND Q.FCLTS_JOB_SE = #sFcltsJobSe#
 		</isNotEmpty>

@@ -764,15 +764,21 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 			this.removeAtchFileItem();
 			break;
 						
-		//시설물관리그룹선택
+		//시설물관리그룹선택(상세화면)
 		case "popupSearchFcltsMngGroup":
 			this.doExecuteDialog("selectFcltsMngGroup", "관리그룹 선택", '/popup/showFcltsMngGroup.do', {});
 			break;
-		
+
+		//시설물관리그룹선택(조회화면)
+		case "popupSearchFcltsMngGroup2":
+			this.doExecuteDialog("selectFcltsMngGroup2", "관리그룹 선택", '/popup/showFcltsMngGroup.do', {});
+			break;
+			
 		//시설물번호선택
 		case "popupSearchFcltsMngNo":
 			this.doExecuteDialog('selectFcltsMngNo', '시설물 선택', '/popup/showFcltsMngNo.do', {}, {'fcltsJobSe' : this.$('#fcltsJobSe').val()});
 			break;
+		
 	}
 };
 
@@ -808,10 +814,15 @@ GamFcltyQcwWrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
  */
 GamFcltyQcwWrtMngModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch(popupId){
-		//시설물 관리 그룹
+		//시설물 관리 그룹(상세화면)
 		case "selectFcltsMngGroup":
 			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#fcltsMngGroupNm").val(value["fcltsMngGroupNm"]);
+			break;
+		//시설물 관리 그룹(조회화면)
+		case "selectFcltsMngGroup2":
+			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
+			this.$("#sFcltsMngGroupNm").val(value["fcltsMngGroupNm"]);
 			break;
 		//시설물 선택
 		case 'selectFcltsMngNo':
@@ -846,6 +857,16 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 				<table class="searchPanel">
 					<tbody>
 						<tr>
+							<th>관리그룹</th>
+							<td>
+								<input type="hidden" id="sFcltsMngGroupNo" />
+								<input type="text" id="sFcltsMngGroupNm" size="30" disabled="disabled" />
+								<button id="popupSearchFcltsMngGroup2" class="popupButton">선택</button>
+							</td>
+							<th></th>
+							<td></td>
+						</tr>
+						<tr>
 							<th>업무구분</th>
 							<td>
 								<select id="sFcltsJobSe">
@@ -859,7 +880,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							</td>
 							<th>점검관리명</th>
 							<td><input type="text" id="sQcMngNm" size="50" /></td>
-							<td rowspan="2"><button id="btnSearch" class="buttonSearch">조회</button></td>
+							<td rowspan="3"><button id="btnSearch" class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
 							<th>점검진단구분</th>
