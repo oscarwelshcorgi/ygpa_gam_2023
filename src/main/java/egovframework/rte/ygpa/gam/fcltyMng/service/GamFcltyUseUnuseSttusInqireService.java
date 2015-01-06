@@ -49,6 +49,14 @@ public interface GamFcltyUseUnuseSttusInqireService {
 
 
 	/**
+	 * @param searchVO
+	 * @return
+	 */
+	List selectChartList(GamFcltyUseUnuseSttusInqireVO searchVO) throws Exception;
+
+
+
+	/**
 	 * @param searchVO 
 	 * @return
 	 */

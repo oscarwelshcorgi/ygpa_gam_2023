@@ -55,6 +55,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
 			showTableToggleBtn: false,
 			height: "auto"
 				,preProcess : function(module,data) {
+					console.log(data);
 					module.$('#dataCount').val(data.dataCount);
 					module.$('#sumAssetsAr').val(data.sumAssetsAr);
 					module.$('#sumUsageAr').val(data.sumUsageAr);
@@ -78,9 +79,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
  
  
 	module.$("#detailGrid").flexOptions({params:searchOpt}).flexReload();
-	
 	module.drawChart();
-	
 	});
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -106,6 +105,13 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
 
           showTableToggleBtn: false,
         height: '250'
+        	,preProcess : function(module,data) {
+				
+				module.$('#usagePdFrom').val(data.usagePdFrom);
+				module.$('#usagePdTo').val(data.usagePdTo);
+				module.makeDivValues('#summaryForm', data);
+				return data;
+        	}
    
     });
     this.$("#detailGrid").on("onItemSelected", function(event, module, row, grid, param) {
@@ -192,19 +198,13 @@ GamFcltyUseUnuseSttusInqireModule.prototype.onTabChange = function(newTabId, old
 
 
 
-
-
-
-
-
-
-
-
-GamFcltyUseUnuseSttusInqireModule.prototype.drawChart = function(module, result) {
-	console.log(result);
-	
-	if(result.resultCode == 0){
+GamFcltyUseUnuseSttusInqireModule.prototype.drawChart = function() {
+	var searchVO = this.makeFormArgs('#summaryForm');
+		console.log(searchVO);
+	this.doAction("/fcltyMng/selectChartList.do" , searchVO, function(module,result) {
 		
+	if(result.resultCode == 0){
+	alert('debug');	
 		for (var i=0; i<12; i++) {
 			grHseEmitQy=result.resultList[i]['grHseEmitQy']*1;
 			grHseEmitQyArr[i]={month: (i+1), gauge: grHseEmitQy};
@@ -212,7 +212,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.drawChart = function(module, result)
 				maxGrHseEmitQy=grHseEmitQy;
 			}
 		};
-	} else {
+	} else{
 		for (var i=0; i<12; i++) {
 			grHseEmitQy=0;
 			grHseEmitQyArr[i]={month: (i+1), gauge: grHseEmitQy};
@@ -254,6 +254,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.drawChart = function(module, result)
 module.barChart.parse(grHseEmitQyArr, "json");
 module.barChart.refresh();
 
+})
 };
 
 
@@ -387,7 +388,8 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
                                 <th width="10%" height="18">총 사용률</th>
                                 <td><input type="text" size="7"  id="usageArPer" disabled/> %</td>
                                 </tr>
-
+							<input type="hidden" id="usagePdFrom"/>
+							<input type="hidden" id="usagePdTo"/>
                         </table>
                     </form>
 

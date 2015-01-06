@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
@@ -25,6 +26,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltySpecInqireVO;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUseUnuseSttusInqireService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUseUnuseSttusInqireVO;
+import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngVo;
 
 /**
  *
@@ -150,6 +152,28 @@ String indexFcltyUsageSttusInqire(@RequestParam("window_id") String windowId, Mo
 
 
     return map;
+}
+
+
+@RequestMapping(value="/fcltyMng/selectChartList.do" , method=RequestMethod.POST)
+@ResponseBody Map selectChartList(GamFcltyUseUnuseSttusInqireVO searchVO) throws Exception {
+
+	Map map = new HashMap();
+
+	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+	if (!isAuthenticated) {
+		map.put("resultCode", 1);
+		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+		return map;
+	}
+
+	List resultList = gamFcltyUseUnuseSttusInqireService.selectChartList(searchVO);
+
+	map.put("resultCode", 0);
+	map.put("resultList", resultList);
+
+	return map;
+
 }
 }
 

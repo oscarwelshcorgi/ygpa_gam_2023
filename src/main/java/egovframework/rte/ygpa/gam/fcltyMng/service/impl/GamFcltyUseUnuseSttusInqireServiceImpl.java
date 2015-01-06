@@ -41,13 +41,18 @@ public class GamFcltyUseUnuseSttusInqireServiceImpl implements GamFcltyUseUnuseS
 	public List selectFcltyUseUnuseSttusInqireList(GamFcltyUseUnuseSttusInqireVO searchVO) throws Exception{
 		return (List)gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireList(searchVO);
 	}
-
+	@Override
 	public GamFcltyUseUnuseSttusInqireVO selectFcltyUseUnuseSttusInqireListTotCnt(GamFcltyUseUnuseSttusInqireVO searchVO) throws Exception{
 		return gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireListTotCnt(searchVO);
 
 	}
-	
+	@Override
 	public List  selectFcltyUseUnuseSttusInqireDetail(GamFcltyUseUnuseSttusInqireVO searchVO){
 		return (List) gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireDetail(searchVO);
+	}
+	@Override
+	
+	public List selectChartList(GamFcltyUseUnuseSttusInqireVO searchVO){
+		return (List) gamFcltyUseUnuseSttusInqireDao.selectChartList(searchVO);
 	}
 }

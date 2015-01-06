@@ -63,6 +63,17 @@ public class GamFcltyUseUnuseSttusInqireDao extends YGPAAbstractDAO {
 		return list("gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireDetailList_D",searchVO);
 	}
 
+
+	/**
+	 * @param searchVO
+	 */
+	public List selectChartList(GamFcltyUseUnuseSttusInqireVO searchVO) {
+		return list("gamFcltyUseUnuseSttusInqireDao.selectChartList_D", searchVO);
+		
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 	
 
