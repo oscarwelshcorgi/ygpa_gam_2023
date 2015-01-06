@@ -78,6 +78,9 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
  
  
 	module.$("#detailGrid").flexOptions({params:searchOpt}).flexReload();
+	
+	module.drawChart();
+	
 	});
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -102,7 +105,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
                     ],
 
           showTableToggleBtn: false,
-        height: '500'
+        height: '250'
    
     });
     this.$("#detailGrid").on("onItemSelected", function(event, module, row, grid, param) {
@@ -132,14 +135,16 @@ GamFcltyUseUnuseSttusInqireModule.prototype.onSubmit = function() {
 GamFcltyUseUnuseSttusInqireModule.prototype.loadData = function() {
 	var searchOpt = this.makeFormArgs("#searchForm");
 	this.$("#mainGrid").flexOptions({params:searchOpt}).flexReload();
+	
 	};
 
 
 	
 	
 GamFcltyUseUnuseSttusInqireModule.prototype.loadDetailData = function(data) {
-		
+	
 	this.makeFormValues('#summaryForm', data);
+	
 };
 
 // 탭 변경시 실행
@@ -173,7 +178,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.onTabChange = function(newTabId, old
 				this.$("#mainTab").tabs("option", {active: 0});
 				return;
 			}else if (detailRows.length == 0){
-				this.initDisplay();
+				
 				alert('상세 내역을 선택해주세요.');
 				this.$('#mainTab').tabs("option",{active: 1});
 				return;
@@ -181,6 +186,76 @@ GamFcltyUseUnuseSttusInqireModule.prototype.onTabChange = function(newTabId, old
 		break;	
 	}
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+GamFcltyUseUnuseSttusInqireModule.prototype.drawChart = function(module, result) {
+	console.log(result);
+	
+	if(result.resultCode == 0){
+		
+		for (var i=0; i<12; i++) {
+			grHseEmitQy=result.resultList[i]['grHseEmitQy']*1;
+			grHseEmitQyArr[i]={month: (i+1), gauge: grHseEmitQy};
+			if (maxGrHseEmitQy<grHseEmitQy) {
+				maxGrHseEmitQy=grHseEmitQy;
+			}
+		};
+	} else {
+		for (var i=0; i<12; i++) {
+			grHseEmitQy=0;
+			grHseEmitQyArr[i]={month: (i+1), gauge: grHseEmitQy};
+		};
+	}
+	if (maxGrHseEmitQy<10) {
+		maxGrHseEmitQy=10;
+	}
+	if (module.barChart==null) {
+	module.barChart = new dhtmlXChart({
+		view			: "bar",
+		container		: module.$('#detailChart')[0],
+		value			: "#gauge#",
+		color			: "#000BE0",
+        gradient		: "rising",
+		width			: 30,
+		label			: "#gauge#",
+		tooltip			: "#gauge# (KgCO2)",
+		xAxis			: {
+			title 		: "온실가스 배출 현황",
+			template	: "#month# 월"
+		},
+		yAxis			: {
+			start		: 0,
+			end			: maxGrHseEmitQy + 10,
+			step		: Math.ceil(maxGrHseEmitQy / 10),
+			title		: "온실가스 배출량,KgCO2"
+		}
+	});
+} else {
+	module.barChart.clearAll();
+	module.barChart.define("yAxis", {
+		start : 0,
+		end : maxGrHseEmitQy + 10,
+		step : Math.ceil(maxGrHseEmitQy / 10),
+		title : "온실가스 배출량,KgCO2"
+	});
+}
+module.barChart.parse(grHseEmitQyArr, "json");
+module.barChart.refresh();
+
+};
+
 
 
 
@@ -245,8 +320,8 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" >
 			<ul>
 				<li><a href="#tabs1" class="emdTab">시설물 사용/미사용시설 조회</a></li>
-				<li><a href="#tabs2" class="emdTab">시설물 사용/미사용시설 상세</a></li>
-				<li><a href="#tabs3" class="emdTab">시설물 사용/미사용시설 업체별 상세</a></li>
+				<li><a href="#tabs2" class="emdTab">시설물 사용/미사용시설 업체별 상세</a></li>
+				<li><a href="#tabs3" class="emdTab">임대 상세 내역</a></li>
 			</ul>
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
@@ -281,7 +356,7 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
                     <form id="summaryForm">
                         
 		
-                        <table class="editForm" >
+                        <table class="editForm">
                                 <tr>
                                 <th width="10%" height="18">항구분</th>
                                 <td><input type="text" size="10" id="prtAtCodeNm2" disabled/> </td>
@@ -302,16 +377,15 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
                                 	<input type="text" size="3" id="gisAssetsLnmSub" disabled/>
                                 </td>
 								<th width="10%" height="18">소재지</th>
-                                <td><input type="text" size="44" id="gisAssetsLocplc"  disabled/></td>
+                                <td><input type="text" size="35" id="gisAssetsLocplc"  disabled/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">실제임대 가용면적</th>
                                 <td><input type="text" size="20" class="ygpaNumber" id="gisAssetsRealRentAr" disabled/>㎡</td>
 								<th width="10%" height="18">총 사용면적</th>
                                 <td><input type="text" size="18" class="ygpaNumber" id="usageAr" disabled/>㎡</td>
-                                <th width="10%" height="18">자산 등록 여부</th>
-                                <td><input type="text" size="2"  id="gisAssetsUsageYn" disabled/></td>
-                                
+                                <th width="10%" height="18">총 사용률</th>
+                                <td><input type="text" size="7"  id="usageArPer" disabled/> %</td>
                                 </tr>
 
                         </table>
@@ -324,18 +398,21 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
                  
                  <table class="summaryPanel" style="width:100%;">
 							<tr>
-						<th style="font-weight:bold; height:25px;">업체별 상세 내역</th>
+						<th style="font-weight:bold; height:15px;">업체별 상세 내역</th>
 								</tr>
 					</table>
                  <table id="detailGrid" style="display: none"></table>
-                 
+           
+                <td rowspan="10" style="padding-left:4px;">
+				<div id="detailChart" style="width:412px;height:310px;border:1px solid #A4BED4;"></div>
+					</td> 
             </div>
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 						<form id="detailForm">				
 							<table class="editForm" style="width : 100%">			
 							<tr>	
 								<th width="10%" height="18">업체명 </th>
-								<td><input type="text" size="20" id="entrpsNm" disabled/></td>
+								<td><input type="text" size="25" id="entrpsNm" disabled/></td>
 								<th width="10%" height="18">신청기간</th>
                                 <td colspan="3">
                                 	<input type="text" size="11" id="usagePdFrom" disabled/> ~
@@ -343,6 +420,16 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
                                 </td>
        					                      
                             </tr>
+                                <tr>
+                                <th width="10%" height="18">자산면적</th>
+                                <td><input type="text" size="15" class="ygpaNumber" id="gisAssetsAr" disabled/>㎡</td>
+							
+								<th width="10%" height="18">실제임대 가용면적</th>
+                                <td><input type="text" size="15" class="ygpaNumber" id="gisAssetsRealRentAr" disabled/>㎡</td>
+							
+								<th width="10%" height="18">사용면적</th>
+                                <td><input type="text" size="15" class="ygpaNumber" id="usageAr" disabled/>㎡</td>
+                                </tr>
                             <tr>
                     <tr>
 								<th width="10%" height="18">적용방법</th>
@@ -360,11 +447,10 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
                               </tr>
                             <tr >
 									<th width="10%" height="18">공시지가</th>
-                                <td colspan="5"><input type="text" size="25" class="ygpaNumber calcInput" id="olnlp"  disabled/>원</td>
-                            </tr>
-                            <tr>
+                                <td colspan="2"><input type="text" size="25" class="ygpaNumber calcInput" id="olnlp"  disabled/>원</td>
+                            
                                 <th width="10%" height="18">적용단가</th>
-                                <td colspan="5"><input type="text" size="25" class="ygpaNumber calcInput" id="applcPrice" data-decimal-point="1"  disabled/>원</td>
+                                <td colspan="3"><input type="text" size="25" class="ygpaNumber calcInput" id="applcPrice" data-decimal-point="1"  disabled/>원</td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">면제구분</th>
@@ -383,7 +469,7 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
                                     <input size="50" id="exemptRsnCd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM017" disabled/>
                                 </td>
 								<th width="10%" height="18">면제사유</th>
-                                <td><input type="text" size="44" id="exemptRsn"  disabled/></td>
+                                <td><input type="text" size="24" id="exemptRsn"  disabled/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">감면사용료</th>
