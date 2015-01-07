@@ -19,21 +19,23 @@
 					FROM (
 						SELECT
 								 GAM_GETCODENAME('GAM019',T1.GIS_ASSETS_PRT_AT_CODE) AS PRT_AT_CODE_NM
-								,T1.GIS_ASSETS_CD
-								,T1.GIS_ASSETS_SUB_CD
+								,T1.GIS_ASSETS_CD ||' - '|| T1.GIS_ASSETS_SUB_CD AS GIS_ASSETS_CD
 								,T1.GIS_ASSETS_NM
 								,NVL2(T1.GIS_ASSETS_LNM_SUB,T1.GIS_ASSETS_LOCPLC||' '||T1.GIS_ASSETS_LNM ||'-'||T1.GIS_ASSETS_LNM_SUB
 										,T1.GIS_ASSETS_LOCPLC ||' '|| T1.GIS_ASSETS_LNM) AS GIS_ASSETS_LOCPLC
 								,T1.GIS_ASSETS_AR
 								,T1.GIS_ASSETS_REAL_RENT_AR
+								
 								,T4.MNG_YEAR
 								,T4.MNG_NO
 								,T4.MNG_CNT
+								,T4.ASSETS_USAGE_SEQ
 								,T4.ENTRPS_NM
 								,T4.USAGE_AR
 								,T4.USAGE_PD_FROM
 								,T4.USAGE_PD_TO
 								,T4.FEE
+								
 							FROM GIS_ASSETS_CD_F T1
 							INNER JOIN (
 									SELECT
@@ -41,6 +43,7 @@
 										,T2.MNG_YEAR
 										,T2.MNG_NO
 										,T2.MNG_CNT
+					                    ,T2.ASSETS_USAGE_SEQ
 										,GAM_GETENTRPSNM(T3.ENTRPSCD, '1') ENTRPS_NM
 										,T2.USAGE_AR
 										,TO_CHAR(T2.USAGE_PD_FROM, 'YYYY-MM-DD') AS USAGE_PD_FROM
@@ -81,7 +84,7 @@
 	<select id="gamFcltyUsageHistInqireDao.selectFcltyUsageHistInqireListTotCnt" parameterClass="gamFcltyUsageHistInqireVO" resultMap="gamFcltyUsageHistInqireSumMap">
 		SELECT
 				 COUNT(*) AS DATA_COUNT
-				,LTRIM(TO_CHAR((SUM(T4.USAGE_AR)),'999,999,990.99')) AS SUM_USAGE_AR
+				,SUM(T4.USAGE_AR) AS SUM_USAGE_AR
 				,SUM(T4.FEE) AS SUM_FEE
 		FROM GIS_ASSETS_CD_F T1
 		INNER JOIN (
@@ -90,6 +93,7 @@
 					,T2.MNG_YEAR
 					,T2.MNG_NO
 					,T2.MNG_CNT
+                    ,T2.ASSETS_USAGE_SEQ
 					,GAM_GETENTRPSNM(T3.ENTRPSCD, '1') ENTRPS_NM
 					,T2.USAGE_AR
 					,TO_CHAR(T2.USAGE_PD_FROM, 'YYYY-MM-DD') AS USAGE_PD_FROM

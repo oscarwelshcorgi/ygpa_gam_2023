@@ -30,7 +30,7 @@ import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageHistInqireVO;
 
 /**
  * 
- * @author LFIT
+ * @author 김영길
  * @since 2014. 12. 11.
  * @version 1.0
  * @see
@@ -39,7 +39,7 @@ import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageHistInqireVO;
  *   
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
- *  2014. 12. 11.		LFIT		최초 생성
+ *  2014.12.11	김영길		최초 생성
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
@@ -117,6 +117,12 @@ public class GamFcltyUsageHistInqireController {
     	return map;
     }
 	
+	/**
+	 * 시설물 사용이력 목록 Excel
+	 * @param excelParam
+	 * @return ModelAndView
+	 * @throws Exception
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/gamFcltyUsageHistInqireExcel.do", method=RequestMethod.POST)
 	@ResponseBody ModelAndView gamExcelDownloadUsageHistInqire(@RequestParam Map<String, Object> excelParam) throws Exception {

@@ -26,7 +26,7 @@ import egovframework.rte.ygpa.gam.fclty.service.GamConstFcltySpecInqireVO;
 
 /**
  * 
- * @author LFIT
+ * @author 김영길
  * @since 2014. 12. 5.
  * @version 1.0
  * @see

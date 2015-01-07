@@ -35,7 +35,7 @@
 %>
 function GamFcltyUsageHistInqireModule() {}
 
-GamFcltyUsageHistInqireModule.prototype = new EmdModule(1100,700);	// 초기 시작 창크기 지정
+GamFcltyUsageHistInqireModule.prototype = new EmdModule(1000,700);	// 초기 시작 창크기 지정
 
 <%
 /**
@@ -52,10 +52,10 @@ GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
 		dataType: "json",
 		colModel : [
 						{display : '항구분',		name : 'prtAtCodeNm',			width : 60, 	sortable : false, 	align : 'center'},
-						{display : '자산명',   	name : 'gisAssetsNm',			width : 150, 	sortable : false, 	align : 'left'},
+						{display : '시설명',   	name : 'gisAssetsNm',			width : 150, 	sortable : false, 	align : 'left'},
 						{display : '소재지', 	    name : 'gisAssetsLocplc',		width : 150, 	sortable : false, 	align : 'left'},
-						{display : '자산면적(㎡)', 	name : 'gisAssetsRealRentAr',	width : 100, 	sortable : false, 	align : 'right', 		displayFormat: 'number', displayOption:{format:"0,000.00"} },
-						{display : '등록업체', 	name : 'entrpsNm',				width : 150, 	sortable : false, 	align : 'left'},
+						{display : '시설면적(㎡)', 	name : 'gisAssetsRealRentAr',	width : 100, 	sortable : false, 	align : 'right', 		displayFormat: 'number', displayOption:{format:"0,000.00"} },
+						{display : '사용업체', 	name : 'entrpsNm',				width : 150, 	sortable : false, 	align : 'left'},
 						{display : '사용시작일',	name : 'usagePdFrom',			width : 100, 	sortable : false, 	align : 'center'},
 						{display : '사용종료일',	name : 'usagePdTo',				width : 100, 	sortable : false, 	align : 'center'},
 						{display : '사용면적(㎡)',	name : 'usageAr',				width : 100, 	sortable : false, 	align : 'right', 		displayFormat: 'number', displayOption:{format:"0,000.00"} },
@@ -70,9 +70,40 @@ GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
         }
 	});
 	
+	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
+		module._mode = 'modify';
+	});
+	
+	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		module._mode = 'modify';
+		module.$("#mainTab").tabs("option", {active: 1});
+	});
+		
 	this.$("#mainGrid").on('onLoadDataComplete', function(event, module, data) {
 		module.selectData();
 	});
+	
+	this.$("#sRegistEntrpsCd").bind("keyup change", {module: this}, function(event) {
+		event.data.module.getQueryEntrpsNm();
+	});
+	
+	
+	
+};
+
+<%
+/**
+ * @FUNCTION NAME : getQueryEntrpsNm
+ * @DESCRIPTION   : 조회조건 고지업체 명을 지운다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyUsageHistInqireModule.prototype.getQueryEntrpsNm = function() {
+	var sEntrpscd = this.$('#sRegistEntrpsCd').val();
+	if (sEntrpscd.length != 8) {
+		this.$('#sRegistEntrpsNm').val('');
+	}
+
 };
 
 <%
@@ -127,6 +158,7 @@ GamFcltyUsageHistInqireModule.prototype.onSubmit = function() {
 	if(!validateSearchForm(this.$('#searchForm')[0])){ 		
 		return;
 	}
+	this.clearCodePage();
     this.loadData();
 };
 
@@ -138,9 +170,25 @@ GamFcltyUsageHistInqireModule.prototype.onSubmit = function() {
 **/
 %>
 GamFcltyUsageHistInqireModule.prototype.loadData = function() {
-    this.$("#mianTab").tabs("option", {active: 0});
+	this._mode="";
+    this.$("#mainTab").tabs("option", {active: 0});
     var searchOpt=this.makeFormArgs('#searchForm');
     this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadDetail
+ * @DESCRIPTION   : 상세항목을 로딩 한다.
+ * @PARAMETER     :
+ *   1. tabId - TAB ID
+**/
+%>
+GamFcltyUsageHistInqireModule.prototype.loadDetail = function(tabId) {
+		var row = this.$('#mainGrid').selectedRows();
+		row = row[0];
+		console.log(row);
+		this.makeFormValues('#detailForm', row);
 };
 
 <%
@@ -210,6 +258,37 @@ GamFcltyUsageHistInqireModule.prototype.rowSpanGridData = function() {
 	}
 };
 
+<%
+/**
+ * @FUNCTION NAME : onTabChange
+ * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
+ * @PARAMETER     :
+ *   1. newTabId - NEW TAB ID
+ *   2. oldTabId - OLD TAB ID
+**/
+%>
+ GamFcltyUsageHistInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
+	 if(oldTabId == 'listTab' && this._mode == 'modify') {
+	 	this.loadDetail();
+	 }
+	switch (newTabId) {
+		case 'listTab':
+			break;
+		case 'detailTab':
+			if(this._mode != 'modify') {
+				alert('선택된 항목이 없습니다.');
+				this.$("#mainTab").tabs("option", {active: 0});
+				return;
+			}
+			break;
+	}
+
+};
+
+GamFcltyUsageHistInqireModule.prototype.clearCodePage = function() {
+	this.$('#detailForm :input').val('');
+};
+
 //다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamFcltyUsageHistInqireModule();
 </script>
@@ -226,7 +305,7 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 <!-- 아래는 고정 -->
 <input type="hidden" id="window_id" value="<c:out value="${windowId}" />" />
 <div class="window_main">
-	<!-- 조회 조건 -->
+	<!-- 11. SEARCH AREA (조회조건 영역) -->
 	<div class="emdPanel">
 		<div class="viewStack">
 			<form id="searchForm">
@@ -247,11 +326,11 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 							</td>
 						</tr>
 						<tr>
-							<th>자산명</th>
+							<th>시설명</th>
 							<td>
 								<input id=sGisAssetsNm type="text" size="40" maxlength="40" title="검색조건"  />
 							</td>
-							<th>등록업체</th>
+							<th>사용업체</th>
 							<td>
                             	<input id="sRegistEntrpsCd" type="text" size="7">&nbsp; &nbsp;
                          		<input id="sRegistEntrpsNm" type="text" size="27" disabled="disabled">&nbsp; &nbsp;
@@ -263,13 +342,16 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 			</form>
 		</div>
 	</div>
-
+	<!-- 2. DATA AREA (자료 영역) -->
 	<div class="emdPanel fillHeight">
-		<div id="mianTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+		<!-- 21. TAB AREA (탭 영역) -->
+		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+			<!-- 211. TAB 정의 -->
             <ul>
                 <li><a href="#listTab" class="emdTab">사용이력정보</a></li>
+                <li><a href="#detailTab" class="emdTab">사용이력정보 상세</a></li>
             </ul>
-            
+            <!-- 212. TAB 1 AREA (LIST) -->
             <div id="listTab" class="emdTabPage fillHeight" style="overflow: hidden;" >
 				<table id="mainGrid" style="display:none" class="fillHeight">
 				</table>
@@ -281,7 +363,7 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 								<td><input type="text" size="13" id="dataCount" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="15%" height="25">총 사용면적</th>
 								<td>
-									<input type="text" size="24" id="sumUsageAr" disabled="disabled" style="text-align: right;" />
+									<input type="text" size="24" id="sumUsageAr" class="ygpaNumber" data-column-id="sumUsageAr" data-decimal-point="2" disabled="disabled" />
 								</td>
 								<th width="15%" height="25">총 사용료</th>
 								<td><input type="text" size="24" id="sumFee" class="ygpaNumber" disabled="disabled" /></td>
@@ -296,6 +378,144 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 						</table>
 					</form>
                 </div>
+			</div>
+			<!-- 213. TAB 2 AREA (DETAIL) -->
+			<div id="detailTab" class="emdTabPage" style="overflow:scroll;">
+				<div class="emdControlPanel">
+					<form id="detailForm">
+						<table class="summaryPanel" style="width:100%;">
+							<tr>
+								<th style="font-weight:bold; height:20px;">사용이력정보 상세</th>
+							</tr>
+						</table>
+						<table class="detailPanel" style="width:100%;">
+							<tr>
+								<th style="width:10%; height:18;">항구</th>
+								<td>
+									<input type="text" size="30" id="prtAtCodeNm" disabled="disabled" />
+								</td>
+								<th style="width:10%; height:18;">GIS자산코드</th>
+								<td colspan="3">
+									<input type="text" size="30" id="gisAssetsCd" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18;">시설명</th>
+								<td colspan="5">
+									<input type="text" size="91" id="gisAssetsNm" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18;">소재지</th>
+								<td colspan="3">
+									<input type="text" size="91" id="gisAssetsLocplc" disabled="disabled" />
+								</td>
+								<th style="width:10%; height:18;">시설면적(㎡)</th>
+								<td>
+									<input type="text" size="30" id="gisAssetsRealRentAr" class="ygpaNumber" data-column-id="gisAssetsRealRentAr" data-decimal-point="2" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18;">사용업체</th>
+								<td>
+									<input type="text" size="30" id="entrpsNm" disabled="disabled">
+								</td>
+								<th style="width:10%; height:18;">업체구분</th>
+								<td colspan="3">
+									<input type="text" size="30" id="" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18;">사용목적</th>
+								<td>
+									<input type="text" size="30" id="" disabled="disabled" />
+								</td>
+								<th style="width:10%; height:18;">사용내역</th>
+								<td colspan="3">
+									<input type="text" size="30" id="" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18;">사용료계산구분</th>
+								<td>
+									<input type="text" size="30" id="" disabled="disabled" />
+								</td>
+								<th style="width:10%; height:18;">적용단가</th>
+								<td>
+									<input type="text" size="30" id="" disabled="disabled" />
+								</td>
+								<th style="width:10%; height:18;">사용면적(㎡)</th>
+								<td colspan="5">
+									<input type="text" size="30" id="usageAr" class="ygpaNumber" data-column-id="usageAr" data-decimal-point="2" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18;">사용기간</th>
+								<td>
+									<input type="text" size="13" id="usagePdFrom" disabled="disabled" />&nbsp;~&nbsp;
+									<input type="text" size="13" id="usagePdTo" disabled="disabled" />
+								</td>
+								<th style="width:10%; height:18;">사용료</th>
+								<td colspan="3">
+									<input type="text" size="30" id="fee" class="ygpaNumber" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18;">면제구분</th>
+								<td colspan="5">
+									<input type="text" size="30" id="" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18;">면제사유</th>
+								<td colspan="3">
+									<input type="text" size="91" id="" disabled="disabled" />
+								</td>
+								<th style="width:10%; height:18;">면제기간</th>
+								<td>
+									<input type="text" size="13" id="" disabled="disabled" />&nbsp;~&nbsp;
+									<input type="text" size="13" id="" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18;">해지사유</th>
+								<td colspan="3">
+									<input type="text" size="91" id="" disabled="disabled" />
+								</td>
+								<th style="width:10%; height:18;">해지일자</th>
+								<td>
+									<input type="text" size="30" id="" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18;">등록날짜</th>
+								<td>
+									<input type="text" size="30" id="" disabled="disabled" />
+								</td>
+								<th style="width:10%; height:18;">등록자</th>
+								<td colspan="3">
+									<input type="text" size="30" id="" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18;">수정날짜</th>
+								<td>
+									<input type="text" size="30" id="" disabled="disabled" />
+								</td>
+								<th style="width:10%; height:18;">수정자</th>
+								<td colspan="3">
+									<input type="text" size="30" id="" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18;">비　　　　　고</th>
+								<td colspan="5">
+									<textarea rows="4" cols="150" id="" disabled="disabled"></textarea>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
