@@ -105,13 +105,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
 
           showTableToggleBtn: false,
         height: '250'
-        	,preProcess : function(module,data) {
-				
-				module.$('#usagePdFrom').val(data.usagePdFrom);
-				module.$('#usagePdTo').val(data.usagePdTo);
-				module.makeDivValues('#summaryForm', data);
-				return data;
-        	}
+
    
     });
     this.$("#detailGrid").on("onItemSelected", function(event, module, row, grid, param) {
@@ -199,59 +193,66 @@ GamFcltyUseUnuseSttusInqireModule.prototype.onTabChange = function(newTabId, old
 
 
 GamFcltyUseUnuseSttusInqireModule.prototype.drawChart = function() {
+	
 	var searchVO = this.makeFormArgs('#summaryForm');
-		console.log(searchVO);
+	var usageAr = 0;
+	var usageArArr=[];
+	var maxUsageAr=0;
+	
 	this.doAction("/fcltyMng/selectChartList.do" , searchVO, function(module,result) {
 		
 	if(result.resultCode == 0){
-	alert('debug');	
-		for (var i=0; i<12; i++) {
-			grHseEmitQy=result.resultList[i]['grHseEmitQy']*1;
-			grHseEmitQyArr[i]={month: (i+1), gauge: grHseEmitQy};
-			if (maxGrHseEmitQy<grHseEmitQy) {
-				maxGrHseEmitQy=grHseEmitQy;
+	
+		for (var i=0; i<result.resultList.length; i++) {
+			
+			usageAr=result.resultList[i]['usageAr']*1;
+			entrpsNms = result.resultList[i]['entrpsNm'];
+			usageArArr[i]={entrpsNm : entrpsNms , amount : usageAr};
+			if (maxUsageAr<usageAr) {
+				maxUsageAr=usageAr;
 			}
 		};
 	} else{
-		for (var i=0; i<12; i++) {
-			grHseEmitQy=0;
-			grHseEmitQyArr[i]={month: (i+1), gauge: grHseEmitQy};
+		
+		for (var i=0; i<result.resultList.length; i++) {
+			usageAr=0;
+			usageArArr[i]={entprsNm: entrpsNms, amount : usageAr};
 		};
 	}
-	if (maxGrHseEmitQy<10) {
-		maxGrHseEmitQy=10;
+	if (maxUsageAr<10) {
+		maxUsageAr=10;
 	}
 	if (module.barChart==null) {
 	module.barChart = new dhtmlXChart({
 		view			: "bar",
 		container		: module.$('#detailChart')[0],
-		value			: "#gauge#",
-		color			: "#000BE0",
+		value			: "#amount#",
+		color			: "#6799FF",
         gradient		: "rising",
 		width			: 30,
-		label			: "#gauge#",
-		tooltip			: "#gauge# (KgCO2)",
+		label			: "#amount#",
+		tooltip			: "#amount# (㎡)",
 		xAxis			: {
-			title 		: "온실가스 배출 현황",
-			template	: "#month# 월"
+			title 		: "업체별 사용량 현황 ",
+			template	: "#entrpsNm#"
 		},
 		yAxis			: {
 			start		: 0,
-			end			: maxGrHseEmitQy + 10,
-			step		: Math.ceil(maxGrHseEmitQy / 10),
-			title		: "온실가스 배출량,KgCO2"
+			end			: maxUsageAr + 10,
+			step		: Math.ceil(maxUsageAr / 10),
+			title		: "사용량 ,㎡"
 		}
 	});
 } else {
 	module.barChart.clearAll();
 	module.barChart.define("yAxis", {
 		start : 0,
-		end : maxGrHseEmitQy + 10,
-		step : Math.ceil(maxGrHseEmitQy / 10),
-		title : "온실가스 배출량,KgCO2"
+		end : maxUsageAr + 10,
+		step : Math.ceil(maxUsageAr / 10),
+		title : "업체별 사용량 현황 ,㎡"
 	});
 }
-module.barChart.parse(grHseEmitQyArr, "json");
+module.barChart.parse(usageArArr, "json");
 module.barChart.refresh();
 
 })
@@ -388,15 +389,17 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
                                 <th width="10%" height="18">총 사용률</th>
                                 <td><input type="text" size="7"  id="usageArPer" disabled/> %</td>
                                 </tr>
-							<input type="hidden" id="usagePdFrom"/>
-							<input type="hidden" id="usagePdTo"/>
+							
+							<input type="hidden"  id="usagePdFrom"/>
+							<input type="hidden"  id="usagePdTo"/>
+							
                         </table>
                     </form>
 
 
 	                 
 	
-                 </div>
+                 
                  
                  <table class="summaryPanel" style="width:100%;">
 							<tr>
@@ -405,9 +408,14 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 					</table>
                  <table id="detailGrid" style="display: none"></table>
            
-                <td rowspan="10" style="padding-left:4px;">
-				<div id="detailChart" style="width:412px;height:310px;border:1px solid #A4BED4;"></div>
-					</td> 
+               	<div class="chart_box">
+               	<table class="summaryPanel">
+					<td>
+				<div id="detailChart" style="width:942px;height:410px;border:1px solid #A4BED4;"></div>
+					</td>
+			</table>
+				</div>
+					</div>
             </div>
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 						<form id="detailForm">				
