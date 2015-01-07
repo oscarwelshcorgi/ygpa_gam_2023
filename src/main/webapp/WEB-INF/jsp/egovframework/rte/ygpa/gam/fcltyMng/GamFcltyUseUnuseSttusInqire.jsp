@@ -79,12 +79,13 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
  
  
 	module.$("#detailGrid").flexOptions({params:searchOpt}).flexReload();
-	module.drawBarChart();
+	
 	});
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		
+			
 		module.$("#mainTab").tabs("option", {active: 1});
+		module.drawBarChart();
 	});
 
 	// 시설물 사용/미사용 시설 상세
@@ -111,11 +112,11 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
     this.$("#detailGrid").on("onItemSelected", function(event, module, row, grid, param) {
     	
     	module.makeFormValues('#detailForm', row);
-    	module.drawPieChart(row);
+    	
     });
  	
     this.$("#detailGrid").on("onItemDoubleClick", function(event, module, row, grid, param) {
-    	
+    	module.drawPieChart(module,row);
     	module.$("#mainTab").tabs("option", {active: 2});
     	
     });
@@ -205,7 +206,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.drawBarChart = function() {
 	
 		for (var i=0; i<result.resultList.length; i++) {
 			
-			usageAr=result.resultList[i]['usageAr']*1;
+			usageAr=result.resultList[i]['usageAr'];
 			entrpsNms = result.resultList[i]['entrpsNm'];
 			usageArArr[i]={entrpsNm : entrpsNms , amount : usageAr};
 			if (maxUsageAr<usageAr) {
@@ -227,7 +228,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.drawBarChart = function() {
 		view			: "bar",
 		container		: module.$('#barChartCons')[0],
 		value			: "#amount#",
-		color			: "#6799FF",
+		color			: "#5CD1E5",
         gradient		: "rising",
 		width			: 30,
 		label			: "#amount#",
@@ -260,25 +261,30 @@ module.barChart.refresh();
 
 
 
-GamFcltyUseUnuseSttusInqireModule.prototype.drawPieChart = function(data) {
-	console.log(data);
-	var usageAr=data['usageAr'];
-	var maxUsageAr=data['']
-	var colors = [
-	            {color:"#80ff7a"},
-	            {color:"#bdff33"},
-	        ];
+GamFcltyUseUnuseSttusInqireModule.prototype.drawPieChart = function(module,data) {
 	
-		var usageAr=result.resultList[i]['usageAr']*1;
-		var entrpsNms = result.resultList[i]['entrpsNm'];
-		usageArArr[i]={entrpsNm : entrpsNms , amount : usageAr};
-
-	var pieChart =  new dhtmlXChart({
-        view:"pie",
-        container:"chart_container",
-            value:"#sales#",
-                color: "#color#",
-                legend:{
+	var usageAr=0;
+	var maxUsageAr=0;
+	
+	   
+	var usageAr=data['usageAr'];
+	var maxUsageAr=data['gisAssetsRealRentAr'];
+	console.log(usageAr);
+	console.log(maxUsageAr);
+	var dat = [{usage: usageAr ,				color:"#80ff7a"},
+			  
+	];
+	
+	if (module.pieChart==null) {
+		module.pieChart =  new dhtmlXChart({
+     		 view:"pie3D",
+        container:module.$('#pieChartCons')[0],
+            value:"#usage#",
+            color: "#color#",
+            radius:65,
+            x:280,
+            y:120,
+/*                 legend:{
                  width: 65,
                  align: "right",
                  valign: "top",
@@ -286,12 +292,12 @@ GamFcltyUseUnuseSttusInqireModule.prototype.drawPieChart = function(data) {
                          type: "round",
                      width: 15
                  },
-                     template: "#year#"
-                },
-        pieInnerText:"<b>#sales#</b>"
+                     template: "#max#"
+                }, */
+        pieInnerText:"<b>#usage#</b>"
 })
-	
-	pieChart.parse(data,"json");
+}
+	module.pieChart.parse(dat,"json");
 
 };
 
@@ -433,17 +439,18 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 	
                  
                  
-                 <table class="e" style="width:100%;">
+                 <table class="editForm" style="width:100%;">
 							<tr>
 						<th style="font-weight:bold; height:15px;">업체별 상세 내역</th>
 								</tr>
-					
+					</table>
                  <table id="detailGrid" style="display: none"></table>
-           
-               	
+           	<table class="editForm">
+               	<tr>
 					<td>
-				<div id="barChartCons" style="width:942px;height:410px;border:1px solid #A4BED4;"></div>
+				<div id="barChartCons" style="width:942px;height:410px;"></div>
 					</td>
+					</tr>
 			</table>
 			
 					</div>
@@ -533,8 +540,10 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 								<th width="10%" height="18">사용내역</th>
                                 <td colspan="5"><input type="text" size="100" id="usageDtls"  disabled/></td>
                             </tr>
-
                             </table>
+							<table class="summaryPanel">
+								<td><div id="pieChartCons" style="width:450px;height:300px;border:1px solid #A4BED4;"></div></td>	
+                         	</table>
                             </form>
 		</div>
 
