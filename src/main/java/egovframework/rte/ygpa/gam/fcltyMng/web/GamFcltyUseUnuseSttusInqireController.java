@@ -155,7 +155,7 @@ String indexFcltyUsageSttusInqire(@RequestParam("window_id") String windowId, Mo
 }
 
 
-@RequestMapping(value="/fcltyMng/selectChartList.do" , method=RequestMethod.POST)
+@RequestMapping(value="/fcltyMng/selectFcltyUseUnuseSttusInqireChartList.do" , method=RequestMethod.POST)
 @ResponseBody Map selectChartList(GamFcltyUseUnuseSttusInqireVO searchVO) throws Exception {
 
 	Map map = new HashMap();
@@ -167,7 +167,7 @@ String indexFcltyUsageSttusInqire(@RequestParam("window_id") String windowId, Mo
 		return map;
 	}
 
-	List resultList = gamFcltyUseUnuseSttusInqireService.selectChartList(searchVO);
+	List resultList = gamFcltyUseUnuseSttusInqireService.selectFcltyUseUnuseSttusInqireChartList(searchVO);
 
 	map.put("resultCode", 0);
 	map.put("resultList", resultList);

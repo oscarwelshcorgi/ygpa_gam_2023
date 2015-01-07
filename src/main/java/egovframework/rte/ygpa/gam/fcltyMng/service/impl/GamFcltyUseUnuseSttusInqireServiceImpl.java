@@ -52,7 +52,7 @@ public class GamFcltyUseUnuseSttusInqireServiceImpl implements GamFcltyUseUnuseS
 	}
 	@Override
 	
-	public List selectChartList(GamFcltyUseUnuseSttusInqireVO searchVO)throws Exception{
-		return (List) gamFcltyUseUnuseSttusInqireDao.selectChartList(searchVO);
+	public List selectFcltyUseUnuseSttusInqireChartList(GamFcltyUseUnuseSttusInqireVO searchVO)throws Exception{
+		return (List) gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireChartList(searchVO);
 	}
 }

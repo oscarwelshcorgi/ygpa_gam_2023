@@ -173,7 +173,7 @@
 		AND 'Y'=(SELECT PRMISN_YN FROM ASSETS_RENT_F WHERE PRT_AT_CODE=T2.PRT_AT_CODE AND MNG_YEAR=T2.MNG_YEAR AND MNG_NO=T2.MNG_NO AND MNG_CNT=T2.MNG_CNT)
 	</select>
 	
-	<select id="gamFcltyUseUnuseSttusInqireDao.selectChartList_D" parameterClass="gamFcltyUseUnuseSttusInqireVO" resultClass="egovMap">
+	<select id="gamFcltyUseUnuseSttusInqireDao.selectFcltyUseUnuseSttusInqireChartList_D" parameterClass="gamFcltyUseUnuseSttusInqireVO" resultClass="egovMap">
 		SELECT
 				GAM_GETENTRPSNM(T3.ENTRPSCD, '1') AS ENTRPS_NM
 				,NVL(T2.USAGE_AR,0) AS USAGE_AR

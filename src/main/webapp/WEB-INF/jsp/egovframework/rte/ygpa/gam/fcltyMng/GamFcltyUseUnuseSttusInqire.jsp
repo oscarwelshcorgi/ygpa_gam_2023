@@ -199,7 +199,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.drawChart = function() {
 	var usageArArr=[];
 	var maxUsageAr=0;
 	
-	this.doAction("/fcltyMng/selectChartList.do" , searchVO, function(module,result) {
+	this.doAction("/fcltyMng/selectFcltyUseUnuseSttusInqireChartList.do" , searchVO, function(module,result) {
 		
 	if(result.resultCode == 0){
 	

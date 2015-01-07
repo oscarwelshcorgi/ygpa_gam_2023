@@ -52,7 +52,7 @@ public interface GamFcltyUseUnuseSttusInqireService {
 	 * @param searchVO
 	 * @return
 	 */
-	List selectChartList(GamFcltyUseUnuseSttusInqireVO searchVO) throws Exception;
+	List selectFcltyUseUnuseSttusInqireChartList(GamFcltyUseUnuseSttusInqireVO searchVO) throws Exception;
 
 
 
