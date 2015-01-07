@@ -619,21 +619,21 @@ var module_instance = new GamInfoTechFcltySpecMngModule();
 								<input type="hidden" id="prtFcltySeNm" disabled="disabled" />
 							</td>
 							<th width="12%" height="17" class="required_text">시설명</th>
-							<td><input type="text" size="32" id="prtFcltyNm" maxlength="80" /></td>
+							<td><input type="text" size="30" id="prtFcltyNm" maxlength="80" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
 							<td colspan="5">
-								<input type="text" size="18" id="fcltsMngGroupNo" disabled="disabled"/>
-								<input type="text" size="36" id="fcltsMngGroupNoNm" disabled="disabled"/>
+								<input type="text" size="20" id="fcltsMngGroupNo" disabled="disabled"/>
+								<input type="text" size="50" id="fcltsMngGroupNoNm" disabled="disabled"/>
 								<button id="popupSearchFcltsMngGroupNo2" class="popupButton">선택</button>
 							</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">시설규격</th>
-							<td colspan="3"><input id="prtFcltyStndrd" type="text" size="40" title="시설규격" /></td>
+							<td colspan="3"><input id="prtFcltyStndrd" type="text" size="85" title="시설규격" maxlength="40" /></td>
 							<th width="12%" height="17" class="required_text">시설단위</th>
-							<td><input id="prtFcltyUnit" type="text" size="10" title="시설단위" /></td>
+							<td><input id="prtFcltyUnit" type="text" size="30" title="시설단위" maxlength="20" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">설치일자</th>
@@ -653,25 +653,25 @@ var module_instance = new GamInfoTechFcltySpecMngModule();
 					<table  class="detailPanel"  style="width:100%;">
 						<tr>
 							<th width="12%" height="17" class="required_text">품목명</th>
-							<td colspan="3"><input id="prdlstNm" type="text" size="60" maxlength="60" /></td>
+							<td colspan="3"><input id="prdlstNm" type="text" size="85" maxlength="60" /></td>
 							<th width="12%" height="17" class="required_text">수량</th>
-							<td><input id="qy" type="text" size="10" class="ygpaNumber"/></td>
+							<td><input id="qy" type="text" size="20" class="ygpaNumber"/></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">모델</th>
-							<td colspan="5"><input id="model" type="text" size="110" maxlength="250" /></td>
+							<td colspan="5"><input id="model" type="text" size="143" maxlength="250" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">제조사</th>
-							<td colspan="5"><input id="maker" type="text" size="60" maxlength="60" /></td>
+							<td colspan="5"><input id="maker" type="text" size="143" maxlength="60" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">세부내역</th>
-							<td colspan="5"><input id="ptlrDtls" type="text" size="110" maxlength="250" /></td>
+							<td colspan="5"><input id="ptlrDtls" type="text" size="143" maxlength="250" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">규격</th>
-							<td colspan="5"><input id="stndrd" type="text" size="80" maxlength="80" /></td>
+							<td colspan="5"><input id="stndrd" type="text" size="143" maxlength="80" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">설치구분</th>
@@ -683,7 +683,7 @@ var module_instance = new GamInfoTechFcltySpecMngModule();
                                 </select>
                             </td>
 							<th width="12%" height="17" class="required_text">설치번호</th>
-							<td><input id="instlNo" type="text" size="10" maxlength="10" /></td>
+							<td><input id="instlNo" type="text" size="20" maxlength="10" /></td>
 							<th width="12%" height="17" class="required_text">기능</th>
 							<td><input id="func" type="text" size="20" maxlength="20" /></td>
 						</tr>
@@ -693,19 +693,19 @@ var module_instance = new GamInfoTechFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">설치규격</th>
 							<td><input id="instlStndrd" type="text" size="20" maxlength="20" /></td>
 							<th width="12%" height="17" class="required_text">설치높이</th>
-							<td><input id="instlHt" type="text" size="5" class="ygpaNumber" /></td>
+							<td><input id="instlHt" type="text" size="20" class="ygpaNumber" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">LAMP형식</th>
-							<td><input id="lampFmt" type="text" size="40" maxlength="40" /></td>
+							<td colspan="5"><input id="lampFmt" type="text" size="143" maxlength="40" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">소재지</th>
-							<td colspan="5"><input id="loc" type="text" size="110" maxlength="150" /></td>
+							<td colspan="5"><input id="loc" type="text" size="143" maxlength="150" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">비고</th>
-							<td colspan="5"><input id="rm" type="text" size="110" maxlength="1000" /></td>
+							<td colspan="5"><input id="rm" type="text" size="143" maxlength="1000" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물분류코드</th>

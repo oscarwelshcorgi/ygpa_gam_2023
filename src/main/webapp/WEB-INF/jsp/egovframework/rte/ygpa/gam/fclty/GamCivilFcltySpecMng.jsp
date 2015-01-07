@@ -595,8 +595,8 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
 							<td colspan="5">
-								<input type="text" size="18" id="fcltsMngGroupNo" disabled="disabled"/>
-								<input type="text" size="36" id="fcltsMngGroupNoNm" disabled="disabled"/>
+								<input type="text" size="20" id="fcltsMngGroupNo" disabled="disabled"/>
+								<input type="text" size="50" id="fcltsMngGroupNoNm" disabled="disabled"/>
 								<button id="popupSearchFcltsMngGroupNo2" class="popupButton">선택</button>
 							</td>
 						</tr>
@@ -626,7 +626,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">구조형식</th>
-							<td colspan="5"><input id="strctFmt" type="text" size="100" maxlength="100" /></td>
+							<td colspan="5"><input id="strctFmt" type="text" size="131" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">선좌수심</th>
@@ -638,9 +638,9 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">에이프런포장종류</th>
-							<td><input id="apronPackKnd" type="text" size="3" maxlength="3" /></td>
+							<td><input id="apronPackKnd" type="text" size="20" maxlength="3" /></td>
 							<th width="12%" height="17" class="required_text">에이프런포장구배</th>
-							<td colspan="3"><input id="apronPackGrdnt" type="text" size="60" maxlength="60" /></td>
+							<td colspan="3"><input id="apronPackGrdnt" type="text" size="83" maxlength="60" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">접안선박규모</th>
@@ -650,11 +650,11 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">기초저면토질</th>
-							<td colspan="5"><input id="baseBttmSoil" type="text" size="110" maxlength="150" /></td>
+							<td colspan="5"><input id="baseBttmSoil" type="text" size="131" maxlength="150" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">취급화물</th>
-							<td colspan="5"><input id="hndlFrght" type="text" size="100" maxlength="100" /></td>
+							<td colspan="5"><input id="hndlFrght" type="text" size="131" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">말뚝구경</th>
@@ -666,7 +666,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">널말뚝규격</th>
-							<td colspan="5"><input id="sheetFileStndrd" type="text" size="100" maxlength="100" /></td>
+							<td colspan="5"><input id="sheetFileStndrd" type="text" size="131" maxlength="100" /></td>
 						</tr>
 						<tr>							
 							<th width="12%" height="17" class="required_text">굽수전수량</th>
@@ -678,21 +678,21 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">선석</th>
 							<td><input id="berth" type="text" size="20" class="ygpaNumber" /></td>
 							<th width="12%" height="17" class="required_text">야적장포장종류</th>
-							<td><input id="yardPackKnd" type="text" size="3" maxlength="3" /></td>
+							<td><input id="yardPackKnd" type="text" size="20" maxlength="3" /></td>
 							<th width="12%" height="17" class="required_text">야적장면적</th>
 							<td><input id="yardAr" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">방충재종류코드</th>
-							<td><input id="fenderKndCd" type="text" size="3" maxlength="3" /></td>
+							<td><input id="fenderKndCd" type="text" size="20" maxlength="3" /></td>
 							<th width="12%" height="17" class="required_text">방충재배치간격</th>
 							<td><input id="fenderPmntItv" type="text" size="20" maxlength="30" /></td>
 							<th width="12%" height="17" class="required_text">방충재형식</th>
-							<td><input id="fenderFmt" type="text" size="3" maxlength="3" /></td>
+							<td><input id="fenderFmt" type="text" size="20" maxlength="3" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">계선주규격1</th>
-							<td colspan="5"><input id="mrpostStndrd1" type="text" size="100" maxlength="100" /></td>
+							<td colspan="5"><input id="mrpostStndrd1" type="text" size="131" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">계선주배치간격1</th>
@@ -704,7 +704,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">계선주규격2</th>
-							<td colspan="5"><input id="mrpostStndrd2" type="text" size="100" maxlength="100" /></td>
+							<td colspan="5"><input id="mrpostStndrd2" type="text" size="131" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">계선주배치간격2</th>
@@ -716,23 +716,23 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">주요취급화물</th>
-							<td colspan="5"><input id="stplHndlFrght" type="text" size="110" maxlength="300" /></td>
+							<td colspan="5"><input id="stplHndlFrght" type="text" size="131" maxlength="300" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">주요계류선박</th>
-							<td colspan="5"><input id="stplMoorShip" type="text" size="110" maxlength="300" /></td>
+							<td colspan="5"><input id="stplMoorShip" type="text" size="131" maxlength="300" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">소재지</th>
-							<td colspan="5"><input id="loc" type="text" size="110" maxlength="150" /></td>
+							<td colspan="5"><input id="loc" type="text" size="131" maxlength="150" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">시작점위치</th>
-							<td colspan="5"><input id="beginPtLoc" type="text" size="100" maxlength="100" /></td>
+							<td colspan="5"><input id="beginPtLoc" type="text" size="131" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">종착점위치</th>
-							<td colspan="5"><input id="endPtLoc" type="text" size="100" maxlength="100" /></td>
+							<td colspan="5"><input id="endPtLoc" type="text" size="131" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">폭</th>
@@ -740,7 +740,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">길이</th>
 							<td><input id="lt" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
 							<th width="12%" height="17" class="required_text">포장종류</th>
-							<td><input id="packKnd" type="text" size="3" maxlength="3" /></td>
+							<td><input id="packKnd" type="text" size="20" maxlength="3" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">설계파고</th>
@@ -760,13 +760,13 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">외축소파공경사비율</th>
 							<td><input id="outerSwaveSlpRate" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
 							<th width="12%" height="17" class="required_text">외축소파공피복</th>
-							<td colspan="3"><input id="outerSwaveCover" type="text" size="60" maxlength="60" /></td>
+							<td colspan="3"><input id="outerSwaveCover" type="text" size="83" maxlength="60" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">내축소파공경사비율</th>
 							<td><input id="inSwaveSlpRate" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
 							<th width="12%" height="17" class="required_text">내축소파공피복</th>
-							<td colspan="3"><input id="inSwaveCover" type="text" size="60" maxlength="60" /></td>
+							<td colspan="3"><input id="inSwaveCover" type="text" size="83" maxlength="60" /></td>
 						</tr>
 					</table>
 				</form>

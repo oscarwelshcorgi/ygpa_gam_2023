@@ -600,14 +600,14 @@ var module_instance = new GamMechFcltySpecMngModule();
 								<input type="hidden" id="prtFcltySeNm" disabled="disabled" />
 							</td>
 							<th width="12%" height="17" class="required_text">시설명</th>
-							<td><input type="text" size="32" id="prtFcltyNm" maxlength="80" /></td>
+							<td><input type="text" size="40" id="prtFcltyNm" maxlength="80" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
 							<td colspan="5">
-								<input type="text" size="18" id="fcltsMngGroupNo" disabled="disabled"/>
-								<input type="text" size="36" id="fcltsMngGroupNoNm" disabled="disabled"/>
-								<button id="popupSearchFcltsMngGroupNo" class="popupButton">선택</button>
+								<input type="text" size="20" id="fcltsMngGroupNo" disabled="disabled"/>
+								<input type="text" size="50" id="fcltsMngGroupNoNm" disabled="disabled"/>
+								<button id="popupSearchFcltsMngGroupNo2" class="popupButton">선택</button>
 							</td>
 						</tr>
 						<tr>
@@ -626,20 +626,20 @@ var module_instance = new GamMechFcltySpecMngModule();
 					<table  class="detailPanel"  style="width:100%;">
 						<tr>
 							<th width="12%" height="17" class="required_text">품명</th>
-							<td colspan="5"><input id="gdsnm" type="text" size="110" maxlength="150" /></td>
+							<td colspan="5"><input id="gdsnm" type="text" size="132" maxlength="150" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">용도</th>
-							<td colspan="5"><input id="prpos" type="text" size="100" maxlength="100" /></td>
+							<td colspan="5"><input id="prpos" type="text" size="132" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">형식</th>
-							<td colspan="5"><input id="fmt" type="text" size="100" maxlength="100" /></td>
+							<td colspan="5"><input id="fmt" type="text" size="132" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">규격</th>
 							<td colspan="5">
-								<input id="stndrd" type="text" size="50" maxlength="50" />
+								<input id="stndrd" type="text" size="132" maxlength="50" />
 								<input id="instlDt" type="hidden"/>	
 							</td>
 						</tr>
@@ -649,41 +649,41 @@ var module_instance = new GamMechFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">사용종료일자</th>
 							<td><input id="usageEndDt" type="text" class="emdcal" size="20" /></td>
 							<th width="12%" height="17" class="required_text">상태등급</th>
-							<td><input id="sttusLvl" type="text" size="1" maxlength="1" /></td>
+							<td><input id="sttusLvl" type="text" size="20" maxlength="1" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">제작회사</th>
-							<td colspan="5"><input id="mfcCmpny" type="text" size="100" maxlength="100" /></td>
+							<td colspan="5"><input id="mfcCmpny" type="text" size="132" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">제작일자</th>
 							<td><input id="mfcDt" type="text" class="emdcal" size="20" /></td>
 							<th width="12%" height="17" class="required_text">장비번호</th>
-							<td colspan="3"><input id="eqpmnNo" type="text" size="50" maxlength="50" /></td>
+							<td colspan="3"><input id="eqpmnNo" type="text" size="83" maxlength="50" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">관리자</th>
-							<td colspan="5"><input id="manager" type="text" size="60" maxlength="60" /></td>
+							<td colspan="5"><input id="manager" type="text" size="132" maxlength="60" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">사용업체</th>
-							<td colspan="5"><input id="usageEntrps" type="text" size="100" maxlength="100" /></td>
+							<td colspan="5"><input id="usageEntrps" type="text" size="132" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">운영회사</th>
-							<td colspan="5"><input id="operCmpny" type="text" size="100" maxlength="100" /></td>
+							<td colspan="5"><input id="operCmpny" type="text" size="132" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">길이</th>
 							<td><input id="lt" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
 							<th width="12%" height="17" class="required_text">수량</th>
-							<td><input id="qy" type="text" size="10" class="ygpaNumber" /></td>
+							<td><input id="qy" type="text" size="20" class="ygpaNumber" /></td>
 							<th width="12%" height="17" class="required_text">단위</th>
 							<td><input id="unit" type="text" size="20" maxlength="20" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">소유주체</th>
-							<td><input id="posesnMainbd" type="text" size="1" maxlength="1" /></td>
+							<td><input id="posesnMainbd" type="text" size="20" maxlength="1" /></td>
 							<th width="12%" height="17" class="required_text">취득금액</th>
 							<td colspan="3"><input id="acqAmt" type="text" size="20" class="ygpaNumber" /></td>
 						</tr>
@@ -693,53 +693,53 @@ var module_instance = new GamMechFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">검사종료일자</th>
 							<td><input id="examEndDt" type="text" class="emdcal" size="20" /></td>
 							<th width="12%" height="17" class="required_text">검사합격번호</th>
-							<td><input id="examOkNo" type="text" size="10" maxlength="10" /></td>
+							<td><input id="examOkNo" type="text" size="20" maxlength="10" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">검사기관</th>
-							<td colspan="5"><input id="examInstt" type="text" size="100" maxlength="100" /></td>
+							<td colspan="5"><input id="examInstt" type="text" size="132" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">하역능력</th>
-							<td colspan="3"><input id="lnlAblty" type="text" size="30" maxlength="30" /></td>
+							<td colspan="3"><input id="lnlAblty" type="text" size="69" maxlength="30" /></td>
 							<th width="12%" height="17" class="required_text">내용년수</th>
 							<td><input id="cnyear" type="text" size="20" maxlength="20" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">자중</th>
-							<td colspan="5"><input id="selfLoad" type="text" size="110" maxlength="200" /></td>
+							<td colspan="5"><input id="selfLoad" type="text" size="132" maxlength="200" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">정격하중</th>
-							<td colspan="5"><input id="rateWght" type="text" size="110" maxlength="200" /></td>
+							<td colspan="5"><input id="rateWght" type="text" size="132" maxlength="200" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">최대바퀴하중</th>
-							<td colspan="5"><input id="maxWheelWght" type="text" size="110" maxlength="200" /></td>
+							<td colspan="5"><input id="maxWheelWght" type="text" size="132" maxlength="200" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">레일간격</th>
-							<td colspan="5"><input id="railItv" type="text" size="110" maxlength="200" /></td>
+							<td colspan="5"><input id="railItv" type="text" size="132" maxlength="200" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">정격마력</th>
-							<td colspan="5"><input id="rateHp" type="text" size="110" maxlength="200" /></td>
+							<td colspan="5"><input id="rateHp" type="text" size="132" maxlength="200" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">처리능력</th>
-							<td colspan="5"><input id="processAblty" type="text" size="100" maxlength="100" /></td>
+							<td colspan="5"><input id="processAblty" type="text" size="132" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">적재톤수</th>
-							<td colspan="5"><input id="capaTon" type="text" size="100" maxlength="100" /></td>
+							<td colspan="5"><input id="capaTon" type="text" size="132" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">강제중량</th>
-							<td colspan="5"><input id="structWqnt" type="text" size="100" maxlength="100" /></td>
+							<td colspan="5"><input id="structWqnt" type="text" size="132" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">소재지</th>
-							<td colspan="5"><input id="loc" type="text" size="110" maxlength="150" /></td>
+							<td colspan="5"><input id="loc" type="text" size="132" maxlength="150" /></td>
 						</tr>
 						<tr>							
 							<th width="12%" height="17" class="required_text">시설물분류코드</th>
@@ -759,15 +759,15 @@ var module_instance = new GamMechFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">흘수</th>
-							<td colspan="5"><input id="draft" type="text" size="100" /></td>
+							<td colspan="5"><input id="draft" type="text" size="132" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">사용목적</th>
-							<td colspan="5"><input id="usagePurps" type="text" size="110" maxlength="200" /></td>
+							<td colspan="5"><input id="usagePurps" type="text" size="132" maxlength="200" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">비고</th>
-							<td colspan="5"><input id="rm" type="text" size="110" maxlength="1000" /></td>
+							<td colspan="5"><input id="rm" type="text" size="132" maxlength="1000" /></td>
 						</tr>
 					</table>
 				</form>
