@@ -242,5 +242,16 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 	public List<?> mergeFcltyRepairFile(Map<String, Object> mergeList) throws Exception{
 		return this.merge(mergeList, "gamFcltyRepairMngDao.insertFcltyRepairFile", "gamFcltyRepairMngDao.updateFcltyRepairFile", "gamFcltyRepairMngDao.deleteFcltyRepairFile");
 	}
+	
+	
+	/**
+	 * 하자검사조서인쇄
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	public EgovMap selectFcltyRepairCheckReport(GamFcltyRepairMngVO vo) throws Exception{
+		return (EgovMap) selectByPk("gamFcltyRepairMngDao.selectFcltyRepairCheckReport_S", vo);
+	}
 
 }

@@ -447,7 +447,7 @@
 				,FLAW_END_DT = #flawEndDt#
 				,BASE_FMT = #baseFmt#
 				,STRCT_FMT = #strctFmt#
-				,AR = TO_NUMBER(REPLACE(#ar#, ',', ''))
+				,AR = TO_NUMBER(#ar#)
 				,ARCH_AR = TO_NUMBER(REPLACE(#archAr#, ',', ''))
 				,PLOT_AR = TO_NUMBER(REPLACE(#plotAr#, ',', ''))
 				,MAIN_USAGE_PRPOS = #mainUsagePrpos#

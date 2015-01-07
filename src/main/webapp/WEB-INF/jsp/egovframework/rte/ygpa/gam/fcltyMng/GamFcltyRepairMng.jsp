@@ -102,7 +102,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		colModel : [
 					{display:"순번",		name:"atchFileSeq",				width:40,		sortable:true,		align:"center"},
 					{display:"구분",		name:"atchFileSeNm",			width:40,		sortable:true,		align:"center"},
-					{display:"설명",	name:"atchFileSj",				width:240,		sortable:true,		align:"left"},
+					{display:"설명",		name:"atchFileSj",				width:240,		sortable:true,		align:"left"},
 					{display:"파일명",	name:"atchFileNmLogic",			width:200,		sortable:true,		align:"left"}
 			],
 		height: "350"
@@ -788,7 +788,7 @@ GamFcltyRepairMngModule.prototype.fillTitleData = function() {
 			this.uploadFileData();
 		break;
 		
-		// 파일다운로드btnFcltyRepairMngListExcelDownload
+		// 파일다운로드
 		case "btnDownloadFile":
 			this.downloadFileData();
 		break;
@@ -979,6 +979,7 @@ var module_instance = new GamFcltyRepairMngModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="fcltyRepairMngList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
+					<button data-role="printPage" data-search-option="searchFcltyRepairMngForm" data-url='/fcltyMng/selectFcltyRepairCheckResultPrint.do'>하자검사결과인쇄</button>
 					<button id="btnFcltyRepairMngListExcelDownload">엑셀</button>
 					<button id="addBtn">추가</button>
 					<button id="deleteBtn">삭제</button>
@@ -1091,6 +1092,8 @@ var module_instance = new GamFcltyRepairMngModule();
 					</table>
 				</form>
 				<div class="emdControlPanel">
+					<button data-role="printPage" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairCheckReportPrint.do'>하자검사조서인쇄</button>
+					<button data-role="printPage" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairExpireCheckReportPrint.do'>하자만료검사조서인쇄</button>
 					<button id="saveBtn">저장</button>
 				</div>
 			</div>

@@ -677,7 +677,7 @@ public class GamFcltyRepairMngController {
 		searchVO.setRecordCountPerPage(9999);
 
 		
-		//계약이력목록
+		//계약이력목록 
     	List fcltyRepairMngList = gamFcltyRepairMngService.selectFcltyRepairMngList(searchVO);
 		
 
@@ -685,6 +685,133 @@ public class GamFcltyRepairMngController {
     	map.put("header", header);
 
     	return new ModelAndView("gridExcelView", "gridResultMap", map);
+    }
+    
+    
+    /**
+     * 하자검사조서인쇄
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/fcltyMng/selectFcltyRepairCheckReportPrint.do")
+	public String selectFcltyRepairCheckReportPrint(@RequestParam Map<String, Object> fcltyRepairCheckReportOpt, ModelMap model) throws Exception {
+
+    	Map map = new HashMap();
+    	EgovMap result = null;
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return "/ygpa/gam/fcltyMng/GamFcltyRepairCheckReportPrint";
+    	}
+
+		ObjectMapper mapper = new ObjectMapper();
+		
+		GamFcltyRepairMngVO searchVO;
+    	searchVO = mapper.convertValue(fcltyRepairCheckReportOpt, GamFcltyRepairMngVO.class);
+
+		
+		//하자검사조서
+    	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
+    	
+        model.addAttribute("result", result);
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+
+    	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckReportPrint";
+    }
+	
+	
+	/**
+     * 하자만료검사조서인쇄
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/fcltyMng/selectFcltyRepairExpireCheckReportPrint.do")
+	public String selectFcltyRepairExpireCheckReportPrint(@RequestParam Map<String, Object> fcltyRepairExpireCheckReportOpt, ModelMap model) throws Exception {
+
+    	Map map = new HashMap();
+    	EgovMap result = null;
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return "/ygpa/gam/fcltyMng/GamFcltyRepairExpireCheckReportPrint";
+    	}
+
+		ObjectMapper mapper = new ObjectMapper();
+		
+		GamFcltyRepairMngVO searchVO;
+    	searchVO = mapper.convertValue(fcltyRepairExpireCheckReportOpt, GamFcltyRepairMngVO.class);
+
+		
+		//하자만료검사조서
+    	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
+    	
+        model.addAttribute("result", result);
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+
+    	return "ygpa/gam/fcltyMng/GamFcltyRepairExpireCheckReportPrint";
+    }
+	
+	
+	/**
+     * 하자검사결과인쇄
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/fcltyMng/selectFcltyRepairCheckResultPrint.do")
+	public String selectFcltyRepairCheckResultPrint(@RequestParam Map<String, Object> fcltyRepairCheckResultOpt, ModelMap model) throws Exception {
+
+    	Map map = new HashMap();
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return "/ygpa/gam/fcltyMng/GamFcltyRepairCheckResultPrint";
+    	}
+
+		ObjectMapper mapper = new ObjectMapper();
+		
+		GamFcltyRepairMngVO searchVO;
+    	searchVO = mapper.convertValue(fcltyRepairCheckResultOpt, GamFcltyRepairMngVO.class);
+    	
+    	searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		
+		//계약이력목록
+    	List fcltyRepairMngList = gamFcltyRepairMngService.selectFcltyRepairMngList(searchVO);
+    	
+        model.addAttribute("resultList", fcltyRepairMngList);
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+
+    	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckResultPrint";
     }
 	
 

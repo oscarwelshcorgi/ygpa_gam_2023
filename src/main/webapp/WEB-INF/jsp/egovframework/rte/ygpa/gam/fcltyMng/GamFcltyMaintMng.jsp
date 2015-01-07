@@ -39,7 +39,7 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 
 	//console.log("GamFcltyMaintMngModule");
 	// 테이블 설정
-	this.$("#fcltyMngMngtList").flexigrid({
+	this.$("#fcltyMaintMngList").flexigrid({
 		module: this,
 		url: '/fcltyMng/selectFcltyMaintMngList.do',
 		dataType: "json",
@@ -107,11 +107,11 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 	});
  	
  	
- 	this.$("#fcltyMngMngtList").on('onItemSelected', function(event, module, row, grid, param) {
+ 	this.$("#fcltyMaintMngList").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mode = 'modify';
 	});
  	
- 	this.$("#fcltyMngMngtList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+ 	this.$("#fcltyMaintMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module._mode="modify";
 		module.$("#fcltyMaintMngListTab").tabs("option", {active: 1});
 	});
@@ -288,14 +288,14 @@ GamFcltyMaintMngModule.prototype.loadData = function(){
 	
 	this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
 	var searchOpt=this.makeFormArgs('#searchFcltyMaintMngForm');
-	this.$('#fcltyMngMngtList').flexOptions({params:searchOpt}).flexReload();
+	this.$('#fcltyMaintMngList').flexOptions({params:searchOpt}).flexReload();
 	
 };
 
 
 GamFcltyMaintMngModule.prototype.loadDetail = function(){
 	
-	var row = this.$('#fcltyMngMngtList').selectedRows();
+	var row = this.$('#fcltyMaintMngList').selectedRows();
 	
 	if(row.length==0) {
 		alert('선택된 항목이 없습니다.');
@@ -445,7 +445,7 @@ GamFcltyMaintMngModule.prototype.mergeFcltyMaintFile = function(subVo) {
 
 GamFcltyMaintMngModule.prototype.deleteData = function() {
 	
-	var row = this.$('#fcltyMngMngtList').selectedRows();
+	var row = this.$('#fcltyMaintMngList').selectedRows();
 	if(row.length==0) {
 		alert('선택된 항목이 없습니다.');
 		this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
@@ -598,6 +598,11 @@ GamFcltyMaintMngModule.prototype.addMaintItem = function() {
 		// 파일삭제
 		case "btnRemoveFile":
 			this.removeFileData();
+		break;
+		
+		// 엑셀다운로드
+		case "btnFcltyMngMngtListExcelDownload":
+			this.$('#fcltyMaintMngList').flexExcelDown('/fcltyMng/selectFcltyMaintMngListExcel.do');
 		break;
 		
 		// 대상시설물
@@ -788,8 +793,9 @@ var module_instance = new GamFcltyMaintMngModule();
 			</ul>
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
-				<table id="fcltyMngMngtList" style="display:none" class="fillHeight"></table>
+				<table id="fcltyMaintMngList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
+					<button id="btnFcltyMngMngtListExcelDownload">엑셀</button>
 					<button id="addBtn">추가</button>
 					<button id="deleteBtn">삭제</button>
 				</div>

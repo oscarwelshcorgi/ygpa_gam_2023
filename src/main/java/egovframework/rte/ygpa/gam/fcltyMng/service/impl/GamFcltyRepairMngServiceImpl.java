@@ -249,6 +249,16 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		return (List<?>)gamFcltyRepairMngDao.mergeFcltyRepairFile(mergeList);
 	}
 	
+	
+	/**
+	 * 하자검사조서인쇄
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	public EgovMap selectFcltyRepairCheckReport(GamFcltyRepairMngVO vo) throws Exception{
+		return (EgovMap)gamFcltyRepairMngDao.selectFcltyRepairCheckReport(vo);
+	}
 
 
 }

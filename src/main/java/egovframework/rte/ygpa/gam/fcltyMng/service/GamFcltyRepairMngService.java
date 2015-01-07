@@ -199,5 +199,14 @@ public interface GamFcltyRepairMngService {
 	 * @throws Exception
 	 */
 	List<?> mergeFcltyRepairFile(Map<String, Object> mergeList) throws Exception;
+	
+	
+	/**
+	 * 하자검사조서인쇄
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	EgovMap selectFcltyRepairCheckReport(GamFcltyRepairMngVO vo) throws Exception;
 
 }
