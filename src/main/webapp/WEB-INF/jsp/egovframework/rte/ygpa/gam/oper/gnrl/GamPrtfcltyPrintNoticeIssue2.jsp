@@ -388,6 +388,7 @@ div.notice {
 	left: 20px;
 	top: 10px;
 	display:block;
+	z-index:9999;
 }
 
 
@@ -555,8 +556,8 @@ div.notice {
 
 	 div.feeDetail {
 		position: absolute;
-		left: 8.65cm;
-		top: 12.7cm;
+		left: 8.42cm;
+		top: 12.6cm;
 		width: 4.2cm;
 		height: 4.8cm;
 		font-size: 0.32cm;
@@ -606,7 +607,7 @@ div.notice {
 	  div.giro {
 		position: absolute;
 		left: 5.8cm;
-		top: 19.55cm;
+		top: 19.6cm;
 		width: 14.8cm;
 		height: 8.8cm;
 		font-size: 0.4cm;
@@ -615,7 +616,7 @@ div.notice {
 
 	 #totalAmount {
 		position: relative;
-		left: 9.8cm;
+		left: 9.4cm;
 		top: 1.35cm;
 		width: 4.6cm;
 		height: 0.65cm;
@@ -629,7 +630,7 @@ div.notice {
 	 #elecPayNo {
 		position: relative;
 		left: 7.7cm;
-		top: 3.7cm;
+		top: 3.55cm;
 		width: 6.8cm;
 		height: 0.8cm;
 		font-size: 0.4cm;
@@ -640,8 +641,8 @@ div.notice {
 
 	 .girocode {
 		position: relative;
-		left: 0.8cm;
-		top: 1.6cm;
+		left: 0.3cm;
+		top: 1.55cm;
 		width: 13.2cm;
 		height: 0.4cm;
 		font-size: 0.4cm;
@@ -674,7 +675,7 @@ div.notice {
 
 	 .giroDetail {
 		position: absolute;
-		left: 3.1cm;
+		left: 2.75cm;
 		top: 5.2cm;
 		width: 11.9cm;
 		height: 1.3cm;

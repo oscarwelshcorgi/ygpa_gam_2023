@@ -835,12 +835,6 @@ div.notice {
       			<p>면 적 : <fmt:formatNumber type="number" maxIntegerDigits="10" value="${result.grAr}" /> m<sup>2</sup></p>
       			<h2>산출근거</h2>
       			<p><c:out value="${result.chrgeKndNm}"/> : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${result.fee}" /> 원</p>
-      			<p>산출공식 :
-			    <c:forEach var="resultComput" items="${resultList }" varStatus="varStats">
-			    	<c:out value="${result.computDtls}"/>
-			    	<c:if test="${not varStats.last }">,</c:if>
-			    </c:forEach>
-			    </p>
 			    <p>
       			<c:if test="${result.feeA3>0}">
 	      			분할납부이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.feeA3}" /> 원

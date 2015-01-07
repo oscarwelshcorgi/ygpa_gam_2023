@@ -77,7 +77,7 @@
                    	S.NTIC_PD_TO,
                    	S.NTICNO,
                    	S.CHRGE_KND,
-    				GAM_GETCODENAME('GAM024', S.CHRGE_KND) CHRGE_KND_NM,
+    				GAM_GET_FEE_TP_NM(S.PRT_AT_CODE, 'G', S.CHRGE_KND) CHRGE_KND_NM,
                    	S.FEE,
                    	S.VAT,
                    	S.NTIC_AMT,
@@ -493,6 +493,21 @@
 	      AND CHRGE_KND      = #chrgeKnd#
     </update>
 
+    <update id="gamPrtFcltyRentFeeMngtDao.updatePrtFcltyRentFeeModifyFee_S" parameterClass="gamPrtFcltyRentFeeMngtVO" >
+        UPDATE LEV_REQEST_F SET
+		     NTIC_AMT          = #nticAmt#
+		     , FEE          = #fee#
+		     , VAT          = #vat#
+		     , UPD_USR      = #updUsr#
+		     , UPDT_DT      = SYSDATE
+		WHERE  NTIC_CNT     = #nticCnt#
+		AND    PRT_AT_CODE  = #prtAtCode#
+		AND    MNG_YEAR     = #mngYear#
+		AND    MNG_NO       = #mngNo#
+		AND    MNG_CNT      = #mngCnt#
+	      AND CHRGE_KND      = #chrgeKnd#
+    </update>
+
     <select id="gamPrtFcltyRentFeeMngtDao.selectPrtFcltyRentFeeMngtInfo_S" parameterClass="gamPrtFcltyRentFeeMngtVO" resultMap="gamPrtFcltyRentFeeMngtInfoMap">
         SELECT
                  L.NTIC_CNT
@@ -791,7 +806,7 @@
 			      S.ACCNUT_YEAR,
 			      S.NTICNO,
 			      GAM_GET_FEE_TP(S.CHRGE_KND ) FEE_TP,
-			      GAM_GETCODENAME('GAM024', S.CHRGE_KND) CHRGE_KND_NM,
+    				GAM_GET_FEE_TP_NM(S.PRT_AT_CODE, 'G', S.CHRGE_KND) CHRGE_KND_NM,
 			      S.ENTRPSCD,
 			      S.ENTRPS_NM,
 			      (SELECT RPRSNTV_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD
@@ -985,7 +1000,7 @@
 			      S.ACCNUT_YEAR,
 			      S.NTICNO,
 			      GAM_GET_FEE_TP(S.CHRGE_KND ) FEE_TP,
-			      GAM_GETCODENAME('GAM024', S.CHRGE_KND) CHRGE_KND_NM,
+    				GAM_GET_FEE_TP_NM(S.PRT_AT_CODE, 'G', S.CHRGE_KND) CHRGE_KND_NM,
 			      S.ENTRPSCD,
 			      S.ENTRPS_NM,
 			      (SELECT RPRSNTV_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD
@@ -1161,7 +1176,7 @@
 			      S.NTIC_CNT,
 			      S.ACCNUT_YEAR,
 			      S.NTICNO,
-			      GAM_GETCODENAME('GAM024', MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND))) CHRGE_KND_NM,
+    				GAM_GET_FEE_TP_NM(S.PRT_AT_CODE, 'G', MAX(DECODE(S.CHRGE_KND, 'A3', '', 'A4', '', 'D1', '', 'D2', '', S.CHRGE_KND))) CHRGE_KND_NM,
 			      S.ENTRPSCD,
 			      S.ENTRPS_NM,
 			      (SELECT RPRSNTV_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=S.ENTRPSCD) RPRSNTV_NM,
@@ -1298,7 +1313,7 @@
 				         , DECODE(L.NTIC_CNT, #nticCnt#, 'Y', 'N') CURR_LEV_REQEST
 				       , L.FCLTY_SE
 				       , L.CHRGE_KND
-				       , GAM_GETCODENAME('GAM024', L.CHRGE_KND) CHRGE_KND_NM
+				       , GAM_GET_FEE_TP_NM(L.PRT_AT_CODE, 'G', L.CHRGE_KND) CHRGE_KND_NM
 				       , L.ENTRPSCD
 				       , L.ENTRPS_NM
 				       , TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
@@ -1371,7 +1386,7 @@
 		        , L.NTIC_CNT
 		       , L.FCLTY_SE
 		       , L.CHRGE_KND
-		       , GAM_GETCODENAME('GAM024', L.CHRGE_KND) CHRGE_KND_NM
+		       , GAM_GET_FEE_TP_NM(L.PRT_AT_CODE, 'G', L.CHRGE_KND) CHRGE_KND_NM
 		       , L.ENTRPSCD
 		       , L.ENTRPS_NM
 		       , TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM

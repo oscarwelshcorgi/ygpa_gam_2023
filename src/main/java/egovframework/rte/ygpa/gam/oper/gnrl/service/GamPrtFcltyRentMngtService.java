@@ -286,6 +286,6 @@ public interface GamPrtFcltyRentMngtService {
    	 */
     public GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtCofixInfoMax(GamPrtFcltyRentMngtVO searchVO) throws Exception;
 
-    public List selectChargeKndList() throws Exception;
+    public List selectChargeKndList(GamPrtFcltyRentMngtVO searchVO) throws Exception;
 
 }

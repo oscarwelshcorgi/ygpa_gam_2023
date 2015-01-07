@@ -478,7 +478,7 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
     var grUsagePdTo = EMD.util.strToDate(this.$('#grUsagePdTo').val());
     var fromDt, toDt;
 	var totalMonths = grUsagePdTo.getMonth() - grUsagePdFrom.getMonth()+1;
-	var totalDays = Math.floor((grUsagePdTo-grUsagePdFrom) / (1000*60*60*24))+1;
+	var totalDays = Math.floo/r((grUsagePdTo-grUsagePdFrom) / (1000*60*60*24))+1;
     var nDays;
     var firstPayValStr="";
 
@@ -559,7 +559,7 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
 		firstAmt = Math.floor(firstAmt);
 		firstPayValStr="월납 : 총사용료 ("+$.number(totalAmount, true)+"원)";
 		break;
-	case '5':	// 연납
+	case '6':	// 연납
 		fromDt = grUsagePdFrom;
 		toDt = new Date(fromDt);
 		toDt.setMonth(grUsagePdFrom.getMonth()+1);

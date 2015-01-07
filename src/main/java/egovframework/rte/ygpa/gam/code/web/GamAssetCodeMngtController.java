@@ -72,7 +72,19 @@ public class GamAssetCodeMngtController {
 	 */
 	@RequestMapping(value="/code/assets/gamAssetCodeMngt.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+		Boolean isAdmin=false;
 		model.addAttribute("windowId", windowId);
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(isAuthenticated) {
+    		List<String> auth = EgovUserDetailsHelper.getAuthorities();
+    		for(int i=0; i<auth.size(); i++) {
+    			if("role_admin".equalsIgnoreCase((String)auth.get(i))) {
+    				isAdmin=true;
+    				break;
+    			}
+    		}
+    	}
+    	model.addAttribute("isAdmin", isAdmin);
 
     	return "/ygpa/gam/code/GamAssetCodeMngt";
     }

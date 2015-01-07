@@ -39,7 +39,7 @@
 	                <var-value>200</var-value>
                 </var>
             </field>
-            <!-- 
+            <!--
             <field property="homeadres" depends="required, maxlength">
                 <arg0 key="자택 주소" resource="false"/>
                 <arg1 key="100" resource="false"/>
@@ -49,6 +49,7 @@
                 </var>
             </field>
              -->
+            <!--
             <field property="passwordHint" depends="required, maxlength">
                 <arg0 key="비밀번호 힌트" resource="false"/>
                 <arg1 key="100" resource="false"/>
@@ -65,7 +66,8 @@
 	                <var-value>100</var-value>
                 </var>
             </field>
-            <!-- 
+             -->
+            <!--
             <field property="areaNo" depends="required, maxlength">
                 <arg0 key="집 전화번호" resource="false"/>
                 <arg1 key="4" resource="false"/>
@@ -91,7 +93,7 @@
                 </var>
             </field>
              -->
-            <!-- 
+            <!--
             <field property="zip" depends="required, maxlength">
                 <arg0 key="우편번호" resource="false"/>
                 <arg1 key="6" resource="false"/>
@@ -168,9 +170,11 @@
             <field property="groupId" depends="required">
                 <arg0 key="그룹아이디" resource="false"/>
             </field>
+            <!--
             <field property="insttCode" depends="required">
                 <arg0 key="소속기관코드" resource="false"/>
             </field>
+             -->
         </form>
     </formset>
 </form-validation>

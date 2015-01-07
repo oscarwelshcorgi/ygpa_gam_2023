@@ -81,6 +81,7 @@ GamGisAssetSttusInqireModule.prototype.gridSet = function(grid) {
 	        		}
 	        		this.gisAssetsPrice=this.gisAssetsAcqPri*1.2;
 	        		this.gisAssetsBldDt="2007-11-08";
+	        		this._mapLabel = this.gisAssetsNm+'\n'+$.number(this.gisAssetsPrice)+" 원";
 	        	});
 	        	return data;
 	        }
@@ -233,7 +234,92 @@ GamGisAssetSttusInqireModule.prototype.loadData = function() {
     this.$("#gisAssetSttusListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
     this.$('#gisAssetSttusList').flexOptions({params:searchOpt}).flexReload();
 
-}
+};
+
+GamGisAssetSttusInqireModule.prototype.onPopupFeature = function(feature) {
+    var dataset = [
+			{ sales:"1963050", sales2:"0", sales3:"1963050", year:"09" },
+			{ sales:"209357", sales2:"3863", sales3:"2168544", year:"10" },
+			{ sales:"31475", sales2:"81920", sales3:"2118099", year:"11" },
+			{ sales:"49530", sales2:"695432", sales3:"1472197", year:"12" },
+			{ sales:"892700", sales2:"1653852", sales3:"711045", year:"13" },
+			{ sales:"27533", sales2:"2354712", sales3:"-1616134", year:"14" }
+               ];
+    var chartId='_chart_'+EMD.chart_id++;
+    $(".popupChart").attr('id', chartId);
+    $('#'+chartId).removeClass('popupChart');
+	var chart1 =  new dhtmlXChart({
+		view:"bar",
+		container:chartId,
+	    value:"#sales#",
+        label: '#salesLabel#',
+        color: "#58dccd",
+        gradient:"rising",
+		width:80,
+		padding: {
+			left:65
+		},
+		tooltip:{
+			template:"#sales#"
+		},
+		xAxis:{
+			template:"'#year#"
+		},
+		yAxis:{
+			width:80,
+			template:function(obj) {
+				return $.number(obj);
+			}
+		},
+		legend:{
+			values:[{text:"유지보수",color:"#36abee"},{text:"임대수입",color:"#a7ee70"}],
+			valign:"middle",
+			align:"right",
+			width:90,
+			layout:"y"
+		}
+	});
+	for(var k in dataset) {
+		dataset[k]['salesLabel']=$.number(dataset[k].sales);
+		dataset[k]['sales2Label']=$.number(dataset[k].sales2);
+	}
+
+//    var chart1 =  new dhtmlXChart({
+//		view:"area",
+//		container:chartId,
+//        value:"#sales#",
+//        color: "#58dccd",
+//        alpha:0.7,
+//		xAxis:{
+//				template:"'#year#"
+//        },
+//        yAxis:{
+//            start:0,
+//            step:200000,
+//            end: 2000000
+//        },
+//        legend:{
+//            values:[{text:"유지보수",color:"#58dccd"},{text:"임대수입",color:"#914ad8"},{text:"투자금액",color:"#36abee"}],
+//            valign:"middle",
+//            align:"right",
+//            width:90,
+//            layout:"y"
+//        },
+//        eventRadius: 5
+//	});
+	chart1.addSeries({
+		alpha:0.5,
+        value:"#sales2#",
+        label:"#sales2Label#",
+        color:"#a7ee70",
+	});
+//	chart1.addSeries({
+//		alpha:0.5,
+//        value:"#sales3#",
+//        color:"#36abee"
+//	});
+	chart1.parse(dataset,"json");
+};
 /**
  * 정의 된 버튼 클릭 시
  */
@@ -364,7 +450,7 @@ var module_instance = new GamGisAssetSttusInqireModule();
 		<table id="gisAssetSttusList" style="display:none; width:100%" class="fillHeight"></table>
 		<div class="emdControlPanel">
 				<button class="buttonExcel" data-flexi-grid="erpAssetCodeList" data-url="<c:url value='/asset/selectErpAssetCodeListExcel.do' />">엑셀</button>
-				<button id="loadMap" data-grid="assetCodeList">결과 맵 조회</button>
+				<button data-role="loadStatsMap" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-map-style="value" data-value="gisAssetsPrice" data-label-field="_mapLabel" data-popup-url="/asset/sts/gamAssetSttusInfo.do" data-popup-function="onPopupFeature">결과 맵 조회</button>
 		</div>
      </div>
 </div>

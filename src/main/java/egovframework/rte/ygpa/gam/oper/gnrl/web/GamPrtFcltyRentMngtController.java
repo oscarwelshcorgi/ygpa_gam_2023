@@ -1054,9 +1054,9 @@ public class GamPrtFcltyRentMngtController {
      * @throws Exception the exception
      */
 	@RequestMapping(value="/oper/gnrl/popup/showPrtFcltyRentMngtPrmisn.do")
-    String showEntrpsInfo(GamPrtFcltyRentMngtLevReqestVO gamPrtFcltyRentMngtLevReqestVO, ModelMap model) throws Exception {
+    String showEntrpsInfo(GamPrtFcltyRentMngtVO gamPrtFcltyRentMngtLevReqestVO, ModelMap model) throws Exception {
 
-		List chrgeKndCdList = gamPrtFcltyRentMngtService.selectChargeKndList();
+		List chrgeKndCdList = gamPrtFcltyRentMngtService.selectChargeKndList(gamPrtFcltyRentMngtLevReqestVO);
 
 		model.addAttribute("gamPrtFcltyRentMngtInfo", gamPrtFcltyRentMngtLevReqestVO);
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);

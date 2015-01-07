@@ -292,8 +292,8 @@ public class GamHtldRentMngtDao extends YGPAAbstractDAO {
 		return (EgovMap) selectByPk("gamHtldRentMngtDao.selectHtldRentMngtCofixInfoMax_S", searchVO);
 	}
 
-	public List selectChargeKndList() throws Exception {
-		return list("gamHtldRentMngtDao.selectChargeKndList_D", null);
+	public List selectChargeKndList(GamHtldRentMngtVO vo) throws Exception {
+		return list("gamHtldRentMngtDao.selectChargeKndList_D", vo);
 	}
 
     // 이하는 정리

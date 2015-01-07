@@ -420,7 +420,7 @@ public class GamHtldRentMngtController {
 	@RequestMapping(value="/oper/htld/popup/showHtldRentPrmisn.do")
     String showEntrpsInfo(GamHtldRentMngtVO gamHtldRentMngtVO, ModelMap model) throws Exception {
 
-		List chrgeKndCdList = gamHtldRentMngtService.selectChargeKndList();
+		List chrgeKndCdList = gamHtldRentMngtService.selectChargeKndList(gamHtldRentMngtVO);
 
 		model.addAttribute("gamHtldRentMngtVO", gamHtldRentMngtVO);
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);

@@ -40,7 +40,7 @@ SELECT Z.* FROM (
                    	S.NTIC_PD_TO,
                    	S.NTICNO,
                    	S.CHRGE_KND,
-    				GAM_GETCODENAME('GAM056', S.CHRGE_KND) CHRGE_KND_NM,
+    				GAM_GET_FEE_TP_NM(S.PRT_AT_CODE, 'M', S.CHRGE_KND) CHRGE_KND_NM,
                    	S.FEE FEE,
                    	S.VAT,
                    	S.SANCTN_STTUS_NM,
@@ -320,7 +320,7 @@ SELECT Z.* FROM (
     						       , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
     						       , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
     						       , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
-							       , GAM_GETCODENAME('GAM056', L.CHRGE_KND) CHRGE_KND_NM
+							       , GAM_GET_FEE_TP_NM(L.PRT_AT_CODE, 'M', L.CHRGE_KND) CHRGE_KND_NM
 							  FROM ASSETS_RENT_F A,
 							       LEV_REQEST_F L
 							 WHERE 1 = 1
@@ -347,7 +347,7 @@ SELECT Z.* FROM (
 							         , DECODE(L.NTIC_CNT, #nticCnt#, 'Y', 'N') CURR_NTIC_CNT
 							       , L.FCLTY_SE
 							       , L.CHRGE_KND
-							       , GAM_GETCODENAME('GAM056', L.CHRGE_KND) CHRGE_KND_NM
+							       , GAM_GET_FEE_TP_NM(L.PRT_AT_CODE, 'M', L.CHRGE_KND) CHRGE_KND_NM
 							       , L.ENTRPSCD
 							       , L.ENTRPS_NM
 							       , TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
@@ -464,7 +464,7 @@ SELECT Z.* FROM (
 		       L.NTICNO,
 		       A.PRT_AT_CODE,
                A.FEE_TP CHRGE_KND,
-               GAM_GETCODENAME('GAM056',A.FEE_TP) CHRGE_KND_NM,
+               GAM_GET_FEE_TP_NM(A.PRT_AT_CODE, 'M', A.FEE_TP) CHRGE_KND_NM,
                A.FISCAL_YR AS ACCNUT_YEAR,
                A.BILL_NO,
                A.ACCNT_CODE,
@@ -562,7 +562,7 @@ SELECT Z.* FROM (
 		       L.NTICNO,
 		       A.PRT_AT_CODE,
                A.FEE_TP CHRGE_KND,
-               GAM_GETCODENAME('GAM056',A.FEE_TP) CHRGE_KND_NM,
+               GAM_GET_FEE_TP_NM(A.PRT_AT_CODE, 'M', A.FEE_TP) CHRGE_KND_NM,
                A.FISCAL_YR AS ACCNUT_YEAR,
                A.BILL_NO,
                A.ACCNT_CODE,

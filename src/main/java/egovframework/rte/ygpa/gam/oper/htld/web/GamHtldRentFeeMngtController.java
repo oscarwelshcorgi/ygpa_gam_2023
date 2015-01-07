@@ -29,11 +29,13 @@ import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO;
+import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeDefaultVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtService;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtVO;
 
@@ -132,7 +134,7 @@ public class GamHtldRentFeeMngtController {
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/oper/htld/gamSelectHtldRentFeeMngtList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectHtldRentFeeMngtList(GamHtldRentFeeMngtVO searchVO) throws Exception {
+	public @ResponseBody Map selectHtldRentFeeMngtList(GamHtldRentFeeDefaultVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -161,17 +163,17 @@ public class GamHtldRentFeeMngtController {
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
     	//자료수, 사용료, 연체, 부가세, 고지액
-    	GamHtldRentFeeMngtVO resultSum = gamHtldRentFeeMngtService.selectHtldRentFeeMngtSum(searchVO);
+    	Map resultSum = gamHtldRentFeeMngtService.selectHtldRentFeeMngtSum(searchVO);
 
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
-    	map.put("sumFee", resultSum.getSumFee());
-    	map.put("sumArrrgAmt", resultSum.getSumArrrgAmt());
-    	map.put("sumVat", resultSum.getSumVat());
-    	map.put("sumNticAmt", resultSum.getSumNticAmt());
-    	map.put("sumNhtIsueAmt", resultSum.getSumNhtIsueAmt());
+    	map.put("sumFee", resultSum.get("sumFee"));
+    	map.put("sumArrrgAmt", resultSum.get("sumArrrgAmt"));
+    	map.put("sumVat", resultSum.get("sumVat"));
+    	map.put("sumNticAmt", resultSum.get("sumNticAmt"));
+    	map.put("sumNhtIsueAmt", resultSum.get("sumNhtIsueAmt"));
 
     	return map;
     }
@@ -195,7 +197,7 @@ public class GamHtldRentFeeMngtController {
 
     	// 환경설정
     	/** EgovPropertyService */
-        GamHtldRentFeeMngtVO searchVO = new GamHtldRentFeeMngtVO();
+    	GamHtldRentFeeDefaultVO searchVO = new GamHtldRentFeeDefaultVO();
 
         header = mapper.readValue((String)excelParam.get("header"),
 			    new TypeReference<List<HashMap<String,String>>>(){});
@@ -204,7 +206,7 @@ public class GamHtldRentFeeMngtController {
         fileName = (String)excelParam.get("fileName");
         excelParam.remove("fileName");	// 파라미터에서 헤더를 삭제 한다.
 		// 조회 조건
-		searchVO = mapper.convertValue(excelParam, GamHtldRentFeeMngtVO.class);
+		searchVO = mapper.convertValue(excelParam, GamHtldRentFeeDefaultVO.class);
 
 		searchVO.setFirstIndex(0);
 		searchVO.setLastIndex(9999);
@@ -787,6 +789,22 @@ public class GamHtldRentFeeMngtController {
  		return map;
      }
 
+    @SuppressWarnings("unchecked")
+	@RequestMapping(value="/oper/htld/showNticIssuePopup.do")
+    public String showNticIssuePopup(
+     	   GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO,
+     	  ModelMap model)
+            throws Exception {
+
+		List cofixList = gamHtldRentFeeMngtService.selectCofixIntrrateList(gamHtldRentFeeMngtVO);
+		Map master = gamHtldRentFeeMngtService.selectAssetRentFeeDetailMstPk(gamHtldRentFeeMngtVO);
+
+		model.addAttribute("gamHtldRentFeeMngtVO", master);
+		model.addAttribute("cofixList", cofixList);
+
+    	return "/ygpa/gam/oper/htld/GamPopupHtldRentFeeNticIssue";
+     }
+
     /**
      * 고지의뢰를 한다.(단일처리)
      * @param gamAssetRentFeeMngtVO
@@ -794,7 +812,7 @@ public class GamHtldRentFeeMngtController {
      * @return map
      * @throws Exception
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="/oper/htld/insertHtldFeeNticSingle.do")
     public @ResponseBody Map insertAssetRentFeeNticSingle(
      	   @ModelAttribute("gamHtldRentFeeMngtVO") GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO,
@@ -817,20 +835,15 @@ public class GamHtldRentFeeMngtController {
     	try {
     		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-    		paramMap.put("updUsr", loginVo.getId());
-	        paramMap.put("nticCnt", gamHtldRentFeeMngtVO.getNticCnt());
-	 		paramMap.put("prtAtCode", gamHtldRentFeeMngtVO.getPrtAtCode());
-	 		paramMap.put("mngYear", gamHtldRentFeeMngtVO.getMngYear());
-	 		paramMap.put("mngNo", gamHtldRentFeeMngtVO.getMngNo());
-	 		paramMap.put("mngCnt", gamHtldRentFeeMngtVO.getMngCnt());
-	 		paramMap.put("chrgeKnd", gamHtldRentFeeMngtVO.getChrgeKnd());
-	 		paramMap.put("payTmlmt", gamHtldRentFeeMngtVO.getPayTmlmt());
-	 		paramMap.put("userName", loginVo.getName());
-	 		paramMap.put("deptCd", loginVo.getDeptCd());
-	 		paramMap.put("nhtPrintYn", "N");
-	 		paramMap.put("reimChrgeKnd", "DB");
+    		Map nticParam = gamHtldRentFeeMngtService.selectNoticeRequest(gamHtldRentFeeMngtVO);
 
-	 		gamNticRequestMngtService.sendNticRequest(paramMap);
+    		nticParam.put("updUsr", loginVo.getId());
+    		nticParam.put("userName", loginVo.getName());
+    		nticParam.put("deptCd", loginVo.getDeptCd());
+    		nticParam.put("reimChrgeKnd", "DB");
+    		nticParam.put("intrChrgeKnd", "A3");	// 이자 요금 코드
+
+	 		gamNticRequestMngtService.sendNticRequest(nticParam);
 
 	        resultCode = 0;
 	 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.

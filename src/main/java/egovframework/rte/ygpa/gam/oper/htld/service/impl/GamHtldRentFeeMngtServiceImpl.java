@@ -10,7 +10,9 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO;
+import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeDefaultVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtService;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtVO;
 
@@ -23,7 +25,7 @@ import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtVO;
  * @since 2014-01-14
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Service("gamHtldRentFeeMngtService")
@@ -40,7 +42,7 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectHtldRentFeeMngtList(GamHtldRentFeeMngtVO searchVO) throws Exception {
+    public List selectHtldRentFeeMngtList(GamHtldRentFeeDefaultVO searchVO) throws Exception {
         return gamHtldRentFeeMngtDao.selectHtldRentFeeMngtList(searchVO);
     }
 
@@ -50,7 +52,7 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 	 * @return cnt
 	 * @exception
 	 */
-    public int selectHtldRentFeeMngtListTotCnt(GamHtldRentFeeMngtVO searchVO) throws Exception {
+    public int selectHtldRentFeeMngtListTotCnt(GamHtldRentFeeDefaultVO searchVO) throws Exception {
 		return gamHtldRentFeeMngtDao.selectHtldRentFeeMngtListTotCnt(searchVO);
 	}
 
@@ -60,7 +62,7 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 	 * @return 배후단지임대고지관리목록
 	 * @exception Exception
 	 */
-    public GamHtldRentFeeMngtVO selectHtldRentFeeMngtSum(GamHtldRentFeeMngtVO searchVO) throws Exception {
+    public EgovMap selectHtldRentFeeMngtSum(GamHtldRentFeeDefaultVO searchVO) throws Exception {
         return gamHtldRentFeeMngtDao.selectHtldRentFeeMngtSum(searchVO);
     }
 
@@ -72,7 +74,7 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 	public void updateHtldRentFeeMngt(GamHtldRentFeeMngtVO vo) throws Exception {
 		gamHtldRentFeeMngtDao.updateHtldRentFeeMngt(vo);
 	}
-	
+
 	/**
 	 * 배후단지임대고지관리 정보 조회.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -82,7 +84,7 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
     public GamHtldRentFeeMngtVO selectHtldRentFeeMngtInfo(GamHtldRentFeeMngtVO searchVO) throws Exception {
         return gamHtldRentFeeMngtDao.selectHtldRentFeeMngtInfo(searchVO);
     }
-    
+
     /**
 	 * 세입징수 등록건수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -92,7 +94,7 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
     public int selectAnlrveLevCnt(GamHtldRentFeeMngtVO searchVO) throws Exception {
 		return gamHtldRentFeeMngtDao.selectAnlrveLevCnt(searchVO);
 	}
-    
+
     /**
 	 * 세입징수를 등록한다.
 	 * @param vo GamHtldRentFeeMngtVO
@@ -101,7 +103,7 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 	public void insertAnlrveLev(GamHtldRentFeeMngtVO vo) throws Exception {
 		gamHtldRentFeeMngtDao.insertAnlrveLev(vo);
 	}
-	
+
 	/**
 	 * 징수의뢰를 삭제한다.
 	 * @param vo GamHtldRentFeeMngtVO
@@ -110,7 +112,7 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 	public void deleteHtldRentFeeMngt(GamHtldRentFeeMngtVO vo) throws Exception {
 		gamHtldRentFeeMngtDao.deleteHtldRentFeeMngt(vo);
 	}
-	
+
 	/**
 	 * 징수의뢰를 등록한다.
 	 * @param vo GamHtldRentFeeMngtVO
@@ -119,24 +121,24 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 	public void insertHtldRentFeeMngtLevReqest(GamHtldRentFeeMngtVO vo) throws Exception {
 		gamHtldRentFeeMngtDao.insertHtldRentFeeMngtLevReqest(vo);
 	}
-	
-	
+
+
 	@Override
 	public List selectNpticPrintInfo(Map searchVO) throws Exception {
 		return gamHtldRentFeeMngtDao.selectNpticPrintInfo(searchVO);
 	}
-	
+
 	@Override
 	public List selectTaxNtcPrintInfo(Map searchVO) throws Exception {
 		return gamHtldRentFeeMngtDao.selectTaxNtcPrintInfo(searchVO);
 	}
-	
+
 	@Override
 	public void updateAssetRentFeeMngtListDetail(GamHtldRentFeeMngtVO vo)
 			throws Exception {
 		gamHtldRentFeeMngtDao.updateAssetRentFeeMngtListDetail(vo);
 	}
-	
+
 	@Override
 	public List selectAssetRentFeeDetailList(GamHtldRentFeeMngtVO searchVO) {
 		return gamHtldRentFeeMngtDao.selectAssetRentFeeDetailList(searchVO);
@@ -150,5 +152,21 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 	@Override
 	public Map selectAssetRentFeeDetailSumPk(GamHtldRentFeeMngtVO searchVO) {
 		return gamHtldRentFeeMngtDao.selectAssetRentFeeDetailSumPk(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtService#selectCofixInfo()
+	 */
+	@Override
+	public List selectCofixIntrrateList(GamHtldRentFeeMngtVO searchVO) throws Exception {
+        return gamHtldRentFeeMngtDao.selectCofixIntrrateList(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtService#selectNoticeRequest(egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtVO)
+	 */
+	@Override
+	public Map selectNoticeRequest(GamHtldRentFeeMngtVO searchVO) {
+		return gamHtldRentFeeMngtDao.selectNoticeRequest(searchVO);
 	}
 }

@@ -15,42 +15,48 @@
     </resultMap>
 
     <select id="gamRecvTpRecvStsInqireDao.selectRecvTpRecvStsInqireList_D" parameterClass="gamRecvTpRecvStsInqireVO" resultClass="egovMap">
-				SELECT A.*
-				FROM
-				  (SELECT ROWNUM RNUM,
-				    S.*
-				  FROM
-				    (
-                           SELECT T1.CHRGE_KND
-                                  , MIN(T2.CODE_NM) AS CHRGE_KND_NM
-                                  , NVL(SUM(T1.FEE),0) AS SUM_FEE
-                                  , NVL(SUM(T1.VAT),0) AS SUM_VAT
-                                  , NVL(SUM(T1.NTIC_AMT),0) AS SUM_NTIC_AMT
-                                  , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END),0) AS SUM_RCVD_AMT
-                                  , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END),0) AS SUM_NOT_RCVD_AMT
-                             FROM LEV_REQEST_F T1
-                             LEFT OUTER JOIN COMTCCMMNDETAILCODE T2 ON ('GAM050'=T2.CODE_ID AND T1.CHRGE_KND=T2.CODE)
-                             LEFT OUTER JOIN PAYEOSU.REV_COLL_F@YGPA_PORTMIS T3 ON (T1.PRT_AT_CODE=T3.PRT_AT_CODE AND T1.CHRGE_KND=T3.FEE_TP AND T1.ACCNUT_YEAR=T3.FISCAL_YR AND T1.NTICNO=T3.BILL_NO)
-                            WHERE 1 = 1
-                             AND T1.NTIC_DT <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-                             AND T1.NTIC_DT <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+			SELECT A.*
+			FROM
+			  (SELECT ROWNUM RNUM,
+			    S.*
+			  FROM
+			    (
+		                        SELECT T1.CHRGE_KND
+					    , GAM_GET_FEE_TP_NM(T1.PRT_AT_CODE, 'P', T1.CHRGE_KND) AS CHRGE_KND_NM
+					    , NVL(SUM(T1.FEE),0) AS SUM_FEE
+					    , NVL(SUM(T1.VAT),0) AS SUM_VAT
+					    , NVL(SUM(T1.NTIC_AMT),0) AS SUM_NTIC_AMT
+					    , NVL(SUM(CASE WHEN T2.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END),0) AS SUM_RCVD_AMT
+					    , NVL(SUM(CASE WHEN T2.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END),0) AS SUM_NOT_RCVD_AMT
+					 FROM LEV_REQEST_F T1 LEFT OUTER JOIN (
+					  SELECT PRT_AT_CODE, FISCAL_YR, WORK_CODE, BILL_NO, RCVD_TP, BILL_AMNT
+					  FROM REV_COLL_F
+					  UNION
+					  SELECT PRT_AT_CODE, FISCAL_YR, WORK_CODE, BILL_NO, DLY_RCVD_TP RCVD_TP, DLY_BILL_AMNT BILL_AMNT
+					  FROM UNPAID_F
+					 ) T2 ON T1.PRT_AT_CODE=T2.PRT_AT_CODE
+					  AND T1.ACCNUT_YEAR=T2.FISCAL_YR
+					  AND T1.CHRGE_KND=T2.WORK_CODE
+					  AND T1.NTICNO=T2.BILL_NO
+		                      	<![CDATA[
+		                       AND T1.NTIC_DT >= TO_DATE(#sGrUsagePdFrom#,'yyyy-mm-dd')
+		                       AND T1.NTIC_DT < TO_DATE(#sGrUsagePdTo#,'yyyy-mm-dd')+1
+		                       ]]>
+		                       <isNotEmpty property="sPrtAtCode">
+		        AND T1.PRT_AT_CODE = #sPrtAtCode#
+		        </isNotEmpty>
 
-                             <isNotEmpty property="sPrtAtCode">
-					         AND T1.PRT_AT_CODE = #sPrtAtCode#
-					         </isNotEmpty>
+		        <isNotEmpty property="sEntrpscd">
+		              AND T1.ENTRPSCD = #sEntrpscd#
+		        </isNotEmpty>
 
-					         <isNotEmpty property="sEntrpscd">
-			                 AND T1.ENTRPSCD = #sEntrpscd#
-					         </isNotEmpty>
+		        <isNotEmpty property="sChrgeKnd">
+		           AND T1.CHRGE_KND = #sChrgeKnd#
+		        </isNotEmpty>
 
-					         <isNotEmpty property="sChrgeKnd">
-				             AND T1.CHRGE_KND = #sChrgeKnd#
-					         </isNotEmpty>
-
-                             GROUP BY T1.CHRGE_KND
-                             ORDER BY MIN(T2.CODE_NM)
-				    ) S
-				  ) A
+			GROUP BY T1.PRT_AT_CODE, T1.CHRGE_KND
+	    ) S
+	  ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
@@ -58,33 +64,33 @@
         SELECT COUNT(*) totcnt
           FROM (
                            SELECT T1.CHRGE_KND
-                                  , MIN(T2.CODE_NM) AS CHRGE_KND_NM
-                                  , NVL(SUM(T1.FEE),0) AS SUM_FEE
-                                  , NVL(SUM(T1.VAT),0) AS SUM_VAT
-                                  , NVL(SUM(T1.NTIC_AMT),0) AS SUM_NTIC_AMT
-                                  , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END),0) AS SUM_RCVD_AMT
-                                  , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END),0) AS SUM_NOT_RCVD_AMT
-                             FROM LEV_REQEST_F T1
-                             LEFT OUTER JOIN COMTCCMMNDETAILCODE T2 ON ('GAM050'=T2.CODE_ID AND T1.CHRGE_KND=T2.CODE)
-                             LEFT OUTER JOIN PAYEOSU.REV_COLL_F@YGPA_PORTMIS T3 ON (T1.PRT_AT_CODE=T3.PRT_AT_CODE AND T1.CHRGE_KND=T3.FEE_TP AND T1.ACCNUT_YEAR=T3.FISCAL_YR AND T1.NTICNO=T3.BILL_NO)
-                            WHERE 1 = 1
-                             AND T1.NTIC_DT <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-                             AND T1.NTIC_DT <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+             					 FROM LEV_REQEST_F T1 LEFT OUTER JOIN (
+					  SELECT PRT_AT_CODE, FISCAL_YR, WORK_CODE, BILL_NO, RCVD_TP, BILL_AMNT
+					  FROM REV_COLL_F
+					  UNION
+					  SELECT PRT_AT_CODE, FISCAL_YR, WORK_CODE, BILL_NO, DLY_RCVD_TP RCVD_TP, DLY_BILL_AMNT BILL_AMNT
+					  FROM UNPAID_F
+					 ) T2 ON T1.PRT_AT_CODE=T2.PRT_AT_CODE
+					  AND T1.ACCNUT_YEAR=T2.FISCAL_YR
+					  AND T1.CHRGE_KND=T2.WORK_CODE
+					  AND T1.NTICNO=T2.BILL_NO
+		                      	<![CDATA[
+		                       AND T1.NTIC_DT >= TO_DATE(#sGrUsagePdFrom#,'yyyy-mm-dd')
+		                       AND T1.NTIC_DT < TO_DATE(#sGrUsagePdTo#,'yyyy-mm-dd')+1
+		                       ]]>
+		                       <isNotEmpty property="sPrtAtCode">
+		        AND T1.PRT_AT_CODE = #sPrtAtCode#
+		        </isNotEmpty>
 
-                             <isNotEmpty property="sPrtAtCode">
-					         AND T1.PRT_AT_CODE = #sPrtAtCode#
-					         </isNotEmpty>
+		        <isNotEmpty property="sEntrpscd">
+		              AND T1.ENTRPSCD = #sEntrpscd#
+		        </isNotEmpty>
 
-					         <isNotEmpty property="sEntrpscd">
-			                 AND T1.ENTRPSCD = #sEntrpscd#
-					         </isNotEmpty>
+		        <isNotEmpty property="sChrgeKnd">
+		           AND T1.CHRGE_KND = #sChrgeKnd#
+		        </isNotEmpty>
 
-					         <isNotEmpty property="sChrgeKnd">
-				             AND T1.CHRGE_KND = #sChrgeKnd#
-					         </isNotEmpty>
-
-                             GROUP BY T1.CHRGE_KND
-                             ORDER BY MIN(T2.CODE_NM)
+			GROUP BY T1.PRT_AT_CODE, T1.CHRGE_KND
 	           )
     </select>
 
@@ -102,27 +108,32 @@
                                   , NVL(SUM(T1.NTIC_AMT),0) AS SUM_NTIC_AMT
                                   , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN T1.NTIC_AMT END),0) AS SUM_RCVD_AMT
                                   , NVL(SUM(CASE WHEN T3.RCVD_TP IN ('2','3') THEN 0 ELSE T1.NTIC_AMT END),0) AS SUM_NOT_RCVD_AMT
-                             FROM LEV_REQEST_F T1
-                             LEFT OUTER JOIN COMTCCMMNDETAILCODE T2 ON ('GAM050'=T2.CODE_ID AND T1.CHRGE_KND=T2.CODE)
-                             LEFT OUTER JOIN PAYEOSU.REV_COLL_F@YGPA_PORTMIS T3 ON (T1.PRT_AT_CODE=T3.PRT_AT_CODE AND T1.CHRGE_KND=T3.FEE_TP AND T1.ACCNUT_YEAR=T3.FISCAL_YR AND T1.NTICNO=T3.BILL_NO)
-                            WHERE 1 = 1
-                             AND T1.NTIC_DT <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-                             AND T1.NTIC_DT <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
+                             SELECT T1.CHRGE_KND
+             					 FROM LEV_REQEST_F T1 LEFT OUTER JOIN (
+					  SELECT PRT_AT_CODE, FISCAL_YR, WORK_CODE, BILL_NO, RCVD_TP, BILL_AMNT
+					  FROM REV_COLL_F
+					  UNION
+					  SELECT PRT_AT_CODE, FISCAL_YR, WORK_CODE, BILL_NO, DLY_RCVD_TP RCVD_TP, DLY_BILL_AMNT BILL_AMNT
+					  FROM UNPAID_F
+					 ) T2 ON T1.PRT_AT_CODE=T2.PRT_AT_CODE
+					  AND T1.ACCNUT_YEAR=T2.FISCAL_YR
+					  AND T1.CHRGE_KND=T2.WORK_CODE
+					  AND T1.NTICNO=T2.BILL_NO
+		                      	<![CDATA[
+		                       AND T1.NTIC_DT >= TO_DATE(#sGrUsagePdFrom#,'yyyy-mm-dd')
+		                       AND T1.NTIC_DT < TO_DATE(#sGrUsagePdTo#,'yyyy-mm-dd')+1
+		                       ]]>
+		                       <isNotEmpty property="sPrtAtCode">
+		        AND T1.PRT_AT_CODE = #sPrtAtCode#
+		        </isNotEmpty>
 
-                             <isNotEmpty property="sPrtAtCode">
-					         AND T1.PRT_AT_CODE = #sPrtAtCode#
-					         </isNotEmpty>
+		        <isNotEmpty property="sEntrpscd">
+		              AND T1.ENTRPSCD = #sEntrpscd#
+		        </isNotEmpty>
 
-					         <isNotEmpty property="sEntrpscd">
-			                 AND T1.ENTRPSCD = #sEntrpscd#
-					         </isNotEmpty>
-
-					         <isNotEmpty property="sChrgeKnd">
-				             AND T1.CHRGE_KND = #sChrgeKnd#
-					         </isNotEmpty>
-
-                             GROUP BY T1.CHRGE_KND
-                             ORDER BY MIN(T2.CODE_NM)
+		        <isNotEmpty property="sChrgeKnd">
+		           AND T1.CHRGE_KND = #sChrgeKnd#
+		        </isNotEmpty>
               )
   	</select>
 

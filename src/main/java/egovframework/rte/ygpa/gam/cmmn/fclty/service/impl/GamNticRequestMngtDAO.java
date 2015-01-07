@@ -69,6 +69,9 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
         return (String)insert("gamNticRequestMngtDAO.insertNticRequestRevCollF", vo);
     }
 
+	public String insertNticRequestInterestRevCollF(Map<String, Object> vo) throws Exception {
+        return (String)insert("gamNticRequestMngtDAO.insertNticRequestInterestRevCollF", vo);
+    }
 
 	/**
 	 * 연체 고지 정보를 전송한다.
@@ -163,6 +166,11 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
 	 */
 	public EgovMap selectPortmisMagamInfo(Map<String, Object> vo) throws Exception {
         return (EgovMap) selectByPk("gamNticRequestMngtDAO.selectPortmisMagamInfo", vo);
+	}
+
+
+	public String selectLevReqestInterest(Map<String, Object> vo) throws Exception {
+        return (String) selectByPk("gamNticRequestMngtDAO.selectLevReqestInterest", vo);
 	}
 
 	/**

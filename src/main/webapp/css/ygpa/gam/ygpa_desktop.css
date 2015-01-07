@@ -547,3 +547,18 @@ background-repeat: no-repeat;
     width: 30px;
 	background-repeat: no-repeat;
 }
+
+.olFramedCloudPopupContent h1 {
+	background: #ccf;
+	border-color: #ddd;
+	font-size: 20px;
+	margin-bottom: 4px;
+}
+
+.olFramedCloudPopupContent h2 {
+	background: #ccf;
+	border-color: #ddd;
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 4px;
+}

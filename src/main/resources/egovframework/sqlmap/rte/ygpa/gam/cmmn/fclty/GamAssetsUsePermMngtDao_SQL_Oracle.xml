@@ -267,12 +267,9 @@
 		(SELECT MAX(OLNLP) FROM ASSETS_RENT_DETAIL_F WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt#) OLNLP, RNTFEE, TRUNC(RNTFEE/10, -1), #taxtSe#,RNTFEE + TRUNC(RNTFEE / 10, -1), #rm#,
 		#nticMth#, #regUsr#, SYSDATE
 		from (
-			SELECT A.FEE_TP, NTIC_CNT, DECODE(A.FEE_TP, #chrgeKnd#, RNTFEE, 'A3', TRUNC(REFE*(#blTpNum#)/12*A.RATE, -1)) RNTFEE, REFE, START_DATE, PREV_DUE_DATE, DUE_DATE, END_DATE
+			SELECT FEE_TP, NTIC_CNT, DECODE(FEE_TP, #chrgeKnd#, RNTFEE, 'A3', TRUNC(REFE*(#blTpNum#)/12*RATE, -1)) RNTFEE, REFE, START_DATE, PREV_DUE_DATE, DUE_DATE, END_DATE
 			FROM (
-			SELECT #chrgeKnd# FEE_TP, 1 RATE FROM dual
-			UNION ALL SELECT 'A3', #payinstIntrrate# FROM dual
-			) A, (
-			SELECT ROWNUM  as NTIC_CNT,
+			SELECT ROWNUM  as NTIC_CNT, #chrgeKnd# FEE_TP, 1 RATE,
 				  TRUNC(#grFee# / (TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsagePdTo#,'YYYY-MM-DD'), TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1), -1) as RNTFEE,
 				  TRUNC(#grFee# - ((#grFee#/(TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsagePdTo#,'YYYY-MM-DD'), TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1)) * (ROWNUM)), -1) as REFE,
 				  ADD_MONTHS(TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD'), #blTpNum#     * (ROWNUM-1))                            AS START_DATE,
@@ -289,7 +286,7 @@
 				   ) as END_DATE
 				FROM COMTCCMMNDETAILCODE
 				WHERE ROWNUM <= (TRUNC(MONTHS_BETWEEN(TO_DATE(#grUsagePdTo#,'YYYY-MM-DD'), TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')) / #blTpNum#)+1)
-	      ) B
+	      )
 		)
 		WHERE RNTFEE<>0
 		]]>

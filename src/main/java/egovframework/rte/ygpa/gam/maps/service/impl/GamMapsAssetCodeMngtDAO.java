@@ -71,4 +71,10 @@ public class GamMapsAssetCodeMngtDAO extends YGPAAbstractDAO {
 	public List selectMapsAssetsCodeUseInfo(Map vo) throws Exception{
 		return list("gamMapsAssetCodeMngtDAO.selectMapsAssetsCodeUseInfo", vo);
 	}
+
+
+	public String selectMapsBjdCodeInfo(String bjdCode) throws Exception{
+		return (String) selectByPk("gamMapsAssetCodeMngtDAO.selectMapsBjdCodeInfo", bjdCode);
+	}
+
 }

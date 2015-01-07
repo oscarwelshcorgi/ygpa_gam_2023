@@ -153,6 +153,55 @@
       	AND CHRGE_KND=#chrgeKnd#
     </insert>
 
+    <insert id="gamNticRequestMngtDAO.insertNticRequestInterestRevCollF" parameterClass="hashMap" >
+        INSERT INTO REV_COLL_F (
+      PRT_AT_CODE,
+      FEE_TP,
+      WORK_CODE,
+      FISCAL_YR, BILL_NO,
+      AGENT_CODE, BZ_RGST_ID, AGENT_NAME, SSN,
+      BILL_DT, DUE_DATE, BILL_PRT_YN,
+      BILL_AMNT, EXMP_AMNT, OVER_AMNT, DC_AMNT,
+		RCVD_TP,
+      UPDT_UID, UPDT_DATE, FIRST_BILL_DT, VAT_YN, VAT, STR_DATE, END_DATE,
+      DEPT,USER_NAME
+      , REIM_FEE, REIM_BILL_NO, REIM_WORK_CODE, REIM_FEE_TP
+      )
+        SELECT
+      L.PRT_AT_CODE,
+      GAM_GET_FEE_TP(#intrChrgeKnd#) FEE_TP,
+      GAM_GET_WORK_CODE(#prtAtCode#, #mngYear#, #mngNo#, #mngCnt#, #nticCnt#, #intrChrgeKnd#)  WORK_CODE,
+      #accnutYear# FISCAL_YR, #nticno# BILL_NO,
+      L.ENTRPSCD,
+      (SELECT BIZRNO FROM ENTRPS_INFO_F E WHERE L.ENTRPSCD=ENTRPSCD) BZ_RGST_ID,
+      (SELECT ENTRPS_NM FROM ENTRPS_INFO_F E WHERE L.ENTRPSCD=ENTRPSCD) AGENT_NAME,
+      '' SSN,
+      SYSDATE,
+      <isNotEmpty property="payTmlmt">
+	      TO_DATE(#payTmlmt#, 'YYYY-MM-DD'),
+      </isNotEmpty>
+      <isEmpty property="payTmlmt">
+	      TRUNC(SYSDATE+15),
+      </isEmpty>
+       L.NHT_PRINT_YN,
+      L.INTR_AMNT, 0, 0, 0,
+		'0',
+      #updUsr#, SYSDATE, SYSDATE, L.VAT_YN, L.VAT, L.NTIC_PD_FROM, L.NTIC_PD_TO,
+      #deptCd#,
+      #userName#
+      , L.REIM_FEE
+      , case when L.REIM_FEE>0 then #reimFeeNticno# else '' end
+      , case when L.REIM_FEE>0 then L.REIM_CHRGE_KND else '' end
+      , case when L.REIM_FEE>0 then 'V4' else '' end
+      FROM LEV_REQEST_F L
+      WHERE PRT_AT_CODE=#prtAtCode#
+      	AND MNG_YEAR=#mngYear#
+      	AND MNG_NO=#mngNo#
+      	AND MNG_CNT=#mngCnt#
+      	AND NTIC_CNT=#nticCnt#
+      	AND CHRGE_KND=#chrgeKnd#
+    </insert>
+
     <insert id="gamNticRequestMngtDAO.insertNticRequestRevCollFC1" parameterClass="hashMap" >
         INSERT INTO UNPAID_F (
       PRT_AT_CODE, FEE_TP, WORK_CODE, FISCAL_YR, BILL_NO,
@@ -285,12 +334,33 @@
 	      	AND CHRGE_KND=#chrgeKnd#
   </update>
 
+     <select id="gamNticRequestMngtDAO.selectLevReqestInterest" parameterClass="hashMap" resultClass="java.lang.String">
+			SELECT TRUNC( (NTIC_PD_TO-NTIC_PD_FROM)/365*FEE*TO_NUMBER('2.54')/100, -1) INTR_AMNT
+			FROM LEV_REQEST_F
+			WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt# AND NTIC_CNT=#nticCnt# AND CHRGE_KND=#chrgeKnd#
+	</select>
+
     <update id="gamNticRequestMngtDAO.updateLevReqestIssueYn" parameterClass="hashMap">
         UPDATE LEV_REQEST_F SET
       		NHT_ISUE_YN=#nhtIsueYn#,
       		NTICNO=#nticno#,
       		ACCNUT_YEAR=#accnutYear#,
       		NHT_PRINT_YN = #nhtPrintYn#
+       <isNotEmpty prepend="," property="intrChrgeKnd">
+       		INTR_CHRGE_KND=#intrChrgeKnd#
+     	</isNotEmpty>
+       <isNotEmpty prepend="," property="intrRate">
+       		INTR_RATE=#intrAmnt#
+     	</isNotEmpty>
+       <isNotEmpty prepend="," property="intrAmnt">
+       		INTR_AMNT=#intrAmnt#
+     	</isNotEmpty>
+       <isNotEmpty prepend="," property="nticAmt">
+       		NTIC_AMT=#nticAmt#
+     	</isNotEmpty>
+       <isNotEmpty prepend="," property="vat">
+       		VAT=#vat#
+     	</isNotEmpty>
        <isNotEmpty prepend="," property="payTmlmt">
        		PAY_TMLMT=#payTmlmt#
      	</isNotEmpty>

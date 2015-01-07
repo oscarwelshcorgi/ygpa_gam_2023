@@ -76,9 +76,12 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
     });
 
     this.$("#assetRentFeeList").on('onItemSelected', function(event, module, row, grid, param) {
+    	module._modifyFee=false;
     });
 
     this.$("#assetRentFeeList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+    	module._modifyFee=false;
+
         // 이벤트내에선 모듈에 대해 선택한다.
         module.$("#assetRentFeeListTab").tabs("option", {active: 1});    // 탭을 전환 한다.
     });
@@ -113,9 +116,32 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
     var searchOpt=this.makeFormArgs('#gamAssetRentFeeSearchForm');
     this.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
 
+    this.$('#fee').on("keyup change", {module: this}, function(event) {
+		event.data.module.changeFee();
+    });
+
+    this.$('#roundVat').on("change", {module: this}, function(event) {
+		event.data.module.changeFee();
+    });
+
+    this._modifyFee=false;
+
     console.log('loadComplete.');
 };
 
+<%--
+	요금 변경
+--%>
+GamAssetRentFeeMngtModule.prototype.changeFee = function() {
+	var fee = this.$('#fee').val().replace(/,/g, "")*1;
+	if(this.$('#roundVat').attr('checked')=="checked") {
+		this.$('#vat').val(Math.round(fee/100)*10);
+	}
+	else {
+		this.$('#vat').val(Math.floor(fee/100)*10);
+	}
+	this._modifyFee=true;
+}
 /**
  * 정의 된 버튼 클릭 시
  */
@@ -193,6 +219,8 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
                 	}
                 	if(rows['payTmlmt']==null || rows['payTmlmt']=="") rows['payTmlmt']=EMD.util.getDate(EMD.util.addDates(15));
 
+                	rows['modifyFee'] = "";
+
                     this.doAction('/oper/gnrl/insertPrtFcltyRentFeeNticSingle.do', rows, function(module, result) {
 
                         if(result.resultCode=='0') {
@@ -231,6 +259,15 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 
                 if( confirm("선택한 건을 고지 하시겠습니까?") ) {
                 	rows['payTmlmt'] = this.$('#payTmlmt').val();
+                	if(this._modifyFee) {
+                		rows['modifyFee'] = "modified";
+                    	rows['fee'] = this.$('#fee').val().replace(/,/g, "");
+                    	rows['vat'] = this.$('#vat').val().replace(/,/g, "");
+                    	this._modifyFee=false;
+                	}
+                	else {
+                		rows['modifyFee'] = "";
+                	}
                     this.doAction('/oper/gnrl/insertPrtFcltyRentFeeNticSingle.do', rows, function(module, result) {
 
                         if(result.resultCode=='0') {
@@ -666,7 +703,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             	<span data-column-id="entrpsNm"></span> (<span data-column-id="entrpscd"></span>)
                             </td>
                         	<th><span class="label">사용료</span></th>
-                            <td style="text-align:right;"><input data-column-id="fee" class="ygpaNumber" size="11"/> 원</td>
+                            <td style="text-align:right;"><input id="fee" data-column-id="fee" class="ygpaNumber" size="11"/> 원</td>
                         </tr>
                         <tr>
                         	<th><span class="label">부가세여부</span></th>
@@ -675,7 +712,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             </td>
                         	<th><span class="label">부가세</span></th>
                             <td colspan="3">
-                            	<span data-column-id="vat" class="ygpaNumber"></span> 원
+                            	<input id="vat" data-column-id="vat" class="ygpaNumber" size="11"/> 원 <input id="roundVat" type="checkbox" class="skipValue"> 반올림
                             </td>
                         	<th><span class="label">변상금</span></th>
                             <td style="text-align:right;"><input data-column-id="reimFee" class="ygpaNumber" size="11"/> 원</td>

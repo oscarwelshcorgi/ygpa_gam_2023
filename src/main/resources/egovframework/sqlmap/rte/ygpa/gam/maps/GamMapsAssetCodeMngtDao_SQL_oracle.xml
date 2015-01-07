@@ -155,4 +155,13 @@ WHERE A.PRT_AT_CODE=B.PRT_AT_CODE
 			  GROUP BY GIS_ASSETS_PRT_AT_CODE, GIS_ASSETS_CD, GIS_ASSETS_SUB_CD
 		</select>
 
+
+	   <select id="gamMapsAssetCodeMngtDAO.selectMapsBjdCodeInfo" parameterClass="java.lang.String" resultClass="java.lang.String">
+				   SELECT
+				BUPJUNGDONG_NM
+			FROM BUPJUNGDONG_CD_F
+			WHERE EXIST_YN='Y'
+			AND BUPJUNGDONG_CD=SUBSTR(#bjdCode#, 0, 10)
+		</select>
+
 </sqlMap>

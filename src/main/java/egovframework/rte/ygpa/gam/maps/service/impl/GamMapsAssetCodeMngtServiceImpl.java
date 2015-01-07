@@ -83,4 +83,12 @@ public class GamMapsAssetCodeMngtServiceImpl extends AbstractServiceImpl
 		return gamMapsAssetCodeMngtDAO.selectMapsAssetsCodeUseSummary(vo);
 	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.maps.service.GamMapsAssetCodeMngtService#selectMapsBjdCodeInfo(java.util.Map)
+	 */
+	@Override
+	public String selectMapsBjdCodeInfo(String vo) throws Exception {
+		return gamMapsAssetCodeMngtDAO.selectMapsBjdCodeInfo(vo);
+	}
+
 }

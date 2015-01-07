@@ -54,4 +54,13 @@ public interface GamMapsAssetCodeMngtService {
 	 * @throws Exception
 	 */
 	EgovMap selectMapsAssetsCodeUseSummary(Map vo) throws Exception;
+
+	/**
+	 * 입력된 법정동 코드에 대한 주소를 로딩한다.
+	 * @param bjdCode	법정동코드 (10자 이상)
+	 * @return 주소
+	 * @throws Exception
+	 */
+	String selectMapsBjdCodeInfo(String bjdCode) throws Exception;
+
 }

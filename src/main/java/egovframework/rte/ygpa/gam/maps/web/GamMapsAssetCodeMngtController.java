@@ -183,6 +183,21 @@ public class GamMapsAssetCodeMngtController {
 					model.addAttribute("assetRentSummary", gamMapsAssetCodeMngtService.selectMapsAssetsCodeUseSummary(searchVO));
 	//			}
 				model.addAttribute("auth", auth);
+				if(assetCodeInfo==null) {
+					String bjdCode=(String)searchVO.get("bjdCode");
+					model.addAttribute("bjdCode", bjdCode);
+					String addr = gamMapsAssetCodeMngtService.selectMapsBjdCodeInfo(bjdCode);
+					String lnm="", lnmSub="";
+					if(bjdCode.length()>=14) {
+						lnm=bjdCode.substring(11, 15);
+					}
+					if(bjdCode.length()>=18) {
+						lnmSub=bjdCode.substring(15, 19);
+					}
+					model.addAttribute("addr", addr);
+					model.addAttribute("lnm", lnm);
+					model.addAttribute("lnmSub", lnmSub);
+				}
 				model.addAttribute("resultCode", 0);
 			}
 			catch(Exception e) {

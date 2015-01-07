@@ -46,8 +46,8 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 				{display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
 				{display:'고지금액', name:'nticAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
 				{display:'사용료', name:'fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
-				{display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'number'},
-				{display:'결재상태', name:'sanctnSttusNm',width:60, sortable:false,align:'center'}
+				{display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'number'}
+				// {display:'결재상태', name:'sanctnSttusNm',width:60, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -78,15 +78,26 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         	this.$('#sMngYear').val(params.nticVo.mngYear);
         	this.$('#sMngNo').val(params.nticVo.mngNo);
         	this.$('#sMngCnt').val(params.nticVo.mngCnt);
+
         	this.loadData();
     	}
     } else {
-    	/*
-    this.$('#sUsagePdFrom').val(EMD.util.getDate());
-    this.$('#sUsagePdTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
-    	*/
-    }
+	    this.$('#searchFrom').val(EMD.util.getDate());
+	    this.$('#searchTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
 
+    	this.loadData();
+	}
+
+    this.setEvents();
+
+	this.setButtonStatus();
+
+
+
+	console.log('debug');
+};
+
+GamAssetRentFeeMngtModule.prototype.setEvents = function() {
     this.$("#sEntrpscd").bind("keyup change", {module: this}, function(event) {
 		if(event.data.module.$('#sEntrpscd').val() ==''){
 			event.data.module.$('#sEntrpsNm').val('');
@@ -94,9 +105,16 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
     });
 };
 
-/**
- * 정의 된 버튼 클릭 시
- */
+GamAssetRentFeeMngtModule.prototype.setButtonStatus = function() {
+	var tab_active = this.$('#assetRentListTab').tabs('option', 'active');
+	switch(tab_active) {
+	case 'tabs1':
+		break;
+	}
+};
+<%--
+ 정의 된 버튼 클릭 시
+--%>
  GamAssetRentFeeMngtModule.prototype.onButtonClick = function(buttonId) {
 
     switch(buttonId) {
@@ -147,43 +165,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
             break;
         case 'btnExecNticIssue':	// 고지 의뢰
         case 'btnExecNticIssue2':
-            if(this.$('#assetRentFeeList').selectedRowCount()>0) {
-
-                //alert(EMD.context_root);
-
-                var rows = this.$('#assetRentFeeList').selectedRows()[0];
-
-                if( rows['sanctnSttus'] != '1' ) {
-                	if(!confirm("결재완료 되지 않았습니다. 결재 처리 되지 않은 자료를 고지 하시겠습니까?")) {
-                        return;
-                	}
-                	/*                 	alert("결재가 완료 되지 않았습니다.");
-                	return; */
-                }
-
-                if( rows['nhtIsueYn'] == 'Y' ) {
-                	alert("이미 고지된 건 입니다.");
-                	return;
-                }
-
-                if( confirm("선택한 건을 고지 하시겠습니까?") ) {
-                	rows['payTmlmt']=EMD.util.getDate(EMD.util.addDates(15));
-//                 	rows['payTmlmt']=this.$('#payTmlmt').val();
-                    this.doAction('/oper/htld/insertHtldFeeNticSingle.do', rows, function(module, result) {
-
-                        if(result.resultCode=='0') {
-                            var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
-                            module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
-                            module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
-                        }
-
-                        alert(result.resultMsg);
-                    });
-                }
-            } else {
-            	alert("목록에서 고지 할 건을 선택하십시오.");
-            	return;
-            }
+        	this.openNticIssuePopup();
         	break;
         case 'btnCancelNticIssue':	// 고지 취소
         case 'btnCancelNticIssue2':
@@ -335,6 +317,45 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
     }
 };
 
+GamAssetRentFeeMngtModule.prototype.openNticIssuePopup = function() {
+    if(this.$('#assetRentFeeList').selectedRowCount()>0) {
+
+        //alert(EMD.context_root);
+
+        var rows = this.$('#assetRentFeeList').selectedRows()[0];
+
+        /*
+        if( rows['sanctnSttus'] != '1' ) {
+        	if(!confirm("결재완료 되지 않았습니다. 결재 처리 되지 않은 자료를 고지 하시겠습니까?")) {
+                return;
+        	}
+        }
+        */
+
+        if( rows['nhtIsueYn'] == 'Y' ) {
+        	alert("이미 고지된 건 입니다.");
+        	return;
+        }
+
+    	var opts = {
+        		'quayGroupCd': rows['quayGroupCd'],
+                'prtAtCode': rows['prtAtCode'],
+                'mngYear': rows['mngYear'],
+                'mngNo': rows['mngNo'],
+                'mngCnt': rows['mngCnt'],
+                'chrgeKnd' : rows['chrgeKnd'],
+                'nticCnt' : rows['nticCnt'],
+                'taxtSe': rows['taxtSe']
+            };
+
+    	this.doExecuteDialog('nticIssuePopup', '사용료 고지', '/oper/htld/showNticIssuePopup.do', opts);
+
+    } else {
+    	alert("목록에서 고지 할 건을 선택하십시오.");
+    	return;
+    }
+};
+
 GamAssetRentFeeMngtModule.prototype.onSubmit = function() {
     //this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
 
@@ -402,7 +423,7 @@ GamAssetRentFeeMngtModule.prototype.loadDetail = function() {
 				alert(result.resultMsg);
 			}
 		});
-    }
+};
 
 <%
 //팝업이 종료 될때 리턴 값이 오출 된다.
@@ -433,6 +454,25 @@ GamAssetRentFeeMngtModule.prototype.onClosePopup = function(popupId, msg, value)
  	       var searchOpt=this.makeFormArgs('#gamAssetRentFeeSearchForm');
  	       this.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
      	}
+    	break;
+    case 'nticIssuePopup':
+        if (msg != 'cancel') {
+        	console.log('notice');
+            if( confirm($.number(value.nticAmt)+"원 을 고지 하시겠습니까?") ) {
+            	var arg = EMD.util.objectToArray(value);
+                this.doAction('/oper/htld/insertHtldFeeNticSingle.do', arg, function(module, result) {
+
+                    if(result.resultCode=='0') {
+                        var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
+                        module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
+                        module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
+                    }
+
+                    alert(result.resultMsg);
+                });
+            }
+        } else {
+        }
     	break;
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
@@ -473,10 +513,14 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             <td width="100px">
                          		<input id="sNhtIsueYn" class="ygpaYnSelect" data-default-prompt="전체" data-column-id="sNhtIsueYn" />
                             </td>
-                            <th>고지일자</th>
+                            <th>조회기간</th>
                             <td>
-                            	<input id="sNticPdFrom" type="text" class="emdcal" size="8"> ~
-                            	<input id="sNticPdTo" type="text" class="emdcal" size="8">
+                            	<select id="searchOption">
+                            		<option value="1" selected="selected">고지대상기간</option>
+                            		<option value="2">고지일자</option>
+                            	</select>
+                            	<input id="searchFrom" type="text" class="emdcal" size="8"> ~
+                            	<input id="searchTo" type="text" class="emdcal" size="8">
                             </td>
                         </tr>
                 </table>
@@ -540,7 +584,9 @@ var module_instance = new GamAssetRentFeeMngtModule();
                            	</td>
                         </tr>
                     </table>
+                    <!--
                     <button id="btnEApproval">결재요청</button>
+                     -->
                     <button id="btnExecNticIssue">고지</button>
                     <button id="btnCancelNticIssue">고지취소</button>
                     <button id="btnNticIssuePrint">고지서출력</button>
@@ -624,7 +670,9 @@ var module_instance = new GamAssetRentFeeMngtModule();
 					<tbody>
 						<tr>
 							<th style="text-align:right">
+							<!--
 								<button id="btnEApproval2">결재요청</button>
+								 -->
 								<button id="btnExecNticIssue2">고지</button>
 								<button id="btnCancelNticIssue2">고지취소</button>
 								<button id="btnNticIssuePrint2">고지서출력</button>

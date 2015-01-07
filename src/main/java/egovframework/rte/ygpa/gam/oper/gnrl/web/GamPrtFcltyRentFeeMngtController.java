@@ -752,7 +752,8 @@ public class GamPrtFcltyRentFeeMngtController {
     @SuppressWarnings("unchecked")
 	@RequestMapping(value="/oper/gnrl/insertPrtFcltyRentFeeNticSingle.do")
     public @ResponseBody Map insertAssetRentFeeNticSingle(
-     	   @ModelAttribute("gamAssetRentFeeMngtVO") GamAssetRentFeeMngtVO gamAssetRentFeeMngtVO,
+     	   @ModelAttribute("gamAssetRentFeeMngtVO") GamPrtFcltyRentFeeMngtVO gamAssetRentFeeMngtVO,
+     	   @ModelAttribute("modifyFee") String modifyFee,
      	   BindingResult bindingResult)
             throws Exception {
 
@@ -771,6 +772,11 @@ public class GamPrtFcltyRentFeeMngtController {
 
     	try {
     		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+    		if("modified".equals(modifyFee)) {
+    			gamAssetRentFeeMngtVO.setUpdUsr(loginVo.getId());
+        		gamPrtFcltyRentFeeMngtService.updatePrtFcltyRentFee(gamAssetRentFeeMngtVO);	// 사용료를 변경한다.
+    		}
 
     		paramMap.put("updUsr", loginVo.getId());
 	        paramMap.put("nticCnt", gamAssetRentFeeMngtVO.getNticCnt());
@@ -864,7 +870,7 @@ public class GamPrtFcltyRentFeeMngtController {
      */
     @RequestMapping(value="/oper/gnrl/printPrtFcltyRentFeePayNotice.do")
     String printAssetRentFeePayNotice(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
-    	String report = "ygpa/gam/oper/gnrl/GamPrtfcltyPrintNoticeIssue";
+    	String report = "ygpa/gam/oper/gnrl/GamPrtfcltyPrintNoticeIssue2";
     	model.addAttribute("searchOpt", approvalOpt);
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

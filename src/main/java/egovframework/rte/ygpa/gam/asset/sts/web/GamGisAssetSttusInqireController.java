@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetSttusInqireVO;
 import egovframework.rte.ygpa.gam.asset.sts.service.GamGisAssetSttusInqireService;
+import egovframework.rte.ygpa.gam.maps.service.GamMapsAssetCodeMngtService;
 
 /**
  * @Class Name : GamGisAssetSttusInqireController.java
@@ -55,6 +57,10 @@ public class GamGisAssetSttusInqireController {
 
     @Resource(name="gamGisAssetSttusInqireService")
     GamGisAssetSttusInqireService gamGisAssetSttusInqireService;
+
+	@Resource(name = "gamMapsAssetCodeMngtService")
+	GamMapsAssetCodeMngtService gamMapsAssetCodeMngtService;
+
     /**
      * 자산GIS통계 화면을 로딩한다.
      *
@@ -119,5 +125,35 @@ public class GamGisAssetSttusInqireController {
     	return map;
     }
 
+	@RequestMapping(value="/asset/sts/gamAssetSttusInfo.do")
+	public String gamAssetCdInfo(@RequestParam Map searchVO, ModelMap model) throws Exception {
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    	}
+    	else {
+    		String auth="";
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+    		searchVO.put("authorities", EgovUserDetailsHelper.getAuthorities());
+
+    		try {
+				Map assetCodeInfo = gamMapsAssetCodeMngtService.selectMapsAssetsCodeInfo(searchVO);
+
+				model.addAttribute("assetCd", assetCodeInfo);
+
+				model.addAttribute("resultCode", 0);
+	    		model.addAttribute("assetCodeInfo", assetCodeInfo);
+			}
+			catch(Exception e) {
+				model.addAttribute("resultCode", -1);
+	    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+			}
+    	}
+
+    	return "ygpa/gam/asset/sts/GamGisAssetSttusPopupInfo";
+    }
 
 }

@@ -1162,17 +1162,17 @@
 		 WHERE A.OBJ_YRMT = ( SELECT MAX(B.OBJ_YRMT) FROM COFIX_INTRRATE_F B )
     </select>
 
-	<select id="gamHtldRentMngtDao.selectChargeKndList_D" resultClass="egovMap">
+	<select id="gamHtldRentMngtDao.selectChargeKndList_D" parameterClass="gamHtldRentMngtVO" resultClass="egovMap">
             		<![CDATA[
 			SELECT
-			CODE_ID, CODE, CODE_NM, CODE_DC
+			PRT_AT_CODE, FEE_TP, FEE_TP_KOR_NM
 			FROM
-			COMTCCMMNDETAILCODE
+			FEE_TP_F
 			WHERE
-			USE_AT      = 'Y'
-			AND CODE_ID = 'GAM053'
-				AND CODE NOT IN ('A3', 'A4', 'UG', 'DA')
-			ORDER BY CODE, CODE_NM
+			PRT_AT_CODE=#prtAtCode#
+			AND QUAY_GROUP_CD = 'H'
+				AND FEE_TP NOT IN ('A3', 'A4', 'UG', 'DA')
+			ORDER BY FEE_TP
 		]]>
     </select>
 

@@ -4,7 +4,7 @@ public static void proxy_get(HttpServletRequest request, HttpServletResponse res
 	String params = "";
 	if(request.getParameter("params") != null) {
 		params = URLDecoder.decode(request.getParameter("params"), "UTF-8");
-				
+
 	}
 	URL url = new URL(urlStr+params);
 	URLConnection connection = url.openConnection();
@@ -14,14 +14,14 @@ public static void proxy_get(HttpServletRequest request, HttpServletResponse res
 	huc.setDoInput(true);
 	huc.setUseCaches(false);
 	huc.setDefaultUseCaches(false);
-	
+
 	response.reset();
 	response.setContentType(huc.getContentType());
-	
+
 	OutputStream ios = response.getOutputStream();
-	
+
 	IOUtils.copy(huc.getInputStream(), ios);
-	
+
 	ios.close();
 }
 public static void proxy_post(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,11 +29,11 @@ public static void proxy_post(HttpServletRequest request, HttpServletResponse re
 	BufferedReader rd = new BufferedReader(new InputStreamReader(request.getInputStream(),"UTF-8"));
    	StringBuffer params = new StringBuffer();
     String line;
-    
+
     while ((line = rd.readLine()) != null) {
     	params.append(line);
     }
-    
+
     URL url = new URL(urlStr);
 	URLConnection connection = url.openConnection();
 	HttpURLConnection huc = (HttpURLConnection)connection;
@@ -42,26 +42,27 @@ public static void proxy_post(HttpServletRequest request, HttpServletResponse re
 	huc.setDoInput(true);
 	huc.setUseCaches(false);
 	huc.setDefaultUseCaches(false);
-	
+
 	PrintWriter pOut = new PrintWriter(huc.getOutputStream());
-	
+
 	pOut.println(params.toString());
 	pOut.close();
 
 	response.reset();
 	response.setContentType(huc.getContentType());
-	
+
 	OutputStream ios = response.getOutputStream();
-	
+
 	IOUtils.copy(huc.getInputStream(), ios);
-	
+
 	ios.close();
 }
-%><%
+%>
+<%
 	try {
 		if(request.getMethod().toString().equals("GET"))
 			proxy_get(request, response);
-		else 
+		else
 			proxy_post(request, response);
 	} catch (Exception e) {
 		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

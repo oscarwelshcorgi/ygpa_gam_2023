@@ -105,9 +105,24 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 		vo.put("nhtIsueYn", "Y");
 		Map map2 = gamNticRequestMngtDAO.selectReimNticNoAccnutYear(vo);
 		vo.put("reimFeeNticno", map2.get("reimFeeNticno"));
+		/*
+		if(!"".equals(vo.get("intrRate"))) {	// 이자율이 입력 되어 있으면 이자에 대해 고지서를 생성한다.
+			// 이자 생성
+			String intrAmnt = gamNticRequestMngtDAO.selectLevReqestInterest(vo);	// 이자를 산출한다.
 
-		gamNticRequestMngtDAO.updateLevReqestIssueYn(vo);
-		gamNticRequestMngtDAO.insertNticRequestRevCollF(vo);
+			vo.put("intrAmnt", intrAmnt);	// 이자 고지
+			gamNticRequestMngtDAO.updateLevReqestIssueYn(vo);
+			gamNticRequestMngtDAO.insertNticRequestRevCollF(vo);
+			gamNticRequestMngtDAO.insertNticRequestInterestRevCollF(vo);
+		}
+		else {
+		*/
+			gamNticRequestMngtDAO.updateLevReqestIssueYn(vo);
+			gamNticRequestMngtDAO.insertNticRequestRevCollF(vo);
+			/*
+		}
+		*/
+
 	}
 
 	/* (non-Javadoc)

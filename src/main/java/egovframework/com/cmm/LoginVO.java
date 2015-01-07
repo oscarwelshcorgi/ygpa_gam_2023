@@ -46,6 +46,8 @@ public class LoginVO implements Serializable{
 	private String orgnztId;
 	/** 조직(부서)명 */
 	private String orgnztNm;
+	/** 부두 그룹 코드 */
+	private String quayGroupCd;
 	/** 고유아이디 */
 	private String uniqId;
 	/** 로그인 후 이동할 페이지 */
@@ -252,6 +254,18 @@ public class LoginVO implements Serializable{
 	 */
 	public void setOrgnztNm(String orgnztNm) {
 		this.orgnztNm = orgnztNm;
+	}
+	/**
+	 * @return the quayGroupCd
+	 */
+	public String getQuayGroupCd() {
+		return quayGroupCd;
+	}
+	/**
+	 * @param quayGroupCd the quayGroupCd to set
+	 */
+	public void setQuayGroupCd(String quayGroupCd) {
+		this.quayGroupCd = quayGroupCd;
 	}
 	public String getEmplNo() {
 		return emplNo;

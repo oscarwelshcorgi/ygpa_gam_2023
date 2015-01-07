@@ -1809,7 +1809,7 @@ var module_instance = new GamAssetRentMngtModule();
 	                    <tr>
 	                        <th width="70%">자산임대 상세목록</th>
 	                        <th style="text-align:right">
-								<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="assetRentDetailList" data-style="default">맵조회</button>
+								<button data-role="showMap" data-gis-layer="assetsDetail" data-flexi-grid="assetRentDetailList" data-style="default">맵조회</button>
 	                        <button id="btnInsertItemDetail" class="buttonAdd">임대상세추가</button>
 	                        	<button id="btnRemoveItemDetail" class="buttonDelete">임대상세삭제</button>
 	                        </th>

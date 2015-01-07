@@ -306,9 +306,9 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtService#selectChargeKndList()
 	 */
 	@Override
-	public List selectChargeKndList() throws Exception {
+	public List selectChargeKndList(GamHtldRentMngtVO vo) throws Exception {
 		// TODO Auto-generated method stub
-		return gamHtldRentMngtDao.selectChargeKndList();
+		return gamHtldRentMngtDao.selectChargeKndList(vo);
 	}
 
 	/* (non-Javadoc)

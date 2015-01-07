@@ -52,6 +52,13 @@ public interface GamPrtFcltyRentFeeMngtService {
 	void updatePrtFcltyRentFeeMngt(GamPrtFcltyRentFeeMngtVO vo) throws Exception;
 
 	/**
+	 * 임대고지 사용료를 변경한다.
+	 * @param vo
+	 * @throws Exception
+	 */
+	public void updatePrtFcltyRentFee(GamPrtFcltyRentFeeMngtVO vo) throws Exception;
+
+	/**
 	 * 자산임대료고지관리 정보 조회.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return 자산임대료고지관리정보

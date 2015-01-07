@@ -111,7 +111,7 @@ public interface GamHtldRentMngtService {
      * @return	배후단지 요금종류 코드 목록
      * @throws Exception
      */
-    public List selectChargeKndList() throws Exception;
+    public List selectChargeKndList(GamHtldRentMngtVO vo) throws Exception;
 
     /**
 	 * 코멘트를 수정한다.

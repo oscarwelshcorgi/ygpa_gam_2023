@@ -63,6 +63,14 @@ public class GamPrtFcltyRentFeeMngtDao extends YGPAAbstractDAO {
 	}
 
 	/**
+	 * 사용료를 변경 한다.
+	 * @param vo
+	 */
+	public void updatePrtFcltyRentFee(GamPrtFcltyRentFeeMngtVO vo) {
+		update("gamPrtFcltyRentFeeMngtDao.updatePrtFcltyRentFeeModifyFee_S", vo);
+	}
+
+	/**
 	 * 자산임대료고지관리정보 조회.
 	 * @param searchMap - 조회할 정보가 담긴 Map
 	 * @return 자산임대료고지관리정보

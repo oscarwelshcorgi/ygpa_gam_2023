@@ -1924,8 +1924,8 @@ var module_instance = new GamAssetRentMngtModule();
                             </td>
                             <th>신청업체</th>
                             <td>
-                            	<input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;
-                            	<input id="sEntrpsNm" type="text" size="15" disabled="disabled">&nbsp; &nbsp;
+                            	<input id="sEntrpscd" type="text" size="10" />&nbsp; &nbsp;
+                            	<input id="sEntrpsNm" type="text" size="15" disabled="disabled" />&nbsp; &nbsp;
                             	<button id="popupEntrpsInfo" class="popupButton">선택</button>
                             </td>
                             <th>사용용도</th>
@@ -2011,7 +2011,7 @@ var module_instance = new GamAssetRentMngtModule();
 	                                <button id="btnPrtFcltyRentMngtListExcelDownload">엑셀</button>
 	                                <button id="btnRentFeeMngt">사용료관리</button>
 	                                <!-- <button id="btnNoticeAdit">추가고지</button> -->
-	                                <!-- <button id="btnShowMap">맵조회</button> -->
+		                        	<button data-role="showMap" data-gis-layer="assetsRent" data-flexi-grid="assetRentMngtList" data-style="default">맵조회</button>
 	                            </td>
 	                        </tr>
 						</table>
@@ -2050,8 +2050,8 @@ var module_instance = new GamAssetRentMngtModule();
                                 <td><input type="text" class="emdcal" size="14" id="reqstDt" readonly/></td>
 								<th width="10%" height="18">신청업체</th>
                                 <td>
-                                    <input type="text" size="8" id="entrpscd" maxlength="10" readonly/>
-                                    <input type="text" size="18" id="entrpsNm" disabled/>
+                                    <input type="text" size="10" id="entrpscd" maxlength="10" readonly/>
+                                    <input type="text" size="24" id="entrpsNm" disabled/>
                                     <button id="popupEntrpsInfoInput" class="popupButton">선택</button>
                                 </td>
                             </tr>
@@ -2147,7 +2147,7 @@ var module_instance = new GamAssetRentMngtModule();
 	                    <tr>
 	                        <th width="70%">항만시설 상세목록</th>
 	                        <th style="text-align:right">
-	                        	<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="assetRentDetailList" data-style="default">맵조회</button>
+	                        	<button data-role="showMap" data-gis-layer="assetsRentDetail" data-flexi-grid="assetRentDetailList" data-style="default">맵조회</button>
 	                        	<button id="btnInsertItemDetail" class="buttonAdd">임대상세추가</button>
 	                        	<button id="btnRemoveItemDetail" class="buttonDelete">임대상세삭제</button>
 	                        </th>

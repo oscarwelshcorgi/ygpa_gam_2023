@@ -23,7 +23,7 @@
                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = T1.PRT_AT_CODE AND ROWNUM = 1) AS PRT_AT_CODE_NM
                                   , T1.NTIC_CNT
                                   , T1.CHRGE_KND
-                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM050' AND CD.CODE = T1.CHRGE_KND AND ROWNUM = 1) AS CHRGE_KND_NM
+                                  , GAM_GET_FEE_TP_NM(T1.PRT_AT_CODE, 'P', T1.CHRGE_KND) AS CHRGE_KND_NM
                                   , T1.ACCNUT_YEAR
                                   , T1.NTICNO
                                   , TO_CHAR(T1.NTIC_DT, 'YYYY-MM-DD') AS NTIC_DT
@@ -88,7 +88,7 @@
                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = T1.PRT_AT_CODE AND ROWNUM = 1) AS PRT_AT_CODE_NM
                                   , T1.NTIC_CNT
                                   , T1.CHRGE_KND
-                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM050' AND CD.CODE = T1.CHRGE_KND AND ROWNUM = 1) AS CHRGE_KND_NM
+                                  , GAM_GET_FEE_TP_NM(T1.PRT_AT_CODE, 'P', T1.CHRGE_KND) AS CHRGE_KND_NM
                                   , T1.ACCNUT_YEAR
                                   , T1.NTICNO
                                   , TO_CHAR(T1.NTIC_DT, 'YYYY-MM-DD') AS NTIC_DT
@@ -156,7 +156,7 @@
                                   , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = T1.PRT_AT_CODE AND ROWNUM = 1) AS PRT_AT_CODE_NM
                                   , T1.NTIC_CNT
                                   , T1.CHRGE_KND
-                                  , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM050' AND CD.CODE = T1.CHRGE_KND AND ROWNUM = 1) AS CHRGE_KND_NM
+                                  , GAM_GET_FEE_TP_NM(T1.PRT_AT_CODE, 'P', T1.CHRGE_KND) AS CHRGE_KND_NM
                                   , T1.ACCNUT_YEAR
                                   , T1.NTICNO
                                   , TO_CHAR(T1.NTIC_DT, 'YYYY-MM-DD') AS NTIC_DT

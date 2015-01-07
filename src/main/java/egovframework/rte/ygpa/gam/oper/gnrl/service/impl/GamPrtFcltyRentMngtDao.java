@@ -416,7 +416,7 @@ public class GamPrtFcltyRentMngtDao extends YGPAAbstractDAO {
 		return (GamPrtFcltyRentMngtVO) selectByPk("gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtCofixInfoMax_S", searchVO);
 	}
 
-	public List selectChargeKndList() throws Exception {
-		return list("gamPrtFcltyRentMngtDao.selectChargeKndList_D", null);
+	public List selectChargeKndList(GamPrtFcltyRentMngtVO searchVO) throws Exception {
+		return list("gamPrtFcltyRentMngtDao.selectChargeKndList_D", searchVO);
 	}
 }

@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.gnrl.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -71,6 +72,19 @@ public class GamPrtFcltyRentFeeMngtServiceImpl  extends AbstractServiceImpl impl
 	 */
 	public void updatePrtFcltyRentFeeMngt(GamPrtFcltyRentFeeMngtVO vo) throws Exception {
 		gamPrtFcltyRentFeeMngtDao.updatePrtFcltyRentFeeMngt(vo);
+	}
+
+	/**
+	 * 사용료를 변경한다.
+	 * @param vo
+	 * @throws Exception
+	 */
+	public void updatePrtFcltyRentFee(GamPrtFcltyRentFeeMngtVO vo) throws Exception {
+		BigDecimal nticAmt=new BigDecimal(vo.getFee());
+		nticAmt=nticAmt.add(new BigDecimal(vo.getVat()));
+		vo.setNticAmt(nticAmt.toString());
+
+		gamPrtFcltyRentFeeMngtDao.updatePrtFcltyRentFee(vo);
 	}
 
 	/**
