@@ -63,7 +63,9 @@
  -->
 		             ) S
 		        ) A
-
+		<![CDATA[
+			WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
 	</select>
 
 	<select id="gamFcltyUsageSttusInqireDao.selectFcltyGisPrtFcltyCdListTotCnt" parameterClass="GamFcltyUsageSttusInqireVo" resultClass="int">
@@ -83,10 +85,6 @@
 		<isNotEmpty property="sFcltsMngNo" prepend="AND">
 			   M.FCLTS_MNG_NO like '%'||#sFcltsMngNo#||'%'
 		</isNotEmpty>
-
-
-
-
 	</select>
 
 <!-- 시설물 사용현황 목록 조회 -->
@@ -110,6 +108,16 @@
 						  		  AND D.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
 		           				  AND D.GIS_ASSETS_CD = #gisAssetsCd#
 		           				  AND D.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+						<isNotEmpty property="sUsagePdFrom" prepend="AND">
+							<![CDATA[
+									  D.USAGE_PD_FROM >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+							]]>
+						</isNotEmpty>
+						<isNotEmpty property="sUsagePdTo" prepend="AND">
+							<![CDATA[
+									  D.USAGE_PD_FROM <= TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
+							]]>
+						</isNotEmpty>
 
 						  		  AND D.PRT_AT_CODE = M.PRT_AT_CODE
 								  AND D.MNG_YEAR = M.MNG_YEAR
@@ -117,13 +125,11 @@
 								  AND D.MNG_CNT = M.MNG_CNT
 
 								  ORDER BY D.PRT_AT_CODE DESC, D.MNG_YEAR DESC, D.MNG_NO, D.MNG_CNT
-
 					) S
 			) A
 		<![CDATA[
 		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
 		]]>
-
     </select>
 
 	<select id="gamFcltyUsageSttusInqireDao.selectFcltyAssetsRentListTotCnt" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="int">
@@ -133,6 +139,16 @@
 			   AND D.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
      		   AND D.GIS_ASSETS_CD = #gisAssetsCd#
      		   AND D.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+	<isNotEmpty property="sUsagePdFrom" prepend="AND">
+		<![CDATA[
+			   D.USAGE_PD_FROM >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+		]]>
+	</isNotEmpty>
+	<isNotEmpty property="sUsagePdTo" prepend="AND">
+		<![CDATA[
+			   D.USAGE_PD_FROM <= TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
+		]]>
+	</isNotEmpty>
 
 	  		   AND D.PRT_AT_CODE = M.PRT_AT_CODE
 			   AND D.MNG_YEAR = M.MNG_YEAR
@@ -141,59 +157,78 @@
 
 	</select>
 
-<!-- 점검 관리 내역, 점검 관리 대상 시설물 -->
+<!-- 점검 관리 내역 -->
 
 	<select id="gamFcltyUsageSttusInqireDao.selectQcMngList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
 		SELECT A.*
 			FROM (
 				SELECT  ROWNUM RNUM, S.*
 				  FROM (
-		                SELECT FCLTS_MNG_GROUP_NO
-							  ,GAM_GET_FCLTS_JOB_SE_NM(FCLTS_JOB_SE) AS FCLTS_JOB_SE
-						      ,QC_MNG_SEQ
-						      ,ENFORCE_YEAR
-						      ,QC_MNG_NM
-						      ,TO_CHAR(QC_INSP_DT, 'YYYY.MM.DD') AS QC_INSP_DT
-						      ,QC_INSP_SE
-						      ,QC_INSP_INSTT_NM
-						      ,RESPON_ENGINEER_NM
-						      ,TO_CHAR(QC_BEGIN_DT, 'YYYY.MM.DD') AS QC_BEGIN_DT
-						      ,TO_CHAR(QC_END_DT, 'YYYY.MM.DD') AS QC_END_DT
-						      ,QC_INSP_AMT
-						      ,GAM_GET_STTUS_EVL_LVL_NM(STTUS_EVL_LVL) AS STTUS_EVL_LVL
-						      ,QC_INSP_RESULT
-						      ,ACTION_CN
-						      ,RM
-		                  FROM QC_MNG_DTLS_F
+						SELECT M.FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
+							  ,D.FCLTS_MNG_NO AS FCLTS_MNG_NO
+							  ,M.FCLTS_JOB_SE AS FCLTS_JOB_SE
+							  ,GAM_GET_FCLTS_JOB_SE_NM(M.FCLTS_JOB_SE) AS FCLTS_JOB_NM
+							  ,M.QC_MNG_SEQ AS QC_MNG_SEQ
+							  ,M.ENFORCE_YEAR AS ENFORCE_YEAR
+							  ,M.QC_MNG_NM AS QC_MNG_NM
+							  ,TO_CHAR(M.QC_INSP_DT, 'YYYY.MM.DD') AS QC_INSP_DT
+							  ,M.QC_INSP_SE AS QC_INSP_SE
+							  ,M.QC_INSP_INSTT_NM AS QC_INSP_INSTT_NM
+							  ,M.RESPON_ENGINEER_NM AS RESPON_ENGINEER_NM
+							  ,TO_CHAR(M.QC_BEGIN_DT, 'YYYY.MM.DD') AS QC_BEGIN_DT
+							  ,TO_CHAR(M.QC_END_DT, 'YYYY.MM.DD') AS QC_END_DT
+							  ,M.QC_INSP_AMT AS QC_INSP_AMT
+							  ,GAM_GET_STTUS_EVL_LVL_NM(M.STTUS_EVL_LVL) AS STTUS_EVL_LVL
+							  ,M.QC_INSP_RESULT AS QC_INSP_RESULT
+							  ,M.ACTION_CN AS ACTION_CN
+							  ,M.RM AS RM
+
+
+						  FROM QC_MNG_DTLS_F M, QC_MNG_OBJ_FCLTS_F D
+ 						 WHERE D.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+						 AND D.FCLTS_MNG_NO = #fcltsMngNo#
+
+						 AND M.FCLTS_MNG_GROUP_NO = D.FCLTS_MNG_GROUP_NO
+						 AND M.FCLTS_JOB_SE = D.FCLTS_JOB_SE
+						 AND M.QC_MNG_SEQ = D.QC_MNG_SEQ
  					) S
 				) A
 	</select>
 <!-- 점검 관리 대상 시설물 -->
-	<select id="gamFcltyUsageSttusInqireDao.selectQcMngDetailList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
+	<select id="gamFcltyUsageSttusInqireDao.selectQcMngObjFcltsList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
 		SELECT A.*
 			FROM (
 				SELECT  ROWNUM RNUM, S.*
 				  FROM (
-		              SELECT M.FCLTS_MNG_NO
-		                    ,GAM_GET_STTUS_EVL_LVL_NM(M.STTUS_EVL_LVL) AS STTUS_EVL_LVL
-		                    ,TO_CHAR(M.QC_INSP_DT,'YYYY.MM.DD') AS QC_INSP_DT
-		                    ,M.INSPECTOR
-		                    ,M.QC_INSP_RESULT
-		                    ,M.RM
-		                    ,S.QC_ITEM_CD
-		                    ,S.SEQ
-		                    ,S.INSP_RESULT_CHK
-		                    ,S.INSP_RESULT_CN
-		               FROM QC_MNG_OBJ_FCLTS_F M LEFT OUTER JOIN
-		               		QC_MNG_RESULT_ITEM_F S ON (M.FCLTS_MNG_GROUP_NO = S.FCLTS_MNG_GROUP_NO
-		                AND M.FCLTS_JOB_SE = S.FCLTS_JOB_SE
-		                AND M.QC_MNG_SEQ = S.QC_MNG_SEQ)
-<!--
-					  WHERE
-		                AND M.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-		                AND M.FCLTS_JOB_SE = #fcltsJobSe#
-		                AND M.QC_MNG_SEQ = #qcMngSeq#
--->
+		              SELECT FCLTS_MNG_NO AS FCLTS_MNG_NO
+		                    ,GAM_GET_STTUS_EVL_LVL_NM(STTUS_EVL_LVL) AS STTUS_EVL_LVL
+		                    ,TO_CHAR(QC_INSP_DT,'YYYY.MM.DD') AS QC_INSP_DT
+		                    ,INSPECTOR AS INSPECTOR
+		                    ,QC_INSP_RESULT AS QC_INSP_RESULT
+		                    ,RM AS RM
+		               FROM QC_MNG_OBJ_FCLTS_F
+					  WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		                AND FCLTS_JOB_SE = #fcltsJobSe#
+		                AND QC_MNG_SEQ = #qcMngSeq#
+		                AND FCLTS_MNG_NO = #fcltsMngNo#
+              		) S
+         		 ) A
+	</select>
+
+<!-- 점검 관리 결과 항목 -->
+	<select id="gamFcltyUsageSttusInqireDao.selectQcMngResultItemList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+				  FROM (
+		              SELECT QC_ITEM_CD
+		                    ,SEQ
+		                    ,INSP_RESULT_CHK
+		                    ,INSP_RESULT_CN
+		               FROM QC_MNG_RESULT_ITEM_F
+					  WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		                AND FCLTS_JOB_SE = #fcltsJobSe#
+		                AND QC_MNG_SEQ = #qcMngSeq#
               		) S
          		 ) A
 	</select>

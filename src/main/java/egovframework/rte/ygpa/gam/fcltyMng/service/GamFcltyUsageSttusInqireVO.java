@@ -103,6 +103,8 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	// ==== 점검 관리 내역 ==== //
 	/** 시설물 업무 구분 **/
 	private String fcltsJobSe;
+	/** 시설물 업무 구분 명**/
+	private String fcltsJobNm;
 	/** 시설물 관리 순번 **/
 	private int qcMngSeq;
 	/** 시행 년도 **/
@@ -137,8 +139,19 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	private String rm;
 
 	// ==== 점검 관리 대상 시설물 ==== //
+	/** 시설물 관리번호(자산인대 사용) **/
+	/** 시설물 업무 구분 **/
+//	private String objFcltsJobSe;
+	/** 점검 진단 구분 **/
+//	private String objQcInspSe;
+	/** 점검 진단 일자 **/
+//	private String objQcInspDt;
 	/** 감리자 **/
 	private String inspector;
+	/** 점검 진단 결과 **/
+//	private String objQcInspResult;
+	/** 비고 **/
+//	private String objRm;
 
 	// ==== 점검 관리 결과 항목 ==== //
 	/** 점검 항목 코드 **/
@@ -805,5 +818,17 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	 */
 	public void setGisAssetsPrtAtNm(String gisAssetsPrtAtNm) {
 		this.gisAssetsPrtAtNm = gisAssetsPrtAtNm;
+	}
+	/**
+	 * @return the fcltsJobNm
+	 */
+	public String getFcltsJobNm() {
+		return fcltsJobNm;
+	}
+	/**
+	 * @param fcltsJobNm the fcltsJobNm to set
+	 */
+	public void setFcltsJobNm(String fcltsJobNm) {
+		this.fcltsJobNm = fcltsJobNm;
 	}
 }

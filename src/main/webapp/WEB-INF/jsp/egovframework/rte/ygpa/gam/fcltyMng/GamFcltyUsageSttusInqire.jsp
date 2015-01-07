@@ -44,7 +44,7 @@
 
  GamFcltyUsageSttusInqireModule.prototype.loadComplete = function() {
 
-	 this._fcltsMngGroupNo = "";
+	this._tabMode = "";
 	// 자산임대 테이블 설정
 /* GIS 자산 리스트 */
 	this.$("#gisPrtFcltyCdGrid").flexigrid({
@@ -75,6 +75,17 @@
 		}
 	});
 
+	// 시설물 사용현황 클릭
+/* 	this.$("#gisPrtFcltuCdGrid").on('onItemSelected', function(event, module, row, grid, param){
+		this._tabMode = "";
+	}); */
+
+	// 시설물 사용현황 더블 클릭
+	this.$("#gisPrtFcltyCdGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		module.loadQcMngData();
+		module.$("#mainTab").tabs("option", {active: 1});
+	});
+
 /* 시설물 사용현황 */
 	//	console.log("aaaaa");
 	// 자산임대 테이블 설정
@@ -82,9 +93,9 @@
 		module : this,
 		dataType : 'json',
 		colModel : [ {display : '항구분', name : 'prtAtCode', width : 60, sortable : false, align : 'center'},
-		             {display : '관리번호', name : 'mngYearNo', width : 100, sortable : false, align : 'center'},
-		             {display : 'GIS 코드', name : 'gisAssets', width : 100, sortable : false, align : 'center'},
-		             {display : '문서번호', name : 'docNo', width : 100, sortable : false, align : 'center'},
+//		             {display : '관리번호', name : 'mngYearNo', width : 100, sortable : false, align : 'center'},
+//		             {display : 'GIS 코드', name : 'gisAssets', width : 100, sortable : false, align : 'center'},
+//		             {display : '문서번호', name : 'docNo', width : 100, sortable : false, align : 'center'},
 		             {display : '고지방법', name : 'nticMth', width : 70, sortable : false, align : 'center'},
 		             {display : '사용목적', name : 'usagePurps', width : 150, sortable : false, align : 'center'},
 		             {display : '사용내역', name : 'usageDtls', width : 125, sortable : false, align : 'center'},
@@ -103,11 +114,8 @@
 		}
  */	});
 
-	// 시설물 사용현황 더블 클릭
-	this.$("#gisPrtFcltyCdGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module.loadQcMngData();
-		module.$("#mainTab").tabs("option", {active: 1});
-	});
+
+
 
 	// 점검 관리 내역
 	this.$("#qcMngDtlsFGrid").flexigrid({
@@ -135,7 +143,7 @@
 		height : '160'
 	});
 
-// 마우스 클릭
+	// 마우스 클릭
 	this.$("#qcMngDtlsFGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module.loadQcMngDtailData();
 	});
@@ -146,15 +154,17 @@
 		module : this,
 		dataType : 'json',
 		colModel : [ {display : '관리 번호', name : 'fcltsMngNo', width : 110, sortable : false, align : 'center'},
-		             {display : '상태 평가', name : 'sttusEvlLvl', width : 65, sortable : false, align : 'center'},
-		             {display : '진단 일자', name : 'qcInspDt', width : 75, sortable : false, align : 'center'},
+		             {display : '진단 구분', name : 'objQcInspSe', width : 65, sortable : false, align : 'center'},
+		             {display : '진단 일자', name : 'objQcInspDt', width : 75, sortable : false, align : 'center'},
 		             {display : '감리자', name : 'inspector', width : 60, sortable : false, align : 'center'},
-		             {display : '진단결과', name : 'qcInspResult', width : 70, sortable : false, align : 'center'},
-		             {display : '비고', name : 'rm', width : 100, sortable : false, align : 'center'},
+		             {display : '진단 결과', name : 'objQcInspResult', width : 70, sortable : false, align : 'center'},
+		             {display : '비고', name : 'objRm', width : 100, sortable : false, align : 'center'},
 		             ],
 		height : '160'
 	});
 
+
+	// 점검 관리 결과
 	this.$("#qcMngResultItemGrid").flexigrid({
 		module : this,
 		dataType : 'json',
@@ -231,6 +241,7 @@ var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
 	                { name: 'gisAssetsPrtAtCode', value: row['gisAssetsPrtAtCode'] },
 	                { name: 'gisAssetsCd', value: row['gisAssetsCd'] },
 	                { name: 'gisAssetsSubCd', value: row['gisAssetsSubCd'] },
+	                { name: 'fcltsMngNo', value: row['fcltsMngNo'] },
 	                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] }
 	               ];
 
@@ -238,7 +249,7 @@ var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
 	this.doAction('/fcltyMng/selectLoadQcMngData.do', searchVO, function(module, data) {
 		if(data.resultCode == "0"){
 			module.$('#assetsRentGrid').flexEmptyData();
-        	var assetsRentList={resultList: data.resultFcltyAssetsRentList};
+        	var assetsRentList={resultList: data.fcltyAssetsRentList};
 //        	module.$('#assetsRentGrid')[0].dgrid.p.preProcess(module, assetsRentList);
         	module.$('#assetsRentGrid').flexAddData(assetsRentList);
         	module.$('#assetsRentGrid').selectRowId(0);
@@ -247,12 +258,13 @@ var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
         	var qcMngList={resultList: data.qcMngList};
         	module.$('#qcMngDtlsFGrid').flexAddData(qcMngList);
         	module.$('#qcMngDtlsFGrid').selectRowId(0);
-
-
 		}else{
 			module.$("#mainTab").tabs("option", {active: 0});
 		}
 	});
+
+	this.$('#qcMngObjFcltsGrid').flexEmptyData();
+	this.$('#qcMngResultItemGrid').flexEmptyData();
 };
 
 /* 수정 중 */
@@ -260,6 +272,7 @@ GamFcltyUsageSttusInqireModule.prototype.loadQcMngDtailData = function() {
 	var row = this.$('#qcMngDtlsFGrid').selectedRows();
 	row = row[0];
 	var searchVO = [
+					{ name: 'fcltsMngNo', value: row['fcltsMngNo'] },
 	                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
 	                { name: 'fcltsJobSe', value: row['fcltsJobSe'] },
 	                { name: 'qcMngSeq', value: row['qcMngSeq'] }
@@ -269,13 +282,14 @@ GamFcltyUsageSttusInqireModule.prototype.loadQcMngDtailData = function() {
 	this.doAction('/fcltyMng/selectLoadQcMngDetailData.do', searchVO, function(module, data) {
 		if(data.resultCode == "0"){
 			module.$('#qcMngObjFcltsGrid').flexEmptyData();
-        	var qcMngDetailList={resultList: data.qcMngDetailList};
+        	var qcMngObjFcltsList={resultList: data.qcMngObjFcltsList};
 //        	module.$('#assetsRentGrid')[0].dgrid.p.preProcess(module, assetsRentList);
-        	module.$('#qcMngObjFcltsGrid').flexAddData(qcMngDetailList);
+        	module.$('#qcMngObjFcltsGrid').flexAddData(qcMngObjFcltsList);
         	module.$('#qcMngObjFcltsGrid').selectRowId(0);
 
         	module.$('#qcMngResultItemGrid').flexEmptyData();
-        	module.$('#qcMngResultItemGrid').flexAddData(qcMngDetailList);
+        	var qcMngResultItemList={resultList: data.qcMngResultItemList};
+        	module.$('#qcMngResultItemGrid').flexAddData(qcMngResultItemList);
         	module.$('#qcMngResultItemGrid').selectRowId(0);
 
 /*
@@ -323,9 +337,7 @@ GamFcltyUsageSttusInqireModule.prototype.onTabChangeBefore = function(newTabId, 
 
 
 GamFcltyUsageSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
-	if(oldTabId != 'tabs1') {
 
-	}
 	switch(newTabId) {
 		case "tabs1":
 			break;
