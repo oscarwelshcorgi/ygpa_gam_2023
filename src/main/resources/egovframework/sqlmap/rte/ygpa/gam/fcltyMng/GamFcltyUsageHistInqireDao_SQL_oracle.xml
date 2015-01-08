@@ -25,16 +25,31 @@
 										,T1.GIS_ASSETS_LOCPLC ||' '|| T1.GIS_ASSETS_LNM) AS GIS_ASSETS_LOCPLC
 								,T1.GIS_ASSETS_AR
 								,T1.GIS_ASSETS_REAL_RENT_AR
-								
-								,T4.MNG_YEAR
-								,T4.MNG_NO
-								,T4.MNG_CNT
+								,T4.MNG_YEAR ||' - '|| T4.MNG_NO ||' - '|| T4.MNG_CNT AS MNG_CD
 								,T4.ASSETS_USAGE_SEQ
 								,T4.ENTRPS_NM
 								,T4.USAGE_AR
 								,T4.USAGE_PD_FROM
 								,T4.USAGE_PD_TO
 								,T4.FEE
+								
+								,T4.USAGE_PURPS
+								,T4.USAGE_DTLS
+								,T4.ENTRPS_SE
+								,T4.EXEMPT_SE
+								,T4.EXEMPT_RSN
+								,T4.EXEMPT_PD_FROM
+								,T4.EXEMPT_PD_TO
+								,T4.COMPUT_DTLS
+								,T4.TRMNAT_DT
+								,T4.TRMNAT_RSN
+								,T4.REG_USR
+								,T4.REGIST_DT
+								,T4.UPD_USR
+								,T4.UPDT_DT
+								,T4.APPLC_PRICE
+								,T4.OLNLP
+								,T4.APPLC_TARIFF
 								
 							FROM GIS_ASSETS_CD_F T1
 							INNER JOIN (
@@ -52,6 +67,25 @@
 										,T2.GIS_ASSETS_PRT_AT_CODE
 					                    ,T2.GIS_ASSETS_CD
 					                    ,T2.GIS_ASSETS_SUB_CD
+					                    
+										,T2.USAGE_PURPS
+										,T2.USAGE_DTLS
+										,T2.ENTRPS_SE
+										,T2.EXEMPT_SE
+										,T2.EXEMPT_RSN
+										,TO_CHAR(T2.EXEMPT_PD_FROM, 'YYYY-MM-DD') AS EXEMPT_PD_FROM 
+										,TO_CHAR(T2.EXEMPT_PD_TO, 'YYYY-MM-DD') AS EXEMPT_PD_TO 
+										,T2.COMPUT_DTLS
+										,TO_CHAR(T2.TRMNAT_DT, 'YYYY-MM-DD') AS TRMNAT_DT
+										,T2.TRMNAT_RSN
+										,T2.REG_USR
+										,TO_CHAR(T2.REGIST_DT, 'YYYY-MM-DD') AS REGIST_DT
+										,T2.UPD_USR
+										,TO_CHAR(T2.UPDT_DT, 'YYYY-MM-DD') AS UPDT_DT
+										,T2.APPLC_PRICE
+										,T2.OLNLP
+										,T2.APPLC_TARIFF
+										
 										FROM ASSETS_RENT_DETAIL_F T2 INNER JOIN ASSETS_RENT_F T3
 										ON (T2.PRT_AT_CODE=T3.PRT_AT_CODE AND T2.MNG_YEAR=T3.MNG_YEAR AND T2.MNG_NO=T3.MNG_NO AND T2.MNG_CNT=T3.MNG_CNT)
 										WHERE 1=1
