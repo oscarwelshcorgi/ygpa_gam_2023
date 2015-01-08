@@ -176,6 +176,49 @@
 		height : '160'
 	});
 
+
+	// 하자 보수 대상 시설물
+	this.$("#flawRprDtlsGrid").flexigrid({
+		module : this,
+		dataType : [ {display : '검사구분', name : '', width : 100, sortable : false, align : 'center'}
+					,{display : '검사일자', name : '', width : 100, sortable : false, align : 'center'}
+					,{display : '하자 유무', name : '', width : 100, sortable : false, align : 'center'}
+					,{display : '검사결과', name : '', width : 100, sortable : false, align : 'center'}
+					,{display : '시행년도', name : '', wiedth : 100, sortable : false, align : 'center'}
+					,{display : '하자보수 명', name : '', width : 100, sortable :false, align : 'center'}
+					,{display : '하자보수 유형', name : '', width : 100, sortable : false, aling : 'center'}
+					,{display : '하자발생 일자', name : '', width : 100, sortable : false, aling : 'center'}
+					,{display : '하자보수 업체명', name : '', width : 100, sortable : false, aling : 'center'}
+					,{display : '하자보수 내용', name : '', width : 100, sortable : false, aling : 'center'}
+					,{display : '하자보수 완료여부', name : '', width : 100, sortable : false, aling : 'center'}
+					,{display : '비고', name : '', width : 100, sortable : false, aling : 'center'}
+		           ]
+	});
+
+	// 하자 보수 대상 시설물
+	this.$("#flawRprObjGrid").flexigrid({
+		module : this,
+		dataType : [ {display : '검사일자', name : '', width : 100, sortable : false, align : 'center'}
+					,{display : '하자유무', name : '', width : 100, sortable : false, align : 'center'}
+					,{display : '검사결과', name : '', width : 100, sortable : false, align : 'center'}
+					,{display : '비고', name : '', width : 100, sortable : false, align : 'center'}
+		           ]
+	});
+
+	// 하자 검사자
+	this.$("#flawExamUsrGrid").flexigrid({
+		module : this,
+		dataType : [ {display : '검사자', name : '', width : 100, sortable : false, align : 'center'}
+					,{display : '검사일자', name : '', width : 100, sortable : false, align : 'center'}
+					,{display : '완료여부', name : '', width : 100, sortable : false, align : 'center'}
+					]
+	});
+
+
+
+
+
+
 	this.$("#sUsagePdFrom").val(EMD.util.getDate(EMD.util.addMonths(-1)));
 	this.$("#sUsagePdTo").val(EMD.util.getDate());
 
@@ -404,7 +447,7 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 			</ul>
 
 			<!-- TAB 1 AREA (LIST) -->
-			<div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
+			<div id="tabs1" class="emdTabPage fillHeight" style="overflow:scroll;" >
 				<table id="gisPrtFcltyCdGrid" style="display:none" class="fillHeight"></table>
   				<div id="gisPrtFcltyCdPanel" class="emdControlPanel">
 					<form id="gisPrtFcltyCdForm">
@@ -421,11 +464,11 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
  				</div>
 			</div>
 <!-- 탭2 -->
-			<div id="tabs2" class="emdTabPage fillHeight" style="overflow: hidden;" >
+			<div id="tabs2" class="emdTabPage fillHeight" style="overflow:scroll;" >
 				<table id="assetsRentGrid" style="display:none" class="fillHeight"></table>
 			</div>
 <!-- 탭3 -->
-			<div id="tabs3" class="emdTabPage fillHeight" style="overflow: hidden;">
+			<div id="tabs3" class="emdTabPage fillHeight" style="overflow:scroll;">
 				<table>
 					<tr>
 						<td colspan="2">
@@ -458,16 +501,25 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 				</div>
 			</div>
 <!-- 탭5 -->
-			<div id="tabs5" class="emdTabPage" style="overflow:scroll;">
-				<div class="emdControlPanel">
-					<form id="detailForm">
-						<table class="detailPanel" style="width:100%">
-							<tr>
-								<td>5</td>
-							</tr>
-						</table>
-					</form>
-				</div>
+			<div id="tabs5" class="emdTabPage fillHeight" style="overflow:scroll;">
+				<table>
+					<tr>
+						<td colspan="2">
+							하자 보수 내역
+							<table id='flawRprDtlsGrid' style="display:none" class="fillHeight" ></table>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							하자 보수 대상 시설물
+							<table id='flawRprObjGrid' style="display:none" class="fillHeight" ></table>
+						</td>
+						<td>
+							하자보수 검사자
+							<table id='flawExamUsrGrid' style="display:none" class="fillHeight" ></table>
+						</td>
+					</tr>
+				</table>
 			</div>
 
 		</div>

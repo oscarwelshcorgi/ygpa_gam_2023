@@ -163,6 +163,46 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	/** 점검 결과 내용 **/
 	private String inspResultCn;
 
+	// ==== 하자 보수 내역 ==== //
+	/** 하자 보수 시작 이랒 **/
+	private String flawRprStartDt;
+	/** 하자 보수 종료 일자 **/
+	private String flawRprEndDt;
+	/** 하자 보수 금액 **/
+	private String flawRprAmt;
+	/** 하자 보수 내용 **/
+	private String flawRprContents;
+	/** 하자 보수 업체 명 **/
+	private String flawRprEntrpsNm;
+	/** 하자 보수 유형 **/
+	private String flawRprTy;
+	/** 하자 발생 일자 **/
+	private String flawOccrrncDt;
+	/** 하자보수 완료 여부 **/
+	private String flawRprComptYn;
+	/** 하자 검사 구분 **/
+	private String flawExamSe;
+	/** 시행년도 **/
+//	private String enforceYear;
+	/** 하자 보수 명 **/
+	private String flawRprNm;
+	/** 하자 검사 일자 **/
+	private String flawExamDt;
+	/** 하자 유무 **/
+	private String flawEnnc;
+	/** 하자 검사 결과 **/
+	private String flawExamResult;
+	/** 비고 **/
+//	private String rm;
+	/** 계약번호 **/
+	private String ctrtNo;
+
+	// ==== 하자 보수 대상 시설물 ==== //
+
+
+
+
+
 
 
 	/**
