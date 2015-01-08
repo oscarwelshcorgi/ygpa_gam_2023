@@ -155,6 +155,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadRentDetailData = function() {
 	this.makeFormValues('#detailForm', row);
 
 	this.drawPieChart(row);
+	
 }
 
 
@@ -286,28 +287,32 @@ GamFcltyUseUnuseSttusInqireModule.prototype.drawPieChart = function(result) {
 	var usageLgnd = "사용면적";
 	var usageAr =result['usageAr'];
 	var realRentAr=result['gisAssetsRealRentAr'];
+	var usageArPerData = result['usageArPer'];
+	var index=0;
 	
-
 		 if(realRentAr >= usageAr){
 	  remainAr = realRentAr-usageAr;
 			}
-	var data = [
-	         {usage: usageAr 	 , legendNm : usageLgnd  ,	color:"#0054FF"},
-	 		 {usage: remainAr	 , legendNm : remainLgnd ,	color:"#FFD8D8"},
-			 ];
+	var pieData = [
+	         {usage: usageAr 	 , legendNm : usageLgnd  ,	color:"#0054FF" },
+	 		 {usage: remainAr	 , legendNm : remainLgnd ,	color:"#FF00DD"	},
+	         	  ];
 	
-	if (this.pieChart==null) {
+	var barData = ({usageArPer : usageArPerData}); 
+	
+	if ((this.pieChart==null) && (this.usageBarChart==null)) {
 		
 		this.pieChart =  new dhtmlXChart({
-     		 view:"pie3D",
-     		gradient:"3d",
-     		cant:1.0,
-     	container:this.$('#pieChartCons')[0],
+     		 view:"donut",
+		container:this.$('#pieChartCons')[0],
         	value:"#usage#",
+        	gradient:true,
             radius:	100,
+            cant:1.0,
             label: "<b>#usage#</b> (㎡)",
-          color: "#color#",
-                  legend:{
+          	color: "#color#",
+            
+                 legend:{
                  width: 75,
                  align: "right",
                  valign: "top",
@@ -316,14 +321,37 @@ GamFcltyUseUnuseSttusInqireModule.prototype.drawPieChart = function(result) {
                      width: 15
                  },
                      template: "#legendNm#"
-                }, 
+                }
         
-	})
+	});
+		this.usageBarChart = new dhtmlXChart({
+			view			: "bar",
+			container		: this.$('#usageBarChartCons')[0],
+			value			: "#usageArPer#",
+			color			: "#5CD1E5",
+	        gradient		: "rising",
+			width			: 30,
+			label			: "#usageArPer#",
+			
+			xAxis			: {
+				  template: "사용률 (%)"
+				
+			},
+			yAxis			: {
+				start		: 0,
+				end			: 100,
+				step		: 10,
+				
+			}
+		});
+		
+		
 	}else{
 	this.pieChart.clearAll();
+	this.usageBarChart.clearAll();
 }
-	this.pieChart.parse(data,"json");
-
+	this.pieChart.parse(pieData,"json");
+	this.usageBarChart.parse(barData,"json");
 };
 
 
@@ -501,7 +529,7 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
                                 <td><input type="text" size="15" class="ygpaNumber" data-column-id="gisAssetsRealRentAr" data-decimal-point="2" id="gisAssetsRealRentAr" disabled/>㎡</td>
 							
 								<th width="10%" height="18">사용면적</th>
-                                <td><input type="text" size="15" class="ygpaNumber" data-column-id="usageAr" data-decimal-point="2"  id="usageAr" disabled/>㎡</td>
+                                <td><input type="text" size="20" class="ygpaNumber" data-column-id="usageAr" data-decimal-point="2"  id="usageAr" disabled/>㎡</td>
                                 </tr>
                            
                    			 <tr>
@@ -511,7 +539,7 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
                                 </td>
                              <th width="10%" height="18">총 사용률</th>
                              <td colspan="2">
-								<input type="text" size="7" id="usageArPer" style="text-align: right;" disabled/> %</td>
+								<input type="text" size="20" id="usageArPer" style="text-align: right;" disabled/> %</td>
                               </tr>
                              <tr class="nationAssetLaw">
                                 <th width="10%" height="18">적용요율</th>
@@ -525,7 +553,7 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
                                 <td colspan="3"><input type="text" size="25" class="ygpaNumber calcInput" id="olnlp"  disabled/>원</td>
                             
                                 <th width="10%" height="18">적용단가</th>
-                                <td colspan="2"><input type="text" size="25" class="ygpaNumber calcInput" id="applcPrice" data-decimal-point="1"  disabled/>원</td>
+                                <td colspan="2"><input type="text" size="20" class="ygpaNumber calcInput" id="applcPrice" data-decimal-point="1"  disabled/>원</td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">면제구분</th>
@@ -566,8 +594,16 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
                                 <td colspan="5"><input type="text" size="100" id="usageDtls"  disabled/></td>
                             </tr>
                             </table>
+							<table class="editForm" style="width : 100%">
+								<tr>
+						<th style="font-weight:bold; height:15px;">사용 현황 그래프</th>
+								</tr>
+					</table>
+							<td>
+							</table>
 							<table class="summaryPanel">
-								<td rowspan="15"><div id="pieChartCons" style="width:450px;height:300px;border:1px solid #A4BED4;"></div></td>	
+								<td><div id="pieChartCons" style="width:632px;height:300px;border:1px solid #A4BED4;"></div></td>
+								<td><div id="usageBarChartCons" style="width:315px;height:300px;border:1px solid #A4BED4;"></div></td>	
                          	</table>
                             </form>
 		</div>
