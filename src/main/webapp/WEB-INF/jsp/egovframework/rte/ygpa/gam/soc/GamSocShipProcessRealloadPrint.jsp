@@ -26,13 +26,13 @@
     <title>여수광양항만공사 - GIS기반 자산관리 시스템</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/reset.css'/>" />
-<link rel="stylesheet" href="<c:url value='/css/demo/jquery-ui-1.10.4.custom.css' />" />
-<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ygpa_report.css' />" />
+	<link rel="stylesheet" href="/css/ygpa/gam/reset.css" />
+	<link rel="stylesheet" href="/css/demo/jquery-ui-1.10.4.custom.css" />
+	<link rel="stylesheet" href="/css/ygpa/gam/ygpa_report.css" />
 
-	<script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
-	<script src="<c:url value='/js/jquery-migrate-1.2.1.min.js'/>"></script>
-	<script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
+	<script src="/js/jquery-1.10.2.min.js"></script>
+	<script src="/js/jquery-migrate-1.2.1.min.js"></script>
+	<script src="/js/jquery-ui.min.js"></script>
 	<script>
 	$( window ).load(function() {
 		$('#printButton').button().click(function(){
@@ -62,42 +62,40 @@
 
 	<c:if test="${fn:length(resultList) == 0}">
 		<table style="width:100%;">
-			<tr>
-				<td style="width:70px;">관할청 : </td>
-				<td><c:out value="${prtAtCode }" /> [ <c:out value="${prtKorNm }" /> ]</td>
-				<td style="width:70px;">고지기간 : </td>
-				<td><c:out value="${frDt }" /> ~ <c:out value="${toDt }" /></td>
+			<tr height="15">
+				<td style="width:40px;font-size:12px;">관할청 : </td>
+				<td style="width:380px;text-align:left;font-size:12px;"><c:out value="${prtAtCode }" /> [ <c:out value="${prtKorNm }" /> ]</td>
+				<td style="text-align:right;font-size:12px;">고지기간 : <c:out value="${frDt }" /> ~ <c:out value="${toDt }" /></td>
 			</tr>
 		</table>
 		<table class="rpr_main_table">
 	  		<thead>
-	  			<tr>
-	  				<th>업체코드</th>
-	  				<th>호출부호</th>
-	  				<th>선박명</th>
-	  				<th>입항연도</th>
-	  				<th>입출항일자</th>
-	  				<th colspan="2">시설코드</th>
+	  			<tr height="25">
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">업체코드</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">호출부호</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">선박명</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">입항연도</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">입출항일자</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;" colspan="2">시설코드</th>
 	 			</tr>
-	 			<tr>
-	  				<th>회계연도</th>
-	  				<th>고지번호</th>
-	  				<th>적용요율</th>
-	  				<th>징수톤</th>
-	  				<th>고지일자</th>
-	  				<th>할인율(%)</th>
-	  				<th>면제금액</th>
+	 			<tr height="25">
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">회계연도</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">고지번호</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">적용요율</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">징수톤</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">고지일자</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">할인율(%)</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">면제금액</th>
 	 			</tr>
-	 			<tr>
-	  				<td colspan="2">요금종류 : </td>
-	  				<td colspan="3">요금종류명 : </td>
-	  				<td>총면제금액 : </td>
-	  				<td></td>
+	 			<tr height="25">
+	  				<td style="font-size:12px;" colspan="2">요금종류 : </td>
+	  				<td style="font-size:12px;" colspan="3">요금종류명 : </td>
+	  				<td style="text-align:right;font-size:12px;" colspan="2">총면제금액 : </td>
 	 			</tr>
 	  		</thead>
 	  		<tbody>
-			<tr>
-				<td colspan="7">자료가 존재 하지 않습니다.</td>
+			<tr height="25">
+				<td style="text-align:center;font-size:12px;border:1px #000000 solid;" colspan="7">자료가 존재 하지 않습니다.</td>
 			</tr>
 	</c:if>
     <c:forEach var="result" items="${resultList }" varStatus="resultStatus">
@@ -121,72 +119,70 @@
         				<c:set var="pageSkip" value="false" />
         				<c:set var="preFeeTp" value='${result.feeTp}'/>
         				<table style="width:100%;">
-							<tr>
-								<td style="width:70px;">관할청 : </td>
-								<td><c:out value="${prtAtCode }" /> [ <c:out value="${prtKorNm }" /> ]</td>
-								<td style="width:70px;">고지기간 : </td>
-								<td><c:out value="${frDt }" /> ~ <c:out value="${toDt }" /></td>
+							<tr height="15">
+								<td style="width:40px;font-size:12px;">관할청 : </td>
+								<td style="width:380px;text-align:left;font-size:12px;"><c:out value="${prtAtCode }" /> [ <c:out value="${prtKorNm }" /> ]</td>
+								<td style="text-align:right;font-size:12px;">고지기간 : <c:out value="${frDt }" /> ~ <c:out value="${toDt }" /></td>
 							</tr>
 						</table>
        		        	<table class="rpr_main_table">
 			        		<thead>
-			        			<tr>
-					  				<th>업체코드</th>
-					  				<th>호출부호</th>
-					  				<th>선박명</th>
-					  				<th>입항연도</th>
-					  				<th>입출항일자</th>
-					  				<th colspan="2">시설코드</th>
+			        			<tr height="25">
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">업체코드</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">호출부호</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">선박명</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">입항연도</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">입출항일자</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;" colspan="2">시설코드</th>
 					 			</tr>
-					 			<tr>
-					  				<th>회계연도</th>
-					  				<th>고지번호</th>
-					  				<th>적용요율</th>
-					  				<th>징수톤</th>
-					  				<th>고지일자</th>
-					  				<th>할인율(%)</th>
-					  				<th>면제금액</th>
+					 			<tr height="25">
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">회계연도</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">고지번호</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">적용요율</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">징수톤</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">고지일자</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">할인율(%)</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">면제금액</th>
 					 			</tr>
-					 			<tr>
-					  				<td colspan="2" style="border-right: hidden;">요금종류 : <c:out value="${result.feeTp }" /></td>
-					  				<td colspan="3" style="border-right: hidden;">요금종류명 : <c:out value="${result.feeTpNm }" /></td>
-					  				<td style="border-right: hidden;">총면제금액 : </td>
-					  				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumExmpAmnt }" /></td>
+					 			<tr height="25">
+					  				<td colspan="2" style="border-right: hidden;font-size:12px;">요금종류 : <c:out value="${result.feeTp }" /></td>
+					  				<td colspan="3" style="border-right: hidden;font-size:12px;">요금종류명 : <c:out value="${result.feeTpNm }" /></td>
+					  				<td style="text-align:right;font-size:12px;border-bottom:1px #000000 solid;" colspan="2">총면제금액 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumExmpAmnt }" /></td>
 					 			</tr>
 			        		</thead>
 			        		<tbody>
         			</c:if>
         			<c:set var="checkIndex" value="${checkIndex+1}" />
-        			<tr>
-        				<td><c:out value="${result.exmpAgentCode }${preFeeTp }${result.feeTp }" /></td>
-        				<td><c:out value="${result.callLetter }" /></td>
-        				<td><c:out value="${result.vsslNm }" /></td>
-        				<td><c:out value="${result.yr }" /></td>
-        				<td><c:out value="${result.ioDt }" /></td>
+        			<tr height="25">
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.exmpAgentCode }${preFeeTp }${result.feeTp }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.callLetter }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.vsslNm }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.yr }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.ioDt }" /></td>
         				<td colspan="2"><c:out value="${result.facilNm }" /></td>
         			</tr>
-        			<tr>
+        			<tr height="25">
         				
-        				<td><c:out value="${result.fiscalYr }" /></td>
-        				<td><c:out value="${result.billNo }" /></td>
-        				<td><c:out value="${result.standardFee }" /></td>
-        				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.realTn }" /></td>
-        				<td><c:out value="${result.billDt }" /></td>
-        				<td style="text-align: right"><c:out value="${result.rateNm }" /></td>
-        				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.exmpAmnt }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.fiscalYr }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.billNo }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.standardFee }" /></td>
+        				<td style="text-align: right;font-size:12px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.realTn }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.billDt }" /></td>
+        				<td style="text-align: right;font-size:12px;"><c:out value="${result.rateNm }" /></td>
+        				<td style="text-align: right;font-size:12px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.exmpAmnt }" /></td>
         			</tr>
         		
     </c:forEach>
         		</tbody>
         		<%-- <tfoot>
-        			<tr>
-        				<th>총계</th>
+        			<tr height="25">
+        				<th style="text-align:center;vertical-align:middle;font-size:12px;">총계</th>
         				<td style="text-align: right"><c:out value="${sumCnt }" /></td>
-        				<th>총 면적</th>
+        				<th style="text-align:center;vertical-align:middle;font-size:12px;">총 면적</th>
         				<td style="text-align: right"><c:out value="${sumAr }" /> m<sup>2</sup></td>
-        				<th>총 사용료</th>
+        				<th style="text-align:center;vertical-align:middle;font-size:12px;">총 사용료</th>
         				<td colspan="2" style="text-align: right"><c:out value="${sumFee }" /> 원</td>
-        				<th>총 면제 금액</th>
+        				<th style="text-align:center;vertical-align:middle;font-size:12px;">총 면제 금액</th>
         				<td colspan="2" style="text-align: right"><c:out value="${sumRdcxptFee }" /> 원</td>
         			</tr>
         		</tfoot> --%>

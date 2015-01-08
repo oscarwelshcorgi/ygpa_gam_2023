@@ -258,7 +258,7 @@ var module_instance = new GamSocFrghtProcessSetoffLgerModule();
                             </td>
                             <th>보전처리대상금액</th>
                             <td>
-                                <input id="sExmpAmnt" type="text" size="15" />
+                                <input id="sExmpAmnt" type="text" size="15" class="ygpaNumber" />
                             </td>                
                             <th>상계기간</th>
                             <td>
@@ -269,7 +269,7 @@ var module_instance = new GamSocFrghtProcessSetoffLgerModule();
                         <tr>
                             <th>보전누계액</th>
                             <td>
-                                <input id="sExmpAcc" type="text" size="31" />
+                                <input id="sExmpAcc" type="text" size="31" class="ygpaNumber" />
                             </td>
                             <th>입출항일자</th>
                             <td colspan="3">

@@ -26,13 +26,13 @@
     <title>여수광양항만공사 - GIS기반 자산관리 시스템</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/reset.css'/>" />
-<link rel="stylesheet" href="<c:url value='/css/demo/jquery-ui-1.10.4.custom.css' />" />
-<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ygpa_report.css' />" />
+	<link rel="stylesheet" href="/css/ygpa/gam/reset.css" />
+	<link rel="stylesheet" href="/css/demo/jquery-ui-1.10.4.custom.css" />
+	<link rel="stylesheet" href="/css/ygpa/gam/ygpa_report.css" />
 
-	<script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
-	<script src="<c:url value='/js/jquery-migrate-1.2.1.min.js'/>"></script>
-	<script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
+	<script src="/js/jquery-1.10.2.min.js"></script>
+	<script src="/js/jquery-migrate-1.2.1.min.js"></script>
+	<script src="/js/jquery-ui.min.js"></script>
 	<script>
 	$( window ).load(function() {
 		$('#printButton').button().click(function(){

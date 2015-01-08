@@ -26,13 +26,13 @@
     <title>여수광양항만공사 - GIS기반 자산관리 시스템</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/reset.css'/>" />
-<link rel="stylesheet" href="<c:url value='/css/demo/jquery-ui-1.10.4.custom.css' />" />
-<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ygpa_report.css' />" />
+	<link rel="stylesheet" href="/css/ygpa/gam/reset.css" />
+	<link rel="stylesheet" href="/css/demo/jquery-ui-1.10.4.custom.css" />
+	<link rel="stylesheet" href="/css/ygpa/gam/ygpa_report.css" />
 
-	<script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
-	<script src="<c:url value='/js/jquery-migrate-1.2.1.min.js'/>"></script>
-	<script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
+	<script src="/js/jquery-1.10.2.min.js"></script>
+	<script src="/js/jquery-migrate-1.2.1.min.js"></script>
+	<script src="/js/jquery-ui.min.js"></script>
 	<script>
 	$( window ).load(function() {
 		$('#printButton').button().click(function(){
@@ -51,70 +51,70 @@
 
 	<c:if test="${fn:length(resultList) == 0}">
 		<table style="width:100%;">
-			<tr>
-				<td style="width:80px;">상계기간 : </td>
-				<td colSpan="2"><c:out value="${dtFr }" /> ~ <c:out value="${dtTo }" /></td>
+			<tr height="15">
+				<td style="width:80px;font-size:12px;">상계기간 : </td>
+				<td style="font-size:12px;" colSpan="2"><c:out value="${dtFr }" /> ~ <c:out value="${dtTo }" /></td>
 			</tr>
-			<tr>
-				<td style="width:80px;">입출항일자 : </td>
-				<td><c:out value="${ioDt }" /> ~ <c:out value="${ioDt2 }" /></td>
-				<td style="text-align: right">보전누계액 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${exmpAcc }" /></td>
+			<tr height="15">
+				<td style="width:80px;font-size:12px;">입출항일자 : </td>
+				<td style="font-size:12px;"><c:out value="${ioDt }" /> ~ <c:out value="${ioDt2 }" /></td>
+				<td style="text-align: right;font-size:12px;">보전누계액 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${exmpAcc }" /></td>
 			</tr>
 		</table>
 		<table class="rpr_form_table">
 			<tbody>
-				<tr>
-					<th>공사항구</th>
-					<td></td>
-					<th>준공년도</th>
-					<td></td>
-					<th>공사번호</th>
-					<td></td>
-					<th>공사명</th>
-					<td colspan="3"></td>
+				<tr height="25">
+					<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">공사항구</th>
+					<td style="width:30px;text-align:center;font-size:12px;"></td>
+					<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">준공년도</th>
+					<td style="width:60px;text-align:center;font-size:12px;"></td>
+					<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">공사번호</th>
+					<td style="width:40px;text-align:center;font-size:12px;"></td>
+					<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">공사명</th>
+					<td style="width:60px;font-size:12px;" colspan="3"></td>
 				</tr>
-				<tr>
-					<th>요청항구</th>
-					<td></td>
-					<th>요청업체</th>
-					<td></td>
-					<th>신청횟수</th>
-					<td></td>
-					<th>총공사비보전금액(원부)</th>
-					<td></td>
-					<th>보전처리대상금액</th>
-					<td></td>
+				<tr height="25">
+					<th style="text-align:center;vertical-align:middle;font-size:12px;">요청항구</th>
+					<td style="text-align:center;font-size:12px;"></td>
+					<th style="text-align:center;vertical-align:middle;font-size:12px;">요청업체</th>
+					<td style="text-align:center;font-size:12px;"></td>
+					<th style="text-align:center;vertical-align:middle;font-size:12px;">신청횟수</th>
+					<td style="text-align:center;font-size:12px;"></td>
+					<th style="width:100px;text-align:center;vertical-align:middle;font-size:12px;">총공사비보전금액(원부)</th>
+					<td style="text-align:center;font-size:12px;"></td>
+					<th style="width:100px;text-align:center;vertical-align:middle;font-size:12px;">보전처리대상금액</th>
+					<td style="text-align:center;font-size:12px;"></td>
 				</tr>
 			</tbody>
 		</table>
 		<table class="rpr_main_table">
 	  		<thead>
-	  			<tr>
-	  				<th>선명</th>
-	  				<th>호출부호</th>
-	  				<th>입항횟수</th>
-	  				<th>관리번호</th>
-	  				<th colspan="2">상계일자</th>
-	  				<th>적용요율</th>
-	  				<th>사용시설</th>
-	  				<th>내외항</th>
-	  				<th>신고업체</th>
-	  				<th>신고업체명</th>
+	  			<tr height="25">
+	  				<th style="width:30px;text-align:center;vertical-align:middle;font-size:12px;">선명</th>
+	  				<th style="width:50px;text-align:center;vertical-align:middle;font-size:12px;">호출부호</th>
+	  				<th style="width:50px;text-align:center;vertical-align:middle;font-size:12px;">입항횟수</th>
+	  				<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">관리번호</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;" colspan="2">상계일자</th>
+	  				<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">적용요율</th>
+	  				<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">사용시설</th>
+	  				<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">내외항</th>
+	  				<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">신고업체</th>
+	  				<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">신고업체명</th>
 	 			</tr>
-	 			<tr>
-	  				<th></th>
-	  				<th>처리항구</th>
-	  				<th>요금종류</th>
-	  				<th>할인율</th>
-	  				<th>상계금액(청)</th>
-	  				<th>상계금액(공사)</th>
-	  				<th>사용기간(From~To)</th>
-	  				<th colspan="4">특이사항</th>
+	 			<tr height="25">
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;"></th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">처리항구</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">요금종류</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">할인율</th>
+	  				<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">상계금액<br>(청)</th>
+	  				<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">상계금액<br>(공사)</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">사용기간(From~To)</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;" colspan="4">특이사항</th>
 	 			</tr>
 	  		</thead>
 	  		<tbody>
-			<tr>
-				<td colspan="11">자료가 존재 하지 않습니다.</td>
+			<tr height="25">
+				<td style="text-align:center;font-size:12px;border:1px #000000 solid;" colspan="11">자료가 존재 하지 않습니다.</td>
 			</tr>
 	</c:if>
     <c:forEach var="result" items="${resultList }" varStatus="resultStatus">
@@ -129,139 +129,133 @@
            				</c:if>
         				<!--  헤더 반복  -->
         				<table style="width:100%;">
-							<tr>
-								<td style="width:80px;">상계기간 : </td>
-								<td colSpan="2"><c:out value="${dtFr }" /> ~ <c:out value="${dtTo }" /></td>
+							<tr height="25">
+								<td style="width:80px;font-size:12px;">상계기간 : </td>
+								<td style="font-size:12px;" colSpan="2"><c:out value="${dtFr }" /> ~ <c:out value="${dtTo }" /></td>
 							</tr>
-							<tr>
+							<tr height="25">
 								<td style="width:80px;">입출항일자 : </td>
-								<td><c:out value="${ioDt }" /> ~ <c:out value="${ioDt2 }" /></td>
-								<td style="text-align: right">보전누계액 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${exmpAcc }" /></td>
+								<td style="font-size:12px;"><c:out value="${ioDt }" /> ~ <c:out value="${ioDt2 }" /></td>
+								<td style="text-align: right;font-size:12px;">보전누계액 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${exmpAcc }" /></td>
 							</tr>
 						</table>
 						<table class="rpr_form_table">
 							<tbody>
-								<tr>
-									<th>공사항구</th>
-									<td><c:out value="${result.prtAtCode } ${result.prtAtNm }" /></td>
-									<th>준공년도</th>
-									<td><c:out value="${result.cmplYr }" /></td>
-									<th>공사번호</th>
-									<td><c:out value="${result.constNo }" /></td>
-									<th>공사명</th>
-									<td colspan="3"><c:out value="${result.socCnstNm }" /></td>
+								<tr height="25">
+									<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">공사항구</th>
+									<td style="width:30px;text-align:center;font-size:12px;"><c:out value="${result.prtAtCode } ${result.prtAtNm }" /></td>
+									<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">준공년도</th>
+									<td style="width:60px;text-align:center;font-size:12px;"><c:out value="${result.cmplYr }" /></td>
+									<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">공사번호</th>
+									<td style="width:40px;text-align:center;font-size:12px;"><c:out value="${result.constNo }" /></td>
+									<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">공사명</th>
+									<td style="width:60px;" colspan="3"><c:out value="${result.socCnstNm }" /></td>
 								</tr>
-								<tr>
-									<th>요청항구</th>
-									<td><c:out value="${result.appPrtAtCode } ${result.appPrtAtNm }" /></td>
-									<th>요청업체</th>
-									<td><c:out value="${result.sctmc }  ${result.agentNm2 }" /></td>
-									<th>신청횟수</th>
+								<tr height="25">
+									<th style="text-align:center;vertical-align:middle;font-size:12px;">요청항구</th>
+									<td style="text-align:center;font-size:12px;"><c:out value="${result.appPrtAtCode } ${result.appPrtAtNm }" /></td>
+									<th style="text-align:center;vertical-align:middle;font-size:12px;">요청업체</th>
+									<td style="text-align:center;font-size:12px;"><c:out value="${result.sctmc }  ${result.agentNm2 }" /></td>
+									<th style="text-align:center;vertical-align:middle;font-size:12px;">신청횟수</th>
 									<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.useNo }" /></td>
-									<th>총공사비보전금액(원부)</th>
+									<th style="text-align:center;vertical-align:middle;font-size:12px;">총공사비보전금액(원부)</th>
 									<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.totalAmnt }" /></td>
-									<th>보전처리대상금액</th>
+									<th style="width:100px;text-align:center;vertical-align:middle;font-size:12px;">보전처리대상금액</th>
 									<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.exmpAmnt }" /></td>
 								</tr>
 							</tbody>
 						</table>
        		        	<table class="rpr_main_table">
 			        		<thead>
-			        			<tr>
-					  				<th>선명</th>
-					  				<th>호출부호</th>
-					  				<th>입항횟수</th>
-					  				<th>관리번호</th>
-					  				<th colspan="2">상계일자</th>
-					  				<th>적용요율</th>
-					  				<th>사용시설</th>
-					  				<th>내외항</th>
-					  				<th>신고업체</th>
-					  				<th>신고업체명</th>
+			        			<tr height="25">
+					  				<th style="width:30px;text-align:center;vertical-align:middle;font-size:12px;">선명</th>
+					  				<th style="width:50px;text-align:center;vertical-align:middle;font-size:12px;">호출부호</th>
+					  				<th style="width:50px;text-align:center;vertical-align:middle;font-size:12px;">입항횟수</th>
+					  				<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">관리번호</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;" colspan="2">상계일자</th>
+					  				<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">적용요율</th>
+					  				<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">사용시설</th>
+					  				<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">내외항</th>
+					  				<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">신고업체</th>
+					  				<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">신고업체명</th>
 					 			</tr>
-					 			<tr>
-					  				<th></th>
-					  				<th>처리항구</th>
-					  				<th>요금종류</th>
-					  				<th>할인율</th>
-					  				<th>상계금액(청)</th>
-					  				<th>상계금액(공사)</th>
-					  				<th>사용기간(From~To)</th>
+					 			<tr height="25">
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;"></th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">처리항구</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">요금종류</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">할인율</th>
+					  				<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">상계금액(청)</th>
+					  				<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;">상계금액(공사)</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">사용기간(From~To)</th>
 					  				<th colspan="4">특이사항</th>
 					 			</tr>
 			        		</thead>
 			        		<tbody>
         			</c:if>
-        			<tr>
-        				<td><c:out value="${result.dVsslKorNm }" /></td>
-        				<td><c:out value="${result.callLetter }" /></td>
-        				<td><c:out value="${result.yicn }" /></td>
-        				<td><c:out value="${result.fiscalSocNo }" /></td>
-        				<td colspan="2"><c:out value="${result.billDt }" /></td>
-        				<td><c:out value="${result.standardFee }" /></td>
-        				<td><c:out value="${result.facCode } ${result.facKorNm }" /></td>
-        				<td><c:out value="${result.ixtn }" /></td>
-        				<td><c:out value="${result.mctmc }" /></td>
-        				<td><c:out value="${result.agentNm3 }" /></td>
+        			<tr height="25">
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.dVsslKorNm }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.callLetter }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.yicn }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.fiscalSocNo }" /></td>
+        				<td style="font-size:12px;" colspan="2"><c:out value="${result.billDt }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.standardFee }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.facCode } ${result.facKorNm }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.ixtn }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.mctmc }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.agentNm3 }" /></td>
         			</tr>
-        			<tr>
+        			<tr height="25">
         				
-        				<td></td>
-        				<td><c:out value="${result.prtKorNm }" /></td>
-        				<td><c:out value="${result.feeTp } ${result.feeTpKorNm }" /></td>
-        				<td><c:out value="${result.dcCode }" /></td>
-        				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.exmpAmnt }" /></td>
-        				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.exmpAmntPa }" /></td>
-        				<td><c:out value="${result.usdt }" /></td>
-        				<td colspan="4"><c:out value="${result.remark }" /></td>
+        				<td style="text-align:center;font-size:12px;"></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.prtKorNm }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.feeTp } ${result.feeTpKorNm }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.dcCode }" /></td>
+        				<td style="text-align: right;font-size:12px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.exmpAmnt }" /></td>
+        				<td style="text-align: right;font-size:12px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.exmpAmntPa }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.usdt }" /></td>
+        				<td style="font-size:12px;" colspan="4"><c:out value="${result.remark }" /></td>
         			</tr>
     </c:forEach>
         		</tbody>
-        		<tfoot>
-        			<tr>
-        				<td colspan="11">
-        					<table style="width:100%;" class="rpr_main_table">
-	        	               	<tr>
-									<th width="10%" height="22">접안료(청)</th>
-									<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR1Fare }" /></td>
-									<th width="10%" height="22">정박료(청)</th>
-									<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR2Fare }" /></td>
-									<th width="10%" height="22">입항료(청)</th>
-									<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR3Fare }" /></td>
-									<th width="10%" height="22">기타(청)</th>
-									<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR6Fare }" /></td>
-									<th width="10%" height="22">총계(청)</th>
-									<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumRFare }" /></td>
-								</tr>
-								<tr>
-									<th width="10%" height="22">접안료(공사)</th>
-									<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR1FarePa }" /></td>
-									<th width="10%" height="22">정박료(공사)</th>
-									<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR2FarePa }" /></td>
-									<th width="10%" height="22">입항료(공사)</th>
-									<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR3FarePa }" /></td>
-									<th width="10%" height="22">기타(공사)</th>
-									<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR6FarePa }" /></td>
-									<th width="10%" height="22">총계(공사)</th>
-									<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumRFarePa }" /></td>
-								</tr>
-								<tr>
-									<th width="10%" height="22">접안료(전체)</th>
-									<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR1All }" /></td>
-									<th width="10%" height="22">정박료(전체)</th>
-									<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR2All }" /></td>
-									<th width="10%" height="22">입항료(전체)</th>
-									<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR3All }" /></td>
-									<th width="10%" height="22">기타(전체)</th>
-									<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR6All }" /></td>
-									<th width="10%" height="22">총계(전체)</th>
-									<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumRAll }" /></td>
-								</tr>
-							</table>
-        				</td>
-        			</tr>
-        		</tfoot>
         	</table>
+        	<table style="width:100%;" class="rpr_main_table">
+     	       <tr height="25">
+					<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;border:1px #000000 solid;">접안료(청)</th>
+					<td style="width:60px;text-align: right;font-size:12px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR1Fare }" /></td>
+					<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;border:1px #000000 solid;">정박료(청)</th>
+					<td style="width:60px;text-align: right;font-size:12px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR2Fare }" /></td>
+					<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;border:1px #000000 solid;">입항료(청)</th>
+					<td style="width:60px;text-align: right;font-size:12px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR3Fare }" /></td>
+					<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;border:1px #000000 solid;">기타(청)</th>
+					<td style="width:60px;text-align: right;font-size:12px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR6Fare }" /></td>
+					<th style="width:60px;text-align:center;vertical-align:middle;font-size:12px;border:1px #000000 solid;">총계(청)</th>
+					<td style="width:60px;text-align: right;font-size:12px;border:1px #000000 solid;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumRFare }" /></td>
+				</tr>
+				<tr height="25">
+					<th style="text-align:center;vertical-align:middle;font-size:12px;border:1px #000000 solid;">접안료(공사)</th>
+					<td style="text-align: right;font-size:12px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR1FarePa }" /></td>
+					<th style="text-align:center;vertical-align:middle;font-size:12px;border:1px #000000 solid;">정박료(공사)</th>
+					<td style="text-align: right;font-size:12px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR2FarePa }" /></td>
+					<th style="text-align:center;vertical-align:middle;font-size:12px;border:1px #000000 solid;">입항료(공사)</th>
+					<td style="text-align: right;font-size:12px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR3FarePa }" /></td>
+					<th style="text-align:center;vertical-align:middle;font-size:12px;border:1px #000000 solid;">기타(공사)</th>
+					<td style="text-align: right;font-size:12px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR6FarePa }" /></td>
+					<th style="text-align:center;vertical-align:middle;font-size:12px;border:1px #000000 solid;">총계(공사)</th>
+					<td style="text-align: right;font-size:12px;border:1px #000000 solid;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumRFarePa }" /></td>
+				</tr>
+				<tr height="25">
+					<th style="text-align:center;vertical-align:middle;font-size:12px;border:1px #000000 solid;">접안료(전체)</th>
+					<td style="text-align: right;font-size:12px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR1All }" /></td>
+					<th style="text-align:center;vertical-align:middle;font-size:12px;border:1px #000000 solid;">정박료(전체)</th>
+					<td style="text-align: right;font-size:12px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR2All }" /></td>
+					<th style="text-align:center;vertical-align:middle;font-size:12px;border:1px #000000 solid;">입항료(전체)</th>
+					<td style="text-align: right;font-size:12px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR3All }" /></td>
+					<th style="text-align:center;vertical-align:middle;font-size:12px;border:1px #000000 solid;">기타(전체)</th>
+					<td style="text-align: right;font-size:12px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumR6All }" /></td>
+					<th style="text-align:center;vertical-align:middle;font-size:12px;border:1px #000000 solid;">총계(전체)</th>
+					<td style="text-align: right;font-size:12px;border:1px #000000 solid;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumRAll }" /></td>
+				</tr>
+			</table>
         </div>
     </div>
 </div>

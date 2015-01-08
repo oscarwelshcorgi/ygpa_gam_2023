@@ -42,7 +42,7 @@
 	</script>
   </head>
   <body>
-  <c:set var="pagePerCount" value="8"/>
+  <c:set var="pagePerCount" value="9"/>
   <c:set var="appPrtAtCode" value=""/>
   <c:set var="appPrtAtNm" value=""/>
   <c:set var="prtAtCode" value="" />
@@ -63,56 +63,56 @@
 	<c:if test="${fn:length(resultList) == 0}">
 		<table class="rpr_form_table">
 			<tbody>
-				<tr>
-					<td colspan="9" style="border-right: hidden;border-left: hidden;border-top: hidden;">
+				<tr height="25">
+					<td colspan="9" style="border-right: hidden;border-left: hidden;border-top: hidden;font-size:12px;">
 						처리기간 : <c:out value="${frDt }" /> ~ <c:out value="${toDt }" />
 					</td>
 				</tr>
-				<tr>
-					<th>공사항구</th>
-					<td style="border-right: hidden;"></td>
-					<td></td>
+				<tr height="25">
+					<th style="width:100px;text-align:center;vertical-align:middle;font-size:12px;">공사항구</th>
+					<td style="width:70px;border-right: hidden;font-size:12px;"></td>
+					<td style="width:70px;text-align:center;font-size:12px;"></td>
 					<td colSpan="4"></td>
-					<th>공사명</th>
-					<td></td>
+					<th style="width:100px;text-align:center;vertical-align:middle;font-size:12px;">공사명</th>
+					<td style="text-align:center;font-size:12px;"></td>
 				</tr>
-				<tr>
-					<th>등록항구</th>
-					<td style="border-right: hidden;"></td>
-					<td></td>
-					<th>시공업체</th>
-					<td style="border-right: hidden;"></td>
-					<td></td>
+				<tr height="25">
+					<th style="text-align:center;vertical-align:middle;font-size:12px;">등록항구</th>
+					<td style="border-right: hidden;font-size:12px;"></td>
+					<td style="text-align:center;font-size:12px;"></td>
+					<th style="width:100px;text-align:center;vertical-align:middle;font-size:12px;">시공업체</th>
+					<td style="width:200px;border-right: hidden;font-size:12px;"></td>
+					<td style="text-align:center;font-size:12px;"></td>
 					<td colSpan="3"></td>
 				</tr>
 			</tbody>
 		</table>
 		<table class="rpr_main_table">
 	  		<thead>
-	  			<tr>
+	  			<tr height="25">
 	  				<th rowSpan="2">선명</th>
-	  				<th>호출부호</th>
-	  				<th>입항횟수</th>
-	  				<th>관리번호</th>
-	  				<th>상계일자</th>
-	  				<th>적용요율</th>
-	  				<th> </th>
-	  				<th rowSpan="2">내외항</th>
-	  				<th rowSpan="2">신고업체</th>
-	  				<th>신고업체명</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">호출부호</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">입항횟수</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">관리번호</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">상계일자</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">적용요율</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;"> </th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;"rowSpan="2">내외항</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;"rowSpan="2">신고업체</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">신고업체명</th>
 	 			</tr>
-	 			<tr>
-	  				<th>처리항구</th>
-	  				<th>요금종류</th>
-	  				<th>할인율</th>
-	  				<th>상계금액(청)</th>
-	  				<th>상계금액(공사)</th>
-	  				<th>운임톤</th>
-	  				<th>특이사항</th>
+	 			<tr height="25">
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">처리항구</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">요금종류</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">할인율</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">상계금액(청)</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">상계금액(공사)</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">운임톤</th>
+	  				<th style="text-align:center;vertical-align:middle;font-size:12px;">특이사항</th>
 	 			</tr>
 	  		</thead>
 	  		<tbody>
-			<tr>
+			<tr height="25">
 				<td colspan="13">자료가 존재 하지 않습니다.</td>
 			</tr>
 	</c:if>
@@ -139,83 +139,83 @@
 		        		<c:set var="preConstNo" value='${result.constNo}'/>
         				<table class="rpr_form_table">
 							<tbody>
-								<tr>
-									<td colspan="9" style="border-right: hidden;border-left: hidden;border-top: hidden;">
+								<tr height="15">
+									<td colspan="9" style="border-right: hidden;border-left: hidden;border-top: hidden;font-size:12px;">
 										처리기간 : <c:out value="${frDt }" /> ~ <c:out value="${toDt }" />
 									</td>
 								</tr>
-								<tr>
-									<th>공사항구</th>
-									<td style="border-right: hidden;">${result.socPrtAtCode }</td>
-									<td>${result.socPrtKorNm }</td>
+								<tr height="25">
+									<th style="width:100px;text-align:center;vertical-align:middle;font-size:12px;">공사항구</th>
+									<td style="width:70px;border-right: hidden;font-size:12px;">${result.socPrtAtCode }</td>
+									<td style="width:70px;text-align:center;font-size:12px;">${result.socPrtKorNm }</td>
 									<td colSpan="4"></td>
-									<th>공사명</th>
-									<td>${result.socCnstNm }</td>
+									<th style="width:100px;text-align:center;vertical-align:middle;font-size:12px;">공사명</th>
+									<td style="text-align:center;font-size:12px;">${result.socCnstNm }</td>
 								</tr>
-								<tr>
-									<th>등록항구</th>
-									<td style="border-right: hidden;">${result.prtAtCode }</td>
-									<td>${result.prtKorNm }</td>
-									<th>시공업체</th>
-									<td style="border-right: hidden;">${result.agentCode }</td>
-									<td>${result.agentName }</td>
+								<tr height="25">
+									<th style="text-align:center;vertical-align:middle;font-size:12px;">등록항구</th>
+									<td style="border-right: hidden;font-size:12px;">${result.prtAtCode }</td>
+									<td style="text-align:center;font-size:12px;">${result.prtKorNm }</td>
+									<th style="width:100px;text-align:center;vertical-align:middle;font-size:12px;">시공업체</th>
+									<td style="width:200px;border-right: hidden;font-size:12px;">${result.agentCode }</td>
+									<td style="text-align:center;font-size:12px;">${result.agentName }</td>
 									<td colSpan="3"></td>
 								</tr>
 							</tbody>
 						</table>
        		        	<table class="rpr_main_table">
 			        		<thead>
-			        			<tr>
-					  				<th>선명</th>
-					  				<th>호출부호</th>
-					  				<th>입항횟수</th>
-					  				<th>관리번호</th>
-					  				<th>상계일자</th>
-					  				<th>적용요율</th>
-					  				<th> </th>
-					  				<th>내외항</th>
-					  				<th>신고업체</th>
-					  				<th>신고업체명</th>
+			        			<tr height="25">
+					  				<th style="width:100px;text-align:center;vertical-align:middle;font-size:12px;">선명</th>
+					  				<th style="width:100px;text-align:center;vertical-align:middle;font-size:12px;">호출부호</th>
+					  				<th style="width:70px;text-align:center;vertical-align:middle;font-size:12px;">입항횟수</th>
+					  				<th style="width:100px;text-align:center;vertical-align:middle;font-size:12px;">관리번호</th>
+					  				<th style="width:100px;text-align:center;vertical-align:middle;font-size:12px;">상계일자</th>
+					  				<th style="width:100px;text-align:center;vertical-align:middle;font-size:12px;">적용요율</th>
+					  				<th style="width:70px;text-align:center;vertical-align:middle;font-size:12px;"> </th>
+					  				<th style="width:70px;text-align:center;vertical-align:middle;font-size:12px;">내외항</th>
+					  				<th style="width:100px;text-align:center;vertical-align:middle;font-size:12px;">신고업체</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">신고업체명</th>
 					 			</tr>
-					 			<tr>
-					 				<th></th>
-					  				<th>처리항구</th>
-					  				<th>요금종류</th>
-					  				<th>할인율</th>
-					  				<th>상계금액(청)</th>
-					  				<th>상계금액(공사)</th>
-					  				<th>운임톤</th>
-					  				<th></th>
-					  				<th></th>
-					  				<th>특이사항</th>
+					 			<tr height="25">
+					 				<th style="text-align:center;vertical-align:middle;font-size:12px;"></th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">처리항구</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">요금종류</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">할인율</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">상계금액(청)</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">상계금액(공사)</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">운임톤</th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;"></th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;"></th>
+					  				<th style="text-align:center;vertical-align:middle;font-size:12px;">특이사항</th>
 					 			</tr>
 			        		</thead>
 			        		<tbody>
         			</c:if>
         			<c:set var="checkIndex" value="${checkIndex+1}" />
-        			<tr>
-        				<td><c:out value="${result.vsslKey }" /></td>
-        				<td><c:out value="${result.callLetter }" /></td>
-        				<td><c:out value="${result.serNo }" /></td>
-        				<td><c:out value="${result.socNo }" /></td>
-        				<td><c:out value="${result.billDt }" /></td>
-        				<td><c:out value="${result.dcRate }" /></td>
-        				<td><c:out value="" /></td>
-        				<td><c:out value="${result.inOutNm }" /></td>
-        				<td><c:out value="${result.exmpAgentCode }" /></td>
-        				<td><c:out value="${result.exmpAgentNm }" /></td>
+        			<tr height="25">
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.vsslKey }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.callLetter }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.serNo }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.socNo }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.billDt }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.dcRate }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.inOutNm }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.exmpAgentCode }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.exmpAgentNm }" /></td>
         			</tr>
-        			<tr>
-        				<td></td>
-        				<td><c:out value="${result.prtAtCode }" /></td>
-        				<td><c:out value="${result.feeTp }" /></td>
-        				<td><c:out value="${result.dcRate }" /></td>
-        				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.mapExmpAmnt }" /></td>
-        				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.patExmpAmnt }" /></td>
-        				<td style="text-align: right"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.realTn }" /></td>
-        				<td></td>
-        				<td></td>
-        				<td><c:out value="${result.remark }" /></td>
+        			<tr height="25">
+        				<td style="text-align:center;font-size:12px;"></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.prtAtCode }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.feeTp }" /></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.dcRate }" /></td>
+        				<td style="text-align: right;font-size:12px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.mapExmpAmnt }" /></td>
+        				<td style="text-align: right;font-size:12px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.patExmpAmnt }" /></td>
+        				<td style="text-align: right;font-size:12px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.realTn }" /></td>
+        				<td style="text-align:center;font-size:12px;"></td>
+        				<td style="text-align:center;font-size:12px;"></td>
+        				<td style="text-align:center;font-size:12px;"><c:out value="${result.remark }" /></td>
         			</tr>
         		
     </c:forEach>
