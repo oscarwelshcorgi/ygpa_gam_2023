@@ -34,21 +34,12 @@ public class GamFcltyQcwWrtMngVO extends ComDefaultVO {
 	/**점검관리명(조회조건)*/
 	private String sQcMngNm;
 	
-	/**점검진단구분(조회조건)*/
-	private String sQcInspSe;
-
 	/**시설물관리그룹번호(조회조건)*/
 	private String sFcltsMngGroupNo;
 	
 	/**점검관리순번(조회조건)*/
 	private String sQcMngSeq;
 	
-	/**시행시작일(조회조건)*/
-	private String sQcInspDtFr;
-	
-	/**시행종료일(조회조건)*/
-	private String sQcInspDtTo;
-
 	/**점검구분(조회조건)*/
 	private String sQcSe;
 	
@@ -84,20 +75,6 @@ public class GamFcltyQcwWrtMngVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the sQcInspSe
-	 */
-	public String getsQcInspSe() {
-		return sQcInspSe;
-	}
-
-	/**
-	 * @param sQcInspSe the sQcInspSe to set
-	 */
-	public void setsQcInspSe(String sQcInspSe) {
-		this.sQcInspSe = sQcInspSe;
-	}
-
-	/**
 	 * @return the sFcltsMngGroupNo
 	 */
 	public String getsFcltsMngGroupNo() {
@@ -123,34 +100,6 @@ public class GamFcltyQcwWrtMngVO extends ComDefaultVO {
 	 */
 	public void setsQcMngSeq(String sQcMngSeq) {
 		this.sQcMngSeq = sQcMngSeq;
-	}
-
-	/**
-	 * @return the sQcInspDtFr
-	 */
-	public String getsQcInspDtFr() {
-		return sQcInspDtFr;
-	}
-
-	/**
-	 * @param sQcInspDtFr the sQcInspDtFr to set
-	 */
-	public void setsQcInspDtFr(String sQcInspDtFr) {
-		this.sQcInspDtFr = sQcInspDtFr;
-	}
-
-	/**
-	 * @return the sQcInspDtTo
-	 */
-	public String getsQcInspDtTo() {
-		return sQcInspDtTo;
-	}
-
-	/**
-	 * @param sQcInspDtTo the sQcInspDtTo to set
-	 */
-	public void setsQcInspDtTo(String sQcInspDtTo) {
-		this.sQcInspDtTo = sQcInspDtTo;
 	}
 
 	/**

@@ -57,6 +57,26 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	}
 	
 	/**
+	 * 점검관리목록 인쇄 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	public List<?> selectQcMngDtlsReportI(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+		return gamFcltyQcwWrtMngDao.selectQcMngDtlsReportI(searchVO);
+	}
+	
+	/**
+	 * 점검구분 이름 조회(인쇄화면에 사용)
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */		
+	public String selectQcSeNm(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+		return gamFcltyQcwWrtMngDao.selectQcSeNm(searchVO);
+	}
+	
+	/**
 	 * 점검관리내역 데이터 조회
 	 * @param vo
 	 * @return EgovMap

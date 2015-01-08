@@ -14,7 +14,7 @@
                 	FROM (
 						SELECT
 							Q.FCLTS_MNG_GROUP_NO
-							, (SELECT A.FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F A WHERE A.FCLTS_MNG_GROUP_NO = Q.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GROUP_NM 
+							, F.FCLTS_MNG_GROUP_NM 
 							, Q.FCLTS_JOB_SE
     						, GAM_GET_FCLTS_JOB_SE_NM(Q.FCLTS_JOB_SE) AS FCLTS_JOB_SE_NM
 							, TO_CHAR(Q.QC_MNG_SEQ) QC_MNG_SEQ
@@ -37,6 +37,10 @@
 							, Q.RM
 						FROM
 							QC_MNG_DTLS_F Q
+			            INNER JOIN 
+			            	FCLTS_MNG_GROUP_F F
+			            ON
+			              	Q.FCLTS_MNG_GROUP_NO = F.FCLTS_MNG_GROUP_NO
 						WHERE
 							1 = 1
 						<isNotEmpty property="sFcltsMngGroupNo">
@@ -55,7 +59,8 @@
 						  	AND Q.ENFORCE_YEAR = #sEnforceYear#
 						</isNotEmpty>
 						ORDER BY
-							Q.FCLTS_MNG_GROUP_NO
+							F.PRT_AT_CODE
+							, Q.FCLTS_MNG_GROUP_NO
 							, Q.FCLTS_JOB_SE
 							, Q.QC_MNG_SEQ
                 ) S
@@ -87,6 +92,52 @@
 		</isNotEmpty>
 	</select>
 
+	<!-- 점검관리 정보통신 인쇄 리스트 -->
+	<select id="gamFcltyQcwWrtMngDao.selectQcMngDtlsReportI_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
+		SELECT
+			Q.FCLTS_MNG_GROUP_NO
+		  	, F.FCLTS_MNG_GROUP_NM 
+            , F.PRT_AT_CODE
+            , GAM_GETCODENAME('GAM019', F.PRT_AT_CODE) PRT_AT_CODE_NM
+            , F.OWNER
+            , GAM_GET_STTUS_EVL_LVL_NM(Q.STTUS_EVL_LVL) STTUS_EVL_LVL_NM
+            , Q.ACTION_CN
+            , Q.RM
+		FROM
+            QC_MNG_DTLS_F Q
+        INNER JOIN 
+           	FCLTS_MNG_GROUP_F F
+        ON
+            Q.FCLTS_MNG_GROUP_NO = F.FCLTS_MNG_GROUP_NO
+		WHERE
+			1 = 1
+		<isNotEmpty property="sFcltsMngGroupNo">
+		  	AND Q.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+		</isNotEmpty>
+		<isNotEmpty property="sFcltsJobSe">
+		  	AND Q.FCLTS_JOB_SE = #sFcltsJobSe#
+		</isNotEmpty>
+		<isNotEmpty property="sQcMngNm">
+		  	AND Q.QC_MNG_NM LIKE '%' || #sQcMngNm# || '%' 
+		</isNotEmpty>
+		<isNotEmpty property="sQcSe">
+		  	AND Q.QC_SE = #sQcSe#
+		</isNotEmpty>
+		<isNotEmpty property="sEnforceYear">
+		  	AND Q.ENFORCE_YEAR = #sEnforceYear#
+		</isNotEmpty>              	
+        ORDER BY 
+            F.PRT_AT_CODE, 
+            Q.FCLTS_MNG_GROUP_NO	
+	</select>
+	
+	<select id="gamFcltyQcwWrtMngDao.selectQcSeNm_S" parameterClass="gamFcltyQcwWrtMngVO" resultClass="String">
+		SELECT
+		  GAM_GET_QC_SE_NM(#sQcSe#) qcSeNm
+		FROM
+		  DUAL	
+  	</select>
+  	
 	<select id="gamFcltyQcwWrtMngDao.selectQcMngDtlsDetail_S" parameterClass="hashMap" resultClass="egovMap">
 		SELECT
 			Q.FCLTS_MNG_GROUP_NO
@@ -447,19 +498,25 @@
 							, R.FCLTS_JOB_SE
 							, R.QC_MNG_SEQ
 							, R.QC_ITEM_CD
-							, (SELECT QC_ITEM_NM FROM QC_ITEM_CD_F WHERE QC_ITEM_CD = R.QC_ITEM_CD) QC_ITEM_NM
+							, I.QC_ITEM_NM
+              				, I.QC_ITEM_UPPER_CD
+              				, (SELECT QC_ITEM_NM FROM QC_ITEM_CD_F WHERE QC_ITEM_CD = I.QC_ITEM_UPPER_CD) AS QC_ITEM_UPPER_NM
 							, R.SEQ
 							, R.INSP_RESULT_CHK
 							, GAM_GET_INSP_RESULT_CHK_NM(R.INSP_RESULT_CHK) INSP_RESULT_CHK_NM
 							, R.INSP_RESULT_CN
 						FROM
 							QC_MNG_RESULT_ITEM_F R
+            			INNER JOIN
+              				QC_ITEM_CD_F I
+            			ON
+              				R.QC_ITEM_CD = I.QC_ITEM_CD
 						WHERE
 							R.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
 							AND R.FCLTS_JOB_SE = #sFcltsJobSe#
 							AND R.QC_MNG_SEQ = TO_NUMBER(#sQcMngSeq#) 
 						ORDER BY
-							R.SEQ
+							I.QC_ITEM_UPPER_CD, R.SEQ
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>				

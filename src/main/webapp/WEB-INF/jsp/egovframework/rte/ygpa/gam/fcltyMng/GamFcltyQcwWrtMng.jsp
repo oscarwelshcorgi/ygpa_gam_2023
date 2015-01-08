@@ -103,6 +103,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 		dataType: 'json',
 		colModel : [
 					{display:"순번",			name:"seq",				width:90,		sortable:true,		align:"center"},
+					{display:"시설명",		name:"qcItemUpperNm",	width:300,		sortable:true,		align:"left"},
 					{display:"점검항목",		name:"qcItemNm",		width:300,		sortable:true,		align:"left"},
 					{display:"점검항목결과구분",	name:"inspResultChkNm",	width:150,		sortable:true,		align:"center"}
 			],
@@ -139,8 +140,13 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 		event.data.module.atchFileInfoChanged(event.target);
 	});
 
+	//조회조건 select 변경 이벤트 처리기 (인쇄화면을 위한 처리)
+	this.$(".searchEditItem").bind("change", {module: this}, function(event) {
+		event.data.module.searchItemChanged(event.target);
+	});
+	
 	this.fillSelectBoxYear('#enforceYear'); //시행년도에 년수 채워넣기	
-	this.fillSelectBoxYear('#sEnforceYear'); 	
+	this.fillSelectBoxYear('#sEnforceYear'); 		
 };
 
 //2000년부터 현재년도까지 select 박스에 채워넣는 함수.
@@ -539,7 +545,7 @@ GamFcltyQcwWrtMngModule.prototype.selectedQcMngResultItems = function(selectedIt
 		var item = selectedItems[i];
 		//항목코드가 현재 리스트에 중복되지 않은 것만 추가
 		if(!this.existQcMngResultItem(item.qcItemCd)) {
-			this.$("#qcMngResultItemList").flexAddRow({'_updtId': 'I', 'fcltsMngGroupNo':'', 'fcltsJobSe':'', 'qcMngSeq':'', 'qcItemCd':item.qcItemCd, 'qcItemNm':item.qcItemNm, 'seq':'', 'inspResultChk':'', 'inspResultChkNm':'', 'inspResultCn':''});
+			this.$("#qcMngResultItemList").flexAddRow({'_updtId': 'I', 'fcltsMngGroupNo':'', 'fcltsJobSe':'', 'qcMngSeq':'', 'qcItemCd':item.qcItemCd, 'qcItemNm':item.qcItemNm,  'seq':'', 'inspResultChk':'', 'inspResultChkNm':'', 'inspResultCn':''});
 		}
 	}		
 	var allRows = this.$('#qcMngResultItemList').flexGetData();
@@ -716,6 +722,16 @@ GamFcltyQcwWrtMngModule.prototype.downloadAtchFileItem = function() {
 	}
 };
 
+//조회조건 select 변경 이벤트 처리기 (인쇄화면을 위한 처리)
+GamFcltyQcwWrtMngModule.prototype.searchItemChanged = function(target) {
+	if(this.$('#sFcltsJobSe').is(target)) {
+		this.$('#sFcltsJobSeNm').val($(target).find('option:selected').text());
+	}
+	if(this.$('#sQcSe').is(target)) {
+		this.$('#sQcSeNm').val($(target).find('option:selected').text());
+	}
+};
+
 /**
  * 정의 된 버튼 클릭 시
  */
@@ -889,7 +905,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 						<tr>
 							<th>업무구분</th>
 							<td>
-								<select id="sFcltsJobSe">
+								<select id="sFcltsJobSe" class="searchEditItem">
 									<option value="">선택</option>
 									<option value="E">전기시설</option>
 									<option value="M">기계시설</option>
@@ -897,42 +913,22 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 									<option value="A">건축시설</option>
 									<option value="I">정보통신시설</option>
 								</select>
+								<input id="sFcltsJobSeNm" type="hidden" />
 							</td>
 							<th>점검관리명</th>
 							<td><input type="text" id="sQcMngNm" size="50" /></td>
 						</tr>
 						<tr>
-							<!--
-							<th>점검진단구분</th>
-							<td>
-								<select id="sQcInspSe">
-                                    <option value="">선택</option>
-                                    <option value="1">정기점검</option>
-                                    <option value="2">정밀점검</option>
-                                    <option value="3">초기점검</option>
-                                    <option value="4">긴급점검(손상)</option>
-                                    <option value="5">긴급점검(특별)</option>
-                                    <option value="6">정밀안전점검(정기)</option>
-                                    <option value="7">정밀안전점검(긴급)</option>
-                                    <option value="8">정밀안전점검(하자)</option>
-                                    <option value="9">기타</option>
-								</select>
-							</td>
-							<th>시행기간</th>
-							<td>
-								<input id="sQcInspDtFr" type="text" class="emdcal" size="15" /> ~ 
-								<input id="sQcInspDtTo" type="text" class="emdcal" size="15" />
-							</td>
-							-->
 							<th>점검구분</th>
 							<td>
-								<select id="sQcSe">
+								<select id="sQcSe" class="searchEditItem">
                                     <option value="">선택</option>
                                     <option value="1">해빙기대비</option>
                                     <option value="2">풍수해대비</option>
                                     <option value="3">동절기대비</option>
                                     <option value="4">우기대비</option>
                                 </select>
+                                <input id="sQcSeNm" type="hidden" />
 							</td>
 							<th>시행년도</th>
 							<th>
@@ -961,6 +957,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="qcMngDtlsList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
+					<button data-role="printPage" data-search-option="searchFcltyQcwWrtMngForm" data-url='/fcltyMng/selectQcMngDtlsReportPrint.do'>점검목록인쇄</button>
 					<button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
 					<button id="btnAdd">추가</button>
 					<button id="btnDelete">삭제</button>

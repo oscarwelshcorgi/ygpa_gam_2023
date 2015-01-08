@@ -41,6 +41,22 @@ public interface GamFcltyQcwWrtMngService {
 	 * @throws Exception
 	 */		
 	int selectQcMngDtlsListTotCnt(GamFcltyQcwWrtMngVO searchVO) throws Exception;
+
+	/**
+	 * 점검관리목록 인쇄 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	List<?> selectQcMngDtlsReportI(GamFcltyQcwWrtMngVO searchVO) throws Exception;
+
+	/**
+	 * 점검구분 이름 조회(인쇄화면에 사용)
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */		
+	String selectQcSeNm(GamFcltyQcwWrtMngVO searchVO) throws Exception;
 	
 	/**
 	 * 점검관리내역 데이터 조회

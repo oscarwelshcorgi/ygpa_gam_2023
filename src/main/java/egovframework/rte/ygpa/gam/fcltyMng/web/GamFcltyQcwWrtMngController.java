@@ -122,6 +122,44 @@ public class GamFcltyQcwWrtMngController {
     }
 
 	/**
+	 * 점검관리목록 인쇄
+	 * @param map
+	 * @return string
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/fcltyMng/selectQcMngDtlsReportPrint.do")
+	public String selectQcMngDtlsReportPrint(@RequestParam Map<String, Object> searchOpt, ModelMap model) throws Exception {
+    	Map map = new HashMap();
+
+		ObjectMapper mapper = new ObjectMapper();
+		
+		GamFcltyQcwWrtMngVO searchVO;
+    	searchVO = mapper.convertValue(searchOpt, GamFcltyQcwWrtMngVO.class);
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return "/ygpa/gam/fcltyMng/GamFcltyQcwWrtMngReportPrintI";
+    	}
+
+    	List resultList = gamFcltyQcwWrtMngService.selectQcMngDtlsReportI(searchVO);
+    	String qcSeNm = gamFcltyQcwWrtMngService.selectQcSeNm(searchVO);
+
+		String enforceYear = searchVO.getsEnforceYear();
+		enforceYear = ((enforceYear != null) && (enforceYear.length() > 0)) ? enforceYear + "년" : enforceYear;  
+    	
+        model.addAttribute("resultList", resultList);
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+		model.addAttribute("qcSeNm", qcSeNm);
+		model.addAttribute("enforceYear", enforceYear);
+    	return "ygpa/gam/fcltyMng/GamFcltyQcwWrtMngReportPrintI";
+    }
+	
+	/**
 	 * 점검관리목록 엑셀다운로드
 	 * @param map
 	 * @return modelAndView

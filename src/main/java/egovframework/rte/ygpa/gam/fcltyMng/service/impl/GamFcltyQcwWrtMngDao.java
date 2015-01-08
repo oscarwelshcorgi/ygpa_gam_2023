@@ -52,6 +52,16 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	}
 	
 	/**
+	 * 점검관리목록(정보통신) 인쇄 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	public List<?> selectQcMngDtlsReportI(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+		return list("gamFcltyQcwWrtMngDao.selectQcMngDtlsReportI_D", searchVO);
+	}
+	
+	/**
 	 * 점검관리내역 데이터 조회
 	 * @param vo
 	 * @return EgovMap
@@ -59,6 +69,16 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 */		
 	public EgovMap selectQcMngDtlsDetail(Map<?, ?> searchVO) throws Exception {
 		return (EgovMap) selectByPk("gamFcltyQcwWrtMngDao.selectQcMngDtlsDetail_S", searchVO);
+	}
+
+	/**
+	 * 점검구분 이름 조회(인쇄화면에 사용)
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */		
+	public String selectQcSeNm(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+		return (String)getSqlMapClientTemplate().queryForObject("gamFcltyQcwWrtMngDao.selectQcSeNm_S", searchVO);
 	}
 	
 	/**
