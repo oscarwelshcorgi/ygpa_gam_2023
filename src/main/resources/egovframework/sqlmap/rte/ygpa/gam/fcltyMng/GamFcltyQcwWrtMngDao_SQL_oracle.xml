@@ -48,14 +48,11 @@
 						<isNotEmpty property="sQcMngNm">
 						  	AND Q.QC_MNG_NM LIKE '%' || #sQcMngNm# || '%' 
 						</isNotEmpty>
-						<isNotEmpty property="sQcInspSe">
-						  	AND Q.QC_INSP_SE = #sQcInspSe#
+						<isNotEmpty property="sQcSe">
+						  	AND Q.QC_SE = #sQcSe#
 						</isNotEmpty>
-						<isNotEmpty property="sQcInspDtFr">
-						  	<![CDATA[ AND Q.QC_INSP_DT >= TO_DATE(#sQcInspDtFr#, 'YYYY-MM-DD') ]]>
-						</isNotEmpty>
-						<isNotEmpty property="sQcInspDtTo">
-						  	<![CDATA[ AND Q.QC_INSP_DT <= TO_DATE(#sQcInspDtTo#, 'YYYY-MM-DD') ]]>
+						<isNotEmpty property="sEnforceYear">
+						  	AND Q.ENFORCE_YEAR = #sEnforceYear#
 						</isNotEmpty>
 						ORDER BY
 							Q.FCLTS_MNG_GROUP_NO
@@ -82,14 +79,11 @@
 		<isNotEmpty property="sQcMngNm">
 		  	AND Q.QC_MNG_NM LIKE '%' || #sQcMngNm# || '%' 
 		</isNotEmpty>
-		<isNotEmpty property="sQcInspSe">
-		  	AND Q.QC_INSP_SE = #sQcInspSe#
+		<isNotEmpty property="sQcSe">
+		  	AND Q.QC_SE = #sQcSe#
 		</isNotEmpty>
-		<isNotEmpty property="sQcInspDtFr">
-		  	<![CDATA[ AND Q.QC_INSP_DT >= TO_DATE(#sQcInspDtFr#, 'YYYY-MM-DD') ]]>
-		</isNotEmpty>
-		<isNotEmpty property="sQcInspDtTo">
-		  	<![CDATA[ AND Q.QC_INSP_DT <= TO_DATE(#sQcInspDtTo#, 'YYYY-MM-DD') ]]>
+		<isNotEmpty property="sEnforceYear">
+		  	AND Q.ENFORCE_YEAR = #sEnforceYear#
 		</isNotEmpty>
 	</select>
 

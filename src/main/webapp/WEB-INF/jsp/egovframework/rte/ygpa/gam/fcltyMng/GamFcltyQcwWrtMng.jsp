@@ -140,6 +140,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 	});
 
 	this.fillSelectBoxYear('#enforceYear'); //시행년도에 년수 채워넣기	
+	this.fillSelectBoxYear('#sEnforceYear'); 	
 };
 
 //2000년부터 현재년도까지 select 박스에 채워넣는 함수.
@@ -901,6 +902,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							<td><input type="text" id="sQcMngNm" size="50" /></td>
 						</tr>
 						<tr>
+							<!--
 							<th>점검진단구분</th>
 							<td>
 								<select id="sQcInspSe">
@@ -921,6 +923,23 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 								<input id="sQcInspDtFr" type="text" class="emdcal" size="15" /> ~ 
 								<input id="sQcInspDtTo" type="text" class="emdcal" size="15" />
 							</td>
+							-->
+							<th>점검구분</th>
+							<td>
+								<select id="sQcSe">
+                                    <option value="">선택</option>
+                                    <option value="1">해빙기대비</option>
+                                    <option value="2">풍수해대비</option>
+                                    <option value="3">동절기대비</option>
+                                    <option value="4">우기대비</option>
+                                </select>
+							</td>
+							<th>시행년도</th>
+							<th>
+								<select id="sEnforceYear">
+									<option value="">선택</option>
+                                </select>
+							</th>
 						</tr>
 					</tbody>
 				</table>

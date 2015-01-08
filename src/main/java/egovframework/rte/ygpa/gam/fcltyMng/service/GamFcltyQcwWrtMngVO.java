@@ -49,6 +49,12 @@ public class GamFcltyQcwWrtMngVO extends ComDefaultVO {
 	/**시행종료일(조회조건)*/
 	private String sQcInspDtTo;
 
+	/**점검구분(조회조건)*/
+	private String sQcSe;
+	
+	/**시행년도(조회조건)*/
+	private String sEnforceYear;
+	
 	/**
 	 * @return the sFcltsJobSe
 	 */
@@ -145,6 +151,34 @@ public class GamFcltyQcwWrtMngVO extends ComDefaultVO {
 	 */
 	public void setsQcInspDtTo(String sQcInspDtTo) {
 		this.sQcInspDtTo = sQcInspDtTo;
+	}
+
+	/**
+	 * @return the sQcSe
+	 */
+	public String getsQcSe() {
+		return sQcSe;
+	}
+
+	/**
+	 * @param sQcSe the sQcSe to set
+	 */
+	public void setsQcSe(String sQcSe) {
+		this.sQcSe = sQcSe;
+	}
+
+	/**
+	 * @return the sEnforceYear
+	 */
+	public String getsEnforceYear() {
+		return sEnforceYear;
+	}
+
+	/**
+	 * @param sEnforceYear the sEnforceYear to set
+	 */
+	public void setsEnforceYear(String sEnforceYear) {
+		this.sEnforceYear = sEnforceYear;
 	}
 
 }
