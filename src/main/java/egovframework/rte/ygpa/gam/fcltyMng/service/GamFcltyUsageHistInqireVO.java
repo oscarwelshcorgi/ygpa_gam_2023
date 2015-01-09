@@ -44,6 +44,14 @@ public class GamFcltyUsageHistInqireVO extends ComDefaultVO{
 	private String	dataCount;
 	private	String	sumUsageAr;
 	private String	sumFee;
+	private String	gisAssetsPrtAtCode;
+	private String	gisAssetsCd;
+	private String	gisAssetsSubCd;
+	private String	prtAtCode;
+	private String	mngYear;
+	private String	mngNo;
+	private String	mngCnt;
+	private String	assetsUsageSeq;
 	/**
 	 * @return the sPrtAtCode
 	 */
@@ -139,6 +147,102 @@ public class GamFcltyUsageHistInqireVO extends ComDefaultVO{
 	 */
 	public void setSumFee(String sumFee) {
 		this.sumFee = sumFee;
+	}
+	/**
+	 * @return the gisAssetsPrtAtCode
+	 */
+	public String getGisAssetsPrtAtCode() {
+		return gisAssetsPrtAtCode;
+	}
+	/**
+	 * @param gisAssetsPrtAtCode the gisAssetsPrtAtCode to set
+	 */
+	public void setGisAssetsPrtAtCode(String gisAssetsPrtAtCode) {
+		this.gisAssetsPrtAtCode = gisAssetsPrtAtCode;
+	}
+	/**
+	 * @return the gisAssetsCd
+	 */
+	public String getGisAssetsCd() {
+		return gisAssetsCd;
+	}
+	/**
+	 * @param gisAssetsCd the gisAssetsCd to set
+	 */
+	public void setGisAssetsCd(String gisAssetsCd) {
+		this.gisAssetsCd = gisAssetsCd;
+	}
+	/**
+	 * @return the gisAssetsSubCd
+	 */
+	public String getGisAssetsSubCd() {
+		return gisAssetsSubCd;
+	}
+	/**
+	 * @param gisAssetsSubCd the gisAssetsSubCd to set
+	 */
+	public void setGisAssetsSubCd(String gisAssetsSubCd) {
+		this.gisAssetsSubCd = gisAssetsSubCd;
+	}
+	/**
+	 * @return the prtAtCode
+	 */
+	public String getPrtAtCode() {
+		return prtAtCode;
+	}
+	/**
+	 * @param prtAtCode the prtAtCode to set
+	 */
+	public void setPrtAtCode(String prtAtCode) {
+		this.prtAtCode = prtAtCode;
+	}
+	/**
+	 * @return the mngYear
+	 */
+	public String getMngYear() {
+		return mngYear;
+	}
+	/**
+	 * @param mngYear the mngYear to set
+	 */
+	public void setMngYear(String mngYear) {
+		this.mngYear = mngYear;
+	}
+	/**
+	 * @return the mngNo
+	 */
+	public String getMngNo() {
+		return mngNo;
+	}
+	/**
+	 * @param mngNo the mngNo to set
+	 */
+	public void setMngNo(String mngNo) {
+		this.mngNo = mngNo;
+	}
+	/**
+	 * @return the mngCnt
+	 */
+	public String getMngCnt() {
+		return mngCnt;
+	}
+	/**
+	 * @param mngCnt the mngCnt to set
+	 */
+	public void setMngCnt(String mngCnt) {
+		this.mngCnt = mngCnt;
+	}
+	/**
+	 * @return the assetsUsageSeq
+	 */
+	public String getAssetsUsageSeq() {
+		return assetsUsageSeq;
+	}
+	/**
+	 * @param assetsUsageSeq the assetsUsageSeq to set
+	 */
+	public void setAssetsUsageSeq(String assetsUsageSeq) {
+		this.assetsUsageSeq = assetsUsageSeq;
 	}
 	
 }

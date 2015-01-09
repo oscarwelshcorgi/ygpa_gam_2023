@@ -54,12 +54,12 @@ GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
 						{display : '항구분',		name : 'prtAtCodeNm',			width : 60, 	sortable : false, 	align : 'center'},
 						{display : '시설명',   	name : 'gisAssetsNm',			width : 150, 	sortable : false, 	align : 'left'},
 						{display : '소재지', 	    name : 'gisAssetsLocplc',		width : 150, 	sortable : false, 	align : 'left'},
-						{display : '시설면적(㎡)', 	name : 'gisAssetsRealRentAr',	width : 100, 	sortable : false, 	align : 'right', 		displayFormat: 'number', displayOption:{format:"0,000.00"} },
-						{display : '사용업체', 	name : 'entrpsNm',				width : 150, 	sortable : false, 	align : 'left'},
-						{display : '사용시작일',	name : 'usagePdFrom',			width : 100, 	sortable : false, 	align : 'center'},
-						{display : '사용종료일',	name : 'usagePdTo',				width : 100, 	sortable : false, 	align : 'center'},
-						{display : '사용면적(㎡)',	name : 'usageAr',				width : 100, 	sortable : false, 	align : 'right', 		displayFormat: 'number', displayOption:{format:"0,000.00"} },
-						{display : '사용료',		name : 'fee',					width : 120, 	sortable : false, 	align : 'right', 		displayFormat: 'number'}
+						{display : '시설면적(㎡)', 	name : 'gisAssetsRealRentAr',	width : 90, 	sortable : false, 	align : 'right', 		displayFormat: 'number', displayOption:{format:"0,000.00"} },
+						{display : '사용업체', 	name : 'entrpsNm',				width : 140, 	sortable : false, 	align : 'left'},
+						{display : '사용시작일',	name : 'usagePdFrom',			width : 80, 	sortable : false, 	align : 'center'},
+						{display : '사용종료일',	name : 'usagePdTo',				width : 80, 	sortable : false, 	align : 'center'},
+						{display : '사용면적(㎡)',	name : 'usageAr',				width : 90, 	sortable : false, 	align : 'right', 		displayFormat: 'number', displayOption:{format:"0,000.00"} },
+						{display : '사용료',		name : 'fee',					width : 100, 	sortable : false, 	align : 'right', 		displayFormat: 'number'}
 					],
 		showTableToggleBtn: false,
 		height: "auto",
@@ -91,7 +91,7 @@ GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
 <%
 /**
  * @FUNCTION NAME : getQueryEntrpsNm
- * @DESCRIPTION   : 조회조건 고지업체 명을 지운다.
+ * @DESCRIPTION   : 조회조건 사용업체 명을 지운다.
  * @PARAMETER     : NONE
 **/
 %>
@@ -182,10 +182,24 @@ GamFcltyUsageHistInqireModule.prototype.loadData = function() {
 **/
 %>
 GamFcltyUsageHistInqireModule.prototype.loadDetail = function(tabId) {
-		var row = this.$('#mainGrid').selectedRows();
-		row = row[0];
-		console.log(row);
-		this.makeFormValues('#detailForm', row);
+		var row = this.$('#mainGrid').selectedRows()[0];
+		var searchVO = [
+							{name: 'gisAssetsPrtAtCode', value: row["gisAssetsPrtAtCode"]},
+							{name: 'gisAssetsCd', value: row["gisAssetsCd"]},
+							{name: 'gisAssetsSubCd', value: row["gisAssetsSubCd"]},
+							{name: 'prtAtCode', value: row["prtAtCode"]},
+							{name: 'mngYear', value: row["mngYear"]},
+							{name: 'mngNo', value: row["mngNo"]},
+							{name: 'mngCnt', value: row["mngCnt"]},
+							{name: 'assetsUsageSeq', value: row["assetsUsageSeq"]},
+						];
+		this.doAction('/fcltyMng/gamFcltyUsageHistInqireDetail.do', searchVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.makeFormValues('#detailForm', result.result[0]);
+			} else {
+				alert(result.resultMsg);
+			}
+		});
 };
 
 <%
@@ -356,13 +370,13 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 					<form id="listSumForm">
     	               	<table style="width:100%;" class="summaryPanel">
         	               	<tr>
-								<th width="10%" height="25">자료수</th>
+								<th width="10%" height="25px">자료수</th>
 								<td><input type="text" size="13" id="dataCount" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="10%" height="25">총 사용면적</th>
+								<th width="10%" height="25px">총 사용면적</th>
 								<td>
 									<input type="text" size="24" id="sumUsageAr" class="ygpaNumber" data-column-id="sumUsageAr" data-decimal-point="2" disabled="disabled" />
 								</td>
-								<th width="10%" height="25">총 사용료</th>
+								<th width="10%" height="25px">총 사용료</th>
 								<td><input type="text" size="24" id="sumFee" class="ygpaNumber" disabled="disabled" /></td>
 							</tr>
 						</table>
@@ -382,124 +396,128 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 					<form id="detailForm">
 						<table class="summaryPanel" style="width:100%;">
 							<tr>
-								<th style="font-weight:bold; height:20px;">사용이력정보 상세</th>
+								<th style="font-weight:bold; height:28px;">사용이력정보 상세</th>
 							</tr>
 						</table>
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:10%; height:18;">항　　　구</th>
+								<th style="width:10%; height:25px;">항　　　구</th>
 								<td>
 									<input type="text" size="40" id="prtAtCodeNm" disabled="disabled" />
 								</td>
-								<th style="width:10%; height:18;">시　설　명</th>
+								<th style="width:10%; height:25px;">시　설　명</th>
 								<td>
 									<input type="text" size="40" id="gisAssetsNm" disabled="disabled" />
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">소　재　지</th>
+								<th style="width:10%; height:25px;">소　재　지</th>
 								<td>
 									<input type="text" size="40" id="gisAssetsLocplc" disabled="disabled" />
 								</td>
-								<th style="width:10%; height:18;">시 설 면 적(㎡)</th>
+								<th style="width:10%; height:25px;">시 설 면 적(㎡)</th>
 								<td>
 									<input type="text" size="40" id="gisAssetsRealRentAr" class="ygpaNumber" data-column-id="gisAssetsRealRentAr" data-decimal-point="2" disabled="disabled" />
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">사 용 업 체</th>
+								<th style="width:10%; height:25px;">사 용 업 체</th>
 								<td colspan="3">
 									<input type="text" size="40" id="entrpsNm" disabled="disabled">
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">사 용 목 적</th>
+								<th style="width:10%; height:25px;">사 용 목 적</th>
 								<td colspan="3">
 									<input type="text" size="129" id="usagePurps" disabled="disabled" />
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">사 용 내 역</th>
+								<th style="width:10%; height:25px;">사 용 내 역</th>
 								<td colspan="3">
 									<input type="text" size="129" id="usageDtls" disabled="disabled" />
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">공 시 지 가</th>
+								<th style="width:10%; height:25px;">공 시 지 가</th>
 								<td>
 									<input type="text" size="40" id="olnlp" class="ygpaNumber" disabled="disabled" />
 								</td>
-								<th style="width:10%; height:18;">적 용 요 율</th>
+								<th style="width:10%; height:25px;">적 용 요 율</th>
 								<td>
 									<input type="text" size="40" id="applcTariff" class="ygpaNumber" data-column-id="applcTariff" data-decimal-point="2" disabled="disabled" />
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">사 용 기 간</th>
+								<th style="width:10%; height:25px;">적 용 단 가</th>
 								<td>
-									<input type="text" size="11" id="usagePdFrom" disabled="disabled" />&nbsp;~&nbsp;
-									<input type="text" size="11" id="usagePdTo" disabled="disabled" />
+									<input type="text" size="40" id="applcPrice" class="ygpaNumber" disabled="disabled" />
 								</td>
-								<th style="width:10%; height:18;">사 용 면 적(㎡)</th>
+								<th style="width:10%; height:25px;">사 용 면 적(㎡)</th>
 								<td>
 									<input type="text" size="40" id="usageAr" class="ygpaNumber" data-column-id="usageAr" data-decimal-point="2" disabled="disabled" />
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">사　용　료</th>
+								<th style="width:10%; height:25px;">사 용 기 간</th>
+								<td>
+									<input type="text" size="11" id="usagePdFrom" disabled="disabled" />&nbsp;~&nbsp;
+									<input type="text" size="11" id="usagePdTo" disabled="disabled" />
+								</td>
+								<th style="width:10%; height:25px;">사　용　료</th>
 								<td colspan="3">
 									<input type="text" size="40" id="fee" class="ygpaNumber" disabled="disabled" />
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">산 출 내 역</th>
+								<th style="width:10%; height:25px;">산 출 내 역</th>
 								<td colspan="3">
 									<input type="text" size="129" id="computDtls" disabled="disabled" />
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">면 제 구 분</th>
+								<th width="10%" height="25px">면 제 구 분</th>
                                 <td colspan="3">
                                     <input size="17" id="exemptSe" class="ygpaCmmnCd calcInput" data-default-prompt="선택" data-code-id="GAM009" data-column-label-id='exemptSeNm' disabled/>
                                 </td>
                             </tr>
                             <tr>
-								<th style="width:10%; height:18;">면 제 사 유</th>
+								<th style="width:10%; height:25px;">면 제 사 유</th>
 								<td>
 									<input type="text" size="40" id="exemptRsn" disabled="disabled" />
 								</td>
-								<th style="width:10%; height:18;">면 제 기 간</th>
+								<th style="width:10%; height:25px;">면 제 기 간</th>
 								<td>
 									<input type="text" size="11" id="ExemptPdFrom" disabled="disabled" />&nbsp;~&nbsp;
 									<input type="text" size="11" id="ExemptPdTo" disabled="disabled" />
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">해 지 사 유</th>
+								<th style="width:10%; height:25px;">해 지 사 유</th>
 								<td>
 									<input type="text" size="40" id="trmnatRsn" disabled="disabled" />
 								</td>
-								<th style="width:10%; height:18;">해 지 일 자</th>
+								<th style="width:10%; height:25px;">해 지 일 자</th>
 								<td>
 									<input type="text" size="40" id="trmnatDt" disabled="disabled" />
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">등　록　자</th>
+								<th style="width:10%; height:25px;">등　록　자</th>
 								<td>
 									<input type="text" size="40" id="regUsr" disabled="disabled" />
 								</td>
-								<th style="width:10%; height:18;">등 록 일 시</th>
+								<th style="width:10%; height:25px;">등 록 일 시</th>
 								<td>
 									<input type="text" size="40" id="registDt" disabled="disabled" />
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">수　정　자</th>
+								<th style="width:10%; height:25px;">수　정　자</th>
 								<td>
 									<input type="text" size="40" id="updUsr" disabled="disabled" />
 								</td>
-								<th style="width:10%; height:18;">수 정 일 시</th>
+								<th style="width:10%; height:25px;">수 정 일 시</th>
 								<td>
 									<input type="text" size="40" id="updtDt" disabled="disabled" />
 								</td>

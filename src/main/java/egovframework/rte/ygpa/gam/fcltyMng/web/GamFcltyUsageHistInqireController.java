@@ -118,6 +118,31 @@ public class GamFcltyUsageHistInqireController {
     }
 	
 	/**
+	 * 시설물 사용이력 상세
+	 * @param searchVO
+	 * @return map
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/fcltyMng/gamFcltyUsageHistInqireDetail.do")
+    @ResponseBody Map<String, Object> gamFcltyUsageHistInqireDetail(GamFcltyUsageHistInqireVO searchVO) throws Exception {
+    	Map<String, Object> map = new HashMap<String, Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	List<?> result = gamFcltyUsageHistInqireService.selectFcltyUsageHistInqireDetail(searchVO);
+
+        map.put("resultCode", 0);
+        map.put("result", result);
+        
+        return map;
+    }
+	
+	/**
 	 * 시설물 사용이력 목록 Excel
 	 * @param excelParam
 	 * @return ModelAndView

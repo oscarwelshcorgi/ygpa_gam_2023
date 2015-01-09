@@ -42,9 +42,16 @@ public class GamFcltyUsageHistInqireDao extends YGPAAbstractDAO{
 	 * @param searchVO
 	 * @return
 	 */
+	public List selectFcltyUsageHistInqireDetail(GamFcltyUsageHistInqireVO searchVO) {
+		return list("gamFcltyUsageHistInqireDao.selectFcltyUsageHistInqireDetail", searchVO);
+	}
+	
+	/**
+	 * @param searchVO
+	 * @return
+	 */
 	public GamFcltyUsageHistInqireVO selectFcltyUsageHistInqireListTotCnt(GamFcltyUsageHistInqireVO searchVO) {
 		return (GamFcltyUsageHistInqireVO)selectByPk("gamFcltyUsageHistInqireDao.selectFcltyUsageHistInqireListTotCnt", searchVO);
 	}
-
 	
 }
