@@ -85,7 +85,7 @@ public class GamFcltyMaintMngController {
 	/**
 	 * 유지보수내역 조회
 	 * @param searchVO
-	 * @return map
+	 * @return map 
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })

@@ -129,7 +129,7 @@ public class GamFcltyRepairHistInqireController {
 	 * @param searchVO
 	 * @return map
 	 * @throws Exception
-	 */
+	 */ 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectFcltyRepairHistInqireDetail.do")
 	public @ResponseBody Map selectFcltyRepairHistInqireDetail(GamFcltyRepairHistInqireVO searchVO)throws Exception {
@@ -146,6 +146,8 @@ public class GamFcltyRepairHistInqireController {
     	}
     	// 내역 조회
     	result = gamFcltyRepairHistInqireService.selectFcltyRepairHistInqireDetail(searchVO);
+    	
+    	System.out.print("test : " + result);
 
 		map.put("resultCode", 0);			// return ok
     	map.put("result", result);

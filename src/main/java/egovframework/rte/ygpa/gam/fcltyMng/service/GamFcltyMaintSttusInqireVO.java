@@ -30,6 +30,12 @@ public class GamFcltyMaintSttusInqireVO extends ComDefaultVO {
 	private static final long serialVersionUID = 1L;
 	
 	
+	/** 시설물관리그룹 */
+	private String sFcltsMngGroupNo;
+	
+	/** 공사계약 */
+	private String sCtrtNo;
+	
 	/** 시설물업무구분 */
 	private String sFcltsJobSe;
 	
@@ -53,6 +59,34 @@ public class GamFcltyMaintSttusInqireVO extends ComDefaultVO {
 	private String mntnRprSeq;
 	
 	
+
+	/**
+	 * @return the sFcltsMngGroupNo
+	 */
+	public String getsFcltsMngGroupNo() {
+		return sFcltsMngGroupNo;
+	}
+
+	/**
+	 * @param sFcltsMngGroupNo the sFcltsMngGroupNo to set
+	 */
+	public void setsFcltsMngGroupNo(String sFcltsMngGroupNo) {
+		this.sFcltsMngGroupNo = sFcltsMngGroupNo;
+	}
+
+	/**
+	 * @return the sCtrtNo
+	 */
+	public String getsCtrtNo() {
+		return sCtrtNo;
+	}
+
+	/**
+	 * @param sCtrtNo the sCtrtNo to set
+	 */
+	public void setsCtrtNo(String sCtrtNo) {
+		this.sCtrtNo = sCtrtNo;
+	}
 
 	/**
 	 * @return the sFcltsJobSe

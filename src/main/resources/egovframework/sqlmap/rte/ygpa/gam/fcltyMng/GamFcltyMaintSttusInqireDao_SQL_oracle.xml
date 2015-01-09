@@ -13,86 +13,107 @@
                 SELECT ROWNUM RNUM, S.*
                 	FROM (
 						SELECT
-							MNTN_RPR_CNST_NM
-							, PLANNER_NM
-							, CNST_CHARG_NM
-							, TO_CHAR(MNTN_RPR_CNST_START_DT,'YYYY-MM-DD') MNTN_RPR_CNST_START_DT
-							, TO_CHAR(MNTN_RPR_CNST_END_DT,'YYYY-MM-DD') MNTN_RPR_CNST_END_DT
-							, MNTN_RPR_CNST_AMT
-							, RM
-							, REG_USR
-							, REGIST_DT
-							, UPD_USR
-							, UPDT_DT
-							, CTRT_NO
-							, FCLTS_JOB_SE
-							, FCLTS_MNG_GROUP_NO
-							, MNTN_RPR_SEQ
-							, MNTN_RPR_SE
-							, MNTN_RPR_PART
-							, MNTN_RPR_CN
-							, MNTN_RPR_BDGT
-							, CNSTRTR
-							, RESPON_ENGINEER
-							, ENFORCE_YEAR
+							M.MNTN_RPR_CNST_NM
+							, M.PLANNER_NM
+							, M.CNST_CHARG_NM
+							, TO_CHAR(M.MNTN_RPR_CNST_START_DT,'YYYY-MM-DD') MNTN_RPR_CNST_START_DT
+							, TO_CHAR(M.MNTN_RPR_CNST_END_DT,'YYYY-MM-DD') MNTN_RPR_CNST_END_DT
+							, M.MNTN_RPR_CNST_AMT
+							, M.RM
+							, M.REG_USR
+							, M.REGIST_DT
+							, M.UPD_USR
+							, M.UPDT_DT
+							, M.CTRT_NO
+							, (SELECT I.CTRT_NM FROM CTRT_INFO_F I WHERE I.CTRT_NO = M.CTRT_NO) CTRT_NM
+							, M.FCLTS_JOB_SE
+							, M.FCLTS_MNG_GROUP_NO
+							, (SELECT G.FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F G WHERE G.FCLTS_MNG_GROUP_NO = M.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GROUP_NM
+							, M.MNTN_RPR_SEQ
+							, M.MNTN_RPR_SE
+							, GAM_GET_MNTN_RPR_SE_NM(M.MNTN_RPR_SE) MNTN_RPR_SE_NM
+							, M.MNTN_RPR_PART
+							, M.MNTN_RPR_CN
+							, M.MNTN_RPR_BDGT
+							, M.CNSTRTR
+							, M.RESPON_ENGINEER
+							, M.ENFORCE_YEAR
 						FROM
-							MNTN_RPR_DTLS_F 
+							MNTN_RPR_DTLS_F M 
 						WHERE
 							1 = 1 
+							
+						<isNotEmpty property="sFcltsMngGroupNo">
+	           				AND M.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+	           			</isNotEmpty>
+	           			
+	           			<isNotEmpty property="sCtrtNo">
+	           				AND M.CTRT_NO = #sCtrtNo#
+	           			</isNotEmpty>
+							
 						<isNotEmpty property="sFcltsJobSe">
-	           				AND FCLTS_JOB_SE = #sFcltsJobSe#
+	           				AND M.FCLTS_JOB_SE = #sFcltsJobSe#
 	           			</isNotEmpty>
 	           			
 	           			<isNotEmpty property="sMntnRprCnstNm">
-	           				AND MNTN_RPR_CNST_NM LIKE '%' || #sMntnRprCnstNm# || '%'
+	           				AND M.MNTN_RPR_CNST_NM LIKE '%' || #sMntnRprCnstNm# || '%'
 	           			</isNotEmpty>
 	           			
 	           			<isNotEmpty property="sMntnRprSe">
-	           				AND MNTN_RPR_SE = #sMntnRprSe#
+	           				AND M.MNTN_RPR_SE = #sMntnRprSe#
 	           			</isNotEmpty>
 	           			
 	           			<isNotEmpty property="sMntnRprCnstStartDtFr">
 	           				AND 
 	           				(
-	           					<![CDATA[ MNTN_RPR_CNST_START_DT >= #sMntnRprCnstStartDtFr# ]]>
+	           					<![CDATA[ M.MNTN_RPR_CNST_START_DT >= #sMntnRprCnstStartDtFr# ]]>
 	           				<isNotEmpty property="sMntnRprCnstStartDtTo">
-		           				<![CDATA[ AND MNTN_RPR_CNST_START_DT <= #sMntnRprCnstStartDtTo# ]]>
+		           				<![CDATA[ AND M.MNTN_RPR_CNST_START_DT <= #sMntnRprCnstStartDtTo# ]]>
 		           			</isNotEmpty>
 		           			)
 	           			</isNotEmpty>
 	           			
 						ORDER BY
-							MNTN_RPR_CNST_START_DT DESC
+							M.MNTN_RPR_CNST_START_DT DESC
                 ) S
              ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
 	</select>
 
 	<select id="gamFcltyMaintSttusInqireDao.selectFcltyMaintSttusInqireListTotCnt_S" parameterClass="gamFcltyMaintSttusInqireVO" resultClass="int">
 		SELECT
 			COUNT(*) TOT_CNT
 		FROM
-			MNTN_RPR_DTLS_F 
+			MNTN_RPR_DTLS_F M 
 		WHERE
 			1 = 1 
+			
+		<isNotEmpty property="sFcltsMngGroupNo">
+			AND M.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+		</isNotEmpty>
+		
+		<isNotEmpty property="sCtrtNo">
+			AND M.CTRT_NO = #sCtrtNo#
+		</isNotEmpty>
+			
 		<isNotEmpty property="sFcltsJobSe">
-			AND FCLTS_JOB_SE = #sFcltsJobSe#
+			AND M.FCLTS_JOB_SE = #sFcltsJobSe#
 		</isNotEmpty>
 		        			
 		<isNotEmpty property="sMntnRprCnstNm">
-			AND MNTN_RPR_CNST_NM LIKE '%' || #sMntnRprCnstNm# || '%'
+			AND M.MNTN_RPR_CNST_NM LIKE '%' || #sMntnRprCnstNm# || '%'
 		</isNotEmpty>
 		        			
 		<isNotEmpty property="sMntnRprSe">
-			AND MNTN_RPR_SE = #sMntnRprSe#
+			AND M.MNTN_RPR_SE = #sMntnRprSe#
 		</isNotEmpty>
 		        			
 		<isNotEmpty property="sMntnRprCnstStartDtFr">
 			AND 
 			(
-				<![CDATA[ MNTN_RPR_CNST_START_DT >= #sMntnRprCnstStartDtFr# ]]>
+				<![CDATA[ M.MNTN_RPR_CNST_START_DT >= #sMntnRprCnstStartDtFr# ]]>
 			<isNotEmpty property="sMntnRprCnstStartDtTo">
-				<![CDATA[ AND MNTN_RPR_CNST_START_DT <= #sMntnRprCnstStartDtTo# ]]>
+				<![CDATA[ AND M.MNTN_RPR_CNST_START_DT <= #sMntnRprCnstStartDtTo# ]]>
 			</isNotEmpty>
 			)
 		</isNotEmpty>
@@ -102,34 +123,38 @@
 	
 	<select id="gamFcltyMaintSttusInqireDao.selectFcltyMaintSttusInqireDetail_S" parameterClass="gamFcltyMaintSttusInqireVO" resultClass="egovMap">
 		SELECT
-			MNTN_RPR_CNST_NM
-			, PLANNER_NM
-			, CNST_CHARG_NM
-			, TO_CHAR(MNTN_RPR_CNST_START_DT,'YYYY-MM-DD') MNTN_RPR_CNST_START_DT
-			, TO_CHAR(MNTN_RPR_CNST_END_DT,'YYYY-MM-DD') MNTN_RPR_CNST_END_DT
-			, MNTN_RPR_CNST_AMT
-			, RM
-			, REG_USR
-			, REGIST_DT
-			, UPD_USR
-			, UPDT_DT
-			, CTRT_NO
-			, FCLTS_JOB_SE
-			, FCLTS_MNG_GROUP_NO
-			, MNTN_RPR_SEQ
-			, MNTN_RPR_SE
-			, MNTN_RPR_PART
-			, MNTN_RPR_CN
-			, MNTN_RPR_BDGT
-			, CNSTRTR
-			, RESPON_ENGINEER
-			, ENFORCE_YEAR
+			M.MNTN_RPR_CNST_NM
+			, M.PLANNER_NM
+			, M.CNST_CHARG_NM
+			, TO_CHAR(M.MNTN_RPR_CNST_START_DT,'YYYY-MM-DD') MNTN_RPR_CNST_START_DT
+			, TO_CHAR(M.MNTN_RPR_CNST_END_DT,'YYYY-MM-DD') MNTN_RPR_CNST_END_DT
+			, M.MNTN_RPR_CNST_AMT
+			, M.RM
+			, M.REG_USR
+			, M.REGIST_DT
+			, M.UPD_USR
+			, M.UPDT_DT
+			, M.CTRT_NO
+			, (SELECT I.CTRT_NM FROM CTRT_INFO_F I WHERE I.CTRT_NO = M.CTRT_NO) CTRT_NM
+			, M.FCLTS_JOB_SE
+			, GAM_GET_FCLTS_JOB_SE_NM(M.FCLTS_JOB_SE) FCLTS_JOB_SE_NM
+			, M.FCLTS_MNG_GROUP_NO
+			, (SELECT G.FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F G WHERE G.FCLTS_MNG_GROUP_NO = M.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GROUP_NO_NM
+			, M.MNTN_RPR_SEQ
+			, M.MNTN_RPR_SE
+			, GAM_GET_MNTN_RPR_SE_NM(M.MNTN_RPR_SE) MNTN_RPR_SE_NM
+			, M.MNTN_RPR_PART
+			, M.MNTN_RPR_CN
+			, M.MNTN_RPR_BDGT
+			, M.CNSTRTR
+			, M.RESPON_ENGINEER
+			, M.ENFORCE_YEAR
 		FROM
-			MNTN_RPR_DTLS_F 
+			MNTN_RPR_DTLS_F M 
 		WHERE 
-			FCLTS_JOB_SE = #fcltsJobSe#
-			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
+			M.FCLTS_JOB_SE = #fcltsJobSe#
+			AND M.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND M.MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	</select>
 	
 	
@@ -140,29 +165,30 @@
                 SELECT ROWNUM RNUM, S.*
                 	FROM (
 						SELECT
-							FCLTS_JOB_SE
-							, FCLTS_MNG_GROUP_NO
-							, MNTN_RPR_SEQ
-							, MNTN_RPR_CNST_MTH
-							, UNIT
-							, QY
-							, PRICE
-							, MNTN_RPR_CNST_AMT
-							, RM
-							, FCLTS_MNG_NO
-							, REG_USR
-							, REGIST_DT
-							, UPD_USR
-							, UPDT_DT
+							O.FCLTS_JOB_SE
+							, O.FCLTS_MNG_GROUP_NO
+							, O.MNTN_RPR_SEQ
+							, O.MNTN_RPR_CNST_MTH
+							, O.UNIT
+							, O.QY
+							, O.PRICE
+							, O.MNTN_RPR_CNST_AMT
+							, O.RM
+							, O.FCLTS_MNG_NO
+							, (SELECT PRT_FCLTY_NM FROM GIS_PRT_FCLTY_CD_F G WHERE G.FCLTS_MNG_NO = O.FCLTS_MNG_NO) PRT_FCLTY_NM
+							, O.REG_USR
+							, O.REGIST_DT
+							, O.UPD_USR
+							, O.UPDT_DT
 						FROM
-							MNTN_RPR_OBJ_FCLTS_F 
+							MNTN_RPR_OBJ_FCLTS_F O 
 						WHERE
-							FCLTS_JOB_SE = #fcltsJobSe#
-							AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-							AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
+							O.FCLTS_JOB_SE = #fcltsJobSe#
+							AND O.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+							AND O.MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	           			
 						ORDER BY
-							MNTN_RPR_SEQ ASC
+							O.MNTN_RPR_SEQ ASC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
@@ -193,12 +219,7 @@
 							, MNTN_RPR_SEQ
 							, ATCH_FILE_SEQ
 							, ATCH_FILE_SE
-							, (
-							  CASE  WHEN ATCH_FILE_SE = 'D' THEN '문서'
-									WHEN ATCH_FILE_SE = 'P' THEN '사진'
-							  		WHEN ATCH_FILE_SE = 'Z' THEN '기타'
-							  END
-							) AS ATCH_FILE_SE_NM
+							, GAM_GET_FILE_SE_NM(ATCH_FILE_SE) AS ATCH_FILE_SE_NM
 							, ATCH_FILE_SJ
 							, ATCH_FILE_NM_LOGIC
 							, ATCH_FILE_NM_PHYSICL
@@ -218,7 +239,7 @@
 							MNTN_RPR_SEQ ASC
                 ) S
              ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
 	</select>
 
 	<select id="gamFcltyMaintSttusInqireDao.selectFcltyMaintSttusFileListTotCnt_S" parameterClass="gamFcltyMaintSttusInqireVO" resultClass="int">

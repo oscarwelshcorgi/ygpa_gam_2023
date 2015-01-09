@@ -61,7 +61,7 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 			],
 		height: "auto"
 	});
-
+	
 
 	this.$("#mntnRprObjFcltsF").flexigrid({
 		module: this,
@@ -522,15 +522,16 @@ GamFcltyMaintMngModule.prototype.delMaintItem = function() {
         alert("파일목록에서 삭제할 행을 선택하십시오.");
         return;
     }
-
+	
     if(this.$("#mntnRprObjFcltsF").selectedRowIds().length>0) {
     	for(var i=this.$("#mntnRprObjFcltsF").selectedRowIds().length-1; i>=0; i--) {
-
+    		
     		var row = this.$("#mntnRprObjFcltsF").flexGetRow(this.$("#mntnRprObjFcltsF").selectedRowIds()[i]);
-
+			
     		if(row._updtId == undefined || row._updtId != "I") {
             	this._deleteDataMaintList[this._deleteDataMaintList.length] = row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
 			}
+    		
         	this.$("#mntnRprObjFcltsF").flexRemoveRow(this.$("#mntnRprObjFcltsF").selectedRowIds()[i]);
 
         	this._edited=true;

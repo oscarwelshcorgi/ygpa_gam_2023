@@ -39,14 +39,18 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function() {
 		url: '/fcltyMng/selectFcltyMaintSttusInqireList.do',
 		dataType: "json",
 		colModel : [
-					{display:"시행년도", 			name:"enforceYear",				width:60, 		sortable:false,		align:"center"},
-					{display:"계약번호", 			name:"ctrtNo",					width:200, 		sortable:false,		align:"center"},
-					{display:"유지보수순번", 		name:"mntnRprSeq",				width:120, 		sortable:false,		align:"center"},
-					{display:"유지보수구분",		name:"mntnRprSe",				width:80, 		sortable:false,		align:"left"},
+					{display:"시설물관리그룹", 		name:"fcltsMngGroupNm",			width:130, 		sortable:false,		align:"center"},
 					{display:"유지보수공사명",		name:"mntnRprCnstNm",			width:250, 		sortable:false,		align:"left"},
+					{display:"유지보수구분",		name:"mntnRprSeNm",				width:80, 		sortable:false,		align:"center"},
+					{display:"시작일자",			name:"mntnRprCnstStartDt",		width:80, 		sortable:false,		align:"center"},
+					{display:"종료일자",			name:"mntnRprCnstEndDt",		width:80, 		sortable:false,		align:"center"},
 					{display:"공사금액", 			name:"mntnRprCnstAmt",			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"유지보수예산", 		name:"mntnRprBdgt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-					{display:"유지보수부위", 		name:"mntnRprPart",				width:250, 		sortable:false,		align:"center"}
+					{display:"유지보수부위", 		name:"mntnRprPart",				width:250, 		sortable:false,		align:"center"},
+					{display:"시공자", 			name:"cnstrtr",					width:150, 		sortable:false,		align:"center"},
+					{display:"책임기술자", 		name:"responEngineer",			width:150, 		sortable:false,		align:"center"},
+					{display:"공사감독자", 		name:"cnstChargNm",				width:150, 		sortable:false,		align:"center"},
+					{display:"계약명", 			name:"ctrtNm",					width:250, 		sortable:false,		align:"center"}
 			],
 		height: "auto"
 	});
@@ -58,6 +62,7 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"관리번호",			name:"fcltsMngNo",			width:150,		sortable:false,		align:"center"},
+					{display:"시설명",			name:"prtFcltyNm",			width:250,		sortable:false,		align:"left"},
 					{display:"유지보수공법",		name:"mntnRprCnstMth",		width:80,		sortable:false,		align:"center"},
 					{display:"단위",				name:"unit",				width:80,		sortable:false,		align:"center"},
 					{display:"수량",				name:"qy",					width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
@@ -103,6 +108,18 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function() {
 		event.data.module.applyFileChanged(event.target);
 	});
 	
+	
+	// 시설물관리그룹 검색조건 클릭시 초기화 처리
+	this.$("#sFcltsMngGroupNo").bind("click", {module: this}, function(event) {
+		event.data.module.$("#sFcltsMngGroupNo").val('');
+		event.data.module.$("#sFcltsMngGroupNoNm").val('');
+	});
+	
+	// 공사계약 검색조건 클릭시 초기화 처리
+	this.$("#sCtrtNo").bind("click", {module: this}, function(event) {
+		event.data.module.$("#sCtrtNo").val('');
+		event.data.module.$("#sCtrtNm").val('');
+	});
 	
 };
 
@@ -201,6 +218,31 @@ GamFcltyMaintSttusInqireModule.prototype.downloadFileData = function() {
 };
 
 
+/**
+ * 정의 된 버튼 클릭 시
+ */
+ GamFcltyMaintSttusInqireModule.prototype.onButtonClick = function(buttonId) {
+
+	switch(buttonId) {
+
+		// 엑셀다운로드
+		case "btnFcltyMngMngtListExcelDownload":
+			this.$('#fcltyMaintMngList').flexExcelDown('/fcltyMng/selectFcltyMaintMngListExcel.do');
+		break;
+		
+		// 검색조건시설물관리그룹
+		case "sSearchFcltsMngGroupNo":
+			this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호 검색", '/popup/showFcltsMngGroup.do', {});
+		break;
+		
+		// 검색조건계약번호
+		case "sCtrtNoPopupBtn":
+			this.doExecuteDialog("sSelectCtrtNo", "계약번호 검색", '/popup/popupCtrtNo.do', {});
+		break;
+	}
+};
+
+
 
 GamFcltyMaintSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	if(oldTabId == 'tabs1') {
@@ -227,6 +269,30 @@ GamFcltyMaintSttusInqireModule.prototype.onTabChange = function(newTabId, oldTab
 };
 
 
+/**
+ * 팝업 close 이벤트
+ */
+ GamFcltyMaintSttusInqireModule.prototype.onClosePopup = function(popupId, msg, value){
+
+	switch(popupId){
+		
+		case "sSelectFcltsMngGroup":
+			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
+			this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
+		break;
+		
+		case "sSelectCtrtNo":
+			this.$("#sCtrtNo").val(value["ctrtNo"]);
+			this.$("#sCtrtNm").val(value["ctrtNm"]);
+		break;
+
+		default:
+			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
+		break;
+	}
+};
+
+
 
 
 // 다음 변수는 고정 적으로 정의 해야 함
@@ -243,6 +309,21 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 				<table class="searchPanel">
 					<tbody>
 						<tr>
+							<th>시설물관리그룹</th>
+							<td>
+								<input type="text" size="15" id="sFcltsMngGroupNo" data-required="true" title="시설물관리그룹넘버" />-
+								<input type="text" size="17" id="sFcltsMngGroupNoNm" disabled="disabled" title="시설물관리그룹명"/>
+								<button id="sSearchFcltsMngGroupNo" class="popupButton">선택</button>
+							</td>
+							<th>공사계약</th>
+							<td>
+								<input type="text" size="15" id="sCtrtNo" title="계약번호"/>-
+								<input type="text" size="17" id="sCtrtNm" disabled="disabled" title="계약명"/>
+								<button id="sCtrtNoPopupBtn" class="popupButton">선택</button>
+							</td>
+							<td rowspan="3"><button class="buttonSearch">조회</button></td>
+						</tr>
+						<tr>
 							<th>시설물업무구분</th>
 							<td>
 								<select id="sFcltsJobSe" title="시설물업무구분검색조건">
@@ -255,22 +336,24 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 								</select>
 							</td>
 							<th>유지보수공사명</th>
-							<td><input type="text" id="sMntnRprCnstNm" size="50" title="유지보수공사명검색조건" /></td>
-							<td rowspan="2"><button class="buttonSearch">조회</button></td>
+							<td><input type="text" id="sMntnRprCnstNm" size="49" title="유지보수공사명검색조건" /></td>
 						</tr>
 						<tr>
 							<th>유지보수구분</th>
 							<td>
 								<select id="sMntnRprSe" title="유지보수구분검색조건">
 									<option value="">선택</option>
-									<option value="m1">유지보수1</option>
-									<option value="m2">유지보수2</option>
-									<option value="m3">유지보수3</option>
+									<option value="1">개량</option>
+									<option value="2">보수</option>
+									<option value="3">보강</option>
+									<option value="4">변경-증설</option>
+									<option value="5">변경-구조변경</option>
+									<option value="9">기타</option>
 								</select>
 							</td>
 							<th>유지보수공사시작일</th>
 							<td>
-								<input id="sMntnRprCnstStartDtFr" type="text" class="emdcal" size="15" title="유지보수공사검색시작일" /> ~ <input id="sMntnRprCnstStartDtTo" type="text" class="emdcal" size="15" title="유지보수공사검색종료일" />
+								<input id="sMntnRprCnstStartDtFr" type="text" class="emdcal" size="17" title="유지보수공사검색시작일" /> ~ <input id="sMntnRprCnstStartDtTo" type="text" class="emdcal" size="17" title="유지보수공사검색종료일" />
 							</td>
 						</tr>
 					</tbody>
@@ -294,69 +377,63 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 			<!-- 유지보수내역 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyMaintSttusInqireListVO">
-					<table class="editForm"  style="width:100%;">
+					<table class="editForm"  style="width:100%;" border="1">
 						<tr>
-							<th width="30px" height="23" class="required_text">시행년도</th>
-							<td width="150px"><span id="enforceYear" title="시행년도"></span></td>
-							<th width="30px" height="23" class="required_text">시설물업무구분</th>
-							<td width="150px"><span id="fcltsJobSe" title="시설물업무구분"></span></td>
-							<th width="30px" height="23" class="required_text">유지보수구분</th>
-							<td><span id="mntnRprSe" title="유지보수구분"></span></td>
+							<th width="13%" height="23" class="required_text">시행년도</th>
+							<td width="10%"><span id="enforceYear" title="시행년도"></span></td>
+							<th width="10%" height="23" class="required_text">시설물업무구분</th>
+							<td width="10%"><span id="fcltsJobSeNm" title="시설물업무구분"></span></td>
+							<th width="10%" height="23" class="required_text">유지보수구분</th>
+							<td width="300px"><span id="mntnRprSeNm" title="유지보수구분"></span></td>
 						</tr>
 						<tr>
-							<th height="17" class="required_text">시설물관리그룹</th>
-							<td colspan="5">
-								<span id="fcltsMngGroupNo" title="시설물관리그룹넘버"></span>
-								<span id="fcltsMngGroupNoNm" title="시설물관리그룹명"></span>
-							</td>
-						</tr>
-						<tr>
-							<th height="23" class="required_text">계약번호</th>
+							<th width="13%" height="17" class="required_text">시설물관리그룹</th>
 							<td colspan="3">
-								<span id="ctrtNo" title="계약번호"></span>
-								<span id="ctrtNm" title="계약명"></span>
+								<span id="fcltsMngGroupNo" title="시설물관리그룹넘버"></span> 
+								[ <span id="fcltsMngGroupNoNm" title="시설물관리그룹명"></span> ]
 							</td>
-							<th height="23" class="required_text">유지보수순번</th>
+							<th width="10%" height="23" class="required_text">유지보수순번</th>
 							<td><span id="mntnRprSeq" title="유지보수순번"></span></td>
 						</tr>
 						<tr>
-							<th height="23" class="required_text">공사명</th>
+							<th width="13%" height="23" class="required_text">계약번호</th>
+							<td colspan="3">
+								<span id="ctrtNo" title="계약번호"></span> 
+								[ <span id="ctrtNm" title="계약명"></span> ]
+							</td>
+							<th width="10%" height="23" class="required_text">공사기간</th>
+							<td><span id="mntnRprCnstStartDt" title="공사시작일자"  ></span> ~ <span id="mntnRprCnstEndDt" title="공사종료일자"></span></td>
+						</tr>
+						<tr>
+							<th width="13%" height="23" class="required_text">공사명</th>
 							<td colspan="5"><span id="mntnRprCnstNm" title="공사명"></span></td>
 						</tr>
 						<tr>
-							<th height="23" class="required_text">유지보수부위</th>
+							<th width="13%" height="23" class="required_text">유지보수부위</th>
 							<td colspan="5"><span id="mntnRprPart" title="유지보수부위"></span></td>
 						</tr>
 						<tr>
-							<th height="23" class="required_text">예산</th>
-							<td colspan="3"><span id="mntnRprBdgt" title="예산" class="ygpaNumber"></span></td>
-							<th height="23" class="required_text">공사시작일자</th>
-							<td><span id="mntnRprCnstStartDt" title="공사시작일자"  ></span></td>
-						</tr>
-						<tr>
-							<th height="23" class="required_text">공사금액</th>
-							<td colspan="3"><span id="mntnRprCnstAmt" title="공사금액" class="ygpaNumber"></span></td>
-							<th height="23" class="required_text">공사종료일자</th>
-							<td><span id="mntnRprCnstEndDt" title="공사종료일자"></span></td>
-						</tr>
-						<tr>
-							<th height="23" class="required_text">설계자</th>
+							<th width="13%" height="23" class="required_text">예산</th>
+							<td><span id="mntnRprBdgt" title="예산" class="ygpaNumber"></span></td>
+							<th width="10%" height="23" class="required_text">설계자</th>
 							<td><span id="plannerNm" title="설계자"  ></span></td>
-							<th height="23" class="required_text">시공자</th>
-							<td colspan="3"><span id="cnstrtr" title="시공자"></span></td>
+							<th width="10%" height="23" class="required_text">시공자</th>
+							<td><span id="cnstrtr" title="시공자"></span></td>
 						</tr>
 						<tr>
-							<th height="23" class="required_text">책임기술자</th>
+							<th width="13%" height="23" class="required_text">공사금액</th>
+							<td><span id="mntnRprCnstAmt" title="공사금액" class="ygpaNumber"></span></td>
+							<th width="10%" height="23" class="required_text">책임기술자</th>
 							<td><span id="responEngineer" title="책임기술자"></span></td>
-							<th height="23" class="required_text">공사감독자</th>
-							<td colspan="3"><span id="cnstChargNm" title="공사감독자"></span></td>
+							<th width="13%" height="23" class="required_text">공사감독자</th>
+							<td><span id="cnstChargNm" title="공사감독자"></span></td>
 						</tr>
 						<tr>
-							<th height="23" class="required_text">유지보수내용</th>
+							<th width="13%" height="23" class="required_text">유지보수내용</th>
 							<td colspan="5"><span id="mntnRprCn" title="유지보수내용"></span></td>
 						</tr>
 						<tr>
-							<th height="23" class="required_text">비고</th>
+							<th width="13%" height="23" class="required_text">비고</th>
 							<td colspan="5"><span id="rm" title="비고"></span></td>
 						</tr>
 					</table>

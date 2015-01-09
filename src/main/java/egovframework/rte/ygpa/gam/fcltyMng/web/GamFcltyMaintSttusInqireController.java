@@ -65,7 +65,7 @@ public class GamFcltyMaintSttusInqireController {
      * 유지보수내역 관리화면호출
      * @param windowId
      * @param model
-     * @return String
+     * @return String 
      * @throws Exception
      */
 	@RequestMapping(value="/fcltyMng/gamFcltyMaintSttusInqire.do")

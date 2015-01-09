@@ -13,60 +13,63 @@
                 SELECT ROWNUM RNUM, S.*
                 	FROM (
 						SELECT
-							TO_CHAR(FLAW_RPR_START_DT,'YYYY-MM-DD') FLAW_RPR_START_DT
-							, TO_CHAR(FLAW_RPR_END_DT,'YYYY-MM-DD') FLAW_RPR_END_DT
-							, FLAW_RPR_AMT
-							, FLAW_RPR_CONTENTS
-							, REG_USR
-							, TO_CHAR(REGIST_DT,'YYYY-MM-DD') REGIST_DT
-							, UPD_USR
-							, TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DT
-							, FLAW_RPR_ENTRPS_NM
-							, FLAW_RPR_TY
-							, TO_CHAR(FLAW_OCCRRNC_DT,'YYYY-MM-DD') FLAW_OCCRRNC_DT
-							, FLAW_RPR_COMPT_YN
-							, FLAW_EXAM_SE
-							, ENFORCE_YEAR
-							, FLAW_RPR_NM
-							, FCLTS_MNG_GROUP_NO
-							, FCLTS_JOB_SE
-							, FLAW_RPR_SEQ
-							, TO_CHAR(FLAW_EXAM_DT,'YYYY-MM-DD') FLAW_EXAM_DT
-							, FLAW_ENNC
-							, FLAW_EXAM_RESULT
-							, RM
-							, CTRT_NO
+							(TO_CHAR(R.FLAW_RPR_START_DT,'YYYY-MM-DD') || '~' || TO_CHAR(R.FLAW_RPR_END_DT,'YYYY-MM-DD')) FLAW_RPR_TERM 
+							, R.FLAW_RPR_AMT
+							, R.FLAW_RPR_CONTENTS
+							, R.REG_USR
+							, TO_CHAR(R.REGIST_DT,'YYYY-MM-DD') REGIST_DT
+							, R.UPD_USR
+							, TO_CHAR(R.UPDT_DT,'YYYY-MM-DD') UPDT_DT
+							, R.FLAW_RPR_ENTRPS_NM
+							, R.FLAW_RPR_TY
+							, GAM_GET_FLAW_RPR_TY_NM(R.FLAW_RPR_TY) FLAW_RPR_TY_NM
+							, TO_CHAR(R.FLAW_OCCRRNC_DT,'YYYY-MM-DD') FLAW_OCCRRNC_DT
+							, R.FLAW_RPR_COMPT_YN
+							, R.FLAW_EXAM_SE
+							, GAM_GET_FLAW_EXAM_SE_NM(R.FLAW_EXAM_SE) FLAW_EXAM_SE_NM
+							, R.ENFORCE_YEAR
+							, R.FLAW_RPR_NM
+							, R.FCLTS_MNG_GROUP_NO
+							, (SELECT G.FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F G WHERE G.FCLTS_MNG_GROUP_NO = R.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GOUP_NM
+							, R.FCLTS_JOB_SE
+							, GAM_GET_FCLTS_JOB_SE_NM(R.FCLTS_JOB_SE) FCLTS_JOB_SE_NM
+							, R.FLAW_RPR_SEQ
+							, TO_CHAR(R.FLAW_EXAM_DT,'YYYY-MM-DD') FLAW_EXAM_DT
+							, R.FLAW_ENNC
+							, R.FLAW_EXAM_RESULT
+							, R.RM
+							, R.CTRT_NO
 						FROM
-							FLAW_RPR_DTLS_F 
+							FLAW_RPR_DTLS_F R 
 						WHERE
 							1 = 1 
 						<isNotEmpty property="sFcltsJobSe">
-	           				AND FCLTS_JOB_SE = #sFcltsJobSe#
+	           				AND R.FCLTS_JOB_SE = #sFcltsJobSe#
 	           			</isNotEmpty>
 	           			
 	           			<isNotEmpty property="sFlawRprNm">
-	           				AND FLAW_RPR_NM LIKE '%' || #sFlawRprNm# || '%'
+	           				AND R.FLAW_RPR_NM LIKE '%' || #sFlawRprNm# || '%'
 	           			</isNotEmpty>
 	           			
 	           			<isNotEmpty property="sFlawExamSe">
-	           				AND FLAW_EXAM_SE = #sFlawExamSe#
+	           				AND R.FLAW_EXAM_SE = #sFlawExamSe#
 	           			</isNotEmpty>
 	           			
 	           			<isNotEmpty property="sFlawRprStartDtFr">
 	           				AND 
 	           				(
-	           					<![CDATA[ FLAW_EXAM_DT >= #sFlawRprStartDtFr# ]]>
+	           					<![CDATA[ R.FLAW_EXAM_DT >= #sFlawRprStartDtFr# ]]>
 	           				<isNotEmpty property="sFlawRprStartDtTo">
-		           				<![CDATA[ AND FLAW_EXAM_DT <= #sFlawRprStartDtTo# ]]>
+		           				<![CDATA[ AND R.FLAW_EXAM_DT <= #sFlawRprStartDtTo# ]]>
 		           			</isNotEmpty>
 		           			)
 	           			</isNotEmpty>
 	           			
 						ORDER BY
-							FLAW_RPR_START_DT DESC
+							R.FLAW_RPR_START_DT DESC
                 ) S
              ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>			
 	</select>
 
 	<select id="gamFcltyRepairSttusInqireDao.selectFcltyRepairSttusInqireListTotCnt_S" parameterClass="gamFcltyRepairSttusInqireVO" resultClass="int">
@@ -103,35 +106,39 @@
 	
 	<select id="gamFcltyRepairSttusInqireDao.selectFcltyRepairSttusInqireDetail_S" parameterClass="gamFcltyRepairSttusInqireVO" resultClass="egovMap">
 		SELECT
-			TO_CHAR(FLAW_RPR_START_DT,'YYYY-MM-DD') FLAW_RPR_START_DT
-			, TO_CHAR(FLAW_RPR_END_DT,'YYYY-MM-DD') FLAW_RPR_END_DT
-			, FLAW_RPR_AMT
-			, FLAW_RPR_CONTENTS
-			, REG_USR
-			, TO_CHAR(REGIST_DT,'YYYY-MM-DD') REGIST_DT
-			, UPD_USR
-			, TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DT
-			, FLAW_RPR_ENTRPS_NM
-			, FLAW_RPR_TY
-			, TO_CHAR(FLAW_OCCRRNC_DT,'YYYY-MM-DD') FLAW_OCCRRNC_DT
-			, FLAW_RPR_COMPT_YN
-			, FLAW_EXAM_SE
-			, ENFORCE_YEAR
-			, FLAW_RPR_NM
-			, FCLTS_MNG_GROUP_NO
-			, FCLTS_JOB_SE
-			, FLAW_RPR_SEQ
-			, TO_CHAR(FLAW_EXAM_DT,'YYYY-MM-DD') FLAW_EXAM_DT
-			, FLAW_ENNC
-			, FLAW_EXAM_RESULT
-			, RM
-			, CTRT_NO
+			TO_CHAR(R.FLAW_RPR_START_DT,'YYYY-MM-DD') FLAW_RPR_START_DT
+			, TO_CHAR(R.FLAW_RPR_END_DT,'YYYY-MM-DD') FLAW_RPR_END_DT
+			, R.FLAW_RPR_AMT
+			, R.FLAW_RPR_CONTENTS
+			, R.REG_USR
+			, TO_CHAR(R.REGIST_DT,'YYYY-MM-DD') REGIST_DT
+			, R.UPD_USR
+			, TO_CHAR(R.UPDT_DT,'YYYY-MM-DD') UPDT_DT
+			, R.FLAW_RPR_ENTRPS_NM
+			, R.FLAW_RPR_TY
+			, GAM_GET_FLAW_RPR_TY_NM(R.FLAW_RPR_TY) FLAW_RPR_TY_NM
+			, TO_CHAR(R.FLAW_OCCRRNC_DT,'YYYY-MM-DD') FLAW_OCCRRNC_DT
+			, R.FLAW_RPR_COMPT_YN
+			, R.FLAW_EXAM_SE
+			, GAM_GET_FLAW_EXAM_SE_NM(R.FLAW_EXAM_SE) FLAW_EXAM_SE_NM
+			, R.ENFORCE_YEAR
+			, R.FLAW_RPR_NM
+			, R.FCLTS_MNG_GROUP_NO
+			, (SELECT G.FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F G WHERE G.FCLTS_MNG_GROUP_NO = R.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GOUP_NO_NM
+			, R.FCLTS_JOB_SE
+			, GAM_GET_FCLTS_JOB_SE_NM(R.FCLTS_JOB_SE) FCLTS_JOB_SE_NM
+			, R.FLAW_RPR_SEQ
+			, TO_CHAR(R.FLAW_EXAM_DT,'YYYY-MM-DD') FLAW_EXAM_DT
+			, R.FLAW_ENNC
+			, R.FLAW_EXAM_RESULT
+			, R.RM
+			, R.CTRT_NO
 		FROM
-			FLAW_RPR_DTLS_F 
+			FLAW_RPR_DTLS_F R 
 		WHERE 
-			FCLTS_JOB_SE = #fcltsJobSe#
-			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
+			R.FCLTS_JOB_SE = #fcltsJobSe#
+			AND R.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND R.FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 	</select>
 	
 	
@@ -142,30 +149,31 @@
                 SELECT ROWNUM RNUM, S.*
                 	FROM (
 						SELECT
-							FCLTS_MNG_GROUP_NO
-							, FCLTS_JOB_SE
-							, FLAW_RPR_SEQ
-							, FCLTS_MNG_NO
-							, TO_CHAR(FLAW_EXAM_DT,'YYYY-MM-DD') FLAW_EXAM_DT
-							, FLAW_ENNC
-							, FLAW_EXAM_RESULT 
-							, RM
-							, REG_USR
-							, REGIST_DT
-							, UPD_USR
-							, UPDT_DT
+							O.FCLTS_MNG_GROUP_NO
+							, O.FCLTS_JOB_SE
+							, O.FLAW_RPR_SEQ
+							, O.FCLTS_MNG_NO
+							, (SELECT PRT_FCLTY_NM FROM GIS_PRT_FCLTY_CD_F G WHERE G.FCLTS_MNG_NO = O.FCLTS_MNG_NO) PRT_FCLTY_NM
+							, TO_CHAR(O.FLAW_EXAM_DT,'YYYY-MM-DD') FLAW_EXAM_DT
+							, O.FLAW_ENNC
+							, O.FLAW_EXAM_RESULT 
+							, O.RM
+							, O.REG_USR
+							, O.REGIST_DT
+							, O.UPD_USR
+							, O.UPDT_DT
 						FROM
-							FLAW_RPR_OBJ_FCLTS_F 
+							FLAW_RPR_OBJ_FCLTS_F O 
 						WHERE
-							FCLTS_JOB_SE = #fcltsJobSe#
-							AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-							AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
+							O.FCLTS_JOB_SE = #fcltsJobSe#
+							AND O.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+							AND O.FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 	           			
 						ORDER BY
-							FLAW_RPR_SEQ ASC
+							O.FLAW_RPR_SEQ ASC
                 ) S
              ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
 	</select>
 
 	<select id="gamFcltyRepairSttusInqireDao.selectFlawRprSttusObjFcltsFListTotCnt_S" parameterClass="gamFcltyRepairSttusInqireVO" resultClass="int">
@@ -209,7 +217,7 @@
 							FLAW_RPR_SEQ ASC
                 ) S
              ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
 	</select>
 
 	<select id="gamFcltyRepairSttusInqireDao.selectFlawExamUsrSttusFListTotCnt_S" parameterClass="gamFcltyRepairSttusInqireVO" resultClass="int">
@@ -237,12 +245,7 @@
 							, FLAW_RPR_SEQ
 							, ATCH_FILE_SEQ
 							, ATCH_FILE_SE
-							, (
-							  CASE  WHEN ATCH_FILE_SE = 'D' THEN '문서'
-									WHEN ATCH_FILE_SE = 'P' THEN '사진'
-							  		WHEN ATCH_FILE_SE = 'Z' THEN '기타'
-							  END
-							) AS ATCH_FILE_SE_NM
+							, GAM_GET_FILE_SE_NM(ATCH_FILE_SE) AS ATCH_FILE_SE_NM
 							, ATCH_FILE_SJ
 							, ATCH_FILE_NM_LOGIC
 							, ATCH_FILE_NM_PHYSICL
@@ -262,7 +265,7 @@
 							FLAW_RPR_SEQ ASC
                 ) S
              ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
 	</select>
 
 	<select id="gamFcltyRepairSttusInqireDao.selectFcltyRepairSttusFileListTotCnt_S" parameterClass="gamFcltyRepairSttusInqireVO" resultClass="int">
