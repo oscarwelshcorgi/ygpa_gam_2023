@@ -517,7 +517,7 @@ div.notice {
 	div.notice {
 		position: absolute;
 		display: block;
-		left: 0.35cm;
+		left: 0.6cm;
 		top: 10.3cm;
 		width: 5.2cm;
 		height: 8cm;
@@ -556,7 +556,7 @@ div.notice {
 
 	 div.feeDetail {
 		position: absolute;
-		left: 8.42cm;
+		left: 8.62cm;
 		top: 12.6cm;
 		width: 4.2cm;
 		height: 4.8cm;
@@ -606,8 +606,8 @@ div.notice {
 
 	  div.giro {
 		position: absolute;
-		left: 5.8cm;
-		top: 19.6cm;
+		left: 6.3cm;
+		top: 19.5cm;
 		width: 14.8cm;
 		height: 8.8cm;
 		font-size: 0.4cm;
@@ -837,7 +837,8 @@ div.notice {
       			<c:if test="${result.arrrgAmt>0}">
 	      			<p>연체료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.arrrgAmt}" /> 원 (연체일 : <c:out value="${result.arrrgPayDates}"/>)</p>
       			</c:if>
-      			<p class="summary">소 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.arrrgAmt}" /> 원</p>
+      			<p class="summary">소 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.fee+result.feeA3+result.feeA4+result.feeD1+result.arrrgAmt}" /> 원</p>
+      			<p class="summary">부가세(<c:out value="${result.taxtSeNm}"/>) : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.vat}" /> 원</p>
       			<p class="summary">합 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.nticAmt}" /> 원</p>
       		</div>
 			<div class="giro">
