@@ -130,7 +130,7 @@ public class GamFcltyUsageSttusInqireController {
 	}
 
 	/**
-	 * 시설물 사용현황 목록, 검검 관리 내역
+	 * 시설물 사용현황 목록, 검검 관리 내역, 하자 보수 내역
 	 * @param searchVO
 	 * @param sPrtAtCode
 	 * @param sUsagePdFrom
@@ -171,18 +171,20 @@ public class GamFcltyUsageSttusInqireController {
 		totalCnt = gamFcltyUsageSttusInqireService.selectFcltyAssetsRentListTotCnt(searchVO);
 		List fcltyAssetsRentList = gamFcltyUsageSttusInqireService.selectFcltyAssetsRentList(searchVO);
 		List qcMngList = gamFcltyUsageSttusInqireService.selectQcMngList(searchVO);
+		List flawList = gamFcltyUsageSttusInqireService.selectFlawList(searchVO);
 
 		map.put("resultCode", 0);
 		map.put("totalCount", totalCnt);
 		map.put("fcltyAssetsRentList", fcltyAssetsRentList);
 		map.put("qcMngList", qcMngList);
+		map.put("flawList", flawList);
+
 
 		return map;
 	}
 
-
 		/**
-		 * 시설물 사용현황 목록, 검검 관리 내역
+		 * 점검 관리 내역
 		 * @param searchVO
 		 * @param sPrtAtCode
 		 * @param sUsagePdFrom
@@ -231,6 +233,59 @@ public class GamFcltyUsageSttusInqireController {
 
 			return map;
 		}
+
+////////////////////////////////////////////
+//		하자보수 디테일로 수정 해야함!!
+////////////////////////////////////////////
+	/** 하자보수 대상 시설물, 하자 검사자
+	* @param searchVO
+	* @param sPrtAtCode
+	* @param sUsagePdFrom
+	* @param sUsagePdTo
+	* @return map
+	* @throws Exception
+	*/
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/fcltyMng/selectLoadFlawDetailData.do", method = RequestMethod.POST)
+	@ResponseBody
+	Map selectLoadFlawDetailData(GamFcltyUsageSttusInqireVO searchVO) throws Exception {
+		int totalCnt, page, firstIndex;
+		Map map = new HashMap();
+
+		// 0. Spring Security 사용자권한 처리
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		// 내역 조회
+		/** pageing */
+		// 수정 안해도됨!
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		/** List Data */
+		// 데이터 쿼리 데이터
+
+		List fcltyAssetsRentList = gamFcltyUsageSttusInqireService.selectFcltyAssetsRentList(searchVO);
+		List qcMngList = gamFcltyUsageSttusInqireService.selectQcMngList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("fcltyAssetsRentList", fcltyAssetsRentList);
+		map.put("qcMngList", qcMngList);
+
+		return map;
+	}
+
+
 
 
 	/**

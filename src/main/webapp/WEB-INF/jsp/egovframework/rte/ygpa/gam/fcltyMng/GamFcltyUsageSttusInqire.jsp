@@ -180,7 +180,8 @@
 	// 하자 보수 대상 시설물
 	this.$("#flawRprDtlsGrid").flexigrid({
 		module : this,
-		dataType : [ {display : '검사구분', name : '', width : 100, sortable : false, align : 'center'}
+		dataType : 'json',
+		colModel : [ {display : '검사구분', name : '', width : 100, sortable : false, align : 'center'}
 					,{display : '검사일자', name : '', width : 100, sortable : false, align : 'center'}
 					,{display : '하자 유무', name : '', width : 100, sortable : false, align : 'center'}
 					,{display : '검사결과', name : '', width : 100, sortable : false, align : 'center'}
@@ -198,7 +199,8 @@
 	// 하자 보수 대상 시설물
 	this.$("#flawRprObjGrid").flexigrid({
 		module : this,
-		dataType : [ {display : '검사일자', name : '', width : 100, sortable : false, align : 'center'}
+		dataType : 'json',
+		colModel : [ {display : '검사일자', name : '', width : 100, sortable : false, align : 'center'}
 					,{display : '하자유무', name : '', width : 100, sortable : false, align : 'center'}
 					,{display : '검사결과', name : '', width : 100, sortable : false, align : 'center'}
 					,{display : '비고', name : '', width : 100, sortable : false, align : 'center'}
@@ -208,7 +210,8 @@
 	// 하자 검사자
 	this.$("#flawExamUsrGrid").flexigrid({
 		module : this,
-		dataType : [ {display : '검사자', name : '', width : 100, sortable : false, align : 'center'}
+		dataType : 'json',
+		colModel : [ {display : '검사자', name : '', width : 100, sortable : false, align : 'center'}
 					,{display : '검사일자', name : '', width : 100, sortable : false, align : 'center'}
 					,{display : '완료여부', name : '', width : 100, sortable : false, align : 'center'}
 					]

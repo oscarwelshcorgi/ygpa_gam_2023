@@ -198,11 +198,32 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	private String ctrtNo;
 
 	// ==== 하자 보수 대상 시설물 ==== //
+	/** 시설물 관리 그룹 번호 **/
+//	private String fcltsMngGroupNo;
+	/** 시설물 업무 구분 **/
+//	private String fcltsJobSe;
+	/** 하자 보수 순번 **/
+	private String flawRprSeq;
+	/** 시설물 관리 번호 **/
+//	private String fcltsMngNo;
+	/** 하자 검사 일자 **/
+//	private String flawExamDt;
+	/** 하자 유무 **/
+//	private String flawEnnc;
+	/** 하자 검사 결과 **/
+//	private String flawExamResult;
+	/** 비고 **/
+//	private String rm;
 
-
-
-
-
+	// ==== 하자 검사자 ==== //
+	/** 순번 **/
+	private String flawExamUsr;
+	/** 하자 검사자 **/
+//	private String flawExamDt;
+	/** 하자 검사 일자 **/
+//	private String seq;
+	/** 하자 검사 완료 여부 **/
+	private String flawExamComptYn;
 
 
 	/**
@@ -870,5 +891,209 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	 */
 	public void setFcltsJobNm(String fcltsJobNm) {
 		this.fcltsJobNm = fcltsJobNm;
+	}
+	/**
+	 * @return the flawRprStartDt
+	 */
+	public String getFlawRprStartDt() {
+		return flawRprStartDt;
+	}
+	/**
+	 * @param flawRprStartDt the flawRprStartDt to set
+	 */
+	public void setFlawRprStartDt(String flawRprStartDt) {
+		this.flawRprStartDt = flawRprStartDt;
+	}
+	/**
+	 * @return the flawRprEndDt
+	 */
+	public String getFlawRprEndDt() {
+		return flawRprEndDt;
+	}
+	/**
+	 * @param flawRprEndDt the flawRprEndDt to set
+	 */
+	public void setFlawRprEndDt(String flawRprEndDt) {
+		this.flawRprEndDt = flawRprEndDt;
+	}
+	/**
+	 * @return the flawRprAmt
+	 */
+	public String getFlawRprAmt() {
+		return flawRprAmt;
+	}
+	/**
+	 * @param flawRprAmt the flawRprAmt to set
+	 */
+	public void setFlawRprAmt(String flawRprAmt) {
+		this.flawRprAmt = flawRprAmt;
+	}
+	/**
+	 * @return the flawRprContents
+	 */
+	public String getFlawRprContents() {
+		return flawRprContents;
+	}
+	/**
+	 * @param flawRprContents the flawRprContents to set
+	 */
+	public void setFlawRprContents(String flawRprContents) {
+		this.flawRprContents = flawRprContents;
+	}
+	/**
+	 * @return the flawRprEntrpsNm
+	 */
+	public String getFlawRprEntrpsNm() {
+		return flawRprEntrpsNm;
+	}
+	/**
+	 * @param flawRprEntrpsNm the flawRprEntrpsNm to set
+	 */
+	public void setFlawRprEntrpsNm(String flawRprEntrpsNm) {
+		this.flawRprEntrpsNm = flawRprEntrpsNm;
+	}
+	/**
+	 * @return the flawRprTy
+	 */
+	public String getFlawRprTy() {
+		return flawRprTy;
+	}
+	/**
+	 * @param flawRprTy the flawRprTy to set
+	 */
+	public void setFlawRprTy(String flawRprTy) {
+		this.flawRprTy = flawRprTy;
+	}
+	/**
+	 * @return the flawOccrrncDt
+	 */
+	public String getFlawOccrrncDt() {
+		return flawOccrrncDt;
+	}
+	/**
+	 * @param flawOccrrncDt the flawOccrrncDt to set
+	 */
+	public void setFlawOccrrncDt(String flawOccrrncDt) {
+		this.flawOccrrncDt = flawOccrrncDt;
+	}
+	/**
+	 * @return the flawRprComptYn
+	 */
+	public String getFlawRprComptYn() {
+		return flawRprComptYn;
+	}
+	/**
+	 * @param flawRprComptYn the flawRprComptYn to set
+	 */
+	public void setFlawRprComptYn(String flawRprComptYn) {
+		this.flawRprComptYn = flawRprComptYn;
+	}
+	/**
+	 * @return the flawExamSe
+	 */
+	public String getFlawExamSe() {
+		return flawExamSe;
+	}
+	/**
+	 * @param flawExamSe the flawExamSe to set
+	 */
+	public void setFlawExamSe(String flawExamSe) {
+		this.flawExamSe = flawExamSe;
+	}
+	/**
+	 * @return the flawRprNm
+	 */
+	public String getFlawRprNm() {
+		return flawRprNm;
+	}
+	/**
+	 * @param flawRprNm the flawRprNm to set
+	 */
+	public void setFlawRprNm(String flawRprNm) {
+		this.flawRprNm = flawRprNm;
+	}
+	/**
+	 * @return the flawExamDt
+	 */
+	public String getFlawExamDt() {
+		return flawExamDt;
+	}
+	/**
+	 * @param flawExamDt the flawExamDt to set
+	 */
+	public void setFlawExamDt(String flawExamDt) {
+		this.flawExamDt = flawExamDt;
+	}
+	/**
+	 * @return the flawEnnc
+	 */
+	public String getFlawEnnc() {
+		return flawEnnc;
+	}
+	/**
+	 * @param flawEnnc the flawEnnc to set
+	 */
+	public void setFlawEnnc(String flawEnnc) {
+		this.flawEnnc = flawEnnc;
+	}
+	/**
+	 * @return the flawExamResult
+	 */
+	public String getFlawExamResult() {
+		return flawExamResult;
+	}
+	/**
+	 * @param flawExamResult the flawExamResult to set
+	 */
+	public void setFlawExamResult(String flawExamResult) {
+		this.flawExamResult = flawExamResult;
+	}
+	/**
+	 * @return the ctrtNo
+	 */
+	public String getCtrtNo() {
+		return ctrtNo;
+	}
+	/**
+	 * @param ctrtNo the ctrtNo to set
+	 */
+	public void setCtrtNo(String ctrtNo) {
+		this.ctrtNo = ctrtNo;
+	}
+	/**
+	 * @return the flawRprSeq
+	 */
+	public String getFlawRprSeq() {
+		return flawRprSeq;
+	}
+	/**
+	 * @param flawRprSeq the flawRprSeq to set
+	 */
+	public void setFlawRprSeq(String flawRprSeq) {
+		this.flawRprSeq = flawRprSeq;
+	}
+	/**
+	 * @return the flawExamUsr
+	 */
+	public String getFlawExamUsr() {
+		return flawExamUsr;
+	}
+	/**
+	 * @param flawExamUsr the flawExamUsr to set
+	 */
+	public void setFlawExamUsr(String flawExamUsr) {
+		this.flawExamUsr = flawExamUsr;
+	}
+	/**
+	 * @return the flawExamComptYn
+	 */
+	public String getFlawExamComptYn() {
+		return flawExamComptYn;
+	}
+	/**
+	 * @param flawExamComptYn the flawExamComptYn to set
+	 */
+	public void setFlawExamComptYn(String flawExamComptYn) {
+		this.flawExamComptYn = flawExamComptYn;
 	}
 }

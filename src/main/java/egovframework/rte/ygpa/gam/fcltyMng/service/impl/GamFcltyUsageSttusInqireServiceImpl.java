@@ -40,7 +40,7 @@ public class GamFcltyUsageSttusInqireServiceImpl extends AbstractServiceImpl imp
 
 	/**
 	 * GIS 항만 시설
-	 * @param searchVO
+	 * @param vo
 	 * @return
 	 */
 	public List selectFcltyGisPrtFcltyCdList(GamFcltyUsageSttusInqireVO vo) throws Exception{
@@ -49,7 +49,7 @@ public class GamFcltyUsageSttusInqireServiceImpl extends AbstractServiceImpl imp
 
 	/**
 	 * GIS 항만 시설
-	 * @param searchVO
+	 * @param vo
 	 * @return
 	 */
 	public int selectFcltyGisPrtFcltyCdListTotCnt(GamFcltyUsageSttusInqireVO vo) throws Exception{
@@ -58,7 +58,7 @@ public class GamFcltyUsageSttusInqireServiceImpl extends AbstractServiceImpl imp
 
 	/**
 	 * 시설물 사용현황 목록 조회
-	 * @param searchVO
+	 * @param vo
 	 * @return
 	 */
 	public List selectFcltyAssetsRentList(GamFcltyUsageSttusInqireVO vo) throws Exception{
@@ -67,7 +67,7 @@ public class GamFcltyUsageSttusInqireServiceImpl extends AbstractServiceImpl imp
 
 	/**
 	 * 시설물 사용현황 목록 수
-	 * @param searchVO
+	 * @param vo
 	 * @return
 	 */
 	public int selectFcltyAssetsRentListTotCnt(GamFcltyUsageSttusInqireVO vo) throws Exception{
@@ -76,7 +76,7 @@ public class GamFcltyUsageSttusInqireServiceImpl extends AbstractServiceImpl imp
 
 	/**
 	 * 점검 관리 내역
-	 * @param searchVO
+	 * @param vo
 	 * @return
 	 */
 	public List selectQcMngList(GamFcltyUsageSttusInqireVO vo) throws Exception{
@@ -85,19 +85,30 @@ public class GamFcltyUsageSttusInqireServiceImpl extends AbstractServiceImpl imp
 
 	/**
 	 * 점검 관리 대상 시설물
-	 * @param searchVO
+	 * @param vo
 	 * @return
 	 */
 	public List selectQcMngObjFcltsList(GamFcltyUsageSttusInqireVO vo) throws Exception{
 		return gamFcltyUsageSttusInqireDao.selectQcMngObjFcltsList(vo);
 	}
+
 	/**
 	 * 점검 관리 결과 항목
-	 * @param searchVO
+	 * @param vo
 	 * @return
 	 */
 	public List selectQcMngResultItemList(GamFcltyUsageSttusInqireVO vo) throws Exception{
 		return gamFcltyUsageSttusInqireDao.selectQcMngResultItemList(vo);
+	}
+
+	/**
+	 * 하자ㅗ 보수 내역
+	 * @param vo
+	 * @return
+	 */
+
+	public List selectFlawList(GamFcltyUsageSttusInqireVO vo) throws Exception{
+		return gamFcltyUsageSttusInqireDao.selectFlawList(vo);
 	}
 
 

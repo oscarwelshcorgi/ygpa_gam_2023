@@ -232,6 +232,43 @@
               		) S
          		 ) A
 	</select>
+
+<!-- 하자 보수 내역 -->
+	<select id="gamFcltyUsageSttusInqireDao.selectFlawList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+				  FROM (
+						SELECT M.FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
+					  , D.FCLTS_MNG_NO AS FCLTS_MNG_NO
+					  , M.FCLTS_JOB_SE AS FCLTS_JOB_SE
+					  , M.FLAW_RPR_SEQ AS FLAW_RPR_SEQ
+					  , M.FCLTS_JOB_SE AS FCLTS_JOB_SE
+					  , M.FLAW_EXAM_SE AS FLAW_EXAM_SE
+					  , M.FLAW_EXAM_DT AS FLAW_EXAM_DT
+					  , M.FLAW_ENNC AS FLAW_ENNC
+					  , M.FLAW_EXAM_RESULT AS FLAW_EXAM_RESULT
+					  , M.ENFORCE_YEAR AS ENFORCE_YEAR
+					  , M.FLAW_RPR_NM AS FLAW_RPR_NM
+					  , M.FLAW_RPR_TY AS FLAW_RPR_TY
+					  , M.FLAW_OCCRRNC_DT AS FLAW_OCCRRNC_DT
+					  , M.FLAW_RPR_ENTRPS_NM AS FLAW_RPR_ENTRPS_NM
+					  , M.FLAW_RPR_CONTENTS AS FLAW_RPR_CONTENTS
+					  , M.FLAW_RPR_COMPT_YN AS FLAW_RPR_COMPT_YN
+					  , M.RM AS RM
+
+				  FROM FLAW_RPR_DTLS_F M, FLAW_RPR_OBJ_FCLTS_F D
+				 WHERE D.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+				   AND D.FCLTS_MNG_NO = #fcltsMngNo#
+				   AND M.FCLTS_MNG_GROUP_NO = D.FCLTS_MNG_GROUP_NO
+				   AND M.FCLTS_JOB_SE = D.FCLTS_JOB_SE
+				   AND M.FLAW_RPR_SEQ = D.FLAW_RPR_SEQ
+				) S
+			) A
+	</select>
+
+
+
 </sqlMap>
 
 <!--

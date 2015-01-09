@@ -36,7 +36,7 @@ public class GamFcltyUsageSttusInqireDao extends YGPAAbstractDAO{
 
     /**
      * GIS 항만시설 목록 조회
-     * @param vo ComDefaultVO
+     * @param vo
      * @return List
      * @exception Exception
      */
@@ -50,7 +50,7 @@ public class GamFcltyUsageSttusInqireDao extends YGPAAbstractDAO{
 
 	/**
      * 시설물 사용현황 목록 조회
-     * @param vo ComDefaultVO
+     * @param vo
      * @return List
      * @exception Exception
      */
@@ -65,7 +65,7 @@ public class GamFcltyUsageSttusInqireDao extends YGPAAbstractDAO{
 
 	/**
      * 점검 관리 내역
-     * @param vo ComDefaultVO
+     * @param vo
      * @return List
      * @exception Exception
      */
@@ -75,7 +75,7 @@ public class GamFcltyUsageSttusInqireDao extends YGPAAbstractDAO{
 
 	/**
      * 점검 관리 대상 시설물
-     * @param vo ComDefaultVO
+     * @param vo
      * @return List
      * @exception Exception
      */
@@ -84,11 +84,22 @@ public class GamFcltyUsageSttusInqireDao extends YGPAAbstractDAO{
 	}
 	/**
      * 점검 관리 결과 항목
-     * @param vo ComDefaultVO
+     * @param vo
      * @return List
      * @exception Exception
      */
 	public List selectQcMngResultItemList(GamFcltyUsageSttusInqireVO vo){
 		return list("gamFcltyUsageSttusInqireDao.selectQcMngResultItemList", vo);
 	}
+
+	/**
+	 * 하자 보수 내역
+	 * @param vo
+	 * @return List
+	 * @exception Exception
+	 */
+	public List selectFlawList(GamFcltyUsageSttusInqireVO vo){
+		return list("gamFcltyUsageSttusInqireDao.selectFlawList", vo);
+	}
+
 }

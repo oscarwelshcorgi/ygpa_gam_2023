@@ -83,4 +83,13 @@ public interface GamFcltyUsageSttusInqireService {
 	 * @throws Exception
 	 */
 	List selectQcMngResultItemList(GamFcltyUsageSttusInqireVO vo) throws Exception;
+
+	/**
+	 * 하자 보수 내역
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	List selectFlawList(GamFcltyUsageSttusInqireVO vo) throws Exception;
+
 }
