@@ -32,7 +32,7 @@ public interface GamFcltyQcSttusInqireService {
 	 * @return list
 	 * @throws Exception
 	 */		
-	List<?> selectQcSttusDtlsList(GamFcltyQcSttusInqireVO searchVO) throws Exception;
+	List<?> selectQcMngDtlsList(GamFcltyQcSttusInqireVO searchVO) throws Exception;
 	
 	/**
 	 * 점검관리내역 목록 총수 조회
@@ -40,7 +40,23 @@ public interface GamFcltyQcSttusInqireService {
 	 * @return int
 	 * @throws Exception
 	 */		
-	int selectQcSttusDtlsListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception;
+	int selectQcMngDtlsListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception;
+
+	/**
+	 * 점검관리목록 인쇄 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	List<?> selectQcMngDtlsReportI(GamFcltyQcSttusInqireVO searchVO) throws Exception;
+
+	/**
+	 * 점검구분 이름 조회(인쇄화면에 사용)
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */		
+	String selectQcSeNm(GamFcltyQcSttusInqireVO searchVO) throws Exception;
 	
 	/**
 	 * 점검관리내역 데이터 조회
@@ -48,7 +64,7 @@ public interface GamFcltyQcSttusInqireService {
 	 * @return EgovMap
 	 * @throws Exception
 	 */		
-	EgovMap selectQcSttusDtlsDetail(Map<?, ?> searchVO) throws Exception;
+	EgovMap selectQcMngDtlsDetail(Map<?, ?> searchVO) throws Exception;
 	
 	/**
 	 * 점검관리대상시설물 목록 조회
@@ -56,7 +72,7 @@ public interface GamFcltyQcSttusInqireService {
 	 * @return list
 	 * @throws Exception
 	 */		
-	List<?> selectQcSttusObjFcltsList(GamFcltyQcSttusInqireVO searchVO) throws Exception;
+	List<?> selectQcMngObjFcltsList(GamFcltyQcSttusInqireVO searchVO) throws Exception;
 	
 	/**
 	 * 점검관리대상시설물 목록 총수 조회
@@ -64,15 +80,15 @@ public interface GamFcltyQcSttusInqireService {
 	 * @return int
 	 * @throws Exception
 	 */		
-	int selectQcSttusObjFcltsListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception;
-		
+	int selectQcMngObjFcltsListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception;
+	
 	/**
 	 * 점검관리첨부파일 목록 조회
 	 * @param vo
 	 * @return list
 	 * @throws Exception
 	 */		
-	List<?> selectQcSttusAtchFileList(GamFcltyQcSttusInqireVO searchVO) throws Exception;
+	List<?> selectQcMngAtchFileList(GamFcltyQcSttusInqireVO searchVO) throws Exception;
 	
 	/**
 	 * 점검관리첨부파일 목록 총수 조회
@@ -80,7 +96,7 @@ public interface GamFcltyQcSttusInqireService {
 	 * @return int
 	 * @throws Exception
 	 */		
-	int selectQcSttusAtchFileListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception;
+	int selectQcMngAtchFileListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception;
 		
 	/**
 	 * 점검관리결과항목 목록 조회
@@ -88,7 +104,7 @@ public interface GamFcltyQcSttusInqireService {
 	 * @return list
 	 * @throws Exception
 	 */		
-	List<?> selectQcSttusResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception;
+	List<?> selectQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception;
 	
 	/**
 	 * 점검관리결과항목 목록 총수 조회
@@ -96,6 +112,6 @@ public interface GamFcltyQcSttusInqireService {
 	 * @return int
 	 * @throws Exception
 	 */		
-	int selectQcSttusResultItemListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception;
+	int selectQcMngResultItemListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception;
 		
 }

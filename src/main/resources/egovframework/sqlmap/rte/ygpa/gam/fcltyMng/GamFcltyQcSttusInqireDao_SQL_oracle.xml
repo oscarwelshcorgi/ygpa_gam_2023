@@ -7,51 +7,60 @@
     <typeAlias alias="gamFcltyQcSttusInqireVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcSttusInqireVO"/>
     
     <!-- 점검관리내역 -->
-	<select id="gamFcltyQcSttusInqireDao.selectQcSttusDtlsList_D" parameterClass="gamFcltyQcSttusInqireVO" resultClass="egovMap">
+	<select id="gamFcltyQcSttusInqireDao.selectQcMngDtlsList_D" parameterClass="gamFcltyQcSttusInqireVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                 SELECT ROWNUM RNUM, S.*
                 	FROM (
 						SELECT
 							Q.FCLTS_MNG_GROUP_NO
+							, F.FCLTS_MNG_GROUP_NM 
 							, Q.FCLTS_JOB_SE
+    						, GAM_GET_FCLTS_JOB_SE_NM(Q.FCLTS_JOB_SE) AS FCLTS_JOB_SE_NM
 							, TO_CHAR(Q.QC_MNG_SEQ) QC_MNG_SEQ
-							, Q.ENFORCE_YEAR
 							, Q.QC_MNG_NM
+							, Q.ENFORCE_YEAR
 							, TO_CHAR(Q.QC_INSP_DT, 'YYYY-MM-DD') QC_INSP_DT
+							, Q.QC_SE
+							, GAM_GET_QC_SE_NM(Q.QC_SE) QC_SE_NM
+                            , Q.QC_INSP_TP
+                            , GAM_GET_QC_INSP_TP_NM(Q.QC_INSP_TP) QC_INSP_TP_NM
 							, Q.QC_INSP_SE
+							, GAM_GET_QC_INSP_SE_NM(Q.QC_INSP_SE) QC_INSP_SE_NM
 							, Q.QC_INSP_INSTT_NM
 							, Q.RESPON_ENGINEER_NM
 							, TO_CHAR(Q.QC_BEGIN_DT, 'YYYY-MM-DD') QC_BEGIN_DT
 							, TO_CHAR(Q.QC_END_DT, 'YYYY-MM-DD') QC_END_DT
-							, Q.QC_INSP_BDGT
 							, Q.QC_INSP_AMT
 							, Q.STTUS_EVL_LVL
-							, Q.QC_INSP_RESULT
-							, Q.ACTION_CN
-							, Q.ACTION_SE
+							, GAM_GET_STTUS_EVL_LVL_NM(Q.STTUS_EVL_LVL) STTUS_EVL_LVL_NM
 							, Q.RM
 						FROM
 							QC_MNG_DTLS_F Q
+			            INNER JOIN 
+			            	FCLTS_MNG_GROUP_F F
+			            ON
+			              	Q.FCLTS_MNG_GROUP_NO = F.FCLTS_MNG_GROUP_NO
 						WHERE
 							1 = 1
+						<isNotEmpty property="sFcltsMngGroupNo">
+						  	AND Q.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+						</isNotEmpty>
 						<isNotEmpty property="sFcltsJobSe">
 						  	AND Q.FCLTS_JOB_SE = #sFcltsJobSe#
 						</isNotEmpty>
 						<isNotEmpty property="sQcMngNm">
 						  	AND Q.QC_MNG_NM LIKE '%' || #sQcMngNm# || '%' 
 						</isNotEmpty>
-						<isNotEmpty property="sQcInspSe">
-						  	AND Q.QC_INSP_SE = #sQcInspSe#
+						<isNotEmpty property="sQcSe">
+						  	AND Q.QC_SE = #sQcSe#
 						</isNotEmpty>
-						<isNotEmpty property="sQcBeginDt">
-						  	<![CDATA[ AND Q.QC_BEGIN_DT >= TO_DATE(#sQcBeginDt#, 'YYYY-MM-DD') ]]>
-						</isNotEmpty>
-						<isNotEmpty property="sQcEndDt">
-						  	<![CDATA[ AND Q.QC_END_DT <= TO_DATE(#sQcEndDt#, 'YYYY-MM-DD') ]]>
+						<isNotEmpty property="sEnforceYear">
+						  	AND Q.ENFORCE_YEAR = #sEnforceYear#
 						</isNotEmpty>
 						ORDER BY
-							Q.FCLTS_MNG_GROUP_NO
+							F.PRT_AT_CODE
+							, Q.FCLTS_MNG_GROUP_NO
 							, Q.FCLTS_JOB_SE
 							, Q.QC_MNG_SEQ
                 ) S
@@ -59,49 +68,101 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
 	</select>
 
-	<select id="gamFcltyQcSttusInqireDao.selectQcSttusDtlsListTotCnt_S" parameterClass="gamFcltyQcSttusInqireVO" resultClass="int">
+	<select id="gamFcltyQcSttusInqireDao.selectQcMngDtlsListTotCnt_S" parameterClass="gamFcltyQcSttusInqireVO" resultClass="int">
 		SELECT
 			COUNT(*) TOTCNT
 		FROM
-			QC_MNG_DTLS_F
+			QC_MNG_DTLS_F Q
 		WHERE
 			1 = 1
+		<isNotEmpty property="sFcltsMngGroupNo">
+		  	AND Q.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+		</isNotEmpty>
 		<isNotEmpty property="sFcltsJobSe">
 		  	AND Q.FCLTS_JOB_SE = #sFcltsJobSe#
 		</isNotEmpty>
 		<isNotEmpty property="sQcMngNm">
 		  	AND Q.QC_MNG_NM LIKE '%' || #sQcMngNm# || '%' 
 		</isNotEmpty>
-		<isNotEmpty property="sQcInspSe">
-		  	AND Q.QC_INSP_SE = #sQcInspSe#
+		<isNotEmpty property="sQcSe">
+		  	AND Q.QC_SE = #sQcSe#
 		</isNotEmpty>
-		<isNotEmpty property="sQcBeginDt">
-		  	<![CDATA[ AND Q.QC_BEGIN_DT >= TO_DATE(#sQcBeginDt#, 'YYYY-MM-DD') ]]>
-		</isNotEmpty>
-		<isNotEmpty property="sQcEndDt">
-		  	<![CDATA[ AND Q.QC_END_DT <= TO_DATE(#sQcEndDt#, 'YYYY-MM-DD') ]]>
+		<isNotEmpty property="sEnforceYear">
+		  	AND Q.ENFORCE_YEAR = #sEnforceYear#
 		</isNotEmpty>
 	</select>
 
-	<select id="gamFcltyQcSttusInqireDao.selectQcSttusDtlsDetail_S" parameterClass="hashMap" resultClass="egovMap">
+	<!-- 점검관리 정보통신 인쇄 리스트 -->
+	<select id="gamFcltyQcSttusInqireDao.selectQcMngDtlsReportI_D" parameterClass="gamFcltyQcSttusInqireVO" resultClass="egovMap">
 		SELECT
 			Q.FCLTS_MNG_GROUP_NO
+		  	, F.FCLTS_MNG_GROUP_NM 
+            , F.PRT_AT_CODE
+            , GAM_GETCODENAME('GAM019', F.PRT_AT_CODE) PRT_AT_CODE_NM
+            , F.OWNER
+            , GAM_GET_STTUS_EVL_LVL_NM(Q.STTUS_EVL_LVL) STTUS_EVL_LVL_NM
+            , Q.ACTION_CN
+            , Q.RM
+		FROM
+            QC_MNG_DTLS_F Q
+        INNER JOIN 
+           	FCLTS_MNG_GROUP_F F
+        ON
+            Q.FCLTS_MNG_GROUP_NO = F.FCLTS_MNG_GROUP_NO
+		WHERE
+			1 = 1
+		<isNotEmpty property="sFcltsMngGroupNo">
+		  	AND Q.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+		</isNotEmpty>
+		<isNotEmpty property="sFcltsJobSe">
+		  	AND Q.FCLTS_JOB_SE = #sFcltsJobSe#
+		</isNotEmpty>
+		<isNotEmpty property="sQcMngNm">
+		  	AND Q.QC_MNG_NM LIKE '%' || #sQcMngNm# || '%' 
+		</isNotEmpty>
+		<isNotEmpty property="sQcSe">
+		  	AND Q.QC_SE = #sQcSe#
+		</isNotEmpty>
+		<isNotEmpty property="sEnforceYear">
+		  	AND Q.ENFORCE_YEAR = #sEnforceYear#
+		</isNotEmpty>              	
+        ORDER BY 
+            F.PRT_AT_CODE, 
+            Q.FCLTS_MNG_GROUP_NO	
+	</select>
+	
+	<select id="gamFcltyQcSttusInqireDao.selectQcSeNm_S" parameterClass="gamFcltyQcSttusInqireVO" resultClass="String">
+		SELECT
+		  GAM_GET_QC_SE_NM(#sQcSe#) QC_SE_NM
+		FROM
+		  DUAL	
+  	</select>
+  	
+	<select id="gamFcltyQcSttusInqireDao.selectQcMngDtlsDetail_S" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+			Q.FCLTS_MNG_GROUP_NO
+			, (SELECT FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F WHERE FCLTS_MNG_GROUP_NO = Q.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GROUP_NM
 			, Q.FCLTS_JOB_SE
+    		, GAM_GET_FCLTS_JOB_SE_NM(Q.FCLTS_JOB_SE) AS FCLTS_JOB_SE_NM
 			, TO_CHAR(Q.QC_MNG_SEQ) QC_MNG_SEQ
-			, Q.ENFORCE_YEAR
 			, Q.QC_MNG_NM
+			, Q.ENFORCE_YEAR
 			, TO_CHAR(Q.QC_INSP_DT, 'YYYY-MM-DD') QC_INSP_DT
+			, Q.QC_SE
+			, GAM_GET_QC_SE_NM(Q.QC_SE) QC_SE_NM
+            , Q.QC_INSP_TP
+            , GAM_GET_QC_INSP_TP_NM(Q.QC_INSP_TP) QC_INSP_TP_NM
 			, Q.QC_INSP_SE
+			, GAM_GET_QC_INSP_SE_NM(Q.QC_INSP_SE) QC_INSP_SE_NM
 			, Q.QC_INSP_INSTT_NM
 			, Q.RESPON_ENGINEER_NM
 			, TO_CHAR(Q.QC_BEGIN_DT, 'YYYY-MM-DD') QC_BEGIN_DT
 			, TO_CHAR(Q.QC_END_DT, 'YYYY-MM-DD') QC_END_DT
-			, Q.QC_INSP_BDGT
-			, Q.QC_INSP_AMT
+			, TO_CHAR(Q.QC_INSP_AMT, '999,999,999,999') QC_INSP_AMT
 			, Q.STTUS_EVL_LVL
+			, GAM_GET_STTUS_EVL_LVL_NM(Q.STTUS_EVL_LVL) STTUS_EVL_LVL_NM
 			, Q.QC_INSP_RESULT
 			, Q.ACTION_CN
-			, Q.ACTION_SE
 			, Q.RM
 		FROM
 			QC_MNG_DTLS_F Q
@@ -111,8 +172,9 @@
 			AND Q.QC_MNG_SEQ = TO_NUMBER(#sQcMngSeq#)
 	</select>
 	
+	
 	<!-- 점검관리대상 시설물  -->
-	<select id="gamFcltyQcSttusInqireDao.selectQcSttusObjFcltsList_D" parameterClass="gamFcltyQcSttusInqireVO" resultClass="egovMap">
+	<select id="gamFcltyQcSttusInqireDao.selectQcMngObjFcltsList_D" parameterClass="gamFcltyQcSttusInqireVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                 SELECT ROWNUM RNUM, S.*
@@ -122,7 +184,9 @@
 							, O.FCLTS_JOB_SE
 							, O.QC_MNG_SEQ
 							, O.FCLTS_MNG_NO
-							, O.QC_INSP_SE
+							, (SELECT G.PRT_FCLTY_NM FROM GIS_PRT_FCLTY_CD_F G WHERE G.FCLTS_MNG_NO = O.FCLTS_MNG_NO) PRT_FCLTY_NM  
+							, O.STTUS_EVL_LVL
+							, GAM_GET_STTUS_EVL_LVL_NM(O.STTUS_EVL_LVL) STTUS_EVL_LVL_NM
 							, TO_CHAR(O.QC_INSP_DT, 'YYYY-MM-DD') QC_INSP_DT
 							, O.INSPECTOR
 							, O.QC_INSP_RESULT
@@ -140,7 +204,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>				
 	</select>
 
-	<select id="gamFcltyQcSttusInqireDao.selectQcSttusObjFcltsListTotCnt_S" parameterClass="gamFcltyQcSttusInqireVO" resultClass="int">
+	<select id="gamFcltyQcSttusInqireDao.selectQcMngObjFcltsListTotCnt_S" parameterClass="gamFcltyQcSttusInqireVO" resultClass="int">
 		SELECT
 			COUNT(*) TOTCNT
 		FROM
@@ -150,9 +214,9 @@
 			AND FCLTS_JOB_SE = #sFcltsJobSe#
 			AND QC_MNG_SEQ = TO_NUMBER(#sQcMngSeq#) 	
 	</select>	
-	
+		
 	<!-- 점검관리첨부파일  -->
-	<select id="gamFcltyQcSttusInqireDao.selectQcSttusAtchFileList_D" parameterClass="gamFcltyQcSttusInqireVO" resultClass="egovMap">
+	<select id="gamFcltyQcSttusInqireDao.selectQcMngAtchFileList_D" parameterClass="gamFcltyQcSttusInqireVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                 SELECT ROWNUM RNUM, S.*
@@ -163,10 +227,7 @@
 							, F.QC_MNG_SEQ
 						  	, F.ATCH_FILE_SEQ
 						  	, F.ATCH_FILE_SE
-						  	, (CASE WHEN F.ATCH_FILE_SE = 'D' THEN '문서' 
-                                  	WHEN F.ATCH_FILE_SE = 'P' THEN '사진'
-                                 	WHEN F.ATCH_FILE_SE = 'Z' THEN '기타'
-                            	END) AS ATCH_FILE_SE_NM
+						  	, GAM_GET_FILE_SE_NM(F.ATCH_FILE_SE) ATCH_FILE_SE_NM
 						  	, F.ATCH_FILE_SJ
 						  	, F.ATCH_FILE_NM_LOGIC
 						  	, F.ATCH_FILE_NM_PHYSICL
@@ -184,7 +245,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>				
 	</select>
 
-	<select id="gamFcltyQcSttusInqireDao.selectQcSttusAtchFileListTotCnt_S" parameterClass="gamFcltyQcSttusInqireVO" resultClass="int">
+	<select id="gamFcltyQcSttusInqireDao.selectQcMngAtchFileListTotCnt_S" parameterClass="gamFcltyQcSttusInqireVO" resultClass="int">
 		SELECT
 			COUNT(*) TOTCNT
 		FROM
@@ -195,8 +256,10 @@
 			AND QC_MNG_SEQ = TO_NUMBER(#sQcMngSeq#) 	
 	</select>	
 	
+
+
 	<!-- 점검관리결과항목 -->			
-	<select id="gamFcltyQcSttusInqireDao.selectQcSttusResultItemList_D" parameterClass="gamFcltyQcSttusInqireVO" resultClass="egovMap">
+	<select id="gamFcltyQcSttusInqireDao.selectQcMngResultItemList_D" parameterClass="gamFcltyQcSttusInqireVO" resultClass="egovMap">
         SELECT A.*
            FROM (
                 SELECT ROWNUM RNUM, S.*
@@ -206,24 +269,31 @@
 							, R.FCLTS_JOB_SE
 							, R.QC_MNG_SEQ
 							, R.QC_ITEM_CD
-							, (SELECT QC_ITEM FROM QC_ITEM_CD_F WHERE QC_ITEM_CD = R.QC_ITEM_CD) QC_ITEM_NM
+							, I.QC_ITEM_NM
+              				, I.QC_ITEM_UPPER_CD
+              				, (SELECT QC_ITEM_NM FROM QC_ITEM_CD_F WHERE QC_ITEM_CD = I.QC_ITEM_UPPER_CD) AS QC_ITEM_UPPER_NM
 							, R.SEQ
 							, R.INSP_RESULT_CHK
+							, GAM_GET_INSP_RESULT_CHK_NM(R.INSP_RESULT_CHK) INSP_RESULT_CHK_NM
 							, R.INSP_RESULT_CN
 						FROM
 							QC_MNG_RESULT_ITEM_F R
+            			INNER JOIN
+              				QC_ITEM_CD_F I
+            			ON
+              				R.QC_ITEM_CD = I.QC_ITEM_CD
 						WHERE
 							R.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
 							AND R.FCLTS_JOB_SE = #sFcltsJobSe#
 							AND R.QC_MNG_SEQ = TO_NUMBER(#sQcMngSeq#) 
 						ORDER BY
-							R.SEQ
+							I.QC_ITEM_UPPER_CD, R.SEQ
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>				
 	</select>
 
-	<select id="gamFcltyQcSttusInqireDao.selectQcSttusResultItemListTotCnt_S" parameterClass="gamFcltyQcSttusInqireVO" resultClass="int">
+	<select id="gamFcltyQcSttusInqireDao.selectQcMngResultItemListTotCnt_S" parameterClass="gamFcltyQcSttusInqireVO" resultClass="int">
 		SELECT
 			COUNT(*) TOTCNT
 		FROM
@@ -233,5 +303,6 @@
 			AND FCLTS_JOB_SE = #sFcltsJobSe#
 			AND QC_MNG_SEQ = TO_NUMBER(#sQcMngSeq#)
 	</select>	
+		
 		
 </sqlMap>

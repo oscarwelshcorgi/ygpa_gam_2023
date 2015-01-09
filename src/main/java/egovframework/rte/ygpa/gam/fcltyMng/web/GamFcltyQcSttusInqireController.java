@@ -13,11 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
@@ -73,7 +79,7 @@ public class GamFcltyQcSttusInqireController {
 	
 
 	/**
-	 * 점검관리내역 조회
+	 * 점검관리목록 조회
 	 * @param searchVO
 	 * @return map
 	 * @throws Exception
@@ -102,8 +108,8 @@ public class GamFcltyQcSttusInqireController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		List resultList = gamFcltyQcSttusInqireService.selectQcSttusDtlsList(searchVO);
-		int totCnt = gamFcltyQcSttusInqireService.selectQcSttusDtlsListTotCnt(searchVO);
+		List resultList = gamFcltyQcSttusInqireService.selectQcMngDtlsList(searchVO);
+		int totCnt = gamFcltyQcSttusInqireService.selectQcMngDtlsListTotCnt(searchVO);
 		
         paginationInfo.setTotalRecordCount(totCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -114,6 +120,84 @@ public class GamFcltyQcSttusInqireController {
     	map.put("searchOption", searchVO);
     	return map;
     }
+
+	/**
+	 * 점검관리목록 인쇄
+	 * @param map
+	 * @return string
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/fcltyMng/selectQcSttusDtlsReportPrint.do")
+	public String selectQcSttusDtlsReportPrint(@RequestParam Map<String, Object> searchOpt, ModelMap model) throws Exception {
+    	Map map = new HashMap();
+
+		ObjectMapper mapper = new ObjectMapper();
+		
+		GamFcltyQcSttusInqireVO searchVO;
+    	searchVO = mapper.convertValue(searchOpt, GamFcltyQcSttusInqireVO.class);
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return "/ygpa/gam/fcltyMng/GamFcltyQcwWrtMngReportPrintI";
+    	}
+
+    	List resultList = gamFcltyQcSttusInqireService.selectQcMngDtlsReportI(searchVO);
+    	String qcSeNm = gamFcltyQcSttusInqireService.selectQcSeNm(searchVO);
+
+		String enforceYear = searchVO.getsEnforceYear();
+		enforceYear = ((enforceYear != null) && (enforceYear.length() > 0)) ? enforceYear + "년" : enforceYear;  
+    	
+        model.addAttribute("resultList", resultList);
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+		model.addAttribute("qcSeNm", qcSeNm);
+		model.addAttribute("enforceYear", enforceYear);
+    	return "ygpa/gam/fcltyMng/GamFcltyQcwWrtMngReportPrintI";
+    }
+	
+	/**
+	 * 점검관리목록 엑셀다운로드
+	 * @param map
+	 * @return modelAndView
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/fcltyMng/excelDownloadQcSttusDtlsList.do" , method=RequestMethod.POST)
+	@ResponseBody ModelAndView excelDownloadQcSttusDtlsList(@RequestParam Map<String, Object> excelParam) throws Exception {
+
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return new ModelAndView("gridExcelView", "gridResultMap", map);
+		}
+
+		header = mapper.readValue((String)excelParam.get("header"),
+								  new TypeReference<List<HashMap<String,String>>>(){});
+		excelParam.remove("header");
+
+		GamFcltyQcSttusInqireVO searchVO= new GamFcltyQcSttusInqireVO();
+		searchVO = mapper.convertValue(excelParam, GamFcltyQcSttusInqireVO.class);
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		List resultList = gamFcltyQcSttusInqireService.selectQcMngDtlsList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("header", header);
+
+		return new ModelAndView("gridExcelView", "gridResultMap", map);
+	}
 	
 	/**
 	 * 점검관리내역 상세
@@ -135,7 +219,7 @@ public class GamFcltyQcSttusInqireController {
     	}
     	
     	try {
-        	result = gamFcltyQcSttusInqireService.selectQcSttusDtlsDetail(searchVO);
+        	result = gamFcltyQcSttusInqireService.selectQcMngDtlsDetail(searchVO);
             map.put("resultCode", 0);
             map.put("result", result);
     	}
@@ -176,8 +260,8 @@ public class GamFcltyQcSttusInqireController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		List resultList = gamFcltyQcSttusInqireService.selectQcSttusObjFcltsList(searchVO);
-		int totCnt = gamFcltyQcSttusInqireService.selectQcSttusObjFcltsListTotCnt(searchVO);
+		List resultList = gamFcltyQcSttusInqireService.selectQcMngObjFcltsList(searchVO);
+		int totCnt = gamFcltyQcSttusInqireService.selectQcMngObjFcltsListTotCnt(searchVO);
 		
         paginationInfo.setTotalRecordCount(totCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -220,8 +304,8 @@ public class GamFcltyQcSttusInqireController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		List resultList = gamFcltyQcSttusInqireService.selectQcSttusAtchFileList(searchVO);
-		int totCnt = gamFcltyQcSttusInqireService.selectQcSttusAtchFileListTotCnt(searchVO);
+		List resultList = gamFcltyQcSttusInqireService.selectQcMngAtchFileList(searchVO);
+		int totCnt = gamFcltyQcSttusInqireService.selectQcMngAtchFileListTotCnt(searchVO);
 		
         paginationInfo.setTotalRecordCount(totCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -263,8 +347,8 @@ public class GamFcltyQcSttusInqireController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		List resultList = gamFcltyQcSttusInqireService.selectQcSttusResultItemList(searchVO);
-		int totCnt = gamFcltyQcSttusInqireService.selectQcSttusResultItemListTotCnt(searchVO);
+		List resultList = gamFcltyQcSttusInqireService.selectQcMngResultItemList(searchVO);
+		int totCnt = gamFcltyQcSttusInqireService.selectQcMngResultItemListTotCnt(searchVO);
 		
         paginationInfo.setTotalRecordCount(totCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -274,5 +358,7 @@ public class GamFcltyQcSttusInqireController {
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
     	return map;
-    }			
+    }
+
+		
 }

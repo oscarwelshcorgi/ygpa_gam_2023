@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcSttusInqireVO;
+import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcSttusInqireVO;
 
 /**
  * 
@@ -37,8 +38,8 @@ public class GamFcltyQcSttusInqireDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List<?> selectQcSttusDtlsList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return list("gamFcltyQcSttusInqireDao.selectQcSttusDtlsList_D", searchVO);
+	public List<?> selectQcMngDtlsList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return list("gamFcltyQcSttusInqireDao.selectQcMngDtlsList_D", searchVO);
 	}
 	
 	/**
@@ -47,8 +48,18 @@ public class GamFcltyQcSttusInqireDao extends YGPAAbstractDAO {
 	 * @return int
 	 * @throws Exception
 	 */		
-	public int selectQcSttusDtlsListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyQcSttusInqireDao.selectQcSttusDtlsListTotCnt_S", searchVO);
+	public int selectQcMngDtlsListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyQcSttusInqireDao.selectQcMngDtlsListTotCnt_S", searchVO);
+	}
+	
+	/**
+	 * 점검관리목록(정보통신) 인쇄 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	public List<?> selectQcMngDtlsReportI(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return list("gamFcltyQcSttusInqireDao.selectQcMngDtlsReportI_D", searchVO);
 	}
 	
 	/**
@@ -57,18 +68,28 @@ public class GamFcltyQcSttusInqireDao extends YGPAAbstractDAO {
 	 * @return EgovMap
 	 * @throws Exception
 	 */		
-	public EgovMap selectQcSttusDtlsDetail(Map<?, ?> searchVO) throws Exception {
-		return (EgovMap) selectByPk("gamFcltyQcSttusInqireDao.selectQcSttusDtlsDetail_S", searchVO);
+	public EgovMap selectQcMngDtlsDetail(Map<?, ?> searchVO) throws Exception {
+		return (EgovMap) selectByPk("gamFcltyQcSttusInqireDao.selectQcMngDtlsDetail_S", searchVO);
 	}
-			
+
+	/**
+	 * 점검구분 이름 조회(인쇄화면에 사용)
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */		
+	public String selectQcSeNm(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return (String)getSqlMapClientTemplate().queryForObject("gamFcltyQcSttusInqireDao.selectQcSeNm_S", searchVO);
+	}
+	
 	/**
 	 * 점검관리대상시설물 목록 조회
 	 * @param vo
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List<?> selectQcSttusObjFcltsList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return list("gamFcltyQcSttusInqireDao.selectQcSttusObjFcltsList_D", searchVO);
+	public List<?> selectQcMngObjFcltsList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return list("gamFcltyQcSttusInqireDao.selectQcMngObjFcltsList_D", searchVO);
 	}
 	
 	/**
@@ -77,8 +98,8 @@ public class GamFcltyQcSttusInqireDao extends YGPAAbstractDAO {
 	 * @return int
 	 * @throws Exception
 	 */		
-	public int selectQcSttusObjFcltsListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyQcSttusInqireDao.selectQcSttusObjFcltsListTotCnt_S", searchVO);
+	public int selectQcMngObjFcltsListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyQcSttusInqireDao.selectQcMngObjFcltsListTotCnt_S", searchVO);
 	}
 	
 	/**
@@ -87,8 +108,8 @@ public class GamFcltyQcSttusInqireDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List<?> selectQcSttusAtchFileList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return list("gamFcltyQcSttusInqireDao.selectQcSttusAtchFileList_D", searchVO);
+	public List<?> selectQcMngAtchFileList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return list("gamFcltyQcSttusInqireDao.selectQcMngAtchFileList_D", searchVO);
 	}
 	
 	/**
@@ -97,18 +118,18 @@ public class GamFcltyQcSttusInqireDao extends YGPAAbstractDAO {
 	 * @return int
 	 * @throws Exception
 	 */		
-	public int selectQcSttusAtchFileListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyQcSttusInqireDao.selectQcSttusAtchFileListTotCnt_S", searchVO);
+	public int selectQcMngAtchFileListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyQcSttusInqireDao.selectQcMngAtchFileListTotCnt_S", searchVO);
 	}
-
+		
 	/**
 	 * 점검관리결과항목 목록 조회
 	 * @param vo
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List<?> selectQcSttusResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return list("gamFcltyQcSttusInqireDao.selectQcSttusResultItemList_D", searchVO);
+	public List<?> selectQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return list("gamFcltyQcSttusInqireDao.selectQcMngResultItemList_D", searchVO);
 	}
 	
 	/**
@@ -117,7 +138,8 @@ public class GamFcltyQcSttusInqireDao extends YGPAAbstractDAO {
 	 * @return int
 	 * @throws Exception
 	 */		
-	public int selectQcSttusResultItemListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyQcSttusInqireDao.selectQcSttusResultItemListTotCnt_S", searchVO);
+	public int selectQcMngResultItemListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyQcSttusInqireDao.selectQcMngResultItemListTotCnt_S", searchVO);
 	}
+		
 }

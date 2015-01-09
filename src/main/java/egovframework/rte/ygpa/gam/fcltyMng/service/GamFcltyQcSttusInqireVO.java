@@ -31,21 +31,18 @@ public class GamFcltyQcSttusInqireVO extends ComDefaultVO {
 	/**점검관리명(조회조건)*/
 	private String sQcMngNm;
 	
-	/**점검진단구분(조회조건)*/
-	private String sQcInspSe;
-
 	/**시설물관리그룹번호(조회조건)*/
 	private String sFcltsMngGroupNo;
 	
 	/**점검관리순번(조회조건)*/
 	private String sQcMngSeq;
 	
-	/**점검시작일(조회조건)*/
-	private String sQcBeginDt;
+	/**점검구분(조회조건)*/
+	private String sQcSe;
 	
-	/**점검종료일(조회조건)*/
-	private String sQcEndDt;
-
+	/**시행년도(조회조건)*/
+	private String sEnforceYear;
+	
 	/**
 	 * @return the sFcltsJobSe
 	 */
@@ -72,20 +69,6 @@ public class GamFcltyQcSttusInqireVO extends ComDefaultVO {
 	 */
 	public void setsQcMngNm(String sQcMngNm) {
 		this.sQcMngNm = sQcMngNm;
-	}
-
-	/**
-	 * @return the sQcInspSe
-	 */
-	public String getsQcInspSe() {
-		return sQcInspSe;
-	}
-
-	/**
-	 * @param sQcInspSe the sQcInspSe to set
-	 */
-	public void setsQcInspSe(String sQcInspSe) {
-		this.sQcInspSe = sQcInspSe;
 	}
 
 	/**
@@ -117,31 +100,31 @@ public class GamFcltyQcSttusInqireVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the sQcBeginDt
+	 * @return the sQcSe
 	 */
-	public String getsQcBeginDt() {
-		return sQcBeginDt;
+	public String getsQcSe() {
+		return sQcSe;
 	}
 
 	/**
-	 * @param sQcBeginDt the sQcBeginDt to set
+	 * @param sQcSe the sQcSe to set
 	 */
-	public void setsQcBeginDt(String sQcBeginDt) {
-		this.sQcBeginDt = sQcBeginDt;
+	public void setsQcSe(String sQcSe) {
+		this.sQcSe = sQcSe;
 	}
 
 	/**
-	 * @return the sQcEndDt
+	 * @return the sEnforceYear
 	 */
-	public String getsQcEndDt() {
-		return sQcEndDt;
+	public String getsEnforceYear() {
+		return sEnforceYear;
 	}
 
 	/**
-	 * @param sQcEndDt the sQcEndDt to set
+	 * @param sEnforceYear the sEnforceYear to set
 	 */
-	public void setsQcEndDt(String sQcEndDt) {
-		this.sQcEndDt = sQcEndDt;
+	public void setsEnforceYear(String sEnforceYear) {
+		this.sEnforceYear = sEnforceYear;
 	}
-	
+
 }

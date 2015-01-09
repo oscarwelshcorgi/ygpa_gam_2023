@@ -42,8 +42,8 @@ public class GamFcltyQcSttusInqireServiceImpl extends AbstractServiceImpl implem
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List<?> selectQcSttusDtlsList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return gamFcltyQcSttusInqireDao.selectQcSttusDtlsList(searchVO);
+	public List<?> selectQcMngDtlsList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return gamFcltyQcSttusInqireDao.selectQcMngDtlsList(searchVO);
 	}
 	
 	/**
@@ -52,8 +52,28 @@ public class GamFcltyQcSttusInqireServiceImpl extends AbstractServiceImpl implem
 	 * @return int
 	 * @throws Exception
 	 */		
-	public int selectQcSttusDtlsListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return gamFcltyQcSttusInqireDao.selectQcSttusDtlsListTotCnt(searchVO);
+	public int selectQcMngDtlsListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return gamFcltyQcSttusInqireDao.selectQcMngDtlsListTotCnt(searchVO);
+	}
+	
+	/**
+	 * 점검관리목록 인쇄 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	public List<?> selectQcMngDtlsReportI(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return gamFcltyQcSttusInqireDao.selectQcMngDtlsReportI(searchVO);
+	}
+	
+	/**
+	 * 점검구분 이름 조회(인쇄화면에 사용)
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */		
+	public String selectQcSeNm(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return gamFcltyQcSttusInqireDao.selectQcSeNm(searchVO);
 	}
 	
 	/**
@@ -62,18 +82,18 @@ public class GamFcltyQcSttusInqireServiceImpl extends AbstractServiceImpl implem
 	 * @return EgovMap
 	 * @throws Exception
 	 */		
-	public EgovMap selectQcSttusDtlsDetail(Map<?, ?> searchVO) throws Exception {
-		return gamFcltyQcSttusInqireDao.selectQcSttusDtlsDetail(searchVO);
+	public EgovMap selectQcMngDtlsDetail(Map<?, ?> searchVO) throws Exception {
+		return gamFcltyQcSttusInqireDao.selectQcMngDtlsDetail(searchVO);
 	}
-
+		
 	/**
 	 * 점검관리대상시설물 목록 조회
 	 * @param vo
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List<?> selectQcSttusObjFcltsList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return gamFcltyQcSttusInqireDao.selectQcSttusObjFcltsList(searchVO);
+	public List<?> selectQcMngObjFcltsList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return gamFcltyQcSttusInqireDao.selectQcMngObjFcltsList(searchVO);
 	}
 	
 	/**
@@ -82,8 +102,8 @@ public class GamFcltyQcSttusInqireServiceImpl extends AbstractServiceImpl implem
 	 * @return int
 	 * @throws Exception
 	 */		
-	public int selectQcSttusObjFcltsListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return gamFcltyQcSttusInqireDao.selectQcSttusObjFcltsListTotCnt(searchVO);
+	public int selectQcMngObjFcltsListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return gamFcltyQcSttusInqireDao.selectQcMngObjFcltsListTotCnt(searchVO);
 	}
 	
 	/**
@@ -92,8 +112,8 @@ public class GamFcltyQcSttusInqireServiceImpl extends AbstractServiceImpl implem
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List<?> selectQcSttusAtchFileList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return gamFcltyQcSttusInqireDao.selectQcSttusAtchFileList(searchVO);
+	public List<?> selectQcMngAtchFileList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return gamFcltyQcSttusInqireDao.selectQcMngAtchFileList(searchVO);
 	}
 	
 	/**
@@ -102,8 +122,8 @@ public class GamFcltyQcSttusInqireServiceImpl extends AbstractServiceImpl implem
 	 * @return int
 	 * @throws Exception
 	 */		
-	public int selectQcSttusAtchFileListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return gamFcltyQcSttusInqireDao.selectQcSttusAtchFileListTotCnt(searchVO);
+	public int selectQcMngAtchFileListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return gamFcltyQcSttusInqireDao.selectQcMngAtchFileListTotCnt(searchVO);
 	}
 		
 	/**
@@ -112,8 +132,8 @@ public class GamFcltyQcSttusInqireServiceImpl extends AbstractServiceImpl implem
 	 * @return list
 	 * @throws Exception
 	 */		
-	public List<?> selectQcSttusResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return gamFcltyQcSttusInqireDao.selectQcSttusResultItemList(searchVO);
+	public List<?> selectQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return gamFcltyQcSttusInqireDao.selectQcMngResultItemList(searchVO);
 	}
 	
 	/**
@@ -122,7 +142,8 @@ public class GamFcltyQcSttusInqireServiceImpl extends AbstractServiceImpl implem
 	 * @return int
 	 * @throws Exception
 	 */		
-	public int selectQcSttusResultItemListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return gamFcltyQcSttusInqireDao.selectQcSttusResultItemListTotCnt(searchVO);
+	public int selectQcMngResultItemListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return gamFcltyQcSttusInqireDao.selectQcMngResultItemListTotCnt(searchVO);
 	}
+		
 }
