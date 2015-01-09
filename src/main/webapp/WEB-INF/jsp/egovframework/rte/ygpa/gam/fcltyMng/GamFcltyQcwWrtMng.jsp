@@ -545,7 +545,7 @@ GamFcltyQcwWrtMngModule.prototype.selectedQcMngResultItems = function(selectedIt
 		var item = selectedItems[i];
 		//항목코드가 현재 리스트에 중복되지 않은 것만 추가
 		if(!this.existQcMngResultItem(item.qcItemCd)) {
-			this.$("#qcMngResultItemList").flexAddRow({'_updtId': 'I', 'fcltsMngGroupNo':'', 'fcltsJobSe':'', 'qcMngSeq':'', 'qcItemCd':item.qcItemCd, 'qcItemNm':item.qcItemNm,  'seq':'', 'inspResultChk':'', 'inspResultChkNm':'', 'inspResultCn':''});
+			this.$("#qcMngResultItemList").flexAddRow({'_updtId': 'I', 'fcltsMngGroupNo':'', 'fcltsJobSe':'', 'qcMngSeq':'', 'qcItemCd':item.qcItemCd, 'qcItemNm':item.qcItemNm,  'qcItemUpperCd' : item.qcItemUpperCd, 'qcItemUpperNm' : item.qcItemUpperNm , 'seq':'', 'inspResultChk':'', 'inspResultChkNm':'', 'inspResultCn':''});
 		}
 	}		
 	var allRows = this.$('#qcMngResultItemList').flexGetData();

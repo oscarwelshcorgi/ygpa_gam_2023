@@ -30,10 +30,10 @@ GamPopupQcItemCdTreeModule.prototype.loadComplete = function(params) {
 	this.resizable(true);
 	
 	this.tree = null; //dhtmlX tree 객체
-	this.dataList = null; //db에서 가져온 데이터 리스트
+	this._childless = null; //tree에서 자식이 없는 노드 배열.
 	
-	this.fcltsJobSe = params['fcltsJobSe']; //시설물 구분자
-	this.displayTreeData(this.fcltsJobSe);
+	this._fcltsJobSe = params['fcltsJobSe']; //시설물 구분자
+	this.displayTreeData(this._fcltsJobSe);
 };
 
 GamPopupQcItemCdTreeModule.prototype.loadData = function() {
@@ -68,33 +68,41 @@ GamPopupQcItemCdTreeModule.prototype.displayTreeData = function(fcltsJobSe) {
 				module.tree.setUserData('module', module);
 				module.tree.openAllItems(0);
 				module.tree.module = module;
-				module.dataList = result.resultList; //결과리스트의 참조포인트를 module객체 변수에 저장한다. 이름검색시 사용.
+				module._childless = module.tree.getAllChildless().split(','); 
 			}
 		}
 	});
 };
 
-// 점검항목코드에 대한 점검항목명 얻기.
-GamPopupQcItemCdTreeModule.prototype.getQcItemNm = function(qcItemCd) {
-	var result = '';
-	for (var i=0; i < this.dataList.length; i++) {
-		var qcItem = this.dataList[i];
-		if(qcItem.qcItemCd == qcItemCd) {
-			result = qcItem.qcItemNm;
+// 자식이 있는지 없는지 확인하는 함수 : 자식이 없다면 true 반환
+GamPopupQcItemCdTreeModule.prototype.isChildless = function(selectedId) {
+	var result = false;
+	for(var i=0; i<this._childless.length; i++) {
+		if(this._childless[i] == selectedId) {
+			result = true;
 			break;
 		}
 	}
 	return result;
 };
 
+
 // 트리에 있는 선택된 항목을 JSON배열 형태로 변환.
 GamPopupQcItemCdTreeModule.prototype.getQcItemList = function(selectedIds) {
 	var selectedItems = [];
+	var resultList = null;
 	for(var i=0; i<selectedIds.length; i++) {
-		var qcItemNm = this.getQcItemNm(selectedIds[i]);
-		selectedItems[selectedItems.length] = {'qcItemCd' : this.fcltsJobSe + selectedIds[i].substring(1), 'qcItemNm' : qcItemNm };
+		var selectedId = selectedIds[i];
+		if(this.isChildless(selectedId)) {
+			var qcItemCd = this._fcltsJobSe + selectedId.substr(1);
+			var qcItemNm = this.tree.getItemText(selectedId);
+			var parentId = new String(this.tree.getParentId(selectedId));
+			var qcItemUpperCd = this._fcltsJobSe + parentId.substr(1);
+			var qcItemUpperNm = this.tree.getItemText(parentId);
+			selectedItems[selectedItems.length] = {'qcItemCd' : qcItemCd,  'qcItemNm' : qcItemNm, 'qcItemUpperCd' : qcItemUpperCd, 'qcItemUpperNm' : qcItemUpperNm  };
+		}
 	}
-	var resultList = {'selectedQcResultItemList': selectedItems};
+	resultList = {'selectedQcResultItemList': selectedItems};
 	return resultList;
 };
 
