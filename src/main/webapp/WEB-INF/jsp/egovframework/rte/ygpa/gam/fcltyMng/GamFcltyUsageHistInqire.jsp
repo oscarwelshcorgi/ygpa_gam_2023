@@ -245,7 +245,7 @@ GamFcltyUsageHistInqireModule.prototype.rowSpanGridData = function() {
 	var startRowNo = 0;
 	var endRowNo = 0;
 	for(var i=0; i<gridRowCount; i++) {
-		var row = this.$("#mainGrid").flexGetRow(i+1);
+		var row = this.$("#mainGrid").flexGetRow(i);
 		if (gisAssetsLocplc == "") {
 			gisAssetsLocplc = row.gisAssetsLocplc;
 		}
@@ -323,7 +323,7 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 				<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>항코드</th>
+							<th>항구분</th>
 							<td>
 								<input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
 							</td>
