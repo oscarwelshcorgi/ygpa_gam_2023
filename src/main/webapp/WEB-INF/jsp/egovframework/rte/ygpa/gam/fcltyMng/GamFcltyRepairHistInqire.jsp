@@ -44,12 +44,12 @@ GamFcltyRepairHistInqireModule.prototype.loadComplete = function(params) {
 		colModel : [
 					{display:"시행년도", 			name:"enforceYear",				width:60, 		sortable:false,		align:"center"},
 					{display:"계약번호", 			name:"ctrtNo",					width:200, 		sortable:false,		align:"center"},
-					{display:"업체명",		name:"flawRprEntrpsNm",	width:200,		sortable:true,		align:"left"},
-					{display:"시설물명",		name:"prtFcltyNm",	width:200,		sortable:true,		align:"left"},
+					{display:"업체명",			name:"flawRprEntrpsNm",			width:200,		sortable:true,		align:"left"},
+					{display:"시설물명",			name:"prtFcltyNm",				width:200,		sortable:true,		align:"left"},
 					{display:"하자보수순번", 		name:"flawRprSeq",				width:120, 		sortable:false,		align:"center"},
 					{display:"하자검사구분",		name:"flawExamSe",				width:80, 		sortable:false,		align:"center"},
-					{display:"하자유무",		name:"flawEnnc",	width:90,		sortable:true,		align:"center"},
-					{display:"하자검사일자",	name:"flawExamDt",	width:100,		sortable:true,		align:"center"},
+					{display:"하자유무",			name:"flawEnnc",				width:90,		sortable:true,		align:"center"},
+					{display:"하자검사일자",		name:"flawExamDt",				width:100,		sortable:true,		align:"center"},
 					{display:"하자보수유형",		name:"flawRprTy",				width:80, 		sortable:false,		align:"center"},
 					{display:"하자보수명",			name:"flawRprNm",				width:250, 		sortable:false,		align:"left"},
 					{display:"하자보수금액", 		name:"flawRprAmt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
@@ -141,7 +141,7 @@ GamFcltyRepairHistInqireModule.prototype.onTabChange = function(newTabId, oldTab
 
 	switch(buttonId) {
 		case "btnSearchFcltsMngNo":
-			this.doExecuteDialog("selectFcltsMngNo", "시설물 관리 그룹 번호", '/popup/selectFcltsMngNo.do', {});
+			this.doExecuteDialog("selectFcltsMngNo", "시설물 관리 그룹 번호", '/popup/showFcltsMngNo.do', {}, {});
 		break;
 
 	}
@@ -230,22 +230,21 @@ var module_instance = new GamFcltyRepairHistInqireModule();
 							<th width="30px" height="23" class="required_text">하자유무</th>
 							<td width="100px"><span id="flawEnnc" title="하자유무"></span></td>
 							<th width="30px" height="23" class="required_text">시설물업무구분</th>
-							<td width="100px"><span id="fcltsJobSe" title="시설물업무구분"></span></td>
+							<td width="100px"><span id="fcltsJobSeNm" title="시설물업무구분"></span></td>
 							<th width="30px" height="23" class="required_text">하자보수유형</th>
-							<td><span id="flawRprTy" title="하자보수유형"></span></td>
+							<td><span id="flawRprTyNm" title="하자보수유형"></span></td>
 						</tr>
 						<tr>
 							<th height="17" class="required_text">시설물관리그룹</th>
 							<td colspan="7">
 								<span id="fcltsMngGroupNo" title="시설물관리그룹넘버" ></span>
-								<span id="fcltsMngGroupNoNm" title="시설물관리그룹명"></span>
+								[ <span id="fcltsMngGoupNm" title="시설물관리그룹명"></span> ]
 							</td>
 						</tr>
 						<tr>
 							<th height="23" class="required_text">계약번호</th>
 							<td colspan="5">
 								<span id="ctrtNo" title="계약번호"></span> 
-								<span id="ctrtNm" title="계약명"></span>
 							</td>
 							<th height="23" class="required_text">하자보수순번</th>
 							<td><span id="flawRprSeq" title="하자보수순번" ></span></td>
@@ -264,7 +263,7 @@ var module_instance = new GamFcltyRepairHistInqireModule();
 							<th height="23" class="required_text">하자보수금액</th>
 							<td colspan="3"><span id="flawRprAmt" title="하자보수금액" class="ygpaNumber"></span></td>
 							<th>하자검사구분</th>
-							<td><span id="flawExamSe" title="하자검사구분"></span></td>
+							<td><span id="flawExamSeNm" title="하자검사구분"></span></td>
 						</tr>
 						<tr>
 							<th height="23" class="required_text">하자발생일자</th>

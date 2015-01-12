@@ -995,7 +995,7 @@ var module_instance = new GamFcltyRepairMngModule();
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
 							<td colspan="3">
 								<input type="text" size="18" id="fcltsMngGroupNo" disabled="disabled" data-required="true" title="시설물관리그룹넘버" />
-								<input type="text" size="36" id="fcltsMngGroupNoNm" disabled="disabled" title="시설물관리그룹명"/>
+								<input type="text" size="36" id="fcltsMngGoupNoNm" disabled="disabled" title="시설물관리그룹명"/>
 								<button id="searchFcltsMngGroupNo" class="popupButton">선택</button>
 							</td>
 							<th width="15%" height="23" class="required_text">시행년도</th>

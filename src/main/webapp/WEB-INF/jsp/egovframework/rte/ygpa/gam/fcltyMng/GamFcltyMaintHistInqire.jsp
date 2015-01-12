@@ -143,7 +143,7 @@ GamFcltyMaintHistInqireModule.prototype.onTabChange = function(newTabId, oldTabI
 
 	switch(buttonId) {
 		case "btnSearchFcltsMngNo":
-			this.doExecuteDialog("selectFcltsMngNo", "시설물 관리 그룹 번호", '/popup/selectFcltsMngNo.do', {});
+			this.doExecuteDialog("selectFcltsMngNo", "시설물 관리 그룹 번호", '/popup/showFcltsMngNo.do', {}, {});
 		break;
 
 	}
@@ -228,22 +228,22 @@ var module_instance = new GamFcltyMaintHistInqireModule();
 							<th width="30px" height="23" class="required_text">시행년도</th>
 							<td width="150px"><span id="enforceYear" title="시행년도"></span></td>
 							<th width="30px" height="23" class="required_text">시설물업무구분</th>
-							<td width="150px"><span id="fcltsJobSe" title="시설물업무구분"></span></td>
+							<td width="150px"><span id="fcltsJobSeNm" title="시설물업무구분"></span></td>
 							<th width="30px" height="23" class="required_text">유지보수구분</th>
-							<td><span id="mntnRprSe" title="유지보수구분"></span></td>
+							<td><span id="mntnRprSeNm" title="유지보수구분"></span></td>
 						</tr>
 						<tr>
 							<th height="17" class="required_text">시설물관리그룹</th>
 							<td colspan="5">
 								<span id="fcltsMngGroupNo" title="시설물관리그룹넘버"></span>
-								<span id="fcltsMngGroupNoNm" title="시설물관리그룹명"></span>
+								[ <span id="fcltsMngGoupNm" title="시설물관리그룹명"></span> ]
 							</td>
 						</tr>
 						<tr>
 							<th height="23" class="required_text">계약번호</th>
 							<td colspan="3">
 								<span id="ctrtNo" title="계약번호"></span>
-								<span id="ctrtNm" title="계약명"></span>
+								[ <span id="ctrtNm" title="계약명"></span> ]
 							</td>
 							<th height="23" class="required_text">유지보수순번</th>
 							<td><span id="mntnRprSeq" title="유지보수순번"></span></td>

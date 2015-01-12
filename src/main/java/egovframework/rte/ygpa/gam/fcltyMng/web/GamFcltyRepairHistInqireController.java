@@ -147,8 +147,6 @@ public class GamFcltyRepairHistInqireController {
     	// 내역 조회
     	result = gamFcltyRepairHistInqireService.selectFcltyRepairHistInqireDetail(searchVO);
     	
-    	System.out.print("test : " + result);
-
 		map.put("resultCode", 0);			// return ok
     	map.put("result", result);
     	map.put("searchOption", searchVO);

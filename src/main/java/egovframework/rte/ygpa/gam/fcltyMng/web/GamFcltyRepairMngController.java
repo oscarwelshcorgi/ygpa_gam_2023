@@ -56,9 +56,6 @@ public class GamFcltyRepairMngController {
 	@Autowired
 	private DefaultBeanValidator beanValidator;
 
-//	@Resource(name = "gamFcltyRepairMngService")
-//	protected GamFcltyRepairMngService gamFcltyRepairMngService;
-
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
