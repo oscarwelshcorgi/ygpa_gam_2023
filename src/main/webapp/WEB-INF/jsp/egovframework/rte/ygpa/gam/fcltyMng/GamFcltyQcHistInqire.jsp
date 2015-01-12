@@ -43,19 +43,20 @@ GamFcltyQcHistInqireModule.prototype.loadComplete = function(params) {
 		dataType: "json",
 		colModel : [
 					{display:"점검진단기관명",	name:"qcInspInsttNm",		width:120,		sortable:false,		align:"center"},
-					{display:"점검시설명",		name:"prtfcltyNm",			width:100,		sortable:false,		align:"center"},
+					{display:"점검시설명",		name:"prtFcltyNm",			width:150,		sortable:false,		align:"center"},
+					{display:"시설진단일자",	name:"objQcInspDt",			width:90,		sortable:false,		align:"center"},
+					{display:"시설상태등급",	name:"objSttusEvlLvlNm",	width:90,		sortable:false,		align:"center"},
+					{display:"점검관리명", 	    name:"qcMngNm",				width:200,		sortable:false,		align:"left"},
+					{display:"시행년도",		name:"enforceYear",			width:60,		sortable:false,		align:"center"},
+					{display:"점검구분",    	name:"qcSeNm",				width:90,		sortable:false,		align:"center"},
+					{display:"점검진단자",    	name:"qcInspTpNm",			width:90,		sortable:false,		align:"center"},
 					{display:"점검진단일자",	name:"qcInspDt",			width:90,		sortable:false,		align:"center"},
-					{display:"시행년도",		name:"enforceYear",			width:70,		sortable:false,		align:"center"},
-					{display:"점검관리명",		name:"qcMngNm", 			width:120,		sortable:false,		align:"center"},
-					{display:"점검진단구분",    name:"qcInspSe",			width:90,		sortable:false,		align:"center"},
-					{display:"점검시작일자",	name:"qcBeginDt",			width:90,		sortable:false,		align:"center"},
-					{display:"점검종료일자",	name:"qcEndDt",			    width:90,		sortable:false,		align:"center"},
-					{display:"책임기술자명",	name:"responEngineerNm",	width:120,		sortable:false,		align:"center"},
-					{display:"점검자",		name:"inspector",			width:120,		sortable:false,		align:"center"},
-					{display:"상태평가등급",	name:"sttusEvlLvl",			width:120,		sortable:false,		align:"center"},
-					{display:"점검진단예산",	name:"qcInspBdgt",			width:120,		sortable:false,		align:"center"},
-					{display:"점검진단금액",	name:"qcInspAmt",			width:120,		sortable:false,		align:"center"},
-					{display:"비고",			name:"rm",					width:200,		sortable:false,		align:"center"},
+					{display:"점검진단구분",    name:"qcInspSeNm",			width:120,		sortable:false,		align:"center"},
+					{display:"상태평가등급",	name:"sttusEvlLvlNm",		width:90,		sortable:false,		align:"center"},
+					{display:"점검진단금액",	name:"qcInspAmt",			width:120,		sortable:false,		align:"right",	displayFormat: 'number'},
+					{display:"점검시작일자",    name:"qcBeginDt",			width:90,		sortable:false,		align:"center"},
+					{display:"점검종료일자",	name:"qcEndDt",				width:90,		sortable:false,		align:"center"},
+					{display:"책임기술자명",	name:"responEngineerNm",	width:150,		sortable:false,		align:"left"},
 			],
 		height: "auto"
 	});
@@ -63,6 +64,10 @@ GamFcltyQcHistInqireModule.prototype.loadComplete = function(params) {
 	this.$("#qcHistDtlsList").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module.$("#fcltyQcHistInqireTab").tabs("option", {active: 1});
 	});
+	
+	this.$("#qcInspResult").disable();
+	this.$("#actionCn").disable();
+	this.$("#objQcInspResult").disable();
 };
 
 GamFcltyQcHistInqireModule.prototype.onSubmit = function() {
@@ -96,6 +101,8 @@ GamFcltyQcHistInqireModule.prototype.loadDetailData = function() {
 			if(result.resultCode == "0"){
 				module.makeDivValues('#fcltyQcHistInqireVO', result.result);
 				module.$("#qcInspResult").text(result.result.qcInspResult);
+				module.$("#actionCn").text(result.result.actionCn);
+				module.$("#objQcInspResult").text(result.result.objQcInspResult);
 			}
 			else {
 				module.initDisplay();
@@ -163,17 +170,17 @@ var module_instance = new GamFcltyQcHistInqireModule();
 					<tbody>
 						<tr>
 							<th>점검진단 기관명</th>
-							<td colspan="3"><input type="text" id="sQcInspInsttNm" size="60"/></td>
+							<td colspan="3"><input type="text" id="sQcInspInsttNm" size="46"/></td>
 							<td rowspan="2"><button id="btnSearch" class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
 							<th>점검 시설명</th>
 							<td>
-								<input type="text" size="15" id="sFcltsMngNo" />
-								<input type="text" size="30" id="sPrtFcltyNm" disabled="disabled"/>
+								<input type="hidden" id="sFcltsMngNo" />
+								<input type="text" size="35" id="sPrtFcltyNm" disabled="disabled"/>
 								<button id="popupSearchFcltsMngNo" class="popupButton">선택</button>
 							</td>
-							<th>점검진단일자</th>
+							<th>시설점검기간</th>
 							<td>
 								<input id="sQcInspDtFr" type="text" class="emdcal" size="10" /> ~ <input id="sQcInspDtTo" type="text" class="emdcal" size="10" />
 							</td>
@@ -202,58 +209,135 @@ var module_instance = new GamFcltyQcHistInqireModule();
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyQcHistInqireVO">
 				<div style="margin-bottom:10px;">
+					<table class="summaryPanel"  style="width:100%;">
+						<tbody>
+							<tr>
+								<th style="font-weight:bold;">점검 대상시설물</th>
+							</tr>
+						</tbody>
+					</table>
+					<table  class="detailPanel"  style="width:100%;">
+						<tbody>
+							<tr>
+								<th width="12%" height="17">시설물</th>
+								<td colspan="5">
+									<span id="prtFcltyNm"></span>
+								</td>
+							</tr>
+							<tr>
+								<th width="12%" height="17">점검자</th>
+								<td>
+									<span id="objInspector"></span>
+								</td>
+								<th width="12%" height="17">점검일자</th>
+								<td>
+									<span id="objQcInspDt"></span>
+								</td>
+								<th width="12%" height="17">상태평가등급</th>
+								<td>
+									<span id="objSttusEvlLvlNm"></span>
+								</td>
+							</tr>
+							<tr>
+								<th width="12%" height="17">시설진단결과</th>
+								<td colspan="5"><textarea id="objQcInspResult" cols="135" rows="4"></textarea></td>
+							</tr>
+							<tr>
+								<th width="12%" height="17">비고</th>
+								<td colspan="5">
+									<span id="objRm"></span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="summaryPanel"  style="width:100%;">
+						<tbody>
+							<tr>
+								<th style="font-weight:bold;">점검관리 상세내역</th>
+							</tr>
+						</tbody>
+					</table>				
 					<table  class="detailPanel"  style="width:100%;">
 						<tr>
-							<th width="30px" height="17">점검진단기관명</th>
+							<th width="12%" height="17">관리그룹</th>
 							<td colspan="3">
+								<span id="fcltsMngGroupNm"></span>
+							</td>
+							<th width="12%" height="17">점검관리순번</th>
+							<td>
+								<span id="qcMngSeq"></span>
+							</td>
+						</tr>
+						<tr>
+							<th width="12%" height="17">업무구분</th>
+							<td>
+								<span id="fcltsJobSeNm"></span>
+							</td>
+							<th width="12%" height="17">점검관리명</th>
+							<td colspan="3">
+								<span id="qcMngNm"></span>
+							</td>
+						</tr>
+						<tr>
+							<th width="12%" height="17">시행년도</th>
+							<td>
+								<span id="enforceYear"></span>
+							</td>
+							<th width="12%" height="17">점검구분</th>
+							<td>
+								<span id="qcSeNm"></span>
+							</td>
+							<th width="12%" height="17">시행일자</th>
+							<td>
+								<span id="qcInspDt"></span>
+							</td>
+						</tr>
+						<tr>
+							<th width="12%" height="17">점검진단자</th>
+							<td>
+								<span id="qcInspTpNm"></span>
+							</td>
+							<th width="12%" height="17">점검진단구분</th>
+							<td>
+								<span id="qcInspSeNm"></span>
+							</td>
+							<th width="12%" height="17">점검진단금액</th>
+							<td>
+								<span id="qcInspAmt"></span>
+							</td>
+						</tr>
+						<tr>
+							<th width="12%" height="17">상태평가등급</th>
+							<td>
+								<span id="sttusEvlLvlNm"></span>
+							</td>
+							<th width="12%" height="17">점검기간</th>
+							<td colspan="3">
+								<span id="qcBeginDt"></span> ~ 
+								<span id="qcEndDt"></span>
+							</td>
+						</tr>
+						<tr>							
+							<th width="12%" height="17">점검진단기관명</th>
+							<td>
 								<span id="qcInspInsttNm"></span>
 							</td>
-							<th width="30px" height="17">점검시설명</th>
-							<td><span id="prtFcltyNm"></span></td>
+							<th width="12%" height="17">책임기술자명</th>
+							<td colspan="3"><span id="responEngineerNm"></span></td>
 						</tr>
 						<tr>
-							<th height="17">점검진단일자</th>
-							<td width="200px"><span id="qcInspDt"></span></td>
-							<th width="30px" height="17">시행년도</th>
-							<td width="200px"><span id="enforceYear"></span></td>
-							<th height="17">점검관리명</th>
-							<td><span id="qcMngNm"></span></td>
+							<th width="12%" height="17">점검진단결과</th>
+							<td colspan="5"><textarea id="qcInspResult" cols="135" rows="3"></textarea></td>
 						</tr>
 						<tr>
-							<th height="17">점검진단구분</th>
-							<td>
-								<span id="qcInspSe"></span>
-							</td>
-							<th height="17">점검시작일자</th>
-							<td><span id="qcBeginDt"></span></td>
-							<th height="17">점검종료일자</th>
-							<td><span id="qcEndDt"></span></td>
+							<th width="12%" height="17">조치내용</th>
+							<td colspan="5"><textarea id="actionCn" cols="135" rows="3"></textarea></td>
 						</tr>
 						<tr>
-							<th height="17">책임기술자명</th>
-							<td><span id="responEngineerNm"></span></td>
-							<th height="17">점검진단예산</th>
-							<td><span id="qcInspBdgt"></span></td>
-							<th height="17">점검진단금액</th>
-							<td><span id="qcInspAmt"></span></td>
-						</tr>
-						<tr>
-							<th height="17">점검자</th>
-							<td><span id="inspector"></span></td>
-							<th height="17">상태평가등급</th>
-							<td colspan="3"><span id="sttusEvlLvl"></span></td>
-						</tr>
-						<tr>
-							<th height="17">점검진단결과</th>
-							<td colspan="5"><textarea id="qcInspResult" cols="120" rows="7" disabled="disabled"></textarea></td>
-						</tr>
-						<tr>
-							<th height="17">비고</th>
+							<th width="12%" height="17">비고</th>
 							<td colspan="5"><span id="rm"></span></td>
 						</tr>
 					</table>
-				</div>
-				<div class="emdControlPanel">
 				</div>
 				</form>
 			</div>

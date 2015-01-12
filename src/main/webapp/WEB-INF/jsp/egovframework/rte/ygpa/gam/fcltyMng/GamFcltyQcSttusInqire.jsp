@@ -570,12 +570,12 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 					<table class="searchPanel">
 						<tbody>
 							<tr>
-		                        <th>시설물</th>
-		                        <td>
+		                        <th width="10%">시설물</th>
+		                        <td width="40%">
 		                        	<span id="objMngPrtFcltyNm"></span>
 		                    	</td>
-		                        <th>상태평가등급</th>
-		                        <td>
+		                        <th width="10%">상태평가등급</th>
+		                        <td width="40%">
 		                        	<span id="objMngSttusEvlLvlNm"></span>
 		                        </td>
 		                    </tr>
@@ -651,8 +651,8 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 		                        <td width="40%">
 		                        	<span id="qcItemNm"></span>
 		                        </td>							
-		                        <th width="10%">점검결과구분</th>
-		                        <td width="40%">
+		                        <th>점검결과구분</th>
+		                        <td>
 		                        	<span id="inspResultChkNm"></span>
 		                        </td>
 							</tr>
