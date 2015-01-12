@@ -69,7 +69,7 @@
 		showTableToggleBtn : false,
 		height : 'auto',
 		preProcess : function(module,data) {
-			module.$('#totalCount').val(data.totalCount);;
+			module.$('#gisTotalCount').val(data.totalCount);
 			module.makeFormValues('#searchForm', data.result);
 			return data;
 		}
@@ -89,7 +89,7 @@
 /* 시설물 사용현황 */
 	//	console.log("aaaaa");
 	// 자산임대 테이블 설정
-	this.$("#assetsRentGrid").flexigrid({
+		this.$("#gisPrtFcltyCdGrid").flexigrid({
 		module : this,
 		dataType : 'json',
 		colModel : [ {display : '항구분', name : 'prtAtCode', width : 60, sortable : false, align : 'center'},
@@ -103,19 +103,11 @@
 		             {display : '금액', name : 'fee', width : 100, sortable : false, align : 'right', displayFormat : 'number'},
 		             {display : '허가일', name : 'prmisnDt', width : 90, sortable : false, align : 'center'}
 				],
-		height : 'auto'
-
-/* 		showTableToggleBtn : false,
 		height : 'auto',
-		preProcess : function(module,data) {
-			module.$('#totalCount2').val(data.totalCount);
-			module.makeFormValues('#searchForm', data.result);
-			return data;
+		preProcess : function(module, data) {
+			module.$('#assetsTotalCount').val(data.totalCount);
 		}
- */	});
-
-
-
+	});
 
 	// 점검 관리 내역
 	this.$("#qcMngDtlsFGrid").flexigrid({
@@ -128,17 +120,17 @@
 		             {display : '관리 명', name : 'qcMngNm', width : 110, sortable : false, align : 'center'},
 		             {display : '진단 일자', name : 'qcInspDt', width : 70, sortable : false, align : 'center'},
 		             {display : '진단 구분', name : 'qcInspSe', width : 60, sortable : false, align : 'center'},
-		             {display : '진단 기관 명', name : 'qcInspInsttNm', width : 70, sortable : false, align : 'right', displayFormat : 'number'},
+		             {display : '진단 기관 명', name : 'qcInspInsttNm', width : 80, sortable : false, align : 'right', displayFormat : 'number'},
 		             {display : '기술자 명', name : 'responEngineerNm', width : 70, sortable : false, align : 'right', displayFormat : 'number'},
 		             {display : '시작일자', name : 'qcBeginDt', width : 75, sortable : false, align : 'center'},
 		             {display : '종료 일자', name : 'qcEndDt', width : 75, sortable : false, align : 'center'},
-<!--		             {display : '진단 예산', name : 'qcInspBdgt', width : 90, sortable : false, align : 'center', displayFormat : 'number'},	-->
+//		             {display : '진단 예산', name : 'qcInspBdgt', width : 90, sortable : false, align : 'center', displayFormat : 'number'},
 		             {display : '진단 금액', name : 'qcInspAmt', width : 80, sortable : false, align : 'right', displayFormat : 'number'},
 		             {display : '평가등급', name : 'sttusEvlLvl', width : 60, sortable : false, align : 'center'},
 		             {display : '진단 결과', name : 'qcInspResult', width : 60, sortable : false, align : 'center'},
 		             {display : '조치내용', name : 'actionCn', width : 60, sortable : false, align : 'center'},
-<!--		             {display : '조치 구분', name : 'actionSe', width : 90, sortable : false, align : 'center'},	-->
-		             {display : '비고', name : 'rm', width : 60, sortable : false, align : 'center'},
+//		             {display : '조치 구분', name : 'actionSe', width : 90, sortable : false, align : 'center'},
+		             {display : '비고', name : 'rm', width : 60, sortable : false, align : 'center'}
 					],
 		height : '160'
 	});
@@ -158,7 +150,7 @@
 		             {display : '진단 일자', name : 'objQcInspDt', width : 75, sortable : false, align : 'center'},
 		             {display : '감리자', name : 'inspector', width : 60, sortable : false, align : 'center'},
 		             {display : '진단 결과', name : 'objQcInspResult', width : 70, sortable : false, align : 'center'},
-		             {display : '비고', name : 'objRm', width : 100, sortable : false, align : 'center'},
+		             {display : '비고', name : 'objRm', width : 100, sortable : false, align : 'center'}
 		             ],
 		height : '160'
 	});
@@ -171,53 +163,61 @@
 		colModel : [ {display : '항목 코드', name : 'qcItemCd', width : 70, sortable : false, align : 'center'},
 		             {display : '순번', name : 'seq', width : 60, sortable : false, align : 'center'},
 		             {display : '결과 구분', name : 'inspResultChk', width : 80, sortable : false, align : 'center'},
-		             {display : '결과내용', name : 'inspResultCn', width : 270, sortable : false, align : 'center'},
+		             {display : '결과내용', name : 'inspResultCn', width : 270, sortable : false, align : 'center'}
 		             ],
 		height : '160'
 	});
 
 
-	// 하자 보수 대상 시설물
+	// 하자 보수 내역
 	this.$("#flawRprDtlsGrid").flexigrid({
 		module : this,
 		dataType : 'json',
-		colModel : [ {display : '검사구분', name : '', width : 100, sortable : false, align : 'center'}
-					,{display : '검사일자', name : '', width : 100, sortable : false, align : 'center'}
-					,{display : '하자 유무', name : '', width : 100, sortable : false, align : 'center'}
-					,{display : '검사결과', name : '', width : 100, sortable : false, align : 'center'}
-					,{display : '시행년도', name : '', wiedth : 100, sortable : false, align : 'center'}
-					,{display : '하자보수 명', name : '', width : 100, sortable :false, align : 'center'}
-					,{display : '하자보수 유형', name : '', width : 100, sortable : false, aling : 'center'}
-					,{display : '하자발생 일자', name : '', width : 100, sortable : false, aling : 'center'}
-					,{display : '하자보수 업체명', name : '', width : 100, sortable : false, aling : 'center'}
-					,{display : '하자보수 내용', name : '', width : 100, sortable : false, aling : 'center'}
-					,{display : '하자보수 완료여부', name : '', width : 100, sortable : false, aling : 'center'}
-					,{display : '비고', name : '', width : 100, sortable : false, aling : 'center'}
-		           ]
+		colModel : [ {display : '검사구분', name : 'flawExamSe', width : 100, sortable : false, align : 'center'}
+					,{display : '검사일자', name : 'flawExamDt', width : 100, sortable : false, align : 'center'}
+					,{display : '하자 유무', name : 'flawEnnc', width : 100, sortable : false, align : 'center'}
+					,{display : '검사결과', name : 'flawExamResult', width : 100, sortable : false, align : 'center'}
+					,{display : '시행년도', name : 'enforceYear', width : 100, sortable : false, align : 'center'}
+					,{display : '하자보수 명', name : 'flawRprNm', width : 100, sortable :false, align : 'center'}
+					,{display : '하자보수 유형', name : 'flawRprTy', width : 100, sortable : false, align : 'center'}
+					,{display : '하자발생 일자', name : 'flawOccrrncDt', width : 100, sortable : false, align : 'center'}
+					,{display : '하자보수 업체명', name : 'flawRprEntrpsNm', width : 100, sortable : false, align : 'center'}
+					,{display : '하자보수 내용', name : 'flawRprContents', width : 100, sortable : false, align: 'center'}
+					,{display : '하자보수 완료여부', name : 'flawRprComptYn', width : 130, sortable : false, align : 'center'}
+					,{display : '비고', name : 'rm', width : 100, sortable : false, align : 'center'}
+		           ],
+		height : '160'
 	});
 
+	// 마우스 클릭(하자보수)
+	this.$("#flawRprDtlsGrid").on('onItemSelected', function(event, module, row, grid, param) {
+		module.loadFlawDtailData();
+	});
+
+
+
 	// 하자 보수 대상 시설물
-	this.$("#flawRprObjGrid").flexigrid({
+	this.$("#flawRprObjFcltsGrid").flexigrid({
 		module : this,
 		dataType : 'json',
-		colModel : [ {display : '검사일자', name : '', width : 100, sortable : false, align : 'center'}
-					,{display : '하자유무', name : '', width : 100, sortable : false, align : 'center'}
-					,{display : '검사결과', name : '', width : 100, sortable : false, align : 'center'}
-					,{display : '비고', name : '', width : 100, sortable : false, align : 'center'}
-		           ]
+		colModel : [ {display : '검사일자', name : 'flawExamDt', width : 100, sortable : false, align : 'center'}
+					,{display : '하자유무', name : 'flawEnnc', width : 100, sortable : false, align : 'center'}
+					,{display : '검사결과', name : 'flawExamResult', width : 100, sortable : false, align : 'center'}
+					,{display : '비고', name : 'rm', width : 100, sortable : false, align : 'center'}
+		           ],
+		height : '160'
 	});
 
 	// 하자 검사자
-	this.$("#flawExamUsrGrid").flexigrid({
+	this.$("#flaqExamUsrGrid").flexigrid({
 		module : this,
 		dataType : 'json',
-		colModel : [ {display : '검사자', name : '', width : 100, sortable : false, align : 'center'}
-					,{display : '검사일자', name : '', width : 100, sortable : false, align : 'center'}
-					,{display : '완료여부', name : '', width : 100, sortable : false, align : 'center'}
-					]
+		colModel : [ {display : '검사자', name : 'flawExamUsr', width : 100, sortable : false, align : 'center'}
+					,{display : '검사일자', name : 'flawExamDt', width : 100, sortable : false, align : 'center'}
+					,{display : '완료여부', name : 'flawExamComptYn', width : 100, sortable : false, align : 'center'}
+					],
+	height : '160'
 	});
-
-
 
 
 
@@ -296,7 +296,7 @@ var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
 		if(data.resultCode == "0"){
 			module.$('#assetsRentGrid').flexEmptyData();
         	var assetsRentList={resultList: data.fcltyAssetsRentList};
-//        	module.$('#assetsRentGrid')[0].dgrid.p.preProcess(module, assetsRentList);
+        	module.$('#assetsRentGrid')[0].dgrid.p.preProcess(module, assetsRentList);
         	module.$('#assetsRentGrid').flexAddData(assetsRentList);
         	module.$('#assetsRentGrid').selectRowId(0);
 
@@ -304,6 +304,12 @@ var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
         	var qcMngList={resultList: data.qcMngList};
         	module.$('#qcMngDtlsFGrid').flexAddData(qcMngList);
         	module.$('#qcMngDtlsFGrid').selectRowId(0);
+
+        	module.$('#flawRprDtlsGrid').flexEmptyData();
+        	var flawList={resultList: data.flawList};
+        	module.$('#flawRprDtlsGrid').flexAddData(flawList);
+        	module.$('#flawRprDtlsGrid').selectRowId(0);
+
 		}else{
 			module.$("#mainTab").tabs("option", {active: 0});
 		}
@@ -313,7 +319,7 @@ var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
 	this.$('#qcMngResultItemGrid').flexEmptyData();
 };
 
-/* 수정 중 */
+// 점검관리 내역 마우스 클릭(점검 관리 대상 시설물, 점검 관리 결과 항목 로드)
 GamFcltyUsageSttusInqireModule.prototype.loadQcMngDtailData = function() {
 	var row = this.$('#qcMngDtlsFGrid').selectedRows();
 	row = row[0];
@@ -349,6 +355,34 @@ GamFcltyUsageSttusInqireModule.prototype.loadQcMngDtailData = function() {
 		}
 	});
 };
+
+
+// 하자보수 내역 마우스 클릭(점검 관리 대상 시설물, 점검 관리 결과 항목 로드)
+GamFcltyUsageSttusInqireModule.prototype.loadFlawDtailData = function(module, data) {
+	var row = this.$('#flawRprDtlsGrid').selectedRows();
+	row = row[0];
+	console.log(row);
+	var searchVO = [
+	                { name : 'fcltsMngGroupNo', value : row['fcltsMngGroupNo'] },
+	                { name : 'fcltsMngNo', value : row['fcltsMngNo'] },
+	                { name : 'fcltsJobSe', value : row['fcltsJobSe'] },
+	                { name : 'flawRprSeq', value : row['flawRprSeq'] }
+	               ];
+	this.doAction('/fcltyMng/selectLoadFlawDetailData.do', searchVO, function(module, data) {
+		if(data.resultCode == "0"){
+			module.$('#flawRprObjFcltsGrid').flexEmptyData();
+			var flawRprObjFcltsList={resultList: data.flawRprObjFcltsList};
+			module.$('#flawRprObjFcltsGrid').flexAddData(flawRprObjFcltsList);
+			module.$('#flawRprObjFcltsGrid').selectRowId(0);
+
+			module.$('#flaqExamUsrGrid').flexEmptyData();
+			var flaqExamUsrList={resultList: data.flaqExamUsrList};
+			module.$('#flaqExamUsrGrid').flexAddData(flaqExamUsrList);
+			module.$('#flaqExamUsrGrid').selectRowId(0);
+		}
+	});
+};
+
 
 <%
 /**
@@ -457,7 +491,7 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 						<table style="width:100%;" class="summaryPanel">
 							<tr>
 								<th width="20%" height="20">조회 자료수</th>
-								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="12" id="gisTotalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align: right">
 	                                <button data-cmd="btnExcelDownload">엑셀다운로드</button>
 								</td>
@@ -469,6 +503,15 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 <!-- 탭2 -->
 			<div id="tabs2" class="emdTabPage fillHeight" style="overflow:scroll;" >
 				<table id="assetsRentGrid" style="display:none" class="fillHeight"></table>
+				<table style="width:100%;" class="summaryPanel">
+					<tr>
+						<th width="20%" height="20">조회 자료수</th>
+						<td><input type="text" size="12" id="assetsTotalCount" class="ygpaNumber" disabled="disabled" /></td>
+						<td style="text-align: right">
+                               <button data-cmd="btnExcelDownload">엑셀다운로드</button>
+						</td>
+					</tr>
+				</table>
 			</div>
 <!-- 탭3 -->
 			<div id="tabs3" class="emdTabPage fillHeight" style="overflow:scroll;">
@@ -515,11 +558,11 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 					<tr>
 						<td>
 							하자 보수 대상 시설물
-							<table id='flawRprObjGrid' style="display:none" class="fillHeight" ></table>
+							<table id='flawRprObjFcltsGrid' style="display:none" class="fillHeight" ></table>
 						</td>
 						<td>
 							하자보수 검사자
-							<table id='flawExamUsrGrid' style="display:none" class="fillHeight" ></table>
+							<table id='flaqExamUsrGrid' style="display:none" class="fillHeight" ></table>
 						</td>
 					</tr>
 				</table>

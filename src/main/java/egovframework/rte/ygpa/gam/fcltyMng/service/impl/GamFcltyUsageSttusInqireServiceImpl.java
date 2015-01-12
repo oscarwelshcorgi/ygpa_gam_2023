@@ -102,13 +102,31 @@ public class GamFcltyUsageSttusInqireServiceImpl extends AbstractServiceImpl imp
 	}
 
 	/**
-	 * 하자ㅗ 보수 내역
+	 * 하자 보수 내역
 	 * @param vo
 	 * @return
 	 */
 
 	public List selectFlawList(GamFcltyUsageSttusInqireVO vo) throws Exception{
 		return gamFcltyUsageSttusInqireDao.selectFlawList(vo);
+	}
+
+	/**
+	 * 하자 보수 대상 시설물
+	 * @param vo
+	 * @return
+	 */
+	public List selectFlawRprObjFcltsList(GamFcltyUsageSttusInqireVO vo) throws Exception{
+		return gamFcltyUsageSttusInqireDao.selectFlawRprObjFcltsList(vo);
+	}
+
+	/**
+	 * 하자 검사자
+	 * @param vo
+	 * @return
+	 */
+	public List selectflawExamUsrListList(GamFcltyUsageSttusInqireVO vo) throws Exception{
+		return gamFcltyUsageSttusInqireDao.selectflawExamUsrListList(vo);
 	}
 
 

@@ -102,4 +102,24 @@ public class GamFcltyUsageSttusInqireDao extends YGPAAbstractDAO{
 		return list("gamFcltyUsageSttusInqireDao.selectFlawList", vo);
 	}
 
+	/**
+	 * 하자 보수 대상 시설물
+	 * @param vo
+	 * @return List
+	 * @exception Exception
+	 */
+	public List selectFlawRprObjFcltsList(GamFcltyUsageSttusInqireVO vo){
+		return list("gamFcltyUsageSttusInqireDao.selectFlawRprObjFcltsList", vo);
+	}
+
+	/**
+	 * 하자 검사자
+	 * @param vo
+	 * @return List
+	 * @exception Exception
+	 */
+	public List selectflawExamUsrListList(GamFcltyUsageSttusInqireVO vo){
+		return list("gamFcltyUsageSttusInqireDao.selectflawExamUsrListList", vo);
+	}
+
 }

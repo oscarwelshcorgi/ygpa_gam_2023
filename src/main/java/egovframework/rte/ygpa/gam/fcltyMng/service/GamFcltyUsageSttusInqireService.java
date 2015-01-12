@@ -92,4 +92,21 @@ public interface GamFcltyUsageSttusInqireService {
 	 */
 	List selectFlawList(GamFcltyUsageSttusInqireVO vo) throws Exception;
 
+	/**
+	 * 하자보수 대상 시설물
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	List selectFlawRprObjFcltsList(GamFcltyUsageSttusInqireVO vo) throws Exception;
+
+	/**
+	 * 하자 검사자
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	List selectflawExamUsrListList(GamFcltyUsageSttusInqireVO vo) throws Exception;
+
+
 }

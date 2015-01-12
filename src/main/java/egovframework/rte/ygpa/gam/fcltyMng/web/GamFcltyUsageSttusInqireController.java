@@ -275,12 +275,12 @@ public class GamFcltyUsageSttusInqireController {
 		/** List Data */
 		// 데이터 쿼리 데이터
 
-		List fcltyAssetsRentList = gamFcltyUsageSttusInqireService.selectFcltyAssetsRentList(searchVO);
-		List qcMngList = gamFcltyUsageSttusInqireService.selectQcMngList(searchVO);
+		List flawRprObjFcltsList = gamFcltyUsageSttusInqireService.selectFlawRprObjFcltsList(searchVO);
+		List flaqExamUsrList = gamFcltyUsageSttusInqireService.selectflawExamUsrListList(searchVO);
 
 		map.put("resultCode", 0);
-		map.put("fcltyAssetsRentList", fcltyAssetsRentList);
-		map.put("qcMngList", qcMngList);
+		map.put("flawRprObjFcltsList", flawRprObjFcltsList);
+		map.put("flaqExamUsrList", flaqExamUsrList);
 
 		return map;
 	}

@@ -182,6 +182,8 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	private String flawRprComptYn;
 	/** 하자 검사 구분 **/
 	private String flawExamSe;
+	/** 하자 검사 구분 **/
+	private String flawExamNm;
 	/** 시행년도 **/
 //	private String enforceYear;
 	/** 하자 보수 명 **/
@@ -217,11 +219,11 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 
 	// ==== 하자 검사자 ==== //
 	/** 순번 **/
-	private String flawExamUsr;
-	/** 하자 검사자 **/
-//	private String flawExamDt;
-	/** 하자 검사 일자 **/
 //	private String seq;
+	/** 하자 검사자 **/
+	private String flawExamUsr;
+	/** 하자 검사 일자 **/
+//	private String flawExamDt;
 	/** 하자 검사 완료 여부 **/
 	private String flawExamComptYn;
 
