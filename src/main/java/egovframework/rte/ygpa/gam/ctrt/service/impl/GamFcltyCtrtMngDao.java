@@ -1,26 +1,31 @@
 /**
- * 
+ *
  */
 package egovframework.rte.ygpa.gam.ctrt.service.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngChangeVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngFulfillCaryFwdVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngJoinContrVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngMoneyPymntVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngScsbidInfoVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngSubctrtVO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngVO;
 
 /**
- * 
+ *
  * @author 김종민
  * @since 2014. 10. 29.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2014. 10. 29.		김종민		최초 생성
@@ -31,309 +36,398 @@ import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngVO;
 
 @Repository("gamFcltyCtrtMngDao")
 public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
-	
+
 	/**
-	 * 계약정보목록을 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약정보목록
-	 * @exception Exception
+	 * @name selectFcltyCtrtMngList
+	 * @param searchVO
+	 * @return List
 	 */
-	public List<?> selectFcltyCtrtMngList(GamFcltyCtrtMngVO searchVO) throws Exception {
+	public List selectFcltyCtrtMngList(GamFcltyCtrtMngVO searchVO) {
 		return list("gamFcltyCtrtMngDao.selectFcltyCtrtMngList_D", searchVO);
 	}
-	
+
 	/**
-	 * 계약정보목록 통계정보를 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약정보목록 통계정보 VO
-	 * @exception Exception
+	 * @name insertFcltyCtrtMng
+	 * @param gamFcltyCtrtMngVO
+	 * @return void
 	 */
-	public GamFcltyCtrtMngVO selectFcltyCtrtMngTotSum(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return (GamFcltyCtrtMngVO)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngTotSum_S", searchVO);
-	}
-	
-	/**
-	 * 계약정보를 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약정보 VO
-	 * @exception Exception
-	 */
-	public EgovMap selectFcltyCtrtInfoDetail(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return (EgovMap)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtInfoDetail_S", searchVO);
-	}
-	
-	/**
-	 * 계약정보를 등록한다.
-	 * @param insertMap - 등록할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void insertFcltyCtrtInfoDetail(Map<?,?> insertMap) throws Exception {
-		insert("gamFcltyCtrtMngDao.insertFcltyCtrtInfoDetail_S", insertMap);
-	}
-	
-	/**
-	 * 계약정보를 수정한다.
-	 * @param updateMap - 수정할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void updateFcltyCtrtInfoDetail(Map<?,?> updateMap) throws Exception {
-		update("gamFcltyCtrtMngDao.updateFcltyCtrtInfoDetail_S", updateMap);
+	public void insertFcltyCtrtMng(GamFcltyCtrtMngVO gamFcltyCtrtMngVO) {
+		insert("gamFcltyCtrtMngDao.insertFcltyCtrtMng_S", gamFcltyCtrtMngVO);
 	}
 
 	/**
-	 * 계약정보를 삭제한다.
-	 * @param deleteMap - 삭제할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
+	 * @name updateFcltyCtrtMng
+	 * @param gamFcltyCtrtMngVO
+	 * @return void
 	 */
-	public void deleteFcltyCtrtInfoDetail(Map<?,?> deleteMap) throws Exception {
-		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtInfoDetail_S", deleteMap);
-	}
-	
-	
-	/**
-	 * 계약공동도급 목록을 가져온다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약공동도급 목록
-	 * @exception Exception
-	 */
-	public List<?> selectFcltyCtrtJoinContrList(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return list("gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrList_D", searchVO);
-	}
-	
-	/**
-	 * 계약공동도급 목록의 총개수를 가져온다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약공동도급 목록 총개수
-	 * @exception Exception
-	 */
-	public int selectFcltyCtrtJoinContrListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrListTotCnt_S", searchVO);
-	}
-		
-	/**
-	 * 계약공동도급정보를 병합저장한다.
-	 * @param map - 병합저장할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void mergeFcltyCtrtJoinContrDetail(Map<String, Object> map) throws Exception {
-		this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtJoinContrDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtJoinContrDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrDetail_S");
-	}
-	
-	/**
-	 * 계약번호에 해당하는 계약공동도급정보를 삭제한다.
-	 * @param deleteMap - 삭제할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void deleteFcltyCtrtJoinContrList(Map<?, ?> deleteMap) throws Exception {
-		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrList_S", deleteMap);
-	}
-	
-
-	/**
-	 * 계약하도급 목록을 가져온다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약하도급 목록
-	 * @exception Exception
-	 */
-	public List<?> selectFcltyCtrtSubCtrtList(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return list("gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtList_D", searchVO);
-	}
-	
-	/**
-	 * 계약하도급 목록의 총개수를 가져온다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약하도급 목록 총개수
-	 * @exception Exception
-	 */
-	public int selectFcltyCtrtSubCtrtListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtListTotCnt_S", searchVO);
-	}
-	
-	/**
-	 * 계약하도급정보를 병합저장한다.
-	 * @param map - 병합저장할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void mergeFcltyCtrtSubCtrtDetail(Map<String, Object> map) throws Exception {
-		this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtSubCtrtDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtSubCtrtDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtDetail_S");
+	public void updateFcltyCtrtMng(GamFcltyCtrtMngVO gamFcltyCtrtMngVO) {
+		update("gamFcltyCtrtMngDao.updateFcltyCtrtMng_S", gamFcltyCtrtMngVO);
 	}
 
 	/**
-	 * 계약번호에 해당하는 계약하도급정보를 삭제한다.
-	 * @param deleteMap - 삭제할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
+	 * @name deleteFcltyCtrtMng
+	 * @param gamFcltyCtrtMngVO
+	 * @return void
 	 */
-	public void deleteFcltyCtrtSubCtrtList(Map<?, ?> deleteMap) throws Exception {
-		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtList_S", deleteMap);
-	}
-
-	
-	/**
-	 * 계약변경 목록을 가져온다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약변경 목록
-	 * @exception Exception
-	 */
-	public List<?> selectFcltyCtrtChangeList(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return list("gamFcltyCtrtMngDao.selectFcltyCtrtChangeList_D", searchVO);
-	}
-	
-	/**
-	 * 계약변경 목록의 총개수를 가져온다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약변경 목록 총개수
-	 * @exception Exception
-	 */
-	public int selectFcltyCtrtChangeListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtChangeListTotCnt_S", searchVO);
-	}
-	
-	
-	/**
-	 * 계약변경정보를 병합저장한다.
-	 * @param map - 병합저장할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void mergeFcltyCtrtChangeDetail(Map<String, Object> map) throws Exception {
-		this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtChangeDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtChangeDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtChangeDetail_S");
+	public void deleteFcltyCtrtMng(GamFcltyCtrtMngVO gamFcltyCtrtMngVO) {
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMng_S", gamFcltyCtrtMngVO);
 	}
 
 	/**
-	 * 계약번호에 해당하는 계약변경정보를 삭제한다.
-	 * @param deleteMap - 삭제할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
+	 * @name selectFcltyCtrtMngPk
+	 * @param gamFcltyCtrtMngVO
+	 * @return EgovMap
 	 */
-	public void deleteFcltyCtrtChangeList(Map<?, ?> deleteMap) throws Exception {
-		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtChangeList_S", deleteMap);
-	}
-	
-
-	/**
-	 * 계약대금지급 목록을 가져온다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약대금지급 목록
-	 * @exception Exception
-	 */
-	public List<?> selectFcltyCtrtMoneyPymntList(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return list("gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntList_D", searchVO);
-	}
-	
-	/**
-	 * 계약대금지급 목록의 총개수를 가져온다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약대금지급 목록 총개수
-	 * @exception Exception
-	 */
-	public int selectFcltyCtrtMoneyPymntListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntListTotCnt_S", searchVO);
-	}
-	
-	/**
-	 * 계약대금지급정보를 병합저장한다.
-	 * @param map - 병합저장할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void mergeFcltyCtrtMoneyPymntDetail(Map<String, Object> map) throws Exception {
-		this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtMoneyPymntDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtMoneyPymntDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntDetail_S");
-	}
-	
-	/**
-	 * 계약번호에 해당하는 계약대금지급정보를 삭제한다.
-	 * @param deleteMap - 삭제할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void deleteFcltyCtrtMoneyPymntList(Map<?, ?> deleteMap) throws Exception {
-		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntList_S", deleteMap);
+	public EgovMap selectFcltyCtrtMngPk(GamFcltyCtrtMngVO gamFcltyCtrtMngVO) {
+		return (EgovMap)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngPk_S", gamFcltyCtrtMngVO);
 	}
 
 	/**
-	 * 계약이행이월 목록을 가져온다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약이행이월 목록
-	 * @exception Exception
+	 * @name selectFcltyCtrtMngListSum
+	 * @param searchVO
+	 * @return GamFcltyCtrtMngVO
 	 */
-	public List<?> selectFcltyCtrtFulFillCaryFwdList(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return list("gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdList_D", searchVO);
-	}
-	
-	/**
-	 * 계약이행이월 목록의 총개수를 가져온다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약이행이월 목록 총개수
-	 * @exception Exception
-	 */
-	public int selectFcltyCtrtFulFillCaryFwdListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdListTotCnt_S", searchVO);
-	}
-	
-	/**
-	 * 계약이행이월정보를 병합저장한다.
-	 * @param map - 병합저장할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void mergeFcltyCtrtFulFillCaryFwdDetail(Map<String, Object> map) throws Exception {
-		this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtFulFillCaryFwdDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtFulFillCaryFwdDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdDetail_S");
+	public GamFcltyCtrtMngVO selectFcltyCtrtMngListSum(GamFcltyCtrtMngVO searchVO) {
+		return (GamFcltyCtrtMngVO)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngListSum_S", searchVO);
 	}
 
 	/**
-	 * 계약번호에 해당하는 계약이행이월정보를 삭제한다.
-	 * @param deleteMap - 삭제할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
+	 * @name selectFcltyCtrtMngNewCtrtNo
+	 * @param gamFcltyCtrtMngJoinContrVO
+	 * @return String
 	 */
-	public void deleteFcltyCtrtFulFillCaryFwdList(Map<?, ?> deleteMap) throws Exception {
-		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdList_S", deleteMap);
+	public String selectFcltyCtrtMngNewCtrtNo(GamFcltyCtrtMngVO gamFcltyCtrtMngVO) {
+		return (String)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngNewCtrtNo_S", gamFcltyCtrtMngVO);
+	}
+
+
+	/**
+	 * @name selectFcltyCtrtMngJoinContrList
+	 * @param searchVO
+	 * @return List
+	 */
+	public List selectFcltyCtrtMngJoinContrList(GamFcltyCtrtMngJoinContrVO searchVO) {
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtMngJoinContrList_D", searchVO);
 	}
 
 	/**
-	 * 계약낙찰정보 목록을 가져온다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약낙찰정보 목록
-	 * @exception Exception
+	 * @name insertFcltyCtrtMngJoinContr
+	 * @param gamFcltyCtrtMngJoinContrVO
+	 * @return void
 	 */
-	public List<?> selectFcltyCtrtScsbidInfoList(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return list("gamFcltyCtrtMngDao.selectFcltyCtrtScsbidInfoList_D", searchVO);
-	}
-	
-	/**
-	 * 계약낙찰정보 목록의 총개수를 가져온다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약낙찰정보 목록 총개수
-	 * @exception Exception
-	 */
-	public int selectFcltyCtrtScsbidInfoListTotCnt(GamFcltyCtrtMngVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyCtrtMngDao.selectFcltyCtrtScsbidInfoListTotCnt_S", searchVO);
-	}
-	
-	/**
-	 * 계약낙찰정보를 병합저장한다.
-	 * @param map - 병합저장할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
-	 */
-	public void mergeFcltyCtrtScsbidInfoDetail(Map<String, Object> map) throws Exception {
-		this.merge(map, "gamFcltyCtrtMngDao.insertFcltyCtrtScsbidInfoDetail_S", "gamFcltyCtrtMngDao.updateFcltyCtrtScsbidInfoDetail_S", "gamFcltyCtrtMngDao.deleteFcltyCtrtScsbidInfoDetail_S");
+	public void insertFcltyCtrtMngJoinContr(GamFcltyCtrtMngJoinContrVO gamFcltyCtrtMngJoinContrVO) {
+		insert("gamFcltyCtrtMngDao.insertFcltyCtrtMngJoinContr_S", gamFcltyCtrtMngJoinContrVO);
 	}
 
 	/**
-	 * 계약번호에 해당하는 계약낙찰정보를 삭제한다.
-	 * @param deleteMap - 삭제할 정보가 담긴 Map
-	 * @return 
-	 * @exception Exception
+	 * @name updateFcltyCtrtMngJoinContr
+	 * @param gamFcltyCtrtMngJoinContrVO
+	 * @return void
 	 */
-	public void deleteFcltyCtrtScsbidInfoList(Map<?, ?> deleteMap) throws Exception {
-		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtScsbidInfoList_S", deleteMap);
+	public void updateFcltyCtrtMngJoinContr(GamFcltyCtrtMngJoinContrVO gamFcltyCtrtMngJoinContrVO) {
+		update("gamFcltyCtrtMngDao.updateFcltyCtrtMngJoinContr_S", gamFcltyCtrtMngJoinContrVO);
 	}
+
+	/**
+	 * @name deleteFcltyCtrtMngJoinContr
+	 * @param gamFcltyCtrtMngJoinContrVO
+	 * @return void
+	 */
+	public void deleteFcltyCtrtMngJoinContr(GamFcltyCtrtMngJoinContrVO gamFcltyCtrtMngJoinContrVO) {
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMngJoinContr_S", gamFcltyCtrtMngJoinContrVO);
+	}
+
+	/**
+	 * @name selectFcltyCtrtMngJoinContrPk
+	 * @param gamFcltyCtrtMngJoinContrVO
+	 * @return EgovMap
+	 */
+	public EgovMap selectFcltyCtrtMngJoinContrPk(GamFcltyCtrtMngJoinContrVO gamFcltyCtrtMngJoinContrVO) {
+		return (EgovMap)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngJoinContrPk_S", gamFcltyCtrtMngJoinContrVO);
+	}
+
+	/**
+	 * @name selectFcltyCtrtMngJoinContrMaxSeq
+	 * @param gamFcltyCtrtMngJoinContrVO
+	 * @return String
+	 */
+	public String selectFcltyCtrtMngJoinContrMaxSeq(GamFcltyCtrtMngJoinContrVO gamFcltyCtrtMngJoinContrVO) {
+		return (String)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngJoinContrMaxSeq_S", gamFcltyCtrtMngJoinContrVO);
+	}
+
+
+	/**
+	 * @name selectFcltyCtrtMngSubctrtList
+	 * @param searchVO
+	 * @return List
+	 */
+	public List selectFcltyCtrtMngSubctrtList(GamFcltyCtrtMngSubctrtVO searchVO) {
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtMngSubctrtList_D", searchVO);
+	}
+
+	/**
+	 * @name insertFcltyCtrtMngSubctrt
+	 * @param gamFcltyCtrtMngSubctrtVO
+	 * @return void
+	 */
+	public void insertFcltyCtrtMngSubctrt(GamFcltyCtrtMngSubctrtVO gamFcltyCtrtMngSubctrtVO) {
+		insert("gamFcltyCtrtMngDao.insertFcltyCtrtMngSubctrt_S", gamFcltyCtrtMngSubctrtVO);
+	}
+
+	/**
+	 * @name updateFcltyCtrtMngSubctrt
+	 * @param gamFcltyCtrtMngSubctrtVO
+	 * @return void
+	 */
+	public void updateFcltyCtrtMngSubctrt(GamFcltyCtrtMngSubctrtVO gamFcltyCtrtMngSubctrtVO) {
+		update("gamFcltyCtrtMngDao.updateFcltyCtrtMngSubctrt_S", gamFcltyCtrtMngSubctrtVO);
+	}
+
+	/**
+	 * @name deleteFcltyCtrtMngSubctrt
+	 * @param gamFcltyCtrtMngSubctrtVO
+	 * @return void
+	 */
+	public void deleteFcltyCtrtMngSubctrt(GamFcltyCtrtMngSubctrtVO gamFcltyCtrtMngSubctrtVO) {
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMngSubctrt_S", gamFcltyCtrtMngSubctrtVO);
+	}
+
+	/**
+	 * @name selectFcltyCtrtMngSubctrtPk
+	 * @param gamFcltyCtrtMngSubctrtVO
+	 * @return EgovMap
+	 */
+	public EgovMap selectFcltyCtrtMngSubctrtPk(GamFcltyCtrtMngSubctrtVO gamFcltyCtrtMngSubctrtVO) {
+		return (EgovMap)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngSubctrtPk_S", gamFcltyCtrtMngSubctrtVO);
+	}
+
+	/**
+	 * @name selectFcltyCtrtMngSubctrtMaxSeq
+	 * @param gamFcltyCtrtMngSubctrtVO
+	 * @return String
+	 */
+	public String selectFcltyCtrtMngSubctrtMaxSeq(GamFcltyCtrtMngSubctrtVO gamFcltyCtrtMngSubctrtVO) {
+		return (String)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngSubctrtMaxSeq_S", gamFcltyCtrtMngSubctrtVO);
+	}
+
+
+	/**
+	 * @name selectFcltyCtrtMngChangeList
+	 * @param searchVO
+	 * @return List
+	 */
+	public List selectFcltyCtrtMngChangeList(GamFcltyCtrtMngChangeVO searchVO) {
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtMngChangeList_D", searchVO);
+	}
+
+	/**
+	 * @name insertFcltyCtrtMngChange
+	 * @param gamFcltyCtrtMngChangeVO
+	 * @return void
+	 */
+	public void insertFcltyCtrtMngChange(GamFcltyCtrtMngChangeVO gamFcltyCtrtMngChangeVO) {
+		insert("gamFcltyCtrtMngDao.insertFcltyCtrtMngChange_S", gamFcltyCtrtMngChangeVO);
+	}
+
+	/**
+	 * @name updateFcltyCtrtMngChange
+	 * @param gamFcltyCtrtMngChangeVO
+	 * @return void
+	 */
+	public void updateFcltyCtrtMngChange(GamFcltyCtrtMngChangeVO gamFcltyCtrtMngChangeVO) {
+		update("gamFcltyCtrtMngDao.updateFcltyCtrtMngChange_S", gamFcltyCtrtMngChangeVO);
+	}
+
+	/**
+	 * @name deleteFcltyCtrtMngChange
+	 * @param gamFcltyCtrtMngChangeVO
+	 * @return void
+	 */
+	public void deleteFcltyCtrtMngChange(GamFcltyCtrtMngChangeVO gamFcltyCtrtMngChangeVO) {
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMngChange_S", gamFcltyCtrtMngChangeVO);
+	}
+
+	/**
+	 * @name selectFcltyCtrtMngChangePk
+	 * @param gamFcltyCtrtMngChangeVO
+	 * @return EgovMap
+	 */
+	public EgovMap selectFcltyCtrtMngChangePk(GamFcltyCtrtMngChangeVO gamFcltyCtrtMngChangeVO) {
+		return (EgovMap)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngChangePk_S", gamFcltyCtrtMngChangeVO);
+	}
+
+	/**
+	 * @name selectFcltyCtrtMngChangeMaxSeq
+	 * @param gamFcltyCtrtMngChangeVO
+	 * @return String
+	 */
+	public String selectFcltyCtrtMngChangeMaxSeq(GamFcltyCtrtMngChangeVO gamFcltyCtrtMngChangeVO) {
+		return (String)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngChangeMaxSeq_S", gamFcltyCtrtMngChangeVO);
+	}
+
+
+	/**
+	 * @name selectFcltyCtrtMngMoneyPymntList
+	 * @param searchVO
+	 * @return List
+	 */
+	public List selectFcltyCtrtMngMoneyPymntList(GamFcltyCtrtMngMoneyPymntVO searchVO) {
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtMngMoneyPymntList_D", searchVO);
+	}
+
+	/**
+	 * @name insertFcltyCtrtMngMoneyPymnt
+	 * @param gamFcltyCtrtMngMoneyPymntVO
+	 * @return void
+	 */
+	public void insertFcltyCtrtMngMoneyPymnt(GamFcltyCtrtMngMoneyPymntVO gamFcltyCtrtMngMoneyPymntVO) {
+		insert("gamFcltyCtrtMngDao.insertFcltyCtrtMngMoneyPymnt_S", gamFcltyCtrtMngMoneyPymntVO);
+	}
+
+	/**
+	 * @name updateFcltyCtrtMngMoneyPymnt
+	 * @param gamFcltyCtrtMngMoneyPymntVO
+	 * @return void
+	 */
+	public void updateFcltyCtrtMngMoneyPymnt(GamFcltyCtrtMngMoneyPymntVO gamFcltyCtrtMngMoneyPymntVO) {
+		update("gamFcltyCtrtMngDao.updateFcltyCtrtMngMoneyPymnt_S", gamFcltyCtrtMngMoneyPymntVO);
+	}
+
+	/**
+	 * @name deleteFcltyCtrtMngMoneyPymnt
+	 * @param gamFcltyCtrtMngMoneyPymntVO
+	 * @return void
+	 */
+	public void deleteFcltyCtrtMngMoneyPymnt(GamFcltyCtrtMngMoneyPymntVO gamFcltyCtrtMngMoneyPymntVO) {
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMngMoneyPymnt_S", gamFcltyCtrtMngMoneyPymntVO);
+	}
+
+	/**
+	 * @name selectFcltyCtrtMngMoneyPymntPk
+	 * @param gamFcltyCtrtMngMoneyPymntVO
+	 * @return EgovMap
+	 */
+	public EgovMap selectFcltyCtrtMngMoneyPymntPk(GamFcltyCtrtMngMoneyPymntVO gamFcltyCtrtMngMoneyPymntVO) {
+		return (EgovMap)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngMoneyPymntPk_S", gamFcltyCtrtMngMoneyPymntVO);
+	}
+
+	/**
+	 * @name selectFcltyCtrtMngMoneyPymntMaxSeq
+	 * @param gamFcltyCtrtMngMoneyPymntVO
+	 * @return String
+	 */
+	public String selectFcltyCtrtMngMoneyPymntMaxSeq(GamFcltyCtrtMngMoneyPymntVO gamFcltyCtrtMngMoneyPymntVO) {
+		return (String)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngMoneyPymntMaxSeq_S", gamFcltyCtrtMngMoneyPymntVO);
+	}
+
+
+	/**
+	 * @name selectFcltyCtrtMngFulfillCaryFwdList
+	 * @param searchVO
+	 * @return List
+	 */
+	public List selectFcltyCtrtMngFulfillCaryFwdList(GamFcltyCtrtMngFulfillCaryFwdVO searchVO) {
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtMngFulfillCaryFwdList_D", searchVO);
+	}
+
+	/**
+	 * @name insertFcltyCtrtMngFulfillCaryFwd
+	 * @param gamFcltyCtrtMngFulfillCaryFwdVO
+	 * @return void
+	 */
+	public void insertFcltyCtrtMngFulfillCaryFwd(GamFcltyCtrtMngFulfillCaryFwdVO gamFcltyCtrtMngFulfillCaryFwdVO) {
+		insert("gamFcltyCtrtMngDao.insertFcltyCtrtMngFulfillCaryFwd_S", gamFcltyCtrtMngFulfillCaryFwdVO);
+	}
+
+	/**
+	 * @name updateFcltyCtrtMngFulfillCaryFwd
+	 * @param gamFcltyCtrtMngFulfillCaryFwdVO
+	 * @return void
+	 */
+	public void updateFcltyCtrtMngFulfillCaryFwd(GamFcltyCtrtMngFulfillCaryFwdVO gamFcltyCtrtMngFulfillCaryFwdVO) {
+		update("gamFcltyCtrtMngDao.updateFcltyCtrtMngFulfillCaryFwd_S", gamFcltyCtrtMngFulfillCaryFwdVO);
+	}
+
+	/**
+	 * @name deleteFcltyCtrtMngFulfillCaryFwd
+	 * @param gamFcltyCtrtMngFulfillCaryFwdVO
+	 * @return void
+	 */
+	public void deleteFcltyCtrtMngFulfillCaryFwd(GamFcltyCtrtMngFulfillCaryFwdVO gamFcltyCtrtMngFulfillCaryFwdVO) {
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMngFulfillCaryFwd_S", gamFcltyCtrtMngFulfillCaryFwdVO);
+	}
+
+	/**
+	 * @name selectFcltyCtrtMngFulfillCaryFwdPk
+	 * @param gamFcltyCtrtMngFulfillCaryFwdVO
+	 * @return EgovMap
+	 */
+	public EgovMap selectFcltyCtrtMngFulfillCaryFwdPk(GamFcltyCtrtMngFulfillCaryFwdVO gamFcltyCtrtMngFulfillCaryFwdVO) {
+		return (EgovMap)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngFulfillCaryFwdPk_S", gamFcltyCtrtMngFulfillCaryFwdVO);
+	}
+
+	/**
+	 * @name selectFcltyCtrtMngFulfillCaryFwdMaxSeq
+	 * @param gamFcltyCtrtMngFulfillCaryFwdVO
+	 * @return String
+	 */
+	public String selectFcltyCtrtMngFulfillCaryFwdMaxSeq(GamFcltyCtrtMngFulfillCaryFwdVO gamFcltyCtrtMngFulfillCaryFwdVO) {
+		return (String)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngFulfillCaryFwdMaxSeq_S", gamFcltyCtrtMngFulfillCaryFwdVO);
+	}
+
+
+	/**
+	 * @name selectFcltyCtrtMngScsbidInfoList
+	 * @param searchVO
+	 * @return List
+	 */
+	public List selectFcltyCtrtMngScsbidInfoList(GamFcltyCtrtMngScsbidInfoVO searchVO) {
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtMngScsbidInfoList_D", searchVO);
+	}
+
+	/**
+	 * @name insertFcltyCtrtMngScsbidInfo
+	 * @param gamFcltyCtrtMngScsbidInfoVO
+	 * @return void
+	 */
+	public void insertFcltyCtrtMngScsbidInfo(GamFcltyCtrtMngScsbidInfoVO gamFcltyCtrtMngScsbidInfoVO) {
+		insert("gamFcltyCtrtMngDao.insertFcltyCtrtMngScsbidInfo_S", gamFcltyCtrtMngScsbidInfoVO);
+	}
+
+	/**
+	 * @name updateFcltyCtrtMngScsbidInfo
+	 * @param gamFcltyCtrtMngScsbidInfoVO
+	 * @return void
+	 */
+	public void updateFcltyCtrtMngScsbidInfo(GamFcltyCtrtMngScsbidInfoVO gamFcltyCtrtMngScsbidInfoVO) {
+		update("gamFcltyCtrtMngDao.updateFcltyCtrtMngScsbidInfo_S", gamFcltyCtrtMngScsbidInfoVO);
+	}
+
+	/**
+	 * @name deleteFcltyCtrtMngScsbidInfo
+	 * @param gamFcltyCtrtMngScsbidInfoVO
+	 * @return void
+	 */
+	public void deleteFcltyCtrtMngScsbidInfo(GamFcltyCtrtMngScsbidInfoVO gamFcltyCtrtMngScsbidInfoVO) {
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMngScsbidInfo_S", gamFcltyCtrtMngScsbidInfoVO);
+	}
+
+	/**
+	 * @name selectFcltyCtrtMngScsbidInfoPk
+	 * @param gamFcltyCtrtMngScsbidInfoVO
+	 * @return EgovMap
+	 */
+	public EgovMap selectFcltyCtrtMngScsbidInfoPk(GamFcltyCtrtMngScsbidInfoVO gamFcltyCtrtMngScsbidInfoVO) {
+		return (EgovMap)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngScsbidInfoPk_S", gamFcltyCtrtMngScsbidInfoVO);
+	}
+
+	/**
+	 * @name selectFcltyCtrtMngScsbidInfoMaxSeq
+	 * @param gamFcltyCtrtMngScsbidInfoVO
+	 * @return String
+	 */
+	public String selectFcltyCtrtMngScsbidInfoMaxSeq(GamFcltyCtrtMngScsbidInfoVO gamFcltyCtrtMngScsbidInfoVO) {
+		return (String)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngScsbidInfoMaxSeq_S", gamFcltyCtrtMngScsbidInfoVO);
+	}
+
 }

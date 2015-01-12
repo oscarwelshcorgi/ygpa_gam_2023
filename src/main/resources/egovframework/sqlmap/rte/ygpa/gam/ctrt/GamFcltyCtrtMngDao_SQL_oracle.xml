@@ -1,978 +1,1151 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
-
+<!-- SQL MAP 정의 -->
 <sqlMap namespace="ygpa.gam.ctrt">
-
+	<!-- TYPE ALIAS 정의 -->
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamFcltyCtrtMngVO" type="egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngVO"/>
-	
+	<typeAlias alias="gamFcltyCtrtMngVO" type="egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngVO"/>
+	<typeAlias alias="gamFcltyCtrtMngJoinContrVO" type="egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngJoinContrVO"/>
+	<typeAlias alias="gamFcltyCtrtMngSubctrtVO" type="egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngSubctrtVO"/>
+	<typeAlias alias="gamFcltyCtrtMngChangeVO" type="egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngChangeVO"/>
+	<typeAlias alias="gamFcltyCtrtMngMoneyPymntVO" type="egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngMoneyPymntVO"/>
+	<typeAlias alias="gamFcltyCtrtMngFulfillCaryFwdVO" type="egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngFulfillCaryFwdVO"/>
+	<typeAlias alias="gamFcltyCtrtMngScsbidInfoVO" type="egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngScsbidInfoVO"/>
+	<!-- RESULT MAP 정의 -->
 	<resultMap id="gamFcltyCtrtMngSumMap" class="gamFcltyCtrtMngVO">
-		<result property="totalCnt" column="TOTAL_CNT" columnIndex="1" javaType="int"/>
-        <result property="sumPlanAmt" column="SUM_PLAN_AMT" columnIndex="2" javaType="java.lang.Long"/>
-        <result property="sumPrmtAmt" column="SUM_PRMT_AMT" columnIndex="3" javaType="java.lang.Long"/>
-        <result property="sumScsbidAmt" column="SUM_SCSBID_AMT" columnIndex="4" javaType="java.lang.Long"/>
-        <result property="sumBaseAmt" column="SUM_BASE_AMT" columnIndex="5" javaType="java.lang.Long"/>
-    </resultMap>
-	
-	<!-- 계약 정보 -->
-    <select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngList_D" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
-        SELECT A.*
-           FROM (
-                   SELECT  ROWNUM RNUM, S.*
-                     FROM (
-                           SELECT
-                                  CTRT_NO
-                                  , (CASE WHEN CTRT_SE = '1' THEN '자체' 
-                                  		  WHEN CTRT_SE = '2' THEN '조달'
-                                  	END) AS CTRT_SE
-                                  , BID_PBLANC_NO
-                                  , CTRT_NM
-                                  , TO_CHAR(CTRT_DT, 'YYYY-MM-DD') AS CTRT_DT
-                                  , TO_CHAR(BID_PBLANC_DT, 'YYYY-MM-DD') AS BID_PBLANC_DT
-                                  , TO_CHAR(BID_DT, 'YYYY-MM-DD') AS BID_DT
-                                  , REGIST_ENTRPS_CD
-                                  , GAM_GETENTRPSNM(REGIST_ENTRPS_CD, 1) AS REGIST_ENTRPS_NM
-                                  , CTRT_AMT
-                                  , PLAN_AMT
-                                  , PRMT_AMT
-                                  , SCSBID_AMT
-                                  , SCSBID_RATE
-                                  , BASE_AMT
-                             FROM 
-					              CTRT_INFO_F
-								  WHERE 1=1
-									<isNotEmpty property="sCtrtSe">
-										AND CTRT_SE = #sCtrtSe#
-									</isNotEmpty>
-									<isNotEmpty property="sCtrtNm">
-										AND CTRT_NM LIKE '%' || #sCtrtNm# || '%' 
-									</isNotEmpty>
-									<isNotEmpty property="sCtrtFrDt">
-										<![CDATA[ AND CTRT_DT >= #sCtrtFrDt# ]]>
-									</isNotEmpty>
-									<isNotEmpty property="sCtrtToDt">
-										<![CDATA[ AND CTRT_DT <= #sCtrtToDt# ]]>
-									</isNotEmpty>
-									<isNotEmpty property="sRegistEntrpsCd">
-										AND REGIST_ENTRPS_CD = #sRegistEntrpsCd#
-									</isNotEmpty>
-									<isNotEmpty property="sCtrtAmtFr">
-										<![CDATA[ AND CTRT_AMT >= TO_NUMBER(REPLACE(#sCtrtAmtFr#, ',', '')) ]]>
-									</isNotEmpty>
-									<isNotEmpty property="sCtrtAmtTo">
-										<![CDATA[ AND CTRT_AMT <= TO_NUMBER(REPLACE(#sCtrtAmtTo#, ',', '')) ]]>
-									</isNotEmpty>
-                             <!-- ORDER BY REGIST_DT DESC -->
-                             ORDER BY CTRT_NO DESC, CTRT_DT DESC
-                ) S
-             ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
-    </select>
-    
-    <select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngTotSum_S" parameterClass="gamFcltyCtrtMngVO" resultMap="gamFcltyCtrtMngSumMap">
-        SELECT 
-        		COUNT(*) AS TOTAL_CNT
-        		, NVL(SUM(PLAN_AMT),0) AS SUM_PLAN_AMT
-        		, NVL(SUM(PRMT_AMT),0) AS SUM_PRMT_AMT
-        		, NVL(SUM(SCSBID_AMT),0) AS SUM_SCSBID_AMT
-        		, NVL(SUM(BASE_AMT),0) AS SUM_BASE_AMT
-              FROM 
-              	CTRT_INFO_F
-			  WHERE 1=1
-				<isNotEmpty property="sCtrtSe">
-					AND CTRT_SE = #sCtrtSe#
-				</isNotEmpty>
-				<isNotEmpty property="sCtrtNm">
-					AND CTRT_NM LIKE '%' || #sCtrtNm# || '%' 
-				</isNotEmpty>
-				<isNotEmpty property="sCtrtFrDt">
-					<![CDATA[ AND CTRT_DT >= #sCtrtFrDt# ]]>
-				</isNotEmpty>
-				<isNotEmpty property="sCtrtToDt">
-					<![CDATA[ AND CTRT_DT <= #sCtrtToDt# ]]>
-				</isNotEmpty>
-				<isNotEmpty property="sRegistEntrpsCd">
-					AND REGIST_ENTRPS_CD = #sRegistEntrpsCd#
-				</isNotEmpty>
-				<isNotEmpty property="sCtrtAmtFr">
-					<![CDATA[ AND CTRT_AMT >= TO_NUMBER(REPLACE(#sCtrtAmtFr#, ',', '')) ]]>
-				</isNotEmpty>
-				<isNotEmpty property="sCtrtAmtTo">
-					<![CDATA[ AND CTRT_AMT <= TO_NUMBER(REPLACE(#sCtrtAmtTo#, ',', '')) ]]>
-				</isNotEmpty>
-    </select>
-	
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtInfoDetail_S" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
-		SELECT
-		    I.CTRT_NO
-		    , I.CTRT_SE
-		    , I.ORDER_MTHD
-		    , I.BID_PBLANC_NO
-		    , TO_CHAR(I.BID_PBLANC_DT, 'YYYY-MM-DD') BID_PBLANC_DT
-		    , TO_CHAR(I.BID_DT, 'YYYY-MM-DD') BID_DT
-		    , I.REGIST_ENTRPS_CD
-		    , I.SITE_DESC
-		    , I.CTRT_NM
-		    , NVL(I.PLAN_AMT, 0) PLAN_AMT 
-		    , NVL(I.PRMT_AMT, 0) PRMT_AMT
-		    , NVL(I.SCSBID_AMT, 0) SCSBID_AMT 
-		    , NVL(I.SCSBID_RATE, 0) SCSBID_RATE
-		    , NVL(I.BASE_AMT, 0) BASE_AMT
-		    , I.BID_MTH
-		    , I.CTRT_MTH
-		    , TO_CHAR(I.CTRT_DT, 'YYYY-MM-DD') CTRT_DT
-		    , NVL(I.CTRT_AMT, 0) CTRT_AMT
-		    , TO_CHAR(I.CTRT_DT_FROM, 'YYYY-MM-DD') CTRT_DT_FROM
-		    , TO_CHAR(I.CTRT_DT_TO, 'YYYY-MM-DD') CTRT_DT_TO
-		    , NVL(I.CTRT_GRNTY_AMT, 0) CTRT_GRNTY_AMT 
-		    , I.PRCU_PBLANC_NO
-		    , I.CTRT_GRNTY_MTH
-		    , TO_CHAR(I.CTRT_EXAM_DT, 'YYYY-MM-DD') CTRT_EXAM_DT 
-		    , I.INTENDANT_1
-		    , I.INTENDANT_2
-		    , I.INTENDANT_3
-		    , NVL(I.CARY_FWD_BDGT_AMT, 0) CARY_FWD_BDGT_AMT
-		    , I.ELCTRN_SANCTN_TRNSMIS_SE
-		    , I.ELCTRN_SANCTN_PROGRS_CD
-		    , TO_CHAR(I.ELCTRN_SANCTN_TRNSMIS_DT, 'YYYY-MM-DD') ELCTRN_SANCTN_TRNSMIS_DT
-		    , I.ELCTRN_SANCTN_INTERLOCK_INFO
-		    , I.ELCTRN_SANCTN_DOC_ID
-		    , TO_CHAR(I.CONFM_DT, 'YYYY-MM-DD') CONFM_DT
-		    , I.CONFMER_CD
-		    , I.REG_USR
-		    , TO_CHAR(I.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
-		    , I.UPD_USR
-		    , TO_CHAR(I.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
-		    , I.SLDRT_GRNTY
-		    , I.JOB_CHRG_DEPT_CD
-		    , TO_CHAR(I.FLAW_DT_FROM, 'YYYY-MM-DD') FLAW_DT_FROM
-		    , TO_CHAR(I.FLAW_DT_TO, 'YYYY-MM-DD') FLAW_DT_TO
-		    , I.CAUSE_ACT
-		    , GAM_GETENTRPSNM(I.REGIST_ENTRPS_CD, 1) AS REGIST_ENTRPS_NM
-		  FROM CTRT_INFO_F I
-		  WHERE
-		    I.CTRT_NO = #sCtrtNo#
+		<result property="totalCount" column="TOTAL_COUNT" columnIndex="1"/>
+		<result property="sumPlanAmt" column="SUM_PLAN_AMT" columnIndex="2"/>
+		<result property="sumPrmtAmt" column="SUM_PRMT_AMT" columnIndex="3"/>
+		<result property="sumScsbidAmt" column="SUM_SCSBID_AMT" columnIndex="4"/>
+		<result property="sumBaseAmt" column="SUM_BASE_AMT" columnIndex="5"/>
+	</resultMap>
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngList_D" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.CTRT_NO AS CTRT_NO
+								,T1.CTRT_SE AS CTRT_SE
+								,T1.BID_PBLANC_NO AS BID_PBLANC_NO
+								,TO_CHAR(T1.BID_PBLANC_DT,'YYYY-MM-DD') AS BID_PBLANC_DT
+								,TO_CHAR(T1.BID_DT,'YYYY-MM-DD') AS BID_DT
+								,T1.REGIST_ENTRPS_CD AS REGIST_ENTRPS_CD
+								,T1.REGIST_ENTRPS_NM AS REGIST_ENTRPS_NM
+								,T1.SITE_DESC AS SITE_DESC
+								,T1.CTRT_NM AS CTRT_NM
+								,LTRIM(TO_CHAR(NVL(T1.PLAN_AMT,0),'9,999,999,999,999,990')) AS PLAN_AMT
+								,LTRIM(TO_CHAR(NVL(T1.PRMT_AMT,0),'9,999,999,999,999,990')) AS PRMT_AMT
+								,LTRIM(TO_CHAR(NVL(T1.SCSBID_AMT,0),'9,999,999,999,999,990')) AS SCSBID_AMT
+								,LTRIM(TO_CHAR(NVL(T1.SCSBID_RATE,0),'0.00000')) AS SCSBID_RATE
+								,LTRIM(TO_CHAR(NVL(T1.BASE_AMT,0),'9,999,999,999,999,990')) AS BASE_AMT
+								,T1.BID_MTH AS BID_MTH
+								,T1.CTRT_MTH AS CTRT_MTH
+								,TO_CHAR(T1.CTRT_DT,'YYYY-MM-DD') AS CTRT_DT
+								,LTRIM(TO_CHAR(NVL(T1.CTRT_AMT,0),'9,999,999,999,999,990')) AS CTRT_AMT
+								,TO_CHAR(T1.CTRT_DT_FROM,'YYYY-MM-DD') AS CTRT_DT_FROM
+								,TO_CHAR(T1.CTRT_DT_TO,'YYYY-MM-DD') AS CTRT_DT_TO
+								,LTRIM(TO_CHAR(NVL(T1.CTRT_GRNTY_AMT,0),'9,999,999,999,999,990')) AS CTRT_GRNTY_AMT
+								,T1.PRCU_PBLANC_NO AS PRCU_PBLANC_NO
+								,T1.CTRT_GRNTY_MTH AS CTRT_GRNTY_MTH
+								,TO_CHAR(T1.CTRT_EXAM_DT,'YYYY-MM-DD') AS CTRT_EXAM_DT
+								,T1.INTENDANT_1 AS INTENDANT_1
+								,T1.INTENDANT_2 AS INTENDANT_2
+								,T1.INTENDANT_3 AS INTENDANT_3
+								,LTRIM(TO_CHAR(NVL(T1.CARY_FWD_BDGT_AMT,0),'9,999,999,999,999,990')) AS CARY_FWD_BDGT_AMT
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,T1.ORDER_MTHD AS ORDER_MTHD
+								,T1.SLDRT_GRNTY AS SLDRT_GRNTY
+								,T1.JOB_CHRG_DEPT_CD AS JOB_CHRG_DEPT_CD
+								,TO_CHAR(T1.FLAW_DT_FROM,'YYYY-MM-DD') AS FLAW_DT_FROM
+								,TO_CHAR(T1.FLAW_DT_TO,'YYYY-MM-DD') AS FLAW_DT_TO
+								,T1.CAUSE_ACT AS CAUSE_ACT
+								,GAM_GET_CTRT_SE_NM(T1.CTRT_SE) AS CTRT_SE_NM
+								,GAM_GET_CTRT_GRNTY_MTH_NM(T1.CTRT_GRNTY_MTH) AS CTRT_GRNTY_MTH_NM
+							FROM CTRT_INFO_F T1
+						WHERE 1=1
+
+						<isNotEmpty property="sCtrtNo">
+						AND T1.CTRT_NO = #sCtrtNo#
+						</isNotEmpty>
+
+
+						<isNotEmpty property="sCtrtSe">
+						AND T1.CTRT_SE = #sCtrtSe#
+						</isNotEmpty>
+
+
+						<isNotEmpty property="sCtrtNm">
+						AND T1.CTRT_NM LIKE '%' || #sCtrtNm# || '%'
+						</isNotEmpty>
+
+
+						<isNotEmpty property="sStartCtrtDt">
+						AND T1.CTRT_DT <![CDATA[ >= ]]> TO_DATE(#sStartCtrtDt#,'YYYY-MM-DD')
+						</isNotEmpty>
+
+
+						<isNotEmpty property="sEndCtrtDt">
+						AND T1.CTRT_DT <![CDATA[ < ]]> TO_DATE(#sEndCtrtDt#,'YYYY-MM-DD') + 1
+						</isNotEmpty>
+
+
+						<isNotEmpty property="sStartCtrtAmt">
+						AND T1.CTRT_AMT <![CDATA[ >= ]]> NVL(TO_NUMBER(REPLACE(#sStartCtrtAmt#,',','')),0)
+						</isNotEmpty>
+
+
+						<isNotEmpty property="sEndCtrtAmt">
+						AND T1.CTRT_AMT <![CDATA[ <= ]]> NVL(TO_NUMBER(REPLACE(#sEndCtrtAmt#,',','')),0)
+						</isNotEmpty>
+
+						ORDER BY T1.CTRT_NO ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
 	</select>
-	
-	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtInfoDetail_S">
-		INSERT INTO CTRT_INFO_F 
-		  (
-		    CTRT_NO
-		    , CTRT_SE
-		    , ORDER_MTHD
-		    , BID_PBLANC_NO
-		    , BID_PBLANC_DT
-		    , BID_DT
-		    , REGIST_ENTRPS_CD
-		    , SITE_DESC
-		    , CTRT_NM
-		    , PLAN_AMT
-		    , PRMT_AMT
-		    , SCSBID_AMT
-		    , SCSBID_RATE
-		    , BASE_AMT
-		    , BID_MTH
-		    , CTRT_MTH
-		    , CTRT_DT
-		    , CTRT_AMT
-		    , CTRT_DT_FROM
-		    , CTRT_DT_TO
-		    , CTRT_GRNTY_AMT
-		    , PRCU_PBLANC_NO
-		    , CTRT_GRNTY_MTH
-		    , CTRT_EXAM_DT
-		    , INTENDANT_1
-		    , INTENDANT_2
-		    , INTENDANT_3
-		    , CARY_FWD_BDGT_AMT
-		    , ELCTRN_SANCTN_TRNSMIS_SE
-		    , ELCTRN_SANCTN_PROGRS_CD
-		    , ELCTRN_SANCTN_TRNSMIS_DT
-		    , ELCTRN_SANCTN_INTERLOCK_INFO
-		    , ELCTRN_SANCTN_DOC_ID
-		    , CONFM_DT
-		    , CONFMER_CD
-		    , REG_USR
-		    , REGIST_DT
-		    , SLDRT_GRNTY
-		    , JOB_CHRG_DEPT_CD
-		    , FLAW_DT_FROM
-		    , FLAW_DT_TO
-		    , CAUSE_ACT
-		  )
+
+	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtMng_S" parameterClass="gamFcltyCtrtMngVO">
+		INSERT INTO CTRT_INFO_F
+		(
+			 CTRT_NO
+			,CTRT_SE
+			,BID_PBLANC_NO
+			,BID_PBLANC_DT
+			,BID_DT
+			,REGIST_ENTRPS_CD
+			,REGIST_ENTRPS_NM
+			,SITE_DESC
+			,CTRT_NM
+			,PLAN_AMT
+			,PRMT_AMT
+			,SCSBID_AMT
+			,SCSBID_RATE
+			,BASE_AMT
+			,BID_MTH
+			,CTRT_MTH
+			,CTRT_DT
+			,CTRT_AMT
+			,CTRT_DT_FROM
+			,CTRT_DT_TO
+			,CTRT_GRNTY_AMT
+			,PRCU_PBLANC_NO
+			,CTRT_GRNTY_MTH
+			,CTRT_EXAM_DT
+			,INTENDANT_1
+			,INTENDANT_2
+			,INTENDANT_3
+			,CARY_FWD_BDGT_AMT
+			,REG_USR
+			,REGIST_DT
+			,ORDER_MTHD
+			,SLDRT_GRNTY
+			,JOB_CHRG_DEPT_CD
+			,FLAW_DT_FROM
+			,FLAW_DT_TO
+			,CAUSE_ACT
+		)
 		VALUES
-		  (
-		    #ctrtNo#
-		    , #ctrtSe#
-		    , #orderMthd#
-		    , #bidPblancNo#
-		    , TO_DATE(#bidPblancDt#, 'YYYY-MM-DD')
-		    , TO_DATE(#bidDt#, 'YYYY-MM-DD')
-		    , #registEntrpsCd#
-		    , #siteDesc#
-		    , #ctrtNm#
-		    , TO_NUMBER(REPLACE(#planAmt#, ',', ''))
-		    , TO_NUMBER(REPLACE(#prmtAmt#, ',', ''))
-		    , TO_NUMBER(REPLACE(#scsbidAmt#, ',', ''))
-		    , TO_NUMBER(REPLACE(#scsbidRate#, ',', ''))
-		    , TO_NUMBER(REPLACE(#baseAmt#, ',', ''))
-		    , #bidMth#
-		    , #ctrtMth#
-		    , TO_DATE(#ctrtDt#, 'YYYY-MM-DD')
-		    , TO_NUMBER(REPLACE(#ctrtAmt#, ',', ''))
-		    , TO_DATE(#ctrtDtFrom#, 'YYYY-MM-DD')
-		    , TO_DATE(#ctrtDtTo#, 'YYYY-MM-DD')
-		    , TO_NUMBER(REPLACE(#ctrtGrntyAmt#, ',', ''))
-		    , #prcuPblancNo#
-		    , #ctrtGrntyMth#
-		    , TO_DATE(#ctrtExamDt#, 'YYYY-MM-DD')
-		    , #intendant1#
-		    , #intendant2#
-		    , #intendant3#
-		    , TO_NUMBER(REPLACE(#caryFwdBdgtAmt#, ',', ''))
-		    , #elctrnSanctnTrnsmisSe#
-		    , #elctrnSanctnProgrsCd#
-		    , TO_DATE(#elctrnSanctnTrnsmisDt#, 'YYYY-MM-DD')
-		    , #elctrnSanctnInterlockInfo#
-		    , #elctrnSanctnDocId#
-		    , TO_DATE(#confmDt#, 'YYYY-MM-DD')
-		    , #confmerCd#
-		    , #regUsr#
-		    , SYSDATE
-		    , #sldrtGrnty#
-		    , #jobChrgDeptCd#
-		    , TO_DATE(#flawDtFrom#, 'YYYY-MM-DD')
-		    , TO_DATE(#flawDtTo#, 'YYYY-MM-DD')
-		    , #causeAct#
-		  )	
+		(
+			 #ctrtNo#
+			,#ctrtSe#
+			,#bidPblancNo#
+			,TO_DATE(#bidPblancDt#,'YYYY-MM-DD')
+			,TO_DATE(#bidDt#,'YYYY-MM-DD')
+			,#registEntrpsCd#
+			,#registEntrpsNm#
+			,#siteDesc#
+			,#ctrtNm#
+			,#planAmt#
+			,#prmtAmt#
+			,#scsbidAmt#
+			,#scsbidRate#
+			,#baseAmt#
+			,#bidMth#
+			,#ctrtMth#
+			,TO_DATE(#ctrtDt#,'YYYY-MM-DD')
+			,#ctrtAmt#
+			,TO_DATE(#ctrtDtFrom#,'YYYY-MM-DD')
+			,TO_DATE(#ctrtDtTo#,'YYYY-MM-DD')
+			,#ctrtGrntyAmt#
+			,#prcuPblancNo#
+			,#ctrtGrntyMth#
+			,TO_DATE(#ctrtExamDt#,'YYYY-MM-DD')
+			,#intendant1#
+			,#intendant2#
+			,#intendant3#
+			,#caryFwdBdgtAmt#
+			,#regUsr#
+			,SYSDATE
+			,#orderMthd#
+			,#sldrtGrnty#
+			,#jobChrgDeptCd#
+			,TO_DATE(#flawDtFrom#,'YYYY-MM-DD')
+			,TO_DATE(#flawDtTo#,'YYYY-MM-DD')
+			,#causeAct#
+		)
 	</insert>
-	
-	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtInfoDetail_S">
-		UPDATE CTRT_INFO_F
-		  SET 
-		    CTRT_SE = #ctrtSe#
-		    , ORDER_MTHD = #orderMthd#
-		    , BID_PBLANC_NO = #bidPblancNo#
-		    , BID_PBLANC_DT = TO_DATE(#bidPblancDt#, 'YYYY-MM-DD')
-		    , BID_DT = TO_DATE(#bidDt#, 'YYYY-MM-DD')
-		    , REGIST_ENTRPS_CD = #registEntrpsCd#
-		    , SITE_DESC = #siteDesc#
-		    , CTRT_NM = #ctrtNm#
-		    , PLAN_AMT = TO_NUMBER(REPLACE(#planAmt#, ',', ''))
-		    , PRMT_AMT = TO_NUMBER(REPLACE(#prmtAmt#, ',', ''))
-		    , SCSBID_AMT = TO_NUMBER(REPLACE(#scsbidAmt#, ',', ''))
-		    , SCSBID_RATE = TO_NUMBER(REPLACE(#scsbidRate#, ',', ''))
-		    , BASE_AMT = TO_NUMBER(REPLACE(#baseAmt#, ',', ''))
-		    , BID_MTH = #bidMth#
-		    , CTRT_MTH = #ctrtMth#
-		    , CTRT_DT = TO_DATE(#ctrtDt#, 'YYYY-MM-DD')
-		    , CTRT_AMT = TO_NUMBER(REPLACE(#ctrtAmt#, ',', ''))
-		    , CTRT_DT_FROM = TO_DATE(#ctrtDtFrom#, 'YYYY-MM-DD')
-		    , CTRT_DT_TO = TO_DATE(#ctrtDtTo#, 'YYYY-MM-DD')
-		    , CTRT_GRNTY_AMT = TO_NUMBER(REPLACE(#ctrtGrntyAmt#, ',', ''))
-		    , PRCU_PBLANC_NO = #prcuPblancNo#
-		    , CTRT_GRNTY_MTH = #ctrtGrntyMth#
-		    , CTRT_EXAM_DT = TO_DATE(#ctrtExamDt#, 'YYYY-MM-DD')
-		    , INTENDANT_1 = #intendant1#
-		    , INTENDANT_2 = #intendant2#
-		    , INTENDANT_3 = #intendant3#
-		    , CARY_FWD_BDGT_AMT = TO_NUMBER(REPLACE(#caryFwdBdgtAmt#, ',', ''))
-		    , ELCTRN_SANCTN_TRNSMIS_SE = #elctrnSanctnTrnsmisSe#
-		    , ELCTRN_SANCTN_PROGRS_CD = #elctrnSanctnProgrsCd#
-		    , ELCTRN_SANCTN_TRNSMIS_DT = TO_DATE(#elctrnSanctnTrnsmisDt#, 'YYYY-MM-DD')
-		    , ELCTRN_SANCTN_INTERLOCK_INFO = #elctrnSanctnInterlockInfo#
-		    , ELCTRN_SANCTN_DOC_ID = #elctrnSanctnDocId#
-		    , CONFM_DT = TO_DATE(#confmDt#, 'YYYY-MM-DD')
-		    , CONFMER_CD = #confmerCd#
-		    , UPD_USR = #updUsr#
-		    , UPDT_DT = SYSDATE
-		    , SLDRT_GRNTY = #sldrtGrnty#
-		    , JOB_CHRG_DEPT_CD = #jobChrgDeptCd#
-		    , FLAW_DT_FROM = TO_DATE(#flawDtFrom#, 'YYYY-MM-DD')
-		    , FLAW_DT_TO = TO_DATE(#flawDtTo#, 'YYYY-MM-DD')
-		    , CAUSE_ACT = #causeAct#
-		  WHERE
-		    CTRT_NO = #ctrtNo#	
+
+	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtMng_S" parameterClass="gamFcltyCtrtMngVO">
+		UPDATE CTRT_INFO_F SET
+			 CTRT_SE = #ctrtSe#
+			,BID_PBLANC_NO = #bidPblancNo#
+			,BID_PBLANC_DT = TO_DATE(#bidPblancDt#,'YYYY-MM-DD')
+			,BID_DT = TO_DATE(#bidDt#,'YYYY-MM-DD')
+			,REGIST_ENTRPS_CD = #registEntrpsCd#
+			,REGIST_ENTRPS_NM = #registEntrpsNm#
+			,SITE_DESC = #siteDesc#
+			,CTRT_NM = #ctrtNm#
+			,PLAN_AMT = #planAmt#
+			,PRMT_AMT = #prmtAmt#
+			,SCSBID_AMT = #scsbidAmt#
+			,SCSBID_RATE = #scsbidRate#
+			,BASE_AMT = #baseAmt#
+			,BID_MTH = #bidMth#
+			,CTRT_MTH = #ctrtMth#
+			,CTRT_DT = TO_DATE(#ctrtDt#,'YYYY-MM-DD')
+			,CTRT_AMT = #ctrtAmt#
+			,CTRT_DT_FROM = TO_DATE(#ctrtDtFrom#,'YYYY-MM-DD')
+			,CTRT_DT_TO = TO_DATE(#ctrtDtTo#,'YYYY-MM-DD')
+			,CTRT_GRNTY_AMT = #ctrtGrntyAmt#
+			,PRCU_PBLANC_NO = #prcuPblancNo#
+			,CTRT_GRNTY_MTH = #ctrtGrntyMth#
+			,CTRT_EXAM_DT = TO_DATE(#ctrtExamDt#,'YYYY-MM-DD')
+			,INTENDANT_1 = #intendant1#
+			,INTENDANT_2 = #intendant2#
+			,INTENDANT_3 = #intendant3#
+			,CARY_FWD_BDGT_AMT = #caryFwdBdgtAmt#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+			,ORDER_MTHD = #orderMthd#
+			,SLDRT_GRNTY = #sldrtGrnty#
+			,JOB_CHRG_DEPT_CD = #jobChrgDeptCd#
+			,FLAW_DT_FROM = TO_DATE(#flawDtFrom#,'YYYY-MM-DD')
+			,FLAW_DT_TO = TO_DATE(#flawDtTo#,'YYYY-MM-DD')
+			,CAUSE_ACT = #causeAct#
+		WHERE CTRT_NO = #ctrtNo#
 	</update>
-	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtInfoDetail_S">
+
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMng_S" parameterClass="gamFcltyCtrtMngVO">
 		DELETE FROM CTRT_INFO_F
-		  WHERE
-		    CTRT_NO = #ctrtNo#
+		WHERE CTRT_NO = #ctrtNo#
 	</delete>
 
-	<!-- 계약공동도급 -->
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrList_D" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
-	    SELECT A.*
-          FROM (
-             SELECT  ROWNUM RNUM, S.*
-               FROM (
-					SELECT
-					    J.CTRT_NO
-					    , J.SEQ
-					    , J.QOTA_RATE
-					    , J.ENTRPS_NM
-					    , J.RPRSNTV
-					    , J.TLPHON_NO
-					    , J.FAX_NO
-					    , J.POST_NO
-					    , J.ROADNM_ADRES
-					    , J.LNM_ADRES
-					    , J.DEAL_RELATE
-					    , J.INDUTY
-					    , J.STPL_PRDLST
-					    , J.BSNM_NO
-					    , J.CHARGER
-					    , J.CHARGER_OFC_POS
-					    , J.CHARGER_MOBLPHON_NO
-					    , J.CHARGER_EMAIL
-					    , J.REG_USR
-					    , TO_CHAR(J.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
-					    , J.UPD_USR
-					    , TO_CHAR(J.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
-					  FROM
-					    CTRT_JOIN_CONTR_F J
-					  WHERE
-					    J.CTRT_NO = #sCtrtNo#
-               		  ORDER BY J.SEQ
-               		) S
-             	) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
-	</select>	
-
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtJoinContrListTotCnt_S" parameterClass="gamFcltyCtrtMngVO" resultClass="int">
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngPk_S" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
 		SELECT
-		    COUNT(*) CNT
-		  FROM
-		    CTRT_JOIN_CONTR_F
-		  WHERE
-		    CTRT_NO = #sCtrtNo#
+				 T1.CTRT_NO AS CTRT_NO
+				,T1.CTRT_SE AS CTRT_SE
+				,T1.BID_PBLANC_NO AS BID_PBLANC_NO
+				,TO_CHAR(T1.BID_PBLANC_DT,'YYYY-MM-DD') AS BID_PBLANC_DT
+				,TO_CHAR(T1.BID_DT,'YYYY-MM-DD') AS BID_DT
+				,T1.REGIST_ENTRPS_CD AS REGIST_ENTRPS_CD
+				,T1.REGIST_ENTRPS_NM AS REGIST_ENTRPS_NM
+				,T1.SITE_DESC AS SITE_DESC
+				,T1.CTRT_NM AS CTRT_NM
+				,LTRIM(TO_CHAR(NVL(T1.PLAN_AMT,0),'9,999,999,999,999,990')) AS PLAN_AMT
+				,LTRIM(TO_CHAR(NVL(T1.PRMT_AMT,0),'9,999,999,999,999,990')) AS PRMT_AMT
+				,LTRIM(TO_CHAR(NVL(T1.SCSBID_AMT,0),'9,999,999,999,999,990')) AS SCSBID_AMT
+				,LTRIM(TO_CHAR(NVL(T1.SCSBID_RATE,0),'0.0000')) AS SCSBID_RATE
+				,LTRIM(TO_CHAR(NVL(T1.BASE_AMT,0),'9,999,999,999,999,990')) AS BASE_AMT
+				,T1.BID_MTH AS BID_MTH
+				,T1.CTRT_MTH AS CTRT_MTH
+				,TO_CHAR(T1.CTRT_DT,'YYYY-MM-DD') AS CTRT_DT
+				,LTRIM(TO_CHAR(NVL(T1.CTRT_AMT,0),'9,999,999,999,999,990')) AS CTRT_AMT
+				,TO_CHAR(T1.CTRT_DT_FROM,'YYYY-MM-DD') AS CTRT_DT_FROM
+				,TO_CHAR(T1.CTRT_DT_TO,'YYYY-MM-DD') AS CTRT_DT_TO
+				,LTRIM(TO_CHAR(NVL(T1.CTRT_GRNTY_AMT,0),'9,999,999,999,999,990')) AS CTRT_GRNTY_AMT
+				,T1.PRCU_PBLANC_NO AS PRCU_PBLANC_NO
+				,T1.CTRT_GRNTY_MTH AS CTRT_GRNTY_MTH
+				,TO_CHAR(T1.CTRT_EXAM_DT,'YYYY-MM-DD') AS CTRT_EXAM_DT
+				,T1.INTENDANT_1 AS INTENDANT_1
+				,T1.INTENDANT_2 AS INTENDANT_2
+				,T1.INTENDANT_3 AS INTENDANT_3
+				,LTRIM(TO_CHAR(NVL(T1.CARY_FWD_BDGT_AMT,0),'9,999,999,999,999,990')) AS CARY_FWD_BDGT_AMT
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,T1.ORDER_MTHD AS ORDER_MTHD
+				,T1.SLDRT_GRNTY AS SLDRT_GRNTY
+				,T1.JOB_CHRG_DEPT_CD AS JOB_CHRG_DEPT_CD
+				,TO_CHAR(T1.FLAW_DT_FROM,'YYYY-MM-DD') AS FLAW_DT_FROM
+				,TO_CHAR(T1.FLAW_DT_TO,'YYYY-MM-DD') AS FLAW_DT_TO
+				,T1.CAUSE_ACT AS CAUSE_ACT
+				,GAM_GET_CTRT_SE_NM(T1.CTRT_SE) AS CTRT_SE_NM
+				,GAM_GET_CTRT_GRNTY_MTH_NM(T1.CTRT_GRNTY_MTH) AS CTRT_GRNTY_MTH_NM
+			FROM CTRT_INFO_F T1
+		WHERE T1.CTRT_NO = #ctrtNo#
 	</select>
-	
-	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtJoinContrDetail_S">
-    	<selectKey keyProperty="maxSeq" resultClass="String">
-    		SELECT
-    		  TO_CHAR(NVL(MAX(SEQ),0) + 1)
-    		FROM
-    		  CTRT_JOIN_CONTR_F
-    		WHERE
-    		  CTRT_NO = #ctrtNo# 
-    	</selectKey>
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngListSum_S" parameterClass="gamFcltyCtrtMngVO" resultMap="gamFcltyCtrtMngSumMap">
+		SELECT
+				 TO_CHAR(NVL(COUNT(*),0),'999,999,999,999,999') AS TOTAL_COUNT
+				,TO_CHAR(NVL(SUM(T1.PLAN_AMT),0),'999,999,999,999,999') AS SUM_PLAN_AMT
+				,TO_CHAR(NVL(SUM(T1.PRMT_AMT),0),'999,999,999,999,999') AS SUM_PRMT_AMT
+				,TO_CHAR(NVL(SUM(T1.SCSBID_AMT),0),'999,999,999,999,999') AS SUM_SCSBID_AMT
+				,TO_CHAR(NVL(SUM(T1.BASE_AMT),0),'999,999,999,999,999') AS SUM_BASE_AMT
+				,TO_CHAR(NVL(SUM(T1.CTRT_AMT),0),'999,999,999,999,999') AS SUM_CTRT_AMT
+			FROM CTRT_INFO_F T1
+		WHERE 1=1
+
+		<isNotEmpty property="sCtrtNo">
+		AND T1.CTRT_NO = #sCtrtNo#
+		</isNotEmpty>
+
+		<isNotEmpty property="sCtrtSe">
+		AND T1.CTRT_SE = #sCtrtSe#
+		</isNotEmpty>
+
+		<isNotEmpty property="sCtrtNm">
+		AND T1.CTRT_NM LIKE '%' || #sCtrtNm# || '%'
+		</isNotEmpty>
+
+		<isNotEmpty property="sStartCtrtDt">
+		AND T1.CTRT_DT <![CDATA[ >= ]]> TO_DATE(#sStartCtrtDt#,'YYYY-MM-DD')
+		</isNotEmpty>
+
+		<isNotEmpty property="sEndCtrtDt">
+		AND T1.CTRT_DT <![CDATA[ < ]]> TO_DATE(#sEndCtrtDt#,'YYYY-MM-DD') + 1
+		</isNotEmpty>
+
+		<isNotEmpty property="sStartCtrtAmt">
+		AND T1.CTRT_AMT <![CDATA[ >= ]]> NVL(TO_NUMBER(REPLACE(#sStartCtrtAmt#,',','')),0)
+		</isNotEmpty>
+
+		<isNotEmpty property="sEndCtrtAmt">
+		AND T1.CTRT_AMT <![CDATA[ <= ]]> NVL(TO_NUMBER(REPLACE(#sEndCtrtAmt#,',','')),0)
+		</isNotEmpty>
+
+	</select>
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngNewCtrtNo_S" parameterClass="gamFcltyCtrtMngVO" resultClass="java.lang.String">
+		SELECT
+				 NVL(REPLACE(#ctrtDt#,'-',''),TO_CHAR(SYSDATE,'YYYYMMDD')) || '-' || LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(SUBSTRB(T1.CTRT_NO,10,6))),0) + 1,'000000')) AS NEW_CTRT_NO
+			FROM CTRT_INFO_F T1
+		WHERE T1.CTRT_NO LIKE NVL(REPLACE(#ctrtDt#,'-',''),TO_CHAR(SYSDATE,'YYYYMMDD')) || '%'
+	</select>
+
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngJoinContrList_D" parameterClass="gamFcltyCtrtMngJoinContrVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.CTRT_NO AS JOIN_CTRT_NO
+								,LTRIM(TO_CHAR(NVL(T1.SEQ,0),'000')) AS JOIN_SEQ
+								,LTRIM(TO_CHAR(NVL(T1.QOTA_RATE,0),'0.00000')) AS QOTA_RATE
+								,T1.ENTRPS_NM AS JOIN_ENTRPS_NM
+								,T1.RPRSNTV AS JOIN_RPRSNTV
+								,T1.TLPHON_NO AS JOIN_TLPHON_NO
+								,T1.FAX_NO AS JOIN_FAX_NO
+								,T1.POST_NO AS POST_NO
+								,T1.ROADNM_ADRES AS ROADNM_ADRES
+								,T1.LNM_ADRES AS LNM_ADRES
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,T1.DEAL_RELATE AS DEAL_RELATE
+								,T1.INDUTY AS INDUTY
+								,T1.STPL_PRDLST AS STPL_PRDLST
+								,T1.BSNM_NO AS JOIN_BSNM_NO
+								,T1.CHARGER AS CHARGER
+								,T1.CHARGER_OFC_POS AS CHARGER_OFC_POS
+								,T1.CHARGER_MOBLPHON_NO AS CHARGER_MOBLPHON_NO
+								,T1.CHARGER_EMAIL AS CHARGER_EMAIL
+								,T2.CTRT_SE AS JOIN_CTRT_SE
+								,T2.CTRT_NM AS JOIN_CTRT_NM
+								,TO_CHAR(T2.CTRT_DT,'YYYY-MM-DD') AS JOIN_CTRT_DT
+								,LTRIM(TO_CHAR(NVL(T2.CTRT_AMT,0),'9,999,999,999,999,990')) AS JOIN_CTRT_AMT
+								,TO_CHAR(T2.CTRT_DT_FROM,'YYYY-MM-DD') AS JOIN_CTRT_DT_FROM
+								,TO_CHAR(T2.CTRT_DT_TO,'YYYY-MM-DD') AS JOIN_CTRT_DT_TO
+								,T2.CTRT_MTH AS JOIN_CTRT_MTH
+								,T2.ORDER_MTHD AS JOIN_ORDER_MTHD
+								,T2.CAUSE_ACT AS JOIN_CAUSE_ACT
+							FROM CTRT_JOIN_CONTR_F T1
+							LEFT OUTER JOIN CTRT_INFO_F T2 ON (T1.CTRT_NO=T2.CTRT_NO)
+						WHERE T1.CTRT_NO = #joinCtrtNo#
+						ORDER BY T1.SEQ ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtMngJoinContr_S" parameterClass="gamFcltyCtrtMngJoinContrVO">
 		INSERT INTO CTRT_JOIN_CONTR_F
-		  (
-		    CTRT_NO
-		    , SEQ
-		    , QOTA_RATE
-		    , ENTRPS_NM
-		    , RPRSNTV
-		    , TLPHON_NO
-		    , FAX_NO
-		    , POST_NO
-		    , ROADNM_ADRES
-		    , LNM_ADRES
-		    , DEAL_RELATE
-		    , INDUTY
-		    , STPL_PRDLST
-		    , BSNM_NO
-		    , CHARGER
-		    , CHARGER_OFC_POS
-		    , CHARGER_MOBLPHON_NO
-		    , CHARGER_EMAIL
-		    , REG_USR
-		    , REGIST_DT
-		  )
-		  VALUES
-		  (
-		    #ctrtNo#
-		    , TO_NUMBER(#maxSeq#)
-		    , TO_NUMBER(REPLACE(#qotaRate#, ',', ''))
-		    , #entrpsNm#
-		    , #rprsntv#
-		    , #tlphonNo# 
-		    , #faxNo#
-		    , #postNo#
-		    , #roadnmAdres#
-		    , #lnmAdres#
-		    , #dealRelate#
-		    , #induty#
-		    , #stplPrdlst#
-		    , #bsnmNo#
-		    , #charger#
-		    , #chargerOfcPos#
-		    , #chargerMoblphonNo#
-		    , #chargerEmail#
-		    , #regUsr#
-		    , SYSDATE
-		  )
+		(
+			 CTRT_NO
+			,SEQ
+			,QOTA_RATE
+			,ENTRPS_NM
+			,RPRSNTV
+			,TLPHON_NO
+			,FAX_NO
+			,POST_NO
+			,ROADNM_ADRES
+			,LNM_ADRES
+			,REG_USR
+			,REGIST_DT
+			,DEAL_RELATE
+			,INDUTY
+			,STPL_PRDLST
+			,BSNM_NO
+			,CHARGER
+			,CHARGER_OFC_POS
+			,CHARGER_MOBLPHON_NO
+			,CHARGER_EMAIL
+		)
+		VALUES
+		(
+			 #joinCtrtNo#
+			,NVL(TO_NUMBER(REPLACE(#joinSeq#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#qotaRate#,',','')),0)
+			,#joinEntrpsNm#
+			,#joinRprsntv#
+			,#joinTlphonNo#
+			,#joinFaxNo#
+			,#postNo#
+			,#roadnmAdres#
+			,#lnmAdres#
+			,#regUsr#
+			,SYSDATE
+			,#dealRelate#
+			,#induty#
+			,#stplPrdlst#
+			,#joinBsnmNo#
+			,#charger#
+			,#chargerOfcPos#
+			,#chargerMoblphonNo#
+			,#chargerEmail#
+		)
 	</insert>
 
-	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtJoinContrDetail_S">
-		UPDATE 
-			CTRT_JOIN_CONTR_F
-		  SET
-		    QOTA_RATE = TO_NUMBER(REPLACE(#qotaRate#, ',', ''))
-		    , ENTRPS_NM = #entrpsNm#
-		    , RPRSNTV = #rprsntv#
-		    , TLPHON_NO = #tlphonNo# 
-		    , FAX_NO = #faxNo#
-		    , POST_NO = #postNo#
-		    , ROADNM_ADRES = #roadnmAdres# 
-		    , LNM_ADRES = #lnmAdres#
-		    , DEAL_RELATE = #dealRelate# 
-		    , INDUTY = #induty# 
-		    , STPL_PRDLST = #stplPrdlst# 
-		    , BSNM_NO = #bsnmNo# 
-		    , CHARGER = #charger# 
-		    , CHARGER_OFC_POS = #chargerOfcPos# 
-		    , CHARGER_MOBLPHON_NO = #chargerMoblphonNo# 
-		    , CHARGER_EMAIL = #chargerEmail# 
-		    , UPD_USR = #updUsr#
-		    , UPDT_DT = SYSDATE 
-		  WHERE
-		  	CTRT_NO = #ctrtNo#
-		  	AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
+	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtMngJoinContr_S" parameterClass="gamFcltyCtrtMngJoinContrVO">
+		UPDATE CTRT_JOIN_CONTR_F SET
+			 QOTA_RATE = NVL(TO_NUMBER(REPLACE(#qotaRate#,',','')),0)
+			,ENTRPS_NM = #joinEntrpsNm#
+			,RPRSNTV = #joinRprsntv#
+			,TLPHON_NO = #joinTlphonNo#
+			,FAX_NO = #joinFaxNo#
+			,POST_NO = #postNo#
+			,ROADNM_ADRES = #roadnmAdres#
+			,LNM_ADRES = #lnmAdres#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+			,DEAL_RELATE = #dealRelate#
+			,INDUTY = #induty#
+			,STPL_PRDLST = #stplPrdlst#
+			,BSNM_NO = #joinBsnmNo#
+			,CHARGER = #charger#
+			,CHARGER_OFC_POS = #chargerOfcPos#
+			,CHARGER_MOBLPHON_NO = #chargerMoblphonNo#
+			,CHARGER_EMAIL = #chargerEmail#
+		WHERE CTRT_NO = #joinCtrtNo#
+		AND SEQ = NVL(TO_NUMBER(REPLACE(#joinSeq#,',','')),0)
 	</update>
-	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrDetail_S">
+
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMngJoinContr_S" parameterClass="gamFcltyCtrtMngJoinContrVO">
 		DELETE FROM CTRT_JOIN_CONTR_F
-		  WHERE
-		  	CTRT_NO = #ctrtNo#
-		  	AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
+		WHERE CTRT_NO = #joinCtrtNo#
+		AND SEQ = NVL(TO_NUMBER(REPLACE(#joinSeq#,',','')),0)
 	</delete>
 
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtJoinContrList_S">
-		DELETE FROM CTRT_JOIN_CONTR_F
-		  WHERE
-		    CTRT_NO = #ctrtNo#
-	</delete>
-	
-	<!-- 계약 하도급 -->
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtList_D" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
-	    SELECT A.*
-          FROM (
-             SELECT  ROWNUM RNUM, S.*
-               FROM (
-               
-					SELECT
-					    S.CTRT_NO
-					    , S.SEQ
-					    , S.ENTRPS_NM
-					    , S.MONEY_PYMNT_AGREE
-					    , S.WORK_CLASS
-					    , S.SUBCTRT_RATE
-					    , NVL(S.ORGINL_CONTR_AMT, 0) ORGINL_CONTR_AMT
-					    , NVL(S.SUBCTRT_CTRT_AMT, 0) SUBCTRT_CTRT_AMT
-					    , TO_CHAR(S.CTRT_DT_FROM, 'YYYY-MM-DD') CTRT_DT_FROM
-					    , TO_CHAR(S.CTRT_DT_TO, 'YYYY-MM-DD') CTRT_DT_TO
-					    , S.REG_USR
-					    , TO_CHAR(S.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
-					    , S.UPD_USR
-					    , TO_CHAR(S.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
-					  FROM
-					    CTRT_SUBCTRT_F S
-					  WHERE
-					    S.CTRT_NO = #sCtrtNo#
-               		  ORDER BY S.SEQ
-               		  
-               		) S
-             	) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
-	</select>	
-
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtSubCtrtListTotCnt_S" parameterClass="gamFcltyCtrtMngVO" resultClass="int">
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngJoinContrPk_S" parameterClass="gamFcltyCtrtMngJoinContrVO" resultClass="egovMap">
 		SELECT
-		    COUNT(*) CNT
-		  FROM
-		    CTRT_JOIN_CONTR_F
-		  WHERE
-		    CTRT_NO = #sCtrtNo#
+				 T1.CTRT_NO AS JOIN_CTRT_NO
+				,LTRIM(TO_CHAR(NVL(T1.SEQ,0),'000')) AS JOIN_SEQ
+				,LTRIM(TO_CHAR(NVL(T1.QOTA_RATE,0),'0.00000')) AS QOTA_RATE
+				,T1.ENTRPS_NM AS JOIN_ENTRPS_NM
+				,T1.RPRSNTV AS JOIN_RPRSNTV
+				,T1.TLPHON_NO AS JOIN_TLPHON_NO
+				,T1.FAX_NO AS JOIN_FAX_NO
+				,T1.POST_NO AS POST_NO
+				,T1.ROADNM_ADRES AS ROADNM_ADRES
+				,T1.LNM_ADRES AS LNM_ADRES
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,T1.DEAL_RELATE AS DEAL_RELATE
+				,T1.INDUTY AS INDUTY
+				,T1.STPL_PRDLST AS STPL_PRDLST
+				,T1.BSNM_NO AS JOIN_BSNM_NO
+				,T1.CHARGER AS CHARGER
+				,T1.CHARGER_OFC_POS AS CHARGER_OFC_POS
+				,T1.CHARGER_MOBLPHON_NO AS CHARGER_MOBLPHON_NO
+				,T1.CHARGER_EMAIL AS CHARGER_EMAIL
+				,T2.CTRT_SE AS JOIN_CTRT_SE
+				,T2.CTRT_NM AS JOIN_CTRT_NM
+				,TO_CHAR(T2.CTRT_DT,'YYYY-MM-DD') AS JOIN_CTRT_DT
+				,LTRIM(TO_CHAR(NVL(T2.CTRT_AMT,0),'9,999,999,999,999,990')) AS JOIN_CTRT_AMT
+				,TO_CHAR(T2.CTRT_DT_FROM,'YYYY-MM-DD') AS JOIN_CTRT_DT_FROM
+				,TO_CHAR(T2.CTRT_DT_TO,'YYYY-MM-DD') AS JOIN_CTRT_DT_TO
+				,T2.CTRT_MTH AS JOIN_CTRT_MTH
+				,T2.ORDER_MTHD AS JOIN_ORDER_MTHD
+				,T2.CAUSE_ACT AS JOIN_CAUSE_ACT
+			FROM CTRT_JOIN_CONTR_F T1
+			LEFT OUTER JOIN CTRT_INFO_F T2 ON (T1.CTRT_NO=T2.CTRT_NO)
+		WHERE T1.CTRT_NO = #joinCtrtNo#
+		AND T1.SEQ = NVL(TO_NUMBER(REPLACE(#joinSeq#,',','')),0)
 	</select>
-	
-	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtSubCtrtDetail_S">
-    	<selectKey keyProperty="maxSeq" resultClass="String">
-    		SELECT
-    		  TO_CHAR(NVL(MAX(SEQ),0) + 1)
-    		FROM
-    		  CTRT_SUBCTRT_F
-    		WHERE
-    		  CTRT_NO = #ctrtNo# 
-    	</selectKey>
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngJoinContrMaxSeq_S" parameterClass="gamFcltyCtrtMngJoinContrVO" resultClass="java.lang.String">
+		SELECT
+				 LTRIM(TO_CHAR(NVL(MAX(T1.SEQ),0) + 1,'000')) AS MAX_SEQ
+			FROM CTRT_JOIN_CONTR_F T1
+		WHERE T1.CTRT_NO = #joinCtrtNo#
+	</select>
+
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngSubctrtList_D" parameterClass="gamFcltyCtrtMngSubctrtVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.CTRT_NO AS SUB_CTRT_NO
+								,LTRIM(TO_CHAR(NVL(T1.SEQ,0),'000')) AS SUB_SEQ
+								,T1.ENTRPS_NM AS SUB_ENTRPS_NM
+								,T1.MONEY_PYMNT_AGREE AS MONEY_PYMNT_AGREE
+								,T1.WORK_CLASS AS WORK_CLASS
+								,LTRIM(TO_CHAR(NVL(T1.SUBCTRT_RATE,0),'0.00000')) AS SUBCTRT_RATE
+								,LTRIM(TO_CHAR(NVL(T1.ORGINL_CONTR_AMT,0),'9,999,999,999,999,990')) AS ORGINL_CONTR_AMT
+								,LTRIM(TO_CHAR(NVL(T1.SUBCTRT_CTRT_AMT,0),'9,999,999,999,999,990')) AS SUBCTRT_CTRT_AMT
+								,TO_CHAR(T1.CTRT_DT_FROM,'YYYY-MM-DD') AS SUBCTRT_CTRT_DT_FROM
+								,TO_CHAR(T1.CTRT_DT_TO,'YYYY-MM-DD') AS SUBCTRT_CTRT_DT_TO
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,T1.CTRT_NO AS CTRT_NO
+								,GAM_GET_MONEY_PYMNT_AGREE_NM(T1.MONEY_PYMNT_AGREE) AS MONEY_PYMNT_AGREE_NM
+								,T2.CTRT_SE AS SUB_CTRT_SE
+								,T2.CTRT_NM AS SUB_CTRT_NM
+								,TO_CHAR(T2.CTRT_DT,'YYYY-MM-DD') AS SUB_CTRT_DT
+								,LTRIM(TO_CHAR(NVL(T2.CTRT_AMT,0),'9,999,999,999,999,990')) AS SUB_CTRT_AMT
+								,TO_CHAR(T2.CTRT_DT_FROM,'YYYY-MM-DD') AS SUB_CTRT_DT_FROM
+								,TO_CHAR(T2.CTRT_DT_TO,'YYYY-MM-DD') AS SUB_CTRT_DT_TO
+								,T2.CTRT_MTH AS SUB_CTRT_MTH
+								,T2.ORDER_MTHD AS SUB_ORDER_MTHD
+								,T2.CAUSE_ACT AS SUB_CAUSE_ACT
+							FROM CTRT_SUBCTRT_F T1
+							LEFT OUTER JOIN CTRT_INFO_F T2 ON (T1.CTRT_NO=T2.CTRT_NO)
+						WHERE T1.CTRT_NO = #subCtrtNo#
+						ORDER BY T1.SEQ ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtMngSubctrt_S" parameterClass="gamFcltyCtrtMngSubctrtVO">
 		INSERT INTO CTRT_SUBCTRT_F
-		  (
-		    CTRT_NO
-		    , SEQ
-		    , ENTRPS_NM
-		    , MONEY_PYMNT_AGREE
-		    , WORK_CLASS
-		    , SUBCTRT_RATE
-		    , ORGINL_CONTR_AMT
-		    , SUBCTRT_CTRT_AMT
-		    , CTRT_DT_FROM
-		    , CTRT_DT_TO
-		    , REG_USR
-		    , REGIST_DT
-		  )
-		  VALUES
-		  (
-		    #ctrtNo#
-		    , TO_NUMBER(#maxSeq#)
-		    , #entrpsNm#
-		    , #moneyPymntAgree#
-		    , #workClass# 
-		    , TO_NUMBER(REPLACE(#subctrtRate#, ',', ''))
-		    , TO_NUMBER(REPLACE(#orginlContrAmt#, ',', ''))
-		    , TO_NUMBER(REPLACE(#subctrtCtrtAmt#, ',', ''))
-		    , TO_DATE(#ctrtDtFrom#, 'YYYY-MM-DD')
-		    , TO_DATE(#ctrtDtTo#, 'YYYY-MM-DD')
-		    , #regUsr#
-		    , SYSDATE
-		  )
+		(
+			 CTRT_NO
+			,SEQ
+			,ENTRPS_NM
+			,MONEY_PYMNT_AGREE
+			,WORK_CLASS
+			,SUBCTRT_RATE
+			,ORGINL_CONTR_AMT
+			,SUBCTRT_CTRT_AMT
+			,CTRT_DT_FROM
+			,CTRT_DT_TO
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 #subCtrtNo#
+			,NVL(TO_NUMBER(REPLACE(#subSeq#,',','')),0)
+			,#subEntrpsNm#
+			,#moneyPymntAgree#
+			,#workClass#
+			,NVL(TO_NUMBER(REPLACE(#subctrtRate#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#orginlContrAmt#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#subctrtCtrtAmt#,',','')),0)
+			,TO_DATE(#subctrtCtrtDtFrom#,'YYYY-MM-DD')
+			,TO_DATE(#subctrtCtrtDtTo#,'YYYY-MM-DD')
+			,#regUsr#
+			,SYSDATE
+		)
 	</insert>
 
-	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtSubCtrtDetail_S">
-		UPDATE CTRT_SUBCTRT_F
-		  SET
-		    ENTRPS_NM = #entrpsNm#
-		    , MONEY_PYMNT_AGREE = #moneyPymntAgree# 
-		    , WORK_CLASS = #workClass# 
-		    , SUBCTRT_RATE = TO_NUMBER(REPLACE(#subctrtRate#, ',', ''))
-		    , ORGINL_CONTR_AMT = TO_NUMBER(REPLACE(#orginlContrAmt#, ',', ''))
-		    , SUBCTRT_CTRT_AMT = TO_NUMBER(REPLACE(#subctrtCtrtAmt#, ',', ''))
-		    , CTRT_DT_FROM = TO_DATE(#ctrtDtFrom#, 'YYYY-MM-DD')
-		    , CTRT_DT_TO = TO_DATE(#ctrtDtTo#, 'YYYY-MM-DD')
-		    , UPD_USR = #updUsr#
-		    , UPDT_DT = SYSDATE
-		  WHERE
-		    CTRT_NO = #ctrtNo#
-		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
+	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtMngSubctrt_S" parameterClass="gamFcltyCtrtMngSubctrtVO">
+		UPDATE CTRT_SUBCTRT_F SET
+			 ENTRPS_NM = #subEntrpsNm#
+			,MONEY_PYMNT_AGREE = #moneyPymntAgree#
+			,WORK_CLASS = #workClass#
+			,SUBCTRT_RATE = NVL(TO_NUMBER(REPLACE(#subctrtRate#,',','')),0)
+			,ORGINL_CONTR_AMT = NVL(TO_NUMBER(REPLACE(#orginlContrAmt#,',','')),0)
+			,SUBCTRT_CTRT_AMT = NVL(TO_NUMBER(REPLACE(#subctrtCtrtAmt#,',','')),0)
+			,CTRT_DT_FROM = TO_DATE(#subctrtCtrtDtFrom#,'YYYY-MM-DD')
+			,CTRT_DT_TO = TO_DATE(#subctrtCtrtDtTo#,'YYYY-MM-DD')
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE CTRT_NO = #subCtrtNo#
+		AND SEQ = NVL(TO_NUMBER(REPLACE(#subSeq#,',','')),0)
 	</update>
-	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtDetail_S">
+
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMngSubctrt_S" parameterClass="gamFcltyCtrtMngSubctrtVO">
 		DELETE FROM CTRT_SUBCTRT_F
-		  WHERE
-		    CTRT_NO = #ctrtNo#
-		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
-	</delete>
-	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtSubCtrtList_S">
-		DELETE FROM CTRT_SUBCTRT_F
-		  WHERE
-		    CTRT_NO = #ctrtNo#  
+		WHERE CTRT_NO = #subCtrtNo#
+		AND SEQ = NVL(TO_NUMBER(REPLACE(#subSeq#,',','')),0)
 	</delete>
 
-	<!-- 계약 변경 -->
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtChangeList_D" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
-	    SELECT A.*
-          FROM (
-             SELECT  ROWNUM RNUM, S.*
-               FROM (
-               
-					SELECT
-					    C.CTRT_NO
-					    , C.SEQ
-					    , C.CHANGE_RSN
-					    , TO_CHAR(C.CHANGE_DT, 'YYYY-MM-DD') CHANGE_DT
-					    , TO_CHAR(C.CHANGE_CTRT_DT_FROM, 'YYYY-MM-DD') CHANGE_CTRT_DT_FROM
-					    , TO_CHAR(C.CHANGE_CTRT_DT_TO, 'YYYY-MM-DD') CHANGE_CTRT_DT_TO
-					    , NVL(C.CHANGE_CTRT_AMT, 0) CHANGE_CTRT_AMT
-					    , NVL(C.LAST_CTRT_AMT, 0) LAST_CTRT_AMT
-					    , C.RM
-					    , C.REG_USR
-					    , TO_CHAR(C.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
-					    , C.UPD_USR
-					    , TO_CHAR(C.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
-					  FROM
-					    CTRT_CHANGE_F C
-					  WHERE
-					    C.CTRT_NO = #sCtrtNo#
-					  ORDER BY C.SEQ
-					                 
-               		) S
-             	) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
-	</select>	
-
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtChangeListTotCnt_S" parameterClass="gamFcltyCtrtMngVO" resultClass="int">
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngSubctrtPk_S" parameterClass="gamFcltyCtrtMngSubctrtVO" resultClass="egovMap">
 		SELECT
-		    COUNT(*) CNT
-		  FROM
-		    CTRT_CHANGE_F
-		  WHERE
-		    CTRT_NO = #sCtrtNo#
+				 T1.CTRT_NO AS SUB_CTRT_NO
+				,LTRIM(TO_CHAR(NVL(T1.SEQ,0),'000')) AS SUB_SEQ
+				,T1.ENTRPS_NM AS SUB_ENTRPS_NM
+				,T1.MONEY_PYMNT_AGREE AS MONEY_PYMNT_AGREE
+				,T1.WORK_CLASS AS WORK_CLASS
+				,LTRIM(TO_CHAR(NVL(T1.SUBCTRT_RATE,0),'0.00000')) AS SUBCTRT_RATE
+				,LTRIM(TO_CHAR(NVL(T1.ORGINL_CONTR_AMT,0),'9,999,999,999,999,990')) AS ORGINL_CONTR_AMT
+				,LTRIM(TO_CHAR(NVL(T1.SUBCTRT_CTRT_AMT,0),'9,999,999,999,999,990')) AS SUBCTRT_CTRT_AMT
+				,TO_CHAR(T1.CTRT_DT_FROM,'YYYY-MM-DD') AS SUBCTRT_CTRT_DT_FROM
+				,TO_CHAR(T1.CTRT_DT_TO,'YYYY-MM-DD') AS SUBCTRT_CTRT_DT_TO
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,GAM_GET_MONEY_PYMNT_AGREE_NM(T1.MONEY_PYMNT_AGREE) AS MONEY_PYMNT_AGREE_NM
+				,T2.CTRT_SE AS SUB_CTRT_SE
+				,T2.CTRT_NM AS SUB_CTRT_NM
+				,TO_CHAR(T2.CTRT_DT,'YYYY-MM-DD') AS SUB_CTRT_DT
+				,LTRIM(TO_CHAR(NVL(T2.CTRT_AMT,0),'9,999,999,999,999,990')) AS SUB_CTRT_AMT
+				,TO_CHAR(T2.CTRT_DT_FROM,'YYYY-MM-DD') AS SUB_CTRT_DT_FROM
+				,TO_CHAR(T2.CTRT_DT_TO,'YYYY-MM-DD') AS SUB_CTRT_DT_TO
+				,T2.CTRT_MTH AS SUB_CTRT_MTH
+				,T2.ORDER_MTHD AS SUB_ORDER_MTHD
+				,T2.CAUSE_ACT AS SUB_CAUSE_ACT
+			FROM CTRT_SUBCTRT_F T1
+			LEFT OUTER JOIN CTRT_INFO_F T2 ON (T1.CTRT_NO=T2.CTRT_NO)
+		WHERE T1.CTRT_NO = #subCtrtNo#
+		AND T1.SEQ = NVL(TO_NUMBER(REPLACE(#subSeq#,',','')),0)
 	</select>
-	
-	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtChangeDetail_S">
-    	<selectKey keyProperty="maxSeq" resultClass="String">
-    		SELECT
-    		  TO_CHAR(NVL(MAX(SEQ),0) + 1)
-    		FROM
-    		  CTRT_CHANGE_F
-    		WHERE
-    		  CTRT_NO = #ctrtNo# 
-    	</selectKey>
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngSubctrtMaxSeq_S" parameterClass="gamFcltyCtrtMngSubctrtVO" resultClass="java.lang.String">
+		SELECT
+				 LTRIM(TO_CHAR(NVL(MAX(T1.SEQ),0) + 1,'000')) AS MAX_SEQ
+			FROM CTRT_SUBCTRT_F T1
+		WHERE T1.CTRT_NO = #subCtrtNo#
+	</select>
+
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngChangeList_D" parameterClass="gamFcltyCtrtMngChangeVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.CTRT_NO AS CHANGE_INFO_CTRT_NO
+								,LTRIM(TO_CHAR(NVL(T1.SEQ,0),'000')) AS CHANGE_INFO_SEQ
+								,T1.CHANGE_SE AS CHANGE_SE
+								,T1.CHANGE_RSN AS CHANGE_RSN
+								,TO_CHAR(T1.CHANGE_DT,'YYYY-MM-DD') AS CHANGE_DT
+								,TO_CHAR(T1.CHANGE_CTRT_DT_FROM,'YYYY-MM-DD') AS CHANGE_CTRT_DT_FROM
+								,TO_CHAR(T1.CHANGE_CTRT_DT_TO,'YYYY-MM-DD') AS CHANGE_CTRT_DT_TO
+								,LTRIM(TO_CHAR(NVL(T1.CHANGE_CTRT_AMT,0),'9,999,999,999,999,990')) AS CHANGE_CTRT_AMT
+								,LTRIM(TO_CHAR(NVL(T1.LAST_CTRT_AMT,0),'9,999,999,999,999,990')) AS LAST_CTRT_AMT
+								,T1.RM AS CHANGE_RM
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,GAM_GET_CHANGE_SE_NM(T1.CHANGE_SE) AS CHANGE_SE_NM
+								,T2.CTRT_SE AS CHANGE_INFO_CTRT_SE
+								,T2.CTRT_NM AS CHANGE_INFO_CTRT_NM
+								,TO_CHAR(T2.CTRT_DT,'YYYY-MM-DD') AS CHANGE_INFO_CTRT_DT
+								,LTRIM(TO_CHAR(NVL(T2.CTRT_AMT,0),'9,999,999,999,999,990')) AS CHANGE_INFO_CTRT_AMT
+								,TO_CHAR(T2.CTRT_DT_FROM,'YYYY-MM-DD') AS CHANGE_INFO_CTRT_DT_FROM
+								,TO_CHAR(T2.CTRT_DT_TO,'YYYY-MM-DD') AS CHANGE_INFO_CTRT_DT_TO
+								,T2.CTRT_MTH AS CHANGE_INFO_CTRT_MTH
+								,T2.ORDER_MTHD AS CHANGE_INFO_ORDER_MTHD
+								,T2.CAUSE_ACT AS CHANGE_INFO_CAUSE_ACT
+							FROM CTRT_CHANGE_F T1
+							LEFT OUTER JOIN CTRT_INFO_F T2 ON (T1.CTRT_NO=T2.CTRT_NO)
+						WHERE T1.CTRT_NO = #changeInfoCtrtNo#
+						ORDER BY T1.SEQ ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtMngChange_S" parameterClass="gamFcltyCtrtMngChangeVO">
 		INSERT INTO CTRT_CHANGE_F
-		  (
-		    CTRT_NO
-		    , SEQ
-		    , CHANGE_RSN
-		    , CHANGE_DT
-		    , CHANGE_CTRT_DT_FROM
-		    , CHANGE_CTRT_DT_TO
-		    , CHANGE_CTRT_AMT
-		    , LAST_CTRT_AMT
-		    , RM
-		    , REG_USR
-		    , REGIST_DT
-		  )
-		  VALUES
-		  (
-		    #ctrtNo#
-		    , TO_NUMBER(#maxSeq#)
-		    , #changeRsn#
-		    , TO_DATE(#changeDt#, 'YYYY-MM-DD')
-		    , TO_DATE(#changeCtrtDtFrom#, 'YYYY-MM-DD')
-		    , TO_DATE(#changeCtrtDtTo#, 'YYYY-MM-DD')
-		    , TO_NUMBER(REPLACE(#changeCtrtAmt#, ',', ''))
-		    , TO_NUMBER(REPLACE(#lastCtrtAmt#, ',', ''))
-		    , #rm#
-		    , #regUsr#
-		    , SYSDATE
-		  )
+		(
+			 CTRT_NO
+			,SEQ
+			,CHANGE_SE
+			,CHANGE_RSN
+			,CHANGE_DT
+			,CHANGE_CTRT_DT_FROM
+			,CHANGE_CTRT_DT_TO
+			,CHANGE_CTRT_AMT
+			,LAST_CTRT_AMT
+			,RM
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 #changeInfoCtrtNo#
+			,NVL(TO_NUMBER(REPLACE(#changeInfoSeq#,',','')),0)
+			,#changeSe#
+			,#changeRsn#
+			,TO_DATE(#changeDt#,'YYYY-MM-DD')
+			,TO_DATE(#changeCtrtDtFrom#,'YYYY-MM-DD')
+			,TO_DATE(#changeCtrtDtTo#,'YYYY-MM-DD')
+			,NVL(TO_NUMBER(REPLACE(#changeCtrtAmt#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#lastCtrtAmt#,',','')),0)
+			,#changeRm#
+			,#regUsr#
+			,SYSDATE
+		)
 	</insert>
 
-	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtChangeDetail_S">
-		UPDATE CTRT_CHANGE_F
-		  SET
-		    CHANGE_RSN = #changeRsn#
-		    , CHANGE_DT = TO_DATE(#changeDt#, 'YYYY-MM-DD')
-		    , CHANGE_CTRT_DT_FROM = TO_DATE(#changeCtrtDtFrom#, 'YYYY-MM-DD')
-		    , CHANGE_CTRT_DT_TO = TO_DATE(#changeCtrtDtTo#, 'YYYY-MM-DD')
-		    , CHANGE_CTRT_AMT = TO_NUMBER(REPLACE(#changeCtrtAmt#, ',', ''))
-		    , LAST_CTRT_AMT = TO_NUMBER(REPLACE(#lastCtrtAmt#, ',', ''))
-		    , RM = #rm# 
-		    , UPD_USR = #updUsr#
-		    , UPDT_DT = SYSDATE
-		  WHERE
-		    CTRT_NO = #ctrtNo#
-		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
+	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtMngChange_S" parameterClass="gamFcltyCtrtMngChangeVO">
+		UPDATE CTRT_CHANGE_F SET
+			 CHANGE_SE = #changeSe#
+			,CHANGE_RSN = #changeRsn#
+			,CHANGE_DT = TO_DATE(#changeDt#,'YYYY-MM-DD')
+			,CHANGE_CTRT_DT_FROM = TO_DATE(#changeCtrtDtFrom#,'YYYY-MM-DD')
+			,CHANGE_CTRT_DT_TO = TO_DATE(#changeCtrtDtTo#,'YYYY-MM-DD')
+			,CHANGE_CTRT_AMT = NVL(TO_NUMBER(REPLACE(#changeCtrtAmt#,',','')),0)
+			,LAST_CTRT_AMT = NVL(TO_NUMBER(REPLACE(#lastCtrtAmt#,',','')),0)
+			,RM = #changeRm#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE CTRT_NO = #changeInfoCtrtNo#
+		AND SEQ = NVL(TO_NUMBER(REPLACE(#changeInfoSeq#,',','')),0)
 	</update>
-	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtChangeDetail_S">
-		DELETE FROM CTRT_CHANGE_F
-		  WHERE
-		    CTRT_NO = #ctrtNo#
-		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
-	</delete>
-	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtChangeList_S">
-		DELETE FROM CTRT_CHANGE_F
-		  WHERE
-		    CTRT_NO = #ctrtNo#  
-	</delete>
-	
-	<!-- 계약대금지급 -->
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntList_D" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
-	    SELECT A.*
-          FROM (
-             SELECT  ROWNUM RNUM, S.*
-               FROM (
-					SELECT
-					    M.CTRT_NO
-					    , M.SEQ
-					    , M.PYMNT_CL
-					    , TO_CHAR(M.PYMNT_DT, 'YYYY-MM-DD') PYMNT_DT 
-					    , NVL(M.THIS_TIME_ESTB_AMT, 0) THIS_TIME_ESTB_AMT
-					    , NVL(M.DEPOSIT_EXCCLC_AMT, 0) DEPOSIT_EXCCLC_AMT
-					    , NVL(M.PYMNT_AMT, 0) PYMNT_AMT
-					    , NVL(M.PYMNT_AGGR_AMT, 0) PYMNT_AGGR_AMT
-					    , M.RM
-					    , M.REG_USR
-					    , TO_CHAR(M.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
-					    , M.UPD_USR
-					    , TO_CHAR(M.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
-					  FROM
-					    CTRT_MONEY_PYMNT_F M
-					  WHERE
-					    M.CTRT_NO = #sCtrtNo#
-					  ORDER BY M.SEQ
-               		) S
-             	) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
-	</select>	
 
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMoneyPymntListTotCnt_S" parameterClass="gamFcltyCtrtMngVO" resultClass="int">
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMngChange_S" parameterClass="gamFcltyCtrtMngChangeVO">
+		DELETE FROM CTRT_CHANGE_F
+		WHERE CTRT_NO = #changeInfoCtrtNo#
+		AND SEQ = NVL(TO_NUMBER(REPLACE(#changeInfoSeq#,',','')),0)
+	</delete>
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngChangePk_S" parameterClass="gamFcltyCtrtMngChangeVO" resultClass="egovMap">
 		SELECT
-		    COUNT(*) CNT
-		  FROM
-		    CTRT_MONEY_PYMNT_F
-		  WHERE
-		    CTRT_NO = #sCtrtNo#
+				 T1.CTRT_NO AS CHANGE_INFO_CTRT_NO
+				,LTRIM(TO_CHAR(NVL(T1.SEQ,0),'000')) AS CHANGE_INFO_SEQ
+				,T1.CHANGE_SE AS CHANGE_SE
+				,T1.CHANGE_RSN AS CHANGE_RSN
+				,TO_CHAR(T1.CHANGE_DT,'YYYY-MM-DD') AS CHANGE_DT
+				,TO_CHAR(T1.CHANGE_CTRT_DT_FROM,'YYYY-MM-DD') AS CHANGE_CTRT_DT_FROM
+				,TO_CHAR(T1.CHANGE_CTRT_DT_TO,'YYYY-MM-DD') AS CHANGE_CTRT_DT_TO
+				,LTRIM(TO_CHAR(NVL(T1.CHANGE_CTRT_AMT,0),'9,999,999,999,999,990')) AS CHANGE_CTRT_AMT
+				,LTRIM(TO_CHAR(NVL(T1.LAST_CTRT_AMT,0),'9,999,999,999,999,990')) AS LAST_CTRT_AMT
+				,T1.RM AS CHANGE_RM
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,GAM_GET_CHANGE_SE_NM(T1.CHANGE_SE) AS CHANGE_SE_NM
+				,T2.CTRT_SE AS CHANGE_INFO_CTRT_SE
+				,T2.CTRT_NM AS CHANGE_INFO_CTRT_NM
+				,TO_CHAR(T2.CTRT_DT,'YYYY-MM-DD') AS CHANGE_INFO_CTRT_DT
+				,LTRIM(TO_CHAR(NVL(T2.CTRT_AMT,0),'9,999,999,999,999,990')) AS CHANGE_INFO_CTRT_AMT
+				,TO_CHAR(T2.CTRT_DT_FROM,'YYYY-MM-DD') AS CHANGE_INFO_CTRT_DT_FROM
+				,TO_CHAR(T2.CTRT_DT_TO,'YYYY-MM-DD') AS CHANGE_INFO_CTRT_DT_TO
+				,T2.CTRT_MTH AS CHANGE_INFO_CTRT_MTH
+				,T2.ORDER_MTHD AS CHANGE_INFO_ORDER_MTHD
+				,T2.CAUSE_ACT AS CHANGE_INFO_CAUSE_ACT
+			FROM CTRT_CHANGE_F T1
+			LEFT OUTER JOIN CTRT_INFO_F T2 ON (T1.CTRT_NO=T2.CTRT_NO)
+		WHERE T1.CTRT_NO = #changeInfoCtrtNo#
+		AND T1.SEQ = NVL(TO_NUMBER(REPLACE(#changeInfoSeq#,',','')),0)
 	</select>
-	
-	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtMoneyPymntDetail_S">
-    	<selectKey keyProperty="maxSeq" resultClass="String">
-    		SELECT
-    		  TO_CHAR(NVL(MAX(SEQ),0) + 1)
-    		FROM
-    		  CTRT_MONEY_PYMNT_F
-    		WHERE
-    		  CTRT_NO = #ctrtNo# 
-    	</selectKey>
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngChangeMaxSeq_S" parameterClass="gamFcltyCtrtMngChangeVO" resultClass="java.lang.String">
+		SELECT
+				 LTRIM(TO_CHAR(NVL(MAX(T1.SEQ),0) + 1,'000')) AS MAX_SEQ
+			FROM CTRT_CHANGE_F T1
+		WHERE T1.CTRT_NO = #changeInfoCtrtNo#
+	</select>
+
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngMoneyPymntList_D" parameterClass="gamFcltyCtrtMngMoneyPymntVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.CTRT_NO AS PYMNT_CTRT_NO
+								,LTRIM(TO_CHAR(NVL(T1.SEQ,0),'000')) AS PYMNT_SEQ
+								,T1.PYMNT_CL AS PYMNT_CL
+								,TO_CHAR(T1.PYMNT_DT,'YYYY-MM-DD') AS PYMNT_DT
+								,LTRIM(TO_CHAR(NVL(T1.THIS_TIME_ESTB_AMT,0),'9,999,999,999,999,990')) AS THIS_TIME_ESTB_AMT
+								,LTRIM(TO_CHAR(NVL(T1.DEPOSIT_EXCCLC_AMT,0),'9,999,999,999,999,990')) AS DEPOSIT_EXCCLC_AMT
+								,LTRIM(TO_CHAR(NVL(T1.PYMNT_AMT,0),'9,999,999,999,999,990')) AS PYMNT_AMT
+								,LTRIM(TO_CHAR(NVL(T1.PYMNT_AGGR_AMT,0),'9,999,999,999,999,990')) AS PYMNT_AGGR_AMT
+								,T1.RM AS PYMNT_RM
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,GAM_GET_PYMNT_CL_NM(T1.PYMNT_CL) AS PYMNT_CL_NM
+								,T2.CTRT_SE AS PYMNT_CTRT_SE
+								,T2.CTRT_NM AS PYMNT_CTRT_NM
+								,TO_CHAR(T2.CTRT_DT,'YYYY-MM-DD') AS PYMNT_CTRT_DT
+								,LTRIM(TO_CHAR(NVL(T2.CTRT_AMT,0),'9,999,999,999,999,990')) AS PYMNT_CTRT_AMT
+								,TO_CHAR(T2.CTRT_DT_FROM,'YYYY-MM-DD') AS PYMNT_CTRT_DT_FROM
+								,TO_CHAR(T2.CTRT_DT_TO,'YYYY-MM-DD') AS PYMNT_CTRT_DT_TO
+								,T2.CTRT_MTH AS PYMNT_CTRT_MTH
+								,T2.ORDER_MTHD AS PYMNT_ORDER_MTHD
+								,T2.CAUSE_ACT AS PYMNT_CAUSE_ACT
+							FROM CTRT_MONEY_PYMNT_F T1
+							LEFT OUTER JOIN CTRT_INFO_F T2 ON (T1.CTRT_NO=T2.CTRT_NO)
+						WHERE T1.CTRT_NO = #pymntCtrtNo#
+						ORDER BY T1.SEQ ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtMngMoneyPymnt_S" parameterClass="gamFcltyCtrtMngMoneyPymntVO">
 		INSERT INTO CTRT_MONEY_PYMNT_F
-		  (
-		    CTRT_NO
-		    , SEQ
-		    , PYMNT_CL
-		    , PYMNT_DT
-		    , THIS_TIME_ESTB_AMT
-		    , DEPOSIT_EXCCLC_AMT
-		    , PYMNT_AMT
-		    , PYMNT_AGGR_AMT
-		    , RM
-		    , REG_USR
-		    , REGIST_DT
-		  )
-		  VALUES
-		  (
-		    #ctrtNo#
-		    , TO_NUMBER(#maxSeq#)
-		    , #pymntCl#
-		    , TO_DATE(#pymntDt#, 'YYYY-MM-DD')
-		    , TO_NUMBER(REPLACE(#thisTimeEstbAmt#, ',', ''))
-		    , TO_NUMBER(REPLACE(#depositExcclcAmt#, ',', ''))
-		    , TO_NUMBER(REPLACE(#pymntAmt#, ',', ''))
-		    , TO_NUMBER(REPLACE(#pymntAggrAmt#, ',', ''))
-		    , #rm#
-		    , #regUsr#
-		    , SYSDATE
-		  )
+		(
+			 CTRT_NO
+			,SEQ
+			,PYMNT_CL
+			,PYMNT_DT
+			,THIS_TIME_ESTB_AMT
+			,DEPOSIT_EXCCLC_AMT
+			,PYMNT_AMT
+			,PYMNT_AGGR_AMT
+			,RM
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 #pymntCtrtNo#
+			,NVL(TO_NUMBER(REPLACE(#pymntSeq#,',','')),0)
+			,#pymntCl#
+			,TO_DATE(#pymntDt#,'YYYY-MM-DD')
+			,NVL(TO_NUMBER(REPLACE(#thisTimeEstbAmt#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#depositExcclcAmt#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#pymntAmt#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#pymntAggrAmt#,',','')),0)
+			,#pymntRm#
+			,#regUsr#
+			,SYSDATE
+		)
 	</insert>
 
-	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtMoneyPymntDetail_S">
-		UPDATE CTRT_MONEY_PYMNT_F
-		  SET
-		    PYMNT_CL = #pymntCl#
-		    , PYMNT_DT = TO_DATE(#pymntDt#, 'YYYY-MM-DD')
-		    , THIS_TIME_ESTB_AMT = TO_NUMBER(REPLACE(#thisTimeEstbAmt#, ',', ''))
-		    , DEPOSIT_EXCCLC_AMT = TO_NUMBER(REPLACE(#depositExcclcAmt#, ',', ''))
-		    , PYMNT_AMT = TO_NUMBER(REPLACE(#pymntAmt#, ',', ''))
-		    , PYMNT_AGGR_AMT = TO_NUMBER(REPLACE(#pymntAggrAmt#, ',', ''))
-		    , RM = #rm#
-		    , UPD_USR = #updUsr#
-		    , UPDT_DT = SYSDATE
-		  WHERE
-		    CTRT_NO = #ctrtNo#
-		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
+	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtMngMoneyPymnt_S" parameterClass="gamFcltyCtrtMngMoneyPymntVO">
+		UPDATE CTRT_MONEY_PYMNT_F SET
+			 PYMNT_CL = #pymntCl#
+			,PYMNT_DT = TO_DATE(#pymntDt#,'YYYY-MM-DD')
+			,THIS_TIME_ESTB_AMT = NVL(TO_NUMBER(REPLACE(#thisTimeEstbAmt#,',','')),0)
+			,DEPOSIT_EXCCLC_AMT = NVL(TO_NUMBER(REPLACE(#depositExcclcAmt#,',','')),0)
+			,PYMNT_AMT = NVL(TO_NUMBER(REPLACE(#pymntAmt#,',','')),0)
+			,PYMNT_AGGR_AMT = NVL(TO_NUMBER(REPLACE(#pymntAggrAmt#,',','')),0)
+			,RM = #pymntRm#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE CTRT_NO = #pymntCtrtNo#
+		AND SEQ = NVL(TO_NUMBER(REPLACE(#pymntSeq#,',','')),0)
 	</update>
-	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntDetail_S">
+
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMngMoneyPymnt_S" parameterClass="gamFcltyCtrtMngMoneyPymntVO">
 		DELETE FROM CTRT_MONEY_PYMNT_F
-		  WHERE
-		    CTRT_NO = #ctrtNo#
-		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
+		WHERE CTRT_NO = #pymntCtrtNo#
+		AND SEQ = NVL(TO_NUMBER(REPLACE(#pymntSeq#,',','')),0)
 	</delete>
 
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMoneyPymntList_S">
-		DELETE FROM CTRT_MONEY_PYMNT_F
-		  WHERE
-		    CTRT_NO = #ctrtNo#  
-	</delete>
-
-	<!-- 계약이행이월 -->		
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdList_D" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
-	    SELECT A.*
-          FROM (
-             SELECT  ROWNUM RNUM, S.*
-               FROM (
-					SELECT
-					    F.CTRT_NO
-					    , F.SEQ
-					    , F.FULFILL_CARY_FWD_YEAR
-					    , NVL(F.FULFILL_AMT, 0) FULFILL_AMT
-					    , NVL(F.CARY_FWD_AMT, 0) CARY_FWD_AMT 
-					    , F.REG_USR
-					    , TO_CHAR(F.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
-					    , F.UPD_USR
-					    , TO_CHAR(F.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
-					  FROM
-					    CTRT_FULFILL_CARY_FWD_F F
-					  WHERE
-					    F.CTRT_NO = #sCtrtNo#
-					  ORDER BY F.SEQ
-               		) S
-             	) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
-	</select>	
-
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtFulFillCaryFwdListTotCnt_S" parameterClass="gamFcltyCtrtMngVO" resultClass="int">
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngMoneyPymntPk_S" parameterClass="gamFcltyCtrtMngMoneyPymntVO" resultClass="egovMap">
 		SELECT
-		    COUNT(*) CNT
-		  FROM
-		    CTRT_FULFILL_CARY_FWD_F
-		  WHERE
-		    CTRT_NO = #sCtrtNo#
+				 T1.CTRT_NO AS PYMNT_CTRT_NO
+				,LTRIM(TO_CHAR(NVL(T1.SEQ,0),'000')) AS PYMNT_SEQ
+				,T1.PYMNT_CL AS PYMNT_CL
+				,TO_CHAR(T1.PYMNT_DT,'YYYY-MM-DD') AS PYMNT_DT
+				,LTRIM(TO_CHAR(NVL(T1.THIS_TIME_ESTB_AMT,0),'9,999,999,999,999,990')) AS THIS_TIME_ESTB_AMT
+				,LTRIM(TO_CHAR(NVL(T1.DEPOSIT_EXCCLC_AMT,0),'9,999,999,999,999,990')) AS DEPOSIT_EXCCLC_AMT
+				,LTRIM(TO_CHAR(NVL(T1.PYMNT_AMT,0),'9,999,999,999,999,990')) AS PYMNT_AMT
+				,LTRIM(TO_CHAR(NVL(T1.PYMNT_AGGR_AMT,0),'9,999,999,999,999,990')) AS PYMNT_AGGR_AMT
+				,T1.RM AS PYMNT_RM
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,GAM_GET_PYMNT_CL_NM(T1.PYMNT_CL) AS PYMNT_CL_NM
+				,T2.CTRT_SE AS PYMNT_CTRT_SE
+				,T2.CTRT_NM AS PYMNT_CTRT_NM
+				,TO_CHAR(T2.CTRT_DT,'YYYY-MM-DD') AS PYMNT_CTRT_DT
+				,LTRIM(TO_CHAR(NVL(T2.CTRT_AMT,0),'9,999,999,999,999,990')) AS PYMNT_CTRT_AMT
+				,TO_CHAR(T2.CTRT_DT_FROM,'YYYY-MM-DD') AS PYMNT_CTRT_DT_FROM
+				,TO_CHAR(T2.CTRT_DT_TO,'YYYY-MM-DD') AS PYMNT_CTRT_DT_TO
+				,T2.CTRT_MTH AS PYMNT_CTRT_MTH
+				,T2.ORDER_MTHD AS PYMNT_ORDER_MTHD
+				,T2.CAUSE_ACT AS PYMNT_CAUSE_ACT
+			FROM CTRT_MONEY_PYMNT_F T1
+			LEFT OUTER JOIN CTRT_INFO_F T2 ON (T1.CTRT_NO=T2.CTRT_NO)
+		WHERE T1.CTRT_NO = #pymntCtrtNo#
+		AND T1.SEQ = NVL(TO_NUMBER(REPLACE(#pymntSeq#,',','')),0)
 	</select>
-	
-	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtFulFillCaryFwdDetail_S">
-    	<selectKey keyProperty="maxSeq" resultClass="String">
-    		SELECT
-    		  TO_CHAR(NVL(MAX(SEQ),0) + 1)
-    		FROM
-    		  CTRT_FULFILL_CARY_FWD_F
-    		WHERE
-    		  CTRT_NO = #ctrtNo# 
-    	</selectKey>
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngMoneyPymntMaxSeq_S" parameterClass="gamFcltyCtrtMngMoneyPymntVO" resultClass="java.lang.String">
+		SELECT
+				 LTRIM(TO_CHAR(NVL(MAX(T1.SEQ),0) + 1,'000')) AS MAX_SEQ
+			FROM CTRT_MONEY_PYMNT_F T1
+		WHERE T1.CTRT_NO = #pymntCtrtNo#
+	</select>
+
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngFulfillCaryFwdList_D" parameterClass="gamFcltyCtrtMngFulfillCaryFwdVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.CTRT_NO AS CARY_FWD_CTRT_NO
+								,LTRIM(TO_CHAR(NVL(T1.SEQ,0),'000')) AS CARY_FWD_SEQ
+								,T1.FULFILL_CARY_FWD_YEAR AS FULFILL_CARY_FWD_YEAR
+								,LTRIM(TO_CHAR(NVL(T1.FULFILL_AMT,0),'9,999,999,999,999,990')) AS FULFILL_AMT
+								,LTRIM(TO_CHAR(NVL(T1.CARY_FWD_AMT,0),'9,999,999,999,999,990')) AS CARY_FWD_AMT
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,T2.CTRT_SE AS CARY_FWD_CTRT_SE
+								,T2.CTRT_NM AS CARY_FWD_CTRT_NM
+								,TO_CHAR(T2.CTRT_DT,'YYYY-MM-DD') AS CARY_FWD_CTRT_DT
+								,LTRIM(TO_CHAR(NVL(T2.CTRT_AMT,0),'9,999,999,999,999,990')) AS CARY_FWD_CTRT_AMT
+								,TO_CHAR(T2.CTRT_DT_FROM,'YYYY-MM-DD') AS CARY_FWD_CTRT_DT_FROM
+								,TO_CHAR(T2.CTRT_DT_TO,'YYYY-MM-DD') AS CARY_FWD_CTRT_DT_TO
+								,T2.CTRT_MTH AS CARY_FWD_CTRT_MTH
+								,T2.ORDER_MTHD AS CARY_FWD_ORDER_MTHD
+								,T2.CAUSE_ACT AS CARY_FWD_CAUSE_ACT
+							FROM CTRT_FULFILL_CARY_FWD_F T1
+							LEFT OUTER JOIN CTRT_INFO_F T2 ON (T1.CTRT_NO=T2.CTRT_NO)
+						WHERE T1.CTRT_NO = #caryFwdCtrtNo#
+						ORDER BY T1.SEQ ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtMngFulfillCaryFwd_S" parameterClass="gamFcltyCtrtMngFulfillCaryFwdVO">
 		INSERT INTO CTRT_FULFILL_CARY_FWD_F
-		  (
-		    CTRT_NO
-		    , SEQ
-		    , FULFILL_CARY_FWD_YEAR
-		    , FULFILL_AMT
-		    , CARY_FWD_AMT
-		    , REG_USR
-		    , REGIST_DT
-		  )
-		  VALUES
-		  (
-		    #ctrtNo#
-		    , TO_NUMBER(#maxSeq#)
-		    , #fulfillCaryFwdYear#
-		    , TO_NUMBER(REPLACE(#fulfillAmt#, ',', ''))
-		    , TO_NUMBER(REPLACE(#caryFwdAmt#, ',', ''))
-		    , #regUsr#
-		    , SYSDATE
-		  )
+		(
+			 CTRT_NO
+			,SEQ
+			,FULFILL_CARY_FWD_YEAR
+			,FULFILL_AMT
+			,CARY_FWD_AMT
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 #caryFwdCtrtNo#
+			,NVL(TO_NUMBER(REPLACE(#caryFwdSeq#,',','')),0)
+			,#fulfillCaryFwdYear#
+			,NVL(TO_NUMBER(REPLACE(#fulfillAmt#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#caryFwdAmt#,',','')),0)
+			,#regUsr#
+			,SYSDATE
+		)
 	</insert>
-	
-	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtFulFillCaryFwdDetail_S">
-		UPDATE CTRT_FULFILL_CARY_FWD_F
-		  SET
-		    FULFILL_CARY_FWD_YEAR = #fulfillCaryFwdYear#
-		    , FULFILL_AMT = TO_NUMBER(REPLACE(#fulfillAmt#, ',', ''))
-		    , CARY_FWD_AMT = TO_NUMBER(REPLACE(#caryFwdAmt#, ',', ''))
-		    , UPD_USR = #updUsr# 
-		    , UPDT_DT = SYSDATE
-		  WHERE
-		    CTRT_NO = #ctrtNo#
-		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
+
+	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtMngFulfillCaryFwd_S" parameterClass="gamFcltyCtrtMngFulfillCaryFwdVO">
+		UPDATE CTRT_FULFILL_CARY_FWD_F SET
+			 FULFILL_CARY_FWD_YEAR = #fulfillCaryFwdYear#
+			,FULFILL_AMT = NVL(TO_NUMBER(REPLACE(#fulfillAmt#,',','')),0)
+			,CARY_FWD_AMT = NVL(TO_NUMBER(REPLACE(#caryFwdAmt#,',','')),0)
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE CTRT_NO = #caryFwdCtrtNo#
+		AND SEQ = NVL(TO_NUMBER(REPLACE(#caryFwdSeq#,',','')),0)
 	</update>
 
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdDetail_S">
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMngFulfillCaryFwd_S" parameterClass="gamFcltyCtrtMngFulfillCaryFwdVO">
 		DELETE FROM CTRT_FULFILL_CARY_FWD_F
-		  WHERE
-		    CTRT_NO = #ctrtNo#
-		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
+		WHERE CTRT_NO = #caryFwdCtrtNo#
+		AND SEQ = NVL(TO_NUMBER(REPLACE(#caryFwdSeq#,',','')),0)
 	</delete>
-	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtFulFillCaryFwdList_S">
-		DELETE FROM CTRT_FULFILL_CARY_FWD_F
-		  WHERE
-		    CTRT_NO = #ctrtNo#  
-	</delete>
-	
-	
-	<!-- 계약낙찰정보 -->		
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtScsbidInfoList_D" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">
-	    SELECT A.*
-          FROM (
-             SELECT  ROWNUM RNUM, S.*
-               FROM (
-					SELECT
-					    B.CTRT_NO
-					    , B.SEQ
-					    , B.SCSBID_RANK
-					    , B.ENTRPS_NM
-					    , B.BSNM_NO
-					    , B.RPRSNTV
-					    , B.TLPHON_NO
-					    , B.FAX_NO
-					    , B.REG_USR
-					    , TO_CHAR(B.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
-					    , B.UPD_USR
-					    , TO_CHAR(B.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
-					  FROM
-					    CTRT_SCSBID_INFO_F B
-					  WHERE
-					    B.CTRT_NO = #sCtrtNo#
-					  ORDER BY B.SEQ  
-               		) S
-             	) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>	
-	</select>	
 
-	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtScsbidInfoListTotCnt_S" parameterClass="gamFcltyCtrtMngVO" resultClass="int">
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngFulfillCaryFwdPk_S" parameterClass="gamFcltyCtrtMngFulfillCaryFwdVO" resultClass="egovMap">
 		SELECT
-		    COUNT(*) CNT
-		  FROM
-		    CTRT_SCSBID_INFO_F
-		  WHERE
-		    CTRT_NO = #sCtrtNo#
+				 T1.CTRT_NO AS CARY_FWD_CTRT_NO
+				,LTRIM(TO_CHAR(NVL(T1.SEQ,0),'000')) AS CARY_FWD_SEQ
+				,T1.FULFILL_CARY_FWD_YEAR AS FULFILL_CARY_FWD_YEAR
+				,LTRIM(TO_CHAR(NVL(T1.FULFILL_AMT,0),'9,999,999,999,999,990')) AS FULFILL_AMT
+				,LTRIM(TO_CHAR(NVL(T1.CARY_FWD_AMT,0),'9,999,999,999,999,990')) AS CARY_FWD_AMT
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,T2.CTRT_SE AS CARY_FWD_CTRT_SE
+				,T2.CTRT_NM AS CARY_FWD_CTRT_NM
+				,TO_CHAR(T2.CTRT_DT,'YYYY-MM-DD') AS CARY_FWD_CTRT_DT
+				,LTRIM(TO_CHAR(NVL(T2.CTRT_AMT,0),'9,999,999,999,999,990')) AS CARY_FWD_CTRT_AMT
+				,TO_CHAR(T2.CTRT_DT_FROM,'YYYY-MM-DD') AS CARY_FWD_CTRT_DT_FROM
+				,TO_CHAR(T2.CTRT_DT_TO,'YYYY-MM-DD') AS CARY_FWD_CTRT_DT_TO
+				,T2.CTRT_MTH AS CARY_FWD_CTRT_MTH
+				,T2.ORDER_MTHD AS CARY_FWD_ORDER_MTHD
+				,T2.CAUSE_ACT AS CARY_FWD_CAUSE_ACT
+			FROM CTRT_FULFILL_CARY_FWD_F T1
+			LEFT OUTER JOIN CTRT_INFO_F T2 ON (T1.CTRT_NO=T2.CTRT_NO)
+		WHERE T1.CTRT_NO = #caryFwdCtrtNo#
+		AND T1.SEQ = NVL(TO_NUMBER(REPLACE(#caryFwdSeq#,',','')),0)
 	</select>
-	
-	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtScsbidInfoDetail_S">
-    	<selectKey keyProperty="maxSeq" resultClass="String">
-    		SELECT
-    		  TO_CHAR(NVL(MAX(SEQ),0) + 1)
-    		FROM
-    		  CTRT_SCSBID_INFO_F
-    		WHERE
-    		  CTRT_NO = #ctrtNo# 
-    	</selectKey>
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngFulfillCaryFwdMaxSeq_S" parameterClass="gamFcltyCtrtMngFulfillCaryFwdVO" resultClass="java.lang.String">
+		SELECT
+				 LTRIM(TO_CHAR(NVL(MAX(T1.SEQ),0) + 1,'000')) AS MAX_SEQ
+			FROM CTRT_FULFILL_CARY_FWD_F T1
+		WHERE T1.CTRT_NO = #caryFwdCtrtNo#
+	</select>
+
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngScsbidInfoList_D" parameterClass="gamFcltyCtrtMngScsbidInfoVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.CTRT_NO AS SCSBID_CTRT_NO
+								,LTRIM(TO_CHAR(NVL(T1.SEQ,0),'000')) AS SCSBID_SEQ
+								,LTRIM(TO_CHAR(NVL(T1.SCSBID_RANK,0),'000')) AS SCSBID_RANK
+								,T1.ENTRPS_NM AS SCSBID_ENTRPS_NM
+								,T1.BSNM_NO AS SCSBID_BSNM_NO
+								,T1.RPRSNTV AS SCSBID_RPRSNTV
+								,T1.TLPHON_NO AS SCSBID_TLPHON_NO
+								,T1.FAX_NO AS SCSBID_FAX_NO
+								,T1.RM AS SCSBID_RM
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,T2.CTRT_SE AS SCSBID_CTRT_SE
+								,T2.CTRT_NM AS SCSBID_CTRT_NM
+								,TO_CHAR(T2.CTRT_DT,'YYYY-MM-DD') AS SCSBID_CTRT_DT
+								,LTRIM(TO_CHAR(NVL(T2.CTRT_AMT,0),'9,999,999,999,999,990')) AS SCSBID_CTRT_AMT
+								,TO_CHAR(T2.CTRT_DT_FROM,'YYYY-MM-DD') AS SCSBID_CTRT_DT_FROM
+								,TO_CHAR(T2.CTRT_DT_TO,'YYYY-MM-DD') AS SCSBID_CTRT_DT_TO
+								,T2.CTRT_MTH AS SCSBID_CTRT_MTH
+								,T2.ORDER_MTHD AS SCSBID_ORDER_MTHD
+								,T2.CAUSE_ACT AS SCSBID_CAUSE_ACT
+							FROM CTRT_SCSBID_INFO_F T1
+							LEFT OUTER JOIN CTRT_INFO_F T2 ON (T1.CTRT_NO=T2.CTRT_NO)
+						WHERE T1.CTRT_NO = #scsbidCtrtNo#
+						ORDER BY T1.SEQ ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtMngScsbidInfo_S" parameterClass="gamFcltyCtrtMngScsbidInfoVO">
 		INSERT INTO CTRT_SCSBID_INFO_F
-		  (
-		    CTRT_NO
-		    , SEQ
-		    , SCSBID_RANK
-		    , ENTRPS_NM
-		    , BSNM_NO
-		    , RPRSNTV
-		    , TLPHON_NO
-		    , FAX_NO
-		    , REG_USR
-		    , REGIST_DT
-		  )
-		  VALUES
-		  (
-		    #ctrtNo#
-		    , TO_NUMBER(#maxSeq#)
-		    , TO_NUMBER(REPLACE(#scsbidRank#, ',', ''))
-		    , #entrpsNm#
-		    , #bsnmNo#
-		    , #rprsntv#
-		    , #tlphonNo#
-		    , #faxNo#
-		    , #regUsr#
-		    , SYSDATE
-		  )
+		(
+			 CTRT_NO
+			,SEQ
+			,SCSBID_RANK
+			,ENTRPS_NM
+			,BSNM_NO
+			,RPRSNTV
+			,TLPHON_NO
+			,FAX_NO
+			,RM
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 #scsbidCtrtNo#
+			,NVL(TO_NUMBER(REPLACE(#scsbidSeq#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#scsbidRank#,',','')),0)
+			,#scsbidEntrpsNm#
+			,#scsbidBsnmNo#
+			,#scsbidRprsntv#
+			,#scsbidTlphonNo#
+			,#scsbidFaxNo#
+			,#scsbidRm#
+			,#regUsr#
+			,SYSDATE
+		)
 	</insert>
-	
-	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtScsbidInfoDetail_S">
-		UPDATE CTRT_SCSBID_INFO_F
-		  SET
-		    SCSBID_RANK = TO_NUMBER(REPLACE(#scsbidRank#, ',', ''))
-		    , ENTRPS_NM = #entrpsNm# 
-		    , BSNM_NO = #bsnmNo# 
-		    , RPRSNTV = #rprsntv#
-		    , TLPHON_NO = #tlphonNo# 
-		    , FAX_NO = #faxNo#
-		    , UPD_USR = #updUsr# 
-		    , UPDT_DT = SYSDATE
-		  WHERE
-		    CTRT_NO = #ctrtNo#
-		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
+
+	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtMngScsbidInfo_S" parameterClass="gamFcltyCtrtMngScsbidInfoVO">
+		UPDATE CTRT_SCSBID_INFO_F SET
+			 SCSBID_RANK = NVL(TO_NUMBER(REPLACE(#scsbidRank#,',','')),0)
+			,ENTRPS_NM = #scsbidEntrpsNm#
+			,BSNM_NO = #scsbidBsnmNo#
+			,RPRSNTV = #scsbidRprsntv#
+			,TLPHON_NO = #scsbidTlphonNo#
+			,FAX_NO = #scsbidFaxNo#
+			,RM = #scsbidRm#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE CTRT_NO = #scsbidCtrtNo#
+		AND SEQ = NVL(TO_NUMBER(REPLACE(#scsbidSeq#,',','')),0)
 	</update>
 
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtScsbidInfoDetail_S">
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMngScsbidInfo_S" parameterClass="gamFcltyCtrtMngScsbidInfoVO">
 		DELETE FROM CTRT_SCSBID_INFO_F
-		  WHERE
-		    CTRT_NO = #ctrtNo#
-		    AND SEQ = TO_NUMBER(REPLACE(#seq#, ',', ''))
+		WHERE CTRT_NO = #scsbidCtrtNo#
+		AND SEQ = NVL(TO_NUMBER(REPLACE(#scsbidSeq#,',','')),0)
 	</delete>
-	
-	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtScsbidInfoList_S">
-		DELETE FROM CTRT_SCSBID_INFO_F
-		  WHERE
-		    CTRT_NO = #ctrtNo#  
-	</delete>			
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngScsbidInfoPk_S" parameterClass="gamFcltyCtrtMngScsbidInfoVO" resultClass="egovMap">
+		SELECT
+				 T1.CTRT_NO AS SCSBID_CTRT_NO
+				,LTRIM(TO_CHAR(NVL(T1.SEQ,0),'000')) AS SCSBID_SEQ
+				,LTRIM(TO_CHAR(NVL(T1.SCSBID_RANK,0),'000')) AS SCSBID_RANK
+				,T1.ENTRPS_NM AS SCSBID_ENTRPS_NM
+				,T1.BSNM_NO AS SCSBID_BSNM_NO
+				,T1.RPRSNTV AS SCSBID_RPRSNTV
+				,T1.TLPHON_NO AS SCSBID_TLPHON_NO
+				,T1.FAX_NO AS SCSBID_FAX_NO
+				,T1.RM AS SCSBID_RM
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,T2.CTRT_SE AS SCSBID_CTRT_SE
+				,T2.CTRT_NM AS SCSBID_CTRT_NM
+				,TO_CHAR(T2.CTRT_DT,'YYYY-MM-DD') AS SCSBID_CTRT_DT
+				,LTRIM(TO_CHAR(NVL(T2.CTRT_AMT,0),'9,999,999,999,999,990')) AS SCSBID_CTRT_AMT
+				,TO_CHAR(T2.CTRT_DT_FROM,'YYYY-MM-DD') AS SCSBID_CTRT_DT_FROM
+				,TO_CHAR(T2.CTRT_DT_TO,'YYYY-MM-DD') AS SCSBID_CTRT_DT_TO
+				,T2.CTRT_MTH AS SCSBID_CTRT_MTH
+				,T2.ORDER_MTHD AS SCSBID_ORDER_MTHD
+				,T2.CAUSE_ACT AS SCSBID_CAUSE_ACT
+			FROM CTRT_SCSBID_INFO_F T1
+			LEFT OUTER JOIN CTRT_INFO_F T2 ON (T1.CTRT_NO=T2.CTRT_NO)
+		WHERE T1.CTRT_NO = #scsbidCtrtNo#
+		AND T1.SEQ = NVL(TO_NUMBER(REPLACE(#scsbidSeq#,',','')),0)
+	</select>
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngScsbidInfoMaxSeq_S" parameterClass="gamFcltyCtrtMngScsbidInfoVO" resultClass="java.lang.String">
+		SELECT
+				 LTRIM(TO_CHAR(NVL(MAX(T1.SEQ),0) + 1,'000')) AS MAX_SEQ
+			FROM CTRT_SCSBID_INFO_F T1
+		WHERE T1.CTRT_NO = #scsbidCtrtNo#
+	</select>
+
 </sqlMap>

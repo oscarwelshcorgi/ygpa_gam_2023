@@ -20,1567 +20,4231 @@
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
+
+<%
+/******************************** SCRIPT START ********************************/
+%>
+
 <script>
-/*
- * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
- */
+
+<%
+/**
+ * @FUNCTION NAME : GamElctyEquipCapaMngModule
+ * @DESCRIPTION   : MODULE 고유 함수
+ * @PARAMETER     : NONE
+**/
+%>
 function GamFcltyCtrtMngModule() {}
 
 GamFcltyCtrtMngModule.prototype = new EmdModule(1000, 645);
 
-// 페이지가 호출 되었을때 호출 되는 함수
+<%
+/**
+ * @FUNCTION NAME : loadComplete
+ * @DESCRIPTION   : PAGE LOAD COMPLETE (페이지 호출시 실행되는 함수)
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyCtrtMngModule.prototype.loadComplete = function() {
-	//계약관리리스트
-    this.$("#fcltyCtrtMngList").flexigrid({
-        module: this,
-        url: '/ctrt/selectFcltyCtrtMngList.do',
-        dataType: 'json',
-        colModel : [
-					{display:'계약번호', 		name:'ctrtNo',				width:120, 		sortable:false,		align:'center'},
-					{display:'구분', 			name:'ctrtSe',				width:60, 		sortable:false,		align:'center'},
-                    {display:'공고번호', 		name:'bidPblancNo',			width:100, 		sortable:false,		align:'center'},
-                    {display:'계약명', 		name:'ctrtNm',				width:300, 		sortable:false,		align:'left'},
-                    {display:'계약일', 		name:'ctrtDt',				width:80, 		sortable:false,		align:'left'},
-                    {display:'입찰공고일', 		name:'bidPblancDt',			width:80, 		sortable:false,		align:'center'},
-                    {display:'입찰일', 		name:'bidDt',				width:80, 		sortable:false,		align:'center'},
-                    {display:'등록업체코드', 	name:'registEntrpsCd',		width:100, 		sortable:false,		align:'left'},
-                    {display:'등록업체명', 		name:'registEntrpsNm',		width:150, 		sortable:false,		align:'left'},
-                    {display:'계약금액', 		name:'ctrtAmt',				width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-                    {display:'설계금액', 		name:'planAmt',				width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-                    {display:'예정금액', 		name:'prmtAmt',				width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-                    {display:'낙찰금액', 		name:'scsbidAmt',			width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-                    {display:'낙찰율', 		name:'scsbidRate',			width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-                    {display:'기초금액', 		name:'baseAmt',				width:130, 		sortable:false,		align:'right', 		displayFormat: 'number'}
-                    ],
-        showTableToggleBtn: false,
-        height: 'auto',
-        preProcess: function(module,data) {
-			//자료수, 합산금액 입력
-            module.$('#totalCount').val($.number(data.totalCount));
-            module.$('#sumPlanAmt').val($.number(data.sumPlanAmt));
-            module.$('#sumPrmtAmt').val($.number(data.sumPrmtAmt));
-            module.$('#sumScsbidAmt').val($.number(data.sumScsbidAmt));
-            module.$('#sumBaseAmt').val($.number(data.sumBaseAmt));
-            return data;
-        }
-    });
-	
-	this._cmd = '';
-	this._deleteCtrtJoinContrList = null;
-	this._deleteCtrtSubCtrtList = null;
-	this._deleteCtrtChangeList = null;
-	this._deleteCtrtMoneyPymntList = null;
-	this._deleteCtrtFulFillCaryFwdList = null;
-	this._deleteCtrtScsbidInfoList = null;
-	
-	this.$("#fcltyCtrtMngList").on("onItemSelected", function(event, module, row, grid, param) {
-		module._cmd = "modify";
-	});
-	
-	this.$("#fcltyCtrtMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-		module._cmd = "modify";
-		module.$("#fcltyCtrtMngListTab").tabs("option", {active: 1});
-	});
-	
-	//계약공용도급 리스트
-    this.$("#fcltyCtrtJoinContrList").flexigrid({
-        module: this,
-        url: '/ctrt/selectFcltyCtrtJoinContrList.do',
-        dataType: 'json',
-        colModel : [
-                    {display:'업체명', 	name:'entrpsNm',		width:120, sortable:false,align:'center'},
-                    {display:'대표자', 	name:'rprsntv',			width:70, sortable:false,align:'center'},
-                    {display:'지분율', 	name:'qotaRate',		width:70, sortable:false,align:'right'},
-                    {display:'업종', 		name:'induty',			width:80, sortable:false,align:'center'},
-                    {display:'주요품목', 	name:'stplPrdlst',		width:100, sortable:false,align:'center'},
-                    {display:'사업자번호', 	name:'bsnmNo',			width:100, sortable:false,align:'center'},
-                    {display:'거래관계', 	name:'dealRelate',		width:80, sortable:false,align:'center'},
-                    {display:'전화번호', 	name:'tlphonNo',		width:100, sortable:false,align:'center'},
-                    {display:'fax번호',	name:'faxNo',			width:100, sortable:false,align:'center'},
-                    {display:'우편번호', 	name:'postNo',			width:80, sortable:false,align:'center'},
-                    {display:'도로명주소', 	name:'roadnmAdres',		width:150, sortable:false,align:'center'},
-                    {display:'지번주소', 	name:'lnmAdres',		width:150, sortable:false,align:'center'},
-                    {display:'담당자', 	name:'charger',			width:70, sortable:false,align:'center'},
-                    {display:'담당자직위', 	name:'chargerOfcPos',	width:120, sortable:false,align:'center'},
-                    {display:'담당자휴대폰번호',name:'chargerMoblphonNo',width:150, sortable:false,align:'center'},
-                    {display:'담당자email',name:'chargerEmail',	width:150, sortable:false,align:'center'}
-                    ],
-        showTableToggleBtn: false,
-        height: '270'
-    });
 
-	
-	this.$("#gamCtrtJoinContrMngtForm").find(".EditItem").bind("change keyup", {module: this}, function(event) {
-		event.data.module.ctrtJoinContrChanged(event.target);
+	this.$("#mainGrid").flexigrid({
+		module : this,
+		url : '/ctrt/gamSelectFcltyCtrtMngList.do',
+		dataType : 'json',
+		colModel : [
+					{display:'계약 번호',			name:'ctrtNo',				width:120,		sortable:false,		align:'center'},
+					{display:'구분',				name:'ctrtSeNm',			width:60,		sortable:false,		align:'center'},
+					{display:'발주 방식',			name:'orderMthd',			width:100,		sortable:false,		align:'left'},
+					{display:'계약 명',				name:'ctrtNm',				width:200,		sortable:false,		align:'left'},
+					{display:'계약 방법',			name:'ctrtMth',				width:100,		sortable:false,		align:'left'},
+					{display:'계약 일자',			name:'ctrtDt',				width:80,		sortable:false,		align:'center'},
+					{display:'계약 금액',			name:'ctrtAmt',				width:100,		sortable:false,		align:'right'},
+					{display:'계약 시작 일자',		name:'ctrtDtFrom',			width:100,		sortable:false,		align:'center'},
+					{display:'계약 종료 일자',		name:'ctrtDtTo',			width:100,		sortable:false,		align:'center'},
+					{display:'계약 보증 금액',		name:'ctrtGrntyAmt',		width:100,		sortable:false,		align:'right'},
+					{display:'계약 보증 방법',		name:'ctrtGrntyMthNm',		width:100,		sortable:false,		align:'left'},
+					{display:'계약 검사 일자',		name:'ctrtExamDt',			width:100,		sortable:false,		align:'center'},
+					{display:'원인 행위',			name:'causeAct',			width:200,		sortable:false,		align:'left'},
+					{display:'등록 업체 명',		name:'registEntrpsNm',		width:150,		sortable:false,		align:'left'},
+					{display:'조달 공고 번호',		name:'prcuPblancNo',		width:100,		sortable:false,		align:'left'},
+					{display:'입찰 공고 번호',		name:'bidPblancNo',			width:100,		sortable:false,		align:'left'},
+					{display:'입찰 공고 일자',		name:'bidPblancDt',			width:90,		sortable:false,		align:'center'},
+					{display:'입찰 일자',			name:'bidDt',				width:80,		sortable:false,		align:'center'},
+					{display:'입찰 방법',			name:'bidMth',				width:100,		sortable:false,		align:'left'},
+					{display:'낙찰 자',				name:'scsbider',			width:100,		sortable:false,		align:'left'},
+					{display:'낙찰 금액',			name:'scsbidAmt',			width:100,		sortable:false,		align:'right'},
+					{display:'낙찰 율',				name:'scsbidRate',			width:80,		sortable:false,		align:'right'},
+					{display:'기초 금액',			name:'baseAmt',				width:100,		sortable:false,		align:'right'},
+					{display:'설계 금액',			name:'planAmt',				width:100,		sortable:false,		align:'right'},
+					{display:'예정 금액',			name:'prmtAmt',				width:100,		sortable:false,		align:'right'},
+					{display:'이월 예산 금액',		name:'caryFwdBdgtAmt',		width:100,		sortable:false,		align:'right'},
+					{display:'감독자 1',			name:'intendant1',			width:80,		sortable:false,		align:'left'},
+					{display:'감독자 2',			name:'intendant2',			width:80,		sortable:false,		align:'left'},
+					{display:'감독자 2',			name:'intendant3',			width:80,		sortable:false,		align:'left'},
+					{display:'담당 부서',			name:'jobChrgDeptNm',		width:100,		sortable:false,		align:'left'},
+					{display:'하자 시작 일자',		name:'flawDtFrom',			width:100,		sortable:false,		align:'center'},
+					{display:'하자 종료 일자',		name:'flawDtTo',			width:100,		sortable:false,		align:'center'},
+					{display:'연대 보증',			name:'sldrtGrnty',			width:100,		sortable:false,		align:'left'},
+					{display:'현장 설명',			name:'siteDesc',			width:200,		sortable:false,		align:'left'}
+					],
+		showTableToggleBtn : false,
+		height : 'auto',
+		preProcess : function(module,data) {
+			module.$('#totalCount').val($.number(data.totalCount));
+			module.$('#sumPlanAmt').val($.number(data.sumPlanAmt));
+			module.$('#sumPrmtAmt').val($.number(data.sumPrmtAmt));
+			module.$('#sumScsbidAmt').val($.number(data.sumScsbidAmt));
+			module.$('#sumBaseAmt').val($.number(data.sumBaseAmt));
+			return data;
+		}
 	});
 
-	this.$("#fcltyCtrtJoinContrList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.$("#gamCtrtJoinContrMngtForm :input").val('');
-		module.makeFormValues("#gamCtrtJoinContrMngtForm", row);
-	});
-	
-    //계약하도급 리스트
-    this.$("#fcltyCtrtSubCtrtList").flexigrid({
-        module: this,
-        url: '/ctrt/selectFcltyCtrtSubCtrtList.do',
-        dataType: 'json',
-        colModel : [
-                    {display:'업체명', 	name:'entrpsNm', 		width:150, sortable:true, align:'center'},
-                    {display:'대금지급합의',name:'moneyPymntAgree', width:90, sortable:true, align:'center'},
-                    {display:'공종', 		name:'workClass', 		width:80, sortable:true, align:'center'},
-                    {display:'하도급율', 	name:'subctrtRate', 	width:80, sortable:true, align:'right'},
-                    {display:'원도급금액', 	name:'orginlContrAmt', 	width:120, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'하도급계약금액',name:'subctrtCtrtAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'계약시작일', name:'ctrtDtFrom', 		width:100, sortable:true, align:'center'},
-                    {display:'계약종료일', name:'ctrtDtTo', 		width:100, sortable:true, align:'center'}
-                    ],
-        showTableToggleBtn: false,
-        height: '350'
-    });
-
-	this.$("#gamCtrtSubCtrtMngtForm").find(".EditItem").bind("change keyup", {module: this}, function(event) {
-		event.data.module.ctrtSubCtrtChanged(event.target);
+	this.$("#mainGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectData();
 	});
 
-	this.$("#fcltyCtrtSubCtrtList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.$("#gamCtrtSubCtrtMngtForm :input").val('');
-		module.makeFormValues("#gamCtrtSubCtrtMngtForm", row);
-		module.$("#subCtrtEntrpsNm").val(row["entrpsNm"]); // 공동도급의 업체명과 하도급의 업체명 text id를 다르게 처리.
-		module.$("#subCtrtDtFrom").val(row["ctrtDtFrom"]); //디테일의 계약기간과 text id를 다르게 처리.
-		module.$("#subCtrtDtTo").val(row["ctrtDtTo"]); //디테일의 계약기간과 text id를 다르게 처리.
-	});
-    
-    //계약변경 리스트
-    this.$("#fcltyCtrtChangeList").flexigrid({
-        module: this,
-        url: '/ctrt/selectFcltyCtrtChangeList.do',
-        dataType: 'json',
-        colModel : [
-                    {display:'변경일자', 		name:'changeDt', 		width:80, sortable:true, align:'center'},
-                    {display:'변경사유', 		name:'changeRsn', 		width:120, sortable:true, align:'center'},
-                    {display:'변경계약시작일', 	name:'changeCtrtDtFrom',width:100, sortable:true, align:'center'},
-                    {display:'변경계약종료일', 	name:'changeCtrtDtTo', 	width:100, sortable:true, align:'center'},
-                    {display:'변경계약금액', 	name:'changeCtrtAmt', 	width:100, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'최종계약금액', 	name:'lastCtrtAmt', 	width:100, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'비고', 			name:'rm', 				width:250, sortable:true, align:'left'}
-                    ],
-        showTableToggleBtn: false,
-        height: '350'
-    });
-
-	this.$("#gamCtrtChangeMngtForm").find(".EditItem").bind("change keyup", {module: this}, function(event) {
-		event.data.module.ctrtChangeChanged(event.target);
+	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
+		module._mode = 'modify';
+		module._mainKeyValue = row.ctrtNo;
+		module.enableListButtonItem();
 	});
 
-	this.$("#fcltyCtrtChangeList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.$("#gamCtrtChangeMngtForm :input").val('');
-		module.makeFormValues("#gamCtrtChangeMngtForm", row);
-	});
-    
-    //계약대금지급 리스트
-    this.$("#fcltyCtrtMoneyPymntList").flexigrid({
-        module: this,
-        url: '/ctrt/selectFcltyCtrtMoneyPymntList.do',
-        dataType: 'json',
-        colModel : [
-                    {display:'지급분류', 		name:'pymntCl', 		width:80, sortable:true, align:'center'},
-                    {display:'지급일자', 		name:'pymntDt', 		width:80, sortable:true, align:'center'},
-                    {display:'금회기성금액', 	name:'thisTimeEstbAmt', width:120, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'선금정산금액', 	name:'depositExcclcAmt',width:120, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'지급금액', 		name:'pymntAmt', 		width:120, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'지급누계금액', 	name:'pymntAggrAmt', 	width:120, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'비고', 			name:'rm', 				width:210, sortable:true, align:'left'}
-                    ],
-        showTableToggleBtn: false,
-        height: '350'
-    });
-
-	this.$("#gamCtrtMoneyPymntMngtForm").find(".EditItem").bind("change keyup", {module: this}, function(event) {
-		event.data.module.ctrtMoneyPymntChanged(event.target);
+	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		module._mode = 'modify';
+		module._mainKeyValue = row.ctrtNo;
+		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
-	this.$("#fcltyCtrtMoneyPymntList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.$("#gamCtrtMoneyPymntMngtForm :input").val('');
-		module.makeFormValues("#gamCtrtMoneyPymntMngtForm", row);
-		module.$("#ctrtMoneyPymntRm").val(row["rm"]); //계약변경의 비고와 text id를 다르게 처리.
-	});
-    
-    //계약이행이월 리스트
-    this.$("#fcltyCtrtFulFillCaryFwdList").flexigrid({
-        module: this,
-        url: '/ctrt/selectFcltyCtrtFulFillCaryFwdList.do',
-        dataType: 'json',
-        colModel : [
-                    {display:'이행이월년도',name:'fulfillCaryFwdYear', 	width:100, sortable:true, align:'center'},
-                    {display:'이행금액', 	name:'fulfillAmt', 			width:200, sortable:true, align:'right', displayFormat:'number'},
-                    {display:'이월금액', 	name:'caryFwdAmt', 			width:200, sortable:true, align:'right', displayFormat:'number'}
-                    ],
-        showTableToggleBtn: false,
-        height: '400'
-    });
-
-	this.$("#gamCtrtFulFillCaryFwdMngtForm").find(".EditItem").bind("change keyup", {module: this}, function(event) {
-		event.data.module.ctrtFulFillCaryFwdChanged(event.target);
-	});
-
-	this.$("#fcltyCtrtFulFillCaryFwdList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.$("#gamCtrtFulFillCaryFwdMngtForm :input").val('');
-		module.makeFormValues("#gamCtrtFulFillCaryFwdMngtForm", row);
-	});
-    
-    //계약낙찰정보 리스트
-    this.$("#fcltyCtrtScsbidInfoList").flexigrid({
-        module: this,
-        url: '/ctrt/selectFcltyCtrtScsbidInfoList.do',
-        dataType: 'json',
-        colModel : [
-                    {display:'낙찰순위', 	name:'scsbidRank',		width:90, sortable:false,align:'center'},
-                    {display:'업체명', 	name:'entrpsNm',		width:150, sortable:false,align:'center'},
-                    {display:'대표자', 	name:'rprsntv',			width:100, sortable:false,align:'center'},
-                    {display:'사업자번호', 	name:'bsnmNo',			width:100, sortable:false,align:'center'},
-                    {display:'전화번호', 	name:'tlphonNo',		width:100, sortable:false,align:'center'},
-                    {display:'fax번호',	name:'faxNo',			width:100, sortable:false,align:'center'},
-                    ],
-        showTableToggleBtn: false,                    
-        height: '380'
-    });
-    
-	this.$("#gamCtrtScsbidInfoMngtForm").find(".EditItem").bind("change keyup", {module: this}, function(event) {
-		event.data.module.ctrtScsbidInfoChanged(event.target);
+	this.$("#joinGrid").flexigrid({
+		module : this,
+		url : '/ctrt/gamSelectFcltyCtrtMngJoinContrList.do',
+		dataType : 'json',
+		colModel : [
+					{display:'순번',			name:'joinSeq',				width:50,		sortable:false,		align:'center'},
+					{display:'업체 명',			name:'joinEntrpsNm',		width:120,		sortable:false,		align:'left'},
+					{display:'대표자',			name:'joinRprsntv',			width:80,		sortable:false,		align:'left'},
+					{display:'지분 율',			name:'qotaRate',			width:80,		sortable:false,		align:'right'},
+					{display:'업종',			name:'induty',				width:100,		sortable:false,		align:'left'},
+					{display:'주요 품목',		name:'stplPrdlst',			width:100,		sortable:false,		align:'left'},
+					{display:'사업자 번호',		name:'joinBsnmNo',			width:100,		sortable:false,		align:'center'},
+					{display:'거래 관계',		name:'dealRelate',			width:80,		sortable:false,		align:'left'},
+					{display:'전화 번호',		name:'joinTlphonNo',		width:100,		sortable:false,		align:'left'},
+					{display:'FAX 번호',		name:'joinFaxNo',			width:100,		sortable:false,		align:'left'},
+					{display:'우편 번호',		name:'postNo',				width:80,		sortable:false,		align:'center'},
+					{display:'도로명 주소',		name:'roadnmAdres',			width:180,		sortable:false,		align:'left'},
+					{display:'지번 주소',		name:'lnmAdres',			width:180,		sortable:false,		align:'left'},
+					{display:'담당자',			name:'charger',				width:80,		sortable:false,		align:'left'},
+					{display:'담당자 직위',		name:'chargerOfcPos',		width:100,		sortable:false,		align:'left'},
+					{display:'담당자 HP',		name:'chargerMoblphonNo',	width:100,		sortable:false,		align:'left'},
+					{display:'담당자 E-MAIL',	name:'chargerEmail',		width:150,		sortable:false,		align:'left'}
+					],
+		showTableToggleBtn : false,
+		height : '155'
 	});
 
-	this.$("#fcltyCtrtScsbidInfoList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.$("#gamCtrtScsbidInfoMngtForm :input").val('');
-		module.makeFormValues("#gamCtrtScsbidInfoMngtForm", row);
-		module.$("#scsbidEntrpsNm").val(row["entrpsNm"]); // 공동도급의 업체명과 하도급의 업체명 그리고 낙찰정보의 업체명 text id를 다르게 처리.
-		module.$("#scsbidRprsntv").val(row["rprsntv"]); // 공동도급의 대표자와 낙찰정보의 대표자 text id를 다르게 처리.
-		module.$("#scsbidBsnmNo").val(row["bsnmNo"]); // 공동도급의 사업자번호와 낙찰정보의 사업자번호 text id를 다르게 처리.
-		module.$("#scsbidTlphonNo").val(row["tlphonNo"]); // 공동도급의 전화번호와 낙찰정보의 전화번호 text id를 다르게 처리.
-		module.$("#scsbidFaxNo").val(row["faxNo"]); // 공동도급의 팩스번호와 낙찰정보의 팩스번호 text id를 다르게 처리.
+	this.$("#joinGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectJoinData();
 	});
-    
+
+	this.$("#joinGrid").on('onItemSelected', function(event, module, row, grid, param) {
+		module._joinmode = 'modify';
+		module._joinKeyValue = row.joinCtrtNo;
+		module._joinSeq = row.joinSeq;
+		module.loadJoinDetail('joinTab');
+		module.enableJoinDetailInputItem();
+	});
+
+	this.$("#subGrid").flexigrid({
+		module : this,
+		url : '/ctrt/gamSelectFcltyCtrtMngSubctrtList.do',
+		dataType : 'json',
+		colModel : [
+					{display:'순번',				name:'subSeq',				width:50,		sortable:false,		align:'center'},
+					{display:'업체 명',				name:'subEntrpsNm',			width:120,		sortable:false,		align:'left'},
+					{display:'대금지급합의',		name:'moneyPymntAgreeNm',	width:120,		sortable:false,		align:'left'},
+					{display:'공종',				name:'workClass',			width:80,		sortable:false,		align:'left'},
+					{display:'하도급 율',			name:'subctrtRate',			width:80,		sortable:false,		align:'right'},
+					{display:'원도급 금액',			name:'orginlContrAmt',		width:120,		sortable:false,		align:'right'},
+					{display:'하도급 계약 금액',	name:'subctrtCtrtAmt',		width:120,		sortable:false,		align:'right'},
+					{display:'계약 시작 일자',		name:'subctrtCtrtDtFrom',	width:100,		sortable:false,		align:'center'},
+					{display:'계약 종료 일자',		name:'subctrtCtrtDtTo',		width:100,		sortable:false,		align:'center'}
+					],
+		showTableToggleBtn : false,
+		height : '280'
+	});
+
+	this.$("#subGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectSubData();
+	});
+
+	this.$("#subGrid").on('onItemSelected', function(event, module, row, grid, param) {
+		module._submode = 'modify';
+		module._subKeyValue = row.subCtrtNo;
+		module._subSeq = row.subSeq;
+		module.loadSubDetail('subTab');
+		module.enableSubDetailInputItem();
+	});
+
+	this.$("#changeGrid").flexigrid({
+		module : this,
+		url : '/ctrt/gamSelectFcltyCtrtMngChangeList.do',
+		dataType : 'json',
+		colModel : [
+					{display:'순번',					name:'changeSeq',			width:50,		sortable:false,		align:'center'},
+					{display:'변경 구분',				name:'changeSeNm',			width:80,		sortable:false,		align:'left'},
+					{display:'변경 일자',				name:'changeDt',			width:80,		sortable:false,		align:'center'},
+					{display:'변경 사유',				name:'changeRsn',			width:150,		sortable:false,		align:'left'},
+					{display:'변경 계약 시작 일자',		name:'changeCtrtDtFrom',	width:120,		sortable:false,		align:'center'},
+					{display:'변경 계약 종료 일자',		name:'changeCtrtDtTo',		width:120,		sortable:false,		align:'center'},
+					{display:'변경 계약 금액',			name:'changeCtrtAmt',		width:100,		sortable:false,		align:'right'},
+					{display:'최종 계약 금액',			name:'lastCtrtAmt',			width:100,		sortable:false,		align:'right'},
+					{display:'비고',					name:'changeRm',			width:250,		sortable:false,		align:'left'}
+					],
+		showTableToggleBtn : false,
+		height: '280'
+	});
+
+	this.$("#changeGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectChangeData();
+	});
+
+	this.$("#changeGrid").on('onItemSelected', function(event, module, row, grid, param) {
+		module._changemode = 'modify';
+		module._changeKeyValue = row.changeCtrtNo;
+		module._changeSeq = row.changeSeq;
+		module.loadChangeDetail('changeTab');
+		module.enableChangeDetailInputItem();
+	});
+
+	this.$("#pymntGrid").flexigrid({
+		module : this,
+		url : '/ctrt/gamSelectFcltyCtrtMngMoneyPymntList.do',
+		dataType : 'json',
+		colModel : [
+					{display:'순번',				name:'pymntSeq',			width:50,		sortable:false,		align:'center'},
+					{display:'지급 분류',			name:'pymntClNm',			width:80,		sortable:false,		align:'center'},
+					{display:'지급 일자',			name:'pymntDt',				width:80,		sortable:false,		align:'center'},
+					{display:'금회 기성 금액',		name:'thisTimeEstbAmt',		width:120,		sortable:false,		align:'right'},
+					{display:'선금 정산 금액',		name:'depositExcclcAmt',	width:120,		sortable:false,		align:'right'},
+					{display:'지급 금액',			name:'pymntAmt',			width:120,		sortable:false,		align:'right'},
+					{display:'지급 누계 금액',		name:'pymntAggrAmt',		width:120,		sortable:false,		align:'right'},
+					{display:'비고',				name:'pymntRm',				width:210,		sortable:false,		align:'left'}
+					],
+		showTableToggleBtn : false,
+		height : '280'
+	});
+
+	this.$("#pymntGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectPymntData();
+	});
+
+	this.$("#pymntGrid").on('onItemSelected', function(event, module, row, grid, param) {
+		module._pymntmode = 'modify';
+		module._pymntKeyValue = row.pymntCtrtNo;
+		module._pymntSeq = row.pymntSeq;
+		module.loadPymntDetail('pymntTab');
+		module.enablePymntDetailInputItem();
+	});
+
+	this.$("#caryFwdGrid").flexigrid({
+		module : this,
+		url : '/ctrt/gamSelectFcltyCtrtMngFulfillCaryFwdList.do',
+		dataType : 'json',
+		colModel : [
+					{display:'순번',				name:'caryFwdSeq',			width:50,		sortable:false,		align:'center'},
+					{display:'이행 이월 년도',		name:'fulfillCaryFwdYear',	width:100,		sortable:false,		align:'center'},
+					{display:'이행 금액',			name:'fulfillAmt',			width:200,		sortable:false,		align:'right'},
+					{display:'이월 금액',			name:'caryFwdAmt',			width:200,		sortable:false,		align:'right'}
+					],
+		showTableToggleBtn : false,
+		height : '320'
+	});
+
+	this.$("#caryFwdGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectCaryFwdData();
+	});
+
+	this.$("#caryFwdGrid").on('onItemSelected', function(event, module, row, grid, param) {
+		module._caryfwdmode = 'modify';
+		module._caryFwdKeyValue = row.caryFwdCtrtNo;
+		module._caryFwdSeq = row.caryFwdSeq;
+		module.loadCaryFwdDetail('caryFwdTab');
+		module.enableCaryFwdDetailInputItem();
+	});
+
+	this.$("#scsbidGrid").flexigrid({
+		module : this,
+		url : '/ctrt/gamSelectFcltyCtrtMngScsbidInfoList.do',
+		dataType : 'json',
+		colModel : [
+					{display:'낙찰 순위',		name:'scsbidRank',			width:90,		sortable:false,		align:'center'},
+					{display:'업체 명',			name:'scsbidEntrpsNm',		width:150,		sortable:false,		align:'left'},
+					{display:'대표자',			name:'scsbidRprsntv',		width:100,		sortable:false,		align:'left'},
+					{display:'사업자 번호',		name:'scsbidBsnmNo',		width:100,		sortable:false,		align:'center'},
+					{display:'전화 번호',		name:'scsbidTlphonNo',		width:100,		sortable:false,		align:'center'},
+					{display:'FAX 번호',		name:'scsbidFaxNo',			width:100,		sortable:false,		align:'center'},
+					],
+		showTableToggleBtn : false,
+		height : '380'
+	});
+
+	this.$("#scsbidGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectScsbidFwdData();
+	});
+
+	this.$("#scsbidGrid").on('onItemSelected', function(event, module, row, grid, param) {
+		module._scsbidmode = 'modify';
+		module._scsbidKeyValue = row.scsbidCtrtNo;
+		module._scsbidSeq = row.scsbidSeq;
+		module.loadScsbidDetail('scsbidTab');
+		module.enableScsbidDetailInputItem();
+	});
+
+	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+
 };
 
-//화면 및 변수 초기화
-GamFcltyCtrtMngModule.prototype.initDisplay = function() {
-	this._deleteCtrtJoinContrList = [];
-	this._deleteCtrtSubCtrtList = [];
-	this._deleteCtrtChangeList = [];
-	this._deleteCtrtMoneyPymntList = [];
-	this._deleteCtrtFulFillCaryFwdList = [];
-	this._deleteCtrtScsbidInfoList = [];
+<%
+/**
+ * @FUNCTION NAME : getCurrentYearString
+ * @DESCRIPTION   : CURRENT YEAR STRING을 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.getCurrentYearString = function() {
 
-	this.$('#gamFcltyCtrtMngDetailForm :input').val('');
-	this.$("#fcltyCtrtJoinContrList").flexEmptyData();
-	this.$("#fcltyCtrtSubCtrtList").flexEmptyData();
-	this.$("#fcltyCtrtChangeList").flexEmptyData();
-	this.$("#fcltyCtrtMoneyPymntList").flexEmptyData();
-	this.$("#fcltyCtrtFulFillCaryFwdList").flexEmptyData();
-	this.$("#fcltyCtrtScsbidInfoList").flexEmptyData();
-	
-	if(this._cmd == 'insert') {
-		this.$('#ctrtNo').enable();
-		this.$("#fcltyCtrtMngListTab").tabs("option", {active: 1});
-	} else if (this._cmd == 'modify') {
-		this.$('#ctrtNo').disable();
+	var toDay = new Date();
+	var year = toDay.getFullYear();
+	return year + "";
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : getToDayString
+ * @DESCRIPTION   : TODAY STRING을 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.getToDayString = function() {
+
+	var toDay = new Date();
+	var year = toDay.getFullYear();
+	var month = toDay.getMonth() + 1;
+	var day = toDay.getDate();
+	var toDayString = "";
+	if (month >= 1 && month <= 9) {
+		if (day >= 1 && day <= 9) {
+			toDayString = year + "-" + "0" + month + "-" + "0" + day;
+		} else {
+			toDayString = year + "-" + "0" + month + "-" + day;
+		}
 	} else {
-		this.$('#ctrtNo').disable();
-		this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
+		if (day >= 1 && day <= 9) {
+			toDayString = year + "-" + month + "-" + "0" + day;
+		} else {
+			toDayString = year + "-" + month + "-" + day;
+		}
 	}
+	return toDayString;
+
 };
 
-GamFcltyCtrtMngModule.prototype.onSubmit = function() {
-    this.loadData();
-};
+<%
+/**
+ * @FUNCTION NAME : addDateString
+ * @DESCRIPTION   : ADD DATE STRING을 구한다.
+ * @PARAMETER     :
+ *   1. dateString - YEAR STRING
+ *   2. addDays - ADD DAYS
+**/
+%>
+GamFcltyCtrtMngModule.prototype.addDateString = function(dateString, addDays) {
 
-//계약정보목록 로드
-GamFcltyCtrtMngModule.prototype.loadData = function() {
-    var searchOpt=this.makeFormArgs('#gamFcltyCtrtMngSearchForm');
-    this.$('#fcltyCtrtMngList').flexOptions({params:searchOpt}).flexReload();
-};
-
-//계약정보 데이터 로드
-GamFcltyCtrtMngModule.prototype.loadDetailData = function() {
-	var rows = this.$('#fcltyCtrtMngList').selectedRows();
-	
-	if(rows.length > 0) {
-		var row = rows[0];
-		var opts = [{ name: 'sCtrtNo', value: row['ctrtNo']}];
-		this.doAction('/ctrt/selectFcltyCtrtInfoDetail.do', opts, function(module, result) {
-			if(result.resultCode == 0) {
-				module.$('#gamFcltyCtrtMngDetailForm :input').val('');
-				module.makeFormValues('#gamFcltyCtrtMngDetailForm', result.resultVO);
-				module.$("#fcltyCtrtJoinContrList").flexOptions({params:opts}).flexReload();
-				module.$("#fcltyCtrtSubCtrtList").flexOptions({params:opts}).flexReload();
-				module.$("#fcltyCtrtChangeList").flexOptions({params:opts}).flexReload();
-				module.$("#fcltyCtrtMoneyPymntList").flexOptions({params:opts}).flexReload();
-				module.$("#fcltyCtrtFulFillCaryFwdList").flexOptions({params:opts}).flexReload();
-				module.$("#fcltyCtrtScsbidInfoList").flexOptions({params:opts}).flexReload();
+	var sourceDateString = dateString;
+	var newDateString = "";
+	var year = "";
+	var month = "";
+	var day = "";
+	if (dateString == "") {
+		var toDay = new Date();
+		year = toDay.getFullYear();
+		month = toDay.getMonth() + 1;
+		day = toDay.getDate();
+		if (month >= 1 && month <= 9) {
+			if (day >= 1 && day <= 9) {
+				sourceDateString = year + "-" + "0" + month + "-" + "0" + day;
+			} else {
+				sourceDateString = year + "-" + "0" + month + "-" + day;
 			}
-			else {
-	        	module.$('#gamFcltyCtrtMngDetailForm :input').val('');
-				alert(result.resultMsg);
+		} else {
+			if (day >= 1 && day <= 9) {
+				sourceDateString = year + "-" + month + "-" + "0" + day;
+			} else {
+				sourceDateString = year + "-" + month + "-" + day;
+			}
+		}
+	}
+	var sourceDate = EMD.util.strToDate(sourceDateString);
+	var dayOfMonth = sourceDate.getDate();
+	sourceDate.setDate(dayOfMonth + addDays);
+	year = sourceDate.getFullYear();
+	month = sourceDate.getMonth() + 1;
+	day = sourceDate.getDate();
+	if (month >= 1 && month <= 9) {
+		if (day >= 1 && day <= 9) {
+			newDateString = year + "-" + "0" + month + "-" + "0" + day;
+		} else {
+			newDateString = year + "-" + "0" + month + "-" + day;
+		}
+	} else {
+		if (day >= 1 && day <= 9) {
+			newDateString = year + "-" + month + "-" + "0" + day;
+		} else {
+			newDateString = year + "-" + month + "-" + day;
+		}
+	}
+	return newDateString;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidYear
+ * @DESCRIPTION   : YEAR STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. yearString - YEAR STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltyCtrtMngModule.prototype.isValidYear = function(yearString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (yearString == "") {
+			return false;
+		}
+	} else {
+		if (yearString == "") {
+			return true;
+		}
+	}
+	var year = Number(yearString);
+	if (year > 9999 || year < 1900) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidDate
+ * @DESCRIPTION   : DATE STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. dateString - DATE STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltyCtrtMngModule.prototype.isValidDate = function(dateString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (dateString == "") {
+			return false;
+		}
+	} else {
+		if (dateString == "") {
+			return true;
+		}
+	}
+	var year = Number(dateString.substring(0,4));
+	var month = Number(dateString.substring(5,7));
+	var day = Number(dateString.substring(8,10));
+	if (year > 9999 || year < 1900) {
+		return false;
+	}
+	if (month > 12 || month < 1) {
+		return false;
+	}
+	if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+		if (day > 31 || day < 1) {
+			return false;
+		}
+	} else if (month == 4 || month == 6 || month == 9 || month == 11) {
+		if (day > 30 || day < 1) {
+			return false;
+		}
+	} else if (month == 2) {
+		if (day > 29 || day < 1) {
+			return false;
+		}
+	} else {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidAmount
+ * @DESCRIPTION   : AMOUNT에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. amountValue - AMOUNT VALUE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.isValidAmount = function(amountValue) {
+
+	if (amountValue > 9999999999999999 || amountValue < 0) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidRate
+ * @DESCRIPTION   : RATE에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. rateValue - RATE VALUE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.isValidRate = function(rateValue) {
+
+	if (rateValue > 1 || rateValue < 0) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidDateFromTo
+ * @DESCRIPTION   : 기간 DATE STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. startDateString - START DATE STRING
+ *   2. endDateString - END DATE STRING
+ *   3. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltyCtrtMngModule.prototype.isValidDateFromTo = function(startDateString, endDateString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (startDateString == "" || endDateString == "") {
+			return false;
+		}
+	} else {
+		if (startDateString == "" && endDateString == "") {
+			return true;
+		}
+	}
+	var startDate = Number(startDateString.replace(/-/gi, ""));
+	var endDate = Number(endDateString.replace(/-/gi, ""));
+	if (startDate > endDate) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : onClosePopup
+ * @DESCRIPTION   : CLOSE POPUP EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+ *   2. msg      - MESSAGE
+ *   3. value    - VALUE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.onClosePopup = function(popupId, msg, value) {
+
+	switch (popupId) {
+		case 'popupDataRegistEntrpsCd':
+			if (msg == 'ok') {
+				this.$('#registEntrpsCd').val(value.entrpscd);
+				this.$('#registEntrpsNm').val(value.entrpsNm);
+				this.$('#registEntrpsCd').focus();
+			}
+			break;
+		case 'popupJoinEntrpsCd':
+			if (msg == 'ok') {
+				this.$('#joinEntrpsNm').val(value.entrpsNm);
+				this.$('#joinRprsntv').val(value.rprsntvNm);
+				this.$('#joinBsnmNo').val(value.bizrno);
+				this.$('#induty').val(value.induty);
+				this.$('#joinTlphonNo').val(value.tlphonNo);
+				this.$('#joinFaxNo').val(value.fax);
+				this.$('#postNo').val(value.zip);
+				this.$('#lnmAdres').val(value.adres);
+				this.$('#roadnmAdres').val(value.adres);
+				this.$('#charger').focus();
+			}
+			break;
+		case 'popupSubEntrpsCd':
+			if (msg == 'ok') {
+				this.$('#subEntrpsNm').val(value.entrpsNm);
+				this.$('#workClass').focus();
+			}
+			break;
+		case 'popupScsbidEntrpsCd':
+			if (msg == 'ok') {
+				this.$('#scsbidEntrpsNm').val(value.entrpsNm);
+				this.$('#scsbidRprsntv').val(value.rprsntvNm);
+				this.$('#scsbidBsnmNo').val(value.bizrno);
+				this.$('#scsbidTlphonNo').val(value.tlphonNo);
+				this.$('#scsbidFaxNo').val(value.fax);
+				this.$('#scsbidRm').focus();
+			}
+			break;
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : onButtonClick
+ * @DESCRIPTION   : BUTTON CLICK EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
+GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
+
+	switch (buttonId) {
+		case 'btnAdd':
+			this._mode = 'insert';
+			this._mainKeyValue = '';
+			this.$("#mainTab").tabs("option", {active: 1});
+			break;
+		case 'btnInsert':
+			this._mode = 'insert';
+			this._mainKeyValue = '';
+			this.makeFormValues('#detailForm', {});
+			this.makeDivValues('#detailForm', {});
+			this.disableDetailInputItem();
+			this.addData();
+			break;
+	    case 'btnSave':
+	    	this.saveData();
+			break;
+		case 'btnDelete':
+			if (this._mode=="modify") {
+				this.loadDetail('listTab');
+				this.enableDetailInputItem();
+				this.deleteData();
+			}
+			break;
+		case 'btnRemove':
+			this.deleteData();
+			break;
+		case 'btnExcelDownload':
+			this.downloadExcel();
+			break;
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : onSubmit
+ * @DESCRIPTION   : (프레임워크에서 SUBMIT 이벤트 호출 시 호출 한다.)
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.onSubmit = function() {
+
+	this._mode = 'query';
+	this._mainKeyValue = '';
+	this._joinmode = 'query';
+	this._joinKeyValue = '';
+	this._joinSeq = '';
+	this._submode = 'query';
+	this._subKeyValue = '';
+	this._subSeq = '';
+	this._changemode = 'query';
+	this._changeKeyValue = '';
+	this._changeSeq = '';
+	this._pymntmode = 'query';
+	this._pymntKeyValue = '';
+	this._pymntSeq = '';
+	this._caryfwdmode = 'query';
+	this._caryFwdKeyValue = '';
+	this._caryFwdSeq = '';
+	this._scsbidmode = 'query';
+	this._scsbidKeyValue = '';
+	this._scsbidSeq = '';
+	this.loadData();
+	this.enableListButtonItem();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadData
+ * @DESCRIPTION   : DATA LOAD (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.loadData = function() {
+
+	this.$("#mainTab").tabs("option", {active: 0});
+	var searchOpt=this.makeFormArgs('#searchForm');
+	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : refreshData
+ * @DESCRIPTION   : DATA REFRESH (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
+ GamFcltyCtrtMngModule.prototype.refreshData = function() {
+
+	var searchOpt=this.makeFormArgs('#searchForm');
+	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadDetail
+ * @DESCRIPTION   : 상세항목을 로딩 한다.
+ * @PARAMETER     :
+ *   1. tabId - TAB ID
+**/
+%>
+GamFcltyCtrtMngModule.prototype.loadDetail = function(tabId) {
+
+	if (tabId == 'listTab') {
+		var row = this.$('#mainGrid').selectedRows();
+		if (row.length==0) {
+			alert('선택된 항목이 없습니다.');
+			this.$("#mainTab").tabs("option", {active: 0});
+			return;
+		}
+		this.makeFormValues('#detailForm', row[0]);
+		this.makeDivValues('#detailForm', row[0]);
+	} else if (tabId == 'detailTab') {
+		var searchVO = this.getFormValues('#detailForm');
+		this.doAction('/ctrt/gamSelectFcltyCtrtMngPk.do', searchVO, function(module, result){
+			if (result.resultCode == "0") {
+				module.makeFormValues('#detailForm', result.result);
+				module.makeDivValues('#detailForm', result.result);
 			}
 		});
 	}
+
 };
 
-//계약정보 데이터 삽입
-GamFcltyCtrtMngModule.prototype.insertData = function() {
-	var data = this.makeFormArgs("#gamFcltyCtrtMngDetailForm");
- 	this.doAction('/ctrt/insertFcltyCtrtInfo.do', data, function(module, result) {
- 		if(result.resultCode == "0"){
- 			module._cmd = "modify";
-			module.saveCtrtJoinContrList();
-			module.saveCtrtSubCtrtList();
-			module.saveCtrtChangeList();
-			module.saveCtrtMoneyPymntList();
-			module.saveCtrtFulFillCaryFwdList();
-			module.saveCtrtScsbidInfoList();
- 		}
- 		alert(result.resultMsg);
- 	});	
-};
+<%
+/**
+ * @FUNCTION NAME : selectData
+ * @DESCRIPTION   : DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.selectData = function() {
 
-//계약정보 데이터 수정
-GamFcltyCtrtMngModule.prototype.updateData = function() {
-	var data = this.makeFormArgs("#gamFcltyCtrtMngDetailForm");
-	this.doAction('/ctrt/updateFcltyCtrtInfo.do', data, function(module, result) {
-		if(result.resultCode == 0) {
-			module.saveCtrtJoinContrList();
-			module.saveCtrtSubCtrtList();
-			module.saveCtrtChangeList();
-			module.saveCtrtMoneyPymntList();
-			module.saveCtrtFulFillCaryFwdList();
-			module.saveCtrtScsbidInfoList();
+	var gridRowCount = this.$("#mainGrid").flexRowCount();
+	if (this._mode == 'query') {
+		if (gridRowCount == 0) {
+			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
-		alert(result.resultMsg);
-	});	
-};
-
-//계약정보 데이터 저장(삽입 및 수정)
-GamFcltyCtrtMngModule.prototype.saveData = function() {
-	if(this.$('#ctrtNo').val() == '') {
-		alert('계약번호를 입력하세요.');
 		return;
-	} 
-	if(this._cmd == 'insert') {
-		this.insertData();
-	} else if (this._cmd == 'modify') {
-		this.updateData();
+	} else if (this._mode != 'insert' && this._mode != 'modify') {
+		return;
 	}
+	var ctrtNo = this._mainKeyValue;
+	if (ctrtNo == "") {
+		return;
+	}
+	var mainRowNo = -1;
+	for(var i=0; i<gridRowCount; i++) {
+		var row = this.$("#mainGrid").flexGetRow(i+1);
+		if (row.ctrtNo == ctrtNo) {
+			mainRowNo = i;
+			break;
+		}
+	}
+	if (mainRowNo >= 0) {
+		this.$("#mainGrid").selectRowId(mainRowNo);
+	}
+	this._mode = 'modify';
+	this.loadDetail('detailTab');
+	this.enableDetailInputItem();
+
 };
 
-//계약정보 데이터 삭제
+<%
+/**
+ * @FUNCTION NAME : copyCtrtInfoData
+ * @DESCRIPTION   : CTRT INFO 항목을 복사한다.
+ * @PARAMETER     :
+ *   1. tabId - TAB ID
+**/
+%>
+GamFcltyCtrtMngModule.prototype.copyCtrtInfoData = function(tabId) {
+
+	var ctrtNo = this.$('#ctrtNo').val();
+	var ctrtSe = this.$('#ctrtSe').val();
+	var ctrtNm = this.$('#ctrtNm').val();
+	var ctrtDt = this.$('#ctrtDt').val();
+	var ctrtDtFrom = this.$('#ctrtDtFrom').val();
+	var ctrtDtTo = this.$('#ctrtDtTo').val();
+	var ctrtAmt = this.$('#ctrtAmt').val();
+	var ctrtMth = this.$('#ctrtMth').val();
+	var orderMthd = this.$('#orderMthd').val();
+	var causeAct = this.$('#causeAct').val();
+	if (tabId == "joinTab") {
+		this.$('#joinCtrtNo').val(ctrtNo);
+		this.$('#joinCtrtSe').val(ctrtSe);
+		this.$('#joinCtrtNm').val(ctrtNm);
+		this.$('#joinCauseAct').val(causeAct);
+		this.$('#joinOrderMthd').val(orderMthd);
+		this.$('#joinCtrtMth').val(ctrtMth);
+		this.$('#joinCtrtDt').val(ctrtDt);
+		this.$('#joinCtrtAmt').val(ctrtAmt);
+		this.$('#joinCtrtDtFrom').val(ctrtDtFrom);
+		this.$('#joinCtrtDtTo').val(ctrtDtTo);
+	} else if (tabId == "subTab") {
+		this.$('#subCtrtNo').val(ctrtNo);
+		this.$('#subCtrtSe').val(ctrtSe);
+		this.$('#subCtrtNm').val(ctrtNm);
+		this.$('#subCauseAct').val(causeAct);
+		this.$('#subOrderMthd').val(orderMthd);
+		this.$('#subCtrtMth').val(ctrtMth);
+		this.$('#subCtrtDt').val(ctrtDt);
+		this.$('#subCtrtAmt').val(ctrtAmt);
+		this.$('#subCtrtDtFrom').val(ctrtDtFrom);
+		this.$('#subCtrtDtTo').val(ctrtDtTo);
+	} else if (tabId == "changeTab") {
+		this.$('#changeCtrtNo').val(ctrtNo);
+		this.$('#changeCtrtSe').val(ctrtSe);
+		this.$('#changeCtrtNm').val(ctrtNm);
+		this.$('#changeCauseAct').val(causeAct);
+		this.$('#changeOrderMthd').val(orderMthd);
+		this.$('#changeCtrtMth').val(ctrtMth);
+		this.$('#changeCtrtDt').val(ctrtDt);
+		this.$('#changeCtrtAmt').val(ctrtAmt);
+		this.$('#changeCtrtDtFrom').val(ctrtDtFrom);
+		this.$('#changeCtrtDtTo').val(ctrtDtTo);
+	} else if (tabId == "pymntTab") {
+		this.$('#pymntCtrtNo').val(ctrtNo);
+		this.$('#pymntCtrtSe').val(ctrtSe);
+		this.$('#pymntCtrtNm').val(ctrtNm);
+		this.$('#pymntCauseAct').val(causeAct);
+		this.$('#pymntOrderMthd').val(orderMthd);
+		this.$('#pymntCtrtMth').val(ctrtMth);
+		this.$('#pymntCtrtDt').val(ctrtDt);
+		this.$('#pymntCtrtAmt').val(ctrtAmt);
+		this.$('#pymntCtrtDtFrom').val(ctrtDtFrom);
+		this.$('#pymntCtrtDtTo').val(ctrtDtTo);
+	} else if (tabId == "caryFwdTab") {
+		this.$('#caryFwdCtrtNo').val(ctrtNo);
+		this.$('#caryFwdCtrtSe').val(ctrtSe);
+		this.$('#caryFwdCtrtNm').val(ctrtNm);
+		this.$('#caryFwdCauseAct').val(causeAct);
+		this.$('#caryFwdOrderMthd').val(orderMthd);
+		this.$('#caryFwdCtrtMth').val(ctrtMth);
+		this.$('#caryFwdCtrtDt').val(ctrtDt);
+		this.$('#caryFwdCtrtAmt').val(ctrtAmt);
+		this.$('#caryFwdCtrtDtFrom').val(ctrtDtFrom);
+		this.$('#caryFwdCtrtDtTo').val(ctrtDtTo);
+	} else if (tabId == "scsbidTab") {
+		this.$('#scsbidCtrtNo').val(ctrtNo);
+		this.$('#scsbidCtrtSe').val(ctrtSe);
+		this.$('#scsbidCtrtNm').val(ctrtNm);
+		this.$('#scsbidCauseAct').val(causeAct);
+		this.$('#scsbidOrderMthd').val(orderMthd);
+		this.$('#scsbidCtrtMth').val(ctrtMth);
+		this.$('#scsbidCtrtDt').val(ctrtDt);
+		this.$('#scsbidCtrtAmt').val(ctrtAmt);
+		this.$('#scsbidCtrtDtFrom').val(ctrtDtFrom);
+		this.$('#scsbidCtrtDtTo').val(ctrtDtTo);
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadJoinDetail
+ * @DESCRIPTION   : JOIN 상세항목을 로딩 한다.
+ * @PARAMETER     :
+ *   1. tabId - TAB ID
+**/
+%>
+GamFcltyCtrtMngModule.prototype.loadJoinDetail = function(tabId) {
+console.log('loadJoinDetail');
+	if (tabId == 'listTab') {
+		this.makeFormValues('#joinForm', {});
+		this.makeDivValues('#joinForm', {});
+		this.copyCtrtInfoData('joinTab');
+		var detailOpt = this.getFormValues('#joinForm');
+		this.$('#joinGrid').flexOptions({params:detailOpt}).flexReload();
+	} else if (tabId == 'joinTab') {
+		var searchVO = this.getFormValues('#joinForm');
+		this.doAction('/ctrt/gamSelectFcltyCtrtMngJoinContrPk.do', searchVO, function(module, result){
+			if (result.resultCode == "0") {
+				module.makeFormValues('#joinForm', result.result);
+				module.makeDivValues('#joinForm', result.result);
+			}
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectJoinData
+ * @DESCRIPTION   : JOIN DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.selectJoinData = function() {
+console.log('selectJoinData');
+	var gridRowCount = this.$("#joinGrid").flexRowCount();
+	if (this._joinmode == 'query') {
+		return;
+	} else if (this._joinmode != 'insert' && this._joinmode != 'modify') {
+		return;
+	}
+	var joinCtrtNo = this._joinKeyValue;
+	var joinSeq = this._joinSeq;
+	if (joinCtrtNo == "" || joinSeq == "") {
+		return;
+	}
+	var joinRowNo = -1;
+	for(var i=0; i<gridRowCount; i++) {
+		var row = this.$("#joinGrid").flexGetRow(i+1);
+		if (row.joinCtrtNo == joinCtrtNo && row.joinSeq == joinSeq) {
+			joinRowNo = i;
+			break;
+		}
+	}
+	if (joinRowNo >= 0) {
+		this.$("#joinGrid").selectRowId(joinRowNo);
+	}
+	this._joinmode = 'modify';
+	this.loadJoinDetail('joinTab');
+	this.enableJoinDetailInputItem();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadSubDetail
+ * @DESCRIPTION   : SUB 상세항목을 로딩 한다.
+ * @PARAMETER     :
+ *   1. tabId - TAB ID
+**/
+%>
+GamFcltyCtrtMngModule.prototype.loadSubDetail = function(tabId) {
+
+	if (tabId == 'listTab') {
+		this.makeFormValues('#subForm', {});
+		this.makeDivValues('#subForm', {});
+		this.copyCtrtInfoData('subTab');
+		var detailOpt = this.getFormValues('#subForm');
+		this.$('#subGrid').flexOptions({params:detailOpt}).flexReload();
+	} else if (tabId == 'subTab') {
+		var searchVO = this.getFormValues('#subForm');
+		this.doAction('/ctrt/gamSelectFcltyCtrtMngSubctrtPk.do', searchVO, function(module, result){
+			if (result.resultCode == "0") {
+				module.makeFormValues('#subForm', result.result);
+				module.makeDivValues('#subForm', result.result);
+			}
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectSubData
+ * @DESCRIPTION   : SUB DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.selectSubData = function() {
+
+	var gridRowCount = this.$("#subGrid").flexRowCount();
+	if (this._submode == 'query') {
+		return;
+	} else if (this._submode != 'insert' && this._submode != 'modify') {
+		return;
+	}
+	var subCtrtNo = this._subKeyValue;
+	var subSeq = this._subSeq;
+	if (subCtrtNo == "" || subSeq == "") {
+		return;
+	}
+	var subRowNo = -1;
+	for(var i=0; i<gridRowCount; i++) {
+		var row = this.$("#subGrid").flexGetRow(i+1);
+		if (row.subCtrtNo == subCtrtNo && row.subSeq == subSeq) {
+			subRowNo = i;
+			break;
+		}
+	}
+	if (subRowNo >= 0) {
+		this.$("#subGrid").selectRowId(subRowNo);
+	}
+	this._submode = 'modify';
+	this.loadSubDetail('subTab');
+	this.enableSubDetailInputItem();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadChangeDetail
+ * @DESCRIPTION   : CHANGE 상세항목을 로딩 한다.
+ * @PARAMETER     :
+ *   1. tabId - TAB ID
+**/
+%>
+GamFcltyCtrtMngModule.prototype.loadChangeDetail = function(tabId) {
+
+	if (tabId == 'listTab') {
+		this.makeFormValues('#changeForm', {});
+		this.makeDivValues('#changeForm', {});
+		this.copyCtrtInfoData('changeTab');
+		var detailOpt = this.getFormValues('#changeForm');
+		this.$('#changeGrid').flexOptions({params:detailOpt}).flexReload();
+	} else if (tabId == 'changeTab') {
+		var searchVO = this.getFormValues('#changeForm');
+		this.doAction('/ctrt/gamSelectFcltyCtrtMngChangePk.do', searchVO, function(module, result){
+			if (result.resultCode == "0") {
+				module.makeFormValues('#changeForm', result.result);
+				module.makeDivValues('#changeForm', result.result);
+			}
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectChangeData
+ * @DESCRIPTION   : CHANGE DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.selectChangeData = function() {
+
+	var gridRowCount = this.$("#changeGrid").flexRowCount();
+	if (this._changemode == 'query') {
+		return;
+	} else if (this._changemode != 'insert' && this._changemode != 'modify') {
+		return;
+	}
+	var changeCtrtNo = this._changeKeyValue;
+	var changeSeq = this._changeSeq;
+	if (changeCtrtNo == "" || changeSeq == "") {
+		return;
+	}
+	var changeRowNo = -1;
+	for(var i=0; i<gridRowCount; i++) {
+		var row = this.$("#changeGrid").flexGetRow(i+1);
+		if (row.changeCtrtNo == changeCtrtNo && row.changeSeq == changeSeq) {
+			changeRowNo = i;
+			break;
+		}
+	}
+	if (changeRowNo >= 0) {
+		this.$("#changeGrid").selectRowId(changeRowNo);
+	}
+	this._changemode = 'modify';
+	this.loadChangeDetail('changeTab');
+	this.enableChangeDetailInputItem();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadPymntDetail
+ * @DESCRIPTION   : PYMNT 상세항목을 로딩 한다.
+ * @PARAMETER     :
+ *   1. tabId - TAB ID
+**/
+%>
+GamFcltyCtrtMngModule.prototype.loadPymntDetail = function(tabId) {
+
+	if (tabId == 'listTab') {
+		this.makeFormValues('#pymntForm', {});
+		this.makeDivValues('#pymntForm', {});
+		this.copyCtrtInfoData('pymntTab');
+		var detailOpt = this.getFormValues('#pymntForm');
+		this.$('#pymntGrid').flexOptions({params:detailOpt}).flexReload();
+	} else if (tabId == 'pymntTab') {
+		var searchVO = this.getFormValues('#pymntForm');
+		this.doAction('/ctrt/gamSelectFcltyCtrtMngMoneyPymntPk.do', searchVO, function(module, result){
+			if (result.resultCode == "0") {
+				module.makeFormValues('#pymntForm', result.result);
+				module.makeDivValues('#pymntForm', result.result);
+			}
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectPymntData
+ * @DESCRIPTION   : PYMNT DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.selectPymntData = function() {
+
+	var gridRowCount = this.$("#pymntGrid").flexRowCount();
+	if (this._pymntmode == 'query') {
+		return;
+	} else if (this._pymntmode != 'insert' && this._pymntmode != 'modify') {
+		return;
+	}
+	var pymntCtrtNo = this._pymntKeyValue;
+	var pymntSeq = this._pymntSeq;
+	if (pymntCtrtNo == "" || pymntSeq == "") {
+		return;
+	}
+	var pymntRowNo = -1;
+	for(var i=0; i<gridRowCount; i++) {
+		var row = this.$("#pymntGrid").flexGetRow(i+1);
+		if (row.pymntCtrtNo == pymntCtrtNo && row.pymntSeq == pymntSeq) {
+			pymntRowNo = i;
+			break;
+		}
+	}
+	if (pymntRowNo >= 0) {
+		this.$("#pymntGrid").selectRowId(pymntRowNo);
+	}
+	this._pymntmode = 'modify';
+	this.loadPymntDetail('pymntTab');
+	this.enablePymntDetailInputItem();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadCaryFwdDetail
+ * @DESCRIPTION   : CARYFWD 상세항목을 로딩 한다.
+ * @PARAMETER     :
+ *   1. tabId - TAB ID
+**/
+%>
+GamFcltyCtrtMngModule.prototype.loadCaryFwdDetail = function(tabId) {
+
+	if (tabId == 'listTab') {
+		this.makeFormValues('#caryFwdForm', {});
+		this.makeDivValues('#caryFwdForm', {});
+		this.copyCtrtInfoData('caryFwdTab');
+		var detailOpt = this.getFormValues('#caryFwdForm');
+		this.$('#caryFwdGrid').flexOptions({params:detailOpt}).flexReload();
+	} else if (tabId == 'caryFwdTab') {
+		var searchVO = this.getFormValues('#caryFwdForm');
+		this.doAction('/ctrt/gamSelectFcltyCtrtMngFulfillCaryFwdPk.do', searchVO, function(module, result){
+			if (result.resultCode == "0") {
+				module.makeFormValues('#caryFwdForm', result.result);
+				module.makeDivValues('#caryFwdForm', result.result);
+			}
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectCaryFwdData
+ * @DESCRIPTION   : CARYFWD DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.selectCaryFwdData = function() {
+
+	var gridRowCount = this.$("#caryFwdGrid").flexRowCount();
+	if (this._caryfwdmode == 'query') {
+		return;
+	} else if (this._caryfwdmode != 'insert' && this._caryfwdmode != 'modify') {
+		return;
+	}
+	var caryFwdCtrtNo = this._caryFwdKeyValue;
+	var caryFwdSeq = this._caryFwdSeq;
+	if (caryFwdCtrtNo == "" || caryFwdSeq == "") {
+		return;
+	}
+	var caryFwdRowNo = -1;
+	for(var i=0; i<gridRowCount; i++) {
+		var row = this.$("#caryFwdGrid").flexGetRow(i+1);
+		if (row.caryFwdCtrtNo == caryFwdCtrtNo && row.caryFwdSeq == caryFwdSeq) {
+			caryFwdRowNo = i;
+			break;
+		}
+	}
+	if (caryFwdRowNo >= 0) {
+		this.$("#caryFwdGrid").selectRowId(caryFwdRowNo);
+	}
+	this._caryFwdmode = 'modify';
+	this.loadCaryFwdDetail('caryFwdTab');
+	this.enableCaryFwdDetailInputItem();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadScsbidDetail
+ * @DESCRIPTION   : SCSBID 상세항목을 로딩 한다.
+ * @PARAMETER     :
+ *   1. tabId - TAB ID
+**/
+%>
+GamFcltyCtrtMngModule.prototype.loadScsbidDetail = function(tabId) {
+
+	if (tabId == 'listTab') {
+		this.makeFormValues('#scsbidForm', {});
+		this.makeDivValues('#scsbidForm', {});
+		this.copyCtrtInfoData('scsbidTab');
+		var detailOpt = this.getFormValues('#scsbidForm');
+		this.$('#scsbidGrid').flexOptions({params:detailOpt}).flexReload();
+	} else if (tabId == 'scsbidTab') {
+		var searchVO = this.getFormValues('#scsbidForm');
+		this.doAction('/ctrt/gamSelectFcltyCtrtMngScsbidInfoPk.do', searchVO, function(module, result){
+			if (result.resultCode == "0") {
+				module.makeFormValues('#scsbidForm', result.result);
+				module.makeDivValues('#scsbidForm', result.result);
+			}
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectScsbidData
+ * @DESCRIPTION   : SCSBID DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.selectScsbidData = function() {
+
+	var gridRowCount = this.$("#scsbidGrid").flexRowCount();
+	if (this._scsbidmode == 'query') {
+		return;
+	} else if (this._scsbidmode != 'insert' && this._scsbidmode != 'modify') {
+		return;
+	}
+	var scsbidCtrtNo = this._scsbidKeyValue;
+	var scsbidSeq = this._scsbidSeq;
+	if (scsbidCtrtNo == "" || scsbidSeq == "") {
+		return;
+	}
+	var scsbidRowNo = -1;
+	for(var i=0; i<gridRowCount; i++) {
+		var row = this.$("#scsbidGrid").flexGetRow(i+1);
+		if (row.scsbidCtrtNo == scsbidCtrtNo && row.scsbidSeq == scsbidSeq) {
+			scsbidRowNo = i;
+			break;
+		}
+	}
+	if (scsbidRowNo >= 0) {
+		this.$("#scsbidGrid").selectRowId(scsbidRowNo);
+	}
+	this._scsbidmode = 'modify';
+	this.loadScsbidDetail('scsbidTab');
+	this.enableScsbidDetailInputItem();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : getNewCtrtNo
+ * @DESCRIPTION   : 새로운 CTRT NO.를 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.getNewCtrtNo = function() {
+
+	var searchVO = this.makeFormArgs("#detailForm");
+	var ctrtDt = this.$('#ctrtDt').val();
+	if (ctrtDt == "") {
+		return;
+	}
+	this.doAction('/ctrt/gamSelectFcltyCtrtMngNewCtrtNo.do', searchVO, function(module, result) {
+		if (result.resultCode == "0") {
+			module.$('#ctrtNo').val(result.sNewCtrtNo);
+		}
+	});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : getNewJoinSeq
+ * @DESCRIPTION   : 새로운 JOIN 순번을 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.getNewJoinSeq = function() {
+
+	var searchVO = this.makeFormArgs("#joinForm");
+	var joinCtrtNo = this.$('#joinCtrtNo').val();
+	if (joinCtrtNo == "") {
+		return;
+	}
+	this.doAction('/ctrt/gamSelectFcltyCtrtMngJoinContrMaxSeq.do', searchVO, function(module, result) {
+		if (result.resultCode == "0") {
+			module.$('#joinSeq').val(result.sMaxSeq);
+		}
+	});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : getNewSubSeq
+ * @DESCRIPTION   : 새로운 SUB 순번을 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.getNewSubSeq = function() {
+
+	var searchVO = this.makeFormArgs("#subForm");
+	var subCtrtNo = this.$('#subCtrtNo').val();
+	if (subCtrtNo == "") {
+		return;
+	}
+	this.doAction('/ctrt/gamSelectFcltyCtrtMngSubctrtMaxSeq.do', searchVO, function(module, result) {
+		if (result.resultCode == "0") {
+			module.$('#subSeq').val(result.sMaxSeq);
+		}
+	});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : getNewChangeSeq
+ * @DESCRIPTION   : 새로운 CHANGE 순번을 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.getNewChangeSeq = function() {
+
+	var searchVO = this.makeFormArgs("#changeForm");
+	var changeCtrtNo = this.$('#changeCtrtNo').val();
+	if (changeCtrtNo == "") {
+		return;
+	}
+	this.doAction('/ctrt/gamSelectFcltyCtrtMngChangeMaxSeq.do', searchVO, function(module, result) {
+		if (result.resultCode == "0") {
+			module.$('#changeSeq').val(result.sMaxSeq);
+		}
+	});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : getNewPymntSeq
+ * @DESCRIPTION   : 새로운 PYMNT 순번을 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.getNewPymntSeq = function() {
+
+	var searchVO = this.makeFormArgs("#pymntForm");
+	var pymntCtrtNo = this.$('#pymntCtrtNo').val();
+	if (pymntCtrtNo == "") {
+		return;
+	}
+	this.doAction('/ctrt/gamSelectFcltyCtrtMngMoneyPymntMaxSeq.do', searchVO, function(module, result) {
+		if (result.resultCode == "0") {
+			module.$('#pymntSeq').val(result.sMaxSeq);
+		}
+	});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : getNewCaryFwdSeq
+ * @DESCRIPTION   : 새로운 CARYFWD 순번을 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.getNewCaryFwdSeq = function() {
+
+	var searchVO = this.makeFormArgs("#caryFwdForm");
+	var caryFwdCtrtNo = this.$('#caryFwdCtrtNo').val();
+	if (caryFwdCtrtNo == "") {
+		return;
+	}
+	this.doAction('/ctrt/gamSelectFcltyCtrtMngFulfillCaryFwdMaxSeq.do', searchVO, function(module, result) {
+		if (result.resultCode == "0") {
+			module.$('#caryFwdSeq').val(result.sMaxSeq);
+		}
+	});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : getNewScsbidSeq
+ * @DESCRIPTION   : 새로운 SCSBID 순번을 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.getNewScsbidSeq = function() {
+
+	var searchVO = this.makeFormArgs("#scsbidForm");
+	var scsbidCtrtNo = this.$('#scsbidCtrtNo').val();
+	if (scsbidCtrtNo == "") {
+		return;
+	}
+	this.doAction('/ctrt/gamSelectFcltyCtrtMngScsbidInfoMaxSeq.do', searchVO, function(module, result) {
+		if (result.resultCode == "0") {
+			module.$('#scsbidSeq').val(result.sMaxSeq);
+		}
+	});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : addData
+ * @DESCRIPTION   : 항목을 추가한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.addData = function() {
+
+	this.$('#ctrtNo').val("");
+	this.$('#ctrtSe').val("1");
+	this.$('#ctrtNm').val("");
+	this.$('#causeAct').val("");
+	this.$('#baseAmt').val("0");
+	this.$('#planAmt').val("0");
+	this.$('#orderMthd').val("");
+	this.$('#ctrtMth').val("");
+	this.$('#prcuPblancNo').val("");
+	this.$('#bidPblancNo').val("");
+	this.$('#bidPblancDt').val("");
+	this.$('#bidDt').val("");
+	this.$('#bidMth').val("");
+	this.$('#registEntrpsCd').val("");
+	this.$('#registEntrpsNm').val("");
+	this.$('#scsbider').val("");
+	this.$('#scsbidAmt').val("0");
+	this.$('#scsbidRate').val("0.00000");
+	this.$('#ctrtDt').val(this.getToDayString());
+	this.$('#ctrtGrntyAmt').val("0");
+	this.$('#ctrtGrntyMth').val("");
+	this.$('#ctrtAmt').val("0");
+	this.$('#ctrtDtFrom').val(this.getToDayString());
+	this.$('#ctrtDtTo').val(this.addDateString("", 365));
+	this.$('#ctrtExamDt').val("");
+	this.$('#prmtAmt').val("0");
+	this.$('#flawDtFrom').val("");
+	this.$('#flawDtTo').val("");
+	this.$('#sldrtGrnty').val("");
+	this.$('#intendant1').val("");
+	this.$('#intendant2').val("");
+	this.$('#intendant3').val("");
+	this.$('#jobChrgDeptCd').val("");
+	this.$('#jobChrgDeptNm').val("");
+	this.$('#caryFwdBdgtAmt').val("0");
+	this.$('#siteDesc').val("");
+	this.$('#cnstCstmrNm').val("");
+	this.$('#confmDt').val("");
+	this.$('#confmerCd').val("");
+	this.enableDetailInputItem();
+	this.$('#ctrtSe').focus();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : saveData
+ * @DESCRIPTION   : 항목을 저장한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.saveData = function() {
+
+	var inputVO = this.makeFormArgs("#detailForm");
+	var ctrtNo = this.$('#ctrtNo').val();
+	var ctrtSe = this.$('#ctrtSe').val();
+	var ctrtNm = this.$('#ctrtNm').val();
+	var ctrtDt = this.$('#ctrtDt').val();
+	var ctrtDtFrom = this.$('#ctrtDtFrom').val();
+	var ctrtDtTo = this.$('#ctrtDtTo').val();
+	var bidPblancDt = this.$('#bidPblancDt').val();
+	var bidDt = this.$('#bidDt').val();
+	var ctrtExamDt = this.$('#ctrtExamDt').val();
+	var flawDtFrom = this.$('#flawDtFrom').val();
+	var flawDtTo = this.$('#flawDtTo').val();
+	var baseAmt = Number(this.$('#baseAmt').val().replace(/,/gi, ""));
+	var planAmt = Number(this.$('#planAmt').val().replace(/,/gi, ""));
+	var scsbidAmt = Number(this.$('#scsbidAmt').val().replace(/,/gi, ""));
+	var scsbidRate = Number(this.$('#scsbidRate').val().replace(/,/gi, ""));
+	var ctrtGrntyAmt = Number(this.$('#ctrtGrntyAmt').val().replace(/,/gi, ""));
+	var ctrtAmt = Number(this.$('#ctrtAmt').val().replace(/,/gi, ""));
+	var prmtAmt = Number(this.$('#prmtAmt').val().replace(/,/gi, ""));
+	var caryFwdBdgtAmt = Number(this.$('#caryFwdBdgtAmt').val().replace(/,/gi, ""));
+	if (ctrtNo == "") {
+		alert('계약 번호가 부정확합니다.');
+		this.$("#ctrtNo").focus();
+		return;
+	}
+	if (ctrtSe != "1" && ctrtSe != "2" && ctrtSe != "3") {
+		alert('계약 구분이 부정확합니다.');
+		this.$("#ctrtSe").focus();
+		return;
+	}
+	if (ctrtNm == "") {
+		alert('계약 명이 부정확합니다.');
+		this.$("#ctrtNo").focus();
+		return;
+	}
+	if (isValidDate(ctrtDt, true) == false) {
+		alert('계약 일자가 부정확합니다.');
+		this.$("#ctrtDt").focus();
+		return;
+	}
+	if (isValidDate(ctrtDtFrom, true) == false) {
+		alert('계약 시작 일자가 부정확합니다.');
+		this.$("#ctrtDtFrom").focus();
+		return;
+	}
+	if (isValidDate(ctrtDtTo, true) == false) {
+		alert('계약 종료 일자가 부정확합니다.');
+		this.$("#ctrtDtTo").focus();
+		return;
+	}
+	if (isValidDateFromTo(ctrtDtFrom, ctrtDtTo, true) == false) {
+		alert('계약 기간이 부정확합니다.');
+		this.$("#ctrtDtTo").focus();
+		return;
+	}
+	if (isValidDate(bidPblancDt, false) == false) {
+		alert('입찰 공고 일자가 부정확합니다.');
+		this.$("#bidPblancDt").focus();
+		return;
+	}
+	if (isValidDate(bidDt, false) == false) {
+		alert('입찰 일자가 부정확합니다.');
+		this.$("#bidPblancDt").focus();
+		return;
+	}
+	if (isValidDate(ctrtExamDt, false) == false) {
+		alert('계약 검사 일자가 부정확합니다.');
+		this.$("#ctrtExamDt").focus();
+		return;
+	}
+	if (isValidDate(flawDtFrom, false) == false) {
+		alert('하자 시작 일자가 부정확합니다.');
+		this.$("#flawDtFrom").focus();
+		return;
+	}
+	if (isValidDate(flawDtTo, false) == false) {
+		alert('하자 종료 일자가 부정확합니다.');
+		this.$("#flawDtTo").focus();
+		return;
+	}
+	if (isValidDateFromTo(flawDtFrom, flawDtTo, false) == false) {
+		alert('하자 기간이 부정확합니다.');
+		this.$("#flawDtTo").focus();
+		return;
+	}
+	if (isValidAmount(baseAmt) == false) {
+		alert('기초 금액이 부정확합니다.');
+		this.$("#baseAmt").focus();
+		return;
+	}
+	if (isValidAmount(planAmt) == false) {
+		alert('설계 금액이 부정확합니다.');
+		this.$("#planAmt").focus();
+		return;
+	}
+	if (isValidAmount(scsbidAmt) == false) {
+		alert('낙찰 금액이 부정확합니다.');
+		this.$("#scsbidAmt").focus();
+		return;
+	}
+	if (isValidAmount(scsbidRate) == false) {
+		alert('낙찰 율이 부정확합니다.');
+		this.$("#scsbidRate").focus();
+		return;
+	}
+	if (isValidAmount(ctrtGrntyAmt) == false) {
+		alert('계약 보증 금액이 부정확합니다.');
+		this.$("#ctrtGrntyAmt").focus();
+		return;
+	}
+	if (isValidAmount(ctrtAmt) == false) {
+		alert('계약 금액이 부정확합니다.');
+		this.$("#ctrtAmt").focus();
+		return;
+	}
+	if (isValidAmount(prmtAmt) == false) {
+		alert('예정 금액이 부정확합니다.');
+		this.$("#prmtAmt").focus();
+		return;
+	}
+	if (isValidAmount(caryFwdBdgtAmt) == false) {
+		alert('이월 예산 금액이 부정확합니다.');
+		this.$("#caryFwdBdgtAmt").focus();
+		return;
+	}
+	if (this._mode == "insert") {
+		this._mainKeyValue = ctrtNo;
+		this.doAction('/ctrt/gamInsertFcltyCtrtMng.do', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.refreshData();
+			}
+			alert(result.resultMsg);
+		});
+	} else {
+		this.doAction('/ctrt/gamUpdateFcltyCtrtMng.do', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.refreshData();
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : deleteData
+ * @DESCRIPTION   : 항목을 삭제한다.
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyCtrtMngModule.prototype.deleteData = function() {
-	if(confirm("계약정보를 삭제하시겠습니까?")) {
-		var rows = this.$("#fcltyCtrtMngList").selectedRows();
-		if(rows.length <= 0){
-			alert("삭제할 계약정보를 선택하십시오.");
+
+	var ctrtNo = this.$('#ctrtNo').val();
+	if (ctrtNo == "") {
+		alert('계약 번호가 부정확합니다.');
+		this.$("#ctrtNo").focus();
+		return;
+	}
+	if (confirm("삭제하시겠습니까?\r\n(공동 도급, 하도급, 변경, 대금 지급, 이행 이월, 낙찰 정보도 모두 삭제됩니다)")) {
+		var deleteVO = this.makeFormArgs("#detailForm");
+		this.doAction('/ctrt/gamDeleteFcltyCtrtMng.do', deleteVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module._mode = 'query';
+				module._mainKeyValue = '';
+				module.loadData();
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : addJoinData
+ * @DESCRIPTION   : JOIN 항목을 추가한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.addJoinData = function() {
+
+	this.$('#joinCtrtNo').val(this.$('#ctrtNo').val());
+	this.$('#joinSeq').val("001");
+	this.$('#qotaRate').val("1");
+	this.$('#joinEntrpsNm').val("");
+	this.$('#joinRprsntv').val("");
+	this.$('#dealRelate').val("1");
+	this.$('#joinBsnmNo').val("");
+	this.$('#induty').val("");
+	this.$('#stplPrdlst').val("");
+	this.$('#joinTlphonNo').val("");
+	this.$('#joinFaxNo').val("");
+	this.$('#charger').val("");
+	this.$('#chargerOfcPos').val("");
+	this.$('#chargerMoblphonNo').val("");
+	this.$('#chargerEmail').val("");
+	this.$('#postNo').val("");
+	this.$('#lnmAdres').val("");
+	this.$('#roadnmAdres').val("");
+	this.enableJoinDetailInputItem();
+	this.$('#joinEntrpsNm').focus();
+	this.getNewJoinSeq();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : saveJoinData
+ * @DESCRIPTION   : JOIN 항목을 저장한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.saveJoinData = function() {
+
+	var inputVO = this.makeFormArgs("#joinForm");
+	var joinCtrtNo = this.$('#joinCtrtNo').val();
+	var joinSeq = this.$('#joinSeq').val();
+	var dealRelate = this.$('#dealRelate').val();
+	var joinEntrpsNm = this.$('#joinEntrpsNm').val();
+	var joinRprsntv = this.$('#joinRprsntv').val();
+	var joinTlphonNo = this.$('#joinTlphonNo').val();
+	var qotaRate = Number(this.$('#qotaRate').val().replace(/,/gi, ""));
+	if (joinCtrtNo == "") {
+		alert('계약 번호가 부정확합니다.');
+		return;
+	}
+	if (joinSeq == "") {
+		alert('순번이 부정확합니다.');
+		return;
+	}
+	if (dealRelate != "1" && dealRelate != "2" && dealRelate != "3") {
+		alert('거래 관계가 부정확합니다.');
+		this.$("#dealRelate").focus();
+		return;
+	}
+	if (joinEntrpsNm == "") {
+		alert('업체 명이 부정확합니다.');
+		this.$("#joinEntrpsNm").focus();
+		return;
+	}
+	if (joinRprsntv == "") {
+		alert('대표자가 부정확합니다.');
+		this.$("#joinRprsntv").focus();
+		return;
+	}
+	if (joinTlphonNo == "") {
+		alert('전화 번호가 부정확합니다.');
+		this.$("#joinTlphonNo").focus();
+		return;
+	}
+	if (isValidAmount(qotaRate) == false) {
+		alert('지분 율이 부정확합니다.');
+		this.$("#qotaRate").focus();
+		return;
+	}
+	if (this._joinmode == "insert") {
+		this._joinKeyValue = joinCtrtNo;
+		this._joinSeq = joinSeq;
+		this.doAction('/ctrt/gamInsertFcltyCtrtMngJoinContr.do', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.refreshJoinData();
+			}
+			alert(result.resultMsg);
+		});
+	} else {
+		this.doAction('/ctrt/gamUpdateFcltyCtrtMngJoinContr.do', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.refreshJoinData();
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : deleteJoinData
+ * @DESCRIPTION   : JOIN 항목을 삭제한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.deleteJoinData = function() {
+
+	var joinCtrtNo = this.$('#joinCtrtNo').val();
+	var joinSeq = this.$('#joinSeq').val();
+	if (joinCtrtNo == "") {
+		alert('계약 번호가 부정확합니다.');
+		return;
+	}
+	if (joinSeq == "") {
+		alert('순번이 부정확합니다.');
+		return;
+	}
+	if (confirm("삭제하시겠습니까?")) {
+		var deleteVO = this.makeFormArgs("#joinForm");
+		this.doAction('/ctrt/gamDeleteFcltyCtrtMngJoinContr.do', deleteVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module._joinmode = 'query';
+				module._joinKeyValue = '';
+				module._joinSeq = '';
+				module.loadJoinData();
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : addSubData
+ * @DESCRIPTION   : SUB 항목을 추가한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.addSubData = function() {
+
+	this.$('#subCtrtNo').val(this.$('#ctrtNo').val());
+	this.$('#subSeq').val("001");
+	this.$('#subEntrpsNm').val("");
+	this.$('#workClass').val("");
+	this.$('#moneyPymntAgree').val("10");
+	this.$('#subctrtRate').val("0");
+	this.$('#orginlContrAmt').val("0");
+	this.$('#subctrtCtrtAmt').val("0");
+	this.$('#subCtrtDtFrom').val(this.$('#ctrtDtFrom').val());
+	this.$('#subCtrtDtTo').val(this.$('#ctrtDtTo').val());
+	this.enableSubDetailInputItem();
+	this.$('#subEntrpsNm').focus();
+	this.getNewSubSeq();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : saveSubData
+ * @DESCRIPTION   : SUB 항목을 저장한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.saveSubData = function() {
+
+	var inputVO = this.makeFormArgs("#subForm");
+	var subCtrtNo = this.$('#subCtrtNo').val();
+	var subSeq = this.$('#subSeq').val();
+	var subEntrpsNm = this.$('#subEntrpsNm').val();
+	var moneyPymntAgree = this.$('#moneyPymntAgree').val();
+	var subctrtRate = Number(this.$('#subctrtRate').val().replace(/,/gi, ""));
+	var orginlContrAmt = Number(this.$('#orginlContrAmt').val().replace(/,/gi, ""));
+	var subctrtCtrtAmt = Number(this.$('#subctrtCtrtAmt').val().replace(/,/gi, ""));
+	var subctrtCtrtDtFrom = this.$('#subctrtCtrtDtFrom').val();
+	var subctrtCtrtDtTo = this.$('#subctrtCtrtDtTo').val();
+	if (subCtrtNo == "") {
+		alert('계약 번호가 부정확합니다.');
+		return;
+	}
+	if (subSeq == "") {
+		alert('순번이 부정확합니다.');
+		return;
+	}
+	if (subEntrpsNm == "") {
+		alert('업체 명이 부정확합니다.');
+		this.$("#subEntrpsNm").focus();
+		return;
+	}
+	if (moneyPymntAgree != "10" && moneyPymntAgree != "20") {
+		alert('대금 지급 합의가 부정확합니다.');
+		this.$("#moneyPymntAgree").focus();
+		return;
+	}
+	if (isValidAmount(subctrtRate) == false) {
+		alert('하도급 율이 부정확합니다.');
+		this.$("#subctrtRate").focus();
+		return;
+	}
+	if (isValidAmount(orginlContrAmt) == false) {
+		alert('원 도급 금액이 부정확합니다.');
+		this.$("#orginlContrAmt").focus();
+		return;
+	}
+	if (isValidAmount(subctrtCtrtAmt) == false) {
+		alert('하도급 금액이 부정확합니다.');
+		this.$("#subctrtCtrtAmt").focus();
+		return;
+	}
+	if (subctrtCtrtAmt > orginlContrAmt) {
+		alert('하도급 금액이 원 도급 금액보다 큽니다.');
+		this.$("#subctrtCtrtAmt").focus();
+		return;
+	}
+	if (isValidDate(subctrtCtrtDtFrom, true) == false) {
+		alert('하도급 계약 시작 일자가 부정확합니다.');
+		this.$("#subctrtCtrtDtFrom").focus();
+		return;
+	}
+	if (isValidDate(subctrtCtrtDtTo, true) == false) {
+		alert('하도급 계약 종료 일자가 부정확합니다.');
+		this.$("#subctrtCtrtDtTo").focus();
+		return;
+	}
+	if (isValidDateFromTo(subctrtCtrtDtFrom, subctrtCtrtDtTo, true) == false) {
+		alert('하도급 계약 기간이 부정확합니다.');
+		this.$("#subctrtCtrtDtTo").focus();
+		return;
+	}
+	if (this._submode == "insert") {
+		this._subKeyValue = subCtrtNo;
+		this._subSeq = subSeq;
+		this.doAction('/ctrt/gamInsertFcltyCtrtMngSubctrt.do', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.refreshSubData();
+			}
+			alert(result.resultMsg);
+		});
+	} else {
+		this.doAction('/ctrt/gamUpdateFcltyCtrtMngSubctrt.do', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.refreshSubData();
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : deleteSubData
+ * @DESCRIPTION   : SUB 항목을 삭제한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.deleteSubData = function() {
+
+	var subCtrtNo = this.$('#subCtrtNo').val();
+	var subSeq = this.$('#subSeq').val();
+	if (subCtrtNo == "") {
+		alert('계약 번호가 부정확합니다.');
+		return;
+	}
+	if (subSeq == "") {
+		alert('순번이 부정확합니다.');
+		return;
+	}
+	if (confirm("삭제하시겠습니까?")) {
+		var deleteVO = this.makeFormArgs("#subForm");
+		this.doAction('/ctrt/gamDeleteFcltyCtrtMngSubctrt.do', deleteVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module._submode = 'query';
+				module._subKeyValue = '';
+				module._subSeq = '';
+				module.loadSubData();
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : addChangeData
+ * @DESCRIPTION   : CHANGE 항목을 추가한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.addChangeData = function() {
+
+	this.$('#changeCtrtNo').val(this.$('#ctrtNo').val());
+	this.$('#changeSeq').val("001");
+	this.$('#changeSe').val("1");
+	this.$('#changeDt').val(this.getToDayString());
+	this.$('#changeRsn').val("계약기간변경");
+	this.$('#changeCtrtDtFrom').val(this.$('#ctrtDtFrom').val());
+	this.$('#changeCtrtDtTo').val(this.$('#ctrtDtTo').val());
+	this.$('#changeCtrtAmt').val("0");
+	this.$('#lastCtrtAmt').val("0");
+	this.$('#changeRm').val("");
+	this.enableDetailInputItem();
+	this.$('#changeDt').focus();
+	this.getNewChangeSeq();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : saveChangeData
+ * @DESCRIPTION   : CHANGE 항목을 저장한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.saveChangeData = function() {
+
+	var inputVO = this.makeFormArgs("#changeForm");
+	var changeCtrtNo = this.$('#changeCtrtNo').val();
+	var changeSeq = this.$('#changeSeq').val();
+	var changeSe = this.$('#changeSe').val();
+	var changeDt = this.$('#changeDt').val();
+	var changeRsn = this.$('#changeRsn').val();
+	var changeCtrtDtFrom = this.$('#changeCtrtDtFrom').val();
+	var changeCtrtDtTo = this.$('#changeCtrtDtTo').val();
+	var changeCtrtAmt = Number(this.$('#changeCtrtAmt').val().replace(/,/gi, ""));
+	var lastCtrtAmt = Number(this.$('#lastCtrtAmt').val().replace(/,/gi, ""));
+	if (changeCtrtNo == "") {
+		alert('계약 번호가 부정확합니다.');
+		return;
+	}
+	if (changeSeq == "") {
+		alert('순번이 부정확합니다.');
+		return;
+	}
+	if (changeSe != "1" && changeSe != "2" && changeSe != "9") {
+		alert('변경 구분이 부정확합니다.');
+		this.$("#changeSe").focus();
+		return;
+	}
+	if (isValidDate(changeDt, true) == false) {
+		alert('변경 일자가 부정확합니다.');
+		this.$("#changeDt").focus();
+		return;
+	}
+	if (changeRsn == "") {
+		alert('변경 사유가 부정확합니다.');
+		this.$("#changeRsn").focus();
+		return;
+	}
+	if (changeSe == "1") {
+		if (isValidDate(changeCtrtDtFrom, true) == false) {
+			alert('변경 계약 시작 일자가 부정확합니다.');
+			this.$("#changeCtrtDtFrom").focus();
 			return;
 		}
-	 	this.doAction('/ctrt/deleteFcltyCtrtInfo.do', rows[0], function(module, result) {
-	 		if(result.resultCode == "0") {
-				module._cmd = "";
-				module.initDisplay();
-	 			module.loadData();
-	 		}
-	 		alert(result.resultMsg);
-	 	});
+		if (isValidDate(changeCtrtDtTo, true) == false) {
+			alert('변경 계약 종료 일자가 부정확합니다.');
+			this.$("#changeCtrtDtTo").focus();
+			return;
+		}
+		if (isValidDateFromTo(changeCtrtDtFrom, changeCtrtDtTo, true) == false) {
+			alert('변경 계약 기간이 부정확합니다.');
+			this.$("#changeCtrtDtTo").focus();
+			return;
+		}
+	} else if (changeSe == "2") {
+		if (isValidAmount(changeCtrtAmt) == false) {
+			alert('변경 계약 금액이 부정확합니다.');
+			this.$("#changeCtrtAmt").focus();
+			return;
+		}
+		if (isValidAmount(lastCtrtAmt) == false) {
+			alert('최종 계약 금액이 부정확합니다.');
+			this.$("#lastCtrtAmt").focus();
+			return;
+		}
 	}
-};
-
-
-//계약공동도급 속성변경 이벤트 처리
-GamFcltyCtrtMngModule.prototype.ctrtJoinContrChanged = function(target) {
-	var changed=false;
-	var row={};
-	var selectRow = this.$('#fcltyCtrtJoinContrList').selectedRows();
-	if(selectRow.length > 0) {
-		row=selectRow[0];
-		if(this.$('#entrpsNm').is(target)) {
-			row['entrpsNm'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#rprsntv').is(target)) {
-			row['rprsntv'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#qotaRate').is(target)) {
-			row['qotaRate'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#induty').is(target)) {
-			row['induty'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#stplPrdlst').is(target)) {
-			row['stplPrdlst'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#bsnmNo').is(target)) {
-			row['bsnmNo'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#dealRelate').is(target)) {
-			row['dealRelate'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#tlphonNo').is(target)) {
-			row['tlphonNo'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#faxNo').is(target)) {
-			row['faxNo'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#postNo').is(target)) {
-			row['postNo'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#roadnmAdres').is(target)) {
-			row['roadnmAdres'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#lnmAdres').is(target)) {
-			row['lnmAdres'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#charger').is(target)) {
-			row['charger'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#chargerOfcPos').is(target)) {
-			row['chargerOfcPos'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#chargerMoblphonNo').is(target)) {
-			row['chargerMoblphonNo'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#chargerEmail').is(target)) {
-			row['chargerEmail'] = $(target).val();
-			changed=true;
-		}
-
-	}
-	if(changed) {
-		var rowid=this.$("#fcltyCtrtJoinContrList").selectedRowIds()[0];
-		if(row['_updtId']!='I') row['_updtId']='U';
-		this.edited=true;
-		this.$('#fcltyCtrtJoinContrList').flexUpdateRow(rowid, row);
-	}
-};
-
-//계약공동도급 추가
-GamFcltyCtrtMngModule.prototype.addCtrtJoinContrItem = function() {
-	this.$('#gamCtrtJoinContrMngtForm :input').val('');
-	this.$("#fcltyCtrtJoinContrList").flexAddRow({'_updtId': 'I', 'ctrtNo':'', 'seq':'', 'entrpsNm':'','rprsntv':'','qotaRate':'','induty':'','stplPrdlst':'','bsnmNo':'' ,'dealRelate':'','tlphonNo':'','faxNo':'','postNo':'','roadnmAdres':'','lnmAdres':'','charger':'','chargerOfcPos':'','chargerMoblphonNo':'','chargerEmail':''});
-	var allRows = this.$('#fcltyCtrtJoinContrList').flexGetData();
-	var selRowId = allRows.length - 1;
-	this.$("#fcltyCtrtJoinContrList").selectRowId(selRowId);
-};
-
-// 계약공동도급 삭제
-GamFcltyCtrtMngModule.prototype.removeCtrtJoinContrItem = function() {
-	var rows = this.$("#fcltyCtrtJoinContrList").selectedRows();
-    if(rows.length == 0){
-        alert("계약공동도급목록에서 삭제할 행을 선택하십시오.");
-        return;
-    }
-    if(this.$("#fcltyCtrtJoinContrList").selectedRowIds().length>0) {
-    	for(var i=this.$("#fcltyCtrtJoinContrList").selectedRowIds().length-1; i>=0; i--) {
-    		var row = this.$("#fcltyCtrtJoinContrList").flexGetRow(this.$("#fcltyCtrtJoinContrList").selectedRowIds()[i]);
-    		if(row._updtId == undefined || row._updtId != "I") {
-            	this._deleteCtrtJoinContrList[this._deleteCtrtJoinContrList.length] = row;
+	if (this._changemode == "insert") {
+		this._changeKeyValue = changeCtrtNo;
+		this._changeSeq = changeSeq;
+		this.doAction('/ctrt/gamInsertFcltyCtrtMngChange.do', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.refreshChangeData();
 			}
-        	this.$("#fcltyCtrtJoinContrList").flexRemoveRow(this.$("#fcltyCtrtJoinContrList").selectedRowIds()[i]);
-        	this._edited=true;
-		}
-    	alert("삭제되었습니다.");
-	}
-    this.$("#gamPopupCtrtJoinContrMngtForm :input").val("");
-};
-
-//계약공동도급 병합 저장
-GamFcltyCtrtMngModule.prototype.saveCtrtJoinContrList = function() {
-	var dataList = this.$("#fcltyCtrtJoinContrList").flexGetData();
-	for(var i=0; i<dataList.length; i++) {
-		dataList[i]["ctrtNo"] = this.$("#ctrtNo").val();
-	}
-    var inputVO=[];
-    inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltyCtrtJoinContrList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyCtrtJoinContrList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteCtrtJoinContrList) };
-    this.doAction('/ctrt/mergeFcltyCtrtJoinContr.do', inputVO, function(module, result) {
-        if(result.resultCode == 0){
-			module._deleteCtrtJoinContrList = [];				    	
-			var opts = [
-		           		{name: 'sCtrtNo', value: module.$("#ctrtNo").val() }
-			           ];
-			module.$("#fcltyCtrtJoinContrList").flexOptions({params:opts}).flexReload();
-        }
-        else {
-        	alert(result.resultMsg);
-        }
-    });	
-};
-
-//계약하도급 속성변경 이벤트 처리
-GamFcltyCtrtMngModule.prototype.ctrtSubCtrtChanged = function(target) {
-	var changed=false;
-	var row={};
-	var selectRow = this.$('#fcltyCtrtSubCtrtList').selectedRows();
-	if(selectRow.length > 0) {
-		row=selectRow[0];
-		if(this.$('#subCtrtEntrpsNm').is(target)) {
-			row['entrpsNm'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#moneyPymntAgree').is(target)) {
-			row['moneyPymntAgree'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#workClass').is(target)) {
-			row['workClass'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#subctrtRate').is(target)) {
-			row['subctrtRate'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#orginlContrAmt').is(target)) {
-			row['orginlContrAmt'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#subctrtCtrtAmt').is(target)) {
-			row['subctrtCtrtAmt'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#subCtrtDtFrom').is(target)) {
-			row['ctrtDtFrom'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#subCtrtDtTo').is(target)) {
-			row['ctrtDtTo'] = $(target).val();
-			changed=true;
-		}
-	}
-	if(changed) {
-		var rowid=this.$("#fcltyCtrtSubCtrtList").selectedRowIds()[0];
-		if(row['_updtId']!='I') row['_updtId']='U';
-		this.edited=true;
-		this.$('#fcltyCtrtSubCtrtList').flexUpdateRow(rowid, row);
-	}
-};
-
-// 계약하도급 추가
-GamFcltyCtrtMngModule.prototype.addCtrtSubCtrtItem = function() {
-	this.$('#gamCtrtSubCtrtMngtForm :input').val('');
-	this.$("#fcltyCtrtSubCtrtList").flexAddRow({'_updtId': 'I', 'ctrtNo':'', 'seq':'', 'entrpsNm':'','moneyPymntAgree':'','workClass':'','subctrtRate':'','orginlContrAmt':'','subctrtCtrtAmt':'' ,'ctrtDtFrom':'','ctrtDtTo':''});
-	var allRows = this.$('#fcltyCtrtSubCtrtList').flexGetData();
-	var selRowId = allRows.length - 1;
-	this.$("#fcltyCtrtSubCtrtList").selectRowId(selRowId);
-};
-
-// 계약하도급 삭제
-GamFcltyCtrtMngModule.prototype.removeCtrtSubCtrtItem = function() {
-	var rows = this.$("#fcltyCtrtSubCtrtList").selectedRows();
-    if(rows.length == 0){
-        alert("계약하도급목록에서 삭제할 행을 선택하십시오.");
-        return;
-    }
-    if(this.$("#fcltyCtrtSubCtrtList").selectedRowIds().length>0) {
-    	for(var i=this.$("#fcltyCtrtSubCtrtList").selectedRowIds().length-1; i>=0; i--) {
-    		var row = this.$("#fcltyCtrtSubCtrtList").flexGetRow(this.$("#fcltyCtrtSubCtrtList").selectedRowIds()[i]);
-    		if(row._updtId == undefined || row._updtId != "I") {
-            	this._deleteCtrtSubCtrtList[this._deleteCtrtSubCtrtList.length] = row;
+			alert(result.resultMsg);
+		});
+	} else {
+		this.doAction('/ctrt/gamUpdateFcltyCtrtMngChange.do', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.refreshChangeData();
 			}
-        	this.$("#fcltyCtrtSubCtrtList").flexRemoveRow(this.$("#fcltyCtrtSubCtrtList").selectedRowIds()[i]);
-        	this._edited=true;
-		}
-    	alert("삭제되었습니다.");
+			alert(result.resultMsg);
+		});
 	}
-    this.$("#gamCtrtSubCtrtMngtForm :input").val("");
+
 };
 
-//계약하도급 병합저장
-GamFcltyCtrtMngModule.prototype.saveCtrtSubCtrtList = function() {
-	var dataList = this.$("#fcltyCtrtSubCtrtList").flexGetData();
-	for(var i=0; i<dataList.length; i++) {
-		dataList[i]["ctrtNo"] = this.$("#ctrtNo").val();
-	}
-    var inputVO=[];
-    inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltyCtrtSubCtrtList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyCtrtSubCtrtList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteCtrtSubCtrtList) };
-    this.doAction('/ctrt/mergeFcltyCtrtSubCtrt.do', inputVO, function(module, result) {
-        if(result.resultCode == 0){
-			module._deleteCtrtSubCtrtList = [];				    	
-			var opts = [
-		           		{name: 'sCtrtNo', value: module.$("#ctrtNo").val() }
-			           ];
-			module.$("#fcltyCtrtSubCtrtList").flexOptions({params:opts}).flexReload();
-        }
-        else {
-        	alert(result.resultMsg);
-        }
-    });	
-};
-
-//계약변경 속성변경 이벤트 처리
-GamFcltyCtrtMngModule.prototype.ctrtChangeChanged = function(target) {
-	var changed=false;
-	var row={};
-	var selectRow = this.$('#fcltyCtrtChangeList').selectedRows();
-	if(selectRow.length > 0) {
-		row=selectRow[0];
-		if(this.$('#changeDt').is(target)) {
-			row['changeDt'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#changeRsn').is(target)) {
-			row['changeRsn'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#changeCtrtDtFrom').is(target)) {
-			row['changeCtrtDtFrom'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#changeCtrtDtTo').is(target)) {
-			row['changeCtrtDtTo'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#changeCtrtAmt').is(target)) {
-			row['changeCtrtAmt'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#lastCtrtAmt').is(target)) {
-			row['lastCtrtAmt'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#rm').is(target)) {
-			row['rm'] = $(target).val();
-			changed=true;
-		}
-	}
-	if(changed) {
-		var rowid=this.$("#fcltyCtrtChangeList").selectedRowIds()[0];
-		if(row['_updtId']!='I') row['_updtId']='U';
-		this.edited=true;
-		this.$('#fcltyCtrtChangeList').flexUpdateRow(rowid, row);
-	}
-};
-
-// 계약변경 추가
-GamFcltyCtrtMngModule.prototype.addCtrtChangeItem = function() {
-	this.$('#gamCtrtChangeMngtForm :input').val('');
-	this.$("#fcltyCtrtChangeList").flexAddRow({'_updtId': 'I', 'ctrtNo':'', 'seq':'', 'changeDt':'','changeRsn':'','changeCtrtDtFrom':'','changeCtrtDtTo':'','changeCtrtAmt':'','lastCtrtAmt':'' ,'rm':''});
-	var allRows = this.$('#fcltyCtrtChangeList').flexGetData();
-	var selRowId = allRows.length - 1;
-	this.$("#fcltyCtrtChangeList").selectRowId(selRowId);
-};
-
-// 계약변경 삭제
-GamFcltyCtrtMngModule.prototype.removeCtrtChangeItem = function() {
-	var rows = this.$("#fcltyCtrtChangeList").selectedRows();
-    if(rows.length == 0){
-        alert("계약변경목록에서 삭제할 행을 선택하십시오.");
-        return;
-    }
-    if(this.$("#fcltyCtrtChangeList").selectedRowIds().length>0) {
-    	for(var i=this.$("#fcltyCtrtChangeList").selectedRowIds().length-1; i>=0; i--) {
-    		var row = this.$("#fcltyCtrtChangeList").flexGetRow(this.$("#fcltyCtrtChangeList").selectedRowIds()[i]);
-    		if(row._updtId == undefined || row._updtId != "I") {
-            	this._deleteCtrtChangeList[this._deleteCtrtChangeList.length] = row;
-			}
-        	this.$("#fcltyCtrtChangeList").flexRemoveRow(this.$("#fcltyCtrtChangeList").selectedRowIds()[i]);
-        	this._edited=true;
-		}
-    	alert("삭제되었습니다.");
-	}
-    this.$("#gamCtrtChangeMngtForm :input").val("");
-};
-
-//계약변경 병합저장
-GamFcltyCtrtMngModule.prototype.saveCtrtChangeList = function() {
-	var dataList = this.$("#fcltyCtrtChangeList").flexGetData();
-	for(var i=0; i<dataList.length; i++) {
-		dataList[i]["ctrtNo"] = this.$("#ctrtNo").val();
-	}
-    var inputVO=[];
-    inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltyCtrtChangeList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyCtrtChangeList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteCtrtChangeList) };
-    this.doAction('/ctrt/mergeFcltyCtrtChange.do', inputVO, function(module, result) {
-        if(result.resultCode == 0){
-			module._deleteCtrtChangeList = [];				    	
-			var opts = [
-		           		{name: 'sCtrtNo', value: module.$("#ctrtNo").val() }
-			           ];
-			module.$("#fcltyCtrtChangeList").flexOptions({params:opts}).flexReload();
-        }
-        else {
-        	alert(result.resultMsg);
-        }
-    });	
-};
-
-//계약대금지급 속성변경 이벤트 처리
-GamFcltyCtrtMngModule.prototype.ctrtMoneyPymntChanged = function(target) {
-	var changed=false;
-	var row={};
-	var selectRow = this.$('#fcltyCtrtMoneyPymntList').selectedRows();
-	if(selectRow.length > 0) {
-		row=selectRow[0];
-		if(this.$('#pymntCl').is(target)) {
-			row['pymntCl'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#pymntDt').is(target)) {
-			row['pymntDt'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#thisTimeEstbAmt').is(target)) {
-			row['thisTimeEstbAmt'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#depositExcclcAmt').is(target)) {
-			row['depositExcclcAmt'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#pymntAmt').is(target)) {
-			row['pymntAmt'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#pymntAggrAmt').is(target)) {
-			row['pymntAggrAmt'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#ctrtMoneyPymntRm').is(target)) {
-			row['rm'] = $(target).val();
-			changed=true;
-		}
-	}
-	if(changed) {
-		var rowid=this.$("#fcltyCtrtMoneyPymntList").selectedRowIds()[0];
-		if(row['_updtId']!='I') row['_updtId']='U';
-		this.edited=true;
-		this.$('#fcltyCtrtMoneyPymntList').flexUpdateRow(rowid, row);
-	}
-};
-
-// 계약대금지급 추가
-GamFcltyCtrtMngModule.prototype.addCtrtMoneyPymntItem = function() {
-	this.$('#gamCtrtMoneyPymntMngtForm :input').val('');
-	this.$("#fcltyCtrtMoneyPymntList").flexAddRow({'_updtId': 'I', 'ctrtNo':'', 'seq':'', 'pymntCl':'','pymntDt':'','thisTimeEstbAmt':'','depositExcclcAmt':'','pymntAmt':'','pymntAggrAmt':'' ,'rm':''});
-	var allRows = this.$('#fcltyCtrtMoneyPymntList').flexGetData();
-	var selRowId = allRows.length - 1;
-	this.$("#fcltyCtrtMoneyPymntList").selectRowId(selRowId);
-};
-
-// 계약대금지급 삭제
-GamFcltyCtrtMngModule.prototype.removeCtrtMoneyPymntItem = function() {
-	var rows = this.$("#fcltyCtrtMoneyPymntList").selectedRows();
-    if(rows.length == 0){
-        alert("계약대금지급목록에서 삭제할 행을 선택하십시오.");
-        return;
-    }
-    if(this.$("#fcltyCtrtMoneyPymntList").selectedRowIds().length>0) {
-    	for(var i=this.$("#fcltyCtrtMoneyPymntList").selectedRowIds().length-1; i>=0; i--) {
-    		var row = this.$("#fcltyCtrtMoneyPymntList").flexGetRow(this.$("#fcltyCtrtMoneyPymntList").selectedRowIds()[i]);
-    		if(row._updtId == undefined || row._updtId != "I") {
-            	this._deleteCtrtMoneyPymntList[this._deleteCtrtMoneyPymntList.length] = row;
-			}
-        	this.$("#fcltyCtrtMoneyPymntList").flexRemoveRow(this.$("#fcltyCtrtMoneyPymntList").selectedRowIds()[i]);
-        	this._edited=true;
-		}
-    	alert("삭제되었습니다.");
-	}
-    this.$("#gamCtrtMoneyPymntMngtForm :input").val("");
-};
-
-//계약대금지급 병합저장
-GamFcltyCtrtMngModule.prototype.saveCtrtMoneyPymntList = function() {
-	var dataList = this.$("#fcltyCtrtMoneyPymntList").flexGetData();
-	for(var i=0; i<dataList.length; i++) {
-		dataList[i]["ctrtNo"] = this.$("#ctrtNo").val();
-	}
-    var inputVO=[];
-    inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltyCtrtMoneyPymntList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyCtrtMoneyPymntList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteCtrtMoneyPymntList) };
-    this.doAction('/ctrt/mergeFcltyCtrtMoneyPymnt.do', inputVO, function(module, result) {
-        if(result.resultCode == 0){
-			module._deleteCtrtMoneyPymntList = [];				    	
-			var opts = [
-		           		{name: 'sCtrtNo', value: module.$("#ctrtNo").val() }
-			           ];
-			module.$("#fcltyCtrtMoneyPymntList").flexOptions({params:opts}).flexReload();
-        }
-        else {
-        	alert(result.resultMsg);
-        }
-    });	
-};
-
-//계약이행이월 속성변경 이벤트 처리
-GamFcltyCtrtMngModule.prototype.ctrtFulFillCaryFwdChanged = function(target) {
-	var changed=false;
-	var row={};
-	var selectRow = this.$('#fcltyCtrtFulFillCaryFwdList').selectedRows();
-	if(selectRow.length > 0) {
-		row=selectRow[0];
-		if(this.$('#fulfillCaryFwdYear').is(target)) {
-			row['fulfillCaryFwdYear'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#fulfillAmt').is(target)) {
-			row['fulfillAmt'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#caryFwdAmt').is(target)) {
-			row['caryFwdAmt'] = $(target).val();
-			changed=true;
-		}
-	}
-	if(changed) {
-		var rowid=this.$("#fcltyCtrtFulFillCaryFwdList").selectedRowIds()[0];
-		if(row['_updtId']!='I') row['_updtId']='U';
-		this.edited=true;
-		this.$('#fcltyCtrtFulFillCaryFwdList').flexUpdateRow(rowid, row);
-	}
-};
-
-
-// 계약이행이월 추가
-GamFcltyCtrtMngModule.prototype.addCtrtFulFillCaryFwdItem = function() {
-	this.$('#gamCtrtFulFillCaryFwdMngtForm :input').val('');
-	this.$("#fcltyCtrtFulFillCaryFwdList").flexAddRow({'_updtId': 'I', 'ctrtNo':'', 'seq':'', 'fulfillCaryFwdYear':'','fulfillAmt':'','caryFwdAmt':''});
-	var allRows = this.$('#fcltyCtrtFulFillCaryFwdList').flexGetData();
-	var selRowId = allRows.length - 1;
-	this.$("#fcltyCtrtFulFillCaryFwdList").selectRowId(selRowId);
-};
-
-// 계약이행이월 삭제
-GamFcltyCtrtMngModule.prototype.removeCtrtFulFillCaryFwdItem = function() {
-	var rows = this.$("#fcltyCtrtFulFillCaryFwdList").selectedRows();
-    if(rows.length == 0){
-        alert("계약이행이월목록에서 삭제할 행을 선택하십시오.");
-        return;
-    }
-    if(this.$("#fcltyCtrtFulFillCaryFwdList").selectedRowIds().length>0) {
-    	for(var i=this.$("#fcltyCtrtFulFillCaryFwdList").selectedRowIds().length-1; i>=0; i--) {
-    		var row = this.$("#fcltyCtrtFulFillCaryFwdList").flexGetRow(this.$("#fcltyCtrtFulFillCaryFwdList").selectedRowIds()[i]);
-    		if(row._updtId == undefined || row._updtId != "I") {
-            	this._deleteCtrtFulFillCaryFwdList[this._deleteCtrtFulFillCaryFwdList.length] = row;
-			}
-        	this.$("#fcltyCtrtFulFillCaryFwdList").flexRemoveRow(this.$("#fcltyCtrtFulFillCaryFwdList").selectedRowIds()[i]);
-        	this._edited=true;
-		}
-    	alert("삭제되었습니다.");
-	}
-    this.$("#gamCtrtFulFillCaryFwdMngtForm :input").val("");
-};
-
-//계약이행이월 병합저장
-GamFcltyCtrtMngModule.prototype.saveCtrtFulFillCaryFwdList = function() {
-	var dataList = this.$("#fcltyCtrtFulFillCaryFwdList").flexGetData();
-	for(var i=0; i<dataList.length; i++) {
-		dataList[i]["ctrtNo"] = this.$("#ctrtNo").val();
-	}
-    var inputVO=[];
-    inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltyCtrtFulFillCaryFwdList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyCtrtFulFillCaryFwdList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteCtrtFulFillCaryFwdList) };
-    this.doAction('/ctrt/mergeFcltyCtrtFulFillCaryFwd.do', inputVO, function(module, result) {
-        if(result.resultCode == 0){
-			module._deleteCtrtFulFillCaryFwdList = [];				    	
-			var opts = [
-		           		{name: 'sCtrtNo', value: module.$("#ctrtNo").val() }
-			           ];
-			module.$("#fcltyCtrtFulFillCaryFwdList").flexOptions({params:opts}).flexReload();
-        }
-        else {
-        	alert(result.resultMsg);
-        }
-    });	
-};
-
-//계약낙찰정보 속성변경 이벤트 처리
-GamFcltyCtrtMngModule.prototype.ctrtScsbidInfoChanged = function(target) {
-	var changed=false;
-	var row={};
-	var selectRow = this.$('#fcltyCtrtScsbidInfoList').selectedRows();
-	if(selectRow.length > 0) {
-		row=selectRow[0];
-		if(this.$('#scsbidRank').is(target)) {
-			row['scsbidRank'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#scsbidEntrpsNm').is(target)) {
-			row['entrpsNm'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#scsbidRprsntv').is(target)) {
-			row['rprsntv'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#scsbidBsnmNo').is(target)) {
-			row['bsnmNo'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#scsbidTlphonNo').is(target)) {
-			row['tlphonNo'] = $(target).val();
-			changed=true;
-		}
-		if(this.$('#scsbidFaxNo').is(target)) {
-			row['faxNo'] = $(target).val();
-			changed=true;
-		}
-	}
-	if(changed) {
-		var rowid=this.$("#fcltyCtrtScsbidInfoList").selectedRowIds()[0];
-		if(row['_updtId']!='I') row['_updtId']='U';
-		this.edited=true;
-		this.$('#fcltyCtrtScsbidInfoList').flexUpdateRow(rowid, row);
-	}
-};
-
-// 계약낙찰정보 추가
-GamFcltyCtrtMngModule.prototype.addCtrtScsbidInfoItem = function() {
-	this.$('#gamCtrtScsbidInfoMngtForm :input').val('');
-	this.$("#fcltyCtrtScsbidInfoList").flexAddRow({'_updtId': 'I', 'ctrtNo':'', 'seq':'', 'scsbidRank': '', 'entrpsNm':'','rprsntv':'','bsnmNo':'' ,'tlphonNo':'','faxNo':''});
-	var allRows = this.$('#fcltyCtrtScsbidInfoList').flexGetData();
-	var selRowId = allRows.length - 1;
-	this.$("#fcltyCtrtScsbidInfoList").selectRowId(selRowId);
-};
-
-// 계약낙찰정보 삭제
-GamFcltyCtrtMngModule.prototype.removeCtrtScsbidInfoItem = function() {
-	var rows = this.$("#fcltyCtrtScsbidInfoList").selectedRows();
-    if(rows.length == 0){
-        alert("계약공동도급목록에서 삭제할 행을 선택하십시오.");
-        return;
-    }
-    if(this.$("#fcltyCtrtScsbidInfoList").selectedRowIds().length>0) {
-    	for(var i=this.$("#fcltyCtrtScsbidInfoList").selectedRowIds().length-1; i>=0; i--) {
-    		var row = this.$("#fcltyCtrtScsbidInfoList").flexGetRow(this.$("#fcltyCtrtScsbidInfoList").selectedRowIds()[i]);
-    		if(row._updtId == undefined || row._updtId != "I") {
-            	this._deleteCtrtScsbidInfoList[this._deleteCtrtScsbidInfoList.length] = row;
-			}
-        	this.$("#fcltyCtrtScsbidInfoList").flexRemoveRow(this.$("#fcltyCtrtScsbidInfoList").selectedRowIds()[i]);
-        	this._edited=true;
-		}
-    	alert("삭제되었습니다.");
-	}
-    this.$("#gamCtrtScsbidInfoMngtForm :input").val("");
-};
-
-//계약낙찰정보 병합저장
-GamFcltyCtrtMngModule.prototype.saveCtrtScsbidInfoList = function() {
-	var dataList = this.$("#fcltyCtrtScsbidInfoList").flexGetData();
-	for(var i=0; i<dataList.length; i++) {
-		dataList[i]["ctrtNo"] = this.$("#ctrtNo").val();
-	}
-    var inputVO=[];
-    inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltyCtrtScsbidInfoList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltyCtrtScsbidInfoList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteCtrtScsbidInfoList) };
-    this.doAction('/ctrt/mergeFcltyCtrtScsbidInfo.do', inputVO, function(module, result) {
-        if(result.resultCode == 0){
-			module._deleteCtrtScsbidInfoList = [];				    	
-			var opts = [
-		           		{name: 'sCtrtNo', value: module.$("#ctrtNo").val() }
-			           ];
-			module.$("#fcltyCtrtScsbidInfoList").flexOptions({params:opts}).flexReload();
-        }
-        else {
-        	alert(result.resultMsg);
-        }
-    });	
-};
-
+<%
 /**
- * 정의 된 버튼 클릭 시
- */
-GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
-	var opts = null;
-    switch(buttonId) {
-        case 'btnSearch': //조회
-        	this._cmd = "";
-        	this.initDisplay();
-        	this.loadData();
-            break;
-        case 'btnAdd': //추가
-        	this._cmd = 'insert';
-        	this.initDisplay();
-        	break;
-        case 'btnSave': //저장
-        	this.saveData();
-        	break;
-        case 'btnRemove' : //삭제
-        	this.deleteData();
-        	break;        	
-        case 'btnCtrtJoinContrAdd' : //계약공동도급 추가
-        	this.addCtrtJoinContrItem();
-        	break;
-        case 'btnCtrtJoinContrRemove' : //계약공동도급 삭제
-        	this.removeCtrtJoinContrItem();
-        	break;
-        case 'btnCtrtSubCtrtAdd' : //계약하도급 추가
-        	this.addCtrtSubCtrtItem();
-        	break;
-        case 'btnCtrtSubCtrtRemove' : //계약하도급 삭제
-        	this.removeCtrtSubCtrtItem();
-        	break;
-        case 'btnCtrtChangeAdd' : //계약변경 추가
-        	this.addCtrtChangeItem();
-        	break;
-        case 'btnCtrtChangeRemove' : //계약변경 삭제
-        	this.removeCtrtChangeItem();
-        	break;
-        case 'btnCtrtMoneyPymntAdd' : //계약대금지급 추가
-        	this.addCtrtMoneyPymntItem();
-        	break;
-        case 'btnCtrtMoneyPymntRemove' : //계약대금지급 삭제
-        	this.removeCtrtMoneyPymntItem();
-        	break;
-        case 'btnCtrtFulFillCaryFwdAdd' : //계약이행이월 추가
-        	this.addCtrtFulFillCaryFwdItem();
-        	break;
-        case 'btnCtrtFulFillCaryFwdRemove' : //계약이행이월 삭제
-        	this.removeCtrtFulFillCaryFwdItem();
-        	break;
-        case 'btnCtrtScsbidInfoAdd' : //계약낙찰정보 추가
-        	this.addCtrtScsbidInfoItem();
-        	break;
-        case 'btnCtrtScsbidInfoRemove' : //계약낙찰정보 삭제
-        	this.removeCtrtScsbidInfoItem();
-        	break;
-        case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
-            this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
-            break;
-        case 'popupEntrpsInfo2': // 업체선택 팝업을 호출한다.(계약정보관리)
-            this.doExecuteDialog('selectEntrpsInfoPopup2', '업체 선택', '/popup/showEntrpsInfo.do', opts);
-            break;
-    }
-};
+ * @FUNCTION NAME : deleteChangeData
+ * @DESCRIPTION   : CHANGE 항목을 삭제한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.deleteChangeData = function() {
 
-/**
- * 탭 변경시 실행 이벤트
- */
-GamFcltyCtrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
-	if(oldTabId == 'tabs1' && this._cmd == 'modify') {
-		this.initDisplay();
-		this.loadDetailData();
+	var changeCtrtNo = this.$('#changeCtrtNo').val();
+	var changeSeq = this.$('#changeSeq').val();
+	if (changeCtrtNo == "") {
+		alert('계약 번호가 부정확합니다.');
+		return;
 	}
-    switch(newTabId) {
-	    case 'tabs1':
-	        break;
-	    case 'tabs2':
-	    case 'tabs3':
-	    case 'tabs4':
-	    case 'tabs5':
-	    case 'tabs6':
-	    case 'tabs7':
-	    case 'tabs8':
-			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
-				this.$("#fcltyCtrtMngListTab").tabs("option", {active: 0});
-				alert('계약정보목록을 선택하시거나 추가버튼을 누르세요.');
-			} 	    	
-	        break;
-    }
+	if (changeSeq == "") {
+		alert('순번이 부정확합니다.');
+		return;
+	}
+	if (confirm("삭제하시겠습니까?")) {
+		var deleteVO = this.makeFormArgs("#changeForm");
+		this.doAction('/ctrt/gamDeleteFcltyCtrtMngChange.do', deleteVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module._changemode = 'query';
+				module._changeKeyValue = '';
+				module._changeSeq = '';
+				module.loadChangeData();
+			}
+			alert(result.resultMsg);
+		});
+	}
+
 };
 
-//팝업이 종료 될때 리턴 값이 오출 된다.
-//popupId : 팝업 대화상자 아이디
-//msg : 팝업에서 전송한 메시지 (취소는 cancel)
-//value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
-GamFcltyCtrtMngModule.prototype.onClosePopup = function(popupId, msg, value) {
-	switch (popupId) {
-		case 'selectEntrpsInfoPopup': //등록업체 선택(조회)
-	        this.$('#sRegistEntrpsCd').val(value['entrpscd']);
-	        this.$('#sRegistEntrpsNm').val(value['entrpsNm']);
-	    	break;
-		case 'selectEntrpsInfoPopup2': //등록업체 선택(목록)
-	        this.$('#registEntrpsCd').val(value['entrpscd']);
-	        this.$('#registEntrpsNm').val(value['entrpsNm']);
-	    	break;
-		default:
-        	alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-        	break;
-    }
+<%
+/**
+ * @FUNCTION NAME : addPymntData
+ * @DESCRIPTION   : PYMNT 항목을 추가한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.addPymntData = function() {
+
+	this.$('#pymntCtrtNo').val(this.$('#ctrtNo').val());
+	this.$('#pymntSeq').val("001");
+	this.$('#pymntCl').val("10");
+	this.$('#pymntDt').val(this.getToDayString());
+	this.$('#thisTimeEstbAmt').val("0");
+	this.$('#depositExcclcAmt').val("0");
+	this.$('#pymntAmt').val("0");
+	this.$('#pymntAggrAmt').val("0");
+	this.$('#pymntRm').val("");
+	this.enablePymntDetailInputItem();
+	this.$('#pymntCl').focus();
+	this.getNewPymntSeq();
+
 };
 
-// 다음 변수는 고정 적으로 정의 해야 함
+<%
+/**
+ * @FUNCTION NAME : savePymntData
+ * @DESCRIPTION   : PYMNT 항목을 저장한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.savePymntData = function() {
+
+	var inputVO = this.makeFormArgs("#pymntForm");
+	var pymntCtrtNo = this.$('#pymntCtrtNo').val();
+	var pymntSeq = this.$('#pymntSeq').val();
+	var pymntCl = this.$('#pymntCl').val();
+	var pymntDt = this.$('#pymntDt').val();
+	var thisTimeEstbAmt = Number(this.$('#thisTimeEstbAmt').val().replace(/,/gi, ""));
+	var depositExcclcAmt = Number(this.$('#depositExcclcAmt').val().replace(/,/gi, ""));
+	var pymntAmt = Number(this.$('#pymntAmt').val().replace(/,/gi, ""));
+	var pymntAggrAmt = Number(this.$('#pymntAggrAmt').val().replace(/,/gi, ""));
+	if (pymntCtrtNo == "") {
+		alert('계약 번호가 부정확합니다.');
+		return;
+	}
+	if (pymntSeq == "") {
+		alert('순번이 부정확합니다.');
+		return;
+	}
+	if (pymntCl != "10" && pymntCl != "20" && pymntCl != "30") {
+		alert('지급 분류가 부정확합니다.');
+		this.$("#pymntCl").focus();
+		return;
+	}
+	if (isValidDate(pymntDt, true) == false) {
+		alert('지급 일자가 부정확합니다.');
+		this.$("#pymntDt").focus();
+		return;
+	}
+	if (isValidAmount(thisTimeEstbAmt) == false) {
+		alert('금회 기성 금액이 부정확합니다.');
+		this.$("#thisTimeEstbAmt").focus();
+		return;
+	}
+	if (isValidAmount(depositExcclcAmt) == false) {
+		alert('선금 정산 금액이 부정확합니다.');
+		this.$("#depositExcclcAmt").focus();
+		return;
+	}
+	if (isValidAmount(pymntAmt) == false) {
+		alert('지급 금액이 부정확합니다.');
+		this.$("#pymntAmt").focus();
+		return;
+	}
+	if (isValidAmount(pymntAggrAmt) == false) {
+		alert('지급 누계 금액이 부정확합니다.');
+		this.$("#pymntAggrAmt").focus();
+		return;
+	}
+	if (pymntAmt > pymntAggrAmt) {
+		alert('지급 금액이 지급 누계 금액보다 큽니다.');
+		this.$("#pymntAggrAmt").focus();
+		return;
+	}
+	if (this._pymntmode == "insert") {
+		this._pymntKeyValue = pymntCtrtNo;
+		this._pymntSeq = pymntSeq;
+		this.doAction('/ctrt/gamInsertFcltyCtrtMngMoneyPymnt.do', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.refreshPymntData();
+			}
+			alert(result.resultMsg);
+		});
+	} else {
+		this.doAction('/ctrt/gamUpdateFcltyCtrtMngMoneyPymnt.do', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.refreshPymntData();
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : deletePymntData
+ * @DESCRIPTION   : PYMNT 항목을 삭제한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.deletePymntData = function() {
+
+	var pymntCtrtNo = this.$('#pymntCtrtNo').val();
+	var pymntSeq = this.$('#pymntSeq').val();
+	if (pymntCtrtNo == "") {
+		alert('계약 번호가 부정확합니다.');
+		return;
+	}
+	if (pymntSeq == "") {
+		alert('순번이 부정확합니다.');
+		return;
+	}
+	if (confirm("삭제하시겠습니까?")) {
+		var deleteVO = this.makeFormArgs("#pymntForm");
+		this.doAction('/ctrt/gamDeleteFcltyCtrtMngMoneyPymnt.do', deleteVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module._pymntmode = 'query';
+				module._pymntKeyValue = '';
+				module._pymntSeq = '';
+				module.loadPymntData();
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : addCaryFwdData
+ * @DESCRIPTION   : CARY FWD 항목을 추가한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.addCaryFwdData = function() {
+
+	this.$('#caryFwdCtrtNo').val(this.$('#ctrtNo').val());
+	this.$('#caryFwdSeq').val("001");
+	this.$('#fulfillCaryFwdYear').val(this.getCurrentYearString());
+	this.$('#fulfillAmt').val("0");
+	this.$('#caryFwdAmt').val("0");
+	this.enableCaryFwdDetailInputItem();
+	this.$('#fulfillCaryFwdYear').focus();
+	this.getNewCaryFwdSeq();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : saveCaryFwdData
+ * @DESCRIPTION   : CARY FWD 항목을 저장한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.saveCaryFwdData = function() {
+
+	var inputVO = this.makeFormArgs("#caryFwdForm");
+	var caryFwdCtrtNo = this.$('#caryFwdCtrtNo').val();
+	var caryFwdSeq = this.$('#caryFwdSeq').val();
+	var fulfillCaryFwdYear = this.$('#fulfillCaryFwdYear').val();
+	var fulfillAmt = Number(this.$('#fulfillAmt').val().replace(/,/gi, ""));
+	var caryFwdAmt = Number(this.$('#caryFwdAmt').val().replace(/,/gi, ""));
+	if (caryFwdCtrtNo == "") {
+		alert('계약 번호가 부정확합니다.');
+		return;
+	}
+	if (caryFwdSeq == "") {
+		alert('순번이 부정확합니다.');
+		return;
+	}
+	if (isValidYear(fulfillCaryFwdYear, true) == false) {
+		alert('이월 년도가 부정확합니다.');
+		this.$("#fulfillCaryFwdYear").focus();
+		return;
+	}
+	if (isValidAmount(fulfillAmt) == false) {
+		alert('이행 금액이 부정확합니다.');
+		this.$("#fulfillAmt").focus();
+		return;
+	}
+	if (isValidAmount(caryFwdAmt) == false) {
+		alert('이월 금액이 부정확합니다.');
+		this.$("#caryFwdAmt").focus();
+		return;
+	}
+	if (this._caryfwdmode == "insert") {
+		this._caryFwdKeyValue = caryFwdCtrtNo;
+		this._caryFwdSeq = caryFwdSeq;
+		this.doAction('/ctrt/gamInsertFcltyCtrtMngFulfillCaryFwd.do', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.refreshCaryFwdData();
+			}
+			alert(result.resultMsg);
+		});
+	} else {
+		this.doAction('/ctrt/gamUpdateFcltyCtrtMngFulfillCaryFwd.do', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.refreshCaryFwdData();
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : deleteCaryFwdData
+ * @DESCRIPTION   : CARY FWD 항목을 삭제한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.deleteCaryFwdData = function() {
+
+	var caryFwdCtrtNo = this.$('#caryFwdCtrtNo').val();
+	var caryFwdSeq = this.$('#caryFwdSeq').val();
+	if (caryFwdCtrtNo == "") {
+		alert('계약 번호가 부정확합니다.');
+		return;
+	}
+	if (caryFwdSeq == "") {
+		alert('순번이 부정확합니다.');
+		return;
+	}
+	if (confirm("삭제하시겠습니까?")) {
+		var deleteVO = this.makeFormArgs("#caryFwdForm");
+		this.doAction('/ctrt/gamDeleteFcltyCtrtMngFulfillCaryFwd.do', deleteVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module._caryfwdmode = 'query';
+				module._caryFwdKeyValue = '';
+				module._caryFwdSeq = '';
+				module.loadCaryFwdData();
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : addScsbidData
+ * @DESCRIPTION   : SCSBID 항목을 추가한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.addScsbidData = function() {
+
+	this.$('#scsbidCtrtNo').val(this.$('#ctrtNo').val());
+	this.$('#scsbidSeq').val("001");
+	this.$('#scsbidRank').val("001");
+	this.$('#scsbidEntrpsNm').val("");
+	this.$('#scsbidRprsntv').val("");
+	this.$('#scsbidBsnmNo').val("");
+	this.$('#scsbidTlphonNo').val("");
+	this.$('#scsbidRm').val("");
+	this.enablePymntDetailInputItem();
+	this.$('#scsbidRank').focus();
+	this.getNewScsbidSeq();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : saveScsbidData
+ * @DESCRIPTION   : SCSBID 항목을 저장한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.saveScsbidData = function() {
+
+	var inputVO = this.makeFormArgs("#scsbidForm");
+	var scsbidCtrtNo = this.$('#scsbidCtrtNo').val();
+	var scsbidSeq = this.$('#scsbidSeq').val();
+	var scsbidRank = Number(this.$('#scsbidRank').val().replace(/,/gi, ""));
+	var scsbidEntrpsNm = this.$('#scsbidEntrpsNm').val();
+	var scsbidRprsntv = this.$('#scsbidRprsntv').val();
+	var scsbidBsnmNo = this.$('#scsbidBsnmNo').val();
+	if (scsbidCtrtNo == "") {
+		alert('계약 번호가 부정확합니다.');
+		return;
+	}
+	if (scsbidSeq == "") {
+		alert('순번이 부정확합니다.');
+		return;
+	}
+	if (scsbidRank > 999 && scsbidRank < 1) {
+		alert('낙찰 순위가 부정확합니다.');
+		this.$("#pymntCl").focus();
+		return;
+	}
+	if (scsbidEntrpsNm == "") {
+		alert('업체 명이 부정확합니다.');
+		this.$("#scsbidEntrpsNm").focus();
+		return;
+	}
+	if (scsbidRprsntv == "") {
+		alert('대표자가 부정확합니다.');
+		this.$("#scsbidRprsntv").focus();
+		return;
+	}
+	if (scsbidBsnmNo == "") {
+		alert('사업자 번호가 부정확합니다.');
+		this.$("#scsbidBsnmNo").focus();
+		return;
+	}
+	if (this._scsbidmode == "insert") {
+		this._scsbidKeyValue = scsbidCtrtNo;
+		this._scsbidSeq = scsbidSeq;
+		this.doAction('/ctrt/gamInsertFcltyCtrtMngScsbidInfo.do', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.refreshScsbidData();
+			}
+			alert(result.resultMsg);
+		});
+	} else {
+		this.doAction('/ctrt/gamUpdateFcltyCtrtMngScsbidInfo.do', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.refreshScsbidData();
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : deleteScsbidData
+ * @DESCRIPTION   : SCSBID 항목을 삭제한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.deleteScsbidData = function() {
+
+	var scsbidCtrtNo = this.$('#scsbidCtrtNo').val();
+	var scsbidSeq = this.$('#scsbidSeq').val();
+	if (scsbidCtrtNo == "") {
+		alert('계약 번호가 부정확합니다.');
+		return;
+	}
+	if (scsbidSeq == "") {
+		alert('순번이 부정확합니다.');
+		return;
+	}
+	if (confirm("삭제하시겠습니까?")) {
+		var deleteVO = this.makeFormArgs("#scsbidForm");
+		this.doAction('/ctrt/gamDeleteFcltyCtrtMngScsbidInfo.do', deleteVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module._scsbidmode = 'query';
+				module._scsbidKeyValue = '';
+				module._scsbidSeq = '';
+				module.loadScsbidData();
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : enableListButtonItem
+ * @DESCRIPTION   : LIST 버튼항목을 ENABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.enableListButtonItem = function() {
+
+	if (this._mode == "insert") {
+		this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+	} else {
+		this.$('#btnAdd').enable();
+		this.$('#btnAdd').removeClass('ui-state-disabled');
+		var row = this.$('#mainGrid').selectedRows()[0];
+		if (row == null) {
+			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+			return;
+		}
+		if (this._mainKeyValue != "") {
+			this.$('#btnDelete').enable();
+			this.$('#btnDelete').removeClass('ui-state-disabled');
+		} else {
+			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : enableDetailInputItem
+ * @DESCRIPTION   : DETAIL 입력항목을 ENABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.enableDetailInputItem = function() {
+
+	if (this._mode == "insert") {
+		this.$('#ctrtNo').enable();
+		this.$('#ctrtSe').enable();
+		this.$('#ctrtNm').enable();
+		this.$('#causeAct').enable();
+		this.$('#baseAmt').enable();
+		this.$('#planAmt').enable();
+		this.$('#orderMthd').enable();
+		this.$('#ctrtMth').enable();
+		this.$('#prcuPblancNo').enable();
+		this.$('#bidPblancNo').enable();
+		this.$('#bidPblancDt').enable();
+		this.$('#bidDt').enable();
+		this.$('#bidMth').enable();
+		this.$('#registEntrpsCd').enable();
+		this.$('#scsbider').enable();
+		this.$('#scsbidAmt').enable();
+		this.$('#scsbidRate').enable();
+		this.$('#ctrtDt').enable();
+		this.$('#ctrtGrntyAmt').enable();
+		this.$('#ctrtGrntyMth').enable();
+		this.$('#ctrtAmt').enable();
+		this.$('#ctrtDtFrom').enable();
+		this.$('#ctrtDtTo').enable();
+		this.$('#ctrtExamDt').enable();
+		this.$('#prmtAmt').enable();
+		this.$('#flawDtFrom').enable();
+		this.$('#flawDtTo').enable();
+		this.$('#sldrtGrnty').enable();
+		this.$('#intendant1').enable();
+		this.$('#intendant2').enable();
+		this.$('#intendant3').enable();
+		this.$('#jobChrgDeptCd').enable();
+		this.$('#caryFwdBdgtAmt').enable();
+		this.$('#siteDesc').enable();
+		this.$('#popupDataRegistEntrpsCd').enable();
+		this.$('#popupDataRegistEntrpsCd').removeClass('ui-state-disabled');
+		this.$('#btnCtrtInsert').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnCtrtSave').enable();
+		this.$('#btnCtrtSave').removeClass('ui-state-disabled');
+		this.$('#btnCtrtRemove').disable({disableClass:"ui-state-disabled"});
+	} else {
+		if (this._mainKeyValue != "") {
+			this.$('#ctrtNo').disable();
+			this.$('#ctrtSe').enable();
+			this.$('#ctrtNm').enable();
+			this.$('#causeAct').enable();
+			this.$('#baseAmt').enable();
+			this.$('#planAmt').enable();
+			this.$('#orderMthd').enable();
+			this.$('#ctrtMth').enable();
+			this.$('#prcuPblancNo').enable();
+			this.$('#bidPblancNo').enable();
+			this.$('#bidPblancDt').enable();
+			this.$('#bidDt').enable();
+			this.$('#bidMth').enable();
+			this.$('#registEntrpsCd').enable();
+			this.$('#scsbider').enable();
+			this.$('#scsbidAmt').enable();
+			this.$('#scsbidRate').enable();
+			this.$('#ctrtDt').enable();
+			this.$('#ctrtGrntyAmt').enable();
+			this.$('#ctrtGrntyMth').enable();
+			this.$('#ctrtAmt').enable();
+			this.$('#ctrtDtFrom').enable();
+			this.$('#ctrtDtTo').enable();
+			this.$('#ctrtExamDt').enable();
+			this.$('#prmtAmt').enable();
+			this.$('#flawDtFrom').enable();
+			this.$('#flawDtTo').enable();
+			this.$('#sldrtGrnty').enable();
+			this.$('#intendant1').enable();
+			this.$('#intendant2').enable();
+			this.$('#intendant3').enable();
+			this.$('#jobChrgDeptCd').enable();
+			this.$('#caryFwdBdgtAmt').enable();
+			this.$('#siteDesc').enable();
+			this.$('#popupDataRegistEntrpsCd').enable();
+			this.$('#popupDataRegistEntrpsCd').removeClass('ui-state-disabled');
+			this.$('#btnCtrtInsert').enable();
+			this.$('#btnCtrtInsert').removeClass('ui-state-disabled');
+			this.$('#btnCtrtSave').enable();
+			this.$('#btnCtrtSave').removeClass('ui-state-disabled');
+			this.$('#btnCtrtRemove').enable();
+			this.$('#btnCtrtRemove').removeClass('ui-state-disabled');
+		} else {
+			this.$('#ctrtNo').disable();
+			this.$('#ctrtSe').disable();
+			this.$('#ctrtNm').disable();
+			this.$('#causeAct').disable();
+			this.$('#baseAmt').disable();
+			this.$('#planAmt').disable();
+			this.$('#orderMthd').disable();
+			this.$('#ctrtMth').disable();
+			this.$('#prcuPblancNo').disable();
+			this.$('#bidPblancNo').disable();
+			this.$('#bidPblancDt').disable();
+			this.$('#bidDt').disable();
+			this.$('#bidMth').disable();
+			this.$('#registEntrpsCd').disable();
+			this.$('#scsbider').disable();
+			this.$('#scsbidAmt').disable();
+			this.$('#scsbidRate').disable();
+			this.$('#ctrtDt').disable();
+			this.$('#ctrtGrntyAmt').disable();
+			this.$('#ctrtGrntyMth').disable();
+			this.$('#ctrtAmt').disable();
+			this.$('#ctrtDtFrom').disable();
+			this.$('#ctrtDtTo').disable();
+			this.$('#ctrtExamDt').disable();
+			this.$('#prmtAmt').disable();
+			this.$('#flawDtFrom').disable();
+			this.$('#flawDtTo').disable();
+			this.$('#sldrtGrnty').disable();
+			this.$('#intendant1').disable();
+			this.$('#intendant2').disable();
+			this.$('#intendant3').disable();
+			this.$('#jobChrgDeptCd').disable();
+			this.$('#caryFwdBdgtAmt').disable();
+			this.$('#siteDesc').disable();
+			this.$('#popupDataRegistEntrpsCd').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnCtrtInsert').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnCtrtSave').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnCtrtRemove').disable({disableClass:"ui-state-disabled"});
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : disableDetailInputItem
+ * @DESCRIPTION   : DETAIL 입력항목을 DISABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.disableDetailInputItem = function() {
+
+	this.$('#ctrtNo').disable();
+	this.$('#ctrtSe').disable();
+	this.$('#ctrtNm').disable();
+	this.$('#causeAct').disable();
+	this.$('#baseAmt').disable();
+	this.$('#planAmt').disable();
+	this.$('#orderMthd').disable();
+	this.$('#ctrtMth').disable();
+	this.$('#prcuPblancNo').disable();
+	this.$('#bidPblancNo').disable();
+	this.$('#bidPblancDt').disable();
+	this.$('#bidDt').disable();
+	this.$('#bidMth').disable();
+	this.$('#registEntrpsCd').disable();
+	this.$('#scsbider').disable();
+	this.$('#scsbidAmt').disable();
+	this.$('#scsbidRate').disable();
+	this.$('#ctrtDt').disable();
+	this.$('#ctrtGrntyAmt').disable();
+	this.$('#ctrtGrntyMth').disable();
+	this.$('#ctrtAmt').disable();
+	this.$('#ctrtDtFrom').disable();
+	this.$('#ctrtDtTo').disable();
+	this.$('#ctrtExamDt').disable();
+	this.$('#prmtAmt').disable();
+	this.$('#flawDtFrom').disable();
+	this.$('#flawDtTo').disable();
+	this.$('#sldrtGrnty').disable();
+	this.$('#intendant1').disable();
+	this.$('#intendant2').disable();
+	this.$('#intendant3').disable();
+	this.$('#jobChrgDeptCd').disable();
+	this.$('#caryFwdBdgtAmt').disable();
+	this.$('#siteDesc').disable();
+	this.$('#popupDataRegistEntrpsCd').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnCtrtInsert').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnCtrtSave').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnCtrtRemove').disable({disableClass:"ui-state-disabled"});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : enableJoinDetailInputItem
+ * @DESCRIPTION   : JOIN DETAIL 입력항목을 ENABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.enableJoinDetailInputItem = function() {
+
+	if (this._joinmode == "insert") {
+		this.$('#qotaRate').enable();
+		this.$('#joinEntrpsNm').enable();
+		this.$('#joinRprsntv').enable();
+		this.$('#dealRelate').enable();
+		this.$('#joinBsnmNo').enable();
+		this.$('#induty').enable();
+		this.$('#stplPrdlst').enable();
+		this.$('#joinTlphonNo').enable();
+		this.$('#joinFaxNo').enable();
+		this.$('#charger').enable();
+		this.$('#chargerOfcPos').enable();
+		this.$('#chargerMoblphonNo').enable();
+		this.$('#chargerEmail').enable();
+		this.$('#postNo').enable();
+		this.$('#lnmAdres').enable();
+		this.$('#roadnmAdres').enable();
+		this.$('#popupJoinEntrpsCd').enable();
+		this.$('#popupJoinEntrpsCd').removeClass('ui-state-disabled');
+		this.$('#btnJoinInsert').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnJoinSave').enable();
+		this.$('#btnJoinSave').removeClass('ui-state-disabled');
+		this.$('#btnJoinRemove').disable({disableClass:"ui-state-disabled"});
+	} else {
+		if (this._joinKeyValue != "") {
+			this.$('#qotaRate').enable();
+			this.$('#joinEntrpsNm').enable();
+			this.$('#joinRprsntv').enable();
+			this.$('#dealRelate').enable();
+			this.$('#joinBsnmNo').enable();
+			this.$('#induty').enable();
+			this.$('#stplPrdlst').enable();
+			this.$('#joinTlphonNo').enable();
+			this.$('#joinFaxNo').enable();
+			this.$('#charger').enable();
+			this.$('#chargerOfcPos').enable();
+			this.$('#chargerMoblphonNo').enable();
+			this.$('#chargerEmail').enable();
+			this.$('#postNo').enable();
+			this.$('#lnmAdres').enable();
+			this.$('#roadnmAdres').enable();
+			this.$('#popupJoinEntrpsCd').enable();
+			this.$('#popupJoinEntrpsCd').removeClass('ui-state-disabled');
+			this.$('#btnJoinInsert').enable();
+			this.$('#btnJoinInsert').removeClass('ui-state-disabled');
+			this.$('#btnJoinSave').enable();
+			this.$('#btnJoinSave').removeClass('ui-state-disabled');
+			this.$('#btnJoinRemove').enable();
+			this.$('#btnJoinRemove').removeClass('ui-state-disabled');
+		} else {
+			this.$('#qotaRate').disable();
+			this.$('#joinEntrpsNm').disable();
+			this.$('#joinRprsntv').disable();
+			this.$('#dealRelate').disable();
+			this.$('#joinBsnmNo').disable();
+			this.$('#induty').disable();
+			this.$('#stplPrdlst').disable();
+			this.$('#joinTlphonNo').disable();
+			this.$('#joinFaxNo').disable();
+			this.$('#charger').disable();
+			this.$('#chargerOfcPos').disable();
+			this.$('#chargerMoblphonNo').disable();
+			this.$('#chargerEmail').disable();
+			this.$('#postNo').disable();
+			this.$('#lnmAdres').disable();
+			this.$('#roadnmAdres').disable();
+			this.$('#popupJoinEntrpsCd').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnJoinInsert').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnJoinSave').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnJoinRemove').disable({disableClass:"ui-state-disabled"});
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : disableJoinDetailInputItem
+ * @DESCRIPTION   : JOIN DETAIL 입력항목을 DISABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.disableJoinDetailInputItem = function() {
+
+	this.$('#qotaRate').disable();
+	this.$('#joinEntrpsNm').disable();
+	this.$('#joinRprsntv').disable();
+	this.$('#dealRelate').disable();
+	this.$('#joinBsnmNo').disable();
+	this.$('#induty').disable();
+	this.$('#stplPrdlst').disable();
+	this.$('#joinTlphonNo').disable();
+	this.$('#joinFaxNo').disable();
+	this.$('#charger').disable();
+	this.$('#chargerOfcPos').disable();
+	this.$('#chargerMoblphonNo').disable();
+	this.$('#chargerEmail').disable();
+	this.$('#postNo').disable();
+	this.$('#lnmAdres').disable();
+	this.$('#roadnmAdres').disable();
+	this.$('#popupJoinEntrpsCd').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnJoinInsert').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnJoinSave').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnJoinRemove').disable({disableClass:"ui-state-disabled"});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : enableSubDetailInputItem
+ * @DESCRIPTION   : SUB DETAIL 입력항목을 ENABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.enableSubDetailInputItem = function() {
+
+	if (this._submode == "insert") {
+		this.$('#subEntrpsNm').enable();
+		this.$('#workClass').enable();
+		this.$('#moneyPymntAgree').enable();
+		this.$('#subctrtRate').enable();
+		this.$('#orginlContrAmt').enable();
+		this.$('#subctrtCtrtAmt').enable();
+		this.$('#subctrtCtrtDtFrom').enable();
+		this.$('#subctrtCtrtDtTo').enable();
+		this.$('#popupSubEntrpsCd').enable();
+		this.$('#popupSubEntrpsCd').removeClass('ui-state-disabled');
+		this.$('#btnSubInsert').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnSubSave').enable();
+		this.$('#btnSubSave').removeClass('ui-state-disabled');
+		this.$('#btnSubRemove').disable({disableClass:"ui-state-disabled"});
+	} else {
+		if (this._subKeyValue != "") {
+			this.$('#subEntrpsNm').enable();
+			this.$('#workClass').enable();
+			this.$('#moneyPymntAgree').enable();
+			this.$('#subctrtRate').enable();
+			this.$('#orginlContrAmt').enable();
+			this.$('#subctrtCtrtAmt').enable();
+			this.$('#subctrtCtrtDtFrom').enable();
+			this.$('#subctrtCtrtDtTo').enable();
+			this.$('#popupSubEntrpsCd').enable();
+			this.$('#popupSubEntrpsCd').removeClass('ui-state-disabled');
+			this.$('#btnSubInsert').enable();
+			this.$('#btnSubInsert').removeClass('ui-state-disabled');
+			this.$('#btnSubSave').enable();
+			this.$('#btnSubSave').removeClass('ui-state-disabled');
+			this.$('#btnSubRemove').enable();
+			this.$('#btnSubRemove').removeClass('ui-state-disabled');
+		} else {
+			this.$('#subEntrpsNm').disable();
+			this.$('#workClass').disable();
+			this.$('#moneyPymntAgree').disable();
+			this.$('#subctrtRate').disable();
+			this.$('#orginlContrAmt').disable();
+			this.$('#subctrtCtrtAmt').disable();
+			this.$('#subctrtCtrtDtFrom').disable();
+			this.$('#subctrtCtrtDtTo').disable();
+			this.$('#popupSubEntrpsCd').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnSubInsert').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnSubSave').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnSubRemove').disable({disableClass:"ui-state-disabled"});
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : disableSubDetailInputItem
+ * @DESCRIPTION   : SUB DETAIL 입력항목을 DISABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.disableSubDetailInputItem = function() {
+
+	this.$('#subEntrpsNm').disable();
+	this.$('#workClass').disable();
+	this.$('#moneyPymntAgree').disable();
+	this.$('#subctrtRate').disable();
+	this.$('#orginlContrAmt').disable();
+	this.$('#subctrtCtrtAmt').disable();
+	this.$('#subctrtCtrtDtFrom').disable();
+	this.$('#subctrtCtrtDtTo').disable();
+	this.$('#popupSubEntrpsCd').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnSubInsert').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnSubSave').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnSubRemove').disable({disableClass:"ui-state-disabled"});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : enableChangeDetailInputItem
+ * @DESCRIPTION   : CHANGE DETAIL 입력항목을 ENABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.enableChangeDetailInputItem = function() {
+
+	if (this._changemode == "insert") {
+		this.$('#changeSe').enable();
+		this.$('#changeDt').enable();
+		this.$('#changeRsn').enable();
+		this.$('#changeCtrtDtFrom').enable();
+		this.$('#changeCtrtDtTo').enable();
+		this.$('#changeCtrtAmt').enable();
+		this.$('#lastCtrtAmt').enable();
+		this.$('#changeRm').enable();
+		this.$('#btnChangeInsert').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnChangeSave').enable();
+		this.$('#btnChangeSave').removeClass('ui-state-disabled');
+		this.$('#btnChangeRemove').disable({disableClass:"ui-state-disabled"});
+	} else {
+		if (this._changeKeyValue != "") {
+			this.$('#changeSe').enable();
+			this.$('#changeDt').enable();
+			this.$('#changeRsn').enable();
+			this.$('#changeCtrtDtFrom').enable();
+			this.$('#changeCtrtDtTo').enable();
+			this.$('#changeCtrtAmt').enable();
+			this.$('#lastCtrtAmt').enable();
+			this.$('#changeRm').enable();
+			this.$('#btnChangeInsert').enable();
+			this.$('#btnChangeInsert').removeClass('ui-state-disabled');
+			this.$('#btnChangeSave').enable();
+			this.$('#btnChangeSave').removeClass('ui-state-disabled');
+			this.$('#btnChangeRemove').enable();
+			this.$('#btnChangeRemove').removeClass('ui-state-disabled');
+		} else {
+			this.$('#changeSe').disable();
+			this.$('#changeDt').disable();
+			this.$('#changeRsn').disable();
+			this.$('#changeCtrtDtFrom').disable();
+			this.$('#changeCtrtDtTo').disable();
+			this.$('#changeCtrtAmt').disable();
+			this.$('#lastCtrtAmt').disable();
+			this.$('#changeRm').disable();
+			this.$('#btnChangeInsert').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnChangeSave').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnChangeRemove').disable({disableClass:"ui-state-disabled"});
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : disableChangeDetailInputItem
+ * @DESCRIPTION   : CHANGE DETAIL 입력항목을 DISABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.disableChangeDetailInputItem = function() {
+
+	this.$('#changeSe').disable();
+	this.$('#changeDt').disable();
+	this.$('#changeRsn').disable();
+	this.$('#changeCtrtDtFrom').disable();
+	this.$('#changeCtrtDtTo').disable();
+	this.$('#changeCtrtAmt').disable();
+	this.$('#lastCtrtAmt').disable();
+	this.$('#changeRm').disable();
+	this.$('#btnChangeInsert').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnChangeSave').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnChangeRemove').disable({disableClass:"ui-state-disabled"});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : enablePymntDetailInputItem
+ * @DESCRIPTION   : PYMNT DETAIL 입력항목을 ENABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.enablePymntDetailInputItem = function() {
+
+	if (this._pymntmode == "insert") {
+		this.$('#pymntCl').enable();
+		this.$('#pymntDt').enable();
+		this.$('#thisTimeEstbAmt').enable();
+		this.$('#depositExcclcAmt').enable();
+		this.$('#pymntAmt').enable();
+		this.$('#pymntAggrAmt').enable();
+		this.$('#pymntRm').enable();
+		this.$('#btnPymntInsert').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnPymntSave').enable();
+		this.$('#btnPymntSave').removeClass('ui-state-disabled');
+		this.$('#btnPymntRemove').disable({disableClass:"ui-state-disabled"});
+	} else {
+		if (this._pymntKeyValue != "") {
+			this.$('#pymntCl').enable();
+			this.$('#pymntDt').enable();
+			this.$('#thisTimeEstbAmt').enable();
+			this.$('#depositExcclcAmt').enable();
+			this.$('#pymntAmt').enable();
+			this.$('#pymntAggrAmt').enable();
+			this.$('#pymntRm').enable();
+			this.$('#btnPymntInsert').enable();
+			this.$('#btnPymntInsert').removeClass('ui-state-disabled');
+			this.$('#btnPymntSave').enable();
+			this.$('#btnPymntSave').removeClass('ui-state-disabled');
+			this.$('#btnPymntRemove').enable();
+			this.$('#btnPymntRemove').removeClass('ui-state-disabled');
+		} else {
+			this.$('#pymntCl').disable();
+			this.$('#pymntDt').disable();
+			this.$('#thisTimeEstbAmt').disable();
+			this.$('#depositExcclcAmt').disable();
+			this.$('#pymntAmt').disable();
+			this.$('#pymntAggrAmt').disable();
+			this.$('#pymntRm').disable();
+			this.$('#btnPymntInsert').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnPymntSave').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnPymntRemove').disable({disableClass:"ui-state-disabled"});
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : disablePymntDetailInputItem
+ * @DESCRIPTION   : PYMNT DETAIL 입력항목을 DISABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.disablePymntDetailInputItem = function() {
+
+	this.$('#pymntCl').disable();
+	this.$('#pymntDt').disable();
+	this.$('#thisTimeEstbAmt').disable();
+	this.$('#depositExcclcAmt').disable();
+	this.$('#pymntAmt').disable();
+	this.$('#pymntAggrAmt').disable();
+	this.$('#pymntRm').disable();
+	this.$('#btnPymntInsert').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnPymntSave').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnPymntRemove').disable({disableClass:"ui-state-disabled"});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : enableCaryFwdDetailInputItem
+ * @DESCRIPTION   : CARY FWD DETAIL 입력항목을 ENABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.enableCaryFwdDetailInputItem = function() {
+
+	if (this._caryFwdmode == "insert") {
+		this.$('#fulfillCaryFwdYear').enable();
+		this.$('#fulfillAmt').enable();
+		this.$('#caryFwdAmt').enable();
+		this.$('#btnCaryFwdInsert').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnCaryFwdSave').enable();
+		this.$('#btnCaryFwdSave').removeClass('ui-state-disabled');
+		this.$('#btnCaryFwdRemove').disable({disableClass:"ui-state-disabled"});
+	} else {
+		if (this._caryFwdKeyValue != "") {
+			this.$('#fulfillCaryFwdYear').enable();
+			this.$('#fulfillAmt').enable();
+			this.$('#caryFwdAmt').enable();
+			this.$('#btnCaryFwdInsert').enable();
+			this.$('#btnCaryFwdInsert').removeClass('ui-state-disabled');
+			this.$('#btnCaryFwdSave').enable();
+			this.$('#btnCaryFwdSave').removeClass('ui-state-disabled');
+			this.$('#btnCaryFwdRemove').enable();
+			this.$('#btnCaryFwdRemove').removeClass('ui-state-disabled');
+		} else {
+			this.$('#fulfillCaryFwdYear').disable();
+			this.$('#fulfillAmt').disable();
+			this.$('#caryFwdAmt').disable();
+			this.$('#btnCaryFwdInsert').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnCaryFwdSave').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnCaryFwdRemove').disable({disableClass:"ui-state-disabled"});
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : disableCaryFwdDetailInputItem
+ * @DESCRIPTION   : CARY FWD DETAIL 입력항목을 DISABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.disableCaryFwdDetailInputItem = function() {
+
+	this.$('#fulfillCaryFwdYear').disable();
+	this.$('#fulfillAmt').disable();
+	this.$('#caryFwdAmt').disable();
+	this.$('#btnCaryFwdInsert').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnCaryFwdSave').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnCaryFwdRemove').disable({disableClass:"ui-state-disabled"});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : enableScsbidDetailInputItem
+ * @DESCRIPTION   : SCSBID DETAIL 입력항목을 ENABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.enableScsbidDetailInputItem = function() {
+
+	if (this._scsbidmode == "insert") {
+		this.$('#scsbidRank').enable();
+		this.$('#scsbidEntrpsNm').enable();
+		this.$('#scsbidRprsntv').enable();
+		this.$('#scsbidBsnmNo').enable();
+		this.$('#scsbidTlphonNo').enable();
+		this.$('#scsbidFaxNo').enable();
+		this.$('#scsbidRm').enable();
+		this.$('#popupScsbidEntrpsCd').enable();
+		this.$('#popupScsbidEntrpsCd').removeClass('ui-state-disabled');
+		this.$('#btnScsbidInsert').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnScsbidSave').enable();
+		this.$('#btnScsbidSave').removeClass('ui-state-disabled');
+		this.$('#btnScsbidRemove').disable({disableClass:"ui-state-disabled"});
+	} else {
+		if (this._scsbidKeyValue != "") {
+			this.$('#scsbidRank').enable();
+			this.$('#scsbidEntrpsNm').enable();
+			this.$('#scsbidRprsntv').enable();
+			this.$('#scsbidBsnmNo').enable();
+			this.$('#scsbidTlphonNo').enable();
+			this.$('#scsbidFaxNo').enable();
+			this.$('#scsbidRm').enable();
+			this.$('#popupScsbidEntrpsCd').enable();
+			this.$('#popupScsbidEntrpsCd').removeClass('ui-state-disabled');
+			this.$('#btnScsbidInsert').enable();
+			this.$('#btnScsbidInsert').removeClass('ui-state-disabled');
+			this.$('#btnScsbidSave').enable();
+			this.$('#btnScsbidSave').removeClass('ui-state-disabled');
+			this.$('#btnScsbidRemove').enable();
+			this.$('#btnScsbidRemove').removeClass('ui-state-disabled');
+		} else {
+			this.$('#scsbidRank').disable();
+			this.$('#scsbidEntrpsNm').disable();
+			this.$('#scsbidRprsntv').disable();
+			this.$('#scsbidBsnmNo').disable();
+			this.$('#scsbidTlphonNo').disable();
+			this.$('#scsbidFaxNo').disable();
+			this.$('#scsbidRm').disable();
+			this.$('#popupScsbidEntrpsCd').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnScsbidInsert').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnScsbidSave').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnScsbidRemove').disable({disableClass:"ui-state-disabled"});
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : disableScsbidDetailInputItem
+ * @DESCRIPTION   : SCSBID DETAIL 입력항목을 DISABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.disableScsbidDetailInputItem = function() {
+
+	this.$('#scsbidRank').disable();
+	this.$('#scsbidEntrpsNm').disable();
+	this.$('#scsbidRprsntv').disable();
+	this.$('#scsbidBsnmNo').disable();
+	this.$('#scsbidTlphonNo').disable();
+	this.$('#scsbidFaxNo').disable();
+	this.$('#scsbidRm').disable();
+	this.$('#popupScsbidEntrpsCd').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnScsbidInsert').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnScsbidSave').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnScsbidRemove').disable({disableClass:"ui-state-disabled"});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : onTabChange
+ * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
+ * @PARAMETER     :
+ *   1. newTabId - NEW TAB ID
+ *   2. oldTabId - OLD TAB ID
+**/
+%>
+ GamFcltyCtrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
+
+	switch (newTabId) {
+		case 'listTab':
+			break;
+		case 'detailTab':
+			if (this._mode=="modify") {
+				this.loadDetail('listTab');
+				this.enableDetailInputItem();
+			} else if (this._mode=="insert") {
+				this.makeFormValues('#detailForm', {});
+				this.makeDivValues('#detailForm', {});
+				this.disableDetailInputItem();
+				this.addData();
+			} else {
+				this.makeFormValues('#detailForm', {});
+				this.makeDivValues('#detailForm', {});
+				this.disableDetailInputItem();
+			}
+			break;
+		case 'joinTab':
+console.log('joinTab');
+			if (this._mainKeyValue != "") {
+				var joinCtrtNo = this.$('#joinCtrtNo').val();
+				if (joinCtrtNo == "" || joinCtrtNo != this._mainKeyValue) {
+					this.loadJoinDetail('listTab');
+					this.enableJoinDetailInputItem();
+				}
+			} else {
+				this.makeFormValues('#joinForm', {});
+				this.makeDivValues('#joinForm', {});
+				this.$('#joinGrid').flexEmptyData();
+				this.disableJoinDetailInputItem();
+			}
+			break;
+		case 'subTab':
+			if (this._mainKeyValue != "") {
+				var subCtrtNo = this.$('#subCtrtNo').val();
+				if (subCtrtNo == "" || subCtrtNo != this._mainKeyValue) {
+					this.loadSubDetail('listTab');
+					this.enableSubDetailInputItem();
+				}
+			} else {
+				this.makeFormValues('#subForm', {});
+				this.makeDivValues('#subForm', {});
+				this.$('#subGrid').flexEmptyData();
+				this.disableJoinDetailInputItem();
+			}
+			break;
+		case 'changeTab':
+			if (this._mainKeyValue != "") {
+				var changeCtrtNo = this.$('#changeCtrtNo').val();
+				if (changeCtrtNo == "" || changeCtrtNo != this._mainKeyValue) {
+					this.loadChangeDetail('listTab');
+					this.enableChangeDetailInputItem();
+				}
+			} else {
+				this.makeFormValues('#changeForm', {});
+				this.makeDivValues('#changeForm', {});
+				this.$('#changeGrid').flexEmptyData();
+				this.disableChangeDetailInputItem();
+			}
+			break;
+		case 'pymntTab':
+			if (this._mainKeyValue != "") {
+				var pymntCtrtNo = this.$('#pymntCtrtNo').val();
+				if (pymntCtrtNo == "" || pymntCtrtNo != this._mainKeyValue) {
+					this.loadPymntDetail('listTab');
+					this.enablePymntDetailInputItem();
+				}
+			} else {
+				this.makeFormValues('#pymntForm', {});
+				this.makeDivValues('#pymntForm', {});
+				this.$('#pymntGrid').flexEmptyData();
+				this.disablePymntDetailInputItem();
+			}
+			break;
+		case 'caryFwdTab':
+			if (this._mainKeyValue != "") {
+				var caryFwdCtrtNo = this.$('#caryFwdCtrtNo').val();
+				if (caryFwdCtrtNo == "" || caryFwdCtrtNo != this._mainKeyValue) {
+					this.loadCaryFwdDetail('listTab');
+					this.enableCaryFwdDetailInputItem();
+				}
+			} else {
+				this.makeFormValues('#caryFwdForm', {});
+				this.makeDivValues('#caryFwdForm', {});
+				this.$('#caryFwdGrid').flexEmptyData();
+				this.disableCaryFwdDetailInputItem();
+			}
+			break;
+		case 'scsbidTab':
+			if (this._mainKeyValue != "") {
+				var scsbidCtrtNo = this.$('#scsbidCtrtNo').val();
+				if (scsbidCtrtNo == "" || scsbidCtrtNo != this._mainKeyValue) {
+					this.loadScsbidDetail('listTab');
+					this.enableScsbidDetailInputItem();
+				}
+			} else {
+				this.makeFormValues('#scsbidForm', {});
+				this.makeDivValues('#scsbidForm', {});
+				this.$('#scsbidGrid').flexEmptyData();
+				this.disableScsbidDetailInputItem();
+			}
+			break;
+	}
+
+};
+
 var module_instance = new GamFcltyCtrtMngModule();
 
 </script>
-<!-- 아래는 고정 -->
+
+<%
+/******************************** SCRIPT   END ********************************/
+%>
+
+
+<%
+/******************************** UI     START ********************************/
+%>
+
 <input type="hidden" id="window_id" value='${windowId}' />
 <div class="window_main">
-
-    <div id="searchViewStack" class="emdPanel">
-        <div class="viewPanel">
-            <form id="gamFcltyCtrtMngSearchForm">
-                <table style="width:100%;" class="searchPanel">
-                    <tbody>
-                        <tr>
-                            <th>계약구분</th>
-                            <td>
-                                <select id="sCtrtSe">
-                                    <option value="" selected="selected">전체</option>
-                                    <option value="1">자체</option>
-                                    <option value="2">조달</option>
-                                </select>
-                            </td>
-                            <th width="10%" style="text-align:center;">계약명</th>
-                            <td>
-                            	<input id="sCtrtNm" type="text" size="25">
-                         	</td>
-							<th width="10%">계약일자</th>
-                            <td>
-                            	<input id="sCtrtFrDt" type="text" class="emdcal" size="12"> ~ 
-                            	<input id="sCtrtToDt" type="text" class="emdcal" size="12">
-                            </td>
-                            
-                            <td rowspan="2">
-								<button id="btnSearch" class="buttonSearch">조회</button>
-                            </td>
-                        </tr>
-                        <tr>
-                        	<th width="10%">등록업체</th>
-                            <td colspan="3">
-                            	<input id="sRegistEntrpsCd" type="text" size="7">&nbsp; &nbsp;
-                         		<input id="sRegistEntrpsNm" type="text" size="27" disabled="disabled">&nbsp; &nbsp;
-                         		<button id="popupEntrpsInfo" class="popupButton">선택</button>
-                         	</td>
-                         	<th width="10%">계약금액</th>
-                            <td>
-                            	<input id="sCtrtAmtFr" type="text" class="ygpaNumber" size="12">~
-                            	<input id="sCtrtAmtTo" type="text" class="ygpaNumber" size="12">원
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-        </div>
-    </div>
-
-    <div class="emdPanel fillHeight">
-        <div id="fcltyCtrtMngListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
-            <ul>
-                <li><a href="#tabs1" class="emdTab">계약정보목록</a></li>
-                <li><a href="#tabs2" class="emdTab">계약정보관리</a></li>
-                <li><a href="#tabs3" class="emdTab">계약공동도급관리</a></li>
-                <li><a href="#tabs4" class="emdTab">계약하도급관리</a></li>
-                <li><a href="#tabs5" class="emdTab">계약변경관리</a></li>
-                <li><a href="#tabs6" class="emdTab">계약대금지급관리</a></li>
-                <li><a href="#tabs7" class="emdTab">계약이행이월관리</a></li>
-                <li><a href="#tabs8" class="emdTab">계약낙찰정보관리</a></li>
-            </ul>
-			
-			<!-- 계약정보목록 -->
-            <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" >
-                <table id="fcltyCtrtMngList" style="display:none" class="fillHeight"></table>
-                <div id="fcltyCtrtMngListSum" class="emdControlPanel">
-					<form id="fcltyCtrtMngListSumForm">
-    	               	<table style="width:100%;" class="summaryPanel">
-        	               	<tr>
-								<th width="8%" height="20">자료수</th>
-								<td><input type="text" size="6" id="totalCount" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="8%" height="20">설계금액</th>
-								<td><input type="text" size="17" id="sumPlanAmt" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="8%" height="20">예정금액</th>
-								<td><input type="text" size="17" id="sumPrmtAmt" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="8%" height="20">낙찰금액</th>
-								<td><input type="text" size="17" id="sumScsbidAmt" class="ygpaNumber" disabled="disabled" /></td>
-								<th width="8%" height="20">기초금액</th>
-								<td><input type="text" size="17" id="sumBaseAmt" class="ygpaNumber" disabled="disabled" /></td>
+	<!-- 11. SEARCH AREA (조회조건 영역) -->
+	<div id="searchViewStack" class="emdPanel">
+		<div class="viewPanel">
+			<form id="searchForm">
+				<table style="width:100%;" class="searchPanel">
+					<tbody>
+						<tr>
+							<th>계약 구분</th>
+							<td>
+								<select id="sCtrtSe">
+									<option value="" selected>전체</option>
+									<option value="1">공사</option>
+									<option value="2">용역</option>
+									<option value="3">지급자재</option>
+								</select>
+							</td>
+							<th>계약 명</th>
+							<td>
+								<input id="sCtrtNm" type="text" size="25" maxlength="100">
+							</td>
+							<th>계약 기간</th>
+							<td>
+								<input id="sCtrtDtFrom" type="text" class="emdcal" size="12"> ∼
+								<input id="sCtrtDtTo" type="text" class="emdcal" size="12">
+							</td>
+							<td rowspan="2">
+								<button class="buttonSearch">조회</button>
+							</td>
+						</tr>
+						<tr>
+							<th>등록 업체</th>
+							<td colspan="3">
+								<input id="sRegistEntrpsCd" type="text" size="8" maxlength="8">&nbsp; &nbsp;
+								<input id="sRegistEntrpsNm" type="text" size="27" disabled="disabled">&nbsp; &nbsp;
+								<button id="popupSearchRegistEntrpsCd" class="popupButton">선택</button>
+							</td>
+							<th>계약 금액</th>
+							<td>
+								<input id="sCtrtAmtFr" type="text" class="ygpaNumber" size="15" maxlength="20"> ∼
+								<input id="sCtrtAmtTo" type="text" class="ygpaNumber" size="15" maxlength="20">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+	</div>
+	<!-- 2. DATA AREA (자료 영역) -->
+	<div class="emdPanel fillHeight">
+		<!-- 21. TAB AREA (탭 영역) -->
+		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+			<!-- 211. TAB 정의 -->
+			<ul>
+				<li><a href="#listTab" class="emdTab">계약 정보 리스트</a></li>
+				<li><a href="#detailTab" class="emdTab">계약 정보 상세</a></li>
+				<li><a href="#joinTab" class="emdTab">계약 공동 도급</a></li>
+				<li><a href="#subTab" class="emdTab">계약 하도급</a></li>
+				<li><a href="#changeTab" class="emdTab">계약 변경</a></li>
+				<li><a href="#pymntTab" class="emdTab">계약 대금 지급</a></li>
+				<li><a href="#caryFwdTab" class="emdTab">계약 이행 이월</a></li>
+				<li><a href="#scsbidTab" class="emdTab">계약 낙찰 정보</a></li>
+			</ul>
+			<!-- 212. TAB 1 AREA (LIST) -->
+			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
+				<table id="mainGrid" style="display:none;" class="fillHeight"></table>
+				<div id="listSumPanel" class="emdControlPanel">
+					<form id="listSumForm">
+						<table style="width:100%;">
+							<tr>
+								<th style="width:10%; height:20; text-align:center;">자료수</th>
+								<td><input type="text" size="6" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
+								<th style="width:10%; height:20; text-align:center;">계약금액</th>
+								<td><input type="text" size="12" id="sumCtrtAmt" class="ygpaNumber" disabled="disabled"/></td>
+								<td style="text-align:right;">
+									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
+									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
+	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+								</td>
 							</tr>
 						</table>
 					</form>
-                </div>
-                <div class="emdControlPanel">
-					<form id="foctrtMoneyPymntRm">
-    	               	<table style="width:100%;">
-	                        <tr>
-	                            <td style="text-align: right">
-	                            	<button id="btnAdd">추가</button>
-	                                <button id="btnRemove">삭제</button>
-	                            </td>
-	                        </tr>
+				</div>
+			</div>
+			<!-- 213. TAB 2 AREA (DETAIL) -->
+			<div id="detailTab" class="emdTabPage" style="overflow:scroll;">
+				<div class="emdControlPanel">
+					<form id="detailForm">
+						<table class="detailPanel" style="width:100%;">
+							<tr>
+								<th width="10%" height="27px">계　약　번　호</th>
+								<td>
+									<select id="ctrtSe">
+										<option value="" selected>선택</option>
+										<option value="1">공사</option>
+										<option value="2">용역</option>
+										<option value="3">지급자재</option>
+									</select>
+									<input type="text" size="21" id="ctrtNo" maxlength="100"/>
+								</td>
+								<th width="10%" height="27px">계　　약　　명</th>
+								<td colspan="3">
+									<input type="text" size="93" id="ctrtNm" maxlength="100"/>
+								</td>
+							</tr>
+							<tr>
+								<th width="10%" height="27px">원　인　행　위</th>
+								<td>
+									<input type="text" size="33" id="causeAct" maxlength="100"/>
+								</td>
+								<th width="10%" height="27px">기　초　금　액</th>
+								<td>
+									<input type="text" size="33" id="baseAmt" class="ygpaNumber" maxlength="20"/>
+								</td>
+								<th width="10%" height="27px">설　계　금　액</th>
+								<td>
+									<input type="text" size="33" id="planAmt" class="ygpaNumber" maxlength="20"/>
+								</td>
+							</tr>
+							<tr>
+								<th width="10%" height="27px">발　주　방　식</th>
+								<td>
+									<input type="text" size="33" id="orderMthd" maxlength="100"/>
+								</td>
+								<th width="10%" height="27px">계　약　방　법</th>
+								<td>
+									<input type="text" size="33" id="ctrtMth" maxlength="100"/>
+								</td>
+								<th width="10%" height="27px">조달 공고 번호</th>
+								<td>
+									<input type="text" size="33" id="prcuPblancNo" maxlength="100"/>
+								</td>
+							</tr>
+							<tr>
+								<th width="10%" height="27px">입찰 공고 번호</th>
+								<td>
+									<input type="text" size="33" id="bidPblancNo" maxlength="100"/>
+								</td>
+								<th width="10%" height="27px">입찰 공고 일자</th>
+								<td>
+									<input type="text" size="30" id="bidPblancDt" class="emdcal"/>
+								</td>
+								<th width="10%" height="27px">입　찰　일　자</th>
+								<td>
+									<input type="text" size="30" id="bidDt" class="emdcal"/>
+								</td>
+							</tr>
+							<tr>
+								<th width="10%" height="27px">입　찰　방　법</th>
+								<td>
+									<input type="text" size="33" id="bidMth" maxlength="100"/>
+								</td>
+								<th width="10%" height="27px">등　록　업　체</th>
+								<td colspan="3">
+									<input type="text" size="15" id="registEntrpsCd" maxlength="8"/>
+									<input type="text" size="63" id="registEntrpsNm" disabled/>
+									<button id="popupDataRegistEntrpsCd" class="popupButton">선택</button>
+								</td>
+							</tr>
+							<tr>
+								<th width="10%" height="27px">낙　　찰　　자</th>
+								<td>
+									<input type="text" size="33" id="scsbider" class="ygpaNumber" maxlength="100"/>
+								</td>
+								<th width="10%" height="27px">낙　찰　금　액</th>
+								<td>
+									<input type="text" size="33" id="scsbidAmt" class="ygpaNumber" maxlength="20"/>
+								</td>
+								<th width="10%" height="27px">낙　　찰　　율</th>
+								<td>
+									<input type="text" size="33" id="scsbidRate" class="ygpaNumber" maxlength="6" data-decimal-point="5"/>
+								</td>
+							</tr>
+							<tr>
+								<th width="10%" height="27px">계　약　일　자</th>
+								<td>
+									<input type="text" size="30" id="ctrtDt" class="emdcal"/>
+								</td>
+								<th width="10%" height="27px">계약 보증 금액</th>
+								<td>
+									<input type="text" size="33" id="ctrtGrntyAmt" class="ygpaNumber" maxlength="20"/>
+								</td>
+								<th width="10%" height="27px">계약 보증 방법</th>
+								<td>
+									<select id="ctrtGrntyMth">
+										<option value="" selected>선택</option>
+										<option value="10">계약보증서</option>
+										<option value="20">지급각서대체</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<th width="10%" height="27px">계　약　금　액</th>
+								<td>
+									<input type="text" size="33" id="ctrtAmt" class="ygpaNumber" maxlength="20"/>
+								</td>
+								<th width="10%" height="27px">계　약　기　간</th>
+								<td>
+									<input type="text" size="11" id="ctrtDtFrom" class="emdcal"/> ∼
+									<input type="text" size="11" id="ctrtDtTo" class="emdcal"/>
+								</td>
+								<th width="10%" height="27px">계약 검사 일자</th>
+								<td>
+									<input type="text" size="30" id="ctrtExamDt" class="emdcal"/>
+								</td>
+							</tr>
+							<tr>
+								<th width="10%" height="27px">예　정　금　액</th>
+								<td>
+									<input type="text" size="33" id="prmtAmt" class="ygpaNumber" maxlength="20"/>
+								</td>
+								<th width="10%" height="27px">하　자　기　간</th>
+								<td>
+									<input type="text" size="11" id="flawDtFrom" class="emdcal"/> ∼
+									<input type="text" size="11" id="flawDtTo" class="emdcal"/>
+								</td>
+								<th width="10%" height="27px">연　대　보　증</th>
+								<td>
+									<input type="text" size="33" id="sldrtGrnty" maxlength="100"/>
+								</td>
+							</tr>
+							<tr>
+								<th width="10%" height="27px">감　　독　　자</th>
+								<td>
+									<input type="text" size="9" id="intendant1" maxlength="10"/>
+									<input type="text" size="9" id="intendant2" maxlength="10"/>
+									<input type="text" size="9" id="intendant3" maxlength="10"/>
+								</td>
+								<th width="10%" height="27px">담당 부서 코드</th>
+								<td>
+									<input type="text" size="8" id="jobChrgDeptCd" maxlength="8"/>
+									<input type="text" size="12" id="jobChrgDeptNm" disabled/>
+									<button id="popupDataJobChrgDeptCd" class="popupButton">선택</button>
+								</td>
+								<th width="10%" height="27px">이월 예산 금액</th>
+								<td>
+									<input type="text" size="33" id="caryFwdBdgtAmt" class="ygpaNumber" maxlength="20"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:20px;">현　장　설　명</th>
+								<td colspan="5">
+									<input type="text" size="148" id="siteDesc" maxlength="100"/>
+								</td>
+							</tr>
+							<tr>
+								<th width="10%" height="27px">품의 거래처 명</th>
+								<td>
+									<input type="text" size="33" id="cnstCstmrNm" disabled/>
+								</td>
+								<th width="10%" height="27px">승　인　일　자</th>
+								<td>
+									<input type="text" size="33" id="confmDt" disabled/>
+								</td>
+								<th width="10%" height="27px">승인자　　코드</th>
+								<td>
+									<input type="text" size="33" id="confmerCd" disabled/>
+								</td>
+							</tr>
 						</table>
 					</form>
-                </div>
-            </div>
-			
-			<!-- 계약정보관리 -->
-            <div id="tabs2" class="emdTabPage fillHeight" style="overflow: hidden;" >
-            	<div class="emdControlPanel">
-					<form id="gamFcltyCtrtMngDetailForm">
-    	               	<table class="detailForm"  style="width:100%;">
-                            <tr>
-								<th width="10%" height="18">계약구분</th>
-                                <td width="20%">
-	                                <select id="ctrtSe">
-	                                    <option value="" selected="selected">선택</option>
-	                                    <option value="1">자체</option>
-	                                    <option value="2">조달</option>
-	                                </select>
-                                </td>
-                                <th width="10%" height="18">계약번호</th>
-                                <td width="20%"><input type="text" size="20" id="ctrtNo" maxlength="100" disabled="disabled" /></td>
-                                <th width="10%" height="18">계약명</th>
-                                <td><input type="text" size="20" id="ctrtNm" maxlength="33" /></td>
-                            </tr>
-                            <tr>
-								<th width="10%" height="18">발주방식</th>
-                                <td><input type="text" size="20" id="orderMthd" maxlength="33" /></td>
-                                <th width="10%" height="18">계약방법</th>
-                                <td><input type="text" size="20" id="ctrtMth" maxlength="2" /></td>
-                                <th width="10%" height="18">입찰공고번호</th>
-                                <td><input type="text" size="20" id="bidPblancNo" maxlength="100" /></td>
-                            </tr>
-                            <tr>
-                            	<th width="10%" height="18">입찰공고일자</th>
-                                <td><input type="text" size="20" id="bidPblancDt" class="emdcal" /></td>
-								<th width="10%" height="18">입찰일자</th>
-                                <td><input type="text" size="20" id="bidDt" class="emdcal" /></td>
-                            	<th width="10%" height="18">하자기간</th>
-                                <td><input type="text" size="15" id="flawDtFrom" class="emdcal" /> ~ <input type="text" size="15" id="flawDtTo" class="emdcal" /></td>
-                            </tr>
-                            <tr>
-                            	<th width="10%" height="18">입찰방법</th>
-                                <td><input type="text" size="20" id="bidMth" maxlength="33" /></td>
-                            	<th width="10%" height="18">업무담당부서코드</th>
-                                <td><input type="text" size="20" id="jobChrgDeptCd" maxlength="8"/></td>
-                                <th width="10%" height="18">등록업체</th>
-                                <td>
-                                	<input type="text" size="10" id="registEntrpsCd" maxlength="10" /> 
-                                	<input type="text" size="15" id="registEntrpsNm" disabled="disabled" /> 
-                                	<button id="popupEntrpsInfo2" class="popupButton">선택</button> 
-                                </td>
-                            </tr>
-                            <tr>
-                            	<th width="10%" height="18">원인행위</th>
-                                <td><input type="text" size="20" id="causeAct" maxlength="33" /></td>
-								<th width="10%" height="18">설계금액</th>
-                                <td><input type="text" size="20" id="planAmt" class="ygpaNumber" />원</td>
-                                <th width="10%" height="18">예정금액</th>
-                                <td><input type="text" size="20" id="prmtAmt" class="ygpaNumber" />원</td>
-                            </tr>
-                            <tr>
-                            	<th width="10%" height="18">낙찰금액</th>
-                                <td><input type="text" size="20" id="scsbidAmt" class="ygpaNumber" />원</td>
-                                <th width="10%" height="18">낙찰율</th>
-                                <td><input type="text" size="20" id="scsbidRate" class="ygpaNumber" data-decimal-point="5"/></td>
-                                <th width="10%" height="18">기초금액</th>
-                                <td><input type="text" size="20" id="baseAmt" class="ygpaNumber" />원</td>
-                            </tr>
-                            <tr>
-                            	<th width="10%" height="18">계약일자</th>
-                                <td><input type="text" size="20" id="ctrtDt" class="emdcal" /></td>
-                            	<th width="10%" height="18">계약금액</th>
-                                <td><input type="text" size="20" id="ctrtAmt" class="ygpaNumber" />원</td>
-                                <th width="10%" height="18">계약기간</th>
-                                <td><input type="text" size="15" id="ctrtDtFrom" class="emdcal" /> ~ <input type="text" size="15" id="ctrtDtTo" class="emdcal" /></td>
-                            </tr>
-                            <tr>
-                            	<th width="10%" height="18">계약보증금액</th>
-                                <td><input type="text" size="20" id="ctrtGrntyAmt" class="ygpaNumber" />원</td>
-                                <th width="10%" height="18">계약보증방법</th>
-                                <td><input type="text" size="20" id="ctrtGrntyMth" maxlength="2" /></td>
-								<th width="10%" height="18">조달공고번호</th>
-                                <td><input type="text" size="20" id="prcuPblancNo" maxlength="100" /></td>
-                            </tr>
-                            <tr>
-                            	<th width="10%" height="18">감독자1</th>
-                                <td><input type="text" size="20" id="intendant1" maxlength="3" /></td>
-                                <th width="10%" height="18">감독자2</th>
-                                <td><input type="text" size="20" id="intendant2" maxlength="3" /></td>
-                                <th width="10%" height="18">감독자3</th>
-                                <td><input type="text" size="20" id="intendant3" maxlength="3" /></td>
-                            </tr>
-                            <tr>
-                            	<th width="10%" height="18">계약검사일자</th>
-                                <td><input type="text" size="20" id="ctrtExamDt" class="emdcal" /></td>
-								<th width="10%" height="18">이월예산금액</th>
-                                <td><input type="text" size="20" id="caryFwdBdgtAmt" class="ygpaNumber" />원</td>
-                                <th width="10%" height="18">전자결재전송구분</th>
-                                <td><input type="text" size="20" id="elctrnSanctnTrnsmisSe" maxlength="2"/></td>
-                            </tr>
-                            <tr>
-                            	<th width="10%" height="18">전자결재진행코드</th>
-                                <td><input type="text" size="20" id="elctrnSanctnProgrsCd" maxlength="2" /></td>
-                            	<th width="10%" height="18">전자결재전송일자</th>
-                                <td><input type="text" size="20" id="elctrnSanctnTrnsmisDt" class="emdcal" /></td>
-                                <th width="10%" height="18">전자결재연동정보</th>
-                                <td><input type="text" size="20" id="elctrnSanctnInterlockInfo" maxlength="100"/></td>
-                            </tr>
-                            <tr>
-                            	<th width="10%" height="18">전자결재문서ID</th>
-                                <td><input type="text" size="20" id="elctrnSanctnDocId" maxlength="100" /></td>
-                                <th width="10%" height="18">승인일자</th>
-                                <td><input type="text" size="20" id="confmDt" class="emdcal" /></td>
-                            	<th width="10%" height="18">승인자코드</th>
-                                <td><input type="text" size="20" id="confmerCd" maxlength="10" /></td>
-                            </tr>
-                            <tr>
-                                <th width="10%" height="18">연대보증</th>
-                                <td><input type="text" size="20" id="sldrtGrnty" maxlength="33" /></td>
-                                <th width="10%" height="18">현장설명</th>
-                                <td colspan="3"><input type="text" size="20" id="siteDesc" maxlength="33" /></td>
-                            </tr>
-                        </table>
-					</form>
-                </div>
-                <div class="emdControlPanel">
-					<form id="foctrtMoneyPymntRm">
-    	               	<table style="width:100%;">
-	                        <tr>
-	                            <td style="text-align: right">
-	                                <button id="btnSave">저장</button>
-	                            </td>
-	                        </tr>
-						</table>
-					</form>
-                </div>
-            </div>
-			
-			<!-- 계약공동도급관리 -->
-            <div id="tabs3" class="emdTabPage" style="overflow: scroll;">
-				<table id="fcltyCtrtJoinContrList" style="display:none"></table>
-		        <div class="emdControlPanel">
-		            <button id="btnCtrtJoinContrAdd">추가</button>
-		            <button id="btnCtrtJoinContrRemove">삭제</button>
-		            <button id="btnSave">저장</button>
-		        </div>
-				<form id="gamCtrtJoinContrMngtForm">
-					<table class="searchPanel">
-						<tbody>
-							<tr>
-		                        <th>업체명</th>
-		                        <td><input id="entrpsNm" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
-		                        <th>대표자</th>
-		                        <td><input id="rprsntv" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
-								<th>지분율</th>
-		                        <td><input id="qotaRate" type="text" style="width: 150px;" class="EditItem ygpaNumber" data-decimal-point="5"/>%</td>
-							</tr>
-							<tr>
-		                    	<th>업종</th>
-		                        <td><input id="induty" type="text" style="width: 150px;" class="EditItem" maxlength="13"/></td>
-		                        <th>주요품목</th>
-		                        <td><input id="stplPrdlst" type="text" style="width: 150px;" class="EditItem" maxlength="13"/></td>
-								<th>사업자번호</th>
-		                        <td><input id="bsnmNo" type="text" style="width: 150px;" class="EditItem" maxlength="14"/></td>
-							</tr>
-							<tr>
-		                    	<th>거래관계</th>
-		                        <td><input id="dealRelate" type="text" style="width: 150px;" class="EditItem" maxlength="2"/></td>
-		                        <th>전화번호</th>
-		                        <td><input id="tlphonNo" type="text" style="width: 150px;" class="EditItem" maxlength="100"/></td>
-								<th>팩스번호</th>
-		                        <td><input id="faxNo" type="text" style="width: 150px;" class="EditItem" maxlength="100"/></td>
-							</tr>
-							<tr>
-		                    	<th>담당자</th>
-		                        <td><input id="charger" type="text" style="width: 150px;" class="EditItem" maxlength="6"/></td>
-		                        <th>담당자직위</th>
-		                        <td><input id="chargerOfcPos" type="text" style="width: 150px;" class="EditItem" maxlength="6"/></td>
-								<th>담당자휴대폰번호</th>
-		                        <td><input id="chargerMoblphonNo" type="text" style="width: 150px;" class="EditItem" maxlength="20"/></td>
-							</tr>
-							<tr>
-		                    	<th>담당자이메일</th>
-		                        <td><input id="chargerEmail" type="text" style="width: 150px;" class="EditItem" maxlength="50"/></td>
-		                        <th>도로명 주소</th>
-		                        <td colspan="3"><input id="roadnmAdres" type="text" style="width: 520px;" class="EditItem" maxlength="65"/></td>
-							</tr>					
-							<tr>
-		                    	<th>우편번호</th>
-		                        <td><input id="postNo" type="text" style="width: 150px;" class="EditItem" maxlength="7"/></td>
-		                        <th>지번주소</th>
-		                        <td colspan="3"><input id="lnmAdres" type="text" style="width: 520px;" class="EditItem" maxlength="65"/></td>
-							</tr>
-						</tbody>
+					<table style="width:100%;">
+						<tr>
+							<td style="text-align:right;">
+								<button id="btnCtrtInsert" class="buttonAdd">　　추　가　　</button>
+								<button id="btnCtrtSave" class="buttonSave">　　저　장　　</button>
+								<button id="btnCtrtRemove" class="buttonDelete">　　삭　제　　</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<!-- 214. TAB 3 AREA (JOIN) -->
+			<div id="joinTab" class="emdTabPage" style="overflow:scroll;">
+				<form id="joinForm">
+					<table class="summaryPanel" style="width:100%;">
+						<tr>
+							<th style="font-weight:bold; height:20px;">계약 정보 내역</th>
+						</tr>
+					</table>
+					<table class="detailPanel" style="width:100%;">
+						<tr>
+							<th width="10%" height="18">계　약　번　호</th>
+							<td>
+								<select id="joinCtrtSe" disabled>
+									<option value="1">공사</option>
+									<option value="2">용역</option>
+									<option value="3">지급자재</option>
+								</select>
+								<input type="text" size="23" id="joinCtrtNo" disabled/>
+							</td>
+							<th width="10%" height="18">계　　약　　명</th>
+							<td colspan="3">
+								<input type="text" size="93" id="joinCtrtNm" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">원　인　행　위</th>
+							<td>
+								<input type="text" size="33" id="joinCauseAct" disabled/>
+							</td>
+							<th width="10%" height="18">발　주　방　식</th>
+							<td>
+								<input type="text" size="33" id="joinOrderMthd" disabled/>
+							</td>
+							<th width="10%" height="18">계　약　방　법</th>
+							<td>
+								<input type="text" size="33" id="joinCtrtMth" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">계　약　일　자</th>
+							<td>
+								<input type="text" size="33" id="joinCtrtDt" disabled/>
+							</td>
+							<th width="10%" height="18">계　약　금　액</th>
+							<td>
+								<input type="text" size="33" id="joinCtrtAmt" class="ygpaNumber" disabled/>
+							</td>
+							<th width="10%" height="18">계　약　기　간</th>
+							<td>
+								<input type="text" size="15" id="joinCtrtDtFrom" disabled/> ∼
+								<input type="text" size="15" id="joinCtrtDtTo" disabled/>
+							</td>
+						</tr>
+					</table>
+					<table class="summaryPanel" style="width:100%;">
+						<tr>
+							<th style="font-weight:bold; height:20px;">계약 공동 도급 내역</th>
+							<td style="text-align:right;">
+								<button id="btnJoinInsert" class="buttonAdd">　　추　가　　</button>
+								<button id="btnJoinSave" class="buttonSave">　　저　장　　</button>
+								<button id="btnJoinRemove" class="buttonDelete">　　삭　제　　</button>
+							</td>
+						</tr>
+					</table>
+					<table id="joinGrid" style="display:none"></table>
+					<table class="detailPanel" style="width:100%;">
+						<tr>
+							<th width="10%" height="18">순　번／지분율</th>
+							<td>
+								<input type="text" size="10" id="joinSeq" disabled/>／
+								<input type="text" size="19" id="qotaRate" class="ygpaNumber" data-decimal-point="5" maxlength="20"/>
+							</td>
+							<th width="10%" height="18">업　　체　　명</th>
+							<td>
+								<input type="text" size="21" id="joinEntrpsNm" maxlength="100"/>
+								<button id="popupJoinEntrpsCd" class="popupButton">선택</button>
+							</td>
+							<th width="10%" height="18">대　　표　　자</th>
+							<td>
+								<input type="text" size="33" id="joinRprsntv" maxlength="100"/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">사업자　　번호</th>
+							<td>
+								<input type="text" size="10" id="dealRelate" maxlength="2"/>
+								<input type="text" size="20" id="joinBsnmNo" maxlength="14"/>
+							</td>
+							<th width="10%" height="18">업　　　　　종</th>
+							<td>
+								<input type="text" size="33" id="induty" maxlength="40"/>
+							</td>
+							<th width="10%" height="18">주　요　품　목</th>
+							<td>
+								<input type="text" size="33" id="stplPrdlst" maxlength="40"/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">전　화　번　호</th>
+							<td>
+								<input type="text" size="33" id="joinTlphonNo" maxlength="100"/>
+							</td>
+							<th width="10%" height="18">팩　스　번　호</th>
+							<td>
+								<input type="text" size="33" id="joinFaxNo" maxlength="100"/>
+							</td>
+							<th width="10%" height="18">담　　당　　자</th>
+							<td>
+								<input type="text" size="33" id="charger" maxlength="20"/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">담당자　　직위</th>
+							<td>
+								<input type="text" size="33" id="chargerOfcPos" maxlength="20"/>
+							</td>
+							<th width="10%" height="18">담당자　　H　P</th>
+							<td>
+								<input type="text" size="33" id="chargerMoblphonNo" maxlength="20"/>
+							</td>
+							<th width="10%" height="18">담당자　E-MAIL</th>
+							<td>
+								<input type="text" size="33" id="chargerEmail" maxlength="50"/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">우　편　번　호</th>
+							<td>
+								<input type="text" size="33" id="postNo" maxlength="7"/>
+							</td>
+							<th width="10%" height="18">지　번　주　소</th>
+							<td colspan="3">
+								<input type="text" size="92" id="lnmAdres" maxlength="200"/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">도로명　　주소</th>
+							<td colspan="5">
+								<input type="text" size="148" id="roadnmAdres" maxlength="200"/>
+							</td>
+						</tr>
 					</table>
 				</form>
-            </div>
-            
-            <!-- 계약하도급관리 -->
-            <div id="tabs4" class="emdTabPage" style="overflow: scroll;">
-				<table id="fcltyCtrtSubCtrtList" style="display:none"></table>
-		        <div class="emdControlPanel">
-		            <button id="btnCtrtSubCtrtAdd">추가</button>
-		            <button id="btnCtrtSubCtrtRemove">삭제</button>
-		            <button id="btnSave">저장</button>
-		        </div>
-				<form id="gamCtrtSubCtrtMngtForm">
-					<table class="searchPanel">
-						<tbody>
-							<tr>
-		                        <th>업체명</th>
-		                        <td><input id="subCtrtEntrpsNm" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
-		                        <th>대금지급합의</th>
-		                        <td><input id="moneyPymntAgree" type="text" style="width: 150px;" class="EditItem" maxlength="2"/></td>
-								<th>공종</th>
-		                        <td><input id="workClass" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
-							</tr>
-							<tr>
-		                    	<th>하도급율</th>
-		                        <td><input id="subctrtRate" type="text" style="width: 150px;" class="EditItem ygpaNumber" data-decimal-point="5"/>%</td>
-		                        <th>원도급금액</th>
-		                        <td><input id="orginlContrAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
-								<th>하도급계약금액</th>
-		                        <td><input id="subctrtCtrtAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
-							</tr>
-							<tr>
-		                    	<th>하도급계약기간</th>
-		                        <td colspan="5">
-		                        	<input id="subCtrtDtFrom" type="text" style="width: 150px;" class="EditItem emdcal"/>
-		                        	~<input id="subCtrtDtTo" type="text" style="width: 150px;" class="EditItem emdcal"/>
-		                        </td>
-							</tr>
-						</tbody>
+			</div>
+			<!-- 214. TAB 4 AREA (SUB) -->
+			<div id="subTab" class="emdTabPage" style="overflow:scroll;">
+				<form id="subForm">
+					<table class="summaryPanel" style="width:100%;">
+						<tr>
+							<th style="font-weight:bold; height:20px;">계약 정보 내역</th>
+						</tr>
+					</table>
+					<table class="detailPanel" style="width:100%;">
+						<tr>
+							<th width="10%" height="18">계　약　번　호</th>
+							<td>
+								<select id="subCtrtSe" disabled>
+									<option value="1">공사</option>
+									<option value="2">용역</option>
+									<option value="3">지급자재</option>
+								</select>
+								<input type="text" size="23" id="subCtrtNo" disabled/>
+							</td>
+							<th width="10%" height="18">계　　약　　명</th>
+							<td colspan="3">
+								<input type="text" size="93" id="subCtrtNm" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">원　인　행　위</th>
+							<td>
+								<input type="text" size="33" id="subCauseAct" disabled/>
+							</td>
+							<th width="10%" height="18">발　주　방　식</th>
+							<td>
+								<input type="text" size="33" id="subOrderMthd" disabled/>
+							</td>
+							<th width="10%" height="18">계　약　방　법</th>
+							<td>
+								<input type="text" size="33" id="subCtrtMth" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">계　약　일　자</th>
+							<td>
+								<input type="text" size="33" id="subCtrtDt" disabled/>
+							</td>
+							<th width="10%" height="18">계　약　금　액</th>
+							<td>
+								<input type="text" size="33" id="subCtrtAmt" class="ygpaNumber" disabled/>
+							</td>
+							<th width="10%" height="18">계　약　기　간</th>
+							<td>
+								<input type="text" size="15" id="subCtrtDtFrom" disabled/> ∼
+								<input type="text" size="15" id="subCtrtDtTo" disabled/>
+							</td>
+						</tr>
+					</table>
+					<table class="summaryPanel" style="width:100%;">
+						<tr>
+							<th style="font-weight:bold; height:20px;">계약 하도급 내역</th>
+							<td style="text-align:right;">
+								<button id="btnSubInsert" class="buttonAdd">　　추　가　　</button>
+								<button id="btnSubSave" class="buttonSave">　　저　장　　</button>
+								<button id="btnSubRemove" class="buttonDelete">　　삭　제　　</button>
+							</td>
+						</tr>
+					</table>
+					<table id="subGrid" style="display:none"></table>
+					<table class="detailPanel" style="width:100%;">
+						<tr>
+							<th width="10%" height="18">순　　　　　번</th>
+							<td>
+								<input type="text" size="33" id="subSeq" disabled/>／
+							</td>
+							<th width="10%" height="18">업　　체　　명</th>
+							<td>
+								<input type="text" size="22" id="subEntrpsNm" maxlength="100"/>
+								<button id="popupSubEntrpsCd" class="popupButton">선택</button>
+							</td>
+							<th width="10%" height="18">공　　　　　종</th>
+							<td>
+								<input type="text" size="33" id="workClass" maxlength="100"/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">대금 지급 합의</th>
+							<td>
+								<select id="moneyPymntAgree">
+									<option value="" selected>선택</option>
+									<option value="10">하도급지급합의</option>
+									<option value="20">하도급지급미합의</option>
+								</select>
+							</td>
+							<th width="10%" height="18">하　도　급　율</th>
+							<td>
+								<input type="text" size="21" id="subctrtRate" class="ygpaNumber" data-decimal-point="5" maxlength="20"/>
+							</td>
+							<th width="10%" height="18">원도급　　금액</th>
+							<td>
+								<input type="text" size="33" id="orginlContrAmt" class="ygpaNumber" maxlength="20"/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">하도급계약금액</th>
+							<td>
+								<input type="text" size="33" id="subctrtCtrtAmt" class="ygpaNumber" maxlength="20"/>
+							</td>
+							<th width="10%" height="18">하도급계약기간</th>
+							<td colspan="3">
+								<input type="text" size="28" id="subctrtCtrtDtFrom" disabled/> ∼
+								<input type="text" size="28" id="subctrtCtrtDtTo" disabled/>
+							</td>
+						</tr>
 					</table>
 				</form>
-            </div>
-            
-            <!-- 계약변경관리 -->
-            <div id="tabs5" class="emdTabPage" style="overflow: scroll;">
-				<table id="fcltyCtrtChangeList" style="display:none"></table>
-		        <div class="emdControlPanel">
-		            <button id="btnCtrtChangeAdd">추가</button>
-		            <button id="btnCtrtChangeRemove">삭제</button>
-		            <button id="btnSave">저장</button>
-		        </div>
-				<form id="gamCtrtChangeMngtForm">
-					<table class="searchPanel">
-						<tbody>
-							<tr>
-		                        <th>변경일자</th>
-		                        <td><input id="changeDt" type="text" style="width: 150px;" class="EditItem emdcal"/></td>
-		                    	<th>변경계약기간</th>
-		                        <td colspan="3">
-		                        	<input id="changeCtrtDtFrom" type="text" style="width: 150px;" class="EditItem emdcal"/>
-		                        	~<input id="changeCtrtDtTo" type="text" style="width: 150px;" class="EditItem emdcal"/>
-		                        </td>
-							</tr>
-							<tr>
-		                        <th>변경계약금액</th>
-		                        <td><input id="changeCtrtAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
-								<th>최종계약금액</th>
-		                        <td colspan=><input id="lastCtrtAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
-							</tr>
-							<tr>
-		                        <th>변경사유</th>
-		                        <td><input id="changeRsn" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
-		                    	<th>비고</th>
-		                        <td>
-		                        	<input id="rm" type="text" style="width: 350px;" class="EditItem" maxlength="333"/>
-		                        </td>
-							</tr>
-						</tbody>
+			</div>
+			<!-- 215. TAB 5 AREA (CHANGE) -->
+			<div id="changeTab" class="emdTabPage" style="overflow:scroll;">
+				<form id="changeForm">
+					<table class="summaryPanel" style="width:100%;">
+						<tr>
+							<th style="font-weight:bold; height:20px;">계약 정보 내역</th>
+						</tr>
+					</table>
+					<table class="detailPanel" style="width:100%;">
+						<tr>
+							<th width="10%" height="18">계　약　번　호</th>
+							<td>
+								<select id="changeInfoCtrtSe" disabled>
+									<option value="1">공사</option>
+									<option value="2">용역</option>
+									<option value="3">지급자재</option>
+								</select>
+								<input type="text" size="23" id="changeInfoCtrtNo" disabled/>
+							</td>
+							<th width="10%" height="18">계　　약　　명</th>
+							<td colspan="3">
+								<input type="text" size="93" id="changeInfoCtrtNm" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">원　인　행　위</th>
+							<td>
+								<input type="text" size="33" id="changeInfoCauseAct" disabled/>
+							</td>
+							<th width="10%" height="18">발　주　방　식</th>
+							<td>
+								<input type="text" size="33" id="changeInfoOrderMthd" disabled/>
+							</td>
+							<th width="10%" height="18">계　약　방　법</th>
+							<td>
+								<input type="text" size="33" id="changeInfoCtrtMth" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">계　약　일　자</th>
+							<td>
+								<input type="text" size="33" id="changeInfoCtrtDt" disabled/>
+							</td>
+							<th width="10%" height="18">계　약　금　액</th>
+							<td>
+								<input type="text" size="33" id="changeInfoCtrtAmt" class="ygpaNumber" disabled/>
+							</td>
+							<th width="10%" height="18">계　약　기　간</th>
+							<td>
+								<input type="text" size="15" id="changeInfoCtrtDtFrom" disabled/> ∼
+								<input type="text" size="15" id="changeInfoCtrtDtTo" disabled/>
+							</td>
+						</tr>
+					</table>
+					<table class="summaryPanel" style="width:100%;">
+						<tr>
+							<th style="font-weight:bold; height:20px;">계약 변경 내역</th>
+							<td style="text-align:right;">
+								<button id="btnChangeInsert" class="buttonAdd">　　추　가　　</button>
+								<button id="btnChangeSave" class="buttonSave">　　저　장　　</button>
+								<button id="btnChangeRemove" class="buttonDelete">　　삭　제　　</button>
+							</td>
+						</tr>
+					</table>
+					<table id="changeGrid" style="display:none"></table>
+					<table class="detailPanel" style="width:100%;">
+						<tr>
+							<th width="10%" height="18">순　　　　　번</th>
+							<td>
+								<input type="text" size="33" id="changeSeq" disabled/>／
+							</td>
+							<th width="10%" height="18">변　경　구　분</th>
+							<td>
+								<select id="changeSe">
+									<option value="" selected>선택</option>
+									<option value="1">기간변경</option>
+									<option value="2">금액변경</option>
+									<option value="9">기타</option>
+								</select>
+							</td>
+							<th width="10%" height="18">변　경　일　자</th>
+							<td>
+								<input type="text" size="30" id="changeDt" class="emdcal"/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">변　경　사　유</th>
+							<td colspan="5">
+								<input type="text" size="150" id="changeRsn" maxlength="100"/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">변경 계약 기간</th>
+							<td>
+								<input type="text" size="15" id="changeCtrtDtFrom" class="emdcal"/> ∼
+								<input type="text" size="15" id="changeCtrtDtTo" class="emdcal"/>
+							</td>
+							<th width="10%" height="18">변경 계약 금액</th>
+							<td>
+								<input type="text" size="33" id="changeCtrtAmt" class="ygpaNumber" maxlength="20"/>
+							</td>
+							<th width="10%" height="18">최종 계약 금액</th>
+							<td>
+								<input type="text" size="33" id="lastCtrtAmt" class="ygpaNumber" maxlength="20"/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">비　　　　　고</th>
+							<td colspan="5">
+								<input type="text" size="150" id="changeRm" maxlength="1000"/>
+							</td>
+						</tr>
 					</table>
 				</form>
-            </div>
-            
-            <!-- 계약대금지급관리 -->
-            <div id="tabs6" class="emdTabPage" style="overflow: scroll;">
-				<table id="fcltyCtrtMoneyPymntList" style="display:none"></table>
-		        <div class="emdControlPanel">
-		            <button id="btnCtrtMoneyPymntAdd">추가</button>
-		            <button id="btnCtrtMoneyPymntRemove">삭제</button>
-		            <button id="btnSave">저장</button>
-		        </div>
-				<form id="gamCtrtMoneyPymntMngtForm">
-					<table class="searchPanel">
-						<tbody>
-							<tr>
-		                        <th>지급분류</th>
-		                        <td><input id="pymntCl" type="text" style="width: 150px;" class="EditItem" maxlength="2"/></td>
-		                        <th>지급일자</th>
-		                        <td><input id="pymntDt" type="text" style="width: 150px;" class="EditItem  emdcal"/></td>
-		                        <th>금회기성금액</th>
-		                        <td><input id="thisTimeEstbAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
-							</tr>
-							<tr>
-		                        <th>선금정산금액</th>
-		                        <td><input id="depositExcclcAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
-		                        <th>지급금액</th>
-		                        <td><input id="pymntAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
-		                        <th>지급누계금액</th>
-		                        <td><input id="pymntAggrAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
-							</tr>
-							<tr>
-		                    	<th>비고</th>
-		                        <td colspan="3">
-		                        	<input id="ctrtMoneyPymntRm" type="text" style="width: 475px;" class="EditItem" maxlength="333"/>
-		                        </td>
-							</tr>
-						</tbody>
+			</div>
+			<!-- 216. TAB 6 AREA (PYMNT) -->
+			<div id="pymntTab" class="emdTabPage" style="overflow:scroll;">
+				<form id="pymntForm">
+					<table class="summaryPanel" style="width:100%;">
+						<tr>
+							<th style="font-weight:bold; height:20px;">계약 정보 내역</th>
+						</tr>
+					</table>
+					<table class="detailPanel" style="width:100%;">
+						<tr>
+							<th width="10%" height="18">계　약　번　호</th>
+							<td>
+								<select id="pymntCtrtSe" disabled>
+									<option value="1">공사</option>
+									<option value="2">용역</option>
+									<option value="3">지급자재</option>
+								</select>
+								<input type="text" size="23" id="pymntCtrtNo" disabled/>
+							</td>
+							<th width="10%" height="18">계　　약　　명</th>
+							<td colspan="3">
+								<input type="text" size="93" id="pymntCtrtNm" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">원　인　행　위</th>
+							<td>
+								<input type="text" size="33" id="pymntCauseAct" disabled/>
+							</td>
+							<th width="10%" height="18">발　주　방　식</th>
+							<td>
+								<input type="text" size="33" id="pymntOrderMthd" disabled/>
+							</td>
+							<th width="10%" height="18">계　약　방　법</th>
+							<td>
+								<input type="text" size="33" id="pymntCtrtMth" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">계　약　일　자</th>
+							<td>
+								<input type="text" size="33" id="pymntCtrtDt" disabled/>
+							</td>
+							<th width="10%" height="18">계　약　금　액</th>
+							<td>
+								<input type="text" size="33" id="pymntCtrtAmt" class="ygpaNumber" disabled/>
+							</td>
+							<th width="10%" height="18">계　약　기　간</th>
+							<td>
+								<input type="text" size="15" id="pymntCtrtDtFrom" disabled/> ∼
+								<input type="text" size="15" id="pymntCtrtDtTo" disabled/>
+							</td>
+						</tr>
+					</table>
+					<table class="summaryPanel" style="width:100%;">
+						<tr>
+							<th style="font-weight:bold; height:20px;">계약 대금 지급 내역</th>
+							<td style="text-align:right;">
+								<button id="btnPymntInsert" class="buttonAdd">　　추　가　　</button>
+								<button id="btnPymntSave" class="buttonSave">　　저　장　　</button>
+								<button id="btnPymntRemove" class="buttonDelete">　　삭　제　　</button>
+							</td>
+						</tr>
+					</table>
+					<table id="pymntGrid" style="display:none"></table>
+					<table class="detailPanel" style="width:100%;">
+						<tr>
+							<th width="10%" height="18">순번／지급분류</th>
+							<td>
+								<input type="text" size="10" id="pymntSeq" disabled/>／
+								<select id="pymntCl">
+									<option value="" selected>선택</option>
+									<option value="10">선급금</option>
+									<option value="20">기성금</option>
+									<option value="30">잔금</option>
+								</select>
+							</td>
+							<th width="10%" height="18">지　급　일　자</th>
+							<td>
+								<input type="text" size="30" id="pymntDt" class="emdcal"/>
+							</td>
+							<th width="10%" height="18">금회 기성 금액</th>
+							<td>
+								<input type="text" size="33" id="thisTimeEstbAmt" class="ygpaNumber" maxlength="20"/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">선금 정산 금액</th>
+							<td>
+								<input type="text" size="33" id="depositExcclcAmt" class="ygpaNumber" maxlength="20"/>
+							</td>
+							<th width="10%" height="18">지　급　금　액</th>
+							<td>
+								<input type="text" size="33" id="pymntAmt" class="ygpaNumber" maxlength="20"/>
+							</td>
+							<th width="10%" height="18">지급 누계 금액</th>
+							<td>
+								<input type="text" size="33" id="pymntAggrAmt" class="ygpaNumber" maxlength="20"/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">비　　　　　고</th>
+							<td colspan="5">
+								<input type="text" size="150" id="pymntRm" maxlength="1000"/>
+							</td>
+						</tr>
 					</table>
 				</form>
-            </div>
-                        
-            <!-- 계약이행이월관리 -->
-            <div id="tabs7" class="emdTabPage" style="overflow: scroll;">
-				<table id="fcltyCtrtFulFillCaryFwdList" style="display:none"></table>
-		        <div class="emdControlPanel">
-		            <button id="btnCtrtFulFillCaryFwdAdd">추가</button>
-		            <button id="btnCtrtFulFillCaryFwdRemove">삭제</button>
-		            <button id="btnSave">저장</button>
-		        </div>
-				<form id="gamCtrtFulFillCaryFwdMngtForm">
-					<table class="searchPanel">
-						<tbody>
-							<tr>
-		                        <th>이행이월년도</th>
-		                        <td><input id="fulfillCaryFwdYear" type="text" style="width: 150px;" class="EditItem" maxlength="4"/>년</td>
-		                        <th>변경계약금액</th>
-		                        <td><input id="fulfillAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
-								<th>최종계약금액</th>
-		                        <td colspan=><input id="caryFwdAmt" type="text" style="width: 150px;" class="EditItem ygpaNumber"/>원</td>
-							</tr>
-						</tbody>
+			</div>
+			<!-- 217. TAB 7 AREA (CARYFWD) -->
+			<div id="caryFwdTab" class="emdTabPage" style="overflow:scroll;">
+				<form id="caryFwdForm">
+					<table class="summaryPanel" style="width:100%;">
+						<tr>
+							<th style="font-weight:bold; height:20px;">계약 정보 내역</th>
+						</tr>
+					</table>
+					<table class="detailPanel" style="width:100%;">
+						<tr>
+							<th width="10%" height="18">계　약　번　호</th>
+							<td>
+								<select id="caryFwdCtrtSe" disabled>
+									<option value="1">공사</option>
+									<option value="2">용역</option>
+									<option value="3">지급자재</option>
+								</select>
+								<input type="text" size="23" id="caryFwdCtrtNo" disabled/>
+							</td>
+							<th width="10%" height="18">계　　약　　명</th>
+							<td colspan="3">
+								<input type="text" size="93" id="caryFwdCtrtNm" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">원　인　행　위</th>
+							<td>
+								<input type="text" size="33" id="caryFwdCauseAct" disabled/>
+							</td>
+							<th width="10%" height="18">발　주　방　식</th>
+							<td>
+								<input type="text" size="33" id="caryFwdOrderMthd" disabled/>
+							</td>
+							<th width="10%" height="18">계　약　방　법</th>
+							<td>
+								<input type="text" size="33" id="caryFwdCtrtMth" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">계　약　일　자</th>
+							<td>
+								<input type="text" size="33" id="caryFwdCtrtDt" disabled/>
+							</td>
+							<th width="10%" height="18">계　약　금　액</th>
+							<td>
+								<input type="text" size="33" id="caryFwdCtrtAmt" class="ygpaNumber" disabled/>
+							</td>
+							<th width="10%" height="18">계　약　기　간</th>
+							<td>
+								<input type="text" size="15" id="caryFwdCtrtDtFrom" disabled/> ∼
+								<input type="text" size="15" id="caryFwdCtrtDtTo" disabled/>
+							</td>
+						</tr>
+					</table>
+					<table class="summaryPanel" style="width:100%;">
+						<tr>
+							<th style="font-weight:bold; height:20px;">계약 이행 이월 내역</th>
+							<td style="text-align:right;">
+								<button id="btnCaryFwdInsert" class="buttonAdd">　　추　가　　</button>
+								<button id="btnCaryFwdSave" class="buttonSave">　　저　장　　</button>
+								<button id="btnCaryFwdRemove" class="buttonDelete">　　삭　제　　</button>
+							</td>
+						</tr>
+					</table>
+					<table id="caryFwdGrid" style="display:none"></table>
+					<table class="detailPanel" style="width:100%;">
+						<tr>
+							<th width="10%" height="18">순번／이월년도</th>
+							<td>
+								<input type="text" size="10" id="caryFwdSeq" disabled/>／
+								<input type="text" size="21" id="fulfillCaryFwdYear" maxlength="4"/>
+							</td>
+							<th width="10%" height="18">이　행　금　액</th>
+							<td>
+								<input type="text" size="33" id="fulfillAmt" class="ygpaNumber"/>
+							</td>
+							<th width="10%" height="18">이　월　금　액</th>
+							<td>
+								<input type="text" size="33" id="caryFwdAmt" class="ygpaNumber"/>
+							</td>
+						</tr>
 					</table>
 				</form>
-            </div>
-
-            <!-- 계약낙찰정보관리 -->
-            <div id="tabs8" class="emdTabPage" style="overflow: scroll;">
-				<table id="fcltyCtrtScsbidInfoList" style="display:none"></table>
-		        <div class="emdControlPanel">
-		            <button id="btnCtrtScsbidInfoAdd">추가</button>
-		            <button id="btnCtrtScsbidInfoRemove">삭제</button>
-		            <button id="btnSave">저장</button>
-		        </div>
-				<form id="gamCtrtScsbidInfoMngtForm">
-					<table class="searchPanel">
-						<tbody>
-							<tr>
-								<th>낙찰순위</th>
-		                        <td><input id="scsbidRank" type="text" style="width: 150px;" class="EditItem ygpaNumber" maxlength="3"/></td>
-		                        <th>업체명</th>
-		                        <td><input id="scsbidEntrpsNm" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
-		                        <th>대표자</th>
-		                        <td><input id="scsbidRprsntv" type="text" style="width: 150px;" class="EditItem" maxlength="33"/></td>
-							</tr>
-							<tr>
-								<th>사업자번호</th>
-		                        <td><input id="scsbidBsnmNo" type="text" style="width: 150px;" class="EditItem" maxlength="14"/></td>
-		                        <th>전화번호</th>
-		                        <td><input id="scsbidTlphonNo" type="text" style="width: 150px;" class="EditItem" maxlength="100"/></td>
-								<th>팩스번호</th>
-		                        <td><input id="scsbidFaxNo" type="text" style="width: 150px;" class="EditItem" maxlength="100"/></td>
-							</tr>
-						</tbody>
+			</div>
+			<!-- 218. TAB 8 AREA (SCSBID) -->
+			<div id="scsbidTab" class="emdTabPage" style="overflow:scroll;">
+				<form id="scsbidForm">
+					<table class="summaryPanel" style="width:100%;">
+						<tr>
+							<th style="font-weight:bold; height:20px;">계약 정보 내역</th>
+						</tr>
+					</table>
+					<table class="detailPanel" style="width:100%;">
+						<tr>
+							<th width="10%" height="18">계　약　번　호</th>
+							<td>
+								<select id="scsbidCtrtSe" disabled>
+									<option value="1">공사</option>
+									<option value="2">용역</option>
+									<option value="3">지급자재</option>
+								</select>
+								<input type="text" size="23" id="scsbidCtrtNo" disabled/>
+							</td>
+							<th width="10%" height="18">계　　약　　명</th>
+							<td colspan="3">
+								<input type="text" size="93" id="scsbidCtrtNm" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">원　인　행　위</th>
+							<td>
+								<input type="text" size="33" id="scsbidCauseAct" disabled/>
+							</td>
+							<th width="10%" height="18">발　주　방　식</th>
+							<td>
+								<input type="text" size="33" id="scsbidOrderMthd" disabled/>
+							</td>
+							<th width="10%" height="18">계　약　방　법</th>
+							<td>
+								<input type="text" size="33" id="scsbidCtrtMth" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">계　약　일　자</th>
+							<td>
+								<input type="text" size="33" id="scsbidCtrtDt" disabled/>
+							</td>
+							<th width="10%" height="18">계　약　금　액</th>
+							<td>
+								<input type="text" size="33" id="scsbidCtrtAmt" class="ygpaNumber" disabled/>
+							</td>
+							<th width="10%" height="18">계　약　기　간</th>
+							<td>
+								<input type="text" size="15" id="scsbidCtrtDtFrom" disabled/> ∼
+								<input type="text" size="15" id="scsbidCtrtDtTo" disabled/>
+							</td>
+						</tr>
+					</table>
+					<table class="summaryPanel" style="width:100%;">
+						<tr>
+							<th style="font-weight:bold; height:20px;">계약 낙찰 정보 내역</th>
+							<td style="text-align:right;">
+								<button id="btnScsbidInsert" class="buttonAdd">　　추　가　　</button>
+								<button id="btnScsbidSave" class="buttonSave">　　저　장　　</button>
+								<button id="btnScsbidRemove" class="buttonDelete">　　삭　제　　</button>
+							</td>
+						</tr>
+					</table>
+					<table id="scsbidGrid" style="display:none"></table>
+					<table class="detailPanel" style="width:100%;">
+						<tr>
+							<th width="10%" height="18">순번／낙찰순위</th>
+							<td>
+								<input type="text" size="10" id="scsbidSeq" disabled/>／
+								<input type="text" size="21" id="scsbidRank" maxlength="3"/>
+							</td>
+							<th width="10%" height="18">업　　체　　명</th>
+							<td>
+								<input type="text" size="22" id="scsbidEntrpsNm" maxlength="100"/>
+								<button id="popupScsbidEntrpsCd" class="popupButton">선택</button>
+							</td>
+							<th width="10%" height="18">대　　표　　자</th>
+							<td>
+								<input type="text" size="33" id="scsbidRprsntv" maxlength="100"/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">사업자　　번호</th>
+							<td>
+								<input type="text" size="33" id="scsbidBsnmNo" maxlength="14"/>
+							</td>
+							<th width="10%" height="18">전　화　번　호</th>
+							<td>
+								<input type="text" size="33" id="scsbidTlphonNo" maxlength="100"/>
+							</td>
+							<th width="10%" height="18">팩　스　번　호</th>
+							<td>
+								<input type="text" size="33" id="scsbidFaxNo" maxlength="100"/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">비　　　　　고</th>
+							<td colspan="5">
+								<input type="text" size="150" id="scsbidRm" maxlength="1000"/>
+							</td>
+						</tr>
 					</table>
 				</form>
-	        </div>
-            
-        </div>
-    </div>
+			</div>
+		</div>
+	</div>
 </div>
+
+
+<%
+/******************************** UI       END ********************************/
+%>
