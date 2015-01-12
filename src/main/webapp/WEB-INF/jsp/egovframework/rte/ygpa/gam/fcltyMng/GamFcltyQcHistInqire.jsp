@@ -44,7 +44,7 @@ GamFcltyQcHistInqireModule.prototype.loadComplete = function(params) {
 		colModel : [
 					{display:"점검진단기관명",	name:"qcInspInsttNm",		width:120,		sortable:false,		align:"center"},
 					{display:"점검시설명",		name:"prtFcltyNm",			width:150,		sortable:false,		align:"center"},
-					{display:"시설진단일자",	name:"objQcInspDt",			width:90,		sortable:false,		align:"center"},
+					{display:"시설점검일자",	name:"objQcInspDt",			width:90,		sortable:false,		align:"center"},
 					{display:"시설상태등급",	name:"objSttusEvlLvlNm",	width:90,		sortable:false,		align:"center"},
 					{display:"점검관리명", 	    name:"qcMngNm",				width:200,		sortable:false,		align:"left"},
 					{display:"시행년도",		name:"enforceYear",			width:60,		sortable:false,		align:"center"},
@@ -213,7 +213,7 @@ var module_instance = new GamFcltyQcHistInqireModule();
 					<table class="summaryPanel"  style="width:100%;">
 						<tbody>
 							<tr>
-								<th style="font-weight:bold;">점검 대상시설물</th>
+								<th style="font-weight:bold;">점검 대상시설물 내역</th>
 							</tr>
 						</tbody>
 					</table>
@@ -254,7 +254,7 @@ var module_instance = new GamFcltyQcHistInqireModule();
 					<table class="summaryPanel"  style="width:100%;">
 						<tbody>
 							<tr>
-								<th style="font-weight:bold;">점검관리 상세내역</th>
+								<th style="font-weight:bold;">점검관리 내역</th>
 							</tr>
 						</tbody>
 					</table>				
