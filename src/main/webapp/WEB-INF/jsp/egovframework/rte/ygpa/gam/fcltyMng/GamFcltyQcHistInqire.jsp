@@ -77,6 +77,7 @@ GamFcltyQcHistInqireModule.prototype.onSubmit = function() {
 //화면 및 데이터 초기화
 GamFcltyQcHistInqireModule.prototype.initDisplay = function() {	
 	this.makeDivValues("#fcltyQcHistInqireVO", {});
+	this.makeFormValues("#fcltyQcHistInqireVO", {});
 };
 
 //점검이력 목록 조회

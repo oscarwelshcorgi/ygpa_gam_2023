@@ -102,11 +102,11 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectQcMngResultItemList.do',
 		dataType: 'json',
 		colModel : [
-					{display:"순번",			name:"seq",				width:90,		sortable:true,		align:"center"},
-					{display:"시설명",		name:"qcItemUpperNm",	width:300,		sortable:true,		align:"left"},
+					{display:"점검상위항목",	name:"qcItemUpperNm",	width:300,		sortable:true,		align:"left"},
 					{display:"점검항목",		name:"qcItemNm",		width:300,		sortable:true,		align:"left"},
 					{display:"점검항목결과구분",	name:"inspResultChkNm",	width:150,		sortable:true,		align:"center"}
 			],
+		mergeRows : "qcItemUpperCd, qcItemUpperNm",			
 		height: "230"
 	});
 
@@ -957,7 +957,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="qcMngDtlsList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button data-role="printPage" data-search-option="searchFcltyQcwWrtMngForm" data-url='/fcltyMng/selectQcMngDtlsReportPrint.do'>점검목록인쇄</button>
+					<!-- <button data-role="printPage" data-search-option="searchFcltyQcwWrtMngForm" data-url='/fcltyMng/selectQcMngDtlsReportPrint.do'>점검목록인쇄</button>-->
 					<button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
 					<button id="btnAdd">추가</button>
 					<button id="btnDelete">삭제</button>
@@ -1138,7 +1138,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 		            <button id="btnSave">저장</button>
 		        </div>
 				<form id="gamQcMngObjFcltsForm">
-					<table class="searchPanel">
+					<table  class="detailPanel"  style="width:100%;">
 						<tbody>
 							<tr>
 		                        <th>시설물</th>
@@ -1224,7 +1224,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 		            <button id="btnSave">저장</button>
 		        </div>
 				<form id="gamQcMngResultItemForm">
-					<table class="searchPanel">
+					<table  class="detailPanel"  style="width:100%;">
 						<tbody>
 							<tr>
 		                        <th>점검항목</th>
