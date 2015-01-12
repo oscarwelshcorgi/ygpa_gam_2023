@@ -63,12 +63,7 @@ GamFcltyQcSttusInqireModule.prototype.loadComplete = function(params) {
 	
 	this._cmd = '';
 	
-	this.$("#qcMngDtlsList").on('onItemSelected', function(event, module, row, grid, param) {
-		module._cmd = "modify";
-	});
-	
 	this.$("#qcMngDtlsList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module._cmd = "modify";
 		module.$("#fcltyQcwWrtMngTab").tabs("option", {active: 1});
 	});
 
@@ -83,7 +78,7 @@ GamFcltyQcSttusInqireModule.prototype.loadComplete = function(params) {
 					{display:"점검진단일자",	name:"qcInspDt",		width:100,		sortable:true,		align:"center"},
 					{display:"비고",			name:"rm",				width:350,		sortable:true,		align:"left"}
 			],
-		height: "180"
+		height: "220"
 	});
 	
 	this.$("#qcMngObjFcltsList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -100,7 +95,7 @@ GamFcltyQcSttusInqireModule.prototype.loadComplete = function(params) {
 					{display:"점검항목",		name:"qcItemNm",		width:300,		sortable:true,		align:"left"},
 					{display:"점검항목결과구분",	name:"inspResultChkNm",	width:150,		sortable:true,		align:"center"}
 			],
-		height: "230"
+		height: "250"
 	});
 
 	this.$("#qcMngResultItemList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -140,6 +135,16 @@ GamFcltyQcSttusInqireModule.prototype.initDisplay = function() {
 	this.$("#fcltyQcwWrtMngVO :input").val("");
 	this.$("#qcMngAtchFileForm :input").val("");
 	
+	this.makeDivValues('#fcltyQcwWrtMngVO', []);
+	this.summaryDisplay();
+	
+	this.makeDivValues('#gamQcMngObjFcltsForm', []);
+	this.makeDivValues('#gamQcMngResultItemForm', []);
+	this.makeDivValues('#qcMngAtchFileForm', []);
+	
+	this.makeFormValues('#gamQcMngObjFcltsForm', []);
+	this.makeFormValues('#gamQcMngResultItemForm', []);
+
 	this.$('#qcMngObjFcltsList').flexEmptyData();
 	this.$('#qcMngResultItemList').flexEmptyData();
 	this.$('#qcMngAtchFileList').flexEmptyData();
@@ -225,7 +230,6 @@ GamFcltyQcSttusInqireModule.prototype.selectQcMngFcltsItem = function() {
 	if(rows.length > 0) {
 		var row = rows[0];
 		//row의 col명과 form의 id가 달라서 직접대입.
-		
 		this.$("#objMngPrtFcltyNm").text((row["prtFcltyNm"] != null) ? row["prtFcltyNm"] : '');
 		this.$("#objMngSttusEvlLvlNm").text((row["sttusEvlLvlNm"] != null) ? row["sttusEvlLvlNm"] : '');
 		this.$("#objMngQcInspDt").text((row["qcInspDt"] != null) ? row["qcInspDt"] : '');
@@ -315,7 +319,7 @@ GamFcltyQcSttusInqireModule.prototype.onButtonClick = function(buttonId) {
  * 탭 변경시 실행 이벤트
  */
 GamFcltyQcSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
-	if(oldTabId == 'tabs1' && this._cmd == 'modify') {
+	if(oldTabId == 'tabs1') {
 		this.initDisplay();
 		this.loadDetailData();
 	}
@@ -329,10 +333,6 @@ GamFcltyQcSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId)
 		case "tabs3":
 		case "tabs4":
 		case "tabs5":
-			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
-				this.$("#fcltyQcwWrtMngTab").tabs("option", {active: 0});
-				alert('시설물점검항목을 선택하시거나 추가버튼을 누르세요.');
-			} 
 			break;
 	}
 };
@@ -647,12 +647,12 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 					<table class="searchPanel">
 						<tbody>
 							<tr>
-		                        <th>점검항목</th>
-		                        <td>
+		                        <th width="10%">점검항목</th>
+		                        <td width="40%">
 		                        	<span id="qcItemNm"></span>
 		                        </td>							
-		                        <th width="5%">점검결과구분</th>
-		                        <td width="30%">
+		                        <th width="10%">점검결과구분</th>
+		                        <td width="40%">
 		                        	<span id="inspResultChkNm"></span>
 		                        </td>
 							</tr>
