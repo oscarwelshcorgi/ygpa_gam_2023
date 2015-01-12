@@ -580,13 +580,6 @@ GamFcltyCtrtMngModule.prototype.onClosePopup = function(popupId, msg, value) {
 				this.$('#sStartCtrtAmt').focus();
 			}
 			break;
-		case 'popupCtrtJobChrgDeptCd':
-			if (msg == 'ok') {
-				this.$('#jobChrgDeptCd').val(value.deptCd);
-				this.$('#jobChrgDeptNm').val(value.deptNm);
-				this.$('#caryFwdBdgtAmt').focus();
-			}
-			break;
 		case 'popupCtrtRegistEntrpsCd':
 			if (msg == 'ok') {
 				this.$('#registEntrpsCd').val(value.entrpscd);
@@ -776,9 +769,6 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'popupSubEntrpsCd':
 		case 'popupScsbidEntrpsCd':
 			this.doExecuteDialog(buttonId, '업체 선택', '/popup/showEntrpsInfo.do', null);
-			break;
-		case 'popupCtrtJobChrgDeptCd':
-			this.doExecuteDialog(buttonId, '부서 선택', '/popup/showDeptCd.do', null);
 			break;
 	}
 
@@ -1648,92 +1638,92 @@ GamFcltyCtrtMngModule.prototype.saveData = function() {
 		this.$("#ctrtNo").focus();
 		return;
 	}
-	if (isValidDate(ctrtDt, true) == false) {
+	if (this.isValidDate(ctrtDt, true) == false) {
 		alert('계약 일자가 부정확합니다.');
 		this.$("#ctrtDt").focus();
 		return;
 	}
-	if (isValidDate(ctrtDtFrom, true) == false) {
+	if (this.isValidDate(ctrtDtFrom, true) == false) {
 		alert('계약 시작 일자가 부정확합니다.');
 		this.$("#ctrtDtFrom").focus();
 		return;
 	}
-	if (isValidDate(ctrtDtTo, true) == false) {
+	if (this.isValidDate(ctrtDtTo, true) == false) {
 		alert('계약 종료 일자가 부정확합니다.');
 		this.$("#ctrtDtTo").focus();
 		return;
 	}
-	if (isValidDateFromTo(ctrtDtFrom, ctrtDtTo, true) == false) {
+	if (this.isValidDateFromTo(ctrtDtFrom, ctrtDtTo, true) == false) {
 		alert('계약 기간이 부정확합니다.');
 		this.$("#ctrtDtTo").focus();
 		return;
 	}
-	if (isValidDate(bidPblancDt, false) == false) {
+	if (this.isValidDate(bidPblancDt, false) == false) {
 		alert('입찰 공고 일자가 부정확합니다.');
 		this.$("#bidPblancDt").focus();
 		return;
 	}
-	if (isValidDate(bidDt, false) == false) {
+	if (this.isValidDate(bidDt, false) == false) {
 		alert('입찰 일자가 부정확합니다.');
 		this.$("#bidPblancDt").focus();
 		return;
 	}
-	if (isValidDate(ctrtExamDt, false) == false) {
+	if (this.isValidDate(ctrtExamDt, false) == false) {
 		alert('계약 검사 일자가 부정확합니다.');
 		this.$("#ctrtExamDt").focus();
 		return;
 	}
-	if (isValidDate(flawDtFrom, false) == false) {
+	if (this.isValidDate(flawDtFrom, false) == false) {
 		alert('하자 시작 일자가 부정확합니다.');
 		this.$("#flawDtFrom").focus();
 		return;
 	}
-	if (isValidDate(flawDtTo, false) == false) {
+	if (this.isValidDate(flawDtTo, false) == false) {
 		alert('하자 종료 일자가 부정확합니다.');
 		this.$("#flawDtTo").focus();
 		return;
 	}
-	if (isValidDateFromTo(flawDtFrom, flawDtTo, false) == false) {
+	if (this.isValidDateFromTo(flawDtFrom, flawDtTo, false) == false) {
 		alert('하자 기간이 부정확합니다.');
 		this.$("#flawDtTo").focus();
 		return;
 	}
-	if (isValidAmount(baseAmt) == false) {
+	if (this.isValidAmount(baseAmt) == false) {
 		alert('기초 금액이 부정확합니다.');
 		this.$("#baseAmt").focus();
 		return;
 	}
-	if (isValidAmount(planAmt) == false) {
+	if (this.isValidAmount(planAmt) == false) {
 		alert('설계 금액이 부정확합니다.');
 		this.$("#planAmt").focus();
 		return;
 	}
-	if (isValidAmount(scsbidAmt) == false) {
+	if (this.isValidAmount(scsbidAmt) == false) {
 		alert('낙찰 금액이 부정확합니다.');
 		this.$("#scsbidAmt").focus();
 		return;
 	}
-	if (isValidAmount(scsbidRate) == false) {
+	if (this.isValidAmount(scsbidRate) == false) {
 		alert('낙찰 율이 부정확합니다.');
 		this.$("#scsbidRate").focus();
 		return;
 	}
-	if (isValidAmount(ctrtGrntyAmt) == false) {
+	if (this.isValidAmount(ctrtGrntyAmt) == false) {
 		alert('계약 보증 금액이 부정확합니다.');
 		this.$("#ctrtGrntyAmt").focus();
 		return;
 	}
-	if (isValidAmount(ctrtAmt) == false) {
+	if (this.isValidAmount(ctrtAmt) == false) {
 		alert('계약 금액이 부정확합니다.');
 		this.$("#ctrtAmt").focus();
 		return;
 	}
-	if (isValidAmount(prmtAmt) == false) {
+	if (this.isValidAmount(prmtAmt) == false) {
 		alert('예정 금액이 부정확합니다.');
 		this.$("#prmtAmt").focus();
 		return;
 	}
-	if (isValidAmount(caryFwdBdgtAmt) == false) {
+	if (this.isValidAmount(caryFwdBdgtAmt) == false) {
 		alert('이월 예산 금액이 부정확합니다.');
 		this.$("#caryFwdBdgtAmt").focus();
 		return;
@@ -1864,7 +1854,7 @@ GamFcltyCtrtMngModule.prototype.saveJoinData = function() {
 		this.$("#joinTlphonNo").focus();
 		return;
 	}
-	if (isValidAmount(qotaRate) == false) {
+	if (this.isValidRate(qotaRate) == false) {
 		alert('지분 율이 부정확합니다.');
 		this.$("#qotaRate").focus();
 		return;
@@ -1985,17 +1975,17 @@ GamFcltyCtrtMngModule.prototype.saveSubData = function() {
 		this.$("#moneyPymntAgree").focus();
 		return;
 	}
-	if (isValidAmount(subctrtRate) == false) {
+	if (this.isValidRate(subctrtRate) == false) {
 		alert('하도급 율이 부정확합니다.');
 		this.$("#subctrtRate").focus();
 		return;
 	}
-	if (isValidAmount(orginlContrAmt) == false) {
+	if (this.isValidAmount(orginlContrAmt) == false) {
 		alert('원 도급 금액이 부정확합니다.');
 		this.$("#orginlContrAmt").focus();
 		return;
 	}
-	if (isValidAmount(subctrtCtrtAmt) == false) {
+	if (this.isValidAmount(subctrtCtrtAmt) == false) {
 		alert('하도급 금액이 부정확합니다.');
 		this.$("#subctrtCtrtAmt").focus();
 		return;
@@ -2005,17 +1995,17 @@ GamFcltyCtrtMngModule.prototype.saveSubData = function() {
 		this.$("#subctrtCtrtAmt").focus();
 		return;
 	}
-	if (isValidDate(subctrtCtrtDtFrom, true) == false) {
+	if (this.isValidDate(subctrtCtrtDtFrom, true) == false) {
 		alert('하도급 계약 시작 일자가 부정확합니다.');
 		this.$("#subctrtCtrtDtFrom").focus();
 		return;
 	}
-	if (isValidDate(subctrtCtrtDtTo, true) == false) {
+	if (this.isValidDate(subctrtCtrtDtTo, true) == false) {
 		alert('하도급 계약 종료 일자가 부정확합니다.');
 		this.$("#subctrtCtrtDtTo").focus();
 		return;
 	}
-	if (isValidDateFromTo(subctrtCtrtDtFrom, subctrtCtrtDtTo, true) == false) {
+	if (this.isValidDateFromTo(subctrtCtrtDtFrom, subctrtCtrtDtTo, true) == false) {
 		alert('하도급 계약 기간이 부정확합니다.');
 		this.$("#subctrtCtrtDtTo").focus();
 		return;
@@ -2131,7 +2121,7 @@ GamFcltyCtrtMngModule.prototype.saveChangeData = function() {
 		this.$("#changeSe").focus();
 		return;
 	}
-	if (isValidDate(changeDt, true) == false) {
+	if (this.isValidDate(changeDt, true) == false) {
 		alert('변경 일자가 부정확합니다.');
 		this.$("#changeDt").focus();
 		return;
@@ -2142,28 +2132,28 @@ GamFcltyCtrtMngModule.prototype.saveChangeData = function() {
 		return;
 	}
 	if (changeSe == "1") {
-		if (isValidDate(changeCtrtDtFrom, true) == false) {
+		if (this.isValidDate(changeCtrtDtFrom, true) == false) {
 			alert('변경 계약 시작 일자가 부정확합니다.');
 			this.$("#changeCtrtDtFrom").focus();
 			return;
 		}
-		if (isValidDate(changeCtrtDtTo, true) == false) {
+		if (this.isValidDate(changeCtrtDtTo, true) == false) {
 			alert('변경 계약 종료 일자가 부정확합니다.');
 			this.$("#changeCtrtDtTo").focus();
 			return;
 		}
-		if (isValidDateFromTo(changeCtrtDtFrom, changeCtrtDtTo, true) == false) {
+		if (this.isValidDateFromTo(changeCtrtDtFrom, changeCtrtDtTo, true) == false) {
 			alert('변경 계약 기간이 부정확합니다.');
 			this.$("#changeCtrtDtTo").focus();
 			return;
 		}
 	} else if (changeSe == "2") {
-		if (isValidAmount(changeCtrtAmt) == false) {
+		if (this.isValidAmount(changeCtrtAmt) == false) {
 			alert('변경 계약 금액이 부정확합니다.');
 			this.$("#changeCtrtAmt").focus();
 			return;
 		}
-		if (isValidAmount(lastCtrtAmt) == false) {
+		if (this.isValidAmount(lastCtrtAmt) == false) {
 			alert('최종 계약 금액이 부정확합니다.');
 			this.$("#lastCtrtAmt").focus();
 			return;
@@ -2278,27 +2268,27 @@ GamFcltyCtrtMngModule.prototype.savePymntData = function() {
 		this.$("#pymntCl").focus();
 		return;
 	}
-	if (isValidDate(pymntDt, true) == false) {
+	if (this.isValidDate(pymntDt, true) == false) {
 		alert('지급 일자가 부정확합니다.');
 		this.$("#pymntDt").focus();
 		return;
 	}
-	if (isValidAmount(thisTimeEstbAmt) == false) {
+	if (this.isValidAmount(thisTimeEstbAmt) == false) {
 		alert('금회 기성 금액이 부정확합니다.');
 		this.$("#thisTimeEstbAmt").focus();
 		return;
 	}
-	if (isValidAmount(depositExcclcAmt) == false) {
+	if (this.isValidAmount(depositExcclcAmt) == false) {
 		alert('선금 정산 금액이 부정확합니다.');
 		this.$("#depositExcclcAmt").focus();
 		return;
 	}
-	if (isValidAmount(pymntAmt) == false) {
+	if (this.isValidAmount(pymntAmt) == false) {
 		alert('지급 금액이 부정확합니다.');
 		this.$("#pymntAmt").focus();
 		return;
 	}
-	if (isValidAmount(pymntAggrAmt) == false) {
+	if (this.isValidAmount(pymntAggrAmt) == false) {
 		alert('지급 누계 금액이 부정확합니다.');
 		this.$("#pymntAggrAmt").focus();
 		return;
@@ -2405,17 +2395,17 @@ GamFcltyCtrtMngModule.prototype.saveCaryFwdData = function() {
 		alert('순번이 부정확합니다.');
 		return;
 	}
-	if (isValidYear(fulfillCaryFwdYear, true) == false) {
+	if (this.isValidYear(fulfillCaryFwdYear, true) == false) {
 		alert('이월 년도가 부정확합니다.');
 		this.$("#fulfillCaryFwdYear").focus();
 		return;
 	}
-	if (isValidAmount(fulfillAmt) == false) {
+	if (this.isValidAmount(fulfillAmt) == false) {
 		alert('이행 금액이 부정확합니다.');
 		this.$("#fulfillAmt").focus();
 		return;
 	}
-	if (isValidAmount(caryFwdAmt) == false) {
+	if (this.isValidAmount(caryFwdAmt) == false) {
 		alert('이월 금액이 부정확합니다.');
 		this.$("#caryFwdAmt").focus();
 		return;
@@ -3606,10 +3596,14 @@ var module_instance = new GamFcltyCtrtMngModule();
 					<form id="listSumForm">
 						<table style="width:100%;">
 							<tr>
-								<th style="width:10%; height:20; text-align:center;">자료수</th>
+								<th style="width:6%; height:20; text-align:center;">자료수</th>
 								<td><input type="text" size="6" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
-								<th style="width:10%; height:20; text-align:center;">계약금액</th>
-								<td><input type="text" size="20" id="sumCtrtAmt" class="ygpaNumber" disabled="disabled"/></td>
+								<th style="width:6%; height:20; text-align:center;">설계금액</th>
+								<td><input type="text" size="18" id="sumPlanAmt" class="ygpaNumber" disabled="disabled"/></td>
+								<th style="width:6%; height:20; text-align:center;">계약금액</th>
+								<td><input type="text" size="18" id="sumCtrtAmt" class="ygpaNumber" disabled="disabled"/></td>
+								<th style="width:6%; height:20; text-align:center;">낙찰금액</th>
+								<td><input type="text" size="18" id="sumScsbidAmt" class="ygpaNumber" disabled="disabled"/></td>
 								<td style="text-align:right;">
 									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
 									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
@@ -3767,11 +3761,6 @@ var module_instance = new GamFcltyCtrtMngModule();
 								<th width="10%" height="27px">담당 부서 코드</th>
 								<td>
 									<input type="text" size="33" id="jobChrgDeptCd" class="ygpaCmmnCd" data-code-id="GAM064" data-default-prompt="없음">
-									<!--
-									<input type="text" size="8" id="jobChrgDeptCd" maxlength="8"/>
-									<input type="text" size="12" id="jobChrgDeptNm" disabled/>
-									<button id="popupCtrtJobChrgDeptCd" class="popupButton">선택</button>
-									 -->
 								</td>
 								<th width="10%" height="27px">이월 예산 금액</th>
 								<td>
