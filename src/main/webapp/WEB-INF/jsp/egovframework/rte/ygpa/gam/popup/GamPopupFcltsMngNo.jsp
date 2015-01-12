@@ -32,7 +32,9 @@ GamPopupFcltsMngNoModule.prototype.loadComplete = function(params) {
 	this.resizable(true);
 	
 	//시설물 업무 구분(조회조건)
-	this.$('#sFcltsJobSe').val(params['fcltsJobSe']);
+	if(params['fcltsJobSe'] != undefined) {
+		this.$('#sFcltsJobSe').val(params['fcltsJobSe']);
+	}
 	
 	this.$("#grdInfoList").flexigrid({
 		module: this,

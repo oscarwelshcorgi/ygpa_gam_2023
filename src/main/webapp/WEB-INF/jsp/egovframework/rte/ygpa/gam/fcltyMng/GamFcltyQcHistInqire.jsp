@@ -123,7 +123,7 @@ GamFcltyQcHistInqireModule.prototype.onButtonClick = function(buttonId) {
 			this.loadData();
 			break;
 		case "popupSearchFcltsMngNo":
-			this.doExecuteDialog('selectFcltsMngNo', '시설물 선택', '/popup/showFcltsMngNo.do', {});
+			this.doExecuteDialog('selectFcltsMngNo', '시설물 선택', '/popup/showFcltsMngNo.do', {}, {});
 			break;
 	}
 };
