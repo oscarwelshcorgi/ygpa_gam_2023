@@ -47,6 +47,9 @@
 			                    , F.PRT_PRT_FCLTY_MNGER PRT_PRT_FCLTY_MNGER
 			                    , F.INFO INFO
 			                    , F.FCLTS_MNG_NO
+			                    , (SELECT FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F WHERE FCLTS_MNG_GROUP_NO = F.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GROUP_NO_NM
+			                    , R.LOC
+			                    , TO_CHAR(R.BLD_DT, 'YYYY-MM-DD') AS BLD_DT
 		                FROM
 		                	GIS_PRT_FCLTY_CD_F F,
 		                	GIS_ASSETS_CD_F A,
