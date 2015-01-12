@@ -105,13 +105,13 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 		module._mainKeyValue = row.ctrtNo;
 		module.enableListButtonItem();
 	});
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 		module._mainKeyValue = row.ctrtNo;
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
@@ -573,11 +573,25 @@ GamFcltyCtrtMngModule.prototype.isValidDateFromTo = function(startDateString, en
 GamFcltyCtrtMngModule.prototype.onClosePopup = function(popupId, msg, value) {
 
 	switch (popupId) {
-		case 'popupDataRegistEntrpsCd':
+		case 'popupSearchRegistEntrpsCd':
+			if (msg == 'ok') {
+				this.$('#sRegistEntrpsCd').val(value.entrpscd);
+				this.$('#sRegistEntrpsNm').val(value.entrpsNm);
+				this.$('#sStartCtrtAmt').focus();
+			}
+			break;
+		case 'popupCtrtJobChrgDeptCd':
+			if (msg == 'ok') {
+				this.$('#jobChrgDeptCd').val(value.deptCd);
+				this.$('#jobChrgDeptNm').val(value.deptNm);
+				this.$('#caryFwdBdgtAmt').focus();
+			}
+			break;
+		case 'popupCtrtRegistEntrpsCd':
 			if (msg == 'ok') {
 				this.$('#registEntrpsCd').val(value.entrpscd);
 				this.$('#registEntrpsNm').val(value.entrpsNm);
-				this.$('#registEntrpsCd').focus();
+				this.$('#scsbider').focus();
 			}
 			break;
 		case 'popupJoinEntrpsCd':
@@ -626,33 +640,145 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 
 	switch (buttonId) {
 		case 'btnAdd':
-			this._mode = 'insert';
+			this._mainmode = 'insert';
 			this._mainKeyValue = '';
 			this.$("#mainTab").tabs("option", {active: 1});
 			break;
-		case 'btnInsert':
-			this._mode = 'insert';
+		case 'btnDelete':
+			if (this._mainmode=="modify") {
+				this.loadDetail('listTab');
+				this.enableDetailInputItem();
+				this.deleteData();
+			}
+			break;
+		case 'btnExcelDownload':
+			this.downloadExcel(buttonId);
+			break;
+		case 'btnCtrtInsert':
+			this._mainmode = 'insert';
 			this._mainKeyValue = '';
 			this.makeFormValues('#detailForm', {});
 			this.makeDivValues('#detailForm', {});
 			this.disableDetailInputItem();
 			this.addData();
 			break;
-	    case 'btnSave':
+	    case 'btnCtrtSave':
 	    	this.saveData();
 			break;
-		case 'btnDelete':
-			if (this._mode=="modify") {
-				this.loadDetail('listTab');
-				this.enableDetailInputItem();
-				this.deleteData();
-			}
-			break;
-		case 'btnRemove':
+		case 'btnCtrtRemove':
 			this.deleteData();
 			break;
-		case 'btnExcelDownload':
-			this.downloadExcel();
+		case 'btnJoinInsert':
+			this._joinmode = 'insert';
+			this._joinKeyValue = '';
+			this.makeFormValues('#joinForm', {});
+			this.makeDivValues('#joinForm', {});
+			this.disableJoinDetailInputItem();
+			this.addJoinData();
+			break;
+	    case 'btnJoinSave':
+	    	this.saveJoinData();
+			break;
+		case 'btnJoinRemove':
+			this.deleteJoinData();
+			break;
+		case 'btnJoinExcelDownload':
+			this.downloadExcel(buttonId);
+			break;
+		case 'btnSubInsert':
+			this._submode = 'insert';
+			this._subKeyValue = '';
+			this.makeFormValues('#subForm', {});
+			this.makeDivValues('#subForm', {});
+			this.disableSubDetailInputItem();
+			this.addSubData();
+			break;
+	    case 'btnSubSave':
+	    	this.saveSubData();
+			break;
+		case 'btnSubRemove':
+			this.deleteSubData();
+			break;
+		case 'btnSubExcelDownload':
+			this.downloadExcel(buttonId);
+			break;
+		case 'btnChangeInsert':
+			this._changemode = 'insert';
+			this._changeKeyValue = '';
+			this.makeFormValues('#changeForm', {});
+			this.makeDivValues('#changeForm', {});
+			this.disableChangeDetailInputItem();
+			this.addChangeData();
+			break;
+	    case 'btnChangeSave':
+	    	this.saveChangeData();
+			break;
+		case 'btnChangeRemove':
+			this.deleteChangeData();
+			break;
+		case 'btnChangeExcelDownload':
+			this.downloadExcel(buttonId);
+			break;
+		case 'btnPymntInsert':
+			this._pymntmode = 'insert';
+			this._pymntKeyValue = '';
+			this.makeFormValues('#pymntForm', {});
+			this.makeDivValues('#pymntForm', {});
+			this.disablePymntDetailInputItem();
+			this.addPymntData();
+			break;
+	    case 'btnPymntSave':
+	    	this.savePymntData();
+			break;
+		case 'btnPymntRemove':
+			this.deletePymntData();
+			break;
+		case 'btnPymntExcelDownload':
+			this.downloadExcel(buttonId);
+			break;
+		case 'btnCaryFwdInsert':
+			this._caryFwdmode = 'insert';
+			this._caryFwdKeyValue = '';
+			this.makeFormValues('#caryFwdForm', {});
+			this.makeDivValues('#caryFwdForm', {});
+			this.disableCaryFwdDetailInputItem();
+			this.addCaryFwdData();
+			break;
+	    case 'btnCaryFwdSave':
+	    	this.saveCaryFwdData();
+			break;
+		case 'btnCaryFwdRemove':
+			this.deleteCaryFwdData();
+			break;
+		case 'btnCaryFwdExcelDownload':
+			this.downloadExcel(buttonId);
+			break;
+		case 'btnScsbidInsert':
+			this._scsbidmode = 'insert';
+			this._scsbidKeyValue = '';
+			this.makeFormValues('#scsbidForm', {});
+			this.makeDivValues('#scsbidForm', {});
+			this.disableScsbidDetailInputItem();
+			this.addScsbidData();
+			break;
+	    case 'btnScsbidSave':
+	    	this.saveScsbidData();
+			break;
+		case 'btnScsbidRemove':
+			this.deleteScsbidData();
+			break;
+		case 'btnScsbidExcelDownload':
+			this.downloadExcel(buttonId);
+			break;
+		case 'popupSearchRegistEntrpsCd':
+		case 'popupCtrtRegistEntrpsCd':
+		case 'popupJoinEntrpsCd':
+		case 'popupSubEntrpsCd':
+		case 'popupScsbidEntrpsCd':
+			this.doExecuteDialog(buttonId, '업체 선택', '/popup/showEntrpsInfo.do', null);
+			break;
+		case 'popupCtrtJobChrgDeptCd':
+			this.doExecuteDialog(buttonId, '부서 선택', '/popup/showDeptCd.do', null);
 			break;
 	}
 
@@ -667,7 +793,7 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamFcltyCtrtMngModule.prototype.onSubmit = function() {
 
-	this._mode = 'query';
+	this._mainmode = 'query';
 	this._mainKeyValue = '';
 	this._joinmode = 'query';
 	this._joinKeyValue = '';
@@ -762,12 +888,12 @@ GamFcltyCtrtMngModule.prototype.loadDetail = function(tabId) {
 GamFcltyCtrtMngModule.prototype.selectData = function() {
 
 	var gridRowCount = this.$("#mainGrid").flexRowCount();
-	if (this._mode == 'query') {
+	if (this._mainmode == 'query') {
 		if (gridRowCount == 0) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
 		return;
-	} else if (this._mode != 'insert' && this._mode != 'modify') {
+	} else if (this._mainmode != 'insert' && this._mainmode != 'modify') {
 		return;
 	}
 	var ctrtNo = this._mainKeyValue;
@@ -785,7 +911,7 @@ GamFcltyCtrtMngModule.prototype.selectData = function() {
 	if (mainRowNo >= 0) {
 		this.$("#mainGrid").selectRowId(mainRowNo);
 	}
-	this._mode = 'modify';
+	this._mainmode = 'modify';
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();
 
@@ -1020,7 +1146,7 @@ GamFcltyCtrtMngModule.prototype.selectSubData = function() {
 **/
 %>
 GamFcltyCtrtMngModule.prototype.loadChangeDetail = function(tabId) {
-console.log('loadChangeDetail');
+
 	if (tabId == 'listTab') {
 		this.makeFormValues('#changeForm', {});
 		this.makeDivValues('#changeForm', {});
@@ -1612,7 +1738,7 @@ GamFcltyCtrtMngModule.prototype.saveData = function() {
 		this.$("#caryFwdBdgtAmt").focus();
 		return;
 	}
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this._mainKeyValue = ctrtNo;
 		this.doAction('/ctrt/gamInsertFcltyCtrtMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
@@ -1650,7 +1776,7 @@ GamFcltyCtrtMngModule.prototype.deleteData = function() {
 		var deleteVO = this.makeFormArgs("#detailForm");
 		this.doAction('/ctrt/gamDeleteFcltyCtrtMng.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module._mode = 'query';
+				module._mainmode = 'query';
 				module._mainKeyValue = '';
 				module.loadData();
 			}
@@ -2471,6 +2597,72 @@ GamFcltyCtrtMngModule.prototype.deleteScsbidData = function() {
 
 <%
 /**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 리스트를 엑셀로 다운로드한다.
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
+GamFcltyCtrtMngModule.prototype.downloadExcel = function(buttonId) {
+
+	var gridRowCount = 0;
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			gridRowCount = this.$("#mainGrid").flexRowCount();
+			break;
+		case 'btnJoinExcelDownload':
+			gridRowCount = this.$("#joinGrid").flexRowCount();
+			break;
+		case 'btnSubExcelDownload':
+			gridRowCount = this.$("#subGrid").flexRowCount();
+			break;
+		case 'btnChangeExcelDownload':
+			gridRowCount = this.$("#changeGrid").flexRowCount();
+			break;
+		case 'btnPymntExcelDownload':
+			gridRowCount = this.$("#pymntGrid").flexRowCount();
+			break;
+		case 'btnCaryFwdExcelDownload':
+			gridRowCount = this.$("#caryFwdGrid").flexRowCount();
+			break;
+		case 'btnScsbidExcelDownload':
+			gridRowCount = this.$("#scsbidGrid").flexRowCount();
+			break;
+		default:
+			return;
+	}
+	if (gridRowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			this.$('#mainGrid').flexExcelDown('/ctrt/gamExcelDownloadFcltyCtrtMng.do');
+			break;
+		case 'btnJoinExcelDownload':
+			this.$('#joinGrid').flexExcelDown('/ctrt/gamExcelDownloadFcltyCtrtMngJoinContr.do');
+			break;
+		case 'btnSubExcelDownload':
+			this.$('#subGrid').flexExcelDown('/ctrt/gamExcelDownloadFcltyCtrtMngSubctrt.do');
+			break;
+		case 'btnChangeExcelDownload':
+			this.$('#changeGrid').flexExcelDown('/ctrt/gamExcelDownloadFcltyCtrtMngChange.do');
+			break;
+		case 'btnPymntExcelDownload':
+			this.$('#pymntGrid').flexExcelDown('/ctrt/gamExcelDownloadFcltyCtrtMngMoneyPymnt.do');
+			break;
+		case 'btnCaryFwdExcelDownload':
+			this.$('#caryFwdGrid').flexExcelDown('/ctrt/gamExcelDownloadFcltyCtrtMngFulfillCaryFwd.do');
+			break;
+		case 'btnScsbidExcelDownload':
+			this.$('#scsbidGrid').flexExcelDown('/ctrt/gamExcelDownloadFcltyCtrtMngScsbidInfo.do');
+			break;
+	}
+
+};
+
+<%
+/**
  * @FUNCTION NAME : enableListButtonItem
  * @DESCRIPTION   : LIST 버튼항목을 ENABLE 한다.
  * @PARAMETER     : NONE
@@ -2478,7 +2670,7 @@ GamFcltyCtrtMngModule.prototype.deleteScsbidData = function() {
 %>
 GamFcltyCtrtMngModule.prototype.enableListButtonItem = function() {
 
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 	} else {
@@ -2508,7 +2700,7 @@ GamFcltyCtrtMngModule.prototype.enableListButtonItem = function() {
 %>
 GamFcltyCtrtMngModule.prototype.enableDetailInputItem = function() {
 
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this.$('#ctrtNo').enable();
 		this.$('#ctrtSe').enable();
 		this.$('#ctrtNm').enable();
@@ -2543,8 +2735,10 @@ GamFcltyCtrtMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#jobChrgDeptCd').enable();
 		this.$('#caryFwdBdgtAmt').enable();
 		this.$('#siteDesc').enable();
-		this.$('#popupDataRegistEntrpsCd').enable();
-		this.$('#popupDataRegistEntrpsCd').removeClass('ui-state-disabled');
+		this.$('#popupCtrtRegistEntrpsCd').enable();
+		this.$('#popupCtrtRegistEntrpsCd').removeClass('ui-state-disabled');
+		this.$('#popupCtrtJobChrgDeptCd').enable();
+		this.$('#popupCtrtJobChrgDeptCd').removeClass('ui-state-disabled');
 		this.$('#btnCtrtInsert').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnCtrtSave').enable();
 		this.$('#btnCtrtSave').removeClass('ui-state-disabled');
@@ -2585,8 +2779,10 @@ GamFcltyCtrtMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#jobChrgDeptCd').enable();
 			this.$('#caryFwdBdgtAmt').enable();
 			this.$('#siteDesc').enable();
-			this.$('#popupDataRegistEntrpsCd').enable();
-			this.$('#popupDataRegistEntrpsCd').removeClass('ui-state-disabled');
+			this.$('#popupCtrtRegistEntrpsCd').enable();
+			this.$('#popupCtrtRegistEntrpsCd').removeClass('ui-state-disabled');
+			this.$('#popupCtrtJobChrgDeptCd').enable();
+			this.$('#popupCtrtJobChrgDeptCd').removeClass('ui-state-disabled');
 			this.$('#btnCtrtInsert').enable();
 			this.$('#btnCtrtInsert').removeClass('ui-state-disabled');
 			this.$('#btnCtrtSave').enable();
@@ -2628,7 +2824,8 @@ GamFcltyCtrtMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#jobChrgDeptCd').disable();
 			this.$('#caryFwdBdgtAmt').disable();
 			this.$('#siteDesc').disable();
-			this.$('#popupDataRegistEntrpsCd').disable({disableClass:"ui-state-disabled"});
+			this.$('#popupCtrtRegistEntrpsCd').disable({disableClass:"ui-state-disabled"});
+			this.$('#popupCtrtJobChrgDeptCd').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnCtrtInsert').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnCtrtSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnCtrtRemove').disable({disableClass:"ui-state-disabled"});
@@ -2680,7 +2877,8 @@ GamFcltyCtrtMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#jobChrgDeptCd').disable();
 	this.$('#caryFwdBdgtAmt').disable();
 	this.$('#siteDesc').disable();
-	this.$('#popupDataRegistEntrpsCd').disable({disableClass:"ui-state-disabled"});
+	this.$('#popupCtrtRegistEntrpsCd').disable({disableClass:"ui-state-disabled"});
+	this.$('#popupCtrtJobChrgDeptCd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnCtrtInsert').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnCtrtSave').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnCtrtRemove').disable({disableClass:"ui-state-disabled"});
@@ -3222,10 +3420,10 @@ GamFcltyCtrtMngModule.prototype.disableScsbidDetailInputItem = function() {
 		case 'listTab':
 			break;
 		case 'detailTab':
-			if (this._mode=="modify") {
+			if (this._mainmode=="modify") {
 				this.loadDetail('listTab');
 				this.enableDetailInputItem();
-			} else if (this._mode=="insert") {
+			} else if (this._mainmode=="insert") {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
 				this.disableDetailInputItem();
@@ -3265,7 +3463,6 @@ GamFcltyCtrtMngModule.prototype.disableScsbidDetailInputItem = function() {
 			}
 			break;
 		case 'changeTab':
-console.log('changeTab');
 			if (this._mainKeyValue != "") {
 				var changeCtrtNo = this.$('#changeCtrtNo').val();
 				if (changeCtrtNo == "" || changeCtrtNo != this._mainKeyValue) {
@@ -3495,7 +3692,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 								<td colspan="3">
 									<input type="text" size="15" id="registEntrpsCd" maxlength="8"/>
 									<input type="text" size="63" id="registEntrpsNm" disabled/>
-									<button id="popupDataRegistEntrpsCd" class="popupButton">선택</button>
+									<button id="popupCtrtRegistEntrpsCd" class="popupButton">선택</button>
 								</td>
 							</tr>
 							<tr>
@@ -3569,9 +3766,12 @@ var module_instance = new GamFcltyCtrtMngModule();
 								</td>
 								<th width="10%" height="27px">담당 부서 코드</th>
 								<td>
+									<input type="text" size="33" id="jobChrgDeptCd" class="ygpaCmmnCd" data-code-id="GAM064" data-default-prompt="없음">
+									<!--
 									<input type="text" size="8" id="jobChrgDeptCd" maxlength="8"/>
 									<input type="text" size="12" id="jobChrgDeptNm" disabled/>
-									<button id="popupDataJobChrgDeptCd" class="popupButton">선택</button>
+									<button id="popupCtrtJobChrgDeptCd" class="popupButton">선택</button>
+									 -->
 								</td>
 								<th width="10%" height="27px">이월 예산 금액</th>
 								<td>
@@ -3672,6 +3872,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 								<button id="btnJoinInsert" class="buttonAdd">　　추　가　　</button>
 								<button id="btnJoinSave" class="buttonSave">　　저　장　　</button>
 								<button id="btnJoinRemove" class="buttonDelete">　　삭　제　　</button>
+                                <button id="btnJoinExcelDownload" class="buttonExcel">엑셀　다운로드</button>
 							</td>
 						</tr>
 					</table>
@@ -3816,6 +4017,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 								<button id="btnSubInsert" class="buttonAdd">　　추　가　　</button>
 								<button id="btnSubSave" class="buttonSave">　　저　장　　</button>
 								<button id="btnSubRemove" class="buttonDelete">　　삭　제　　</button>
+                                <button id="btnSubExcelDownload" class="buttonExcel">엑셀　다운로드</button>
 							</td>
 						</tr>
 					</table>
@@ -3929,6 +4131,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 								<button id="btnChangeInsert" class="buttonAdd">　　추　가　　</button>
 								<button id="btnChangeSave" class="buttonSave">　　저　장　　</button>
 								<button id="btnChangeRemove" class="buttonDelete">　　삭　제　　</button>
+                                <button id="btnChangeExcelDownload" class="buttonExcel">엑셀　다운로드</button>
 							</td>
 						</tr>
 					</table>
@@ -4044,6 +4247,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 								<button id="btnPymntInsert" class="buttonAdd">　　추　가　　</button>
 								<button id="btnPymntSave" class="buttonSave">　　저　장　　</button>
 								<button id="btnPymntRemove" class="buttonDelete">　　삭　제　　</button>
+                                <button id="btnPymntExcelDownload" class="buttonExcel">엑셀　다운로드</button>
 							</td>
 						</tr>
 					</table>
@@ -4153,6 +4357,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 								<button id="btnCaryFwdInsert" class="buttonAdd">　　추　가　　</button>
 								<button id="btnCaryFwdSave" class="buttonSave">　　저　장　　</button>
 								<button id="btnCaryFwdRemove" class="buttonDelete">　　삭　제　　</button>
+                                <button id="btnCaryFwdExcelDownload" class="buttonExcel">엑셀　다운로드</button>
 							</td>
 						</tr>
 					</table>
@@ -4237,6 +4442,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 								<button id="btnScsbidInsert" class="buttonAdd">　　추　가　　</button>
 								<button id="btnScsbidSave" class="buttonSave">　　저　장　　</button>
 								<button id="btnScsbidRemove" class="buttonDelete">　　삭　제　　</button>
+                                <button id="btnScsbidExcelDownload" class="buttonExcel">엑셀　다운로드</button>
 							</td>
 						</tr>
 					</table>
