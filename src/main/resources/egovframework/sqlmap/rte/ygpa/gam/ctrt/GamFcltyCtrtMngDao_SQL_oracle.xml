@@ -19,6 +19,7 @@
 		<result property="sumPrmtAmt" column="SUM_PRMT_AMT" columnIndex="3"/>
 		<result property="sumScsbidAmt" column="SUM_SCSBID_AMT" columnIndex="4"/>
 		<result property="sumBaseAmt" column="SUM_BASE_AMT" columnIndex="5"/>
+		<result property="sumCtrtAmt" column="SUM_CTRT_AMT" columnIndex="6"/>
 	</resultMap>
 
 	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngList_D" parameterClass="gamFcltyCtrtMngVO" resultClass="egovMap">

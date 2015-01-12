@@ -91,6 +91,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 		height : 'auto',
 		preProcess : function(module,data) {
 			module.$('#totalCount').val($.number(data.totalCount));
+			module.$('#sumCtrtAmt').val($.number(data.sumCtrtAmt));
 			module.$('#sumPlanAmt').val($.number(data.sumPlanAmt));
 			module.$('#sumPrmtAmt').val($.number(data.sumPrmtAmt));
 			module.$('#sumScsbidAmt').val($.number(data.sumScsbidAmt));
@@ -121,7 +122,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 		dataType : 'json',
 		colModel : [
 					{display:'순번',			name:'joinSeq',				width:50,		sortable:false,		align:'center'},
-					{display:'업체 명',			name:'joinEntrpsNm',		width:120,		sortable:false,		align:'left'},
+					{display:'업체 명',			name:'joinEntrpsNm',		width:140,		sortable:false,		align:'left'},
 					{display:'대표자',			name:'joinRprsntv',			width:80,		sortable:false,		align:'left'},
 					{display:'지분 율',			name:'qotaRate',			width:80,		sortable:false,		align:'right'},
 					{display:'업종',			name:'induty',				width:100,		sortable:false,		align:'left'},
@@ -131,15 +132,15 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 					{display:'전화 번호',		name:'joinTlphonNo',		width:100,		sortable:false,		align:'left'},
 					{display:'FAX 번호',		name:'joinFaxNo',			width:100,		sortable:false,		align:'left'},
 					{display:'우편 번호',		name:'postNo',				width:80,		sortable:false,		align:'center'},
-					{display:'도로명 주소',		name:'roadnmAdres',			width:180,		sortable:false,		align:'left'},
-					{display:'지번 주소',		name:'lnmAdres',			width:180,		sortable:false,		align:'left'},
+					{display:'도로명 주소',		name:'roadnmAdres',			width:250,		sortable:false,		align:'left'},
+					{display:'지번 주소',		name:'lnmAdres',			width:250,		sortable:false,		align:'left'},
 					{display:'담당자',			name:'charger',				width:80,		sortable:false,		align:'left'},
 					{display:'담당자 직위',		name:'chargerOfcPos',		width:100,		sortable:false,		align:'left'},
 					{display:'담당자 HP',		name:'chargerMoblphonNo',	width:100,		sortable:false,		align:'left'},
 					{display:'담당자 E-MAIL',	name:'chargerEmail',		width:150,		sortable:false,		align:'left'}
 					],
 		showTableToggleBtn : false,
-		height : '155'
+		height : '150'
 	});
 
 	this.$("#joinGrid").on('onLoadDataComplete', function(event, module, data) {
@@ -150,6 +151,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 		module._joinmode = 'modify';
 		module._joinKeyValue = row.joinCtrtNo;
 		module._joinSeq = row.joinSeq;
+		module.$('#joinSeq').val(row.joinSeq);
 		module.loadJoinDetail('joinTab');
 		module.enableJoinDetailInputItem();
 	});
@@ -161,8 +163,8 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:'순번',				name:'subSeq',				width:50,		sortable:false,		align:'center'},
 					{display:'업체 명',				name:'subEntrpsNm',			width:120,		sortable:false,		align:'left'},
-					{display:'대금지급합의',		name:'moneyPymntAgreeNm',	width:120,		sortable:false,		align:'left'},
-					{display:'공종',				name:'workClass',			width:80,		sortable:false,		align:'left'},
+					{display:'대금 지급 합의',		name:'moneyPymntAgreeNm',	width:110,		sortable:false,		align:'left'},
+					{display:'공종',				name:'workClass',			width:140,		sortable:false,		align:'left'},
 					{display:'하도급 율',			name:'subctrtRate',			width:80,		sortable:false,		align:'right'},
 					{display:'원도급 금액',			name:'orginlContrAmt',		width:120,		sortable:false,		align:'right'},
 					{display:'하도급 계약 금액',	name:'subctrtCtrtAmt',		width:120,		sortable:false,		align:'right'},
@@ -170,7 +172,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 					{display:'계약 종료 일자',		name:'subctrtCtrtDtTo',		width:100,		sortable:false,		align:'center'}
 					],
 		showTableToggleBtn : false,
-		height : '280'
+		height : '230'
 	});
 
 	this.$("#subGrid").on('onLoadDataComplete', function(event, module, data) {
@@ -181,6 +183,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 		module._submode = 'modify';
 		module._subKeyValue = row.subCtrtNo;
 		module._subSeq = row.subSeq;
+		module.$('#subSeq').val(row.subSeq);
 		module.loadSubDetail('subTab');
 		module.enableSubDetailInputItem();
 	});
@@ -191,17 +194,17 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 		dataType : 'json',
 		colModel : [
 					{display:'순번',					name:'changeSeq',			width:50,		sortable:false,		align:'center'},
-					{display:'변경 구분',				name:'changeSeNm',			width:80,		sortable:false,		align:'left'},
-					{display:'변경 일자',				name:'changeDt',			width:80,		sortable:false,		align:'center'},
-					{display:'변경 사유',				name:'changeRsn',			width:150,		sortable:false,		align:'left'},
+					{display:'변경 구분',				name:'changeSeNm',			width:100,		sortable:false,		align:'left'},
+					{display:'변경 일자',				name:'changeDt',			width:100,		sortable:false,		align:'center'},
+					{display:'변경 사유',				name:'changeRsn',			width:210,		sortable:false,		align:'left'},
 					{display:'변경 계약 시작 일자',		name:'changeCtrtDtFrom',	width:120,		sortable:false,		align:'center'},
 					{display:'변경 계약 종료 일자',		name:'changeCtrtDtTo',		width:120,		sortable:false,		align:'center'},
-					{display:'변경 계약 금액',			name:'changeCtrtAmt',		width:100,		sortable:false,		align:'right'},
-					{display:'최종 계약 금액',			name:'lastCtrtAmt',			width:100,		sortable:false,		align:'right'},
+					{display:'변경 계약 금액',			name:'changeCtrtAmt',		width:120,		sortable:false,		align:'right'},
+					{display:'최종 계약 금액',			name:'lastCtrtAmt',			width:120,		sortable:false,		align:'right'},
 					{display:'비고',					name:'changeRm',			width:250,		sortable:false,		align:'left'}
 					],
 		showTableToggleBtn : false,
-		height: '280'
+		height: '210'
 	});
 
 	this.$("#changeGrid").on('onLoadDataComplete', function(event, module, data) {
@@ -212,6 +215,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 		module._changemode = 'modify';
 		module._changeKeyValue = row.changeCtrtNo;
 		module._changeSeq = row.changeSeq;
+		module.$('#changeSeq').val(row.changeSeq);
 		module.loadChangeDetail('changeTab');
 		module.enableChangeDetailInputItem();
 	});
@@ -222,16 +226,16 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 		dataType : 'json',
 		colModel : [
 					{display:'순번',				name:'pymntSeq',			width:50,		sortable:false,		align:'center'},
-					{display:'지급 분류',			name:'pymntClNm',			width:80,		sortable:false,		align:'center'},
-					{display:'지급 일자',			name:'pymntDt',				width:80,		sortable:false,		align:'center'},
+					{display:'지급 분류',			name:'pymntClNm',			width:100,		sortable:false,		align:'center'},
+					{display:'지급 일자',			name:'pymntDt',				width:100,		sortable:false,		align:'center'},
 					{display:'금회 기성 금액',		name:'thisTimeEstbAmt',		width:120,		sortable:false,		align:'right'},
 					{display:'선금 정산 금액',		name:'depositExcclcAmt',	width:120,		sortable:false,		align:'right'},
 					{display:'지급 금액',			name:'pymntAmt',			width:120,		sortable:false,		align:'right'},
 					{display:'지급 누계 금액',		name:'pymntAggrAmt',		width:120,		sortable:false,		align:'right'},
-					{display:'비고',				name:'pymntRm',				width:210,		sortable:false,		align:'left'}
+					{display:'비고',				name:'pymntRm',				width:215,		sortable:false,		align:'left'}
 					],
 		showTableToggleBtn : false,
-		height : '280'
+		height : '230'
 	});
 
 	this.$("#pymntGrid").on('onLoadDataComplete', function(event, module, data) {
@@ -242,6 +246,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 		module._pymntmode = 'modify';
 		module._pymntKeyValue = row.pymntCtrtNo;
 		module._pymntSeq = row.pymntSeq;
+		module.$('#pymntSeq').val(row.pymntSeq);
 		module.loadPymntDetail('pymntTab');
 		module.enablePymntDetailInputItem();
 	});
@@ -252,12 +257,12 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 		dataType : 'json',
 		colModel : [
 					{display:'순번',				name:'caryFwdSeq',			width:50,		sortable:false,		align:'center'},
-					{display:'이행 이월 년도',		name:'fulfillCaryFwdYear',	width:100,		sortable:false,		align:'center'},
-					{display:'이행 금액',			name:'fulfillAmt',			width:200,		sortable:false,		align:'right'},
-					{display:'이월 금액',			name:'caryFwdAmt',			width:200,		sortable:false,		align:'right'}
+					{display:'이행 이월 년도',		name:'fulfillCaryFwdYear',	width:150,		sortable:false,		align:'center'},
+					{display:'이행 금액',			name:'fulfillAmt',			width:250,		sortable:false,		align:'right'},
+					{display:'이월 금액',			name:'caryFwdAmt',			width:250,		sortable:false,		align:'right'}
 					],
 		showTableToggleBtn : false,
-		height : '320'
+		height : '280'
 	});
 
 	this.$("#caryFwdGrid").on('onLoadDataComplete', function(event, module, data) {
@@ -268,6 +273,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 		module._caryfwdmode = 'modify';
 		module._caryFwdKeyValue = row.caryFwdCtrtNo;
 		module._caryFwdSeq = row.caryFwdSeq;
+		module.$('#caryFwdSeq').val(row.caryFwdSeq);
 		module.loadCaryFwdDetail('caryFwdTab');
 		module.enableCaryFwdDetailInputItem();
 	});
@@ -278,14 +284,15 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 		dataType : 'json',
 		colModel : [
 					{display:'낙찰 순위',		name:'scsbidRank',			width:90,		sortable:false,		align:'center'},
-					{display:'업체 명',			name:'scsbidEntrpsNm',		width:150,		sortable:false,		align:'left'},
-					{display:'대표자',			name:'scsbidRprsntv',		width:100,		sortable:false,		align:'left'},
-					{display:'사업자 번호',		name:'scsbidBsnmNo',		width:100,		sortable:false,		align:'center'},
-					{display:'전화 번호',		name:'scsbidTlphonNo',		width:100,		sortable:false,		align:'center'},
-					{display:'FAX 번호',		name:'scsbidFaxNo',			width:100,		sortable:false,		align:'center'},
+					{display:'업체 명',			name:'scsbidEntrpsNm',		width:160,		sortable:false,		align:'left'},
+					{display:'대표자',			name:'scsbidRprsntv',		width:120,		sortable:false,		align:'left'},
+					{display:'사업자 번호',		name:'scsbidBsnmNo',		width:110,		sortable:false,		align:'center'},
+					{display:'전화 번호',		name:'scsbidTlphonNo',		width:120,		sortable:false,		align:'center'},
+					{display:'FAX 번호',		name:'scsbidFaxNo',			width:120,		sortable:false,		align:'center'},
+					{display:'비고',			name:'scsbidRm',			width:220,		sortable:false,		align:'left'}
 					],
 		showTableToggleBtn : false,
-		height : '380'
+		height : '230'
 	});
 
 	this.$("#scsbidGrid").on('onLoadDataComplete', function(event, module, data) {
@@ -296,10 +303,14 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 		module._scsbidmode = 'modify';
 		module._scsbidKeyValue = row.scsbidCtrtNo;
 		module._scsbidSeq = row.scsbidSeq;
+		module.$('#scsbidSeq').val(row.scsbidSeq);
 		module.loadScsbidDetail('scsbidTab');
 		module.enableScsbidDetailInputItem();
 	});
 
+	var year = new Date().getFullYear();
+	this.$('#sStartCtrtDt').val(year + '-01-01');
+	this.$('#sEndCtrtDt').val(year + '-12-31');
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 
@@ -823,16 +834,16 @@ GamFcltyCtrtMngModule.prototype.copyCtrtInfoData = function(tabId) {
 		this.$('#subCtrtDtFrom').val(ctrtDtFrom);
 		this.$('#subCtrtDtTo').val(ctrtDtTo);
 	} else if (tabId == "changeTab") {
-		this.$('#changeCtrtNo').val(ctrtNo);
-		this.$('#changeCtrtSe').val(ctrtSe);
-		this.$('#changeCtrtNm').val(ctrtNm);
-		this.$('#changeCauseAct').val(causeAct);
-		this.$('#changeOrderMthd').val(orderMthd);
-		this.$('#changeCtrtMth').val(ctrtMth);
-		this.$('#changeCtrtDt').val(ctrtDt);
-		this.$('#changeCtrtAmt').val(ctrtAmt);
-		this.$('#changeCtrtDtFrom').val(ctrtDtFrom);
-		this.$('#changeCtrtDtTo').val(ctrtDtTo);
+		this.$('#changeInfoCtrtNo').val(ctrtNo);
+		this.$('#changeInfoCtrtSe').val(ctrtSe);
+		this.$('#changeInfoCtrtNm').val(ctrtNm);
+		this.$('#changeInfoCauseAct').val(causeAct);
+		this.$('#changeInfoOrderMthd').val(orderMthd);
+		this.$('#changeInfoCtrtMth').val(ctrtMth);
+		this.$('#changeInfoCtrtDt').val(ctrtDt);
+		this.$('#changeInfoCtrtAmt').val(ctrtAmt);
+		this.$('#changeInfoCtrtDtFrom').val(ctrtDtFrom);
+		this.$('#changeInfoCtrtDtTo').val(ctrtDtTo);
 	} else if (tabId == "pymntTab") {
 		this.$('#pymntCtrtNo').val(ctrtNo);
 		this.$('#pymntCtrtSe').val(ctrtSe);
@@ -879,7 +890,7 @@ GamFcltyCtrtMngModule.prototype.copyCtrtInfoData = function(tabId) {
 **/
 %>
 GamFcltyCtrtMngModule.prototype.loadJoinDetail = function(tabId) {
-console.log('loadJoinDetail');
+
 	if (tabId == 'listTab') {
 		this.makeFormValues('#joinForm', {});
 		this.makeDivValues('#joinForm', {});
@@ -906,7 +917,7 @@ console.log('loadJoinDetail');
 **/
 %>
 GamFcltyCtrtMngModule.prototype.selectJoinData = function() {
-console.log('selectJoinData');
+
 	var gridRowCount = this.$("#joinGrid").flexRowCount();
 	if (this._joinmode == 'query') {
 		return;
@@ -1009,7 +1020,7 @@ GamFcltyCtrtMngModule.prototype.selectSubData = function() {
 **/
 %>
 GamFcltyCtrtMngModule.prototype.loadChangeDetail = function(tabId) {
-
+console.log('loadChangeDetail');
 	if (tabId == 'listTab') {
 		this.makeFormValues('#changeForm', {});
 		this.makeDivValues('#changeForm', {});
@@ -2752,7 +2763,12 @@ GamFcltyCtrtMngModule.prototype.enableJoinDetailInputItem = function() {
 			this.$('#lnmAdres').disable();
 			this.$('#roadnmAdres').disable();
 			this.$('#popupJoinEntrpsCd').disable({disableClass:"ui-state-disabled"});
-			this.$('#btnJoinInsert').disable({disableClass:"ui-state-disabled"});
+			if (this.$('#joinCtrtNo').val() != "") {
+				this.$('#btnJoinInsert').enable();
+				this.$('#btnJoinInsert').removeClass('ui-state-disabled');
+			} else {
+				this.$('#btnJoinInsert').disable({disableClass:"ui-state-disabled"});
+			}
 			this.$('#btnJoinSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnJoinRemove').disable({disableClass:"ui-state-disabled"});
 		}
@@ -2844,7 +2860,12 @@ GamFcltyCtrtMngModule.prototype.enableSubDetailInputItem = function() {
 			this.$('#subctrtCtrtDtFrom').disable();
 			this.$('#subctrtCtrtDtTo').disable();
 			this.$('#popupSubEntrpsCd').disable({disableClass:"ui-state-disabled"});
-			this.$('#btnSubInsert').disable({disableClass:"ui-state-disabled"});
+			if (this.$('#subCtrtNo').val() != "") {
+				this.$('#btnSubInsert').enable();
+				this.$('#btnSubInsert').removeClass('ui-state-disabled');
+			} else {
+				this.$('#btnSubInsert').disable({disableClass:"ui-state-disabled"});
+			}
 			this.$('#btnSubSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSubRemove').disable({disableClass:"ui-state-disabled"});
 		}
@@ -2923,7 +2944,12 @@ GamFcltyCtrtMngModule.prototype.enableChangeDetailInputItem = function() {
 			this.$('#changeCtrtAmt').disable();
 			this.$('#lastCtrtAmt').disable();
 			this.$('#changeRm').disable();
-			this.$('#btnChangeInsert').disable({disableClass:"ui-state-disabled"});
+			if (this.$('#changeInfoCtrtNo').val() != "") {
+				this.$('#btnChangeInsert').enable();
+				this.$('#btnChangeInsert').removeClass('ui-state-disabled');
+			} else {
+				this.$('#btnChangeInsert').disable({disableClass:"ui-state-disabled"});
+			}
 			this.$('#btnChangeSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnChangeRemove').disable({disableClass:"ui-state-disabled"});
 		}
@@ -2998,7 +3024,12 @@ GamFcltyCtrtMngModule.prototype.enablePymntDetailInputItem = function() {
 			this.$('#pymntAmt').disable();
 			this.$('#pymntAggrAmt').disable();
 			this.$('#pymntRm').disable();
-			this.$('#btnPymntInsert').disable({disableClass:"ui-state-disabled"});
+			if (this.$('#pymntCtrtNo').val() != "") {
+				this.$('#btnPymntInsert').enable();
+				this.$('#btnPymntInsert').removeClass('ui-state-disabled');
+			} else {
+				this.$('#btnPymntInsert').disable({disableClass:"ui-state-disabled"});
+			}
 			this.$('#btnPymntSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnPymntRemove').disable({disableClass:"ui-state-disabled"});
 		}
@@ -3060,7 +3091,12 @@ GamFcltyCtrtMngModule.prototype.enableCaryFwdDetailInputItem = function() {
 			this.$('#fulfillCaryFwdYear').disable();
 			this.$('#fulfillAmt').disable();
 			this.$('#caryFwdAmt').disable();
-			this.$('#btnCaryFwdInsert').disable({disableClass:"ui-state-disabled"});
+			if (this.$('#caryFwdCtrtNo').val() != "") {
+				this.$('#btnCaryFwdInsert').enable();
+				this.$('#btnCaryFwdInsert').removeClass('ui-state-disabled');
+			} else {
+				this.$('#btnCaryFwdInsert').disable({disableClass:"ui-state-disabled"});
+			}
 			this.$('#btnCaryFwdSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnCaryFwdRemove').disable({disableClass:"ui-state-disabled"});
 		}
@@ -3135,7 +3171,12 @@ GamFcltyCtrtMngModule.prototype.enableScsbidDetailInputItem = function() {
 			this.$('#scsbidFaxNo').disable();
 			this.$('#scsbidRm').disable();
 			this.$('#popupScsbidEntrpsCd').disable({disableClass:"ui-state-disabled"});
-			this.$('#btnScsbidInsert').disable({disableClass:"ui-state-disabled"});
+			if (this.$('#scsbidCtrtNo').val() != "") {
+				this.$('#btnScsbidInsert').enable();
+				this.$('#btnScsbidInsert').removeClass('ui-state-disabled');
+			} else {
+				this.$('#btnScsbidInsert').disable({disableClass:"ui-state-disabled"});
+			}
 			this.$('#btnScsbidSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnScsbidRemove').disable({disableClass:"ui-state-disabled"});
 		}
@@ -3196,7 +3237,6 @@ GamFcltyCtrtMngModule.prototype.disableScsbidDetailInputItem = function() {
 			}
 			break;
 		case 'joinTab':
-console.log('joinTab');
 			if (this._mainKeyValue != "") {
 				var joinCtrtNo = this.$('#joinCtrtNo').val();
 				if (joinCtrtNo == "" || joinCtrtNo != this._mainKeyValue) {
@@ -3225,6 +3265,7 @@ console.log('joinTab');
 			}
 			break;
 		case 'changeTab':
+console.log('changeTab');
 			if (this._mainKeyValue != "") {
 				var changeCtrtNo = this.$('#changeCtrtNo').val();
 				if (changeCtrtNo == "" || changeCtrtNo != this._mainKeyValue) {
@@ -3321,8 +3362,8 @@ var module_instance = new GamFcltyCtrtMngModule();
 							</td>
 							<th>계약 기간</th>
 							<td>
-								<input id="sCtrtDtFrom" type="text" class="emdcal" size="12"> ∼
-								<input id="sCtrtDtTo" type="text" class="emdcal" size="12">
+								<input id="sStartCtrtDt" type="text" class="emdcal" size="12"> ∼
+								<input id="sEndCtrtDt" type="text" class="emdcal" size="12">
 							</td>
 							<td rowspan="2">
 								<button class="buttonSearch">조회</button>
@@ -3337,8 +3378,8 @@ var module_instance = new GamFcltyCtrtMngModule();
 							</td>
 							<th>계약 금액</th>
 							<td>
-								<input id="sCtrtAmtFr" type="text" class="ygpaNumber" size="15" maxlength="20"> ∼
-								<input id="sCtrtAmtTo" type="text" class="ygpaNumber" size="15" maxlength="20">
+								<input id="sStartCtrtAmt" type="text" class="ygpaNumber" size="15" maxlength="20"> ∼
+								<input id="sStartAmtTo" type="text" class="ygpaNumber" size="15" maxlength="20">
 							</td>
 						</tr>
 					</tbody>
@@ -3371,7 +3412,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 								<th style="width:10%; height:20; text-align:center;">자료수</th>
 								<td><input type="text" size="6" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
 								<th style="width:10%; height:20; text-align:center;">계약금액</th>
-								<td><input type="text" size="12" id="sumCtrtAmt" class="ygpaNumber" disabled="disabled"/></td>
+								<td><input type="text" size="20" id="sumCtrtAmt" class="ygpaNumber" disabled="disabled"/></td>
 								<td style="text-align:right;">
 									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
 									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
@@ -3587,11 +3628,11 @@ var module_instance = new GamFcltyCtrtMngModule();
 									<option value="2">용역</option>
 									<option value="3">지급자재</option>
 								</select>
-								<input type="text" size="23" id="joinCtrtNo" disabled/>
+								<input type="text" size="19" id="joinCtrtNo" disabled/>
 							</td>
 							<th width="10%" height="18">계　　약　　명</th>
 							<td colspan="3">
-								<input type="text" size="93" id="joinCtrtNm" disabled/>
+								<input type="text" size="92" id="joinCtrtNm" disabled/>
 							</td>
 						</tr>
 						<tr>
@@ -3619,8 +3660,8 @@ var module_instance = new GamFcltyCtrtMngModule();
 							</td>
 							<th width="10%" height="18">계　약　기　간</th>
 							<td>
-								<input type="text" size="15" id="joinCtrtDtFrom" disabled/> ∼
-								<input type="text" size="15" id="joinCtrtDtTo" disabled/>
+								<input type="text" size="14" id="joinCtrtDtFrom" disabled/> ∼
+								<input type="text" size="14" id="joinCtrtDtTo" disabled/>
 							</td>
 						</tr>
 					</table>
@@ -3702,13 +3743,13 @@ var module_instance = new GamFcltyCtrtMngModule();
 							</td>
 							<th width="10%" height="18">지　번　주　소</th>
 							<td colspan="3">
-								<input type="text" size="92" id="lnmAdres" maxlength="200"/>
+								<input type="text" size="93" id="lnmAdres" maxlength="200"/>
 							</td>
 						</tr>
 						<tr>
 							<th width="10%" height="18">도로명　　주소</th>
 							<td colspan="5">
-								<input type="text" size="148" id="roadnmAdres" maxlength="200"/>
+								<input type="text" size="149" id="roadnmAdres" maxlength="200"/>
 							</td>
 						</tr>
 					</table>
@@ -3731,11 +3772,11 @@ var module_instance = new GamFcltyCtrtMngModule();
 									<option value="2">용역</option>
 									<option value="3">지급자재</option>
 								</select>
-								<input type="text" size="23" id="subCtrtNo" disabled/>
+								<input type="text" size="19" id="subCtrtNo" disabled/>
 							</td>
 							<th width="10%" height="18">계　　약　　명</th>
 							<td colspan="3">
-								<input type="text" size="93" id="subCtrtNm" disabled/>
+								<input type="text" size="92" id="subCtrtNm" disabled/>
 							</td>
 						</tr>
 						<tr>
@@ -3763,8 +3804,8 @@ var module_instance = new GamFcltyCtrtMngModule();
 							</td>
 							<th width="10%" height="18">계　약　기　간</th>
 							<td>
-								<input type="text" size="15" id="subCtrtDtFrom" disabled/> ∼
-								<input type="text" size="15" id="subCtrtDtTo" disabled/>
+								<input type="text" size="14" id="subCtrtDtFrom" disabled/> ∼
+								<input type="text" size="14" id="subCtrtDtTo" disabled/>
 							</td>
 						</tr>
 					</table>
@@ -3783,16 +3824,17 @@ var module_instance = new GamFcltyCtrtMngModule();
 						<tr>
 							<th width="10%" height="18">순　　　　　번</th>
 							<td>
-								<input type="text" size="33" id="subSeq" disabled/>／
+								<input type="text" size="33" id="subSeq" disabled/>
 							</td>
 							<th width="10%" height="18">업　　체　　명</th>
 							<td>
-								<input type="text" size="22" id="subEntrpsNm" maxlength="100"/>
+								<input type="text" size="21" id="subEntrpsNm" maxlength="100"/>
 								<button id="popupSubEntrpsCd" class="popupButton">선택</button>
 							</td>
-							<th width="10%" height="18">공　　　　　종</th>
+							<th width="10%" height="18">하도급계약기간</th>
 							<td>
-								<input type="text" size="33" id="workClass" maxlength="100"/>
+								<input type="text" size="11" id="subctrtCtrtDtFrom" disabled/> ∼
+								<input type="text" size="11" id="subctrtCtrtDtTo" disabled/>
 							</td>
 						</tr>
 						<tr>
@@ -3806,7 +3848,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 							</td>
 							<th width="10%" height="18">하　도　급　율</th>
 							<td>
-								<input type="text" size="21" id="subctrtRate" class="ygpaNumber" data-decimal-point="5" maxlength="20"/>
+								<input type="text" size="33" id="subctrtRate" class="ygpaNumber" data-decimal-point="5" maxlength="20"/>
 							</td>
 							<th width="10%" height="18">원도급　　금액</th>
 							<td>
@@ -3818,10 +3860,9 @@ var module_instance = new GamFcltyCtrtMngModule();
 							<td>
 								<input type="text" size="33" id="subctrtCtrtAmt" class="ygpaNumber" maxlength="20"/>
 							</td>
-							<th width="10%" height="18">하도급계약기간</th>
+							<th width="10%" height="18">공　　　　　종</th>
 							<td colspan="3">
-								<input type="text" size="28" id="subctrtCtrtDtFrom" disabled/> ∼
-								<input type="text" size="28" id="subctrtCtrtDtTo" disabled/>
+								<input type="text" size="92" id="workClass" maxlength="100"/>
 							</td>
 						</tr>
 					</table>
@@ -3844,11 +3885,11 @@ var module_instance = new GamFcltyCtrtMngModule();
 									<option value="2">용역</option>
 									<option value="3">지급자재</option>
 								</select>
-								<input type="text" size="23" id="changeInfoCtrtNo" disabled/>
+								<input type="text" size="19" id="changeInfoCtrtNo" disabled/>
 							</td>
 							<th width="10%" height="18">계　　약　　명</th>
 							<td colspan="3">
-								<input type="text" size="93" id="changeInfoCtrtNm" disabled/>
+								<input type="text" size="92" id="changeInfoCtrtNm" disabled/>
 							</td>
 						</tr>
 						<tr>
@@ -3876,8 +3917,8 @@ var module_instance = new GamFcltyCtrtMngModule();
 							</td>
 							<th width="10%" height="18">계　약　기　간</th>
 							<td>
-								<input type="text" size="15" id="changeInfoCtrtDtFrom" disabled/> ∼
-								<input type="text" size="15" id="changeInfoCtrtDtTo" disabled/>
+								<input type="text" size="14" id="changeInfoCtrtDtFrom" disabled/> ∼
+								<input type="text" size="14" id="changeInfoCtrtDtTo" disabled/>
 							</td>
 						</tr>
 					</table>
@@ -3896,7 +3937,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 						<tr>
 							<th width="10%" height="18">순　　　　　번</th>
 							<td>
-								<input type="text" size="33" id="changeSeq" disabled/>／
+								<input type="text" size="33" id="changeSeq" disabled/>
 							</td>
 							<th width="10%" height="18">변　경　구　분</th>
 							<td>
@@ -3921,8 +3962,8 @@ var module_instance = new GamFcltyCtrtMngModule();
 						<tr>
 							<th width="10%" height="18">변경 계약 기간</th>
 							<td>
-								<input type="text" size="15" id="changeCtrtDtFrom" class="emdcal"/> ∼
-								<input type="text" size="15" id="changeCtrtDtTo" class="emdcal"/>
+								<input type="text" size="11" id="changeCtrtDtFrom" class="emdcal"/> ~
+								<input type="text" size="11" id="changeCtrtDtTo" class="emdcal"/>
 							</td>
 							<th width="10%" height="18">변경 계약 금액</th>
 							<td>
@@ -3959,11 +4000,11 @@ var module_instance = new GamFcltyCtrtMngModule();
 									<option value="2">용역</option>
 									<option value="3">지급자재</option>
 								</select>
-								<input type="text" size="23" id="pymntCtrtNo" disabled/>
+								<input type="text" size="19" id="pymntCtrtNo" disabled/>
 							</td>
 							<th width="10%" height="18">계　　약　　명</th>
 							<td colspan="3">
-								<input type="text" size="93" id="pymntCtrtNm" disabled/>
+								<input type="text" size="92" id="pymntCtrtNm" disabled/>
 							</td>
 						</tr>
 						<tr>
@@ -3991,8 +4032,8 @@ var module_instance = new GamFcltyCtrtMngModule();
 							</td>
 							<th width="10%" height="18">계　약　기　간</th>
 							<td>
-								<input type="text" size="15" id="pymntCtrtDtFrom" disabled/> ∼
-								<input type="text" size="15" id="pymntCtrtDtTo" disabled/>
+								<input type="text" size="14" id="pymntCtrtDtFrom" disabled/> ∼
+								<input type="text" size="14" id="pymntCtrtDtTo" disabled/>
 							</td>
 						</tr>
 					</table>
@@ -4068,11 +4109,11 @@ var module_instance = new GamFcltyCtrtMngModule();
 									<option value="2">용역</option>
 									<option value="3">지급자재</option>
 								</select>
-								<input type="text" size="23" id="caryFwdCtrtNo" disabled/>
+								<input type="text" size="19" id="caryFwdCtrtNo" disabled/>
 							</td>
 							<th width="10%" height="18">계　　약　　명</th>
 							<td colspan="3">
-								<input type="text" size="93" id="caryFwdCtrtNm" disabled/>
+								<input type="text" size="92" id="caryFwdCtrtNm" disabled/>
 							</td>
 						</tr>
 						<tr>
@@ -4100,8 +4141,8 @@ var module_instance = new GamFcltyCtrtMngModule();
 							</td>
 							<th width="10%" height="18">계　약　기　간</th>
 							<td>
-								<input type="text" size="15" id="caryFwdCtrtDtFrom" disabled/> ∼
-								<input type="text" size="15" id="caryFwdCtrtDtTo" disabled/>
+								<input type="text" size="14" id="caryFwdCtrtDtFrom" disabled/> ∼
+								<input type="text" size="14" id="caryFwdCtrtDtTo" disabled/>
 							</td>
 						</tr>
 					</table>
@@ -4121,7 +4162,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 							<th width="10%" height="18">순번／이월년도</th>
 							<td>
 								<input type="text" size="10" id="caryFwdSeq" disabled/>／
-								<input type="text" size="21" id="fulfillCaryFwdYear" maxlength="4"/>
+								<input type="text" size="19" id="fulfillCaryFwdYear" maxlength="4"/>
 							</td>
 							<th width="10%" height="18">이　행　금　액</th>
 							<td>
@@ -4152,11 +4193,11 @@ var module_instance = new GamFcltyCtrtMngModule();
 									<option value="2">용역</option>
 									<option value="3">지급자재</option>
 								</select>
-								<input type="text" size="23" id="scsbidCtrtNo" disabled/>
+								<input type="text" size="19" id="scsbidCtrtNo" disabled/>
 							</td>
 							<th width="10%" height="18">계　　약　　명</th>
 							<td colspan="3">
-								<input type="text" size="93" id="scsbidCtrtNm" disabled/>
+								<input type="text" size="92" id="scsbidCtrtNm" disabled/>
 							</td>
 						</tr>
 						<tr>
@@ -4184,8 +4225,8 @@ var module_instance = new GamFcltyCtrtMngModule();
 							</td>
 							<th width="10%" height="18">계　약　기　간</th>
 							<td>
-								<input type="text" size="15" id="scsbidCtrtDtFrom" disabled/> ∼
-								<input type="text" size="15" id="scsbidCtrtDtTo" disabled/>
+								<input type="text" size="11" id="scsbidCtrtDtFrom" disabled/> ∼
+								<input type="text" size="11" id="scsbidCtrtDtTo" disabled/>
 							</td>
 						</tr>
 					</table>
@@ -4205,11 +4246,11 @@ var module_instance = new GamFcltyCtrtMngModule();
 							<th width="10%" height="18">순번／낙찰순위</th>
 							<td>
 								<input type="text" size="10" id="scsbidSeq" disabled/>／
-								<input type="text" size="21" id="scsbidRank" maxlength="3"/>
+								<input type="text" size="19" id="scsbidRank" maxlength="3"/>
 							</td>
 							<th width="10%" height="18">업　　체　　명</th>
 							<td>
-								<input type="text" size="22" id="scsbidEntrpsNm" maxlength="100"/>
+								<input type="text" size="21" id="scsbidEntrpsNm" maxlength="100"/>
 								<button id="popupScsbidEntrpsCd" class="popupButton">선택</button>
 							</td>
 							<th width="10%" height="18">대　　표　　자</th>
