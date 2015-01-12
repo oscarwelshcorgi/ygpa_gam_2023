@@ -1005,6 +1005,8 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 
         // 최초신청
         case 'addAssetRentFirst':
+            this.$("#assetRentMngtList").noSelect();
+
             this.$("#assetRentListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
             this.$('#gamAssetRentForm').find(':input').val('');
             this.$('#gamAssetRentDetailForm').find(':input').val('');
@@ -1014,8 +1016,10 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
         	this.$('#chargerMoblphonNo').text('');
 
             //this.$("#assetRentDetailList").flexRemove();
-            this.$("#assetRentDetailList").flexAddData({resultList:[]}); //그리드 초기화
-            this.$("#assetRentFileList").flexAddData({resultList:[]}); //그리드 초기화
+                        this.$("#assetRentDetailList").flexEmptyData(); //그리드 초기화
+            this.$("#assetRentFileList").flexEmptyData(); //그리드 초기화
+//            this.$("#assetRentDetailList").flexAddData({resultList:[]}); //그리드 초기화
+//            this.$("#assetRentFileList").flexAddData({resultList:[]}); //그리드 초기화
             this.$("#cmd").val('insert');
 
             this.$('#deptcd').val(this.$('#loginOrgnztId').val());
@@ -2074,7 +2078,7 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
                             <tr>
 								<th width="10%" height="18">총사용면적</th>
-                                <td><input type="text" size="18" class="ygpaNumber" id="grAr" disabled/>㎡</td>
+                                <td><input type="text" size="18" class="ygpaNumber" data-decimal-point="2" id="grAr" disabled/> ㎡</td>
 								<th width="10%" height="18">총사용료</th>
                                 <td><input type="text" size="18" class="ygpaNumber" id="grFee" disabled/></td>
 								<th width="10%" height="18">총감면사용료</th>
@@ -2214,9 +2218,9 @@ var module_instance = new GamAssetRentMngtModule();
                             </tr>
                             <tr>
 								<th width="10%" height="18">실제임대면적</th>
-                                <td><input type="text" size="20" class="ygpaNumber" id="gisAssetsRealRentAr" disabled/>㎡</td>
+                                <td><input type="text" size="12" class="ygpaNumber" data-decimal-point="2" id="gisAssetsRealRentAr" disabled/>㎡</td>
 								<th width="10%" height="18">사용면적</th>
-                                <td><input type="text" size="18" class="calcInput" id="usageAr" maxlength="8"/>㎡</td>
+                                <td><input type="text" size="12" class="calcInput ygpaNumber" data-decimal-point="2" id="usageAr" maxlength="8"/>㎡</td>
 								<th width="10%" height="18">신청기간</th>
                                 <td>
                                 	<input type="text" class="emdcal calcInput" size="11" id="usagePdFrom" data-role="dtFrom" data-dt-to="usagePdTo" /> ~

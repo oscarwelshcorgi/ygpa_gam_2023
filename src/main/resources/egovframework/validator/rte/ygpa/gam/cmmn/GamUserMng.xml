@@ -111,12 +111,12 @@
 	                <var-value>1</var-value>
                 </var>
             </field>
-            <field property="emplNo" depends="maxlength">
+            <field property="emplNo" depends="required, maxlength">
                 <arg0 key="사번" resource="false"/>
-                <arg1 key="20" resource="false"/>
+                <arg1 key="5" resource="false"/>
                 <var>
 	                <var-name>maxlength</var-name>
-	                <var-value>20</var-value>
+	                <var-value>5</var-value>
                 </var>
             </field>
 <!--             <field property="brth" depends="maxlength"> -->

@@ -23,7 +23,7 @@ import egovframework.rte.fdl.idgnr.EgovIdGnrService;
  *
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일      수정자           수정내용
  *  -------    --------    ---------------------------
  *   2009.04.10  조재영          최초 생성
@@ -36,15 +36,15 @@ public class EgovUserManageServiceImpl extends AbstractServiceImpl implements Eg
 	/** userManageDAO */
 	@Resource(name="userManageDAO")
 	private UserManageDAO userManageDAO;
-	
+
 	/** mberManageDAO */
 	@Resource(name="mberManageDAO")
 	private MberManageDAO mberManageDAO;
-	
+
 	/** entrprsManageDAO */
 	@Resource(name="entrprsManageDAO")
 	private EntrprsManageDAO entrprsManageDAO;
-	
+
 	/** egovUsrCnfrmIdGnrService */
 	@Resource(name="egovUsrCnfrmIdGnrService")
 	private EgovIdGnrService idgenService;
@@ -70,7 +70,7 @@ public class EgovUserManageServiceImpl extends AbstractServiceImpl implements Eg
 			String [] id = delId[i].split(":");
 			if (id[0].equals("USR03")){
 		        //업무사용자(직원)삭제
-				userManageDAO.deleteUser(id[1]);				
+				userManageDAO.deleteUser(id[1]);
 			}else if(id[0].equals("USR01")){
 				//일반회원삭제
 				mberManageDAO.deleteMber(id[1]);
@@ -80,7 +80,7 @@ public class EgovUserManageServiceImpl extends AbstractServiceImpl implements Eg
 			}
 		}
 	}
-	
+
 	/**
 	 * @param userManageVO 업무사용자 등록정보
 	 * @return result 등록결과
@@ -104,7 +104,7 @@ public class EgovUserManageServiceImpl extends AbstractServiceImpl implements Eg
 	 * @throws Exception
 	 */
 	public UserManageVO selectUser(String uniqId) {
-		UserManageVO userManageVO = userManageDAO.selectUser(uniqId);		
+		UserManageVO userManageVO = userManageDAO.selectUser(uniqId);
 		return userManageVO;
 	}
 
@@ -128,7 +128,7 @@ public class EgovUserManageServiceImpl extends AbstractServiceImpl implements Eg
 	public int selectUserListTotCnt(UserDefaultVO userSearchVO) {
 		return userManageDAO.selectUserListTotCnt(userSearchVO);
 	}
-	
+
 	/**
 	 * 화면에 조회된 사용자의 기본정보를 수정하여 항목의 정합성을 체크하고 수정된 데이터를 데이터베이스에 반영
 	 * @param userManageVO 업무사용자 수정정보
@@ -166,7 +166,7 @@ public class EgovUserManageServiceImpl extends AbstractServiceImpl implements Eg
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 사용자가 비밀번호를 기억하지 못할 때 비밀번호를 찾을 수 있도록 함
 	 * @param passVO 업무사용자 암호 조회조건정보
@@ -177,7 +177,16 @@ public class EgovUserManageServiceImpl extends AbstractServiceImpl implements Eg
 		UserManageVO userManageVO = userManageDAO.selectPassword(passVO);
 		return userManageVO;
 	}
-	
-	
-	
+
+	/* (non-Javadoc)
+	 * @see egovframework.com.uss.umt.service.EgovUserManageService#insertUserHistory(egovframework.com.uss.umt.service.UserManageUpdateVO)
+	 */
+	@Override
+	public String insertUserHistory(UserManageUpdateVO userManageUpdateVO)
+			throws Exception {
+		return userManageDAO.insertUserHistory(userManageUpdateVO);
+	}
+
+
+
 }

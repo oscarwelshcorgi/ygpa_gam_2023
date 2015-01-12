@@ -20,7 +20,7 @@ import egovframework.com.uss.umt.service.UserManageVO;
  *
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일      수정자           수정내용
  *  -------    --------    ---------------------------
  *   2009.04.10  조재영          최초 생성
@@ -29,7 +29,7 @@ import egovframework.com.uss.umt.service.UserManageVO;
  */
 @Repository("userManageDAO")
 public class UserManageDAO extends EgovComAbstractDAO{
-	
+
     /** Log Info */
     protected Log log = LogFactory.getLog(this.getClass());
 
@@ -50,11 +50,11 @@ public class UserManageDAO extends EgovComAbstractDAO{
         delete("userManageDAO.deleteUser_S", delId);
     }
 
-    
+
     /**
      * 사용자의 기본정보를 화면에서 입력하여 항목의 정합성을 체크하고 데이터베이스에 저장
      * @param userManageVO 업무사용자 등록정보
-     * @return String result 등록결과 
+     * @return String result 등록결과
      */
     public String insertUser(UserManageVO userManageVO){
         return (String)insert("userManageDAO.insertUser_S", userManageVO);
@@ -77,7 +77,7 @@ public class UserManageDAO extends EgovComAbstractDAO{
     public List selectUserList(UserDefaultVO userSearchVO){
         return list("userManageDAO.selectUserList_S", userSearchVO);
     }
-    
+
     /**
      * 사용자총 갯수를 조회한다.
      * @param userSearchVO 검색조건
@@ -103,7 +103,7 @@ public class UserManageDAO extends EgovComAbstractDAO{
     public String insertUserHistory(UserManageVO userManageVO){
     	return (String)insert("userManageDAO.insertUserHistory_S", userManageVO);
     }
-    
+
     /**
      * 업무사용자 암호수정
      * @param passVO 업무사용자수정정보(비밀번호)
@@ -111,7 +111,7 @@ public class UserManageDAO extends EgovComAbstractDAO{
     public void updatePassword(UserManageVO passVO) {
         update("userManageDAO.updatePassword_S", passVO);
     }
-    
+
     /**
      * 업무사용자가 비밀번호를 기억하지 못할 때 비밀번호를 찾을 수 있도록 함
      * @param userManageVO 업무 사용자암호 조회조건정보
@@ -120,5 +120,13 @@ public class UserManageDAO extends EgovComAbstractDAO{
     public UserManageVO selectPassword(UserManageVO userManageVO){
     	return (UserManageVO) selectByPk("userManageDAO.selectPassword_S", userManageVO);
     }
-    
+
+	/**
+	 * @param userManageUpdateVO
+	 * @return
+	 */
+	public String insertUserHistory(UserManageUpdateVO userManageUpdateVO) {
+    	return (String)insert("userManageDAO.insertUserHistory_S", userManageUpdateVO);
+	}
+
 }

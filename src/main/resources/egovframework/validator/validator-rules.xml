@@ -53,6 +53,23 @@
                   msg="errors.required">
 
          <javascript><![CDATA[
+         	function getFormField(form, win_id, field) {
+         		var fields = $(form).find("input[data-column-id='"+field+"']");
+         		var rf = null;
+         		if(fields!=null&&fields.length!=0) {
+         			if(fields.length==1) {
+         				rf=fields[0];
+         			}
+         			else {
+         				console.log('validator error : duplicate field in form field : '+field);
+         			}
+         		}
+         		else {
+         			rf = $('#'+win_id+field)[0];
+         		}
+         		return rf;
+         	}
+
             function validateRequired(form, required) {
                 var isValid = true;
                 var focusField = null;
@@ -61,8 +78,8 @@
                 oRequired = new required();
                 var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 for (x in oRequired) {
-                	var field = form[window_id+oRequired[x][0]];
-                	if (typeof(field) == 'undefined') {
+                	var field = getFormField(form, window_id, oRequired[x][0]);
+                	if (field==null) {
                 		continue;
                 	}
                     if (field.type == 'text' ||
@@ -94,18 +111,21 @@
 	                        fields[i++] = oRequired[x][1];
 	                        isValid = false;
                         }
-                  	} else if (form[oRequired[x][0]][0].type == 'radio') {
-						var radioChecked = false;
-						for (var j=0; j<form[oRequired[x][0]].length; j++) {
-							if (form[oRequired[x][0]][j].checked) {
-                                radioChecked = true;
-                                break;
+                  	} else
+                  	if(field.length>0) {
+	                  	if (field[0].type == 'radio') {
+							var radioChecked = false;
+							for (var j=0; j<field.length; j++) {
+								if (field[j].checked) {
+	                                radioChecked = true;
+	                                break;
+								}
 							}
-						}
-						if (!radioChecked) {
-							fields[i++] = oRequired[x][1];
-							isValid = false;
- 						}
+							if (!radioChecked) {
+								fields[i++] = oRequired[x][1];
+								isValid = false;
+	 						}
+	 					}
                     }
                 }
                 if (fields.length > 0) {
@@ -113,8 +133,8 @@
 //                	if (focusField != null) {
 	                if (focusField != null && focusField.type == 'text') {
                    		focusField.focus();
+                   		EMD.util.showMessage(focusField, fields[0]);
                    	}
-                   	alert(fields.join('\n'));
                 }
                 return isValid;
             }
@@ -171,7 +191,10 @@
                 var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oMinLength = new minlength();
                 for (x in oMinLength) {
-                    var field = form[window_id+oMinLength[x][0]];
+                    var field = getFormField(form, window_id, oMinLength[x][0]);
+                	if (field==null) {
+                		continue;
+                	}
 
                     if (field.type == 'text' ||
                         field.type == 'textarea') {
@@ -217,8 +240,10 @@
                 var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oMaxLength = new maxlength();
                 for (x in oMaxLength) {
-                    var field = form[window_id+oMaxLength[x][0]];
-
+                	var field = getFormField(form, window_id, oMaxLength[x][0]);
+                	if (field==null) {
+                		continue;
+                	}
                     if (field.type == 'text' ||
                         field.type == 'textarea') {
 
@@ -263,8 +288,10 @@
                 var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oMasked = new mask();
                 for (x in oMasked) {
-                    var field = form[window_id+oMasked[x][0]];
-
+                	var field = getFormField(form, window_id, oMasked[x][0]);
+                	if (field==null) {
+                		continue;
+                	}
                     if ((field.type == 'text' ||
                          field.type == 'textarea') &&
                          (field.value.length > 0)) {
@@ -315,7 +342,10 @@
                 var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oByte = new ByteValidations();
                 for (x in oByte) {
-                	var field = form[window_id+oByte[x][0]];
+                	var field = getFormField(form, window_id, oByte[x][0]);
+                	if (field==null) {
+                		continue;
+                	}
 
                     if (field.type == 'text' ||
                         field.type == 'textarea' ||
@@ -388,8 +418,10 @@
                 var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oShort = new ShortValidations();
                 for (x in oShort) {
-                	var field = form[window_id+oShort[x][0]];
-
+                	var field = getFormField(form, window_id, oShort[x][0]);
+                	if (field==null) {
+                		continue;
+                	}
                     if (field.type == 'text' ||
                         field.type == 'textarea' ||
                         field.type == 'select-one' ||
@@ -460,7 +492,10 @@
                 var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oInteger = new IntegerValidations();
                 for (x in oInteger) {
-                	var field = form[window_id+oInteger[x][0]];
+                	var field = getFormField(form, window_id, oInteger[x][0]);
+                	if (field==null) {
+                		continue;
+                	}
 
                     if (field.type == 'text' ||
                         field.type == 'textarea' ||
@@ -564,7 +599,10 @@
                 var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oFloat = new FloatValidations();
                 for (x in oFloat) {
-                	var field = form[window_id+oFloat[x][0]];
+                	var field = getFormField(form, window_id, oFloat[x][0]);
+                	if (field==null) {
+                		continue;
+                	}
 
                     if (field.type == 'text' ||
                         field.type == 'textarea' ||
@@ -651,10 +689,14 @@
                 var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                oDate = new DateValidations();
                for (x in oDate) {
-                   var value = form[window_id+oDate[x][0]].value;
+                    var field = getFormField(form, window_id, oDate[x][0]);
+                	if (field==null) {
+                		continue;
+                	}
+                   var value = $(field).val();
                    var datePattern = oDate[x][2]("datePatternStrict");
-                   if ((form[window_id+oDate[x][0]].type == 'text' ||
-                        form[window_id+oDate[x][0]].type == 'textarea') &&
+                   if ((field.type == 'text' ||
+                        field.type == 'textarea') &&
                        (value.length > 0) &&
                        (datePattern.length > 0)) {
                      var MONTH = "MM";
@@ -681,14 +723,14 @@
                          if(matched != null) {
                             if (!isValidDate(matched[2], matched[1], matched[3])) {
                                if (i == 0) {
-                                   focusField = form[oDate[x][0]];
+                                   focusField = field;
                                }
                                fields[i++] = oDate[x][1];
                                bValid =  false;
                             }
                          } else {
                             if (i == 0) {
-                                focusField = form[oDate[x][0]];
+                                focusField = field;
                             }
                             fields[i++] = oDate[x][1];
                             bValid =  false;
@@ -718,7 +760,7 @@
                               }
                          } else {
                              if (i == 0) {
-                                 focusField = form[oDate[x][0]];
+                                 focusField = field;
                              }
                              fields[i++] = oDate[x][1];
                              bValid =  false;
@@ -741,21 +783,21 @@
                          if(matched != null) {
                              if (!isValidDate(matched[3], matched[2], matched[1])) {
                                  if (i == 0) {
-                                     focusField = form[window_id+oDate[x][0]];
+                                     focusField = field;
                                   }
                                   fields[i++] = oDate[x][1];
                                   bValid =  false;
                               }
                           } else {
                               if (i == 0) {
-                                  focusField = form[window_id+oDate[x][0]];
+                                  focusField = field;
                               }
                               fields[i++] = oDate[x][1];
                               bValid =  false;
                           }
                      } else {
                          if (i == 0) {
-                             focusField = form[window_id+oDate[x][0]];
+                             focusField = field;
                          }
                          fields[i++] = oDate[x][1];
                          bValid =  false;
@@ -833,7 +875,10 @@
                 var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oRange = new intRange();
                 for (x in oRange) {
-                    var field = form[window_id+oRange[x][0]];
+                    var field = getFormField(form, window_id, oRange[x][0]);
+                	if (field==null) {
+                		continue;
+                	}
 
                     if ((field.type == 'text' ||
                          field.type == 'textarea') &&
@@ -881,7 +926,10 @@
                 var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oRange = new floatRange();
                 for (x in oRange) {
-                    var field = form[window_id+oRange[x][0]];
+                    var field = getFormField(form, window_id, oRange[x][0]);
+                	if (field==null) {
+                		continue;
+                	}
 
                     if ((field.type == 'text' ||
                          field.type == 'textarea') &&
@@ -929,12 +977,16 @@
                 var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oCreditCard = new creditCard();
                 for (x in oCreditCard) {
-                    if ((form[window_id+oCreditCard[x][0]].type == 'text' ||
-                         form[window_id+oCreditCard[x][0]].type == 'textarea') &&
-                        (form[window_id+oCreditCard[x][0]].value.length > 0)) {
-                        if (!luhnCheck(form[window_id+oCreditCard[x][0]].value)) {
+                	var field = getFormField(form, window_id, oCreditCard[x][0]);
+                	if (field==null) {
+                		continue;
+                	}
+                    if ((field.type == 'text' ||
+                         field.type == 'textarea') &&
+                        (field.value.length > 0)) {
+                        if (!luhnCheck(field.value)) {
                             if (i == 0) {
-                                focusField = form[window_id+oCreditCard[x][0]];
+                                focusField = field;
                             }
                             fields[i++] = oCreditCard[x][1];
                             bValid = false;
@@ -1008,12 +1060,16 @@
                 var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oEmail = new email();
                 for (x in oEmail) {
-                    if ((form[window_id+oEmail[x][0]].type == 'text' ||
-                         form[window_id+oEmail[x][0]].type == 'textarea') &&
-                        (form[window_id+oEmail[x][0]].value.length > 0)) {
-                        if (!checkEmail(form[window_id+oEmail[x][0]].value)) {
+                	var field = getFormField(form, window_id, oEmail[x][0]);
+                	if (field==null) {
+                		continue;
+                	}
+                    if ((field.type == 'text' ||
+                         field.type == 'textarea') &&
+                        (field.value.length > 0)) {
+                        if (!checkEmail(field.value)) {
                             if (i == 0) {
-                                focusField = form[window_id+oEmail[x][0]];
+                                focusField = field;
                             }
                             fields[i++] = oEmail[x][1];
                             bValid = false;
@@ -1106,7 +1162,10 @@
                 var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oIhidnum = new ihidnum();
                 for (x in oIhidnum) {
-                	var field = form[window_id+oIhidnum[x][0]];
+                	var field = getFormField(form, window_id, oIhidnum[x][0]);
+                	if (field==null) {
+                		continue;
+                	}
                 	if (field.type == 'text' ||
                     	field.type == 'hidden' ||
                         field.type == 'textarea') {
@@ -1181,7 +1240,10 @@
                 var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
                 oKorean = new korean();
                 for (x in oKorean) {
-                	var field = form[window_id+oKorean[x][0]];
+                	var field = getFormField(form, window_id, oKorean[x][0]);
+                	if (field==null) {
+                		continue;
+                	}
                     if (field.type == 'text' || field.type == 'textarea') {
                         if (trim(field.value).length==0 || !checkKorean(field.value)) {
                             if (i == 0) {
