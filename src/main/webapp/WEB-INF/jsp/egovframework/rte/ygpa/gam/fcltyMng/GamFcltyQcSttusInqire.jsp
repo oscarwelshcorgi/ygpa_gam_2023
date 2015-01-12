@@ -94,7 +94,6 @@ GamFcltyQcSttusInqireModule.prototype.loadComplete = function(params) {
 					{display:"점검항목",		name:"qcItemNm",		width:300,		sortable:true,		align:"left"},
 					{display:"점검항목결과구분",	name:"inspResultChkNm",	width:150,		sortable:true,		align:"center"}
 			],
-		mergeRows : "qcItemUpperCd, qcItemUpperNm",
 		height: "260"
 	});
 
