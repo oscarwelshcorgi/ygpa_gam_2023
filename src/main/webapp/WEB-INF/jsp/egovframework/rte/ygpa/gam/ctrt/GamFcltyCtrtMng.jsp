@@ -29,7 +29,7 @@
 
 <%
 /**
- * @FUNCTION NAME : GamElctyEquipCapaMngModule
+ * @FUNCTION NAME : GamFcltyCtrtMngModule
  * @DESCRIPTION   : MODULE 고유 함수
  * @PARAMETER     : NONE
 **/
