@@ -66,7 +66,10 @@
     <script src="<c:url value='/js/codebase/dhtmlx.js'/>"></script>
 
     <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
+<%--
     <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
+    <script src="<c:url value='/js/dhtmlx.flexigrid.ygpa.js'/>"></script>
+     --%>
     <script type="text/javascript">
 	var $DEBUG=false;
 
