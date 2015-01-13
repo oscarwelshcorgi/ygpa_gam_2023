@@ -197,7 +197,6 @@ public class GamFcltyCtrtSttusInqireController {
 			map.put("result", result);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
 		} catch (Exception e) {
-			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
 		}

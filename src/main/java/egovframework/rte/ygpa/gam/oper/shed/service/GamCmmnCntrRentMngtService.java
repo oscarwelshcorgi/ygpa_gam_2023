@@ -138,27 +138,19 @@ public interface GamCmmnCntrRentMngtService {
 	void deleteCmmnCntrRentMngtDetail2(GamCmmnCntrRentMngtDetailVO vo) throws Exception;
 
 	/**
-	 * 승낙할 공컨장치장임대 정보 조회.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대정보
-	 * @exception Exception
-	 */
-    GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtPrmisnInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception;
-
-    /**
-	 * 공컨장치장임대 허가여부를 수정 및 징수의뢰를 등록한다.
-	 * @param vo GamCmmnCntrRentMngtLevReqestVO
-	 * @exception Exception
-	 */
-	void updateCmmnCntrRentMngtPrmisn(GamCmmnCntrRentMngtLevReqestVO vo) throws Exception;
-
-
-	/**
 	 * 공컨장치장임대 허가여부를 취소한다.
 	 * @param vo GamCmmnCntrRentMngtVO
 	 * @exception Exception
 	 */
 	void updateCmmnCntrRentMngtPrmisnCancel(GamCmmnCntrRentMngtLevReqestVO vo) throws Exception;
+
+	/**
+	 * 승낙할 공컨장치장임대 정보 조회.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 공컨장치장임대정보
+	 * @exception Exception
+	 */
+	GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtPrmisnInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception;
 
 	/**
 	 * 파일 목록을 조회한다.
