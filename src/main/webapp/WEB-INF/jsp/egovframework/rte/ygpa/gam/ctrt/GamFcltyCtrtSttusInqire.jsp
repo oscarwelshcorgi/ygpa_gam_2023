@@ -98,7 +98,7 @@ GamFcltyCtrtSttusInqireModule.prototype.loadComplete = function() {
 		e.data.module.$('#sPrevCtrtYr').val(prevCtrtYr);
 	});
 
-	this.$("#sEntrpscd").bind("keyup change", {module: this}, function(event) {
+	this.$("#sRegistEntrpsCd").bind("keyup change", {module: this}, function(event) {
 		event.data.module.getSearchEntrpsNm();
 	});
 
@@ -229,16 +229,16 @@ GamFcltyCtrtSttusInqireModule.prototype.selectData = function() {
 %>
 GamFcltyCtrtSttusInqireModule.prototype.getSearchEntrpsNm = function() {
 
-	var sEntrpscd = this.$('#sEntrpscd').val();
-	if (sEntrpscd.length == 8) {
-		var searchVO = { 'sEntrpscd':sEntrpscd };
-		this.doAction('/ctrt/gamSelectFcltyCtrtSttusInqireEntrpsNm.do', searchVO, function(module, result) {
+	var sRegistEntrpsCd = this.$('#sRegistEntrpsCd').val();
+	if (sRegistEntrpsCd.length == 8) {
+		var searchVO = { 'sEntrpscd':sRegistEntrpsCd };
+		this.doAction('/ctrt/gamSelectFcltyCtrtSttusInqireEntrpsInfo.do', searchVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module.$('#sEntrpsNm').val(result.entrpsNm);
+				module.$('#sRegistEntrpsNm').val(result.result.entrpsNm);
 			}
 		});
 	} else {
-		this.$('#sEntrpsNm').val('');
+		this.$('#sRegistEntrpsNm').val('');
 	}
 
 };
@@ -333,7 +333,7 @@ var module_instance = new GamFcltyCtrtSttusInqireModule();
 								<th style="width:10%; height:20; text-align:center;">거래금액</th>
 								<td><input type="text" size="18" id="sumCurrCtrtAmt" class="ygpaNumber" disabled="disabled"/></td>
 								<td style="text-align:right;">
-	                                <button id="btnPrint" class="buttonPrint">계약 이력 출력</button>
+	                                <button data-role="printPage" data-search-option="searchForm" data-url='/ctrt/gamSelectFcltyCtrtSttusInqirePrint.do'>계약 이력 출력</button>
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
 								</td>
 							</tr>

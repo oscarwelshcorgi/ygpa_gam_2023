@@ -26,59 +26,61 @@ public class GamFcltyCtrtMngVO extends ComDefaultVO {
 
 	private static final long serialVersionUID = 1L;
 
-	private	String ctrtNo;			// 계약 번호
-	private	String ctrtSe;			// 계약 구분
-	private	String bidPblancNo;		// 입찰 공고 번호
-	private	String bidPblancDt;		// 입찰 공고 일자
-	private	String bidDt;			// 입찰 일자
-	private	String registEntrpsCd;	// 등록 업체 코드
-	private	String registEntrpsNm;	// 등록 업체 명
-	private	String siteDesc;		// 현장 설명
-	private	String ctrtNm;			// 계약 명
-	private	String planAmt;			// 설계 금액
-	private	String prmtAmt;			// 예정 금액
-	private	String scsbidAmt;		// 낙찰 금액
-	private	String scsbidRate;		// 낙찰 율
-	private	String baseAmt;			// 기초 금액
-	private	String bidMth;			// 입찰 방법
-	private	String ctrtMth;			// 계약 방법
-	private	String ctrtDt;			// 계약 일자
-	private	String ctrtAmt;			// 계약 금액
-	private	String ctrtDtFrom;		// 계약 기간 FROM
-	private	String ctrtDtTo;		// 계약 기간 TO
-	private	String ctrtGrntyAmt;	// 계약 보증 금액
-	private	String prcuPblancNo;	// 조달 공고 번호
-	private	String ctrtGrntyMth;	// 계약 보증 방법
-	private	String ctrtExamDt;		// 계약 검사 일자
-	private	String intendant1;		// 감독자 1
-	private	String intendant2;		// 감독자 2
-	private	String intendant3;		// 감독자 3
-	private	String caryFwdBdgtAmt;	// 이월 예산 금액
-	private	String regUsr;			// 등록자
-	private	String registDt;		// 등록일시
-	private	String updUsr;			// 수정자
-	private	String updtDt;			// 수정일시
-	private	String orderMthd;		// 발주 방식
-	private	String sldrtGrnty;		// 연대 보증
-	private	String jobChrgDeptCd;	// 업무 담당 부서 코드
-	private	String flawDtFrom;		// 하자 기간 FROM
-	private	String flawDtTo;		// 하자 기간 TO
-	private	String causeAct;		// 원인 행위
-	private	String ctrtSeNm;		// 계약 구분 명
-	private	String ctrtGrntyMthNm;	// 계약 보증 방법 명
-	private	String sCtrtNo;			// 검색 계약 번호
-	private	String sCtrtSe;			// 검색 계약 구분
-	private	String sCtrtNm;			// 검색 계약 명
-	private	String sStartCtrtDt;	// 검색 계약 일자 FROM
-	private	String sEndCtrtDt;		// 검색 계약 일자 END
-	private	String sStartCtrtAmt;	// 검색 계약 금액 FROM
-	private	String sEndCtrtAmt;		// 검색 계약 금액 TO
-	private	String totalCount;		// 조회 자료 수
-	private	String sumPlanAmt;		// 설계 금액 합계
-	private	String sumPrmtAmt;		// 예정 금액 합계
-	private	String sumScsbidAmt;	// 낙찰 금액 합계
-	private	String sumBaseAmt;		// 기초 금액 합계
-	private	String sumCtrtAmt;		// 계약 금액 합계
+	private	String ctrtNo;				// 계약 번호
+	private	String ctrtSe;				// 계약 구분
+	private	String bidPblancNo;			// 입찰 공고 번호
+	private	String bidPblancDt;			// 입찰 공고 일자
+	private	String bidDt;				// 입찰 일자
+	private	String registEntrpsCd;		// 등록 업체 코드
+	private	String registEntrpsNm;		// 등록 업체 명
+	private	String siteDesc;			// 현장 설명
+	private	String ctrtNm;				// 계약 명
+	private	String planAmt;				// 설계 금액
+	private	String prmtAmt;				// 예정 금액
+	private	String scsbidAmt;			// 낙찰 금액
+	private	String scsbidRate;			// 낙찰 율
+	private	String baseAmt;				// 기초 금액
+	private	String bidMth;				// 입찰 방법
+	private	String ctrtMth;				// 계약 방법
+	private	String ctrtDt;				// 계약 일자
+	private	String ctrtAmt;				// 계약 금액
+	private	String ctrtDtFrom;			// 계약 기간 FROM
+	private	String ctrtDtTo;			// 계약 기간 TO
+	private	String ctrtGrntyAmt;		// 계약 보증 금액
+	private	String prcuPblancNo;		// 조달 공고 번호
+	private	String ctrtGrntyMth;		// 계약 보증 방법
+	private	String ctrtExamDt;			// 계약 검사 일자
+	private	String intendant1;			// 감독자 1
+	private	String intendant2;			// 감독자 2
+	private	String intendant3;			// 감독자 3
+	private	String caryFwdBdgtAmt;		// 이월 예산 금액
+	private	String regUsr;				// 등록자
+	private	String registDt;			// 등록일시
+	private	String updUsr;				// 수정자
+	private	String updtDt;				// 수정일시
+	private	String orderMthd;			// 발주 방식
+	private	String sldrtGrnty;			// 연대 보증
+	private	String jobChrgDeptCd;		// 업무 담당 부서 코드
+	private	String flawDtFrom;			// 하자 기간 FROM
+	private	String flawDtTo;			// 하자 기간 TO
+	private	String causeAct;			// 원인 행위
+	private	String ctrtSeNm;			// 계약 구분 명
+	private	String ctrtGrntyMthNm;		// 계약 보증 방법 명
+	private	String sCtrtNo;				// 검색 계약 번호
+	private	String sCtrtSe;				// 검색 계약 구분
+	private	String sCtrtNm;				// 검색 계약 명
+	private	String sRegistEntrpsCd;		// 검색 등록 업체 코드
+	private	String sRegistEntrpsNm;		// 검색 등록 업체 명
+	private	String sStartCtrtDt;		// 검색 계약 일자 FROM
+	private	String sEndCtrtDt;			// 검색 계약 일자 END
+	private	String sStartCtrtAmt;		// 검색 계약 금액 FROM
+	private	String sEndCtrtAmt;			// 검색 계약 금액 TO
+	private	String totalCount;			// 조회 자료 수
+	private	String sumPlanAmt;			// 설계 금액 합계
+	private	String sumPrmtAmt;			// 예정 금액 합계
+	private	String sumScsbidAmt;		// 낙찰 금액 합계
+	private	String sumBaseAmt;			// 기초 금액 합계
+	private	String sumCtrtAmt;			// 계약 금액 합계
 
 	/**
 	 * @return the ctrtNo
@@ -595,6 +597,30 @@ public class GamFcltyCtrtMngVO extends ComDefaultVO {
 	 */
 	public void setsCtrtNm(String sCtrtNm) {
 		this.sCtrtNm = sCtrtNm;
+	}
+	/**
+	 * @return the sRegistEntrpsCd
+	 */
+	public String getsRegistEntrpsCd() {
+		return sRegistEntrpsCd;
+	}
+	/**
+	 * @param sRegistEntrpsCd the sRegistEntrpsCd to set
+	 */
+	public void setsRegistEntrpsCd(String sRegistEntrpsCd) {
+		this.sRegistEntrpsCd = sRegistEntrpsCd;
+	}
+	/**
+	 * @return the sRegistEntrpsNm
+	 */
+	public String getsRegistEntrpsNm() {
+		return sRegistEntrpsNm;
+	}
+	/**
+	 * @param sRegistEntrpsNm the sRegistEntrpsNm to set
+	 */
+	public void setsRegistEntrpsNm(String sRegistEntrpsNm) {
+		this.sRegistEntrpsNm = sRegistEntrpsNm;
 	}
 	/**
 	 * @return the sStartCtrtDt

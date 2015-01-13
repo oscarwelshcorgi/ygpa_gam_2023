@@ -72,6 +72,8 @@ public class GamFcltyCtrtLgerHistVO extends ComDefaultVO {
 	private	String sCtrtNo;			// 검색 계약 번호
 	private	String sCtrtSe;			// 검색 계약 구분
 	private	String sCtrtNm;			// 검색 계약 명
+	private	String sRegistEntrpsCd;		// 검색 등록 업체 코드
+	private	String sRegistEntrpsNm;		// 검색 등록 업체 명
 	private	String sStartCtrtDt;	// 검색 계약 일자 FROM
 	private	String sEndCtrtDt;		// 검색 계약 일자 END
 	private	String sStartCtrtAmt;	// 검색 계약 금액 FROM
@@ -598,6 +600,30 @@ public class GamFcltyCtrtLgerHistVO extends ComDefaultVO {
 	 */
 	public void setsCtrtNm(String sCtrtNm) {
 		this.sCtrtNm = sCtrtNm;
+	}
+	/**
+	 * @return the sRegistEntrpsCd
+	 */
+	public String getsRegistEntrpsCd() {
+		return sRegistEntrpsCd;
+	}
+	/**
+	 * @param sRegistEntrpsCd the sRegistEntrpsCd to set
+	 */
+	public void setsRegistEntrpsCd(String sRegistEntrpsCd) {
+		this.sRegistEntrpsCd = sRegistEntrpsCd;
+	}
+	/**
+	 * @return the sRegistEntrpsNm
+	 */
+	public String getsRegistEntrpsNm() {
+		return sRegistEntrpsNm;
+	}
+	/**
+	 * @param sRegistEntrpsNm the sRegistEntrpsNm to set
+	 */
+	public void setsRegistEntrpsNm(String sRegistEntrpsNm) {
+		this.sRegistEntrpsNm = sRegistEntrpsNm;
 	}
 	/**
 	 * @return the sStartCtrtDt

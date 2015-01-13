@@ -75,31 +75,29 @@
 						AND T1.CTRT_NO = #sCtrtNo#
 						</isNotEmpty>
 
-
 						<isNotEmpty property="sCtrtSe">
 						AND T1.CTRT_SE = #sCtrtSe#
 						</isNotEmpty>
-
 
 						<isNotEmpty property="sCtrtNm">
 						AND T1.CTRT_NM LIKE '%' || #sCtrtNm# || '%'
 						</isNotEmpty>
 
+						<isNotEmpty property="sRegistEntrpsCd">
+						AND T1.REGIST_ENTRPS_CD = #sRegistEntrpsCd#
+						</isNotEmpty>
 
 						<isNotEmpty property="sStartCtrtDt">
 						AND T1.CTRT_DT <![CDATA[ >= ]]> TO_DATE(#sStartCtrtDt#,'YYYY-MM-DD')
 						</isNotEmpty>
 
-
 						<isNotEmpty property="sEndCtrtDt">
 						AND T1.CTRT_DT <![CDATA[ < ]]> TO_DATE(#sEndCtrtDt#,'YYYY-MM-DD') + 1
 						</isNotEmpty>
 
-
 						<isNotEmpty property="sStartCtrtAmt">
 						AND T1.CTRT_AMT <![CDATA[ >= ]]> NVL(TO_NUMBER(REPLACE(#sStartCtrtAmt#,',','')),0)
 						</isNotEmpty>
-
 
 						<isNotEmpty property="sEndCtrtAmt">
 						AND T1.CTRT_AMT <![CDATA[ <= ]]> NVL(TO_NUMBER(REPLACE(#sEndCtrtAmt#,',','')),0)
@@ -134,6 +132,10 @@
 
 		<isNotEmpty property="sCtrtNm">
 		AND T1.CTRT_NM LIKE '%' || #sCtrtNm# || '%'
+		</isNotEmpty>
+
+		<isNotEmpty property="sRegistEntrpsCd">
+		AND T1.REGIST_ENTRPS_CD = #sRegistEntrpsCd#
 		</isNotEmpty>
 
 		<isNotEmpty property="sStartCtrtDt">

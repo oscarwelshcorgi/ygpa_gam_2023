@@ -277,7 +277,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
 		module.loadScsbidDetail('scsbidTab');
 	});
 
-	this.$("#sEntrpscd").bind("keyup change", {module: this}, function(event) {
+	this.$("#sRegistEntrpsCd").bind("keyup change", {module: this}, function(event) {
 		event.data.module.getSearchEntrpsNm();
 	});
 
@@ -724,16 +724,16 @@ GamFcltyCtrtLgerHistModule.prototype.loadScsbidDetail = function(tabId) {
 %>
 GamFcltyCtrtLgerHistModule.prototype.getSearchEntrpsNm = function() {
 
-	var sEntrpscd = this.$('#sEntrpscd').val();
-	if (sEntrpscd.length == 8) {
-		var searchVO = { 'sEntrpscd':sEntrpscd };
-		this.doAction('/ctrt/gamSelectFcltyCtrtSttusInqireEntrpsNm.do', searchVO, function(module, result) {
+	var sRegistEntrpsCd = this.$('#sRegistEntrpsCd').val();
+	if (sRegistEntrpsCd.length == 8) {
+		var searchVO = { 'sEntrpscd':sRegistEntrpsCd };
+		this.doAction('/ctrt/gamSelectFcltyCtrtLgerHistEntrpsInfo.do', searchVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module.$('#sEntrpsNm').val(result.entrpsNm);
+				module.$('#sRegistEntrpsNm').val(result.result.entrpsNm);
 			}
 		});
 	} else {
-		this.$('#sEntrpsNm').val('');
+		this.$('#sRegistEntrpsNm').val('');
 	}
 
 };

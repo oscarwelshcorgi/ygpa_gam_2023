@@ -85,6 +85,9 @@
 						AND T1.CTRT_NM LIKE '%' || #sCtrtNm# || '%'
 						</isNotEmpty>
 
+						<isNotEmpty property="sRegistEntrpsCd">
+						AND T1.REGIST_ENTRPS_CD = #sRegistEntrpsCd#
+						</isNotEmpty>
 
 						<isNotEmpty property="sStartCtrtDt">
 						AND T1.CTRT_DT <![CDATA[ >= ]]> TO_DATE(#sStartCtrtDt#,'YYYY-MM-DD')

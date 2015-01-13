@@ -58,8 +58,8 @@
 						AND T2.CTRT_DT <![CDATA[ <= ]]> TO_DATE(#sCtrtYr# || '1231235959','YYYYMMDDHH24MISS')
 						</isNotEmpty>
 
-						<isNotEmpty property="sEntrpsNm">
-						AND T1.ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%'
+						<isNotEmpty property="sRegistEntrpsCd">
+						AND T1.REGIST_ENTRPS_CD = #sRegistEntrpsCd#
 						</isNotEmpty>
 
 						<isNotEmpty property="sStartCtrtDt">
@@ -108,13 +108,13 @@
 		AND T2.CTRT_NM LIKE '%' || #sCtrtNm# || '%'
 		</isNotEmpty>
 
+		<isNotEmpty property="sRegistEntrpsCd">
+		AND T1.REGIST_ENTRPS_CD = #sRegistEntrpsCd#
+		</isNotEmpty>
+
 		<isNotEmpty property="sCtrtYr">
 		AND T2.CTRT_DT <![CDATA[ >= ]]> TO_DATE(#sPrevCtrtYr# || '0101000000','YYYYMMDDHH24MISS')
 		AND T2.CTRT_DT <![CDATA[ <= ]]> TO_DATE(#sCtrtYr# || '1231235959','YYYYMMDDHH24MISS')
-		</isNotEmpty>
-
-		<isNotEmpty property="sEntrpsNm">
-		AND T1.ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%'
 		</isNotEmpty>
 
 		<isNotEmpty property="sStartCtrtDt">

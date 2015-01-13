@@ -52,7 +52,8 @@ public class GamFcltyCtrtSttusInqireVO extends ComDefaultVO {
 	private	String sPrevCtrtYr;			// 검색 이전 계약 년도
 	private	String sCtrtSe;				// 검색 계약 구분
 	private	String sCtrtNm;				// 검색 계약 명
-	private	String sEntrpsNm;			// 검색 업체 명
+	private	String sRegistEntrpsCd;		// 검색 등록 업체 코드
+	private	String sRegistEntrpsNm;		// 검색 등록 업체 명
 	private	String sStartCtrtDt;		// 검색 계약 일자 FROM
 	private	String sEndCtrtDt;			// 검색 계약 일자 END
 	private	String sStartCtrtAmt;		// 검색 계약 금액 FROM
@@ -337,16 +338,28 @@ public class GamFcltyCtrtSttusInqireVO extends ComDefaultVO {
 		this.sCtrtNm = sCtrtNm;
 	}
 	/**
-	 * @return the sEntrpsNm
+	 * @return the sRegistEntrpsCd
 	 */
-	public String getsEntrpsNm() {
-		return sEntrpsNm;
+	public String getsRegistEntrpsCd() {
+		return sRegistEntrpsCd;
 	}
 	/**
-	 * @param sEntrpsNm the sEntrpsNm to set
+	 * @param sRegistEntrpsCd the sRegistEntrpsCd to set
 	 */
-	public void setsEntrpsNm(String sEntrpsNm) {
-		this.sEntrpsNm = sEntrpsNm;
+	public void setsRegistEntrpsCd(String sRegistEntrpsCd) {
+		this.sRegistEntrpsCd = sRegistEntrpsCd;
+	}
+	/**
+	 * @return the sRegistEntrpsNm
+	 */
+	public String getsRegistEntrpsNm() {
+		return sRegistEntrpsNm;
+	}
+	/**
+	 * @param sRegistEntrpsNm the sRegistEntrpsNm to set
+	 */
+	public void setsRegistEntrpsNm(String sRegistEntrpsNm) {
+		this.sRegistEntrpsNm = sRegistEntrpsNm;
 	}
 	/**
 	 * @return the sStartCtrtDt
