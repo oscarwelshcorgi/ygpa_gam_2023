@@ -1513,4 +1513,31 @@ public class GamFcltyCtrtMngController {
 
 	}
 
+	@RequestMapping(value="/ctrt/gamSelectFcltyCtrtMngEntrpsInfo.do")
+	@ResponseBody Map<String, Object> gamSelectFcltyCtrtMngEntrpsInfo(@RequestParam Map<String, Object> searchVO)	throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			Map result = gamFcltyCtrtMngService.selectEntrpsInfo(searchVO);
+
+			map.put("resultCode", 0);
+			map.put("result", result);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+		}
+
+		return map;
+	}
+
 }

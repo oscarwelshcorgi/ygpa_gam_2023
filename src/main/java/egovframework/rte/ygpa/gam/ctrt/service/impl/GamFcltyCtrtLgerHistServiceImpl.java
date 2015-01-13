@@ -1,30 +1,35 @@
 /**
- * 
+ *
  */
 package egovframework.rte.ygpa.gam.ctrt.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtLgerHistService;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtLgerHistVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngChangeVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngFulfillCaryFwdVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngJoinContrVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngMoneyPymntVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngScsbidInfoVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngSubctrtVO;
 
 /**
- * 
+ *
  * @author HNJ
  * @since 2014. 10. 29.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2014. 10. 29.		HNJ		최초 생성
@@ -39,161 +44,55 @@ public class GamFcltyCtrtLgerHistServiceImpl  extends AbstractServiceImpl implem
 	@Resource(name="gamFcltyCtrtLgerHistDao")
     private GamFcltyCtrtLgerHistDao gamFcltyCtrtLgerHistDao;
 
-	protected Log log = LogFactory.getLog(this.getClass());
-	
-	/**
-	 * 계약대장목록 목록을 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return list
-	 * @exception Exception
-	 */
-	public List<?> selectFcltyCtrtLgerHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+	@Override
+	public List selectFcltyCtrtLgerHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistList(searchVO);
 	}
 
+	@Override
+	public GamFcltyCtrtLgerHistVO selectFcltyCtrtLgerHistListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
+		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistListSum(searchVO);
+	}
 
-	/**
-	 * 계약대장목록,  합계금액 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약대장목록
-	 * @exception Exception
-	 */
-	public GamFcltyCtrtLgerHistVO selectFcltyCtrtLgerHistInfoSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistInfoSum(searchVO);
+
+	@Override
+	public List selectFcltyCtrtLgerHistJoinContrList(GamFcltyCtrtMngJoinContrVO searchVO) throws Exception {
+		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistJoinContrList(searchVO);
 	}
-	
-	
-	/**
-	 * 계약대장 상세내역 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약대장 상세내역
-	 * @exception Exception
-	 */
-	public EgovMap selectFcltyCtrtLgerHistDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistDetail(searchVO);
+
+
+	@Override
+	public List selectFcltyCtrtLgerHistSubctrtList(GamFcltyCtrtMngSubctrtVO searchVO) throws Exception {
+		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistSubctrtList(searchVO);
 	}
-	
-	
-	/**
-	 * 계약공동도급목록 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약공동도급목록
-	 * @exception Exception
-	 */
-	public List<?> selectFcltyCtrtJoinContrFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtJoinContrFList(searchVO);
+
+
+	@Override
+	public List selectFcltyCtrtLgerHistChangeList(GamFcltyCtrtMngChangeVO searchVO) throws Exception {
+		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistChangeList(searchVO);
 	}
-	
-	
-	/**
-	 * 계약공동도급목록 총갯수 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약공동도급목록 총갯수
-	 * @exception Exception
-	 */
-	public int selectFcltyCtrtJoinContrFTotalCnt(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtJoinContrFTotalCnt(searchVO);
+
+
+	@Override
+	public List selectFcltyCtrtLgerHistMoneyPymntList(GamFcltyCtrtMngMoneyPymntVO searchVO) throws Exception {
+		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistMoneyPymntList(searchVO);
 	}
-	
-	
-	
-	/**
-	 * 계약공동도급 상세내역 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약공동도급 상세내역
-	 * @exception Exception
-	 */
-	public EgovMap selectFcltyCtrtJoinContrFDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtJoinContrFDetail(searchVO);
+
+
+	@Override
+	public List selectFcltyCtrtLgerHistFulfillCaryFwdList(GamFcltyCtrtMngFulfillCaryFwdVO searchVO) throws Exception {
+		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistFulfillCaryFwdList(searchVO);
 	}
-	
-	
-	
-	/**
-	 * 계약변경목록 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약대장목록
-	 * @exception Exception
-	 */
-	public List<?> selectFcltyCtrtChangeFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtChangeFList(searchVO);
+
+
+	@Override
+	public List selectFcltyCtrtLgerHistScsbidInfoList(GamFcltyCtrtMngScsbidInfoVO searchVO) throws Exception {
+		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistScsbidInfoList(searchVO);
 	}
-	
-	
-	/**
-	 * 계약변경목록 총갯수 및 금액합계 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약변경목록 총갯수 및 금액합계
-	 * @exception Exception
-	 */
-	public GamFcltyCtrtLgerHistVO selectFcltyCtrtChangeFListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtChangeFListSum(searchVO);
-	}
-	
-	
-	/**
-	 * 계약대금지급목록 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약대금지급목록
-	 * @exception Exception
-	 */
-	public List<?> selectFcltyCtrtMoneyPymntFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtMoneyPymntFList(searchVO);
-	}
-	
-	
-	/**
-	 * 계약대금지급목록 총갯수 및 금액합계 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약대금지급목록 총갯수 및 금액합계
-	 * @exception Exception
-	 */
-	public GamFcltyCtrtLgerHistVO selectFcltyCtrtMoneyPymntFListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtMoneyPymntFListSum(searchVO);
-	}
-	
-	
-	
-	/**
-	 * 계약이행이월목록 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약이행이월목록
-	 * @exception Exception
-	 */
-	public List<?> selectFcltyCtrtFulfillCaryFwdFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtFulfillCaryFwdFList(searchVO);
-	}
-	
-	
-	/**
-	 * 계약이행이월목록 총갯수 및 금액합계 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약이행이월목록 총갯수 및 금액합계
-	 * @exception Exception
-	 */
-	public GamFcltyCtrtLgerHistVO selectFcltyCtrtFulfillCaryFwdFListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtFulfillCaryFwdFListSum(searchVO);
-	}
-	
-	
-	/**
-	 * 계약낙찰정보 목록을 가져온다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약낙찰정보 목록
-	 * @exception Exception
-	 */
-	public List<?> selectFcltyCtrtScsbidInfoHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtScsbidInfoHistList(searchVO);
-	}
-	
-	/**
-	 * 계약낙찰정보 목록의 총개수를 가져온다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약낙찰정보 목록 총개수
-	 * @exception Exception
-	 */
-	public int selectFcltyCtrtScsbidInfoHistListTotCnt(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtScsbidInfoHistListTotCnt(searchVO);
+
+	@Override
+	public EgovMap selectEntrpsInfo(Map searchVO) throws Exception {
+		return gamFcltyCtrtLgerHistDao.selectEntrpsInfo(searchVO);
 	}
 
 }

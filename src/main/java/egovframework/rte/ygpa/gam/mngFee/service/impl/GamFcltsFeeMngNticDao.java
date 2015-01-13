@@ -94,7 +94,7 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	 * @return
 	 */
 	public String selectEntrpsNm(Map searchVO) {
-		return (String)getSqlMapClientTemplate().queryForObject("gamFcltsFeeMngNticDao.selectEntrpsNm_S", searchVO);
+		return (String)selectByPk("gamFcltsFeeMngNticDao.selectEntrpsNm_S", searchVO);
 	}
 
 	/**
@@ -189,7 +189,7 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	 * @return
 	 */
 	public String selectRevCollMagamFMagamCheck(Map<String, Object> vo) {
-		return (String)getSqlMapClientTemplate().queryForObject("gamFcltsFeeMngNticDao.selectRevCollMagamFMagamCheck_S", vo);
+		return (String)selectByPk("gamFcltsFeeMngNticDao.selectRevCollMagamFMagamCheck_S", vo);
 	}
 
 	/**
@@ -197,7 +197,7 @@ public class GamFcltsFeeMngNticDao extends YGPAAbstractDAO{
 	 * @return
 	 */
 	public String selectUnpaidFMaxDlySerNo(Map<String, Object> vo) {
-		return (String)getSqlMapClientTemplate().queryForObject("gamFcltsFeeMngNticDao.selectUnpaidFMaxDlySerNo_S", vo);
+		return (String)selectByPk("gamFcltsFeeMngNticDao.selectUnpaidFMaxDlySerNo_S", vo);
 	}
 
 	/**

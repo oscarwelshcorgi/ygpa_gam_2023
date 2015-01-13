@@ -1149,4 +1149,18 @@
 		WHERE T1.CTRT_NO = #scsbidCtrtNo#
 	</select>
 
+	<select id="gamFcltyCtrtMngDao.selectEntrpsInfo_S" parameterClass="hashmap" resultClass="egovMap">
+		SELECT
+				 ENTRPS_NM
+				,RPRSNTV_NM
+				,BIZRNO
+				,INDUTY
+				,TLPHON_NO
+				,FAX
+				,ZIP
+				,ADRES
+			FROM ENTRPS_INFO_F
+		WHERE ENTRPSCD = #sEntrpscd#
+	</select>
+
 </sqlMap>

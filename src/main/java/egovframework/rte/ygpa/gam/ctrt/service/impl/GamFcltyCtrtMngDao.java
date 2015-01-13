@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.ctrt.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -428,6 +429,15 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 */
 	public String selectFcltyCtrtMngScsbidInfoMaxSeq(GamFcltyCtrtMngScsbidInfoVO gamFcltyCtrtMngScsbidInfoVO) {
 		return (String)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngScsbidInfoMaxSeq_S", gamFcltyCtrtMngScsbidInfoVO);
+	}
+
+	/**
+	 * @name selectEntrpsInfo
+	 * @param searchVO
+	 * @return
+	 */
+	public EgovMap selectEntrpsInfo(Map searchVO) {
+		return (EgovMap)selectByPk("gamFcltyCtrtMngDao.selectEntrpsInfo_S", searchVO);
 	}
 
 }

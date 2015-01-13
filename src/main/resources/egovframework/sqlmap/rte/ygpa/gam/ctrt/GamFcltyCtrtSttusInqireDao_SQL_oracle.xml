@@ -1,111 +1,152 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd"> 
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!-- SQL MAP 정의 -->
 <sqlMap namespace="ygpa.gam.ctrt">
+	<!-- TYPE ALIAS 정의 -->
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamFcltyCtrtSttusInqireVO" type="egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtSttusInqireVO"/>
+	<!-- RESULT MAP 정의 -->
+	<resultMap id="selectFcltyCtrtSttusInqireSumMap" class="gamFcltyCtrtSttusInqireVO">
+		<result property="totalCount" column="TOTAL_COUNT" columnIndex="1"/>
+		<result property="sumPrevCtrtAmt" column="SUM_PREV_CTRT_AMT" columnIndex="2"/>
+		<result property="sumCurrCtrtAmt" column="SUM_CURR_CTRT_AMT" columnIndex="3"/>
+	</resultMap>
 
-    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-    <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamFcltyCtrtSttusInqireVO" type="egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtSttusInqireVO"/>
+	<select id="gamFcltyCtrtSttusInqireDao.selectFcltyCtrtSttusInqireList_D" parameterClass="gamFcltyCtrtSttusInqireVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.ENTRPS_NM
+								,' ' AS RM
+								,MIN(T1.DEAL_RELATE) AS DEAL_RELATE
+								,MIN(T1.INDUTY) AS INDUTY
+								,MIN(T1.RPRSNTV) AS RPRSNTV
+								,MIN(T1.TLPHON_NO) AS TLPHON_NO
+								,MIN(T1.FAX_NO) AS FAX_NO
+								,MIN(T1.POST_NO) AS POST_NO
+								,MIN(T1.ROADNM_ADRES) AS ROADNM_ADRES
+								,MIN(T1.LNM_ADRES) AS LNM_ADRES
+								,MIN(T1.STPL_PRDLST) AS STPL_PRDLST
+								,MIN(T1.BSNM_NO) AS BSNM_NO
+								,MIN(T1.CHARGER) AS CHARGER
+								,MIN(T1.CHARGER_OFC_POS) AS CHARGER_OFC_POS
+								,MIN(T1.CHARGER_MOBLPHON_NO) AS CHARGER_MOBLPHON_NO
+								,MIN(T1.CHARGER_EMAIL) AS CHARGER_EMAIL
+								,LTRIM(TO_CHAR(NVL(SUM(CASE WHEN T2.CTRT_DT <![CDATA[ >= ]]> TO_DATE(#sPrevCtrtYr# || '0101000000','YYYYMMDDHH24MISS') AND
+																 T2.CTRT_DT <![CDATA[ <= ]]> TO_DATE(#sPrevCtrtYr# || '1231235959','YYYYMMDDHH24MISS') THEN
+																 NVL(T2.CTRT_AMT,0) * NVL(T1.QOTA_RATE,0) END),0),'9,999,999,999,999,990')) AS PREV_CTRT_AMT
+								,LTRIM(TO_CHAR(NVL(SUM(CASE WHEN T2.CTRT_DT <![CDATA[ >= ]]> TO_DATE(#sCtrtYr# || '0101000000','YYYYMMDDHH24MISS') AND
+																 T2.CTRT_DT <![CDATA[ <= ]]> TO_DATE(#sCtrtYr# || '1231235959','YYYYMMDDHH24MISS') THEN
+																 NVL(T2.CTRT_AMT,0) * NVL(T1.QOTA_RATE,0) END),0),'9,999,999,999,999,990')) AS CURR_CTRT_AMT
+							FROM CTRT_JOIN_CONTR_F T1
+							INNER JOIN CTRT_INFO_F T2 ON (T1.CTRT_NO = T2.CTRT_NO)
+						WHERE 1 = 1
 
-	<resultMap id="selectFcltyCtrtSttusInqireInfoSumMap" class="gamFcltyCtrtSttusInqireVO">
-		<result property="totalCnt" column="TOTAL_CNT" columnIndex="1" javaType="int"/>
-        <result property="sumPrevCtrtAmt" column="SUM_PREV_CTRT_AMT" columnIndex="2" javaType="java.lang.Long"/>
-        <result property="sumCurrCtrtAmt" column="SUM_CURR_CTRT_AMT" columnIndex="3" javaType="java.lang.Long"/>
-    </resultMap>
-    
-    
-    <select id="gamFcltyCtrtSttusInqireDao.selectFcltyCtrtSttusInqireList_D" parameterClass="gamFcltyCtrtSttusInqireVO" resultClass="egovMap">
-        SELECT A.*
-           FROM (
-                   SELECT  ROWNUM RNUM, S.*
-                     FROM (
-							SELECT
-							       T1.ENTRPS_NM   
-							       ,MIN(T1.DEAL_RELATE) AS DEAL_RELATE   
-							       ,MIN(T1.INDUTY) AS INDUTY   
-							       ,MIN(T1.RPRSNTV) AS RPRSNTV   
-							       ,MIN(T1.TLPHON_NO) AS TLPHON_NO  
-							       ,MIN(T1.FAX_NO) AS FAX_NO     
-							       ,MIN(T1.POST_NO) AS POST_NO        
-							       ,MIN(T1.ROADNM_ADRES) AS ROADNM_ADRES    
-							       ,MIN(T1.LNM_ADRES) AS LNM_ADRES                
-							       ,MIN(T1.STPL_PRDLST) AS STPL_PRDLST         
-							       ,MIN(T1.BSNM_NO) AS BSNM_NO     
-							       ,MIN(T1.CHARGER) AS CHARGER           
-							       ,MIN(T1.CHARGER_OFC_POS) AS CHARGER_OFC_POS  
-							       ,MIN(T1.CHARGER_MOBLPHON_NO) AS CHARGER_MOBLPHON_NO   
-							       ,MIN(T1.CHARGER_EMAIL) AS CHARGER_EMAIL  
-							       ,NVL(SUM(CASE WHEN T2.CTRT_DT <![CDATA[ >=  ]]>TO_DATE(#sPrevCtrtYr# || '0101000000','YYYYMMDDHH24MISS') AND
-							                          T2.CTRT_DT <![CDATA[ <=  ]]>TO_DATE(#sPrevCtrtYr# || '1231235959','YYYYMMDDHH24MISS') THEN
-							                          NVL(T2.CTRT_AMT,0) * NVL(T1.QOTA_RATE,0) END),0) AS PREV_CTRT_AMT
-							       ,NVL(SUM(CASE WHEN T2.CTRT_DT <![CDATA[ >=  ]]>TO_DATE(#sCtrtYr# || '0101000000','YYYYMMDDHH24MISS') AND
-							                          T2.CTRT_DT <![CDATA[ <=  ]]>TO_DATE(#sCtrtYr# || '1231235959','YYYYMMDDHH24MISS') THEN
-							                          NVL(T2.CTRT_AMT,0) * NVL(T1.QOTA_RATE,0) END),0) AS CURR_CTRT_AMT
-							FROM 
-								CTRT_JOIN_CONTR_F T1, CTRT_INFO_F T2 
-							WHERE 
-								T1.CTRT_NO=T2.CTRT_NO
-							<isNotEmpty property="sCtrtSe">
-								AND T2.CTRT_SE = #sCtrtSe#
-							</isNotEmpty>
-							
-							<isNotEmpty property="sCtrtNm">
-								AND T2.CTRT_NM LIKE '%' || #sCtrtNm# || '%' 
-							</isNotEmpty>
-							
-							<isNotEmpty property="sCtrtYr">
-								<![CDATA[ AND T2.CTRT_DT>=TO_DATE(#sPrevCtrtYr# || '0101000000','YYYYMMDDHH24MISS')  ]]>
-								<![CDATA[ AND T2.CTRT_DT<=TO_DATE(#sCtrtYr# || '1231235959','YYYYMMDDHH24MISS')  ]]>
-							</isNotEmpty>
-							
-							<isNotEmpty property="sEntrpsNm">
-								AND T1.ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%' 
-							</isNotEmpty>
-							
-							GROUP BY T1.ENTRPS_NM
-							
-							<!-- ORDER BY REGIST_DT DESC -->
-							ORDER BY T1.ENTRPS_NM
+						<isNotEmpty property="sCtrtSe">
+						AND T2.CTRT_SE = #sCtrtSe#
+						</isNotEmpty>
 
-                ) S
-             ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
-    </select>
-    
-    <select id="gamFcltyCtrtSttusInqireDao.selectFcltyCtrtSttusInqireInfoSum_S" parameterClass="gamFcltyCtrtSttusInqireVO" resultMap="selectFcltyCtrtSttusInqireInfoSumMap">
+						<isNotEmpty property="sCtrtNm">
+						AND T2.CTRT_NM LIKE '%' || #sCtrtNm# || '%'
+						</isNotEmpty>
 
-        SELECT 
-        	COUNT(*) AS TOTAL_CNT
-        	,NVL(SUM(SUM(CASE WHEN T2.CTRT_DT <![CDATA[ >=  ]]>TO_DATE(#sPrevCtrtYr# || '0101000000','YYYYMMDDHH24MISS') AND
-	                          T2.CTRT_DT <![CDATA[ <=  ]]>TO_DATE(#sPrevCtrtYr# || '1231235959','YYYYMMDDHH24MISS') THEN
-	                          NVL(T2.CTRT_AMT,0) * NVL(T1.QOTA_RATE,0) END)),0) AS SUM_PREV_CTRT_AMT
-	        ,NVL(SUM(SUM(CASE WHEN T2.CTRT_DT <![CDATA[ >=  ]]>TO_DATE(#sCtrtYr# || '0101000000','YYYYMMDDHH24MISS') AND
-	                          T2.CTRT_DT <![CDATA[ <=  ]]>TO_DATE(#sCtrtYr# || '1231235959','YYYYMMDDHH24MISS') THEN
-	                          NVL(T2.CTRT_AMT,0) * NVL(T1.QOTA_RATE,0) END)),0) AS SUM_CURR_CTRT_AMT
-		FROM 
-			CTRT_JOIN_CONTR_F T1, CTRT_INFO_F T2 
-		WHERE 
-			T1.CTRT_NO=T2.CTRT_NO
+						<isNotEmpty property="sCtrtYr">
+						AND T2.CTRT_DT <![CDATA[ >= ]]> TO_DATE(#sPrevCtrtYr# || '0101000000','YYYYMMDDHH24MISS')
+						AND T2.CTRT_DT <![CDATA[ <= ]]> TO_DATE(#sCtrtYr# || '1231235959','YYYYMMDDHH24MISS')
+						</isNotEmpty>
+
+						<isNotEmpty property="sEntrpsNm">
+						AND T1.ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%'
+						</isNotEmpty>
+
+						<isNotEmpty property="sStartCtrtDt">
+						AND T1.CTRT_DT <![CDATA[ >= ]]> TO_DATE(#sStartCtrtDt#,'YYYY-MM-DD')
+						</isNotEmpty>
+
+						<isNotEmpty property="sEndCtrtDt">
+						AND T1.CTRT_DT <![CDATA[ < ]]> TO_DATE(#sEndCtrtDt#,'YYYY-MM-DD') + 1
+						</isNotEmpty>
+
+						<isNotEmpty property="sStartCtrtAmt">
+						AND T1.CTRT_AMT <![CDATA[ >= ]]> NVL(TO_NUMBER(REPLACE(#sStartCtrtAmt#,',','')),0)
+						</isNotEmpty>
+
+						<isNotEmpty property="sEndCtrtAmt">
+						AND T1.CTRT_AMT <![CDATA[ <= ]]> NVL(TO_NUMBER(REPLACE(#sEndCtrtAmt#,',','')),0)
+						</isNotEmpty>
+
+						GROUP BY T1.ENTRPS_NM
+						ORDER BY T1.ENTRPS_NM
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<select id="gamFcltyCtrtSttusInqireDao.selectFcltyCtrtSttusInqireListSum_S" parameterClass="gamFcltyCtrtSttusInqireVO" resultMap="selectFcltyCtrtSttusInqireSumMap">
+		SELECT
+				 TO_CHAR(NVL(COUNT(*),0),'999,999,999,999,999') AS TOTAL_COUNT
+				,LTRIM(TO_CHAR(NVL(SUM(CASE WHEN T2.CTRT_DT <![CDATA[ >= ]]> TO_DATE(#sPrevCtrtYr# || '0101000000','YYYYMMDDHH24MISS') AND
+												 T2.CTRT_DT <![CDATA[ <= ]]> TO_DATE(#sPrevCtrtYr# || '1231235959','YYYYMMDDHH24MISS') THEN
+												 NVL(T2.CTRT_AMT,0) * NVL(T1.QOTA_RATE,0) END),0),'9,999,999,999,999,990')) AS SUM_PREV_CTRT_AMT
+				,LTRIM(TO_CHAR(NVL(SUM(CASE WHEN T2.CTRT_DT <![CDATA[ >= ]]> TO_DATE(#sCtrtYr# || '0101000000','YYYYMMDDHH24MISS') AND
+												 T2.CTRT_DT <![CDATA[ <= ]]> TO_DATE(#sCtrtYr# || '1231235959','YYYYMMDDHH24MISS') THEN
+												 NVL(T2.CTRT_AMT,0) * NVL(T1.QOTA_RATE,0) END),0),'9,999,999,999,999,990')) AS SUM_CURR_CTRT_AMT
+			FROM CTRT_JOIN_CONTR_F T1
+			INNER JOIN CTRT_INFO_F T2 ON (T1.CTRT_NO = T2.CTRT_NO)
+		WHERE 1 = 1
+
 		<isNotEmpty property="sCtrtSe">
-			AND T2.CTRT_SE = #sCtrtSe#
+		AND T2.CTRT_SE = #sCtrtSe#
 		</isNotEmpty>
-		
+
 		<isNotEmpty property="sCtrtNm">
-			AND T2.CTRT_NM LIKE '%' || #sCtrtNm# || '%' 
+		AND T2.CTRT_NM LIKE '%' || #sCtrtNm# || '%'
 		</isNotEmpty>
-		
+
 		<isNotEmpty property="sCtrtYr">
-			<![CDATA[ AND T2.CTRT_DT>=TO_DATE(#sPrevCtrtYr# || '0101000000','YYYYMMDDHH24MISS')  ]]>
-			<![CDATA[ AND T2.CTRT_DT<=TO_DATE(#sCtrtYr# || '1231235959','YYYYMMDDHH24MISS')  ]]>
+		AND T2.CTRT_DT <![CDATA[ >= ]]> TO_DATE(#sPrevCtrtYr# || '0101000000','YYYYMMDDHH24MISS')
+		AND T2.CTRT_DT <![CDATA[ <= ]]> TO_DATE(#sCtrtYr# || '1231235959','YYYYMMDDHH24MISS')
 		</isNotEmpty>
-		
+
 		<isNotEmpty property="sEntrpsNm">
-			AND T1.ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%' 
+		AND T1.ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%'
 		</isNotEmpty>
-		
-		GROUP BY T1.ENTRPS_NM
-				
-    </select>
-    
-    
-    
+
+		<isNotEmpty property="sStartCtrtDt">
+		AND T1.CTRT_DT <![CDATA[ >= ]]> TO_DATE(#sStartCtrtDt#,'YYYY-MM-DD')
+		</isNotEmpty>
+
+		<isNotEmpty property="sEndCtrtDt">
+		AND T1.CTRT_DT <![CDATA[ < ]]> TO_DATE(#sEndCtrtDt#,'YYYY-MM-DD') + 1
+		</isNotEmpty>
+
+		<isNotEmpty property="sStartCtrtAmt">
+		AND T1.CTRT_AMT <![CDATA[ >= ]]> NVL(TO_NUMBER(REPLACE(#sStartCtrtAmt#,',','')),0)
+		</isNotEmpty>
+
+		<isNotEmpty property="sEndCtrtAmt">
+		AND T1.CTRT_AMT <![CDATA[ <= ]]> NVL(TO_NUMBER(REPLACE(#sEndCtrtAmt#,',','')),0)
+		</isNotEmpty>
+
+	</select>
+
+	<select id="gamFcltyCtrtSttusInqireDao.selectEntrpsInfo_S" parameterClass="hashmap" resultClass="egovMap">
+		SELECT
+				 ENTRPS_NM
+				,RPRSNTV_NM
+				,BIZRNO
+				,INDUTY
+				,TLPHON_NO
+				,FAX
+				,ZIP
+				,ADRES
+			FROM ENTRPS_INFO_F
+		WHERE ENTRPSCD = #sEntrpscd#
+	</select>
+
 </sqlMap>

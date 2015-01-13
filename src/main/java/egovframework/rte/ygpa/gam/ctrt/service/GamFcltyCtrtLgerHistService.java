@@ -1,19 +1,19 @@
 package egovframework.rte.ygpa.gam.ctrt.service;
 
 import java.util.List;
+import java.util.Map;
 
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
-
 /**
- * 
+ *
  * @author HNJ
  * @since 2014. 10. 29.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2014. 10. 29.		HNJ		최초 생성
@@ -23,129 +23,81 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
  */
 
 public interface GamFcltyCtrtLgerHistService {
-	
+
 	/**
-	 * 계약대장목록 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약대장목록
-	 * @exception Exception
+	 * @name selectFcltyCtrtLgerHistList
+	 * @param searchVO
+	 * @return List
+	 * @throws Exception
 	 */
-	List<?> selectFcltyCtrtLgerHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
-	
-	
+	List selectFcltyCtrtLgerHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+
 	/**
-	 * 계약대장목록 총갯수 및 금액합계 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약대장목록 총갯수 및 금액합계
-	 * @exception Exception
+	 * @name selectFcltyCtrtLgerHistListSum
+	 * @param searchVO
+	 * @return GamFcltyCtrtLgerHistVO
+	 * @throws Exception
 	 */
-	GamFcltyCtrtLgerHistVO selectFcltyCtrtLgerHistInfoSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
-	
-	
+	GamFcltyCtrtLgerHistVO selectFcltyCtrtLgerHistListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+
+
 	/**
-	 * 계약대장 상세내역 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약대장 상세내역
-	 * @exception Exception
+	 * @name selectFcltyCtrtLgerHistJoinContrList
+	 * @param searchVO
+	 * @return List
+	 * @throws Exception
 	 */
-	EgovMap selectFcltyCtrtLgerHistDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
-	
-	
+	List selectFcltyCtrtLgerHistJoinContrList(GamFcltyCtrtMngJoinContrVO searchVO) throws Exception;
+
+
 	/**
-	 * 계약공동도급목록 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약공동도급목록
-	 * @exception Exception
+	 * @name selectFcltyCtrtLgerHistSubctrtList
+	 * @param searchVO
+	 * @return List
+	 * @throws Exception
 	 */
-	List<?> selectFcltyCtrtJoinContrFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
-	
-	
+	List selectFcltyCtrtLgerHistSubctrtList(GamFcltyCtrtMngSubctrtVO searchVO) throws Exception;
+
+
 	/**
-	 * 계약공동도급목록 총갯수 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약공동도급목록 총갯수
-	 * @exception Exception
+	 * @name selectFcltyCtrtLgerHistChangeList
+	 * @param searchVO
+	 * @return List
+	 * @throws Exception
 	 */
-	int selectFcltyCtrtJoinContrFTotalCnt(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
-	
-	
+	List selectFcltyCtrtLgerHistChangeList(GamFcltyCtrtMngChangeVO searchVO) throws Exception;
+
+
 	/**
-	 * 계약공동도급 상세내역 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약공동도급 상세내역
-	 * @exception Exception
+	 * @name selectFcltyCtrtLgerHistMoneyPymntList
+	 * @param searchVO
+	 * @return List
+	 * @throws Exception
 	 */
-	EgovMap selectFcltyCtrtJoinContrFDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
-	
-	
+	List selectFcltyCtrtLgerHistMoneyPymntList(GamFcltyCtrtMngMoneyPymntVO searchVO) throws Exception;
+
+
 	/**
-	 * 계약변경목록 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약대장목록
-	 * @exception Exception
+	 * @name selectFcltyCtrtLgerHistFulfillCaryFwdList
+	 * @param searchVO
+	 * @return List
+	 * @throws Exception
 	 */
-	List<?> selectFcltyCtrtChangeFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
-	
-	
+	List selectFcltyCtrtLgerHistFulfillCaryFwdList(GamFcltyCtrtMngFulfillCaryFwdVO searchVO) throws Exception;
+
+
 	/**
-	 * 계약변경목록 총갯수 및 금액합계 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약변경목록 총갯수 및 금액합계
-	 * @exception Exception
+	 * @name selectFcltyCtrtLgerHistScsbidInfoList
+	 * @param searchVO
+	 * @return List
+	 * @throws Exception
 	 */
-	GamFcltyCtrtLgerHistVO selectFcltyCtrtChangeFListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
-	
-	
+	List selectFcltyCtrtLgerHistScsbidInfoList(GamFcltyCtrtMngScsbidInfoVO searchVO) throws Exception;
+
 	/**
-	 * 계약대금지급목록 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약대금지급목록
-	 * @exception Exception
+	 * @param searchVO
+	 * @return
 	 */
-	List<?> selectFcltyCtrtMoneyPymntFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
-	
-	
-	/**
-	 * 계약대금지급목록 총갯수 및 금액합계 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약대금지급목록 총갯수 및 금액합계
-	 * @exception Exception
-	 */
-	GamFcltyCtrtLgerHistVO selectFcltyCtrtMoneyPymntFListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
-	
-	
-	/**
-	 * 계약이행이월목록 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약이행이월목록
-	 * @exception Exception
-	 */
-	List<?> selectFcltyCtrtFulfillCaryFwdFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
-	
-	
-	/**
-	 * 계약이행이월목록 총갯수 및 금액합계 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약이행이월목록 총갯수 및 금액합계
-	 * @exception Exception
-	 */
-	GamFcltyCtrtLgerHistVO selectFcltyCtrtFulfillCaryFwdFListSum(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
-	
-	
-	/**
-	 * 계약낙찰정보 목록을 가져온다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약낙찰정보 목록
-	 * @exception Exception
-	 */
-	List<?> selectFcltyCtrtScsbidInfoHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
-	
-	/**
-	 * 계약낙찰정보 목록의 총개수를 가져온다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약낙찰정보 목록 총개수
-	 * @exception Exception
-	 */
-	int selectFcltyCtrtScsbidInfoHistListTotCnt(GamFcltyCtrtLgerHistVO searchVO) throws Exception;
+	EgovMap selectEntrpsInfo(Map searchVO) throws Exception;
 
 }

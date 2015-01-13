@@ -1,17 +1,19 @@
 package egovframework.rte.ygpa.gam.ctrt.service;
 
 import java.util.List;
+import java.util.Map;
 
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 /**
- * 
+ *
  * @author HNJ
  * @since 2014. 10. 29.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2014. 10. 29.		HNJ		최초 생성
@@ -21,22 +23,27 @@ import java.util.List;
  */
 
 public interface GamFcltyCtrtSttusInqireService {
-	
+
 	/**
-	 * 계약이력목록 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약이력목록
-	 * @exception Exception
+	 * @name selectFcltyCtrtSttusInqireList
+	 * @param searchVO
+	 * @return List
+	 * @throws Exception
 	 */
-	List<?> selectFcltyCtrtSttusInqireList(GamFcltyCtrtSttusInqireVO searchVO) throws Exception;
-	
-	
+	List selectFcltyCtrtSttusInqireList(GamFcltyCtrtSttusInqireVO searchVO) throws Exception;
+
 	/**
-	 * 계약이력목록 총갯수 및 금액합계 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 계약이력목록 총갯수 및 금액합계
-	 * @exception Exception
+	 * @name selectFcltyCtrtSttusInqireListSum
+	 * @param searchVO
+	 * @return GamFcltyCtrtSttusInqireVO
+	 * @throws Exception
 	 */
-	GamFcltyCtrtSttusInqireVO selectFcltyCtrtSttusInqireInfoSum(GamFcltyCtrtSttusInqireVO searchVO) throws Exception;
+	GamFcltyCtrtSttusInqireVO selectFcltyCtrtSttusInqireListSum(GamFcltyCtrtSttusInqireVO searchVO) throws Exception;
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	EgovMap selectEntrpsInfo(Map searchVO) throws Exception;
 
 }

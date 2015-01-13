@@ -16,17 +16,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtLgerHistService;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtLgerHistVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngChangeVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngFulfillCaryFwdVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngJoinContrVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngMoneyPymntVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngScsbidInfoVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngSubctrtVO;
 
 /**
  *
@@ -53,48 +60,39 @@ public class GamFcltyCtrtLgerHistController {
 	private DefaultBeanValidator beanValidator;
 
 	/** EgovPropertyService */
-    @Resource(name = "propertiesService")
-    protected EgovPropertyService propertiesService;
+	@Resource(name = "propertiesService")
+	protected EgovPropertyService propertiesService;
 
 	/** EgovMessageSource */
-    @Resource(name="egovMessageSource")
-    EgovMessageSource egovMessageSource;
-    
-    @Resource(name = "gamFcltyCtrtLgerHistService")
-    private GamFcltyCtrtLgerHistService gamFcltyCtrtLgerHistService;
+	@Resource(name="egovMessageSource")
+	EgovMessageSource egovMessageSource;
 
+	@Resource(name = "gamFcltyCtrtLgerHistService")
+	private GamFcltyCtrtLgerHistService gamFcltyCtrtLgerHistService;
 
 	@RequestMapping(value="/ctrt/gamFcltyCtrtLgerHist.do")
-    String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
-    	model.addAttribute("windowId", windowId);
+		model.addAttribute("windowId", windowId);
 
-    	return "/ygpa/gam/ctrt/GamFcltyCtrtLgerHist";
-    }
+		return "/ygpa/gam/ctrt/GamFcltyCtrtLgerHist";
 
-	/**
-     * 계약정보목록을 조회한다.
-     *
-     * @param searchVO 
-     * @return map
-     * @throws Exception the exception
-     */
+	}
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/selectFcltyCtrtLgerHistList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectFcltyCtrtLgerHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		
-		int totalCnt;
-		long sumPlanAmt, sumPrmtAmt, sumScsbidAmt, sumBaseAmt;
-    	Map map = new HashMap();
+	@RequestMapping(value="/ctrt/gamSelectFcltyCtrtLgerHistList.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectFcltyCtrtLgerHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		Map map = new HashMap();
 
-    	PaginationInfo paginationInfo = new PaginationInfo();
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
@@ -103,424 +101,72 @@ public class GamFcltyCtrtLgerHistController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		
-		//계약대장목록
-    	List fcltyCtrtLgerHistList = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistList(searchVO);
-    	
-    	//계약대장목록 총갯수 및 금액합계
-		GamFcltyCtrtLgerHistVO fcltyCtrtLgerHistInfoSum = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistInfoSum(searchVO);
-    	
-		totalCnt = fcltyCtrtLgerHistInfoSum.getTotalCnt();
-		sumPlanAmt = fcltyCtrtLgerHistInfoSum.getSumPlanAmt();
-		sumPrmtAmt = fcltyCtrtLgerHistInfoSum.getSumPrmtAmt();
-		sumScsbidAmt = fcltyCtrtLgerHistInfoSum.getSumScsbidAmt();
-		sumBaseAmt = fcltyCtrtLgerHistInfoSum.getSumBaseAmt();
-    	
-    	paginationInfo.setTotalRecordCount(totalCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-        
- 
-    	map.put("resultCode", 0);	// return ok
-    	map.put("totalCount", totalCnt);
-    	map.put("sumPlanAmt", sumPlanAmt);
-    	map.put("sumPrmtAmt", sumPrmtAmt);
-    	map.put("sumScsbidAmt", sumScsbidAmt);
-    	map.put("sumBaseAmt", sumBaseAmt);
-    	map.put("resultList", fcltyCtrtLgerHistList);
-    	map.put("searchOption", searchVO);
+		GamFcltyCtrtLgerHistVO resultSum = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistListSum(searchVO);
+		List resultList = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistList(searchVO);
 
-    	return map;
-    }
-	
-	
-	/**
-     * 계약정보상세내역을 조회한다. 
-     *
-     * @param searchVO
-     * @return map
-     * @throws Exception the exception
-     */
+		map.put("resultCode", 0);
+		map.put("totalCount", resultSum.getTotalCount());
+		map.put("sumPlanAmt", resultSum.getSumPlanAmt());
+		map.put("sumPrmtAmt", resultSum.getSumPrmtAmt());
+		map.put("sumScsbidAmt", resultSum.getSumScsbidAmt());
+		map.put("sumBaseAmt", resultSum.getSumBaseAmt());
+		map.put("sumCtrtAmt", resultSum.getSumCtrtAmt());
+		map.put("resultList", resultList);
+
+		return map;
+
+	}
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/selectFcltyCtrtLgerHistDetail.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectFcltyCtrtLgerHistDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		
-    	Map map = new HashMap();
-    	EgovMap fcltyCtrtLgerHistDetail = null;
+	@RequestMapping(value="/ctrt/gamExcelDownloadFcltyCtrtLgerHist.do", method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelDownloadFcltyCtrtLgerHist(@RequestParam Map<String, Object> excelParam) throws Exception {
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-		
-		//계약정보상세
-    	fcltyCtrtLgerHistDetail = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistDetail(searchVO);
-        
-    	map.put("resultCode", 0);	// return ok
-    	map.put("resultDetail", fcltyCtrtLgerHistDetail);
-    	map.put("searchOption", searchVO);
-
-    	return map;
-    }
-	
-	
-	/**
-     * 계약공동도급목록을 조회한다.
-     *
-     * @param searchVO
-     * @return map
-     * @throws Exception the exception
-     */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/selectFcltyCtrtJoinContrFHistList.do")
-	public @ResponseBody Map selectFcltyCtrtJoinContrFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		
-		int totalCnt;
-    	Map map = new HashMap();
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-
-    	PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
-		
-		//계약공동도급목록
-    	List fcltyCtrtJoinContrF = gamFcltyCtrtLgerHistService.selectFcltyCtrtJoinContrFList(searchVO);
-    	
-    	//계약공동도급목록 총갯수
-		totalCnt = gamFcltyCtrtLgerHistService.selectFcltyCtrtJoinContrFTotalCnt(searchVO);
- 
-    	paginationInfo.setTotalRecordCount(totalCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-        
- 
-    	map.put("resultCode", 0);	// return ok
-    	map.put("totalCount", totalCnt);
-    	map.put("resultList", fcltyCtrtJoinContrF);
-    	map.put("searchOption", searchVO);
-
-    	return map;
-    }
-	
-	
-	/**
-     * 계약공동도급상세내역을 조회한다. 
-     *
-     * @param searchVO
-     * @return map
-     * @throws Exception the exception
-     */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/selectFcltyCtrtJoinContrFHistDetail.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectFcltyCtrtJoinContrFDetail(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		
-    	Map map = new HashMap();
-    	EgovMap fcltyCtrtJoinContrFDetail = null;
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-		
-		//계약대장목록
-    	fcltyCtrtJoinContrFDetail = gamFcltyCtrtLgerHistService.selectFcltyCtrtJoinContrFDetail(searchVO);
-        
-    	map.put("resultCode", 0);	// return ok
-    	map.put("resultDetail", fcltyCtrtJoinContrFDetail);
-    	map.put("searchOption", searchVO);
-
-    	return map;
-    }
-	
-	
-	/**
-     * 계약변경목록을 조회한다.
-     *
-     * @param searchVO
-     * @return map
-     * @throws Exception the exception
-     */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/selectFcltyCtrtChangeFHistList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectFcltyCtrtChangeFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		
-		int totalCnt;
-		long sumChangeCtrtAmt, sumLastCtrtAmt;
-    	Map map = new HashMap();
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-
-    	PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
-		
-		//계약변경목록
-    	List fcltyCtrtChangeFList = gamFcltyCtrtLgerHistService.selectFcltyCtrtChangeFList(searchVO);
-    	
-    	//계약변경목록 총갯수 및 금액합계
-		GamFcltyCtrtLgerHistVO fcltyCtrtChangeFListSum = gamFcltyCtrtLgerHistService.selectFcltyCtrtChangeFListSum(searchVO);
-    	
-		totalCnt = fcltyCtrtChangeFListSum.getTotalCnt();
-		sumChangeCtrtAmt = fcltyCtrtChangeFListSum.getSumChangeCtrtAmt();
-		sumLastCtrtAmt = fcltyCtrtChangeFListSum.getSumLastCtrtAmt();
-    	
-    	paginationInfo.setTotalRecordCount(totalCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-        
- 
-    	map.put("resultCode", 0);	// return ok
-    	map.put("totalCount", totalCnt);
-    	map.put("sumChangeCtrtAmt", sumChangeCtrtAmt);
-    	map.put("sumLastCtrtAmt", sumLastCtrtAmt);
-    	map.put("resultList", fcltyCtrtChangeFList);
-    	map.put("searchOption", searchVO);
-
-    	return map;
-    }
-	
-	
-	
-	/**
-     * 계약대금지급목록을 조회한다.
-     *
-     * @param searchVO
-     * @return map
-     * @throws Exception the exception
-     */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/selectFcltyCtrtMoneyPymntFHistList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectFcltyCtrtMoneyPymntFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		
-		int totalCnt;
-		long sumThisTimeEstbAmt, sumDepositExcclcAmt, sumPymntAmt, sumPymntAggrAmt;
-    	Map map = new HashMap();
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-
-    	PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
-		
-		//계약대금지급목록
-    	List fcltyCtrtMoneyPymntFList = gamFcltyCtrtLgerHistService.selectFcltyCtrtMoneyPymntFList(searchVO);
-    	
-    	//계약대금지급목록 총갯수 및 금액합계
-		GamFcltyCtrtLgerHistVO fcltyCtrtMoneyPymntFListSum = gamFcltyCtrtLgerHistService.selectFcltyCtrtMoneyPymntFListSum(searchVO);
-    	
-		totalCnt = fcltyCtrtMoneyPymntFListSum.getTotalCnt();
-		sumThisTimeEstbAmt = fcltyCtrtMoneyPymntFListSum.getSumThisTimeEstbAmt();
-		sumDepositExcclcAmt = fcltyCtrtMoneyPymntFListSum.getSumDepositExcclcAmt();
-		sumPymntAmt = fcltyCtrtMoneyPymntFListSum.getSumPymntAmt();
-		sumPymntAggrAmt = fcltyCtrtMoneyPymntFListSum.getSumPymntAggrAmt();
-    	
-    	paginationInfo.setTotalRecordCount(totalCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-        
- 
-    	map.put("resultCode", 0);	// return ok
-    	map.put("totalCount", totalCnt);
-    	map.put("sumThisTimeEstbAmt", sumThisTimeEstbAmt);
-    	map.put("sumDepositExcclcAmt", sumDepositExcclcAmt);
-    	map.put("sumPymntAmt", sumPymntAmt);
-    	map.put("sumPymntAggrAmt", sumPymntAggrAmt);
-    	map.put("resultList", fcltyCtrtMoneyPymntFList);
-    	map.put("searchOption", searchVO);
-
-    	return map;
-    }
-	
-	
-	/**
-     * 계약이행이월목록을 조회한다.
-     *
-     * @param searchVO
-     * @return map
-     * @throws Exception the exception
-     */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/selectFcltyCtrtFulfillCaryFwdFHistList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectFcltyCtrtFulfillCaryFwdFList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		
-		int totalCnt;
-		long sumFulfillAmt, sumCaryFwdAmt;
-    	Map map = new HashMap();
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-
-    	PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
-		
-		//계약이행이월목록
-    	List fcltyCtrtFulfillCaryFwdFList = gamFcltyCtrtLgerHistService.selectFcltyCtrtFulfillCaryFwdFList(searchVO);
-    	
-    	//계약이행이월목록 총갯수 및 금액합계
-		GamFcltyCtrtLgerHistVO fcltyCtrtFulfillCaryFwdFListSum = gamFcltyCtrtLgerHistService.selectFcltyCtrtFulfillCaryFwdFListSum(searchVO);
-    	
-		totalCnt = fcltyCtrtFulfillCaryFwdFListSum.getTotalCnt();
-		sumFulfillAmt = fcltyCtrtFulfillCaryFwdFListSum.getSumFulfillAmt();
-		sumCaryFwdAmt = fcltyCtrtFulfillCaryFwdFListSum.getSumCaryFwdAmt();
-
-    	
-    	paginationInfo.setTotalRecordCount(totalCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-        
- 
-    	map.put("resultCode", 0);	// return ok
-    	map.put("totalCount", totalCnt);
-    	map.put("sumFulfillAmt", sumFulfillAmt);
-    	map.put("sumCaryFwdAmt", sumCaryFwdAmt);
-    	map.put("resultList", fcltyCtrtFulfillCaryFwdFList);
-    	map.put("searchOption", searchVO);
-
-    	return map;
-    }
-	
-	
-	
-	/**
-     * 시설물 계약대장을 인쇄한다.
-     *
-     * @param searchVO
-     * @return map
-     * @throws Exception the exception
-     */
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/selectFcltyCtrtLgerHistPrint.do")
-	public String selectFcltyCtrtLgerHistDetailPrint(@RequestParam Map<String, Object> fcltyCtrtLgerHistOpt, ModelMap model) throws Exception {
-
-    	Map map = new HashMap();
-
-    	// 0. Spring Security 사용자권한 처리
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return "/ygpa/gam/ctrt/GamFcltyCtrtLgerHistPrint";
-    	}
-
+		Map map = new HashMap();
+		List header;
 		ObjectMapper mapper = new ObjectMapper();
-		
-		GamFcltyCtrtLgerHistVO searchVO;
-    	searchVO = mapper.convertValue(fcltyCtrtLgerHistOpt, GamFcltyCtrtLgerHistVO.class);
 
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return new ModelAndView("gridExcelView", "gridResultMap", map);
+		}
+
+		header = mapper.readValue((String)excelParam.get("header"),
+								  new TypeReference<List<HashMap<String,String>>>(){});
+		excelParam.remove("header");
+
+		GamFcltyCtrtLgerHistVO searchVO= new GamFcltyCtrtLgerHistVO();
+		searchVO = mapper.convertValue(excelParam, GamFcltyCtrtLgerHistVO.class);
 		searchVO.setFirstIndex(0);
 		searchVO.setLastIndex(9999);
 		searchVO.setRecordCountPerPage(9999);
 
-		searchVO.setFirstIndex(0);
-		searchVO.setLastIndex(9999);
-		searchVO.setRecordCountPerPage(9999);
-		
-		//계약대장상세내역
-		EgovMap fcltyCtrtLgerHistDetail = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistDetail(searchVO);
+		List resultList = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistList(searchVO);
 
-    	//계약공동도급목록
-    	List fcltyCtrtJoinContrF = gamFcltyCtrtLgerHistService.selectFcltyCtrtJoinContrFList(searchVO);
-    	//계약공동도급목록 총갯수
-		//joinTotalCnt = gamFcltyCtrtLgerHistService.selectFcltyCtrtJoinContrFTotalCnt(searchVO);
-		
-		
-		//계약변경목록
-    	List fcltyCtrtChangeFList = gamFcltyCtrtLgerHistService.selectFcltyCtrtChangeFList(searchVO);
-    	//계약변경목록 총갯수 및 금액합계
-		//GamFcltyCtrtLgerHistVO fcltyCtrtChangeFListSum = gamFcltyCtrtLgerHistService.selectFcltyCtrtChangeFListSum(searchVO);
-		//changeTotalCnt = fcltyCtrtChangeFListSum.getTotalCnt();
-		
-		
-		//계약대금지급목록
-    	List fcltyCtrtMoneyPymntFList = gamFcltyCtrtLgerHistService.selectFcltyCtrtMoneyPymntFList(searchVO);
-    	//계약대금지급목록 총갯수 및 금액합계
-		//GamFcltyCtrtLgerHistVO fcltyCtrtMoneyPymntFListSum = gamFcltyCtrtLgerHistService.selectFcltyCtrtMoneyPymntFListSum(searchVO);
-		//moneyTotalCnt = fcltyCtrtMoneyPymntFListSum.getTotalCnt();
-    	
-    	
-    	//계약이행이월목록
-    	List fcltyCtrtFulfillCaryFwdFList = gamFcltyCtrtLgerHistService.selectFcltyCtrtFulfillCaryFwdFList(searchVO);
-    	
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("header", header);
 
-        model.addAttribute("fcltyCtrtLgerHistDetail", fcltyCtrtLgerHistDetail);
-        model.addAttribute("fcltyCtrtJoinContrFList", fcltyCtrtJoinContrF);
-        model.addAttribute("fcltyCtrtChangeFList", fcltyCtrtChangeFList);
-        model.addAttribute("fcltyCtrtMoneyPymntFList", fcltyCtrtMoneyPymntFList);
-        model.addAttribute("fcltyCtrtFulfillCaryFwdFList", fcltyCtrtFulfillCaryFwdFList);
-      
-		model.addAttribute("resultCode", 0);
-		model.addAttribute("resultMsg", "");
+		return new ModelAndView("gridExcelView", "gridResultMap", map);
 
-    	return "ygpa/gam/ctrt/GamFcltyCtrtLgerHistPrint";
-    }
-	
-	
-	/**
-	 * 계약낙찰정보 목록조회
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return map
-	 * @exception Exception
-	 */
+	}
+
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/ctrt/selectFcltyCtrtScsbidInfoHistList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectFcltyCtrtScsbidInfoHistList(GamFcltyCtrtLgerHistVO searchVO) throws Exception {
-		
-		int totalCnt;
-    	Map map = new HashMap();
+	@RequestMapping(value="/ctrt/gamSelectFcltyCtrtLgerHistJoinContrList.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectFcltyCtrtLgerHistJoinContrList(GamFcltyCtrtMngJoinContrVO searchVO) throws Exception {
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		Map map = new HashMap();
 
-    	PaginationInfo paginationInfo = new PaginationInfo();
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
@@ -528,20 +174,417 @@ public class GamFcltyCtrtLgerHistController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
-    	List ctrtFulFillCaryFwdList = gamFcltyCtrtLgerHistService.selectFcltyCtrtScsbidInfoHistList(searchVO);
-    	
-		totalCnt = gamFcltyCtrtLgerHistService.selectFcltyCtrtScsbidInfoHistListTotCnt(searchVO);
-    	
-    	paginationInfo.setTotalRecordCount(totalCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-        
-    	map.put("resultCode", 0);	// return ok
-    	map.put("totalCount", totalCnt);
-    	map.put("resultList", ctrtFulFillCaryFwdList);
-    	map.put("searchOption", searchVO);
 
-    	return map;
-    }
+		List resultList = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistJoinContrList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("searchOption", searchVO);
+
+		return map;
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/ctrt/gamExcelDownloadFcltyCtrtLgerHistJoinContr.do", method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelDownloadFcltyCtrtLgerHistJoinContr(@RequestParam Map<String, Object> excelParam) throws Exception {
+
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return new ModelAndView("gridExcelView", "gridResultMap", map);
+		}
+
+		header = mapper.readValue((String)excelParam.get("header"),
+								  new TypeReference<List<HashMap<String,String>>>(){});
+		excelParam.remove("header");
+
+		GamFcltyCtrtMngJoinContrVO searchVO= new GamFcltyCtrtMngJoinContrVO();
+		searchVO = mapper.convertValue(excelParam, GamFcltyCtrtMngJoinContrVO.class);
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		List resultList = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistJoinContrList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("header", header);
+
+		return new ModelAndView("gridExcelView", "gridResultMap", map);
+
+	}
+
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/ctrt/gamSelectFcltyCtrtLgerHistSubctrtList.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectFcltyCtrtLgerHistSubctrtList(GamFcltyCtrtMngSubctrtVO searchVO) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistSubctrtList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("searchOption", searchVO);
+
+		return map;
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/ctrt/gamExcelDownloadFcltyCtrtLgerHistSubctrt.do", method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelDownloadFcltyCtrtLgerHistSubctrt(@RequestParam Map<String, Object> excelParam) throws Exception {
+
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return new ModelAndView("gridExcelView", "gridResultMap", map);
+		}
+
+		header = mapper.readValue((String)excelParam.get("header"),
+								  new TypeReference<List<HashMap<String,String>>>(){});
+		excelParam.remove("header");
+
+		GamFcltyCtrtMngSubctrtVO searchVO= new GamFcltyCtrtMngSubctrtVO();
+		searchVO = mapper.convertValue(excelParam, GamFcltyCtrtMngSubctrtVO.class);
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		List resultList = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistSubctrtList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("header", header);
+
+		return new ModelAndView("gridExcelView", "gridResultMap", map);
+
+	}
+
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/ctrt/gamSelectFcltyCtrtLgerHistChangeList.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectFcltyCtrtLgerHistChangeList(GamFcltyCtrtMngChangeVO searchVO) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistChangeList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("searchOption", searchVO);
+
+		return map;
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/ctrt/gamExcelDownloadFcltyCtrtLgerHistChange.do", method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelDownloadFcltyCtrtLgerHistChange(@RequestParam Map<String, Object> excelParam) throws Exception {
+
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return new ModelAndView("gridExcelView", "gridResultMap", map);
+		}
+
+		header = mapper.readValue((String)excelParam.get("header"),
+								  new TypeReference<List<HashMap<String,String>>>(){});
+		excelParam.remove("header");
+
+		GamFcltyCtrtMngChangeVO searchVO= new GamFcltyCtrtMngChangeVO();
+		searchVO = mapper.convertValue(excelParam, GamFcltyCtrtMngChangeVO.class);
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		List resultList = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistChangeList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("header", header);
+
+		return new ModelAndView("gridExcelView", "gridResultMap", map);
+
+	}
+
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/ctrt/gamSelectFcltyCtrtLgerHistMoneyPymntList.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectFcltyCtrtLgerHistMoneyPymntList(GamFcltyCtrtMngMoneyPymntVO searchVO) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistMoneyPymntList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("searchOption", searchVO);
+
+		return map;
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/ctrt/gamExcelDownloadFcltyCtrtLgerHistMoneyPymnt.do", method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelDownloadFcltyCtrtLgerHistMoneyPymnt(@RequestParam Map<String, Object> excelParam) throws Exception {
+
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return new ModelAndView("gridExcelView", "gridResultMap", map);
+		}
+
+		header = mapper.readValue((String)excelParam.get("header"),
+								  new TypeReference<List<HashMap<String,String>>>(){});
+		excelParam.remove("header");
+
+		GamFcltyCtrtMngMoneyPymntVO searchVO= new GamFcltyCtrtMngMoneyPymntVO();
+		searchVO = mapper.convertValue(excelParam, GamFcltyCtrtMngMoneyPymntVO.class);
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		List resultList = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistMoneyPymntList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("header", header);
+
+		return new ModelAndView("gridExcelView", "gridResultMap", map);
+
+	}
+
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/ctrt/gamSelectFcltyCtrtLgerHistFulfillCaryFwdList.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectFcltyCtrtLgerHistFulfillCaryFwdList(GamFcltyCtrtMngFulfillCaryFwdVO searchVO) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistFulfillCaryFwdList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("searchOption", searchVO);
+
+		return map;
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/ctrt/gamExcelDownloadFcltyCtrtLgerHistFulfillCaryFwd.do", method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelDownloadFcltyCtrtLgerHistFulfillCaryFwd(@RequestParam Map<String, Object> excelParam) throws Exception {
+
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return new ModelAndView("gridExcelView", "gridResultMap", map);
+		}
+
+		header = mapper.readValue((String)excelParam.get("header"),
+								  new TypeReference<List<HashMap<String,String>>>(){});
+		excelParam.remove("header");
+
+		GamFcltyCtrtMngFulfillCaryFwdVO searchVO= new GamFcltyCtrtMngFulfillCaryFwdVO();
+		searchVO = mapper.convertValue(excelParam, GamFcltyCtrtMngFulfillCaryFwdVO.class);
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		List resultList = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistFulfillCaryFwdList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("header", header);
+
+		return new ModelAndView("gridExcelView", "gridResultMap", map);
+
+	}
+
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/ctrt/gamSelectFcltyCtrtLgerHistScsbidInfoList.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectFcltyCtrtLgerHistScsbidInfoList(GamFcltyCtrtMngScsbidInfoVO searchVO) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistScsbidInfoList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("searchOption", searchVO);
+
+		return map;
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/ctrt/gamExcelDownloadFcltyCtrtLgerHistScsbidInfo.do", method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelDownloadFcltyCtrtLgerHistScsbidInfo(@RequestParam Map<String, Object> excelParam) throws Exception {
+
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return new ModelAndView("gridExcelView", "gridResultMap", map);
+		}
+
+		header = mapper.readValue((String)excelParam.get("header"),
+								  new TypeReference<List<HashMap<String,String>>>(){});
+		excelParam.remove("header");
+
+		GamFcltyCtrtMngScsbidInfoVO searchVO= new GamFcltyCtrtMngScsbidInfoVO();
+		searchVO = mapper.convertValue(excelParam, GamFcltyCtrtMngScsbidInfoVO.class);
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		List resultList = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistScsbidInfoList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("header", header);
+
+		return new ModelAndView("gridExcelView", "gridResultMap", map);
+
+	}
+
+	@RequestMapping(value="/ctrt/gamSelectFcltyCtrtLgerHistEntrpsInfo.do")
+	@ResponseBody Map<String, Object> gamSelectFcltyCtrtLgerHistEntrpsInfo(@RequestParam Map<String, Object> searchVO)	throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			Map result = gamFcltyCtrtLgerHistService.selectEntrpsInfo(searchVO);
+
+			map.put("resultCode", 0);
+			map.put("result", result);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+		}
+
+		return map;
+	}
 
 }

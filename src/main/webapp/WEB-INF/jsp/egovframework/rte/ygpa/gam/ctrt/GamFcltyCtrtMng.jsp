@@ -308,6 +308,10 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 		module.enableScsbidDetailInputItem();
 	});
 
+	this.$("#sEntrpscd").bind("keyup change", {module: this}, function(event) {
+		event.data.module.getSearchEntrpsNm();
+	});
+
 	var year = new Date().getFullYear();
 	this.$('#sStartCtrtDt').val(year + '-01-01');
 	this.$('#sEndCtrtDt').val(year + '-12-31');
@@ -667,6 +671,7 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 			this.makeFormValues('#joinForm', {});
 			this.makeDivValues('#joinForm', {});
 			this.disableJoinDetailInputItem();
+			this.copyCtrtInfoData('joinTab');
 			this.addJoinData();
 			break;
 	    case 'btnJoinSave':
@@ -684,6 +689,7 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 			this.makeFormValues('#subForm', {});
 			this.makeDivValues('#subForm', {});
 			this.disableSubDetailInputItem();
+			this.copyCtrtInfoData('subTab');
 			this.addSubData();
 			break;
 	    case 'btnSubSave':
@@ -701,6 +707,7 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 			this.makeFormValues('#changeForm', {});
 			this.makeDivValues('#changeForm', {});
 			this.disableChangeDetailInputItem();
+			this.copyCtrtInfoData('changeTab');
 			this.addChangeData();
 			break;
 	    case 'btnChangeSave':
@@ -718,6 +725,7 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 			this.makeFormValues('#pymntForm', {});
 			this.makeDivValues('#pymntForm', {});
 			this.disablePymntDetailInputItem();
+			this.copyCtrtInfoData('pymntTab');
 			this.addPymntData();
 			break;
 	    case 'btnPymntSave':
@@ -735,6 +743,7 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 			this.makeFormValues('#caryFwdForm', {});
 			this.makeDivValues('#caryFwdForm', {});
 			this.disableCaryFwdDetailInputItem();
+			this.copyCtrtInfoData('caryFwdTab');
 			this.addCaryFwdData();
 			break;
 	    case 'btnCaryFwdSave':
@@ -752,6 +761,7 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 			this.makeFormValues('#scsbidForm', {});
 			this.makeDivValues('#scsbidForm', {});
 			this.disableScsbidDetailInputItem();
+			this.copyCtrtInfoData('scsbidTab');
 			this.addScsbidData();
 			break;
 	    case 'btnScsbidSave':
@@ -1010,6 +1020,10 @@ GamFcltyCtrtMngModule.prototype.loadJoinDetail = function(tabId) {
 	if (tabId == 'listTab') {
 		this.makeFormValues('#joinForm', {});
 		this.makeDivValues('#joinForm', {});
+		this.$('#joinGrid').flexEmptyData();
+		if (this._mainKeyValue == "") {
+			return;
+		}
 		this.copyCtrtInfoData('joinTab');
 		var detailOpt = this.getFormValues('#joinForm');
 		this.$('#joinGrid').flexOptions({params:detailOpt}).flexReload();
@@ -1075,6 +1089,10 @@ GamFcltyCtrtMngModule.prototype.loadSubDetail = function(tabId) {
 	if (tabId == 'listTab') {
 		this.makeFormValues('#subForm', {});
 		this.makeDivValues('#subForm', {});
+		this.$('#subGrid').flexEmptyData();
+		if (this._mainKeyValue == "") {
+			return;
+		}
 		this.copyCtrtInfoData('subTab');
 		var detailOpt = this.getFormValues('#subForm');
 		this.$('#subGrid').flexOptions({params:detailOpt}).flexReload();
@@ -1140,6 +1158,10 @@ GamFcltyCtrtMngModule.prototype.loadChangeDetail = function(tabId) {
 	if (tabId == 'listTab') {
 		this.makeFormValues('#changeForm', {});
 		this.makeDivValues('#changeForm', {});
+		this.$('#changeGrid').flexEmptyData();
+		if (this._mainKeyValue == "") {
+			return;
+		}
 		this.copyCtrtInfoData('changeTab');
 		var detailOpt = this.getFormValues('#changeForm');
 		this.$('#changeGrid').flexOptions({params:detailOpt}).flexReload();
@@ -1205,6 +1227,10 @@ GamFcltyCtrtMngModule.prototype.loadPymntDetail = function(tabId) {
 	if (tabId == 'listTab') {
 		this.makeFormValues('#pymntForm', {});
 		this.makeDivValues('#pymntForm', {});
+		this.$('#pymntGrid').flexEmptyData();
+		if (this._mainKeyValue == "") {
+			return;
+		}
 		this.copyCtrtInfoData('pymntTab');
 		var detailOpt = this.getFormValues('#pymntForm');
 		this.$('#pymntGrid').flexOptions({params:detailOpt}).flexReload();
@@ -1270,6 +1296,10 @@ GamFcltyCtrtMngModule.prototype.loadCaryFwdDetail = function(tabId) {
 	if (tabId == 'listTab') {
 		this.makeFormValues('#caryFwdForm', {});
 		this.makeDivValues('#caryFwdForm', {});
+		this.$('#caryFwdGrid').flexEmptyData();
+		if (this._mainKeyValue == "") {
+			return;
+		}
 		this.copyCtrtInfoData('caryFwdTab');
 		var detailOpt = this.getFormValues('#caryFwdForm');
 		this.$('#caryFwdGrid').flexOptions({params:detailOpt}).flexReload();
@@ -1335,6 +1365,10 @@ GamFcltyCtrtMngModule.prototype.loadScsbidDetail = function(tabId) {
 	if (tabId == 'listTab') {
 		this.makeFormValues('#scsbidForm', {});
 		this.makeDivValues('#scsbidForm', {});
+		this.$('#scsbidGrid').flexEmptyData();
+		if (this._mainKeyValue == "") {
+			return;
+		}
 		this.copyCtrtInfoData('scsbidTab');
 		var detailOpt = this.getFormValues('#scsbidForm');
 		this.$('#scsbidGrid').flexOptions({params:detailOpt}).flexReload();
@@ -1790,7 +1824,7 @@ GamFcltyCtrtMngModule.prototype.addJoinData = function() {
 	this.$('#qotaRate').val("1");
 	this.$('#joinEntrpsNm').val("");
 	this.$('#joinRprsntv').val("");
-	this.$('#dealRelate').val("1");
+	this.$('#dealRelate').val("");
 	this.$('#joinBsnmNo').val("");
 	this.$('#induty').val("");
 	this.$('#stplPrdlst').val("");
@@ -1821,7 +1855,6 @@ GamFcltyCtrtMngModule.prototype.saveJoinData = function() {
 	var inputVO = this.makeFormArgs("#joinForm");
 	var joinCtrtNo = this.$('#joinCtrtNo').val();
 	var joinSeq = this.$('#joinSeq').val();
-	var dealRelate = this.$('#dealRelate').val();
 	var joinEntrpsNm = this.$('#joinEntrpsNm').val();
 	var joinRprsntv = this.$('#joinRprsntv').val();
 	var joinTlphonNo = this.$('#joinTlphonNo').val();
@@ -1832,11 +1865,6 @@ GamFcltyCtrtMngModule.prototype.saveJoinData = function() {
 	}
 	if (joinSeq == "") {
 		alert('순번이 부정확합니다.');
-		return;
-	}
-	if (dealRelate != "1" && dealRelate != "2" && dealRelate != "3") {
-		alert('거래 관계가 부정확합니다.');
-		this.$("#dealRelate").focus();
 		return;
 	}
 	if (joinEntrpsNm == "") {
@@ -2581,6 +2609,52 @@ GamFcltyCtrtMngModule.prototype.deleteScsbidData = function() {
 			}
 			alert(result.resultMsg);
 		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : getSearchEntrpsNm
+ * @DESCRIPTION   : 조회조건 업체 명을 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.getSearchEntrpsNm = function() {
+
+	var sEntrpscd = this.$('#sEntrpscd').val();
+	if (sEntrpscd.length == 8) {
+		var searchVO = { 'sEntrpscd':sEntrpscd };
+		this.doAction('/ctrt/gamSelectFcltyCtrtSttusInqireEntrpsNm.do', searchVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.$('#sEntrpsNm').val(result.sEntrpsNm);
+			}
+		});
+	} else {
+		this.$('#sEntrpsNm').val('');
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : getRegistEntrpsNm
+ * @DESCRIPTION   : 등록 업체 명을 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.getRegistEntrpsNm = function() {
+
+	var sEntrpscd = this.$('#registEntrpsCd').val();
+	if (sEntrpscd.length == 8) {
+		var searchVO = { 'sEntrpscd':sEntrpscd };
+		this.doAction('/ctrt/gamSelectFcltyCtrtSttusInqireEntrpsNm.do', searchVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.$('#registEntrpsNm').val(result.entrpsNm);
+			}
+		});
+	} else {
+		this.$('#sEntrpsNm').val('');
 	}
 
 };
@@ -3404,16 +3478,16 @@ GamFcltyCtrtMngModule.prototype.disableScsbidDetailInputItem = function() {
  *   2. oldTabId - OLD TAB ID
 **/
 %>
- GamFcltyCtrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
+GamFcltyCtrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 
 	switch (newTabId) {
 		case 'listTab':
 			break;
 		case 'detailTab':
-			if (this._mainmode=="modify") {
+			if (this._mainmode == "modify") {
 				this.loadDetail('listTab');
 				this.enableDetailInputItem();
-			} else if (this._mainmode=="insert") {
+			} else if (this._mainmode == "insert") {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
 				this.disableDetailInputItem();
@@ -3886,8 +3960,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 						<tr>
 							<th width="10%" height="18">사업자　　번호</th>
 							<td>
-								<input type="text" size="10" id="dealRelate" maxlength="2"/>
-								<input type="text" size="20" id="joinBsnmNo" maxlength="14"/>
+								<input type="text" size="33" id="joinBsnmNo" maxlength="14"/>
 							</td>
 							<th width="10%" height="18">업　　　　　종</th>
 							<td>
@@ -3937,9 +4010,13 @@ var module_instance = new GamFcltyCtrtMngModule();
 							</td>
 						</tr>
 						<tr>
+							<th width="10%" height="18">거　래　관　계</th>
+							<td>
+								<input type="text" size="33" id="dealRelate" maxlength="20"/>
+							</td>
 							<th width="10%" height="18">도로명　　주소</th>
-							<td colspan="5">
-								<input type="text" size="149" id="roadnmAdres" maxlength="200"/>
+							<td colspan="3">
+								<input type="text" size="93" id="roadnmAdres" maxlength="200"/>
 							</td>
 						</tr>
 					</table>
@@ -4024,8 +4101,8 @@ var module_instance = new GamFcltyCtrtMngModule();
 							</td>
 							<th width="10%" height="18">하도급계약기간</th>
 							<td>
-								<input type="text" size="11" id="subctrtCtrtDtFrom" disabled/> ∼
-								<input type="text" size="11" id="subctrtCtrtDtTo" disabled/>
+								<input type="text" size="11" id="subctrtCtrtDtFrom" class="emdcal"/> ∼
+								<input type="text" size="11" id="subctrtCtrtDtTo" class="emdcal"/>
 							</td>
 						</tr>
 						<tr>
@@ -4360,11 +4437,11 @@ var module_instance = new GamFcltyCtrtMngModule();
 							</td>
 							<th width="10%" height="18">이　행　금　액</th>
 							<td>
-								<input type="text" size="33" id="fulfillAmt" class="ygpaNumber"/>
+								<input type="text" size="33" id="fulfillAmt" class="ygpaNumber" maxlength="20"/>
 							</td>
 							<th width="10%" height="18">이　월　금　액</th>
 							<td>
-								<input type="text" size="33" id="caryFwdAmt" class="ygpaNumber"/>
+								<input type="text" size="33" id="caryFwdAmt" class="ygpaNumber" maxlength="20"/>
 							</td>
 						</tr>
 					</table>

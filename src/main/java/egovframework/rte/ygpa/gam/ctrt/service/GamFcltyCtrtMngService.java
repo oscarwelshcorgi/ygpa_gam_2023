@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.ctrt.service;
 
 import java.util.List;
+import java.util.Map;
 
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
@@ -375,5 +376,11 @@ public interface GamFcltyCtrtMngService {
 	 * @throws Exception
 	 */
 	String selectFcltyCtrtMngScsbidInfoMaxSeq(GamFcltyCtrtMngScsbidInfoVO gamFcltyCtrtMngScsbidInfoVO) throws Exception;
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	EgovMap selectEntrpsInfo(Map searchVO) throws Exception;
 
 }

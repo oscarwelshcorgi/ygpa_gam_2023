@@ -289,4 +289,9 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 		return gamFcltyCtrtMngDao.selectFcltyCtrtMngScsbidInfoMaxSeq(gamFcltyCtrtMngScsbidInfoVO);
 	}
 
+	@Override
+	public EgovMap selectEntrpsInfo(Map searchVO) throws Exception {
+		return gamFcltyCtrtMngDao.selectEntrpsInfo(searchVO);
+	}
+
 }
