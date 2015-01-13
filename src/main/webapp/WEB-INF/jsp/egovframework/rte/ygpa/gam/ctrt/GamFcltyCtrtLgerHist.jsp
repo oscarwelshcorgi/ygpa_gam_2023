@@ -740,6 +740,72 @@ GamFcltyCtrtLgerHistModule.prototype.getSearchEntrpsNm = function() {
 
 <%
 /**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 리스트를 엑셀로 다운로드한다.
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
+GamFcltyCtrtLgerHistModule.prototype.downloadExcel = function(buttonId) {
+
+	var gridRowCount = 0;
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			gridRowCount = this.$("#mainGrid").flexRowCount();
+			break;
+		case 'btnJoinExcelDownload':
+			gridRowCount = this.$("#joinGrid").flexRowCount();
+			break;
+		case 'btnSubExcelDownload':
+			gridRowCount = this.$("#subGrid").flexRowCount();
+			break;
+		case 'btnChangeExcelDownload':
+			gridRowCount = this.$("#changeGrid").flexRowCount();
+			break;
+		case 'btnPymntExcelDownload':
+			gridRowCount = this.$("#pymntGrid").flexRowCount();
+			break;
+		case 'btnCaryFwdExcelDownload':
+			gridRowCount = this.$("#caryFwdGrid").flexRowCount();
+			break;
+		case 'btnScsbidExcelDownload':
+			gridRowCount = this.$("#scsbidGrid").flexRowCount();
+			break;
+		default:
+			return;
+	}
+	if (gridRowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			this.$('#mainGrid').flexExcelDown('/ctrt/gamExcelDownloadFcltyCtrtLgerHist.do');
+			break;
+		case 'btnJoinExcelDownload':
+			this.$('#joinGrid').flexExcelDown('/ctrt/gamExcelDownloadFcltyCtrtLgerHistJoinContr.do');
+			break;
+		case 'btnSubExcelDownload':
+			this.$('#subGrid').flexExcelDown('/ctrt/gamExcelDownloadFcltyCtrtLgerHistSubctrt.do');
+			break;
+		case 'btnChangeExcelDownload':
+			this.$('#changeGrid').flexExcelDown('/ctrt/gamExcelDownloadFcltyCtrtLgerHistChange.do');
+			break;
+		case 'btnPymntExcelDownload':
+			this.$('#pymntGrid').flexExcelDown('/ctrt/gamExcelDownloadFcltyCtrtLgerHistMoneyPymnt.do');
+			break;
+		case 'btnCaryFwdExcelDownload':
+			this.$('#caryFwdGrid').flexExcelDown('/ctrt/gamExcelDownloadFcltyCtrtLgerHistFulfillCaryFwd.do');
+			break;
+		case 'btnScsbidExcelDownload':
+			this.$('#scsbidGrid').flexExcelDown('/ctrt/gamExcelDownloadFcltyCtrtLgerHistScsbidInfo.do');
+			break;
+	}
+
+};
+
+<%
+/**
  * @FUNCTION NAME : onTabChange
  * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
  * @PARAMETER     :
@@ -890,7 +956,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 							<th>계약 금액</th>
 							<td>
 								<input id="sStartCtrtAmt" type="text" class="ygpaNumber" size="15" maxlength="20"> ∼
-								<input id="sStartAmtTo" type="text" class="ygpaNumber" size="15" maxlength="20">
+								<input id="sEndCtrtAmt" type="text" class="ygpaNumber" size="15" maxlength="20">
 							</td>
 						</tr>
 					</tbody>

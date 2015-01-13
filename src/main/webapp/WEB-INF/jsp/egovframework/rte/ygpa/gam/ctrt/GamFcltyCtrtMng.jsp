@@ -3644,7 +3644,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 							<th>계약 금액</th>
 							<td>
 								<input id="sStartCtrtAmt" type="text" class="ygpaNumber" size="15" maxlength="20"> ∼
-								<input id="sStartAmtTo" type="text" class="ygpaNumber" size="15" maxlength="20">
+								<input id="sEndCtrtAmt" type="text" class="ygpaNumber" size="15" maxlength="20">
 							</td>
 						</tr>
 					</tbody>

@@ -243,6 +243,36 @@ GamFcltyCtrtSttusInqireModule.prototype.getSearchEntrpsNm = function() {
 
 };
 
+<%
+/**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 리스트를 엑셀로 다운로드한다.
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
+GamFcltyCtrtSttusInqireModule.prototype.downloadExcel = function(buttonId) {
+
+	var gridRowCount = 0;
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			gridRowCount = this.$("#mainGrid").flexRowCount();
+			break;
+		default:
+			return;
+	}
+	if (gridRowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			this.$('#mainGrid').flexExcelDown('/ctrt/gamExcelDownloadFcltyCtrtSttusInqire.do');
+			break;
+	}
+
+};
+
 var module_instance = new GamFcltyCtrtSttusInqireModule();
 
 
@@ -303,7 +333,7 @@ var module_instance = new GamFcltyCtrtSttusInqireModule();
 							<th>계약 금액</th>
 							<td>
 								<input id="sStartCtrtAmt" type="text" class="ygpaNumber" size="19" maxlength="20"> ∼
-								<input id="sStartAmtTo" type="text" class="ygpaNumber" size="19" maxlength="20">
+								<input id="sEndCtrtAmt" type="text" class="ygpaNumber" size="19" maxlength="20">
 							</td>
 						</tr>
 					</tbody>
@@ -326,12 +356,12 @@ var module_instance = new GamFcltyCtrtSttusInqireModule();
 					<form id="listSumForm">
 						<table style="width:100%;">
 							<tr>
-								<th style="width:10%; height:20; text-align:center;">자료수</th>
+								<th style="width:12%; height:20; text-align:center;">자료수</th>
 								<td><input type="text" size="6" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
-								<th style="width:10%; height:20; text-align:center;">이전년도거래금액</th>
-								<td><input type="text" size="18" id="sumPrevCtrtAmt" class="ygpaNumber" disabled="disabled"/></td>
-								<th style="width:10%; height:20; text-align:center;">거래금액</th>
-								<td><input type="text" size="18" id="sumCurrCtrtAmt" class="ygpaNumber" disabled="disabled"/></td>
+								<th style="width:12%; height:20; text-align:center;">이전년도 거래금액</th>
+								<td><input type="text" size="20" id="sumPrevCtrtAmt" class="ygpaNumber" disabled="disabled"/></td>
+								<th style="width:12%; height:20; text-align:center;">거래금액</th>
+								<td><input type="text" size="20" id="sumCurrCtrtAmt" class="ygpaNumber" disabled="disabled"/></td>
 								<td style="text-align:right;">
 	                                <button data-role="printPage" data-search-option="searchForm" data-url='/ctrt/gamSelectFcltyCtrtSttusInqirePrint.do'>계약 이력 출력</button>
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
