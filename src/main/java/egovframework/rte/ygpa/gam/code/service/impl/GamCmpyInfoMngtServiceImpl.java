@@ -133,9 +133,7 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
     				insertCmpyCharger(insertList.get(i));
     			}
     		}
-    	}catch (Exception e){
-
-    	}
+    	}catch(Exception e) { log.warn("an error found"); }
 	}
 	
 	
@@ -189,9 +187,7 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
 					deleteCmpyCharger(deleteList.get(i));
 				}
 			}
-		}catch (Exception e){
-
-		}
+		}catch(Exception e) { log.warn("an error found"); }
 	}
 	
 	

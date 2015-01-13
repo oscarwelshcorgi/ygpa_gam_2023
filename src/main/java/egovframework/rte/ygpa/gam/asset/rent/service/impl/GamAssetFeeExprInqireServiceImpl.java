@@ -292,7 +292,8 @@ public class GamAssetFeeExprInqireServiceImpl  extends AbstractServiceImpl imple
 				dayCnt[0] = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(endRetVal[0], 0, 0, 1)).getTime() - sdf.parse(startRetVal[0]).getTime()) / 1000 / 60 / 60 / 24); //상반기 날짜수
 
 				dayCnt[1] = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(endRetVal[1], 0, 0, 1)).getTime() - sdf.parse(startRetVal[1]).getTime()) / 1000 / 60 / 60 / 24); //하반기 날짜수
-			} catch (Exception e) {}
+			} catch(Exception e) { log.warn("an error found"); }
+
 		} else if( vo.getNticMth().equals("3") ) { // 3분납 [추후 협의후 재작업 (2014.02.04)]
 			int term = 0;
 			startRetVal = new String[3];
@@ -315,7 +316,7 @@ public class GamAssetFeeExprInqireServiceImpl  extends AbstractServiceImpl imple
 
 				try {
 					dayCnt[i] = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(endRetVal[i], 0, 0, 1)).getTime() - sdf.parse(startRetVal[i]).getTime()) / 1000 / 60 / 60 / 24); //날짜수
-				} catch (Exception e) {}
+				} catch(Exception e) { log.warn("an error found"); }
 			}
 	    } else if( vo.getNticMth().equals("4") ) { // 분기별 [추후 협의후 재작업 (2014.02.04)]
 	    	int term = 0;
@@ -339,7 +340,8 @@ public class GamAssetFeeExprInqireServiceImpl  extends AbstractServiceImpl imple
 
 				try {
 					dayCnt[i] = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(endRetVal[i], 0, 0, 1)).getTime() - sdf.parse(startRetVal[i]).getTime()) / 1000 / 60 / 60 / 24);
-				} catch (Exception e) {}
+				} catch(Exception e) { log.warn("an error found"); }
+
 			}
 	    } else if( vo.getNticMth().equals("5") ) { // 월별
 	    	startRetVal = new String[monthCnt];
@@ -362,7 +364,8 @@ public class GamAssetFeeExprInqireServiceImpl  extends AbstractServiceImpl imple
 
 				try {
 					dayCnt[i] = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(endRetVal[i], 0, 0, 1)).getTime() - sdf.parse(startRetVal[i]).getTime()) / 1000 / 60 / 60 / 24);
-				} catch (Exception e) {}
+				} catch(Exception e) { log.warn("an error found"); }
+
 			}
 		}
 	    else {	// 일시납
@@ -375,7 +378,8 @@ public class GamAssetFeeExprInqireServiceImpl  extends AbstractServiceImpl imple
 
 			try {
 				dayCnt[0] = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(endRetVal[0], 0, 0, 1)).getTime() - sdf.parse(startRetVal[0]).getTime()) / 1000 / 60 / 60 / 24); //기간에 해당하는 날짜수 가져오기
-			} catch (Exception e) {}
+			} catch(Exception e) { log.warn("an error found"); }
+
 		}
 
 		for( int i = 0; i < startRetVal.length; i++ ) {
@@ -452,7 +456,7 @@ public class GamAssetFeeExprInqireServiceImpl  extends AbstractServiceImpl imple
     public List selectAssetFeeExprInqireFileList(GamAssetFeeExprInqireVO searchVO) throws Exception {
         return gamAssetFeeExprInqireDao.selectAssetFeeExprInqireFileList(searchVO);
     }
-
+;
     /**
 	 * 파일 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO

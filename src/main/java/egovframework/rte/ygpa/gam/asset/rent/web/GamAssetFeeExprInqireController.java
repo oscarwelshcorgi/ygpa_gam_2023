@@ -522,9 +522,7 @@ public class GamAssetFeeExprInqireController {
     			gamAssetFeeExprInqireService.updateAssetFeeExprInqireQuaycd(quaycdVO);
     		}
 
-    	} catch (Exception e) {
-
-    	}
+    	} catch(Exception e) { log.warn("an error found"); }
     	log.debug("insert list : "+insertList.size());
     	log.debug("updateList list : "+updateList.size());
     	log.debug("deleteList list : "+deleteList.size());
