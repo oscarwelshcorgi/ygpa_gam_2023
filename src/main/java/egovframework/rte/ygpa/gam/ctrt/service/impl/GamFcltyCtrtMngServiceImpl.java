@@ -63,27 +63,27 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	public void deleteFcltyCtrtMng(GamFcltyCtrtMngVO gamFcltyCtrtMngVO) throws Exception {
 		GamFcltyCtrtMngJoinContrVO gamFcltyCtrtMngJoinContrVO = new GamFcltyCtrtMngJoinContrVO();
 		gamFcltyCtrtMngJoinContrVO.setJoinCtrtNo(gamFcltyCtrtMngVO.getCtrtNo());
-		gamFcltyCtrtMngDao.deleteFcltyCtrtMngJoinContr(gamFcltyCtrtMngJoinContrVO);
+		gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllJoinContr(gamFcltyCtrtMngJoinContrVO);
 
 		GamFcltyCtrtMngSubctrtVO gamFcltyCtrtMngSubctrtVO = new GamFcltyCtrtMngSubctrtVO();
 		gamFcltyCtrtMngSubctrtVO.setSubCtrtNo(gamFcltyCtrtMngVO.getCtrtNo());
-		gamFcltyCtrtMngDao.deleteFcltyCtrtMngSubctrt(gamFcltyCtrtMngSubctrtVO);
+		gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllSubctrt(gamFcltyCtrtMngSubctrtVO);
 
 		GamFcltyCtrtMngChangeVO gamFcltyCtrtMngChangeVO = new GamFcltyCtrtMngChangeVO();
 		gamFcltyCtrtMngChangeVO.setChangeInfoCtrtNo(gamFcltyCtrtMngVO.getCtrtNo());
-		gamFcltyCtrtMngDao.deleteFcltyCtrtMngChange(gamFcltyCtrtMngChangeVO);
+		gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllChange(gamFcltyCtrtMngChangeVO);
 
 		GamFcltyCtrtMngMoneyPymntVO gamFcltyCtrtMngMoneyPymntVO = new GamFcltyCtrtMngMoneyPymntVO();
 		gamFcltyCtrtMngMoneyPymntVO.setPymntCtrtNo(gamFcltyCtrtMngVO.getCtrtNo());
-		gamFcltyCtrtMngDao.deleteFcltyCtrtMngMoneyPymnt(gamFcltyCtrtMngMoneyPymntVO);
+		gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllMoneyPymnt(gamFcltyCtrtMngMoneyPymntVO);
 
 		GamFcltyCtrtMngFulfillCaryFwdVO gamFcltyCtrtMngFulfillCaryFwdVO = new GamFcltyCtrtMngFulfillCaryFwdVO();
 		gamFcltyCtrtMngFulfillCaryFwdVO.setCaryFwdCtrtNo(gamFcltyCtrtMngVO.getCtrtNo());
-		gamFcltyCtrtMngDao.deleteFcltyCtrtMngFulfillCaryFwd(gamFcltyCtrtMngFulfillCaryFwdVO);
+		gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllFulfillCaryFwd(gamFcltyCtrtMngFulfillCaryFwdVO);
 
 		GamFcltyCtrtMngScsbidInfoVO gamFcltyCtrtMngScsbidInfoVO = new GamFcltyCtrtMngScsbidInfoVO();
 		gamFcltyCtrtMngScsbidInfoVO.setScsbidCtrtNo(gamFcltyCtrtMngVO.getCtrtNo());
-		gamFcltyCtrtMngDao.deleteFcltyCtrtMngScsbidInfo(gamFcltyCtrtMngScsbidInfoVO);
+		gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllScsbidInfo(gamFcltyCtrtMngScsbidInfoVO);
 
 		gamFcltyCtrtMngDao.deleteFcltyCtrtMng(gamFcltyCtrtMngVO);
 	}

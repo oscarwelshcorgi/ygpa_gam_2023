@@ -139,6 +139,15 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	}
 
 	/**
+	 * @name deleteFcltyCtrtMngAllJoinContr
+	 * @param gamFcltyCtrtMngJoinContrVO
+	 * @return void
+	 */
+	public void deleteFcltyCtrtMngAllJoinContr(GamFcltyCtrtMngJoinContrVO gamFcltyCtrtMngJoinContrVO) {
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllJoinContr_S", gamFcltyCtrtMngJoinContrVO);
+	}
+
+	/**
 	 * @name selectFcltyCtrtMngJoinContrPk
 	 * @param gamFcltyCtrtMngJoinContrVO
 	 * @return EgovMap
@@ -191,6 +200,15 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 */
 	public void deleteFcltyCtrtMngSubctrt(GamFcltyCtrtMngSubctrtVO gamFcltyCtrtMngSubctrtVO) {
 		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMngSubctrt_S", gamFcltyCtrtMngSubctrtVO);
+	}
+
+	/**
+	 * @name deleteFcltyCtrtMngAllSubctrt
+	 * @param gamFcltyCtrtMngSubctrtVO
+	 * @return void
+	 */
+	public void deleteFcltyCtrtMngAllSubctrt(GamFcltyCtrtMngSubctrtVO gamFcltyCtrtMngSubctrtVO) {
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllSubctrt_S", gamFcltyCtrtMngSubctrtVO);
 	}
 
 	/**
@@ -249,6 +267,15 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	}
 
 	/**
+	 * @name deleteFcltyCtrtMngAllChange
+	 * @param gamFcltyCtrtMngChangeVO
+	 * @return void
+	 */
+	public void deleteFcltyCtrtMngAllChange(GamFcltyCtrtMngChangeVO gamFcltyCtrtMngChangeVO) {
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllChange_S", gamFcltyCtrtMngChangeVO);
+	}
+
+	/**
 	 * @name selectFcltyCtrtMngChangePk
 	 * @param gamFcltyCtrtMngChangeVO
 	 * @return EgovMap
@@ -301,6 +328,15 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 */
 	public void deleteFcltyCtrtMngMoneyPymnt(GamFcltyCtrtMngMoneyPymntVO gamFcltyCtrtMngMoneyPymntVO) {
 		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMngMoneyPymnt_S", gamFcltyCtrtMngMoneyPymntVO);
+	}
+
+	/**
+	 * @name deleteFcltyCtrtMngAllMoneyPymnt
+	 * @param gamFcltyCtrtMngMoneyPymntVO
+	 * @return void
+	 */
+	public void deleteFcltyCtrtMngAllMoneyPymnt(GamFcltyCtrtMngMoneyPymntVO gamFcltyCtrtMngMoneyPymntVO) {
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllMoneyPymnt_S", gamFcltyCtrtMngMoneyPymntVO);
 	}
 
 	/**
@@ -359,6 +395,15 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	}
 
 	/**
+	 * @name deleteFcltyCtrtMngAllFulfillCaryFwd
+	 * @param gamFcltyCtrtMngFulfillCaryFwdVO
+	 * @return void
+	 */
+	public void deleteFcltyCtrtMngAllFulfillCaryFwd(GamFcltyCtrtMngFulfillCaryFwdVO gamFcltyCtrtMngFulfillCaryFwdVO) {
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllFulfillCaryFwd_S", gamFcltyCtrtMngFulfillCaryFwdVO);
+	}
+
+	/**
 	 * @name selectFcltyCtrtMngFulfillCaryFwdPk
 	 * @param gamFcltyCtrtMngFulfillCaryFwdVO
 	 * @return EgovMap
@@ -411,6 +456,15 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	 */
 	public void deleteFcltyCtrtMngScsbidInfo(GamFcltyCtrtMngScsbidInfoVO gamFcltyCtrtMngScsbidInfoVO) {
 		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMngScsbidInfo_S", gamFcltyCtrtMngScsbidInfoVO);
+	}
+
+	/**
+	 * @name deleteFcltyCtrtMngAllScsbidInfo
+	 * @param gamFcltyCtrtMngScsbidInfoVO
+	 * @return void
+	 */
+	public void deleteFcltyCtrtMngAllScsbidInfo(GamFcltyCtrtMngScsbidInfoVO gamFcltyCtrtMngScsbidInfoVO) {
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllScsbidInfo_S", gamFcltyCtrtMngScsbidInfoVO);
 	}
 
 	/**

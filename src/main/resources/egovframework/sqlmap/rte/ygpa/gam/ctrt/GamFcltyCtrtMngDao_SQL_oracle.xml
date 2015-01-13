@@ -464,6 +464,11 @@
 		AND SEQ = NVL(TO_NUMBER(REPLACE(#joinSeq#,',','')),0)
 	</delete>
 
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllJoinContr_S" parameterClass="gamFcltyCtrtMngJoinContrVO">
+		DELETE FROM CTRT_JOIN_CONTR_F
+		WHERE CTRT_NO = #joinCtrtNo#
+	</delete>
+
 	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngJoinContrPk_S" parameterClass="gamFcltyCtrtMngJoinContrVO" resultClass="egovMap">
 		SELECT
 				 T1.CTRT_NO AS JOIN_CTRT_NO
@@ -608,6 +613,11 @@
 		AND SEQ = NVL(TO_NUMBER(REPLACE(#subSeq#,',','')),0)
 	</delete>
 
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllSubctrt_S" parameterClass="gamFcltyCtrtMngSubctrtVO">
+		DELETE FROM CTRT_SUBCTRT_F
+		WHERE CTRT_NO = #subCtrtNo#
+	</delete>
+
 	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngSubctrtPk_S" parameterClass="gamFcltyCtrtMngSubctrtVO" resultClass="egovMap">
 		SELECT
 				 T1.CTRT_NO AS SUB_CTRT_NO
@@ -744,6 +754,11 @@
 		AND SEQ = NVL(TO_NUMBER(REPLACE(#changeInfoSeq#,',','')),0)
 	</delete>
 
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllChange_S" parameterClass="gamFcltyCtrtMngChangeVO">
+		DELETE FROM CTRT_CHANGE_F
+		WHERE CTRT_NO = #changeInfoCtrtNo#
+	</delete>
+
 	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngChangePk_S" parameterClass="gamFcltyCtrtMngChangeVO" resultClass="egovMap">
 		SELECT
 				 T1.CTRT_NO AS CHANGE_INFO_CTRT_NO
@@ -876,6 +891,11 @@
 		AND SEQ = NVL(TO_NUMBER(REPLACE(#pymntSeq#,',','')),0)
 	</delete>
 
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllMoneyPymnt_S" parameterClass="gamFcltyCtrtMngMoneyPymntVO">
+		DELETE FROM CTRT_MONEY_PYMNT_F
+		WHERE CTRT_NO = #pymntCtrtNo#
+	</delete>
+
 	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngMoneyPymntPk_S" parameterClass="gamFcltyCtrtMngMoneyPymntVO" resultClass="egovMap">
 		SELECT
 				 T1.CTRT_NO AS PYMNT_CTRT_NO
@@ -988,6 +1008,11 @@
 		DELETE FROM CTRT_FULFILL_CARY_FWD_F
 		WHERE CTRT_NO = #caryFwdCtrtNo#
 		AND SEQ = NVL(TO_NUMBER(REPLACE(#caryFwdSeq#,',','')),0)
+	</delete>
+
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllFulfillCaryFwd_S" parameterClass="gamFcltyCtrtMngFulfillCaryFwdVO">
+		DELETE FROM CTRT_FULFILL_CARY_FWD_F
+		WHERE CTRT_NO = #caryFwdCtrtNo#
 	</delete>
 
 	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngFulfillCaryFwdPk_S" parameterClass="gamFcltyCtrtMngFulfillCaryFwdVO" resultClass="egovMap">
@@ -1113,6 +1138,11 @@
 		DELETE FROM CTRT_SCSBID_INFO_F
 		WHERE CTRT_NO = #scsbidCtrtNo#
 		AND SEQ = NVL(TO_NUMBER(REPLACE(#scsbidSeq#,',','')),0)
+	</delete>
+
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllScsbidInfo_S" parameterClass="gamFcltyCtrtMngScsbidInfoVO">
+		DELETE FROM CTRT_SCSBID_INFO_F
+		WHERE CTRT_NO = #scsbidCtrtNo#
 	</delete>
 
 	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngScsbidInfoPk_S" parameterClass="gamFcltyCtrtMngScsbidInfoVO" resultClass="egovMap">
