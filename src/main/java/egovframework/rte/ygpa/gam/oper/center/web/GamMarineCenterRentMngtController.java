@@ -553,7 +553,7 @@ public class GamMarineCenterRentMngtController {
         	resultMsg  = egovMessageSource.getMessage("success.common.merge");
 
     	} catch (Exception e) {
-    		e.printStackTrace();
+
 
     		resultCode = 1;
     		resultMsg  = egovMessageSource.getMessage("fail.common.msg");

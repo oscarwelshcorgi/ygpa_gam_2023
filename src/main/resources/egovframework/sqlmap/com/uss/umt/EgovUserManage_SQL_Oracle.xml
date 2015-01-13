@@ -15,7 +15,7 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
         EMPLYR_ID             as "userId",
         USER_NM             as "userNm",
         EMAIL_ADRES           as "emailAdres",
-        <!-- 
+        <!--
         AREA_NO               as "areaNo",
         HOUSE_MIDDLE_TELNO      as "middleTelno",
         HOUSE_END_TELNO         as "endTelno",
@@ -24,13 +24,14 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
         MBTLNUM           as "moblphonNo",
         GROUP_ID              as "groupId",
         <!-- EMPLYR_STTUS_CODE     as "sttus", -->
-        (SELECT CODE_NM 
-	      FROM COMTCCMMNDETAILCODE 
-	     WHERE USE_AT = 'Y' 
-	           AND CODE_ID = 'COM013' 
-	           AND EMPLYR_STTUS_CODE = CODE 
-	    ) AS sttus,        
-        TO_CHAR(SBSCRB_DE, 'yyyy-mm-dd') AS "sbscrbDe"
+        (SELECT CODE_NM
+	      FROM COMTCCMMNDETAILCODE
+	     WHERE USE_AT = 'Y'
+	           AND CODE_ID = 'COM013'
+	           AND EMPLYR_STTUS_CODE = CODE
+	    ) AS sttus,
+        TO_CHAR(SBSCRB_DE, 'yyyy-mm-dd') AS "sbscrbDe",
+        QUAY_GROUP_CD "quayGroupCd"
     FROM    COMTNEMPLYRINFO
         WHERE 1=1
         <isNotEqual prepend="AND" property="sbscrbSttus" compareValue="0">
@@ -45,7 +46,7 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
         ORDER BY 10 DESC
         ) TB ) WHERE rn BETWEEN #firstIndex# + 1 AND #firstIndex# + #recordCountPerPage#
     </select>
-    
+
     <select id="userManageDAO.selectUserListTotCnt_S" parameterClass="userSearchVO" resultClass="int">
             SELECT COUNT(1) totcnt
             FROM    COMTNEMPLYRINFO
@@ -60,10 +61,10 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
                 USER_NM LIKE '%' ||#searchKeyword#|| '%'
             </isEqual>
     </select>
-    
+
     <insert id="userManageDAO.insertUser_S">
         <![CDATA[
-            INSERT INTO COMTNEMPLYRINFO 
+            INSERT INTO COMTNEMPLYRINFO
                 (   ESNTL_ID             ,
                     EMPLYR_ID           ,
                     USER_NM           ,
@@ -90,14 +91,15 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
                     PSTINST_CODE          ,
                     EMPLYR_STTUS_CODE   ,
                     SBSCRB_DE           ,
-                    CRTFC_DN_VALUE              )
+                    CRTFC_DN_VALUE,
+                    QUAY_GROUP_CD              )
             VALUES (
                     #uniqId#            ,
                     #emplyrId#          ,
                     #emplyrNm#          ,
                     #password#          ,
                     #passwordHint#      ,
-                    #passwordCnsr#      ,                   
+                    #passwordCnsr#      ,
                     #emplNo#            ,
                     #ihidnum#           ,
                     #sexdstnCode#       ,
@@ -118,17 +120,18 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
                     #insttCode#         ,
                     #emplyrSttusCode#   ,
                     sysdate           ,
-                    #subDn#             )
+                    #subDn#,
+                    #quayGroupCd#             )
         ]]>
     </insert>
-    
+
     <delete id="userManageDAO.deleteUser_S">
         <![CDATA[
-        	DELETE FROM COMTNEMPLYRINFO 
+        	DELETE FROM COMTNEMPLYRINFO
         	WHERE ESNTL_ID = #delId#
         ]]>
     </delete>
-    
+
     <select id="userManageDAO.selectUser_S" resultClass="userVO">
         <![CDATA[
             SELECT
@@ -157,18 +160,20 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
             GROUP_ID          groupId           ,
             ORGNZT_ID         orgnztId          ,
             PSTINST_CODE        insttCode         ,
-            EMPLYR_STTUS_CODE emplyrSttusCode   , 
+            EMPLYR_STTUS_CODE emplyrSttusCode   ,
             SBSCRB_DE         sbscrbDe          ,
-            CRTFC_DN_VALUE            subDn
+            CRTFC_DN_VALUE            subDn,
+            QUAY_GROUP_CD	quayGroupCd
+
         FROM COMTNEMPLYRINFO
             WHERE ESNTL_ID=#uniqId#
         ]]>
     </select>
-    
+
     <update id="userManageDAO.updateUser_S">
         <![CDATA[
-            UPDATE COMTNEMPLYRINFO 
-            SET EMPLYR_ID           = #emplyrId#        , 
+            UPDATE COMTNEMPLYRINFO
+            SET EMPLYR_ID           = #emplyrId#        ,
                 USER_NM           = #emplyrNm#        ,
                 PASSWORD_HINT       = #passwordHint#    ,
                 PASSWORD_CNSR       = #passwordCnsr#    ,
@@ -191,14 +196,15 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
                 ORGNZT_ID           = #orgnztId#        ,
                 PSTINST_CODE          = #insttCode#       ,
                 EMPLYR_STTUS_CODE   = #emplyrSttusCode# ,
-                CRTFC_DN_VALUE              = #subDn#
+                CRTFC_DN_VALUE              = #subDn#,
+                QUAY_GROUP_CD = #quayGroupCd#
             WHERE ESNTL_ID = #uniqId#
         ]]>
     </update>
-    
+
     <insert id="userManageDAO.insertUserHistory_S">
         <![CDATA[
-            INSERT INTO COMTHEMPLYRINFOCHANGEDTLS 
+            INSERT INTO COMTHEMPLYRINFOCHANGEDTLS
                 (   EMPLYR_ID           ,
                     EMPL_NO             ,
                     SEXDSTN_CODE        ,
@@ -218,8 +224,9 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
                     PSTINST_CODE          ,
                     EMPLYR_STTUS_CODE   ,
                     ESNTL_ID             ,
+                    QUAY_GROUP_CD,
                     CHANGE_DE           )
-            SELECT 
+            SELECT
                     EMPLYR_ID           ,
                     EMPL_NO             ,
                     SEXDSTN_CODE        ,
@@ -239,12 +246,13 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
                     PSTINST_CODE          ,
                     EMPLYR_STTUS_CODE   ,
                     ESNTL_ID             ,
-                    SYSDATE
+                    QUAY_GROUP_CD,
+					TO_CHAR(systimestamp, 'YYYYMMDD-HH24MISSFF4')
             FROM COMTNEMPLYRINFO
             WHERE ESNTL_ID = #uniqId#
         ]]>
     </insert>
-    
+
     <select id="userManageDAO.checkIdDplct_S" resultClass="int">
         <![CDATA[
             SELECT COUNT(1) usedCnt
@@ -264,23 +272,23 @@ SELECT * FROM ( SELECT rownum rn, TB.* FROM (
             WHERE userId = #checkId#
         ]]>
     </select>
-    
+
     <update id="userManageDAO.updatePassword_S">
         <![CDATA[
-            UPDATE COMTNEMPLYRINFO 
-            SET 
+            UPDATE COMTNEMPLYRINFO
+            SET
                    PASSWORD   =  #password#
             WHERE  ESNTL_ID  = #uniqId#
         ]]>
     </update>
-    
+
     <select id="userManageDAO.selectPassword_S" resultClass="userVO">
         <![CDATA[
             SELECT
-                    PASSWORD          password 
+                    PASSWORD          password
             FROM    COMTNEMPLYRINFO
             WHERE   ESNTL_ID=#uniqId#
         ]]>
     </select>
-    
+
 </sqlMap>

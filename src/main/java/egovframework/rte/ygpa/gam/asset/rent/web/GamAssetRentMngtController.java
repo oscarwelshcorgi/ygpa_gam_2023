@@ -613,7 +613,7 @@ public class GamAssetRentMngtController {
         	resultMsg  = egovMessageSource.getMessage("success.common.merge");
 
     	} catch (Exception e) {
-    		e.printStackTrace();
+
 
     		resultCode = 1;
     		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
@@ -759,7 +759,7 @@ public class GamAssetRentMngtController {
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.reject");
 	    	}
         } catch(Exception e) {
-        	e.printStackTrace();
+
 
     		resultCode = 1;
     		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
@@ -886,7 +886,7 @@ public class GamAssetRentMngtController {
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.delete");
 	    	}
         } catch(Exception e) {
-        	e.printStackTrace();
+
 
     		resultCode = 1;
     		resultMsg  = egovMessageSource.getMessage("fail.common.msg");

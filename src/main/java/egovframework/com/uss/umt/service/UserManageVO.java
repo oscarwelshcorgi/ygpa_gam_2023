@@ -9,7 +9,7 @@ package egovframework.com.uss.umt.service;
  *
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일      수정자           수정내용
  *  -------    --------    ---------------------------
  *   2009.04.10  조재영          최초 생성
@@ -20,17 +20,17 @@ public class UserManageVO extends UserDefaultVO{
 
 	/** 이전비밀번호 - 비밀번호 변경시 사용*/
     private String oldPassword = "";
-    
+
     /** 새비밀번호 - 비밀번호 변경시 사용*/
     private String newPassword = "";
-    
+
     /** 새비밀번호중복체크 - 비밀번호 변경시 사용*/
     private String newPassword2 = "";
-    
- 
+
+
 	private String regUsr;
 	private String updUsr;
-    
+
     /**
 	 * 가입일
 	 */
@@ -149,12 +149,17 @@ public class UserManageVO extends UserDefaultVO{
 	private String sexdstnCode;
 	/**
 	 * 우편번호
-	 */	
+	 */
 	private String zip;
 	/**
 	 * DN 값
-	 */	
+	 */
 	private String subDn;
+
+	/**
+	 * 관리부두 코드
+	 */
+	private String quayGroupCd;
 	/**
 	 * @return the regUsr
 	 */
@@ -651,5 +656,17 @@ public class UserManageVO extends UserDefaultVO{
 	public void setSubDn(String subDn) {
 		this.subDn = subDn;
 	}
-	
+	/**
+	 * @return the quayGroupCd
+	 */
+	public String getQuayGroupCd() {
+		return quayGroupCd;
+	}
+	/**
+	 * @param quayGroupCd the quayGroupCd to set
+	 */
+	public void setQuayGroupCd(String quayGroupCd) {
+		this.quayGroupCd = quayGroupCd;
+	}
+
 }

@@ -145,14 +145,6 @@ public interface GamTrainPortRentMngtService {
 	 */
     GamTrainPortRentMngtVO selectTrainPortRentMngtPrmisnInfo(GamTrainPortRentMngtVO searchVO) throws Exception;
 
-    /**
-	 * 철송장임대 허가여부를 수정 및 징수의뢰를 등록한다.
-	 * @param vo GamTrainPortRentMngtLevReqestVO
-	 * @exception Exception
-	 */
-	void updateTrainPortRentMngtPrmisn(GamTrainPortRentMngtLevReqestVO vo) throws Exception;
-
-
 	/**
 	 * 철송장임대 허가여부를 취소한다.
 	 * @param vo GamTrainPortRentMngtVO

@@ -524,7 +524,7 @@ public class GamAssetUseExprInqireController {
     		}
 
     	} catch (Exception e) {
-    		e.printStackTrace();
+
     	}
     	log.debug("insert list : "+insertList.size());
     	log.debug("updateList list : "+updateList.size());

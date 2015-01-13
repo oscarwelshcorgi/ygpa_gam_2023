@@ -73,7 +73,6 @@ public class GamCarRefuelSttusMngVo extends ComDefaultVO{
 	private	String sFuelKnd4;			// 검색 연료 종류 4
 	private	String sFuelKnd5;			// 검색 연료 종류 5
 	private	String sFuelKnd6;			// 검색 연료 종류 6
-	private String check[];
 
 	/**
 	 * @return the sRefuelMt
@@ -87,18 +86,7 @@ public class GamCarRefuelSttusMngVo extends ComDefaultVO{
 	public void setsRefuelMt(String sRefuelMt) {
 		this.sRefuelMt = sRefuelMt;
 	}
-	/**
-	 * @return the check
-	 */
-	public String[] getCheck() {
-		return check;
-	}
-	/**
-	 * @param check the check to set
-	 */
-	public void setCheck(String[] check) {
-		this.check = check;
-	}
+
 	private	String	m1	;	//1월 주유
 	private	String	m2	;	//2월 주유
 	private	String	m3	;	//3월 주유
@@ -111,7 +99,6 @@ public class GamCarRefuelSttusMngVo extends ComDefaultVO{
 	private	String	m10	;	//10월 주유
 	private	String	m11	;	//11월 주유
 	private	String	m12	;	//12월 주유
-
 
 	/**
 	 * @return the m1

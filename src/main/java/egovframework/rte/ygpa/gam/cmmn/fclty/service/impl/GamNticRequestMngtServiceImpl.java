@@ -739,8 +739,14 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
         dlyTermMap = getDiffDates(searchMap);
         //dlyTermMap = p2FrgCmmService.getDiffDates(searchMap);
 
-        termMonth = (BigDecimal) dlyTermMap.get("diff_month");
-        termDay   = (BigDecimal) dlyTermMap.get("diff_day");
+        if(dlyTermMap!=null) {
+	        termMonth = (BigDecimal) dlyTermMap.get("diff_month");
+	        termDay   = (BigDecimal) dlyTermMap.get("diff_day");
+        }
+        else {
+        	termMonth = BigDecimal.ZERO;
+        	termDay = BigDecimal.ZERO;
+        }
 
         //if ( billDt.compareTo(p2FrgCmmService.getCalendarDate(p2CmmIPAService.REV_STD_DATE_20090801)) >= 0 ) {  //2009.08.01 이후
             //연체월, 일 수 재계산 ; 원고지납부기한과 연체고지일자 사이
@@ -749,8 +755,14 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
             //dlyTermMap = p2FrgCmmService.getDiffDates(searchMap);
             dlyTermMap = getDiffDates(searchMap);
 
-            termMonth = (BigDecimal) dlyTermMap.get("diff_month");
-            termDay   = (BigDecimal) dlyTermMap.get("diff_day");
+            if(dlyTermMap!=null) {
+	            termMonth = (BigDecimal) dlyTermMap.get("diff_month");
+	            termDay   = (BigDecimal) dlyTermMap.get("diff_day");
+            }
+            else {
+            	termMonth = BigDecimal.ZERO;
+            	termDay = BigDecimal.ZERO;
+            }
 
             //최대연체기간 확인
             /*if ( termMonth.compareTo(p2CmmIPAService.REV_MAX_MONTH) > 0
@@ -885,7 +897,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 		String dlySerNo = (String)vo.get("dlySerNo");
 
 		if(list==null || list.size()==0) {
-			processException("fail.nticArrg.cancel");
+			throw processException("fail.nticArrg.cancel");
 		}
 
 		map = (Map) list.get(0);

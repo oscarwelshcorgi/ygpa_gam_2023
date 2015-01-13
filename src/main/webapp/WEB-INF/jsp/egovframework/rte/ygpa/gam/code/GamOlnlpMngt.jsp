@@ -110,7 +110,6 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		}
 	});
 
-	// console.log("gamOlnlpLoad complete");
 
 /*
 	this.$("#olnlpInsertList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -138,6 +137,9 @@ GamOlnlpMngtModule.prototype.loadComplete = function() {
 		module.$("#olnlpSeq").val(row["olnlpSeq"]);			// 순번
 		module.$("#cmd").val("update");						// 저장 Flag
 	}); */
+
+	console.log("gamOlnlpLoad complete");
+
 };
 
 GamOlnlpMngtModule.prototype.applyOlnlp = function() {
@@ -224,12 +226,39 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		case 'insertExcel':
 			// console.log('excel');
+			/*
 			this.uploadXlsFile('xlsUpload', function(module, result) {
 				var searchOpt = module.makeFormArgs("#olnlpManageVO");
 				module.$('#olnlpInsertList').flexOptions({params:searchOpt}).flexReload();
 			}, '공시지가 엑셀파일 업로드', '/code/GamExcelOlnlpRegist.do');
+			*/
+			this.uploadFile();
 			break;
 	}
+};
+
+GamOlnlpMngtModule.prototype.uploadFile = function() {
+	var target_name='tmpOlnlpUpload';
+	$('body').append('<iframe src="javascript:false;" name="'+target_name+'" style="display:none;"></iframe>');
+	var iframe=$('#'+target_name);
+
+	iframe.append('<form id="tmpOlnlpUpload" method="post" action="'+"<c:url value='/code/GamExcelOlnlpRegist.do'/>"+'">'+
+			'<input type="text" name="type" value="genericFileMulti" size="60" />'+
+			'<input type="file" name="file[]" size="60" />'+
+			'</form>');
+
+	iframe.load(function() {
+        var doc = this.contentWindow ? this.contentWindow.document : (this.contentDocument ? this.contentDocument : this.document);
+        var root = doc.documentElement ? doc.documentElement : doc.body;
+        var result = root.textContent ? root.textContent : root.innerText;
+
+        callback(result);
+
+        // 전송처리 완료 후 생성했던 form, iframe 제거
+        form.remove();
+        iframe.remove();
+	});
+	$('#tmpOlnlpUpload').submit();
 };
 
 GamOlnlpMngtModule.prototype.saveOlnlp = function() {

@@ -149,14 +149,6 @@ public interface GamPrtFcltyRentMngtService {
 	 */
     GamPrtFcltyRentMngtVO selectPrtFcltyRentMngtPrmisnInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception;
 
-    /**
-	 * 항만시설사용 허가여부를 수정 및 징수의뢰를 등록한다.
-	 * @param vo GamPrtFcltyRentMngtLevReqestVO
-	 * @exception Exception
-	 */
-	void updatePrtFcltyRentMngtPrmisn(GamPrtFcltyRentMngtLevReqestVO vo) throws Exception;
-
-
 	/**
 	 * 항만시설사용 허가여부를 취소한다.
 	 * @param vo GamPrtFcltyRentMngtVO

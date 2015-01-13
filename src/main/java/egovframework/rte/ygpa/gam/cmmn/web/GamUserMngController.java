@@ -213,10 +213,10 @@ public class GamUserMngController {
 
 			//업무사용자 수정시 히스토리 정보를 등록한다.
 			userManageService.insertUserHistory(userManageUpdateVO);
-			if(userManageUpdateVO.getOrgnztId().equals("")){
+			if("".equals(userManageUpdateVO.getOrgnztId())) {
 				userManageUpdateVO.setOrgnztId(null);
 			}
-			if(userManageUpdateVO.getGroupId().equals("")){
+			if("".equals(userManageUpdateVO.getGroupId())){
 				userManageUpdateVO.setGroupId(null);
 			}
 			LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();

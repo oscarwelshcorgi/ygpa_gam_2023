@@ -216,7 +216,7 @@ public class GamFcltyDrwListMngtController {
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
+
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
@@ -252,7 +252,7 @@ public class GamFcltyDrwListMngtController {
 
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
+
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}

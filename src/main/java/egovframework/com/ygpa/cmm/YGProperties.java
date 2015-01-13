@@ -51,7 +51,7 @@ public class YGProperties {
 			try {
 				if (fis != null) fis.close();
 			} catch (Exception ex) {
-				ex.printStackTrace();
+
 			}
 			
 		}
@@ -82,7 +82,7 @@ public class YGProperties {
 			try {
 				if (fis != null) fis.close();
 			} catch (Exception ex) {
-				ex.printStackTrace();
+
 			}
 		}
 	}
@@ -122,12 +122,12 @@ public class YGProperties {
 				}
 			}
 		} catch (Exception ex){
-		    ex.printStackTrace();
+
 		} finally {
 			try {
 				if (fis != null) fis.close();
 			} catch (Exception ex) {
-				ex.printStackTrace();
+
 			}
 		}
 		
@@ -139,7 +139,7 @@ public class YGProperties {
 	 */	
 	private static void debug(Object obj) {
 		if (obj instanceof java.lang.Exception) {
-			((Exception)obj).printStackTrace();
+
 		}
 	}
 }

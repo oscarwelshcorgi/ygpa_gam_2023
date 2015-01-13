@@ -209,24 +209,31 @@ public class DrawingFileUpDownController {
 
 		File uFile = new File(uploadPath, requestedFile);
 		int fSize = (int) uFile.length();
+		BufferedInputStream in=null;
 
 		if (fSize > 0) {
+			try {
+				in = new BufferedInputStream(
+						new FileInputStream(uFile));
+				// String mimetype = servletContext.getMimeType(requestedFile);
+				String mimetype = "text/html";
 
-			BufferedInputStream in = new BufferedInputStream(
-					new FileInputStream(uFile));
-			// String mimetype = servletContext.getMimeType(requestedFile);
-			String mimetype = "text/html";
+				response.setBufferSize(fSize);
+				response.setContentType(mimetype);
+				response.setHeader("Content-Disposition", "attachment; filename=\""
+						+ downloadFileName + "\"");
+				response.setContentLength(fSize);
 
-			response.setBufferSize(fSize);
-			response.setContentType(mimetype);
-			response.setHeader("Content-Disposition", "attachment; filename=\""
-					+ downloadFileName + "\"");
-			response.setContentLength(fSize);
-
-			FileCopyUtils.copy(in, response.getOutputStream());
-			in.close();
-			response.getOutputStream().flush();
-			response.getOutputStream().close();
+				FileCopyUtils.copy(in, response.getOutputStream());
+				response.getOutputStream().flush();
+				response.getOutputStream().close();
+			}
+			catch(Exception e) {
+				LOG.error("drawing download error : "+e.getMessage());
+			}
+			finally {
+				if(in!=null) in.close();
+			}
 		} else {
 			//setContentType을 프로젝트 환경에 맞추어 변경
 			response.setContentType("application/x-msdownload");

@@ -145,14 +145,6 @@ public interface GamCntnrQuayRentMngtService {
 	 */
     GamCntnrQuayRentMngtVO selectCntnrQuayRentMngtPrmisnInfo(GamCntnrQuayRentMngtVO searchVO) throws Exception;
 
-    /**
-	 * 컨테이너부두임대 허가여부를 수정 및 징수의뢰를 등록한다.
-	 * @param vo GamCntnrQuayRentMngtLevReqestVO
-	 * @exception Exception
-	 */
-	void updateCntnrQuayRentMngtPrmisn(GamCntnrQuayRentMngtLevReqestVO vo) throws Exception;
-
-
 	/**
 	 * 컨테이너부두임대 허가여부를 취소한다.
 	 * @param vo GamCntnrQuayRentMngtVO

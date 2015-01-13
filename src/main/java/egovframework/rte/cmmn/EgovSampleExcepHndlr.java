@@ -52,7 +52,7 @@ public class EgovSampleExcepHndlr implements ExceptionHandler {
 		try {
 			log.debug(" EgovServiceExceptionHandler try ");
 		} catch (Exception e) {
-			e.printStackTrace();
+
 		}
     }
 

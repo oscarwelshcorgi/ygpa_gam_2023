@@ -134,7 +134,7 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
     			}
     		}
     	}catch (Exception e){
-    		e.printStackTrace();
+
     	}
 	}
 	
@@ -190,7 +190,7 @@ public class GamCmpyInfoMngtServiceImpl extends AbstractServiceImpl implements G
 				}
 			}
 		}catch (Exception e){
-			e.printStackTrace();
+
 		}
 	}
 	

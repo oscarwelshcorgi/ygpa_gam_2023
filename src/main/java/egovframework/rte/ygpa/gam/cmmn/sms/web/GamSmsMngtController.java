@@ -35,7 +35,7 @@ import egovframework.rte.ygpa.gam.cmmn.sms.service.GamSmsMngtVO;
  * @since 2014-04-15
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 
@@ -48,40 +48,40 @@ public class GamSmsMngtController {
 
     @Resource(name="gamSmsMngtService")
     private GamSmsMngtService gamSmsMngtService;
-    
+
     @Resource(name="gamSmsIdGnrService")
     private EgovIdGnrService gamSmsIdGnrService;
-    
+
     /** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
+
     /**
-     * SMS목록관리 화면을 로딩한다. 
+     * SMS목록관리 화면을 로딩한다.
      *
      * @param windowId
      * @param model the model
      * @return "/ygpa/gam/cmmn/sms/GamSendMesgListMngt"
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@RequestMapping(value="/cmmn/sms/GamSendMesgListMngt.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/cmmn/sms/GamSendMesgListMngt";
     }
-	
+
 	/**
-     * SMS 관리 목록을 조회한다. 
+     * SMS 관리 목록을 조회한다.
      *
      * @param searchVO
      * @return map
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@RequestMapping(value="/cmmn/sms/gamSelectSendMesgList.do", method=RequestMethod.POST)
     public @ResponseBody Map selectGamSendMesgList(GamSmsMngtVO searchVO) throws Exception {
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
-    	
+
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -91,7 +91,13 @@ public class GamSmsMngtController {
     	}
 
     	String sttus = searchVO.getTransmisSttus();
-    	String[] array = sttus.split(",");
+    	String[] array = null;
+    	if(sttus!=null) {
+    		array = sttus.split(",");
+    	}
+    	else {
+    		array = new String [0];
+    	}
 
     	String temp = null;
     	if(array.length - 1 > 0) {
@@ -99,22 +105,23 @@ public class GamSmsMngtController {
     		for(int i=0; i<array.length-1; i++) {
     			if(i != array.length - 2)
     				temp = temp + array[i] + ", ";
-    			else 
+    			else
     				temp = temp + array[i] + " )";
     		}
     	}
+    	else temp="";
     	searchVO.setTransmisSttus(temp);
-    	
-    	
+
+
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
-		
+
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
 		//목록
     	totalCnt = gamSmsMngtService.selectSmsMngtListTotCnt(searchVO);
 		List resultList = gamSmsMngtService.selectSmsMngtList(searchVO);
@@ -123,21 +130,21 @@ public class GamSmsMngtController {
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
- 
+
     	return map;
     }
-	
+
 	/**
-     * 재전송 데이터를 처리한다. 
+     * 재전송 데이터를 처리한다.
      *
      * @param createVO
      * @return map
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@RequestMapping(value="/cmmn/sms/smsRetransmit.do", method=RequestMethod.POST)
     public @ResponseBody Map smsRetransmit(GamSmsMngtVO createVO) throws Exception {
     	Map map = new HashMap();
-    	
+
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -147,12 +154,12 @@ public class GamSmsMngtController {
     	}
 
     	createVO.setNewSmsSeq(String.valueOf(gamSmsIdGnrService.getNextLongId()));
-    	
+
     	gamSmsMngtService.smsRetransmit(createVO);
-    	
+
     	map.put("resultCode", 0);	// return ok
-    	map.put("searchOption", createVO); 
+    	map.put("searchOption", createVO);
     	return map;
     }
-	
+
 }

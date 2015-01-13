@@ -213,7 +213,6 @@ public class GamFcltsClCdController {
 	        map.put("resultCode", 0);
     	} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
@@ -254,7 +253,6 @@ public class GamFcltsClCdController {
 	        map.put("resultCode", 0);
     	} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
@@ -296,7 +294,6 @@ public class GamFcltsClCdController {
 	        map.put("resultCode", 0);
     	} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}

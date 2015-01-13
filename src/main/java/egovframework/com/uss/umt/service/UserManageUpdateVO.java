@@ -9,7 +9,7 @@ package egovframework.com.uss.umt.service;
  *
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일      수정자           수정내용
  *  -------    --------    ---------------------------
  *   2009.04.10  장은성          최초 생성
@@ -17,7 +17,7 @@ package egovframework.com.uss.umt.service;
  * </pre>
  */
 public class UserManageUpdateVO extends UserDefaultVO{
-	
+
 	private String updUsr;
 
     /**
@@ -134,12 +134,17 @@ public class UserManageUpdateVO extends UserDefaultVO{
 	private String sexdstnCode;
 	/**
 	 * 우편번호
-	 */	
+	 */
 	private String zip;
 	/**
 	 * DN 값
-	 */	
+	 */
 	private String subDn;
+
+	/**
+	 * 관리 부두 코드
+	 */
+	private String quayGroupCd;
 	/**
 	 * @return the updUsr
 	 */
@@ -572,5 +577,17 @@ public class UserManageUpdateVO extends UserDefaultVO{
 	public void setSubDn(String subDn) {
 		this.subDn = subDn;
 	}
-	
+	/**
+	 * @return the quayGroupCd
+	 */
+	public String getQuayGroupCd() {
+		return quayGroupCd;
+	}
+	/**
+	 * @param quayGroupCd the quayGroupCd to set
+	 */
+	public void setQuayGroupCd(String quayGroupCd) {
+		this.quayGroupCd = quayGroupCd;
+	}
+
 }

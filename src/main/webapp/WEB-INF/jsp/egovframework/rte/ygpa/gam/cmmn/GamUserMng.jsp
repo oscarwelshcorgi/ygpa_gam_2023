@@ -378,8 +378,12 @@ var module_instance = new GamUserMngListModule();
 			            </tr>
 			            <tr>
 			                <th>사용자이름</th>
-			                <td colspan="3">
+			                <td>
 			                    <input id="emplyrNm" title="사용자이름" type="text" size="10" maxlength="60"  data-required="true" />
+			                </td>
+			                <th>관리부두</th>
+			                <td>
+			                    <input id="quayGroupCd" title="관리부두" class="ygpaCmmnCd" data-code-id="GAM063" type="text" size="10" data-default-prompt="없음" />
 			                </td>
 			            </tr>
 			            <tr>

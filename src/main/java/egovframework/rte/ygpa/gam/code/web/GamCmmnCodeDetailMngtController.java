@@ -210,7 +210,7 @@ public class GamCmmnCodeDetailMngtController {
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
+
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
@@ -260,7 +260,7 @@ public class GamCmmnCodeDetailMngtController {
 
 			} catch (Exception e) {
 				// TODO: handle exception
-				e.printStackTrace();
+
 
 				map.put("resultCode", 1);
     			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
@@ -328,7 +328,7 @@ public class GamCmmnCodeDetailMngtController {
     		map.put("resultCode", 0);			// return ok
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {
-			e.printStackTrace();
+
 			// TODO: handle exception
 			map.put("resultCode", 1);			// return ok
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));

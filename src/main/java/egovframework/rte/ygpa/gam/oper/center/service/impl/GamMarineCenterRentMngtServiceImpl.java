@@ -277,18 +277,7 @@ public class GamMarineCenterRentMngtServiceImpl  extends AbstractServiceImpl imp
 
 		log.debug("################################################ monthCnt => " + monthCnt);
 
-		if( vo.getNticMth().equals("1") ) {	// 일시납
-			startRetVal = new String[1];
-			endRetVal = new String[1];
-			dayCnt = new int[1];
-
-			startRetVal[0] = cStartDt;
-			endRetVal[0] = cEndDt;
-
-			try {
-				dayCnt[0] = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(endRetVal[0], 0, 0, 1)).getTime() - sdf.parse(startRetVal[0]).getTime()) / 1000 / 60 / 60 / 24); //기간에 해당하는 날짜수 가져오기
-			} catch (Exception e) {}
-		} else if( vo.getNticMth().equals("2") ) { // 반기납 [추후 협의후 재작업 (2014.02.04)]
+		if( vo.getNticMth().equals("2") ) { // 반기납 [추후 협의후 재작업 (2014.02.04)]
 			startRetVal = new String[2];
 			endRetVal = new String[2];
 			dayCnt = new int[2];
@@ -375,6 +364,18 @@ public class GamMarineCenterRentMngtServiceImpl  extends AbstractServiceImpl imp
 					dayCnt[i] = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(endRetVal[i], 0, 0, 1)).getTime() - sdf.parse(startRetVal[i]).getTime()) / 1000 / 60 / 60 / 24);
 				} catch (Exception e) {}
 			}
+		}
+	    else {	// 일시납
+			startRetVal = new String[1];
+			endRetVal = new String[1];
+			dayCnt = new int[1];
+
+			startRetVal[0] = cStartDt;
+			endRetVal[0] = cEndDt;
+
+			try {
+				dayCnt[0] = (int)((sdf.parse(EgovDateUtil.addYearMonthDay(endRetVal[0], 0, 0, 1)).getTime() - sdf.parse(startRetVal[0]).getTime()) / 1000 / 60 / 60 / 24); //기간에 해당하는 날짜수 가져오기
+			} catch (Exception e) {}
 		}
 
 		for( int i = 0; i < startRetVal.length; i++ ) {

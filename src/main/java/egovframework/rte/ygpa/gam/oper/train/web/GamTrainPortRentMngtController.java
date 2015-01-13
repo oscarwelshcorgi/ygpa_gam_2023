@@ -548,7 +548,7 @@ public class GamTrainPortRentMngtController {
         	resultMsg  = egovMessageSource.getMessage("success.common.merge");
 
     	} catch (Exception e) {
-    		e.printStackTrace();
+
 
     		resultCode = 1;
     		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
@@ -668,7 +668,7 @@ public class GamTrainPortRentMngtController {
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.reject");
 	    	}
         } catch(Exception e) {
-        	e.printStackTrace();
+
 
     		resultCode = 1;
     		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
@@ -782,7 +782,7 @@ public class GamTrainPortRentMngtController {
 	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.delete");
 	    	}
         } catch(Exception e) {
-        	e.printStackTrace();
+
 
     		resultCode = 1;
     		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
@@ -1025,188 +1025,6 @@ public class GamTrainPortRentMngtController {
 
     	return "/ygpa/gam/oper/train/GamPopupTrainPortRentMngtPrmisn";
     }
-
-    /**
-     * 철송장임대 승낙(허가)을 한다.
-     * @param gamTrainPortRentMngtVO
-     * @param bindingResult
-     * @return map
-     * @throws Exception
-     */
-    @RequestMapping(value="/oper/train/gamInsertTrainPortRentMngtPrmisn.do")
-    public @ResponseBody Map insertTrainPortRentMngtLevReqest(
-    	   @ModelAttribute("gamTrainPortRentMngtVO") GamTrainPortRentMngtVO gamTrainPortRentMngtVO,
-    	   BindingResult bindingResult)
-           throws Exception {
-
-    	Map map = new HashMap();
-        String resultMsg = "";
-        int resultCode = 1;
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-
-    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-
-        //승낙할 임대정보조회
-        GamTrainPortRentMngtVO rentPrmisnInfo = gamTrainPortRentMngtService.selectTrainPortRentMngtPrmisnInfo(gamTrainPortRentMngtVO);
-
-        //징수의뢰 테이블에 갯수 카운트 조회
-        int levReqestCnt = gamTrainPortRentMngtService.selectTrainPortRentMngtLevReqestCnt(gamTrainPortRentMngtVO);
-
-        if( "Y".equals(rentPrmisnInfo.getPrmisnYn()) ) {
-        	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject2")); //이미 승낙된 상태입니다.
-
-    		return map;
-        }
-
-        if( levReqestCnt > 0 ) {
-        	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject3")); //징수의뢰에 정보가 존재하여 승낙을 진행할 수 없습니다.
-
-    		return map;
-        }
-
-        if( EgovStringUtil.isEmpty(rentPrmisnInfo.getNticMth()) ) {
-        	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject1")); //고지방법코드가 없습니다.
-
-    		return map;
-        }
-
-        if( !"1".equals(rentPrmisnInfo.getNticMth()) && !"2".equals(rentPrmisnInfo.getNticMth()) && !"3".equals(rentPrmisnInfo.getNticMth()) && !"4".equals(rentPrmisnInfo.getNticMth()) && !"5".equals(rentPrmisnInfo.getNticMth())) {
-        	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject5")); // 고지방법코드가 올바르지 않습니다. ('1':일괄, '2':반기납, '3':3분납, '4':분기납, '5':월납)
-
-    		return map;
-        }
-
-        if( EgovStringUtil.isEmpty(rentPrmisnInfo.getGrUsagePdFrom()) || EgovStringUtil.isEmpty(rentPrmisnInfo.getGrUsagePdTo()) ) {
-        	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject4")); //총사용기간 일자가 없습니다.
-
-    		return map;
-        }
-
-        if( EgovStringUtil.isEmpty(rentPrmisnInfo.getGrFee()) ) {
-        	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject6")); //총사용료가 없습니다.
-
-    		return map;
-        }
-
-        if( EgovStringUtil.isEmpty(rentPrmisnInfo.getPayMth()) ) {
-        	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject10")); //납부방법 코드가 없습니다.
-
-    		return map;
-        }
-
-        if( !"Pre".equals( rentPrmisnInfo.getPayMth() ) && !"Aft".equals( rentPrmisnInfo.getPayMth() ) ) {
-        	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject9")); //납부방법 코드가 올바르지 않습니다.
-
-    		return map;
-        }
-
-        GamTrainPortRentMngtLevReqestVO levReqestInfo = new GamTrainPortRentMngtLevReqestVO();
-        levReqestInfo.setPrtAtCode( rentPrmisnInfo.getPrtAtCode() );
-        levReqestInfo.setMngYear( rentPrmisnInfo.getMngYear() );
-        levReqestInfo.setMngNo( rentPrmisnInfo.getMngNo() );
-        levReqestInfo.setMngCnt( rentPrmisnInfo.getMngCnt() );
-        levReqestInfo.setEntrpscd( rentPrmisnInfo.getEntrpscd() );
-        levReqestInfo.setEntrpsNm( rentPrmisnInfo.getEntrpsNm() );
-        levReqestInfo.setRm( rentPrmisnInfo.getRm() );
-        levReqestInfo.setNticMth( rentPrmisnInfo.getNticMth() );
-        levReqestInfo.setGrFee( rentPrmisnInfo.getGrFee() );
-        levReqestInfo.setGrUsagePdFrom( rentPrmisnInfo.getGrUsagePdFrom() ); //총사용기간 FROM
-        levReqestInfo.setGrUsagePdTo( rentPrmisnInfo.getGrUsagePdTo() ); //총사용기간 TO
-        levReqestInfo.setReqstSeCd( rentPrmisnInfo.getReqstSeCd() );
-		levReqestInfo.setChrgeKnd( gamTrainPortRentMngtVO.getChrgeKnd() );
-		levReqestInfo.setVatYn( gamTrainPortRentMngtVO.getVatYn() );
-		levReqestInfo.setPayMth( rentPrmisnInfo.getPayMth() );
-
-        levReqestInfo.setPrmisnYn("Y"); //허가여부
-        levReqestInfo.setRegUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
-        levReqestInfo.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
-
-        //임대정보의 허가여부를 Y로 업데이트 및 징수의뢰 insert
-        gamTrainPortRentMngtService.updateTrainPortRentMngtPrmisn(levReqestInfo);
-
-        resultCode = 0;
-		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec"); //승낙이 정상적으로 처리되었습니다.
-
-    	map.put("resultCode", resultCode);
-        map.put("resultMsg", resultMsg);
-
-		return map;
-    }
-
-    /**
-     * 철송장임대 승낙취소(허가취소)를 한다.
-     * @param gamTrainPortRentMngtVO
-     * @param bindingResult
-     * @return map
-     * @throws Exception
-     */
-    /*
-    @RequestMapping(value="/oper/train/gamUpdateTrainPortRentMngtPrmisnCancel.do")
-    public @ResponseBody Map updateTrainPortRentMngtPrmisnCancel(
-     	   @ModelAttribute("gamTrainPortRentMngtVO") GamTrainPortRentMngtVO gamTrainPortRentMngtVO,
-     	   BindingResult bindingResult)
-            throws Exception {
-
-     	 Map map = new HashMap();
-         String resultMsg = "";
-         int resultCode = 1;
-
-         //승낙할 임대정보조회
-         GamTrainPortRentMngtVO rentPrmisnInfo = gamTrainPortRentMngtService.selectTrainPortRentMngtPrmisnInfo(gamTrainPortRentMngtVO);
-
-         //징수의뢰 테이블에 갯수 카운트 조회
-         int levReqestCnt = gamTrainPortRentMngtService.selectTrainPortRentMngtLevReqestCnt(gamTrainPortRentMngtVO);
-
-         if( !"Y".equals(rentPrmisnInfo.getPrmisnYn()) ) {
-         	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject7")); //승낙된 상태가 아닙니다.
-
-     		return map;
-         }
-
-         if( levReqestCnt > 0 ) {
-         	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject8")); //징수의뢰에 정보가 존재하여 승낙을 취소 할 수 없습니다.
-
-     		return map;
-         }
-
-         GamTrainPortRentMngtLevReqestVO levReqestInfo = new GamTrainPortRentMngtLevReqestVO();
-         levReqestInfo.setPrtAtCode( rentPrmisnInfo.getPrtAtCode() );
-         levReqestInfo.setMngYear( rentPrmisnInfo.getMngYear() );
-         levReqestInfo.setMngNo( rentPrmisnInfo.getMngNo() );
-         levReqestInfo.setMngCnt( rentPrmisnInfo.getMngCnt() );
-
-         levReqestInfo.setPrmisnYn("N"); //허가여부
-         levReqestInfo.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
-         levReqestInfo.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
-
-         //임대정보의 허가여부를 N으로 업데이트
-         gamTrainPortRentMngtService.updateTrainPortRentMngtPrmisnCancel(levReqestInfo);
-
-         resultCode = 0;
- 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.execCancel"); //승낙이 정상적으로 취소되었습니다.
-
-     	 map.put("resultCode", resultCode);
-         map.put("resultMsg", resultMsg);
-
- 		return map;
-     }
-	*/
 
     /**
      * 철송장임대 승낙을 한다.

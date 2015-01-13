@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.code.web;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +42,7 @@ import egovframework.com.sym.ccm.zip.service.ZipVO;
 import egovframework.rte.fdl.excel.EgovExcelService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.util.fileupload.multi.service.FileInfoVO;
 import egovframework.rte.ygpa.gam.code.service.GamOlnlpFVO;
 import egovframework.rte.ygpa.gam.code.service.GamOlnlpMngtService;
 import egovframework.rte.ygpa.gam.code.service.GisAssetsCodeVO;
@@ -229,7 +233,7 @@ public class GamOlnlpMngtController {
 				map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 			} catch (Exception e) {
 				// TODO: handle exception
-				e.printStackTrace();
+
 				map.put("resultCode", 1);
 				map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 			}
@@ -274,7 +278,7 @@ public class GamOlnlpMngtController {
 				map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 			} catch (Exception e) {
 				// TODO: handle exception
-				e.printStackTrace();
+
 				map.put("resultCode", 1);
 				map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 			}
@@ -310,7 +314,7 @@ public class GamOlnlpMngtController {
 
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
+
 	        map.put("resultCode", 1);
 	        map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
@@ -443,4 +447,150 @@ public class GamOlnlpMngtController {
         return map;
 	}
 
+	@RequestMapping(value = "/code/GamExcelOlnlpRegist2.do")
+	@ResponseBody Map<String, Object> insertExcelZip(final HttpServletRequest request, Model model) throws Exception {
+		final long startTime = System.nanoTime();
+
+		Map map = new HashMap<String, Object>();
+
+		/*
+		 * validate request type
+		 */
+		Assert.state(request instanceof MultipartHttpServletRequest,
+				"request !instanceof MultipartHttpServletRequest");
+		final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+
+		Assert.state(request.getParameter("type").equals("genericFileMulti"),
+				"type != genericFileMulti");
+
+		final Map<String, MultipartFile> files = multiRequest.getFileMap();
+		Assert.notNull(files, "files is null");
+		Assert.state(files.size() > 0, "0 files exist");
+
+		Iterator<Entry<String, MultipartFile>> itr = files.entrySet()
+				.iterator();
+		MultipartFile file;
+		int recCount=0;
+
+		InputStream fis = null; // 2011.11.1 보안점검 후속조치
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+		while (itr.hasNext()) {
+			Entry<String, MultipartFile> entry = itr.next();
+			System.out.println("[" + entry.getKey() + "]");
+
+			file = entry.getValue();
+			if (!"".equals(file.getOriginalFilename())) {
+				if (file.getOriginalFilename().endsWith(".xls")
+						|| file.getOriginalFilename().endsWith(".xlsx")
+						|| file.getOriginalFilename().endsWith(".XLS")
+						|| file.getOriginalFilename().endsWith(".XLSX")) {
+					try {
+						fis = file.getInputStream();
+
+//						gamOlnlpMngtService.deleteOlnlpBJD();
+
+						recCount = excelOlnlpService.uploadExcel("gamOlnlpMngtDao.insertGamBupjungdongOlnlp_S", fis, 1, (long) 5000);
+
+						gamOlnlpMngtService.createOlnlpFromBJD();
+					}
+					catch(Exception e) {
+						log.error("file input error");
+						throw e;
+					}
+					finally {
+						if (fis != null)	// 2011.11.1 보안점검 후속조치
+							fis.close();
+					}
+
+//				filePath = uploadPath + "\\" + file.getOriginalFilename();
+//				file.transferTo(new File(filePath));
+//
+//				FileInfoVO fileInfoVO = new FileInfoVO();
+//				fileInfoVO.setFilePath(filePath);
+//				fileInfoVO.setFileName(file.getOriginalFilename());
+//				fileInfoVO.setFileSize(file.getSize());
+//				fileInfoList.add(fileInfoVO);
+				}
+				else {
+					log.info("xls, xlsx 파일 타입만 등록이 가능합니다.");
+			        map.put("resultCode", 3);
+			        map.put("resultMsg", "xls, xlsx 파일 타입만 등록이 가능합니다.");
+			        return map;
+				}
+			}
+		}
+
+        map.put("resultCode", 0);
+        map.put("resultInsertRecord", 0);
+        map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+
+		final long estimatedTime = System.nanoTime() - startTime;
+		System.out.println(estimatedTime + " " + getClass().getSimpleName());
+
+		return map;
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//    	Map<String, Object> map = new HashMap<String, Object>();
+//
+//
+//    	final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+//		final Map<String, MultipartFile> files = multiRequest.getFileMap();
+//		InputStream fis = null; // 2011.11.1 보안점검 후속조치
+//
+//    	String sResult = "";
+//
+//		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
+//		MultipartFile file;
+//
+//		while (itr.hasNext()) {
+//			Entry<String, MultipartFile> entry = itr.next();
+//
+//			file = entry.getValue();
+//			if (!"".equals(file.getOriginalFilename())) {
+//				if (file.getOriginalFilename().endsWith(".xls")
+//						|| file.getOriginalFilename().endsWith(".xlsx")
+//						|| file.getOriginalFilename().endsWith(".XLS")
+//						|| file.getOriginalFilename().endsWith(".XLSX")) {
+//
+//					try {
+//						fis = file.getInputStream();
+////						gamOlnlpMngtService.deleteOlnlpBJD();
+//
+//						excelOlnlpService.uploadExcel("gamOlnlpMngtDao.insertGamBupjungdongOlnlp_S", fis, 1, (long) 5000);
+//
+//						gamOlnlpMngtService.createOlnlpFromBJD();
+//					} catch(Exception e) {
+//						throw e;
+//					} finally {
+//						if (fis != null)	// 2011.11.1 보안점검 후속조치
+//							fis.close();
+//					}
+//
+//				}else{
+//					log.info("xls, xlsx 파일 타입만 등록이 가능합니다.");
+//			        map.put("resultCode", 3);
+//			        map.put("resultMsg", "xls, xlsx 파일 타입만 등록이 가능합니다.");
+//			        return map;
+//				}
+//				// *********** 끝 ***********
+//
+//			}
+//		}
+//        map.put("resultCode", 0);
+//        map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+//        return map;
+	}
 }

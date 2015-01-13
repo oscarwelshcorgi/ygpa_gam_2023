@@ -4,6 +4,8 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -211,34 +213,41 @@ public class GenericFileUpDownloadController {
 
 		File uFile = new File(uploadPath, requestedFile);
 		int fSize = (int) uFile.length();
+		BufferedInputStream in = null;
 
 		if (fSize > 0) {
+			try {
+				in = new BufferedInputStream(
+						new FileInputStream(uFile));
+				// String mimetype = servletContext.getMimeType(requestedFile);
+				String mimetype = "text/html";
+				String downName=null;
 
-			BufferedInputStream in = new BufferedInputStream(
-					new FileInputStream(uFile));
-			// String mimetype = servletContext.getMimeType(requestedFile);
-			String mimetype = "text/html";
-			String downName=null;
+		       	 String browser = request.getHeader("User-Agent");
+		    	 if(browser.contains("MSIE") || browser.contains("Trident") || browser.contains("Chrome")){
+			    		 downName = URLEncoder.encode(downloadFileName,"UTF-8").replaceAll("\\+", "%20");
+			    		 LOG.debug("$$$ FileDownload from Chrome or msie executed, filename = "+ downName);
+		       	 } else {
+			       		 downName = new String(downloadFileName.getBytes("UTF-8"), "ISO-8859-1");
+			    		 LOG.debug("$$$ FileDownload from Other Browser executed, filename = "+ downName);
+		       	 }
 
-	       	 String browser = request.getHeader("User-Agent");
-	    	 if(browser.contains("MSIE") || browser.contains("Trident") || browser.contains("Chrome")){
-		    		 downName = URLEncoder.encode(downloadFileName,"UTF-8").replaceAll("\\+", "%20");
-		    		 LOG.debug("$$$ FileDownload from Chrome or msie executed, filename = "+ downName);
-	       	 } else {
-		       		 downName = new String(downloadFileName.getBytes("UTF-8"), "ISO-8859-1");
-		    		 LOG.debug("$$$ FileDownload from Other Browser executed, filename = "+ downName);
-	       	 }
+				response.setBufferSize(fSize);
+				response.setContentType(mimetype);
+				response.setHeader("Content-Disposition", "attachment; filename=\""
+						+ downName + "\"");
+				response.setContentLength(fSize);
 
-			response.setBufferSize(fSize);
-			response.setContentType(mimetype);
-			response.setHeader("Content-Disposition", "attachment; filename=\""
-					+ downName + "\"");
-			response.setContentLength(fSize);
-
-			FileCopyUtils.copy(in, response.getOutputStream());
-			in.close();
-			response.getOutputStream().flush();
-			response.getOutputStream().close();
+				FileCopyUtils.copy(in, response.getOutputStream());
+				response.getOutputStream().flush();
+				response.getOutputStream().close();
+			}
+			catch(Exception e) {
+				LOG.error("download file error : "+e.getMessage());
+			}
+			finally {
+				if(in!=null) in.close();
+			}
 		} else {
 			//setContentType을 프로젝트 환경에 맞추어 변경
 			response.setContentType("application/x-msdownload");
@@ -320,7 +329,14 @@ public class GenericFileUpDownloadController {
 			response.getOutputStream().close();
 
 			// 2011.10.10 보안점검 후속조치 끝
-		} finally {
+		}
+		catch(FileNotFoundException e) {
+			LOG.error("file not found : "+ e.getMessage());
+		}
+		catch(IOException e) {
+			LOG.error("I/O Error : "+ e.getMessage());
+		}
+		finally {
 			if (bStream != null) {
 				try {
 					bStream.close();
