@@ -312,6 +312,10 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 		event.data.module.getSearchEntrpsNm();
 	});
 
+	this.$("#registEntrpsCd").bind("keyup change", {module: this}, function(event) {
+		event.data.module.getRegistEntrpsNm();
+	});
+
 	var year = new Date().getFullYear();
 	this.$('#sStartCtrtDt').val(year + '-01-01');
 	this.$('#sEndCtrtDt').val(year + '-12-31');
@@ -2627,7 +2631,7 @@ GamFcltyCtrtMngModule.prototype.getSearchEntrpsNm = function() {
 		var searchVO = { 'sEntrpscd':sEntrpscd };
 		this.doAction('/ctrt/gamSelectFcltyCtrtSttusInqireEntrpsNm.do', searchVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module.$('#sEntrpsNm').val(result.sEntrpsNm);
+				module.$('#sEntrpsNm').val(result.entrpsNm);
 			}
 		});
 	} else {
