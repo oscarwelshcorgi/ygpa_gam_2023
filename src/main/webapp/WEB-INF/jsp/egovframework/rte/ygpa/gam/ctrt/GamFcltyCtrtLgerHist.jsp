@@ -1178,6 +1178,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 							</tr>
 						</table>
 					</form>
+					<!--
 					<table style="width:100%;">
 						<tr>
 							<td style="text-align:right;">
@@ -1185,6 +1186,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 							</td>
 						</tr>
 					</table>
+					 -->
 				</div>
 			</div>
 			<!-- 214. TAB 3 AREA (JOIN) -->
