@@ -224,7 +224,7 @@ GamFcltsClCdMngModule.prototype.onButtonClick = function(buttonId) {
 				'sFcltsJobSe':fcltsJobSe,
 				'sDepthSort':depthSort
             };
-			this.doExecuteDialog('popupFcltsClUpperCd', '시설물 분류 상위 선택', '/popup/showFcltsClCdPopup.do', null, searchOpts);
+			this.doExecuteDialog('popupFcltsClUpperCd', '시설물 분류 상위 선택', '/popup/showFcltsClCd.do', null, searchOpts);
 			break;
 	}
 

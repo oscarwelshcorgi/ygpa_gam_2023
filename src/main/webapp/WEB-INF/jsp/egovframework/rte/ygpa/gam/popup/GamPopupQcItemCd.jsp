@@ -180,7 +180,7 @@ var popup_instance = new GamPopupQcItemCdModule();
 						<th>업무 구분</th>
 						<td>
 							<select id="sFcltsJobSe">
-								<option value="" selected>전체</option>
+								<option value="" selected>전체시설</option>
 								<option value="A">건축시설</option>
 								<option value="C">토목시설</option>
 								<option value="M">기계시설</option>
