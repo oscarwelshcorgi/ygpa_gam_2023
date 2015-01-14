@@ -594,7 +594,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
-							<td colspan="5">
+							<td colspan="3">
 								<input type="text" size="20" id="fcltsMngGroupNo" disabled="disabled"/>
 								<input type="text" size="50" id="fcltsMngGroupNoNm" disabled="disabled"/>
 								<button id="popupSearchFcltsMngGroupNo2" class="popupButton">선택</button>
@@ -632,7 +632,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						</tr>
 						 <tr>	
 							<th width="12%" height="17">구　조　　　형　식</th>
-							<td colspan="5"><input id="strctFmt" type="text" size="123"  /></td>
+							<td colspan="3"><input id="strctFmt" type="text" size="130"  /></td>
 						 </tr>
 						 <tr>
 							<th width="12%" height="17">상　　　치　　　폭</th>
@@ -654,11 +654,11 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						</tr>
 						<tr>	
 							<th width="12%" height="17"  >기초　 저면 　토질</th>
-							<td colspan="5"><input id="baseBttmSoil" type="text" size="123" maxlength="150" /></td>
+							<td colspan="3"><input id="baseBttmSoil" type="text" size="130" maxlength="150" /></td>
 						</tr>
 						<tr>	
 							<th width="12%" height="17" >취　급　　　화　물</th>
-							<td colspan="5"><input id="hndlFrght" type="text" size="123" maxlength="100" /></td>
+							<td colspan="3"><input id="hndlFrght" type="text" size="130" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" >말　뚝　　　구　경</th>
@@ -674,7 +674,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" >널　말　뚝　규　격</th>
-							<td colspan="5"><input id="sheetFileStndrd" type="text" size="123" maxlength="100" /></td>
+							<td colspan="3"><input id="sheetFileStndrd" type="text" size="130" maxlength="100" /></td>
 						</tr>
 						<tr>	
 							<th width="12%" height="17" >소　화　전　수　량</th>
@@ -696,7 +696,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" >방　충　재　형　식</th>
-							<td colspan="5"><input id="fenderFmt" type="text" size="43" maxlength="3" /></td>
+							<td colspan="3"><input id="fenderFmt" type="text" size="43" maxlength="3" /></td>
 						</tr>
 						
 						<tr>
@@ -707,16 +707,16 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						</tr>
 						<tr>	
 							<th width="12%" height="17" >계　선　주　규　격1</th>
-							<td colspan="5"><input id="mrpostStndrd1" type="text" size="123" maxlength="100" /></td>
+							<td colspan="3"><input id="mrpostStndrd1" type="text" size="130" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" >계　선　주　규　격2</th>
-							<td colspan="5"><input id="mrpostStndrd2" type="text" size="123" maxlength="100" /></td>
+							<td colspan="3"><input id="mrpostStndrd2" type="text" size="130" maxlength="100" /></td>
 						</tr>
 						<tr>	
 				    		<th width="12%" height="17">계선주　배치　간격1</th>
 							<td><input id="mrpostPmntItv1" type="text" size="43" maxlength="30" /></td>
-							<th width="12%" height="17" >계선주　배치 간격2</th>
+							<th width="12%" height="17" >계선주　배치 간격　2</th>
 							<td><input id="mrpostPmntItv2" type="text" size="43" maxlength="30" /></td>
 						</tr>
 						<tr>	
@@ -726,23 +726,23 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							<td><input id="mrpostPwr2" type="text" size="43" maxlength="30" /></td>
 						</tr>
 							<th width="12%" height="17" >주요 　취급　 화물</th>
-							<td colspan="5"><input id="stplHndlFrght" type="text" size="123" maxlength="300" /></td>
+							<td colspan="3"><input id="stplHndlFrght" type="text" size="130" maxlength="300" /></td>
 						</tr>
 						<tr>	
 							<th width="12%" height="17" >주요　 계류　 선박</th>
-							<td colspan="5"><input id="stplMoorShip" type="text" size="123" maxlength="300" /></td>
+							<td colspan="3"><input id="stplMoorShip" type="text" size="130" maxlength="300" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" >소　　　재　　　　지</th>
-							<td colspan="5"><input id="loc" type="text" size="123" maxlength="150" /></td>
+							<td colspan="3"><input id="loc" type="text" size="130" maxlength="150" /></td>
 						</tr>
 						<tr>	
 							<th width="12%" height="17" >시작점　　　　위치</th>
-							<td colspan="5"><input id="beginPtLoc" type="text" size="123" maxlength="100" /></td>
+							<td colspan="3"><input id="beginPtLoc" type="text" size="130" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" >종착점　　　　위치</th>
-							<td colspan="5"><input id="endPtLoc" type="text" size="123" maxlength="100" /></td>
+							<td colspan="3"><input id="endPtLoc" type="text" size="130" maxlength="100" /></td>
 						</tr>
 						<tr>	
 							<th width="12%" height="17" >　　　　폭</th>
@@ -758,11 +758,11 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						</tr>
 						<tr>	
 							<th width="12%" height="17" >파　랑　주　방　향</th>
-							<td colspan="5"><input id="wavemainDir" type="text" size="43" maxlength="30" /></td>
+							<td colspan="3"><input id="wavemainDir" type="text" size="43" maxlength="30" /></td>
 						</tr>
 						<tr>
 						<th width="12%" height="17" >토목시설물분류코드</th>
-							<td colspan="5">
+							<td colspan="3">
 								<input id="cvlEngFcltsClCd" type="text" size="20" ="" />
 								<input id="cvlEngFcltsClCdNm" type="text" size="50" ="" />
 							<button id="popupSearchFcltsClCd" class="popupButton">선택</button>
