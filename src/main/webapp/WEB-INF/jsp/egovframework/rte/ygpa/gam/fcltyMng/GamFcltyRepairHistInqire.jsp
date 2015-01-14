@@ -141,7 +141,7 @@ GamFcltyRepairHistInqireModule.prototype.onTabChange = function(newTabId, oldTab
 
 	switch(buttonId) {
 		case "btnSearchFcltsMngNo":
-			this.doExecuteDialog("selectFcltsMngNo", "시설물 관리 그룹 번호", '/popup/showFcltsMngNo.do', {}, {});
+			this.doExecuteDialog("selectFcltsMngNo", "하자보수 시설명", '/popup/showFcltsMngNo.do', {}, {});
 		break;
 
 	}

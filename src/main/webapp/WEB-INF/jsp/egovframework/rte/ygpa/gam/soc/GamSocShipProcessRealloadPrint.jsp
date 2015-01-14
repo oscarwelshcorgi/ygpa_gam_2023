@@ -63,8 +63,8 @@
 	<c:if test="${fn:length(resultList) == 0}">
 		<table style="width:100%;">
 			<tr height="15">
-				<td style="width:40px;font-size:12px;">관할청 : </td>
-				<td style="width:380px;text-align:left;font-size:12px;"><c:out value="${prtAtCode }" /> [ <c:out value="${prtKorNm }" /> ]</td>
+				<td style="width:50px;font-size:12px;">관할청 : </td>
+				<td style="width:350px;text-align:left;font-size:12px;"><c:out value="${prtAtCode }" /> [ <c:out value="${prtKorNm }" /> ]</td>
 				<td style="text-align:right;font-size:12px;">고지기간 : <c:out value="${frDt }" /> ~ <c:out value="${toDt }" /></td>
 			</tr>
 		</table>
@@ -120,8 +120,8 @@
         				<c:set var="preFeeTp" value='${result.feeTp}'/>
         				<table style="width:100%;">
 							<tr height="15">
-								<td style="width:40px;font-size:12px;">관할청 : </td>
-								<td style="width:380px;text-align:left;font-size:12px;"><c:out value="${prtAtCode }" /> [ <c:out value="${prtKorNm }" /> ]</td>
+								<td style="width:50px;font-size:12px;">관할청 : </td>
+								<td style="width:350px;text-align:left;font-size:12px;"><c:out value="${prtAtCode }" /> [ <c:out value="${prtKorNm }" /> ]</td>
 								<td style="text-align:right;font-size:12px;">고지기간 : <c:out value="${frDt }" /> ~ <c:out value="${toDt }" /></td>
 							</tr>
 						</table>
