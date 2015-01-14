@@ -56,10 +56,10 @@ GamConstFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		dataType: "json",
 		colModel : [
 					{display:"항분류",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
-					{display:"자산명",		name:"gisAssetsNm",			width:180,		sortable:false,		align:"left"},
+					{display:"자산명",		name:"gisAssetsNm",			width:200,		sortable:false,		align:"left"},
 					{display:"시설명",		name:"prtFcltyNm",			width:200,		sortable:false,		align:"left"},
-					{display:"소재지",		name:"loc",					width:170,		sortable:false,		align:"left"},
-					{display:"시설물관리그룹",	name:"fcltsMngGroupNoNm",	width:150,		sortable:false,		align:"left"},
+					{display:"소재지",		name:"loc",					width:180,		sortable:false,		align:"left"},
+					{display:"시설물관리그룹",	name:"fcltsMngGroupNoNm",	width:120,		sortable:false,		align:"left"},
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:80,		sortable:false,		align:"center"},
 					{display:"준공일자",		name:"bldDt",				width:80,		sortable:false,		align:"center"}
 			],
