@@ -18,7 +18,7 @@
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamGisAssetCodeDao_SQL_oracle.xml"/>
     <sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamGisAssetPhotoDao_SQL_oracle.xml"/>
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamFcltsClCdDao_SQL_oracle.xml" />
-	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamFcltsMngGroupDao_SQL_oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamFcltsClCdMngDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamFcltsMngGroupMngDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/code/GamQcItemCdMngDao_SQL_oracle.xml" />
 

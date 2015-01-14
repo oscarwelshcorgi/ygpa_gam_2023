@@ -60,7 +60,7 @@ public class GamQcItemCdMngDao extends YGPAAbstractDAO {
 	 * @return
 	 */
 	public String selectQcItemCdMngNewQcItemCd(GamQcItemCdMngVo gamQcItemCdMngVo) {
-		return (String)getSqlMapClientTemplate().queryForObject("gamQcItemCdMngDao.selectQcItemCdMngNewQcItemCd_S", gamQcItemCdMngVo);
+		return (String)selectByPk("gamQcItemCdMngDao.selectQcItemCdMngNewQcItemCd_S", gamQcItemCdMngVo);
 	}
 
 	/**

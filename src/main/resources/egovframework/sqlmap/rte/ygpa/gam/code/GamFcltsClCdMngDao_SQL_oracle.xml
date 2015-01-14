@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!-- SQL MAP 정의 -->
+<sqlMap namespace="ygpa.gam.code">
+	<!-- TYPE ALIAS 정의 -->
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamFcltsClCdMngVO" type="egovframework.rte.ygpa.gam.code.service.GamFcltsClCdMngVO"/>
+	<!-- RESULT MAP 정의 -->
+	<resultMap id="gamFcltsClCdMngSumMap" class="gamFcltsClCdMngVO">
+		<result property="totalCount" column="TOTAL_COUNT" columnIndex="1"/>
+	</resultMap>
+
+	<select id="gamFcltsClCdMngDao.selectFcltsClCdMngList_D" parameterClass="gamFcltsClCdMngVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.FCLTS_CL_CD AS FCLTS_CL_CD
+								,T1.FCLTS_CL_CD_NM AS FCLTS_CL_CD_NM
+								,T1.FCLTS_CL_UPPER_CD AS FCLTS_CL_UPPER_CD
+								,(CASE WHEN T1.FCLTS_CL_UPPER_CD = '000000000' THEN '시설물 분류 메인' ELSE T2.FCLTS_CL_CD_NM END) AS FCLTS_CL_UPPER_NM
+								,TO_CHAR(T1.DEPTH_SORT) AS DEPTH_SORT
+								,T1.FCLTS_JOB_SE
+								,GAM_GET_FCLTS_JOB_SE_NM(T1.FCLTS_JOB_SE) AS FCLTS_JOB_SE_NM
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,T1.LEAF_YN AS LEAF_YN
+							FROM FCLTS_CL_CD_F T1
+							LEFT OUTER JOIN FCLTS_CL_CD_F T2 ON (T1.FCLTS_CL_UPPER_CD=T2.FCLTS_CL_CD)
+						WHERE 1=1
+
+						<isNotEmpty property="sFcltsClCd">
+						AND T1.FCLTS_CL_CD = #sFcltsClCd#
+						</isNotEmpty>
+
+						<isNotEmpty property="sFcltsClCdNm">
+						AND T1.FCLTS_CL_CD_NM LIKE '%' || #sFcltsClCdNm# || '%'
+						</isNotEmpty>
+
+						<isNotEmpty property="sFcltsJobSe">
+						AND T1.FCLTS_JOB_SE = #sFcltsJobSe#
+						</isNotEmpty>
+
+						<isNotEmpty property="sDepthSort">
+						AND T1.DEPTH_SORT = NVL(TO_NUMBER(REPLACE(#sDepthSort#,',','')),0)
+						</isNotEmpty>
+
+						<isNotEmpty property="sLeafYn">
+						AND T1.LEAF_YN = #sLeafYn#
+						</isNotEmpty>
+
+						ORDER BY T1.FCLTS_CL_CD ASC
+								,T1.DEPTH_SORT ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<insert id="gamFcltsClCdMngDao.insertFcltsClCdMng_S" parameterClass="gamFcltsClCdMngVO">
+		INSERT INTO FCLTS_CL_CD_F
+		(
+			 FCLTS_CL_CD
+			,FCLTS_CL_CD_NM
+			,FCLTS_CL_UPPER_CD
+			,DEPTH_SORT
+			,FCLTS_JOB_SE
+			,REG_USR
+			,REGIST_DT
+			,LEAF_YN
+		)
+		VALUES
+		(
+			 #fcltsClCd#
+			,#fcltsClCdNm#
+			,#fcltsClUpperCd#
+			,NVL(TO_NUMBER(REPLACE(#depthSort#,',','')),0)
+			,#fcltsJobSe#
+			,#regUsr#
+			,SYSDATE
+			,#leafYn#
+		)
+	</insert>
+
+	<update id="gamFcltsClCdMngDao.updateFcltsClCdMng_S" parameterClass="gamFcltsClCdMngVO">
+		UPDATE FCLTS_CL_CD_F SET
+			 FCLTS_CL_CD_NM = #fcltsClCdNm#
+			,FCLTS_CL_UPPER_CD = #fcltsClUpperCd#
+			,DEPTH_SORT = NVL(TO_NUMBER(REPLACE(#depthSort#,',','')),0)
+			,FCLTS_JOB_SE = #fcltsJobSe#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+			,LEAF_YN = #leafYn#
+		WHERE FCLTS_CL_CD = #fcltsClCd#
+	</update>
+
+	<delete id="gamFcltsClCdMngDao.deleteFcltsClCdMng_S" parameterClass="gamFcltsClCdMngVO">
+		DELETE FROM FCLTS_CL_CD_F
+		WHERE FCLTS_CL_CD = #fcltsClCd#
+	</delete>
+
+	<select id="gamFcltsClCdMngDao.selectFcltsClCdMngListSum_S" parameterClass="gamFcltsClCdMngVO" resultMap="gamFcltsClCdMngSumMap">
+		SELECT
+				 TO_CHAR(NVL(COUNT(*),0),'999,999,999,999,999') AS TOTAL_COUNT
+			FROM FCLTS_CL_CD_F T1
+		WHERE 1=1
+
+		<isNotEmpty property="sFcltsClCd">
+		AND T1.FCLTS_CL_CD = #sFcltsClCd#
+		</isNotEmpty>
+
+		<isNotEmpty property="sFcltsClCdNm">
+		AND T1.FCLTS_CL_CD_NM LIKE '%' || #sFcltsClCdNm# || '%'
+		</isNotEmpty>
+
+		<isNotEmpty property="sFcltsJobSe">
+		AND T1.FCLTS_JOB_SE = #sFcltsJobSe#
+		</isNotEmpty>
+
+		<isNotEmpty property="sDepthSort">
+		AND T1.DEPTH_SORT = NVL(TO_NUMBER(REPLACE(#sDepthSort#,',','')),0)
+		</isNotEmpty>
+
+		<isNotEmpty property="sLeafYn">
+		AND T1.LEAF_YN = #sLeafYn#
+		</isNotEmpty>
+
+	</select>
+
+	<select id="gamFcltsClCdMngDao.selectFcltsClCdMngPk_S" parameterClass="gamFcltsClCdMngVO" resultClass="egovMap">
+		SELECT
+				 T1.FCLTS_CL_CD AS FCLTS_CL_CD
+				,T1.FCLTS_CL_CD_NM AS FCLTS_CL_CD_NM
+				,T1.FCLTS_CL_UPPER_CD AS FCLTS_CL_UPPER_CD
+				,(CASE WHEN T1.FCLTS_CL_UPPER_CD = '000000000' THEN '시설물 분류 메인' ELSE T2.FCLTS_CL_CD_NM END) AS FCLTS_CL_UPPER_NM
+				,TO_CHAR(T1.DEPTH_SORT) AS DEPTH_SORT
+				,T1.FCLTS_JOB_SE
+				,GAM_GET_FCLTS_JOB_SE_NM(T1.FCLTS_JOB_SE) AS FCLTS_JOB_SE_NM
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,T1.LEAF_YN AS LEAF_YN
+			FROM FCLTS_CL_CD_F T1
+			LEFT OUTER JOIN FCLTS_CL_CD_F T2 ON (T1.FCLTS_CL_UPPER_CD=T2.FCLTS_CL_CD)
+		WHERE T1.FCLTS_CL_CD = #fcltsClCd#
+	</select>
+
+	<select id="gamFcltsClCdMngDao.selectFcltsClCdMngNewCd_S" parameterClass="gamFcltsClCdMngVO" resultClass="java.lang.String">
+		SELECT
+				<isEqual property="depthSort" compareValue="1">
+				 (CASE WHEN COUNT(*) = 0 THEN NVL(MAX(#fcltsJobSe# || '000000000'),#fcltsJobSe# || '000000000') ELSE '!000000000' END) AS NEW_CD
+				</isEqual>
+
+				<isEqual property="depthSort" compareValue="2">
+				 #fcltsJobSe# || LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(SUBSTRB(FCLTS_CL_CD,2,2))),0)+1,'00')) || '0000000' AS NEW_CD
+				</isEqual>
+
+				<isEqual property="depthSort" compareValue="3">
+				 #fcltsJobSe# || SUBSTRB(#fcltsClUpperCd#,2,2) || LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(SUBSTRB(FCLTS_CL_CD,4,2))),0)+1,'00')) || '00000' AS NEW_CD
+				</isEqual>
+
+				<isEqual property="depthSort" compareValue="4">
+				 #fcltsJobSe# || SUBSTRB(#fcltsClUpperCd#,2,4) || LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(SUBSTRB(FCLTS_CL_CD,6,2))),0)+1,'00')) || '000' AS NEW_CD
+				</isEqual>
+
+				<isEqual property="depthSort" compareValue="5">
+				 #fcltsJobSe# || SUBSTRB(#fcltsClUpperCd#,2,6) || LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(SUBSTRB(FCLTS_CL_CD,8,2))),0)+1,'00')) || '0' AS NEW_CD
+				</isEqual>
+
+			FROM FCLTS_CL_CD_F
+		WHERE FCLTS_JOB_SE = #fcltsJobSe#
+		AND DEPTH_SORT = TO_NUMBER(#depthSort#)
+
+		<isEqual property="depthSort" compareValue="3">
+		AND FCLTS_CL_CD LIKE SUBSTRB(#fcltsClUpperCd#,1,3) || '%'
+		</isEqual>
+
+		<isEqual property="depthSort" compareValue="4">
+		AND FCLTS_CL_CD LIKE SUBSTRB(#fcltsClUpperCd#,1,5) || '%'
+		</isEqual>
+
+		<isEqual property="depthSort" compareValue="5">
+		AND FCLTS_CL_CD LIKE SUBSTRB(#fcltsClUpperCd#,1,7) || '%'
+		</isEqual>
+	</select>
+
+	<select id="gamFcltsClCdMngDao.selectFcltsClCdMngTreeList_D" parameterClass="gamFcltsClCdMngVO" resultClass="egovMap">
+		<![CDATA[
+		SELECT
+				 TO_NUMBER('1' || SUBSTRB(FCLTS_CL_CD,2,9)) AS FCLTS_CL_CD
+				,DEPTH_SORT
+				,FCLTS_CL_CD_NM
+				,(CASE WHEN DEPTH_SORT > 1 THEN TO_NUMBER('1' || SUBSTRB(FCLTS_CL_UPPER_CD,2,9)) ELSE 0 END) AS FCLTS_CL_UPPER_CD
+			FROM FCLTS_CL_CD_F
+		WHERE FCLTS_JOB_SE = #fcltsJobSe#
+		ORDER BY FCLTS_CL_CD,DEPTH_SORT
+		]]>
+	</select>
+
+	<select id="gamFcltsClCdMngDao.selectFcltsClCdMngLowerDataCnt_S" parameterClass="gamFcltsClCdMngVo" resultClass="egovMap">
+		SELECT
+				 COUNT(*) AS LOWER_DATA_CNT
+			FROM FCLTS_CL_CD_F
+		WHERE DEPTH_SORT <![CDATA[ > ]]> NVL(TO_NUMBER(#depthSort#),10)
+
+		<isEqual property="depthSort" compareValue="1">
+		AND FCLTS_CL_UPPER_CD LIKE SUBSTRB(#fcltsClCd#,1,1) || '%'
+		</isEqual>
+
+		<isEqual property="depthSort" compareValue="2">
+		AND FCLTS_CL_UPPER_CD LIKE SUBSTRB(#fcltsClCd#,1,3) || '%'
+		</isEqual>
+
+		<isEqual property="depthSort" compareValue="3">
+		AND FCLTS_CL_UPPER_CD LIKE SUBSTRB(#fcltsClCd#,1,5) || '%'
+		</isEqual>
+
+		<isEqual property="depthSort" compareValue="4">
+		AND FCLTS_CL_UPPER_CD LIKE SUBSTRB(#fcltsClCd#,1,7) || '%'
+		</isEqual>
+
+		<isEqual property="depthSort" compareValue="5">
+		AND FCLTS_CL_UPPER_CD LIKE SUBSTRB(#fcltsClCd#,1,9) || '%'
+		</isEqual>
+	</select>
+
+	<update id="gamFcltsClCdMngDao.updateFcltsClCdMngLeafYn_S" parameterClass="gamFcltsClCdMngVO">
+		UPDATE FCLTS_CL_CD_F SET
+			 LEAF_YN = (SELECT (CASE WHEN COUNT(*) > 0 THEN 'N' ELSE 'N' END)
+							FROM FCLTS_CL_CD_F
+						WHERE FCLTS_CL_CD = #fcltsClUpperCd#
+						AND FCLTS_CL_CD <![CDATA[ <>  ]]> #fcltsClCd#)
+		WHERE FCLTS_CL_CD = #fcltsClUpperCd#
+	</update>
+
+	<delete id="gamFcltsClCdMngDao.deleteFcltsClCdMngLowerData_S" parameterClass="gamFcltsClCdMngVO">
+		DELETE FROM FCLTS_CL_CD_F
+		WHERE DEPTH_SORT <![CDATA[ > ]]> NVL(TO_NUMBER(#depthSort#),10)
+
+		<isEqual property="depthSort" compareValue="1">
+		AND FCLTS_CL_UPPER_CD LIKE SUBSTRB(#fcltsClCd#,1,1) || '%'
+		</isEqual>
+
+		<isEqual property="depthSort" compareValue="2">
+		AND FCLTS_CL_UPPER_CD LIKE SUBSTRB(#fcltsClCd#,1,3) || '%'
+		</isEqual>
+
+		<isEqual property="depthSort" compareValue="3">
+		AND FCLTS_CL_UPPER_CD LIKE SUBSTRB(#fcltsClCd#,1,5) || '%'
+		</isEqual>
+
+		<isEqual property="depthSort" compareValue="4">
+		AND FCLTS_CL_UPPER_CD LIKE SUBSTRB(#fcltsClCd#,1,7) || '%'
+		</isEqual>
+
+		<isEqual property="depthSort" compareValue="5">
+		AND FCLTS_CL_UPPER_CD LIKE SUBSTRB(#fcltsClCd#,1,9) || '%
+		</isEqual>
+	</delete>
+
+</sqlMap>
