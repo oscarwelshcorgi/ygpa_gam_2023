@@ -210,6 +210,14 @@ GamElctyEquipCapaMngModule.prototype.drawChart = function() {
 					title		: dataValueName
 				}
 			});
+			module.barChart.addSeries({
+				value				: "#value2#",
+				color				: "#66cc00",
+				label				: "#value2#",
+				tooltip				: {
+					template		: "#value2# kw/h"
+	            }
+			});
 		} else {
 			module.barChart.clearAll();
 			module.barChart.define("yAxis", {
@@ -219,14 +227,6 @@ GamElctyEquipCapaMngModule.prototype.drawChart = function() {
 				title			: dataValueName
 			});
 		}
-		module.barChart.addSeries({
-			value				: "#value2#",
-			color				: "#66cc00",
-			label				: "#value2#",
-			tooltip				: {
-				template		: "#value2# kw/h"
-            }
-		});
 		module.barChart.parse(dataValueArr, "json");
 		module.barChart.refresh();
 	});
