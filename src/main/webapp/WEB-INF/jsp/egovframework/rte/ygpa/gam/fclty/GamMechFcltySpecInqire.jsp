@@ -55,10 +55,12 @@ GamMechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		url: '/fclty/selectMechFcltySpecInqireList.do',
 		dataType: "json",
 		colModel : [
-					{display:"항구분명",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
-					{display:"자산명",		name:"gisAssetsNm",			width:200,		sortable:false,		align:"left"},
-					{display:"시설명",		name:"prtFcltyNm",			width:280,		sortable:false,		align:"left"},
-					{display:"시설분류",	 	name:"prtFcltySeNm",		width:100,		sortable:false,		align:"left"},
+					{display:"항분류",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
+					{display:"자산명",		name:"gisAssetsNm",			width:180,		sortable:false,		align:"left"},
+					{display:"시설명",		name:"prtFcltyNm",			width:200,		sortable:false,		align:"left"},
+					{display:"소재지",		name:"loc",					width:170,		sortable:false,		align:"left"},
+					{display:"시설물관리그룹",	name:"fcltsMngGroupNoNm",	width:150,		sortable:false,		align:"left"},
+					{display:"시설분류",	 	name:"prtFcltySeNm",		width:80,		sortable:false,		align:"left"},
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"}
 			],
 		height: "auto"
@@ -77,6 +79,10 @@ GamMechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		event.data.module.$("#gisPrtFcltyCd").val($(this).val());
 	});
 
+	this.$("#sFcltsMngGroupNo").bind("keyup change", {module: this}, function(event) {
+		event.data.module.getFcltsMngGroupNoNm();
+	});
+	
 	this.$("#fcltyFileList").flexigrid({
 		module: this,
 		url: '/fclty/selectMechFcltySpecInqireFileList.do',
@@ -84,8 +90,8 @@ GamMechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		colModel : [
 					{display:"순번",		name:"atchFileSeq",				width:40,		sortable:true,		align:"center"},
 					{display:"구분",		name:"atchFileSeNm",			width:40,		sortable:true,		align:"center"},
-					{display:"파일제목",	name:"atchFileSj",				width:240,		sortable:true,		align:"left"},
-					{display:"논리파일명",	name:"atchFileNmLogic",			width:200,		sortable:true,		align:"left"}
+					{display:"파일제목",	name:"atchFileSj",				width:200,		sortable:true,		align:"left"},
+					{display:"논리파일명",	name:"atchFileNmLogic",			width:180,		sortable:true,		align:"left"}
 			],
 		height: "400"
 	});
@@ -169,7 +175,7 @@ GamMechFcltySpecInqireModule.prototype.loadDetail = function() {
 		if(result.resultCode == "0"){
 			module.clearCodePage();
 			module._fcltyItem=result.result;
-			module.makeDivValues('#fcltyManageVO', result.result);
+			module.makeFormValues('#fcltyManageVO', result.result);
 			module.$("#dispfcltsMngNo").text(result.result["fcltsMngNo"]);
  			module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
  			module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
@@ -240,7 +246,7 @@ GamMechFcltySpecInqireModule.prototype.clearFilePage = function() {
 	this.$('#previewImage').attr('src', '');
 };
 
-GamConstFcltySpecInqireModule.prototype.gotoLocation = function() {
+GamMechFcltySpecInqireModule.prototype.gotoLocation = function() {
 	if(this._fcltyItem.laCrdnt!=null && this._fcltyItem.laCrdnt!=null) {
 		EMD.gis.goLocation(this._fcltyItem.laCrdnt, this._fcltyItem.loCrdnt);
 		EMD.gis.selectPrtFclty(this._fcltyItem);
@@ -250,6 +256,21 @@ GamConstFcltySpecInqireModule.prototype.gotoLocation = function() {
 	} else {
 		alert("시설위치가 등록되지 않았습니다.");
 	}
+};
+
+<%
+/**
+ * @FUNCTION NAME : getFcltsMngGroupNoNm
+ * @DESCRIPTION   : 조회조건 시설물관리그룹 명을 지운다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamMechFcltySpecInqireModule.prototype.getFcltsMngGroupNoNm = function() {
+	var sFcltsMngGroupNo = this.$('#sFcltsMngGroupNo').val();
+	if (sFcltsMngGroupNo.length != 14) {
+		this.$('#sFcltsMngGroupNoNm').val('');
+	}
+
 };
 
 <%
@@ -337,8 +358,8 @@ var module_instance = new GamMechFcltySpecInqireModule();
 							<td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>시설물관리그룹</th>
 							<td colspan="3">
-								<input id="sFcltsMngGroupNo" type="text" size="14"/>
-								<input id="sFcltsMngGroupNoNm" type="text" size="59" disabled="disabled"/>
+								<input id="sFcltsMngGroupNo" type="text" size="14"/>&nbsp;-&nbsp;
+								<input id="sFcltsMngGroupNoNm" type="text" size="56" disabled="disabled"/>
 								<button id="searchPopupBtn" class="popupButton">선택</button>
 							</td>
 							<td rowspan="2"><button class="buttonSearch">조회</button></td>
@@ -374,75 +395,61 @@ var module_instance = new GamMechFcltySpecInqireModule();
 
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyManageVO">
-
 				<div style="margin-bottom:10px;">
 					<table class="searchPanel">
 						<tbody>
 							<tr>
 								<th width="70%">기계시설 일반</th>
-								<th>
-									시설물관리번호 : <span id="dispfcltsMngNo"></span>
-									<input type="hidden" id="fcltsMngNo" />
-								</th>
+								<th>시설물관리번호 : <span id="dispfcltsMngNo"></span><input type="hidden" id="fcltsMngNo" /></th>
 							</tr>
 						</tbody>
 					</table>
 					<table class="detailPanel" style="width:100%;">
 						<tr>
-							<th width="12%" height="17" class="required_text">항코드</th>
-							<td>
-								<span id="gisAssetsPrtAtCode"></span>&nbsp;&nbsp;&nbsp;
-								<span id="gisAssetsPrtAtName"></span>
-							</td>
-							<th width="12%" height="17" class="required_text">GIS 자산코드</th>
+							<th width="12%" height="17" class="required_text">항　　구　　분</th>
+							<td><input type="text" size="5" id="gisAssetsPrtAtCode" disabled="disabled"/>  <input type="text" size="23" id="gisAssetsPrtAtName" disabled="disabled"/></td>
+							<th width="12%" height="17" class="required_text">GIS 자 산 코 드</th>
 							<td colspan="3">
-								<span id="gisAssetsCd"></span>-
-								<span id="gisAssetsSubCd"></span>-
-								<span id="gisAssetsPrtAtCode2"></span>
+								<input type="text" size="4" id="gisAssetsCd" disabled="disabled" data-required="true"/>-
+								<input type="text" size="2" id="gisAssetsSubCd" disabled="disabled"/>-
+								<input type="text" size="3" id="gisAssetsPrtAtCode2" disabled="disabled"/>
 							</td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">GIS 자산명</th>
+							<th width="12%" height="17" class="required_text">GIS 자　산　명</th>
+							<td><input type="text" size="30" id="gisAssetsNm" disabled="disabled"/></td>
+							<th width="12%" height="17" class="required_text">지　　　　　번</th>
 							<td>
-								<span id="gisAssetsNm"></span>
-							<th width="12%" height="17" class="required_text">지번</th>
-							<td>
-								<span id="gisAssetsLnm"></span>&nbsp;-&nbsp;
-								<span id="gisAssetsLnmSub"></span>
+								<input id="gisAssetsLnm" type="text" size="4" title="지번 앞자리" disabled="disabled" />&nbsp;-&nbsp;
+								<input id="gisAssetsLnmSub" type="text" size="7" title="지번 뒷자리" disabled="disabled" />
 							</td>
-							<th width="12%" height="17" class="required_text">소재지</th>
-							<td>
-								<span id="gisAssetsLocplc"></span>
-							</td>
+							<th width="12%" height="17" class="required_text">소　　재　　지</th>
+							<td><input id="gisAssetsLocplc" type="text" size="30" title="소재지" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">시설코드</th>
+							<th width="12%" height="17" class="required_text">시　설　코　드</th>
 							<td>
-								<span id="gisPrtFcltyCd"></span>&nbsp;-&nbsp;
-								<span id="gisPrtFcltySeq"></span>
+								<input type="text" size="2" id="gisPrtFcltyCd" disabled="disabled" />-
+								<input type="text" size="25" id="gisPrtFcltySeq" disabled="disabled"/>
 							</td>
-							<th width="12%" height="17" class="required_text">시설분류</th>
+							<th width="12%" height="17" class="required_text">시　설　분　류</th>
 							<td>
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM058" id="selectGisPrtFcltyCd" data-required="true" data-column-id="gisPrtFcltyCd" disabled="disabled" />
 								<input type="hidden" id="prtFcltySeNm" disabled="disabled" />
-								<span class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM058" id="selectGisPrtFcltyCd" data-required="true" data-column-id="gisPrtFcltyCd"></span>
 							</td>
-							<th width="12%" height="17" class="required_text">기계시설명</th>
-							<td>
-								<span id="prtFcltyNm"></span>
-							</td>
+							<th width="12%" height="17" class="required_text">시　　설　　명</th>
+							<td><input type="text" size="30" id="prtFcltyNm" maxlength="80" disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
 							<td colspan="5">
-								<span id="fcltsMngGroupNo"></span>
-								<span id="fcltsMngGroupNoNm"></span>
+								<input type="text" size="16" id="fcltsMngGroupNo" disabled="disabled"/>
+								<input type="text" size="61" id="fcltsMngGroupNoNm" disabled="disabled"/>
 							</td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">설치일자</th>
-							<td colspan="5">
-								<span id="prtFcltyInstlDt"></span>
-							</td>
+							<th width="12%" height="17" class="required_text">설　치　일　자</th>
+							<td colspan="5"><input id="prtFcltyInstlDt" type="text" class="emdcal" size="11" title="설치일자" disabled="disabled" /></td>
 						</tr>
 					</table>
 				</div>
@@ -455,216 +462,131 @@ var module_instance = new GamMechFcltySpecInqireModule();
 					</table>
 					<table  class="detailPanel"  style="width:100%;">
 						<tr>
-							<th width="12%" height="17" class="required_text">품명</th>
-							<td colspan="5">
-								<span id="gdsnm"></span>
-							</td>
+							<th width="12%" height="17" class="required_text">품　　　　　명</th>
+							<td><input id="gdsnm" type="text" size="50" maxlength="150" disabled="disabled" /></td>
+							<th width="12%" height="17" class="required_text">용　　　　　도</th>
+							<td><input id="prpos" type="text" size="50" maxlength="100" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">용도</th>
-							<td colspan="5">
-								<span id="prpos"></span>
-							</td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">형식</th>
-							<td colspan="5">
-								<span id="fmt"></span>
-							</td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">규격</th>
-							<td colspan="5">
-								<input id="instlDt" type="hidden"/>
-								<span id="stndrd"></span>
-							</td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">사용시작일자</th>
+							<th width="12%" height="17" class="required_text">형　　　　　식</th>
+							<td><input id="fmt" type="text" size="50" maxlength="100" disabled="disabled" /></td>
+							<th width="12%" height="17" class="required_text">규　　　　　격</th>
 							<td>
-								<span id="usageBeginDt"></span>
-							</td>
-							<th width="12%" height="17" class="required_text">사용종료일자</th>
-							<td>
-								<span id="usageEndDt"></span>
-							</td>
-							<th width="12%" height="17" class="required_text">상태등급</th>
-							<td>
-								<span id="sttusLvl"></span>
+								<input id="stndrd" type="text" size="50" maxlength="50" disabled="disabled" />
 							</td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">제작회사</th>
-							<td colspan="5">
-								<span id="mfcCmpny"></span>
-							</td>
+							<th width="12%" height="17" class="required_text">길　　　　　이</th>
+							<td><input id="lt" type="text" size="50" class="ygpaNumber" data-decimal-point="2" disabled="disabled" /></td>
+							<th width="12%" height="17" class="required_text">수　　　　　량</th>
+							<td><input id="qy" type="text" size="50" class="ygpaNumber" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">제작일자</th>
-							<td>
-								<span id="mfcDt"></span>
-							</td>
-							<th width="12%" height="17" class="required_text">장비번호</th>
-							<td colspan="3">
-								<span id="eqpmnNo"></span>
-							</td>
+							<th width="12%" height="17" class="required_text">단　　　　　위</th>
+							<td><input id="unit" type="text" size="50" maxlength="20" disabled="disabled" /></td>
+							<th width="12%" height="17" class="required_text">흘　　　　　수</th>
+							<td><input id="draft" type="text" size="50" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">관리자</th>
-							<td colspan="5">
-								<span id="manager"></span>
-							</td>
+							<th width="12%" height="17" class="required_text">장　비　번　호</th>
+							<td><input id="eqpmnNo" type="text" size="50" maxlength="50" disabled="disabled" /></td>
+							<th width="12%" height="17" class="required_text">상　태　등　급</th>
+							<td colspan="3"><input id="sttusLvl" type="text" size="50" maxlength="1" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">사용업체</th>
-							<td colspan="5">
-								<span id="usageEntrps"></span>
-							</td>
+							<th width="12%" height="17" class="required_text">제　작　회　사</th>
+							<td><input id="mfcCmpny" type="text" size="50" maxlength="100" disabled="disabled" /></td>
+							<th width="12%" height="17" class="required_text">제　작　일　자</th>
+							<td><input id="mfcDt" type="text" class="emdcal" size="11" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">운영회사</th>
-							<td colspan="5">
-								<span id="operCmpny"></span>
-							</td>
+							<th width="12%" height="17" class="required_text">하　역　능　력</th>
+							<td><input id="lnlAblty" type="text" size="50" maxlength="30" disabled="disabled" /></td>
+							<th width="12%" height="17" class="required_text">내　용　년　수</th>
+							<td><input id="cnyear" type="text" size="50" maxlength="20" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">길이</th>
-							<td>
-								<span id="lt"></span>
-							</td>
-							<th width="12%" height="17" class="required_text">수량</th>
-							<td>
-								<span id="qy"></span>
-							</td>
-							<th width="12%" height="17" class="required_text">단위</th>
-							<td>
-								<span id="unit"></span>
-							</td>
+							<th width="12%" height="17" class="required_text">자　　　　　중</th>
+							<td><input id="selfLoad" type="text" size="50" maxlength="200" disabled="disabled" /></td>
+							<th width="12%" height="17" class="required_text">레　일　간　격</th>
+							<td><input id="railItv" type="text" size="50" maxlength="200" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">소유주체</th>
-							<td>
-								<span id="posesnMainbd"></span>
-							</td>
-							<th width="12%" height="17" class="required_text">취득금액</th>
-							<td colspan="3">
-								<span id="acqAmt"></span>
-							</td>
+							<th width="12%" height="17" class="required_text">정　격　하　중</th>
+							<td><input id="rateWght" type="text" size="50" maxlength="200" disabled="disabled" /></td>
+							<th width="12%" height="17" class="required_text">최　대바퀴하중</th>
+							<td><input id="maxWheelWght" type="text" size="50" maxlength="200" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">검사시작일자</th>
-							<td>
-								<span id="examBeginDt"></span>
-							</td>
-							<th width="12%" height="17" class="required_text">검사종료일자</th>
-							<td>
-								<span id="examEndDt"></span>
-							</td>
-							<th width="12%" height="17" class="required_text">검사합격번호</th>
-							<td>
-								<span id="examOkNo"></span>
-							</td>
+							<th width="12%" height="17" class="required_text">적　재　톤　수</th>
+							<td><input id="capaTon" type="text" size="50" maxlength="100" disabled="disabled" /></td>
+							<th width="12%" height="17" class="required_text">강　제　중　량</th>
+							<td><input id="structWqnt" type="text" size="50" maxlength="100" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">검사기관</th>
-							<td colspan="5">
-								<span id="examInstt"></span>
-							</td>
+							<th width="12%" height="17" class="required_text">정　격　마　력</th>
+							<td><input id="rateHp" type="text" size="50" maxlength="200" disabled="disabled" /></td>
+							<th width="12%" height="17" class="required_text">처　리　능　력</th>
+							<td><input id="processAblty" type="text" size="50" maxlength="100" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">하역능력</th>
-							<td colspan="3">
-								<span id="lnlAblty"></span>
-							</td>
-							<th width="12%" height="17" class="required_text">내용년수</th>
-							<td>
-								<span id="cnyear"></span>
-							</td>
+							<th width="12%" height="17" class="required_text">사　용　업　체</th>
+							<td><input id="usageEntrps" type="text" size="50" maxlength="100" disabled="disabled" /></td>
+							<th width="12%" height="17" class="required_text">운　영　회　사</th>
+							<td><input id="operCmpny" type="text" size="50" maxlength="100" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">자중</th>
-							<td colspan="5">
-								<span id="selfLoad"></span>
-							</td>
+							<th width="12%" height="17" class="required_text">사　용　목　적</th>
+							<td><input id="usagePurps" type="text" size="50" maxlength="200" disabled="disabled" /></td>
+							<th width="12%" height="17" class="required_text">관　　리　　자</th>
+							<td><input id="manager" type="text" size="50" maxlength="60" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">정격하중</th>
-							<td colspan="5">
-								<span id="rateWght"></span>
-							</td>
+							<th width="12%" height="17" class="required_text">사용　시작일자</th>
+							<td><input id="usageBeginDt" type="text" class="emdcal" size="11" disabled="disabled" /></td>
+							<th width="12%" height="17" class="required_text">사용　종료일자</th>
+							<td><input id="usageEndDt" type="text" class="emdcal" size="11" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">최대바퀴하중</th>
-							<td colspan="5">
-								<span id=""></span>
-							</td>
+							<th width="12%" height="17" class="required_text">소　유　주　체</th>
+							<td><input id="posesnMainbd" type="text" size="50" maxlength="1" disabled="disabled" /></td>
+							<th width="12%" height="17" class="required_text">취　득　금　액</th>
+							<td><input id="acqAmt" type="text" size="50" class="ygpaNumber" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">레일간격</th>
-							<td colspan="5">
-								<span id="railItv"></span>
-							</td>
+							<th width="12%" height="17" class="required_text">검　사　기　관</th>
+							<td><input id="examInstt" type="text" size="50" maxlength="100" disabled="disabled" /></td>
+							<th width="12%" height="17" class="required_text">검사　합격번호</th>
+							<td><input id="examOkNo" type="text" size="50" maxlength="10" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">정격마력</th>
-							<td colspan="5">
-								<span id=""></span>
-							</td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">처리능력</th>
-							<td colspan="5">
-								<span id="processAblty"></span>
-							</td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">적재톤수</th>
-							<td colspan="5">
-								<span id="capaTon"></span>
-							</td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">강제중량</th>
-							<td colspan="5">
-								<span id="structWqnt"></span>
-							</td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">위치</th>
-							<td colspan="5">
-								<span id="loc"></span>
-							</td>
+							<th width="12%" height="17" class="required_text">검사　시작일자</th>
+							<td><input id="examBeginDt" type="text" class="emdcal" size="11" disabled="disabled" /></td>
+							<th width="12%" height="17" class="required_text">검사　종료일자</th>
+							<td><input id="examEndDt" type="text" class="emdcal" size="11" disabled="disabled" /></td>
 						</tr>
 						<tr>							
-							<th width="12%" height="17" class="required_text">기계시설물분류코드</th>
-							<td colspan="5">
-								<span id=""></span>
-								<span id=""></span>
+							<th width="12%" height="17" class="required_text">시설물분류코드</th>
+							<td colspan="3">
+								<input id="mechFcltsClCd" type="text" size="20" disabled="disabled" />
+								<input id="mechFcltsClCdNm" type="text" size="28" disabled="disabled" />
 							</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">건축시설물관리번호</th>
-							<td colspan="5">
-								<span id="archFcltsMngNo"></span>
-								<span id="archFcltsMngNoNm"></span>
+							<td colspan="3">
+								<input id="archFcltsMngNo" type="text" size="20" disabled="disabled" />
+								<input id="archFcltsMngNoNm" type="text" size="28" disabled="disabled" />
 							</td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">흘수</th>
-							<td colspan="5">
-								<span id="draft"></span>
-							</td>
+							<th width="12%" height="17" class="required_text">소　　재　　지</th>
+							<td colspan="3"><input id="loc" type="text" size="135" maxlength="150" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">사용목적</th>
-							<td colspan="5">
-								<span id="usagePurps"></span>
-							</td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">비고</th>
-							<td colspan="5">
-								<span id="rm"></span>
+							<th width="12%" height="17" class="required_text">비　　　　　고</th>
+							<td colspan="3">
+								<textarea rows="4" cols="133" id="rm" maxlength="1000" disabled="disabled"></textarea>
 							</td>
 						</tr>
 					</table>
