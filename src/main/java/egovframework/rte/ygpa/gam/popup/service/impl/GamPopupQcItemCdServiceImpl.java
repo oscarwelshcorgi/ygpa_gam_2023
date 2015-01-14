@@ -37,8 +37,9 @@ public class GamPopupQcItemCdServiceImpl extends AbstractServiceImpl implements 
 	private GamPopupQcItemCdDao gamPopupQcItemCdDao;
 
 	/**
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return list
+	 * @name selectQcItemCdList
+	 * @param searchVO
+	 * @return List
 	 * @exception Exception
 	 */
 	public List selectQcItemCdList(GamPopupQcItemCdVo searchVO) throws Exception {
@@ -46,8 +47,9 @@ public class GamPopupQcItemCdServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	/**
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return Cnt
+	 * @name selectQcItemCdListTotCnt
+	 * @param searchVO
+	 * @return totalCount
 	 * @exception Exception
 	 */
 	public int selectQcItemCdListTotCnt(GamPopupQcItemCdVo searchVO) throws Exception {

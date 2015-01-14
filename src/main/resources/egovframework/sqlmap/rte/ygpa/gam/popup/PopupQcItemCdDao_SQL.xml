@@ -17,12 +17,7 @@
 								,T1.QC_ITEM_NM
 								,T1.FCLTS_JOB_SE
 								,T1.QC_ITEM_DTLS
-								,(CASE WHEN T1.FCLTS_JOB_SE = 'A' THEN '건축시설'
-									   WHEN T1.FCLTS_JOB_SE = 'C' THEN '토목시설'
-									   WHEN T1.FCLTS_JOB_SE = 'M' THEN '기계시설'
-									   WHEN T1.FCLTS_JOB_SE = 'E' THEN '전기시설'
-									   WHEN T1.FCLTS_JOB_SE = 'I' THEN '정보통신시설'
-								  END) AS FCLTS_JOB_SE_NM
+								,GAM_GET_FCLTS_JOB_SE_NM(T1.FCLTS_JOB_SE) AS FCLTS_JOB_SE_NM
 								,TO_CHAR(T1.DEPTH_SORT) AS DEPTH_SORT
 								,T1.USE_YN
 							FROM QC_ITEM_CD_F T1

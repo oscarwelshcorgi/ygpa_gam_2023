@@ -6,7 +6,7 @@
 <%
   /**
   * @Class Name : GamPopupFcltsClCd.jsp
-  * @Description : 시설물 분류코드 팝업 (Prototype)
+  * @Description : 시설물 분류 코드 팝업 (Prototype)
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -19,97 +19,218 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
+
+<%
+/******************************** SCRIPT START ********************************/
+%>
+
 <script>
-/*
- * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
- */
+
+<%
+/**
+ * @FUNCTION NAME : GamPopupFcltsClCdModule
+ * @DESCRIPTION   : MODULE 고유 함수
+ * @PARAMETER     : NONE
+**/
+%>
 function GamPopupFcltsClCdModule() {}
 
 GamPopupFcltsClCdModule.prototype = new EmdPopupModule(640, 480);
 
-// 팝업이 호출 되었을때 호출 되는 함수
-GamPopupFcltsClCdModule.prototype.loadComplete = function() {
+<%
+/**
+ * @FUNCTION NAME : loadComplete
+ * @DESCRIPTION   : PAGE LOAD COMPLETE (페이지 호출시 실행되는 함수)
+ * @PARAMETER     : NONE
+**/
+%>
+GamPopupFcltsClCdModule.prototype.loadComplete = function(params) {
+
 	this.resizable(true);
-	this.$("#grdInfoList").flexigrid({
-		module: this,
-		url: '/popup/selectFcltsClCdInfoList.do',
+	this.$("#mainGrid").flexigrid({
+		module : this,
+		url : '/popup/selectFcltsClCdInfoList.do',
 		dataType: "json",
 		colModel : [
-					{display:"시설물분류코드", name:"fcltsClCd", 		width:105, sortable:true, align:"center"},
-					{display:"시설물분류명",  name:"fcltsClCdNm", 	width:210, sortable:true, align:"center"},
-					{display:"시설물상위분류명",  name:"fcltsClUpperCdNm", 	width:210, sortable:true, align:"center"}
-			],
+					{display:"단계",					name:"depthSort",		width:50,		sortable:true,	align:"center"},
+					{display:"시설물 분류 코드",		name:"fcltsClCd",		width:120,		sortable:true,	align:"center"},
+					{display:"시설물 분류 코드 명",		name:"fcltsClCdNm",		width:200,		sortable:true,	align:"left"},
+					{display:"시설물 업무 구분",		name:"fcltsJobSeNm",	width:120,		sortable:true,	align:"left"},
+					{display:"LEAF 여부",				name:"leafYn",			width:80,		sortable:true,	align:"center"}
+					],
 		height: "320"
 	});
 
-	this.$("#grdInfoList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+	this.$("#mainGrid").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module.closeDialog("ok", row);
 	});
 
-};
-
-GamPopupFcltsClCdModule.prototype.onSubmit = function() {
-	this.loadData();
-};
-
-GamPopupFcltsClCdModule.prototype.loadData = function() {
-	var searchOpt=this.makeFormArgs("#gamPopupFcltsClCdForm");
- 	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
-};
-
-GamPopupFcltsClCdModule.prototype.returnData = function() {
-	var rows = this.$("#grdInfoList").selectedRows();
-	if(rows.length>0) {
-		this.closeDialog("ok", rows[0]);
+	if (params != null) {
+		this.$('#sFcltsJobSe').val(params.sFcltsJobSe);
+		this.$('#sDepthSort').val(params.sDepthSort);
+		this.$('#sLeafYn').val("");
+		var searchOpt=this.makeFormArgs('#searchForm');
+		this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+	} else {
+		this.$('#sLeafYn').val("Y");
 	}
-	else {
-		alert("먼저 입력 하고자 하는 항목을 선택 하십시요.");
-	}
+
 };
 
+<%
+/**
+ * @FUNCTION NAME : onButtonClick
+ * @DESCRIPTION   : BUTTON CLICK EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
 GamPopupFcltsClCdModule.prototype.onButtonClick = function(buttonId) {
-	switch(buttonId) {
-	case "btnSearch":
-		this.loadData();
-		break;
-	case "btnOk":
-		this.returnData();
-		break;
-	case "btnCancel":
-		this.cancelDialog();
-		break;
+
+	switch (buttonId) {
+		case 'btnOk':
+	    	this.processOk();
+			break;
+	    case 'btnCancel':
+	    	this.processCancel();
+			break;
 	}
+
 };
 
-// 다음 변수는 고정 적으로 정의 해야 함
+<%
+/**
+ * @FUNCTION NAME : onSubmit
+ * @DESCRIPTION   : (프레임워크에서 SUBMIT 이벤트 호출 시 호출 한다.)
+ * @PARAMETER     : NONE
+**/
+%>
+GamPopupFcltsClCdModule.prototype.onSubmit = function() {
+
+	this.loadData();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadData
+ * @DESCRIPTION   : DATA LOAD (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
+GamPopupFcltsClCdModule.prototype.loadData = function() {
+
+	var searchOpt=this.makeFormArgs('#searchForm');
+	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectData
+ * @DESCRIPTION   : DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamPopupFcltsClCdModule.prototype.selectData = function() {
+
+	var gridRowCount = this.$("#mainGrid").flexRowCount();
+	if (gridRowCount == 0) {
+		alert('해당 조건의 자료가 존재하지 않습니다!');
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : processOk
+ * @DESCRIPTION   : OK PROCESS
+ * @PARAMETER     : NONE
+**/
+%>
+GamPopupFcltsClCdModule.prototype.processOk = function() {
+
+	var row = this.$("#mainGrid").selectedRows();
+	if (row.length>0) {
+		this.closeDialog("ok", row[0]);
+	} else {
+		alert("항목을 선택하십시요.");
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : processCancel
+ * @DESCRIPTION   : CANCEL PROCESS
+ * @PARAMETER     : NONE
+**/
+%>
+GamPopupFcltsClCdModule.prototype.processCancel = function() {
+
+	this.cancelDialog();
+
+};
+
 var popup_instance = new GamPopupFcltsClCdModule();
+
 </script>
+
+<%
+/******************************** SCRIPT   END ********************************/
+%>
+
+
+<%
+/******************************** UI     START ********************************/
+%>
+
 <div class="dialog">
 	<div class="emdPanel">
-		<form id="gamPopupFcltsClCdForm">
+		<!-- 11. SEARCH AREA (조회조건 영역) -->
+		<form id="searchForm">
 			<table class="searchPanel">
 				<tbody>
 					<tr>
-                        <th>시설물분류코드</th>
-                        <td>
-                        	<input id="sFcltsClCdChar" type="hidden" value="${searchOpt.sFcltsClCdChar}" />
-                        	<input id="sFcltsClCd" type="text" size="12"/>
-                        </td>
-						<th>시설물분류명</th>
-                        <td><input id="sFcltsClCdNm" type="text" size="25" /></td>
-						<td><button id="btnSearch">조회</button></td>
+						<th>시설물 분류 명</th>
+						<td>
+							<input id="sFcltsClCdNm" type="text" size="20" maxlength="60"/>
+						</td>
+						<th>업무 구분</th>
+						<td>
+							<select id="sFcltsJobSe">
+								<option value="" selected>전체시설</option>
+								<option value="A">건축시설</option>
+								<option value="C">토목시설</option>
+								<option value="M">기계시설</option>
+								<option value="E">전기시설</option>
+								<option value="I">정보통신시설</option>
+							</select>
+						</td>
+						<th>단계</th>
+						<td>
+							<input id="sLeafYn" type="hidden"/>
+							<input id="sDepthSort" type="text" size="1" maxlength="1"/>
+						</td>
+						<td>
+							<button class="buttonSearch">조회</button>
+						</td>
 					</tr>
 				</tbody>
 			</table>
 		</form>
-		
+		<!-- 2. DATA AREA (자료 영역) -->
 		<div class="emdPanel fillHeight">
-	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>
-	        <div class="emdControlPanel">
-	            <button id="btnOk">시설물 분류 선택</button>
-            	<button id="btnCancel">취소</button>
-	        </div>
-	    </div>
-
+			<table id="mainGrid" style="display: none" class="fillHeight"></table>
+			<div class="emdControlPanel">
+				<button id="btnOk">선택</button>
+				<button id="btnCancel">취소</button>
+			</div>
+		</div>
 	</div>
 </div>
+
+
+<%
+/******************************** UI       END ********************************/
+%>

@@ -25,14 +25,18 @@ import java.util.List;
 public interface GamPopupQcItemCdService {
 
 	/**
+	 * @name selectQcItemCdList
 	 * @param searchVO
-	 * @return
+	 * @return List
+	 * @exception Exception
 	 */
 	List selectQcItemCdList(GamPopupQcItemCdVo searchVO) throws Exception;
 
 	/**
+	 * @name selectQcItemCdListTotCnt
 	 * @param searchVO
-	 * @return
+	 * @return totalCount
+	 * @exception Exception
 	 */
 	int selectQcItemCdListTotCnt(GamPopupQcItemCdVo searchVO) throws Exception;
 

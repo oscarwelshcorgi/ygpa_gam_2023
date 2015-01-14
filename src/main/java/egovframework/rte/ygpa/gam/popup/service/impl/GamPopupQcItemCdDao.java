@@ -31,19 +31,21 @@ import egovframework.rte.ygpa.gam.popup.service.GamPopupQcItemCdVo;
 public class GamPopupQcItemCdDao extends YGPAAbstractDAO {
 
 	/**
+	 * @name selectQcItemCdList
 	 * @param searchVO
-	 * @return
+	 * @return List
 	 */
 	public List selectQcItemCdList(GamPopupQcItemCdVo searchVO) {
 		return list("PopupQcItemCdDao.selectQcItemCdList_D", searchVO);
 	}
 
 	/**
+	 * @name selectQcItemCdListTotCnt
 	 * @param searchVO
-	 * @return
+	 * @return totalCount
 	 */
 	public int selectQcItemCdListTotCnt(GamPopupQcItemCdVo searchVO) {
-		return (Integer)getSqlMapClientTemplate().queryForObject("PopupQcItemCdDao.selectQcItemCdListTotCnt_S", searchVO);
+		return (Integer)selectByPk("PopupQcItemCdDao.selectQcItemCdListTotCnt_S", searchVO);
 	}
 
 }

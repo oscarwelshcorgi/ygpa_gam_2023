@@ -24,18 +24,18 @@ public class GamPopupQcItemCdVo extends ComDefaultVO {
 	private static final long serialVersionUID = 1L;
 
 	/** 자료컬럼 **/
-	private String qcItemCd;				//점검 항목 코드
-	private String qcItemNm;				//점검 항목 명
-	private String fcltsJobSe;				//시설물 업무 구분
-	private String fcltsJobSeNm;			//시설물 업무 구분 명
-	private String depthSort;				//단계
-	private String qcItemDtls;				//점검 항목 상세
-	private String useYn;					//사용 유무
+	private String qcItemCd;				// 점검 항목 코드
+	private String qcItemNm;				// 점검 항목 명
+	private String fcltsJobSe;				// 시설물 업무 구분
+	private String fcltsJobSeNm;			// 시설물 업무 구분 명
+	private String depthSort;				// 단계
+	private String qcItemDtls;				// 점검 항목 상세
+	private String useYn;					// 사용 유무
 	/** 조회조건 **/
-	private String sQcItemCd;				//점검 항목 코드
-	private String sQcItemNm;				//점검 항목 명
-	private String sFcltsJobSe;				//시설물 업무 구분
-	private String sDepthSort;				//단계
+	private String sQcItemCd;				// 검색 점검 항목 코드
+	private String sQcItemNm;				// 검색 점검 항목 명
+	private String sFcltsJobSe;				// 검색 시설물 업무 구분
+	private String sDepthSort;				// 검색 단계
 
 	/**
 	 * @return the qcItemCd

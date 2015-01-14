@@ -9,8 +9,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -45,8 +43,6 @@ import egovframework.rte.ygpa.gam.popup.service.GamPopupQcItemCdVo;
 @Controller
 public class GamPopupQcItemCdController {
 
-	protected Log log = LogFactory.getLog(this.getClass());
-
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
@@ -59,7 +55,6 @@ public class GamPopupQcItemCdController {
 	@Resource(name="egovMessageSource")
 	EgovMessageSource egovMessageSource;
 
-
 	@Resource(name = "gamPopupQcItemCdService")
 	private GamPopupQcItemCdService gamPopupQcItemCdService;
 
@@ -67,6 +62,7 @@ public class GamPopupQcItemCdController {
 	String showQcItemCdPopup(GamPopupQcItemCdVo searchOpt, ModelMap model) throws Exception {
 
 		model.addAttribute("searchOpt", searchOpt);
+
 		return "/ygpa/gam/popup/GamPopupQcItemCd";
 
 	}
@@ -75,7 +71,7 @@ public class GamPopupQcItemCdController {
 	@RequestMapping(value="/popup/gamSelectQcItemCdList.do", method=RequestMethod.POST)
 	@ResponseBody Map gamSelectQcItemCdList(GamPopupQcItemCdVo searchVO) throws Exception {
 
-		int totalCnt;
+		int totalCount;
 		Map map = new HashMap();
 
 		PaginationInfo paginationInfo = new PaginationInfo();
@@ -87,14 +83,14 @@ public class GamPopupQcItemCdController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		totalCnt = gamPopupQcItemCdService.selectQcItemCdListTotCnt(searchVO);
+		totalCount = gamPopupQcItemCdService.selectQcItemCdListTotCnt(searchVO);
 		List resultList = gamPopupQcItemCdService.selectQcItemCdList(searchVO);
 
-		paginationInfo.setTotalRecordCount(totalCnt);
+		paginationInfo.setTotalRecordCount(totalCount);
 		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 		map.put("resultCode", 0);
-		map.put("totalCount", totalCnt);
+		map.put("totalCount", totalCount);
 		map.put("resultList", resultList);
 		map.put("searchOption", searchVO);
 

@@ -61,15 +61,19 @@ GamPopupQcItemCdModule.prototype.loadComplete = function(params) {
 		height: "300"
 	});
 
+	this.$("#mainGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectData();
+	});
+
 	this.$("#mainGrid").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module.closeDialog("ok", row);
 	});
 
 	if (params != null) {
-       	this.$('#sFcltsJobSe').val(params.sFcltsJobSe);
-       	this.$('#sDepthSort').val(params.sDepthSort);
-       	var searchOpt=this.makeFormArgs('#searchForm');
-       	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+		this.$('#sFcltsJobSe').val(params.sFcltsJobSe);
+		this.$('#sDepthSort').val(params.sDepthSort);
+		var searchOpt=this.makeFormArgs('#searchForm');
+		this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 	}
 
 };
@@ -119,6 +123,22 @@ GamPopupQcItemCdModule.prototype.loadData = function() {
 
 	var searchOpt=this.makeFormArgs('#searchForm');
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectData
+ * @DESCRIPTION   : DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamPopupQcItemCdModule.prototype.selectData = function() {
+
+	var gridRowCount = this.$("#mainGrid").flexRowCount();
+	if (gridRowCount == 0) {
+		alert('해당 조건의 자료가 존재하지 않습니다!');
+	}
 
 };
 

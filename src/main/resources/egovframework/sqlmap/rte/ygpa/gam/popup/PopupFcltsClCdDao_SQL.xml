@@ -3,57 +3,79 @@
 
 <sqlMap namespace="ygpa.gam.popup">
 
-    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-    <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamPopupFcltsClCdVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupFcltsClCdVO"/>
-    
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamPopupFcltsClCdVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupFcltsClCdVO"/>
 
-    <select id="gamPopupFcltsClCdDao.selectFcltsClCdList_D" parameterClass="gamPopupFcltsClCdVO" resultClass="egovMap">
-           SELECT A.*
-           FROM (
-                   SELECT  ROWNUM RNUM, S.*
-                     FROM (
-							SELECT
-							    F.FCLTS_CL_CD
-							    , F.FCLTS_CL_CD_NM
-							    , F.FCLTS_CL_UPPER_CD
-							    , (SELECT FCLTS_CL_CD_NM FROM FCLTS_CL_CD_F WHERE FCLTS_CL_CD = F.FCLTS_CL_UPPER_CD) FCLTS_CL_UPPER_CD_NM
-							    , F.DEPTH_SORT
-							    , F.LEAF_YN
-							FROM
-							    FCLTS_CL_CD_F F
-							WHERE
-							    F.LEAF_YN = 'Y'
-							    <isNotEmpty property="sFcltsClCdChar">
-							    	AND F.FCLTS_CL_CD LIKE #sFcltsClCdChar# || '%'
-							    </isNotEmpty>
-							    <isNotEmpty property="sFcltsClCd">
-							    	AND F.FCLTS_CL_CD LIKE #sFcltsClCd# || '%'
-							    </isNotEmpty>
-							    <isNotEmpty property="sFcltsClCdNm">
-							    	AND F.FCLTS_CL_CD_NM LIKE '%' || #sFcltsClCdNm# || '%'
-							    </isNotEmpty>
-							ORDER BY FCLTS_CL_CD                                                  
-                ) S	
-             ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
-    </select>
-    
-    <select id="gamPopupFcltsClCdDao.selectFcltsClCdListTotCnt_S" parameterClass="gamPopupFcltsClCdVO" resultClass="int">
-			SELECT
-			    COUNT(*) CNT
-			FROM
-			    FCLTS_CL_CD_F F
-			WHERE
-			    F.LEAF_YN = 'Y'
-				<isNotEmpty property="sFcltsClCdChar">
-			    	AND F.FCLTS_CL_CD LIKE #sFcltsClCdChar# || '%'
-			    </isNotEmpty>
-			    <isNotEmpty property="sFcltsClCd">
-			    	AND F.FCLTS_CL_CD LIKE #sFcltsClCd# || '%'
-			    </isNotEmpty>
-			    <isNotEmpty property="sFcltsClCdNm">
-			    	AND F.FCLTS_CL_CD_NM LIKE '%' || #sFcltsClCdNm# || '%'
-			    </isNotEmpty>                                                  
-    </select>
+	<select id="gamPopupFcltsClCdDao.selectFcltsClCdList_D" parameterClass="gamPopupFcltsClCdVO" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.FCLTS_CL_CD
+								,T1.FCLTS_CL_CD_NM
+								,T1.FCLTS_CL_UPPER_CD
+								,T1.FCLTS_JOB_SE
+								,GAM_GET_FCLTS_JOB_SE_NM(T1.FCLTS_JOB_SE) AS FCLTS_JOB_SE_NM
+								,TO_CHAR(T1.DEPTH_SORT) AS DEPTH_SORT
+								,T1.LEAF_YN
+							FROM FCLTS_CL_CD_F T1
+						WHERE 1=1
+
+						<isNotEmpty property="sFcltsClCd">
+						AND T1.FCLTS_CL_CD LIKE #sFcltsClCd# || '%'
+						</isNotEmpty>
+
+						<isNotEmpty property="sFcltsClCdNm">
+						AND T1.FCLTS_CL_CD_NM LIKE '%' || #sFcltsClCdNm# || '%'
+						</isNotEmpty>
+
+						<isNotEmpty property="sFcltsJobSe">
+						AND T1.FCLTS_JOB_SE = #sFcltsJobSe#
+						</isNotEmpty>
+
+						<isNotEmpty property="sDepthSort">
+						AND T1.DEPTH_SORT = TO_NUMBER(#sDepthSort#)
+						</isNotEmpty>
+
+						<isNotEmpty property="sLeafYn">
+						AND T1.LEAF_YN = #sLeafYn#
+						</isNotEmpty>
+
+						ORDER BY T1.FCLTS_CL_CD
+				) S
+		) A
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<select id="gamPopupFcltsClCdDao.selectFcltsClCdListTotCnt_S" parameterClass="gamPopupFcltsClCdVO" resultClass="int">
+		SELECT COUNT(*) AS TOTAL_COUNT
+			FROM FCLTS_CL_CD_F T1
+		WHERE 1=1
+
+		<isNotEmpty property="sFcltsClCd">
+		AND T1.FCLTS_CL_CD LIKE #sFcltsClCd# || '%'
+		</isNotEmpty>
+
+		<isNotEmpty property="sFcltsClCdNm">
+		AND T1.FCLTS_CL_CD_NM LIKE '%' || #sFcltsClCdNm# || '%'
+		</isNotEmpty>
+
+		<isNotEmpty property="sFcltsJobSe">
+		AND T1.FCLTS_JOB_SE = #sFcltsJobSe#
+		</isNotEmpty>
+
+		<isNotEmpty property="sDepthSort">
+		AND T1.DEPTH_SORT = TO_NUMBER(#sDepthSort#)
+		</isNotEmpty>
+
+		<isNotEmpty property="sLeafYn">
+		AND T1.LEAF_YN = #sLeafYn#
+		</isNotEmpty>
+
+	</select>
+
 </sqlMap>

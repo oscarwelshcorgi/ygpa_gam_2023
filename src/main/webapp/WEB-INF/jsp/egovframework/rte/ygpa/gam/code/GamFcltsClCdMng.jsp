@@ -422,7 +422,7 @@ GamFcltsClCdMngModule.prototype.saveData = function() {
 		this.$("#fcltsJobSe").focus();
 		return;
 	}
-	if (fcltsClCd == "" || fcltsClCd.length != 9) {
+	if (fcltsClCd == "" || fcltsClCd.length != 10) {
 		alert('시설물 분류 코드가 부정확합니다.');
 		this.$("#fcltsClCd").focus();
 		return;
@@ -437,7 +437,7 @@ GamFcltsClCdMngModule.prototype.saveData = function() {
 		this.$("#depthSort").focus();
 		return;
 	}
-	if (fcltsClUpperCd == "" || fcltsClUpperCd.length != 9) {
+	if (fcltsClUpperCd == "" || fcltsClUpperCd.length != 10) {
 		alert('시설물 분류 상위가 부정확합니다.');
 		this.$("#fcltsClUpperCd").focus();
 		return;
@@ -917,19 +917,19 @@ var module_instance = new GamFcltsClCdMngModule();
 							<tr>
 								<th style="width:15%; height:18;">시설물 분류 상위</th>
 								<td colspan="3">
-									<input type="text" id="fcltsClUpperCd" size="15" maxlength="9"/>
-									<input type="text" id="fcltsClUpperNm" size="85" maxlength="100"/>
+									<input type="text" id="fcltsClUpperCd" size="15" maxlength="10"/>
+									<input type="text" id="fcltsClUpperNm" size="85" maxlength="60"/>
 									<button id="popupFcltsClUpperCd" class="popupButton">선택</button>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:18;">시설물 분류 코드</th>
 								<td>
-									<input type="text" id="fcltsClCd" size="45" maxlength="9"/>
+									<input type="text" id="fcltsClCd" size="45" maxlength="10"/>
 								</td>
 								<th style="width:15%; height:18;">시설물　분류　명</th>
 								<td>
-									<input type="text" id="fcltsClCdNm" size="45" maxlength="100"/>
+									<input type="text" id="fcltsClCdNm" size="45" maxlength="60"/>
 								</td>
 							</tr>
 						</table>
