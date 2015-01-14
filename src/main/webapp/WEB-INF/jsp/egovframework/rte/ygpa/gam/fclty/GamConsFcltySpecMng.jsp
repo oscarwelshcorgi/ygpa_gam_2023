@@ -353,7 +353,7 @@ GamConstFcltySpecMngModule.prototype.clearFilePage = function() {
 <%
 /**
  * @FUNCTION NAME : getFcltsMngGroupNoNm
- * @DESCRIPTION   : 조회조건 사용업체 명을 지운다.
+ * @DESCRIPTION   : 조회조건 시설물관리그룹 명을 지운다.
  * @PARAMETER     : NONE
 **/
 %>
@@ -575,7 +575,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>시설물관리그룹</th>
 							<td colspan="3">
-								<input id="sFcltsMngGroupNo" type="text" size="14" title="시설물관리그룹넘버" />&nbsp;-&nbsp;
+								<input id="sFcltsMngGroupNo" type="text" size="14" title="시설물관리그룹넘버" maxlength="14" />&nbsp;-&nbsp;
 								<input id="sFcltsMngGroupNoNm" type="text" size="56" title="시설물관리그룹명" disabled="disabled" />
 								<button id="searchPopupBtn" class="popupButton">선택</button>
 							</td>
@@ -585,9 +585,9 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<th>시설분류</th>
 							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" /></td>
 							<th>시설명</th>
-							<td><input id="sPrtFcltyNm" type="text" size="30" title="시설명"  /></td>
+							<td><input id="sPrtFcltyNm" type="text" size="30" title="시설명" maxlength="30" /></td>
 							<th>소재지</th>
-							<td><input id="sLoc" type="text" size="30" title="소재지"  /></td>
+							<td><input id="sLoc" type="text" size="30" title="소재지" maxlength="30" /></td>
 						</tr>
 					</tbody>
 				</table>
@@ -634,7 +634,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">항　　코　　드</th>
 							<td><input type="text" size="5" id="gisAssetsPrtAtCodeStr" disabled="disabled"/>
 								<input type="text" size="23" id="gisAssetsPrtAtName" disabled="disabled"/></td>
-							<th width="12%" height="17" class="required_text">GIS　자산 코드</th>
+							<th width="12%" height="17" class="required_text">GIS 자 산 코 드</th>
 							<td colspan="3">
 								<input type="text" size="4" id="gisAssetsCd" disabled="disabled" data-required="true"/>-
 								<input type="text" size="3" id="gisAssetsSubCd" disabled="disabled"/>-
@@ -662,10 +662,10 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">시　설　분　류</th>
 							<td>
 								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" id="selectedGAM005" data-required="true" data-column-id="gisPrtFcltyCd" />
-								<input type="hidden" id="prtFcltySeNm"/>
+								<input type="hidden" id="prtFcltySeNm" disabled="disabled" />
 							</td>
 							<th width="12%" height="17" class="required_text">건 축　시 설 명</th>
-							<td><input type="text" size="32" id="prtFcltyNm" maxlength="25" /></td>
+							<td><input type="text" size="32" id="prtFcltyNm" maxlength="80" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
@@ -687,46 +687,46 @@ var module_instance = new GamConstFcltySpecMngModule();
 					<table  class="detailPanel"  style="width:100%;">
 						<tr>
 							<th width="12%" height="17">준　공　일　자</th>
-							<td><input type="text" size="11" id="bldDt" class="emdcal"  /></td>
+							<td><input type="text" size="11" id="bldDt" class="emdcal" maxlength="8" /></td>
 							<th width="12%" height="17">구　조　형　식</th>
-							<td><input type="text" size="50" id="strctFmt"  /></td>
+							<td><input type="text" size="50" id="strctFmt" maxlength="33" /></td>
 						</tr>
 						
 						<tr>
 							<th width="12%" height="17">하자 만 료 일 자</th>
-							<td><input type="text" size="11" id="flawEndDt" class="emdcal"  /></td>
+							<td><input type="text" size="11" id="flawEndDt" class="emdcal" maxlength="8" /></td>
 							<th width="12%" height="17">기　초　형　식</th>
-							<td><input type="text" size="50" id="baseFmt"  data-required="true"  /></td>
+							<td><input type="text" size="50" id="baseFmt"  data-required="true" maxlength="33" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">대　지　면　적</th>
-							<td><input type="text" size="50" id="plotAr" class="ygpaNumber" data-decimal-point="2"  /></td>
+							<td><input type="text" size="50" id="plotAr" class="ygpaNumber" data-decimal-point="2" maxlength="10" /></td>
 							<th width="12%" height="17">건　축　면　적</th>
-							<td><input id="archAr" type="text" size="50" title="건축면적" class="ygpaNumber" data-decimal-point="2"  /></td>
+							<td><input id="archAr" type="text" size="50" title="건축면적" class="ygpaNumber" data-decimal-point="2" maxlength="10" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">연　　면　　적</th>
-							<td><input id="ar" type="text" size="50" title="연면적" class="ygpaNumber" data-decimal-point="2"  /></td>
+							<td><input id="ar" type="text" size="50" title="연면적" class="ygpaNumber" data-decimal-point="2" maxlength="10" /></td>
 							<th width="12%" height="17">주　사 용 용 도</th>
-							<td><input type="text" size="50" id="mainUsagePrpos"  /></td>
+							<td><input type="text" size="50" id="mainUsagePrpos" maxlength="65" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">주　차　면　적</th>
-							<td><input type="text" size="50" id="prkAr" class="ygpaNumber" data-decimal-point="2"  /></td>
+							<td><input type="text" size="50" id="prkAr" class="ygpaNumber" data-decimal-point="2" maxlength="10" /></td>
 							<th width="12%" height="17">주　차　대　수</th>
-							<td><input type="text" size="50" id="prkCnt" class="ygpaNumber"  /></td>
+							<td><input type="text" size="50" id="prkCnt" class="ygpaNumber" maxlength="5" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">옥외 주 차 면 적</th>
-							<td><input type="text" size="50" id="osdPrkAr" class="ygpaNumber" data-decimal-point="2"  /></td>
+							<td><input type="text" size="50" id="osdPrkAr" class="ygpaNumber" data-decimal-point="2" maxlength="10" /></td>
 							<th width="12%" height="17">옥외 주 차 대 수</th>
-							<td><input type="text" size="50" id="osdPrkCnt" class="ygpaNumber"  /></td>
+							<td><input type="text" size="50" id="osdPrkCnt" class="ygpaNumber" maxlength="5" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">옥내 주 차 면 적</th>
-							<td><input type="text" size="50" id="isdPrkAr" class="ygpaNumber" data-decimal-point="2"  /></td>
+							<td><input type="text" size="50" id="isdPrkAr" class="ygpaNumber" data-decimal-point="2" maxlength="10" /></td>
 							<th width="12%" height="17">옥내 주 차 대 수</th>
-							<td><input type="text" size="50" id="isdPrkCnt" class="ygpaNumber"  /></td>
+							<td><input type="text" size="50" id="isdPrkCnt" class="ygpaNumber" maxlength="10" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">배기 닥 트 유 무</th>
@@ -738,37 +738,37 @@ var module_instance = new GamConstFcltySpecMngModule();
 								</select>
 							</td>
 							<th width="12%" height="17">환기 공 조 방 식</th>
-							<td><input type="text" size="50" id="vntltnArcndtMthd"  /></td>
+							<td><input type="text" size="50" id="vntltnArcndtMthd" maxlength="16" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">승강기운영방식</th>
-							<td><input type="text" size="50" id="liftOperMthd"  /></td>
+							<td><input type="text" size="50" id="liftOperMthd" maxlength="33" /></td>
 							<th width="12%" height="17">승강기대수승객용</th>
-							<td><input type="text" size="50" id="liftCntPsngr" class="ygpaNumber"  /></td>
+							<td><input type="text" size="50" id="liftCntPsngr" class="ygpaNumber" maxlength="5" /></td>
 						</tr>
 						<tr>	
 							<th width="12%" height="17">승강기대수비상용</th>
-							<td><input type="text" size="50" id="liftCntEmgcy" class="ygpaNumber"  /></td>
+							<td><input type="text" size="50" id="liftCntEmgcy" class="ygpaNumber" maxlength="5" /></td>
 							<th width="12%" height="17">승강기대수화물용</th>
-							<td><input type="text" size="50" id="liftCntCargo" class="ygpaNumber"  /></td>
+							<td><input type="text" size="50" id="liftCntCargo" class="ygpaNumber" maxlength="5" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">전기 인 입 용 량</th>
-							<td><input id="elctyLeadInCapa" type="text" size="50" title="전기인입용량" class="ygpaNumber" data-decimal-point="2"  /></td>
+							<td><input id="elctyLeadInCapa" type="text" size="50" title="전기인입용량" class="ygpaNumber" data-decimal-point="2" maxlength="8" /></td>
 							<th width="12%" height="17">변　전　실　위 치</th>
 							<td><input type="text" size="50" id="sbtLoc"  /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">정 화 조　형 식</th>
-							<td><input type="text"  size="50" id="spictankFmt"  /></td>
+							<td><input type="text"  size="50" id="spictankFmt" maxlength="100" /></td>
 							<th width="12%" height="17">오수정화시설위치</th>
-							<td><input type="text" size="50" id="swgClupfcltyLoc"  /></td>
+							<td><input type="text" size="50" id="swgClupfcltyLoc" maxlength="33" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">물 탱 크　위 치</th>
-							<td><input type="text" size="50" id="wrtTankLoc"  /></td>
+							<td><input type="text" size="50" id="wrtTankLoc" maxlength="33" /></td>
 							<th width="12%" height="17">유류저장시설위치</th>
-							<td><input type="text" size="50" id="oilSavefcltyLoc"  /></td>
+							<td><input type="text" size="50" id="oilSavefcltyLoc" maxlength="33" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">냉　방　유　무</th>
@@ -780,7 +780,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 								</select>
 							</td>
 							<th width="12%" height="17">냉　방　열　원</th>
-							<td><input type="text" size="50" id="clngSrc"  /></td>
+							<td><input type="text" size="50" id="clngSrc" maxlength="33" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">난　방　유　무</th>
@@ -792,47 +792,47 @@ var module_instance = new GamConstFcltySpecMngModule();
 								</select>
 							</td>
 							<th width="12%" height="17">난　방　열　원</th>
-							<td><input  id="htngSrc" type="text"  size="50"  /></td>
+							<td><input  id="htngSrc" type="text"  size="50" maxlength="33" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">외　　　　　장</th>
-							<td><input id="fcg" type="text"  size="50"  /></td>
+							<td><input id="fcg" type="text"  size="50" maxlength="65" /></td>
 							<th width="12%" height="17">내　　　　　장</th>
-							<td><input id="itr" type="text"  size="50"  /></td>
+							<td><input id="itr" type="text"  size="50" maxlength="65" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">천　　　　　장</th>
-							<td><input id="ceil" type="text"  size="50"  /></td>
+							<td><input id="ceil" type="text"  size="50" maxlength="65" /></td>
 							<th width="12%" height="17">지　　　　　붕</th>
-							<td><input id="roof" type="text"  size="50"  /></td>
+							<td><input id="roof" type="text"  size="50" maxlength="65" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">지　붕　방　수</th>
-							<td colspan="3"><input id="roofWtprf" type="text"  size="50"  /></td>
+							<td colspan="3"><input id="roofWtprf" type="text"  size="50" maxlength="65" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">설 계　공 사 명</th>
-							<td><input id="planCnstNm" type="text"  size="50"  /></td>
+							<td><input id="planCnstNm" type="text"  size="50" maxlength="65" /></td>
 							<th width="12%" height="17">설계 수 행 회 사</th>
-							<td><input id="planExcCmpny" type="text" size="50"  /></td>
+							<td><input id="planExcCmpny" type="text" size="50" maxlength="65" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">설계 시 작 일 자</th>
-							<td><input id="planBeginDt" type="text" class="emdcal" size="11"  /></td>
+							<td><input id="planBeginDt" type="text" class="emdcal" size="11" maxlength="8" /></td>
 							<th width="12%" height="17">설계 종 료 일 자</th>
-							<td><input id="planEndDt" type="text" class="emdcal" size="11"  /></td>
+							<td><input id="planEndDt" type="text" class="emdcal" size="11" maxlength="8" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">시 공　공 사 명</th>
-							<td><input id="cnstrctCnstNm" type="text"  size="50" title="시공공사명"  /></td>
+							<td><input id="cnstrctCnstNm" type="text"  size="50" title="시공공사명" maxlength="65" /></td>
 							<th width="12%" height="17">시공 수 행 회 사</th>
-							<td><input id="cnstrctExcCmpny" type="text" size="50" title="시공수행회사"  /></td>
+							<td><input id="cnstrctExcCmpny" type="text" size="50" title="시공수행회사" maxlength="65" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">시공 시 작 일 자</th>
-							<td><input id="cnstrctBeginDt" type="text" class="emdcal" size="11" title="시공시작일자"  /></td>
+							<td><input id="cnstrctBeginDt" type="text" class="emdcal" size="11" title="시공시작일자" maxlength="8" /></td>
 							<th width="12%" height="17">시공 종 료 일 자</th>
-							<td><input id="cnstrctEndDt" type="text" class="emdcal" size="11" title="시공종료일자"  /></td>
+							<td><input id="cnstrctEndDt" type="text" class="emdcal" size="11" title="시공종료일자" maxlength="8" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">건축시설물분류코드</th>
@@ -843,12 +843,14 @@ var module_instance = new GamConstFcltySpecMngModule();
 							</td>
 						</tr>
 						<tr>
-							<th width="12%" height="17">비　　　　　고</th>
-							<td colSpan="3"><input id="rm" type="text" size="50" title="비고"  /></td>
+							<th width="12%" height="17">소　　재　　지</th>
+							<td colSpan="3"><input id="loc" type="text" size="135" title="소재지" maxlength="50" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17">소　　재　　지</th>
-							<td colSpan="3"><input id="loc" type="text" size="50" title="소재지"  /></td>
+							<th width="12%" height="17">비　　　　　고</th>
+							<td colSpan="3">
+								<textarea rows="4" cols="133" id="rm" maxlength="330"></textarea>
+							</td>
 						</tr>
 
 					</table>

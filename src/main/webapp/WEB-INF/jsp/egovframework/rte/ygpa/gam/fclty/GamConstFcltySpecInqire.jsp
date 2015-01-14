@@ -250,7 +250,7 @@ GamConstFcltySpecInqireModule.prototype.clearFilePage = function() {
 <%
 /**
  * @FUNCTION NAME : getFcltsMngGroupNoNm
- * @DESCRIPTION   : 조회조건 사용업체 명을 지운다.
+ * @DESCRIPTION   : 조회조건 시설물관리그룹 명을 지운다.
  * @PARAMETER     : NONE
 **/
 %>
@@ -411,7 +411,7 @@ var module_instance = new GamConstFcltySpecInqireModule();
 					</table>
 					<table  class="detailPanel"  style="width:100%;">
 						<tr>
-							<th width="12%" height="17">항　　코　　드</th>
+							<th width="12%" height="17">항　　구　　분</th>
 							<td>
 								<input type="text" size="5" id="gisAssetsPrtAtCodeStr" disabled="disabled"/>
 								<input type="text" size="23" id="gisAssetsPrtAtName" disabled="disabled"/>
@@ -608,17 +608,19 @@ var module_instance = new GamConstFcltySpecInqireModule();
 						<tr>
 							<th width="12%" height="17">건축시설물분류코드</th>
 							<td colspan="3">
-								<input id="archFcltsClCd" type="text" size="13" title="건축시설물분류코드" disabled="disabled" />
-								<input id="archFcltsClCdNm" type="text" size="35" disabled="disabled" />
+								<input id="archFcltsClCd" type="text" size="14" title="건축시설물분류코드" disabled="disabled" />
+								<input id="archFcltsClCdNm" type="text" size="34" disabled="disabled" />
 							</td>
 						</tr>
 						<tr>
-							<th width="12%" height="17">비　　　　　고</th>
-							<td colspan="3"><input id="rm" type="text" size="50" title="비고" disabled="disabled" /></td>
+							<th width="12%" height="17">소　　재　　지</th>
+							<td colspan="3"><input id="loc" type="text" size="135" title="소재지" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17">소　　재　　지</th>
-							<td colspan="3"><input id="loc" type="text" size="50" title="소재지" disabled="disabled" /></td>
+							<th width="12%" height="17">비　　　　　고</th>
+							<td colSpan="3">
+								<textarea rows="4" cols="133" id="rm" maxlength="1000" disabled="disabled"></textarea>
+							</td>
 						</tr>
 
 					</table>
