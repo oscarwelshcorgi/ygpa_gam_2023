@@ -596,7 +596,7 @@ var module_instance = new GamMechFcltySpecMngModule();
 							<td><input type="text" size="30" id="gisAssetsNm" disabled="disabled"/></td>
 							<th width="12%" height="17" class="required_text">지　　　　　번</th>
 							<td>
-								<input id="gisAssetsLnm" type="text" size="3" title="지번 앞자리" disabled="disabled" />&nbsp;-&nbsp;
+								<input id="gisAssetsLnm" type="text" size="4" title="지번 앞자리" disabled="disabled" />&nbsp;-&nbsp;
 								<input id="gisAssetsLnmSub" type="text" size="7" title="지번 뒷자리" disabled="disabled" />
 							</td>
 							<th width="12%" height="17" class="required_text">소　　재　　지</th>
