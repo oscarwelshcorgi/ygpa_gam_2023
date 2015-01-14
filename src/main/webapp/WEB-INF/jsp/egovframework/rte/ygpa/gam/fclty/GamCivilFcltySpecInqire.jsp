@@ -489,7 +489,7 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 						</tr>
 						 <tr>	
 							<th width="12%" height="17">구　조　　　형　식</th>
-							<td colspan="5"><input id="strctFmt" type="text" size="131"  disabled/></td>
+							<td colspan="5"><input id="strctFmt" type="text" size="123"  disabled/></td>
 						 </tr>
 						 <tr>
 							<th width="12%" height="17">상　　　치　　　폭</th>
@@ -511,11 +511,11 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 						</tr>
 						<tr>	
 							<th width="12%" height="17"  >기초　 저면 　토질</th>
-							<td colspan="5"><input id="baseBttmSoil" type="text" size="131" maxlength="150" disabled/></td>
+							<td colspan="5"><input id="baseBttmSoil" type="text" size="123" maxlength="150" disabled/></td>
 						</tr>
 						<tr>	
 							<th width="12%" height="17" >취　급　　　화　물</th>
-							<td colspan="5"><input id="hndlFrght" type="text" size="131" maxlength="100" disabled/></td>
+							<td colspan="5"><input id="hndlFrght" type="text" size="123" maxlength="100" disabled/></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" >말　뚝　　　구　경</th>
@@ -531,7 +531,7 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" >널　말　뚝　규　격</th>
-							<td colspan="5"><input id="sheetFileStndrd" type="text" size="131" maxlength="100" disabled/></td>
+							<td colspan="5"><input id="sheetFileStndrd" type="text" size="123" maxlength="100" disabled/></td>
 						</tr>
 						<tr>	
 							<th width="12%" height="17" >소　화　전　수　량</th>
@@ -564,57 +564,58 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 						</tr>
 						<tr>	
 							<th width="12%" height="17" >계　선　주　규　격1</th>
-							<td colspan="5"><input id="mrpostStndrd1" type="text" size="131" maxlength="100" disabled/></td>
+							<td colspan="5"><input id="mrpostStndrd1" type="text" size="123" maxlength="100" disabled/></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" >계　선　주　규　격2</th>
-							<td colspan="5"><input id="mrpostStndrd2" type="text" size="131" maxlength="100" disabled/></td>
+							<td colspan="5"><input id="mrpostStndrd2" type="text" size="123" maxlength="100" disabled/></td>
 						</tr>
 						<tr>	
 				    		<th width="12%" height="17">계선주　배치　간격1</th>
 							<td><input id="mrpostPmntItv1" type="text" size="43" maxlength="30" disabled/></td>
-							<th width="12%" height="17" >계선주　배치　간격2</th>
+							<th width="12%" height="17">계선주　배치간격　2</th>
+							
 							<td><input id="mrpostPmntItv2" type="text" size="43" maxlength="30" disabled/></td>
 						</tr>
 						<tr>	
 							<th width="12%" height="17">계선주　견인력　1</th>
 							<td><input id="mrpostPwr1" type="text" size="43" maxlength="30" disabled/></td>
-							<th width="12%" height="17" >계선주　견인력　2</th>  
+							<th width="12%" height="17">계선주　견인력　　2</th>  
 							<td><input id="mrpostPwr2" type="text" size="43" maxlength="30" disabled/></td>
 						</tr>
 							<th width="12%" height="17" >주요 　취급　 화물</th>
-							<td colspan="5"><input id="stplHndlFrght" type="text" size="131" maxlength="300" disabled/></td>
+							<td colspan="5"><input id="stplHndlFrght" type="text" size="123" maxlength="300" disabled/></td>
 						</tr>
 						<tr>	
 							<th width="12%" height="17" >주요　 계류　 선박</th>
-							<td colspan="5"><input id="stplMoorShip" type="text" size="131" maxlength="300" disabled/></td>
+							<td colspan="5"><input id="stplMoorShip" type="text" size="123" maxlength="300" disabled/></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" >소　　　재　　　　지</th>
-							<td colspan="5"><input id="loc" type="text" size="131" maxlength="150" disabled/></td>
+							<td colspan="5"><input id="loc" type="text" size="123" maxlength="150" disabled/></td>
 						</tr>
 						<tr>	
 							<th width="12%" height="17" >시작점　　　　위치</th>
-							<td colspan="5"><input id="beginPtLoc" type="text" size="131" maxlength="100" disabled/></td>
+							<td colspan="5"><input id="beginPtLoc" type="text" size="123" maxlength="100" disabled/></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" >종착점　　　　위치</th>
-							<td colspan="5"><input id="endPtLoc" type="text" size="131" maxlength="100" disabled/></td>
+							<td colspan="5"><input id="endPtLoc" type="text" size="123" maxlength="100" disabled/></td>
 						</tr>
 						<tr>	
-							<th width="12%" height="17" >　　　　폭</th>
+							<th width="12%" height="17">　　　　폭</th>
 							<td><input id="wd" type="text" size="43" class="ygpaNumber" data-decimal-point="2" disabled/></td>
-							<th width="12%" height="17" >길　　　　　　　이</th>
+							<th width="12%" height="17">길　　　　　　　이</th>
 							<td><input id="lt" type="text" size="43" class="ygpaNumber" data-decimal-point="2" disabled/></td>
 						</tr>
 						<tr>		
-							<th width="12%" height="17" >포　장　종　류</th>
+							<th width="12%" height="17">포　장　　　종　류</th>
 							<td><input id="packKnd" type="text" size="43" maxlength="3" disabled/></td>
 							<th width="12%" height="17" >설　계　　　파　고</th>
 							<td><input id="planHegh" type="text" size="43" class="ygpaNumber" data-decimal-point="2" disabled/></td>
 						</tr>
 						<tr>	
-							<th width="12%" height="17" >파　랑　주　방　향</th>
+							<th width="12%" height="17">파　랑　주　방　향</th>
 							<td colspan="5"><input id="wavemainDir" type="text" size="43" maxlength="30" disabled/></td>
 						</tr>
 						<tr>
@@ -628,13 +629,13 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 							<th width="12%" height="17" >외축소파공　경사비율</th>
 							<td><input id="outerSwaveSlpRate" type="text" size="43" class="ygpaNumber" data-decimal-point="2" disabled/></td>
 							<th width="12%" height="17" >외축소　파공　피복</th>
-							<td ><input id="outerSwaveCover" type="text" size="43" maxlength="60" disabled/></td>
+							<td><input id="outerSwaveCover" type="text" size="43" maxlength="60" disabled/></td>
 						</tr>
 						<tr>	
 							<th width="12%" height="17" >내축소파공　경사비율</th>
 							<td><input id="inSwaveSlpRate" type="text" size="43" class="ygpaNumber" data-decimal-point="2" disabled/></td>
 							<th width="12%" height="17" >내축소　파공　피복</th>
-							<td ><input id="inSwaveCover" type="text" size="43" maxlength="60" disabled/></td>
+							<td><input id="inSwaveCover" type="text" size="43" maxlength="60" disabled/></td>
 						</tr>
 					</table>
 				</form>

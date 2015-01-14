@@ -696,7 +696,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" >방　충　재　형　식</th>
-							<td colspan="5"><input id="fenderFmt" type="text" size="20" maxlength="3" /></td>
+							<td colspan="5"><input id="fenderFmt" type="text" size="43" maxlength="3" /></td>
 						</tr>
 						
 						<tr>
@@ -716,13 +716,13 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						<tr>	
 				    		<th width="12%" height="17">계선주　배치　간격1</th>
 							<td><input id="mrpostPmntItv1" type="text" size="43" maxlength="30" /></td>
-							<th width="12%" height="17" >계선주　배치　간격2</th>
+							<th width="12%" height="17" >계선주　배치 간격2</th>
 							<td><input id="mrpostPmntItv2" type="text" size="43" maxlength="30" /></td>
 						</tr>
 						<tr>	
-							<th width="12%" height="17">계선주　견인력　1</th>
+							<th width="12%" height="17">계선주　　견인력　1</th>
 							<td><input id="mrpostPwr1" type="text" size="43" maxlength="30" /></td>
-							<th width="12%" height="17" >계선주　견인력　2</th>  
+							<th width="12%" height="17">계선주　　견인력　2</th>  
 							<td><input id="mrpostPwr2" type="text" size="43" maxlength="30" /></td>
 						</tr>
 							<th width="12%" height="17" >주요 　취급　 화물</th>
@@ -751,7 +751,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							<td><input id="lt" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
 						</tr>
 						<tr>		
-							<th width="12%" height="17" >포　장　종　류</th>
+							<th width="12%" height="17" >포　장　　　종　류</th>
 							<td><input id="packKnd" type="text" size="43" maxlength="3" /></td>
 							<th width="12%" height="17" >설　계　　　파　고</th>
 							<td><input id="planHegh" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
