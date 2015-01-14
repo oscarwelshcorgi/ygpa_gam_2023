@@ -84,8 +84,8 @@ GamElctyFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		colModel : [
 					{display:"순번",		name:"atchFileSeq",			width:40,		sortable:true,		align:"center"},
 					{display:"구분",		name:"atchFileSeNm",		width:40,		sortable:true,		align:"center"},
-					{display:"파일제목",	name:"atchFileSj",			width:160,		sortable:true,		align:"left"},
-					{display:"논리파일명",	name:"atchFileNmLogic",		width:160,		sortable:true,		align:"left"},
+					{display:"파일제목",	name:"atchFileSj",			width:200,		sortable:true,		align:"left"},
+					{display:"논리파일명",	name:"atchFileNmLogic",		width:180,		sortable:true,		align:"left"},
 			],
 		height: "400"
 	});

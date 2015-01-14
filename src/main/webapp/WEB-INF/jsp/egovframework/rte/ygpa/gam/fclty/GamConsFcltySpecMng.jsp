@@ -755,7 +755,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 						<tr>
 							<th width="12%" height="17">전기 인 입 용 량</th>
 							<td><input id="elctyLeadInCapa" type="text" size="50" title="전기인입용량" class="ygpaNumber" data-decimal-point="2" maxlength="8" /></td>
-							<th width="12%" height="17">변　전　실　위 치</th>
+							<th width="12%" height="17">변 전 실　위 치</th>
 							<td><input type="text" size="50" id="sbtLoc"  /></td>
 						</tr>
 						<tr>
