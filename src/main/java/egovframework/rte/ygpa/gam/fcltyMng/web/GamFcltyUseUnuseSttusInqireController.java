@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
@@ -24,6 +28,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltySpecInqireVO;
+import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageHistInqireVO;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUseUnuseSttusInqireService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUseUnuseSttusInqireVO;
 import egovframework.rte.ygpa.gam.mngFee.service.GamGrHseEmitQyMngVo;
@@ -174,6 +179,47 @@ String indexFcltyUsageSttusInqire(@RequestParam("window_id") String windowId, Mo
 
 	return map;
 
+}
+
+/**
+ * 시설물 사용사용/미사용시설목록 Excel
+ * @param excelParam
+ * @return ModelAndView
+ * @throws Exception
+ */
+@SuppressWarnings({ "rawtypes", "unchecked" })
+@RequestMapping(value="/fcltyMng/gamFcltyUseUnuseSttusInqireExcel.do", method=RequestMethod.POST)
+@ResponseBody ModelAndView gamExcelDownloadUsageHistInqire(@RequestParam Map<String, Object> excelParam) throws Exception {
+	
+	Map map = new HashMap();
+	List header;
+	ObjectMapper mapper = new ObjectMapper();
+
+	// 0. Spring Security 사용자권한 처리
+	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+	if(!isAuthenticated) {
+        map.put("resultCode", 1);
+		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+		return new ModelAndView("gridExcelView", "gridResultMap", map);
+	}
+
+    header = mapper.readValue((String)excelParam.get("header"),
+		    new TypeReference<List<HashMap<String,String>>>(){});
+    excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
+    
+    GamFcltyUseUnuseSttusInqireVO searchVO= new GamFcltyUseUnuseSttusInqireVO();
+	searchVO = mapper.convertValue(excelParam, GamFcltyUseUnuseSttusInqireVO.class);
+	searchVO.setFirstIndex(0);
+	searchVO.setLastIndex(9999);
+	searchVO.setRecordCountPerPage(9999);
+	
+	List resultList = gamFcltyUseUnuseSttusInqireService.selectFcltyUseUnuseSttusInqireList(searchVO);
+	
+	map.put("resultCode", 0);
+	map.put("resultList", resultList);
+	map.put("header", header);
+
+	return new ModelAndView("gridExcelView", "gridResultMap", map);
 }
 }
 

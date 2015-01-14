@@ -110,13 +110,15 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
     });
 };
 GamFcltyUseUnuseSttusInqireModule.prototype.onSubmit = function() {
-/*  	if(!validateGamFcltyUseUnuseSttusInqire(this.$('#searchForm')[0])){ 		
+  	if(!validateGamFcltyUseUnuseSttusInqire(this.$('#searchForm')[0])){ 		
 		return;
 	}
- */ 	
- 	this.loadData();
+  	
+ 	
  	this.$('#detailGrid').flexEmptyData();
+ 	this.initDisplay();
 	this.$("#mainTab").tabs("option", {active: 0});
+	this.loadData();
 	};
 
 	//시설목록 로드
@@ -355,12 +357,26 @@ GamFcltyUseUnuseSttusInqireModule.prototype.drawPieChart = function(result) {
 };
 
 
+GamFcltyUseUnuseSttusInqireModule.prototype.downloadExcel = function() {
+	var RowCount = this.$("#mainGrid").flexRowCount();
+	if (RowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	this.$('#mainGrid').flexExcelDown('/fcltyMng/gamFcltyUseUnuseSttusInqireExcel.do');
+};
+
 
 	/**
 	 * 정의 된 버튼 클릭 시
 	 */
 GamFcltyUseUnuseSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 
+		switch(buttonId){
+		case 'btnExcelDownload' :
+			this.downloadExcel();
+			break;
+		}
 	
 };
 
@@ -396,7 +412,7 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
                             	<input id="searchDtFr" type="text" class="emdcal" size="8"> ~
                             	<input id="searchDtTo" type="text" class="emdcal" size="8">
                              </td>
-                              <td colspan="2"><button class="buttonSearch">조회</button></td>
+                           	<td rowspan="2"><button class="buttonSearch">조회</button></td>
 							</tr>
 							<tr>
 							<th>시설명</th>
@@ -436,9 +452,11 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 						</table>
 						<table style="width:100%;">
 	                        <tr>
-	                        <button data-role="showMap" data-gis-layer="gisAssetsCd"
-									data-flexi-grid="fcltyUseUnuseSttusInqireList" data-style="default">맵조회</button>
-	                        
+	                      <!--   <button data-role="showMap" data-gis-layer="gisAssetsCd"
+									data-flexi-grid="fcltyUseUnuseSttusInqireList" data-style="default">맵조회</button> -->
+	                            <td style="text-align: right">
+	                            	<button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+	                            </td>
 	                        
 	                        </tr>
 						</table>

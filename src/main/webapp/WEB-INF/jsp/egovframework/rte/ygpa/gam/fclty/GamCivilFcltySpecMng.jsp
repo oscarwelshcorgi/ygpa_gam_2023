@@ -557,9 +557,9 @@ var module_instance = new GamCivilFcltySpecMngModule();
 					</table>
 					<table  class="detailPanel"  style="width:100%;">
 						<tr>
-							<th width="12%" height="17" class="required_text">항구분</th>
+							<th width="12%" height="17" class="required_text">항　　구　　분</th>
 							<td><input type="text" size="5" id="gisAssetsPrtAtCode" disabled="disabled"/>  <input type="text" size="15" id="gisAssetsPrtAtName" disabled="disabled"/></td>
-							<th width="12%" height="17" class="required_text">GIS 자산코드</th>
+							<th width="12%" height="17" class="required_text">GIS 자 산 코 드</th>
 							<td colspan="3">
 								<input type="text" size="4" id="gisAssetsCd" disabled="disabled" data-required="true"/>-
 								<input type="text" size="3" id="gisAssetsSubCd" disabled="disabled"/>-
@@ -568,29 +568,29 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							</td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">GIS 자산명</th>
+							<th width="12%" height="17" class="required_text">GIS 자　산　명</th>
 							<td><input type="text" size="23" id="gisAssetsNm" disabled="disabled"/></td>
-							<th width="12%" height="17" class="required_text">지번</th>
+							<th width="12%" height="17" class="required_text">지　　　　　번</th>
 							<td>
 								<input id="gisAssetsLnm" type="text" size="3" title="지번 앞자리" disabled="disabled" />&nbsp;-&nbsp;
 								<input id="gisAssetsLnmSub" type="text" size="3" title="지번 뒷자리" disabled="disabled" />
 							</td>
-							<th width="12%" height="17" class="required_text">소재지</th>
+							<th width="12%" height="17" class="required_text">소　　재　　지</th>
 							<td><input id="gisAssetsLocplc" type="text" size="32" title="소재지" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">시설코드</th>
+							<th width="12%" height="17" class="required_text">시　설　코　드</th>
 							<td>
 								<input type="text" size="2" id="gisPrtFcltyCd" disabled="disabled" />&nbsp;-&nbsp;
 								<input type="text" size="3" id="gisPrtFcltySeq" disabled="disabled"/>
 							</td>
-							<th width="12%" height="17" class="required_text">시설분류</th>
+							<th width="12%" height="17" class="required_text">시　설　분　류</th>
 							<td>
 								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectGisPrtFcltyCd" data-required="true" data-column-id="gisPrtFcltyCd"/>
 								<input type="hidden" id="prtFcltySeNm" disabled="disabled" />
 							</td>
-							<th width="12%" height="17" class="required_text">시설명</th>
-							<td><input type="text" size="32" id="prtFcltyNm" maxlength="80" /></td>
+							<th width="12%" height="17" class="required_text">토 목　시 설 명</th>
+							<td><input type="text" size="30" id="prtFcltyNm" maxlength="80" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
@@ -601,9 +601,9 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							</td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">설치일자</th>
+							<th width="12%" height="17" class="required_text">설　치　일　자</th>
 							<td><input id="prtFcltyInstlDt" type="text" class="emdcal" size="20" title="설치일자" /></td>
-							<th width="12%" height="17" class="required_text">변경일자</th>
+							<th width="12%" height="17" class="required_text">변　경　일　자</th>
 							<td colspan="3"><input id="prtFcltyChangeDt" type="text" class="emdcal" size="20" title="변경일자" /></td>
 						</tr>
 					</table>
@@ -611,166 +611,178 @@ var module_instance = new GamCivilFcltySpecMngModule();
 					<table class="searchPanel">
 						<tbody>
 							<tr>
+
 								<th>토목시설 제원</th>
 							</tr>
 						</tbody>
 					</table>
-					<table  class="detailPanel"  style="width:100%;">
+
+						<table  class="detailPanel"  style="width:100%;">
 						<tr>
-							<th width="12%" height="17" class="required_text">시설물연장</th>
-							<td><input id="fcltsExt" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
-							<th width="12%" height="17" class="required_text">천단표고</th>
-							<td><input id="upsideAltud" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
-							<th width="12%" height="17" class="required_text">천단폭</th>
-							<td><input id="upsideWd" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
+							<th width="12%" height="17">시　설　물　연　장</th>
+							<td><input id="fcltsExt" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
+							<th width="12%" height="17">천　단　　　표　고</th>
+							<td><input id="upsideAltud" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
+							</tr>
+						<tr>	
+							<th width="12%" height="17" >천　　단　　폭</th>
+							<td><input id="upsideWd" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
+							<th width="12%" height="17">선　좌　　　수　심</th>
+							<td><input id="berthDpwt" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
 						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">구조형식</th>
-							<td colspan="5"><input id="strctFmt" type="text" size="131" maxlength="100" /></td>
+						 <tr>	
+							<th width="12%" height="17">구　조　　　형　식</th>
+							<td colspan="5"><input id="strctFmt" type="text" size="123"  /></td>
+						 </tr>
+						 <tr>
+							<th width="12%" height="17">상　　　치　　　폭</th>
+							<td><input id="permWd" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
+							<th width="12%" height="17">에　이　프　런　폭</th>
+							<td><input id="apronWd" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
 						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">선좌수심</th>
-							<td><input id="berthDpwt" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
-							<th width="12%" height="17" class="required_text">상치폭</th>
-							<td><input id="permWd" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
-							<th width="12%" height="17" class="required_text">에이프런폭</th>
-							<td><input id="apronWd" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
+						<tr>	
+							<th width="12%" height="17">에이프런　포장종류</th>
+							<td><input id="apronPackKnd" type="text" size="43" maxlength="3" /></td>
+							<th width="12%" height="17">에이프런　포장구배</th>
+							<td><input id="apronPackGrdnt" type="text" size="43"  /></td>
 						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">에이프런포장종류</th>
-							<td><input id="apronPackKnd" type="text" size="20" maxlength="3" /></td>
-							<th width="12%" height="17" class="required_text">에이프런포장구배</th>
-							<td colspan="3"><input id="apronPackGrdnt" type="text" size="83" maxlength="60" /></td>
+						<tr>	
+							<th width="12%" height="17" >접안　 선박 　규모</th>
+							<td><input id="csdhpShipScl" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
+							<th width="12%" height="17" >상　재　　　하　중</th>
+							<td><input id="frostDmgWght" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
 						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">접안선박규모</th>
-							<td><input id="csdhpShipScl" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
-							<th width="12%" height="17" class="required_text">상재하중</th>
-							<td colspan="3"><input id="frostDmgWght" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
+						<tr>	
+							<th width="12%" height="17"  >기초　 저면 　토질</th>
+							<td colspan="5"><input id="baseBttmSoil" type="text" size="123" maxlength="150" /></td>
 						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">기초저면토질</th>
-							<td colspan="5"><input id="baseBttmSoil" type="text" size="131" maxlength="150" /></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">취급화물</th>
-							<td colspan="5"><input id="hndlFrght" type="text" size="131" maxlength="100" /></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">말뚝구경</th>
-							<td><input id="pileClbr" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
-							<th width="12%" height="17" class="required_text">말뚝연장</th>
-							<td><input id="pileExt" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
-							<th width="12%" height="17" class="required_text">말뚝본수</th>
-							<td><input id="pileQty" type="text" size="20" class="ygpaNumber" /></td>
+						<tr>	
+							<th width="12%" height="17" >취　급　　　화　물</th>
+							<td colspan="5"><input id="hndlFrght" type="text" size="123" maxlength="100" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">널말뚝규격</th>
-							<td colspan="5"><input id="sheetFileStndrd" type="text" size="131" maxlength="100" /></td>
-						</tr>
-						<tr>							
-							<th width="12%" height="17" class="required_text">굽수전수량</th>
-							<td><input id="hydrntQy" type="text" size="20" class="ygpaNumber" /></td>
-							<th width="12%" height="17" class="required_text">소화전수량</th>
-							<td colspan="3"><input id="firepgQy" type="text" size="20" class="ygpaNumber" /></td>
+							<th width="12%" height="17" >말　뚝　　　구　경</th>
+							<td><input id="pileClbr" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
+							<th width="12%" height="17" >말　뚝　　　연　장</th>
+							<td><input id="pileExt" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">선석</th>
-							<td><input id="berth" type="text" size="20" class="ygpaNumber" /></td>
-							<th width="12%" height="17" class="required_text">야적장포장종류</th>
-							<td><input id="yardPackKnd" type="text" size="20" maxlength="3" /></td>
-							<th width="12%" height="17" class="required_text">야적장면적</th>
-							<td><input id="yardAr" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
+							<th width="12%" height="17" >말　뚝　　　본　수</th>
+							<td><input id="pileQty" type="text" size="43" class="ygpaNumber" /></td>
+							<th width="12%" height="17" >급　수　전　수　량</th>
+							<td><input id="hydrntQy" type="text" size="43" class="ygpaNumber" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">방충재종류코드</th>
-							<td><input id="fenderKndCd" type="text" size="20" maxlength="3" /></td>
-							<th width="12%" height="17" class="required_text">방충재배치간격</th>
-							<td><input id="fenderPmntItv" type="text" size="20" maxlength="30" /></td>
-							<th width="12%" height="17" class="required_text">방충재형식</th>
-							<td><input id="fenderFmt" type="text" size="20" maxlength="3" /></td>
+							<th width="12%" height="17" >널　말　뚝　규　격</th>
+							<td colspan="5"><input id="sheetFileStndrd" type="text" size="123" maxlength="100" /></td>
+						</tr>
+						<tr>	
+							<th width="12%" height="17" >소　화　전　수　량</th>
+							<td ><input id="firepgQy" type="text" size="43" class="ygpaNumber" /></td>
+							<th width="12%" height="17" >선 　　　　　　　석</th>
+							<td><input id="berth" type="text" size="43" class="ygpaNumber" /></td>
+						</tr>
+						<tr>	
+							<th width="12%" height="17" >야적장　포장　종류</th>
+							<td><input id="yardPackKnd" type="text" size="43" maxlength="3" /></td>
+							<th width="12%" height="17" >야　적　장　면　적</th>
+							<td><input id="yardAr" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
+						</tr>
+						<tr>		
+							<th width="12%" height="17" >방충재　종류　코드</th>
+							<td><input id="fenderKndCd" type="text" size="43" maxlength="3" /></td>
+							<th width="12%" height="17" >방충재　배치　간격</th>
+							<td><input id="fenderPmntItv" type="text" size="43" maxlength="30" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">계선주규격1</th>
-							<td colspan="5"><input id="mrpostStndrd1" type="text" size="131" maxlength="100" /></td>
+							<th width="12%" height="17" >방　충　재　형　식</th>
+							<td colspan="5"><input id="fenderFmt" type="text" size="20" maxlength="3" /></td>
+						</tr>
+						
+						<tr>
+							<th width="12%" height="17">계　선　주　수　량1</th>
+							<td><input id="mrpostQy1" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
+							<th width="12%" height="17" >계　선　주　수　량2</th>
+							<td><input id="mrpostQy2" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
+						</tr>
+						<tr>	
+							<th width="12%" height="17" >계　선　주　규　격1</th>
+							<td colspan="5"><input id="mrpostStndrd1" type="text" size="123" maxlength="100" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">계선주배치간격1</th>
-							<td><input id="mrpostPmntItv1" type="text" size="20" maxlength="30" /></td>
-							<th width="12%" height="17" class="required_text">계선주수량1</th>
-							<td><input id="mrpostQy1" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
-							<th width="12%" height="17" class="required_text">계선주견인력1</th>
-							<td><input id="mrpostPwr1" type="text" size="20" maxlength="30" /></td>
+							<th width="12%" height="17" >계　선　주　규　격2</th>
+							<td colspan="5"><input id="mrpostStndrd2" type="text" size="123" maxlength="100" /></td>
+						</tr>
+						<tr>	
+				    		<th width="12%" height="17">계선주　배치　간격1</th>
+							<td><input id="mrpostPmntItv1" type="text" size="43" maxlength="30" /></td>
+							<th width="12%" height="17" >계선주　배치　간격2</th>
+							<td><input id="mrpostPmntItv2" type="text" size="43" maxlength="30" /></td>
+						</tr>
+						<tr>	
+							<th width="12%" height="17">계선주　견인력　1</th>
+							<td><input id="mrpostPwr1" type="text" size="43" maxlength="30" /></td>
+							<th width="12%" height="17" >계선주　견인력　2</th>  
+							<td><input id="mrpostPwr2" type="text" size="43" maxlength="30" /></td>
+						</tr>
+							<th width="12%" height="17" >주요 　취급　 화물</th>
+							<td colspan="5"><input id="stplHndlFrght" type="text" size="123" maxlength="300" /></td>
+						</tr>
+						<tr>	
+							<th width="12%" height="17" >주요　 계류　 선박</th>
+							<td colspan="5"><input id="stplMoorShip" type="text" size="123" maxlength="300" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">계선주규격2</th>
-							<td colspan="5"><input id="mrpostStndrd2" type="text" size="131" maxlength="100" /></td>
+							<th width="12%" height="17" >소　　　재　　　　지</th>
+							<td colspan="5"><input id="loc" type="text" size="123" maxlength="150" /></td>
+						</tr>
+						<tr>	
+							<th width="12%" height="17" >시작점　　　　위치</th>
+							<td colspan="5"><input id="beginPtLoc" type="text" size="123" maxlength="100" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">계선주배치간격2</th>
-							<td><input id="mrpostPmntItv2" type="text" size="20" maxlength="30" /></td>
-							<th width="12%" height="17" class="required_text">계선주수량2</th>
-							<td><input id="mrpostQy2" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
-							<th width="12%" height="17" class="required_text">계선주견인력2</th>
-							<td><input id="mrpostPwr2" type="text" size="20" maxlength="30" /></td>
+							<th width="12%" height="17" >종착점　　　　위치</th>
+							<td colspan="5"><input id="endPtLoc" type="text" size="123" maxlength="100" /></td>
+						</tr>
+						<tr>	
+							<th width="12%" height="17" >　　　　폭</th>
+							<td><input id="wd" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
+							<th width="12%" height="17" >길　　　　　　　이</th>
+							<td><input id="lt" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
+						</tr>
+						<tr>		
+							<th width="12%" height="17" >포　장　종　류</th>
+							<td><input id="packKnd" type="text" size="43" maxlength="3" /></td>
+							<th width="12%" height="17" >설　계　　　파　고</th>
+							<td><input id="planHegh" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
+						</tr>
+						<tr>	
+							<th width="12%" height="17" >파　랑　주　방　향</th>
+							<td colspan="5"><input id="wavemainDir" type="text" size="43" maxlength="30" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">주요취급화물</th>
-							<td colspan="5"><input id="stplHndlFrght" type="text" size="131" maxlength="300" /></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">주요계류선박</th>
-							<td colspan="5"><input id="stplMoorShip" type="text" size="131" maxlength="300" /></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">소재지</th>
-							<td colspan="5"><input id="loc" type="text" size="131" maxlength="150" /></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">시작점위치</th>
-							<td colspan="5"><input id="beginPtLoc" type="text" size="131" maxlength="100" /></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">종착점위치</th>
-							<td colspan="5"><input id="endPtLoc" type="text" size="131" maxlength="100" /></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">폭</th>
-							<td><input id="wd" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
-							<th width="12%" height="17" class="required_text">길이</th>
-							<td><input id="lt" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
-							<th width="12%" height="17" class="required_text">포장종류</th>
-							<td><input id="packKnd" type="text" size="20" maxlength="3" /></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">설계파고</th>
-							<td><input id="planHegh" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
-							<th width="12%" height="17" class="required_text">파랑주방향</th>
-							<td colspan="3"><input id="wavemainDir" type="text" size="20" maxlength="30" /></td>
-						</tr>
-						<tr>							
-							<th width="12%" height="17" class="required_text">토목시설물분류코드</th>
+						<th width="12%" height="17" >토목시설물분류코드</th>
 							<td colspan="5">
-								<input id="cvlEngFcltsClCd" type="text" size="20" disabled="disabled" />
-								<input id="cvlEngFcltsClCdNm" type="text" size="50" disabled="disabled" />
-								<button id="popupSearchFcltsClCd" class="popupButton">선택</button>
+								<input id="cvlEngFcltsClCd" type="text" size="20" ="" />
+								<input id="cvlEngFcltsClCdNm" type="text" size="50" ="" />
+							<button id="popupSearchFcltsClCd" class="popupButton">선택</button>
 							</td>
+							</tr>
+						<tr>	
+							<th width="12%" height="17" >외축소파공　경사비율</th>
+							<td><input id="outerSwaveSlpRate" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
+							<th width="12%" height="17" >외축소　파공　피복</th>
+							<td ><input id="outerSwaveCover" type="text" size="43" maxlength="60" /></td>
 						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">외축소파공경사비율</th>
-							<td><input id="outerSwaveSlpRate" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
-							<th width="12%" height="17" class="required_text">외축소파공피복</th>
-							<td colspan="3"><input id="outerSwaveCover" type="text" size="83" maxlength="60" /></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">내축소파공경사비율</th>
-							<td><input id="inSwaveSlpRate" type="text" size="20" class="ygpaNumber" data-decimal-point="2" /></td>
-							<th width="12%" height="17" class="required_text">내축소파공피복</th>
-							<td colspan="3"><input id="inSwaveCover" type="text" size="83" maxlength="60" /></td>
+						<tr>	
+							<th width="12%" height="17" >내축소파공　경사비율</th>
+							<td><input id="inSwaveSlpRate" type="text" size="43" class="ygpaNumber" data-decimal-point="2" /></td>
+							<th width="12%" height="17" >내축소　파공　피복</th>
+							<td ><input id="inSwaveCover" type="text" size="43" maxlength="60" /></td>
 						</tr>
 					</table>
 				</form>
-				<div class="emdControlPanel">
+						<div class="emdControlPanel">
 					<button id="registLocation">위치등록</button>
 					<button id="gotoLocation">위치조회</button>
 					<button id="btnSave">저장</button>
