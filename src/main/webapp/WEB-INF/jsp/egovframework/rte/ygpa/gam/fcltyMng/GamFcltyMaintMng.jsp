@@ -74,8 +74,8 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 					{display:"단위",				name:"unit",				width:80,		sortable:false,		align:"center"},
 					{display:"수량",				name:"qy",					width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"단가",				name:"price",				width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
-					{display:"공사금액",			name:"mntnRprCnstAmt",		width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
-					{display:"비고",				name:"rm",					width:200,		sortable:false,		align:"center"}
+					{display:"공사금액",			name:"objMntnRprCnstAmt",		width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
+					{display:"비고",				name:"objRm",					width:200,		sortable:false,		align:"center"}
 			],
 		height: "200"
 	});
@@ -191,12 +191,12 @@ GamFcltyMaintMngModule.prototype.applyDataChanged = function(target) {
 			row['price'] = $(target).val();
 			changed=true;
 		}
-		if(this.$('#mntnRprCnstAmt').is(target)) {
-			row['mntnRprCnstAmt'] = $(target).val();
+		if(this.$('#objMntnRprCnstAmt').is(target)) {
+			row['objMntnRprCnstAmt'] = $(target).val();
 			changed=true;
 		}
-		if(this.$('#rm').is(target)) {
-			row['rm'] = $(target).val();
+		if(this.$('#objRm').is(target)) {
+			row['objRm'] = $(target).val();
 			changed=true;
 		}
 
@@ -926,11 +926,11 @@ var module_instance = new GamFcltyMaintMngModule();
 			                        <th>단가</th>
 									<td><input id="price" type="text" style="width: 150px;" title="단가" maxlength="16" class="ygpaNumber EditItem"/></td>
 									<th>공사금액</th>
-									<td><input id="mntnRprCnstAmt" type="text" style="width: 152px;" title="공사금액" maxlength="16" class="ygpaNumber EditItem"/></td>
+									<td><input id="objMntnRprCnstAmt" type="text" style="width: 152px;" title="공사금액" maxlength="16" class="ygpaNumber EditItem"/></td>
 								</tr>
 								<tr>
 									<th>비고</th>
-									<td colspan="7"><input id="rm" type="text" style="width: 869px;" title="비고" maxlength="333" class="EditItem"/></td>
+									<td colspan="7"><input id="objRm" type="text" style="width: 869px;" title="비고" maxlength="333" class="EditItem"/></td>
 								</tr>
 							</tbody>
 						</table>

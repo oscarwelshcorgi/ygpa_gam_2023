@@ -425,15 +425,6 @@ public class GamFcltyRepairMngController {
     	
 
     	try {
-    		
-    		// 하자보수첨부파일 삭제
-    		gamFcltyRepairMngService.deleteFcltyRepairFile(fcltyRepairItem);
-    		
-    		// 하자보수검사자 삭제
-    		gamFcltyRepairMngService.deleteFlawExamUsrF(fcltyRepairItem);
-    		
-    		// 하자보수대상시설물 삭제
-    		gamFcltyRepairMngService.deleteFlawRprObjFcltsF(fcltyRepairItem);
 
     		// 하자보수내역 삭제
     		gamFcltyRepairMngService.deleteFcltyRepairMng(fcltyRepairItem);

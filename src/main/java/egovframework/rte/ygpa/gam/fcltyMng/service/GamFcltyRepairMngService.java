@@ -144,31 +144,8 @@ public interface GamFcltyRepairMngService {
 	 */
 	void deleteFcltyRepairMng(Map<?,?> vo) throws Exception;
 	
-	/**
-	 * 하자보수내역 하위 대상시설물 전체 삭제
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	void deleteFlawRprObjFcltsF(Map<?,?> vo) throws Exception;
 	
-	
-	/**
-	 * 하자보수내역 하위 검사자 전체 삭제
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	void deleteFlawExamUsrF(Map<?,?> vo) throws Exception;
-	
-	
-	/**
-	 * 하자보수내역 하위 첨부파일 전체 삭제
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	void deleteFcltyRepairFile(Map<?,?> vo) throws Exception;
+
 	
 	
 	

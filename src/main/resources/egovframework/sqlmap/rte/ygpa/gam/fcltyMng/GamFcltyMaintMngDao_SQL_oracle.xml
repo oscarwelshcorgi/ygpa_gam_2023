@@ -170,8 +170,8 @@
 							, O.UNIT
 							, O.QY
 							, O.PRICE
-							, O.MNTN_RPR_CNST_AMT
-							, O.RM
+							, O.MNTN_RPR_CNST_AMT AS OBJ_MNTN_RPR_CNST_AMT
+							, O.RM AS OBJ_RM
 							, O.FCLTS_MNG_NO
 							, (SELECT PRT_FCLTY_NM FROM GIS_PRT_FCLTY_CD_F G WHERE G.FCLTS_MNG_NO = O.FCLTS_MNG_NO) PRT_FCLTY_NM
 							, O.REG_USR
@@ -297,7 +297,7 @@
 				, #cnstChargNm#
 				, #mntnRprCnstStartDt#
 				, #mntnRprCnstEndDt#
-				, REPLACE(#mntnRprCnstAmt#,',','')
+				, TO_NUMBER(#mntnRprCnstAmt#)
 				, #rm#
 				, #ctrtNo#
 				, #fcltsJobSe#
@@ -306,7 +306,7 @@
 				, #mntnRprSe#
 				, #mntnRprPart#
 				, #mntnRprCn#
-				, REPLACE(#mntnRprBdgt#,',','')
+				, TO_NUMBER(#mntnRprBdgt#)
 				, #cnstrtr#
 				, #responEngineer#
 				, #enforceYear#
@@ -324,13 +324,13 @@
 				, CNST_CHARG_NM = #cnstChargNm#
 				, MNTN_RPR_CNST_START_DT = #mntnRprCnstStartDt#
 				, MNTN_RPR_CNST_END_DT = #mntnRprCnstEndDt#
-				, MNTN_RPR_CNST_AMT = REPLACE(#mntnRprCnstAmt#,',','')
+				, MNTN_RPR_CNST_AMT = TO_NUMBER(#mntnRprCnstAmt#)
 				, RM = #rm#
 				, CTRT_NO = #ctrtNo#
 				, MNTN_RPR_SE = #mntnRprSe#
 				, MNTN_RPR_PART = #mntnRprPart#
 				, MNTN_RPR_CN = #mntnRprCn#
-				, MNTN_RPR_BDGT = REPLACE(#mntnRprBdgt#,',','')
+				, MNTN_RPR_BDGT = TO_NUMBER(#mntnRprBdgt#)
 				, CNSTRTR = #cnstrtr#
 				, RESPON_ENGINEER = #responEngineer#
 				, ENFORCE_YEAR = #enforceYear#
@@ -349,7 +349,7 @@
 		WHERE 
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND MNTN_RPR_SEQ = $TO_NUMBER(#mntnRprSeq#)
+			AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	</delete>
 	
 	
@@ -378,10 +378,10 @@
 				, #mntnRprSeq#
 				, #mntnRprCnstMth#
 				, #unit#
-				, REPLACE(#qy#,',','')
-				, REPLACE(#price#,',','')
-				, REPLACE(#mntnRprCnstAmt#,',','')
-				, #rm#
+				, TO_NUMBER(#qy#)
+				, TO_NUMBER(#price#)
+				, TO_NUMBER(#objMntnRprCnstAmt#)
+				, #objRm#
 				, #fcltsMngNo#
 				, #regUsr#
 				, SYSDATE
@@ -395,10 +395,10 @@
 			SET 
 				MNTN_RPR_CNST_MTH = #mntnRprCnstMth#
 				, UNIT = #unit#
-				, QY = REPLACE(#qy#,',','')
-				, PRICE = REPLACE(#price#,',','')
-				, MNTN_RPR_CNST_AMT = REPLACE(#mntnRprCnstAmt#,',','')
-				, RM = #rm#
+				, QY = TO_NUMBER(#qy#)
+				, PRICE = TO_NUMBER(#price#)
+				, MNTN_RPR_CNST_AMT = TO_NUMBER(#objMntnRprCnstAmt#)
+				, RM = #objRm#
 				, UPD_USR = #updUsr#
 				, UPDT_DT = SYSDATE
 			WHERE 

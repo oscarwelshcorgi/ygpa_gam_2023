@@ -379,12 +379,6 @@ public class GamFcltyMaintMngController {
     	
 
     	try {
-    		
-    		// 유지보수첨부파일 삭제
-    		gamFcltyMaintMngService.deleteFcltyMaintFile(fcltyMaintItem);
-    		
-    		// 유지보수대상시설물 삭제
-    		gamFcltyMaintMngService.deleteMntnRprObjFcltsF(fcltyMaintItem);
 
     		// 유지보수내역 삭제
     		gamFcltyMaintMngService.deleteFcltyMaintMng(fcltyMaintItem);

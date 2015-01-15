@@ -180,38 +180,8 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 */
 	public void deleteFcltyRepairMng(Map<?,?> vo) throws Exception{
 		gamFcltyRepairMngDao.deleteFcltyRepairMng(vo);
-	}
-	
-	
-	/**
-	 * 하자보수내역 하위 대상시설물 전체 삭제
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	public void deleteFlawRprObjFcltsF(Map<?,?> vo) throws Exception{
 		gamFcltyRepairMngDao.deleteFlawRprObjFcltsF(vo);
-	}
-	
-	
-	/**
-	 * 하자보수내역 하위 검사자 전체 삭제
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	public void deleteFlawExamUsrF(Map<?,?> vo) throws Exception{
 		gamFcltyRepairMngDao.deleteFlawExamUsrF(vo);
-	}
-	
-	
-	/**
-	 * 하자보수내역 하위 첨부파일 전체 삭제
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	public void deleteFcltyRepairFile(Map<?,?> vo) throws Exception{
 		gamFcltyRepairMngDao.deleteFcltyRepairFile(vo);
 	}
 	

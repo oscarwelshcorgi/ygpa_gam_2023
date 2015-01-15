@@ -128,25 +128,6 @@ public interface GamFcltyMaintMngService {
 	
 	
 	/**
-	 * 유지보수내역 하위 대상시설물 전체 삭제
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	void deleteMntnRprObjFcltsF(Map<?,?> vo) throws Exception;
-	
-	
-	/**
-	 * 유지보수내역 하위 첨부파일 전체 삭제
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	void deleteFcltyMaintFile(Map<?,?> vo) throws Exception;
-	
-	
-	
-	/**
 	 * 유지보수 대상시설물 데이타 적용
 	 * @param map
 	 * @return 

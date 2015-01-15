@@ -64,7 +64,7 @@
 						  	AND F.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
 						  </isNotEmpty>
 						  <isNotEmpty property="sLoc">
-						    AND E.LOC LIKE '%' || #sLoc# || '%'
+						    AND A.GIS_ASSETS_LOCPLC LIKE '%' || #sLoc# || '%'
 						  </isNotEmpty>
 						ORDER BY
 						  F.GIS_ASSETS_CD DESC
@@ -104,7 +104,7 @@
 						  	AND F.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
 						  </isNotEmpty>
 						  <isNotEmpty property="sLoc">
-						    AND E.LOC LIKE '%' || #sLoc# || '%'
+						    AND A.GIS_ASSETS_LOCPLC LIKE '%' || #sLoc# || '%'
 						  </isNotEmpty>
     </select>
     
