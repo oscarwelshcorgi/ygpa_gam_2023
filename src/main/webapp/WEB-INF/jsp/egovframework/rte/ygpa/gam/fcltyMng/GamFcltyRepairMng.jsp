@@ -896,7 +896,7 @@ GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	
 		case "selectFcltsMngGroup":
 			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
-			this.$("#fcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
+			this.$("#fcltsMngGoupNoNm").val(value["fcltsMngGroupNm"]);
 		break;
 
 		case "selectCtrtNo":
