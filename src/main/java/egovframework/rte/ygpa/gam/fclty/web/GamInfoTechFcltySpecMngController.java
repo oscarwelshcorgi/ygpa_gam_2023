@@ -27,7 +27,6 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamGisPrtFcltyCdMngtService;
 import egovframework.rte.ygpa.gam.fclty.service.GamInfoTechFcltySpecMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamInfoTechFcltySpecMngVO;
 
@@ -65,11 +64,6 @@ public class GamInfoTechFcltySpecMngController {
     @Resource(name="gamInfoTechFcltySpecMngService")
     GamInfoTechFcltySpecMngService gamInfoTechFcltySpecMngService;
     
-    @Resource(name="gamGisPrtFcltyCdMngtService")
-    GamGisPrtFcltyCdMngtService gamGisPrtFcltyCdMngtService;
-    
-    private final static String prtFcltySe = "I";    
-
     /**
      * 정보통신시설 관리화면호출
      * @param windowId
@@ -180,9 +174,6 @@ public class GamInfoTechFcltySpecMngController {
     	insertMap.put("regUsr", user.getId());
     	
     	try {
-    		insertMap.put("prtFcltySe", prtFcltySe);
-    		insertMap.put("gisPrtFcltySeq", gamGisPrtFcltyCdMngtService.selectNextFcltySeq(insertMap));
-    		gamGisPrtFcltyCdMngtService.insertGisPrtFclty(insertMap);
     		gamInfoTechFcltySpecMngService.insertInfoTechFcltySpecMngDetail(insertMap);
     		
     		map.put("resultCode", 0);			// return ok
@@ -216,8 +207,6 @@ public class GamInfoTechFcltySpecMngController {
     	updateMap.put("updUsr", user.getId());
     	
     	try {
-    		updateMap.put("prtFcltySe", prtFcltySe);
-    		gamGisPrtFcltyCdMngtService.updateGisPrtFclty(updateMap);
     		gamInfoTechFcltySpecMngService.updateInfoTechFcltySpecMngDetail(updateMap);
     		
     		map.put("resultCode", 0);			// return ok
@@ -247,10 +236,8 @@ public class GamInfoTechFcltySpecMngController {
     	}
 
     	try {
-    		gamInfoTechFcltySpecMngService.deleteInfoTechFcltySpecFileList(deleteMap);
     		gamInfoTechFcltySpecMngService.deleteInfoTechFcltySpecMngDetail(deleteMap);
-    		gamGisPrtFcltyCdMngtService.deleteGisPrtFclty(deleteMap);
-    		
+
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {

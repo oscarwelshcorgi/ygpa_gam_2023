@@ -92,14 +92,6 @@ public interface GamMechFcltySpecMngService {
 	int selectMechFcltySpecFileListTotCnt(GamMechFcltySpecMngVO searchVO) throws Exception;	
 	
 	/**
-	 * 기계시설재원관리 첨부파일 목록을 삭제한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */			
-	void deleteMechFcltySpecFileList(Map<?, ?> vo) throws Exception;
-	
-	/**
 	 * 기계시설재원관리 첨부파일을 병합저장한다..
 	 * @param map
 	 * @return list

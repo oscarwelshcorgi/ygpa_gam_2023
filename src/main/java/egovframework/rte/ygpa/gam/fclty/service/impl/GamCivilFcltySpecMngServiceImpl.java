@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.cmmn.fclty.service.impl.GamGisPrtFcltyCdMngtDao;
 import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltySpecMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltySpecMngVO;
 
@@ -35,6 +36,11 @@ import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltySpecMngVO;
 public class GamCivilFcltySpecMngServiceImpl extends AbstractServiceImpl implements GamCivilFcltySpecMngService{
 	@Resource(name="gamCivilFcltySpecMngDao")
 	private GamCivilFcltySpecMngDao gamCivilFcltySpecMngDao;
+	@Resource(name="gamGisPrtFcltyCdMngtDao")
+	GamGisPrtFcltyCdMngtDao gamGisPrtFcltyCdMngtDao;
+
+    private final static String prtFcltySe = "C";    
+
 	/**
 	 * 토목시설재원관리 목록 조회
 	 * @param vo
@@ -71,7 +77,11 @@ public class GamCivilFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void insertCivilFcltySpecMngDetail(Map<?,?> vo) throws Exception {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void insertCivilFcltySpecMngDetail(Map vo) throws Exception {
+		vo.put("prtFcltySe", prtFcltySe);
+		vo.put("gisPrtFcltySeq", gamGisPrtFcltyCdMngtDao.selectNextFcltySeq(vo));
+		gamGisPrtFcltyCdMngtDao.insertGisPrtFclty(vo);
 		gamCivilFcltySpecMngDao.insertCivilFcltySpecMngDetail(vo);
 	}
 	
@@ -81,7 +91,10 @@ public class GamCivilFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void updateCivilFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void updateCivilFcltySpecMngDetail(Map vo) throws Exception {
+		vo.put("prtFcltySe", prtFcltySe);
+		gamGisPrtFcltyCdMngtDao.updateGisPrtFclty(vo);
 		gamCivilFcltySpecMngDao.updateCivilFcltySpecMngDetail(vo);
 	}
 	
@@ -92,9 +105,11 @@ public class GamCivilFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 * @throws Exception
 	 */		
 	public void deleteCivilFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
+		gamCivilFcltySpecMngDao.deleteCivilFcltySpecFileList(vo);
 		gamCivilFcltySpecMngDao.deleteCivilFcltySpecMngDetail(vo);
-	}	
-	
+		gamGisPrtFcltyCdMngtDao.deleteGisPrtFclty(vo);
+	}
+
 	/**
 	 * 토목시설재원관리 첨부파일 목록을 가져온다.
 	 * @param vo
@@ -115,16 +130,6 @@ public class GamCivilFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 		return gamCivilFcltySpecMngDao.selectCivilFcltySpecFileListTotCnt(searchVO);
 	}
 
-	/**
-	 * 토목시설재원관리 첨부파일 목록을 삭제한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */			
-	public void deleteCivilFcltySpecFileList(Map<?, ?> vo) throws Exception {
-		gamCivilFcltySpecMngDao.deleteCivilFcltySpecFileList(vo);
-	}
-	
 	/**
 	 * 토목시설재원관리 첨부파일목록을 병합하여 저장한다.
 	 * @param vo

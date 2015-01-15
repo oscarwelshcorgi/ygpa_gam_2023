@@ -92,14 +92,6 @@ public interface GamInfoTechFcltySpecMngService {
 	int selectInfoTechFcltySpecFileListTotCnt(GamInfoTechFcltySpecMngVO searchVO) throws Exception;	
 	
 	/**
-	 * 정보통신시설재원관리 첨부파일 목록을 삭제한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */			
-	void deleteInfoTechFcltySpecFileList(Map<?, ?> vo) throws Exception;
-	
-	/**
 	 * 정보통신시설재원관리 첨부파일을 병합저장한다..
 	 * @param map
 	 * @return list

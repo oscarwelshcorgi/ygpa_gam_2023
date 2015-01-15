@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.cmmn.fclty.service.impl.GamGisPrtFcltyCdMngtDao;
 import egovframework.rte.ygpa.gam.fclty.service.GamInfoTechFcltySpecMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamInfoTechFcltySpecMngVO;
 
@@ -35,6 +36,10 @@ import egovframework.rte.ygpa.gam.fclty.service.GamInfoTechFcltySpecMngVO;
 public class GamInfoTechFcltySpecMngServiceImpl extends AbstractServiceImpl implements GamInfoTechFcltySpecMngService{
 	@Resource(name="gamInfoTechFcltySpecMngDao")
 	private GamInfoTechFcltySpecMngDao gamInfoTechFcltySpecMngDao;
+	@Resource(name="gamGisPrtFcltyCdMngtDao")
+	GamGisPrtFcltyCdMngtDao gamGisPrtFcltyCdMngtDao;
+	
+    private final static String prtFcltySe = "I";    	
 	/**
 	 * 정보통신시설재원관리 목록 조회
 	 * @param vo
@@ -71,7 +76,11 @@ public class GamInfoTechFcltySpecMngServiceImpl extends AbstractServiceImpl impl
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void insertInfoTechFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void insertInfoTechFcltySpecMngDetail(Map vo) throws Exception {
+		vo.put("prtFcltySe", prtFcltySe);
+		vo.put("gisPrtFcltySeq", gamGisPrtFcltyCdMngtDao.selectNextFcltySeq(vo));
+		gamGisPrtFcltyCdMngtDao.insertGisPrtFclty(vo);
 		gamInfoTechFcltySpecMngDao.insertInfoTechFcltySpecMngDetail(vo);
 	}
 	
@@ -81,7 +90,10 @@ public class GamInfoTechFcltySpecMngServiceImpl extends AbstractServiceImpl impl
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void updateInfoTechFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void updateInfoTechFcltySpecMngDetail(Map vo) throws Exception {
+		vo.put("prtFcltySe", prtFcltySe);
+		gamGisPrtFcltyCdMngtDao.updateGisPrtFclty(vo);
 		gamInfoTechFcltySpecMngDao.updateInfoTechFcltySpecMngDetail(vo);
 	}
 	
@@ -92,7 +104,9 @@ public class GamInfoTechFcltySpecMngServiceImpl extends AbstractServiceImpl impl
 	 * @throws Exception
 	 */		
 	public void deleteInfoTechFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
+		gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecFileList(vo);
 		gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecMngDetail(vo);
+		gamGisPrtFcltyCdMngtDao.deleteGisPrtFclty(vo);
 	}	
 	
 	/**
@@ -115,16 +129,6 @@ public class GamInfoTechFcltySpecMngServiceImpl extends AbstractServiceImpl impl
 		return gamInfoTechFcltySpecMngDao.selectInfoTechFcltySpecFileListTotCnt(searchVO);
 	}
 
-	/**
-	 * 정보통신시설재원관리 첨부파일 목록을 삭제한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */			
-	public void deleteInfoTechFcltySpecFileList(Map<?, ?> vo) throws Exception {
-		gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecFileList(vo);
-	}
-	
 	/**
 	 * 정보통신시설재원관리 첨부파일목록을 병합하여 저장한다.
 	 * @param vo

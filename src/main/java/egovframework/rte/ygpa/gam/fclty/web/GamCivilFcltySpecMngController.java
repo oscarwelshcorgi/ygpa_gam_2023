@@ -27,7 +27,6 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamGisPrtFcltyCdMngtService;
 import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltySpecMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamCivilFcltySpecMngVO;
 
@@ -65,10 +64,6 @@ public class GamCivilFcltySpecMngController {
     @Resource(name="gamCivilFcltySpecMngService")
     GamCivilFcltySpecMngService gamCivilFcltySpecMngService;
     
-    @Resource(name="gamGisPrtFcltyCdMngtService")
-    GamGisPrtFcltyCdMngtService gamGisPrtFcltyCdMngtService;
-    
-    private final static String prtFcltySe = "C";    
 	/**
      * 토목시설 관리화면호출
      * @param windowId
@@ -180,9 +175,6 @@ public class GamCivilFcltySpecMngController {
     	insertMap.put("regUsr", user.getId());
     	
     	try {
-    		insertMap.put("prtFcltySe", prtFcltySe);
-    		insertMap.put("gisPrtFcltySeq", gamGisPrtFcltyCdMngtService.selectNextFcltySeq(insertMap));
-    		gamGisPrtFcltyCdMngtService.insertGisPrtFclty(insertMap);
     		gamCivilFcltySpecMngService.insertCivilFcltySpecMngDetail(insertMap);
     		
     		map.put("resultCode", 0);			// return ok
@@ -216,8 +208,6 @@ public class GamCivilFcltySpecMngController {
     	updateMap.put("updUsr", user.getId());
     	
     	try {
-    		updateMap.put("prtFcltySe", prtFcltySe);
-    		gamGisPrtFcltyCdMngtService.updateGisPrtFclty(updateMap);
     		gamCivilFcltySpecMngService.updateCivilFcltySpecMngDetail(updateMap);
     		
     		map.put("resultCode", 0);			// return ok
@@ -247,9 +237,7 @@ public class GamCivilFcltySpecMngController {
     	}
 
     	try {
-    		gamCivilFcltySpecMngService.deleteCivilFcltySpecFileList(deleteMap);
     		gamCivilFcltySpecMngService.deleteCivilFcltySpecMngDetail(deleteMap);
-    		gamGisPrtFcltyCdMngtService.deleteGisPrtFclty(deleteMap);
     		
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));

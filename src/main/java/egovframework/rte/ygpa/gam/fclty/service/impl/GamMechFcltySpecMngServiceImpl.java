@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.cmmn.fclty.service.impl.GamGisPrtFcltyCdMngtDao;
 import egovframework.rte.ygpa.gam.fclty.service.GamMechFcltySpecMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamMechFcltySpecMngVO;
 
@@ -35,6 +36,10 @@ import egovframework.rte.ygpa.gam.fclty.service.GamMechFcltySpecMngVO;
 public class GamMechFcltySpecMngServiceImpl extends AbstractServiceImpl implements GamMechFcltySpecMngService{
 	@Resource(name="gamMechFcltySpecMngDao")
 	private GamMechFcltySpecMngDao gamMechFcltySpecMngDao;
+	@Resource(name="gamGisPrtFcltyCdMngtDao")
+	GamGisPrtFcltyCdMngtDao gamGisPrtFcltyCdMngtDao;
+
+    private final static String prtFcltySe = "M";    
 	/**
 	 * 기계시설재원관리 목록 조회
 	 * @param vo
@@ -71,7 +76,11 @@ public class GamMechFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void insertMechFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void insertMechFcltySpecMngDetail(Map vo) throws Exception {
+		vo.put("prtFcltySe", prtFcltySe);
+		vo.put("gisPrtFcltySeq", gamGisPrtFcltyCdMngtDao.selectNextFcltySeq(vo));
+		gamGisPrtFcltyCdMngtDao.insertGisPrtFclty(vo);
 		gamMechFcltySpecMngDao.insertMechFcltySpecMngDetail(vo);
 	}
 	
@@ -81,7 +90,10 @@ public class GamMechFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void updateMechFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void updateMechFcltySpecMngDetail(Map vo) throws Exception {
+		vo.put("prtFcltySe", prtFcltySe);
+		gamGisPrtFcltyCdMngtDao.updateGisPrtFclty(vo);
 		gamMechFcltySpecMngDao.updateMechFcltySpecMngDetail(vo);
 	}
 	
@@ -92,7 +104,9 @@ public class GamMechFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	 * @throws Exception
 	 */		
 	public void deleteMechFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
+		gamMechFcltySpecMngDao.deleteMechFcltySpecFileList(vo);
 		gamMechFcltySpecMngDao.deleteMechFcltySpecMngDetail(vo);
+		gamGisPrtFcltyCdMngtDao.deleteGisPrtFclty(vo);
 	}	
 	
 	/**
@@ -115,16 +129,6 @@ public class GamMechFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 		return gamMechFcltySpecMngDao.selectMechFcltySpecFileListTotCnt(searchVO);
 	}
 
-	/**
-	 * 기계시설재원관리 첨부파일 목록을 삭제한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */			
-	public void deleteMechFcltySpecFileList(Map<?, ?> vo) throws Exception {
-		gamMechFcltySpecMngDao.deleteMechFcltySpecFileList(vo);
-	}
-	
 	/**
 	 * 기계시설재원관리 첨부파일목록을 병합하여 저장한다.
 	 * @param vo
