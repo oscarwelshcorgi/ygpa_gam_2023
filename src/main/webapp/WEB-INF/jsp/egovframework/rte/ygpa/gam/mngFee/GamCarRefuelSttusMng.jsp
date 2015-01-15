@@ -72,6 +72,7 @@ GamCarRefuelSttusMngModule.prototype.loadComplete = function() {
 					],
 		showTableToggleBtn: false,
 		height : 'auto',
+		mergeRows : 'fuelKnd,total',
 		preProcess : function(module,data) {
 			module.$('#totalCount').val(data.totalCount);
 			module.makeDivValues('#listSumForm', data);
@@ -384,7 +385,7 @@ GamCarRefuelSttusMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamCarRefuelSttusMngModule.prototype.selectData = function() {
 
-	this.rowSpanGridData();
+	//this.rowSpanGridData();
 	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
 		if (gridRowCount == 0) {
@@ -428,9 +429,81 @@ GamCarRefuelSttusMngModule.prototype.saveData = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
 	var carRegistNo = this.$('#carRegistNo').val();
+	var m1 = Number(this.$('#m1').val().replace(/,/gi, ""));
+	var m2 = Number(this.$('#m1').val().replace(/,/gi, ""));
+	var m3 = Number(this.$('#m1').val().replace(/,/gi, ""));
+	var m4 = Number(this.$('#m1').val().replace(/,/gi, ""));
+	var m5 = Number(this.$('#m1').val().replace(/,/gi, ""));
+	var m6 = Number(this.$('#m1').val().replace(/,/gi, ""));
+	var m7 = Number(this.$('#m1').val().replace(/,/gi, ""));
+	var m8 = Number(this.$('#m1').val().replace(/,/gi, ""));
+	var m9 = Number(this.$('#m1').val().replace(/,/gi, ""));
+	var m10 = Number(this.$('#m1').val().replace(/,/gi, ""));
+	var m11 = Number(this.$('#m1').val().replace(/,/gi, ""));
+	var m12 = Number(this.$('#m1').val().replace(/,/gi, ""));
 	if (carRegistNo == "") {
 		alert('차량 등록 번호가 부정확합니다.');
 		this.$("#carRegistNo").focus();
+		return;
+	}
+	if (m1 > 99999999.99 || m1 < 0) {
+		alert('1월 주유량이 부정확합니다.');
+		this.$("#m1").focus();
+		return;
+	}
+	if (m2 > 99999999.99 || m2 < 0) {
+		alert('2월 주유량이 부정확합니다.');
+		this.$("#m2").focus();
+		return;
+	}
+	if (m3 > 99999999.99 || m3 < 0) {
+		alert('3월 주유량이 부정확합니다.');
+		this.$("#m3").focus();
+		return;
+	}
+	if (m4 > 99999999.99 || m4 < 0) {
+		alert('4월 주유량이 부정확합니다.');
+		this.$("#m4").focus();
+		return;
+	}
+	if (m5 > 99999999.99 || m5 < 0) {
+		alert('5월 주유량이 부정확합니다.');
+		this.$("#m5").focus();
+		return;
+	}
+	if (m6 > 99999999.99 || m6 < 0) {
+		alert('6월 주유량이 부정확합니다.');
+		this.$("#m6").focus();
+		return;
+	}
+	if (m7 > 99999999.99 || m7 < 0) {
+		alert('7월 주유량이 부정확합니다.');
+		this.$("#m7").focus();
+		return;
+	}
+	if (m8 > 99999999.99 || m8 < 0) {
+		alert('8월 주유량이 부정확합니다.');
+		this.$("#m8").focus();
+		return;
+	}
+	if (m9 > 99999999.99 || m9 < 0) {
+		alert('9월 주유량이 부정확합니다.');
+		this.$("#m9").focus();
+		return;
+	}
+	if (m10 > 99999999.99 || m10 < 0) {
+		alert('10월 주유량이 부정확합니다.');
+		this.$("#m10").focus();
+		return;
+	}
+	if (m11 > 99999999.99 || m11 < 0) {
+		alert('11월 주유량이 부정확합니다.');
+		this.$("#m11").focus();
+		return;
+	}
+	if (m12 > 99999999.99 || m12 < 0) {
+		alert('12월 주유량이 부정확합니다.');
+		this.$("#m12").focus();
 		return;
 	}
 	this.doAction('/mngFee/gamInsertCarRefuelSttusMng.do', inputVO, function(module, result) {

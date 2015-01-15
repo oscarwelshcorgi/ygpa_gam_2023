@@ -84,9 +84,6 @@ public class GamCarRefuelSttusMngController {
 	@RequestMapping(value="/mngFee/gamCarRefuelSttusMng.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
-		//login정보
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-
 		int year = Integer.parseInt(EgovDateUtil.getToday().substring(0,4));
 		List yearList = new ArrayList();
 		Map yearMap = null;
@@ -110,7 +107,7 @@ public class GamCarRefuelSttusMngController {
 	@RequestMapping(value="/mngFee/gamSelectCarRefuelSttusMng.do" , method=RequestMethod.POST)
 	@ResponseBody Map gamSelectCarRefuelSttusMng(GamCarRefuelSttusMngVo gamCarRefuelSttusMngVo) throws Exception {
 
-		int totalCnt;
+		int totalCount;
 		Map map = new HashMap();
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -129,11 +126,11 @@ public class GamCarRefuelSttusMngController {
 		gamCarRefuelSttusMngVo.setLastIndex(paginationInfo.getLastRecordIndex());
 		gamCarRefuelSttusMngVo.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		totalCnt = gamCarRefuelSttusMngService.selectCarRefuelSttusMngListTotCnt(gamCarRefuelSttusMngVo);
+		totalCount = gamCarRefuelSttusMngService.selectCarRefuelSttusMngListTotCnt(gamCarRefuelSttusMngVo);
 		List resultList = gamCarRefuelSttusMngService.selectCarRefuelSttusMngList(gamCarRefuelSttusMngVo);
 
 		map.put("resultCode", 0);
-		map.put("totalCount", totalCnt);
+		map.put("totalCount", totalCount);
 		map.put("resultList", resultList);
 
 		return map;
@@ -159,8 +156,6 @@ public class GamCarRefuelSttusMngController {
 			map.put("result", result);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
 		} catch (Exception e) {
-			// TODO: handle exception
-
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
 		}
@@ -226,8 +221,6 @@ public class GamCarRefuelSttusMngController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
-			// TODO: handle exception
-
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
@@ -256,8 +249,6 @@ public class GamCarRefuelSttusMngController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
-			// TODO: handle exception
-
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
@@ -286,8 +277,6 @@ public class GamCarRefuelSttusMngController {
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
 		} catch (Exception e) {
-			// TODO: handle exception
-
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}

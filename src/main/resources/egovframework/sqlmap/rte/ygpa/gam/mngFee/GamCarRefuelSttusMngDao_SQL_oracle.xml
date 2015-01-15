@@ -61,7 +61,7 @@
 							) T1 ON (T2.CAR_REGIST_NO=T1.CAR_REGIST_NO)
 						WHERE T2.FUEL_KND IN (#sFuelKnd1#, #sFuelKnd2#, #sFuelKnd3#, #sFuelKnd4#, #sFuelKnd5#, #sFuelKnd6#)
 						GROUP BY T2.FUEL_KND,T2.CAR_REGIST_NO,T2.CAR_NM
-						ORDER BY T2.FUEL_KND DESC,T2.CAR_REGIST_NO
+						ORDER BY T2.FUEL_KND DESC,T2.CAR_REGIST_NO ASC
 				) S
 		) A
 		<![CDATA[
