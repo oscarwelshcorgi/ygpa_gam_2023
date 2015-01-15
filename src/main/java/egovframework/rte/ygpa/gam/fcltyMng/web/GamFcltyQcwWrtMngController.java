@@ -619,9 +619,6 @@ public class GamFcltyQcwWrtMngController {
     	}
 
     	try {
-    		gamFcltyQcwWrtMngService.deleteQcMngAtchFileList(deleteMap);
-    		gamFcltyQcwWrtMngService.deleteQcMngResultItemList(deleteMap);
-    		gamFcltyQcwWrtMngService.deleteQcMngObjFcltsList(deleteMap);
     		gamFcltyQcwWrtMngService.deleteQcMngDtls(deleteMap);
     		
     		map.put("resultCode", 0);			// return ok

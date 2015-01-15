@@ -115,14 +115,6 @@ public interface GamFcltyQcwWrtMngService {
 	void mergeQcMngObjFclts(Map<String, Object> mergeMap) throws Exception;
 	
 	/**
-	 * 점검관리대상시설물 목록 삭제
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	void deleteQcMngObjFcltsList(Map<?, ?> vo) throws Exception;
-	
-	/**
 	 * 점검관리첨부파일 목록 조회
 	 * @param vo
 	 * @return list
@@ -147,15 +139,6 @@ public interface GamFcltyQcwWrtMngService {
 	void mergeQcMngAtchFile(Map<String, Object> mergeMap) throws Exception;
 	
 	/**
-	 * 점검관리첨부파일 목록 삭제
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	void deleteQcMngAtchFileList(Map<?, ?> vo) throws Exception;
-	
-
-	/**
 	 * 점검관리결과항목 목록 조회
 	 * @param vo
 	 * @return list
@@ -179,11 +162,4 @@ public interface GamFcltyQcwWrtMngService {
 	 */		
 	void mergeQcMngResultItem(Map<String, Object> mergeMap) throws Exception;
 	
-	/**
-	 * 점검관리결과항목 목록 삭제
-	 * @param vo
-	 * @return
-	 * @throws Exception
-	 */		
-	void deleteQcMngResultItemList(Map<?, ?> vo) throws Exception;
 }

@@ -113,6 +113,9 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 * @throws Exception
 	 */		
 	public void deleteQcMngDtls(Map<?, ?> vo) throws Exception {
+		gamFcltyQcwWrtMngDao.deleteQcMngAtchFileList(vo);
+		gamFcltyQcwWrtMngDao.deleteQcMngResultItemList(vo);
+		gamFcltyQcwWrtMngDao.deleteQcMngObjFcltsList(vo);
 		gamFcltyQcwWrtMngDao.deleteQcMngDtls(vo);
 	}
 		
@@ -147,16 +150,6 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	}
 	
 	/**
-	 * 점검관리대상시설물 목록 삭제
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	public void deleteQcMngObjFcltsList(Map<?, ?> vo) throws Exception {
-		gamFcltyQcwWrtMngDao.deleteQcMngObjFcltsList(vo);
-	}
-	
-	/**
 	 * 점검관리첨부파일 목록 조회
 	 * @param vo
 	 * @return list
@@ -187,17 +180,6 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	}
 	
 	/**
-	 * 점검관리첨부파일 목록 삭제
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	public void deleteQcMngAtchFileList(Map<?, ?> vo) throws Exception {
-		gamFcltyQcwWrtMngDao.deleteQcMngAtchFileList(vo);
-	}
-	
-
-	/**
 	 * 점검관리결과항목 목록 조회
 	 * @param vo
 	 * @return list
@@ -227,13 +209,4 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 		gamFcltyQcwWrtMngDao.mergeQcMngResultItem(mergeMap);
 	}
 	
-	/**
-	 * 점검관리결과항목 목록 삭제
-	 * @param vo
-	 * @return
-	 * @throws Exception
-	 */		
-	public void deleteQcMngResultItemList(Map<?, ?> vo) throws Exception {
-		gamFcltyQcwWrtMngDao.deleteQcMngResultItemList(vo);
-	}	
 }
