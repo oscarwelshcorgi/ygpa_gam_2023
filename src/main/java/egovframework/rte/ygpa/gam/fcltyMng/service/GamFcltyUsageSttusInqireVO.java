@@ -227,12 +227,61 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	/** 하자 검사 완료 여부 **/
 	private String flawExamComptYn;
 
+	// ==== 유지 보수 내역 ==== //
+//	private String fcltsJobSe;
+//	private String enforceYear;
+	/** 유지 보수 구분 **/
+	private String mntnRprSeq;
+	/** 유지 보수 구분 **/
+	private String mntnRprSe;
+	/** 유지 보수 부위 **/
+	private String mntnRprPart;
+	/** 유지 보수 내용 **/
+	private String mntnRprCn;
+	/** 유지 보수 예산 **/
+	private String mntnRprBdgt;
+	/** 유지 보수 공사명 **/
+	private String mntnRprCnstNm;
+	/** 공사 시작 일 **/
+	private String mntnRprCnstStartDt;
+	/** 공사 종료 일 **/
+	private String mntnRprCnstEndDt;
+	/** 공사 금액 **/
+	private String mntnRprCnstAmt;
+	/** 설계자 **/
+	private String plannerNm;
+	/** 시공자 **/
+	private String cnstrtr;
+	/** 책임 시공자 **/
+	private String responEngineer;
+	/** 공사 감독자 **/
+	private String cnstChargNm;
+//	private String rm;
+
+	// ==== 유지 보수 내역 ==== //
+	private String mntnRprCnstMth;
+	private String unit;
+	private String qy;
+	private String price;
+//	private String mntnRprCnstAmt;
 
 	/**
 	 * @return the sPrtAtCode
 	 */
 	public String getsPrtAtCode() {
 		return sPrtAtCode;
+	}
+	/**
+	 * @return the mntnRprSeq
+	 */
+	public String getMntnRprSeq() {
+		return mntnRprSeq;
+	}
+	/**
+	 * @param mntnRprSeq the mntnRprSeq to set
+	 */
+	public void setMntnRprSeq(String mntnRprSeq) {
+		this.mntnRprSeq = mntnRprSeq;
 	}
 	/**
 	 * @param sPrtAtCode the sPrtAtCode to set
@@ -251,6 +300,30 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	 */
 	public void setsFcltsJobSe(String sFcltsJobSe) {
 		this.sFcltsJobSe = sFcltsJobSe;
+	}
+	/**
+	 * @return the sPrtFcltyNm
+	 */
+	public String getsPrtFcltyNm() {
+		return sPrtFcltyNm;
+	}
+	/**
+	 * @param sPrtFcltyNm the sPrtFcltyNm to set
+	 */
+	public void setsPrtFcltyNm(String sPrtFcltyNm) {
+		this.sPrtFcltyNm = sPrtFcltyNm;
+	}
+	/**
+	 * @return the sFcltsMngNo
+	 */
+	public String getsFcltsMngNo() {
+		return sFcltsMngNo;
+	}
+	/**
+	 * @param sFcltsMngNo the sFcltsMngNo to set
+	 */
+	public void setsFcltsMngNo(String sFcltsMngNo) {
+		this.sFcltsMngNo = sFcltsMngNo;
 	}
 	/**
 	 * @return the sUsagePdFrom
@@ -299,6 +372,18 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	 */
 	public void setGisAssetsPrtAtCode(String gisAssetsPrtAtCode) {
 		this.gisAssetsPrtAtCode = gisAssetsPrtAtCode;
+	}
+	/**
+	 * @return the gisAssetsPrtAtNm
+	 */
+	public String getGisAssetsPrtAtNm() {
+		return gisAssetsPrtAtNm;
+	}
+	/**
+	 * @param gisAssetsPrtAtNm the gisAssetsPrtAtNm to set
+	 */
+	public void setGisAssetsPrtAtNm(String gisAssetsPrtAtNm) {
+		this.gisAssetsPrtAtNm = gisAssetsPrtAtNm;
 	}
 	/**
 	 * @return the gisAssetsCd
@@ -445,6 +530,18 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 		this.prtPrtFcltyMnger = prtPrtFcltyMnger;
 	}
 	/**
+	 * @return the fcltsMngNo
+	 */
+	public String getFcltsMngNo() {
+		return fcltsMngNo;
+	}
+	/**
+	 * @param fcltsMngNo the fcltsMngNo to set
+	 */
+	public void setFcltsMngNo(String fcltsMngNo) {
+		this.fcltsMngNo = fcltsMngNo;
+	}
+	/**
 	 * @return the fcltsMngGroupNo
 	 */
 	public String getFcltsMngGroupNo() {
@@ -575,6 +672,18 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	 */
 	public void setFcltsJobSe(String fcltsJobSe) {
 		this.fcltsJobSe = fcltsJobSe;
+	}
+	/**
+	 * @return the fcltsJobNm
+	 */
+	public String getFcltsJobNm() {
+		return fcltsJobNm;
+	}
+	/**
+	 * @param fcltsJobNm the fcltsJobNm to set
+	 */
+	public void setFcltsJobNm(String fcltsJobNm) {
+		this.fcltsJobNm = fcltsJobNm;
 	}
 	/**
 	 * @return the qcMngSeq
@@ -769,18 +878,6 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 		this.rm = rm;
 	}
 	/**
-	 * @return the fcltsMngNo
-	 */
-	public String getFcltsMngNo() {
-		return fcltsMngNo;
-	}
-	/**
-	 * @param fcltsMngNo the fcltsMngNo to set
-	 */
-	public void setFcltsMngNo(String fcltsMngNo) {
-		this.fcltsMngNo = fcltsMngNo;
-	}
-	/**
 	 * @return the inspector
 	 */
 	public String getInspector() {
@@ -839,60 +936,6 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	 */
 	public void setInspResultCn(String inspResultCn) {
 		this.inspResultCn = inspResultCn;
-	}
-	/**
-	 * @return the serialversionuid
-	 */
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	/**
-	 * @return the sPrtFcltyNm
-	 */
-	public String getsPrtFcltyNm() {
-		return sPrtFcltyNm;
-	}
-	/**
-	 * @param sPrtFcltyNm the sPrtFcltyNm to set
-	 */
-	public void setsPrtFcltyNm(String sPrtFcltyNm) {
-		this.sPrtFcltyNm = sPrtFcltyNm;
-	}
-	/**
-	 * @return the sFcltsMngNo
-	 */
-	public String getsFcltsMngNo() {
-		return sFcltsMngNo;
-	}
-	/**
-	 * @param sFcltsMngNo the sFcltsMngNo to set
-	 */
-	public void setsFcltsMngNo(String sFcltsMngNo) {
-		this.sFcltsMngNo = sFcltsMngNo;
-	}
-	/**
-	 * @return the gisAssetsPrtAtNm
-	 */
-	public String getGisAssetsPrtAtNm() {
-		return gisAssetsPrtAtNm;
-	}
-	/**
-	 * @param gisAssetsPrtAtNm the gisAssetsPrtAtNm to set
-	 */
-	public void setGisAssetsPrtAtNm(String gisAssetsPrtAtNm) {
-		this.gisAssetsPrtAtNm = gisAssetsPrtAtNm;
-	}
-	/**
-	 * @return the fcltsJobNm
-	 */
-	public String getFcltsJobNm() {
-		return fcltsJobNm;
-	}
-	/**
-	 * @param fcltsJobNm the fcltsJobNm to set
-	 */
-	public void setFcltsJobNm(String fcltsJobNm) {
-		this.fcltsJobNm = fcltsJobNm;
 	}
 	/**
 	 * @return the flawRprStartDt
@@ -1003,6 +1046,18 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 		this.flawExamSe = flawExamSe;
 	}
 	/**
+	 * @return the flawExamNm
+	 */
+	public String getFlawExamNm() {
+		return flawExamNm;
+	}
+	/**
+	 * @param flawExamNm the flawExamNm to set
+	 */
+	public void setFlawExamNm(String flawExamNm) {
+		this.flawExamNm = flawExamNm;
+	}
+	/**
 	 * @return the flawRprNm
 	 */
 	public String getFlawRprNm() {
@@ -1098,4 +1153,203 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	public void setFlawExamComptYn(String flawExamComptYn) {
 		this.flawExamComptYn = flawExamComptYn;
 	}
+	/**
+	 * @return the mntnRprSe
+	 */
+	public String getMntnRprSe() {
+		return mntnRprSe;
+	}
+	/**
+	 * @param mntnRprSe the mntnRprSe to set
+	 */
+	public void setMntnRprSe(String mntnRprSe) {
+		this.mntnRprSe = mntnRprSe;
+	}
+	/**
+	 * @return the mntnRprPart
+	 */
+	public String getMntnRprPart() {
+		return mntnRprPart;
+	}
+	/**
+	 * @param mntnRprPart the mntnRprPart to set
+	 */
+	public void setMntnRprPart(String mntnRprPart) {
+		this.mntnRprPart = mntnRprPart;
+	}
+	/**
+	 * @return the mntnRprCn
+	 */
+	public String getMntnRprCn() {
+		return mntnRprCn;
+	}
+	/**
+	 * @param mntnRprCn the mntnRprCn to set
+	 */
+	public void setMntnRprCn(String mntnRprCn) {
+		this.mntnRprCn = mntnRprCn;
+	}
+	/**
+	 * @return the mntnRprBdgt
+	 */
+	public String getMntnRprBdgt() {
+		return mntnRprBdgt;
+	}
+	/**
+	 * @param mntnRprBdgt the mntnRprBdgt to set
+	 */
+	public void setMntnRprBdgt(String mntnRprBdgt) {
+		this.mntnRprBdgt = mntnRprBdgt;
+	}
+	/**
+	 * @return the mntnRprCnstNm
+	 */
+	public String getMntnRprCnstNm() {
+		return mntnRprCnstNm;
+	}
+	/**
+	 * @param mntnRprCnstNm the mntnRprCnstNm to set
+	 */
+	public void setMntnRprCnstNm(String mntnRprCnstNm) {
+		this.mntnRprCnstNm = mntnRprCnstNm;
+	}
+	/**
+	 * @return the mntnRprCnstStartDt
+	 */
+	public String getMntnRprCnstStartDt() {
+		return mntnRprCnstStartDt;
+	}
+	/**
+	 * @param mntnRprCnstStartDt the mntnRprCnstStartDt to set
+	 */
+	public void setMntnRprCnstStartDt(String mntnRprCnstStartDt) {
+		this.mntnRprCnstStartDt = mntnRprCnstStartDt;
+	}
+	/**
+	 * @return the mntnRprCnstEndDt
+	 */
+	public String getMntnRprCnstEndDt() {
+		return mntnRprCnstEndDt;
+	}
+	/**
+	 * @param mntnRprCnstEndDt the mntnRprCnstEndDt to set
+	 */
+	public void setMntnRprCnstEndDt(String mntnRprCnstEndDt) {
+		this.mntnRprCnstEndDt = mntnRprCnstEndDt;
+	}
+	/**
+	 * @return the mntnRprCnstAmt
+	 */
+	public String getMntnRprCnstAmt() {
+		return mntnRprCnstAmt;
+	}
+	/**
+	 * @param mntnRprCnstAmt the mntnRprCnstAmt to set
+	 */
+	public void setMntnRprCnstAmt(String mntnRprCnstAmt) {
+		this.mntnRprCnstAmt = mntnRprCnstAmt;
+	}
+	/**
+	 * @return the plannerNm
+	 */
+	public String getPlannerNm() {
+		return plannerNm;
+	}
+	/**
+	 * @param plannerNm the plannerNm to set
+	 */
+	public void setPlannerNm(String plannerNm) {
+		this.plannerNm = plannerNm;
+	}
+	/**
+	 * @return the cnstrtr
+	 */
+	public String getCnstrtr() {
+		return cnstrtr;
+	}
+	/**
+	 * @param cnstrtr the cnstrtr to set
+	 */
+	public void setCnstrtr(String cnstrtr) {
+		this.cnstrtr = cnstrtr;
+	}
+	/**
+	 * @return the responEngineer
+	 */
+	public String getResponEngineer() {
+		return responEngineer;
+	}
+	/**
+	 * @param responEngineer the responEngineer to set
+	 */
+	public void setResponEngineer(String responEngineer) {
+		this.responEngineer = responEngineer;
+	}
+	/**
+	 * @return the cnstChargNm
+	 */
+	public String getCnstChargNm() {
+		return cnstChargNm;
+	}
+	/**
+	 * @param cnstChargNm the cnstChargNm to set
+	 */
+	public void setCnstChargNm(String cnstChargNm) {
+		this.cnstChargNm = cnstChargNm;
+	}
+	/**
+	 * @return the mntnRprCnstMth
+	 */
+	public String getMntnRprCnstMth() {
+		return mntnRprCnstMth;
+	}
+	/**
+	 * @param mntnRprCnstMth the mntnRprCnstMth to set
+	 */
+	public void setMntnRprCnstMth(String mntnRprCnstMth) {
+		this.mntnRprCnstMth = mntnRprCnstMth;
+	}
+	/**
+	 * @return the unit
+	 */
+	public String getUnit() {
+		return unit;
+	}
+	/**
+	 * @param unit the unit to set
+	 */
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+	/**
+	 * @return the qy
+	 */
+	public String getQy() {
+		return qy;
+	}
+	/**
+	 * @param qy the qy to set
+	 */
+	public void setQy(String qy) {
+		this.qy = qy;
+	}
+	/**
+	 * @return the price
+	 */
+	public String getPrice() {
+		return price;
+	}
+	/**
+	 * @param price the price to set
+	 */
+	public void setPrice(String price) {
+		this.price = price;
+	}
+	/**
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 }

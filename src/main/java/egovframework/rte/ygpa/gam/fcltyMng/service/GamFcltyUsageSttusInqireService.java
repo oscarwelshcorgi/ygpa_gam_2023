@@ -106,7 +106,21 @@ public interface GamFcltyUsageSttusInqireService {
 	 * @return list
 	 * @throws Exception
 	 */
-	List selectflawExamUsrListList(GamFcltyUsageSttusInqireVO vo) throws Exception;
+	List selectFlawExamUsrList(GamFcltyUsageSttusInqireVO vo) throws Exception;
 
+	/**
+	 * 유지 보수 내역
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	List selectMntnRprDtlsList(GamFcltyUsageSttusInqireVO vo) throws Exception;
 
+	/**
+	 * 유지 보수 대상 시설물
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	List selectMntnRprObjFcltsList(GamFcltyUsageSttusInqireVO vo) throws Exception;
 }

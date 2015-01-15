@@ -118,8 +118,29 @@ public class GamFcltyUsageSttusInqireDao extends YGPAAbstractDAO{
 	 * @return List
 	 * @exception Exception
 	 */
-	public List selectflawExamUsrListList(GamFcltyUsageSttusInqireVO vo){
-		return list("gamFcltyUsageSttusInqireDao.selectflawExamUsrListList", vo);
+	public List selectFlawExamUsrList(GamFcltyUsageSttusInqireVO vo){
+		return list("gamFcltyUsageSttusInqireDao.selectFlawExamUsrList", vo);
 	}
+///////////////////////////////////////
+	/**
+	 * 유지 보수 내역
+	 * @param vo
+	 * @return List
+	 * @exception Exception
+	 */
+	public List selectMntnRprDtlsList(GamFcltyUsageSttusInqireVO vo){
+		return list("gamFcltyUsageSttusInqireDao.selectMntnRprDtlsList", vo);
+	}
+
+	/**
+	 * 유지 보수 대상 시설물
+	 * @param vo
+	 * @return List
+	 * @exception Exception
+	 */
+	public List selectMntnRprObjFcltsList(GamFcltyUsageSttusInqireVO vo){
+		return list("gamFcltyUsageSttusInqireDao.selectMntnRprObjFcltsList", vo);
+	}
+
 
 }

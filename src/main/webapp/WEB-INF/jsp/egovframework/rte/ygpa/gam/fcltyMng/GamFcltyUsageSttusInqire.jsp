@@ -44,7 +44,7 @@
 
  GamFcltyUsageSttusInqireModule.prototype.loadComplete = function() {
 
-	this._tabMode = "";
+	this._searchVO = "";
 	// 자산임대 테이블 설정
 /* GIS 자산 리스트 */
 	this.$("#gisPrtFcltyCdGrid").flexigrid({
@@ -89,7 +89,7 @@
 /* 시설물 사용현황 */
 	//	console.log("aaaaa");
 	// 자산임대 테이블 설정
-		this.$("#gisPrtFcltyCdGrid").flexigrid({
+		this.$("#assetsRentGrid").flexigrid({
 		module : this,
 		dataType : 'json',
 		colModel : [ {display : '항구분', name : 'prtAtCode', width : 60, sortable : false, align : 'center'},
@@ -103,10 +103,8 @@
 		             {display : '금액', name : 'fee', width : 100, sortable : false, align : 'right', displayFormat : 'number'},
 		             {display : '허가일', name : 'prmisnDt', width : 90, sortable : false, align : 'center'}
 				],
-		height : 'auto',
-		preProcess : function(module, data) {
-			module.$('#assetsTotalCount').val(data.totalCount);
-		}
+		height : 'auto'
+
 	});
 
 	// 점검 관리 내역
@@ -132,7 +130,7 @@
 //		             {display : '조치 구분', name : 'actionSe', width : 90, sortable : false, align : 'center'},
 		             {display : '비고', name : 'rm', width : 60, sortable : false, align : 'center'}
 					],
-		height : '160'
+		height : '190'
 	});
 
 	// 마우스 클릭
@@ -152,7 +150,7 @@
 		             {display : '진단 결과', name : 'objQcInspResult', width : 70, sortable : false, align : 'center'},
 		             {display : '비고', name : 'objRm', width : 100, sortable : false, align : 'center'}
 		             ],
-		height : '160'
+		height : '190'
 	});
 
 
@@ -165,9 +163,50 @@
 		             {display : '결과 구분', name : 'inspResultChk', width : 80, sortable : false, align : 'center'},
 		             {display : '결과내용', name : 'inspResultCn', width : 270, sortable : false, align : 'center'}
 		             ],
-		height : '160'
+		height : '190'
 	});
 
+	// 유지 보수 내역 mntnRprDtlsGrid
+	this.$("#mntnRprDtlsGrid").flexigrid({
+		module : this,
+		dataType : 'json',
+		colModel : [ {display : '업무구분', name : 'fcltsJobSe', width : 100, sortable : false, align : 'center'}
+					,{display : '시행년도', name : 'enforceYear', width : 100, sortable : false, align : 'center'}
+					,{display : '유지보수구분', name : 'mntnRprSe', width : 100, sortable : false, align : 'center'}
+					,{display : '유지보수부위', name : 'mntnRprPart', width : 100, sortable : false, align : 'center'}
+					,{display : '유지보수내용', name : 'mntnRprCn', width : 100, sortable : false, align : 'center'}
+					,{display : '유지보수예산', name : 'mntnRprBdgt', width : 100, sortable : false, align : 'center'}
+					,{display : '공사명', name : 'mntnRprCnstNm', width : 100, sortable : false, align : 'center'}
+					,{display : '공사 시작일', name : 'mntnRprCnstStartDt', width : 100, sortable : false, align : 'center'}
+					,{display : '공사 종료일', name : 'mntnRprCnstEndDt', width : 100, sortable : false, align : 'center'}
+					,{display : '공사금액', name : 'mntnRprCnstAmt', width : 100, sortable : false, align : 'center'}
+					,{display : '설계자', name : 'plannerNm', width : 100, sortable : false, align : 'center'}
+					,{display : '시공자', name : 'cnstrtr', width : 100, sortable : false, align : 'center'}
+					,{display : '책임 기술자', name : 'responEngineer', width : 100, sortable : false, align : 'center'}
+					,{display : '감독자', name : 'cnstChargNm', width : 100, sortable : false, align : 'center'}
+					,{display : '비고', name : 'rm', width : 100, sortable : false, align : 'center'}
+					],
+	height : '190'
+	});
+
+	// 마우스 클릭(하자보수)
+	this.$("#mntnRprDtlsGrid").on('onItemSelected', function(event, module, row, grid, param) {
+		module.loadMntnRprObjFcltsData();
+	});
+
+	// 유지 보수 대상 시설물
+	this.$("#mntnRprObjFcltsGrid").flexigrid({
+		module : this,
+		dataType : 'json',
+		colModel : [ {display : '유지보수공법', name : 'mntnRprCnstMth', width : 120, sortable : false, align : 'center'}
+					,{display : '단위', name : 'unit', width : 100, sortable : false, align : 'center'}
+					,{display : '수량', name : 'qy', width : 100, sortable : false, align : 'center'}
+					,{display : '단가', name : 'price', width : 100, sortable : false, align : 'center'}
+					,{display : '공사금액', name : 'mntnRprCnstAmt', width : 100, sortable : false, align : 'center'}
+					,{display : '비고', name : 'rm', width : 445, sortable : false, align : 'center'}
+					],
+	height : '190'
+	});
 
 	// 하자 보수 내역
 	this.$("#flawRprDtlsGrid").flexigrid({
@@ -186,7 +225,7 @@
 					,{display : '하자보수 완료여부', name : 'flawRprComptYn', width : 130, sortable : false, align : 'center'}
 					,{display : '비고', name : 'rm', width : 100, sortable : false, align : 'center'}
 		           ],
-		height : '160'
+		height : '190'
 	});
 
 	// 마우스 클릭(하자보수)
@@ -202,24 +241,24 @@
 		dataType : 'json',
 		colModel : [ {display : '검사일자', name : 'flawExamDt', width : 100, sortable : false, align : 'center'}
 					,{display : '하자유무', name : 'flawEnnc', width : 100, sortable : false, align : 'center'}
-					,{display : '검사결과', name : 'flawExamResult', width : 100, sortable : false, align : 'center'}
+					,{display : '검사결과', name : 'flawExamResult', width : 180, sortable : false, align : 'center'}
 					,{display : '비고', name : 'rm', width : 100, sortable : false, align : 'center'}
 		           ],
-		height : '160'
+		height : '190'
 	});
 
 	// 하자 검사자
 	this.$("#flaqExamUsrGrid").flexigrid({
 		module : this,
 		dataType : 'json',
-		colModel : [ {display : '검사자', name : 'flawExamUsr', width : 100, sortable : false, align : 'center'}
-					,{display : '검사일자', name : 'flawExamDt', width : 100, sortable : false, align : 'center'}
-					,{display : '완료여부', name : 'flawExamComptYn', width : 100, sortable : false, align : 'center'}
+		colModel : [ {display : '검사자', name : 'flawExamUsr', width : 160, sortable : false, align : 'center'}
+					,{display : '검사일자', name : 'flawExamDt', width : 160, sortable : false, align : 'center'}
+					,{display : '완료여부', name : 'flawExamComptYn', width : 160, sortable : false, align : 'center'}
 					],
-	height : '160'
+	height : '190'
 	});
 
-
+///////////////////////
 
 
 	this.$("#sUsagePdFrom").val(EMD.util.getDate(EMD.util.addMonths(-1)));
@@ -238,9 +277,12 @@
 
 GamFcltyUsageSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 	switch (buttonId) {
-		case 'btnExcelDownload':
-			this.downloadExcel();
+		case 'btnGisExcelDownload':
+			this.downloadGisExcel();
 			break;
+		case 'btnAssetsExcelDownload' :
+			this.downloadAssetsExcel();
+			break
 	}
 
 };
@@ -291,14 +333,17 @@ var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
 	                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] }
 	               ];
 
+
 //	console.log(searchVO);
 	this.doAction('/fcltyMng/selectLoadQcMngData.do', searchVO, function(module, data) {
 		if(data.resultCode == "0"){
 			module.$('#assetsRentGrid').flexEmptyData();
         	var assetsRentList={resultList: data.fcltyAssetsRentList};
-        	module.$('#assetsRentGrid')[0].dgrid.p.preProcess(module, assetsRentList);
+//        	module.$('#assetsRentGrid')[0].dgrid.p.preProcess(module, assetsRentList);
         	module.$('#assetsRentGrid').flexAddData(assetsRentList);
         	module.$('#assetsRentGrid').selectRowId(0);
+
+        	module.$('#assetsTotalCount').val(data.totalCount);
 
         	module.$('#qcMngDtlsFGrid').flexEmptyData();
         	var qcMngList={resultList: data.qcMngList};
@@ -383,6 +428,26 @@ GamFcltyUsageSttusInqireModule.prototype.loadFlawDtailData = function(module, da
 	});
 };
 
+GamFcltyUsageSttusInqireModule.prototype.loadMntnRprObjFcltsData = function(module, data) {
+	var row = this.$('#mntnRprObjFcltsGrid').selectedRows();
+	row = row[0];
+	console.log(row);
+	var searchVO = [
+	                { name : 'fcltsMngGroupNo', value : row['fcltsMngGroupNo'] },
+	                { name : 'fcltsJobSe', value : row['fcltsJobSe'] },
+	                { name : 'flawRprSeq', value : row['flawRprSeq'] }
+	               ];
+	this.doAction('/fcltyMng/selectLoadFlawDetailData.do', searchVO, function(module, data) {
+		if(data.resultCode == "0"){
+			module.$('#mntnRprDtlsGrid').flexEmptyData();
+			var flawRprObjFcltsList={resultList: data.flawRprObjFcltsList};
+			module.$('#mntnRprDtlsGrid').flexAddData(flawRprObjFcltsList);
+			module.$('#mntnRprDtlsGrid').selectRowId(0);
+		}
+	});
+};
+
+
 
 <%
 /**
@@ -392,16 +457,30 @@ GamFcltyUsageSttusInqireModule.prototype.loadFlawDtailData = function(module, da
 **/
 %>
 
-GamFcltyUsageSttusInqireModule.prototype.downloadExcel = function() {
 
-	var totalCount = Number(this.$('#totalCount').val().replace(/,/gi, ""));
+
+GamFcltyUsageSttusInqireModule.prototype.downloadAssetsExcel = function() {
+	var totalCount = Number(this.$('#assetsTotalCount').val().replace(/,/gi, ""));
 	if (totalCount <= 0) {
 		alert("조회된 자료가 없습니다.");
 		return;
 	}
-	this.$('#gisPrtFcltyCdGrid').flexExcelDown('/fcltyMng/gamExcelFcltyAssetsRentList.do');
+	this.$('#assetsRentGrid').flexExcelDown('/fcltyMng/gamExcelFcltyAssetsRentList.do');
+};
+
+
+GamFcltyUsageSttusInqireModule.prototype.downloadGisExcel = function() {
+	var totalCount = Number(this.$('#gisTotalCount').val().replace(/,/gi, ""));
+	if (totalCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	this.$('#gisPrtFcltyCdGrid').flexExcelDown('/fcltyMng/gamExcelFcltyGisPrtFcltyCdList.do');
 
 };
+
+
+
 
 
 // 수정해야 하는 부분
@@ -493,7 +572,7 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 								<th width="20%" height="20">조회 자료수</th>
 								<td><input type="text" size="12" id="gisTotalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align: right">
-	                                <button data-cmd="btnExcelDownload">엑셀다운로드</button>
+	                                <button data-cmd="btnGisExcelDownload">엑셀다운로드</button>
 								</td>
 							</tr>
 						</table>
@@ -507,9 +586,11 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 					<tr>
 						<th width="20%" height="20">조회 자료수</th>
 						<td><input type="text" size="12" id="assetsTotalCount" class="ygpaNumber" disabled="disabled" /></td>
+<!--
 						<td style="text-align: right">
-                               <button data-cmd="btnExcelDownload">엑셀다운로드</button>
+                               <button data-cmd="btnAssetsExcelDownload">엑셀다운로드</button>
 						</td>
+ -->
 					</tr>
 				</table>
 			</div>
@@ -535,16 +616,21 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 				</table>
 			</div>
 <!-- 탭4 -->
-			<div id="tabs4" class="emdTabPage" style="overflow:scroll;">
-				<div class="emdControlPanel">
-					<form id="detailForm">
-						<table class="detailPanel" style="width:100%">
-							<tr>
-								<td>4</td>
-							</tr>
-						</table>
-					</form>
-				</div>
+			<div id="tabs4" class="emdTabPage fillHeight" style="overflow:scroll;">
+				<table>
+					<tr>
+						<td>
+							유지 보수 내역
+							<table id='mntnRprDtlsGrid' style="display:none" class="fillHeight" ></table>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							유지 보수 대상 시설물
+							<table id='mntnRprObjFcltsGrid' style="display:none" class="fillHeight" ></table>
+						</td>
+					</tr>
+				</table>
 			</div>
 <!-- 탭5 -->
 			<div id="tabs5" class="emdTabPage fillHeight" style="overflow:scroll;">

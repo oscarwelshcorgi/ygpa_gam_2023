@@ -44,6 +44,7 @@
 					<isNotEmpty property="sFcltsMngNo" prepend="AND">
 						   M.FCLTS_MNG_NO like '%'||#sFcltsMngNo#||'%'
 					</isNotEmpty>
+
 <!--		              SELECT GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE
 		              		,GIS_ASSETS_CD AS GIS_ASSETS_CD
 		              		,GIS_ASSETS_SUB_CD AS GIS_ASSETS_SUB_CD
@@ -108,7 +109,7 @@
 						  		  AND D.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
 		           				  AND D.GIS_ASSETS_CD = #gisAssetsCd#
 		           				  AND D.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
-						<isNotEmpty property="sUsagePdFrom" prepend="AND">
+<!-- 						<isNotEmpty property="sUsagePdFrom" prepend="AND">
 							<![CDATA[
 									  D.USAGE_PD_FROM >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
 							]]>
@@ -117,7 +118,7 @@
 							<![CDATA[
 									  D.USAGE_PD_FROM <= TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
 							]]>
-						</isNotEmpty>
+						</isNotEmpty> -->
 
 						  		  AND D.PRT_AT_CODE = M.PRT_AT_CODE
 								  AND D.MNG_YEAR = M.MNG_YEAR
@@ -134,26 +135,26 @@
 
 	<select id="gamFcltyUsageSttusInqireDao.selectFcltyAssetsRentListTotCnt" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="int">
 		SELECT COUNT(*) totcnt
-	      FROM ASSETS_RENT_DETAIL_F D, ASSETS_RENT_F M
-	     WHERE 1=1
-			   AND D.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
-     		   AND D.GIS_ASSETS_CD = #gisAssetsCd#
-     		   AND D.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+		  FROM ASSETS_RENT_DETAIL_F D, ASSETS_RENT_F M
+	    WHERE 1=1
+	  		  AND D.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+        				  AND D.GIS_ASSETS_CD = #gisAssetsCd#
+        				  AND D.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
 	<isNotEmpty property="sUsagePdFrom" prepend="AND">
 		<![CDATA[
-			   D.USAGE_PD_FROM >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+				  D.USAGE_PD_FROM >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
 		]]>
 	</isNotEmpty>
 	<isNotEmpty property="sUsagePdTo" prepend="AND">
 		<![CDATA[
-			   D.USAGE_PD_FROM <= TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
+				  D.USAGE_PD_FROM <= TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
 		]]>
 	</isNotEmpty>
 
-	  		   AND D.PRT_AT_CODE = M.PRT_AT_CODE
-			   AND D.MNG_YEAR = M.MNG_YEAR
-			   AND D.MNG_NO = M.MNG_NO
-			   AND D.MNG_CNT = M.MNG_CNT
+	  		  AND D.PRT_AT_CODE = M.PRT_AT_CODE
+			  AND D.MNG_YEAR = M.MNG_YEAR
+			  AND D.MNG_NO = M.MNG_NO
+			  AND D.MNG_CNT = M.MNG_CNT
 
 	</select>
 
@@ -185,7 +186,8 @@
 
 
 						  FROM QC_MNG_DTLS_F M, QC_MNG_OBJ_FCLTS_F D
- 						 WHERE D.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+ 						 WHERE 1=1
+ 						 AND D.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 						 AND D.FCLTS_MNG_NO = #fcltsMngNo#
 
 						 AND M.FCLTS_MNG_GROUP_NO = D.FCLTS_MNG_GROUP_NO
@@ -210,7 +212,8 @@
 		                    ,QC_INSP_RESULT AS QC_INSP_RESULT
 		                    ,RM AS RM
 		               FROM QC_MNG_OBJ_FCLTS_F
-					  WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+					  WHERE 1=1
+					  	AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 		                AND FCLTS_JOB_SE = #fcltsJobSe#
 		                AND QC_MNG_SEQ = #qcMngSeq#
 		                AND FCLTS_MNG_NO = #fcltsMngNo#
@@ -229,7 +232,8 @@
 		                    ,INSP_RESULT_CHK
 		                    ,INSP_RESULT_CN
 		               FROM QC_MNG_RESULT_ITEM_F
-					  WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+					  WHERE 1=1
+					  	AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 		                AND FCLTS_JOB_SE = #fcltsJobSe#
 		                AND QC_MNG_SEQ = #qcMngSeq#
               		) S
@@ -264,7 +268,8 @@
 							 , M.RM AS RM
 
 						  FROM FLAW_RPR_DTLS_F M, FLAW_RPR_OBJ_FCLTS_F D
-						 WHERE M.FCLTS_MNG_GROUP_NO = D.FCLTS_MNG_GROUP_NO(+)
+						 WHERE 1=1
+						   AND M.FCLTS_MNG_GROUP_NO = D.FCLTS_MNG_GROUP_NO(+)
 						   AND M.FCLTS_JOB_SE = D.FCLTS_JOB_SE(+)
 						   AND M.FLAW_RPR_SEQ = D.FLAW_RPR_SEQ(+)
 <!-- 				 WHERE D.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
@@ -293,7 +298,8 @@
 					     , RM AS RM
 					  FROM FLAW_RPR_OBJ_FCLTS_F
 <!--
-					 WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+					 WHERE 1=1
+					   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 					   AND FCLTS_JOB_SE = #fcltsJobSe#
 					   AND FLAW_RPR_SEQ = #flawRprSeq#
 					   AND FCLTS_MNG_NO = #fcltsMngNo#
@@ -308,7 +314,7 @@
 
 
 	<!-- 하자 검사자 -->
-	<select id="gamFcltyUsageSttusInqireDao.selectflawExamUsrListList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
+	<select id="gamFcltyUsageSttusInqireDao.selectFlawExamUsrList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
 		SELECT A.*
 			FROM (
 				SELECT  ROWNUM RNUM, S.*
@@ -318,9 +324,78 @@
 					     , DECODE(FLAW_EXAM_COMPT_YN,'Y','완료','미완료')
 					  FROM FLAW_EXAM_USR_F
 <!--
-					 WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+					 WHERE 1=1
+					   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 					   AND FCLTS_JOB_SE = #fcltsJobSe#
 					   AND FLAW_RPR_SEQ = #flawRprSeq#
+-->
+ 				) S
+			) A
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+
+	<!-- 유지보수 내역 -->
+	<select id="gamFcltyUsageSttusInqireDao.selectMntnRprDtlsList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+				  FROM (
+						SELECT M.FCLTS_MNG_GROUP_NO
+							  ,M.MNTN_RPR_SEQ
+							  ,M.FCLTS_JOB_SE AS FCLTS_JOB_SE
+						      ,D.FCLTS_MNG_NO AS FCLTS_MNG_NO
+						      ,M.ENFORCE_YEAR AS ENFORCE_YEAR
+ 						      ,GAM_GET_FCLTS_JOB_SE_NM(M.FCLTS_JOB_SE) AS FCLTS_JOB_NM
+						      ,M.MNTN_RPR_PART AS MNTN_RPR_PART
+						      ,M.MNTN_RPR_CN AS MNTN_RPR_CN
+						      ,M.MNTN_RPR_BDGT AS MNTN_RPR_BDGT
+						      ,M.MNTN_RPR_CNST_NM AS MNTN_RPR_CNST_NM
+						      ,M.MNTN_RPR_CNST_START_DT AS MNTN_RPR_CNST_START_DT
+						      ,M.MNTN_RPR_CNST_END_DT AS MNTN_RPR_CNST_END_DT
+						      ,M.MNTN_RPR_CNST_AMT AS MNTN_RPR_CNST_AMT
+						      ,M.PLANNER_NM AS PLANNER_NM
+						      ,M.CNSTRTR AS CNSTRTR
+						      ,M.CNST_CHARG_NM AS CNST_CHARG_NM
+						      ,M.RM AS RM
+						  FROM MNTN_RPR_DTLS_F M, MNTN_RPR_OBJ_FCLTS_F D
+						 WHERE 1=1
+						   AND M.FCLTS_JOB_SE = D.FCLTS_JOB_SE
+						   AND M.FCLTS_MNG_GROUP_NO = D.FCLTS_MNG_GROUP_NO
+						   AND M.MNTN_RPR_SEQ = D.MNTN_RPR_SEQ
+<!-- 					   AND D.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+				   		   AND D.FCLTS_MNG_NO = #fcltsMngNo#
+
+-->
+ 				) S
+			) A
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<!-- 유지보수 대상 시설물 -->
+	<select id="gamFcltyUsageSttusInqireDao.selectMntnRprObjFcltsList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+				  FROM (
+						SELECT MNTN_RPR_CNST_MTH
+						      ,UNIT
+						      ,QY
+						      ,PRICE
+						      ,MNTN_RPR_CNST_AMT
+						      ,RM
+						  FROM MNTN_RPR_OBJ_FCLTS_F
+
+<!--
+						 WHERE 1=1
+						   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+						   AND FCLTS_JOB_SE = #fcltsJobSe#
+						   AND MNTN_RPR_SEQ = #mntnRprSeq#
+						   AND FCLTS_MNG_NO = #fcltsMngNo#
 -->
  				) S
 			) A

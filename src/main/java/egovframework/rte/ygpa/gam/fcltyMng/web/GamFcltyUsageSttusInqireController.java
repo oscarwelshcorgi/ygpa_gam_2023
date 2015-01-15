@@ -172,12 +172,14 @@ public class GamFcltyUsageSttusInqireController {
 		List fcltyAssetsRentList = gamFcltyUsageSttusInqireService.selectFcltyAssetsRentList(searchVO);
 		List qcMngList = gamFcltyUsageSttusInqireService.selectQcMngList(searchVO);
 		List flawList = gamFcltyUsageSttusInqireService.selectFlawList(searchVO);
+		List mntnRprDtlsList = gamFcltyUsageSttusInqireService.selectMntnRprDtlsList(searchVO);
 
 		map.put("resultCode", 0);
 		map.put("totalCount", totalCnt);
 		map.put("fcltyAssetsRentList", fcltyAssetsRentList);
 		map.put("qcMngList", qcMngList);
 		map.put("flawList", flawList);
+		map.put("mntnRprDtlsList", mntnRprDtlsList);
 
 
 		return map;
@@ -237,53 +239,100 @@ public class GamFcltyUsageSttusInqireController {
 ////////////////////////////////////////////
 //		하자보수 디테일로 수정 해야함!!
 ////////////////////////////////////////////
-	/** 하자보수 대상 시설물, 하자 검사자
-	* @param searchVO
-	* @param sPrtAtCode
-	* @param sUsagePdFrom
-	* @param sUsagePdTo
-	* @return map
-	* @throws Exception
-	*/
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/fcltyMng/selectLoadFlawDetailData.do", method = RequestMethod.POST)
-	@ResponseBody
-	Map selectLoadFlawDetailData(GamFcltyUsageSttusInqireVO searchVO) throws Exception {
-		int totalCnt, page, firstIndex;
-		Map map = new HashMap();
+		/** 하자보수 대상 시설물, 하자 검사자
+		* @param searchVO
+		* @param sPrtAtCode
+		* @param sUsagePdFrom
+		* @param sUsagePdTo
+		* @return map
+		* @throws Exception
+		*/
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		@RequestMapping(value = "/fcltyMng/selectLoadFlawDetailData.do", method = RequestMethod.POST)
+		@ResponseBody
+		Map selectLoadFlawDetailData(GamFcltyUsageSttusInqireVO searchVO) throws Exception {
+			int totalCnt, page, firstIndex;
+			Map map = new HashMap();
 
-		// 0. Spring Security 사용자권한 처리
-		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-		if (!isAuthenticated) {
-			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			// 0. Spring Security 사용자권한 처리
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+			if (!isAuthenticated) {
+				map.put("resultCode", 1);
+				map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+				return map;
+			}
+
+			// 내역 조회
+			/** pageing */
+			// 수정 안해도됨!
+			PaginationInfo paginationInfo = new PaginationInfo();
+			paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+			paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+			paginationInfo.setPageSize(searchVO.getPageSize());
+
+			searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+			searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+			searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+			/** List Data */
+			// 데이터 쿼리 데이터
+
+			List flawRprObjFcltsList = gamFcltyUsageSttusInqireService.selectFlawRprObjFcltsList(searchVO);
+			List flaqExamUsrList = gamFcltyUsageSttusInqireService.selectFlawExamUsrList(searchVO);
+
+			map.put("resultCode", 0);
+			map.put("flawRprObjFcltsList", flawRprObjFcltsList);
+			map.put("flaqExamUsrList", flaqExamUsrList);
+
 			return map;
 		}
 
-		// 내역 조회
-		/** pageing */
-		// 수정 안해도됨!
-		PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
+		/** 유지 보수 대상 시설물
+		* @param searchVO
+		* @param sPrtAtCode
+		* @param sUsagePdFrom
+		* @param sUsagePdTo
+		* @return map
+		* @throws Exception
+		*/
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		@RequestMapping(value = "/fcltyMng/selectMntnRprObjFcltsData.do", method = RequestMethod.POST)
+		@ResponseBody
+		Map selectMntnRprObjFcltsData(GamFcltyUsageSttusInqireVO searchVO) throws Exception {
+			int totalCnt, page, firstIndex;
+			Map map = new HashMap();
 
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+			// 0. Spring Security 사용자권한 처리
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+			if (!isAuthenticated) {
+				map.put("resultCode", 1);
+				map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+				return map;
+			}
 
-		/** List Data */
-		// 데이터 쿼리 데이터
+			// 내역 조회
+			/** pageing */
+			// 수정 안해도됨!
+			PaginationInfo paginationInfo = new PaginationInfo();
+			paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+			paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+			paginationInfo.setPageSize(searchVO.getPageSize());
 
-		List flawRprObjFcltsList = gamFcltyUsageSttusInqireService.selectFlawRprObjFcltsList(searchVO);
-		List flaqExamUsrList = gamFcltyUsageSttusInqireService.selectflawExamUsrListList(searchVO);
+			searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+			searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+			searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		map.put("resultCode", 0);
-		map.put("flawRprObjFcltsList", flawRprObjFcltsList);
-		map.put("flaqExamUsrList", flaqExamUsrList);
+			/** List Data */
+			// 데이터 쿼리 데이터
 
-		return map;
-	}
+			List mntnRprObjFcltsList = gamFcltyUsageSttusInqireService.selectMntnRprObjFcltsList(searchVO);
+
+
+			map.put("resultCode", 0);
+			map.put("mntnRprObjFcltsList", mntnRprObjFcltsList);
+
+			return map;
+		}
 
 
 
@@ -298,8 +347,42 @@ public class GamFcltyUsageSttusInqireController {
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/fcltyMng/gamExcelFcltyGisPrtFcltyCdList.do" , method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelFcltyGisPrtFcltyCdList(@RequestParam Map<String, Object> excelParam) throws Exception {
+
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return new ModelAndView("gridExcelView", "gridResultMap", map);
+		}
+
+		header = mapper.readValue((String)excelParam.get("header"),
+								  new TypeReference<List<HashMap<String,String>>>(){});
+		excelParam.remove("header");
+
+		GamFcltyUsageSttusInqireVO searchVO= new GamFcltyUsageSttusInqireVO();
+		searchVO = mapper.convertValue(excelParam, GamFcltyUsageSttusInqireVO.class);
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		List resultList = gamFcltyUsageSttusInqireService.selectFcltyGisPrtFcltyCdList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("header", header);
+
+		return new ModelAndView("gridExcelView", "gridResultMap", map);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/gamExcelFcltyAssetsRentList.do" , method=RequestMethod.POST)
-	@ResponseBody ModelAndView gamExcelFcltyUsageSttusInqireList(@RequestParam Map<String, Object> excelParam) throws Exception {
+	@ResponseBody ModelAndView gamExcelFcltyAssetsRentList(@RequestParam Map<String, Object> excelParam) throws Exception {
 
 		Map map = new HashMap();
 		List header;
@@ -329,7 +412,5 @@ public class GamFcltyUsageSttusInqireController {
 		map.put("header", header);
 
 		return new ModelAndView("gridExcelView", "gridResultMap", map);
-
 	}
-
 }

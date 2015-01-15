@@ -125,9 +125,25 @@ public class GamFcltyUsageSttusInqireServiceImpl extends AbstractServiceImpl imp
 	 * @param vo
 	 * @return
 	 */
-	public List selectflawExamUsrListList(GamFcltyUsageSttusInqireVO vo) throws Exception{
-		return gamFcltyUsageSttusInqireDao.selectflawExamUsrListList(vo);
+	public List selectFlawExamUsrList(GamFcltyUsageSttusInqireVO vo) throws Exception{
+		return gamFcltyUsageSttusInqireDao.selectFlawExamUsrList(vo);
 	}
 
+	/**
+	 * 유지 보수 내역
+	 * @param vo
+	 * @return
+	 */
+	public List selectMntnRprDtlsList(GamFcltyUsageSttusInqireVO vo) throws Exception{
+		return gamFcltyUsageSttusInqireDao.selectMntnRprDtlsList(vo);
+	}
 
+	/**
+	 * 유지 보수 대상 시설물
+	 * @param vo
+	 * @return
+	 */
+	public List selectMntnRprObjFcltsList(GamFcltyUsageSttusInqireVO vo) throws Exception{
+		return gamFcltyUsageSttusInqireDao.selectMntnRprObjFcltsList(vo);
+	}
 }
