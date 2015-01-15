@@ -63,6 +63,7 @@ GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
 					],
 		showTableToggleBtn: false,
 		height: "auto",
+		mergeRows : 'gisAssetsNm,gisAssetsLocplc,gisAssetsRealRentAr',
 		preProcess: function(module,data) {
 			//자료수 입력
             module.makeFormValues('#listSumForm', data);
@@ -77,10 +78,6 @@ GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._mode = 'modify';
 		module.$("#mainTab").tabs("option", {active: 1});
-	});
-		
-	this.$("#mainGrid").on('onLoadDataComplete', function(event, module, data) {
-		module.selectData();
 	});
 	
 	this.$("#sRegistEntrpsCd").bind("keyup change", {module: this}, function(event) {
@@ -216,57 +213,6 @@ GamFcltyUsageHistInqireModule.prototype.downloadExcel = function() {
 		return;
 	}
 	this.$('#mainGrid').flexExcelDown('/fcltyMng/gamFcltyUsageHistInqireExcel.do');
-};
-
-<%
-/**
- * @FUNCTION NAME : selectData
- * @DESCRIPTION   : DATA SELECT
- * @PARAMETER     : NONE
-**/
-%>
-GamFcltyUsageHistInqireModule.prototype.selectData = function() {
-	this.rowSpanGridData();
-};
-
-<%
-/**
- * @FUNCTION NAME : rowSpanGrid
- * @DESCRIPTION   : GRID DATA ROW SPAN
- * @PARAMETER     : NONE
-**/
-%>
-GamFcltyUsageHistInqireModule.prototype.rowSpanGridData = function() {
-	var gridRowCount = this.$("#mainGrid").flexRowCount();
-	if (gridRowCount == 0) {
-		return;
-	}
-	var gisAssetsLocplc = "";
-	var startRowNo = 0;
-	var endRowNo = 0;
-	for(var i=0; i<gridRowCount; i++) {
-		var row = this.$("#mainGrid").flexGetRow(i);
-		if (gisAssetsLocplc == "") {
-			gisAssetsLocplc = row.gisAssetsLocplc;
-		}
-		if (row.gisAssetsLocplc != gisAssetsLocplc) {
-			endRowNo = i - 1;
-			if (endRowNo > startRowNo) {
-				this.$('#mainGrid')[0].dgrid.setRowspan(startRowNo + 1,1,(endRowNo - startRowNo) + 1);
-				this.$('#mainGrid')[0].dgrid.setRowspan(startRowNo + 1,2,(endRowNo - startRowNo) + 1);
-				this.$('#mainGrid')[0].dgrid.setRowspan(startRowNo + 1,3,(endRowNo - startRowNo) + 1);
-			}
-			startRowNo = i;
-			gisAssetsLocplc = row.gisAssetsLocplc;
-		}else if((i+1)==gridRowCount && row.gisAssetsLocplc == gisAssetsLocplc) {
-			endRowNo = i;
-			if (endRowNo > startRowNo) {
-				this.$('#mainGrid')[0].dgrid.setRowspan(startRowNo + 1,1,(endRowNo - startRowNo) + 1);
-				this.$('#mainGrid')[0].dgrid.setRowspan(startRowNo + 1,2,(endRowNo - startRowNo) + 1);
-				this.$('#mainGrid')[0].dgrid.setRowspan(startRowNo + 1,3,(endRowNo - startRowNo) + 1);
-			}
-		}
-	}
 };
 
 <%
