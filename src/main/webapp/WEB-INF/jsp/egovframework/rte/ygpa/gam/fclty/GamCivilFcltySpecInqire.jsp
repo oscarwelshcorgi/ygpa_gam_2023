@@ -428,9 +428,9 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 								<td><input type="text" size="20" id="gisAssetsNm"
 									disabled="disabled" /></td>
 								<th width="12%" height="17" class="required_text">지　　　　　번</th>
-								<td><input id="gisAssetsLnm" type="text" size="3"
+								<td><input id="gisAssetsLnm" type="text" size="5"
 									title="지번 앞자리" disabled="disabled" />&nbsp;-&nbsp; <input
-									id="gisAssetsLnmSub" type="text" size="3" title="지번 뒷자리"
+									id="gisAssetsLnmSub" type="text" size="5" title="지번 뒷자리"
 									disabled="disabled" /></td>
 								<th width="12%" height="17" class="required_text">소　　재　　지</th>
 								<td><input id="gisAssetsLocplc" type="text" size="27"
@@ -446,7 +446,7 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 									data-code-id="GAM005" id="selectGisPrtFcltyCd"
 									data-required="true" data-column-id="gisPrtFcltyCd" /> <input
 									type="hidden" id="prtFcltySeNm" disabled="disabled" /></td>
-								<th width="12%" height="17" class="required_text">시　설　명</th>
+								<th width="12%" height="17" class="required_text">시　　설　　명</th>
 								<td><input type="text" size="27" id="prtFcltyNm"
 									maxlength="80" disabled /></td>
 							</tr>

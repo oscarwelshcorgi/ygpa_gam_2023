@@ -6,12 +6,12 @@
 <form-validation>
 
     <formset>
-        <form name="searchForm">
+        <form name="fcltyUseUnuseSearchForm">
             <field property="searchDtFr" depends="required">
-                <arg0 key="조회 시작일" resource="false"/>
+                <arg0 key="사용시작일" resource="false"/>
             </field>
             <field property="searchDtTo" depends="required">
-                <arg0 key="조회 종료일" resource="false"/>
+                <arg0 key="사용종료일" resource="false"/>
             </field>
         </form>
     </formset>
