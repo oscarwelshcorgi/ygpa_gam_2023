@@ -46,9 +46,8 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 				{display:"항구분",			name:"prtAtCodeNm",	width:60,		sortable:false,		align:"center"},
-				{display:"자산명",			name:"gisAssetsNm",			width:180,		sortable:false,		align:"left"},
-				{display:"소재지", 			name:"gisAssetsLnms",		width:200,		sortable:false,		align:"left"},
-				{display:"자산면적㎡",		name:"gisAssetsAr",			width:100,		sortable:false,		align:"right" , displayFormat: 'number', displayOption:{format:"0,000.00"}},
+				{display:"자산시설명",			name:"gisAssetsNm",			width:180,		sortable:false,		align:"left"},
+				{display:"소재지", 			name:"gisAssetsLnms",		width:180,		sortable:false,		align:"left"},
 				{display:"임대가용면적㎡",	name:"gisAssetsRealRentAr",	width:100, 		sortable:false,		align:"right" ,displayFormat: 'number', displayOption:{format:"0,000.00"}},
 				{display:"총사용면적㎡",	 	name:"usageAr",				width:100, 		sortable:false,		align:"right" ,displayFormat: 'number', displayOption:{format:"0,000.00"} },
 				{display:"미사용면적㎡", 	name:"noUsageAr",			width:100, 		sortable:false,		align:"right" , displayFormat: 'number', displayOption:{format:"0,000.00"}},
@@ -117,6 +116,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.onSubmit = function() {
  	if(!validateFcltyUseUnuseDate(this.$('#fcltyUseUnuseSearchForm')[0])){ 		
 		return;
 	}
+ 	
  	this.$('#detailGrid').flexEmptyData();
  	this.initDisplay();
 	this.$("#mainTab").tabs("option", {active: 0});
@@ -407,17 +407,17 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 					<tbody>
 
 						<tr>
-						<th>항코드</th>
+						<th>항구분</th>
 							<td><input id="searchPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>조회 기간</th>
                         	 <td>
-                            	<input id="searchDtFr" type="text" class="emdcal" size="8"> ~
+                            	<input id="searchDtFr" type="text" class="emdcal" size="8" data-required="true"> ~
                             	<input id="searchDtTo" type="text" class="emdcal" size="8">
                              </td>
                            	<td rowspan="2"><button class="buttonSearch">조회</button></td>
 							</tr>
 							<tr>
-							<th>시설명</th>
+							<th>자산 시설명</th>
 							<td><input id="searchFcltyNm" type="text" size=30/></td>
 							<th>소재지</th>
 							<td><input id="searchLoc" type="text" size=30/></td>
@@ -445,7 +445,7 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 						<table style="width:100%;" class="summaryPanel">
 							<tr>
 								<th width="15%" height="25">자료수</th>
-						<td><input type="text" size="8" id="dataCount" class="ygpaNumber" data-column-id="dataCount" data-decimal-point="2" disabled="disabled" /></td>
+						<td><input type="text" size="8" id="dataCount" class="ygpaNumber" disabled="disabled" /></td>
 						<th width="15%" height="25">총 자산면적㎡</th>
 						<td><input type="text" size="24" id="sumAssetsAr" class="ygpaNumber" data-column-id="sumAssetsAr" data-decimal-point="2" disabled="disabled"/> ㎡</td>
 						<th width="15%" height="25">총 사용면적㎡</th>

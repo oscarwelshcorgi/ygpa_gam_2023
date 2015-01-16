@@ -7,11 +7,20 @@
 
     <formset>
         <form name="fcltyUseUnuseSearchForm">
-            <field property="searchDtFr" depends="required">
+            <field property="searchDtFr" depends="required,date">
                 <arg0 key="사용시작일" resource="false"/>
+                <var>
+                	<var-name>datePatternStrict</var-name>
+                	<var-value>yyyy-MM-dd</var-value>
+                </var>
             </field>
-            <field property="searchDtTo" depends="required">
+            <field property="searchDtTo" depends="required,date">
                 <arg0 key="사용종료일" resource="false"/>
+				
+				  <var>
+                	<var-name>datePatternStrict</var-name>
+                	<var-value>yyyy-MM-dd</var-value>
+                </var>
             </field>
         </form>
     </formset>
