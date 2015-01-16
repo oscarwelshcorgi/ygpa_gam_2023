@@ -103,6 +103,12 @@ GamCivilFcltySpecMngModule.prototype.loadComplete = function(params) {
 	this.$(".photoEditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.atchFileInfoChanged(event.target);
 	});
+
+	// 시설물관리그룹 검색조건 클릭시 초기화 처리
+	this.$("#sFcltsMngGroupNo").bind("click", {module: this}, function(event) {
+		event.data.module.$("#sFcltsMngGroupNo").val('');
+		event.data.module.$("#sFcltsMngGroupNoNm").val('');
+	});
 };
 
 GamCivilFcltySpecMngModule.prototype.onSubmit = function() {
