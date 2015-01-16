@@ -2220,7 +2220,7 @@ var module_instance = new GamAssetRentMngtModule();
 								<th width="10%" height="18">실제임대면적</th>
                                 <td><input type="text" size="12" class="ygpaNumber" data-decimal-point="2" id="gisAssetsRealRentAr" disabled/>㎡</td>
 								<th width="10%" height="18">사용면적</th>
-                                <td><input type="text" size="12" class="calcInput ygpaNumber" data-decimal-point="2" id="usageAr" maxlength="8"/>㎡</td>
+                                <td><input type="text" size="12" class="calcInput ygpaNumber" data-decimal-point="2" id="usageAr" maxlength="10"/>㎡</td>
 								<th width="10%" height="18">신청기간</th>
                                 <td>
                                 	<input type="text" class="emdcal calcInput" size="11" id="usagePdFrom" data-role="dtFrom" data-dt-to="usagePdTo" /> ~

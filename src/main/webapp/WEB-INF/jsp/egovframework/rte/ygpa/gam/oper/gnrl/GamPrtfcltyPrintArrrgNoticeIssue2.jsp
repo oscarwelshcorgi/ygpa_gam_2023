@@ -545,7 +545,7 @@ div.notice {
 	 div.feeAmount {
 		position: absolute;
 		left: 7.35cm;
-		top: 12.0cm;
+		top: 12.1cm;
 		width: 4.4cm;
 		height: 0.46cm;
 		font-size: 0.4cm;
@@ -616,7 +616,7 @@ div.notice {
 	 #totalAmount {
 		position: relative;
 		left: 9.8cm;
-		top: 1.35cm;
+		top: 1.45cm;
 		width: 4.6cm;
 		height: 0.65cm;
 		font-size: 0.4cm;
