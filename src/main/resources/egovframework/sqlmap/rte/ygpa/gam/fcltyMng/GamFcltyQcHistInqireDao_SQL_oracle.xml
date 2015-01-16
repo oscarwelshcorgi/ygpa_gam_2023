@@ -61,7 +61,8 @@
 						  	<![CDATA[ AND O.QC_INSP_DT <= TO_DATE(#sQcInspDtTo#, 'YYYY-MM-DD') ]]>
 						</isNotEmpty>
 						ORDER BY
-							O.FCLTS_MNG_GROUP_NO
+							Q.ENFORCE_YEAR DESC
+							, O.FCLTS_MNG_GROUP_NO
 							, O.FCLTS_JOB_SE
 							, O.QC_MNG_SEQ
 							, O.FCLTS_MNG_NO

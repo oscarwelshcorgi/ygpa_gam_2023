@@ -144,6 +144,12 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 		event.data.module.searchItemChanged(event.target);
 	});
 	
+	// 시설물관리그룹 검색조건 클릭시 초기화 처리
+	this.$("#sFcltsMngGroupNo").bind("click", {module: this}, function(event) {
+		event.data.module.$("#sFcltsMngGroupNo").val('');
+		event.data.module.$("#sFcltsMngGroupNm").val('');
+	});
+	
 	this.fillSelectBoxYear('#enforceYear'); //시행년도에 년수 채워넣기	
 	this.fillSelectBoxYear('#sEnforceYear'); 		
 };
@@ -152,7 +158,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 GamFcltyQcwWrtMngModule.prototype.fillSelectBoxYear = function(id) {
 	var curYear = (new Date()).getFullYear();
 	for(var i=curYear; i>=2000; i--) {
-		this.$(id).append('<option value="' + i + '">' + i + '</option>');
+		this.$(id).append('<option value="' + i + '">' + i + '년</option>');
 	}
 };
 
@@ -893,8 +899,8 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 						<tr>
 							<th>관리그룹</th>
 							<td>
-								<input type="hidden" id="sFcltsMngGroupNo" />
-								<input type="text" id="sFcltsMngGroupNm" size="30" disabled="disabled" />
+								<input type="text" size="15" id="sFcltsMngGroupNo" title="시설물관리그룹넘버" />-
+								<input type="text" size="17" id="sFcltsMngGroupNm" disabled="disabled" title="시설물관리그룹명"/>
 								<button id="popupSearchFcltsMngGroup2" class="popupButton">선택</button>
 							</td>
 							<th></th>
@@ -1269,6 +1275,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 										<th width="15%" height="23" class="required_text">파일구분</th>
 										<td>
 											<select id="atchFileSe" class="photoEditItem">
+												<option value="" selected>선택</option>
 												<option value="D">문서</option>
 			                                    <option value="P">사진</option>
 			                                    <option value="Z">기타</option>

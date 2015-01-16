@@ -78,7 +78,7 @@ GamFcltyQcSttusInqireModule.prototype.loadComplete = function(params) {
 					{display:"점검진단일자",	name:"qcInspDt",		width:100,		sortable:true,		align:"center"},
 					{display:"비고",			name:"rm",				width:350,		sortable:true,		align:"left"}
 			],
-		height: "220"
+		height: "250"
 	});
 	
 	this.$("#qcMngObjFcltsList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -94,7 +94,7 @@ GamFcltyQcSttusInqireModule.prototype.loadComplete = function(params) {
 					{display:"점검항목",		name:"qcItemNm",		width:300,		sortable:true,		align:"left"},
 					{display:"점검항목결과구분",	name:"inspResultChkNm",	width:150,		sortable:true,		align:"center"}
 			],
-		height: "260"
+		height: "250"
 	});
 
 	this.$("#qcMngResultItemList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -118,6 +118,12 @@ GamFcltyQcSttusInqireModule.prototype.loadComplete = function(params) {
 		module.selectAtchFileItem();
 	});
 	
+	// 시설물관리그룹 검색조건 클릭시 초기화 처리
+	this.$("#sFcltsMngGroupNo").bind("click", {module: this}, function(event) {
+		event.data.module.$("#sFcltsMngGroupNo").val('');
+		event.data.module.$("#sFcltsMngGroupNm").val('');
+	});
+
 	this.fillSelectBoxYear('#sEnforceYear'); 		
 };
 
@@ -125,7 +131,7 @@ GamFcltyQcSttusInqireModule.prototype.loadComplete = function(params) {
 GamFcltyQcSttusInqireModule.prototype.fillSelectBoxYear = function(id) {
 	var curYear = (new Date()).getFullYear();
 	for(var i=curYear; i>=2000; i--) {
-		this.$(id).append('<option value="' + i + '">' + i + '</option>');
+		this.$(id).append('<option value="' + i + '">' + i + '년</option>');
 	}
 };
 
@@ -204,6 +210,10 @@ GamFcltyQcSttusInqireModule.prototype.loadDetailData = function() {
 			}
 		});	
 	}
+	else {
+		alert('조회할 자료를 선택하세요.');
+		this.$("#fcltyQcwWrtMngTab").tabs("option", {active: 0});
+	}
 };
 
 //점검관리 대상물과 결과항목에 상세부분 출력
@@ -228,12 +238,6 @@ GamFcltyQcSttusInqireModule.prototype.selectQcMngFcltsItem = function() {
 	var rows = this.$('#qcMngObjFcltsList').selectedRows();
 	if(rows.length > 0) {
 		var row = rows[0];
-		//row의 col명과 form의 id가 달라서 직접대입.
-		this.$("#objMngPrtFcltyNm").text((row["prtFcltyNm"] != null) ? row["prtFcltyNm"] : '');
-		this.$("#objMngSttusEvlLvlNm").text((row["sttusEvlLvlNm"] != null) ? row["sttusEvlLvlNm"] : '');
-		this.$("#objMngQcInspDt").text((row["qcInspDt"] != null) ? row["qcInspDt"] : '');
-		this.$("#objMngInspector").text((row["inspector"] != null) ? row["inspector"] : '');
-		this.$("#objMngRm").text((row["rm"] != null) ? row["rm"] : '' );
 		this.$("#objMngQcInspResult").val(row["qcInspResult"]);
 	}
 };
@@ -243,7 +247,6 @@ GamFcltyQcSttusInqireModule.prototype.selectQcMngResultItem = function() {
 	var rows = this.$('#qcMngResultItemList').selectedRows();
 	if(rows.length > 0) {
 		var row = rows[0];
-		this.makeDivValues("#gamQcMngResultItemForm", row);
 		if(row["inspResultChkNm"] != null) {
 			this.$("#inspResultChkNm").text(row["inspResultChkNm"]);
 		} else {
@@ -367,8 +370,8 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 						<tr>
 							<th>관리그룹</th>
 							<td>
-								<input type="hidden" id="sFcltsMngGroupNo" />
-								<input type="text" id="sFcltsMngGroupNm" size="30" disabled="disabled" />
+								<input type="text" size="15" id="sFcltsMngGroupNo" title="시설물관리그룹넘버" />-
+								<input type="text" size="17" id="sFcltsMngGroupNm" disabled="disabled" title="시설물관리그룹명"/>
 								<button id="popupSearchFcltsMngGroup" class="popupButton">선택</button>
 							</td>
 							<th></th>
@@ -569,34 +572,8 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 					<table  class="detailPanel"  style="width:100%;">
 						<tbody>
 							<tr>
-		                        <th width="10%">시설물</th>
-		                        <td width="40%">
-		                        	<span id="objMngPrtFcltyNm"></span>
-		                    	</td>
-		                        <th width="10%">상태평가등급</th>
-		                        <td width="40%">
-		                        	<span id="objMngSttusEvlLvlNm"></span>
-		                        </td>
-		                    </tr>
-		                    <tr>
-		                        <th>점검자</th>
-		                        <td>
-		                        	<span id="objMngInspector"></span>
-		                        </td>
-								<th>점검진단일자</th>
-		                        <td>
-		                        	<span id="objMngQcInspDt"></span>
-		                        </td>
-							</tr>
-							<tr>
 								<th>점검진단결과</th>
-								<td colspan="3"><textarea id="objMngQcInspResult" cols="133" rows="4" class="EditItem"></textarea></td>
-							</tr>
-							<tr>
-								<th>비고</th>
-								<td colspan="3">
-									<span id="objMngRm"></span>
-								</td>
+								<td><textarea id="objMngQcInspResult" cols="155" rows="8" class="EditItem"></textarea></td>
 							</tr>
 						</tbody>
 					</table>
@@ -646,18 +623,8 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 					<table  class="detailPanel"  style="width:100%;">
 						<tbody>
 							<tr>
-		                        <th width="10%">점검항목</th>
-		                        <td width="40%">
-		                        	<span id="qcItemNm"></span>
-		                        </td>							
-		                        <th>점검결과구분</th>
-		                        <td>
-		                        	<span id="inspResultChkNm"></span>
-		                        </td>
-							</tr>
-							<tr>
 								<th>점검결과내용</th>
-								<td colspan="3"><textarea id="inspResultCn" cols="133" rows="5" class="EditItem"></textarea></td>
+								<td><textarea id="inspResultCn" cols="155" rows="8" class="EditItem"></textarea></td>
 							</tr>
 						</tbody>
 					</table>

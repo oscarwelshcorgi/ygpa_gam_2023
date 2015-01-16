@@ -59,7 +59,8 @@
 						  	AND Q.ENFORCE_YEAR = #sEnforceYear#
 						</isNotEmpty>
 						ORDER BY
-							F.PRT_AT_CODE
+							Q.ENFORCE_YEAR DESC
+							, F.PRT_AT_CODE
 							, Q.FCLTS_MNG_GROUP_NO
 							, Q.FCLTS_JOB_SE
 							, Q.QC_MNG_SEQ

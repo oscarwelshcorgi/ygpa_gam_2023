@@ -65,6 +65,12 @@ GamFcltyQcHistInqireModule.prototype.loadComplete = function(params) {
 		module.$("#fcltyQcHistInqireTab").tabs("option", {active: 1});
 	});
 	
+	// 시설물 검색조건 클릭시 초기화 처리
+	this.$("#sFcltsMngNo").bind("click", {module: this}, function(event) {
+		event.data.module.$("#sFcltsMngNo").val('');
+		event.data.module.$("#sPrtFcltyNm").val('');
+	});
+	
 	this.$("#qcInspResult").disable();
 	this.$("#actionCn").disable();
 	this.$("#objQcInspResult").disable();
@@ -110,6 +116,10 @@ GamFcltyQcHistInqireModule.prototype.loadDetailData = function() {
 				alert(result.resultMsg);
 			}
 		});	
+	}
+	else {
+		alert('조회할 자료를 선택하세요.');
+		this.$("#fcltyQcwWrtMngTab").tabs("option", {active: 0});
 	}
 };
 
@@ -177,8 +187,8 @@ var module_instance = new GamFcltyQcHistInqireModule();
 						<tr>
 							<th>점검 시설명</th>
 							<td>
-								<input type="hidden" id="sFcltsMngNo" />
-								<input type="text" size="35" id="sPrtFcltyNm" disabled="disabled"/>
+								<input type="text" size="15" id="sFcltsMngNo" />-
+								<input type="text" size="24" id="sPrtFcltyNm" disabled="disabled" />
 								<button id="popupSearchFcltsMngNo" class="popupButton">선택</button>
 							</td>
 							<th>시설점검기간</th>
