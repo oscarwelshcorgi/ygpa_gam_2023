@@ -122,6 +122,10 @@ GamFcltsFeeMngInqireModule.prototype.loadComplete = function(params) {
 		height : '270'
 	});
 
+	this.$("#mainGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectData();
+	});
+
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mode = 'modify';
 	});
@@ -135,6 +139,7 @@ GamFcltsFeeMngInqireModule.prototype.loadComplete = function(params) {
 		event.data.module.getQueryEntrpsNm();
 	});
 
+	this._searchButtonClick = false;
 	if (params != null) {
 		if (params.action == "selectFcltsFeeMngInqire") {
         	this.$('#sStartMngYear').val(params.paramVo.mngMtYear);
@@ -297,6 +302,7 @@ GamFcltsFeeMngInqireModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamFcltsFeeMngInqireModule.prototype.onSubmit = function() {
 
+	this._searchButtonClick = true;
 	this.loadData();
 
 };
@@ -336,6 +342,31 @@ GamFcltsFeeMngInqireModule.prototype.loadDetail = function() {
 	this.makeDivValues('#detailForm', row[0]);
 
 };
+
+<%
+/**
+ * @FUNCTION NAME : selectData
+ * @DESCRIPTION   : DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsFeeMngInqireModule.prototype.selectData = function() {
+
+	var gridRowCount = this.$("#mainGrid").flexRowCount();
+	if (this._mode == 'query') {
+		if (gridRowCount == 0 && this._searchButtonClick == true) {
+			alert('해당 조건의 자료가 존재하지 않습니다!');
+		}
+		this._searchButtonClick = false;
+		return;
+	} else if (this._mode != 'insert' && this._mode != 'modify') {
+		this._searchButtonClick = false;
+		return;
+	}
+	this._searchButtonClick = false;
+
+};
+
 
 <%
 /**

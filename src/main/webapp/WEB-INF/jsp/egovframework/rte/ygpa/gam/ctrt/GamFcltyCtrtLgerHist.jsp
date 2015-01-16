@@ -281,6 +281,27 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
 		event.data.module.getSearchEntrpsNm();
 	});
 
+	this._mainmode = 'query';
+	this._mainKeyValue = '';
+	this._joinmode = 'query';
+	this._joinKeyValue = '';
+	this._joinSeq = '';
+	this._submode = 'query';
+	this._subKeyValue = '';
+	this._subSeq = '';
+	this._changemode = 'query';
+	this._changeKeyValue = '';
+	this._changeSeq = '';
+	this._pymntmode = 'query';
+	this._pymntKeyValue = '';
+	this._pymntSeq = '';
+	this._caryfwdmode = 'query';
+	this._caryFwdKeyValue = '';
+	this._caryFwdSeq = '';
+	this._scsbidmode = 'query';
+	this._scsbidKeyValue = '';
+	this._scsbidSeq = '';
+	this._searchButtonClick = false;
 	var year = new Date().getFullYear();
 	this.$('#sStartCtrtDt').val(year + '-01-01');
 	this.$('#sEndCtrtDt').val(year + '-12-31');
@@ -379,6 +400,7 @@ GamFcltyCtrtLgerHistModule.prototype.onSubmit = function() {
 	this._scsbidmode = 'query';
 	this._scsbidKeyValue = '';
 	this._scsbidSeq = '';
+	this._searchButtonClick = true;
 	this.loadData();
 
 };
@@ -432,10 +454,16 @@ GamFcltyCtrtLgerHistModule.prototype.selectData = function() {
 
 	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mainmode == 'query') {
-		if (gridRowCount == 0) {
+		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
+		this._searchButtonClick = false;
+		return;
+	} else if (this._mainmode != 'insert' && this._mainmode != 'modify') {
+		this._searchButtonClick = false;
+		return;
 	}
+	this._searchButtonClick = false;
 
 };
 

@@ -854,7 +854,7 @@ var module_instance = new GamFcltyMngtModule();
 							</td>
 							<th width="15%" height="23" class="required_text">시설분류</th>
 							<td>
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" id="selectedGAM005" data-required="true" data-column-id="gisPrtFcltyCd"/>
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005" data-required="true" data-column-id="gisPrtFcltyCd"/>
 								<input type="hidden" size="50" id="prtFcltySeNm" disabled="disabled" />
 							</td>
 						</tr>

@@ -102,6 +102,10 @@ GamFcltyCtrtSttusInqireModule.prototype.loadComplete = function() {
 		event.data.module.getSearchEntrpsNm();
 	});
 
+	this._mainmode = 'query';
+	this._mainKeyValue = '';
+	this._searchButtonClick = false;
+
 };
 
 
@@ -183,6 +187,7 @@ GamFcltyCtrtSttusInqireModule.prototype.onSubmit = function() {
 
 	this._mainmode = 'query';
 	this._mainKeyValue = '';
+	this._searchButtonClick = true;
 	this.loadData();
 
 };
@@ -213,10 +218,16 @@ GamFcltyCtrtSttusInqireModule.prototype.selectData = function() {
 
 	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mainmode == 'query') {
-		if (gridRowCount == 0) {
+		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
+		this._searchButtonClick = false;
+		return;
+	} else if (this._mainmode != 'insert' && this._mainmode != 'modify') {
+		this._searchButtonClick = false;
+		return;
 	}
+	this._searchButtonClick = false;
 
 };
 

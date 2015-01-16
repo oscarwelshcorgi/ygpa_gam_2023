@@ -193,6 +193,9 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 		event.data.module.setPayTmlmt();
 	});
 
+	this._mode = '';
+	this._mainKeyValue = '';
+	this._searchButtonClick = false;
 	this._detailDisplay = 'detail';
 	this.$('#unpaidGrid').hide();
 	if (params != null) {
@@ -372,6 +375,7 @@ GamFcltsFeeMngNticModule.prototype.onSubmit = function() {
 
 	this._mode="query";
 	this._mainKeyValue = '';
+	this._searchButtonClick = true;
 	this.loadData();
 	this.enableListButtonItem();
 
@@ -459,13 +463,16 @@ GamFcltsFeeMngNticModule.prototype.selectData = function() {
 	this.rowColorGridData();
 	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
-		if (gridRowCount == 0) {
+		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
+		this._searchButtonClick = false;
 		return;
 	} else if (this._mode != 'insert' && this._mode != 'modify') {
+		this._searchButtonClick = false;
 		return;
 	}
+	this._searchButtonClick = false;
 	var mainKeyValue = this._mainKeyValue;
 	if (mainKeyValue == "") {
 		return;
