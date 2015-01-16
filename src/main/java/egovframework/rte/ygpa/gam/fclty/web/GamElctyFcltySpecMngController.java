@@ -181,7 +181,6 @@ public class GamElctyFcltySpecMngController {
     	try {
     		insertMap.put("prtFcltySe", prtFcltySe);
     		insertMap.put("gisPrtFcltySeq", gamGisPrtFcltyCdMngtService.selectNextFcltySeq(insertMap));
-    		gamGisPrtFcltyCdMngtService.insertGisPrtFclty(insertMap);
     		gamElctyFcltySpecMngService.insertElctyFcltySpecMngDetail(insertMap);
     		
     		map.put("resultCode", 0);			// return ok
@@ -213,7 +212,6 @@ public class GamElctyFcltySpecMngController {
     	
     	try {
     		updateMap.put("prtFcltySe", prtFcltySe);
-    		gamGisPrtFcltyCdMngtService.updateGisPrtFclty(updateMap);
     		gamElctyFcltySpecMngService.updateElctyFcltySpecMngDetail(updateMap);
     		
     		map.put("resultCode", 0);			// return ok
@@ -239,9 +237,7 @@ public class GamElctyFcltySpecMngController {
     	}
 
     	try {
-    		gamElctyFcltySpecMngService.deleteElctyFcltySpecFileList(deleteMap);
     		gamElctyFcltySpecMngService.deleteElctyFcltySpecMngDetail(deleteMap);
-    		gamGisPrtFcltyCdMngtService.deleteGisPrtFclty(deleteMap);
     		
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));

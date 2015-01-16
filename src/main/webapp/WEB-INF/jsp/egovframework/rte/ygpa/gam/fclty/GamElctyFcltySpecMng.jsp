@@ -286,7 +286,7 @@ GamElctyFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			
 		// 시설물 분류코드(디테일 화면)
 		case "searchFcltsClCd" :
-			this.doExecuteDialog("selectFcltsClCd", "시설물 분류코드", '/popup/showFcltsClCd.do', { sFcltsClCdChar : this._prtFcltySe });			
+			this.doExecuteDialog("selectFcltsClCd", "시설물 분류코드", '/popup/showFcltsClCd.do', { 'sFcltsClCdChar' : this._prtFcltySe });			
 			break;
 			
 		// 건축시설물 관리번호(디테일 화면) 			

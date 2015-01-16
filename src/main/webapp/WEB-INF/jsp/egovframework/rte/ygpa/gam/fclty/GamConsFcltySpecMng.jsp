@@ -466,7 +466,7 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		
 		// 시설물 분류코드(디테일 화면)
 		case "searchFcltsClCd" :
-			this.doExecuteDialog("selectFcltsClCd", "시설물 분류코드", '/popup/showFcltsClCd.do', { sFcltsClCdChar : this._prtFcltySe });			
+			this.doExecuteDialog("selectFcltsClCd", "시설물 분류코드", '/popup/showFcltsClCd.do', { 'sFcltsClCdChar' : 'A' });			
 		break;
 			
 		// 시설물관리그룹(디테일 화면)

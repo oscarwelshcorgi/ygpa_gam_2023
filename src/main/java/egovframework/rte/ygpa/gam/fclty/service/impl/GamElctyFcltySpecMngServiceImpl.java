@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.cmmn.fclty.service.impl.GamGisPrtFcltyCdMngtDao;
 import egovframework.rte.ygpa.gam.fclty.service.GamElctyFcltySpecMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamElctyFcltySpecMngVO;
 
@@ -33,8 +34,13 @@ import egovframework.rte.ygpa.gam.fclty.service.GamElctyFcltySpecMngVO;
  */
 @Service("gamElctyFcltySpecMngService")
 public class GamElctyFcltySpecMngServiceImpl extends AbstractServiceImpl implements GamElctyFcltySpecMngService{
+	
 	@Resource(name="gamElctyFcltySpecMngDao")
 	private GamElctyFcltySpecMngDao gamElctyFcltySpecMngDao;
+	
+	@Resource(name="gamGisPrtFcltyCdMngtDao")
+	GamGisPrtFcltyCdMngtDao gamGisPrtFcltyCdMngtDao;
+	
 	/**
 	 * 전기시설재원관리 목록 조회
 	 * @param vo
@@ -73,6 +79,7 @@ public class GamElctyFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 */		
 	public void insertElctyFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
 		gamElctyFcltySpecMngDao.insertElctyFcltySpecMngDetail(vo);
+		gamGisPrtFcltyCdMngtDao.insertGisPrtFclty(vo);
 	}
 	
 	/**
@@ -83,6 +90,7 @@ public class GamElctyFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 */		
 	public void updateElctyFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
 		gamElctyFcltySpecMngDao.updateElctyFcltySpecMngDetail(vo);
+		gamGisPrtFcltyCdMngtDao.updateGisPrtFclty(vo);
 	}
 	
 	/**
@@ -93,6 +101,8 @@ public class GamElctyFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	 */		
 	public void deleteElctyFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
 		gamElctyFcltySpecMngDao.deleteElctyFcltySpecMngDetail(vo);
+		gamElctyFcltySpecMngDao.deleteElctyFcltySpecFileList(vo);
+		gamGisPrtFcltyCdMngtDao.deleteGisPrtFclty(vo);
 	}	
 	
 	/**
@@ -146,15 +156,6 @@ public class GamElctyFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 		gamElctyFcltySpecMngDao.deleteElctyFcltySpecFileDetail(vo);
 	}
 
-	/**
-	 * 전기시설재원관리 첨부파일 목록을 삭제한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */			
-	public void deleteElctyFcltySpecFileList(Map<?, ?> vo) throws Exception {
-		gamElctyFcltySpecMngDao.deleteElctyFcltySpecFileList(vo);
-	}
 	
 	/**
 	 * 전기시설재원관리 첨부파일목록을 병합하여 저장한다.

@@ -114,14 +114,7 @@ public interface GamElctyFcltySpecMngService {
 	 * @throws Exception
 	 */			
 	void deleteElctyFcltySpecFileDetail(Map<?,?> vo) throws Exception;
-	
-	/**
-	 * 전기시설재원관리 첨부파일 목록을 삭제한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */			
-	void deleteElctyFcltySpecFileList(Map<?,?> vo) throws Exception;
+
 	
 	/**
 	 * 전기시설재원관리 첨부파일을 병합저장한다..
