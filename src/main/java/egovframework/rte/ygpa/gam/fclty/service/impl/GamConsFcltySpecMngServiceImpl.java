@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.cmmn.fclty.service.impl.GamGisPrtFcltyCdMngtDao;
 import egovframework.rte.ygpa.gam.fclty.service.GamConsFcltySpecMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamConsFcltySpecMngService;
 
@@ -38,6 +39,8 @@ public class GamConsFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 
 	@Resource(name="gamConsFcltySpecMngDao")
     private GamConsFcltySpecMngDao gamConsFcltySpecMngDao;
+	@Resource(name="gamGisPrtFcltyCdMngtDao")
+	GamGisPrtFcltyCdMngtDao gamGisPrtFcltyCdMngtDao;
 
 	/**
 	 * 시설관리 목록
@@ -74,17 +77,21 @@ public class GamConsFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 
 	// 시설관리 저장
 	public void insertFcltySpec(Map<?,?> form) throws Exception{
+		gamGisPrtFcltyCdMngtDao.insertGisPrtFclty(form);
 		gamConsFcltySpecMngDao.insertFcltySpec(form);
 	}
 
 	// 시설관리 수정
 	public void updateFcltySpec(Map<?,?> form) throws Exception{
+		gamGisPrtFcltyCdMngtDao.updateGisPrtFclty(form);
 		gamConsFcltySpecMngDao.updateFcltySpec(form);
 	}
 
 	// 시설 정보 삭제
 	public void deleteFcltySpec(Map<?,?> vo) throws Exception{
+		gamGisPrtFcltyCdMngtDao.deleteGisPrtFclty(vo);
 		gamConsFcltySpecMngDao.deleteFcltySpec(vo);
+		gamConsFcltySpecMngDao.deleteFcltyTotalFile(vo);
 	}
 
 	// 시설 파일 입력/수정/삭제
@@ -105,16 +112,5 @@ public class GamConsFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 		return gamConsFcltySpecMngDao.fcltySpecMngSelectView(vo);
 	}
 
-	
-	
-	/**
-	 * 시설 첨부파일 삭제
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */
-	public void deleteFcltyTotalFile(Map<?,?> vo) throws Exception{
-		gamConsFcltySpecMngDao.deleteFcltyTotalFile(vo);
-	}
 
 }

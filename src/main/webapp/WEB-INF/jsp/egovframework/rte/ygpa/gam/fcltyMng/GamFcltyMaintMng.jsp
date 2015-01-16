@@ -364,11 +364,9 @@ GamFcltyMaintMngModule.prototype.saveData = function() {
 	 			var subVo = {'fcltsJobSe':result.fcltsJobSe,'fcltsMngGroupNo':result.fcltsMngGroupNo,'mntnRprSeq':result.mntnRprSeq};
 
 				// 유지보수 대상시설물 데이타 적용
-				if(module.mergeMntnRprObjFcltsF(subVo)){
-					// 유지보수 첨부파일 데이타 적용
-					if(module.mergeFcltyMaintFile(subVo)){
-					}
-				}
+				module.mergeMntnRprObjFcltsF(subVo);
+				// 유지보수 첨부파일 데이타 적용
+				module.mergeFcltyMaintFile(subVo);
 	 		}
 	 		alert(result.resultMsg);
 	 	});
@@ -378,11 +376,9 @@ GamFcltyMaintMngModule.prototype.saveData = function() {
 	 			var subVo = {'fcltsJobSe':result.fcltsJobSe,'fcltsMngGroupNo':result.fcltsMngGroupNo,'mntnRprSeq':result.mntnRprSeq};
 
 				// 유지보수 대상시설물 데이타 적용
-				if(module.mergeMntnRprObjFcltsF(subVo)){
-					// 유지보수 첨부파일 데이타 적용
-					if(module.mergeFcltyMaintFile(subVo)){
-					}
-				}
+				module.mergeMntnRprObjFcltsF(subVo);
+				// 유지보수 첨부파일 데이타 적용
+				module.mergeFcltyMaintFile(subVo);
 	 		}
 	 		alert(result.resultMsg);
 	 	});

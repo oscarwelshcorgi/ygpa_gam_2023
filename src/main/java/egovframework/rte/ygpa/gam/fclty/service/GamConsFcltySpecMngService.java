@@ -94,15 +94,6 @@ public interface GamConsFcltySpecMngService {
 	// 시설 파일 저장
 	List<?> mergeFcltyFileMngt(Map<String,Object> mergeList) throws Exception;
 	
-	
-	
-	
-	/**
-	 * 시설 첨부파일 삭제
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */
-	void deleteFcltyTotalFile(Map<?,?> vo) throws Exception;
+
 	
 }

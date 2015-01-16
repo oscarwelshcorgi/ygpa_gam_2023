@@ -220,10 +220,6 @@ public class GamConsFcltySpecMngController {
 		fcltyItem.put("gisPrtFcltySeq",gisPrtFcltySeq);
 
     	try {
-
-    		// GIS 항만시설코드 입력
-    		gamGisPrtFcltyCdMngtService.insertGisPrtFclty(fcltyItem);
-    		
     		// 건축시설 제원 입력
     		gamConsFcltySpecMngService.insertFcltySpec(fcltyItem);
 
@@ -313,9 +309,6 @@ public class GamConsFcltySpecMngController {
 
     	try {
     		
-    		// GIS 항만시설코드 수정
-    		gamGisPrtFcltyCdMngtService.updateGisPrtFclty(fcltyMngtList);
-    		
     		// 건축시설 제원 수정
     		gamConsFcltySpecMngService.updateFcltySpec(fcltyMngtList);
     		
@@ -357,14 +350,8 @@ public class GamConsFcltySpecMngController {
 
     	try {
     		
-    		// GIS 항만시설코드 삭제
-    		gamGisPrtFcltyCdMngtService.deleteGisPrtFclty(fcltyManageVO);
-    		
     		// 건축시설 제원 삭제
     		gamConsFcltySpecMngService.deleteFcltySpec(fcltyManageVO);
-    		
-    		// 건축시설 첨부파일 삭제
-    		gamConsFcltySpecMngService.deleteFcltyTotalFile(fcltyManageVO);
 
             map.put("resultCode", 0);
             map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));

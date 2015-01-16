@@ -557,14 +557,11 @@ GamFcltyRepairMngModule.prototype.saveData = function() {
 	 			var subVo = {'fcltsJobSe':result.fcltsJobSe,'fcltsMngGroupNo':result.fcltsMngGroupNo,'flawRprSeq':result.flawRprSeq};
 				
 	 			// 하자보수 대상시설물 데이타 적용
-	 			if(module.mergeFlawRprObjFcltsF(subVo)){
-					// 하자보수 검사자 데이타 적용
-					if(module.mergeFlawExamUsrF(subVo)){
-						// 하자보수 첨부파일 데이타 적용
-						if(module.mergeFcltyRepairFile(subVo)){
-						}
-					}
-	 			}
+	 			module.mergeFlawRprObjFcltsF(subVo);
+	 			// 하자보수 검사자 데이타 적용
+	 			module.mergeFlawExamUsrF(subVo);
+	 			// 하자보수 첨부파일 데이타 적용
+	 			module.mergeFcltyRepairFile(subVo);
 	 		}
 	 		alert(result.resultMsg);
 	 	});
@@ -575,14 +572,11 @@ GamFcltyRepairMngModule.prototype.saveData = function() {
 	 			var subVo = {'fcltsJobSe':result.fcltsJobSe,'fcltsMngGroupNo':result.fcltsMngGroupNo,'flawRprSeq':result.flawRprSeq};
 
 	 			// 하자보수 대상시설물 데이타 적용
-	 			if(module.mergeFlawRprObjFcltsF(subVo)){
-					// 하자보수 검사자 데이타 적용
-					if(module.mergeFlawExamUsrF(subVo)){
-						// 하자보수 첨부파일 데이타 적용
-						if(module.mergeFcltyRepairFile(subVo)){
-						}
-					}
-	 			}
+	 			module.mergeFlawRprObjFcltsF(subVo);
+	 			// 하자보수 검사자 데이타 적용
+	 			module.mergeFlawExamUsrF(subVo);
+	 			// 하자보수 첨부파일 데이타 적용
+	 			module.mergeFcltyRepairFile(subVo);
 	 		}
 	 		alert(result.resultMsg);
 	 	});
