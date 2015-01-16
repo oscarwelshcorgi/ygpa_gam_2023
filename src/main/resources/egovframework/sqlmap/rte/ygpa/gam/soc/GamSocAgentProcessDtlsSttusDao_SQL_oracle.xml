@@ -16,20 +16,20 @@
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
 							SELECT E.APP_PRT_AT_CODE
-							       , P2MGR.SF_PRT_AT_NM(E.APP_PRT_AT_CODE) APP_PRT_AT_KOR_NM
+							       , P2MGR.SF_PRT_AT_NM@YGPA_P2MGR(E.APP_PRT_AT_CODE) APP_PRT_AT_KOR_NM
 							       , E.FEE_TP
-							       , P2MGR.SF_FEE_TP_NM(E.APP_PRT_AT_CODE, E.FEE_TP) FEE_TP_NM
+							       , P2MGR.SF_FEE_TP_NM@YGPA_P2MGR(E.APP_PRT_AT_CODE, E.FEE_TP) FEE_TP_NM
 							       , E.FISCAL_YR
 							       , E.SOC_NO
 							       , E.EXMP_AGENT_CODE
-							       , P2MGR.SF_AGENT_NM(E.EXMP_AGENT_CODE) EXMP_AGENT_NM
+							       , P2MGR.SF_AGENT_NM@YGPA_P2MGR(E.EXMP_AGENT_CODE) EXMP_AGENT_NM
 							       , E.USE_NO
-							       , P2MGR.SF_VSSL_CALL_LETTER(E.CALL_LETTER) CALL_LETTER
-							       , DECODE(E.FEE_TP, 'R1', P2MGR.SF_ARVL_VSSL_NM(E.APP_PRT_AT_CODE, E.VSSL_KEY, E.YR, E.SER_NO), 
-									              'R2', P2MGR.SF_ARVL_VSSL_NM(E.APP_PRT_AT_CODE, E.VSSL_KEY, E.YR, E.SER_NO), 
-									              'R3', P2MGR.SF_ARVL_VSSL_NM(E.APP_PRT_AT_CODE, E.VSSL_KEY, E.YR, E.SER_NO),
-									              'L0', P2MGR.SF_ARVL_VSSL_NM(E.APP_PRT_AT_CODE, E.VSSL_KEY, E.YR, E.SER_NO),
-									              P2MGR.SF_VSSL_NM(E.VSSL_KEY)) VSSL_NM
+							       , P2MGR.SF_VSSL_CALL_LETTER@YGPA_P2MGR(E.CALL_LETTER) CALL_LETTER
+							       , DECODE(E.FEE_TP, 'R1', P2MGR.SF_ARVL_VSSL_NM@YGPA_P2MGR(E.APP_PRT_AT_CODE, E.VSSL_KEY, E.YR, E.SER_NO), 
+									              'R2', P2MGR.SF_ARVL_VSSL_NM@YGPA_P2MGR(E.APP_PRT_AT_CODE, E.VSSL_KEY, E.YR, E.SER_NO), 
+									              'R3', P2MGR.SF_ARVL_VSSL_NM@YGPA_P2MGR(E.APP_PRT_AT_CODE, E.VSSL_KEY, E.YR, E.SER_NO),
+									              'L0', P2MGR.SF_ARVL_VSSL_NM@YGPA_P2MGR(E.APP_PRT_AT_CODE, E.VSSL_KEY, E.YR, E.SER_NO),
+									              P2MGR.SF_VSSL_NM@YGPA_P2MGR(E.VSSL_KEY)) VSSL_NM
 							       , E.SER_NO
 							       , E.YR
 							       , DECODE(E.FEE_TP, 'L0', DECODE(E.IN_OUT, '1', '외항입항', '2', '외항출항', '3', '내항입항', '4','내항출항',''), 
@@ -37,7 +37,7 @@
 							       , NVL(E.EXMP_AMNT, 0) EXMP_AMNT
 							       , E.FAC_CODE
 							       , E.FAC_SUB_CODE
-							       , P2MGR.SF_FACIL_NM(E.APP_PRT_AT_CODE, E.FAC_CODE, E.FAC_SUB_CODE) FACIL_NM
+							       , P2MGR.SF_FACIL_NM@YGPA_P2MGR(E.APP_PRT_AT_CODE, E.FAC_CODE, E.FAC_SUB_CODE) FACIL_NM
 							       , TO_CHAR(E.BILL_DT, 'YYYY-MM-DD') BILL_DT
 							       , NVL(E.STANDARD_FEE, 0) STANDARD_FEE
 							       , E.REAL_TN

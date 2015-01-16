@@ -15,7 +15,7 @@
 				, A.APP_AGENT_CODE
 				, A.USE_NO
 				, A.AGENT_CODE
-				, P2MGR.SF_AGENT_NM(A.AGENT_CODE) AGENT_NAME
+				, P2MGR.SF_AGENT_NM@YGPA_P2MGR(A.AGENT_CODE) AGENT_NAME
 				, NVL(A.EXMP_AMNT, 0) EXMP_AMNT
 				, NVL(A.EXMP_ACC, 0) EXMP_ACC
 				, TO_CHAR(A.PERIOD_FR, 'YYYY-MM-DD') PERIOD_FR
@@ -64,16 +64,16 @@
                      FROM (
                            SELECT 
 									A.PRT_AT_CODE
-									, P2MGR.SF_PRT_AT_NM(A.PRT_AT_CODE) PRT_AT_KOR_NM
+									, P2MGR.SF_PRT_AT_NM@YGPA_P2MGR(A.PRT_AT_CODE) PRT_AT_KOR_NM
 									, A.CMPL_YR
 									, A.CONST_NO
 									, A.APP_PRT_AT_CODE
-									, P2MGR.SF_PRT_AT_NM(A.APP_PRT_AT_CODE) APP_PRT_AT_KOR_NM
+									, P2MGR.SF_PRT_AT_NM@YGPA_P2MGR(A.APP_PRT_AT_CODE) APP_PRT_AT_KOR_NM
 									, A.APP_AGENT_CODE
-									, P2MGR.SF_AGENT_NM(A.APP_AGENT_CODE) APP_AGENT_NAME
+									, P2MGR.SF_AGENT_NM@YGPA_P2MGR(A.APP_AGENT_CODE) APP_AGENT_NAME
 									, A.USE_NO
 									, A.AGENT_CODE
-									, P2MGR.SF_AGENT_NM(A.AGENT_CODE) AGENT_NAME
+									, P2MGR.SF_AGENT_NM@YGPA_P2MGR(A.AGENT_CODE) AGENT_NAME
 									, NVL(A.EXMP_AMNT, 0) EXMP_AMNT
 									, NVL(A.EXMP_ACC, 0) EXMP_ACC
 									, TO_CHAR(A.PERIOD_FR, 'YYYY-MM-DD') PERIOD_FR
@@ -233,7 +233,7 @@
                            SELECT
                            		F.FAC_CODE
                            		, F.FAC_SUB_CODE
-                           		, P2MGR.SF_FACIL_NM(F.PRT_AT_CODE, F.FAC_CODE, F.FAC_SUB_CODE) FAC_KOR_NM
+                           		, P2MGR.SF_FACIL_NM@YGPA_P2MGR(F.PRT_AT_CODE, F.FAC_CODE, F.FAC_SUB_CODE) FAC_KOR_NM
 					       FROM 
 					        	P2MGR.SOC_FACIL_F@YGPA_P2MGR F
                            WHERE 1=1
@@ -366,7 +366,7 @@
                      FROM (
                            SELECT
                            		F.FEE_TP
-                           		, P2MGR.SF_FEE_TP_NM(F.PRT_AT_CODE, F.FEE_TP) FEE_TP_KOR_NM
+                           		, P2MGR.SF_FEE_TP_NM@YGPA_P2MGR(F.PRT_AT_CODE, F.FEE_TP) FEE_TP_KOR_NM
 					       FROM 
 					        	P2MGR.SOC_FEE_F@YGPA_P2MGR F
                            WHERE 1=1

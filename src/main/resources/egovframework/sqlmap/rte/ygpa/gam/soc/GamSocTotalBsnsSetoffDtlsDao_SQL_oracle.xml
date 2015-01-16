@@ -147,7 +147,7 @@
                            SELECT
                                     APP_PRT_AT_CODE
                                   , FEE_TP
-                                  , P2MGR.SF_FEE_TP_NM(APP_PRT_AT_CODE, FEE_TP) FEE_TP_NM
+                                  , P2MGR.SF_FEE_TP_NM@YGPA_P2MGR(APP_PRT_AT_CODE, FEE_TP) FEE_TP_NM
                                   , FISCAL_YR
                                   , SOC_NO
                                   , APP_AGENT_CODE
@@ -156,7 +156,7 @@
                                   , CMPL_YR
                                   , CONST_NO
                                   , EXMP_AGENT_CODE
-                                  , P2MGR.SF_AGENT_NM(EXMP_AGENT_CODE) EXMP_AGENT_NM
+                                  , P2MGR.SF_AGENT_NM@YGPA_P2MGR(EXMP_AGENT_CODE) EXMP_AGENT_NM
                                   , VSSL_KEY
                                   , YR
                                   , SER_NO
@@ -306,7 +306,7 @@
                                   , G.AGENT_CODE
                                   , E.APP_PRT_AT_CODE
                                   , E.FEE_TP
-                                  , P2MGR.SF_FEE_TP_NM(E.APP_PRT_AT_CODE, E.FEE_TP) FEE_TP_NM
+                                  , P2MGR.SF_FEE_TP_NM@YGPA_P2MGR(E.APP_PRT_AT_CODE, E.FEE_TP) FEE_TP_NM
                                   , E.FISCAL_YR
                                   , E.SOC_NO
                                   , E.APP_AGENT_CODE
@@ -315,7 +315,7 @@
                                   , E.CMPL_YR
                                   , E.CONST_NO
                                   , E.EXMP_AGENT_CODE
-                                  , P2MGR.SF_AGENT_NM(E.EXMP_AGENT_CODE) EXMP_AGENT_NM
+                                  , P2MGR.SF_AGENT_NM@YGPA_P2MGR(E.EXMP_AGENT_CODE) EXMP_AGENT_NM
                                   , E.VSSL_KEY
                                   , E.YR
                                   , E.SER_NO

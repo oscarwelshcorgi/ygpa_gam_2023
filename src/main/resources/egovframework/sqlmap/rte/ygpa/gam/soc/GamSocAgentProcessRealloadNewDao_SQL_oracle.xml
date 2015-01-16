@@ -16,22 +16,22 @@
                    SELECT  ROWNUM RNUM, S.*
                      FROM (
 				            SELECT E.APP_PRT_AT_CODE
-									, P2MGR.SF_PRT_AT_NM(E.APP_PRT_AT_CODE) APP_PRT_AT_KOR_NM
+									, P2MGR.SF_PRT_AT_NM@YGPA_P2MGR(E.APP_PRT_AT_CODE) APP_PRT_AT_KOR_NM
 				                    , E.APP_AGENT_CODE
 									, E.EXMP_AGENT_CODE
-				                    , DECODE(P2MGR.SF_AGENT_NM(DECODE(#sAgentGubun#,'1', E.APP_AGENT_CODE, E.EXMP_AGENT_CODE)), '-1','','-2','','-3','', 
-				                    		P2MGR.SF_AGENT_NM(DECODE(#sAgentGubun#,'1', E.APP_AGENT_CODE, E.EXMP_AGENT_CODE))) 
+				                    , DECODE(P2MGR.SF_AGENT_NM@YGPA_P2MGR(DECODE(#sAgentGubun#,'1', E.APP_AGENT_CODE, E.EXMP_AGENT_CODE)), '-1','','-2','','-3','', 
+				                    		P2MGR.SF_AGENT_NM@YGPA_P2MGR(DECODE(#sAgentGubun#,'1', E.APP_AGENT_CODE, E.EXMP_AGENT_CODE))) 
 				                    		AGENT_NM
 									, E.CALL_LETTER
 									, (SELECT VSSL_KOR_NM FROM P2MGR.VSSL_F@YGPA_P2MGR WHERE CALL_LETTER = E.CALL_LETTER) VSSL_NM
 									, E.FEE_TP
-				                    , DECODE(P2MGR.SF_FEE_TP_NM(E.APP_PRT_AT_CODE, E.FEE_TP),'-1','','-2','','-3','', 
-				                    		P2MGR.SF_FEE_TP_NM(E.APP_PRT_AT_CODE, E.FEE_TP)) 
+				                    , DECODE(P2MGR.SF_FEE_TP_NM@YGPA_P2MGR(E.APP_PRT_AT_CODE, E.FEE_TP),'-1','','-2','','-3','', 
+				                    		P2MGR.SF_FEE_TP_NM@YGPA_P2MGR(E.APP_PRT_AT_CODE, E.FEE_TP)) 
 				                    		FEE_TP_NM
 				                    , E.YR || '-' || E.SER_NO YR
 				                    , TO_CHAR(E.IO_DT, 'YYYY-MM-DD') IO_DT
-				                    , DECODE(P2MGR.SF_FACIL_NM(E.APP_PRT_AT_CODE, E.FAC_CODE, E.FAC_SUB_CODE),'-1','','-2','','-3','', 
-				                    		P2MGR.SF_FACIL_NM(E.APP_PRT_AT_CODE, E.FAC_CODE, E.FAC_SUB_CODE)) 
+				                    , DECODE(P2MGR.SF_FACIL_NM@YGPA_P2MGR(E.APP_PRT_AT_CODE, E.FAC_CODE, E.FAC_SUB_CODE),'-1','','-2','','-3','', 
+				                    		P2MGR.SF_FACIL_NM@YGPA_P2MGR(E.APP_PRT_AT_CODE, E.FAC_CODE, E.FAC_SUB_CODE)) 
 				                    		FACIL_NM
 									, DECODE(E.FEE_TP, 'L0', DECODE(E.IN_OUT, '1', '외항입항', '2', '외항출항', '3', '내항입항', '4','내항출항',''), 
 											DECODE(E.IN_OUT, '1', '외항', '2', '내항', '') ) IN_OUT
