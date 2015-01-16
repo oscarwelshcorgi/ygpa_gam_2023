@@ -20,7 +20,7 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
-<validator:javascript formName="fcltyMaintMngVO" method="validateFcltyMaintMngVO" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<validator:javascript formName="fcltyMaintMngListVO" method="validateFcltyMaintMngVO" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 <script>
 /*
  * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
@@ -320,6 +320,7 @@ GamFcltyMaintMngModule.prototype.loadDetail = function(){
 			module.$('#mntnRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
 			// tabs4 항목 데이타 로딩/ 그리드 리로드
 			module.makeFormValues('#fcltyMaintMngFileForm', {});
+			module.$('#atchFileSe').val('D');
 			module.$("#previewImage").attr("src", "");
 			module.$('#fcltyMaintFileList').flexOptions({params:searchVO}).flexReload();
 		}else{
@@ -351,12 +352,10 @@ GamFcltyMaintMngModule.prototype.addData = function() {
 
 
 GamFcltyMaintMngModule.prototype.saveData = function() {
-	
 	if(!validateFcltyMaintMngVO(this.$("#fcltyMaintMngListVO")[0])){
 		this.$("#fcltyMaintMngListTab").tabs("option", {active: 1});
 		return;
 	}
-
  	var inputVO = this.makeFormArgs("#fcltyMaintMngListVO");
 	if(this._mode == "insert") {
 	 	this.doAction('/fcltyMng/insertFcltyMaintMng.do', inputVO, function(module, result) {
@@ -481,6 +480,7 @@ GamFcltyMaintMngModule.prototype.downloadFileData = function() {
 };
 
 
+
 GamFcltyMaintMngModule.prototype.removeFileData = function() {
 	var rows = this.$("#fcltyMaintFileList").selectedRows();
 
@@ -550,6 +550,46 @@ GamFcltyMaintMngModule.prototype.addMaintItem = function() {
 };
 
 
+//유지보수 대상시설물 존재유무 체크
+GamFcltyMaintMngModule.prototype.existMaintFcltsItem = function(fcltsMngNo) {
+	var rows = this.$('#mntnRprObjFcltsF').flexGetData();
+	var result = false;
+	if(rows.length > 0) {
+		var row = null;
+		for(var i=0; i<rows.length; i++) {
+			row = rows[i];
+			if(row['fcltsMngNo'] == fcltsMngNo) {
+				result = true;
+				break;
+			}
+		}
+	}
+	return result;
+};
+
+
+GamFcltyMaintMngModule.prototype.downloadExcel = function(buttonId) {
+
+	var gridRowCount = 0;
+	switch (buttonId) {
+		case 'btnFcltyMngMngtListExcelDownload':
+			gridRowCount = this.$("#fcltyMaintMngList").flexRowCount();
+			break;
+		default:
+			return;
+	}
+	if (gridRowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	switch (buttonId) {
+		case 'btnFcltyMngMngtListExcelDownload':
+			this.$('#fcltyMaintMngList').flexExcelDown('/fcltyMng/selectFcltyMaintMngListExcel.do');
+			break;
+	}
+
+};
+
 
 /**
  * 정의 된 버튼 클릭 시
@@ -599,7 +639,7 @@ GamFcltyMaintMngModule.prototype.addMaintItem = function() {
 		
 		// 엑셀다운로드
 		case "btnFcltyMngMngtListExcelDownload":
-			this.$('#fcltyMaintMngList').flexExcelDown('/fcltyMng/selectFcltyMaintMngListExcel.do');
+			this.downloadExcel(buttonId);
 		break;
 		
 		// 대상시설물
@@ -678,11 +718,15 @@ GamFcltyMaintMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	switch(popupId){
 		
 		case "selectFcltsMngNo":
-			this.$("#fcltsMngNo").val(value["fcltsMngNo"]);
-			this.$("#prtFcltyNm").val(value["prtFcltyNm"]);
-			
-			// 대상시설물 팝업에서 상태값 변경시 그리드 적용
-			this.$(".EditItem").trigger("change");
+			if(this.existMaintFcltsItem(value['fcltsMngNo'])) {
+				alert('대상시설물이 이미 존재합니다.');
+			} else {
+				this.$("#fcltsMngNo").val(value["fcltsMngNo"]);
+				this.$("#prtFcltyNm").val(value["prtFcltyNm"]);
+				
+				// 대상시설물 팝업에서 상태값 변경시 그리드 적용
+				this.$(".EditItem").trigger("change");
+			}
 		break;
 	
 		case "selectFcltsMngGroup":
@@ -729,7 +773,7 @@ var module_instance = new GamFcltyMaintMngModule();
 						<tr>
 							<th>시설물관리그룹</th>
 							<td>
-								<input type="text" size="15" id="sFcltsMngGroupNo" data-required="true" title="시설물관리그룹넘버" />-
+								<input type="text" size="15" id="sFcltsMngGroupNo" title="시설물관리그룹넘버" />-
 								<input type="text" size="17" id="sFcltsMngGroupNoNm" disabled="disabled" title="시설물관리그룹명"/>
 								<button id="sSearchFcltsMngGroupNo" class="popupButton">선택</button>
 							</td>
@@ -792,7 +836,7 @@ var module_instance = new GamFcltyMaintMngModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="fcltyMaintMngList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="btnFcltyMngMngtListExcelDownload">엑셀</button>
+					<button id="btnFcltyMngMngtListExcelDownload">엑셀 다운로드</button>
 					<button id="addBtn">추가</button>
 					<button id="deleteBtn">삭제</button>
 				</div>

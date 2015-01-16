@@ -226,6 +226,7 @@ GamFcltyRepairMngModule.prototype.loadDetail = function(){
 			module.$('#flawExamUsrF').flexOptions({params:searchVO}).flexReload();
 			// tabs5 항목 데이타 로딩/ 그리드 리로드
 			module.makeFormValues('#fcltyRepairMngFileForm', {});
+			module.$('#atchFileSe').val('D');
 			module.$("#previewImage").attr("src", "");
 			module.$('#fcltyRepairFileList').flexOptions({params:searchVO}).flexReload();
 		}else{
@@ -732,6 +733,48 @@ GamFcltyRepairMngModule.prototype.fillTitleData = function() {
 };
 
 
+//유지보수 대상시설물 존재유무 체크
+GamFcltyRepairMngModule.prototype.existRepairFcltsItem = function(fcltsMngNo) {
+	var rows = this.$('#flawRprObjFcltsF').flexGetData();
+	var result = false;
+	if(rows.length > 0) {
+		var row = null;
+		for(var i=0; i<rows.length; i++) {
+			row = rows[i];
+			if(row['fcltsMngNo'] == fcltsMngNo) {
+				result = true;
+				break;
+			}
+		}
+	}
+	return result;
+};
+
+
+GamFcltyRepairMngModule.prototype.downloadExcel = function(buttonId) {
+
+	var gridRowCount = 0;
+	switch (buttonId) {
+		case 'btnFcltyRepairMngListExcelDownload':
+			gridRowCount = this.$("#fcltyRepairMngList").flexRowCount();
+			break;
+		default:
+			return;
+	}
+	if (gridRowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	switch (buttonId) {
+		case 'btnFcltyRepairMngListExcelDownload':
+			this.$('#fcltyRepairMngList').flexExcelDown('/fcltyMng/selectFcltyRepairMngListExcel.do');
+			break;
+	}
+
+};
+
+
+
 /**
  * 정의 된 버튼 클릭 시
  */
@@ -794,7 +837,7 @@ GamFcltyRepairMngModule.prototype.fillTitleData = function() {
 		
 		// 엑셀다운로드
 		case "btnFcltyRepairMngListExcelDownload":
-			this.$('#fcltyRepairMngList').flexExcelDown('/fcltyMng/selectFcltyRepairMngListExcel.do');
+			this.downloadExcel(buttonId);
 		break;
 		
 		// 대상시설물
@@ -881,11 +924,15 @@ GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	switch(popupId){
 		
 		case "selectFcltsMngNo":
-			this.$("#oFcltsMngNo").val(value["fcltsMngNo"]);
-			this.$("#prtFcltyNm").val(value["prtFcltyNm"]);
-			
-			// 대상시설물 팝업에서 상태값 변경시 그리드 적용
-			this.$(".objFcltsEditItem").trigger("change");
+			if(this.existRepairFcltsItem(value['fcltsMngNo'])) {
+				alert('대상시설물이 이미 존재합니다.');
+			} else {
+				this.$("#oFcltsMngNo").val(value["fcltsMngNo"]);
+				this.$("#prtFcltyNm").val(value["prtFcltyNm"]);
+				
+				// 대상시설물 팝업에서 상태값 변경시 그리드 적용
+				this.$(".objFcltsEditItem").trigger("change");
+			}
 		break;
 	
 		case "selectFcltsMngGroup":

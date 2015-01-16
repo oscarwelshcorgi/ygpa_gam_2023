@@ -85,7 +85,7 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function() {
 					{display:"파일제목",	name:"atchFileSj",				width:200,		sortable:true,		align:"left"},
 					{display:"논리파일명",	name:"atchFileNmLogic",			width:200,		sortable:true,		align:"left"}
 			],
-		height: "400"
+		height: "360"
 	});
  	
  	
@@ -218,6 +218,29 @@ GamFcltyMaintSttusInqireModule.prototype.downloadFileData = function() {
 };
 
 
+GamFcltyMaintSttusInqireModule.prototype.downloadExcel = function(buttonId) {
+
+	var gridRowCount = 0;
+	switch (buttonId) {
+		case 'btnFcltyMngMngtListExcelDownload':
+			gridRowCount = this.$("#fcltyMaintSttusInqireList").flexRowCount();
+			break;
+		default:
+			return;
+	}
+	if (gridRowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	switch (buttonId) {
+		case 'btnFcltyMngMngtListExcelDownload':
+			this.$('#fcltyMaintSttusInqireList').flexExcelDown('/fcltyMng/selectFcltyMaintInqireListExcel.do');
+			break;
+	}
+
+};
+
+
 /**
  * 정의 된 버튼 클릭 시
  */
@@ -227,7 +250,12 @@ GamFcltyMaintSttusInqireModule.prototype.downloadFileData = function() {
 
 		// 엑셀다운로드
 		case "btnFcltyMngMngtListExcelDownload":
-			this.$('#fcltyMaintMngList').flexExcelDown('/fcltyMng/selectFcltyMaintMngListExcel.do');
+			this.downloadExcel(buttonId);
+		break;
+		
+		// 파일다운로드
+		case "btnDownloadFile":
+			this.downloadFileData();
 		break;
 		
 		// 검색조건시설물관리그룹
@@ -311,7 +339,7 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 						<tr>
 							<th>시설물관리그룹</th>
 							<td>
-								<input type="text" size="15" id="sFcltsMngGroupNo" data-required="true" title="시설물관리그룹넘버" />-
+								<input type="text" size="15" id="sFcltsMngGroupNo" title="시설물관리그룹넘버" />-
 								<input type="text" size="17" id="sFcltsMngGroupNoNm" disabled="disabled" title="시설물관리그룹명"/>
 								<button id="sSearchFcltsMngGroupNo" class="popupButton">선택</button>
 							</td>
@@ -373,6 +401,9 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="fcltyMaintSttusInqireList" style="display:none" class="fillHeight"></table>
+				<div class="emdControlPanel">
+					<button id="btnFcltyMngMngtListExcelDownload">엑셀 다운로드</button>
+				</div>
 			</div>
 			<!-- 유지보수내역 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
@@ -380,9 +411,9 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 					<table class="editForm"  style="width:100%;" border="1">
 						<tr>
 							<th width="13%" height="23" class="required_text">시행년도</th>
-							<td width="10%"><span id="enforceYear" title="시행년도"></span></td>
+							<td width="15%"><span id="enforceYear" title="시행년도"></span></td>
 							<th width="10%" height="23" class="required_text">시설물업무구분</th>
-							<td width="10%"><span id="fcltsJobSeNm" title="시설물업무구분"></span></td>
+							<td width="15%"><span id="fcltsJobSeNm" title="시설물업무구분"></span></td>
 							<th width="10%" height="23" class="required_text">유지보수구분</th>
 							<td width="300px"><span id="mntnRprSeNm" title="유지보수구분"></span></td>
 						</tr>
@@ -414,7 +445,7 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 						</tr>
 						<tr>
 							<th width="13%" height="23" class="required_text">예산</th>
-							<td><span id="mntnRprBdgt" title="예산" class="ygpaNumber"></span></td>
+							<td style="text-align:right;"><span id="mntnRprBdgt" title="예산" class="ygpaNumber"></span></td>
 							<th width="10%" height="23" class="required_text">설계자</th>
 							<td><span id="plannerNm" title="설계자"  ></span></td>
 							<th width="10%" height="23" class="required_text">시공자</th>
@@ -422,7 +453,7 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 						</tr>
 						<tr>
 							<th width="13%" height="23" class="required_text">공사금액</th>
-							<td><span id="mntnRprCnstAmt" title="공사금액" class="ygpaNumber"></span></td>
+							<td style="text-align:right;"><span id="mntnRprCnstAmt" title="공사금액" class="ygpaNumber"></span></td>
 							<th width="10%" height="23" class="required_text">책임기술자</th>
 							<td><span id="responEngineer" title="책임기술자"></span></td>
 							<th width="13%" height="23" class="required_text">공사감독자</th>
@@ -450,6 +481,9 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 					<tr>
 						<td width="50%">
 							<table id="fcltyMaintSttusFileList" style="display:none" class="fillHeight"></table>
+							<div class="emdControlPanel">
+								<button id="btnDownloadFile">다운로드</button>
+							</div>
 						</td>
 						<td style="text-align:center;vertical-align:middle;">
 							<img id="previewImage" style="border: 1px solid #000; max-width:300px; max-height: 300px" src="">

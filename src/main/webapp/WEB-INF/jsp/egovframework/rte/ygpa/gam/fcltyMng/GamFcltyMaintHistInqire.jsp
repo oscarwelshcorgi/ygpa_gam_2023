@@ -44,7 +44,7 @@ GamFcltyMaintHistInqireModule.prototype.loadComplete = function() {
 					{display:"시공업체", 			name:"cnstrtr",					width:200, 		sortable:false,		align:"center"},
 					{display:"시설명", 			name:"prtFcltyNm",				width:200, 		sortable:false,		align:"center"},
 					{display:"유지보수순번", 		name:"mntnRprSeq",				width:120, 		sortable:false,		align:"center"},
-					{display:"유지보수구분",		name:"mntnRprSe",				width:80, 		sortable:false,		align:"left"},
+					{display:"유지보수구분",		name:"mntnRprSeNm",				width:80, 		sortable:false,		align:"center"},
 					{display:"유지보수공법",		name:"mntnRprCnstMth",			width:80,		sortable:false,		align:"center"},
 					{display:"단위",				name:"unit",					width:80,		sortable:false,		align:"center"},
 					{display:"수량",				name:"qy",						width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
@@ -70,6 +70,12 @@ GamFcltyMaintHistInqireModule.prototype.loadComplete = function() {
 		event.data.module.applyFileChanged(event.target);
 	});
 	
+	
+	// 유지보수시설명 검색조건 클릭시 초기화 처리
+	this.$("#sFcltsMngNo").bind("click", {module: this}, function(event) {
+		event.data.module.$("#sFcltsMngNo").val('');
+		event.data.module.$("#sPrtFcltyNm").val('');
+	});
 	
 };
 

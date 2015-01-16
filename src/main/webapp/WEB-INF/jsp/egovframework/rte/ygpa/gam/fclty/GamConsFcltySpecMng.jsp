@@ -92,6 +92,13 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 	this.$("#fcltyFileList").on("onItemSelected", function(event, module, row, grid, param) {
 		module.imagePreview();
 	});
+	
+	
+	// 시설물관리그룹 검색조건 클릭시 초기화 처리
+	this.$("#sFcltsMngGroupNo").bind("click", {module: this}, function(event) {
+		event.data.module.$("#sFcltsMngGroupNo").val('');
+		event.data.module.$("#sFcltsMngGroupNoNm").val('');
+	});
 
 
 };

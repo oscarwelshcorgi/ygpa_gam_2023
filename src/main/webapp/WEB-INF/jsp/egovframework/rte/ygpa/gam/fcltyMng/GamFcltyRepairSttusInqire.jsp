@@ -101,7 +101,7 @@ GamFcltyRepairSttusInqireModule.prototype.loadComplete = function(params) {
 					{display:"설명",		name:"atchFileSj",				width:240,		sortable:true,		align:"left"},
 					{display:"파일명",	name:"atchFileNmLogic",			width:200,		sortable:true,		align:"left"}
 			],
-		height: "400"
+		height: "360"
 	});
 
  	
@@ -240,6 +240,51 @@ GamFcltyRepairSttusInqireModule.prototype.fillTitleData = function() {
 };
 
 
+GamFcltyRepairSttusInqireModule.prototype.downloadExcel = function(buttonId) {
+
+	var gridRowCount = 0;
+	switch (buttonId) {
+		case 'btnFcltyMngMngtListExcelDownload':
+			gridRowCount = this.$("#fcltyRepairSttusInqireList").flexRowCount();
+			break;
+		default:
+			return;
+	}
+	if (gridRowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	switch (buttonId) {
+		case 'btnFcltyMngMngtListExcelDownload':
+			this.$('#fcltyRepairSttusInqireList').flexExcelDown('/fcltyMng/selectFcltyRepairInqireListExcel.do');
+			break;
+	}
+
+};
+
+
+
+/**
+ * 정의 된 버튼 클릭 시
+ */
+ GamFcltyRepairSttusInqireModule.prototype.onButtonClick = function(buttonId) {
+
+	switch(buttonId) {
+
+		// 엑셀다운로드
+		case "btnFcltyMngMngtListExcelDownload":
+			this.downloadExcel(buttonId);
+		break;
+		
+		// 파일다운로드
+		case "btnDownloadFile":
+			this.downloadFileData();
+		break;
+
+	}
+};
+
+
 GamFcltyRepairSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	if(oldTabId == 'tabs1') {
 		this.loadDetail();
@@ -337,6 +382,9 @@ var module_instance = new GamFcltyRepairSttusInqireModule();
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="fcltyRepairSttusInqireList" style="display:none" class="fillHeight"></table>
+				<div class="emdControlPanel">
+					<button id="btnFcltyMngMngtListExcelDownload">엑셀 다운로드</button>
+				</div>
 			</div>
 
 
@@ -497,6 +545,9 @@ var module_instance = new GamFcltyRepairSttusInqireModule();
 					<tr>
 						<td width="50%">
 							<table id="fcltyRepairSttusFileList" style="display:none" class="fillHeight"></table>
+							<div class="emdControlPanel">
+								<button id="btnDownloadFile">다운로드</button>
+							</div>
 						</td>
 						<td style="text-align:center;vertical-align:middle;">
 							<img id="previewImage" style="border: 1px solid #000; max-width:300px; max-height: 300px" src="">

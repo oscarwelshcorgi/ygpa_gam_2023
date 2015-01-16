@@ -13,9 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
@@ -212,7 +217,7 @@ public class GamFcltyMaintSttusInqireController {
 
 		Map map = new HashMap();
 
-    	// 0. Spring Security 사용자권한 처리
+    	// 0. Spring Security 사용자권한 처리 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -244,6 +249,54 @@ public class GamFcltyMaintSttusInqireController {
     	map.put("searchOption", searchVO);
 
     	return map;
+    }
+	
+	
+	/**
+	 * 시설물 유지보수관리 리스트를 엑셀로 다운로드한다.
+	 * @param searchVO
+	 * @return map
+	 * @throws Exception
+	 */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/fcltyMng/selectFcltyMaintInqireListExcel.do", method=RequestMethod.POST)
+    public @ResponseBody ModelAndView selectFcltyMaintInqireListExcel(@RequestParam Map<String, Object> excelParam) throws Exception {
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return new ModelAndView("gridExcelView", "gridResultMap", map);
+    	}
+
+    	// 환경설정
+    	/** EgovPropertyService */
+    	GamFcltyMaintSttusInqireVO searchVO= new GamFcltyMaintSttusInqireVO();
+
+        header = mapper.readValue((String)excelParam.get("header"),
+			    new TypeReference<List<HashMap<String,String>>>(){});
+
+        excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
+		// 조회 조건
+		searchVO = mapper.convertValue(excelParam, GamFcltyMaintSttusInqireVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		
+		//계약이력목록
+		List fcltyMaintSttusInqireList = gamFcltyMaintSttusInqireService.selectFcltyMaintSttusInqireList(searchVO);
+		
+
+    	map.put("resultList", fcltyMaintSttusInqireList);
+    	map.put("header", header);
+
+    	return new ModelAndView("gridExcelView", "gridResultMap", map);
     }
 	
 	

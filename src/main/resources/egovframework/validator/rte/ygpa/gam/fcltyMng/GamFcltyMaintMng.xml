@@ -6,7 +6,7 @@
 <form-validation>
 
     <formset>
-        <form name="fcltyMaintMngVO">
+        <form name="fcltyMaintMngListVO">
             <field property="fcltsJobSe" depends="required">
                 <arg0 key="시설물업무구분" resource="false"/>
             </field>

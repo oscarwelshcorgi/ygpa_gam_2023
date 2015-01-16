@@ -47,10 +47,10 @@ GamFcltyRepairHistInqireModule.prototype.loadComplete = function(params) {
 					{display:"업체명",			name:"flawRprEntrpsNm",			width:200,		sortable:true,		align:"left"},
 					{display:"시설물명",			name:"prtFcltyNm",				width:200,		sortable:true,		align:"left"},
 					{display:"하자보수순번", 		name:"flawRprSeq",				width:120, 		sortable:false,		align:"center"},
-					{display:"하자검사구분",		name:"flawExamSe",				width:80, 		sortable:false,		align:"center"},
+					{display:"하자검사구분",		name:"flawExamSeNm",			width:80, 		sortable:false,		align:"center"},
 					{display:"하자유무",			name:"flawEnnc",				width:90,		sortable:true,		align:"center"},
 					{display:"하자검사일자",		name:"flawExamDt",				width:100,		sortable:true,		align:"center"},
-					{display:"하자보수유형",		name:"flawRprTy",				width:80, 		sortable:false,		align:"center"},
+					{display:"하자보수유형",		name:"flawRprTyNm",				width:80, 		sortable:false,		align:"center"},
 					{display:"하자보수명",			name:"flawRprNm",				width:250, 		sortable:false,		align:"left"},
 					{display:"하자보수금액", 		name:"flawRprAmt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"하자보수완료여부", 	name:"flawRprComptYn",			width:150, 		sortable:false,		align:"center"}
@@ -61,6 +61,13 @@ GamFcltyRepairHistInqireModule.prototype.loadComplete = function(params) {
  	
  	this.$("#fcltyRepairHistInqireList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module.$("#fcltyRepairHistInqireListTab").tabs("option", {active: 1});
+	});
+ 	
+ 	
+ 	// 하자보수시설명 검색조건 클릭시 초기화 처리
+	this.$("#sFcltsMngNo").bind("click", {module: this}, function(event) {
+		event.data.module.$("#sFcltsMngNo").val('');
+		event.data.module.$("#sPrtFcltyNm").val('');
 	});
 
 };

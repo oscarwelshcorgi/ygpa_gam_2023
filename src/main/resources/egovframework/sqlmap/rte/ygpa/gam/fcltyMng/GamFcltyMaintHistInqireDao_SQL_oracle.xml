@@ -25,6 +25,7 @@
 							, M.FCLTS_MNG_GROUP_NO
 							, M.MNTN_RPR_SEQ
 							, M.MNTN_RPR_SE
+							, GAM_GET_MNTN_RPR_SE_NM(M.MNTN_RPR_SE) MNTN_RPR_SE_NM
 							, M.MNTN_RPR_PART
 							, M.MNTN_RPR_CN
 							, M.MNTN_RPR_BDGT
