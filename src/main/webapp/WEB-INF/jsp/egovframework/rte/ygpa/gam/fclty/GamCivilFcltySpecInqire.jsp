@@ -52,7 +52,11 @@ GamCivilFcltySpecInqireModule.prototype.loadComplete = function(params) {
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
 					{display:"변경일자",		name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"}
 			],
-		height: "auto"
+		height: "auto",
+		preProcess : function(module,data) {
+			module.$('#totalCount').val($.number(data.totalCount));
+			return data;
+		}		
 	});
 
 	this._cmd = '';
@@ -231,6 +235,15 @@ GamCivilFcltySpecInqireModule.prototype.downloadAtchFileItem = function() {
 	}
 };
 
+//시설재원목록 엑셀다운로드
+GamCivilFcltySpecInqireModule.prototype.downloadExcel = function() {
+	var rowCount = this.$("#civilFcltySpecInqireList").flexRowCount();
+	if (rowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	this.$('#civilFcltySpecInqireList').flexExcelDown('/fclty/excelDownloadCivilFcltySpecInqireList.do');
+};
 
 /**
  * 정의 된 버튼 클릭 시
@@ -244,9 +257,13 @@ GamCivilFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 			this.loadData();
 			break;
 
+		// 엑셀 다운로드
+		case "btnExcelDownload": 
+			this.downloadExcel();
+			break;
 	
 
-//파일다운로드
+		//파일다운로드
 		case "btnDownloadFile":
 		this.downloadAtchFileItem();
 			break;
@@ -391,9 +408,18 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 				<table id="civilFcltySpecInqireList" style="display: none"
 					class="fillHeight"></table>
 				<div class="emdControlPanel">
-
-					<button data-role="showMap" data-gis-layer="gisAssetsCd"
-						data-flexi-grid="civilFcltySpecInqireList" data-style="default">맵조회</button>
+					<form id="listSumForm">
+						<table style="width:100%;">
+							<tr>
+								<th style="width:6%; height:20; text-align:center;">자료수</th>
+								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
+								<td style="text-align:right;">
+	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+	                                <button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="civilFcltySpecMngList" data-style="default">맵조회</button>
+								</td>
+							</tr>
+						</table>
+					</form>
 				</div>
 			</div>
 

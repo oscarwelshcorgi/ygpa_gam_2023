@@ -51,7 +51,11 @@ GamInfoTechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:80,		sortable:false,		align:"left"},
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"}
 			],
-		height: "auto"
+		height: "auto",
+		preProcess : function(module,data) {
+			module.$('#totalCount').val($.number(data.totalCount));
+			return data;
+		}		
 	});
 
 	this._cmd = '';
@@ -216,7 +220,15 @@ GamInfoTechFcltySpecInqireModule.prototype.downloadAtchFileItem = function() {
 };
 
 
-
+//시설재원목록 엑셀다운로드
+GamInfoTechFcltySpecInqireModule.prototype.downloadExcel = function() {
+	var rowCount = this.$("#infoTechFcltySpecInqireList").flexRowCount();
+	if (rowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	this.$('#infoTechFcltySpecInqireList').flexExcelDown('/fclty/excelDownloadInfoTechFcltySpecInqireList.do');
+};
 
 
 /**
@@ -231,6 +243,11 @@ GamInfoTechFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 			this.loadData();
 			break;
 
+		// 엑셀 다운로드
+		case "btnExcelDownload": 
+			this.downloadExcel();
+			break;
+			
 	// 시설물관리그룹(조회 화면)
 		case "popupSearchFcltsMngGroupNo":
 			this.doExecuteDialog("selectFcltsMngGroup", "시설물그룹번호", '/popup/showFcltsMngGroup.do', {});
@@ -394,7 +411,18 @@ var module_instance = new GamInfoTechFcltySpecInqireModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="infoTechFcltySpecInqireList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="infoTechFcltySpecInqireList" data-style="default">맵조회</button>
+					<form id="listSumForm">
+						<table style="width:100%;">
+							<tr>
+								<th style="width:6%; height:20; text-align:center;">자료수</th>
+								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
+								<td style="text-align:right;">
+	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+	                                <button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="civilFcltySpecMngList" data-style="default">맵조회</button>
+								</td>
+							</tr>
+						</table>
+					</form>
 				</div>
 			</div>
 

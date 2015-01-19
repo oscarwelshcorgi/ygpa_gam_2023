@@ -63,7 +63,11 @@ GamMechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:80,		sortable:false,		align:"left"},
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"}
 			],
-		height: "auto"
+		height: "auto",
+		preProcess : function(module,data) {
+			module.$('#totalCount').val($.number(data.totalCount));
+			return data;
+		}		
 	});
 	
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
@@ -188,6 +192,22 @@ GamMechFcltySpecInqireModule.prototype.loadDetail = function() {
 	this.clearFilePage();
 };
 
+<%
+/**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : Excel Download
+ * @PARAMETER     :
+**/
+%>
+GamMechFcltySpecInqireModule.prototype.downloadExcel = function() {
+	var rowCount = this.$("#mainGrid").flexRowCount();
+	if (rowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	this.$('#mainGrid').flexExcelDown('/fclty/excelDownloadMechFcltySpecInqireList.do');
+};
+
 GamMechFcltySpecInqireModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
 
 	if(newTabId=='tabs2' || newTabId=='tabs3') {
@@ -210,6 +230,11 @@ GamMechFcltySpecInqireModule.prototype.onTabChangeBefore = function(newTabId, ol
 %>
  GamMechFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
+
+		// 엑셀 다운로드
+		case "btnExcelDownload": 
+			this.downloadExcel();
+			break;
 	
 		// 파일 다운로드
 		case 'btnDownloadFile':
@@ -389,7 +414,18 @@ var module_instance = new GamMechFcltySpecInqireModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="mainGrid" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="mainGrid" data-style="default">맵조회</button>
+					<form id="listSumForm">
+						<table style="width:100%;">
+							<tr>
+								<th style="width:6%; height:20; text-align:center;">자료수</th>
+								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
+								<td style="text-align:right;">
+	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+	                                <button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="civilFcltySpecMngList" data-style="default">맵조회</button>
+								</td>
+							</tr>
+						</table>
+					</form>
 				</div>
 			</div>
 
