@@ -93,18 +93,18 @@
 		module : this,
 		dataType : 'json',
 		colModel : [ {display : '항구분', name : 'prtAtCode', width : 60, sortable : false, align : 'center'},
-		             {display : '사용기간', name : 'usagePd', width : 70, sortable : false, align : 'center'},
+		             {display : '사용기간', name : 'usagePd', width : 75, sortable : false, align : 'center'},
 		             {display : '업체구분', name : 'entrpsSe', width : 70, sortable : false, align : 'center'},
-		             {display : '업체명', name : 'entrpsnm', width : 70, sortable : false, align : 'center'},
-		             {display : '신청일자', name : 'reqstDt', width : 70, sortable : false, align : 'center'},
-		             {display : '허가일자', name : 'prmisnDt', width : 70, sortable : false, align : 'center'},
+		             {display : '업체명', name : 'entrpsnm', width : 80, sortable : false, align : 'center'},
+		             {display : '신청일자', name : 'reqstDt', width : 75, sortable : false, align : 'center'},
+		             {display : '허가일자', name : 'prmisnDt', width : 75, sortable : false, align : 'center'},
 		             {display : '납부방법', name : 'payMth', width : 70, sortable : false, align : 'center'},
-		             {display : '과세구분', name : 'taxtNm', width : 70, sortable : false, align : 'center'},
+		             {display : '과세구분', name : 'taxtNm', width : 90, sortable : false, align : 'center'},
 		             {display : '사용면적㎡',  name : 'usageAr', width : 70, sortable : false, align : 'right', displayFormat : 'number', displayOption:{format:"0,000.00"}},
 		             {display : '사용목적', name : 'usagePurps', width : 150, sortable : false, align : 'center'},
 		             {display : '사용내역', name : 'usageDtls', width : 125, sortable : false, align : 'center'},
-		             {display : '산출내역', name : 'computDtls', width : 70, sortable : false, align : 'center'},
-		             {display : '공시지가', name : 'olnlp', width : 70, sortable : false, align : 'center'},
+		             {display : '산출내역', name : 'computDtls', width : 90, sortable : false, align : 'center'},
+		             {display : '공시지가', name : 'olnlp', width : 70, sortable : false, align : 'right', displayFormat : 'number'},
 		             {display : '적용요율', name : 'applcTariff', width : 70, sortable : false, align : 'right' , displayFormat : 'number', displayOption:{format:"0,000.00"}},
 		             {display : '적용방법', name : 'applcMth', width : 70, sortable : false, align : 'center'},
 		             {display : '금액', name : 'fee', width : 100, sortable : false, align : 'right', displayFormat : 'number'},
@@ -536,8 +536,7 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 					<tbody>
 						<tr>
 							<th>항구분</th>
-							<td><input id="sPrtAtCode" class="ygpaCmmnCd"
-								data-default-prompt="전체" data-code-id="GAM019" /></td>
+							<td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>시설구분</th>
 							<td><input type="text" id="sFcltsJobSe"/></td>
 							<th>시설명</th>
@@ -548,9 +547,10 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 							<th>시설물 관리 그룹</th>
 							<td><input type="text" id="sFcltsMngNo"/></td>
 							<th>사용기간</th>
-							<td colspan="2"><input id="sUsagePdFrom" type="text" class="emdcal"
-								size="8"> ~ <input id="sUsagePdTo" type="text"
-								class="emdcal" size="8"></td>
+							<td colspan="2">
+								<input id="sUsagePdFrom" type="text" class="emdcal" size="8" > ~ <!-- data-required="true"> ~  -->
+								<input id="sUsagePdTo" type="text" class="emdcal" size="8">
+							</td>
 						</tr>
 					</tbody>
 				</table>
