@@ -43,7 +43,7 @@ GamCivilFcltySpecMngModule.prototype.loadComplete = function(params) {
 		url: '/fclty/selectCivilFcltySpecMngList.do',
 		dataType: "json",
 		colModel : [
-					{display:"항구분명",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
+					{display:"항구분",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
 					{display:"자산명",		name:"gisAssetsNm",			width:200,		sortable:false,		align:"left"},
 					{display:"시설명",		name:"prtFcltyNm",			width:280,		sortable:false,		align:"left"},
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:100,		sortable:false,		align:"left"},
@@ -52,7 +52,11 @@ GamCivilFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"},
 					{display:"변경일자",		name:"prtFcltyChangeDt",	width:80,		sortable:false,		align:"center"}
 			],
-		height: "auto"
+		height: "auto",
+		preProcess : function(module,data) {
+			module.$('#totalCount').val($.number(data.totalCount));
+			return data;
+		}
 	});
 
 	this._cmd = '';
@@ -350,6 +354,16 @@ GamCivilFcltySpecMngModule.prototype.removeAtchFileItem = function() {
     this.$("#fcltsFileForm").find(":input").val("");
 };
 
+//시설재원목록 엑셀다운로드
+GamCivilFcltySpecMngModule.prototype.downloadExcel = function() {
+	var rowCount = this.$("#civilFcltySpecMngList").flexRowCount();
+	if (rowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	this.$('#civilFcltySpecMngList').flexExcelDown('/fclty/excelDownloadCivilFcltySpecMngList.do');
+};
+
 /**
  * 정의 된 버튼 클릭 시
  */
@@ -370,6 +384,13 @@ GamCivilFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		// 시설삭제
 		case "btnDelete" :
 			this.deleteData();
+			break;
+			
+		// 엑셀 다운로드
+		case "btnExcelDownload": 
+			this.downloadExcel();
+			break;
+			
 		// 저장
 		case "btnSave":
 			this.saveData();
@@ -544,9 +565,20 @@ var module_instance = new GamCivilFcltySpecMngModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="civilFcltySpecMngList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="btnAdd">시설추가</button>
-					<button id="btnDelete">시설삭제</button>
-					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="civilFcltySpecMngList" data-style="default">맵조회</button>
+					<form id="listSumForm">
+						<table style="width:100%;">
+							<tr>
+								<th style="width:6%; height:20; text-align:center;">자료수</th>
+								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
+								<td style="text-align:right;">
+									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
+									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
+	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+	                                <button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="civilFcltySpecMngList" data-style="default">맵조회</button>
+								</td>
+							</tr>
+						</table>
+					</form>
 				</div>
 			</div>
 

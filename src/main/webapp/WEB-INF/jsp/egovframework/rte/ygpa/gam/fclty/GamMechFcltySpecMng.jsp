@@ -43,7 +43,7 @@ GamMechFcltySpecMngModule.prototype.loadComplete = function(params) {
 		url: '/fclty/selectMechFcltySpecMngList.do',
 		dataType: "json",
 		colModel : [
-					{display:"항분류",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
+					{display:"항구분",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
 					{display:"자산명",		name:"gisAssetsNm",			width:200,		sortable:false,		align:"left"},
 					{display:"시설명",		name:"prtFcltyNm",			width:200,		sortable:false,		align:"left"},
 					{display:"소재지",		name:"loc",					width:180,		sortable:false,		align:"left"},
@@ -51,7 +51,11 @@ GamMechFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:80,		sortable:false,		align:"left"},
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"}
 			],
-		height: "auto"
+		height: "auto",
+		preProcess : function(module,data) {
+			module.$('#totalCount').val($.number(data.totalCount));
+			return data;
+		}		
 	});
 
 	this._cmd = '';
@@ -363,6 +367,16 @@ GamMechFcltySpecMngModule.prototype.getFcltsMngGroupNoNm = function() {
 
 };
 
+//시설재원목록 엑셀다운로드
+GamMechFcltySpecMngModule.prototype.downloadExcel = function() {
+	var rowCount = this.$("#mechFcltySpecMngList").flexRowCount();
+	if (rowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	this.$('#mechFcltySpecMngList').flexExcelDown('/fclty/excelDownloadMechFcltySpecMngList.do');
+};
+
 /**
  * 정의 된 버튼 클릭 시
  */
@@ -383,6 +397,11 @@ GamMechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		// 시설삭제
 		case "btnDelete" :
 			this.deleteData();
+			break;
+
+		// 엑셀 다운로드
+		case "btnExcelDownload": 
+			this.downloadExcel();
 			break;
 			
 		// 저장
@@ -567,9 +586,20 @@ var module_instance = new GamMechFcltySpecMngModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="mechFcltySpecMngList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="btnAdd">시설추가</button>
-					<button id="btnDelete">시설삭제</button>
-					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="mechFcltySpecMngList" data-style="default">맵조회</button>
+					<form id="listSumForm">
+						<table style="width:100%;">
+							<tr>
+								<th style="width:6%; height:20; text-align:center;">자료수</th>
+								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
+								<td style="text-align:right;">
+									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
+									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
+	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+	                                <button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="civilFcltySpecMngList" data-style="default">맵조회</button>
+								</td>
+							</tr>
+						</table>
+					</form>
 				</div>
 			</div>
 

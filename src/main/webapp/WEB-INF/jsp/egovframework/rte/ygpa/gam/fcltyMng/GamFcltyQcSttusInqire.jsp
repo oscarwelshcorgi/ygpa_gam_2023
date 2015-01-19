@@ -111,7 +111,7 @@ GamFcltyQcSttusInqireModule.prototype.loadComplete = function(params) {
 					{display:"제목",		name:"atchFileSj",			width:200,		sortable:true,		align:"left"},
 					{display:"파일명",	name:"atchFileNmLogic",		width:200,		sortable:true,		align:"left"},
 			],
-		height: "400"
+		height: "450"
 	});
 
 	this.$("#qcMngAtchFileList").on("onItemSelected", function(event, module, row, grid, param) {
@@ -138,14 +138,12 @@ GamFcltyQcSttusInqireModule.prototype.fillSelectBoxYear = function(id) {
 //화면 및 데이터 초기화
 GamFcltyQcSttusInqireModule.prototype.initDisplay = function() {
 	this.$("#fcltyQcwWrtMngVO :input").val("");
-	this.$("#qcMngAtchFileForm :input").val("");
 	
 	this.makeDivValues('#fcltyQcwWrtMngVO', []);
 	this.summaryDisplay();
 	
 	this.makeDivValues('#gamQcMngObjFcltsForm', []);
 	this.makeDivValues('#gamQcMngResultItemForm', []);
-	this.makeDivValues('#qcMngAtchFileForm', []);
 	
 	this.makeFormValues('#gamQcMngObjFcltsForm', []);
 	this.makeFormValues('#gamQcMngResultItemForm', []);
@@ -262,7 +260,6 @@ GamFcltyQcSttusInqireModule.prototype.selectAtchFileItem = function() {
 	var rows = this.$('#qcMngAtchFileList').selectedRows();
 	if(rows.length > 0) {
 		var row = rows[0];
-		this.makeDivValues("#qcMngAtchFileForm", row);
 		if(row.atchFileNmPhysicl != null || row.atchFileNmPhysicl != "") {
 			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
 			var filenm = row["atchFileNmPhysicl"];
@@ -640,21 +637,6 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 							<div class="emdControlPanel">
 								<button id="btnDownloadFile">다운로드</button>
 							</div>
-			
-							<form id="qcMngAtchFileForm">
-								<table class="searchPanel editForm">
-									<tr>
-										<th width="15%" height="23" class="required_text">파일구분</th>
-										<td>
-											<span id="atchFileSeNm"></span>
-										</td>
-										<th width="15%" height="23" class="required_text">파일제목</th>
-										<td>
-											<span id="atchFileSj"></span>
-										</td>
-									</tr>
-								</table>
-							</form>
 						</td>
 						<td style="text-align:center;vertical-align:middle;">
 							<img id="previewImage" style="border: 1px solid #000; max-width:300px; max-height: 300px" src="">

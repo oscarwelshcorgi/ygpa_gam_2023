@@ -6,6 +6,8 @@ package egovframework.rte.ygpa.gam.fclty.service;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 /**
