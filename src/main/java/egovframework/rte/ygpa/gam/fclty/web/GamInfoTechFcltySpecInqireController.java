@@ -3,7 +3,6 @@
  */
 package egovframework.rte.ygpa.gam.fclty.web;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,15 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
@@ -30,8 +30,6 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamGisPrtFcltyCdMngtService;
 import egovframework.rte.ygpa.gam.fclty.service.GamInfoTechFcltySpecInqireService;
 import egovframework.rte.ygpa.gam.fclty.service.GamInfoTechFcltySpecInqireVO;
-import egovframework.rte.ygpa.gam.fclty.service.GamInfoTechFcltySpecMngService;
-import egovframework.rte.ygpa.gam.fclty.service.GamInfoTechFcltySpecMngVO;
 
 /**
  *
@@ -120,6 +118,47 @@ public class GamInfoTechFcltySpecInqireController {
 
     	return map;
     }
+
+	/**
+	 * 정보통신시설관리목록 엑셀다운로드
+	 * @param map
+	 * @return modelAndView
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/fclty/excelDownloadInfoTechFcltySpecInqireList.do" , method=RequestMethod.POST)
+	@ResponseBody ModelAndView excelDownloadInfoTechFcltySpecInqireList(@RequestParam Map<String, Object> excelParam) throws Exception {
+
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return new ModelAndView("gridExcelView", "gridResultMap", map);
+		}
+
+		header = mapper.readValue((String)excelParam.get("header"),
+								  new TypeReference<List<HashMap<String,String>>>(){});
+		excelParam.remove("header");
+
+		GamInfoTechFcltySpecInqireVO searchVO= new GamInfoTechFcltySpecInqireVO();
+		searchVO = mapper.convertValue(excelParam, GamInfoTechFcltySpecInqireVO.class);
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		List resultList = gamInfoTechFcltySpecInqireService.selectInfoTechFcltySpecInqireList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("header", header);
+
+		return new ModelAndView("gridExcelView", "gridResultMap", map);
+	}
+	
 	/**
 	 * 정보통신 시설관리 상세
 	 * @param fcltyManageVO

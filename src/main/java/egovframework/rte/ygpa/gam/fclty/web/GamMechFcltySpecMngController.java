@@ -126,7 +126,7 @@ public class GamMechFcltySpecMngController {
 
 
 	/**
-	 * 정보통신시설관리목록 엑셀다운로드
+	 * 기계시설관리목록 엑셀다운로드
 	 * @param map
 	 * @return modelAndView
 	 * @throws Exception
