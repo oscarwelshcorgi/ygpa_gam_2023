@@ -167,7 +167,7 @@ GamCivilFcltySpecMngModule.prototype.initDisplay = function() {
 	if(this._cmd == "insert") {
 		this.$("#selectGisPrtFcltyCd").enable();
 		this.$("#popupSearchGisCode").show();
-		this.$("#civilFcltySpecMngTab").tabs("option", {active: 1});		
+		this.$("#civilFcltySpecMngTab").tabs("option", {active: 1});
 	} else if (this._cmd == "modify") {
 		this.$("#selectGisPrtFcltyCd").disable();
 		this.$("#popupSearchGisCode").hide();

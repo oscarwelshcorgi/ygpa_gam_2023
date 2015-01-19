@@ -43,7 +43,7 @@ GamCivilFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		url: '/fclty/selectCivilFcltySpecInqireList.do',
 		dataType: "json",
 		colModel : [
-					{display:"항구분명",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
+					{display:"항구분",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
 					{display:"자산명",		name:"gisAssetsNm",			width:200,		sortable:false,		align:"left"},
 					{display:"시설명",		name:"prtFcltyNm",			width:280,		sortable:false,		align:"left"},
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:100,		sortable:false,		align:"left"},

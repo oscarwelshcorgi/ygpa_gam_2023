@@ -55,7 +55,7 @@ GamMechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		url: '/fclty/selectMechFcltySpecInqireList.do',
 		dataType: "json",
 		colModel : [
-					{display:"항분류",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
+					{display:"항구분",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
 					{display:"자산명",		name:"gisAssetsNm",			width:200,		sortable:false,		align:"left"},
 					{display:"시설명",		name:"prtFcltyNm",			width:200,		sortable:false,		align:"left"},
 					{display:"소재지",		name:"loc",					width:180,		sortable:false,		align:"left"},
