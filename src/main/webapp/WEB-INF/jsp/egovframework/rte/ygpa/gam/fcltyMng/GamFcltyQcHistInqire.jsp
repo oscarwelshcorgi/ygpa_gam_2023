@@ -58,7 +58,11 @@ GamFcltyQcHistInqireModule.prototype.loadComplete = function(params) {
 					{display:"점검종료일자",	name:"qcEndDt",				width:90,		sortable:false,		align:"center"},
 					{display:"책임기술자명",	name:"responEngineerNm",	width:150,		sortable:false,		align:"left"},
 			],
-		height: "auto"
+		height: "auto",
+		preProcess : function(module,data) {
+			module.$('#totalCount').val($.number(data.totalCount));
+			return data;
+		}
 	});
 		
 	this.$("#qcHistDtlsList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -213,6 +217,16 @@ var module_instance = new GamFcltyQcHistInqireModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="qcHistDtlsList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
+					<form id="listSumForm">
+						<table style="width:100%;">
+							<tr>
+								<th style="width:6%; height:20; text-align:center;">자료수</th>
+								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
+								<td style="text-align:right;">
+								</td>
+							</tr>
+						</table>
+					</form>
 				</div>
 			</div>
 

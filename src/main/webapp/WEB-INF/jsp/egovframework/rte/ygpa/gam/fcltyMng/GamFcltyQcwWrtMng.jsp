@@ -58,7 +58,11 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 					{display:"점검진단기관명",	name:"qcInspInsttNm",		width:150,		sortable:false,		align:"left"},
 					{display:"책임기술자명",	name:"responEngineerNm",	width:150,		sortable:false,		align:"left"},
 			],
-		height: "auto"
+			height: "auto",
+			preProcess : function(module,data) {
+				module.$('#totalCount').val($.number(data.totalCount));
+				return data;
+			}
 	});
 	
 	this._cmd = '';
@@ -962,10 +966,19 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="qcMngDtlsList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<!-- <button data-role="printPage" data-search-option="searchFcltyQcwWrtMngForm" data-url='/fcltyMng/selectQcMngDtlsReportPrint.do'>점검목록인쇄</button>-->
-					<button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
-					<button id="btnAdd">추가</button>
-					<button id="btnDelete">삭제</button>
+					<form id="listSumForm">
+						<table style="width:100%;">
+							<tr>
+								<th style="width:6%; height:20; text-align:center;">자료수</th>
+								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
+								<td style="text-align:right;">
+									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
+									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
+	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+								</td>
+							</tr>
+						</table>
+					</form>
 				</div>
 			</div>
 
