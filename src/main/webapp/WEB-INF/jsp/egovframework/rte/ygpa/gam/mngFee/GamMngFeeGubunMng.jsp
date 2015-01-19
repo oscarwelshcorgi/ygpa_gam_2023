@@ -223,8 +223,8 @@ GamMngFeeGubunMngModule.prototype.loadDetail = function(tabId) {
 **/
 %>
 GamMngFeeGubunMngModule.prototype.selectData = function() {
-
-	var gridRowCount = this.$("#mainGrid").flexRowCount();
+console.log("asdf");
+	//var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
 		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
@@ -242,8 +242,10 @@ GamMngFeeGubunMngModule.prototype.selectData = function() {
 	}
 	var mngFeeFcltySe = mainKeyValue;
 	var mainRowNo = -1;
-	for(var i=0; i<gridRowCount; i++) {
-		var row = this.$("#mainGrid").flexGetRow(i+1);
+	var rows = this.$("#mainGrid").flexGetData();
+	for(var i=0; i<rows.length; i++) {
+		//var row = this.$("#mainGrid").flexGetRow(i+1);
+		var row=rows[i];
 		if (row.mngFeeFcltySe == mngFeeFcltySe) {
 			mainRowNo = i;
 			break;

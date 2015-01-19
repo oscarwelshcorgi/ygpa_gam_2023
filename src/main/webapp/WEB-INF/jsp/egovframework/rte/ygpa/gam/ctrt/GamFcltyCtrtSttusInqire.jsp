@@ -56,6 +56,7 @@ GamFcltyCtrtSttusInqireModule.prototype.loadComplete = function() {
 					{display:'거래관계',				name:'dealRelate',			width:80, 		sortable:false,		align:'left'},
 					{display:'업종',					name:'induty',				width:100,		sortable:false,		align:'left'},
 					{display:'기업명',					name:'entrpsNm',			width:140,		sortable:false,		align:'left'},
+					{display:'계약명',					name:'ctrtNm',				width:200,		sortable:false,		align:'left'},
 					{display:'주요품목',				name:'stplPrdlst',			width:100,		sortable:false,		align:'left'},
 					{display:'이전년도 거래금액(원)', 	name:'prevCtrtAmt',			width:150,		sortable:false,		align:'right'},
 					{display:'거래금액(원)', 			name:'currCtrtAmt',			width:150,		sortable:false,		align:'right'},

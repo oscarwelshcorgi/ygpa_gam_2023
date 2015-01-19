@@ -46,6 +46,7 @@ public class GamFcltyCtrtSttusInqireVO extends ComDefaultVO {
 	private	String chargerOfcPos;		// 담당자 직위
 	private	String chargerMoblphonNo;	// 담당자 휴대폰 번호
 	private	String chargerEmail;		// 담당자 E-MAIL
+	private	String ctrtNm;				// 계약 명
 	private	String prevCtrtAmt;			// 이전 계약 금액
 	private	String currCtrtAmt;			// 현재 계약 금액
 	private	String sCtrtYr;				// 검색 계약 년도
@@ -264,6 +265,18 @@ public class GamFcltyCtrtSttusInqireVO extends ComDefaultVO {
 	 */
 	public void setChargerEmail(String chargerEmail) {
 		this.chargerEmail = chargerEmail;
+	}
+	/**
+	 * @return the ctrtNm
+	 */
+	public String getCtrtNm() {
+		return ctrtNm;
+	}
+	/**
+	 * @param ctrtNm the ctrtNm to set
+	 */
+	public void setCtrtNm(String ctrtNm) {
+		this.ctrtNm = ctrtNm;
 	}
 	/**
 	 * @return the prevCtrtAmt
