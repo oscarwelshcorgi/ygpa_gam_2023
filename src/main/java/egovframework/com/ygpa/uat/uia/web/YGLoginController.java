@@ -221,4 +221,17 @@ public class YGLoginController {
     	return map;
 	}
 
+    /**
+     * 로그아웃 페이지 뷰
+     * @param request
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/uat/uia/logout.do")
+	public String logoutPage(HttpServletRequest request, ModelMap model)
+			throws Exception {
+    	return "ygpa/gam/main/logout";
+    }
+
 }

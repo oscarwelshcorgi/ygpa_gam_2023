@@ -5,8 +5,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
   /**
-  * @Class Name : error404.jsp
-  * @Description : 에러 페이지
+  * @Class Name : logout.jsp
+  * @Description : 로그아웃  페이지
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -25,8 +25,13 @@
     <title>여수광양항만공사 - GIS기반 자산관리 시스템</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+    <script lang="javascript">
+function closePage(){
+	window.close();
+}
+    </script>
 </head>
-<body>
+<body onload="javascript:closePage();">
 	<h2>로그아웃 되었습니다.</h2>
 </body>
 </html>

@@ -223,8 +223,8 @@ GamMngFeeGubunMngModule.prototype.loadDetail = function(tabId) {
 **/
 %>
 GamMngFeeGubunMngModule.prototype.selectData = function() {
-console.log("asdf");
-	//var gridRowCount = this.$("#mainGrid").flexRowCount();
+/*
+	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
 		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
@@ -254,6 +254,18 @@ console.log("asdf");
 	if (mainRowNo >= 0) {
 		this.$("#mainGrid").selectRowId(mainRowNo);
 	}
+	*/
+	if (this._mode == 'query') {
+		if (this.$("#mainGrid").flexRowCount()==0) {
+			alert('해당 조건의 자료가 존재하지 않습니다!');
+		}
+		return;
+	} else if (this._mode != 'insert' && this._mode != 'modify') {
+		return;
+	}
+	var mainKeyValue = this._mainKeyValue;
+	this.$("#mainGrid").selectFilterRow([{col:"mngFeeFcltySe", filter:mainKeyValue}]);
+
 	this._mode = 'modify';
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();
