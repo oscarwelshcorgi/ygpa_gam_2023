@@ -43,11 +43,13 @@ public class GamQcItemCdMngVo extends ComDefaultVO {
 	private	String registDt;				//등록일시
 	private	String updUsr;					//수정자
 	private	String updtDt;					//수정일시
+	private	String leafYn;					// LEAF 여부
 	/** 조회조건 **/
 	private String sQcItemCd;				//점검 항목 코드
 	private String sQcItemNm;				//점검 항목 명
 	private String sFcltsJobSe;				//시설물 업무 구분
 	private String sDepthSort;				//단계
+	private	String sLeafYn;					// 검색 LEAF 여부
 	/** 합계컬럼 **/
 	private String	dataCount;				//자료수
 
@@ -208,6 +210,18 @@ public class GamQcItemCdMngVo extends ComDefaultVO {
 		this.updtDt = updtDt;
 	}
 	/**
+	 * @return the leafYn
+	 */
+	public String getLeafYn() {
+		return leafYn;
+	}
+	/**
+	 * @param leafYn the leafYn to set
+	 */
+	public void setLeafYn(String leafYn) {
+		this.leafYn = leafYn;
+	}
+	/**
 	 * @return the sQcItemCd
 	 */
 	public String getsQcItemCd() {
@@ -254,6 +268,18 @@ public class GamQcItemCdMngVo extends ComDefaultVO {
 	 */
 	public void setsDepthSort(String sDepthSort) {
 		this.sDepthSort = sDepthSort;
+	}
+	/**
+	 * @return the sLeafYn
+	 */
+	public String getsLeafYn() {
+		return sLeafYn;
+	}
+	/**
+	 * @param sLeafYn the sLeafYn to set
+	 */
+	public void setsLeafYn(String sLeafYn) {
+		this.sLeafYn = sLeafYn;
 	}
 	/**
 	 * @return the dataCount

@@ -319,37 +319,26 @@ GamFcltsClCdMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamFcltsClCdMngModule.prototype.selectData = function() {
 
-	var gridRowCount = this.$("#mainGrid").flexRowCount();
-	if (this._mainmode == 'query') {
+	if (this._mode == 'query') {
+		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
 		this._searchButtonClick = false;
 		return;
-	} else if (this._mainmode != 'insert' && this._mainmode != 'modify') {
+	} else if (this._mode != 'insert' && this._mode != 'modify') {
 		this._searchButtonClick = false;
 		return;
 	}
 	this._searchButtonClick = false;
-	var mainKeyValue = this._mainKeyValue;
-	if (mainKeyValue == "") {
-		return;
-	}
-	var fcltsClCd = mainKeyValue;
-	var mainRowNo = -1;
-	for(var i=0; i<gridRowCount; i++) {
-		var row = this.$("#mainGrid").flexGetRow(i+1);
-		if (row.fcltsClCd == fcltsClCd) {
-			mainRowNo = i;
-			this._saveFcltsJobSe = row.fcltsJobSe;
-			this._saveDepthSort = row.depthSort;
-			this._saveFcltsClUpperCd = row.fcltsClUpperCd;
-			this._saveFcltsClUpperNm = row.fcltsClUpperNm;
-			break;
-		}
-	}
-	if (mainRowNo >= 0) {
-		this.$("#mainGrid").selectRowId(mainRowNo);
+	var fcltsClCd = this._mainKeyValue;
+	this.$("#mainGrid").selectFilterRow([{col:"fcltsClCd", filter:fcltsClCd}]);
+	var row = this.$('#mainGrid').selectedRows();
+	if (row.length > 0) {
+		this._saveFcltsJobSe = row[0].fcltsJobSe;
+		this._saveDepthSort = row[0].depthSort;
+		this._saveFcltsClUpperCd = row[0].fcltsClUpperCd;
+		this._saveFcltsClUpperNm = row[0].fcltsClUpperNm;
 	}
 	this._mainmode = 'modify';
 	this.loadDetail('detailTab');
@@ -461,7 +450,6 @@ GamFcltsClCdMngModule.prototype.saveData = function() {
 	}
 	if (leafYn != "N" && leafYn != "Y") {
 		alert('LEAF 여부가 부정확합니다.');
-		this.$("#leafYn").focus();
 		return;
 	}
 	if (this._mainmode == "insert") {
@@ -715,7 +703,6 @@ GamFcltsClCdMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#fcltsClCd').enable();
 		this.$('#fcltsClCdNm').enable();
 		this.$('#depthSort').enable();
-		this.$('#leafYn').enable();
 		this.$('#fcltsClUpperCd').disable();
 		this.$('#fcltsClUpperNm').disable();
 		this.$('#popupFcltsClUpperCd').enable();
@@ -730,7 +717,6 @@ GamFcltsClCdMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#fcltsClCd').disable();
 			this.$('#fcltsClCdNm').enable();
 			this.$('#depthSort').disable();
-			this.$('#leafYn').enable();
 			this.$('#fcltsClUpperCd').disable();
 			this.$('#fcltsClUpperNm').disable();
 			this.$('#popupFcltsClUpperCd').disable({disableClass:"ui-state-disabled"});
@@ -745,7 +731,6 @@ GamFcltsClCdMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#fcltsClCd').disable();
 			this.$('#fcltsClCdNm').disable();
 			this.$('#depthSort').disable();
-			this.$('#leafYn').disable();
 			this.$('#fcltsClUpperCd').disable();
 			this.$('#fcltsClUpperNm').disable();
 			this.$('#popupFcltsClUpperCd').disable({disableClass:"ui-state-disabled"});
@@ -770,7 +755,6 @@ GamFcltsClCdMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#fcltsClCd').disable();
 	this.$('#fcltsClCdNm').disable();
 	this.$('#depthSort').disable();
-	this.$('#leafYn').disable();
 	this.$('#fcltsClUpperCd').disable();
 	this.$('#fcltsClUpperNm').disable();
 	this.$('#popupFcltsClUpperCd').disable({disableClass:"ui-state-disabled"});
@@ -918,7 +902,7 @@ var module_instance = new GamFcltsClCdMngModule();
 								<th style="width:15%; height:18;">단계 / LEAF  여부</th>
 								<td>
 									<input type="text" id="depthSort" size="21" maxlength="1"/>
-									<input type="text" id="leafYn" size="22" maxlength="1"/>
+									<input type="text" id="leafYn" size="22" maxlength="1" disabled/>
 								</td>
 							</tr>
 							<tr>

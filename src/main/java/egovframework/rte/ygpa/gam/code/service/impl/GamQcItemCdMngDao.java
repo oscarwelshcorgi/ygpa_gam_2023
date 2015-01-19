@@ -99,6 +99,14 @@ public class GamQcItemCdMngDao extends YGPAAbstractDAO {
 	 * @param gamQcItemCdMngVo
 	 * @return
 	 */
+	public void updateQcItemCdMngLeafYn(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
+		update("gamQcItemCdMngDao.updateQcItemCdMngLeafYn_S", gamQcItemCdMngVo);
+	}
+
+	/**
+	 * @param gamQcItemCdMngVo
+	 * @return
+	 */
 	public void deleteQcItemCdMng(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
 		delete("gamQcItemCdMngDao.deleteQcItemCdMng_S", gamQcItemCdMngVo);
 	}

@@ -70,6 +70,7 @@ public class GamQcItemCdMngServiceImpl extends AbstractServiceImpl implements Ga
 	@Override
 	public void insertQcItemCdMng(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
 		gamQcItemCdMngDao.insertQcItemCdMng(gamQcItemCdMngVo);
+		gamQcItemCdMngDao.updateQcItemCdMngLeafYn(gamQcItemCdMngVo);
 	}
 
 	@Override
@@ -81,6 +82,7 @@ public class GamQcItemCdMngServiceImpl extends AbstractServiceImpl implements Ga
 	public void deleteQcItemCdMng(GamQcItemCdMngVo gamQcItemCdMngVo) throws Exception {
 		gamQcItemCdMngDao.deleteQcItemCdMngLowerData(gamQcItemCdMngVo);
 		gamQcItemCdMngDao.deleteQcItemCdMng(gamQcItemCdMngVo);
+		gamQcItemCdMngDao.updateQcItemCdMngLeafYn(gamQcItemCdMngVo);
 	}
 
 	@Override

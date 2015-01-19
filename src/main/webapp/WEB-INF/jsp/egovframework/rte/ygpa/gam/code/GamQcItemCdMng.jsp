@@ -327,8 +327,8 @@ GamQcItemCdMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamQcItemCdMngModule.prototype.selectData = function() {
 
-	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
+		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
@@ -339,25 +339,14 @@ GamQcItemCdMngModule.prototype.selectData = function() {
 		return;
 	}
 	this._searchButtonClick = false;
-	var mainKeyValue = this._mainKeyValue;
-	if (mainKeyValue == "") {
-		return;
-	}
-	var qcItemCd = mainKeyValue;
-	var mainRowNo = -1;
-	for(var i=0; i<gridRowCount; i++) {
-		var row = this.$("#mainGrid").flexGetRow(i+1);
-		if (row.qcItemCd == qcItemCd) {
-			mainRowNo = i;
-			this._saveFcltsJobSe = row.fcltsJobSe;
-			this._saveDepthSort = row.depthSort;
-			this._saveQcItemUpperCd = row.qcItemUpperCd;
-			this._saveQcItemUpperNm = row.qcItemUpperNm;
-			break;
-		}
-	}
-	if (mainRowNo >= 0) {
-		this.$("#mainGrid").selectRowId(mainRowNo);
+	var qcItemCd = this._mainKeyValue;
+	this.$("#mainGrid").selectFilterRow([{col:"qcItemCd", filter:qcItemCd}]);
+	var row = this.$('#mainGrid').selectedRows();
+	if (row.length > 0) {
+		this._saveFcltsJobSe = row[0].fcltsJobSe;
+		this._saveDepthSort = row[0].depthSort;
+		this._saveQcItemUpperCd = row[0].qcItemUpperCd;
+		this._saveQcItemUpperNm = row[0].qcItemUpperNm;
 	}
 	this._mode = 'modify';
 	this.loadDetail('detailTab');
@@ -394,6 +383,7 @@ GamQcItemCdMngModule.prototype.addData = function() {
 	this.$('#qcItemCd').val("");
 	this.$('#qcItemNm').val("");
 	this.$('#qcItemDtls').val("");
+	this.$('#leafYn').val("Y");
 	if (fcltsJobSe != "" && depthSort != "") {
 		if (qcItemUpperCd != "") {
 			this.$('#qcItemUpperCd').val(qcItemUpperCd);
@@ -433,6 +423,7 @@ GamQcItemCdMngModule.prototype.saveData = function() {
 	var depthSort = Number(this.$('#depthSort').val().replace(/,/gi, ""));
 	var qcItemUpperCd = this.$('#qcItemUpperCd').val();
 	var useYn = this.$('#useYn').val();
+	var leafYn = this.$('#leafYn').val();
 	if (fcltsJobSe != "A" && fcltsJobSe != "C" && fcltsJobSe != "M" && fcltsJobSe != "E" && fcltsJobSe != "I") {
 		alert('시설물 업무 구분이 부정확합니다.');
 		this.$("#fcltsJobSe").focus();
@@ -451,6 +442,10 @@ GamQcItemCdMngModule.prototype.saveData = function() {
 	if (depthSort > 5 || depthSort < 1) {
 		alert('단계가 부정확합니다.');
 		this.$("#depthSort").focus();
+		return;
+	}
+	if (leafYn != "N" && leafYn != "Y") {
+		alert('LEAF 여부가 부정확합니다.');
 		return;
 	}
 	if (qcItemUpperCd == "" || qcItemUpperCd.length != 9) {
@@ -928,9 +923,10 @@ var module_instance = new GamQcItemCdMngModule();
 										<option value="I">정보통신시설</option>
 									</select>
 								</td>
-								<th style="width:15%; height:18;">단　　　　　계</th>
+								<th style="width:15%; height:18;">단계 / LEAF  여부</th>
 								<td>
-									<input type="text" id="depthSort" size="45" maxlength="1"/>
+									<input type="text" id="depthSort" size="21" maxlength="1"/>
+									<input type="text" id="leafYn" size="22" maxlength="1" disabled/>
 								</td>
 							</tr>
 							<tr>

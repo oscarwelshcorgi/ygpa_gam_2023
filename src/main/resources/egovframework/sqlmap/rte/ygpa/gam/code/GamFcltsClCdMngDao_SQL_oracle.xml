@@ -232,9 +232,9 @@
 
 	<update id="gamFcltsClCdMngDao.updateFcltsClCdMngLeafYn_S" parameterClass="gamFcltsClCdMngVO">
 		UPDATE FCLTS_CL_CD_F SET
-			 LEAF_YN = (SELECT (CASE WHEN COUNT(*) > 0 THEN 'N' ELSE 'N' END)
+			 LEAF_YN = (SELECT (CASE WHEN COUNT(*) > 0 THEN 'N' ELSE 'Y' END)
 							FROM FCLTS_CL_CD_F
-						WHERE FCLTS_CL_CD = #fcltsClUpperCd#
+						WHERE FCLTS_CL_UPPER_CD = #fcltsClUpperCd#
 						AND FCLTS_CL_CD <![CDATA[ <>  ]]> #fcltsClCd#)
 		WHERE FCLTS_CL_CD = #fcltsClUpperCd#
 	</update>

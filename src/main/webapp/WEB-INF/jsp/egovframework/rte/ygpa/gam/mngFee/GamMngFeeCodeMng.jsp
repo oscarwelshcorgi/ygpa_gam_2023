@@ -94,6 +94,7 @@ GamMngFeeCodeMngModule.prototype.loadComplete = function() {
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 
+	console.log('debug');
 };
 
 <%
@@ -226,8 +227,8 @@ GamMngFeeCodeMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamMngFeeCodeMngModule.prototype.selectData = function() {
 
-	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
+		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
@@ -238,23 +239,10 @@ GamMngFeeCodeMngModule.prototype.selectData = function() {
 		return;
 	}
 	this._searchButtonClick = false;
-	var mainKeyValue = this._mainKeyValue;
-	if (mainKeyValue == "") {
-		return;
-	}
-	var mngFeeFcltyCd = mainKeyValue.substring(0,2);
-	var mngFeeJobSe = mainKeyValue.substring(2,3);
-	var mainRowNo = -1;
-	for(var i=0; i<gridRowCount; i++) {
-		var row = this.$("#mainGrid").flexGetRow(i+1);
-		if (row.mngFeeFcltyCd == mngFeeFcltyCd && row.mngFeeJobSe == mngFeeJobSe) {
-			mainRowNo = i;
-			break;
-		}
-	}
-	if (mainRowNo >= 0) {
-		this.$("#mainGrid").selectRowId(mainRowNo);
-	}
+	var mngFeeFcltyCd = this._mainKeyValue.substring(0,4);
+	var mngFeeJobSe = this._mainKeyValue.substring(4,5);
+	this.$("#mainGrid").selectFilterRow([{col:"mngFeeFcltyCd", filter:mngFeeFcltyCd},
+	                                     {col:"mngFeeJobSe", filter:mngFeeJobSe}]);
 	this._mode = 'modify';
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();

@@ -223,9 +223,9 @@ GamMngFeeGubunMngModule.prototype.loadDetail = function(tabId) {
 **/
 %>
 GamMngFeeGubunMngModule.prototype.selectData = function() {
-/*
-	var gridRowCount = this.$("#mainGrid").flexRowCount();
+
 	if (this._mode == 'query') {
+		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
@@ -236,36 +236,8 @@ GamMngFeeGubunMngModule.prototype.selectData = function() {
 		return;
 	}
 	this._searchButtonClick = false;
-	var mainKeyValue = this._mainKeyValue;
-	if (mainKeyValue == "") {
-		return;
-	}
-	var mngFeeFcltySe = mainKeyValue;
-	var mainRowNo = -1;
-	var rows = this.$("#mainGrid").flexGetData();
-	for(var i=0; i<rows.length; i++) {
-		//var row = this.$("#mainGrid").flexGetRow(i+1);
-		var row=rows[i];
-		if (row.mngFeeFcltySe == mngFeeFcltySe) {
-			mainRowNo = i;
-			break;
-		}
-	}
-	if (mainRowNo >= 0) {
-		this.$("#mainGrid").selectRowId(mainRowNo);
-	}
-	*/
-	if (this._mode == 'query') {
-		if (this.$("#mainGrid").flexRowCount()==0) {
-			alert('해당 조건의 자료가 존재하지 않습니다!');
-		}
-		return;
-	} else if (this._mode != 'insert' && this._mode != 'modify') {
-		return;
-	}
-	var mainKeyValue = this._mainKeyValue;
-	this.$("#mainGrid").selectFilterRow([{col:"mngFeeFcltySe", filter:mainKeyValue}]);
-
+	var mngFeeFcltySe = this._mainKeyValue;
+	this.$("#mainGrid").selectFilterRow([{col:"mngFeeFcltySe", filter:mngFeeFcltySe}]);
 	this._mode = 'modify';
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();

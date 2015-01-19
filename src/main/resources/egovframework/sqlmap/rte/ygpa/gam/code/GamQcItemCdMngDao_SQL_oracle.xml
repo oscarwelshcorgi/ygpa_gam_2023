@@ -30,6 +30,7 @@
 								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
 								,T1.UPD_USR
 								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,T1.LEAF_YN AS LEAF_YN
 							FROM QC_ITEM_CD_F T1
 							LEFT OUTER JOIN QC_ITEM_CD_F T2 ON (T1.QC_ITEM_UPPER_CD=T2.QC_ITEM_CD)
 						WHERE 1 = 1
@@ -48,6 +49,10 @@
 
 						<isNotEmpty property="sDepthSort">
 						AND T1.DEPTH_SORT = TO_NUMBER(#sDepthSort#)
+						</isNotEmpty>
+
+						<isNotEmpty property="sLeafYn">
+						AND T1.LEAF_YN = #sLeafYn#
 						</isNotEmpty>
 
 						ORDER BY T1.QC_ITEM_CD
@@ -80,6 +85,10 @@
 		AND DEPTH_SORT = TO_NUMBER(#sDepthSort#)
 		</isNotEmpty>
 
+		<isNotEmpty property="sLeafYn">
+		AND T1.LEAF_YN = #sLeafYn#
+		</isNotEmpty>
+
 	</select>
 
 	<select id="gamQcItemCdMngDao.selectQcItemCdMngPk_S" parameterClass="gamQcItemCdMngVo" resultClass="egovMap">
@@ -97,6 +106,7 @@
 				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
 				,T1.UPD_USR
 				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,T1.LEAF_YN AS LEAF_YN
 			FROM QC_ITEM_CD_F T1
 			LEFT OUTER JOIN QC_ITEM_CD_F T2 ON (T1.QC_ITEM_UPPER_CD=T2.QC_ITEM_CD)
 		WHERE T1.QC_ITEM_CD = #qcItemCd#
@@ -194,6 +204,7 @@
 			,USE_YN
 			,REG_USR
 			,REGIST_DT
+			,LEAF_YN
 		)
 		VALUES
 		(
@@ -206,6 +217,7 @@
 			,#useYn#
 			,#regUsr#
 			,SYSDATE
+			,#leafYn#
 		)
 	</insert>
 
@@ -219,7 +231,16 @@
 			,USE_YN = #useYn#
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
+			,LEAF_YN = #leafYn#
 		WHERE QC_ITEM_CD = #qcItemCd#
+	</update>
+
+	<update id="gamQcItemCdMngDao.updateQcItemCdMngLeafYn_S" parameterClass="gamQcItemCdMngVo">
+		UPDATE QC_ITEM_CD_F SET
+			 LEAF_YN = (SELECT (CASE WHEN COUNT(*) > 0 THEN 'N' ELSE 'Y' END)
+							FROM QC_ITEM_CD_F
+						WHERE QC_ITEM_UPPER_CD = #qcItemUpperCd#)
+		WHERE QC_ITEM_CD = #qcItemUpperCd#
 	</update>
 
 	<delete id="gamQcItemCdMngDao.deleteQcItemCdMng_S">
