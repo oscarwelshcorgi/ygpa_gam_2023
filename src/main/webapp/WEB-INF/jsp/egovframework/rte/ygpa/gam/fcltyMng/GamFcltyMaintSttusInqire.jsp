@@ -52,7 +52,11 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function() {
 					{display:"공사감독자", 		name:"cnstChargNm",				width:150, 		sortable:false,		align:"center"},
 					{display:"계약명", 			name:"ctrtNm",					width:250, 		sortable:false,		align:"center"}
 			],
-		height: "auto"
+		height: "auto",
+		preProcess : function(module,data) {
+			module.$('#totalCount').val($.number(data.totalCount));
+			return data;
+		}
 	});
 
 
@@ -222,7 +226,7 @@ GamFcltyMaintSttusInqireModule.prototype.downloadExcel = function(buttonId) {
 
 	var gridRowCount = 0;
 	switch (buttonId) {
-		case 'btnFcltyMngMngtListExcelDownload':
+		case 'btnExcelDownload':
 			gridRowCount = this.$("#fcltyMaintSttusInqireList").flexRowCount();
 			break;
 		default:
@@ -233,7 +237,7 @@ GamFcltyMaintSttusInqireModule.prototype.downloadExcel = function(buttonId) {
 		return;
 	}
 	switch (buttonId) {
-		case 'btnFcltyMngMngtListExcelDownload':
+		case 'btnExcelDownload':
 			this.$('#fcltyMaintSttusInqireList').flexExcelDown('/fcltyMng/selectFcltyMaintInqireListExcel.do');
 			break;
 	}
@@ -249,7 +253,7 @@ GamFcltyMaintSttusInqireModule.prototype.downloadExcel = function(buttonId) {
 	switch(buttonId) {
 
 		// 엑셀다운로드
-		case "btnFcltyMngMngtListExcelDownload":
+		case "btnExcelDownload":
 			this.downloadExcel(buttonId);
 		break;
 		
@@ -402,7 +406,15 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="fcltyMaintSttusInqireList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="btnFcltyMngMngtListExcelDownload">엑셀 다운로드</button>
+					<table style="width:100%;">
+						<tr>
+							<th>자료수</th>
+							<td><input type="text" id="totalCount" style="width:250px;text-align:right;"></td>
+							<td style="text-align:right;">
+								<button id="btnExcelDownload">엑셀 다운로드</button>
+							</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 			<!-- 유지보수내역 상세 -->

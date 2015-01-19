@@ -55,7 +55,11 @@ GamFcltyRepairHistInqireModule.prototype.loadComplete = function(params) {
 					{display:"하자보수금액", 		name:"flawRprAmt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"하자보수완료여부", 	name:"flawRprComptYn",			width:150, 		sortable:false,		align:"center"}
 			],
-		height: "auto"
+		height: "auto",
+		preProcess : function(module,data) {
+			module.$('#totalCount').val($.number(data.totalCount));
+			return data;
+		}
 	});
 
  	
@@ -113,6 +117,29 @@ GamFcltyRepairHistInqireModule.prototype.loadDetail = function(){
 };
 
 
+GamFcltyRepairHistInqireModule.prototype.downloadExcel = function(buttonId) {
+
+	var gridRowCount = 0;
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			gridRowCount = this.$("#fcltyRepairHistInqireList").flexRowCount();
+			break;
+		default:
+			return;
+	}
+	if (gridRowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			this.$('#fcltyRepairHistInqireList').flexExcelDown('/fcltyMng/selectFcltyRepairHistListExcel.do');
+			break;
+	}
+
+};
+
+
 GamFcltyRepairHistInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	if(oldTabId == 'tabs1') {
 		this.loadDetail();
@@ -149,6 +176,11 @@ GamFcltyRepairHistInqireModule.prototype.onTabChange = function(newTabId, oldTab
 	switch(buttonId) {
 		case "btnSearchFcltsMngNo":
 			this.doExecuteDialog("selectFcltsMngNo", "하자보수 시설명", '/popup/showFcltsMngNo.do', {}, {});
+		break;
+		
+		// 엑셀다운로드
+		case "btnExcelDownload":
+			this.downloadExcel(buttonId);
 		break;
 
 	}
@@ -224,6 +256,18 @@ var module_instance = new GamFcltyRepairHistInqireModule();
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="fcltyRepairHistInqireList" style="display:none" class="fillHeight"></table>
+				<div class="emdControlPanel">
+					<table style="width:100%;">
+						<tr>
+							<th>자료수</th>
+							<td><input type="text" id="totalCount" style="width:250px;text-align:right;"></td>
+							<td style="text-align:right;">
+								<button id="btnExcelDownload">엑셀 다운로드</button>
+							</td>
+						</tr>
+					</table>
+					
+				</div>
 			</div>
 
 

@@ -43,7 +43,7 @@ GamElctyFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		url: '/fclty/selectElctyFcltySpecInqireList.do',
 		dataType: "json",
 		colModel : [
-					{display:"항분류",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
+					{display:"항구분",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
 					{display:"자산명",		name:"gisAssetsNm",			width:200,		sortable:false,		align:"left"},
 					{display:"시설명",	    name:"prtFcltyNm",			width:200,		sortable:false,		align:"left"},
 					{display:"소재지",		name:"gisAssetsLocplc",		width:180,		sortable:false,		align:"left"},
@@ -51,7 +51,11 @@ GamElctyFcltySpecInqireModule.prototype.loadComplete = function(params) {
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:80,		sortable:false,		align:"center"},
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"}
 			],
-		height: "auto"
+		height: "auto",
+		preProcess : function(module,data) {
+			module.$('#totalCount').val($.number(data.totalCount));
+			return data;
+		}
 	});
 
 	this._cmd = '';
@@ -216,6 +220,29 @@ GamElctyFcltySpecInqireModule.prototype.downloadAtchFileItem = function() {
 };
 
 
+GamElctyFcltySpecInqireModule.prototype.downloadExcel = function(buttonId) {
+
+	var gridRowCount = 0;
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			gridRowCount = this.$("#elctyFcltySpecInqireList").flexRowCount();
+			break;
+		default:
+			return;
+	}
+	if (gridRowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			this.$('#elctyFcltySpecInqireList').flexExcelDown('/fclty/selectElctyFcltySpecInqireListExcel.do');
+			break;
+	}
+
+};
+
+
 
 /**
  * 정의 된 버튼 클릭 시
@@ -223,29 +250,28 @@ GamElctyFcltySpecInqireModule.prototype.downloadAtchFileItem = function() {
 GamElctyFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 	
 	switch(buttonId) {
-	case "btnSearch": //조회
-		this._cmd = "";
-		this.initDisplay();
-		this.loadData();
-		break;
-
-		// 시설물관리그룹(조회 화면)
-	case "popupSearchFcltsMngGroupNo":
-		this.doExecuteDialog("selectFcltsMngGroup", "시설물그룹번호", '/popup/showFcltsMngGroup.do', {});
-		break;
-
-	// 시설물관리그룹(디테일 화면)
-	case "popupSearchFcltsMngGroupNo2":
-		this.doExecuteDialog("selectFcltsMngGroup2", "시설물그룹번호", '/popup/showFcltsMngGroup.do', {});
-		break;
-
-
-		//파일다운로드
-	case "btnDownloadFile":
-		this.downloadAtchFileItem();
-		break;
-		break;
-
+		case "btnSearch": //조회
+			this._cmd = "";
+			this.initDisplay();
+			this.loadData();
+			break;
+	
+			// 시설물관리그룹(조회 화면)
+		case "popupSearchFcltsMngGroupNo":
+			this.doExecuteDialog("selectFcltsMngGroup", "시설물그룹번호", '/popup/showFcltsMngGroup.do', {});
+			break;
+	
+		// 시설물관리그룹(디테일 화면)
+		case "popupSearchFcltsMngGroupNo2":
+			this.doExecuteDialog("selectFcltsMngGroup2", "시설물그룹번호", '/popup/showFcltsMngGroup.do', {});
+			break;
+	
+	
+			//파일다운로드
+		case "btnDownloadFile":
+			this.downloadAtchFileItem();
+			break;
+	
 		case "registLocation":	// 위치 등록
 			var module=this;
 			EMD.gis.addPrtFcltyMarker(this._fcltyItem, function(value) {
@@ -253,7 +279,7 @@ GamElctyFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 				module.$('#loCrdnt').val(value.loCrdnt);
 			});
 			break;
-
+	
 		case "gotoLocation":	// 위치 조회
 			if(this._fcltyItem.laCrdnt!=null && this._fcltyItem.laCrdnt!=null) {
 				EMD.gis.goLocation(this._fcltyItem.laCrdnt, this._fcltyItem.loCrdnt);
@@ -264,6 +290,11 @@ GamElctyFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 			} else {
 				alert("시설위치가 등록되지 않았습니다.");
 			}
+			break;
+				
+		// 엑셀다운로드
+		case "btnExcelDownload":
+			this.downloadExcel(buttonId);
 			break;
 	}
 };
@@ -370,8 +401,17 @@ var module_instance = new GamElctyFcltySpecInqireModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="elctyFcltySpecInqireList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-
-					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="elctyFcltySpecInqireList" data-style="default">맵조회</button>
+					<table style="width:100%;">
+						<tr>
+							<th>자료수</th>
+							<td><input type="text" id="totalCount" style="width:250px;text-align:right;"></td>
+							<td style="text-align:right;">
+								<button id="btnExcelDownload">엑셀 다운로드</button>
+								<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="elctyFcltySpecInqireList" data-style="default">맵조회</button>
+							</td>
+						</tr>
+					</table>
+					
 				</div>
 			</div>
 

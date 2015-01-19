@@ -55,7 +55,11 @@ GamFcltyMaintHistInqireModule.prototype.loadComplete = function() {
 					{display:"유지보수예산", 		name:"mntnRprBdgt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"유지보수부위", 		name:"mntnRprPart",				width:250, 		sortable:false,		align:"center"}
 			],
-		height: "auto"
+		height: "auto",
+		preProcess : function(module,data) {
+			module.$('#totalCount').val($.number(data.totalCount));
+			return data;
+		}
 	});
 
  	
@@ -120,6 +124,29 @@ GamFcltyMaintHistInqireModule.prototype.loadDetail = function(){
 };
 
 
+GamFcltyMaintHistInqireModule.prototype.downloadExcel = function(buttonId) {
+
+	var gridRowCount = 0;
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			gridRowCount = this.$("#fcltyMaintHistInqireList").flexRowCount();
+			break;
+		default:
+			return;
+	}
+	if (gridRowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			this.$('#fcltyMaintHistInqireList').flexExcelDown('/fcltyMng/selectFcltyMaintHistInqireListExcel.do');
+			break;
+	}
+
+};
+
+
 GamFcltyMaintHistInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	if(oldTabId == 'tabs1') {
 		this.loadDetail();
@@ -150,6 +177,11 @@ GamFcltyMaintHistInqireModule.prototype.onTabChange = function(newTabId, oldTabI
 	switch(buttonId) {
 		case "btnSearchFcltsMngNo":
 			this.doExecuteDialog("selectFcltsMngNo", "유지보수 시설명", '/popup/showFcltsMngNo.do', {}, {});
+		break;
+		
+		// 엑셀다운로드
+		case "btnExcelDownload":
+			this.downloadExcel(buttonId);
 		break;
 
 	}
@@ -225,6 +257,20 @@ var module_instance = new GamFcltyMaintHistInqireModule();
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="fcltyMaintHistInqireList" style="display:none" class="fillHeight"></table>
+				<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
+				<table id="fcltyMaintSttusInqireList" style="display:none" class="fillHeight"></table>
+				<div class="emdControlPanel">
+					<table style="width:100%;">
+						<tr>
+							<th>자료수</th>
+							<td><input type="text" id="totalCount" style="width:250px;text-align:right;"></td>
+							<td style="text-align:right;">
+								<button id="btnExcelDownload">엑셀 다운로드</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
 			</div>
 			<!-- 유지보수내역 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
@@ -240,9 +286,13 @@ var module_instance = new GamFcltyMaintHistInqireModule();
 						</tr>
 						<tr>
 							<th height="17" class="required_text">시설물관리그룹</th>
-							<td colspan="5">
+							<td colspan="3">
 								<span id="fcltsMngGroupNo" title="시설물관리그룹넘버"></span>
 								[ <span id="fcltsMngGoupNm" title="시설물관리그룹명"></span> ]
+							</td>
+							<th height="17" class="required_text">시설명</th>
+							<td>
+								<span id="prtFcltyNm" title="시설명"></span>
 							</td>
 						</tr>
 						<tr>

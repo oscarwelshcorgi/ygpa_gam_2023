@@ -13,9 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
@@ -24,6 +29,7 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyMaintHistInqireService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyMaintHistInqireVO;
+import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyMaintSttusInqireVO;
 
 /**
  *
@@ -82,10 +88,11 @@ public class GamFcltyMaintHistInqireController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectFcltyMaintHistInqireList.do")
-	@ResponseBody Map<String, Object> selectFcltyMaintHistInqireList(GamFcltyMaintHistInqireVO searchVO)throws Exception {
+	public @ResponseBody Map selectFcltyMaintHistInqireList(GamFcltyMaintHistInqireVO searchVO)throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -106,7 +113,7 @@ public class GamFcltyMaintHistInqireController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List<?> fcltyMaintHistInqireList = gamFcltyMaintHistInqireService.selectFcltyMaintHistInqireList(searchVO);
+		List fcltyMaintHistInqireList = gamFcltyMaintHistInqireService.selectFcltyMaintHistInqireList(searchVO);
 
         int totCnt = gamFcltyMaintHistInqireService.selectFcltyMaintHistInqireListTotCnt(searchVO);
 
@@ -128,10 +135,11 @@ public class GamFcltyMaintHistInqireController {
 	 * @return map
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectFcltyMaintHistInqireDetail.do")
-	@ResponseBody Map<String, Object> selectFcltyMaintHistInqireDetail(GamFcltyMaintHistInqireVO searchVO)throws Exception {
+	public @ResponseBody Map selectFcltyMaintHistInqireDetail(GamFcltyMaintHistInqireVO searchVO)throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 		EgovMap result = null;
 
     	// 0. Spring Security 사용자권한 처리
@@ -149,6 +157,55 @@ public class GamFcltyMaintHistInqireController {
     	map.put("searchOption", searchVO);
 
     	return map;
+    }
+	
+	
+	
+	/**
+	 * 시설물 유지보수이력 리스트를 엑셀로 다운로드한다.
+	 * @param searchVO
+	 * @return map
+	 * @throws Exception
+	 */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/fcltyMng/selectFcltyMaintHistInqireListExcel.do", method=RequestMethod.POST)
+    public @ResponseBody ModelAndView selectFcltyMaintHistInqireListExcel(@RequestParam Map<String, Object> excelParam) throws Exception {
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return new ModelAndView("gridExcelView", "gridResultMap", map);
+    	}
+
+    	// 환경설정
+    	/** EgovPropertyService */
+    	GamFcltyMaintHistInqireVO searchVO= new GamFcltyMaintHistInqireVO();
+
+        header = mapper.readValue((String)excelParam.get("header"),
+			    new TypeReference<List<HashMap<String,String>>>(){});
+
+        excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
+		// 조회 조건
+		searchVO = mapper.convertValue(excelParam, GamFcltyMaintHistInqireVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		
+		//계약이력목록
+		List fcltyMaintHistInqireList = gamFcltyMaintHistInqireService.selectFcltyMaintHistInqireList(searchVO);
+		
+
+    	map.put("resultList", fcltyMaintHistInqireList);
+    	map.put("header", header);
+
+    	return new ModelAndView("gridExcelView", "gridResultMap", map);
     }
 	
 	

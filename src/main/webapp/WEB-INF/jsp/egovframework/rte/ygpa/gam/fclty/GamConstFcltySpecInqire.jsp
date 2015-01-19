@@ -55,7 +55,7 @@ GamConstFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		url: '/fclty/gamConstFcltySpecInqireList.do',
 		dataType: "json",
 		colModel : [
-					{display:"항분류",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
+					{display:"항구분",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
 					{display:"자산명",		name:"gisAssetsNm",			width:200,		sortable:false,		align:"left"},
 					{display:"시설명",		name:"prtFcltyNm",			width:200,		sortable:false,		align:"left"},
 					{display:"소재지",		name:"loc",					width:180,		sortable:false,		align:"left"},
@@ -63,7 +63,11 @@ GamConstFcltySpecInqireModule.prototype.loadComplete = function(params) {
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:80,		sortable:false,		align:"center"},
 					{display:"준공일자",		name:"bldDt",				width:80,		sortable:false,		align:"center"}
 			],
-		height: "auto"
+		height: "auto",
+		preProcess : function(module,data) {
+			module.$('#totalCount').val($.number(data.totalCount));
+			return data;
+		}
 	});
 
 	this.$("#mainGrid").on("onItemSelected", function(event, module, row, grid, param) {
@@ -282,6 +286,45 @@ GamConstFcltySpecInqireModule.prototype.gotoLocation = function() {
 	}
 };
 
+
+GamConstFcltySpecInqireModule.prototype.downloadExcel = function(buttonId) {
+
+	var gridRowCount = 0;
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			gridRowCount = this.$("#mainGrid").flexRowCount();
+			break;
+		default:
+			return;
+	}
+	if (gridRowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			this.$('#mainGrid').flexExcelDown('/fclty/selectConstFcltySpecInqireListExcel.do');
+			break;
+	}
+
+};
+
+/**
+ * 정의 된 버튼 클릭 시
+ */
+ GamConstFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
+
+	switch(buttonId) {
+
+		// 엑셀다운로드
+		case "btnExcelDownload":
+			this.downloadExcel(buttonId);
+		
+	}
+};
+
+
+
 <%
 /**
  * @FUNCTION NAME : onTabChange
@@ -399,7 +442,16 @@ var module_instance = new GamConstFcltySpecInqireModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="mainGrid" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="mainGrid" data-style="default">맵조회</button>
+					<table style="width:100%;">
+						<tr>
+							<th>자료수</th>
+							<td><input type="text" id="totalCount" style="width:250px;text-align:right;"></td>
+							<td style="text-align:right;">
+								<button id="btnExcelDownload">엑셀 다운로드</button>
+								<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="mainGrid" data-style="default">맵조회</button>
+							</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 

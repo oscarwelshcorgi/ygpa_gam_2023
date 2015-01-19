@@ -59,7 +59,11 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 					
 					
 			],
-		height: "auto"
+		height: "auto",
+		preProcess : function(module,data) {
+			module.$('#totalCount').val($.number(data.totalCount));
+			return data;
+		}
 	});
 	
 
@@ -572,7 +576,7 @@ GamFcltyMaintMngModule.prototype.downloadExcel = function(buttonId) {
 
 	var gridRowCount = 0;
 	switch (buttonId) {
-		case 'btnFcltyMngMngtListExcelDownload':
+		case 'btnExcelDownload':
 			gridRowCount = this.$("#fcltyMaintMngList").flexRowCount();
 			break;
 		default:
@@ -583,7 +587,7 @@ GamFcltyMaintMngModule.prototype.downloadExcel = function(buttonId) {
 		return;
 	}
 	switch (buttonId) {
-		case 'btnFcltyMngMngtListExcelDownload':
+		case 'btnExcelDownload':
 			this.$('#fcltyMaintMngList').flexExcelDown('/fcltyMng/selectFcltyMaintMngListExcel.do');
 			break;
 	}
@@ -638,7 +642,7 @@ GamFcltyMaintMngModule.prototype.downloadExcel = function(buttonId) {
 		break;
 		
 		// 엑셀다운로드
-		case "btnFcltyMngMngtListExcelDownload":
+		case "btnExcelDownload":
 			this.downloadExcel(buttonId);
 		break;
 		
@@ -836,9 +840,18 @@ var module_instance = new GamFcltyMaintMngModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="fcltyMaintMngList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="btnFcltyMngMngtListExcelDownload">엑셀 다운로드</button>
-					<button id="addBtn">추가</button>
-					<button id="deleteBtn">삭제</button>
+					<table style="width:100%;">
+						<tr>
+							<th>자료수</th>
+							<td><input type="text" id="totalCount" style="width:250px;text-align:right;"></td>
+							<td style="text-align:right;">
+								<button id="btnExcelDownload">엑셀 다운로드</button>
+								<button id="addBtn">추가</button>
+								<button id="deleteBtn">삭제</button>
+							</td>
+						</tr>
+					</table>
+					
 				</div>
 			</div>
 

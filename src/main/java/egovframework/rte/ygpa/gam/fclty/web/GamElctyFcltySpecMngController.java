@@ -14,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -28,6 +30,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamGisPrtFcltyCdMngtService;
+import egovframework.rte.ygpa.gam.fclty.service.GamConsFcltySpecMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamElctyFcltySpecMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamElctyFcltySpecMngVO;
 
@@ -112,7 +115,8 @@ public class GamElctyFcltySpecMngController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
+		
+		searchVO.setPrtFcltySe(prtFcltySe);
 		List resultList = gamElctyFcltySpecMngService.selectElctyFcltySpecMngList(searchVO);
 		int totCnt = gamElctyFcltySpecMngService.selectElctyFcltySpecMngListTotCnt(searchVO);
 		
@@ -196,7 +200,7 @@ public class GamElctyFcltySpecMngController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/updateElctyFcltySpecMngDetail.do")
-    @ResponseBody Map updateElctyFcltySpecMngDetail(@RequestParam Map updateMap) throws Exception {
+	public @ResponseBody Map updateElctyFcltySpecMngDetail(@RequestParam Map updateMap) throws Exception {
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -336,5 +340,53 @@ public class GamElctyFcltySpecMngController {
 
 		return map;
 	}
+	
+	
+	/**
+	 * 전기시설제원관리 리스트를 엑셀로 다운로드한다.
+	 * @param searchVO
+	 * @return map
+	 * @throws Exception
+	 */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/fclty/selectElctyFcltySpecMngListExcel.do", method=RequestMethod.POST)
+    public @ResponseBody ModelAndView selectElctyFcltySpecMngListExcel(@RequestParam Map<String, Object> excelParam) throws Exception {
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return new ModelAndView("gridExcelView", "gridResultMap", map);
+    	}
+
+    	// 환경설정
+    	/** EgovPropertyService */
+    	GamElctyFcltySpecMngVO searchVO= new GamElctyFcltySpecMngVO();
+
+        header = mapper.readValue((String)excelParam.get("header"),
+			    new TypeReference<List<HashMap<String,String>>>(){});
+
+        excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
+		// 조회 조건
+		searchVO = mapper.convertValue(excelParam, GamElctyFcltySpecMngVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		
+		searchVO.setPrtFcltySe(prtFcltySe);
+		List resultList = gamElctyFcltySpecMngService.selectElctyFcltySpecMngList(searchVO);
+		
+
+    	map.put("resultList", resultList);
+    	map.put("header", header);
+
+    	return new ModelAndView("gridExcelView", "gridResultMap", map);
+    }
 	
 }

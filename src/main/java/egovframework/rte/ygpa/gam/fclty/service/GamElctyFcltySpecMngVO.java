@@ -3,6 +3,8 @@
  */
 package egovframework.rte.ygpa.gam.fclty.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
@@ -22,8 +24,12 @@ import egovframework.com.cmm.ComDefaultVO;
  * </pre>
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GamElctyFcltySpecMngVO extends ComDefaultVO {
 	private static final long serialVersionUID = 1L;
+	
+	/** 항만시설 구분 */
+    private String prtFcltySe;
 
 	/** 항구분 */
     private String sPrtAtCode;
@@ -41,6 +47,20 @@ public class GamElctyFcltySpecMngVO extends ComDefaultVO {
     private String sLoc;
     
     private String sFcltsMngNo;
+
+	/**
+	 * @return the prtFcltySe
+	 */
+	public String getPrtFcltySe() {
+		return prtFcltySe;
+	}
+
+	/**
+	 * @param prtFcltySe the prtFcltySe to set
+	 */
+	public void setPrtFcltySe(String prtFcltySe) {
+		this.prtFcltySe = prtFcltySe;
+	}
 
 	/**
 	 * @return the sPrtAtCode

@@ -56,7 +56,11 @@ GamFcltyRepairSttusInqireModule.prototype.loadComplete = function(params) {
 					{display:"하자보수금액", 		name:"flawRprAmt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"하자보수완료여부", 	name:"flawRprComptYn",			width:120, 		sortable:false,		align:"center"}
 			],
-		height: "auto"
+		height: "auto",
+		preProcess : function(module,data) {
+			module.$('#totalCount').val($.number(data.totalCount));
+			return data;
+		}
 	});
 	
 	
@@ -244,7 +248,7 @@ GamFcltyRepairSttusInqireModule.prototype.downloadExcel = function(buttonId) {
 
 	var gridRowCount = 0;
 	switch (buttonId) {
-		case 'btnFcltyMngMngtListExcelDownload':
+		case 'btnExcelDownload':
 			gridRowCount = this.$("#fcltyRepairSttusInqireList").flexRowCount();
 			break;
 		default:
@@ -255,7 +259,7 @@ GamFcltyRepairSttusInqireModule.prototype.downloadExcel = function(buttonId) {
 		return;
 	}
 	switch (buttonId) {
-		case 'btnFcltyMngMngtListExcelDownload':
+		case 'btnExcelDownload':
 			this.$('#fcltyRepairSttusInqireList').flexExcelDown('/fcltyMng/selectFcltyRepairInqireListExcel.do');
 			break;
 	}
@@ -272,7 +276,7 @@ GamFcltyRepairSttusInqireModule.prototype.downloadExcel = function(buttonId) {
 	switch(buttonId) {
 
 		// 엑셀다운로드
-		case "btnFcltyMngMngtListExcelDownload":
+		case "btnExcelDownload":
 			this.downloadExcel(buttonId);
 		break;
 		
@@ -383,7 +387,16 @@ var module_instance = new GamFcltyRepairSttusInqireModule();
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
 				<table id="fcltyRepairSttusInqireList" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
-					<button id="btnFcltyMngMngtListExcelDownload">엑셀 다운로드</button>
+					<table style="width:100%;">
+						<tr>
+							<th>자료수</th>
+							<td><input type="text" id="totalCount" style="width:250px;text-align:right;"></td>
+							<td style="text-align:right;">
+								<button id="btnExcelDownload">엑셀 다운로드</button>
+							</td>
+						</tr>
+					</table>
+					
 				</div>
 			</div>
 
