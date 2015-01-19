@@ -94,38 +94,46 @@
 			FROM (
 				SELECT  ROWNUM RNUM, S.*
 					FROM (
-							SELECT GAM_GETCODENAME('GAM019', D.PRT_AT_CODE) AS PRT_AT_CODE
-				         		  , D.MNG_YEAR||'-'||D.MNG_NO||'-'||D.MNG_CNT AS MNG_YEAR_NO
-								  , D.GIS_ASSETS_PRT_AT_CODE ||'-'|| D.GIS_ASSETS_CD||'-'||D.GIS_ASSETS_SUB_CD AS GIS_ASSETS
-								  , M.DOC_NO AS DOC_NO
-								  , GAM_GETCODENAME('GAM008', M.NTIC_MTH) AS NTIC_MTH
-								  , D.USAGE_PURPS AS USAGE_PURPS
-								  , D.USAGE_DTLS AS USAGE_DTLS
-								  , D.USAGE_AR AS USAGE_AR
-								  , D.FEE AS FEE
-								  , TO_CHAR(M.PRMISN_DT,'YYYY.MM.DD') AS PRMISN_DT
-						     FROM ASSETS_RENT_DETAIL_F D, ASSETS_RENT_F M
-						    WHERE 1=1
-						  		  AND D.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
-		           				  AND D.GIS_ASSETS_CD = #gisAssetsCd#
-		           				  AND D.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
-<!-- 						<isNotEmpty property="sUsagePdFrom" prepend="AND">
-							<![CDATA[
+						SELECT GAM_GETCODENAME('GAM019', D.PRT_AT_CODE) AS PRT_AT_CODE
+			                 , TO_CHAR(D.USAGE_PD_FROM, 'YYYY-MM-DD') || ' ~ ' || TO_CHAR(D.USAGE_PD_TO, 'YYYY-MM-DD') AS USAGE_PD
+			                 , GAM_GETENTRPSNM(M.ENTRPSCD, '1') AS ENTRPSCD
+			                 , TO_CHAR(M.REQST_DT, 'YYYY-MM-DD') AS REQST_DT
+			                 , TO_CHAR(M.PRMISN_DT, 'YYYY-MM-DD') AS PRMISN_DT
+			                 , M.PAY_MTH AS PAY_MTH
+			                 , GAM_GETCODENAME('GAM016', M.TAXT_SE) AS TAXT_NM
+			                 , D.USAGE_AR AS USAGE_AR
+			                 , D.USAGE_PURPS AS USAGE_PURPS
+							 , D.USAGE_DTLS AS USAGE_DTLS
+			                 , D.ENTRPS_SE AS ENTRPS_SE
+			                 , D.COMPUT_DTLS AS COMPUT_DTLS
+			                 , D.OLNLP AS OLNLP
+			                 , D.APPLC_TARIFF AS APPLC_TARIFF
+			                 , GAM_GETCODENAME('GAM019',D.APPLC_MTH) AS APPLC_MTH
+			                 , D.FEE AS FEE
+							 , GAM_GETCODENAME('GAM008', M.NTIC_MTH) AS NTIC_MTH
+						  FROM ASSETS_RENT_DETAIL_F D, ASSETS_RENT_F M
+						 WHERE 1=1
+                		   AND D.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+           				   AND D.GIS_ASSETS_CD = #gisAssetsCd#
+           				   AND D.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+                   		   AND M.PRMISN_YN = 'Y'
+
+                   			<isNotEmpty property="sUsagePdFrom" prepend="AND">
+								<![CDATA[
 									  D.USAGE_PD_FROM >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
-							]]>
-						</isNotEmpty>
-						<isNotEmpty property="sUsagePdTo" prepend="AND">
-							<![CDATA[
+								]]>
+							</isNotEmpty>
+							<isNotEmpty property="sUsagePdTo" prepend="AND">
+								<![CDATA[
 									  D.USAGE_PD_FROM <= TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
-							]]>
-						</isNotEmpty> -->
+								]]>
+							</isNotEmpty>
+						   AND D.PRT_AT_CODE = M.PRT_AT_CODE
+						   AND D.MNG_YEAR = M.MNG_YEAR
+						   AND D.MNG_NO = M.MNG_NO
+						   AND D.MNG_CNT = M.MNG_CNT
 
-						  		  AND D.PRT_AT_CODE = M.PRT_AT_CODE
-								  AND D.MNG_YEAR = M.MNG_YEAR
-								  AND D.MNG_NO = M.MNG_NO
-								  AND D.MNG_CNT = M.MNG_CNT
-
-								  ORDER BY D.PRT_AT_CODE DESC, D.MNG_YEAR DESC, D.MNG_NO, D.MNG_CNT
+						 ORDER BY D.PRT_AT_CODE DESC, D.MNG_YEAR DESC, D.MNG_NO, D.MNG_CNT
 					) S
 			) A
 		<![CDATA[
@@ -136,25 +144,26 @@
 	<select id="gamFcltyUsageSttusInqireDao.selectFcltyAssetsRentListTotCnt" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="int">
 		SELECT COUNT(*) totcnt
 		  FROM ASSETS_RENT_DETAIL_F D, ASSETS_RENT_F M
-	    WHERE 1=1
-	  		  AND D.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
-        				  AND D.GIS_ASSETS_CD = #gisAssetsCd#
-        				  AND D.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
-	<isNotEmpty property="sUsagePdFrom" prepend="AND">
-		<![CDATA[
-				  D.USAGE_PD_FROM >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
-		]]>
-	</isNotEmpty>
-	<isNotEmpty property="sUsagePdTo" prepend="AND">
-		<![CDATA[
-				  D.USAGE_PD_FROM <= TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
-		]]>
-	</isNotEmpty>
+		 WHERE 1=1
+            		   AND D.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+       				   AND D.GIS_ASSETS_CD = #gisAssetsCd#
+       				   AND D.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+               		   AND M.PRMISN_YN = 'Y'
 
-	  		  AND D.PRT_AT_CODE = M.PRT_AT_CODE
-			  AND D.MNG_YEAR = M.MNG_YEAR
-			  AND D.MNG_NO = M.MNG_NO
-			  AND D.MNG_CNT = M.MNG_CNT
+               			<isNotEmpty property="sUsagePdFrom" prepend="AND">
+							<![CDATA[
+								  D.USAGE_PD_FROM >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+							]]>
+						</isNotEmpty>
+						<isNotEmpty property="sUsagePdTo" prepend="AND">
+							<![CDATA[
+								  D.USAGE_PD_FROM <= TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
+							]]>
+						</isNotEmpty>
+					   AND D.PRT_AT_CODE = M.PRT_AT_CODE
+					   AND D.MNG_YEAR = M.MNG_YEAR
+					   AND D.MNG_NO = M.MNG_NO
+					   AND D.MNG_CNT = M.MNG_CNT
 
 	</select>
 
@@ -189,6 +198,17 @@
  						 WHERE 1=1
  						 AND D.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 						 AND D.FCLTS_MNG_NO = #fcltsMngNo#
+
+               			<isNotEmpty property="sUsagePdFrom" prepend="AND">
+							<![CDATA[
+								  M.QC_BEGIN_DT >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+							]]>
+						</isNotEmpty>
+						<isNotEmpty property="sUsagePdTo" prepend="AND">
+							<![CDATA[
+								  M.QC_BEGIN_DT <= TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
+							]]>
+						</isNotEmpty>
 
 						 AND M.FCLTS_MNG_GROUP_NO = D.FCLTS_MNG_GROUP_NO
 						 AND M.FCLTS_JOB_SE = D.FCLTS_JOB_SE
@@ -243,100 +263,6 @@
 		]]>
 	</select>
 
-<!-- 하자 보수 내역 -->
-	<select id="gamFcltyUsageSttusInqireDao.selectFlawList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
-		SELECT A.*
-			FROM (
-				SELECT  ROWNUM RNUM, S.*
-				  FROM (
-						SELECT M.FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
-							 , D.FCLTS_MNG_NO AS FCLTS_MNG_NO
-							 , M.FCLTS_JOB_SE AS FCLTS_JOB_SE
-							 , GAM_GET_FCLTS_JOB_SE_NM(M.FCLTS_JOB_SE) AS FCLTS_JOB_NM
-							 , M.FLAW_RPR_SEQ AS FLAW_RPR_SEQ
-							 , GAM_GET_FLAW_EXAM_SE_NM(M.FLAW_EXAM_SE) AS FLAW_EXAM_SE
-							 , M.FLAW_EXAM_DT AS FLAW_EXAM_DT
-							 , M.FLAW_ENNC AS FLAW_ENNC
-							 , M.FLAW_EXAM_RESULT AS FLAW_EXAM_RESULT
-							 , M.ENFORCE_YEAR AS ENFORCE_YEAR
-							 , M.FLAW_RPR_NM AS FLAW_RPR_NM
-							 , GAM_GET_FLAW_RPR_TY_NM(M.FLAW_RPR_TY) AS FLAW_RPR_TY
-							 , M.FLAW_OCCRRNC_DT AS FLAW_OCCRRNC_DT
-							 , M.FLAW_RPR_ENTRPS_NM AS FLAW_RPR_ENTRPS_NM
-							 , M.FLAW_RPR_CONTENTS AS FLAW_RPR_CONTENTS
-							 , DECODE(M.FLAW_RPR_COMPT_YN,'Y','완료','미완료') AS FLAW_RPR_COMPT_YN
-							 , M.RM AS RM
-
-						  FROM FLAW_RPR_DTLS_F M, FLAW_RPR_OBJ_FCLTS_F D
-						 WHERE 1=1
-						   AND M.FCLTS_MNG_GROUP_NO = D.FCLTS_MNG_GROUP_NO(+)
-						   AND M.FCLTS_JOB_SE = D.FCLTS_JOB_SE(+)
-						   AND M.FLAW_RPR_SEQ = D.FLAW_RPR_SEQ(+)
-<!-- 				 WHERE D.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-				   AND D.FCLTS_MNG_NO = #fcltsMngNo#
-
-				   AND M.FCLTS_MNG_GROUP_NO = D.FCLTS_MNG_GROUP_NO
-				   AND M.FCLTS_JOB_SE = D.FCLTS_JOB_SE
-				   AND M.FLAW_RPR_SEQ = D.FLAW_RPR_SEQ
- -->
- 				) S
-			) A
-		<![CDATA[
-		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
-		]]>
-	</select>
-
-<!-- 하자보수 대상 시설물 -->
-	<select id="gamFcltyUsageSttusInqireDao.selectFlawRprObjFcltsList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
-		SELECT A.*
-			FROM (
-				SELECT  ROWNUM RNUM, S.*
-				  FROM (
-					SELECT FLAW_EXAM_DT AS FLAW_EXAM_DT
-					     , FLAW_ENNC AS FLAW_ENNC
-					     , FLAW_EXAM_RESULT AS FLAW_EXAM_RESULT
-					     , RM AS RM
-					  FROM FLAW_RPR_OBJ_FCLTS_F
-<!--
-					 WHERE 1=1
-					   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-					   AND FCLTS_JOB_SE = #fcltsJobSe#
-					   AND FLAW_RPR_SEQ = #flawRprSeq#
-					   AND FCLTS_MNG_NO = #fcltsMngNo#
--->
- 				) S
-			) A
-		<![CDATA[
-		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
-		]]>
-
-	</select>
-
-
-	<!-- 하자 검사자 -->
-	<select id="gamFcltyUsageSttusInqireDao.selectFlawExamUsrList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
-		SELECT A.*
-			FROM (
-				SELECT  ROWNUM RNUM, S.*
-				  FROM (
-					SELECT FLAW_EXAM_USR AS FLAW_EXAM_USR
-					     , FLAW_EXAM_DT AS FLAW_EXAM_DT
-					     , DECODE(FLAW_EXAM_COMPT_YN,'Y','완료','미완료')
-					  FROM FLAW_EXAM_USR_F
-<!--
-					 WHERE 1=1
-					   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-					   AND FCLTS_JOB_SE = #fcltsJobSe#
-					   AND FLAW_RPR_SEQ = #flawRprSeq#
--->
- 				) S
-			) A
-		<![CDATA[
-		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
-		]]>
-	</select>
-
-
 	<!-- 유지보수 내역 -->
 	<select id="gamFcltyUsageSttusInqireDao.selectMntnRprDtlsList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
 		SELECT A.*
@@ -362,13 +288,23 @@
 						      ,M.RM AS RM
 						  FROM MNTN_RPR_DTLS_F M, MNTN_RPR_OBJ_FCLTS_F D
 						 WHERE 1=1
+						   AND D.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+				   		   AND D.FCLTS_MNG_NO = #fcltsMngNo#
+			             	<isNotEmpty property="sUsagePdFrom" prepend="AND">
+								<![CDATA[
+									  M.MNTN_RPR_CNST_START_DT >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+								]]>
+							</isNotEmpty>
+							<isNotEmpty property="sUsagePdTo" prepend="AND">
+								<![CDATA[
+									  M.MNTN_RPR_CNST_START_DT <= TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
+								]]>
+							</isNotEmpty>
+
 						   AND M.FCLTS_JOB_SE = D.FCLTS_JOB_SE
 						   AND M.FCLTS_MNG_GROUP_NO = D.FCLTS_MNG_GROUP_NO
 						   AND M.MNTN_RPR_SEQ = D.MNTN_RPR_SEQ
-<!-- 					   AND D.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-				   		   AND D.FCLTS_MNG_NO = #fcltsMngNo#
 
--->
  				) S
 			) A
 		<![CDATA[
@@ -388,21 +324,119 @@
 						      ,PRICE
 						      ,MNTN_RPR_CNST_AMT
 						      ,RM
-						  FROM MNTN_RPR_OBJ_FCLTS_F
-
-<!--
+						  FROM MNTN_RPR_OBJ_FCLTS_F-
 						 WHERE 1=1
 						   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 						   AND FCLTS_JOB_SE = #fcltsJobSe#
 						   AND MNTN_RPR_SEQ = #mntnRprSeq#
 						   AND FCLTS_MNG_NO = #fcltsMngNo#
--->
  				) S
 			) A
 		<![CDATA[
 		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
 		]]>
 	</select>
+
+<!-- 하자 보수 내역 -->
+	<select id="gamFcltyUsageSttusInqireDao.selectFlawList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+				  FROM (
+						SELECT M.FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
+							 , D.FCLTS_MNG_NO AS FCLTS_MNG_NO
+							 , M.FCLTS_JOB_SE AS FCLTS_JOB_SE
+							 , GAM_GET_FCLTS_JOB_SE_NM(M.FCLTS_JOB_SE) AS FCLTS_JOB_NM
+							 , M.FLAW_RPR_SEQ AS FLAW_RPR_SEQ
+							 , GAM_GET_FLAW_EXAM_SE_NM(M.FLAW_EXAM_SE) AS FLAW_EXAM_SE
+							 , M.FLAW_EXAM_DT AS FLAW_EXAM_DT
+							 , M.FLAW_ENNC AS FLAW_ENNC
+							 , M.FLAW_EXAM_RESULT AS FLAW_EXAM_RESULT
+							 , M.ENFORCE_YEAR AS ENFORCE_YEAR
+							 , M.FLAW_RPR_NM AS FLAW_RPR_NM
+							 , GAM_GET_FLAW_RPR_TY_NM(M.FLAW_RPR_TY) AS FLAW_RPR_TY
+							 , M.FLAW_OCCRRNC_DT AS FLAW_OCCRRNC_DT
+							 , M.FLAW_RPR_ENTRPS_NM AS FLAW_RPR_ENTRPS_NM
+							 , M.FLAW_RPR_CONTENTS AS FLAW_RPR_CONTENTS
+							 , DECODE(M.FLAW_RPR_COMPT_YN,'Y','완료','미완료') AS FLAW_RPR_COMPT_YN
+							 , M.RM AS RM
+
+						  FROM FLAW_RPR_DTLS_F M, FLAW_RPR_OBJ_FCLTS_F D
+<!--
+						 WHERE 1=1
+						   AND M.FCLTS_MNG_GROUP_NO = D.FCLTS_MNG_GROUP_NO(+)
+						   AND M.FCLTS_JOB_SE = D.FCLTS_JOB_SE(+)
+						   AND M.FLAW_RPR_SEQ = D.FLAW_RPR_SEQ(+)
+ -->
+ 				 WHERE 1=1
+ 				   AND D.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+				   AND D.FCLTS_MNG_NO = #fcltsMngNo#
+	             	<isNotEmpty property="sUsagePdFrom" prepend="AND">
+						<![CDATA[
+							  M.FLAW_RPR_START_DT >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+						]]>
+					</isNotEmpty>
+					<isNotEmpty property="sUsagePdTo" prepend="AND">
+						<![CDATA[
+							  M.FLAW_RPR_START_DT <= TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
+						]]>
+					</isNotEmpty>
+				   AND M.FCLTS_MNG_GROUP_NO = D.FCLTS_MNG_GROUP_NO
+				   AND M.FCLTS_JOB_SE = D.FCLTS_JOB_SE
+				   AND M.FLAW_RPR_SEQ = D.FLAW_RPR_SEQ
+ 				) S
+			) A
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+<!-- 하자보수 대상 시설물 -->
+	<select id="gamFcltyUsageSttusInqireDao.selectFlawRprObjFcltsList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+				  FROM (
+					SELECT FLAW_EXAM_DT AS FLAW_EXAM_DT
+					     , FLAW_ENNC AS FLAW_ENNC
+					     , FLAW_EXAM_RESULT AS FLAW_EXAM_RESULT
+					     , RM AS RM
+					  FROM FLAW_RPR_OBJ_FCLTS_F
+					 WHERE 1=1
+					   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+					   AND FCLTS_JOB_SE = #fcltsJobSe#
+					   AND FLAW_RPR_SEQ = #flawRprSeq#
+					   AND FCLTS_MNG_NO = #fcltsMngNo#
+ 				) S
+			) A
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+
+	</select>
+
+
+	<!-- 하자 검사자 -->
+	<select id="gamFcltyUsageSttusInqireDao.selectFlawExamUsrList" parameterClass="GamFcltyUsageSttusInqireVO" resultClass="egovMap">
+		SELECT A.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+				  FROM (
+					SELECT FLAW_EXAM_USR AS FLAW_EXAM_USR
+					     , FLAW_EXAM_DT AS FLAW_EXAM_DT
+					     , DECODE(FLAW_EXAM_COMPT_YN,'Y','완료','미완료')
+					  FROM FLAW_EXAM_USR_F
+					 WHERE 1=1
+					   AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+					   AND FCLTS_JOB_SE = #fcltsJobSe#
+					   AND FLAW_RPR_SEQ = #flawRprSeq#
+ 				) S
+			) A
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
 
 
 </sqlMap>

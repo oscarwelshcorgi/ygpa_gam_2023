@@ -79,25 +79,24 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	private String fcltsMngGroupNo;
 
 // ==== 자산 임대 ==== //
-	/** 항코드 **/
-	private String prtAtCode;
-	/** 관리번호 **/
-	private String mngYearNo;
-	/** GIS 코드 **/
-//	private String gisAssets;
-	/** 문서번호 **/
-	private String docNo;
-	/** 고지방법 **/
-	private String nticMth;
+	private String taxtNm;
+	/** 사용면적 **/
+	private String usageAr;
 	/** 사용목적 **/
 	private String usagePurps;
 	/** 사용내역 **/
 	private String usageDtls;
-	/** 면적 **/
-	private int usageAr;
+	/** 산출내역 **/
+	private String computDtls;
+	/** 공시지가 **/
+	private int olnlp;
+	/** 적용요율 **/
+	private String applcTariff;
+	/** 적용방법 **/
+	private String applcMth;
 	/** 금액 **/
 	private int fee;
-	/** 허가일자 **/
+	/** 허가일 **/
 	private String prmisnDt;
 
 	// ==== 점검 관리 내역 ==== //
@@ -264,24 +263,11 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	private String qy;
 	private String price;
 //	private String mntnRprCnstAmt;
-
 	/**
 	 * @return the sPrtAtCode
 	 */
 	public String getsPrtAtCode() {
 		return sPrtAtCode;
-	}
-	/**
-	 * @return the mntnRprSeq
-	 */
-	public String getMntnRprSeq() {
-		return mntnRprSeq;
-	}
-	/**
-	 * @param mntnRprSeq the mntnRprSeq to set
-	 */
-	public void setMntnRprSeq(String mntnRprSeq) {
-		this.mntnRprSeq = mntnRprSeq;
 	}
 	/**
 	 * @param sPrtAtCode the sPrtAtCode to set
@@ -554,52 +540,28 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 		this.fcltsMngGroupNo = fcltsMngGroupNo;
 	}
 	/**
-	 * @return the prtAtCode
+	 * @return the taxtNm
 	 */
-	public String getPrtAtCode() {
-		return prtAtCode;
+	public String getTaxtNm() {
+		return taxtNm;
 	}
 	/**
-	 * @param prtAtCode the prtAtCode to set
+	 * @param taxtNm the taxtNm to set
 	 */
-	public void setPrtAtCode(String prtAtCode) {
-		this.prtAtCode = prtAtCode;
+	public void setTaxtNm(String taxtNm) {
+		this.taxtNm = taxtNm;
 	}
 	/**
-	 * @return the mngYearNo
+	 * @return the usageAr
 	 */
-	public String getMngYearNo() {
-		return mngYearNo;
+	public String getUsageAr() {
+		return usageAr;
 	}
 	/**
-	 * @param mngYearNo the mngYearNo to set
+	 * @param usageAr the usageAr to set
 	 */
-	public void setMngYearNo(String mngYearNo) {
-		this.mngYearNo = mngYearNo;
-	}
-	/**
-	 * @return the docNo
-	 */
-	public String getDocNo() {
-		return docNo;
-	}
-	/**
-	 * @param docNo the docNo to set
-	 */
-	public void setDocNo(String docNo) {
-		this.docNo = docNo;
-	}
-	/**
-	 * @return the nticMth
-	 */
-	public String getNticMth() {
-		return nticMth;
-	}
-	/**
-	 * @param nticMth the nticMth to set
-	 */
-	public void setNticMth(String nticMth) {
-		this.nticMth = nticMth;
+	public void setUsageAr(String usageAr) {
+		this.usageAr = usageAr;
 	}
 	/**
 	 * @return the usagePurps
@@ -626,16 +588,52 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 		this.usageDtls = usageDtls;
 	}
 	/**
-	 * @return the usageAr
+	 * @return the computDtls
 	 */
-	public int getUsageAr() {
-		return usageAr;
+	public String getComputDtls() {
+		return computDtls;
 	}
 	/**
-	 * @param usageAr the usageAr to set
+	 * @param computDtls the computDtls to set
 	 */
-	public void setUsageAr(int usageAr) {
-		this.usageAr = usageAr;
+	public void setComputDtls(String computDtls) {
+		this.computDtls = computDtls;
+	}
+	/**
+	 * @return the olnlp
+	 */
+	public int getOlnlp() {
+		return olnlp;
+	}
+	/**
+	 * @param olnlp the olnlp to set
+	 */
+	public void setOlnlp(int olnlp) {
+		this.olnlp = olnlp;
+	}
+	/**
+	 * @return the applcTariff
+	 */
+	public String getApplcTariff() {
+		return applcTariff;
+	}
+	/**
+	 * @param applcTariff the applcTariff to set
+	 */
+	public void setApplcTariff(String applcTariff) {
+		this.applcTariff = applcTariff;
+	}
+	/**
+	 * @return the applcMth
+	 */
+	public String getApplcMth() {
+		return applcMth;
+	}
+	/**
+	 * @param applcMth the applcMth to set
+	 */
+	public void setApplcMth(String applcMth) {
+		this.applcMth = applcMth;
 	}
 	/**
 	 * @return the fee
@@ -1152,6 +1150,18 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	 */
 	public void setFlawExamComptYn(String flawExamComptYn) {
 		this.flawExamComptYn = flawExamComptYn;
+	}
+	/**
+	 * @return the mntnRprSeq
+	 */
+	public String getMntnRprSeq() {
+		return mntnRprSeq;
+	}
+	/**
+	 * @param mntnRprSeq the mntnRprSeq to set
+	 */
+	public void setMntnRprSeq(String mntnRprSeq) {
+		this.mntnRprSeq = mntnRprSeq;
 	}
 	/**
 	 * @return the mntnRprSe

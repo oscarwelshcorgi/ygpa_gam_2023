@@ -93,16 +93,22 @@
 		module : this,
 		dataType : 'json',
 		colModel : [ {display : '항구분', name : 'prtAtCode', width : 60, sortable : false, align : 'center'},
-//		             {display : '관리번호', name : 'mngYearNo', width : 100, sortable : false, align : 'center'},
-//		             {display : 'GIS 코드', name : 'gisAssets', width : 100, sortable : false, align : 'center'},
-//		             {display : '문서번호', name : 'docNo', width : 100, sortable : false, align : 'center'},
-		             {display : '고지방법', name : 'nticMth', width : 70, sortable : false, align : 'center'},
+		             {display : '사용기간', name : 'usagePd', width : 70, sortable : false, align : 'center'},
+		             {display : '업체구분', name : 'entrpsSe', width : 70, sortable : false, align : 'center'},
+		             {display : '업체명', name : 'entrpsnm', width : 70, sortable : false, align : 'center'},
+		             {display : '신청일자', name : 'reqstDt', width : 70, sortable : false, align : 'center'},
+		             {display : '허가일자', name : 'prmisnDt', width : 70, sortable : false, align : 'center'},
+		             {display : '납부방법', name : 'payMth', width : 70, sortable : false, align : 'center'},
+		             {display : '과세구분', name : 'taxtNm', width : 70, sortable : false, align : 'center'},
+		             {display : '사용면적㎡',  name : 'usageAr', width : 70, sortable : false, align : 'right', displayFormat : 'number', displayOption:{format:"0,000.00"}},
 		             {display : '사용목적', name : 'usagePurps', width : 150, sortable : false, align : 'center'},
 		             {display : '사용내역', name : 'usageDtls', width : 125, sortable : false, align : 'center'},
-		             {display : '면적', name : 'usageAr', width : 70, sortable : false, align : 'right', displayFormat : 'number'},
+		             {display : '산출내역', name : 'computDtls', width : 70, sortable : false, align : 'center'},
+		             {display : '공시지가', name : 'olnlp', width : 70, sortable : false, align : 'center'},
+		             {display : '적용요율', name : 'applcTariff', width : 70, sortable : false, align : 'right' , displayFormat : 'number', displayOption:{format:"0,000.00"}},
+		             {display : '적용방법', name : 'applcMth', width : 70, sortable : false, align : 'center'},
 		             {display : '금액', name : 'fee', width : 100, sortable : false, align : 'right', displayFormat : 'number'},
-		             {display : '허가일', name : 'prmisnDt', width : 90, sortable : false, align : 'center'}
-				],
+		             ],
 		height : 'auto'
 
 	});
@@ -282,7 +288,7 @@ GamFcltyUsageSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnAssetsExcelDownload' :
 			this.downloadAssetsExcel();
-			break
+			break;
 	}
 
 };
@@ -335,7 +341,7 @@ var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
 
 
 //	console.log(searchVO);
-	this.doAction('/fcltyMng/selectLoadQcMngData.do', searchVO, function(module, data) {
+	this.doAction('/fcltyMng/selectLoadQcMngData.do', row, function(module, data) {
 		if(data.resultCode == "0"){
 			module.$('#assetsRentGrid').flexEmptyData();
         	var assetsRentList={resultList: data.fcltyAssetsRentList};
@@ -401,12 +407,29 @@ GamFcltyUsageSttusInqireModule.prototype.loadQcMngDtailData = function() {
 	});
 };
 
+//유지보수 내역
+GamFcltyUsageSttusInqireModule.prototype.loadMntnRprObjFcltsData = function(module, data) {
+	var row = this.$('#mntnRprObjFcltsGrid').selectedRows();
+	row = row[0];
+	var searchVO = [
+	                { name : 'fcltsMngGroupNo', value : row['fcltsMngGroupNo'] },
+	                { name : 'fcltsJobSe', value : row['fcltsJobSe'] },
+	                { name : 'flawRprSeq', value : row['flawRprSeq'] }
+	               ];
+	this.doAction('/fcltyMng/selectMntnRprObjFcltsData.do', searchVO, function(module, data) {
+		if(data.resultCode == "0"){
+			module.$('#mntnRprDtlsGrid').flexEmptyData();
+			var flawRprObjFcltsList={resultList: data.flawRprObjFcltsList};
+			module.$('#mntnRprDtlsGrid').flexAddData(flawRprObjFcltsList);
+			module.$('#mntnRprDtlsGrid').selectRowId(0);
+		}
+	});
+};
 
 // 하자보수 내역 마우스 클릭(점검 관리 대상 시설물, 점검 관리 결과 항목 로드)
 GamFcltyUsageSttusInqireModule.prototype.loadFlawDtailData = function(module, data) {
 	var row = this.$('#flawRprDtlsGrid').selectedRows();
 	row = row[0];
-	console.log(row);
 	var searchVO = [
 	                { name : 'fcltsMngGroupNo', value : row['fcltsMngGroupNo'] },
 	                { name : 'fcltsMngNo', value : row['fcltsMngNo'] },
@@ -428,24 +451,7 @@ GamFcltyUsageSttusInqireModule.prototype.loadFlawDtailData = function(module, da
 	});
 };
 
-GamFcltyUsageSttusInqireModule.prototype.loadMntnRprObjFcltsData = function(module, data) {
-	var row = this.$('#mntnRprObjFcltsGrid').selectedRows();
-	row = row[0];
-	console.log(row);
-	var searchVO = [
-	                { name : 'fcltsMngGroupNo', value : row['fcltsMngGroupNo'] },
-	                { name : 'fcltsJobSe', value : row['fcltsJobSe'] },
-	                { name : 'flawRprSeq', value : row['flawRprSeq'] }
-	               ];
-	this.doAction('/fcltyMng/selectLoadFlawDetailData.do', searchVO, function(module, data) {
-		if(data.resultCode == "0"){
-			module.$('#mntnRprDtlsGrid').flexEmptyData();
-			var flawRprObjFcltsList={resultList: data.flawRprObjFcltsList};
-			module.$('#mntnRprDtlsGrid').flexAddData(flawRprObjFcltsList);
-			module.$('#mntnRprDtlsGrid').selectRowId(0);
-		}
-	});
-};
+
 
 
 
