@@ -31,7 +31,7 @@ public interface GamGisAssetSttusInqireService {
 	 * @return list
 	 * @exception Exception
 	 */
-    List selectGisAssetSttusAssetList(Map searchVO) throws Exception;
+    List selectGisAssetSttusList(Map searchVO) throws Exception;
 
     /**
      * GIS자산통계 목록 갯수를 리턴한다.
@@ -39,7 +39,7 @@ public interface GamGisAssetSttusInqireService {
      * @return
      * @throws Exception
      */
-    int selectGisAssetSttusAssetListTotCnt(Map searchVO) throws Exception;
+    int selectGisAssetSttusListTotCnt(Map searchVO) throws Exception;
 
     /**
      * GIS자산통계 목록 합계를 리턴한다.
@@ -47,6 +47,110 @@ public interface GamGisAssetSttusInqireService {
      * @return
      * @throws Exception
      */
-    Map selectGisAssetSttusAssetListTotSum(Map searchVO) throws Exception;
+    Map selectGisAssetSttusListTotSum(Map searchVO) throws Exception;
+
+    /**
+	 * GIS자산 사용현황 통계 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    List selectGisAssetRentSttusList(Map searchVO) throws Exception;
+
+    /**
+     * GIS자산 사용현황 통계 목록 갯수를 리턴한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    int selectGisAssetRentSttusListTotCnt(Map searchVO) throws Exception;
+
+    /**
+     * GIS자산 사용현황 통계 목록 합계를 리턴한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    Map selectGisAssetRentSttusListTotSum(Map searchVO) throws Exception;
+
+    /**
+     * 시설에 대한 임대 정보를 조회 한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    List selectGisAssetRentSttusByFcltyList(Map searchVO) throws Exception;
+
+    /**
+	 * GIS자산 사용료현황 통계 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    List selectGisAssetRentFeeSttusList(Map searchVO) throws Exception;
+
+    /**
+     * GIS자산 사용료현황 통계 목록 갯수를 리턴한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    int selectGisAssetRentFeeSttusListTotCnt(Map searchVO) throws Exception;
+
+    /**
+     * GIS자산 사용료현황 통계 목록 합계를 리턴한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    Map selectGisAssetRentFeeSttusListTotSum(Map searchVO) throws Exception;
+
+    /**
+	 * GIS자산 유지보수현황 통계 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    List selectGisAssetMntnRprSttusAssetList(Map searchVO) throws Exception;
+
+    /**
+     * GIS자산 유지보수현황 통계 목록 갯수를 리턴한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    int selectGisAssetMntnRprSttusAssetListTotCnt(Map searchVO) throws Exception;
+
+    /**
+     * GIS자산 유지보수현황 통계 목록 합계를 리턴한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    Map selectGisAssetMntnRprSttusAssetListTotSum(Map searchVO) throws Exception;
+
+    /**
+	 * GIS자산 하자보수현황 통계 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return list
+	 * @exception Exception
+	 */
+    List selectGisAssetFlawRprSttusAssetList(Map searchVO) throws Exception;
+
+    /**
+     * GIS자산 하자보수현황 통계 목록 갯수를 리턴한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    int selectGisAssetFlawRprSttusAssetListTotCnt(Map searchVO) throws Exception;
+
+    /**
+     * GIS자산 하자보수현황 통계 목록 합계를 리턴한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    Map selectGisAssetFlawRprSttusAssetListTotSum(Map searchVO) throws Exception;
 
 }

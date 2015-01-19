@@ -82,7 +82,8 @@ public class YGLoginController {
     @RequestMapping(value="/uat/uia/YGActionLogin.do")
     public String actionLogin(@ModelAttribute("loginVO") LoginVO loginVO,
     		                   HttpServletRequest request,
-    		                   ModelMap model)
+    		                   ModelMap model,
+    		                   Map commandMap)
             throws Exception {
 
 

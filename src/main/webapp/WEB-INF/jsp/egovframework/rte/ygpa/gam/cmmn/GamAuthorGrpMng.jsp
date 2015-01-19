@@ -119,7 +119,6 @@ GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
 	               {name: 'authorList', value :JSON.stringify(reglist) }
 				];
 
-				/*
 				this.doAction('/cmmn/gamAuthorGroupInsert.do', inputVO, function(module, result) {
 			 		if(result.resultCode == 0){
 			 			var searchOpt = module.makeFormArgs("#authorGrpMngForm");
@@ -127,7 +126,6 @@ GamAuthorGrpMngModule.prototype.onButtonClick = function(buttonId) {
 			 		}
 			 		alert(result.resultMsg);
 			 	});
-				*/
 			}else{
 				alert("선택 된 값이 없습니다.");
 			}

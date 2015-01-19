@@ -51,6 +51,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
                     ],
         showTableToggleBtn: false,
         height: 'auto',
+        mergeRows: "entrpsNm,chrgeKndNm",
         preProcess: function(module,data) {
 
         	$.each(data.resultList, function() {

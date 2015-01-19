@@ -85,7 +85,7 @@ public class GamGisAssetSttusInqireController {
      * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/asset/sts/selectGisAssetSttusInqireList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/asset/sts/selectGisAssetSttusList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectAssetSttusInqireList(@RequestParam Map searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
@@ -110,10 +110,10 @@ public class GamGisAssetSttusInqireController {
 		searchVO.put("lastIndex",paginationInfo.getLastRecordIndex());
 		searchVO.put("recordCountPerPage",paginationInfo.getRecordCountPerPage());
 
-    	totalCnt = gamGisAssetSttusInqireService.selectGisAssetSttusAssetListTotCnt(searchVO);
-    	List assetRentList = gamGisAssetSttusInqireService.selectGisAssetSttusAssetList(searchVO);
+    	totalCnt = gamGisAssetSttusInqireService.selectGisAssetSttusListTotCnt(searchVO);
+    	List assetRentList = gamGisAssetSttusInqireService.selectGisAssetSttusList(searchVO);
 
-    	Map resultSum = gamGisAssetSttusInqireService.selectGisAssetSttusAssetListTotSum(searchVO);
+    	Map resultSum = gamGisAssetSttusInqireService.selectGisAssetSttusListTotSum(searchVO);
 
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
@@ -154,6 +154,135 @@ public class GamGisAssetSttusInqireController {
     	}
 
     	return "ygpa/gam/asset/sts/GamGisAssetSttusPopupInfo";
+    }
+
+	/**
+     * 자산임대현황통계 목록을 조회한다.
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/asset/sts/selectAssetRentSttusList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectAssetRentSttusList(@RequestParam Map searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(Integer.parseInt((String) searchVO.get("pageIndex")));
+		paginationInfo.setRecordCountPerPage(Integer.parseInt((String) searchVO.get("pageUnit")));
+
+		searchVO.put("firstIndex", paginationInfo.getFirstRecordIndex());
+		searchVO.put("lastIndex",paginationInfo.getLastRecordIndex());
+		searchVO.put("recordCountPerPage",paginationInfo.getRecordCountPerPage());
+
+    	totalCnt = gamGisAssetSttusInqireService.selectGisAssetRentSttusListTotCnt(searchVO);
+    	List assetRentList = gamGisAssetSttusInqireService.selectGisAssetRentSttusList(searchVO);
+
+    	Map resultSum = gamGisAssetSttusInqireService.selectGisAssetRentSttusListTotSum(searchVO);
+
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", assetRentList);
+    	map.put("searchOption", searchVO);
+
+    	map.put("resultSum", resultSum);
+
+    	return map;
+    }
+
+	@RequestMapping(value="/asset/sts/gamAssetRentSttusInfo.do")
+	public String gamAssetRentSttusInfo(@RequestParam Map searchVO, ModelMap model) throws Exception {
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    	}
+    	else {
+    		String auth="";
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+    		searchVO.put("authorities", EgovUserDetailsHelper.getAuthorities());
+
+    		try {
+				Map assetCodeInfo = gamMapsAssetCodeMngtService.selectMapsAssetsCodeInfo(searchVO);
+		    	List assetRentSttusList = gamGisAssetSttusInqireService.selectGisAssetRentSttusByFcltyList(searchVO);
+
+				model.addAttribute("assetCd", assetCodeInfo);
+
+				model.addAttribute("resultCode", 0);
+	    		model.addAttribute("assetCodeInfo", assetCodeInfo);
+	    		model.addAttribute("assetRentSttusList", assetRentSttusList);
+			}
+			catch(Exception e) {
+				model.addAttribute("resultCode", -1);
+	    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+			}
+    	}
+
+    	return "ygpa/gam/asset/sts/GamGisAssetRentSttusPopupInfo";
+    }
+
+	/**
+     * 자산사용료통계 목록을 조회한다.
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/asset/sts/selectAssetRentFeeSttusList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectAssetRentFeeSttusList(@RequestParam Map searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	//searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//searchVO.setPageSize(propertiesService.getInt("pageSize"));
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(Integer.parseInt((String) searchVO.get("pageIndex")));
+		paginationInfo.setRecordCountPerPage(Integer.parseInt((String) searchVO.get("pageUnit")));
+
+		searchVO.put("firstIndex", paginationInfo.getFirstRecordIndex());
+		searchVO.put("lastIndex",paginationInfo.getLastRecordIndex());
+		searchVO.put("recordCountPerPage",paginationInfo.getRecordCountPerPage());
+
+    	totalCnt = gamGisAssetSttusInqireService.selectGisAssetRentFeeSttusListTotCnt(searchVO);
+    	List assetRentList = gamGisAssetSttusInqireService.selectGisAssetRentFeeSttusList(searchVO);
+
+    	Map resultSum = gamGisAssetSttusInqireService.selectGisAssetRentFeeSttusListTotSum(searchVO);
+
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", assetRentList);
+    	map.put("searchOption", searchVO);
+
+    	map.put("resultSum", resultSum);
+
+    	return map;
     }
 
 }

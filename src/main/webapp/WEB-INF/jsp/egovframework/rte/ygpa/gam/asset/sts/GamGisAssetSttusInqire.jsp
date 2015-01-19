@@ -41,7 +41,9 @@ GamGisAssetSttusInqireModule.prototype.loadComplete = function() {
 
 	this.$('#cancelDisUseAssetBtn').disable({enableClass:'ui-state-default', disableClass:'ui-state-disable'});
 
-	console.log('debug');
+	this.$('#searchDate').val(EMD.util.getDate());
+
+	console.log('GamGisAssetSttusInqireModule debug');
 };
 
 GamGisAssetSttusInqireModule.prototype.gridSet = function(grid) {
@@ -52,26 +54,28 @@ GamGisAssetSttusInqireModule.prototype.gridSet = function(grid) {
 	this._grid=grid;
 	this.$('.'+this._grid).css('display', '');
 
-	//this.$("#gisAssetSttusList").empty();
+	this.$("#gisAssetSttusList").empty();
 	switch(grid) {
 	case "assetSts":	// 자산 현황
 	    this.$("#gisAssetSttusList").flexigrid({
 	        module: this,
-	        url: '/asset/sts/selectGisAssetSttusInqireList.do',
+	        url: '/asset/sts/selectGisAssetSttusList.do',
 	        dataType: 'json',
 	        colModel : [
-	   	                {display:'항구분', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
+	        			{display:'', name:'gisFlag', width:24, sortable:false, align:'center', displayFormat: 'jqimg'},
+	   	                {display:'항구분', name:'gisAssetsPrtAtCodeNm',width:55, sortable:false,align:'center'},
 	                    {display:'자산코드', name:'gisAssetsCode',width:60, sortable:false,align:'center'},
 	                    {display:'자산명', name:'gisAssetsNm',width:160, sortable:false,align:'left'},
 	                    {display:'소재지', name:'gisAssetsLocplc',width:180, sortable:false,align:'left'},
 	                    {display:'지번', name:'gisAssetsLnmCode',width:60, sortable:false,align:'center'},
 	                    {display:'면적', name:'gisAssetsAr',width:70, sortable:false,align:'right', displayFormat: 'number'},
-	                    {display:'취득가액', name:'gisAssetsAcqPri',width:110, sortable:false,align:'right', displayFormat: 'number'},
-	                    {display:'자산가액', name:'gisAssetsPrice',width:110, sortable:false,align:'right', displayFormat: 'number'},
+	                    {display:'취득가액', name:'buyAmt',width:110, sortable:false,align:'right', displayFormat: 'number'},
+//	                    {display:'자산가액', name:'gisAssetsPrice',width:110, sortable:false,align:'right', displayFormat: 'number'},
 	                    {display:'준공일자', name:'gisAssetsBldDt',width:90, sortable:false,align:'center'}
             ],
 	        showTableToggleBtn: false,
 	        height: 'auto',
+	        mergeRows: 'prtAtCodeNm,gisAssetsCode',
 	        preProcess: function(module, data) {
 	        	$.each(data.resultList, function() {
 	        		this.gisAssetsCode=this.gisAssetsCd+"-"+this.gisAssetsSubCd;
@@ -81,7 +85,8 @@ GamGisAssetSttusInqireModule.prototype.gridSet = function(grid) {
 	        		}
 	        		this.gisAssetsPrice=this.gisAssetsAcqPri*1.2;
 	        		this.gisAssetsBldDt="2007-11-08";
-	        		this._mapLabel = this.gisAssetsNm+'\n'+$.number(this.gisAssetsPrice)+" 원";
+	        		this._mapLabel = this.gisAssetsNm+'\n'+$.number(this.buyAmt)+" 원";
+					this.gisFlag=this.gisStat>0?'flag':null;
 	        	});
 	        	return data;
 	        }
@@ -90,18 +95,20 @@ GamGisAssetSttusInqireModule.prototype.gridSet = function(grid) {
 	case "usageSts":	//  사용 현황
 	    this.$("#gisAssetSttusList").flexigrid({
 	        module: this,
-	        url: '/asset/sts/selectGisAssetSttusInqireList.do',
+	        url: '/asset/sts/selectAssetRentSttusList.do',
 	        dataType: 'json',
 	        colModel : [
+       			{display:'', name:'gisFlag', width:24, sortable:false, align:'center', displayFormat: 'jqimg'},
 				{display:'항구분', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
 				{display:'자산코드', name:'gisAssetsCode',width:60, sortable:false,align:'center'},
 				{display:'자산명', name:'gisAssetsNm',width:160, sortable:false,align:'left'},
 				{display:'소재지', name:'gisAssetsLocplc',width:180, sortable:false,align:'left'},
 				{display:'지번', name:'gisAssetsLnmCode',width:60, sortable:false,align:'center'},
 				{display:'면적', name:'gisAssetsAr',width:70, sortable:false,align:'right', displayFormat: 'number'},
-				{display:'사용면적', name:'usageAr',width:110, sortable:false,align:'right', displayFormat: 'number'},
-				{display:'미사용면적', name:'unUsageAr',width:110, sortable:false,align:'right', displayFormat: 'number'},
-				{display:'사용업체수', name:'usageCmpyNo',width:110, sortable:false,align:'right', displayFormat: 'number'}
+				{display:'업체수', name:'entrpsCnt',width:70, sortable:false,align:'right', displayFormat: 'number'},
+				{display:'사용면적', name:'usageAr',width:88, sortable:false,align:'right', displayFormat: 'number'},
+				{display:'미사용면적', name:'unUsageAr',width:88, sortable:false,align:'right', displayFormat: 'number'},
+				{display:'사용율', name:'useRatePercent',width:88, sortable:false,align:'right', displayFormat: 'number', displayOption: '0.0 %'}
             ],
 	        showTableToggleBtn: false,
 	        height: 'auto',
@@ -113,7 +120,17 @@ GamGisAssetSttusInqireModule.prototype.gridSet = function(grid) {
 	        			this.gisAssetsLnmCode+="-"+this.gisAssetsLnmSub;
 	        		}
 	        		this.unUsageAr=this.gisAssetsAr-this.usageAr;
-	        		this.usageCmpyNo=1;
+
+	        		this._mapLabel = this.gisAssetsNm;
+	        		if(this.usageAr*1>0) {
+	        			this._mapLabel = this._mapLabel+'\n'+$.number(this.usageAr,2)+" m²/"+$.number(this.gisAssetsAr,2)+" m²";
+	        		}
+	        		var u, t;
+	        		u=this.usageAr||0;
+	        		t=this.gisAssetsAr||0;
+	        		this.useRate = t!=0?u/t:0;
+	        		this.useRatePercent = Math.round(this.useRate*100);
+					this.gisFlag=this.gisStat>0?'flag':null;
 	        	});
 	        	return data;
 	        }
@@ -122,17 +139,18 @@ GamGisAssetSttusInqireModule.prototype.gridSet = function(grid) {
 	case "feeSts":	// 사용료 현황
 	    this.$("#gisAssetSttusList").flexigrid({
 	        module: this,
-	        url: '/asset/sts/selectGisAssetSttusInqireList.do',
+	        url: '/asset/sts/selectAssetRentFeeSttusList.do',
 	        dataType: 'json',
 	        colModel : [
+       			{display:'', name:'gisFlag', width:24, sortable:false, align:'center', displayFormat: 'jqimg'},
 				{display:'항구분', name:'gisAssetsPrtAtCodeNm',width:55, sortable:false,align:'center'},
 				{display:'자산코드', name:'gisAssetsCode',width:60, sortable:false,align:'center'},
 				{display:'자산명', name:'gisAssetsNm',width:160, sortable:false,align:'left'},
 				{display:'소재지', name:'gisAssetsLocplc',width:180, sortable:false,align:'left'},
 				{display:'지번', name:'gisAssetsLnmCode',width:60, sortable:false,align:'center'},
-				{display:'사용료', name:'grFee',width:80, sortable:false,align:'right', displayFormat: 'number'},
-				{display:'임대료', name:'grFee2',width:80, sortable:false,align:'right', displayFormat: 'number'},
-				{display:'연체료', name:'grDelayFee',width:80, sortable:false,align:'right', displayFormat: 'number'},
+				{display:'사용료', name:'fee',width:80, sortable:false,align:'right', displayFormat: 'number'},
+				//{display:'임대료', name:'grFee2',width:80, sortable:false,align:'right', displayFormat: 'number'},
+				//{display:'연체료', name:'grDelayFee',width:80, sortable:false,align:'right', displayFormat: 'number'},
 				{display:'감면사용료', name:'rdcxptFee',width:80, sortable:false,align:'right', displayFormat: 'number'},
 				{display:'평균요율', name:'usageFeeRate',width:100, sortable:false,align:'right', displayFormat: 'number'}
             ],
@@ -145,9 +163,13 @@ GamGisAssetSttusInqireModule.prototype.gridSet = function(grid) {
 	        		if(this.gisAssetsLnmSub!=null && this.gisAssetsLnmSub.length!=0) {
 	        			this.gisAssetsLnmCode+="-"+this.gisAssetsLnmSub;
 	        		}
-	        		this.usageFeeRate=(this.grFee-this.rdcxptFee)/(this.usageAr*1);
+	        		this.usageFeeRate=Math.round((this.grFee-this.rdcxptFee)/(this.usageAr*1)*100);
 	        		this.grFee2=0;
 	        		this.grDelayFee=0;
+	        		this._mapLabel1 = this.gisAssetsNm+'\n'+$.number(this.grFee)+" 원";
+	        		this._mapLabel2 = this.gisAssetsNm+'\n'+$.number(this.rdcxptFee)+" 원";
+	        		this._mapLabel3 = this.gisAssetsNm+'\n'+this.usageFeeRate+" %";
+					this.gisFlag=this.gisStat>0?'flag':null;
 	        	});
 	        	return data;
 	        }
@@ -225,7 +247,7 @@ GamGisAssetSttusInqireModule.prototype.gridSet = function(grid) {
     this.$("#gisAssetSttusList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         // 이벤트내에선 모듈에 대해 선택한다.
     });
-    EMD.util.window_resized($('#'+this._window_id));	// 창 리사이즈
+    EMD.util.window_resized($('#'+this.getModuleId()));	// 창 리사이즈
 };
 
 GamGisAssetSttusInqireModule.prototype.loadData = function() {
@@ -236,90 +258,14 @@ GamGisAssetSttusInqireModule.prototype.loadData = function() {
 
 };
 
-GamGisAssetSttusInqireModule.prototype.onPopupFeature = function(feature) {
-    var dataset = [
-			{ sales:"1963050", sales2:"0", sales3:"1963050", year:"09" },
-			{ sales:"209357", sales2:"3863", sales3:"2168544", year:"10" },
-			{ sales:"31475", sales2:"81920", sales3:"2118099", year:"11" },
-			{ sales:"49530", sales2:"695432", sales3:"1472197", year:"12" },
-			{ sales:"892700", sales2:"1653852", sales3:"711045", year:"13" },
-			{ sales:"27533", sales2:"2354712", sales3:"-1616134", year:"14" }
-               ];
-    var chartId='_chart_'+EMD.chart_id++;
-    $(".popupChart").attr('id', chartId);
-    $('#'+chartId).removeClass('popupChart');
-	var chart1 =  new dhtmlXChart({
-		view:"bar",
-		container:chartId,
-	    value:"#sales#",
-        label: '#salesLabel#',
-        color: "#58dccd",
-        gradient:"rising",
-		width:80,
-		padding: {
-			left:65
-		},
-		tooltip:{
-			template:"#sales#"
-		},
-		xAxis:{
-			template:"'#year#"
-		},
-		yAxis:{
-			width:80,
-			template:function(obj) {
-				return $.number(obj);
-			}
-		},
-		legend:{
-			values:[{text:"유지보수",color:"#36abee"},{text:"임대수입",color:"#a7ee70"}],
-			valign:"middle",
-			align:"right",
-			width:90,
-			layout:"y"
-		}
-	});
-	for(var k in dataset) {
-		dataset[k]['salesLabel']=$.number(dataset[k].sales);
-		dataset[k]['sales2Label']=$.number(dataset[k].sales2);
-	}
-
-//    var chart1 =  new dhtmlXChart({
-//		view:"area",
-//		container:chartId,
-//        value:"#sales#",
-//        color: "#58dccd",
-//        alpha:0.7,
-//		xAxis:{
-//				template:"'#year#"
-//        },
-//        yAxis:{
-//            start:0,
-//            step:200000,
-//            end: 2000000
-//        },
-//        legend:{
-//            values:[{text:"유지보수",color:"#58dccd"},{text:"임대수입",color:"#914ad8"},{text:"투자금액",color:"#36abee"}],
-//            valign:"middle",
-//            align:"right",
-//            width:90,
-//            layout:"y"
-//        },
-//        eventRadius: 5
-//	});
-	chart1.addSeries({
-		alpha:0.5,
-        value:"#sales2#",
-        label:"#sales2Label#",
-        color:"#a7ee70",
-	});
-//	chart1.addSeries({
-//		alpha:0.5,
-//        value:"#sales3#",
-//        color:"#36abee"
-//	});
-	chart1.parse(dataset,"json");
+GamGisAssetSttusInqireModule.prototype.onSelectFeature = function(e) {
+	EMD.gis.openPopup(e.feature, "/asset/sts/gamAssetSttusInfo.do", EMD.util.objectToArray(e.feature.attributes));
 };
+
+GamGisAssetSttusInqireModule.prototype.onSelectFeature2 = function(e) {
+	EMD.gis.openPopup(e.feature, "/asset/sts/gamAssetRentSttusInfo.do", EMD.util.objectToArray(e.feature.attributes));
+};
+
 /**
  * 정의 된 버튼 클릭 시
  */
@@ -345,7 +291,11 @@ GamGisAssetSttusInqireModule.prototype.onSubmit = function() {
 };
 
 GamGisAssetSttusInqireModule.prototype.loadData = function() {
-    var searchOpt=this.makeFormArgs('#gamAssetDisUseSearchForm');
+    var searchOpt=[{
+    		name: "searchGisAssetsPrtAtCode",
+    		value: this.$('#searchGisAssetsPrtAtCode').val()
+    }];
+    searchOpt = $.extend(this.makeFormArgs("."+this._grid), searchOpt);
     this.$('#gisAssetSttusList').flexOptions({params:searchOpt}).flexReload();
 };
 
@@ -371,77 +321,74 @@ var module_instance = new GamGisAssetSttusInqireModule();
     <div id="searchViewStack" class="emdPanel">
         <div class="viewPanel">
             <form id="gamAssetDisUseSearchForm">
-						<table class="searchPanel">
-							<tbody>
-							<tr>
-								<th>항구분</th>
-								<td><input id="searchGisAssetsPrtAtCode" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrtAtCode" data-code-id="GAM019" data-default-prompt="전체항" data-display-value="N" size="3"/></td>
-								<th>조회항목</th>
-								<td colSpan="5">
-									<SELECT id="sDataType">
-										<option value="assetSts" selected>자산현황</option>
-										<option value="usageSts">사용현황</option>
-										<option value="feeSts">사용료현황</option>
-										<option value="maintSts">유지보수현황</option>
-										<option value="rprSts">하자보수현황</option>
-									</SELECT>
-								</td>
-								<td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
-							</tr>
-							<tr class="assetSts">
-								<th>자산명</th>
-								<td><input data-column-id="gisAssetsNm" type="text" size="16"></td>
-								<th>소재지</th>
-								<td><input data-column-id="gisAssetsLocplc" type="text" size="20"></td>
-								<th>지번</th>
-								<td><input data-column-id="gisAssetsLnm" type="text" size="4">-<input id="searchGisAssetsLnmSub" data-column-id="gisAssetsLnmSub" type="text" size="3"></td>
-							</tr>
-							<tr class="usageSts" style="display:none;">
-								<th>사용 업체</th>
-								<td colSpan="2">
-									<input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;
-	                            	<input id="sEntrpsNm" type="text" size="15" disabled="disabled">&nbsp; &nbsp;
-	                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
-								</td>
-								<th>사용기간</th>
-								<td>
-									<input id="sGrUsagePdFrom" type="text" class="emdcal" data-role="dtFrom" data-dt-to="sGrUsagePdTo" size="8"> ~
-									<input id="sGrUsagePdTo" type="text" class="emdcal" data-role="dtTo" data-dt-from="sGrUsagePdFrom" size="8">
-								</td>
-							</tr>
-							<tr class="feeSts" style="display:none;">
-								<th>사용 업체</th>
-								<td colSpan="3">
-									<input id="sEntrpscd" type="text" size="6">&nbsp; &nbsp;
-	                            	<input id="sEntrpsNm" type="text" size="15" disabled="disabled">&nbsp; &nbsp;
-	                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
-								</td>
-								<th>사용기간</th>
-								<td>
-									<input id="sGrUsagePdFrom" type="text" class="emdcal" data-role="dtFrom" data-dt-to="sGrUsagePdTo" size="8"> ~
-									<input id="sGrUsagePdTo" type="text" class="emdcal" data-role="dtTo" data-dt-from="sGrUsagePdFrom" size="8">
-								</td>
-							</tr>
-							<tr class="maintSts" style="display:none;">
-								<th>사업명</th>
-								<td><input id="sMaintProjNm" type="text" size="12"></td>
-								<th>사업기간</th>
-								<td colSpan="3">
-									<input id="sGrMaintPdFrom" type="text" class="emdcal" data-role="dtFrom" data-dt-to="sGrMaintPdTo" size="8"> ~
-									<input id="sGrMaintPdTo" type="text" class="emdcal" data-role="dtTo" data-dt-from="sGrMaintPdFrom" size="8">
-								</td>
-							</tr>
-							<tr class="rprSts" style="display:none;">
-								<th>하자보수업체</th>
-								<td><input id="sRprCmpyNm" type="text" size="12"></td>
-								<th>보증기간</th>
-								<td colSpan="3">
-									<input id="sRprPdFrom" type="text" class="emdcal" data-role="dtFrom" data-dt-to="sRprPdTo" size="8"> ~
-									<input id="sRprPdTo" type="text" class="emdcal" data-role="dtTo" data-dt-from="sRprPdFrom" size="8">
-								</td>
-							</tr>
-						</tbody>
-					</table>
+					<table class="searchPanel">
+						<tbody>
+						<tr>
+							<th>항구분</th>
+							<td><input id="searchGisAssetsPrtAtCode" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrtAtCode" data-code-id="GAM019" data-default-prompt="전체항" data-display-value="N" size="3"/></td>
+							<th>조회항목</th>
+							<td colSpan="5">
+								<SELECT id="sDataType">
+									<option value="assetSts" selected>자산현황</option>
+									<option value="usageSts">사용현황</option>
+									<option value="feeSts">사용료현황</option>
+									<!--
+									<option value="maintSts">유지보수현황</option>
+									<option value="rprSts">하자보수현황</option>
+									 -->
+								</SELECT>
+							</td>
+							<td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
+						</tr>
+						<tr class="assetSts">
+							<th>자산명</th>
+							<td><input data-column-id="gisAssetsNm" type="text" size="16"></td>
+							<th>소재지</th>
+							<td><input data-column-id="gisAssetsLocplc" type="text" size="20"></td>
+							<th>지번</th>
+							<td><input data-column-id="gisAssetsLnm" type="text" size="4">-<input id="searchGisAssetsLnmSub" data-column-id="gisAssetsLnmSub" type="text" size="3"></td>
+						</tr>
+						<tr class="usageSts" style="display:none;">
+							<th>사용 업체명</th>
+							<td>
+                            	<input data-column-id="sEntrpsNm" type="text" size="15">
+							</td>
+							<th>조회기준일자</th>
+							<td>
+								<input id="searchDate" data-column-id="searchDate" type="text" class="emdcal" size="8" data-required="true">
+							</td>
+						</tr>
+						<tr class="feeSts" style="display:none;">
+							<th>사용 업체명</th>
+							<td>
+                            	<input data-column-id="sEntrpsNm" type="text" size="15">
+							</td>
+							<th>사용기간</th>
+							<td>
+								<input id="sGrUsagePdFrom" type="text" class="emdcal" data-role="dtFrom" data-dt-to="sGrUsagePdTo" size="8"> ~
+								<input id="sGrUsagePdTo" type="text" class="emdcal" data-role="dtTo" data-dt-from="sGrUsagePdFrom" size="8">
+							</td>
+						</tr>
+						<tr class="maintSts" style="display:none;">
+							<th>사업명</th>
+							<td><input data-column-id="sMaintProjNm" type="text" size="12"></td>
+							<th>사업기간</th>
+							<td colSpan="3">
+								<input id="sGrMaintPdFrom" type="text" class="emdcal" data-role="dtFrom" data-dt-to="sGrMaintPdTo" size="8"> ~
+								<input id="sGrMaintPdTo" type="text" class="emdcal" data-role="dtTo" data-dt-from="sGrMaintPdFrom" size="8">
+							</td>
+						</tr>
+						<tr class="rprSts" style="display:none;">
+							<th>하자보수업체</th>
+							<td><input data-column-id="sRprCmpyNm" type="text" size="12"></td>
+							<th>보증기간</th>
+							<td colSpan="3">
+								<input id="sRprPdFrom" type="text" class="emdcal" data-role="dtFrom" data-dt-to="sRprPdTo" size="8"> ~
+								<input id="sRprPdTo" type="text" class="emdcal" data-role="dtTo" data-dt-from="sRprPdFrom" size="8">
+							</td>
+						</tr>
+					</tbody>
+				</table>
             </form>
         </div>
     </div>
@@ -450,7 +397,13 @@ var module_instance = new GamGisAssetSttusInqireModule();
 		<table id="gisAssetSttusList" style="display:none; width:100%" class="fillHeight"></table>
 		<div class="emdControlPanel">
 				<button class="buttonExcel" data-flexi-grid="erpAssetCodeList" data-url="<c:url value='/asset/selectErpAssetCodeListExcel.do' />">엑셀</button>
-				<button data-role="loadStatsMap" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-map-style="value" data-value="gisAssetsPrice" data-label-field="_mapLabel" data-popup-url="/asset/sts/gamAssetSttusInfo.do" data-popup-function="onPopupFeature">결과 맵 조회</button>
+				<button data-role="clearMap" data-gis-layer="assetStats">결과 맵 초기화</button>
+				<button class="assetSts" data-role="loadStatsMap" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-map-style="value" data-value="buyAmt" data-label-field="_mapLabel" data-select-feature="onSelectFeature">결과 맵 조회</button>
+				<button class="usageSts" style="display:none" data-role="loadStatsMap" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-map-style="rate" data-value="useRatePercent" data-label-field="_mapLabel" data-select-feature="onSelectFeature2">사용현황 맵 조회</button>
+				<button class="feeSts" style="display:none" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-map-style="value" data-value="fee" data-label-field="_mapLabel1" data-select-feature="onSelectFeature">사용료현황 맵 조회</button>
+				<button class="feeSts" style="display:none" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-map-style="value" data-value="rdcxptFee" data-label-field="_mapLabel2" data-select-feature="onSelectFeature">감면사용료현황 맵 조회</button>
+				<button class="feeSts" style="display:none" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-map-style="rate" data-value="usageFeeRate" data-label-field="_mapLabel2" data-select-feature="onSelectFeature">사용요율현황 맵 조회</button>
+				<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-popup-function="onPopupFeature">위치 조회</button>
 		</div>
      </div>
 </div>

@@ -15,18 +15,17 @@ GamMapPopupModule.prototype = new EmdPopupInfoModule();
 
 GamMapPopupModule.prototype.loadComplete = function() {
     var dataset = [
-       			{ sales:"1963050", sales2:"0", sales3:"1963050", year:"09" },
-       			{ sales:"209357", sales2:"3863", sales3:"2168544", year:"10" },
-       			{ sales:"31475", sales2:"81920", sales3:"2118099", year:"11" },
-       			{ sales:"49530", sales2:"695432", sales3:"1472197", year:"12" },
-       			{ sales:"892700", sales2:"1653852", sales3:"711045", year:"13" },
-       			{ sales:"27533", sales2:"2354712", sales3:"-1616134", year:"14" }
+                   <c:forEach var="result" items="${assetRentSttusList }">
+                   {
+                	   fee:'<c:out value="${result.monthFee}" />', rxcFee: '<c:out value="${result.monthRdcxptFee}" />', months:'<c:out value="${result.months}" />'
+                	},
+                   </c:forEach>
                       ];
    	var chart1 =  new dhtmlXChart({
    		view:"bar",
    		container:this.$("#displayChart").attr('id'),
-   	    value:"#sales#",
-           label: '#salesLabel#',
+   	    value:"#fee#",
+           label: '#months#',
            color: "#58dccd",
            gradient:"rising",
    		width:80,
@@ -34,10 +33,10 @@ GamMapPopupModule.prototype.loadComplete = function() {
    			left:65
    		},
    		tooltip:{
-   			template:"#sales#"
+   			template:"#fee#"
    		},
    		xAxis:{
-   			template:"'#year#"
+   			template:"'#months#"
    		},
    		yAxis:{
    			width:80,
@@ -46,7 +45,7 @@ GamMapPopupModule.prototype.loadComplete = function() {
    			}
    		},
    		legend:{
-   			values:[{text:"유지보수",color:"#36abee"},{text:"임대수입",color:"#a7ee70"}],
+   			values:[{text:"사용료",color:"#36abee"},{text:"감면금액",color:"#a7ee70"}],
    			valign:"middle",
    			align:"right",
    			width:90,
@@ -54,44 +53,16 @@ GamMapPopupModule.prototype.loadComplete = function() {
    		}
    	});
    	for(var k in dataset) {
-   		dataset[k]['salesLabel']=$.number(dataset[k].sales);
-   		dataset[k]['sales2Label']=$.number(dataset[k].sales2);
+   		dataset[k]['feeLabel']=$.number(dataset[k].fee);
+   		dataset[k]['rxcFeeLabel']=$.number(dataset[k].rxcFee);
    	}
 
-//           var chart1 =  new dhtmlXChart({
-//       		view:"area",
-//       		container:chartId,
-//               value:"#sales#",
-//               color: "#58dccd",
-//               alpha:0.7,
-//       		xAxis:{
-//       				template:"'#year#"
-//               },
-//               yAxis:{
-//                   start:0,
-//                   step:200000,
-//                   end: 2000000
-//               },
-//               legend:{
-//                   values:[{text:"유지보수",color:"#58dccd"},{text:"임대수입",color:"#914ad8"},{text:"투자금액",color:"#36abee"}],
-//                   valign:"middle",
-//                   align:"right",
-//                   width:90,
-//                   layout:"y"
-//               },
-//               eventRadius: 5
-//       	});
 	chart1.addSeries({
 		alpha:0.5,
-		value:"#sales2#",
-		label:"#sales2Label#",
+		value:"#rxcFee#",
+		label:"#rxcFeeLabel#",
 		color:"#a7ee70",
 	});
-//       	chart1.addSeries({
-//       		alpha:0.5,
-//               value:"#sales3#",
-//               color:"#36abee"
-//       	});
 	chart1.parse(dataset,"json");
 	console.log('popup module starting debugging.');
 };
@@ -120,11 +91,12 @@ var popupInfoModule = new GamMapPopupModule();
 </c:if>
 <c:if test="${resultCode==0 }">
 	<c:if test="${assetCd==null }">
-	<h2>자산 현황</h2>
+	<h2>시설 사용 현황</h2>
 	<div id="displayChart" style="width:600px;height:250px;border:1px solid #A4BED4;"></div>
 	<div class="legend">단위:원</div>
 	<div style="text-align:right; width:100%; margin-top:4px;">
 		<button data-role="assetInqire">자산코드 조회</button>
+		<button data-role="assetRentInqire">임대현황 조회</button>
 	</div>
 	<!--
 	<p>주소 : <c:out value="${addr }"/> <c:out value="${lnm }"/><c:if test="${lnmSub != 0 }">-<c:out value="${lnmSub }"/></c:if></p>

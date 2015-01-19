@@ -7,7 +7,64 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <fmt:requestEncoding/>
 <fmt:setLocale value="ko"/>
+<script>
+function GamMapPopupModule() {};
 
+GamMapPopupModule.prototype = new EmdPopupInfoModule();
+
+GamMapPopupModule.prototype.loadComplete = function() {
+	console.log('popup module starting debugging.');
+};
+
+GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
+    switch(buttonId) {
+        case 'assetMngt':
+
+        	EMD.util.create_window("자산코드 관리", "/code/assets/gamAssetCodeMngt.do", null, {
+        		action: "prtFcltyInqire"
+    			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
+    			,gisAssetsCd: this.$('#gisAssetsCd').val()
+    			,gisAssetsSubCd: this.$('#gisAssetsSubCd').val()
+			});
+            break;
+        case 'assetInqire':
+        	EMD.util.create_window("자산코드 조회", "/code/assets/gamAssetCodeList.do", null, {
+        		action: "prtFcltyInqire"
+       			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
+       			,gisAssetsCd: this.$('#gisAssetsCd').val()
+       			,gisAssetsSubCd: this.$('#gisAssetsSubCd').val()
+			});
+        	break;
+        case 'modifyFeature':
+        	EMD.util.create_window("자산코드 관리", "/code/assets/gamAssetCodeMngt.do", null, {
+        		action: "setFeature"
+       			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
+      			,gisAssetsCd: this.$('#gisAssetsCd').val()
+      			,gisAssetsSubCd: this.$('#gisAssetsSubCd').val()
+    			,bjdCode: this.$('#bjdCode').val()
+    			,addr: this.$('#addr').val()
+    			,lnm: this.$('#lnm').val()
+    			,lnmSub: this.$('#lnmSub').val()
+    			,feature: this.getFeature()
+			});
+        	break;
+        case 'removeFeature':
+        	EMD.map.removePopup(event.data.feature.popup);
+            event.data.feature.state = OpenLayers.State.DELETE;
+            EMD.userLayer.gisAssetsCd.removeFeatures([this.getFeature()]);
+        	break;
+    }
+};
+
+var popupModule = new GamMapPopupModule();
+</script>
+<input id="gisAssetsPrtAtCode" type="hidden" value="<c:out value='${assetCd.gisAssetsPrtAtCode }' />" />
+<input id="gisAssetsCd" type="hidden" value="<c:out value='${assetCd.gisAssetsCd }' />" />
+<input id="gisAssetsSubCd" type="hidden" value="<c:out value='${assetCd.gisAssetsSubCd }' />" />
+<input id="bjdCode" type="hidden" value="<c:out value='${assetCd.bjdCode }' />" />
+<input id="addr" type="hidden" value="<c:out value='${assetCd.addr }' />" />
+<input id="lnm" type="hidden" value="<c:out value='${assetCd.lnm }' />" />
+<input id="lnmSub" type="hidden" value="<c:out value='${assetCd.lnmSub }' />" />
 <c:if test="${resultCode!=0 }">
 	<h2><c:out value="${resultMsg }" /></h2>
 </c:if>
@@ -16,8 +73,8 @@
 	<h2>시설정보가 없습니다.</h2>
 	<p>주소 : <c:out value="${addr }"/> <c:out value="${lnm }"/><c:if test="${lnmSub != 0 }">-<c:out value="${lnmSub }"/></c:if></p>
 		<c:if test="${fn:containsIgnoreCase(auth,'ROLEADMIN')||fn:containsIgnoreCase(auth,'ROLEASSETMNGT') }">
-			<button data-role="modifyFeature" data-bjd-code="<c:out value='${bjdCode }'/>" data-addr="<c:out value='${addr }'/>" data-lnm="<c:out value='${lnm }'/>" data-lnm-sub="<c:out value='${lnmSub }'/>"/>자산코드 지정</button>
-			<button data-role="removeFeature" />영역 삭제</button>
+			<button data-role="modifyFeature">자산코드 지정</button>
+			<button data-role="removeFeature">영역 삭제</button>
 		</c:if>
 	</c:if>
 	<c:if test="${assetCd!=null }">
@@ -68,9 +125,9 @@
 			</tbody></table>
 			</c:if>
 			<c:if test="${fn:containsIgnoreCase(auth,'ROLEADMIN')||fn:containsIgnoreCase(auth,'ROLEASSETMNGT') }">
-				<button data-role="assetMngt" data-assets-prt-at-code="<c:out value='${assetCd.gisAssetsPrtAtCode }' />" data-assets-cd="<c:out value='${assetCd.gisAssetsCd }' />" data-assets-sub-cd="<c:out value='${assetCd.gisAssetsSubCd }' />">자산코드 관리</button>
+				<button data-role="assetMngt">자산코드 관리</button>
 			</c:if>
-			<button data-role="assetInqire" data-assets-prt-at-code="<c:out value='${assetCd.gisAssetsPrtAtCode }' />" data-assets-cd="<c:out value='${assetCd.gisAssetsCd }' />" data-assets-sub-cd="<c:out value='${assetCd.gisAssetsSubCd }' />">자산정보 조회</button>
+			<button data-role="assetInqire">자산정보 조회</button>
 		</div>
 	</c:if>
 </c:if>

@@ -103,7 +103,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
                     {display:'면제금액', name:'rdcxptFee',width:100, sortable:false,align:'right', displayFormat: 'number'}
                     ],
         showTableToggleBtn: true,
-        height: '80',
+        height: '120',
         preProcess: function(module, data) {
         	$.each(data.resultList, function() {
         		this._updtId = '';
@@ -478,7 +478,7 @@ GamAssetRentMngtModule.prototype.calcFirstPaymentAmount = function() {
     var grUsagePdTo = EMD.util.strToDate(this.$('#grUsagePdTo').val());
     var fromDt, toDt;
 	var totalMonths = grUsagePdTo.getMonth() - grUsagePdFrom.getMonth()+1;
-	var totalDays = Math.floo/r((grUsagePdTo-grUsagePdFrom) / (1000*60*60*24))+1;
+	var totalDays = Math.floor((grUsagePdTo-grUsagePdFrom) / (1000*60*60*24))+1;
     var nDays;
     var firstPayValStr="";
 

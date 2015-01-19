@@ -5,8 +5,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
   /**
-  * @Class Name : loginError.jsp
-  * @Description : 로그인 에러 페이지
+  * @Class Name : error404.jsp
+  * @Description : 에러 페이지
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -19,4 +19,15 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
-<h2><c:out value="${message }" /></h2>
+<!DOCTYPE html>
+<html lang="ko" xml:lang="ko">
+  <head>
+    <title>여수광양항만공사 - GIS기반 자산관리 시스템</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+</head>
+<body>
+	<h2>로그아웃 되었습니다.</h2>
+</body>
+</html>
+

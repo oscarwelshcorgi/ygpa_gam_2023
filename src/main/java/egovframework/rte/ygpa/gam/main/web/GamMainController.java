@@ -122,4 +122,14 @@ public class GamMainController {
     	return "ygpa/gam/main/error500";
     }
 
+    @RequestMapping(value="/uia/uat/logout.do")
+    String logout(ModelMap model) throws Exception {
+    	return "ygpa/gam/main/logout";
+    }
+
+    @RequestMapping(value="/uia/uat/accessDenied.do")
+    String accessDenied(ModelMap model) throws Exception {
+    	return "ygpa/gam/main/accessDenied";
+    }
+
 }
