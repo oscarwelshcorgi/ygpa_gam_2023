@@ -336,12 +336,14 @@ var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
 	                { name: 'gisAssetsCd', value: row['gisAssetsCd'] },
 	                { name: 'gisAssetsSubCd', value: row['gisAssetsSubCd'] },
 	                { name: 'fcltsMngNo', value: row['fcltsMngNo'] },
-	                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] }
+	                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
+	                { name: 'sUsagePdFrom', value: this.$('#sUsagePdFrom').val() },
+	                { name: 'sUsagePdTo', value: this.$('#sUsagePdTo').val() }
 	               ];
 
 
-//	console.log(searchVO);
-	this.doAction('/fcltyMng/selectLoadQcMngData.do', row, function(module, data) {
+	console.log(searchVO);
+	this.doAction('/fcltyMng/selectLoadQcMngData.do', searchVO, function(module, data) {
 		if(data.resultCode == "0"){
 			module.$('#assetsRentGrid').flexEmptyData();
         	var assetsRentList={resultList: data.fcltyAssetsRentList};
