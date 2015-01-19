@@ -287,9 +287,13 @@ var module_instance = new GamFcltyRepairHistInqireModule();
 						</tr>
 						<tr>
 							<th height="17" class="required_text">시설물관리그룹</th>
-							<td colspan="7">
+							<td colspan="5">
 								<span id="fcltsMngGroupNo" title="시설물관리그룹넘버" ></span>
 								[ <span id="fcltsMngGoupNm" title="시설물관리그룹명"></span> ]
+							</td>
+							<th height="17" class="required_text">시설명</th>
+							<td>
+								<span id="prtFcltyNm" title="시설명"></span>
 							</td>
 						</tr>
 						<tr>

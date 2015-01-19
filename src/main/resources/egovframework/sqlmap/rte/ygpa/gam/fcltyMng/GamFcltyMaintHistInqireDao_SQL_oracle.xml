@@ -167,9 +167,7 @@
 			M.FCLTS_JOB_SE = #fcltsJobSe#
 			AND M.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 			AND M.MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
-		<isNotEmpty property="fcltsMngNo">
 			AND O.FCLTS_MNG_NO = #fcltsMngNo#
-		</isNotEmpty>
 	</select>
 
 </sqlMap>

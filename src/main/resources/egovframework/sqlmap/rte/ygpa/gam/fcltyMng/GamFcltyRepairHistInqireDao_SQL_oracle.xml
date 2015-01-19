@@ -36,11 +36,20 @@
 							, F.CTRT_NO
 							, O.FCLTS_MNG_NO
 							, G.PRT_FCLTY_NM
-						FROM
-							FLAW_RPR_OBJ_FCLTS_F O, FLAW_RPR_DTLS_F F, GIS_PRT_FCLTY_CD_F G
+						FROM 
+					      FLAW_RPR_DTLS_F F 
+					    LEFT OUTER JOIN 
+					      FLAW_RPR_OBJ_FCLTS_F O 
+					    ON 
+					      F.FCLTS_MNG_GROUP_NO = O.FCLTS_MNG_GROUP_NO 
+					      AND F.FCLTS_JOB_SE = O.FCLTS_JOB_SE 
+					      AND F.FLAW_RPR_SEQ = O.FLAW_RPR_SEQ 
+					    LEFT OUTER JOIN 
+					      GIS_PRT_FCLTY_CD_F G
+					    ON 
+					      O.FCLTS_MNG_NO = G.FCLTS_MNG_NO 
 						WHERE 
-							O.FCLTS_MNG_GROUP_NO = F.FCLTS_MNG_GROUP_NO
-							AND O.FCLTS_MNG_NO = G.FCLTS_MNG_NO
+							1=1 
 							
 						<isNotEmpty property="sFcltsMngNo">
 	           				AND G.FCLTS_MNG_NO = #sFcltsMngNo#
@@ -70,11 +79,20 @@
 	<select id="gamFcltyRepairHistInqireDao.selectFcltyRepairHistInqireListTotCnt_S" parameterClass="gamFcltyRepairHistInqireVO" resultClass="int">
 		SELECT
 			COUNT(*) TOT_CNT
-		FROM
-			FLAW_RPR_OBJ_FCLTS_F O, FLAW_RPR_DTLS_F F, GIS_PRT_FCLTY_CD_F G
-		WHERE
-			O.FCLTS_MNG_GROUP_NO = F.FCLTS_MNG_GROUP_NO
-			AND O.FCLTS_MNG_NO = G.FCLTS_MNG_NO
+		FROM 
+	      FLAW_RPR_DTLS_F F 
+	    LEFT OUTER JOIN 
+	      FLAW_RPR_OBJ_FCLTS_F O 
+	    ON 
+	      F.FCLTS_MNG_GROUP_NO = O.FCLTS_MNG_GROUP_NO 
+	      AND F.FCLTS_JOB_SE = O.FCLTS_JOB_SE 
+	      AND F.FLAW_RPR_SEQ = O.FLAW_RPR_SEQ 
+	    LEFT OUTER JOIN 
+	      GIS_PRT_FCLTY_CD_F G
+	    ON 
+	      O.FCLTS_MNG_NO = G.FCLTS_MNG_NO 
+		WHERE 
+			1=1 
 		<isNotEmpty property="sFcltsMngNo">
 			AND G.FCLTS_MNG_NO = #sFcltsMngNo#
 		</isNotEmpty>
@@ -125,12 +143,20 @@
 			, F.CTRT_NO
 			, O.FCLTS_MNG_NO
 			, G.PRT_FCLTY_NM
-		FROM
-			FLAW_RPR_OBJ_FCLTS_F O, FLAW_RPR_DTLS_F F, GIS_PRT_FCLTY_CD_F G
+		FROM 
+	      FLAW_RPR_DTLS_F F 
+	    LEFT OUTER JOIN 
+	      FLAW_RPR_OBJ_FCLTS_F O 
+	    ON 
+	      F.FCLTS_MNG_GROUP_NO = O.FCLTS_MNG_GROUP_NO 
+	      AND F.FCLTS_JOB_SE = O.FCLTS_JOB_SE 
+	      AND F.FLAW_RPR_SEQ = O.FLAW_RPR_SEQ 
+	    LEFT OUTER JOIN 
+	      GIS_PRT_FCLTY_CD_F G
+	    ON 
+	      O.FCLTS_MNG_NO = G.FCLTS_MNG_NO 
 		WHERE 
-			O.FCLTS_MNG_GROUP_NO = F.FCLTS_MNG_GROUP_NO
-			AND O.FCLTS_MNG_NO = G.FCLTS_MNG_NO
-			AND F.FCLTS_JOB_SE = #fcltsJobSe#
+			F.FCLTS_JOB_SE = #fcltsJobSe#
 			AND F.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 			AND F.FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 			AND O.FCLTS_MNG_NO = #fcltsMngNo#
