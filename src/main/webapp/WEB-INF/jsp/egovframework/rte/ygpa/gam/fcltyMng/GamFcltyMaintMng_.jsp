@@ -937,11 +937,15 @@ var module_instance = new GamFcltyMaintMngModule();
 						</tr>
 						<tr>
 							<th width="13%" height="23" class="required_text">유지보수내용</th>
-							<td colspan="5"><textarea id="mntnRprCn" style="width:830px;" rows="7" title="유지보수내용" maxlength="1333"></textarea></td>
+							<td colspan="5"><textarea id="mntnRprCn" style="width:830px;" rows="3" title="유지보수내용" maxlength="1333"></textarea></td>
 						</tr>
 						<tr>
 							<th width="13%" height="23" class="required_text">비고</th>
 							<td colspan="5"><input id="rm" type="text" title="비고" maxlength="333" style="width:830px;" /></td>
+						</tr>
+						<tr>
+							<th width="13%" height="23" class="required_text">첨부파일</th>
+							<td colspan="5"><input id="attachFile" type="file" title="첨부파일" maxlength="333" style="width:200px;" /></td>
 						</tr>
 					</table>
 				</form>
