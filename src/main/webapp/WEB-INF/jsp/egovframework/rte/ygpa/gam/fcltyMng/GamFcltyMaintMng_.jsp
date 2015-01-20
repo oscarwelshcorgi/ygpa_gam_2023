@@ -73,14 +73,14 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"선택", 				name:"chkRole",				width:40, 		sortable:false,		align:"center", 	displayFormat:"checkbox"},
-					{display:"관리번호",			name:"fcltsMngNo",			width:150,		sortable:false,		align:"center"},
-					{display:"시설명",			name:"prtFcltyNm",			width:250,		sortable:false,		align:"left"},
-					{display:"유지보수공법",		name:"mntnRprCnstMth",		width:80,		sortable:false,		align:"center"},
+					/* {display:"관리번호",			name:"fcltsMngNo",			width:150,		sortable:false,		align:"center"}, */
+					{display:"시설명",			name:"prtFcltyNm",			width:343,		sortable:false,		align:"left"}
+					/* {display:"유지보수공법",		name:"mntnRprCnstMth",		width:80,		sortable:false,		align:"center"},
 					{display:"단위",				name:"unit",				width:80,		sortable:false,		align:"center"},
 					{display:"수량",				name:"qy",					width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"단가",				name:"price",				width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"공사금액",			name:"objMntnRprCnstAmt",	width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
-					{display:"비고",				name:"objRm",				width:200,		sortable:false,		align:"center"}
+					{display:"비고",				name:"objRm",				width:200,		sortable:false,		align:"center"} */
 			],
 		height: "350"
 	});
@@ -921,28 +921,24 @@ var module_instance = new GamFcltyMaintMngModule();
 									<td colspan="3"><input id="mntnRprCnstNm" type="text"  title="공사명" maxlength="25" size="76" /></td>
 								</tr>
 								<tr>
+									<th height="18" class="required_text">유지보수</th>
+									<td colspan="3"><input id="mntnRprPart" type="text" title="유지보수" maxlength="25" size="76" /></td>
+								</tr>
+								<tr>
 									<th height="18" class="required_text">공사기간</th>
-									<td><input id="mntnRprCnstStartDt" type="text" size="11" title="공사시작일자" class="emdcal" /> ~ <input id="mntnRprCnstEndDt" type="text" size="11" title="공사종료일자" class="emdcal" /></td>
-									<th height="18" class="required_text">유지보수부위</th>
-									<td><input id="mntnRprPart" type="text" title="유지보수부위" maxlength="25" style="width:115px;" /></td>
+									<td colspan="3"><input id="mntnRprCnstStartDt" type="text" size="11" title="공사시작일자" class="emdcal" />  ~  <input id="mntnRprCnstEndDt" type="text" size="11" title="공사종료일자" class="emdcal" /></td>
 								</tr>
 								<tr>
 									<th height="18" class="required_text">예산</th>
 									<td><input id="mntnRprBdgt" type="text" title="예산" class="ygpaNumber" maxlength="16" style="width:120px;" /></td>
-									<th height="18" class="required_text">설계자</th>
-									<td><input id="plannerNm" type="text" title="설계자" maxlength="6" style="width:115px;" /></td>
+									<th height="18" class="required_text">계약금액</th>
+									<td><input id="mntnRprCnstAmt" type="text" title="계약금액" class="ygpaNumber" maxlength="16" style="width:115px;" /></td>
 								</tr>
 								<tr>
-									<th height="18" class="required_text">시공자</th>
-									<td><input id="cnstrtr" type="text" title="시공자" maxlength="20" style="width:120px;" /></td>
-									<th height="18" class="required_text">공사금액</th>
-									<td><input id="mntnRprCnstAmt" type="text" title="공사금액" class="ygpaNumber" maxlength="16" style="width:115px;" /></td>
-								</tr>
-								<tr>
-									<th height="18" class="required_text">책임기술자</th>
-									<td><input id="responEngineer" type="text" title="책임기술자" maxlength="20" style="width:120px;" /></td>
-									<th height="18" class="required_text">공사감독자</th>
-									<td><input id="cnstChargNm" type="text" title="공사감독자" maxlength="20" style="width:115px;" /></td>
+									<th height="18" class="required_text">계약자</th>
+									<td><input id="cnstrtr" type="text" title="계약자" maxlength="20" style="width:120px;" /></td>
+									<th height="18" class="required_text">감리자</th>
+									<td><input id="plannerNm" type="text" title="감리자" maxlength="6" style="width:115px;" /></td>
 								</tr>
 								<tr>
 									<th height="18" class="required_text">유지보수내용</th>
