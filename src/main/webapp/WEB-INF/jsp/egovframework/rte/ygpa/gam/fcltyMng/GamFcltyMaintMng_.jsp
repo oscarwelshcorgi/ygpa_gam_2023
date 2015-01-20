@@ -72,16 +72,17 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 		url: '/fcltyMng/selectMntnRprObjFcltsFList.do',
 		dataType: "json",
 		colModel : [
+					{display:"선택", 				name:"chkRole",				width:40, 		sortable:false,		align:"center", 	displayFormat:"checkbox"},
 					{display:"관리번호",			name:"fcltsMngNo",			width:150,		sortable:false,		align:"center"},
 					{display:"시설명",			name:"prtFcltyNm",			width:250,		sortable:false,		align:"left"},
 					{display:"유지보수공법",		name:"mntnRprCnstMth",		width:80,		sortable:false,		align:"center"},
 					{display:"단위",				name:"unit",				width:80,		sortable:false,		align:"center"},
 					{display:"수량",				name:"qy",					width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"단가",				name:"price",				width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
-					{display:"공사금액",			name:"objMntnRprCnstAmt",		width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
-					{display:"비고",				name:"objRm",					width:200,		sortable:false,		align:"center"}
+					{display:"공사금액",			name:"objMntnRprCnstAmt",	width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
+					{display:"비고",				name:"objRm",				width:200,		sortable:false,		align:"center"}
 			],
-		height: "200"
+		height: "350"
 	});
 	
 	
@@ -833,8 +834,8 @@ var module_instance = new GamFcltyMaintMngModule();
 			<ul>
 				<li><a href="#tabs1" class="emdTab">유지보수내역 목록</a></li>
 				<li><a href="#tabs2" class="emdTab">유지보수내역 상세</a></li>
-				<li><a href="#tabs3" class="emdTab">유지보수 대상시설물</a></li>
-				<li><a href="#tabs4" class="emdTab">유지보수 첨부파일</a></li>
+				<!-- <li><a href="#tabs3" class="emdTab">유지보수 대상시설물</a></li>
+				<li><a href="#tabs4" class="emdTab">유지보수 첨부파일</a></li> -->
 			</ul>
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
@@ -859,95 +860,118 @@ var module_instance = new GamFcltyMaintMngModule();
 			<!-- 유지보수내역 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyMaintMngListVO">
-					<table class="editForm"  style="width:100%;" border="1">
-						<tr>
-							<th width="13%" height="23" class="required_text">시행년도</th>
-							<td width="10%">
-								<select id="enforceYear" title="시행년도">
-									<option value="">선택</option>
-								</select>
-							</td>
-							<th width="10%" height="23" class="required_text">시설물업무구분</th>
-							<td width="10%">
-								<select id="fcltsJobSe" data-required="true" title="시설물업무구분">
-									<option value="">선택</option>
-									<option value="E">전기시설물</option>
-									<option value="M">기계시설물</option>
-									<option value="C">토목시설물</option>
-									<option value="A">건축시설물</option>
-									<option value="I">정보통신시설물</option>
-								</select>
-							</td>
-							<th width="10%" height="23" class="required_text">유지보수구분</th>
-							<td width="300px">
-								<select id="mntnRprSe" title="유지보수구분">
-									<option value="">선택</option>
-									<option value="1">개량</option>
-									<option value="2">보수</option>
-									<option value="3">보강</option>
-									<option value="4">변경-증설</option>
-									<option value="5">변경-구조변경</option>
-									<option value="9">기타</option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<th width="13%" height="17" class="required_text">시설물관리그룹</th>
-							<td colspan="3">
-								<input type="text" size="20" id="fcltsMngGroupNo" disabled="disabled" data-required="true" title="시설물관리그룹넘버" />-
-								<input type="text" size="35" id="fcltsMngGroupNoNm" disabled="disabled" title="시설물관리그룹명"/>
-								<button id="searchFcltsMngGroupNo" class="popupButton">선택</button>
-							</td>
-							<th width="10%" height="23" class="required_text">유지보수순번</th>
-							<td><input type="text" size="20" id="mntnRprSeq" disabled="disabled" title="유지보수순번" /></td>
-						</tr>
-						<tr>
-							<th width="13%" height="23" class="required_text">계약번호</th>
-							<td colspan="3">
-								<input type="text" size="20" id="ctrtNo" disabled="disabled" title="계약번호"/>-
-								<input type="text" size="35" id="ctrtNm" disabled="disabled" title="계약명"/>
-								<button id="ctrtNoPopupBtn" class="popupButton">선택</button>
-							</td>
-							<th width="10%" height="23" class="required_text">공사기간</th>
-							<td><input id="mntnRprCnstStartDt" type="text" size="11" title="공사시작일자" class="emdcal" /> ~ <input id="mntnRprCnstEndDt" type="text" size="11" title="공사종료일자" class="emdcal" /></td>
-						</tr>
-						<tr>
-							<th width="13%" height="23" class="required_text">공사명</th>
-							<td colspan="5"><input id="mntnRprCnstNm" type="text"  title="공사명" maxlength="25" style="width:830px;" /></td>
-						</tr>
-						<tr>
-							<th width="13%" height="23" class="required_text">유지보수부위</th>
-							<td colspan="5"><input id="mntnRprPart" type="text" size="130" title="유지보수부위" maxlength="25" style="width:830px;" /></td>
-						</tr>
-						<tr>
-							<th width="13%" height="23" class="required_text">예산</th>
-							<td><input id="mntnRprBdgt" type="text" size="30" title="예산" class="ygpaNumber" maxlength="16" /></td>
-							<th width="10%" height="23" class="required_text">설계자</th>
-							<td><input id="plannerNm" type="text" size="20" title="설계자" maxlength="6" /></td>
-							<th width="10%" height="23" class="required_text">시공자</th>
-							<td><input id="cnstrtr" type="text" size="20" title="시공자" maxlength="20" /></td>
-						</tr>
-						<tr>
-							<th width="13%" height="23" class="required_text">공사금액</th>
-							<td><input id="mntnRprCnstAmt" type="text" size="30" title="공사금액" class="ygpaNumber" maxlength="16" /></td>
-							<th width="10%" height="23" class="required_text">책임기술자</th>
-							<td><input id="responEngineer" type="text" size="20" title="책임기술자" maxlength="20" /></td>
-							<th width="13%" height="23" class="required_text">공사감독자</th>
-							<td><input id="cnstChargNm" type="text" size="20" title="공사감독자" maxlength="20" /></td>
-						</tr>
-						<tr>
-							<th width="13%" height="23" class="required_text">유지보수내용</th>
-							<td colspan="5"><textarea id="mntnRprCn" style="width:830px;" rows="3" title="유지보수내용" maxlength="1333"></textarea></td>
-						</tr>
-						<tr>
-							<th width="13%" height="23" class="required_text">비고</th>
-							<td colspan="5"><input id="rm" type="text" title="비고" maxlength="333" style="width:830px;" /></td>
-						</tr>
-						<tr>
-							<th width="13%" height="23" class="required_text">첨부파일</th>
-							<td colspan="5"><input id="attachFile" type="file" title="첨부파일" maxlength="333" style="width:200px;" /></td>
-						</tr>
-					</table>
+				<table class="editForm"  style="width:100%;">
+					<tr>
+						<td style="width:60%;">
+							<table class="editForm"  style="width:100%;">
+								<tr>
+									<th width="100px" height="18" class="required_text">시행년도</th>
+									<td width="200px">
+										<select id="enforceYear" title="시행년도">
+											<option value="">선택</option>
+										</select>
+									</td>
+									<th width="100px" height="18" class="required_text">시설물업무구분</th>
+									<td>
+										<select id="fcltsJobSe" data-required="true" title="시설물업무구분">
+											<option value="">선택</option>
+											<option value="E">전기시설물</option>
+											<option value="M">기계시설물</option>
+											<option value="C">토목시설물</option>
+											<option value="A">건축시설물</option>
+											<option value="I">정보통신시설물</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<th height="18" class="required_text">유지보수구분</th>
+									<td>
+										<select id="mntnRprSe" title="유지보수구분">
+											<option value="">선택</option>
+											<option value="1">개량</option>
+											<option value="2">보수</option>
+											<option value="3">보강</option>
+											<option value="4">변경-증설</option>
+											<option value="5">변경-구조변경</option>
+											<option value="9">기타</option>
+										</select>
+									</td>
+									<th height="18" class="required_text">유지보수순번</th>
+									<td><input type="text" size="20" id="mntnRprSeq" disabled="disabled" title="유지보수순번" /></td>
+								</tr>
+								<tr>
+									<th height="17" class="required_text">시설물관리그룹</th>
+									<td colspan="3">
+										<input type="text" size="20" id="fcltsMngGroupNo" disabled="disabled" data-required="true" title="시설물관리그룹넘버" />-
+										<input type="text" size="35" id="fcltsMngGroupNoNm" disabled="disabled" title="시설물관리그룹명"/>
+										<button id="searchFcltsMngGroupNo" class="popupButton">선택</button>
+									</td>
+								</tr>
+								<tr>
+									<th height="18" class="required_text">계약번호</th>
+									<td colspan="3">
+										<input type="text" size="20" id="ctrtNo" disabled="disabled" title="계약번호"/>-
+										<input type="text" size="35" id="ctrtNm" disabled="disabled" title="계약명"/>
+										<button id="ctrtNoPopupBtn" class="popupButton">선택</button>
+									</td>
+									
+								</tr>
+								<tr>
+									<th height="18" class="required_text">공사명</th>
+									<td colspan="3"><input id="mntnRprCnstNm" type="text"  title="공사명" maxlength="25" size="76" /></td>
+								</tr>
+								<tr>
+									<th height="18" class="required_text">공사기간</th>
+									<td><input id="mntnRprCnstStartDt" type="text" size="11" title="공사시작일자" class="emdcal" /> ~ <input id="mntnRprCnstEndDt" type="text" size="11" title="공사종료일자" class="emdcal" /></td>
+									<th height="18" class="required_text">유지보수부위</th>
+									<td><input id="mntnRprPart" type="text" title="유지보수부위" maxlength="25" style="width:115px;" /></td>
+								</tr>
+								<tr>
+									<th height="18" class="required_text">예산</th>
+									<td><input id="mntnRprBdgt" type="text" title="예산" class="ygpaNumber" maxlength="16" style="width:120px;" /></td>
+									<th height="18" class="required_text">설계자</th>
+									<td><input id="plannerNm" type="text" title="설계자" maxlength="6" style="width:115px;" /></td>
+								</tr>
+								<tr>
+									<th height="18" class="required_text">시공자</th>
+									<td><input id="cnstrtr" type="text" title="시공자" maxlength="20" style="width:120px;" /></td>
+									<th height="18" class="required_text">공사금액</th>
+									<td><input id="mntnRprCnstAmt" type="text" title="공사금액" class="ygpaNumber" maxlength="16" style="width:115px;" /></td>
+								</tr>
+								<tr>
+									<th height="18" class="required_text">책임기술자</th>
+									<td><input id="responEngineer" type="text" title="책임기술자" maxlength="20" style="width:120px;" /></td>
+									<th height="18" class="required_text">공사감독자</th>
+									<td><input id="cnstChargNm" type="text" title="공사감독자" maxlength="20" style="width:115px;" /></td>
+								</tr>
+								<tr>
+									<th height="18" class="required_text">유지보수내용</th>
+									<td colspan="3"><textarea id="mntnRprCn" style="width:430px;" rows="3" title="유지보수내용" maxlength="1333"></textarea></td>
+								</tr>
+								<tr>
+									<th height="18" class="required_text">비고</th>
+									<td colspan="3"><input id="rm" type="text" title="비고" maxlength="333" size="76" /></td>
+								</tr>
+								<tr>
+									<th height="18" class="required_text">첨부파일</th>
+									<td>
+										<select id="fcltyMaintFileList_1">
+											<option value="">선택</option>
+										</select> 
+									</td>
+									<td colspan="2" style="text-align:right;">
+										<button id="btnUploadFile">업로드</button> 
+										<button id="btnDownloadFile">다운로드</button> 
+										<button id="btnRemoveFile">삭제</button>
+									</td>
+								</tr>
+							</table>
+						</td>
+						<td>
+							<table id="mntnRprObjFcltsF" style="display:none"></table>
+						</td>
+					</tr>
+				</table>
 				</form>
 				<div class="emdControlPanel">
 					<button id="saveBtn">저장</button>
@@ -955,7 +979,7 @@ var module_instance = new GamFcltyMaintMngModule();
 			</div>
 			
 			<!-- 유지보수 대상 시설물 -->
-			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
+			<%-- <div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 				<table id="mntnRprObjFcltsF" style="display:none"></table>
 				<div class="emdControlPanel">
 		            <button id="addMaintItemBtn">추가</button>
@@ -1030,7 +1054,7 @@ var module_instance = new GamFcltyMaintMngModule();
 						</td>
 					</tr>
 				</table>
-			</div>
+			</div> --%>
 		</div>
 	</div>
 </div>

@@ -78,7 +78,7 @@ public class GamFcltyRepairMngController {
 	public @RequestMapping(value="/fcltyMng/gamFcltyRepairMng.do")
     String indexFcltyRepairMng(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
-    	return "/ygpa/gam/fcltyMng/GamFcltyRepairMng";
+    	return "/ygpa/gam/fcltyMng/GamFcltyRepairMng_";
     }
 	
 	
