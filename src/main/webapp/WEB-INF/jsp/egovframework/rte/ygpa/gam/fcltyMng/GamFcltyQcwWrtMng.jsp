@@ -6,7 +6,7 @@
 <%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
   /**
-  * @Class Name : GamFcltyQcwWrtMngMng.jsp
+  * @Class Name : GamFcltyQcwWrtMng.jsp
   * @Description : 시설 점검 관리
   * @Modification Information
   *

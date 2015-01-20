@@ -75,7 +75,7 @@ public class GamFcltyQcwWrtMngController {
 	@RequestMapping(value="/fcltyMng/gamFcltyQcwWrtMng.do")
     String indexFcltyQcwWrtMng(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
-    	return "/ygpa/gam/fcltyMng/GamFcltyQcwWrtMng";
+    	return "/ygpa/gam/fcltyMng/GamFcltyQcwWrtMng_";
     }
 	
 	/**
