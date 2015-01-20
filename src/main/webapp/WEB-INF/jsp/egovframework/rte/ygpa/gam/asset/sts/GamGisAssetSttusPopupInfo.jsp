@@ -9,35 +9,35 @@
 <fmt:setLocale value="ko"/>
 
 <script>
-function GamMapPopupModule() {};
+function GamAssetSttusInfoModule() {};
 
-GamMapPopupModule.prototype = new EmdPopupInfoModule();
+GamAssetSttusInfoModule.prototype = new EmdPopupInfoModule();
 
-GamMapPopupModule.prototype.loadComplete = function() {
+GamAssetSttusInfoModule.prototype.loadComplete = function() {
     var dataset = [
-       			{ sales:"1963050", sales2:"0", sales3:"1963050", year:"09" },
-       			{ sales:"209357", sales2:"3863", sales3:"2168544", year:"10" },
-       			{ sales:"31475", sales2:"81920", sales3:"2118099", year:"11" },
-       			{ sales:"49530", sales2:"695432", sales3:"1472197", year:"12" },
-       			{ sales:"892700", sales2:"1653852", sales3:"711045", year:"13" },
-       			{ sales:"27533", sales2:"2354712", sales3:"-1616134", year:"14" }
-                      ];
+	 <c:forEach var="deprctn" items="${deprctnList }" varStatus="varStatus">
+	 { bsThisCurAmt: "<c:out value='${deprctn.bsThisCurAmt}' />",
+		 bsPreDeprctnSum: "<c:out value='${deprctn.bsPreDeprctnSum}' />",
+		 bsNoDeprctnBal: "<c:out value='${deprctn.bsNoDeprctnBal}' />",
+		 deprctnYear: "<c:out value='${deprctn.deprctnYear}' />" },
+	 </c:forEach>
+	];
    	var chart1 =  new dhtmlXChart({
    		view:"bar",
-   		container:this.$("#displayChart").attr('id'),
-   	    value:"#sales#",
-           label: '#salesLabel#',
+   		container:this.$("#chart").attr('id'),
+   	    value:"#bsThisCurAmt#",
+           label: '#bsThisCurAmtLabel#',
            color: "#58dccd",
            gradient:"rising",
    		width:80,
    		padding: {
-   			left:65
+   			left:85
    		},
    		tooltip:{
-   			template:"#sales#"
+   			template:"#bsThisCurAmtLabel#"
    		},
    		xAxis:{
-   			template:"'#year#"
+   			template:"'#deprctnYear#"
    		},
    		yAxis:{
    			width:80,
@@ -46,7 +46,10 @@ GamMapPopupModule.prototype.loadComplete = function() {
    			}
    		},
    		legend:{
-   			values:[{text:"유지보수",color:"#36abee"},{text:"임대수입",color:"#a7ee70"}],
+   			values:[{text:"대차대조기말현재금액",color:"#36abee"},
+   			        {text:"대차대조전기말상각누계금액",color:"#a7ee70"},
+   			     {text:"대차대조미상각잔액",color:"#a924b9"}
+   			],
    			valign:"middle",
    			align:"right",
    			width:90,
@@ -54,52 +57,32 @@ GamMapPopupModule.prototype.loadComplete = function() {
    		}
    	});
    	for(var k in dataset) {
-   		dataset[k]['salesLabel']=$.number(dataset[k].sales);
-   		dataset[k]['sales2Label']=$.number(dataset[k].sales2);
+   		dataset[k]['bsThisCurAmtLabel']=$.number(dataset[k].bsThisCurAmt);
+   		dataset[k]['bsPreDeprctnSumLabel']=$.number(dataset[k].bsPreDeprctnSum);
+   		dataset[k]['bsNoDeprctnBalLabel']=$.number(dataset[k].bsNoDeprctnBal);
    	}
 
-//           var chart1 =  new dhtmlXChart({
-//       		view:"area",
-//       		container:chartId,
-//               value:"#sales#",
-//               color: "#58dccd",
-//               alpha:0.7,
-//       		xAxis:{
-//       				template:"'#year#"
-//               },
-//               yAxis:{
-//                   start:0,
-//                   step:200000,
-//                   end: 2000000
-//               },
-//               legend:{
-//                   values:[{text:"유지보수",color:"#58dccd"},{text:"임대수입",color:"#914ad8"},{text:"투자금액",color:"#36abee"}],
-//                   valign:"middle",
-//                   align:"right",
-//                   width:90,
-//                   layout:"y"
-//               },
-//               eventRadius: 5
-//       	});
 	chart1.addSeries({
 		alpha:0.5,
-		value:"#sales2#",
-		label:"#sales2Label#",
+		value:"#bsPreDeprctnSum#",
+		label:"#bsPreDeprctnSumLabel#",
 		color:"#a7ee70",
 	});
-//       	chart1.addSeries({
-//       		alpha:0.5,
-//               value:"#sales3#",
-//               color:"#36abee"
-//       	});
+	chart1.addSeries({
+		alpha:0.5,
+		value:"#bsNoDeprctnBal#",
+		label:"#bsNoDeprctnBalLabel#",
+		color:"#a924b9",
+	});
 	chart1.parse(dataset,"json");
-	console.log('popup module starting debugging.');
+
+	console.log('GamAssetSttusInfoModule loadcomplete');
 };
 
-GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
+GamAssetSttusInfoModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         case 'assetInqire':
-        	EMD.util.create_window("자산코드 조회", "/code/assets/gamAssetCodeList.do", null, {
+        	EMD.util.create_window("자산코드 조회1", "/code/assets/gamAssetCodeList.do", null, {
         		action: "prtFcltyInqire"
        			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
        			,gisAssetsCd: this.$('#gisAssetsCd').val()
@@ -109,7 +92,7 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
     }
 };
 
-var popupInfoModule = new GamMapPopupModule();
+var popupInfoModule = new GamAssetSttusInfoModule();
 </script>
 <input id="gisAssetsPrtAtCode" type="hidden" value="<c:out value='${assetCd.gisAssetsPrtAtCode }' />" />
 <input id="gisAssetsCd" type="hidden" value="<c:out value='${assetCd.gisAssetsCd }' />" />
@@ -120,34 +103,19 @@ var popupInfoModule = new GamMapPopupModule();
 </c:if>
 <c:if test="${resultCode==0 }">
 	<c:if test="${assetCd==null }">
-	<h2>자산 현황</h2>
-	<div id="displayChart" style="width:600px;height:250px;border:1px solid #A4BED4;"></div>
-	<div class="legend">단위:원</div>
-	<div style="text-align:right; width:100%; margin-top:4px;">
-		<button data-role="assetInqire">자산코드 조회</button>
-	</div>
-	<!--
-	<p>주소 : <c:out value="${addr }"/> <c:out value="${lnm }"/><c:if test="${lnmSub != 0 }">-<c:out value="${lnmSub }"/></c:if></p>
-		<c:if test="${fn:containsIgnoreCase(auth,'ROLEADMIN')||fn:containsIgnoreCase(auth,'ROLEASSETMNGT') }">
-			<button data-role="modifyFeature" data-bjd-code="<c:out value='${bjdCode }'/>" data-addr="<c:out value='${addr }'/>" data-lnm="<c:out value='${lnm }'/>" data-lnm-sub="<c:out value='${lnmSub }'/>"/>자산코드 지정</button>
-			<button data-role="removeFeature" />영역 삭제</button>
-		</c:if>
-		-->
+	<h2>자산 정보를 불러올 수 없습니다.</h2>
 	</c:if>
 	<c:if test="${assetCd!=null }">
 		<div class='prtFcltyInfo'>
-			<h2>시설정보</h2>
+			<h2>시설 통계 정보</h2>
 			<table class='prtFcltyInfo'><tbody>
-				<tr><th>자산코드</th><td><c:out value="${assetCd.gisAssetsCd }" /> - <c:out value="${assetCd.gisAssetsSubCd }" /></td></tr>
 				<tr><th>시설명</th><td><c:out value="${assetCd.gisAssetsNm }" /></td></tr>
 				<tr><th>소재지</th><td><c:out value="${assetCd.gisAssetsLocplc }" /> <c:out value="${assetCd.gisAssetsLnm }" /><c:if test="${assetCd.gisAssetsLnmSub!=null }">-<c:out value="${assetCd.gisAssetsLnmSub }" /></c:if></td></tr>
 				<tr><th>면적</th><td><fmt:formatNumber value="${assetCd.gisAssetsAr }" maxIntegerDigits="3" maxFractionDigits="2" /> m²</td></tr>
-				<c:if test="${fn:length(assetCd.filenmPhysicl)>0 }">
-					<tr><td colspan="2"><img id="imgPreview" src="<c:url value='cmm/getImage.do?physicalFileNm=${assetCd.filenmPhysicl }' />" style='width:300px;' /></td></tr>
-				</c:if>
+				<tr><th>취득원가</th><td><fmt:formatNumber value="${assetCd.gisAssetsValAmt }" maxIntegerDigits="3" maxFractionDigits="2" /> 원</td></tr>
 			</tbody></table>
-			<div id="chart" class="chart" style="width:600px;height:250px;border:1px solid #A4BED4;"></div>
-			<button data-role="assetInqire">자산정보 조회</button>
+			<div id="chart" style="width:500px;height:220px;border:1px solid #A4BED4;"></div>
+			<button data-role="assetInqire">자산코드 조회</button>
 		</div>
 	</c:if>
 </c:if>

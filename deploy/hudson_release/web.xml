@@ -42,7 +42,7 @@
     </filter>
     <filter-mapping>
         <filter-name>LoginPolicyFilter</filter-name>
-        <url-pattern>/uat/uia/YGActionLogin.do</url-pattern>
+        <url-pattern>/uat/uia/accessDenied.do</url-pattern>
     </filter-mapping>
 	<!-- Restoration from HTMLTagFilter's action (certification login) -->
 
@@ -50,7 +50,7 @@
         <param-name>contextConfigLocation</param-name>
         		<param-value>
 				classpath*:egovframework/spring/context-*.xml
-				,classpath*:egovframework/spring/com/context-*.xml
+		,classpath*:egovframework/spring/com/context-*.xml
 </param-value>
     </context-param>
 
@@ -106,7 +106,7 @@
 		<init-param>
 			<description>로그인 실패시 반활 될 URL설정</description>
 			<param-name>loginURL</param-name>
-			<param-value>/uat/uia/YGLoginUsr.do</param-value>
+			<param-value>/uat/uia/accessDenied.do</param-value>
 		</init-param>
   	</filter>
   	<filter-mapping>
@@ -135,6 +135,38 @@
         <servlet-name>ajaxServlet</servlet-name>
         <url-pattern>/ajaxtags/css/*</url-pattern>
     </servlet-mapping>
+
+	<servlet>
+		<description/>
+		<servlet-name>proxyServlet</servlet-name>
+		<servlet-class>egovframework.com.cmm.ProxyServlet</servlet-class>
+
+		<init-param>
+			<param-name>proxyHost</param-name>
+			<param-value>localhost</param-value>
+		</init-param>
+		<init-param>
+			<param-name>proxyPort</param-name>
+			<param-value>80</param-value>
+		</init-param>
+		<init-param>
+			<param-name>protocol</param-name>
+			<param-value>http</param-value>
+		</init-param>
+		<init-param>
+			<param-name>proxyPath</param-name>
+			<param-value></param-value>
+		</init-param>
+		<init-param>
+			<param-name>maxFileUploadSize</param-name>
+			<param-value></param-value>
+		</init-param>
+
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>proxyServlet</servlet-name>
+		<url-pattern>/proxy.do</url-pattern>
+	</servlet-mapping>
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>

@@ -53,6 +53,30 @@ public class GamGisAssetSttusInqireDao extends YGPAAbstractDAO {
 		return (Map) selectByPk("gamGisAssetSttusInqireDao.selectGisAssetSttusListTotSum_S", searchVO);
 	}
 
+    public Map selectAssetSttusInfoByCode(Map searchVO) throws Exception {
+		return (Map) selectByPk("gamGisAssetSttusInqireDao.selectAssetSttusInfoByCode_S", searchVO);
+    }
+
+    public List selectAssetSttusDeprctnListByCode(Map searchVO) throws Exception {
+		return list("gamGisAssetSttusInqireDao.selectAssetSttusDeprctnListByCode_D", searchVO);
+    }
+
+    public Map selectAssetRentSttusInfoByCode(Map searchVO) throws Exception {
+		return (Map) selectByPk("gamGisAssetSttusInqireDao.selectAssetRentSttusInfoByCode_S", searchVO);
+    }
+
+    public List selectAssetRentSttusListByCode(Map searchVO) throws Exception {
+		return list("gamGisAssetSttusInqireDao.selectAssetRentSttusListByCode_D", searchVO);
+    }
+
+    public Map selectAssetRentFeeSttusInfoByCode(Map searchVO) throws Exception {
+		return (Map) selectByPk("gamGisAssetSttusInqireDao.selectAssetRentFeeSttusInfoByCode_S", searchVO);
+    }
+
+    public List selectAssetRentFeeSttusListByCode(Map searchVO) throws Exception {
+		return list("gamGisAssetSttusInqireDao.selectAssetRentFeeSttusListByCode_D", searchVO);
+    }
+
     /**
      * 시설 임대 월별 이력을 조회한다.
      * @param searchVO
@@ -182,4 +206,5 @@ public class GamGisAssetSttusInqireDao extends YGPAAbstractDAO {
     Map selectGisAssetFlawRprSttusListTotSum(Map searchVO) throws Exception {
 		return (Map) selectByPk("gamGisAssetSttusInqireDao.selectGisAssetFlawRprSttusListTotSum_S", searchVO);
 	}
+
 }

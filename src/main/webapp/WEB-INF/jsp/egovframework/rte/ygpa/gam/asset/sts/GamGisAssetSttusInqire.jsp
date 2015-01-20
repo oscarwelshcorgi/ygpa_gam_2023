@@ -163,10 +163,11 @@ GamGisAssetSttusInqireModule.prototype.gridSet = function(grid) {
 	        		if(this.gisAssetsLnmSub!=null && this.gisAssetsLnmSub.length!=0) {
 	        			this.gisAssetsLnmCode+="-"+this.gisAssetsLnmSub;
 	        		}
-	        		this.usageFeeRate=Math.round((this.grFee-this.rdcxptFee)/(this.usageAr*1)*100);
+	        		this.usageFeeRate=Math.round((this.fee-this.rdcxptFee)/(parseFloat(this.gisAssetsAr))*100);
 	        		this.grFee2=0;
 	        		this.grDelayFee=0;
-	        		this._mapLabel1 = this.gisAssetsNm+'\n'+$.number(this.grFee)+" 원";
+
+	        		this._mapLabel1 = this.gisAssetsNm+'\n'+$.number(this.fee)+" 원";
 	        		this._mapLabel2 = this.gisAssetsNm+'\n'+$.number(this.rdcxptFee)+" 원";
 	        		this._mapLabel3 = this.gisAssetsNm+'\n'+this.usageFeeRate+" %";
 					this.gisFlag=this.gisStat>0?'flag':null;
@@ -259,11 +260,43 @@ GamGisAssetSttusInqireModule.prototype.loadData = function() {
 };
 
 GamGisAssetSttusInqireModule.prototype.onSelectFeature = function(e) {
+	EMD.gis.closeAllPopup('assetStats');
 	EMD.gis.openPopup(e.feature, "/asset/sts/gamAssetSttusInfo.do", EMD.util.objectToArray(e.feature.attributes));
 };
 
 GamGisAssetSttusInqireModule.prototype.onSelectFeature2 = function(e) {
-	EMD.gis.openPopup(e.feature, "/asset/sts/gamAssetRentSttusInfo.do", EMD.util.objectToArray(e.feature.attributes));
+	EMD.gis.closeAllPopup('assetStats');
+	var d=EMD.util.objectToArray(e.feature.attributes);
+	d[d.length]={
+			name: 'referDate',
+			value: this.$('#searchDate').val()
+	};
+	EMD.gis.openPopup(e.feature, "/asset/sts/gamAssetRentSttusInfo.do", d);
+};
+
+GamGisAssetSttusInqireModule.prototype.onSelectFeature3 = function(e) {
+	var sd, ed;
+	sd=this.$('#sGrUsagePdFrom').val();
+	ed=this.$('#sGrUsagePdTo').val();
+	if(sd==="") {
+		var dt = new Date();
+		dt.setMonth(dt.getMonth()-6);
+		sd=EMD.util.getDate(dt);
+	}
+	if(ed==="") {
+		ed=EMD.util.getDate();
+	}
+	EMD.gis.closeAllPopup('assetStats');
+	var d=EMD.util.objectToArray(e.feature.attributes);
+	d[d.length]={
+			name: 'sGrUsagePdFrom',
+			value: sd
+	};
+	d[d.length]={
+			name: 'sGrUsagePdTo',
+			value: ed
+	};
+	EMD.gis.openPopup(e.feature, "/asset/sts/gamAssetRentFeeSttusInfo.do", d);
 };
 
 /**
@@ -400,9 +433,9 @@ var module_instance = new GamGisAssetSttusInqireModule();
 				<button data-role="clearMap" data-gis-layer="assetStats">결과 맵 초기화</button>
 				<button class="assetSts" data-role="loadStatsMap" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-map-style="value" data-value="buyAmt" data-label-field="_mapLabel" data-select-feature="onSelectFeature">결과 맵 조회</button>
 				<button class="usageSts" style="display:none" data-role="loadStatsMap" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-map-style="rate" data-value="useRatePercent" data-label-field="_mapLabel" data-select-feature="onSelectFeature2">사용현황 맵 조회</button>
-				<button class="feeSts" style="display:none" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-map-style="value" data-value="fee" data-label-field="_mapLabel1" data-select-feature="onSelectFeature">사용료현황 맵 조회</button>
-				<button class="feeSts" style="display:none" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-map-style="value" data-value="rdcxptFee" data-label-field="_mapLabel2" data-select-feature="onSelectFeature">감면사용료현황 맵 조회</button>
-				<button class="feeSts" style="display:none" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-map-style="rate" data-value="usageFeeRate" data-label-field="_mapLabel2" data-select-feature="onSelectFeature">사용요율현황 맵 조회</button>
+				<button class="feeSts" style="display:none" data-role="loadStatsMap" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-map-style="value" data-value="fee" data-label-field="_mapLabel1" data-select-feature="onSelectFeature3">사용료현황 맵 조회</button>
+				<button class="feeSts" style="display:none" data-role="loadStatsMap" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-map-style="value" data-value="rdcxptFee" data-label-field="_mapLabel2" data-select-feature="onSelectFeature3">감면사용료현황 맵 조회</button>
+				<button class="feeSts" style="display:none" data-role="loadStatsMap" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-map-style="rate" data-value="usageFeeRate" data-label-field="_mapLabel3" data-select-feature="onSelectFeature3">사용요율현황 맵 조회</button>
 				<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-popup-function="onPopupFeature">위치 조회</button>
 		</div>
      </div>

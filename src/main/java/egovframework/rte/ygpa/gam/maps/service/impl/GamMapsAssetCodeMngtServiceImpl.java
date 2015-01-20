@@ -91,4 +91,22 @@ public class GamMapsAssetCodeMngtServiceImpl extends AbstractServiceImpl
 		return gamMapsAssetCodeMngtDAO.selectMapsBjdCodeInfo(vo);
 	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.maps.service.GamMapsAssetCodeMngtService#selectMapsSttusByCodeInfo(java.util.Map)
+	 */
+	@Override
+	public EgovMap selectMapsSttusByCodeInfo(Map vo) throws Exception {
+		// TODO Auto-generated method stub
+		return gamMapsAssetCodeMngtDAO.selectMapsSttusByCodeInfo(vo);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.maps.service.GamMapsAssetCodeMngtService#selectMapsHistSttusByCodeInfo(java.util.Map)
+	 */
+	@Override
+	public List selectMapsHistSttusByCodeInfo(Map vo) throws Exception {
+		// TODO Auto-generated method stub
+		return gamMapsAssetCodeMngtDAO.selectMapsHistSttusByCodeInfo(vo);
+	}
+
 }

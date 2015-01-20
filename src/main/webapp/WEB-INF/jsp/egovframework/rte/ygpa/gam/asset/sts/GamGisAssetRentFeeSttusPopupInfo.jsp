@@ -15,16 +15,19 @@ GamAssetSttusInfoModule.prototype = new EmdPopupInfoModule();
 
 GamAssetSttusInfoModule.prototype.loadComplete = function() {
     var dataset = [
-	 <c:forEach var="deprctn" items="${rentList }" varStatus="varStatus">
-	 { usageAr: "<c:out value='${deprctn.usageAr}' />",
-		 entrpsNm: "<c:out value='${deprctn.entrpsNm}' />" },
+	 <c:forEach var="rent" items="${rentList }" varStatus="varStatus">
+	 { fee: "<c:out value='${rent.fee}' />",
+		 rdcxptFee: "<c:out value='${rent.rdcxptFee}' />",
+		 months: "<c:out value='${rent.months}' />" },
 	 </c:forEach>
 	];
+
+    this.$("#chart").css('width', dataset.length*60);
    	var chart1 =  new dhtmlXChart({
    		view:"bar",
    		container:this.$("#chart").attr('id'),
-   	    value:"#usageRatio#",
-           label: '#usageArLabel#',
+   	    value:"#fee#",
+           label: '#feeLabel#',
            color: "#fe900e",
            gradient:"rising",
    		width:80,
@@ -32,10 +35,10 @@ GamAssetSttusInfoModule.prototype.loadComplete = function() {
    			left:65
    		},
    		tooltip:{
-   			template:"#usageArLabel# m²"
+   			template:"#feeLabel# 원"
    		},
    		xAxis:{
-   			template:"#entrpsNm#"
+   			template:"#months#"
    		},
    		yAxis:{
    			width:80,
@@ -44,22 +47,18 @@ GamAssetSttusInfoModule.prototype.loadComplete = function() {
    			}
    		}
    	});
-   	var rentAr = parseFloat("<c:out value='${assetCd.gisAssetsAr}' />");
-   	if(isNaN(rentAr)) {
-   		rentAr=0;
-   	   	for(var k in dataset) {
-   	   		rentAr += dataset[k].usageAr;
-   	   	}
-   	}
    	for(var k in dataset) {
-   		if(rentAr!=0) {
-   	   		var ratio = dataset[k].usageAr/rentAr*100;
-   		}
-   		else ratio=100;
-   		dataset[k]['usageRatio']=ratio;
-   		dataset[k]['usageArLabel']=$.number(dataset[k].usageAr)+" m² [ "+Math.round(ratio)+"%]";
+   		dataset[k]['feeLabel']=$.number(dataset[k].fee)+" 원";
+   		dataset[k]['rdcxptFeeLabel']=$.number(dataset[k].rdcxptFee)+" 원";
    	}
-
+/*
+	chart1.addSeries({
+		alpha:0.5,
+		value:"#rdcxptFee#",
+		label:"#rdcxptFeeLabel#",
+		color:"#a7ee70",
+	});
+*/
 	chart1.parse(dataset,"json");
 
 	console.log('GamAssetSttusInfoModule loadcomplete');
@@ -68,7 +67,7 @@ GamAssetSttusInfoModule.prototype.loadComplete = function() {
 GamAssetSttusInfoModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         case 'assetInqire':
-        	EMD.util.create_window("자산코드 조회1", "/code/assets/gamAssetCodeList.do", null, {
+        	EMD.util.create_window("자산코드 조회", "/code/assets/gamAssetCodeList.do", null, {
         		action: "prtFcltyInqire"
        			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
        			,gisAssetsCd: this.$('#gisAssetsCd').val()
@@ -93,13 +92,13 @@ var popupInfoModule = new GamAssetSttusInfoModule();
 	</c:if>
 	<c:if test="${assetCd!=null }">
 		<div class='prtFcltyInfo'>
-			<h2>시설 사용 현황 정보</h2>
+			<h2>시설 사용료 현황 정보</h2>
 			<table class='prtFcltyInfo'><tbody>
-				<tr><th>조회기준일자</th><td colspan="3"><c:out value="${referDate }" /></td></tr>
+				<tr><th>조회기기간</th><td colspan="3"><c:out value="${sGrUsagePdFrom }" /> ~ <c:out value="${sGrUsagePdTo }" /></td></tr>
 				<tr><th>시설명</th><td colspan="3"><c:out value="${assetCd.gisAssetsNm }" /></td></tr>
 				<tr><th>소재지</th><td colspan="3"><c:out value="${assetCd.gisAssetsLocplc }" /> <c:out value="${assetCd.gisAssetsLnm }" /><c:if test="${assetCd.gisAssetsLnmSub!=null }">-<c:out value="${assetCd.gisAssetsLnmSub }" /></c:if></td></tr>
 				<tr><th>면적</th><td><fmt:formatNumber value="${assetCd.gisAssetsAr }" maxIntegerDigits="10" maxFractionDigits="2" /> m²</td><th>사용 면적</th><td><fmt:formatNumber value="${rentSttus.usageAr }" maxIntegerDigits="10" maxFractionDigits="2" /> m²</td></tr>
-				<tr><th>사용 업체 수</th><td colspan="3"><fmt:formatNumber value="${rentSttus.entrpsCnt }" maxIntegerDigits="10" maxFractionDigits="2" /></td></tr>
+				<tr><th>사용 업체 수</th><td><fmt:formatNumber value="${rentSttus.entrpsCnt }" maxIntegerDigits="10" maxFractionDigits="2" /></td><th>사용료 합계</th><td><fmt:formatNumber value="${rentSttus.fee }" maxIntegerDigits="15" /> 원</td></tr>
 			</tbody></table>
 			<div id="chart" style="width:500px;height:220px;border:1px solid #A4BED4;"></div>
 			<button data-role="assetInqire">자산코드 조회</button>

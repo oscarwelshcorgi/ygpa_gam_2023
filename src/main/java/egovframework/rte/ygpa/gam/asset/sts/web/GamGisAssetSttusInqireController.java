@@ -140,12 +140,14 @@ public class GamGisAssetSttusInqireController {
     		searchVO.put("authorities", EgovUserDetailsHelper.getAuthorities());
 
     		try {
-				Map assetCodeInfo = gamMapsAssetCodeMngtService.selectMapsAssetsCodeInfo(searchVO);
+				Map assetCodeInfo = gamGisAssetSttusInqireService.selectAssetSttusInfoByCode(searchVO);
+				List deprctnList = gamGisAssetSttusInqireService.selectAssetSttusDeprctnListByCode(searchVO);
 
 				model.addAttribute("assetCd", assetCodeInfo);
+	    		model.addAttribute("assetCodeInfo", assetCodeInfo);
+				model.addAttribute("deprctnList", deprctnList);
 
 				model.addAttribute("resultCode", 0);
-	    		model.addAttribute("assetCodeInfo", assetCodeInfo);
 			}
 			catch(Exception e) {
 				model.addAttribute("resultCode", -1);
@@ -204,6 +206,13 @@ public class GamGisAssetSttusInqireController {
     	return map;
     }
 
+	/**
+	 * 시설 사용 현황 팝업
+	 * @param searchVO
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/asset/sts/gamAssetRentSttusInfo.do")
 	public String gamAssetRentSttusInfo(@RequestParam Map searchVO, ModelMap model) throws Exception {
 
@@ -219,14 +228,16 @@ public class GamGisAssetSttusInqireController {
     		searchVO.put("authorities", EgovUserDetailsHelper.getAuthorities());
 
     		try {
-				Map assetCodeInfo = gamMapsAssetCodeMngtService.selectMapsAssetsCodeInfo(searchVO);
-		    	List assetRentSttusList = gamGisAssetSttusInqireService.selectGisAssetRentSttusByFcltyList(searchVO);
+				Map assetCodeInfo = gamGisAssetSttusInqireService.selectAssetSttusInfoByCode(searchVO);
+				Map rentSttus = gamGisAssetSttusInqireService.selectAssetRentSttusInfoByCode(searchVO);
+				List rentList = gamGisAssetSttusInqireService.selectAssetRentSttusListByCode(searchVO);
 
 				model.addAttribute("assetCd", assetCodeInfo);
+				model.addAttribute("rentSttus", rentSttus);
+				model.addAttribute("rentList", rentList);
+				model.addAttribute("referDate", (String)searchVO.get("referDate"));
 
 				model.addAttribute("resultCode", 0);
-	    		model.addAttribute("assetCodeInfo", assetCodeInfo);
-	    		model.addAttribute("assetRentSttusList", assetRentSttusList);
 			}
 			catch(Exception e) {
 				model.addAttribute("resultCode", -1);
@@ -284,5 +295,49 @@ public class GamGisAssetSttusInqireController {
 
     	return map;
     }
+
+	/**
+	 * 시설 사용료 현황 팝업
+	 * @param searchVO
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/asset/sts/gamAssetRentFeeSttusInfo.do")
+	public String gamAssetRentFeeSttusInfo(@RequestParam Map searchVO, ModelMap model) throws Exception {
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    	}
+    	else {
+    		String auth="";
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+    		searchVO.put("authorities", EgovUserDetailsHelper.getAuthorities());
+
+    		try {
+				Map assetCodeInfo = gamGisAssetSttusInqireService.selectAssetSttusInfoByCode(searchVO);
+				Map rentSttus = gamGisAssetSttusInqireService.selectAssetRentFeeSttusInfoByCode(searchVO);
+				List rentList = gamGisAssetSttusInqireService.selectAssetRentFeeSttusListByCode(searchVO);
+
+				model.addAttribute("assetCd", assetCodeInfo);
+				model.addAttribute("rentSttus", rentSttus);
+				model.addAttribute("rentList", rentList);
+				model.addAttribute("sGrUsagePdFrom", (String)searchVO.get("sGrUsagePdFrom"));
+				model.addAttribute("sGrUsagePdTo", (String)searchVO.get("sGrUsagePdTo"));
+
+				model.addAttribute("resultCode", 0);
+			}
+			catch(Exception e) {
+				model.addAttribute("resultCode", -1);
+	    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+			}
+    	}
+
+    	return "ygpa/gam/asset/sts/GamGisAssetRentFeeSttusPopupInfo";
+    }
+
 
 }

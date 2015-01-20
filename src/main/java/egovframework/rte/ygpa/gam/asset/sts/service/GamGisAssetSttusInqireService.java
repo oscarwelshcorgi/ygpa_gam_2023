@@ -50,6 +50,22 @@ public interface GamGisAssetSttusInqireService {
     Map selectGisAssetSttusListTotSum(Map searchVO) throws Exception;
 
     /**
+     * 자산 코드에 대한 감가상각 정보 리스트를 조회 한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    Map selectAssetSttusInfoByCode(Map searchVO) throws Exception;
+
+    /**
+     * 자산 코드에 대한 감가상각 정보 리스트를 조회 한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    List selectAssetSttusDeprctnListByCode(Map searchVO) throws Exception;
+
+    /**
 	 * GIS자산 사용현황 통계 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
@@ -72,6 +88,22 @@ public interface GamGisAssetSttusInqireService {
      * @throws Exception
      */
     Map selectGisAssetRentSttusListTotSum(Map searchVO) throws Exception;
+
+    /**
+     * 자산코드에 대한 임대현황 정보를 로딩한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    Map selectAssetRentSttusInfoByCode(Map searchVO) throws Exception;
+
+    /**
+     * 자산코드에 대한 업체별 임대현황 목록을 로딩한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    List selectAssetRentSttusListByCode(Map searchVO) throws Exception;
 
     /**
      * 시설에 대한 임대 정보를 조회 한다.
@@ -104,6 +136,23 @@ public interface GamGisAssetSttusInqireService {
      * @throws Exception
      */
     Map selectGisAssetRentFeeSttusListTotSum(Map searchVO) throws Exception;
+
+    /**
+     * 자산코드에 대한 임대료현황 정보를 로딩한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    Map selectAssetRentFeeSttusInfoByCode(Map searchVO) throws Exception;
+
+    /**
+     * 자산코드에 대한 업체별 임대료현황 목록을 로딩한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    List selectAssetRentFeeSttusListByCode(Map searchVO) throws Exception;
+
 
     /**
 	 * GIS자산 유지보수현황 통계 목록을 조회한다.

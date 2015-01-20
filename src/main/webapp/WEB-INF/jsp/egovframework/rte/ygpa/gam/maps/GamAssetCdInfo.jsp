@@ -12,14 +12,13 @@ function GamMapPopupModule() {};
 
 GamMapPopupModule.prototype = new EmdPopupInfoModule();
 
-GamMapPopupModule.prototype.loadComplete = function() {
+GamMapPopupModule.prototype.loadComplete = function(feature) {
 	console.log('popup module starting debugging.');
 };
 
 GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         case 'assetMngt':
-
         	EMD.util.create_window("자산코드 관리", "/code/assets/gamAssetCodeMngt.do", null, {
         		action: "prtFcltyInqire"
     			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
@@ -35,14 +34,10 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
        			,gisAssetsSubCd: this.$('#gisAssetsSubCd').val()
 			});
         	break;
-        case 'modifyFeature':
-        	EMD.util.create_window("자산코드 관리", "/code/assets/gamAssetCodeMngt.do", null, {
+        case 'assignFeature':
+        	EMD.util.create_window("자산코드 지정", "/code/assets/gamAssetCodeMngt.do", null, {
         		action: "setFeature"
-       			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
-      			,gisAssetsCd: this.$('#gisAssetsCd').val()
-      			,gisAssetsSubCd: this.$('#gisAssetsSubCd').val()
-    			,bjdCode: this.$('#bjdCode').val()
-    			,addr: this.$('#addr').val()
+				,addr: this.$('#addr').val()
     			,lnm: this.$('#lnm').val()
     			,lnmSub: this.$('#lnmSub').val()
     			,feature: this.getFeature()
@@ -56,15 +51,15 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
     }
 };
 
-var popupModule = new GamMapPopupModule();
+var popupInfoModule = new GamMapPopupModule();
 </script>
 <input id="gisAssetsPrtAtCode" type="hidden" value="<c:out value='${assetCd.gisAssetsPrtAtCode }' />" />
 <input id="gisAssetsCd" type="hidden" value="<c:out value='${assetCd.gisAssetsCd }' />" />
 <input id="gisAssetsSubCd" type="hidden" value="<c:out value='${assetCd.gisAssetsSubCd }' />" />
 <input id="bjdCode" type="hidden" value="<c:out value='${assetCd.bjdCode }' />" />
-<input id="addr" type="hidden" value="<c:out value='${assetCd.addr }' />" />
-<input id="lnm" type="hidden" value="<c:out value='${assetCd.lnm }' />" />
-<input id="lnmSub" type="hidden" value="<c:out value='${assetCd.lnmSub }' />" />
+<input id="addr" type="hidden" value="<c:out value='${addr }' />" />
+<input id="lnm" type="hidden" value="<c:out value='${lnm }' />" />
+<input id="lnmSub" type="hidden" value="<c:out value='${lnmSub }' />" />
 <c:if test="${resultCode!=0 }">
 	<h2><c:out value="${resultMsg }" /></h2>
 </c:if>
@@ -73,8 +68,8 @@ var popupModule = new GamMapPopupModule();
 	<h2>시설정보가 없습니다.</h2>
 	<p>주소 : <c:out value="${addr }"/> <c:out value="${lnm }"/><c:if test="${lnmSub != 0 }">-<c:out value="${lnmSub }"/></c:if></p>
 		<c:if test="${fn:containsIgnoreCase(auth,'ROLEADMIN')||fn:containsIgnoreCase(auth,'ROLEASSETMNGT') }">
-			<button data-role="modifyFeature">자산코드 지정</button>
-			<button data-role="removeFeature">영역 삭제</button>
+			<button id="assignFeature">자산코드 지정</button>
+			<button id="removeFeature">영역 삭제</button>
 		</c:if>
 	</c:if>
 	<c:if test="${assetCd!=null }">
@@ -125,9 +120,9 @@ var popupModule = new GamMapPopupModule();
 			</tbody></table>
 			</c:if>
 			<c:if test="${fn:containsIgnoreCase(auth,'ROLEADMIN')||fn:containsIgnoreCase(auth,'ROLEASSETMNGT') }">
-				<button data-role="assetMngt">자산코드 관리</button>
+				<button id="assetMngt" data-icon="ui-icon-newwin">자산코드 관리</button>
 			</c:if>
-			<button data-role="assetInqire">자산정보 조회</button>
+			<button id="assetInqire" data-icon="ui-icon-newwin">자산정보 조회</button>
 		</div>
 	</c:if>
 </c:if>

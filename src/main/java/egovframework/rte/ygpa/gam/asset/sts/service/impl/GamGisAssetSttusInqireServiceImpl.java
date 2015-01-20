@@ -174,8 +174,57 @@ public class GamGisAssetSttusInqireServiceImpl  extends AbstractServiceImpl impl
 	@Override
 	public List selectGisAssetRentSttusByFcltyList(Map searchVO)
 			throws Exception {
-		// TODO Auto-generated method stub
 		return gamGisAssetSttusInqireDao.selectGisAssetSttusByFcltyList(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.sts.service.GamGisAssetSttusInqireService#selectAssetSttusInfoByCode(java.util.Map)
+	 */
+	@Override
+	public Map selectAssetSttusInfoByCode(Map searchVO) throws Exception {
+		return gamGisAssetSttusInqireDao.selectAssetSttusInfoByCode(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.sts.service.GamGisAssetSttusInqireService#selectAssetSttusDeprctnListByCode(java.util.Map)
+	 */
+	@Override
+	public List selectAssetSttusDeprctnListByCode(Map searchVO)
+			throws Exception {
+		return gamGisAssetSttusInqireDao.selectAssetSttusDeprctnListByCode(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.sts.service.GamGisAssetSttusInqireService#selectAssetRentSttusInfoByCode(java.util.Map)
+	 */
+	@Override
+	public Map selectAssetRentSttusInfoByCode(Map searchVO) throws Exception {
+		return gamGisAssetSttusInqireDao.selectAssetRentSttusInfoByCode(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.sts.service.GamGisAssetSttusInqireService#selectAssetRentSttusListByCode(java.util.Map)
+	 */
+	@Override
+	public List selectAssetRentSttusListByCode(Map searchVO) throws Exception {
+		return gamGisAssetSttusInqireDao.selectAssetRentSttusListByCode(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.sts.service.GamGisAssetSttusInqireService#selectAssetRentFeeSttusInfoByCode(java.util.Map)
+	 */
+	@Override
+	public Map selectAssetRentFeeSttusInfoByCode(Map searchVO) throws Exception {
+		return gamGisAssetSttusInqireDao.selectAssetRentFeeSttusInfoByCode(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.sts.service.GamGisAssetSttusInqireService#selectAssetRentFeeSttusListByCode(java.util.Map)
+	 */
+	@Override
+	public List selectAssetRentFeeSttusListByCode(Map searchVO)
+			throws Exception {
+		return gamGisAssetSttusInqireDao.selectAssetRentFeeSttusListByCode(searchVO);
 	}
 
 }

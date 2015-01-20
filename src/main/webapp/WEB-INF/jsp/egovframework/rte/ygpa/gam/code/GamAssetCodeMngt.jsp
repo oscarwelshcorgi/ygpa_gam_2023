@@ -194,6 +194,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 		}); // 탭을 전환 한다.
 		break;
 	case 'modifyFeature': // 기존 자산에 GIS 정보를 추가한다.
+	 	console.log('set feature mode');
 		break;
 	case 'setFeature':
 		var lnm, lnmSub;
@@ -204,13 +205,15 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 		lnm=parseInt(this._params.lnm);
 		lnmSub=parseInt(this._params.lnmSub);
 		this.$('#searchGisAssetsLocPlc').val(addr);
-		this.$('#searchGisAssetsLnm').val(lnm);
+		if(!isNaN(lnm) && lnm!=0) this.$('#searchGisAssetsLnm').val(lnm);
 		if(!isNaN(lnmSub) && lnmSub!=0) this.$('#searchGisAssetsLnmSub').val(lnmSub);
 		this.$('#searchGisAssetsPrprtySeCd').val('L');	// 자산 정보 주소가 토지로 검색한다.
 		var searchOpt=this.makeFormArgs('#searchGisAssetCode');
 	 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 	 	this.$('#btnMapSave').show();
 	 	this.$('#btnMapSave2').show();
+	 	console.log('set feature mode');
+	 	break;
 	}
 
 	console.log('loadcomplete');
@@ -842,7 +845,7 @@ var module_instance = new GamAssetCodeModule();
 								<td><input id="searchGisAssetsQuayCd" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsQuayCd" data-code-id="GAM003" data-default-prompt="전체"/></td>
 								<th>관리부서</th>
 								<td>
-									<input id="searchMngDeptCd" data-column-id="mngDeptCd" class="ygpaDeptSelect" />
+									<input id="searchMngDeptCd" data-column-id="mngDeptCd" class="ygpaDeptSelect" data-default-prompt="전체" />
 								</td>
 							</tr>
 							<tr>
@@ -854,7 +857,7 @@ var module_instance = new GamAssetCodeModule();
 								<td><input id="searchGisAssetsLnm" data-column-id="gisAssetsLnm" type="text" size="4">-<input id="searchGisAssetsLnmSub" data-column-id="gisAssetsLnmSub" type="text" size="3"></td>
 								<th>운영부서</th>
 								<td>
-									<input id="searchOperDeptCd" data-column-id="operDeptCd" class="ygpaDeptSelect" />
+									<input id="searchOperDeptCd" data-column-id="operDeptCd" class="ygpaDeptSelect" data-default-prompt="전체" />
 								</td>
 							</tr>
 						</tbody>

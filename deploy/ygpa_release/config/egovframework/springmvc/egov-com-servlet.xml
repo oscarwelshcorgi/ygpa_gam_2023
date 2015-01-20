@@ -48,7 +48,7 @@
 		- This bean processes annotated handler methods, applying Application-specific PropertyEditors
 		- for request parameter binding. It overrides the default AnnotationMethodHandlerAdapter.
 	-->
- 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+<!-- 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="webBindingInitializer">
 			<bean class="egovframework.com.cmm.web.EgovBindingInitializer"/>
 		</property>
@@ -58,35 +58,27 @@
 			</list>
 		</property>
 	</bean>
-
+ -->
 	<!-- 로그인 체크가 필요한 URL과 로그인 여부를 체크해줄 인터셉터를 등록한다. -->
-	<bean id="selectAnnotaionMapper" class="egovframework.rte.ptl.mvc.handler.SimpleUrlAnnotationHandlerMapping" p:order="1">
-		<property name="interceptors">
-			<list>
-				<ref local="authenticInterceptor" /> <!-- 로그인 체크 -->
-				<ref local="IpObtainInterceptor" />  <!-- IP 정보기록 -->
-			</list>
-		</property>
-		<!-- 로그인 체크가 필요한 URL 리스트  -->
-		<property name="urls">
-			<set>
-				<value>/**/*.do</value>
-			</set>
-		</property>
-	</bean>
+	<mvc:interceptors>
+		<ref bean="authenticInterceptor" />
+		<ref bean="ipObtainInterceptor"/>
+	</mvc:interceptors>
 
 	<!-- 로그인 체크 인터셉터 -->
 	<bean id="authenticInterceptor" class="egovframework.com.cmm.interceptor.AuthenticInterceptor">
-	<!-- 인증 체크가 필요 없는 URL 리스트  -->
+		<!-- 인증 체크가 필요 없는 URL 리스트 -->
 		<property name="permittedURL">
 			<set>
 				<value>/uat/uia/[a-zA-Z]+\.do</value>
+				<value>/code404.do</value>
+				<value>/code500.do</value>
 			</set>
 		</property>
 	</bean>
 
 	<!-- IP 정보 기록 -->
-	<bean id="IpObtainInterceptor" class="egovframework.com.cmm.interceptor.IpObtainInterceptor" />
+	<bean id="ipObtainInterceptor" class="egovframework.com.cmm.interceptor.IpObtainInterceptor" />
 
 	<!--
 		- This bean resolves specific types of exceptions to corresponding logical
@@ -119,9 +111,7 @@
 		- Could also reside in the root application context, as it is generic,
 		- but is currently just used within Application's web tier.
 	-->
-	<!--
-	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basename="messages/message-common"/>
+	<!-- <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basename="messages/message-common"/> -->
 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="2" />
-	 -->
 
 </beans>

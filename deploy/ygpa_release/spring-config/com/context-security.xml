@@ -87,21 +87,27 @@
     <b:bean id="regexUrlPathMatcher"
         class="org.springframework.security.util.RegexUrlPathMatcher" />
 
-    <http access-denied-page="/sec/ram/accessDenied.do" path-type="regex" lowercase-comparisons="false">
+    <http access-denied-page="/uia/uat/accessDenied.do" path-type="regex" lowercase-comparisons="false">
 		<intercept-url pattern="\A/js/.*\Z" filters="none" />
 		<intercept-url pattern="\A/image/.*\Z" filters="none" />
 		<intercept-url pattern="\A/css/.*\Z" filters="none" />
 		<intercept-url pattern="\A/common/.*\Z" filters="none" />
 		<intercept-url pattern="\A/uat/uia/.*\Z" filters="none" />
-	    <!-- debug -->
-		<intercept-url pattern="\A/ygpa/sym/mpm/.*\Z" filters="none" />
+		<!--
+		<intercept-url pattern="\A/code.*\.do\Z" filters="none" />
+		 -->
         <form-login login-processing-url="/j_spring_security_check"
-                    authentication-failure-url="/uat/uia/YGLoginUsr.do?login_error=1"
+                    authentication-failure-url="/uia/uat/accessDenied.do"
+                    login-page="/code404.do" />
+                    <!--
+        <form-login login-processing-url="/j_spring_security_check"
+                    authentication-failure-url="/uia/uat/accessDenied.do"
                     default-target-url="/main/gamMain.do"
-                    login-page="/uat/uia/YGLoginNotFound.do" />
+                    login-page="/code404.do" />
+                     -->
         <anonymous/>
-        <logout logout-url="/j_spring_security_logout" logout-success-url="/uat/uia/YGLogoutSucces.do" />
-        <concurrent-session-control max-sessions="500" exception-if-maximum-exceeded="false" expired-url="/uat/uia/YGLoginUsr.do" />
+        <logout logout-url="/j_spring_security_logout" logout-success-url="/uat/uia/logout.do" />
+        <concurrent-session-control max-sessions="500" exception-if-maximum-exceeded="false" expired-url="/j_spring_security_logout" />
     </http>
 
     <authentication-provider user-service-ref="jdbcUserService"/>

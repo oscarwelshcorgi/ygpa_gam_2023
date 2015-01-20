@@ -77,4 +77,15 @@ public class GamMapsAssetCodeMngtDAO extends YGPAAbstractDAO {
 		return (String) selectByPk("gamMapsAssetCodeMngtDAO.selectMapsBjdCodeInfo", bjdCode);
 	}
 
+
+	public EgovMap selectMapsSttusByCodeInfo(Map vo) throws Exception{
+		return (EgovMap) selectByPk("gamMapsAssetCodeMngtDAO.selectMapsSttusByCodeInfo_S", vo);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List selectMapsHistSttusByCodeInfo(Map vo) throws Exception{
+		return list("gamMapsAssetCodeMngtDAO.selectMapsHistSttusByCodeInfo_D", vo);
+	}
+
+
 }

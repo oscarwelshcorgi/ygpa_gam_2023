@@ -37,6 +37,22 @@ public interface GamMapsAssetCodeMngtService {
 	EgovMap selectMapsAssetsCodeInfo(Map vo) throws Exception;
 
 	/**
+	 * 자산현황 통계 정보
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectMapsSttusByCodeInfo(Map vo) throws Exception;
+
+	/**
+	 * 자산현황 변동 이력 정보
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	List selectMapsHistSttusByCodeInfo(Map vo) throws Exception;
+
+	/**
 	 * 자산 임대 정보
 	 * @param vo
 	 * @return
