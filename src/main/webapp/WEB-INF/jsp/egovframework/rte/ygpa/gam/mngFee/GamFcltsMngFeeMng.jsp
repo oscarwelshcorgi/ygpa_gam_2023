@@ -527,8 +527,8 @@ GamFcltsMngFeeMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamFcltsMngFeeMngModule.prototype.selectData = function() {
 
-	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
+		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
@@ -539,23 +539,13 @@ GamFcltsMngFeeMngModule.prototype.selectData = function() {
 		return;
 	}
 	this._searchButtonClick = false;
-	var mainKeyValue = this._mainKeyValue;
-	if (mainKeyValue == "") {
+	if (this._mainKeyValue == "") {
 		return;
 	}
-	var mngMt = mainKeyValue.substring(0,6);
-	var mngFeeJobSe = mainKeyValue.substring(6,7);
-	var mainRowNo = -1;
-	for(var i=0; i<gridRowCount; i++) {
-		var row = this.$("#mainGrid").flexGetRow(i+1);
-		if (row.mngMt == mngMt && row.mngFeeJobSe == mngFeeJobSe) {
-			mainRowNo = i;
-			break;
-		}
-	}
-	if (mainRowNo >= 0) {
-		this.$("#mainGrid").selectRowId(mainRowNo);
-	}
+	var mngMt = this._mainKeyValue.substring(0,6);
+	var mngFeeJobSe = this._mainKeyValue.substring(6,7);
+	this.$("#mainGrid").selectFilterRow([{col:"mngMt", filter:mngMt},
+										 {col:"mngFeeJobSe", filter:mngFeeJobSe}]);
 	this._mode = 'modify';
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();
@@ -593,31 +583,23 @@ GamFcltsMngFeeMngModule.prototype.loadSubDetail = function() {
 %>
 GamFcltsMngFeeMngModule.prototype.selectDetailData = function() {
 
-	if (this._detailmode != 'insert' && this._detailmode != 'modify') {
+	if (this._detailmode == 'query') {
+		return;
+	} else if (this._detailmode != 'insert' && this._detailmode != 'modify') {
 		return;
 	}
-	var detailKeyValue = this._detailKeyValue;
-	if (detailKeyValue == "") {
+	if (this._detailKeyValue == "") {
 		return;
 	}
-	var mngMt = detailKeyValue.substring(0,6);
-	var mngFeeJobSe = detailKeyValue.substring(6,7);
-	var mngSeq = detailKeyValue.substring(7,10);
-	var detailGridRowCount = this.$("#detailGrid").flexRowCount();
-	var detailRowNo = -1;
-	for(var i=0; i<detailGridRowCount; i++) {
-		var row = this.$("#detailGrid").flexGetRow(i+1);
-		if (row.mngMt == mngMt && row.mngFeeJobSe == mngFeeJobSe && row.mngSeq == mngSeq) {
-			detailRowNo = i;
-			break;
-		}
-	}
-	if (detailRowNo >= 0) {
-		this.$("#detailGrid").selectRowId(detailRowNo);
-		this._detailmode = 'modify';
-		this.loadSubDetail();
-		this.enableSubDetailInputItem();
-	}
+	var mngMt = this._detailKeyValue.substring(0,6);
+	var mngFeeJobSe = this._detailKeyValue.substring(6,7);
+	var mngSeq = this._detailKeyValue.substring(7,10);
+	this.$("#detailGrid").selectFilterRow([{col:"mngMt", filter:mngMt},
+	                                       {col:"mngFeeJobSe", filter:mngFeeJobSe},
+										   {col:"mngSeq", filter:mngSeq}]);
+	this._detailmode = 'modify';
+	this.loadSubDetail();
+	this.enableSubDetailInputItem();
 
 };
 

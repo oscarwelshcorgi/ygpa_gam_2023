@@ -343,8 +343,8 @@ GamGrHseEmitQyMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamGrHseEmitQyMngModule.prototype.selectData = function() {
 
-	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
+		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
@@ -355,24 +355,15 @@ GamGrHseEmitQyMngModule.prototype.selectData = function() {
 		return;
 	}
 	this._searchButtonClick = false;
-	var mainKeyValue = this._mainKeyValue;
-	if (mainKeyValue == "") {
+	if (this._mainKeyValue == "") {
 		return;
 	}
-	var fuelCd = mainKeyValue.substring(0,4);
-	var mngYear = mainKeyValue.substring(4,8);
-	var mngMt = mainKeyValue.substring(8,14);
-	var mainRowNo = -1;
-	for(var i=0; i<gridRowCount; i++) {
-		var row = this.$("#mainGrid").flexGetRow(i+1);
-		if (row.fuelCd == fuelCd && row.mngYear == mngYear && row.mngMt == mngMt) {
-			mainRowNo = i;
-			break;
-		}
-	}
-	if (mainRowNo >= 0) {
-		this.$("#mainGrid").selectRowId(mainRowNo);
-	}
+	var fuelCd = this._mainKeyValue.substring(0,4);
+	var mngYear = this._mainKeyValue.substring(4,8);
+	var mngMt = this._mainKeyValue.substring(8,14);
+	this.$("#mainGrid").selectFilterRow([{col:"fuelCd", filter:fuelCd},
+										 {col:"mngYear", filter:mngYear},
+										 {col:"mngMt", filter:mngMt}]);
 	this._mode = 'modify';
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();
