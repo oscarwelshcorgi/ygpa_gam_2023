@@ -58,8 +58,8 @@ GamFcltyCtrtSttusInqireModule.prototype.loadComplete = function() {
 					{display:'기업명',					name:'entrpsNm',			width:140,		sortable:false,		align:'left'},
 					{display:'계약명',					name:'ctrtNm',				width:200,		sortable:false,		align:'left'},
 					{display:'주요품목',				name:'stplPrdlst',			width:100,		sortable:false,		align:'left'},
-					{display:'이전년도 거래금액(원)', 	name:'prevCtrtAmt',			width:150,		sortable:false,		align:'right'},
-					{display:'거래금액(원)', 			name:'currCtrtAmt',			width:150,		sortable:false,		align:'right'},
+					{display:'이전년도 거래금액(원)', 	name:'prevCtrtAmt',			width:135,		sortable:false,		align:'right'},
+					{display:'거래금액(원)', 			name:'currCtrtAmt',			width:135,		sortable:false,		align:'right'},
 					{display:'사업자번호',				name:'bsnmNo',				width:100,		sortable:false,		align:'center'},
 					{display:'대표자',					name:'rprsntv',				width:80,		sortable:false,		align:'left'},
 					{display:'담당자',					name:'charger',				width:80,		sortable:false,		align:'left'},
@@ -75,6 +75,7 @@ GamFcltyCtrtSttusInqireModule.prototype.loadComplete = function() {
 					],
 		showTableToggleBtn : false,
 		height : 'auto',
+		mergeRows : 'entrpsNm',
 		preProcess : function(module,data) {
 			module.$('#totalCount').val($.number(data.totalCount));
 			module.$('#sumPrevCtrtAmt').val($.number(data.sumPrevCtrtAmt));

@@ -239,10 +239,13 @@ GamMngFeeCodeMngModule.prototype.selectData = function() {
 		return;
 	}
 	this._searchButtonClick = false;
+	if (this._mainKeyValue == "") {
+		return;
+	}
 	var mngFeeFcltyCd = this._mainKeyValue.substring(0,4);
 	var mngFeeJobSe = this._mainKeyValue.substring(4,5);
 	this.$("#mainGrid").selectFilterRow([{col:"mngFeeFcltyCd", filter:mngFeeFcltyCd},
-	                                     {col:"mngFeeJobSe", filter:mngFeeJobSe}]);
+										 {col:"mngFeeJobSe", filter:mngFeeJobSe}]);
 	this._mode = 'modify';
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();

@@ -236,6 +236,9 @@ GamMngFeeGubunMngModule.prototype.selectData = function() {
 		return;
 	}
 	this._searchButtonClick = false;
+	if (this._mainKeyValue == "") {
+		return;
+	}
 	var mngFeeFcltySe = this._mainKeyValue;
 	this.$("#mainGrid").selectFilterRow([{col:"mngFeeFcltySe", filter:mngFeeFcltySe}]);
 	this._mode = 'modify';

@@ -296,7 +296,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#scsbidGrid").on('onLoadDataComplete', function(event, module, data) {
-		module.selectScsbidFwdData();
+		module.selectScsbidData();
 	});
 
 	this.$("#scsbidGrid").on('onItemSelected', function(event, module, row, grid, param) {
@@ -866,7 +866,7 @@ GamFcltyCtrtMngModule.prototype.loadData = function() {
  * @PARAMETER     : NONE
 **/
 %>
- GamFcltyCtrtMngModule.prototype.refreshData = function() {
+GamFcltyCtrtMngModule.prototype.refreshData = function() {
 
 	var searchOpt=this.makeFormArgs('#searchForm');
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
@@ -913,8 +913,8 @@ GamFcltyCtrtMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamFcltyCtrtMngModule.prototype.selectData = function() {
 
-	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mainmode == 'query') {
+		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
@@ -925,21 +925,11 @@ GamFcltyCtrtMngModule.prototype.selectData = function() {
 		return;
 	}
 	this._searchButtonClick = false;
-	var ctrtNo = this._mainKeyValue;
-	if (ctrtNo == "") {
+	if (this._mainKeyValue == "") {
 		return;
 	}
-	var mainRowNo = -1;
-	for(var i=0; i<gridRowCount; i++) {
-		var row = this.$("#mainGrid").flexGetRow(i+1);
-		if (row.ctrtNo == ctrtNo) {
-			mainRowNo = i;
-			break;
-		}
-	}
-	if (mainRowNo >= 0) {
-		this.$("#mainGrid").selectRowId(mainRowNo);
-	}
+	var ctrtNo = this._mainKeyValue;
+	this.$("#mainGrid").selectFilterRow([{col:"ctrtNo", filter:ctrtNo}]);
 	this._mainmode = 'modify';
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();
@@ -1070,6 +1060,20 @@ GamFcltyCtrtMngModule.prototype.loadJoinDetail = function(tabId) {
 
 <%
 /**
+ * @FUNCTION NAME : refreshJoinData
+ * @DESCRIPTION   : JOIN DATA REFRESH (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.refreshJoinData = function() {
+
+	var searchOpt=this.makeFormArgs('#joinForm');
+	this.$('#joinGrid').flexOptions({params:searchOpt}).flexReload();
+
+};
+
+<%
+/**
  * @FUNCTION NAME : selectJoinData
  * @DESCRIPTION   : JOIN DATA SELECT
  * @PARAMETER     : NONE
@@ -1077,28 +1081,18 @@ GamFcltyCtrtMngModule.prototype.loadJoinDetail = function(tabId) {
 %>
 GamFcltyCtrtMngModule.prototype.selectJoinData = function() {
 
-	var gridRowCount = this.$("#joinGrid").flexRowCount();
 	if (this._joinmode == 'query') {
 		return;
 	} else if (this._joinmode != 'insert' && this._joinmode != 'modify') {
 		return;
 	}
-	var joinCtrtNo = this._joinKeyValue;
-	var joinSeq = this._joinSeq;
-	if (joinCtrtNo == "" || joinSeq == "") {
+	if (this._joinKeyValue == "" || this._joinSeq == "") {
 		return;
 	}
-	var joinRowNo = -1;
-	for(var i=0; i<gridRowCount; i++) {
-		var row = this.$("#joinGrid").flexGetRow(i+1);
-		if (row.joinCtrtNo == joinCtrtNo && row.joinSeq == joinSeq) {
-			joinRowNo = i;
-			break;
-		}
-	}
-	if (joinRowNo >= 0) {
-		this.$("#joinGrid").selectRowId(joinRowNo);
-	}
+	var joinCtrtNo = this._joinKeyValue;
+	var joinSeq = this._joinSeq;
+	this.$("#joinGrid").selectFilterRow([{col:"joinCtrtNo", filter:joinCtrtNo},
+										 {col:"joinSeq", filter:joinSeq}]);
 	this._joinmode = 'modify';
 	this.loadJoinDetail('joinTab');
 	this.enableJoinDetailInputItem();
@@ -1139,6 +1133,20 @@ GamFcltyCtrtMngModule.prototype.loadSubDetail = function(tabId) {
 
 <%
 /**
+ * @FUNCTION NAME : refreshSubData
+ * @DESCRIPTION   : SUB DATA REFRESH (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.refreshSubData = function() {
+
+	var searchOpt=this.makeFormArgs('#subForm');
+	this.$('#subGrid').flexOptions({params:searchOpt}).flexReload();
+
+};
+
+<%
+/**
  * @FUNCTION NAME : selectSubData
  * @DESCRIPTION   : SUB DATA SELECT
  * @PARAMETER     : NONE
@@ -1146,28 +1154,18 @@ GamFcltyCtrtMngModule.prototype.loadSubDetail = function(tabId) {
 %>
 GamFcltyCtrtMngModule.prototype.selectSubData = function() {
 
-	var gridRowCount = this.$("#subGrid").flexRowCount();
 	if (this._submode == 'query') {
 		return;
 	} else if (this._submode != 'insert' && this._submode != 'modify') {
 		return;
 	}
-	var subCtrtNo = this._subKeyValue;
-	var subSeq = this._subSeq;
-	if (subCtrtNo == "" || subSeq == "") {
+	if (this._subKeyValue == "" || this._subSeq == "") {
 		return;
 	}
-	var subRowNo = -1;
-	for(var i=0; i<gridRowCount; i++) {
-		var row = this.$("#subGrid").flexGetRow(i+1);
-		if (row.subCtrtNo == subCtrtNo && row.subSeq == subSeq) {
-			subRowNo = i;
-			break;
-		}
-	}
-	if (subRowNo >= 0) {
-		this.$("#subGrid").selectRowId(subRowNo);
-	}
+	var subCtrtNo = this._subKeyValue;
+	var subSeq = this._subSeq;
+	this.$("#subGrid").selectFilterRow([{col:"subCtrtNo", filter:subCtrtNo},
+										{col:"subSeq", filter:subSeq}]);
 	this._submode = 'modify';
 	this.loadSubDetail('subTab');
 	this.enableSubDetailInputItem();
@@ -1208,6 +1206,20 @@ GamFcltyCtrtMngModule.prototype.loadChangeDetail = function(tabId) {
 
 <%
 /**
+ * @FUNCTION NAME : refreshChangeData
+ * @DESCRIPTION   : CHANGE DATA REFRESH (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.refreshChangeData = function() {
+
+	var searchOpt=this.makeFormArgs('#changeForm');
+	this.$('#changeGrid').flexOptions({params:searchOpt}).flexReload();
+
+};
+
+<%
+/**
  * @FUNCTION NAME : selectChangeData
  * @DESCRIPTION   : CHANGE DATA SELECT
  * @PARAMETER     : NONE
@@ -1215,28 +1227,18 @@ GamFcltyCtrtMngModule.prototype.loadChangeDetail = function(tabId) {
 %>
 GamFcltyCtrtMngModule.prototype.selectChangeData = function() {
 
-	var gridRowCount = this.$("#changeGrid").flexRowCount();
 	if (this._changemode == 'query') {
 		return;
 	} else if (this._changemode != 'insert' && this._changemode != 'modify') {
 		return;
 	}
-	var changeCtrtNo = this._changeKeyValue;
-	var changeSeq = this._changeSeq;
-	if (changeCtrtNo == "" || changeSeq == "") {
+	if (this._changeKeyValue == "" || this._changeSeq == "") {
 		return;
 	}
-	var changeRowNo = -1;
-	for(var i=0; i<gridRowCount; i++) {
-		var row = this.$("#changeGrid").flexGetRow(i+1);
-		if (row.changeCtrtNo == changeCtrtNo && row.changeSeq == changeSeq) {
-			changeRowNo = i;
-			break;
-		}
-	}
-	if (changeRowNo >= 0) {
-		this.$("#changeGrid").selectRowId(changeRowNo);
-	}
+	var changeCtrtNo = this._changeKeyValue;
+	var changeSeq = this._changeSeq;
+	this.$("#changeGrid").selectFilterRow([{col:"changeCtrtNo", filter:changeCtrtNo},
+										   {col:"changeSeq", filter:changeSeq}]);
 	this._changemode = 'modify';
 	this.loadChangeDetail('changeTab');
 	this.enableChangeDetailInputItem();
@@ -1277,6 +1279,20 @@ GamFcltyCtrtMngModule.prototype.loadPymntDetail = function(tabId) {
 
 <%
 /**
+ * @FUNCTION NAME : refreshPymntData
+ * @DESCRIPTION   : PYMNT DATA REFRESH (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.refreshPymntData = function() {
+
+	var searchOpt=this.makeFormArgs('#pymntForm');
+	this.$('#pymntGrid').flexOptions({params:searchOpt}).flexReload();
+
+};
+
+<%
+/**
  * @FUNCTION NAME : selectPymntData
  * @DESCRIPTION   : PYMNT DATA SELECT
  * @PARAMETER     : NONE
@@ -1284,28 +1300,18 @@ GamFcltyCtrtMngModule.prototype.loadPymntDetail = function(tabId) {
 %>
 GamFcltyCtrtMngModule.prototype.selectPymntData = function() {
 
-	var gridRowCount = this.$("#pymntGrid").flexRowCount();
 	if (this._pymntmode == 'query') {
 		return;
 	} else if (this._pymntmode != 'insert' && this._pymntmode != 'modify') {
 		return;
 	}
-	var pymntCtrtNo = this._pymntKeyValue;
-	var pymntSeq = this._pymntSeq;
-	if (pymntCtrtNo == "" || pymntSeq == "") {
+	if (this._pymntKeyValue == "" || this._pymntSeq == "") {
 		return;
 	}
-	var pymntRowNo = -1;
-	for(var i=0; i<gridRowCount; i++) {
-		var row = this.$("#pymntGrid").flexGetRow(i+1);
-		if (row.pymntCtrtNo == pymntCtrtNo && row.pymntSeq == pymntSeq) {
-			pymntRowNo = i;
-			break;
-		}
-	}
-	if (pymntRowNo >= 0) {
-		this.$("#pymntGrid").selectRowId(pymntRowNo);
-	}
+	var pymntCtrtNo = this._pymntKeyValue;
+	var pymntSeq = this._pymntSeq;
+	this.$("#pymntGrid").selectFilterRow([{col:"pymntCtrtNo", filter:pymntCtrtNo},
+										  {col:"pymntSeq", filter:pymntSeq}]);
 	this._pymntmode = 'modify';
 	this.loadPymntDetail('pymntTab');
 	this.enablePymntDetailInputItem();
@@ -1346,6 +1352,20 @@ GamFcltyCtrtMngModule.prototype.loadCaryFwdDetail = function(tabId) {
 
 <%
 /**
+ * @FUNCTION NAME : refreshCaryFwdData
+ * @DESCRIPTION   : CARY FWD DATA REFRESH (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.refreshCaryFwdData = function() {
+
+	var searchOpt=this.makeFormArgs('#caryFwdForm');
+	this.$('#caryFwdGrid').flexOptions({params:searchOpt}).flexReload();
+
+};
+
+<%
+/**
  * @FUNCTION NAME : selectCaryFwdData
  * @DESCRIPTION   : CARYFWD DATA SELECT
  * @PARAMETER     : NONE
@@ -1353,28 +1373,18 @@ GamFcltyCtrtMngModule.prototype.loadCaryFwdDetail = function(tabId) {
 %>
 GamFcltyCtrtMngModule.prototype.selectCaryFwdData = function() {
 
-	var gridRowCount = this.$("#caryFwdGrid").flexRowCount();
 	if (this._caryfwdmode == 'query') {
 		return;
 	} else if (this._caryfwdmode != 'insert' && this._caryfwdmode != 'modify') {
 		return;
 	}
-	var caryFwdCtrtNo = this._caryFwdKeyValue;
-	var caryFwdSeq = this._caryFwdSeq;
-	if (caryFwdCtrtNo == "" || caryFwdSeq == "") {
+	if (this._caryFwdKeyValue == "" || this._caryFwdSeq == "") {
 		return;
 	}
-	var caryFwdRowNo = -1;
-	for(var i=0; i<gridRowCount; i++) {
-		var row = this.$("#caryFwdGrid").flexGetRow(i+1);
-		if (row.caryFwdCtrtNo == caryFwdCtrtNo && row.caryFwdSeq == caryFwdSeq) {
-			caryFwdRowNo = i;
-			break;
-		}
-	}
-	if (caryFwdRowNo >= 0) {
-		this.$("#caryFwdGrid").selectRowId(caryFwdRowNo);
-	}
+	var caryFwdCtrtNo = this._caryFwdKeyValue;
+	var caryFwdSeq = this._caryFwdSeq;
+	this.$("#caryFwdGrid").selectFilterRow([{col:"caryFwdCtrtNo", filter:caryFwdCtrtNo},
+											{col:"caryFwdSeq", filter:caryFwdSeq}]);
 	this._caryFwdmode = 'modify';
 	this.loadCaryFwdDetail('caryFwdTab');
 	this.enableCaryFwdDetailInputItem();
@@ -1415,6 +1425,20 @@ GamFcltyCtrtMngModule.prototype.loadScsbidDetail = function(tabId) {
 
 <%
 /**
+ * @FUNCTION NAME : refreshScsbidData
+ * @DESCRIPTION   : SCSBID FWD DATA REFRESH (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.refreshScsbidData = function() {
+
+	var searchOpt=this.makeFormArgs('#scsbidForm');
+	this.$('#scsbidGrid').flexOptions({params:searchOpt}).flexReload();
+
+};
+
+<%
+/**
  * @FUNCTION NAME : selectScsbidData
  * @DESCRIPTION   : SCSBID DATA SELECT
  * @PARAMETER     : NONE
@@ -1422,28 +1446,18 @@ GamFcltyCtrtMngModule.prototype.loadScsbidDetail = function(tabId) {
 %>
 GamFcltyCtrtMngModule.prototype.selectScsbidData = function() {
 
-	var gridRowCount = this.$("#scsbidGrid").flexRowCount();
 	if (this._scsbidmode == 'query') {
 		return;
 	} else if (this._scsbidmode != 'insert' && this._scsbidmode != 'modify') {
 		return;
 	}
-	var scsbidCtrtNo = this._scsbidKeyValue;
-	var scsbidSeq = this._scsbidSeq;
-	if (scsbidCtrtNo == "" || scsbidSeq == "") {
+	if (this._scsbidKeyValue == "" || this._scsbidSeq == "") {
 		return;
 	}
-	var scsbidRowNo = -1;
-	for(var i=0; i<gridRowCount; i++) {
-		var row = this.$("#scsbidGrid").flexGetRow(i+1);
-		if (row.scsbidCtrtNo == scsbidCtrtNo && row.scsbidSeq == scsbidSeq) {
-			scsbidRowNo = i;
-			break;
-		}
-	}
-	if (scsbidRowNo >= 0) {
-		this.$("#scsbidGrid").selectRowId(scsbidRowNo);
-	}
+	var scsbidCtrtNo = this._scsbidKeyValue;
+	var scsbidSeq = this._scsbidSeq;
+	this.$("#scsbidGrid").selectFilterRow([{col:"scsbidCtrtNo", filter:scsbidCtrtNo},
+										   {col:"scsbidSeq", filter:scsbidSeq}]);
 	this._scsbidmode = 'modify';
 	this.loadScsbidDetail('scsbidTab');
 	this.enableScsbidDetailInputItem();
@@ -2140,7 +2154,7 @@ GamFcltyCtrtMngModule.prototype.addChangeData = function() {
 	this.$('#changeCtrtAmt').val("0");
 	this.$('#lastCtrtAmt').val("0");
 	this.$('#changeRm').val("");
-	this.enableDetailInputItem();
+	this.enableChangeDetailInputItem();
 	this.$('#changeDt').focus();
 	this.getNewChangeSeq();
 
@@ -2538,7 +2552,7 @@ GamFcltyCtrtMngModule.prototype.addScsbidData = function() {
 	this.$('#scsbidBsnmNo').val("");
 	this.$('#scsbidTlphonNo').val("");
 	this.$('#scsbidRm').val("");
-	this.enablePymntDetailInputItem();
+	this.enableScsbidDetailInputItem();
 	this.$('#scsbidRank').focus();
 	this.getNewScsbidSeq();
 

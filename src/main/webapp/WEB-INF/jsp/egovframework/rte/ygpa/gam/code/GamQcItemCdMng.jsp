@@ -339,6 +339,9 @@ GamQcItemCdMngModule.prototype.selectData = function() {
 		return;
 	}
 	this._searchButtonClick = false;
+	if (this._mainKeyValue == "") {
+		return;
+	}
 	var qcItemCd = this._mainKeyValue;
 	this.$("#mainGrid").selectFilterRow([{col:"qcItemCd", filter:qcItemCd}]);
 	var row = this.$('#mainGrid').selectedRows();

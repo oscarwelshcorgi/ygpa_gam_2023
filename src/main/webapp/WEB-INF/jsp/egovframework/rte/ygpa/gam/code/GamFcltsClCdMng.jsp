@@ -331,6 +331,9 @@ GamFcltsClCdMngModule.prototype.selectData = function() {
 		return;
 	}
 	this._searchButtonClick = false;
+	if (this._mainKeyValue == "") {
+		return;
+	}
 	var fcltsClCd = this._mainKeyValue;
 	this.$("#mainGrid").selectFilterRow([{col:"fcltsClCd", filter:fcltsClCd}]);
 	var row = this.$('#mainGrid').selectedRows();

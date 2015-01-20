@@ -404,8 +404,8 @@ GamElctyEquipCapaMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamElctyEquipCapaMngModule.prototype.selectData = function() {
 
-	var gridRowCount = this.$("#mainGrid").flexRowCount();
 	if (this._mode == 'query') {
+		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
@@ -416,24 +416,15 @@ GamElctyEquipCapaMngModule.prototype.selectData = function() {
 		return;
 	}
 	this._searchButtonClick = false;
-	var mainKeyValue = this._mainKeyValue;
-	if (mainKeyValue == "") {
+	if (this._mainKeyValue == "") {
 		return;
 	}
-	var mngYear = mainKeyValue.substring(0,4);
-	var fcltsMngGroupNo = mainKeyValue.substring(4,18);
-	var mngSeq = mainKeyValue.substring(18,21);
-	var mainRowNo = -1;
-	for(var i=0; i<gridRowCount; i++) {
-		var row = this.$("#mainGrid").flexGetRow(i+1);
-		if (row.mngYear == mngYear && row.fcltsMngGroupNo == fcltsMngGroupNo && row.mngSeq == mngSeq) {
-			mainRowNo = i;
-			break;
-		}
-	}
-	if (mainRowNo >= 0) {
-		this.$("#mainGrid").selectRowId(mainRowNo);
-	}
+	var mngYear = this._mainKeyValue.substring(0,4);
+	var fcltsMngGroupNo = this._mainKeyValue.substring(4,18);
+	var mngSeq = this._mainKeyValue.substring(18,21);
+	this.$("#mainGrid").selectFilterRow([{col:"mngYear", filter:mngYear},
+	                                     {col:"fcltsMngGroupNo", filter:fcltsMngGroupNo},
+	                                     {col:"mngSeq", filter:mngSeq}]);
 	this._mode = 'modify';
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();

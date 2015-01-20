@@ -236,6 +236,9 @@ GamCarMngModule.prototype.selectData = function() {
 		return;
 	}
 	this._searchButtonClick = false;
+	if (this._mainKeyValue == "") {
+		return;
+	}
 	var carRegistNo = this._mainKeyValue;
 	this.$("#mainGrid").selectFilterRow([{col:"carRegistNo", filter:carRegistNo}]);
 	this._mode = 'modify';
