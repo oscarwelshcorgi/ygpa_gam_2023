@@ -234,4 +234,9 @@ public class YGLoginController {
     	return "ygpa/gam/main/logout";
     }
 
+    @RequestMapping(value="/uat/uia/accessDenied.do")
+    String accessDenied(ModelMap model) throws Exception {
+    	return "ygpa/gam/main/accessDenied";
+    }
+
 }
