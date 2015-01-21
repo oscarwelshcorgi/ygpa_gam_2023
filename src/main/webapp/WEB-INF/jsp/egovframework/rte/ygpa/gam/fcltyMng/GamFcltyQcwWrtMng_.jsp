@@ -46,13 +46,8 @@ GamFcltyQcwWrtMngModule.prototype = new EmdModule(1000,750);
 **/
 %>
 GamFcltyQcwWrtMngModule.prototype.loadComplete = function() {
-	
 	this._mainmode = '';
-	this.setControlStatus();
-
-	this._atchFileList = null;
-	this._qcResultItemList = null;
-	
+		
 	this.$('#mainGrid').flexigrid({
 		module: this,
 		url: '/fcltyMng/selectQcMngDtlsList.do',
@@ -96,7 +91,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function() {
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
-	this.$('#qcObjGrid').flexigrid({
+	this.$('#qcObjFcltsGrid').flexigrid({
 		module: this,
 		url: '',
 		dataType: 'json',
@@ -112,6 +107,8 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function() {
 		event.data.module.$('#sFcltsMngGroupNm').val('');
 	});
 	
+	this.setControlStatus();
+
 	this.fillSelectBoxYear('#enforceYear');	
 	this.fillSelectBoxYear('#sEnforceYear'); 		
 };
@@ -205,9 +202,21 @@ GamFcltyQcwWrtMngModule.prototype.loadDetail = function() {
 	var rows = this.$('#mainGrid').selectedRows();
 	if(rows.length > 0) {
 		var row = rows[0];
-		this.makeFormValues('#detailForm', {});
-		this.makeFormValues('#detailForm', row);
-		this.makeDivValues('#detailForm', row);
+		var opts = [
+	           		{name: 'sFcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
+	           		{name: 'sFcltsJobSe', value: row['fcltsJobSe'] },
+	           		{name: 'sQcMngSeq', value: row['qcMngSeq'] }
+		           ];
+		this.doAction('/fcltyMng/selectQcMngDtlsDetail.do', opts, function(module, result) { 
+			if(result.resultCode == '0'){
+				module.makeFormValues('#detailForm', result.result);
+			}
+			else {
+				module._mainmode = 'listed';
+				module.setControlStatus();
+				alert(result.resultMsg);
+			}
+		});	
 	} else {
 		alert('조회할 데이터를 선택하세요.');
 	}
@@ -253,7 +262,7 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 		this.$('#btnRemoveFile').removeClass('ui-state-disabled');
 		this.$('#btnPreviewFile').enable();
 		this.$('#btnPreviewFile').removeClass('ui-state-disabled');
-		this.$('#popupSelectQcResultItem').enabled();
+		this.$('#popupSelectQcResultItem').enable();
 		this.$('#popupSelectQcResultItem').removeClass('ui-state-disabled');
 	}
 	else if(this._mainmode == 'modify') {
@@ -277,7 +286,7 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 		this.$('#btnRemoveFile').removeClass('ui-state-disabled');
 		this.$('#btnPreviewFile').enable();
 		this.$('#btnPreviewFile').removeClass('ui-state-disabled');
-		this.$('#popupSelectQcResultItem').enabled();
+		this.$('#popupSelectQcResultItem').enable();
 		this.$('#popupSelectQcResultItem').removeClass('ui-state-disabled');
 	}
 	else if(this._mainmode == 'listed') {
@@ -328,7 +337,7 @@ GamFcltyQcwWrtMngModule.prototype.validateDetailForm = function() {
 		alert('업무구분을 입력하세요.');
 		return false;
 	}
-	if((this._cmd == 'modify') && (this.$('#qcMngSeq').val() == '')) {
+	if((this._mainmode == 'modify') && (this.$('#qcMngSeq').val() == '')) {
 		alert('잘못된 순번입니다.');
 		return false;
 	}
@@ -343,6 +352,7 @@ GamFcltyQcwWrtMngModule.prototype.validateDetailForm = function() {
 **/
 %>
 GamFcltyQcwWrtMngModule.prototype.saveData = function() {
+	//첨부파일리스트 만들기 var atchFileList = this.createAtchFileList();
 };
 
 <%
@@ -353,6 +363,74 @@ GamFcltyQcwWrtMngModule.prototype.saveData = function() {
 **/
 %>
 GamFcltyQcwWrtMngModule.prototype.deleteData = function() {
+};
+
+<%
+/**
+ * @FUNCTION NAME : createAtchFileList
+ * @DESCRIPTION   : 첨부파일 리스트 생성
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.createAtchFileList = function() {
+	var resultList = [];
+	var len = this.$('#atchFile option').size();
+	var logicalFileNm, physcalFileNm; 
+	for(var i=0; i<len; i++) {
+		physcalFileNm = this.$('#atchFile option:eq(' + i + ')').val();
+		logicalFileNm = this.$('#atchFile option:eq(' + i + ')').text();
+		if(physcalFileNm != '') {
+			resultList[resultList.length] = {fcltsMngGroupNo:this.$('#fcltsMngGroupNo').val(), fcltsJobSe:this.$('#fcltsJobSe').val(), qcMngSeq:this.$('#qcMngSeq').val(), atchFileSe:'P', atchFileNmLogic:logicalFileNm, atchFileNmPhysicl: physcalFileNm, atchFileWritingDt:''};
+		}
+	}
+	return resultList;
+};
+
+<%
+/**
+ * @FUNCTION NAME : atchFileUpload
+ * @DESCRIPTION   : 첨부파일 업로드
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.atchFileUpload = function() {
+	this.uploadPfPhoto('uploadPhoto', function(module, result) {
+		$.each(result, function(){
+			module.$('#atchFile').append('<option value="' + this.physcalFileNm + '">' + this.logicalFileNm + '</option>');
+		});
+	}, '점검관리 첨부파일 업로드');	
+};
+
+<%
+/**
+ * @FUNCTION NAME : atchFileDownload
+ * @DESCRIPTION   : 첨부파일 다운로드
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.atchFileDownload = function() {
+	if(this.$('#atchFile').val() != '') {
+		this.downPfPhoto(this.$('#atchFile').val(), this.$('#atchFile').find('option:selected').text());
+	} 
+	else {
+		alert('첨부파일을 선택해주십시오.');
+	} 
+};
+
+<%
+/**
+ * @FUNCTION NAME : atchFileRemove
+ * @DESCRIPTION   : 첨부파일제거
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.atchFileRemove = function() {
+	if(this.$('#atchFile').val() != '') {
+		this.$('#atchFile option[value="' + this.$('#atchFile').val() + '"]').remove();
+	}
+	else {
+		alert('첨부파일을 선택해주십시오.');
+	} 
 };
 
 <%
@@ -388,12 +466,15 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		
 		case 'btnUploadFile' :
+			this.atchFileUpload();
 			break;
 
 		case 'btnDownloadFile' :
+			this.atchFileDownload();
 			break;
 
 		case 'btnRemoveFile' :
+			this.atchFileRemove();
 			break;
 			
 		case 'btnPreviewFile' :
@@ -452,7 +533,7 @@ GamFcltyQcwWrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		case 'listTab':
 			break;
 		case 'detailTab':
-			if(this._mainmode == 'modify') {
+			if(this._mainmode == 'modify' && oldTabId == 'listTab') {
 				this.loadDetail();
 			}
 			break;
@@ -564,12 +645,12 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 
 			<!-- 2.1.3. TAB 2 AREA (DETAIL) -->
 			<div id="detailTab" class="emdTabPage" style="overflow: hidden;">
-				<form id="detailForm">
 				<!-- 2.1.3.1 Layout Table -->
 				<table style="width:100%;" class="editForm">
 					<tr>
 						<td width="70%">
 							<!-- 2.1.3.1.1 Element Table -->
+							<form id="detailForm">
 							<table  class="detailPanel"  style="width:100%;">
 								<tr>
 									<th width="14%">관리그룹</th>
@@ -695,20 +776,20 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 									<td colspan="3"><input id="rm" type="text" size="86"/></td>
 								</tr>
 							</table>
+							</form>
 						</td>
 						<td width="30%">
 							<!-- 2.1.3.1.2 Grid Table -->
 							<table  class="detailPanel"  style="width:100%;">
 								<tr>
 									<td>
-										<table id="qcObjGrid" style="display:none" class="fillHeight"></table>
+										<table id="qcObjFcltsGrid" style="display:none" class="fillHeight"></table>
 									</td>
 								</tr>
 							</table>
 						</td>
 					</tr>
 				</table>
-				</form>
 				<table class="editForm" style="width:100%">
 					<tr>
 						<th width="10%" height="20">첨부파일</th>

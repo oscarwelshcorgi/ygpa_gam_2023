@@ -72,7 +72,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void insertQcMngDtls(Map<?, ?> vo) throws Exception;
+	void insertQcMngDtls(Map<String, Object> vo) throws Exception;
 	
 	/**
 	 * 점검관리내역 데이터 수정

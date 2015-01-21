@@ -92,7 +92,8 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void insertQcMngDtls(Map<?, ?> vo) throws Exception {
+	public void insertQcMngDtls(Map<String, Object> vo) throws Exception {
+		vo.put("qcMngSeq", gamFcltyQcwWrtMngDao.selectMaxQcMngSeq(vo));
 		gamFcltyQcwWrtMngDao.insertQcMngDtls(vo);
 	}
 	

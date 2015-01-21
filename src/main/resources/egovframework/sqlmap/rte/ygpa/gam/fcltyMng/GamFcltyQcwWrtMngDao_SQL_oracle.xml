@@ -34,8 +34,6 @@
 							, Q.QC_INSP_AMT
 							, Q.STTUS_EVL_LVL
 							, GAM_GET_STTUS_EVL_LVL_NM(Q.STTUS_EVL_LVL) STTUS_EVL_LVL_NM
-							, Q.QC_INSP_RESULT
-							, Q.ACTION_CN
 							, Q.RM
 						FROM
 							QC_MNG_DTLS_F Q
@@ -96,6 +94,7 @@
 		</isNotEmpty>
 	</select>
 
+	<!-- 점검관리 상세내역 -->
 	<select id="gamFcltyQcwWrtMngDao.selectQcMngDtlsDetail_S" parameterClass="hashMap" resultClass="egovMap">
 		SELECT
 			Q.FCLTS_MNG_GROUP_NO
@@ -125,16 +124,20 @@
 			AND Q.QC_MNG_SEQ = TO_NUMBER(#sQcMngSeq#)
 	</select>
 	
-	<insert id="gamFcltyQcwWrtMngDao.insertQcMngDtls_S">
-    	<selectKey keyProperty="maxQcMngSeq" resultClass="String">
-		   	SELECT
-				TO_CHAR(NVL(MAX(QC_MNG_SEQ),0) + 1)
-			FROM
-				QC_MNG_DTLS_F
-			WHERE 
-				FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo# 
-				AND FCLTS_JOB_SE = #fcltsJobSe#
-    	</selectKey>	
+	
+	<!-- 점검관리 순번 얻기 -->
+	<select id="gamFcltyQcwWrtMngDao.selectMaxQcMngSeq_S" parameterClass="hashMap" resultClass="String">
+		SELECT
+			TO_CHAR(NVL(MAX(QC_MNG_SEQ),0) + 1)
+		FROM
+			QC_MNG_DTLS_F
+		WHERE 
+			FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo# 
+			AND FCLTS_JOB_SE = #fcltsJobSe#
+	</select>
+	
+	<!-- 점검관리내역 등록 -->
+	<insert id="gamFcltyQcwWrtMngDao.insertQcMngDtls_S" parameterClass="hashMap">
 		INSERT INTO
 			QC_MNG_DTLS_F (
 				FCLTS_MNG_GROUP_NO
@@ -160,7 +163,7 @@
 			) VALUES (
 				#fcltsMngGroupNo#
 				, #fcltsJobSe#
-				, TO_NUMBER(#maxQcMngSeq#)
+				, TO_NUMBER(#qcMngSeq#)
 				, #enforceYear#
 				, #qcMngNm#
 				, TO_DATE(#qcInspDt#, 'YYYY-MM-DD')
@@ -181,6 +184,7 @@
 			)
 	</insert>
 	
+	<!-- 점검관리내역 수정 -->
 	<update id="gamFcltyQcwWrtMngDao.updateQcMngDtls_S">
 		UPDATE
 			QC_MNG_DTLS_F
@@ -208,6 +212,7 @@
 			AND QC_MNG_SEQ = TO_NUMBER(#qcMngSeq#)
 	</update>
 	
+	<!-- 점검관리내역 삭제 -->
 	<delete id="gamFcltyQcwWrtMngDao.deleteQcMngDtls_S">
 		DELETE FROM
 			QC_MNG_DTLS_F

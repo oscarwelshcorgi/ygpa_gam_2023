@@ -82,6 +82,16 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	}
 	
 	/**
+	 * 점검구분 이름 조회(인쇄화면에 사용)
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */		
+	public String selectMaxQcMngSeq(Map<?, ?> vo) throws Exception {
+		return (String)getSqlMapClientTemplate().queryForObject("gamFcltyQcwWrtMngDao.selectMaxQcMngSeq_S", vo);
+	}
+
+	/**
 	 * 점검관리내역 데이터 삽입
 	 * @param vo
 	 * @return 
