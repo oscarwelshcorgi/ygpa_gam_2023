@@ -1082,11 +1082,14 @@ GamFcltyCtrtMngModule.prototype.refreshJoinData = function() {
 GamFcltyCtrtMngModule.prototype.selectJoinData = function() {
 
 	if (this._joinmode == 'query') {
+		this.disableJoinDetailInputItem();
 		return;
 	} else if (this._joinmode != 'insert' && this._joinmode != 'modify') {
+		this.disableJoinDetailInputItem();
 		return;
 	}
 	if (this._joinKeyValue == "" || this._joinSeq == "") {
+		this.disableJoinDetailInputItem();
 		return;
 	}
 	var joinCtrtNo = this._joinKeyValue;
@@ -1155,11 +1158,14 @@ GamFcltyCtrtMngModule.prototype.refreshSubData = function() {
 GamFcltyCtrtMngModule.prototype.selectSubData = function() {
 
 	if (this._submode == 'query') {
+		this.disableSubDetailInputItem();
 		return;
 	} else if (this._submode != 'insert' && this._submode != 'modify') {
+		this.disableSubDetailInputItem();
 		return;
 	}
 	if (this._subKeyValue == "" || this._subSeq == "") {
+		this.disableSubDetailInputItem();
 		return;
 	}
 	var subCtrtNo = this._subKeyValue;
@@ -1228,11 +1234,14 @@ GamFcltyCtrtMngModule.prototype.refreshChangeData = function() {
 GamFcltyCtrtMngModule.prototype.selectChangeData = function() {
 
 	if (this._changemode == 'query') {
+		this.disableChangeDetailInputItem();
 		return;
 	} else if (this._changemode != 'insert' && this._changemode != 'modify') {
+		this.disableChangeDetailInputItem();
 		return;
 	}
 	if (this._changeKeyValue == "" || this._changeSeq == "") {
+		this.disableChangeDetailInputItem();
 		return;
 	}
 	var changeCtrtNo = this._changeKeyValue;
@@ -1301,11 +1310,14 @@ GamFcltyCtrtMngModule.prototype.refreshPymntData = function() {
 GamFcltyCtrtMngModule.prototype.selectPymntData = function() {
 
 	if (this._pymntmode == 'query') {
+		this.disablePymntDetailInputItem();
 		return;
 	} else if (this._pymntmode != 'insert' && this._pymntmode != 'modify') {
+		this.disablePymntDetailInputItem();
 		return;
 	}
 	if (this._pymntKeyValue == "" || this._pymntSeq == "") {
+		this.disablePymntDetailInputItem();
 		return;
 	}
 	var pymntCtrtNo = this._pymntKeyValue;
@@ -1374,11 +1386,14 @@ GamFcltyCtrtMngModule.prototype.refreshCaryFwdData = function() {
 GamFcltyCtrtMngModule.prototype.selectCaryFwdData = function() {
 
 	if (this._caryfwdmode == 'query') {
+		this.disableCaryFwdDetailInputItem();
 		return;
 	} else if (this._caryfwdmode != 'insert' && this._caryfwdmode != 'modify') {
+		this.disableCaryFwdDetailInputItem();
 		return;
 	}
 	if (this._caryFwdKeyValue == "" || this._caryFwdSeq == "") {
+		this.disableCaryFwdDetailInputItem();
 		return;
 	}
 	var caryFwdCtrtNo = this._caryFwdKeyValue;
@@ -1447,11 +1462,14 @@ GamFcltyCtrtMngModule.prototype.refreshScsbidData = function() {
 GamFcltyCtrtMngModule.prototype.selectScsbidData = function() {
 
 	if (this._scsbidmode == 'query') {
+		this.disableScsbidDetailInputItem();
 		return;
 	} else if (this._scsbidmode != 'insert' && this._scsbidmode != 'modify') {
+		this.disableScsbidDetailInputItem();
 		return;
 	}
 	if (this._scsbidKeyValue == "" || this._scsbidSeq == "") {
+		this.disableScsbidDetailInputItem();
 		return;
 	}
 	var scsbidCtrtNo = this._scsbidKeyValue;
@@ -1976,7 +1994,7 @@ GamFcltyCtrtMngModule.prototype.deleteJoinData = function() {
 				module._joinmode = 'query';
 				module._joinKeyValue = '';
 				module._joinSeq = '';
-				module.loadJoinData();
+				module.loadJoinDetail('listTab');
 			}
 			alert(result.resultMsg);
 		});
@@ -2127,7 +2145,7 @@ GamFcltyCtrtMngModule.prototype.deleteSubData = function() {
 				module._submode = 'query';
 				module._subKeyValue = '';
 				module._subSeq = '';
-				module.loadSubData();
+				module.loadSubDetail('listTab');
 			}
 			alert(result.resultMsg);
 		});
@@ -2276,7 +2294,7 @@ GamFcltyCtrtMngModule.prototype.deleteChangeData = function() {
 				module._changemode = 'query';
 				module._changeKeyValue = '';
 				module._changeSeq = '';
-				module.loadChangeData();
+				module.loadChangeDetail('listTab');
 			}
 			alert(result.resultMsg);
 		});
@@ -2415,7 +2433,7 @@ GamFcltyCtrtMngModule.prototype.deletePymntData = function() {
 				module._pymntmode = 'query';
 				module._pymntKeyValue = '';
 				module._pymntSeq = '';
-				module.loadPymntData();
+				module.loadPymntDetail('listTab');
 			}
 			alert(result.resultMsg);
 		});
@@ -2527,7 +2545,7 @@ GamFcltyCtrtMngModule.prototype.deleteCaryFwdData = function() {
 				module._caryfwdmode = 'query';
 				module._caryFwdKeyValue = '';
 				module._caryFwdSeq = '';
-				module.loadCaryFwdData();
+				module.loadCaryFwdDetail('listTab');
 			}
 			alert(result.resultMsg);
 		});
@@ -2648,7 +2666,7 @@ GamFcltyCtrtMngModule.prototype.deleteScsbidData = function() {
 				module._scsbidmode = 'query';
 				module._scsbidKeyValue = '';
 				module._scsbidSeq = '';
-				module.loadScsbidData();
+				module.loadScsbidDetail('listTab');
 			}
 			alert(result.resultMsg);
 		});
