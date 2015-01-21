@@ -28,7 +28,7 @@ import egovframework.rte.ygpa.gam.maps.service.GamMapsAssetCodeMngtService;
 
 /**
  * @Class Name : GamGisAssetSttusInqireController.java
- * @Description : 자산GIS통계정보 조회
+ * @Description : 자산GIS통계정보 조회 컨트롤러
  * @Modification Information
  *
  * @author eunsungj

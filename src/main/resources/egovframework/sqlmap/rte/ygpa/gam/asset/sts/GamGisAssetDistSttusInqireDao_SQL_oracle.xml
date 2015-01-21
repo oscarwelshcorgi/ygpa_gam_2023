@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.asset.sts">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+
+    <select id="gamGisAssetDistSttusInqireDao.selectGisAssetDistSttusList_D" parameterClass="hashMap" resultClass="egovMap">
+		SELECT Z.*
+		FROM (
+		SELECT ROWNUM RNUM, S.*
+		FROM (
+		SELECT
+			GAC.GIS_ASSETS_PRT_AT_CODE
+			, GAM_GETCODENAME('GAM019', GAC.GIS_ASSETS_PRT_AT_CODE) GIS_ASSETS_PRT_AT_CODE_NM
+			, GAC.GIS_ASSETS_CD
+			, GAC.GIS_ASSETS_SUB_CD
+			, GAC.GIS_ASSETS_PRPRTY_SE_CD
+			, GAM_GETCODENAME('GAM019', GAC.GIS_ASSETS_PRPRTY_SE_CD) GIS_ASSETS_PRPRTY_SE_CD_NM
+			, GAC.GIS_ASSETS_NM
+			, GAC.GIS_ASSETS_LOCPLC
+			, GAC.GIS_ASSETS_LNM
+			, GAC.GIS_ASSETS_LNM_SUB
+			, GAC.GIS_ASSETS_AR
+	        , ERP.BUY_PRICE
+	      	, ERP.BUY_AMT
+	      	, TO_CHAR(GAC.GIS_ASSETS_BLD_DT, 'YYYY-MM-DD') GIS_ASSETS_BLD_DT
+			, GAC.GIS_ASSETS_STNDRD
+		<isEmpty property="fcltySe">
+			, '전체' FCLTY_SE_NM
+		</isEmpty>
+		<isNotEmpty property="fcltySe">
+			, GAM_GETCODENAME('GAM005', #fcltySe#) FCLTY_SE_NM
+		</isNotEmpty>
+			, (SELECT count(*)
+				FROM GIS_PRT_FCLTY_CD_F
+				WHERE GIS_ASSETS_PRT_AT_CODE=GAC.GIS_ASSETS_PRT_AT_CODE AND GIS_ASSETS_CD=GAC.GIS_ASSETS_CD AND GIS_ASSETS_SUB_CD=GAC.GIS_ASSETS_SUB_CD
+		<isNotEmpty property="fcltySe" prepend="AND">
+			GIS_PRT_FCLTY_CD=#fcltySe#
+		</isNotEmpty>
+				) FCLTY_CNT
+			, (SELECT count(*) FROM GIS_ASSETS_CD_E WHERE PRT_AT_CD=GAC.GIS_ASSETS_PRT_AT_CODE AND PRT_CD=GAC.GIS_ASSETS_CD AND PRT_SUB_CD=GAC.GIS_ASSETS_SUB_CD) GIS_STAT
+		FROM GIS_ASSETS_CD_F GAC LEFT OUTER JOIN EGMISDB.EGMFA1000 ERP
+			ON GAC.ERP_ASSETS_CLS=ERP.ASSET_CLS AND GAC.ERP_ASSETS_NO=ERP.ASSET_NO AND GAC.ERP_ASSETS_NO_SEQ=ERP.ASSET_NO_SEQ
+		WHERE 1                      = 1
+		<isNotEmpty property="searchGisAssetsPrtAtCode">
+			AND GAC.GIS_ASSETS_PRT_AT_CODE = #searchGisAssetsPrtAtCode#
+		</isNotEmpty>
+		<isNotEmpty property="sPrprtySeCd">
+			AND GAC.GIS_ASSETS_PRPRTY_SE_CD = #sPrprtySeCd#
+		</isNotEmpty>
+		<isNotEmpty property="sGisAssetsNm">
+			AND GAC.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="sGisAssetsLocplc">
+			AND GAC.GIS_ASSETS_LOCPLC LIKE '%' || #sGisAssetsLocplc# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="sGisAssetsLnm">
+			AND GAC.GIS_ASSETS_LNM = #sGisAssetsLnm#
+		</isNotEmpty>
+			<isNotEmpty property="sGisAssetsLnmSub">
+			AND GAC.GIS_ASSETS_LNM_SUB = #sGisAssetsLnmSub#
+		</isNotEmpty>
+		ORDER BY ERP.BUY_AMT
+		) S
+		) Z
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+
+	<select id="gamGisAssetDistSttusInqireDao.selectGisAssetDistSttusListTotCnt_S" parameterClass="hashMap" resultClass="int">
+		SELECT COUNT(*) totcnt
+		FROM GIS_ASSETS_CD_F GAC
+		WHERE 1                      = 1
+		<isNotEmpty property="searchGisAssetsPrtAtCode">
+			AND GAC.GIS_ASSETS_PRT_AT_CODE = #searchGisAssetsPrtAtCode#
+		</isNotEmpty>
+		<isNotEmpty property="sPrprtySeCd">
+			AND GAC.GIS_ASSETS_PRPRTY_SE_CD = #sPrprtySeCd#
+		</isNotEmpty>
+		<isNotEmpty property="sGisAssetsNm">
+			AND GAC.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="sGisAssetsLocplc">
+			AND GAC.GIS_ASSETS_LOCPLC LIKE '%' || #sGisAssetsLocplc# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="sGisAssetsLnm">
+			AND GAC.GIS_ASSETS_LNM = #sGisAssetsLnm#
+		</isNotEmpty>
+			<isNotEmpty property="sGisAssetsLnmSub">
+			AND GAC.GIS_ASSETS_LNM_SUB = #sGisAssetsLnmSub#
+		</isNotEmpty>
+    </select>
+
+    <select id="gamGisAssetDistSttusInqireDao.selectGisAssetDistSttusListTotSum_S" parameterClass="hashMap" resultClass="egovMap">
+        SELECT
+		     COUNT(*) SUM_CNT
+		   , SUM(NVL(GAC.GIS_ASSETS_AR,0)) SUM_AR
+		   , SUM(NVL(ERP.BUY_AMT, 0)) SUM_BUY_AMT
+          FROM GIS_ASSETS_CD_F GAC LEFT OUTER JOIN EGMISDB.EGMFA1000 ERP
+		ON GAC.ERP_ASSETS_CLS=ERP.ASSET_CLS AND GAC.ERP_ASSETS_NO=ERP.ASSET_NO AND GAC.ERP_ASSETS_NO_SEQ=ERP.ASSET_NO_SEQ
+		WHERE 1                      = 1
+		<isNotEmpty property="searchGisAssetsPrtAtCode">
+			AND GAC.GIS_ASSETS_PRT_AT_CODE = #searchGisAssetsPrtAtCode#
+		</isNotEmpty>
+		<isNotEmpty property="sPrprtySeCd">
+			AND GAC.GIS_ASSETS_PRPRTY_SE_CD = #sPrprtySeCd#
+		</isNotEmpty>
+		<isNotEmpty property="sGisAssetsNm">
+			AND GAC.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="sGisAssetsLocplc">
+			AND GAC.GIS_ASSETS_LOCPLC LIKE '%' || #sGisAssetsLocplc# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="sGisAssetsLnm">
+			AND GAC.GIS_ASSETS_LNM = #sGisAssetsLnm#
+		</isNotEmpty>
+			<isNotEmpty property="sGisAssetsLnmSub">
+			AND GAC.GIS_ASSETS_LNM_SUB = #sGisAssetsLnmSub#
+		</isNotEmpty>
+    </select>
+
+	   <select id="gamGisAssetDistSttusInqireDao.selectAssetDistSttusInfoByCode_S" parameterClass="hashMap" resultClass="egovMap">
+	   SELECT
+		GIS_ASSETS_SUB_CD,
+		GIS_ASSETS_CD,
+		GIS_ASSETS_NM,
+		GIS_ASSETS_MNG_DEPT_CD,
+		GIS_ASSETS_OPER_DEPT_CD,
+		GIS_ASSETS_LOCPLC,
+		GIS_ASSETS_LNM,
+		GIS_ASSETS_LNM_SUB,
+		GIS_ASSETS_PRT_AT_CODE,
+		GIS_ASSETS_AR,
+		GIS_ASSETS_ACQ_PRI,
+		GIS_ASSETS_STNDRD,
+		GIS_ASSETS_BLDDATE,
+		GIS_ASSETS_BLD_DT,
+		GIS_ASSETS_VAL_AMT,
+		GIS_ASSETS_VAL_INQIRE_DT
+		FROM GIS_ASSETS_CD_F
+		WHERE GIS_ASSETS_PRT_AT_CODE=#PRT_AT_CD#
+		  AND GIS_ASSETS_CD=#PRT_CD#
+		  AND GIS_ASSETS_SUB_CD=#PRT_SUB_CD#
+		</select>
+
+    <select id="gamGisAssetDistSttusInqireDao.selectAssetDistSttusListByCode_D" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+			E.DEPRCTN_YEAR,
+			E.REVAL_AMT,
+			E.THIS_TERM_INCRE_AMT,
+			E.BS_THIS_CUR_AMT,
+			E.BS_PRE_DEPRCTN_SUM,
+			E.BS_NO_DEPRCTN_BAL,
+			E.PRE_END_ASSET_BUY_SUM,
+			E.ASSET_BUY_AMT,
+			E.GNRL_DEPRCTN_RATE,
+			E.THIS_TERM_DEPRCTN_AMT,
+			E.CUR_AMT
+		FROM EGMISDB.EGMFA2000 E, GIS_ASSETS_CD_F G
+		WHERE GIS_ASSETS_PRT_AT_CODE=#PRT_AT_CD#
+		  AND GIS_ASSETS_CD=#PRT_CD#
+		  AND GIS_ASSETS_SUB_CD=#PRT_SUB_CD#
+		  AND E.ASSET_CLS=G.ERP_ASSETS_CLS
+		  AND E.ASSET_NO=G.ERP_ASSETS_CLS
+		  AND E.ASSET_NO_SEQ=G.ERP_ASSETS_CLS
+    </select>
+
+</sqlMap>
