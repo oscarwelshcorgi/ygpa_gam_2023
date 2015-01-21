@@ -48,6 +48,10 @@ GamFcltyQcwWrtMngModule.prototype = new EmdModule(1000,750);
 GamFcltyQcwWrtMngModule.prototype.loadComplete = function() {
 	
 	this._mainmode = '';
+	this.setControlStatus();
+
+	this._atchFileList = null;
+	this._qcResultItemList = null;
 	
 	this.$('#mainGrid').flexigrid({
 		module: this,
@@ -82,9 +86,14 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$('#mainGrid').on('onItemSelected', function(event, module, row, grid, param) {
+		module._mainmode = 'modify';
+		module.setControlStatus();
 	});
 	
 	this.$('#mainGrid').on('onItemDoubleClick', function(event, module, row, grid, param) {
+		module._mainmode = 'modify';
+		module.setControlStatus();
+		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
 	this.$('#qcObjGrid').flexigrid({
@@ -95,7 +104,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function() {
 					{display:"선택",		name:"chkYn",		width:50,	sortable:false,	align:"center"},
 					{display:"점검시설명",	name:"prtFcltyNm",	width:235,	sortable:false,	align:"left"},
 			],
-		height: '500'
+		height: '450'
 	});
 	
 	this.$('#sFcltsMngGroupNo').bind('click', {module: this}, function(event) {
@@ -153,6 +162,8 @@ GamFcltyQcwWrtMngModule.prototype.loadData = function() {
 **/
 %>
 GamFcltyQcwWrtMngModule.prototype.loadDataComplete = function() {
+	this._mainmode = 'listed';
+	this.setControlStatus();
 };
 
 <%
@@ -190,7 +201,30 @@ GamFcltyQcwWrtMngModule.prototype.downloadExcel = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamFcltyQcwWrtMngModule.prototype.loadDetail = function(tabId) {
+GamFcltyQcwWrtMngModule.prototype.loadDetail = function() {
+	var rows = this.$('#mainGrid').selectedRows();
+	if(rows.length > 0) {
+		var row = rows[0];
+		this.makeFormValues('#detailForm', {});
+		this.makeFormValues('#detailForm', row);
+		this.makeDivValues('#detailForm', row);
+	} else {
+		alert('조회할 데이터를 선택하세요.');
+	}
+};
+
+<%
+/**
+ * @FUNCTION NAME : initBeforeInsert
+ * @DESCRIPTION   : 추가작업 전 초기화
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.initBeforeInsert = function() {
+	this._mainmode = 'insert';
+	this.setControlStatus();
+	this.makeFormValues('#detailForm', {});
+	this.$('#mainTab').tabs('option', {active: 1});
 };
 
 <%
@@ -206,25 +240,75 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 		this.$('#popupDetailFcltsMngGroup').enable();
 		this.$('#popupDetailFcltsMngGroup').removeClass('ui-state-disabled');
 		this.$('#btnAdd').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnDetailAdd').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnDelete').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnDetailDelete').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
+		this.$('#btnUploadFile').enable();
+		this.$('#btnUploadFile').removeClass('ui-state-disabled');
+		this.$('#btnDownloadFile').enable();
+		this.$('#btnDownloadFile').removeClass('ui-state-disabled');
+		this.$('#btnRemoveFile').enable();
+		this.$('#btnRemoveFile').removeClass('ui-state-disabled');
+		this.$('#btnPreviewFile').enable();
+		this.$('#btnPreviewFile').removeClass('ui-state-disabled');
+		this.$('#popupSelectQcResultItem').enabled();
+		this.$('#popupSelectQcResultItem').removeClass('ui-state-disabled');
 	}
 	else if(this._mainmode == 'modify') {
 		this.$('#fcltsJobSe').disable();
 		this.$('#popupDetailFcltsMngGroup').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnAdd').enable();
+		this.$('#btnAdd').removeClass('ui-state-disabled');
+		this.$('#btnDetailAdd').enable();
+		this.$('#btnDetailAdd').removeClass('ui-state-disabled');
+		this.$('#btnDelete').enable();
+		this.$('#btnDelete').removeClass('ui-state-disabled');
+		this.$('#btnDetailDelete').enable();
+		this.$('#btnDetailDelete').removeClass('ui-state-disabled');
+		this.$('#btnSave').enable();
+		this.$('#btnSave').removeClass('ui-state-disabled');
+		this.$('#btnUploadFile').enable();
+		this.$('#btnUploadFile').removeClass('ui-state-disabled');
+		this.$('#btnDownloadFile').enable();
+		this.$('#btnDownloadFile').removeClass('ui-state-disabled');
+		this.$('#btnRemoveFile').enable();
+		this.$('#btnRemoveFile').removeClass('ui-state-disabled');
+		this.$('#btnPreviewFile').enable();
+		this.$('#btnPreviewFile').removeClass('ui-state-disabled');
+		this.$('#popupSelectQcResultItem').enabled();
+		this.$('#popupSelectQcResultItem').removeClass('ui-state-disabled');
 	}
 	else if(this._mainmode == 'listed') {
 		this.$('#fcltsJobSe').disable();
 		this.$('#popupDetailFcltsMngGroup').disable({disableClass:'ui-state-disabled'});
-		this.$('#btnAdd').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnAdd').enable();
+		this.$('#btnAdd').removeClass('ui-state-disabled');
+		this.$('#btnDetailAdd').enable();
+		this.$('#btnDetailAdd').removeClass('ui-state-disabled');
 		this.$('#btnDelete').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnDetailDelete').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnSave').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnUploadFile').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnDownloadFile').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnRemoveFile').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnPreviewFile').disable({disableClass:'ui-state-disabled'});
+		this.$('#popupSelectQcResultItem').disable({disableClass:'ui-state-disabled'});
 	} 
 	else {
 		this.$('#fcltsJobSe').disable();
 		this.$('#popupDetailFcltsMngGroup').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnAdd').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnDetailAdd').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnDelete').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnDetailDelete').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnSave').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnUploadFile').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnDownloadFile').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnRemoveFile').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnPreviewFile').disable({disableClass:'ui-state-disabled'});
+		this.$('#popupSelectQcResultItem').disable({disableClass:'ui-state-disabled'});
 	}
 };
 
@@ -253,22 +337,22 @@ GamFcltyQcwWrtMngModule.prototype.validateDetailForm = function() {
 
 <%
 /**
- * @FUNCTION NAME : saveDetailData
+ * @FUNCTION NAME : saveData
  * @DESCRIPTION   : Detail 데이터 저장
  * @PARAMETER     : NONE
 **/
 %>
-GamFcltyQcwWrtMngModule.prototype.saveDetailData = function() {
+GamFcltyQcwWrtMngModule.prototype.saveData = function() {
 };
 
 <%
 /**
- * @FUNCTION NAME : deleteDetailData
- * @DESCRIPTION   : Detail 데이터 저장
+ * @FUNCTION NAME : deleteData
+ * @DESCRIPTION   : Detail 데이터 삭제
  * @PARAMETER     : NONE
 **/
 %>
-GamFcltyQcwWrtMngModule.prototype.deleteDetailData = function() {
+GamFcltyQcwWrtMngModule.prototype.deleteData = function() {
 };
 
 <%
@@ -282,20 +366,42 @@ GamFcltyQcwWrtMngModule.prototype.deleteDetailData = function() {
 GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 		case 'btnSearch':
+			this.loadData();
 			break;
 			
 		case 'btnExcelDownload':
+			this.downloadExcel();
 			break;
 			
 		case 'btnAdd' :
+		case 'btnDetailAdd' :
+			this.initBeforeInsert();
 			break;
 			
 		case 'btnDelete' :
+		case 'btnDetailDelete' :
+			this.deleteData();
 			break;
 			
 		case 'btnSave' :
+			this.saveData();
 			break;
 		
+		case 'btnUploadFile' :
+			break;
+
+		case 'btnDownloadFile' :
+			break;
+
+		case 'btnRemoveFile' :
+			break;
+			
+		case 'btnPreviewFile' :
+			break;
+			
+		case 'popupSelectQcResultItem' :
+			break;
+			
 		case 'popupDetailFcltsMngGroup':
 			this.doExecuteDialog('selectDetailFcltsMngGroup', '관리그룹 선택', '/popup/showFcltsMngGroup.do', {});
 			break;
@@ -346,6 +452,9 @@ GamFcltyQcwWrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		case 'listTab':
 			break;
 		case 'detailTab':
+			if(this._mainmode == 'modify') {
+				this.loadDetail();
+			}
 			break;
 	}
 };
@@ -585,19 +694,6 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 									<th height="17">비고</th>
 									<td colspan="3"><input id="rm" type="text" size="86"/></td>
 								</tr>
-								<tr>
-									<th height="17">첨부파일</th>
-									<td colspan="2">
-										<select id="atchFile">
-											<option value="">선택</option>
-		                                </select>	
-									</td>
-									<td align="right">
-										<button id="btnUploadFile">업로드</button>
-										<button id="btnDownloadFile">다운로드</button>
-										<button id="btnRemoveFile">파일삭제</button>
-									</td>
-								</tr>
 							</table>
 						</td>
 						<td width="30%">
@@ -613,9 +709,25 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 					</tr>
 				</table>
 				</form>
+				<table class="editForm" style="width:100%">
+					<tr>
+						<th width="10%" height="20">첨부파일</th>
+						<td colspan="2">
+							<select id="atchFile">
+								<option value="">선택</option>
+                            </select>	
+						</td>
+						<td style="text-align:right">
+							<button id="btnUploadFile">업로드</button>
+							<button id="btnDownloadFile">다운로드</button>
+							<button id="btnRemoveFile">첨부파일삭제</button>
+							<button id="btnPreviewFile">첨부파일미리보기</button>
+						</td>
+					</tr>
+				</table>
 				<div class="emdControlPanel">
-					<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
-					<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
+					<button id="btnDetailAdd" class="buttonAdd">　　추　가　　</button>
+					<button id="btnDetailDelete" class="buttonDelete">　　삭　제　　</button>
 					<button id="btnSave" class="buttonSave">　　저　장　　</button>
 				</div>
 			</div>

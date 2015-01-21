@@ -6,7 +6,7 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamFcltyQcwWrtMngVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcwWrtMngVO"/>
     
-    <!-- 점검관리내역 -->
+    <!-- 점검관리목록 -->
 	<select id="gamFcltyQcwWrtMngDao.selectQcMngDtlsList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
         SELECT A.*
            FROM (
@@ -34,6 +34,8 @@
 							, Q.QC_INSP_AMT
 							, Q.STTUS_EVL_LVL
 							, GAM_GET_STTUS_EVL_LVL_NM(Q.STTUS_EVL_LVL) STTUS_EVL_LVL_NM
+							, Q.QC_INSP_RESULT
+							, Q.ACTION_CN
 							, Q.RM
 						FROM
 							QC_MNG_DTLS_F Q
@@ -69,6 +71,7 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
 	</select>
 
+	<!-- 점검관리목록 개수 -->
 	<select id="gamFcltyQcwWrtMngDao.selectQcMngDtlsListTotCnt_S" parameterClass="gamFcltyQcwWrtMngVO" resultClass="int">
 		SELECT
 			COUNT(*) TOTCNT
@@ -93,52 +96,6 @@
 		</isNotEmpty>
 	</select>
 
-	<!-- 점검관리 정보통신 인쇄 리스트 -->
-	<select id="gamFcltyQcwWrtMngDao.selectQcMngDtlsReportI_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
-		SELECT
-			Q.FCLTS_MNG_GROUP_NO
-		  	, F.FCLTS_MNG_GROUP_NM 
-            , F.PRT_AT_CODE
-            , GAM_GETCODENAME('GAM019', F.PRT_AT_CODE) PRT_AT_CODE_NM
-            , F.OWNER
-            , GAM_GET_STTUS_EVL_LVL_NM(Q.STTUS_EVL_LVL) STTUS_EVL_LVL_NM
-            , Q.ACTION_CN
-            , Q.RM
-		FROM
-            QC_MNG_DTLS_F Q
-        INNER JOIN 
-           	FCLTS_MNG_GROUP_F F
-        ON
-            Q.FCLTS_MNG_GROUP_NO = F.FCLTS_MNG_GROUP_NO
-		WHERE
-			1 = 1
-		<isNotEmpty property="sFcltsMngGroupNo">
-		  	AND Q.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
-		</isNotEmpty>
-		<isNotEmpty property="sFcltsJobSe">
-		  	AND Q.FCLTS_JOB_SE = #sFcltsJobSe#
-		</isNotEmpty>
-		<isNotEmpty property="sQcMngNm">
-		  	AND Q.QC_MNG_NM LIKE '%' || #sQcMngNm# || '%' 
-		</isNotEmpty>
-		<isNotEmpty property="sQcSe">
-		  	AND Q.QC_SE = #sQcSe#
-		</isNotEmpty>
-		<isNotEmpty property="sEnforceYear">
-		  	AND Q.ENFORCE_YEAR = #sEnforceYear#
-		</isNotEmpty>              	
-        ORDER BY 
-            F.PRT_AT_CODE, 
-            Q.FCLTS_MNG_GROUP_NO	
-	</select>
-	
-	<select id="gamFcltyQcwWrtMngDao.selectQcSeNm_S" parameterClass="gamFcltyQcwWrtMngVO" resultClass="String">
-		SELECT
-		  GAM_GET_QC_SE_NM(#sQcSe#) qcSeNm
-		FROM
-		  DUAL	
-  	</select>
-  	
 	<select id="gamFcltyQcwWrtMngDao.selectQcMngDtlsDetail_S" parameterClass="hashMap" resultClass="egovMap">
 		SELECT
 			Q.FCLTS_MNG_GROUP_NO

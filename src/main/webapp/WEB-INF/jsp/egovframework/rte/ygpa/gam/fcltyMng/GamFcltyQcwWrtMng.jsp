@@ -142,11 +142,6 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 	this.$(".photoEditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.atchFileInfoChanged(event.target);
 	});
-
-	//조회조건 select 변경 이벤트 처리기 (인쇄화면을 위한 처리)
-	this.$(".searchEditItem").bind("change", {module: this}, function(event) {
-		event.data.module.searchItemChanged(event.target);
-	});
 	
 	// 시설물관리그룹 검색조건 클릭시 초기화 처리
 	this.$("#sFcltsMngGroupNo").bind("click", {module: this}, function(event) {
@@ -728,16 +723,6 @@ GamFcltyQcwWrtMngModule.prototype.downloadAtchFileItem = function() {
 	if(selectRow.length > 0) {
 		var row=selectRow[0];
 		this.downPfPhoto(row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
-	}
-};
-
-//조회조건 select 변경 이벤트 처리기 (인쇄화면을 위한 처리)
-GamFcltyQcwWrtMngModule.prototype.searchItemChanged = function(target) {
-	if(this.$('#sFcltsJobSe').is(target)) {
-		this.$('#sFcltsJobSeNm').val($(target).find('option:selected').text());
-	}
-	if(this.$('#sQcSe').is(target)) {
-		this.$('#sQcSeNm').val($(target).find('option:selected').text());
 	}
 };
 
