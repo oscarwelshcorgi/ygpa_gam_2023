@@ -145,25 +145,25 @@
 		SELECT COUNT(*) totcnt
 		  FROM ASSETS_RENT_DETAIL_F D, ASSETS_RENT_F M
 		 WHERE 1=1
-            		   AND D.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
-       				   AND D.GIS_ASSETS_CD = #gisAssetsCd#
-       				   AND D.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
-               		   AND M.PRMISN_YN = 'Y'
+  		   AND D.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+		   AND D.GIS_ASSETS_CD = #gisAssetsCd#
+		   AND D.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+   		   AND M.PRMISN_YN = 'Y'
 
-               			<isNotEmpty property="sUsagePdFrom" prepend="AND">
-							<![CDATA[
-								  D.USAGE_PD_FROM >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
-							]]>
-						</isNotEmpty>
-						<isNotEmpty property="sUsagePdTo" prepend="AND">
-							<![CDATA[
-								  D.USAGE_PD_FROM <= TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
-							]]>
-						</isNotEmpty>
-					   AND D.PRT_AT_CODE = M.PRT_AT_CODE
-					   AND D.MNG_YEAR = M.MNG_YEAR
-					   AND D.MNG_NO = M.MNG_NO
-					   AND D.MNG_CNT = M.MNG_CNT
+		<isNotEmpty property="sUsagePdFrom" prepend="AND">
+			<![CDATA[
+			  	D.USAGE_PD_FROM >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+			]]>
+		</isNotEmpty>
+		<isNotEmpty property="sUsagePdTo" prepend="AND">
+			<![CDATA[
+				  D.USAGE_PD_FROM <= TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
+			]]>
+		</isNotEmpty>
+		   AND D.PRT_AT_CODE = M.PRT_AT_CODE
+		   AND D.MNG_YEAR = M.MNG_YEAR
+		   AND D.MNG_NO = M.MNG_NO
+		   AND D.MNG_CNT = M.MNG_CNT
 
 	</select>
 

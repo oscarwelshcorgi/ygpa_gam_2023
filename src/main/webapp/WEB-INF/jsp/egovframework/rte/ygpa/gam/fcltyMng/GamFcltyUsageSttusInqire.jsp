@@ -110,7 +110,6 @@
 		             {display : '금액', name : 'fee', width : 100, sortable : false, align : 'right', displayFormat : 'number'},
 		             ],
 		height : 'auto'
-
 	});
 
 	// 점검 관리 내역
@@ -342,26 +341,26 @@ var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
 	               ];
 
 
-	console.log(searchVO);
 	this.doAction('/fcltyMng/selectLoadQcMngData.do', searchVO, function(module, data) {
 		if(data.resultCode == "0"){
 			module.$('#assetsRentGrid').flexEmptyData();
         	var assetsRentList={resultList: data.fcltyAssetsRentList};
 //        	module.$('#assetsRentGrid')[0].dgrid.p.preProcess(module, assetsRentList);
         	module.$('#assetsRentGrid').flexAddData(assetsRentList);
-        	module.$('#assetsRentGrid').selectRowId(0);
+//        	module.$('#assetsRentGrid').selectRowId(0);
 
         	module.$('#assetsTotalCount').val(data.totalCount);
 
         	module.$('#qcMngDtlsFGrid').flexEmptyData();
         	var qcMngList={resultList: data.qcMngList};
         	module.$('#qcMngDtlsFGrid').flexAddData(qcMngList);
-        	module.$('#qcMngDtlsFGrid').selectRowId(0);
+//        	module.$('#qcMngDtlsFGrid').selectRowId(0);
 
         	module.$('#flawRprDtlsGrid').flexEmptyData();
         	var flawList={resultList: data.flawList};
         	module.$('#flawRprDtlsGrid').flexAddData(flawList);
-        	module.$('#flawRprDtlsGrid').selectRowId(0);
+//        	module.$('#flawRprDtlsGrid').selectRowId(0);
+
 
 		}else{
 			module.$("#mainTab").tabs("option", {active: 0});
@@ -577,8 +576,8 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 					<form id="gisPrtFcltyCdForm">
 						<table style="width:100%;" class="summaryPanel">
 							<tr>
-								<th width="20%" height="20">조회 자료수</th>
-								<td><input type="text" size="12" id="gisTotalCount" class="ygpaNumber" disabled="disabled" /></td>
+								<th width="80" height="20">조회 자료수</th>
+								<td ><input type="text" size="12" id="gisTotalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align: right">
 	                                <button data-cmd="btnGisExcelDownload">엑셀다운로드</button>
 								</td>
@@ -592,7 +591,7 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 				<table id="assetsRentGrid" style="display:none" class="fillHeight"></table>
 				<table style="width:100%;" class="summaryPanel">
 					<tr>
-						<th width="20%" height="20">조회 자료수</th>
+						<th width="80" height="20">조회 자료수</th>
 						<td><input type="text" size="12" id="assetsTotalCount" class="ygpaNumber" disabled="disabled" /></td>
 <!--
 						<td style="text-align: right">
