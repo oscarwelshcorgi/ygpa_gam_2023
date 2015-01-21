@@ -77,6 +77,30 @@ public class GamGisAssetSttusInqireController {
     	return "/ygpa/gam/asset/sts/GamGisAssetSttusInqire";
     }
 
+	@RequestMapping(value="/asset/sts/gamGisAssetSttusInqire1.do")
+	public String indexMain1(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+
+		model.addAttribute("windowId", windowId);
+
+    	return "/ygpa/gam/asset/sts/GamGisAssetSttusInqire1";
+    }
+
+	@RequestMapping(value="/asset/sts/gamGisAssetSttusInqire2.do")
+	public String indexMain2(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+
+		model.addAttribute("windowId", windowId);
+
+    	return "/ygpa/gam/asset/sts/GamGisAssetSttusInqire2";
+    }
+
+	@RequestMapping(value="/asset/sts/gamGisAssetSttusInqire3.do")
+	public String indexMain3(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+
+		model.addAttribute("windowId", windowId);
+
+    	return "/ygpa/gam/asset/sts/GamGisAssetSttusInqire3";
+    }
+
 	/**
      * 자산정보현황 목록을 조회한다.
      *

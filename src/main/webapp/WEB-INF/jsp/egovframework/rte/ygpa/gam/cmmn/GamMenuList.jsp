@@ -47,12 +47,7 @@ GamMenuMngModule.prototype.loadMenu = function() {
 
 
 			module.tree=new dhtmlXTreeObject(treeNode.attr('id'),"100%","100%",0);
-
-			module.tree.setImagePath("./js/codebase/imgs/dhxtree_skyblue/");
-//			module.tree.setSkin('dhx_skyblue');
-//			module.tree.setImagePath('/js/codebase/imgs/csh_dhx_skyblue/');
-//			module.tree.enableCheckBoxes(1);
-//			module.tree.enableThreeStateCheckboxes(true);
+			module.tree.setImagePath("<c:url value='/js/codebase/imgs/dhxtree_skyblue/'/>");
 			module.tree.loadJSArray(treeItems);
 
 			module.tree.setUserData('module', module);

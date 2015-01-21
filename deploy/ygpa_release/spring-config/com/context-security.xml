@@ -97,6 +97,7 @@
 		<intercept-url pattern="\A/code500.do\Z" filters="none" />
         <form-login login-processing-url="/j_spring_security_check"
                     authentication-failure-url="/uat/uia/accessDenied.do"
+                    default-target-url="/main/gamMain.do"
                     login-page="/code404.do" />
                     <!--
         <form-login login-processing-url="/j_spring_security_check"
