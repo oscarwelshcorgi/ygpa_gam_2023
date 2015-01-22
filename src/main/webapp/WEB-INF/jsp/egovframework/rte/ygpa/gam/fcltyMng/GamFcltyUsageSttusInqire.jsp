@@ -579,7 +579,8 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 								<th width="80" height="20">조회 자료수</th>
 								<td ><input type="text" size="12" id="gisTotalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align: right">
-	                                <button data-cmd="btnGisExcelDownload">엑셀다운로드</button>
+									<button data-role="gridXlsDown" data-flexi-grid="gisPrtFcltyCdGrid">엑셀다운로드</button>
+<!-- 	                                <button data-cmd="btnGisExcelDownload">엑셀다운로드</button>  -->
 								</td>
 							</tr>
 						</table>
@@ -593,11 +594,10 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 					<tr>
 						<th width="80" height="20">조회 자료수</th>
 						<td><input type="text" size="12" id="assetsTotalCount" class="ygpaNumber" disabled="disabled" /></td>
-<!--
 						<td style="text-align: right">
-                               <button data-cmd="btnAssetsExcelDownload">엑셀다운로드</button>
+<!--                                <button data-cmd="btnAssetsExcelDownload">엑셀다운로드</button>  -->
+                               <button data-role="gridXlsDown" data-flexi-grid="assetsRentGrid">엑셀다운로드</button>
 						</td>
- -->
 					</tr>
 				</table>
 			</div>
