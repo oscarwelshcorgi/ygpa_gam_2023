@@ -28,7 +28,7 @@ GamAssetSttusInfoModule.prototype.loadComplete = function() {
    		container:this.$("#chart").attr('id'),
    	    value:"#fee#",
            label: '#feeLabel#',
-           color: "#fe900e",
+           color: "#color#",
            gradient:"rising",
    		width:80,
    		padding: {
@@ -47,7 +47,15 @@ GamAssetSttusInfoModule.prototype.loadComplete = function() {
    			}
    		}
    	});
+   	var colors= [
+   	             "#ee9336",
+   	             "#a7ee70",
+   	             "#58dccd",
+   	             "#476cee",
+   	             "#e33fc7"
+   	             ];
    	for(var k in dataset) {
+   		dataset[k]['color']=colors[k%colors.length];
    		dataset[k]['feeLabel']=$.number(dataset[k].fee)+" 원";
    		dataset[k]['rdcxptFeeLabel']=$.number(dataset[k].rdcxptFee)+" 원";
    	}

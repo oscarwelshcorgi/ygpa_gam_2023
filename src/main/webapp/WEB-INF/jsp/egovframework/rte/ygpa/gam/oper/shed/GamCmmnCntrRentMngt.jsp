@@ -893,8 +893,18 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
     var minUsagePdFrom = 0;
     var maxUsagePdTo = 0;
 
-    for( var i = 0 ; i < this.$('#assetRentDetailList').flexGetData().length ; i++ ) {
-        var row = this.$('#assetRentDetailList').flexGetRow(i);
+    var detailList = this.$('#assetRentDetailList').flexGetData();
+
+    if(detailList==undefined || detailList.length==0) {
+        this.$('#grFee').val( "" ); //총사용료
+        this.$('#grRdcxptFee').val( "" ); //총감면사용료
+        this.$('#grAr').val( "" ); //총사용면적
+        this.$('#grUsagePdFrom').val( "" ); //총사용기간FROM
+        this.$('#grUsagePdTo').val( "" ); //총사용기간FROM
+        }
+
+    for( var i = 0 ; i < detailList.length ; i++ ) {
+        var row = detailList[i];
 
         if( row['fee'] != '' && row['fee'] != null ) {
             var feeStr = row['fee']+"";
@@ -1248,8 +1258,10 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                     var minUsagePdFrom = 0;
                     var maxUsagePdTo = 0;
 
-                    for( var i = 0 ; i < this.$('#assetRentDetailList').flexGetData().length ; i++ ) {
-                        var row = this.$('#assetRentDetailList').flexGetRow(i);
+                    var detailList = this.$('#assetRentDetailList').flexGetData();
+
+                    for( var i = 0 ; i < detailList.length ; i++ ) {
+                        var row = detailList[i];
 
                         if( row['fee'] != '' && row['fee'] != null ) {
                             var feeStr = row['fee']+"";

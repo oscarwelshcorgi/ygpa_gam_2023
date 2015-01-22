@@ -50,7 +50,7 @@ public interface GamGisAssetDistSttusInqireService {
     Map selectGisAssetDistSttusListTotSum(Map searchVO) throws Exception;
 
     /**
-     * 자산 코드에 대한 감가상각 정보 리스트를 조회 한다.
+     * 자산 코드에 대한 시설분포 정보 리스트를 조회 한다.
      * @param searchVO
      * @return
      * @throws Exception
@@ -58,7 +58,7 @@ public interface GamGisAssetDistSttusInqireService {
     Map selectAssetDistSttusInfoByCode(Map searchVO) throws Exception;
 
     /**
-     * 자산코드에 대한 분포 목록을 조회한다.
+     * 자산코드에 대한 시설 분포 목록을 조회한다.
      * @param searchVO
      * @return
      * @throws Exception

@@ -47,7 +47,6 @@ GamGisAssetDistSttusModule.prototype.loadComplete = function() {
         ],
         showTableToggleBtn: false,
         height: 'auto',
-        mergeRows: 'prtAtCodeNm,gisAssetsCode',
         preProcess: function(module, data) {
         	$.each(data.resultList, function() {
         		this.gisAssetsCode=this.gisAssetsCd+"-"+this.gisAssetsSubCd;
@@ -55,9 +54,7 @@ GamGisAssetDistSttusModule.prototype.loadComplete = function() {
         		if(this.gisAssetsLnmSub!=null && this.gisAssetsLnmSub.length!=0) {
         			this.gisAssetsLnmCode+="-"+this.gisAssetsLnmSub;
         		}
-        		this.gisAssetsPrice=this.gisAssetsAcqPri*1.2;
-        		this.gisAssetsBldDt="2007-11-08";
-        		this._mapLabel = this.gisAssetsNm+'\n'+$.number(this.buyAmt)+" 원";
+        		this._mapLabel = this.fcltySeNm+'\n'+$.number(this.fcltyCnt)+" 개";
 				this.gisFlag=this.gisStat>0?'flag':null;
         	});
         	return data;
@@ -76,7 +73,7 @@ GamGisAssetDistSttusModule.prototype.loadData = function() {
 
 GamGisAssetDistSttusModule.prototype.onSelectFeature = function(e) {
 	EMD.gis.closeAllPopup('assetStats');
-	param = this.makeFormArgs('#gamAssetDisUseSearchForm', EMD.util.objectToArray(e.feature.attributes));
+	param = EMD.util.objectToArray(e.feature.attributes).concat(this.makeFormArgs('#gamAssetDisUseSearchForm'));
 	EMD.gis.openPopup(e.feature, "/asset/sts/gamAssetDistSttusInfo.do", param);
 };
 
@@ -124,10 +121,10 @@ var module_instance = new GamGisAssetDistSttusModule();
 						<tbody>
 						<tr>
 							<th>항구분</th>
-							<td><input id="searchGisAssetsPrtAtCode" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrtAtCode" data-code-id="GAM019" data-default-prompt="전체항" data-display-value="N" size="3"/></td>
+							<td><input id="gisAssetsPrtAtCode" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrtAtCode" data-code-id="GAM019" data-default-prompt="전체항" data-display-value="N" size="3"/></td>
 							<th>위치</th>
 							<td>
-								<input id="locCd" data-column-id="locCd" type="text" class="ygpaCmmnCd" data-code-id="GAM002" data-default-prompt="전체 " data-required="true">
+								<input id="gisAssetsLocCd" data-column-id="gisAssetsLocCd" type="text" class="ygpaCmmnCd" data-code-id="GAM002" data-default-prompt="전체 " data-required="true">
 							</td>
 							<th>시설구분</th>
 							<td>
@@ -141,7 +138,7 @@ var module_instance = new GamGisAssetDistSttusModule();
 							<th>소재지</th>
 							<td><input data-column-id="gisAssetsLocplc" type="text" size="20"></td>
 							<th>지번</th>
-							<td><input data-column-id="gisAssetsLnm" type="text" size="4">-<input id="searchGisAssetsLnmSub" data-column-id="gisAssetsLnmSub" type="text" size="3"></td>
+							<td><input data-column-id="gisAssetsLnm" type="text" size="4">-<input id="gisAssetsLnmSub" data-column-id="gisAssetsLnmSub" type="text" size="3"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -152,7 +149,7 @@ var module_instance = new GamGisAssetDistSttusModule();
     <div class="emdPanel fillHeight">
 		<table id="gisAssetSttusList" style="display:none; width:100%" class="fillHeight"></table>
 		<div class="emdControlPanel">
-				<button class="buttonExcel" data-flexi-grid="erpAssetCodeList" data-url="<c:url value='/asset/selectErpAssetCodeListExcel.do' />">엑셀</button>
+				<button data-role="gridXlsDown" data-flexi-grid="gisAssetSttusList" data-url="/asset/sts/selectGisAssetDistSttusExcel.do">엑셀</button>
 				<button data-role="clearMap" data-gis-layer="assetStats">결과 맵 초기화</button>
 				<button data-role="loadStatsMap" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-map-style="value" data-value="fcltyCnt" data-label-field="_mapLabel" data-select-feature="onSelectFeature">결과 맵 조회</button>
 				<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-popup-function="onPopupFeature">위치 조회</button>

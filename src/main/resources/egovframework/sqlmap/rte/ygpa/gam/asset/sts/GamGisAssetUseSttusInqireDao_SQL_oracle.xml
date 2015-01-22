@@ -51,8 +51,8 @@
 					AND A.MNG_YEAR = B.MNG_YEAR
 					AND A.MNG_NO = B.MNG_NO
 					AND A.MNG_CNT = B.MNG_CNT
-					<isNotEmpty prepend="AND" property="sEntrpsNm">
-							A.ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%'
+					<isNotEmpty prepend="AND" property="entrpsNm">
+							A.ENTRPS_NM LIKE '%' || #entrpsNm# || '%'
 					</isNotEmpty>
 					<isNotEmpty property="searchDate" prepend="AND">
 						<![CDATA[
@@ -64,8 +64,14 @@
 				AND C.GIS_ASSETS_CD = G.GIS_ASSETS_CD
 				AND C.GIS_ASSETS_SUB_CD = G.GIS_ASSETS_SUB_CD
 				WHERE 1=1
-				<isNotEmpty property="searchGisAssetsPrtAtCode">
-					AND G.GIS_ASSETS_PRT_AT_CODE = #searchGisAssetsPrtAtCode#
+				<isNotEmpty property="gisAssetsPrtAtCode">
+					AND G.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+				</isNotEmpty>
+				<isNotEmpty property="gisAssetsLocCd">
+					AND G.GIS_ASSETS_LOC_CD = #gisAssetsLocCd#
+				</isNotEmpty>
+				<isNotEmpty property="gisAssetsPrprtySeCd">
+					AND G.GIS_ASSETS_PRPRTY_SE_CD = #gisAssetsPrprtySeCd#
 				</isNotEmpty>
 				ORDER BY G.GIS_ASSETS_PRT_AT_CODE, G.GIS_ASSETS_CD, G.GIS_ASSETS_SUB_CD
 			) S
@@ -75,33 +81,39 @@
 
 	<select id="gamGisAssetUseSttusInqireDao.selectGisAssetUseSttusListTotCnt_S" parameterClass="hashMap" resultClass="int">
 			SELECT COUNT(*) totcnt
-	FROM GIS_ASSETS_CD_F G LEFT OUTER JOIN
-	(
-		SELECT B.GIS_ASSETS_PRT_AT_CODE, B.GIS_ASSETS_CD, B.GIS_ASSETS_SUB_CD,
-			COUNT(A.ENTRPSCD) ENTRPS_CNT, SUM(B.FEE) FEE, SUM(B.RDCXPT_FEE) RDCXPT_FEE,
-			SUM(B.USAGE_AR) USAGE_AR
-		FROM ASSETS_RENT_F A, ASSETS_RENT_DETAIL_F B
-		WHERE A.PRMISN_YN='Y'
-		AND A.PRT_AT_CODE = B.PRT_AT_CODE
-		AND A.MNG_YEAR = B.MNG_YEAR
-		AND A.MNG_NO = B.MNG_NO
-		AND A.MNG_CNT = B.MNG_CNT
-		<isNotEmpty prepend="AND" property="sEntrpsNm">
-				A.ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%'
-		</isNotEmpty>
-		<isNotEmpty property="searchDate" prepend="AND">
-			<![CDATA[
-				TO_DATE(#searchDate#,'yyyy-mm-dd') BETWEEN B.USAGE_PD_FROM AND B.USAGE_PD_TO+1
-			]]>
-		</isNotEmpty>
-		GROUP BY B.GIS_ASSETS_PRT_AT_CODE, B.GIS_ASSETS_CD, B.GIS_ASSETS_SUB_CD
-	) C ON C.GIS_ASSETS_PRT_AT_CODE = G.GIS_ASSETS_PRT_AT_CODE
-	AND C.GIS_ASSETS_CD = G.GIS_ASSETS_CD
-	AND C.GIS_ASSETS_SUB_CD = G.GIS_ASSETS_SUB_CD
-	WHERE 1=1
-	<isNotEmpty property="searchGisAssetsPrtAtCode">
-		AND G.GIS_ASSETS_PRT_AT_CODE = #searchGisAssetsPrtAtCode#
-	</isNotEmpty>
+				FROM GIS_ASSETS_CD_F G LEFT OUTER JOIN
+				(
+					SELECT B.GIS_ASSETS_PRT_AT_CODE, B.GIS_ASSETS_CD, B.GIS_ASSETS_SUB_CD,
+						COUNT(A.ENTRPSCD) ENTRPS_CNT, SUM(B.FEE) FEE, SUM(B.RDCXPT_FEE) RDCXPT_FEE,
+						SUM(B.USAGE_AR) USAGE_AR
+					FROM ASSETS_RENT_F A, ASSETS_RENT_DETAIL_F B
+					WHERE A.PRMISN_YN='Y'
+					AND A.PRT_AT_CODE = B.PRT_AT_CODE
+					AND A.MNG_YEAR = B.MNG_YEAR
+					AND A.MNG_NO = B.MNG_NO
+					AND A.MNG_CNT = B.MNG_CNT
+					<isNotEmpty prepend="AND" property="entrpsNm">
+							A.ENTRPS_NM LIKE '%' || #entrpsNm# || '%'
+					</isNotEmpty>
+					<isNotEmpty property="searchDate" prepend="AND">
+						<![CDATA[
+							TO_DATE(#searchDate#,'yyyy-mm-dd') BETWEEN B.USAGE_PD_FROM AND B.USAGE_PD_TO+1
+						]]>
+					</isNotEmpty>
+					GROUP BY B.GIS_ASSETS_PRT_AT_CODE, B.GIS_ASSETS_CD, B.GIS_ASSETS_SUB_CD
+				) C ON C.GIS_ASSETS_PRT_AT_CODE = G.GIS_ASSETS_PRT_AT_CODE
+				AND C.GIS_ASSETS_CD = G.GIS_ASSETS_CD
+				AND C.GIS_ASSETS_SUB_CD = G.GIS_ASSETS_SUB_CD
+				WHERE 1=1
+				<isNotEmpty property="gisAssetsPrtAtCode">
+					AND G.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+				</isNotEmpty>
+				<isNotEmpty property="gisAssetsLocCd">
+					AND G.GIS_ASSETS_LOC_CD = #gisAssetsLocCd#
+				</isNotEmpty>
+				<isNotEmpty property="gisAssetsPrprtySeCd">
+					AND G.GIS_ASSETS_PRPRTY_SE_CD = #gisAssetsPrprtySeCd#
+				</isNotEmpty>
     </select>
 
     <select id="gamGisAssetUseSttusInqireDao.selectGisAssetUseSttusListTotSum_S" parameterClass="hashMap" resultClass="egovMap">
@@ -112,50 +124,69 @@
 			   , SUM(C.USAGE_AR) SUM_USAGE_AR
 			   , SUM(C.FEE) SUM_FEE
 			   , SUM(C.RDCXPT_FEE) SUM_RDCXPT_FEE
-		FROM GIS_ASSETS_CD_F G LEFT OUTER JOIN
-		(
-			SELECT B.GIS_ASSETS_PRT_AT_CODE, B.GIS_ASSETS_CD, B.GIS_ASSETS_SUB_CD,
-				COUNT(A.ENTRPSCD) ENTRPS_CNT, SUM(B.FEE) FEE, SUM(B.RDCXPT_FEE) RDCXPT_FEE,
-				SUM(B.USAGE_AR) USAGE_AR
-			FROM ASSETS_RENT_F A, ASSETS_RENT_DETAIL_F B
-			WHERE A.PRMISN_YN='Y'
-			AND A.PRT_AT_CODE = B.PRT_AT_CODE
-			AND A.MNG_YEAR = B.MNG_YEAR
-			AND A.MNG_NO = B.MNG_NO
-			AND A.MNG_CNT = B.MNG_CNT
-		<isNotEmpty prepend="AND" property="sEntrpsNm">
-				A.ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%'
-		</isNotEmpty>
-		<isNotEmpty property="searchDate" prepend="AND">
-			<![CDATA[
-				TO_DATE(#searchDate#,'yyyy-mm-dd') BETWEEN B.USAGE_PD_FROM AND B.USAGE_PD_TO+1
-			]]>
-		</isNotEmpty>
-			GROUP BY B.GIS_ASSETS_PRT_AT_CODE, B.GIS_ASSETS_CD, B.GIS_ASSETS_SUB_CD
-		) C ON C.GIS_ASSETS_PRT_AT_CODE = G.GIS_ASSETS_PRT_AT_CODE
-		AND C.GIS_ASSETS_CD = G.GIS_ASSETS_CD
-		AND C.GIS_ASSETS_SUB_CD = G.GIS_ASSETS_SUB_CD
-		WHERE 1=1
-	<isNotEmpty property="searchGisAssetsPrtAtCode">
-		AND G.GIS_ASSETS_PRT_AT_CODE = #searchGisAssetsPrtAtCode#
-	</isNotEmpty>
+						FROM GIS_ASSETS_CD_F G LEFT OUTER JOIN
+				(
+					SELECT B.GIS_ASSETS_PRT_AT_CODE, B.GIS_ASSETS_CD, B.GIS_ASSETS_SUB_CD,
+						COUNT(A.ENTRPSCD) ENTRPS_CNT, SUM(B.FEE) FEE, SUM(B.RDCXPT_FEE) RDCXPT_FEE,
+						SUM(B.USAGE_AR) USAGE_AR
+					FROM ASSETS_RENT_F A, ASSETS_RENT_DETAIL_F B
+					WHERE A.PRMISN_YN='Y'
+					AND A.PRT_AT_CODE = B.PRT_AT_CODE
+					AND A.MNG_YEAR = B.MNG_YEAR
+					AND A.MNG_NO = B.MNG_NO
+					AND A.MNG_CNT = B.MNG_CNT
+					<isNotEmpty prepend="AND" property="entrpsNm">
+							A.ENTRPS_NM LIKE '%' || #entrpsNm# || '%'
+					</isNotEmpty>
+					<isNotEmpty property="searchDate" prepend="AND">
+						<![CDATA[
+							TO_DATE(#searchDate#,'yyyy-mm-dd') BETWEEN B.USAGE_PD_FROM AND B.USAGE_PD_TO+1
+						]]>
+					</isNotEmpty>
+					GROUP BY B.GIS_ASSETS_PRT_AT_CODE, B.GIS_ASSETS_CD, B.GIS_ASSETS_SUB_CD
+				) C ON C.GIS_ASSETS_PRT_AT_CODE = G.GIS_ASSETS_PRT_AT_CODE
+				AND C.GIS_ASSETS_CD = G.GIS_ASSETS_CD
+				AND C.GIS_ASSETS_SUB_CD = G.GIS_ASSETS_SUB_CD
+				WHERE 1=1
+				<isNotEmpty property="gisAssetsPrtAtCode">
+					AND G.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+				</isNotEmpty>
+				<isNotEmpty property="gisAssetsLocCd">
+					AND G.GIS_ASSETS_LOC_CD = #gisAssetsLocCd#
+				</isNotEmpty>
+				<isNotEmpty property="gisAssetsPrprtySeCd">
+					AND G.GIS_ASSETS_PRPRTY_SE_CD = #gisAssetsPrprtySeCd#
+				</isNotEmpty>
     </select>
 
 	   <select id="gamGisAssetUseSttusInqireDao.selectAssetUseSttusInfoByCode_S" parameterClass="hashMap" resultClass="egovMap">
-	      		SELECT COUNT(A.ENTRPSCD) ENTRPS_CNT,
-	      SUM(B.FEE) FEE,
-	      SUM(B.RDCXPT_FEE) RDCXPT_FEE,
-				SUM(B.USAGE_AR) USAGE_AR
-			FROM ASSETS_RENT_F A, ASSETS_RENT_DETAIL_F B
-			WHERE A.PRT_AT_CODE = B.PRT_AT_CODE
+		SELECT
+			MAX(G.GIS_ASSETS_PRT_AT_CODE) GIS_ASSETS_PRT_AT_CODE,
+			MAX(G.GIS_ASSETS_CD) GIS_ASSETS_CD,
+			MAX(G.GIS_ASSETS_SUB_CD) GIS_ASSETS_SUB_CD,
+			MAX(G.GIS_ASSETS_NM) GIS_ASSETS_NM,
+			MAX(G.GIS_ASSETS_REAL_RENT_AR) GIS_ASSETS_REAL_RENT_AR,
+			MAX(G.GIS_ASSETS_AR) GIS_ASSETS_AR,
+			MAX(G.GIS_ASSETS_LOCPLC) GIS_ASSETS_LOCPLC,
+			MAX(G.GIS_ASSETS_LNM) GIS_ASSETS_LNM,
+			MAX(G.GIS_ASSETS_LNM_SUB) GIS_ASSETS_LNM_SUB,
+			COUNT(A.ENTRPSCD) ENTRPS_CNT,
+			SUM(B.FEE) FEE,
+			SUM(B.RDCXPT_FEE) RDCXPT_FEE,
+			SUM(B.USAGE_AR) USAGE_AR
+		FROM ASSETS_RENT_F A, ASSETS_RENT_DETAIL_F B, GIS_ASSETS_CD_F G
+		WHERE A.PRT_AT_CODE = B.PRT_AT_CODE
 			AND A.MNG_YEAR = B.MNG_YEAR
 			AND A.MNG_NO = B.MNG_NO
 			AND A.MNG_CNT = B.MNG_CNT
-		AND A.PRMISN_YN='Y'
-	    AND B.GIS_ASSETS_PRT_AT_CODE=#PRT_AT_CD#
-	    AND B.GIS_ASSETS_CD=#PRT_CD#
-	    AND B.GIS_ASSETS_SUB_CD=#PRT_SUB_CD#
-	    AND TO_DATE(#referDate#, 'YYYY-MM-DD') BETWEEN B.USAGE_PD_FROM AND B.USAGE_PD_TO
+			AND A.PRMISN_YN='Y'
+		    AND B.GIS_ASSETS_PRT_AT_CODE=G.GIS_ASSETS_PRT_AT_CODE
+		    AND B.GIS_ASSETS_CD=G.GIS_ASSETS_CD
+		    AND B.GIS_ASSETS_SUB_CD=G.GIS_ASSETS_SUB_CD
+		    AND B.GIS_ASSETS_PRT_AT_CODE=#PRT_AT_CD#
+		    AND B.GIS_ASSETS_CD=#PRT_CD#
+		    AND B.GIS_ASSETS_SUB_CD=#PRT_SUB_CD#
+		    AND TO_DATE(#searchDate#, 'YYYY-MM-DD') BETWEEN B.USAGE_PD_FROM AND B.USAGE_PD_TO
 		</select>
 
     <select id="gamGisAssetUseSttusInqireDao.selectAssetUseSttusListByCode_D" parameterClass="hashMap" resultClass="egovMap">
@@ -167,7 +198,7 @@
 	    AND B.GIS_ASSETS_PRT_AT_CODE=#PRT_AT_CD#
 	    AND B.GIS_ASSETS_CD=#PRT_CD#
 	    AND B.GIS_ASSETS_SUB_CD=#PRT_SUB_CD#
-	    AND TO_DATE(#referDate#, 'YYYY-MM-DD') BETWEEN B.USAGE_PD_FROM AND B.USAGE_PD_TO
+	    AND TO_DATE(#searchDate#, 'YYYY-MM-DD') BETWEEN B.USAGE_PD_FROM AND B.USAGE_PD_TO
         GROUP BY A.entrpscd
     </select>
 

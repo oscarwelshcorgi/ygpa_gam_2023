@@ -894,8 +894,10 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
     var minUsagePdFrom = 0;
     var maxUsagePdTo = 0;
 
-    for( var i = 0 ; i < this.$('#assetRentDetailList').flexGetData().length ; i++ ) {
-        var row = this.$('#assetRentDetailList').flexGetRow(i);
+    var detailList = this.$('#assetRentDetailList').flexGetData();
+
+    for( var i = 0 ; i < detailList.length ; i++ ) {
+        var row = detailList[i];
 
         if( row['fee'] != '' && row['fee'] != null ) {
             var feeStr = row['fee']+"";
@@ -1249,8 +1251,10 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                     var minUsagePdFrom = 0;
                     var maxUsagePdTo = 0;
 
-                    for( var i = 0 ; i < this.$('#assetRentDetailList').flexGetData().length ; i++ ) {
-                        var row = this.$('#assetRentDetailList').flexGetRow(i);
+                    var detailList = this.$('#assetRentDetailList').flexGetData();
+
+                    for( var i = 0 ; i < detailList.length ; i++ ) {
+                        var row = detailList[i];
 
                         if( row['fee'] != '' && row['fee'] != null ) {
                             var feeStr = row['fee']+"";

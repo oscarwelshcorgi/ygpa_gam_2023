@@ -79,14 +79,14 @@ GamGisAssetSttusInqireModule.prototype.loadComplete = function() {
 };
 
 GamGisAssetSttusInqireModule.prototype.loadData = function() {
-    var searchOpt=this.makeFormArgs('#gamAssetDisUseSearchForm');
+    var searchOpt=this.makeFormArgs('#gamAssetUseSearchForm');
     this.$('#gisAssetSttusList').flexOptions({params:searchOpt}).flexReload();
 
 };
 
 GamGisAssetSttusInqireModule.prototype.onSelectFeature = function(e) {
 	EMD.gis.closeAllPopup('assetStats');
-	param = this.makeFormArgs('#gamAssetDisUseSearchForm', EMD.util.objectToArray(e.feature.attributes));
+	var param = this.makeFormArgs('#gamAssetUseSearchForm').concat(EMD.util.objectToArray(e.feature.attributes));
 	EMD.gis.openPopup(e.feature, "/asset/sts/gamAssetUseSttusInfo.do", param);
 };
 
@@ -109,11 +109,11 @@ GamGisAssetSttusInqireModule.prototype.onSubmit = function() {
 };
 
 GamGisAssetSttusInqireModule.prototype.loadData = function() {
-    var searchOpt=[{
-    		name: "searchGisAssetsPrtAtCode",
-    		value: this.$('#searchGisAssetsPrtAtCode').val()
-    }];
-    searchOpt = $.extend(this.makeFormArgs("."+this._grid), searchOpt);
+	if(this.$('#searchDate').val()==="") {
+		alert('조회기준일자는 필수 값입니다.');
+		return;
+	}
+    searchOpt = this.makeFormArgs("#gamAssetUseSearchForm");
     this.$('#gisAssetSttusList').flexOptions({params:searchOpt}).flexReload();
 };
 
@@ -138,22 +138,22 @@ var module_instance = new GamGisAssetSttusInqireModule();
 
     <div id="searchViewStack" class="emdPanel">
         <div class="viewPanel">
-            <form id="gamAssetDisUseSearchForm">
+            <form id="gamAssetUseSearchForm">
 					<table class="searchPanel">
 						<tbody>
 						<tr>
 							<th>항구분</th>
-							<td><input id="searchGisAssetsPrtAtCode" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrtAtCode" data-code-id="GAM019" data-default-prompt="전체항" data-display-value="N" size="3"/></td>
+							<td><input id="gisAssetsPrtAtCode" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrtAtCode" data-code-id="GAM019" data-default-prompt="전체항" data-display-value="N" size="3"/></td>
 							<th>위치</th>
 							<td>
-								<input id="locCd" data-column-id="locCd" type="text" class="ygpaCmmnCd" data-code-id="GAM002" data-default-prompt="전체 " data-required="true">
+								<input id="gisAssetsLocCd" data-column-id="gisAssetsLocCd" type="text" class="ygpaCmmnCd" data-code-id="GAM002" data-default-prompt="전체 ">
 							</td>
 							<td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
 						</tr>
 						<tr>
 							<th>사용 업체명</th>
 							<td>
-                            	<input data-column-id="sEntrpsNm" type="text" size="15">
+                            	<input data-column-id="entrpsNm" type="text" size="15">
 							</td>
 							<th>조회기준일자</th>
 							<td>
@@ -169,7 +169,7 @@ var module_instance = new GamGisAssetSttusInqireModule();
     <div class="emdPanel fillHeight">
 		<table id="gisAssetSttusList" style="display:none; width:100%" class="fillHeight"></table>
 		<div class="emdControlPanel">
-				<button class="buttonExcel" data-flexi-grid="erpAssetCodeList" data-url="<c:url value='/asset/selectErpAssetCodeListExcel.do' />">엑셀</button>
+				<button class="buttonExcel" data-flexi-grid="gisAssetSttusList" data-url="/asset/sts/selectGisAssetUseSttusListExcel.do">엑셀</button>
 				<button data-role="clearMap" data-gis-layer="assetStats">결과 맵 초기화</button>
 				<button data-role="loadStatsMap" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-map-style="rate" data-value="useRatePercent" data-label-field="_mapLabel" data-select-feature="onSelectFeature">사용현황 맵 조회</button>
 				<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-popup-function="onPopupFeature">위치 조회</button>

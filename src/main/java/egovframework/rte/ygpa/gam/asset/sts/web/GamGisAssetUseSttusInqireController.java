@@ -135,7 +135,6 @@ public class GamGisAssetUseSttusInqireController {
 				Map assetCodeInfo = gamGisAssetUseSttusInqireService.selectAssetUseSttusInfoByCode(searchVO);
 				List usageList = gamGisAssetUseSttusInqireService.selectAssetUseSttusInfoListByCode(searchVO);
 
-				model.addAttribute("assetCd", assetCodeInfo);
 	    		model.addAttribute("assetCodeInfo", assetCodeInfo);
 				model.addAttribute("referDate", (String)searchVO.get("searchDate"));
 				model.addAttribute("usageList", usageList);

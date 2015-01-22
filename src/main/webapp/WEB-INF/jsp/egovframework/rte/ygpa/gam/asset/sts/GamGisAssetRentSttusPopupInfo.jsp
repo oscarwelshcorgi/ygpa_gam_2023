@@ -25,7 +25,7 @@ GamAssetSttusInfoModule.prototype.loadComplete = function() {
    		container:this.$("#chart").attr('id'),
    	    value:"#usageRatio#",
            label: '#usageArLabel#',
-           color: "#fe900e",
+           color: "#color#",
            gradient:"rising",
    		width:80,
    		padding: {
@@ -51,11 +51,20 @@ GamAssetSttusInfoModule.prototype.loadComplete = function() {
    	   		rentAr += dataset[k].usageAr;
    	   	}
    	}
+   	var colors= [
+   	             "#ee9336",
+   	             "#a7ee70",
+   	             "#58dccd",
+   	             "#476cee",
+   	             "#e33fc7"
+   	             ];
+
    	for(var k in dataset) {
    		if(rentAr!=0) {
    	   		var ratio = dataset[k].usageAr/rentAr*100;
    		}
    		else ratio=100;
+   		dataset[k]['color']=colors[k%colors.length];
    		dataset[k]['usageRatio']=ratio;
    		dataset[k]['usageArLabel']=$.number(dataset[k].usageAr)+" m² [ "+Math.round(ratio)+"%]";
    	}
