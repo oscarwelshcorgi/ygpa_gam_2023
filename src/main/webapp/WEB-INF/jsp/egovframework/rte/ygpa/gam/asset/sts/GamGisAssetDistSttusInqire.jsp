@@ -35,7 +35,7 @@ GamGisAssetDistSttusModule.prototype.loadComplete = function() {
         url: '/asset/sts/selectGisAssetDistSttusList.do',
         dataType: 'json',
         colModel : [
-        			{display:'', name:'gisFlag', width:24, sortable:false, align:'center', displayFormat: 'jqimg'},
+        			{display:'', name:'gisFlag', width:24, sortable:false, align:'center', displayFormat: 'jqimg', skipxls:true},
    	                {display:'항구분', name:'gisAssetsPrtAtCodeNm',width:55, sortable:false,align:'center'},
                     {display:'자산코드', name:'gisAssetsCode',width:60, sortable:false,align:'center'},
                     {display:'자산명', name:'gisAssetsNm',width:160, sortable:false,align:'left'},
@@ -149,7 +149,7 @@ var module_instance = new GamGisAssetDistSttusModule();
     <div class="emdPanel fillHeight">
 		<table id="gisAssetSttusList" style="display:none; width:100%" class="fillHeight"></table>
 		<div class="emdControlPanel">
-				<button data-role="gridXlsDown" data-flexi-grid="gisAssetSttusList" data-url="/asset/sts/selectGisAssetDistSttusExcel.do">엑셀</button>
+				<button data-role="gridXlsDown" data-flexi-grid="gisAssetSttusList" data-xls-name="자산현황통계.xls" data-xls-title="자산분포현황통계 조회 목록">엑셀</button>
 				<button data-role="clearMap" data-gis-layer="assetStats">결과 맵 초기화</button>
 				<button data-role="loadStatsMap" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-map-style="value" data-value="fcltyCnt" data-label-field="_mapLabel" data-select-feature="onSelectFeature">결과 맵 조회</button>
 				<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-popup-function="onPopupFeature">위치 조회</button>

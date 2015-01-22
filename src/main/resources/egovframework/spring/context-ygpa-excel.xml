@@ -8,6 +8,8 @@
 
 	<bean id="gridExcelView" class="egovframework.rte.cmmn.excel.FlexiGridExcelView" />
 
+	<bean id="flexiGridXlsView" class="egovframework.rte.cmmn.excel.FlexiGridXlsView" />
+
 	<bean id="gridHtldFeeView" class="egovframework.rte.cmmn.excel.FlexiGridHtldFeeExcelView" />
 
 <!-- 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
