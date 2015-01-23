@@ -6,6 +6,7 @@ package egovframework.rte.ygpa.gam.mngFee.web;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -426,6 +427,11 @@ public class GamElctyUsageSttusMngController {
 					excelElctyUsageSttusService.uploadExcel("gamElctyUsageSttusMngDao.insertElctyUsageSttusF_S", fis, 1, (long)5000);
 				}
 				catch(FileNotFoundException e) {
+					map.put("resultCode", "-1");
+					map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
+					return map;
+				}
+				catch(IOException e) {
 					map.put("resultCode", "-1");
 					map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
 					return map;

@@ -6,6 +6,7 @@ package egovframework.rte.ygpa.gam.code.web;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -425,6 +426,11 @@ public class GamOlnlpMngtController {
 					gamOlnlpMngtService.createOlnlpFromBJD();
 				}
 				catch(FileNotFoundException e) {
+					map.put("resultCode", "-1");
+					map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
+					return map;
+				}
+				catch(IOException e) {
 					map.put("resultCode", "-1");
 					map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
 					return map;

@@ -125,10 +125,10 @@ public class EmfJavascriptValidatorTag extends JavascriptValidatorTag {
                     }
                 });
 
-                String methods = null;
+                String methods = "";
                 for (Iterator i = lActions.iterator(); i.hasNext();) {
                     ValidatorAction va = (ValidatorAction) i.next();
-                    String functionName = null;
+                    String functionName = "";
 
                     if (va.getJsFunctionName() != null && va.getJsFunctionName().length() > 0) {
                         functionName = va.getJsFunctionName();
@@ -136,7 +136,7 @@ public class EmfJavascriptValidatorTag extends JavascriptValidatorTag {
                         functionName = va.getName();
                     }
 
-                    if (methods == null) {
+                    if (methods.length()==0) {
                         methods = va.getMethod() + "(form, "+this.getFormName()+"_"+ functionName+")";
                     } else {
                         methods += " && " + va.getMethod() + "(form, "+this.getFormName()+"_"+ functionName+")";
@@ -147,8 +147,8 @@ public class EmfJavascriptValidatorTag extends JavascriptValidatorTag {
 
                 for (Iterator i = lActions.iterator(); i.hasNext();) {
                     ValidatorAction va = (ValidatorAction) i.next();
-                    String jscriptVar = null;
-                    String functionName = null;
+                    String jscriptVar = "";
+                    String functionName = "";
 
                     if (va.getJsFunctionName() != null && va.getJsFunctionName().length() > 0) {
                         functionName = va.getJsFunctionName();
