@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.poi.poifs.filesystem.OfficeXmlFileException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -420,7 +421,7 @@ public class GamOlnlpMngtController {
 					file = new File(uploadPath+filevo.getPhyscalFileNm());
 					fis = new FileInputStream(file);
 					gamOlnlpMngtService.deleteOlnlpBJD();
-					excelOlnlpService.uploadExcel("gamOlnlpMngtDao.insertGamBupjungdongOlnlp_S", fis);
+					excelOlnlpService.uploadExcel("gamOlnlpMngtDao.insertGamBupjungdongOlnlp_S", fis, 1);
 					gamOlnlpMngtService.createOlnlpFromBJD();
 				}
 				catch(FileNotFoundException e) {
@@ -428,8 +429,25 @@ public class GamOlnlpMngtController {
 					map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
 					return map;
 				}
+				catch(OfficeXmlFileException e) {
+					map.put("resultCode", "-5");
+					map.put("resultMsg", e.getMessage());
+					return map;
+				}
+				catch(NumberFormatException e) {
+					map.put("resultCode", "-4");
+					map.put("resultMsg", egovMessageSource.getMessage("fail.common.invalid_number_format")+e.getMessage());
+					return map;
+				}
+				catch(IllegalArgumentException e) {
+					map.put("resultCode", "-3");
+					map.put("resultMsg", egovMessageSource.getMessage("fail.common.invalid_xls_format"));
+					return map;
+				}
 				catch(Exception e) {
-					throw e;
+					map.put("resultCode", "-3");
+					map.put("resultMsg", egovMessageSource.getMessage("fail.common.invalid_xls_format")+" : "+e.getMessage());
+					return map;
 				} finally {
 					if (fis != null)	// 2011.11.1 보안점검 후속조치
 						fis.close();
@@ -446,79 +464,6 @@ public class GamOlnlpMngtController {
 		map.put("resultCode", "0");
 
 		return map;
-	}
-
-
-	/**
-	 * 엑셀파일을 업로드하여 공시지가를 등록한다.
-	 * @param loginVO
-	 * @param request
-	 * @param commandMap
-	 * @param model
-	 * @return "egovframework/com/sym/ccm/zip/EgovCcmExcelZipRegist"
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/code/GamExcelOlnlpRegist.do")
-	@ResponseBody Map<String, Object> insertExcelZip(@ModelAttribute("loginVO") LoginVO loginVO
-			, final HttpServletRequest request
-			, Map commandMap
-			, Model model) throws Exception {
-
-    	Map<String, Object> map = new HashMap<String, Object>();
-
-//    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-//    	if(!isAuthenticated) {
-//	        map.put("resultCode", 1);
-//    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-//        	return map;
-//    	}
-//
-//    	final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-//		final Map<String, MultipartFile> files = multiRequest.getFileMap();
-//		InputStream fis = null; // 2011.11.1 보안점검 후속조치
-//
-//    	String sResult = "";
-//
-//		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
-//		MultipartFile file;
-//
-//		while (itr.hasNext()) {
-//			Entry<String, MultipartFile> entry = itr.next();
-//
-//			file = entry.getValue();
-//			if (!"".equals(file.getOriginalFilename())) {
-//				if (file.getOriginalFilename().endsWith(".xls")
-//						|| file.getOriginalFilename().endsWith(".xlsx")
-//						|| file.getOriginalFilename().endsWith(".XLS")
-//						|| file.getOriginalFilename().endsWith(".XLSX")) {
-//
-//					try {
-//						fis = file.getInputStream();
-//						gamOlnlpMngtService.deleteOlnlpBJD();
-//
-//						excelOlnlpService.uploadExcel("gamOlnlpMngtDao.insertGamBupjungdongOlnlp_S", fis, 1, (long) 5000);
-//
-//						gamOlnlpMngtService.createOlnlpFromBJD();
-//					} catch(Exception e) {
-//						throw e;
-//					} finally {
-//						if (fis != null)	// 2011.11.1 보안점검 후속조치
-//							fis.close();
-//					}
-//
-//				}else{
-//					log.info("xls, xlsx 파일 타입만 등록이 가능합니다.");
-//			        map.put("resultCode", 3);
-//			        map.put("resultMsg", "xls, xlsx 파일 타입만 등록이 가능합니다.");
-//			        return map;
-//				}
-//				// *********** 끝 ***********
-//
-//			}
-//		}
-        map.put("resultCode", 0);
-        map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-        return map;
 	}
 
 }

@@ -398,9 +398,16 @@ public class GamAssetCodeMngtController {
     public @ResponseBody Map uploadFile(HttpServletRequest request, Model model) throws Exception {
 		Map map = new HashMap();
 		String uploadPath = EgovProperties.getProperty("gisAssetsCd.fileStorePath");
-		List<GamFileServiceVo> list = GamFileUploadUtil.uploadFiles(request, uploadPath, gamGisAssetFileIdGnrService);
+		try {
+			List<GamFileServiceVo> list = GamFileUploadUtil.uploadFiles(request, uploadPath, gamGisAssetFileIdGnrService);
 
-		map.put("result", list);
+			map.put("resultCode", "0");
+			map.put("result", list);
+		}
+		catch(Exception e) {
+			map.put("resultCode", "-1");
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
+		}
 
 		return map;
 	}

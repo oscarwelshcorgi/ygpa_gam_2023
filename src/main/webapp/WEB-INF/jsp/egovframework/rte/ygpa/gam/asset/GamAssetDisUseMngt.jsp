@@ -95,47 +95,6 @@ GamAssetDisUseMngtModule.prototype.loadComplete = function() {
         module.$("#assetDisUseListTab").tabs("option", {active: 1});    // 탭을 전환 한다.
         if(row!=null) {
         	module.makeDivValues('#gamAssetDisUseForm', row); // 결과값을 채운다.
-            /* module.$('#gisAssetsSubCd').val(row['gisAssetsSubCd']);
-            module.$('#gisAssetsCd').val(row['gisAssetsCd']);
-            module.$('#gisAssetsNm').val(row['gisAssetsNm']);
-            //module.$('#gisAssetsMngDeptCd').val(row['gisAssetsMngDeptCd']);
-            //module.$('#gisAssetsOperDeptCd').val(row['gisAssetsOperDeptCd']);
-            module.$('#gisAssetsMngDeptCdNm').val(row['gisAssetsMngDeptCdNm']);
-            module.$('#gisAssetsOperDeptCdNm').val(row['gisAssetsOperDeptCdNm']);
-            module.$('#gisAssetsLocplc').val(row['gisAssetsLocplc']);
-            module.$('#gisAssetsLnm').val(row['gisAssetsLnm']);
-            module.$('#gisAssetsLnmSub').val(row['gisAssetsLnmSub']);
-            module.$('#gisAssetsPrtAtCode').val(row['gisAssetsPrtAtCode']);
-            module.$('#gisAssetsPrtAtCodeNm').val(row['gisAssetsPrtAtCodeNm']);
-            module.$('#gisAssetsAr').val(row['gisAssetsAr']);
-            module.$('#gisAssetsUsageYn').val(row['gisAssetsUsageYn']);
-            module.$('#gisAssetsUsageYnNm').val(row['gisAssetsUsageYnNm']);
-            module.$('#gisAssetsAcqPri').val(row['gisAssetsAcqPri']);
-            module.$('#gisAssetsStndrd').val(row['gisAssetsStndrd']);
-            module.$('#gisAssetsBlddate').val(row['gisAssetsBlddate']);
-            module.$('#gisAssetsBldDt').val(row['gisAssetsBldDt']);
-            module.$('#gisAssetsRm').val(row['gisAssetsRm']);
-            module.$('#regUsr').val(row['regUsr']);
-            module.$('#registdt').val(row['registdt']);
-            module.$('#updUsr').val(row['updUsr']);
-            module.$('#updtdt').val(row['updtdt']);
-            module.$('#gisAssetsQuayGroupCd').val(row['gisAssetsQuayGroupCd']);
-            module.$('#gisAssetsLocCd').val(row['gisAssetsLocCd']);
-            module.$('#gisAssetsSeCd').val(row['gisAssetsSeCd']);
-            module.$('#gisAssetsPrprtySeCd').val(row['gisAssetsPrprtySeCd']);
-            module.$('#gisAssetsInvstmntMthd').val(row['gisAssetsInvstmntMthd']);
-            module.$('#gisAssetsGisCd').val(row['gisAssetsGisCd']);
-            module.$('#gisAssetsRealRentAr').val(row['gisAssetsRealRentAr']);
-            module.$('#drwLstRegistYear').val(row['drwLstRegistYear']);
-            module.$('#drwLstSeq').val(row['drwLstSeq']);
-            module.$('#gisAssetsValAmt').val(row['gisAssetsValAmt']);
-            module.$('#gisAssetsValInqireDt').val(row['gisAssetsValInqireDt']);
-            module.$('#erpAssetsSeCd').val(row['erpAssetsSeCd']);
-            module.$('#erpAssetsNo').val(row['erpAssetsNo']);
-            module.$('#erpAssetsNoSeq').val(row['erpAssetsNoSeq']);
-            module.$('#erpAssetsDisuseRegistYn').val(row['erpAssetsDisuseRegistYn']);
-            module.$('#erpAssetsDisuseRsn').val(row['erpAssetsDisuseRsn']); */
-            //
         }
     });
 
@@ -255,7 +214,7 @@ GamAssetDisUseMngtModule.prototype.onClosePopup = function(popupId, msg, value) 
          break;
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-         
+
          break;
      }
 };
@@ -408,8 +367,6 @@ var module_instance = new GamAssetDisUseMngtModule();
                                 <td><span type="text" id="gisAssetsSeCd" ></span></td>
                                 <th width="16%">GIS 자산 재산구분코드</th>
                                 <td><span type="text" id="gisAssetsPrprtySeCd" ></span></td>
-                                <th width="16%">GIS 자산 출자방식</th>
-                                <td><span type="text" id="gisAssetsInvstmntMthd" ></span></td>
                             </tr>
                             <tr>
                                 <th width="16%">GIS 자산 GIS 코드</th>

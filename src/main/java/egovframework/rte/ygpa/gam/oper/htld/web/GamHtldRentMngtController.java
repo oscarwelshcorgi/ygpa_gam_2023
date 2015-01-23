@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.htld.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -222,6 +223,9 @@ public class GamHtldRentMngtController {
     	if(assetRent.containsKey("_cfList")) {
 	    	createFileList = mapper.readValue((String)assetRent.get("_cfList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
 	    			GamHtldRentAttachFileVO.class));
+    	}
+    	else {
+    		createFileList = new ArrayList();
     	}
 
         gamHtldRentMngtService.insertHtldRentMngt(gamHtldRentMngtVO, createList, createFileList);

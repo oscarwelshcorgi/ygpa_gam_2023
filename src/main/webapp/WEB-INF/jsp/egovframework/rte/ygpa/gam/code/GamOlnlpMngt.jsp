@@ -168,21 +168,8 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 
 		// 조회
 		case "searchBtn":
-
-			if(this.$("#gisAssetsLnmSub").val() != ""){
-				if(this.$("#gisAssetsLnm").val() == ""){
-					this.$("#gisAssetsLnm").focus();
-					alert("지번 정보를 입력하여 주십시오.");
-					return;
-				}
-			}
-
-			var searchOpt = this.makeFormArgs("#olnlpForm");
-		 	this.$("#olnlpMngtListTab").tabs("option", {active: 0});
-		 	this.$("#olnlpInsertList").flexOptions({params:searchOpt}).flexReload();
-		 	// console.log("olnlp loaded");
+			this.loadData();
 		break;
-
 		// 추가
 		case "addBtn":
 			this.$('#olnlpManageVO :input').val('');
@@ -225,17 +212,33 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 		break;
 
 		case 'insertExcel':
-			// console.log('excel');
-			/*
-			this.uploadXlsFile('xlsUpload', function(module, result) {
-				var searchOpt = module.makeFormArgs("#olnlpManageVO");
-				module.$('#olnlpInsertList').flexOptions({params:searchOpt}).flexReload();
-			}, '공시지가 엑셀파일 업로드', '/code/GamExcelOlnlpRegist.do');
-			*/
-			this.uploadFile();
+			this.uploadSingleFile('/code/uploadOlnlpXlsFile.do', function(module, resp) {
+				if(resp.resultCode!=0) {
+					alert(resp.resultMsg);
+					return;
+				}
+				else {
+					alert('전송이 완료 되었습니다.');
+					module.loadData();
+				}
+			});
 			break;
 	}
 };
+
+GamOlnlpMngtModule.prototype.loadData = function() {
+	if(this.$("#gisAssetsLnmSub").val() != ""){
+		if(this.$("#gisAssetsLnm").val() == ""){
+			this.$("#gisAssetsLnm").focus();
+			alert("지번 정보를 입력하여 주십시오.");
+			return;
+		}
+	}
+
+	var searchOpt = this.makeFormArgs("#olnlpForm");
+ 	this.$("#olnlpMngtListTab").tabs("option", {active: 0});
+ 	this.$("#olnlpInsertList").flexOptions({params:searchOpt}).flexReload();
+}
 
 GamOlnlpMngtModule.prototype.uploadXlsFile = function() {
 	this.uploadSingleFile("/code/uploadOlnlpXlsFile.do", function(module, resp) {

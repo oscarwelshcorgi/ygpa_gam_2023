@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package egovframework.rte.cmmn;
 
@@ -27,14 +27,14 @@ import org.springmodules.validation.commons.ValidatorFactory;
 import org.springmodules.validation.commons.taglib.JavascriptValidatorTag;
 
 /**
- * 
+ *
  * @author eunsungj
  * @since 2014. 3. 29.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2014. 3. 29.		eunsungj		최초 생성
@@ -50,12 +50,12 @@ public class EmfJavascriptValidatorTag extends JavascriptValidatorTag {
     private String htmlEndComment = "//End --> \n";
 
 
-	
+
 	@Override
 	public int doStartTag() throws JspException {
 		// TODO Auto-generated method stub
 //		return super.doStartTag();
-		
+
         StringBuffer results = new StringBuffer();
 
         Locale locale = RequestContextUtils.getLocale((HttpServletRequest) pageContext.getRequest());
@@ -125,7 +125,7 @@ public class EmfJavascriptValidatorTag extends JavascriptValidatorTag {
                     }
                 });
 
-                String methods = null;
+                String methods = "";
                 for (Iterator i = lActions.iterator(); i.hasNext();) {
                     ValidatorAction va = (ValidatorAction) i.next();
                     String functionName = null;
@@ -147,8 +147,8 @@ public class EmfJavascriptValidatorTag extends JavascriptValidatorTag {
 
                 for (Iterator i = lActions.iterator(); i.hasNext();) {
                     ValidatorAction va = (ValidatorAction) i.next();
-                    String jscriptVar = null;
-                    String functionName = null;
+                    String jscriptVar = "";
+                    String functionName = "";
 
                     if (va.getJsFunctionName() != null && va.getJsFunctionName().length() > 0) {
                         functionName = va.getJsFunctionName();
@@ -280,7 +280,7 @@ public class EmfJavascriptValidatorTag extends JavascriptValidatorTag {
 
 
 	}
-	
+
     /**
      * Use the application context itself for default message resolution.
      */

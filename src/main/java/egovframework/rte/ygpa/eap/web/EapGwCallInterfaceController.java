@@ -22,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
-import egovframework.rte.cmmn.AjaxXmlView;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -56,7 +55,7 @@ public class EapGwCallInterfaceController {
     /** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
-    
+
     /** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
@@ -86,7 +85,7 @@ public class EapGwCallInterfaceController {
     @RequestMapping(value="/eap/selectEapGwCallInterfaceList.do", method=RequestMethod.POST)
     @ResponseBody public Map<String, Object> selectEapGwCallInterfaceList(@RequestParam Map<String, Object> searchVO) throws Exception {
     	Map<String, Object>map = new HashMap<String, Object>();
-    	
+
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -124,7 +123,7 @@ public class EapGwCallInterfaceController {
             @RequestParam Map gwCall)
             throws Exception {
     	Map map = new HashMap<String, Object>();
-    	
+
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -132,9 +131,9 @@ public class EapGwCallInterfaceController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	
+
     	LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-    	
+
     	gwCall.put("updUsr", loginVo.getId());
     	gwCall.put("regUsr", loginVo.getId());
 
@@ -151,7 +150,7 @@ public class EapGwCallInterfaceController {
             @ModelAttribute("gwCall") Map gwCall, SessionStatus status)
             throws Exception {
     	Map map = new HashMap<String, Object>();
-    	
+
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {

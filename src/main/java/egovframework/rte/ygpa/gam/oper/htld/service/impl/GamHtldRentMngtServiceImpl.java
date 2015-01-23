@@ -107,28 +107,24 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 
 		gamHtldRentMngtDao.insertHtldRentMngt(rentVo);
 
-		if(createList!=null) {
-			for(i=0; i<createList.size(); i++) {
-				GamHtldRentMngtDetailVO d= createList.get(i);
-				d.setRegUsr(updtId);
-				d.setPrtAtCode(rentVo.getPrtAtCode());
-				d.setMngYear(newRentVo.getMngYear());
-				d.setMngNo(newRentVo.getMngNo());
-				d.setMngCnt(newRentVo.getMngCnt());
-				gamHtldRentMngtDao.insertHtldRentMngtDetail(d);
-			}
+		for(i=0; i<createList.size(); i++) {
+			GamHtldRentMngtDetailVO d= createList.get(i);
+			d.setRegUsr(updtId);
+			d.setPrtAtCode(rentVo.getPrtAtCode());
+			d.setMngYear(newRentVo.getMngYear());
+			d.setMngNo(newRentVo.getMngNo());
+			d.setMngCnt(newRentVo.getMngCnt());
+			gamHtldRentMngtDao.insertHtldRentMngtDetail(d);
 		}
 
-		if(createFileList!=null) {
-			for(i=0; i<createFileList.size(); i++) {
-				GamHtldRentAttachFileVO d= createFileList.get(i);
-				d.setRegUsr(updtId);
-				d.setPrtAtCode(rentVo.getPrtAtCode());
-				d.setMngYear(newRentVo.getMngYear());
-				d.setMngNo(newRentVo.getMngNo());
-				d.setMngCnt(newRentVo.getMngCnt());
-				gamHtldRentMngtDao.insertHtldRentMngtFile(d);
-			}
+		for(i=0; i<createFileList.size(); i++) {
+			GamHtldRentAttachFileVO d= createFileList.get(i);
+			d.setRegUsr(updtId);
+			d.setPrtAtCode(rentVo.getPrtAtCode());
+			d.setMngYear(newRentVo.getMngYear());
+			d.setMngNo(newRentVo.getMngNo());
+			d.setMngCnt(newRentVo.getMngCnt());
+			gamHtldRentMngtDao.insertHtldRentMngtFile(d);
 		}
 	}
 
@@ -169,46 +165,34 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 		String updtId=rentVo.getUpdUsr();
 		//String deptCd=rentVo.getDeptcd();
 
-		if(deleteList!=null) {
-			for(i=0; i<deleteList.size(); i++) {
-				GamHtldRentMngtDetailVO d= deleteList.get(i);
-				gamHtldRentMngtDao.deleteHtldRentMngtDetail(d);
-			}
+		for(i=0; i<deleteList.size(); i++) {
+			GamHtldRentMngtDetailVO d= deleteList.get(i);
+			gamHtldRentMngtDao.deleteHtldRentMngtDetail(d);
 		}
-		if(updateList!=null) {
-			for(i=0; i<updateList.size(); i++) {
-				GamHtldRentMngtDetailVO d= updateList.get(i);
-				d.setUpdUsr(updtId);
-				gamHtldRentMngtDao.updateHtldRentMngtDetail(d);
-			}
+		for(i=0; i<updateList.size(); i++) {
+			GamHtldRentMngtDetailVO d= updateList.get(i);
+			d.setUpdUsr(updtId);
+			gamHtldRentMngtDao.updateHtldRentMngtDetail(d);
 		}
-		if(createList!=null) {
-			for(i=0; i<createList.size(); i++) {
-				GamHtldRentMngtDetailVO d= createList.get(i);
-				d.setRegUsr(updtId);
-				gamHtldRentMngtDao.insertHtldRentMngtDetail(d);
-			}
+		for(i=0; i<createList.size(); i++) {
+			GamHtldRentMngtDetailVO d= createList.get(i);
+			d.setRegUsr(updtId);
+			gamHtldRentMngtDao.insertHtldRentMngtDetail(d);
 		}
 
-		if(deleteFileList!=null) {
-			for(i=0; i<deleteFileList.size(); i++) {
-				GamHtldRentAttachFileVO d= deleteFileList.get(i);
-				gamHtldRentMngtDao.deleteHtldRentMngtPhotoSingle(d);
-			}
+		for(i=0; i<deleteFileList.size(); i++) {
+			GamHtldRentAttachFileVO d= deleteFileList.get(i);
+			gamHtldRentMngtDao.deleteHtldRentMngtPhotoSingle(d);
 		}
-		if(updateFileList!=null) {
-			for(i=0; i<updateFileList.size(); i++) {
-				GamHtldRentAttachFileVO d= updateFileList.get(i);
-				d.setUpdUsr(updtId);
-				gamHtldRentMngtDao.updateHtldRentMngtFile(d);
-			}
+		for(i=0; i<updateFileList.size(); i++) {
+			GamHtldRentAttachFileVO d= updateFileList.get(i);
+			d.setUpdUsr(updtId);
+			gamHtldRentMngtDao.updateHtldRentMngtFile(d);
 		}
-		if(createFileList!=null) {
-			for(i=0; i<createFileList.size(); i++) {
-				GamHtldRentAttachFileVO d= createFileList.get(i);
-				d.setRegUsr(updtId);
-				gamHtldRentMngtDao.insertHtldRentMngtFile(d);
-			}
+		for(i=0; i<createFileList.size(); i++) {
+			GamHtldRentAttachFileVO d= createFileList.get(i);
+			d.setRegUsr(updtId);
+			gamHtldRentMngtDao.insertHtldRentMngtFile(d);
 		}
 
 		gamHtldRentMngtDao.updateHtldRentMngt(rentVo);
