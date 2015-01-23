@@ -14,6 +14,26 @@
 		<property name="tableName"	value="SMS_TRNSMIS_DTLS_F"/>
 	</bean>
 
+	<bean name="gamGisAssetFileIdGnrService"
+		class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService"
+		destroy-method="destroy">
+		<property name="dataSource" ref="egov.dataSource" />
+		<property name="strategy" ref="fileStrategy" />
+		<property name="blockSize" 	value="10"/>
+		<property name="table"	   	value="ASSETS_INFO_IDS_F"/>
+		<property name="tableName"	value="GIS_ASSET_FILE_ID"/>
+	</bean>
+
+	<bean name="gamDrawFileIdGnrService"
+		class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService"
+		destroy-method="destroy">
+		<property name="dataSource" ref="egov.dataSource" />
+		<property name="strategy" ref="fileStrategy" />
+		<property name="blockSize" 	value="10"/>
+		<property name="table"	   	value="ASSETS_INFO_IDS_F"/>
+		<property name="tableName"	value="DRAW_FILE_ID"/>
+	</bean>
+
 	<bean name="gamPrtFcltyPhotoIdGnrService"
 		class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService"
 		destroy-method="destroy">
@@ -22,6 +42,16 @@
 		<property name="blockSize" 	value="10"/>
 		<property name="table"	   	value="ASSETS_INFO_IDS_F"/>
 		<property name="tableName"	value="PRT_FCLTY_PHOTO"/>
+	</bean>
+
+	<bean name="gamOlnlpXlsFileIdGnrService"
+		class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService"
+		destroy-method="destroy">
+		<property name="dataSource" ref="egov.dataSource" />
+		<property name="strategy" ref="fileStrategy" />
+		<property name="blockSize" 	value="4"/>
+		<property name="table"	   	value="ASSETS_INFO_IDS_F"/>
+		<property name="tableName"	value="OLNLP_XLS_TEMP"/>
 	</bean>
 
 	<bean name="fileStrategy"

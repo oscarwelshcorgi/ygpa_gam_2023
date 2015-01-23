@@ -237,28 +237,34 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 	}
 };
 
-GamOlnlpMngtModule.prototype.uploadFile = function() {
-	var target_name='tmpOlnlpUpload';
-	$('body').append('<iframe src="javascript:false;" name="'+target_name+'" style="display:none;"></iframe>');
-	var iframe=$('#'+target_name);
+GamOlnlpMngtModule.prototype.uploadXlsFile = function() {
+	$('#__tempDiv').empty();
+	$('#uploadIFrame').remove();
+	var $iFrame = $('<iFrame id="uploadIFrame" name="uploadIFrame"></iFrame>');
+    $iFrame.appendTo('body');
+    $('#__tempDiv').append('<form id="insert" name="insert" method="post" enctype="multipart/form-data">'
+    		+'<input name="type" type="hidden" value="genericFileMulti" /><input id="uploadFile" name="uploadFile" type="file" />'
+    		+'<input name="filePath" type="hidden" value="'+dir+'" />'
+    		+'</form>');
+    $('#insert').submit(function() {
+    	$("#insert").attr("target", "uploadIFrame");
+    });
+    $('#uploadFile').on('change', {module:this, func: func, url: url}, function(e) {
+        $('#insert').attr('action', EMD.context_root+e.data.url).submit();
 
-	iframe.append('<form id="tmpOlnlpUpload" method="post" action="'+"<c:url value='/code/GamExcelOlnlpRegist.do'/>"+'">'+
-			'<input type="text" name="type" value="genericFileMulti" size="60" />'+
-			'<input type="file" name="file[]" size="60" />'+
-			'</form>');
+        $('#uploadIFrame').load(function(){
+        	if ( status == "error" ) {
+        	    var msg = "파일을 업로드 하는데 오류가 발생 했습니다. : ";
+        	    alert( msg + xhr.status + " " + xhr.statusText );
+        	  }
+        	$('#__tempDiv').empty();
+            var data = $('#uploadIFrame').contents().text();
+            if(e.data.func!=undefined) e.data.func(e.data.module, jQuery.parseJSON(data));
 
-	iframe.load(function() {
-        var doc = this.contentWindow ? this.contentWindow.document : (this.contentDocument ? this.contentDocument : this.document);
-        var root = doc.documentElement ? doc.documentElement : doc.body;
-        var result = root.textContent ? root.textContent : root.innerText;
-
-        callback(result);
-
-        // 전송처리 완료 후 생성했던 form, iframe 제거
-        form.remove();
-        iframe.remove();
-	});
-	$('#tmpOlnlpUpload').submit();
+            $('#uploadIFrame').remove();
+        });
+    });
+    $('#uploadFile').click();
 };
 
 GamOlnlpMngtModule.prototype.saveOlnlp = function() {

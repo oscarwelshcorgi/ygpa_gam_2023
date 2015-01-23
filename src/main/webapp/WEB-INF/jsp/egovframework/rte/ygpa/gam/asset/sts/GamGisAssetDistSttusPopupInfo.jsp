@@ -58,7 +58,7 @@ GamAssetSttusDistInfoModule.prototype.loadComplete = function() {
    	}
 	chart1.parse(dataset,"json");
 
-	console.log('GamAssetSttusDistInfoModule loadcomplete');
+	//console.log('GamAssetSttusDistInfoModule loadcomplete');
 };
 
 GamAssetSttusDistInfoModule.prototype.onButtonClick = function(buttonId) {

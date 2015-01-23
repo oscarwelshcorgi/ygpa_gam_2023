@@ -75,7 +75,7 @@ GamGisAssetSttusInqireModule.prototype.loadComplete = function() {
 
 	this.$('#searchDate').val(EMD.util.getDate());
 
-	console.log('GamGisAssetSttusInqireModule debug');
+	//console.log('GamGisAssetSttusInqireModule debug');
 };
 
 GamGisAssetSttusInqireModule.prototype.loadData = function() {

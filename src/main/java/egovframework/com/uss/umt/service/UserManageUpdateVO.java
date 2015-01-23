@@ -479,33 +479,20 @@ public class UserManageUpdateVO extends UserDefaultVO{
 	public void setOrgnztId(String orgnztId) {
 		this.orgnztId = orgnztId;
 	}
-	/**
-	 * passwordCnsr attribute 값을  리턴한다.
-	 * @return String
-	 */
 	public String getPasswordCnsr() {
 		return passwordCnsr;
 	}
 	/**
-	 * passwordCnsr attribute 값을 설정한다.
-	 * @param passwordCnsr String
+	 * @param value
 	 */
-	public void setPasswordCnsr(String passwordCnsr) {
-		this.passwordCnsr = passwordCnsr;
+	public void setPasswordCnsr(String val) {
+		this.passwordCnsr = val;
 	}
-	/**
-	 * passwordHint attribute 값을  리턴한다.
-	 * @return String
-	 */
 	public String getPasswordHint() {
 		return passwordHint;
 	}
-	/**
-	 * passwordHint attribute 값을 설정한다.
-	 * @param passwordHint String
-	 */
-	public void setPasswordHint(String passwordHint) {
-		this.passwordHint = passwordHint;
+	public void setPasswordHint(String val) {
+		this.passwordHint = val;
 	}
 	/**
 	 * sbscrbDeBegin attribute 값을  리턴한다.

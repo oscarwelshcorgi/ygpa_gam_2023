@@ -345,47 +345,47 @@ public class GamGasUsageSttusMngController {
 			return map;
 		}
 
-		final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-		final Map<String, MultipartFile> files = multiRequest.getFileMap();
-		InputStream fis = null;
-		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
-		MultipartFile file;
-
-		while (itr.hasNext()) {
-			Entry<String, MultipartFile> entry = itr.next();
-			file = entry.getValue();
-			if (!"".equals(file.getOriginalFilename())) {
-				if (file.getOriginalFilename().endsWith(".xls") ||
-					file.getOriginalFilename().endsWith(".xlsx") ||
-					file.getOriginalFilename().endsWith(".XLS") ||
-					file.getOriginalFilename().endsWith(".XLSX")) {
-					try {
-						fis = file.getInputStream();
-						excelGasUsageSttusService.uploadExcel("gamGasUsageSttusMngDao.insertGasUsageSttusF_S", fis, 1, (long)5000);
-					} catch(Exception e) {
-						throw e;
-					} finally {
-						if (fis != null) {
-							fis.close();
-						}
-					}
-					try {
-						fis = file.getInputStream();
-						excelGasUsageSttusService.uploadExcel("gamGasUsageSttusMngDao.updateGasUsageSttusF_S", fis, 1, (long)5000);
-					} catch(Exception e) {
-						throw e;
-					} finally {
-						if (fis != null) {
-							fis.close();
-						}
-					}
-				} else {
-					map.put("resultCode", 3);
-					map.put("resultMsg", "xls, xlsx 파일 타입만 등록이 가능합니다.");
-					return map;
-				}
-			}
-		}
+//		final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+//		final Map<String, MultipartFile> files = multiRequest.getFileMap();
+//		InputStream fis = null;
+//		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
+//		MultipartFile file;
+//
+//		while (itr.hasNext()) {
+//			Entry<String, MultipartFile> entry = itr.next();
+//			file = entry.getValue();
+//			if (!"".equals(file.getOriginalFilename())) {
+//				if (file.getOriginalFilename().endsWith(".xls") ||
+//					file.getOriginalFilename().endsWith(".xlsx") ||
+//					file.getOriginalFilename().endsWith(".XLS") ||
+//					file.getOriginalFilename().endsWith(".XLSX")) {
+//					try {
+//						fis = file.getInputStream();
+//						excelGasUsageSttusService.uploadExcel("gamGasUsageSttusMngDao.insertGasUsageSttusF_S", fis, 1, (long)5000);
+//					} catch(Exception e) {
+//						throw e;
+//					} finally {
+//						if (fis != null) {
+//							fis.close();
+//						}
+//					}
+//					try {
+//						fis = file.getInputStream();
+//						excelGasUsageSttusService.uploadExcel("gamGasUsageSttusMngDao.updateGasUsageSttusF_S", fis, 1, (long)5000);
+//					} catch(Exception e) {
+//						throw e;
+//					} finally {
+//						if (fis != null) {
+//							fis.close();
+//						}
+//					}
+//				} else {
+//					map.put("resultCode", 3);
+//					map.put("resultMsg", "xls, xlsx 파일 타입만 등록이 가능합니다.");
+//					return map;
+//				}
+//			}
+//		}
 
 		map.put("resultCode", 0);
 		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));

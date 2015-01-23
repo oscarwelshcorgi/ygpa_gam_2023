@@ -76,7 +76,7 @@ GamAssetSttusInfoModule.prototype.loadComplete = function() {
 
 	chart1.parse(dataset,"json");
 
-	console.log('GamAssetSttusInfoModule loadcomplete');
+	//console.log('GamAssetSttusInfoModule loadcomplete');
 };
 
 GamAssetSttusInfoModule.prototype.onButtonClick = function(buttonId) {

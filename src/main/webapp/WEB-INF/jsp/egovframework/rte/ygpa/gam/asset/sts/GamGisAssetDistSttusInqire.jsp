@@ -61,8 +61,7 @@ GamGisAssetDistSttusModule.prototype.loadComplete = function() {
         }
     });
 
-
-	console.log('GamGisAssetDistSttusModule debug');
+//	console.log('GamGisAssetDistSttusModule debug');
 };
 
 GamGisAssetDistSttusModule.prototype.loadData = function() {

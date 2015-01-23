@@ -26,6 +26,7 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,12 +38,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sym.ccm.zip.service.ZipVO;
 import egovframework.rte.fdl.excel.EgovExcelService;
+import egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.util.fileupload.multi.service.FileInfoVO;
+import egovframework.rte.ygpa.gam.cmmn.service.GamFileServiceVo;
+import egovframework.rte.ygpa.gam.cmmn.service.GamFileUploadUtil;
 import egovframework.rte.ygpa.gam.code.service.GamOlnlpFVO;
 import egovframework.rte.ygpa.gam.code.service.GamOlnlpMngtService;
 import egovframework.rte.ygpa.gam.code.service.GisAssetsCodeVO;
@@ -88,6 +93,8 @@ public class GamOlnlpMngtController {
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
 
+    @Resource(name="gamOlnlpXlsFileIdGnrService")
+    EgovTableIdGnrService gamOlnlpXlsFileIdGnrService;
 
 
 	/**
@@ -375,6 +382,40 @@ public class GamOlnlpMngtController {
 		return map;
 	}
 
+    @RequestMapping(value="/code/uploadOlnlpXlsFile.do", method=RequestMethod.POST)
+    public @ResponseBody Map uploadOlnlpXlsFile(HttpServletRequest request, Model model) throws Exception {
+    	File file = null;
+		Map map = new HashMap();
+		String uploadPath = EgovProperties.getProperty("olnlpTemp.fileStorePath");
+		List<GamFileServiceVo> list = GamFileUploadUtil.uploadFiles(request, uploadPath, gamOlnlpXlsFileIdGnrService);
+
+		if(list.size()==0) {
+			map.put("resultCode", "0");
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
+			return map;
+		}
+
+//		InputStream fis = null; // 2011.11.1 보안점검 후속조치
+//
+//		try {
+//			String filePath = uploadPath + list.get(0).getPhyscalFileNm();
+//
+//			file = new File(filePath);
+//			fis = file.;
+//			if(file.canRead()) {
+//
+//			}
+//		}
+//		catch(Exception e) {
+//			LOG.debug("occur exception : "+e.getMessage());
+//		}
+
+		map.put("resultCode", "0");
+
+		return map;
+	}
+
+
 	/**
 	 * 엑셀파일을 업로드하여 공시지가를 등록한다.
 	 * @param loginVO
@@ -392,56 +433,56 @@ public class GamOlnlpMngtController {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-
-    	final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-		final Map<String, MultipartFile> files = multiRequest.getFileMap();
-		InputStream fis = null; // 2011.11.1 보안점검 후속조치
-
-    	String sResult = "";
-
-		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
-		MultipartFile file;
-
-		while (itr.hasNext()) {
-			Entry<String, MultipartFile> entry = itr.next();
-
-			file = entry.getValue();
-			if (!"".equals(file.getOriginalFilename())) {
-				if (file.getOriginalFilename().endsWith(".xls")
-						|| file.getOriginalFilename().endsWith(".xlsx")
-						|| file.getOriginalFilename().endsWith(".XLS")
-						|| file.getOriginalFilename().endsWith(".XLSX")) {
-
-					try {
-						fis = file.getInputStream();
-						gamOlnlpMngtService.deleteOlnlpBJD();
-
-						excelOlnlpService.uploadExcel("gamOlnlpMngtDao.insertGamBupjungdongOlnlp_S", fis, 1, (long) 5000);
-
-						gamOlnlpMngtService.createOlnlpFromBJD();
-					} catch(Exception e) {
-						throw e;
-					} finally {
-						if (fis != null)	// 2011.11.1 보안점검 후속조치
-							fis.close();
-					}
-
-				}else{
-					log.info("xls, xlsx 파일 타입만 등록이 가능합니다.");
-			        map.put("resultCode", 3);
-			        map.put("resultMsg", "xls, xlsx 파일 타입만 등록이 가능합니다.");
-			        return map;
-				}
-				// *********** 끝 ***********
-
-			}
-		}
+//    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+//    	if(!isAuthenticated) {
+//	        map.put("resultCode", 1);
+//    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+//        	return map;
+//    	}
+//
+//    	final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+//		final Map<String, MultipartFile> files = multiRequest.getFileMap();
+//		InputStream fis = null; // 2011.11.1 보안점검 후속조치
+//
+//    	String sResult = "";
+//
+//		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
+//		MultipartFile file;
+//
+//		while (itr.hasNext()) {
+//			Entry<String, MultipartFile> entry = itr.next();
+//
+//			file = entry.getValue();
+//			if (!"".equals(file.getOriginalFilename())) {
+//				if (file.getOriginalFilename().endsWith(".xls")
+//						|| file.getOriginalFilename().endsWith(".xlsx")
+//						|| file.getOriginalFilename().endsWith(".XLS")
+//						|| file.getOriginalFilename().endsWith(".XLSX")) {
+//
+//					try {
+//						fis = file.getInputStream();
+//						gamOlnlpMngtService.deleteOlnlpBJD();
+//
+//						excelOlnlpService.uploadExcel("gamOlnlpMngtDao.insertGamBupjungdongOlnlp_S", fis, 1, (long) 5000);
+//
+//						gamOlnlpMngtService.createOlnlpFromBJD();
+//					} catch(Exception e) {
+//						throw e;
+//					} finally {
+//						if (fis != null)	// 2011.11.1 보안점검 후속조치
+//							fis.close();
+//					}
+//
+//				}else{
+//					log.info("xls, xlsx 파일 타입만 등록이 가능합니다.");
+//			        map.put("resultCode", 3);
+//			        map.put("resultMsg", "xls, xlsx 파일 타입만 등록이 가능합니다.");
+//			        return map;
+//				}
+//				// *********** 끝 ***********
+//
+//			}
+//		}
         map.put("resultCode", 0);
         map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
         return map;

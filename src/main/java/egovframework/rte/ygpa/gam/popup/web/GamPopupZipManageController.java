@@ -1,15 +1,12 @@
 /**
- * 
+ *
  */
 package egovframework.rte.ygpa.gam.popup.web;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -21,28 +18,29 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.sym.ccm.zip.service.EgovCcmRdnmadZipManageService;
 import egovframework.com.sym.ccm.zip.service.EgovCcmZipManageService;
 import egovframework.com.sym.ccm.zip.service.Zip;
 import egovframework.com.sym.ccm.zip.service.ZipVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.cmmn.service.GamFileServiceVo;
+import egovframework.rte.ygpa.gam.cmmn.service.GamFileUploadUtil;
 
 /**
- * 
+ *
  * @author Administrator
  * @since 2014. 1. 29.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2014. 1. 29.		kok		최초 생성
@@ -53,10 +51,10 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 @Controller
 public class GamPopupZipManageController {
-	
+
 	@Resource(name = "ZipManageService")
     private EgovCcmZipManageService zipManageService;
-	
+
 	@Resource(name = "RdnmadZipService")
 	private EgovCcmRdnmadZipManageService rdnmadZipService;
 
@@ -83,7 +81,7 @@ public class GamPopupZipManageController {
     	return "/ygpa/gam/cmmn/popup/GamPopupSearchZipView";
     }
 
-	
+
     /**
      * 우편번호 찾기 목록을 조회한다.
      * @param searchVO
@@ -95,7 +93,7 @@ public class GamPopupZipManageController {
 	@ResponseBody Map<String, Object> selectZipSearchList (@ModelAttribute("searchVO") ZipVO searchVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
-    	
+
     	/** pageing */
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -105,9 +103,9 @@ public class GamPopupZipManageController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
 		String sList = "";
-		
+
 		if (searchVO.getSearchList() != null && searchVO.getSearchList() != "" ) {
 			sList = searchVO.getSearchList().substring(0, 1);
 		}
@@ -117,21 +115,21 @@ public class GamPopupZipManageController {
 		if (sList.equals("1")) {
 			CmmnCodeList = zipManageService.selectZipList(searchVO);
 	        totCnt = zipManageService.selectZipListTotCnt(searchVO);
-	     
+
 		} else {
 			CmmnCodeList = rdnmadZipService.selectZipList(searchVO);
 			totCnt = rdnmadZipService.selectZipListTotCnt(searchVO);
 		}
 		paginationInfo.setTotalRecordCount(totCnt);
 		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-		
+
 		map.put("resultList", CmmnCodeList);
 	    map.put("totalCount", totCnt);
 	    map.put("searchOption", searchVO);
         return map;
 	}
 
-    
+
 	/**
 	 * 우편번호를 삭제한다.
 	 * @param loginVO
@@ -143,10 +141,10 @@ public class GamPopupZipManageController {
 	 */
     @RequestMapping(value="/cmmn/popup/gamCcmZipRemove.do")
 	@ResponseBody Map<String, Object> deleteZip (@ModelAttribute("loginVO") LoginVO loginVO, Zip zip, ZipVO searchVO) throws Exception {
-    	
+
     	Map<String, Object> map = new HashMap<String, Object>();
     	map.put("searchList", searchVO.getSearchList());
-		
+
     	if (searchVO.getSearchList().equals("1")) {
 			zipManageService.deleteZip(zip);
 		} else {
@@ -155,7 +153,7 @@ public class GamPopupZipManageController {
         return map;
 	}
 
-    
+
 	/**
 	 * 우편번호를 등록한다.
 	 * @param loginVO
@@ -169,11 +167,11 @@ public class GamPopupZipManageController {
     @RequestMapping(value="/cmmn/popup/gamCcmZipRegist.do")
 	@ResponseBody Map<String, Object> insertZip (@ModelAttribute("loginVO") LoginVO loginVO, @ModelAttribute("zip") Zip zip, ZipVO searchVO
 			, BindingResult bindingResult) throws Exception {
-    	
+
     	Map<String, Object> map = new HashMap<String, Object>();
-    	
+
 		map.put("searchList", searchVO.getSearchList());
-    	
+
 		if(zip.getZip() == null || zip.getZip().equals("")) {
 
             return map;
@@ -181,22 +179,22 @@ public class GamPopupZipManageController {
 
     	if (searchVO.getSearchList().equals("1")) {
     		beanValidator.validate(zip, bindingResult);
-    		
+
     		if (bindingResult.hasErrors()){
     			return map;
     		}
-    		
+
     		zip.setFrstRegisterId(loginVO.getUniqId());
     		zipManageService.insertZip(zip);
     	} else {
-    		
+
     		zip.setFrstRegisterId(loginVO.getUniqId());
     		rdnmadZipService.insertZip(zip);
     	}
         return map;
     }
 
-    
+
 	/**
 	 * 엑셀파일을 업로드하여 우편번호를 등록한다.
 	 * @param loginVO
@@ -210,7 +208,7 @@ public class GamPopupZipManageController {
 	@ResponseBody Map<String, Object> insertExcelZip(@ModelAttribute("loginVO") LoginVO loginVO
 			, final HttpServletRequest request, Map<String, Object> commandMap, ZipVO searchVO) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		map.put("searchList", searchVO.getSearchList());
 
 		String sCmd = commandMap.get("cmd") == null ? "" : (String)commandMap.get("cmd");
@@ -218,49 +216,57 @@ public class GamPopupZipManageController {
     		return map;
     	}
 
-    	final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-		final Map<String, MultipartFile> files = multiRequest.getFileMap();
-		InputStream fis = null; // 2011.11.1 보안점검 후속조치
+		String uploadPath = EgovProperties.getProperty("global.fileStorePath")+"_temp_zip.xls";
+		List<GamFileServiceVo> list = GamFileUploadUtil.uploadFiles(request, uploadPath, null);
 
-		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
-		MultipartFile file;
-
-		while (itr.hasNext()) {
-			Entry<String, MultipartFile> entry = itr.next();
-
-			file = entry.getValue();
-			if (!"".equals(file.getOriginalFilename())) {
-				// 2011.10.07 업로드 파일에 대한 확장자를 체크
-				if (file.getOriginalFilename().endsWith(".xls")
-						|| file.getOriginalFilename().endsWith(".xlsx")
-						|| file.getOriginalFilename().endsWith(".XLS")
-						|| file.getOriginalFilename().endsWith(".XLSX")) {
-					
-					//zipManageService.deleteAllZip();
-					//excelZipService.uploadExcel("ZipManageDAO.insertExcelZip", file.getInputStream(), 2);
-					// 2011.10.21 보안점검 후속조치
-					try {
-						fis = file.getInputStream();
-						if (searchVO.getSearchList().equals("1")) {
-							zipManageService.insertExcelZip(fis);
-						} else {
-							rdnmadZipService.insertExcelZip(fis);
-						}
-					} catch(Exception e) {
-						throw e;
-					} finally {
-						if (fis != null)	// 2011.11.1 보안점검 후속조치
-							fis.close();
-					}
-					
-				}else{
-					//log.info("xls, xlsx 파일 타입만 등록이 가능합니다.");
-					return map;
-				}
-				// *********** 끝 ***********
-		    	
-			}
+		if(list.size()==0) {
+			map.put("resultCode", "0");
+//			map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
+			return map;
 		}
+//    	final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+//		final Map<String, MultipartFile> files = multiRequest.getFileMap();
+//		InputStream fis = null; // 2011.11.1 보안점검 후속조치
+//
+//		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
+//		MultipartFile file;
+//
+//		while (itr.hasNext()) {
+//			Entry<String, MultipartFile> entry = itr.next();
+//
+//			file = entry.getValue();
+//			if (!"".equals(file.getOriginalFilename())) {
+//				// 2011.10.07 업로드 파일에 대한 확장자를 체크
+//				if (file.getOriginalFilename().endsWith(".xls")
+//						|| file.getOriginalFilename().endsWith(".xlsx")
+//						|| file.getOriginalFilename().endsWith(".XLS")
+//						|| file.getOriginalFilename().endsWith(".XLSX")) {
+//
+//					//zipManageService.deleteAllZip();
+//					//excelZipService.uploadExcel("ZipManageDAO.insertExcelZip", file.getInputStream(), 2);
+//					// 2011.10.21 보안점검 후속조치
+//					try {
+//						fis = file.getInputStream();
+//						if (searchVO.getSearchList().equals("1")) {
+//							zipManageService.insertExcelZip(fis);
+//						} else {
+//							rdnmadZipService.insertExcelZip(fis);
+//						}
+//					} catch(Exception e) {
+//						throw e;
+//					} finally {
+//						if (fis != null)	// 2011.11.1 보안점검 후속조치
+//							fis.close();
+//					}
+//
+//				}else{
+//					//log.info("xls, xlsx 파일 타입만 등록이 가능합니다.");
+//					return map;
+//				}
+//				// *********** 끝 ***********
+//
+//			}
+//		}
 
         return map;
 	}
@@ -276,9 +282,9 @@ public class GamPopupZipManageController {
 	 */
 	@RequestMapping(value="/cmmn/popup/gamCcmZipDetail.do")
  	@ResponseBody Map<String, Object> selectZipDetail (@ModelAttribute("loginVO") LoginVO loginVO, Zip zip, ZipVO searchVO) throws Exception {
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		if (searchVO.getSearchList().equals("1")) {
 			Zip vo = zipManageService.selectZipDetail(zip);
 			map.put("result", vo);
@@ -303,7 +309,7 @@ public class GamPopupZipManageController {
 	@SuppressWarnings("rawtypes")
     @RequestMapping(value="/cmmn/popup/gamCcmZipList.do")
 	@ResponseBody Map<String, Object> selectZipList (@ModelAttribute("loginVO") LoginVO loginVO, @ModelAttribute("searchVO") ZipVO searchVO) throws Exception {
-		
+
     	Map<String, Object> map = new HashMap<String, Object>();
 
     	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
@@ -318,7 +324,7 @@ public class GamPopupZipManageController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
 		List CmmnCodeList = null;
 		int totCnt = 0;
 		if (searchVO.getSearchList().equals("1")) {
@@ -335,7 +341,7 @@ public class GamPopupZipManageController {
         return map;
 	}
 
-    
+
 	/**
 	 * 우편번호를 수정한다.
 	 * @param loginVO
@@ -349,13 +355,13 @@ public class GamPopupZipManageController {
     @RequestMapping(value="/cmmn/popup/gamCcmZipModify.do")
 	@ResponseBody Map<String, Object> updateZip (@ModelAttribute("loginVO") LoginVO loginVO, @ModelAttribute("zip") Zip zip, ZipVO searchVO
 			, BindingResult bindingResult, Map<String, Object> commandMap) throws Exception {
-    	
+
     	Map<String, Object> map = new HashMap<String, Object>();
-		
+
     	String sCmd = commandMap.get("cmd") == null ? "" : (String)commandMap.get("cmd");
-    	
+
 		map.put("searchList", searchVO.getSearchList());
-    	
+
 		if (sCmd.equals("")) {
     		if (searchVO.getSearchList().equals("1")) {
 	    		Zip vo = zipManageService.selectZipDetail(zip);
@@ -370,11 +376,11 @@ public class GamPopupZipManageController {
 				if (bindingResult.hasErrors()){
 					return map;
 				}
-				
+
 				zip.setLastUpdusrId(loginVO.getUniqId());
 				zipManageService.updateZip(zip);
 			} else {
-				
+
 				zip.setLastUpdusrId(loginVO.getUniqId());
 				rdnmadZipService.updateZip(zip);
 			}

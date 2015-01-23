@@ -9,10 +9,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,10 +25,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.util.fileupload.multi.service.FileInfoVO;
+import egovframework.rte.ygpa.gam.cmmn.service.GamFileServiceVo;
+import egovframework.rte.ygpa.gam.cmmn.service.GamFileUploadUtil;
 import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeMngtService;
 import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 import egovframework.rte.ygpa.gam.code.service.GamGisAssetPhotoMngtService;
@@ -62,6 +71,9 @@ public class GamAssetCodeMngtController {
     /** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
+
+    @Resource(name="gamGisAssetFileIdGnrService")
+    EgovTableIdGnrService gamGisAssetFileIdGnrService;
 
 	/**
 	 * 화면 호출
@@ -382,5 +394,34 @@ public class GamAssetCodeMngtController {
 		return map;
 	}
 
+    @RequestMapping(value="/code/assets/uploadAssetFile.do", method=RequestMethod.POST)
+    public @ResponseBody Map uploadFile(HttpServletRequest request, Model model) throws Exception {
+		Map map = new HashMap();
+		String uploadPath = EgovProperties.getProperty("gisAssetsCd.fileStorePath");
+		List<GamFileServiceVo> list = GamFileUploadUtil.uploadFiles(request, uploadPath, gamGisAssetFileIdGnrService);
 
+		map.put("result", list);
+
+		return map;
+	}
+
+    @RequestMapping("/code/assets/getAssetImage.do")
+    public void getImage(final HttpServletRequest request, HttpServletResponse response) throws Exception {
+		GamFileServiceVo gamFileServiceVo = new GamFileServiceVo();
+		String uploadPath = EgovProperties.getProperty("gisAssetsCd.fileStorePath");
+
+		gamFileServiceVo.setPhyscalFileNm((String)request.getParameter("physicalFileNm"));
+
+		GamFileUploadUtil.downloadImage(request, response, uploadPath, gamFileServiceVo);
+    }
+
+    @RequestMapping("/code/assets/getAssetDown.do")
+    public void getDownload(final HttpServletRequest request, HttpServletResponse response) throws Exception {
+		GamFileServiceVo gamFileServiceVo = new GamFileServiceVo();
+		String uploadPath = EgovProperties.getProperty("gisAssetsCd.fileStorePath");
+
+		gamFileServiceVo.setPhyscalFileNm((String)request.getParameter("physicalFileNm"));
+
+		GamFileUploadUtil.downloadFile(request, response, uploadPath, gamFileServiceVo);
+    }
 }

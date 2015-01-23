@@ -120,7 +120,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			var filenm=row['filenmPhysicl'];
 			var ext=filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
 			if(ext=='jpg' || ext=='jpeg' || ext=='bmp' || ext=='png' || ext=='gif') {
-			    $imgURL = module.getImageUrl(filenm);
+			    $imgURL = module.getUrl("/code/assets/getAssetImage.do?physicalFileNm=")+filenm;
 			    module.$("#previewImage").fadeIn(400, function() {
 			    	module.$("#previewImage").attr('src', $imgURL);
 			    });
@@ -216,7 +216,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 	 	break;
 	}
 
-	console.log('loadcomplete');
+	console.log('GamAssetCodeModule loadcomplete');
 };
 
 // 사용자 설정 함수 추가
@@ -425,6 +425,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
         this.doExecuteDialog('selectAddrPopup', '주소 입력', '/popup/showAddrPopup.do', []);
 		break;
 	case 'btnUploadFile':
+		/*
 		// 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
 		this.uploadFile('uploadPhoto', function(module, result) {
 			// 			var userid=EMD.util.getLoginUserVO().userNm; 임시
@@ -446,8 +447,25 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 			if(result!=null && result.length>0) this._edited=true;
 
 		}, '시설사진 업로드');
+		*/
+		this.uploadSingleFile('/code/assets/uploadAssetFile.do', 'uploadPhoto', function(module, resp) {
+			$.each(resp.result, function() {
+				module.$('#assetCodePhotoList').flexAddRow({
+					_updtId : 'I',
+					gisAssetsPrtAtCode: module.selectedItem.gisAssetsPrtAtCode,
+					gisAssetsCd: module.selectedItem.gisAssetsCd,
+					gisAssetsSubCd: module.selectedItem.gisAssetsSubCd,
+					photoSj : this.logicalFileNm,
+					filenmLogic : this.logicalFileNm,
+					filenmPhysicl : this.physcalFileNm,
+					fileSize : this.size,
+					regUsr : EMD.userinfo.name,
+					registDt : EMD.util.getTimeStamp()
+				}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+			});
+			if(resp.result!=null && resp.result.length>0) this._edited=true;
+		});
 		break;
-
 	case 'saveAssetGisPhoto':	// 사진 목록 저장
 		if( confirm("사진 목록을 저장하시겠습니까?") ) {
 		    // 변경된 자료를 저장한다.
@@ -509,7 +527,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		var selectRow = this.$('#assetCodePhotoList').selectedRows();
 		if(selectRow.length > 0) {
 			var row=selectRow[0];
-			this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
+			this.downloadSingleFile("/code/assets/getAssetDown.do", row["filenmPhysicl"]);
 		}
 		break;
 	case 'btnMapSave':
@@ -539,6 +557,8 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		break;
 	case 'btnGetAddress':
 		this.applyAddrLotcode();
+		break;
+	case 'btnRegFile':
 		break;
 	}
 };
@@ -798,7 +818,7 @@ GamAssetCodeModule.prototype.loadPhotoList = function() {
 	             ];
 	 	this.$('#assetCodePhotoList').flexOptions({params:assetCd}).flexReload();
 	}
-}
+};
 
 GamAssetCodeModule.prototype.onSubmit = function() {
 	//this.showAlert(this.$('#prtCode').val()+'을(를) 조회 하였습니다');
@@ -1021,7 +1041,7 @@ var module_instance = new GamAssetCodeModule();
 					<button id="removeAssetGisPhoto">삭제</button>
 					<button id="saveAssetGisPhoto">저장</button>
 				</div>
-				<form id="editAssetGisPhotoForm">
+				<form id="editAssetGisPhotoForm" method="post" enctype="multipart/form-data">
 					<table class="editForm">
                         <tr>
 							<th width="10%" height="18"><span class="label">사진제목</span></th>
@@ -1036,7 +1056,7 @@ var module_instance = new GamAssetCodeModule();
                         <tr>
 							<th width="10%" height="18"><span class="label">사진파일명</span></th>
                             <td colspan="3">
-                                <input id="filenmLogic" type="text" size="135" class="photoEditItem" disabled/>
+                                <input id="filenmLogic" type="text" size="60" class="photoEditItem" disabled/>
                             </td>
                         </tr>
 					</table>
