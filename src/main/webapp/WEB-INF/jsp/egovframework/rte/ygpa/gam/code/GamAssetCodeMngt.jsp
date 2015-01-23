@@ -448,7 +448,11 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 
 		}, '시설사진 업로드');
 		*/
-		this.uploadSingleFile('/code/assets/uploadAssetFile.do', 'uploadPhoto', function(module, resp) {
+		this.uploadSingleFile('/code/assets/uploadAssetFile.do', function(module, resp) {
+			if(resp.resultCode!=0) {
+				alert(resp.resultMsg);
+				return;
+			}
 			$.each(resp.result, function() {
 				module.$('#assetCodePhotoList').flexAddRow({
 					_updtId : 'I',

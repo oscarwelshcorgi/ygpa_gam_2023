@@ -238,33 +238,12 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 };
 
 GamOlnlpMngtModule.prototype.uploadXlsFile = function() {
-	$('#__tempDiv').empty();
-	$('#uploadIFrame').remove();
-	var $iFrame = $('<iFrame id="uploadIFrame" name="uploadIFrame"></iFrame>');
-    $iFrame.appendTo('body');
-    $('#__tempDiv').append('<form id="insert" name="insert" method="post" enctype="multipart/form-data">'
-    		+'<input name="type" type="hidden" value="genericFileMulti" /><input id="uploadFile" name="uploadFile" type="file" />'
-    		+'<input name="filePath" type="hidden" value="'+dir+'" />'
-    		+'</form>');
-    $('#insert').submit(function() {
-    	$("#insert").attr("target", "uploadIFrame");
-    });
-    $('#uploadFile').on('change', {module:this, func: func, url: url}, function(e) {
-        $('#insert').attr('action', EMD.context_root+e.data.url).submit();
-
-        $('#uploadIFrame').load(function(){
-        	if ( status == "error" ) {
-        	    var msg = "파일을 업로드 하는데 오류가 발생 했습니다. : ";
-        	    alert( msg + xhr.status + " " + xhr.statusText );
-        	  }
-        	$('#__tempDiv').empty();
-            var data = $('#uploadIFrame').contents().text();
-            if(e.data.func!=undefined) e.data.func(e.data.module, jQuery.parseJSON(data));
-
-            $('#uploadIFrame').remove();
-        });
-    });
-    $('#uploadFile').click();
+	this.uploadSingleFile("/code/uploadOlnlpXlsFile.do", function(module, resp) {
+		if(resp.resultCode!=0) {
+			alert(resp.resultMsg);
+			return;
+		}
+	});
 };
 
 GamOlnlpMngtModule.prototype.saveOlnlp = function() {

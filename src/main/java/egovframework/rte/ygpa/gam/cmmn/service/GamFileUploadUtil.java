@@ -35,6 +35,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import egovframework.com.cmm.service.EgovProperties;
 import egovframework.rte.cmmn.web.GenericFileUpDownloadController;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
+import egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService;
 import egovframework.rte.util.fileupload.multi.service.FileInfoVO;
 
 /**
@@ -104,12 +105,7 @@ public class GamFileUploadUtil {
 			if (!"".equals(file.getOriginalFilename())
 					|| !"exe".equalsIgnoreCase(tokens[1])) {	// 파일명이 없는 파일과 실행파일은 저장 할 수 없다.
 				GamFileServiceVo fileInfoVO = new GamFileServiceVo();
-				if(egovFileIdGnrService==null) {
-					fileInfoVO.setPhyscalFileNm(request.getParameter("physcalFileNm"));
-				}
-				else {
-					fileInfoVO.setPhyscalFileNm(egovFileIdGnrService.getNextStringId()+"."+tokens[1]);
-				}
+				fileInfoVO.setPhyscalFileNm(egovFileIdGnrService.getNextStringId()+"."+tokens[1]);
 				fileInfoVO.setLogicalFileNm(file.getOriginalFilename());
 				fileInfoVO.setSize(file.getSize());
 				filePath = uploadPath + fileInfoVO.getPhyscalFileNm();
