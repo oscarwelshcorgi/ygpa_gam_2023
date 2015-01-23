@@ -59,7 +59,12 @@ public class GamOlnlpExcelMapping extends EgovExcelMapping {
 
 		vo.setBeginDt(EgovExcelUtil.getValue(cell4));	// 적용시작일자
 		vo.setEndDt(EgovExcelUtil.getValue(cell5));	// 적용종료일자
-		vo.setOlnlp(Integer.parseInt(EgovExcelUtil.getValue(cell6)));		// 공시지가
+		try {
+			vo.setOlnlp(Integer.parseInt(EgovExcelUtil.getValue(cell6)));		// 공시지가
+		}
+		catch(NumberFormatException e) {
+			vo.setOlnlp(0);
+		}
 
 		return vo;
 	}

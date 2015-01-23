@@ -3,6 +3,9 @@
  */
 package egovframework.rte.ygpa.gam.mngFee.web;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.poi.poifs.filesystem.OfficeXmlFileException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -33,11 +37,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.rte.fdl.excel.EgovExcelService;
+import egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.cmmn.service.GamFileServiceVo;
+import egovframework.rte.ygpa.gam.cmmn.service.GamFileUploadUtil;
 import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngService;
 import egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageSttusMngVo;
 
@@ -80,6 +88,12 @@ public class GamElctyUsageSttusMngController {
 
 	@Resource(name = "excelElctyUsageSttusService")
 	private EgovExcelService excelElctyUsageSttusService;
+
+    /**
+     * 임시파일 아이디를 생성한다.
+     */
+    @Resource(name="gamTempFileIdGnrService")
+    EgovTableIdGnrService gamTempFileIdGnrService;
 
 	@RequestMapping(value="/mngFee/gamElctyUsageSttusMng.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
@@ -377,54 +391,81 @@ public class GamElctyUsageSttusMngController {
 
 	}
 
-	@RequestMapping(value = "/mngFee/gamExcelUploadElctyUsageSttusMng.do")
-	@ResponseBody Map<String, Object> gamExcelUploadElctyUsageSttusMng(final HttpServletRequest request) throws Exception {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value="/mngFee/gamExcelUploadElctyUsageSttusMng.do", method=RequestMethod.POST)
+    public @ResponseBody Map gamExcelUploadElctyUsageSttusMng(HttpServletRequest request) throws Exception {
+    	File file = null;
+		InputStream fis = null; // 2011.11.1 보안점검 후속조치
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
+		String uploadPath = EgovProperties.getProperty("Globals.fileStorePath");
+		List<GamFileServiceVo> list = GamFileUploadUtil.uploadFiles(request, uploadPath, gamTempFileIdGnrService);
 
-		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-		if (!isAuthenticated) {
-			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+		if(list.size()==0) {
+			map.put("resultCode", "-1");
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
+			return map;
+		}
+		else if(list.size()!=1) {
+			map.put("resultCode", "-2");
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.not_one_upload"));
 			return map;
 		}
 
-//		final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-//		final Map<String, MultipartFile> files = multiRequest.getFileMap();
-//		InputStream fis = null;
-//		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
-//		MultipartFile file;
-//
-//		while (itr.hasNext()) {
-//			Entry<String, MultipartFile> entry = itr.next();
-//			file = entry.getValue();
-//			if (!"".equals(file.getOriginalFilename())) {
-//				if (file.getOriginalFilename().endsWith(".xls") ||
-//					file.getOriginalFilename().endsWith(".xlsx") ||
-//					file.getOriginalFilename().endsWith(".XLS") ||
-//					file.getOriginalFilename().endsWith(".XLSX")) {
-//					try {
-//						fis = file.getInputStream();
-//						excelElctyUsageSttusService.uploadExcel("gamElctyUsageSttusMngDao.insertElctyUsageSttusF_S", fis, 1, (long)5000);
-//					} catch(Exception e) {
-//						throw e;
-//					} finally {
-//						if (fis != null) {
-//							fis.close();
-//						}
-//					}
-//				} else {
-//					map.put("resultCode", 3);
-//					map.put("resultMsg", "xls, xlsx 파일 타입만 등록이 가능합니다.");
-//					return map;
-//				}
-//			}
-//		}
+		GamFileServiceVo filevo = list.get(0);
 
-		map.put("resultCode", 0);
-		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		if (!"".equals(filevo.getPhyscalFileNm())) {
+			if (filevo.getPhyscalFileNm().endsWith(".xls")
+					|| filevo.getPhyscalFileNm().endsWith(".xlsx")
+					|| filevo.getPhyscalFileNm().endsWith(".XLS")
+					|| filevo.getPhyscalFileNm().endsWith(".XLSX")) {
+
+				try {
+					file = new File(uploadPath+filevo.getPhyscalFileNm());
+					fis = new FileInputStream(file);
+					excelElctyUsageSttusService.uploadExcel("gamElctyUsageSttusMngDao.insertElctyUsageSttusF_S", fis, 1, (long)5000);
+				}
+				catch(FileNotFoundException e) {
+					map.put("resultCode", "-1");
+					map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
+					return map;
+				}
+				catch(OfficeXmlFileException e) {
+					map.put("resultCode", "-5");
+					map.put("resultMsg", e.getMessage());
+					return map;
+				}
+				catch(NumberFormatException e) {
+					map.put("resultCode", "-4");
+					map.put("resultMsg", egovMessageSource.getMessage("fail.common.invalid_number_format")+e.getMessage());
+					return map;
+				}
+				catch(IllegalArgumentException e) {
+					map.put("resultCode", "-3");
+					map.put("resultMsg", egovMessageSource.getMessage("fail.common.invalid_xls_format"));
+					return map;
+				}
+				catch(Exception e) {
+					map.put("resultCode", "-3");
+					map.put("resultMsg", egovMessageSource.getMessage("fail.common.invalid_xls_format")+" : "+e.getMessage());
+					return map;
+				} finally {
+					if (fis != null)	// 2011.11.1 보안점검 후속조치
+						fis.close();
+				}
+
+			}else{
+				log.info("xls, xlsx 파일 타입만 등록이 가능합니다.");
+				map.put("resultCode", "-3");
+				map.put("resultMsg", "xls, xlsx 파일 타입만 등록이 가능합니다.");
+
+				return map;
+			}
+		}
+		map.put("resultCode", "0");
+		map.put("resultMst", "전송이 완료 되었습니다.");
+
 		return map;
-
 	}
 
 }

@@ -555,14 +555,18 @@ GamGasUsageSttusMngModule.prototype.downloadExcel = function() {
 **/
 %>
 GamGasUsageSttusMngModule.prototype.uploadExcel = function() {
-
-	this.uploadXlsFile('xlsGasUsageSttusMngUpload', function(module, result) {
-		module._mode = 'query';
-		module._mainKeyValue = '';
-		module.loadData();
-		alert(result.resultMsg);
-	}, '가스 사용현황 엑셀파일 업로드', '/mngFee/gamExcelUploadGasUsageSttusMng.do');
-
+	this.uploadSingleFile('/mngFee/gamExcelUploadGasUsageSttusMng.do', function(module, resp) {
+		if(resp.resultCode!=0) {
+			alert(resp.resultMsg);
+			return;
+		}
+		else {
+			alert(resp.resultMsg);
+			module._mode = 'query';
+			module._mainKeyValue = '';
+			module.loadData();
+		}
+	});
 };
 
 <%

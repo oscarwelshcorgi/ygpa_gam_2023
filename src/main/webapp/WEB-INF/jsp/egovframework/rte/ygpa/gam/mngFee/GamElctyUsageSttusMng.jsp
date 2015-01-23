@@ -611,14 +611,18 @@ GamElctyUsageSttusMngModule.prototype.downloadExcel = function() {
 **/
 %>
 GamElctyUsageSttusMngModule.prototype.uploadExcel = function() {
-
-	this.uploadXlsFile('xlsElctyUsageSttusMngUpload', function(module, result) {
-		module._mode = 'query';
-		module._mainKeyValue = '';
-		module.loadData();
-		alert(result.resultMsg);
-	}, '전기 사용현황 엑셀파일 업로드', '/mngFee/gamExcelUploadElctyUsageSttusMng.do');
-
+	this.uploadSingleFile('/mngFee/gamExcelUploadElctyUsageSttusMng.do', function(module, resp) {
+		if(resp.resultCode!=0) {
+			alert(resp.resultMsg);
+			return;
+		}
+		else {
+			alert(resp.resultMsg);
+			module._mode = 'query';
+			module._mainKeyValue = '';
+			module.loadData();
+		}
+	});
 };
 
 <%

@@ -390,7 +390,7 @@ public class GamOlnlpMngtController {
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="/code/uploadOlnlpXlsFile.do", method=RequestMethod.POST)
-    public @ResponseBody Map uploadOlnlpXlsFile(HttpServletRequest request, Model model) throws Exception {
+    public @ResponseBody Map uploadOlnlpXlsFile(HttpServletRequest request) throws Exception {
     	File file = null;
 		InputStream fis = null; // 2011.11.1 보안점검 후속조치
 
