@@ -125,7 +125,7 @@ public class EmfJavascriptValidatorTag extends JavascriptValidatorTag {
                     }
                 });
 
-                String methods = "";
+                String methods = null;
                 for (Iterator i = lActions.iterator(); i.hasNext();) {
                     ValidatorAction va = (ValidatorAction) i.next();
                     String functionName = null;
@@ -147,8 +147,8 @@ public class EmfJavascriptValidatorTag extends JavascriptValidatorTag {
 
                 for (Iterator i = lActions.iterator(); i.hasNext();) {
                     ValidatorAction va = (ValidatorAction) i.next();
-                    String jscriptVar = "";
-                    String functionName = "";
+                    String jscriptVar = null;
+                    String functionName = null;
 
                     if (va.getJsFunctionName() != null && va.getJsFunctionName().length() > 0) {
                         functionName = va.getJsFunctionName();
