@@ -52,7 +52,7 @@ GamSocAgentProcessDtlsSttusModule.prototype.loadComplete = function() {
                     {display:'호출부호', 	name:'callLetter',		width:70, sortable:false,align:'center'},
                     {display:'보전누계액', 	name:'exmpAcc',			width:130, sortable:false,align:'right',displayFormat: 'number'},
                     {display:'입항횟수', 	name:'serNo',			width:80, sortable:false,align:'center'},
-                    {display:'외내항', 	name:'inOut',			width:50, sortable:false,align:'center'},
+                    {display:'외내항', 	name:'inOutNm',			width:50, sortable:false,align:'center'},
                     {display:'시설코드', 	name:'facCode',			width:70, sortable:false,align:'center'},
                     {display:'시설부코드', 	name:'facSubCode',		width:100, sortable:false,align:'center'},
                     {display:'시설명', 	name:'facilNm',			width:150, sortable:false,align:'left'},
