@@ -20,10 +20,18 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
+<%
+/******************************** SCRIPT START ********************************/
+%>
 <script>
-/*
- * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
- */
+
+<%
+/**
+ * @FUNCTION NAME : GamFcltyMaintHistInqireModule
+ * @DESCRIPTION   : MODULE 고유 함수
+ * @PARAMETER     : NONE
+**/
+%>
 function GamFcltyMaintHistInqireModule() {}
 
 GamFcltyMaintHistInqireModule.prototype = new EmdModule(1000,600);	// 초기 시작 창크기 지정
@@ -84,10 +92,25 @@ GamFcltyMaintHistInqireModule.prototype.loadComplete = function() {
 };
 
 
+<%
+/**
+ * @FUNCTION NAME : onSubmit
+ * @DESCRIPTION   : (프레임워크에서 SUBMIT 이벤트 호출 시 호출 한다.)
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyMaintHistInqireModule.prototype.onSubmit = function(){
 	this.loadData();
 };
 
+
+<%
+/**
+ * @FUNCTION NAME : loadData
+ * @DESCRIPTION   : DATA LOAD (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyMaintHistInqireModule.prototype.loadData = function(){
 	
 	// tabs2 항목 초기화
@@ -100,6 +123,13 @@ GamFcltyMaintHistInqireModule.prototype.loadData = function(){
 };
 
 
+<%
+/**
+ * @FUNCTION NAME : loadDetail
+ * @DESCRIPTION   : 상세정보를 가져옴.
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyMaintHistInqireModule.prototype.loadDetail = function(){
 	
 	var row = this.$('#fcltyMaintHistInqireList').selectedRows();
@@ -124,6 +154,13 @@ GamFcltyMaintHistInqireModule.prototype.loadDetail = function(){
 };
 
 
+<%
+/**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 그리드리스트 다운로드 함수
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyMaintHistInqireModule.prototype.downloadExcel = function(buttonId) {
 
 	var gridRowCount = 0;
@@ -147,6 +184,15 @@ GamFcltyMaintHistInqireModule.prototype.downloadExcel = function(buttonId) {
 };
 
 
+<%
+/**
+ * @FUNCTION NAME : onTabChange
+ * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
+ * @PARAMETER     :
+ *   1. newTabId - NEW TAB ID
+ *   2. oldTabId - OLD TAB ID
+**/
+%>
 GamFcltyMaintHistInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	if(oldTabId == 'tabs1') {
 		this.loadDetail();
@@ -161,17 +207,19 @@ GamFcltyMaintHistInqireModule.prototype.onTabChange = function(newTabId, oldTabI
 				this.$("#tabs2").scrollTop(0);
 			}
 		break;
-		
-		case "tabs3":
-		break;
 	}
 	
 };
 
 
+<%
 /**
- * 정의 된 버튼 클릭 시
- */
+ * @FUNCTION NAME : onButtonClick
+ * @DESCRIPTION   : BUTTON CLICK EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
  GamFcltyMaintHistInqireModule.prototype.onButtonClick = function(buttonId) {
 
 	switch(buttonId) {
@@ -189,10 +237,16 @@ GamFcltyMaintHistInqireModule.prototype.onTabChange = function(newTabId, oldTabI
 
 
 
-
+<%
 /**
- * 팝업 close 이벤트
- */
+ * @FUNCTION NAME : onClosePopup
+ * @DESCRIPTION   : CLOSE POPUP EVENT
+ * @PARAMETER     :
+ *   1. popupId  - POPUP ID
+ *   2. msg      - MESSAGE
+ *   3. value    - VALUE
+**/
+%>
  GamFcltyMaintHistInqireModule.prototype.onClosePopup = function(popupId, msg, value){
 
 	switch(popupId){
