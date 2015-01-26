@@ -319,11 +319,9 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 								<th width="10%" height="25px">자료수</th>
 								<td><input type="text" size="13" id="dataCount" class="ygpaNumber" disabled="disabled" /></td>
 								<th width="10%" height="25px">총 사용면적</th>
-								<td>
-									<input type="text" size="24" id="sumUsageAr" class="ygpaNumber" data-column-id="sumUsageAr" data-decimal-point="2" disabled="disabled" />
-								</td>
+								<td><input type="text" size="24" id="sumUsageAr" class="ygpaNumber" data-column-id="sumUsageAr" data-decimal-point="2" disabled="disabled" />㎡</td>
 								<th width="10%" height="25px">총 사용료</th>
-								<td><input type="text" size="24" id="sumFee" class="ygpaNumber" disabled="disabled" /></td>
+								<td><input type="text" size="24" id="sumFee" class="ygpaNumber" disabled="disabled" />원</td>
 							</tr>
 						</table>
 						<table style="width:100%;">
@@ -361,9 +359,10 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 								<td>
 									<input type="text" size="40" id="gisAssetsLocplc" disabled="disabled" />
 								</td>
-								<th style="width:10%; height:25px;">시 설 면 적(㎡)</th>
+								<th style="width:10%; height:25px;">시 설 면 적</th>
 								<td>
 									<input type="text" size="40" id="gisAssetsRealRentAr" class="ygpaNumber" data-column-id="gisAssetsRealRentAr" data-decimal-point="2" disabled="disabled" />
+									㎡
 								</td>
 							</tr>
 							<tr>
@@ -387,7 +386,7 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 							<tr>
 								<th style="width:10%; height:25px;">공 시 지 가</th>
 								<td>
-									<input type="text" size="40" id="olnlp" class="ygpaNumber" disabled="disabled" />
+									<input type="text" size="40" id="olnlp" class="ygpaNumber" disabled="disabled" />원
 								</td>
 								<th style="width:10%; height:25px;">적 용 요 율</th>
 								<td>
@@ -397,11 +396,11 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 							<tr>
 								<th style="width:10%; height:25px;">적 용 단 가</th>
 								<td>
-									<input type="text" size="40" id="applcPrice" class="ygpaNumber" disabled="disabled" />
+									<input type="text" size="40" id="applcPrice" class="ygpaNumber" disabled="disabled" />원
 								</td>
-								<th style="width:10%; height:25px;">사 용 면 적(㎡)</th>
+								<th style="width:10%; height:25px;">사 용 면 적</th>
 								<td>
-									<input type="text" size="40" id="usageAr" class="ygpaNumber" data-column-id="usageAr" data-decimal-point="2" disabled="disabled" />
+									<input type="text" size="40" id="usageAr" class="ygpaNumber" data-column-id="usageAr" data-decimal-point="2" disabled="disabled" />㎡
 								</td>
 							</tr>
 							<tr>
@@ -412,7 +411,7 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 								</td>
 								<th style="width:10%; height:25px;">사　용　료</th>
 								<td colspan="3">
-									<input type="text" size="40" id="fee" class="ygpaNumber" disabled="disabled" />
+									<input type="text" size="40" id="fee" class="ygpaNumber" disabled="disabled" />원
 								</td>
 							</tr>
 							<tr>
