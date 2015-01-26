@@ -377,7 +377,7 @@ public class GamCarRefuelSttusMngController {
 			}
 		}
 		map.put("resultCode", "0");
-		map.put("resultMst", "전송이 완료 되었습니다.");
+		map.put("resultMsg", "전송이 완료 되었습니다.");
 
 		return map;
 	}

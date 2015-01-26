@@ -1082,10 +1082,10 @@ GamFcltyCtrtMngModule.prototype.refreshJoinData = function() {
 GamFcltyCtrtMngModule.prototype.selectJoinData = function() {
 
 	if (this._joinmode == 'query') {
-		this.disableJoinDetailInputItem();
+		this.enableJoinDetailInputItem();
 		return;
 	} else if (this._joinmode != 'insert' && this._joinmode != 'modify') {
-		this.disableJoinDetailInputItem();
+		this.enableJoinDetailInputItem();
 		return;
 	}
 	if (this._joinKeyValue == "" || this._joinSeq == "") {
@@ -1158,10 +1158,10 @@ GamFcltyCtrtMngModule.prototype.refreshSubData = function() {
 GamFcltyCtrtMngModule.prototype.selectSubData = function() {
 
 	if (this._submode == 'query') {
-		this.disableSubDetailInputItem();
+		this.enableSubDetailInputItem();
 		return;
 	} else if (this._submode != 'insert' && this._submode != 'modify') {
-		this.disableSubDetailInputItem();
+		this.enableSubDetailInputItem();
 		return;
 	}
 	if (this._subKeyValue == "" || this._subSeq == "") {
@@ -1234,10 +1234,10 @@ GamFcltyCtrtMngModule.prototype.refreshChangeData = function() {
 GamFcltyCtrtMngModule.prototype.selectChangeData = function() {
 
 	if (this._changemode == 'query') {
-		this.disableChangeDetailInputItem();
+		this.enableChangeDetailInputItem();
 		return;
 	} else if (this._changemode != 'insert' && this._changemode != 'modify') {
-		this.disableChangeDetailInputItem();
+		this.enableChangeDetailInputItem();
 		return;
 	}
 	if (this._changeKeyValue == "" || this._changeSeq == "") {
@@ -1310,10 +1310,10 @@ GamFcltyCtrtMngModule.prototype.refreshPymntData = function() {
 GamFcltyCtrtMngModule.prototype.selectPymntData = function() {
 
 	if (this._pymntmode == 'query') {
-		this.disablePymntDetailInputItem();
+		this.enablePymntDetailInputItem();
 		return;
 	} else if (this._pymntmode != 'insert' && this._pymntmode != 'modify') {
-		this.disablePymntDetailInputItem();
+		this.enablePymntDetailInputItem();
 		return;
 	}
 	if (this._pymntKeyValue == "" || this._pymntSeq == "") {
@@ -1386,10 +1386,10 @@ GamFcltyCtrtMngModule.prototype.refreshCaryFwdData = function() {
 GamFcltyCtrtMngModule.prototype.selectCaryFwdData = function() {
 
 	if (this._caryfwdmode == 'query') {
-		this.disableCaryFwdDetailInputItem();
+		this.enableCaryFwdDetailInputItem();
 		return;
 	} else if (this._caryfwdmode != 'insert' && this._caryfwdmode != 'modify') {
-		this.disableCaryFwdDetailInputItem();
+		this.enableCaryFwdDetailInputItem();
 		return;
 	}
 	if (this._caryFwdKeyValue == "" || this._caryFwdSeq == "") {
@@ -1462,10 +1462,10 @@ GamFcltyCtrtMngModule.prototype.refreshScsbidData = function() {
 GamFcltyCtrtMngModule.prototype.selectScsbidData = function() {
 
 	if (this._scsbidmode == 'query') {
-		this.disableScsbidDetailInputItem();
+		this.enableScsbidDetailInputItem();
 		return;
 	} else if (this._scsbidmode != 'insert' && this._scsbidmode != 'modify') {
-		this.disableScsbidDetailInputItem();
+		this.enableScsbidDetailInputItem();
 		return;
 	}
 	if (this._scsbidKeyValue == "" || this._scsbidSeq == "") {
