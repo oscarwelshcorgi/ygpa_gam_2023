@@ -222,13 +222,13 @@
         		</tbody>
         		<tfoot>
         			<tr height="25">
-        				<td colspan="2"></td>
+        				<td colspan="2" style="border:1px #000000 solid;"></td>
         				<th style="text-align:center;vertical-align:middle;font-size:10px;border:1px #000000 solid;">총계(청)</th>
-        				<td colspan="2" style="text-align: right;font-size:10px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumExmpAmnt }" /></td>
+        				<td colspan="2" style="text-align: right;font-size:10px;border:1px #000000 solid;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumExmpAmnt }" /></td>
         				<th style="text-align:center;vertical-align:middle;font-size:10px;border:1px #000000 solid;">총계(공사)</th>
-        				<td colspan="2" style="text-align: right;font-size:10px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumExmpAmntPa }" /></td>
+        				<td colspan="2" style="text-align: right;font-size:10px;border:1px #000000 solid;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumExmpAmntPa }" /></td>
         				<th style="text-align:center;vertical-align:middle;font-size:10px;border:1px #000000 solid;">총계(전체)</th>
-        				<td colspan="2" style="text-align: right;font-size:10px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumAmnt }" /></td>
+        				<td colspan="2" style="text-align: right;font-size:10px;border:1px #000000 solid;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumAmnt }" /></td>
         			</tr>
         		</tfoot>
         	</table>
