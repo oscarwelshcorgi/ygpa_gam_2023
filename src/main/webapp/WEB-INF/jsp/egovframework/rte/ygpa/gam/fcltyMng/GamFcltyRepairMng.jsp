@@ -85,7 +85,6 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectFlawRprObjFcltsF.do',
 		dataType: 'json',
 		colModel : [
-					{display:"상태",			name:"_updtId",			width:100,		sortable:false,		align:"center"},
 					{display:"순번",			name:"rnum",			width:100,		sortable:false,		align:"center"},
 					{display:"대상시설물",		name:"prtFcltyNm",		width:250,		sortable:false,		align:"left"},
 					{display:"하자유무",		name:"flawEnnc",		width:90,		sortable:true,		align:"center"},
