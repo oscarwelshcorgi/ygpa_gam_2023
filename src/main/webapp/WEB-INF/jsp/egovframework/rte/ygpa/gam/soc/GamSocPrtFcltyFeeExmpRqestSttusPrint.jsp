@@ -144,12 +144,12 @@
         		</tbody>
         		<tfoot>
         			<tr>
-        				<td>자료수 </td>
-        				<td style="text-align: right"><c:out value="${totalCount }" />건<!-- fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumCnt}" /--></td>
-        				<td>총신청액 </td>
-        				<td style="text-align: right" colspan="2"><fmt:formatNumber value="${sumExmpAmnt}" type="currency" currencySymbol=""/><!-- fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumAr}" /--></td>
-        				<td>총누계액 </td>
-        				<td style="text-align: right"><fmt:formatNumber value="${sumExmpAcc}" type="currency" currencySymbol=""/><!-- fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumFee}" /--></td>
+        				<td style="border:1px #000000 solid;">자료수 </td>
+        				<td style="text-align: right; border:1px #000000 solid;"><c:out value="${totalCount }" />건<!-- fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumCnt}" /--></td>
+        				<td style="border:1px #000000 solid;">총신청액 </td>
+        				<td style="text-align: right; border:1px #000000 solid;" colspan="2"><fmt:formatNumber value="${sumExmpAmnt}" type="currency" currencySymbol=""/><!-- fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumAr}" /--></td>
+        				<td style="border:1px #000000 solid;">총누계액 </td>
+        				<td style="text-align: right; border:1px #000000 solid;"><fmt:formatNumber value="${sumExmpAcc}" type="currency" currencySymbol=""/><!-- fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumFee}" /--></td>
         			</tr>
         		</tfoot>
         	</table>

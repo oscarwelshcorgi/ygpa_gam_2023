@@ -171,10 +171,10 @@
 					<c:set var="exmpAmntPaSum" value="${ exmpAmntPaSum + result.exmpAmntPaSum }" />
     </c:forEach>
         					<tr>
-        						<td colspan="2"> 합계 </td>
-        						<td style="text-align: right" colspan="2"><fmt:formatNumber value="${exmpAmntSum }" type="currency" currencySymbol=""/></td>
-        						<td style="text-align: right" colspan="2"><fmt:formatNumber value="${exmpAmntPaSum }" type="currency" currencySymbol=""/></td>
-        						<td style="text-align: right" colspan="2"><fmt:formatNumber value="${ exmpAmntSum + exmpAmntPaSum }" type="currency" currencySymbol=""/></td>
+        						<td style="border:1px #000000 solid;" colspan="2"> 합계 </td>
+        						<td style="text-align: right; border:1px #000000 solid;" colspan="2"><fmt:formatNumber value="${exmpAmntSum }" type="currency" currencySymbol=""/></td>
+        						<td style="text-align: right; border:1px #000000 solid;" colspan="2"><fmt:formatNumber value="${exmpAmntPaSum }" type="currency" currencySymbol=""/></td>
+        						<td style="text-align: right; border:1px #000000 solid;" colspan="2"><fmt:formatNumber value="${ exmpAmntSum + exmpAmntPaSum }" type="currency" currencySymbol=""/></td>
         					</tr>	
         		</tbody>
         		<tfoot>

@@ -167,12 +167,12 @@
         		</tbody>
         		<tfoot>
         			<tr>
-        				<td>자료수 </td>
-        				<td style="text-align: right"><c:out value="${totalCount }" />건<!-- fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumCnt}" /--></td>
-        				<td></td>
-        				<td></td>
-        				<td>총 면제금액 </td>
-        				<td style="text-align: right" colspan="3"><fmt:formatNumber value="${sumExmpAmnt}" type="currency" currencySymbol=""/><!-- fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumAr}" /--></td>
+        				<td style="border:1px #000000 solid;">자료수 </td>
+        				<td style="text-align: right; border:1px #000000 solid;"><c:out value="${totalCount }" />건<!-- fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumCnt}" /--></td>
+        				<td style="border:1px #000000 solid;"></td>
+        				<td style="border:1px #000000 solid;"></td>
+        				<td style="border:1px #000000 solid;">총 면제금액 </td>
+        				<td style="text-align: right; border:1px #000000 solid;" colspan="3"><fmt:formatNumber value="${sumExmpAmnt}" type="currency" currencySymbol=""/><!-- fmt:formatNumber type="number" maxIntegerDigits="15" value="${sumAr}" /--></td>
         			</tr>
         		</tfoot>
         	</table>
