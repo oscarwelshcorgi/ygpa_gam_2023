@@ -459,7 +459,7 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 					<table style="width:100%;">
 						<tr>
 							<th>자료수</th>
-							<td><input type="text" id="totalCount" style="width:250px;text-align:right;"></td>
+							<td><input type="text" id="totalCount" style="width:250px;text-align:right;" readonly="readonly"></td>
 							<td style="text-align:right;">
 								<button id="btnExcelDownload">엑셀 다운로드</button>
 							</td>

@@ -890,7 +890,7 @@ var module_instance = new GamFcltyRepairMngModule();
 					<table style="width:100%;">
 						<tr>
 							<th>자료수</th>
-							<td><input type="text" id="totalCount" style="width:250px;text-align:right;"></td>
+							<td><input type="text" id="totalCount" style="width:250px;text-align:right;" readonly="readonly"></td>
 							<td style="text-align:right;">
 								<button data-role="printPage" data-search-option="searchFcltyRepairMngForm" data-url='/fcltyMng/selectFcltyRepairCheckResultPrint.do'>하자검사결과인쇄</button>
 								<button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
