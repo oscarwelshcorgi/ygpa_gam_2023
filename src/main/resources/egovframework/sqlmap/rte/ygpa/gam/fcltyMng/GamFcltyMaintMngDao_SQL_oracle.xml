@@ -158,99 +158,68 @@
 	
 	<!-- 유지보수대상시설물내역 -->
 	<select id="gamFcltyMaintMngDao.selectMntnRprObjFcltsFList_D" parameterClass="gamFcltyMaintMngVO" resultClass="egovMap">
-        SELECT A.*
-           FROM (
-                SELECT ROWNUM RNUM, S.*
-                	FROM (
-						SELECT
-							O.FCLTS_JOB_SE
-							, O.FCLTS_MNG_GROUP_NO
-							, O.MNTN_RPR_SEQ
-							, O.MNTN_RPR_CNST_MTH
-							, O.UNIT
-							, O.QY
-							, O.PRICE
-							, O.MNTN_RPR_CNST_AMT AS OBJ_MNTN_RPR_CNST_AMT
-							, O.RM AS OBJ_RM
-							, O.FCLTS_MNG_NO
-							, (SELECT PRT_FCLTY_NM FROM GIS_PRT_FCLTY_CD_F G WHERE G.FCLTS_MNG_NO = O.FCLTS_MNG_NO) PRT_FCLTY_NM
-							, O.REG_USR
-							, O.REGIST_DT
-							, O.UPD_USR
-							, O.UPDT_DT
-						FROM
-							MNTN_RPR_OBJ_FCLTS_F O 
-						WHERE
-							O.FCLTS_JOB_SE = #fcltsJobSe#
-							AND O.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-							AND O.MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
-	           			
-						ORDER BY
-							O.MNTN_RPR_SEQ ASC
-                ) S
-             ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
-	</select>
 
-	<select id="gamFcltyMaintMngDao.selectMntnRprObjFcltsFListTotCnt_S" parameterClass="gamFcltyMaintMngVO" resultClass="int">
-		SELECT
-			COUNT(*) TOT_CNT
+		SELECT  
+			G.FCLTS_MNG_NO
+			, G.PRT_FCLTY_NM
+			, DECODE(O.FCLTS_MNG_NO,NULL,'','TRUE') CHK_ROLE 
 		FROM
-			MNTN_RPR_OBJ_FCLTS_F 
-		WHERE
-			FCLTS_JOB_SE = #fcltsJobSe#
-			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
+			GIS_PRT_FCLTY_CD_F G 
+        LEFT OUTER JOIN 
+			MNTN_RPR_OBJ_FCLTS_F O 
+        ON 
+			O.FCLTS_MNG_GROUP_NO = G.FCLTS_MNG_GROUP_NO 
+			AND O.FCLTS_MNG_NO = G.FCLTS_MNG_NO 
+			AND O.MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)  
+		WHERE 
+			<![CDATA[ 1<>1 ]]>
+
+		OR (
+		<isNotEmpty property="fcltsJobSe">
+			G.PRT_FCLTY_SE = #fcltsJobSe#
+			<isNotEmpty property="fcltsMngGroupNo">
+				AND 
+			</isNotEmpty>
+		</isNotEmpty>
+		<isNotEmpty property="fcltsMngGroupNo">
+			G.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		</isNotEmpty>
+			)
+        ORDER BY 
+          	O.FCLTS_MNG_NO ASC, G.PRT_FCLTY_NM ASC
+          	
 	</select>
 	
 	
 	
 	<!-- 유지보수첨부파일내역 -->
 	<select id="gamFcltyMaintMngDao.selectFcltyMaintFileList_D" parameterClass="gamFcltyMaintMngVO" resultClass="egovMap">
-        SELECT A.*
-           FROM (
-                SELECT ROWNUM RNUM, S.*
-                	FROM (
-						SELECT
-							FCLTS_JOB_SE
-							, FCLTS_MNG_GROUP_NO
-							, MNTN_RPR_SEQ
-							, ATCH_FILE_SEQ
-							, ATCH_FILE_SE
-							, GAM_GET_FILE_SE_NM(ATCH_FILE_SE) AS ATCH_FILE_SE_NM
-							, ATCH_FILE_SJ
-							, ATCH_FILE_NM_LOGIC
-							, ATCH_FILE_NM_PHYSICL
-							, TO_CHAR(ATCH_FILE_WRITNG_DT,'YYYY-MM-DD') ATCH_FILE_WRITNG_DT
-							, REG_USR
-							, REGIST_DT
-							, UPD_USR
-							, UPDT_DT
-						FROM
-							MNTN_RPR_ATCH_FILE_F 
-						WHERE
-							FCLTS_JOB_SE = #fcltsJobSe#
-							AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-							AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
-	           			
-						ORDER BY
-							MNTN_RPR_SEQ ASC
-                ) S
-             ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
-	</select>
-
-	<select id="gamFcltyMaintMngDao.selectFcltyMaintFileListTotCnt_S" parameterClass="gamFcltyMaintMngVO" resultClass="int">
-		SELECT
-			COUNT(*) TOT_CNT
+        SELECT
+			FCLTS_JOB_SE
+			, FCLTS_MNG_GROUP_NO
+			, MNTN_RPR_SEQ
+			, ATCH_FILE_SEQ
+			, ATCH_FILE_SE
+			, GAM_GET_FILE_SE_NM(ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+			, ATCH_FILE_SJ
+			, ATCH_FILE_NM_LOGIC
+			, ATCH_FILE_NM_PHYSICL
+			, TO_CHAR(ATCH_FILE_WRITNG_DT,'YYYY-MM-DD') ATCH_FILE_WRITNG_DT
+			, REG_USR
+			, REGIST_DT
+			, UPD_USR
+			, UPDT_DT
 		FROM
 			MNTN_RPR_ATCH_FILE_F 
 		WHERE
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 			AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
+        			
+		ORDER BY
+			MNTN_RPR_SEQ ASC
 	</select>
-	
+
 	
 	<!-- 유지보수순번 -->
 	<select id="gamFcltyMaintMngDao.selectNextMntnRprSeq_S" parameterClass="hashMap" resultClass="int">
@@ -389,26 +358,6 @@
 	</insert>
 	
 	
-	<!-- 유지보수대상시설물수정 -->
-	<update id="gamFcltyMaintMngDao.updateMntnRprObjFcltsF">
-		UPDATE MNTN_RPR_OBJ_FCLTS_F 
-			SET 
-				MNTN_RPR_CNST_MTH = #mntnRprCnstMth#
-				, UNIT = #unit#
-				, QY = TO_NUMBER(#qy#)
-				, PRICE = TO_NUMBER(#price#)
-				, MNTN_RPR_CNST_AMT = TO_NUMBER(#objMntnRprCnstAmt#)
-				, RM = #objRm#
-				, UPD_USR = #updUsr#
-				, UPDT_DT = SYSDATE
-			WHERE 
-				FCLTS_JOB_SE = #fcltsJobSe#
-				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-				AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
-				AND FCLTS_MNG_NO = #fcltsMngNo#
-	</update>
-	
-	
 	<!-- 유지보수대상시설물삭제 -->
 	<delete id="gamFcltyMaintMngDao.deleteMntnRprObjFcltsF">
 		DELETE FROM  
@@ -468,26 +417,7 @@
 				, SYSDATE
 			)
 	</insert>
-	
-	
-	<!-- 유지보수첨부파일수정 -->
-	<update id="gamFcltyMaintMngDao.updateFcltyMaintFile">
-		UPDATE MNTN_RPR_ATCH_FILE_F 
-			SET 
-				ATCH_FILE_SE = #atchFileSe#
-				, ATCH_FILE_SJ = #atchFileSj#
-				, ATCH_FILE_NM_LOGIC = #atchFileNmLogic#
-				, ATCH_FILE_NM_PHYSICL = #atchFileNmPhysicl#
-				, ATCH_FILE_WRITNG_DT = #atchFileWritngDt#
-				, UPD_USR = #updUsr#
-				, UPDT_DT = SYSDATE
-			WHERE 
-				FCLTS_JOB_SE = #fcltsJobSe#
-				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-				AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
-				AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)
-	</update>
-	
+
 	
 	<!-- 유지보수첨부파일삭제 -->
 	<delete id="gamFcltyMaintMngDao.deleteFcltyMaintFile">

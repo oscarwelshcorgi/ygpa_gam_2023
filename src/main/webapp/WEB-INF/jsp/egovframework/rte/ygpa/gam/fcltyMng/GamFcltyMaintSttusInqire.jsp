@@ -20,18 +20,32 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
+
+<%
+/******************************** SCRIPT START ********************************/
+%>
 <script>
-/*
- * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
- */
+
+<%
+/**
+ * @FUNCTION NAME : GamFcltyMaintSttusInqireModule
+ * @DESCRIPTION   : MODULE 고유 함수
+ * @PARAMETER     : NONE
+**/
+%>
 function GamFcltyMaintSttusInqireModule() {}
 
 GamFcltyMaintSttusInqireModule.prototype = new EmdModule(1000,600);	// 초기 시작 창크기 지정
 
-// 페이지가 호출 되었을때 호출 되는 함수
+<%
+/**
+ * @FUNCTION NAME : loadComplete
+ * @DESCRIPTION   : PAGE LOAD COMPLETE (페이지 호출시 실행되는 함수)
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyMaintSttusInqireModule.prototype.loadComplete = function() {
 	
-	this._mode = "";
 	//console.log("GamFcltyMaintSttusInqireModule");
 	// 테이블 설정
 	this.$("#fcltyMaintSttusInqireList").flexigrid({
@@ -60,56 +74,19 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function() {
 	});
 
 
-	this.$("#mntnSttusRprObjFcltsF").flexigrid({
+	this.$("#mntnRprObjFcltsF").flexigrid({
 		module: this,
 		url: '/fcltyMng/selectMntnSttusRprObjFcltsFList.do',
 		dataType: "json",
 		colModel : [
-					{display:"관리번호",			name:"fcltsMngNo",			width:150,		sortable:false,		align:"center"},
-					{display:"시설명",			name:"prtFcltyNm",			width:250,		sortable:false,		align:"left"},
-					{display:"유지보수공법",		name:"mntnRprCnstMth",		width:80,		sortable:false,		align:"center"},
-					{display:"단위",				name:"unit",				width:80,		sortable:false,		align:"center"},
-					{display:"수량",				name:"qy",					width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
-					{display:"단가",				name:"price",				width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
-					{display:"공사금액",			name:"mntnRprCnstAmt",		width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
-					{display:"비고",				name:"rm",					width:200,		sortable:false,		align:"center"}
+					{display:"관리번호", 			name:"fcltsMngNo",			width:130, 		sortable:false,		align:"center"},
+					{display:"시설명",			name:"prtFcltyNm",			width:250,		sortable:false,		align:"left"}
 			],
-		height: "auto"
+		height: "295"
 	});
 
-
-
- 	this.$("#fcltyMaintSttusFileList").flexigrid({
-		module: this,
-		url: '/fcltyMng/selectFcltyMaintSttusFileList.do',
-		dataType: 'json',
-		colModel : [
-					{display:"순번",		name:"atchFileSeq",				width:40,		sortable:true,		align:"center"},
-					{display:"구분",		name:"atchFileSeNm",			width:40,		sortable:true,		align:"center"},
-					{display:"파일제목",	name:"atchFileSj",				width:200,		sortable:true,		align:"left"},
-					{display:"논리파일명",	name:"atchFileNmLogic",			width:200,		sortable:true,		align:"left"}
-			],
-		height: "360"
-	});
- 	
- 	
- 	this.$("#fcltyMaintSttusInqireList").on('onItemSelected', function(event, module, row, grid, param) {
-		module._mode = 'modify';
-	});
- 	
  	this.$("#fcltyMaintSttusInqireList").on("onItemDoubleClick", function(event, module, row, grid, param) {
-		module._mode="modify";
 		module.$("#fcltyMaintSttusInqireListTab").tabs("option", {active: 1});
-	});
- 	
- 	this.$("#fcltyMaintSttusFileList").on('onItemSelected', function(event, module, row, grid, param) {
- 		module.applyFileDataChanged();
-	});
- 	
- 	
-	// 파일 정보 속성이 변경 된 경우 이벤트 실행
-	this.$(".fileEditItem").bind("change keyup", {module: this}, function(event) {
-		event.data.module.applyFileChanged(event.target);
 	});
 	
 	
@@ -128,46 +105,72 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function() {
 };
 
 
-// 파일 그리드 선택시 하단부 데이타 수정창에 갱신
-GamFcltyMaintSttusInqireModule.prototype.applyFileDataChanged = function(){
+<%
+/**
+ * @FUNCTION NAME : imgPreview
+ * @DESCRIPTION   : 선택한 첨부파일이 이미지이면 미리보기 보여주는 함수
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyMaintSttusInqireModule.prototype.imgPreview = function(){
 
-	var row = this.$('#fcltyMaintSttusFileList').selectedRows();
-	row = row[0];
-
-	if(row.atchFileNmPhysicl != null || row.atchFileNmPhysicl != "") {
-
+	var selImg = this.$('#fcltyMaintFileList').val();
+	if(selImg) {
 		// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
-		var filenm = row["atchFileNmPhysicl"];
-		var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
+		var ext = selImg.substring(selImg.lastIndexOf(".")+1).toLowerCase();
 
 		if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
-			var imgURL = this.getPfPhotoUrl(filenm);
-			//this.$("#previewImage").fadeIn(400, function() {
-				this.$("#previewImage").attr("src", imgURL);
-		    //});
+			this.$('#previewHidden').append('<div id="'+this.getId("previewDialog")+'"><img id="'+this.getId("previewImage")+'" src=""/></div>');
+			var imgURL = this.getPfPhotoUrl(selImg);
+			this.$("#previewImage").attr("src", imgURL);
+			
+			this.$("#previewImage").bind('load', {module: this},function(event){
+				event.data.module.$('#previewDialog').dialog({
+					modal: true,
+					maxWidth: 800,
+					maxHeight: 600,
+					resizable: false,
+					draggable: true,
+					width: 'auto',
+					title: '이미지미리보기',
+					buttons:[{text:"close", click: function() { $(this).dialog('close'); }}]
+				});
+			});   
+			
 		}else{
 			this.$("#previewImage").removeAttr("src");
 		}
 	}
+	
 };
 
 
+<%
+/**
+ * @FUNCTION NAME : onSubmit
+ * @DESCRIPTION   : (프레임워크에서 SUBMIT 이벤트 호출 시 호출 한다.)
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyMaintSttusInqireModule.prototype.onSubmit = function(){
 	this.loadData();
 };
 
+<%
+/**
+ * @FUNCTION NAME : loadData
+ * @DESCRIPTION   : DATA LOAD (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyMaintSttusInqireModule.prototype.loadData = function(){
 	
-	// tabs2 항목 초기화
-	this.makeDivValues('#fcltyMaintSttusInqireListVO', {});
+	this.makeFormValues('#fcltyMaintSttusInqireListVO', {});
 	
-	// tabs3 그리드 초기화
-	this.$('#mntnSttusRprObjFcltsF').flexEmptyData();
+	this.$('#mntnRprObjFcltsF').flexEmptyData();
 	
-	// tabs4 항목/그리드 초기화
-	this.makeDivValues('#fcltyMaintSttusInqireFileForm', {});
-	this.$('#fcltyMaintSttusFileList').flexEmptyData();
-	this.$("#previewImage").attr("src", "");
+	this.$('#fcltyMaintFileList').empty();
+	this.$('#fcltyMaintFileList').append('<option value="">선택</option>');
 	
 	this.$("#fcltyMaintSttusInqireListTab").tabs("option", {active: 0});
 	var searchOpt=this.makeFormArgs('#searchFcltyMaintSttusInqireForm');
@@ -176,10 +179,16 @@ GamFcltyMaintSttusInqireModule.prototype.loadData = function(){
 };
 
 
+<%
+/**
+ * @FUNCTION NAME : loadDetail
+ * @DESCRIPTION   : 상세정보를 가져옴.
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyMaintSttusInqireModule.prototype.loadDetail = function(){
 	
 	var row = this.$('#fcltyMaintSttusInqireList').selectedRows();
-	
 	if(row.length==0) {
 		alert('선택된 항목이 없습니다.');
 		this.$("#fcltyMaintSttusInqireListTab").tabs("option", {active: 0});
@@ -187,67 +196,97 @@ GamFcltyMaintSttusInqireModule.prototype.loadDetail = function(){
 	}
 	
 	row = row[0];
-	
 	var searchVO = [
 	                { name: 'fcltsJobSe', value: row['fcltsJobSe'] },
 	                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
 	                { name: 'mntnRprSeq', value: row['mntnRprSeq'] }
 	               ];
-	
-	// tabs2 항목 데이타로딩
+
 	this.doAction('/fcltyMng/selectFcltyMaintSttusInqireDetail.do', searchVO, function(module, result) {
 		if(result.resultCode == "0"){
 			module.makeDivValues('#fcltyMaintSttusInqireListVO', result.result);
-			
-			// tabs3 그리드 리로드
-			module.$('#mntnSttusRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
-			// tabs4 항목 데이타 로딩/ 그리드 리로드
-			module.makeDivValues('#fcltyMaintSttusInqireFileForm', {});
-			module.$("#previewImage").attr("src", "");
-			module.$('#fcltyMaintSttusFileList').flexOptions({params:searchVO}).flexReload();
+			module.$('#mntnRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
+			module.fillAtchFileList(searchVO);
 		}else{
-			module.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
+			module.$("#fcltyMaintSttusInqireListTab").tabs("option", {active: 0});
 		}
     });
 	
 };
 
 
+<%
+/**
+ * @FUNCTION NAME : fillAtchFileList
+ * @DESCRIPTION   : 첨부파일 리스트를 select element에 채워넣기.
+ * @PARAMETER     : 
+ *   1. searchVO
+ *     1-1. fcltsJobSe : 시설물업무구분
+ *     1-2. fcltsMngGroupNo : 시설물 관리그룹번호
+ *     1-3. mntnRprSeq : 유지보수 순번
+**/
+%>
+GamFcltyMaintSttusInqireModule.prototype.fillAtchFileList = function(searchVO) {
+	this.doAction('/fcltyMng/selectFcltyMaintSttusFileList.do', searchVO, function(module, result) {
+		if(result.resultCode == "0"){
+			module.$('#fcltyMaintFileList option').remove();
+			module.$('#fcltyMaintFileList').append('<option value="">선택</option>');
+			$.each(result.resultList, function(){
+				module.$('#fcltyMaintFileList').append('<option value="' + this.atchFileNmPhysicl + '">' + this.atchFileNmLogic + '</option>');
+			});
+		}else{
+			module.$("#fcltyMaintSttusInqireListTab").tabs("option", {active: 0});
+		}
+    });
+};
+
+
+<%
+/**
+ * @FUNCTION NAME : downloadFileData
+ * @DESCRIPTION   : 파일 다운로드 함수
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyMaintSttusInqireModule.prototype.downloadFileData = function() {
-	var selectRow = this.$('#fcltyMaintSttusFileList').selectedRows();
-	if(selectRow.length > 0) {
-		var row=selectRow[0];
-		this.downPfPhoto(row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
+	var selectFilePhysicl = this.$('#fcltyMaintFileList').val();
+	var selectFileLogic = this.$('#fcltyMaintFileList').find('option:selected').text();
+
+	if(selectFilePhysicl) {
+		this.downPfPhoto(selectFilePhysicl, selectFileLogic);
+	}else{
+		alert('다운로드할 파일을 선택하세요.');
 	}
 };
 
 
+<%
+/**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 그리드리스트 다운로드 함수
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyMaintSttusInqireModule.prototype.downloadExcel = function(buttonId) {
-
-	var gridRowCount = 0;
-	switch (buttonId) {
-		case 'btnExcelDownload':
-			gridRowCount = this.$("#fcltyMaintSttusInqireList").flexRowCount();
-			break;
-		default:
-			return;
-	}
-	if (gridRowCount <= 0) {
-		alert("조회된 자료가 없습니다.");
+	
+	var rowCount = this.$('#fcltyMaintSttusInqireList').flexRowCount();
+	if (rowCount <= 0) {
+		alert('조회된 자료가 없습니다.');
 		return;
 	}
-	switch (buttonId) {
-		case 'btnExcelDownload':
-			this.$('#fcltyMaintSttusInqireList').flexExcelDown('/fcltyMng/selectFcltyMaintInqireListExcel.do');
-			break;
-	}
+	this.$('#fcltyMaintSttusInqireList').flexExcelDown('/fcltyMng/selectFcltyMaintInqireListExcel.do');
 
 };
 
 
+<%
 /**
- * 정의 된 버튼 클릭 시
- */
+ * @FUNCTION NAME : onButtonClick
+ * @DESCRIPTION   : BUTTON CLICK EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
  GamFcltyMaintSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 
 	switch(buttonId) {
@@ -255,6 +294,11 @@ GamFcltyMaintSttusInqireModule.prototype.downloadExcel = function(buttonId) {
 		// 엑셀다운로드
 		case "btnExcelDownload":
 			this.downloadExcel(buttonId);
+		break;
+		
+		// 이미지미리보기
+		case "btnPreviewFile":
+			this.imgPreview();
 		break;
 		
 		// 파일다운로드
@@ -275,7 +319,15 @@ GamFcltyMaintSttusInqireModule.prototype.downloadExcel = function(buttonId) {
 };
 
 
-
+<%
+/**
+ * @FUNCTION NAME : onTabChange
+ * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
+ * @PARAMETER     :
+ *   1. newTabId - NEW TAB ID
+ *   2. oldTabId - OLD TAB ID
+**/
+%>
 GamFcltyMaintSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	if(oldTabId == 'tabs1') {
 		this.loadDetail();
@@ -290,20 +342,22 @@ GamFcltyMaintSttusInqireModule.prototype.onTabChange = function(newTabId, oldTab
 				this.$("#tabs2").scrollTop(0);                                                                                                                                                                                                                                                                         
 			}
 		break;
-		
-		case "tabs3":
-		break;
-		
-		case "tabs4":
-		break;
+
 	}
 	
 };
 
 
+<%
 /**
- * 팝업 close 이벤트
- */
+ * @FUNCTION NAME : onClosePopup
+ * @DESCRIPTION   : CLOSE POPUP EVENT
+ * @PARAMETER     :
+ *   1. popupId  - POPUP ID
+ *   2. msg      - MESSAGE
+ *   3. value    - VALUE
+**/
+%>
  GamFcltyMaintSttusInqireModule.prototype.onClosePopup = function(popupId, msg, value){
 
 	switch(popupId){
@@ -323,8 +377,6 @@ GamFcltyMaintSttusInqireModule.prototype.onTabChange = function(newTabId, oldTab
 		break;
 	}
 };
-
-
 
 
 // 다음 변수는 고정 적으로 정의 해야 함
@@ -399,8 +451,6 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 			<ul>
 				<li><a href="#tabs1" class="emdTab">유지보수내역 목록</a></li>
 				<li><a href="#tabs2" class="emdTab">유지보수내역 상세</a></li>
-				<li><a href="#tabs3" class="emdTab">유지보수 대상시설물</a></li>
-				<li><a href="#tabs4" class="emdTab">유지보수 첨부파일</a></li>
 			</ul>
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
@@ -420,88 +470,88 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 			<!-- 유지보수내역 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyMaintSttusInqireListVO">
-					<table class="editForm"  style="width:100%;" border="1">
-						<tr>
-							<th width="13%" height="23" class="required_text">시행년도</th>
-							<td width="15%"><span id="enforceYear" title="시행년도"></span></td>
-							<th width="10%" height="23" class="required_text">시설물업무구분</th>
-							<td width="15%"><span id="fcltsJobSeNm" title="시설물업무구분"></span></td>
-							<th width="10%" height="23" class="required_text">유지보수구분</th>
-							<td width="300px"><span id="mntnRprSeNm" title="유지보수구분"></span></td>
-						</tr>
-						<tr>
-							<th width="13%" height="17" class="required_text">시설물관리그룹</th>
-							<td colspan="3">
-								<span id="fcltsMngGroupNo" title="시설물관리그룹넘버"></span> 
-								[ <span id="fcltsMngGroupNoNm" title="시설물관리그룹명"></span> ]
-							</td>
-							<th width="10%" height="23" class="required_text">유지보수순번</th>
-							<td><span id="mntnRprSeq" title="유지보수순번"></span></td>
-						</tr>
-						<tr>
-							<th width="13%" height="23" class="required_text">계약번호</th>
-							<td colspan="3">
-								<span id="ctrtNo" title="계약번호"></span> 
-								[ <span id="ctrtNm" title="계약명"></span> ]
-							</td>
-							<th width="10%" height="23" class="required_text">공사기간</th>
-							<td><span id="mntnRprCnstStartDt" title="공사시작일자"  ></span> ~ <span id="mntnRprCnstEndDt" title="공사종료일자"></span></td>
-						</tr>
-						<tr>
-							<th width="13%" height="23" class="required_text">공사명</th>
-							<td colspan="5"><span id="mntnRprCnstNm" title="공사명"></span></td>
-						</tr>
-						<tr>
-							<th width="13%" height="23" class="required_text">유지보수부위</th>
-							<td colspan="5"><span id="mntnRprPart" title="유지보수부위"></span></td>
-						</tr>
-						<tr>
-							<th width="13%" height="23" class="required_text">예산</th>
-							<td style="text-align:right;"><span id="mntnRprBdgt" title="예산" class="ygpaNumber"></span></td>
-							<th width="10%" height="23" class="required_text">설계자</th>
-							<td><span id="plannerNm" title="설계자"  ></span></td>
-							<th width="10%" height="23" class="required_text">시공자</th>
-							<td><span id="cnstrtr" title="시공자"></span></td>
-						</tr>
-						<tr>
-							<th width="13%" height="23" class="required_text">공사금액</th>
-							<td style="text-align:right;"><span id="mntnRprCnstAmt" title="공사금액" class="ygpaNumber"></span></td>
-							<th width="10%" height="23" class="required_text">책임기술자</th>
-							<td><span id="responEngineer" title="책임기술자"></span></td>
-							<th width="13%" height="23" class="required_text">공사감독자</th>
-							<td><span id="cnstChargNm" title="공사감독자"></span></td>
-						</tr>
-						<tr>
-							<th width="13%" height="23" class="required_text">유지보수내용</th>
-							<td colspan="5"><span id="mntnRprCn" title="유지보수내용"></span></td>
-						</tr>
-						<tr>
-							<th width="13%" height="23" class="required_text">비고</th>
-							<td colspan="5"><span id="rm" title="비고"></span></td>
-						</tr>
-					</table>
-				</form>
-			</div>
-			
-			<!-- 유지보수 대상 시설물 -->
-			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
-				<table id="mntnSttusRprObjFcltsF" style="display:none" class="fillHeight"></table>
-			</div>
-			<!-- 유지보수내역 첨부파일 -->
-			<div id="tabs4" class="emdTabPage" style="overflow: scroll;">
-				<table>
+					<table class="editForm"  style="width:100%;">
 					<tr>
-						<td width="50%">
-							<table id="fcltyMaintSttusFileList" style="display:none" class="fillHeight"></table>
-							<div class="emdControlPanel">
-								<button id="btnDownloadFile">다운로드</button>
-							</div>
+						<td colspan="2" style="width:60%;">
+							<table class="editForm"  style="width:100%;">
+								<tr>
+									<th width="100px" height="18" class="required_text" style="border-bottom:none;">시행년도</th>
+									<td width="200px" style="border-bottom:none;"><span id="enforceYear" title="시행년도"></span></td>
+									<th width="100px" height="18" class="required_text">시설물업무구분</th>
+									<td><span id="fcltsJobSeNm" title="시설물업무구분"></span></td>
+								</tr>
+								<tr>
+									<th height="18" class="required_text">유지보수구분</th>
+									<td><span id="mntnRprSeNm" title="유지보수구분"></span></td>
+									<th height="18" class="required_text">유지보수순번</th>
+									<td><span id="mntnRprSeq" title="유지보수순번" ></span></td>
+								</tr>
+								<tr>
+									<th height="17" class="required_text">시설물관리그룹</th>
+									<td colspan="3">
+										<span id="fcltsMngGroupNo" title="시설물관리그룹넘버" ></span> - <span id="fcltsMngGroupNoNm" title="시설물관리그룹명"></span>
+									</td>
+								</tr>
+								<tr>
+									<th height="18" class="required_text">계약번호</th>
+									<td colspan="3">
+										<span id="ctrtNo" title="계약번호"></span> - <span id="ctrtNm" title="계약명" ></span>
+									</td>
+									
+								</tr>
+								<tr>
+									<th height="18" class="required_text">공사명</th>
+									<td colspan="3"><span id="mntnRprCnstNm" title="공사명"></span></td>
+								</tr>
+								<tr>
+									<th height="18" class="required_text">유지보수</th>
+									<td colspan="3"><span id="mntnRprPart" title="유지보수"></span></td>
+								</tr>
+								<tr>
+									<th height="18" class="required_text">공사기간</th>
+									<td colspan="3">
+										<span id="mntnRprCnstStartDt" title="공사시작일자"></span>  ~  <span id="mntnRprCnstEndDt" title="공사종료일자"></span>
+									</td>
+								</tr>
+								<tr>
+									<th height="18" class="required_text">예산</th>
+									<td><span id="mntnRprBdgt" title="예산"></span></td>
+									<th height="18" class="required_text">계약금액</th>
+									<td><span id="mntnRprCnstAmt" title="계약금액"></span></td>
+								</tr>
+								<tr>
+									<th height="18" class="required_text">계약자</th>
+									<td colspan="3"><span id="cnstrtr" title="계약자"></span></td>
+								</tr>
+								<tr>
+									<th height="18" class="required_text">유지보수내용</th>
+									<td colspan="3"><span id="mntnRprCn" title="유지보수내용" ></span></td>
+								</tr>
+								<tr>
+									<th height="18" class="required_text" style="border-bottom:none;">비고</th>
+									<td colspan="3" style="border-bottom:none;"><span id="rm" title="비고"></span></td>
+								</tr>
+							</table>
 						</td>
-						<td style="text-align:center;vertical-align:middle;">
-							<img id="previewImage" style="border: 1px solid #000; max-width:300px; max-height: 300px" src="">
+						<td style="border-bottom:none;">
+							<table id="mntnRprObjFcltsF" style="display:none"></table>
+						</td>
+					</tr>
+					<tr>
+						<th height="18" class="required_text" style="width:95px;">첨부파일</th>
+						<td>
+							<select id="fcltyMaintFileList">
+								<option value="">선택</option>
+							</select> 
+						</td>
+						<td style="text-align:right;">
+							<button id="btnPreviewFile">첨부파일 미리보기</button> 
+							<div id="previewHidden" style="display: none;"></div>
+							<button id="btnDownloadFile">다운로드</button> 
 						</td>
 					</tr>
 				</table>
+				</form>
 			</div>
 		</div>
 	</div>

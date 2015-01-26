@@ -178,28 +178,12 @@ public class GamFcltyMaintSttusInqireController {
         	return map;
     	}
     	// 내역 조회
-    	/** pageing */
-    	PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
 		List mntnSttusRprObjFcltsFList = gamFcltyMaintSttusInqireService.selectMntnSttusRprObjFcltsFList(searchVO);
 
-        int totCnt = gamFcltyMaintSttusInqireService.selectMntnSttusRprObjFcltsFListTotCnt(searchVO);
-
-        paginationInfo.setTotalRecordCount(totCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-
 		map.put("resultCode", 0);			// return ok
-    	map.put("totalCount", totCnt);
     	map.put("resultList", mntnSttusRprObjFcltsFList);
-    	map.put("searchOption", searchVO);
 
     	return map;
     }
@@ -225,28 +209,12 @@ public class GamFcltyMaintSttusInqireController {
         	return map;
     	}
     	// 내역 조회
-    	/** pageing */
-    	PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
+    	
 		/** List Data */
 		List fcltyMaintSttusFileList = gamFcltyMaintSttusInqireService.selectFcltyMaintSttusFileList(searchVO);
 
-        int totCnt = gamFcltyMaintSttusInqireService.selectFcltyMaintSttusFileListTotCnt(searchVO);
-
-        paginationInfo.setTotalRecordCount(totCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-
 		map.put("resultCode", 0);			// return ok
-    	map.put("totalCount", totCnt);
     	map.put("resultList", fcltyMaintSttusFileList);
-    	map.put("searchOption", searchVO);
 
     	return map;
     }

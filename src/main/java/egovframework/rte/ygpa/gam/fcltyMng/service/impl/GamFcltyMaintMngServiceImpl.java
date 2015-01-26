@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyMaintMngService;
@@ -83,17 +84,6 @@ public class GamFcltyMaintMngServiceImpl extends AbstractServiceImpl implements 
 	
 	
 	/**
-	 * 유지보수 대상시설물 총갯수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	public int selectMntnRprObjFcltsFListTotCnt(GamFcltyMaintMngVO vo) throws Exception {
-		return gamFcltyMaintMngDao.selectMntnRprObjFcltsFListTotCnt(vo);
-	}
-	
-	
-	/**
 	 * 유지보수 첨부파일 조회
 	 * @param vo
 	 * @return list
@@ -101,29 +91,7 @@ public class GamFcltyMaintMngServiceImpl extends AbstractServiceImpl implements 
 	 */
 	public List<?> selectFcltyMaintFileList(GamFcltyMaintMngVO vo) throws Exception {
 		return (List<?>)gamFcltyMaintMngDao.selectFcltyMaintFileList(vo);
-	}
-	
-	
-	/**
-	 * 유지보수 첨부파일 총갯수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	public int selectFcltyMaintFileListTotCnt(GamFcltyMaintMngVO vo) throws Exception {
-		return gamFcltyMaintMngDao.selectFcltyMaintFileListTotCnt(vo);
-	}
-	
-	
-	/**
-	 * 유지보수 순번
-	 * @param map
-	 * @return String
-	 * @throws Exception
-	 */
-	public int selectNextMntnRprSeq(Map<?,?> vo) throws Exception{
-		return gamFcltyMaintMngDao.selectNextMntnRprSeq(vo);
-	}
+	}                   
 	
 	
 	/**
@@ -132,8 +100,37 @@ public class GamFcltyMaintMngServiceImpl extends AbstractServiceImpl implements 
 	 * @return 
 	 * @throws Exception
 	 */
-	public void insertFcltyMaintMng(Map<?,?> vo) throws Exception{
-		gamFcltyMaintMngDao.insertFcltyMaintMng(vo);
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void insertFcltyMaintMng(Map insertMntnData, List insertObjList, List insertFileList) throws Exception{
+		
+		String fcltsMngGroupNo = (String) insertMntnData.get("fcltsMngGroupNo");
+		String fcltsJobSe = (String) insertMntnData.get("fcltsJobSe");
+		int mntnRprSeq = gamFcltyMaintMngDao.selectNextMntnRprSeq(insertMntnData);
+		Map insertObj = null;
+		Map insertFile = null;
+		
+		insertMntnData.put("mntnRprSeq",mntnRprSeq);
+		gamFcltyMaintMngDao.insertFcltyMaintMng(insertMntnData);
+
+		// 유지보수 대상시설물 입력처리
+		for(int i=0;i<insertObjList.size();i++){
+			insertObj = (Map) insertObjList.get(i);
+			insertObj.put("fcltsMngGroupNo",fcltsMngGroupNo);
+			insertObj.put("fcltsJobSe",fcltsJobSe);
+			insertObj.put("mntnRprSeq",mntnRprSeq);
+			insertObj.put("regUsr", insertMntnData.get("regUsr"));
+			gamFcltyMaintMngDao.insertMntnRprObjFcltsF(insertObj);
+		}
+		
+		// 유지보수 첨부파일 입력처리
+		for(int i=0;i<insertFileList.size();i++){
+			insertFile = (Map) insertFileList.get(i);
+			insertFile.put("fcltsMngGroupNo",fcltsMngGroupNo);
+			insertFile.put("fcltsJobSe",fcltsJobSe);
+			insertFile.put("mntnRprSeq",mntnRprSeq);
+			insertFile.put("regUsr", insertMntnData.get("regUsr"));
+			gamFcltyMaintMngDao.insertFcltyMaintFile(insertFile);
+		}
 	}
 	
 	
@@ -143,8 +140,39 @@ public class GamFcltyMaintMngServiceImpl extends AbstractServiceImpl implements 
 	 * @return 
 	 * @throws Exception
 	 */
-	public void updateFcltyMaintMng(Map<?,?> vo) throws Exception{
-		gamFcltyMaintMngDao.updateFcltyMaintMng(vo);
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void updateFcltyMaintMng(Map updateMntnData, List insertObjList, List insertFileList) throws Exception{
+		String fcltsMngGroupNo = (String) updateMntnData.get("fcltsMngGroupNo");
+		String fcltsJobSe = (String) updateMntnData.get("fcltsJobSe");
+		String mntnRprSeq = (String) updateMntnData.get("mntnRprSeq");
+		Map insertObj = null;
+		Map insertFile = null;
+		
+		gamFcltyMaintMngDao.updateFcltyMaintMng(updateMntnData);
+
+		// 유지보수 대상시설물 수정처리
+		gamFcltyMaintMngDao.deleteMntnRprObjFcltsF(updateMntnData);
+		
+		for(int i=0;i<insertObjList.size();i++){
+			insertObj = (Map) insertObjList.get(i);
+			insertObj.put("fcltsMngGroupNo",fcltsMngGroupNo);
+			insertObj.put("fcltsJobSe",fcltsJobSe);
+			insertObj.put("mntnRprSeq",mntnRprSeq);
+			insertObj.put("regUsr", updateMntnData.get("regUsr"));
+			gamFcltyMaintMngDao.insertMntnRprObjFcltsF(insertObj);
+		}
+		
+		// 유지보수 첨부파일 입력처리
+		gamFcltyMaintMngDao.deleteFcltyMaintFile(updateMntnData);
+		
+		for(int i=0;i<insertFileList.size();i++){
+			insertFile = (Map) insertFileList.get(i);
+			insertFile.put("fcltsMngGroupNo",fcltsMngGroupNo);
+			insertFile.put("fcltsJobSe",fcltsJobSe);
+			insertFile.put("mntnRprSeq",mntnRprSeq);
+			insertFile.put("regUsr", updateMntnData.get("regUsr"));
+			gamFcltyMaintMngDao.insertFcltyMaintFile(insertFile);
+		}
 	}
 	
 	
@@ -159,30 +187,6 @@ public class GamFcltyMaintMngServiceImpl extends AbstractServiceImpl implements 
 		gamFcltyMaintMngDao.deleteMntnRprObjFcltsF(vo);
 		gamFcltyMaintMngDao.deleteFcltyMaintFile(vo);
 	}
-
 	
-	/**
-	 * 유지보수 대상시설물 데이타 적용
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	public List<?> mergeMntnRprObjFcltsF(Map<String, Object> mergeList) throws Exception{
-		return (List<?>)gamFcltyMaintMngDao.mergeMntnRprObjFcltsF(mergeList);
-	}
-	
-	
-	
-	/**
-	 * 유지보수 첨부파일 적용
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	public List<?> mergeFcltyMaintFile(Map<String, Object> mergeList) throws Exception{
-		return (List<?>)gamFcltyMaintMngDao.mergeFcltyMaintFile(mergeList);
-	}
-	
-
 
 }

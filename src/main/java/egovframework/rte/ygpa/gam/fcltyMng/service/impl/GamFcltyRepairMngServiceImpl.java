@@ -92,30 +92,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	public int selectFlawRprObjFcltsFListTotCnt(GamFcltyRepairMngVO vo) throws Exception {
 		return gamFcltyRepairMngDao.selectFlawRprObjFcltsFListTotCnt(vo);
 	}
-	
-	
-	
-	/**
-	 * 하자보수 검사자 조회
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */
-	public List<?> selectFlawExamUsrFList(GamFcltyRepairMngVO vo) throws Exception {
-		return (List<?>)gamFcltyRepairMngDao.selectFlawExamUsrFList(vo);
-	}
-	
-	
-	/**
-	 * 하자보수 검사자 총갯수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	public int selectFlawExamUsrFListTotCnt(GamFcltyRepairMngVO vo) throws Exception {
-		return gamFcltyRepairMngDao.selectFlawExamUsrFListTotCnt(vo);
-	}
-	
+
 	
 	/**
 	 * 하자보수 첨부파일 조회
@@ -129,35 +106,42 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	
 	
 	/**
-	 * 하자보수 첨부파일 총갯수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	public int selectFcltyRepairFileListTotCnt(GamFcltyRepairMngVO vo) throws Exception {
-		return gamFcltyRepairMngDao.selectFcltyRepairFileListTotCnt(vo);
-	}
-	
-	
-	/**
-	 * 하자보수 순번
-	 * @param map
-	 * @return String
-	 * @throws Exception
-	 */
-	public int selectNextMntnRprSeq(Map<?,?> vo) throws Exception{
-		return gamFcltyRepairMngDao.selectNextMntnRprSeq(vo);
-	}
-	
-	
-	/**
 	 * 하자보수내역 입력
 	 * @param map
 	 * @return 
 	 * @throws Exception
 	 */
-	public void insertFcltyRepairMng(Map<?,?> vo) throws Exception{
-		gamFcltyRepairMngDao.insertFcltyRepairMng(vo);
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void insertFcltyRepairMng(Map insertRprData, List insertObjList, List insertFileList) throws Exception{
+		String fcltsMngGroupNo = (String) insertRprData.get("fcltsMngGroupNo");
+		String fcltsJobSe = (String) insertRprData.get("fcltsJobSe");
+		int flawRprSeq = gamFcltyRepairMngDao.selectNextMntnRprSeq(insertRprData);
+		Map insertObj = null;
+		Map insertFile = null;
+		
+		insertRprData.put("flawRprSeq",flawRprSeq);
+		gamFcltyRepairMngDao.insertFcltyRepairMng(insertRprData);
+		
+		// 하자보수 대상시설물 입력처리
+		for(int i=0;i<insertObjList.size();i++){
+			insertObj = (Map) insertObjList.get(i);
+			insertObj.put("fcltsMngGroupNo",fcltsMngGroupNo);
+			insertObj.put("fcltsJobSe",fcltsJobSe);
+			insertObj.put("flawRprSeq",flawRprSeq);
+			insertObj.put("regUsr", insertRprData.get("regUsr"));
+			gamFcltyRepairMngDao.insertFlawRprObjFcltsF(insertObj);
+		}
+
+		// 하자보수 첨부파일 입력처리
+		for(int i=0;i<insertFileList.size();i++){
+			insertFile = (Map) insertFileList.get(i);
+			insertFile.put("fcltsMngGroupNo",fcltsMngGroupNo);
+			insertFile.put("fcltsJobSe",fcltsJobSe);
+			insertFile.put("flawRprSeq",flawRprSeq);
+			insertFile.put("regUsr", insertRprData.get("regUsr"));
+			gamFcltyRepairMngDao.insertFcltyRepairFile(insertFile);
+		}
+		
 	}
 	
 	
@@ -167,8 +151,31 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @return 
 	 * @throws Exception
 	 */
-	public void updateFcltyRepairMng(Map<?,?> vo) throws Exception{
-		gamFcltyRepairMngDao.updateFcltyRepairMng(vo);
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void updateFcltyRepairMng(Map updateRprData, Map updateObj, List updateFileList) throws Exception{
+		String fcltsMngGroupNo = (String) updateRprData.get("fcltsMngGroupNo");
+		String fcltsJobSe = (String) updateRprData.get("fcltsJobSe");
+		String flawRprSeq = (String) updateRprData.get("flawRprSeq");
+
+		Map insertFile = null;
+		
+		gamFcltyRepairMngDao.updateFcltyRepairMng(updateRprData);
+		
+		// 하자보수 대상시설물 입력처리
+		gamFcltyRepairMngDao.mergeFlawRprObjFcltsF(updateObj);
+		
+		
+		// 하자보수 첨부파일 입력처리
+		gamFcltyRepairMngDao.deleteFcltyRepairFile(updateRprData);
+		
+		for(int i=0;i<updateFileList.size();i++){
+			insertFile = (Map) updateFileList.get(i);
+			insertFile.put("fcltsMngGroupNo",fcltsMngGroupNo);
+			insertFile.put("fcltsJobSe",fcltsJobSe);
+			insertFile.put("flawRprSeq",flawRprSeq);
+			insertFile.put("regUsr", updateRprData.get("regUsr"));
+			gamFcltyRepairMngDao.insertFcltyRepairFile(insertFile);
+		}
 	}
 	
 	
@@ -181,44 +188,9 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	public void deleteFcltyRepairMng(Map<?,?> vo) throws Exception{
 		gamFcltyRepairMngDao.deleteFcltyRepairMng(vo);
 		gamFcltyRepairMngDao.deleteFlawRprObjFcltsF(vo);
-		gamFcltyRepairMngDao.deleteFlawExamUsrF(vo);
 		gamFcltyRepairMngDao.deleteFcltyRepairFile(vo);
 	}
-	
-	
-	/**
-	 * 하자보수 대상시설물 데이타 적용
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	public List<?> mergeFlawRprObjFcltsF(Map<String, Object> mergeList) throws Exception{
-		return (List<?>)gamFcltyRepairMngDao.mergeFlawRprObjFcltsF(mergeList);
-	}
-	
-	
-	/**
-	 * 하자보수 검사자 데이타 적용
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	public List<?> mergeFlawExamUsrF(Map<String, Object> mergeList) throws Exception{
-		return (List<?>)gamFcltyRepairMngDao.mergeFlawExamUsrF(mergeList);
-	}
-	
-	
-	
-	/**
-	 * 하자보수 첨부파일 적용
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	public List<?> mergeFcltyRepairFile(Map<String, Object> mergeList) throws Exception{
-		return (List<?>)gamFcltyRepairMngDao.mergeFcltyRepairFile(mergeList);
-	}
-	
+
 	
 	/**
 	 * 하자검사조서인쇄

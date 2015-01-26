@@ -122,7 +122,6 @@ public class GamFcltyRepairSttusInqireController {
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
     	map.put("resultList", fcltyRepairSttusInqireList);
-    	map.put("searchOption", searchVO);
 
     	return map;
     }
@@ -153,7 +152,6 @@ public class GamFcltyRepairSttusInqireController {
 
 		map.put("resultCode", 0);			// return ok
     	map.put("result", result);
-    	map.put("searchOption", searchVO);
 
     	return map;
     }
@@ -201,59 +199,11 @@ public class GamFcltyRepairSttusInqireController {
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
     	map.put("resultList", flawRprSttusObjFcltsFList);
-    	map.put("searchOption", searchVO);
 
     	return map;
     }
 	
-	
-	/**
-	 * 하자보수 검사자 조회
-	 * @param searchVO
-	 * @return map
-	 * @throws Exception
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/fcltyMng/selectFlawExamUsrSttusFList.do")
-	public @ResponseBody Map selectFlawExamUsrSttusFList(GamFcltyRepairSttusInqireVO searchVO)throws Exception {
 
-		Map map = new HashMap();
-
-    	// 0. Spring Security 사용자권한 처리
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-    	// 내역 조회
-    	/** pageing */
-    	PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
-		/** List Data */
-		List flawExamUsrSttusFList = gamFcltyRepairSttusInqireService.selectFlawExamUsrSttusFList(searchVO);
-
-        int totCnt = gamFcltyRepairSttusInqireService.selectFlawExamUsrSttusFListTotCnt(searchVO);
-
-        paginationInfo.setTotalRecordCount(totCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-
-		map.put("resultCode", 0);			// return ok
-    	map.put("totalCount", totCnt);
-    	map.put("resultList", flawExamUsrSttusFList);
-    	map.put("searchOption", searchVO);
-
-    	return map;
-    }
-	
-	
 	/**
 	 * 하자보수 첨부파일 조회
 	 * @param searchVO
@@ -274,28 +224,12 @@ public class GamFcltyRepairSttusInqireController {
         	return map;
     	}
     	// 내역 조회
-    	/** pageing */
-    	PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
 		List fcltyRepairSttusFileList = gamFcltyRepairSttusInqireService.selectFcltyRepairSttusFileList(searchVO);
 
-        int totCnt = gamFcltyRepairSttusInqireService.selectFcltyRepairSttusFileListTotCnt(searchVO);
-
-        paginationInfo.setTotalRecordCount(totCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-
 		map.put("resultCode", 0);			// return ok
-    	map.put("totalCount", totCnt);
     	map.put("resultList", fcltyRepairSttusFileList);
-    	map.put("searchOption", searchVO);
 
     	return map;
     }

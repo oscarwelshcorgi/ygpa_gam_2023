@@ -80,17 +80,6 @@ public class GamFcltyMaintSttusInqireServiceImpl extends AbstractServiceImpl imp
 	
 	
 	/**
-	 * 유지보수 대상시설물 총갯수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	public int selectMntnSttusRprObjFcltsFListTotCnt(GamFcltyMaintSttusInqireVO vo) throws Exception {
-		return gamFcltyMaintSttusInqireDao.selectMntnSttusRprObjFcltsFListTotCnt(vo);
-	}
-	
-	
-	/**
 	 * 유지보수 첨부파일 조회
 	 * @param vo
 	 * @return list
@@ -99,17 +88,6 @@ public class GamFcltyMaintSttusInqireServiceImpl extends AbstractServiceImpl imp
 	public List<?> selectFcltyMaintSttusFileList(GamFcltyMaintSttusInqireVO vo) throws Exception {
 		return (List<?>)gamFcltyMaintSttusInqireDao.selectFcltyMaintSttusFileList(vo);
 	}
-	
-	
-	/**
-	 * 유지보수 첨부파일 총갯수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	public int selectFcltyMaintSttusFileListTotCnt(GamFcltyMaintSttusInqireVO vo) throws Exception {
-		return gamFcltyMaintSttusInqireDao.selectFcltyMaintSttusFileListTotCnt(vo);
-	}
-	
+
 
 }

@@ -76,17 +76,6 @@ public class GamFcltyMaintSttusInqireDao extends YGPAAbstractDAO {
 	
 	
 	/**
-	 * 유지보수 대상시설물 총갯수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	public int selectMntnSttusRprObjFcltsFListTotCnt(GamFcltyMaintSttusInqireVO vo) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyMaintSttusInqireDao.selectMntnSttusRprObjFcltsFListTotCnt_S", vo);
-	}
-	
-	
-	/**
 	 * 유지보수 첨부파일 조회
 	 * @param vo
 	 * @return list
@@ -95,18 +84,6 @@ public class GamFcltyMaintSttusInqireDao extends YGPAAbstractDAO {
 	public List<?> selectFcltyMaintSttusFileList(GamFcltyMaintSttusInqireVO vo) throws Exception {
 		return list("gamFcltyMaintSttusInqireDao.selectFcltyMaintSttusFileList_D", vo);
 	}
-	
-	
-	/**
-	 * 유지보수 첨부파일 총갯수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	public int selectFcltyMaintSttusFileListTotCnt(GamFcltyMaintSttusInqireVO vo) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyMaintSttusInqireDao.selectFcltyMaintSttusFileListTotCnt_S", vo);
-	}
-	
-	
+
 
 }

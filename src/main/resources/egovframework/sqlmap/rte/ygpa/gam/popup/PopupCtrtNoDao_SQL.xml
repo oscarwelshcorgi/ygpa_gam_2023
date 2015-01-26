@@ -22,7 +22,12 @@
                                 , I.CTRT_NM
                                 , TO_CHAR(I.BID_PBLANC_DT, 'YYYY-MM-DD') AS BID_PBLANC_DT
                                 , TO_CHAR(I.BID_DT, 'YYYY-MM-DD') AS BID_DT
+                                , TO_CHAR(I.CTRT_DT_FROM, 'YYYY-MM-DD') AS CTRT_DT_FROM
+                                , TO_CHAR(I.CTRT_DT_TO, 'YYYY-MM-DD') AS CTRT_DT_TO
                                 , I.REGIST_ENTRPS_CD
+                                , I.PLAN_AMT
+                                , I.CTRT_AMT
+                                , NVL(J.RPRSNTV,J.ENTRPS_NM) CNSTRTR 
                                 , GAM_GETENTRPSNM(I.REGIST_ENTRPS_CD, 1) AS REGIST_ENTRPS_NM
                                 , J.ENTRPS_NM
                             FROM 

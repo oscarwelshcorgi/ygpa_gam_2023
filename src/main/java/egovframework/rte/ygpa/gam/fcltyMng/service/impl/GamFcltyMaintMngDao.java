@@ -78,17 +78,6 @@ public class GamFcltyMaintMngDao extends YGPAAbstractDAO {
 	
 	
 	/**
-	 * 유지보수 대상시설물 총갯수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	public int selectMntnRprObjFcltsFListTotCnt(GamFcltyMaintMngVO vo) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyMaintMngDao.selectMntnRprObjFcltsFListTotCnt_S", vo);
-	}
-	
-	
-	/**
 	 * 유지보수 첨부파일 조회
 	 * @param vo
 	 * @return list
@@ -96,17 +85,6 @@ public class GamFcltyMaintMngDao extends YGPAAbstractDAO {
 	 */
 	public List<?> selectFcltyMaintFileList(GamFcltyMaintMngVO vo) throws Exception {
 		return list("gamFcltyMaintMngDao.selectFcltyMaintFileList_D", vo);
-	}
-	
-	
-	/**
-	 * 유지보수 첨부파일 총갯수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	public int selectFcltyMaintFileListTotCnt(GamFcltyMaintMngVO vo) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyMaintMngDao.selectFcltyMaintFileListTotCnt_S", vo);
 	}
 	
 	
@@ -139,10 +117,9 @@ public class GamFcltyMaintMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */
 	public void updateFcltyMaintMng(Map<?,?> vo) throws Exception{
-		insert("gamFcltyMaintMngDao.updateFcltyMaintMng", vo);
+		update("gamFcltyMaintMngDao.updateFcltyMaintMng", vo);
 	}
-	
-	
+
 	/**
 	 * 유지보수내역 삭제
 	 * @param map
@@ -150,8 +127,20 @@ public class GamFcltyMaintMngDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */
 	public void deleteFcltyMaintMng(Map<?,?> vo) throws Exception{
-		insert("gamFcltyMaintMngDao.deleteFcltyMaintMng", vo);
+		delete("gamFcltyMaintMngDao.deleteFcltyMaintMng", vo);
 	}
+	
+	
+	/**
+	 * 유지보수내역 하위 대상시설물 입력
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	public void insertMntnRprObjFcltsF(Map<?,?> vo) throws Exception{
+		insert("gamFcltyMaintMngDao.insertMntnRprObjFcltsF", vo);
+	}
+	
 	
 	/**
 	 * 유지보수내역 하위 대상시설물 전체 삭제
@@ -165,6 +154,17 @@ public class GamFcltyMaintMngDao extends YGPAAbstractDAO {
 	
 	
 	/**
+	 * 유지보수내역 하위 첨부파일 입력
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	public void insertFcltyMaintFile(Map<?,?> vo) throws Exception{
+		insert("gamFcltyMaintMngDao.insertFcltyMaintFile", vo);
+	}
+	
+	
+	/**
 	 * 유지보수내역 하위 첨부파일 전체 삭제
 	 * @param map
 	 * @return 
@@ -174,29 +174,5 @@ public class GamFcltyMaintMngDao extends YGPAAbstractDAO {
 		delete("gamFcltyMaintMngDao.deleteFcltyMaintFile", vo);
 	}
 	
-	
-	
-	
-	/**
-	 * 유지보수 대상시설물 데이타 적용
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	public List<?> mergeMntnRprObjFcltsF(Map<String, Object> mergeList) throws Exception{
-		return this.merge(mergeList, "gamFcltyMaintMngDao.insertMntnRprObjFcltsF", "gamFcltyMaintMngDao.updateMntnRprObjFcltsF", "gamFcltyMaintMngDao.deleteMntnRprObjFcltsF");
-	}
-	
-	
-	
-	/**
-	 * 유지보수 첨부파일 적용
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	public List<?> mergeFcltyMaintFile(Map<String, Object> mergeList) throws Exception{
-		return this.merge(mergeList, "gamFcltyMaintMngDao.insertFcltyMaintFile", "gamFcltyMaintMngDao.updateFcltyMaintFile", "gamFcltyMaintMngDao.deleteFcltyMaintFile");
-	}
 
 }

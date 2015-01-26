@@ -65,15 +65,6 @@ public interface GamFcltyMaintMngService {
 	
 	
 	/**
-	 * 유지보수 대상시설물 총갯수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	int selectMntnRprObjFcltsFListTotCnt(GamFcltyMaintMngVO vo) throws Exception;
-	
-	
-	/**
 	 * 유지보수 첨부파일 조회
 	 * @param vo
 	 * @return list
@@ -83,30 +74,14 @@ public interface GamFcltyMaintMngService {
 	
 	
 	/**
-	 * 유지보수 첨부파일 총갯수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	int selectFcltyMaintFileListTotCnt(GamFcltyMaintMngVO vo) throws Exception;
-	
-	
-	/**
-	 * 유지보수 순번
-	 * @param map
-	 * @return String
-	 * @throws Exception
-	 */
-	int selectNextMntnRprSeq(Map<?,?> vo) throws Exception;
-	
-	
-	/**
 	 * 유지보수내역 입력
 	 * @param map
 	 * @return 
 	 * @throws Exception
 	 */
-	void insertFcltyMaintMng(Map<?,?> vo) throws Exception;
+	@SuppressWarnings({ "rawtypes" })
+	void insertFcltyMaintMng(Map insertMntnData, List insertObjList, List insertFileList) throws Exception;
+
 	
 	
 	/**
@@ -115,7 +90,8 @@ public interface GamFcltyMaintMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	void updateFcltyMaintMng(Map<?,?> vo) throws Exception;
+	@SuppressWarnings({ "rawtypes" })
+	void updateFcltyMaintMng(Map updateMntnData, List insertObjList, List insertFileList) throws Exception;
 	
 	
 	/**
@@ -127,22 +103,6 @@ public interface GamFcltyMaintMngService {
 	void deleteFcltyMaintMng(Map<?,?> vo) throws Exception;
 	
 	
-	/**
-	 * 유지보수 대상시설물 데이타 적용
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	List<?> mergeMntnRprObjFcltsF(Map<String, Object> mergeList) throws Exception;
 	
-	
-	
-	/**
-	 * 유지보수 첨부파일 적용
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	List<?> mergeFcltyMaintFile(Map<String, Object> mergeList) throws Exception;
 
 }

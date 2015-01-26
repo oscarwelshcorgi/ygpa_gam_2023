@@ -21,16 +21,30 @@
   */
 %>
 
+<%
+/******************************** SCRIPT START ********************************/
+%>
+
 <script>
-/*
- * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
- */
+<%
+/**
+ * @FUNCTION NAME : GamFcltyRepairSttusInqireModule
+ * @DESCRIPTION   : MODULE 고유 함수
+ * @PARAMETER     : NONE
+**/
+%>
 function GamFcltyRepairSttusInqireModule() {
 }
 
 GamFcltyRepairSttusInqireModule.prototype = new EmdModule(1000,600);	// 초기 시작 창크기 지정
 
-// 페이지가 호출 되었을때 호출 되는 함수
+<%
+/**
+ * @FUNCTION NAME : loadComplete
+ * @DESCRIPTION   : PAGE LOAD COMPLETE (페이지 호출시 실행되는 함수)
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyRepairSttusInqireModule.prototype.loadComplete = function(params) {
 	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다.
 
@@ -76,86 +90,37 @@ GamFcltyRepairSttusInqireModule.prototype.loadComplete = function(params) {
 					{display:"하자검사결과",	name:"flawExamResult",	width:350,		sortable:true,		align:"left"},
 					{display:"비고",			name:"rm",				width:350,		sortable:true,		align:"left"}
 			],
-		height: "auto"
-	});
-
-
-	this.$("#flawExamUsrSttusF").flexigrid({
-		module: this,
-		url: '/fcltyMng/selectFlawExamUsrSttusFList.do',
-		dataType: "json",
-		colModel : [
-					{display:"순번",				name:"seq",					width:100,		sortable:false,		align:"center"},
-					{display:"하자검사자",			name:"flawExamUsr",			width:250,		sortable:false,		align:"center"},
-					{display:"하자검사일자",		name:"flawExamDt",			width:250,		sortable:false,		align:"center"},
-					{display:"하자검사완료여부",		name:"flawExamComptYn",		width:250,		sortable:false,		align:"center"}
-			],
-		height: "auto"
-	});
-
-
-
- 	this.$("#fcltyRepairSttusFileList").flexigrid({
-		module: this,
-		url: '/fcltyMng/selectFcltyRepairSttusFileList.do',
-		dataType: 'json',
-		colModel : [
-					{display:"순번",		name:"atchFileSeq",				width:40,		sortable:true,		align:"center"},
-					{display:"구분",		name:"atchFileSeNm",			width:40,		sortable:true,		align:"center"},
-					{display:"설명",		name:"atchFileSj",				width:240,		sortable:true,		align:"left"},
-					{display:"파일명",	name:"atchFileNmLogic",			width:200,		sortable:true,		align:"left"}
-			],
-		height: "360"
+		height: "250"
 	});
 
  	
  	this.$("#fcltyRepairSttusInqireList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module.$("#fcltyRepairSttusInqireListTab").tabs("option", {active: 1});
 	});
- 	
- 	this.$("#fcltyRepairSttusFileList").on('onItemSelected', function(event, module, row, grid, param) {
- 		module.applyFileDataChanged();
-	});
- 	
- 	
-	// 파일 정보 속성이 변경 된 경우 이벤트 실행
-	this.$(".fileEditItem").bind("change keyup", {module: this}, function(event) {
-		event.data.module.applyFileChanged(event.target);
-	});
 
 
 };
 
 
-
-// 파일 그리드 선택시 하단부 데이타 수정창에 갱신
-GamFcltyRepairSttusInqireModule.prototype.applyFileDataChanged = function(){
-
-	var row = this.$('#fcltyRepairSttusFileList').selectedRows();
-	row = row[0];
-
-	if(row.atchFileNmPhysicl != null || row.atchFileNmPhysicl != "") {
-
-		// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
-		var filenm = row["atchFileNmPhysicl"];
-		var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
-
-		if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
-			var imgURL = this.getPfPhotoUrl(filenm);
-			//this.$("#previewImage").fadeIn(400, function() {
-				this.$("#previewImage").attr("src", imgURL);
-		    //});
-		}else{
-			this.$("#previewImage").removeAttr("src");
-		}
-	}
-};
-
-
+<%
+/**
+ * @FUNCTION NAME : onSubmit
+ * @DESCRIPTION   : (프레임워크에서 SUBMIT 이벤트 호출 시 호출 한다.)
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyRepairSttusInqireModule.prototype.onSubmit = function(){
 	this.loadData();
 };
 
+
+<%
+/**
+ * @FUNCTION NAME : loadData
+ * @DESCRIPTION   : DATA LOAD (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyRepairSttusInqireModule.prototype.loadData = function(){
 
 	// tabs2 항목 초기화
@@ -164,16 +129,7 @@ GamFcltyRepairSttusInqireModule.prototype.loadData = function(){
 	// tabs3 그리드 초기화
 	this.$('#flawRprSttusObjFcltsF').flexEmptyData();
 	this.makeDivValues('#gamObjFcltsDetailForm',{});
-	
-	// tabs4 그리드 초기화
-	this.$('#flawExamUsrSttusF').flexEmptyData();
-	this.makeDivValues('#gamExamUsrDetailForm',{});
-	
-	// tabs5 항목/그리드 초기화
-	this.makeDivValues('#fcltyRepairSttusInqireFileForm', {});
-	this.$('#fcltyRepairSttusFileList').flexEmptyData();
-	this.$("#previewImage").attr("src", "");
-	
+
 	this.$("#fcltyRepairSttusInqireListTab").tabs("option", {active: 0});
 	var searchOpt=this.makeFormArgs('#searchFcltyRepairSttusInqireForm');
 	this.$('#fcltyRepairSttusInqireList').flexOptions({params:searchOpt}).flexReload();
@@ -181,10 +137,15 @@ GamFcltyRepairSttusInqireModule.prototype.loadData = function(){
 };
 
 
+<%
+/**
+ * @FUNCTION NAME : loadDetail
+ * @DESCRIPTION   : DATA LOAD (DETAIL)
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyRepairSttusInqireModule.prototype.loadDetail = function(){
-	
 	var row = this.$('#fcltyRepairSttusInqireList').selectedRows();
-	
 	if(row.length==0) {
 		alert('선택된 항목이 없습니다.');
 		this.$("#fcltyRepairSttusInqireListTab").tabs("option", {active: 0});
@@ -192,7 +153,6 @@ GamFcltyRepairSttusInqireModule.prototype.loadDetail = function(){
 	}
 	
 	row = row[0];
-	
 	var searchVO = [
 	                { name: 'fcltsJobSe', value: row['fcltsJobSe'] },
 	                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
@@ -204,19 +164,14 @@ GamFcltyRepairSttusInqireModule.prototype.loadDetail = function(){
 		if(result.resultCode == "0"){
 			
 			module._gamObjFcltsDetailFormValues = result.result;
-			
 			module.makeDivValues('#fcltyRepairSttusInqireListVO', result.result);
 			
 			// tabs3 그리드 리로드
 			module.makeDivValues('#gamObjFcltsDetailForm',result.result);
 			module.$('#flawRprSttusObjFcltsF').flexOptions({params:searchVO}).flexReload();
-			// tabs4 그리드 리로드
-			module.makeDivValues('#gamExamUsrDetailForm',result.result);
-			module.$('#flawExamUsrSttusF').flexOptions({params:searchVO}).flexReload();
-			// tabs5 항목 데이타 로딩/ 그리드 리로드
-			module.makeDivValues('#fcltyRepairSttusInqireFileForm', {});
-			module.$("#previewImage").attr("src", "");
-			module.$('#fcltyRepairSttusFileList').flexOptions({params:searchVO}).flexReload();
+			// 첨부파일리스트
+			module.fillAtchFileList(searchVO);
+			
 		}else{
 			module.$("#fcltyRepairSttusInqireListTab").tabs("option", {active: 0});
 		}
@@ -225,52 +180,133 @@ GamFcltyRepairSttusInqireModule.prototype.loadDetail = function(){
 };
 
 
+<%
+/**
+ * @FUNCTION NAME : fillAtchFileList
+ * @DESCRIPTION   : 첨부파일 리스트를 select element에 채워넣기.
+ * @PARAMETER     : 
+ *   1. searchVO
+ *     1-1. fcltsJobSe : 시설물업무구분
+ *     1-2. fcltsMngGroupNo : 시설물 관리그룹번호
+ *     1-3. mntnRprSeq : 유지보수 순번
+**/
+%>
+GamFcltyRepairSttusInqireModule.prototype.fillAtchFileList = function(searchVO) {
+	this.doAction('/fcltyMng/selectFcltyRepairSttusFileList.do', searchVO, function(module, result) {
+		if(result.resultCode == "0"){
+			module.$('#fcltyRepairFileList option').remove();
+			module.$('#fcltyRepairFileList').append('<option value="">선택</option>');
+			$.each(result.resultList, function(){
+				module.$('#fcltyRepairFileList').append('<option value="' + this.atchFileNmPhysicl + '">' + this.atchFileNmLogic + '</option>');
+			});
+		}else{
+			module.$("#fcltyRepairMngListTab").tabs("option", {active: 0});
+		}
+    });
+};
+
+
+<%
+/**
+ * @FUNCTION NAME : imgPreview
+ * @DESCRIPTION   : 선택한 첨부파일이 이미지이면 미리보기 보여주는 함수
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyRepairSttusInqireModule.prototype.imgPreview = function(){
+
+	var selImg = this.$('#fcltyRepairFileList').val();
+	if(selImg) {
+		// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
+		var ext = selImg.substring(selImg.lastIndexOf(".")+1).toLowerCase();
+
+		if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
+			this.$('#previewHidden').append('<div id="'+this.getId("previewDialog")+'"><img id="'+this.getId("previewImage")+'" src=""/></div>');
+			var imgURL = this.getPfPhotoUrl(selImg);
+			this.$("#previewImage").attr("src", imgURL);
+			
+			this.$("#previewImage").bind('load', {module: this},function(event){
+				event.data.module.$('#previewDialog').dialog({
+					modal: true,
+					maxWidth: 800,
+					maxHeight: 600,
+					resizable: false,
+					draggable: true,
+					width: 'auto',
+					title: '이미지미리보기',
+					buttons:[{text:"close", click: function() { $(this).dialog('close'); }}]
+				});
+			});   
+			
+		}else{
+			this.$("#previewImage").removeAttr("src");
+			alert('미리보기는 이미지파일만 가능합니다.');
+		}
+	}else{
+		alert('미리보기할 파일을 선택하세요.');
+	}
+	
+};
+
+<%
+/**
+ * @FUNCTION NAME : downloadFileData
+ * @DESCRIPTION   : 파일다운로드 함수
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyRepairSttusInqireModule.prototype.downloadFileData = function() {
-	var selectRow = this.$('#fcltyRepairSttusFileList').selectedRows();
-	if(selectRow.length > 0) {
-		var row=selectRow[0];
-		this.downPfPhoto(row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
+	var selectFilePhysicl = this.$('#fcltyRepairFileList').val();
+	var selectFileLogic = this.$('#fcltyRepairFileList').find('option:selected').text();
+
+	if(selectFilePhysicl) {
+		this.downPfPhoto(selectFilePhysicl, selectFileLogic);
+	}else{
+		alert('다운로드할 파일을 선택하세요.');
 	}
 };
 
 
+<%
+/**
+ * @FUNCTION NAME : fillTitleData
+ * @DESCRIPTION   : 대상시설물 탭에 상단 내용 채우는 함수
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyRepairSttusInqireModule.prototype.fillTitleData = function() {
-	
-	var changData = this._gamObjFcltsDetailFormValues;
-	
+	var changData = _gamObjFcltsDetailFormValues;
 	this.makeDivValues('#gamObjFcltsDetailForm',changData);
-	this.makeDivValues('#gamExamUsrDetailForm',changData);
 	
 };
 
 
+<%
+/**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 그리드리스트 다운로드 함수
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyRepairSttusInqireModule.prototype.downloadExcel = function(buttonId) {
-
-	var gridRowCount = 0;
-	switch (buttonId) {
-		case 'btnExcelDownload':
-			gridRowCount = this.$("#fcltyRepairSttusInqireList").flexRowCount();
-			break;
-		default:
-			return;
-	}
-	if (gridRowCount <= 0) {
-		alert("조회된 자료가 없습니다.");
+	var rowCount = this.$('#fcltyRepairSttusInqireList').flexRowCount();
+	if (rowCount <= 0) {
+		alert('조회된 자료가 없습니다.');
 		return;
 	}
-	switch (buttonId) {
-		case 'btnExcelDownload':
-			this.$('#fcltyRepairSttusInqireList').flexExcelDown('/fcltyMng/selectFcltyRepairInqireListExcel.do');
-			break;
-	}
+	this.$('#fcltyRepairSttusInqireList').flexExcelDown('/fcltyMng/selectFcltyRepairInqireListExcel.do');
 
 };
 
 
-
+<%
 /**
- * 정의 된 버튼 클릭 시
- */
+ * @FUNCTION NAME : onButtonClick
+ * @DESCRIPTION   : BUTTON CLICK EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
  GamFcltyRepairSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 
 	switch(buttonId) {
@@ -278,6 +314,11 @@ GamFcltyRepairSttusInqireModule.prototype.downloadExcel = function(buttonId) {
 		// 엑셀다운로드
 		case "btnExcelDownload":
 			this.downloadExcel(buttonId);
+		break;
+		
+		// 이미지미리보기
+		case "btnPreviewFile":
+			this.imgPreview();
 		break;
 		
 		// 파일다운로드
@@ -289,6 +330,15 @@ GamFcltyRepairSttusInqireModule.prototype.downloadExcel = function(buttonId) {
 };
 
 
+<%
+/**
+ * @FUNCTION NAME : onTabChange
+ * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
+ * @PARAMETER     :
+ *   1. newTabId - NEW TAB ID
+ *   2. oldTabId - OLD TAB ID
+**/
+%>
 GamFcltyRepairSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	if(oldTabId == 'tabs1') {
 		this.loadDetail();
@@ -306,15 +356,6 @@ GamFcltyRepairSttusInqireModule.prototype.onTabChange = function(newTabId, oldTa
 		case "tabs3":
 			// tabs2에서 수정사항발생시 반영 
 			this.fillTitleData();
-		break;
-		
-		case "tabs4":
-			// tabs2에서 수정사항발생시 반영 
-			this.fillTitleData();
-		break;
-		
-		case "tabs5":
-
 		break;
 	}
 	
@@ -371,17 +412,12 @@ var module_instance = new GamFcltyRepairSttusInqireModule();
 		</div>
 	</div>
 
-
-
-
 	<div class="emdPanel fillHeight">
 		<div id="fcltyRepairSttusInqireListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">하자보수내역 목록</a></li>
 				<li><a href="#tabs2" class="emdTab">하자보수내역 상세</a></li>
 				<li><a href="#tabs3" class="emdTab">하자보수대상시설물</a></li>
-				<li><a href="#tabs4" class="emdTab">하자검사자</a></li>
-				<li><a href="#tabs5" class="emdTab">하자보수 첨부파일</a></li>
 			</ul>
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
@@ -392,7 +428,7 @@ var module_instance = new GamFcltyRepairSttusInqireModule();
 							<th>자료수</th>
 							<td><input type="text" id="totalCount" style="width:250px;text-align:right;"></td>
 							<td style="text-align:right;">
-								<button id="btnExcelDownload">엑셀 다운로드</button>
+								<button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
 							</td>
 						</tr>
 					</table>
@@ -465,6 +501,10 @@ var module_instance = new GamFcltyRepairSttusInqireModule();
 							<td colspan="7"><span id="rm" title="비고"></span></td>
 						</tr>
 					</table>
+				<div class="emdControlPanel">
+					<button data-role="printPage" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairCheckReportPrint.do'>하자검사조서인쇄</button>
+					<button data-role="printPage" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairExpireCheckReportPrint.do'>하자만료검사조서인쇄</button>
+				</div>
 				</form>
 			</div>
 			
@@ -508,64 +548,23 @@ var module_instance = new GamFcltyRepairSttusInqireModule();
 						</tbody>
 					</table>
 				</div>
-				<table id="flawRprSttusObjFcltsF" style="display:none" class="fillHeight"></table>
-			</div>
-			
-			<!-- 하자보수 검사자 -->
-			<div id="tabs4" class="emdTabPage" style="overflow: scroll;">
-				<table class="summaryPanel"  style="width:100%;">
+				<table id="flawRprSttusObjFcltsF" style="display:none"></table>
+				<table class="summaryPanel" style="width:100%;">
 					<tbody>
 						<tr>
-							<th style="font-weight:bold;">하자보수 상세내역</th>
+							<th height="18" class="required_text">첨부파일</th>
+							<td>
+								<select id="fcltyRepairFileList">
+									<option value="">선택</option>
+								</select> 
+							</td>
+							<td colspan="6" style="text-align:right;">
+								<button id="btnPreviewFile">첨부파일 미리보기</button> 
+								<div id="previewHidden" style="display: none;"></div>
+								<button id="btnDownloadFile">다운로드</button> 
+							</td>
 						</tr>
 					</tbody>
-				</table>
-				<form id="gamExamUsrDetailForm">
-					<table class="detailPanel"  style="width:100%;">
-						<tbody>
-							<tr>
-								<th>시설물관리그룹</th>
-								<td><span id="fcltsMngGoupNoNm"></span></td>
-								<th>업무구분</th>
-								<td><span id="fcltsJobSeNm"></span></td>
-								<th>하자검사구분</th>
-								<td><span id="flawExamSeNm"></span></td>
-							</tr>
-							<tr>
-								<th>계약번호</th>
-								<td><span id="ctrtNo"></span></td>
-								<th>계약명</th>
-								<td><span id="flawRprNm"></span></td>
-								<th>도급업체명</th>
-								<td><span id="flawRprEntrpsNm"></span></td>
-							</tr>
-						</tbody>
-					</table>
-				</form>
-				<table class="summaryPanel"  style="width:100%;">
-					<tbody>
-						<tr>
-							<th style="font-weight:bold;">하자 검사자</th>
-						</tr>
-					</tbody>
-				</table>
-				<table id="flawExamUsrSttusF" style="display:none" class="fillHeight"></table>
-			</div>
-
-			<!-- 하자보수내역 첨부파일 -->
-			<div id="tabs5" class="emdTabPage" style="overflow: scroll;">
-				<table>
-					<tr>
-						<td width="50%">
-							<table id="fcltyRepairSttusFileList" style="display:none" class="fillHeight"></table>
-							<div class="emdControlPanel">
-								<button id="btnDownloadFile">다운로드</button>
-							</div>
-						</td>
-						<td style="text-align:center;vertical-align:middle;">
-							<img id="previewImage" style="border: 1px solid #000; max-width:300px; max-height: 300px" src="">
-						</td>
-					</tr>
 				</table>
 			</div>
 		</div>

@@ -86,31 +86,7 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 	public int selectFlawRprObjFcltsFListTotCnt(GamFcltyRepairMngVO vo) throws Exception {
 		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyRepairMngDao.selectFlawRprObjFcltsFListTotCnt_S", vo);
 	}
-	
-	
-	
-	/**
-	 * 하자보수 검사자 조회
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */
-	public List<?> selectFlawExamUsrFList(GamFcltyRepairMngVO vo) throws Exception {
-		return list("gamFcltyRepairMngDao.selectFlawExamUsrFList_D", vo);
-	}
-	
-	
-	/**
-	 * 하자보수 검사자 총갯수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	public int selectFlawExamUsrFListTotCnt(GamFcltyRepairMngVO vo) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyRepairMngDao.selectFlawExamUsrFListTotCnt_S", vo);
-	}
-	
-	
+
 	/**
 	 * 하자보수 첨부파일 조회
 	 * @param vo
@@ -119,17 +95,6 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 	 */
 	public List<?> selectFcltyRepairFileList(GamFcltyRepairMngVO vo) throws Exception {
 		return list("gamFcltyRepairMngDao.selectFcltyRepairFileList_D", vo);
-	}
-	
-	
-	/**
-	 * 하자보수 첨부파일 총갯수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	public int selectFcltyRepairFileListTotCnt(GamFcltyRepairMngVO vo) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyRepairMngDao.selectFcltyRepairFileListTotCnt_S", vo);
 	}
 	
 	
@@ -177,6 +142,16 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 	}
 	
 	/**
+	 * 하자보수 하위 대상시설물 입력
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	public void insertFlawRprObjFcltsF(Map<?,?> vo) throws Exception{
+		insert("gamFcltyRepairMngDao.insertFlawRprObjFcltsF", vo);
+	}
+	
+	/**
 	 * 하자보수내역 하위 대상시설물 전체 삭제
 	 * @param map
 	 * @return 
@@ -187,13 +162,13 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 하자보수내역 하위 검사자 전체 삭제
+	 * 하자보수내역 하위 첨부파일 입력
 	 * @param map
 	 * @return 
 	 * @throws Exception
 	 */
-	public void deleteFlawExamUsrF(Map<?,?> vo) throws Exception{
-		delete("gamFcltyRepairMngDao.deleteFlawExamUsrF", vo);
+	public void insertFcltyRepairFile(Map<?,?> vo) throws Exception{
+		insert("gamFcltyRepairMngDao.insertFcltyRepairFile", vo);
 	}
 	
 	
@@ -217,31 +192,7 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 	public List<?> mergeFlawRprObjFcltsF(Map<String, Object> mergeList) throws Exception{
 		return this.merge(mergeList, "gamFcltyRepairMngDao.insertFlawRprObjFcltsF", "gamFcltyRepairMngDao.updateFlawRprObjFcltsF", "gamFcltyRepairMngDao.deleteFlawRprObjFcltsF");
 	}
-	
-	
-	
-	
-	/**
-	 * 하자보수 검사자 데이타 적용
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	public List<?> mergeFlawExamUsrF(Map<String, Object> mergeList) throws Exception{
-		return this.merge(mergeList, "gamFcltyRepairMngDao.insertFlawExamUsrF", "gamFcltyRepairMngDao.updateFlawExamUsrF", "gamFcltyRepairMngDao.deleteFlawExamUsrF");
-	}
-	
-	
-	
-	/**
-	 * 하자보수 첨부파일 적용
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	public List<?> mergeFcltyRepairFile(Map<String, Object> mergeList) throws Exception{
-		return this.merge(mergeList, "gamFcltyRepairMngDao.insertFcltyRepairFile", "gamFcltyRepairMngDao.updateFcltyRepairFile", "gamFcltyRepairMngDao.deleteFcltyRepairFile");
-	}
+
 	
 	
 	/**

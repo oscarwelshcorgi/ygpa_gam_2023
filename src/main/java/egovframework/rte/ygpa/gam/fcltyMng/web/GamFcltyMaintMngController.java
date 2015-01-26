@@ -3,7 +3,6 @@
  */
 package egovframework.rte.ygpa.gam.fcltyMng.web;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,7 +77,7 @@ public class GamFcltyMaintMngController {
 	@RequestMapping(value="/fcltyMng/gamFcltyMaintMng.do")
     public String indexFcltyMaintMng(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
-    	return "/ygpa/gam/fcltyMng/GamFcltyMaintMng_";
+    	return "/ygpa/gam/fcltyMng/GamFcltyMaintMng";
     }
 	
 	
@@ -181,28 +180,12 @@ public class GamFcltyMaintMngController {
         	return map;
     	}
     	// 내역 조회
-    	/** pageing */
-    	PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
-		List<?> mntnRprObjFcltsFList = gamFcltyMaintMngService.selectMntnRprObjFcltsFList(searchVO);
-
-        int totCnt = gamFcltyMaintMngService.selectMntnRprObjFcltsFListTotCnt(searchVO);
-
-        paginationInfo.setTotalRecordCount(totCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+		List mntnRprObjFcltsFList = gamFcltyMaintMngService.selectMntnRprObjFcltsFList(searchVO);
 
 		map.put("resultCode", 0);			// return ok
-    	map.put("totalCount", totCnt);
     	map.put("resultList", mntnRprObjFcltsFList);
-    	map.put("searchOption", searchVO);
 
     	return map;
     }
@@ -228,28 +211,12 @@ public class GamFcltyMaintMngController {
         	return map;
     	}
     	// 내역 조회
-    	/** pageing */
-    	PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List Data */
 		List fcltyMaintFileList = gamFcltyMaintMngService.selectFcltyMaintFileList(searchVO);
 
-        int totCnt = gamFcltyMaintMngService.selectFcltyMaintFileListTotCnt(searchVO);
-
-        paginationInfo.setTotalRecordCount(totCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-
 		map.put("resultCode", 0);			// return ok
-    	map.put("totalCount", totCnt);
     	map.put("resultList", fcltyMaintFileList);
-    	map.put("searchOption", searchVO);
 
     	return map;
     }
@@ -264,10 +231,13 @@ public class GamFcltyMaintMngController {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/insertFcltyMaintMng.do")
     public @ResponseBody Map insertFcltyMaintMng(@RequestParam Map fcltyMaintItem) throws Exception {
-
+		
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map map = new HashMap();
-    	int mntnRprSeq;
-    	String fcltsMngGroupNo,fcltsJobSe;
+    	ObjectMapper mapper = new ObjectMapper();
+    	List<HashMap<String,String>> insertObjList=null;
+    	List<HashMap<String,String>> insertFileList=null;
+    	Map insertMntnData = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -275,28 +245,23 @@ public class GamFcltyMaintMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-
-    	fcltyMaintItem.put("regUsr",user.getId());
     	
-    	// 유지보수순번 생성 및 파라메타 전달
-    	mntnRprSeq = gamFcltyMaintMngService.selectNextMntnRprSeq(fcltyMaintItem);
-    	fcltsMngGroupNo = (String) fcltyMaintItem.get("fcltsMngGroupNo");
-    	fcltsJobSe = (String) fcltyMaintItem.get("fcltsJobSe");
-    	
-    	
-    	fcltyMaintItem.put("mntnRprSeq",mntnRprSeq);
+    	insertMntnData = mapper.readValue((String)fcltyMaintItem.get("saveFcltyMaintMngVO"),
+    		    new TypeReference<HashMap<String,String>>(){});
 
+    	insertObjList = mapper.readValue((String)fcltyMaintItem.get("insertMntnObjList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+    	
+    	insertFileList = mapper.readValue((String)fcltyMaintItem.get("insertMntnFileList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+    	insertMntnData.put("regUsr",user.getId());
+    	
     	try {
-
-    		// 유지보수내역 입력
-    		gamFcltyMaintMngService.insertFcltyMaintMng(fcltyMaintItem);
+    		// 유지보수내역 저장
+    		gamFcltyMaintMngService.insertFcltyMaintMng(insertMntnData, insertObjList, insertFileList);
 
     		map.put("resultCode", 0);			// return ok
-    		map.put("fcltsMngGroupNo", fcltsMngGroupNo);
-    		map.put("fcltsJobSe", fcltsJobSe);
-    		map.put("mntnRprSeq", mntnRprSeq);
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
             
 		} catch (Exception e) {
@@ -318,9 +283,12 @@ public class GamFcltyMaintMngController {
 	@RequestMapping(value="/fcltyMng/updateFcltyMaintMng.do")
     public @ResponseBody Map updateFcltyMaintMng(@RequestParam Map fcltyMaintItem) throws Exception {
 
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map map = new HashMap();
-    	int mntnRprSeq;
-    	String fcltsMngGroupNo,fcltsJobSe;
+    	ObjectMapper mapper = new ObjectMapper();
+    	List<HashMap<String,String>> insertObjList=null;
+    	List<HashMap<String,String>> insertFileList=null;
+    	Map updateMntnData = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -328,25 +296,25 @@ public class GamFcltyMaintMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-
-    	fcltyMaintItem.put("updUsr",user.getId());
     	
-    	// 유지보수순번 생성 및 파라메타 전달
-    	mntnRprSeq = Integer.parseInt((String) fcltyMaintItem.get("mntnRprSeq"));
-    	fcltsMngGroupNo = (String) fcltyMaintItem.get("fcltsMngGroupNo");
-    	fcltsJobSe = (String) fcltyMaintItem.get("fcltsJobSe");
+    	updateMntnData = mapper.readValue((String)fcltyMaintItem.get("saveFcltyMaintMngVO"),
+    		    new TypeReference<HashMap<String,String>>(){});
+
+    	insertObjList = mapper.readValue((String)fcltyMaintItem.get("insertMntnObjList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+    	
+    	insertFileList = mapper.readValue((String)fcltyMaintItem.get("insertMntnFileList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+    	fcltyMaintItem.put("regUsr",user.getId());
+    	
 
     	try {
 
     		// 유지보수내역 입력
-    		gamFcltyMaintMngService.updateFcltyMaintMng(fcltyMaintItem);
+    		gamFcltyMaintMngService.updateFcltyMaintMng(updateMntnData, insertObjList, insertFileList);
 
     		map.put("resultCode", 0);			// return ok
-    		map.put("fcltsMngGroupNo", fcltsMngGroupNo);
-    		map.put("fcltsJobSe", fcltsJobSe);
-    		map.put("mntnRprSeq", mntnRprSeq);
             map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
             
 		} catch (Exception e) {
@@ -394,124 +362,6 @@ public class GamFcltyMaintMngController {
       	return map;
     }
 	
-	
-	/**
-	 * 유지보수 대상시설물 데이타 적용
-	 * @param Map
-	 * @return map
-	 * @throws Exception
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping("/fcltyMng/mergeMntnRprObjFcltsF.do")
-    public @ResponseBody Map mergeMntnRprObjFcltsF(@RequestParam Map mntnRprObjFcltsFList)throws Exception {
-
-    	LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		Map<String,Object> map = new HashMap<String,Object>();
-		Map<String, String> userMap = new HashMap<String, String>();
-		ObjectMapper mapper = new ObjectMapper();
-		
-    	List<HashMap<String,String>> insertList=null;
-    	List<HashMap<String,String>> updateList=null;
-    	List<HashMap<String,String>> deleteList=null;
-    	List<Map<String,String>> userList=null;
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-    	
-    	insertList = mapper.readValue((String)mntnRprObjFcltsFList.get("insertList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		updateList = mapper.readValue((String)mntnRprObjFcltsFList.get("updateList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		deleteList = mapper.readValue((String)mntnRprObjFcltsFList.get("deleteList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		userList = new ArrayList();
-		userMap.put("id",  loginVO.getId());
-		userList.add(userMap);
-
-		Map<String,Object> mergeMap = new HashMap<String,Object>();
-
-		insertList.addAll(updateList);
-
-		mergeMap.put("CU", insertList);
-		mergeMap.put("D", deleteList);
-		mergeMap.put("USER", userList);
-
-    	try {
-    		
-    		gamFcltyMaintMngService.mergeMntnRprObjFcltsF(mergeMap);
-    		
-    		map.put("resultCode", 0);			// return ok
-    		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-		} catch (Exception e) {
-			map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
-		}
-
-    	return map;
-    }
-	
-	/**
-	 * 유지보수 첨부파일 데이타 적용
-	 * @param Map
-	 * @return map
-	 * @throws Exception
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/fcltyMng/mergeFcltyMaintFile.do")
-	public @ResponseBody Map mergeFcltyMaintFile(@RequestParam Map fcltyMaintFileList) throws Exception {
-
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		Map<String,Object> map = new HashMap<String,Object>();
-		Map<String, String> userMap = new HashMap<String, String>();
-		ObjectMapper mapper = new ObjectMapper();
-
-    	List<HashMap<String,String>> insertList=null;
-    	List<HashMap<String,String>> updateList=null;
-    	List<HashMap<String,String>> deleteList=null;
-    	List<Map<String,String>> userList=null;
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-
-		insertList = mapper.readValue((String)fcltyMaintFileList.get("insertList"),
-		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		updateList = mapper.readValue((String)fcltyMaintFileList.get("updateList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		deleteList = mapper.readValue((String)fcltyMaintFileList.get("deleteList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		userList = new ArrayList();
-		userMap.put("id",  loginVO.getId());
-		userList.add(userMap);
-
-		Map<String,Object> mergeMap = new HashMap<String,Object>();
-
-		insertList.addAll(updateList);
-
-		mergeMap.put("CU", insertList);
-		mergeMap.put("D", deleteList);
-		mergeMap.put("USER", userList);
-
-		gamFcltyMaintMngService.mergeFcltyMaintFile(mergeMap);
-
-        map.put("resultCode", 0);
-		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
-
-		return map;
-	}
 	
 	/**
 	 * 시설물 유지보수관리 리스트를 엑셀로 다운로드한다.

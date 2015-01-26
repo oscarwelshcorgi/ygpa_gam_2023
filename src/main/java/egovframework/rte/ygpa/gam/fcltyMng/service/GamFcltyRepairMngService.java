@@ -74,24 +74,6 @@ public interface GamFcltyRepairMngService {
 	
 	
 	/**
-	 * 하자보수 검사자 조회
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */
-	List<?> selectFlawExamUsrFList(GamFcltyRepairMngVO vo) throws Exception;
-	
-	
-	/**
-	 * 하자보수 검사자 총갯수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	int selectFlawExamUsrFListTotCnt(GamFcltyRepairMngVO vo) throws Exception;
-	
-	
-	/**
 	 * 하자보수 첨부파일 조회
 	 * @param vo
 	 * @return list
@@ -101,30 +83,13 @@ public interface GamFcltyRepairMngService {
 	
 	
 	/**
-	 * 하자보수 첨부파일 총갯수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	int selectFcltyRepairFileListTotCnt(GamFcltyRepairMngVO vo) throws Exception;
-	
-	
-	/**
-	 * 하자보수 순번
-	 * @param map
-	 * @return String
-	 * @throws Exception
-	 */
-	int selectNextMntnRprSeq(Map<?,?> vo) throws Exception;
-	
-	
-	/**
 	 * 하자보수내역 입력
 	 * @param map
 	 * @return 
 	 * @throws Exception
 	 */
-	void insertFcltyRepairMng(Map<?,?> vo) throws Exception;
+	@SuppressWarnings({ "rawtypes" })
+	void insertFcltyRepairMng(Map insertRprData, List insertObjList, List insertFileList) throws Exception;
 	
 	
 	/**
@@ -133,7 +98,8 @@ public interface GamFcltyRepairMngService {
 	 * @return 
 	 * @throws Exception
 	 */
-	void updateFcltyRepairMng(Map<?,?> vo) throws Exception;
+	@SuppressWarnings({ "rawtypes" })
+	void updateFcltyRepairMng(Map updateRprData, Map updateObj, List updateFileList) throws Exception;
 	
 	
 	/**
@@ -143,39 +109,7 @@ public interface GamFcltyRepairMngService {
 	 * @throws Exception
 	 */
 	void deleteFcltyRepairMng(Map<?,?> vo) throws Exception;
-	
-	
 
-	
-	
-	
-	/**
-	 * 하자보수 대상시설물 데이타 적용
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	List<?> mergeFlawRprObjFcltsF(Map<String, Object> mergeList) throws Exception;
-	
-	
-	
-	/**
-	 * 하자보수 검사자 데이타 적용
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	List<?> mergeFlawExamUsrF(Map<String, Object> mergeList) throws Exception;
-	
-	
-	
-	/**
-	 * 하자보수 첨부파일 적용
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	List<?> mergeFcltyRepairFile(Map<String, Object> mergeList) throws Exception;
 	
 	
 	/**

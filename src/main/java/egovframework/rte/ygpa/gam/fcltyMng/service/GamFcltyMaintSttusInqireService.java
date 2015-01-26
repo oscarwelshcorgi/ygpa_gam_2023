@@ -63,30 +63,12 @@ public interface GamFcltyMaintSttusInqireService {
 	
 	
 	/**
-	 * 유지보수 대상시설물 총갯수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	int selectMntnSttusRprObjFcltsFListTotCnt(GamFcltyMaintSttusInqireVO vo) throws Exception;
-	
-	
-	/**
 	 * 유지보수 첨부파일 조회
 	 * @param vo
 	 * @return list
 	 * @throws Exception
 	 */
 	List<?> selectFcltyMaintSttusFileList(GamFcltyMaintSttusInqireVO vo) throws Exception;
-	
-	
-	/**
-	 * 유지보수 첨부파일 총갯수
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */
-	int selectFcltyMaintSttusFileListTotCnt(GamFcltyMaintSttusInqireVO vo) throws Exception;
 	
 
 }
