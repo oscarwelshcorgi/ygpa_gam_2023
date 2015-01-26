@@ -904,11 +904,11 @@ var module_instance = new GamGrHseEmitQyMngModule();
 							</tr>
 							<tr>
 								<th style="width:10%; height:28;">에너지총발열량</th>
-								<td><input type="text" size="25" id="energyTotalCalVal" disabled></td>
+								<td><input type="text" size="25" id="energyTotalCalVal" class="ygpaNumber" data-decimal-point="2" disabled></td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:28;">에너지순발열량</th>
-								<td><input type="text" size="25" id="energyNetCalVal" disabled></td>
+								<td><input type="text" size="25" id="energyNetCalVal" class="ygpaNumber" data-decimal-point="2" disabled></td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:28;">온실가스　단위</th>
@@ -916,19 +916,19 @@ var module_instance = new GamGrHseEmitQyMngModule();
 							</tr>
 							<tr>
 								<th style="width:10%; height:28;">온실가스　계수</th>
-								<td><input type="text" size="25" id="grHseCoef" disabled></td>
+								<td><input type="text" size="25" id="grHseCoef" class="ygpaNumber" data-decimal-point="4" disabled></td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:28;">사　　용　　량</th>
-								<td><input type="text" size="25"  class="ygpaNumber" id="usageQy" maxlength="16"/></td>
+								<td><input type="text" size="25" id="usageQy" class="ygpaNumber" data-decimal-point="2" maxlength="16"/></td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:28;">에너지　사용량</th>
-								<td><input type="text" size="25" class="ygpaNumber" id="energyUsageQy" maxlength="16"/></td>
+								<td><input type="text" size="25" id="energyUsageQy" class="ygpaNumber" data-decimal-point="2" maxlength="16"/></td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:28;">온실가스배출량</th>
-								<td><input type="text" size="25" class="ygpaNumber" id="grHseEmitQy" maxlength="16"/></td>
+								<td><input type="text" size="25" id="grHseEmitQy" class="ygpaNumber" data-decimal-point="2" maxlength="16"/></td>
 							</tr>
 						</table>
 					</form>

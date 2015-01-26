@@ -960,19 +960,19 @@ var module_instance = new GamElctyEquipCapaMngModule();
 							<tr>
 								<th style="width:10%; height:25;">설　비　용　량</th>
 								<td>
-									<input type="text" size="25" class="ygpaNumber" id="equipCapa" maxlength="13"/>
+									<input type="text" size="21" id="equipCapa" class="ygpaNumber" maxlength="13"/> kW
 								</td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:25;">계　약　용　량</th>
 								<td>
-									<input type="text" size="25" class="ygpaNumber" id="ctrtCapa" maxlength="13"/>
+									<input type="text" size="21" id="ctrtCapa" class="ygpaNumber" maxlength="13"/> kW
 								</td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:25;">사　용　전　압</th>
 								<td>
-									<input type="text" size="25" class="ygpaNumber" id="usageVolt" maxlength="9"/>
+									<input type="text" size="21" id="usageVolt" class="ygpaNumber" maxlength="9"/>  V
 								</td>
 							</tr>
 							<tr>

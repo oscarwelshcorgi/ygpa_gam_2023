@@ -753,11 +753,11 @@ var module_instance = new GamEnergyUsageMngModule();
 							</tr>
 							<tr>
 								<th style="width:10%; height:26;">에너지총발열량</th>
-								<td><input type="text" size="25" id="energyTotalCalVal" maxlength="9"/></td>
+								<td><input type="text" size="25" id="energyTotalCalVal" class="ygpaNumber" data-decimal-point="2" maxlength="9"/></td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:26;">에너지순발열량</th>
-								<td><input type="text" size="25" id="energyNetCalVal" maxlength="9"/></td>
+								<td><input type="text" size="25" id="energyNetCalVal" class="ygpaNumber" data-decimal-point="2" maxlength="9"/></td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:26;">온실가스　단위</th>
@@ -765,7 +765,7 @@ var module_instance = new GamEnergyUsageMngModule();
 							</tr>
 							<tr>
 								<th style="width:10%; height:26;">온실가스　계수</th>
-								<td><input type="text" size="25" id="grHseCoef" maxlength="9"/></td>
+								<td><input type="text" size="25" id="grHseCoef" class="ygpaNumber" data-decimal-point="4" maxlength="9"/></td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:26;">등　　록　　자</th>

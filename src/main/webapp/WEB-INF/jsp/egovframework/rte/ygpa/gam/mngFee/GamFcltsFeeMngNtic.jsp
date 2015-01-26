@@ -1873,23 +1873,23 @@ var module_instance = new GamFcltsFeeMngNticModule();
 								<th style="width:10%; height:18;">관리비　　제목</th>
 								<td colspan="3"><input type="text" size="93" id="mngFeeSj" disabled/></td>
 								<th style="width:10%; height:18;">사　용　면　적</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="usageAr" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="usageAr" disabled/> m<sup>2</sup></td>
                             </tr>
                             <tr>
 								<th style="width:10%; height:18;">시설관리용역비</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="mngFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="mngFee" disabled/> 원</td>
 								<th style="width:10%; height:18;">전　기　요　금</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="elctyFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="elctyFee" disabled/> 원</td>
 								<th style="width:10%; height:18;">상하수도　요금</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="waterFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="waterFee" disabled/> 원</td>
                             </tr>
                             <tr>
 								<th style="width:10%; height:18;">도시가스　요금</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="gasFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="gasFee" disabled/> 원</td>
 								<th style="width:10%; height:18;">환경개선부담금</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="envFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="envFee" disabled/> 원</td>
 								<th style="width:10%; height:18;">관리비　　합계</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="mngTotalFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="mngTotalFee" disabled/> 원</td>
                             </tr>
 						</table>
 						<table class="summaryPanel" style="width:100%;">
@@ -1932,15 +1932,15 @@ var module_instance = new GamFcltsFeeMngNticModule();
                             <tr>
 								<th style="width:10%; height:18;">사　　용　　료</th>
 								<td>
-									<input type="text" size="33" class="ygpaNumber" id="fee" disabled/>
+									<input type="text" size="30" class="ygpaNumber" id="fee" disabled/> 원
 								</td>
 								<th style="width:10%; height:18;">부　　가　　세</th>
 								<td>
-									<input type="text" size="33" class="ygpaNumber" id="vat" disabled/>
+									<input type="text" size="30" class="ygpaNumber" id="vat" disabled/> 원
 								</td>
 								<th style="width:10%; height:18;">고　지　금　액</th>
 								<td>
-									<input type="text" size="33" class="ygpaNumber" id="nticAmt" disabled/>
+									<input type="text" size="30" class="ygpaNumber" id="nticAmt" disabled/> 원
 								</td>
 							</tr>
 							<tr>
@@ -1969,11 +1969,11 @@ var module_instance = new GamFcltsFeeMngNticModule();
 									<input id="newDlySerNo" type="hidden"/>
 									<input type="text" size="9" id="arrrgNo" disabled>
 									<input type="text" size="10" class="ygpaNumber" id="arrrgTariff" disabled/>
-									<input type="text" size="10" class="ygpaNumber" id="arrrgPayDates" disabled/>
+									<input type="text" size="7" class="ygpaNumber" id="arrrgPayDates" disabled/> 일
 								</td>
 								<th style="width:10%; height:18;">연　체　금　액</th>
 								<td>
-									<input type="text" size="21" class="ygpaNumber" id="arrrgAmt" disabled/>
+									<input type="text" size="18" class="ygpaNumber" id="arrrgAmt" disabled/> 원
 									<input type="text" size="10" id="arrrgSttus" style="font-weight:bold; background:yellow; text-align:center;" disabled>
 								</td>
 								<th style="width:10%; height:18;">연　체　처　리</th>

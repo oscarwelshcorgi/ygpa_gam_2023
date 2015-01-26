@@ -774,7 +774,7 @@ var module_instance = new GamCarMngModule();
 							</tr>
 							<tr>
 								<th style="width:20%; height:18;">취　득　가　격</th>
-								<td><input type="text" size="46" id="acqPrce" maxlength="15"/></td>
+								<td><input type="text" size="43" id="acqPrce" class="ygpaNumber" maxlength="15"/> 원</td>
 								<th style="width:20%; height:18;">검사 유효 기간</th>
 								<td>
 									<input type="text" size="17" id="examValidBeginDt" class="emdcal"/>

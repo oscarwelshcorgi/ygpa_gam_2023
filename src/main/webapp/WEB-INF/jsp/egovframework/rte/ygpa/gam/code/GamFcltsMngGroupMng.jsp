@@ -1111,26 +1111,26 @@ var module_instance = new GamFcltsMngGroupMngModule();
 							<tr>
 								<th style="width:15%; height:20;">시설물 갯수</th>
 								<td colspan="3">
-									건축 : <input type="text" class="ygpaNumber" id="archFcltsCnt" size="9" maxlength="6"/>
+									건축 : <input type="text" class="ygpaNumber" id="archFcltsCnt" size="6" maxlength="6"/> 개
 									&nbsp; / &nbsp;
-									토목 : <input type="text" class="ygpaNumber" id="cvlEngFcltsCnt" size="9" maxlength="6"/>
+									토목 : <input type="text" class="ygpaNumber" id="cvlEngFcltsCnt" size="6" maxlength="6"/> 개
 									&nbsp; / &nbsp;
-									기계 : <input type="text" class="ygpaNumber" id="mechFcltsCnt" size="9" maxlength="6"/>
+									기계 : <input type="text" class="ygpaNumber" id="mechFcltsCnt" size="6" maxlength="6"/> 개
 									&nbsp; / &nbsp;
-									전기 : <input type="text" class="ygpaNumber" id="elctyFcltsCnt" size="9" maxlength="6"/>
+									전기 : <input type="text" class="ygpaNumber" id="elctyFcltsCnt" size="6" maxlength="6"/> 개
 									&nbsp; / &nbsp;
-									정보통신 : <input type="text" class="ygpaNumber" id="infoCommFcltsCnt" size="9" maxlength="6"/>
+									정보통신 : <input type="text" class="ygpaNumber" id="infoCommFcltsCnt" size="6" maxlength="6"/> 개
 									&nbsp; / &nbsp;
-									기타 : <input type="text" class="ygpaNumber" id="etcFcltsCnt" size="9" maxlength="6"/>
+									기타 : <input type="text" class="ygpaNumber" id="etcFcltsCnt" size="6" maxlength="6"/> 개
 								</td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:20;">시공자 / 시공금액</th>
 								<td>
-									<input type="text" id="cnstrtr" size="32" maxlength="60"/>
-									<input type="text" class="ygpaNumber" id="cnstrctAmt" size="15" maxlength="20"/>
+									<input type="text" id="cnstrtr" size="30" maxlength="60"/>
+									<input type="text" class="ygpaNumber" id="cnstrctAmt" size="14" maxlength="20"/> 원
 								</td>
-								<th style="width:15%; height:20;">공사기간 / 시공금액</th>
+								<th style="width:15%; height:20;">공　사　기　간</th>
 								<td>
 									<input type="text" size="18" id="cnstBeginDt" class="emdcal"/>
 									&nbsp; ~ &nbsp;

@@ -848,54 +848,54 @@ var module_instance = new GamCarRefuelSttusMngModule();
 						<table class="detailPanel" style="width:100%">
 							<tr>
 								<th style="width:15%; height:23;">1월 　　주유량</th>
-								<td style="width:15%;"><input type="text" size="20" id="m1" class="ygpaNumber"></td>
+								<td style="width:15%;"><input type="text" size="16" id="m1" class="ygpaNumber"> 리터</td>
 								<td rowspan="15" style="padding-left:4px;">
 									<div id="fuelChart" style="width:670px;height:370px;border:1px solid #A4BED4;"></div>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:23;">2월 　　주유량</th>
-								<td><input type="text" size="20" id="m2" class="ygpaNumber"></td>
+								<td><input type="text" size="16" id="m2" class="ygpaNumber"> 리터</td>
 							</tr>
 							<tr>
 								<th width="15%" height="23">3월 　　주유량</th>
-								<td><input type="text" size="20" id="m3" class="ygpaNumber"></td>
+								<td><input type="text" size="16" id="m3" class="ygpaNumber"> 리터</td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:23;">4월 　　주유량</th>
-								<td><input type="text" size="20" id="m4" class="ygpaNumber"></td>
+								<td><input type="text" size="16" id="m4" class="ygpaNumber"> 리터</td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:23;">5월 　　주유량</th>
-								<td><input type="text" size="20" id="m5" class="ygpaNumber"></td>
+								<td><input type="text" size="16" id="m5" class="ygpaNumber"> 리터</td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:23;">6월 　　주유량</th>
-								<td><input type="text" size="20" id="m6" class="ygpaNumber"></td>
+								<td><input type="text" size="16" id="m6" class="ygpaNumber"> 리터</td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:23;">7월 　　주유량</th>
-								<td><input type="text" size="20" id="m7" class="ygpaNumber"></td>
+								<td><input type="text" size="16" id="m7" class="ygpaNumber"> 리터</td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:23;">8월 　　주유량</th>
-								<td><input type="text" size="20" id="m8" class="ygpaNumber"></td>
+								<td><input type="text" size="16" id="m8" class="ygpaNumber"> 리터</td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:23;">9월 　　주유량</th>
-								<td><input type="text" size="20" id="m9" class="ygpaNumber"></td>
+								<td><input type="text" size="16" id="m9" class="ygpaNumber"> 리터</td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:23;">10월　　주유량</th>
-								<td><input type="text" size="20" id="m10" class="ygpaNumber"></td>
+								<td><input type="text" size="16" id="m10" class="ygpaNumber"> 리터</td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:23;">11월　　주유량</th>
-								<td><input type="text" size="20" id="m11" class="ygpaNumber"></td>
+								<td><input type="text" size="16" id="m11" class="ygpaNumber"> 리터</td>
 							</tr>
 							<tr>
 								<th style="width:15%; height:23;">12월　　주유량</th>
-								<td><input type="text" size="20" id="m12" class="ygpaNumber"></td>
+								<td><input type="text" size="16" id="m12" class="ygpaNumber"> 리터</td>
 							</tr>
                         </table>
 					</form>

@@ -1060,11 +1060,11 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 								</td>
 								<th width="10%" height="27px">기　초　금　액</th>
 								<td>
-									<input type="text" size="33" id="baseAmt" class="ygpaNumber" disabled/>
+									<input type="text" size="30" id="baseAmt" class="ygpaNumber" disabled/> 원
 								</td>
 								<th width="10%" height="27px">설　계　금　액</th>
 								<td>
-									<input type="text" size="33" id="planAmt" class="ygpaNumber" disabled/>
+									<input type="text" size="30" id="planAmt" class="ygpaNumber" disabled/> 원
 								</td>
 							</tr>
 							<tr>
@@ -1113,7 +1113,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 								</td>
 								<th width="10%" height="27px">낙　찰　금　액</th>
 								<td>
-									<input type="text" size="33" id="scsbidAmt" class="ygpaNumber" disabled/>
+									<input type="text" size="30" id="scsbidAmt" class="ygpaNumber" disabled/> 원
 								</td>
 								<th width="10%" height="27px">낙　　찰　　율</th>
 								<td>
@@ -1127,7 +1127,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 								</td>
 								<th width="10%" height="27px">계약 보증 금액</th>
 								<td>
-									<input type="text" size="33" id="ctrtGrntyAmt" class="ygpaNumber" disabled/>
+									<input type="text" size="30" id="ctrtGrntyAmt" class="ygpaNumber" disabled/> 원
 								</td>
 								<th width="10%" height="27px">계약 보증 방법</th>
 								<td>
@@ -1141,7 +1141,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 							<tr>
 								<th width="10%" height="27px">계　약　금　액</th>
 								<td>
-									<input type="text" size="33" id="ctrtAmt" class="ygpaNumber" disabled/>
+									<input type="text" size="30" id="ctrtAmt" class="ygpaNumber" disabled/> 원
 								</td>
 								<th width="10%" height="27px">계　약　기　간</th>
 								<td>
@@ -1156,7 +1156,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 							<tr>
 								<th width="10%" height="27px">예　정　금　액</th>
 								<td>
-									<input type="text" size="33" id="prmtAmt" class="ygpaNumber" disabled/>
+									<input type="text" size="30" id="prmtAmt" class="ygpaNumber" disabled/> 원
 								</td>
 								<th width="10%" height="27px">하　자　기　간</th>
 								<td>
@@ -1181,7 +1181,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 								</td>
 								<th width="10%" height="27px">이월 예산 금액</th>
 								<td>
-									<input type="text" size="33" id="caryFwdBdgtAmt" class="ygpaNumber" disabled/>
+									<input type="text" size="30" id="caryFwdBdgtAmt" class="ygpaNumber" disabled/> 원
 								</td>
 							</tr>
 							<tr>
@@ -1262,7 +1262,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 							</td>
 							<th width="10%" height="18">계　약　금　액</th>
 							<td>
-								<input type="text" size="33" id="joinCtrtAmt" class="ygpaNumber" disabled/>
+								<input type="text" size="30" id="joinCtrtAmt" class="ygpaNumber" disabled/> 원
 							</td>
 							<th width="10%" height="18">계　약　기　간</th>
 							<td>
@@ -1406,7 +1406,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 							</td>
 							<th width="10%" height="18">계　약　금　액</th>
 							<td>
-								<input type="text" size="33" id="subCtrtAmt" class="ygpaNumber" disabled/>
+								<input type="text" size="30" id="subCtrtAmt" class="ygpaNumber" disabled/> 원
 							</td>
 							<th width="10%" height="18">계　약　기　간</th>
 							<td>
@@ -1455,13 +1455,13 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 							</td>
 							<th width="10%" height="18">원도급　　금액</th>
 							<td>
-								<input type="text" size="33" id="orginlContrAmt" class="ygpaNumber" disabled/>
+								<input type="text" size="30" id="orginlContrAmt" class="ygpaNumber" disabled/> 원
 							</td>
 						</tr>
 						<tr>
 							<th width="10%" height="18">하도급계약금액</th>
 							<td>
-								<input type="text" size="33" id="subctrtCtrtAmt" class="ygpaNumber" disabled/>
+								<input type="text" size="30" id="subctrtCtrtAmt" class="ygpaNumber" disabled/> 원
 							</td>
 							<th width="10%" height="18">공　　　　　종</th>
 							<td colspan="3">
@@ -1516,7 +1516,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 							</td>
 							<th width="10%" height="18">계　약　금　액</th>
 							<td>
-								<input type="text" size="33" id="changeInfoCtrtAmt" class="ygpaNumber" disabled/>
+								<input type="text" size="30" id="changeInfoCtrtAmt" class="ygpaNumber" disabled/> 원
 							</td>
 							<th width="10%" height="18">계　약　기　간</th>
 							<td>
@@ -1568,11 +1568,11 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 							</td>
 							<th width="10%" height="18">변경 계약 금액</th>
 							<td>
-								<input type="text" size="33" id="changeCtrtAmt" class="ygpaNumber" disabled/>
+								<input type="text" size="30" id="changeCtrtAmt" class="ygpaNumber" disabled/> 원
 							</td>
 							<th width="10%" height="18">최종 계약 금액</th>
 							<td>
-								<input type="text" size="33" id="lastCtrtAmt" class="ygpaNumber" disabled/>
+								<input type="text" size="30" id="lastCtrtAmt" class="ygpaNumber" disabled/> 원
 							</td>
 						</tr>
 						<tr>
@@ -1629,7 +1629,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 							</td>
 							<th width="10%" height="18">계　약　금　액</th>
 							<td>
-								<input type="text" size="33" id="pymntCtrtAmt" class="ygpaNumber" disabled/>
+								<input type="text" size="30" id="pymntCtrtAmt" class="ygpaNumber" disabled/> 원
 							</td>
 							<th width="10%" height="18">계　약　기　간</th>
 							<td>
@@ -1665,21 +1665,21 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 							</td>
 							<th width="10%" height="18">금회 기성 금액</th>
 							<td>
-								<input type="text" size="33" id="thisTimeEstbAmt" class="ygpaNumber" disabled/>
+								<input type="text" size="30" id="thisTimeEstbAmt" class="ygpaNumber" disabled/> 원
 							</td>
 						</tr>
 						<tr>
 							<th width="10%" height="18">선금 정산 금액</th>
 							<td>
-								<input type="text" size="33" id="depositExcclcAmt" class="ygpaNumber" disabled/>
+								<input type="text" size="30" id="depositExcclcAmt" class="ygpaNumber" disabled/> 원
 							</td>
 							<th width="10%" height="18">지　급　금　액</th>
 							<td>
-								<input type="text" size="33" id="pymntAmt" class="ygpaNumber" disabled/>
+								<input type="text" size="30" id="pymntAmt" class="ygpaNumber" disabled/> 원
 							</td>
 							<th width="10%" height="18">지급 누계 금액</th>
 							<td>
-								<input type="text" size="33" id="pymntAggrAmt" class="ygpaNumber" disabled/>
+								<input type="text" size="30" id="pymntAggrAmt" class="ygpaNumber" disabled/> 원
 							</td>
 						</tr>
 						<tr>
@@ -1736,7 +1736,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 							</td>
 							<th width="10%" height="18">계　약　금　액</th>
 							<td>
-								<input type="text" size="33" id="caryFwdCtrtAmt" class="ygpaNumber" disabled/>
+								<input type="text" size="30" id="caryFwdCtrtAmt" class="ygpaNumber" disabled/> 원
 							</td>
 							<th width="10%" height="18">계　약　기　간</th>
 							<td>
@@ -1763,11 +1763,11 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 							</td>
 							<th width="10%" height="18">이　행　금　액</th>
 							<td>
-								<input type="text" size="33" id="fulfillAmt" class="ygpaNumber" disabled/>
+								<input type="text" size="30" id="fulfillAmt" class="ygpaNumber" disabled/> 원
 							</td>
 							<th width="10%" height="18">이　월　금　액</th>
 							<td>
-								<input type="text" size="33" id="caryFwdAmt" class="ygpaNumber" disabled/>
+								<input type="text" size="30" id="caryFwdAmt" class="ygpaNumber" disabled/> 원
 							</td>
 						</tr>
 					</table>
@@ -1818,7 +1818,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 							</td>
 							<th width="10%" height="18">계　약　금　액</th>
 							<td>
-								<input type="text" size="33" id="scsbidCtrtAmt" class="ygpaNumber" disabled/>
+								<input type="text" size="30" id="scsbidCtrtAmt" class="ygpaNumber" disabled/> 원
 							</td>
 							<th width="10%" height="18">계　약　기　간</th>
 							<td>

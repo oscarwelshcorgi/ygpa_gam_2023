@@ -119,7 +119,8 @@ GamFcltsFeeMngInqireModule.prototype.loadComplete = function(params) {
 					{display:'이전 납부 기한',	name:'prvDueDt',		width:100,		sortable:false,		align:'center'}
 					],
 		showTableToggleBtn : true,
-		height : '270'
+		height : '270',
+		width : '698'
 	});
 
 	this.$("#mainGrid").on('onLoadDataComplete', function(event, module, data) {
@@ -139,6 +140,7 @@ GamFcltsFeeMngInqireModule.prototype.loadComplete = function(params) {
 		event.data.module.getQueryEntrpsNm();
 	});
 
+	this._mode = '';
 	this._searchButtonClick = false;
 	if (params != null) {
 		if (params.action == "selectFcltsFeeMngInqire") {
@@ -302,6 +304,7 @@ GamFcltsFeeMngInqireModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamFcltsFeeMngInqireModule.prototype.onSubmit = function() {
 
+	this._mode="query";
 	this._searchButtonClick = true;
 	this.loadData();
 
@@ -657,23 +660,23 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 								<th style="width:10%; height:18;">관리비　　제목</th>
 								<td colspan="3"><input type="text" size="92" id="mngFeeSj" disabled/></td>
 								<th style="width:10%; height:18;">사　용　면　적</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="usageAr" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="usageAr" disabled/> m<sup>2</sup></td>
                             </tr>
                             <tr>
 								<th style="width:10%; height:18;">시설관리용역비</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="mngFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="mngFee" disabled/> 원</td>
 								<th style="width:10%; height:18;">전　기　요　금</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="elctyFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="elctyFee" disabled/> 원</td>
 								<th style="width:10%; height:18;">상하수도　요금</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="waterFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="waterFee" disabled/> 원</td>
                             </tr>
                             <tr>
 								<th style="width:10%; height:18;">도시가스　요금</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="gasFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="gasFee" disabled/> 원</td>
 								<th style="width:10%; height:18;">환경개선부담금</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="envFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="envFee" disabled/> 원</td>
 								<th style="width:10%; height:18;">관리비　　합계</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="mngTotalFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="mngTotalFee" disabled/> 원</td>
                             </tr>
 						</table>
 						<table class="summaryPanel" style="width:100%;">
@@ -718,19 +721,19 @@ var module_instance = new GamFcltsFeeMngInqireModule();
                             <tr>
 								<th style="width:10%; height:19px;">사　　용　　료</th>
 								<td>
-									<input type="text" size="25" class="ygpaNumber" id="fee" disabled/>
+									<input type="text" size="22" class="ygpaNumber" id="fee" disabled/> 원
 								</td>
 							</tr>
                             <tr>
 								<th style="width:10%; height:19px;">부　　가　　세</th>
 								<td>
-									<input type="text" size="25" class="ygpaNumber" id="vat" disabled/>
+									<input type="text" size="22" class="ygpaNumber" id="vat" disabled/> 원
 								</td>
 							</tr>
                             <tr>
 								<th style="width:10%; height:19px;">고　지　금　액</th>
 								<td>
-									<input type="text" size="25" class="ygpaNumber" id="nticAmt" disabled/>
+									<input type="text" size="22" class="ygpaNumber" id="nticAmt" disabled/> 원
 								</td>
                             </tr>
                             <tr>
@@ -759,8 +762,8 @@ var module_instance = new GamFcltsFeeMngInqireModule();
 								<th style="width:10%; height:19px;">연체일수／금액</th>
 								<td>
 									<input type="text" size="3" id="arrrgNo" disabled>
-									<input type="text" size="5" class="ygpaNumber" id="arrrgPayDates" disabled/>
-									<input type="text" size="13" class="ygpaNumber" id="arrrgAmt" disabled/>
+									<input type="text" size="4" class="ygpaNumber" id="arrrgPayDates" disabled/>
+									<input type="text" size="11" class="ygpaNumber" id="arrrgAmt" disabled/> 원
 								</td>
 							</tr>
 						</table>

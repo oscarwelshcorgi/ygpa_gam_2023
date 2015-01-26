@@ -929,25 +929,25 @@ var module_instance = new GamGasUsageSttusMngModule();
 							<tr>
 								<th style="width:10%; height:26;">전월　　사용량</th>
 								<td>
-									<input type="text" size="25" id="prevMtUsageQy" disabled/>
+									<input type="text" size="21" id="prevMtUsageQy" class="ygpaNumber" disabled/> m<sup>3</sub>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:26;">당월　　사용량</th>
 								<td>
-									<input type="text" size="25" id="saidMtUsageQy" maxlength="16"/>
+									<input type="text" size="21" id="saidMtUsageQy" class="ygpaNumber" maxlength="16"/> m<sup>3</sub>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:26;">적　용　계　수</th>
 								<td>
-									<input type="text" size="25" id="applcCoef" maxlength="9"/>
+									<input type="text" size="21" id="applcCoef" class="ygpaNumber" data-decimal-point="2" maxlength="9"/>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:26;">순　사　용　량</th>
 								<td>
-									<input type="text" size="25" id="netUsageQy" maxlength="16"/>
+									<input type="text" size="21" id="netUsageQy" class="ygpaNumber" maxlength="16"/> m<sup>3</sub>
 								</td>
 							</tr>
 							<tr>

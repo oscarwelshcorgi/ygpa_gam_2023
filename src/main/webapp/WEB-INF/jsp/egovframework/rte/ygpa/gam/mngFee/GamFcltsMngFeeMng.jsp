@@ -2141,19 +2141,19 @@ var module_instance = new GamFcltsMngFeeMngModule();
                             </tr>
                             <tr>
 								<th style="width:10%; height:18;">시설관리용역비</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="mainFcltyMngFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="mainFcltyMngFee" disabled/> 원</td>
 								<th style="width:10%; height:18;">전　기　요　금</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="mainElctyFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="mainElctyFee" disabled/> 원</td>
 								<th style="width:10%; height:18;">상하수도　요금</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="mainWaterFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="mainWaterFee" disabled/> 원</td>
                             </tr>
                             <tr>
 								<th style="width:10%; height:18;">도시가스　요금</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="mainGasFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="mainGasFee" disabled/> 원</td>
 								<th style="width:10%; height:18;">환경개선부담금</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="mainEnvFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="mainEnvFee" disabled/> 원</td>
 								<th style="width:10%; height:18;">관리비　　합계</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="mainMngTotalFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="mainMngTotalFee" disabled/> 원</td>
                             </tr>
 						</table>
 					</form>
@@ -2182,7 +2182,7 @@ var module_instance = new GamFcltsMngFeeMngModule();
 									<input id="mngFeeJobSe" type="hidden"/>
 									<input id="reqestSeq" type="hidden"/>
 									<input type="text" size="5" id="mngSeq" disabled/> ／
-									<input type="text" size="23" class="ygpaNumber" id="usageAr" disabled/>
+									<input type="text" size="20" class="ygpaNumber" id="usageAr" disabled/> m<sup>2</sup>
 								</td>
 								<th style="width:10%; height:18;">부　과　업　체</th>
 								<td>
@@ -2203,19 +2203,19 @@ var module_instance = new GamFcltsMngFeeMngModule();
                             </tr>
                             <tr>
 								<th style="width:10%; height:18;">관　　리　　비</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="mngFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="mngFee" disabled/> 원</td>
 								<th style="width:10%; height:18;">전　기　요　금</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="elctyFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="elctyFee" disabled/> 원</td>
 								<th style="width:10%; height:18;">상하수도　요금</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="waterFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="waterFee" disabled/> 원</td>
                             </tr>
                             <tr>
 								<th style="width:10%; height:18;">도시가스　요금</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="gasFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="gasFee" disabled/> 원</td>
 								<th style="width:10%; height:18;">환경개선부담금</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="envFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="envFee" disabled/> 원</td>
 								<th style="width:10%; height:18;">관리비　　합계</th>
-								<td><input type="text" size="33" class="ygpaNumber" id="mngTotalFee" disabled/></td>
+								<td><input type="text" size="30" class="ygpaNumber" id="mngTotalFee" disabled/> 원</td>
                             </tr>
                             <tr>
 								<th style="width:10%; height:18;">고지／납부기한</th>
@@ -2225,13 +2225,13 @@ var module_instance = new GamFcltsMngFeeMngModule();
 								</td>
 								<th style="width:10%; height:18;">사용료／부가세</th>
 								<td>
-									<input type="text" size="14" class="ygpaNumber" id="fee" disabled> ／
-									<input type="text" size="14" class="ygpaNumber" id="vat" disabled>
+									<input type="text" size="12" class="ygpaNumber" id="fee" disabled> 원 /
+									<input type="text" size="12" class="ygpaNumber" id="vat" disabled> 원
 								</td>
 								<th style="width:10%; height:18;">고　지　금　액</th>
 								<td>
-									<input type="text" size="21" class="ygpaNumber" id="nticAmt" disabled>
-									<input type="text" size="10" id="arrrgSttus" style="font-weight:bold; background:yellow; text-align:center;" disabled>
+									<input type="text" size="19" class="ygpaNumber" id="nticAmt" disabled> 원
+									<input type="text" size="9" id="arrrgSttus" style="font-weight:bold; background:yellow; text-align:center;" disabled>
 								</td>
                             </tr>
                             <tr>
