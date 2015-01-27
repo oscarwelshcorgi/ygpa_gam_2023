@@ -423,7 +423,8 @@ GamFcltyUsageSttusInqireModule.prototype.loadMntnRprObjFcltsData = function(modu
 	var searchVO = [
 	                { name : 'fcltsMngGroupNo', value : row['fcltsMngGroupNo'] },
 	                { name : 'fcltsJobSe', value : row['fcltsJobSe'] },
-	                { name : 'flawRprSeq', value : row['flawRprSeq'] }
+	                { name : 'mntnRprSeq', value : row['mntnRprSeq'] },
+	                { name : 'fcltsMngNo', value : row['fcltsMngNo'] }
 	               ];
 
 	this.doAction('/fcltyMng/selectMntnRprObjFcltsData.do', searchVO, function(module, data) {
