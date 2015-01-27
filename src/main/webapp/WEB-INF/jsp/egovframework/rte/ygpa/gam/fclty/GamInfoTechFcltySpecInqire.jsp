@@ -517,7 +517,7 @@ var module_instance = new GamInfoTechFcltySpecInqireModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">수　　　　　량</th>
-							<td><input id="qy" type="text" size="50" class="ygpaNumber" disabled="disabled" /></td>
+							<td><input id="qy" type="text" size="50" class="ygpaNumber" disabled="disabled" /> 개</td>
 							<th width="12%" height="17" class="required_text">규　　　　　격</th>
 							<td><input id="stndrd" type="text" size="50" maxlength="80" disabled="disabled" /></td>
 						</tr>
