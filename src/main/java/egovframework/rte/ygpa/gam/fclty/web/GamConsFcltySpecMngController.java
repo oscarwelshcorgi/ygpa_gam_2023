@@ -9,9 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,11 +28,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamGisPrtFcltyCdMngtService;
+import egovframework.rte.ygpa.gam.cmmn.service.GamFileServiceVo;
+import egovframework.rte.ygpa.gam.cmmn.service.GamFileUploadUtil;
 import egovframework.rte.ygpa.gam.fclty.service.GamConsFcltySpecMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamConsFcltySpecMngService;
 
@@ -59,7 +66,7 @@ public class GamConsFcltySpecMngController {
 
 	@Resource(name = "gamConsFcltySpecMngService")
 	protected GamConsFcltySpecMngService gamConsFcltySpecMngService;
-	
+
 	@Resource(name = "gamGisPrtFcltyCdMngtService")
 	protected GamGisPrtFcltyCdMngtService gamGisPrtFcltyCdMngtService;
 
@@ -70,6 +77,12 @@ public class GamConsFcltySpecMngController {
 	/** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
+
+    /**
+     * 파일 아이디를 생성한다.
+     */
+    @Resource(name="gamConstFcltyIdGnrService")
+    EgovTableIdGnrService gamConstFcltyIdGnrService;
 
     private final static String prtFcltySe = "A";
 
@@ -87,7 +100,7 @@ public class GamConsFcltySpecMngController {
     }
 
 
-	
+
 	/**
 	 * 건축시설목록 조회
 	 * @param searchVO
@@ -100,7 +113,7 @@ public class GamConsFcltySpecMngController {
 
 		Map map = new HashMap();
 
-    	// 0. Spring Security 사용자권한 처리 
+    	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -210,14 +223,14 @@ public class GamConsFcltySpecMngController {
 
     	fcltyItem.put("regUsr",user.getId());
     	fcltyItem.put("prtFcltySe",prtFcltySe);
-    	
+
     	gisPrtFcltySeq = gamGisPrtFcltyCdMngtService.selectNextFcltySeq(fcltyItem);
-		
+
 		gisAssetsPrtAtCode = (String) fcltyItem.get("gisAssetsPrtAtCode");
 		gisAssetsCd = (String) fcltyItem.get("gisAssetsCd");
 		gisAssetsSubCd = (String) fcltyItem.get("gisAssetsSubCd");
 		gisPrtFcltyCd = (String) fcltyItem.get("gisPrtFcltyCd");
-		
+
 		fcltsMngNo = gisAssetsPrtAtCode + gisAssetsCd + gisAssetsSubCd + gisPrtFcltyCd + gisPrtFcltySeq + prtFcltySe;
 		fcltyItem.put("gisPrtFcltySeq",gisPrtFcltySeq);
 
@@ -228,7 +241,7 @@ public class GamConsFcltySpecMngController {
     		map.put("resultCode", 0);			// return ok
     		map.put("fcltsMngNo", fcltsMngNo);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-            
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			map.put("resultCode", 1);
@@ -263,10 +276,10 @@ public class GamConsFcltySpecMngController {
 
     	try {
         	result = gamConsFcltySpecMngService.fcltyMngSelectView(fcltyManageVO);
-        	
+
         	fcltsMngNo = (String) result.get("fcltsMngNo");
         	fcltyManageVO.put("fcltsMngNo", fcltsMngNo);
-        	
+
         	specResult = gamConsFcltySpecMngService.fcltySpecMngSelectView(fcltyManageVO);
     	}
     	catch(Exception e) {
@@ -310,12 +323,12 @@ public class GamConsFcltySpecMngController {
     	fcltyMngtList.put("prtFcltySe",prtFcltySe);
 
     	try {
-    		
+
     		// 건축시설 제원 수정
     		gamConsFcltySpecMngService.updateFcltySpec(fcltyMngtList);
-    		
+
     		fcltsMngNo = (String) fcltyMngtList.get("fcltsMngNo");
-    		
+
     		map.put("resultCode", 0);			// return ok
     		map.put("fcltsMngNo", fcltsMngNo);			// return ok
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
@@ -351,7 +364,7 @@ public class GamConsFcltySpecMngController {
     	fcltyManageVO.put("prtFcltySe",prtFcltySe);
 
     	try {
-    		
+
     		// 건축시설 제원 삭제
     		gamConsFcltySpecMngService.deleteFcltySpec(fcltyManageVO);
 
@@ -367,7 +380,7 @@ public class GamConsFcltySpecMngController {
     	return map;
     }
 
-    
+
     @RequestMapping(value="/fclty/mergeGamConstFcltySpecFileMngt.do")
     public @ResponseBody Map<String, Object> mergeGamGisAssetFileMngt(@RequestParam Map<String, Object> dataList) throws Exception {
 
@@ -416,8 +429,8 @@ public class GamConsFcltySpecMngController {
 
 		return map;
 	}
-    
-    
+
+
     /**
 	 * 건축시설제원관리 리스트를 엑셀로 다운로드한다.
 	 * @param searchVO
@@ -454,15 +467,53 @@ public class GamConsFcltySpecMngController {
 		searchVO.setLastIndex(9999);
 		searchVO.setRecordCountPerPage(9999);
 
-		
+
 		searchVO.setPrtFcltySe(prtFcltySe);
 		List fcltySpecMngList = gamConsFcltySpecMngService.selectFcltySpecMngList(searchVO);
-		
+
 
     	map.put("resultList", fcltySpecMngList);
     	map.put("header", header);
 
     	return new ModelAndView("gridExcelView", "gridResultMap", map);
+    }
+
+    @RequestMapping(value="/fclty/uploadConstFcltyFile.do", method=RequestMethod.POST)
+    public @ResponseBody Map uploadFile(HttpServletRequest request, Model model) throws Exception {
+		Map map = new HashMap();
+		String uploadPath = EgovProperties.getProperty("constFclty.fileStorePath");
+		try {
+			List<GamFileServiceVo> list = GamFileUploadUtil.uploadFiles(request, uploadPath, gamConstFcltyIdGnrService);
+
+			map.put("resultCode", "0");
+			map.put("result", list);
+		}
+		catch(Exception e) {
+			map.put("resultCode", "-1");
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
+		}
+
+		return map;
+	}
+
+    @RequestMapping("/fclty/getConstFcltyImage.do")
+    public void getImage(final HttpServletRequest request, HttpServletResponse response) throws Exception {
+		GamFileServiceVo gamFileServiceVo = new GamFileServiceVo();
+		String uploadPath = EgovProperties.getProperty("constFclty.fileStorePath");
+
+		gamFileServiceVo.setPhyscalFileNm((String)request.getParameter("physicalFileNm"));
+
+		GamFileUploadUtil.downloadImage(request, response, uploadPath, gamFileServiceVo);
+    }
+
+    @RequestMapping("/fclty/getConstFcltyDown.do")
+    public void getDownload(final HttpServletRequest request, HttpServletResponse response) throws Exception {
+		GamFileServiceVo gamFileServiceVo = new GamFileServiceVo();
+		String uploadPath = EgovProperties.getProperty("constFclty.fileStorePath");
+
+		gamFileServiceVo.setPhyscalFileNm((String)request.getParameter("physicalFileNm"));
+
+		GamFileUploadUtil.downloadFile(request, response, uploadPath, gamFileServiceVo);
     }
 
 }

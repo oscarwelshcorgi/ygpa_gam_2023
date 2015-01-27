@@ -212,7 +212,11 @@ GamOlnlpMngtModule.prototype.onButtonClick = function(buttonId) {
 		break;
 
 		case 'insertExcel':
-			this.uploadSingleFile('/code/uploadOlnlpXlsFile.do', function(module, resp) {
+			this.uploadXlsFile('/code/uploadOlnlpXlsFile.do', function(module, resp) {
+				if(resp==null) {
+					alert('브라우저 호환성 문제로 업로드에 문제가 발생 했습니다.');
+					return;
+				}
 				if(resp.resultCode!=0) {
 					alert(resp.resultMsg);
 					return;
@@ -240,13 +244,92 @@ GamOlnlpMngtModule.prototype.loadData = function() {
  	this.$("#olnlpInsertList").flexOptions({params:searchOpt}).flexReload();
 }
 
-GamOlnlpMngtModule.prototype.uploadXlsFile = function() {
-	this.uploadSingleFile("/code/uploadOlnlpXlsFile.do", function(module, resp) {
-		if(resp.resultCode!=0) {
-			alert(resp.resultMsg);
-			return;
-		}
-	});
+GamOlnlpMngtModule.prototype.uploadXlsFile = function(url, func) {
+	$('#__tempDiv').empty();
+    $('#__tempDiv').append('<form id="__fileUploadForm" name="__fileUploadForm" method="post" enctype="multipart/form-data">'
+    		+'<input name="type" type="hidden" value="single" /><input id="__uploadFile" name="uploadFile" type="file" />'
+    		+'</form>');
+    $('#__fileUploadForm').submit(function() {
+    	$("#__fileUploadForm").attr("target", "__uploadFrame");
+    });
+    $('#__uploadFile').on('change', {module:this, func: func, url: EMD.context_root+url}, function(e) {
+        if (navigator.userAgent.indexOf("MSIE") >= 0) {
+        	/*
+        	$('#__uploadFrame').remove();
+        	var $iFrame = $('<iFrame id="__uploadFrame"></iFrame>');
+            $iFrame.appendTo('body');
+	        $('#__uploadFrame').load(function(){
+	        	if ( status == "error" ) {
+	        	    var msg = "파일을 업로드 하는데 오류가 발생 했습니다. : ";
+	        	    alert( msg + xhr.status + " " + xhr.statusText );
+	        	  }
+		        $('#__tempDiv').css('display', 'none');
+	        	$('#__tempDiv').empty();
+	            var data = $('#__uploadFrame').contents().text();
+	            if(e.data.func!=undefined) e.data.func(e.data.module, jQuery.parseJSON(data));
+
+	            $('#__uploadFrame').unbind('load');
+	            $('#__uploadFrame').remove();
+		        $('#__tempDiv').css('display', 'none');
+	        });
+	        $('#__tempDiv').css('display', 'block');
+	        $('#__tempDiv').css('position', 'fixed');
+	        $('#__tempDiv').css('left', '50px');
+	        $('#__tempDiv').css('top', '50px');
+	        $('#__tempDiv').css('right', '200px');
+	        $('#__tempDiv').css('bottom', '50px');
+	        $('#__fileUploadForm').attr('action', e.data.url)[0].submit();
+	        */
+            $('#__fileUploadForm').attr('action', e.data.url).submit();
+
+            $('#__uploadFrame').load(function(){
+            	if ( status == "error" ) {
+            	    var msg = "파일을 업로드 하는데 오류가 발생 했습니다. : ";
+            	    alert( msg + xhr.status + " " + xhr.statusText );
+            	  }
+            	$('#__tempDiv').empty();
+                var data = $('#__uploadFrame').contents().text();
+                if(e.data.func!=undefined) e.data.func(e.data.module, jQuery.parseJSON(data));
+
+                $('#__uploadFrame').remove();
+            });
+        }
+        else {
+        	var formData = new FormData();
+            formData.append("file", $('#__uploadFile')[0].files[0]);
+
+            $.ajax({
+                url : e.data.url,
+                data : formData,
+                type : 'POST',
+                dataType : 'json',
+                module: e.data.module,
+                retfunc: e.data.func,
+                processData : false,
+                contentType : false,
+                success : function(data) {
+    	        	$('#__tempDiv').empty();
+                	e.data.func(this.module, data);
+                },
+                error : function(x, e) {
+                  if (x.status == 0) {
+                    this.retfunc(this.module, {resultCode:"-1", resultMsg:'You are offline!!n Please Check Your Network.'});
+                  } else if (x.status == 404) {
+                    this.retfunc(this.module, {resultCode:"-1", resultMsg:'Requested URL not found.'});
+                  } else if (x.status == 500) {
+                    this.retfunc(this.module, {resultCode:"-1", resultMsg:'Internel Server Error.'});
+                  } else if (e == 'parsererror') {
+                    this.retfunc(this.module, {resultCode:"-1", resultMsg:'Error.nParsing JSON Request failed.'});
+                  } else if (e == 'timeout') {
+                    this.retfunc(this.module, {resultCode:"-1", resultMsg:'Request Time out.'});
+                  } else {
+                      this.retfunc(this.module, {resultCode:"-1", resultMsg:'Unknow Error.n' + x.responseText})
+                  }
+                }
+          });
+        }
+    });
+    $('#__uploadFile').click();
 };
 
 GamOlnlpMngtModule.prototype.saveOlnlp = function() {

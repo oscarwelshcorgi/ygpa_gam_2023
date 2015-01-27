@@ -61,6 +61,91 @@
 		<property name="fillChar" value="0" />
 	</bean>
 
+	<bean name="gamConstFcltyIdGnrService"
+		class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService"
+		destroy-method="destroy">
+		<property name="dataSource" ref="egov.dataSource" />
+		<property name="strategy" ref="gamConstFcltyStrategy" />
+		<property name="blockSize" 	value="10"/>
+		<property name="table"	   	value="ASSETS_INFO_IDS_F"/>
+		<property name="tableName"	value="CONFCLTY_FILE"/>
+	</bean>
+
+	<bean name="gamConstFcltyStrategy"
+		class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="CON_" />
+		<property name="cipers" value="15" />
+		<property name="fillChar" value="0" />
+	</bean>
+
+	<bean name="gamElctyFcltyIdGnrService"
+		class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService"
+		destroy-method="destroy">
+		<property name="dataSource" ref="egov.dataSource" />
+		<property name="strategy" ref="gamElctyFcltyStrategy" />
+		<property name="blockSize" 	value="10"/>
+		<property name="table"	   	value="ASSETS_INFO_IDS_F"/>
+		<property name="tableName"	value="ELECTYFCLTY_FILE"/>
+	</bean>
+
+	<bean name="gamElctyFcltyStrategy"
+		class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="ELE_" />
+		<property name="cipers" value="15" />
+		<property name="fillChar" value="0" />
+	</bean>
+
+	<bean name="gamMechFcltyIdGnrService"
+		class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService"
+		destroy-method="destroy">
+		<property name="dataSource" ref="egov.dataSource" />
+		<property name="strategy" ref="gamMechFcltyStrategy" />
+		<property name="blockSize" 	value="10"/>
+		<property name="table"	   	value="ASSETS_INFO_IDS_F"/>
+		<property name="tableName"	value="MECHFCLTY_FILE"/>
+	</bean>
+
+	<bean name="gamMechFcltyStrategy"
+		class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="MEC_" />
+		<property name="cipers" value="15" />
+		<property name="fillChar" value="0" />
+	</bean>
+
+	<bean name="gamCivilFcltyIdGnrService"
+		class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService"
+		destroy-method="destroy">
+		<property name="dataSource" ref="egov.dataSource" />
+		<property name="strategy" ref="gamCivilFcltyStrategy" />
+		<property name="blockSize" 	value="10"/>
+		<property name="table"	   	value="ASSETS_INFO_IDS_F"/>
+		<property name="tableName"	value="CIVILFCLTY_FILE"/>
+	</bean>
+
+	<bean name="gamCivilFcltyStrategy"
+		class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="CVL_" />
+		<property name="cipers" value="15" />
+		<property name="fillChar" value="0" />
+	</bean>
+
+	<bean name="gamInfoTeleFcltyIdGnrService"
+		class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService"
+		destroy-method="destroy">
+		<property name="dataSource" ref="egov.dataSource" />
+		<property name="strategy" ref="gamInfoTeleFcltyStrategy" />
+		<property name="blockSize" 	value="10"/>
+		<property name="table"	   	value="ASSETS_INFO_IDS_F"/>
+		<property name="tableName"	value="ITFCLTY_FILE"/>
+	</bean>
+
+	<bean name="gamInfoTeleFcltyStrategy"
+		class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="ITC_" />
+		<property name="cipers" value="15" />
+		<property name="fillChar" value="0" />
+	</bean>
+
 	<bean name="gamDrawingFileIdGnrService"
 		class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService"
 		destroy-method="destroy">

@@ -155,7 +155,7 @@ public class GamUserMngController {
 	 * @throws Exception
 	 */
     @RequestMapping("/adm/usrmngt/insertUser.do")
-    @ResponseBody Map<String, Object> insertUser(@ModelAttribute("userManageVO") UserManageVO userManageVO,BindingResult bindingResult, @RequestParam("cmd") String cmd)throws Exception {
+    @ResponseBody Map<String, Object> insertUser(@ModelAttribute("userManageVO") UserManageVO userManageVO,BindingResult bindingResult)throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 

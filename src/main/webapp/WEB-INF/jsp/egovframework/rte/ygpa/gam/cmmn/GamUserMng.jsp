@@ -53,9 +53,11 @@ GamUserMngListModule.prototype.loadComplete = function() {
 	});
 
 	this.$('#userMngList').on("onItemSelected", function(event, module, row) {
+		module._mode="modify";
 		module.setButtonState();
 	});
 	this.$("#userMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
+		module._mode="modify";
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.$("#userMngListTab").tabs("option", {active: 1});		// 탭을 전환 한다.
 	});
@@ -98,14 +100,14 @@ GamUserMngListModule.prototype.onButtonClick = function(buttonId) {
 		case "listBtn": // 목록
 			this.$("#userMngListTab").tabs("option", {active: 0});
 			this.$("#userManageVO :input").val("");
-			this.$("#cmd").val("insert");
+			this._mode = "insert";
 			break;
 		case "btnChangePW": // 암호변경 팝업
 			this.doExecuteDialog("changePassWordPopup", "업무사용자 암호변경", '/cmmn/popup/gamPopupChgPwView.do', {emplyrId : this.$("#emplyrId").val(), uniqId: this.$("#uniqId").val()});
 			break;
 		case "btnCancel": // 취소
 			this.$("#userManageVO :input").val("");
-			this.$("#cmd").val("insert");
+			this._mode="insert";
 			break;
 		case "btnSaveUserData": // 저장
 			this.saveUserData();
@@ -207,6 +209,7 @@ GamUserMngListModule.prototype.saveUserData = function() {
 	 			module.$("#userManageVO :input").val("");
 	 			var searchOpt = module.makeFormArgs("#userMngForm");
 			 	module.$("#userMngList").flexOptions({params:searchOpt}).flexReload();
+			 	this._mode="";
 	 		}
 	 		alert(result.resultMsg);
 	 	});
@@ -215,6 +218,7 @@ GamUserMngListModule.prototype.saveUserData = function() {
 	 		if(result.resultCode == 0){
 	 			var inputVO = module.makeFormArgs("#userManageVO");
 	 			module.loadDetail(inputVO);
+			 	this._mode="";
 	 		}
 	 		alert(result.resultMsg);
 	 	});
@@ -381,9 +385,9 @@ var module_instance = new GamUserMngListModule();
 			                <td>
 			                    <input id="emplyrNm" title="사용자이름" type="text" size="10" maxlength="60"  data-required="true" />
 			                </td>
-			                <th>관리부두</th>
-			                <td>
-			                    <input id="quayGroupCd" title="관리부두" class="ygpaCmmnCd" data-code-id="GAM063" type="text" size="10" data-default-prompt="없음" />
+			                <th>직위명</th>
+			                <td >
+			                    <input data-column-id="ofcpsNm" title="직위명" size="20" maxlength="50" />
 			                </td>
 			            </tr>
 			            <tr>
@@ -391,9 +395,9 @@ var module_instance = new GamUserMngListModule();
 			                <td >
 			                    <input data-column-id="emplNo" title="사번" size="6" maxlength="20" data-required="true" />
 			                </td>
-			                <th>직위명</th>
-			                <td >
-			                    <input data-column-id="ofcpsNm" title="직위명" size="20" maxlength="50" />
+			                <th>관리부두</th>
+			                <td>
+			                    <input id="quayGroupCd" title="관리부두" class="ygpaCmmnCd" data-code-id="GAM063" type="text" size="10" data-default-prompt="없음" />
 			                </td>
 			            </tr>
 			            <tr id="tdpassword">
@@ -413,11 +417,9 @@ var module_instance = new GamUserMngListModule();
 			                <td >
 				                <input id="orgnztId" class="ygpaDeptSelect" size="20" data-default-prompt="선택" data-required="true" />
 			                </td>
-			                <th>
-			                   	 이메일주소
-			                </th>
+			                <th>관리시설</th>
 			                <td>
-			                    <input id="emailAdres" title="이메일주소" size="30" maxlength="50" />
+			                    <input id="mngFcltyCd" title="관리부두" class="ygpaCmmnCd" data-code-id="GAM065" type="text" size="10" data-default-prompt="없음" />
 			                </td>
 			            </tr>
 			            <tr>
@@ -449,6 +451,12 @@ var module_instance = new GamUserMngListModule();
 			                <td >
 			                    <input id="zip" type="text" title="우편번호" size="7" disabled="disabled"/>
 			                    <button id="searchZipBtn">우편번호 검색</button>
+			                </td>
+			                <th>
+			                   	 이메일주소
+			                </th>
+			                <td>
+			                    <input id="emailAdres" title="이메일주소" size="30" maxlength="50" />
 			                </td>
 			            </tr>
 			            <tr>

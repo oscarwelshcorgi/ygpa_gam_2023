@@ -39,6 +39,7 @@ public class EgovTestUserDetailsServiceImpl extends AbstractServiceImpl implemen
 		loginVO.setIhidNum("1111111111118");
 		loginVO.setName("더미사용자");
 		loginVO.setQuayGroupCd("H");	// 배후부지 기준
+		loginVO.setMngFcltyCd("C");	// 건축시설 관리
 		loginVO.setOrgnztId("ORGNZT_0000000000000");
 		loginVO.setUniqId("USRCNFRM_00000000173");
 		loginVO.setDeptCd("200091");	// 물류 기획실 부서 코드

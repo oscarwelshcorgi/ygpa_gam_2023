@@ -56,6 +56,8 @@ public class LoginVO implements Serializable{
 	private String ip;
 	/** GPKI인증 DN */
 	private String dn;
+	/** 관리 시설 코드 */
+	private String mngFcltyCd;
 
 	/**
 	 * ERP 연동용 부서 코드 (YGPA)
@@ -278,6 +280,18 @@ public class LoginVO implements Serializable{
 	}
 	public void setDeptCd(String deptCd) {
 		this.deptCd = deptCd;
+	}
+	/**
+	 * @return the mngFcltyCd
+	 */
+	public String getMngFcltyCd() {
+		return mngFcltyCd;
+	}
+	/**
+	 * @param mngFcltyCd the mngFcltyCd to set
+	 */
+	public void setMngFcltyCd(String mngFcltyCd) {
+		this.mngFcltyCd = mngFcltyCd;
 	}
 
 }

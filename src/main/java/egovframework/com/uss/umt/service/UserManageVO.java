@@ -160,6 +160,11 @@ public class UserManageVO extends UserDefaultVO{
 	 * 관리부두 코드
 	 */
 	private String quayGroupCd;
+
+	/*
+	 * 관리 시설 코드
+	 */
+	private String mngFcltyCd;
 	/**
 	 * @return the regUsr
 	 */
@@ -667,6 +672,18 @@ public class UserManageVO extends UserDefaultVO{
 	 */
 	public void setQuayGroupCd(String quayGroupCd) {
 		this.quayGroupCd = quayGroupCd;
+	}
+	/**
+	 * @return the mngFcltyCd
+	 */
+	public String getMngFcltyCd() {
+		return mngFcltyCd;
+	}
+	/**
+	 * @param mngFcltyCd the mngFcltyCd to set
+	 */
+	public void setMngFcltyCd(String mngFcltyCd) {
+		this.mngFcltyCd = mngFcltyCd;
 	}
 
 }

@@ -76,9 +76,6 @@ public class GamFileUploadUtil {
 				"request !instanceof MultipartHttpServletRequest");
 		MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
 
-		Assert.state(request.getParameter("type").equals("genericFileMulti"),
-				"type != genericFileMulti");
-
 		final Map<String, MultipartFile> files = multiRequest.getFileMap();
 		Assert.notNull(files, "files is null");
 		Assert.state(files.size() > 0, "0 files exist");
