@@ -55,11 +55,11 @@ GamCarMngModule.prototype.loadComplete = function() {
 					{display:'차량 명', 		name:'carNm',		width:80, 		sortable:false,		align:'center'},
 					{display:'차량 종류', 		name:'carKnd',		width:80, 		sortable:false,		align:'center'},
 					{display:'차량 용도', 		name:'carPrpos',	width:80, 		sortable:false,		align:'center'},
-					{display:'차대 번호', 		name:'carBodyNo',	width:160, 		sortable:false,		align:'center'},
-					{display:'차량 형식', 		name:'carFmt',		width:105, 		sortable:false,		align:'center'},
 					{display:'배기량', 			name:'exhaustqy',	width:80, 		sortable:false,		align:'center'},
 					{display:'연료 종류', 		name:'fuelKnd',		width:80, 		sortable:false,		align:'center'},
-					{display:'차량 연식', 		name:'carYrMdl',	width:80, 		sortable:false,		align:'center'}
+					{display:'차량 연식', 		name:'carYrMdl',	width:80, 		sortable:false,		align:'center'},
+					{display:'차대 번호', 		name:'carBodyNo',	width:160, 		sortable:false,		align:'center'},
+					{display:'차량 형식', 		name:'carFmt',		width:105, 		sortable:false,		align:'center'}
 					],
 		showTableToggleBtn: false,
 		height : 'auto',
