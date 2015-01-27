@@ -729,7 +729,7 @@
 
 	<select id="gamFcltsFeeMngNticDao.selectEgiroMaxInfo_S" parameterClass="map" resultClass="egovMap">
 		SELECT
-				 TRANID,
+				 TRANID
 				,WORK_DT
 				,CANCEL_DT
 				,PRINT_DT
