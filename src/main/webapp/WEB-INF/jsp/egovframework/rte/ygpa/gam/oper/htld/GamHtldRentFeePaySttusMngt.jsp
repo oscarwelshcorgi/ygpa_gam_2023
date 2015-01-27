@@ -697,7 +697,10 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
 							<td><input type="text" size="16" id="sumVat" class="ygpaNumber" disabled="disabled" /></td>
                 			<th width="10%" >총납부금액</th>
 							<td><input type="text" size="16" id="sumPayAmt" class="ygpaNumber" disabled="disabled" /></td>
-							<td><button id="btnUpdatePayDtls" data-icon="ui-icon-circle-check">납부확인</button></td>
+							<td>
+							<button id="btnUpdatePayDtls" data-icon="ui-icon-circle-check">납부확인</button>
+							<button data-role="gridXlsDown" data-flexi-grid="htldRentFeePaySttusMngtList" data-xls-name="배후단지납부현황목록.xls" data-xls-title="배후단지 납부현황 목록">엑셀</button>
+							</td>
 							<!-- <td><button id="btnNticArrrg" data-icon="ui-icon-clock">연체일괄고지</button></td> -->
                 		</tr>
                 	</table>
