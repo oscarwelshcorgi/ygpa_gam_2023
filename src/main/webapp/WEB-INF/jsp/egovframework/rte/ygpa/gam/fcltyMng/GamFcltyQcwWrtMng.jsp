@@ -1047,7 +1047,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
                                 </select>
 							</td>
 							<th width="12%" height="17">점검진단금액</th>
-							<td><input id="qcInspAmt" type="text" size="20" class="ygpaNumber"/></td>
+							<td><input id="qcInspAmt" type="text" size="20" class="ygpaNumber"/> 원</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">상태평가등급</th>

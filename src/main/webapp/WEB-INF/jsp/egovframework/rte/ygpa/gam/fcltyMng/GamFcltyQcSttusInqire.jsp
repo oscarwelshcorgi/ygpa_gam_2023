@@ -498,7 +498,7 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 							</td>
 							<th width="12%" height="17">점검진단금액</th>
 							<td>
-								<span id="qcInspAmt"></span>
+								<span id="qcInspAmt"></span> 원
 							</td>
 						</tr>
 						<tr>
