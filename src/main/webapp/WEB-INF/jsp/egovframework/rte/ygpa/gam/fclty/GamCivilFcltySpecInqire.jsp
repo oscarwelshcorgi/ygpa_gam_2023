@@ -668,7 +668,7 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 				</form>
 				<div class="emdControlPanel">
 					
-					<button id="gotoLocation">위치조회</button>
+					<!-- <button id="gotoLocation">위치조회</button> -->
 					
 				</div>
 			</div>

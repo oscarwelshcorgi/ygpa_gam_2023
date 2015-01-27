@@ -628,7 +628,7 @@ var module_instance = new GamMechFcltySpecInqireModule();
 					</table>
 				</form>
 				<div class="emdControlPanel">
-					<button id="gotoLocation">위치조회</button>
+					<!-- <button id="gotoLocation">위치조회</button> -->
 				</div>
 			</div>
 			
