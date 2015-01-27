@@ -93,6 +93,7 @@
 		module : this,
 		dataType : 'json',
 		colModel : [ {display : '항구분', name : 'prtAtCode', width : 60, sortable : false, align : 'center'},
+		             {display : '시설 명', name : 'prtFcltyNm', width : 100, sortable : false, align : 'center'},
 		             {display : '사용기간', name : 'usagePd', width : 75, sortable : false, align : 'center'},
 		             {display : '업체구분', name : 'entrpsSe', width : 70, sortable : false, align : 'center'},
 		             {display : '업체명', name : 'entrpsnm', width : 80, sortable : false, align : 'left'},
@@ -364,7 +365,7 @@ var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
 
 			module.$('#mntnRprDtlsGrid').flexEmptyData();
         	var mntnRprDtlsList={resultList: data.mntnRprDtlsList};
-        	module.$('#mntnRprDtlsGrid').flexAddData(mntnRprDtlsList)
+        	module.$('#mntnRprDtlsGrid').flexAddData(mntnRprDtlsList);
 
 		}else{
 			module.$("#mainTab").tabs("option", {active: 0});
