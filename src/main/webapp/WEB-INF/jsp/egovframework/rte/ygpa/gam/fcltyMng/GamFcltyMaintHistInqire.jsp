@@ -368,13 +368,13 @@ var module_instance = new GamFcltyMaintHistInqireModule();
 						</tr>
 						<tr>
 							<th height="23" class="required_text">예산</th>
-							<td colspan="3"><span id="mntnRprBdgt" title="예산" class="ygpaNumber"></span></td>
+							<td colspan="3"><span id="mntnRprBdgt" title="예산" class="ygpaNumber"></span> 원</td>
 							<th height="23" class="required_text">공사시작일자</th>
 							<td><span id="mntnRprCnstStartDt" title="공사시작일자"></span></td>
 						</tr>
 						<tr>
 							<th height="23" class="required_text">공사금액</th>
-							<td colspan="3"><span id="mntnRprCnstAmt" title="공사금액" class="ygpaNumber"></span></td>
+							<td colspan="3"><span id="mntnRprCnstAmt" title="공사금액" class="ygpaNumber"></span> 원</td>
 							<th height="23" class="required_text">공사종료일자</th>
 							<td><span id="mntnRprCnstEndDt" title="공사종료일자"></span></td>
 						</tr>

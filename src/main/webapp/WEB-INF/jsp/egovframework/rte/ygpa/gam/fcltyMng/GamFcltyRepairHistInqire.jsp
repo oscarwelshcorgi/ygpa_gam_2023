@@ -368,7 +368,7 @@ var module_instance = new GamFcltyRepairHistInqireModule();
 							<th height="23" class="required_text">하자보수완료여부</th>
 							<td><span id="flawRprComptYn" title="하자보수완료여부"></span></td>
 							<th height="23" class="required_text">하자보수금액</th>
-							<td colspan="3"><span id="flawRprAmt" title="하자보수금액" class="ygpaNumber"></span></td>
+							<td colspan="3"><span id="flawRprAmt" title="하자보수금액" class="ygpaNumber"></span> 원</td>
 							<th>하자검사구분</th>
 							<td><span id="flawExamSeNm" title="하자검사구분"></span></td>
 						</tr>

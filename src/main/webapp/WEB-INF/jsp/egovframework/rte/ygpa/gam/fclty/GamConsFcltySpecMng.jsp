@@ -748,33 +748,33 @@ var module_instance = new GamConstFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17">대　지　면　적</th>
-							<td><input type="text" size="50" id="plotAr" class="ygpaNumber" data-decimal-point="2" maxlength="10" /></td>
+							<td><input type="text" size="50" id="plotAr" class="ygpaNumber" data-decimal-point="2" maxlength="10" /> m<sup>2</sup></td>
 							<th width="12%" height="17">건　축　면　적</th>
-							<td><input id="archAr" type="text" size="50" title="건축면적" class="ygpaNumber" data-decimal-point="2" maxlength="10" /></td>
+							<td><input id="archAr" type="text" size="50" title="건축면적" class="ygpaNumber" data-decimal-point="2" maxlength="10" /> m<sup>2</sup></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">연　　면　　적</th>
-							<td><input id="ar" type="text" size="50" title="연면적" class="ygpaNumber" data-decimal-point="2" maxlength="10" /></td>
+							<td><input id="ar" type="text" size="50" title="연면적" class="ygpaNumber" data-decimal-point="2" maxlength="10" /> m<sup>2</sup></td>
 							<th width="12%" height="17">주　사 용 용 도</th>
 							<td><input type="text" size="50" id="mainUsagePrpos" maxlength="65" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">주　차　면　적</th>
-							<td><input type="text" size="50" id="prkAr" class="ygpaNumber" data-decimal-point="2" maxlength="10" /></td>
+							<td><input type="text" size="50" id="prkAr" class="ygpaNumber" data-decimal-point="2" maxlength="10" /> m<sup>2</sup></td>
 							<th width="12%" height="17">주　차　대　수</th>
-							<td><input type="text" size="50" id="prkCnt" class="ygpaNumber" maxlength="5" /></td>
+							<td><input type="text" size="50" id="prkCnt" class="ygpaNumber" maxlength="5" /> 대</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">옥외 주 차 면 적</th>
-							<td><input type="text" size="50" id="osdPrkAr" class="ygpaNumber" data-decimal-point="2" maxlength="10" /></td>
+							<td><input type="text" size="50" id="osdPrkAr" class="ygpaNumber" data-decimal-point="2" maxlength="10" /> m<sup>2</sup></td>
 							<th width="12%" height="17">옥외 주 차 대 수</th>
-							<td><input type="text" size="50" id="osdPrkCnt" class="ygpaNumber" maxlength="5" /></td>
+							<td><input type="text" size="50" id="osdPrkCnt" class="ygpaNumber" maxlength="5" /> 대</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">옥내 주 차 면 적</th>
-							<td><input type="text" size="50" id="isdPrkAr" class="ygpaNumber" data-decimal-point="2" maxlength="10" /></td>
+							<td><input type="text" size="50" id="isdPrkAr" class="ygpaNumber" data-decimal-point="2" maxlength="10" /> m<sup>2</sup></td>
 							<th width="12%" height="17">옥내 주 차 대 수</th>
-							<td><input type="text" size="50" id="isdPrkCnt" class="ygpaNumber" maxlength="10" /></td>
+							<td><input type="text" size="50" id="isdPrkCnt" class="ygpaNumber" maxlength="10" /> 대</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">배기 닥 트 유 무</th>
@@ -792,17 +792,17 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<th width="12%" height="17">승강기운영방식</th>
 							<td><input type="text" size="50" id="liftOperMthd" maxlength="33" /></td>
 							<th width="12%" height="17">승강기대수승객용</th>
-							<td><input type="text" size="50" id="liftCntPsngr" class="ygpaNumber" maxlength="5" /></td>
+							<td><input type="text" size="50" id="liftCntPsngr" class="ygpaNumber" maxlength="5" /> 대</td>
 						</tr>
 						<tr>	
 							<th width="12%" height="17">승강기대수비상용</th>
-							<td><input type="text" size="50" id="liftCntEmgcy" class="ygpaNumber" maxlength="5" /></td>
+							<td><input type="text" size="50" id="liftCntEmgcy" class="ygpaNumber" maxlength="5" /> 대</td>
 							<th width="12%" height="17">승강기대수화물용</th>
-							<td><input type="text" size="50" id="liftCntCargo" class="ygpaNumber" maxlength="5" /></td>
+							<td><input type="text" size="50" id="liftCntCargo" class="ygpaNumber" maxlength="5" /> 대</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">전기 인 입 용 량</th>
-							<td><input id="elctyLeadInCapa" type="text" size="50" title="전기인입용량" class="ygpaNumber" data-decimal-point="2" maxlength="8" /></td>
+							<td><input id="elctyLeadInCapa" type="text" size="50" title="전기인입용량" class="ygpaNumber" data-decimal-point="2" maxlength="8" /> kW</td>
 							<th width="12%" height="17">변 전 실　위 치</th>
 							<td><input type="text" size="50" id="sbtLoc"  /></td>
 						</tr>

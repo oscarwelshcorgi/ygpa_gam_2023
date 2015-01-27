@@ -984,7 +984,7 @@ var module_instance = new GamFcltyRepairMngModule();
 								</select>
 							</td>
 							<th width="15%" height="23" class="required_text">하자보수금액</th>
-							<td><input id="flawRprAmt" type="text" size="20" title="하자보수금액" class="ygpaNumber" maxlength="16" /></td>
+							<td><input id="flawRprAmt" type="text" size="20" title="하자보수금액" class="ygpaNumber" maxlength="16" /> 원</td>
 							<th width="15%" height="23" class="required_text">하자보수완료여부</th>
 							<td colspan="3">
 								<select id="flawRprComptYn" title="하자보수완료여부">

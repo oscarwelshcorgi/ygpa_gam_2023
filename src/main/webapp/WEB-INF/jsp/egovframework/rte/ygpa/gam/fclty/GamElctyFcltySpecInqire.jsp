@@ -498,7 +498,7 @@ var module_instance = new GamElctyFcltySpecInqireModule();
 							<th width="12%" height="17" class="required_text">용　　　　　도</th>
 							<td><input id="prpos" type="text" size="50" maxlength="33" title="용도" disabled="disabled" /></td>
 							<th width="12%" height="17" class="required_text">수　　　　　량</th>
-							<td><input id="qy" type="text" size="50" class="ygpaNumber" title="수량" maxlength="5" disabled="disabled" /></td>
+							<td><input id="qy" type="text" size="50" class="ygpaNumber" title="수량" maxlength="5" disabled="disabled" /> 개</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">규　　　　　격</th>
@@ -516,7 +516,7 @@ var module_instance = new GamElctyFcltySpecInqireModule();
 							<th width="12%" height="17" class="required_text">출　　　　　력</th>
 							<td><input id="output" type="text" size="50" maxlength="6" title="출력" disabled="disabled" /></td>
 							<th width="12%" height="17" class="required_text">연 료　소 비 량</th>
-							<td><input id="fuelConsum" type="text" size="50" class="ygpaNumber" data-decimal-point="2" title="연료소비량" maxlength="10" disabled="disabled" /></td>
+							<td><input id="fuelConsum" type="text" size="50" class="ygpaNumber" data-decimal-point="2" title="연료소비량" maxlength="10" disabled="disabled" /> kg/h</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">제　작　회　사</th>
@@ -556,7 +556,7 @@ var module_instance = new GamElctyFcltySpecInqireModule();
 							<th width="12%" height="17" class="required_text">연　료　탱　크</th>
 							<td><input id="fuelTank" type="text" size="50" class="ygpaNumber" data-decimal-point="2" title="연료탱크" maxlength="10" disabled="disabled" /></td>
 							<th width="12%" height="17" class="required_text">유　　　　　량</th>
-							<td><input id="oilQty" type="text" size="50" class="ygpaNumber" data-decimal-point="2" title="유량" maxlength="10" disabled="disabled" /></td>
+							<td><input id="oilQty" type="text" size="50" class="ygpaNumber" data-decimal-point="2" title="유량" maxlength="10" disabled="disabled" /> </td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">한 전　변 전 소</th>
@@ -576,13 +576,13 @@ var module_instance = new GamElctyFcltySpecInqireModule();
 							<th width="12%" height="17" class="required_text">전　주　높　이</th>
 							<td><input id="premainHt" type="text" size="50" class="ygpaNumber" data-decimal-point="2" title="전주높이" maxlength="6" disabled="disabled" /></td>
 							<th width="12%" height="17" class="required_text">전　주　수　량</th>
-							<td><input id="premainQy" type="text" size="50" class="ygpaNumber" title="전주수량" maxlength="5" disabled="disabled" /></td>
+							<td><input id="premainQy" type="text" size="50" class="ygpaNumber" title="전주수량" maxlength="5" disabled="disabled" /> 개</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">등 기 구　규 격</th>
 							<td><input id="lightappStndrd" type="text" size="50" maxlength="20" title="등기구규격" disabled="disabled" /></td>
 							<th width="12%" height="17" class="required_text">등 기 구　수 량</th>
-							<td><input id="lightappQy" type="text" size="50" class="ygpaNumber" title="등기구수량" maxlength="5" disabled="disabled" /></td>
+							<td><input id="lightappQy" type="text" size="50" class="ygpaNumber" title="등기구수량" maxlength="5" disabled="disabled" /> 개</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">등 기 구　형 식</th>
@@ -596,19 +596,19 @@ var module_instance = new GamElctyFcltySpecInqireModule();
 							<th width="12%" height="17" class="required_text">LAMP　용　량</th>
 							<td><input id="lampCapa" type="text" size="50" maxlength="6" title="LAMP용량" disabled="disabled" /></td>
 							<th width="12%" height="17" class="required_text">LAMP　수　량</th>
-							<td><input id="lampQy" type="text" size="50" class="ygpaNumber" title="LAMP수량" maxlength="5" disabled="disabled" /></td>
+							<td><input id="lampQy" type="text" size="50" class="ygpaNumber" title="LAMP수량" maxlength="5" disabled="disabled" /> 개</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">조명탑등기구분류코드</th>
 							<td><input id="lightwrLightappClcd" type="text" size="50" maxlength="10" title="조명탑등기구 분류코드" disabled="disabled" /></td>
 							<th width="12%" height="17" class="required_text">조명탑등기구수량</th>
-							<td><input id="lightwrLightappQy" type="text" size="50" class="ygpaNumber" title="조명탑등기구수량" maxlength="5" disabled="disabled" /></td>
+							<td><input id="lightwrLightappQy" type="text" size="50" class="ygpaNumber" title="조명탑등기구수량" maxlength="5" disabled="disabled" /> 개</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">조명탑LAMP분류코드</th>
 							<td><input id="lightwrLampClcd" type="text" size="50" maxlength="10" title="조명탑 LAMP분류코드" disabled="disabled" /></td>
 							<th width="12%" height="17" class="required_text">조명탑LAMP수량</th>
-							<td><input id="lightwrLampQy" type="text" size="50" class="ygpaNumber" title="조명탑 LAMP수량" maxlength="5" disabled="disabled" /></td>
+							<td><input id="lightwrLampQy" type="text" size="50" class="ygpaNumber" title="조명탑 LAMP수량" maxlength="5" disabled="disabled" /> 개</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">전기시설물분류코드</th>

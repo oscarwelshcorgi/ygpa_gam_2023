@@ -67,9 +67,7 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 					{display:"유지보수예산", 		name:"mntnRprBdgt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"유지보수부위", 		name:"mntnRprPart",				width:250, 		sortable:false,		align:"center"},
 					{display:"시공자", 			name:"cnstrtr",					width:150, 		sortable:false,		align:"center"},
-					{display:"책임기술자", 		name:"responEngineer",			width:150, 		sortable:false,		align:"center"},
-					{display:"공사감독자", 		name:"cnstChargNm",				width:150, 		sortable:false,		align:"center"},
-					{display:"계약명", 			name:"ctrtNm",					width:250, 		sortable:false,		align:"center"}
+					{display:"계약명", 			name:"ctrtNm",					width:250, 		sortable:false,		align:"left"}
 					
 					
 			],
@@ -833,9 +831,9 @@ var module_instance = new GamFcltyMaintMngModule();
 								</tr>
 								<tr>
 									<th height="18" class="required_text">예산</th>
-									<td><input id="mntnRprBdgt" type="text" title="예산" class="ygpaNumber" maxlength="16" style="width:120px;" /></td>
+									<td><input id="mntnRprBdgt" type="text" title="예산" class="ygpaNumber" maxlength="16" style="width:120px;" /> 원</td>
 									<th height="18" class="required_text">계약금액</th>
-									<td><input id="mntnRprCnstAmt" type="text" title="계약금액" class="ygpaNumber" maxlength="16" style="width:115px;" /></td>
+									<td><input id="mntnRprCnstAmt" type="text" title="계약금액" class="ygpaNumber" maxlength="16" style="width:115px;" /> 원</td>
 								</tr>
 								<tr>
 									<th height="18" class="required_text">계약자</th>

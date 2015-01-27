@@ -124,6 +124,7 @@ GamFcltyRepairSttusInqireModule.prototype.onSubmit = function(){
 GamFcltyRepairSttusInqireModule.prototype.loadData = function(){
 
 	// tabs2 항목 초기화
+	this.makeFormValues('#fcltyRepairSttusInqireListVO', {});
 	this.makeDivValues('#fcltyRepairSttusInqireListVO', {});
 	
 	// tabs3 그리드 초기화
@@ -164,6 +165,7 @@ GamFcltyRepairSttusInqireModule.prototype.loadDetail = function(){
 		if(result.resultCode == "0"){
 			
 			module._gamObjFcltsDetailFormValues = result.result;
+			module.makeFormValues('#fcltyRepairSttusInqireListVO', result.result);
 			module.makeDivValues('#fcltyRepairSttusInqireListVO', result.result);
 			
 			// tabs3 그리드 리로드
@@ -444,66 +446,69 @@ var module_instance = new GamFcltyRepairSttusInqireModule();
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
 							<td colspan="3">
-								<span id="fcltsMngGroupNo" title="시설물관리그룹넘버" ></span>
+								<input type="text" size="18" id="fcltsMngGroupNo" disabled="disabled" title="시설물관리그룹넘버" />
 								[ <span id="fcltsMngGoupNoNm" title="시설물관리그룹명"></span> ]
 							</td>
 							<th width="15%" height="23" class="required_text">시행년도</th>
-							<td><span id="enforceYear" title="시행년도"></span></td>
+							<td><input type="text" id="enforceYear" disabled="disabled" title="시행년도"></td>
 							<th width="15%" height="23" class="required_text">시설물업무구분</th>
-							<td><span id="fcltsJobSeNm" title="시설물업무구분"></span></td>
+							<td>
+								<input type="text" id="fcltsJobSeNm" disabled="disabled" title="시설물업무구분">
+								<input type="hidden" id="fcltsJobSe">
+							</td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">계약번호</th>
 							<td colspan="3">
-								<span id="ctrtNo" title="계약번호"></span> 
+								<input type="text" size="20" id="ctrtNo" disabled="disabled" title="계약번호"/> 
 								[ <span id="flawRprNm" title="계약명"></span> ]
 							</td>
 							<th width="15%" height="23" class="required_text">도급업체명</th>
-							<td colspan="3"><span id="flawRprEntrpsNm" title="도급업체명"></span></td>
+							<td colspan="3"><input id="flawRprEntrpsNm" type="text" size="53" title="도급업체명" disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">순번</th>
-							<td><span id="flawRprSeq" title="하자보수순번" ></span></td>
+							<td><input type="text" size="20" id="flawRprSeq" disabled="disabled" title="하자보수순번" /></td>
 							<th>하자검사구분</th>
-							<td><span id="flawExamSeNm" title="하자검사구분"></span></td>
+							<td><input type="text" id="flawExamSeNm" disabled="disabled" title="하자검사구분"></td>
 							<th width="15%" height="23" class="required_text">하자검사일자</th>
-							<td colspan="3"><span id="flawExamDt" title="하자검사일자"></span></td>
+							<td colspan="3"><input id="flawExamDt" type="text" size="20" title="하자검사일자" disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">하자유무</th>
-							<td><span id="flawEnnc" title="하자유무"></span></td>
+							<td><input type="text" id="flawEnnc" disabled="disabled" title="하자유무"></td>
 							<th width="15%" height="23" class="required_text">하자발생일자</th>
-							<td><span id="flawOccrrncDt" title="하자발생일자"></span></td>
+							<td><input id="flawOccrrncDt" type="text" size="15" title="하자발생일자" disabled="disabled" /></td>
 							<th width="15%" height="23" class="required_text">하자보수기간</th>
 							<td colspan="3">
-								<span id="flawRprStartDt" title="하자보수시작일자"></span> ~ 
-								<span id="flawRprEndDt" title="하자보수종료일자"></span>
+								<input id="flawRprStartDt" type="text" size="20" title="하자보수시작일자" disabled="disabled" /> ~ 
+								<input id="flawRprEndDt" type="text" size="20" title="하자보수종료일자" disabled="disabled" />
 							</td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">하자보수유형</th>
-							<td><span id="flawRprTyNm" title="하자보수유형"></span></td>
+							<td><input type="text" id="flawRprTyNm" title="하자보수유형" disabled="disabled"></td>
 							<th width="15%" height="23" class="required_text">하자보수금액</th>
-							<td><span id="flawRprAmt" title="하자보수금액" class="ygpaNumber"></span></td>
+							<td><input id="flawRprAmt" type="text" size="20" title="하자보수금액" class="ygpaNumber" disabled="disabled" /> 원</td>
 							<th width="15%" height="23" class="required_text">하자보수완료여부</th>
-							<td colspan="3"><span id="flawRprComptYn" title="하자보수완료여부"></span></td>
+							<td colspan="3"><input type="text" id="flawRprComptYn" title="하자보수완료여부" disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">하자보수내용</th>
-							<td colspan="7"><span id="flawRprContents" title="하자보수내용"></span></td>
+							<td colspan="7"><textarea id="flawRprContents" cols="143" rows="5" title="하자보수내용" disabled="disabled"></textarea></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">하자보수결과</th>
-							<td colspan="7"><span id="flawExamResult" title="하자보수결과"></span></td>
+							<td colspan="7"><textarea id="flawExamResult" cols="143" rows="5" title="하자보수결과" disabled="disabled"></textarea></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">비고</th>
-							<td colspan="7"><span id="rm" title="비고"></span></td>
+							<td colspan="7"><input id="rm" type="text" size="145" title="비고" disabled="disabled" /></td>
 						</tr>
 					</table>
 				<div class="emdControlPanel">
-					<button data-role="printPage" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairCheckReportPrint.do'>하자검사조서인쇄</button>
-					<button data-role="printPage" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairExpireCheckReportPrint.do'>하자만료검사조서인쇄</button>
+					<button data-role="printPage" data-search-option="fcltyRepairSttusInqireListVO" data-url='/fcltyMng/selectFcltyRepairCheckReportPrint.do'>하자검사조서인쇄</button>
+					<button data-role="printPage" data-search-option="fcltyRepairSttusInqireListVO" data-url='/fcltyMng/selectFcltyRepairExpireCheckReportPrint.do'>하자만료검사조서인쇄</button>
 				</div>
 				</form>
 			</div>
