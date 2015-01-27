@@ -763,7 +763,7 @@ var module_instance = new GamCarRefuelSttusMngModule();
 				<table style="width:100%;" class="searchPanel">
 					<tbody>
 						<tr>
-							<th style="width:8%; height:18;">주　유　년　도</th>
+							<th style="width:10%; height:18;">주　유　년　도</th>
 							<td>
 								<select id="sRefuelMt">
 									<option value="">선택</option>
@@ -772,11 +772,13 @@ var module_instance = new GamCarRefuelSttusMngModule();
 									</c:forEach>
                                 </select>
 							</td>
+							<!--
 							<th style="width:8%; height:18;">차량 등록 번호</th>
 							<td>
 								<input id="sCarRegistNo" type="text" size="15" maxlength="14">
 							</td>
-							<th style="width:8%; height:18;">주　유　구　분</th>
+							 -->
+							<th style="width:10%; height:18;">주　유　구　분</th>
 							<td>
 								<input id="sFuelKnd1" type="hidden" />
 								<input id="sFuelKnd2" type="hidden" />
