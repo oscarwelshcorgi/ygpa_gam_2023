@@ -327,7 +327,6 @@ public class GamFcltyUsageSttusInqireController {
 
 			List mntnRprObjFcltsList = gamFcltyUsageSttusInqireService.selectMntnRprObjFcltsList(searchVO);
 
-
 			map.put("resultCode", 0);
 			map.put("mntnRprObjFcltsList", mntnRprObjFcltsList);
 

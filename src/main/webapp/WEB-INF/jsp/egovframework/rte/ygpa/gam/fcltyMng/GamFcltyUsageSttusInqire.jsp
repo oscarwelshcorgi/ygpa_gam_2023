@@ -95,18 +95,18 @@
 		colModel : [ {display : '항구분', name : 'prtAtCode', width : 60, sortable : false, align : 'center'},
 		             {display : '사용기간', name : 'usagePd', width : 75, sortable : false, align : 'center'},
 		             {display : '업체구분', name : 'entrpsSe', width : 70, sortable : false, align : 'center'},
-		             {display : '업체명', name : 'entrpsnm', width : 80, sortable : false, align : 'center'},
+		             {display : '업체명', name : 'entrpsnm', width : 80, sortable : false, align : 'left'},
 		             {display : '신청일자', name : 'reqstDt', width : 75, sortable : false, align : 'center'},
 		             {display : '허가일자', name : 'prmisnDt', width : 75, sortable : false, align : 'center'},
 		             {display : '납부방법', name : 'payMth', width : 70, sortable : false, align : 'center'},
 		             {display : '과세구분', name : 'taxtNm', width : 90, sortable : false, align : 'center'},
 		             {display : '사용면적㎡',  name : 'usageAr', width : 70, sortable : false, align : 'right', displayFormat : 'number', displayOption:{format:"0,000.00"}},
-		             {display : '사용목적', name : 'usagePurps', width : 150, sortable : false, align : 'center'},
-		             {display : '사용내역', name : 'usageDtls', width : 125, sortable : false, align : 'center'},
-		             {display : '산출내역', name : 'computDtls', width : 90, sortable : false, align : 'center'},
+		             {display : '사용목적', name : 'usagePurps', width : 150, sortable : false, align : 'left'},
+		             {display : '사용내역', name : 'usageDtls', width : 125, sortable : false, align : 'left'},
+		             {display : '산출내역', name : 'computDtls', width : 90, sortable : false, align : 'left'},
 		             {display : '공시지가', name : 'olnlp', width : 70, sortable : false, align : 'right', displayFormat : 'number'},
 		             {display : '적용요율', name : 'applcTariff', width : 70, sortable : false, align : 'right' , displayFormat : 'number', displayOption:{format:"0,000.00"}},
-		             {display : '적용방법', name : 'applcMth', width : 70, sortable : false, align : 'center'},
+		             {display : '적용방법', name : 'applcMth', width : 70, sortable : false, align : 'left'},
 		             {display : '금액', name : 'fee', width : 100, sortable : false, align : 'right', displayFormat : 'number'},
 		             ],
 		height : 'auto'
@@ -120,7 +120,7 @@
 		             {display : '업무 구분', name : 'fcltsJobSe', width : 70, sortable : false, align : 'center'},
 		             {display : '관리 순번', name : 'qcMngSeq', width : 60, sortable : false, align : 'right', displayFormat : 'number'},
 		             {display : '시행 년도', name : 'enforceYear', width : 60, sortable : false, align : 'center'},
-		             {display : '관리 명', name : 'qcMngNm', width : 110, sortable : false, align : 'center'},
+		             {display : '관리 명', name : 'qcMngNm', width : 110, sortable : false, align : 'left'},
 		             {display : '진단 일자', name : 'qcInspDt', width : 70, sortable : false, align : 'center'},
 		             {display : '진단 구분', name : 'qcInspSe', width : 60, sortable : false, align : 'center'},
 		             {display : '진단 기관 명', name : 'qcInspInsttNm', width : 80, sortable : false, align : 'right', displayFormat : 'number'},
@@ -130,10 +130,10 @@
 //		             {display : '진단 예산', name : 'qcInspBdgt', width : 90, sortable : false, align : 'center', displayFormat : 'number'},
 		             {display : '진단 금액', name : 'qcInspAmt', width : 80, sortable : false, align : 'right', displayFormat : 'number'},
 		             {display : '평가등급', name : 'sttusEvlLvl', width : 60, sortable : false, align : 'center'},
-		             {display : '진단 결과', name : 'qcInspResult', width : 60, sortable : false, align : 'center'},
-		             {display : '조치내용', name : 'actionCn', width : 60, sortable : false, align : 'center'},
+		             {display : '진단 결과', name : 'qcInspResult', width : 60, sortable : false, align : 'left'},
+		             {display : '조치내용', name : 'actionCn', width : 60, sortable : false, align : 'left'},
 //		             {display : '조치 구분', name : 'actionSe', width : 90, sortable : false, align : 'center'},
-		             {display : '비고', name : 'rm', width : 60, sortable : false, align : 'center'}
+		             {display : '비고', name : 'rm', width : 60, sortable : false, align : 'left'}
 					],
 		height : '190'
 	});
@@ -151,9 +151,9 @@
 		colModel : [ {display : '관리 번호', name : 'fcltsMngNo', width : 110, sortable : false, align : 'center'},
 		             {display : '진단 구분', name : 'objQcInspSe', width : 65, sortable : false, align : 'center'},
 		             {display : '진단 일자', name : 'objQcInspDt', width : 75, sortable : false, align : 'center'},
-		             {display : '감리자', name : 'inspector', width : 60, sortable : false, align : 'center'},
-		             {display : '진단 결과', name : 'objQcInspResult', width : 70, sortable : false, align : 'center'},
-		             {display : '비고', name : 'objRm', width : 100, sortable : false, align : 'center'}
+		             {display : '감리자', name : 'inspector', width : 60, sortable : false, align : 'left'},
+		             {display : '진단 결과', name : 'objQcInspResult', width : 70, sortable : false, align : 'left'},
+		             {display : '비고', name : 'objRm', width : 80, sortable : false, align : 'left'}
 		             ],
 		height : '190'
 	});
@@ -166,7 +166,7 @@
 		colModel : [ {display : '항목 코드', name : 'qcItemCd', width : 70, sortable : false, align : 'center'},
 		             {display : '순번', name : 'seq', width : 60, sortable : false, align : 'center'},
 		             {display : '결과 구분', name : 'inspResultChk', width : 80, sortable : false, align : 'center'},
-		             {display : '결과내용', name : 'inspResultCn', width : 270, sortable : false, align : 'center'}
+		             {display : '결과내용', name : 'inspResultCn', width : 250, sortable : false, align : 'left'}
 		             ],
 		height : '190'
 	});
@@ -178,18 +178,18 @@
 		colModel : [ {display : '업무구분', name : 'fcltsJobSe', width : 100, sortable : false, align : 'center'}
 					,{display : '시행년도', name : 'enforceYear', width : 100, sortable : false, align : 'center'}
 					,{display : '유지보수구분', name : 'mntnRprSe', width : 100, sortable : false, align : 'center'}
-					,{display : '유지보수부위', name : 'mntnRprPart', width : 100, sortable : false, align : 'center'}
-					,{display : '유지보수내용', name : 'mntnRprCn', width : 100, sortable : false, align : 'center'}
-					,{display : '유지보수예산', name : 'mntnRprBdgt', width : 100, sortable : false, align : 'center'}
-					,{display : '공사명', name : 'mntnRprCnstNm', width : 100, sortable : false, align : 'center'}
+					,{display : '유지보수부위', name : 'mntnRprPart', width : 100, sortable : false, align : 'left'}
+					,{display : '유지보수내용', name : 'mntnRprCn', width : 100, sortable : false, align : 'left'}
+					,{display : '유지보수예산', name : 'mntnRprBdgt', width : 100, sortable : false, align : 'right', displayFormat : 'number'},
+					,{display : '공사명', name : 'mntnRprCnstNm', width : 100, sortable : false, align : 'left'}
 					,{display : '공사 시작일', name : 'mntnRprCnstStartDt', width : 100, sortable : false, align : 'center'}
 					,{display : '공사 종료일', name : 'mntnRprCnstEndDt', width : 100, sortable : false, align : 'center'}
-					,{display : '공사금액', name : 'mntnRprCnstAmt', width : 100, sortable : false, align : 'center'}
-					,{display : '설계자', name : 'plannerNm', width : 100, sortable : false, align : 'center'}
-					,{display : '시공자', name : 'cnstrtr', width : 100, sortable : false, align : 'center'}
-					,{display : '책임 기술자', name : 'responEngineer', width : 100, sortable : false, align : 'center'}
-					,{display : '감독자', name : 'cnstChargNm', width : 100, sortable : false, align : 'center'}
-					,{display : '비고', name : 'rm', width : 100, sortable : false, align : 'center'}
+					,{display : '공사금액', name : 'mntnRprCnstAmt', width : 100, sortable : false, align : 'right', displayFormat : 'number'},
+					,{display : '설계자', name : 'plannerNm', width : 100, sortable : false, align : 'left'}
+					,{display : '시공자', name : 'cnstrtr', width : 100, sortable : false, align : 'left'}
+					,{display : '책임 기술자', name : 'responEngineer', width : 100, sortable : false, align : 'left'}
+					,{display : '감독자', name : 'cnstChargNm', width : 100, sortable : false, align : 'left'}
+					,{display : '비고', name : 'rm', width : 100, sortable : false, align : 'left'}
 					],
 	height : '190'
 	});
@@ -203,12 +203,12 @@
 	this.$("#mntnRprObjFcltsGrid").flexigrid({
 		module : this,
 		dataType : 'json',
-		colModel : [ {display : '유지보수공법', name : 'mntnRprCnstMth', width : 120, sortable : false, align : 'center'}
-					,{display : '단위', name : 'unit', width : 100, sortable : false, align : 'center'}
-					,{display : '수량', name : 'qy', width : 100, sortable : false, align : 'center'}
-					,{display : '단가', name : 'price', width : 100, sortable : false, align : 'center'}
-					,{display : '공사금액', name : 'mntnRprCnstAmt', width : 100, sortable : false, align : 'center'}
-					,{display : '비고', name : 'rm', width : 445, sortable : false, align : 'center'}
+		colModel : [ {display : '유지보수공법', name : 'mntnRprCnstMth', width : 150, sortable : false, align : 'center'}
+					,{display : '단위', name : 'unit', width : 120, sortable : false, align : 'center'}
+					,{display : '수량', name : 'qy', width : 120, sortable : false, align : 'right', displayFormat : 'number'},
+					,{display : '단가', name : 'price', width : 120, sortable : false, align : 'right', displayFormat : 'number'},
+					,{display : '공사금액', name : 'mntnRprCnstAmt', width : 120, sortable : false, align : 'right', displayFormat : 'number'},
+					,{display : '비고', name : 'rm', width : 305, sortable : false, align : 'left'}
 					],
 	height : '190'
 	});
@@ -222,13 +222,13 @@
 					,{display : '하자 유무', name : 'flawEnnc', width : 100, sortable : false, align : 'center'}
 					,{display : '검사결과', name : 'flawExamResult', width : 100, sortable : false, align : 'center'}
 					,{display : '시행년도', name : 'enforceYear', width : 100, sortable : false, align : 'center'}
-					,{display : '하자보수 명', name : 'flawRprNm', width : 100, sortable :false, align : 'center'}
+					,{display : '하자보수 명', name : 'flawRprNm', width : 100, sortable :false, align : 'left'}
 					,{display : '하자보수 유형', name : 'flawRprTy', width : 100, sortable : false, align : 'center'}
 					,{display : '하자발생 일자', name : 'flawOccrrncDt', width : 100, sortable : false, align : 'center'}
-					,{display : '하자보수 업체명', name : 'flawRprEntrpsNm', width : 100, sortable : false, align : 'center'}
-					,{display : '하자보수 내용', name : 'flawRprContents', width : 100, sortable : false, align: 'center'}
+					,{display : '하자보수 업체명', name : 'flawRprEntrpsNm', width : 100, sortable : false, align : 'left'}
+					,{display : '하자보수 내용', name : 'flawRprContents', width : 100, sortable : false, align: 'left'}
 					,{display : '하자보수 완료여부', name : 'flawRprComptYn', width : 130, sortable : false, align : 'center'}
-					,{display : '비고', name : 'rm', width : 100, sortable : false, align : 'center'}
+					,{display : '비고', name : 'rm', width : 100, sortable : false, align : 'left'}
 		           ],
 		height : '190'
 	});
@@ -246,8 +246,8 @@
 		dataType : 'json',
 		colModel : [ {display : '검사일자', name : 'flawExamDt', width : 100, sortable : false, align : 'center'}
 					,{display : '하자유무', name : 'flawEnnc', width : 100, sortable : false, align : 'center'}
-					,{display : '검사결과', name : 'flawExamResult', width : 180, sortable : false, align : 'center'}
-					,{display : '비고', name : 'rm', width : 100, sortable : false, align : 'center'}
+					,{display : '검사결과', name : 'flawExamResult', width : 440, sortable : false, align : 'left'}
+					,{display : '비고', name : 'rm', width : 300, sortable : false, align : 'left'}
 		           ],
 		height : '190'
 	});
@@ -362,6 +362,10 @@ var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
 //        	module.$('#flawRprDtlsGrid').selectRowId(0);
 
 
+			module.$('#mntnRprDtlsGrid').flexEmptyData();
+        	var mntnRprDtlsList={resultList: data.mntnRprDtlsList};
+        	module.$('#mntnRprDtlsGrid').flexAddData(mntnRprDtlsList)
+
 		}else{
 			module.$("#mainTab").tabs("option", {active: 0});
 		}
@@ -389,12 +393,16 @@ GamFcltyUsageSttusInqireModule.prototype.loadQcMngDtailData = function() {
         	var qcMngObjFcltsList={resultList: data.qcMngObjFcltsList};
 //        	module.$('#assetsRentGrid')[0].dgrid.p.preProcess(module, assetsRentList);
         	module.$('#qcMngObjFcltsGrid').flexAddData(qcMngObjFcltsList);
-        	module.$('#qcMngObjFcltsGrid').selectRowId(0);
+//        	module.$('#qcMngObjFcltsGrid').selectRowId(0);
+
+
 
         	module.$('#qcMngResultItemGrid').flexEmptyData();
         	var qcMngResultItemList={resultList: data.qcMngResultItemList};
+
         	module.$('#qcMngResultItemGrid').flexAddData(qcMngResultItemList);
-        	module.$('#qcMngResultItemGrid').selectRowId(0);
+//        	module.$('#qcMngResultItemGrid').selectRowId(0);
+
 
 /*
         	module.$('#qcMngResultItemGrid').flexEmptyData();
@@ -410,19 +418,21 @@ GamFcltyUsageSttusInqireModule.prototype.loadQcMngDtailData = function() {
 
 //유지보수 내역
 GamFcltyUsageSttusInqireModule.prototype.loadMntnRprObjFcltsData = function(module, data) {
-	var row = this.$('#mntnRprObjFcltsGrid').selectedRows();
+	var row = this.$('#mntnRprDtlsGrid').selectedRows();
 	row = row[0];
 	var searchVO = [
 	                { name : 'fcltsMngGroupNo', value : row['fcltsMngGroupNo'] },
 	                { name : 'fcltsJobSe', value : row['fcltsJobSe'] },
 	                { name : 'flawRprSeq', value : row['flawRprSeq'] }
 	               ];
+
 	this.doAction('/fcltyMng/selectMntnRprObjFcltsData.do', searchVO, function(module, data) {
 		if(data.resultCode == "0"){
-			module.$('#mntnRprDtlsGrid').flexEmptyData();
-			var flawRprObjFcltsList={resultList: data.flawRprObjFcltsList};
-			module.$('#mntnRprDtlsGrid').flexAddData(flawRprObjFcltsList);
-			module.$('#mntnRprDtlsGrid').selectRowId(0);
+			module.$('#mntnRprObjFcltsGrid').flexEmptyData();
+			var mntnRprObjFcltsList={resultList: data.mntnRprObjFcltsList};
+
+			module.$('#mntnRprObjFcltsGrid').flexAddData(mntnRprObjFcltsList);
+//			module.$('#mntnRprDtlsGrid').selectRowId(0);
 		}
 	});
 };
@@ -442,12 +452,12 @@ GamFcltyUsageSttusInqireModule.prototype.loadFlawDtailData = function(module, da
 			module.$('#flawRprObjFcltsGrid').flexEmptyData();
 			var flawRprObjFcltsList={resultList: data.flawRprObjFcltsList};
 			module.$('#flawRprObjFcltsGrid').flexAddData(flawRprObjFcltsList);
-			module.$('#flawRprObjFcltsGrid').selectRowId(0);
+//			module.$('#flawRprObjFcltsGrid').selectRowId(0);
 
 			module.$('#flaqExamUsrGrid').flexEmptyData();
 			var flaqExamUsrList={resultList: data.flaqExamUsrList};
 			module.$('#flaqExamUsrGrid').flexAddData(flaqExamUsrList);
-			module.$('#flaqExamUsrGrid').selectRowId(0);
+			//module.$('#flaqExamUsrGrid').selectRowId(0);
 		}
 	});
 };
@@ -653,10 +663,12 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 							하자 보수 대상 시설물
 							<table id='flawRprObjFcltsGrid' style="display:none" class="fillHeight" ></table>
 						</td>
+<!--
 						<td>
 							하자보수 검사자
 							<table id='flaqExamUsrGrid' style="display:none" class="fillHeight" ></table>
 						</td>
+-->
 					</tr>
 				</table>
 			</div>
