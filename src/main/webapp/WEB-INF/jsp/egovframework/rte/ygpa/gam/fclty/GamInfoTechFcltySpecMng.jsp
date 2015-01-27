@@ -600,7 +600,7 @@ var module_instance = new GamInfoTechFcltySpecMngModule();
 									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
 									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
-	                                <button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="civilFcltySpecMngList" data-style="default">맵조회</button>
+	                                <button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="infoTechFcltySpecMngList" data-style="default">맵조회</button>
 								</td>
 							</tr>
 						</table>
