@@ -271,7 +271,7 @@ GamInfoTechFcltySpecMngModule.prototype.saveAtchFile = function() {
     inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
     inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
     inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
-    this.doAction('/fclty/mergeCivilFcltySpecAtchFile.do', inputVO, function(module, result) {
+    this.doAction('/fclty/mergeInfoTechFcltySpecAtchFile.do', inputVO, function(module, result) {
         if(result.resultCode == 0){
 			module._deleteDataFileList = [];
 			module.loadFileData();
@@ -699,7 +699,7 @@ var module_instance = new GamInfoTechFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">수　　　　　량</th>
-							<td><input id="qy" type="text" size="50" class="ygpaNumber"/></td>
+							<td><input id="qy" type="text" size="50" class="ygpaNumber"/> 개</td>
 							<th width="12%" height="17" class="required_text">규　　　　　격</th>
 							<td><input id="stndrd" type="text" size="50" maxlength="80" /></td>
 						</tr>

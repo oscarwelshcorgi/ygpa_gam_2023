@@ -693,7 +693,7 @@ var module_instance = new GamMechFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">길　　　　　이</th>
 							<td><input id="lt" type="text" size="50" class="ygpaNumber" data-decimal-point="2" /></td>
 							<th width="12%" height="17" class="required_text">수　　　　　량</th>
-							<td><input id="qy" type="text" size="50" class="ygpaNumber" /></td>
+							<td><input id="qy" type="text" size="50" class="ygpaNumber" /> 개</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">단　　　　　위</th>
@@ -765,7 +765,7 @@ var module_instance = new GamMechFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">소　유　주　체</th>
 							<td><input id="posesnMainbd" type="text" size="50" maxlength="1" /></td>
 							<th width="12%" height="17" class="required_text">취　득　금　액</th>
-							<td><input id="acqAmt" type="text" size="50" class="ygpaNumber" /></td>
+							<td><input id="acqAmt" type="text" size="50" class="ygpaNumber" /> 원</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">검　사　기　관</th>

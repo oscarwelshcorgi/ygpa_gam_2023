@@ -663,7 +663,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							<td><input id="upsideAltud" type="text" size="50" class="ygpaNumber" data-decimal-point="2" /></td>
 							</tr>
 						<tr>	
-							<th width="12%" height="17" >천　　단　　폭</th>
+							<th width="12%" height="17">천　　   단 　　 폭</th>
 							<td><input id="upsideWd" type="text" size="50" class="ygpaNumber" data-decimal-point="2" /></td>
 							<th width="12%" height="17">선　좌　　　수　심</th>
 							<td><input id="berthDpwt" type="text" size="50" class="ygpaNumber" data-decimal-point="2" /></td>
@@ -708,7 +708,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							<th width="12%" height="17" >말　뚝　　　본　수</th>
 							<td><input id="pileQty" type="text" size="50" class="ygpaNumber" /></td>
 							<th width="12%" height="17" >급　수　전　수　량</th>
-							<td><input id="hydrntQy" type="text" size="50" class="ygpaNumber" /></td>
+							<td><input id="hydrntQy" type="text" size="50" class="ygpaNumber" /> 개</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" >널　말　뚝　규　격</th>
@@ -716,7 +716,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						</tr>
 						<tr>	
 							<th width="12%" height="17" >소　화　전　수　량</th>
-							<td ><input id="firepgQy" type="text" size="50" class="ygpaNumber" /></td>
+							<td ><input id="firepgQy" type="text" size="50" class="ygpaNumber" /> 개</td>
 							<th width="12%" height="17" >선 　　　　　　　석</th>
 							<td><input id="berth" type="text" size="50" class="ygpaNumber" /></td>
 						</tr>
@@ -724,7 +724,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							<th width="12%" height="17" >야적장　포장　종류</th>
 							<td><input id="yardPackKnd" type="text" size="50" maxlength="3" /></td>
 							<th width="12%" height="17" >야　적　장　면　적</th>
-							<td><input id="yardAr" type="text" size="50" class="ygpaNumber" data-decimal-point="2" /></td>
+							<td><input id="yardAr" type="text" size="50" class="ygpaNumber" data-decimal-point="2" /> m<sup>2</sup></td>
 						</tr>
 						<tr>		
 							<th width="12%" height="17" >방충재　종류　코드</th>
@@ -739,9 +739,9 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						
 						<tr>
 							<th width="12%" height="17">계　선　주　수　량1</th>
-							<td><input id="mrpostQy1" type="text" size="50" class="ygpaNumber" data-decimal-point="2" /></td>
+							<td><input id="mrpostQy1" type="text" size="50" class="ygpaNumber" data-decimal-point="2" /> 개</td>
 							<th width="12%" height="17" >계　선　주　수　량2</th>
-							<td><input id="mrpostQy2" type="text" size="50" class="ygpaNumber" data-decimal-point="2" /></td>
+							<td><input id="mrpostQy2" type="text" size="50" class="ygpaNumber" data-decimal-point="2" /> 개</td>
 						</tr>
 						<tr>	
 							<th width="12%" height="17" >계　선　주　규　격1</th>
@@ -752,9 +752,9 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							<td colspan="3"><input id="mrpostStndrd2" type="text" size="136" maxlength="100" /></td>
 						</tr>
 						<tr>	
-				    		<th width="12%" height="17">계선주　배치　간격1</th>
+				    		<th width="12%" height="17">계선주　배치 간격 1</th>
 							<td><input id="mrpostPmntItv1" type="text" size="50" maxlength="30" /></td>
-							<th width="12%" height="17" >계선주　배치 간격　2</th>
+							<th width="12%" height="17">계선주　배치 간격 2</th>
 							<td><input id="mrpostPmntItv2" type="text" size="50" maxlength="30" /></td>
 						</tr>
 						<tr>	
@@ -763,7 +763,8 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							<th width="12%" height="17">계선주　　견인력　2</th>  
 							<td><input id="mrpostPwr2" type="text" size="50" maxlength="30" /></td>
 						</tr>
-							<th width="12%" height="17" >주요 　취급　 화물</th>
+						<tr>
+							<th width="12%" height="17">주요 　취급　 화물</th>
 							<td colspan="3"><input id="stplHndlFrght" type="text" size="136" maxlength="300" /></td>
 						</tr>
 						<tr>	
@@ -801,8 +802,8 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						<tr>
 						<th width="12%" height="17" >토목시설물분류코드</th>
 							<td colspan="3">
-								<input id="cvlEngFcltsClCd" type="text" size="20" ="" />
-								<input id="cvlEngFcltsClCdNm" type="text" size="50" ="" />
+								<input id="cvlEngFcltsClCd" type="text" size="20"/>
+								<input id="cvlEngFcltsClCdNm" type="text" size="50"/>
 							<button id="popupSearchFcltsClCd" class="popupButton">선택</button>
 							</td>
 							</tr>
