@@ -685,9 +685,9 @@ var module_instance = new GamConstFcltySpecInqireModule();
 
 					</table>
 				</form>
-				<div class="emdControlPanel">
+				<!-- <div class="emdControlPanel">
 					<button id="gotoLocation">위치조회</button>
-				</div>
+				</div> -->
 			</div>
 
 			<!-- 건축시설 첨부파일 -->

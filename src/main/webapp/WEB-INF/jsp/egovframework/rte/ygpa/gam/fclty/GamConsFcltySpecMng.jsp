@@ -904,8 +904,8 @@ var module_instance = new GamConstFcltySpecMngModule();
 					</table>
 				</form>
 				<div class="emdControlPanel">
-					<button id="registLocation">위치등록</button>
-					<button id="gotoLocation">위치조회</button>
+					<!-- <button id="registLocation">위치등록</button>
+					<button id="gotoLocation">위치조회</button> -->
 					<button id="saveBtn">저장</button>
 				</div>
 			</div>

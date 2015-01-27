@@ -813,8 +813,8 @@ var module_instance = new GamElctyFcltySpecMngModule();
 					</table>
 				</form>
 				<div class="emdControlPanel">
-					<button id="registLocation">위치등록</button>
-					<button id="gotoLocation">위치조회</button>
+					<!-- <button id="registLocation">위치등록</button>
+					<button id="gotoLocation">위치조회</button> -->
 					<button id="btnSave">저장</button>
 				</div>
 			</div>

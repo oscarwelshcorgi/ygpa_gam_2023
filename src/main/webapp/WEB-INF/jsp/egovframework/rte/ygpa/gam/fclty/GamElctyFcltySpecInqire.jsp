@@ -636,9 +636,9 @@ var module_instance = new GamElctyFcltySpecInqireModule();
 						</tr>
 					</table>
 				</form>
-				<div class="emdControlPanel">
+				<!-- <div class="emdControlPanel">
 					<button id="gotoLocation">위치조회</button>
-				</div>
+				</div> -->
 			</div>
 
 			<!-- 전기시설 첨부파일 -->
