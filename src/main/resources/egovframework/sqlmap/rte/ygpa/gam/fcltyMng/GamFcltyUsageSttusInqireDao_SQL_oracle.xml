@@ -207,7 +207,8 @@
 			FROM (
 				SELECT  ROWNUM RNUM, S.*
 				  FROM (
-		              SELECT FCLTS_MNG_NO AS FCLTS_MNG_NO
+		              SELECT GAM_GET_PRT_FCLTY_NM(FCLTS_MNG_NO) AS PRT_FCLTY_NM
+		              		,FCLTS_MNG_NO AS FCLTS_MNG_NO
 		                    ,GAM_GET_STTUS_EVL_LVL_NM(STTUS_EVL_LVL) AS STTUS_EVL_LVL
 		                    ,TO_CHAR(QC_INSP_DT,'YYYY-MM-DD') AS QC_INSP_DT
 		                    ,INSPECTOR AS INSPECTOR
@@ -300,7 +301,8 @@
 			FROM (
 				SELECT  ROWNUM RNUM, S.*
 				  FROM (
-						SELECT MNTN_RPR_CNST_MTH
+						SELECT GAM_GET_PRT_FCLTY_NM(FCLTS_MNG_NO) AS PRT_FCLTY_NM
+							  ,MNTN_RPR_CNST_MTH
 						      ,UNIT
 						      ,QY
 						      ,PRICE
@@ -379,7 +381,8 @@
 			FROM (
 				SELECT  ROWNUM RNUM, S.*
 				  FROM (
-					SELECT FLAW_EXAM_DT AS FLAW_EXAM_DT
+					SELECT GAM_GET_PRT_FCLTY_NM(FCLTS_MNG_NO) AS PRT_FCLTY_NM
+						 , FLAW_EXAM_DT AS FLAW_EXAM_DT
 					     , FLAW_ENNC AS FLAW_ENNC
 					     , FLAW_EXAM_RESULT AS FLAW_EXAM_RESULT
 					     , RM AS RM
@@ -418,22 +421,4 @@
 		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
 		]]>
 	</select>
-
-
-
 </sqlMap>
-
-<!--
-	<resultMap id="GamFcltyUsageMngMap" class="egov framework.rte.ygpa.gam.ctrt.service.GamFcltyUsageSttusInqireVO">
-		<result property="prtAtCode" column="PRT_AT_CODE" columnIndex="1" />
-		<result property="mngYearNo" column="MNG_YEAR_NO" columnIndex="2" />
-		<result property="gisAssets" column="GIS_ASSETS" columnIndex="3" />
-		<result property="docNo" column="DOC_NO" columnIndex="4" />
-		<result property="nticMth" column="NTIC_MTH" columnIndex="5" />
-		<result property="usagePurps" column="USAGE_PURPS" columnIndex="6" />
-		<result property="usageDtls" column="USAGE_DTLS" columnIndex="7" />
-		<result property="usageAr" column="USAGE_AR" columnIndex="8" />
-		<result property="fee" column="FRR" columnIndex="9" />
-		<result property="prmisnDt" column="PRMISN_DT" columnIndex="10" />
-	</resultMap>
- -->
