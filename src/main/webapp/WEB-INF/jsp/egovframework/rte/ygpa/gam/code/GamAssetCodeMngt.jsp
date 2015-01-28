@@ -212,11 +212,11 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 	 	this.$('#assetCodeList').flexOptions({params:searchOpt}).flexReload();
 	 	this.$('#btnMapSave').show();
 	 	this.$('#btnMapSave2').show();
-	 	console.log('set feature mode');
+	 	//console.log('set feature mode');
 	 	break;
 	}
 
-	console.log('GamAssetCodeModule loadcomplete');
+	//console.log('GamAssetCodeModule loadcomplete');
 };
 
 // 사용자 설정 함수 추가
