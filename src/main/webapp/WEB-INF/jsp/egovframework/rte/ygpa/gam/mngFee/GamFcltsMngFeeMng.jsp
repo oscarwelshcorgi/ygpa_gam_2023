@@ -988,18 +988,20 @@ GamFcltsMngFeeMngModule.prototype.copyData = function() {
 			alert('[' + sQueryMngYear + '-' + sQueryMngMt + '월] 자료가 존재합니다.');
 			return;
 		}
-		prevMngMt = result.resultList[0]['prevMngMt'];
+		prevMngMt = result.resultList[0]['prevMt'];
 		mainCnt = result.resultList[0]['mainCnt'];
 		detailCnt = result.resultList[0]['detailCnt'];
 		reqestCnt = result.resultList[0]['reqestCnt'];
-		processVO={
+		copyVO={
 			'mngMtYear':sQueryMngYear,
 			'mngMtMon':sQueryMngMt,
 			'mngFeeJobSe':sQueryMngFeeJobSe,
 			'prevMngMt':prevMngMt,
 			'mainCnt':mainCnt,
 			'detailCnt':detailCnt,
-			'reqestCnt':reqestCnt
+			'reqestCnt':reqestCnt,
+			'regUsr':"",
+			'deptCd':""
 		};
 		module.doAction('/mngFee/gamCopyFcltsMngFeeMng.do', copyVO, function(module, result) {
 			if (result.resultCode == "0") {

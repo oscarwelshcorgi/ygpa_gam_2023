@@ -80,7 +80,7 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 					{display:'이월 예산 금액',		name:'caryFwdBdgtAmt',		width:100,		sortable:false,		align:'right'},
 					{display:'감독자 1',			name:'intendant1',			width:80,		sortable:false,		align:'left'},
 					{display:'감독자 2',			name:'intendant2',			width:80,		sortable:false,		align:'left'},
-					{display:'감독자 2',			name:'intendant3',			width:80,		sortable:false,		align:'left'},
+					{display:'감독자 3',			name:'intendant3',			width:80,		sortable:false,		align:'left'},
 					{display:'담당 부서',			name:'jobChrgDeptNm',		width:100,		sortable:false,		align:'left'},
 					{display:'하자 시작 일자',		name:'flawDtFrom',			width:100,		sortable:false,		align:'center'},
 					{display:'하자 종료 일자',		name:'flawDtTo',			width:100,		sortable:false,		align:'center'},
@@ -3827,7 +3827,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 							<tr>
 								<th width="10%" height="27px">낙　　찰　　자</th>
 								<td>
-									<input type="text" size="33" id="scsbider" class="ygpaNumber" maxlength="100"/>
+									<input type="text" size="33" id="scsbider" maxlength="100"/>
 								</td>
 								<th width="10%" height="27px">낙　찰　금　액</th>
 								<td>

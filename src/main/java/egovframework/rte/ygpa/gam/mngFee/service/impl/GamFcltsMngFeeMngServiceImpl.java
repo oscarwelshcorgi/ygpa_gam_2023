@@ -267,13 +267,13 @@ public class GamFcltsMngFeeMngServiceImpl extends AbstractServiceImpl implements
 		String strMainCnt = (String)vo.get("mainCnt");
 		String strDetailCnt = (String)vo.get("detailCnt");
 		String strReqestCnt = (String)vo.get("reqestCnt");
-		if (!("0".equals(strMainCnt)) && !("".equals(strMainCnt))) {
+		if (("0".equals(strMainCnt))) {
 			gamFcltsMngFeeMngDao.copyFcltsMngFeeF(vo);
 		}
-		if (!("0".equals(strDetailCnt)) && !("".equals(strDetailCnt))) {
+		if (("0".equals(strDetailCnt))) {
 			gamFcltsMngFeeMngDao.copyFcltsMngFeeDetailF(vo);
 		}
-		if (!("0".equals(strReqestCnt)) && !("".equals(strReqestCnt))) {
+		if (("0".equals(strReqestCnt))) {
 			gamFcltsMngFeeMngDao.copyMngFeeLevReqestF(vo);
 		}
 	}
