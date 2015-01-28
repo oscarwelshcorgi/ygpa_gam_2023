@@ -94,8 +94,7 @@
 		dataType : 'json',
 		colModel : [ {display : '항구분', name : 'prtAtCode', width : 60, sortable : false, align : 'center'}
 		            , {display : '사용기간', name : 'usagePd', width : 75, sortable : false, align : 'center'}
-		            ,{display : '업체구분', name : 'entrpsSe', width : 70, sortable : false, align : 'center'}
-		            ,{display : '업체명', name : 'entrpsnm', width : 80, sortable : false, align : 'left'}
+		            ,{display : '업체명', name : 'entrpscd', width : 80, sortable : false, align : 'left'}
 		            ,{display : '신청일자', name : 'reqstDt', width : 75, sortable : false, align : 'center'}
 		            ,{display : '허가일자', name : 'prmisnDt', width : 75, sortable : false, align : 'center'}
 		            ,{display : '납부방법', name : 'payMth', width : 70, sortable : false, align : 'center'}
