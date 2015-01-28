@@ -21,9 +21,25 @@
 	    </layout>
 	</appender>
 
+<!--
     <logger name="java.sql" additivity="false">
     	<level value="DEBUG"/>
         <appender-ref ref="console"/>
+    </logger>
+ -->
+    <logger name="java.sql.PreparedStatement" additivity="false">
+    	<level value="DEBUG"/>
+        <appender-ref ref="console"/>
+    </logger>
+
+    <logger name="java.sql.PreparedStatement" additivity="false">
+    	<level value="DEBUG"/>
+        <appender-ref ref="rollingFile"/>
+    </logger>
+
+    <logger name="java.sql.ResultSet" additivity="false">
+    	<level value="DEBUG"/>
+        <appender-ref ref="rollingFile"/>
     </logger>
 
     <logger name="egovframework" additivity="false">

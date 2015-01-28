@@ -41,7 +41,9 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
     				{display:'고지업체명', name:'entrpsNm',width:200, sortable:false,align:'left'},
     				{display:'요금종류명', name:'chrgeKndNm',width:180, sortable:false,align:'left'},
     				{display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
-    				{display:'고지금액', name:'nticAmt',width:100, sortable:false,align:'right', displayFormat: 'number'},
+    				{display:'사용료', name:'fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
+    				{display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'number'},
+    				{display:'고지금액', name:'totalNticAmount',width:100, sortable:false,align:'right', displayFormat: 'number'},
 					{display:'납부기한', name:'payTmlmt',width:80, sortable:false,align:'center'},
 					{display:'수납구분', name:'rcivSeNm',width:80, sortable:false,align:'center'},
 					{display:'수납일자', name:'rcivDt',width:100, sortable:false,align:'center'}

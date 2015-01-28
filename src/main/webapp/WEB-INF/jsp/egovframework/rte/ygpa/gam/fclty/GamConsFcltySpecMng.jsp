@@ -96,8 +96,8 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 	this.$("#fcltyFileList").on("onItemSelected", function(event, module, row, grid, param) {
 		module.imagePreview();
 	});
-	
-	
+
+
 	// 시설물관리그룹 검색조건 클릭시 초기화 처리
 	this.$("#sFcltsMngGroupNo").bind("click", {module: this}, function(event) {
 		event.data.module.$("#sFcltsMngGroupNo").val('');
@@ -121,7 +121,7 @@ GamConstFcltySpecMngModule.prototype.loadData = function() {
 };
 
 GamConstFcltySpecMngModule.prototype.imagePreview = function() {
-	
+
 	var row = this.$('#fcltyFileList').selectedRows();
 	row = row[0];
 
@@ -172,7 +172,7 @@ GamConstFcltySpecMngModule.prototype.loadDetail = function() {
 	 		specModule.$("#beforeGisPrtFcltyCd").val(specModule.$("#gisPrtFcltyCd").val());
             specModule.$("#beforeGisPrtFcltySeq").val(specModule.$("#gisPrtFcltySeq").val());
  		}
- 	
+
  		specModule.$("#gisCodePopupBtn").hide();
  		specModule.$("#selectedGAM005").disable();
  	});
@@ -453,7 +453,7 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		case "addBtn":
 			this.addFcltyMode();
 		break;
-		
+
 		// 저장
 		case "saveBtn":
 			this.saveFcltyData();
@@ -463,17 +463,17 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		case "deleteBtn":
 			this.deleteFcltyData();
 		break;
-		
+
 		// 파일 업로드
 		case "btnUploadFile":
 			this.uploadFile();
 		break;
-		
+
 		// 파일 다운로드
 		case 'btnDownloadFile':
 			this.downloadFile();
 		break;
-		
+
 		// 엑셀다운로드
 		case "btnExcelDownload":
 			this.downloadExcel(buttonId);
@@ -482,17 +482,17 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		case "btnRemoveFile":
 			this.removefcltyFileItem();
 		break;
-		
+
 		// 위치 등록
-		case "registLocation":	
+		case "registLocation":
 			this.registLocation();
 		break;
-		
+
 		// 위치 조회
-		case "gotoLocation":	
+		case "gotoLocation":
 			this.gotoLocation();
 		break;
-		
+
 		// 자산코드 팝업
 		case "gisCodePopupBtn":
 			this.doExecuteDialog("searchGisCodePopup", "자산코드", '/popup/showAssetsCd.do', {});
@@ -502,12 +502,12 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		case "searchPopupBtn":
 			this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
 		break;
-		
+
 		// 시설물 분류코드(디테일 화면)
 		case "searchFcltsClCd" :
-			this.doExecuteDialog("selectFcltsClCd", "시설물 분류코드", '/popup/showFcltsClCd.do', { 'sFcltsClCdChar' : 'A' });			
+			this.doExecuteDialog("selectFcltsClCd", "시설물 분류코드", '/popup/showFcltsClCd.do', { 'sFcltsClCdChar' : 'A' });
 		break;
-			
+
 		// 시설물관리그룹(디테일 화면)
 		case "searchFcltsMngGroupNo":
 			this.doExecuteDialog("selectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
@@ -533,15 +533,15 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
 				this.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
 				alert('건축시설 항목을 선택 하세요.');
-			} 
+			}
 			break;
-	
+
 		case "tabs3":
 			this._deleteDataFileList=[];
 			if((this._cmd != 'insert') && (this._cmd != 'modify')) {
 				this.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
 				alert('건축시설 항목을 선택 하세요.');
-			} 
+			}
 			break;
 	}
 };
@@ -569,7 +569,7 @@ GamConstFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 			if(this._cmd!="insert") alert('변경된 내용은 페이지를 새로고침을 해야 반영 됩니다.');
 		break;
 
-		// 검색조건 시설물 관리 그룹 
+		// 검색조건 시설물 관리 그룹
 		case "sSelectFcltsMngGroup":
 			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
@@ -583,9 +583,9 @@ GamConstFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 
 		case "selectFcltsClCd":
 			this.$("#archFcltsClCd").val(value["fcltsClCd"]);
-			this.$("#archFcltsClCdNm").val(value["fcltsClCdNm"]);			
+			this.$("#archFcltsClCdNm").val(value["fcltsClCdNm"]);
 			break;
-			
+
 		case "selectFcltsMngGroup":
 			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#fcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
@@ -654,6 +654,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 								<button id="addBtn">시설추가</button>
 								<button id="deleteBtn">시설삭제</button>
 								<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="constFcltySpecMngList" data-style="default">맵조회</button>
+								<button data-role="editMap" data-gis-layer="gisArchFclty">맵편집</button>
 							</td>
 						</tr>
 					</table>
@@ -739,7 +740,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<th width="12%" height="17">구　조　형　식</th>
 							<td><input type="text" size="50" id="strctFmt" maxlength="33" /></td>
 						</tr>
-						
+
 						<tr>
 							<th width="12%" height="17">하자 만 료 일 자</th>
 							<td><input type="text" size="11" id="flawEndDt" class="emdcal" maxlength="8" /></td>
@@ -794,7 +795,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<th width="12%" height="17">승강기대수승객용</th>
 							<td><input type="text" size="50" id="liftCntPsngr" class="ygpaNumber" maxlength="5" /> 대</td>
 						</tr>
-						<tr>	
+						<tr>
 							<th width="12%" height="17">승강기대수비상용</th>
 							<td><input type="text" size="50" id="liftCntEmgcy" class="ygpaNumber" maxlength="5" /> 대</td>
 							<th width="12%" height="17">승강기대수화물용</th>
@@ -922,7 +923,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 								<button id="btnRemoveFile">삭제</button>
 								<button id="saveBtn">저장</button>
 							</div>
-			
+
 							<form id="fcltyGisFileForm">
 								<table class="searchPanel editForm">
 									<tr>

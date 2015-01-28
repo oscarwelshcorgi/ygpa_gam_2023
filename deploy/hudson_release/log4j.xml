@@ -19,7 +19,7 @@
 	    </layout>
 	</appender>
 
-    <logger name="java.sql">
+    <logger name="java.sql.PreparedStatement">
     	<level value="DEBUG"/>
         <appender-ref ref="dailyRollingFile"/>
     </logger>
