@@ -6,7 +6,7 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamPopupCtrtNoVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupCtrtNoVO"/>
-    
+
 
     <select id="gamPopupCtrtNoDao.selectCtrtNoList_D" parameterClass="gamPopupCtrtNoVO" resultClass="egovMap">
            SELECT A.*
@@ -15,7 +15,7 @@
                      FROM (
 							SELECT
 							    I.CTRT_NO
-                                , (CASE WHEN I.CTRT_SE = '1' THEN '자체' 
+                                , (CASE WHEN I.CTRT_SE = '1' THEN '자체'
                                 		  WHEN I.CTRT_SE = '2' THEN '조달'
                                 	END) AS CTRT_SE
                                 , I.BID_PBLANC_NO
@@ -27,46 +27,44 @@
                                 , I.REGIST_ENTRPS_CD
                                 , I.PLAN_AMT
                                 , I.CTRT_AMT
-                                , NVL(J.RPRSNTV,J.ENTRPS_NM) CNSTRTR 
+                                , NVL(J.RPRSNTV,J.ENTRPS_NM) CNSTRTR
                                 , GAM_GETENTRPSNM(I.REGIST_ENTRPS_CD, 1) AS REGIST_ENTRPS_NM
                                 , J.ENTRPS_NM
-                            FROM 
+                            FROM
 				            	CTRT_INFO_F I
-							LEFT OUTER JOIN 
-								CTRT_JOIN_CONTR_F J 
-							ON 
+							LEFT OUTER JOIN
+								CTRT_JOIN_CONTR_F J
+							ON
 								I.CTRT_NO = J.CTRT_NO
-							WHERE 
-								J.SEQ = 1
+							WHERE
 								<isNotEmpty property="sCtrtNo">
-									AND I.CTRT_NO LIKE #sCtrtNo# || '%' 
+									AND I.CTRT_NO LIKE #sCtrtNo# || '%'
 								</isNotEmpty>
 								<isNotEmpty property="sCtrtNm">
-									AND I.CTRT_NM LIKE '%' || #sCtrtNm# || '%' 
+									AND I.CTRT_NM LIKE '%' || #sCtrtNm# || '%'
 								</isNotEmpty>
                             <!-- ORDER BY REGIST_DT DESC -->
-                            ORDER BY I.CTRT_NO DESC, I.CTRT_DT DESC                                                
-                ) S	
+                            ORDER BY I.CTRT_NO DESC, I.CTRT_DT DESC
+                ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
-    
+
     <select id="gamPopupCtrtNoDao.selectCtrtNoListTotCnt_S" parameterClass="gamPopupCtrtNoVO" resultClass="int">
 			SELECT
 			    COUNT(*) TOTAL_CNT
-			FROM 
+			FROM
             	CTRT_INFO_F I
-			LEFT OUTER JOIN 
-				CTRT_JOIN_CONTR_F J 
-			ON 
+			LEFT OUTER JOIN
+				CTRT_JOIN_CONTR_F J
+			ON
 				I.CTRT_NO = J.CTRT_NO
-			WHERE 
-				J.SEQ = 1
+			WHERE
 				<isNotEmpty property="sCtrtNo">
-					AND I.CTRT_NO LIKE #sCtrtNo# || '%' 
+					AND I.CTRT_NO LIKE #sCtrtNo# || '%'
 				</isNotEmpty>
 				<isNotEmpty property="sCtrtNm">
-					AND I.CTRT_NM LIKE '%' || #sCtrtNm# || '%' 
+					AND I.CTRT_NM LIKE '%' || #sCtrtNm# || '%'
 				</isNotEmpty>
     </select>
 </sqlMap>

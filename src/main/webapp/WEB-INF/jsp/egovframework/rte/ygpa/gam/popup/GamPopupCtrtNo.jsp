@@ -55,7 +55,7 @@ GamPopupFcltsClCdModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#grdInfoList").on("onItemUnSelected", function(event, module, row, grid, param) {
-	});	
+	});
 
 };
 // 사용자 설정 함수 추가
@@ -96,16 +96,16 @@ var popup_instance = new GamPopupFcltsClCdModule();
 					<tr>
                         <th>계약번호</th>
                         <td>
-                        	<input id="sCtrtNo" type="text" size="14" maxlength="14" />
+                        	<input id="sCtrtNo" type="text" size="14" maxlength="15" />
                         </td>
 						<th>계약명</th>
-                        <td><input id="sCtrtNm" type="text" size="20" /></td>
+                        <td><input id="sCtrtNm" type="text" size="20" maxlength="100" /></td>
 						<td><button class="buttonSearch">조회</button></td>
 					</tr>
 				</tbody>
 			</table>
 		</form>
-		
+
 		<div class="emdPanel fillHeight">
 	        <table id="grdInfoList" style="display: none" class="fillHeight"></table>
 	        <div class="emdControlPanel">
