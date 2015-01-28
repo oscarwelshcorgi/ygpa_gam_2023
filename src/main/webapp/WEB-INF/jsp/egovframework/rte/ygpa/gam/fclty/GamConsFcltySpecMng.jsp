@@ -104,6 +104,21 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 		event.data.module.$("#sFcltsMngGroupNoNm").val('');
 	});
 
+	this._params=params;
+	if(params!=null) {
+		if(params.action!=null) {
+			switch(params.action) {
+			case "setFeature":
+				this.$('#setFeature').show();
+				break;
+			case "prtFcltyInqire":
+				this._cmd = 'modify';
+				this.$("#constFcltySpecMngListTab").tabs("option", {
+					active : 1
+				});
+			}
+		}
+	}
 
 };
 
@@ -148,9 +163,14 @@ GamConstFcltySpecMngModule.prototype.imagePreview = function() {
 };
 
 GamConstFcltySpecMngModule.prototype.loadDetail = function() {
-
 	var row = this.$('#constFcltySpecMngList').selectedRows();
-	row = row[0];
+	if(row.length==0 && this._params!=undefined && this._params.action=="prtFcltyInqire") {
+		row={'fcltsMngNo': this._params.fcltsMngNo};
+	}
+	else {
+		row = row[0];
+	}
+
 	console.log(row);
 	if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
 		this.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
@@ -377,7 +397,9 @@ GamConstFcltySpecMngModule.prototype.getFcltsMngGroupNoNm = function() {
 };
 
 GamConstFcltySpecMngModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
-
+	if(this._params!=undefined && this._params.action=="prtFcltyInqire") {
+		return true;
+	}
 	if((newTabId=='tabs2' || newTabId=='tabs3') && this._cmd != 'insert') {
 		if(this.$('#constFcltySpecMngList').selectedRowCount()!=1) {
 			alert('건축시설 항목을 선택 하세요.');
@@ -512,6 +534,20 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		case "searchFcltsMngGroupNo":
 			this.doExecuteDialog("selectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
 		break;
+
+		case "setFeature": // GIS 피처 지정
+			this.$('#setFeature').hide();
+			var row = this.$("#constFcltySpecMngList").selectedRows();
+
+			if(row.length!=1) {
+				alert('지정 할 시설을 하나만 선택 해 주시기 바랍니다.');
+				return;
+			}
+			this.setFeatureCode('gisArchFclty',
+					row[0],
+					this._param.feature);
+			this.closeWindow();
+			break;
 	}
 };
 
@@ -655,6 +691,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 								<button id="deleteBtn">시설삭제</button>
 								<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="constFcltySpecMngList" data-style="default">맵조회</button>
 								<button data-role="editMap" data-gis-layer="gisArchFclty">맵편집</button>
+								<button id="setFeature" style="display: none;">맵지정</button>
 							</td>
 						</tr>
 					</table>

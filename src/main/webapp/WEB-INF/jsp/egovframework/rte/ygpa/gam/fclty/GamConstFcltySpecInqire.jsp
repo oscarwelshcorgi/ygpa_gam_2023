@@ -48,7 +48,7 @@ GamConstFcltySpecInqireModule.prototype = new EmdModule(1000,700);
 GamConstFcltySpecInqireModule.prototype.loadComplete = function(params) {
 
 	this._fcltyItem = null;
-	
+
 	// 테이블 설정
 	this.$("#mainGrid").flexigrid({
 		module: this,
@@ -103,14 +103,27 @@ GamConstFcltySpecInqireModule.prototype.loadComplete = function(params) {
 	this.$("#fcltyFileList").on("onItemSelected", function(event, module, row, grid, param) {
 		module.imagePreview();
 	});
-	
-	
+
+
 	// 시설물관리그룹 검색조건 클릭시 초기화 처리
 	this.$("#sFcltsMngGroupNo").bind("click", {module: this}, function(event) {
 		event.data.module.$("#sFcltsMngGroupNo").val('');
 		event.data.module.$("#sFcltsMngGroupNoNm").val('');
 	});
-	
+
+	this._params=params;
+	if(params!=null) {
+		if(params.action!=null) {
+			switch(params.action) {
+			case "prtFcltyInqire":
+				this._cmd = 'modify';
+				this.$("#mainTab").tabs("option", {
+					active : 1
+				});
+			}
+		}
+	}
+
 };
 
 <%
@@ -172,8 +185,14 @@ GamConstFcltySpecInqireModule.prototype.imagePreview = function() {
 %>
 GamConstFcltySpecInqireModule.prototype.loadDetail = function() {
 	var row = this.$('#mainGrid').selectedRows();
-	row = row[0];
-	
+	if(row.length==0 && this._params!=undefined && this._params.action=="prtFcltyInqire") {
+		row={'fcltsMngNo': this._params.fcltsMngNo};
+		this._params.action=="prtFcltyInqire1";	// 처음 한번만 체크 하도록 한다.
+	}
+	else {
+		row = row[0];
+	}
+
 	if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
 		this.$("#mainTab").tabs("option", {active: 0});
 		alert('시설물 관리번호에 오류가 있습니다.');
@@ -202,7 +221,9 @@ GamConstFcltySpecInqireModule.prototype.loadDetail = function() {
 };
 
 GamConstFcltySpecInqireModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
-
+	if(this._params!=undefined && this._params.action=="prtFcltyInqire") {
+		return true;
+	}
 	if(newTabId=='tabs2' || newTabId=='tabs3') {
 		if(this.$('#mainGrid').selectedRowCount()!=1) {
 			alert('건축시설 항목을 선택 하세요.');
@@ -223,17 +244,17 @@ GamConstFcltySpecInqireModule.prototype.onTabChangeBefore = function(newTabId, o
 %>
  GamConstFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
-		
+
 		// 파일 다운로드
 		case 'btnDownloadFile':
 			this.downloadFile();
 		break;
-	
+
 		// 위치 조회
-		case "gotoLocation":	
+		case "gotoLocation":
 			this.gotoLocation();
 		break;
-	
+
 		// 검색조건 시설물 관리 그룹 팝업
 		case "searchPopupBtn":
 			this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', null);
@@ -319,7 +340,7 @@ GamConstFcltySpecInqireModule.prototype.downloadExcel = function(buttonId) {
 		// 엑셀다운로드
 		case "btnExcelDownload":
 			this.downloadExcel(buttonId);
-		
+
 	}
 };
 
@@ -348,14 +369,14 @@ GamConstFcltySpecInqireModule.prototype.onTabChange = function(newTabId, oldTabI
 			if(this._cmd != 'modify') {
 				this.$("#mainTab").tabs("option", {active: 0});
 				alert('건축시설 항목을 선택 하세요.');
-			} 
+			}
 			break;
-	
+
 		case "tabs3":
 			if(this._cmd != 'modify') {
 				this.$("#mainTab").tabs("option", {active: 0});
 				alert('건축시설 항목을 선택 하세요.');
-			} 
+			}
 			break;
 	}
 };
@@ -372,7 +393,7 @@ GamConstFcltySpecInqireModule.prototype.onTabChange = function(newTabId, oldTabI
 %>
  GamConstFcltySpecInqireModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch(popupId){
-		// 검색조건 시설물 관리 그룹 
+		// 검색조건 시설물 관리 그룹
 		case "sSelectFcltsMngGroup":
 			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
@@ -535,7 +556,7 @@ var module_instance = new GamConstFcltySpecInqireModule();
 							<th width="12%" height="17">구　조　형　식</th>
 							<td><input type="text" size="50" id="strctFmt" disabled="disabled" /></td>
 						</tr>
-						
+
 						<tr>
 							<th width="12%" height="17">하자 만 료 일 자</th>
 							<td><input type="text" size="11" id="flawEndDt" class="emdcal" disabled="disabled" /></td>
@@ -585,7 +606,7 @@ var module_instance = new GamConstFcltySpecInqireModule();
 							<th width="12%" height="17">승강기대수승객용</th>
 							<td><input type="text" size="50" id="liftCntPsngr" class="ygpaNumber" disabled="disabled" /> 대</td>
 						</tr>
-						<tr>	
+						<tr>
 							<th width="12%" height="17">승강기대수비상용</th>
 							<td><input type="text" size="50" id="liftCntEmgcy" class="ygpaNumber" disabled="disabled" /> 대</td>
 							<th width="12%" height="17">승강기대수화물용</th>

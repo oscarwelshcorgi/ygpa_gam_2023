@@ -39,7 +39,7 @@ public class GamMapsAssetCodeMngtDAO extends YGPAAbstractDAO {
 	 */
 	@SuppressWarnings("unchecked")
 	public List selectAssetCodeInfoList(Map vo) throws Exception{
-		return list("gamMapsAssetCodeMngtDAO.selectAssetCodeInfoList_D", vo);
+		return list("gamMapsFcltyCdMngtDAO.selectMapsArchFcltyCdInfoByPk_S", vo);
 	}
 
 	/**
