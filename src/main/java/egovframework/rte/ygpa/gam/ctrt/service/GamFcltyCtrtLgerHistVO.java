@@ -40,6 +40,7 @@ public class GamFcltyCtrtLgerHistVO extends ComDefaultVO {
 	private	String ctrtNm;			// 계약 명
 	private	String planAmt;			// 설계 금액
 	private	String prmtAmt;			// 예정 금액
+	private	String scsbider;		// 낙찰자
 	private	String scsbidAmt;		// 낙찰 금액
 	private	String scsbidRate;		// 낙찰 율
 	private	String baseAmt;			// 기초 금액
@@ -69,6 +70,7 @@ public class GamFcltyCtrtLgerHistVO extends ComDefaultVO {
 	private	String causeAct;		// 원인 행위
 	private	String ctrtSeNm;		// 계약 구분 명
 	private	String ctrtGrntyMthNm;	// 계약 보증 방법 명
+	private	String jobChrgDeptNm;		// 업무 담당 부서 명
 	private	String sCtrtNo;			// 검색 계약 번호
 	private	String sCtrtSe;			// 검색 계약 구분
 	private	String sCtrtNm;			// 검색 계약 명
@@ -216,6 +218,18 @@ public class GamFcltyCtrtLgerHistVO extends ComDefaultVO {
 	 */
 	public void setPrmtAmt(String prmtAmt) {
 		this.prmtAmt = prmtAmt;
+	}
+	/**
+	 * @return the scsbider
+	 */
+	public String getScsbider() {
+		return scsbider;
+	}
+	/**
+	 * @param scsbider the scsbider to set
+	 */
+	public void setScsbider(String scsbider) {
+		this.scsbider = scsbider;
 	}
 	/**
 	 * @return the scsbidAmt
@@ -564,6 +578,18 @@ public class GamFcltyCtrtLgerHistVO extends ComDefaultVO {
 	 */
 	public void setCtrtGrntyMthNm(String ctrtGrntyMthNm) {
 		this.ctrtGrntyMthNm = ctrtGrntyMthNm;
+	}
+	/**
+	 * @return the jobChrgDeptNm
+	 */
+	public String getJobChrgDeptNm() {
+		return jobChrgDeptNm;
+	}
+	/**
+	 * @param jobChrgDeptNm the jobChrgDeptNm to set
+	 */
+	public void setJobChrgDeptNm(String jobChrgDeptNm) {
+		this.jobChrgDeptNm = jobChrgDeptNm;
 	}
 	/**
 	 * @return the sCtrtNo
