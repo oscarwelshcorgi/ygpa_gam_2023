@@ -48,7 +48,7 @@ GamConstFcltySpecInqireModule.prototype = new EmdModule(1000,700);
 GamConstFcltySpecInqireModule.prototype.loadComplete = function(params) {
 
 	this._fcltyItem = null;
-
+	
 	// 테이블 설정
 	this.$("#mainGrid").flexigrid({
 		module: this,
@@ -103,8 +103,8 @@ GamConstFcltySpecInqireModule.prototype.loadComplete = function(params) {
 	this.$("#fcltyFileList").on("onItemSelected", function(event, module, row, grid, param) {
 		module.imagePreview();
 	});
-
-
+	
+	
 	// 시설물관리그룹 검색조건 클릭시 초기화 처리
 	this.$("#sFcltsMngGroupNo").bind("click", {module: this}, function(event) {
 		event.data.module.$("#sFcltsMngGroupNo").val('');
@@ -152,6 +152,14 @@ GamConstFcltySpecInqireModule.prototype.loadData = function() {
  	this.$("#mainGrid").flexOptions({params:searchOpt}).flexReload();
 };
 
+
+<%
+/**
+ * @FUNCTION NAME : imagePreview
+ * @DESCRIPTION   : 선택한 첨부파일이 이미지이면 미리보기 보여주는 함수
+ * @PARAMETER     : NONE
+**/
+%>
 GamConstFcltySpecInqireModule.prototype.imagePreview = function() {
 	var row = this.$('#fcltyFileList').selectedRows();
 	row = row[0];
@@ -204,9 +212,8 @@ GamConstFcltySpecInqireModule.prototype.loadDetail = function() {
 	var prtFclty = [{ name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
 	this.doAction('/fclty/gamConstFcltySpecInqireDetail.do', prtFclty, function(module, result) {
  		if(result.resultCode == "0"){
- 			module.clearCodePage();
+ 			this.$('#fcltyManageVO :input').val('');
  			module._fcltyItem=result.result;
- 			console.log(result.result);
  			module.makeFormValues('#fcltyManageVO', result.result);	// 결과값을 채운다.
  			module.$("#titleFcltsMngNo").text(result.result["fcltsMngNo"]);	// 결과값을 채운다.
  			module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
@@ -220,19 +227,6 @@ GamConstFcltySpecInqireModule.prototype.loadDetail = function() {
 	this.clearFilePage();
 };
 
-GamConstFcltySpecInqireModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
-	if(this._params!=undefined && this._params.action=="prtFcltyInqire") {
-		return true;
-	}
-	if(newTabId=='tabs2' || newTabId=='tabs3') {
-		if(this.$('#mainGrid').selectedRowCount()!=1) {
-			alert('건축시설 항목을 선택 하세요.');
-			return false;
-		}
-	}
-
-	return true;
-};
 
 <%
 /**
@@ -254,7 +248,7 @@ GamConstFcltySpecInqireModule.prototype.onTabChangeBefore = function(newTabId, o
 		case "gotoLocation":
 			this.gotoLocation();
 		break;
-
+	
 		// 검색조건 시설물 관리 그룹 팝업
 		case "searchPopupBtn":
 			this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', null);
@@ -262,6 +256,14 @@ GamConstFcltySpecInqireModule.prototype.onTabChangeBefore = function(newTabId, o
 	}
 };
 
+
+<%
+/**
+ * @FUNCTION NAME : downloadFile
+ * @DESCRIPTION   : 파일다운로드 함수
+ * @PARAMETER     : NONE
+**/
+%>
 GamConstFcltySpecInqireModule.prototype.downloadFile = function() {
 	var selectRow = this.$('#fcltyFileList').selectedRows();
 	if(selectRow.length > 0) {
@@ -270,10 +272,14 @@ GamConstFcltySpecInqireModule.prototype.downloadFile = function() {
 	}
 };
 
-GamConstFcltySpecInqireModule.prototype.clearCodePage = function() {
-	this.$('#fcltyManageVO :input').val('');
-};
 
+<%
+/**
+ * @FUNCTION NAME : clearFilePage
+ * @DESCRIPTION   : 첨부파일탭 초기화 함수
+ * @PARAMETER     : NONE
+**/
+%>
 GamConstFcltySpecInqireModule.prototype.clearFilePage = function() {
 	this.$('#fcltyFileList').flexEmptyData();
 	this.$('#fcltyGisFileForm :input[type=text]').val('');
@@ -295,6 +301,14 @@ GamConstFcltySpecInqireModule.prototype.getFcltsMngGroupNoNm = function() {
 
 };
 
+
+<%
+/**
+ * @FUNCTION NAME : gotoLocation
+ * @DESCRIPTION   : 위치조회 함수
+ * @PARAMETER     : NONE
+**/
+%>
 GamConstFcltySpecInqireModule.prototype.gotoLocation = function() {
 	if(this._fcltyItem.laCrdnt!=null && this._fcltyItem.laCrdnt!=null) {
 		EMD.gis.goLocation(this._fcltyItem.laCrdnt, this._fcltyItem.loCrdnt);
@@ -308,31 +322,34 @@ GamConstFcltySpecInqireModule.prototype.gotoLocation = function() {
 };
 
 
+<%
+/**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 그리드리스트 다운로드 함수
+ * @PARAMETER     : NONE
+**/
+%>
 GamConstFcltySpecInqireModule.prototype.downloadExcel = function(buttonId) {
-
-	var gridRowCount = 0;
-	switch (buttonId) {
-		case 'btnExcelDownload':
-			gridRowCount = this.$("#mainGrid").flexRowCount();
-			break;
-		default:
-			return;
-	}
-	if (gridRowCount <= 0) {
-		alert("조회된 자료가 없습니다.");
+	
+	var rowCount = this.$('#mainGrid').flexRowCount();
+	if (rowCount <= 0) {
+		alert('조회된 자료가 없습니다.');
 		return;
 	}
-	switch (buttonId) {
-		case 'btnExcelDownload':
-			this.$('#mainGrid').flexExcelDown('/fclty/selectConstFcltySpecInqireListExcel.do');
-			break;
-	}
+	this.$('#mainGrid').flexExcelDown('/fclty/selectConstFcltySpecInqireListExcel.do');
 
 };
 
+
+
+<%
 /**
- * 정의 된 버튼 클릭 시
- */
+ * @FUNCTION NAME : onButtonClick
+ * @DESCRIPTION   : BUTTON CLICK EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
  GamConstFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 
 	switch(buttonId) {
@@ -340,7 +357,7 @@ GamConstFcltySpecInqireModule.prototype.downloadExcel = function(buttonId) {
 		// 엑셀다운로드
 		case "btnExcelDownload":
 			this.downloadExcel(buttonId);
-
+		
 	}
 };
 
@@ -369,14 +386,14 @@ GamConstFcltySpecInqireModule.prototype.onTabChange = function(newTabId, oldTabI
 			if(this._cmd != 'modify') {
 				this.$("#mainTab").tabs("option", {active: 0});
 				alert('건축시설 항목을 선택 하세요.');
-			}
+			} 
 			break;
-
+	
 		case "tabs3":
 			if(this._cmd != 'modify') {
 				this.$("#mainTab").tabs("option", {active: 0});
 				alert('건축시설 항목을 선택 하세요.');
-			}
+			} 
 			break;
 	}
 };
@@ -393,7 +410,7 @@ GamConstFcltySpecInqireModule.prototype.onTabChange = function(newTabId, oldTabI
 %>
  GamConstFcltySpecInqireModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch(popupId){
-		// 검색조건 시설물 관리 그룹
+		// 검색조건 시설물 관리 그룹 
 		case "sSelectFcltsMngGroup":
 			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
@@ -405,6 +422,8 @@ GamConstFcltySpecInqireModule.prototype.onTabChange = function(newTabId, oldTabI
 		break;
 	}
 };
+
+
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamConstFcltySpecInqireModule();
 </script>
@@ -453,7 +472,7 @@ var module_instance = new GamConstFcltySpecInqireModule();
 	</div>
 
 	<div class="emdPanel fillHeight">
-		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" data-onchange-before="onTabChangeBefore">
+		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<ul>
 				<li><a href="#tabs1" class="emdTab">건축시설 목록</a></li>
 				<li><a href="#tabs2" class="emdTab">건축시설 제원</a></li>
@@ -556,7 +575,7 @@ var module_instance = new GamConstFcltySpecInqireModule();
 							<th width="12%" height="17">구　조　형　식</th>
 							<td><input type="text" size="50" id="strctFmt" disabled="disabled" /></td>
 						</tr>
-
+						
 						<tr>
 							<th width="12%" height="17">하자 만 료 일 자</th>
 							<td><input type="text" size="11" id="flawEndDt" class="emdcal" disabled="disabled" /></td>
@@ -606,7 +625,7 @@ var module_instance = new GamConstFcltySpecInqireModule();
 							<th width="12%" height="17">승강기대수승객용</th>
 							<td><input type="text" size="50" id="liftCntPsngr" class="ygpaNumber" disabled="disabled" /> 대</td>
 						</tr>
-						<tr>
+						<tr>	
 							<th width="12%" height="17">승강기대수비상용</th>
 							<td><input type="text" size="50" id="liftCntEmgcy" class="ygpaNumber" disabled="disabled" /> 대</td>
 							<th width="12%" height="17">승강기대수화물용</th>

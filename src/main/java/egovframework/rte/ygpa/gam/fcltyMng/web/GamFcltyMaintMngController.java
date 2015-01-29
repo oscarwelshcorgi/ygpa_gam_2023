@@ -262,6 +262,7 @@ public class GamFcltyMaintMngController {
     		gamFcltyMaintMngService.insertFcltyMaintMng(insertMntnData, insertObjList, insertFileList);
 
     		map.put("resultCode", 0);			// return ok
+    		map.put("mntnRprSeq", insertMntnData.get("mntnRprSeq"));
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
             
 		} catch (Exception e) {

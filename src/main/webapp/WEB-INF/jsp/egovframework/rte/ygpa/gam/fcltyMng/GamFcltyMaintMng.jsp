@@ -202,7 +202,7 @@ GamFcltyMaintMngModule.prototype.imgPreview = function(){
 			this.$('#previewHidden').append('<div id="'+this.getId("previewDialog")+'"><img id="'+this.getId("previewImage")+'" src=""/></div>');
 			var imgURL = this.getPfPhotoUrl(selImg);
 			this.$("#previewImage").attr("src", imgURL);
-			
+
 			this.$("#previewImage").bind('load', {module: this},function(event){
 				event.data.module.$('#previewDialog').dialog({
 					modal: true,
@@ -385,6 +385,13 @@ GamFcltyMaintMngModule.prototype.saveData = function() {
  	
 	if(this._mode == "insert") {
 	 	this.doAction('/fcltyMng/insertFcltyMaintMng.do', inputVO, function(module, result) {
+	 		if(result.resultCode == "0"){
+	 			module.$("#fcltsJobSe").disable();
+	 			module.$("#searchFcltsMngGroupNo").hide();
+	 			module.$("#mntnRprSeq").val(result.mntnRprSeq);
+	 			
+	 			module._mode = "modify";
+	 		}
 	 		alert(result.resultMsg);
 	 	});
 	}else{

@@ -250,9 +250,7 @@ public class GamFcltyRepairMngController {
     	ObjectMapper mapper = new ObjectMapper();
     	List<HashMap<String,String>> insertObjList=null;
     	List<HashMap<String,String>> insertFileList=null;
-    	List<Map<String,String>> userList=null;
     	Map insertRprData = new HashMap();
-    	Map<String, String> userMap = new HashMap<String, String>();
     	
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -270,15 +268,6 @@ public class GamFcltyRepairMngController {
     	insertFileList = mapper.readValue((String)fcltyRepairItem.get("insertRepairFileList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
 
-    	userList = new ArrayList();
-		userMap.put("id",  user.getId());
-		userList.add(userMap);
-
-		Map<String,Object> mergeMap = new HashMap<String,Object>();
-
-		mergeMap.put("CU", insertObjList);
-		mergeMap.put("USER", userList);
-
     	insertRprData.put("regUsr",user.getId());
     	
     	try {
@@ -287,6 +276,7 @@ public class GamFcltyRepairMngController {
     		gamFcltyRepairMngService.insertFcltyRepairMng(insertRprData, insertObjList, insertFileList);
 
     		map.put("resultCode", 0);			// return ok
+    		map.put("flawRprSeq", insertRprData.get("flawRprSeq"));
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
             
 		} catch (Exception e) {

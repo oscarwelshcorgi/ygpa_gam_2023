@@ -22,16 +22,30 @@
 %>
 
 <validator:javascript formName="fcltyManageVO" method="validateFcltyManageVO" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<%
+/******************************** SCRIPT START ********************************/
+%>
+
 <script>
-/*
- * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
- */
+<%
+/**
+ * @FUNCTION NAME : GamElctyFcltySpecInqireModule
+ * @DESCRIPTION   : MODULE 고유 함수
+ * @PARAMETER     : NONE
+**/
+%>
 function GamElctyFcltySpecInqireModule() {
 }
 
 GamElctyFcltySpecInqireModule.prototype = new EmdModule(1000,700);	// 초기 시작 창크기 지정
 
-// 페이지가 호출 되었을때 호출 되는 함수
+<%
+/**
+ * @FUNCTION NAME : loadComplete
+ * @DESCRIPTION   : PAGE LOAD COMPLETE (페이지 호출시 실행되는 함수)
+ * @PARAMETER     : NONE
+**/
+%>
 GamElctyFcltySpecInqireModule.prototype.loadComplete = function(params) {
 	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다.
 
@@ -95,7 +109,7 @@ GamElctyFcltySpecInqireModule.prototype.loadComplete = function(params) {
 	});
 
 	this.$("#fcltsFileList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.selectAtchFileItem();
+		module.imagePreview();
 	});
 
 	//첨부파일 정보 변화 이벤트 처리기
@@ -105,18 +119,41 @@ GamElctyFcltySpecInqireModule.prototype.loadComplete = function(params) {
 
 };
 
+
+<%
+/**
+ * @FUNCTION NAME : onSubmit
+ * @DESCRIPTION   : (프레임워크에서 SUBMIT 이벤트 호출 시 호출 한다.)
+ * @PARAMETER     : NONE
+**/
+%>
 GamElctyFcltySpecInqireModule.prototype.onSubmit = function() {
 	this.loadData();
 };
 
-//시설목록 로드
+
+<%
+/**
+ * @FUNCTION NAME : loadData
+ * @DESCRIPTION   : DATA LOAD (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
 GamElctyFcltySpecInqireModule.prototype.loadData = function() {
 	var searchOpt = this.makeFormArgs("#searchElctyFcltySpecInqireForm");
 	this.$("#elctyFcltySpecInqireList").flexOptions({params:searchOpt}).flexReload();
 	console.log(searchOpt);
 };
 
-//시설재원데이터 로드
+
+
+<%
+/**
+ * @FUNCTION NAME : loadDetailData
+ * @DESCRIPTION   : DATA LOAD (DETAIL)
+ * @PARAMETER     : NONE
+**/
+%>
 GamElctyFcltySpecInqireModule.prototype.loadDetailData = function() {
 	var selectRows = this.$('#elctyFcltySpecInqireList').selectedRows();
 	if(selectRows.length > 0) {
@@ -132,7 +169,7 @@ GamElctyFcltySpecInqireModule.prototype.loadDetailData = function() {
 			if(result.resultCode == "0"){
 				module._fcltyManageVO=result.result;
 				module.makeFormValues('#fcltyManageVO', module._fcltyManageVO);
-			module.loadFileData();
+				module.loadFileData();
 			}
 			else {
 				this._cmd="";
@@ -143,13 +180,27 @@ GamElctyFcltySpecInqireModule.prototype.loadDetailData = function() {
 	}
 };
 
-//시설 첨부파일 로드
+
+<%
+/**
+ * @FUNCTION NAME : loadFileData
+ * @DESCRIPTION   : 첨부파일 LOAD 
+ * @PARAMETER     : NONE
+**/
+%>
 GamElctyFcltySpecInqireModule.prototype.loadFileData = function() {
 	var searchOpt = [{name: 'sFcltsMngNo', value: this._fcltyManageVO['fcltsMngNo']}];
 	this.$("#fcltsFileList").flexOptions({params:searchOpt}).flexReload();
 };
 
-// 화면 및 데이터 초기화 처리
+
+<%
+/**
+ * @FUNCTION NAME : initDisplay
+ * @DESCRIPTION   : 화면 초기화 함수
+ * @PARAMETER     : NONE
+**/
+%>
 GamElctyFcltySpecInqireModule.prototype.initDisplay = function() {
 	this.$("#fcltyManageVO :input").val("");
 	this.$('#fcltsFileList').flexEmptyData();
@@ -159,7 +210,14 @@ GamElctyFcltySpecInqireModule.prototype.initDisplay = function() {
 	}
 };
 
-//첨부파일 정보 변화 처리
+
+<%
+/**
+ * @FUNCTION NAME : atchFileInfoChanged
+ * @DESCRIPTION   : 첨부파일 하위폼 정보변경시 그리드 적용
+ * @PARAMETER     : target
+**/
+%>
 GamElctyFcltySpecInqireModule.prototype.atchFileInfoChanged = function(target) {
 	var changed=false;
 	var row={};
@@ -188,8 +246,15 @@ GamElctyFcltySpecInqireModule.prototype.atchFileInfoChanged = function(target) {
 	}
 };
 
-//첨부파일 항목선택
-GamElctyFcltySpecInqireModule.prototype.selectAtchFileItem = function() {
+
+<%
+/**
+ * @FUNCTION NAME : imagePreview
+ * @DESCRIPTION   : 선택한 첨부파일이 이미지이면 미리보기 보여주는 함수
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyFcltySpecInqireModule.prototype.imagePreview = function() {
 	var rows = this.$('#fcltsFileList').selectedRows();
 	if(rows.length > 0) {
 		var row = rows[0];
@@ -210,7 +275,14 @@ GamElctyFcltySpecInqireModule.prototype.selectAtchFileItem = function() {
 };
 
 
-//첨부파일 다운로드
+
+<%
+/**
+ * @FUNCTION NAME : downloadAtchFileItem
+ * @DESCRIPTION   : 파일다운로드 함수
+ * @PARAMETER     : NONE
+**/
+%>
 GamElctyFcltySpecInqireModule.prototype.downloadAtchFileItem = function() {
 	var selectRow = this.$('#fcltsFileList').selectedRows();
 	if(selectRow.length > 0) {
@@ -220,33 +292,34 @@ GamElctyFcltySpecInqireModule.prototype.downloadAtchFileItem = function() {
 };
 
 
+<%
+/**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 그리드리스트 다운로드 함수
+ * @PARAMETER     : NONE
+**/
+%>
 GamElctyFcltySpecInqireModule.prototype.downloadExcel = function(buttonId) {
-
-	var gridRowCount = 0;
-	switch (buttonId) {
-		case 'btnExcelDownload':
-			gridRowCount = this.$("#elctyFcltySpecInqireList").flexRowCount();
-			break;
-		default:
-			return;
-	}
-	if (gridRowCount <= 0) {
-		alert("조회된 자료가 없습니다.");
+	
+	var rowCount = this.$('#elctyFcltySpecInqireList').flexRowCount();
+	if (rowCount <= 0) {
+		alert('조회된 자료가 없습니다.');
 		return;
 	}
-	switch (buttonId) {
-		case 'btnExcelDownload':
-			this.$('#elctyFcltySpecInqireList').flexExcelDown('/fclty/selectElctyFcltySpecInqireListExcel.do');
-			break;
-	}
+	this.$('#elctyFcltySpecInqireList').flexExcelDown('/fclty/selectElctyFcltySpecInqireListExcel.do');
 
 };
 
 
 
+<%
 /**
- * 정의 된 버튼 클릭 시
- */
+ * @FUNCTION NAME : onButtonClick
+ * @DESCRIPTION   : BUTTON CLICK EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
 GamElctyFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 	
 	switch(buttonId) {
@@ -272,14 +345,6 @@ GamElctyFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 			this.downloadAtchFileItem();
 			break;
 	
-		case "registLocation":	// 위치 등록
-			var module=this;
-			EMD.gis.addPrtFcltyMarker(this._fcltyItem, function(value) {
-				module.$('#laCrdnt').val(value.laCrdnt);
-				module.$('#loCrdnt').val(value.loCrdnt);
-			});
-			break;
-	
 		case "gotoLocation":	// 위치 조회
 			if(this._fcltyItem.laCrdnt!=null && this._fcltyItem.laCrdnt!=null) {
 				EMD.gis.goLocation(this._fcltyItem.laCrdnt, this._fcltyItem.loCrdnt);
@@ -300,11 +365,15 @@ GamElctyFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 };
 
 
-
-
+<%
 /**
- * 탭 변경시 실행 이벤트
- */
+ * @FUNCTION NAME : onTabChange
+ * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
+ * @PARAMETER     :
+ *   1. newTabId - NEW TAB ID
+ *   2. oldTabId - OLD TAB ID
+**/
+%>
 GamElctyFcltySpecInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	if(oldTabId == 'tabs1' && this._cmd == 'modify') {
 		this.initDisplay();
@@ -329,9 +398,18 @@ GamElctyFcltySpecInqireModule.prototype.onTabChange = function(newTabId, oldTabI
 	}
 };
 
+
+
+<%
 /**
- * 팝업 close 이벤트
- */
+ * @FUNCTION NAME : onClosePopup
+ * @DESCRIPTION   : CLOSE POPUP EVENT
+ * @PARAMETER     :
+ *   1. popupId  - POPUP ID
+ *   2. msg      - MESSAGE
+ *   3. value    - VALUE
+**/
+%>
 GamElctyFcltySpecInqireModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch(popupId){
 	
@@ -356,6 +434,16 @@ GamElctyFcltySpecInqireModule.prototype.onClosePopup = function(popupId, msg, va
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamElctyFcltySpecInqireModule();
 </script>
+
+<%
+/******************************** SCRIPT   END ********************************/
+%>
+
+
+<%
+/******************************** UI     START ********************************/
+%>
+
 <!-- 아래는 고정 -->
 <input type="hidden" id="window_id" value="<c:out value="${windowId}" />" />
 <div class="window_main">
@@ -661,3 +749,9 @@ var module_instance = new GamElctyFcltySpecInqireModule();
 		</div>
 	</div>
 </div>
+
+
+
+<%
+/******************************** UI       END ********************************/
+%>

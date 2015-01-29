@@ -473,6 +473,13 @@ GamFcltyRepairMngModule.prototype.saveData = function() {
 
 	if(this._mode == "insert") {
 	 	this.doAction('/fcltyMng/insertFcltyRepairMng.do', inputVO, function(module, result) {
+	 		if(result.resultCode == "0"){
+	 			module.$("#fcltsJobSe").disable();
+	 			module.$("#searchFcltsMngGroupNo").hide();
+	 			module.$("#flawRprSeq").val(result.flawRprSeq);
+	 			
+	 			module._mode = "modify";
+	 		}
 	 		alert(result.resultMsg);
 	 	});
 	}else{
@@ -493,23 +500,23 @@ GamFcltyRepairMngModule.prototype.saveData = function() {
 %>
 GamFcltyRepairMngModule.prototype.makeSaveParam = function() {
 	
-	var all_rows = this.$('#flawRprObjFcltsF').flexGetData();
-	for(var i=0;i<all_rows.length;i++){
-		all_rows[i]["fcltsJobSe"] = this.$("#fcltsJobSe").val();
-		all_rows[i]["fcltsMngGroupNo"] = this.$("#fcltsMngGroupNo").val();
-		all_rows[i]["flawRprSeq"] = this.$("#flawRprSeq").val();
-	}
-	
 	var inputVO = [];
  	inputVO[inputVO.length] = {name: 'fcltyRepairMngListVO', value :JSON.stringify(this.makeFormArgs("#fcltyRepairMngListVO",'object')) };
- 	inputVO[inputVO.length] = {name: 'insertObjList', 		 value: JSON.stringify(this.$('#flawRprObjFcltsF').selectFilterData([{col: '_updtId', filter: 'I'}])) };
  	inputVO[inputVO.length] = {name: 'insertRepairFileList', value :JSON.stringify(this.makeSelectArgs("#fcltyRepairFileList")) };
  	
- 	// 아래는 수정시에만 필요한 데이타 형식
+ 	// 조건은 수정시에만 필요한 데이타 형식
  	if(this._mode == "modify") {
+ 		var all_rows = this.$('#flawRprObjFcltsF').flexGetData();
+ 		for(var i=0;i<all_rows.length;i++){
+ 			all_rows[i]["fcltsJobSe"] = this.$("#fcltsJobSe").val();
+ 			all_rows[i]["fcltsMngGroupNo"] = this.$("#fcltsMngGroupNo").val();
+ 			all_rows[i]["flawRprSeq"] = this.$("#flawRprSeq").val();
+ 		}
+ 		
 		inputVO[inputVO.length]={name: 'updateObjList', value :JSON.stringify(this.$('#flawRprObjFcltsF').selectFilterData([{col: '_updtId', filter: 'U'}])) };
 	 	inputVO[inputVO.length]={name: 'deleteObjList', value: JSON.stringify(this._deleteObjFcltsList) };
  	}
+ 	inputVO[inputVO.length] = {name: 'insertObjList', 		 value: JSON.stringify(this.$('#flawRprObjFcltsF').selectFilterData([{col: '_updtId', filter: 'I'}])) };
  	
 	return inputVO;
 };

@@ -62,7 +62,7 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
 
 
     /**
-     * 시설관리 파일 저장
+     * 시설관리 파일 수정
      * @param vo
      */
     public void updateFcltyFile(Map<?,?> fileList){
@@ -75,7 +75,7 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
      * @param vo
      */
     public void deleteFcltyFile(Map<?,?> fileList){
-    	update("gamConsFcltySpecMngDao.deleteFcltyFile",fileList);
+    	 delete("gamConsFcltySpecMngDao.deleteFcltyFile",fileList);
     }
     
     
@@ -84,7 +84,7 @@ public class GamConsFcltySpecMngDao extends YGPAAbstractDAO{
      * @param vo
      */
     public void deleteFcltyTotalFile(Map<?,?> fileList){
-    	update("gamConsFcltySpecMngDao.deleteFcltyTotalFile",fileList);
+    	delete("gamConsFcltySpecMngDao.deleteFcltyTotalFile",fileList);
     }
 
 

@@ -75,40 +75,86 @@ public class GamConsFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 
 
 
-	// 시설관리 저장
-	public void insertFcltySpec(Map<?,?> form) throws Exception{
-		gamGisPrtFcltyCdMngtDao.insertGisPrtFclty(form);
-		gamConsFcltySpecMngDao.insertFcltySpec(form);
+	/**
+	 * 시설재원관리 입력
+	 * @param Map, List
+	 * @return 
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void insertFcltySpec(Map fcltyManageVO, List insertFileList) throws Exception{
+		
+		Map insertFile = null;
+
+		String gisAssetsPrtAtCode = (String) fcltyManageVO.get("gisAssetsPrtAtCode");
+		String gisAssetsCd = (String) fcltyManageVO.get("gisAssetsCd");
+		String gisAssetsSubCd = (String) fcltyManageVO.get("gisAssetsSubCd");
+		String gisPrtFcltyCd = (String) fcltyManageVO.get("gisPrtFcltyCd");
+		String gisPrtFcltySeq = gamGisPrtFcltyCdMngtDao.selectNextFcltySeq(fcltyManageVO);
+		String prtFcltySe = (String) fcltyManageVO.get("prtFcltySe");
+		String fcltsMngNo = gisAssetsPrtAtCode + gisAssetsCd + gisAssetsSubCd + gisPrtFcltyCd + gisPrtFcltySeq + prtFcltySe;
+		
+		fcltyManageVO.put("fcltsMngNo", fcltsMngNo);
+		fcltyManageVO.put("gisPrtFcltySeq", gisPrtFcltySeq);
+		
+		gamGisPrtFcltyCdMngtDao.insertGisPrtFclty(fcltyManageVO);
+		gamConsFcltySpecMngDao.insertFcltySpec(fcltyManageVO);
+		
+		// 시설 첨부파일 입력처리
+		for(int i=0;i<insertFileList.size();i++){
+			insertFile = (Map) insertFileList.get(i);
+			insertFile.put("fcltsMngNo",fcltsMngNo);
+			insertFile.put("regUsr", fcltyManageVO.get("regUsr"));
+			gamConsFcltySpecMngDao.insertFcltyFile(insertFile);
+		}
 	}
 
-	// 시설관리 수정
-	public void updateFcltySpec(Map<?,?> form) throws Exception{
-		gamGisPrtFcltyCdMngtDao.updateGisPrtFclty(form);
-		gamConsFcltySpecMngDao.updateFcltySpec(form);
+	/**
+	 * 시설재원관리 수정
+	 * @param Map, Map
+	 * @return 
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void updateFcltySpec(Map fcltyManageVO, Map mergeMap) throws Exception{
+		
+		gamGisPrtFcltyCdMngtDao.updateGisPrtFclty(fcltyManageVO);
+		gamConsFcltySpecMngDao.updateFcltySpec(fcltyManageVO);
+		
+		gamConsFcltySpecMngDao.mergeFcltyFile(mergeMap);
 	}
 
-	// 시설 정보 삭제
+	/**
+	 * 시설재원관리 삭제
+	 * @param Map
+	 * @return 
+	 * @throws Exception
+	 */
 	public void deleteFcltySpec(Map<?,?> vo) throws Exception{
 		gamGisPrtFcltyCdMngtDao.deleteGisPrtFclty(vo);
 		gamConsFcltySpecMngDao.deleteFcltySpec(vo);
 		gamConsFcltySpecMngDao.deleteFcltyTotalFile(vo);
 	}
 
-	// 시설 파일 입력/수정/삭제
-	public List<?> mergeFcltyFileMngt(Map<String,Object> mergeMap) throws Exception{
-		return gamConsFcltySpecMngDao.mergeFcltyFile(mergeMap);
-	}
 
-
-	@Override
-	public EgovMap fcltyMngSelectView(Map<?,?> vo)
-			throws Exception {
+	/**
+	 * 시설관리 상세화면
+	 * @param emplyrId
+	 * @return GamConsFcltySpecMngVO
+	 * @throws Exception
+	 */
+	public EgovMap fcltyMngSelectView(Map<?,?> vo)throws Exception {
 		return gamConsFcltySpecMngDao.fcltyMngSelectView(vo);
 	}
 	
 	
-	public EgovMap fcltySpecMngSelectView(Map<?,?> vo)
-			throws Exception {
+	/**
+	 * 시설관리 상세화면(제원)
+	 * @param emplyrId
+	 * @return GamConsFcltySpecMngVO
+	 * @throws Exception
+	 */
+	public EgovMap fcltySpecMngSelectView(Map<?,?> vo) throws Exception {
 		return gamConsFcltySpecMngDao.fcltySpecMngSelectView(vo);
 	}
 

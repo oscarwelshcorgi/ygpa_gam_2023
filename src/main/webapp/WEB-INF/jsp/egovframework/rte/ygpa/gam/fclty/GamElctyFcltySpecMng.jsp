@@ -22,16 +22,31 @@
 %>
 
 <validator:javascript formName="fcltyManageVO" method="validateFcltyManageVO" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+
+<%
+/******************************** SCRIPT START ********************************/
+%>
+
 <script>
-/*
- * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
- */
+<%
+/**
+ * @FUNCTION NAME : GamConstFcltySpecMngModule
+ * @DESCRIPTION   : MODULE 고유 함수
+ * @PARAMETER     : NONE
+**/
+%>
 function GamElctyFcltySpecMngModule() {
 }
 
 GamElctyFcltySpecMngModule.prototype = new EmdModule(1000,700);	// 초기 시작 창크기 지정
 
-// 페이지가 호출 되었을때 호출 되는 함수
+<%
+/**
+ * @FUNCTION NAME : loadComplete
+ * @DESCRIPTION   : PAGE LOAD COMPLETE (페이지 호출시 실행되는 함수)
+ * @PARAMETER     : NONE
+**/
+%>
 GamElctyFcltySpecMngModule.prototype.loadComplete = function(params) {
 	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다.
 
@@ -98,17 +113,40 @@ GamElctyFcltySpecMngModule.prototype.loadComplete = function(params) {
 	});
 };
 
+
+<%
+/**
+ * @FUNCTION NAME : onSubmit
+ * @DESCRIPTION   : (프레임워크에서 SUBMIT 이벤트 호출 시 호출 한다.)
+ * @PARAMETER     : NONE
+**/
+%>
 GamElctyFcltySpecMngModule.prototype.onSubmit = function() {
 	this.loadData();
 };
 
-//시설목록 로드
+
+<%
+/**
+ * @FUNCTION NAME : loadData
+ * @DESCRIPTION   : DATA LOAD (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
 GamElctyFcltySpecMngModule.prototype.loadData = function() {
 	var searchOpt = this.makeFormArgs("#searchElctyFcltySpecMngForm");
+	this.$("#elctyFcltySpecMngTab").tabs("option", {active: 0});
 	this.$("#elctyFcltySpecMngList").flexOptions({params:searchOpt}).flexReload();
 };
 
-//시설재원데이터 로드
+
+<%
+/**
+ * @FUNCTION NAME : loadDetailData
+ * @DESCRIPTION   : DATA LOAD (DETAIL)
+ * @PARAMETER     : NONE
+**/
+%>
 GamElctyFcltySpecMngModule.prototype.loadDetailData = function() {
 	var selectRows = this.$('#elctyFcltySpecMngList').selectedRows();
 	if(selectRows.length > 0) {
@@ -123,7 +161,7 @@ GamElctyFcltySpecMngModule.prototype.loadDetailData = function() {
 		this.doAction('/fclty/selectElctyFcltySpecMngDetail.do', opts, function(module, result) { 
 			if(result.resultCode == "0"){
 				module.makeFormValues('#fcltyManageVO', result.result);
-				module.$("#dispfcltsMngNo").text(module.$("#fcltsMngNo").val());
+				module.$("#dispfcltsMngNo").text(result.result.fcltsMngNo);
 				module.loadFileData();
 			}
 			else {
@@ -135,14 +173,27 @@ GamElctyFcltySpecMngModule.prototype.loadDetailData = function() {
 	}
 };
 
-//시설 첨부파일 로드
+
+<%
+/**
+ * @FUNCTION NAME : loadFileData
+ * @DESCRIPTION   : 첨부파일 LOAD 
+ * @PARAMETER     : NONE
+**/
+%>
 GamElctyFcltySpecMngModule.prototype.loadFileData = function() {
-	var searchOpt = [{name: 'sFcltsMngNo', value: this.$("#fcltsMngNo").val()}];
+	var searchOpt = [{name: 'sFcltsMngNo', value: this.$("#dispfcltsMngNo").text()}];
 	this.$("#fcltsFileList").flexOptions({params:searchOpt}).flexReload();
 };
 
 
-//시설 첨부파일 텍스트박스에 체우기 및 이미지 미리보기
+<%
+/**
+ * @FUNCTION NAME : imagePreview
+ * @DESCRIPTION   : 선택한 첨부파일이 이미지이면 미리보기 보여주는 함수
+ * @PARAMETER     : NONE
+**/
+%>
 GamElctyFcltySpecMngModule.prototype.imagePreview = function() {
 	
 	var row = this.$('#fcltsFileList').selectedRows();
@@ -167,7 +218,13 @@ GamElctyFcltySpecMngModule.prototype.imagePreview = function() {
 };
 
 
-// 화면 및 데이터 초기화 처리
+<%
+/**
+ * @FUNCTION NAME : initDisplay
+ * @DESCRIPTION   : 화면 초기화 함수
+ * @PARAMETER     : NONE
+**/
+%>
 GamElctyFcltySpecMngModule.prototype.initDisplay = function() {
 	this._deleteDataFileList = [];
 	this.$("#fcltyManageVO :input").val("");
@@ -190,7 +247,14 @@ GamElctyFcltySpecMngModule.prototype.initDisplay = function() {
 	}
 };
 
-//첨부파일 정보 변화 처리
+
+<%
+/**
+ * @FUNCTION NAME : atchFileInfoChanged
+ * @DESCRIPTION   : 첨부파일 하위폼 정보변경시 그리드 적용
+ * @PARAMETER     : target
+**/
+%>
 GamElctyFcltySpecMngModule.prototype.atchFileInfoChanged = function(target) {
 	var changed=false;
 	var row={};
@@ -219,85 +283,210 @@ GamElctyFcltySpecMngModule.prototype.atchFileInfoChanged = function(target) {
 	}
 };
 
-//시설물 데이터 삽입
-GamElctyFcltySpecMngModule.prototype.insertFcltsData = function(data) {
- 	this.doAction('/fclty/insertElctyFcltySpecMngDetail.do', data, function(module, result) {
- 		if(result.resultCode == "0"){
- 			module._cmd = "modify";
- 			module.$("#gisPrtFcltySeq").val(result.gisPrtFcltySeq);
-			module.$("#fcltsMngNo").val(module.$("#gisAssetsPrtAtCode").val() + module.$("#gisAssetsCd").val() + module.$("#gisAssetsSubCd").val() + module.$("#gisPrtFcltyCd").val() + result.gisPrtFcltySeq + module._prtFcltySe);
-			module.$("#dispfcltsMngNo").text(module.$("#fcltsMngNo").val());
-			module.$("#selectGisPrtFcltyCd").disable();
-			module.$("#searchGisCodeBtn2").hide();
-			module.saveAtchFile(module.$("#fcltsMngNo").val());
- 			module.loadData();
- 		}
- 		alert(result.resultMsg);
- 	});	
-};
 
-//시설뮬 데이터 수정
-GamElctyFcltySpecMngModule.prototype.updateFcltsData = function(data) { 
-	this.doAction('/fclty/updateElctyFcltySpecMngDetail.do', data, function(module, result) {
-
-		if(result.resultCode == "0"){
-			module.saveAtchFile(module.$("#fcltsMngNo").val());
-			module.loadData();
-		}
-		alert(result.resultMsg);
-	});	
-};
-
-//시설물 데이터 삭제
-GamElctyFcltySpecMngModule.prototype.deleteFcltsData = function(fcltsMngNo) { 
-	var data = { 'fcltsMngNo': fcltsMngNo };
- 	this.doAction('/fclty/deleteElctyFcltySpecMngDetail.do', data, function(module, result) {
- 		if(result.resultCode == "0") {
-			module._cmd = "";
-			module.initDisplay();
- 			module.loadData();
- 		}
- 		alert(result.resultMsg);
- 	});
-};
-
-
-GamElctyFcltySpecMngModule.prototype.downloadExcel = function(buttonId) {
-
-	var gridRowCount = 0;
-	switch (buttonId) {
-		case 'btnExcelDownload':
-			gridRowCount = this.$("#elctyFcltySpecMngList").flexRowCount();
-			break;
-		default:
-			return;
-	}
-	if (gridRowCount <= 0) {
-		alert("조회된 자료가 없습니다.");
+<%
+/**
+ * @FUNCTION NAME : saveFcltyData
+ * @DESCRIPTION   : DATA 저장
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyFcltySpecMngModule.prototype.saveFcltyData = function() {
+	if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){
 		return;
 	}
-	switch (buttonId) {
-		case 'btnExcelDownload':
-			this.$('#elctyFcltySpecMngList').flexExcelDown('/fclty/selectElctyFcltySpecMngListExcel.do');
-			break;
+	var inputVO = this.makeSaveParam();	
+	// 전기시설제원 입력/수정처리
+ 	if(this._cmd == "insert") {
+	 	this.doAction('/fclty/insertElctyFcltySpecMngDetail.do', inputVO, function(module, result) {
+	 		if(result.resultCode == "0"){
+				module.$("#gisPrtFcltySeq").val(result.gisPrtFcltySeq);
+				module.$("#dispfcltsMngNo").text(result.fcltsMngNo);
+				
+				module.$("#selectGisPrtFcltyCd").disable();
+	 			module.$("#searchGisCodeBtn2").hide();
+				
+				module._cmd = "modify";
+	 		}
+	 		alert(result.resultMsg);
+	 	});
+	}else{
+	 	this.doAction('/fclty/updateElctyFcltySpecMngDetail.do', inputVO, function(module, result) {
+	 		alert(result.resultMsg);
+	 	});
+	}
+};
+
+
+<%
+/**
+ * @FUNCTION NAME : makeSaveParam
+ * @DESCRIPTION   : 입력 수정에 필요한 DATA 가공
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyFcltySpecMngModule.prototype.makeSaveParam = function() {
+
+	var inputVO = [];
+ 	inputVO[inputVO.length] = {name: 'fcltyManageVO', value :JSON.stringify(this.makeFormArgs("#fcltyManageVO",'object')) };
+ 	// 조건은 수정시에만 필요한 데이타 형식
+ 	if(this._cmd == "modify") {
+ 		var all_rows = this.$('#fcltsFileList').flexGetData();
+ 		var fcltsMngNo = this.$("#dispfcltsMngNo").text();
+
+ 		for(var i=0;i<all_rows.length;i++){
+ 			all_rows[i]["fcltsMngNo"] = fcltsMngNo;
+ 		}
+ 		
+		inputVO[inputVO.length]={name: 'updateFileList', value :JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+	 	inputVO[inputVO.length]={name: 'deleteFileList', value: JSON.stringify(this._deleteDataFileList) };
+ 	}
+ 	inputVO[inputVO.length] = {name: 'insertFileList', value :JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+ 	
+	return inputVO;
+};
+
+
+
+<%
+/**
+ * @FUNCTION NAME : deleteFcltyData
+ * @DESCRIPTION   : 선택 DATA 삭제
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyFcltySpecMngModule.prototype.deleteFcltsData = function() { 
+	
+	var rows = this.$("#elctyFcltySpecMngList").selectedRows();
+	if(rows.length <= 0){
+		alert("삭제할 시설을 선택하십시오.");
+		return;
+	}
+	if(confirm("시설정보을 삭제하시겠습니까?")) {
+		var row = rows[0];
+		if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
+			alert('시설물 관리번호에 오류가 있습니다.');
+			return;
+		}
+		
+		var data = { 'fcltsMngNo': row["fcltsMngNo"] };
+	 	this.doAction('/fclty/deleteElctyFcltySpecMngDetail.do', data, function(module, result) {
+	 		if(result.resultCode == "0") {
+				module._cmd = "";
+				module.initDisplay();
+	 			module.loadData();
+	 		}
+	 		alert(result.resultMsg);
+	 	});
+		
 	}
 
 };
 
 
+<%
 /**
- * 정의 된 버튼 클릭 시
- */
+ * @FUNCTION NAME : uploadFile
+ * @DESCRIPTION   : 첨부파일 업로드
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyFcltySpecMngModule.prototype.uploadFile = function() {
+	this.$('#atchFileSe').val('D');
+	this.uploadPfPhoto("uploadPhoto", function(module, result) {
+		$.each(result, function(){
+			module.$("#fcltsFileList").flexAddRow({_updtId:'I', fcltsMngNo:module.$("#dispfcltsMngNo").text(), atchFileSe:'D', atchFileSeNm :'문서', atchFileNmLogic:this.logicalFileNm, atchFileNmPhysicl: this.physcalFileNm, atchFileWritngDt:''});
+		});
+	}, "전기시설파일 업로드");
+};
+
+
+<%
+/**
+ * @FUNCTION NAME : downloadFile
+ * @DESCRIPTION   : 파일다운로드 함수
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyFcltySpecMngModule.prototype.downloadFile = function() {
+	var selectRow = this.$('#fcltsFileList').selectedRows();
+	if(selectRow.length > 0) {
+		var row=selectRow[0];
+		this.downPfPhoto(row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
+	}
+};
+
+
+<%
+/**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 그리드리스트 다운로드 함수
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyFcltySpecMngModule.prototype.downloadExcel = function(buttonId) {
+	
+	var rowCount = this.$('#elctyFcltySpecMngList').flexRowCount();
+	if (rowCount <= 0) {
+		alert('조회된 자료가 없습니다.');
+		return;
+	}
+	this.$('#elctyFcltySpecMngList').flexExcelDown('/fclty/selectElctyFcltySpecMngListExcel.do');
+
+};
+
+
+<%
+/**
+ * @FUNCTION NAME : registLocation
+ * @DESCRIPTION   : 위치등록 함수
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyFcltySpecMngModule.prototype.registLocation = function() {
+	var module=this;
+	EMD.gis.addPrtFcltyMarker(this._fcltyItem, function(value) {
+		module.$('#laCrdnt').val(value.laCrdnt);
+		module.$('#loCrdnt').val(value.loCrdnt);
+	});
+};
+
+
+<%
+/**
+ * @FUNCTION NAME : gotoLocation
+ * @DESCRIPTION   : 위치조회 함수
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyFcltySpecMngModule.prototype.gotoLocation = function() {
+	if(this._fcltyItem.laCrdnt!=null && this._fcltyItem.laCrdnt!=null) {
+		EMD.gis.goLocation(this._fcltyItem.laCrdnt, this._fcltyItem.loCrdnt);
+		EMD.gis.selectPrtFclty(this._fcltyItem);
+	} else if(this._fcltyItem.lat!=null && this._fcltyItem.lng!=null){
+		EMD.gis.goLocation4326(this._fcltyItem.lat, this._fcltyItem.lng);
+		EMD.gis.selectPrtFclty(this._fcltyItem);
+	} else {
+		alert("시설위치가 등록되지 않았습니다.");
+	}
+};
+
+
+
+<%
+/**
+ * @FUNCTION NAME : onButtonClick
+ * @DESCRIPTION   : BUTTON CLICK EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
 GamElctyFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 	var opts = null;
+	
 	switch(buttonId) {
-		case "searchBtn": //조회
-			this._cmd = "";
-			this.initDisplay();
-			this.loadData();
-			break;
-		
-			// 검색조건 시설물 관리 그룹 팝업
+				
+		// 검색조건 시설물 관리 그룹 팝업
 		case "searchPopupBtn":
 			this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
 			break;
@@ -330,51 +519,22 @@ GamElctyFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		
 		//시설삭제
 		case "btnDelete" :
-			var rows = this.$("#elctyFcltySpecMngList").selectedRows();
-			if(rows.length <= 0){
-				alert("삭제할 시설을 선택하십시오.");
-				return;
-			}
-			if(confirm("시설정보을 삭제하시겠습니까?")) {
-				var row = rows[0];
-				if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
-					alert('시설물 관리번호에 오류가 있습니다.');
-					return;
-				}
-				this.deleteFcltsData(row['fcltsMngNo']); 
-			}
+			this.deleteFcltsData(); 
 			break;
 			
 		// 저장
 		case "btnSave":
-        	if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){ 		
-        		return;
-        	}
-			opts = this.makeFormArgs("#fcltyManageVO");
-		 	if(this._cmd == "insert") {
-		 		this.insertFcltsData(opts);
-			} else if (this._cmd == "modify") { 
-				this.updateFcltsData(opts);
-			}			
+			this.saveFcltyData();
 			break;
 					
 		//파일업로드
 		case "btnUploadFile":
-			this.$('#atchFileSe').val('D');
-			this.uploadPfPhoto("uploadPhoto", function(module, result) {
-				$.each(result, function(){
-					module.$("#fcltsFileList").flexAddRow({_updtId:'I', fcltsMngNo:module.$('#fcltsMngNo').val(), atchFileSe:'D', atchFileSeNm :'문서', atchFileNmLogic:this.logicalFileNm, atchFileNmPhysicl: this.physcalFileNm, atchFileWritngDt:''});
-				});
-			}, "전기시설파일 업로드");
+			this.uploadFile();
 			break;
 			
 		//파일다운로드			
 		case "btnDownloadFile":
-			var selectRow = this.$('#fcltsFileList').selectedRows();
-			if(selectRow.length > 0) {
-				var row=selectRow[0];
-				this.downPfPhoto(row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
-			}
+			this.downloadFile();
 			break;
 			
 		// 엑셀다운로드
@@ -388,47 +548,23 @@ GamElctyFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		
 		case "registLocation":	// 위치 등록
-			var module=this;
-			EMD.gis.addPrtFcltyMarker(this._fcltyItem, function(value) {
-				module.$('#laCrdnt').val(value.laCrdnt);
-				module.$('#loCrdnt').val(value.loCrdnt);
-			});
+			this.registLocation();
 			break;
 			
 		case "gotoLocation":	// 위치 조회
-			if(this._fcltyItem.laCrdnt!=null && this._fcltyItem.laCrdnt!=null) {
-				EMD.gis.goLocation(this._fcltyItem.laCrdnt, this._fcltyItem.loCrdnt);
-				EMD.gis.selectPrtFclty(this._fcltyItem);
-			} else if(this._fcltyItem.lat!=null && this._fcltyItem.lng!=null){
-				EMD.gis.goLocation4326(this._fcltyItem.lat, this._fcltyItem.lng);
-				EMD.gis.selectPrtFclty(this._fcltyItem);
-			} else {
-				alert("시설위치가 등록되지 않았습니다.");
-			}
+			this.gotoLocation();
 			break;
 	}
 };
 
-GamElctyFcltySpecMngModule.prototype.saveAtchFile = function(fcltsMngNo) {
-	var fileList = this.$("#fcltsFileList").flexGetData();
-	for(var i=0; i<fileList.length; i++) {
-		fileList[i]["fcltsMngNo"] = fcltsMngNo;
-	}
-    var inputVO=[];
-    inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataFileList) };
-    this.doAction('/fclty/mergeElctyFcltySpecAtchFile.do', inputVO, function(module, result) {
-        if(result.resultCode == 0){
-			module._deleteDataFileList = [];				    	
-			module.loadFileData();
-        }
-        else {
-        	alert(result.resultMsg);
-        }
-    });	
-};
 
+<%
+/**
+ * @FUNCTION NAME : removeAtchFileItem
+ * @DESCRIPTION   : 첨부파일제거
+ * @PARAMETER     : NONE
+**/
+%>
 GamElctyFcltySpecMngModule.prototype.removeAtchFileItem = function() {
 	var rows = this.$("#fcltsFileList").selectedRows();
     if(rows.length == 0){
@@ -450,9 +586,15 @@ GamElctyFcltySpecMngModule.prototype.removeAtchFileItem = function() {
 };
 
 
+<%
 /**
- * 탭 변경시 실행 이벤트
- */
+ * @FUNCTION NAME : onTabChange
+ * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
+ * @PARAMETER     :
+ *   1. newTabId - NEW TAB ID
+ *   2. oldTabId - OLD TAB ID
+**/
+%>
 GamElctyFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	if(oldTabId == 'tabs1' && this._cmd == 'modify') {
 		this.initDisplay();
@@ -479,9 +621,16 @@ GamElctyFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 	}
 };
 
+<%
 /**
- * 팝업 close 이벤트
- */
+ * @FUNCTION NAME : onClosePopup
+ * @DESCRIPTION   : CLOSE POPUP EVENT
+ * @PARAMETER     :
+ *   1. popupId  - POPUP ID
+ *   2. msg      - MESSAGE
+ *   3. value    - VALUE
+**/
+%>
 GamElctyFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch(popupId){
 		// 조회화면
@@ -523,9 +672,20 @@ GamElctyFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 	}
 };
 
+
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamElctyFcltySpecMngModule();
 </script>
+
+<%
+/******************************** SCRIPT   END ********************************/
+%>
+
+
+<%
+/******************************** UI     START ********************************/
+%>
+
 <!-- 아래는 고정 -->
 <input type="hidden" id="window_id" value="<c:out value="${windowId}" />" />
 <div class="window_main">
@@ -544,7 +704,7 @@ var module_instance = new GamElctyFcltySpecMngModule();
 								<input id="sFcltsMngGroupNoNm" type="text" size="56" title="시설물관리그룹명" disabled="disabled" />
 								<button id="searchPopupBtn" class="popupButton">선택</button>
 							</td>
-							<td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
+							<td rowspan="2"><button class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
 							<th>시설분류</th>
@@ -591,12 +751,13 @@ var module_instance = new GamElctyFcltySpecMngModule();
 			<!-- 건축시설 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyManageVO">
+				<input type="hidden" id="fcltsMngNo">
 				<div style="margin-bottom:10px;">
 					<table class="searchPanel">
 						<tbody>
 							<tr>
 								<th width="70%">전기시설 일반</th>
-								<th>시설물관리번호 : <span id="dispfcltsMngNo"></span><input type="hidden" id="fcltsMngNo" /></th>
+								<th>시설물관리번호 : <span id="dispfcltsMngNo"></span></th>
 							</tr>
 						</tbody>
 					</table>
@@ -857,3 +1018,9 @@ var module_instance = new GamElctyFcltySpecMngModule();
 		</div>
 	</div>
 </div>
+
+
+
+<%
+/******************************** UI       END ********************************/
+%>

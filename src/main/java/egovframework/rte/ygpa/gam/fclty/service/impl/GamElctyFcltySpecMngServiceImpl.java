@@ -72,25 +72,53 @@ public class GamElctyFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 	}
 	
 	/**
-	 * 전기시설재원관리 데이터를 삽입한다.
-	 * @param vo
+	 * 시설재원관리 입력
+	 * @param Map, List
 	 * @return 
 	 * @throws Exception
-	 */		
-	public void insertElctyFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
-		gamElctyFcltySpecMngDao.insertElctyFcltySpecMngDetail(vo);
-		gamGisPrtFcltyCdMngtDao.insertGisPrtFclty(vo);
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void insertElctyFcltySpecMngDetail(Map fcltyManageVO, List insertFileList) throws Exception {
+		
+		Map insertFile = null;
+
+		String gisAssetsPrtAtCode = (String) fcltyManageVO.get("gisAssetsPrtAtCode");
+		String gisAssetsCd = (String) fcltyManageVO.get("gisAssetsCd");
+		String gisAssetsSubCd = (String) fcltyManageVO.get("gisAssetsSubCd");
+		String gisPrtFcltyCd = (String) fcltyManageVO.get("gisPrtFcltyCd");
+		String gisPrtFcltySeq = gamGisPrtFcltyCdMngtDao.selectNextFcltySeq(fcltyManageVO);
+		String prtFcltySe = (String) fcltyManageVO.get("prtFcltySe");
+		String fcltsMngNo = gisAssetsPrtAtCode + gisAssetsCd + gisAssetsSubCd + gisPrtFcltyCd + gisPrtFcltySeq + prtFcltySe;
+		
+		fcltyManageVO.put("fcltsMngNo", fcltsMngNo);
+		fcltyManageVO.put("gisPrtFcltySeq", gisPrtFcltySeq);
+		
+		gamElctyFcltySpecMngDao.insertElctyFcltySpecMngDetail(fcltyManageVO);
+		gamGisPrtFcltyCdMngtDao.insertGisPrtFclty(fcltyManageVO);
+		
+		//  시설 첨부파일 입력처리
+		for(int i=0;i<insertFileList.size();i++){
+			insertFile = (Map) insertFileList.get(i);
+			insertFile.put("fcltsMngNo",fcltsMngNo);
+			insertFile.put("regUsr", fcltyManageVO.get("regUsr"));
+			gamElctyFcltySpecMngDao.insertElctyFcltySpecFileDetail(insertFile);
+		}
+		
 	}
 	
 	/**
-	 * 전기시설재원관리 데이터를 수정한다.
-	 * @param vo
+	 * 시설재원관리 수정
+	 * @param Map, Map
 	 * @return 
 	 * @throws Exception
-	 */		
-	public void updateElctyFcltySpecMngDetail(Map<?, ?> vo) throws Exception {
-		gamElctyFcltySpecMngDao.updateElctyFcltySpecMngDetail(vo);
-		gamGisPrtFcltyCdMngtDao.updateGisPrtFclty(vo);
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void updateElctyFcltySpecMngDetail(Map fcltyManageVO, Map mergeMap) throws Exception {
+		
+		gamElctyFcltySpecMngDao.updateElctyFcltySpecMngDetail(fcltyManageVO);
+		gamGisPrtFcltyCdMngtDao.updateGisPrtFclty(fcltyManageVO);
+		
+		gamElctyFcltySpecMngDao.mergeFcltyFile(mergeMap);
 	}
 	
 	/**
@@ -125,46 +153,4 @@ public class GamElctyFcltySpecMngServiceImpl extends AbstractServiceImpl impleme
 		return gamElctyFcltySpecMngDao.selectElctyFcltySpecFileListTotCnt(searchVO);
 	}
 
-
-	/**
-	 * 전기시설재원관리 첨부파일 데이터를 삽입한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	public void insertElctyFcltySpecFileDetail(Map<?, ?> vo) throws Exception {
-		gamElctyFcltySpecMngDao.insertElctyFcltySpecFileDetail(vo);
-	}
-	
-	/**
-	 * 전기시설재원관리 첨부파일 데이터를 수정한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	public void updateElctyFcltySpecFileDetail(Map<?, ?> vo) throws Exception {
-		gamElctyFcltySpecMngDao.updateElctyFcltySpecFileDetail(vo);
-	}
-
-	/**
-	 * 전기시설재원관리 첨부파일 데이터를 삭제한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */			
-	public void deleteElctyFcltySpecFileDetail(Map<?, ?> vo) throws Exception {
-		gamElctyFcltySpecMngDao.deleteElctyFcltySpecFileDetail(vo);
-	}
-
-	
-	/**
-	 * 전기시설재원관리 첨부파일목록을 병합하여 저장한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */			
-	public List<?> mergeFcltyFileMngt(Map<String,Object> mergeMap) throws Exception{
-		return gamElctyFcltySpecMngDao.mergeFcltyFile(mergeMap);
-	}
-	
 }

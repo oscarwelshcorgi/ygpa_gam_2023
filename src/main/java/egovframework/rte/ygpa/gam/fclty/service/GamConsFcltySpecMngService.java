@@ -82,17 +82,33 @@ public interface GamConsFcltySpecMngService {
 	public EgovMap fcltySpecMngSelectView(Map<?,?> vo) throws Exception;
 	
 
-	// 시설관리 저장
-	void insertFcltySpec(Map<?,?> form) throws Exception;
+	/**
+	 * 시설재원관리 입력
+	 * @param Map, List
+	 * @return 
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "rawtypes" })
+	void insertFcltySpec(Map fcltyManageVO, List insertFileList) throws Exception;
 
-	// 시설관리 수정
-	void updateFcltySpec(Map<?,?> form) throws Exception;
+	
+	/**
+	 * 시설재원관리 수정
+	 * @param Map, Map
+	 * @return 
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "rawtypes" })
+	void updateFcltySpec(Map fcltyManageVO, Map mergeMap) throws Exception;
 
-	// 시설 정보 삭제
+	
+	/**
+	 * 시설재원관리 삭제
+	 * @param Map
+	 * @return 
+	 * @throws Exception
+	 */
 	void deleteFcltySpec(Map<?,?> vo) throws Exception;
-
-	// 시설 파일 저장
-	List<?> mergeFcltyFileMngt(Map<String,Object> mergeList) throws Exception;
 	
 
 	

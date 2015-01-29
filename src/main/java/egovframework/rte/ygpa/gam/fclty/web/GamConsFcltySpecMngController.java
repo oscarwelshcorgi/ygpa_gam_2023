@@ -9,12 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,15 +25,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
-import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamGisPrtFcltyCdMngtService;
-import egovframework.rte.ygpa.gam.cmmn.service.GamFileServiceVo;
-import egovframework.rte.ygpa.gam.cmmn.service.GamFileUploadUtil;
 import egovframework.rte.ygpa.gam.fclty.service.GamConsFcltySpecMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamConsFcltySpecMngService;
 
@@ -199,19 +193,20 @@ public class GamConsFcltySpecMngController {
 
 	/**
 	 * 건축 시설관리 등록
-	 * @param fcltyManageVO
-	 * @param bindingResult
-	 * @param cmd
+	 * @param fcltyItem
 	 * @return map
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/gamConstFcltySpecInsert.do")
 	public @ResponseBody Map insertFclty(@RequestParam Map fcltyItem) throws Exception {
-
-    	Map map = new HashMap();
-    	String fcltsMngNo, gisAssetsPrtAtCode, gisAssetsCd, gisAssetsSubCd, gisPrtFcltyCd, gisPrtFcltySeq;
-
+		
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map map = new HashMap();
+    	ObjectMapper mapper = new ObjectMapper();
+    	Map fcltyManageVO = new HashMap();
+    	List<HashMap<String,String>> insertFileList=null;
+    	
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -219,27 +214,22 @@ public class GamConsFcltySpecMngController {
         	return map;
     	}
 
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	fcltyManageVO = mapper.readValue((String)fcltyItem.get("fcltyManageVO"),
+    		    new TypeReference<HashMap<String,String>>(){});
+    	
+    	insertFileList = mapper.readValue((String)fcltyItem.get("insertFileList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
 
-    	fcltyItem.put("regUsr",user.getId());
-    	fcltyItem.put("prtFcltySe",prtFcltySe);
-
-    	gisPrtFcltySeq = gamGisPrtFcltyCdMngtService.selectNextFcltySeq(fcltyItem);
-
-		gisAssetsPrtAtCode = (String) fcltyItem.get("gisAssetsPrtAtCode");
-		gisAssetsCd = (String) fcltyItem.get("gisAssetsCd");
-		gisAssetsSubCd = (String) fcltyItem.get("gisAssetsSubCd");
-		gisPrtFcltyCd = (String) fcltyItem.get("gisPrtFcltyCd");
-
-		fcltsMngNo = gisAssetsPrtAtCode + gisAssetsCd + gisAssetsSubCd + gisPrtFcltyCd + gisPrtFcltySeq + prtFcltySe;
-		fcltyItem.put("gisPrtFcltySeq",gisPrtFcltySeq);
+    	fcltyManageVO.put("prtFcltySe",prtFcltySe);
+    	fcltyManageVO.put("regUsr",user.getId());
 
     	try {
     		// 건축시설 제원 입력
-    		gamConsFcltySpecMngService.insertFcltySpec(fcltyItem);
+    		gamConsFcltySpecMngService.insertFcltySpec(fcltyManageVO, insertFileList);
 
     		map.put("resultCode", 0);			// return ok
-    		map.put("fcltsMngNo", fcltsMngNo);			// return ok
+    		map.put("fcltsMngNo", fcltyManageVO.get("fcltsMngNo"));
+    		map.put("gisPrtFcltySeq", fcltyManageVO.get("gisPrtFcltySeq"));
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 
 		} catch (Exception e) {
@@ -298,8 +288,7 @@ public class GamConsFcltySpecMngController {
 
 	/**
 	 * 건축 시설관리 수정
-	 * @param fcltyManageVO
-	 * @param bindingResult
+	 * @param fcltyMngtList
 	 * @return map
 	 * @throws Exception
 	 */
@@ -307,9 +296,18 @@ public class GamConsFcltySpecMngController {
     @RequestMapping("/fclty/gamConstFcltySpecUpdate.do")
     public @ResponseBody Map updateFclty(@RequestParam Map fcltyMngtList)throws Exception {
 
-    	Map map = new HashMap();
-    	String fcltsMngNo;
-
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map map = new HashMap();
+    	ObjectMapper mapper = new ObjectMapper();
+    	
+    	Map fcltyManageVO = new HashMap();
+    	List<HashMap<String,String>> insertFileList=null;
+    	List<HashMap<String,String>> updateFileList=null;
+    	List<HashMap<String,String>> deleteFileList=null;
+    	List<Map<String,String>> userList=null;
+    	
+    	Map<String, String> userMap = new HashMap<String, String>();
+    	
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -317,20 +315,37 @@ public class GamConsFcltySpecMngController {
         	return map;
     	}
 
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	fcltyManageVO = mapper.readValue((String)fcltyMngtList.get("fcltyManageVO"),
+    		    new TypeReference<HashMap<String,String>>(){});
+    	
+    	insertFileList = mapper.readValue((String)fcltyMngtList.get("insertFileList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+    	updateFileList = mapper.readValue((String)fcltyMngtList.get("updateFileList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+    	deleteFileList = mapper.readValue((String)fcltyMngtList.get("deleteFileList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
 
-    	fcltyMngtList.put("updUsr", user.getId());
-    	fcltyMngtList.put("prtFcltySe",prtFcltySe);
+    	userList = new ArrayList();
+		userMap.put("id",  user.getId());
+		userList.add(userMap);
+
+		Map<String,Object> mergeMap = new HashMap<String,Object>();
+		
+		insertFileList.addAll(updateFileList);
+
+		mergeMap.put("CU", insertFileList);
+		mergeMap.put("D", deleteFileList);
+		mergeMap.put("USER", userList);
+		
+		fcltyManageVO.put("prtFcltySe",prtFcltySe);
+		fcltyManageVO.put("updUsr",user.getId());
 
     	try {
 
     		// 건축시설 제원 수정
-    		gamConsFcltySpecMngService.updateFcltySpec(fcltyMngtList);
-
-    		fcltsMngNo = (String) fcltyMngtList.get("fcltsMngNo");
+    		gamConsFcltySpecMngService.updateFcltySpec(fcltyManageVO, mergeMap);
 
     		map.put("resultCode", 0);			// return ok
-    		map.put("fcltsMngNo", fcltsMngNo);			// return ok
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -381,56 +396,6 @@ public class GamConsFcltySpecMngController {
     }
 
 
-    @RequestMapping(value="/fclty/mergeGamConstFcltySpecFileMngt.do")
-    public @ResponseBody Map<String, Object> mergeGamGisAssetFileMngt(@RequestParam Map<String, Object> dataList) throws Exception {
-
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		Map<String,Object> map = new HashMap<String,Object>();
-		Map<String, String> userMap = new HashMap<String, String>();
-		ObjectMapper mapper = new ObjectMapper();
-
-    	List<HashMap<String,String>> insertList=null;
-    	List<HashMap<String,String>> updateList=null;
-    	List<HashMap<String,String>> deleteList=null;
-    	List<Map<String, String>> userList=null;
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-
-		insertList = mapper.readValue((String)dataList.get("insertList"),
-		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		updateList = mapper.readValue((String)dataList.get("updateList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		deleteList = mapper.readValue((String)dataList.get("deleteList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		userList = new ArrayList<Map<String, String>>();
-		userMap.put("id",  loginVO.getId());
-		userList.add(userMap);
-
-		Map<String,Object> mergeMap = new HashMap<String,Object>();
-
-		insertList.addAll(updateList);
-
-		mergeMap.put("CU", insertList);
-		mergeMap.put("D", deleteList);
-		mergeMap.put("USER", userList);
-
-		gamConsFcltySpecMngService.mergeFcltyFileMngt(mergeMap);
-
-        map.put("resultCode", 0);
-		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
-
-		return map;
-	}
-
-
     /**
 	 * 건축시설제원관리 리스트를 엑셀로 다운로드한다.
 	 * @param searchVO
@@ -476,44 +441,6 @@ public class GamConsFcltySpecMngController {
     	map.put("header", header);
 
     	return new ModelAndView("gridExcelView", "gridResultMap", map);
-    }
-
-    @RequestMapping(value="/fclty/uploadConstFcltyFile.do", method=RequestMethod.POST)
-    public @ResponseBody Map uploadFile(HttpServletRequest request, Model model) throws Exception {
-		Map map = new HashMap();
-		String uploadPath = EgovProperties.getProperty("constFclty.fileStorePath");
-		try {
-			List<GamFileServiceVo> list = GamFileUploadUtil.uploadFiles(request, uploadPath, gamConstFcltyIdGnrService);
-
-			map.put("resultCode", "0");
-			map.put("result", list);
-		}
-		catch(Exception e) {
-			map.put("resultCode", "-1");
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
-		}
-
-		return map;
-	}
-
-    @RequestMapping("/fclty/getConstFcltyImage.do")
-    public void getImage(final HttpServletRequest request, HttpServletResponse response) throws Exception {
-		GamFileServiceVo gamFileServiceVo = new GamFileServiceVo();
-		String uploadPath = EgovProperties.getProperty("constFclty.fileStorePath");
-
-		gamFileServiceVo.setPhyscalFileNm((String)request.getParameter("physicalFileNm"));
-
-		GamFileUploadUtil.downloadImage(request, response, uploadPath, gamFileServiceVo);
-    }
-
-    @RequestMapping("/fclty/getConstFcltyDown.do")
-    public void getDownload(final HttpServletRequest request, HttpServletResponse response) throws Exception {
-		GamFileServiceVo gamFileServiceVo = new GamFileServiceVo();
-		String uploadPath = EgovProperties.getProperty("constFclty.fileStorePath");
-
-		gamFileServiceVo.setPhyscalFileNm((String)request.getParameter("physicalFileNm"));
-
-		GamFileUploadUtil.downloadFile(request, response, uploadPath, gamFileServiceVo);
     }
 
 }

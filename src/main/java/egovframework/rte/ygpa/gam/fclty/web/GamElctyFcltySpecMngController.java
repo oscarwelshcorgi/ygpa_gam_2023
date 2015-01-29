@@ -30,7 +30,6 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamGisPrtFcltyCdMngtService;
-import egovframework.rte.ygpa.gam.fclty.service.GamConsFcltySpecMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamElctyFcltySpecMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamElctyFcltySpecMngVO;
 
@@ -134,7 +133,7 @@ public class GamElctyFcltySpecMngController {
 
 	/**
 	 * 전기 시설관리 상세
-	 * @param fcltyManageVO
+	 * @param searchVO
 	 * @return map
 	 * @throws Exception
 	 */
@@ -166,11 +165,22 @@ public class GamElctyFcltySpecMngController {
         return map;		
 	}
 	
+	
+	/**
+	 * 전기 시설관리 등록
+	 * @param fcltyItem
+	 * @return map
+	 * @throws Exception
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/insertElctyFcltySpecMngDetail.do")
-    public @ResponseBody Map insertElctyFcltySpecMngDetail(@RequestParam Map insertMap) throws Exception {
-    	Map map = new HashMap();
-
+    public @ResponseBody Map insertElctyFcltySpecMngDetail(@RequestParam Map fcltyItem) throws Exception {
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map map = new HashMap();
+    	ObjectMapper mapper = new ObjectMapper();
+    	Map fcltyManageVO = new HashMap();
+    	List<HashMap<String,String>> insertFileList=null;
+    	
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -178,17 +188,21 @@ public class GamElctyFcltySpecMngController {
         	return map;
     	}
 
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	fcltyManageVO = mapper.readValue((String)fcltyItem.get("fcltyManageVO"),
+    		    new TypeReference<HashMap<String,String>>(){});
+    	
+    	insertFileList = mapper.readValue((String)fcltyItem.get("insertFileList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
 
-    	insertMap.put("regUsr", user.getId());
+    	fcltyManageVO.put("prtFcltySe",prtFcltySe);
+    	fcltyManageVO.put("regUsr",user.getId());
     	
     	try {
-    		insertMap.put("prtFcltySe", prtFcltySe);
-    		insertMap.put("gisPrtFcltySeq", gamGisPrtFcltyCdMngtService.selectNextFcltySeq(insertMap));
-    		gamElctyFcltySpecMngService.insertElctyFcltySpecMngDetail(insertMap);
+    		gamElctyFcltySpecMngService.insertElctyFcltySpecMngDetail(fcltyManageVO, insertFileList);
     		
     		map.put("resultCode", 0);			// return ok
-    		map.put("gisPrtFcltySeq", insertMap.get("gisPrtFcltySeq"));
+    		map.put("fcltsMngNo", fcltyManageVO.get("fcltsMngNo"));
+    		map.put("gisPrtFcltySeq", fcltyManageVO.get("gisPrtFcltySeq"));
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			map.put("resultCode", 1);
@@ -198,11 +212,28 @@ public class GamElctyFcltySpecMngController {
       	return map;		
 	}
 	
+	
+	/**
+	 * 전기 시설관리 수정
+	 * @param fcltyMngtList
+	 * @return map
+	 * @throws Exception
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/updateElctyFcltySpecMngDetail.do")
-	public @ResponseBody Map updateElctyFcltySpecMngDetail(@RequestParam Map updateMap) throws Exception {
-    	Map map = new HashMap();
-
+	public @ResponseBody Map updateElctyFcltySpecMngDetail(@RequestParam Map fcltyMngtList) throws Exception {
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map map = new HashMap();
+    	ObjectMapper mapper = new ObjectMapper();
+    	
+    	Map fcltyManageVO = new HashMap();
+    	List<HashMap<String,String>> insertFileList=null;
+    	List<HashMap<String,String>> updateFileList=null;
+    	List<HashMap<String,String>> deleteFileList=null;
+    	List<Map<String,String>> userList=null;
+    	
+    	Map<String, String> userMap = new HashMap<String, String>();
+    	
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -210,13 +241,33 @@ public class GamElctyFcltySpecMngController {
         	return map;
     	}
 
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	fcltyManageVO = mapper.readValue((String)fcltyMngtList.get("fcltyManageVO"),
+    		    new TypeReference<HashMap<String,String>>(){});
+    	
+    	insertFileList = mapper.readValue((String)fcltyMngtList.get("insertFileList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+    	updateFileList = mapper.readValue((String)fcltyMngtList.get("updateFileList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+    	deleteFileList = mapper.readValue((String)fcltyMngtList.get("deleteFileList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
 
-    	updateMap.put("updUsr", user.getId());
+    	userList = new ArrayList();
+		userMap.put("id",  user.getId());
+		userList.add(userMap);
+
+		Map<String,Object> mergeMap = new HashMap<String,Object>();
+		
+		insertFileList.addAll(updateFileList);
+
+		mergeMap.put("CU", insertFileList);
+		mergeMap.put("D", deleteFileList);
+		mergeMap.put("USER", userList);
+		
+		fcltyManageVO.put("prtFcltySe",prtFcltySe);
+		fcltyManageVO.put("updUsr",user.getId());
     	
     	try {
-    		updateMap.put("prtFcltySe", prtFcltySe);
-    		gamElctyFcltySpecMngService.updateElctyFcltySpecMngDetail(updateMap);
+    		gamElctyFcltySpecMngService.updateElctyFcltySpecMngDetail(fcltyManageVO, mergeMap);
     		
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
@@ -228,6 +279,13 @@ public class GamElctyFcltySpecMngController {
       	return map;		
 	}
 	
+	
+	/**
+     * 전기 시설관리 삭제
+     * @param deleteMap
+     * @return map
+     * @throws Exception
+     */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/deleteElctyFcltySpecMngDetail.do")
     public @ResponseBody Map deleteElctyFcltySpecMngDetail(@RequestParam Map deleteMap) throws Exception {
@@ -253,6 +311,13 @@ public class GamElctyFcltySpecMngController {
       	return map;		
 	}
 	
+	
+	/**
+	 * 전기시설 파일 목록
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fclty/selectElctyFcltySpecFileList.do")
     public @ResponseBody Map selectElctyFcltySpecFileList(GamElctyFcltySpecMngVO searchVO) throws Exception {
@@ -289,58 +354,7 @@ public class GamElctyFcltySpecMngController {
 
     	return map;
 	}
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/fclty/mergeElctyFcltySpecAtchFile.do")
-	public @ResponseBody Map<String, Object> mergeElctyFcltySpecAtchFile(@RequestParam Map<String, Object> dataList) throws Exception {
 
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		Map<String,Object> map = new HashMap<String,Object>();
-		Map<String, String> userMap = new HashMap<String, String>();
-		ObjectMapper mapper = new ObjectMapper();
-
-    	List<HashMap<String,String>> insertList=null;
-    	List<HashMap<String,String>> updateList=null;
-    	List<HashMap<String,String>> deleteList=null;
-    	List<Map<String,String>> userList=null;
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-    	
-    	System.out.println("test :: fileupload");
-		insertList = mapper.readValue((String)dataList.get("insertList"),
-		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		updateList = mapper.readValue((String)dataList.get("updateList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		deleteList = mapper.readValue((String)dataList.get("deleteList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		userList = new ArrayList();
-		userMap.put("id",  loginVO.getId());
-		userList.add(userMap);
-
-		Map<String,Object> mergeMap = new HashMap<String,Object>();
-
-		insertList.addAll(updateList);
-
-		mergeMap.put("CU", insertList);
-		mergeMap.put("D", deleteList);
-		mergeMap.put("USER", userList);
-
-		gamElctyFcltySpecMngService.mergeFcltyFileMngt(mergeMap);
-
-        map.put("resultCode", 0);
-		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
-
-		return map;
-	}
-	
 	
 	/**
 	 * 전기시설제원관리 리스트를 엑셀로 다운로드한다.

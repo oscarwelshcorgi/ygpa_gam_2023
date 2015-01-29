@@ -123,28 +123,9 @@ public class GamElctyFcltySpecMngDao extends YGPAAbstractDAO {
 		insert("gamElctyFcltySpecMngDao.insertElctyFcltySpecFileDetail", vo);
 	}
 	
-	/**
-	 * 전기시설재원관리 첨부파일 데이터를 수정한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	public void updateElctyFcltySpecFileDetail(Map<?, ?> vo) throws Exception {
-		update("gamElctyFcltySpecMngDao.updateElctyFcltySpecFileDetail", vo);
-	}
 
 	/**
-	 * 전기시설재원관리 첨부파일 데이터를 삭제한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */			
-	public void deleteElctyFcltySpecFileDetail(Map<?, ?> vo) throws Exception {
-		delete("gamElctyFcltySpecMngDao.deleteElctyFcltySpecFileDetail", vo);
-	}
-
-	/**
-	 * 전기시설재원관리 첨부파일 목록을 삭제한다.
+	 * 전기시설재원관리 첨부파일 전체를 삭제한다.
 	 * @param vo
 	 * @return 
 	 * @throws Exception
