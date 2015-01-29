@@ -70,7 +70,11 @@ GamPopupFcltsMngNoModule.prototype.loadComplete = function(params) {
 	});
 
 	if (params != null) {
-		this.$('#sFcltsJobSe').val(params['fcltsJobSe']);
+		var sFcltsJobSe = params['fcltsJobSe'];
+		if (sFcltsJobSe != "") {
+			this.$('#sFcltsJobSe').val(sFcltsJobSe);
+			this.$('#sFcltsJobSe').disable();
+		}
 		var searchOpt=this.makeFormArgs('#searchForm');
 		this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 	}
