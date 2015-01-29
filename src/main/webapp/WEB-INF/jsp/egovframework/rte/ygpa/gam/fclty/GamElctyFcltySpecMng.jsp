@@ -111,6 +111,24 @@ GamElctyFcltySpecMngModule.prototype.loadComplete = function(params) {
 	this.$(".photoEditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.atchFileInfoChanged(event.target);
 	});
+	
+	
+	// 맵관련 추가사항
+	this._params=params;
+	if(params!=null) {
+		if(params.action!=null) {
+			switch(params.action) {
+			case "setFeature":
+				this.$('#setFeature').show();
+				break;
+			case "prtFcltyInqire":
+				this._cmd = 'modify';
+				this.$("#elctyFcltySpecMngTab").tabs("option", {
+					active : 1
+				});
+			}
+		}
+	}
 };
 
 
@@ -148,9 +166,15 @@ GamElctyFcltySpecMngModule.prototype.loadData = function() {
 **/
 %>
 GamElctyFcltySpecMngModule.prototype.loadDetailData = function() {
-	var selectRows = this.$('#elctyFcltySpecMngList').selectedRows();
-	if(selectRows.length > 0) {
-		var row = selectRows[0];
+	var row = this.$('#elctyFcltySpecMngList').selectedRows();
+	if(row.length > 0) {
+		// 맵관련 변경사항
+		if(row.length==0 && this._params!=undefined && this._params.action=="prtFcltyInqire") {
+			row={'fcltsMngNo': this._params.fcltsMngNo};
+		}
+		else {
+			row = row[0];
+		}
 		if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
 			alert('시설물 관리번호에 오류가 있습니다.');
 			this._cmd = '';
@@ -554,6 +578,21 @@ GamElctyFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		case "gotoLocation":	// 위치 조회
 			this.gotoLocation();
 			break;
+			
+		// 맵관련 추가
+		case "setFeature": // GIS 피처 지정
+			this.$('#setFeature').hide();
+			var row = this.$("#elctyFcltySpecMngList").selectedRows();
+
+			if(row.length!=1) {
+				alert('지정 할 시설을 하나만 선택 해 주시기 바랍니다.');
+				return;
+			}
+			this.setFeatureCode('gisArchFclty',
+					row[0],
+					this._param.feature);
+			this.closeWindow();
+			break;
 	}
 };
 
@@ -740,6 +779,9 @@ var module_instance = new GamElctyFcltySpecMngModule();
 								<button id="btnAdd">시설추가</button>
 								<button id="btnDelete">시설삭제</button>
 								<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="elctyFcltySpecMngList" data-style="default">맵조회</button>
+								<!-- 맵관련 추가 -->
+								<button data-role="editMap" data-gis-layer="gisArchFclty">맵편집</button>
+								<button id="setFeature" style="display: none;">맵지정</button>
 							</td>
 						</tr>
 					</table>

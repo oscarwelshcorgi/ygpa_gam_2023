@@ -116,6 +116,20 @@ GamElctyFcltySpecInqireModule.prototype.loadComplete = function(params) {
 	this.$(".photoEditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.atchFileInfoChanged(event.target);
 	});
+	
+	// 맵관련 추가
+	this._params=params;
+	if(params!=null) {
+		if(params.action!=null) {
+			switch(params.action) {
+			case "prtFcltyInqire":
+				this._cmd = 'modify';
+				this.$("#elctyFcltySpecInqireTab").tabs("option", {
+					active : 1
+				});
+			}
+		}
+	}
 
 };
 
@@ -155,9 +169,16 @@ GamElctyFcltySpecInqireModule.prototype.loadData = function() {
 **/
 %>
 GamElctyFcltySpecInqireModule.prototype.loadDetailData = function() {
-	var selectRows = this.$('#elctyFcltySpecInqireList').selectedRows();
-	if(selectRows.length > 0) {
-		var row = selectRows[0];
+	var row = this.$('#elctyFcltySpecInqireList').selectedRows();
+	if(row.length > 0) {
+		// 맵관련 편집
+		if(row.length==0 && this._params!=undefined && this._params.action=="prtFcltyInqire") {
+			row={'fcltsMngNo': this._params.fcltsMngNo};
+			this._params.action=="prtFcltyInqire1";	// 처음 한번만 체크 하도록 한다.
+		}
+		else {
+			row = row[0];
+		}
 		if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
 			alert('시설물 관리번호에 오류가 있습니다.');
 			this._cmd = '';

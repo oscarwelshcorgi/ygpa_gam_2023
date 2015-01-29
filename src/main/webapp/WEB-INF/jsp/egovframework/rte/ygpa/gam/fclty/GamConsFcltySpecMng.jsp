@@ -220,7 +220,6 @@ GamConstFcltySpecMngModule.prototype.loadDetail = function() {
 		row = row[0];
 	}
 
-	console.log(row);
 	if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
 		this.$("#constFcltySpecMngListTab").tabs("option", {active: 0});
 		alert('시설물 관리번호에 오류가 있습니다.');
