@@ -7,14 +7,14 @@
 
     <formset>
         <form name="fcltyUsageSttusSearchForm">
-            <field property="sUsagePdFrom" depends="required,date">
+            <field property="sUsagePdFrom" depends="date">
                 <arg0 key="사용시작일" resource="false"/>
                 <var>
                 	<var-name>datePatternStrict</var-name>
                 	<var-value>yyyy-MM-dd</var-value>
                 </var>
             </field>
-            <field property="sUsagePdTo" depends="required,date">
+            <field property="sUsagePdTo" depends="date">
                 <arg0 key="사용종료일" resource="false"/>
 				
 				  <var>
