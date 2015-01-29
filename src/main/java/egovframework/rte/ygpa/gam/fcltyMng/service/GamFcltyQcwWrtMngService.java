@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.fcltyMng.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,28 +44,12 @@ public interface GamFcltyQcwWrtMngService {
 	int selectQcMngDtlsListTotCnt(GamFcltyQcwWrtMngVO searchVO) throws Exception;
 
 	/**
-	 * 점검관리목록 인쇄 조회
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */		
-	List<?> selectQcMngDtlsReportI(GamFcltyQcwWrtMngVO searchVO) throws Exception;
-
-	/**
-	 * 점검구분 이름 조회(인쇄화면에 사용)
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */		
-	String selectQcSeNm(GamFcltyQcwWrtMngVO searchVO) throws Exception;
-	
-	/**
 	 * 점검관리내역 데이터 조회
 	 * @param vo
 	 * @return EgovMap
 	 * @throws Exception
 	 */		
-	EgovMap selectQcMngDtlsDetail(Map<?, ?> searchVO) throws Exception;
+	EgovMap selectQcMngDtlsDetail(GamFcltyQcwWrtMngVO searchVO) throws Exception;
 	
 	/**
 	 * 점검관리내역 데이터 삽입
@@ -72,7 +57,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void insertQcMngDtls(Map<String, Object> vo) throws Exception;
+	void insertQcMngDtls(Map<String, String> detailForm, List<HashMap<String, String>> qcObjList,  List<HashMap<String, String>> qcResultList, List<HashMap<String, String>> atchFileList) throws Exception;
 	
 	/**
 	 * 점검관리내역 데이터 수정
@@ -80,7 +65,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void updateQcMngDtls(Map<?, ?> vo) throws Exception;
+	void updateQcMngDtls(Map<String, String> detailForm, List<HashMap<String, String>> qcObjList,  List<HashMap<String, String>> qcResultList, List<HashMap<String, String>> atchFileList) throws Exception;
 	
 	/**
 	 * 점검관리내역 데이터 삭제
@@ -89,30 +74,6 @@ public interface GamFcltyQcwWrtMngService {
 	 * @throws Exception
 	 */		
 	void deleteQcMngDtls(Map<?, ?> vo) throws Exception;
-		
-	/**
-	 * 점검관리대상시설물 목록 조회
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */		
-	List<?> selectQcMngObjFcltsList(GamFcltyQcwWrtMngVO searchVO) throws Exception;
-	
-	/**
-	 * 점검관리대상시설물 목록 총수 조회
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */		
-	int selectQcMngObjFcltsListTotCnt(GamFcltyQcwWrtMngVO searchVO) throws Exception;
-	
-	/**
-	 * 점검관리대상시설물 데이터 병합 저장
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */		
-	void mergeQcMngObjFclts(Map<String, Object> mergeMap) throws Exception;
 	
 	/**
 	 * 점검관리첨부파일 목록 조회
@@ -123,21 +84,13 @@ public interface GamFcltyQcwWrtMngService {
 	List<?> selectQcMngAtchFileList(GamFcltyQcwWrtMngVO searchVO) throws Exception;
 	
 	/**
-	 * 점검관리첨부파일 목록 총수 조회
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */		
-	int selectQcMngAtchFileListTotCnt(GamFcltyQcwWrtMngVO searchVO) throws Exception;
-		
-	/**
-	 * 점검관리첨부파일 데이터 병합 저장
+	 * 점검관리대상시설물 목록 조회
 	 * @param vo
 	 * @return list
 	 * @throws Exception
 	 */		
-	void mergeQcMngAtchFile(Map<String, Object> mergeMap) throws Exception;
-	
+	List<?> selectQcMngObjFcltsList(GamFcltyQcwWrtMngVO searchVO) throws Exception;
+		
 	/**
 	 * 점검관리결과항목 목록 조회
 	 * @param vo
@@ -145,21 +98,5 @@ public interface GamFcltyQcwWrtMngService {
 	 * @throws Exception
 	 */		
 	List<?> selectQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception;
-	
-	/**
-	 * 점검관리결과항목 목록 총수 조회
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */		
-	int selectQcMngResultItemListTotCnt(GamFcltyQcwWrtMngVO searchVO) throws Exception;
-		
-	/**
-	 * 점검관리결과항목 데이터 병합 저장
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */		
-	void mergeQcMngResultItem(Map<String, Object> mergeMap) throws Exception;
 	
 }

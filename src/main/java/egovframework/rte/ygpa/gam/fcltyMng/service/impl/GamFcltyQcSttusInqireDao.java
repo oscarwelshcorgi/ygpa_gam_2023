@@ -4,13 +4,11 @@
 package egovframework.rte.ygpa.gam.fcltyMng.service.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
-import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcSttusInqireVO;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcSttusInqireVO;
 
 /**
@@ -53,55 +51,15 @@ public class GamFcltyQcSttusInqireDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 점검관리목록(정보통신) 인쇄 조회
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */		
-	public List<?> selectQcMngDtlsReportI(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return list("gamFcltyQcSttusInqireDao.selectQcMngDtlsReportI_D", searchVO);
-	}
-	
-	/**
 	 * 점검관리내역 데이터 조회
 	 * @param vo
 	 * @return EgovMap
 	 * @throws Exception
 	 */		
-	public EgovMap selectQcMngDtlsDetail(Map<?, ?> searchVO) throws Exception {
+	public EgovMap selectQcMngDtlsDetail(GamFcltyQcSttusInqireVO searchVO) throws Exception {
 		return (EgovMap) selectByPk("gamFcltyQcSttusInqireDao.selectQcMngDtlsDetail_S", searchVO);
 	}
 
-	/**
-	 * 점검구분 이름 조회(인쇄화면에 사용)
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */		
-	public String selectQcSeNm(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return (String)getSqlMapClientTemplate().queryForObject("gamFcltyQcSttusInqireDao.selectQcSeNm_S", searchVO);
-	}
-	
-	/**
-	 * 점검관리대상시설물 목록 조회
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */		
-	public List<?> selectQcMngObjFcltsList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return list("gamFcltyQcSttusInqireDao.selectQcMngObjFcltsList_D", searchVO);
-	}
-	
-	/**
-	 * 점검관리대상시설물 목록 총수 조회
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */		
-	public int selectQcMngObjFcltsListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyQcSttusInqireDao.selectQcMngObjFcltsListTotCnt_S", searchVO);
-	}
-	
 	/**
 	 * 점검관리첨부파일 목록 조회
 	 * @param vo
@@ -113,15 +71,15 @@ public class GamFcltyQcSttusInqireDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 점검관리첨부파일 목록 총수 조회
+	 * 점검관리대상시설물 목록 조회
 	 * @param vo
-	 * @return int
+	 * @return list
 	 * @throws Exception
 	 */		
-	public int selectQcMngAtchFileListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyQcSttusInqireDao.selectQcMngAtchFileListTotCnt_S", searchVO);
+	public List<?> selectQcMngObjFcltsList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return list("gamFcltyQcSttusInqireDao.selectQcMngObjFcltsList_D", searchVO);
 	}
-		
+
 	/**
 	 * 점검관리결과항목 목록 조회
 	 * @param vo
@@ -130,16 +88,5 @@ public class GamFcltyQcSttusInqireDao extends YGPAAbstractDAO {
 	 */		
 	public List<?> selectQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
 		return list("gamFcltyQcSttusInqireDao.selectQcMngResultItemList_D", searchVO);
-	}
-	
-	/**
-	 * 점검관리결과항목 목록 총수 조회
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */		
-	public int selectQcMngResultItemListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyQcSttusInqireDao.selectQcMngResultItemListTotCnt_S", searchVO);
-	}
-		
+	}	
 }

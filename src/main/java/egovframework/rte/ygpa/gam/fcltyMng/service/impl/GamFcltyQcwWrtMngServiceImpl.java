@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.fcltyMng.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,32 +58,12 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	}
 	
 	/**
-	 * 점검관리목록 인쇄 조회
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */		
-	public List<?> selectQcMngDtlsReportI(GamFcltyQcwWrtMngVO searchVO) throws Exception {
-		return gamFcltyQcwWrtMngDao.selectQcMngDtlsReportI(searchVO);
-	}
-	
-	/**
-	 * 점검구분 이름 조회(인쇄화면에 사용)
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */		
-	public String selectQcSeNm(GamFcltyQcwWrtMngVO searchVO) throws Exception {
-		return gamFcltyQcwWrtMngDao.selectQcSeNm(searchVO);
-	}
-	
-	/**
 	 * 점검관리내역 데이터 조회
 	 * @param vo
 	 * @return EgovMap
 	 * @throws Exception
 	 */		
-	public EgovMap selectQcMngDtlsDetail(Map<?, ?> searchVO) throws Exception {
+	public EgovMap selectQcMngDtlsDetail(GamFcltyQcwWrtMngVO searchVO) throws Exception {
 		return gamFcltyQcwWrtMngDao.selectQcMngDtlsDetail(searchVO);
 	}
 
@@ -92,19 +73,67 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void insertQcMngDtls(Map<String, Object> vo) throws Exception {
-		vo.put("qcMngSeq", gamFcltyQcwWrtMngDao.selectMaxQcMngSeq(vo));
-		gamFcltyQcwWrtMngDao.insertQcMngDtls(vo);
+	public void insertQcMngDtls(Map<String, String> detailForm, List<HashMap<String, String>> qcObjList,  List<HashMap<String, String>> qcResultList, List<HashMap<String, String>> atchFileList) throws Exception {
+		detailForm.put("qcMngSeq", gamFcltyQcwWrtMngDao.selectMaxQcMngSeq(detailForm));
+
+		gamFcltyQcwWrtMngDao.insertQcMngDtls(detailForm);
+		
+		//점검대상물 전체 삭제 후 추가
+		gamFcltyQcwWrtMngDao.deleteQcMngObjFcltsList(detailForm);
+		for(HashMap<String, String> qcObjItem : qcObjList) {
+			qcObjItem.put("qcMngSeq", detailForm.get("qcMngSeq"));
+			qcObjItem.put("regUsr", detailForm.get("regUsr"));
+			gamFcltyQcwWrtMngDao.insertQcMngObjFclts(qcObjItem);
+		}
+
+		//점검결과항목 전체 삭제 후 추가
+		gamFcltyQcwWrtMngDao.deleteQcMngResultItemList(detailForm);
+		for(HashMap<String, String> qcResultItem : qcResultList) {
+			qcResultItem.put("qcMngSeq", detailForm.get("qcMngSeq"));
+			qcResultItem.put("regUsr", detailForm.get("regUsr"));
+			gamFcltyQcwWrtMngDao.insertQcMngResultItem(qcResultItem);
+		}
+
+		//첨부파일 전체 삭제 후 추가
+		gamFcltyQcwWrtMngDao.deleteQcMngAtchFileList(detailForm);
+		for(HashMap<String, String> atchFile : atchFileList) {
+			atchFile.put("qcMngSeq", detailForm.get("qcMngSeq"));
+			atchFile.put("regUsr", detailForm.get("regUsr"));
+			gamFcltyQcwWrtMngDao.insertQcMngAtchFile(atchFile);
+		}
+
 	}
-	
+		
 	/**
 	 * 점검관리내역 데이터 수정
 	 * @param vo
 	 * @return 
 	 * @throws Exception
 	 */		
-	public void updateQcMngDtls(Map<?, ?> vo) throws Exception {
-		gamFcltyQcwWrtMngDao.updateQcMngDtls(vo);
+	public void updateQcMngDtls(Map<String, String> detailForm, List<HashMap<String, String>> qcObjList,  List<HashMap<String, String>> qcResultList, List<HashMap<String, String>> atchFileList) throws Exception {
+		gamFcltyQcwWrtMngDao.updateQcMngDtls(detailForm);
+		
+		//점검대상물 전체 삭제 후 추가
+		gamFcltyQcwWrtMngDao.deleteQcMngObjFcltsList(detailForm);
+		for(HashMap<String, String> qcObjItem : qcObjList) {
+			qcObjItem.put("updUsr", detailForm.get("updUsr"));
+			gamFcltyQcwWrtMngDao.insertQcMngObjFclts(qcObjItem);
+		}
+
+		//점검결과항목 전체 삭제 후 추가
+		gamFcltyQcwWrtMngDao.deleteQcMngResultItemList(detailForm);
+		for(HashMap<String, String> qcResultItem : qcResultList) {
+			qcResultItem.put("updUsr", detailForm.get("updUsr"));
+			gamFcltyQcwWrtMngDao.insertQcMngResultItem(qcResultItem);
+		}
+
+		//첨부파일 전체 삭제 후 추가
+		gamFcltyQcwWrtMngDao.deleteQcMngAtchFileList(detailForm);
+		for(HashMap<String, String> atchFile : atchFileList) {
+			atchFile.put("updUsr", detailForm.get("updUsr"));
+			gamFcltyQcwWrtMngDao.insertQcMngAtchFile(atchFile);
+		}
+		
 	}
 	
 	/**
@@ -120,35 +149,6 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 		gamFcltyQcwWrtMngDao.deleteQcMngDtls(vo);
 	}
 		
-	/**
-	 * 점검관리대상시설물 목록 조회
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */		
-	public List<?> selectQcMngObjFcltsList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
-		return gamFcltyQcwWrtMngDao.selectQcMngObjFcltsList(searchVO);
-	}
-	
-	/**
-	 * 점검관리대상시설물 목록 총수 조회
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */		
-	public int selectQcMngObjFcltsListTotCnt(GamFcltyQcwWrtMngVO searchVO) throws Exception {
-		return gamFcltyQcwWrtMngDao.selectQcMngObjFcltsListTotCnt(searchVO);
-	}
-	
-	/**
-	 * 점검관리대상시설물 데이터 병합 저장
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	public void mergeQcMngObjFclts(Map<String, Object> mergeMap) throws Exception {
-		gamFcltyQcwWrtMngDao.mergeQcMngObjFclts(mergeMap);
-	}
 	
 	/**
 	 * 점검관리첨부파일 목록 조회
@@ -161,25 +161,15 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	}
 	
 	/**
-	 * 점검관리첨부파일 목록 총수 조회
+	 * 점검관리대상시설물 목록 조회
 	 * @param vo
-	 * @return int
+	 * @return list
 	 * @throws Exception
 	 */		
-	public int selectQcMngAtchFileListTotCnt(GamFcltyQcwWrtMngVO searchVO) throws Exception {
-		return gamFcltyQcwWrtMngDao.selectQcMngAtchFileListTotCnt(searchVO);
+	public List<?> selectQcMngObjFcltsList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+		return gamFcltyQcwWrtMngDao.selectQcMngObjFcltsList(searchVO);
 	}
 		
-	/**
-	 * 점검관리첨부파일 데이터 병합 저장
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */		
-	public void mergeQcMngAtchFile(Map<String, Object> mergeMap) throws Exception {
-		gamFcltyQcwWrtMngDao.mergeQcMngAtchFile(mergeMap);
-	}
-	
 	/**
 	 * 점검관리결과항목 목록 조회
 	 * @param vo
@@ -188,26 +178,6 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	 */		
 	public List<?> selectQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
 		return gamFcltyQcwWrtMngDao.selectQcMngResultItemList(searchVO);
-	}
-	
-	/**
-	 * 점검관리결과항목 목록 총수 조회
-	 * @param vo
-	 * @return int
-	 * @throws Exception
-	 */		
-	public int selectQcMngResultItemListTotCnt(GamFcltyQcwWrtMngVO searchVO) throws Exception {
-		return gamFcltyQcwWrtMngDao.selectQcMngResultItemListTotCnt(searchVO);
-	}
-		
-	/**
-	 * 점검관리결과항목 데이터 병합 저장
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */		
-	public void mergeQcMngResultItem(Map<String, Object> mergeMap) throws Exception {
-		gamFcltyQcwWrtMngDao.mergeQcMngResultItem(mergeMap);
 	}
 	
 }

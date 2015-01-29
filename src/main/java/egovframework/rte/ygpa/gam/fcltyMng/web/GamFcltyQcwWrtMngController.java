@@ -3,7 +3,6 @@
  */
 package egovframework.rte.ygpa.gam.fcltyMng.web;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -122,44 +121,6 @@ public class GamFcltyQcwWrtMngController {
     }
 
 	/**
-	 * 점검관리목록 인쇄
-	 * @param map
-	 * @return string
-	 * @throws Exception
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/fcltyMng/selectQcMngDtlsReportPrint.do")
-	public String selectQcMngDtlsReportPrint(@RequestParam Map<String, Object> searchOpt, ModelMap model) throws Exception {
-    	Map map = new HashMap();
-
-		ObjectMapper mapper = new ObjectMapper();
-		
-		GamFcltyQcwWrtMngVO searchVO;
-    	searchVO = mapper.convertValue(searchOpt, GamFcltyQcwWrtMngVO.class);
-    	
-    	// 0. Spring Security 사용자권한 처리
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return "/ygpa/gam/fcltyMng/GamFcltyQcwWrtMngReportPrintI";
-    	}
-
-    	List resultList = gamFcltyQcwWrtMngService.selectQcMngDtlsReportI(searchVO);
-    	String qcSeNm = gamFcltyQcwWrtMngService.selectQcSeNm(searchVO);
-
-		String enforceYear = searchVO.getsEnforceYear();
-		enforceYear = ((enforceYear != null) && (enforceYear.length() > 0)) ? enforceYear + "년" : enforceYear;  
-    	
-        model.addAttribute("resultList", resultList);
-		model.addAttribute("resultCode", 0);
-		model.addAttribute("resultMsg", "");
-		model.addAttribute("qcSeNm", qcSeNm);
-		model.addAttribute("enforceYear", enforceYear);
-    	return "ygpa/gam/fcltyMng/GamFcltyQcwWrtMngReportPrintI";
-    }
-	
-	/**
 	 * 점검관리목록 엑셀다운로드
 	 * @param map
 	 * @return modelAndView
@@ -207,10 +168,11 @@ public class GamFcltyQcwWrtMngController {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/selectQcMngDtlsDetail.do")
-    @ResponseBody Map<String, Object> selectQcMngDtlsDetail(@RequestParam Map searchVO) throws Exception {
+    @ResponseBody Map<String, Object> selectQcMngDtlsDetail(GamFcltyQcwWrtMngVO searchVO) throws Exception {
     	Map map = new HashMap();
-    	EgovMap result=null;
-
+    	EgovMap detailData = null;
+    	List<?> atchFileList = null;
+    	
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -219,9 +181,11 @@ public class GamFcltyQcwWrtMngController {
     	}
     	
     	try {
-        	result = gamFcltyQcwWrtMngService.selectQcMngDtlsDetail(searchVO);
+        	detailData = gamFcltyQcwWrtMngService.selectQcMngDtlsDetail(searchVO);
+        	atchFileList = gamFcltyQcwWrtMngService.selectQcMngAtchFileList(searchVO);
             map.put("resultCode", 0);
-            map.put("result", result);
+            map.put("detailData", detailData);
+            map.put("atchFileList", atchFileList);
     	}
     	catch(Exception e) {
             map.put("resultCode", 1);
@@ -249,74 +213,15 @@ public class GamFcltyQcwWrtMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	// 내역 조회
-    	/** pageing */
-    	PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		List resultList = gamFcltyQcwWrtMngService.selectQcMngObjFcltsList(searchVO);
-		int totCnt = gamFcltyQcwWrtMngService.selectQcMngObjFcltsListTotCnt(searchVO);
 		
-        paginationInfo.setTotalRecordCount(totCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-
 		map.put("resultCode", 0);			// return ok
-    	map.put("totalCount", totCnt);
     	map.put("resultList", resultList);
-    	map.put("searchOption", searchVO);
 
     	return map;
     }
-	
-	/**
-	 * 점검관리첨부파일 목록조회
-	 * @param searchVO
-	 * @return map
-	 * @throws Exception
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/fcltyMng/selectQcMngAtchFileList.do")
-	@ResponseBody Map<String, Object> selectQcMngAtchFileList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
-
-		Map map = new HashMap();
-
-    	// 0. Spring Security 사용자권한 처리
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-    	// 내역 조회
-    	/** pageing */
-    	PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
-		List resultList = gamFcltyQcwWrtMngService.selectQcMngAtchFileList(searchVO);
-		int totCnt = gamFcltyQcwWrtMngService.selectQcMngAtchFileListTotCnt(searchVO);
 		
-        paginationInfo.setTotalRecordCount(totCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-
-		map.put("resultCode", 0);			// return ok
-    	map.put("totalCount", totCnt);
-    	map.put("resultList", resultList);
-    	map.put("searchOption", searchVO);
-    	return map;
-    }
-	
 	/**
 	 * 점검관리결과항목 목록조회
 	 * @param searchVO
@@ -336,27 +241,11 @@ public class GamFcltyQcwWrtMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	// 내역 조회
-    	/** pageing */
-    	PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
 
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
-		List resultList = gamFcltyQcwWrtMngService.selectQcMngResultItemList(searchVO);
-		int totCnt = gamFcltyQcwWrtMngService.selectQcMngResultItemListTotCnt(searchVO);
-		
-        paginationInfo.setTotalRecordCount(totCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+    	List resultList = gamFcltyQcwWrtMngService.selectQcMngResultItemList(searchVO);
 
 		map.put("resultCode", 0);			// return ok
-    	map.put("totalCount", totCnt);
     	map.put("resultList", resultList);
-    	map.put("searchOption", searchVO);
     	return map;
     }
 
@@ -368,23 +257,38 @@ public class GamFcltyQcwWrtMngController {
 	 */
 	@RequestMapping(value="/fcltyMng/insertQcMngDtls.do")
 	@ResponseBody Map<String, Object> insertQcMngDtls(@RequestParam Map<String, Object> insertMap) throws Exception {
-    	Map<String, Object> map = new HashMap<String, Object>();
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, String> detailForm = null;
+		List<HashMap<String, String>> qcObjList=null;
+		List<HashMap<String, String>> qcResultList=null;
+		List<HashMap<String, String>> atchFileList=null;
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if(!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
 
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	insertMap.put("regUsr", user.getId());
+		detailForm = mapper.readValue((String)insertMap.get("detailForm"),
+			 new TypeReference<HashMap<String, String>>(){});
+
+		qcObjList = mapper.readValue((String)insertMap.get("qcObjList"),
+				 new TypeReference<List<HashMap<String, String>>>(){});
+		
+		qcResultList = mapper.readValue((String)insertMap.get("qcResultList"),
+				 new TypeReference<List<HashMap<String, String>>>(){});
+
+		atchFileList = mapper.readValue((String)insertMap.get("atchFileList"),
+				 new TypeReference<List<HashMap<String, String>>>(){});
     	
+		detailForm.put("regUsr",user.getId());
     	try {
-    		gamFcltyQcwWrtMngService.insertQcMngDtls(insertMap);
-    		
+    		gamFcltyQcwWrtMngService.insertQcMngDtls(detailForm, qcObjList, qcResultList, atchFileList);
     		map.put("resultCode", 0);			// return ok
-    		map.put("qcMngSeq", insertMap.get("qcMngSeq"));
+    		map.put("qcMngSeq", detailForm.get("qcMngSeq"));
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			map.put("resultCode", 1);
@@ -400,21 +304,37 @@ public class GamFcltyQcwWrtMngController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/fcltyMng/updateQcMngDtls.do")
-	@ResponseBody Map<String, Object> updateQcMngDtls(@RequestParam Map<String, Object> insertMap) throws Exception {
-    	Map<String, Object> map = new HashMap<String, Object>();
+	@ResponseBody Map<String, Object> updateQcMngDtls(@RequestParam Map<String, Object> updateMap) throws Exception {
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, String> detailForm = null;
+		List<HashMap<String, String>> qcObjList=null;
+		List<HashMap<String, String>> qcResultList=null;
+		List<HashMap<String, String>> atchFileList=null;
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if(!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
 
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	insertMap.put("updUsr", user.getId());
+		detailForm = mapper.readValue((String)updateMap.get("detailForm"),
+			 new TypeReference<HashMap<String, String>>(){});
+
+		qcObjList = mapper.readValue((String)updateMap.get("qcObjList"),
+				 new TypeReference<List<HashMap<String, String>>>(){});
+		
+		qcResultList = mapper.readValue((String)updateMap.get("qcResultList"),
+				 new TypeReference<List<HashMap<String, String>>>(){});
+
+		atchFileList = mapper.readValue((String)updateMap.get("atchFileList"),
+				 new TypeReference<List<HashMap<String, String>>>(){});
     	
+		detailForm.put("updUsr",user.getId());
     	try {
-    		gamFcltyQcwWrtMngService.updateQcMngDtls(insertMap);
+    		gamFcltyQcwWrtMngService.updateQcMngDtls(detailForm, qcObjList, qcResultList, atchFileList);
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
@@ -424,182 +344,6 @@ public class GamFcltyQcwWrtMngController {
       	return map;		
 	}	
 	
-	/**
-	 * 점검관리 대상 시설물 병합 저장
-	 * @param searchVO
-	 * @return map
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/fcltyMng/mergeQcMngObjFclts.do")
-	@ResponseBody Map<String, Object> mergeQcMngObjFclts(@RequestParam Map<String, Object> dataList) throws Exception {
-
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		Map<String,Object> map = new HashMap<String,Object>();
-		Map<String, String> userMap = new HashMap<String, String>();
-		ObjectMapper mapper = new ObjectMapper();
-
-    	List<HashMap<String,String>> insertList=null;
-    	List<HashMap<String,String>> updateList=null;
-    	List<HashMap<String,String>> deleteList=null;
-    	List<Map<String,String>> userList=null;
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-    	
-		insertList = mapper.readValue((String)dataList.get("insertList"),
-		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		updateList = mapper.readValue((String)dataList.get("updateList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		deleteList = mapper.readValue((String)dataList.get("deleteList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-		
-		userList = new ArrayList<Map<String,String>>();
-		userMap.put("id",  loginVO.getId());
-		userList.add(userMap);
-
-		Map<String,Object> mergeMap = new HashMap<String,Object>();
-
-		insertList.addAll(updateList);
-
-		mergeMap.put("CU", insertList);
-		mergeMap.put("D", deleteList);
-		mergeMap.put("USER", userList);
-		
-		try {
-			gamFcltyQcwWrtMngService.mergeQcMngObjFclts(mergeMap);
-	        map.put("resultCode", 0);
-			map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
-		} catch (Exception e) {
-	        map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.merge"));
-		}
-		return map;
-	}	
-	
-
-	/**
-	 * 점검관리 결과항목 병합 저장
-	 * @param searchVO
-	 * @return map
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/fcltyMng/mergeQcMngResultItem.do")
-	@ResponseBody Map<String, Object> mergeQcMngResultItem(@RequestParam Map<String, Object> dataList) throws Exception {
-
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		Map<String,Object> map = new HashMap<String,Object>();
-		Map<String, String> userMap = new HashMap<String, String>();
-		ObjectMapper mapper = new ObjectMapper();
-
-    	List<HashMap<String,String>> insertList=null;
-    	List<HashMap<String,String>> updateList=null;
-    	List<HashMap<String,String>> deleteList=null;
-    	List<Map<String,String>> userList=null;
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-    	
-		insertList = mapper.readValue((String)dataList.get("insertList"),
-		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		updateList = mapper.readValue((String)dataList.get("updateList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		deleteList = mapper.readValue((String)dataList.get("deleteList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-		
-		userList = new ArrayList<Map<String,String>>();
-		userMap.put("id",  loginVO.getId());
-		userList.add(userMap);
-
-		Map<String,Object> mergeMap = new HashMap<String,Object>();
-
-		insertList.addAll(updateList);
-
-		mergeMap.put("CU", insertList);
-		mergeMap.put("D", deleteList);
-		mergeMap.put("USER", userList);
-		
-		try {
-			gamFcltyQcwWrtMngService.mergeQcMngResultItem(mergeMap);
-	        map.put("resultCode", 0);
-			map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
-		} catch(Exception e) {
-	        map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.merge"));			
-		}
-		return map;
-	}	
-	
-
-	/**
-	 * 점검관리 첨부파일 병합 저장
-	 * @param searchVO
-	 * @return map
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/fcltyMng/mergeQcMngAtchFile.do")
-	@ResponseBody Map<String, Object> mergeQcMngAtchFile(@RequestParam Map<String, Object> dataList) throws Exception {
-
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		Map<String,Object> map = new HashMap<String,Object>();
-		Map<String, String> userMap = new HashMap<String, String>();
-		ObjectMapper mapper = new ObjectMapper();
-
-    	List<HashMap<String,String>> insertList=null;
-    	List<HashMap<String,String>> updateList=null;
-    	List<HashMap<String,String>> deleteList=null;
-    	List<Map<String,String>> userList=null;
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-    	
-		insertList = mapper.readValue((String)dataList.get("insertList"),
-		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		updateList = mapper.readValue((String)dataList.get("updateList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		deleteList = mapper.readValue((String)dataList.get("deleteList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		userList = new ArrayList<Map<String,String>>();
-		userMap.put("id",  loginVO.getId());
-		userList.add(userMap);
-
-		Map<String,Object> mergeMap = new HashMap<String,Object>();
-
-		insertList.addAll(updateList);
-
-		mergeMap.put("CU", insertList);
-		mergeMap.put("D", deleteList);
-		mergeMap.put("USER", userList);
-		
-		try {
-			gamFcltyQcwWrtMngService.mergeQcMngAtchFile(mergeMap);
-	        map.put("resultCode", 0);
-			map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
-		} catch (Exception e) {
-	        map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.merge"));			
-		}
-		return map;
-	}	
-
 	/**
 	 * 점검관리내역 삭제
 	 * @param searchVO
@@ -630,20 +374,6 @@ public class GamFcltyQcwWrtMngController {
       	return map;		
 	}
 	
-	
-	/**
-	 * 점검관리대상물목록 수정 팝업
-	 * @param map
-	 * @return 
-	 * @throws Exception
-	 */
-	@SuppressWarnings({ "rawtypes" })
-	@RequestMapping(value="/popup/showQcMngObjFcltsPopup.do")
-    String showQcMngObjFcltsPopup(@RequestParam Map qcMngObjFcltsList, ModelMap model) throws Exception {
-		model.addAttribute("qcMngObjFcltsList", qcMngObjFcltsList);
-    	return "/ygpa/gam/fcltyMng/GamPopupQcMngObjFclts";
-    }
-
 	/**
 	 * 점검관리결과항목 수정 팝업
 	 * @param map
@@ -652,9 +382,9 @@ public class GamFcltyQcwWrtMngController {
 	 */
 	@SuppressWarnings({ "rawtypes" })
 	@RequestMapping(value="/popup/showQcMngResultItemPopup.do")
-    String showQcMngResultItemPopup(@RequestParam Map qcMngResultItemList, ModelMap model) throws Exception {
-		model.addAttribute("qcMngResultItemList", qcMngResultItemList);
-    	return "/ygpa/gam/fcltyMng/GamPopupQcMngResultItem";
+    String showQcMngResultItemPopup(@RequestParam Map qcResultList, ModelMap model) throws Exception {
+		model.addAttribute("qcResultList", qcResultList);
+    	return "/ygpa/gam/fcltyMng/GamPopupQcResultItemCd";
     }
 	
 }
