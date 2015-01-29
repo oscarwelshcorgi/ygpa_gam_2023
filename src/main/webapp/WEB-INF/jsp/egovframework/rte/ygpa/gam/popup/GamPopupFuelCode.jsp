@@ -56,7 +56,7 @@ GamPopupFuelCodeModule.prototype.loadComplete = function() {
 					{display:'연료 명',		name:'fuelNm',		width:200, 		sortable:false,		align:'left'},
 					{display:'관리 년도',	name:'mngYear',		width:120, 		sortable:false,		align:'center'}
 					],
-		height: "300"
+		height: "315"
 	});
 
 	this.$("#mainGrid").on("onItemDoubleClick", function(event, module, row, grid, param) {

@@ -58,7 +58,7 @@ GamPopupQcItemCdModule.prototype.loadComplete = function(params) {
 					{display:"시설물 업무 구분",	name:"fcltsJobSeNm",	width:110,		sortable:true,	align:"left"},
 					{display:"사용 여부",			name:"useYn",			width:77,		sortable:true,	align:"center"}
 					],
-		height: "300"
+		height: "315"
 	});
 
 	this.$("#mainGrid").on('onLoadDataComplete', function(event, module, data) {

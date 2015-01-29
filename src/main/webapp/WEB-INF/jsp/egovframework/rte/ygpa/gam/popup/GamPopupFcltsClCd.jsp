@@ -58,7 +58,7 @@ GamPopupFcltsClCdModule.prototype.loadComplete = function(params) {
 					{display:"시설물 업무 구분",		name:"fcltsJobSeNm",	width:120,		sortable:true,	align:"left"},
 					{display:"LEAF 여부",				name:"leafYn",			width:80,		sortable:true,	align:"center"}
 					],
-		height: "320"
+		height: "315"
 	});
 
 	this.$("#mainGrid").on("onItemDoubleClick", function(event, module, row, grid, param) {

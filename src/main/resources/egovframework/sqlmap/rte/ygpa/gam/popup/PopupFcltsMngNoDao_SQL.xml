@@ -1,54 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
-
+<!-- SQL MAP 정의 -->
 <sqlMap namespace="ygpa.gam.popup">
+	<!-- TYPE ALIAS 정의 -->
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamPopupFcltsMngNoVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupFcltsMngNoVO"/>
 
-    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-    <typeAlias alias="hashMap" type="java.util.HashMap"/>
-    <typeAlias alias="gamPopupFcltsMngNoVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupFcltsMngNoVO"/>
-    
+	<select id="gamPopupFcltsMngNoDao.selectFcltsMngNoList_D" parameterClass="gamPopupFcltsMngNoVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.FCLTS_MNG_NO
+								,T1.PRT_FCLTY_NM
+								,T1.PRT_FCLTY_STNDRD
+								,T1.PRT_FCLTY_UNIT
+								,TO_CHAR(T1.PRT_FCLTY_INSTL_DT,'YYYY-MM-DD') AS PRT_FCLTY_INSTL_DT
+								,TO_CHAR(T1.PRT_FCLTY_CHANGE_DT,'YYYY-MM-DD') AS PRT_FCLTY_CHANGE_DT
+								,GAM_GET_PRT_FCLTY_SE_NM(T1.PRT_FCLTY_SE) AS PRT_FCLTY_SE_NM
+								,GAM_GETCODENAME('GAM005',T1.GIS_PRT_FCLTY_CD) AS GIS_PRT_FCLTY_CD_NM
+								,GAM_GETCODENAME('GAM019',T1.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_CODE_NM
+								,GAM_GET_FCLTS_MNG_GROUP_NM(T1.FCLTS_MNG_GROUP_NO) AS FCLTS_MNG_GROUP_NM
+								,GAM_GETENTRPSNM(T1.PRT_FCLTY_MNG_ENTRPS_CD,'1') AS PRT_FCLTY_MNG_ENTRPS_NM
+							FROM GIS_PRT_FCLTY_CD_F T1
+						WHERE 1=1
 
-    <select id="gamPopupFcltsMngNoDao.selectFcltsMngNoList_D" parameterClass="gamPopupFcltsMngNoVO" resultClass="egovMap">
-           SELECT A.*
-           FROM (
-                   SELECT  ROWNUM RNUM, S.*
-                     FROM (
-							SELECT
-								G.FCLTS_MNG_NO
-								, G.PRT_FCLTY_NM
-								, G.PRT_FCLTY_STNDRD
-								, G.PRT_FCLTY_UNIT
-								, TO_CHAR(G.PRT_FCLTY_INSTL_DT, 'YYYY-MM-DD') PRT_FCLTY_INSTL_DT
-								, TO_CHAR(G.PRT_FCLTY_CHANGE_DT, 'YYYY-MM-DD') PRT_FCLTY_CHANGE_DT
-							FROM
-							    GIS_PRT_FCLTY_CD_F G
-							WHERE
-								G.FCLTS_MNG_NO IS NOT NULL
-								<!-- 시설물 업무구분으로 끝나는 관리번호만 가져온다. -->
-							    <isNotEmpty property="sFcltsJobSe">
-							    	AND G.FCLTS_MNG_NO LIKE  '%' || #sFcltsJobSe#
-							    </isNotEmpty>
-							    <isNotEmpty property="sPrtFcltyNm">
-							    	AND G.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
-							    </isNotEmpty>
-							ORDER BY G.FCLTS_MNG_NO                                                  
-                ) S	
-             ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
-    </select>
-    
-    <select id="gamPopupFcltsMngNoDao.selectFcltsMngNoListTotCnt_S" parameterClass="gamPopupFcltsMngNoVO" resultClass="int">
-		SELECT
-		    COUNT(*) CNT
-		FROM
-		    GIS_PRT_FCLTY_CD_F G
-		WHERE
-			G.FCLTS_MNG_NO IS NOT NULL
-		    <isNotEmpty property="sFcltsJobSe">
-		    	AND G.FCLTS_MNG_NO LIKE '%' || #sFcltsJobSe#
-		    </isNotEmpty>
-		    <isNotEmpty property="sPrtFcltyNm">
-		    	AND G.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
-		    </isNotEmpty>
-    </select>
+						<isNotEmpty property="sFcltsJobSe">
+						AND T1.PRT_FCLTY_SE = #sFcltsJobSe#
+						</isNotEmpty>
+
+						<isNotEmpty property="sPrtFcltyNm">
+						AND T1.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
+						</isNotEmpty>
+
+						AND T1.FCLTS_MNG_NO IS NOT NULL
+						ORDER BY T1.PRT_FCLTY_NM
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<select id="gamPopupFcltsMngNoDao.selectFcltsMngNoListTotCnt_S" parameterClass="gamPopupFcltsMngNoVO" resultClass="int">
+		SELECT COUNT(*) AS DATA_COUNT
+			FROM GIS_PRT_FCLTY_CD_F T1
+		WHERE 1=1
+
+		<isNotEmpty property="sFcltsJobSe">
+		AND T1.PRT_FCLTY_SE = #sFcltsJobSe#
+		</isNotEmpty>
+
+		<isNotEmpty property="sPrtFcltyNm">
+		AND T1.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
+		</isNotEmpty>
+
+		AND T1.FCLTS_MNG_NO IS NOT NULL
+	</select>
+
 </sqlMap>
