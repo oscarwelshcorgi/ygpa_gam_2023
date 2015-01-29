@@ -180,8 +180,7 @@
 	<!-- 점검관리결과항목목록 -->		
 	<select id="gamFcltyQcSttusInqireDao.selectQcMngResultItemList_D" parameterClass="gamFcltyQcSttusInqireVO" resultClass="egovMap">
 		SELECT
-			DECODE(R.INSP_RESULT_CHK, NULL, 'N', R.INSP_RESULT_CHK) INSP_RESULT_CHK
-			, GAM_GET_INSP_RESULT_CHK_NM(DECODE(R.INSP_RESULT_CHK, NULL, 'N', R.INSP_RESULT_CHK)) INSP_RESULT_CHK_NM 
+			DECODE(R.INSP_RESULT_CHK, NULL, 'N', R.INSP_RESULT_CHK) INSP_RESULT_CHK 
 			, I.QC_ITEM_NM
 			, I.QC_ITEM_UPPER_CD
 			, (SELECT S.QC_ITEM_NM FROM QC_ITEM_CD_F S WHERE S.QC_ITEM_CD = I.QC_ITEM_UPPER_CD ) QC_ITEM_UPPER_NM
@@ -192,19 +191,14 @@
 			QC_MNG_RESULT_ITEM_F R
 		ON
 			I.QC_ITEM_CD = R.QC_ITEM_CD
+			AND I.FCLTS_JOB_SE = R.FCLTS_JOB_SE
+     		AND R.QC_MNG_SEQ = #sQcMngSeq#
 		WHERE
 			I.LEAF_YN = 'Y'
 			AND I.FCLTS_JOB_SE = #sFcltsJobSe#
-			OR 
-		    ( 
-		      	R.FCLTS_JOB_SE = #sFcltsJobSe#
-		      	<isNotEmpty property="sFcltsMngGroupNo">
-		    		AND R.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
-		    	</isNotEmpty>
-		    	<isNotEmpty property="sQcMngSeq">
-		    		AND R.QC_MNG_SEQ = #sQcMngSeq#
-		    	</isNotEmpty>
-		    )
+		    <isNotEmpty property="sFcltsMngGroupNo">
+		    	AND R.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+		   	</isNotEmpty>
 		ORDER BY
 			I.QC_ITEM_UPPER_CD 
 			,I.QC_ITEM_CD

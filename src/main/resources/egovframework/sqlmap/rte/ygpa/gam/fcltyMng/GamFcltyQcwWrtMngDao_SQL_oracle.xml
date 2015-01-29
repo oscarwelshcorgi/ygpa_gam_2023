@@ -375,19 +375,14 @@
 			QC_MNG_RESULT_ITEM_F R
 		ON
 			I.QC_ITEM_CD = R.QC_ITEM_CD
+			AND I.FCLTS_JOB_SE = R.FCLTS_JOB_SE
+     		AND R.QC_MNG_SEQ = #sQcMngSeq#
 		WHERE
 			I.LEAF_YN = 'Y'
 			AND I.FCLTS_JOB_SE = #sFcltsJobSe#
-			OR 
-		    ( 
-		      	R.FCLTS_JOB_SE = #sFcltsJobSe#
-		      	<isNotEmpty property="sFcltsMngGroupNo">
-		    		AND R.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
-		    	</isNotEmpty>
-		    	<isNotEmpty property="sQcMngSeq">
-		    		AND R.QC_MNG_SEQ = #sQcMngSeq#
-		    	</isNotEmpty>
-		    )
+		    <isNotEmpty property="sFcltsMngGroupNo">
+		    	AND R.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+		   	</isNotEmpty>
 		ORDER BY
 			I.QC_ITEM_UPPER_CD 
 			,I.QC_ITEM_CD

@@ -121,6 +121,22 @@ GamMechFcltySpecMngModule.prototype.loadComplete = function(params) {
 	});
 	
 	this.setControlStatus();
+	
+	this._params = params;
+	if(params!=null) {
+		if(params.action!=null) {
+			switch(params.action) {
+			case "setFeature":
+				this.$('#setFeature').show();
+				break;
+			case "prtFcltyInqire":
+				this._mainmode = 'modify';
+				this.$("#mainTab").tabs("option", {
+					active : 1
+				});
+			}
+		}
+	}	
 };
 
 <%
@@ -186,21 +202,35 @@ GamMechFcltySpecMngModule.prototype.downloadExcel = function() {
 %>
 GamMechFcltySpecMngModule.prototype.loadDetail = function() {
 	var rows = this.$('#mainGrid').selectedRows();
-	if(rows.length > 0) {
-		var row = rows[0];
-		this.doAction('/fclty/selectMechFcltySpecMngDetail.do', row, function(module, result) {
-			if(result.resultCode == "0"){
-				module.makeFormValues('#detailForm', result.result);
-				module.$("#dispfcltsMngNo").text(module.$("#fcltsMngNo").val());
-				module.loadAtchFileList();
-			}
-			else {
-				module._mainmode = 'listed';
-				module.setControlStatus();
-				alert(result.resultMsg);
-			}
-		});
+	var row = null;
+
+	if(rows.length==0 && this._params!=undefined && this._params.action=="prtFcltyInqire") {
+		row = {'fcltsMngNo': this._params.fcltsMngNo};
 	}
+	else {
+		row = rows[0];
+	}
+	
+	if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
+		this.$('#mainTab').tabs('option', {active: 0});
+		this._mainmode = '';
+		this.setControlStatus();
+		alert('시설물 관리번호에 오류가 있습니다.');
+		return;
+	}
+		
+	this.doAction('/fclty/selectMechFcltySpecMngDetail.do', row, function(module, result) {
+		if(result.resultCode == "0"){
+			module.makeFormValues('#detailForm', result.result);
+			module.$('#dispfcltsMngNo').text(module.$('#fcltsMngNo').val());
+			module.loadAtchFileList();
+		}
+		else {
+			module._mainmode = 'listed';
+			module.setControlStatus();
+			alert(result.resultMsg);
+		}
+	});
 };
 
 <%
@@ -263,10 +293,6 @@ GamMechFcltySpecMngModule.prototype.setControlStatus = function() {
 		this.$('#popupDetailFcltsClCd').removeClass('ui-state-disabled');
 		this.$('#popupDetailArchFcltsMng').enable();
 		this.$('#popupDetailArchFcltsMng').removeClass('ui-state-disabled');
-		this.$('#registLocation').enable();
-		this.$('#registLocation').removeClass('ui-state-disabled');
-		this.$('#gotoLocation').enable();
-		this.$('#gotoLocation').removeClass('ui-state-disabled');
 		this.$('#selectGisPrtFcltyCd').enable();
 		this.$("#dispfcltsMngNo").text('');
 		this.$('#atchFileGrid').flexEmptyData();
@@ -293,10 +319,6 @@ GamMechFcltySpecMngModule.prototype.setControlStatus = function() {
 		this.$('#popupDetailFcltsClCd').removeClass('ui-state-disabled');
 		this.$('#popupDetailArchFcltsMng').enable();
 		this.$('#popupDetailArchFcltsMng').removeClass('ui-state-disabled');
-		this.$('#registLocation').enable();
-		this.$('#registLocation').removeClass('ui-state-disabled');
-		this.$('#gotoLocation').enable();
-		this.$('#gotoLocation').removeClass('ui-state-disabled');
 		this.$('#selectGisPrtFcltyCd').disable();
 	}
 	else if(this._mainmode == 'listed') {
@@ -312,8 +334,6 @@ GamMechFcltySpecMngModule.prototype.setControlStatus = function() {
 		this.$('#popupDetailFcltsMngGroup').disable({disableClass:'ui-state-disabled'});
 		this.$('#popupDetailFcltsClCd').disable({disableClass:'ui-state-disabled'});
 		this.$('#popupDetailArchFcltsMng').disable({disableClass:'ui-state-disabled'});
-		this.$('#registLocation').disable({disableClass:'ui-state-disabled'});
-		this.$('#gotoLocation').disable({disableClass:'ui-state-disabled'});
 		this.$('#selectGisPrtFcltyCd').disable();
 		this.$("#dispfcltsMngNo").text('');
 		this.$('#atchFileGrid').flexEmptyData();
@@ -330,8 +350,6 @@ GamMechFcltySpecMngModule.prototype.setControlStatus = function() {
 		this.$('#popupDetailFcltsMngGroup').disable({disableClass:'ui-state-disabled'});
 		this.$('#popupDetailFcltsClCd').disable({disableClass:'ui-state-disabled'});
 		this.$('#popupDetailArchFcltsMng').disable({disableClass:'ui-state-disabled'});
-		this.$('#registLocation').disable({disableClass:'ui-state-disabled'});
-		this.$('#gotoLocation').disable({disableClass:'ui-state-disabled'});
 		this.$('#selectGisPrtFcltyCd').disable();
 		this.$("#dispfcltsMngNo").text('');
 		this.$('#atchFileGrid').flexEmptyData();
@@ -592,40 +610,6 @@ GamMechFcltySpecMngModule.prototype.removeAtchFileItem = function() {
 
 <%
 /**
- * @FUNCTION NAME : registLocation
- * @DESCRIPTION   : 위치등록
- * @PARAMETER     : NONE
-**/
-%>
-GamMechFcltySpecMngModule.prototype.registLocation = function() {
-	var module=this;
-	EMD.gis.addPrtFcltyMarker(this._fcltyItem, function(value) {
-		module.$('#laCrdnt').val(value.laCrdnt);
-		module.$('#loCrdnt').val(value.loCrdnt);
-	});
-};
-
-<%
-/**
- * @FUNCTION NAME : gotoLocation
- * @DESCRIPTION   : 위치조회
- * @PARAMETER     : NONE
-**/
-%>
-GamMechFcltySpecMngModule.prototype.gotoLocation = function() {
-	if(this._fcltyItem.laCrdnt!=null && this._fcltyItem.laCrdnt!=null) {
-		EMD.gis.goLocation(this._fcltyItem.laCrdnt, this._fcltyItem.loCrdnt);
-		EMD.gis.selectPrtFclty(this._fcltyItem);
-	} else if(this._fcltyItem.lat!=null && this._fcltyItem.lng!=null){
-		EMD.gis.goLocation4326(this._fcltyItem.lat, this._fcltyItem.lng);
-		EMD.gis.selectPrtFclty(this._fcltyItem);
-	} else {
-		alert('시설위치가 등록되지 않았습니다.');
-	}
-};
-
-<%
-/**
  * @FUNCTION NAME : onButtonClick
  * @DESCRIPTION   : BUTTON CLICK EVENT
  * @PARAMETER     :
@@ -693,13 +677,19 @@ GamMechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			this.doExecuteDialog('selectArchFcltsMng', '건축시설조회', '/popup/showConsFcltyInfo.do', {});
 			break;
 
-		case 'registLocation':
-			this.registLocation();
-			break;
+		case 'setFeature': // GIS 피처 지정
+			this.$('#setFeature').hide();
+			var row = this.$('#mainGrid').selectedRows();
 
-		case 'gotoLocation':
-			this.gotoLocation();
-			break;
+			if(row.length!=1) {
+				alert('지정 할 시설을 하나만 선택 해 주시기 바랍니다.');
+				return;
+			}
+			this.setFeatureCode('gisArchFclty',
+					row[0],
+					this._param.feature);
+			this.closeWindow();
+			break;			
 	}
 };
 
@@ -847,6 +837,8 @@ var module_instance = new GamMechFcltySpecMngModule();
 									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
 	                                <button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="mainGrid" data-style="default">맵조회</button>
+									<button data-role="editMap" data-gis-layer="gisArchFclty">맵편집</button>
+									<button id="setFeature" style="display: none;">맵지정</button>
 								</td>
 							</tr>
 						</table>
@@ -1059,8 +1051,6 @@ var module_instance = new GamMechFcltySpecMngModule();
 					</table>
 				</form>
 				<div class="emdControlPanel">
-					<button id="registLocation">위치등록</button>
-					<button id="gotoLocation">위치조회</button>
 					<button id="btnSave">저장</button>
 				</div>
 			</div>

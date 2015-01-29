@@ -135,7 +135,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function() {
 %>
 GamFcltyQcwWrtMngModule.prototype.fillSelectBoxYear = function(id) {
 	var curYear = (new Date()).getFullYear();
-	for(var i=curYear; i>=2000; i--) {
+	for(var i=curYear; i>=1980; i--) {
 		this.$(id).append('<option value="' + i + '">' + i + '년</option>');
 	}
 };
@@ -385,7 +385,7 @@ GamFcltyQcwWrtMngModule.prototype.saveData = function() {
 	var qcObjList = this.getQcObjList();
 	var qcResultList = this.getQcResultItemList();
 	var atchFileList = this.getAtchFileList();
-	
+		
 	var inputVO = [];
 	inputVO[inputVO.length] = {name: 'detailForm', value :JSON.stringify(detailForm) };
 	inputVO[inputVO.length] = {name: 'qcObjList', value :JSON.stringify(qcObjList)};
@@ -443,11 +443,21 @@ GamFcltyQcwWrtMngModule.prototype.deleteData = function() {
 %>
 GamFcltyQcwWrtMngModule.prototype.loadQcSubDataList = function() {
 	if(this.$('#fcltsJobSe').val() != '' || this.$('#fcltsMngGroupNo').val() != '') {
-		var searchVO = [
-		                { name: 'sFcltsJobSe', value: this.$('#fcltsJobSe').val() },
-		                { name: 'sFcltsMngGroupNo', value: this.$('#fcltsMngGroupNo').val() },
-		                { name: 'sQcMngSeq', value: this.$('#qcMngSeq').val() }
-		               ];
+		var searchVO = null;
+		if(this._mainmode == 'insert') {
+			searchVO = [
+			             { name: 'sFcltsJobSe', value: this.$('#fcltsJobSe').val() },
+			             { name: 'sQcMngSeq', value: '' }
+			           ];
+		} 
+		else {
+			searchVO = [
+			             { name: 'sFcltsJobSe', value: this.$('#fcltsJobSe').val() },
+			             { name: 'sFcltsMngGroupNo', value: this.$('#fcltsMngGroupNo').val() },
+			             { name: 'sQcMngSeq', value: this.$('#qcMngSeq').val() }
+			           ];
+		}
+		
 		this._qcResultList = null;
 		this._qcresultmode = '';
 		this.setControlStatus();
@@ -783,6 +793,7 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 GamFcltyQcwWrtMngModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch(popupId){
 		case 'editQcResultItem':
+			this._qcResultList = null;
 			this._qcResultList = value['resultList'];
 			this.showQcInspResult();
 			break;
