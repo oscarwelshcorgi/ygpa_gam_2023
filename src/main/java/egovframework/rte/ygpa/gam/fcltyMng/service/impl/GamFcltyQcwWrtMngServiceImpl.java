@@ -116,24 +116,23 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 		//점검대상물 전체 삭제 후 추가
 		gamFcltyQcwWrtMngDao.deleteQcMngObjFcltsList(detailForm);
 		for(HashMap<String, String> qcObjItem : qcObjList) {
-			qcObjItem.put("updUsr", detailForm.get("updUsr"));
+			qcObjItem.put("regUsr", detailForm.get("updUsr"));
 			gamFcltyQcwWrtMngDao.insertQcMngObjFclts(qcObjItem);
 		}
 
 		//점검결과항목 전체 삭제 후 추가
 		gamFcltyQcwWrtMngDao.deleteQcMngResultItemList(detailForm);
 		for(HashMap<String, String> qcResultItem : qcResultList) {
-			qcResultItem.put("updUsr", detailForm.get("updUsr"));
+			qcResultItem.put("regUsr", detailForm.get("updUsr"));
 			gamFcltyQcwWrtMngDao.insertQcMngResultItem(qcResultItem);
 		}
 
 		//첨부파일 전체 삭제 후 추가
 		gamFcltyQcwWrtMngDao.deleteQcMngAtchFileList(detailForm);
 		for(HashMap<String, String> atchFile : atchFileList) {
-			atchFile.put("updUsr", detailForm.get("updUsr"));
+			atchFile.put("regUsr", detailForm.get("updUsr"));
 			gamFcltyQcwWrtMngDao.insertQcMngAtchFile(atchFile);
 		}
-		
 	}
 	
 	/**
