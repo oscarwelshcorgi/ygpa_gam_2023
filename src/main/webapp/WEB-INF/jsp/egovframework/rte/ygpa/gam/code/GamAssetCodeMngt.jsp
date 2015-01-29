@@ -535,14 +535,18 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		}
 		break;
 	case 'btnMapSave':
+	case 'btnMapSave2':
 		switch (this._params.action) {
 		case 'addLotcodeFeature':
-			this.modifyFeatureCode('gisAssetsCd',
+			var row = this.$("#constFcltySpecMngList").selectedRows();
+
+			if(row.length!=1) {
+				alert('지정 할 시설을 하나만 선택 해 주시기 바랍니다.');
+				return;
+			}
+			this.setFeatureCode('gisAssetsCd',
 					this.selectedItem,
 					this._params.feature);
-			alert(result.resultMsg);
-			// 창을 닫는다.
-			//module.closeWindow();
 			return;
 		case 'addFeature':
 			break;
@@ -903,7 +907,7 @@ var module_instance = new GamAssetCodeModule();
 <!-- 					<button data-role="addFearutre" data-gis-layer="gisAssetsCd" data-flexi-grid="assetCodeList" data-code-id="assetCode">위치등록</button> -->
 					<button id="addAssetGisCdItem">자산추가</button>
 					<button id="removeAssetGisCdItem">삭제</button>
-					<button id="btnMapSave" style="display:none;">맵저장</button>
+					<button id="btnMapSave" style="display:none;">맵지정</button>
 					<button data-role="printPage" data-search-option="searchGisAssetCode" data-url="<c:url value='/code/assets/selectGisAssetCodeListPrint.do'/>">인쇄</button>
 					<c:if test="${isAdmin==true }">
 					<button data-role="editMap" data-gis-layer="gisAssetsCd">맵편집</button>
@@ -1029,7 +1033,7 @@ var module_instance = new GamAssetCodeModule();
 				</table>
 				<div style="vertical-align: bottom; text-align: right;">
 					<button data-role="addFeature" data-gis-layer="gisAssetsCd" data-value-name="selectedItem">맵편집</button>
-					<button id="btnMapSave2" style="display:none;">맵저장</button>
+					<button id="btnMapSave2" style="display:none;">맵지정</button>
 <!-- 					<button data-role="addFearutre" data-gis-layer="gisAssetsCd" data-code-id="selectedItem">위치등록</button> -->
 					<button id="btnCancelGisAssetsCode">취소</button>
 					<button id="btnSaveGisAssetsCode">저장</button>
