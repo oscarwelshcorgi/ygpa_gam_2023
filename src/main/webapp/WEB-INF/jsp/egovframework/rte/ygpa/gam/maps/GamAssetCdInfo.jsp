@@ -44,9 +44,11 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
 			});
         	break;
         case 'removeFeature':
-        	EMD.map.removePopup(event.data.feature.popup);
-            event.data.feature.state = OpenLayers.State.DELETE;
-            EMD.userLayer.gisAssetsCd.removeFeatures([this.getFeature()]);
+        	var f=this.getFeature();
+//        	EMD.map.removePopup(f.popup);
+  //          f.state = OpenLayers.State.DELETE;
+    //        EMD.userLayer.gisAssetsCd.removeFeatures([f]);
+    		this.removeFeatures("gisAssetsCd", [f]);
         	break;
     }
 };
@@ -121,6 +123,7 @@ var popupInfoModule = new GamMapPopupModule();
 			</c:if>
 			<c:if test="${fn:containsIgnoreCase(auth,'ROLEADMIN')||fn:containsIgnoreCase(auth,'ROLEASSETMNGT') }">
 				<button id="assetMngt" data-icon="ui-icon-newwin">자산코드 관리</button>
+				<button data-cmd="removeFeature">영역 삭제</button>
 			</c:if>
 			<button id="assetInqire" data-icon="ui-icon-newwin">자산정보 조회</button>
 		</div>

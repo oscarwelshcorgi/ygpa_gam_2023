@@ -56,11 +56,8 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
         		alert('지도에 오류가 있습니다.');
         		return;
         	}
-        	var f = this.getFeature();
-        	EMD.map.removePopup(f.popup);
-        	f.layer.removeFeatures([f]);
-        	//this.getFeature().state = OpenLayers.State.DELETE;
-            //this.removeFeatures([this.getFeature()]);
+
+            this.removeFeatures('gisArchFclty', [this.getFeature()]);
         	break;
     }
 };

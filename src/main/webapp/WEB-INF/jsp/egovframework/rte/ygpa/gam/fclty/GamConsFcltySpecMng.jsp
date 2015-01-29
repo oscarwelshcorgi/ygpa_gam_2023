@@ -126,6 +126,7 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 			switch(params.action) {
 			case "setFeature":
 				this.$('#setFeature').show();
+				console.log('debug');
 				break;
 			case "prtFcltyInqire":
 				this._cmd = 'modify';
@@ -632,7 +633,6 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		
 		// 맵관련 추가
 		case "setFeature": // GIS 피처 지정
-			this.$('#setFeature').hide();
 			var row = this.$("#constFcltySpecMngList").selectedRows();
 
 			if(row.length!=1) {
@@ -641,8 +641,9 @@ GamConstFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			}
 			this.setFeatureCode('gisArchFclty',
 					row[0],
-					this._param.feature);
-			this.closeWindow();
+					this._params.feature);
+			this.$('#setFeature').hide();
+//			this.closeWindow();
 			break;
 	}
 };
