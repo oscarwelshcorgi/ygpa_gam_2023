@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
 	/**
 	 * @Class Name : GamFcltyUsageMng.jsp
@@ -19,6 +20,7 @@
 	 * Copyright (C) 2013 by LFIT  All right reserved.
 	 */
 %>
+<validator:javascript formName="fcltyUsageSttusSearchForm"  method="validateFcltyUsageSttusDate"  staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 <script>
 
 <%
@@ -70,7 +72,7 @@
 		height : 'auto',
 		preProcess : function(module,data) {
 			module.$('#gisTotalCount').val(data.totalCount);
-			module.makeFormValues('#searchForm', data.result);
+			module.makeFormValues('#fcltyUsageSttusSearchForm', data.result);
 			return data;
 		}
 	});
@@ -304,6 +306,16 @@ GamFcltyUsageSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 %>
 
 GamFcltyUsageSttusInqireModule.prototype.onSubmit = function() {
+ 	
+	if(!validateFcltyUsageSttusDate(this.$('#fcltyUsageSttusSearchForm')[0])){
+ 		return;
+ 	} //validation check
+	
+	if (this.$("#sUsagePdFrom").val() > this.$("#sUsagePdTo").val()){
+ 		alert('조회 기간 From의 날짜가 To 날짜보다 클수 없습니다.');
+ 		return;
+ 			
+	}
 //	alert(module.$("#sPrtAtCode").val);
 	this.loadData();
 };
@@ -318,7 +330,7 @@ GamFcltyUsageSttusInqireModule.prototype.onSubmit = function() {
 //////////// 확인 부분 ?
 GamFcltyUsageSttusInqireModule.prototype.loadData = function() {
 	this.$("#mainTab").tabs("option", {active: 0});
-	var searchVO=this.makeFormArgs('#searchForm');
+	var searchVO=this.makeFormArgs('#fcltyUsageSttusSearchForm');
 	this.$('#gisPrtFcltyCdGrid').flexOptions({params:searchVO}).flexReload();
 };
 
@@ -545,7 +557,7 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 
 	<div id="searchViewStack" class="emdPanel">
 		<div class="viewPanel">
-			<form id="searchForm">
+			<form id="fcltyUsageSttusSearchForm">
 				<table style="width: 100%;" class="searchPanel">
 					<tbody>
 						<tr>

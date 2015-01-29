@@ -113,8 +113,14 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
     });
 };
 GamFcltyUseUnuseSttusInqireModule.prototype.onSubmit = function() {
- 	if(!validateFcltyUseUnuseDate(this.$('#fcltyUseUnuseSearchForm')[0])){ 		
-		return;
+ 	if(!validateFcltyUseUnuseDate(this.$('#fcltyUseUnuseSearchForm')[0])){
+ 		return;
+ 		
+ 	}
+ 	if (this.$("#searchDtFr").val() > this.$("#searchDtTo").val()){
+ 		alert('조회 기간 From의 날짜가 To 날짜보다 클수 없습니다.');
+ 		return;
+ 			
 	}
  	
  	this.$('#detailGrid').flexEmptyData();
