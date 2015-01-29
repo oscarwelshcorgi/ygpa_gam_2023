@@ -110,7 +110,7 @@ GamConstFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		event.data.module.$("#sFcltsMngGroupNo").val('');
 		event.data.module.$("#sFcltsMngGroupNoNm").val('');
 	});
-
+	// 맵관련 추가
 	this._params=params;
 	if(params!=null) {
 		if(params.action!=null) {
@@ -193,6 +193,7 @@ GamConstFcltySpecInqireModule.prototype.imagePreview = function() {
 %>
 GamConstFcltySpecInqireModule.prototype.loadDetail = function() {
 	var row = this.$('#mainGrid').selectedRows();
+	// 맵관련 편집
 	if(row.length==0 && this._params!=undefined && this._params.action=="prtFcltyInqire") {
 		row={'fcltsMngNo': this._params.fcltsMngNo};
 		this._params.action=="prtFcltyInqire1";	// 처음 한번만 체크 하도록 한다.
