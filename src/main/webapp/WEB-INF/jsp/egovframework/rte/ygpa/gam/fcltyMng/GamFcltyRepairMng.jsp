@@ -130,7 +130,7 @@ GamFcltyRepairMngModule.prototype.applySelectYear = function(){
 	var toDate = new Date();
 	var toYear = toDate.getFullYear();
 	
-	for(var i = toYear;i>=2000;i--){
+	for(var i = toYear;i>=1980;i--){
 		this.$("#enforceYear").append("<option value='" + i + "'>" + i + "년</option>");
 	}
 };
