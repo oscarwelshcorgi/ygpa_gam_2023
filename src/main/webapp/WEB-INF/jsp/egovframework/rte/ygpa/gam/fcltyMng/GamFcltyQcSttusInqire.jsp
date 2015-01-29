@@ -21,26 +21,40 @@
   */
 %>
 
+<%
+/******************************** SCRIPT START ********************************/
+%>
 <script>
-/*
- * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
- */
+
+<%
+/**
+ * @FUNCTION NAME : GamFcltyQcSttusInqireModule
+ * @DESCRIPTION   : MODULE 고유 함수
+ * @PARAMETER     : NONE
+**/
+%>
 function GamFcltyQcSttusInqireModule() {
 }
 
-GamFcltyQcSttusInqireModule.prototype = new EmdModule(1000,700);	// 초기 시작 창크기 지정
+GamFcltyQcSttusInqireModule.prototype = new EmdModule(1000,750);
 
-// 페이지가 호출 되었을때 호출 되는 함수
-GamFcltyQcSttusInqireModule.prototype.loadComplete = function(params) {
-	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다.
-
-	this._params = params;	// 파라미터를 저장한다.
-
-	// 테이블 설정
-	this.$("#qcMngDtlsList").flexigrid({
+<%
+/**
+ * @FUNCTION NAME : loadComplete
+ * @DESCRIPTION   : PAGE LOAD COMPLETE (페이지 호출시 실행되는 함수)
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcSttusInqireModule.prototype.loadComplete = function() {
+	this._mainmode = '';
+	
+	this._qcResultList = null;
+	this._qcresultmode = '';
+	
+	this.$('#mainGrid').flexigrid({
 		module: this,
 		url: '/fcltyMng/selectQcSttusDtlsList.do',
-		dataType: "json",
+		dataType: 'json',
 		colModel : [
 					{display:"관리그룹",		name:"fcltsMngGroupNm",		width:150,		sortable:false,		align:"center"},
 					{display:"업무구분",		name:"fcltsJobSeNm",		width:90,		sortable:false,		align:"center"},
@@ -58,80 +72,66 @@ GamFcltyQcSttusInqireModule.prototype.loadComplete = function(params) {
 					{display:"점검진단기관명",	name:"qcInspInsttNm",		width:150,		sortable:false,		align:"left"},
 					{display:"책임기술자명",	name:"responEngineerNm",	width:150,		sortable:false,		align:"left"},
 			],
-		height: "auto",
+		height: 'auto',
 		preProcess : function(module,data) {
 			module.$('#totalCount').val($.number(data.totalCount));
 			return data;
 		}
 	});
-	
-	this._cmd = '';
-	
-	this.$("#qcMngDtlsList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module.$("#fcltyQcwWrtMngTab").tabs("option", {active: 1});
+
+	this.$('#mainGrid').on('onLoadDataComplete', function(event, module, data) {
+		module.loadDataComplete();
 	});
 
-	this.$("#qcMngObjFcltsList").flexigrid({
+	this.$('#mainGrid').on('onItemSelected', function(event, module, row, grid, param) {
+		module._mainmode = 'modify';
+		module.setControlStatus();
+	});
+	
+	this.$('#mainGrid').on('onItemDoubleClick', function(event, module, row, grid, param) {
+		module._mainmode = 'modify';
+		module.setControlStatus();
+		module.$('#mainTab').tabs('option', {active: 1});
+	});
+
+	this.$('#qcObjFcltsGrid').flexigrid({
 		module: this,
 		url: '/fcltyMng/selectQcSttusObjFcltsList.do',
 		dataType: 'json',
 		colModel : [
-					{display:"시설물",		name:"prtFcltyNm",		width:150,		sortable:true,		align:"left"},
-					{display:"상태평가등급",	name:"sttusEvlLvlNm",	width:90,		sortable:true,		align:"center"},
-					{display:"점검자",		name:"inspector",		width:100,		sortable:true,		align:"left"},
-					{display:"점검진단일자",	name:"qcInspDt",		width:100,		sortable:true,		align:"center"},
-					{display:"비고",			name:"rm",				width:350,		sortable:true,		align:"left"}
+					{display:"선택",		name:"chkRole",		width:40,	sortable:false,	align:"center", displayFormat:"checkbox"},
+					{display:"점검시설명",	name:"prtFcltyNm",	width:245,	sortable:false,	align:"left"},
 			],
-		height: "250"
+		height: '450',
+		preProcess : function(module,data) {
+			$.each(data.resultList, function() {
+				this.chkRole = this.chkRole === 'TRUE';
+			});
+			return data;
+		}		
 	});
 	
-	this.$("#qcMngObjFcltsList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.selectQcMngFcltsItem();
+	this.$('#sFcltsMngGroupNo').bind('click', {module: this}, function(event) {
+		event.data.module.$('#sFcltsMngGroupNo').val('');
+		event.data.module.$('#sFcltsMngGroupNm').val('');
 	});
 	
-	this.$("#qcMngResultItemList").flexigrid({
-		module: this,
-		url: '/fcltyMng/selectQcSttusResultItemList.do',
-		dataType: 'json',
-		colModel : [
-					{display:"점검상위항목",	name:"qcItemUpperNm",	width:300,		sortable:true,		align:"left"},
-					{display:"점검항목",		name:"qcItemNm",		width:300,		sortable:true,		align:"left"},
-					{display:"점검항목결과구분",	name:"inspResultChkNm",	width:150,		sortable:true,		align:"center"}
-			],
-		height: "250"
-	});
-
-	this.$("#qcMngResultItemList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.selectQcMngResultItem();
+	this.$('#fcltsJobSe').bind('change', {module: this}, function(event) {
+		event.data.module.loadQcSubDataList();
 	});
 	
-	this.$("#qcMngAtchFileList").flexigrid({
-		module: this,
-		url: '/fcltyMng/selectQcSttusAtchFileList.do',
-		dataType: 'json',
-		colModel : [
-					{display:"순번",		name:"atchFileSeq",			width:40,		sortable:true,		align:"center"},
-					{display:"구분",		name:"atchFileSeNm",		width:40,		sortable:true,		align:"center"},
-					{display:"제목",		name:"atchFileSj",			width:200,		sortable:true,		align:"left"},
-					{display:"파일명",	name:"atchFileNmLogic",		width:200,		sortable:true,		align:"left"},
-			],
-		height: "450"
-	});
-
-	this.$("#qcMngAtchFileList").on("onItemSelected", function(event, module, row, grid, param) {
-		module.selectAtchFileItem();
-	});
-	
-	// 시설물관리그룹 검색조건 클릭시 초기화 처리
-	this.$("#sFcltsMngGroupNo").bind("click", {module: this}, function(event) {
-		event.data.module.$("#sFcltsMngGroupNo").val('');
-		event.data.module.$("#sFcltsMngGroupNm").val('');
-	});
+	this.setControlStatus();
 
 	this.fillSelectBoxYear('#sEnforceYear'); 		
 };
 
-//2000년부터 현재년도까지 select 박스에 채워넣는 함수.
+<%
+/**
+ * @FUNCTION NAME : fillSelectBoxYear
+ * @DESCRIPTION   : Select Element에 2000년 부터 현재년도까지 채워 넣는 함수
+ * @PARAMETER     : Select Element ID
+**/
+%>
 GamFcltyQcSttusInqireModule.prototype.fillSelectBoxYear = function(id) {
 	var curYear = (new Date()).getFullYear();
 	for(var i=curYear; i>=2000; i--) {
@@ -139,56 +139,68 @@ GamFcltyQcSttusInqireModule.prototype.fillSelectBoxYear = function(id) {
 	}
 };
 
-//화면 및 데이터 초기화
-GamFcltyQcSttusInqireModule.prototype.initDisplay = function() {
-	this.$("#fcltyQcwWrtMngVO :input").val("");
-	
-	this.makeDivValues('#fcltyQcwWrtMngVO', []);
-	this.summaryDisplay();
-	
-	this.makeDivValues('#gamQcMngObjFcltsForm', []);
-	this.makeDivValues('#gamQcMngResultItemForm', []);
-	
-	this.makeFormValues('#gamQcMngObjFcltsForm', []);
-	this.makeFormValues('#gamQcMngResultItemForm', []);
-
-	this.$('#qcMngObjFcltsList').flexEmptyData();
-	this.$('#qcMngResultItemList').flexEmptyData();
-	this.$('#qcMngAtchFileList').flexEmptyData();
-	
-	this.$("#previewImage").removeAttr("src");
-	
-	this.$("#qcInspResult").disable();
-	this.$("#objMngQcInspResult").disable();
-	
-	this.$("#actionCn").disable();
-	this.$("#inspResultCn").disable();
-};
-
+<%
+/**
+ * @FUNCTION NAME : onSubmit
+ * @DESCRIPTION   : (프레임워크에서 SUBMIT 이벤트 호출 시 호출 한다.)
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyQcSttusInqireModule.prototype.onSubmit = function() {
 	this.loadData();
 };
 
-//점검관리내역 조회
+<%
+/**
+ * @FUNCTION NAME : loadData
+ * @DESCRIPTION   : DATA LOAD (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyQcSttusInqireModule.prototype.loadData = function() {
-	var searchOpt = this.makeFormArgs("#searchFcltyQcwWrtMngForm");
-	this.$("#qcMngDtlsList").flexOptions({params:searchOpt}).flexReload();
-	this.$("#fcltyQcwWrtMngTab").tabs("option", {active: 0});
+	this.$('#mainTab').tabs('option', {active: 0});
+	var searchOpt = this.makeFormArgs('#searchForm');
+	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 };
 
-//점검관리목록 엑셀다운로드
+<%
+/**
+ * @FUNCTION NAME : loadDataComplete
+ * @DESCRIPTION   : DATA LOAD COMPLETE(LIST)
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcSttusInqireModule.prototype.loadDataComplete = function() {
+	this._mainmode = 'listed';
+	this.makeFormValues('#detailForm', {});
+	this.setControlStatus();
+};
+
+<%
+/**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 리스트를 엑셀로 다운로드 한다.
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyQcSttusInqireModule.prototype.downloadExcel = function() {
-	var rowCount = this.$("#qcMngDtlsList").flexRowCount();
+	var rowCount = this.$('#mainGrid').flexRowCount();
 	if (rowCount <= 0) {
-		alert("조회된 자료가 없습니다.");
+		alert('조회된 자료가 없습니다.');
 		return;
 	}
-	this.$('#qcMngDtlsList').flexExcelDown('/fcltyMng/excelDownloadQcSttusDtlsList.do');
+	this.$('#mainGrid').flexExcelDown('/fcltyMng/excelDownloadQcSttusDtlsList.do');
 };
 
-//점검관리내역 데이터 조회
-GamFcltyQcSttusInqireModule.prototype.loadDetailData = function() {
-	var rows = this.$('#qcMngDtlsList').selectedRows();
+<%
+/**
+ * @FUNCTION NAME : loadDetail
+ * @DESCRIPTION   : 상세정보를 가져옴.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcSttusInqireModule.prototype.loadDetail = function() {
+	var rows = this.$('#mainGrid').selectedRows();
 	if(rows.length > 0) {
 		var row = rows[0];
 		var opts = [
@@ -197,179 +209,277 @@ GamFcltyQcSttusInqireModule.prototype.loadDetailData = function() {
 	           		{name: 'sQcMngSeq', value: row['qcMngSeq'] }
 		           ];
 		this.doAction('/fcltyMng/selectQcSttusDtlsDetail.do', opts, function(module, result) { 
-			if(result.resultCode == "0"){
-				module.makeDivValues('#fcltyQcwWrtMngVO', result.result);
-				module.makeFormValues('#fcltyQcwWrtMngVO', result.result);
-				module.summaryDisplay();
-				module.$("#qcMngObjFcltsList").flexOptions({params:opts}).flexReload();
-				module.$("#qcMngAtchFileList").flexOptions({params:opts}).flexReload();
-				module.$("#qcMngResultItemList").flexOptions({params:opts}).flexReload();
+			if(result.resultCode == '0'){
+				module.makeDivValues('#detailForm', result.detailData);
+				module.makeFormValues('#detailForm', result.detailData);
+				module.fillAtchFileList(result.atchFileList);
+				module.loadQcSubDataList();
 			}
 			else {
-				module._cmd="";
-				module.initDisplay();
+				module._mainmode = 'listed';
+				module.setControlStatus();
 				alert(result.resultMsg);
 			}
-		});	
+		});
+	} else {
+		alert('조회할 데이터를 선택하세요.');
+	}
+};
+
+<%
+/**
+ * @FUNCTION NAME : setControlStatus
+ * @DESCRIPTION   : 컨트롤 상태 변경
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcSttusInqireModule.prototype.setControlStatus = function() {
+	if(this._mainmode == 'modify') {
+		this.$('#btnDownloadFile').enable();
+		this.$('#btnDownloadFile').removeClass('ui-state-disabled');
+		this.$('#btnPreviewFile').enable();
+		this.$('#btnPreviewFile').removeClass('ui-state-disabled');
+		if(this._qcresultmode == 'loaded') {
+			this.$('#popupViewQcResultItem').enable();
+			this.$('#popupViewQcResultItem').removeClass('ui-state-disabled');
+		} else {
+			this.$('#popupViewQcResultItem').disable({disableClass:'ui-state-disabled'});
+		}
 	}
 	else {
-		alert('조회할 자료를 선택하세요.');
-		this.$("#fcltyQcwWrtMngTab").tabs("option", {active: 0});
-	}
+		this.$('#atchFile option').remove();
+		this.$('#atchFile').append('<option value="">선택</option>');
+		this.$('#btnDownloadFile').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnPreviewFile').disable({disableClass:'ui-state-disabled'});
+		this.$('#popupViewQcResultItem').disable({disableClass:'ui-state-disabled'});
+		this.$('#qcObjFcltsGrid').flexEmptyData();
+	} 
 };
 
-//점검관리 대상물과 결과항목에 상세부분 출력
-GamFcltyQcSttusInqireModule.prototype.summaryDisplay = function() {
-	this.$("#summaryFcltsMngGroupNm1").text(this.$("#fcltsMngGroupNm").text());	
-	this.$("#summaryQcMngNm1").text(this.$("#qcMngNm").text());	
-	this.$("#summaryQcInspDtNm1").text(this.$("#qcInspDt").text());
-	this.$("#summaryQcInspTpNm1").text(this.$("#qcInspTpNm").text());	
-	this.$("#summaryQcSeNm1").text(this.$("#qcSeNm").text());
-	this.$("#summaryQcInspSeNm1").text(this.$("#qcInspSeNm").text());	
-
-	this.$("#summaryFcltsMngGroupNm2").text(this.$("#summaryFcltsMngGroupNm1").text());	
-	this.$("#summaryQcMngNm2").text(this.$("#summaryQcMngNm1").text());	
-	this.$("#summaryQcInspDtNm2").text(this.$("#summaryQcInspDtNm1").text());
-	this.$("#summaryQcInspTpNm2").text(this.$("#summaryQcInspTpNm1").text());	
-	this.$("#summaryQcSeNm2").text(this.$("#summaryQcSeNm1").text());
-	this.$("#summaryQcInspSeNm2").text(this.$("#summaryQcInspSeNm1").text());	
-};
-
-//점검관리 대상시설물 항목선택
-GamFcltyQcSttusInqireModule.prototype.selectQcMngFcltsItem = function() {
-	var rows = this.$('#qcMngObjFcltsList').selectedRows();
-	if(rows.length > 0) {
-		var row = rows[0];
-		this.$("#objMngQcInspResult").val(row["qcInspResult"]);
-	}
-};
-
-//점검관리 결과항목 항목선택
-GamFcltyQcSttusInqireModule.prototype.selectQcMngResultItem = function() {
-	var rows = this.$('#qcMngResultItemList').selectedRows();
-	if(rows.length > 0) {
-		var row = rows[0];
-		if(row["inspResultChkNm"] != null) {
-			this.$("#inspResultChkNm").text(row["inspResultChkNm"]);
-		} else {
-			this.$("#inspResultChkNm").text('');
-		}
-		this.makeFormValues("#gamQcMngResultItemForm", row);
-	}
-};
-
-
-//첨부파일 항목선택
-GamFcltyQcSttusInqireModule.prototype.selectAtchFileItem = function() {
-	var rows = this.$('#qcMngAtchFileList').selectedRows();
-	if(rows.length > 0) {
-		var row = rows[0];
-		if(row.atchFileNmPhysicl != null || row.atchFileNmPhysicl != "") {
-			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
-			var filenm = row["atchFileNmPhysicl"];
-			var ext = filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
-			if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
-				var imgURL = this.getPfPhotoUrl(filenm);
-			    this.$("#previewImage").attr("src", imgURL);
-			}else{
-				this.$("#previewImage").removeAttr("src");
-			}
-		}
-	}
-};
-
-//첨부파일 다운로드
-GamFcltyQcSttusInqireModule.prototype.downloadAtchFileItem = function() {
-	var selectRow = this.$('#qcMngAtchFileList').selectedRows();
-	if(selectRow.length > 0) {
-		var row=selectRow[0];
-		this.downPfPhoto(row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
-	}
-};
-
+<%
 /**
- * 정의 된 버튼 클릭 시
- */
+ * @FUNCTION NAME : loadQcSubDataList
+ * @DESCRIPTION   : 점검관리결과항목과 대상물 리스트 로드
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcSttusInqireModule.prototype.loadQcSubDataList = function() {
+	var searchVO = [
+	                { name: 'sFcltsJobSe', value: this.$('#fcltsJobSe').val() },
+	                { name: 'sFcltsMngGroupNo', value: this.$('#fcltsMngGroupNo').val() },
+	                { name: 'sQcMngSeq', value: this.$('#qcMngSeq').val() }
+	               ];
+	this._qcResultList = null;
+	this._qcresultmode = '';
+	this.setControlStatus();
+	this.doAction('/fcltyMng/selectQcSttusResultItemList.do', searchVO, function(module, result) {
+ 		if(result.resultCode == '0') {
+ 			module._qcResultList = result.resultList;
+ 			module._qcresultmode = 'loaded';
+ 			module.setControlStatus();
+ 			module.$('#qcObjFcltsGrid').flexOptions({params:searchVO}).flexReload();
+ 		}
+ 		else {
+ 			alert(result.resultMsg);
+ 		}
+	});
+};
+
+<%
+/**
+ * @FUNCTION NAME : fillAtchFileList
+ * @DESCRIPTION   : 첨부파일 리스트를 select element에 채워넣기.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcSttusInqireModule.prototype.fillAtchFileList = function(atchFileList) {
+	var module = this;
+	this.$('#atchFile option').remove();
+	this.$('#atchFile').append('<option value="">선택</option>');
+	$.each(atchFileList, function(index){
+		module.$('#atchFile').append('<option value="' + atchFileList[index].atchFileNmPhysicl + '">' + atchFileList[index].atchFileNmLogic + '</option>');
+	});
+};
+
+<%
+/**
+ * @FUNCTION NAME : atchFileDownload
+ * @DESCRIPTION   : 첨부파일 다운로드
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcSttusInqireModule.prototype.atchFileDownload = function() {
+	if(this.$('#atchFile').val() != '') {
+		this.downPfPhoto(this.$('#atchFile').val(), this.$('#atchFile').find('option:selected').text());
+	} 
+	else {
+		alert('첨부파일을 선택해주십시오.');
+	} 
+};
+
+<%
+/**
+* @FUNCTION NAME : showPreviewImage
+* @DESCRIPTION : 첨부파일 미리보기 대화상자
+* @PARAMETER : NONE
+**/
+%>
+GamFcltyQcSttusInqireModule.prototype.showPreviewImage = function(fileName){
+	if(fileName != '') {
+		var ext = fileName.substring(fileName.lastIndexOf('.')+1).toLowerCase();
+		if(ext == 'jpg' || ext == 'jpeg' || ext == 'bmp' || ext == 'png' || ext == 'gif')
+		{
+			this.$('#previewDialogArea').append(
+				'<div id="' + this.getId('previewDialog') + '">' + 
+				'<img id="' + this.getId('previewImage') + '" src=""/>' + 
+				'</div>');
+			var imgURL = this.getPfPhotoUrl(fileName);
+			this.$("#previewImage").attr('src', imgURL);
+			this.$("#previewImage").bind('load', {module: this}, function(event) {
+				event.data.module.$('#previewDialog').dialog({
+					modal: true,
+					maxWidth: 800,
+					maxHeight: 600,
+					resizable: false,
+			 		draggable: true,
+			 		width: 'auto',
+			 		title: '이미지미리보기',
+			 		buttons:[{text:"close", click: function() { 
+			 						$(this).dialog('close');
+			 					}
+			 				}]
+			 	});
+			}); 
+		}
+		else {
+			alert('이미지 파일이 아닙니다.');
+		}
+	}
+	else {
+		alert('첨부파일을 선택하십시오.');
+	}
+};
+
+<%
+/**
+ * @FUNCTION NAME : onButtonClick
+ * @DESCRIPTION   : BUTTON CLICK EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
 GamFcltyQcSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
-		//점검관리목록 조회
-		case "btnSearch":
-			this._cmd = '';
-			this.initDisplay();
+		case 'btnSearch':
 			this.loadData();
 			break;
 			
-		//점검관리목록 엑셀 다운로드 
 		case 'btnExcelDownload':
 			this.downloadExcel();
-			break;	
-						
-		//첨부파일다운로드			
-		case "btnDownloadFile":
-			this.downloadAtchFileItem();
 			break;
-						
-		//시설물관리그룹선택(조회화면)
-		case "popupSearchFcltsMngGroup":
-			this.doExecuteDialog("selectFcltsMngGroup", "관리그룹 선택", '/popup/showFcltsMngGroup.do', {});
+					
+		case 'btnDownloadFile' :
+			this.atchFileDownload();
+			break;
+
+		case 'btnPreviewFile' :
+			this.showPreviewImage(this.$('#atchFile').val());
 			break;
 			
+		case 'popupViewQcResultItem' :
+			this.doExecuteDialog(	
+									'viewQcResultItem' 
+									, '점검결과항목 보기' 
+									, '/popup/showQcMngResultItemPopup.do' 
+									, {} 
+									, { 	
+										'fcltsJobSeNm' : this.$('#fcltsJobSeNm').val()
+										, 'fcltsMngGroupNm' : this.$('#fcltsMngGroupNm').val()
+										, 'qcResultList' : this._qcResultList
+										, 'popupMode' : 'view'
+									}
+								);
+			break;
+			
+		case 'popupSearchFcltsMngGroup':
+			this.doExecuteDialog(	
+									'selectSearchFcltsMngGroup' 
+									, '관리그룹 선택'
+									, '/popup/showFcltsMngGroup.do'
+									, {}
+								);
+			break;
 	}
 };
 
-
+<%
 /**
- * 탭 변경시 실행 이벤트
- */
-GamFcltyQcSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
-	if(oldTabId == 'tabs1') {
-		this.initDisplay();
-		this.loadDetailData();
-	}
-	if(oldTabId == 'tabs2') {
-		this.summaryDisplay();
-	}
-	switch(newTabId) {
-		case "tabs1":
-			break;
-		case "tabs2":
-		case "tabs3":
-		case "tabs4":
-		case "tabs5":
-			break;
-	}
-};
-
-/**
- * 팝업 close 이벤트
- */
+ * @FUNCTION NAME : onClosePopup
+ * @DESCRIPTION   : CLOSE POPUP EVENT
+ * @PARAMETER     :
+ *   1. popupId  - POPUP ID
+ *   2. msg      - MESSAGE
+ *   3. value    - VALUE
+**/
+%>
 GamFcltyQcSttusInqireModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch(popupId){
-		//시설물 관리 그룹(조회화면)
-		case "selectFcltsMngGroup":
-			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
-			this.$("#sFcltsMngGroupNm").val(value["fcltsMngGroupNm"]);
+		case 'viewQcResultItem':
+			break;
+		case 'selectSearchFcltsMngGroup':
+			this.$('#sFcltsMngGroupNo').val(value['fcltsMngGroupNo']);
+			this.$('#sFcltsMngGroupNm').val(value['fcltsMngGroupNm']);
 			break;
 		default:
-			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
+			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
 			break;
 	}
 };
 
-// 다음 변수는 고정 적으로 정의 해야 함
+<%
+/**
+ * @FUNCTION NAME : onTabChange
+ * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
+ * @PARAMETER     :
+ *   1. newTabId - NEW TAB ID
+ *   2. oldTabId - OLD TAB ID
+**/
+%>
+GamFcltyQcSttusInqireModule.prototype.onTabChange = function(newTabId, oldTabId) {
+	switch (newTabId) {
+		case 'listTab':
+			break;
+		case 'detailTab':
+			if(this._mainmode == 'modify' && oldTabId == 'listTab') {
+				this.loadDetail();
+			}
+			break;
+	}
+};
+
 var module_instance = new GamFcltyQcSttusInqireModule();
+
 </script>
-<!-- 아래는 고정 -->
+
+<%
+/******************************** SCRIPT   END ********************************/
+%>
+
+
+<%
+/******************************** UI     START ********************************/
+%>
+
 <input type="hidden" id="window_id" value="<c:out value="${windowId}" />" />
 <div class="window_main">
-	<!-- 조회 조건 -->
-	<div class="emdPanel">
+	<!-- 1. SEARCH AREA (조회조건 영역) -->
+	<div id="searchViewStack" class="emdPanel">
 		<div class="viewStack">
-			<form id="searchFcltyQcwWrtMngForm">
+			<form id="searchForm">
 				<table class="searchPanel">
 					<tbody>
 						<tr>
-							<th>관리그룹</th>
+							<th>관　리　그　룹</th>
 							<td>
 								<input type="text" size="15" id="sFcltsMngGroupNo" title="시설물관리그룹넘버" />-
 								<input type="text" size="17" id="sFcltsMngGroupNm" disabled="disabled" title="시설물관리그룹명"/>
@@ -380,7 +490,7 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 							<td rowspan="3"><button id="btnSearch" class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
-							<th>업무구분</th>
+							<th>업　무　구　분</th>
 							<td>
 								<select id="sFcltsJobSe" class="searchEditItem">
 									<option value="">선택</option>
@@ -392,11 +502,11 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 								</select>
 								<input id="sFcltsJobSeNm" type="hidden" />
 							</td>
-							<th>점검관리명</th>
+							<th>점검　관리　명</th>
 							<td><input type="text" id="sQcMngNm" size="50" /></td>
 						</tr>
 						<tr>
-							<th>점검구분</th>
+							<th>점　검　구　분</th>
 							<td>
 								<select id="sQcSe" class="searchEditItem">
                                     <option value="">선택</option>
@@ -407,7 +517,7 @@ var module_instance = new GamFcltyQcSttusInqireModule();
                                 </select>
                                 <input id="sQcSeNm" type="hidden" />
 							</td>
-							<th>시행년도</th>
+							<th>시　행　년　도</th>
 							<th>
 								<select id="sEnforceYear">
 									<option value="">선택</option>
@@ -419,20 +529,20 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 			</form>
 		</div>
 	</div>
-
+	
+	<!-- 2. DATA AREA (자료 영역) -->
 	<div class="emdPanel fillHeight">
-		<div id="fcltyQcwWrtMngTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+		<!-- 2.1. TAB AREA (탭 영역) -->
+		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+			<!-- 2.1.1. TAB 정의 -->
 			<ul>
-				<li><a href="#tabs1" class="emdTab">시설물점검목록</a></li>
-				<li><a href="#tabs2" class="emdTab">시설물점검내역</a></li>
-				<li><a href="#tabs3" class="emdTab">점검관리대상시설물</a></li>
-				<li><a href="#tabs4" class="emdTab">점검관리결과</a></li>
-				<li><a href="#tabs5" class="emdTab">점검관리첨부파일</a></li>
+				<li><a href="#listTab" class="emdTab">시설물점검목록</a></li>
+				<li><a href="#detailTab" class="emdTab">시설물점검내역</a></li>
 			</ul>
 			
-			<!-- 시설물점검목록 -->
-			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
-				<table id="qcMngDtlsList" style="display:none" class="fillHeight"></table>
+			<!-- 2.1.2. TAB 1 AREA (LIST) -->
+			<div id="listTab" class="emdTabPage" style="overflow: hidden;">
+				<table id="mainGrid" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<form id="listSumForm">
 						<table style="width:100%;">
@@ -448,216 +558,145 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 				</div>
 			</div>
 
-			<!-- 시설물점검내역 -->
-			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
-				<form id="fcltyQcwWrtMngVO">
-				<div style="margin-bottom:10px;">
-					<table  class="detailPanel"  style="width:100%;">
-						<tr>
-							<th width="12%" height="17">관리그룹</th>
-							<td colspan="3">
-								<span id="fcltsMngGroupNm"></span>
-							</td>
-							<th width="12%" height="17">점검관리순번</th>
-							<td>
-								<span id="qcMngSeq"></span>
-							</td>
-						</tr>
-						<tr>
-							<th width="12%" height="17">업무구분</th>
-							<td>
-								<span id="fcltsJobSeNm"></span>
-							</td>
-							<th width="12%" height="17">점검관리명</th>
-							<td colspan="3">
-								<span id="qcMngNm"></span>
-							</td>
-						</tr>
-						<tr>
-							<th width="12%" height="17">시행년도</th>
-							<td>
-								<span id="enforceYear"></span>
-							</td>
-							<th width="12%" height="17">점검구분</th>
-							<td>
-								<span id="qcSeNm"></span>
-							</td>
-							<th width="12%" height="17">시행일자</th>
-							<td>
-								<span id="qcInspDt"></span>
-							</td>
-						</tr>
-						<tr>
-							<th width="12%" height="17">점검진단자</th>
-							<td>
-								<span id="qcInspTpNm"></span>
-							</td>
-							<th width="12%" height="17">점검진단구분</th>
-							<td>
-								<span id="qcInspSeNm"></span>
-							</td>
-							<th width="12%" height="17">점검진단금액</th>
-							<td>
-								<span id="qcInspAmt"></span> 원
-							</td>
-						</tr>
-						<tr>
-							<th width="12%" height="17">상태평가등급</th>
-							<td colspan="5">
-								<span id="sttusEvlLvlNm"></span>
-							</td>
-						</tr>
-						<tr>							
-							<th width="12%" height="17">점검진단기관명</th>
-							<td>
-								<span id="qcInspInsttNm"></span>
-							</td>
-							<th width="12%" height="17">점검기간</th>
-							<td colspan="3">
-								<span id="qcBeginDt"></span> ~ 
-								<span id="qcEndDt"></span>
-							</td>
-						</tr>
-						<tr>
-							<th width="12%" height="17">책임기술자명</th>
-							<td colspan="5"><span id="responEngineerNm"></span></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17">점검진단결과</th>
-							<td colspan="5"><textarea id="qcInspResult" cols="135" rows="8"></textarea></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17">조치내용</th>
-							<td colspan="5"><textarea id="actionCn" cols="135" rows="8"></textarea></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17">비고</th>
-							<td colspan="5"><span id="rm"></span></td>
-						</tr>
-					</table>
-				</div>
-				</form>
-			</div>
-			
-			<!-- 점검관리대상시설물 -->			
-			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
-				<div class="emdControlPanel">
-					<table class="summaryPanel"  style="width:100%;">
-						<tbody>
-							<tr>
-								<th style="font-weight:bold;">점검관리 상세내역</th>
-							</tr>
-						</tbody>
-					</table>
-					<table class="detailPanel"  style="width:100%;">
-						<tbody>
-							<tr>
-								<th>관리그룹</th>
-								<td><span id="summaryFcltsMngGroupNm1"></span></td>
-								<th>점검관리명</th>
-								<td><span id="summaryQcMngNm1"></span></td>
-								<th>시행일자</th>
-								<td><span id="summaryQcInspDtNm1"></span></td>
-							</tr>
-							<tr>
-								<th>점검진단자</th>
-								<td><span id="summaryQcInspTpNm1"></span></td>
-								<th>점검구분</th>
-								<td><span id="summaryQcSeNm1"></span></td>
-								<th>점검진단구분</th>
-								<td><span id="summaryQcInspSeNm1"></span></td>
-							</tr>
-						</tbody>
-					</table>
-					<table class="summaryPanel"  style="width:100%;">
-						<tbody>
-							<tr>
-								<th style="font-weight:bold;">점검관리 대상시설물</th>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<table id="qcMngObjFcltsList" style="display:none"></table>
-				<form id="gamQcMngObjFcltsForm">
-					<table  class="detailPanel"  style="width:100%;">
-						<tbody>
-							<tr>
-								<th>점검진단결과</th>
-								<td><textarea id="objMngQcInspResult" cols="155" rows="8" class="EditItem"></textarea></td>
-							</tr>
-						</tbody>
-					</table>
-				</form>
-			</div>
-			
-			<!-- 점검관리결과항목 -->
-			<div id="tabs4" class="emdTabPage" style="overflow: scroll;">
-				<div class="emdControlPanel">
-					<table class="summaryPanel"  style="width:100%;">
-						<tbody>
-							<tr>
-								<th style="font-weight:bold;">점검관리 상세내역</th>
-							</tr>
-						</tbody>
-					</table>
-					<table class="detailPanel"  style="width:100%;">
-						<tbody>
-							<tr>
-								<th>관리그룹</th>
-								<td><span id="summaryFcltsMngGroupNm2"></span></td>
-								<th>점검관리명</th>
-								<td><span id="summaryQcMngNm2"></span></td>
-								<th>시행일자</th>
-								<td><span id="summaryQcInspDtNm2"></span></td>
-							</tr>
-							<tr>
-								<th>점검진단자</th>
-								<td><span id="summaryQcInspTpNm2"></span></td>
-								<th>점검구분</th>
-								<td><span id="summaryQcSeNm2"></span></td>
-								<th>점검진단구분</th>
-								<td><span id="summaryQcInspSeNm2"></span></td>
-							</tr>
-						</tbody>
-					</table>
-					<table class="summaryPanel"  style="width:100%;">
-						<tbody>
-							<tr>
-								<th style="font-weight:bold;">점검관리 결과</th>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<table id="qcMngResultItemList" style="display:none"></table>
-				<form id="gamQcMngResultItemForm">
-					<table  class="detailPanel"  style="width:100%;">
-						<tbody>
-							<tr>
-								<th>점검결과내용</th>
-								<td><textarea id="inspResultCn" cols="155" rows="8" class="EditItem"></textarea></td>
-							</tr>
-						</tbody>
-					</table>
-				</form>
-			</div>			
-
-			<!-- 점검관리첨부파일 -->
-			<div id="tabs5" class="emdTabPage" style="overflow: scroll;">
-				<table border="1">
+			<!-- 2.1.3. TAB 2 AREA (DETAIL) -->
+			<div id="detailTab" class="emdTabPage" style="overflow: hidden;">
+				<!-- 2.1.3.1 Layout Table -->
+				<table style="width:100%;" class="editForm">
 					<tr>
-						<td width="50%">
-							<table id="qcMngAtchFileList" style="display:none" class="fillHeight"></table>
-							<div class="emdControlPanel">
-								<button id="btnDownloadFile">다운로드</button>
-							</div>
+						<td width="70%">
+							<!-- 2.1.3.1.1 Element Table -->
+							<form id="detailForm">
+							<table  class="detailPanel"  style="width:100%;">
+								<tr>
+									<th width="14%">관　리　그　룹</th>
+									<td colspan="3">
+										<input id="fcltsMngGroupNm" type="text" size="40" disabled="disabled"/>
+										<input type="hidden" id="fcltsMngGroupNo"/>
+										<input type="hidden" id="fcltsJobSe"/>
+									</td>
+								</tr>
+								<tr>
+									<th width="14%" height="17">점검　관리　순번</th>
+									<td>
+										<input id="qcMngSeq" type="text" size="10" disabled="disabled"/>
+									</td>
+									<th width="14%" height="17">업　무　구　분</th>
+									<td>
+										<input id="fcltsJobSeNm" type="text" size="24" disabled="disabled"/>
+									</td>
+								</tr>
+								<tr>
+									<th height="17">점검　관리　명</th>
+									<td colspan="3">
+										<input id="qcMngNm" type="text" size="85" disabled="disabled"/>
+									</td>
+								</tr>
+								<tr>
+									<th height="17">시　행　년　도</th>
+									<td>									
+										<input id="enforceYear" type="text" size="10" disabled="disabled"/>년
+									</td>
+									<th height="17">점　검　구　분</th>
+									<td>
+										<input id="qcSeNm" type="text" size="24" disabled="disabled"/>
+									</td>
+								</tr>
+								<tr>
+									<th height="17">시　행　일　자</th>
+									<td>
+										<input id="qcInspDt" type="text" size="20" disabled="disabled"/>
+									</td>
+									<th height="17">점검　진단　자</th>
+									<td>
+										<input id="qcInspTpNm" type="text" size="24" disabled="disabled"/>
+									</td>
+								</tr>
+								<tr>
+									<th height="17">점검　진단　구분</th>
+									<td>
+										<input id="qcInspSeNm" type="text" size="20" disabled="disabled"/>
+									</td>
+									<th height="17">점검　진단　금액</th>
+									<td>
+										<input id="qcInspAmt" type="text" size="24" class="ygpaNumber" disabled="disabled"/> 원
+									</td>
+								</tr>
+								<tr>
+									<th height="17">상태　평가　등급</th>
+									<td>
+										<input id="sttusEvlLvlNm" type="text" size="10" disabled="disabled"/>
+									</td>
+									<th height="17">점검　진단　기관명</th>
+									<td>
+										<input id="qcInspInsttNm" type="text" size="24" disabled="disabled"/>
+									</td>
+								</tr>
+								<tr>
+									<th height="17">점　검　기　간</th>
+									<td colspan="3">
+										<input id="qcBeginDt" type="text" size="20" disabled="disabled"/> ~ 
+										<input id="qcEndDt" type="text" size="20" disabled="disabled"/>
+									</td>
+								</tr>
+								<tr>
+									<th height="17">책임　기술자　명</th>
+									<td colspan="3">
+										<input type="text" size="20" id="responEngineerNm" disabled="disabled"/>
+									</td>
+								</tr>
+								<tr>
+									<th height="17">점검　진단　결과</th>
+									<td colspan="3">
+										<textarea id="qcInspResult" cols="84" rows="5" disabled="disabled"></textarea>
+										<button id="popupViewQcResultItem" class="popupButton">점검결과항목보기</button>	
+									</td>
+								</tr>
+								<tr>
+									<th height="17">조　치　내　용</th>
+									<td colspan="3">
+										<textarea id="actionCn" cols="84" rows="5" disabled="disabled"></textarea>
+									</td>
+								</tr>
+								<tr>
+									<th height="17">비　　　　　고</th>
+									<td colspan="3">
+										<input id="rm" type="text" size="86" disabled="disabled" />
+									</td>
+								</tr>
+							</table>
+							</form>
 						</td>
-						<td style="text-align:center;vertical-align:middle;">
-							<img id="previewImage" style="border: 1px solid #000; max-width:300px; max-height: 300px" src="">
+						<td width="30%">
+							<!-- 2.1.3.1.2 Grid Table -->
+							<table  class="detailPanel"  style="width:100%;">
+								<tr>
+									<td>
+										<table id="qcObjFcltsGrid" style="display:none" class="fillHeight"></table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				<table class="editForm" style="width:100%">
+					<tr>
+						<th width="11%" height="20">첨　부　파　일</th>
+						<td colspan="2">
+							<select id="atchFile">
+                            </select>	
+						</td>
+						<td style="text-align:right">
+							<button id="btnDownloadFile">다운로드</button>
+							<button id="btnPreviewFile">첨부파일미리보기</button>
+							<div id="previewDialogArea" style="display: none;"></div>
 						</td>
 					</tr>
 				</table>
 			</div>
-
 		</div>
 	</div>
 </div>
+
+<%
+/******************************** UI       END ********************************/
+%>
