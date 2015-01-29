@@ -35,8 +35,6 @@ GamInfoTechFcltySpecInqireModule.prototype = new EmdModule(1000,700);	// 초기 
 GamInfoTechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다.
 
-	this._params = params;	// 파라미터를 저장한다.
-
 	// 테이블 설정
 	this.$("#infoTechFcltySpecInqireList").flexigrid({
 		module: this,
@@ -107,6 +105,18 @@ GamInfoTechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		event.data.module.atchFileInfoChanged(event.target);
 	});
 
+	this._params=params;
+	if(params!=null) {
+		if(params.action!=null) {
+			switch(params.action) {
+			case "prtFcltyInqire":
+				this._cmd = 'modify';
+				this.$("#infoTechFcltySpecInqireTab").tabs("option", {
+					active : 1
+				});
+			}
+		}
+	}	
 };
 
 GamInfoTechFcltySpecInqireModule.prototype.onSubmit = function() {
@@ -121,30 +131,35 @@ GamInfoTechFcltySpecInqireModule.prototype.loadData = function() {
 
 //시설재원데이터 로드
 GamInfoTechFcltySpecInqireModule.prototype.loadDetailData = function() {
-	var selectRows = this.$('#infoTechFcltySpecInqireList').selectedRows();
-	if(selectRows.length > 0) {
-		var row = selectRows[0];
-		if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
-			alert('시설물 관리번호에 오류가 있습니다.');
-			this._cmd = '';
-			this.initDisplay();
-			return;
-		}
-		
-		this.doAction('/fclty/selectInfoTechFcltySpecInqireDetail.do', row, function(module, result) {
-			if(result.resultCode == "0"){
-				module._fcltyManageVO=result.result;
-				module.makeFormValues('#fcltyManageVO', module._fcltyManageVO);
-
-				module.loadFileData();
-			}
-			else {
-				this._cmd="";
-				module.initDisplay();
-				alert(result.resultMsg);
-			}
-		});
+	var row = this.$('#infoTechFcltySpecInqireList').selectedRows();
+	if(row.length==0 && this._params!=undefined && this._params.action=="prtFcltyInqire") {
+		row={'fcltsMngNo': this._params.fcltsMngNo};
+		this._params.action=="prtFcltyInqire1";	// 처음 한번만 체크 하도록 한다.
 	}
+	else {
+		row = row[0];
+	}
+	
+	if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
+		alert('시설물 관리번호에 오류가 있습니다.');
+		this._cmd = '';
+		this.initDisplay();
+		return;
+	}
+		
+	this.doAction('/fclty/selectInfoTechFcltySpecInqireDetail.do', row, function(module, result) {
+		if(result.resultCode == "0"){
+			module._fcltyManageVO=result.result;
+			module.makeFormValues('#fcltyManageVO', module._fcltyManageVO);
+
+			module.loadFileData();
+		}
+		else {
+			this._cmd="";
+			module.initDisplay();
+			alert(result.resultMsg);
+		}
+	});
 };
 
 //시설 첨부파일 로드

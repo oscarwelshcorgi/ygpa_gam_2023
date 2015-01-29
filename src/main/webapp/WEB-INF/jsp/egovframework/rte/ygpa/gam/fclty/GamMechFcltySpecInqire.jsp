@@ -103,6 +103,20 @@ GamMechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 	this.$("#fcltyFileList").on("onItemSelected", function(event, module, row, grid, param) {
 		module.imagePreview();
 	});
+	
+	this._params=params;
+	if(params!=null) {
+		if(params.action!=null) {
+			switch(params.action) {
+			case "prtFcltyInqire":
+				this._cmd = 'modify';
+				this.$("#mainTab").tabs("option", {
+					active : 1
+				});
+			}
+		}
+	}	
+	
 };
 
 <%
@@ -164,7 +178,13 @@ GamMechFcltySpecInqireModule.prototype.imagePreview = function() {
 %>
 GamMechFcltySpecInqireModule.prototype.loadDetail = function() {
 	var row = this.$('#mainGrid').selectedRows();
-	row = row[0];
+	if(row.length==0 && this._params!=undefined && this._params.action=="prtFcltyInqire") {
+		row={'fcltsMngNo': this._params.fcltsMngNo};
+		this._params.action=="prtFcltyInqire1";	// 처음 한번만 체크 하도록 한다.
+	}
+	else {
+		row = row[0];
+	}
 	
 	if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
 		this.$("#mainTab").tabs("option", {active: 0});
