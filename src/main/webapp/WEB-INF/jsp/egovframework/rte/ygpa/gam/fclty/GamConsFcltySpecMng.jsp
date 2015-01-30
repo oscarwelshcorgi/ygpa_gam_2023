@@ -115,7 +115,7 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 	
 	// 날짜 검증 처리
 	this.$(".planDt, .cnstrctDt, .bldFlawDt").bind("change blur", {module: this}, function(event) {
-		event.data.module.dateChk(event.target);
+		event.data.module.getEventObj(event.target);
 	});
 	
 	
@@ -152,7 +152,7 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
  * @PARAMETER     : target
 **/
 %>
-GamConstFcltySpecMngModule.prototype.getEventObj = function(target) {
+GamConstFcltySpecMngModule.prototype.getEventObj = function(target, arr) {
 	
 	var selector = null;
 	if(this.$('.bldFlawDt').is(target)) {
@@ -165,7 +165,7 @@ GamConstFcltySpecMngModule.prototype.getEventObj = function(target) {
 		selector = this.$('.planDt');
 	}
 	
-	return selector;
+	this.dateChk(selector, arr);
 };
 
 
@@ -176,9 +176,7 @@ GamConstFcltySpecMngModule.prototype.getEventObj = function(target) {
  * @PARAMETER     : target
 **/
 %>
-GamConstFcltySpecMngModule.prototype.dateChk = function(target, arr) {
-	
-	var targetObj = this.getEventObj(target);
+GamConstFcltySpecMngModule.prototype.dateChk = function(targetObj, arr) {
 	
 	if(arr == "D"){
 		$.fn.reverse = [].reverse;
