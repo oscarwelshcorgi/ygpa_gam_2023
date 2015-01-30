@@ -201,11 +201,11 @@ div.notice {
 
  div.feeDetail {
 	position: absolute;
-	left: 8.65cm;
-	top: 12.7cm;
+	left: 8.55cm;
+	top: 12.75cm;
 	width: 4.2cm;
 	height: 4.8cm;
-	font-size: 0.32cm;
+	font-size: 0.31cm;
 	font-family: 굴림;
 	padding: 0.1cm;
  }
@@ -259,10 +259,10 @@ div.notice {
 	font-family: 굴림;
  }
 
- #totalAmount {
+#totalAmount {
 	position: relative;
 	left: 9.8cm;
-	top: 1.35cm;
+	top: 1.42cm;
 	width: 4.6cm;
 	height: 0.65cm;
 	font-size: 0.4cm;
@@ -270,9 +270,9 @@ div.notice {
 	text-align: right;
 	padding: 0.1cm;
 	text-align: right;
- }
+}
 
- #elecPayNo {
+#elecPayNo {
 	position: relative;
 	left: 7.7cm;
 	top: 3.7cm;
@@ -281,18 +281,18 @@ div.notice {
 	font-size: 0.4cm;
 	font-family: OCR-B-10 BT;
 	text-align: left;
-	padding: 0.15cm;
- }
+	padding: 0.2cm;
+}
 
- .girocode {
+.girocode {
 	position: relative;
 	left: 0.8cm;
-	top: 1.7cm;
+	top: 1.72cm;
 	width: 13.2cm;
 	height: 0.4cm;
 	font-size: 0.4cm;
 	font-family: OCR-B-10 BT;
-	 }
+}
 
  #girono {
 	display: inline;
@@ -341,7 +341,7 @@ div.notice {
 	width: 4.5cm;
 	height: 0.5cm;
 	top: 0cm;
-	left: 7cm;
+	left: 7.1cm;
 	padding: 0.04cm;
  }
 
@@ -359,14 +359,14 @@ div.notice {
 	width: 4.5cm;
 	height: 0.5cm;
 	top: 0.44cm;
-	left: 7cm;
+	left: 7.1cm;
 	padding: 0.04cm;
  }
 
  #girormk {
  	position: absolute;
 	left: 0cm;
-	top: 0.85cm;
+	top: 0.86cm;
 	width: 11.9cm;
 	height: 0.4cm;
 	padding: 0.04cm;
@@ -374,7 +374,7 @@ div.notice {
 
  #noticermk {
 	position: absolute;
-	left: 1.2cm;
+	left: 1.3cm;
 	top: 8cm;
 	width: 11.9cm;
 	height: 0.4cm;
@@ -517,14 +517,13 @@ div.notice {
 	div.notice {
 		position: absolute;
 		display: block;
-		left: 0.6cm;
+		left: 0.5cm;
 		top: 10.3cm;
 		width: 5.2cm;
 		height: 8cm;
 		font-size: 0.35cm;
 		font-family: 굴림;
 	}
-
 	 div.notice > h2 {
 		position: relative;
 		text-align: center;
@@ -546,7 +545,7 @@ div.notice {
 	 div.feeAmount {
 		position: absolute;
 		left: 7.35cm;
-		top: 11.8cm;
+		top: 11.9cm;
 		width: 4.4cm;
 		height: 0.46cm;
 		font-size: 0.4cm;
@@ -557,10 +556,10 @@ div.notice {
 	 div.feeDetail {
 		position: absolute;
 		left: 8.62cm;
-		top: 12.6cm;
+		top: 12.7cm;
 		width: 4.2cm;
 		height: 4.8cm;
-		font-size: 0.32cm;
+		font-size: 0.3cm;
 		font-family: 굴림;
 		padding: 0.1cm;
 	 }
@@ -578,7 +577,7 @@ div.notice {
 	 div.rmk {
 		position: absolute;
 		display: block;
-		left: 12.45cm;
+		left: 12.35cm;
 		top: 11.3cm;
 		width: 7.7cm;
 		height: 8cm;
@@ -616,8 +615,8 @@ div.notice {
 
 	 #totalAmount {
 		position: relative;
-		left: 9.4cm;
-		top: 1.1cm;
+		left: 9.3cm;
+		top: 1.45cm;
 		width: 4.6cm;
 		height: 0.65cm;
 		font-size: 0.4cm;
@@ -630,7 +629,7 @@ div.notice {
 	 #elecPayNo {
 		position: relative;
 		left: 7.7cm;
-		top: 3.55cm;
+		top: 3.64cm;
 		width: 6.8cm;
 		height: 0.8cm;
 		font-size: 0.4cm;
@@ -641,8 +640,8 @@ div.notice {
 
 	 .girocode {
 		position: relative;
-		left: 0.3cm;
-		top: 1.55cm;
+		left: 0.2cm;
+		top: 1.65cm;
 		width: 13.2cm;
 		height: 0.4cm;
 		font-size: 0.4cm;
@@ -675,8 +674,8 @@ div.notice {
 
 	 .giroDetail {
 		position: absolute;
-		left: 2.75cm;
-		top: 5.2cm;
+		left: 2.55cm;
+		top: 5.4cm;
 		width: 11.9cm;
 		height: 1.3cm;
 		font-size: 0.35cm;
@@ -730,7 +729,7 @@ div.notice {
 	 #noticermk {
 		position: absolute;
 		left: 1.2cm;
-		top: 8cm;
+		top: 7.9cm;
 		width: 11.9cm;
 		height: 0.4cm;
 		font-size: 0.3cm;

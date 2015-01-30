@@ -47,7 +47,7 @@ GamMapPopupModule.prototype.loadComplete = function() {
 GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         case 'fcltyCdMngt':
-        	EMD.util.create_window("건축시설코드 관리", "/fclty/gamConstFcltySpecMng.do", null, {
+        	EMD.util.create_window("토목시설코드 관리", "/fclty/gamConstFcltySpecMng.do", null, {
         		action: "prtFcltyInqire"
        			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
        			,gisAssetsCd: this.$('#gisAssetsCd').val()
@@ -59,7 +59,7 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
 			});
             break;
         case 'fcltyCdInqire':
-        	EMD.util.create_window("건축시설코드 조회", "/fclty/gamConstFcltySpecInqire.do", null, {
+        	EMD.util.create_window("토목시설코드 조회", "/fclty/gamConstFcltySpecInqire.do", null, {
         		action: "prtFcltyInqire"
        			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
        			,gisAssetsCd: this.$('#gisAssetsCd').val()
@@ -71,7 +71,7 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
 			});
         	break;
         case 'assignFeature':
-        	EMD.util.create_window("건축 시설 제원 코드 위치 지정", "/fclty/gamConstFcltySpecMng.do", null, {
+        	EMD.util.create_window("시설 제원 코드 지정", "/fclty/gamConstFcltySpecMng.do", null, {
         		action: "setFeature"
     			,feature: this.getFeature()
 			});
@@ -125,9 +125,9 @@ var popupInfoModule = new GamMapPopupModule();
 				</c:if>
 			</tbody></table>
 			<c:if test="${fn:containsIgnoreCase(auth,'role_admin')||fn:containsIgnoreCase(auth,'role_manager') }">
-				<button id="fcltyCdMngt" data-icon="ui-icon-newwin">건축시설제원 관리</button>
+				<button id="fcltyCdMngt" data-icon="ui-icon-newwin">토목시설제원 관리</button>
 			</c:if>
-			<button id="fcltyCdInqire" data-icon="ui-icon-newwin">건축시설제원 조회</button>
+			<button id="fcltyCdInqire" data-icon="ui-icon-newwin">토목시설제원 조회</button>
 		</div>
 	</c:if>
 </c:if>

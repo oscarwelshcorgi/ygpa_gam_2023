@@ -52,7 +52,7 @@ GamInfoTechFcltySpecMngModule.prototype.loadComplete = function(params) {
 	this._mainmode = '';
 	this._prtFcltySe = 'I';
 	this._deleteAtchFileList = null;
-	
+
 	this.$('#mainGrid').flexigrid({
 		module: this,
 		url: '/fclty/selectInfoTechFcltySpecMngList.do',
@@ -70,13 +70,13 @@ GamInfoTechFcltySpecMngModule.prototype.loadComplete = function(params) {
 		preProcess : function(module,data) {
 			module.$('#totalCount').val($.number(data.totalCount));
 			return data;
-		}		
+		}
 	});
 
 	this.$('#mainGrid').on('onLoadDataComplete', function(event, module, data) {
 		module.loadDataComplete();
 	});
-	
+
 	this.$('#mainGrid').on('onItemSelected', function(event, module, row, grid, param) {
 		module._mainmode = 'modify';
 		module.setControlStatus();
@@ -88,7 +88,7 @@ GamInfoTechFcltySpecMngModule.prototype.loadComplete = function(params) {
 		module.$('#mainTab').tabs('option', {active: 1});
 	});
 
-	
+
 	this.$('#atchFileGrid').flexigrid({
 		module: this,
 		url: '/fclty/selectInfoTechFcltySpecFileList.do',
@@ -110,7 +110,7 @@ GamInfoTechFcltySpecMngModule.prototype.loadComplete = function(params) {
 		event.data.module.atchFileInfoChanged(event.target);
 	});
 
-	
+
 	this.$('#selectGisPrtFcltyCd').on('change', {module: this}, function(event) {
 		event.data.module.$('#gisPrtFcltyCd').val($(this).val());
 	});
@@ -119,7 +119,7 @@ GamInfoTechFcltySpecMngModule.prototype.loadComplete = function(params) {
 		event.data.module.$('#sFcltsMngGroupNo').val('');
 		event.data.module.$('#sFcltsMngGroupNoNm').val('');
 	});
-	
+
 	this.setControlStatus();
 
 	this._params = params;
@@ -136,7 +136,7 @@ GamInfoTechFcltySpecMngModule.prototype.loadComplete = function(params) {
 				});
 			}
 		}
-	}	
+	}
 };
 
 
@@ -211,7 +211,7 @@ GamInfoTechFcltySpecMngModule.prototype.loadDetail = function() {
 	else {
 		row = rows[0];
 	}
-	
+
 	if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
 		this.$('#mainTab').tabs('option', {active: 0});
 		this._mainmode = '';
@@ -219,7 +219,7 @@ GamInfoTechFcltySpecMngModule.prototype.loadDetail = function() {
 		alert('시설물 관리번호에 오류가 있습니다.');
 		return;
 	}
-	
+
 	this.doAction('/fclty/selectInfoTechFcltySpecMngDetail.do', row, function(module, result) {
 		if(result.resultCode == "0"){
 			module.makeFormValues('#detailForm', result.result);
@@ -231,7 +231,7 @@ GamInfoTechFcltySpecMngModule.prototype.loadDetail = function() {
 			module.setControlStatus();
 			alert(result.resultMsg);
 		}
-	});	
+	});
 };
 
 <%
@@ -431,9 +431,9 @@ GamInfoTechFcltySpecMngModule.prototype.saveData = function() {
 	if(!this.validateDetailForm()){
 		return;
 	}
-	
+
 	var inputData = this.getSaveData();
-	
+
 	if(this._mainmode == 'insert') {
 	 	this.doAction('/fclty/insertInfoTechFcltySpecMngDetail.do', inputData, function(module, result) {
 	 		if(result.resultCode == '0'){
@@ -624,7 +624,7 @@ GamInfoTechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			this.loadData();
 			break;
 
-		case 'btnExcelDownload': 
+		case 'btnExcelDownload':
 			this.downloadExcel();
 			break;
 
@@ -670,7 +670,7 @@ GamInfoTechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 
 		// 시설물 분류코드(디테일 화면)
 		case 'popupDetailFcltsClCd' :
-			this.doExecuteDialog('selectFcltsClCd', '시설물분류코드', '/popup/showFcltsClCd.do', 
+			this.doExecuteDialog('selectFcltsClCd', '시설물분류코드', '/popup/showFcltsClCd.do',
 										{ sFcltsClCdChar : this._prtFcltySe });
 			break;
 
@@ -678,7 +678,7 @@ GamInfoTechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'popupDetailArchFcltsMng':
 			this.doExecuteDialog('selectArchFcltsMng', '건축시설조회', '/popup/showConsFcltyInfo.do', {});
 			break;
-			
+
 		case 'setFeature': // GIS 피처 지정
 			this.$('#setFeature').hide();
 			var row = this.$('#mainGrid').selectedRows();
@@ -687,10 +687,11 @@ GamInfoTechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 				alert('지정 할 시설을 하나만 선택 해 주시기 바랍니다.');
 				return;
 			}
-			this.setFeatureCode('gisArchFclty',
+			this.setFeatureCode('gisTeleFclty',
 					row[0],
 					this._param.feature);
-			this.closeWindow();
+			alert('지정 되었습니다.');
+//			this.closeWindow();
 			break;
 	}
 };
@@ -734,7 +735,7 @@ GamInfoTechFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, va
 			this.$('#sFcltsMngGroupNo').val(value['fcltsMngGroupNo']);
 			this.$('#sFcltsMngGroupNoNm').val(value['fcltsMngGroupNm']);
 			break;
-			
+
 		case 'detailFcltsMngGroup':
 			this.$('#fcltsMngGroupNo').val(value['fcltsMngGroupNo']);
 			this.$('#fcltsMngGroupNoNm').val(value['fcltsMngGroupNm']);
@@ -810,7 +811,7 @@ var module_instance = new GamInfoTechFcltySpecMngModule();
 							<th>시설명</th>
 							<td><input id="sPrtFcltyNm" type="text" size="30" maxlength="30" /></td>
 							<th>소재지</th>
-							<td><input id="sLoc" type="text" size="30" maxlength="30" /></td>							
+							<td><input id="sLoc" type="text" size="30" maxlength="30" /></td>
 						</tr>
 					</tbody>
 				</table>
@@ -838,8 +839,8 @@ var module_instance = new GamInfoTechFcltySpecMngModule();
 									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
 									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
-	                                <button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="mainGrid" data-style="default">맵조회</button>
-									<button data-role="editMap" data-gis-layer="gisArchFclty">맵편집</button>
+	                                <button data-role="showMap" data-gis-layer="gisTeleFclty" data-flexi-grid="mainGrid" data-style="default">맵조회</button>
+									<button data-role="editMap" data-gis-layer="gisTeleFclty">맵편집</button>
 									<button id="setFeature" style="display: none;">맵지정</button>
 								</td>
 							</tr>
@@ -1020,7 +1021,7 @@ var module_instance = new GamInfoTechFcltySpecMngModule();
 								<button id="btnRemoveFile">삭제</button>
 								<button id="btnDetailSave">저장</button>
 							</div>
-			
+
 							<form id="archFileForm">
 								<table class="searchPanel editForm">
 									<tr>

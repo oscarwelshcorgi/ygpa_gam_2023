@@ -84,7 +84,7 @@ GamElctyFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		module.$("#elctyFcltySpecInqireTab").tabs("option", {active: 1});
 	});
 
-	
+
 	this.$(".text").bind("change keyup", {module: this}, function(event) {
 		var limit_char = /[|]/;
 		if(limit_char.test(event.target.value)){
@@ -116,7 +116,7 @@ GamElctyFcltySpecInqireModule.prototype.loadComplete = function(params) {
 	this.$(".photoEditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.atchFileInfoChanged(event.target);
 	});
-	
+
 	// 맵관련 추가
 	this._params=params;
 	if(params!=null) {
@@ -185,7 +185,7 @@ GamElctyFcltySpecInqireModule.prototype.loadDetailData = function() {
 			this.initDisplay();
 			return;
 		}
-		
+
 		this.doAction('/fclty/selectElctyFcltySpecInqireDetail.do', row, function(module, result) {
 			if(result.resultCode == "0"){
 				module._fcltyManageVO=result.result;
@@ -205,7 +205,7 @@ GamElctyFcltySpecInqireModule.prototype.loadDetailData = function() {
 <%
 /**
  * @FUNCTION NAME : loadFileData
- * @DESCRIPTION   : 첨부파일 LOAD 
+ * @DESCRIPTION   : 첨부파일 LOAD
  * @PARAMETER     : NONE
 **/
 %>
@@ -321,7 +321,7 @@ GamElctyFcltySpecInqireModule.prototype.downloadAtchFileItem = function() {
 **/
 %>
 GamElctyFcltySpecInqireModule.prototype.downloadExcel = function(buttonId) {
-	
+
 	var rowCount = this.$('#elctyFcltySpecInqireList').flexRowCount();
 	if (rowCount <= 0) {
 		alert('조회된 자료가 없습니다.');
@@ -342,30 +342,30 @@ GamElctyFcltySpecInqireModule.prototype.downloadExcel = function(buttonId) {
 **/
 %>
 GamElctyFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
-	
+
 	switch(buttonId) {
 		case "btnSearch": //조회
 			this._cmd = "";
 			this.initDisplay();
 			this.loadData();
 			break;
-	
+
 			// 시설물관리그룹(조회 화면)
 		case "popupSearchFcltsMngGroupNo":
 			this.doExecuteDialog("selectFcltsMngGroup", "시설물그룹번호", '/popup/showFcltsMngGroup.do', {});
 			break;
-	
+
 		// 시설물관리그룹(디테일 화면)
 		case "popupSearchFcltsMngGroupNo2":
 			this.doExecuteDialog("selectFcltsMngGroup2", "시설물그룹번호", '/popup/showFcltsMngGroup.do', {});
 			break;
-	
-	
+
+
 			//파일다운로드
 		case "btnDownloadFile":
 			this.downloadAtchFileItem();
 			break;
-	
+
 		case "gotoLocation":	// 위치 조회
 			if(this._fcltyItem.laCrdnt!=null && this._fcltyItem.laCrdnt!=null) {
 				EMD.gis.goLocation(this._fcltyItem.laCrdnt, this._fcltyItem.loCrdnt);
@@ -377,7 +377,7 @@ GamElctyFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 				alert("시설위치가 등록되지 않았습니다.");
 			}
 			break;
-				
+
 		// 엑셀다운로드
 		case "btnExcelDownload":
 			this.downloadExcel(buttonId);
@@ -433,14 +433,14 @@ GamElctyFcltySpecInqireModule.prototype.onTabChange = function(newTabId, oldTabI
 %>
 GamElctyFcltySpecInqireModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch(popupId){
-	
+
 	//조회화면
 	case "selectFcltsMngGroup":
 		this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 		this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
 		break;
-		
-	//디테일화면 
+
+	//디테일화면
 	case "selectFcltsMngGroup2":
 		this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 		this.$("#fcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
@@ -516,11 +516,11 @@ var module_instance = new GamElctyFcltySpecInqireModule();
 							<td><input type="text" id="totalCount" style="width:250px;text-align:right;" readonly="readonly"></td>
 							<td style="text-align:right;">
 								<button id="btnExcelDownload">엑셀 다운로드</button>
-								<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="elctyFcltySpecInqireList" data-style="default">맵조회</button>
+								<button data-role="showMap" data-gis-layer="gisElecFclty" data-flexi-grid="elctyFcltySpecInqireList" data-style="default">맵조회</button>
 							</td>
 						</tr>
 					</table>
-					
+
 				</div>
 			</div>
 
@@ -759,7 +759,7 @@ var module_instance = new GamElctyFcltySpecInqireModule();
 							<div class="emdControlPanel">
 								<button id="btnDownloadFile">다운로드</button>
 							</div>
-							
+
 						</td>
 						<td style="text-align:center;vertical-align:middle;">
 							<img id="previewImage" style="border: 1px solid #000; max-width:300px; max-height: 300px" src="">

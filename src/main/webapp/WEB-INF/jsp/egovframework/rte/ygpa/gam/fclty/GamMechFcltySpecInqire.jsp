@@ -48,7 +48,7 @@ GamMechFcltySpecInqireModule.prototype = new EmdModule(1000,700);
 GamMechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 
 	this._fcltyItem = null;
-	
+
 	// 테이블 설정
 	this.$("#mainGrid").flexigrid({
 		module: this,
@@ -67,13 +67,13 @@ GamMechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		preProcess : function(module,data) {
 			module.$('#totalCount').val($.number(data.totalCount));
 			return data;
-		}		
+		}
 	});
-	
+
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module._cmd = "modify";
 	});
-	
+
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._cmd = "modify";
 		module.$("#mainTab").tabs("option", {active: 1});
@@ -86,7 +86,7 @@ GamMechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 	this.$("#sFcltsMngGroupNo").bind("keyup change", {module: this}, function(event) {
 		event.data.module.getFcltsMngGroupNoNm();
 	});
-	
+
 	this.$("#fcltyFileList").flexigrid({
 		module: this,
 		url: '/fclty/selectMechFcltySpecInqireFileList.do',
@@ -103,7 +103,7 @@ GamMechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 	this.$("#fcltyFileList").on("onItemSelected", function(event, module, row, grid, param) {
 		module.imagePreview();
 	});
-	
+
 	this._params=params;
 	if(params!=null) {
 		if(params.action!=null) {
@@ -115,8 +115,8 @@ GamMechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 				});
 			}
 		}
-	}	
-	
+	}
+
 };
 
 <%
@@ -185,7 +185,7 @@ GamMechFcltySpecInqireModule.prototype.loadDetail = function() {
 	else {
 		row = row[0];
 	}
-	
+
 	if(row['fcltsMngNo']==null || row['fcltsMngNo'].length==0) {
 		this.$("#mainTab").tabs("option", {active: 0});
 		alert('시설물 관리번호에 오류가 있습니다.');
@@ -206,7 +206,7 @@ GamMechFcltySpecInqireModule.prototype.loadDetail = function() {
 		}
 		module.$("#selectGisPrtFcltyCd").disable();
 	});
-	
+
 	// 첨부파일 처리
 	this.$("#fcltyFileList").flexOptions({params:prtFclty}).flexReload();
 	this.clearFilePage();
@@ -252,20 +252,20 @@ GamMechFcltySpecInqireModule.prototype.onTabChangeBefore = function(newTabId, ol
 	switch(buttonId) {
 
 		// 엑셀 다운로드
-		case "btnExcelDownload": 
+		case "btnExcelDownload":
 			this.downloadExcel();
 			break;
-	
+
 		// 파일 다운로드
 		case 'btnDownloadFile':
 			this.downloadFile();
 		break;
-	
+
 		// 위치 조회
-		case "gotoLocation":	
+		case "gotoLocation":
 			this.gotoLocation();
 		break;
-		
+
 		// 검색조건 시설물 관리 그룹 팝업
 		case "searchPopupBtn":
 			this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
@@ -341,13 +341,13 @@ GamMechFcltySpecInqireModule.prototype.getFcltsMngGroupNoNm = function() {
 			if(this._cmd != 'modify') {
 				this.$("#mainTab").tabs("option", {active: 0});
 				alert('기계시설 항목을 선택 하세요.');
-			} 
+			}
 			break;
 		case "tabs3":
 			if(this._cmd != 'modify') {
 				this.$("#mainTab").tabs("option", {active: 0});
 				alert('기계시설 항목을 선택 하세요.');
-			} 
+			}
 			break;
 	}
 };
@@ -364,12 +364,12 @@ GamMechFcltySpecInqireModule.prototype.getFcltsMngGroupNoNm = function() {
 %>
  GamMechFcltySpecInqireModule.prototype.onClosePopup = function(popupId, msg, value){
 	 switch(popupId){
-		// 검색조건 시설물 관리 그룹 
+		// 검색조건 시설물 관리 그룹
 		case "sSelectFcltsMngGroup":
 			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
 		break;
-		
+
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
 			break;
@@ -415,7 +415,7 @@ var module_instance = new GamMechFcltySpecInqireModule();
 							<th>시설명</th>
 							<td><input id="sPrtFcltyNm" type="text" size="30"/></td>
 							<th>소재지</th>
-							<td><input id="sLoc" type="text" size="30"/></td>							
+							<td><input id="sLoc" type="text" size="30"/></td>
 						</tr>
 					</tbody>
 				</table>
@@ -441,7 +441,7 @@ var module_instance = new GamMechFcltySpecInqireModule();
 								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
 								<td style="text-align:right;">
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
-	                                <button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="civilFcltySpecMngList" data-style="default">맵조회</button>
+	                                <button data-role="showMap" data-gis-layer="gisMechFclty" data-flexi-grid="civilFcltySpecMngList" data-style="default">맵조회</button>
 								</td>
 							</tr>
 						</table>
@@ -621,7 +621,7 @@ var module_instance = new GamMechFcltySpecInqireModule();
 							<th width="12%" height="17" class="required_text">검사　종료일자</th>
 							<td><input id="examEndDt" type="text" class="emdcal" size="11" disabled="disabled" /></td>
 						</tr>
-						<tr>							
+						<tr>
 							<th width="12%" height="17" class="required_text">시설물분류코드</th>
 							<td colspan="3">
 								<input id="mechFcltsClCd" type="text" size="20" disabled="disabled" />
@@ -651,7 +651,7 @@ var module_instance = new GamMechFcltySpecInqireModule();
 					<!-- <button id="gotoLocation">위치조회</button> -->
 				</div>
 			</div>
-			
+
 			<!-- 기계시설 첨부파일 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 				<table>

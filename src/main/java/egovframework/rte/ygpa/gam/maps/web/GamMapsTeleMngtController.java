@@ -22,11 +22,13 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.ygpa.gam.code.service.GamBupJungDongCodeDefaultVO;
+import egovframework.rte.ygpa.gam.maps.service.GamMapsArchFcltyInqireService;
 import egovframework.rte.ygpa.gam.maps.service.GamMapsAssetCodeMngtService;
 import egovframework.rte.ygpa.gam.maps.service.GamMapsFcltyCdMngtService;
+import egovframework.rte.ygpa.gam.maps.service.GamMapsTeleFcltyInqireService;
 
 /**
- * 자산코드 지도 조회 컨트롤러
+ * 건축시설 지도 조회 컨트롤러
  * @author EUNSUNGJ
  * @since 2014. 4. 17.
  * @version 1.0
@@ -42,15 +44,15 @@ import egovframework.rte.ygpa.gam.maps.service.GamMapsFcltyCdMngtService;
  * </pre>
  */
 @Controller
-public class GamMapsFcltyCdMngtController {
+public class GamMapsTeleMngtController {
 
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
 
-	@Resource(name = "gamMapsFcltyCdMngtService")
-	GamMapsFcltyCdMngtService gamMapsFcltyCdMngtService;
+	@Resource(name = "gamMapsTeleFcltyInqireService")
+	GamMapsTeleFcltyInqireService gamMapsTeleFcltyInqireService;
 
-	@RequestMapping(value="/maps/fclty/gamPrtFcltyInfo.do")
+	@RequestMapping(value="/maps/fclty/gamTeleFcltyInfo.do")
 	public String gamArchFcltyInfo(@RequestParam Map searchVO, ModelMap model) throws Exception {
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -64,8 +66,8 @@ public class GamMapsFcltyCdMngtController {
 
 
 			try {
-				Map fcltyCdInfo = gamMapsFcltyCdMngtService.selectArchFcltyInfo(searchVO);
-				List fileList = gamMapsFcltyCdMngtService.selectMapsArchFcltyFileList(searchVO);
+				Map fcltyCdInfo = gamMapsTeleFcltyInqireService.selectFcltySpecInfo(searchVO);
+				List fileList = gamMapsTeleFcltyInqireService.selectFcltyFileList(searchVO);
 				List<String> authorities = EgovUserDetailsHelper.getAuthorities();
 
 				for(int i=0; i<authorities.size(); i++) {
@@ -95,7 +97,7 @@ public class GamMapsFcltyCdMngtController {
 			}
     	}
 
-    	return "ygpa/gam/maps/GamArchFcltyCdInfo";
+    	return "ygpa/gam/maps/GamTeleFcltyCdInfo";
     }
 
 }

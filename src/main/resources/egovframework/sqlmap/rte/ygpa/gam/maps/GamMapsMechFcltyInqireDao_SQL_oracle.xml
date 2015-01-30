@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.maps">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+   <select id="gamMapsMechFcltyInqireDAO.selectFcltySpecInfoByPk_S" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+			G.GIS_PRT_FCLTY_CD,
+			G.GIS_PRT_FCLTY_SEQ,
+			G.GIS_ASSETS_PRT_AT_CODE,
+			G.GIS_ASSETS_CD,
+			G.GIS_ASSETS_SUB_CD,
+			G.PRT_FCLTY_SE,
+			G.PRT_FCLTY_NM,
+			G.PRT_FCLTY_STNDRD,
+			G.PRT_FCLTY_UNIT,
+			G.PRT_FCLTY_INSTL_DT,
+			G.PRT_FCLTY_CHANGE_DT,
+			G.PRT_FCLTY_MNG_ENTRPS_CD,
+			G.PRT_FCLTY_AR,
+			G.PRT_FCLTY_EXPR_DT,
+			G.INFO,
+			G.PRT_PRT_FCLTY_CNT,
+			G.PRT_PRT_FCLTY_MNGER,
+			G.GIS_PRT_FCLTY_CD_SUB,
+			G.FCLTS_MNG_NO,
+			M.ARCH_FCLTS_MNG_NO
+			, (SELECT PRT_FCLTY_NM FROM GIS_PRT_FCLTY_CD_F WHERE FCLTS_MNG_NO = M.ARCH_FCLTS_MNG_NO) ARCH_FCLTS_MNG_NO_NM
+			, M.PRPOS
+			, M.FMT
+			, M.STNDRD
+			, TO_CHAR(M.INSTL_DT, 'YYYY-MM-DD') INSTL_DT
+			, TO_CHAR(M.MFC_DT, 'YYYY-MM-DD') MFC_DT
+			, M.MFC_CMPNY
+			, M.MANAGER
+			, M.USAGE_ENTRPS
+			, M.LT
+			, M.QY
+			, M.UNIT
+			, M.POSESN_MAINBD
+			, M.RM
+			, M.OPER_CMPNY
+			, M.EQPMN_NO
+			, M.ACQ_AMT
+			, TO_CHAR(M.EXAM_BEGIN_DT, 'YYYY-MM-DD') EXAM_BEGIN_DT
+			, TO_CHAR(M.EXAM_END_DT, 'YYYY-MM-DD') EXAM_END_DT
+			, M.EXAM_OK_NO
+			, M.EXAM_INSTT
+			, M.LNL_ABLTY
+			, M.SELF_LOAD
+			, M.RATE_WGHT
+			, M.MAX_WHEEL_WGHT
+			, M.RAIL_ITV
+			, M.RATE_HP
+			, M.PROCESS_ABLTY
+			, M.LOC
+			, M.GDSNM
+			, TO_CHAR(M.USAGE_BEGIN_DT, 'YYYY-MM-DD') USAGE_BEGIN_DT
+			, TO_CHAR(M.USAGE_END_DT, 'YYYY-MM-DD') USAGE_END_DT
+			, M.CAPA_TON
+			, M.STRUCT_WQNT
+			, M.STTUS_LVL
+			, M.DRAFT
+			, M.CNYEAR
+			, M.USAGE_PURPS
+			, M.MECH_FCLTS_CL_CD
+			, (SELECT FCLTS_CL_CD_NM FROM FCLTS_CL_CD_F WHERE FCLTS_CL_CD = M.MECH_FCLTS_CL_CD) MECH_FCLTS_CL_CD_NM
+	  FROM
+	  		GIS_PRT_FCLTY_CD_F G LEFT OUTER JOIN MECH_FCLTY_SPEC_F M
+	  		ON G.FCLTS_MNG_NO = M.FCLTS_MNG_NO
+	 WHERE 1=1
+	       AND G.GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
+	       AND G.GIS_ASSETS_CD=#gisAssetsCd#
+	       AND G.GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+	       AND G.GIS_PRT_FCLTY_CD=#gisPrtFcltyCd#
+	       AND G.GIS_PRT_FCLTY_SEQ=#gisPrtFcltySeq#
+	       AND G.PRT_FCLTY_SE=#gisPrtFcltySe#
+	</select>
+
+    <select id="gamMapsMechFcltyInqireDAO.selectFcltySpecFileList_D" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+			F.ATCH_FILE_SEQ
+			, F.ATCH_FILE_SJ
+			, F.ATCH_FILE_NM_LOGIC
+			, F.ATCH_FILE_NM_PHYSICL
+			, F.ATCH_FILE_SE
+			, GAM_GET_FILE_SE_NM(F.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+			, TO_CHAR(F.ATCH_FILE_WRITNG_DT, 'YYYY-MM-DD') AS ATCH_FILE_WRITNG_DT
+		FROM
+			GIS_PRT_FCLTY_CD_F G, FCLTS_SPEC_ATCH_FILE_F F
+		WHERE
+			G.FCLTS_MNG_NO = F.FCLTS_MNG_NO
+			AND G.GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
+			AND G.GIS_ASSETS_CD=#gisAssetsCd#
+			AND G.GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+			AND G.GIS_PRT_FCLTY_CD=#gisPrtFcltyCd#
+			AND G.GIS_PRT_FCLTY_SEQ=#gisPrtFcltySeq#
+			AND G.PRT_FCLTY_SE=#gisPrtFcltySe#
+		ORDER BY
+			ATCH_FILE_SEQ
+    </select>
+
+</sqlMap>

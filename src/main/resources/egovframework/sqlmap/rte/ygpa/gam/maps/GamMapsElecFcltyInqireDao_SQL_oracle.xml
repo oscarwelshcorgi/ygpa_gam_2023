@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.maps">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+   <select id="gamMapsElecFcltyInqireDAO.selectFcltySpecInfoByPk_S" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+			G.GIS_PRT_FCLTY_CD,
+			G.GIS_PRT_FCLTY_SEQ,
+			G.GIS_ASSETS_PRT_AT_CODE,
+			G.GIS_ASSETS_CD,
+			G.GIS_ASSETS_SUB_CD,
+			G.PRT_FCLTY_SE,
+			G.PRT_FCLTY_NM,
+			G.PRT_FCLTY_STNDRD,
+			G.PRT_FCLTY_UNIT,
+			G.PRT_FCLTY_INSTL_DT,
+			G.PRT_FCLTY_CHANGE_DT,
+			G.PRT_FCLTY_MNG_ENTRPS_CD,
+			G.PRT_FCLTY_AR,
+			G.PRT_FCLTY_EXPR_DT,
+			G.INFO,
+			G.PRT_PRT_FCLTY_CNT,
+			G.PRT_PRT_FCLTY_MNGER,
+			G.GIS_PRT_FCLTY_CD_SUB,
+			G.FCLTS_MNG_NO
+			, E.PRPOS
+			, E.CAPA
+			, E.VOLT
+			, E.OUTPUT
+			, E.FMT
+			, E.STNDRD
+			, TO_CHAR(E.INSTL_DT, 'YYYY-MM-DD') INSTL_DT
+			, TO_CHAR(E.MFC_DT, 'YYYY-MM-DD') MFC_DT
+			, E.MFC_CMPNY
+			, E.MANAGER
+			, E.USAGE_ENTRPS
+			, E.DUCT_LINE_LT
+			, E.CABLE_EXT
+			, E.LIGHTWR_HT
+			, E.QY
+			, E.FUEL_CONSUM
+			, E.FUEL_TANK
+			, E.OIL_QTY
+			, E.FNL_MTHD
+			, E.SPPLY_PWR
+			, E.SPPLY_TR
+			, E.KOR_ELEC_SUBSTN
+			, E.SECTION_FROM
+			, E.SECTION_TO
+			, E.PREMAIN_HT
+			, E.PREMAIN_STNDRD
+			, E.PREMAIN_QY
+			, E.LIGHTAPP_FMT
+			, E.LIGHTAPP_STNDRD
+			, E.LIGHTAPP_QY
+			, E.LAMP_FMT
+			, E.LAMP_CAPA
+			, E.LAMP_QY
+			, E.LIGHTWR_LIGHTAPP_QY
+			, E.LIGHTWR_LIGHTAPP_CLCD
+			, E.LIGHTWR_LAMP_QY
+			, E.LIGHTWR_LAMP_CLCD
+			, E.RM
+			, E.FCLTS_MNG_NO
+			, E.LOC
+			, E.ARCH_FCLTS_MNG_NO
+			, (SELECT PRT_FCLTY_NM FROM GIS_PRT_FCLTY_CD_F WHERE FCLTS_MNG_NO = E.ARCH_FCLTS_MNG_NO) ARCH_FCLTS_MNG_NO_NM
+			, E.ELCTY_FCLTS_CL_CD
+			, (SELECT FCLTS_CL_CD_NM FROM FCLTS_CL_CD_F WHERE FCLTS_CL_CD = E.ELCTY_FCLTS_CL_CD) ELCTY_FCLTS_CL_CD_NM
+	  FROM
+	  		GIS_PRT_FCLTY_CD_F G LEFT OUTER JOIN ELCTY_FCLTY_SPEC_F E
+	  		ON G.FCLTS_MNG_NO = E.FCLTS_MNG_NO
+	 WHERE 1=1
+	       AND G.GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
+	       AND G.GIS_ASSETS_CD=#gisAssetsCd#
+	       AND G.GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+	       AND G.GIS_PRT_FCLTY_CD=#gisPrtFcltyCd#
+	       AND G.GIS_PRT_FCLTY_SEQ=#gisPrtFcltySeq#
+	       AND G.PRT_FCLTY_SE=#gisPrtFcltySe#
+	</select>
+
+    <select id="gamMapsElecFcltyInqireDAO.selectFcltySpecFileList_D" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+			F.ATCH_FILE_SEQ
+			, F.ATCH_FILE_SJ
+			, F.ATCH_FILE_NM_LOGIC
+			, F.ATCH_FILE_NM_PHYSICL
+			, F.ATCH_FILE_SE
+			, GAM_GET_FILE_SE_NM(F.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+			, TO_CHAR(F.ATCH_FILE_WRITNG_DT, 'YYYY-MM-DD') AS ATCH_FILE_WRITNG_DT
+		FROM
+			GIS_PRT_FCLTY_CD_F G, FCLTS_SPEC_ATCH_FILE_F F
+		WHERE
+			G.FCLTS_MNG_NO = F.FCLTS_MNG_NO
+			AND G.GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
+			AND G.GIS_ASSETS_CD=#gisAssetsCd#
+			AND G.GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+			AND G.GIS_PRT_FCLTY_CD=#gisPrtFcltyCd#
+			AND G.GIS_PRT_FCLTY_SEQ=#gisPrtFcltySeq#
+			AND G.PRT_FCLTY_SE=#gisPrtFcltySe#
+		ORDER BY
+			ATCH_FILE_SEQ
+    </select>
+
+</sqlMap>

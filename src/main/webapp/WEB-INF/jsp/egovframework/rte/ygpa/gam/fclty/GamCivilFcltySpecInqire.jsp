@@ -54,7 +54,7 @@ GamCivilFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		preProcess : function(module,data) {
 			module.$('#totalCount').val($.number(data.totalCount));
 			return data;
-		}		
+		}
 	});
 
 	this._cmd = '';
@@ -100,7 +100,7 @@ GamCivilFcltySpecInqireModule.prototype.loadComplete = function(params) {
 	this.$("#fcltsFileList").on("onItemSelected", function(event, module, row, grid, param) {
 		module.selectAtchFileItem();
 	});
-	
+
 	//첨부파일 정보 변화 이벤트 처리기
 	this.$(".photoEditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.atchFileInfoChanged(event.target);
@@ -149,7 +149,7 @@ GamCivilFcltySpecInqireModule.prototype.loadDetailData = function() {
 		this.initDisplay();
 		return;
 	}
-		
+
 	this.doAction('/fclty/selectCivilFcltySpecInqireDetail.do', row, function(module, result) {
 		if(result.resultCode == "0"){
 			module._fcltyManageVO=result.result;
@@ -177,7 +177,7 @@ GamCivilFcltySpecInqireModule.prototype.initDisplay = function() {
 	this.$("#fcltyManageVO :input").val("");
 	this.$('#fcltsFileList').flexEmptyData();
 	this.$("#previewImage").attr("src", "#");
-	
+
 	 if (this._cmd == "modify") {
 		this.$("#selectGisPrtFcltyCd").disable();
 		this.$("#searchGisCodeBtn2").hide();
@@ -273,10 +273,10 @@ GamCivilFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 			break;
 
 		// 엑셀 다운로드
-		case "btnExcelDownload": 
+		case "btnExcelDownload":
 			this.downloadExcel();
 			break;
-	
+
 
 		//파일다운로드
 		case "btnDownloadFile":
@@ -288,13 +288,13 @@ GamCivilFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 		case "popupSearchFcltsMngGroupNo":
 			this.doExecuteDialog("selectFcltsMngGroup", "시설물그룹번호", '/popup/showFcltsMngGroup.do', {});
 			break;
-			
+
 		// 시설물관리그룹(디테일 화면)
 		case "popupSearchFcltsMngGroupNo2":
 			this.doExecuteDialog("selectFcltsMngGroup2", "시설물그룹번호", '/popup/showFcltsMngGroup.do', {});
 			break;
-			
-			
+
+
 		case "registLocation":	// 위치 등록
 			var module=this;
 			EMD.gis.addPrtFcltyMarker(this._fcltyItem, function(value) {
@@ -302,7 +302,7 @@ GamCivilFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 				module.$('#loCrdnt').val(value.loCrdnt);
 			});
 			break;
-			
+
 		case "gotoLocation":	// 위치 조회
 			if(this._fcltyItem.laCrdnt!=null && this._fcltyItem.laCrdnt!=null) {
 				EMD.gis.goLocation(this._fcltyItem.laCrdnt, this._fcltyItem.loCrdnt);
@@ -352,19 +352,19 @@ GamCivilFcltySpecInqireModule.prototype.onTabChange = function(newTabId, oldTabI
  */
 GamCivilFcltySpecInqireModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch(popupId){
-		
+
 		//조회화면
 		case "selectFcltsMngGroup":
 			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
 			break;
-		
+
 		//디테일화면
 		case "selectFcltsMngGroup2":
 			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#fcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
 			break;
-			
+
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
 			break;
@@ -430,7 +430,7 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
 								<td style="text-align:right;">
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
-	                                <button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="civilFcltySpecMngList" data-style="default">맵조회</button>
+	                                <button data-role="showMap" data-gis-layer="gisCivilFclty" data-flexi-grid="civilFcltySpecMngList" data-style="default">맵조회</button>
 								</td>
 							</tr>
 						</table>
@@ -522,13 +522,13 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 							<th width="12%" height="17">천　단　　　표　고</th>
 							<td><input id="upsideAltud" type="text" size="50" class="ygpaNumber" data-decimal-point="2" disabled/></td>
 							</tr>
-						<tr>	
+						<tr>
 							<th width="12%" height="17" >천　　단　　폭</th>
 							<td><input id="upsideWd" type="text" size="50" class="ygpaNumber" data-decimal-point="2" disabled/></td>
 							<th width="12%" height="17">선　좌　　　수　심</th>
 							<td><input id="berthDpwt" type="text" size="50" class="ygpaNumber" data-decimal-point="2" disabled/></td>
 						</tr>
-						 <tr>	
+						 <tr>
 							<th width="12%" height="17">구　조　　　형　식</th>
 							<td colspan="3"><input id="strctFmt" type="text" size="136"  disabled/></td>
 						 </tr>
@@ -538,23 +538,23 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 							<th width="12%" height="17">에　이　프　런　폭</th>
 							<td><input id="apronWd" type="text" size="50" class="ygpaNumber" data-decimal-point="2" disabled/></td>
 						</tr>
-						<tr>	
+						<tr>
 							<th width="12%" height="17">에이프런　포장종류</th>
 							<td><input id="apronPackKnd" type="text" size="50" maxlength="3" disabled/></td>
 							<th width="12%" height="17">에이프런　포장구배</th>
 							<td><input id="apronPackGrdnt" type="text" size="50"  disabled/></td>
 						</tr>
-						<tr>	
+						<tr>
 							<th width="12%" height="17" >접안　 선박 　규모</th>
 							<td><input id="csdhpShipScl" type="text" size="50" class="ygpaNumber" data-decimal-point="2" disabled/></td>
 							<th width="12%" height="17" >상　재　　　하　중</th>
 							<td><input id="frostDmgWght" type="text" size="50" class="ygpaNumber" data-decimal-point="2" disabled/></td>
 						</tr>
-						<tr>	
+						<tr>
 							<th width="12%" height="17"  >기초　 저면 　토질</th>
 							<td colspan="3"><input id="baseBttmSoil" type="text" size="136" maxlength="150" disabled/></td>
 						</tr>
-						<tr>	
+						<tr>
 							<th width="12%" height="17" >취　급　　　화　물</th>
 							<td colspan="3"><input id="hndlFrght" type="text" size="136" maxlength="100" disabled/></td>
 						</tr>
@@ -574,19 +574,19 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 							<th width="12%" height="17" >널　말　뚝　규　격</th>
 							<td colspan="3"><input id="sheetFileStndrd" type="text" size="136" maxlength="100" disabled/></td>
 						</tr>
-						<tr>	
+						<tr>
 							<th width="12%" height="17" >소　화　전　수　량</th>
 							<td ><input id="firepgQy" type="text" size="50" class="ygpaNumber" disabled/> 개</td>
 							<th width="12%" height="17" >선 　　　　　　　석</th>
 							<td><input id="berth" type="text" size="50" class="ygpaNumber" disabled/></td>
 						</tr>
-						<tr>	
+						<tr>
 							<th width="12%" height="17" >야적장　포장　종류</th>
 							<td><input id="yardPackKnd" type="text" size="50" maxlength="3" disabled/></td>
 							<th width="12%" height="17" >야　적　장　면　적</th>
 							<td><input id="yardAr" type="text" size="50" class="ygpaNumber" data-decimal-point="2" disabled/> m<sup>2</sup></td>
 						</tr>
-						<tr>		
+						<tr>
 							<th width="12%" height="17" >방충재　종류　코드</th>
 							<td><input id="fenderKndCd" type="text" size="50" maxlength="3" disabled/></td>
 							<th width="12%" height="17" >방충재　배치　간격</th>
@@ -596,14 +596,14 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 							<th width="12%" height="17" >방　충　재　형　식</th>
 							<td colspan="3"><input id="fenderFmt" type="text" size="20" maxlength="3" disabled/></td>
 						</tr>
-						
+
 						<tr>
 							<th width="12%" height="17">계　선　주　수　량1</th>
 							<td><input id="mrpostQy1" type="text" size="50" class="ygpaNumber" data-decimal-point="2" disabled/> 개</td>
 							<th width="12%" height="17" >계　선　주　수　량2</th>
 							<td><input id="mrpostQy2" type="text" size="50" class="ygpaNumber" data-decimal-point="2" disabled/> 개</td>
 						</tr>
-						<tr>	
+						<tr>
 							<th width="12%" height="17" >계　선　주　규　격1</th>
 							<td colspan="3"><input id="mrpostStndrd1" type="text" size="136" maxlength="100" disabled/></td>
 						</tr>
@@ -611,24 +611,24 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 							<th width="12%" height="17" >계　선　주　규　격2</th>
 							<td colspan="3"><input id="mrpostStndrd2" type="text" size="136" maxlength="100" disabled/></td>
 						</tr>
-						<tr>	
+						<tr>
 				    		<th width="12%" height="17">계선주　배치　간격1</th>
 							<td><input id="mrpostPmntItv1" type="text" size="50" maxlength="30" disabled/></td>
 							<th width="12%" height="17">계선주　배치간격　2</th>
-							
+
 							<td><input id="mrpostPmntItv2" type="text" size="50" maxlength="30" disabled/></td>
 						</tr>
-						<tr>	
+						<tr>
 							<th width="12%" height="17">계선주　견인력　1</th>
 							<td><input id="mrpostPwr1" type="text" size="50" maxlength="30" disabled/></td>
-							<th width="12%" height="17">계선주　견인력　　2</th>  
+							<th width="12%" height="17">계선주　견인력　　2</th>
 							<td><input id="mrpostPwr2" type="text" size="50" maxlength="30" disabled/></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" >주요 　취급　 화물</th>
 							<td colspan="3"><input id="stplHndlFrght" type="text" size="136" maxlength="300" disabled/></td>
 						</tr>
-						<tr>	
+						<tr>
 							<th width="12%" height="17" >주요　 계류　 선박</th>
 							<td colspan="3"><input id="stplMoorShip" type="text" size="136" maxlength="300" disabled/></td>
 						</tr>
@@ -636,7 +636,7 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 							<th width="12%" height="17" >소　　　재　　　　지</th>
 							<td colspan="3"><input id="loc" type="text" size="136" maxlength="150" disabled/></td>
 						</tr>
-						<tr>	
+						<tr>
 							<th width="12%" height="17" >시작점　　　　위치</th>
 							<td colspan="3"><input id="beginPtLoc" type="text" size="136" maxlength="100" disabled/></td>
 						</tr>
@@ -644,19 +644,19 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 							<th width="12%" height="17" >종착점　　　　위치</th>
 							<td colspan="3"><input id="endPtLoc" type="text" size="136" maxlength="100" disabled/></td>
 						</tr>
-						<tr>	
+						<tr>
 							<th width="12%" height="17">　　　　폭</th>
 							<td><input id="wd" type="text" size="50" class="ygpaNumber" data-decimal-point="2" disabled/></td>
 							<th width="12%" height="17">길　　　　　　　이</th>
 							<td><input id="lt" type="text" size="50" class="ygpaNumber" data-decimal-point="2" disabled/></td>
 						</tr>
-						<tr>		
+						<tr>
 							<th width="12%" height="17">포　장　　　종　류</th>
 							<td><input id="packKnd" type="text" size="50" maxlength="3" disabled/></td>
 							<th width="12%" height="17" >설　계　　　파　고</th>
 							<td><input id="planHegh" type="text" size="50" class="ygpaNumber" data-decimal-point="2" disabled/></td>
 						</tr>
-						<tr>	
+						<tr>
 							<th width="12%" height="17">파　랑　주　방　향</th>
 							<td colspan="3"><input id="wavemainDir" type="text" size="50" maxlength="30" disabled/></td>
 						</tr>
@@ -667,13 +667,13 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 								<input id="cvlEngFcltsClCdNm" type="text" size="50" disabled="disabled" />
 							</td>
 							</tr>
-						<tr>	
+						<tr>
 							<th width="12%" height="17" >외축소파공　경사비율</th>
 							<td><input id="outerSwaveSlpRate" type="text" size="50" class="ygpaNumber" data-decimal-point="2" disabled/></td>
 							<th width="12%" height="17" >외축소　파공　피복</th>
 							<td><input id="outerSwaveCover" type="text" size="50" maxlength="60" disabled/></td>
 						</tr>
-						<tr>	
+						<tr>
 							<th width="12%" height="17" >내축소파공　경사비율</th>
 							<td><input id="inSwaveSlpRate" type="text" size="50" class="ygpaNumber" data-decimal-point="2" disabled/></td>
 							<th width="12%" height="17" >내축소　파공　피복</th>
@@ -682,9 +682,9 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 					</table>
 				</form>
 				<div class="emdControlPanel">
-					
+
 					<!-- <button id="gotoLocation">위치조회</button> -->
-					
+
 				</div>
 			</div>
 

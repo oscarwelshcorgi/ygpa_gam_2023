@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.maps">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+   <select id="gamMapsCivilFcltyInqireDAO.selectFcltySpecInfoByPk_S" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+			G.GIS_PRT_FCLTY_CD,
+			G.GIS_PRT_FCLTY_SEQ,
+			G.GIS_ASSETS_PRT_AT_CODE,
+			G.GIS_ASSETS_CD,
+			G.GIS_ASSETS_SUB_CD,
+			G.PRT_FCLTY_SE,
+			G.PRT_FCLTY_NM,
+			G.PRT_FCLTY_STNDRD,
+			G.PRT_FCLTY_UNIT,
+			G.PRT_FCLTY_INSTL_DT,
+			G.PRT_FCLTY_CHANGE_DT,
+			G.PRT_FCLTY_MNG_ENTRPS_CD,
+			G.PRT_FCLTY_AR,
+			G.PRT_FCLTY_EXPR_DT,
+			G.INFO,
+			G.PRT_PRT_FCLTY_CNT,
+			G.PRT_PRT_FCLTY_MNGER,
+			G.GIS_PRT_FCLTY_CD_SUB,
+			G.FCLTS_MNG_NO
+			, C.LOC
+		    , TO_CHAR(C.FCLTS_EXT) FCLTS_EXT
+		    , C.STRCT_FMT
+		    , TO_CHAR(C.UPSIDE_ALTUD) UPSIDE_ALTUD
+		    , TO_CHAR(C.UPSIDE_WD) UPSIDE_WD
+		    , TO_CHAR(C.BERTH_DPWT) BERTH_DPWT
+		    , TO_CHAR(C.PERM_WD) PERM_WD
+		    , TO_CHAR(C.APRON_WD) APRON_WD
+		    , C.APRON_PACK_KND
+		    , C.APRON_PACK_GRDNT
+		    , TO_CHAR(C.CSDHP_SHIP_SCL) CSDHP_SHIP_SCL
+		    , TO_CHAR(C.FROST_DMG_WGHT) FROST_DMG_WGHT
+		    , C.BASE_BTTM_SOIL
+		    , C.HNDL_FRGHT
+		    , TO_CHAR(C.PILE_CLBR) PILE_CLBR
+		    , TO_CHAR(C.PILE_EXT) PILE_EXT
+		    , TO_CHAR(C.PILE_QTY) PILE_QTY
+		    , C.SHEET_FILE_STNDRD
+		    , TO_CHAR(C.HYDRNT_QY) HYDRNT_QY
+		    , TO_CHAR(C.FIREPG_QY) FIREPG_QY
+		    , C.YARD_PACK_KND
+		    , TO_CHAR(C.YARD_AR) YARD_AR
+		    , C.FENDER_KND_CD
+		    , C.FENDER_PMNT_ITV
+		    , C.FENDER_FMT
+		    , C.MRPOST_STNDRD_1
+		    , C.MRPOST_PMNT_ITV_1
+		    , TO_CHAR(C.MRPOST_QY_1) MRPOST_QY_1
+		    , C.MRPOST_PWR_1
+		    , C.MRPOST_STNDRD_2
+		    , C.MRPOST_PMNT_ITV_2
+		    , TO_CHAR(C.MRPOST_QY_2) MRPOST_QY_2
+		    , C.MRPOST_PWR_2
+		    , TO_CHAR(C.BERTH) BERTH
+		    , C.STPL_HNDL_FRGHT
+		    , C.STPL_MOOR_SHIP
+		    , C.BEGIN_PT_LOC
+		    , C.END_PT_LOC
+		    , TO_CHAR(C.WD) WD
+		    , TO_CHAR(C.LT) LT
+ 		    , C.PACK_KND
+		    , TO_CHAR(C.PLAN_HEGH) PLAN_HEGH
+		    , C.WAVEMAIN_DIR
+		    , TO_CHAR(C.OUTER_SWAVE_SLP_RATE) OUTER_SWAVE_SLP_RATE
+		    , TO_CHAR(C.IN_SWAVE_SLP_RATE) IN_SWAVE_SLP_RATE
+		    , C.OUTER_SWAVE_COVER
+		    , C.IN_SWAVE_COVER
+		    , C.CVL_ENG_FCLTS_CL_CD
+		    , (SELECT FCLTS_CL_CD_NM FROM FCLTS_CL_CD_F WHERE FCLTS_CL_CD = C.CVL_ENG_FCLTS_CL_CD) CVL_ENG_FCLTS_CL_CD_NM
+	  FROM
+	  		GIS_PRT_FCLTY_CD_F G LEFT OUTER JOIN CVL_ENG_FCLTY_SPEC_F C
+	  		ON G.FCLTS_MNG_NO = C.FCLTS_MNG_NO
+	 WHERE 1=1
+	       AND G.GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
+	       AND G.GIS_ASSETS_CD=#gisAssetsCd#
+	       AND G.GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+	       AND G.GIS_PRT_FCLTY_CD=#gisPrtFcltyCd#
+	       AND G.GIS_PRT_FCLTY_SEQ=#gisPrtFcltySeq#
+	       AND G.PRT_FCLTY_SE=#gisPrtFcltySe#
+	</select>
+
+    <select id="gamMapsCivilFcltyInqireDAO.selectFcltySpecFileList_D" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+			F.ATCH_FILE_SEQ
+			, F.ATCH_FILE_SJ
+			, F.ATCH_FILE_NM_LOGIC
+			, F.ATCH_FILE_NM_PHYSICL
+			, F.ATCH_FILE_SE
+			, GAM_GET_FILE_SE_NM(F.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+			, TO_CHAR(F.ATCH_FILE_WRITNG_DT, 'YYYY-MM-DD') AS ATCH_FILE_WRITNG_DT
+		FROM
+			GIS_PRT_FCLTY_CD_F G, FCLTS_SPEC_ATCH_FILE_F F
+		WHERE
+			G.FCLTS_MNG_NO = F.FCLTS_MNG_NO
+			AND G.GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
+			AND G.GIS_ASSETS_CD=#gisAssetsCd#
+			AND G.GIS_ASSETS_SUB_CD=#gisAssetsSubCd#
+			AND G.GIS_PRT_FCLTY_CD=#gisPrtFcltyCd#
+			AND G.GIS_PRT_FCLTY_SEQ=#gisPrtFcltySeq#
+			AND G.PRT_FCLTY_SE=#gisPrtFcltySe#
+		ORDER BY
+			ATCH_FILE_SEQ
+    </select>
+
+</sqlMap>
