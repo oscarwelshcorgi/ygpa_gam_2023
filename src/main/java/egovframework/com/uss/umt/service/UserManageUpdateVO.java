@@ -141,6 +141,8 @@ public class UserManageUpdateVO extends UserDefaultVO{
 	 */
 	private String subDn;
 
+	private String mngFcltyCd;
+
 	/**
 	 * 관리 부두 코드
 	 */
@@ -575,6 +577,18 @@ public class UserManageUpdateVO extends UserDefaultVO{
 	 */
 	public void setQuayGroupCd(String quayGroupCd) {
 		this.quayGroupCd = quayGroupCd;
+	}
+	/**
+	 * @return the mngFcltyCd
+	 */
+	public String getMngFcltyCd() {
+		return mngFcltyCd;
+	}
+	/**
+	 * @param mngFcltyCd the mngFcltyCd to set
+	 */
+	public void setMngFcltyCd(String mngFcltyCd) {
+		this.mngFcltyCd = mngFcltyCd;
 	}
 
 }
