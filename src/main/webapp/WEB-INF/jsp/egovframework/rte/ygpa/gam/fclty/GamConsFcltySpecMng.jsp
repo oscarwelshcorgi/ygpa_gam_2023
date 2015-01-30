@@ -176,9 +176,14 @@ GamConstFcltySpecMngModule.prototype.getEventObj = function(target) {
  * @PARAMETER     : target
 **/
 %>
-GamConstFcltySpecMngModule.prototype.dateChk = function(target) {
+GamConstFcltySpecMngModule.prototype.dateChk = function(target, arr) {
 	
 	var targetObj = this.getEventObj(target);
+	
+	if(arr == "D"){
+		$.fn.reverse = [].reverse;
+		targetObj = targetObj.reverse();
+	}
 	
 	var getDate = [];
 	var getTitle = [];

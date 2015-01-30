@@ -106,7 +106,7 @@ GamElctyFcltySpecMngModule.prototype.loadComplete = function(params) {
 	this.$("#fcltsFileList").on("onItemSelected", function(event, module, row, grid, param) {
 		module.imagePreview();
 	});
-
+	
 	//첨부파일 정보 변화 이벤트 처리기
 	this.$(".photoEditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.atchFileInfoChanged(event.target);
@@ -319,6 +319,8 @@ GamElctyFcltySpecMngModule.prototype.saveFcltyData = function() {
 	if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){
 		return;
 	}
+	//GIS 설치일자에 반영
+	this.$("#prtFcltyInstlDt").val(this.$("#instlDt").val());
 	var inputVO = this.makeSaveParam();	
 	// 전기시설제원 입력/수정처리
  	if(this._cmd == "insert") {
@@ -790,7 +792,7 @@ var module_instance = new GamElctyFcltySpecMngModule();
 			</div>
 
 
-			<!-- 건축시설 상세 -->
+			<!-- 전기시설 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyManageVO">
 				<input type="hidden" id="fcltsMngNo">
@@ -856,10 +858,11 @@ var module_instance = new GamElctyFcltySpecMngModule();
 							<td><input id="prtFcltyUnit" type="text" size="32" title="시설단위" maxlength="3" /></td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">설　치　일　자</th>
-							<td><input id="prtFcltyInstlDt" type="text" class="emdcal" size="11" title="설치일자" /></td>
 							<th width="12%" height="17" class="required_text">변　경　일　자</th>
-							<td colspan="3"><input id="prtFcltyChangeDt" type="text" class="emdcal" size="11" title="변경일자" /></td>
+							<td colspan="5">
+								<input id="prtFcltyChangeDt" type="text" class="emdcal" size="11" title="변경일자" />
+								<input id="prtFcltyInstlDt" type="hidden" />
+							</td>
 						</tr>
 					</table>
 				</div>
