@@ -113,6 +113,12 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 	});
 	
 	
+	// 날짜 검증 처리
+	this.$(".planDt, .cnstrctDt, .bldFlawDt").bind("change blur", {module: this}, function(event) {
+		event.data.module.dateChk(event.target);
+	});
+	
+	
 	// 시설물관리그룹 검색조건 클릭시 초기화 처리
 	this.$("#sFcltsMngGroupNo").bind("click", {module: this}, function(event) {
 		event.data.module.$("#sFcltsMngGroupNo").val('');
@@ -136,6 +142,79 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 			}
 		}
 	}
+};
+
+
+<%
+/**
+ * @FUNCTION NAME : getEventObj
+ * @DESCRIPTION   : 날짜 변경 이벤트 객체 가져오는 함수
+ * @PARAMETER     : target
+**/
+%>
+GamConstFcltySpecMngModule.prototype.getEventObj = function(target) {
+	
+	var selector = null;
+	if(this.$('.bldFlawDt').is(target)) {
+		selector = this.$('.bldFlawDt');
+	}
+	if(this.$('.cnstrctDt').is(target)) {
+		selector = this.$('.cnstrctDt');
+	}
+	if(this.$('.planDt').is(target)) {
+		selector = this.$('.planDt');
+	}
+	
+	return selector;
+};
+
+
+<%
+/**
+ * @FUNCTION NAME : dateChk
+ * @DESCRIPTION   : 날짜의 시작일과 종료일 무결성 체크함수
+ * @PARAMETER     : target
+**/
+%>
+GamConstFcltySpecMngModule.prototype.dateChk = function(target) {
+	
+	var targetObj = this.getEventObj(target);
+	
+	var getDate = [];
+	var getTitle = [];
+	targetObj.each(function(i){
+		getDate[i] = $(this).val();
+		getTitle[i] = $(this).attr("title");
+	});
+	
+	var startDate = getDate[0];
+	var endDate = getDate[1];
+	
+	if(!startDate && endDate){
+		alert("먼저 " + getTitle[0] + "을 입력하세요.");
+		targetObj.each(function(){
+			$(this).val('');
+		});
+		return;
+	}
+	if(startDate && !endDate){
+		return;
+	}
+	
+	var splitStartDate = startDate.split("-");
+	var splitEndDate = endDate.split("-");
+	
+	var startDay = new Date(splitStartDate[0], splitStartDate[1] - 1, splitStartDate[2]);
+	var endDay = new Date(splitEndDate[0], splitEndDate[1] - 1, splitEndDate[2]);
+	
+	var betweenDay = endDay.getTime() - startDay.getTime();
+	if(betweenDay < 0){
+		alert(getTitle[1] + "이 " + getTitle[0] + "보다 작을수는 없습니다.");
+		targetObj.each(function(){
+			$(this).val('');
+		});
+	}
+
 };
 	
 
@@ -894,14 +973,14 @@ var module_instance = new GamConstFcltySpecMngModule();
 					<table  class="detailPanel"  style="width:100%;">
 						<tr>
 							<th width="12%" height="17">준　공　일　자</th>
-							<td><input type="text" size="11" id="bldDt" class="emdcal" maxlength="8" /></td>
+							<td><input type="text" size="11" id="bldDt" class="emdcal bldFlawDt" title="준공일자" maxlength="8" /></td>
 							<th width="12%" height="17">구　조　형　식</th>
 							<td><input type="text" size="50" id="strctFmt" maxlength="33" /></td>
 						</tr>
 						
 						<tr>
 							<th width="12%" height="17">하자 만 료 일 자</th>
-							<td><input type="text" size="11" id="flawEndDt" class="emdcal" maxlength="8" /></td>
+							<td><input type="text" size="11" id="flawEndDt" class="emdcal bldFlawDt" title="하자만료일자" maxlength="8" /></td>
 							<th width="12%" height="17">기　초　형　식</th>
 							<td><input type="text" size="50" id="baseFmt"  data-required="true" maxlength="33" /></td>
 						</tr>
@@ -1025,9 +1104,9 @@ var module_instance = new GamConstFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17">설계 시 작 일 자</th>
-							<td><input id="planBeginDt" type="text" class="emdcal" size="11" maxlength="8" /></td>
+							<td><input id="planBeginDt" type="text" class="emdcal planDt" title="설계시작일자" size="11" maxlength="8" /></td>
 							<th width="12%" height="17">설계 종 료 일 자</th>
-							<td><input id="planEndDt" type="text" class="emdcal" size="11" maxlength="8" /></td>
+							<td><input id="planEndDt" type="text" class="emdcal planDt" title="설계종료일자" size="11" maxlength="8" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">시 공　공 사 명</th>
@@ -1037,9 +1116,9 @@ var module_instance = new GamConstFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17">시공 시 작 일 자</th>
-							<td><input id="cnstrctBeginDt" type="text" class="emdcal" size="11" title="시공시작일자" maxlength="8" /></td>
+							<td><input id="cnstrctBeginDt" type="text" class="emdcal cnstrctDt" size="11" title="시공시작일자" maxlength="8" /></td>
 							<th width="12%" height="17">시공 종 료 일 자</th>
-							<td><input id="cnstrctEndDt" type="text" class="emdcal" size="11" title="시공종료일자" maxlength="8" /></td>
+							<td><input id="cnstrctEndDt" type="text" class="emdcal cnstrctDt" size="11" title="시공종료일자" maxlength="8" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">건축시설물분류코드</th>
