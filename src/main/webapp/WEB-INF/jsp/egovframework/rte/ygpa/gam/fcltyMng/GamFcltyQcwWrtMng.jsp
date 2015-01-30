@@ -1032,6 +1032,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 										<select id="sttusEvlLvl">
 		                                    <option value="">선택</option>
 		                                    <option value="0">양호</option>
+		                                    <option value="1">보통</option>
 		                                    <option value="A">A</option>
 		                                    <option value="B">B</option>
 		                                    <option value="C">C</option>
