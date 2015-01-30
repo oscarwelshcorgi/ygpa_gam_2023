@@ -3,10 +3,9 @@
  */
 package egovframework.rte.ygpa.gam.fclty.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
@@ -59,7 +58,7 @@ public interface GamInfoTechFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void insertInfoTechFcltySpecMngDetail(Map<?, ?> vo) throws Exception;
+	void insertInfoTechFcltySpecMngDetail(Map<String, String> detailForm, List<HashMap<String, String>> atchFileList) throws Exception;
 	
 	/**
 	 * 정보통신시설재원관리 데이터를 수정한다.
@@ -67,7 +66,7 @@ public interface GamInfoTechFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void updateInfoTechFcltySpecMngDetail(Map<?, ?> vo) throws Exception;
+	void updateInfoTechFcltySpecMngDetail(Map<String, String> detailForm, Map<String, Object> atchFileMap) throws Exception;
 	
 	/**
 	 * 정보통신시설재원관리 데이터를 삭제한다.
@@ -92,13 +91,5 @@ public interface GamInfoTechFcltySpecMngService {
 	 * @throws Exception
 	 */		
 	int selectInfoTechFcltySpecFileListTotCnt(GamInfoTechFcltySpecMngVO searchVO) throws Exception;	
-	
-	/**
-	 * 정보통신시설재원관리 첨부파일을 병합저장한다..
-	 * @param map
-	 * @return list
-	 * @throws Exception
-	 */			
-	public void mergeFcltyFileMngt(Map<String, Object> mergeList) throws Exception;
 	
 }

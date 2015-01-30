@@ -392,6 +392,33 @@ GamInfoTechFcltySpecMngModule.prototype.validateDetailForm = function() {
 	return true;
 };
 
+<%
+/**
+ * @FUNCTION NAME : getSaveData
+ * @DESCRIPTION   : 저장할 데이터 얻기
+ * @PARAMETER     : NONE
+**/
+%>
+GamInfoTechFcltySpecMngModule.prototype.getSaveData = function() {
+	var result = [];
+	var fcltsMngNo = this.$('#fcltsMngNo').val();
+	var fileList = this.$('#atchFileGrid').flexGetData();
+	
+	if(this._mainmode == 'modify') {
+		for(var i=0; i<fileList.length; i++) {
+			fileList[i]['fcltsMngNo'] = fcltsMngNo;
+		}
+	}
+	
+	result[result.length] = {name: 'detailForm', value: JSON.stringify(this.makeFormArgs('#detailForm', 'object'))};
+	result[result.length] = {name: 'insertAtchFileList', value: JSON.stringify(this.$('#atchFileGrid').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+	if(this._mainmode == 'modify') {
+	    result[result.length]={name: 'updateAtchFileList', value: JSON.stringify(this.$('#atchFileGrid').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+	    result[result.length]={name: 'deleteAtchFileList', value: JSON.stringify(this._deleteAtchFileList) };
+	}
+
+	return result;
+};
 
 <%
 /**
@@ -405,31 +432,24 @@ GamInfoTechFcltySpecMngModule.prototype.saveData = function() {
 		return;
 	}
 	
-	var detailForm = this.makeFormArgs('#detailForm');
+	var inputData = this.getSaveData();
 	
 	if(this._mainmode == 'insert') {
-	 	this.doAction('/fclty/insertInfoTechFcltySpecMngDetail.do', detailForm, function(module, result) {
+	 	this.doAction('/fclty/insertInfoTechFcltySpecMngDetail.do', inputData, function(module, result) {
 	 		if(result.resultCode == '0'){
 	 			module.$('#gisPrtFcltySeq').val(result.gisPrtFcltySeq);
-				module.$('#fcltsMngNo').val(
-									module.$('#gisAssetsPrtAtCode').val() 
-									+ module.$('#gisAssetsCd').val() 
-									+ module.$('#gisAssetsSubCd').val() 
-									+ module.$('#gisPrtFcltyCd').val() 
-									+ result.gisPrtFcltySeq 
-									+ module._prtFcltySe
-									);
-				module.$('#dispfcltsMngNo').text(module.$('#fcltsMngNo').val());
+				module.$('#fcltsMngNo').val(result.fcltsMngNo);
+				module.$('#dispfcltsMngNo').text(result.fcltsMngNo);
 	 			module._mainmode = 'modify';
 	 			module.setControlStatus();
-				module.saveAtchFile();
+	 			module.loadAtchFileList();
 	 		}
 	 		alert(result.resultMsg);
 	 	});
 	} else if (this._mainmode == 'modify') {
-		this.doAction('/fclty/updateInfoTechFcltySpecMngDetail.do', detailForm, function(module, result) {
+		this.doAction('/fclty/updateInfoTechFcltySpecMngDetail.do', inputData, function(module, result) {
 			if(result.resultCode == '0'){
-				module.saveAtchFile();
+				module.loadAtchFileList();
 			}
 			alert(result.resultMsg);
 		});
@@ -458,34 +478,6 @@ GamInfoTechFcltySpecMngModule.prototype.deleteData = function() {
 	 		alert(result.resultMsg);
 	 	});
 	}
-};
-
-<%
-/**
- * @FUNCTION NAME : saveAtchFile
- * @DESCRIPTION   : 점검 데이터 삭제
- * @PARAMETER     : NONE
-**/
-%>
-GamInfoTechFcltySpecMngModule.prototype.saveAtchFile = function() {
-	var fcltsMngNo = this.$("#fcltsMngNo").val();
-	var fileList = this.$("#atchFileGrid").flexGetData();
-	for(var i=0; i<fileList.length; i++) {
-		fileList[i]["fcltsMngNo"] = fcltsMngNo;
-	}
-    var inputVO=[];
-    inputVO[inputVO.length]={name: 'updateList', value: JSON.stringify(this.$('#atchFileGrid').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-    inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#atchFileGrid').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-    inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteAtchFileList) };
-    this.doAction('/fclty/mergeInfoTechFcltySpecAtchFile.do', inputVO, function(module, result) {
-        if(result.resultCode == 0){
-			module._deleteAtchFileList = [];
-			module.loadAtchFileList();
-        }
-        else {
-        	alert(result.resultMsg);
-        }
-    });
 };
 
 <%
@@ -561,9 +553,18 @@ GamInfoTechFcltySpecMngModule.prototype.uploadAtchFileItem = function() {
 	this.$('#atchFileSe').val('D');
 	this.uploadPfPhoto('uploadPhoto', function(module, result) {
 		$.each(result, function(){
-			module.$('#atchFileGrid').flexAddRow({_updtId:'I', fcltsMngNo:module.$('#fcltsMngNo').val(), atchFileSe:'D', atchFileSeNm :'문서', atchFileNmLogic:this.logicalFileNm, atchFileNmPhysicl: this.physcalFileNm, atchFileWritingDt:''});
+			module.$('#atchFileGrid').flexAddRow(
+					{
+						_updtId:'I', 
+						fcltsMngNo:module.$('#fcltsMngNo').val(),
+						atchFileSe:'D', 
+						atchFileSeNm :'문서', 
+						atchFileNmLogic:this.logicalFileNm,
+						atchFileNmPhysicl: this.physcalFileNm, 
+						atchFileWritingDt:''
+					});
 		});
-	}, "정보통신재원 첨부파일 업로드");
+	}, '정보통신재원 첨부파일 업로드');
 };
 
 <%

@@ -121,6 +121,16 @@ public class GamInfoTechFcltySpecMngDao extends YGPAAbstractDAO {
 	public void deleteInfoTechFcltySpecFileList(Map<?, ?> vo) throws Exception {
 		delete("gamInfoTechFcltySpecMngDao.deleteInfoTechFcltySpecFileList_S", vo);
 	}
+
+	/**
+	 * 정보통신시설재원관리 첨부파일정보를 저장한다.
+	 * @param vo
+	 * @return 
+	 * @throws Exception
+	 */			
+    public void insertFcltyFile(Map<String, String> vo) throws Exception{
+    	insert("gamInfoTechFcltySpecMngDao.insertInfoTechFcltySpecFileDetail_S", vo);
+    }
 	
 	/**
 	 * 정보통신시설재원관리 첨부파일 목록을 병합하여 저장한다.

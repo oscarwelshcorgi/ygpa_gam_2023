@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.fclty.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +58,7 @@ public interface GamMechFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void insertMechFcltySpecMngDetail(Map<?, ?> vo) throws Exception;
+	void insertMechFcltySpecMngDetail(Map<String, String> detailForm, List<HashMap<String, String>> atchFileList) throws Exception;
 	
 	/**
 	 * 기계시설재원관리 데이터를 수정한다.
@@ -65,7 +66,7 @@ public interface GamMechFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void updateMechFcltySpecMngDetail(Map<?, ?> vo) throws Exception;
+	void updateMechFcltySpecMngDetail(Map<String, String> detailForm, Map<String, Object> atchFileMap) throws Exception;
 	
 	/**
 	 * 기계시설재원관리 데이터를 삭제한다.
@@ -90,13 +91,5 @@ public interface GamMechFcltySpecMngService {
 	 * @throws Exception
 	 */		
 	int selectMechFcltySpecFileListTotCnt(GamMechFcltySpecMngVO searchVO) throws Exception;	
-	
-	/**
-	 * 기계시설재원관리 첨부파일을 병합저장한다..
-	 * @param map
-	 * @return list
-	 * @throws Exception
-	 */			
-	public void mergeFcltyFileMngt(Map<String, Object> mergeList) throws Exception;
 	
 }

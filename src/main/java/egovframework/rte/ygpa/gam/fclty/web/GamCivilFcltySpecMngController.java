@@ -205,23 +205,35 @@ public class GamCivilFcltySpecMngController {
 	 */
 	@RequestMapping(value="/fclty/insertCivilFcltySpecMngDetail.do")
     @ResponseBody Map<String, Object> insertCivilFcltySpecMngDetail(@RequestParam Map<String, Object> insertMap) throws Exception {
-    	Map<String, Object> map = new HashMap<String, Object>();
-
+		Map<String, Object> map = new HashMap<String, Object>();
+		ObjectMapper mapper = null;
+    	Map<String, String> detailForm = null;
+    	List<HashMap<String, String>> insertAtchFileList = null;
+    	
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-
+    	
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	insertMap.put("regUsr", user.getId());
+    	mapper = new ObjectMapper();
+    	
+    	detailForm = mapper.readValue((String)insertMap.get("detailForm"),
+    		    new TypeReference<HashMap<String,String>>(){});
+    	
+    	insertAtchFileList = mapper.readValue((String)insertMap.get("insertAtchFileList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+    	
+    	detailForm.put("regUsr", user.getId());
     	
     	try {
-    		gamCivilFcltySpecMngService.insertCivilFcltySpecMngDetail(insertMap);
+    		gamCivilFcltySpecMngService.insertCivilFcltySpecMngDetail(detailForm, insertAtchFileList);
     		
     		map.put("resultCode", 0);			// return ok
     		map.put("gisPrtFcltySeq", insertMap.get("gisPrtFcltySeq"));
+    		map.put("fcltsMngNo", detailForm.get("fcltsMngNo"));
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			map.put("resultCode", 1);
@@ -239,7 +251,12 @@ public class GamCivilFcltySpecMngController {
 	@RequestMapping(value="/fclty/updateCivilFcltySpecMngDetail.do")
     @ResponseBody Map<String, Object> updateCivilFcltySpecMngDetail(@RequestParam Map<String, Object> updateMap) throws Exception {
     	Map<String, Object> map = new HashMap<String, Object>();
-
+    	ObjectMapper mapper = null;
+    	Map<String, String> detailForm = null;
+    	List<HashMap<String, String>> insertAtchFileList = null;
+    	List<HashMap<String, String>> updateAtchFileList = null;
+    	List<HashMap<String, String>> deleteAtchFileList = null;
+    	
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -248,10 +265,36 @@ public class GamCivilFcltySpecMngController {
     	}
 
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	updateMap.put("updUsr", user.getId());
+    	mapper = new ObjectMapper();
+    	
+    	detailForm = mapper.readValue((String)updateMap.get("detailForm"),
+    		    new TypeReference<HashMap<String,String>>(){});
+    	
+    	insertAtchFileList = mapper.readValue((String)updateMap.get("insertAtchFileList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+    	updateAtchFileList = mapper.readValue((String)updateMap.get("updateAtchFileList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+    	deleteAtchFileList = mapper.readValue((String)updateMap.get("deleteAtchFileList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+    	
+    	
+    	List<Map<String,String>> userList = new ArrayList<Map<String,String>>();
+    	Map<String, String> userMap = new HashMap<String, String>(); 
+		userMap.put("id",  user.getId());
+		userList.add(userMap);
+
+		Map<String,Object> mergeMap = new HashMap<String,Object>();
+		
+		insertAtchFileList.addAll(updateAtchFileList);
+
+		mergeMap.put("CU", insertAtchFileList);
+		mergeMap.put("D", deleteAtchFileList);
+		mergeMap.put("USER", userList);
+		
+		detailForm.put("updUsr",user.getId());
     	
     	try {
-    		gamCivilFcltySpecMngService.updateCivilFcltySpecMngDetail(updateMap);
+    		gamCivilFcltySpecMngService.updateCivilFcltySpecMngDetail(detailForm, mergeMap);
     		
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
@@ -334,59 +377,4 @@ public class GamCivilFcltySpecMngController {
     	return map;
 	}
 	
-	/**
-	 * 토목 첨부파일 병합저장
-	 * @param map
-	 * @return map
-	 * @throws Exception
-	 */	
-	@RequestMapping(value="/fclty/mergeCivilFcltySpecAtchFile.do")
-	@ResponseBody Map<String, Object> mergeCivilFcltySpecAtchFile(@RequestParam Map<String, Object> dataList) throws Exception {
-
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		Map<String,Object> map = new HashMap<String,Object>();
-		Map<String, String> userMap = new HashMap<String, String>();
-		ObjectMapper mapper = new ObjectMapper();
-
-    	List<HashMap<String,String>> insertList=null;
-    	List<HashMap<String,String>> updateList=null;
-    	List<HashMap<String,String>> deleteList=null;
-    	List<Map<String,String>> userList=null;
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-    	
-		insertList = mapper.readValue((String)dataList.get("insertList"),
-		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		updateList = mapper.readValue((String)dataList.get("updateList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		deleteList = mapper.readValue((String)dataList.get("deleteList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
-
-		userList = new ArrayList<Map<String,String>>();
-		userMap.put("id",  loginVO.getId());
-		userList.add(userMap);
-
-		Map<String,Object> mergeMap = new HashMap<String,Object>();
-		insertList.addAll(updateList);
-		mergeMap.put("CU", insertList);
-		mergeMap.put("D", deleteList);
-		mergeMap.put("USER", userList);
-		
-		try {
-			gamCivilFcltySpecMngService.mergeFcltyFileMngt(mergeMap);
-	        map.put("resultCode", 0);
-			map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
-		} catch(Exception e) {
-	        map.put("resultCode", 1);
-			map.put("resultMsg", egovMessageSource.getMessage("fail.common.merge"));			
-		}
-		return map;
-	}	
 }

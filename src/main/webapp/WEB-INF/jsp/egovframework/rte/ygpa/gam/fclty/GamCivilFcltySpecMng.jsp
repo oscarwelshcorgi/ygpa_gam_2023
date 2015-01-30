@@ -386,11 +386,38 @@ GamCivilFcltySpecMngModule.prototype.validateDetailForm = function() {
 	return true;
 };
 
+<%
+/**
+ * @FUNCTION NAME : getSaveData
+ * @DESCRIPTION   : 저장할 데이터 얻기
+ * @PARAMETER     : NONE
+**/
+%>
+GamCivilFcltySpecMngModule.prototype.getSaveData = function() {
+	var result = [];
+	var fcltsMngNo = this.$('#fcltsMngNo').val();
+	var fileList = this.$('#atchFileGrid').flexGetData();
+	
+	if(this._mainmode == 'modify') {
+		for(var i=0; i<fileList.length; i++) {
+			fileList[i]['fcltsMngNo'] = fcltsMngNo;
+		}
+	}
+	
+	result[result.length] = {name: 'detailForm', value: JSON.stringify(this.makeFormArgs('#detailForm', 'object'))};
+	result[result.length] = {name: 'insertAtchFileList', value: JSON.stringify(this.$('#atchFileGrid').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+	if(this._mainmode == 'modify') {
+	    result[result.length]={name: 'updateAtchFileList', value: JSON.stringify(this.$('#atchFileGrid').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+	    result[result.length]={name: 'deleteAtchFileList', value: JSON.stringify(this._deleteAtchFileList) };
+	}
+
+	return result;
+};
 
 <%
 /**
  * @FUNCTION NAME : saveData
- * @DESCRIPTION   : 정보통신재원 데이터 저장
+ * @DESCRIPTION   : 토목시설재원 데이터 저장
  * @PARAMETER     : NONE
 **/
 %>
@@ -399,31 +426,24 @@ GamCivilFcltySpecMngModule.prototype.saveData = function() {
 		return;
 	}
 	
-	var detailForm = this.makeFormArgs('#detailForm');
+	var inputData = this.getSaveData();
 	
 	if(this._mainmode == 'insert') {
-	 	this.doAction('/fclty/insertCivilFcltySpecMngDetail.do', detailForm, function(module, result) {
+	 	this.doAction('/fclty/insertCivilFcltySpecMngDetail.do', inputData, function(module, result) {
 	 		if(result.resultCode == '0'){
 	 			module.$('#gisPrtFcltySeq').val(result.gisPrtFcltySeq);
-				module.$('#fcltsMngNo').val(
-									module.$('#gisAssetsPrtAtCode').val() 
-									+ module.$('#gisAssetsCd').val() 
-									+ module.$('#gisAssetsSubCd').val() 
-									+ module.$('#gisPrtFcltyCd').val() 
-									+ result.gisPrtFcltySeq 
-									+ module._prtFcltySe
-									);
-				module.$('#dispfcltsMngNo').text(module.$('#fcltsMngNo').val());
+				module.$('#fcltsMngNo').val(result.fcltsMngNo);
+				module.$('#dispfcltsMngNo').text(result.fcltsMngNo);
 	 			module._mainmode = 'modify';
 	 			module.setControlStatus();
-				module.saveAtchFile();
+	 			module.loadAtchFileList();
 	 		}
 	 		alert(result.resultMsg);
 	 	});
 	} else if (this._mainmode == 'modify') {
-		this.doAction('/fclty/updateCivilFcltySpecMngDetail.do', detailForm, function(module, result) {
+		this.doAction('/fclty/updateCivilFcltySpecMngDetail.do', inputData, function(module, result) {
 			if(result.resultCode == '0'){
-				module.saveAtchFile();
+	 			module.loadAtchFileList();
 			}
 			alert(result.resultMsg);
 		});
@@ -433,7 +453,7 @@ GamCivilFcltySpecMngModule.prototype.saveData = function() {
 <%
 /**
  * @FUNCTION NAME : deleteData
- * @DESCRIPTION   : 정보통신재원 데이터 삭제
+ * @DESCRIPTION   : 토목재원 데이터 삭제
  * @PARAMETER     : NONE
 **/
 %>
@@ -457,7 +477,7 @@ GamCivilFcltySpecMngModule.prototype.deleteData = function() {
 <%
 /**
  * @FUNCTION NAME : saveAtchFile
- * @DESCRIPTION   : 점검 데이터 삭제
+ * @DESCRIPTION   : 첨부파일 병합저장
  * @PARAMETER     : NONE
 **/
 %>
@@ -555,9 +575,18 @@ GamCivilFcltySpecMngModule.prototype.uploadAtchFileItem = function() {
 	this.$('#atchFileSe').val('D');
 	this.uploadPfPhoto('uploadPhoto', function(module, result) {
 		$.each(result, function(){
-			module.$('#atchFileGrid').flexAddRow({_updtId:'I', fcltsMngNo:module.$('#fcltsMngNo').val(), atchFileSe:'D', atchFileSeNm :'문서', atchFileNmLogic:this.logicalFileNm, atchFileNmPhysicl: this.physcalFileNm, atchFileWritingDt:''});
+			module.$('#atchFileGrid').flexAddRow(
+					{ 	
+						_updtId:'I', 
+						fcltsMngNo:module.$('#fcltsMngNo').val(), 
+						atchFileSe:'D', 
+						atchFileSeNm :'문서', 
+						atchFileNmLogic:this.logicalFileNm, 
+						atchFileNmPhysicl: this.physcalFileNm, 
+						atchFileWritingDt:''
+					});
 		});
-	}, "정보통신재원 첨부파일 업로드");
+	}, '토목재원 첨부파일 업로드');
 };
 
 <%

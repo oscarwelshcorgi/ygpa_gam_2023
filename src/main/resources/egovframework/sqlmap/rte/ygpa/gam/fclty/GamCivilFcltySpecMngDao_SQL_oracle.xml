@@ -187,7 +187,7 @@
     		AND F.FCLTS_MNG_NO = #fcltsMngNo#
     </select>
     
-    <insert id="gamCivilFcltySpecMngDao.insertCivilFcltySpecMngDetail_S">
+    <insert id="gamCivilFcltySpecMngDao.insertCivilFcltySpecMngDetail_S" parameterClass="hashMap">
 		INSERT INTO
 		  CVL_ENG_FCLTY_SPEC_F (
 		    FCLTS_MNG_NO
@@ -298,7 +298,7 @@
 		  )    
     </insert>
     
-    <update id="gamCivilFcltySpecMngDao.updateCivilFcltySpecMngDetail_S">
+    <update id="gamCivilFcltySpecMngDao.updateCivilFcltySpecMngDetail_S" parameterClass="hashMap">
 		UPDATE CVL_ENG_FCLTY_SPEC_F 
 		  SET
 		    LOC = #loc#
@@ -355,7 +355,7 @@
 		    FCLTS_MNG_NO = #fcltsMngNo#
     </update>
     
-    <delete id="gamCivilFcltySpecMngDao.deleteCivilFcltySpecMngDetail_S">
+    <delete id="gamCivilFcltySpecMngDao.deleteCivilFcltySpecMngDetail_S" parameterClass="hashMap">
 		DELETE FROM CVL_ENG_FCLTY_SPEC_F
 		  WHERE
 		    FCLTS_MNG_NO = #fcltsMngNo#
@@ -395,7 +395,7 @@
    		  FCLTS_MNG_NO = #sFcltsMngNo#
     </select>
 
-    <insert id="gamCivilFcltySpecMngDao.insertCivilFcltySpecFileDetail_S" >
+    <insert id="gamCivilFcltySpecMngDao.insertCivilFcltySpecFileDetail_S" parameterClass="hashMap">
     	<selectKey keyProperty="maxAtchFileSeq" resultClass="String">
     		SELECT
     		  TO_CHAR(NVL(MAX(ATCH_FILE_SEQ),0) + 1)
@@ -430,7 +430,7 @@
     		)
     </insert>
 
-    <update id="gamCivilFcltySpecMngDao.updateCivilFcltySpecFileDetail_S" >
+    <update id="gamCivilFcltySpecMngDao.updateCivilFcltySpecFileDetail_S" parameterClass="hashMap">
     	UPDATE 
     		FCLTS_SPEC_ATCH_FILE_F
     	SET
@@ -446,7 +446,7 @@
     		AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)    		
     </update>
 
-    <delete id="gamCivilFcltySpecMngDao.deleteCivilFcltySpecFileDetail_S" >
+    <delete id="gamCivilFcltySpecMngDao.deleteCivilFcltySpecFileDetail_S" parameterClass="hashMap">
     	DELETE
     	FROM
     		FCLTS_SPEC_ATCH_FILE_F
@@ -455,7 +455,7 @@
     		AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)    		
     </delete>
     
-    <delete id="gamCivilFcltySpecMngDao.deleteCivilFcltySpecFileList_S" >
+    <delete id="gamCivilFcltySpecMngDao.deleteCivilFcltySpecFileList_S" parameterClass="hashMap">
     	DELETE
     	FROM
     		FCLTS_SPEC_ATCH_FILE_F

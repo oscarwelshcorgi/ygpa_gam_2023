@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.fclty.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,12 +77,23 @@ public class GamMechFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	 * @return 
 	 * @throws Exception
 	 */		
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void insertMechFcltySpecMngDetail(Map vo) throws Exception {
-		vo.put("prtFcltySe", prtFcltySe);
-		vo.put("gisPrtFcltySeq", gamGisPrtFcltyCdMngtDao.selectNextFcltySeq(vo));
-		gamGisPrtFcltyCdMngtDao.insertGisPrtFclty(vo);
-		gamMechFcltySpecMngDao.insertMechFcltySpecMngDetail(vo);
+	public void insertMechFcltySpecMngDetail(Map<String, String> detailForm, List<HashMap<String, String>> atchFileList) throws Exception {
+		detailForm.put("prtFcltySe", prtFcltySe);
+		detailForm.put("gisPrtFcltySeq", gamGisPrtFcltyCdMngtDao.selectNextFcltySeq(detailForm));
+		gamGisPrtFcltyCdMngtDao.insertGisPrtFclty(detailForm);
+		gamMechFcltySpecMngDao.insertMechFcltySpecMngDetail(detailForm);
+		
+		detailForm.put("fcltsMngNo", detailForm.get("gisAssetsPrtAtCode") 
+						+ detailForm.get("gisAssetsCd") 
+						+ detailForm.get("gisAssetsSubCd") 
+						+ detailForm.get("gisPrtFcltyCd") 
+						+ detailForm.get("gisPrtFcltySeq")
+						+ prtFcltySe);
+		
+		for(HashMap<String, String> atchFileItem : atchFileList) {
+			atchFileItem.put("fcltsMngNo", detailForm.get("fcltsMngNo"));
+			gamMechFcltySpecMngDao.insertFcltyFile(atchFileItem);
+		}
 	}
 	
 	/**
@@ -90,11 +102,11 @@ public class GamMechFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	 * @return 
 	 * @throws Exception
 	 */		
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void updateMechFcltySpecMngDetail(Map vo) throws Exception {
-		vo.put("prtFcltySe", prtFcltySe);
-		gamGisPrtFcltyCdMngtDao.updateGisPrtFclty(vo);
-		gamMechFcltySpecMngDao.updateMechFcltySpecMngDetail(vo);
+	public void updateMechFcltySpecMngDetail(Map<String, String> detailForm, Map<String, Object> atchFileMap) throws Exception {
+		detailForm.put("prtFcltySe", prtFcltySe);
+		gamGisPrtFcltyCdMngtDao.updateGisPrtFclty(detailForm);
+		gamMechFcltySpecMngDao.updateMechFcltySpecMngDetail(detailForm);
+		gamMechFcltySpecMngDao.mergeFcltyFile(atchFileMap);
 	}
 	
 	/**
@@ -128,15 +140,4 @@ public class GamMechFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	public int selectMechFcltySpecFileListTotCnt(GamMechFcltySpecMngVO searchVO) throws Exception {
 		return gamMechFcltySpecMngDao.selectMechFcltySpecFileListTotCnt(searchVO);
 	}
-
-	/**
-	 * 기계시설재원관리 첨부파일목록을 병합하여 저장한다.
-	 * @param vo
-	 * @return 
-	 * @throws Exception
-	 */			
-	public void mergeFcltyFileMngt(Map<String, Object> mergeMap) throws Exception{
-		gamMechFcltySpecMngDao.mergeFcltyFile(mergeMap);
-	}
-	
 }

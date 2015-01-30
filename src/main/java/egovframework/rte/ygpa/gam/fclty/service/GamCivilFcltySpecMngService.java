@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.fclty.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +58,7 @@ public interface GamCivilFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void insertCivilFcltySpecMngDetail(Map<?, ?> vo) throws Exception;
+	void insertCivilFcltySpecMngDetail(Map<String, String> detailForm, List<HashMap<String, String>> atchFileList) throws Exception;
 	
 	/**
 	 * 토목시설재원관리 데이터를 수정한다.
@@ -65,7 +66,7 @@ public interface GamCivilFcltySpecMngService {
 	 * @return 
 	 * @throws Exception
 	 */		
-	void updateCivilFcltySpecMngDetail(Map<?, ?> vo) throws Exception;
+	void updateCivilFcltySpecMngDetail(Map<String, String> detailForm, Map<String, Object> atchFileMap) throws Exception;
 	
 	/**
 	 * 토목시설재원관리 데이터를 삭제한다.
@@ -90,14 +91,5 @@ public interface GamCivilFcltySpecMngService {
 	 * @throws Exception
 	 */		
 	int selectCivilFcltySpecFileListTotCnt(GamCivilFcltySpecMngVO searchVO) throws Exception;	
-	
-	
-	/**
-	 * 토목시설재원관리 첨부파일을 병합저장한다..
-	 * @param map
-	 * @return list
-	 * @throws Exception
-	 */			
-	public void mergeFcltyFileMngt(Map<String, Object> mergeList) throws Exception;
 	
 }
