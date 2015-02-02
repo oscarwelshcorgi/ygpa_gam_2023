@@ -157,6 +157,9 @@ GamFcltyRepairMngModule.prototype.applySelectYear = function(){
 %>
 GamFcltyRepairMngModule.prototype.validateDuration = function(startDate, endDate, startTitle, endTitle, startIgnore, endIgnore, equals) {
 	var result = false;
+	if(((startDate == null) || (startDate == '')) && ((endDate == null) || (endDate == ''))) {
+		return true;
+	}
 	if((endDate == null) || (endDate == '')) {
 		if(!endIgnore) {
 			alert(endTitle + '을(를) 입력하셔야 합니다.');

@@ -228,6 +228,77 @@ GamFcltyMaintMngModule.prototype.imgPreview = function(){
 
 <%
 /**
+ * @FUNCTION NAME : validateDuration
+ * @DESCRIPTION   : 유효성 있는 기간 체크
+ * @PARAMETER     : 
+	 1. startDate   : 시작일 문자열, 
+	 2. endDate     : 종료일 문자열, 
+	 3. startTitle  : 시작일 제목, 
+	 4. endTitle    : 종료일 제목, 
+	 5. startIgnore : 
+		 5-1. true  : 시작일 필수입력사항 미체크,
+		 5-2. false : 시작일 필수입력사항 체크 
+	 6. endIgnore : 
+		 6-1. true  : 종료일 필수입력사항 미체크,
+		 6-2. false : 종료일 필수입력사항 체크 
+	 7. equals      :
+		 7-1. true  : 종료일이 시작일 보다 크거나 같으면 허용
+		 7-2. false : 종료일이 시작일 보다 커야 허용
+**/
+%>
+GamFcltyMaintMngModule.prototype.validateDuration = function(startDate, endDate, startTitle, endTitle, startIgnore, endIgnore, equals) {
+	var result = false;
+	if(((startDate == null) || (startDate == '')) && ((endDate == null) || (endDate == ''))) {
+		return true;
+	}
+	if((endDate == null) || (endDate == '')) {
+		if(!endIgnore) {
+			alert(endTitle + '을(를) 입력하셔야 합니다.');
+			return false;
+		}
+		result = true;
+		if((startDate != null) && (startDate != '')) {
+			result = EMD.util.isDate(startDate);
+			if(!result) {
+				alert(startTitle + '은(는) 날짜형식이 아닙니다.');
+			}
+		}
+		return result;
+	}
+	if((startDate == null) || (startDate == '')) {
+		if(startIgnore) {
+			result = EMD.util.isDate(endDate);
+			if(!result) {
+				alert(endTitle + '은(는) 날짜형식이 아닙니다.');
+			}
+			return result;
+		} else {
+			alert(startTitle + '을(를) 입력하셔야 합니다.');
+			return false;
+		}
+	}
+	if(!EMD.util.isDate(startDate)) {
+		alert(startTitle + '은(는) 날짜형식이 아닙니다.');
+		return false;
+	}
+	if(!EMD.util.isDate(endDate)) {
+		alert(endTitle + '은(는) 날짜형식이 아닙니다.');
+		return false;
+	}
+	startDate = EMD.util.strToDate(startDate);
+	endDate = EMD.util.strToDate(endDate);
+	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 : 
+							(startDate.getTime() == endDate.getTime()) ? 0 : 1;	
+	result = (equals) ? (compareResult >= 0) : (compareResult > 0);
+	if(!result) {
+		alert(endTitle +'은(는) ' + startTitle + ((equals) ? '보다 같거나 커야합니다.' : '보다 커야합니다.'));
+	}
+	return result;
+};
+
+
+<%
+/**
  * @FUNCTION NAME : onSubmit
  * @DESCRIPTION   : (프레임워크에서 SUBMIT 이벤트 호출 시 호출 한다.)
  * @PARAMETER     : NONE
@@ -235,8 +306,8 @@ GamFcltyMaintMngModule.prototype.imgPreview = function(){
 %>
 GamFcltyMaintMngModule.prototype.onSubmit = function(){
 	
-	// 날짜 무결성 체크
-	if(!this.searchDateChk()){
+	if(!this.validateDuration(this.$('#sMntnRprCnstStartDtFr').val(), this.$('#sMntnRprCnstStartDtTo').val(),  
+			'유지보수공사검색시작일', '유지보수공사검색종료일',  true,  true, true)) {
 		return;
 	}
 	this.loadData();
@@ -262,46 +333,6 @@ GamFcltyMaintMngModule.prototype.loadData = function(){
 	var searchOpt=this.makeFormArgs('#searchFcltyMaintMngForm');
 	this.$('#fcltyMaintMngList').flexOptions({params:searchOpt}).flexReload();
 	
-};
-
-
-<%
-/**
- * @FUNCTION NAME : searchDateChk
- * @DESCRIPTION   : 조회시 날짜의 유지보수공사시작일과 종료일 무결성 체크함수
- * @PARAMETER     : target
-**/
-%>
-GamFcltyMaintMngModule.prototype.searchDateChk = function() {
-	var mntnRprCnstStartDt = this.$("#sMntnRprCnstStartDtFr").val();
-	var mntnRprCnstEndDt = this.$("#sMntnRprCnstStartDtTo").val();
-	
-	var chk = true;
-
-	if(!EMD.util.isDate(mntnRprCnstStartDt) && mntnRprCnstStartDt){
-		alert("유지보수 공사시작일이 날짜형식이 아닙니다.");
-		chk = false;
-	}
-	if(!EMD.util.isDate(mntnRprCnstEndDt) && mntnRprCnstEndDt){
-		alert("유지보수 공사종료일이 날짜형식이 아닙니다.");
-		chk = false;
-	}
-	
-	if(!mntnRprCnstStartDt && mntnRprCnstEndDt){
-		alert("공사시작일을 입력해주세요.");
-		chk = false;
-	}
-	
-
-	if(mntnRprCnstStartDt && mntnRprCnstEndDt){
-		if(EMD.util.strToDate(mntnRprCnstStartDt).getTime() > EMD.util.strToDate(mntnRprCnstEndDt).getTime()){
-			alert("공사종료일이 공사시작일보다 크거나 같아야합니다.");
-			chk = false;
-		}
-	}
-
-	return chk;
-
 };
 
 
@@ -413,70 +444,6 @@ GamFcltyMaintMngModule.prototype.makeSelectArgs = function(selId) {
 
 <%
 /**
- * @FUNCTION NAME : saveDateChk
- * @DESCRIPTION   : 저장시 날짜의 시작일과 종료일 무결성 체크함수
- * @PARAMETER     : target
-**/
-%>
-GamFcltyMaintMngModule.prototype.saveDateChk = function() {
-	var enforceYear = this.$("#enforceYear").val();
-	var mntnRprCnstStartDt = this.$("#mntnRprCnstStartDt").val();
-	var mntnRprCnstEndDt = this.$("#mntnRprCnstEndDt").val();
-	
-	var chk = true;
-	
-	if(!enforceYear){
-		alert("시행년도는 반드시 선택하셔야 합니다.");
-		chk = false;
-	}
-	
-	if(!EMD.util.isDate(mntnRprCnstStartDt) && mntnRprCnstStartDt){
-		alert("공사시작일이 날짜형식이 아닙니다.");
-		chk = false;
-	}
-	if(!EMD.util.isDate(mntnRprCnstEndDt) && mntnRprCnstEndDt){
-		alert("공사종료일이 날짜형식이 아닙니다.");
-		chk = false;
-	}
-	
-	if(mntnRprCnstStartDt && !mntnRprCnstEndDt){
-		alert("공사종료일을 입력해주세요.");
-		chk = false;
-	}
-	if(!mntnRprCnstStartDt && mntnRprCnstEndDt){
-		alert("공사시작일을 입력해주세요.");
-		chk = false;
-	}
-	
-	
-	if(enforceYear && mntnRprCnstStartDt){
-		if(enforceYear > EMD.util.strToDate(mntnRprCnstStartDt).getFullYear()){
-			alert("공사시작연도가 시행년도보다 크거나 같아야합니다.");
-			chk = false;
-		}
-	}
-	if(mntnRprCnstStartDt && mntnRprCnstEndDt){
-		if(EMD.util.strToDate(mntnRprCnstStartDt).getTime() > EMD.util.strToDate(mntnRprCnstEndDt).getTime()){
-			alert("공사종료일이 공사시작일보다 크거나 같아야합니다.");
-			chk = false;
-		}
-	}
-	
-	if(enforceYear && mntnRprCnstEndDt){
-		if(enforceYear > EMD.util.strToDate(mntnRprCnstEndDt).getFullYear()){
-			alert("공사종료연도가 시행년도보다 크거나 같아야합니다.");
-			chk = false;
-		}
-	}
-
-	
-	return chk;
-
-};
-
-
-<%
-/**
  * @FUNCTION NAME : saveData
  * @DESCRIPTION   : 저장버튼 클릭시 저장 처리 함수
  * @PARAMETER     : NONE
@@ -484,13 +451,18 @@ GamFcltyMaintMngModule.prototype.saveDateChk = function() {
 %>
 GamFcltyMaintMngModule.prototype.saveData = function() {
 	
-	/* if(!validateFcltyMaintMngVO(this.$("#fcltyMaintMngListVO")[0])){
+	if(!validateFcltyMaintMngVO(this.$("#fcltyMaintMngListVO")[0])){
 		this.$("#fcltyMaintMngListTab").tabs("option", {active: 1});
 		return;
-	} */
+	}
 	
-	// 날짜 무결성 체크
-	if(!this.saveDateChk()){
+	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#mntnRprCnstStartDt').val(),  
+			'시행년도', '공사시작일', false, true, true)) {
+		return;
+	}
+	
+	if(!this.validateDuration(this.$('#mntnRprCnstStartDt').val(), this.$('#mntnRprCnstEndDt').val(),  
+			'공사시작일', '공사종료일', false, false, true)) {
 		return;
 	}
 

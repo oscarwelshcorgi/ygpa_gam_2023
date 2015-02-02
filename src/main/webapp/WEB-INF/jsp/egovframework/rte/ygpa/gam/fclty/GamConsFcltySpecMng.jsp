@@ -266,126 +266,74 @@ GamConstFcltySpecMngModule.prototype.addFcltyMode = function() {
 };
 
 
-
 <%
 /**
- * @FUNCTION NAME : saveDateChk
- * @DESCRIPTION   : 저장시 날짜의 시작일과 종료일 무결성 체크함수
- * @PARAMETER     : target
+ * @FUNCTION NAME : validateDuration
+ * @DESCRIPTION   : 유효성 있는 기간 체크
+ * @PARAMETER     : 
+	 1. startDate   : 시작일 문자열, 
+	 2. endDate     : 종료일 문자열, 
+	 3. startTitle  : 시작일 제목, 
+	 4. endTitle    : 종료일 제목, 
+	 5. startIgnore : 
+		 5-1. true  : 시작일 필수입력사항 미체크,
+		 5-2. false : 시작일 필수입력사항 체크 
+	 6. endIgnore : 
+		 6-1. true  : 종료일 필수입력사항 미체크,
+		 6-2. false : 종료일 필수입력사항 체크 
+	 7. equals      :
+		 7-1. true  : 종료일이 시작일 보다 크거나 같으면 허용
+		 7-2. false : 종료일이 시작일 보다 커야 허용
 **/
 %>
-GamConstFcltySpecMngModule.prototype.saveDateChk = function() {
-	
-	var planBeginDt = this.$("#planBeginDt").val();
-	var planEndDt = this.$("#planEndDt").val();
-	var cnstrctBeginDt = this.$("#cnstrctBeginDt").val();
-	var cnstrctEndDt = this.$("#cnstrctEndDt").val();
-	var bldDt = this.$("#bldDt").val();
-	var flawEndDt = this.$("#flawEndDt").val();
-	
-	var chk = true;
-	
-	if(!EMD.util.isDate(planBeginDt) && planBeginDt){
-		alert("설계시작일이 날짜형식이 아닙니다.");
-		chk = false;
+GamConstFcltySpecMngModule.prototype.validateDuration = function(startDate, endDate, startTitle, endTitle, startIgnore, endIgnore, equals) {
+	var result = false;
+	if(((startDate == null) || (startDate == '')) && ((endDate == null) || (endDate == ''))) {
+		return true;
 	}
-	if(!EMD.util.isDate(planEndDt) && planEndDt){
-		alert("설계종료일이 날짜형식이 아닙니다.");
-		chk = false;
+	if((endDate == null) || (endDate == '')) {
+		if(!endIgnore) {
+			alert(endTitle + '을(를) 입력하셔야 합니다.');
+			return false;
+		}
+		result = true;
+		if((startDate != null) && (startDate != '')) {
+			result = EMD.util.isDate(startDate);
+			if(!result) {
+				alert(startTitle + '은(는) 날짜형식이 아닙니다.');
+			}
+		}
+		return result;
 	}
-	if(!EMD.util.isDate(cnstrctBeginDt) && cnstrctBeginDt){
-		alert("시공시작일이 날짜형식이 아닙니다.");
-		chk = false;
-	}
-	if(!EMD.util.isDate(cnstrctEndDt) && cnstrctEndDt){
-		alert("시공종료일이 날짜형식이 아닙니다.");
-		chk = false;
-	}
-	if(!EMD.util.isDate(bldDt) && bldDt){
-		alert("준공일자가 날짜형식이 아닙니다.");
-		chk = false;
-	}
-	if(!EMD.util.isDate(flawEndDt) && flawEndDt){
-		alert("하자만료일자가 날짜형식이 아닙니다.");
-		chk = false;
-	}
-	
-	if(planBeginDt && !planEndDt){
-		alert("설계종료일을 입력해주세요.");
-		chk = false;
-	}
-	if(!planBeginDt && planEndDt){
-		alert("설계시작일을 입력해주세요.");
-		chk = false;
-	}
-	if(cnstrctBeginDt && !cnstrctEndDt){
-		alert("시공종료일을 입력해주세요.");
-		chk = false;
-	}
-	if(!cnstrctBeginDt && cnstrctBeginDt){
-		alert("시공시작일을 입력해주세요.");
-		chk = false;
-	}
-
-	
-	if(planBeginDt && planEndDt){
-		if(EMD.util.strToDate(planBeginDt).getTime() > EMD.util.strToDate(planEndDt).getTime()){
-			alert("설계시작일이 종료일보다 클수가 없습니다.");
-			chk = false;
+	if((startDate == null) || (startDate == '')) {
+		if(startIgnore) {
+			result = EMD.util.isDate(endDate);
+			if(!result) {
+				alert(endTitle + '은(는) 날짜형식이 아닙니다.');
+			}
+			return result;
+		} else {
+			alert(startTitle + '을(를) 입력하셔야 합니다.');
+			return false;
 		}
 	}
-	
-	if(planEndDt && cnstrctBeginDt){
-		if(EMD.util.strToDate(planEndDt).getTime() >= EMD.util.strToDate(cnstrctBeginDt).getTime()){
-			alert("시공시작일이 설계종료일보다 커야합니다.");
-			chk = false;
-		}
+	if(!EMD.util.isDate(startDate)) {
+		alert(startTitle + '은(는) 날짜형식이 아닙니다.');
+		return false;
 	}
-	
-	if(cnstrctBeginDt && cnstrctEndDt){
-		if(EMD.util.strToDate(cnstrctBeginDt).getTime() >= EMD.util.strToDate(cnstrctEndDt).getTime()){
-			alert("시공종료일이 시공시작일보다 커야합니다.");
-			chk = false;
-		}
+	if(!EMD.util.isDate(endDate)) {
+		alert(endTitle + '은(는) 날짜형식이 아닙니다.');
+		return false;
 	}
-	
-	if(planEndDt && bldDt){
-		if(EMD.util.strToDate(planEndDt).getTime() >= EMD.util.strToDate(bldDt).getTime()){
-			alert("준공일이 설계종료일보다 커야합니다.");
-			chk = false;
-		}
+	startDate = EMD.util.strToDate(startDate);
+	endDate = EMD.util.strToDate(endDate);
+	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 : 
+							(startDate.getTime() == endDate.getTime()) ? 0 : 1;	
+	result = (equals) ? (compareResult >= 0) : (compareResult > 0);
+	if(!result) {
+		alert(endTitle +'은(는) ' + startTitle + ((equals) ? '보다 같거나 커야합니다.' : '보다 커야합니다.'));
 	}
-	
-	if(cnstrctEndDt && bldDt){
-		if(EMD.util.strToDate(cnstrctBeginDt).getTime() >= EMD.util.strToDate(bldDt).getTime()){
-			alert("준공일이 시공종료일보다 커야합니다.");
-			chk = false;
-		}
-	}
-	
-	if(planEndDt && flawEndDt){
-		if(EMD.util.strToDate(planEndDt).getTime() >= EMD.util.strToDate(flawEndDt).getTime()){
-			alert("하자만료일이 설계종료일자보다 커야합니다.");
-			chk = false;
-		}
-	}
-	
-	if(cnstrctEndDt && flawEndDt){
-		if(EMD.util.strToDate(cnstrctEndDt).getTime() >= EMD.util.strToDate(flawEndDt).getTime()){
-			alert("하자만료일이 시공종료일보다 커야합니다.");
-			chk = false;
-		}
-	}
-	
-	if(bldDt && flawEndDt){
-		if(EMD.util.strToDate(bldDt).getTime() >= EMD.util.strToDate(flawEndDt).getTime()){
-			alert("하자만료일이 준공일 보다 커야합니다.");
-			chk = false;
-		}
-	}
-	
-	return chk;
-
+	return result;
 };
 
 
@@ -398,11 +346,47 @@ GamConstFcltySpecMngModule.prototype.saveDateChk = function() {
 %>
 GamConstFcltySpecMngModule.prototype.saveFcltyData = function() {
 	
-	/* if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){
+	if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){
 		return;
-	}  */
-	// 날짜 무결성 체크
-	if(!this.saveDateChk()){
+	}
+	
+	if(!this.validateDuration(this.$('#planBeginDt').val(), this.$('#planEndDt').val(),  
+			'설계시작일', '설계종료일', false, false, true)) {
+		return;
+	}
+	
+	if(!this.validateDuration(this.$('#planEndDt').val(), this.$('#cnstrctBeginDt').val(),  
+			'설계종료일', '시공시작일', true, true, false)) {
+		return;
+	}
+	
+	if(!this.validateDuration(this.$('#cnstrctBeginDt').val(), this.$('#cnstrctEndDt').val(),  
+			'시공시작일', '시공종료일', false, false, false)) {
+		return;
+	}
+	
+	if(!this.validateDuration(this.$('#planEndDt').val(), this.$('#bldDt').val(),  
+			'설계종료일', '준공일자', true, true, false)) {
+		return;
+	}
+	
+	if(!this.validateDuration(this.$('#cnstrctEndDt').val(), this.$('#bldDt').val(),  
+			'시공종료일', '준공일자', true, true, false)) {
+		return;
+	}
+	
+	if(!this.validateDuration(this.$('#planEndDt').val(), this.$('#flawEndDt').val(),  
+			'설계종료일', '하자만료일자', true, true, false)) {
+		return;
+	}
+	
+	if(!this.validateDuration(this.$('#cnstrctEndDt').val(), this.$('#flawEndDt').val(),  
+			'시공종료일', '하자만료일자', true, true, false)) {
+		return;
+	}
+	
+	if(!this.validateDuration(this.$('#bldDt').val(), this.$('#flawEndDt').val(),  
+			'준공일자', '하자만료일자', true, true, false)) {
 		return;
 	}
 	
