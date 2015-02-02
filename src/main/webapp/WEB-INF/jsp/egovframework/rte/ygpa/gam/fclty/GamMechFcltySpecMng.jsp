@@ -506,8 +506,13 @@ GamMechFcltySpecMngModule.prototype.saveData = function() {
 		return;
 	}
 
-	if(!this.validateDuration(this.$('#prtFcltyInstlDt').val(), this.$('#usageBeginDt').val(),  
+	if(!this.validateDuration(this.$('#mfcDt').val(), this.$('#usageBeginDt').val(),  
 								'제작일자', '사용 시작일자', true, true, false)) {
+		return;
+	}
+
+	if(!this.validateDuration(this.$('#prtFcltyInstlDt').val(), this.$('#usageBeginDt').val(),  
+								'설치일자', '사용 시작일자', true, true, false)) {
 		return;
 	}
 	
