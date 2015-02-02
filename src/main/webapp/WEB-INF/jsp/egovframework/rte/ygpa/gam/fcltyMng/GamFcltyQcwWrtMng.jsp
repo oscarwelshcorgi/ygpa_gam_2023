@@ -485,7 +485,7 @@ GamFcltyQcwWrtMngModule.prototype.saveData = function() {
 	}
 
 	if(!this.validateDuration(this.$('#qcBeginDt').val(), this.$('#qcEndDt').val(),  
-								'점검기간 시작일', '점검기간 종료일', false, false, false)) {
+								'점검기간 시작일', '점검기간 종료일', false, false, true)) {
 		return;
 	}
 
