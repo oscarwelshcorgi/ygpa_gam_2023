@@ -475,8 +475,7 @@ GamCivilFcltySpecMngModule.prototype.saveData = function() {
 	}
 
 	if(!this.validateDuration(this.$('#prtFcltyInstlDt').val(), this.$('#prtFcltyChangeDt').val(), 
-								'설치일자', '변경일자', true, false)) 
-	{
+								'설치일자', '변경일자', true, false)) {
 		return;
 	}
 	

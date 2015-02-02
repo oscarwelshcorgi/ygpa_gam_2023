@@ -482,26 +482,22 @@ GamMechFcltySpecMngModule.prototype.saveData = function() {
 	}
 
 	if(!this.validateDuration(this.$('#mfcDt').val(), this.$('#prtFcltyInstlDt').val(),  
-								'제작일자', '설치일자', true, false)) 
-	{
+								'제작일자', '설치일자', true, false)) {
 		return;
 	}
 
 	if(!this.validateDuration(this.$('#prtFcltyInstlDt').val(), this.$('#usageBeginDt').val(),  
-								'제작일자', '사용 시작일자', true, false)) 
-	{
+								'제작일자', '사용 시작일자', true, false)) {
 		return;
 	}
 	
 	if(!this.validateDuration(this.$('#usageBeginDt').val(), this.$('#usageEndDt').val(),  
-								'사용 시작일자', '사용 종료일자', true, true)) 
-	{
+								'사용 시작일자', '사용 종료일자', true, true)) {
 		return;
 	}
 
 	if(!this.validateDuration(this.$('#examBeginDt').val(), this.$('#examEndDt').val(),  
-								'검사 시작일자', '검사 종료일자', true, true)) 
-	{
+								'검사 시작일자', '검사 종료일자', true, true)) {
 		return;
 	}
 	
