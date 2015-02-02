@@ -216,7 +216,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 	 	break;
 	}
 
-	//console.log('GamAssetCodeModule loadcomplete');
+	console.log('GamAssetCodeModule loadcomplete');
 };
 
 // 사용자 설정 함수 추가
@@ -911,6 +911,7 @@ var module_instance = new GamAssetCodeModule();
 					<button data-role="printPage" data-search-option="searchGisAssetCode" data-url="<c:url value='/code/assets/selectGisAssetCodeListPrint.do'/>">인쇄</button>
 					<c:if test="${isAdmin==true }">
 					<button data-role="editMap" data-gis-layer="gisAssetsCd">맵편집</button>
+					<button data-role="gridXlsDown" data-flexi-grid="assetCodeList">엑셀</button>
 					<button id="btnGetAddress">주소지정(Admin)</button>
 					</c:if>
 					<!-- <button id="storeAutoMapGenerate">위치등록(배치)</button> -->	<!-- 빌드 시 -->
