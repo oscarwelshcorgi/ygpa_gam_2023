@@ -101,12 +101,70 @@ GamGrHseEmitQyMngModule.prototype.loadComplete = function() {
 	this._mainKeyValue = '';
 	this._searchButtonClick = false;
 	var mon = new Date().getMonth()+1;
-	if (mon.length==1) {
-		mon="0"+mon;
+	if (mon > 0 && mon < 10) {
+		mon = "0" + mon;
+	} else {
+		mon = "" + mon;
 	}
 	this.$('#sMngMt').val(mon);
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidYear
+ * @DESCRIPTION   : YEAR STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. yearString - YEAR STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamGrHseEmitQyMngModule.prototype.isValidYear = function(yearString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (yearString == "") {
+			return false;
+		}
+	} else {
+		if (yearString == "") {
+			return true;
+		}
+	}
+	var year = Number(yearString);
+	if (year > 9999 || year < 1900) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidMonth
+ * @DESCRIPTION   : MONTH STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. monthString - MONTH STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamGrHseEmitQyMngModule.prototype.isValidMonth = function(monthString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (monthString == "") {
+			return false;
+		}
+	} else {
+		if (monthString == "") {
+			return true;
+		}
+	}
+	var month = Number(monthString);
+	if (month > 12 || month < 1) {
+		return false;
+	}
+	return true;
 
 };
 
@@ -266,6 +324,18 @@ GamGrHseEmitQyMngModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamGrHseEmitQyMngModule.prototype.onSubmit = function() {
 
+	var sMngYear = this.$('#sMngYear').val();
+	var sMngMt = this.$('#sMngMt').val();
+	if (this.isValidYear(sMngYear, true) == false) {
+		alert('관리 년도가 부정확합니다.');
+		this.$("#sMngYear").focus();
+		return;
+	}
+	if (this.isValidMonth(sMngMt, false) == false) {
+		alert('관리 월이 부정확합니다.');
+		this.$("#sMngMt").focus();
+		return;
+	}
 	this._mode = 'query';
 	this._mainKeyValue = '';
 	this._searchButtonClick = true;
@@ -427,17 +497,17 @@ GamGrHseEmitQyMngModule.prototype.saveData = function() {
 	var usageQy = Number(this.$('#usageQy').val().replace(/,/gi, ""));
 	var energyUsageQy = Number(this.$('#energyUsageQy').val().replace(/,/gi, ""));
 	var grHseEmitQy = Number(this.$('#grHseEmitQy').val().replace(/,/gi, ""));
-	if (mngMtYear > "9999"  || mngMtYear < "2000" || mngMtYear == "") {
+	if (this.isValidYear(mngMtYear, true) == false) {
 		alert('관리 년도가 부정확합니다.');
 		this.$("#mngMtYear").focus();
 		return;
 	}
-	if (mngMtMon > "12"  || mngMtMon < "01" || mngMtMon == "") {
+	if (this.isValidMonth(mngMtMon, true) == false) {
 		alert('관리 월이 부정확합니다.');
 		this.$("#mngMtMon").focus();
 		return;
 	}
-	if (mngYear > "9999"  || mngYear < "2000" || mngYear == "") {
+	if (this.isValidYear(mngYear, true) == false) {
 		alert('연료 코드 관리 년도가 부정확합니다.');
 		return;
 	}
@@ -537,6 +607,16 @@ GamGrHseEmitQyMngModule.prototype.copyData = function() {
 	var sQueryMngYear = this.$('#sMngYear').val();
 	var sQueryMngMt = this.$('#sMngMt').val();
 	var mtCnt=0;
+	if (this.isValidYear(sQueryMngYear, true) == false) {
+		alert('관리 년도가 부정확합니다.');
+		this.$("#sMngYear").focus();
+		return;
+	}
+	if (this.isValidMonth(sQueryMngMt, true) == false) {
+		alert('관리 월이 부정확합니다.');
+		this.$("#sMngMt").focus();
+		return;
+	}
 	if (confirm("이전월의 자료를 [" + sQueryMngYear + "-" + sQueryMngMt + "월] 자료로 복사하시겠습니까?") != true) {
 		return;
 	}
@@ -793,7 +873,8 @@ var module_instance = new GamGrHseEmitQyMngModule();
 							<th>관리 월</th>
 							<td>
 								<select id="sMngMt">
-									<option value="01" selected>01월</option>
+									<option value="" selected>선택</option>
+									<option value="01">01월</option>
 									<option value="02">02월</option>
 									<option value="03">03월</option>
 									<option value="04">04월</option>

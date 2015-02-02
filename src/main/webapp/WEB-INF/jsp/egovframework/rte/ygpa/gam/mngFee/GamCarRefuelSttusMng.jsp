@@ -109,6 +109,34 @@ GamCarRefuelSttusMngModule.prototype.loadComplete = function() {
 
 <%
 /**
+ * @FUNCTION NAME : isValidYear
+ * @DESCRIPTION   : YEAR STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. yearString - YEAR STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamCarRefuelSttusMngModule.prototype.isValidYear = function(yearString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (yearString == "") {
+			return false;
+		}
+	} else {
+		if (yearString == "") {
+			return true;
+		}
+	}
+	var year = Number(yearString);
+	if (year > 9999 || year < 1900) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
  * @FUNCTION NAME : drawChart
  * @DESCRIPTION   : CHART DRAW
  * @PARAMETER     : NONE
@@ -245,6 +273,12 @@ GamCarRefuelSttusMngModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamCarRefuelSttusMngModule.prototype.onSubmit = function() {
 
+	var refuelYear = this.$('#sRefuelMt').val();
+	if (this.isValidYear(refuelYear, true) == false) {
+		alert('주유 년도가 부정확합니다.');
+		this.$("#sRefuelMt").focus();
+		return;
+	}
 	this._mode = 'query';
 	this._mainKeyValue = '';
 	this._searchButtonClick = true;
@@ -424,6 +458,7 @@ GamCarRefuelSttusMngModule.prototype.selectData = function() {
 GamCarRefuelSttusMngModule.prototype.saveData = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
+	var refuelYear = this.$('#sRefuelMt').val();
 	var carRegistNo = this.$('#carRegistNo').val();
 	var m1 = Number(this.$('#m1').val().replace(/,/gi, ""));
 	var m2 = Number(this.$('#m1').val().replace(/,/gi, ""));
@@ -437,6 +472,11 @@ GamCarRefuelSttusMngModule.prototype.saveData = function() {
 	var m10 = Number(this.$('#m1').val().replace(/,/gi, ""));
 	var m11 = Number(this.$('#m1').val().replace(/,/gi, ""));
 	var m12 = Number(this.$('#m1').val().replace(/,/gi, ""));
+	if (this.isValidYear(refuelYear) == false) {
+		alert('주유 년도가 부정확합니다.');
+		this.$("#sRefuelMt").focus();
+		return;
+	}
 	if (carRegistNo == "") {
 		alert('차량 등록 번호가 부정확합니다.');
 		this.$("#carRegistNo").focus();
@@ -566,18 +606,19 @@ GamCarRefuelSttusMngModule.prototype.downloadExcel = function() {
 **/
 %>
 GamCarRefuelSttusMngModule.prototype.uploadExcel = function() {
+
 	this.uploadSingleFile('/mngFee/gamExcelUploadCarRefuelSttusMng.do', function(module, resp) {
 		if(resp.resultCode!=0) {
 			alert(resp.resultMsg);
 			return;
-		}
-		else {
+		} else {
 			alert(resp.resultMsg);
 			module._mode = 'query';
 			module._mainKeyValue = '';
 			module.loadData();
 		}
 	});
+
 };
 
 <%

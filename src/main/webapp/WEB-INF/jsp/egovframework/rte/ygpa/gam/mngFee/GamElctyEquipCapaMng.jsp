@@ -144,6 +144,34 @@ GamElctyEquipCapaMngModule.prototype.makeWordWrap = function(argString, argWordW
 
 <%
 /**
+ * @FUNCTION NAME : isValidYear
+ * @DESCRIPTION   : YEAR STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. yearString - YEAR STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamElctyEquipCapaMngModule.prototype.isValidYear = function(yearString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (yearString == "") {
+			return false;
+		}
+	} else {
+		if (yearString == "") {
+			return true;
+		}
+	}
+	var year = Number(yearString);
+	if (year > 9999 || year < 1900) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
  * @FUNCTION NAME : drawChart
  * @DESCRIPTION   : CHART DRAW
  * @PARAMETER     : NONE
@@ -325,6 +353,12 @@ GamElctyEquipCapaMngModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamElctyEquipCapaMngModule.prototype.onSubmit = function() {
 
+	var sMngYear = this.$('#sMngYear').val();
+	if (this.isValidYear(sMngYear, true) == false) {
+		alert('관리 년도가 부정확합니다.');
+		this.$("#sMngYear").focus();
+		return;
+	}
 	this._mode = 'query';
 	this._mainKeyValue = '';
 	this._searchButtonClick = true;
@@ -472,7 +506,7 @@ GamElctyEquipCapaMngModule.prototype.saveData = function() {
 	var equipCapa = Number(this.$('#equipCapa').val().replace(/,/gi, ""));
 	var ctrtCapa = Number(this.$('#ctrtCapa').val().replace(/,/gi, ""));
 	var usageVolt = Number(this.$('#usageVolt').val().replace(/,/gi, ""));
-	if (mngYear > "9999"  || mngYear < "2000" || mngYear == "") {
+	if (this.isValidYear(mngYear, true) == false) {
 		alert('관리 년도가 부정확합니다.');
 		this.$("#mngYear").focus();
 		return;
@@ -584,6 +618,11 @@ GamElctyEquipCapaMngModule.prototype.copyData = function() {
 	var searchVO = this.makeFormArgs("#searchForm");
 	var sQueryMngYear = this.$('#sMngYear').val();
 	var mtCnt=0;
+	if (this.isValidYear(sQueryMngYear, true) == false) {
+		alert('관리 년도가 부정확합니다.');
+		this.$("#sMngYear").focus();
+		return;
+	}
 	if (confirm("이전년도의 자료를 [" + sQueryMngYear + "년] 자료로 복사하시겠습니까?") != true) {
 		return;
 	}

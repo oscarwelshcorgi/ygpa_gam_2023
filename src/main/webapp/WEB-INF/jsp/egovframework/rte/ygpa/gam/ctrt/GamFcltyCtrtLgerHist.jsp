@@ -310,6 +310,126 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
 
 <%
 /**
+ * @FUNCTION NAME : isValidDate
+ * @DESCRIPTION   : DATE STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. dateString - DATE STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltyCtrtLgerHistModule.prototype.isValidDate = function(dateString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (dateString == "") {
+			return false;
+		}
+	} else {
+		if (dateString == "") {
+			return true;
+		}
+	}
+	var year = Number(dateString.substring(0,4));
+	var month = Number(dateString.substring(5,7));
+	var day = Number(dateString.substring(8,10));
+	if (year > 9999 || year < 1900) {
+		return false;
+	}
+	if (month > 12 || month < 1) {
+		return false;
+	}
+	if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+		if (day > 31 || day < 1) {
+			return false;
+		}
+	} else if (month == 4 || month == 6 || month == 9 || month == 11) {
+		if (day > 30 || day < 1) {
+			return false;
+		}
+	} else if (month == 2) {
+		if (day > 29 || day < 1) {
+			return false;
+		}
+	} else {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidAmount
+ * @DESCRIPTION   : AMOUNT에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. amountValue - AMOUNT VALUE
+ *   2. zeroCheckFlag - ZERO CHECK FLAG
+**/
+%>
+GamFcltyCtrtLgerHistModule.prototype.isValidAmount = function(amountValue, zeroCheckFlag) {
+
+	if (zeroCheckFlag == true) {
+		if (amountValue > 9999999999999999 || amountValue <= 0) {
+			return false;
+		}
+	} else {
+		if (amountValue > 9999999999999999 || amountValue < 0) {
+			return false;
+		}
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidAmountFromTo
+ * @DESCRIPTION   : 범위 AMOUNT에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. startAmount - START AMOUNT
+ *   2. endAmount - END AMOUNT
+**/
+%>
+GamFcltyCtrtLgerHistModule.prototype.isValidAmountFromTo = function(startAmount, endAmount) {
+
+	if (startAmount > endAmount) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidDateFromTo
+ * @DESCRIPTION   : 기간 DATE STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. startDateString - START DATE STRING
+ *   2. endDateString - END DATE STRING
+ *   3. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltyCtrtLgerHistModule.prototype.isValidDateFromTo = function(startDateString, endDateString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (startDateString == "" || endDateString == "") {
+			return false;
+		}
+	} else {
+		if (startDateString == "" && endDateString == "") {
+			return true;
+		}
+	}
+	var startDate = Number(startDateString.replace(/-/gi, ""));
+	var endDate = Number(endDateString.replace(/-/gi, ""));
+	if (startDate > endDate) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
  * @FUNCTION NAME : onClosePopup
  * @DESCRIPTION   : CLOSE POPUP EVENT
  * @PARAMETER     :
@@ -380,6 +500,40 @@ GamFcltyCtrtLgerHistModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamFcltyCtrtLgerHistModule.prototype.onSubmit = function() {
 
+	var sStartCtrtDt = this.$('#sStartCtrtDt').val();
+	var sEndCtrtDt = this.$('#sEndCtrtDt').val();
+	var sStartCtrtAmt = Number(this.$('#sStartCtrtAmt').val().replace(/,/gi, ""));
+	var sEndCtrtAmt = Number(this.$('#sEndCtrtAmt').val().replace(/,/gi, ""));
+	if (this.isValidDate(sStartCtrtDt, true) == false) {
+		alert('계약 시작 일자가 부정확합니다.');
+		this.$("#sStartCtrtDt").focus();
+		return;
+	}
+	if (this.isValidDate(sEndCtrtDt, true) == false) {
+		alert('계약 종료 일자가 부정확합니다.');
+		this.$("#sEndCtrtDt").focus();
+		return;
+	}
+	if (this.isValidDateFromTo(sStartCtrtDt, sEndCtrtDt, true) == false) {
+		alert('계약 기간이 부정확합니다.');
+		this.$("#sEndCtrtDt").focus();
+		return;
+	}
+	if (this.isValidAmount(sStartCtrtAmt, false) == false) {
+		alert('계약 시작 금액이 부정확합니다.');
+		this.$("#sStartCtrtAmt").focus();
+		return;
+	}
+	if (this.isValidAmount(sEndCtrtAmt, false) == false) {
+		alert('계약 종료 금액이 부정확합니다.');
+		this.$("#sEndCtrtAmt").focus();
+		return;
+	}
+	if (this.isValidAmountFromTo(sStartCtrtAmt, sEndCtrtAmt) == false) {
+		alert('계약 시작 금액이 계약 종료 금액보다 큽니다.');
+		this.$("#sEndCtrtAmt").focus();
+		return;
+	}
 	this._mainmode = 'query';
 	this._mainKeyValue = '';
 	this._joinmode = 'query';
@@ -1117,7 +1271,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 								</td>
 								<th width="10%" height="27px">낙　　찰　　율</th>
 								<td>
-									<input type="text" size="33" id="scsbidRate" class="ygpaNumber" disabled/>
+									<input type="text" size="33" id="scsbidRate" class="ygpaNumber" data-decimal-point="5" disabled/>
 								</td>
 							</tr>
 							<tr>
@@ -1285,7 +1439,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 							<th width="10%" height="18">순　번／지분율</th>
 							<td>
 								<input type="text" size="10" id="joinSeq" disabled/>／
-								<input type="text" size="19" id="qotaRate" class="ygpaNumber" disabled/>
+								<input type="text" size="19" id="qotaRate" data-decimal-point="5" class="ygpaNumber" disabled/>
 							</td>
 							<th width="10%" height="18">업　　체　　명</th>
 							<td>
@@ -1451,7 +1605,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 							</td>
 							<th width="10%" height="18">하　도　급　율</th>
 							<td>
-								<input type="text" size="33" id="subctrtRate" class="ygpaNumber" disabled/>
+								<input type="text" size="33" id="subctrtRate" class="ygpaNumber" data-decimal-point="5" disabled/>
 							</td>
 							<th width="10%" height="18">원도급　　금액</th>
 							<td>

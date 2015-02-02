@@ -229,6 +229,280 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 
 <%
 /**
+ * @FUNCTION NAME : isValidSeq
+ * @DESCRIPTION   : SEQ STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. seqString - SEQ STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.isValidSeq = function(seqString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (seqString == "") {
+			return false;
+		}
+	} else {
+		if (seqString == "") {
+			return true;
+		}
+	}
+	var seq = Number(seqString);
+	if (seq > 999 || seq <= 0) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidNticNo
+ * @DESCRIPTION   : NTIC NO. STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. nticNoString - NTIC NO. STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.isValidNticNo = function(nticNoString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (nticNoString == "") {
+			return false;
+		}
+	} else {
+		if (nticNoString == "") {
+			return true;
+		}
+	}
+	var nticNo = Number(nticNoString);
+	if (nticNo > 999999 || nticNo <= 0) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidYear
+ * @DESCRIPTION   : YEAR STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. yearString - YEAR STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.isValidYear = function(yearString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (yearString == "") {
+			return false;
+		}
+	} else {
+		if (yearString == "") {
+			return true;
+		}
+	}
+	var year = Number(yearString);
+	if (year > 9999 || year < 1900) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidMonth
+ * @DESCRIPTION   : MONTH STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. monthString - MONTH STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.isValidMonth = function(monthString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (monthString == "") {
+			return false;
+		}
+	} else {
+		if (monthString == "") {
+			return true;
+		}
+	}
+	var month = Number(monthString);
+	if (month > 12 || month < 1) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidMonthFromTo
+ * @DESCRIPTION   : 기간 MONTH STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. startMonthString - START MONTH STRING
+ *   2. endMonthString - END MONTH STRING
+ *   3. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.isValidMonthFromTo = function(startMonthString, endMonthString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (startMonthString == "" || endMonthString == "") {
+			return false;
+		}
+	} else {
+		if (startMonthString == "" && endMonthString == "") {
+			return true;
+		}
+	}
+	var startMonth = Number(startMonthString.replace(/-/gi, ""));
+	var endMonth = Number(endMonthString.replace(/-/gi, ""));
+	if (startMonth > endMonth) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidDate
+ * @DESCRIPTION   : DATE STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. dateString - DATE STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.isValidDate = function(dateString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (dateString == "") {
+			return false;
+		}
+	} else {
+		if (dateString == "") {
+			return true;
+		}
+	}
+	var year = Number(dateString.substring(0,4));
+	var month = Number(dateString.substring(5,7));
+	var day = Number(dateString.substring(8,10));
+	if (year > 9999 || year < 1900) {
+		return false;
+	}
+	if (month > 12 || month < 1) {
+		return false;
+	}
+	if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+		if (day > 31 || day < 1) {
+			return false;
+		}
+	} else if (month == 4 || month == 6 || month == 9 || month == 11) {
+		if (day > 30 || day < 1) {
+			return false;
+		}
+	} else if (month == 2) {
+		if (day > 29 || day < 1) {
+			return false;
+		}
+	} else {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidDateFromTo
+ * @DESCRIPTION   : 기간 DATE STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. startDateString - START DATE STRING
+ *   2. endDateString - END DATE STRING
+ *   3. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.isValidDateFromTo = function(startDateString, endDateString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (startDateString == "" || endDateString == "") {
+			return false;
+		}
+	} else {
+		if (startDateString == "" && endDateString == "") {
+			return true;
+		}
+	}
+	var startDate = Number(startDateString.replace(/-/gi, ""));
+	var endDate = Number(endDateString.replace(/-/gi, ""));
+	if (startDate > endDate) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidFirstDate
+ * @DESCRIPTION   : FIRST DATE STRING > SECOND DATE STRING을 검사한다.
+ * @PARAMETER     :
+ *   1. firstDateString - FIRST DATE STRING
+ *   2. secondDateString - SECOND DATE STRING
+ *   3. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.isValidFirstDate = function(firstDateString, secondDateString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (firstDateString == "" || secondDateString == "") {
+			return false;
+		}
+	} else {
+		if (firstDateString == "" || secondDateString == "") {
+			return true;
+		}
+	}
+	var firstDate = Number(firstDateString.replace(/-/gi, ""));
+	var secondDate = Number(secondDateString.replace(/-/gi, ""));
+	if (firstDate > secondDate) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidAmount
+ * @DESCRIPTION   : AMOUNT에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. amountValue - AMOUNT VALUE
+ *   2. zeroCheckFlag - ZERO CHECK FLAG
+**/
+%>
+GamFcltsFeeMngNticModule.prototype.isValidAmount = function(amountValue, zeroCheckFlag) {
+
+	if (zeroCheckFlag == true) {
+		if (amountValue > 9999999999999 || amountValue <= 0) {
+			return false;
+		}
+	} else {
+		if (amountValue > 9999999999999 || amountValue < 0) {
+			return false;
+		}
+	}
+	return true;
+
+};
+
+<%
+/**
  * @FUNCTION NAME : onClosePopup
  * @DESCRIPTION   : CLOSE POPUP EVENT
  * @PARAMETER     :
@@ -373,6 +647,35 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamFcltsFeeMngNticModule.prototype.onSubmit = function() {
 
+	var sStartMngYear = this.$('#sStartMngYear').val();
+	var sStartMngMt = this.$('#sStartMngMt').val();
+	var sEndMngYear = this.$('#sEndMngYear').val();
+	var sEndMngMt = this.$('#sEndMngMt').val();
+	if (this.isValidYear(sStartMngYear, true) == false) {
+		alert('시작 관리 년도가 부정확합니다.');
+		this.$("#sStartMngYear").focus();
+		return;
+	}
+	if (this.isValidMonth(sStartMngMt, true) == false) {
+		alert('시작 관리 월이 부정확합니다.');
+		this.$("#sStartMngMt").focus();
+		return;
+	}
+	if (this.isValidYear(sEndMngYear, true) == false) {
+		alert('종료 관리 년도가 부정확합니다.');
+		this.$("#sEndMngYear").focus();
+		return;
+	}
+	if (this.isValidMonth(sEndMngMt, true) == false) {
+		alert('종료 관리 월이 부정확합니다.');
+		this.$("#sEndMngMt").focus();
+		return;
+	}
+	if (this.isValidMonthFromTo(sStartMngYear + sStartMngMt, sEndMngYear + sEndMngMt, true) == false) {
+		alert('시작 관리 년월이 종료 관리 년월보다 큽니다.');
+		this.$("#sStartMngYear").focus();
+		return;
+	}
 	this._mode="query";
 	this._mainKeyValue = '';
 	this._searchButtonClick = true;
@@ -733,23 +1036,33 @@ GamFcltsFeeMngNticModule.prototype.saveNticIssue = function() {
 		return;
 	}
 	if (nticDt != null && nticDt != "") {
-		if (nticDt > todayString || nticDt < "2000-01-01" || nticDt == "") {
+		if (this.isValidDate(nticDt, true) == false) {
 			alert('고지 일자가 부정확합니다.');
 			this.$("#nticDt").focus();
 			return;
 		}
-		if (nticDt > payTmlmt || payTmlmt < "2000-01-01" || payTmlmt == "") {
+		if (this.isValidFirstDate(nticDt, todayString, true) == false) {
+			alert('고지 일자가 현재 일자보다 큽니다.');
+			this.$("#nticDt").focus();
+			return;
+		}
+		if (this.isValidDate(payTmlmt, true) == false) {
 			alert('납부 기한이 부정확합니다.');
-			this.$("#payTmlmt").focus();
+			this.$("#nticDt").focus();
+			return;
+		}
+		if (this.isValidFirstDate(nticDt, payTmlmt, true) == false) {
+			alert('고지 일자가 납부 기한보다 큽니다.');
+			this.$("#nticDt").focus();
 			return;
 		}
 	}
-	if (fee > 999999999999 || fee <= 0) {
+	if (this.isValidAmount(fee, true) == false) {
 		alert('사용료가 부정확합니다.');
 		this.$("#fee").focus();
 		return;
 	}
-	if (vat > 999999999999 || vat < 0) {
+	if (this.isValidAmount(vat, false) == false) {
 		alert('부가세가 부정확합니다.');
 		this.$("#vat").focus();
 		return;
@@ -767,7 +1080,7 @@ GamFcltsFeeMngNticModule.prototype.saveNticIssue = function() {
 			return;
 		}
 	}
-	if (nticAmt > 999999999999 || nticAmt <= 0) {
+	if (this.isValidAmount(nticAmt, true) == false) {
 		alert('고지 금액이 부정확합니다.');
 		this.$("#fee").focus();
 		return;
@@ -841,22 +1154,32 @@ GamFcltsFeeMngNticModule.prototype.processNticIssue = function() {
 		this.$("#chrgeKnd").focus();
 		return;
 	}
-	if (nticDt > todayString || nticDt < "2000-01-01" || nticDt == "") {
+	if (this.isValidDate(nticDt, true) == false) {
 		alert('고지 일자가 부정확합니다.');
 		this.$("#nticDt").focus();
 		return;
 	}
-	if (nticDt > payTmlmt || payTmlmt < "2000-01-01" || payTmlmt == "") {
-		alert('납부 기한이 부정확합니다.');
-		this.$("#payTmlmt").focus();
+	if (this.isValidFirstDate(nticDt, todayString, true) == false) {
+		alert('고지 일자가 현재 일자보다 큽니다.');
+		this.$("#nticDt").focus();
 		return;
 	}
-	if (fee > 999999999999 || fee <= 0) {
+	if (this.isValidDate(payTmlmt, true) == false) {
+		alert('납부 기한이 부정확합니다.');
+		this.$("#nticDt").focus();
+		return;
+	}
+	if (this.isValidFirstDate(nticDt, payTmlmt, true) == false) {
+		alert('고지 일자가 납부 기한보다 큽니다.');
+		this.$("#nticDt").focus();
+		return;
+	}
+	if (this.isValidAmount(fee, true) == false) {
 		alert('사용료가 부정확합니다.');
 		this.$("#fee").focus();
 		return;
 	}
-	if (vat > 999999999999 || vat < 0) {
+	if (this.isValidAmount(vat, false) == false) {
 		alert('부가세가 부정확합니다.');
 		this.$("#vat").focus();
 		return;
@@ -874,7 +1197,7 @@ GamFcltsFeeMngNticModule.prototype.processNticIssue = function() {
 			return;
 		}
 	}
-	if (nticAmt > 999999999999 || nticAmt <= 0) {
+	if (this.isValidAmount(nticAmt, true) == false) {
 		alert('고지 금액이 부정확합니다.');
 		this.$("#fee").focus();
 		return;
@@ -943,11 +1266,11 @@ GamFcltsFeeMngNticModule.prototype.cancelNticIssue = function() {
 		alert('요금 종류가 부정확합니다.');
 		return;
 	}
-	if (accnutYear > "2999" || accnutYear < "2000" || accnutYear == "") {
+	if (this.isValidYear(accnutYear, true) == false) {
 		alert('회계 년도가 부정확합니다.');
 		return;
 	}
-	if (nticNo > "999999" || nticNo < "000001" || nticNo == "") {
+	if (this.isValidNticNo(nticNo, true) == false) {
 		alert('고지 번호가 부정확합니다.');
 		return;
 	}
@@ -1277,7 +1600,7 @@ GamFcltsFeeMngNticModule.prototype.processNticIssueUnpaid = function(processVo) 
 		return;
 	}
 	dataValue = Number(dlyBillAmnt);
-	if (dataValue > 999999999999 || dataValue <= 0) {
+	if (this.isValidAmount(dataValue, true) == false) {
 		alert("연체 금액이 부정확합니다.");
 		return;
 	}
@@ -1347,7 +1670,7 @@ GamFcltsFeeMngNticModule.prototype.cancelNticIssueUnpaid = function() {
 		return;
 	}
 	dataValue = Number(dlyBillAmnt);
-	if (dataValue > 999999999999 || dataValue <= 0) {
+	if (this.isValidAmount(dataValue, true) == false) {
 		alert("연체 금액이 부정확합니다.");
 		return;
 	}

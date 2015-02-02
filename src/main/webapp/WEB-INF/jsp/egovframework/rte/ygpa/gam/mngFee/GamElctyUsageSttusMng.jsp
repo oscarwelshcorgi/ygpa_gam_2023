@@ -102,18 +102,75 @@ GamElctyUsageSttusMngModule.prototype.loadComplete = function() {
 	this.$('#applcCoef').on('keyup change',{module:this}, function(event){
 		event.data.module.calcNetUsageQy();
 	});
-
 	this._mode = '';
 	this._mainKeyValue = '';
 	this._searchButtonClick = false;
 	var mon = new Date().getMonth()+1;
-	if (mon.length==1) {
-		mon="0"+mon;
+	if (mon > 0 && mon < 10) {
+		mon = "0" + mon;
+	} else {
+		mon = "" + mon;
 	}
 	this.$('#sUsageMt').val(mon);
 	this.$('#sApplcCoef').val('0.66');
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidYear
+ * @DESCRIPTION   : YEAR STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. yearString - YEAR STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamElctyUsageSttusMngModule.prototype.isValidYear = function(yearString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (yearString == "") {
+			return false;
+		}
+	} else {
+		if (yearString == "") {
+			return true;
+		}
+	}
+	var year = Number(yearString);
+	if (year > 9999 || year < 1900) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidMonth
+ * @DESCRIPTION   : MONTH STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. monthString - MONTH STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamElctyUsageSttusMngModule.prototype.isValidMonth = function(monthString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (monthString == "") {
+			return false;
+		}
+	} else {
+		if (monthString == "") {
+			return true;
+		}
+	}
+	var month = Number(monthString);
+	if (month > 12 || month < 1) {
+		return false;
+	}
+	return true;
 
 };
 
@@ -272,6 +329,18 @@ GamElctyUsageSttusMngModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamElctyUsageSttusMngModule.prototype.onSubmit = function() {
 
+	var sUsageYear = this.$('#sUsageYear').val();
+	var sUsageMt = this.$('#sUsageMt').val();
+	if (this.isValidYear(sUsageYear, true) == false) {
+		alert('사용 년도가 부정확합니다.');
+		this.$("#sUsageYear").focus();
+		return;
+	}
+	if (this.isValidMonth(sUsageMt, false) == false) {
+		alert('사용 월이 부정확합니다.');
+		this.$("#sUsageMt").focus();
+		return;
+	}
 	this._mode = 'query';
 	this._mainKeyValue = '';
 	this._searchButtonClick = true;
@@ -439,12 +508,12 @@ GamElctyUsageSttusMngModule.prototype.saveData = function() {
 	var saidMtUsageQy = Number(this.$('#saidMtUsageQy').val().replace(/,/gi, ""));
 	var netUsageQy = Number(this.$('#netUsageQy').val().replace(/,/gi, ""));
 	var applcCoef = Number(this.$('#applcCoef').val().replace(/,/gi, ""));
-	if (usageMtYear > "9999"  || usageMtYear < "2000" || usageMtYear == "") {
+	if (this.isValidYear(usageMtYear, true) == false) {
 		alert('사용 년도가 부정확합니다.');
 		this.$("#usageMtYear").focus();
 		return;
 	}
-	if (usageMtMon > "12"  || usageMtMon < "01" || usageMtMon == "") {
+	if (this.isValidMonth(usageMtMon, true) == false) {
 		alert('사용 월이 부정확합니다.');
 		this.$("#usageMtMon").focus();
 		return;
@@ -560,6 +629,18 @@ GamElctyUsageSttusMngModule.prototype.copyData = function() {
 	var sQueryUsageYear = this.$('#sUsageYear').val();
 	var sQueryUsageMt = this.$('#sUsageMt').val();
 	var mtCnt=0;
+	var sUsageYear = this.$('#sUsageYear').val();
+	var sUsageMt = this.$('#sUsageMt').val();
+	if (this.isValidYear(sUsageYear, true) == false) {
+		alert('사용 년도가 부정확합니다.');
+		this.$("#sUsageYear").focus();
+		return;
+	}
+	if (this.isValidMonth(sUsageMt, true) == false) {
+		alert('사용 월이 부정확합니다.');
+		this.$("#sUsageMt").focus();
+		return;
+	}
 	if (confirm("이전월의 자료를 [" + sQueryUsageYear + "-" + sQueryUsageMt + "월] 자료로 복사하시겠습니까?") != true) {
 		return;
 	}
@@ -611,18 +692,19 @@ GamElctyUsageSttusMngModule.prototype.downloadExcel = function() {
 **/
 %>
 GamElctyUsageSttusMngModule.prototype.uploadExcel = function() {
+
 	this.uploadSingleFile('/mngFee/gamExcelUploadElctyUsageSttusMng.do', function(module, resp) {
 		if(resp.resultCode!=0) {
 			alert(resp.resultMsg);
 			return;
-		}
-		else {
+		} else {
 			alert(resp.resultMsg);
 			module._mode = 'query';
 			module._mainKeyValue = '';
 			module.loadData();
 		}
 	});
+
 };
 
 <%
@@ -871,7 +953,8 @@ var module_instance = new GamElctyUsageSttusMngModule();
 							<th>사용 월</th>
 							<td>
 								<select id="sUsageMt">
-									<option value="01" selected>01월</option>
+									<option value="" selected>선택</option>
+									<option value="01">01월</option>
 									<option value="02">02월</option>
 									<option value="03">03월</option>
 									<option value="04">04월</option>

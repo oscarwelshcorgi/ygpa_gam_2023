@@ -167,6 +167,92 @@ GamFcltsFeeMngInqireModule.prototype.loadComplete = function(params) {
 
 <%
 /**
+ * @FUNCTION NAME : isValidYear
+ * @DESCRIPTION   : YEAR STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. yearString - YEAR STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltsFeeMngInqireModule.prototype.isValidYear = function(yearString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (yearString == "") {
+			return false;
+		}
+	} else {
+		if (yearString == "") {
+			return true;
+		}
+	}
+	var year = Number(yearString);
+	if (year > 9999 || year < 1900) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidMonth
+ * @DESCRIPTION   : MONTH STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. monthString - MONTH STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltsFeeMngInqireModule.prototype.isValidMonth = function(monthString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (monthString == "") {
+			return false;
+		}
+	} else {
+		if (monthString == "") {
+			return true;
+		}
+	}
+	var month = Number(monthString);
+	if (month > 12 || month < 1) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidMonthFromTo
+ * @DESCRIPTION   : 기간 MONTH STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. startMonthString - START MONTH STRING
+ *   2. endMonthString - END MONTH STRING
+ *   3. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltsFeeMngInqireModule.prototype.isValidMonthFromTo = function(startMonthString, endMonthString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (startMonthString == "" || endMonthString == "") {
+			return false;
+		}
+	} else {
+		if (startMonthString == "" && endMonthString == "") {
+			return true;
+		}
+	}
+	var startMonth = Number(startMonthString.replace(/-/gi, ""));
+	var endMonth = Number(endMonthString.replace(/-/gi, ""));
+	if (startMonth > endMonth) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
  * @FUNCTION NAME : drawChart
  * @DESCRIPTION   : CHART DRAW
  * @PARAMETER     : NONE
@@ -304,6 +390,35 @@ GamFcltsFeeMngInqireModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamFcltsFeeMngInqireModule.prototype.onSubmit = function() {
 
+	var sStartMngYear = this.$('#sStartMngYear').val();
+	var sStartMngMt = this.$('#sStartMngMt').val();
+	var sEndMngYear = this.$('#sEndMngYear').val();
+	var sEndMngMt = this.$('#sEndMngMt').val();
+	if (this.isValidYear(sStartMngYear, true) == false) {
+		alert('시작 관리 년도가 부정확합니다.');
+		this.$("#sStartMngYear").focus();
+		return;
+	}
+	if (this.isValidMonth(sStartMngMt, true) == false) {
+		alert('시작 관리 월이 부정확합니다.');
+		this.$("#sStartMngMt").focus();
+		return;
+	}
+	if (this.isValidYear(sEndMngYear, true) == false) {
+		alert('종료 관리 년도가 부정확합니다.');
+		this.$("#sEndMngYear").focus();
+		return;
+	}
+	if (this.isValidMonth(sEndMngMt, true) == false) {
+		alert('종료 관리 월이 부정확합니다.');
+		this.$("#sEndMngMt").focus();
+		return;
+	}
+	if (this.isValidMonthFromTo(sStartMngYear + sStartMngMt, sEndMngYear + sEndMngMt, true) == false) {
+		alert('시작 관리 년월이 종료 관리 년월보다 큽니다.');
+		this.$("#sStartMngYear").focus();
+		return;
+	}
 	this._mode="query";
 	this._searchButtonClick = true;
 	this.loadData();

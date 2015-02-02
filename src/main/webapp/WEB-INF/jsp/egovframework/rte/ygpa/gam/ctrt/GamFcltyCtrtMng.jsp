@@ -531,12 +531,19 @@ GamFcltyCtrtMngModule.prototype.isValidDate = function(dateString, nullCheckFlag
  * @DESCRIPTION   : AMOUNT에 대한 VALIDATION을 검사한다.
  * @PARAMETER     :
  *   1. amountValue - AMOUNT VALUE
+ *   2. zeroCheckFlag - ZERO CHECK FLAG
 **/
 %>
-GamFcltyCtrtMngModule.prototype.isValidAmount = function(amountValue) {
+GamFcltyCtrtMngModule.prototype.isValidAmount = function(amountValue, zeroCheckFlag) {
 
-	if (amountValue > 9999999999999999 || amountValue < 0) {
-		return false;
+	if (zeroCheckFlag == true) {
+		if (amountValue > 9999999999999999 || amountValue <= 0) {
+			return false;
+		}
+	} else {
+		if (amountValue > 9999999999999999 || amountValue < 0) {
+			return false;
+		}
 	}
 	return true;
 
@@ -553,6 +560,24 @@ GamFcltyCtrtMngModule.prototype.isValidAmount = function(amountValue) {
 GamFcltyCtrtMngModule.prototype.isValidRate = function(rateValue) {
 
 	if (rateValue > 1 || rateValue < 0) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidAmountFromTo
+ * @DESCRIPTION   : 범위 AMOUNT에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. startAmount - START AMOUNT
+ *   2. endAmount - END AMOUNT
+**/
+%>
+GamFcltyCtrtMngModule.prototype.isValidAmountFromTo = function(startAmount, endAmount) {
+
+	if (startAmount > endAmount) {
 		return false;
 	}
 	return true;
@@ -583,6 +608,36 @@ GamFcltyCtrtMngModule.prototype.isValidDateFromTo = function(startDateString, en
 	var startDate = Number(startDateString.replace(/-/gi, ""));
 	var endDate = Number(endDateString.replace(/-/gi, ""));
 	if (startDate > endDate) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidFirstDate
+ * @DESCRIPTION   : FIRST DATE STRING > SECOND DATE STRING을 검사한다.
+ * @PARAMETER     :
+ *   1. firstDateString - FIRST DATE STRING
+ *   2. secondDateString - SECOND DATE STRING
+ *   3. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltyCtrtMngModule.prototype.isValidFirstDate = function(firstDateString, secondDateString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (firstDateString == "" || secondDateString == "") {
+			return false;
+		}
+	} else {
+		if (firstDateString == "" || secondDateString == "") {
+			return true;
+		}
+	}
+	var firstDate = Number(firstDateString.replace(/-/gi, ""));
+	var secondDate = Number(secondDateString.replace(/-/gi, ""));
+	if (firstDate > secondDate) {
 		return false;
 	}
 	return true;
@@ -818,6 +873,40 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamFcltyCtrtMngModule.prototype.onSubmit = function() {
 
+	var sStartCtrtDt = this.$('#sStartCtrtDt').val();
+	var sEndCtrtDt = this.$('#sEndCtrtDt').val();
+	var sStartCtrtAmt = Number(this.$('#sStartCtrtAmt').val().replace(/,/gi, ""));
+	var sEndCtrtAmt = Number(this.$('#sEndCtrtAmt').val().replace(/,/gi, ""));
+	if (this.isValidDate(sStartCtrtDt, true) == false) {
+		alert('계약 시작 일자가 부정확합니다.');
+		this.$("#sStartCtrtDt").focus();
+		return;
+	}
+	if (this.isValidDate(sEndCtrtDt, true) == false) {
+		alert('계약 종료 일자가 부정확합니다.');
+		this.$("#sEndCtrtDt").focus();
+		return;
+	}
+	if (this.isValidDateFromTo(sStartCtrtDt, sEndCtrtDt, true) == false) {
+		alert('계약 기간이 부정확합니다.');
+		this.$("#sEndCtrtDt").focus();
+		return;
+	}
+	if (this.isValidAmount(sStartCtrtAmt, false) == false) {
+		alert('계약 시작 금액이 부정확합니다.');
+		this.$("#sStartCtrtAmt").focus();
+		return;
+	}
+	if (this.isValidAmount(sEndCtrtAmt, false) == false) {
+		alert('계약 종료 금액이 부정확합니다.');
+		this.$("#sEndCtrtAmt").focus();
+		return;
+	}
+	if (this.isValidAmountFromTo(sStartCtrtAmt, sEndCtrtAmt) == false) {
+		alert('계약 시작 금액이 계약 종료 금액보다 큽니다.');
+		this.$("#sEndCtrtAmt").focus();
+		return;
+	}
 	this._mainmode = 'query';
 	this._mainKeyValue = '';
 	this._joinmode = 'query';
@@ -1753,6 +1842,11 @@ GamFcltyCtrtMngModule.prototype.saveData = function() {
 		this.$("#ctrtDtTo").focus();
 		return;
 	}
+	if (this.isValidFirstDate(ctrtDt, ctrtDtFrom, false) == false) {
+		alert('계약 일자가 계약 시작 일자보다 큽니다.');
+		this.$("#ctrtDtFrom").focus();
+		return;
+	}
 	if (this.isValidDate(bidPblancDt, false) == false) {
 		alert('입찰 공고 일자가 부정확합니다.');
 		this.$("#bidPblancDt").focus();
@@ -1760,7 +1854,17 @@ GamFcltyCtrtMngModule.prototype.saveData = function() {
 	}
 	if (this.isValidDate(bidDt, false) == false) {
 		alert('입찰 일자가 부정확합니다.');
+		this.$("#bidDt").focus();
+		return;
+	}
+	if (this.isValidFirstDate(bidPblancDt, bidDt, false) == false) {
+		alert('입찰 공고 일자가 입찰 일자보다 큽니다.');
 		this.$("#bidPblancDt").focus();
+		return;
+	}
+	if (this.isValidFirstDate(bidDt, ctrtDt, false) == false) {
+		alert('입찰 일자가 계약 일자보다 큽니다.');
+		this.$("#bidDt").focus();
 		return;
 	}
 	if (this.isValidDate(ctrtExamDt, false) == false) {
@@ -1781,6 +1885,11 @@ GamFcltyCtrtMngModule.prototype.saveData = function() {
 	if (this.isValidDateFromTo(flawDtFrom, flawDtTo, false) == false) {
 		alert('하자 기간이 부정확합니다.');
 		this.$("#flawDtTo").focus();
+		return;
+	}
+	if (this.isValidFirstDate(ctrtDt, flawDtFrom, false) == false) {
+		alert('계약 일자가 하자 시작 일자보다 큽니다.');
+		this.$("#flawDtFrom").focus();
 		return;
 	}
 	if (this.isValidAmount(baseAmt) == false) {
@@ -2038,6 +2147,7 @@ GamFcltyCtrtMngModule.prototype.saveSubData = function() {
 
 	var inputVO = this.makeFormArgs("#subForm");
 	var subCtrtNo = this.$('#subCtrtNo').val();
+	var subCtrtDt = this.$('#subCtrtDt').val();
 	var subSeq = this.$('#subSeq').val();
 	var subEntrpsNm = this.$('#subEntrpsNm').val();
 	var moneyPymntAgree = this.$('#moneyPymntAgree').val();
@@ -2097,6 +2207,11 @@ GamFcltyCtrtMngModule.prototype.saveSubData = function() {
 	if (this.isValidDateFromTo(subctrtCtrtDtFrom, subctrtCtrtDtTo, true) == false) {
 		alert('하도급 계약 기간이 부정확합니다.');
 		this.$("#subctrtCtrtDtTo").focus();
+		return;
+	}
+	if (this.isValidFirstDate(subCtrtDt, subctrtCtrtDtFrom, true) == false) {
+		alert('계약 일자가 하도급 계약 시작 일자보다 큽니다.');
+		this.$("#subctrtCtrtDtFrom").focus();
 		return;
 	}
 	if (this._submode == "insert") {
@@ -2189,6 +2304,7 @@ GamFcltyCtrtMngModule.prototype.saveChangeData = function() {
 
 	var inputVO = this.makeFormArgs("#changeForm");
 	var changeCtrtNo = this.$('#changeCtrtNo').val();
+	var changeCtrtDt = this.$('#changeCtrtDt').val();
 	var changeSeq = this.$('#changeSeq').val();
 	var changeSe = this.$('#changeSe').val();
 	var changeDt = this.$('#changeDt').val();
@@ -2234,6 +2350,11 @@ GamFcltyCtrtMngModule.prototype.saveChangeData = function() {
 		if (this.isValidDateFromTo(changeCtrtDtFrom, changeCtrtDtTo, true) == false) {
 			alert('변경 계약 기간이 부정확합니다.');
 			this.$("#changeCtrtDtTo").focus();
+			return;
+		}
+		if (this.isValidFirstDate(changeCtrtDt, changeCtrtDtFrom, true) == false) {
+			alert('계약 일자가 변경 계약 시작 일자보다 큽니다.');
+			this.$("#changeCtrtDtFrom").focus();
 			return;
 		}
 	} else if (changeSe == "2") {

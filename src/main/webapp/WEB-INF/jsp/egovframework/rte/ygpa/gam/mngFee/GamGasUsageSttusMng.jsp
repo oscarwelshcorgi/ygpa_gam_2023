@@ -130,6 +130,62 @@ GamGasUsageSttusMngModule.prototype.loadComplete = function() {
 
 <%
 /**
+ * @FUNCTION NAME : isValidYear
+ * @DESCRIPTION   : YEAR STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. yearString - YEAR STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamGasUsageSttusMngModule.prototype.isValidYear = function(yearString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (yearString == "") {
+			return false;
+		}
+	} else {
+		if (yearString == "") {
+			return true;
+		}
+	}
+	var year = Number(yearString);
+	if (year > 9999 || year < 1900) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidMonth
+ * @DESCRIPTION   : MONTH STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. monthString - MONTH STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamGasUsageSttusMngModule.prototype.isValidMonth = function(monthString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (monthString == "") {
+			return false;
+		}
+	} else {
+		if (monthString == "") {
+			return true;
+		}
+	}
+	var month = Number(monthString);
+	if (month > 12 || month < 1) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
  * @FUNCTION NAME : drawChart
  * @DESCRIPTION   : CHART DRAW
  * @PARAMETER     : NONE
@@ -251,6 +307,18 @@ GamGasUsageSttusMngModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamGasUsageSttusMngModule.prototype.onSubmit = function() {
 
+	var sUsageYear = this.$('#sUsageYear').val();
+	var sUsageMt = this.$('#sUsageMt').val();
+	if (this.isValidYear(sUsageYear, true) == false) {
+		alert('사용 년도가 부정확합니다.');
+		this.$("#sUsageYear").focus();
+		return;
+	}
+	if (this.isValidMonth(sUsageMt, false) == false) {
+		alert('사용 월이 부정확합니다.');
+		this.$("#sUsageMt").focus();
+		return;
+	}
 	this._mode = 'query';
 	this._mainKeyValue = '';
 	this._searchButtonClick = true;
@@ -424,12 +492,12 @@ GamGasUsageSttusMngModule.prototype.saveData = function() {
 	var saidMtUsageQy = Number(this.$('#saidMtUsageQy').val().replace(/,/gi, ""));
 	var netUsageQy = Number(this.$('#netUsageQy').val().replace(/,/gi, ""));
 	var applcCoef = Number(this.$('#applcCoef').val().replace(/,/gi, ""));
-	if (usageMtYear > "9999"  || usageMtYear < "2000" || usageMtYear == "") {
+	if (this.isValidYear(usageMtYear, true) == false) {
 		alert('사용 년도가 부정확합니다.');
 		this.$("#usageMtYear").focus();
 		return;
 	}
-	if (usageMtMon > "12"  || usageMtMon < "01" || usageMtMon == "") {
+	if (this.isValidMonth(usageMtMon, true) == false) {
 		alert('사용 월이 부정확합니다.');
 		this.$("#usageMtMon").focus();
 		return;
@@ -555,18 +623,19 @@ GamGasUsageSttusMngModule.prototype.downloadExcel = function() {
 **/
 %>
 GamGasUsageSttusMngModule.prototype.uploadExcel = function() {
+
 	this.uploadSingleFile('/mngFee/gamExcelUploadGasUsageSttusMng.do', function(module, resp) {
 		if(resp.resultCode!=0) {
 			alert(resp.resultMsg);
 			return;
-		}
-		else {
+		} else {
 			alert(resp.resultMsg);
 			module._mode = 'query';
 			module._mainKeyValue = '';
 			module.loadData();
 		}
 	});
+
 };
 
 <%
@@ -929,13 +998,13 @@ var module_instance = new GamGasUsageSttusMngModule();
 							<tr>
 								<th style="width:10%; height:26;">전월　　사용량</th>
 								<td>
-									<input type="text" size="21" id="prevMtUsageQy" class="ygpaNumber" disabled/> m<sup>3</sub>
+									<input type="text" size="21" id="prevMtUsageQy" class="ygpaNumber" disabled/> m<sup>3</sup>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:26;">당월　　사용량</th>
 								<td>
-									<input type="text" size="21" id="saidMtUsageQy" class="ygpaNumber" maxlength="16"/> m<sup>3</sub>
+									<input type="text" size="21" id="saidMtUsageQy" class="ygpaNumber" maxlength="16"/> m<sup>3</sup>
 								</td>
 							</tr>
 							<tr>
@@ -947,7 +1016,7 @@ var module_instance = new GamGasUsageSttusMngModule();
 							<tr>
 								<th style="width:10%; height:26;">순　사　용　량</th>
 								<td>
-									<input type="text" size="21" id="netUsageQy" class="ygpaNumber" maxlength="16"/> m<sup>3</sub>
+									<input type="text" size="21" id="netUsageQy" class="ygpaNumber" maxlength="16"/> m<sup>3</sup>
 								</td>
 							</tr>
 							<tr>

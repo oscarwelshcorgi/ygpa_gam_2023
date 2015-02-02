@@ -110,6 +110,153 @@ GamFcltyCtrtSttusInqireModule.prototype.loadComplete = function() {
 
 };
 
+<%
+/**
+ * @FUNCTION NAME : isValidYear
+ * @DESCRIPTION   : YEAR STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. yearString - YEAR STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltyCtrtSttusInqireModule.prototype.isValidYear = function(yearString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (yearString == "") {
+			return false;
+		}
+	} else {
+		if (yearString == "") {
+			return true;
+		}
+	}
+	var year = Number(yearString);
+	if (year > 9999 || year < 1900) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidDate
+ * @DESCRIPTION   : DATE STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. dateString - DATE STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltyCtrtSttusInqireModule.prototype.isValidDate = function(dateString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (dateString == "") {
+			return false;
+		}
+	} else {
+		if (dateString == "") {
+			return true;
+		}
+	}
+	var year = Number(dateString.substring(0,4));
+	var month = Number(dateString.substring(5,7));
+	var day = Number(dateString.substring(8,10));
+	if (year > 9999 || year < 1900) {
+		return false;
+	}
+	if (month > 12 || month < 1) {
+		return false;
+	}
+	if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+		if (day > 31 || day < 1) {
+			return false;
+		}
+	} else if (month == 4 || month == 6 || month == 9 || month == 11) {
+		if (day > 30 || day < 1) {
+			return false;
+		}
+	} else if (month == 2) {
+		if (day > 29 || day < 1) {
+			return false;
+		}
+	} else {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidAmount
+ * @DESCRIPTION   : AMOUNT에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. amountValue - AMOUNT VALUE
+ *   2. zeroCheckFlag - ZERO CHECK FLAG
+**/
+%>
+GamFcltyCtrtSttusInqireModule.prototype.isValidAmount = function(amountValue, zeroCheckFlag) {
+
+	if (zeroCheckFlag == true) {
+		if (amountValue > 9999999999999999 || amountValue <= 0) {
+			return false;
+		}
+	} else {
+		if (amountValue > 9999999999999999 || amountValue < 0) {
+			return false;
+		}
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidAmountFromTo
+ * @DESCRIPTION   : 범위 AMOUNT에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. startAmount - START AMOUNT
+ *   2. endAmount - END AMOUNT
+**/
+%>
+GamFcltyCtrtSttusInqireModule.prototype.isValidAmountFromTo = function(startAmount, endAmount) {
+
+	if (startAmount > endAmount) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidDateFromTo
+ * @DESCRIPTION   : 기간 DATE STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. startDateString - START DATE STRING
+ *   2. endDateString - END DATE STRING
+ *   3. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltyCtrtSttusInqireModule.prototype.isValidDateFromTo = function(startDateString, endDateString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (startDateString == "" || endDateString == "") {
+			return false;
+		}
+	} else {
+		if (startDateString == "" && endDateString == "") {
+			return true;
+		}
+	}
+	var startDate = Number(startDateString.replace(/-/gi, ""));
+	var endDate = Number(endDateString.replace(/-/gi, ""));
+	if (startDate > endDate) {
+		return false;
+	}
+	return true;
+
+};
 
 <%
 /**
@@ -187,6 +334,46 @@ GamFcltyCtrtSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamFcltyCtrtSttusInqireModule.prototype.onSubmit = function() {
 
+	var sCtrtYr = this.$('#sCtrtYr').val();
+	var sStartCtrtDt = this.$('#sStartCtrtDt').val();
+	var sEndCtrtDt = this.$('#sEndCtrtDt').val();
+	var sStartCtrtAmt = Number(this.$('#sStartCtrtAmt').val().replace(/,/gi, ""));
+	var sEndCtrtAmt = Number(this.$('#sEndCtrtAmt').val().replace(/,/gi, ""));
+	if (this.isValidYear(sCtrtYr, true) == false) {
+		alert('계약 년도가 부정확합니다.');
+		this.$("#sCtrtYr").focus();
+		return;
+	}
+	if (this.isValidDate(sStartCtrtDt, false) == false) {
+		alert('계약 시작 일자가 부정확합니다.');
+		this.$("#sStartCtrtDt").focus();
+		return;
+	}
+	if (this.isValidDate(sEndCtrtDt, false) == false) {
+		alert('계약 종료 일자가 부정확합니다.');
+		this.$("#sEndCtrtDt").focus();
+		return;
+	}
+	if (this.isValidDateFromTo(sStartCtrtDt, sEndCtrtDt, false) == false) {
+		alert('계약 기간이 부정확합니다.');
+		this.$("#sEndCtrtDt").focus();
+		return;
+	}
+	if (this.isValidAmount(sStartCtrtAmt, false) == false) {
+		alert('계약 시작 금액이 부정확합니다.');
+		this.$("#sStartCtrtAmt").focus();
+		return;
+	}
+	if (this.isValidAmount(sEndCtrtAmt, false) == false) {
+		alert('계약 종료 금액이 부정확합니다.');
+		this.$("#sEndCtrtAmt").focus();
+		return;
+	}
+	if (this.isValidAmountFromTo(sStartCtrtAmt, sEndCtrtAmt) == false) {
+		alert('계약 시작 금액이 계약 종료 금액보다 큽니다.');
+		this.$("#sEndCtrtAmt").focus();
+		return;
+	}
 	this._mainmode = 'query';
 	this._mainKeyValue = '';
 	this._searchButtonClick = true;

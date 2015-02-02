@@ -95,6 +95,34 @@ GamEnergyUsageMngModule.prototype.loadComplete = function() {
 
 <%
 /**
+ * @FUNCTION NAME : isValidYear
+ * @DESCRIPTION   : YEAR STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. yearString - YEAR STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamEnergyUsageMngModule.prototype.isValidYear = function(yearString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (yearString == "") {
+			return false;
+		}
+	} else {
+		if (yearString == "") {
+			return true;
+		}
+	}
+	var year = Number(yearString);
+	if (year > 9999 || year < 1900) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
  * @FUNCTION NAME : drawChart
  * @DESCRIPTION   : CHART DRAW
  * @PARAMETER     : NONE
@@ -218,6 +246,12 @@ GamEnergyUsageMngModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamEnergyUsageMngModule.prototype.onSubmit = function() {
 
+	var sMngYear = this.$('#sMngYear').val();
+	if (this.isValidYear(sMngYear, true) == false) {
+		alert('관리 년도가 부정확합니다.');
+		this.$("#sMngYear").focus();
+		return;
+	}
 	this._mode = 'query';
 	this._mainKeyValue = '';
 	this._searchButtonClick = true;
@@ -363,7 +397,7 @@ GamEnergyUsageMngModule.prototype.saveData = function() {
 	var energyTotalCalVal = Number(this.$('#energyTotalCalVal').val().replace(/,/gi, ""));
 	var energyNetCalVal = Number(this.$('#energyNetCalVal').val().replace(/,/gi, ""));
 	var grHseCoef = Number(this.$('#grHseCoef').val().replace(/,/gi, ""));
-	if (mngYear > "9999"  || mngYear < "2000" || mngYear == "") {
+	if (this.isValidYear(mngYear, true) == false) {
 		alert('관리 년도가 부정확합니다.');
 		this.$("#mngYear").focus();
 		return;
@@ -459,6 +493,11 @@ GamEnergyUsageMngModule.prototype.copyData = function() {
 	var searchVO = this.makeFormArgs("#searchForm");
 	var sQueryMngYear = this.$('#sMngYear').val();
 	var yearCnt = 0;
+	if (this.isValidYear(sQueryMngYear, true) == false) {
+		alert('관리 년도가 부정확합니다.');
+		this.$("#sMngYear").focus();
+		return;
+	}
 	if (confirm("이전년도의 자료를 [" + sQueryMngYear + "년] 자료로 복사하시겠습니까?") != true) {
 		return;
 	}
@@ -666,7 +705,7 @@ var module_instance = new GamEnergyUsageMngModule();
 				<table style="width:100%;" class="searchPanel">
 					<tbody>
 						<tr>
-							<th style="width:10%; height:18;">에너지사용년도</th>
+							<th style="width:10%; height:18;">관　리　년　도</th>
 							<td>
 								<select id="sMngYear">
 									<c:forEach items="${yearsList}" var="yearListItem">
