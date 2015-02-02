@@ -151,6 +151,11 @@ GamFcltyMaintSttusInqireModule.prototype.imgPreview = function(){
 **/
 %>
 GamFcltyMaintSttusInqireModule.prototype.onSubmit = function(){
+	
+	// 날짜 무결성 체크
+	if(!this.searchDateChk()){
+		return;
+	}
 	this.loadData();
 };
 
@@ -174,6 +179,46 @@ GamFcltyMaintSttusInqireModule.prototype.loadData = function(){
 	var searchOpt=this.makeFormArgs('#searchFcltyMaintSttusInqireForm');
 	this.$('#fcltyMaintSttusInqireList').flexOptions({params:searchOpt}).flexReload();
 	
+};
+
+
+<%
+/**
+ * @FUNCTION NAME : searchDateChk
+ * @DESCRIPTION   : 조회시 날짜의 유지보수공사시작일과 종료일 무결성 체크함수
+ * @PARAMETER     : target
+**/
+%>
+GamFcltyMaintSttusInqireModule.prototype.searchDateChk = function() {
+	var mntnRprCnstStartDt = this.$("#sMntnRprCnstStartDtFr").val();
+	var mntnRprCnstEndDt = this.$("#sMntnRprCnstStartDtTo").val();
+	
+	var chk = true;
+
+	if(!EMD.util.isDate(mntnRprCnstStartDt) && mntnRprCnstStartDt){
+		alert("유지보수 공사시작일이 날짜형식이 아닙니다.");
+		chk = false;
+	}
+	if(!EMD.util.isDate(mntnRprCnstEndDt) && mntnRprCnstEndDt){
+		alert("유지보수 공사종료일이 날짜형식이 아닙니다.");
+		chk = false;
+	}
+	
+	if(!mntnRprCnstStartDt && mntnRprCnstEndDt){
+		alert("공사시작일을 입력해주세요.");
+		chk = false;
+	}
+	
+
+	if(mntnRprCnstStartDt && mntnRprCnstEndDt){
+		if(EMD.util.strToDate(mntnRprCnstStartDt).getTime() > EMD.util.strToDate(mntnRprCnstEndDt).getTime()){
+			alert("공사종료일이 공사시작일보다 크거나 같아야합니다.");
+			chk = false;
+		}
+	}
+
+	return chk;
+
 };
 
 

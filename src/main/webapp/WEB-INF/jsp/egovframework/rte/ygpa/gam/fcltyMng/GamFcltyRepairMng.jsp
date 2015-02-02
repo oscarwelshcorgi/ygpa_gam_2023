@@ -135,6 +135,73 @@ GamFcltyRepairMngModule.prototype.applySelectYear = function(){
 	}
 };
 
+<%
+/**
+ * @FUNCTION NAME : validateDuration
+ * @DESCRIPTION   : 유효성 있는 기간 체크
+ * @PARAMETER     : 
+	 1. startDate   : 시작일 문자열, 
+	 2. endDate     : 종료일 문자열, 
+	 3. startTitle  : 시작일 제목, 
+	 4. endTitle    : 종료일 제목, 
+	 5. startIgnore : 
+		 5-1. true  : 시작일 필수입력사항 미체크,
+		 5-2. false : 시작일 필수입력사항 체크 
+	 6. endIgnore : 
+		 6-1. true  : 종료일 필수입력사항 미체크,
+		 6-2. false : 종료일 필수입력사항 체크 
+	 7. equals      :
+		 7-1. true  : 종료일이 시작일 보다 크거나 같으면 허용
+		 7-2. false : 종료일이 시작일 보다 커야 허용
+**/
+%>
+GamFcltyRepairMngModule.prototype.validateDuration = function(startDate, endDate, startTitle, endTitle, startIgnore, endIgnore, equals) {
+	var result = false;
+	if((endDate == null) || (endDate == '')) {
+		if(!endIgnore) {
+			alert(endTitle + '을(를) 입력하셔야 합니다.');
+			return false;
+		}
+		result = true;
+		if((startDate != null) && (startDate != '')) {
+			result = EMD.util.isDate(startDate);
+			if(!result) {
+				alert(startTitle + '은(는) 날짜형식이 아닙니다.');
+			}
+		}
+		return result;
+	}
+	if((startDate == null) || (startDate == '')) {
+		if(startIgnore) {
+			result = EMD.util.isDate(endDate);
+			if(!result) {
+				alert(endTitle + '은(는) 날짜형식이 아닙니다.');
+			}
+			return result;
+		} else {
+			alert(startTitle + '을(를) 입력하셔야 합니다.');
+			return false;
+		}
+	}
+	if(!EMD.util.isDate(startDate)) {
+		alert(startTitle + '은(는) 날짜형식이 아닙니다.');
+		return false;
+	}
+	if(!EMD.util.isDate(endDate)) {
+		alert(endTitle + '은(는) 날짜형식이 아닙니다.');
+		return false;
+	}
+	startDate = EMD.util.strToDate(startDate);
+	endDate = EMD.util.strToDate(endDate);
+	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 : 
+							(startDate.getTime() == endDate.getTime()) ? 0 : 1;	
+	result = (equals) ? (compareResult >= 0) : (compareResult > 0);
+	if(!result) {
+		alert(endTitle +'은(는) ' + startTitle + ((equals) ? '보다 같거나 커야합니다.' : '보다 커야합니다.'));
+	}
+	return result;
+};
+
 
 <%
 /**
@@ -144,6 +211,10 @@ GamFcltyRepairMngModule.prototype.applySelectYear = function(){
 **/
 %>
 GamFcltyRepairMngModule.prototype.onSubmit = function(){
+	if(!this.validateDuration(this.$('#sFlawRprStartDtFr').val(), this.$('#sFlawRprStartDtTo').val(),  
+			'하자검사기간조회 시작일', '하자검사기간조회 종료일',  true,  true, true)) {
+		return;
+	}
 	this.loadData();
 };
 
@@ -468,6 +539,42 @@ GamFcltyRepairMngModule.prototype.saveData = function() {
 		this.$("#fcltyRepairMngListTab").tabs("option", {active: 1});
 		return;
 	}
+	
+	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#flawExamDt').val(),  
+			'시행년도', '하자검사일자', false, true, true)) {
+		return;
+	}
+	
+	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#flawOccrrncDt').val(),  
+			'시행년도', '하자발생일자', false, true, true)) {
+		return;
+	}
+	
+	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#flawRprStartDt').val(),  
+			'시행년도', '하자보수시작일', false, true, true)) {
+		return;
+	}
+	
+	if(!this.validateDuration(this.$('#flawExamDt').val(), this.$('#flawOccrrncDt').val(),  
+			'하자검사일자', '하자발생일자',  true, true, true)) {
+		return;
+	}
+	
+	if(!this.validateDuration(this.$('#flawExamDt').val(), this.$('#flawRprStartDt').val(),  
+			'하자검사일자', '하자보수시작일',  true, true, true)) {
+		return;
+	}
+	
+	if(!this.validateDuration(this.$('#flawOccrrncDt').val(), this.$('#flawRprStartDt').val(),  
+			'하자발생일자', '하자보수시작일',  true, true, false)) {
+		return;
+	}
+	
+	if(!this.validateDuration(this.$('#flawRprStartDt').val(), this.$('#flawRprEndDt').val(),  
+			'하자보수시작일', '하자보수종료일',  false, false, true)) {
+		return;
+	}
+	
 	
 	var inputVO = this.makeSaveParam();
 

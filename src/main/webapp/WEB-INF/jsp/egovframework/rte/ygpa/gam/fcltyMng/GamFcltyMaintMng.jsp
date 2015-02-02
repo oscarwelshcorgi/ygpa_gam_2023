@@ -135,7 +135,7 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 		event.data.module.$("#sCtrtNo").val('');
 		event.data.module.$("#sCtrtNm").val('');
 	});
-	
+
 	
 	// 연도 셀렉트 옵션에 뿌리기
 	this.applySelectYear();
@@ -234,6 +234,11 @@ GamFcltyMaintMngModule.prototype.imgPreview = function(){
 **/
 %>
 GamFcltyMaintMngModule.prototype.onSubmit = function(){
+	
+	// 날짜 무결성 체크
+	if(!this.searchDateChk()){
+		return;
+	}
 	this.loadData();
 };
 
@@ -258,6 +263,47 @@ GamFcltyMaintMngModule.prototype.loadData = function(){
 	this.$('#fcltyMaintMngList').flexOptions({params:searchOpt}).flexReload();
 	
 };
+
+
+<%
+/**
+ * @FUNCTION NAME : searchDateChk
+ * @DESCRIPTION   : 조회시 날짜의 유지보수공사시작일과 종료일 무결성 체크함수
+ * @PARAMETER     : target
+**/
+%>
+GamFcltyMaintMngModule.prototype.searchDateChk = function() {
+	var mntnRprCnstStartDt = this.$("#sMntnRprCnstStartDtFr").val();
+	var mntnRprCnstEndDt = this.$("#sMntnRprCnstStartDtTo").val();
+	
+	var chk = true;
+
+	if(!EMD.util.isDate(mntnRprCnstStartDt) && mntnRprCnstStartDt){
+		alert("유지보수 공사시작일이 날짜형식이 아닙니다.");
+		chk = false;
+	}
+	if(!EMD.util.isDate(mntnRprCnstEndDt) && mntnRprCnstEndDt){
+		alert("유지보수 공사종료일이 날짜형식이 아닙니다.");
+		chk = false;
+	}
+	
+	if(!mntnRprCnstStartDt && mntnRprCnstEndDt){
+		alert("공사시작일을 입력해주세요.");
+		chk = false;
+	}
+	
+
+	if(mntnRprCnstStartDt && mntnRprCnstEndDt){
+		if(EMD.util.strToDate(mntnRprCnstStartDt).getTime() > EMD.util.strToDate(mntnRprCnstEndDt).getTime()){
+			alert("공사종료일이 공사시작일보다 크거나 같아야합니다.");
+			chk = false;
+		}
+	}
+
+	return chk;
+
+};
+
 
 <%
 /**
@@ -364,6 +410,71 @@ GamFcltyMaintMngModule.prototype.makeSelectArgs = function(selId) {
 	return optionValues;
 };
 
+
+<%
+/**
+ * @FUNCTION NAME : saveDateChk
+ * @DESCRIPTION   : 저장시 날짜의 시작일과 종료일 무결성 체크함수
+ * @PARAMETER     : target
+**/
+%>
+GamFcltyMaintMngModule.prototype.saveDateChk = function() {
+	var enforceYear = this.$("#enforceYear").val();
+	var mntnRprCnstStartDt = this.$("#mntnRprCnstStartDt").val();
+	var mntnRprCnstEndDt = this.$("#mntnRprCnstEndDt").val();
+	
+	var chk = true;
+	
+	if(!enforceYear){
+		alert("시행년도는 반드시 선택하셔야 합니다.");
+		chk = false;
+	}
+	
+	if(!EMD.util.isDate(mntnRprCnstStartDt) && mntnRprCnstStartDt){
+		alert("공사시작일이 날짜형식이 아닙니다.");
+		chk = false;
+	}
+	if(!EMD.util.isDate(mntnRprCnstEndDt) && mntnRprCnstEndDt){
+		alert("공사종료일이 날짜형식이 아닙니다.");
+		chk = false;
+	}
+	
+	if(mntnRprCnstStartDt && !mntnRprCnstEndDt){
+		alert("공사종료일을 입력해주세요.");
+		chk = false;
+	}
+	if(!mntnRprCnstStartDt && mntnRprCnstEndDt){
+		alert("공사시작일을 입력해주세요.");
+		chk = false;
+	}
+	
+	
+	if(enforceYear && mntnRprCnstStartDt){
+		if(enforceYear > EMD.util.strToDate(mntnRprCnstStartDt).getFullYear()){
+			alert("공사시작연도가 시행년도보다 크거나 같아야합니다.");
+			chk = false;
+		}
+	}
+	if(mntnRprCnstStartDt && mntnRprCnstEndDt){
+		if(EMD.util.strToDate(mntnRprCnstStartDt).getTime() > EMD.util.strToDate(mntnRprCnstEndDt).getTime()){
+			alert("공사종료일이 공사시작일보다 크거나 같아야합니다.");
+			chk = false;
+		}
+	}
+	
+	if(enforceYear && mntnRprCnstEndDt){
+		if(enforceYear > EMD.util.strToDate(mntnRprCnstEndDt).getFullYear()){
+			alert("공사종료연도가 시행년도보다 크거나 같아야합니다.");
+			chk = false;
+		}
+	}
+
+	
+	return chk;
+
+};
+
+
 <%
 /**
  * @FUNCTION NAME : saveData
@@ -373,8 +484,13 @@ GamFcltyMaintMngModule.prototype.makeSelectArgs = function(selId) {
 %>
 GamFcltyMaintMngModule.prototype.saveData = function() {
 	
-	if(!validateFcltyMaintMngVO(this.$("#fcltyMaintMngListVO")[0])){
+	/* if(!validateFcltyMaintMngVO(this.$("#fcltyMaintMngListVO")[0])){
 		this.$("#fcltyMaintMngListTab").tabs("option", {active: 1});
+		return;
+	} */
+	
+	// 날짜 무결성 체크
+	if(!this.saveDateChk()){
 		return;
 	}
 
