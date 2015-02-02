@@ -480,7 +480,7 @@ GamFcltyQcwWrtMngModule.prototype.saveData = function() {
 	}
 
 	if(!this.validateDuration(this.$('#qcInspDt').val(), this.$('#qcBeginDt').val(),  
-								'시행일자', '점검기간 시작일', true, true, false)) {
+								'시행일자', '점검기간 시작일', true, true, true)) {
 		return;
 	}
 
