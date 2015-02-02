@@ -302,7 +302,7 @@
         ON 
 			O.FCLTS_MNG_GROUP_NO = G.FCLTS_MNG_GROUP_NO 
 			AND O.FCLTS_MNG_NO = G.FCLTS_MNG_NO
-			AND O.QC_MNG_SEQ = #sQcMngSeq#
+			AND O.QC_MNG_SEQ = TO_NUMBER(#sQcMngSeq#)
 		WHERE 
 			<![CDATA[ 1<>1 ]]>
 			OR (
