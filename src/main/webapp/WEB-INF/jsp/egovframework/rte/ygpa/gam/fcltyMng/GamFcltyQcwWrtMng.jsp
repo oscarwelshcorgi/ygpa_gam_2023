@@ -374,12 +374,16 @@ GamFcltyQcwWrtMngModule.prototype.validateDetailForm = function() {
 /**
  * @FUNCTION NAME : validateDuration
  * @DESCRIPTION   : 유효성 있는 기간 체크
- * @PARAMETER     : 시작일 문자열, 종료일 문자열, 시작일 제목, 종료일 제목, 시작일이 없으면 무시유무(true일 때 시작일 필수입력체크없음), equals 연산 포함(true일 때 시작일과 종료일이 같다는 비교도 함) 
+ * @PARAMETER     : 시작일 문자열, 종료일 문자열, 시작일 제목, 종료일 제목, 시작일 무시 유무, 종료일 무시 유무, equals 연산 포함(true일 때 시작일과 종료일이 같다는 비교도 함) 
 **/
 %>
-GamFcltyQcwWrtMngModule.prototype.validateDuration = function(startDate, endDate, startTitle, endTitle, startIgnore, equals) {
+GamFcltyQcwWrtMngModule.prototype.validateDuration = function(startDate, endDate, startTitle, endTitle, startIgnore, endIgnore, equals) {
 	var result = false;
 	if((endDate == null) || (endDate == '')) {
+		if(!endIgnore) {
+			alert(endTitle + '을(를) 입력하셔야 합니다.');
+			return false;
+		}
 		result = true;
 		if((startDate != null) && (startDate != '')) {
 			result = EMD.util.isDate(startDate);
@@ -455,19 +459,29 @@ GamFcltyQcwWrtMngModule.prototype.saveData = function() {
 	}
 	
 	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#qcInspDt').val(),  
-								'시행년도', '시행일자', false, true)) {
+								'시행년도', '시행일자', false, false, true)) {
 		return;
 	}
 
 	if(!this.validateDuration(this.$('#qcInspDt').val(), this.$('#qcBeginDt').val(),  
-								'시행일자', '점검기간 시작일', true, false)) {
+								'시행일자', '점검기간 시작일', true, true, false)) {
 		return;
 	}
 
 	if(!this.validateDuration(this.$('#qcBeginDt').val(), this.$('#qcEndDt').val(),  
-								'점검기간 시작일', '점검기간 종료일', true, false)) {
+								'점검기간 시작일', '점검기간 종료일', true, false, false)) {
 		return;
 	}
+
+	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#qcBeginDt').val(),  
+								'시행년도', '점검진단 시작일', false, false, true)) {
+		return;
+	}
+
+	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#qcEndDt').val(),  
+								'시행년도', '점검진단 종료일', false, false, true)) {
+		return;
+	}	
 	
 	var inputData = this.getSaveData();
 	
