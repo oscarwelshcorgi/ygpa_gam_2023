@@ -124,7 +124,6 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function() {
 
 	this.fillSelectBoxYear('#enforceYear');	
 	this.fillSelectBoxYear('#sEnforceYear'); 
-	this.$('#enforceYear').val((new Date()).getFullYear());
 };
 
 <%
@@ -240,6 +239,7 @@ GamFcltyQcwWrtMngModule.prototype.initBeforeInsert = function() {
 	this._qcresultmode = '';
 	this.makeFormValues('#detailForm', {});
 	this.setControlStatus();
+	this.$('#enforceYear').val((new Date()).getFullYear());
 	this.$('#mainTab').tabs('option', {active: 1});
 };
 
@@ -454,7 +454,7 @@ GamFcltyQcwWrtMngModule.prototype.saveData = function() {
 		return;
 	}
 	
-	if(!this.validateDuration(this.$('#enforceYear').val() + '01-01', this.$('#qcInspDt').val(),  
+	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#qcInspDt').val(),  
 								'시행년도', '시행일자', false, true))
 	{
 		return;
