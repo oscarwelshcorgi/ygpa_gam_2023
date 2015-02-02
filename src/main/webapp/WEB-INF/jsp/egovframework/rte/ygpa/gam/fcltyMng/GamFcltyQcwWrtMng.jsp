@@ -475,7 +475,7 @@ GamFcltyQcwWrtMngModule.prototype.saveData = function() {
 	}
 	
 	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#qcInspDt').val(),  
-								'시행년도', '시행일자', false, false, true)) {
+								'시행년도', '시행일자', true, true, true)) {
 		return;
 	}
 
@@ -485,17 +485,17 @@ GamFcltyQcwWrtMngModule.prototype.saveData = function() {
 	}
 
 	if(!this.validateDuration(this.$('#qcBeginDt').val(), this.$('#qcEndDt').val(),  
-								'점검기간 시작일', '점검기간 종료일', true, true, false)) {
+								'점검기간 시작일', '점검기간 종료일', false, false, false)) {
 		return;
 	}
 
 	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#qcBeginDt').val(),  
-								'시행년도', '점검진단 시작일', false, false, true)) {
+								'시행년도', '점검진단 시작일', true, true, true)) {
 		return;
 	}
 
 	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#qcEndDt').val(),  
-								'시행년도', '점검진단 종료일', false, false, true)) {
+								'시행년도', '점검진단 종료일', true, true, true)) {
 		return;
 	}	
 	
@@ -576,6 +576,9 @@ GamFcltyQcwWrtMngModule.prototype.loadQcSubDataList = function() {
 		 			module._qcResultList = result.resultList;
 		 			module._qcresultmode = 'loaded';
 		 			module.setControlStatus();
+		 			if(module._mainmode == 'insert') {
+		 				searchVO[searchVO.length] = { name: 'sFcltsMngGroupNo', value: module.$('#fcltsMngGroupNo').val() }
+		 			}
 		 			module.$('#qcObjFcltsGrid').flexOptions({params:searchVO}).flexReload();
 		 		}
 		 		else {
@@ -584,6 +587,9 @@ GamFcltyQcwWrtMngModule.prototype.loadQcSubDataList = function() {
 			});
 		}
 		else {
+ 			if(this._mainmode == 'insert') {
+ 				searchVO[searchVO.length] = { name: 'sFcltsMngGroupNo', value: this.$('#fcltsMngGroupNo').val() }
+ 			}
 			this.$('#qcObjFcltsGrid').flexOptions({params:searchVO}).flexReload();
 		}
 	}
