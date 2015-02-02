@@ -73,6 +73,76 @@ GamSocAgentProcessDtlsSttusModule.prototype.loadComplete = function() {
     });
 };
 
+<%
+/**
+ * @FUNCTION NAME : validateDuration
+ * @DESCRIPTION   : 유효성 있는 기간 체크
+ * @PARAMETER     : 
+	 1. startDate   : 시작일 문자열, 
+	 2. endDate     : 종료일 문자열, 
+	 3. startTitle  : 시작일 제목, 
+	 4. endTitle    : 종료일 제목, 
+	 5. startIgnore : 
+		 5-1. true  : 시작일 필수입력사항 미체크,
+		 5-2. false : 시작일 필수입력사항 체크 
+	 6. endIgnore : 
+		 6-1. true  : 종료일 필수입력사항 미체크,
+		 6-2. false : 종료일 필수입력사항 체크 
+	 7. equals      :
+		 7-1. true  : 종료일이 시작일 보다 크거나 같으면 허용
+		 7-2. false : 종료일이 시작일 보다 커야 허용
+**/
+%>
+GamSocAgentProcessDtlsSttusModule.prototype.validateDuration = function(startDate, endDate, startTitle, endTitle, startIgnore, endIgnore, equals) {
+	var result = false;
+	if(((startDate == null) || (startDate == '')) && ((endDate == null) || (endDate == ''))) {
+		return true;
+	}
+	if((endDate == null) || (endDate == '')) {
+		if(!endIgnore) {
+			alert(endTitle + '을(를) 입력하셔야 합니다.');
+			return false;
+		}
+		result = true;
+		if((startDate != null) && (startDate != '')) {
+			result = EMD.util.isDate(startDate);
+			if(!result) {
+				alert(startTitle + '은(는) 날짜형식이 아닙니다.');
+			}
+		}
+		return result;
+	}
+	if((startDate == null) || (startDate == '')) {
+		if(startIgnore) {
+			result = EMD.util.isDate(endDate);
+			if(!result) {
+				alert(endTitle + '은(는) 날짜형식이 아닙니다.');
+			}
+			return result;
+		} else {
+			alert(startTitle + '을(를) 입력하셔야 합니다.');
+			return false;
+		}
+	}
+	if(!EMD.util.isDate(startDate)) {
+		alert(startTitle + '은(는) 날짜형식이 아닙니다.');
+		return false;
+	}
+	if(!EMD.util.isDate(endDate)) {
+		alert(endTitle + '은(는) 날짜형식이 아닙니다.');
+		return false;
+	}
+	startDate = EMD.util.strToDate(startDate);
+	endDate = EMD.util.strToDate(endDate);
+	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 : 
+							(startDate.getTime() == endDate.getTime()) ? 0 : 1;	
+	result = (equals) ? (compareResult >= 0) : (compareResult > 0);
+	if(!result) {
+		alert(endTitle +'은(는) ' + startTitle + ((equals) ? '보다 같거나 커야합니다.' : '보다 커야합니다.'));
+	}
+	return result;
+};
+
 GamSocAgentProcessDtlsSttusModule.prototype.onSubmit = function() {
     this.loadData();
 };
@@ -81,6 +151,11 @@ GamSocAgentProcessDtlsSttusModule.prototype.loadData = function() {
 	if(!validateGamSocAgentProcessDtlsSttus(this.$('#gamSocAgentProcessDtlsSttusSearchForm')[0])){ 		
 		return;
 	}
+	if(!this.validateDuration(this.$('#sBillDtFr').val(), this.$('#sBillDtTo').val(),  
+								'고지일자 시작일', '고지일자 종료일', true, true, true)) {
+		return;
+	}
+	
 	var opts = this.makeFormArgs('#gamSocAgentProcessDtlsSttusSearchForm');
 	this.$("#socAgentProcessDtlsSttusList").flexOptions({params:opts}).flexReload();
 };

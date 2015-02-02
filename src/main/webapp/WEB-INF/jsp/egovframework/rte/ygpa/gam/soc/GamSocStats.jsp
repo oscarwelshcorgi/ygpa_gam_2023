@@ -75,12 +75,32 @@ GamSocStatsModule.prototype.onSubmit = function() {
 /**
  * @FUNCTION NAME : validateDuration
  * @DESCRIPTION   : 유효성 있는 기간 체크
- * @PARAMETER     : 시작일 문자열, 종료일 문자열, 시작일 제목, 종료일 제목, 시작일이 없으면 무시유무, equals 연산 포함 
+ * @PARAMETER     : 
+	 1. startDate   : 시작일 문자열, 
+	 2. endDate     : 종료일 문자열, 
+	 3. startTitle  : 시작일 제목, 
+	 4. endTitle    : 종료일 제목, 
+	 5. startIgnore : 
+		 5-1. true  : 시작일 필수입력사항 미체크,
+		 5-2. false : 시작일 필수입력사항 체크 
+	 6. endIgnore : 
+		 6-1. true  : 종료일 필수입력사항 미체크,
+		 6-2. false : 종료일 필수입력사항 체크 
+	 7. equals      :
+		 7-1. true  : 종료일이 시작일 보다 크거나 같으면 허용
+		 7-2. false : 종료일이 시작일 보다 커야 허용
 **/
 %>
-GamSocStatsModule.prototype.validateDuration = function(startDate, endDate, startTitle, endTitle, startIgnore, equals) {
+GamSocStatsModule.prototype.validateDuration = function(startDate, endDate, startTitle, endTitle, startIgnore, endIgnore, equals) {
 	var result = false;
+	if(((startDate == null) || (startDate == '')) && ((endDate == null) || (endDate == ''))) {
+		return true;
+	}
 	if((endDate == null) || (endDate == '')) {
+		if(!endIgnore) {
+			alert(endTitle + '을(를) 입력하셔야 합니다.');
+			return false;
+		}
 		result = true;
 		if((startDate != null) && (startDate != '')) {
 			result = EMD.util.isDate(startDate);
@@ -123,21 +143,29 @@ GamSocStatsModule.prototype.validateDuration = function(startDate, endDate, star
 
 //투자비보전집계목록 로드
 GamSocStatsModule.prototype.loadData = function() {
-	if(!validateGamSocStats(this.$('#gamSocStatsSearchForm')[0])){ 		
-		return;
-	}
+	//if(!validateGamSocStats(this.$('#gamSocStatsSearchForm')[0])){ 		
+	//	return;
+	//}
 	if(this.$('#sSearchTarget').val() == '1') {
     	if(this.$('#sExmpAgentCode').val() == '') {
     		alert('업체코드를 선택하세요.');
     		return;
     	}
 	} else if(this.$('#sSearchTarget').val() == '2') {
-    	if(this.$('#sSearchFr').val() == '' || this.$('#sSearchTo').val() == '') {
+		var searchFr = this.$('#sSearchFr').val();
+		var searchTo = this.$('#sSearchTo').val();
+    	if(searchFr == '' || searchTo == '') {
     		alert('조회월을 입력하세요.');
     		return;
     	}
-    	if(!this.validateDuration(this.$('#sSearchFr').val() + '01', this.$('#sSearchTo').val() + '01',  
-									'조회 시작월', '조회 종료월', false, true)) {
+    	if(searchFr.length != 6 || searchTo.length != 6) {
+    		alert('조회월을 잘못 입력하셨습니다.');
+    		return;
+    	}
+    	searchFr = searchFr.substring(0, 4) + '-' + searchFr.substring(4) + '-' + '01';
+    	searchTo = searchTo.substring(0, 4) + '-' + searchTo.substring(4) + '-' + '01';
+    	if(!this.validateDuration(searchFr, searchTo,  
+									'조회 시작월', '조회 종료월', false, false, true)) {
 			return;
 		}		
 	} else {
@@ -145,12 +173,20 @@ GamSocStatsModule.prototype.loadData = function() {
     		alert('업체코드를 선택하세요.');
     		return;
     	}
-    	if(this.$('#sSearchFr').val() == '' || this.$('#sSearchTo').val() == '') {
+		var searchFr = this.$('#sSearchFr').val();
+		var searchTo = this.$('#sSearchTo').val();
+    	if(searchFr == '' || searchTo == '') {
     		alert('조회월을 입력하세요.');
     		return;
-    	}        	
-    	if(!this.validateDuration(this.$('#sSearchFr').val() + '01', this.$('#sSearchTo').val() + '01',  
-									'조회 시작월', '조회 종료월', false, true)) {
+    	}
+    	if(searchFr.length != 6 || searchTo.length != 6) {
+    		alert('조회월을 잘못 입력하셨습니다.');
+    		return;
+    	}
+    	searchFr = searchFr.substring(0, 4) + '-' + searchFr.substring(4) + '-' + '01';
+    	searchTo = searchTo.substring(0, 4) + '-' + searchTo.substring(4) + '-' + '01';
+    	if(!this.validateDuration(searchFr, searchTo,  
+									'조회 시작월', '조회 종료월', false, false, true)) {
 			return;
 		}		
     }
