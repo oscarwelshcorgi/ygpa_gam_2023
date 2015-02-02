@@ -123,7 +123,8 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function() {
 	this.setControlStatus();
 
 	this.fillSelectBoxYear('#enforceYear');	
-	this.fillSelectBoxYear('#sEnforceYear'); 		
+	this.fillSelectBoxYear('#sEnforceYear'); 
+	this.$('#enforceYear').val((new Date()).getFullYear());
 };
 
 <%
@@ -371,6 +372,78 @@ GamFcltyQcwWrtMngModule.prototype.validateDetailForm = function() {
 
 <%
 /**
+ * @FUNCTION NAME : validateDuration
+ * @DESCRIPTION   : 유효성 있는 기간 체크
+ * @PARAMETER     : 시작일 문자열, 종료일 문자열, 시작일 제목, 종료일 제목, 시작일이 없으면 무시유무, equals 연산 포함 
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.validateDuration = function(startDate, endDate, startTitle, endTitle, startIgnore, equals) {
+	var result = false;
+	if((endDate == null) || (endDate == '')) {
+		result = true;
+		if((startDate != null) && (startDate != '')) {
+			result = EMD.util.isDate(startDate);
+			if(!result) {
+				alert(startTitle + '은(는) 날짜형식이 아닙니다.');
+			}
+		}
+		return result;
+	}
+	if((startDate == null) || (startDate == '')) {
+		if(startIgnore) {
+			result = EMD.util.isDate(endDate);
+			if(!result) {
+				alert(endTitle + '은(는) 날짜형식이 아닙니다.');
+			}
+			return result;
+		} else {
+			alert(startTitle + '을(를) 입력하셔야 합니다.');
+			return false;
+		}
+	}
+	if(!EMD.util.isDate(startDate)) {
+		alert(startTitle + '은(는) 날짜형식이 아닙니다.');
+		return false;
+	}
+	if(!EMD.util.isDate(endDate)) {
+		alert(endTitle + '은(는) 날짜형식이 아닙니다.');
+		return false;
+	}
+	startDate = EMD.util.strToDate(startDate);
+	endDate = EMD.util.strToDate(endDate);
+	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 : 
+							(startDate.getTime() == endDate.getTime()) ? 0 : 1;	
+	result = (equals) ? (compareResult >= 0) : (compareResult > 0);
+	if(!result) {
+		alert(endTitle +'은(는) ' + startTitle + ((equals) ? '보다 같거나 커야합니다.' : '보다 커야합니다.'));
+	}
+	return result;
+};
+
+<%
+/**
+ * @FUNCTION NAME : getSaveData
+ * @DESCRIPTION   : 저장할 데이터 얻기
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.getSaveData = function() {
+	var result = [];
+	var detailForm = this.makeFormArgs('#detailForm', 'object');
+	var qcObjList = this.getQcObjList();
+	var qcResultList = this.getQcResultItemList();
+	var atchFileList = this.getAtchFileList();
+		
+	result[result.length] = {name: 'detailForm', value :JSON.stringify(detailForm) };
+	result[result.length] = {name: 'qcObjList', value :JSON.stringify(qcObjList)};
+	result[result.length] = {name: 'qcResultList', value :JSON.stringify(qcResultList)};
+	result[result.length] = {name: 'atchFileList', value :JSON.stringify(atchFileList)};
+	
+	return result;
+};
+
+<%
+/**
  * @FUNCTION NAME : saveData
  * @DESCRIPTION   : 점검관리 데이터 저장
  * @PARAMETER     : NONE
@@ -381,19 +454,28 @@ GamFcltyQcwWrtMngModule.prototype.saveData = function() {
 		return;
 	}
 	
-	var detailForm = this.makeFormArgs('#detailForm', 'object');
-	var qcObjList = this.getQcObjList();
-	var qcResultList = this.getQcResultItemList();
-	var atchFileList = this.getAtchFileList();
-		
-	var inputVO = [];
-	inputVO[inputVO.length] = {name: 'detailForm', value :JSON.stringify(detailForm) };
-	inputVO[inputVO.length] = {name: 'qcObjList', value :JSON.stringify(qcObjList)};
-	inputVO[inputVO.length] = {name: 'qcResultList', value :JSON.stringify(qcResultList)};
-	inputVO[inputVO.length] = {name: 'atchFileList', value :JSON.stringify(atchFileList)};
+	if(!this.validateDuration(this.$('#enforceYear').val() + '01-01', this.$('#qcInspDt').val(),  
+								'시행년도', '시행일자', false, true))
+	{
+		return;
+	}
+
+	if(!this.validateDuration(this.$('#qcInspDt').val(), this.$('#qcBeginDt').val(),  
+								'시행일자', '점검기간 시작일', true, false))
+	{
+		return;
+	}
+
+	if(!this.validateDuration(this.$('#qcBeginDt').val(), this.$('#qcEndDt').val(),  
+								'점검기간 시작일', '점검기간 종료일', true, false))
+	{
+		return;
+	}
+	
+	var inputData = this.getSaveData();
 	
 	if(this._mainmode == 'insert') {
-	 	this.doAction('/fcltyMng/insertQcMngDtls.do', inputVO, function(module, result) {
+	 	this.doAction('/fcltyMng/insertQcMngDtls.do', inputData, function(module, result) {
 	 		if(result.resultCode == '0') {
 	 			module.$('#qcMngSeq').val(result.qcMngSeq);
 	 			module._mainmode = 'modify';
@@ -404,7 +486,7 @@ GamFcltyQcwWrtMngModule.prototype.saveData = function() {
 	}
 	else if(this._mainmode == 'modify')
 	{
-	 	this.doAction('/fcltyMng/updateQcMngDtls.do', inputVO, function(module, result) {
+	 	this.doAction('/fcltyMng/updateQcMngDtls.do', inputData, function(module, result) {
 	 		alert(result.resultMsg);
 	 	});
 	}

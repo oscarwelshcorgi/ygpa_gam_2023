@@ -357,6 +357,7 @@ GamInfoTechFcltySpecMngModule.prototype.setControlStatus = function() {
 	}
 };
 
+
 <%
 /**
  * @FUNCTION NAME : validateDetailForm
@@ -390,6 +391,56 @@ GamInfoTechFcltySpecMngModule.prototype.validateDetailForm = function() {
 		}
 	}
 	return true;
+};
+
+<%
+/**
+ * @FUNCTION NAME : validateDuration
+ * @DESCRIPTION   : 유효성 있는 기간 체크
+ * @PARAMETER     : 시작일 문자열, 종료일 문자열, 시작일 제목, 종료일 제목, 시작일이 없으면 무시유무, equals 연산 포함 
+**/
+%>
+GamInfoTechFcltySpecMngModule.prototype.validateDuration = function(startDate, endDate, startTitle, endTitle, startIgnore, equals) {
+	var result = false;
+	if((endDate == null) || (endDate == '')) {
+		result = true;
+		if((startDate != null) && (startDate != '')) {
+			result = EMD.util.isDate(startDate);
+			if(!result) {
+				alert(startTitle + '은(는) 날짜형식이 아닙니다.');
+			}
+		}
+		return result;
+	}
+	if((startDate == null) || (startDate == '')) {
+		if(startIgnore) {
+			result = EMD.util.isDate(endDate);
+			if(!result) {
+				alert(endTitle + '은(는) 날짜형식이 아닙니다.');
+			}
+			return result;
+		} else {
+			alert(startTitle + '을(를) 입력하셔야 합니다.');
+			return false;
+		}
+	}
+	if(!EMD.util.isDate(startDate)) {
+		alert(startTitle + '은(는) 날짜형식이 아닙니다.');
+		return false;
+	}
+	if(!EMD.util.isDate(endDate)) {
+		alert(endTitle + '은(는) 날짜형식이 아닙니다.');
+		return false;
+	}
+	startDate = EMD.util.strToDate(startDate);
+	endDate = EMD.util.strToDate(endDate);
+	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 : 
+							(startDate.getTime() == endDate.getTime()) ? 0 : 1;	
+	result = (equals) ? (compareResult >= 0) : (compareResult > 0);
+	if(!result) {
+		alert(endTitle +'은(는) ' + startTitle + ((equals) ? '보다 같거나 커야합니다.' : '보다 커야합니다.'));
+	}
+	return result;
 };
 
 <%
@@ -431,7 +482,13 @@ GamInfoTechFcltySpecMngModule.prototype.saveData = function() {
 	if(!this.validateDetailForm()){
 		return;
 	}
-
+	
+	if(!this.validateDuration(this.$('#prtFcltyInstlDt').val(), this.$('#prtFcltyChangeDt').val(), 
+									'설치일자', '변경일자', true, false)) 
+	{
+		return;
+	}
+	
 	var inputData = this.getSaveData();
 
 	if(this._mainmode == 'insert') {
