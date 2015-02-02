@@ -395,13 +395,33 @@ GamMechFcltySpecMngModule.prototype.validateDetailForm = function() {
 /**
  * @FUNCTION NAME : validateDuration
  * @DESCRIPTION   : 유효성 있는 기간 체크
- * @PARAMETER     : 시작일 문자열, 종료일 문자열, 시작일 제목, 종료일 제목, 시작일이 없으면 무시유무, equals 연산 포함 
+ * @PARAMETER     : 
+	 1. startDate   : 시작일 문자열, 
+	 2. endDate     : 종료일 문자열, 
+	 3. startTitle  : 시작일 제목, 
+	 4. endTitle    : 종료일 제목, 
+	 5. startIgnore : 
+		 5-1. true  : 시작일 필수입력사항 미체크,
+		 5-2. false : 시작일 필수입력사항 체크 
+	 6. endIgnore : 
+		 6-1. true  : 종료일 필수입력사항 미체크,
+		 6-2. false : 종료일 필수입력사항 체크 
+	 7. equals      :
+		 7-1. true  : 종료일이 시작일 보다 크거나 같으면 허용
+		 7-2. false : 종료일이 시작일 보다 커야 허용
 **/
 %>
-GamMechFcltySpecMngModule.prototype.validateDuration = function(startDate, endDate, startTitle, endTitle, startIgnore, equals) {
-	var result = false;
+GamMechFcltySpecMngModule.prototype.validateDuration = function(startDate, endDate, startTitle, endTitle, startIgnore, endIgnore, equals) {
+	var result;
+	if(((startDate == null) || (startDate == '')) && ((endDate == null) || (endDate == ''))) {
+		return true;
+	}
 	if((endDate == null) || (endDate == '')) {
 		result = true;
+		if(!endIgnore) {
+			alert(endTitle + '을(를) 입력하셔야 합니다.');
+			return false;
+		}
 		if((startDate != null) && (startDate != '')) {
 			result = EMD.util.isDate(startDate);
 			if(!result) {
@@ -482,22 +502,22 @@ GamMechFcltySpecMngModule.prototype.saveData = function() {
 	}
 
 	if(!this.validateDuration(this.$('#mfcDt').val(), this.$('#prtFcltyInstlDt').val(),  
-								'제작일자', '설치일자', true, false)) {
+								'제작일자', '설치일자', true, true, false)) {
 		return;
 	}
 
 	if(!this.validateDuration(this.$('#prtFcltyInstlDt').val(), this.$('#usageBeginDt').val(),  
-								'제작일자', '사용 시작일자', true, false)) {
+								'제작일자', '사용 시작일자', true, true, false)) {
 		return;
 	}
 	
 	if(!this.validateDuration(this.$('#usageBeginDt').val(), this.$('#usageEndDt').val(),  
-								'사용 시작일자', '사용 종료일자', true, true)) {
+								'사용 시작일자', '사용 종료일자', true, false, true)) {
 		return;
 	}
 
 	if(!this.validateDuration(this.$('#examBeginDt').val(), this.$('#examEndDt').val(),  
-								'검사 시작일자', '검사 종료일자', true, true)) {
+								'검사 시작일자', '검사 종료일자', true, false, true)) {
 		return;
 	}
 	
