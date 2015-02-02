@@ -21,7 +21,6 @@
   */
 %>
 
-<validator:javascript formName="fcltyManageVO" method="validateElctyFcltyManageVO" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 
 <%
 /******************************** SCRIPT START ********************************/
@@ -381,13 +380,49 @@ GamElctyFcltySpecMngModule.prototype.validateDuration = function(startDate, endD
 
 <%
 /**
+ * @FUNCTION NAME : validateDetailForm
+ * @DESCRIPTION   : Detail Form Validate 체크
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyFcltySpecMngModule.prototype.validateDetailForm = function() {
+	if(this._cmd == 'insert') {
+		if(this.$('#gisAssetsPrtAtCode').val() == '') {
+			alert('항코드를 선택하세요.');
+			return false;
+		}
+		if(this.$('#gisAssetsCd').val() == '') {
+			alert('GIS자산코드를 선택하세요.');
+			return false;
+		}
+		if(this.$('#gisAssetsSubCd').val() == '') {
+			alert('GIS자산부코드를 선택하세요.');
+			return false;
+		}
+		if(this.$('#gisPrtFcltyCd').val() == '') {
+			alert('시설코드를 입력하세요.');
+			return false;
+		}
+	}
+	else if(this._cmd == 'modify') {
+		if(this.$('#fcltsMngNo').val() == '') {
+			alert('잘못된 시설물 번호입니다.');
+			return false;
+		}
+	}
+	return true;
+};
+
+
+<%
+/**
  * @FUNCTION NAME : saveFcltyData
  * @DESCRIPTION   : DATA 저장
  * @PARAMETER     : NONE
 **/
 %>
 GamElctyFcltySpecMngModule.prototype.saveFcltyData = function() {
-	if(!validateElctyFcltyManageVO(this.$('#fcltyManageVO')[0])){
+	if(!this.validateDetailForm()){
 		return;
 	}
 

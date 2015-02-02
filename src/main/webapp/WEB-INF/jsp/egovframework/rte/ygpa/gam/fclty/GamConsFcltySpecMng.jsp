@@ -20,7 +20,6 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
-<validator:javascript formName="fcltyManageVO" method="validateFcltyManageVO" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 <%
 /******************************** SCRIPT START ********************************/
 %>
@@ -336,6 +335,41 @@ GamConstFcltySpecMngModule.prototype.validateDuration = function(startDate, endD
 	return result;
 };
 
+<%
+/**
+ * @FUNCTION NAME : validateDetailForm
+ * @DESCRIPTION   : Detail Form Validate 체크
+ * @PARAMETER     : NONE
+**/
+%>
+GamConstFcltySpecMngModule.prototype.validateDetailForm = function() {
+	if(this._cmd == 'insert') {
+		if(this.$('#gisAssetsPrtAtCodeStr').val() == '') {
+			alert('항코드를 선택하세요.');
+			return false;
+		}
+		if(this.$('#gisAssetsCd').val() == '') {
+			alert('GIS자산코드를 선택하세요.');
+			return false;
+		}
+		if(this.$('#gisAssetsSubCd').val() == '') {
+			alert('GIS자산부코드를 선택하세요.');
+			return false;
+		}
+		if(this.$('#gisPrtFcltyCd').val() == '') {
+			alert('시설코드를 입력하세요.');
+			return false;
+		}
+	}
+	else if(this._cmd == 'modify') {
+		if(this.$('#fcltsMngNo').val() == '') {
+			alert('잘못된 시설물 번호입니다.');
+			return false;
+		}
+	}
+	return true;
+};
+
 
 <%
 /**
@@ -345,11 +379,11 @@ GamConstFcltySpecMngModule.prototype.validateDuration = function(startDate, endD
 **/
 %>
 GamConstFcltySpecMngModule.prototype.saveFcltyData = function() {
-	alert('kk');
-	if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){
+
+	if(!this.validateDetailForm()){
 		return;
 	}
-	alert('kk1');
+
 	if(!this.validateDuration(this.$('#planBeginDt').val(), this.$('#planEndDt').val(),  
 			'설계시작일', '설계종료일', false, false, true)) {
 		return;
