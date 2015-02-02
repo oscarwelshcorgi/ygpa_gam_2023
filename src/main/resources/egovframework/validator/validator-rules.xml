@@ -103,9 +103,15 @@
                         //alert(field.name+":"+value);
                         if (trim(value).length == 0) {
 
-	                        if (i == 0) {
+	                        if (focusField==null) {
 	                        	if (field.type != 'hidden') {
 	                            	focusField = field;
+	                            }
+	                            else {
+	                            	var f=$('#'+$(field).attr('id')+'_select');
+	                            	if(f.length==1) {
+	                            	 focusField = f[0];
+	                            	}
 	                            }
 	                        }
 	                        fields[i++] = oRequired[x][1];
@@ -131,7 +137,7 @@
                 if (fields.length > 0) {
 //                html editor를 적용하는 경우 validator 처리에 제약사항으로 수정
 //                	if (focusField != null) {
-	                if (focusField != null && focusField.type == 'text') {
+	                if (focusField != null/* && focusField.type == 'text'*/) {
                    		focusField.focus();
                    		EMD.util.showMessage(focusField, fields[0]);
                    	}
@@ -201,17 +207,25 @@
 
                         var iMin = parseInt(oMinLength[x][2]("minlength"));
                         if ((trim(field.value).length > 0) && (field.value.length < iMin)) {
-                            if (i == 0) {
-                                focusField = field;
-                            }
+                            if (focusField==null) {
+	                        	if (field.type != 'hidden') {
+	                            	focusField = field;
+	                            }
+	                            else {
+	                            	var f=$('#'+$(field).attr('id')+'_select');
+	                            	if(f.length==1) {
+	                            	 focusField = f[0];
+	                            	}
+	                            }
+	                        }
                             fields[i++] = oMinLength[x][1];
                             isValid = false;
                         }
                     }
                 }
-                if (fields.length > 0) {
-                   focusField.focus();
-                   alert(fields.join('\n'));
+                if (focusField != null) {
+                   		focusField.focus();
+                   		EMD.util.showMessage(focusField, fields[0]);
                 }
                 return isValid;
             }]]>
@@ -249,17 +263,25 @@
 
                         var iMax = parseInt(oMaxLength[x][2]("maxlength"));
                         if (field.value.length > iMax) {
-                            if (i == 0) {
-                                focusField = field;
-                            }
+                            if (focusField==null) {
+	                        	if (field.type != 'hidden') {
+	                            	focusField = field;
+	                            }
+	                            else {
+	                            	var f=$('#'+$(field).attr('id')+'_select');
+	                            	if(f.length==1) {
+	                            	 focusField = f[0];
+	                            	}
+	                            }
+	                        }
                             fields[i++] = oMaxLength[x][1];
                             isValid = false;
                         }
                     }
                 }
-                if (fields.length > 0) {
-                   focusField.focus();
-                   alert(fields.join('\n'));
+                if (focusField != null) {
+                   		focusField.focus();
+                   		EMD.util.showMessage(focusField, fields[0]);
                 }
                 return isValid;
             }]]>
@@ -297,18 +319,26 @@
                          (field.value.length > 0)) {
 
                         if (!matchPattern(field.value, oMasked[x][2]("mask"))) {
-                            if (i == 0) {
-                                focusField = field;
-                            }
+                            if (focusField==null) {
+	                        	if (field.type != 'hidden') {
+	                            	focusField = field;
+	                            }
+	                            else {
+	                            	var f=$('#'+$(field).attr('id')+'_select');
+	                            	if(f.length==1) {
+	                            	 focusField = f[0];
+	                            	}
+	                            }
+	                        }
                             fields[i++] = oMasked[x][1];
                             isValid = false;
                         }
                     }
                 }
 
-                if (fields.length > 0) {
-                   focusField.focus();
-                   alert(fields.join('\n'));
+                if (focusField != null) {
+                   		focusField.focus();
+                   		EMD.util.showMessage(focusField, fields[0]);
                 }
                 return isValid;
             }
@@ -366,18 +396,34 @@
                         if (value.length > 0) {
                             if (!isAllDigits(value)) {
                                 bValid = false;
-                                if (i == 0) {
-                                    focusField = field;
-                                }
+                                if (focusField==null) {
+		                        	if (field.type != 'hidden') {
+		                            	focusField = field;
+		                            }
+		                            else {
+		                            	var f=$('#'+$(field).attr('id')+'_select');
+		                            	if(f.length==1) {
+		                            	 focusField = f[0];
+		                            	}
+		                            }
+		                        }
                                 fields[i++] = oByte[x][1];
 
                             } else {
 
 	                            var iValue = parseInt(value);
 	                            if (isNaN(iValue) || !(iValue >= -128 && iValue <= 127)) {
-	                                if (i == 0) {
-	                                    focusField = field;
-	                                }
+	                                if (focusField==null) {
+			                        	if (field.type != 'hidden') {
+			                            	focusField = field;
+			                            }
+			                            else {
+			                            	var f=$('#'+$(field).attr('id')+'_select');
+			                            	if(f.length==1) {
+			                            	 focusField = f[0];
+			                            	}
+			                            }
+			                        }
 	                                fields[i++] = oByte[x][1];
 	                                bValid = false;
 	                            }
@@ -386,9 +432,9 @@
 
                     }
                 }
-                if (fields.length > 0) {
-                   focusField.focus();
-                   alert(fields.join('\n'));
+                if (focusField != null) {
+                   		focusField.focus();
+                   		EMD.util.showMessage(focusField, fields[0]);
                 }
                 return bValid;
             }]]>
@@ -441,9 +487,17 @@
                         if (value.length > 0) {
                             if (!isAllDigits(value)) {
                                 bValid = false;
-                                if (i == 0) {
-                                    focusField = field;
-                                }
+                                if (focusField==null) {
+		                        	if (field.type != 'hidden') {
+		                            	focusField = field;
+		                            }
+		                            else {
+		                            	var f=$('#'+$(field).attr('id')+'_select');
+		                            	if(f.length==1) {
+		                            	 focusField = f[0];
+		                            	}
+		                            }
+		                        }
                                 fields[i++] = oShort[x][1];
 
                             } else {
@@ -460,9 +514,9 @@
                        }
                     }
                 }
-                if (fields.length > 0) {
-                   focusField.focus();
-                   alert(fields.join('\n'));
+                if (focusField != null) {
+                   		focusField.focus();
+                   		EMD.util.showMessage(focusField, fields[0]);
                 }
                 return bValid;
             }]]>
@@ -517,17 +571,33 @@
 
                             if (!isAllDigits(value)) {
                                 bValid = false;
-                                if (i == 0) {
-	                                focusField = field;
-	                            }
+                                if (focusField==null) {
+		                        	if (field.type != 'hidden') {
+		                            	focusField = field;
+		                            }
+		                            else {
+		                            	var f=$('#'+$(field).attr('id')+'_select');
+		                            	if(f.length==1) {
+		                            	 focusField = f[0];
+		                            	}
+		                            }
+		                        }
 						        fields[i++] = oInteger[x][1];
 
                             } else {
 	                            var iValue = parseInt(value);
 	                            if (isNaN(iValue) || !(iValue >= -2147483648 && iValue <= 2147483647)) {
-	                                if (i == 0) {
-	                                    focusField = field;
-	                                }
+	                                if (focusField==null) {
+			                        	if (field.type != 'hidden') {
+			                            	focusField = field;
+			                            }
+			                            else {
+			                            	var f=$('#'+$(field).attr('id')+'_select');
+			                            	if(f.length==1) {
+			                            	 focusField = f[0];
+			                            	}
+			                            }
+			                        }
 	                                fields[i++] = oInteger[x][1];
 	                                bValid = false;
 	                           }
@@ -535,9 +605,9 @@
                        }
                     }
                 }
-                if (fields.length > 0) {
-                   focusField.focus();
-                   alert(fields.join('\n'));
+                if (focusField != null) {
+                   		focusField.focus();
+                   		EMD.util.showMessage(focusField, fields[0]);
                 }
                 return bValid;
             }
@@ -627,17 +697,33 @@
 
                             if (!isAllDigits(joinedString)) {
                                 bValid = false;
-                                if (i == 0) {
-                                    focusField = field;
-                                }
+                                if (focusField==null) {
+		                        	if (field.type != 'hidden') {
+		                            	focusField = field;
+		                            }
+		                            else {
+		                            	var f=$('#'+$(field).attr('id')+'_select');
+		                            	if(f.length==1) {
+		                            	 focusField = f[0];
+		                            	}
+		                            }
+		                        }
                                 fields[i++] = oFloat[x][1];
 
                             } else {
 	                            var iValue = parseFloat(value);
 	                            if (isNaN(iValue)) {
-	                                if (i == 0) {
-	                                    focusField = field;
-	                                }
+	                                if (focusField==null) {
+			                        	if (field.type != 'hidden') {
+			                            	focusField = field;
+			                            }
+			                            else {
+			                            	var f=$('#'+$(field).attr('id')+'_select');
+			                            	if(f.length==1) {
+			                            	 focusField = f[0];
+			                            	}
+			                            }
+			                        }
 	                                fields[i++] = oFloat[x][1];
 	                                bValid = false;
 	                            }
@@ -645,9 +731,9 @@
                         }
                     }
                 }
-                if (fields.length > 0) {
-                   focusField.focus();
-                   alert(fields.join('\n'));
+                if (focusField != null) {
+                   		focusField.focus();
+                   		EMD.util.showMessage(focusField, fields[0]);
                 }
                 return bValid;
             }]]>
@@ -722,16 +808,32 @@
                          var matched = dateRegexp.exec(value);
                          if(matched != null) {
                             if (!isValidDate(matched[2], matched[1], matched[3])) {
-                               if (i == 0) {
-                                   focusField = field;
-                               }
+                               if (focusField==null) {
+		                        	if (field.type != 'hidden') {
+		                            	focusField = field;
+		                            }
+		                            else {
+		                            	var f=$('#'+$(field).attr('id')+'_select');
+		                            	if(f.length==1) {
+		                            	 focusField = f[0];
+		                            	}
+		                            }
+		                        }
                                fields[i++] = oDate[x][1];
                                bValid =  false;
                             }
                          } else {
-                            if (i == 0) {
-                                focusField = field;
-                            }
+                            if (focusField==null) {
+	                        	if (field.type != 'hidden') {
+	                            	focusField = field;
+	                            }
+	                            else {
+	                            	var f=$('#'+$(field).attr('id')+'_select');
+	                            	if(f.length==1) {
+	                            	 focusField = f[0];
+	                            	}
+	                            }
+	                        }
                             fields[i++] = oDate[x][1];
                             bValid =  false;
                          }
@@ -752,16 +854,32 @@
                          var matched = dateRegexp.exec(value);
                          if(matched != null) {
                              if (!isValidDate(matched[1], matched[2], matched[3])) {
-                                 if (i == 0) {
-                                     focusField = form[oDate[x][0]];
-                                 }
+                                 if (focusField==null) {
+		                        	if (field.type != 'hidden') {
+		                            	focusField = field;
+		                            }
+		                            else {
+		                            	var f=$('#'+$(field).attr('id')+'_select');
+		                            	if(f.length==1) {
+		                            	 focusField = f[0];
+		                            	}
+		                            }
+		                        }
                                  fields[i++] = oDate[x][1];
                                  bValid =  false;
                               }
                          } else {
-                             if (i == 0) {
-                                 focusField = field;
-                             }
+                             if (focusField==null) {
+	                        	if (field.type != 'hidden') {
+	                            	focusField = field;
+	                            }
+	                            else {
+	                            	var f=$('#'+$(field).attr('id')+'_select');
+	                            	if(f.length==1) {
+	                            	 focusField = f[0];
+	                            	}
+	                            }
+	                        }
                              fields[i++] = oDate[x][1];
                              bValid =  false;
                          }
@@ -782,32 +900,56 @@
                          var matched = dateRegexp.exec(value);
                          if(matched != null) {
                              if (!isValidDate(matched[3], matched[2], matched[1])) {
-                                 if (i == 0) {
-                                     focusField = field;
-                                  }
+                                 if (focusField==null) {
+		                        	if (field.type != 'hidden') {
+		                            	focusField = field;
+		                            }
+		                            else {
+		                            	var f=$('#'+$(field).attr('id')+'_select');
+		                            	if(f.length==1) {
+		                            	 focusField = f[0];
+		                            	}
+		                            }
+		                        }
                                   fields[i++] = oDate[x][1];
                                   bValid =  false;
                               }
                           } else {
-                              if (i == 0) {
-                                  focusField = field;
-                              }
+                              if (focusField==null) {
+	                        	if (field.type != 'hidden') {
+	                            	focusField = field;
+	                            }
+	                            else {
+	                            	var f=$('#'+$(field).attr('id')+'_select');
+	                            	if(f.length==1) {
+	                            	 focusField = f[0];
+	                            	}
+	                            }
+	                        }
                               fields[i++] = oDate[x][1];
                               bValid =  false;
                           }
                      } else {
-                         if (i == 0) {
-                             focusField = field;
-                         }
+                         if (focusField==null) {
+	                        	if (field.type != 'hidden') {
+	                            	focusField = field;
+	                            }
+	                            else {
+	                            	var f=$('#'+$(field).attr('id')+'_select');
+	                            	if(f.length==1) {
+	                            	 focusField = f[0];
+	                            	}
+	                            }
+	                        }
                          fields[i++] = oDate[x][1];
                          bValid =  false;
                      }
                   }
                }
-               if (fields.length > 0) {
-                  focusField.focus();
-                  alert(fields.join('\n'));
-               }
+               if (focusField != null) {
+                   		focusField.focus();
+                   		EMD.util.showMessage(focusField, fields[0]);
+                }
                return bValid;
             }
 
@@ -888,17 +1030,25 @@
                         var iMax = parseInt(oRange[x][2]("max"));
                         var iValue = parseInt(field.value);
                         if (!(iValue >= iMin && iValue <= iMax)) {
-                            if (i == 0) {
-                                focusField = field;
-                            }
+                            if (focusField==null) {
+	                        	if (field.type != 'hidden') {
+	                            	focusField = field;
+	                            }
+	                            else {
+	                            	var f=$('#'+$(field).attr('id')+'_select');
+	                            	if(f.length==1) {
+	                            	 focusField = f[0];
+	                            	}
+	                            }
+	                        }
                             fields[i++] = oRange[x][1];
                             isValid = false;
                         }
                     }
                 }
-                if (fields.length > 0) {
-                    focusField.focus();
-                    alert(fields.join('\n'));
+                if (focusField != null) {
+                   		focusField.focus();
+                   		EMD.util.showMessage(focusField, fields[0]);
                 }
                 return isValid;
             }]]>
@@ -939,17 +1089,25 @@
                         var fMax = parseFloat(oRange[x][2]("max"));
                         var fValue = parseFloat(field.value);
                         if (!(fValue >= fMin && fValue <= fMax)) {
-                            if (i == 0) {
-                                focusField = field;
-                            }
+                            if (focusField==null) {
+	                        	if (field.type != 'hidden') {
+	                            	focusField = field;
+	                            }
+	                            else {
+	                            	var f=$('#'+$(field).attr('id')+'_select');
+	                            	if(f.length==1) {
+	                            	 focusField = f[0];
+	                            	}
+	                            }
+	                        }
                             fields[i++] = oRange[x][1];
                             isValid = false;
                         }
                     }
                 }
-                if (fields.length > 0) {
-                    focusField.focus();
-                    alert(fields.join('\n'));
+                if (focusField != null) {
+                   		focusField.focus();
+                   		EMD.util.showMessage(focusField, fields[0]);
                 }
                 return isValid;
             }]]>
@@ -985,17 +1143,25 @@
                          field.type == 'textarea') &&
                         (field.value.length > 0)) {
                         if (!luhnCheck(field.value)) {
-                            if (i == 0) {
-                                focusField = field;
-                            }
+                            if (focusField==null) {
+	                        	if (field.type != 'hidden') {
+	                            	focusField = field;
+	                            }
+	                            else {
+	                            	var f=$('#'+$(field).attr('id')+'_select');
+	                            	if(f.length==1) {
+	                            	 focusField = f[0];
+	                            	}
+	                            }
+	                        }
                             fields[i++] = oCreditCard[x][1];
                             bValid = false;
                         }
                     }
                 }
-                if (fields.length > 0) {
-                    focusField.focus();
-                    alert(fields.join('\n'));
+                if (focusField != null) {
+                   		focusField.focus();
+                   		EMD.util.showMessage(focusField, fields[0]);
                 }
                 return bValid;
             }
@@ -1068,17 +1234,25 @@
                          field.type == 'textarea') &&
                         (field.value.length > 0)) {
                         if (!checkEmail(field.value)) {
-                            if (i == 0) {
-                                focusField = field;
-                            }
+                            if (focusField==null) {
+	                        	if (field.type != 'hidden') {
+	                            	focusField = field;
+	                            }
+	                            else {
+	                            	var f=$('#'+$(field).attr('id')+'_select');
+	                            	if(f.length==1) {
+	                            	 focusField = f[0];
+	                            	}
+	                            }
+	                        }
                             fields[i++] = oEmail[x][1];
                             bValid = false;
                         }
                     }
                 }
-                if (fields.length > 0) {
-                    focusField.focus();
-                    alert(fields.join('\n'));
+                if (focusField != null) {
+                   		focusField.focus();
+                   		EMD.util.showMessage(focusField, fields[0]);
                 }
                 return bValid;
             }
@@ -1170,17 +1344,25 @@
                     	field.type == 'hidden' ||
                         field.type == 'textarea') {
                         if (trim(field.value).length==0 || !checkIhIdNum(field.value)) {
-                            if (i == 0) {
-                                focusField = field;
-                            }
+                            if (focusField==null) {
+	                        	if (field.type != 'hidden') {
+	                            	focusField = field;
+	                            }
+	                            else {
+	                            	var f=$('#'+$(field).attr('id')+'_select');
+	                            	if(f.length==1) {
+	                            	 focusField = f[0];
+	                            	}
+	                            }
+	                        }
                             fields[i++] = oIhidnum[x][1];
                             bValid = false;
                         }
                     }
                 }
-                if (fields.length > 0) {
-                    focusField.focus();
-                    alert(fields.join('\n'));
+                if (focusField != null) {
+                   		focusField.focus();
+                   		EMD.util.showMessage(focusField, fields[0]);
                 }
                 return bValid;
             }
@@ -1246,17 +1428,25 @@
                 	}
                     if (field.type == 'text' || field.type == 'textarea') {
                         if (trim(field.value).length==0 || !checkKorean(field.value)) {
-                            if (i == 0) {
-                                focusField = field;
-                            }
+                            if (focusField==null) {
+	                        	if (field.type != 'hidden') {
+	                            	focusField = field;
+	                            }
+	                            else {
+	                            	var f=$('#'+$(field).attr('id')+'_select');
+	                            	if(f.length==1) {
+	                            	 focusField = f[0];
+	                            	}
+	                            }
+	                        }
                             fields[i++] = oKorean[x][1];
                             bValid = false;
                         }
                     }
                 }
-                if (fields.length > 0) {
-                    focusField.focus();
-                    alert(fields.join('\n'));
+                if (focusField != null) {
+                   		focusField.focus();
+                   		EMD.util.showMessage(focusField, fields[0]);
                 }
                 return bValid;
           }
