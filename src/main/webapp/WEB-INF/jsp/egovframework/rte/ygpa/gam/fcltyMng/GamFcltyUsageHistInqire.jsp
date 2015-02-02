@@ -152,6 +152,11 @@ GamFcltyUsageHistInqireModule.prototype.onSubmit = function() {
 	if(!validateSearchForm(this.$('#searchForm')[0])){ 		
 		return;
 	}
+	if (this.$("#sDtFr").val() > this.$("#sDtTo").val()){
+ 		alert('사용기간을 확인하여 주십시오.');
+ 		return;
+ 			
+	}
 	this.clearCodePage();
     this.loadData();
 };
