@@ -60,8 +60,25 @@ GamPopupSocAgentFModule.prototype.loadComplete = function() {
 		// 이벤트내에선 모듈에 대해 선택한다.
 		module.closeDialog("ok", row);
 	});
+	
+	// 페이지로딩시 디폴트 데이타 로딩
+	this.onLoadData();
 
 };
+
+
+<%
+/**
+ * @FUNCTION NAME : onLoadData
+ * @DESCRIPTION   : 페이지 로딩 시 default데이타 로딩 함수
+ * @PARAMETER     : NONE
+**/
+%>
+GamPopupSocAgentFModule.prototype.onLoadData = function() {
+	this.$("#sPrtAtCode").val('622');
+	this.loadData();
+};
+
 
 // 사용자 설정 함수 추가 
 GamPopupSocAgentFModule.prototype.onButtonClick = function(buttonId) {
@@ -87,10 +104,6 @@ GamPopupSocAgentFModule.prototype.onSubmit = function() {
 };
 
 GamPopupSocAgentFModule.prototype.loadData = function() {
-	if(!this.$('#sAgentName').val() && !this.$('#sAgentCode').val()){
-		alert('업체명이나 업체코드를 입력하세요.');
-		return;
-	}
 	var searchOpt=this.makeFormArgs("#gamPopupSocAgentFForm");
  	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 };

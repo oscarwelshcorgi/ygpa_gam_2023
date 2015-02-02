@@ -114,8 +114,9 @@ GamSocShipProcessRealloadModule.prototype.loadComplete = function() {
         	this.doExecuteDialog('selectVsslCd', '선박 선택','/popup/showSocVsslCd.do', opts);
         	break;
 
-        case 'popupAgentInfo' : //면제업체 조회
-			this.doExecuteDialog('selectAgentInfo', '면제업체 선택', '/popup/showSocAgentFInfo.do', opts);
+        case 'popupAgentInfo' : //면제업체 조회 
+			//this.doExecuteDialog('selectAgentInfo', '면제업체 선택', '/popup/showSocAgentFInfo.do', opts);
+        	this.doExecuteDialog('selectAgentInfo', '면제업체 선택', '/popup/showSocEntrpsInfo.do', opts);
         	break;
     }
 };
@@ -229,7 +230,8 @@ GamSocShipProcessRealloadModule.prototype.onClosePopup = function(popupId, msg, 
          
      case 'selectAgentInfo' : //면제업체 조회
     	 this.$("#sExmpAgentCode").val(value["agentCode"]);
-    	 this.$("#sExmpAgentName").val(value["agentName"]);
+    	// this.$("#sExmpAgentName").val(value["agentName"]);
+    	this.$("#sExmpAgentName").val(value["firmKorNm"]);
     	 break;
      
      default:
