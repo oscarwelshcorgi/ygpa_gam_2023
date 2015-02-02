@@ -21,7 +21,7 @@
   */
 %>
 
-<validator:javascript formName="fcltyManageVO" method="validateFcltyManageVO" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<validator:javascript formName="fcltyManageVO" method="validateElctyFcltyManageVO" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 
 <%
 /******************************** SCRIPT START ********************************/
@@ -387,7 +387,7 @@ GamElctyFcltySpecMngModule.prototype.validateDuration = function(startDate, endD
 **/
 %>
 GamElctyFcltySpecMngModule.prototype.saveFcltyData = function() {
-	if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){
+	if(!validateElctyFcltyManageVO(this.$('#fcltyManageVO')[0])){
 		return;
 	}
 

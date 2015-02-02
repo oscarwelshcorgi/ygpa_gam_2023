@@ -345,11 +345,11 @@ GamConstFcltySpecMngModule.prototype.validateDuration = function(startDate, endD
 **/
 %>
 GamConstFcltySpecMngModule.prototype.saveFcltyData = function() {
-	
+	alert('kk');
 	if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){
 		return;
 	}
-	
+	alert('kk1');
 	if(!this.validateDuration(this.$('#planBeginDt').val(), this.$('#planEndDt').val(),  
 			'설계시작일', '설계종료일', false, false, true)) {
 		return;

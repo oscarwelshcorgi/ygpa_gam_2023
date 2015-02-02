@@ -21,6 +21,9 @@
             <field property="socPrtAtCode" depends="required">
                 <arg0 key="공사항만코드" resource="false"/>
             </field>
+            <field property="cmplYr" depends="required">
+                <arg0 key="공사준공년도" resource="false"/>
+            </field>
             <field property="socCnstNm" depends="required">
                 <arg0 key="공사명" resource="false"/>
             </field>

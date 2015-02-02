@@ -440,7 +440,7 @@ var module_instance = new GamSocAgentMngtModule();
 	                                    </c:forEach>
 	                                </select>
 	                            </td>
-	                            <th>공사준공년도</th>
+	                            <th>*공사준공년도</th>
 	                            <td width="100px">
 	                                <select id="cmplYr">
 	                                    <option value="" >선택</option>
