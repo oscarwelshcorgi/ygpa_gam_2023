@@ -42,8 +42,8 @@ GamGisAssetDistSttusModule.prototype.loadComplete = function() {
                     {display:'소재지', name:'gisAssetsLocplc',width:180, sortable:false,align:'left'},
                     {display:'지번', name:'gisAssetsLnmCode',width:60, sortable:false,align:'center'},
                     {display:'면적', name:'gisAssetsAr',width:70, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'시설종류', name:'fcltySeNm',width:90, sortable:false,align:'center'},
-                    {display:'시설갯수', name:'fcltyCnt',width:110, sortable:false,align:'right', displayFormat: 'number'}
+                    {display:'보유시설갯수', groupDisplay:'보유시설수', name:'fcltySeNm',width:90, sortable:false,align:'center'},
+                    {display:'#cspan', groupDisplay:'보유시설수', name:'fcltyCnt',width:110, sortable:false,align:'right', displayFormat: 'number'}
         ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -60,7 +60,8 @@ GamGisAssetDistSttusModule.prototype.loadComplete = function() {
         	return data;
         }
     });
-
+    //this.$("#gisAssetSttusList")[0].dgrid.setHeader(',항구분,자산코드,자산명,소재지,지번,면적,보유시설갯수,#cspan');
+    this.$("#gisAssetSttusList")[0].dgrid.attachHeader('#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,시설종류,시설갯수');
 //	console.log('GamGisAssetDistSttusModule debug');
 };
 
