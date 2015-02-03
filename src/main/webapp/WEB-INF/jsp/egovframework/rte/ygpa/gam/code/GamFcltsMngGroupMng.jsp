@@ -1127,8 +1127,8 @@ var module_instance = new GamFcltsMngGroupMngModule();
 							<tr>
 								<th style="width:15%; height:20;">시공자 / 시공금액</th>
 								<td>
-									<input type="text" id="cnstrtr" size="30" maxlength="60"/>
-									<input type="text" class="ygpaNumber" id="cnstrctAmt" size="14" maxlength="20"/> 원
+									<input type="text" id="cnstrtr" size="25" maxlength="60"/>
+									<input type="text" class="ygpaNumber" id="cnstrctAmt" size="19" maxlength="20"/> 원
 								</td>
 								<th style="width:15%; height:20;">공　사　기　간</th>
 								<td>
