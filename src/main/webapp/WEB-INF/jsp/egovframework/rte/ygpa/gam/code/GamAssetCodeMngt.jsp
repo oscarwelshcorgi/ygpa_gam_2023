@@ -291,75 +291,75 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 		var inputVO = this.makeFormArgs("#editGisAssetCode");
 		if (this._regMode == "I") {
 			this.doAction(
-							'/code/assets/insertGamGisAssetCode.do',
-							inputVO, function(module, result) {
-								if (result.resultCode == "0") {
-									switch (module._params.action) {
-									case 'addLotcodeFeature':
-										module.modifyFeatureCode('gisAssetsCd',
-												module.selectedItem,
-												module._params.feature);
-										alert(result.resultMsg);
-										// 창을 닫는다.
-										//module.closeWindow();
-										return;
-									case 'addFeature':
-									case 'modifyFeature':
-										alert('저장된 코드를 다시 조회 하여 저장 해 주십시요');
-										break;
-									}
-									var searchOpt = module.makeFormArgs("#searchGisAssetCode");
-									module.$("#assetCodeTab").tabs("option", {active : 0});
-									module.$("#assetCodeList").flexOptions(
-											{
-												params : searchOpt
-											}).flexReload();
-								}
-								alert(result.resultMsg);
-							});
+				'/code/assets/insertGamGisAssetCode.do',
+				inputVO, function(module, result) {
+					if (result.resultCode == "0") {
+						switch (module._params.action) {
+						case 'addLotcodeFeature':
+							module.modifyFeatureCode('gisAssetsCd',
+									module.selectedItem,
+									module._params.feature);
+							alert(result.resultMsg);
+							// 창을 닫는다.
+							//module.closeWindow();
+							return;
+						case 'addFeature':
+						case 'modifyFeature':
+							alert('저장된 코드를 다시 조회 하여 저장 해 주십시요');
+							break;
+						}
+						var searchOpt = module.makeFormArgs("#searchGisAssetCode");
+						module.$("#assetCodeTab").tabs("option", {active : 0});
+						module.$("#assetCodeList").flexOptions(
+								{
+									params : searchOpt
+								}).flexReload();
+					}
+					alert(result.resultMsg);
+			});
 		} else {
 			this.doAction(
-							'/code/assets/updateGamGisAssetCode.do',
-							inputVO,
-							function(module, result) {
-								if (result.resultCode == "0") {
-									if(module.changeAssetpk) {
-										module.changeAssetpk=false;
-										var oldCode=module.selectedItem;
-										module.selectedItem=result.resultVo;
-										module.loadDetail();
-										module.changeFeatureAttrib('gisAssetsCd', oldCode, module.selectedItem);
-									}
-									else {
-										if(module.selectedItem['_feature']==undefined) {
-											switch (module._params.action) {
-											case 'addLotcodeFeature':
-												module.modifyFeatureCode('gisAssetsCd',
-														module.selectedItem,
-														module._params.feature);
-												alert(result.resultMsg);
-												// 창을 닫는다.
-												module.closeWindow();
-												return;
-											case 'addFeature':
-												break;
-											case 'modifyFeature':
-												module.changeFeatureAttrib('gisAssetsCd',
-														module._params.feature.attributes,
-														module.selectedItem
-														);
-												break;
-											}
-										}
-										else {
-											module.modifyFeatureCode('gisAssetsCd',
-												module.selectedItem,
-												module.selectedItem._feature);
-										}
-									}
+				'/code/assets/updateGamGisAssetCode.do',
+				inputVO,
+				function(module, result) {
+					if (result.resultCode == "0") {
+						if(module.changeAssetpk) {
+							module.changeAssetpk=false;
+							var oldCode=module.selectedItem;
+							module.selectedItem=result.resultVo;
+							module.loadDetail();
+							module.changeFeatureAttrib('gisAssetsCd', oldCode, module.selectedItem);
+						}
+						else {
+							if(module.selectedItem['_feature']==undefined) {
+								switch (module._params.action) {
+								case 'addLotcodeFeature':
+									module.modifyFeatureCode('gisAssetsCd',
+											module.selectedItem,
+											module._params.feature);
+									alert(result.resultMsg);
+									// 창을 닫는다.
+									module.closeWindow();
+									return;
+								case 'addFeature':
+									break;
+								case 'modifyFeature':
+									module.changeFeatureAttrib('gisAssetsCd',
+											module._params.feature.attributes,
+											module.selectedItem
+											);
+									break;
 								}
-								alert(result.resultMsg);
-							});
+							}
+							else {
+								module.modifyFeatureCode('gisAssetsCd',
+									module.selectedItem,
+									module.selectedItem._feature);
+							}
+						}
+					}
+					alert(result.resultMsg);
+				});
 		}
 		// 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
 		break;
@@ -932,10 +932,12 @@ var module_instance = new GamAssetCodeModule();
 							<input type="text" size="5"  id="gisAssetsSubCd" disabled="disabled">
 						</td>
 					</tr>
-					<!-- <tr>
+					<!--
+					<tr>
 						<th><span class="label">자산코드</span></th>
 						<td colspan="5"><input type="text" size="3"  id="gisAssetsCd" disabled="disabled">-<input type="text" size="2"  id="gisAssetsSubCd" disabled="disabled"></td>
-					</tr> -->
+					</tr>
+					-->
 					<tr>
 						<th><span class="label">ERP자산코드</span></th>
 						<td>

@@ -24,6 +24,7 @@ public static void proxy_get(HttpServletRequest request, HttpServletResponse res
 
 	ios.close();
 }
+
 public static void proxy_post(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	String urlStr =  URLDecoder.decode(request.getParameter("url"), "UTF-8");
 	BufferedReader rd = new BufferedReader(new InputStreamReader(request.getInputStream(),"UTF-8"));
@@ -54,20 +55,28 @@ public static void proxy_post(HttpServletRequest request, HttpServletResponse re
 	OutputStream ios = response.getOutputStream();
 
 	IOUtils.copy(huc.getInputStream(), ios);
-
 	ios.close();
+	/*
+	catch(IllegalStateException e) {
+		log("IllegalStateException error");
+	}*/
+
 }
 %>
 <%
+	log("start>>>>>>");
 	try {
 		if(request.getMethod().toString().equals("GET"))
 			proxy_get(request, response);
 		else
 			proxy_post(request, response);
-	} catch (Exception e) {
+	}
+	catch (Exception e) {
+		log("error!!!!!");
 		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		response.setContentType("text/plain");
-		%><%=e.getStackTrace()[0].getMethodName() + ":" + e.getStackTrace()[0].getLineNumber()%><%
+		%>
+		<%=e.getStackTrace()[0].getMethodName() + ":" + e.getStackTrace()[0].getLineNumber()%><%
 	}
 	if (true) {
 		return;
@@ -89,4 +98,5 @@ public static void proxy_post(HttpServletRequest request, HttpServletResponse re
 <%@page import="org.apache.commons.io.*"%>
 <%@page import="java.io.InputStreamReader"%>
 <%@page import="java.io.BufferedReader"%>
+<%@page import="java.io.PrintWriter"%>
 <%@page import="java.io.PrintWriter"%>
