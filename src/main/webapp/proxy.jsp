@@ -51,6 +51,7 @@ public static void proxy_post(HttpServletRequest request, HttpServletResponse re
 
 	response.reset();
 	response.setContentType(huc.getContentType());
+	log("getOutputStream!!!!!");
 
 	OutputStream ios = response.getOutputStream();
 
