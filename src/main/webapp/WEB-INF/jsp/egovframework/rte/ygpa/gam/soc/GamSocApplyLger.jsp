@@ -59,6 +59,8 @@ GamSocApplyLgerModule.prototype.loadComplete = function() {
             return data;
         }
     });
+    
+    this.$('#sPrtAtCode').val('622');    
 };
 
 GamSocApplyLgerModule.prototype.onSubmit = function() {

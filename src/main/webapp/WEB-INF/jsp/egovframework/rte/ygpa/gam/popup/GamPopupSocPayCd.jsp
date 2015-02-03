@@ -46,6 +46,7 @@ GamPopupSocPayCdModule.prototype.loadComplete = function() {
 		module.closeDialog("ok", row);
 	});
 
+	this.$('#prtAtCode').val('622');	
 };
 
 GamPopupSocPayCdModule.prototype.onSubmit = function() {

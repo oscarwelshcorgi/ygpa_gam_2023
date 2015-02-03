@@ -65,6 +65,7 @@ GamSocStatsModule.prototype.loadComplete = function() {
 		event.data.module.initDisplay();
 	});
 
+	this.$('#sPrtAtCode').val('622');    
 };
 
 GamSocStatsModule.prototype.onSubmit = function() {

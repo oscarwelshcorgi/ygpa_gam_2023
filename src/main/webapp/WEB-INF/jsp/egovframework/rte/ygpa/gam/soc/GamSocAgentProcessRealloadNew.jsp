@@ -62,6 +62,8 @@ GamSocAgentProcessRealloadNewModule.prototype.loadComplete = function() {
             return data;
         }
     });
+
+    this.$('#sAppPrtAtCode').val('622');
 };
 
 GamSocAgentProcessRealloadNewModule.prototype.onSubmit = function() {

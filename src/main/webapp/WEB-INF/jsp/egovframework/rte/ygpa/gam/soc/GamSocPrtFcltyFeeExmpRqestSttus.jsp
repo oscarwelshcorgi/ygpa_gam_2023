@@ -65,6 +65,8 @@ GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.loadComplete = function() {
             return data;
         }
     });
+    
+    this.$('#sPrtAtCode').val('622');
 };
 
 GamSocPrtFcltyFeeExmpRqestSttusModule.prototype.onSubmit = function() {

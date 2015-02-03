@@ -71,6 +71,9 @@ GamSocAgentProcessDtlsSttusModule.prototype.loadComplete = function() {
     	module.$('#exmpAcc').val($.number(row['exmpAcc']));
     	module.$('#exmpRemain').val($.number(row['exmpAmnt'] - row['exmpAcc']));
     });
+    
+    this.$('#sAppPrtAtCode').val('622');
+    this.$('#sPrtAtCode').val('622');
 };
 
 <%

@@ -60,6 +60,8 @@ GamPopupSocApplyInfoModule.prototype.loadComplete = function() {
 	this.$("#grdInfoList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module.closeDialog("ok", row);
 	});
+	
+	this.$('#sPrtAtCode').val('622');
 };
 
 GamPopupSocApplyInfoModule.prototype.onSubmit = function() {

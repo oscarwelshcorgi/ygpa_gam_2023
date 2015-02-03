@@ -92,6 +92,9 @@ GamSocApplyModule.prototype.loadComplete = function() {
     });
     
     this.fillSelectBoxYear('#sCmplYr');
+    
+    this.$('#sPrtAtCode').val('622');
+    this.$('#sAppPrtAtCode').val('622');
 };
 
 //2000년부터 현재년도까지 select 박스에 채워넣는 함수.

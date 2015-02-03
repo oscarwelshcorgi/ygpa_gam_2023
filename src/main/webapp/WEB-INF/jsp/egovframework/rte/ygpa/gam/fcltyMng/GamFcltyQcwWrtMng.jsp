@@ -577,7 +577,7 @@ GamFcltyQcwWrtMngModule.prototype.loadQcSubDataList = function() {
 		 			module._qcresultmode = 'loaded';
 		 			module.setControlStatus();
 		 			if(module._mainmode == 'insert') {
-		 				searchVO[searchVO.length] = { name: 'sFcltsMngGroupNo', value: module.$('#fcltsMngGroupNo').val() }
+		 				searchVO[searchVO.length] = { name: 'sFcltsMngGroupNo', value: module.$('#fcltsMngGroupNo').val() };
 		 			}
 		 			module.$('#qcObjFcltsGrid').flexOptions({params:searchVO}).flexReload();
 		 		}
@@ -588,7 +588,7 @@ GamFcltyQcwWrtMngModule.prototype.loadQcSubDataList = function() {
 		}
 		else {
  			if(this._mainmode == 'insert') {
- 				searchVO[searchVO.length] = { name: 'sFcltsMngGroupNo', value: this.$('#fcltsMngGroupNo').val() }
+ 				searchVO[searchVO.length] = { name: 'sFcltsMngGroupNo', value: this.$('#fcltsMngGroupNo').val() };
  			}
 			this.$('#qcObjFcltsGrid').flexOptions({params:searchVO}).flexReload();
 		}

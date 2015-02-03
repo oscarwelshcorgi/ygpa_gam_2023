@@ -35,6 +35,11 @@ GamSocExmpMngtModule.prototype.loadComplete = function() {
 	this.fillSelectBoxYear('#sFiscalYr');
 	this._cmd = '';
 	this.initDisplay();
+	
+    this.$('#sAppPrtAtCode').val('622');
+    this.$('#prtAtCode').val('622');    
+    this.$('#appPrtAtCode').val('622');    
+    this.$('#exmpPrtAtCode').val('622');    
 };
 
 //2000년부터 현재년도까지 select 박스에 채워넣는 함수.
