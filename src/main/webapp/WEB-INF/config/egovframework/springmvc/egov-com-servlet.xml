@@ -23,6 +23,7 @@
 	</context:component-scan>
 
 	<!-- For Pagination Tag -->
+	<!--
 	<bean class="egovframework.com.cmm.ImagePaginationRenderer" id="imageRenderer"/>
 
 	<bean class="egovframework.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager" id="paginationManager">
@@ -32,6 +33,7 @@
 			</map>
 		</property>
 	</bean>
+ -->
 
 	<!--
 		- The form-based controllers within this application provide @RequestMapping

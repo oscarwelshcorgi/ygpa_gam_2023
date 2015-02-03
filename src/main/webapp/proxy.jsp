@@ -51,21 +51,16 @@ public static void proxy_post(HttpServletRequest request, HttpServletResponse re
 
 	response.reset();
 	response.setContentType(huc.getContentType());
-	log("getOutputStream!!!!!");
 
 	OutputStream ios = response.getOutputStream();
 
 	IOUtils.copy(huc.getInputStream(), ios);
 	ios.close();
-	/*
-	catch(IllegalStateException e) {
-		log("IllegalStateException error");
-	}*/
 
 }
 %>
 <%
-	log("start>>>>>>");
+	log("getOutputStream!!!!!");
 	try {
 		if(request.getMethod().toString().equals("GET"))
 			proxy_get(request, response);
@@ -73,7 +68,7 @@ public static void proxy_post(HttpServletRequest request, HttpServletResponse re
 			proxy_post(request, response);
 	}
 	catch (Exception e) {
-		log("error!!!!!");
+		log("getOutputStream!!!!!");
 		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		response.setContentType("text/plain");
 		%>
