@@ -122,7 +122,9 @@ GamFcltyQcSttusInqireModule.prototype.loadComplete = function() {
 	
 	this.setControlStatus();
 
-	this.fillSelectBoxYear('#sEnforceYear'); 		
+	this.fillSelectBoxYear('#sEnforceYear');
+	this.$('#sEnforceYear').val((new Date()).getFullYear());
+	this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);	
 };
 
 <%

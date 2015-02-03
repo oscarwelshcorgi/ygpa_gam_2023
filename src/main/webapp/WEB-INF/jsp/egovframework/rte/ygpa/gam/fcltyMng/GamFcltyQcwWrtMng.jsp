@@ -123,7 +123,9 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function() {
 	this.setControlStatus();
 
 	this.fillSelectBoxYear('#enforceYear');	
-	this.fillSelectBoxYear('#sEnforceYear'); 
+	this.fillSelectBoxYear('#sEnforceYear');
+	this.$('#sEnforceYear').val((new Date()).getFullYear());
+	this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
 };
 
 <%
@@ -240,6 +242,7 @@ GamFcltyQcwWrtMngModule.prototype.initBeforeInsert = function() {
 	this.makeFormValues('#detailForm', {});
 	this.setControlStatus();
 	this.$('#enforceYear').val((new Date()).getFullYear());
+	this.$('#fcltsJobSe').val(EMD.userinfo.mngFcltyCd);	
 	this.$('#mainTab').tabs('option', {active: 1});
 };
 
