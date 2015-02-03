@@ -242,7 +242,8 @@ GamFcltyQcwWrtMngModule.prototype.initBeforeInsert = function() {
 	this.makeFormValues('#detailForm', {});
 	this.setControlStatus();
 	this.$('#enforceYear').val((new Date()).getFullYear());
-	this.$('#fcltsJobSe').val(EMD.userinfo.mngFcltyCd);	
+	this.$('#fcltsJobSe').val(EMD.userinfo.mngFcltyCd);
+	this.loadQcSubDataList();
 	this.$('#mainTab').tabs('option', {active: 1});
 };
 
