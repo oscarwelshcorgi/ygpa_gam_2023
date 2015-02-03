@@ -984,7 +984,7 @@ var module_instance = new GamAssetCodeModule();
 					<tr>
 						<th><span class="label">자산구분</span></th>
 						<td colspan="3">
-							<input id="gisAssetsSeCd" class="ygpaCmmnCd" data-code-id='GAM013'>
+							<input id="GIS_ASSETS_SE_CD" class="ygpaCmmnCd" data-code-id='GAM013'>
 						</td>
 						<th><span class="label">취득가액</span></th>
 						<td><input type="text" size="18" id="gisAssetsAcqPri" class="ygpaNumber"> 원</td>

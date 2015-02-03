@@ -68,6 +68,7 @@
 		</isNotEmpty>
 		ORDER BY ERP.BUY_AMT
 		) S
+		WHERE S.FCLTY_CNT>0
 		) Z
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
