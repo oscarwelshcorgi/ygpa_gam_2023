@@ -113,9 +113,37 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
  	this.$(".objFcltsEditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.objFcltsDataChanged(event.target);
 	});
+ 	
+ 	
+ 	// 기본값 셋팅
+	this.setDefaultParam();
 	
 	this.applySelectYear();
 	
+};
+
+
+<%
+/**
+ * @FUNCTION NAME : setDefaultParam
+ * @DESCRIPTION   : 조회조건 및 기본값 셋팅 함수
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyRepairMngModule.prototype.setDefaultParam = function(){
+	var toDate = new Date();
+	var toYear = toDate.getFullYear();
+	
+	var toMonth = toDate.getMonth() + 1;
+	if(toMonth < 10) toMonth = "0" + toMonth;
+	
+	var toDay = toDate.getDay();
+	if(toDay < 10) toDay = "0" + toDay;
+	
+	this.$("#sFlawRprStartDtFr").val(toYear + "-01-01");
+	this.$("#sFlawRprStartDtTo").val(toYear + "-" + toMonth + "-" + toDay);
+	
+	this.$("#sFcltsJobSe").val(EMD.userinfo["mngFcltyCd"]);
 };
 
 
@@ -368,6 +396,10 @@ GamFcltyRepairMngModule.prototype.addData = function() {
 	this.makeFormValues('#fcltyRepairMngListVO', {});
 	this.$("#searchFcltsMngGroupNo").show();
 	this.$("#fcltsJobSe").enable();
+	this.$("#fcltsJobSe").val(EMD.userinfo["mngFcltyCd"]);
+	var toYear = new Date().getFullYear();
+	this.$("#enforceYear").val(toYear);
+	
 	
 	// tabs3 초기화
 	this.$("#flawRprObjFcltsF").flexEmptyData();

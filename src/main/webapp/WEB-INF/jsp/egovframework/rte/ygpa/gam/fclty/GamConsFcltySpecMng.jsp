@@ -20,6 +20,8 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
+
+<validator:javascript formName="fcltyManageVO" method="validateFcltyManageVO" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 <%
 /******************************** SCRIPT START ********************************/
 %>
@@ -380,7 +382,11 @@ GamConstFcltySpecMngModule.prototype.validateDetailForm = function() {
 %>
 GamConstFcltySpecMngModule.prototype.saveFcltyData = function() {
 
-	if(!this.validateDetailForm()){
+	/* if(!this.validateDetailForm()){
+		return;
+	} */
+	
+	if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){
 		return;
 	}
 

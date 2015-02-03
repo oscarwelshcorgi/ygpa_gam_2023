@@ -136,11 +136,37 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 		event.data.module.$("#sCtrtNm").val('');
 	});
 
+	// 기본값 셋팅
+	this.setDefaultParam();
 	
 	// 연도 셀렉트 옵션에 뿌리기
 	this.applySelectYear();
 
 
+};
+
+
+<%
+/**
+ * @FUNCTION NAME : setDefaultParam
+ * @DESCRIPTION   : 조회조건 및 기본값 셋팅 함수
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyMaintMngModule.prototype.setDefaultParam = function(){
+	var toDate = new Date();
+	var toYear = toDate.getFullYear();
+	
+	var toMonth = toDate.getMonth() + 1;
+	if(toMonth < 10) toMonth = "0" + toMonth;
+	
+	var toDay = toDate.getDay();
+	if(toDay < 10) toDay = "0" + toDay;
+	
+	this.$("#sMntnRprCnstStartDtFr").val(toYear + "-01-01");
+	this.$("#sMntnRprCnstStartDtTo").val(toYear + "-" + toMonth + "-" + toDay);
+	
+	this.$("#sFcltsJobSe").val(EMD.userinfo["mngFcltyCd"]);
 };
 
 
@@ -415,6 +441,9 @@ GamFcltyMaintMngModule.prototype.addData = function() {
 	this.$("#fcltsJobSe").enable();
 	
 	this.$("#mntnRprObjFcltsF").flexEmptyData();
+	this.$("#fcltsJobSe").val(EMD.userinfo["mngFcltyCd"]);
+	this.$(".EditItem").trigger("change");
+	
 
 	this.$("#fcltyMaintFileList").empty();
 	this.$('#fcltyMaintFileList').append('<option value="">선택</option>');

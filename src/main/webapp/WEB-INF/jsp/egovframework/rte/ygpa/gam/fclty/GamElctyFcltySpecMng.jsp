@@ -3,7 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
   /**
   * @Class Name : GamElctyFcltySpecMng.jsp
@@ -50,7 +49,7 @@ GamElctyFcltySpecMngModule.prototype.loadComplete = function(params) {
 	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다.
 
 	this._params = params;	// 파라미터를 저장한다.
-
+	console.log('GamElctyFcltySpecMngModule');
 	// 테이블 설정
 	this.$("#elctyFcltySpecMngList").flexigrid({
 		module: this,
@@ -105,13 +104,13 @@ GamElctyFcltySpecMngModule.prototype.loadComplete = function(params) {
 	this.$("#fcltsFileList").on("onItemSelected", function(event, module, row, grid, param) {
 		module.imagePreview();
 	});
-
+	
 	//첨부파일 정보 변화 이벤트 처리기
 	this.$(".photoEditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.atchFileInfoChanged(event.target);
 	});
-
-
+	
+	
 	// 맵관련 추가사항
 	this._params=params;
 	if(params!=null) {
@@ -181,7 +180,7 @@ GamElctyFcltySpecMngModule.prototype.loadDetailData = function() {
 			return;
 		}
 		var opts = [{name: 'fcltsMngNo', value: row['fcltsMngNo'] }];
-		this.doAction('/fclty/selectElctyFcltySpecMngDetail.do', opts, function(module, result) {
+		this.doAction('/fclty/selectElctyFcltySpecMngDetail.do', opts, function(module, result) { 
 			if(result.resultCode == "0"){
 				module.makeFormValues('#fcltyManageVO', result.result);
 				module.$("#dispfcltsMngNo").text(result.result.fcltsMngNo);
@@ -200,7 +199,7 @@ GamElctyFcltySpecMngModule.prototype.loadDetailData = function() {
 <%
 /**
  * @FUNCTION NAME : loadFileData
- * @DESCRIPTION   : 첨부파일 LOAD
+ * @DESCRIPTION   : 첨부파일 LOAD 
  * @PARAMETER     : NONE
 **/
 %>
@@ -218,7 +217,7 @@ GamElctyFcltySpecMngModule.prototype.loadFileData = function() {
 **/
 %>
 GamElctyFcltySpecMngModule.prototype.imagePreview = function() {
-
+	
 	var row = this.$('#fcltsFileList').selectedRows();
 	row = row[0];
 	this.$("#fcltsFileForm input").val('');
@@ -257,7 +256,7 @@ GamElctyFcltySpecMngModule.prototype.initDisplay = function() {
 	if(this._cmd == "insert") {
 		this.$("#selectGisPrtFcltyCd").enable();
 		this.$("#searchGisCodeBtn2").show();
-		this.$("#elctyFcltySpecMngTab").tabs("option", {active: 1});
+		this.$("#elctyFcltySpecMngTab").tabs("option", {active: 1});		
 	} else if (this._cmd == "modify") {
 		this.$("#selectGisPrtFcltyCd").disable();
 		this.$("#searchGisCodeBtn2").hide();
@@ -311,17 +310,17 @@ GamElctyFcltySpecMngModule.prototype.atchFileInfoChanged = function(target) {
 /**
  * @FUNCTION NAME : validateDuration
  * @DESCRIPTION   : 유효성 있는 기간 체크
- * @PARAMETER     :
-	 1. startDate   : 시작일 문자열,
-	 2. endDate     : 종료일 문자열,
-	 3. startTitle  : 시작일 제목,
-	 4. endTitle    : 종료일 제목,
-	 5. startIgnore :
+ * @PARAMETER     : 
+	 1. startDate   : 시작일 문자열, 
+	 2. endDate     : 종료일 문자열, 
+	 3. startTitle  : 시작일 제목, 
+	 4. endTitle    : 종료일 제목, 
+	 5. startIgnore : 
 		 5-1. true  : 시작일 필수입력사항 미체크,
-		 5-2. false : 시작일 필수입력사항 체크
-	 6. endIgnore :
+		 5-2. false : 시작일 필수입력사항 체크 
+	 6. endIgnore : 
 		 6-1. true  : 종료일 필수입력사항 미체크,
-		 6-2. false : 종료일 필수입력사항 체크
+		 6-2. false : 종료일 필수입력사항 체크 
 	 7. equals      :
 		 7-1. true  : 종료일이 시작일 보다 크거나 같으면 허용
 		 7-2. false : 종료일이 시작일 보다 커야 허용
@@ -368,8 +367,8 @@ GamElctyFcltySpecMngModule.prototype.validateDuration = function(startDate, endD
 	}
 	startDate = EMD.util.strToDate(startDate);
 	endDate = EMD.util.strToDate(endDate);
-	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 :
-							(startDate.getTime() == endDate.getTime()) ? 0 : 1;
+	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 : 
+							(startDate.getTime() == endDate.getTime()) ? 0 : 1;	
 	result = (equals) ? (compareResult >= 0) : (compareResult > 0);
 	if(!result) {
 		alert(endTitle +'은(는) ' + startTitle + ((equals) ? '보다 같거나 커야합니다.' : '보다 커야합니다.'));
@@ -387,23 +386,13 @@ GamElctyFcltySpecMngModule.prototype.validateDuration = function(startDate, endD
 %>
 GamElctyFcltySpecMngModule.prototype.validateDetailForm = function() {
 	if(this._cmd == 'insert') {
-		this.$('#gisAssetsPrtAtCode').focus();
-		EMD.util.showMessage(this.$('#gisAssetsPrtAtCode')[0], '메시지를 테스트 합니다.');
+		if(this.$('#gisAssetsPrtAtCode').val() == '' || this.$('#gisAssetsCd').val() == '' || this.$('#gisAssetsSubCd').val() == '') {
+			EMD.util.showMessage(this.$('#searchGisCodeBtn2')[0], "GIS자산코드를 선택하세요.");
+			return false;
+		}
 
-		if(this.$('#gisAssetsPrtAtCode').val() == '') {
-			alert('항코드를 선택하세요.');
-			return false;
-		}
-		if(this.$('#gisAssetsCd').val() == '') {
-			alert('GIS자산코드를 선택하세요.');
-			return false;
-		}
-		if(this.$('#gisAssetsSubCd').val() == '') {
-			alert('GIS자산부코드를 선택하세요.');
-			return false;
-		}
 		if(this.$('#gisPrtFcltyCd').val() == '') {
-			alert('시설코드를 입력하세요.');
+			EMD.util.showMessage(this.$('#selectGisPrtFcltyCd')[0], "시설분류를 선택하세요.");
 			return false;
 		}
 	}
@@ -425,37 +414,36 @@ GamElctyFcltySpecMngModule.prototype.validateDetailForm = function() {
 **/
 %>
 GamElctyFcltySpecMngModule.prototype.saveFcltyData = function() {
-
 	if(!this.validateDetailForm()){
 		return;
 	}
 
-	if(!this.validateDuration(this.$('#mfcDt').val(), this.$('#instlDt').val(),
+	if(!this.validateDuration(this.$('#mfcDt').val(), this.$('#instlDt').val(),  
 			'제작일자', '설치일자', true, true, false)) {
 		return;
 	}
-	if(!this.validateDuration(this.$('#mfcDt').val(), this.$('#prtFcltyChangeDt').val(),
+	if(!this.validateDuration(this.$('#mfcDt').val(), this.$('#prtFcltyChangeDt').val(),  
 			'제작일자', '변경일자', true, true, false)) {
 		return;
 	}
-	if(!this.validateDuration(this.$('#instlDt').val(), this.$('#prtFcltyChangeDt').val(),
+	if(!this.validateDuration(this.$('#instlDt').val(), this.$('#prtFcltyChangeDt').val(),  
 			'설치일자', '변경일자', true, true, false)) {
 		return;
 	}
-
+	
 	//GIS 설치일자에 반영
 	this.$("#prtFcltyInstlDt").val(this.$("#instlDt").val());
-	var inputVO = this.makeSaveParam();
+	var inputVO = this.makeSaveParam();	
 	// 전기시설제원 입력/수정처리
  	if(this._cmd == "insert") {
 	 	this.doAction('/fclty/insertElctyFcltySpecMngDetail.do', inputVO, function(module, result) {
 	 		if(result.resultCode == "0"){
 				module.$("#gisPrtFcltySeq").val(result.gisPrtFcltySeq);
 				module.$("#dispfcltsMngNo").text(result.fcltsMngNo);
-
+				
 				module.$("#selectGisPrtFcltyCd").disable();
 	 			module.$("#searchGisCodeBtn2").hide();
-
+				
 				module._cmd = "modify";
 	 		}
 	 		alert(result.resultMsg);
@@ -487,12 +475,12 @@ GamElctyFcltySpecMngModule.prototype.makeSaveParam = function() {
  		for(var i=0;i<all_rows.length;i++){
  			all_rows[i]["fcltsMngNo"] = fcltsMngNo;
  		}
-
+ 		
 		inputVO[inputVO.length]={name: 'updateFileList', value :JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
 	 	inputVO[inputVO.length]={name: 'deleteFileList', value: JSON.stringify(this._deleteDataFileList) };
  	}
  	inputVO[inputVO.length] = {name: 'insertFileList', value :JSON.stringify(this.$('#fcltsFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-
+ 	
 	return inputVO;
 };
 
@@ -505,8 +493,8 @@ GamElctyFcltySpecMngModule.prototype.makeSaveParam = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamElctyFcltySpecMngModule.prototype.deleteFcltsData = function() {
-
+GamElctyFcltySpecMngModule.prototype.deleteFcltsData = function() { 
+	
 	var rows = this.$("#elctyFcltySpecMngList").selectedRows();
 	if(rows.length <= 0){
 		alert("삭제할 시설을 선택하십시오.");
@@ -518,7 +506,7 @@ GamElctyFcltySpecMngModule.prototype.deleteFcltsData = function() {
 			alert('시설물 관리번호에 오류가 있습니다.');
 			return;
 		}
-
+		
 		var data = { 'fcltsMngNo': row["fcltsMngNo"] };
 	 	this.doAction('/fclty/deleteElctyFcltySpecMngDetail.do', data, function(module, result) {
 	 		if(result.resultCode == "0") {
@@ -528,7 +516,7 @@ GamElctyFcltySpecMngModule.prototype.deleteFcltsData = function() {
 	 		}
 	 		alert(result.resultMsg);
 	 	});
-
+		
 	}
 
 };
@@ -575,7 +563,7 @@ GamElctyFcltySpecMngModule.prototype.downloadFile = function() {
 **/
 %>
 GamElctyFcltySpecMngModule.prototype.downloadExcel = function(buttonId) {
-
+	
 	var rowCount = this.$('#elctyFcltySpecMngList').flexRowCount();
 	if (rowCount <= 0) {
 		alert('조회된 자료가 없습니다.');
@@ -585,41 +573,6 @@ GamElctyFcltySpecMngModule.prototype.downloadExcel = function(buttonId) {
 
 };
 
-
-<%
-/**
- * @FUNCTION NAME : registLocation
- * @DESCRIPTION   : 위치등록 함수
- * @PARAMETER     : NONE
-**/
-%>
-GamElctyFcltySpecMngModule.prototype.registLocation = function() {
-	var module=this;
-	EMD.gis.addPrtFcltyMarker(this._fcltyItem, function(value) {
-		module.$('#laCrdnt').val(value.laCrdnt);
-		module.$('#loCrdnt').val(value.loCrdnt);
-	});
-};
-
-
-<%
-/**
- * @FUNCTION NAME : gotoLocation
- * @DESCRIPTION   : 위치조회 함수
- * @PARAMETER     : NONE
-**/
-%>
-GamElctyFcltySpecMngModule.prototype.gotoLocation = function() {
-	if(this._fcltyItem.laCrdnt!=null && this._fcltyItem.laCrdnt!=null) {
-		EMD.gis.goLocation(this._fcltyItem.laCrdnt, this._fcltyItem.loCrdnt);
-		EMD.gis.selectPrtFclty(this._fcltyItem);
-	} else if(this._fcltyItem.lat!=null && this._fcltyItem.lng!=null){
-		EMD.gis.goLocation4326(this._fcltyItem.lat, this._fcltyItem.lng);
-		EMD.gis.selectPrtFclty(this._fcltyItem);
-	} else {
-		alert("시설위치가 등록되지 않았습니다.");
-	}
-};
 
 
 
@@ -632,10 +585,9 @@ GamElctyFcltySpecMngModule.prototype.gotoLocation = function() {
 **/
 %>
 GamElctyFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
-	var opts = null;
-
+	
 	switch(buttonId) {
-
+				
 		// 검색조건 시설물 관리 그룹 팝업
 		case "searchPopupBtn":
 			this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
@@ -650,59 +602,51 @@ GamElctyFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		case "searchFcltsMngGroupNo":
 			this.doExecuteDialog("selectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
 			break;
-
+			
 		// 시설물 분류코드(디테일 화면)
 		case "searchFcltsClCd" :
-			this.doExecuteDialog("selectFcltsClCd", "시설물 분류코드", '/popup/showFcltsClCd.do', { 'sFcltsClCdChar' : this._prtFcltySe });
+			this.doExecuteDialog("selectFcltsClCd", "시설물 분류코드", '/popup/showFcltsClCd.do', { 'sFcltsClCdChar' : this._prtFcltySe });			
 			break;
-
-		// 건축시설물 관리번호(디테일 화면)
+			
+		// 건축시설물 관리번호(디테일 화면) 			
 		case "searchArchFcltsMngNo":
 			this.doExecuteDialog("selectArchFcltsMngNo", "건축시설관리", '/popup/showConsFcltyInfo.do', {});
 			break;
-
+			
 		// 시설추가
 		case "btnAdd":
 			this._cmd = "insert";
 			this.initDisplay();
 			break;
-
+		
 		//시설삭제
 		case "btnDelete" :
-			this.deleteFcltsData();
+			this.deleteFcltsData(); 
 			break;
-
+			
 		// 저장
 		case "btnSave":
 			this.saveFcltyData();
 			break;
-
+					
 		//파일업로드
 		case "btnUploadFile":
 			this.uploadFile();
 			break;
-
-		//파일다운로드
+			
+		//파일다운로드			
 		case "btnDownloadFile":
 			this.downloadFile();
 			break;
-
+			
 		// 엑셀다운로드
 		case "btnExcelDownload":
 			this.downloadExcel(buttonId);
 		break;
-
+						
 		//파일삭제
 		case "btnRemoveFile":
 			this.removeAtchFileItem();
-			break;
-
-		case "registLocation":	// 위치 등록
-			this.registLocation();
-			break;
-
-		case "gotoLocation":	// 위치 조회
-			this.gotoLocation();
 			break;
 
 		// 맵관련 추가
@@ -776,13 +720,13 @@ GamElctyFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 		if((this._cmd != 'insert') && (this._cmd != 'modify')) {
 			this.$("#elctyFcltySpecMngTab").tabs("option", {active: 0});
 			alert('전기시설 항목을 선택 하세요.');
-		}
+		} 
 		break;
 	case "tabs3":
 		if((this._cmd != 'insert') && (this._cmd != 'modify')) {
 			this.$("#elctyFcltySpecMngTab").tabs("option", {active: 0});
 			alert('전기시설 항목을 선택 하세요.');
-		}
+		} 
 		break;
 	}
 };
@@ -804,7 +748,7 @@ GamElctyFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
 			break;
-
+			
 		case "selectFcltsMngGroup":
 			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#fcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
@@ -821,17 +765,17 @@ GamElctyFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 			this.$("#gisAssetsLnm").val(value["gisAssetsLnm"]);					// 지번
 			this.$("#gisAssetsLnmSub").val(value["gisAssetsLnmSub"]);			// 서브지번
 			break;
-
+		
 		case "selectFcltsClCd":
 			this.$("#elctyFcltsClCd").val(value["fcltsClCd"]);
-			this.$("#elctyFcltsClCdNm").val(value["fcltsClCdNm"]);
+			this.$("#elctyFcltsClCdNm").val(value["fcltsClCdNm"]);			
 			break;
 
 		case "selectArchFcltsMngNo":
 			this.$("#archFcltsMngNo").val(value["fcltsMngNo"]);
-			this.$("#archFcltsMngNoNm").val(value["prtFcltyNm"]);
+			this.$("#archFcltsMngNoNm").val(value["prtFcltyNm"]);			
 			break;
-
+			
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
 			break;
@@ -912,7 +856,7 @@ var module_instance = new GamElctyFcltySpecMngModule();
 							</td>
 						</tr>
 					</table>
-
+					
 				</div>
 			</div>
 
@@ -933,7 +877,7 @@ var module_instance = new GamElctyFcltySpecMngModule();
 					<table  class="detailPanel"  style="width:100%;">
 						<tr>
 							<th width="12%" height="17" class="required_text">항　　구　　분</th>
-							<td><input type="text" size="5" id="gisAssetsPrtAtCode" disabled="disabled"/>
+							<td><input type="text" size="5" id="gisAssetsPrtAtCode" disabled="disabled" />
 							    <input type="text" size="23" id="gisAssetsPrtAtName" disabled="disabled"/></td>
 							<th width="12%" height="17" class="required_text">GIS 자 산 코 드</th>
 							<td colspan="3">
@@ -1149,7 +1093,7 @@ var module_instance = new GamElctyFcltySpecMngModule();
 					<button id="btnSave">저장</button>
 				</div>
 			</div>
-
+			
 			<!-- 전기시설 첨부파일 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 				<table>
