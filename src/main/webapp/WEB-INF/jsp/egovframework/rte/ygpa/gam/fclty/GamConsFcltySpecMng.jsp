@@ -3,7 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
   /**
   * @Class Name : GamConstFcltySpecMng.jsp
@@ -21,7 +20,6 @@
   */
 %>
 
-<validator:javascript formName="fcltyManageVO" method="validateFcltyManageVO" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 <%
 /******************************** SCRIPT START ********************************/
 %>
@@ -337,6 +335,7 @@ GamConstFcltySpecMngModule.prototype.validateDuration = function(startDate, endD
 	return result;
 };
 
+
 <%
 /**
  * @FUNCTION NAME : validateDetailForm
@@ -346,20 +345,13 @@ GamConstFcltySpecMngModule.prototype.validateDuration = function(startDate, endD
 %>
 GamConstFcltySpecMngModule.prototype.validateDetailForm = function() {
 	if(this._cmd == 'insert') {
-		if(this.$('#gisAssetsPrtAtCodeStr').val() == '') {
-			alert('항코드를 선택하세요.');
+		if(this.$('#gisAssetsPrtAtCode').val() == '' || this.$('#gisAssetsCd').val() == '' || this.$('#gisAssetsSubCd').val() == '') {
+			EMD.util.showMessage(this.$('#gisCodePopupBtn')[0], "GIS자산코드를 선택하세요.");
 			return false;
 		}
-		if(this.$('#gisAssetsCd').val() == '') {
-			alert('GIS자산코드를 선택하세요.');
-			return false;
-		}
-		if(this.$('#gisAssetsSubCd').val() == '') {
-			alert('GIS자산부코드를 선택하세요.');
-			return false;
-		}
+
 		if(this.$('#gisPrtFcltyCd').val() == '') {
-			alert('시설코드를 입력하세요.');
+			EMD.util.showMessage(this.$('#selectedGAM005')[0], "시설분류를 선택하세요.");
 			return false;
 		}
 	}
@@ -382,11 +374,7 @@ GamConstFcltySpecMngModule.prototype.validateDetailForm = function() {
 %>
 GamConstFcltySpecMngModule.prototype.saveFcltyData = function() {
 
-	/* if(!this.validateDetailForm()){
-		return;
-	} */
-	
-	if(!validateFcltyManageVO(this.$('#fcltyManageVO')[0])){
+	if(!this.validateDetailForm()){
 		return;
 	}
 
@@ -1055,7 +1043,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<th width="12%" height="17">하자 만 료 일 자</th>
 							<td><input type="text" size="11" id="flawEndDt" class="emdcal bldFlawDt" title="하자만료일자" maxlength="8" /></td>
 							<th width="12%" height="17">기　초　형　식</th>
-							<td><input type="text" size="50" id="baseFmt"  data-required="true" maxlength="33" /></td>
+							<td><input type="text" size="50" id="baseFmt"  maxlength="33" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">대　지　면　적</th>

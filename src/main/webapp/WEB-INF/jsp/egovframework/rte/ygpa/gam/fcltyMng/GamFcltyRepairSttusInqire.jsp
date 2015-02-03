@@ -97,9 +97,37 @@ GamFcltyRepairSttusInqireModule.prototype.loadComplete = function(params) {
  	this.$("#fcltyRepairSttusInqireList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module.$("#fcltyRepairSttusInqireListTab").tabs("option", {active: 1});
 	});
-
+ 	
+	
+ 	// 기본값 셋팅
+	this.setDefaultParam();
 
 };
+
+
+<%
+/**
+ * @FUNCTION NAME : setDefaultParam
+ * @DESCRIPTION   : 조회조건 및 기본값 셋팅 함수
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyRepairSttusInqireModule.prototype.setDefaultParam = function(){
+	var toDate = new Date();
+	var toYear = toDate.getFullYear();
+	
+	var toMonth = toDate.getMonth() + 1;
+	if(toMonth < 10) toMonth = "0" + toMonth;
+	
+	var toDay = toDate.getDay();
+	if(toDay < 10) toDay = "0" + toDay;
+	
+	this.$("#sFlawRprStartDtFr").val(toYear + "-01-01");
+	this.$("#sFlawRprStartDtTo").val(toYear + "-" + toMonth + "-" + toDay);
+	
+	this.$("#sFcltsJobSe").val(EMD.userinfo["mngFcltyCd"]);
+};
+
 
 
 <%

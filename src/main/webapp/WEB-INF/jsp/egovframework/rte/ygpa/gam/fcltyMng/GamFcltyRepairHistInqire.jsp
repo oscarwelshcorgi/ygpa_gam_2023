@@ -81,8 +81,38 @@ GamFcltyRepairHistInqireModule.prototype.loadComplete = function(params) {
 		event.data.module.$("#sFcltsMngNo").val('');
 		event.data.module.$("#sPrtFcltyNm").val('');
 	});
+ 	
+ 	
+	// 기본값 셋팅
+	this.setDefaultParam();
 
 };
+
+
+<%
+/**
+ * @FUNCTION NAME : setDefaultParam
+ * @DESCRIPTION   : 조회조건 및 기본값 셋팅 함수
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyRepairHistInqireModule.prototype.setDefaultParam = function(){
+	var toDate = new Date();
+	var toYear = toDate.getFullYear();
+	
+	var toMonth = toDate.getMonth() + 1;
+	if(toMonth < 10) toMonth = "0" + toMonth;
+	
+	var toDay = toDate.getDay();
+	if(toDay < 10) toDay = "0" + toDay;
+	
+	this.$("#sFlawRprStartDtFr").val(toYear + "-01-01");
+	this.$("#sFlawRprStartDtTo").val(toYear + "-" + toMonth + "-" + toDay);
+	
+};
+
+
+
 
 <%
 /**
