@@ -360,20 +360,14 @@ GamCivilFcltySpecMngModule.prototype.setControlStatus = function() {
 %>
 GamCivilFcltySpecMngModule.prototype.validateDetailForm = function() {
 	if(this._mainmode == 'insert') {
-		if(this.$('#gisAssetsPrtAtCode').val() == '') {
-			alert('GIS자산코드를 선택하세요.');
-			return false;
-		}
-		if(this.$('#gisAssetsCd').val() == '') {
-			alert('GIS자산코드를 선택하세요.');
-			return false;
-		}
-		if(this.$('#gisAssetsSubCd').val() == '') {
-			alert('GIS자산코드를 선택하세요.');
+		if(this.$('#gisAssetsPrtAtCode').val() == '' 
+				|| this.$('#gisAssetsCd').val() == '' 
+				|| this.$('#gisAssetsSubCd').val() == '') {
+			EMD.util.showMessage(this.$('#popupDetailGisCode')[0], 'GIS자산코드를 선택하세요.');
 			return false;
 		}
 		if(this.$('#gisPrtFcltyCd').val() == '') {
-			alert('시설코드를 입력하세요.');
+			EMD.util.showMessage(this.$('#selectGisPrtFcltyCd')[0], '시설분류를 선택하세요.');
 			return false;
 		}
 	}

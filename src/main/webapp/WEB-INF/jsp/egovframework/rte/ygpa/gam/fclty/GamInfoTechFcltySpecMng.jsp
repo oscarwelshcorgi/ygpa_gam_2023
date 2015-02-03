@@ -367,20 +367,14 @@ GamInfoTechFcltySpecMngModule.prototype.setControlStatus = function() {
 %>
 GamInfoTechFcltySpecMngModule.prototype.validateDetailForm = function() {
 	if(this._mainmode == 'insert') {
-		if(this.$('#gisAssetsPrtAtCode').val() == '') {
-			alert('GIS자산코드를 선택하세요.');
-			return false;
-		}
-		if(this.$('#gisAssetsCd').val() == '') {
-			alert('GIS자산코드를 선택하세요.');
-			return false;
-		}
-		if(this.$('#gisAssetsSubCd').val() == '') {
-			alert('GIS자산코드를 선택하세요.');
+		if(this.$('#gisAssetsPrtAtCode').val() == '' 
+					|| this.$('#gisAssetsCd').val() == '' 
+					|| this.$('#gisAssetsSubCd').val() == '') {
+			EMD.util.showMessage(this.$('#popupDetailGisCode')[0], 'GIS자산코드를 선택하세요.');
 			return false;
 		}
 		if(this.$('#gisPrtFcltyCd').val() == '') {
-			alert('시설코드를 입력하세요.');
+			EMD.util.showMessage(this.$('#selectGisPrtFcltyCd')[0], '시설분류를 선택하세요.');
 			return false;
 		}
 	}
@@ -413,7 +407,7 @@ GamInfoTechFcltySpecMngModule.prototype.validateDetailForm = function() {
 		 7-2. false : 종료일이 시작일 보다 커야 허용
 **/
 %>
-GamInfoTechFcltySpecMngModule.prototype.validateDuration = function(startDate, endDate, startTitle, endTitle, startIgnore, endIgnore equals) {
+GamInfoTechFcltySpecMngModule.prototype.validateDuration = function(startDate, endDate, startTitle, endTitle, startIgnore, endIgnore, equals) {
 	var result = false;
 	if(((startDate == null) || (startDate == '')) && ((endDate == null) || (endDate == ''))) {
 		return true;
