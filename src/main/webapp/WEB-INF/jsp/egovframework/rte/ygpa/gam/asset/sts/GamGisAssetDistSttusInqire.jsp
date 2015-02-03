@@ -60,7 +60,6 @@ GamGisAssetDistSttusModule.prototype.loadComplete = function() {
         	return data;
         }
     });
-    //this.$("#gisAssetSttusList")[0].dgrid.setHeader(',항구분,자산코드,자산명,소재지,지번,면적,보유시설갯수,#cspan');
     this.$("#gisAssetSttusList")[0].dgrid.attachHeader('#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,시설종류,시설갯수');
 //	console.log('GamGisAssetDistSttusModule debug');
 };
