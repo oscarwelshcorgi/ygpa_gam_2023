@@ -980,8 +980,21 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 								<input type="text" size="17" id="sFcltsMngGroupNm" disabled="disabled"/>
 								<button id="popupSearchFcltsMngGroup" class="popupButton">선택</button>
 							</td>
-							<th></th>
-							<td></td>
+							<th height="17">점검　진단　구분</th>
+							<td>
+								<select id="sQcInspSe">
+		                        	<option value="">선택</option>
+		                            <option value="1">정기점검</option>
+		                            <option value="2">정밀점검</option>
+		                            <option value="3">초기점검</option>
+		                            <option value="4">긴급점검(손상)</option>
+		                            <option value="5">긴급점검(특별)</option>
+		                            <option value="6">정밀안전점검(정기)</option>
+		                            <option value="7">정밀안전점검(긴급)</option>
+		                            <option value="8">정밀안전점검(하자)</option>
+		                            <option value="9">기타</option>
+		                        </select>
+							</td>
 							<td rowspan="3"><button id="btnSearch" class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
@@ -1013,11 +1026,11 @@ var module_instance = new GamFcltyQcwWrtMngModule();
                                 <input id="sQcSeNm" type="hidden" />
 							</td>
 							<th>시　행　년　도</th>
-							<th>
+							<td>
 								<select id="sEnforceYear">
 									<option value="">선택</option>
                                 </select>
-							</th>
+							</td>
 						</tr>
 					</tbody>
 				</table>

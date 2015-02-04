@@ -29,6 +29,9 @@ public class GamFcltyQcSttusInqireVO extends ComDefaultVO {
 
 	/**시설물업무구분(조회조건)*/
 	private String sFcltsJobSe;
+
+	/**점검진단구분(조회조건)*/
+	private String sQcInspSe;
 	
 	/**점검관리명(조회조건)*/
 	private String sQcMngNm;
@@ -44,7 +47,7 @@ public class GamFcltyQcSttusInqireVO extends ComDefaultVO {
 	
 	/**시행년도(조회조건)*/
 	private String sEnforceYear;
-	
+
 	/**
 	 * @return the sFcltsJobSe
 	 */
@@ -57,6 +60,20 @@ public class GamFcltyQcSttusInqireVO extends ComDefaultVO {
 	 */
 	public void setsFcltsJobSe(String sFcltsJobSe) {
 		this.sFcltsJobSe = sFcltsJobSe;
+	}
+
+	/**
+	 * @return the sQcInspSe
+	 */
+	public String getsQcInspSe() {
+		return sQcInspSe;
+	}
+
+	/**
+	 * @param sQcInspSe the sQcInspSe to set
+	 */
+	public void setsQcInspSe(String sQcInspSe) {
+		this.sQcInspSe = sQcInspSe;
 	}
 
 	/**
@@ -128,5 +145,5 @@ public class GamFcltyQcSttusInqireVO extends ComDefaultVO {
 	public void setsEnforceYear(String sEnforceYear) {
 		this.sEnforceYear = sEnforceYear;
 	}
-
+	
 }

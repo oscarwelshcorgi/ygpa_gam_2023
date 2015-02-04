@@ -49,6 +49,9 @@
 						<isNotEmpty property="sFcltsJobSe">
 						  	AND Q.FCLTS_JOB_SE = #sFcltsJobSe#
 						</isNotEmpty>
+						<isNotEmpty property="sQcInspSe">
+						  	AND Q.QC_INSP_SE = #sQcInspSe#
+						</isNotEmpty>
 						<isNotEmpty property="sQcMngNm">
 						  	AND Q.QC_MNG_NM LIKE '%' || #sQcMngNm# || '%' 
 						</isNotEmpty>
@@ -82,6 +85,9 @@
 		</isNotEmpty>
 		<isNotEmpty property="sFcltsJobSe">
 		  	AND Q.FCLTS_JOB_SE = #sFcltsJobSe#
+		</isNotEmpty>
+		<isNotEmpty property="sQcInspSe">
+		  	AND Q.QC_INSP_SE = #sQcInspSe#
 		</isNotEmpty>
 		<isNotEmpty property="sQcMngNm">
 		  	AND Q.QC_MNG_NM LIKE '%' || #sQcMngNm# || '%' 
