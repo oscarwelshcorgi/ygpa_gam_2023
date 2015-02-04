@@ -62,10 +62,11 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function() {
 					{display:"유지보수예산", 		name:"mntnRprBdgt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"유지보수부위", 		name:"mntnRprPart",				width:250, 		sortable:false,		align:"center"},
 					{display:"시공자", 			name:"cnstrtr",					width:150, 		sortable:false,		align:"center"},
-					{display:"계약명", 			name:"ctrtNm",					width:250, 		sortable:false,		align:"left"}
+					{display:"계약명", 			name:"ctrtNm",					width:250, 		sortable:false,		align:"left"},
+					{display:"유지보수정보", 		name:"mntnFcltsCnstInfo",		width:200, 		sortable:false,		align:"center"}
 			],
 		height: "auto",
-		groupBy: "mntnRprCnstNm",
+		groupBy: "mntnFcltsCnstInfo",
 		preProcess : function(module,data) {
 			module.$('#totalCount').val($.number(data.totalCount));
 			module.$('#sumMntnRprCnstAmt').val($.number(data.sumMntnRprCnstAmt));
