@@ -64,6 +64,7 @@ GamFcltyMaintHistInqireModule.prototype.loadComplete = function() {
 					{display:"유지보수부위", 		name:"mntnRprPart",				width:250, 		sortable:false,		align:"center"}
 			],
 		height: "auto",
+		groupBy: "mntnRprCnstNm",
 		preProcess : function(module,data) {
 			module.$('#totalCount').val($.number(data.totalCount));
 			module.$('#sumMntnRprCnstAmt').val($.number(data.sumMntnRprCnstAmt));

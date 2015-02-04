@@ -65,6 +65,7 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function() {
 					{display:"계약명", 			name:"ctrtNm",					width:250, 		sortable:false,		align:"left"}
 			],
 		height: "auto",
+		groupBy: "mntnRprCnstNm",
 		preProcess : function(module,data) {
 			module.$('#totalCount').val($.number(data.totalCount));
 			module.$('#sumMntnRprCnstAmt').val($.number(data.sumMntnRprCnstAmt));
