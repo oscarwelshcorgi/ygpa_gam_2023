@@ -56,11 +56,11 @@ GamConstFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		dataType: "json",
 		colModel : [
 					{display:"항구분",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
-					{display:"자산명",		name:"gisAssetsNm",			width:200,		sortable:false,		align:"left"},
 					{display:"시설명",		name:"prtFcltyNm",			width:200,		sortable:false,		align:"left"},
 					{display:"소재지",		name:"loc",					width:180,		sortable:false,		align:"left"},
 					{display:"시설물관리그룹",	name:"fcltsMngGroupNoNm",	width:120,		sortable:false,		align:"left"},
-					{display:"시설분류",	 	name:"prtFcltySeNm",		width:80,		sortable:false,		align:"center"},
+					{display:"시설분류",	 	name:"gisPrtFcltyCdNm",		width:80,		sortable:false,		align:"center"},
+					{display:"구조형식",		name:"strctFmt",			width:200,		sortable:false,		align:"left"},
 					{display:"준공일자",		name:"bldDt",				width:80,		sortable:false,		align:"center"}
 			],
 		height: "auto",
@@ -460,7 +460,7 @@ var module_instance = new GamConstFcltySpecInqireModule();
 						</tr>
 						<tr>
 							<th>시설분류</th>
-							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" /></td>
+							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" /></td>
 							<th>시설명</th>
 							<td><input id="sPrtFcltyNm" type="text" size="30" title="시설명"  /></td>
 							<th>소재지</th>
@@ -547,7 +547,7 @@ var module_instance = new GamConstFcltySpecInqireModule();
 							</td>
 							<th width="12%" height="17">시　설　분　류</th>
 							<td>
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM057" id="selectedGAM005" data-required="true" data-column-id="gisPrtFcltyCd" />
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005" data-required="true" data-column-id="gisPrtFcltyCd" />
 								<input type="hidden" id="prtFcltySeNm"/>
 							</td>
 							<th width="12%" height="17">건 축　시 설 명</th>

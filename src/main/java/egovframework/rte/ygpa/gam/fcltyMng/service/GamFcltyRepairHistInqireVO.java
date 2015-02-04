@@ -55,6 +55,41 @@ public class GamFcltyRepairHistInqireVO extends ComDefaultVO  {
 	
 	private String fcltsMngNo;
 	
+	
+	/** 자료수 */
+	private int totCnt;
+	
+	/** 하자보수금액합계 */
+	private long sumFlawRprAmt;
+	
+
+	/**
+	 * @return the totCnt
+	 */
+	public int getTotCnt() {
+		return totCnt;
+	}
+
+	/**
+	 * @param totCnt the totCnt to set
+	 */
+	public void setTotCnt(int totCnt) {
+		this.totCnt = totCnt;
+	}
+
+	/**
+	 * @return the sumFlawRprAmt
+	 */
+	public long getSumFlawRprAmt() {
+		return sumFlawRprAmt;
+	}
+
+	/**
+	 * @param sumFlawRprAmt the sumFlawRprAmt to set
+	 */
+	public void setSumFlawRprAmt(long sumFlawRprAmt) {
+		this.sumFlawRprAmt = sumFlawRprAmt;
+	}
 
 	/**
 	 * @return the sFlawRprEntrpsNm

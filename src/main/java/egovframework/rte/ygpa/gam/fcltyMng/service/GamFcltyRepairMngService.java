@@ -38,12 +38,12 @@ public interface GamFcltyRepairMngService {
 	
 	
 	/**
-	 * 하자보수 내역 총갯수
+	 * 하자보수 내역 총갯수, 금액합계
 	 * @param vo
-	 * @return int
+	 * @return GamFcltyRepairMngVO
 	 * @throws Exception
 	 */
-	int selectFcltyRepairMngListTotCnt(GamFcltyRepairMngVO vo) throws Exception;
+	GamFcltyRepairMngVO selectFcltyRepairMngListTotCnt(GamFcltyRepairMngVO vo) throws Exception;
 	
 	
 	/**

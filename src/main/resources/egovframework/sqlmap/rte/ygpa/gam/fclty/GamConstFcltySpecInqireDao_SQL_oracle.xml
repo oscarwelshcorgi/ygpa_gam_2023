@@ -43,12 +43,13 @@
 								, F.LNG
 								, F.GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE_STR
 			                    , GAM_GETCODENAME('GAM002', A.GIS_ASSETS_LOC_CD) GIS_ASSETS_LOC_NM
-			                    , DECODE(F.GIS_PRT_FCLTY_CD,'10','광양','11','여수','기타') PRT_FCLTY_SE_NM
+			                    , GAM_GETCODENAME('GAM005',F.GIS_PRT_FCLTY_CD) AS GIS_PRT_FCLTY_CD_NM
 			                    , F.PRT_PRT_FCLTY_MNGER PRT_PRT_FCLTY_MNGER
 			                    , F.INFO INFO
 			                    , F.FCLTS_MNG_NO
 			                    , (SELECT FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F WHERE FCLTS_MNG_GROUP_NO = F.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GROUP_NO_NM
 			                    , R.LOC
+			                    , R.STRCT_FMT
 			                    , TO_CHAR(R.BLD_DT, 'YYYY-MM-DD') AS BLD_DT
 		                FROM 
 		                	GIS_PRT_FCLTY_CD_F F 

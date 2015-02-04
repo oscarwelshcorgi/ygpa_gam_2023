@@ -57,7 +57,7 @@ GamFcltyMaintHistInqireModule.prototype.loadComplete = function() {
 					{display:"단위",				name:"unit",					width:80,		sortable:false,		align:"center"},
 					{display:"수량",				name:"qy",						width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"단가",				name:"price",					width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
-					{display:"공사금액",			name:"objMntnRprCnstAmt",		width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
+					{display:"대상시설물공사금액",	name:"objMntnRprCnstAmt",		width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"유지보수공사명",		name:"mntnRprCnstNm",			width:250, 		sortable:false,		align:"left"},
 					{display:"공사금액", 			name:"mntnRprCnstAmt",			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"유지보수예산", 		name:"mntnRprBdgt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
@@ -66,6 +66,8 @@ GamFcltyMaintHistInqireModule.prototype.loadComplete = function() {
 		height: "auto",
 		preProcess : function(module,data) {
 			module.$('#totalCount').val($.number(data.totalCount));
+			module.$('#sumMntnRprCnstAmt').val($.number(data.sumMntnRprCnstAmt));
+			module.$('#sumMntnRprBdgt').val($.number(data.sumMntnRprBdgt));
 			return data;
 		}
 	});
@@ -419,7 +421,11 @@ var module_instance = new GamFcltyMaintHistInqireModule();
 					<table style="width:100%;">
 						<tr>
 							<th>자료수</th>
-							<td><input type="text" id="totalCount" style="width:250px;text-align:right;" readonly="readonly"></td>
+							<td><input type="text" id="totalCount" style="width:100px;text-align:right;" readonly="readonly"></td>
+							<th>공사금액</th>
+							<td><input type="text" id="sumMntnRprCnstAmt" style="width:100px;text-align:right;" readonly="readonly"></td>
+							<th>유지보수예산</th>
+							<td><input type="text" id="sumMntnRprBdgt" style="width:100px;text-align:right;" readonly="readonly"></td>
 							<td style="text-align:right;">
 								<button id="btnExcelDownload">엑셀 다운로드</button>
 							</td>
@@ -438,7 +444,10 @@ var module_instance = new GamFcltyMaintHistInqireModule();
 							<th width="30px" height="23" class="required_text">시설물업무구분</th>
 							<td width="150px"><span id="fcltsJobSeNm" title="시설물업무구분"></span></td>
 							<th width="30px" height="23" class="required_text">유지보수구분</th>
-							<td><span id="mntnRprSeNm" title="유지보수구분"></span></td>
+							<td>
+								<span id="mntnRprSeNm" title="유지보수구분"></span> 
+								<span id="mntnSubRprSeNm" title="유지보수하위구분"></span>
+							</td>
 						</tr>
 						<tr>
 							<th height="17" class="required_text">시설물관리그룹</th>

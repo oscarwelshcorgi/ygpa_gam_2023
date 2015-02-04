@@ -57,6 +57,12 @@ public class GamFcltyRepairSttusInqireVO extends ComDefaultVO  {
 	/** 하자보수순번 */
 	private int flawRprSeq;
 	
+	/** 자료수 */
+	private int totCnt;
+	
+	/** 하자보수금액합계 */
+	private long sumFlawRprAmt;
+	
 	
 
 	/**
@@ -170,6 +176,34 @@ public class GamFcltyRepairSttusInqireVO extends ComDefaultVO  {
 	 */
 	public void setFlawRprSeq(int flawRprSeq) {
 		this.flawRprSeq = flawRprSeq;
+	}
+
+	/**
+	 * @return the totCnt
+	 */
+	public int getTotCnt() {
+		return totCnt;
+	}
+
+	/**
+	 * @param totCnt the totCnt to set
+	 */
+	public void setTotCnt(int totCnt) {
+		this.totCnt = totCnt;
+	}
+
+	/**
+	 * @return the sumFlawRprAmt
+	 */
+	public long getSumFlawRprAmt() {
+		return sumFlawRprAmt;
+	}
+
+	/**
+	 * @param sumFlawRprAmt the sumFlawRprAmt to set
+	 */
+	public void setSumFlawRprAmt(long sumFlawRprAmt) {
+		this.sumFlawRprAmt = sumFlawRprAmt;
 	}
 
 	

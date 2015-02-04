@@ -114,13 +114,15 @@ public class GamFcltyMaintMngController {
 		/** List Data */
 		List<?> fcltyMaintMngList = gamFcltyMaintMngService.selectFcltyMaintMngList(searchVO);
 
-        int totCnt = gamFcltyMaintMngService.selectFcltyMaintMngListTotCnt(searchVO);
+		GamFcltyMaintMngVO resultSum = gamFcltyMaintMngService.selectFcltyMaintMngListTotCnt(searchVO);
 
-        paginationInfo.setTotalRecordCount(totCnt);
+        paginationInfo.setTotalRecordCount(resultSum.getTotCnt());
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 		map.put("resultCode", 0);			// return ok
-    	map.put("totalCount", totCnt);
+    	map.put("totalCount", resultSum.getTotCnt());
+    	map.put("sumMntnRprCnstAmt", resultSum.getSumMntnRprCnstAmt());
+    	map.put("sumMntnRprBdgt", resultSum.getSumMntnRprBdgt());
     	map.put("resultList", fcltyMaintMngList);
     	map.put("searchOption", searchVO);
 

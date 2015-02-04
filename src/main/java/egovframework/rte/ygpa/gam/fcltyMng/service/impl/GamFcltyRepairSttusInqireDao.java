@@ -49,8 +49,8 @@ public class GamFcltyRepairSttusInqireDao extends YGPAAbstractDAO {
 	 * @return int
 	 * @throws Exception
 	 */
-	public int selectFcltyRepairSttusInqireListTotCnt(GamFcltyRepairSttusInqireVO vo) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyRepairSttusInqireDao.selectFcltyRepairSttusInqireListTotCnt_S", vo);
+	public GamFcltyRepairSttusInqireVO selectFcltyRepairSttusInqireListTotCnt(GamFcltyRepairSttusInqireVO vo) throws Exception {
+		return (GamFcltyRepairSttusInqireVO) selectByPk("gamFcltyRepairSttusInqireDao.selectFcltyRepairSttusInqireListTotCnt_S", vo);
 	}
 	
 	

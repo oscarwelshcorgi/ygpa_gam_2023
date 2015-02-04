@@ -43,7 +43,7 @@ public interface GamFcltyRepairHistInqireService {
 	 * @return int
 	 * @throws Exception
 	 */
-	int selectFcltyRepairHistInqireListTotCnt(GamFcltyRepairHistInqireVO vo) throws Exception;
+	GamFcltyRepairHistInqireVO selectFcltyRepairHistInqireListTotCnt(GamFcltyRepairHistInqireVO vo) throws Exception;
 	
 
 	

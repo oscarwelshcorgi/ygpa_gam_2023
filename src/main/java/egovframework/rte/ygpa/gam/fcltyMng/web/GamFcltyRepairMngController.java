@@ -115,13 +115,14 @@ public class GamFcltyRepairMngController {
 		/** List Data */
 		List fcltyRepairMngList = gamFcltyRepairMngService.selectFcltyRepairMngList(searchVO);
 
-        int totCnt = gamFcltyRepairMngService.selectFcltyRepairMngListTotCnt(searchVO);
-
-        paginationInfo.setTotalRecordCount(totCnt);
+		GamFcltyRepairMngVO resultSum = gamFcltyRepairMngService.selectFcltyRepairMngListTotCnt(searchVO);
+		
+        paginationInfo.setTotalRecordCount(resultSum.getTotCnt());
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 		map.put("resultCode", 0);			// return ok
-    	map.put("totalCount", totCnt);
+    	map.put("totalCount", resultSum.getTotCnt());
+    	map.put("sumFlawRprAmt", resultSum.getSumFlawRprAmt());
     	map.put("resultList", fcltyRepairMngList);
 
     	return map;

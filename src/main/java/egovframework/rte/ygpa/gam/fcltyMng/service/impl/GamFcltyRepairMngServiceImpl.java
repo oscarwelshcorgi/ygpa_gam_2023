@@ -55,7 +55,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @return int
 	 * @throws Exception
 	 */
-	public int selectFcltyRepairMngListTotCnt(GamFcltyRepairMngVO vo) throws Exception {
+	public GamFcltyRepairMngVO selectFcltyRepairMngListTotCnt(GamFcltyRepairMngVO vo) throws Exception {
 		return gamFcltyRepairMngDao.selectFcltyRepairMngListTotCnt(vo);
 	}
 	

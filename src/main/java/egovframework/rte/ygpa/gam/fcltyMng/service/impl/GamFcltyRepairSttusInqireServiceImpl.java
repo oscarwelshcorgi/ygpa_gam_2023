@@ -54,7 +54,7 @@ public class GamFcltyRepairSttusInqireServiceImpl extends AbstractServiceImpl im
 	 * @return int
 	 * @throws Exception
 	 */
-	public int selectFcltyRepairSttusInqireListTotCnt(GamFcltyRepairSttusInqireVO vo) throws Exception {
+	public GamFcltyRepairSttusInqireVO selectFcltyRepairSttusInqireListTotCnt(GamFcltyRepairSttusInqireVO vo) throws Exception {
 		return gamFcltyRepairSttusInqireDao.selectFcltyRepairSttusInqireListTotCnt(vo);
 	}
 	

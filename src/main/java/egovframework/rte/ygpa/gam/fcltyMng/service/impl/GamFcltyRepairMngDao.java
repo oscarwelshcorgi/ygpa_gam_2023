@@ -50,8 +50,8 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 	 * @return int
 	 * @throws Exception
 	 */
-	public int selectFcltyRepairMngListTotCnt(GamFcltyRepairMngVO vo) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyRepairMngDao.selectFcltyRepairMngListTotCnt_S", vo);
+	public GamFcltyRepairMngVO selectFcltyRepairMngListTotCnt(GamFcltyRepairMngVO vo) throws Exception {
+		return (GamFcltyRepairMngVO) selectByPk("gamFcltyRepairMngDao.selectFcltyRepairMngListTotCnt_S", vo);
 	}
 	
 	

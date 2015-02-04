@@ -43,7 +43,7 @@ public interface GamFcltyMaintMngService {
 	 * @return int
 	 * @throws Exception
 	 */
-	int selectFcltyMaintMngListTotCnt(GamFcltyMaintMngVO vo) throws Exception;
+	GamFcltyMaintMngVO selectFcltyMaintMngListTotCnt(GamFcltyMaintMngVO vo) throws Exception;
 	
 	
 	/**

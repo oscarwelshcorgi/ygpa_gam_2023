@@ -67,6 +67,8 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function() {
 		height: "auto",
 		preProcess : function(module,data) {
 			module.$('#totalCount').val($.number(data.totalCount));
+			module.$('#sumMntnRprCnstAmt').val($.number(data.sumMntnRprCnstAmt));
+			module.$('#sumMntnRprBdgt').val($.number(data.sumMntnRprBdgt));
 			return data;
 		}
 	});
@@ -562,7 +564,11 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 					<table style="width:100%;">
 						<tr>
 							<th>자료수</th>
-							<td><input type="text" id="totalCount" style="width:250px;text-align:right;" readonly="readonly"></td>
+							<td><input type="text" id="totalCount" style="width:100px;text-align:right;" readonly="readonly"></td>
+							<th>공사금액</th>
+							<td><input type="text" id="sumMntnRprCnstAmt" style="width:100px;text-align:right;" readonly="readonly"></td>
+							<th>유지보수예산</th>
+							<td><input type="text" id="sumMntnRprBdgt" style="width:100px;text-align:right;" readonly="readonly"></td>
 							<td style="text-align:right;">
 								<button id="btnExcelDownload">엑셀 다운로드</button>
 							</td>
@@ -585,7 +591,10 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 								</tr>
 								<tr>
 									<th height="18" class="required_text">유지보수구분</th>
-									<td><span id="mntnRprSeNm" title="유지보수구분"></span></td>
+									<td>
+										<span id="mntnRprSeNm" title="유지보수구분"></span> 
+										<span id="mntnSubRprSeNm" title="유지보수하위구분"></span>
+									</td>
 									<th height="18" class="required_text">유지보수순번</th>
 									<td><span id="mntnRprSeq" title="유지보수순번" ></span></td>
 								</tr>

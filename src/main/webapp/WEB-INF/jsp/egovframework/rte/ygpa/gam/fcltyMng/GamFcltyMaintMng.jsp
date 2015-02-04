@@ -72,8 +72,11 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 					
 			],
 		height: "auto",
+		groupBy: "mntnRprCnstNm",
 		preProcess : function(module,data) {
 			module.$('#totalCount').val($.number(data.totalCount));
+			module.$('#sumMntnRprCnstAmt').val($.number(data.sumMntnRprCnstAmt));
+			module.$('#sumMntnRprBdgt').val($.number(data.sumMntnRprBdgt));
 			return data;
 		}
 	});
@@ -869,7 +872,11 @@ var module_instance = new GamFcltyMaintMngModule();
 					<table style="width:100%;">
 						<tr>
 							<th>자료수</th>
-							<td><input type="text" id="totalCount" style="width:250px;text-align:right;" readonly="readonly"></td>
+							<td><input type="text" id="totalCount" style="width:100px;text-align:right;" readonly="readonly"></td>
+							<th>공사금액</th>
+							<td><input type="text" id="sumMntnRprCnstAmt" style="width:100px;text-align:right;" readonly="readonly"></td>
+							<th>유지보수예산</th>
+							<td><input type="text" id="sumMntnRprBdgt" style="width:100px;text-align:right;" readonly="readonly"></td>
 							<td style="text-align:right;">
 								<button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
 								<button id="addBtn" class="buttonAdd">　　추　가　　</button>
@@ -912,6 +919,15 @@ var module_instance = new GamFcltyMaintMngModule();
 									<th height="18" class="required_text">유지보수구분</th>
 									<td>
 										<select id="mntnRprSe" title="유지보수구분">
+											<option value="">선택</option>
+											<option value="1">개량</option>
+											<option value="2">보수</option>
+											<option value="3">보강</option>
+											<option value="4">변경-증설</option>
+											<option value="5">변경-구조변경</option>
+											<option value="9">기타</option>
+										</select>, 
+										<select id="mntnSubRprSe" title="유지보수하위구분">
 											<option value="">선택</option>
 											<option value="1">개량</option>
 											<option value="2">보수</option>

@@ -61,6 +61,15 @@ public class GamFcltyMaintSttusInqireVO extends ComDefaultVO {
 	private String mntnRprSeq;
 	
 	
+	/** 자료수 */
+	private int totCnt;
+	
+	/** 공사금액합계 */
+	private long sumMntnRprCnstAmt;
+	
+	/** 유지보수예산합계 */
+	private long sumMntnRprBdgt;
+	
 
 	/**
 	 * @return the sFcltsMngGroupNo
@@ -200,6 +209,48 @@ public class GamFcltyMaintSttusInqireVO extends ComDefaultVO {
 	 */
 	public void setMntnRprSeq(String mntnRprSeq) {
 		this.mntnRprSeq = mntnRprSeq;
+	}
+
+	/**
+	 * @return the totCnt
+	 */
+	public int getTotCnt() {
+		return totCnt;
+	}
+
+	/**
+	 * @param totCnt the totCnt to set
+	 */
+	public void setTotCnt(int totCnt) {
+		this.totCnt = totCnt;
+	}
+
+	/**
+	 * @return the sumMntnRprCnstAmt
+	 */
+	public long getSumMntnRprCnstAmt() {
+		return sumMntnRprCnstAmt;
+	}
+
+	/**
+	 * @param sumMntnRprCnstAmt the sumMntnRprCnstAmt to set
+	 */
+	public void setSumMntnRprCnstAmt(long sumMntnRprCnstAmt) {
+		this.sumMntnRprCnstAmt = sumMntnRprCnstAmt;
+	}
+
+	/**
+	 * @return the sumMntnRprBdgt
+	 */
+	public long getSumMntnRprBdgt() {
+		return sumMntnRprBdgt;
+	}
+
+	/**
+	 * @param sumMntnRprBdgt the sumMntnRprBdgt to set
+	 */
+	public void setSumMntnRprBdgt(long sumMntnRprBdgt) {
+		this.sumMntnRprBdgt = sumMntnRprBdgt;
 	}
 
 	

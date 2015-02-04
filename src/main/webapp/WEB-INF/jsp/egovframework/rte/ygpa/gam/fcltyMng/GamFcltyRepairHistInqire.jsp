@@ -66,6 +66,7 @@ GamFcltyRepairHistInqireModule.prototype.loadComplete = function(params) {
 		height: "auto",
 		preProcess : function(module,data) {
 			module.$('#totalCount').val($.number(data.totalCount));
+			module.$('#sumFlawRprAmt').val($.number(data.sumFlawRprAmt));
 			return data;
 		}
 	});
@@ -416,7 +417,9 @@ var module_instance = new GamFcltyRepairHistInqireModule();
 					<table style="width:100%;">
 						<tr>
 							<th>자료수</th>
-							<td><input type="text" id="totalCount" style="width:250px;text-align:right;" readonly="readonly"></td>
+							<td><input type="text" id="totalCount" style="width:100px;text-align:right;" readonly="readonly"></td>
+							<th>하자보수금액</th>
+							<td><input type="text" id="sumFlawRprAmt" style="width:100px;text-align:right;" readonly="readonly"></td>
 							<td style="text-align:right;">
 								<button id="btnExcelDownload">엑셀 다운로드</button>
 							</td>

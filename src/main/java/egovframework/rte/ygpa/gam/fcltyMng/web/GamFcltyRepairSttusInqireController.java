@@ -114,13 +114,14 @@ public class GamFcltyRepairSttusInqireController {
 		/** List Data */
 		List fcltyRepairSttusInqireList = gamFcltyRepairSttusInqireService.selectFcltyRepairSttusInqireList(searchVO);
 
-        int totCnt = gamFcltyRepairSttusInqireService.selectFcltyRepairSttusInqireListTotCnt(searchVO);
+		GamFcltyRepairSttusInqireVO resultSum = gamFcltyRepairSttusInqireService.selectFcltyRepairSttusInqireListTotCnt(searchVO);
 
-        paginationInfo.setTotalRecordCount(totCnt);
+        paginationInfo.setTotalRecordCount(resultSum.getTotCnt());
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 		map.put("resultCode", 0);			// return ok
-    	map.put("totalCount", totCnt);
+    	map.put("totalCount", resultSum.getTotCnt());
+    	map.put("sumFlawRprAmt", resultSum.getSumFlawRprAmt());
     	map.put("resultList", fcltyRepairSttusInqireList);
 
     	return map;

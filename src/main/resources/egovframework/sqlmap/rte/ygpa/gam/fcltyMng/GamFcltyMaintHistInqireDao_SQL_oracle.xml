@@ -6,6 +6,12 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamFcltyMaintHistInqireVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyMaintHistInqireVO"/>
     
+    <resultMap id="gamFcltyMaintHistInqireSumMap" class="gamFcltyMaintHistInqireVO">
+		<result property="totCnt" column="TOT_CNT" columnIndex="1"/>
+		<result property="sumMntnRprCnstAmt" column="SUM_MNTN_RPR_CNST_AMT" columnIndex="2"/>
+		<result property="sumMntnRprBdgt" column="SUM_MNTN_RPR_BDGT" columnIndex="3"/>
+	</resultMap>
+    
     <!-- 유지보수내역 -->
 	<select id="gamFcltyMaintHistInqireDao.selectFcltyMaintHistInqireList_D" parameterClass="gamFcltyMaintHistInqireVO" resultClass="egovMap">
         SELECT A.*
@@ -26,6 +32,7 @@
 							, M.MNTN_RPR_SEQ
 							, M.MNTN_RPR_SE
 							, GAM_GET_MNTN_RPR_SE_NM(M.MNTN_RPR_SE) MNTN_RPR_SE_NM
+							, GAM_GET_MNTN_RPR_SE_NM(M.MNTN_SUB_RPR_SE) MNTN_SUB_RPR_SE_NM
 							, M.MNTN_RPR_PART
 							, M.MNTN_RPR_CN
 							, M.MNTN_RPR_BDGT
@@ -80,9 +87,11 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
 	</select>
 
-	<select id="gamFcltyMaintHistInqireDao.selectFcltyMaintHistInqireListTotCnt_S" parameterClass="gamFcltyMaintHistInqireVO" resultClass="int">
+	<select id="gamFcltyMaintHistInqireDao.selectFcltyMaintHistInqireListTotCnt_S" parameterClass="gamFcltyMaintHistInqireVO" resultMap="gamFcltyMaintHistInqireSumMap">
 		SELECT
 			COUNT(*) TOT_CNT
+			, NVL(SUM(M.MNTN_RPR_CNST_AMT),0) AS SUM_MNTN_RPR_CNST_AMT
+			, NVL(SUM(M.MNTN_RPR_BDGT),0) AS SUM_MNTN_RPR_BDGT
 		FROM
 			MNTN_RPR_DTLS_F M
 		LEFT OUTER JOIN 

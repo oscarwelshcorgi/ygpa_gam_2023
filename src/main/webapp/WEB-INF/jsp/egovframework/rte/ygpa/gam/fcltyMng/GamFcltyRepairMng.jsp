@@ -75,6 +75,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		height: "auto",
 		preProcess : function(module,data) {
 			module.$('#totalCount').val($.number(data.totalCount));
+			module.$('#sumFlawRprAmt').val($.number(data.sumFlawRprAmt));
 			return data;
 		}
 	});
@@ -1039,7 +1040,9 @@ var module_instance = new GamFcltyRepairMngModule();
 					<table style="width:100%;">
 						<tr>
 							<th>자료수</th>
-							<td><input type="text" id="totalCount" style="width:250px;text-align:right;" readonly="readonly"></td>
+							<td><input type="text" id="totalCount" style="width:100px;text-align:right;" readonly="readonly"></td>
+							<th>하자보수금액</th>
+							<td><input type="text" id="sumFlawRprAmt" style="width:100px;text-align:right;" readonly="readonly"></td>
 							<td style="text-align:right;">
 								<button data-role="printPage" data-search-option="searchFcltyRepairMngForm" data-url='/fcltyMng/selectFcltyRepairCheckResultPrint.do'>하자검사결과인쇄</button>
 								<button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
@@ -1101,6 +1104,7 @@ var module_instance = new GamFcltyRepairMngModule();
 									<option value="">선택</option>
 									<option value="1">상반기</option>
 									<option value="2">하반기</option>
+									<option value="3">만료검사</option>
 								</select>
 							</td>
 							<th width="15%" height="23" class="required_text">하자검사일자</th>

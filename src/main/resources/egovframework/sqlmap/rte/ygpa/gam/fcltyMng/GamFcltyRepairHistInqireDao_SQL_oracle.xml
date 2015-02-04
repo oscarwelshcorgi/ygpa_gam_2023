@@ -6,6 +6,11 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamFcltyRepairHistInqireVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairHistInqireVO"/>
     
+    <resultMap id="gamFcltyRepairHistInqireSumMap" class="gamFcltyRepairHistInqireVO">
+		<result property="totCnt" column="TOT_CNT" columnIndex="1"/>
+		<result property="sumFlawRprAmt" column="SUM_FLAW_RPR_AMT" columnIndex="2"/>
+	</resultMap>
+    
     <!-- 하자보수내역 -->
 	<select id="gamFcltyRepairHistInqireDao.selectFcltyRepairHistInqireList_D" parameterClass="gamFcltyRepairHistInqireVO" resultClass="egovMap">
         SELECT A.*
@@ -76,9 +81,10 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
 	</select>
 
-	<select id="gamFcltyRepairHistInqireDao.selectFcltyRepairHistInqireListTotCnt_S" parameterClass="gamFcltyRepairHistInqireVO" resultClass="int">
+	<select id="gamFcltyRepairHistInqireDao.selectFcltyRepairHistInqireListTotCnt_S" parameterClass="gamFcltyRepairHistInqireVO" resultMap="gamFcltyRepairHistInqireSumMap">
 		SELECT
 			COUNT(*) TOT_CNT
+			, NVL(SUM(FLAW_RPR_AMT),0) AS SUM_FLAW_RPR_AMT
 		FROM 
 	      FLAW_RPR_DTLS_F F 
 	    LEFT OUTER JOIN 

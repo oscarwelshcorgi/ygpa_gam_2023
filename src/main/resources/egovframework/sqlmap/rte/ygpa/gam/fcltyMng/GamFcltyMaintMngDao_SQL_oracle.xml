@@ -6,6 +6,11 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamFcltyMaintMngVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyMaintMngVO"/>
     
+    <resultMap id="gamFcltyMaintMngSumMap" class="gamFcltyMaintMngVO">
+		<result property="totCnt" column="TOT_CNT" columnIndex="1"/>
+		<result property="sumMntnRprCnstAmt" column="SUM_MNTN_RPR_CNST_AMT" columnIndex="2"/>
+		<result property="sumMntnRprBdgt" column="SUM_MNTN_RPR_BDGT" columnIndex="3"/>
+	</resultMap>
     <!-- 유지보수내역 -->
 	<select id="gamFcltyMaintMngDao.selectFcltyMaintMngList_D" parameterClass="gamFcltyMaintMngVO" resultClass="egovMap">
         SELECT A.*
@@ -74,15 +79,17 @@
 	           			</isNotEmpty>
 	           			
 						ORDER BY
-							M.MNTN_RPR_CNST_START_DT DESC
+							M.MNTN_RPR_CNST_NM ASC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
 	</select>
 
-	<select id="gamFcltyMaintMngDao.selectFcltyMaintMngListTotCnt_S" parameterClass="gamFcltyMaintMngVO" resultClass="int">
+	<select id="gamFcltyMaintMngDao.selectFcltyMaintMngListTotCnt_S" parameterClass="gamFcltyMaintMngVO" resultMap="gamFcltyMaintMngSumMap">
 		SELECT
 			COUNT(*) TOT_CNT
+			, NVL(SUM(M.MNTN_RPR_CNST_AMT),0) AS SUM_MNTN_RPR_CNST_AMT
+			, NVL(SUM(M.MNTN_RPR_BDGT),0) AS SUM_MNTN_RPR_BDGT
 		FROM
 			MNTN_RPR_DTLS_F M 
 		WHERE
@@ -250,6 +257,7 @@
 				, FCLTS_MNG_GROUP_NO
 				, MNTN_RPR_SEQ
 				, MNTN_RPR_SE
+				, MNTN_SUB_RPR_SE
 				, MNTN_RPR_PART
 				, MNTN_RPR_CN
 				, MNTN_RPR_BDGT
@@ -273,6 +281,7 @@
 				, #fcltsMngGroupNo#
 				, #mntnRprSeq#
 				, #mntnRprSe#
+				, #mntnSubRprSe#
 				, #mntnRprPart#
 				, #mntnRprCn#
 				, TO_NUMBER(#mntnRprBdgt#)
@@ -297,6 +306,7 @@
 				, RM = #rm#
 				, CTRT_NO = #ctrtNo#
 				, MNTN_RPR_SE = #mntnRprSe#
+				, MNTN_SUB_RPR_SE = #mntnSubRprSe#
 				, MNTN_RPR_PART = #mntnRprPart#
 				, MNTN_RPR_CN = #mntnRprCn#
 				, MNTN_RPR_BDGT = TO_NUMBER(#mntnRprBdgt#)

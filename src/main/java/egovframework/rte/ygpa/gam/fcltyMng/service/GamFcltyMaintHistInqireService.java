@@ -42,7 +42,7 @@ public interface GamFcltyMaintHistInqireService {
 	 * @return int
 	 * @throws Exception
 	 */
-	int selectFcltyMaintHistInqireListTotCnt(GamFcltyMaintHistInqireVO vo) throws Exception;
+	GamFcltyMaintHistInqireVO selectFcltyMaintHistInqireListTotCnt(GamFcltyMaintHistInqireVO vo) throws Exception;
 	
 	
 	/**
