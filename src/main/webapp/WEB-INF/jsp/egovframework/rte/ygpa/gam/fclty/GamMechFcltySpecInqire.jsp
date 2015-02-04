@@ -56,8 +56,8 @@ GamMechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		dataType: "json",
 		colModel : [
 					{display:"항구분",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
-					{display:"시설명",		name:"prtFcltyNm",			width:200,		sortable:false,		align:"left"},
-					{display:"품명",			name:"gdsnm",				width:200,		sortable:false,		align:"left"},
+					{display:"시설명",		name:"prtFcltyNm",			width:280,		sortable:false,		align:"left"},
+					{display:"품명",			name:"gdsnm",				width:120,		sortable:false,		align:"left"},
 					{display:"소재지",		name:"loc",					width:180,		sortable:false,		align:"left"},
 					{display:"시설물관리그룹",	name:"fcltsMngGroupNoNm",	width:120,		sortable:false,		align:"left"},
 					{display:"시설분류",	 	name:"prtFcltySeNm",		width:80,		sortable:false,		align:"left"},
