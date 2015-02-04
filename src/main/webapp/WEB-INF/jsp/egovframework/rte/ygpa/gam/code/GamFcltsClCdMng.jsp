@@ -829,7 +829,7 @@ var module_instance = new GamFcltsClCdMngModule();
 							</td>
 							<th>시설물 분류 명</th>
 							<td>
-								<input id="sFcltsClNm" type="text" size="20" maxlength="100"/>
+								<input id="sFcltsClCdNm" type="text" size="20" maxlength="100"/>
 							</td>
 							<th>업무 구분</th>
 							<td>
