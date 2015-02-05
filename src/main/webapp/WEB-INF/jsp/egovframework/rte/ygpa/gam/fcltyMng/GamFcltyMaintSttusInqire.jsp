@@ -593,12 +593,10 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 								</tr>
 								<tr>
 									<th height="18" class="required_text">유지보수구분</th>
-									<td>
+									<td colspan="3">
 										<span id="mntnRprSeNm" title="유지보수구분"></span> 
 										<span id="mntnSubRprSeNm" title="유지보수하위구분"></span>
 									</td>
-									<th height="18" class="required_text">유지보수순번</th>
-									<td><span id="mntnRprSeq" title="유지보수순번" ></span></td>
 								</tr>
 								<tr>
 									<th height="17" class="required_text">시설물관리그룹</th>

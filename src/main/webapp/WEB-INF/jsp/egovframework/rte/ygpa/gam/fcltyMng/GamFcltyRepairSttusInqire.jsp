@@ -57,7 +57,6 @@ GamFcltyRepairSttusInqireModule.prototype.loadComplete = function(params) {
 		dataType: "json",
 		colModel : [
 					{display:"시설물관리그룹", 		name:"fcltsMngGoupNm",			width:130, 		sortable:false,		align:"center"},
-					{display:"순번", 				name:"flawRprSeq",				width:60, 		sortable:false,		align:"center"},
 					{display:"계약번호", 			name:"ctrtNo",					width:200, 		sortable:false,		align:"center"},
 					{display:"계약명",			name:"flawRprNm",				width:250, 		sortable:false,		align:"left"},
 					{display:"도급업체명",			name:"flawRprEntrpsNm",			width:250, 		sortable:false,		align:"left"},
@@ -84,7 +83,7 @@ GamFcltyRepairSttusInqireModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectFlawRprSttusObjFcltsF.do',
 		dataType: 'json',
 		colModel : [
-					{display:"순번",			name:"rnum",			width:100,		sortable:false,		align:"center"},
+					{display:"순번",			name:"rnum",			width:50,		sortable:false,		align:"center"},
 					{display:"대상시설물",		name:"prtFcltyNm",		width:250,		sortable:false,		align:"left"},
 					{display:"하자유무",		name:"flawEnnc",		width:90,		sortable:true,		align:"center"},
 					{display:"하자검사일자",	name:"flawExamDt",		width:100,		sortable:true,		align:"center"},
@@ -509,7 +508,7 @@ var module_instance = new GamFcltyRepairSttusInqireModule();
 							</td>
 							<th>하자검사기간</th>
 							<td>
-								<input id="sFlawRprStartDtFr" type="text" size="15" title="하자검사일 검색시작일" /> ~ <input id="sFlawRprStartDtTo" type="text" size="15" title="하자검사일 검색종료일" />
+								<input id="sFlawRprStartDtFr" type="text" size="15" class="emdcal" title="하자검사일 검색시작일" /> ~ <input id="sFlawRprStartDtTo" type="text" size="15" class="emdcal" title="하자검사일 검색종료일" />
 							</td>
 						</tr>
 					</tbody>
@@ -573,10 +572,8 @@ var module_instance = new GamFcltyRepairSttusInqireModule();
 							<td colspan="3"><input id="flawRprEntrpsNm" type="text" size="53" title="도급업체명" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">순번</th>
-							<td><input type="text" size="20" id="flawRprSeq" disabled="disabled" title="하자보수순번" /></td>
 							<th>하자검사구분</th>
-							<td><input type="text" id="flawExamSeNm" disabled="disabled" title="하자검사구분"></td>
+							<td colspan="3"><input type="text" id="flawExamSeNm" disabled="disabled" title="하자검사구분"></td>
 							<th width="15%" height="23" class="required_text">하자검사일자</th>
 							<td colspan="3"><input id="flawExamDt" type="text" size="20" title="하자검사일자" disabled="disabled" /></td>
 						</tr>

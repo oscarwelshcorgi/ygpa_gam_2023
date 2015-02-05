@@ -54,7 +54,6 @@ GamFcltyRepairHistInqireModule.prototype.loadComplete = function(params) {
 					{display:"계약번호", 			name:"ctrtNo",					width:200, 		sortable:false,		align:"center"},
 					{display:"업체명",			name:"flawRprEntrpsNm",			width:200,		sortable:true,		align:"left"},
 					{display:"시설물명",			name:"prtFcltyNm",				width:200,		sortable:true,		align:"left"},
-					{display:"하자보수순번", 		name:"flawRprSeq",				width:120, 		sortable:false,		align:"center"},
 					{display:"하자검사구분",		name:"flawExamSeNm",			width:80, 		sortable:false,		align:"center"},
 					{display:"하자유무",			name:"flawEnnc",				width:90,		sortable:true,		align:"center"},
 					{display:"하자검사일자",		name:"flawExamDt",				width:100,		sortable:true,		align:"center"},
@@ -457,11 +456,9 @@ var module_instance = new GamFcltyRepairHistInqireModule();
 						</tr>
 						<tr>
 							<th height="23" class="required_text">계약번호</th>
-							<td colspan="5">
+							<td colspan="7">
 								<span id="ctrtNo" title="계약번호"></span> 
 							</td>
-							<th height="23" class="required_text">하자보수순번</th>
-							<td><span id="flawRprSeq" title="하자보수순번" ></span></td>
 						</tr>
 						<tr>
 							<th height="23" class="required_text">하자보수명</th>

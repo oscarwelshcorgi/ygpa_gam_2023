@@ -83,7 +83,7 @@ GamConstFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		event.data.module.getFcltsMngGroupNoNm();
 	});
 
-	this.$("#selectedGAM005").on("change", {module: this}, function(event) {
+	this.$("#selectedGAM066").on("change", {module: this}, function(event) {
 		event.data.module.$("#gisPrtFcltyCd").val($(this).val());
 	});
 
@@ -220,7 +220,7 @@ GamConstFcltySpecInqireModule.prototype.loadDetail = function() {
  			module.$("#beforeGisPrtFcltyCd").val(module.$("#gisPrtFcltyCd").val());
  			module.$("#beforeGisPrtFcltySeq").val(module.$("#gisPrtFcltySeq").val());
  		}
- 		module.$("#selectedGAM005").disable();
+ 		module.$("#selectedGAM066").disable();
  	});
 
 	// 첨부파일 처리
@@ -460,7 +460,7 @@ var module_instance = new GamConstFcltySpecInqireModule();
 						</tr>
 						<tr>
 							<th>시설분류</th>
-							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" /></td>
+							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM066" /></td>
 							<th>시설명</th>
 							<td><input id="sPrtFcltyNm" type="text" size="30" title="시설명"  /></td>
 							<th>소재지</th>
@@ -547,7 +547,7 @@ var module_instance = new GamConstFcltySpecInqireModule();
 							</td>
 							<th width="12%" height="17">시　설　분　류</th>
 							<td>
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005" data-required="true" data-column-id="gisPrtFcltyCd" />
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM066" id="selectedGAM066" data-required="true" data-column-id="gisPrtFcltyCd" />
 								<input type="hidden" id="prtFcltySeNm"/>
 							</td>
 							<th width="12%" height="17">건 축　시 설 명</th>
@@ -705,13 +705,6 @@ var module_instance = new GamConstFcltySpecInqireModule();
 							<td><input id="cnstrctBeginDt" type="text" class="emdcal" size="11" title="시공시작일자" disabled="disabled" /></td>
 							<th width="12%" height="17">시공 종 료 일 자</th>
 							<td><input id="cnstrctEndDt" type="text" class="emdcal" size="11" title="시공종료일자" disabled="disabled" /></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17">건축시설물분류코드</th>
-							<td colspan="3">
-								<input id="archFcltsClCd" type="text" size="14" title="건축시설물분류코드" disabled="disabled" />
-								<input id="archFcltsClCdNm" type="text" size="34" disabled="disabled" />
-							</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">소　　재　　지</th>

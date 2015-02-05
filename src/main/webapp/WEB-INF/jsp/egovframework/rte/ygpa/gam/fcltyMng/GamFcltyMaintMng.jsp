@@ -918,7 +918,7 @@ var module_instance = new GamFcltyMaintMngModule();
 								</tr>
 								<tr>
 									<th height="18" class="required_text">유지보수구분</th>
-									<td>
+									<td colspan="3">
 										<select id="mntnRprSe" title="유지보수구분">
 											<option value="">선택</option>
 											<option value="1">개량</option>
@@ -937,9 +937,8 @@ var module_instance = new GamFcltyMaintMngModule();
 											<option value="5">변경-구조변경</option>
 											<option value="9">기타</option>
 										</select>
+										<input type="hidden" id="mntnRprSeq" title="유지보수순번" />
 									</td>
-									<th height="18" class="required_text">유지보수순번</th>
-									<td><input type="text" size="20" id="mntnRprSeq" disabled="disabled" title="유지보수순번" /></td>
 								</tr>
 								<tr>
 									<th height="17" class="required_text">시설물관리그룹</th>

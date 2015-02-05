@@ -84,7 +84,7 @@ GamConstFcltySpecMngModule.prototype.loadComplete = function(params) {
 		event.data.module.getFcltsMngGroupNoNm();
 	});
 
-	this.$("#selectedGAM005").on("change", {module: this}, function(event) {
+	this.$("#selectedGAM066").on("change", {module: this}, function(event) {
 		event.data.module.$("#gisPrtFcltyCd").val($(this).val());
 	});
 
@@ -237,7 +237,7 @@ GamConstFcltySpecMngModule.prototype.loadDetail = function() {
  		}
  	
  		specModule.$("#gisCodePopupBtn").hide();
- 		specModule.$("#selectedGAM005").disable();
+ 		specModule.$("#selectedGAM066").disable();
  	});
 
 	// 첨부파일 처리
@@ -259,7 +259,7 @@ GamConstFcltySpecMngModule.prototype.addFcltyMode = function() {
 	this.$('#fcltyFileList').flexEmptyData();
 	this.$("#fcltyManageVO :input").val("");
 	this.$("#titleFcltsMngNo").text('');
-	this.$("#selectedGAM005").enable();
+	this.$("#selectedGAM066").enable();
 	this.$("#gisCodePopupBtn").show();
 	this.$("#constFcltySpecMngListTab").tabs("option", {active: 1});
 };
@@ -351,7 +351,7 @@ GamConstFcltySpecMngModule.prototype.validateDetailForm = function() {
 		}
 
 		if(this.$('#gisPrtFcltyCd').val() == '') {
-			EMD.util.showMessage(this.$('#selectedGAM005')[0], "시설분류를 선택하세요.");
+			EMD.util.showMessage(this.$('#selectedGAM066')[0], "시설분류를 선택하세요.");
 			return false;
 		}
 	}
@@ -426,7 +426,7 @@ GamConstFcltySpecMngModule.prototype.saveFcltyData = function() {
 				module.$("#gisPrtFcltySeq").val(result.gisPrtFcltySeq);
 				module.$("#titleFcltsMngNo").text(result.fcltsMngNo);
 				
-				module.$("#selectedGAM005").disable();
+				module.$("#selectedGAM066").disable();
 	 			module.$("#gisCodePopupBtn").hide();
 				
 				module._cmd = "modify";
@@ -920,7 +920,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th>시설분류</th>
-							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" /></td>
+							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM066" /></td>
 							<th>시설명</th>
 							<td><input id="sPrtFcltyNm" type="text" size="30" title="시설명" maxlength="30" /></td>
 							<th>소재지</th>
@@ -1008,7 +1008,7 @@ var module_instance = new GamConstFcltySpecMngModule();
 							</td>
 							<th width="12%" height="17" class="required_text">시　설　분　류</th>
 							<td>
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectedGAM005" data-required="true" data-column-id="gisPrtFcltyCd" />
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM066" id="selectedGAM066" data-required="true" data-column-id="gisPrtFcltyCd" />
 								<input type="hidden" id="prtFcltySeNm" disabled="disabled" />
 							</td>
 							<th width="12%" height="17" class="required_text">건 축　시 설 명</th>
@@ -1180,14 +1180,6 @@ var module_instance = new GamConstFcltySpecMngModule();
 							<td><input id="cnstrctBeginDt" type="text" class="emdcal cnstrctDt" size="11" title="시공시작일자" maxlength="8" /></td>
 							<th width="12%" height="17">시공 종 료 일 자</th>
 							<td><input id="cnstrctEndDt" type="text" class="emdcal cnstrctDt" size="11" title="시공종료일자" maxlength="8" /></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17">건축시설물분류코드</th>
-							<td colspan="3">
-								<input id="archFcltsClCd" type="text" size="30" title="건축시설물분류코드" maxlength="10" disabled="disabled" />
-								<input id="archFcltsClCdNm" type="text" size="30" disabled="disabled" />
-								<button id="searchFcltsClCd" class="popupButton">선택</button>
-							</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">소　　재　　지</th>

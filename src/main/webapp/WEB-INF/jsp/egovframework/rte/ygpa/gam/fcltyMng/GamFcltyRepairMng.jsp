@@ -59,7 +59,6 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		dataType: "json",
 		colModel : [
 					{display:"시설물관리그룹", 		name:"fcltsMngGoupNm",			width:130, 		sortable:false,		align:"center"},
-					{display:"순번", 				name:"flawRprSeq",				width:60, 		sortable:false,		align:"center"},
 					{display:"계약번호", 			name:"ctrtNo",					width:200, 		sortable:false,		align:"center"},
 					{display:"계약명",			name:"flawRprNm",				width:250, 		sortable:false,		align:"left"},
 					{display:"도급업체명",			name:"flawRprEntrpsNm",			width:250, 		sortable:false,		align:"left"},
@@ -86,7 +85,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectFlawRprObjFcltsF.do',
 		dataType: 'json',
 		colModel : [
-					{display:"순번",			name:"rnum",			width:100,		sortable:false,		align:"center"},
+					{display:"순번",			name:"rnum",			width:50,		sortable:false,		align:"center"},
 					{display:"대상시설물",		name:"prtFcltyNm",		width:250,		sortable:false,		align:"left"},
 					{display:"하자유무",		name:"flawEnnc",		width:90,		sortable:true,		align:"center"},
 					{display:"하자검사일자",	name:"flawExamDt",		width:100,		sortable:true,		align:"center"},
@@ -1096,16 +1095,15 @@ var module_instance = new GamFcltyRepairMngModule();
 							<td colspan="3"><input id="flawRprEntrpsNm" type="text" size="53" title="도급업체명" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">순번</th>
-							<td><input type="text" size="20" id="flawRprSeq" disabled="disabled" title="하자보수순번" /></td>
 							<th>하자검사구분</th>
-							<td>
+							<td colspan="3">
 								<select id="flawExamSe" title="하자검사구분">
 									<option value="">선택</option>
 									<option value="1">상반기</option>
 									<option value="2">하반기</option>
 									<option value="3">만료검사</option>
 								</select>
+								<input type="hidden" id="flawRprSeq" title="하자보수순번" />
 							</td>
 							<th width="15%" height="23" class="required_text">하자검사일자</th>
 							<td colspan="3"><input id="flawExamDt" type="text" size="20" title="하자검사일자" class="emdcal" /></td>

@@ -51,7 +51,6 @@ GamFcltyMaintHistInqireModule.prototype.loadComplete = function() {
 					{display:"계약번호", 			name:"ctrtNo",					width:200, 		sortable:false,		align:"center"},
 					{display:"시공업체", 			name:"cnstrtr",					width:200, 		sortable:false,		align:"center"},
 					{display:"시설명", 			name:"prtFcltyNm",				width:200, 		sortable:false,		align:"center"},
-					{display:"유지보수순번", 		name:"mntnRprSeq",				width:120, 		sortable:false,		align:"center"},
 					{display:"유지보수구분",		name:"mntnRprSeNm",				width:80, 		sortable:false,		align:"center"},
 					{display:"유지보수공법",		name:"mntnRprCnstMth",			width:80,		sortable:false,		align:"center"},
 					{display:"단위",				name:"unit",					width:80,		sortable:false,		align:"center"},
@@ -464,12 +463,10 @@ var module_instance = new GamFcltyMaintHistInqireModule();
 						</tr>
 						<tr>
 							<th height="23" class="required_text">계약번호</th>
-							<td colspan="3">
+							<td colspan="5">
 								<span id="ctrtNo" title="계약번호"></span>
 								[ <span id="ctrtNm" title="계약명"></span> ]
 							</td>
-							<th height="23" class="required_text">유지보수순번</th>
-							<td><span id="mntnRprSeq" title="유지보수순번"></span></td>
 						</tr>
 						<tr>
 							<th height="23" class="required_text">공사명</th>

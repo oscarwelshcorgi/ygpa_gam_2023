@@ -43,7 +43,7 @@
 								, F.LNG
 								, F.GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE_STR
 			                    , GAM_GETCODENAME('GAM002', A.GIS_ASSETS_LOC_CD) GIS_ASSETS_LOC_NM
-			                    , GAM_GETCODENAME('GAM005',F.GIS_PRT_FCLTY_CD) AS GIS_PRT_FCLTY_CD_NM
+			                    , GAM_GETCODENAME('GAM066',F.GIS_PRT_FCLTY_CD) AS GIS_PRT_FCLTY_CD_NM
 			                    , F.PRT_PRT_FCLTY_MNGER PRT_PRT_FCLTY_MNGER
 			                    , F.INFO INFO
 			                    , F.FCLTS_MNG_NO

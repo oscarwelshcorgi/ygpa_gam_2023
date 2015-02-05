@@ -60,7 +60,7 @@ GamElctyFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"시설명",	    name:"prtFcltyNm",			width:200,		sortable:false,		align:"left"},
 					{display:"소재지",		name:"gisAssetsLocplc",		width:180,		sortable:false,		align:"left"},
 					{display:"시설물관리그룹",	name:"fcltsMngGroupNoNm",	width:120,		sortable:false,		align:"left"},
-					{display:"시설분류",	 	name:"prtFcltySeNm",		width:80,		sortable:false,		align:"center"},
+					{display:"시설분류",	 	name:"prtFcltySeNm",		width:120,		sortable:false,		align:"center"},
 					{display:"용도",			name:"prpos",				width:200,		sortable:false,		align:"left"},
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"}
 			],
@@ -818,7 +818,7 @@ var module_instance = new GamElctyFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th>시설분류</th>
-							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM061" /></td>
+							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM068" /></td>
 							<th>시설명</th>
 							<td><input id="sPrtFcltyNm" type="text" size="30" maxlength="30" /></td>
 							<th>소재지</th>
@@ -906,7 +906,7 @@ var module_instance = new GamElctyFcltySpecMngModule();
 							</td>
 							<th width="12%" height="17" class="required_text">시　설　분　류</th>
 							<td>
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM061" id="selectGisPrtFcltyCd" data-required="true" data-column-id="gisPrtFcltyCd"/>
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM068" id="selectGisPrtFcltyCd" data-required="true" data-column-id="gisPrtFcltyCd"/>
 								<input type="hidden" id="prtFcltySeNm" disabled="disabled" />
 							</td>
 							<th width="12%" height="17" class="required_text">전 기　시 설 명</th>
