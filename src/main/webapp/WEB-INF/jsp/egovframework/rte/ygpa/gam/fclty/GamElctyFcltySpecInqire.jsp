@@ -142,6 +142,14 @@ GamElctyFcltySpecInqireModule.prototype.loadComplete = function(params) {
 **/
 %>
 GamElctyFcltySpecInqireModule.prototype.onSubmit = function() {
+	if(this.$('#sPrtAtCode').val() == ''){
+		EMD.util.showMessage(this.$('#sPrtAtCode')[0], "항구분을 선택하세요.");
+		return false;
+	}
+	if(this.$('#sPrtFcltyCd').val() == ''){
+		EMD.util.showMessage(this.$('#sPrtFcltyCd')[0], "시설분류를 선택하세요.");
+		return false;
+	}
 	this.loadData();
 };
 

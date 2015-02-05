@@ -572,5 +572,58 @@ public class GamFcltyRepairMngController {
     	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckResultPrint";
     }
 	
+	
+	/**
+     * 하자검사관리대장인쇄
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/fcltyMng/selectFcltyRepairCheckMngPrint.do")
+	public String selectFcltyRepairCheckMngPrint(@RequestParam Map<String, Object> fcltyRepairCheckMngOpt, ModelMap model) throws Exception {
+
+    	Map map = new HashMap();
+    	EgovMap result = null;
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return "/ygpa/gam/fcltyMng/GamFcltyRepairCheckMngPrint";
+    	}
+
+		ObjectMapper mapper = new ObjectMapper();
+		
+		GamFcltyRepairMngVO searchVO;
+    	searchVO = mapper.convertValue(fcltyRepairCheckMngOpt, GamFcltyRepairMngVO.class);
+
+		//하자검사관리대장인쇄
+    	result = gamFcltyRepairMngService.selectFcltyRepairCheckMng(searchVO);
+    	
+    	searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+		
+		String ctrtNo = (String) result.get("ctrtNo");
+		
+		//하자보증내용
+    	List fcltyRepairMngListPerCtrt = gamFcltyRepairMngService.selectFcltyRepairMngListPerCtrt(ctrtNo);
+    	
+        model.addAttribute("result", result);
+        model.addAttribute("resultList", fcltyRepairMngListPerCtrt);
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+
+    	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckMngPrint";
+    }
+	
 
 }

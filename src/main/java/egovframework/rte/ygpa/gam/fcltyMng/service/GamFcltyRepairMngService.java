@@ -119,5 +119,23 @@ public interface GamFcltyRepairMngService {
 	 * @throws Exception
 	 */
 	EgovMap selectFcltyRepairCheckReport(GamFcltyRepairMngVO vo) throws Exception;
+	
+	
+	/**
+	 * 하자검사관리대장인쇄
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	EgovMap selectFcltyRepairCheckMng(GamFcltyRepairMngVO vo) throws Exception;
+	
+	
+	/**
+	 *  계약당 계약당 하자보증 내역 인쇄
+	 * @param  String
+	 * @return list
+	 * @throws Exception
+	 */
+	List<?> selectFcltyRepairMngListPerCtrt(String vo) throws Exception;
 
 }

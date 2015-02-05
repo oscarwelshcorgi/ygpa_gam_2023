@@ -201,6 +201,28 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	public EgovMap selectFcltyRepairCheckReport(GamFcltyRepairMngVO vo) throws Exception{
 		return (EgovMap)gamFcltyRepairMngDao.selectFcltyRepairCheckReport(vo);
 	}
+	
+	
+	/**
+	 * 하자검사관리대장인쇄
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	public EgovMap selectFcltyRepairCheckMng(GamFcltyRepairMngVO vo) throws Exception{
+		return (EgovMap)gamFcltyRepairMngDao.selectFcltyRepairCheckMng(vo);
+	}
+	
+	
+	/**
+	 *  계약당 하자보증 내역 인쇄
+	 * @param  String
+	 * @return list
+	 * @throws Exception
+	 */
+	public List<?> selectFcltyRepairMngListPerCtrt(String vo) throws Exception {
+		return (List<?>)gamFcltyRepairMngDao.selectFcltyRepairMngListPerCtrt(vo);
+	}
 
 
 }

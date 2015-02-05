@@ -171,6 +171,7 @@ GamFcltyMaintMngModule.prototype.setDefaultParam = function(){
 	this.$("#sMntnRprCnstStartDtTo").val(toYear + "-" + toMonth + "-" + toDay);
 	
 	this.$("#sFcltsJobSe").val(EMD.userinfo["mngFcltyCd"]);
+
 };
 
 
@@ -447,6 +448,20 @@ GamFcltyMaintMngModule.prototype.addData = function() {
 	this.$("#mntnRprObjFcltsF").flexEmptyData();
 	this.$("#fcltsJobSe").val(EMD.userinfo["mngFcltyCd"]);
 	this.$(".EditItem").trigger("change");
+	
+	
+	var toDate = new Date();
+	var toYear = toDate.getFullYear();
+	
+	var toMonth = toDate.getMonth() + 1;
+	if(toMonth < 10) toMonth = "0" + toMonth;
+	
+	var toDay = toDate.getDay();
+	if(toDay < 10) toDay = "0" + toDay;
+
+	this.$("#wrtDt").val(toYear + "-" + toMonth + "-" + toDay);
+	this.$("#wrtUsr").val(EMD.userinfo["name"]);
+	
 	
 
 	this.$("#fcltyMaintFileList").empty();
@@ -967,7 +982,9 @@ var module_instance = new GamFcltyMaintMngModule();
 								</tr>
 								<tr>
 									<th height="18" class="required_text">공사기간</th>
-									<td colspan="3"><input id="mntnRprCnstStartDt" type="text" size="11" title="공사시작일자" class="emdcal" />  ~  <input id="mntnRprCnstEndDt" type="text" size="11" title="공사종료일자" class="emdcal" /></td>
+									<td><input id="mntnRprCnstStartDt" type="text" size="11" title="공사시작일자" class="emdcal" />  ~  <input id="mntnRprCnstEndDt" type="text" size="11" title="공사종료일자" class="emdcal" /></td>
+									<th height="18" class="required_text">계약자</th>
+									<td><input id="cnstrtr" type="text" title="계약자" maxlength="20" style="width:115px;" /></td>
 								</tr>
 								<tr>
 									<th height="18" class="required_text">예산</th>
@@ -976,8 +993,10 @@ var module_instance = new GamFcltyMaintMngModule();
 									<td><input id="mntnRprCnstAmt" type="text" title="계약금액" class="ygpaNumber" maxlength="16" style="width:115px;" /> 원</td>
 								</tr>
 								<tr>
-									<th height="18" class="required_text">계약자</th>
-									<td colspan="3"><input id="cnstrtr" type="text" title="계약자" maxlength="20" size="76" /></td>
+									<th height="18" class="required_text">작성자</th>
+									<td><input id="wrtUsr" type="text" title="작성자" style="width:120px;" /></td>
+									<th height="18" class="required_text">작성일</th>
+									<td><input id="wrtDt" type="text" title="작성일" class="emdcal" size="11" /></td>
 								</tr>
 								<tr>
 									<th height="18" class="required_text">유지보수내용</th>

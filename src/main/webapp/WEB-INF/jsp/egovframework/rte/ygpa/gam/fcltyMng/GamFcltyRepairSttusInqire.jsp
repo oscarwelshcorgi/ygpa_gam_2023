@@ -573,9 +573,20 @@ var module_instance = new GamFcltyRepairSttusInqireModule();
 						</tr>
 						<tr>
 							<th>하자검사구분</th>
-							<td colspan="3"><input type="text" id="flawExamSeNm" disabled="disabled" title="하자검사구분"></td>
+							<td colspan="3">
+								<input type="text" id="flawExamSeNm" disabled="disabled" title="하자검사구분">
+								<input type="hidden" id="flawRprSeq" title="하자보수순번" />
+							</td>
 							<th width="15%" height="23" class="required_text">하자검사일자</th>
 							<td colspan="3"><input id="flawExamDt" type="text" size="20" title="하자검사일자" disabled="disabled" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17">검사자</th>
+							<td colspan="3"><input type="text" size="40" id="flawExamUsr" disabled="disabled" title="검사자" /></td>
+							<th width="15%" height="23" class="required_text">소속</th>
+							<td><input type="text" size="18" id="flawExamUsrDept" disabled="disabled" title="소속" /></td>
+							<th width="15%" height="23" class="required_text">직급 및 성명</th>
+							<td><input type="text" size="18" id="flawExamUsrNm" disabled="disabled" title="직급 및 성명" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">하자유무</th>
@@ -610,6 +621,7 @@ var module_instance = new GamFcltyRepairSttusInqireModule();
 						</tr>
 					</table>
 				<div class="emdControlPanel">
+					<button data-role="printPage" data-search-option="fcltyRepairSttusInqireListVO" data-url='/fcltyMng/selectFcltyRepairCheckMngPrint.do'>하자검사관리대장인쇄</button>
 					<button data-role="printPage" data-search-option="fcltyRepairSttusInqireListVO" data-url='/fcltyMng/selectFcltyRepairCheckReportPrint.do'>하자검사조서인쇄</button>
 					<button data-role="printPage" data-search-option="fcltyRepairSttusInqireListVO" data-url='/fcltyMng/selectFcltyRepairExpireCheckReportPrint.do'>하자만료검사조서인쇄</button>
 				</div>

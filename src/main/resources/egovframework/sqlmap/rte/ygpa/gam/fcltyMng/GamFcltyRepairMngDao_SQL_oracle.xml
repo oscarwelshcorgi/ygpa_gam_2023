@@ -139,6 +139,9 @@
 			, R.FLAW_EXAM_RESULT
 			, R.RM
 			, R.CTRT_NO
+			, R.FLAW_EXAM_USR
+			, R.FLAW_EXAM_USR_DEPT
+			, R.FLAW_EXAM_USR_NM
 		FROM
 			FLAW_RPR_DTLS_F R 
 		WHERE 
@@ -264,6 +267,9 @@
 				, FLAW_EXAM_RESULT
 				, RM
 				, CTRT_NO
+				, R.FLAW_EXAM_USR
+				, R.FLAW_EXAM_USR_DEPT
+				, R.FLAW_EXAM_USR_NM
 			) 
 			VALUES 
 			(
@@ -288,6 +294,9 @@
 				, #flawExamResult#
 				, #rm#
 				, #ctrtNo#
+				, #flawExamUsr#
+				, #flawExamUsrDept#
+				, #flawExamUsrNm#
 			)
 	</insert>
 	
@@ -316,6 +325,9 @@
 				, FLAW_EXAM_RESULT = #flawExamResult#
 				, RM = #rm#
 				, CTRT_NO = #ctrtNo#
+				, FLAW_EXAM_USR = #flawExamUsr#
+				, FLAW_EXAM_USR_DEPT = #flawExamUsrDept#
+				, FLAW_EXAM_USR_NM = #flawExamUsrNm#
 			WHERE 
 				FCLTS_JOB_SE = #fcltsJobSe#
 				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
@@ -523,6 +535,49 @@
 			R.FCLTS_JOB_SE = #fcltsJobSe#
 			AND R.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 			AND R.FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
+		
+	</select>
+	
+	
+	<select id="gamFcltyRepairMngDao.selectFcltyRepairCheckMng_S" parameterClass="gamFcltyRepairMngVO" resultClass="egovMap">
+	
+		SELECT
+			R.FLAW_RPR_NM
+			, R.FLAW_RPR_ENTRPS_NM
+			, (SELECT E.ADRES FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = C.REGIST_ENTRPS_CD) FLAW_RPR_ENTRPS_ADRES 
+			, (SELECT E.RPRSNTV_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = C.REGIST_ENTRPS_CD) RPRSNTV_NM
+			, C.CTRT_AMT
+			, C.CTRT_NO
+			, TO_CHAR(C.CTRT_DT, 'YYYY-MM-DD') CTRT_DT
+			, TO_CHAR(C.FLAW_DT_TO, 'YYYY-MM-DD') FLAW_DT_TO
+		FROM
+			CTRT_INFO_F C 
+		LEFT OUTER JOIN 
+			FLAW_RPR_DTLS_F R 
+		ON 
+			C.CTRT_NO = R.CTRT_NO 
+		WHERE 
+			R.FCLTS_JOB_SE = #fcltsJobSe#
+			AND R.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND R.FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
+		
+	</select>
+	
+	
+	<select id="gamFcltyRepairMngDao.selectFcltyRepairMngListPerCtrt_D" parameterClass="String" resultClass="egovMap">
+	
+		SELECT
+			TO_CHAR(R.FLAW_EXAM_DT, 'YYYY-MM-DD') FLAW_EXAM_DT
+			, DECODE(R.FLAW_ENNC,'Y','하자존재','N','하자없음') FLAW_ENNC
+			, R.RM
+			, R.FLAW_RPR_CONTENTS
+			, R.FLAW_EXAM_USR
+			, R.FLAW_EXAM_USR_DEPT
+			, R.FLAW_EXAM_USR_NM
+		FROM
+			FLAW_RPR_DTLS_F R 
+		WHERE 
+			R.CTRT_NO = #ctrtNo#
 		
 	</select>
 

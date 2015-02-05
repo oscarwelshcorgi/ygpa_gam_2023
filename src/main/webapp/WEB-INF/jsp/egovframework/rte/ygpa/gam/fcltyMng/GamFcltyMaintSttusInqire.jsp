@@ -621,9 +621,11 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 								</tr>
 								<tr>
 									<th height="18" class="required_text">공사기간</th>
-									<td colspan="3">
+									<td>
 										<span id="mntnRprCnstStartDt" title="공사시작일자"></span>  ~  <span id="mntnRprCnstEndDt" title="공사종료일자"></span>
 									</td>
+									<th height="18" class="required_text">계약자</th>
+									<td><span id="cnstrtr" title="계약자"></span></td>
 								</tr>
 								<tr>
 									<th height="18" class="required_text">예산</th>
@@ -632,8 +634,10 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 									<td><span id="mntnRprCnstAmt" title="계약금액" class="ygpaNumber"></span>원</td>
 								</tr>
 								<tr>
-									<th height="18" class="required_text">계약자</th>
-									<td colspan="3"><span id="cnstrtr" title="계약자"></span></td>
+									<th height="18" class="required_text">작성자</th>
+									<td><span id="wrtUsr" title="작성자"></span></td>
+									<th height="18" class="required_text">작성일</th>
+									<td><span id="wrtDt" title="작성일"></span></td>
 								</tr>
 								<tr>
 									<th height="18" class="required_text">유지보수내용</th>

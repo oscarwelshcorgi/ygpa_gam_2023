@@ -158,6 +158,8 @@
 			, M.CNSTRTR
 			, M.RESPON_ENGINEER
 			, M.ENFORCE_YEAR
+			, TO_CHAR(M.WRT_DT,'YYYY-MM-DD') WRT_DT
+			, M.WRT_USR
 		FROM
 			MNTN_RPR_DTLS_F M 
 		WHERE 
@@ -270,6 +272,8 @@
 				, ENFORCE_YEAR
 				, REG_USR
 				, REGIST_DT
+				, WRT_DT
+				, WRT_USR
 			) 
 			VALUES 
 			(
@@ -294,6 +298,8 @@
 				, #enforceYear#
 				, #regUsr#
 				, SYSDATE
+				, #wrtDt#
+				, #wrtUsr#
 			)
 	</insert>
 	
@@ -319,6 +325,8 @@
 				, ENFORCE_YEAR = #enforceYear#
 				, UPD_USR = #updUsr#
 				, UPDT_DT = SYSDATE 
+				, WRT_DT = #wrtDt#
+				, WRT_USR = #wrtUsr#
 			WHERE 
 				FCLTS_JOB_SE = #fcltsJobSe#
 				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#

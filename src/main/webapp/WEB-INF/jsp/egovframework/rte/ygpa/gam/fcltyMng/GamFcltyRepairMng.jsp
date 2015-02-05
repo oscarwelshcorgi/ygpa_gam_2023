@@ -1063,7 +1063,7 @@ var module_instance = new GamFcltyRepairMngModule();
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
 							<td colspan="3">
 								<input type="text" size="18" id="fcltsMngGroupNo" disabled="disabled" data-required="true" title="시설물관리그룹넘버" />
-								<input type="text" size="36" id="fcltsMngGoupNoNm" disabled="disabled" title="시설물관리그룹명"/>
+								<input type="text" size="28" id="fcltsMngGoupNoNm" disabled="disabled" title="시설물관리그룹명"/>
 								<button id="searchFcltsMngGroupNo" class="popupButton">선택</button>
 							</td>
 							<th width="15%" height="23" class="required_text">시행년도</th>
@@ -1088,7 +1088,7 @@ var module_instance = new GamFcltyRepairMngModule();
 							<th width="15%" height="23" class="required_text">계약번호</th>
 							<td colspan="3">
 								<input type="text" size="20" id="ctrtNo" disabled="disabled" title="계약번호"/>-
-								<input type="text" size="33" id="flawRprNm" disabled="disabled" title="계약명"/>
+								<input type="text" size="25" id="flawRprNm" disabled="disabled" title="계약명"/>
 								<button id="ctrtNoPopupBtn" class="popupButton">선택</button>
 							</td>
 							<th width="15%" height="23" class="required_text">도급업체명</th>
@@ -1107,6 +1107,14 @@ var module_instance = new GamFcltyRepairMngModule();
 							</td>
 							<th width="15%" height="23" class="required_text">하자검사일자</th>
 							<td colspan="3"><input id="flawExamDt" type="text" size="20" title="하자검사일자" class="emdcal" /></td>
+						</tr>
+						<tr>
+							<th width="12%" height="17">검사자</th>
+							<td colspan="3"><input type="text" size="18" id="flawExamUsr" title="검사자" /></td>
+							<th width="15%" height="23" class="required_text">소속</th>
+							<td><input type="text" size="18" id="flawExamUsrDept" title="소속" /></td>
+							<th width="15%" height="23" class="required_text">직급 및 성명</th>
+							<td><input type="text" size="18" id="flawExamUsrNm" title="직급 및 성명" /></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">하자유무</th>
@@ -1160,6 +1168,7 @@ var module_instance = new GamFcltyRepairMngModule();
 					</table>
 				</form>
 				<div class="emdControlPanel">
+					<button data-role="printPage" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairCheckMngPrint.do'>하자검사관리대장인쇄</button>
 					<button data-role="printPage" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairCheckReportPrint.do'>하자검사조서인쇄</button>
 					<button data-role="printPage" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairExpireCheckReportPrint.do'>하자만료검사조서인쇄</button>
 					<button id="addBtn" class="buttonAdd">　　추　가　　</button>

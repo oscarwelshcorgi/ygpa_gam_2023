@@ -204,5 +204,29 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 	public EgovMap selectFcltyRepairCheckReport(GamFcltyRepairMngVO vo) throws Exception{
 		return (EgovMap) selectByPk("gamFcltyRepairMngDao.selectFcltyRepairCheckReport_S", vo);
 	}
+	
+	
+	/**
+	 * 하자검사관리대장인쇄
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	public EgovMap selectFcltyRepairCheckMng(GamFcltyRepairMngVO vo) throws Exception{
+		return (EgovMap) selectByPk("gamFcltyRepairMngDao.selectFcltyRepairCheckMng_S", vo);
+	}
+	
+	
+	/**
+	 * 하자보수 내역 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	public List<?> selectFcltyRepairMngListPerCtrt(String vo) throws Exception {
+		return list("gamFcltyRepairMngDao.selectFcltyRepairMngListPerCtrt_D", vo);
+	}
+	
+	
 
 }
