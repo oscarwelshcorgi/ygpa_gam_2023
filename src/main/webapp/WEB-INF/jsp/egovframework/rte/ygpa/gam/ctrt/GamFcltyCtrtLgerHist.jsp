@@ -59,13 +59,6 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
 					{display:'계약 방법',			name:'ctrtMth',				width:100,		sortable:false,		align:'left'},
 					{display:'계약 일자',			name:'ctrtDt',				width:80,		sortable:false,		align:'center'},
 					{display:'계약 금액',			name:'ctrtAmt',				width:100,		sortable:false,		align:'right'},
-					{display:'계약 시작 일자',		name:'ctrtDtFrom',			width:100,		sortable:false,		align:'center'},
-					{display:'계약 종료 일자',		name:'ctrtDtTo',			width:100,		sortable:false,		align:'center'},
-					{display:'계약 보증 금액',		name:'ctrtGrntyAmt',		width:100,		sortable:false,		align:'right'},
-					{display:'계약 보증 방법',		name:'ctrtGrntyMthNm',		width:100,		sortable:false,		align:'left'},
-					{display:'계약 검사 일자',		name:'ctrtExamDt',			width:100,		sortable:false,		align:'center'},
-					{display:'원인 행위',			name:'causeAct',			width:200,		sortable:false,		align:'left'},
-					{display:'등록 업체 명',		name:'registEntrpsNm',		width:150,		sortable:false,		align:'left'},
 					{display:'조달 공고 번호',		name:'prcuPblancNo',		width:100,		sortable:false,		align:'left'},
 					{display:'입찰 공고 번호',		name:'bidPblancNo',			width:100,		sortable:false,		align:'left'},
 					{display:'입찰 공고 일자',		name:'bidPblancDt',			width:90,		sortable:false,		align:'center'},
@@ -74,6 +67,13 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
 					{display:'낙찰 자',				name:'scsbider',			width:100,		sortable:false,		align:'left'},
 					{display:'낙찰 금액',			name:'scsbidAmt',			width:100,		sortable:false,		align:'right'},
 					{display:'낙찰 율',				name:'scsbidRate',			width:80,		sortable:false,		align:'right'},
+					{display:'계약 시작 일자',		name:'ctrtDtFrom',			width:100,		sortable:false,		align:'center'},
+					{display:'계약 종료 일자',		name:'ctrtDtTo',			width:100,		sortable:false,		align:'center'},
+					{display:'계약 보증 금액',		name:'ctrtGrntyAmt',		width:100,		sortable:false,		align:'right'},
+					{display:'계약 보증 방법',		name:'ctrtGrntyMthNm',		width:100,		sortable:false,		align:'left'},
+					{display:'계약 검사 일자',		name:'ctrtExamDt',			width:100,		sortable:false,		align:'center'},
+					{display:'원인 행위',			name:'causeAct',			width:200,		sortable:false,		align:'left'},
+					{display:'등록 업체 명',		name:'registEntrpsNm',		width:150,		sortable:false,		align:'left'},
 					{display:'기초 금액',			name:'baseAmt',				width:100,		sortable:false,		align:'right'},
 					{display:'설계 금액',			name:'planAmt',				width:100,		sortable:false,		align:'right'},
 					{display:'예정 금액',			name:'prmtAmt',				width:100,		sortable:false,		align:'right'},
@@ -1119,7 +1119,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 							<td>
 								<input id="sCtrtNm" type="text" size="25" maxlength="100">
 							</td>
-							<th>계약 기간</th>
+							<th>계약 일자 기간</th>
 							<td>
 								<input id="sStartCtrtDt" type="text" class="emdcal" size="12"> ∼
 								<input id="sEndCtrtDt" type="text" class="emdcal" size="12">
