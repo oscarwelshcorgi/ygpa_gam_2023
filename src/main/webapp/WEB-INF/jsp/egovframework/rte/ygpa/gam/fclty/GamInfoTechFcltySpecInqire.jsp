@@ -618,7 +618,6 @@ var module_instance = new GamInfoTechFcltySpecInqireModule();
 				</table>
 			</div>
 		
-			</div>
 		</div>
 	</div>
 </div>
