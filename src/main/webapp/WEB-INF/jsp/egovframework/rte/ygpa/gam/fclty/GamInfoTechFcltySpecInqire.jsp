@@ -396,7 +396,7 @@ var module_instance = new GamInfoTechFcltySpecInqireModule();
 						</tr>
 						<tr>
 							<th>시설분류</th>
-							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM059" /></td>
+							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM069" /></td>
 							<th>시설명</th>
 							<td><input id="sPrtFcltyNm" type="text" size="30"/></td>
 							<th>소재지</th>
@@ -485,7 +485,7 @@ var module_instance = new GamInfoTechFcltySpecInqireModule();
 							</td>
 							<th width="12%" height="17" class="required_text">시　설　분　류</th>
 							<td>
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM059" id="selectGisPrtFcltyCd" data-required="true" data-column-id="gisPrtFcltyCd" disabled="disabled" />
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM069" id="selectGisPrtFcltyCd" data-required="true" data-column-id="gisPrtFcltyCd" disabled="disabled" />
 								<input type="hidden" id="prtFcltySeNm" disabled="disabled" />
 							</td>
 							<th width="12%" height="17" class="required_text">시　　설　　명</th>
@@ -564,6 +564,7 @@ var module_instance = new GamInfoTechFcltySpecInqireModule();
 							<th width="12%" height="17" class="required_text">LAMP　형　식</th>
 							<td><input id="lampFmt" type="text" size="50" maxlength="40" disabled="disabled" /></td>
 						</tr>
+						<!--
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물분류코드</th>
 							<td colspan="3">
@@ -571,6 +572,7 @@ var module_instance = new GamInfoTechFcltySpecInqireModule();
 								<input id="infoCommFcltsClCdNm" type="text" size="28" disabled="disabled" />
 							</td>
 						</tr>
+						-->
 						<tr>
 							<th width="12%" height="17" class="required_text">건축시설물관리번호</th>
 							<td colspan="3">

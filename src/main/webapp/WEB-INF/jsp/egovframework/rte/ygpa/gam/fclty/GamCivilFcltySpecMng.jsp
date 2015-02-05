@@ -888,7 +888,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th>시설분류</th>
-							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" /></td>
+							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM070" /></td>
 							<th>시설명</th>
 							<td><input id="sPrtFcltyNm" type="text" size="30"/></td>
 							<th>소재지</th>
@@ -972,7 +972,7 @@ var module_instance = new GamCivilFcltySpecMngModule();
 							</td>
 							<th width="12%" height="17" class="required_text">시　설　분　류</th>
 							<td>
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM005" id="selectGisPrtFcltyCd" data-required="true" data-column-id="gisPrtFcltyCd"/>
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM070" id="selectGisPrtFcltyCd" data-required="true" data-column-id="gisPrtFcltyCd"/>
 								<input type="hidden" id="prtFcltySeNm" disabled="disabled" />
 							</td>
 							<th width="12%" height="17" class="required_text">토 목　시 설 명</th>
@@ -1034,11 +1034,9 @@ var module_instance = new GamCivilFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17"  >기초　 저면 　토질</th>
-							<td colspan="5"><input id="baseBttmSoil" type="text" size="139" maxlength="150" /></td>
-						</tr>
-						<tr>
+							<td><input id="baseBttmSoil" type="text" size="20" maxlength="150" /></td>
 							<th width="12%" height="17" >취　급　　　화　물</th>
-							<td colspan="5"><input id="hndlFrght" type="text" size="139" maxlength="100" /></td>
+							<td colspan="3"><input id="hndlFrght" type="text" size="20" maxlength="100" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" >말　뚝　　　구　경</th>

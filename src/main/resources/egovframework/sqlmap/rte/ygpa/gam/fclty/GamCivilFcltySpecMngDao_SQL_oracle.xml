@@ -31,7 +31,7 @@
 						  , F.LO_CRDNT
 						  , F.LAT
 						  , F.LNG
-						  , GAM_GETCODENAME('GAM005', F.GIS_PRT_FCLTY_CD) PRT_FCLTY_SE_NM
+						  , GAM_GETCODENAME('GAM070', F.GIS_PRT_FCLTY_CD) PRT_FCLTY_SE_NM
 						  , F.FCLTS_MNG_NO
 						  , A.GIS_ASSETS_NM
 						  , A.GIS_ASSETS_LOCPLC
@@ -153,7 +153,7 @@
 		    , TO_CHAR(C.FIREPG_QY) FIREPG_QY
 		    , C.YARD_PACK_KND
 		    , TO_CHAR(C.YARD_AR) YARD_AR
-		    , C.FENDER_KND_CD
+		    , C.FENDER_QY
 		    , C.FENDER_PMNT_ITV
 		    , C.FENDER_FMT
 		    , C.MRPOST_STNDRD_1
@@ -214,7 +214,7 @@
 		    , FIREPG_QY
 		    , YARD_PACK_KND
 		    , YARD_AR
-		    , FENDER_KND_CD
+		    , FENDER_QY
 		    , FENDER_PMNT_ITV
 		    , FENDER_FMT
 		    , MRPOST_STNDRD_1
@@ -268,7 +268,7 @@
 		    , TO_NUMBER(REPLACE(#firepgQy#, ',', ''))
 		    , #yardPackKnd#
 		    , TO_NUMBER(REPLACE(#yardAr#, ',', ''))
-		    , #fenderKndCd#
+		    , TO_NUMBER(REPLACE(#fenderQy#, ',', ''))
 		    , #fenderPmntItv#
 		    , #fenderFmt#
 		    , #mrpostStndrd1#
@@ -324,7 +324,7 @@
 		    , FIREPG_QY = TO_NUMBER(REPLACE(#firepgQy#, ',', ''))
 		    , YARD_PACK_KND = #yardPackKnd#
 		    , YARD_AR = TO_NUMBER(REPLACE(#yardAr#, ',', ''))
-		    , FENDER_KND_CD = #fenderKndCd#
+		    , FENDER_QY = TO_NUMBER(REPLACE(#fenderQy#, ',', ''))
 		    , FENDER_PMNT_ITV = #fenderPmntItv#
 		    , FENDER_FMT = #fenderFmt#
 		    , MRPOST_STNDRD_1 = #mrpostStndrd1#

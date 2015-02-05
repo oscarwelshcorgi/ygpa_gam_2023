@@ -1114,6 +1114,7 @@ var module_instance = new GamMechFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">검사　종료일자</th>
 							<td><input id="examEndDt" type="text" class="emdcal" size="11" /></td>
 						</tr>
+						<!--
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물분류코드</th>
 							<td colspan="3">
@@ -1122,6 +1123,7 @@ var module_instance = new GamMechFcltySpecMngModule();
 								<button id="popupDetailFcltsClCd" class="popupButton">선택</button>
 							</td>
 						</tr>
+						-->
 						<tr>
 							<th width="12%" height="17" class="required_text">건축시설물관리번호</th>
 							<td colspan="3">

@@ -411,7 +411,7 @@ var module_instance = new GamMechFcltySpecInqireModule();
 						</tr>
 						<tr>
 							<th>시설분류</th>
-							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM058" /></td>
+							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM067" /></td>
 							<th>시설명</th>
 							<td><input id="sPrtFcltyNm" type="text" size="30"/></td>
 							<th>소재지</th>
@@ -490,7 +490,7 @@ var module_instance = new GamMechFcltySpecInqireModule();
 							</td>
 							<th width="12%" height="17" class="required_text">시　설　분　류</th>
 							<td>
-								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM058" id="selectGisPrtFcltyCd" data-required="true" data-column-id="gisPrtFcltyCd" disabled="disabled" />
+								<input class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM067" id="selectGisPrtFcltyCd" data-required="true" data-column-id="gisPrtFcltyCd" disabled="disabled" />
 								<input type="hidden" id="prtFcltySeNm" disabled="disabled" />
 							</td>
 							<th width="12%" height="17" class="required_text">시　　설　　명</th>
@@ -621,6 +621,7 @@ var module_instance = new GamMechFcltySpecInqireModule();
 							<th width="12%" height="17" class="required_text">검사　종료일자</th>
 							<td><input id="examEndDt" type="text" class="emdcal" size="11" disabled="disabled" /></td>
 						</tr>
+						<!--
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물분류코드</th>
 							<td colspan="3">
@@ -628,6 +629,7 @@ var module_instance = new GamMechFcltySpecInqireModule();
 								<input id="mechFcltsClCdNm" type="text" size="28" disabled="disabled" />
 							</td>
 						</tr>
+						-->
 						<tr>
 							<th width="12%" height="17" class="required_text">건축시설물관리번호</th>
 							<td colspan="3">
