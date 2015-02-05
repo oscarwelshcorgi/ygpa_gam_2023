@@ -25,7 +25,7 @@
  */
 function GamGisAssetDistSttusModule() {}
 
-GamGisAssetDistSttusModule.prototype = new EmdModule(1000, 600);
+GamGisAssetDistSttusModule.prototype = new EmdModule(840, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamGisAssetDistSttusModule.prototype.loadComplete = function() {
@@ -36,14 +36,14 @@ GamGisAssetDistSttusModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
         			{display:'', name:'gisFlag', width:24, sortable:false, align:'center', displayFormat: 'jqimg', skipxls:true},
-   	                {display:'항구분', name:'gisAssetsPrtAtCodeNm',width:55, sortable:false,align:'center'},
+   	                {display:'항구분', name:'gisAssetsPrtAtNm',width:55, sortable:false,align:'center'},
                     {display:'자산코드', name:'gisAssetsCode',width:60, sortable:false,align:'center'},
                     {display:'자산명', name:'gisAssetsNm',width:160, sortable:false,align:'left'},
                     {display:'소재지', name:'gisAssetsLocplc',width:180, sortable:false,align:'left'},
                     {display:'지번', name:'gisAssetsLnmCode',width:60, sortable:false,align:'center'},
                     {display:'면적', name:'gisAssetsAr',width:70, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'보유시설갯수', groupDisplay:'보유시설수', name:'fcltySeNm',width:90, sortable:false,align:'center'},
-                    {display:'#cspan', groupDisplay:'보유시설수', name:'fcltyCnt',width:110, sortable:false,align:'right', displayFormat: 'number'}
+                    {display:'보유시설갯수', groupDisplay:'보유시설수', name:'gisPrtFcltyNm',width:90, sortable:false,align:'center'},
+                    {display:'#cspan', groupDisplay:'보유시설수', name:'fcltyCnt',width:100, sortable:false,align:'right', displayFormat: 'number'}
         ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -54,14 +54,19 @@ GamGisAssetDistSttusModule.prototype.loadComplete = function() {
         		if(this.gisAssetsLnmSub!=null && this.gisAssetsLnmSub.length!=0) {
         			this.gisAssetsLnmCode+="-"+this.gisAssetsLnmSub;
         		}
-        		this._mapLabel = this.fcltySeNm+'\n'+$.number(this.fcltyCnt)+" 개";
+        		this._mapLabel = this.gisPrtFcltyNm+'\n'+$.number(this.fcltyCnt)+" 개";
 				this.gisFlag=this.gisStat>0?'flag':null;
         	});
+        	module.$("#gisAssetSttusList")[0].dgrid.setFooterLabel(1, $.number(data.resultSum.sumCnt));
+        	module.$("#gisAssetSttusList")[0].dgrid.setFooterLabel(4, $.number(data.resultSum.sumFcltyCnt));
         	return data;
         }
     });
     this.$("#gisAssetSttusList")[0].dgrid.attachHeader('#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,시설종류,시설갯수');
-//	console.log('GamGisAssetDistSttusModule debug');
+    this.$("#gisAssetSttusList")[0].dgrid.attachFooter('조회 수,#cspan,#cspan,0,개,조회 시설 갯수,#cspan,#cspan,0',
+    		["text-align:center; vertical-align:middle;","","","text-align:right; vertical-align:middle;","text-align:left; vertical-align:middle;","text-align:center; vertical-align:middle;","","","text-align:right; vertical-align:middle;"]);
+
+    console.log('GamGisAssetDistSttusModule debug');
 };
 
 GamGisAssetDistSttusModule.prototype.loadData = function() {
@@ -71,8 +76,17 @@ GamGisAssetDistSttusModule.prototype.loadData = function() {
 };
 
 GamGisAssetDistSttusModule.prototype.onSelectFeature = function(e) {
+	var param=[];
 	EMD.gis.closeAllPopup('assetStats');
-	param = EMD.util.objectToArray(e.feature.attributes).concat(this.makeFormArgs('#gamAssetDisUseSearchForm'));
+	param[param.length] = {
+			name: 'fcltySe',
+			value: this.$('#fcltySe').val()
+	};
+	param[param.length] = {
+			name: 'fcltyCd',
+			value: this.$('#fcltyCd').val()
+	};
+	param = EMD.util.objectToArray(e.feature.attributes).concat(param);
 	EMD.gis.openPopup(e.feature, "/asset/sts/gamAssetDistSttusInfo.do", param);
 };
 

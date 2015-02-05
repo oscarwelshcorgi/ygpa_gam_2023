@@ -25,7 +25,7 @@ GamAssetSttusDistInfoModule.prototype.loadComplete = function() {
    		view:"bar",
    		container:this.$("#chart").attr('id'),
    	    value:"#gisPrtFcltyCnt#",
-           label: '#gisPrtFcltyCdNm#',
+           label: '#gisPrtFcltyCnt# 개',
            color: "#color#",
            gradient:"rising",
    		width:80,

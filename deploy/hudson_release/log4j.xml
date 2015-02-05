@@ -25,23 +25,23 @@
     </logger>
 
     <logger name="egovframework" additivity="false">
-        <level value="ERROR"/>
+        <level value="INFO"/>
         <appender-ref ref="dailyRollingFile"/>
     </logger>
 
 	<!-- log SQL with timing information, post execution -->
 	<logger name="jdbc.sqltiming" additivity="false">
-		<level value="ERROR" />
+		<level value="INFO" />
 		<appender-ref ref="dailyRollingFile" />
 	</logger>
 
 	<logger name="org.springframework" additivity="false">
-		<level value="ERROR" />
+		<level value="INFO" />
 		<appender-ref ref="dailyRollingFile" />
 	</logger>
 
 	<root>
-		<level value="ERROR" />
+		<level value="INFO" />
 		<appender-ref ref="dailyRollingFile" />
 	</root>
 
