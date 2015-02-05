@@ -36,7 +36,8 @@ GamGisAssetDistSttusModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
         			{display:'', name:'gisFlag', width:24, sortable:false, align:'center', displayFormat: 'jqimg', skipxls:true},
-   	                {display:'항구분', name:'gisAssetsPrtAtNm',width:55, sortable:false,align:'center'},
+        			{display:'순번', name:'rnum',width:40, sortable:false,align:'right'},
+                    {display:'항구분', name:'gisAssetsPrtAtNm',width:55, sortable:false,align:'center'},
                     {display:'자산코드', name:'gisAssetsCode',width:60, sortable:false,align:'center'},
                     {display:'자산명', name:'gisAssetsNm',width:160, sortable:false,align:'left'},
                     {display:'소재지', name:'gisAssetsLocplc',width:180, sortable:false,align:'left'},

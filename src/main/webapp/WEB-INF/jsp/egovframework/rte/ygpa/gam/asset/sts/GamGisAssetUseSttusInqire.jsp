@@ -146,12 +146,12 @@ var module_instance = new GamGisAssetSttusInqireModule();
 							<td><input id="gisAssetsPrtAtCode" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrtAtCode" data-code-id="GAM019" data-default-prompt="전체항" data-display-value="N" size="3"/></td>
 							<th>위치</th>
 							<td>
-								<input id="gisAssetsLocCd" data-column-id="gisAssetsLocCd" type="text" class="ygpaCmmnCd" data-code-id="GAM002" data-default-prompt="전체 ">
+								<input id="gisAssetsLocCd" type="text" class="ygpaFilterCode" data-url="/cmmn/selectLocCdOptionsList.do" data-filter="gisAssetsPrtAtCode"  data-default-prompt="전체"/>
 							</td>
 							<td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
 						</tr>
 						<tr>
-							<th>사용 업체명</th>
+							<th>사용 업체</th>
 							<td>
                             	<input data-column-id="entrpsNm" type="text" size="15">
 							</td>
