@@ -36,7 +36,7 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	private String sPrtFcltyNm;
 
 	/** 시설물 관리번호(조회조건) **/
-	private String sFcltsMngNo;
+	private String sFcltsMngGroupNo;
 
 	/** 사용기간 (조회조건) **/
 	private String sUsagePdFrom;
@@ -121,17 +121,17 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the sFcltsMngNo
+	 * @return the sFcltsMngGroupNo
 	 */
-	public String getsFcltsMngNo() {
-		return sFcltsMngNo;
+	public String getsFcltsMngGroupNo() {
+		return sFcltsMngGroupNo;
 	}
 
 	/**
-	 * @param sFcltsMngNo the sFcltsMngNo to set
+	 * @param sFcltsMngGroupNo the sFcltsMngGroupNo to set
 	 */
-	public void setsFcltsMngNo(String sFcltsMngNo) {
-		this.sFcltsMngNo = sFcltsMngNo;
+	public void setsFcltsMngGroupNo(String sFcltsMngGroupNo) {
+		this.sFcltsMngGroupNo = sFcltsMngGroupNo;
 	}
 
 	/**

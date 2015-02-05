@@ -53,20 +53,14 @@
 		module : this,
 		url : '<c:url value="/fcltyMng/gamFcltyGisPrtFcltyCdList.do" />',
 		dataType : 'json',
-		colModel : [ {display : '항구분', name : 'gisAssetsPrtAtNm', width : 60, sortable : false, align : 'center'}
-		            ,{display : '시설 구분', name : 'prtFcltySe', width : 78, sortable : false, align : 'center'}
-		            ,{display : '시설 명', name : 'prtFcltyNm', width : 100, sortable : false, align : 'center'}
-		            ,{display : '시설 규격', name : 'prtFcltyDtndrd', width : 80, sortable : false, align : 'center'}
-		            ,{display : '시설 단위', name : 'prtFcltyUnit', width : 60, sortable : false, align : 'center'}
-		            ,{display : '시설 설치 일자', name : 'prtFcltyInstlDt', width : 88, sortable : false, align : 'center'}
-		            ,{display : '시설 변경 일자', name : 'prtFcltyChangeDt', width : 88, sortable : false, align : 'center'}
-		            ,{display : '관리 업체', name : 'prtFcltyMngEntrps', width : 80, sortable : false, align : 'center'}
-		            ,{display : '시설 만료 일자', name : 'prtFcltyExprDt', width : 88, sortable : false, align : 'center'}
-		            ,{display : '시설 수량', name : 'prtPrtFcltyCnt', width : 60, sortable : false, align : 'center'}
-		            ,{display : '시설 담당', name : 'prtPrtFcltyMnger', width : 60, sortable : false, align : 'center'}
-		            ,{display : '시설물 관리 그룹', name : 'fcltsMngGroupNo', width : 104, sortable : false, align : 'center'}
-
-		             /*{display : '항코드', name : 'prtAtCode', width : 40, sortable : false, align : 'center', displayFormat : 'number'},*/
+		colModel : [ {display : '항구분', name : 'gisAssetsPrtAtNm', width : 80, sortable : false, align : 'center'}
+		            ,{display : '시설 구분', name : 'fcltsJobSeNm', width : 100, sortable : false, align : 'center'}
+		            ,{display : '시설 명', name : 'prtFcltyNm', width : 250, sortable : false, align : 'left'}
+		            ,{display : '시설물관리그룹', name:'fcltsMngGroupNoNm',	width:120, sortable:false, align:'left'}
+		            ,{display : '시설 규격', name : 'prtFcltyStndrd', width : 100, sortable : false, align : 'center'}
+		            ,{display : '시설 단위', name : 'prtFcltyUnit', width : 100, sortable : false, align : 'center'}
+		            ,{display : '시설 수량', name : 'prtPrtFcltyCnt', width : 90, sortable : false, align : 'center'}
+		            ,{display : '시설 담당', name : 'prtPrtFcltyMnger', width : 100, sortable : false, align : 'center'}
 		],
 		showTableToggleBtn : false,
 		height : 'auto',
@@ -88,6 +82,12 @@
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
+	// 시설물관리그룹 검색조건 클릭시 초기화 처리
+	this.$("#sFcltsMngGroupNo").bind("click", {module: this}, function(event) {
+		event.data.module.$("#sFcltsMngGroupNo").val('');
+		event.data.module.$("#sFcltsMngGroupNoNm").val('');
+	});
+	
 /* 시설물 사용현황 */
 	//	console.log("aaaaa");
 	// 자산임대 테이블 설정
@@ -292,8 +292,37 @@ GamFcltyUsageSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnAssetsExcelDownload' :
 			this.downloadAssetsExcel();
 			break;
+			// 검색조건 시설물 관리 그룹 팝업
+		case "searchPopupBtn":
+			this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', null);
+		break;
 	}
 
+};
+
+<%
+/**
+ * @FUNCTION NAME : onClosePopup
+ * @DESCRIPTION   : CLOSE POPUP EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+ *   2. msg      - MESSAGE
+ *   3. value    - VALUE
+**/
+%>
+GamFcltyUsageSttusInqireModule.prototype.onClosePopup = function(popupId, msg, value){
+	switch(popupId){
+		// 검색조건 시설물 관리 그룹 
+		case "sSelectFcltsMngGroup":
+			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
+			this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
+		break;
+
+		default:
+			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
+
+		break;
+	}
 };
 
 
@@ -331,6 +360,7 @@ GamFcltyUsageSttusInqireModule.prototype.onSubmit = function() {
 GamFcltyUsageSttusInqireModule.prototype.loadData = function() {
 	this.$("#mainTab").tabs("option", {active: 0});
 	var searchVO=this.makeFormArgs('#fcltyUsageSttusSearchForm');
+	console.log(searchVO);
 	this.$('#gisPrtFcltyCdGrid').flexOptions({params:searchVO}).flexReload();
 };
 
@@ -488,9 +518,6 @@ GamFcltyUsageSttusInqireModule.prototype.loadFlawDtailData = function(module, da
  * @PARAMETER     : NONE
 **/
 %>
-
-
-
 GamFcltyUsageSttusInqireModule.prototype.downloadAssetsExcel = function() {
 	var totalCount = Number(this.$('#assetsTotalCount').val().replace(/,/gi, ""));
 	if (totalCount <= 0) {
@@ -499,7 +526,6 @@ GamFcltyUsageSttusInqireModule.prototype.downloadAssetsExcel = function() {
 	}
 	this.$('#assetsRentGrid').flexExcelDown('/fcltyMng/gamExcelFcltyAssetsRentList.do');
 };
-
 
 GamFcltyUsageSttusInqireModule.prototype.downloadGisExcel = function() {
 	var totalCount = Number(this.$('#gisTotalCount').val().replace(/,/gi, ""));
@@ -510,10 +536,6 @@ GamFcltyUsageSttusInqireModule.prototype.downloadGisExcel = function() {
 	this.$('#gisPrtFcltyCdGrid').flexExcelDown('/fcltyMng/gamExcelFcltyGisPrtFcltyCdList.do');
 
 };
-
-
-
-
 
 // 수정해야 하는 부분
 GamFcltyUsageSttusInqireModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
@@ -564,16 +586,30 @@ var module_instance = new GamFcltyUsageSttusInqireModule();
 							<th>항구분</th>
 							<td><input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
 							<th>시설구분</th>
-							<td><input type="text" id="sFcltsJobSe"/></td>
+							<!-- <td><input type="text" id="sFcltsJobSe"/></td> -->
+							<td>
+								<select id="sFcltsJobSe" class="searchEditItem">
+									<option value="A">건축시설</option>
+									<option value="E">전기시설</option>
+									<option value="M">기계시설</option>
+									<option value="C">토목시설</option>
+									<option value="I">정보통신시설</option>
+								</select>
+							</td>
 							<th>시설명</th>
 							<td><input type="text" id="sPrtFcltyNm"/></td>
-							<td rowSpan="2" width="20%"><button class="buttonSearch">조회</button></td>
+							<td rowSpan="2"><button class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
 							<th>시설물 관리 그룹</th>
-							<td><input type="text" id="sFcltsMngNo"/></td>
+							<!-- <td><input type="text" id="sFcltsMngNo"/></td> -->
+							<td colspan="3">
+								<input id="sFcltsMngGroupNo" type="text" size="14" title="시설물관리그룹넘버" />&nbsp;-&nbsp;
+								<input id="sFcltsMngGroupNoNm" type="text" size="30" title="시설물관리그룹명" disabled="disabled" />
+								<button id="searchPopupBtn" class="popupButton">선택</button>
+							</td>
 							<th>사용기간</th>
-							<td colspan="2">
+							<td>
 								<input id="sUsagePdFrom" type="text" class="emdcal" size="8" > ~ <!-- data-required="true"> ~  -->
 								<input id="sUsagePdTo" type="text" class="emdcal" size="8">
 							</td>

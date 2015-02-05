@@ -17,7 +17,7 @@
 					      ,M.GIS_ASSETS_SUB_CD AS GIS_ASSETS_SUB_CD
 					      ,GAM_GETCODENAME('GAM019', M.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_NM
 <!-- 					      ,M.GIS_ASSETS_PRT_AT_CODE||'-'||M.GIS_ASSETS_CD||'-'||M.GIS_ASSETS_SUB_CD AS GIS_ASSETS	 -->
-					      ,NVL(D.CODE_NM, '') AS PRT_FCLTY_SE
+					      ,GAM_GET_FCLTS_JOB_SE_NM(M.PRT_FCLTY_SE) AS FCLTS_JOB_SE_NM 
 					      ,M.PRT_FCLTY_NM AS PRT_FCLTY_NM
 					      ,M.PRT_FCLTY_STNDRD AS PRT_FCLTY_STNDRD
 					      ,M.PRT_FCLTY_UNIT AS PRT_FCLTY_UNIT
@@ -28,22 +28,23 @@
 					      ,M.PRT_PRT_FCLTY_CNT AS PRT_PRT_FCLTY_CNT
 					      ,M.PRT_PRT_FCLTY_MNGER AS PRT_PRT_FCLTY_MNGER
 					      ,M.FCLTS_MNG_NO AS FCLTS_MNG_NO
-					      ,M.FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
-					  FROM GIS_PRT_FCLTY_CD_F M LEFT OUTER JOIN
-					       COMTCCMMNDETAILCODE D ON (D.CODE = M.PRT_FCLTY_SE)
-					 WHERE D.CODE_ID = 'GAM003'
+					      , (SELECT FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F WHERE FCLTS_MNG_GROUP_NO = M.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GROUP_NO_NM
+					  FROM GIS_PRT_FCLTY_CD_F M
+					       
+					 WHERE 1=1
 					<isNotEmpty property="sPrtAtCode" prepend="AND">
 						   M.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
 					</isNotEmpty>
 					<isNotEmpty property="sFcltsJobSe" prepend="AND">
-						   D.CODE_NM like '%'||#sFcltsJobSe#||'%'
+						   M.PRT_FCLTY_SE = #sFcltsJobSe#
 					</isNotEmpty>
 					<isNotEmpty property="sPrtFcltyNm" prepend="AND">
 						   M.PRT_FCLTY_NM like '%'||#sPrtFcltyNm#||'%'
 					</isNotEmpty>
-					<isNotEmpty property="sFcltsMngNo" prepend="AND">
-						   M.FCLTS_MNG_NO like '%'||#sFcltsMngNo#||'%'
+					<isNotEmpty property="sFcltsMngGroupNo" prepend="AND">
+						   M.FCLTS_MNG_GROUP_NO like '%'||#sFcltsMngGroupNo#||'%'
 					</isNotEmpty>
+					
 		             ) S
 		        ) A
 		<![CDATA[
@@ -53,20 +54,19 @@
 
 	<select id="gamFcltyUsageSttusInqireDao.selectFcltyGisPrtFcltyCdListTotCnt" parameterClass="GamFcltyUsageSttusInqireVo" resultClass="int">
 		SELECT COUNT(*) totcnt
-	      FROM GIS_PRT_FCLTY_CD_F M LEFT OUTER JOIN
-       		   COMTCCMMNDETAILCODE D ON (D.CODE = M.PRT_FCLTY_SE)
-		 WHERE D.CODE_ID = 'GAM003'
+	      FROM GIS_PRT_FCLTY_CD_F M
+		 WHERE 1=1
 		<isNotEmpty property="sPrtAtCode" prepend="AND">
 			   M.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
 		</isNotEmpty>
 		<isNotEmpty property="sFcltsJobSe" prepend="AND">
-			   D.CODE_NM like '%'||#sFcltsJobSe#||'%'
+			   M.PRT_FCLTY_SE = #sFcltsJobSe#
 		</isNotEmpty>
 		<isNotEmpty property="sPrtFcltyNm" prepend="AND">
 			   M.PRT_FCLTY_NM like '%'||#sPrtFcltyNm#||'%'
 		</isNotEmpty>
-		<isNotEmpty property="sFcltsMngNo" prepend="AND">
-			   M.FCLTS_MNG_NO like '%'||#sFcltsMngNo#||'%'
+		<isNotEmpty property="sFcltsMngGroupNo" prepend="AND">
+			   M.FCLTS_MNG_GROUP_NO like '%'||#sFcltsMngGroupNo#||'%'
 		</isNotEmpty>
 	</select>
 
