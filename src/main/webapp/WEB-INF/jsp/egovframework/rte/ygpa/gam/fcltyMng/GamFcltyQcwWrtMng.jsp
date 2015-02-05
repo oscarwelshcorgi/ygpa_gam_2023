@@ -58,7 +58,6 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:"관리그룹",		name:"fcltsMngGroupNm",		width:150,		sortable:false,		align:"center"},
 					{display:"업무구분",		name:"fcltsJobSeNm",		width:90,		sortable:false,		align:"center"},
-					{display:"점검관리순번",	name:"qcMngSeq",			width:90,		sortable:false,		align:"center"},
 					{display:"점검관리명", 	    name:"qcMngNm",				width:200,		sortable:false,		align:"left"},
 					{display:"시행년도",		name:"enforceYear",			width:60,		sortable:false,		align:"center"},
 					{display:"점검구분",    	name:"qcSeNm",				width:90,		sortable:false,		align:"center"},
@@ -1135,12 +1134,12 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 									</td>
 								</tr>
 								<tr>
-									<th width="14%" height="17">점검　관리　순번</th>
+									<!-- <th width="14%" height="17">점검　관리　순번</th>
 									<td>
 										<input type="text" size="10" id="qcMngSeq" disabled="disabled"/>
-									</td>
+									</td> -->
 									<th width="14%" height="17">업　무　구　분</th>
-									<td>
+									<td colspan="3">
 										<select id="fcltsJobSe">
 											<option value="">선택</option>
 											<option value="A">건축시설</option>
@@ -1149,6 +1148,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 											<option value="I">정보통신시설</option>
 											<option value="M">기계시설</option>
 		                                </select>
+		                                <input type="hidden" id="qcMngSeq"/>
 									</td>
 								</tr>
 								<tr>

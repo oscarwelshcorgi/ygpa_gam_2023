@@ -58,7 +58,6 @@ GamFcltyQcSttusInqireModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:"관리그룹",		name:"fcltsMngGroupNm",		width:150,		sortable:false,		align:"center"},
 					{display:"업무구분",		name:"fcltsJobSeNm",		width:90,		sortable:false,		align:"center"},
-					{display:"점검관리순번",	name:"qcMngSeq",			width:90,		sortable:false,		align:"center"},
 					{display:"점검관리명", 	    name:"qcMngNm",				width:200,		sortable:false,		align:"left"},
 					{display:"시행년도",		name:"enforceYear",			width:60,		sortable:false,		align:"center"},
 					{display:"점검구분",    	name:"qcSeNm",				width:90,		sortable:false,		align:"center"},
@@ -614,13 +613,11 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 									</td>
 								</tr>
 								<tr>
-									<th width="14%" height="17">점검　관리　순번</th>
-									<td>
-										<input id="qcMngSeq" type="text" size="10" disabled="disabled"/>
-									</td>
 									<th width="14%" height="17">업　무　구　분</th>
-									<td>
+									<td colspan="3">
 										<input id="fcltsJobSeNm" type="text" size="24" disabled="disabled"/>
+										<input id="fcltsJobSe" type="hidden" />
+										<input id="qcMngSeq" type="hidden" />
 									</td>
 								</tr>
 								<tr>
@@ -633,10 +630,12 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 									<th height="17">점검　진단　구분</th>
 									<td>
 										<input id="qcInspSeNm" type="text" size="20" disabled="disabled"/>
+										<input id="qcInspSe" type="hidden"/>
 									</td>
 									<th height="17">점　검　구　분</th>
 									<td>
 										<input id="qcSeNm" type="text" size="24" disabled="disabled"/>
+										<input id="qcSe" type="hidden" />
 									</td>
 								</tr>
 								<tr>
@@ -647,6 +646,7 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 									<th height="17">점검　진단　자</th>
 									<td>
 										<input id="qcInspTpNm" type="text" size="24" disabled="disabled"/>
+										<input id="qcInspTp" type="hidden" />
 									</td>
 								</tr>
 								<tr>
