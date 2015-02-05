@@ -120,6 +120,11 @@ GamFcltyQcSttusInqireModule.prototype.loadComplete = function() {
 		event.data.module.loadQcSubDataList();
 	});
 	
+	this.$('#sQcInspSe').bind('change', {module: this}, function(event) {
+		event.data.module.checkSearchQcInspSe();
+	});
+	this.$('#sQcSe').disable();
+	
 	this.setControlStatus();
 
 	this.fillSelectBoxYear('#sEnforceYear');
@@ -225,6 +230,24 @@ GamFcltyQcSttusInqireModule.prototype.loadDetail = function() {
 		});
 	} else {
 		alert('조회할 데이터를 선택하세요.');
+	}
+};
+
+<%
+/**
+ * @FUNCTION NAME : checkSearchQcInspSe
+ * @DESCRIPTION   : 점검진단구분값에 따른 점검진단 enable/disable 설정(조회 조건)
+ * @PARAMETER     : NONE
+**/
+%>
+ GamFcltyQcSttusInqireModule.prototype.checkSearchQcInspSe = function() {
+	var value = this.$('#sQcInspSe').val();
+	if(value == '1' || value == '4' || value == '5') {
+		this.$('#sQcSe').enable();
+	} 
+	else {
+		this.$('#sQcSe').val('');
+		this.$('#sQcSe').disable();
 	}
 };
 
@@ -483,10 +506,25 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 						<tr>
 							<th>관　리　그　룹</th>
 							<td>
-								<input type="text" size="15" id="sFcltsMngGroupNo" title="시설물관리그룹넘버" />-
-								<input type="text" size="17" id="sFcltsMngGroupNm" disabled="disabled" title="시설물관리그룹명"/>
+								<input type="text" size="15" id="sFcltsMngGroupNo"/>-
+								<input type="text" size="17" id="sFcltsMngGroupNm" disabled="disabled"/>
 								<button id="popupSearchFcltsMngGroup" class="popupButton">선택</button>
 							</td>
+							<th>업　무　구　분</th>
+							<td>
+								<select id="sFcltsJobSe" class="searchEditItem">
+									<option value="">선택</option>
+									<option value="E">전기시설</option>
+									<option value="M">기계시설</option>
+									<option value="C">토목시설</option>
+									<option value="A">건축시설</option>
+									<option value="I">정보통신시설</option>
+								</select>
+								<input id="sFcltsJobSeNm" type="hidden" />
+							</td>
+							<td rowspan="3"><button id="btnSearch" class="buttonSearch">조회</button></td>
+						</tr>
+						<tr>
 							<th height="17">점검　진단　구분</th>
 							<td>
 								<select id="sQcInspSe">
@@ -502,25 +540,6 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 		                            <option value="9">기타</option>
 		                        </select>
 							</td>
-							<td rowspan="3"><button id="btnSearch" class="buttonSearch">조회</button></td>
-						</tr>
-						<tr>
-							<th>업　무　구　분</th>
-							<td>
-								<select id="sFcltsJobSe" class="searchEditItem">
-									<option value="">선택</option>
-									<option value="E">전기시설</option>
-									<option value="M">기계시설</option>
-									<option value="C">토목시설</option>
-									<option value="A">건축시설</option>
-									<option value="I">정보통신시설</option>
-								</select>
-								<input id="sFcltsJobSeNm" type="hidden" />
-							</td>
-							<th>점검　관리　명</th>
-							<td><input type="text" id="sQcMngNm" size="50" /></td>
-						</tr>
-						<tr>
 							<th>점　검　구　분</th>
 							<td>
 								<select id="sQcSe" class="searchEditItem">
@@ -532,12 +551,16 @@ var module_instance = new GamFcltyQcSttusInqireModule();
                                 </select>
                                 <input id="sQcSeNm" type="hidden" />
 							</td>
+						</tr>
+						<tr>
 							<th>시　행　년　도</th>
 							<td>
 								<select id="sEnforceYear">
 									<option value="">선택</option>
                                 </select>
 							</td>
+							<th>점검　관리　명</th>
+							<td><input type="text" id="sQcMngNm" size="50" /></td>
 						</tr>
 					</tbody>
 				</table>
@@ -607,9 +630,9 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 									</td>
 								</tr>
 								<tr>
-									<th height="17">시　행　년　도</th>
-									<td>									
-										<input id="enforceYear" type="text" size="10" disabled="disabled"/>년
+									<th height="17">점검　진단　구분</th>
+									<td>
+										<input id="qcInspSeNm" type="text" size="20" disabled="disabled"/>
 									</td>
 									<th height="17">점　검　구　분</th>
 									<td>
@@ -617,9 +640,9 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 									</td>
 								</tr>
 								<tr>
-									<th height="17">시　행　일　자</th>
-									<td>
-										<input id="qcInspDt" type="text" size="20" disabled="disabled"/>
+									<th height="17">시　행　년　도</th>
+									<td>									
+										<input id="enforceYear" type="text" size="10" disabled="disabled"/>년
 									</td>
 									<th height="17">점검　진단　자</th>
 									<td>
@@ -627,9 +650,9 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 									</td>
 								</tr>
 								<tr>
-									<th height="17">점검　진단　구분</th>
+									<th height="17">시　행　일　자</th>
 									<td>
-										<input id="qcInspSeNm" type="text" size="20" disabled="disabled"/>
+										<input id="qcInspDt" type="text" size="20" disabled="disabled"/>
 									</td>
 									<th height="17">점검　진단　금액</th>
 									<td>

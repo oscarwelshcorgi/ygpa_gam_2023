@@ -120,6 +120,16 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function() {
 		event.data.module.loadQcSubDataList();
 	});
 	
+	this.$('#sQcInspSe').bind('change', {module: this}, function(event) {
+		event.data.module.checkSearchQcInspSe();
+	});
+	this.$('#sQcSe').disable();
+
+	this.$('#qcInspSe').bind('change', {module: this}, function(event) {
+		event.data.module.checkQcInspSe();
+	});
+	this.$('#qcSe').disable();
+	
 	this.setControlStatus();
 
 	this.fillSelectBoxYear('#enforceYear');	
@@ -214,6 +224,7 @@ GamFcltyQcwWrtMngModule.prototype.loadDetail = function() {
 		this.doAction('/fcltyMng/selectQcMngDtlsDetail.do', opts, function(module, result) { 
 			if(result.resultCode == '0'){
 				module.makeFormValues('#detailForm', result.detailData);
+				module.checkQcInspSe();
 				module.fillAtchFileList(result.atchFileList);
 				module.loadQcSubDataList();
 			}
@@ -230,6 +241,42 @@ GamFcltyQcwWrtMngModule.prototype.loadDetail = function() {
 
 <%
 /**
+ * @FUNCTION NAME : checkSearchQcInspSe
+ * @DESCRIPTION   : 점검진단구분값에 따른 점검진단 enable/disable 설정(조회 조건)
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.checkSearchQcInspSe = function() {
+	var value = this.$('#sQcInspSe').val();
+	if(value == '1' || value == '4' || value == '5') {
+		this.$('#sQcSe').enable();
+	} 
+	else {
+		this.$('#sQcSe').val('');
+		this.$('#sQcSe').disable();
+	}
+};
+
+<%
+/**
+ * @FUNCTION NAME : checkQcInspSe
+ * @DESCRIPTION   : 점검진단구분값에 따른 점검진단 enable/disable 설정
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.checkQcInspSe = function() {
+	var value = this.$('#qcInspSe').val();
+	if(value == '1' || value == '4' || value == '5') {
+		this.$('#qcSe').enable();
+	} 
+	else {
+		this.$('#qcSe').val('');
+		this.$('#qcSe').disable();
+	}
+};
+
+<%
+/**
  * @FUNCTION NAME : initBeforeInsert
  * @DESCRIPTION   : 추가작업 전 초기화
  * @PARAMETER     : NONE
@@ -240,6 +287,8 @@ GamFcltyQcwWrtMngModule.prototype.initBeforeInsert = function() {
 	this._qcResultList = null;
 	this._qcresultmode = '';
 	this.makeFormValues('#detailForm', {});
+	this.$('#qcInspSe').val('');
+	this.checkQcInspSe();
 	this.setControlStatus();
 	this.$('#enforceYear').val((new Date()).getFullYear());
 	this.$('#fcltsJobSe').val(EMD.userinfo.mngFcltyCd);
@@ -980,6 +1029,21 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 								<input type="text" size="17" id="sFcltsMngGroupNm" disabled="disabled"/>
 								<button id="popupSearchFcltsMngGroup" class="popupButton">선택</button>
 							</td>
+							<th>업　무　구　분</th>
+							<td>
+								<select id="sFcltsJobSe" class="searchEditItem">
+									<option value="">선택</option>
+									<option value="E">전기시설</option>
+									<option value="M">기계시설</option>
+									<option value="C">토목시설</option>
+									<option value="A">건축시설</option>
+									<option value="I">정보통신시설</option>
+								</select>
+								<input id="sFcltsJobSeNm" type="hidden" />
+							</td>
+							<td rowspan="3"><button id="btnSearch" class="buttonSearch">조회</button></td>
+						</tr>
+						<tr>
 							<th height="17">점검　진단　구분</th>
 							<td>
 								<select id="sQcInspSe">
@@ -995,25 +1059,6 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 		                            <option value="9">기타</option>
 		                        </select>
 							</td>
-							<td rowspan="3"><button id="btnSearch" class="buttonSearch">조회</button></td>
-						</tr>
-						<tr>
-							<th>업　무　구　분</th>
-							<td>
-								<select id="sFcltsJobSe" class="searchEditItem">
-									<option value="">선택</option>
-									<option value="E">전기시설</option>
-									<option value="M">기계시설</option>
-									<option value="C">토목시설</option>
-									<option value="A">건축시설</option>
-									<option value="I">정보통신시설</option>
-								</select>
-								<input id="sFcltsJobSeNm" type="hidden" />
-							</td>
-							<th>점검　관리　명</th>
-							<td><input type="text" id="sQcMngNm" size="50" /></td>
-						</tr>
-						<tr>
 							<th>점　검　구　분</th>
 							<td>
 								<select id="sQcSe" class="searchEditItem">
@@ -1025,12 +1070,16 @@ var module_instance = new GamFcltyQcwWrtMngModule();
                                 </select>
                                 <input id="sQcSeNm" type="hidden" />
 							</td>
+						</tr>
+						<tr>
 							<th>시　행　년　도</th>
 							<td>
 								<select id="sEnforceYear">
 									<option value="">선택</option>
                                 </select>
 							</td>
+							<th>점검　관리　명</th>
+							<td><input type="text" id="sQcMngNm" size="50" /></td>
 						</tr>
 					</tbody>
 				</table>
@@ -1109,37 +1158,6 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 									</td>
 								</tr>
 								<tr>
-									<th height="17">시　행　년　도</th>
-									<td>
-										<!-- 년도 자동 주입 -->
-										<select id="enforceYear">
-											<option value="">선택</option>
-		                                </select>
-									</td>
-									<th height="17">점　검　구　분</th>
-									<td>
-										<select id="qcSe">
-		                                    <option value="">선택</option>
-		                                    <option value="1">해빙기대비</option>
-		                                    <option value="2">풍수해대비</option>
-		                                    <option value="3">동절기대비</option>
-		                                    <option value="4">우기대비</option>
-		                                </select>
-									</td>
-								</tr>
-								<tr>
-									<th height="17">시　행　일　자</th>
-									<td><input id="qcInspDt" type="text" class="emdcal" size="20"/></td>
-									<th height="17">점검　진단　자</th>
-									<td>
-										<select id="qcInspTp">
-		                                    <option value="">선택</option>
-		                                    <option value="1">자체점검</option>
-		                                    <option value="2">용역점검</option>
-		                                </select>
-									</td>
-								</tr>
-								<tr>
 									<th height="17">점검　진단　구분</th>
 									<td>
 										<select id="qcInspSe">
@@ -1155,6 +1173,37 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 		                                    <option value="9">기타</option>
 		                                </select>
 									</td>
+									<th height="17">점　검　구　분</th>
+									<td>
+										<select id="qcSe">
+		                                    <option value="">선택</option>
+		                                    <option value="1">해빙기대비</option>
+		                                    <option value="2">풍수해대비</option>
+		                                    <option value="3">동절기대비</option>
+		                                    <option value="4">우기대비</option>
+		                                </select>
+									</td>
+								</tr>
+								<tr>
+									<th height="17">시　행　년　도</th>
+									<td>
+										<!-- 년도 자동 주입 -->
+										<select id="enforceYear">
+											<option value="">선택</option>
+		                                </select>
+									</td>
+									<th height="17">점검　진단　자</th>
+									<td>
+										<select id="qcInspTp">
+		                                    <option value="">선택</option>
+		                                    <option value="1">자체점검</option>
+		                                    <option value="2">용역점검</option>
+		                                </select>
+									</td>
+								</tr>
+								<tr>
+									<th height="17">시　행　일　자</th>
+									<td><input id="qcInspDt" type="text" class="emdcal" size="20"/></td>
 									<th height="17">점검　진단　금액</th>
 									<td><input id="qcInspAmt" type="text" size="30" class="ygpaNumber"/> 원</td>
 								</tr>
