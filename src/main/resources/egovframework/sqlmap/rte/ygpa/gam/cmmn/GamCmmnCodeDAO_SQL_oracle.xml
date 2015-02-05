@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.code">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+
+	<select id="gamCmmnCodeDAO.selectLocCodeList_D" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+			LOC_CODE VALUE,
+			LOC_NM NAME
+		FROM LOC_CD_F
+		WHERE 1=1
+		<isNotNull prepend="AND" property="filter">
+			PRT_AT_CODE=#filter#
+		</isNotNull>
+		<isNotNull prepend="AND" property="value">
+			LOC_CODE=#value#
+		</isNotNull>
+		ORDER BY LOC_NM,LOC_CODE
+	</select>
+
+	<select id="gamCmmnCodeDAO.selectQuayCodeList_D" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+			QUAY_CD VALUE,
+			QUAY_NM NAME
+		FROM LOC_QUAY_CD_F
+		WHERE 1=1
+		<isNotNull prepend="AND" property="filter">
+			LOC_CODE=#filter#
+		</isNotNull>
+		<isNotNull prepend="AND" property="filter2">
+			PRT_AT_CODE=#filter2#
+		</isNotNull>
+		<isNotNull prepend="AND" property="value">
+			QUAY_CD=#value#
+		</isNotNull>
+		ORDER BY QUAY_NM
+	</select>
+
+	<select id="gamCmmnCodeDAO.selectCmmnCdCodeList_D" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+			CODE VALUE,
+			CODE_NM NAME
+		FROM COMTCCMMNDETAILCODE
+		WHERE USE_AT='Y'
+		<isNotEmpty property="filter">
+			<isEqual prepend="AND" property="filter" compareValue="A">
+				CODE_ID='GAM066'
+			</isEqual>
+			<isEqual prepend="AND" property="filter" compareValue="M">
+				CODE_ID='GAM067'
+			</isEqual>
+			<isEqual prepend="AND" property="filter" compareValue="E">
+				CODE_ID='GAM068'
+			</isEqual>
+			<isEqual prepend="AND" property="filter" compareValue="I">
+				CODE_ID='GAM069'
+			</isEqual>
+			<isEqual prepend="AND" property="filter" compareValue="C">
+				CODE_ID='GAM070'
+			</isEqual>
+		</isNotEmpty>
+		<isNotNull prepend="AND" property="value">
+			CODE=#value#
+		</isNotNull>
+		ORDER BY CODE_NM
+	</select>
+
+</sqlMap>

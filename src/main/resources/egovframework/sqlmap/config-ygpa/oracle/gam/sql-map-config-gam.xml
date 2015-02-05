@@ -180,4 +180,4 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fcltyMng/GamFcltyUseUnuseInqireDao_SQL_oracle.xml" />
 
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/fcltyMng/GamFcltyUsageSttusInqireDao_SQL_oracle.xml" />
-</sqlMapConfig>
+<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/cmmn/GamCmmnCodeDAO_SQL_oracle.xml" /></sqlMapConfig>

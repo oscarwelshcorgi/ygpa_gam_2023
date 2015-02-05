@@ -53,7 +53,7 @@
 							       , G.ERP_ASSETS_NO_SEQ
 							       , G.ERP_ASSETS_DISUSE_REGIST_YN
 							       , G.ERP_ASSETS_DISUSE_RSN
-							FROM GIS_ASSETS_CD_F G
+							FROM (SELECT * FROM GIS_ASSETS_CD_F WHERE GIS_ASSETS_PRPRTY_SE_CD = 'L') G
                             WHERE 1=1
 
 				<isNotEmpty prepend="AND" property="gisAssetsPrtAtCode">
@@ -119,7 +119,7 @@
 
     <select id="gamAssetDisUseMngtDao.selectAssetDisUseListTotCnt_S" parameterClass="gamGisAssetCodeVO" resultClass="int">
             SELECT COUNT(*) totcnt
-              FROM GIS_ASSETS_CD_F G
+              FROM (SELECT * FROM GIS_ASSETS_CD_F WHERE GIS_ASSETS_PRPRTY_SE_CD = 'L') G
              WHERE 1=1
              				<isNotEmpty prepend="AND" property="gisAssetsPrtAtCode">
 					G.GIS_ASSETS_PRT_AT_CODE=#gisAssetsPrtAtCode#
@@ -140,9 +140,6 @@
 				</isEqual>
 				<isNotEmpty prepend="AND" property="gisAssetsNm">
 					G.GIS_ASSETS_NM LIKE '%' || #gisAssetsNm# || '%'
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="gisAssetsPrprtySeCd">
-					G.GIS_ASSETS_PRPRTY_SE_CD=#gisAssetsPrprtySeCd#
 				</isNotEmpty>
 				<isNotEmpty prepend="AND" property="gisAssetsLocCd">
 					G.GIS_ASSETS_LOC_CD=#gisAssetsLocCd#

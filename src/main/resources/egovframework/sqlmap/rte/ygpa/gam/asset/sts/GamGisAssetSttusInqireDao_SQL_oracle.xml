@@ -32,11 +32,9 @@
 		FROM GIS_ASSETS_CD_F GAC LEFT OUTER JOIN EGMISDB.EGMFA1000 ERP
 			ON GAC.ERP_ASSETS_CLS=ERP.ASSET_CLS AND GAC.ERP_ASSETS_NO=ERP.ASSET_NO AND GAC.ERP_ASSETS_NO_SEQ=ERP.ASSET_NO_SEQ
 		WHERE 1                      = 1
+			AND GAC.GIS_ASSETS_PRPRTY_SE_CD = 'L'
 		<isNotEmpty property="searchGisAssetsPrtAtCode">
 			AND GAC.GIS_ASSETS_PRT_AT_CODE = #searchGisAssetsPrtAtCode#
-		</isNotEmpty>
-		<isNotEmpty property="sPrprtySeCd">
-			AND GAC.GIS_ASSETS_PRPRTY_SE_CD = #sPrprtySeCd#
 		</isNotEmpty>
 		<isNotEmpty property="sGisAssetsNm">
 			AND GAC.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'
@@ -60,11 +58,9 @@
 		SELECT COUNT(*) totcnt
 		FROM GIS_ASSETS_CD_F GAC
 		WHERE 1                      = 1
+			AND GAC.GIS_ASSETS_PRPRTY_SE_CD = 'L'
 		<isNotEmpty property="searchGisAssetsPrtAtCode">
 			AND GAC.GIS_ASSETS_PRT_AT_CODE = #searchGisAssetsPrtAtCode#
-		</isNotEmpty>
-		<isNotEmpty property="sPrprtySeCd">
-			AND GAC.GIS_ASSETS_PRPRTY_SE_CD = #sPrprtySeCd#
 		</isNotEmpty>
 		<isNotEmpty property="sGisAssetsNm">
 			AND GAC.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'
@@ -88,11 +84,9 @@
           FROM GIS_ASSETS_CD_F GAC LEFT OUTER JOIN EGMISDB.EGMFA1000 ERP
 		ON GAC.ERP_ASSETS_CLS=ERP.ASSET_CLS AND GAC.ERP_ASSETS_NO=ERP.ASSET_NO AND GAC.ERP_ASSETS_NO_SEQ=ERP.ASSET_NO_SEQ
 		WHERE 1                      = 1
+			AND GAC.GIS_ASSETS_PRPRTY_SE_CD = 'L'
 		<isNotEmpty property="searchGisAssetsPrtAtCode">
 			AND GAC.GIS_ASSETS_PRT_AT_CODE = #searchGisAssetsPrtAtCode#
-		</isNotEmpty>
-		<isNotEmpty property="sPrprtySeCd">
-			AND GAC.GIS_ASSETS_PRPRTY_SE_CD = #sPrprtySeCd#
 		</isNotEmpty>
 		<isNotEmpty property="sGisAssetsNm">
 			AND GAC.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'

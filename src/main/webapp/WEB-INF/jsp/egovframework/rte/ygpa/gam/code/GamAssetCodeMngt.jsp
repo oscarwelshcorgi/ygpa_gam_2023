@@ -868,9 +868,13 @@ var module_instance = new GamAssetCodeModule();
 								<th>재산</th>
 								<td><input id="searchGisAssetsPrprtySeCd" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrprtySeCd" data-code-id="GAM001" data-default-prompt="전체"/></td>
 								<th>위치</th>
-								<td><input id="searchGisAssetsLocCd" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsLocCd" data-code-id="GAM002" data-default-prompt="전체"/></td>
+								<td>
+									<input id="searchGisAssetsLocCd" type="text" class="ygpaFilterCode" data-url="/cmmn/selectLocCdOptionsList.do" data-filter="searchGisAssetsPrtAtCode"  data-default-prompt="전체"/>
+								</td>
 								<th>부두</th>
-								<td><input id="searchGisAssetsQuayCd" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsQuayCd" data-code-id="GAM003" data-default-prompt="전체"/></td>
+								<td>
+									<input id="searchGisAssetsQuayCd" type="text" class="ygpaFilterCode" data-url="/cmmn/selectQuayCdOptionsList.do" data-filter="searchGisAssetsLocCd"   data-default-prompt="전체"/>
+									</td>
 								<th>관리부서</th>
 								<td>
 									<input id="searchMngDeptCd" data-column-id="mngDeptCd" class="ygpaDeptSelect" data-default-prompt="전체" />
@@ -956,11 +960,11 @@ var module_instance = new GamAssetCodeModule();
 						</td>
 						<th><span class="label">위치구분</span></th>
 						<td>
-							<input id="gisAssetsLocCd" class="ygpaCmmnCd changeAssetPk" data-code-id='GAM002' data-required="true">
+							<input id="gisAssetsLocCd" type="text" class="ygpaFilterCode changeAssetPk" data-url="/cmmn/selectLocCdOptionsList.do" data-filter="gisAssetsPrtAtCode" data-required="true"/>
 						</td>
 						<th><span class="label">부두구분</span></th>
 						<td>
-							<input id="gisAssetsQuayCd" class="ygpaCmmnCd changeAssetPk" data-code-id='GAM003' data-required="true">
+							<input id="gisAssetsQuayCd" type="text" class="ygpaFilterCode changeAssetPk" data-url="/cmmn/selectQuayCdOptionsList.do" data-filter="gisAssetsLocCd" data-required="true"/>
 						</td>
 					</tr>
 					<tr>

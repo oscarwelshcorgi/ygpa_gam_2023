@@ -32,24 +32,64 @@
 			, '전체' FCLTY_SE_NM
 		</isEmpty>
 		<isNotEmpty property="fcltySe">
-			, GAM_GETCODENAME('GAM005', #fcltySe#) FCLTY_SE_NM
+			<isEqual property="fcltySe" compareValue="A">
+				<isEmpty property="fcltyCd">
+					, '전체' FCLTY_SE_NM
+				</isEmpty>
+				<isNotEmpty property="fcltyCd">
+					, GAM_GETCODENAME('GAM066', #fcltyCd#) FCLTY_SE_NM
+				</isNotEmpty>
+			</isEqual>
+			<isEqual property="fcltySe" compareValue="M">
+				<isEmpty property="fcltyCd">
+					, '전체' FCLTY_SE_NM
+				</isEmpty>
+				<isNotEmpty property="fcltyCd">
+					, GAM_GETCODENAME('GAM067', #fcltyCd#) FCLTY_SE_NM
+				</isNotEmpty>
+			</isEqual>
+			<isEqual property="fcltySe" compareValue="E">
+				<isEmpty property="fcltyCd">
+					, '전체' FCLTY_SE_NM
+				</isEmpty>
+				<isNotEmpty property="fcltyCd">
+					, GAM_GETCODENAME('GAM068', #fcltyCd#) FCLTY_SE_NM
+				</isNotEmpty>
+			</isEqual>
+			<isEqual property="fcltySe" compareValue="I">
+				<isEmpty property="fcltyCd">
+					, '전체' FCLTY_SE_NM
+				</isEmpty>
+				<isNotEmpty property="fcltyCd">
+					, GAM_GETCODENAME('GAM069', #fcltyCd#) FCLTY_SE_NM
+				</isNotEmpty>
+			</isEqual>
+			<isEqual property="fcltySe" compareValue="C">
+				<isEmpty property="fcltyCd">
+					, '전체' FCLTY_SE_NM
+				</isEmpty>
+				<isNotEmpty property="fcltyCd">
+					, GAM_GETCODENAME('GAM070', #fcltyCd#) FCLTY_SE_NM
+				</isNotEmpty>
+			</isEqual>
 		</isNotEmpty>
 			, (SELECT count(*)
 				FROM GIS_PRT_FCLTY_CD_F
 				WHERE GIS_ASSETS_PRT_AT_CODE=GAC.GIS_ASSETS_PRT_AT_CODE AND GIS_ASSETS_CD=GAC.GIS_ASSETS_CD AND GIS_ASSETS_SUB_CD=GAC.GIS_ASSETS_SUB_CD
-		<isNotEmpty property="fcltySe" prepend="AND">
-			GIS_PRT_FCLTY_CD=#fcltySe#
-		</isNotEmpty>
+				<isNotEmpty property="fcltySe" prepend="AND">
+					PRT_FCLTY_SE=#fcltySe#
+				</isNotEmpty>
+				<isNotEmpty property="fcltyCd" prepend="AND">
+					GIS_PRT_FCLTY_CD=#fcltyCd#
+				</isNotEmpty>
 				) FCLTY_CNT
 			, (SELECT count(*) FROM GIS_ASSETS_CD_E WHERE PRT_CD=GAC.GIS_ASSETS_PRT_AT_CODE AND ASSETS_CD=GAC.GIS_ASSETS_CD AND ASSETS_CD=GAC.GIS_ASSETS_SUB_CD) GIS_STAT
 		FROM GIS_ASSETS_CD_F GAC LEFT OUTER JOIN EGMISDB.EGMFA1000 ERP
 			ON GAC.ERP_ASSETS_CLS=ERP.ASSET_CLS AND GAC.ERP_ASSETS_NO=ERP.ASSET_NO AND GAC.ERP_ASSETS_NO_SEQ=ERP.ASSET_NO_SEQ
 		WHERE 1                      = 1
+			AND GAC.GIS_ASSETS_PRPRTY_SE_CD = 'L'
 		<isNotEmpty property="gisAssetsPrtAtCode">
 			AND GAC.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
-		</isNotEmpty>
-		<isNotEmpty property="gisAssetsPrprtySeCd">
-			AND GAC.GIS_ASSETS_PRPRTY_SE_CD = #gisAssetsPrprtySeCd#
 		</isNotEmpty>
 		<isNotEmpty property="gisAssetsLocCd">
 			AND GAC.GIS_ASSETS_LOC_CD = #gisAssetsLocCd#
@@ -77,6 +117,7 @@
 		SELECT COUNT(*) totcnt
 		FROM GIS_ASSETS_CD_F GAC
 		WHERE 1                      = 1
+			AND GAC.GIS_ASSETS_PRPRTY_SE_CD = 'L'
 		<isNotEmpty property="searchGisAssetsPrtAtCode">
 			AND GAC.GIS_ASSETS_PRT_AT_CODE = #searchGisAssetsPrtAtCode#
 		</isNotEmpty>
@@ -105,11 +146,9 @@
           FROM GIS_ASSETS_CD_F GAC LEFT OUTER JOIN EGMISDB.EGMFA1000 ERP
 		ON GAC.ERP_ASSETS_CLS=ERP.ASSET_CLS AND GAC.ERP_ASSETS_NO=ERP.ASSET_NO AND GAC.ERP_ASSETS_NO_SEQ=ERP.ASSET_NO_SEQ
 		WHERE 1                      = 1
+			AND GAC.GIS_ASSETS_PRPRTY_SE_CD = 'L'
 		<isNotEmpty property="searchGisAssetsPrtAtCode">
 			AND GAC.GIS_ASSETS_PRT_AT_CODE = #searchGisAssetsPrtAtCode#
-		</isNotEmpty>
-		<isNotEmpty property="sPrprtySeCd">
-			AND GAC.GIS_ASSETS_PRPRTY_SE_CD = #sPrprtySeCd#
 		</isNotEmpty>
 		<isNotEmpty property="sGisAssetsNm">
 			AND GAC.GIS_ASSETS_NM LIKE '%' || #sGisAssetsNm# || '%'
@@ -125,7 +164,7 @@
 		</isNotEmpty>
     </select>
 
-	   <select id="gamGisAssetDistSttusInqireDao.selectAssetDistSttusInfoByCode_S" parameterClass="hashMap" resultClass="egovMap">
+   <select id="gamGisAssetDistSttusInqireDao.selectAssetDistSttusInfoByCode_S" parameterClass="hashMap" resultClass="egovMap">
 	   SELECT
 		GIS_ASSETS_SUB_CD,
 		GIS_ASSETS_CD,
@@ -147,7 +186,7 @@
 		WHERE GIS_ASSETS_PRT_AT_CODE=#PRT_CD#
 		  AND GIS_ASSETS_CD=#ASSETS_CD#
 		  AND GIS_ASSETS_SUB_CD=#ASSETS_SCD#
-		</select>
+	</select>
 
     <select id="gamGisAssetDistSttusInqireDao.selectAssetDistSttusListByCode_D" parameterClass="hashMap" resultClass="egovMap">
 	   	SELECT GIS_PRT_FCLTY_CD,

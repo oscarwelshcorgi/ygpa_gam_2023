@@ -20,6 +20,7 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.CmmnDetailCode;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.cmmn.service.GamCmmnCodeService;
 
 @Controller
 public class GamCmmnCodeListController {
@@ -27,6 +28,9 @@ public class GamCmmnCodeListController {
 	 /** cmmUseService */
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
+
+    @Resource(name="gamCmmnCodeService")
+    private GamCmmnCodeService gamCmmnCodeService;
 
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
@@ -135,6 +139,45 @@ public class GamCmmnCodeListController {
 		}
 
 		optMap.put("resultList", list);
+
+		return optMap;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/cmmn/selectLocCdOptionsList.do", method=RequestMethod.POST)
+	@ResponseBody Map selectLocCdOptionsList(@RequestParam Map vo) throws Exception {
+		// 자산코드
+		Map optMap = new HashMap();
+
+		List code = gamCmmnCodeService.selectLocCodeList(vo);
+
+		optMap.put("resultList", code);
+
+		return optMap;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/cmmn/selectQuayCdOptionsList.do", method=RequestMethod.POST)
+	@ResponseBody Map selectQuayCdOptionsList(@RequestParam Map vo) throws Exception {
+		// 자산코드
+		Map optMap = new HashMap();
+
+		List code = gamCmmnCodeService.selectQuayCodeList(vo);
+
+		optMap.put("resultList", code);
+
+		return optMap;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/cmmn/selectCmmnCdFilterList.do", method=RequestMethod.POST)
+	@ResponseBody Map selectCmmnCdFilterList(@RequestParam Map vo) throws Exception {
+		// 자산코드
+		Map optMap = new HashMap();
+
+		List code = gamCmmnCodeService.selectCmmnCdCodeList(vo);
+
+		optMap.put("resultList", code);
 
 		return optMap;
 	}

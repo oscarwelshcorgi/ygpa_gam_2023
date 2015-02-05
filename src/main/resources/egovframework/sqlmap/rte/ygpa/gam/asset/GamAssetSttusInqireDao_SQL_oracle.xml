@@ -85,7 +85,7 @@
                                    , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM007' AND CD.CODE = B.USAGE_PRPOS_CD AND ROWNUM = 1) USAGE_PRPOS_CD_NM
 							  FROM ASSETS_RENT_F A
 							     , ASSETS_RENT_DETAIL_F B
-							     , GIS_ASSETS_CD_F G
+							     , (SELECT * FROM GIS_ASSETS_CD_F WHERE GIS_ASSETS_PRPRTY_SE_CD = 'L') G
 							 WHERE A.PRT_AT_CODE = B.PRT_AT_CODE
 							   AND A.MNG_YEAR    = B.MNG_YEAR
 							   AND A.MNG_NO      = B.MNG_NO
@@ -140,7 +140,7 @@
             SELECT COUNT(*) totcnt
               FROM ASSETS_RENT_F A
                  , ASSETS_RENT_DETAIL_F B
-                 , GIS_ASSETS_CD_F G
+                 , (SELECT * FROM GIS_ASSETS_CD_F WHERE GIS_ASSETS_PRPRTY_SE_CD = 'L') G
              WHERE A.PRT_AT_CODE = B.PRT_AT_CODE
                AND A.MNG_YEAR    = B.MNG_YEAR
                AND A.MNG_NO      = B.MNG_NO
@@ -194,7 +194,7 @@
 				   , TRIM(TO_CHAR(NVL(SUM(B.RDCXPT_FEE),0), '999,999,999,999')) SUM_RDCXPT_FEE
               FROM ASSETS_RENT_F A
                  , ASSETS_RENT_DETAIL_F B
-                 , GIS_ASSETS_CD_F G
+                 , (SELECT * FROM GIS_ASSETS_CD_F WHERE GIS_ASSETS_PRPRTY_SE_CD = 'L') G
              WHERE A.PRT_AT_CODE = B.PRT_AT_CODE
                AND A.MNG_YEAR    = B.MNG_YEAR
                AND A.MNG_NO      = B.MNG_NO

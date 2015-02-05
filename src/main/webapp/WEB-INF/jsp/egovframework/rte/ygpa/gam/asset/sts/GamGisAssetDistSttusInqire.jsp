@@ -123,11 +123,12 @@ var module_instance = new GamGisAssetDistSttusModule();
 							<td><input id="gisAssetsPrtAtCode" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrtAtCode" data-code-id="GAM019" data-default-prompt="전체항" data-display-value="N" size="3"/></td>
 							<th>위치</th>
 							<td>
-								<input id="gisAssetsLocCd" data-column-id="gisAssetsLocCd" type="text" class="ygpaCmmnCd" data-code-id="GAM002" data-default-prompt="전체 " data-required="true">
+								<input id="gisAssetsLocCd" type="text" class="ygpaFilterCode" data-url="/cmmn/selectLocCdOptionsList.do" data-filter="gisAssetsPrtAtCode"  data-default-prompt="전체"/>
 							</td>
 							<th>시설구분</th>
 							<td>
-								<input id="fcltySe" data-column-id="fcltySe" type="text" class="ygpaCmmnCd" data-code-id="GAM005" data-default-prompt="전체시설 " size="8" data-required="true">
+								<input id="fcltySe" data-column-id="fcltySe" type="text" class="ygpaCmmnCd" data-code-id="GAM065" data-default-prompt="전체분류 " size="8" data-required="true">
+								<input id="fcltyCd" data-column-id="fcltyCd" type="text" class="ygpaFilterCode" data-filter="fcltySe" data-url="/cmmn/selectCmmnCdFilterList.do" data-default-prompt="전체시설 " size="8" data-required="true">
 							</td>
 							<td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
 						</tr>
