@@ -13,12 +13,12 @@
 			LOC_NM NAME
 		FROM LOC_CD_F
 		WHERE 1=1
-		<isNotNull prepend="AND" property="filter">
+		<isNotEmpty prepend="AND" property="filter">
 			PRT_AT_CODE=#filter#
-		</isNotNull>
-		<isNotNull prepend="AND" property="value">
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="value">
 			LOC_CODE=#value#
-		</isNotNull>
+		</isNotEmpty>
 		ORDER BY LOC_NM,LOC_CODE
 	</select>
 
@@ -28,15 +28,15 @@
 			QUAY_NM NAME
 		FROM LOC_QUAY_CD_F
 		WHERE 1=1
-		<isNotNull prepend="AND" property="filter">
+		<isNotEmpty prepend="AND" property="filter">
 			LOC_CODE=#filter#
-		</isNotNull>
-		<isNotNull prepend="AND" property="filter2">
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="filter2">
 			PRT_AT_CODE=#filter2#
-		</isNotNull>
-		<isNotNull prepend="AND" property="value">
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="value">
 			QUAY_CD=#value#
-		</isNotNull>
+		</isNotEmpty>
 		ORDER BY QUAY_NM
 	</select>
 
@@ -63,9 +63,9 @@
 				CODE_ID='GAM070'
 			</isEqual>
 		</isNotEmpty>
-		<isNotNull prepend="AND" property="value">
+		<isNotEmpty prepend="AND" property="value">
 			CODE=#value#
-		</isNotNull>
+		</isNotEmpty>
 		ORDER BY CODE_NM
 	</select>
 

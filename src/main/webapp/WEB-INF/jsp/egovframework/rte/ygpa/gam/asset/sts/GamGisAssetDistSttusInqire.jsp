@@ -25,7 +25,7 @@
  */
 function GamGisAssetDistSttusModule() {}
 
-GamGisAssetDistSttusModule.prototype = new EmdModule(840, 600);
+GamGisAssetDistSttusModule.prototype = new EmdModule(860, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamGisAssetDistSttusModule.prototype.loadComplete = function() {
@@ -42,9 +42,8 @@ GamGisAssetDistSttusModule.prototype.loadComplete = function() {
                     {display:'자산명', name:'gisAssetsNm',width:160, sortable:false,align:'left'},
                     {display:'소재지', name:'gisAssetsLocplc',width:180, sortable:false,align:'left'},
                     {display:'지번', name:'gisAssetsLnmCode',width:60, sortable:false,align:'center'},
-                    {display:'면적', name:'gisAssetsAr',width:70, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'보유시설갯수', groupDisplay:'보유시설수', name:'gisPrtFcltyNm',width:90, sortable:false,align:'center'},
-                    {display:'#cspan', groupDisplay:'보유시설수', name:'fcltyCnt',width:100, sortable:false,align:'right', displayFormat: 'number'}
+                    {display:'보유시설갯수', groupDisplay:'보유시설수', name:'gisPrtFcltyNm',width:100, sortable:false,align:'center'},
+                    {display:'#cspan', groupDisplay:'보유시설수', name:'fcltyCnt',width:110, sortable:false,align:'right', displayFormat: 'number'}
         ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -64,8 +63,8 @@ GamGisAssetDistSttusModule.prototype.loadComplete = function() {
         }
     });
     this.$("#gisAssetSttusList")[0].dgrid.attachHeader('#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,시설종류,시설갯수');
-    this.$("#gisAssetSttusList")[0].dgrid.attachFooter('조회 수,#cspan,#cspan,0,개,조회 시설 갯수,#cspan,#cspan,0',
-    		["text-align:center; vertical-align:middle;","","","text-align:right; vertical-align:middle;","text-align:left; vertical-align:middle;","text-align:center; vertical-align:middle;","","","text-align:right; vertical-align:middle;"]);
+    this.$("#gisAssetSttusList")[0].dgrid.attachFooter('조회 수,#cspan,#cspan,#cspan,0,개,조회 시설 갯수,#cspan,0',
+    		["text-align:center; vertical-align:middle;","","","","text-align:right; vertical-align:middle;","text-align:left; vertical-align:middle;","text-align:center; vertical-align:middle;","","text-align:right; vertical-align:middle;"]);
 
     console.log('GamGisAssetDistSttusModule debug');
 };
@@ -138,7 +137,7 @@ var module_instance = new GamGisAssetDistSttusModule();
 							<td><input id="gisAssetsPrtAtCode" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrtAtCode" data-code-id="GAM019" data-default-prompt="전체항" data-display-value="N" size="3"/></td>
 							<th>위치</th>
 							<td>
-								<input id="gisAssetsLocCd" type="text" class="ygpaFilterCode" data-url="/cmmn/selectLocCdOptionsList.do" data-filter="gisAssetsPrtAtCode"  data-default-prompt="전체"/>
+								<input id="gisAssetsLocCd" type="text" class="ygpaFilterCode" data-url="/cmmn/selectLocCdOptionsList.do" data-filter="gisAssetsPrtAtCode" data-filter-empty="Y" data-default-prompt="전체"/>
 							</td>
 							<th>시설구분</th>
 							<td>

@@ -16,16 +16,16 @@ GamAssetSttusDistInfoModule.prototype = new EmdPopupInfoModule();
 GamAssetSttusDistInfoModule.prototype.loadComplete = function() {
     var dataset = [
 	 <c:forEach var="dist" items="${distList }" varStatus="varStatus">
-	 { gisPrtFcltyCdNm: "<c:out value='${dist.gisPrtFcltyCdNm}' />",
-		 gisPrtFcltyCnt: "<c:out value='${dist.gisPrtFcltyCnt}' />"
+	 { prtFcltySeNm: "<c:out value='${dist.prtFcltySeNm}' />",
+		 fcltyCnt: "<c:out value='${dist.fcltyCnt}' />"
 		 },
 	 </c:forEach>
 	];
    	var chart1 =  new dhtmlXChart({
    		view:"bar",
    		container:this.$("#chart").attr('id'),
-   	    value:"#gisPrtFcltyCnt#",
-           label: '#gisPrtFcltyCnt# 개',
+   	    value:"#fcltyCnt#",
+           label: '#fcltyCnt# 개',
            color: "#color#",
            gradient:"rising",
    		width:80,
@@ -33,10 +33,10 @@ GamAssetSttusDistInfoModule.prototype.loadComplete = function() {
    			left:40
    		},
    		tooltip:{
-   			template:"#gisPrtFcltyCdNm# - #gisPrtFcltyCnt# 개"
+   			template:"#prtFcltySeNm# - #fcltyCnt# 개"
    		},
    		xAxis:{
-   			template:"#gisPrtFcltyCdNm#"
+   			template:"#prtFcltySeNm#"
    		},
    		yAxis:{
    			width:80,
