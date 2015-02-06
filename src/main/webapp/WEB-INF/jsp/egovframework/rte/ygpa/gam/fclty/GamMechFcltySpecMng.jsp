@@ -1193,10 +1193,6 @@ var module_instance = new GamMechFcltySpecMngModule();
 							</td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">소　　재　　지</th>
-							<td colspan="3"><input data-column-id="loc" type="text" size="135" maxlength="50" /></td>
-						</tr>
-						<tr>
 							<th width="12%" height="17" class="required_text">비　　　　　고</th>
 							<td colspan="3">
 								<input type="text" data-column-id="rm" size="135"  maxlength="333" />
@@ -1241,10 +1237,6 @@ var module_instance = new GamMechFcltySpecMngModule();
 								<input id="archFcltsMngNoNm2" data-column-id="archFcltsMngNoNm" type="text" size="30" disabled="disabled" />
 								<button id="popupDetailArchFcltsMng2" class="popupButton">선택</button>
 							</td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">소　　재　　지</th>
-							<td colspan="3"><input data-column-id="loc" type="text" size="135" maxlength="50" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">비　　　　　고</th>
@@ -1297,10 +1289,6 @@ var module_instance = new GamMechFcltySpecMngModule();
 								<input id="archFcltsMngNoNm3" data-column-id="archFcltsMngNm" type="text" size="30" disabled="disabled" />
 								<button id="popupDetailArchFcltsMng3" class="popupButton">선택</button>
 							</td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">소　　재　　지</th>
-							<td colspan="3"><input data-column-id="loc" type="text" size="135" maxlength="50" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">비　　　　　고</th>

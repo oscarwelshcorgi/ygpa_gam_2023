@@ -665,10 +665,6 @@ var module_instance = new GamMechFcltySpecInqireModule();
 							</td>
 						</tr>
 						<tr>
-							<th width="12%" height="17" class="required_text">소　　재　　지</th>
-							<td colspan="3"><input data-column-id="loc" type="text" size="135" maxlength="50" disabled="disabled"/></td>
-						</tr>
-						<tr>
 							<th width="12%" height="17" class="required_text">비　　　　　고</th>
 							<td colspan="3">
 								<input type="text" data-column-id="rm" size="135"  maxlength="333" disabled="disabled"/>
@@ -712,10 +708,6 @@ var module_instance = new GamMechFcltySpecInqireModule();
 								<input id="archFcltsMngNo2" data-column-id="archFcltsMngNo" type="text" size="30" disabled="disabled" />
 								<input id="archFcltsMngNoNm2" data-column-id="archFcltsMngNoNm" type="text" size="30" disabled="disabled" />
 							</td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">소　　재　　지</th>
-							<td colspan="3"><input data-column-id="loc" type="text" size="135" maxlength="50" disabled="disabled"/></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">비　　　　　고</th>
@@ -767,10 +759,6 @@ var module_instance = new GamMechFcltySpecInqireModule();
 								<input id="archFcltsMngNo3" data-column-id="archFcltsMngNo" type="text" size="30" disabled="disabled" />
 								<input id="archFcltsMngNoNm3" data-column-id="archFcltsMngNm" type="text" size="30" disabled="disabled" />
 							</td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">소　　재　　지</th>
-							<td colspan="3"><input data-column-id="loc" type="text" size="135" maxlength="50" disabled="disabled"/></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">비　　　　　고</th>
