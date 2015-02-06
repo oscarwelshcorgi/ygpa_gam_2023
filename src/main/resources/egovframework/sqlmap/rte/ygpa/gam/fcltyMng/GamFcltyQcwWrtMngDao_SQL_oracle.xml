@@ -35,6 +35,9 @@
 							, Q.STTUS_EVL_LVL
 							, GAM_GET_STTUS_EVL_LVL_NM(Q.STTUS_EVL_LVL) STTUS_EVL_LVL_NM
 							, Q.RM
+							, Q.QC_INSP_BDGT
+							, TO_CHAR(Q.WRT_DT, 'YYYY-MM-DD') WRT_DT
+							, Q.WRT_USR
 						FROM
 							QC_MNG_DTLS_F Q
 			            INNER JOIN 
@@ -122,6 +125,9 @@
 			, Q.QC_INSP_RESULT
 			, Q.ACTION_CN
 			, Q.RM
+			, Q.QC_INSP_BDGT
+			, TO_CHAR(Q.WRT_DT, 'YYYY-MM-DD') WRT_DT
+			, Q.WRT_USR			
 		FROM
 			QC_MNG_DTLS_F Q
 		WHERE
@@ -164,6 +170,9 @@
 				, QC_INSP_RESULT
 				, ACTION_CN
 				, RM
+				, QC_INSP_BDGT
+				, WRT_DT
+				, WRT_USR				
 				, REG_USR
 				, REGIST_DT		
 			) VALUES (
@@ -185,6 +194,9 @@
 				, #qcInspResult#
 				, #actionCn#
 				, #rm#
+				, TO_NUMBER(REPLACE(#qcInspBdgt#, ',', ''))
+				, TO_DATE(#wrtDt#, 'YYYY-MM-DD')
+				, #wrtUsr#				
 				, #regUsr#
 				, SYSDATE
 			)
@@ -210,6 +222,9 @@
 			, QC_INSP_RESULT = #qcInspResult#
 			, ACTION_CN = #actionCn#
 			, RM = #rm#
+			, QC_INSP_BDGT = TO_NUMBER(REPLACE(#qcInspBdgt#, ',', ''))
+			, WRT_DT = TO_DATE(#wrtDt#, 'YYYY-MM-DD')
+			, WRT_USR = #wrtUsr#
 			, UPD_USR = #updUsr#
 			, UPDT_DT = SYSDATE
 		WHERE

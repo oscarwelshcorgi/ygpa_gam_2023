@@ -1140,7 +1140,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 								</tr>
 								<tr>
 									<th width="14%" height="17">업　무　구　분</th>
-									<td colspan="3">
+									<td width="36%">
 										<select id="fcltsJobSe">
 											<option value="">선택</option>
 											<option value="A">건축시설</option>
@@ -1151,6 +1151,8 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 		                                </select>
 		                                <input type="hidden" id="qcMngSeq"/>
 									</td>
+									<th width="14%" height="17">점검　진단　예산</th>
+									<td width="36%"><input id="qcInspBdgt" type="text" size="30" class="ygpaNumber"/> 원</td>
 								</tr>
 								<tr>
 									<th height="17">점검　관리　명</th>
