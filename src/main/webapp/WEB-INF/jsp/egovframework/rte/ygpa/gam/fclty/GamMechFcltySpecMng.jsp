@@ -1059,6 +1059,7 @@ var module_instance = new GamMechFcltySpecMngModule();
 
 			<div id="detailTab" class="emdTabPage" style="overflow: hidden;">
 				<div style="margin-bottom:10px;">
+					<form id="detailForm">
 					<table class="searchPanel">
 						<tbody>
 							<tr>
@@ -1067,7 +1068,6 @@ var module_instance = new GamMechFcltySpecMngModule();
 							</tr>
 						</tbody>
 					</table>
-					<form id="detailForm">
 					<table class="detailPanel" style="width:100%;">
 						<tr>
 							<th width="12%" height="17" class="required_text">항　　구　　분</th>
