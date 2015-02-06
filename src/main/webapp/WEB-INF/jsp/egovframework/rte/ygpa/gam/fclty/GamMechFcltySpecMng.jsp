@@ -887,7 +887,7 @@ GamMechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			}
 			this.setFeatureCode('gisMechFclty',
 					row[0],
-					this._param.feature);
+					this._params.feature);
 			alert('지정되었습니다.');
 //			this.closeWindow();
 			break;
