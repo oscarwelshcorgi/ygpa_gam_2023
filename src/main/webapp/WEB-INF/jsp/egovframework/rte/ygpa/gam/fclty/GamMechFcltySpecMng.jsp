@@ -1199,7 +1199,7 @@ var module_instance = new GamMechFcltySpecMngModule();
 						<tr>
 							<th width="12%" height="17" class="required_text">비　　　　　고</th>
 							<td colspan="3">
-								<input data-column-id="rm" size="135"  maxlength="333" />
+								<input type="text" data-column-id="rm" size="135"  maxlength="333" />
 							</td>
 						</tr>
 					</table>
@@ -1249,7 +1249,7 @@ var module_instance = new GamMechFcltySpecMngModule();
 						<tr>
 							<th width="12%" height="17" class="required_text">비　　　　　고</th>
 							<td colspan="3">
-								<input data-column-id="rm" size="135" maxlength="333" />
+								<input type="text" data-column-id="rm" size="135" maxlength="333" />
 							</td>
 						</tr>
 					</table>
@@ -1305,7 +1305,7 @@ var module_instance = new GamMechFcltySpecMngModule();
 						<tr>
 							<th width="12%" height="17" class="required_text">비　　　　　고</th>
 							<td colspan="3">
-								<input data-column-id="rm" size="135" maxlength="333" />
+								<input type="text" data-column-id="rm" size="135" maxlength="333" />
 							</td>
 						</tr>
 					</table>
