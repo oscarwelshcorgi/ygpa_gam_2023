@@ -467,14 +467,10 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 								<th width="12%" height="17" class="required_text">GIS 자　산　명</th>
 								<td><input type="text" size="20" id="gisAssetsNm"
 									disabled="disabled" /></td>
-								<th width="12%" height="17" class="required_text">지　　　　　번</th>
-								<td><input id="gisAssetsLnm" type="text" size="5"
-									title="지번 앞자리" disabled="disabled" />&nbsp;-&nbsp; <input
-									id="gisAssetsLnmSub" type="text" size="5" title="지번 뒷자리"
-									disabled="disabled" /></td>
 								<th width="12%" height="17" class="required_text">소　　재　　지</th>
-								<td><input id="gisAssetsLocplc" type="text" size="27"
-									title="소재지" disabled="disabled" /></td>
+								<td colspan="3">
+									<input id="loc" type="text" size="70" maxlength="50" disabled="disabled" />
+								</td>
 							</tr>
 							<tr>
 								<th width="12%" height="17" class="required_text">시　설　코　드</th>
@@ -620,10 +616,6 @@ var module_instance = new GamCivilFcltySpecInqireModule();
 							<td><input id="mrpostPwr2" type="text" size="20" maxlength="30" disabled/></td>
 							<th width="12%" height="17">파　랑　주　방　향</th>
 							<td><input id="wavemainDir" type="text" size="20" maxlength="30" disabled/></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" >소　재　지</th>
-							<td colspan="5"><input id="loc" type="text" size="139" maxlength="150" disabled/></td>
 						</tr>
 					</table>
 				</form>

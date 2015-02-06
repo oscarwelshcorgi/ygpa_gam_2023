@@ -786,9 +786,16 @@ GamInfoTechFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, va
 			this.$('#gisAssetsSubCd').val(value['gisAssetsSubCd']);				// GIS SUB자산코드
 			this.$('#gisAssetsCd').val(value['gisAssetsCd']);					// GIS 자산코드
 			this.$('#gisAssetsNm').val(value['gisAssetsNm']);					// GIS 자산명
-			this.$('#gisAssetsLocplc').val(value['gisAssetsLocplc']); 			// 소재지
-			this.$('#gisAssetsLnm').val(value['gisAssetsLnm']);					// 지번
-			this.$('#gisAssetsLnmSub').val(value['gisAssetsLnmSub']);			// 서브지번
+			if((value['gisAssetsLnmSub'] == null) || (value['gisAssetsLnmSub'] == '')) {
+				if((value['gisAssetsLnm'] == null) || (value['gisAssetsLnm'] == '')) {
+					this.$('#loc').val(value['gisAssetsLocplc']);
+				}
+				else {
+					this.$('#loc').val(value['gisAssetsLocplc'] + ' ' + value['gisAssetsLnm']);
+				}
+			} else {
+				this.$('#loc').val(value['gisAssetsLocplc'] + ' ' + value['gisAssetsLnm'] + '-' + value['gisAssetsLnmSub']);
+			}
 			break;
 
 		case 'selectFcltsClCd':
@@ -946,13 +953,10 @@ var module_instance = new GamInfoTechFcltySpecMngModule();
 						<tr>
 							<th width="12%" height="17" class="required_text">GIS 자　산　명</th>
 							<td><input type="text" size="30" id="gisAssetsNm" disabled="disabled"/></td>
-							<th width="12%" height="17" class="required_text">지　　　　　번</th>
-							<td>
-								<input id="gisAssetsLnm" type="text" size="4" title="지번 앞자리" disabled="disabled" />&nbsp;-&nbsp;
-								<input id="gisAssetsLnmSub" type="text" size="7" title="지번 뒷자리" disabled="disabled" />
-							</td>
 							<th width="12%" height="17" class="required_text">소　　재　　지</th>
-							<td><input id="gisAssetsLocplc" type="text" size="32" title="소재지" disabled="disabled" /></td>
+							<td colspan="3">
+								<input id="loc" type="text" size="79" maxlength="50" />
+							</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">시　설　코　드</th>
@@ -1046,16 +1050,6 @@ var module_instance = new GamInfoTechFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">LAMP　형　식</th>
 							<td><input id="lampFmt" type="text" size="50" maxlength="40" /></td>
 						</tr>
-						<!--
-						<tr>
-							<th width="12%" height="17" class="required_text">시설물분류코드</th>
-							<td colspan="3">
-								<input id="infoCommFcltsClCd" type="text" size="30" disabled="disabled" />
-								<input id="infoCommFcltsClCdNm" type="text" size="30" disabled="disabled" />
-								<button id="popupDetailFcltsClCd" class="popupButton">선택</button>
-							</td>
-						</tr>
-						-->
 						<tr>
 							<th width="12%" height="17" class="required_text">건축시설물관리번호</th>
 							<td colspan="3">
@@ -1063,10 +1057,6 @@ var module_instance = new GamInfoTechFcltySpecMngModule();
 								<input id="archFcltsMngNoNm" type="text" size="30" disabled="disabled" />
 								<button id="popupDetailArchFcltsMng" class="popupButton">선택</button>
 							</td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">소　　재　　지</th>
-							<td colspan="3"><input id="loc" type="text" size="135" maxlength="150" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">비　　　　　고</th>
