@@ -769,9 +769,15 @@ GamElctyFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value
 			this.$("#gisAssetsSubCd").val(value["gisAssetsSubCd"]);				// GIS SUB자산코드
 			this.$("#gisAssetsCd").val(value["gisAssetsCd"]);					// GIS 자산코드
 			this.$("#gisAssetsNm").val(value["gisAssetsNm"]);					// GIS 자산명
-			this.$("#gisAssetsLocplc").val(value["gisAssetsLocplc"]); 			// 소재지
-			this.$("#gisAssetsLnm").val(value["gisAssetsLnm"]);					// 지번
-			this.$("#gisAssetsLnmSub").val(value["gisAssetsLnmSub"]);			// 서브지번
+			
+			var addr = value["gisAssetsLocplc"] + " " + value["gisAssetsLnm"];
+			
+			if(value["gisAssetsLnmSub"]){
+				addr += "-" + value["gisAssetsLnmSub"];
+			}
+			
+			this.$("#loc").val(addr);
+			
 			break;
 		
 		case "selectFcltsClCd":
@@ -898,13 +904,8 @@ var module_instance = new GamElctyFcltySpecMngModule();
 						<tr>
 							<th width="12%" height="17" class="required_text">GIS 자　산　명</th>
 							<td><input type="text" size="30" id="gisAssetsNm" disabled="disabled"/></td>
-							<th width="12%" height="17" class="required_text">지　　　　　번</th>
-							<td>
-								<input id="gisAssetsLnm" type="text" size="4" title="지번 앞자리" disabled="disabled" />&nbsp;-&nbsp;
-								<input id="gisAssetsLnmSub" type="text" size="7" title="지번 뒷자리" disabled="disabled" />
-							</td>
-							<th width="12%" height="17" class="required_text">소　　재　　지</th>
-							<td><input id="gisAssetsLocplc" type="text" size="32" title="소재지" disabled="disabled" /></td>
+							<th width="12%" height="17">소　　재　　지</th>
+							<td colSpan="3"><input id="loc" type="text" size="77" title="소재지" maxlength="50" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">시　설　코　드</th>
@@ -1082,10 +1083,6 @@ var module_instance = new GamElctyFcltySpecMngModule();
 								<input id="archFcltsMngNoNm" type="text" size="30" disabled="disabled" />
 								<button id="searchArchFcltsMngNo" class="popupButton">선택</button>
 							</td>
-						</tr>
-						<tr>
-							<th width="12%" height="17" class="required_text">소　　재　　지</th>
-							<td colspan="3"><input id="loc" type="text" size="135" maxlength="50" title="위치" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">비　　　　　고</th>

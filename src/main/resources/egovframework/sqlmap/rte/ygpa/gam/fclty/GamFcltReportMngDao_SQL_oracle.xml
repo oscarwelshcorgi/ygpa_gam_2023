@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.fclty">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="fcltReportMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltReportMngVO"/>
+
+	<select id="gamFcltReportMngDao.selectFcltReportMng_S" parameterClass="fcltReportMngVO" resultClass="egovMap"  >
+
+		SELECT 
+			F.FCLTS_NO                              
+			, F.FCLTS_NM
+			, F.ROUTE
+			, F.FCLTS_GBN
+			, F.FCLTS_SE
+			, F.FCLTS_KND
+			, F.LOC_DO
+			, F.LOC_SI
+			, F.LOC_DONG
+			, F.LOC_JIBUN
+			, F.MNG_MAINBD_SE
+			, F.MNG_MAINBD
+			, F.OWNER
+			, F.BLD_DT
+			, F.FLAW_END_DT
+			, DECODE(F.DTLS_SPEC_YN,'Y','유','N','무') DTLS_SPEC_YN
+			, DECODE(F.QC_HIST_YN,'Y','유','N','무') QC_HIST_YN
+			, DECODE(F.MNTN_HIST_YN,'Y','유','N','무') MNTN_HIST_YN
+			, F.PLAN_BEGIN_DT
+			, F.PLAN_END_DT
+			, F.PLANNER
+			, F.CNST_BEGIN_DT
+			, F.CNST_END_DT
+			, F.CNSTRTR
+			, (F.CNSTRCT_AMT/1000000) CNSTRCT_AMT
+			, DECODE(F.ERQ_PROOF_PLAN_APPLC_ENNC,'Y','예','N','아니오') ERQ_PROOF_PLAN_APPLC_ENNC
+			, F.INSPECT_BEGIN_DT
+			, F.INSPECT_END_DT
+			, F.INSPECTOR
+			, F.CNST_ORDER_BODY
+			, F.CNST_NM
+			, F.CNST_SUPERVISOR
+			, F.PLAN_BOOK_MNTEN
+			, F.WRT_DT
+			, F.WRT_USR
+			, F.LAST_UPDT_DT
+			, F.LAST_UPDT_USR
+			, F.BASIC_RM
+			, F.MAX_SHIP_SCL
+			, F.EXTD
+			, F.UPSIDE_ALT
+			, F.DPWT
+			, F.FMT_1_DESC_1
+			, F.FMT_1_DESC_2
+			, F.FMT_1_DESC_3
+			, F.FMT_1_DESC_4
+			, F.FMT_2_DESC_1_1
+			, F.FMT_2_DESC_1_2
+			, F.FMT_2_DESC_1_3
+			, F.FMT_2_DESC_2
+			, F.FMT_2_DESC_3
+			, F.FMT_3_DESC_1
+			, F.FMT_3_DESC_2
+			, F.ETC_DTLS_SPEC
+			, F.FCLTS_MNG_GROUP_NO
+			, F.REG_USR
+			, F.REGIST_DT
+			, F.UPD_USR
+			, F.UPDT_DT
+		  FROM 
+			FCLTS_MNG_REGIST_F F
+		 WHERE 
+		 	F.FCLTS_NO = #fcltsNo#
+		 	
+  	</select>
+
+  	
+
+</sqlMap>

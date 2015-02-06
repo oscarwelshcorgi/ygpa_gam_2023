@@ -529,15 +529,8 @@ var module_instance = new GamConstFcltySpecInqireModule();
 							<td>
 								<input type="text" size="30" id="gisAssetsNm" disabled="disabled"/>
 							</td>
-							<th width="12%" height="17">지　　　　　번</th>
-							<td>
-								<input id="gisAssetsLnm" type="text" size="4" title="지번 앞자리" disabled="disabled" />&nbsp;-&nbsp;
-								<input id="gisAssetsLnmSub" type="text" size="7" title="지번 뒷자리" disabled="disabled" />
-							</td>
 							<th width="12%" height="17">소　　재　　지</th>
-							<td>
-								<input id="gisAssetsLocplc" type="text" size="30" title="소재지" disabled="disabled" />
-							</td>
+							<td colSpan="3"><input id="loc" type="text" size="77" title="소재지" disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">시　설　코　드</th>
@@ -705,10 +698,6 @@ var module_instance = new GamConstFcltySpecInqireModule();
 							<td><input id="cnstrctBeginDt" type="text" class="emdcal" size="11" title="시공시작일자" disabled="disabled" /></td>
 							<th width="12%" height="17">시공 종 료 일 자</th>
 							<td><input id="cnstrctEndDt" type="text" class="emdcal" size="11" title="시공종료일자" disabled="disabled" /></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17">소　　재　　지</th>
-							<td colspan="3"><input id="loc" type="text" size="135" title="소재지" disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th width="12%" height="17">비　　　　　고</th>
