@@ -28,6 +28,7 @@
 					      ,M.PRT_PRT_FCLTY_CNT AS PRT_PRT_FCLTY_CNT
 					      ,M.PRT_PRT_FCLTY_MNGER AS PRT_PRT_FCLTY_MNGER
 					      ,M.FCLTS_MNG_NO AS FCLTS_MNG_NO
+					      ,M.FCLTS_MNG_GROUP_NO
 					      , (SELECT FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F WHERE FCLTS_MNG_GROUP_NO = M.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GROUP_NO_NM
 					  FROM GIS_PRT_FCLTY_CD_F M
 					       
@@ -156,7 +157,7 @@
 				SELECT  ROWNUM RNUM, S.*
 				  FROM (
 						SELECT M.FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
-							  ,D.FCLTS_MNG_NO AS FCLTS_MNG_NO
+							  
 							  ,M.FCLTS_JOB_SE AS FCLTS_JOB_SE
 							  ,GAM_GET_FCLTS_JOB_SE_NM(M.FCLTS_JOB_SE) AS FCLTS_JOB_NM
 							  ,M.QC_MNG_SEQ AS QC_MNG_SEQ
@@ -175,10 +176,10 @@
 							  ,M.RM AS RM
 
 
-						  FROM QC_MNG_DTLS_F M, QC_MNG_OBJ_FCLTS_F D
+						  FROM QC_MNG_DTLS_F M
  						 WHERE 1=1
- 						 AND D.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-						 AND D.FCLTS_MNG_NO = #fcltsMngNo#
+ 						 AND M.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+						 
 
                			<isNotEmpty property="sUsagePdFrom" prepend="AND">
 							<![CDATA[
@@ -190,10 +191,11 @@
 								  M.QC_BEGIN_DT <= TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
 							]]>
 						</isNotEmpty>
-
+<!-- 
 						 AND M.FCLTS_MNG_GROUP_NO = D.FCLTS_MNG_GROUP_NO
 						 AND M.FCLTS_JOB_SE = D.FCLTS_JOB_SE
 						 AND M.QC_MNG_SEQ = D.QC_MNG_SEQ
+ -->
  					) S
 				) A
 		<![CDATA[

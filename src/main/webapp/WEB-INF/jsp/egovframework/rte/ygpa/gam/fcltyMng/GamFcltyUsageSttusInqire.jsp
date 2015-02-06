@@ -95,8 +95,8 @@
 		module : this,
 		dataType : 'json',
 		colModel : [ {display : '항구분', name : 'prtAtCode', width : 60, sortable : false, align : 'center'}
-		            , {display : '사용기간', name : 'usagePd', width : 75, sortable : false, align : 'center'}
-		            ,{display : '업체명', name : 'entrpscd', width : 80, sortable : false, align : 'left'}
+		            , {display : '사용기간', name : 'usagePd', width : 200, sortable : false, align : 'center'}
+		            ,{display : '업체명', name : 'entrpscd', width : 120, sortable : false, align : 'left'}
 		            ,{display : '신청일자', name : 'reqstDt', width : 75, sortable : false, align : 'center'}
 		            ,{display : '허가일자', name : 'prmisnDt', width : 75, sortable : false, align : 'center'}
 		            ,{display : '납부방법', name : 'payMth', width : 70, sortable : false, align : 'center'}
@@ -360,7 +360,6 @@ GamFcltyUsageSttusInqireModule.prototype.onSubmit = function() {
 GamFcltyUsageSttusInqireModule.prototype.loadData = function() {
 	this.$("#mainTab").tabs("option", {active: 0});
 	var searchVO=this.makeFormArgs('#fcltyUsageSttusSearchForm');
-	console.log(searchVO);
 	this.$('#gisPrtFcltyCdGrid').flexOptions({params:searchVO}).flexReload();
 };
 
@@ -384,7 +383,7 @@ var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
 	                { name: 'sUsagePdTo', value: this.$('#sUsagePdTo').val() }
 	               ];
 
-
+	console.log(searchVO);
 	this.doAction('/fcltyMng/selectLoadQcMngData.do', searchVO, function(module, data) {
 		if(data.resultCode == "0"){
 			module.$('#assetsRentGrid').flexEmptyData();
@@ -392,7 +391,6 @@ var row = this.$('#gisPrtFcltyCdGrid').selectedRows();
 //        	module.$('#assetsRentGrid')[0].dgrid.p.preProcess(module, assetsRentList);
         	module.$('#assetsRentGrid').flexAddData(assetsRentList);
 //        	module.$('#assetsRentGrid').selectRowId(0);
-
         	module.$('#assetsTotalCount').val(data.totalCount);
 
         	module.$('#qcMngDtlsFGrid').flexEmptyData();
