@@ -206,6 +206,7 @@ public class GamMechFcltySpecMngController {
     	Map<String, Object> map = new HashMap<String, Object>();
     	ObjectMapper mapper = null;
     	Map<String, String> detailForm = null;
+    	Map<String, String> detailSubForm = null;
     	List<HashMap<String, String>> insertAtchFileList = null;
     	
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -220,6 +221,9 @@ public class GamMechFcltySpecMngController {
     	
     	detailForm = mapper.readValue((String)insertMap.get("detailForm"),
     		    new TypeReference<HashMap<String,String>>(){});
+    	detailSubForm = mapper.readValue((String)insertMap.get("detailSubForm"),
+    		    new TypeReference<HashMap<String,String>>(){});
+    	detailForm.putAll(detailSubForm);
     	
     	insertAtchFileList = mapper.readValue((String)insertMap.get("insertAtchFileList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
@@ -251,6 +255,7 @@ public class GamMechFcltySpecMngController {
     	Map<String, Object> map = new HashMap<String, Object>();
     	ObjectMapper mapper = null;
     	Map<String, String> detailForm = null;
+    	Map<String, String> detailSubForm = null;
     	List<HashMap<String, String>> insertAtchFileList = null;
     	List<HashMap<String, String>> updateAtchFileList = null;
     	List<HashMap<String, String>> deleteAtchFileList = null;
@@ -267,6 +272,9 @@ public class GamMechFcltySpecMngController {
     	
     	detailForm = mapper.readValue((String)updateMap.get("detailForm"),
     		    new TypeReference<HashMap<String,String>>(){});
+    	detailSubForm = mapper.readValue((String)updateMap.get("detailSubForm"),
+    		    new TypeReference<HashMap<String,String>>(){});
+    	detailForm.putAll(detailSubForm);
     	
     	insertAtchFileList = mapper.readValue((String)updateMap.get("insertAtchFileList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});

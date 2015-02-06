@@ -387,4 +387,16 @@ public class GamFcltyQcwWrtMngController {
     	return "/ygpa/gam/fcltyMng/GamPopupQcResultItemCd";
     }
 	
+	/**
+	 * 시설물 점검표 인쇄
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+    @RequestMapping(value="/fcltyMng/printQcMngDtls.do")
+	public String selectSocStatsListPrint(@RequestParam Map<String, Object> socStatsOpt, ModelMap model) throws Exception {
+    	String printPageName = null;
+    	
+    	return printPageName;
+	}
 }

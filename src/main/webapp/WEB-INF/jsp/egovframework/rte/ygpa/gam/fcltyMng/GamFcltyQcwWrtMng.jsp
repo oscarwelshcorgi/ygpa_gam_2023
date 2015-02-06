@@ -315,6 +315,7 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 		this.$('#btnDetailDelete').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
+		this.$('#btnPrint').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnUploadFile').enable();
 		this.$('#btnUploadFile').removeClass('ui-state-disabled');
 		this.$('#btnDownloadFile').enable();
@@ -345,6 +346,8 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 		this.$('#btnDetailDelete').removeClass('ui-state-disabled');
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
+		this.$('#btnPrint').enable();
+		this.$('#btnPrint').removeClass('ui-state-disabled');
 		this.$('#btnUploadFile').enable();
 		this.$('#btnUploadFile').removeClass('ui-state-disabled');
 		this.$('#btnDownloadFile').enable();
@@ -373,6 +376,7 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 		this.$('#btnDelete').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnDetailDelete').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnSave').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnPrint').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnUploadFile').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnDownloadFile').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnRemoveFile').disable({disableClass:'ui-state-disabled'});
@@ -390,6 +394,7 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 		this.$('#btnDelete').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnDetailDelete').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnSave').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnPrint').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnUploadFile').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnDownloadFile').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnRemoveFile').disable({disableClass:'ui-state-disabled'});
@@ -1134,10 +1139,6 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 									</td>
 								</tr>
 								<tr>
-									<!-- <th width="14%" height="17">점검　관리　순번</th>
-									<td>
-										<input type="text" size="10" id="qcMngSeq" disabled="disabled"/>
-									</td> -->
 									<th width="14%" height="17">업　무　구　분</th>
 									<td colspan="3">
 										<select id="fcltsJobSe">
@@ -1287,6 +1288,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 					<button id="btnDetailAdd" class="buttonAdd">　　추　가　　</button>
 					<button id="btnDetailDelete" class="buttonDelete">　　삭　제　　</button>
 					<button id="btnSave" class="buttonSave">　　저　장　　</button>
+					<!-- <button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url="<c:url value='/fcltyMng/printQcMngDtls.do'/>">　　인　쇄　　</button> -->
 				</div>
 			</div>
 		</div>

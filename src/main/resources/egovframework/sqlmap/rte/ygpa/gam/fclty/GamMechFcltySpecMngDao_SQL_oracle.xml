@@ -41,7 +41,7 @@
 						  , GAM_GETCODENAME('GAM002', A.GIS_ASSETS_LOC_CD) GIS_ASSETS_LOC_NM
 						  , (SELECT FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F WHERE FCLTS_MNG_GROUP_NO = F.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GROUP_NO_NM 
 						  , M.LOC
-						  , M.GDSNM
+						  , M.EQPMN_NM
 						FROM
 						  GIS_PRT_FCLTY_CD_F F,
 						  GIS_ASSETS_CD_F A,
@@ -135,43 +135,37 @@
 			, (SELECT FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F WHERE FCLTS_MNG_GROUP_NO = F.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GROUP_NO_NM
 			, M.ARCH_FCLTS_MNG_NO
 			, (SELECT PRT_FCLTY_NM FROM GIS_PRT_FCLTY_CD_F WHERE FCLTS_MNG_NO = M.ARCH_FCLTS_MNG_NO) ARCH_FCLTS_MNG_NO_NM
-			, M.PRPOS
-			, M.FMT 
-			, M.STNDRD 
-			, TO_CHAR(M.INSTL_DT, 'YYYY-MM-DD') INSTL_DT 
-			, TO_CHAR(M.MFC_DT, 'YYYY-MM-DD') MFC_DT
-			, M.MFC_CMPNY 
-			, M.MANAGER
-			, M.USAGE_ENTRPS
-			, M.LT
-			, M.QY
-			, M.UNIT
-			, M.POSESN_MAINBD
-			, M.RM
-			, M.OPER_CMPNY
-			, M.EQPMN_NO
-			, M.ACQ_AMT
-			, TO_CHAR(M.EXAM_BEGIN_DT, 'YYYY-MM-DD') EXAM_BEGIN_DT
-			, TO_CHAR(M.EXAM_END_DT, 'YYYY-MM-DD') EXAM_END_DT
-			, M.EXAM_OK_NO
-			, M.EXAM_INSTT
-			, M.LNL_ABLTY
-			, M.SELF_LOAD
-			, M.RATE_WGHT
-			, M.MAX_WHEEL_WGHT
-			, M.RAIL_ITV
-			, M.RATE_HP
-			, M.PROCESS_ABLTY
+			, M.MECH_FCLTS_SE
 			, M.LOC
-			, M.GDSNM
-			, TO_CHAR(M.USAGE_BEGIN_DT, 'YYYY-MM-DD') USAGE_BEGIN_DT 
-			, TO_CHAR(M.USAGE_END_DT, 'YYYY-MM-DD') USAGE_END_DT
+			, M.EQPMN_NM
+			, M.EQPMN_NO
+			, M.OPER_CMPNY
+			, M.MFC_CMPNY
+			, M.MFC_AMT
+			, M.INSTL_YRMT
+			, M.MFC_CHK_USR
+			, M.OUT_REACH
+			, M.BACK_REACH
+			, M.REFLOAT_HT
+			, M.PROCESS_ABLTY
+			, M.DRIVE_WD
+			, M.RAIL_WD
+			, M.SELF_LOAD
+			, M.WHEEL_WGHT
+			, M.EQPMN_STNDRD
+			, M.LINK_BRIDGE
+			, M.RUBBER_FENDER
+			, M.ELCTY_MTHD
 			, M.CAPA_TON
-			, M.STRUCT_WQNT
-			, M.STTUS_LVL
-			, M.DRAFT
-			, M.CNYEAR
-			, M.USAGE_PURPS
+			, M.CONTR_USR
+			, M.CONTR_AMT
+			, M.VNTLTN_ARCNDT_MTHD
+			, M.CLNG_SRC
+			, M.HTNG_SRC
+			, M.WATER_TANK
+			, M.OIL_SAVE_TANK
+			, M.SPICTANK_FMT
+			, M.RM
 			, M.MECH_FCLTS_CL_CD
 			, (SELECT FCLTS_CL_CD_NM FROM FCLTS_CL_CD_F WHERE FCLTS_CL_CD = M.MECH_FCLTS_CL_CD) MECH_FCLTS_CL_CD_NM
     	FROM
@@ -185,90 +179,78 @@
     <insert id="gamMechFcltySpecMngDao.insertMechFcltySpecMngDetail_S" parameterClass="hashMap">
 		INSERT INTO
 		  MECH_FCLTY_SPEC_F (
-		    FCLTS_MNG_NO 
-		    , ARCH_FCLTS_MNG_NO
-		    , PRPOS
-		    , FMT 
-		    , STNDRD 
-		    , INSTL_DT 
-		    , MFC_DT 
-		    , MFC_CMPNY
-		    , MANAGER
-		    , USAGE_ENTRPS
-		    , LT
-		    , QY
-		    , UNIT
-		    , POSESN_MAINBD
-		    , RM
-		    , OPER_CMPNY
-		    , EQPMN_NO
-		    , ACQ_AMT
-		    , EXAM_BEGIN_DT
-		    , EXAM_END_DT
-		    , EXAM_OK_NO
-		    , EXAM_INSTT
-		    , LNL_ABLTY
-		    , SELF_LOAD
-		    , RATE_WGHT
-		    , MAX_WHEEL_WGHT
-		    , RAIL_ITV
-		    , RATE_HP
-		    , PROCESS_ABLTY
-		    , LOC
-		    , GDSNM
-		    , USAGE_BEGIN_DT
-		    , USAGE_END_DT
-		    , CAPA_TON
-		    , STRUCT_WQNT
-		    , STTUS_LVL
-		    , DRAFT
-		    , CNYEAR
-		    , USAGE_PURPS
-		    , MECH_FCLTS_CL_CD
+			FCLTS_MNG_NO
+			, ARCH_FCLTS_MNG_NO
+			, MECH_FCLTS_SE
+			, LOC
+			, EQPMN_NM
+			, EQPMN_NO
+			, OPER_CMPNY
+			, MFC_CMPNY
+			, MFC_AMT
+			, INSTL_YRMT
+			, MFC_CHK_USR
+			, OUT_REACH
+			, BACK_REACH
+			, REFLOAT_HT
+			, PROCESS_ABLTY
+			, DRIVE_WD
+			, RAIL_WD
+			, SELF_LOAD
+			, WHEEL_WGHT
+			, EQPMN_STNDRD
+			, LINK_BRIDGE
+			, RUBBER_FENDER
+			, ELCTY_MTHD
+			, CAPA_TON
+			, CONTR_USR
+			, CONTR_AMT
+			, VNTLTN_ARCNDT_MTHD
+			, CLNG_SRC
+			, HTNG_SRC
+			, WATER_TANK
+			, OIL_SAVE_TANK
+			, SPICTANK_FMT
+			, RM
+			, MECH_FCLTS_CL_CD
 		    , REG_USR
 		    , REGIST_DT
 		  )
 		  VALUES (
 		    #gisAssetsPrtAtCode# || #gisAssetsCd# || #gisAssetsSubCd# || #gisPrtFcltyCd# || #gisPrtFcltySeq# || #prtFcltySe# 
-		    , #archFcltsMngNo#
-		    , #prpos#
-		    , #fmt# 
-		    , #stndrd# 
-		    , TO_DATE(#instlDt#, 'YYYY-MM-DD') 
-		    , TO_DATE(#mfcDt#, 'YYYY-MM-DD') 
-		    , #mfcCmpny# 
-		    , #manager#
-		    , #usageEntrps#
-		    , TO_NUMBER(REPLACE(#lt#, ',', ''))
-		    , TO_NUMBER(REPLACE(#qy#, ',', ''))
-		    , #unit#
-		    , #posesnMainbd#
-		    , #rm#
-		    , #operCmpny#
-		    , #eqpmnNo#
-		    , TO_NUMBER(REPLACE(#acqAmt#, ',', ''))
-		    , TO_DATE(#examBeginDt#, 'YYYY-MM-DD')
-		    , TO_DATE(#examEndDt#, 'YYYY-MM-DD')
-		    , #examOkNo#
-		    , #examInstt#
-		    , #lnlAblty#
-		    , #selfLoad#
-		    , #rateWght#
-		    , #maxWheelWght#
-		    , #railItv#
-		    , #rateHp#
-		    , #processAblty#
-		    , #loc#
-		    , #gdsnm#
-		    , TO_DATE(#usageBeginDt#, 'YYYY-MM-DD')
-		    , TO_DATE(#usageEndDt#, 'YYYY-MM-DD')
-		    , #capaTon#
-		    , #structWqnt#
-		    , #sttusLvl#
-		    , #draft#
-		    , #cnyear#
-		    , #usagePurps#
-		    , #mechFcltsClCd#
+			, #archFcltsMngNo#
+			, #mechFcltsSe#
+			, #loc#
+			, #eqpmnNm#
+			, #eqpmnNo#
+			, #operCmpny#
+			, #mfcCmpny#
+			, TO_NUMBER(#mfcAmt#)
+			, #instlYrmt#
+			, #mfcChkUsr#
+			, TO_NUMBER(#outReach#)
+			, TO_NUMBER(#backReach#)
+			, TO_NUMBER(#refloatHt#)
+			, #processAblty#
+			, TO_NUMBER(#driveWd#)
+			, TO_NUMBER(#railWd#)
+			, TO_NUMBER(#selfLoad#)
+			, #wheelWght#
+			, TO_NUMBER(#eqpmnStndrd#)
+			, TO_NUMBER(#linkBridge#)
+			, TO_NUMBER(#rubberFender#)
+			, #elctyMthd#
+			, TO_NUMBER(#capaTon#)
+			, #contrUsr#
+			, TO_NUMBER(#contrAmt#)
+			, #vntltnArcndtMthd#
+			, #clngSrc#
+			, #htngSrc#
+			, TO_NUMBER(#waterTank#)
+			, TO_NUMBER(#oilSaveTank#)
+			, #spictankFmt#
+			, #rm#
+			, #mechFcltsClCd#
 		    , #regUsr#
 		    , SYSDATE
 		  )
@@ -277,44 +259,38 @@
     <update id="gamMechFcltySpecMngDao.updateMechFcltySpecMngDetail_S" parameterClass="hashMap">
 		UPDATE MECH_FCLTY_SPEC_F
 		  SET 
-		    ARCH_FCLTS_MNG_NO = #archFcltsMngNo#
-		    , PRPOS = #prpos# 
-		    , FMT = #fmt#
-		    , STNDRD = #stndrd#
-		    , INSTL_DT = TO_DATE(#instlDt#, 'YYYY-MM-DD')
-		    , MFC_DT = TO_DATE(#mfcDt#, 'YYYY-MM-DD')
-		    , MFC_CMPNY = #mfcCmpny# 
-		    , MANAGER = #manager#
-		    , USAGE_ENTRPS = #usageEntrps#
-		    , LT = TO_NUMBER(REPLACE(#lt#, ',', ''))
-		    , QY = TO_NUMBER(REPLACE(#qy#, ',', ''))
-		    , UNIT = #unit#
-		    , POSESN_MAINBD = #posesnMainbd#
-		    , RM = #rm#
-		    , OPER_CMPNY = #operCmpny#
-		    , EQPMN_NO = #eqpmnNo#
-		    , ACQ_AMT = TO_NUMBER(REPLACE(#acqAmt#, ',', '')) 
-		    , EXAM_BEGIN_DT = TO_DATE(#examBeginDt#, 'YYYY-MM-DD')
-		    , EXAM_END_DT = TO_DATE(#examEndDt#, 'YYYY-MM-DD')
-		    , EXAM_OK_NO = #examOkNo#
-		    , EXAM_INSTT = #examInstt#
-		    , LNL_ABLTY = #lnlAblty#
-		    , SELF_LOAD = #selfLoad#
-		    , RATE_WGHT = #rateWght#
-		    , MAX_WHEEL_WGHT = #maxWheelWght#
-		    , RAIL_ITV = #railItv#
-		    , RATE_HP = #rateHp#
-		    , PROCESS_ABLTY = #processAblty#
-		    , LOC = #loc#
-		    , GDSNM = #gdsnm#
-		    , USAGE_BEGIN_DT = TO_DATE(#usageBeginDt#, 'YYYY-MM-DD')
-		    , USAGE_END_DT = TO_DATE(#usageEndDt#, 'YYYY-MM-DD')
-		    , CAPA_TON = #capaTon#
-		    , STRUCT_WQNT = #structWqnt#
-		    , STTUS_LVL = #sttusLvl#
-		    , DRAFT = #draft#
-		    , CNYEAR = #cnyear#
-		    , USAGE_PURPS = #usagePurps#
+			ARCH_FCLTS_MNG_NO = #archFcltsMngNo#
+			, MECH_FCLTS_SE = #mechFcltsSe#
+			, LOC = #loc#
+			, EQPMN_NM = #eqpmnNm#
+			, EQPMN_NO = #eqpmnNo#
+			, OPER_CMPNY = #operCmpny#
+			, MFC_CMPNY = #mfcCmpny#
+			, MFC_AMT = TO_NUMBER(#mfcAmt#)
+			, INSTL_YRMT = #instlYrmt#
+			, MFC_CHK_USR = #mfcChkUsr#
+			, OUT_REACH = TO_NUMBER(#outReach#)
+			, BACK_REACH = TO_NUMBER(#backReach#)
+			, REFLOAT_HT = TO_NUMBER(#refloatHt#)
+			, PROCESS_ABLTY = #processAblty#
+			, DRIVE_WD = TO_NUMBER(#driveWd#)
+			, RAIL_WD = TO_NUMBER(#railWd#)
+			, SELF_LOAD = TO_NUMBER(#selfLoad#)
+			, WHEEL_WGHT = #wheelWght#
+			, EQPMN_STNDRD = TO_NUMBER(#eqpmnStndrd#)
+			, LINK_BRIDGE = TO_NUMBER(#linkBridge#)
+			, RUBBER_FENDER = TO_NUMBER(#rubberFender#)
+			, ELCTY_MTHD = #elctyMthd#
+			, CAPA_TON = TO_NUMBER(#capaTon#)
+			, CONTR_USR = #contrUsr#
+			, CONTR_AMT = TO_NUMBER(#contrAmt#)
+			, VNTLTN_ARCNDT_MTHD = #vntltnArcndtMthd#
+			, CLNG_SRC = #clngSrc#
+			, HTNG_SRC = #htngSrc#
+			, WATER_TANK = TO_NUMBER(#waterTank#)
+			, OIL_SAVE_TANK = TO_NUMBER(#oilSaveTank#)
+			, SPICTANK_FMT = #spictankFmt#
+			, RM = #rm#
 		    , MECH_FCLTS_CL_CD = #mechFcltsClCd#
 		    , UPD_USR = #updUsr#
 		    , UPDT_DT = SYSDATE

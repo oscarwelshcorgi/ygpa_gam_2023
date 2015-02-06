@@ -38,7 +38,7 @@ function GamMechFcltySpecInqireModule() {}
 // 초기 시작 창크기 지정
 GamMechFcltySpecInqireModule.prototype = new EmdModule(1000,700);
 
-<%
+
 /**
  * @FUNCTION NAME : loadComplete
  * @DESCRIPTION   : PAGE LOAD COMPLETE (페이지 호출시 실행되는 함수)

@@ -259,6 +259,8 @@ GamFcltyQcSttusInqireModule.prototype.loadDetail = function() {
 %>
 GamFcltyQcSttusInqireModule.prototype.setControlStatus = function() {
 	if(this._mainmode == 'modify') {
+		this.$('#btnPrint').enable();
+		this.$('#btnPrint').removeClass('ui-state-disabled');
 		this.$('#btnDownloadFile').enable();
 		this.$('#btnDownloadFile').removeClass('ui-state-disabled');
 		this.$('#btnPreviewFile').enable();
@@ -273,6 +275,7 @@ GamFcltyQcSttusInqireModule.prototype.setControlStatus = function() {
 	else {
 		this.$('#atchFile option').remove();
 		this.$('#atchFile').append('<option value="">선택</option>');
+		this.$('#btnPrint').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnDownloadFile').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnPreviewFile').disable({disableClass:'ui-state-disabled'});
 		this.$('#popupViewQcResultItem').disable({disableClass:'ui-state-disabled'});
@@ -730,6 +733,9 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 						</td>
 					</tr>
 				</table>
+				<div class="emdControlPanel">
+					<!-- <button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url="<c:url value='/fcltyMng/printQcMngDtls.do'/>">　　인　쇄　　</button> -->
+				</div>
 			</div>
 		</div>
 	</div>
