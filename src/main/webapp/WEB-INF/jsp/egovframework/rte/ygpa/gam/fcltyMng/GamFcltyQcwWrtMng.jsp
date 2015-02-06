@@ -1140,7 +1140,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 								</tr>
 								<tr>
 									<th width="14%" height="17">업　무　구　분</th>
-									<td width="36%">
+									<td width="40%">
 										<select id="fcltsJobSe">
 											<option value="">선택</option>
 											<option value="A">건축시설</option>
@@ -1152,12 +1152,12 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 		                                <input type="hidden" id="qcMngSeq"/>
 									</td>
 									<th width="14%" height="17">점검　진단　예산</th>
-									<td width="36%"><input id="qcInspBdgt" type="text" size="30" class="ygpaNumber"/> 원</td>
+									<td width="32%"><input id="qcInspBdgt" type="text" size="20" class="ygpaNumber"/> 원</td>
 								</tr>
 								<tr>
 									<th height="17">점검　관리　명</th>
 									<td colspan="3">
-										<input type="text" size="86" id="qcMngNm" maxlength="200" />
+										<input type="text" size="90" id="qcMngNm" maxlength="66" />
 									</td>
 								</tr>
 								<tr>
@@ -1206,9 +1206,9 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 								</tr>
 								<tr>
 									<th height="17">시　행　일　자</th>
-									<td><input id="qcInspDt" type="text" class="emdcal" size="20"/></td>
+									<td><input id="qcInspDt" type="text" class="emdcal" size="12"/></td>
 									<th height="17">점검　진단　금액</th>
-									<td><input id="qcInspAmt" type="text" size="30" class="ygpaNumber"/> 원</td>
+									<td><input id="qcInspAmt" type="text" size="20" class="ygpaNumber"/> 원</td>
 								</tr>
 								<tr>
 									<th height="17">상태　평가　등급</th>
@@ -1227,33 +1227,39 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 		                                </select>			
 									</td>
 									<th height="17">점검　진단　기관명</th>
-									<td><input type="text" size="30" id="qcInspInsttNm" maxlength="60" /></td>
+									<td><input type="text" size="20" id="qcInspInsttNm" maxlength="60" /></td>
 								</tr>
 								<tr>
 									<th height="17">점　검　기　간</th>
-									<td colspan="3">
-										<input id="qcBeginDt" type="text" class="emdcal" size="20"/> ~ 
-										<input id="qcEndDt" type="text" class="emdcal" size="20"/>
+									<td>
+										<input id="qcBeginDt" type="text" class="emdcal" size="12"/> ~ 
+										<input id="qcEndDt" type="text" class="emdcal" size="12"/>
 									</td>
+									<th height="17">책임　기술자　명</th>
+									<td><input type="text" size="20" id="responEngineerNm" maxlength="20" /></td>
 								</tr>
 								<tr>
-									<th height="17">책임　기술자　명</th>
-									<td colspan="3"><input type="text" size="20" id="responEngineerNm" maxlength="60" /></td>
+									<th height="17">작　성　일　자</th>
+									<td>
+										<input id="wrtDt" type="text" class="emdcal" size="12"/> 
+									</td>
+									<th height="17">작　　성　　자</th>
+									<td><input id="wrtUsr" type="text" size="20" maxlength="7" /></td>
 								</tr>
 								<tr>
 									<th height="17">점검　진단　결과</th>
 									<td colspan="3">
-										<textarea id="qcInspResult" cols="84" rows="5"></textarea>
+										<textarea id="qcInspResult" cols="88" rows="5"></textarea>
 										<button id="popupEditQcResultItem" class="popupButton">점검결과항목선택</button>	
 									</td>
 								</tr>
 								<tr>
 									<th height="17">조　치　내　용</th>
-									<td colspan="3"><textarea id="actionCn" cols="84" rows="5"></textarea></td>
+									<td colspan="3"><textarea id="actionCn" cols="88" rows="5"></textarea></td>
 								</tr>
 								<tr>
 									<th height="17">비　　　　　고</th>
-									<td colspan="3"><input id="rm" type="text" size="86"/></td>
+									<td colspan="3"><input id="rm" type="text" size="90"/></td>
 								</tr>
 							</table>
 							</form>

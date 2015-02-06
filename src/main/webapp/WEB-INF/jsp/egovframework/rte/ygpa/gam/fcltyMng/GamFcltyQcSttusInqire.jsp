@@ -617,16 +617,18 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 								</tr>
 								<tr>
 									<th width="14%" height="17">업　무　구　분</th>
-									<td colspan="3">
+									<td width="40%">
 										<input id="fcltsJobSeNm" type="text" size="24" disabled="disabled"/>
 										<input id="fcltsJobSe" type="hidden" />
 										<input id="qcMngSeq" type="hidden" />
 									</td>
+									<th width="14%" height="17">점검　진단　예산</th>
+									<td width="32%"><input id="qcInspBdgt" type="text" size="20" class="ygpaNumber" disabled="disabled"/> 원</td>
 								</tr>
 								<tr>
 									<th height="17">점검　관리　명</th>
 									<td colspan="3">
-										<input id="qcMngNm" type="text" size="85" disabled="disabled"/>
+										<input id="qcMngNm" type="text" size="90" disabled="disabled"/>
 									</td>
 								</tr>
 								<tr>
@@ -637,29 +639,29 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 									</td>
 									<th height="17">점　검　구　분</th>
 									<td>
-										<input id="qcSeNm" type="text" size="24" disabled="disabled"/>
+										<input id="qcSeNm" type="text" size="20" disabled="disabled"/>
 										<input id="qcSe" type="hidden" />
 									</td>
 								</tr>
 								<tr>
 									<th height="17">시　행　년　도</th>
 									<td>									
-										<input id="enforceYear" type="text" size="10" disabled="disabled"/>년
+										<input id="enforceYear" type="text" size="12" disabled="disabled"/>년
 									</td>
 									<th height="17">점검　진단　자</th>
 									<td>
-										<input id="qcInspTpNm" type="text" size="24" disabled="disabled"/>
+										<input id="qcInspTpNm" type="text" size="20" disabled="disabled"/>
 										<input id="qcInspTp" type="hidden" />
 									</td>
 								</tr>
 								<tr>
 									<th height="17">시　행　일　자</th>
 									<td>
-										<input id="qcInspDt" type="text" size="20" disabled="disabled"/>
+										<input id="qcInspDt" type="text" size="12" disabled="disabled"/>
 									</td>
 									<th height="17">점검　진단　금액</th>
 									<td>
-										<input id="qcInspAmt" type="text" size="24" class="ygpaNumber" disabled="disabled"/> 원
+										<input id="qcInspAmt" type="text" size="20" class="ygpaNumber" disabled="disabled"/> 원
 									</td>
 								</tr>
 								<tr>
@@ -669,39 +671,45 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 									</td>
 									<th height="17">점검　진단　기관명</th>
 									<td>
-										<input id="qcInspInsttNm" type="text" size="24" disabled="disabled"/>
+										<input id="qcInspInsttNm" type="text" size="20" disabled="disabled"/>
 									</td>
 								</tr>
 								<tr>
 									<th height="17">점　검　기　간</th>
-									<td colspan="3">
-										<input id="qcBeginDt" type="text" size="20" disabled="disabled"/> ~ 
-										<input id="qcEndDt" type="text" size="20" disabled="disabled"/>
+									<td>
+										<input id="qcBeginDt" type="text" size="12" disabled="disabled"/> ~ 
+										<input id="qcEndDt" type="text" size="12" disabled="disabled"/>
 									</td>
-								</tr>
-								<tr>
 									<th height="17">책임　기술자　명</th>
-									<td colspan="3">
+									<td>
 										<input type="text" size="20" id="responEngineerNm" disabled="disabled"/>
 									</td>
 								</tr>
 								<tr>
+									<th height="17">작　성　일　자</th>
+									<td>
+										<input id="wrtDt" type="text" size="12" disabled="disabled"/> 
+									</td>
+									<th height="17">작　　성　　자</th>
+									<td><input id="wrtUsr" type="text" size="20" disabled="disabled" /></td>
+								</tr>
+								<tr>
 									<th height="17">점검　진단　결과</th>
 									<td colspan="3">
-										<textarea id="qcInspResult" cols="84" rows="5" disabled="disabled"></textarea>
+										<textarea id="qcInspResult" cols="88" rows="5" disabled="disabled"></textarea>
 										<button id="popupViewQcResultItem" class="popupButton">점검결과항목보기</button>	
 									</td>
 								</tr>
 								<tr>
 									<th height="17">조　치　내　용</th>
 									<td colspan="3">
-										<textarea id="actionCn" cols="84" rows="5" disabled="disabled"></textarea>
+										<textarea id="actionCn" cols="88" rows="5" disabled="disabled"></textarea>
 									</td>
 								</tr>
 								<tr>
 									<th height="17">비　　　　　고</th>
 									<td colspan="3">
-										<input id="rm" type="text" size="86" disabled="disabled" />
+										<input id="rm" type="text" size="90" disabled="disabled" />
 									</td>
 								</tr>
 							</table>
