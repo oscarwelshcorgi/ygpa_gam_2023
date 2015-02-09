@@ -41,6 +41,7 @@ public class GamElctyUsageQyMngVO extends ComDefaultVO {
 	private	String updtDt;				// 수정일시
 	private	String mngFeeJobSeNm;		// 관리비 업무 구분 명
 	private	String mngFeeFcltyNm;		// 관리비 시설 명
+	private	String sUsageYear;			// 검색 사용 년도
 	private	String sStartUsageYear;		// 검색 시작 사용 년도
 	private	String sEndUsageYear;		// 검색 종료 사용 년도
 	private	String sMngFeeFcltyCd;		// 검색 관리비 코드
@@ -192,6 +193,18 @@ public class GamElctyUsageQyMngVO extends ComDefaultVO {
 	 */
 	public void setMngFeeFcltyNm(String mngFeeFcltyNm) {
 		this.mngFeeFcltyNm = mngFeeFcltyNm;
+	}
+	/**
+	 * @return the sUsageYear
+	 */
+	public String getsUsageYear() {
+		return sUsageYear;
+	}
+	/**
+	 * @param sUsageYear the sUsageYear to set
+	 */
+	public void setsUsageYear(String sUsageYear) {
+		this.sUsageYear = sUsageYear;
 	}
 	/**
 	 * @return the sStartUsageYear
