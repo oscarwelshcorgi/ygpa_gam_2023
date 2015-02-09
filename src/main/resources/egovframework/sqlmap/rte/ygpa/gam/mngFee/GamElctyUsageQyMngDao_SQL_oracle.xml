@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!-- SQL MAP 정의 -->
+<sqlMap namespace="ygpa.gam.mngFee">
+	<!-- TYPE ALIAS 정의 -->
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamElctyUsageQyMngVO" type="egovframework.rte.ygpa.gam.mngFee.service.GamElctyUsageQyMngVO"/>
+	<!-- RESULT MAP 정의 -->
+	<resultMap id="gamElctyUsageQyMngSumMap" class="gamElctyUsageQyMngVO">
+		<result property="totalCount" column="TOTAL_COUNT" columnIndex="1"/>
+		<result property="sumUsageQy" column="SUM_USAGE_QY" columnIndex="2"/>
+		<result property="sumUsageAmt" column="SUM_USAGE_AMT" columnIndex="3"/>
+		<result property="sumPeekQy" column="SUM_PEEK_QY" columnIndex="3"/>
+	</resultMap>
+
+	<select id="gamElctyUsageQyMngDao.selectElctyUsageQyMngList_D" parameterClass="gamElctyUsageQyMngVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.USAGE_YR AS USAGE_YR
+								,T1.MNG_FEE_JOB_SE AS MNG_FEE_JOB_SE
+								,T1.MNG_FEE_FCLTY_CD AS MNG_FEE_FCLTY_CD
+								,LTRIM(TO_CHAR(NVL(T1.USAGE_QY,0),'999,999,999,990.00')) AS USAGE_QY
+								,LTRIM(TO_CHAR(NVL(T1.USAGE_AMT,0),'9,999,999,999,990')) AS USAGE_AMT
+								,LTRIM(TO_CHAR(NVL(T1.PEEK_QY,0),'999,999,999,990.00')) AS PEEK_QY
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,(CASE WHEN T1.MNG_FEE_JOB_SE='M' THEN '[M]:마린센터'
+									   WHEN T1.MNG_FEE_JOB_SE='E' THEN '[E]:전기시설'
+									   ELSE '[' || T1.MNG_FEE_JOB_SE || ']:' || 'UNKNOWN'
+								  END) AS MNG_FEE_JOB_SE_NM
+								,T2.MNG_FEE_FCLTY_NM
+							FROM ELCTY_USAGE_QY_F T1
+							LEFT OUTER JOIN MNG_FEE_FCLTY_CD_F T2 ON (T1.MNG_FEE_FCLTY_CD = T2.MNG_FEE_FCLTY_CD AND T1.MNG_FEE_JOB_SE = T2.MNG_FEE_JOB_SE)
+						WHERE 1=1
+
+						<isNotEmpty property="sStartUsageYear">
+						AND T1.USAGE_YR <![CDATA[ >= ]]> #sStartUsageYear#
+						</isNotEmpty>
+
+						<isNotEmpty property="sEndUsageYear">
+						AND T1.USAGE_YR <![CDATA[ <= ]]> #sEndUsageYear#
+						</isNotEmpty>
+
+						<isNotEmpty property="sMngFeeFcltyCd">
+						AND T1.MNG_FEE_FCLTY_CD = #sMngFeeFcltyCd#
+						</isNotEmpty>
+
+						ORDER BY T1.USAGE_YR ASC
+								,T2.MNG_FEE_FCLTY_NM ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<insert id="gamElctyUsageQyMngDao.insertElctyUsageQyMng_S" parameterClass="gamElctyUsageQyMngVO">
+		INSERT INTO ELCTY_USAGE_QY_F
+		(
+			 USAGE_YR
+			,MNG_FEE_JOB_SE
+			,MNG_FEE_FCLTY_CD
+			,USAGE_QY
+			,USAGE_AMT
+			,PEEK_QY
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 #usageYr#
+			,#mngFeeJobSe#
+			,#mngFeeFcltyCd#
+			,NVL(TO_NUMBER(REPLACE(#usageQy#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#usageAmt#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#peekQy#,',','')),0)
+			,#regUsr#
+			,SYSDATE
+		)
+	</insert>
+
+	<update id="gamElctyUsageQyMngDao.updateElctyUsageQyMng_S" parameterClass="gamElctyUsageQyMngVO">
+		UPDATE ELCTY_USAGE_QY_F SET
+			 USAGE_QY = NVL(TO_NUMBER(REPLACE(#usageQy#,',','')),0)
+			,USAGE_AMT = NVL(TO_NUMBER(REPLACE(#usageAmt#,',','')),0)
+			,PEEK_QY = NVL(TO_NUMBER(REPLACE(#peekQy#,',','')),0)
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE USAGE_YR = #usageYr#
+		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
+		AND MNG_FEE_FCLTY_CD = #mngFeeFcltyCd#
+	</update>
+
+	<delete id="gamElctyUsageQyMngDao.deleteElctyUsageQyMng_S" parameterClass="gamElctyUsageQyMngVO">
+		DELETE FROM ELCTY_USAGE_QY_F
+		WHERE USAGE_YR = #usageYr#
+		AND MNG_FEE_JOB_SE = #mngFeeJobSe#
+		AND MNG_FEE_FCLTY_CD = #mngFeeFcltyCd#
+	</delete>
+
+	<select id="gamElctyUsageQyMngDao.selectElctyUsageQyMngPk_S" parameterClass="gamElctyUsageQyMngVO" resultClass="egovMap">
+		SELECT
+				 T1.USAGE_YR AS USAGE_YR
+				,T1.MNG_FEE_JOB_SE AS MNG_FEE_JOB_SE
+				,T1.MNG_FEE_FCLTY_CD AS MNG_FEE_FCLTY_CD
+				,LTRIM(TO_CHAR(NVL(T1.USAGE_QY,0),'999,999,999,990.00')) AS USAGE_QY
+				,LTRIM(TO_CHAR(NVL(T1.USAGE_AMT,0),'9,999,999,999,990')) AS USAGE_AMT
+				,LTRIM(TO_CHAR(NVL(T1.PEEK_QY,0),'999,999,999,990.00')) AS PEEK_QY
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,(CASE WHEN T1.MNG_FEE_JOB_SE='M' THEN '[M]:마린센터'
+					   WHEN T1.MNG_FEE_JOB_SE='E' THEN '[E]:전기시설'
+					   ELSE '[' || T1.MNG_FEE_JOB_SE || ']:' || 'UNKNOWN'
+				  END) AS MNG_FEE_JOB_SE_NM
+				,T2.MNG_FEE_FCLTY_NM
+			FROM ELCTY_USAGE_QY_F T1
+			LEFT OUTER JOIN MNG_FEE_FCLTY_CD_F T2 ON (T1.MNG_FEE_FCLTY_CD = T2.MNG_FEE_FCLTY_CD AND T1.MNG_FEE_JOB_SE = T2.MNG_FEE_JOB_SE)
+		WHERE T1.USAGE_YR = #usageYr#
+		AND T1.MNG_FEE_JOB_SE = #mngFeeJobSe#
+		AND T1.MNG_FEE_FCLTY_CD = #mngFeeFcltyCd#
+	</select>
+
+	<select id="gamElctyUsageQyMngDao.selectElctyUsageQyMngListSum_S" parameterClass="gamElctyUsageQyMngVO" resultMap="gamElctyUsageQyMngSumMap">
+		SELECT
+				 TO_CHAR(NVL(COUNT(*),0),'999,999,999,999,999') AS TOTAL_COUNT
+				,LTRIM(TO_CHAR(NVL(SUM(T1.USAGE_QY),0),'999,999,999,990.00')) AS SUM_USAGE_QY
+				,LTRIM(TO_CHAR(NVL(SUM(T1.USAGE_AMT),0),'9,999,999,999,990')) AS SUM_USAGE_AMT
+				,LTRIM(TO_CHAR(NVL(SUM(T1.PEEK_QY),0),'999,999,999,990.00')) AS SUM_PEEK_QY
+			FROM ELCTY_USAGE_QY_F T1
+		WHERE 1=1
+
+		<isNotEmpty property="sStartUsageYear">
+		AND T1.USAGE_YR <![CDATA[ >= ]]> #sStartUsageYear#
+		</isNotEmpty>
+
+		<isNotEmpty property="sEndUsageYear">
+		AND T1.USAGE_YR <![CDATA[ <= ]]> #sEndUsageYear#
+		</isNotEmpty>
+
+		<isNotEmpty property="sMngFeeFcltyCd">
+		AND T1.MNG_FEE_FCLTY_CD = #sMngFeeFcltyCd#
+		</isNotEmpty>
+
+	</select>
+
+	<select id="gamElctyUsageQyMngDao.selectElctyUsageQyMngChartList_D" parameterClass="gamElctyUsageQyMngVo" resultClass="egovMap">
+		SELECT /*+ INDEX (T2 PK_ELCTY_USAGE_STTUS_F) */
+				 T1.USAGE_YR AS USAGE_YR
+				,NVL(SUM(T2.USAGE_QY),0) AS USAGE_QY
+				,NVL(SUM(T2.USAGE_AMT),0) AS USAGE_AMT
+				,NVL(SUM(T2.PEEK_QY),0) AS PEEK_QY
+			FROM (
+				SELECT
+						 #mngFeeFcltyCd# AS MNG_FEE_FCLTY_CD
+						,#mngFeeJobSe# AS MNG_FEE_JOB_SE
+						,LTRIM(TO_CHAR(TO_NUMBER(TO_CHAR(SYSDATE,'YYYY')) - LEVEL + 1,'0000')) AS USAGE_YR
+					FROM DUAL
+				CONNECT BY LEVEL <![CDATA[ <= ]]> 12
+				) T1
+			LEFT OUTER JOIN ELCTY_USAGE_QY_F T2 ON (T1.USAGE_YR=T2.USAGE_YR AND T1.MNG_FEE_JOB_SE=T2.MNG_FEE_JOB_SE AND T1.MNG_FEE_FCLTY_CD=T2.MNG_FEE_FCLTY_CD)
+		GROUP BY T1.USAGE_YR
+		ORDER BY T1.USAGE_YR
+	</select>
+
+	<select id="gamElctyUsageQyMngDao.selectElctyUsageQyMngYearCntList_S" parameterClass="gamElctyUsageQyMngVo" resultClass="egovMap">
+		SELECT
+				 COUNT(*) AS YR_CNT
+				,TO_CHAR(ADD_MONTHS(TO_DATE(#sUsageYear#,'YYYY'),-12),'YYYY') AS PREV_YR
+			FROM ELCTY_USAGE_QY_F
+		WHERE USAGE_MT = #sUsageYear#
+	</select>
+
+	<insert id="gamElctyUsageQyMngDao.copyElctyUsageQyMng_S" parameterClass="gamElctyUsageQyMngVo">
+		INSERT INTO ELCTY_USAGE_QY_F
+		(
+			 USAGE_YR
+			,MNG_FEE_JOB_SE
+			,MNG_FEE_FCLTY_CD
+			,USAGE_QY
+			,USAGE_AMT
+			,PEEK_QY
+			,REG_USR
+			,REGIST_DT
+		)
+		SELECT
+				 #sEndUsageYear#
+				,MNG_FEE_JOB_SE
+				,MNG_FEE_FCLTY_CD
+				,NVL(USAGE_QY,0)
+				,NVL(USAGE_AMT,0)
+				,NVL(PEEK_QY,0)
+				,#regUsr#
+				,SYSDATE
+			FROM ELCTY_USAGE_QY_F
+		WHERE USAGE_YR = TO_CHAR(ADD_MONTHS(TO_DATE(#sEndUsageYear#,'YYYY'),-12),'YYYY')
+	</insert>
+
+	<select id="gamElctyUsageQyMngDao.selectMngFeeFcltyCdList_D" resultClass="egovMap">
+		SELECT
+				 MNG_FEE_FCLTY_CD
+				,MNG_FEE_FCLTY_NM
+			FROM MNG_FEE_FCLTY_CD_F
+		WHERE MNG_FEE_JOB_SE = 'E'
+		ORDER BY MNG_FEE_FCLTY_NM
+    </select>
+
+</sqlMap>
