@@ -53,8 +53,8 @@ GamElctyUsageQyMngModule.prototype.loadComplete = function() {
 		dataType : 'json',
 		colModel : [
 					{display:'사용 년도',		name:'usageYr',			width:80, 		sortable:false,		align:'center'},
-					{display:'시설 명',			name:'mngFeeFcltyNm',	width:200, 		sortable:false,		align:'left'},
-					{display:'전력 사용 량',	name:'UsageQy',			width:150, 		sortable:false,		align:'right'},
+					{display:'시설 명',			name:'mngFeeFcltyNm',	width:210, 		sortable:false,		align:'left'},
+					{display:'전력 사용 량',	name:'usageQy',			width:150, 		sortable:false,		align:'right'},
 					{display:'전기 요금',		name:'usageAmt',		width:150, 		sortable:false,		align:'right'},
 					{display:'PEEK 사용 량',	name:'peekQy',			width:150, 		sortable:false,		align:'right'}
 					],
@@ -86,10 +86,15 @@ GamElctyUsageQyMngModule.prototype.loadComplete = function() {
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
+	this.$('#chartValueSe').on('change',{module:this}, function(event){
+		event.data.module.saveChartValueSe();
+	});
+
 	this._mainmode = '';
 	this._mainKeyValue = '';
+	this._chartValueSe = 'U';
 	this._searchButtonClick = false;
-	var year = new Date().getFullYear();
+	var year = new Date().getFullYear() - 1;
 	this.$('#sStartUsageYear').val(year);
 	this.$('#sEndUsageYear').val(year);
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
@@ -191,6 +196,22 @@ GamElctyUsageQyMngModule.prototype.isValidNumber12P2 = function(numValue) {
 
 <%
 /**
+ * @FUNCTION NAME : saveChartValueSe
+ * @DESCRIPTION   : 그래프 형태를 저장한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyUsageQyMngModule.prototype.saveChartValueSe = function() {
+
+	var chartValueSe = this.$('#chartValueSe').val();
+	if (chartValueSe != "") {
+		this._chartValueSe = chartValueSe;
+	}
+
+};
+
+<%
+/**
  * @FUNCTION NAME : drawChart
  * @DESCRIPTION   : CHART DRAW
  * @PARAMETER     : NONE
@@ -201,10 +222,11 @@ GamElctyUsageQyMngModule.prototype.drawChart = function() {
 	var dataValueArr = [];
 	var maxDataValue = 0;
 	var dataValue = 0;
-	var chartValueSe = this.$('#chartValueSe').val();
+	var chartValueSe = this._chartValueSe;
 	var chartValueNm = "";
 	var usageYr = Number(this.$('#sEndUsageYear').val());
 	var searchVO = this.makeFormArgs("#detailForm");
+	this.$('#chartValueSe').val(this._chartValueSe);
 	if (chartValueSe == "A") {
 		chartValueNm = "전기 요금";
 	} else if (chartValueSe == "P") {
@@ -588,7 +610,7 @@ GamElctyUsageQyMngModule.prototype.copyData = function() {
 	var searchVO = this.makeFormArgs("#searchForm");
 	var sQueryUsageYear = this.$('#sEndUsageYear').val();
 	var yrCnt=0;
-	if (this.isValidYear(sEndUsageYear, true) == false) {
+	if (this.isValidYear(sQueryUsageYear, true) == false) {
 		alert('종료 사용 년도가 부정확합니다.');
 		this.$("#sEndUsageYear").focus();
 		return;
@@ -756,10 +778,6 @@ GamElctyUsageQyMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		case 'listTab':
 			break;
 		case 'detailTab':
-			var chartValueSe = this.$('#chartValueSe').val();
-			if (chartValueSe == "") {
-				this.$('#chartValueSe').val("U");
-			}
 			if (this._mainmode=="modify") {
 				this.loadDetail(oldTabId);
 				this.enableDetailInputItem();
@@ -852,13 +870,13 @@ var module_instance = new GamElctyUsageQyMngModule();
 								<th style="width:5%; height:20; text-align:center;">자료수</th>
 								<td><input type="text" size="6" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
 								<th style="width:8%; height:20; text-align:center;">사용량 합계</th>
-								<td><input type="text" size="15" id="sumUsageQy" class="ygpaNumber" disabled="disabled"/></td>
+								<td><input type="text" size="18" id="sumUsageQy" class="ygpaNumber" disabled="disabled"/></td>
 								<th style="width:8%; height:20; text-align:center;">요금 합계</th>
-								<td><input type="text" size="15" id="sumUsageAmt" class="ygpaNumber" disabled="disabled"/></td>
+								<td><input type="text" size="18" id="sumUsageAmt" class="ygpaNumber" disabled="disabled"/></td>
 								<td style="text-align:right;">
 									<button id="btnAdd" class="buttonAdd">추가</button>
 									<button id="btnDelete" class="buttonDelete">삭제</button>
-									<button id="btnCopy">이전년 자료복사</button>
+									<button id="btnCopy">자료복사</button>
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
 								</td>
 							</tr>

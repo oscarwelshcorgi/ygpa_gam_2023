@@ -175,7 +175,7 @@
 				 COUNT(*) AS YR_CNT
 				,TO_CHAR(ADD_MONTHS(TO_DATE(#sUsageYear#,'YYYY'),-12),'YYYY') AS PREV_YR
 			FROM ELCTY_USAGE_QY_F
-		WHERE USAGE_MT = #sUsageYear#
+		WHERE USAGE_YR = #sEndUsageYear#
 	</select>
 
 	<insert id="gamElctyUsageQyMngDao.copyElctyUsageQyMng_S" parameterClass="gamElctyUsageQyMngVo">
