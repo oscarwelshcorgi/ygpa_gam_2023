@@ -118,12 +118,12 @@ GamMechFcltySpecMngModule.prototype.loadComplete = function(params) {
 	this.$('#mechFcltsSe').on('change', {module: this}, function(event) {
 		event.data.module.changedDetailSubFormArea();
 	});
-	
+
 	this.$('#sFcltsMngGroupNo').bind('click', {module: this}, function(event) {
 		event.data.module.$('#sFcltsMngGroupNo').val('');
 		event.data.module.$('#sFcltsMngGroupNoNm').val('');
 	});
-	
+
 	this.setControlStatus();
 
 	this._params = params;
@@ -141,6 +141,7 @@ GamMechFcltySpecMngModule.prototype.loadComplete = function(params) {
 			}
 		}
 	}
+	console.log('debug');
 };
 
 <%
@@ -227,7 +228,7 @@ GamMechFcltySpecMngModule.prototype.loadDetail = function() {
 		alert('시설물 관리번호에 오류가 있습니다.');
 		return;
 	}
-	
+
 	this.doAction('/fclty/selectMechFcltySpecMngDetail.do', row, function(module, result) {
 		if(result.resultCode == "0"){
 			module.makeFormValues('#detailForm', result.result);
@@ -288,17 +289,17 @@ GamMechFcltySpecMngModule.prototype.initBeforeInsert = function() {
 GamMechFcltySpecMngModule.prototype.changedDetailSubFormArea = function() {
 	var mechFcltsSeValue = this.$('#mechFcltsSe').val();
 	switch(mechFcltsSeValue) {
-		case '1' : 
+		case '1' :
 			this.$('#detailSubFormArea_2').hide();
 			this.$('#detailSubFormArea_3').hide();
 			this.$('#detailSubFormArea_1').show();
 			break;
-		case '2' : 
+		case '2' :
 			this.$('#detailSubFormArea_1').hide();
 			this.$('#detailSubFormArea_3').hide();
 			this.$('#detailSubFormArea_2').show();
 			break;
-		case '3' : 
+		case '3' :
 			this.$('#detailSubFormArea_1').hide();
 			this.$('#detailSubFormArea_2').hide();
 			this.$('#detailSubFormArea_3').show();
@@ -316,15 +317,15 @@ GamMechFcltySpecMngModule.prototype.changedDetailSubFormArea = function() {
 GamMechFcltySpecMngModule.prototype.loadDetailSubForm = function(data) {
 	var mechFcltsSeValue = this.$('#mechFcltsSe').val();
 	switch(mechFcltsSeValue) {
-		case '1' : 
+		case '1' :
 			this.makeFormValues('#detailSubForm_1', {});
 			this.makeFormValues('#detailSubForm_1', data);
 			break;
-		case '2' : 
+		case '2' :
 			this.makeFormValues('#detailSubForm_2', {});
 			this.makeFormValues('#detailSubForm_2', data);
 			break;
-		case '3' : 
+		case '3' :
 			this.makeFormValues('#detailSubForm_3', {});
 			this.makeFormValues('#detailSubForm_3', data);
 			break;
@@ -449,8 +450,8 @@ GamMechFcltySpecMngModule.prototype.setControlStatus = function() {
 %>
 GamMechFcltySpecMngModule.prototype.validateDetailForm = function() {
 	if(this._mainmode == 'insert') {
-		if(this.$('#gisAssetsPrtAtCode').val() == '' 
-					|| this.$('#gisAssetsCd').val() == '' 
+		if(this.$('#gisAssetsPrtAtCode').val() == ''
+					|| this.$('#gisAssetsCd').val() == ''
 					|| this.$('#gisAssetsSubCd').val() == '') {
 			EMD.util.showMessage(this.$('#popupDetailGisCode')[0], 'GIS자산코드를 선택하세요.');
 			return false;
@@ -473,17 +474,17 @@ GamMechFcltySpecMngModule.prototype.validateDetailForm = function() {
 /**
  * @FUNCTION NAME : validateDuration
  * @DESCRIPTION   : 유효성 있는 기간 체크
- * @PARAMETER     : 
-	 1. startDate   : 시작일 문자열, 
-	 2. endDate     : 종료일 문자열, 
-	 3. startTitle  : 시작일 제목, 
-	 4. endTitle    : 종료일 제목, 
-	 5. startIgnore : 
+ * @PARAMETER     :
+	 1. startDate   : 시작일 문자열,
+	 2. endDate     : 종료일 문자열,
+	 3. startTitle  : 시작일 제목,
+	 4. endTitle    : 종료일 제목,
+	 5. startIgnore :
 		 5-1. true  : 시작일 필수입력사항 미체크,
-		 5-2. false : 시작일 필수입력사항 체크 
-	 6. endIgnore : 
+		 5-2. false : 시작일 필수입력사항 체크
+	 6. endIgnore :
 		 6-1. true  : 종료일 필수입력사항 미체크,
-		 6-2. false : 종료일 필수입력사항 체크 
+		 6-2. false : 종료일 필수입력사항 체크
 	 7. equals      :
 		 7-1. true  : 종료일이 시작일 보다 크거나 같으면 허용
 		 7-2. false : 종료일이 시작일 보다 커야 허용
@@ -530,8 +531,8 @@ GamMechFcltySpecMngModule.prototype.validateDuration = function(startDate, endDa
 	}
 	startDate = EMD.util.strToDate(startDate);
 	endDate = EMD.util.strToDate(endDate);
-	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 : 
-							(startDate.getTime() == endDate.getTime()) ? 0 : 1;	
+	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 :
+							(startDate.getTime() == endDate.getTime()) ? 0 : 1;
 	result = (equals) ? (compareResult >= 0) : (compareResult > 0);
 	if(!result) {
 		alert(endTitle +'은(는) ' + startTitle + ((equals) ? '보다 같거나 커야합니다.' : '보다 커야합니다.'));
@@ -552,25 +553,25 @@ GamMechFcltySpecMngModule.prototype.getSaveData = function() {
 	var fileList = this.$('#atchFileGrid').flexGetData();
 	var mechFcltsSeValue = this.$('#mechFcltsSe').val();
 	var detailSubFormValue = null;
-	
+
 	if(this._mainmode == 'modify') {
 		for(var i=0; i<fileList.length; i++) {
 			fileList[i]['fcltsMngNo'] = fcltsMngNo;
 		}
 	}
-	
+
 	switch(mechFcltsSeValue) {
-		case '1' : 
+		case '1' :
 			detailSubFormValue = JSON.stringify(this.makeFormArgs('#detailSubForm_1', 'object'));
 			break;
-		case '2' : 
+		case '2' :
 			detailSubFormValue = JSON.stringify(this.makeFormArgs('#detailSubForm_2', 'object'));
 			break;
 		case '3' :
 			detailSubFormValue = JSON.stringify(this.makeFormArgs('#detailSubForm_3', 'object'));
 			break;
 	}
-	
+
 	result[result.length] = {name: 'detailForm', value: JSON.stringify(this.makeFormArgs('#detailForm', 'object'))};
 	result[result.length] = {name: 'detailSubForm', value: detailSubFormValue};
 	result[result.length] = {name: 'insertAtchFileList', value: JSON.stringify(this.$('#atchFileGrid').selectFilterData([{col: '_updtId', filter: 'I'}])) };
@@ -594,31 +595,31 @@ GamMechFcltySpecMngModule.prototype.saveData = function() {
 		return;
 	}
 
-	if(!this.validateDuration(this.$('#mfcDt').val(), this.$('#prtFcltyInstlDt').val(),  
+	if(!this.validateDuration(this.$('#mfcDt').val(), this.$('#prtFcltyInstlDt').val(),
 								'제작일자', '설치일자', true, true, false)) {
 		return;
 	}
 
-	if(!this.validateDuration(this.$('#mfcDt').val(), this.$('#usageBeginDt').val(),  
+	if(!this.validateDuration(this.$('#mfcDt').val(), this.$('#usageBeginDt').val(),
 								'제작일자', '사용 시작일자', true, true, false)) {
 		return;
 	}
 
-	if(!this.validateDuration(this.$('#prtFcltyInstlDt').val(), this.$('#usageBeginDt').val(),  
+	if(!this.validateDuration(this.$('#prtFcltyInstlDt').val(), this.$('#usageBeginDt').val(),
 								'설치일자', '사용 시작일자', true, true, false)) {
 		return;
 	}
-	
-	if(!this.validateDuration(this.$('#usageBeginDt').val(), this.$('#usageEndDt').val(),  
+
+	if(!this.validateDuration(this.$('#usageBeginDt').val(), this.$('#usageEndDt').val(),
 								'사용 시작일자', '사용 종료일자', true, false, true)) {
 		return;
 	}
 
-	if(!this.validateDuration(this.$('#examBeginDt').val(), this.$('#examEndDt').val(),  
+	if(!this.validateDuration(this.$('#examBeginDt').val(), this.$('#examEndDt').val(),
 								'검사 시작일자', '검사 종료일자', true, false, true)) {
 		return;
 	}
-	
+
 	var inputData = this.getSaveData();
 
 	if(this._mainmode == 'insert') {
@@ -743,12 +744,12 @@ GamMechFcltySpecMngModule.prototype.uploadAtchFileItem = function() {
 		$.each(result, function(){
 			module.$('#atchFileGrid').flexAddRow(
 					{
-						_updtId:'I', 
-						fcltsMngNo:module.$('#fcltsMngNo').val(), 
-						atchFileSe:'D', 
-						atchFileSeNm :'문서', 
-						atchFileNmLogic:this.logicalFileNm, 
-						atchFileNmPhysicl: this.physcalFileNm, 
+						_updtId:'I',
+						fcltsMngNo:module.$('#fcltsMngNo').val(),
+						atchFileSe:'D',
+						atchFileSeNm :'문서',
+						atchFileNmLogic:this.logicalFileNm,
+						atchFileNmPhysicl: this.physcalFileNm,
 						atchFileWritingDt:''
 					});
 		});
@@ -876,7 +877,7 @@ GamMechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'popupDetailArchFcltsMng3':
 			this.doExecuteDialog('selectArchFcltsMng3', '건축시설조회', '/popup/showConsFcltyInfo.do', {});
 			break;
-			
+
 		case 'setFeature': // GIS 피처 지정
 			this.$('#setFeature').hide();
 			var row = this.$('#mainGrid').selectedRows();
@@ -945,7 +946,7 @@ GamMechFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value)
 			this.$('#archFcltsMngNo3').val(value['fcltsMngNo']);
 			this.$('#archFcltsMngNoNm3').val(value['prtFcltyNm']);
 			break;
-			
+
 		case 'selectFcltsMngGroup':
 			this.$('#sFcltsMngGroupNo').val(value['fcltsMngGroupNo']);
 			this.$('#sFcltsMngGroupNoNm').val(value['fcltsMngGroupNm']);

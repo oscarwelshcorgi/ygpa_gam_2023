@@ -153,11 +153,13 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 	});
 
 	this.changeAssetPk=false;
+	/*
 	this.$('.changeAssetPk').on('change', {module: this}, function(event) {
 		var m = event.data.module;
 		if(!m.changeAssetpk) alert('주의! 키 값이 변경 됩니다.');
 		m.changeAssetpk=true;
 	});
+	*/
 
 	if(params==null) params={action: 'normal'};	// 파라미터 기본 값을 지정한다. _params 널체크가 귀찮아서
 
@@ -216,7 +218,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 	 	break;
 	}
 
-	console.log('GamAssetCodeModule loadcomplete');
+//	console.log('GamAssetCodeModule loadcomplete');
 };
 
 // 사용자 설정 함수 추가
@@ -915,7 +917,7 @@ var module_instance = new GamAssetCodeModule();
 					<button data-role="printPage" data-search-option="searchGisAssetCode" data-url="<c:url value='/code/assets/selectGisAssetCodeListPrint.do'/>">인쇄</button>
 					<c:if test="${isAdmin==true }">
 					<button data-role="editMap" data-gis-layer="gisAssetsCd">맵편집</button>
-					<button data-role="gridXlsDown" data-flexi-grid="assetCodeList">엑셀</button>
+					<button data-role="gridXlsDown" data-flexi-grid="assetCodeList" data-xls-name="자산정보목록.xlsx" data-xls-title="YGPA 자산 목록">엑셀</button>
 					<button id="btnGetAddress">주소지정(Admin)</button>
 					</c:if>
 					<!-- <button id="storeAutoMapGenerate">위치등록(배치)</button> -->	<!-- 빌드 시 -->

@@ -44,7 +44,7 @@
 	<global>
 
 		<!-- 패스워드 validation
-		1. password1 : 8~20자 이내
+		1. password1 : 9~20자 이내
 		2. password2 : 한글,특수문자,띄어쓰기는 안됨
 		3. password3 : 연속된 문자나 순차적인 문자 4개이상 사용금지
 		4. password4 : 반복문자나 숫자 연속 4개이상 사용금지 -->
@@ -87,7 +87,7 @@
             function checkPassword1(pwd) {
                 p_pass = pwd.value;
 
-                if (pwd.value.length < 8 || pwd.value.length > 20 ){
+                if (pwd.value.length < 9 || pwd.value.length > 20 ){
 
                         pwd.value ="";
                         pwd.focus();

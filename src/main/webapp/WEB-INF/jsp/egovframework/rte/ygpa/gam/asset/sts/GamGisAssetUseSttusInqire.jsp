@@ -35,14 +35,15 @@ GamGisAssetSttusInqireModule.prototype.loadComplete = function() {
         url: '/asset/sts/selectGisAssetUseSttusList.do',
         dataType: 'json',
         colModel : [
-   			{display:'', name:'gisFlag', width:24, sortable:false, align:'center', displayFormat: 'jqimg'},
-			{display:'항구분', name:'prtAtCodeNm',width:55, sortable:false,align:'center'},
-			{display:'자산코드', name:'gisAssetsCode',width:60, sortable:false,align:'center'},
+   			{display:'', name:'gisFlag', width:24, sortable:false, align:'center', displayFormat: 'jqimg', skipxls:true},
+			{display:'순번', name:'rnum',width:55, sortable:false,align:'right'},
+			{display:'항구분', name:'prtAtCodeNm',width:60, sortable:false,align:'center'},
+//			{display:'자산코드', name:'gisAssetsCode',width:60, sortable:false,align:'center'},
 			{display:'자산명', name:'gisAssetsNm',width:160, sortable:false,align:'left'},
 			{display:'소재지', name:'gisAssetsLocplc',width:180, sortable:false,align:'left'},
 			{display:'지번', name:'gisAssetsLnmCode',width:60, sortable:false,align:'center'},
 			{display:'면적', name:'gisAssetsAr',width:70, sortable:false,align:'right', displayFormat: 'number'},
-			{display:'업체수', name:'entrpsCnt',width:70, sortable:false,align:'right', displayFormat: 'number'},
+			{display:'업체수', name:'entrpsCnt',width:56, sortable:false,align:'right', displayFormat: 'number'},
 			{display:'사용면적', name:'usageAr',width:88, sortable:false,align:'right', displayFormat: 'number'},
 			{display:'미사용면적', name:'unUsageAr',width:88, sortable:false,align:'right', displayFormat: 'number'},
 			{display:'사용율', name:'useRatePercent',width:88, sortable:false,align:'right', displayFormat: 'number', displayOption: '0.0 %'}
@@ -68,12 +69,29 @@ GamGisAssetSttusInqireModule.prototype.loadComplete = function() {
         		this.useRate = t!=0?u/t:0;
         		this.useRatePercent = Math.round(this.useRate*100);
 				this.gisFlag=this.gisStat>0?'flag':null;
+
         	});
+    		var u, t;
+    		u=this.usageAr||0;
+    		t=data.resultSum.sumAr||0;
+    		var useRate = t!=0?u/t:0;
+    		var useRatePercent = Math.round(this.useRate*100);
+
+        	module.$("#gisAssetSttusList")[0].dgrid.setFooterLabel(1, $.number(data.resultSum.sumCnt)+ " 건");
+        	module.$("#gisAssetSttusList")[0].dgrid.setFooterLabel(2, $.number(data.resultSum.sumSumAr)+ " m<sup>2<sup>");
+        	module.$("#gisAssetSttusList")[0].dgrid.setFooterLabel(3, $.number(data.resultSum.sumCompCnt));
+        	module.$("#gisAssetSttusList")[0].dgrid.setFooterLabel(4, $.number(data.resultSum.sumRentAr)+ " m<sup>2<sup>");
+        	module.$("#gisAssetSttusList")[0].dgrid.setFooterLabel(5, $.number(data.resultSum.sumUsageAr)+ " m<sup>2<sup>");
+        	module.$("#gisAssetSttusList")[0].dgrid.setFooterLabel(6, $.number(useRatePercent)+ " %");
         	return data;
         }
     });
 
 	this.$('#searchDate').val(EMD.util.getDate());
+
+    //this.$("#gisAssetSttusList")[0].dgrid.attachHeader('#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,시설종류,시설갯수');
+    this.$("#gisAssetSttusList")[0].dgrid.attachFooter('조회 수,#cspan,#cspan,#cspan,0 건,#cspan,0 m<sup>2</sup>,,0 m<sup>2</sup>,0 m<sup>2</sup>,0 %',
+    		["text-align:center; vertical-align:middle;","","","text-align:right; vertical-align:middle;","text-align:right; vertical-align:middle;","text-align:right; vertical-align:middle;","text-align:right; vertical-align:middle;","text-align:right; vertical-align:middle;","text-align:right; vertical-align:middle;","text-align:right; vertical-align:middle;","text-align:right; vertical-align:middle;","text-align:right; vertical-align:middle;"]);
 
 	//console.log('GamGisAssetSttusInqireModule debug');
 };
@@ -101,6 +119,9 @@ GamGisAssetSttusInqireModule.prototype.onSelectFeature = function(e) {
 			this.loadData();
             // // console.log('select disuse assets list');
             break;
+	    case 'popupEntrpsInfo': // 팝업을 호출한다.(조회 조건)
+	        this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', {});
+	        break;
     }
 };
 
@@ -123,6 +144,14 @@ GamGisAssetSttusInqireModule.prototype.loadData = function() {
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamGisAssetSttusInqireModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
+    case 'selectEntrpsInfoPopup':
+        if (msg != 'cancel') {
+            this.$('#sEntrpscd').val(value.entrpscd);
+            this.$('#sEntrpsNm').val(value.entrpsNm);
+        } else {
+            alert('취소 되었습니다');
+        }
+        break;
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
          break;
@@ -153,11 +182,14 @@ var module_instance = new GamGisAssetSttusInqireModule();
 						<tr>
 							<th>사용 업체</th>
 							<td>
-                            	<input data-column-id="entrpsNm" type="text" size="15">
+                            	<input id="sEntrpscd" type="text" size="10">&nbsp; &nbsp;
+                            	<input id="sEntrpsNm" type="text" size="15" >&nbsp; &nbsp;
+                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
 							</td>
-							<th>조회기준일자</th>
+							<th>조회기간</th>
 							<td>
-								<input id="searchDate" data-column-id="searchDate" type="text" class="emdcal" size="8" data-required="true">
+								<input id="searchDateFrom" data-column-id="searchDateFrom" type="text" class="emdcal" size="8" data-required="true">~
+								<input id="searchDateTo" data-column-id="searchDateTo" type="text" class="emdcal" size="8" data-required="true">
 							</td>
 						</tr>
 					</tbody>
@@ -169,7 +201,7 @@ var module_instance = new GamGisAssetSttusInqireModule();
     <div class="emdPanel fillHeight">
 		<table id="gisAssetSttusList" style="display:none; width:100%" class="fillHeight"></table>
 		<div class="emdControlPanel">
-				<button data-role="gridXlsDown" data-flexi-grid="gisAssetSttusList">엑셀</button>
+				<button data-role="gridXlsDown" data-flexi-grid="gisAssetSttusList" data-xls-name="자산현황통계.xls" data-xls-title="자산분포현황통계 조회 목록">엑셀</button>
 				<button data-role="clearMap" data-gis-layer="assetStats">결과 맵 초기화</button>
 				<button data-role="loadStatsMap" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-map-style="rate" data-value="useRatePercent" data-label-field="_mapLabel" data-select-feature="onSelectFeature">사용현황 맵 조회</button>
 				<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="gisAssetSttusList" data-popup-function="onPopupFeature">위치 조회</button>

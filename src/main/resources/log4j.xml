@@ -12,8 +12,8 @@
 
 	<appender name="rollingFile" class="org.apache.log4j.RollingFileAppender">
 		<!-- 로그 파일명 정의를 위한 parameter -->
-		<param name="File" value="/app/logs/ygpa_gam_DEBUG.log"/>
-		<param name="Append" value="false"/>
+		<param name="File" value="/app/logs/ygpa_gam.log"/>
+		<param name="Append" value="true"/>
 		<param name="MaxFileSize" value="4096KB"/>
 		<param name="MaxBackupIndex" value="2"/>
 	    <layout class="org.apache.log4j.PatternLayout">
@@ -32,29 +32,31 @@
         <appender-ref ref="console"/>
     </logger>
 
+<!--
     <logger name="java.sql.PreparedStatement" additivity="false">
     	<level value="DEBUG"/>
         <appender-ref ref="rollingFile"/>
     </logger>
+ -->
 
     <logger name="java.sql.ResultSet" additivity="false">
     	<level value="DEBUG"/>
-        <appender-ref ref="rollingFile"/>
+        <appender-ref ref="console"/>
     </logger>
 
     <logger name="egovframework" additivity="false">
-        <level value="DEBUG"/>
+        <level value="INFO"/>
         <appender-ref ref="console"/>
     </logger>
 
 	<!-- log SQL with timing DEBUGrmation, post execution -->
 	<logger name="jdbc.sqltiming" additivity="false">
-		<level value="DEBUG" />
+		<level value="INFO" />
 		<appender-ref ref="console" />
 	</logger>
 
 	<logger name="org.springframework" additivity="false">
-		<level value="DEBUG" />
+		<level value="INFO" />
 		<appender-ref ref="console" />
 	</logger>
 

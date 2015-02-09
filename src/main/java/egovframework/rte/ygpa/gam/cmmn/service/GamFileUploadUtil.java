@@ -101,14 +101,35 @@ public class GamFileUploadUtil {
 			String[] tokens = file.getOriginalFilename().split("\\.(?=[^\\.]+$)");
 			if (!"".equals(file.getOriginalFilename())
 					|| !"exe".equalsIgnoreCase(tokens[1])) {	// 파일명이 없는 파일과 실행파일은 저장 할 수 없다.
-				GamFileServiceVo fileInfoVO = new GamFileServiceVo();
-				fileInfoVO.setPhyscalFileNm(egovFileIdGnrService.getNextStringId()+"."+tokens[1]);
-				fileInfoVO.setLogicalFileNm(file.getOriginalFilename());
-				fileInfoVO.setSize(file.getSize());
-				filePath = uploadPath + fileInfoVO.getPhyscalFileNm();
-				file.transferTo(new File(filePath));
+				if( "png".equalsIgnoreCase(tokens[1])	// 확인된 확장자만 업로드 가능 한다.
+						|| "jpg".equalsIgnoreCase(tokens[1])
+						|| "png".equalsIgnoreCase(tokens[1])
+						|| "jpeg".equalsIgnoreCase(tokens[1])
+						|| "gif".equalsIgnoreCase(tokens[1])
+						|| "dwg".equalsIgnoreCase(tokens[1])
+						|| "dxf".equalsIgnoreCase(tokens[1])
+						|| "hwp".equalsIgnoreCase(tokens[1])
+						|| "xls".equalsIgnoreCase(tokens[1])
+						|| "xlsx".equalsIgnoreCase(tokens[1])
+						|| "doc".equalsIgnoreCase(tokens[1])
+						|| "docx".equalsIgnoreCase(tokens[1])
+						|| "ppt".equalsIgnoreCase(tokens[1])
+						|| "pptx".equalsIgnoreCase(tokens[1])
+						|| "txt".equalsIgnoreCase(tokens[1])
+						|| "tif".equalsIgnoreCase(tokens[1])
+						|| "tiff".equalsIgnoreCase(tokens[1]) ) {
+					GamFileServiceVo fileInfoVO = new GamFileServiceVo();
+					fileInfoVO.setPhyscalFileNm(egovFileIdGnrService.getNextStringId()+"."+tokens[1]);
+					fileInfoVO.setLogicalFileNm(file.getOriginalFilename());
+					fileInfoVO.setSize(file.getSize());
+					filePath = uploadPath + fileInfoVO.getPhyscalFileNm();
+					file.transferTo(new File(filePath));
 
-				list.add(fileInfoVO);
+					list.add(fileInfoVO);
+				}
+				else {
+					LOG.warn("fileType is not accept!!");
+				}
 			}
 		}
 

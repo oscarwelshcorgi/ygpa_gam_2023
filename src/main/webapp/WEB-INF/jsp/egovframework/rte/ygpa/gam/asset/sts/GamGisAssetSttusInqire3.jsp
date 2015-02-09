@@ -160,18 +160,24 @@ var module_instance = new GamGisAssetSttusInqireModule();
 						<tbody>
 						<tr>
 							<th>항구분</th>
-							<td><input id="searchGisAssetsPrtAtCode" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrtAtCode" data-code-id="GAM019" data-default-prompt="전체항" data-display-value="N" size="3"/></td>
-							<th>사용 업체명</th>
+							<td><input id="gisAssetsPrtAtCode" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrtAtCode" data-code-id="GAM019" data-default-prompt="전체항" data-display-value="N" size="3"/></td>
+							<th>위치</th>
 							<td>
-                            	<input data-column-id="sEntrpsNm" type="text" size="15">
+								<input id="gisAssetsLocCd" type="text" class="ygpaFilterCode" data-url="/cmmn/selectLocCdOptionsList.do" data-filter="gisAssetsPrtAtCode" data-filter-empty="Y" data-default-prompt="전체"/>
 							</td>
 							<td rowSpan="2"><button id="searchBtn" class="submit buttonSearch">조회</button></td>
 						</tr>
 						<tr>
-							<th>사용기간</th>
-							<td colspan="3">
-								<input id="sGrUsagePdFrom" type="text" class="emdcal" data-role="dtFrom" data-dt-to="sGrUsagePdTo" size="8"> ~
-								<input id="sGrUsagePdTo" type="text" class="emdcal" data-role="dtTo" data-dt-from="sGrUsagePdFrom" size="8">
+							<th>사용 업체</th>
+							<td>
+                            	<input id="sEntrpscd" type="text" size="10">&nbsp; &nbsp;
+                            	<input id="sEntrpsNm" type="text" size="15" >&nbsp; &nbsp;
+                            	<button id="popupEntrpsInfo" class="popupButton">선택</button>
+							</td>
+							<th>조회기간</th>
+							<td>
+								<input id="searchDateFrom" data-column-id="searchDateFrom" type="text" class="emdcal" size="8" data-required="true">~
+								<input id="searchDateTo" data-column-id="searchDateTo" type="text" class="emdcal" size="8" data-required="true">
 							</td>
 						</tr>
 					</tbody>

@@ -66,7 +66,7 @@ GamGisAssetDistSttusModule.prototype.loadComplete = function() {
     this.$("#gisAssetSttusList")[0].dgrid.attachFooter('조회 수,#cspan,#cspan,#cspan,0,개,조회 시설 갯수,#cspan,0',
     		["text-align:center; vertical-align:middle;","","","","text-align:right; vertical-align:middle;","text-align:left; vertical-align:middle;","text-align:center; vertical-align:middle;","","text-align:right; vertical-align:middle;"]);
 
-    console.log('GamGisAssetDistSttusModule debug');
+    //console.log('GamGisAssetDistSttusModule debug');
 };
 
 GamGisAssetDistSttusModule.prototype.loadData = function() {

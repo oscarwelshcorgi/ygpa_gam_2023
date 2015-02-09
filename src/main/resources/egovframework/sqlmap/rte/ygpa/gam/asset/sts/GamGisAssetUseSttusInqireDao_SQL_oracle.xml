@@ -13,70 +13,44 @@
 			SELECT ROWNUM RNUM, S.*
 			FROM (
 				SELECT
-				G.GIS_ASSETS_PRT_AT_CODE
-				, GAM_GETCODENAME('GAM019', G.GIS_ASSETS_PRT_AT_CODE) PRT_AT_CODE_NM
-				, G.GIS_ASSETS_CD
-				, G.GIS_ASSETS_SUB_CD
-				, G.GIS_ASSETS_NM
-				, G.GIS_ASSETS_MNG_DEPT_CD
-				, G.GIS_ASSETS_OPER_DEPT_CD
-				, G.GIS_ASSETS_LOCPLC
-				, G.GIS_ASSETS_LNM
-				, G.GIS_ASSETS_LNM_SUB
-				, G.GIS_ASSETS_AR
-				, G.GIS_ASSETS_USAGE_YN
-				, G.GIS_ASSETS_REAL_RENT_AR
-				, G.GIS_ASSETS_QUAY_CD
-				, C.ENTRPS_CNT
-				, C.USAGE_AR
-				, C.FEE
-				, C.RDCXPT_FEE
-				, CASE
-				WHEN NVL(C.USAGE_AR,0) > 0 AND NVL(G.GIS_ASSETS_AR,0) > 0
-				THEN
-				(NVL(C.USAGE_AR,0) / NVL(G.GIS_ASSETS_AR,0))
-				ELSE
-				0
-				END USAGE_RATIO
-				, (SELECT count(*) FROM GIS_ASSETS_CD_E WHERE PRT_CD=G.GIS_ASSETS_PRT_AT_CODE AND ASSETS_CD=G.GIS_ASSETS_CD AND ASSETS_SCD=G.GIS_ASSETS_SUB_CD) GIS_STAT
-
-				FROM (SELECT * FROM GIS_ASSETS_CD_F WHERE GIS_ASSETS_PRPRTY_SE_CD = 'L') G JOIN
-				(
-					SELECT B.GIS_ASSETS_PRT_AT_CODE, B.GIS_ASSETS_CD, B.GIS_ASSETS_SUB_CD,
-						COUNT(A.ENTRPSCD) ENTRPS_CNT, SUM(B.FEE) FEE, SUM(B.RDCXPT_FEE) RDCXPT_FEE,
-						SUM(B.USAGE_AR) USAGE_AR
-					FROM ASSETS_RENT_F A, ASSETS_RENT_DETAIL_F B
-					WHERE A.PRMISN_YN='Y'
-					AND A.PRT_AT_CODE = B.PRT_AT_CODE
-					AND A.MNG_YEAR = B.MNG_YEAR
-					AND A.MNG_NO = B.MNG_NO
-					AND A.MNG_CNT = B.MNG_CNT
-					<isNotEmpty prepend="AND" property="entrpsNm">
-							A.ENTRPS_NM LIKE '%' || #entrpsNm# || '%'
-					</isNotEmpty>
-					<isNotEmpty property="searchDate" prepend="AND">
-						<![CDATA[
-							TO_DATE(#searchDate#,'yyyy-mm-dd') BETWEEN B.USAGE_PD_FROM AND B.USAGE_PD_TO+1
-						]]>
-					</isNotEmpty>
-					GROUP BY B.GIS_ASSETS_PRT_AT_CODE, B.GIS_ASSETS_CD, B.GIS_ASSETS_SUB_CD
-				) C ON C.GIS_ASSETS_PRT_AT_CODE = G.GIS_ASSETS_PRT_AT_CODE
-				AND C.GIS_ASSETS_CD = G.GIS_ASSETS_CD
-				AND C.GIS_ASSETS_SUB_CD = G.GIS_ASSETS_SUB_CD
+				  G.land_prt_at_code GIS_ASSETS_PRT_AT_CODE,
+				  G.land_assets_cd GIS_ASSETS_CD,
+				  G.land_assets_sub_cd GIS_ASSETS_SUB_CD,
+				  GAM_GETCODENAME('GAM019', G.LAND_PRT_AT_CODE) GIS_ASSETS_PRT_AT_NM,
+				  MAX(G.GIS_ASSETS_LOC_CD) GIS_ASSETS_LOC_CD,
+				  GAM_GETLOCCDNAME(G.LAND_PRT_AT_CODE, MAX(G.GIS_ASSETS_LOC_CD)) GIS_ASSETS_LOC_NM,
+				  MAX(G.GIS_ASSETS_NM) GIS_ASSETS_NM,
+				  MAX(G.GIS_ASSETS_LOCPLC) GIS_ASSETS_LOCPLC,
+				  MAX(G.GIS_ASSETS_LNM) GIS_ASSETS_LNM,
+				  MAX(G.GIS_ASSETS_LNM_SUB) GIS_ASSETS_LNM_SUB,
+				  MAX(G.GIS_ASSETS_AR) GIS_ASSETS_AR,
+				  MAX(G.GIS_ASSETS_ACQ_PRI) GIS_ASSETS_ACQ_PRI,
+				  COUNT(ENTRPSCD) COMP_CNT,
+				  case when count(R.ENTRPSCD)=1 THEN
+				    MAX(R.ENTRPS_NM)
+				  ELSE
+				    '전체'
+				  END ENTRPS_NM,
+				  SUM(R.USAGE_AR) USAGE_AR
+				FROM GIS_ASSETS_CD_V G, (
+				  SELECT  D.GIS_ASSETS_PRT_AT_CODE, D.GIS_ASSETS_CD, D.GIS_ASSETS_SUB_CD, A.ENTRPSCD, gam_getentrpsnm(A.ENTRPSCD, '1') ENTRPS_NM, SUM(D.USAGE_AR) USAGE_AR
+				  FROM ASSETS_RENT_F A,ASSETS_RENT_DETAIL_F D
+				  WHERE 1=1
+				    AND TO_DATE('2015-01-01', 'YYYY-MM-DD') > D.usage_pd_to
+				    AND TO_DATE('2015-12-30', 'YYYY-MM-DD') > D.usage_pd_from
+				    GROUP BY D.GIS_ASSETS_PRT_AT_CODE, D.GIS_ASSETS_CD, D.GIS_ASSETS_SUB_CD, A.ENTRPSCD
+				) R
 				WHERE 1=1
-				<isNotEmpty property="gisAssetsPrtAtCode">
-					AND G.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
-				</isNotEmpty>
-				<isNotEmpty property="gisAssetsLocCd">
-					AND G.GIS_ASSETS_LOC_CD = #gisAssetsLocCd#
-				</isNotEmpty>
-				<isNotEmpty property="gisAssetsPrprtySeCd">
-					AND G.GIS_ASSETS_PRPRTY_SE_CD = #gisAssetsPrprtySeCd#
-				</isNotEmpty>
-				ORDER BY G.GIS_ASSETS_PRT_AT_CODE, G.GIS_ASSETS_CD, G.GIS_ASSETS_SUB_CD
+				  AND G.GIS_ASSETS_PRT_AT_CODE=R.GIS_ASSETS_PRT_AT_CODE
+				  AND G.GIS_ASSETS_CD=R.GIS_ASSETS_CD
+				  AND G.GIS_ASSETS_SUB_CD=R.GIS_ASSETS_SUB_CD
+				  AND G.land_prt_at_code='622'
+				  AND G.land_assets_cd='LMM'
+				  AND G.land_assets_sub_cd='01'
+				GROUP BY g.land_prt_at_code, g.land_assets_cd, g.land_assets_sub_cd
 			) S
 		) Z
-	        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
 	<select id="gamGisAssetUseSttusInqireDao.selectGisAssetUseSttusListTotCnt_S" parameterClass="hashMap" resultClass="int">
