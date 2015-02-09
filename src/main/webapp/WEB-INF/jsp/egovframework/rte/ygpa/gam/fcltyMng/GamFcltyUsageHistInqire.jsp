@@ -83,6 +83,10 @@ GamFcltyUsageHistInqireModule.prototype.loadComplete = function(params) {
 	this.$("#sRegistEntrpsCd").bind("keyup change", {module: this}, function(event) {
 		event.data.module.getQueryEntrpsNm();
 	});
+	
+	this.$("#mainGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectData();
+	});
 };
 
 <%
@@ -175,6 +179,20 @@ GamFcltyUsageHistInqireModule.prototype.loadData = function() {
     this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 };
 
+<%
+/**
+ * @FUNCTION NAME : selectData
+ * @DESCRIPTION   : DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyUsageHistInqireModule.prototype.selectData = function() {
+		var gridRowCount = this.$("#mainGrid").flexRowCount();
+		if (gridRowCount == 0) {
+			alert('해당 조건의 자료가 존재하지 않습니다!');
+		return;
+		}
+};
 <%
 /**
  * @FUNCTION NAME : loadDetail
