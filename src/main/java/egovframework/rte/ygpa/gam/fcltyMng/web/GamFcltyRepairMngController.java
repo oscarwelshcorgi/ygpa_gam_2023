@@ -587,6 +587,7 @@ public class GamFcltyRepairMngController {
 
     	Map map = new HashMap();
     	EgovMap result = null;
+    	int totCnt;
     	
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -603,22 +604,17 @@ public class GamFcltyRepairMngController {
 
 		//하자검사관리대장인쇄
     	result = gamFcltyRepairMngService.selectFcltyRepairCheckMng(searchVO);
-    	
-    	searchVO.setFirstIndex(0);
-		searchVO.setLastIndex(9999);
-		searchVO.setRecordCountPerPage(9999);
-
-		searchVO.setFirstIndex(0);
-		searchVO.setLastIndex(9999);
-		searchVO.setRecordCountPerPage(9999);
 		
 		String ctrtNo = (String) result.get("ctrtNo");
 		
 		//하자보증내용
     	List fcltyRepairMngListPerCtrt = gamFcltyRepairMngService.selectFcltyRepairMngListPerCtrt(ctrtNo);
     	
+    	totCnt =  gamFcltyRepairMngService.selectFcltyRepairMngListPerCtrtTotalCnt(ctrtNo);
+    	
         model.addAttribute("result", result);
         model.addAttribute("resultList", fcltyRepairMngListPerCtrt);
+        model.addAttribute("totCnt", totCnt);
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
 

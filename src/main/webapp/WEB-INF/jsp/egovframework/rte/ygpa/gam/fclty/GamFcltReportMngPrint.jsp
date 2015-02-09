@@ -43,8 +43,6 @@
 	</script>
   </head>
   <body>
-  <c:set var="pagePerCount" value="9"/>
-  
   <c:if test="${resultCode==0 }">
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
@@ -144,7 +142,7 @@
         			</tr>
         			<tr height="40px">
         				<td colspan="3" style="text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.wrtDt }" /></td>
-        				<td colspan="3" style="text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.wrtUsr }" /></td>
+        				<td colspan="3" style="text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.wrtUsr }" />&nbsp;&nbsp;&nbsp;인</td>
         				<td colspan="2" style="text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.lastUpdtDt }" /></td>
         				<td colspan="3" style="text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.lastUpdtUsr }" /></td>
         			</tr>
@@ -225,9 +223,298 @@
         			</tr>
         		</tbody>  
         	</table>
-    		
         </div>
     </div>
+    <div class="page">
+<c:set var="pagePerCount" value="14"/>
+<c:if test="${fn:length(resultList) == 0}">
+		<div class="subpage ygpa_report" >
+        	<div style="height:40px;text-align:left;vertical-align:middle;border-top:1px red;font-size:20px;"> 3. 안전점검 및 정밀안전진단 계획</div>
+    		<table style="width:100%;" class="rpr_form_table">
+        		<tbody>
+        			<tr height="40px">
+        				<th style="width:60px;vertical-align:middle;text-align:center;font-size:13px;">번호</th>
+        				<th style="width:180px;vertical-align:middle;text-align:center;font-size:13px;">구분</th>
+        				<th style="width:150px;vertical-align:middle;text-align:center;font-size:13px;">시행일</th>
+        				<th style="width:150px;vertical-align:middle;text-align:center;font-size:13px;">예산(천원)</th>
+        				<th style="width:180px;vertical-align:middle;text-align:center;font-size:13px;">점검진단자</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">비고</th>
+        			</tr>
+        			<tr>
+        				<td colspan="6" style="text-align:center;font-size:13px;">자료가 존재 하지 않습니다.</td>
+        			</tr>
+</c:if>
+<c:forEach var="result" items="${resultList }" varStatus="resultStatus">
+	<c:if test="${resultStatus.index%pagePerCount==0 }"> <% /*  페이지 당 출력 갯수 */ %>
+	
+		<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="page">
+		</c:if>
+		<div class="subpage ygpa_report" >
+			<!--  헤더 반복  -->
+		<c:choose>
+			<c:when test="${(resultListTotalCount - resultStatus.index) > pagePerCount }"><c:set var="continueChk" value="(계속)"/></c:when>
+			<c:otherwise><c:set var="continueChk" value=""/></c:otherwise>
+		</c:choose>
+        	<div style="height:40px;text-align:left;vertical-align:middle;border-top:1px red;font-size:20px;"> 3. 안전점검 및 정밀안전진단 계획 <c:out value="${continueChk }" /></div>
+       		<table style="width:100%;" class="rpr_form_table">
+			   <tbody>
+        			<tr height="40px">
+        				<th style="width:60px;vertical-align:middle;text-align:center;font-size:13px;">번호</th>
+        				<th style="width:180px;vertical-align:middle;text-align:center;font-size:13px;">구분</th>
+        				<th style="width:150px;vertical-align:middle;text-align:center;font-size:13px;">시행일</th>
+        				<th style="width:150px;vertical-align:middle;text-align:center;font-size:13px;">예산(천원)</th>
+        				<th style="width:180px;vertical-align:middle;text-align:center;font-size:13px;">점검진단자</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">비고</th>
+        			</tr>
+	</c:if>
+        			<tr height="40px">
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.rnum }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.qcMngNm }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.qcInspDt }" /></td>
+        				<td style="text-align:center;font-size:13px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.qcInspBdgt }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.qcInspTp }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.rm }" /></td>
+        			</tr>
+</c:forEach>
+        		</tbody>  
+        	</table>
+        </div>
+    </div>
+    
+    <div class="page">
+<c:set var="pagePerCount1" value="4"/>
+<c:if test="${fn:length(resultList) == 0}">
+		<div class="subpage ygpa_report" >
+        	<div style="height:40px;text-align:left;vertical-align:middle;border-top:1px red;font-size:20px;"> 4. 안전점검 및 정밀안전진단 이력</div>
+    		<table style="width:100%;" class="rpr_form_table">
+        		<tbody>
+        			<tr height="40px">
+        				<th rowspan="2" style="width:60px;vertical-align:middle;text-align:center;font-size:13px;">번호</th>
+        				<th style="width:120px;vertical-align:middle;text-align:center;font-size:13px;">점검·진단기간</th>
+        				<th style="width:120px;vertical-align:middle;text-align:center;font-size:13px;">점검·진단기관명</th>
+        				<th style="width:120px;vertical-align:middle;text-align:center;font-size:13px;">비용(천원)</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">주요 점검·진단결과</th>
+        				<th style="width:120px;vertical-align:middle;text-align:center;font-size:13px;">작성일</th>
+        			</tr>
+        			<tr height="40px">
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">점검·진단구분</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">점검·진단<br>책임기술자</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">상태등급</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">주요 보수보강(안)</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">작성자(인)</th>
+        			</tr>
+        			<tr>
+        				<td colspan="6" style="text-align:center;font-size:13px;">자료가 존재 하지 않습니다.</td>
+        			</tr>
+</c:if>
+<c:forEach var="result" items="${resultList }" varStatus="resultStatus">
+	<c:if test="${resultStatus.index%pagePerCount1==0 }"> <% /*  페이지 당 출력 갯수 */ %>
+	
+		<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="page">
+		</c:if>
+		<div class="subpage ygpa_report" >
+			<!--  헤더 반복  -->
+		<c:choose>
+			<c:when test="${(resultListTotalCount - resultStatus.index) > pagePerCount1 }"><c:set var="continueChk1" value="(계속)"/></c:when>
+			<c:otherwise><c:set var="continueChk1" value=""/></c:otherwise>
+		</c:choose>
+        	<div style="height:40px;text-align:left;vertical-align:middle;border-top:1px red;font-size:20px;"> 4. 안전점검 및 정밀안전진단 이력 <c:out value="${continueChk1 }" /></div>
+       		<table style="width:100%;" class="rpr_form_table">
+			   <tbody>
+        			<tr height="40px">
+        				<th rowspan="2" style="width:60px;vertical-align:middle;text-align:center;font-size:13px;">번호</th>
+        				<th style="width:120px;vertical-align:middle;text-align:center;font-size:13px;">점검·진단기간</th>
+        				<th style="width:120px;vertical-align:middle;text-align:center;font-size:13px;">점검·진단기관명</th>
+        				<th style="width:120px;vertical-align:middle;text-align:center;font-size:13px;">비용(천원)</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">주요 점검·진단결과</th>
+        				<th style="width:120px;vertical-align:middle;text-align:center;font-size:13px;">작성일</th>
+        			</tr>
+        			<tr height="40px">
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">점검·진단구분</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">점검·진단<br>책임기술자</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">상태등급</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">주요 보수보강(안)</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">작성자(인)</th>
+        			</tr>
+	</c:if>
+        			<tr height="40px">
+        				<td rowspan="2" style="width:60px;text-align:center;font-size:13px;"><c:out value="${result.rnum }" /></td>
+        				<td style="width:120px;text-align:center;font-size:13px;"><c:out value="${result.qcBeginDt }" /> ~ <br><c:out value="${result.qcEndDt }" /></td>
+        				<td style="width:120px;text-align:center;font-size:13px;"><c:out value="${result.qcInspInsttNm }" /></td>
+        				<td style="width:120px;text-align:center;font-size:13px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.qcInspAmt }" /></td>
+        				<td style="text-align:left;font-size:13px;word-break:break-all;"><c:out value="${result.qcInspResult }" /></td>
+        				<td style="width:120px;text-align:center;font-size:13px;"><c:out value="${result.wrtDt }" /></td>
+        			</tr>
+        			<tr height="40px">
+        				<td style="width:120px;text-align:center;font-size:13px;"><c:out value="${result.qcMngNm }" /></td>
+        				<td style="width:120px;text-align:center;font-size:13px;"><c:out value="${result.responEngineerNm }" /></td>
+        				<td style="width:120px;text-align:center;font-size:13px;"><c:out value="${result.sttusEvlLvl }" /></td>
+        				<td style="text-align:left;font-size:13px;word-break:break-all;"><c:out value="${result.actionCn }" /></td>
+        				<td style="width:120px;text-align:center;font-size:13px;"><c:out value="${result.wrtUsr }" /></td>
+        			</tr>
+</c:forEach>
+        		</tbody>  
+        	</table>
+        </div>
+    </div>
+    
+    <div class="page">
+<c:set var="pagePerCount2" value="10"/>
+<c:if test="${fn:length(mntnResultList) == 0}">
+		<div class="subpage ygpa_report" >
+        	<div style="height:40px;text-align:left;vertical-align:middle;border-top:1px red;font-size:20px;"> 5. 보수·보강계획</div>
+    		<table style="width:100%;" class="rpr_form_table">
+        		<tbody>
+        			<tr height="40px">
+        				<th style="width:60px;vertical-align:middle;text-align:center;font-size:13px;">번호</th>
+        				<th style="width:150px;vertical-align:middle;text-align:center;font-size:13px;">공사기간</th>
+        				<th style="width:120px;vertical-align:middle;text-align:center;font-size:13px;">공사구분</th>
+        				<th style="width:120px;vertical-align:middle;text-align:center;font-size:13px;">부위</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">공사내역</th>
+        				<th style="width:120px;vertical-align:middle;text-align:center;font-size:13px;">예산(천원)</th>
+        			</tr>
+        			<tr>
+        				<td colspan="6" style="text-align:center;font-size:13px;">자료가 존재 하지 않습니다.</td>
+        			</tr>
+</c:if>
+<c:forEach var="result" items="${mntnResultList }" varStatus="resultStatus">
+	<c:if test="${resultStatus.index%pagePerCount2==0 }"> <% /*  페이지 당 출력 갯수 */ %>
+	
+		<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="page">
+		</c:if>
+		<div class="subpage ygpa_report" >
+			<!--  헤더 반복  -->
+		<c:choose>
+			<c:when test="${(mntnResultListTotalCount - resultStatus.index) > pagePerCount2 }"><c:set var="continueChk" value="(계속)"/></c:when>
+			<c:otherwise><c:set var="continueChk" value=""/></c:otherwise>
+		</c:choose>
+        	<div style="height:40px;text-align:left;vertical-align:middle;border-top:1px red;font-size:20px;"> 5. 보수·보강계획 <c:out value="${continueChk }" /></div>
+       		<table style="width:100%;" class="rpr_form_table">
+			   <tbody>
+        			<tr height="40px">
+        				<th style="width:60px;vertical-align:middle;text-align:center;font-size:13px;">번호</th>
+        				<th style="width:150px;vertical-align:middle;text-align:center;font-size:13px;">공사기간</th>
+        				<th style="width:120px;vertical-align:middle;text-align:center;font-size:13px;">공사구분</th>
+        				<th style="width:120px;vertical-align:middle;text-align:center;font-size:13px;">부위</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">공사내역</th>
+        				<th style="width:120px;vertical-align:middle;text-align:center;font-size:13px;">예산(천원)</th>
+        			</tr>
+	</c:if>
+        			<tr height="40px">
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.rnum }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.mntnRprCnstStartDt }" /> ~ <br><c:out value="${result.mntnRprCnstEndDt }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.mntnRprSeNm }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.mntnRprPart }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.mntnRprCn }" /></td>
+        				<td style="text-align:center;font-size:13px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.mntnRprBdgt }" /></td>
+        			</tr>
+</c:forEach>
+        		</tbody>  
+        	</table>
+        </div>
+    </div>
+    
+    
+    <div class="page">
+<c:set var="pagePerCount3" value="5"/>
+<c:if test="${fn:length(mntnResultList) == 0}">
+		<div class="subpage ygpa_report" >
+        	<div style="height:40px;text-align:left;vertical-align:middle;border-top:1px red;font-size:20px;"> 6. 보수·보강이력</div>
+    		<table style="width:100%;" class="rpr_form_table">
+        		<tbody>
+        			<tr height="40px">
+        				<th rowspan="2" style="width:60px;vertical-align:middle;text-align:center;font-size:13px;">번호</th>
+        				<th style="width:120px;vertical-align:middle;text-align:center;font-size:13px;">공사기간</th>
+        				<th rowspan="2" style="width:80px;vertical-align:middle;text-align:center;font-size:13px;">부위</th>
+        				<th rowspan="2" style="vertical-align:middle;text-align:center;font-size:13px;">공사내역</th>
+        				<th style="width:100px;vertical-align:middle;text-align:center;font-size:13px;">설계자</th>
+        				<th style="width:100px;vertical-align:middle;text-align:center;font-size:13px;">시공자</th>
+        				<th rowspan="2" style="width:100px;vertical-align:middle;text-align:center;font-size:13px;">공사감독</th>
+        				<th style="width:80px;vertical-align:middle;text-align:center;font-size:13px;">작성일</th>
+        			</tr>
+        			<tr height="40px">
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">공사구분</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">공사비(천원)</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">책임기술자</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">작성자(인)</th>
+        			</tr>
+        			<tr>
+        				<td colspan="8" style="text-align:center;font-size:13px;">자료가 존재 하지 않습니다.</td>
+        			</tr>
+</c:if>
+<c:forEach var="result" items="${mntnResultList }" varStatus="resultStatus">
+	<c:if test="${resultStatus.index%pagePerCount3==0 }"> <% /*  페이지 당 출력 갯수 */ %>
+	
+		<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="page">
+		</c:if>
+		<div class="subpage ygpa_report" >
+			<!--  헤더 반복  -->
+		<c:choose>
+			<c:when test="${(mntnResultListTotalCount - resultStatus.index) > pagePerCount3 }"><c:set var="continueChk1" value="(계속)"/></c:when>
+			<c:otherwise><c:set var="continueChk1" value=""/></c:otherwise>
+		</c:choose>
+        	<div style="height:40px;text-align:left;vertical-align:middle;border-top:1px red;font-size:20px;"> 6. 보수·보강이력 <c:out value="${continueChk1 }" /></div>
+       		<table style="width:100%;" class="rpr_form_table">
+			   <tbody>
+        			<tr height="40px">
+        				<th rowspan="2" style="width:60px;vertical-align:middle;text-align:center;font-size:13px;">번호</th>
+        				<th style="width:120px;vertical-align:middle;text-align:center;font-size:13px;">공사기간</th>
+        				<th rowspan="2" style="width:80px;vertical-align:middle;text-align:center;font-size:13px;">부위</th>
+        				<th rowspan="2" style="vertical-align:middle;text-align:center;font-size:13px;">공사내역</th>
+        				<th style="width:100px;vertical-align:middle;text-align:center;font-size:13px;">설계자</th>
+        				<th style="width:100px;vertical-align:middle;text-align:center;font-size:13px;">시공자</th>
+        				<th rowspan="2" style="width:100px;vertical-align:middle;text-align:center;font-size:13px;">공사감독</th>
+        				<th style="width:80px;vertical-align:middle;text-align:center;font-size:13px;">작성일</th>
+        			</tr>
+        			<tr height="40px">
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">공사구분</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">공사비(천원)</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">책임기술자</th>
+        				<th style="vertical-align:middle;text-align:center;font-size:13px;">작성자(인)</th>
+        			</tr>
+	</c:if>
+        			<tr height="40px">
+        				<td rowspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.rnum }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.mntnRprCnstStartDt }" /> ~ <br><c:out value="${result.mntnRprCnstEndDt }" /></td>
+        				<td rowspan="2" style="text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.mntnRprPart }" /></td>
+        				<td rowspan="2" style="text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.mntnRprCn }" /></td>
+        				<td style="text-align:left;font-size:13px;word-break:break-all;"><c:out value="${result.plannerNm }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.cnstrtr }" /></td>
+        				<td rowspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.cnstChargNm }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.wrtDt }" /></td>
+        			</tr>
+        			<tr height="40px">
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.mntnRprSeNm }" /></td>
+        				<td style="text-align:center;font-size:13px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.mntnRprCnstAmt }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.responEngineer }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.wrtUsr }" /></td>
+        			</tr>
+</c:forEach>
+        		</tbody>  
+        	</table>
+        </div>
+    </div>
+    
 </div>
   </c:if>
     <c:if test="${resultCode!=0 }">

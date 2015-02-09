@@ -37,6 +37,9 @@ public class GamFcltReportMngVO extends ComDefaultVO {
     private String fcltsNo;
     
     
+    /** 시설물관리그룹번호 */
+    private String fcltsMngGroupNo;
+    
     
     
     
@@ -53,6 +56,20 @@ public class GamFcltReportMngVO extends ComDefaultVO {
 	 */
 	public void setFcltsNo(String fcltsNo) {
 		this.fcltsNo = fcltsNo;
+	}
+
+	/**
+	 * @return the fcltsMngGroupNo
+	 */
+	public String getFcltsMngGroupNo() {
+		return fcltsMngGroupNo;
+	}
+
+	/**
+	 * @param fcltsMngGroupNo the fcltsMngGroupNo to set
+	 */
+	public void setFcltsMngGroupNo(String fcltsMngGroupNo) {
+		this.fcltsMngGroupNo = fcltsMngGroupNo;
 	}
 
 }

@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.fclty.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -88,19 +89,28 @@ public class GamFcltReportMngController {
 		GamFcltReportMngVO searchVO;
     	searchVO = mapper.convertValue(fcltReportMngOpt, GamFcltReportMngVO.class);
 
-		//하자검사관리대장인쇄
+		//시설물관리대장 기본현황/상세제원 인쇄
     	result = gamFcltReportMngService.selectFcltReportMng(searchVO);
     	
-//    	searchVO.setFirstIndex(0);
-//		searchVO.setLastIndex(9999);
-//		searchVO.setRecordCountPerPage(9999);
-//
-//		searchVO.setFirstIndex(0);
-//		searchVO.setLastIndex(9999);
-//		searchVO.setRecordCountPerPage(9999);
+    	//안전점검 및 정밀안전진단계획리스트 인쇄
+    	List resultList = gamFcltReportMngService.selectFcleQcMngList(searchVO);
+    	
+    	//안전점검 및 정밀안전진단계획총갯수
+    	int resultListTotalCount = gamFcltReportMngService.selectFcleQcMngListTotalCount(searchVO);
+    	
+    	//보수.보강계획 리스트 인쇄
+    	List mntnResultList = gamFcltReportMngService.selectFcleMntnRprMngList(searchVO);
+    	
+    	//보수.보강계획 리스트 총갯수
+    	int mntnResultListTotalCount = gamFcltReportMngService.selectFcleMntnRprMngListTotalCount(searchVO);
+    	
 		
     	
         model.addAttribute("result", result);
+        model.addAttribute("resultList", resultList);
+        model.addAttribute("resultListTotalCount", resultListTotalCount);
+        model.addAttribute("mntnResultList", mntnResultList);
+        model.addAttribute("mntnResultListTotalCount", mntnResultListTotalCount);
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
 

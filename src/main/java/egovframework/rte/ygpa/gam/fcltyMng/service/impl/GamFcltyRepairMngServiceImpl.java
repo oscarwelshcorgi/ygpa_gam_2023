@@ -223,6 +223,17 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	public List<?> selectFcltyRepairMngListPerCtrt(String vo) throws Exception {
 		return (List<?>)gamFcltyRepairMngDao.selectFcltyRepairMngListPerCtrt(vo);
 	}
+	
+	
+	/**
+	 * 계약당 계약당 하자보증 내역 총갯수
+	 * @param String
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectFcltyRepairMngListPerCtrtTotalCnt(String vo) throws Exception {
+		return gamFcltyRepairMngDao.selectFcltyRepairMngListPerCtrtTotalCnt(vo);
+	}
 
 
 }

@@ -228,5 +228,16 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 	}
 	
 	
+	/**
+	 * 계약당 계약당 하자보증 내역 총갯수
+	 * @param String
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectFcltyRepairMngListPerCtrtTotalCnt(String vo) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyRepairMngDao.selectFcltyRepairMngListPerCtrtTotalCnt_S", vo);
+	}
+	
+	
 
 }

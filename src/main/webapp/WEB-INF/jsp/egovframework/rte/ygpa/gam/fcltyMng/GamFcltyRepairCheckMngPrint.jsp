@@ -43,7 +43,8 @@
 	</script>
   </head>
   <body>
-  <c:set var="pagePerCount" value="9"/>
+  <c:set var="pagePerCount" value="14"/>
+  <c:set var="firstPageCount" value="6"/>
   
   <c:if test="${resultCode==0 }">
   <a id="printButton" href="#">인쇄</a>
@@ -101,11 +102,11 @@
         	</table>
         	<div style="height:50px;"> </div>
         	<div style="height:50px;text-align:center;vertical-align:bottom;border-top:1px red;font-size:25px;font-weight:bold;text-decoration:underline;">하 자 보 증 내 용</div>
-    		<table style="width:100%;" class="rpr_form_table">
+        	<table style="width:100%;" class="rpr_form_table">
         		<tbody>
-        			<tr height="30px">
-        				<td style="width:60px;text-align:center;vertical-align:middle;font-size:13px;">구분</td>
-        				<td style="width:70px;text-align:center;vertical-align:middle;font-size:13px;">검사일</td>
+        			<tr height="50px">
+        				<td style="width:40px;text-align:center;vertical-align:middle;font-size:13px;">구분</td>
+        				<td style="width:60px;text-align:center;vertical-align:middle;font-size:13px;">검사일</td>
         				<td style="width:70px;text-align:center;vertical-align:middle;font-size:13px;">검사자</td>
         				<td style="width:70px;text-align:center;vertical-align:middle;font-size:13px;">소 속</td>
         				<td style="width:70px;text-align:center;vertical-align:middle;font-size:13px;">직급 및<br>성명</td>
@@ -114,37 +115,47 @@
         			</tr>
         			<tr height="200px">
         				<td style="text-align:center;vertical-align:middle;font-size:13px;">준공<br>검사</td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;"><c:out value="${result.flawExamEntrpsNm2 }" /></td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;"><c:out value="${result.flawExamEntrpsNm2 }" /></td>
-        				<td style="text-align:left;vertical-align:middle;font-size:13px;">&nbsp;<c:out value="${result.flawExamEntrpsNm2 }" /></td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;"><c:out value="${result.flawExamEntrpsNm2 }" /><br><c:out value="${result.flawExamEntrpsNm2 }" /></td>
-        				<td style="text-align:left;vertical-align:middle;font-size:13px;word-break:break-all;">&nbsp;<c:out value="${result.flawExamEntrpsNm2 }" /></td>
-        				<td style="text-align:left;vertical-align:middle;font-size:13px;word-break:break-all;">&nbsp;<c:out value="${result.flawExamEntrpsNm2 }" /></td>
+        				<td style="text-align:center;vertical-align:middle;font-size:13px;"></td>
+        				<td style="text-align:center;vertical-align:middle;font-size:13px;"></td>
+        				<td style="text-align:left;vertical-align:middle;font-size:13px;"></td>
+        				<td style="text-align:center;vertical-align:middle;font-size:13px;"></td>
+        				<td style="text-align:left;vertical-align:middle;font-size:13px;"></td>
+        				<td style="text-align:left;vertical-align:middle;font-size:13px;"></td>
         			</tr>
-        		<c:forEach var="result" items="${resultList }" varStatus="resultStatus">
-        			<c:if test="${resultStatus.index%pagePerCount==0 && resultStatus.index > 6}"> <% /*  페이지 당 출력 갯수 */ %>
-           				<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
-			        		</tbody>
-			        		</table>
-	        		        </div>
-    						</div>
-						    <div class="page">
-						        <div class="subpage ygpa_report" >
-           				</c:if>
-        				<!--  헤더 반복  -->
-			        			<tr height="30">
-					  				<td style="width:60px;text-align:center;vertical-align:middle;font-size:13px;">구분</td>
-			        				<td style="width:70px;text-align:center;vertical-align:middle;font-size:13px;">검사일</td>
-			        				<td style="width:70px;text-align:center;vertical-align:middle;font-size:13px;">검사자</td>
-			        				<td style="width:70px;text-align:center;vertical-align:middle;font-size:13px;">소 속</td>
-			        				<td style="width:70px;text-align:center;vertical-align:middle;font-size:13px;">직급 및<br>성명</td>
-			        				<td style="width:180px;text-align:center;vertical-align:middle;font-size:13px;">하자유무 및 조치사항</td>
-			        				<td style="text-align:center;vertical-align:middle;font-size:13px;">비고</td>
-					 			</tr>
+<c:if test="${fn:length(resultList) == 0}">
+        			<tr>
+        				<td colspan="7" style="text-align:center;font-size:13px;">자료가 존재 하지 않습니다.</td>
+        			</tr>
+</c:if>
 
+        		<c:forEach var="result" items="${resultList }"  varStatus="resultStatus" >	
+        			<c:if test="${resultStatus.index%pagePerCount==firstPageCount }"> <% /*  페이지 당 출력 갯수 */ %>
+			        		</tbody>
+			        	</table>
+	        		</div>
+    			</div>
+    			<div class="page">
+				<div class="subpage ygpa_report" >
+				<!--  헤더 반복  -->
+        			<table style="width:100%;" class="rpr_form_table">
+        				<tbody>
+		        			<tr height="50px">
+		        				<td style="width:40px;text-align:center;vertical-align:middle;font-size:13px;">구분</td>
+		        				<td style="width:60px;text-align:center;vertical-align:middle;font-size:13px;">검사일</td>
+		        				<td style="width:70px;text-align:center;vertical-align:middle;font-size:13px;">검사자</td>
+		        				<td style="width:70px;text-align:center;vertical-align:middle;font-size:13px;">소 속</td>
+		        				<td style="width:70px;text-align:center;vertical-align:middle;font-size:13px;">직급 및<br>성명</td>
+		        				<td style="width:180px;text-align:center;vertical-align:middle;font-size:13px;">하자유무 및 조치사항</td>
+		        				<td style="text-align:center;vertical-align:middle;font-size:13px;">비고</td>
+		        			</tr>
         			</c:if>
-        			<tr height="40px">
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;">하자<br>검사</td>
+        			<tr height="50px">
+        			<c:if test="${resultStatus.index==0 }">
+        				<td rowspan="<c:out value="${firstPageCount }" />" style="text-align:center;vertical-align:middle;font-size:13px;">하자<br>검사</td>
+        			</c:if>
+        			<c:if test="${resultStatus.index%pagePerCount==firstPageCount }">
+        				<td rowspan="<c:out value="${pagePerCount }" />" style="text-align:center;vertical-align:middle;font-size:13px;">하자<br>검사</td>
+        			</c:if>
         				<td style="text-align:center;vertical-align:middle;font-size:13px;"><c:out value="${result.flawExamDt }" /></td>
         				<td style="text-align:center;vertical-align:middle;font-size:13px;"><c:out value="${result.flawExamUsr }" /></td>
         				<td style="text-align:center;vertical-align:middle;font-size:13px;"><c:out value="${result.flawExamUsrDept }" /></td>

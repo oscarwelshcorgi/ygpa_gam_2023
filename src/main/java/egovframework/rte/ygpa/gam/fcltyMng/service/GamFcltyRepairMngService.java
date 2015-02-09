@@ -137,5 +137,14 @@ public interface GamFcltyRepairMngService {
 	 * @throws Exception
 	 */
 	List<?> selectFcltyRepairMngListPerCtrt(String vo) throws Exception;
+	
+	
+	/**
+	 * 계약당 계약당 하자보증 내역 총갯수
+	 * @param String
+	 * @return int
+	 * @throws Exception
+	 */
+	int selectFcltyRepairMngListPerCtrtTotalCnt(String vo) throws Exception;
 
 }

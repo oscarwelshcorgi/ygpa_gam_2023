@@ -4,6 +4,8 @@
 package egovframework.rte.ygpa.gam.fclty.service.impl;
 
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -45,6 +47,50 @@ public class GamFcltReportMngServiceImpl extends AbstractServiceImpl implements 
 	 */		
 	public EgovMap selectFcltReportMng(GamFcltReportMngVO searchVO) throws Exception {
 		return gamFcltReportMngDao.selectFcltReportMng(searchVO);
+	}
+	
+	
+	/**
+	 * 안전점검 및 정밀안전진단계획 인쇄
+	 * @param GamFcltReportMngVO
+	 * @return Map
+	 * @throws Exception
+	 */
+	public List<?> selectFcleQcMngList(GamFcltReportMngVO vo) throws Exception{
+		return (List<?>)gamFcltReportMngDao.selectFcleQcMngList(vo);
+	}
+	
+	
+	/**
+	 * 안전점검 및 정밀안전진단계획총갯수
+	 * @param GamFcltReportMngVO
+	 * @return Map
+	 * @throws Exception
+	 */
+	public int selectFcleQcMngListTotalCount(GamFcltReportMngVO vo) throws Exception{
+		return gamFcltReportMngDao.selectFcleQcMngListTotalCount(vo);
+	}
+	
+	
+	/**
+	 * 보수.보강계획 리스트 인쇄
+	 * @param GamFcltReportMngVO
+	 * @return Map
+	 * @throws Exception
+	 */
+	public List<?> selectFcleMntnRprMngList(GamFcltReportMngVO vo) throws Exception{
+		return (List<?>)gamFcltReportMngDao.selectFcleMntnRprMngList(vo);
+	}
+	
+	
+	/**
+	 * 보수.보강계획 리스트 총갯수
+	 * @param GamFcltReportMngVO
+	 * @return Map
+	 * @throws Exception
+	 */
+	public int selectFcleMntnRprMngListTotalCount(GamFcltReportMngVO vo) throws Exception{
+		return gamFcltReportMngDao.selectFcleMntnRprMngListTotalCount(vo);
 	}
 
 }

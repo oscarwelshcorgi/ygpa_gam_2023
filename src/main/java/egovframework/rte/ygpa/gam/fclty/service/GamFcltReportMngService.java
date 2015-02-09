@@ -3,6 +3,8 @@
  */
 package egovframework.rte.ygpa.gam.fclty.service;
 
+import java.util.List;
+
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 /**
@@ -32,5 +34,41 @@ public interface GamFcltReportMngService {
 	 * @throws Exception
 	 */
 	EgovMap selectFcltReportMng(GamFcltReportMngVO vo) throws Exception;
+	
+	
+	/**
+	 * 안전점검 및 정밀안전진단계획 인쇄
+	 * @param GamFcltReportMngVO
+	 * @return Map
+	 * @throws Exception
+	 */
+	List<?> selectFcleQcMngList(GamFcltReportMngVO vo) throws Exception;
+	
+	
+	/**
+	 * 안전점검 및 정밀안전진단계획총갯수
+	 * @param GamFcltReportMngVO
+	 * @return Map
+	 * @throws Exception
+	 */
+	int selectFcleQcMngListTotalCount(GamFcltReportMngVO vo) throws Exception;
+	
+	
+	/**
+	 * 보수.보강계획 리스트 인쇄
+	 * @param GamFcltReportMngVO
+	 * @return Map
+	 * @throws Exception
+	 */
+	List<?> selectFcleMntnRprMngList(GamFcltReportMngVO vo) throws Exception;
+	
+	
+	/**
+	 * 보수.보강계획 리스트 총갯수
+	 * @param GamFcltReportMngVO
+	 * @return Map
+	 * @throws Exception
+	 */
+	int selectFcleMntnRprMngListTotalCount(GamFcltReportMngVO vo) throws Exception;
 
 }

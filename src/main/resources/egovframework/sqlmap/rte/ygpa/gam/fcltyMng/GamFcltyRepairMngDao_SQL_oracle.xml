@@ -576,9 +576,19 @@
 			, R.FLAW_EXAM_USR_NM
 		FROM
 			FLAW_RPR_DTLS_F R 
-		WHERE 
+		WHERE
 			R.CTRT_NO = #ctrtNo#
 		
+	</select>
+	
+	
+	<select id="gamFcltyRepairMngDao.selectFcltyRepairMngListPerCtrtTotalCnt_S" parameterClass="String" resultClass="int">
+		SELECT
+			COUNT(*) TOT_CNT
+		FROM
+			FLAW_RPR_DTLS_F R 
+		WHERE
+			R.CTRT_NO = #ctrtNo#
 	</select>
 
 </sqlMap>

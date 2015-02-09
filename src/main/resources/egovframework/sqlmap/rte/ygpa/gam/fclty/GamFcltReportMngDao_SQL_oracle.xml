@@ -74,6 +74,91 @@
 		 	F.FCLTS_NO = #fcltsNo#
 		 	
   	</select>
+  	
+  	
+  	
+  	<select id="gamFcltReportMngDao.selectFcleQcMngList_D" parameterClass="fcltReportMngVO" resultClass="egovMap">
+         
+		SELECT 
+			ROWNUM RNUM
+			, Q.QC_SE
+			, Q.QC_MNG_NM
+			, TO_CHAR(Q.QC_INSP_DT, 'YYYY-MM-DD') QC_INSP_DT
+			, TO_CHAR(Q.QC_BEGIN_DT, 'YYYY-MM-DD') QC_BEGIN_DT
+			, TO_CHAR(Q.QC_END_DT, 'YYYY-MM-DD') QC_END_DT
+			, Q.QC_INSP_INSTT_NM
+			, (Q.QC_INSP_AMT/1000) QC_INSP_AMT
+			, (Q.QC_INSP_BDGT/1000) QC_INSP_BDGT
+			, Q.QC_INSP_RESULT
+			, Q.WRT_DT
+			, Q.WRT_USR
+			, Q.RESPON_ENGINEER_NM
+			, Q.STTUS_EVL_LVL
+			, Q.ACTION_CN
+			, Q.QC_INSP_TP
+			, Q.RM
+		FROM 
+			QC_MNG_DTLS_F Q 
+		WHERE 
+			Q.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		
+    </select>
+
+    <select id="gamFcltReportMngDao.selectFcleQcMngListTotalCount_S" parameterClass="fcltReportMngVO" resultClass="int">
+    
+		SELECT 
+			COUNT(*) TOT_CNT
+		FROM 
+			QC_MNG_DTLS_F Q 
+		WHERE 
+			Q.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		
+    </select>
+    
+    
+    <select id="gamFcltReportMngDao.selectFcleMntnRprMngList_D" parameterClass="fcltReportMngVO" resultClass="egovMap">
+         
+		SELECT 
+			ROWNUM RNUM
+			, M.MNTN_RPR_CNST_NM
+			, M.PLANNER_NM
+			, M.CNST_CHARG_NM
+			, TO_CHAR(M.MNTN_RPR_CNST_START_DT) MNTN_RPR_CNST_START_DT
+			, TO_CHAR(M.MNTN_RPR_CNST_END_DT) MNTN_RPR_CNST_END_DT
+			, (M.MNTN_RPR_CNST_AMT/1000) MNTN_RPR_CNST_AMT
+			, M.RM
+			, M.CTRT_NO
+			, M.FCLTS_JOB_SE
+			, M.FCLTS_MNG_GROUP_NO
+			, M.MNTN_RPR_SEQ
+			, M.MNTN_RPR_SE
+			, GAM_GET_MNTN_RPR_SE_NM(M.MNTN_RPR_SE) MNTN_RPR_SE_NM
+			, M.MNTN_RPR_PART
+			, M.MNTN_RPR_CN
+			, (M.MNTN_RPR_BDGT/1000) MNTN_RPR_BDGT
+			, M.CNSTRTR
+			, M.RESPON_ENGINEER
+			, M.ENFORCE_YEAR
+			, M.MNTN_SUB_RPR_SE
+			, TO_CHAR(M.WRT_DT) WRT_DT
+			, M.WRT_USR
+		FROM 
+			MNTN_RPR_DTLS_F M 
+		WHERE 
+			M.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		
+    </select>
+
+    <select id="gamFcltReportMngDao.selectFcleMntnRprMngListTotalCount_S" parameterClass="fcltReportMngVO" resultClass="int">
+    
+		SELECT 
+			COUNT(*) TOT_CNT
+		FROM 
+			MNTN_RPR_DTLS_F M 
+		WHERE 
+			M.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		
+    </select>
 
   	
 
