@@ -45,10 +45,10 @@
 
 		<!-- 패스워드 validation
 		1. password1 : 9~20자 이내
-		2. password2 : 한글,띄어쓰기는 안됨
+		2. password2 : 패스워드 내에 특수문자를 하나 이상 포함
 		3. password3 : 연속된 문자나 순차적인 문자 4개이상 사용금지
 		4. password4 : 반복문자나 숫자 연속 4개이상 사용금지
-		5. password5 : 패스워드 내에 특수문자를 하나 이상 포함 -->
+		-->
 		<validator name="password1"
 			classname="egovframework.rte.ptl.mvc.validation.RteFieldChecks"
 			method="validatePassword1"
@@ -142,10 +142,10 @@
 				    ch_char = str .charAt(i);
 				    ch = ch_char.charCodeAt();
 				        if( (ch >= 33 && ch <= 47) || (ch >= 58 && ch <= 64) || (ch >= 91 && ch <= 96) || (ch >= 123 && ch <= 126) ) {
-				            return false;
+				            return true;
 				        }
 				}
-                return pwd;
+                return false;
             }
            ]]>
 			</javascript>
