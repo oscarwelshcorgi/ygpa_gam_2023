@@ -49,7 +49,7 @@ GamElctyUsageQyMngModule.prototype.loadComplete = function() {
 
 	this.$("#mainGrid").flexigrid({
 		module : this,
-		url : '/mngFee/gamSelectElctyUsageQyMng.do',
+		url : '/mngFee/gamSelectElctyUsageQyMngList.do',
 		dataType : 'json',
 		colModel : [
 					{display:'사용 년도',		name:'usageYr',			width:80, 		sortable:false,		align:'center'},
@@ -206,11 +206,11 @@ GamElctyUsageQyMngModule.prototype.drawChart = function() {
 	var usageYr = Number(this.$('#sEndUsageYear').val());
 	var searchVO = this.makeFormArgs("#detailForm");
 	if (chartValueSe == "A") {
-		chartValueNm = "전력 사용량";
-	} else if (chartValueSe == "P") {
 		chartValueNm = "전기 요금";
-	} else {
+	} else if (chartValueSe == "P") {
 		chartValueNm = "PEEK 사용량";
+	} else {
+		chartValueNm = "전력 사용량";
 	}
 	this.doAction('/mngFee/gamSelectElctyUsageQyMngChart.do', searchVO, function(module, result) {
 		if (result.resultCode == "0") {
@@ -270,32 +270,6 @@ GamElctyUsageQyMngModule.prototype.drawChart = function() {
 		module.barChart.parse(dataValueArr, "json");
 		module.barChart.refresh();
 	});
-
-};
-
-<%
-/**
- * @FUNCTION NAME : onClosePopup
- * @DESCRIPTION   : CLOSE POPUP EVENT
- * @PARAMETER     :
- *   1. buttonId - BUTTON ID
- *   2. msg      - MESSAGE
- *   3. value    - VALUE
-**/
-%>
-GamElctyUsageQyMngModule.prototype.onClosePopup = function(popupId, msg, value) {
-
-	switch (popupId) {
-		case 'popupMngFeeFcltyCd':
-			if (msg == 'ok') {
-				this.$('#mngFeeFcltyCd').val(value.mngFeeFcltyCd);
-				this.$('#mngFeeFcltyNm').val(value.mngFeeFcltyNm);
-				this.$('#mngFeeJobSe').val(value.mngFeeJobSe);
-				this.$('#mngFeeJobSeNm').val('[' + value.mngFeeJobSe + ']:' + value.mngFeeJobSeNm);
-				this.getPrevMtUsageQy();
-			}
-			break;
-	}
 
 };
 
@@ -489,20 +463,21 @@ GamElctyUsageQyMngModule.prototype.selectData = function() {
 %>
 GamElctyUsageQyMngModule.prototype.addData = function() {
 
-	var sStartUsageYear = this.$('#sStartUsageYear').val();
 	var sEndUsageYear = this.$('#sEndUsageYear').val();
 	var mngFeeJobSe = "E";
 	var mngFeeJobSeNm = "[E]:전기시설";
+	var mngFeeFcltyCd = this.$('#sMngFeeFcltyCd').val();
+	var mngFeeFcltyNm = this.$('#sMngFeeFcltyCd_select').find('option:selected').text();
 	this.$('#usageYr').val(sEndUsageYear);
 	this.$('#mngFeeJobSe').val(mngFeeJobSe);
 	this.$('#mngFeeJobSeNm').val(mngFeeJobSeNm);
-	this.$('#mngFeeFcltyCd').val("");
-	this.$('#mngFeeFcltyNm').val("");
+	this.$('#mngFeeFcltyCd').val(mngFeeFcltyCd);
+	this.$('#mngFeeFcltyNm').val(mngFeeFcltyNm);
 	this.$('#usageQy').val("0.00");
 	this.$('#usageAmt').val("0");
 	this.$('#peekQy').val("0.00");
 	this.enableDetailInputItem();
-	this.$('#usageMtYear').focus();
+	this.$('#mngFeeFcltyCd').focus();
 
 };
 
@@ -517,6 +492,7 @@ GamElctyUsageQyMngModule.prototype.saveData = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
 	var usageYr = this.$('#usageYr').val();
+	var mngFeeJobSe = this.$('#mngFeeJobSe').val();
 	var mngFeeFcltyCd = this.$('#mngFeeFcltyCd').val();
 	var usageQy = Number(this.$('#usageQy').val().replace(/,/gi, ""));
 	var usageAmt = Number(this.$('#usageAmt').val().replace(/,/gi, ""));
@@ -547,7 +523,7 @@ GamElctyUsageQyMngModule.prototype.saveData = function() {
 		return;
 	}
 	if (this._mainmode == "insert") {
-		this._mainKeyValue = mngFeeFcltyCd + usageMtYear + usageMtMon + mngFeeJobSe;
+		this._mainKeyValue = mngFeeFcltyCd + usageYr + mngFeeJobSe;
 		this.doAction('/mngFee/gamInsertElctyUsageQyMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.refreshData();
@@ -625,8 +601,8 @@ GamElctyUsageQyMngModule.prototype.copyData = function() {
 			alert('자료 확인이 실패했습니다!');
 			return;
 		}
-		mtCnt=result.resultList[0]['yrCnt']*1;
-		if (mtCnt > 0) {
+		yrCnt=result.resultList[0]['yrCnt']*1;
+		if (yrCnt > 0) {
 			alert("[" + sQueryUsageYear + "년] 자료가 존재합니다.");
 			return;
 		}
@@ -709,6 +685,7 @@ GamElctyUsageQyMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
 		this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+		this.$('#chartValueSe').disable();
 		this.$('#btnChartSearch').disable({disableClass:"ui-state-disabled"});
 	} else {
 		if (this._mainKeyValue != "") {
@@ -723,6 +700,7 @@ GamElctyUsageQyMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnSave').removeClass('ui-state-disabled');
 			this.$('#btnRemove').enable();
 			this.$('#btnRemove').removeClass('ui-state-disabled');
+			this.$('#chartValueSe').enable();
 			this.$('#btnChartSearch').enable();
 			this.$('#btnChartSearch').removeClass('ui-state-disabled');
 		} else {
@@ -734,6 +712,7 @@ GamElctyUsageQyMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+			this.$('#chartValueSe').disable();
 			this.$('#btnChartSearch').disable({disableClass:"ui-state-disabled"});
 		}
 	}
@@ -757,6 +736,7 @@ GamElctyUsageQyMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+	this.$('#chartValueSe').disable();
 	this.$('#btnChartSearch').disable({disableClass:"ui-state-disabled"});
 
 };
@@ -776,6 +756,10 @@ GamElctyUsageQyMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		case 'listTab':
 			break;
 		case 'detailTab':
+			var chartValueSe = this.$('#chartValueSe').val();
+			if (chartValueSe == "") {
+				this.$('#chartValueSe').val("U");
+			}
 			if (this._mainmode=="modify") {
 				this.loadDetail(oldTabId);
 				this.enableDetailInputItem();
@@ -834,7 +818,7 @@ var module_instance = new GamElctyUsageQyMngModule();
 							<th>사용 시설</th>
 							<td>
 								<select id="sMngFeeFcltyCd">
-									<option value="" selected="selected">선택</option>
+									<option value="" selected="selected">전체</option>
 									<c:forEach  items="${mngFeeFcltyCdList}" var="mngFeeFcltyCdItem">
 										<option value="${mngFeeFcltyCdItem.mngFeeFcltyCd}">${mngFeeFcltyCdItem.mngFeeFcltyNm}</option>
 									</c:forEach>
@@ -865,14 +849,12 @@ var module_instance = new GamElctyUsageQyMngModule();
 					<form id="listSumForm">
 						<table style="width:100%;">
 							<tr>
-								<th style="width:8%; height:20; text-align:center;">자료수</th>
+								<th style="width:5%; height:20; text-align:center;">자료수</th>
 								<td><input type="text" size="6" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
 								<th style="width:8%; height:20; text-align:center;">사용량 합계</th>
 								<td><input type="text" size="15" id="sumUsageQy" class="ygpaNumber" disabled="disabled"/></td>
 								<th style="width:8%; height:20; text-align:center;">요금 합계</th>
 								<td><input type="text" size="15" id="sumUsageAmt" class="ygpaNumber" disabled="disabled"/></td>
-								<th style="width:8%; height:20; text-align:center;">PEEK 합계</th>
-								<td><input type="text" size="15" id="sumPeekQy" class="ygpaNumber" disabled="disabled"/></td>
 								<td style="text-align:right;">
 									<button id="btnAdd" class="buttonAdd">추가</button>
 									<button id="btnDelete" class="buttonDelete">삭제</button>
@@ -900,12 +882,14 @@ var module_instance = new GamElctyUsageQyMngModule();
 									</select>
 								</td>
 								<th style="width:10%; height:18;">그래프　　구분</th>
-								<td >
+								<td>
 									<select id="chartValueSe">
-										<option value="U" selected>전력 사용량</option>
+										<option value="">선택</option>
+										<option value="U">전력 사용량</option>
 										<option value="A">전기 요금</option>
 										<option value="P">PEEK 사용량</option>
 									</select>
+									&nbsp;     &nbsp;
 									<button id="btnChartSearch">그래프 조회</button>
 								</td>
 							</tr>
@@ -921,14 +905,14 @@ var module_instance = new GamElctyUsageQyMngModule();
 										</c:forEach>
 									</select>
 								</td>
-								<td rowspan="8" style="padding-left:4px;">
-									<div id="elctyUsageQyChart" style="width:515px;height:380px;border:1px solid #A4BED4;"></div>
+								<td colspan="2" rowspan="8" style="padding-left:4px;">
+									<div id="elctyUsageQyChart" style="width:485px;height:380px;border:1px solid #A4BED4;"></div>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:26;">전력　　사용량</th>
 								<td>
-									<input type="text" size="20" id="usageQy" class="ygpaNumber" data-decimal-point="2" maxlength="18"/> kW
+									<input type="text" size="20" id="usageQy" class="ygpaNumber" data-decimal-point="2" maxlength="18"/> kW/h
 								</td>
 							</tr>
 							<tr>

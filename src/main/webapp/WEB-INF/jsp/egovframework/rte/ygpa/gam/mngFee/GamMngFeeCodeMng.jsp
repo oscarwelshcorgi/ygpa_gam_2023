@@ -263,19 +263,30 @@ GamMngFeeCodeMngModule.prototype.addData = function() {
 
 	var mngFeeJobSe = this.$('#sMngFeeJobSe').val();
 	var mngFeeJobSeNm = "";
+	var mngFeeFcltySe = "";
 	if (mngFeeJobSe == "M") {
 		mngFeeJobSeNm = "[M]:마린센터";
+		mngFeeFcltySe = "";
 	} else if (mngFeeJobSe == "E") {
 		mngFeeJobSeNm = "[E]:전기시설";
+		mngFeeFcltySe = "EC";
 	}
 	this.$('#mngFeeFcltyCd').val("");
 	this.$('#mngFeeJobSe').val(mngFeeJobSe);
 	this.$('#mngFeeJobSeNm').val(mngFeeJobSeNm);
-	this.getNewMngFeeFcltyCd();
-	this.$('#mngFeeFcltySe').val("");
+	this.$('#mngFeeFcltySe').val(mngFeeFcltySe);
 	this.$('#mngFeeFcltyNm').val("");
+	this.getNewMngFeeFcltyCd();
 	this.enableDetailInputItem();
-	this.$('#mngFeeJobSe').focus();
+	if (mngFeeJobSe == "") {
+		this.$('#mngFeeJobSe').focus();
+	} else {
+		if (mngFeeFcltySe == "") {
+			this.$('#mngFeeFcltySe').focus();
+		} else {
+			this.$('#mngFeeFcltyNm').focus();
+		}
+	}
 
 };
 
