@@ -93,24 +93,44 @@ public class GamFcltReportMngController {
     	result = gamFcltReportMngService.selectFcltReportMng(searchVO);
     	
     	//안전점검 및 정밀안전진단계획리스트 인쇄
+    	searchVO.setPlanHistSe("P");
     	List resultList = gamFcltReportMngService.selectFcleQcMngList(searchVO);
-    	
     	//안전점검 및 정밀안전진단계획총갯수
     	int resultListTotalCount = gamFcltReportMngService.selectFcleQcMngListTotalCount(searchVO);
     	
     	//보수.보강계획 리스트 인쇄
     	List mntnResultList = gamFcltReportMngService.selectFcleMntnRprMngList(searchVO);
-    	
     	//보수.보강계획 리스트 총갯수
     	int mntnResultListTotalCount = gamFcltReportMngService.selectFcleMntnRprMngListTotalCount(searchVO);
+    	
+    	
+    	//안전점검 및 정밀안전진단계획리스트 인쇄
+    	searchVO.setPlanHistSe("H");
+    	List resultHistList = gamFcltReportMngService.selectFcleQcMngList(searchVO);
+    	
+    	//안전점검 및 정밀안전진단계획총갯수
+    	int resultHistListTotalCount = gamFcltReportMngService.selectFcleQcMngListTotalCount(searchVO);
+    	
+    	//보수.보강계획 리스트 인쇄
+    	List mntnResultHistList = gamFcltReportMngService.selectFcleMntnRprMngList(searchVO);
+    	
+    	//보수.보강계획 리스트 총갯수
+    	int mntnResultHistListTotalCount = gamFcltReportMngService.selectFcleMntnRprMngListTotalCount(searchVO);
     	
 		
     	
         model.addAttribute("result", result);
+        
         model.addAttribute("resultList", resultList);
         model.addAttribute("resultListTotalCount", resultListTotalCount);
         model.addAttribute("mntnResultList", mntnResultList);
         model.addAttribute("mntnResultListTotalCount", mntnResultListTotalCount);
+        
+        model.addAttribute("resultHistList", resultHistList);
+        model.addAttribute("resultHistListTotalCount", resultHistListTotalCount);
+        model.addAttribute("mntnResultHistList", mntnResultHistList);
+        model.addAttribute("mntnResultHistListTotalCount", mntnResultHistListTotalCount);
+        
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
 

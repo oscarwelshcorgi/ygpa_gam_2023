@@ -100,7 +100,8 @@
 		FROM 
 			QC_MNG_DTLS_F Q 
 		WHERE 
-			Q.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			Q.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo# 
+			AND Q.PLAN_HIST_SE = #planHistSe#
 		
     </select>
 
@@ -112,6 +113,7 @@
 			QC_MNG_DTLS_F Q 
 		WHERE 
 			Q.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND Q.PLAN_HIST_SE = #planHistSe#
 		
     </select>
     
@@ -146,6 +148,7 @@
 			MNTN_RPR_DTLS_F M 
 		WHERE 
 			M.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND M.PLAN_HIST_SE = #planHistSe#
 		
     </select>
 
@@ -157,6 +160,7 @@
 			MNTN_RPR_DTLS_F M 
 		WHERE 
 			M.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND M.PLAN_HIST_SE = #planHistSe#
 		
     </select>
 

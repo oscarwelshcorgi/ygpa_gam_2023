@@ -160,6 +160,7 @@
 			, M.ENFORCE_YEAR
 			, TO_CHAR(M.WRT_DT,'YYYY-MM-DD') WRT_DT
 			, M.WRT_USR
+			, M.PLAN_HIST_SE
 		FROM
 			MNTN_RPR_DTLS_F M 
 		WHERE 
@@ -274,6 +275,7 @@
 				, REGIST_DT
 				, WRT_DT
 				, WRT_USR
+				, PLAN_HIST_SE
 			) 
 			VALUES 
 			(
@@ -300,6 +302,7 @@
 				, SYSDATE
 				, #wrtDt#
 				, #wrtUsr#
+				, #planHistSe#
 			)
 	</insert>
 	
@@ -327,6 +330,7 @@
 				, UPDT_DT = SYSDATE 
 				, WRT_DT = #wrtDt#
 				, WRT_USR = #wrtUsr#
+				, PLAN_HIST_SE = #planHistSe#
 			WHERE 
 				FCLTS_JOB_SE = #fcltsJobSe#
 				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#

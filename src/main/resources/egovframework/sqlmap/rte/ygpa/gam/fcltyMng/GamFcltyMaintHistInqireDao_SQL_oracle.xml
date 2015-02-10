@@ -62,7 +62,7 @@
 						ON 
 							O.FCLTS_MNG_NO = G.FCLTS_MNG_NO
 						WHERE
-							1=1 
+							M.PLAN_HIST_SE = 'H' 
 							
 	           			<isNotEmpty property="sFcltsMngNo">
 	           				AND G.FCLTS_MNG_NO = #sFcltsMngNo#
@@ -107,7 +107,7 @@
 		ON 
 			O.FCLTS_MNG_NO = G.FCLTS_MNG_NO
 		WHERE 
-			1=1 
+			M.PLAN_HIST_SE = 'H' 
 			
 			<isNotEmpty property="sFcltsMngNo">
        			AND G.FCLTS_MNG_NO = #sFcltsMngNo#
@@ -164,6 +164,7 @@
 			, O.RM OBJ_RM
 			, O.FCLTS_MNG_NO
 			, G.PRT_FCLTY_NM
+			, GAM_GET_PLAN_HIST_SE_NM(M.PLAN_HIST_SE) PLAN_HIST_SE_NM
 		FROM
 			MNTN_RPR_DTLS_F M
 		LEFT OUTER JOIN 

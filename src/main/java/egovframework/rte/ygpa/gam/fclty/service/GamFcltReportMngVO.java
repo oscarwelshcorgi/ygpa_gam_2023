@@ -41,6 +41,10 @@ public class GamFcltReportMngVO extends ComDefaultVO {
     private String fcltsMngGroupNo;
     
     
+    /** 계획이력구분 */
+    private String planHistSe;
+    
+    
     
     
 
@@ -70,6 +74,20 @@ public class GamFcltReportMngVO extends ComDefaultVO {
 	 */
 	public void setFcltsMngGroupNo(String fcltsMngGroupNo) {
 		this.fcltsMngGroupNo = fcltsMngGroupNo;
+	}
+
+	/**
+	 * @return the planHistSe
+	 */
+	public String getPlanHistSe() {
+		return planHistSe;
+	}
+
+	/**
+	 * @param planHistSe the planHistSe to set
+	 */
+	public void setPlanHistSe(String planHistSe) {
+		this.planHistSe = planHistSe;
 	}
 
 }

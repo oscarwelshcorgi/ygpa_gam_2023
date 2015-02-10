@@ -442,6 +442,7 @@ GamFcltyMaintMngModule.prototype.addData = function() {
 	// tabs2 초기화
 	this.makeFormValues('#fcltyMaintMngListVO', {});
 	this.$("#enforceYear").val(new Date().getFullYear());
+	this.$("#planHistSe").val('P');
 	this.$("#searchFcltsMngGroupNo").show();
 	this.$("#fcltsJobSe").enable();
 	
@@ -914,7 +915,7 @@ var module_instance = new GamFcltyMaintMngModule();
 							<table class="editForm"  style="width:100%;">
 								<tr>
 									<th width="100px" height="18" class="required_text" style="border-bottom:none;">시행년도</th>
-									<td width="200px" style="border-bottom:none;">
+									<td width="210px" style="border-bottom:none;">
 										<select id="enforceYear" title="시행년도">
 											<option value="">선택</option>
 										</select>
@@ -933,7 +934,7 @@ var module_instance = new GamFcltyMaintMngModule();
 								</tr>
 								<tr>
 									<th height="18" class="required_text">유지보수구분</th>
-									<td colspan="3">
+									<td>
 										<select id="mntnRprSe" title="유지보수구분">
 											<option value="">선택</option>
 											<option value="1">개량</option>
@@ -953,6 +954,13 @@ var module_instance = new GamFcltyMaintMngModule();
 											<option value="9">기타</option>
 										</select>
 										<input type="hidden" id="mntnRprSeq" title="유지보수순번" />
+									</td>
+									<th height="18" class="required_text">계획이력구분</th>
+									<td>
+										<select id="planHistSe" data-required="true" title="계획이력구분">
+											<option value="P">계획</option>
+											<option value="H">이력</option>
+										</select>
 									</td>
 								</tr>
 								<tr>
@@ -984,13 +992,13 @@ var module_instance = new GamFcltyMaintMngModule();
 									<th height="18" class="required_text">공사기간</th>
 									<td><input id="mntnRprCnstStartDt" type="text" size="11" title="공사시작일자" class="emdcal" />  ~  <input id="mntnRprCnstEndDt" type="text" size="11" title="공사종료일자" class="emdcal" /></td>
 									<th height="18" class="required_text">계약자</th>
-									<td><input id="cnstrtr" type="text" title="계약자" maxlength="20" style="width:115px;" /></td>
+									<td><input id="cnstrtr" type="text" title="계약자" maxlength="20" style="width:102px;" /></td>
 								</tr>
 								<tr>
 									<th height="18" class="required_text">예산</th>
 									<td><input id="mntnRprBdgt" type="text" title="예산" class="ygpaNumber" maxlength="16" style="width:120px;" /> 원</td>
 									<th height="18" class="required_text">계약금액</th>
-									<td><input id="mntnRprCnstAmt" type="text" title="계약금액" class="ygpaNumber" maxlength="16" style="width:115px;" /> 원</td>
+									<td><input id="mntnRprCnstAmt" type="text" title="계약금액" class="ygpaNumber" maxlength="16" style="width:102px;" /> 원</td>
 								</tr>
 								<tr>
 									<th height="18" class="required_text">작성자</th>
