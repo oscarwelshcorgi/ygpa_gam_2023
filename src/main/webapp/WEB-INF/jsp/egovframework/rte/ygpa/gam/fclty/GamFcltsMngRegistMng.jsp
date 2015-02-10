@@ -48,7 +48,7 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 					{display:"시설물 명",		name:"fcltsNm",					width:150,		sortable:true,	align:"left"},
 					{display:"종별",			name:"fcltsGbnNm",				width:50,		sortable:true,	align:"center"},
 					{display:"구분",			name:"fcltsSeNm",				width:50,		sortable:true,	align:"center"},
-					{display:"종류",			name:"fcltsKndNm",				width:50,		sortable:true,	align:"center"},
+					{display:"종류",			name:"fcltsKndNm",				width:60,		sortable:true,	align:"center"},
 					{display:"위치",			name:"loc",						width:150,		sortable:true,	align:"left"},
 					{display:"준공 일자",		name:"bldDt",					width:80,		sortable:true,	align:"center"},
 					{display:"관리 주체",		name:"mngMainbd",				width:110,		sortable:true,	align:"left"},
@@ -93,14 +93,14 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 		module._mainKeyValue = row.fcltsNo;
 		module._mainFcltsMngGroupNo = row.fcltsMngGroupNo;
 		module.enableListButtonItem();
     });
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 		module._mainKeyValue = row.fcltsNo;
 		module._mainFcltsMngGroupNo = row.fcltsMngGroupNo;
 		module.$("#mainTab").tabs("option", {active: 1});
@@ -131,13 +131,13 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:'순번',			name:'rnum',				width:50,		sortable:false,		align:'center'},
 					{display:'구분',			name:'qcInspSeNm',			width:100,		sortable:false,		align:'left'},
-					{display:'시행일',			name:'qcInspDt',			width:80,		sortable:false,		align:'center'},
-					{display:'예산',			name:'qcInspBdgt',			width:100,		sortable:false,		align:'right'},
-					{display:'점검진단자',		name:'qcInspTpNm',			width:100,		sortable:false,		align:'left'},
-					{display:'비고',			name:'rm',					width:200,		sortable:false,		align:'left'}
+					{display:'시행일',			name:'qcInspDt',			width:100,		sortable:false,		align:'center'},
+					{display:'예산',			name:'qcInspBdgt',			width:150,		sortable:false,		align:'right'},
+					{display:'점검진단자',		name:'qcInspTpNm',			width:180,		sortable:false,		align:'left'},
+					{display:'비고',			name:'rm',					width:360,		sortable:false,		align:'left'}
 					],
 		showTableToggleBtn : false,
-		height : '150'
+		height : '215'
 	});
 
 	this.$("#qcHistGrid").flexigrid({
@@ -146,19 +146,19 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 		dataType : 'json',
 		colModel : [
 					{display:'순번',				name:'rnum',				width:50,		sortable:false,		align:'center'},
-					{display:'점검진단기간',		name:'qcInspDtFromTo',		width:150,		sortable:false,		align:'center'},
-					{display:'점검진단기관명',		name:'qcInspInsttNm',		width:100,		sortable:false,		align:'left'},
+					{display:'점검진단기간',		name:'qcInspDtFromTo',		width:160,		sortable:false,		align:'center'},
+					{display:'점검진단기관명',		name:'qcInspInsttNm',		width:150,		sortable:false,		align:'left'},
 					{display:'비용',				name:'qcInspAmt',			width:100,		sortable:false,		align:'right'},
-					{display:'점검진단구분',		name:'qcInspSeNm',			width:80,		sortable:false,		align:'center'},
-					{display:'점검진단책임기술자',	name:'responEngineerNm',	width:100,		sortable:false,		align:'left'},
-					{display:'상태등급',			name:'sttusEvlLvlNm',		width:60,		sortable:false,		align:'center'},
-					{display:'주요 점검진단결과',	name:'qcInspResult',		width:200,		sortable:false,		align:'left'},
-					{display:'주요 보수보강(안)',	name:'actionCn',			width:200,		sortable:false,		align:'left'},
+					{display:'점검진단구분',		name:'qcInspSeNm',			width:90,		sortable:false,		align:'center'},
+					{display:'점검진단책임기술자',	name:'responEngineerNm',	width:125,		sortable:false,		align:'left'},
+					{display:'상태등급',			name:'sttusEvlLvlNm',		width:70,		sortable:false,		align:'center'},
+					{display:'주요 점검진단결과',	name:'qcInspResult',		width:250,		sortable:false,		align:'left'},
+					{display:'주요 보수보강(안)',	name:'actionCn',			width:250,		sortable:false,		align:'left'},
 					{display:'작성일',				name:'wrtDt',				width:80,		sortable:false,		align:'center'},
-					{display:'작성자',				name:'wrtUsr',				width:100,		sortable:false,		align:'left'}
+					{display:'작성자',				name:'wrtUsr',				width:120,		sortable:false,		align:'left'}
 					],
 		showTableToggleBtn : false,
-		height : '150'
+		height : '215'
 	});
 
 	this.$("#mntnPlanGrid").flexigrid({
@@ -167,14 +167,14 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 		dataType : 'json',
 		colModel : [
 					{display:'순번',			name:'rnum',					width:50,		sortable:false,		align:'center'},
-					{display:'공사기간',		name:'mntnRprCnstDtFromTo',		width:150,		sortable:false,		align:'center'},
-					{display:'공사구분',		name:'mntnRprSeNm',				width:60,		sortable:false,		align:'center'},
-					{display:'예산',			name:'mntnRprBdgt',				width:100,		sortable:false,		align:'right'},
-					{display:'부위',			name:'mntnRprPart',				width:150,		sortable:false,		align:'left'},
-					{display:'공사내역',		name:'mntnRprCn',				width:200,		sortable:false,		align:'left'}
+					{display:'공사기간',		name:'mntnRprCnstDtFromTo',		width:180,		sortable:false,		align:'center'},
+					{display:'공사구분',		name:'mntnRprSeNm',				width:100,		sortable:false,		align:'center'},
+					{display:'예산',			name:'mntnRprBdgt',				width:150,		sortable:false,		align:'right'},
+					{display:'부위',			name:'mntnRprPart',				width:160,		sortable:false,		align:'left'},
+					{display:'공사내역',		name:'mntnRprCn',				width:300,		sortable:false,		align:'left'}
 					],
 		showTableToggleBtn : false,
-		height : '150'
+		height : '215'
 	});
 
 	this.$("#mntnHistGrid").flexigrid({
@@ -183,20 +183,20 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 		dataType : 'json',
 		colModel : [
 					{display:'순번',			name:'rnum',					width:50,		sortable:false,		align:'center'},
-					{display:'공사기간',		name:'mntnRprCnstDtFromTo',		width:150,		sortable:false,		align:'center'},
-					{display:'공사구분',		name:'mntnRprSeNm',				width:60,		sortable:false,		align:'center'},
+					{display:'공사기간',		name:'mntnRprCnstDtFromTo',		width:160,		sortable:false,		align:'center'},
+					{display:'공사구분',		name:'mntnRprSeNm',				width:80,		sortable:false,		align:'center'},
 					{display:'부위',			name:'mntnRprPart',				width:150,		sortable:false,		align:'left'},
-					{display:'공사내역',		name:'mntnRprCn',				width:200,		sortable:false,		align:'left'},
-					{display:'공사비',			name:'mntnRprCnstAmt',			width:100,		sortable:false,		align:'right'},
-					{display:'설계자',			name:'plannerNm',				width:100,		sortable:false,		align:'left'},
-					{display:'시공자',			name:'cnstrtr',					width:100,		sortable:false,		align:'left'},
-					{display:'책임기술자',		name:'responEngineer',			width:100,		sortable:false,		align:'left'},
-,					{display:'공사감독',		name:'cnstChargNm',				width:100,		sortable:false,		align:'left'},
+					{display:'공사내역',		name:'mntnRprCn',				width:250,		sortable:false,		align:'left'},
+					{display:'공사비',			name:'mntnRprCnstAmt',			width:120,		sortable:false,		align:'right'},
+					{display:'설계자',			name:'plannerNm',				width:150,		sortable:false,		align:'left'},
+					{display:'시공자',			name:'cnstrtr',					width:150,		sortable:false,		align:'left'},
+					{display:'책임기술자',		name:'responEngineer',			width:150,		sortable:false,		align:'left'},
+,					{display:'공사감독',		name:'cnstChargNm',				width:150,		sortable:false,		align:'left'},
 					{display:'작성일',			name:'wrtDt',					width:80,		sortable:false,		align:'center'},
-					{display:'작성자',			name:'wrtUsr',					width:100,		sortable:false,		align:'left'}
+					{display:'작성자',			name:'wrtUsr',					width:120,		sortable:false,		align:'left'}
 					],
 		showTableToggleBtn : false,
-		height : '150'
+		height : '215'
 	});
 
 	this._mainmode = '';
@@ -1221,7 +1221,7 @@ GamFcltsMngRegistMngModule.prototype.disableDetailInputItem = function() {
 **/
 %>
 GamFcltsMngRegistMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
-
+console.log("onTabChange");
 	switch (newTabId) {
 		case 'listTab':
 			break;
