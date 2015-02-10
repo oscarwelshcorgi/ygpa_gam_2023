@@ -77,7 +77,7 @@
 								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
 								,T1.UPD_USR AS UPD_USR
 								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
-								,REPLACE(NVL(T1.LOC_DO AS LOC_DO,' ') || ' ' || NVL(T1.LOC_SI AS LOC_SI,' ') || ' ' || NVL(T1.LOC_DONG AS LOC_DONG,' ') || NVL(T1.LOC_JIBUN AS LOC_JIBUN,' '),'  ',' ') AS LOC
+								,REPLACE(NVL(T1.LOC_DO,' ') || ' ' || NVL(T1.LOC_SI,' ') || ' ' || NVL(T1.LOC_DONG,' ') || NVL(T1.LOC_JIBUN,' '),'  ',' ') AS LOC
 							FROM FCLTS_MNG_REGIST_F T1
 						WHERE 1=1
 
@@ -359,7 +359,7 @@
 				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
 				,T1.UPD_USR AS UPD_USR
 				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
-				,REPLACE(NVL(T1.LOC_DO AS LOC_DO,' ') || ' ' || NVL(T1.LOC_SI AS LOC_SI,' ') || ' ' || NVL(T1.LOC_DONG AS LOC_DONG,' ') || NVL(T1.LOC_JIBUN AS LOC_JIBUN,' '),'  ',' ') AS LOC
+				,REPLACE(NVL(T1.LOC_DO,' ') || ' ' || NVL(T1.LOC_SI,' ') || ' ' || NVL(T1.LOC_DONG,' ') || NVL(T1.LOC_JIBUN,' '),'  ',' ') AS LOC
 			FROM FCLTS_MNG_REGIST_F T1
 		WHERE T1.FCLTS_NO = #fcltsNo#
 	</select>
@@ -367,7 +367,7 @@
 	<select id="gamFcltsMngRegistMngDao.selectFcltsMngRegistMngListSum_S" parameterClass="gamFcltsMngRegistMngVO" resultMap="gamFcltsMngRegistMngSumMap">
 		SELECT
 				 TO_CHAR(NVL(COUNT(*),0),'999,999,999,999,999') AS TOTAL_COUNT
-				,LTRIM(TO_CHAR(NVL(SUM(T1.CNSTRCT_AMT),0),'9,999,999,999,999,990')) AS CNSTRCT_AMT
+				,TO_CHAR(NVL(SUM(T1.CNSTRCT_AMT),0),'999,999,999,999,999') AS SUM_CNSTRCT_AMT
 			FROM FCLTS_MNG_REGIST_F T1
 		WHERE 1=1
 

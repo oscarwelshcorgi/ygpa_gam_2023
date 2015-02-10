@@ -92,12 +92,12 @@ public class GamFcltsMngRegistMngController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		//GamFcltsMngRegistMngVO resultSum = gamFcltsMngRegistMngService.selectFcltsMngRegistMngListSum(searchVO);
+		GamFcltsMngRegistMngVO resultSum = gamFcltsMngRegistMngService.selectFcltsMngRegistMngListSum(searchVO);
 		List resultList = gamFcltsMngRegistMngService.selectFcltsMngRegistMngList(searchVO);
 
 		map.put("resultCode", 0);
-		//map.put("totalCount", resultSum.getTotalCount());
-		//map.put("sumCnstrctAmt", resultSum.getSumCnstrctAmt());
+		map.put("totalCount", resultSum.getTotalCount());
+		map.put("sumCnstrctAmt", resultSum.getSumCnstrctAmt());
 		map.put("resultList", resultList);
 
 		return map;

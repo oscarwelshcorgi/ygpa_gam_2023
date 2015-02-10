@@ -12,10 +12,10 @@
  *
  *   수정일         수정자                   수정내용
  *  -------    --------    ---------------------------
- *  2014.12.10  	 김종민          화면단 최초 생성
+ *  2015. 2. 9.		ACEWOLF		최초 생성
  *
- * author 김종민
- * since 2014.12.10
+ * author ACEWOLF
+ * since 2015.02.09
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
 **/
@@ -35,7 +35,7 @@
 %>
 function GamFcltsMngRegistMngModule() {}
 
-GamFcltsMngRegistMngModule.prototype = new EmdModule(1000, 730);
+GamFcltsMngRegistMngModule.prototype = new EmdModule(1000, 645);
 
 GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 
@@ -106,6 +106,15 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 
 	this.$("#fcltsMngGroupNo").bind("keyup change", {module: this}, function(event) {
 		event.data.module.getFcltsMngGroupNm("#fcltsMngGroupNo", "#fcltsMngGroupNm");
+	});
+
+	this.$('#fcltsSe').on('change',{module:this}, function(event){
+		event.data.module.makeFcltsKndData("");
+	});
+
+	this.$('#fcltsKndSelect').on('change',{module:this}, function(event){
+		var sFcltsKnd = $(this).val();
+		event.data.module.$('#fcltsKnd').val(sFcltsKnd);
 	});
 
 	this._mainmode = '';
@@ -273,6 +282,75 @@ GamFcltsMngRegistMngModule.prototype.getFcltsMngGroupNm = function(argFcltsMngGr
 		this.$(argFcltsMngGroupNmVariableName).val(sFcltsMngGroupNm);
 	}
 	return sFcltsMngGroupNm;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : makeFcltsKndData
+ * @DESCRIPTION   : 시설물 종류를 구성한다.
+ * @PARAMETER     :
+ *   1. fcltsKnd - 시설물 종류
+**/
+%>
+GamFcltsMngRegistMngModule.prototype.makeFcltsKndData = function(fcltsKnd) {
+
+	var fcltsSe = this.$('#fcltsSe').val();
+	this.$('#fcltsKndSelect').empty();
+	this.$('#fcltsKndSelect').append("<option value='' selected>선택</option>");
+	if (fcltsSe == "1") {
+		this.$('#fcltsKndSelect').append("<option value='11'>도로교량</option>");
+		this.$('#fcltsKndSelect').append("<option value='12'>복개구조물</option>");
+		this.$('#fcltsKndSelect').append("<option value='13'>철도교량</option>");
+	} else if (fcltsSe == "2") {
+		this.$('#fcltsKndSelect').append("<option value='21'>도로터널</option>");
+		this.$('#fcltsKndSelect').append("<option value='22'>지하차도</option>");
+		this.$('#fcltsKndSelect').append("<option value='23'>철도터널</option>");
+	} else if (fcltsSe == "3") {
+		this.$('#fcltsKndSelect').append("<option value='31'>갑문시설</option>");
+		this.$('#fcltsKndSelect').append("<option value='32'>계류시설</option>");
+	} else if (fcltsSe == "4") {
+		this.$('#fcltsKndSelect').append("<option value='41'>다목적댐</option>");
+		this.$('#fcltsKndSelect').append("<option value='42'>발전용댐</option>");
+		this.$('#fcltsKndSelect').append("<option value='43'>홍수전용댐</option>");
+		this.$('#fcltsKndSelect').append("<option value='44'>용수전용댐</option>");
+		this.$('#fcltsKndSelect').append("<option value='45'>지방상수도전용댐</option>");
+	} else if (fcltsSe == "5") {
+		this.$('#fcltsKndSelect').append("<option value='51'>공동주택</option>");
+		this.$('#fcltsKndSelect').append("<option value='52'>건축물</option>");
+		this.$('#fcltsKndSelect').append("<option value='53'>다중이용건축물</option>");
+		this.$('#fcltsKndSelect').append("<option value='54'>철도역시설</option>");
+		this.$('#fcltsKndSelect').append("<option value='55'>지하도상가</option>");
+	} else if (fcltsSe == "6") {
+		this.$('#fcltsKndSelect').append("<option value='61'>하구둑</option>");
+		this.$('#fcltsKndSelect').append("<option value='62'>수문 및 통문</option>");
+		this.$('#fcltsKndSelect').append("<option value='63'>제방</option>");
+		this.$('#fcltsKndSelect').append("<option value='64'>보</option>");
+	} else if (fcltsSe == "7") {
+		this.$('#fcltsKndSelect').append("<option value='71'>광역상수도</option>");
+		this.$('#fcltsKndSelect').append("<option value='72'>공업용수도</option>");
+		this.$('#fcltsKndSelect').append("<option value='73'>지방상수도</option>");
+		this.$('#fcltsKndSelect').append("<option value='74'>공공하수처리시설</option>");
+		this.$('#fcltsKndSelect').append("<option value='75'>폐기물매립시설</option>");
+	} else if (fcltsSe == "8") {
+		this.$('#fcltsKndSelect').append("<option value='81'>도로옹벽</option>");
+		this.$('#fcltsKndSelect').append("<option value='82'>철도옹벽</option>");
+		this.$('#fcltsKndSelect').append("<option value='83'>항만옹벽</option>");
+		this.$('#fcltsKndSelect').append("<option value='84'>댐옹벽</option>");
+		this.$('#fcltsKndSelect').append("<option value='85'>건축물옹벽</option>");
+		this.$('#fcltsKndSelect').append("<option value='86'>폐기물매립옹벽</option>");
+		this.$('#fcltsKndSelect').append("<option value='87'>기타옹벽</option>");
+	} else if (fcltsSe == "9") {
+		this.$('#fcltsKndSelect').append("<option value='91'>도로사면</option>");
+		this.$('#fcltsKndSelect').append("<option value='92'>철도사면</option>");
+		this.$('#fcltsKndSelect').append("<option value='93'>항만사면</option>");
+		this.$('#fcltsKndSelect').append("<option value='94'>댐사면</option>");
+		this.$('#fcltsKndSelect').append("<option value='95'>건축물사면</option>");
+		this.$('#fcltsKndSelect').append("<option value='96'>기타사면</option>");
+	}
+	if (fcltsKnd != "") {
+		this.$('#fcltsKndSelect').val(fcltsKnd);
+	}
 
 };
 
@@ -1088,13 +1166,23 @@ var module_instance = new GamFcltsMngRegistMngModule();
 				<table style="width:100%;" class="searchPanel">
 					<tbody>
 						<tr>
-							<th>시설물　관리　그룹　번호</th>
+							<th>시설물　　번호</th>
 							<td>
-								<input id="sFcltsMngGroupNo" type="text" size="15" maxlength="14"/>
+								<input id="sFcltsMngGroupNo" type="text" size="18" maxlength="14"/>
 							</td>
-							<th>시설물　관리　그룹　명</th>
+							<th>시　설　물　명</th>
 							<td>
-								<input id="sFcltsMngGroupNm" type="text" size="30" maxlength="80"/>
+								<input id="sFcltsMngGroupNm" type="text" size="50" maxlength="80"/>
+							</td>
+							<th>시설물　　종별</th>
+							<td>
+								<select id="sFcltsGbn">
+									<option value="" selected>선택</option>
+									<option value="1">1종</option>
+									<option value="2">2종</option>
+									<option value="3">1종/2종</option>
+									<option value="9">기타</option>
+								</select>
 							</td>
 							<td>
 								<button class="buttonSearch">조회</button>
@@ -1111,8 +1199,8 @@ var module_instance = new GamFcltsMngRegistMngModule();
 		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<!-- 211. TAB 정의 -->
 			<ul>
-				<li><a href="#listTab" class="emdTab">시설물 관리 그룹 리스트</a></li>
-				<li><a href="#detailTab" class="emdTab">시설물 관리 그룹 상세</a></li>
+				<li><a href="#listTab" class="emdTab">시설물 관리 대장 리스트</a></li>
+				<li><a href="#detailTab" class="emdTab">시설물 관리 대장 상세</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
@@ -1144,23 +1232,23 @@ var module_instance = new GamFcltsMngRegistMngModule();
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:10%; height:18;">시설물　　번호</th>
+								<th style="width:10%; height:24px;">시설물　　번호</th>
 								<td>
 									<input type="text" id="fcltsNo" size="33" maxlength="14"/>
 								</td>
-								<th style="width:10%; height:18;">시설물관리그룹</th>
+								<th style="width:10%; height:24px;">시설물관리그룹</th>
 								<td colspan="3">
 									<input type="text" size="18" id="fcltsMngGroupNo" maxlength="8"/>
-									<input type="text" size="61" id="fcltsMngGroupNm" disabled/>
+									<input type="text" size="60" id="fcltsMngGroupNm" disabled/>
 									<button id="popupFcltsMngGroupNo" class="popupButton">선택</button>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">노　　　　　선</th>
+								<th style="width:10%; height:24px;">노　　　　　선</th>
 								<td>
 									<input type="text" id="route" size="33" maxlength="20"/>
 								</td>
-								<th style="width:10%; height:18;">시설물　　종별</th>
+								<th style="width:10%; height:24px;">시설물　　종별</th>
 								<td>
 									<select id="fcltsGbn">
 										<option value="" selected>선택</option>
@@ -1170,7 +1258,7 @@ var module_instance = new GamFcltsMngRegistMngModule();
 										<option value="9">기타</option>
 									</select>
 								</td>
-								<th style="width:10%; height:18;">시설물　　종류</th>
+								<th style="width:10%; height:24px;">시설물　　종류</th>
 								<td>
 									<input id="fcltsKnd" type="hidden"/>
 									<select id="fcltsSe">
@@ -1191,45 +1279,45 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">시　설　물　명</th>
+								<th style="width:10%; height:24px;">시　설　물　명</th>
 								<td>
-									<input type="text" id="fcltsNm" size="30" maxlength="80"/>
+									<input type="text" id="fcltsNm" size="33" maxlength="80"/>
 								</td>
-								<th style="width:10%; height:18;">위　　　　　치</th>
+								<th style="width:10%; height:24px;">위　　　　　치</th>
 								<td colspan="3">
 									시,도:<input type="text" id="locDo" size="10" maxlength="20"/>
-									&nbsp; / &nbsp;
+									&nbsp;&nbsp;
 									시,군,구:<input type="text" id="locSi" size="10" maxlength="20"/>
-									&nbsp; / &nbsp;
+									&nbsp;&nbsp;
 									읍,면,동:<input type="text" id="locDong" size="10" maxlength="20"/>
-									&nbsp; / &nbsp;
-									번지:<input type="text" id="locJibun" size="20" maxlength="40"/>
+									&nbsp;&nbsp;
+									번지:<input type="text" id="locJibun" size="22" maxlength="40"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">관　리　주　체</th>
+								<th style="width:10%; height:24px;">관　리　주　체</th>
 								<td>
 									<input type="text" id="mngMainbd" size="33" maxlength="50"/>
 								</td>
-								<th style="width:10%; height:18;">관리주체　구분</th>
+								<th style="width:10%; height:24px;">관리주체　구분</th>
 								<td>
 									<input type="text" id="mngMainbdSe" size="33" maxlength="10"/>
 								</td>
-								<th style="width:10%; height:18;">소　　유　　자</th>
+								<th style="width:10%; height:24px;">소　　유　　자</th>
 								<td>
 									<input type="text" id="owner" size="33" maxlength="50"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">준　　공　　일</th>
+								<th style="width:10%; height:24px;">준　　공　　일</th>
 								<td>
-									<input type="text" size="33" id="bldDt" class="emdcal"/>
+									<input type="text" size="30" id="bldDt" class="emdcal"/>
 								</td>
-								<th style="width:10%; height:18;">하자책임만료일</th>
+								<th style="width:10%; height:24px;">하자책임만료일</th>
 								<td>
-									<input type="text" size="33" id="flawEndDt" class="emdcal"/>
+									<input type="text" size="30" id="flawEndDt" class="emdcal"/>
 								</td>
-								<th style="width:10%; height:18;">제원／안전／보수</th>
+								<th style="width:10%; height:24px;">제원／안전／보수</th>
 								<td>
 									<select id="dtlsSpecYn">
 										<option value="Y">유</option>
@@ -1248,46 +1336,46 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">설　계　기　간</th>
+								<th style="width:10%; height:24px;">설　계　기　간</th>
 								<td>
 									<input type="text" size="11" id="planBeginDt" class="emdcal"/>∼
 									<input type="text" size="11" id="planEndDt" class="emdcal"/>
 								</td>
-								<th width="10%" height="18">설　　계　　자</th>
+								<th style="width:10%; height:24px;">설　　계　　자</th>
 								<td>
 									<input type="text" size="33" id="planner" maxlength="100"/>
 								</td>
-								<th width="10%" height="18">설계도서　보존</th>
+								<th style="width:10%; height:24px;">설계도서　보존</th>
 								<td>
 									<input type="text" size="33" id="planBookMnten" maxlength="20"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">공　사　기　간</th>
+								<th style="width:10%; height:24px;">공　사　기　간</th>
 								<td>
 									<input type="text" size="11" id="cnstBeginDt" class="emdcal"/>∼
 									<input type="text" size="11" id="cnstEndDt" class="emdcal"/>
 								</td>
-								<th width="10%" height="18">시　　공　　자</th>
+								<th style="width:10%; height:24px;">시　　공　　자</th>
 								<td>
 									<input type="text" size="33" id="cnstrctCnstNm" maxlength="100"/>
 								</td>
-								<th width="10%" height="18">총　공　사　비</th>
+								<th style="width:10%; height:24px;">총　공　사　비</th>
 								<td>
 									<input type="text" size="33" id="cnstrctAmt" class="ygpaNumber" maxlength="20"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">감　리　기　간</th>
+								<th style="width:10%; height:24px;">감　리　기　간</th>
 								<td>
 									<input type="text" size="11" id="inspectBeginDt" class="emdcal"/>∼
 									<input type="text" size="11" id="inspectEndDt" class="emdcal"/>
 								</td>
-								<th width="10%" height="18">감　　리　　자</th>
+								<th style="width:10%; height:24px;">감　　리　　자</th>
 								<td>
 									<input type="text" size="33" id="inspector" maxlength="100"/>
 								</td>
-								<th width="10%" height="18">영10조　　대상</th>
+								<th style="width:10%; height:24px;">영10조　　대상</th>
 								<td>
 									<select id="erqProofPlanApplcEnnc">
 										<option value="Y">유</option>
@@ -1296,77 +1384,77 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">공사　　발주자</th>
+								<th style="width:10%; height:24px;">공사　　발주자</th>
 								<td>
 									<input type="text" size="33" id="cnstOrderBody" maxlength="100"/>
 								</td>
-								<th width="10%" height="18">공　　사　　명</th>
+								<th style="width:10%; height:24px;">공　　사　　명</th>
 								<td>
 									<input type="text" size="33" id="cnstNm" maxlength="255"/>
 								</td>
-								<th width="10%" height="18">공사　　감독관</th>
+								<th style="width:10%; height:24px;">공사　　감독관</th>
 								<td>
 									<input type="text" size="33" id="cnstSupervisor" maxlength="100"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">계류선박／연장</th>
+								<th style="width:10%; height:24px;">계류선박／연장</th>
 								<td>
-									<input type="text" size="15" id="maxShipScl" maxlength="20"/>／
-									<input type="text" size="15" id="extd" maxlength="20"/>
+									<input type="text" size="14" id="maxShipScl" maxlength="20"/>／
+									<input type="text" size="14" id="extd" maxlength="20"/>
 								</td>
-								<th width="10%" height="18">천단고／수　심</th>
+								<th style="width:10%; height:24px;">천단고／수　심</th>
 								<td>
-									<input type="text" size="15" id="upsideAlt" maxlength="20"/>／
-									<input type="text" size="15" id="dpwt" maxlength="20"/>
+									<input type="text" size="14" id="upsideAlt" maxlength="20"/>／
+									<input type="text" size="14" id="dpwt" maxlength="20"/>
 								</td>
-								<th width="10%" height="18">작성일／작성자</th>
+								<th style="width:10%; height:24px;">작성일／작성자</th>
 								<td>
 									<input type="text" size="12" id="wrtDt" class="emdcal"/>／
-									<input type="text" size="15" id="wrtUsr" maxlength="20"/>
+									<input type="text" size="13" id="wrtUsr" maxlength="20"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">비　　　　　고</th>
+								<th style="width:10%; height:24px;">비　　　　　고</th>
 								<td colspan="3">
-									<input type="text" size="93" id="basicRm" maxlength="1000"/>
+									<input type="text" size="91" id="basicRm" maxlength="1000"/>
 								</td>
-								<th width="10%" height="18">수정일／수정자</th>
+								<th style="width:10%; height:24px;">수정일／수정자</th>
 								<td>
 									<input type="text" size="12" id="lastUpdtDt" class="emdcal"/>／
-									<input type="text" size="15" id="lastUpdtUsr" maxlength="20"/>
+									<input type="text" size="13" id="lastUpdtUsr" maxlength="20"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">구조（중력식）</th>
+								<th style="width:10%; height:24px;">구조（중력식）</th>
 								<td colspan="5">
-									케이슨식:<input type="text" id="fmt1Desc1" size="10" maxlength="50"/>
-									&nbsp; / &nbsp;
-									L형 블럭:<input type="text" id="fmt1Desc2" size="10" maxlength="50"/>
-									&nbsp; / &nbsp;
-									셀룰러블럭식:<input type="text" id="fmt1Desc3" size="10" maxlength="50"/>
-									&nbsp; / &nbsp;
-									현장타설식:<input type="text" id="fmt1Desc4" size="10" maxlength="50"/>
+									케이슨식 : <input type="text" id="fmt1Desc1" size="22" maxlength="50"/>
+									&nbsp;/&nbsp;
+									L형 블럭 : <input type="text" id="fmt1Desc2" size="22" maxlength="50"/>
+									&nbsp;/&nbsp;
+									셀룰러블럭식: <input type="text" id="fmt1Desc3" size="22" maxlength="50"/>
+									&nbsp;/&nbsp;
+									현장타설식: <input type="text" id="fmt1Desc4" size="23" maxlength="50"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">구조（잔교식）</th>
+								<th style="width:10%; height:24px;">구조（잔교식）</th>
 								<td colspan="5">
-									말뚝식(구경,연장,본수):<input type="text" id="fmt2Desc11" size="6" maxlength="50"/>
-									<input type="text" id="fmt2Desc12" size="6" maxlength="50"/>
-									<input type="text" id="fmt2Desc13" size="6" maxlength="50"/>
-									&nbsp; / &nbsp;
-									원통식:<input type="text" id="fmt2Desc2" size="10" maxlength="50"/>
-									&nbsp; / &nbsp;
-									교각식:<input type="text" id="fmt2Desc3" size="10" maxlength="50"/>
+									말뚝식(구경,연장,본수) : <input type="text" id="fmt2Desc11" size="16" maxlength="50"/>
+									<input type="text" id="fmt2Desc12" size="16" maxlength="50"/>
+									<input type="text" id="fmt2Desc13" size="16" maxlength="50"/>
+									&nbsp;/&nbsp;
+									원통식 : <input type="text" id="fmt2Desc2" size="23" maxlength="50"/>
+									&nbsp;/&nbsp;
+									교각식 : <input type="text" id="fmt2Desc3" size="23" maxlength="50"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18;">구조(널말뚝식)</th>
+								<th style="width:10%; height:24px;">구조(널말뚝식)</th>
 								<td colspan="5">
-									규격:<input type="text" id="fmt1Desc1" size="10" maxlength="50"/>
-									&nbsp; / &nbsp;
-									기타:<input type="text" id="fmt1Desc4" size="40" maxlength="100"/>
+									규격 : <input type="text" id="fmt1Desc1" size="33" maxlength="50"/>
+									&nbsp;/&nbsp;
+									기타 : <input type="text" id="fmt1Desc4" size="100" maxlength="100"/>
 								</td>
 							</tr>
 						</table>
