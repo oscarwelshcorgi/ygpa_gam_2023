@@ -20,7 +20,7 @@
  * Copyright (C) 2013 by LFIT  All right reserved.
  */
 %>
-<validator:javascript formName="searchForm" method="validateSearchForm" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<validator:javascript formName="fcltyUsageHistSearchForm" method="validatefcltyUsageHistSearchForm" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 
 <%
 /******************************** SCRIPT START ********************************/
@@ -153,7 +153,7 @@ GamFcltyUsageHistInqireModule.prototype.onClosePopup = function(popupId, msg, va
 **/
 %>
 GamFcltyUsageHistInqireModule.prototype.onSubmit = function() {
-	if(!validateSearchForm(this.$('#searchForm')[0])){ 		
+	if(!validatefcltyUsageHistSearchForm(this.$('#fcltyUsageHistSearchForm')[0])){ 		
 		return;
 	}
 	if (this.$("#sDtFr").val() > this.$("#sDtTo").val()){
@@ -175,7 +175,7 @@ GamFcltyUsageHistInqireModule.prototype.onSubmit = function() {
 GamFcltyUsageHistInqireModule.prototype.loadData = function() {
 	this._mode="";
     this.$("#mainTab").tabs("option", {active: 0});
-    var searchOpt=this.makeFormArgs('#searchForm');
+    var searchOpt=this.makeFormArgs('#fcltyUsageHistSearchForm');
     this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 };
 
@@ -288,7 +288,7 @@ var module_instance = new GamFcltyUsageHistInqireModule();
 	<!-- 11. SEARCH AREA (조회조건 영역) -->
 	<div class="emdPanel">
 		<div class="viewStack">
-			<form id="searchForm">
+			<form id="fcltyUsageHistSearchForm">
 				<table class="searchPanel">
 					<tbody>
 						<tr>
