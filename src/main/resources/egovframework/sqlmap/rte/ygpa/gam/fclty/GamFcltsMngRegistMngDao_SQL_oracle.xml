@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!-- SQL MAP 정의 -->
+<sqlMap namespace="ygpa.gam.fclty">
+	<!-- TYPE ALIAS 정의 -->
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamFcltsMngRegistMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltsMngRegistMngVO"/>
+	<!-- RESULT MAP 정의 -->
+	<resultMap id="gamFcltsMngRegistMngSumMap" class="gamFcltsMngRegistMngVO">
+		<result property="totalCount" column="TOTAL_COUNT" columnIndex="1"/>
+		<result property="sumCnstrctAmt" column="SUM_CNSTRCT_AMT" columnIndex="2"/>
+	</resultMap>
+
+	<select id="gamFcltsMngRegistMngDao.selectFcltsMngRegistMngList_D" parameterClass="gamFcltsMngRegistMngVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.FCLTS_NO AS FCLTS_NO
+								,T1.FCLTS_NM AS FCLTS_NM
+								,T1.ROUTE AS ROUTE
+								,T1.FCLTS_GBN AS FCLTS_GBN
+								,T1.FCLTS_SE AS FCLTS_SE
+								,T1.FCLTS_KND AS FCLTS_KND
+								,T1.LOC_DO AS LOC_DO
+								,T1.LOC_SI AS LOC_SI
+								,T1.LOC_DONG AS LOC_DONG
+								,T1.LOC_JIBUN AS LOC_JIBUN
+								,T1.MNG_MAINBD_SE AS MNG_MAINBD_SE
+								,T1.MNG_MAINBD AS MNG_MAINBD
+								,T1.OWNER AS OWNER
+								,TO_CHAR(T1.BLD_DT,'YYYY-MM-DD') AS BLD_DT
+								,TO_CHAR(T1.FLAW_END_DT,'YYYY-MM-DD') AS FLAW_END_DT
+								,T1.DTLS_SPEC_YN AS DTLS_SPEC_YN
+								,T1.QC_HIST_YN AS QC_HIST_YN
+								,T1.MNTN_HIST_YN AS MNTN_HIST_YN
+								,TO_CHAR(T1.PLAN_BEGIN_DT,'YYYY-MM-DD') AS PLAN_BEGIN_DT
+								,TO_CHAR(T1.PLAN_END_DT,'YYYY-MM-DD') AS PLAN_END_DT
+								,T1.PLANNER AS PLANNER
+								,TO_CHAR(T1.CNST_BEGIN_DT,'YYYY-MM-DD') AS CNST_BEGIN_DT
+								,TO_CHAR(T1.CNST_END_DT,'YYYY-MM-DD') AS CNST_END_DT
+								,T1.CNSTRTR AS CNSTRTR
+								,LTRIM(TO_CHAR(NVL(T1.CNSTRCT_AMT,0),'9,999,999,999,999,990')) AS CNSTRCT_AMT
+								,T1.ERQ_PROOF_PLAN_APPLC_ENNC AS ERQ_PROOF_PLAN_APPLC_ENNC
+								,TO_CHAR(T1.INSPECT_BEGIN_DT,'YYYY-MM-DD') AS INSPECT_BEGIN_DT
+								,TO_CHAR(T1.INSPECT_END_DT,'YYYY-MM-DD') AS INSPECT_END_DT
+								,T1.INSPECTOR AS INSPECTOR
+								,T1.CNST_ORDER_BODY AS CNST_ORDER_BODY
+								,T1.CNST_NM AS CNST_NM
+								,T1.CNST_SUPERVISOR AS CNST_SUPERVISOR
+								,T1.PLAN_BOOK_MNTEN AS PLAN_BOOK_MNTEN
+								,TO_CHAR(T1.WRT_DT,'YYYY-MM-DD') AS WRT_DT
+								,T1.WRT_USR AS WRT_USR
+								,TO_CHAR(T1.LAST_UPDT_DT,'YYYY-MM-DD') AS LAST_UPDT_DT
+								,T1.LAST_UPDT_USR AS LAST_UPDT_USR
+								,T1.BASIC_RM AS BASIC_RM
+								,T1.MAX_SHIP_SCL AS MAX_SHIP_SCL
+								,T1.EXTD AS EXTD
+								,T1.UPSIDE_ALT AS UPSIDE_ALT
+								,T1.DPWT AS DPWT
+								,T1.FMT_1_DESC_1 AS FMT_1_DESC_1
+								,T1.FMT_1_DESC_2 AS FMT_1_DESC_2
+								,T1.FMT_1_DESC_3 AS FMT_1_DESC_3
+								,T1.FMT_1_DESC_4 AS FMT_1_DESC_4
+								,T1.FMT_2_DESC_1_1 AS FMT_2_DESC_1_1
+								,T1.FMT_2_DESC_1_2 AS FMT_2_DESC_1_2
+								,T1.FMT_2_DESC_1_3 AS FMT_2_DESC_1_3
+								,T1.FMT_2_DESC_2 AS FMT_2_DESC_2
+								,T1.FMT_2_DESC_3 AS FMT_2_DESC_3
+								,T1.FMT_3_DESC_1 AS FMT_3_DESC_1
+								,T1.FMT_3_DESC_2 AS FMT_3_DESC_2
+								,T1.ETC_DTLS_SPEC AS ETC_DTLS_SPEC
+								,T1.FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,REPLACE(NVL(T1.LOC_DO AS LOC_DO,' ') || ' ' || NVL(T1.LOC_SI AS LOC_SI,' ') || ' ' || NVL(T1.LOC_DONG AS LOC_DONG,' ') || NVL(T1.LOC_JIBUN AS LOC_JIBUN,' '),'  ',' ') AS LOC
+							FROM FCLTS_MNG_REGIST_F T1
+						WHERE 1=1
+
+						<isNotEmpty property="sFcltsNo">
+						AND T1.FCLTS_NO = #sFcltsNo#
+						</isNotEmpty>
+
+						<isNotEmpty property="sFcltsNm">
+						AND T1.FCLTS_NM = #sFcltsNm#
+						</isNotEmpty>
+
+						<isNotEmpty property="sFcltsGbn">
+						AND T1.FCLTS_GBN = #sFcltsGbn#
+						</isNotEmpty>
+
+						<isNotEmpty property="sStartBldDt">
+						AND T1.BLD_DT <![CDATA[ >= ]]> TO_DATE(#sStartBldDt#,'YYYY-MM-DD')
+						</isNotEmpty>
+
+						<isNotEmpty property="sEndBldDt">
+						AND T1.BLD_DT <![CDATA[ < ]]> TO_DATE(#sEndBldDt#,'YYYY-MM-DD') + 1
+						</isNotEmpty>
+
+						ORDER BY T1.FCLTS_NM ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<insert id="gamFcltsMngRegistMngDao.insertFcltsMngRegistMng_S" parameterClass="gamFcltsMngRegistMngVO">
+		INSERT INTO FCLTS_MNG_REGIST_F
+		(
+			 FCLTS_NO
+			,FCLTS_NM
+			,ROUTE
+			,FCLTS_GBN
+			,FCLTS_SE
+			,FCLTS_KND
+			,LOC_DO
+			,LOC_SI
+			,LOC_DONG
+			,LOC_JIBUN
+			,MNG_MAINBD_SE
+			,MNG_MAINBD
+			,OWNER
+			,BLD_DT
+			,FLAW_END_DT
+			,DTLS_SPEC_YN
+			,QC_HIST_YN
+			,MNTN_HIST_YN
+			,PLAN_BEGIN_DT
+			,PLAN_END_DT
+			,PLANNER
+			,CNST_BEGIN_DT
+			,CNST_END_DT
+			,CNSTRTR
+			,CNSTRCT_AMT
+			,ERQ_PROOF_PLAN_APPLC_ENNC
+			,INSPECT_BEGIN_DT
+			,INSPECT_END_DT
+			,INSPECTOR
+			,CNST_ORDER_BODY
+			,CNST_NM
+			,CNST_SUPERVISOR
+			,PLAN_BOOK_MNTEN
+			,WRT_DT
+			,WRT_USR
+			,LAST_UPDT_DT
+			,LAST_UPDT_USR
+			,BASIC_RM
+			,MAX_SHIP_SCL
+			,EXTD
+			,UPSIDE_ALT
+			,DPWT
+			,FMT_1_DESC_1
+			,FMT_1_DESC_2
+			,FMT_1_DESC_3
+			,FMT_1_DESC_4
+			,FMT_2_DESC_1_1
+			,FMT_2_DESC_1_2
+			,FMT_2_DESC_1_3
+			,FMT_2_DESC_2
+			,FMT_2_DESC_3
+			,FMT_3_DESC_1
+			,FMT_3_DESC_2
+			,ETC_DTLS_SPEC
+			,FCLTS_MNG_GROUP_NO
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 #fcltsNo#
+			,#fcltsNm#
+			,#route#
+			,#fcltsGbn#
+			,#fcltsSe#
+			,#fcltsKnd#
+			,#locDo#
+			,#locSi#
+			,#locDong#
+			,#locJibun#
+			,#mngMainbdSe#
+			,#mngMainbd#
+			,#owner#
+			,TO_DATE(#bldDt#,'YYYY-MM-DD')
+			,TO_DATE(#flawEndDt#,'YYYY-MM-DD')
+			,#dtlsSpecYn#
+			,#qcHistYn#
+			,#mntnHistYn#
+			,TO_DATE(#planBeginDt#,'YYYY-MM-DD')
+			,TO_DATE(#planEndDt#,'YYYY-MM-DD')
+			,#planner#
+			,TO_DATE(#cnstBeginDt#,'YYYY-MM-DD')
+			,TO_DATE(#cnstEndDt#,'YYYY-MM-DD')
+			,#cnstrtr#
+			,NVL(TO_NUMBER(REPLACE(#cnstrctAmt#,',','')),0)
+			,#erqProofPlanApplcEnnc#
+			,TO_DATE(#inspectBeginDt#,'YYYY-MM-DD')
+			,TO_DATE(#inspectEndDt#,'YYYY-MM-DD')
+			,#inspector#
+			,#cnstOrderBody#
+			,#cnstNm#
+			,#cnstSupervisor#
+			,#planBookMnten#
+			,TO_DATE(#wrtDt#,'YYYY-MM-DD')
+			,#wrtUsr#
+			,TO_DATE(#lastUpdtDt#,'YYYY-MM-DD')
+			,#lastUpdtUsr#
+			,#basicRm#
+			,#maxShipScl#
+			,#extd#
+			,#upsideAlt#
+			,#dpwt#
+			,#fmt1Desc1#
+			,#fmt1Desc2#
+			,#fmt1Desc3#
+			,#fmt1Desc4#
+			,#fmt2Desc11#
+			,#fmt2Desc12#
+			,#fmt2Desc13#
+			,#fmt2Desc2#
+			,#fmt2Desc3#
+			,#fmt3Desc1#
+			,#fmt3Desc2#
+			,#etcDtlsSpec#
+			,#fcltsMngGroupNo#
+			,#regUsr#
+			,SYSDATE
+		)
+	</insert>
+
+	<update id="gamFcltsMngRegistMngDao.updateFcltsMngRegistMng_S" parameterClass="gamFcltsMngRegistMngVO">
+		UPDATE FCLTS_MNG_REGIST_F SET
+			 FCLTS_NM = #fcltsNm#
+			,ROUTE = #route#
+			,FCLTS_GBN = #fcltsGbn#
+			,FCLTS_SE = #fcltsSe#
+			,FCLTS_KND = #fcltsKnd#
+			,LOC_DO = #locDo#
+			,LOC_SI = #locSi#
+			,LOC_DONG = #locDong#
+			,LOC_JIBUN = #locJibun#
+			,MNG_MAINBD_SE = #mngMainbdSe#
+			,MNG_MAINBD = #mngMainbd#
+			,OWNER = #owner#
+			,BLD_DT = TO_DATE(#bldDt#,'YYYY-MM-DD')
+			,FLAW_END_DT = TO_DATE(#flawEndDt#,'YYYY-MM-DD')
+			,DTLS_SPEC_YN = #dtlsSpecYn#
+			,QC_HIST_YN = #qcHistYn#
+			,MNTN_HIST_YN = #mntnHistYn#
+			,PLAN_BEGIN_DT = TO_DATE(#planBeginDt#,'YYYY-MM-DD')
+			,PLAN_END_DT = TO_DATE(#planEndDt#,'YYYY-MM-DD')
+			,PLANNER = #planner#
+			,CNST_BEGIN_DT = TO_DATE(#cnstBeginDt#,'YYYY-MM-DD')
+			,CNST_END_DT = TO_DATE(#cnstEndDt#,'YYYY-MM-DD')
+			,CNSTRTR = #cnstrtr#
+			,CNSTRCT_AMT = NVL(TO_NUMBER(REPLACE(#cnstrctAmt#,',','')),0)
+			,ERQ_PROOF_PLAN_APPLC_ENNC = #erqProofPlanApplcEnnc#
+			,INSPECT_BEGIN_DT = TO_DATE(#inspectBeginDt#,'YYYY-MM-DD')
+			,INSPECT_END_DT = TO_DATE(#inspectEndDt#,'YYYY-MM-DD')
+			,INSPECTOR = #inspector#
+			,CNST_ORDER_BODY = #cnstOrderBody#
+			,CNST_NM = #cnstNm#
+			,CNST_SUPERVISOR = #cnstSupervisor#
+			,PLAN_BOOK_MNTEN = #planBookMnten#
+			,WRT_DT = TO_DATE(#wrtDt#,'YYYY-MM-DD')
+			,WRT_USR = #wrtUsr#
+			,LAST_UPDT_DT = TO_DATE(#lastUpdtDt#,'YYYY-MM-DD')
+			,LAST_UPDT_USR = #lastUpdtUsr#
+			,BASIC_RM = #basicRm#
+			,MAX_SHIP_SCL = #maxShipScl#
+			,EXTD = #extd#
+			,UPSIDE_ALT = #upsideAlt#
+			,DPWT = #dpwt#
+			,FMT_1_DESC_1 = #fmt1Desc1#
+			,FMT_1_DESC_2 = #fmt1Desc2#
+			,FMT_1_DESC_3 = #fmt1Desc3#
+			,FMT_1_DESC_4 = #fmt1Desc4#
+			,FMT_2_DESC_1_1 = #fmt2Desc11#
+			,FMT_2_DESC_1_2 = #fmt2Desc12#
+			,FMT_2_DESC_1_3 = #fmt2Desc13#
+			,FMT_2_DESC_2 = #fmt2Desc2#
+			,FMT_2_DESC_3 = #fmt2Desc3#
+			,FMT_3_DESC_1 = #fmt3Desc1#
+			,FMT_3_DESC_2 = #fmt3Desc2#
+			,ETC_DTLS_SPEC = #etcDtlsSpec#
+			,FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE FCLTS_NO = #fcltsNo#
+	</update>
+
+	<delete id="gamFcltsMngRegistMngDao.deleteFcltsMngRegistMng_S" parameterClass="gamFcltsMngRegistMngVO">
+		DELETE FROM FCLTS_MNG_REGIST_F
+		WHERE FCLTS_NO = #fcltsNo#
+	</delete>
+
+	<select id="gamFcltsMngRegistMngDao.selectFcltsMngRegistMngPk_S" parameterClass="gamFcltsMngRegistMngVO" resultClass="egovMap">
+		SELECT
+				 T1.FCLTS_NO AS FCLTS_NO
+				,T1.FCLTS_NM AS FCLTS_NM
+				,T1.ROUTE AS ROUTE
+				,T1.FCLTS_GBN AS FCLTS_GBN
+				,T1.FCLTS_SE AS FCLTS_SE
+				,T1.FCLTS_KND AS FCLTS_KND
+				,T1.LOC_DO AS LOC_DO
+				,T1.LOC_SI AS LOC_SI
+				,T1.LOC_DONG AS LOC_DONG
+				,T1.LOC_JIBUN AS LOC_JIBUN
+				,T1.MNG_MAINBD_SE AS MNG_MAINBD_SE
+				,T1.MNG_MAINBD AS MNG_MAINBD
+				,T1.OWNER AS OWNER
+				,TO_CHAR(T1.BLD_DT,'YYYY-MM-DD') AS BLD_DT
+				,TO_CHAR(T1.FLAW_END_DT,'YYYY-MM-DD') AS FLAW_END_DT
+				,T1.DTLS_SPEC_YN AS DTLS_SPEC_YN
+				,T1.QC_HIST_YN AS QC_HIST_YN
+				,T1.MNTN_HIST_YN AS MNTN_HIST_YN
+				,TO_CHAR(T1.PLAN_BEGIN_DT,'YYYY-MM-DD') AS PLAN_BEGIN_DT
+				,TO_CHAR(T1.PLAN_END_DT,'YYYY-MM-DD') AS PLAN_END_DT
+				,T1.PLANNER AS PLANNER
+				,TO_CHAR(T1.CNST_BEGIN_DT,'YYYY-MM-DD') AS CNST_BEGIN_DT
+				,TO_CHAR(T1.CNST_END_DT,'YYYY-MM-DD') AS CNST_END_DT
+				,T1.CNSTRTR AS CNSTRTR
+				,LTRIM(TO_CHAR(NVL(T1.CNSTRCT_AMT,0),'9,999,999,999,999,990')) AS CNSTRCT_AMT
+				,T1.ERQ_PROOF_PLAN_APPLC_ENNC AS ERQ_PROOF_PLAN_APPLC_ENNC
+				,TO_CHAR(T1.INSPECT_BEGIN_DT,'YYYY-MM-DD') AS INSPECT_BEGIN_DT
+				,TO_CHAR(T1.INSPECT_END_DT,'YYYY-MM-DD') AS INSPECT_END_DT
+				,T1.INSPECTOR AS INSPECTOR
+				,T1.CNST_ORDER_BODY AS CNST_ORDER_BODY
+				,T1.CNST_NM AS CNST_NM
+				,T1.CNST_SUPERVISOR AS CNST_SUPERVISOR
+				,T1.PLAN_BOOK_MNTEN AS PLAN_BOOK_MNTEN
+				,TO_CHAR(T1.WRT_DT,'YYYY-MM-DD') AS WRT_DT
+				,T1.WRT_USR AS WRT_USR
+				,TO_CHAR(T1.LAST_UPDT_DT,'YYYY-MM-DD') AS LAST_UPDT_DT
+				,T1.LAST_UPDT_USR AS LAST_UPDT_USR
+				,T1.BASIC_RM AS BASIC_RM
+				,T1.MAX_SHIP_SCL AS MAX_SHIP_SCL
+				,T1.EXTD AS EXTD
+				,T1.UPSIDE_ALT AS UPSIDE_ALT
+				,T1.DPWT AS DPWT
+				,T1.FMT_1_DESC_1 AS FMT_1_DESC_1
+				,T1.FMT_1_DESC_2 AS FMT_1_DESC_2
+				,T1.FMT_1_DESC_3 AS FMT_1_DESC_3
+				,T1.FMT_1_DESC_4 AS FMT_1_DESC_4
+				,T1.FMT_2_DESC_1_1 AS FMT_2_DESC_1_1
+				,T1.FMT_2_DESC_1_2 AS FMT_2_DESC_1_2
+				,T1.FMT_2_DESC_1_3 AS FMT_2_DESC_1_3
+				,T1.FMT_2_DESC_2 AS FMT_2_DESC_2
+				,T1.FMT_2_DESC_3 AS FMT_2_DESC_3
+				,T1.FMT_3_DESC_1 AS FMT_3_DESC_1
+				,T1.FMT_3_DESC_2 AS FMT_3_DESC_2
+				,T1.ETC_DTLS_SPEC AS ETC_DTLS_SPEC
+				,T1.FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,REPLACE(NVL(T1.LOC_DO AS LOC_DO,' ') || ' ' || NVL(T1.LOC_SI AS LOC_SI,' ') || ' ' || NVL(T1.LOC_DONG AS LOC_DONG,' ') || NVL(T1.LOC_JIBUN AS LOC_JIBUN,' '),'  ',' ') AS LOC
+			FROM FCLTS_MNG_REGIST_F T1
+		WHERE T1.FCLTS_NO = #fcltsNo#
+	</select>
+
+	<select id="gamFcltsMngRegistMngDao.selectFcltsMngRegistMngListSum_S" parameterClass="gamFcltsMngRegistMngVO" resultMap="gamFcltsMngRegistMngSumMap">
+		SELECT
+				 TO_CHAR(NVL(COUNT(*),0),'999,999,999,999,999') AS TOTAL_COUNT
+				,LTRIM(TO_CHAR(NVL(SUM(T1.CNSTRCT_AMT),0),'9,999,999,999,999,990')) AS CNSTRCT_AMT
+			FROM FCLTS_MNG_REGIST_F T1
+		WHERE 1=1
+
+		<isNotEmpty property="sFcltsNo">
+		AND T1.FCLTS_NO = #sFcltsNo#
+		</isNotEmpty>
+
+		<isNotEmpty property="sFcltsNm">
+		AND T1.FCLTS_NM = #sFcltsNm#
+		</isNotEmpty>
+
+		<isNotEmpty property="sFcltsGbn">
+		AND T1.FCLTS_GBN = #sFcltsGbn#
+		</isNotEmpty>
+
+		<isNotEmpty property="sStartBldDt">
+		AND T1.BLD_DT <![CDATA[ >= ]]> TO_DATE(#sStartBldDt#,'YYYY-MM-DD')
+		</isNotEmpty>
+
+		<isNotEmpty property="sEndBldDt">
+		AND T1.BLD_DT <![CDATA[ < ]]> TO_DATE(#sEndBldDt#,'YYYY-MM-DD') + 1
+		</isNotEmpty>
+
+	</select>
+
+	<select id="gamFcltsMngRegistMngDao.selectFcltsMngGroupNm_S" parameterClass="hashmap" resultClass="java.lang.String">
+		SELECT FCLTS_MNG_GROUP_NM
+			FROM FCLTS_MNG_GROUP_F
+		WHERE FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+	</select>
+
+</sqlMap>
