@@ -27,6 +27,8 @@ import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.fclty.service.GamFcltsMngRegistMngMntnRprDtlsVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamFcltsMngRegistMngQcMngDtlsVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltsMngRegistMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltsMngRegistMngVO;
 
@@ -274,6 +276,130 @@ public class GamFcltsMngRegistMngController {
 
 		map.put("resultCode", 0);
 		map.put("sFcltsMngGroupNm", sFcltsMngGroupNm);
+
+		return map;
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/fclty/gamSelectFcltsMngRegistMngQcMngDtlsPlanList.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectFcltsMngRegistMngQcMngDtlsPlanList(GamFcltsMngRegistMngQcMngDtlsVO searchVO) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamFcltsMngRegistMngService.selectFcltsMngRegistMngQcMngDtlsPlanList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+
+		return map;
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/fclty/gamSelectFcltsMngRegistMngQcMngDtlsHistList.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectFcltsMngRegistMngQcMngDtlsHistList(GamFcltsMngRegistMngQcMngDtlsVO searchVO) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamFcltsMngRegistMngService.selectFcltsMngRegistMngQcMngDtlsHistList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+
+		return map;
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/fclty/gamSelectFcltsMngRegistMngMntnRprDtlsPlanList.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectFcltsMngRegistMngMntnRprDtlsPlanList(GamFcltsMngRegistMngMntnRprDtlsVO searchVO) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamFcltsMngRegistMngService.selectFcltsMngRegistMngMntnRprDtlsPlanList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+
+		return map;
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/fclty/gamSelectFcltsMngRegistMngMntnRprDtlsHistList.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectFcltsMngRegistMngMntnRprDtlsHistList(GamFcltsMngRegistMngMntnRprDtlsVO searchVO) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamFcltsMngRegistMngService.selectFcltsMngRegistMngMntnRprDtlsHistList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
 
 		return map;
 

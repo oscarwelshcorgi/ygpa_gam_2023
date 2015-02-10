@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.fclty.service.GamFcltsMngRegistMngMntnRprDtlsVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamFcltsMngRegistMngQcMngDtlsVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltsMngRegistMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltsMngRegistMngVO;
 
@@ -71,6 +73,26 @@ public class GamFcltsMngRegistMngServiceImpl extends AbstractServiceImpl impleme
 	@Override
 	public String selectFcltsMngGroupNm(Map searchVO) throws Exception {
 		return gamFcltsMngRegistMngDao.selectFcltsMngGroupNm(searchVO);
+	}
+
+	@Override
+	public List selectFcltsMngRegistMngQcMngDtlsPlanList(GamFcltsMngRegistMngQcMngDtlsVO searchVO) throws Exception {
+		return gamFcltsMngRegistMngDao.selectFcltsMngRegistMngQcMngDtlsPlanList(searchVO);
+	}
+
+	@Override
+	public List selectFcltsMngRegistMngQcMngDtlsHistList(GamFcltsMngRegistMngQcMngDtlsVO searchVO) throws Exception {
+		return gamFcltsMngRegistMngDao.selectFcltsMngRegistMngQcMngDtlsHistList(searchVO);
+	}
+
+	@Override
+	public List selectFcltsMngRegistMngMntnRprDtlsPlanList(GamFcltsMngRegistMngMntnRprDtlsVO searchVO) throws Exception {
+		return gamFcltsMngRegistMngDao.selectFcltsMngRegistMngMntnRprDtlsPlanList(searchVO);
+	}
+
+	@Override
+	public List selectFcltsMngRegistMngMntnRprDtlsHistList(GamFcltsMngRegistMngMntnRprDtlsVO searchVO) throws Exception {
+		return gamFcltsMngRegistMngDao.selectFcltsMngRegistMngMntnRprDtlsHistList(searchVO);
 	}
 
 }

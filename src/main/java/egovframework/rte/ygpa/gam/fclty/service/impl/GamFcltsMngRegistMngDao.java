@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.fclty.service.GamFcltsMngRegistMngMntnRprDtlsVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamFcltsMngRegistMngQcMngDtlsVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltsMngRegistMngVO;
 
 /**
@@ -93,6 +95,42 @@ public class GamFcltsMngRegistMngDao extends YGPAAbstractDAO {
 	 */
 	public String selectFcltsMngGroupNm(Map searchVO) {
 		return (String)selectByPk("gamFcltsMngRegistMngDao.selectFcltsMngGroupNm_S", searchVO);
+	}
+
+	/**
+	 * @name selectFcltsMngRegistMngQcMngDtlsPlanList
+	 * @param searchVO
+	 * @return List
+	 */
+	public List selectFcltsMngRegistMngQcMngDtlsPlanList(GamFcltsMngRegistMngQcMngDtlsVO searchVO) {
+		return list("gamFcltsMngRegistMngDao.selectFcltsMngRegistMngQcMngDtlsPlanList_D", searchVO);
+	}
+
+	/**
+	 * @name selectFcltsMngRegistMngQcMngDtlsHistList
+	 * @param searchVO
+	 * @return List
+	 */
+	public List selectFcltsMngRegistMngQcMngDtlsHistList(GamFcltsMngRegistMngQcMngDtlsVO searchVO) {
+		return list("gamFcltsMngRegistMngDao.selectFcltsMngRegistMngQcMngDtlsHistList_D", searchVO);
+	}
+
+	/**
+	 * @name selectFcltsMngRegistMngMntnRprDtlsPlanList
+	 * @param searchVO
+	 * @return List
+	 */
+	public List selectFcltsMngRegistMngMntnRprDtlsPlanList(GamFcltsMngRegistMngMntnRprDtlsVO searchVO) {
+		return list("gamFcltsMngRegistMngDao.selectFcltsMngRegistMngMntnRprDtlsPlanList_D", searchVO);
+	}
+
+	/**
+	 * @name selectFcltsMngRegistMngMntnRprDtlsHistList
+	 * @param searchVO
+	 * @return List
+	 */
+	public List selectFcltsMngRegistMngMntnRprDtlsHistList(GamFcltsMngRegistMngMntnRprDtlsVO searchVO) {
+		return list("gamFcltsMngRegistMngDao.selectFcltsMngRegistMngMntnRprDtlsHistList_D", searchVO);
 	}
 
 }

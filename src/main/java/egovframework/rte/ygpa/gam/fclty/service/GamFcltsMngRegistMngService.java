@@ -83,4 +83,36 @@ public interface GamFcltsMngRegistMngService {
 	 */
 	String selectFcltsMngGroupNm(Map searchVO) throws Exception;
 
+	/**
+	 * @name selectFcltsMngRegistMngQcMngDtlsPlanList
+	 * @param searchVO
+	 * @return List
+	 * @throws Exception
+	 */
+	List selectFcltsMngRegistMngQcMngDtlsPlanList(GamFcltsMngRegistMngQcMngDtlsVO searchVO) throws Exception;
+
+	/**
+	 * @name selectFcltsMngRegistMngQcMngDtlsHistList
+	 * @param searchVO
+	 * @return List
+	 * @throws Exception
+	 */
+	List selectFcltsMngRegistMngQcMngDtlsHistList(GamFcltsMngRegistMngQcMngDtlsVO searchVO) throws Exception;
+
+	/**
+	 * @name selectFcltsMngRegistMngMntnRprDtlsPlanList
+	 * @param searchVO
+	 * @return List
+	 * @throws Exception
+	 */
+	List selectFcltsMngRegistMngMntnRprDtlsPlanList(GamFcltsMngRegistMngMntnRprDtlsVO searchVO) throws Exception;
+
+	/**
+	 * @name selectFcltsMngRegistMngMntnRprDtlsHistList
+	 * @param searchVO
+	 * @return List
+	 * @throws Exception
+	 */
+	List selectFcltsMngRegistMngMntnRprDtlsHistList(GamFcltsMngRegistMngMntnRprDtlsVO searchVO) throws Exception;
+
 }

@@ -6,6 +6,8 @@
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 	<typeAlias alias="gamFcltsMngRegistMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltsMngRegistMngVO"/>
+	<typeAlias alias="gamFcltsMngRegistMngQcMngDtlsVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltsMngRegistMngQcMngDtlsVO"/>
+	<typeAlias alias="gamFcltsMngRegistMngMntnRprDtlsVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltsMngRegistMngMntnRprDtlsVO"/>
 	<!-- RESULT MAP 정의 -->
 	<resultMap id="gamFcltsMngRegistMngSumMap" class="gamFcltsMngRegistMngVO">
 		<result property="totalCount" column="TOTAL_COUNT" columnIndex="1"/>
@@ -78,7 +80,12 @@
 								,T1.UPD_USR AS UPD_USR
 								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
 								,REPLACE(NVL(T1.LOC_DO,' ') || ' ' || NVL(T1.LOC_SI,' ') || ' ' || NVL(T1.LOC_DONG,' ') || NVL(T1.LOC_JIBUN,' '),'  ',' ') AS LOC
+								,GAM_GET_FCLTS_GBN_NM(T1.FCLTS_GBN) AS FCLTS_GBN_NM
+								,GAM_GET_FCLTS_SE_NM(T1.FCLTS_SE) AS FCLTS_SE_NM
+								,GAM_GET_FCLTS_KND_NM(T1.FCLTS_KND) AS FCLTS_KND_NM
+								,T2.FCLTS_MNG_GROUP_NM AS FCLTS_MNG_GROUP_NM
 							FROM FCLTS_MNG_REGIST_F T1
+							LEFT OUTER JOIN FCLTS_MNG_GROUP_F T2 ON (T1.FCLTS_MNG_GROUP_NO = T2.FCLTS_MNG_GROUP_NO)
 						WHERE 1=1
 
 						<isNotEmpty property="sFcltsNo">
@@ -360,7 +367,12 @@
 				,T1.UPD_USR AS UPD_USR
 				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
 				,REPLACE(NVL(T1.LOC_DO,' ') || ' ' || NVL(T1.LOC_SI,' ') || ' ' || NVL(T1.LOC_DONG,' ') || NVL(T1.LOC_JIBUN,' '),'  ',' ') AS LOC
+				,GAM_GET_FCLTS_GBN_NM(T1.FCLTS_GBN) AS FCLTS_GBN_NM
+				,GAM_GET_FCLTS_SE_NM(T1.FCLTS_SE) AS FCLTS_SE_NM
+				,GAM_GET_FCLTS_KND_NM(T1.FCLTS_KND) AS FCLTS_KND_NM
+				,T2.FCLTS_MNG_GROUP_NM AS FCLTS_MNG_GROUP_NM
 			FROM FCLTS_MNG_REGIST_F T1
+			LEFT OUTER JOIN FCLTS_MNG_GROUP_F T2 ON (T1.FCLTS_MNG_GROUP_NO = T2.FCLTS_MNG_GROUP_NO)
 		WHERE T1.FCLTS_NO = #fcltsNo#
 	</select>
 
@@ -397,6 +409,186 @@
 		SELECT FCLTS_MNG_GROUP_NM
 			FROM FCLTS_MNG_GROUP_F
 		WHERE FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+	</select>
+
+	<select id="gamFcltsMngRegistMngDao.selectFcltsMngRegistMngQcMngDtlsPlanList_D" parameterClass="GamFcltsMngRegistMngQcMngDtlsVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.FCLTS_JOB_SE AS FCLTS_JOB_SE
+								,LTRIM(TO_CHAR(NVL(T1.QC_MNG_SEQ,0),'00000')) AS QC_MNG_SEQ
+								,T1.ENFORCE_YEAR AS ENFORCE_YEAR
+								,T1.QC_MNG_NM AS QC_MNG_NM
+								,T1.QC_SE AS QC_SE
+								,T1.QC_INSP_TP AS QC_INSP_TP
+								,T1.QC_INSP_SE AS QC_INSP_SE
+								,TO_CHAR(T1.QC_INSP_DT,'YYYY-MM-DD') AS QC_INSP_DT
+								,T1.QC_INSP_INSTT_NM AS QC_INSP_INSTT_NM
+								,T1.RESPON_ENGINEER_NM AS RESPON_ENGINEER_NM
+								,TO_CHAR(T1.QC_BEGIN_DT,'YYYY-MM-DD') AS QC_BEGIN_DT
+								,TO_CHAR(T1.QC_END_DT,'YYYY-MM-DD') AS QC_END_DT
+								,LTRIM(TO_CHAR(NVL(T1.QC_INSP_AMT,0),'9,999,999,999,999,990')) AS QC_INSP_AMT
+								,T1.STTUS_EVL_LVL AS STTUS_EVL_LVL
+								,T1.ACTION_CN AS ACTION_CN
+								,T1.RM AS RM
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,T1.QC_INSP_RESULT AS QC_INSP_RESULT
+								,T1.CTRT_NO AS CTRT_NO
+								,LTRIM(TO_CHAR(NVL(T1.QC_INSP_BDGT,0),'9,999,999,999,999,990')) AS QC_INSP_BDGT
+								,TO_CHAR(T1.WRT_DT,'YYYY-MM-DD') AS WRT_DT
+								,T1.WRT_USR AS WRT_USR
+								,GAM_GET_QC_SE_NM(T1.QC_SE) AS QC_SE_NM
+								,GAM_GET_QC_INSP_TP_NM(T1.QC_INSP_TP) AS QC_INSP_TP_NM
+								,GAM_GET_QC_INSP_SE_NM(T1.QC_INSP_SE) AS QC_INSP_SE_NM
+								,GAM_GET_STTUS_EVL_LVL_NM(T1.STTUS_EVL_LVL) AS STTUS_EVL_LVL_NM
+								,TO_CHAR(T1.QC_BEGIN_DT,'YYYY-MM-DD') || ' ~ ' || TO_CHAR(T1.QC_END_DT,'YYYY-MM-DD') AS QC_INSP_DT_FROM_TO
+							FROM QC_MNG_DTLS_F T1
+						WHERE T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+						AND T1.PLAN_HIST_SE = 'P'
+						ORDER BY T1.QC_INSP_DT ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<select id="gamFcltsMngRegistMngDao.selectFcltsMngRegistMngQcMngDtlsHistList_D" parameterClass="GamFcltsMngRegistMngQcMngDtlsVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.FCLTS_JOB_SE AS FCLTS_JOB_SE
+								,LTRIM(TO_CHAR(NVL(T1.QC_MNG_SEQ,0),'00000')) AS QC_MNG_SEQ
+								,T1.ENFORCE_YEAR AS ENFORCE_YEAR
+								,T1.QC_MNG_NM AS QC_MNG_NM
+								,T1.QC_SE AS QC_SE
+								,T1.QC_INSP_TP AS QC_INSP_TP
+								,T1.QC_INSP_SE AS QC_INSP_SE
+								,TO_CHAR(T1.QC_INSP_DT,'YYYY-MM-DD') AS QC_INSP_DT
+								,T1.QC_INSP_INSTT_NM AS QC_INSP_INSTT_NM
+								,T1.RESPON_ENGINEER_NM AS RESPON_ENGINEER_NM
+								,TO_CHAR(T1.QC_BEGIN_DT,'YYYY-MM-DD') AS QC_BEGIN_DT
+								,TO_CHAR(T1.QC_END_DT,'YYYY-MM-DD') AS QC_END_DT
+								,LTRIM(TO_CHAR(NVL(T1.QC_INSP_AMT,0),'9,999,999,999,999,990')) AS QC_INSP_AMT
+								,T1.STTUS_EVL_LVL AS STTUS_EVL_LVL
+								,T1.ACTION_CN AS ACTION_CN
+								,T1.RM AS RM
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,T1.QC_INSP_RESULT AS QC_INSP_RESULT
+								,T1.CTRT_NO AS CTRT_NO
+								,LTRIM(TO_CHAR(NVL(T1.QC_INSP_BDGT,0),'9,999,999,999,999,990')) AS QC_INSP_BDGT
+								,TO_CHAR(T1.WRT_DT,'YYYY-MM-DD') AS WRT_DT
+								,T1.WRT_USR AS WRT_USR
+								,GAM_GET_QC_SE_NM(T1.QC_SE) AS QC_SE_NM
+								,GAM_GET_QC_INSP_TP_NM(T1.QC_INSP_TP) AS QC_INSP_TP_NM
+								,GAM_GET_QC_INSP_SE_NM(T1.QC_INSP_SE) AS QC_INSP_SE_NM
+								,GAM_GET_STTUS_EVL_LVL_NM(T1.STTUS_EVL_LVL) AS STTUS_EVL_LVL_NM
+								,TO_CHAR(T1.QC_BEGIN_DT,'YYYY-MM-DD') || ' ~ ' || TO_CHAR(T1.QC_END_DT,'YYYY-MM-DD') AS QC_INSP_DT_FROM_TO
+							FROM QC_MNG_DTLS_F T1
+						WHERE T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+						AND T1.PLAN_HIST_SE = 'H'
+						ORDER BY T1.QC_INSP_DT ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<select id="gamFcltsMngRegistMngDao.selectFcltsMngRegistMngMntnRprDtlsPlanList_D" parameterClass="GamFcltsMngRegistMngMntnRprDtlsVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.MNTN_RPR_CNST_NM AS MNTN_RPR_CNST_NM
+								,T1.PLANNER_NM AS PLANNER_NM
+								,T1.CNST_CHARG_NM AS CNST_CHARG_NM
+								,TO_CHAR(T1.MNTN_RPR_CNST_START_DT,'YYYY-MM-DD') AS MNTN_RPR_CNST_START_DT
+								,TO_CHAR(T1.MNTN_RPR_CNST_END_DT,'YYYY-MM-DD') AS MNTN_RPR_CNST_END_DT
+								,LTRIM(TO_CHAR(NVL(T1.MNTN_RPR_CNST_AMT,0),'9,999,999,999,999,990')) AS MNTN_RPR_CNST_AMT
+								,T1.RM AS RM
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,T1.CTRT_NO AS CTRT_NO
+								,T1.FCLTS_JOB_SE AS FCLTS_JOB_SE
+								,LTRIM(TO_CHAR(NVL(T1.MNTN_RPR_SEQ,0),'00000')) AS MNTN_RPR_SEQ
+								,T1.MNTN_RPR_SE AS MNTN_RPR_SE
+								,T1.MNTN_RPR_PART AS MNTN_RPR_PART
+								,T1.MNTN_RPR_CN AS MNTN_RPR_CN
+								,LTRIM(TO_CHAR(NVL(T1.MNTN_RPR_BDGT,0),'9,999,999,999,999,990')) AS MNTN_RPR_BDGT
+								,T1.CNSTRTR AS CNSTRTR
+								,T1.RESPON_ENGINEER AS RESPON_ENGINEER
+								,T1.ENFORCE_YEAR AS ENFORCE_YEAR
+								,T1.MNTN_SUB_RPR_SE AS MNTN_SUB_RPR_SE
+								,TO_CHAR(T1.WRT_DT,'YYYY-MM-DD') AS WRT_DT
+								,T1.WRT_USR AS WRT_USR
+								,GAM_GET_MNTN_RPR_SE_NM(T1.MNTN_RPR_SE) AS MNTN_RPR_SE_NM
+								,TO_CHAR(T1.MNTN_RPR_CNST_START_DT,'YYYY-MM-DD') || ' ~ ' || TO_CHAR(T1.MNTN_RPR_CNST_END_DT,'YYYY-MM-DD') AS MNTN_RPR_CNST_DT_FROM_TO
+							FROM MNTN_RPR_DTLS_F T1
+						WHERE T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+						AND T1.PLAN_HIST_SE = 'P'
+						ORDER BY T1.MNTN_RPR_CNST_START_DT ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<select id="gamFcltsMngRegistMngDao.selectFcltsMngRegistMngMntnRprDtlsHistList_D" parameterClass="GamFcltsMngRegistMngMntnRprDtlsVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.MNTN_RPR_CNST_NM AS MNTN_RPR_CNST_NM
+								,T1.PLANNER_NM AS PLANNER_NM
+								,T1.CNST_CHARG_NM AS CNST_CHARG_NM
+								,TO_CHAR(T1.MNTN_RPR_CNST_START_DT,'YYYY-MM-DD') AS MNTN_RPR_CNST_START_DT
+								,TO_CHAR(T1.MNTN_RPR_CNST_END_DT,'YYYY-MM-DD') AS MNTN_RPR_CNST_END_DT
+								,LTRIM(TO_CHAR(NVL(T1.MNTN_RPR_CNST_AMT,0),'9,999,999,999,999,990')) AS MNTN_RPR_CNST_AMT
+								,T1.RM AS RM
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,T1.CTRT_NO AS CTRT_NO
+								,T1.FCLTS_JOB_SE AS FCLTS_JOB_SE
+								,LTRIM(TO_CHAR(NVL(T1.MNTN_RPR_SEQ,0),'00000')) AS MNTN_RPR_SEQ
+								,T1.MNTN_RPR_SE AS MNTN_RPR_SE
+								,T1.MNTN_RPR_PART AS MNTN_RPR_PART
+								,T1.MNTN_RPR_CN AS MNTN_RPR_CN
+								,LTRIM(TO_CHAR(NVL(T1.MNTN_RPR_BDGT,0),'9,999,999,999,999,990')) AS MNTN_RPR_BDGT
+								,T1.CNSTRTR AS CNSTRTR
+								,T1.RESPON_ENGINEER AS RESPON_ENGINEER
+								,T1.ENFORCE_YEAR AS ENFORCE_YEAR
+								,T1.MNTN_SUB_RPR_SE AS MNTN_SUB_RPR_SE
+								,TO_CHAR(T1.WRT_DT,'YYYY-MM-DD') AS WRT_DT
+								,T1.WRT_USR AS WRT_USR
+								,GAM_GET_MNTN_RPR_SE_NM(T1.MNTN_RPR_SE) AS MNTN_RPR_SE_NM
+								,TO_CHAR(T1.MNTN_RPR_CNST_START_DT,'YYYY-MM-DD') || ' ~ ' || TO_CHAR(T1.MNTN_RPR_CNST_END_DT,'YYYY-MM-DD') AS MNTN_RPR_CNST_DT_FROM_TO
+							FROM MNTN_RPR_DTLS_F T1
+						WHERE T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+						AND T1.PLAN_HIST_SE = 'H'
+						ORDER BY T1.MNTN_RPR_CNST_START_DT ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
 	</select>
 
 </sqlMap>

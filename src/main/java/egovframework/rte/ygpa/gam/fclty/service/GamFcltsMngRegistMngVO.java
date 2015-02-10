@@ -84,12 +84,15 @@ public class GamFcltsMngRegistMngVO extends ComDefaultVO {
 	private	String fmt3Desc2;				// 구조형식-널말뚝식-기타
 	private	String etcDtlsSpec;				// 기타 상세제원
 	private	String fcltsMngGroupNo;			// 시설물 관리 그룹 번호
-	private	String fcltsMngGroupNm;			// 시설물 관리 그룹 명
 	private	String regUsr;					// 등록자
 	private	String registDt;				// 등록일시
 	private	String updUsr;					// 수정자
 	private	String updtDt;					// 수정일시
 	private	String loc;						// 위치
+	private	String fcltsGbnNm;				// 시설물 종별 명
+	private	String fcltsSeNm;				// 시설물 구분 명
+	private	String fcltsKndNm;				// 시설물 종류 명
+	private	String fcltsMngGroupNm;			// 시설물 관리 그룹 명
 	private	String sFcltsNo;				// 검색 시설물 번호
 	private	String sFcltsNm;				// 검색 시설물 명
 	private	String sFcltsGbn;				// 검색 시설물 종별
@@ -759,18 +762,6 @@ public class GamFcltsMngRegistMngVO extends ComDefaultVO {
 		this.fcltsMngGroupNo = fcltsMngGroupNo;
 	}
 	/**
-	 * @return the fcltsMngGroupNm
-	 */
-	public String getFcltsMngGroupNm() {
-		return fcltsMngGroupNm;
-	}
-	/**
-	 * @param fcltsMngGroupNm the fcltsMngGroupNm to set
-	 */
-	public void setFcltsMngGroupNm(String fcltsMngGroupNm) {
-		this.fcltsMngGroupNm = fcltsMngGroupNm;
-	}
-	/**
 	 * @return the regUsr
 	 */
 	public String getRegUsr() {
@@ -829,6 +820,54 @@ public class GamFcltsMngRegistMngVO extends ComDefaultVO {
 	 */
 	public void setLoc(String loc) {
 		this.loc = loc;
+	}
+	/**
+	 * @return the fcltsGbnNm
+	 */
+	public String getFcltsGbnNm() {
+		return fcltsGbnNm;
+	}
+	/**
+	 * @param fcltsGbnNm the fcltsGbnNm to set
+	 */
+	public void setFcltsGbnNm(String fcltsGbnNm) {
+		this.fcltsGbnNm = fcltsGbnNm;
+	}
+	/**
+	 * @return the fcltsSeNm
+	 */
+	public String getFcltsSeNm() {
+		return fcltsSeNm;
+	}
+	/**
+	 * @param fcltsSeNm the fcltsSeNm to set
+	 */
+	public void setFcltsSeNm(String fcltsSeNm) {
+		this.fcltsSeNm = fcltsSeNm;
+	}
+	/**
+	 * @return the fcltsKndNm
+	 */
+	public String getFcltsKndNm() {
+		return fcltsKndNm;
+	}
+	/**
+	 * @param fcltsKndNm the fcltsKndNm to set
+	 */
+	public void setFcltsKndNm(String fcltsKndNm) {
+		this.fcltsKndNm = fcltsKndNm;
+	}
+	/**
+	 * @return the fcltsMngGroupNm
+	 */
+	public String getFcltsMngGroupNm() {
+		return fcltsMngGroupNm;
+	}
+	/**
+	 * @param fcltsMngGroupNm the fcltsMngGroupNm to set
+	 */
+	public void setFcltsMngGroupNm(String fcltsMngGroupNm) {
+		this.fcltsMngGroupNm = fcltsMngGroupNm;
 	}
 	/**
 	 * @return the sFcltsNo
