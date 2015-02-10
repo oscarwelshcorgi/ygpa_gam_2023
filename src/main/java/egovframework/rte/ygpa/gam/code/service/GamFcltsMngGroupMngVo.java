@@ -47,27 +47,11 @@ public class GamFcltsMngGroupMngVo  extends ComDefaultVO {
 	private String fcltsSeNm;				//시설물 구분 명
 	private String fcltsKnd;				//시설물 종류
 	private String fcltsKndNm;				//시설물 종류 명
-	private String fcltsCn;					//시설물 내용
-	private String fcltsStrct;				//시설물 구조
-	private String archFcltsCn;				//건축 시설물 내용
-	private String archFcltsStrct;			//건축 시설물 구조
-	private String cvlEngFcltsCn;			//토목 시설물 내용
-	private String cvlEngFcltsStrct;		//토목 시설물 구조
-	private String mechFcltsCn;				//기계 시설물 내용
-	private String mechFcltsStrct;			//기계 시설물 구조
-	private String elctyFcltsCn;			//전기 시설물 내용
-	private String elctyFcltsStrct;			//전기 시설물 구조
-	private String infoCommFcltsCn;			//정보 통신 시설물 내용
-	private String infoCommFcltsStrct;		//정보 통신 시설물 구조
-	private String etcFcltsCn;				//기타 시설물 내용
-	private String etcFcltsStrct;			//기타 시설물 구조
-	private String archFcltsCnt;			//건축 시설물 갯수
-	private String cvlEngFcltsCnt;			//토목 시설물 갯수
-	private String mechFcltsCnt;			//기계 시설물 갯수
-	private String elctyFcltsCnt;			//전기 시설물 갯수
-	private String infoCommFcltsCnt;		//정보 통신 시설물 갯수
-	private String etcFcltsCnt;				//기타 시설물 갯수
-	private String rm;						//비고
+	private String archFcltyUseYn;			//건축 시설 사용 유무
+	private String cvlEngFcltyUseYn;		//토목 시설 사용 유무
+	private String mechFcltyUseYn;			//기계 시설 사용 유무
+	private String elctyFcltyUseYn;			//전기 시설 사용 유무
+	private String infoCommFcltyUseYn;		//정보 통신 사용 유무
 	private	String regUsr;					//등록자
 	private	String registDt;				//등록일시
 	private	String updUsr;					//수정자
@@ -77,12 +61,7 @@ public class GamFcltsMngGroupMngVo  extends ComDefaultVO {
 	private String sFcltsMngGroupNm;		//시설물 관리 그룹 명
 	/** 합계컬럼 **/
 	private String	dataCount;				//자료수
-	private	String	sumArchFcltsCnt;		//총 건축 시설물 갯수
-	private	String	sumCvlEngFcltsCnt;		//총 토목 시설물 갯수
-	private	String	sumMechFcltsCnt;		//총 기계 시설물 갯수
-	private	String	sumElctyFcltsCnt;		//총 전기 시설물 갯수
-	private	String	sumInfoCommFcltsCnt;	//총 정보 통신 시설물 갯수
-	private	String	sumEtcFcltsCnt;			//총 기타 시설물 갯수
+	private	String	sumCnstrctAmt;			//시공 금액 합계
 
 	/**
 	 * @return the fcltsMngGroupNo
@@ -289,256 +268,64 @@ public class GamFcltsMngGroupMngVo  extends ComDefaultVO {
 		this.fcltsKndNm = fcltsKndNm;
 	}
 	/**
-	 * @return the fcltsCn
+	 * @return the archFcltyUseYn
 	 */
-	public String getFcltsCn() {
-		return fcltsCn;
+	public String getArchFcltyUseYn() {
+		return archFcltyUseYn;
 	}
 	/**
-	 * @param fcltsCn the fcltsCn to set
+	 * @param archFcltyUseYn the archFcltyUseYn to set
 	 */
-	public void setFcltsCn(String fcltsCn) {
-		this.fcltsCn = fcltsCn;
+	public void setArchFcltyUseYn(String archFcltyUseYn) {
+		this.archFcltyUseYn = archFcltyUseYn;
 	}
 	/**
-	 * @return the fcltsStrct
+	 * @return the cvlEngFcltyUseYn
 	 */
-	public String getFcltsStrct() {
-		return fcltsStrct;
+	public String getCvlEngFcltyUseYn() {
+		return cvlEngFcltyUseYn;
 	}
 	/**
-	 * @param fcltsStrct the fcltsStrct to set
+	 * @param cvlEngFcltyUseYn the cvlEngFcltyUseYn to set
 	 */
-	public void setFcltsStrct(String fcltsStrct) {
-		this.fcltsStrct = fcltsStrct;
+	public void setCvlEngFcltyUseYn(String cvlEngFcltyUseYn) {
+		this.cvlEngFcltyUseYn = cvlEngFcltyUseYn;
 	}
 	/**
-	 * @return the archFcltsCn
+	 * @return the mechFcltyUseYn
 	 */
-	public String getArchFcltsCn() {
-		return archFcltsCn;
+	public String getMechFcltyUseYn() {
+		return mechFcltyUseYn;
 	}
 	/**
-	 * @param archFcltsCn the archFcltsCn to set
+	 * @param mechFcltyUseYn the mechFcltyUseYn to set
 	 */
-	public void setArchFcltsCn(String archFcltsCn) {
-		this.archFcltsCn = archFcltsCn;
+	public void setMechFcltyUseYn(String mechFcltyUseYn) {
+		this.mechFcltyUseYn = mechFcltyUseYn;
 	}
 	/**
-	 * @return the archFcltsStrct
+	 * @return the elctyFcltyUseYn
 	 */
-	public String getArchFcltsStrct() {
-		return archFcltsStrct;
+	public String getElctyFcltyUseYn() {
+		return elctyFcltyUseYn;
 	}
 	/**
-	 * @param archFcltsStrct the archFcltsStrct to set
+	 * @param elctyFcltyUseYn the elctyFcltyUseYn to set
 	 */
-	public void setArchFcltsStrct(String archFcltsStrct) {
-		this.archFcltsStrct = archFcltsStrct;
+	public void setElctyFcltyUseYn(String elctyFcltyUseYn) {
+		this.elctyFcltyUseYn = elctyFcltyUseYn;
 	}
 	/**
-	 * @return the cvlEngFcltsCn
+	 * @return the infoCommFcltyUseYn
 	 */
-	public String getCvlEngFcltsCn() {
-		return cvlEngFcltsCn;
+	public String getInfoCommFcltyUseYn() {
+		return infoCommFcltyUseYn;
 	}
 	/**
-	 * @param cvlEngFcltsCn the cvlEngFcltsCn to set
+	 * @param infoCommFcltyUseYn the infoCommFcltyUseYn to set
 	 */
-	public void setCvlEngFcltsCn(String cvlEngFcltsCn) {
-		this.cvlEngFcltsCn = cvlEngFcltsCn;
-	}
-	/**
-	 * @return the cvlEngFcltsStrct
-	 */
-	public String getCvlEngFcltsStrct() {
-		return cvlEngFcltsStrct;
-	}
-	/**
-	 * @param cvlEngFcltsStrct the cvlEngFcltsStrct to set
-	 */
-	public void setCvlEngFcltsStrct(String cvlEngFcltsStrct) {
-		this.cvlEngFcltsStrct = cvlEngFcltsStrct;
-	}
-	/**
-	 * @return the mechFcltsCn
-	 */
-	public String getMechFcltsCn() {
-		return mechFcltsCn;
-	}
-	/**
-	 * @param mechFcltsCn the mechFcltsCn to set
-	 */
-	public void setMechFcltsCn(String mechFcltsCn) {
-		this.mechFcltsCn = mechFcltsCn;
-	}
-	/**
-	 * @return the mechFcltsStrct
-	 */
-	public String getMechFcltsStrct() {
-		return mechFcltsStrct;
-	}
-	/**
-	 * @param mechFcltsStrct the mechFcltsStrct to set
-	 */
-	public void setMechFcltsStrct(String mechFcltsStrct) {
-		this.mechFcltsStrct = mechFcltsStrct;
-	}
-	/**
-	 * @return the elctyFcltsCn
-	 */
-	public String getElctyFcltsCn() {
-		return elctyFcltsCn;
-	}
-	/**
-	 * @param elctyFcltsCn the elctyFcltsCn to set
-	 */
-	public void setElctyFcltsCn(String elctyFcltsCn) {
-		this.elctyFcltsCn = elctyFcltsCn;
-	}
-	/**
-	 * @return the elctyFcltsStrct
-	 */
-	public String getElctyFcltsStrct() {
-		return elctyFcltsStrct;
-	}
-	/**
-	 * @param elctyFcltsStrct the elctyFcltsStrct to set
-	 */
-	public void setElctyFcltsStrct(String elctyFcltsStrct) {
-		this.elctyFcltsStrct = elctyFcltsStrct;
-	}
-	/**
-	 * @return the infoCommFcltsCn
-	 */
-	public String getInfoCommFcltsCn() {
-		return infoCommFcltsCn;
-	}
-	/**
-	 * @param infoCommFcltsCn the infoCommFcltsCn to set
-	 */
-	public void setInfoCommFcltsCn(String infoCommFcltsCn) {
-		this.infoCommFcltsCn = infoCommFcltsCn;
-	}
-	/**
-	 * @return the infoCommFcltsStrct
-	 */
-	public String getInfoCommFcltsStrct() {
-		return infoCommFcltsStrct;
-	}
-	/**
-	 * @param infoCommFcltsStrct the infoCommFcltsStrct to set
-	 */
-	public void setInfoCommFcltsStrct(String infoCommFcltsStrct) {
-		this.infoCommFcltsStrct = infoCommFcltsStrct;
-	}
-	/**
-	 * @return the etcFcltsCn
-	 */
-	public String getEtcFcltsCn() {
-		return etcFcltsCn;
-	}
-	/**
-	 * @param etcFcltsCn the etcFcltsCn to set
-	 */
-	public void setEtcFcltsCn(String etcFcltsCn) {
-		this.etcFcltsCn = etcFcltsCn;
-	}
-	/**
-	 * @return the etcFcltsStrct
-	 */
-	public String getEtcFcltsStrct() {
-		return etcFcltsStrct;
-	}
-	/**
-	 * @param etcFcltsStrct the etcFcltsStrct to set
-	 */
-	public void setEtcFcltsStrct(String etcFcltsStrct) {
-		this.etcFcltsStrct = etcFcltsStrct;
-	}
-	/**
-	 * @return the archFcltsCnt
-	 */
-	public String getArchFcltsCnt() {
-		return archFcltsCnt;
-	}
-	/**
-	 * @param archFcltsCnt the archFcltsCnt to set
-	 */
-	public void setArchFcltsCnt(String archFcltsCnt) {
-		this.archFcltsCnt = archFcltsCnt;
-	}
-	/**
-	 * @return the cvlEngFcltsCnt
-	 */
-	public String getCvlEngFcltsCnt() {
-		return cvlEngFcltsCnt;
-	}
-	/**
-	 * @param cvlEngFcltsCnt the cvlEngFcltsCnt to set
-	 */
-	public void setCvlEngFcltsCnt(String cvlEngFcltsCnt) {
-		this.cvlEngFcltsCnt = cvlEngFcltsCnt;
-	}
-	/**
-	 * @return the mechFcltsCnt
-	 */
-	public String getMechFcltsCnt() {
-		return mechFcltsCnt;
-	}
-	/**
-	 * @param mechFcltsCnt the mechFcltsCnt to set
-	 */
-	public void setMechFcltsCnt(String mechFcltsCnt) {
-		this.mechFcltsCnt = mechFcltsCnt;
-	}
-	/**
-	 * @return the elctyFcltsCnt
-	 */
-	public String getElctyFcltsCnt() {
-		return elctyFcltsCnt;
-	}
-	/**
-	 * @param elctyFcltsCnt the elctyFcltsCnt to set
-	 */
-	public void setElctyFcltsCnt(String elctyFcltsCnt) {
-		this.elctyFcltsCnt = elctyFcltsCnt;
-	}
-	/**
-	 * @return the infoCommFcltsCnt
-	 */
-	public String getInfoCommFcltsCnt() {
-		return infoCommFcltsCnt;
-	}
-	/**
-	 * @param infoCommFcltsCnt the infoCommFcltsCnt to set
-	 */
-	public void setInfoCommFcltsCnt(String infoCommFcltsCnt) {
-		this.infoCommFcltsCnt = infoCommFcltsCnt;
-	}
-	/**
-	 * @return the etcFcltsCnt
-	 */
-	public String getEtcFcltsCnt() {
-		return etcFcltsCnt;
-	}
-	/**
-	 * @param etcFcltsCnt the etcFcltsCnt to set
-	 */
-	public void setEtcFcltsCnt(String etcFcltsCnt) {
-		this.etcFcltsCnt = etcFcltsCnt;
-	}
-	/**
-	 * @return the rm
-	 */
-	public String getRm() {
-		return rm;
-	}
-	/**
-	 * @param rm the rm to set
-	 */
-	public void setRm(String rm) {
-		this.rm = rm;
+	public void setInfoCommFcltyUseYn(String infoCommFcltyUseYn) {
+		this.infoCommFcltyUseYn = infoCommFcltyUseYn;
 	}
 	/**
 	 * @return the regUsr
@@ -625,76 +412,16 @@ public class GamFcltsMngGroupMngVo  extends ComDefaultVO {
 		this.dataCount = dataCount;
 	}
 	/**
-	 * @return the sumArchFcltsCnt
+	 * @return the sumCnstrctAmt
 	 */
-	public String getSumArchFcltsCnt() {
-		return sumArchFcltsCnt;
+	public String getSumCnstrctAmt() {
+		return sumCnstrctAmt;
 	}
 	/**
-	 * @param sumArchFcltsCnt the sumArchFcltsCnt to set
+	 * @param sumCnstrctAmt the sumCnstrctAmt to set
 	 */
-	public void setSumArchFcltsCnt(String sumArchFcltsCnt) {
-		this.sumArchFcltsCnt = sumArchFcltsCnt;
-	}
-	/**
-	 * @return the sumCvlEngFcltsCnt
-	 */
-	public String getSumCvlEngFcltsCnt() {
-		return sumCvlEngFcltsCnt;
-	}
-	/**
-	 * @param sumCvlEngFcltsCnt the sumCvlEngFcltsCnt to set
-	 */
-	public void setSumCvlEngFcltsCnt(String sumCvlEngFcltsCnt) {
-		this.sumCvlEngFcltsCnt = sumCvlEngFcltsCnt;
-	}
-	/**
-	 * @return the sumMechFcltsCnt
-	 */
-	public String getSumMechFcltsCnt() {
-		return sumMechFcltsCnt;
-	}
-	/**
-	 * @param sumMechFcltsCnt the sumMechFcltsCnt to set
-	 */
-	public void setSumMechFcltsCnt(String sumMechFcltsCnt) {
-		this.sumMechFcltsCnt = sumMechFcltsCnt;
-	}
-	/**
-	 * @return the sumElctyFcltsCnt
-	 */
-	public String getSumElctyFcltsCnt() {
-		return sumElctyFcltsCnt;
-	}
-	/**
-	 * @param sumElctyFcltsCnt the sumElctyFcltsCnt to set
-	 */
-	public void setSumElctyFcltsCnt(String sumElctyFcltsCnt) {
-		this.sumElctyFcltsCnt = sumElctyFcltsCnt;
-	}
-	/**
-	 * @return the sumInfoCommFcltsCnt
-	 */
-	public String getSumInfoCommFcltsCnt() {
-		return sumInfoCommFcltsCnt;
-	}
-	/**
-	 * @param sumInfoCommFcltsCnt the sumInfoCommFcltsCnt to set
-	 */
-	public void setSumInfoCommFcltsCnt(String sumInfoCommFcltsCnt) {
-		this.sumInfoCommFcltsCnt = sumInfoCommFcltsCnt;
-	}
-	/**
-	 * @return the sumEtcFcltsCnt
-	 */
-	public String getSumEtcFcltsCnt() {
-		return sumEtcFcltsCnt;
-	}
-	/**
-	 * @param sumEtcFcltsCnt the sumEtcFcltsCnt to set
-	 */
-	public void setSumEtcFcltsCnt(String sumEtcFcltsCnt) {
-		this.sumEtcFcltsCnt = sumEtcFcltsCnt;
+	public void setSumCnstrctAmt(String sumCnstrctAmt) {
+		this.sumCnstrctAmt = sumCnstrctAmt;
 	}
 
 }

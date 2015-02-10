@@ -101,12 +101,7 @@ public class GamFcltsMngGroupMngController {
 
 		map.put("resultCode", 0);
 		map.put("totalCount", resultSum.getDataCount());
-		map.put("sumArchFcltsCnt", resultSum.getSumArchFcltsCnt());
-		map.put("sumCvlEngFcltsCnt", resultSum.getSumCvlEngFcltsCnt());
-		map.put("sumMechFcltsCnt", resultSum.getSumMechFcltsCnt());
-		map.put("sumElctyFcltsCnt", resultSum.getSumElctyFcltsCnt());
-		map.put("sumInfoCommFcltsCnt", resultSum.getSumInfoCommFcltsCnt());
-		map.put("sumEtcFcltsCnt", resultSum.getEtcFcltsCnt());
+		map.put("sumCnstrctAmt", resultSum.getSumCnstrctAmt());
 		map.put("resultList", resultList);
 
 		return map;

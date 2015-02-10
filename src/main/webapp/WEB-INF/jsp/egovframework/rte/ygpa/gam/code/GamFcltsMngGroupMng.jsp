@@ -35,7 +35,7 @@
 %>
 function GamFcltsMngGroupMngModule() {}
 
-GamFcltsMngGroupMngModule.prototype = new EmdModule(900, 640);
+GamFcltsMngGroupMngModule.prototype = new EmdModule(800, 600);
 
 GamFcltsMngGroupMngModule.prototype.loadComplete = function() {
 
@@ -44,38 +44,30 @@ GamFcltsMngGroupMngModule.prototype.loadComplete = function() {
 		url : '/code/gamSelectFcltsMngGroupMng.do',
 		dataType : "json",
 		colModel : [
-					{display:"관리 그룹 번호",	name:"fcltsMngGroupNo",		width:105,		sortable:true,	align:"center"},
-					{display:"관리 그룹 명",	name:"fcltsMngGroupNm",		width:150,		sortable:true,	align:"left"},
-					{display:"종별",			name:"fcltsGbnNm",			width:80,		sortable:true,	align:"center"},
-					{display:"구분",			name:"fcltsSeNm",			width:80,		sortable:true,	align:"center"},
-					{display:"종류",			name:"fcltsKndNm",			width:80,		sortable:true,	align:"center"},
-					{display:"준공 일자",		name:"bldDt",				width:80,		sortable:true,	align:"center"},
-					{display:"운영사",			name:"owner",				width:105,		sortable:true,	align:"left"},
-					{display:"시설물 내용",		name:"fcltsCn",				width:200,		sortable:true,	align:"left"},
-					{display:"시설물 구조",		name:"fcltsStrct",			width:200,		sortable:true,	align:"left"},
-					{display:"건축 갯수",		name:"archFcltsCnt",		width:80,		sortable:true,	align:"right"},
-					{display:"토목 갯수",		name:"cvlEngFcltsCnt",		width:80,		sortable:true,	align:"right"},
-					{display:"기계 갯수",		name:"mechFcltsCnt",		width:80,		sortable:true,	align:"right"},
-					{display:"전기 갯수",		name:"elctyFcltsCnt",		width:80,		sortable:true,	align:"right"},
-					{display:"정보통신 갯수",	name:"infoCommFcltsCnt",	width:100,		sortable:true,	align:"right"},
-					{display:"기타 갯수",		name:"etcFcltsCnt",			width:80,		sortable:true,	align:"right"},
-					{display:"항구분",			name:"prtAtCodeNm",			width:60,		sortable:true,	align:"left"},
-					{display:"위치",			name:"loc",					width:200,		sortable:true,	align:"left"},
-					{display:"공사 시작 일자",	name:"cnstBeginDt",			width:100,		sortable:true,	align:"center"},
-					{display:"공사 종료 일자",	name:"cnstEndDt",			width:100,		sortable:true,	align:"center"},
-					{display:"시공자",			name:"cnstrtr",				width:150,		sortable:true,	align:"left"},
-					{display:"시공 금액",		name:"cnstrctAmt",			width:100,		sortable:true,	align:"right"}
+					{display:"관리 그룹 번호",			name:"fcltsMngGroupNo",			width:105,		sortable:true,	align:"center"},
+					{display:"관리 그룹 명",			name:"fcltsMngGroupNm",			width:150,		sortable:true,	align:"left"},
+					{display:"종별",					name:"fcltsGbnNm",				width:80,		sortable:true,	align:"center"},
+					{display:"구분",					name:"fcltsSeNm",				width:80,		sortable:true,	align:"center"},
+					{display:"종류",					name:"fcltsKndNm",				width:80,		sortable:true,	align:"center"},
+					{display:"준공 일자",				name:"bldDt",					width:80,		sortable:true,	align:"center"},
+					{display:"운영사",					name:"owner",					width:105,		sortable:true,	align:"left"},
+					{display:"항구분",					name:"prtAtCodeNm",				width:60,		sortable:true,	align:"left"},
+					{display:"위치",					name:"loc",						width:200,		sortable:true,	align:"left"},
+					{display:"공사 시작 일자",			name:"cnstBeginDt",				width:100,		sortable:true,	align:"center"},
+					{display:"공사 종료 일자",			name:"cnstEndDt",				width:100,		sortable:true,	align:"center"},
+					{display:"시공자",					name:"cnstrtr",					width:150,		sortable:true,	align:"left"},
+					{display:"시공 금액",				name:"cnstrctAmt",				width:100,		sortable:true,	align:"right"},
+					{display:"건축시설 사용 유무",		name:"archFcltyUseYn",			width:150,		sortable:true,	align:"center"},
+					{display:"토목시설 사용 유무",		name:"cvlEngFcltyUseYn",		width:150,		sortable:true,	align:"center"},
+					{display:"기계시설 사용 유무",		name:"mechFcltyUseYn",			width:150,		sortable:true,	align:"center"},
+					{display:"전기시설 사용 유무",		name:"elctyFcltyUseYn",			width:150,		sortable:true,	align:"center"},
+					{display:"통신시설 사용 유무",		name:"infoCommFcltyUseYn",		width:150,		sortable:true,	align:"center"}
 					],
 		showTableToggleBtn : false,
 		height : 'auto',
 		preProcess : function(module,data) {
 			module.$('#totalCount').val(data.totalCount);
-			module.$('#sumArchFcltsCnt').val(data.sumArchFcltsCnt);
-			module.$('#sumCvlEngFcltsCnt').val(data.sumCvlEngFcltsCnt);
-			module.$('#sumMechFcltsCnt').val(data.sumMechFcltsCnt);
-			module.$('#sumElctyFcltsCnt').val(data.sumElctyFcltsCnt);
-			module.$('#sumInfoCommFcltsCnt').val(data.sumInfoCommFcltsCnt);
-			module.$('#sumEtcFcltsCnt').val(data.sumEtcFcltsCnt);
+			module.$('#sumCnstrctAmt').val(data.sumCnstrctAmt);
 			module.makeDivValues('#listSumForm', data);
 			return data;
 		}
@@ -86,13 +78,13 @@ GamFcltsMngGroupMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 		module._mainKeyValue = row.fcltsMngGroupNo;
 		module.enableListButtonItem();
     });
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 		module._mainKeyValue = row.fcltsMngGroupNo;
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
@@ -100,7 +92,7 @@ GamFcltsMngGroupMngModule.prototype.loadComplete = function() {
 	this.$('#prtAtCode').on('change',{module:this}, function(event){
 		var prtAtCodeNm = event.data.module.$('#prtAtCode').find('option:selected').text();
 		event.data.module.$('#prtAtCodeNm').val(prtAtCodeNm);
-		if (event.data.module._mode == 'insert') {
+		if (event.data.module._mainmode == 'insert') {
 			event.data.module.getNewFcltsMngGroupNo();
 		}
 	});
@@ -115,16 +107,168 @@ GamFcltsMngGroupMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$('#bldDt').on('keyup change',{module:this}, function(event){
-		if (event.data.module._mode == 'insert') {
+		if (event.data.module._mainmode == 'insert') {
 			event.data.module.getNewFcltsMngGroupNo();
 		}
 	});
 
-	this._mode = '';
+	this._mainmode = '';
 	this._mainKeyValue = '';
 	this._searchButtonClick = false;
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidDate
+ * @DESCRIPTION   : DATE STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. dateString - DATE STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltsMngGroupMngModule.prototype.isValidDate = function(dateString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (dateString == "") {
+			return false;
+		}
+	} else {
+		if (dateString == "") {
+			return true;
+		}
+	}
+	var year = Number(dateString.substring(0,4));
+	var month = Number(dateString.substring(5,7));
+	var day = Number(dateString.substring(8,10));
+	if (year > 9999 || year < 1900) {
+		return false;
+	}
+	if (month > 12 || month < 1) {
+		return false;
+	}
+	if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+		if (day > 31 || day < 1) {
+			return false;
+		}
+	} else if (month == 4 || month == 6 || month == 9 || month == 11) {
+		if (day > 30 || day < 1) {
+			return false;
+		}
+	} else if (month == 2) {
+		if (day > 29 || day < 1) {
+			return false;
+		}
+	} else {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidDateFromTo
+ * @DESCRIPTION   : 기간 DATE STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. startDateString - START DATE STRING
+ *   2. endDateString - END DATE STRING
+ *   3. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltsMngGroupMngModule.prototype.isValidDateFromTo = function(startDateString, endDateString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (startDateString == "" || endDateString == "") {
+			return false;
+		}
+	} else {
+		if (startDateString == "" && endDateString == "") {
+			return true;
+		}
+	}
+	var startDate = Number(startDateString.replace(/-/gi, ""));
+	var endDate = Number(endDateString.replace(/-/gi, ""));
+	if (startDate > endDate) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidFirstDate
+ * @DESCRIPTION   : FIRST DATE STRING > SECOND DATE STRING을 검사한다.
+ * @PARAMETER     :
+ *   1. firstDateString - FIRST DATE STRING
+ *   2. secondDateString - SECOND DATE STRING
+ *   3. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltsMngGroupMngModule.prototype.isValidFirstDate = function(firstDateString, secondDateString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (firstDateString == "" || secondDateString == "") {
+			return false;
+		}
+	} else {
+		if (firstDateString == "" || secondDateString == "") {
+			return true;
+		}
+	}
+	var firstDate = Number(firstDateString.replace(/-/gi, ""));
+	var secondDate = Number(secondDateString.replace(/-/gi, ""));
+	if (firstDate > secondDate) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidAmount
+ * @DESCRIPTION   : AMOUNT에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. amountValue - AMOUNT VALUE
+**/
+%>
+GamFcltsMngGroupMngModule.prototype.isValidAmount = function(amountValue) {
+
+	if (amountValue > 9999999999999999 || amountValue < 0) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidYn
+ * @DESCRIPTION   : Y/N STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. ynString - Y/N STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamFcltsMngGroupMngModule.prototype.isValidYn = function(ynString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (ynString == "") {
+			return false;
+		}
+	} else {
+		if (ynString == "") {
+			return true;
+		}
+	}
+	if (ynString != "Y" && ynString != "N") {
+		return false;
+	}
+	return true;
 
 };
 
@@ -140,12 +284,12 @@ GamFcltsMngGroupMngModule.prototype.onButtonClick = function(buttonId) {
 
 	switch (buttonId) {
 		case 'btnAdd':
-			this._mode = 'insert';
+			this._mainmode = 'insert';
 			this._mainKeyValue = '';
 			this.$("#mainTab").tabs("option", {active: 1});
 			break;
 		case 'btnInsert':
-			this._mode = 'insert';
+			this._mainmode = 'insert';
 			this._mainKeyValue = '';
 			this.makeFormValues('#detailForm', {});
 			this.makeDivValues('#detailForm', {});
@@ -156,7 +300,7 @@ GamFcltsMngGroupMngModule.prototype.onButtonClick = function(buttonId) {
 	    	this.saveData();
 			break;
 		case 'btnDelete':
-			if (this._mode=="modify") {
+			if (this._mainmode=="modify") {
 				this.loadDetail('listTab');
 				this.enableDetailInputItem();
 				this.deleteData();
@@ -181,7 +325,7 @@ GamFcltsMngGroupMngModule.prototype.onButtonClick = function(buttonId) {
 %>
 GamFcltsMngGroupMngModule.prototype.onSubmit = function() {
 
-	this._mode = 'query';
+	this._mainmode = 'query';
 	this._mainKeyValue = '';
 	this._searchButtonClick = true;
 	this.loadData();
@@ -260,14 +404,14 @@ GamFcltsMngGroupMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamFcltsMngGroupMngModule.prototype.selectData = function() {
 
-	if (this._mode == 'query') {
+	if (this._mainmode == 'query') {
 		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
 		this._searchButtonClick = false;
 		return;
-	} else if (this._mode != 'insert' && this._mode != 'modify') {
+	} else if (this._mainmode != 'insert' && this._mainmode != 'modify') {
 		this._searchButtonClick = false;
 		return;
 	}
@@ -277,7 +421,7 @@ GamFcltsMngGroupMngModule.prototype.selectData = function() {
 	}
 	var fcltsMngGroupNo = this._mainKeyValue;
 	this.$("#mainGrid").selectFilterRow([{col:"fcltsMngGroupNo", filter:fcltsMngGroupNo}]);
-	this._mode = 'modify';
+	this._mainmode = 'modify';
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();
 
@@ -292,12 +436,6 @@ GamFcltsMngGroupMngModule.prototype.selectData = function() {
 %>
 GamFcltsMngGroupMngModule.prototype.addData = function() {
 
-	var fcltsCnTemplete =   "(*) 건축 시설물" + "\r\n" + "     - " + "\r\n" +
-							"(*) 토목 시설물" + "\r\n" + "     - " + "\r\n" +
-							"(*) 기계 시설물" + "\r\n" + "     - " + "\r\n" +
-							"(*) 전기 시설물" + "\r\n" + "     - " + "\r\n" +
-							"(*) 정보통신 시설물" + "\r\n" + "     - " + "\r\n" +
-							"(*) 기타 시설물" + "\r\n" + "     - ";
 	this.$('#prtAtCode').val("622");
 	this.$('#prtAtCodeNm').val("광양항");
 	this.$('#fcltsMngGroupNo').val("");
@@ -309,27 +447,11 @@ GamFcltsMngGroupMngModule.prototype.addData = function() {
 	this.$('#cnstEndDt').val("");
 	this.$('#cnstrtr').val("");
 	this.$('#cnstrctAmt').val("0");
-	this.$('#fcltsCn').val(fcltsCnTemplete);
-	this.$('#fcltsStrct').val(fcltsCnTemplete);
-	this.$('#archFcltsCn').val("");
-	this.$('#archFcltsStrct').val("");
-	this.$('#cvlEngFcltsCn').val("");
-	this.$('#cvlEngFcltsStrct').val("");
-	this.$('#mechFcltsCn').val("");
-	this.$('#mechFcltsStrct').val("");
-	this.$('#elctyFcltsCn').val("");
-	this.$('#elctyFcltsStrct').val("");
-	this.$('#infoCommFcltsCn').val("");
-	this.$('#infoCommFcltsStrct').val("");
-	this.$('#etcFcltsCn').val("");
-	this.$('#etcFcltsStrct').val("");
-	this.$('#archFcltsCnt').val("0");
-	this.$('#cvlEngFcltsCnt').val("0");
-	this.$('#mechFcltsCnt').val("0");
-	this.$('#elctyFcltsCnt').val("0");
-	this.$('#infoCommFcltsCnt').val("0");
-	this.$('#etcFcltsCnt').val("0");
-	this.$('#rm').val("");
+	this.$('#archFcltyUseYn').val("Y");
+	this.$('#cvlEngFcltyUseYn').val("Y");
+	this.$('#mechFcltyUseYn').val("Y");
+	this.$('#elctyFcltyUseYn').val("Y");
+	this.$('#infoCommFcltyUseYn').val("Y");
 	this.enableDetailInputItem();
 	this.$('#fcltsMngGroupNo').focus();
 
@@ -352,25 +474,11 @@ GamFcltsMngGroupMngModule.prototype.saveData = function() {
 	var cnstBeginDt = this.$('#cnstBeginDt').val();
 	var cnstEndDt = this.$('#cnstEndDt').val();
 	var cnstrctAmt = Number(this.$('#cnstrctAmt').val().replace(/,/gi, ""));
-	var archFcltsCnt = Number(this.$('#archFcltsCnt').val().replace(/,/gi, ""));
-	var cvlEngFcltsCnt = Number(this.$('#cvlEngFcltsCnt').val().replace(/,/gi, ""));
-	var mechFcltsCnt = Number(this.$('#mechFcltsCnt').val().replace(/,/gi, ""));
-	var elctyFcltsCnt = Number(this.$('#elctyFcltsCnt').val().replace(/,/gi, ""));
-	var infoCommFcltsCnt = Number(this.$('#infoCommFcltsCnt').val().replace(/,/gi, ""));
-	var etcFcltsCnt = Number(this.$('#etcFcltsCnt').val().replace(/,/gi, ""));
-	var archFcltsCn = this.$('#archFcltsCn').val();
-	var cvlEngFcltsCn = this.$('#cvlEngFcltsCn').val();
-	var mechFcltsCn = this.$('#mechFcltsCn').val();
-	var elctyFcltsCn = this.$('#elctyFcltsCn').val();
-	var infoCommFcltsCn = this.$('#infoCommFcltsCn').val();
-	var etcFcltsCn = this.$('#etcFcltsCn').val();
-	var archFcltsStrct = this.$('#archFcltsStrct').val();
-	var cvlEngFcltsStrct = this.$('#cvlEngFcltsStrct').val();
-	var mechFcltsStrct = this.$('#mechFcltsStrct').val();
-	var elctyFcltsStrct = this.$('#elctyFcltsStrct').val();
-	var infoCommFcltsStrct = this.$('#infoCommFcltsStrct').val();
-	var etcFcltsStrct = this.$('#etcFcltsStrct').val();
-	var fcltsCnTemplete = "";
+	var archFcltyUseYn = this.$('#archFcltyUseYn').val();
+	var cvlEngFcltyUseYn = this.$('#cvlEngFcltyUseYn').val();
+	var mechFcltyUseYn = this.$('#mechFcltyUseYn').val();
+	var elctyFcltyUseYn = this.$('#elctyFcltyUseYn').val();
+	var infoCommFcltyUseYn = this.$('#infoCommFcltyUseYn').val();
 	if (prtAtCode == "") {
 		alert('항구분이 부정확합니다.');
 		this.$("#prtAtCode").focus();
@@ -391,138 +499,57 @@ GamFcltsMngGroupMngModule.prototype.saveData = function() {
 		this.$("#owner").focus();
 		return;
 	}
-	if (bldDt > "2999-12-31" || bldDt <= "1900-01-01") {
+	if (this.isValidDate(bldDt, false) == false) {
 		alert('준공 일자가 부정확합니다.');
 		this.$("#bldDt").focus();
 		return;
 	}
-	if (cnstBeginDt != "" || cnstEndDt != "") {
-		if (cnstBeginDt > "2999-12-31" || cnstBeginDt <= "1900-01-01") {
-			alert('공사 시작 일자가 부정확합니다.');
-			this.$("#cnstBeginDt").focus();
-			return;
-		}
-		if (cnstEndDt > "2999-12-31" || cnstEndDt <= "1900-01-01") {
-			alert('공사 종료 일자가 부정확합니다.');
-			this.$("#cnstEndDt").focus();
-			return;
-		}
-		if (cnstBeginDt > cnstEndDt) {
-			alert('공사 시작 일자가 공사 종료 일자보다 큽니다.');
-			this.$("#cnstBeginDt").focus();
-			return;
-		}
+	if (this.isValidDate(cnstBeginDt, false) == false) {
+		alert('공사 시작 일자가 부정확합니다.');
+		this.$("#cnstBeginDt").focus();
+		return;
 	}
-	if (cnstrctAmt > 9999999999999999 || cnstrctAmt < 0) {
-		alert('시공 금액이 부정확합니다.');
+	if (this.isValidDate(cnstEndDt, false) == false) {
+		alert('공사 종료 일자가 부정확합니다.');
+		this.$("#cnstEndDt").focus();
+		return;
+	}
+	if (this.isValidDateFromTo(cnstBeginDt, cnstEndDt, false) == false) {
+		alert('공사 기간이 부정확합니다.');
+		this.$("#cnstrctEndDt").focus();
+		return;
+	}
+	if (this.isValidAmount(cnstrctAmt) == false) {
+		alert('총공사비가 부정확합니다.');
 		this.$("#cnstrctAmt").focus();
 		return;
 	}
-	if (archFcltsCnt > 99999 || archFcltsCnt < 0) {
-		alert('건축 시설물 갯수가 부정확합니다.');
-		this.$("#archFcltsCnt").focus();
+	if (this.isValidYn(archFcltyUseYn, true) == false) {
+		alert('건축시설 사용 유무가 부정확합니다.');
+		this.$("#archFcltyUseYn").focus();
 		return;
 	}
-	if (cvlEngFcltsCnt > 99999 || cvlEngFcltsCnt < 0) {
-		alert('토목 시설물 갯수가 부정확합니다.');
-		this.$("#cvlEngFcltsCnt").focus();
+	if (this.isValidYn(cvlEngFcltyUseYn, true) == false) {
+		alert('토목시설 사용 유무가 부정확합니다.');
+		this.$("#cvlEngFcltyUseYn").focus();
 		return;
 	}
-	if (mechFcltsCnt > 99999 || mechFcltsCnt < 0) {
-		alert('기계 시설물 갯수가 부정확합니다.');
-		this.$("#mechFcltsCnt").focus();
+	if (this.isValidYn(mechFcltyUseYn, true) == false) {
+		alert('기계시설 사용 유무가 부정확합니다.');
+		this.$("#mechFcltyUseYn").focus();
 		return;
 	}
-	if (elctyFcltsCnt > 99999 || elctyFcltsCnt < 0) {
-		alert('전기 시설물 갯수가 부정확합니다.');
-		this.$("#elctyFcltsCnt").focus();
+	if (this.isValidYn(elctyFcltyUseYn, true) == false) {
+		alert('전기시설 사용 유무가 부정확합니다.');
+		this.$("#elctyFcltyUseYn").focus();
 		return;
 	}
-	if (infoCommFcltsCnt > 99999 || infoCommFcltsCnt < 0) {
-		alert('정보통신 시설물 갯수가 부정확합니다.');
-		this.$("#infoCommFcltsCnt").focus();
+	if (this.isValidYn(infoCommFcltyUseYn, true) == false) {
+		alert('정보통신시설 사용 유무가 부정확합니다.');
+		this.$("#infoCommFcltyUseYn").focus();
 		return;
 	}
-	if (etcFcltsCnt > 99999 || etcFcltsCnt < 0) {
-		alert('기타 시설물 갯수가 부정확합니다.');
-		this.$("#etcFcltsCnt").focus();
-		return;
-	}
-	if (archFcltsCn != "") {
-		archFcltsCn = "    " + archFcltsCn;
-	} else {
-		archFcltsCn = "    - ";
-	}
-	if (cvlEngFcltsCn != "") {
-		cvlEngFcltsCn = "    " + cvlEngFcltsCn;
-	} else {
-		cvlEngFcltsCn = "    - ";
-	}
-	if (mechFcltsCn != "") {
-		mechFcltsCn = "    " + mechFcltsCn;
-	} else {
-		mechFcltsCn = "    - ";
-	}
-	if (elctyFcltsCn != "") {
-		elctyFcltsCn = "    " + elctyFcltsCn;
-	} else {
-		elctyFcltsCn = "    - ";
-	}
-	if (infoCommFcltsCn != "") {
-		infoCommFcltsCn = "    " + infoCommFcltsCn;
-	} else {
-		infoCommFcltsCn = "    - ";
-	}
-	if (etcFcltsCn != "") {
-		etcFcltsCn = "    " + etcFcltsCn;
-	} else {
-		etcFcltsCn = "    - ";
-	}
-	fcltsCnTemplete =   "(*) 건축 시설물" + "\r\n" + archFcltsCn + "\r\n" +
-						"(*) 토목 시설물" + "\r\n" + cvlEngFcltsCn + "\r\n" +
-						"(*) 기계 시설물" + "\r\n" + mechFcltsCn + "\r\n" +
-						"(*) 전기 시설물" + "\r\n" + elctyFcltsCn + "\r\n" +
-						"(*) 정보통신 시설물" + "\r\n" + infoCommFcltsCn + "\r\n" +
-						"(*) 기타 시설물" + "\r\n" + etcFcltsCn;
-	this.$('#fcltsCn').val(fcltsCnTemplete);
-	if (archFcltsStrct != "") {
-		archFcltsStrct = "    " + archFcltsStrct;
-	} else {
-		archFcltsStrct = "    - ";
-	}
-	if (cvlEngFcltsStrct != "") {
-		cvlEngFcltsStrct = "    " + cvlEngFcltsStrct;
-	} else {
-		cvlEngFcltsStrct = "    - ";
-	}
-	if (mechFcltsStrct != "") {
-		mechFcltsStrct = "    " + mechFcltsStrct;
-	} else {
-		mechFcltsStrct = "    - ";
-	}
-	if (elctyFcltsStrct != "") {
-		elctyFcltsStrct = "    " + elctyFcltsStrct;
-	} else {
-		elctyFcltsStrct = "    - ";
-	}
-	if (infoCommFcltsStrct != "") {
-		infoCommFcltsStrct = "    " + infoCommFcltsStrct;
-	} else {
-		infoCommFcltsStrct = "    - ";
-	}
-	if (etcFcltsStrct != "") {
-		etcFcltsStrct = "    " + etcFcltsStrct;
-	} else {
-		etcFcltsStrct = "    - ";
-	}
-	fcltsCnTemplete =   "(*) 건축 시설물" + "\r\n" + archFcltsStrct + "\r\n" +
-						"(*) 토목 시설물" + "\r\n" + cvlEngFcltsStrct + "\r\n" +
-						"(*) 기계 시설물" + "\r\n" + mechFcltsStrct + "\r\n" +
-						"(*) 전기 시설물" + "\r\n" + elctyFcltsStrct + "\r\n" +
-						"(*) 정보통신 시설물" + "\r\n" + infoCommFcltsStrct + "\r\n" +
-						"(*) 기타 시설물" + "\r\n" + etcFcltsStrct;
-	this.$('#fcltsStrct').val(fcltsCnTemplete);
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		var inputVO = this.makeFormArgs("#detailForm");
 		this._mainKeyValue = fcltsMngGroupNo;
 		this.doAction('/code/gamInsertFcltsMngGroupMng.do', inputVO, function(module, result) {
@@ -562,7 +589,7 @@ GamFcltsMngGroupMngModule.prototype.deleteData = function() {
 		var deleteVO = this.makeFormArgs("#detailForm");
 		this.doAction('/code/gamDeleteFcltsMngGroupMng.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module._mode = 'query';
+				module._mainmode = 'query';
 				module._mainKeyValue = '';
 				module.loadData();
 			}
@@ -689,7 +716,7 @@ GamFcltsMngGroupMngModule.prototype.makeFcltsKndData = function(fcltsKnd) {
 %>
 GamFcltsMngGroupMngModule.prototype.enableListButtonItem = function() {
 
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 	} else {
@@ -719,7 +746,7 @@ GamFcltsMngGroupMngModule.prototype.enableListButtonItem = function() {
 %>
 GamFcltsMngGroupMngModule.prototype.enableDetailInputItem = function() {
 
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this.$('#prtAtCode').enable();
 		this.$('#fcltsMngGroupNm').enable();
 		this.$('#loc').enable();
@@ -729,25 +756,11 @@ GamFcltsMngGroupMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#cnstEndDt').enable();
 		this.$('#cnstrtr').enable();
 		this.$('#cnstrctAmt').enable();
-		this.$('#archFcltsCn').enable();
-		this.$('#archFcltsStrct').enable();
-		this.$('#cvlEngFcltsCn').enable();
-		this.$('#cvlEngFcltsStrct').enable();
-		this.$('#mechFcltsCn').enable();
-		this.$('#mechFcltsStrct').enable();
-		this.$('#elctyFcltsCn').enable();
-		this.$('#elctyFcltsStrct').enable();
-		this.$('#infoCommFcltsCn').enable();
-		this.$('#infoCommFcltsStrct').enable();
-		this.$('#etcFcltsCn').enable();
-		this.$('#etcFcltsStrct').enable();
-		this.$('#archFcltsCnt').enable();
-		this.$('#cvlEngFcltsCnt').enable();
-		this.$('#mechFcltsCnt').enable();
-		this.$('#elctyFcltsCnt').enable();
-		this.$('#infoCommFcltsCnt').enable();
-		this.$('#etcFcltsCnt').enable();
-		this.$('#rm').enable();
+		this.$('#archFcltyUseYn').enable();
+		this.$('#cvlEngFcltyUseYn').enable();
+		this.$('#mechFcltyUseYn').enable();
+		this.$('#elctyFcltyUseYn').enable();
+		this.$('#infoCommFcltyUseYn').enable();
 		this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
@@ -763,26 +776,11 @@ GamFcltsMngGroupMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#cnstEndDt').enable();
 			this.$('#cnstrtr').enable();
 			this.$('#cnstrctAmt').enable();
-			this.$('#archFcltsCn').enable();
-			this.$('#archFcltsStrct').enable();
-			this.$('#cvlEngFcltsCn').enable();
-			this.$('#cvlEngFcltsStrct').enable();
-			this.$('#mechFcltsCn').enable();
-			this.$('#mechFcltsStrct').enable();
-			this.$('#elctyFcltsCn').enable();
-			this.$('#elctyFcltsStrct').enable();
-			this.$('#infoCommFcltsCn').enable();
-			this.$('#infoCommFcltsStrct').enable();
-			this.$('#etcFcltsCn').enable();
-			this.$('#etcFcltsStrct').enable();
-			this.$('#archFcltsCnt').enable();
-			this.$('#archFcltsCnt').enable();
-			this.$('#cvlEngFcltsCnt').enable();
-			this.$('#mechFcltsCnt').enable();
-			this.$('#elctyFcltsCnt').enable();
-			this.$('#infoCommFcltsCnt').enable();
-			this.$('#etcFcltsCnt').enable();
-			this.$('#rm').enable();
+			this.$('#archFcltyUseYn').enable();
+			this.$('#cvlEngFcltyUseYn').enable();
+			this.$('#mechFcltyUseYn').enable();
+			this.$('#elctyFcltyUseYn').enable();
+			this.$('#infoCommFcltyUseYn').enable();
 			this.$('#btnInsert').enable();
 			this.$('#btnInsert').removeClass('ui-state-disabled');
 			this.$('#btnSave').enable();
@@ -799,26 +797,11 @@ GamFcltsMngGroupMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#cnstEndDt').disable();
 			this.$('#cnstrtr').disable();
 			this.$('#cnstrctAmt').disable();
-			this.$('#archFcltsCn').disable();
-			this.$('#archFcltsStrct').disable();
-			this.$('#cvlEngFcltsCn').disable();
-			this.$('#cvlEngFcltsStrct').disable();
-			this.$('#mechFcltsCn').disable();
-			this.$('#mechFcltsStrct').disable();
-			this.$('#elctyFcltsCn').disable();
-			this.$('#elctyFcltsStrct').disable();
-			this.$('#infoCommFcltsCn').disable();
-			this.$('#infoCommFcltsStrct').disable();
-			this.$('#etcFcltsCn').disable();
-			this.$('#etcFcltsStrct').disable();
-			this.$('#archFcltsCnt').enable();
-			this.$('#archFcltsCnt').disable();
-			this.$('#cvlEngFcltsCnt').disable();
-			this.$('#mechFcltsCnt').disable();
-			this.$('#elctyFcltsCnt').disable();
-			this.$('#infoCommFcltsCnt').disable();
-			this.$('#etcFcltsCnt').disable();
-			this.$('#rm').disable();
+			this.$('#archFcltyUseYn').disable();
+			this.$('#cvlEngFcltyUseYn').disable();
+			this.$('#mechFcltyUseYn').disable();
+			this.$('#elctyFcltyUseYn').disable();
+			this.$('#infoCommFcltyUseYn').disable();
 			this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
@@ -845,25 +828,11 @@ GamFcltsMngGroupMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#cnstEndDt').disable();
 	this.$('#cnstrtr').disable();
 	this.$('#cnstrctAmt').disable();
-	this.$('#archFcltsCn').disable();
-	this.$('#archFcltsStrct').disable();
-	this.$('#cvlEngFcltsCn').disable();
-	this.$('#cvlEngFcltsStrct').disable();
-	this.$('#mechFcltsCn').disable();
-	this.$('#mechFcltsStrct').disable();
-	this.$('#elctyFcltsCn').disable();
-	this.$('#elctyFcltsStrct').disable();
-	this.$('#infoCommFcltsCn').disable();
-	this.$('#infoCommFcltsStrct').disable();
-	this.$('#etcFcltsCn').disable();
-	this.$('#etcFcltsStrct').disable();
-	this.$('#archFcltsCnt').disable();
-	this.$('#cvlEngFcltsCnt').disable();
-	this.$('#mechFcltsCnt').disable();
-	this.$('#elctyFcltsCnt').disable();
-	this.$('#infoCommFcltsCnt').disable();
-	this.$('#etcFcltsCnt').disable();
-	this.$('#rm').disable();
+	this.$('#archFcltyUseYn').disable();
+	this.$('#cvlEngFcltyUseYn').disable();
+	this.$('#mechFcltyUseYn').disable();
+	this.$('#elctyFcltyUseYn').disable();
+	this.$('#infoCommFcltyUseYn').disable();
 	this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
@@ -885,10 +854,10 @@ GamFcltsMngGroupMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		case 'listTab':
 			break;
 		case 'detailTab':
-			if (this._mode=="modify") {
+			if (this._mainmode == "modify") {
 				this.loadDetail(oldTabId);
 				this.enableDetailInputItem();
-			} else if (this._mode=="insert") {
+			} else if (this._mainmode == "insert") {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
 				this.disableDetailInputItem();
@@ -958,25 +927,13 @@ var module_instance = new GamFcltsMngGroupMngModule();
 					<form id="listSumForm">
 						<table style="width:100%;">
 							<tr>
-								<th style="width:10%; height:20; text-align:center;">총건축갯수</th>
-								<td><input type="text" size="10" id="sumArchFcltsCnt" class="ygpaNumber" disabled="disabled" /></td>
-								<th style="width:10%; height:20; text-align:center;">총토목갯수</th>
-								<td><input type="text" size="10" id="sumCvlEngFcltsCnt" class="ygpaNumber" disabled="disabled" /></td>
-								<th style="width:10%; height:20; text-align:center;">총기계갯수</th>
-								<td><input type="text" size="10" id="sumMechFcltsCnt" class="ygpaNumber" disabled="disabled" /></td>
-								<th style="width:10%; height:20; text-align:center;">총전기갯수</th>
-								<td><input type="text" size="10" id="sumElctyFcltsCnt" class="ygpaNumber" disabled="disabled" /></td>
-								<th style="width:10%; height:20; text-align:center;">총통신갯수</th>
-								<td><input type="text" size="10" id="suminfoCommFcltsCnt" class="ygpaNumber" disabled="disabled" /></td>
-								<th style="width:10%; height:20; text-align:center;">총기타갯수</th>
-								<td><input type="text" size="10" id="sumEtcFcltsCnt" class="ygpaNumber" disabled="disabled" /></td>
-							</tr>
-						</table>
-						<table style="width:100%;">
-							<tr>
-								<th style="width=10%; height=20; text-align:center;">자료수</th>
+								<th style="width=10%; height=20; text-align:center;">조회 자료수</th>
 								<td>
 									<input type="text" size="10" id="totalCount" class="ygpaNumber" disabled="disabled" />
+								</td>
+								<th style="width:10%; height:20; text-align:center;">시공금액 합계</th>
+								<td>
+									<input type="text" size="20" id="sumCnstrctAmt" class="ygpaNumber" disabled="disabled"/>
 								</td>
 								<td style="text-align:right;">
 									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
@@ -993,32 +950,27 @@ var module_instance = new GamFcltsMngGroupMngModule();
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:15%; height:20;">시설물 관리 그룹 번호</th>
+								<th style="width:20%; height:18px;">시설물 관리 그룹 번호</th>
 								<td>
 									<input id="prtAtCodeNm" type="hidden"/>
 									<input id="prtAtCode" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM019" />
-									<input type="text" id="fcltsMngGroupNo" size="37" maxlength="14" disabled/>
-								</td>
-								<th style="width:15%; height:20;">준공일자 / 운영사</th>
-								<td>
-									<input type="text" id="bldDt" size="14" class="emdcal"/>/
-									<input type="text" id="owner" size="30" maxlength="60"/>
+									<input type="text" id="fcltsMngGroupNo" size="92" maxlength="14" disabled/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:20;">시설물 관리 그룹 명</th>
+								<th style="width:20%; height:18px;">시설물　관리 그룹　명</th>
 								<td>
-									<input id="fcltsCn" type="hidden"/>
-									<input id="fcltsStrct" type="hidden"/>
-									<input type="text" id="fcltsMngGroupNm" size="50" maxlength="80"/>
-								</td>
-								<th style="width:15%; height:20;">위　　　　　치</th>
-								<td>
-									<input type="text" id="loc" size="50" maxlength="150"/>
+									<input type="text" id="fcltsMngGroupNm" size="105" maxlength="80"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:20;">시설물 종별</th>
+								<th style="width:20%; height:18px;">위　　　　　　　　치</th>
+								<td>
+									<input type="text" id="loc" size="105" maxlength="150"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:20%; height:18px;">시　설　물　　종　별</th>
 								<td>
 									<select id="fcltsGbn">
 										<option value="" selected>선택</option>
@@ -1028,7 +980,9 @@ var module_instance = new GamFcltsMngGroupMngModule();
 										<option value="9">기타</option>
 									</select>
 								</td>
-								<th style="width:15%; height:20;">시설물 종류</th>
+							</tr>
+							<tr>
+								<th style="width:20%; height:18px;">시　설　물　　종　류</th>
 								<td>
 									<input id="fcltsKnd" type="hidden"/>
 									<select id="fcltsSe">
@@ -1049,88 +1003,31 @@ var module_instance = new GamFcltsMngGroupMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:20;">건축 시설물 내용</th>
+								<th style="width:20%; height:18px;">준　　공　　일　　자</th>
 								<td>
-									<textarea rows="3" cols="48" id="archFcltsCn" maxlength="600"></textarea>
-								</td>
-								<th style="width:15%; height:20;">건축 시설물 구조</th>
-								<td>
-									<textarea rows="3" cols="48" id="archFcltsStrct" maxlength="600"></textarea>
+									<input type="text" id="bldDt" size="15" class="emdcal"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:20;">토목 시설물 내용</th>
+								<th style="width:20%; height:18px;">운　　　　영　　　사</th>
 								<td>
-									<textarea rows="3" cols="48" id="cvlEngFcltsCn" maxlength="600"></textarea>
-								</td>
-								<th style="width:15%; height:20;">토목 시설물 구조</th>
-								<td>
-									<textarea rows="3" cols="48" id="cvlEngFcltsStrct" maxlength="600"></textarea>
+									<input type="text" id="owner" size="105" maxlength="60"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:20;">기계 시설물 내용</th>
+								<th style="width:20%; height:18px;">시　　　　공　　　자</th>
 								<td>
-									<textarea rows="3" cols="48" id="mechFcltsCn" maxlength="600"></textarea>
-								</td>
-								<th style="width:15%; height:20;">기계 시설물 구조</th>
-								<td>
-									<textarea rows="3" cols="48" id="mechFcltsStrct" maxlength="600"></textarea>
+									<input type="text" id="cnstrtr" size="105" maxlength="60"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:20;">전기 시설물 내용</th>
+								<th style="width:20%; height:18px;">시　　공　　금　　액</th>
 								<td>
-									<textarea rows="3" cols="48" id="elctyFcltsCn" maxlength="600"></textarea>
-								</td>
-								<th style="width:15%; height:20;">전기 시설물 구조</th>
-								<td>
-									<textarea rows="3" cols="48" id="elctyFcltsStrct" maxlength="600"></textarea>
+									<input type="text" class="ygpaNumber" id="cnstrctAmt" size="102" maxlength="20"/> 원
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:20;">정보통신 시설물 내용</th>
-								<td>
-									<textarea rows="3" cols="48" id="infoCommFcltsCn" maxlength="600"></textarea>
-								</td>
-								<th style="width:15%; height:20;">정보통신 시설물 구조</th>
-								<td>
-									<textarea rows="3" cols="48" id="infoCommFcltsStrct" maxlength="600"></textarea>
-								</td>
-							</tr>
-							<tr>
-								<th style="width:15%; height:20;">기타 시설물 내용</th>
-								<td>
-									<textarea rows="3" cols="48" id="etcFcltsCn" maxlength="600"></textarea>
-								</td>
-								<th style="width:15%; height:20;">기타 시설물 구조</th>
-								<td>
-									<textarea rows="3" cols="48" id="etcFcltsStrct" maxlength="600"></textarea>
-								</td>
-							</tr>
-							<tr>
-								<th style="width:15%; height:20;">시설물 갯수</th>
-								<td colspan="3">
-									건축 : <input type="text" class="ygpaNumber" id="archFcltsCnt" size="6" maxlength="6"/> 개
-									&nbsp; / &nbsp;
-									토목 : <input type="text" class="ygpaNumber" id="cvlEngFcltsCnt" size="6" maxlength="6"/> 개
-									&nbsp; / &nbsp;
-									기계 : <input type="text" class="ygpaNumber" id="mechFcltsCnt" size="6" maxlength="6"/> 개
-									&nbsp; / &nbsp;
-									전기 : <input type="text" class="ygpaNumber" id="elctyFcltsCnt" size="6" maxlength="6"/> 개
-									&nbsp; / &nbsp;
-									정보통신 : <input type="text" class="ygpaNumber" id="infoCommFcltsCnt" size="6" maxlength="6"/> 개
-									&nbsp; / &nbsp;
-									기타 : <input type="text" class="ygpaNumber" id="etcFcltsCnt" size="6" maxlength="6"/> 개
-								</td>
-							</tr>
-							<tr>
-								<th style="width:15%; height:20;">시공자 / 시공금액</th>
-								<td>
-									<input type="text" id="cnstrtr" size="25" maxlength="60"/>
-									<input type="text" class="ygpaNumber" id="cnstrctAmt" size="19" maxlength="20"/> 원
-								</td>
-								<th style="width:15%; height:20;">공　사　기　간</th>
+								<th style="width:20%; height:18px;">공　　사　　기　　간</th>
 								<td>
 									<input type="text" size="18" id="cnstBeginDt" class="emdcal"/>
 									&nbsp; ~ &nbsp;
@@ -1138,9 +1035,48 @@ var module_instance = new GamFcltsMngGroupMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:20;">비　　　　　고</th>
-								<td colspan="3">
-									<textarea rows="2" cols="126" id="rm" maxlength="1000"></textarea>
+								<th style="width:20%; height:18px;">건축시설　사용　유무</th>
+								<td>
+									<select id="archFcltyUseYn">
+										<option value="Y">예</option>
+										<option value="N">아니오</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:20%; height:18px;">토목시설　사용　유무</th>
+								<td>
+									<select id="cvlEngFcltyUseYn">
+										<option value="Y">예</option>
+										<option value="N">아니오</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:20%; height:18px;">기계시설　사용　유무</th>
+								<td>
+									<select id="mechFcltyUseYn">
+										<option value="Y">예</option>
+										<option value="N">아니오</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:20%; height:18px;">전기시설　사용　유무</th>
+								<td>
+									<select id="elctyFcltyUseYn">
+										<option value="Y">예</option>
+										<option value="N">아니오</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:20%; height:18px;">통신시설　사용　유무</th>
+								<td>
+									<select id="infoCommFcltyUseYn">
+										<option value="Y">예</option>
+										<option value="N">아니오</option>
+									</select>
 								</td>
 							</tr>
 						</table>

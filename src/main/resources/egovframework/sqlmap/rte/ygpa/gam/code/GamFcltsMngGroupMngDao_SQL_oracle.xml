@@ -9,12 +9,7 @@
 
 	<resultMap id="gamFcltsMngGroupMngSumMap" class="egovframework.rte.ygpa.gam.code.service.GamFcltsMngGroupMngVo">
 		<result property="dataCount" column="DATA_COUNT" columnIndex="1"/>
-		<result property="sumArchFcltsCnt" column="SUM_ARCH_FCLTS_CNT" columnIndex="2"/>
-		<result property="sumCvlEngFcltsCnt" column="SUM_CVL_ENG_FCLTS_CNT" columnIndex="3"/>
-		<result property="sumMechFcltsCnt" column="SUM_MECH_FCLTS_CNT" columnIndex="4"/>
-		<result property="sumElctyFcltsCnt" column="SUM_ELCTY_FCLTS_CNT" columnIndex="5"/>
-		<result property="sumInfoCommFcltsCnt" column="SUM_INFO_COMM_FCLTS_CNT" columnIndex="6"/>
-		<result property="sumEtcFcltsCnt" column="SUM_ETC_FCLTS_CNT" columnIndex="7"/>
+		<result property="sumCnstrctAmt" column="SUM_CNSTRCT_AMT" columnIndex="2"/>
 	</resultMap>
 
 	<select id="gamFcltsMngGroupMngDao.selectFcltsMngGroupMngList_D" parameterClass="gamFcltsMngGroupMngVo" resultClass="egovMap">
@@ -40,27 +35,11 @@
 								,GAM_GET_FCLTS_SE_NM(FCLTS_SE) AS FCLTS_SE_NM
 								,FCLTS_KND
 								,GAM_GET_FCLTS_KND_NM(FCLTS_KND) AS FCLTS_KND_NM
-								,FCLTS_CN
-								,FCLTS_STRCT
-								,ARCH_FCLTS_CN
-								,ARCH_FCLTS_STRCT
-								,CVL_ENG_FCLTS_CN
-								,CVL_ENG_FCLTS_STRCT
-								,MECH_FCLTS_CN
-								,MECH_FCLTS_STRCT
-								,ELCTY_FCLTS_CN
-								,ELCTY_FCLTS_STRCT
-								,INFO_COMM_FCLTS_CN
-								,INFO_COMM_FCLTS_STRCT
-								,ETC_FCLTS_CN
-								,ETC_FCLTS_STRCT
-								,LTRIM(TO_CHAR(NVL(ARCH_FCLTS_CNT,0),'999,999,999,990')) AS ARCH_FCLTS_CNT
-								,LTRIM(TO_CHAR(NVL(CVL_ENG_FCLTS_CNT,0),'999,999,999,990')) AS CVL_ENG_FCLTS_CNT
-								,LTRIM(TO_CHAR(NVL(MECH_FCLTS_CNT,0),'999,999,999,990')) AS MECH_FCLTS_CNT
-								,LTRIM(TO_CHAR(NVL(ELCTY_FCLTS_CNT,0),'999,999,999,990')) AS ELCTY_FCLTS_CNT
-								,LTRIM(TO_CHAR(NVL(INFO_COMM_FCLTS_CNT,0),'999,999,999,990')) AS INFO_COMM_FCLTS_CNT
-								,LTRIM(TO_CHAR(NVL(ETC_FCLTS_CNT,0),'999,999,999,990')) AS ETC_FCLTS_CNT
-								,RM
+								,ARCH_FCLTY_USE_YN
+								,CVL_ENG_FCLTY_USE_YN
+								,MECH_FCLTY_USE_YN
+								,ELCTY_FCLTY_USE_YN
+								,INFO_COMM_FCLTY_USE_YN
 								,REG_USR
 								,TO_CHAR(REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
 								,UPD_USR
@@ -87,12 +66,7 @@
 	<select id="gamFcltsMngGroupMngDao.selectFcltsMngGroupMngListTotCnt_S" parameterClass="gamFcltsMngGroupMngVo" resultMap="gamFcltsMngGroupMngSumMap">
 		SELECT
 				 LTRIM(TO_CHAR(COUNT(*),'999,999,999,990')) AS DATA_COUNT
-				,LTRIM(TO_CHAR(NVL(SUM(ARCH_FCLTS_CNT),0),'999,999,999,990')) AS SUM_ARCH_FCLTS_CNT
-				,LTRIM(TO_CHAR(NVL(SUM(CVL_ENG_FCLTS_CNT),0),'999,999,999,990')) AS SUM_CVL_ENG_FCLTS_CNT
-				,LTRIM(TO_CHAR(NVL(SUM(MECH_FCLTS_CNT),0),'999,999,999,990')) AS SUM_MECH_FCLTS_CNT
-				,LTRIM(TO_CHAR(NVL(SUM(ELCTY_FCLTS_CNT),0),'999,999,999,990')) AS SUM_ELCTY_FCLTS_CNT
-				,LTRIM(TO_CHAR(NVL(SUM(INFO_COMM_FCLTS_CNT),0),'999,999,999,990')) AS SUM_INFO_COMM_FCLTS_CNT
-				,LTRIM(TO_CHAR(NVL(SUM(ETC_FCLTS_CNT),0),'999,999,999,990')) AS SUM_ETC_FCLTS_CNT
+				,LTRIM(TO_CHAR(NVL(SUM(CNSTRCT_AMT),0),'9,999,999,999,999,990')) AS SUM_CNSTRCT_AMT
 			FROM FCLTS_MNG_GROUP_F
 		WHERE 1=1
 
@@ -125,27 +99,11 @@
 				,GAM_GET_FCLTS_SE_NM(FCLTS_SE) AS FCLTS_SE_NM
 				,FCLTS_KND
 				,GAM_GET_FCLTS_KND_NM(FCLTS_KND) AS FCLTS_KND_NM
-				,FCLTS_CN
-				,FCLTS_STRCT
-				,ARCH_FCLTS_CN
-				,ARCH_FCLTS_STRCT
-				,CVL_ENG_FCLTS_CN
-				,CVL_ENG_FCLTS_STRCT
-				,MECH_FCLTS_CN
-				,MECH_FCLTS_STRCT
-				,ELCTY_FCLTS_CN
-				,ELCTY_FCLTS_STRCT
-				,INFO_COMM_FCLTS_CN
-				,INFO_COMM_FCLTS_STRCT
-				,ETC_FCLTS_CN
-				,ETC_FCLTS_STRCT
-				,LTRIM(TO_CHAR(NVL(ARCH_FCLTS_CNT,0),'999,999,999,990')) AS ARCH_FCLTS_CNT
-				,LTRIM(TO_CHAR(NVL(CVL_ENG_FCLTS_CNT,0),'999,999,999,990')) AS CVL_ENG_FCLTS_CNT
-				,LTRIM(TO_CHAR(NVL(MECH_FCLTS_CNT,0),'999,999,999,990')) AS MECH_FCLTS_CNT
-				,LTRIM(TO_CHAR(NVL(ELCTY_FCLTS_CNT,0),'999,999,999,990')) AS ELCTY_FCLTS_CNT
-				,LTRIM(TO_CHAR(NVL(INFO_COMM_FCLTS_CNT,0),'999,999,999,990')) AS INFO_COMM_FCLTS_CNT
-				,LTRIM(TO_CHAR(NVL(ETC_FCLTS_CNT,0),'999,999,999,990')) AS ETC_FCLTS_CNT
-				,RM
+				,ARCH_FCLTY_USE_YN
+				,CVL_ENG_FCLTY_USE_YN
+				,MECH_FCLTY_USE_YN
+				,ELCTY_FCLTY_USE_YN
+				,INFO_COMM_FCLTY_USE_YN
 				,REG_USR
 				,TO_CHAR(REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
 				,UPD_USR
@@ -176,27 +134,11 @@
 			,FCLTS_GBN
 			,FCLTS_SE
 			,FCLTS_KND
-			,FCLTS_CN
-			,FCLTS_STRCT
-			,ARCH_FCLTS_CN
-			,ARCH_FCLTS_STRCT
-			,CVL_ENG_FCLTS_CN
-			,CVL_ENG_FCLTS_STRCT
-			,MECH_FCLTS_CN
-			,MECH_FCLTS_STRCT
-			,ELCTY_FCLTS_CN
-			,ELCTY_FCLTS_STRCT
-			,INFO_COMM_FCLTS_CN
-			,INFO_COMM_FCLTS_STRCT
-			,ETC_FCLTS_CN
-			,ETC_FCLTS_STRCT
-			,ARCH_FCLTS_CNT
-			,CVL_ENG_FCLTS_CNT
-			,MECH_FCLTS_CNT
-			,ELCTY_FCLTS_CNT
-			,INFO_COMM_FCLTS_CNT
-			,ETC_FCLTS_CNT
-			,RM
+			,ARCH_FCLTY_USE_YN
+			,CVL_ENG_FCLTY_USE_YN
+			,MECH_FCLTY_USE_YN
+			,ELCTY_FCLTY_USE_YN
+			,INFO_COMM_FCLTY_USE_YN
 			,REG_USR
 			,REGIST_DT
 		)
@@ -215,27 +157,11 @@
 			,#fcltsGbn#
 			,#fcltsSe#
 			,#fcltsKnd#
-			,#fcltsCn#
-			,#fcltsStrct#
-			,#archFcltsCn#
-			,#archFcltsStrct#
-			,#cvlEngFcltsCn#
-			,#cvlEngFcltsStrct#
-			,#mechFcltsCn#
-			,#mechFcltsStrct#
-			,#elctyFcltsCn#
-			,#elctyFcltsStrct#
-			,#infoCommFcltsCn#
-			,#infoCommFcltsStrct#
-			,#etcFcltsCn#
-			,#etcFcltsStrct#
-			,NVL(TO_NUMBER(REPLACE(#archFcltsCnt#,',','')),0)
-			,NVL(TO_NUMBER(REPLACE(#cvlEngFcltsCnt#,',','')),0)
-			,NVL(TO_NUMBER(REPLACE(#mechFcltsCnt#,',','')),0)
-			,NVL(TO_NUMBER(REPLACE(#elctyFcltsCnt#,',','')),0)
-			,NVL(TO_NUMBER(REPLACE(#infoCommFcltsCnt#,',','')),0)
-			,NVL(TO_NUMBER(REPLACE(#etcFcltsCnt#,',','')),0)
-			,#rm#
+			,#archFcltyUseYn#
+			,#cvlEngFcltyUseYn#
+			,#mechFcltyUseYn#
+			,#elctyFcltyUseYn#
+			,#infoCommFcltyUseYn#
 			,#regUsr#
 			,SYSDATE
 		)
@@ -255,27 +181,11 @@
 			,FCLTS_GBN = #fcltsGbn#
 			,FCLTS_SE = #fcltsSe#
 			,FCLTS_KND = #fcltsKnd#
-			,FCLTS_CN = #fcltsCn#
-			,FCLTS_STRCT = #fcltsStrct#
-			,ARCH_FCLTS_CN = #archFcltsCn#
-			,ARCH_FCLTS_STRCT = #archFcltsStrct#
-			,CVL_ENG_FCLTS_CN = #cvlEngFcltsCn#
-			,CVL_ENG_FCLTS_STRCT = #cvlEngFcltsStrct#
-			,MECH_FCLTS_CN = #mechFcltsCn#
-			,MECH_FCLTS_STRCT = #mechFcltsStrct#
-			,ELCTY_FCLTS_CN = #elctyFcltsCn#
-			,ELCTY_FCLTS_STRCT = #elctyFcltsStrct#
-			,INFO_COMM_FCLTS_CN = #infoCommFcltsCn#
-			,INFO_COMM_FCLTS_STRCT = #infoCommFcltsStrct#
-			,ETC_FCLTS_CN = #etcFcltsCn#
-			,ETC_FCLTS_STRCT = #etcFcltsStrct#
-			,ARCH_FCLTS_CNT = NVL(TO_NUMBER(REPLACE(#archFcltsCnt#,',','')),0)
-			,CVL_ENG_FCLTS_CNT = NVL(TO_NUMBER(REPLACE(#cvlEngFcltsCnt#,',','')),0)
-			,MECH_FCLTS_CNT = NVL(TO_NUMBER(REPLACE(#mechFcltsCnt#,',','')),0)
-			,ELCTY_FCLTS_CNT = NVL(TO_NUMBER(REPLACE(#elctyFcltsCnt#,',','')),0)
-			,INFO_COMM_FCLTS_CNT = NVL(TO_NUMBER(REPLACE(#infoCommFcltsCnt#,',','')),0)
-			,ETC_FCLTS_CNT= NVL(TO_NUMBER(REPLACE(#etcFcltsCnt#,',','')),0)
-			,RM = #rm#
+			,ARCH_FCLTY_USE_YN = #archFcltyUseYn#
+			,CVL_ENG_FCLTY_USE_YN = #cvlEngFcltyUseYn#
+			,MECH_FCLTY_USE_YN = #mechFcltyUseYn#
+			,ELCTY_FCLTY_USE_YN = #elctyFcltyUseYn#
+			,INFO_COMM_FCLTY_USE_YN = #infoCommFcltyUseYn#
 			,UPD_USR = #regUsr#
 			,UPDT_DT = SYSDATE
 		WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
