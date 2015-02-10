@@ -55,7 +55,7 @@
 						AND FCLTS_MNG_GROUP_NM LIKE '%' || #sFcltsMngGroupNm# || '%'
 						</isNotEmpty>
 
-						ORDER BY FCLTS_MNG_GROUP_NO
+						ORDER BY FCLTS_MNG_GROUP_NM
 				) S
 		) A
 		<![CDATA[
