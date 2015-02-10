@@ -50,7 +50,7 @@ GamFcltsMngGroupMngModule.prototype.loadComplete = function() {
 					{display:"구분",					name:"fcltsSeNm",				width:80,		sortable:true,	align:"center"},
 					{display:"종류",					name:"fcltsKndNm",				width:80,		sortable:true,	align:"center"},
 					{display:"준공 일자",				name:"bldDt",					width:80,		sortable:true,	align:"center"},
-					{display:"운영사",					name:"owner",					width:105,		sortable:true,	align:"left"},
+					{display:"운영사",					name:"owner",					width:110,		sortable:true,	align:"left"},
 					{display:"항구분",					name:"prtAtCodeNm",				width:60,		sortable:true,	align:"left"},
 					{display:"위치",					name:"loc",						width:200,		sortable:true,	align:"left"},
 					{display:"공사 시작 일자",			name:"cnstBeginDt",				width:100,		sortable:true,	align:"center"},
