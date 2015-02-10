@@ -36,21 +36,8 @@ GamPopupFcltsMngGroupModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"관리그룹",		name:"fcltsMngGroupNm",		width:200,		sortable:true,	align:"left"},
-					{display:"시설물 내용",		name:"fcltsCn",				width:200,		sortable:true,	align:"left"},
-					{display:"시설물 구조",		name:"fcltsStrct",			width:200,		sortable:true,	align:"left"},
 					{display:"준공 일자",		name:"bldDt",				width:80,		sortable:true,	align:"center"},
-					{display:"소유자",		name:"owner",				width:100,		sortable:true,	align:"left"},
-					{display:"건축 갯수",		name:"archFcltsCnt",		width:80,		sortable:true,	align:"right"},
-					{display:"토목 갯수",		name:"cvlEngFcltsCnt",		width:80,		sortable:true,	align:"right"},
-					{display:"기계 갯수",		name:"mechFcltsCnt",		width:80,		sortable:true,	align:"right"},
-					{display:"전기 갯수",		name:"elctyFcltsCnt",		width:80,		sortable:true,	align:"right"},
-					{display:"정보통신 갯수",	name:"infoCommFcltsCnt",	width:100,		sortable:true,	align:"right"},
-					{display:"기타 갯수",		name:"etcFcltsCnt",			width:80,		sortable:true,	align:"right"},
-					{display:"위치",			name:"loc",					width:200,		sortable:true,	align:"left"},
-					{display:"공사 시작 일자",	name:"cnstBeginDt",			width:100,		sortable:true,	align:"center"},
-					{display:"공사 종료 일자",	name:"cnstEndDt",			width:100,		sortable:true,	align:"center"},
-					{display:"시공자",		name:"cnstrtr",				width:150,		sortable:true,	align:"left"},
-					{display:"시공 금액",		name:"cnstrctAmt",			width:100,		sortable:true,	align:"right"}
+					{display:"위치",			name:"loc",					width:290,		sortable:true,	align:"left"}
 			],
 		height: "320"
 	});
@@ -58,6 +45,8 @@ GamPopupFcltsMngGroupModule.prototype.loadComplete = function() {
 	this.$("#grdInfoList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module.closeDialog("ok", row);
 	});
+	
+	this.loadData();
 };
 
 GamPopupFcltsMngGroupModule.prototype.onSubmit = function() {
