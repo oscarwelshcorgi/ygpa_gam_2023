@@ -265,6 +265,7 @@ GamFcltyQcSttusInqireModule.prototype.setControlStatus = function() {
 		this.$('#btnDownloadFile').removeClass('ui-state-disabled');
 		this.$('#btnPreviewFile').enable();
 		this.$('#btnPreviewFile').removeClass('ui-state-disabled');
+		
 		if(this._qcresultmode == 'loaded') {
 			this.$('#popupViewQcResultItem').enable();
 			this.$('#popupViewQcResultItem').removeClass('ui-state-disabled');
@@ -296,6 +297,18 @@ GamFcltyQcSttusInqireModule.prototype.loadQcSubDataList = function() {
 	                { name: 'sFcltsMngGroupNo', value: this.$('#fcltsMngGroupNo').val() },
 	                { name: 'sQcMngSeq', value: this.$('#qcMngSeq').val() }
 	               ];
+	
+	if(this.$('#fcltsJobSe').val() == 'M') {
+		if(this.$('#mechFcltsSe').val() == '1') {
+			searchVO[searchVO.length] = { name: 'sMechCdStartChar', value: 'M02' };
+		} else {
+			searchVO[searchVO.length] = { name: 'sMechCdStartChar', value: 'M01' };
+		}
+		this.$('#mechFcltsSeNm').show();
+	} else {
+		this.$('#mechFcltsSeNm').hide();
+	}
+	
 	this._qcResultList = null;
 	this._qcresultmode = '';
 	this.setControlStatus();
@@ -627,8 +640,12 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 								</tr>
 								<tr>
 									<th height="17">점검　관리　명</th>
-									<td colspan="3">
-										<input id="qcMngNm" type="text" size="90" disabled="disabled"/>
+									<td>
+										<input id="qcMngNm" type="text" size="35" disabled="disabled"/>
+									</td>
+									<th height="17">계획　이력　구분</th>
+									<td>
+										<input id="planHistSeNm" type="text" size="20" disabled="disabled"/>
 									</td>
 								</tr>
 								<tr>
@@ -697,7 +714,9 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 									<th height="17">점검　진단　결과</th>
 									<td colspan="3">
 										<textarea id="qcInspResult" cols="88" rows="5" disabled="disabled"></textarea>
-										<button id="popupViewQcResultItem" class="popupButton">점검결과항목보기</button>	
+										<button id="popupViewQcResultItem" class="popupButton">점검결과항목보기</button>
+										<input id="mechFcltsSeNm" type="text" size="20" disabled="disabled" />
+										<input id="mechFcltsSe" type="hidden" />	
 									</td>
 								</tr>
 								<tr>

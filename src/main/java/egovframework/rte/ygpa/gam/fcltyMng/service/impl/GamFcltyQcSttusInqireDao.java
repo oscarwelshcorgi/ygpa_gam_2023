@@ -81,7 +81,7 @@ public class GamFcltyQcSttusInqireDao extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * 점검관리결과항목 목록 조회
+	 * 일반적 점검관리결과항목 목록 조회
 	 * @param vo
 	 * @return list
 	 * @throws Exception
@@ -89,4 +89,25 @@ public class GamFcltyQcSttusInqireDao extends YGPAAbstractDAO {
 	public List<?> selectQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
 		return list("gamFcltyQcSttusInqireDao.selectQcMngResultItemList_D", searchVO);
 	}	
+
+	/**
+	 * 기계 점검관리결과항목 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	public List<?> selectMechQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return list("gamFcltyQcSttusInqireDao.selectMechQcMngResultItemList_D", searchVO);
+	}	
+
+	/**
+	 * 건축 점검관리결과항목 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	public List<?> selectArchQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return list("gamFcltyQcSttusInqireDao.selectArchQcMngResultItemList_D", searchVO);
+	}	
+	
 }

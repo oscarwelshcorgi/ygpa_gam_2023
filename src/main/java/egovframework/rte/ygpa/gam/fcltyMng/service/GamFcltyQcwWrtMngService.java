@@ -98,5 +98,28 @@ public interface GamFcltyQcwWrtMngService {
 	 * @throws Exception
 	 */		
 	List<?> selectQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception;
+
+	/**
+	 * 기계 점검관리결과항목 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	List<?> selectMechQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception;
 	
+	/**
+	 * 건축 점검관리결과항목 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	List<?> selectArchQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception;
+
+	/**
+	 * 출력물용 점검관리결과항목 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	List<?> selectPrintQcMngResultItemList(GamFcltyQcPrintVO searchVO) throws Exception;
 }

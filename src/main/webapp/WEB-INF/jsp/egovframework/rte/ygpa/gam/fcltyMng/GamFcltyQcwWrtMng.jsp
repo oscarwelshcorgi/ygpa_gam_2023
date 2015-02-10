@@ -118,16 +118,23 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function() {
 	this.$('#fcltsJobSe').bind('change', {module: this}, function(event) {
 		event.data.module.loadQcSubDataList();
 	});
-	
+
+	this.$('#mechFcltsSe').bind('change', {module: this}, function(event) {
+		event.data.module.loadQcSubDataList();
+	});
+		
 	this.$('#sQcInspSe').bind('change', {module: this}, function(event) {
 		event.data.module.checkSearchQcInspSe();
 	});
+	
 	this.$('#sQcSe').disable();
 
 	this.$('#qcInspSe').bind('change', {module: this}, function(event) {
 		event.data.module.checkQcInspSe();
 	});
 	this.$('#qcSe').disable();
+	
+	this.$('#mechFcltsSe').hide();
 	
 	this.setControlStatus();
 
@@ -288,7 +295,9 @@ GamFcltyQcwWrtMngModule.prototype.initBeforeInsert = function() {
 	this.makeFormValues('#detailForm', {});
 	this.$('#qcInspSe').val('');
 	this.checkQcInspSe();
+	this.$('#mechFcltsSe').val('1');
 	this.setControlStatus();
+	this.$('#planHistSe').val('P');
 	this.$('#enforceYear').val((new Date()).getFullYear());
 	this.$('#fcltsJobSe').val(EMD.userinfo.mngFcltyCd);
 	this.loadQcSubDataList();
@@ -609,19 +618,26 @@ GamFcltyQcwWrtMngModule.prototype.deleteData = function() {
 %>
 GamFcltyQcwWrtMngModule.prototype.loadQcSubDataList = function() {
 	if(this.$('#fcltsJobSe').val() != '' || this.$('#fcltsMngGroupNo').val() != '') {
-		var searchVO = null;
+		var searchVO = [];
+		
+		if(this.$('#fcltsJobSe').val() == 'M') {
+			if(this.$('#mechFcltsSe').val() == '1') {
+				searchVO[searchVO.length] = { name: 'sMechCdStartChar', value: 'M02' };
+			} else {
+				searchVO[searchVO.length] = { name: 'sMechCdStartChar', value: 'M01' };
+			}
+			this.$('#mechFcltsSe').show();
+		} else {
+			this.$('#mechFcltsSe').hide();
+		}
 		if(this._mainmode == 'insert') {
-			searchVO = [
-			             { name: 'sFcltsJobSe', value: this.$('#fcltsJobSe').val() },
-			             { name: 'sQcMngSeq', value: '' }
-			           ];
+			searchVO[searchVO.length] = { name: 'sFcltsJobSe', value: this.$('#fcltsJobSe').val() };
+			searchVO[searchVO.length] = { name: 'sQcMngSeq', value: '' };
 		} 
 		else {
-			searchVO = [
-			             { name: 'sFcltsJobSe', value: this.$('#fcltsJobSe').val() },
-			             { name: 'sFcltsMngGroupNo', value: this.$('#fcltsMngGroupNo').val() },
-			             { name: 'sQcMngSeq', value: this.$('#qcMngSeq').val() }
-			           ];
+			searchVO[searchVO.length] = { name: 'sFcltsJobSe', value: this.$('#fcltsJobSe').val() };
+			searchVO[searchVO.length] = { name: 'sFcltsMngGroupNo', value: this.$('#fcltsMngGroupNo').val() };
+			searchVO[searchVO.length] = { name: 'sQcMngSeq', value: this.$('#qcMngSeq').val() };
 		}
 		
 		this._qcResultList = null;
@@ -1156,8 +1172,15 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 								</tr>
 								<tr>
 									<th height="17">점검　관리　명</th>
-									<td colspan="3">
-										<input type="text" size="90" id="qcMngNm" maxlength="66" />
+									<td>
+										<input type="text" size="35" id="qcMngNm" maxlength="66" />
+									</td>
+									<th height="17">계획　이력　구분</th>
+									<td>
+										<select id="planHistSe">
+		                                    <option value="P">계획</option>
+		                                    <option value="H">이력</option>
+		                                </select>										
 									</td>
 								</tr>
 								<tr>
@@ -1250,7 +1273,12 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 									<th height="17">점검　진단　결과</th>
 									<td colspan="3">
 										<textarea id="qcInspResult" cols="88" rows="5"></textarea>
-										<button id="popupEditQcResultItem" class="popupButton">점검결과항목선택</button>	
+										<button id="popupEditQcResultItem" class="popupButton">점검결과항목선택</button>
+										<select id="mechFcltsSe">
+											<option value="1">하역장비</option>
+											<option value="2">항만부잔교</option>
+											<option value="3">건축 기계설비</option>
+										</select>
 									</td>
 								</tr>
 								<tr>
@@ -1296,7 +1324,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 					<button id="btnDetailAdd" class="buttonAdd">　　추　가　　</button>
 					<button id="btnDetailDelete" class="buttonDelete">　　삭　제　　</button>
 					<button id="btnSave" class="buttonSave">　　저　장　　</button>
-					<!-- <button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url="<c:url value='/fcltyMng/printQcMngDtls.do'/>">　　인　쇄　　</button> -->
+					<!-- <button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url="<c:url value='/fcltyMng/printQcMngDtls.do'/>">　　인　쇄　　</button>-->
 				</div>
 			</div>
 		</div>

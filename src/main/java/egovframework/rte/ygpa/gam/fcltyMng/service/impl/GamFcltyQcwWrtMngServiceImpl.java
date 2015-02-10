@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcPrintVO;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcwWrtMngService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcwWrtMngVO;
 
@@ -170,7 +171,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	}
 		
 	/**
-	 * 점검관리결과항목 목록 조회
+	 * 일반용 점검관리결과항목 목록 조회
 	 * @param vo
 	 * @return list
 	 * @throws Exception
@@ -178,5 +179,34 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	public List<?> selectQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
 		return gamFcltyQcwWrtMngDao.selectQcMngResultItemList(searchVO);
 	}
+
+	/**
+	 * 기계 점검관리결과항목 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	public List<?> selectMechQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+		return gamFcltyQcwWrtMngDao.selectMechQcMngResultItemList(searchVO);
+	}
+
+	/**
+	 * 건축 점검관리결과항목 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	public List<?> selectArchQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+		return gamFcltyQcwWrtMngDao.selectArchQcMngResultItemList(searchVO);
+	}
 	
+	/**
+	 * 출력물용 점검관리결과항목 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	public List<?> selectPrintQcMngResultItemList(GamFcltyQcPrintVO searchVO) throws Exception {
+		return gamFcltyQcwWrtMngDao.selectPrintQcMngResultItemList(searchVO);
+	}
 }

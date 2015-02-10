@@ -66,10 +66,27 @@ public interface GamFcltyQcSttusInqireService {
 	List<?> selectQcMngObjFcltsList(GamFcltyQcSttusInqireVO searchVO) throws Exception;
 		
 	/**
-	 * 점검관리결과항목 목록 조회
+	 * 일반적 점검관리결과항목 목록 조회
 	 * @param vo
 	 * @return list
 	 * @throws Exception
 	 */		
 	List<?> selectQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception;
+
+	/**
+	 * 기계 점검관리결과항목 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	List<?> selectMechQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception;
+
+	/**
+	 * 건축 점검관리결과항목 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	List<?> selectArchQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception;
+	
 }

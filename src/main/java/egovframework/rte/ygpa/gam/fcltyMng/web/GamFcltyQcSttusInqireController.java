@@ -242,8 +242,14 @@ public class GamFcltyQcSttusInqireController {
         	return map;
     	}
 
-    	List resultList = gamFcltyQcSttusInqireService.selectQcMngResultItemList(searchVO);
-
+    	List resultList = null;
+    	if(searchVO.getsFcltsJobSe().equals("M"))
+    		resultList = gamFcltyQcSttusInqireService.selectMechQcMngResultItemList(searchVO);
+    	else if(searchVO.getsFcltsJobSe().equals("A"))
+    		resultList = gamFcltyQcSttusInqireService.selectArchQcMngResultItemList(searchVO);
+    	else 
+    		resultList = gamFcltyQcSttusInqireService.selectQcMngResultItemList(searchVO);
+    	
 		map.put("resultCode", 0);			// return ok
     	map.put("resultList", resultList);
     	return map;

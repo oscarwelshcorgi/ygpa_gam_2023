@@ -86,7 +86,7 @@ public class GamFcltyQcSttusInqireServiceImpl extends AbstractServiceImpl implem
 	}
 		
 	/**
-	 * 점검관리결과항목 목록 조회
+	 * 일반적 점검관리결과항목 목록 조회
 	 * @param vo
 	 * @return list
 	 * @throws Exception
@@ -94,4 +94,25 @@ public class GamFcltyQcSttusInqireServiceImpl extends AbstractServiceImpl implem
 	public List<?> selectQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
 		return gamFcltyQcSttusInqireDao.selectQcMngResultItemList(searchVO);
 	}
+
+	/**
+	 * 기계 점검관리결과항목 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	public List<?> selectMechQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return gamFcltyQcSttusInqireDao.selectMechQcMngResultItemList(searchVO);
+	}
+
+	/**
+	 * 건축 점검관리결과항목 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	public List<?> selectArchQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return gamFcltyQcSttusInqireDao.selectArchQcMngResultItemList(searchVO);
+	}
+	
 }

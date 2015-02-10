@@ -28,6 +28,7 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcPrintVO;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcwWrtMngService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcwWrtMngVO;
 
@@ -241,8 +242,15 @@ public class GamFcltyQcwWrtMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-
-    	List resultList = gamFcltyQcwWrtMngService.selectQcMngResultItemList(searchVO);
+    	
+    	List resultList = null;
+    	
+    	if(searchVO.getsFcltsJobSe().equals("M")) //업무구분이 기계일 경우 조건에 따라 기계용 점검결과항목을 가져온다.
+    		resultList = gamFcltyQcwWrtMngService.selectMechQcMngResultItemList(searchVO);
+    	else if(searchVO.getsFcltsJobSe().equals("A")) //업무구분이 건축일 경우 조건에 따라 건축용 점검결과항목을 가져온다.
+    		resultList = gamFcltyQcwWrtMngService.selectArchQcMngResultItemList(searchVO);
+    	else
+    		resultList = gamFcltyQcwWrtMngService.selectQcMngResultItemList(searchVO);
 
 		map.put("resultCode", 0);			// return ok
     	map.put("resultList", resultList);
@@ -393,10 +401,59 @@ public class GamFcltyQcwWrtMngController {
 	 * @return 
 	 * @throws Exception
 	 */
-    @RequestMapping(value="/fcltyMng/printQcMngDtls.do")
-	public String selectSocStatsListPrint(@RequestParam Map<String, Object> socStatsOpt, ModelMap model) throws Exception {
+    @SuppressWarnings("rawtypes")
+	@RequestMapping(value="/fcltyMng/printQcMngDtls.do")
+	public String printQcMngDtls(@RequestParam Map<String, Object> qcPrintOpt, ModelMap model) throws Exception {
     	String printPageName = null;
     	
+		ObjectMapper mapper = new ObjectMapper();
+    	GamFcltyQcPrintVO searchVO = null;
+    	GamFcltyQcwWrtMngVO searchDetailVO = null;
+    	
+    	searchVO = mapper.convertValue(qcPrintOpt, GamFcltyQcPrintVO.class);
+    	
+    	if(searchVO.getFcltsJobSe().equals("A")) {
+    		//건축 시설물점검 인쇄페이지
+    		printPageName = "/ygpa/gam/fcltyMng/GamFcltyQcPrintA";
+    	} else if(searchVO.getFcltsJobSe().equals("C")) {
+    		//토목 시설물점검 인쇄페이지
+    		printPageName = "/ygpa/gam/fcltyMng/GamFcltyQcPrintC";
+    	} else if(searchVO.getFcltsJobSe().equals("E")) {
+    		//전기 시설물점검 인쇄페이지
+    		printPageName = "/ygpa/gam/fcltyMng/GamFcltyQcPrintE";
+    	} else if(searchVO.getFcltsJobSe().equals("I")) {
+    		//정보통신 시설물점검 인쇄페이지
+    		printPageName = "/ygpa/gam/fcltyMng/GamFcltyQcPrintI";
+    	} else if(searchVO.getFcltsJobSe().equals("M")) {
+    		//기계 시설물점검 인쇄페이지(항만하역장비와 기계장비로 나누어짐)
+    		printPageName = "/ygpa/gam/fcltyMng/GamFcltyQcPrintM";
+    	}
+    	
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return printPageName;
+    	}
+    	
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		List qcResultItemList = gamFcltyQcwWrtMngService.selectPrintQcMngResultItemList(searchVO);
+		
+		searchDetailVO = new GamFcltyQcwWrtMngVO();
+		searchDetailVO.setsQcMngSeq(searchVO.getQcMngSeq());
+		searchDetailVO.setsFcltsJobSe(searchVO.getFcltsJobSe());
+		searchDetailVO.setsFcltsMngGroupNo(searchVO.getFcltsMngGroupNo());
+		
+		EgovMap detailData = gamFcltyQcwWrtMngService.selectQcMngDtlsDetail(searchDetailVO);
+    	
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+    	model.addAttribute("resultList", qcResultItemList);
+    	model.addAttribute("detailData", detailData);
     	return printPageName;
 	}
 }

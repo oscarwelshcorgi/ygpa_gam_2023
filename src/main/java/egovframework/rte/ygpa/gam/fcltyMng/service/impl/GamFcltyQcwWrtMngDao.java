@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcPrintVO;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcwWrtMngVO;
 
 /**
@@ -164,7 +165,7 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	
 
 	/**
-	 * 점검관리결과항목 목록 조회
+	 * 일반적 점검관리결과항목 목록 조회
 	 * @param vo
 	 * @return list
 	 * @throws Exception
@@ -173,6 +174,26 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 		return list("gamFcltyQcwWrtMngDao.selectQcMngResultItemList_D", searchVO);
 	}
 	
+	/**
+	 * 기계 점검관리결과항목 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	public List<?> selectMechQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+		return list("gamFcltyQcwWrtMngDao.selectMechQcMngResultItemList_D", searchVO);
+	}
+
+	/**
+	 * 건축 점검관리결과항목 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	public List<?> selectArchQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+		return list("gamFcltyQcwWrtMngDao.selectArchQcMngResultItemList_D", searchVO);
+	}
+
 	/**
 	 * 점검관리결과항목 삽입
 	 * @param vo
@@ -192,4 +213,16 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	public void deleteQcMngResultItemList(Map<?, ?> vo) throws Exception {
 		delete("gamFcltyQcwWrtMngDao.deleteQcMngResultItemList_S", vo);
 	}
+
+
+	/**
+	 * 출력물용 점검관리결과항목 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	public List<?> selectPrintQcMngResultItemList(GamFcltyQcPrintVO searchVO) throws Exception {
+		return list("gamFcltyQcwWrtMngDao.selectPrintQcMngResultItemList_D", searchVO);
+	}
+
 }

@@ -48,6 +48,23 @@ public class GamFcltyQcSttusInqireVO extends ComDefaultVO {
 	/**시행년도(조회조건)*/
 	private String sEnforceYear;
 
+	/**기계 점검항목목록 조건(조회조건)*/
+	private String sMechCdStartChar;
+	
+	/**
+	 * @return the sMechCdStartChar
+	 */
+	public String getsMechCdStartChar() {
+		return sMechCdStartChar;
+	}
+
+	/**
+	 * @param sMechCdStartChar the sMechCdStartChar to set
+	 */
+	public void setsMechCdStartChar(String sMechCdStartChar) {
+		this.sMechCdStartChar = sMechCdStartChar;
+	}
+	
 	/**
 	 * @return the sFcltsJobSe
 	 */

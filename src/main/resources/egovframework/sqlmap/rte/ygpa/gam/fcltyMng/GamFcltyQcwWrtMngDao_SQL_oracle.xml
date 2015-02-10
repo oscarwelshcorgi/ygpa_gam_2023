@@ -5,6 +5,7 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamFcltyQcwWrtMngVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcwWrtMngVO"/>
+    <typeAlias alias="gamFcltyQcPrintVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcPrintVO"/>
     
     <!-- 점검관리목록 -->
 	<select id="gamFcltyQcwWrtMngDao.selectQcMngDtlsList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
@@ -38,6 +39,8 @@
 							, Q.QC_INSP_BDGT
 							, TO_CHAR(Q.WRT_DT, 'YYYY-MM-DD') WRT_DT
 							, Q.WRT_USR
+							, Q.PLAN_HIST_SE
+							, GAM_GET_PLAN_HIST_SE_NM(Q.PLAN_HIST_SE) PLAN_HIST_SE_NM 						
 						FROM
 							QC_MNG_DTLS_F Q
 			            INNER JOIN 
@@ -127,7 +130,9 @@
 			, Q.RM
 			, Q.QC_INSP_BDGT
 			, TO_CHAR(Q.WRT_DT, 'YYYY-MM-DD') WRT_DT
-			, Q.WRT_USR			
+			, Q.WRT_USR
+			, Q.MECH_FCLTS_SE
+			, Q.PLAN_HIST_SE		
 		FROM
 			QC_MNG_DTLS_F Q
 		WHERE
@@ -172,7 +177,9 @@
 				, RM
 				, QC_INSP_BDGT
 				, WRT_DT
-				, WRT_USR				
+				, WRT_USR
+				, MECH_FCLTS_SE
+				, PLAN_HIST_SE				
 				, REG_USR
 				, REGIST_DT		
 			) VALUES (
@@ -196,7 +203,9 @@
 				, #rm#
 				, TO_NUMBER(REPLACE(#qcInspBdgt#, ',', ''))
 				, TO_DATE(#wrtDt#, 'YYYY-MM-DD')
-				, #wrtUsr#				
+				, #wrtUsr#
+				, #mechFcltsSe#
+				, #planHistSe#				
 				, #regUsr#
 				, SYSDATE
 			)
@@ -225,6 +234,8 @@
 			, QC_INSP_BDGT = TO_NUMBER(REPLACE(#qcInspBdgt#, ',', ''))
 			, WRT_DT = TO_DATE(#wrtDt#, 'YYYY-MM-DD')
 			, WRT_USR = #wrtUsr#
+			, MECH_FCLTS_SE = #mechFcltsSe#
+			, PLAN_HIST_SE = #planHistSe#
 			, UPD_USR = #updUsr#
 			, UPDT_DT = SYSDATE
 		WHERE
@@ -382,7 +393,7 @@
 			AND QC_MNG_SEQ = TO_NUMBER(#qcMngSeq#)
 	</delete>
 
-	<!-- 점검관리결과항목목록 -->		
+	<!-- 일반적 점검관리결과항목목록 -->		
 	<select id="gamFcltyQcwWrtMngDao.selectQcMngResultItemList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
 		SELECT
 			DECODE(R.INSP_RESULT_CHK, NULL, 'N', R.INSP_RESULT_CHK) INSP_RESULT_CHK 
@@ -409,6 +420,83 @@
 			,I.QC_ITEM_CD
   	</select>
 
+	<!-- 기계 점검관리결과항목목록 -->		
+	<select id="gamFcltyQcwWrtMngDao.selectMechQcMngResultItemList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
+		SELECT
+			DECODE(R.INSP_RESULT_CHK, NULL, 'N', R.INSP_RESULT_CHK) INSP_RESULT_CHK 
+			, I.QC_ITEM_NM
+			, I.QC_ITEM_UPPER_CD
+			, (SELECT S.QC_ITEM_NM FROM QC_ITEM_CD_F S WHERE S.QC_ITEM_CD = I.QC_ITEM_UPPER_CD ) QC_ITEM_UPPER_NM
+			, I.QC_ITEM_CD
+		FROM
+			QC_ITEM_CD_F I
+		LEFT OUTER JOIN
+			QC_MNG_RESULT_ITEM_F R
+		ON
+			I.QC_ITEM_CD = R.QC_ITEM_CD
+			AND I.FCLTS_JOB_SE = R.FCLTS_JOB_SE
+     		AND R.QC_MNG_SEQ = #sQcMngSeq#
+		WHERE
+			I.LEAF_YN = 'Y'
+			AND I.FCLTS_JOB_SE = 'M'
+		    <isNotEmpty property="sFcltsMngGroupNo">
+		    	AND R.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+		   	</isNotEmpty>
+		    <isNotEmpty property="sMechCdStartChar">
+		    	AND I.QC_ITEM_CD LIKE #sMechCdStartChar# || '%'
+		   	</isNotEmpty>
+		ORDER BY
+			I.QC_ITEM_UPPER_CD 
+			,I.QC_ITEM_CD
+  	</select>
+
+	<!-- 건축 점검관리결과항목목록 -->		
+	<select id="gamFcltyQcwWrtMngDao.selectArchQcMngResultItemList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
+		SELECT
+			A.QC_ITEM_UPPER_CD
+			, (SELECT QC_ITEM_NM FROM QC_ITEM_CD_F WHERE QC_ITEM_CD = A.QC_ITEM_UPPER_CD) QC_ITEM_UPPER_NM
+			, A.QC_ITEM_CD
+			, A.QC_ITEM_NM
+			, A.INSP_RESULT_CHK
+		FROM
+			(
+				SELECT
+					(CASE WHEN I.DEPTH_SORT > 3 THEN RPAD(SUBSTRB(I.QC_ITEM_UPPER_CD,1,3),9,'0') ELSE I.QC_ITEM_UPPER_CD END) AS QC_ITEM_UPPER_CD
+					, I.QC_ITEM_CD
+					, (CASE WHEN I.DEPTH_SORT > 2 THEN LPAD(' ',(I.DEPTH_SORT - 3)*4,' ') || I.QC_ITEM_NM END) AS QC_ITEM_NM
+					, I.DEPTH_SORT
+					, ROW_NUMBER() OVER (PARTITION BY SUBSTRB(I.QC_ITEM_CD,1,3) ORDER BY I.QC_ITEM_CD) AS QC_ITEM_NO
+					, M.FCLTS_MNG_GROUP_NO
+					, M.FCLTS_JOB_SE
+					, M.QC_MNG_SEQ
+					, DECODE(R.INSP_RESULT_CHK, NULL, 'N', R.INSP_RESULT_CHK) INSP_RESULT_CHK
+				FROM
+					QC_ITEM_CD_F I
+				LEFT OUTER JOIN
+					QC_MNG_RESULT_ITEM_F R
+				ON
+					I.QC_ITEM_CD = R.QC_ITEM_CD
+					AND I.FCLTS_JOB_SE = R.FCLTS_JOB_SE
+			      	AND R.QC_MNG_SEQ = #sQcMngSeq#
+				LEFT OUTER JOIN
+					QC_MNG_DTLS_F M
+				ON
+					R.FCLTS_MNG_GROUP_NO = M.FCLTS_MNG_GROUP_NO
+					AND R.FCLTS_JOB_SE = M.FCLTS_JOB_SE
+					AND R.QC_MNG_SEQ = M.QC_MNG_SEQ
+				WHERE
+					I.FCLTS_JOB_SE = 'A'
+					AND I.DEPTH_SORT >= 3
+				ORDER BY
+					I.QC_ITEM_CD
+			) A
+		WHERE
+			1 = 1
+		    <isNotEmpty property="sFcltsMngGroupNo">
+		    	AND A.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+		   	</isNotEmpty>
+	</select>
+	
 	<!-- 점검결과항목등록 -->
 	<insert id="gamFcltyQcwWrtMngDao.insertQcMngResultItem_S" parameterClass="hashMap">
     	<selectKey keyProperty="maxSeq" resultClass="String">
@@ -456,4 +544,30 @@
 			AND QC_MNG_SEQ = TO_NUMBER(#qcMngSeq#)
 	</delete>
 	
+	<!-- 출력물용 일반적 점검결과항목 목록 -->
+	<select id="gamFcltyQcwWrtMngDao.selectPrintQcMngResultItemList_D" parameterClass="gamFcltyQcPrintVO" resultClass="egovMap">
+		SELECT
+			DECODE(R.INSP_RESULT_CHK, NULL, 'N', R.INSP_RESULT_CHK) INSP_RESULT_CHK 
+			, I.QC_ITEM_NM
+			, I.QC_ITEM_UPPER_CD
+			, (SELECT S.QC_ITEM_NM FROM QC_ITEM_CD_F S WHERE S.QC_ITEM_CD = I.QC_ITEM_UPPER_CD ) QC_ITEM_UPPER_NM
+			, I.QC_ITEM_CD
+			, (SELECT COUNT(QC_ITEM_UPPER_CD) FROM QC_ITEM_CD_F WHERE QC_ITEM_UPPER_CD = (SELECT QC_ITEM_UPPER_CD FROM QC_ITEM_CD_F WHERE QC_ITEM_CD = I.QC_ITEM_CD)) QC_ITEM_UPPER_CD_COUNT
+		FROM
+			QC_ITEM_CD_F I
+		LEFT OUTER JOIN
+			QC_MNG_RESULT_ITEM_F R
+		ON
+			I.QC_ITEM_CD = R.QC_ITEM_CD
+			AND I.FCLTS_JOB_SE = R.FCLTS_JOB_SE
+     		AND R.QC_MNG_SEQ = #qcMngSeq#
+		WHERE
+			I.LEAF_YN = 'Y'
+			AND I.FCLTS_JOB_SE = #fcltsJobSe#
+		    AND R.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		ORDER BY
+			I.QC_ITEM_UPPER_CD
+			,I.QC_ITEM_CD
+  	</select>
+
 </sqlMap>
