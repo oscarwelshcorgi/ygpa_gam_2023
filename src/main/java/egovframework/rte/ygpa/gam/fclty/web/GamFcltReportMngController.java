@@ -104,17 +104,17 @@ public class GamFcltReportMngController {
     	int mntnResultListTotalCount = gamFcltReportMngService.selectFcleMntnRprMngListTotalCount(searchVO);
     	
     	
-    	//안전점검 및 정밀안전진단계획리스트 인쇄
+    	//안전점검 및 정밀안전진단이력리스트 인쇄
     	searchVO.setPlanHistSe("H");
     	List resultHistList = gamFcltReportMngService.selectFcleQcMngList(searchVO);
     	
-    	//안전점검 및 정밀안전진단계획총갯수
+    	//안전점검 및 정밀안전진단이력총갯수
     	int resultHistListTotalCount = gamFcltReportMngService.selectFcleQcMngListTotalCount(searchVO);
     	
-    	//보수.보강계획 리스트 인쇄
+    	//보수.보강이력 리스트 인쇄
     	List mntnResultHistList = gamFcltReportMngService.selectFcleMntnRprMngList(searchVO);
     	
-    	//보수.보강계획 리스트 총갯수
+    	//보수.보강이력 리스트 총갯수
     	int mntnResultHistListTotalCount = gamFcltReportMngService.selectFcleMntnRprMngListTotalCount(searchVO);
     	
 		

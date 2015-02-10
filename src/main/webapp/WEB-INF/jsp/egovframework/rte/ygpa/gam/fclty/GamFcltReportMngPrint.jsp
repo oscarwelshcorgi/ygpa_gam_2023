@@ -288,7 +288,7 @@
     
     <div class="page">
 <c:set var="pagePerCount1" value="4"/>
-<c:if test="${fn:length(resultList) == 0}">
+<c:if test="${fn:length(resultHistList) == 0}">
 		<div class="subpage ygpa_report" >
         	<div style="height:40px;text-align:left;vertical-align:middle;border-top:1px red;font-size:20px;"> 4. 안전점검 및 정밀안전진단 이력</div>
     		<table style="width:100%;" class="rpr_form_table">
@@ -312,7 +312,7 @@
         				<td colspan="6" style="text-align:center;font-size:13px;">자료가 존재 하지 않습니다.</td>
         			</tr>
 </c:if>
-<c:forEach var="result" items="${resultList }" varStatus="resultStatus">
+<c:forEach var="result" items="${resultHistList }" varStatus="resultStatus">
 	<c:if test="${resultStatus.index%pagePerCount1==0 }"> <% /*  페이지 당 출력 갯수 */ %>
 	
 		<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
@@ -325,7 +325,7 @@
 		<div class="subpage ygpa_report" >
 			<!--  헤더 반복  -->
 		<c:choose>
-			<c:when test="${(resultListTotalCount - resultStatus.index) > pagePerCount1 }"><c:set var="continueChk1" value="(계속)"/></c:when>
+			<c:when test="${(resultHistListTotalCount - resultStatus.index) > pagePerCount1 }"><c:set var="continueChk1" value="(계속)"/></c:when>
 			<c:otherwise><c:set var="continueChk1" value=""/></c:otherwise>
 		</c:choose>
         	<div style="height:40px;text-align:left;vertical-align:middle;border-top:1px red;font-size:20px;"> 4. 안전점검 및 정밀안전진단 이력 <c:out value="${continueChk1 }" /></div>
@@ -432,7 +432,7 @@
     
     <div class="page">
 <c:set var="pagePerCount3" value="5"/>
-<c:if test="${fn:length(mntnResultList) == 0}">
+<c:if test="${fn:length(mntnResultHistList) == 0}">
 		<div class="subpage ygpa_report" >
         	<div style="height:40px;text-align:left;vertical-align:middle;border-top:1px red;font-size:20px;"> 6. 보수·보강이력</div>
     		<table style="width:100%;" class="rpr_form_table">
@@ -457,7 +457,7 @@
         				<td colspan="8" style="text-align:center;font-size:13px;">자료가 존재 하지 않습니다.</td>
         			</tr>
 </c:if>
-<c:forEach var="result" items="${mntnResultList }" varStatus="resultStatus">
+<c:forEach var="result" items="${mntnResultHistList }" varStatus="resultStatus">
 	<c:if test="${resultStatus.index%pagePerCount3==0 }"> <% /*  페이지 당 출력 갯수 */ %>
 	
 		<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
@@ -470,7 +470,7 @@
 		<div class="subpage ygpa_report" >
 			<!--  헤더 반복  -->
 		<c:choose>
-			<c:when test="${(mntnResultListTotalCount - resultStatus.index) > pagePerCount3 }"><c:set var="continueChk1" value="(계속)"/></c:when>
+			<c:when test="${(mntnResultHistListTotalCount - resultStatus.index) > pagePerCount3 }"><c:set var="continueChk1" value="(계속)"/></c:when>
 			<c:otherwise><c:set var="continueChk1" value=""/></c:otherwise>
 		</c:choose>
         	<div style="height:40px;text-align:left;vertical-align:middle;border-top:1px red;font-size:20px;"> 6. 보수·보강이력 <c:out value="${continueChk1 }" /></div>
