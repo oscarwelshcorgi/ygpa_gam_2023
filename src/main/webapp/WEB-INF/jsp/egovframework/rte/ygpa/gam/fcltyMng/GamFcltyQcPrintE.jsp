@@ -42,10 +42,12 @@
 	</script>
 </head>
 <body>
-  <c:set var="pagePerCount" value="35"/>
+  <c:set var="pagePerCount" value="28"/>
   <c:set var="qcItemUpperCd" value=""/>
   <c:set var="upperCount" value="0"/>
   <c:set var="itemUpperCdCount" value="0" />
+  <c:set var="pageSkip" value="true" />
+  <c:set var="printRecordCount" value="0" />
   
   <c:if test="${resultCode==0 }">
   <a id="printButton" href="#">인쇄</a>
@@ -71,7 +73,13 @@
 			</tr>
 	</c:if>
     <c:forEach var="result" items="${resultList }" varStatus="resultStatus">
-           			<c:if test="${resultStatus.index%pagePerCount==0 }"> <% /*  페이지 당 출력 갯수 */ %>
+    				<c:if test="${pageSkip == false}">
+    					<c:if test="${printRecordCount ge pagePerCount }">
+    						<c:set var="pageSkip" value="true"/>
+							<c:set var="printRecordCount" value="0" />
+    					</c:if>
+    				</c:if>
+           			<c:if test="${pageSkip == false}"> <% /*  페이지 당 출력 갯수 */ %>
            				<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
 			        		</tbody>
 			        		</table>
@@ -119,6 +127,7 @@
 		        						<td style="border-bottom:0; background:#ffffff; text-align:center"><c:out value="${inspResultChk }" /></td>
 		        						<td style="border-bottom:0; background:#ffffff"></td>
 		        						</tr>
+		        						<c:set var="printRecordCount" value="${printRecordCount+1}" />
 	        						</c:when>
 	        						<c:otherwise>
 	        							<tr>
@@ -127,6 +136,7 @@
 		        						<td style="background:#ffffff; text-align:center"><c:out value="${inspResultChk }" /></td>
 		        						<td style="background:#ffffff"></td>
 		        						</tr>
+		        						<c:set var="printRecordCount" value="${printRecordCount+1}" />
 	        						</c:otherwise>
 	        					</c:choose>
 	        				</c:when>
@@ -139,6 +149,7 @@
 		        						<td style="background:#ffffff; text-align:center"><c:out value="${inspResultChk }" /></td>
 		        						<td style="background:#ffffff;"></td>
 		        						</tr>
+		        						<c:set var="printRecordCount" value="${printRecordCount+1}" />
 	        						</c:when>
 	        						<c:otherwise>
 	        							<tr>
@@ -146,6 +157,7 @@
 		        						<td style="border-bottom:0; background:#ffffff; text-align:center"><c:out value="${inspResultChk }" /></td>
 		        						<td style="border-bottom:0; background:#ffffff"></td>
 		        						</tr>
+		        						<c:set var="printRecordCount" value="${printRecordCount+1}" />
 	        						</c:otherwise>
 	        					</c:choose>
 	        				</c:otherwise>
@@ -155,7 +167,7 @@
         		<tfoot>
         		</tfoot>
         	</table>
-        	<div style="height:50px;"></div>
+        	<div style="height:20px;"></div>
 	        <c:choose>
 	        	<c:when test="${empty detailData['wrtDt'] }">
 					<div style="text-align:right">점검일자 : <c:out value="　　. 　. 　." /></div>	        		
