@@ -108,71 +108,25 @@
         				</c:choose>
 	        			<c:choose>
 	        				<c:when test="${qcItemUpperCd ne result.qcItemUpperCd }">
+	        					<c:set var="qcItemUpperCd" value="${result.qcItemUpperCd}" />
+	        					<c:set var="itemUpperCdCount" value="${result.qcItemUpperCdCount }" />
+	        					<c:set var="upperCount" value="1" />
 	        					<c:choose>
-	        						<c:when test="${upperCount ge itemUpperCdCount}">
-			        					<c:set var="qcItemUpperCd" value="${result.qcItemUpperCd}" />
-			        					<c:set var="itemUpperCdCount" value="${result.qcItemUpperCdCount }" />
-			        					<c:set var="upperCount" value="1" />
-			        					<c:choose>
-			        						<c:when test="${itemUpperCdCount gt 1}">
-			        							<tr>
-				        						<td rowspan="${itemUpperCdCount}" style="background:#ffffff; text-align:center;"><c:out value="${result.qcItemUpperNm }" /></td>
-				        						<td style="border-bottom:0; background:#ffffff"><c:out value="${result.qcItemNm }" /></td>
-				        						<td style="border-bottom:0; background:#ffffff; text-align:center"><c:out value="${inspResultChk }" /></td>
-				        						<td style="border-bottom:0; background:#ffffff"></td>
-				        						</tr>
-			        						</c:when>
-			        						<c:otherwise>
-			        							<tr>
-				        						<td style="background:#ffffff; text-align:center;"><c:out value="${result.qcItemUpperNm }" /></td>
-				        						<td style="background:#ffffff"><c:out value="${result.qcItemNm }" /></td>
-				        						<td style="background:#ffffff; text-align:center"><c:out value="${inspResultChk }" /></td>
-				        						<td style="background:#ffffff"></td>
-				        						</tr>
-			        						</c:otherwise>
-			        					</c:choose>
+	        						<c:when test="${itemUpperCdCount gt 1}">
+	        							<tr>
+		        						<td rowspan="${itemUpperCdCount}" style="background:#ffffff; text-align:center;"><c:out value="${result.qcItemUpperNm }" /></td>
+		        						<td style="border-bottom:0; background:#ffffff"><c:out value="${result.qcItemNm }" /></td>
+		        						<td style="border-bottom:0; background:#ffffff; text-align:center"><c:out value="${inspResultChk }" /></td>
+		        						<td style="border-bottom:0; background:#ffffff"></td>
+		        						</tr>
 	        						</c:when>
 	        						<c:otherwise>
-	        							<c:forEach begin="${upperCount}" end="${itemUpperCdCount - 1}" step="1" var="num">
-		        							<c:set var="upperCount" value="${upperCount+1 }" />
-		        							<c:choose>
-		        								<c:when test="${num ge itemUpperCdCount - 1}">
-		        									<tr>
-					        						<td style="background:#ffffff"></td>
-					        						<td style="background:#ffffff; text-align:center"></td>
-					        						<td style="background:#ffffff"></td>
-					        						</tr>
-		        								</c:when>
-		        								<c:otherwise>
-		        									<tr>
-					        						<td style="border-bottom:0; background:#ffffff"></td>
-					        						<td style="border-bottom:0; background:#ffffff; text-align:center"></td>
-					        						<td style="border-bottom:0; background:#ffffff"></td>
-					        						</tr>
-		        								</c:otherwise>
-		        							</c:choose>
-	        							</c:forEach>
-			        					<c:set var="qcItemUpperCd" value="${result.qcItemUpperCd}" />
-			        					<c:set var="itemUpperCdCount" value="${result.qcItemUpperCdCount }" />
-			        					<c:set var="upperCount" value="1" />
-			        					<c:choose>
-			        						<c:when test="${itemUpperCdCount gt 1}">
-			        							<tr>
-				        						<td rowspan="${itemUpperCdCount}" style="background:#ffffff; text-align:center;"><c:out value="${result.qcItemUpperNm }" /></td>
-				        						<td style="border-bottom:0; background:#ffffff"><c:out value="${result.qcItemNm }" /></td>
-				        						<td style="border-bottom:0; background:#ffffff; text-align:center"><c:out value="${inspResultChk }" /></td>
-				        						<td style="border-bottom:0; background:#ffffff"></td>
-				        						</tr>
-			        						</c:when>
-			        						<c:otherwise>
-			        							<tr>
-				        						<td style="background:#ffffff; text-align:center;"><c:out value="${result.qcItemUpperNm }" /></td>
-				        						<td style="background:#ffffff"><c:out value="${result.qcItemNm }" /></td>
-				        						<td style="background:#ffffff; text-align:center"><c:out value="${inspResultChk }" /></td>
-				        						<td style="background:#ffffff"></td>
-				        						</tr>
-			        						</c:otherwise>
-			        					</c:choose>
+	        							<tr>
+		        						<td style="background:#ffffff; text-align:center;"><c:out value="${result.qcItemUpperNm }" /></td>
+		        						<td style="background:#ffffff"><c:out value="${result.qcItemNm }" /></td>
+		        						<td style="background:#ffffff; text-align:center"><c:out value="${inspResultChk }" /></td>
+		        						<td style="background:#ffffff"></td>
+		        						</tr>
 	        						</c:otherwise>
 	        					</c:choose>
 	        				</c:when>
