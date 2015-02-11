@@ -75,8 +75,8 @@ GamPopupEntrpsModule.prototype.onSubmit = function() {
 };
 
 GamPopupEntrpsModule.prototype.loadData = function() {
-	if(!this.$('#entrpsNm').val() && !this.$('#entrpscd').val() && !this.$('#bizrno').val()){
-		alert('업체명, 업체코드, 사업자번호 중 하나 이상 검색어를 입력하세요.');
+	if(!this.$('#entrpsNm').val() && !this.$('#entrpscd').val() && !this.$('#bizrno').val() && !this.$('#rprsntvNm').val()){
+		alert('업체명, 업체코드, 사업자번호, 대표자명 중 하나 이상 검색어를 입력하세요.');
 		return;
 	}
 	var searchOpt=this.makeFormArgs("#gamPopupEntrpsForm");
@@ -92,14 +92,18 @@ var popup_instance = new GamPopupEntrpsModule();
 			<table class="searchPanel">
 				<tbody>
 					<tr>
-                        <th>업체명</th>
-                        <td><input id="entrpsNm" type="text" style="width: 120px;"/></td>
 						<th>업체코드</th>
                         <td><input id="entrpscd" type="text" style="width: 80px;"/></td>
+                        <th>업체명</th>
+                        <td><input id="entrpsNm" type="text" style="width: 100px;"/></td>
+						<td rowspan="2"><button class="buttonSearch">조회</button>
+						</td>
+					</tr>
+					<tr>
                     	<th>사업자번호</th>
 						<td><input id="bizrno" type="text" style="width: 80px;"/></td>
-						<td><button class="buttonSearch">조회</button>
-						</td>
+						<th>사업자명</th>
+						<td><input id="rprsntvNm" type="text" style="width: 100px;"/></td>
 					</tr>
 				</tbody>
 			</table>

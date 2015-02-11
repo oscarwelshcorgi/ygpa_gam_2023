@@ -52,7 +52,12 @@
       }
  */    </style>
 
+	<script type="text/javascript" src="http://extjs.cachefly.net/ext-3.4.0/adapter/ext/ext-base.js"></script>
+	<script type="text/javascript" src="http://extjs.cachefly.net/ext-3.4.0/ext-all.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.4.0/resources/css/ext-all.css" />
+
     <script src="<c:url value='/js/OpenLayers.debug.js'/>"></script>
+	<script src="<c:url value='/js/GeoExt.js'/>"></script>
     <script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
     <script src="<c:url value='/js/jquery-migrate-1.2.1.min.js'/>"></script>
     <script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
@@ -116,6 +121,7 @@
     <div class="abs" id="wrapper">
         <div id="desktop" class="abs mapdesk">
         </div>
+        <div id="legendPanel"></div>
         <div id="sideMenu">
           <ul>
             <li><a href="#">주소 찾기</a></li>

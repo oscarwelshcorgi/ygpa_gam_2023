@@ -122,7 +122,7 @@
                                   , A.RENT_AREA_CD
                                   , GAM_GETCODENAME('GAM062', A.RENT_AREA_CD) RENT_AREA
                                   , A.ENTRPSCD
-                                  , GAM_GETENTRPSNM(A.ENTRPSCD, '1') ENTRPS_NM
+                                  , ENTRPS_NM
                                   , A.REQST_SE_CD
                                   , NVL(A.GR_AR,0) GR_AR
                                   , NVL(A.GR_FEE,0) GR_FEE
@@ -152,14 +152,12 @@
 				            </isNotEmpty>
 
                               <isNotEmpty property="sEntrpscd" prepend="AND">
-				                 A.ENTRPSCD = #sEntrpscd#
+				                 A.ENTRPSCD LIKE #sEntrpscd# || '%'
 				             </isNotEmpty>
 
-				             <isEmpty property="sEntrpscd">
-					             <isNotEmpty property="sEntrpsNm" prepend="AND">
-					                 A.ENTRPSCD IN (SELECT ENTRPSCD FROM ENTRPS_INFO_F WHERE ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%')
-					             </isNotEmpty>
-				             </isEmpty>
+				             <isNotEmpty property="sEntrpsNm" prepend="AND">
+				                 A.ENTRPSCD IN (SELECT ENTRPSCD FROM ENTRPS_INFO_F WHERE ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%')
+				             </isNotEmpty>
 
 				             <isNotEmpty property="sGrUsagePdFrom" prepend="AND">
 				             <![CDATA[
@@ -173,22 +171,6 @@
 				                 ]]>
 				             </isNotEmpty>
 
-				             <isNotEmpty property="sMngYear" prepend="AND">
-				                 A.MNG_YEAR = #sMngYear#
-				             </isNotEmpty>
-
-				             <isNotEmpty property="sMngNo" prepend="AND">
-				                 A.MNG_NO = #sMngNo#
-				             </isNotEmpty>
-
-				             <isNotEmpty property="sMngCnt" prepend="AND">
-				                 A.MNG_CNT = #sMngCnt#
-				             </isNotEmpty>
-
-							 <isNotEmpty property="sPrmisnYn" prepend="AND">
-				                 A.PRMISN_YN = #sPrmisnYn#
-				             </isNotEmpty>
-
                              ORDER BY A.RENT_AREA_CD ASC, ENTRPS_NM, GR_AR DESC
                 ) S
              ) A
@@ -197,50 +179,34 @@
     </select>
 
     <select id="gamHtldRentMngtDao.selectHtldRentMngtListTotCnt_S" parameterClass="gamHtldRentMngtVO" resultClass="int">
-            SELECT COUNT(*) totcnt
-              FROM ASSETS_RENT_F A
-             WHERE A.QUAY_GROUP_CD='H'
+			SELECT COUNT(*) totcnt
+			FROM ASSETS_RENT_F A
+			WHERE A.QUAY_GROUP_CD='H'
 
 			<isNotEmpty property="sRentAreaCd" prepend="AND">
-                A.RENT_AREA_CD = #sRentAreaCd#
-            </isNotEmpty>
+				A.RENT_AREA_CD = #sRentAreaCd#
+			</isNotEmpty>
+
 			<isNotEmpty property="sEntrpscd" prepend="AND">
-                A.ENTRPSCD = #sEntrpscd#
-            </isNotEmpty>
+				A.ENTRPSCD LIKE #sEntrpscd# || '%'
+			</isNotEmpty>
 
-            <isEmpty property="sEntrpscd">
-             <isNotEmpty property="sEntrpsNm" prepend="AND">
-                 A.ENTRPSCD IN (SELECT ENTRPSCD FROM ENTRPS_INFO_F WHERE ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%')
-             </isNotEmpty>
-            </isEmpty>
+			<isNotEmpty property="sEntrpsNm" prepend="AND">
+				A.ENTRPSCD IN (SELECT ENTRPSCD FROM ENTRPS_INFO_F WHERE ENTRPS_NM LIKE '%' ||
+				#sEntrpsNm# || '%')
+			</isNotEmpty>
 
-            <isNotEmpty property="sGrUsagePdFrom" prepend="AND">
-            <![CDATA[
-                A.GR_USAGE_PD_FROM >= TO_DATE(#sGrUsagePdFrom#,'YYYY-MM-DD')
-                ]]>
-            </isNotEmpty>
+			<isNotEmpty property="sGrUsagePdFrom" prepend="AND">
+		          <![CDATA[
+		  A.GR_USAGE_PD_TO >= TO_DATE(#sGrUsagePdFrom#,'YYYY-MM-DD')
+		  ]]>
+			</isNotEmpty>
 
-            <isNotEmpty property="sGrUsagePdTo" prepend="AND">
-            <![CDATA[
-                A.GR_USAGE_PD_TO < TO_DATE(#sGrUsagePdTo#, 'YYYY-MM-DD')+1
-                ]]>
-            </isNotEmpty>
-
-            <isNotEmpty property="sMngYear" prepend="AND">
-                A.MNG_YEAR = #sMngYear#
-            </isNotEmpty>
-
-            <isNotEmpty property="sMngNo" prepend="AND">
-                A.MNG_NO = #sMngNo#
-            </isNotEmpty>
-
-            <isNotEmpty property="sMngCnt" prepend="AND">
-                A.MNG_CNT = #sMngCnt#
-            </isNotEmpty>
-
-		 <isNotEmpty property="sPrmisnYn" prepend="AND">
-                A.PRMISN_YN = #sPrmisnYn#
-            </isNotEmpty>
+			<isNotEmpty property="sGrUsagePdTo" prepend="AND">
+		<![CDATA[
+		  A.GR_USAGE_PD_FROM < TO_DATE(#sGrUsagePdTo#, 'YYYY-MM-DD')
+		  ]]>
+			</isNotEmpty>
     </select>
 
     <select id="gamHtldRentMngtDao.selectHtldRentMngtSum_S" parameterClass="gamHtldRentMngtVO" resultClass="egovMap">
@@ -250,47 +216,32 @@
                , TRIM(TO_CHAR(NVL(SUM(A.GR_FEE),0), '999,999,999,999')) SUM_GR_FEE
                , TRIM(TO_CHAR(NVL(SUM(A.GR_RDCXPT_FEE),0), '999,999,999,999')) SUM_GR_RDCXPT_FEE
           FROM ASSETS_RENT_F A
-         WHERE A.QUAY_GROUP_CD='H'
+			WHERE A.QUAY_GROUP_CD='H'
+
 			<isNotEmpty property="sRentAreaCd" prepend="AND">
-                A.RENT_AREA_CD = #sRentAreaCd#
-            </isNotEmpty>
+				A.RENT_AREA_CD = #sRentAreaCd#
+			</isNotEmpty>
+
 			<isNotEmpty property="sEntrpscd" prepend="AND">
-                A.ENTRPSCD = #sEntrpscd#
-            </isNotEmpty>
+				A.ENTRPSCD LIKE #sEntrpscd# || '%'
+			</isNotEmpty>
 
-            <isEmpty property="sEntrpscd">
-             <isNotEmpty property="sEntrpsNm" prepend="AND">
-                 A.ENTRPSCD IN (SELECT ENTRPSCD FROM ENTRPS_INFO_F WHERE ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%')
-             </isNotEmpty>
-            </isEmpty>
+			<isNotEmpty property="sEntrpsNm" prepend="AND">
+				A.ENTRPSCD IN (SELECT ENTRPSCD FROM ENTRPS_INFO_F WHERE ENTRPS_NM LIKE '%' ||
+				#sEntrpsNm# || '%')
+			</isNotEmpty>
 
-            <isNotEmpty property="sGrUsagePdFrom" prepend="AND">
-            <![CDATA[
-                A.GR_USAGE_PD_FROM >= TO_DATE(#sGrUsagePdFrom#,'YYYY-MM-DD')
-                ]]>
-            </isNotEmpty>
+			<isNotEmpty property="sGrUsagePdFrom" prepend="AND">
+		          <![CDATA[
+		  A.GR_USAGE_PD_TO >= TO_DATE(#sGrUsagePdFrom#,'YYYY-MM-DD')
+		  ]]>
+			</isNotEmpty>
 
-            <isNotEmpty property="sGrUsagePdTo" prepend="AND">
-            <![CDATA[
-                A.GR_USAGE_PD_TO < TO_DATE(#sGrUsagePdTo#, 'YYYY-MM-DD')+1
-                ]]>
-            </isNotEmpty>
-
-            <isNotEmpty property="sMngYear" prepend="AND">
-                A.MNG_YEAR = #sMngYear#
-            </isNotEmpty>
-
-            <isNotEmpty property="sMngNo" prepend="AND">
-                A.MNG_NO = #sMngNo#
-            </isNotEmpty>
-
-            <isNotEmpty property="sMngCnt" prepend="AND">
-                A.MNG_CNT = #sMngCnt#
-            </isNotEmpty>
-
-		 <isNotEmpty property="sPrmisnYn" prepend="AND">
-                A.PRMISN_YN = #sPrmisnYn#
-            </isNotEmpty>
+			<isNotEmpty property="sGrUsagePdTo" prepend="AND">
+		<![CDATA[
+		  A.GR_USAGE_PD_FROM < TO_DATE(#sGrUsagePdTo#, 'YYYY-MM-DD')
+		  ]]>
+			</isNotEmpty>
     </select>
 
     <select id="gamHtldRentMngtDao.selectHtldRentMngtByPk_S" parameterClass="gamHtldRentMngtVO" resultMap="gamHtldRentMngtInfoMap">
@@ -307,6 +258,7 @@
             , A.REQST_SE_CD
             , NVL(A.GR_AR,0) GR_AR
             , NVL(A.GR_FEE,0) GR_FEE
+            , (SELECT APPLC_PRICE FROM HTLD_RENT_ASSESS_F WHERE PRT_AT_CODE=A.PRT_AT_CODE AND MNG_YEAR=A.MNG_YEAR AND MNG_NO=A.MNG_NO AND MNG_CNT=A.MNG_CNT) APPLC_PRICE
             , A.PRMISN_YN
             , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
             , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
@@ -343,7 +295,7 @@
 			, TO_CHAR(NVL(A.PAYINST_INTRRATE,0) * 100) AS PAYINST_INTRRATE
 			, CHARGER_NO
 		FROM ASSETS_RENT_F A
-		WHERE A.QUAY_GROUP_CD=#quayGroupCd#
+		WHERE A.QUAY_GROUP_CD='H'
 			AND A.PRT_AT_CODE = #prtAtCode#
 			AND A.MNG_YEAR = #mngYear#
 			AND A.MNG_NO = #mngNo#
@@ -353,7 +305,7 @@
     <select id="gamHtldRentMngtDao.selectHtldRentMngtExist_S" parameterClass="gamHtldRentMngtVO" resultClass="java.lang.Integer">
     	SELECT count(*)
 		FROM ASSETS_RENT_F A
-		WHERE A.QUAY_GROUP_CD=#quayGroupCd#
+		WHERE A.QUAY_GROUP_CD='H'
 			AND A.PRT_AT_CODE = #prtAtCode#
 			AND A.MNG_YEAR = #mngYear#
 			AND A.MNG_NO = #mngNo#
@@ -410,7 +362,7 @@
 			, TO_CHAR(NVL(A.PAYINST_INTRRATE,0) * 100) AS PAYINST_INTRRATE
 			, A.CHARGER_NO
 		FROM ASSETS_RENT_F A
-		WHERE A.QUAY_GROUP_CD=#quayGroupCd#
+		WHERE A.QUAY_GROUP_CD='H'
 			AND A.PRT_AT_CODE = #prtAtCode#
 			AND A.MNG_YEAR = #mngYear#
 			AND A.MNG_NO = #mngNo#
