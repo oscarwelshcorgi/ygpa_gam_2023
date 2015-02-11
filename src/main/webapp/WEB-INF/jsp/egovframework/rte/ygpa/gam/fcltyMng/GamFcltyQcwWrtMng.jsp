@@ -1324,7 +1324,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 					<button id="btnDetailAdd" class="buttonAdd">　　추　가　　</button>
 					<button id="btnDetailDelete" class="buttonDelete">　　삭　제　　</button>
 					<button id="btnSave" class="buttonSave">　　저　장　　</button>
-					<!-- <button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url="<c:url value='/fcltyMng/printQcMngDtls.do'/>">　　인　쇄　　</button>-->
+					<button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url="<c:url value='/fcltyMng/printQcMngDtls.do'/>">　　인　쇄　　</button>
 				</div>
 			</div>
 		</div>
