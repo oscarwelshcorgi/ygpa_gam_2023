@@ -73,24 +73,7 @@ public class GamFcltyUsageSttusInqireDao extends YGPAAbstractDAO{
 		return list("gamFcltyUsageSttusInqireDao.selectQcMngList", vo);
 	}
 
-	/**
-     * 점검 관리 대상 시설물
-     * @param vo
-     * @return List
-     * @exception Exception
-     */
-	public List selectQcMngObjFcltsList(GamFcltyUsageSttusInqireVO vo){
-		return list("gamFcltyUsageSttusInqireDao.selectQcMngObjFcltsList", vo);
-	}
-	/**
-     * 점검 관리 결과 항목
-     * @param vo
-     * @return List
-     * @exception Exception
-     */
-	public List selectQcMngResultItemList(GamFcltyUsageSttusInqireVO vo){
-		return list("gamFcltyUsageSttusInqireDao.selectQcMngResultItemList", vo);
-	}
+	
 
 	/**
 	 * 하자 보수 내역
@@ -102,26 +85,7 @@ public class GamFcltyUsageSttusInqireDao extends YGPAAbstractDAO{
 		return list("gamFcltyUsageSttusInqireDao.selectFlawList", vo);
 	}
 
-	/**
-	 * 하자 보수 대상 시설물
-	 * @param vo
-	 * @return List
-	 * @exception Exception
-	 */
-	public List selectFlawRprObjFcltsList(GamFcltyUsageSttusInqireVO vo){
-		return list("gamFcltyUsageSttusInqireDao.selectFlawRprObjFcltsList", vo);
-	}
 
-	/**
-	 * 하자 검사자
-	 * @param vo
-	 * @return List
-	 * @exception Exception
-	 */
-	public List selectFlawExamUsrList(GamFcltyUsageSttusInqireVO vo){
-		return list("gamFcltyUsageSttusInqireDao.selectFlawExamUsrList", vo);
-	}
-///////////////////////////////////////
 	/**
 	 * 유지 보수 내역
 	 * @param vo
@@ -132,15 +96,6 @@ public class GamFcltyUsageSttusInqireDao extends YGPAAbstractDAO{
 		return list("gamFcltyUsageSttusInqireDao.selectMntnRprDtlsList", vo);
 	}
 
-	/**
-	 * 유지 보수 대상 시설물
-	 * @param vo
-	 * @return List
-	 * @exception Exception
-	 */
-	public List selectMntnRprObjFcltsList(GamFcltyUsageSttusInqireVO vo){
-		return list("gamFcltyUsageSttusInqireDao.selectMntnRprObjFcltsList", vo);
-	}
-
+	
 
 }

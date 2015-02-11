@@ -83,23 +83,7 @@ public class GamFcltyUsageSttusInqireServiceImpl extends AbstractServiceImpl imp
 		return gamFcltyUsageSttusInqireDao.selectQcMngList(vo);
 	}
 
-	/**
-	 * 점검 관리 대상 시설물
-	 * @param vo
-	 * @return
-	 */
-	public List selectQcMngObjFcltsList(GamFcltyUsageSttusInqireVO vo) throws Exception{
-		return gamFcltyUsageSttusInqireDao.selectQcMngObjFcltsList(vo);
-	}
-
-	/**
-	 * 점검 관리 결과 항목
-	 * @param vo
-	 * @return
-	 */
-	public List selectQcMngResultItemList(GamFcltyUsageSttusInqireVO vo) throws Exception{
-		return gamFcltyUsageSttusInqireDao.selectQcMngResultItemList(vo);
-	}
+	
 
 	/**
 	 * 하자 보수 내역
@@ -111,24 +95,7 @@ public class GamFcltyUsageSttusInqireServiceImpl extends AbstractServiceImpl imp
 		return gamFcltyUsageSttusInqireDao.selectFlawList(vo);
 	}
 
-	/**
-	 * 하자 보수 대상 시설물
-	 * @param vo
-	 * @return
-	 */
-	public List selectFlawRprObjFcltsList(GamFcltyUsageSttusInqireVO vo) throws Exception{
-		return gamFcltyUsageSttusInqireDao.selectFlawRprObjFcltsList(vo);
-	}
-
-	/**
-	 * 하자 검사자
-	 * @param vo
-	 * @return
-	 */
-	public List selectFlawExamUsrList(GamFcltyUsageSttusInqireVO vo) throws Exception{
-		return gamFcltyUsageSttusInqireDao.selectFlawExamUsrList(vo);
-	}
-
+	
 	/**
 	 * 유지 보수 내역
 	 * @param vo
@@ -138,12 +105,5 @@ public class GamFcltyUsageSttusInqireServiceImpl extends AbstractServiceImpl imp
 		return gamFcltyUsageSttusInqireDao.selectMntnRprDtlsList(vo);
 	}
 
-	/**
-	 * 유지 보수 대상 시설물
-	 * @param vo
-	 * @return
-	 */
-	public List selectMntnRprObjFcltsList(GamFcltyUsageSttusInqireVO vo) throws Exception{
-		return gamFcltyUsageSttusInqireDao.selectMntnRprObjFcltsList(vo);
-	}
+	
 }

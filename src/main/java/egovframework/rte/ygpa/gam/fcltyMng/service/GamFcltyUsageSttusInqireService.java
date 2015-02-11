@@ -67,23 +67,7 @@ public interface GamFcltyUsageSttusInqireService {
 	 * @throws Exception
 	 */
 	List selectQcMngList(GamFcltyUsageSttusInqireVO vo) throws Exception;
-
-	/**
-	 * 점검 관리 대상 시설물
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */
-	List selectQcMngObjFcltsList(GamFcltyUsageSttusInqireVO vo) throws Exception;
-
-	/**
-	 * 검검 관리 결과 항목
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */
-	List selectQcMngResultItemList(GamFcltyUsageSttusInqireVO vo) throws Exception;
-
+	
 	/**
 	 * 하자 보수 내역
 	 * @param vo
@@ -92,21 +76,6 @@ public interface GamFcltyUsageSttusInqireService {
 	 */
 	List selectFlawList(GamFcltyUsageSttusInqireVO vo) throws Exception;
 
-	/**
-	 * 하자보수 대상 시설물
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */
-	List selectFlawRprObjFcltsList(GamFcltyUsageSttusInqireVO vo) throws Exception;
-
-	/**
-	 * 하자 검사자
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */
-	List selectFlawExamUsrList(GamFcltyUsageSttusInqireVO vo) throws Exception;
 
 	/**
 	 * 유지 보수 내역
@@ -116,11 +85,5 @@ public interface GamFcltyUsageSttusInqireService {
 	 */
 	List selectMntnRprDtlsList(GamFcltyUsageSttusInqireVO vo) throws Exception;
 
-	/**
-	 * 유지 보수 대상 시설물
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */
-	List selectMntnRprObjFcltsList(GamFcltyUsageSttusInqireVO vo) throws Exception;
-}
+
+	}
