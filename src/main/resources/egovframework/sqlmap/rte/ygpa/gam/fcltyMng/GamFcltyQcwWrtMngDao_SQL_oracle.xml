@@ -5,7 +5,6 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamFcltyQcwWrtMngVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcwWrtMngVO"/>
-    <typeAlias alias="gamFcltyQcPrintVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcPrintVO"/>
     
     <!-- 점검관리목록 -->
 	<select id="gamFcltyQcwWrtMngDao.selectQcMngDtlsList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
@@ -561,30 +560,4 @@
 			AND QC_MNG_SEQ = TO_NUMBER(#qcMngSeq#)
 	</delete>
 	
-	<!-- 출력물용 일반적 점검결과항목 목록 -->
-	<select id="gamFcltyQcwWrtMngDao.selectPrintQcMngResultItemList_D" parameterClass="gamFcltyQcPrintVO" resultClass="egovMap">
-		SELECT
-			DECODE(R.INSP_RESULT_CHK, NULL, 'N', R.INSP_RESULT_CHK) INSP_RESULT_CHK 
-			, I.QC_ITEM_NM
-			, I.QC_ITEM_UPPER_CD
-			, (SELECT S.QC_ITEM_NM FROM QC_ITEM_CD_F S WHERE S.QC_ITEM_CD = I.QC_ITEM_UPPER_CD ) QC_ITEM_UPPER_NM
-			, I.QC_ITEM_CD
-			, (SELECT COUNT(QC_ITEM_UPPER_CD) FROM QC_ITEM_CD_F WHERE QC_ITEM_UPPER_CD = (SELECT QC_ITEM_UPPER_CD FROM QC_ITEM_CD_F WHERE QC_ITEM_CD = I.QC_ITEM_CD)) QC_ITEM_UPPER_CD_COUNT
-		FROM
-			QC_ITEM_CD_F I
-		LEFT OUTER JOIN
-			QC_MNG_RESULT_ITEM_F R
-		ON
-			I.QC_ITEM_CD = R.QC_ITEM_CD
-			AND I.FCLTS_JOB_SE = R.FCLTS_JOB_SE
-     		AND R.QC_MNG_SEQ = #qcMngSeq#
-		WHERE
-			I.LEAF_YN = 'Y'
-			AND I.FCLTS_JOB_SE = #fcltsJobSe#
-		    AND R.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-		ORDER BY
-			I.QC_ITEM_UPPER_CD
-			,I.QC_ITEM_CD
-  	</select>
-
 </sqlMap>

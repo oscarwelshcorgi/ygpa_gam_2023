@@ -28,7 +28,6 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcPrintVO;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcwWrtMngService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcwWrtMngVO;
 
@@ -418,11 +417,20 @@ public class GamFcltyQcwWrtMngController {
     	String printPageName = null;
     	
 		ObjectMapper mapper = new ObjectMapper();
-    	GamFcltyQcPrintVO searchVO = null;
-    	GamFcltyQcwWrtMngVO searchDetailVO = null;
+		GamFcltyQcwWrtMngVO searchVO = null;
+		List qcResultItemList = null;
+		int resultCnt = 0;
     	
-    	searchVO = mapper.convertValue(qcPrintOpt, GamFcltyQcPrintVO.class);
+    	searchVO = mapper.convertValue(qcPrintOpt, GamFcltyQcwWrtMngVO.class);
     	
+    	searchVO.setsFcltsJobSe(searchVO.getFcltsJobSe());
+    	searchVO.setsFcltsMngGroupNo(searchVO.getFcltsMngGroupNo());
+    	searchVO.setsQcMngSeq(searchVO.getQcMngSeq());
+    	
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);		
+
     	if(searchVO.getFcltsJobSe().equals("A")) {
     		//건축 시설물점검 인쇄페이지
     		printPageName = "/ygpa/gam/fcltyMng/GamFcltyQcPrintA";
@@ -437,7 +445,14 @@ public class GamFcltyQcwWrtMngController {
     		printPageName = "/ygpa/gam/fcltyMng/GamFcltyQcPrintI";
     	} else if(searchVO.getFcltsJobSe().equals("M")) {
     		//기계 시설물점검 인쇄페이지(항만하역장비와 기계장비로 나누어짐)
-    		printPageName = "/ygpa/gam/fcltyMng/GamFcltyQcPrintM";
+    		if(searchVO.getMechFcltsSe().equals("1")) {
+	    		//하역장비 페이지
+	    		printPageName = "/ygpa/gam/fcltyMng/GamFcltyQcPrintM1";
+    		}
+    		else {
+	    		//기계설비 페이지
+	    		printPageName = "/ygpa/gam/fcltyMng/GamFcltyQcPrintM2";
+    		}
     	}
     	
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -448,19 +463,17 @@ public class GamFcltyQcwWrtMngController {
         	return printPageName;
     	}
     	
-		searchVO.setFirstIndex(0);
-		searchVO.setLastIndex(9999);
-		searchVO.setRecordCountPerPage(9999);
-
-		List qcResultItemList = gamFcltyQcwWrtMngService.selectPrintQcMngResultItemList(searchVO);
+		EgovMap detailData = gamFcltyQcwWrtMngService.selectQcMngDtlsDetail(searchVO);
+				
+		resultCnt = gamFcltyQcwWrtMngService.selectQcMngResultItemListTotCnt(searchVO);
+    	if(resultCnt > 0) {
+    		qcResultItemList = gamFcltyQcwWrtMngService.selectQcMngResultItemList(searchVO);
+    	} else {
+    		searchVO.setsFcltsMngGroupNo(null);
+    		searchVO.setsQcMngSeq("");
+    		qcResultItemList = gamFcltyQcwWrtMngService.selectQcMngResultItemList(searchVO);
+    	}    		
 		
-		searchDetailVO = new GamFcltyQcwWrtMngVO();
-		searchDetailVO.setsQcMngSeq(searchVO.getQcMngSeq());
-		searchDetailVO.setsFcltsJobSe(searchVO.getFcltsJobSe());
-		searchDetailVO.setsFcltsMngGroupNo(searchVO.getFcltsMngGroupNo());
-		
-		EgovMap detailData = gamFcltyQcwWrtMngService.selectQcMngDtlsDetail(searchDetailVO);
-    	
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
     	model.addAttribute("resultList", qcResultItemList);

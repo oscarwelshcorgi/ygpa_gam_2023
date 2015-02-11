@@ -52,19 +52,17 @@ public class GamFcltyQcwWrtMngVO extends ComDefaultVO {
 	/**기계 점검항목목록 조건(조회조건)*/
 	private String sMechCdStartChar;
 	
-	/**
-	 * @return the sMechCdStartChar
-	 */
-	public String getsMechCdStartChar() {
-		return sMechCdStartChar;
-	}
-
-	/**
-	 * @param sMechCdStartChar the sMechCdStartChar to set
-	 */
-	public void setsMechCdStartChar(String sMechCdStartChar) {
-		this.sMechCdStartChar = sMechCdStartChar;
-	}
+	/**시설물관리그룹번호(출력용 조건)*/
+	private String fcltsMngGroupNo;
+	
+	/**시설물업무구분(출력용 조건)*/
+	private String fcltsJobSe;
+	
+	/**점검관리순번(출력용 조건)*/
+	private String qcMngSeq;
+	
+	/**기계시설분류(출력용 조건)*/
+	private String mechFcltsSe;
 
 	/**
 	 * @return the sFcltsJobSe
@@ -163,5 +161,75 @@ public class GamFcltyQcwWrtMngVO extends ComDefaultVO {
 	public void setsEnforceYear(String sEnforceYear) {
 		this.sEnforceYear = sEnforceYear;
 	}
-	
+
+	/**
+	 * @return the sMechCdStartChar
+	 */
+	public String getsMechCdStartChar() {
+		return sMechCdStartChar;
+	}
+
+	/**
+	 * @param sMechCdStartChar the sMechCdStartChar to set
+	 */
+	public void setsMechCdStartChar(String sMechCdStartChar) {
+		this.sMechCdStartChar = sMechCdStartChar;
+	}
+
+	/**
+	 * @return the fcltsMngGroupNo
+	 */
+	public String getFcltsMngGroupNo() {
+		return fcltsMngGroupNo;
+	}
+
+	/**
+	 * @param fcltsMngGroupNo the fcltsMngGroupNo to set
+	 */
+	public void setFcltsMngGroupNo(String fcltsMngGroupNo) {
+		this.fcltsMngGroupNo = fcltsMngGroupNo;
+	}
+
+	/**
+	 * @return the fcltsJobSe
+	 */
+	public String getFcltsJobSe() {
+		return fcltsJobSe;
+	}
+
+	/**
+	 * @param fcltsJobSe the fcltsJobSe to set
+	 */
+	public void setFcltsJobSe(String fcltsJobSe) {
+		this.fcltsJobSe = fcltsJobSe;
+	}
+
+	/**
+	 * @return the qcMngSeq
+	 */
+	public String getQcMngSeq() {
+		return qcMngSeq;
+	}
+
+	/**
+	 * @param qcMngSeq the qcMngSeq to set
+	 */
+	public void setQcMngSeq(String qcMngSeq) {
+		this.qcMngSeq = qcMngSeq;
+	}
+
+	/**
+	 * @return the mechFcltsSe
+	 */
+	public String getMechFcltsSe() {
+		return mechFcltsSe;
+	}
+
+	/**
+	 * @param mechFcltsSe the mechFcltsSe to set
+	 */
+	public void setMechFcltsSe(String mechFcltsSe) {
+		this.mechFcltsSe = mechFcltsSe;
+	}
+
 }
