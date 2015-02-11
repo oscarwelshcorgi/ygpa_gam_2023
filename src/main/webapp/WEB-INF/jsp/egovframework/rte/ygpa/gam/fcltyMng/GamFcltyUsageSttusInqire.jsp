@@ -94,7 +94,9 @@
 		             ],
 		height : 'auto'
 	});
-	
+		this.$("#assetsRentGrid").on('onLoadDataComplete', function(event, module, data, grid, param) {
+		module.selectData();
+		});
 	// 점검 관리 내역
 	this.$("#qcwWrtMngGrid").flexigrid({
 		module : this,
@@ -114,11 +116,14 @@
 		],
 		height : '250'
 	});
+	this.$("#qcwWrtMngGrid").on('onLoadDataComplete', function(event, module, data, grid, param) {
+		module.selectData();
+		});
 	
 // 시설물 점검기록 선택
 	this.$("#qcwWrtMngGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module.makeFormValues('#qcwWrtMngDetail' , row);
-	});
+		});
 
 
 	// 유지 보수 내역 
@@ -144,7 +149,9 @@
 			
 			module.makeFormValues('#maintMngDetail' , row);
 		});
-
+	this.$("#maintMngGrid").on('onLoadDataComplete', function(event, module, data, grid, param) {
+		module.selectData();
+		});
 
 	// 하자 보수 내역
 	this.$("#repairMngGrid").flexigrid({
@@ -171,7 +178,9 @@
 		module.makeFormValues('#repairMngDetail', row);
 		
 	}); 
-
+	this.$("#repairMngGrid").on('onLoadDataComplete', function(event, module, data, grid, param) {
+		module.selectData();
+		});
 
 
 	
@@ -340,6 +349,7 @@ GamFcltyUsageSttusInqireModule.prototype.selectLoadAssetRentData = function() {
 			module.$("#mainTab").tabs("option", {active: 0});
 		}
 	});
+	
 };
 
 <%
@@ -494,21 +504,19 @@ GamFcltyUsageSttusInqireModule.prototype.initDisplay = function(){
 			this._cmd='rent';
 			this.initDisplay();
 			this.selectLoadAssetRentData();
-			this.selectData();
 				break;
 		
 		case "tabs3":
 			this._cmd='qcw';
 			this.initDisplay();
 			this.selectLoadQcMngWrtData();
-			this.selectData();
+			
 			 	break;
 		
 		case "tabs4":
 			this._cmd='maint';
 			this.initDisplay();
 			this.selectLoadMaintMngData();
-			this.selectData();
 				break;
 
 		
@@ -516,7 +524,6 @@ GamFcltyUsageSttusInqireModule.prototype.initDisplay = function(){
 			this._cmd='repair';
 			this.initDisplay();
 			this.selectLoadRepairMngData();
-			this.selectData();
 				break;
 		}
 		return true;
