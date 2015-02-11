@@ -461,7 +461,7 @@ public class GamFcltyQcwWrtMngController {
 
 
 	/**
-	 * 정보통신 점검표 인쇄
+	 * 정보통신 시설물 점검표 인쇄
 	 * @param map
 	 * @return 
 	 * @throws Exception
@@ -507,6 +507,58 @@ public class GamFcltyQcwWrtMngController {
     	model.addAttribute("detailData", detailData);
     	
     	return "/ygpa/gam/fcltyMng/GamFcltyQcPrintI";
+	}
+
+
+	/**
+	 * 전기 시설물 점검표 인쇄
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value="/fcltyMng/selectFcltyQcPrintE.do")
+	public String selectFcltyQcPrintE(@RequestParam Map<String, Object> qcPrintOpt, ModelMap model) throws Exception {
+		String printPageName = null;
+		
+		ObjectMapper mapper = new ObjectMapper();
+		GamFcltyQcwWrtMngVO searchVO = null;
+		List qcResultItemList = null;
+		int resultCnt = 0;
+		
+		searchVO = mapper.convertValue(qcPrintOpt, GamFcltyQcwWrtMngVO.class);
+		
+		searchVO.setsFcltsJobSe(searchVO.getFcltsJobSe());
+		searchVO.setsFcltsMngGroupNo(searchVO.getFcltsMngGroupNo());
+		searchVO.setsQcMngSeq(searchVO.getQcMngSeq());
+		
+		    	
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		
+		if(!isAuthenticated) {
+			model.addAttribute("resultCode", 1);
+			model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+	    	return printPageName;
+		}
+		
+		EgovMap detailData = gamFcltyQcwWrtMngService.selectQcMngDtlsDetail(searchVO);
+				
+		resultCnt = gamFcltyQcwWrtMngService.selectQcMngResultItemListTotCnt(searchVO);
+		if(resultCnt > 0) {
+			qcResultItemList = gamFcltyQcwWrtMngService.selectQcMngResultItemList(searchVO);
+		} else {
+			searchVO.setsFcltsMngGroupNo(null);
+			searchVO.setsQcMngSeq("");
+			qcResultItemList = gamFcltyQcwWrtMngService.selectQcMngResultItemList(searchVO);
+		}    		
+		
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+		model.addAttribute("resultList", qcResultItemList);
+		model.addAttribute("detailData", detailData);
+		
+		
+		return "/ygpa/gam/fcltyMng/GamFcltyQcPrintE";
 	}
 
 }

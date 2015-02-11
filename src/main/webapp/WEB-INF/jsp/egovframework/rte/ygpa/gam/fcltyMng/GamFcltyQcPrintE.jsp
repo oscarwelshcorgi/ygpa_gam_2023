@@ -7,8 +7,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
   /**
-  * @Class Name : GamFcltyQcPrintA.jsp
-  * @Description : 건축 시설물 점검표 인쇄
+  * @Class Name : GamFcltyQcPrintE.jsp
+  * @Description : 전기 시설물 점검표 인쇄
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -42,27 +42,26 @@
 	</script>
 </head>
 <body>
-  <c:set var="pagePerCount" value="40"/>
+  <c:set var="pagePerCount" value="35"/>
   <c:set var="qcItemUpperCd" value=""/>
   <c:set var="upperCount" value="0"/>
   <c:set var="itemUpperCdCount" value="0" />
-  <c:set var="startChar" value=""/>
   
   <c:if test="${resultCode==0 }">
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
     <div class="page">
         <div class="subpage ygpa_report" >
-	    	<h1 class="ygpa_report_h1">건축시설점검표</h1>
+	    	<h1 class="ygpa_report_h1">전기시설점검표</h1>
 		<span>○ 시설명 : <c:out value="${detailData['fcltsMngGroupNm']}"></c:out></span>
 		<div style="text-align:right">※　정상 : ○　　요주의 : △　　불량 : ×</div>
 	<c:if test="${fn:length(resultList) == 0}">
 		<table class="rpr_main_table">
 	  		<thead>
 	  			<tr>
-	  				<th width="15%" style="background:#ffffff">시실명</th>
-	  				<th width="60%" style="background:#ffffff">점검사항</th>
-	  				<th width="15%" style="background:#ffffff">결과</th>
+	  				<th width="20%" style="background:#ffffff">시실명</th>
+	  				<th width="50%" style="background:#ffffff">점검사항</th>
+	  				<th width="20%" style="background:#ffffff">결과</th>
 	  				<th width="10%" style="background:#ffffff">비고</th>
 				</tr>
 	  		</thead>
@@ -85,9 +84,9 @@
        		        	<table class="rpr_main_table">
 			        		<thead>
 				       			<tr>
-					  				<th width="15%" style="background:#ffffff">시실명</th>
-					  				<th width="60%" style="background:#ffffff">점검사항</th>
-					  				<th width="15%" style="background:#ffffff">결과</th>
+					  				<th width="20%" style="background:#ffffff">시실명</th>
+					  				<th width="50%" style="background:#ffffff">점검사항</th>
+					  				<th width="20%" style="background:#ffffff">결과</th>
 					  				<th width="10%" style="background:#ffffff">비고</th>
 					  			</tr>
 			        		</thead>
@@ -107,10 +106,6 @@
         						<c:set var="inspResultChk" value="" />
         					</c:otherwise>
         				</c:choose>
-        				<c:set var="startChar" value="○"/>
-        				<c:if test="${result.depthSort gt 3}">
-        					<c:set var="startChar" value="　-　"/>
-        				</c:if>
 	        			<c:choose>
 	        				<c:when test="${qcItemUpperCd ne result.qcItemUpperCd }">
 	        					<c:set var="qcItemUpperCd" value="${result.qcItemUpperCd}" />
@@ -119,18 +114,18 @@
 	        					<c:choose>
 	        						<c:when test="${itemUpperCdCount gt 1}">
 	        							<tr>
-		        						<td rowspan="${itemUpperCdCount}" style="background:#ffffff; text-align:center; font-size:11px;"><c:out value="${result.qcItemUpperNm }" /></td>
-		        						<td style="border-bottom:0; background:#ffffff; font-size:11px;"><c:out value="${startChar}" /><c:out value="${result.qcItemNm }" /></td>
-		        						<td style="border-bottom:0; background:#ffffff; text-align:center; font-size:11px;"><c:out value="${inspResultChk }" /></td>
-		        						<td style="border-bottom:0; background:#ffffff; font-size:11px;"></td>
+		        						<td rowspan="${itemUpperCdCount}" style="background:#ffffff; text-align:center;"><c:out value="${result.qcItemUpperNm }" /></td>
+		        						<td style="border-bottom:0; background:#ffffff"><c:out value="${result.qcItemNm }" /></td>
+		        						<td style="border-bottom:0; background:#ffffff; text-align:center"><c:out value="${inspResultChk }" /></td>
+		        						<td style="border-bottom:0; background:#ffffff"></td>
 		        						</tr>
 	        						</c:when>
 	        						<c:otherwise>
 	        							<tr>
-		        						<td style="background:#ffffff; text-align:center; font-size:11px;"><c:out value="${result.qcItemUpperNm }" /></td>
-		        						<td style="background:#ffffff; font-size:11px;"><c:out value="${startChar}" /><c:out value="${result.qcItemNm }" /></td>
-		        						<td style="background:#ffffff; text-align:center; font-size:11px;"><c:out value="${inspResultChk }" /></td>
-		        						<td style="background:#ffffff; font-size:11px;"></td>
+		        						<td style="background:#ffffff; text-align:center;"><c:out value="${result.qcItemUpperNm }" /></td>
+		        						<td style="background:#ffffff"><c:out value="${result.qcItemNm }" /></td>
+		        						<td style="background:#ffffff; text-align:center"><c:out value="${inspResultChk }" /></td>
+		        						<td style="background:#ffffff"></td>
 		        						</tr>
 	        						</c:otherwise>
 	        					</c:choose>
@@ -140,16 +135,16 @@
 	        					<c:choose>
 	        						<c:when test="${upperCount ge result.qcItemUpperCdCount}">
 	        							<tr>
-		        						<td style="background:#ffffff; font-size:11px;"><c:out value="${startChar}" /><c:out value="${result.qcItemNm }" /></td>
-		        						<td style="background:#ffffff; text-align:center; font-size:11px;"><c:out value="${inspResultChk }" /></td>
-		        						<td style="background:#ffffff; font-size:11px;"></td>
+		        						<td style="background:#ffffff;"><c:out value="${result.qcItemNm }" /></td>
+		        						<td style="background:#ffffff; text-align:center"><c:out value="${inspResultChk }" /></td>
+		        						<td style="background:#ffffff;"></td>
 		        						</tr>
 	        						</c:when>
 	        						<c:otherwise>
 	        							<tr>
-		        						<td style="border-bottom:0; background:#ffffff; font-size:11px;"><c:out value="${startChar}" /><c:out value="${result.qcItemNm }" /></td>
-		        						<td style="border-bottom:0; background:#ffffff; text-align:center; font-size:11px;"><c:out value="${inspResultChk }" /></td>
-		        						<td style="border-bottom:0; background:#ffffff; font-size:11px;"></td>
+		        						<td style="border-bottom:0; background:#ffffff"><c:out value="${result.qcItemNm }" /></td>
+		        						<td style="border-bottom:0; background:#ffffff; text-align:center"><c:out value="${inspResultChk }" /></td>
+		        						<td style="border-bottom:0; background:#ffffff"></td>
 		        						</tr>
 	        						</c:otherwise>
 	        					</c:choose>
@@ -160,7 +155,7 @@
         		<tfoot>
         		</tfoot>
         	</table>
-        	<div style="height:20px;"></div>
+        	<div style="height:50px;"></div>
 	        <c:choose>
 	        	<c:when test="${empty detailData['wrtDt'] }">
 					<div style="text-align:right">점검일자 : <c:out value="　　. 　. 　." /></div>	        		
