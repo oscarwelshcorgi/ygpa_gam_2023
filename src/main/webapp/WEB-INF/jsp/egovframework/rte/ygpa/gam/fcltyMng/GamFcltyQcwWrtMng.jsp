@@ -440,6 +440,7 @@ GamFcltyQcwWrtMngModule.prototype.setPrintUrl = function() {
 		if(this.$('#mechFcltsSe').val() == "1"){
 			this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcPrintM1.do');
 		}else{
+			// 기계설비 점검표 인쇄
 			this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcPrintM2.do');
 		}
 	}
@@ -658,8 +659,10 @@ GamFcltyQcwWrtMngModule.prototype.loadQcSubDataList = function() {
 		if(this.$('#fcltsJobSe').val() == 'M') {
 			if(this.$('#mechFcltsSe').val() == '1') {
 				searchVO[searchVO.length] = { name: 'sMechCdStartChar', value: 'M02' };
+				this.$('#sMechCdStartChar').val('M02');
 			} else {
 				searchVO[searchVO.length] = { name: 'sMechCdStartChar', value: 'M01' };
+				this.$('#sMechCdStartChar').val('M01');
 			}
 			this.$('#mechFcltsSe').show();
 		} else {
@@ -1180,6 +1183,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 						<td width="70%">
 							<!-- 2.1.3.1.1 Element Table -->
 							<form id="detailForm">
+							<input type="hidden" id="sMechCdStartChar">
 							<table  class="detailPanel"  style="width:100%;">
 								<tr>
 									<th width="14%">관　리　그　룹</th>
