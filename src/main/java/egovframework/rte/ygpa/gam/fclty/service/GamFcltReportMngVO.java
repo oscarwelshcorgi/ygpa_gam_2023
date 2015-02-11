@@ -45,6 +45,10 @@ public class GamFcltReportMngVO extends ComDefaultVO {
     private String planHistSe;
     
     
+    /** 시설물업무구분 */
+    private String fcltsJobSe;
+    
+    
     
     
 
@@ -88,6 +92,20 @@ public class GamFcltReportMngVO extends ComDefaultVO {
 	 */
 	public void setPlanHistSe(String planHistSe) {
 		this.planHistSe = planHistSe;
+	}
+
+	/**
+	 * @return the fcltsJobSe
+	 */
+	public String getFcltsJobSe() {
+		return fcltsJobSe;
+	}
+
+	/**
+	 * @param fcltsJobSe the fcltsJobSe to set
+	 */
+	public void setFcltsJobSe(String fcltsJobSe) {
+		this.fcltsJobSe = fcltsJobSe;
 	}
 
 }

@@ -101,7 +101,14 @@
 			QC_MNG_DTLS_F Q 
 		WHERE 
 			Q.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo# 
-			AND Q.PLAN_HIST_SE = #planHistSe#
+			AND Q.PLAN_HIST_SE = #planHistSe# 
+			
+			<isNotEmpty property="fcltsJobSe">
+			AND Q.FCLTS_JOB_SE = #fcltsJobSe#
+			</isNotEmpty>
+			
+		ORDER BY 
+			Q.QC_INSP_DT ASC
 		
     </select>
 
@@ -148,7 +155,14 @@
 			MNTN_RPR_DTLS_F M 
 		WHERE 
 			M.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			AND M.PLAN_HIST_SE = #planHistSe#
+			AND M.PLAN_HIST_SE = #planHistSe# 
+			
+			<isNotEmpty property="fcltsJobSe">
+			AND M.FCLTS_JOB_SE = #fcltsJobSe#
+			</isNotEmpty>
+			
+		ORDER BY 
+			M.MNTN_RPR_CNST_START_DT ASC
 		
     </select>
 
