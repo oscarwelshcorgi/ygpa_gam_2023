@@ -243,12 +243,24 @@ public class GamFcltyQcSttusInqireController {
     	}
     	
     	List resultList = null;
-    	if(searchVO.getsFcltsJobSe().equals("M"))
+    	
+    	if(searchVO.getsFcltsJobSe().equals("M")) {
+    		//업무구분이 기계시설일 경우
     		resultList = gamFcltyQcSttusInqireService.selectMechQcMngResultItemList(searchVO);
-    	else if(searchVO.getsFcltsJobSe().equals("A"))
-    		resultList = gamFcltyQcSttusInqireService.selectArchQcMngResultItemList(searchVO);
-    	else 
-    		resultList = gamFcltyQcSttusInqireService.selectQcMngResultItemList(searchVO);
+    	}
+    	else {
+	    	int resultCnt = gamFcltyQcSttusInqireService.selectQcMngResultItemListTotCnt(searchVO);
+	    	
+	    	if(resultCnt > 0) {
+	    		//갯수가 0이상이면 해당 점검조건에 대한 리스트이므로 그대로 보여준다.
+	    		resultList = gamFcltyQcSttusInqireService.selectQcMngResultItemList(searchVO);
+	    	} else {
+	    		//갯수가 0이면 해당 점검조건 중에 업무구분에 해당하는 리스트만 보여준다.
+	    		searchVO.setsFcltsMngGroupNo(null);
+	    		searchVO.setsQcMngSeq("");
+	    		resultList = gamFcltyQcSttusInqireService.selectQcMngResultItemList(searchVO);
+	    	}
+    	}
     	
 		map.put("resultCode", 0);			// return ok
     	map.put("resultList", resultList);

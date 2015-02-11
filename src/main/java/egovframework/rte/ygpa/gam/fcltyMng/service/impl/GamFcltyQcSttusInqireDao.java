@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcSttusInqireVO;
+import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcwWrtMngVO;
 
 /**
  * 
@@ -91,6 +92,16 @@ public class GamFcltyQcSttusInqireDao extends YGPAAbstractDAO {
 	}	
 
 	/**
+	 * 점검관리결과항목 목록 갯수 조회
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */		
+	public int selectQcMngResultItemListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyQcSttusInqireDao.selectQcMngResultItemListTotCnt_S", searchVO);
+	}
+
+	/**
 	 * 기계 점검관리결과항목 목록 조회
 	 * @param vo
 	 * @return list
@@ -98,16 +109,6 @@ public class GamFcltyQcSttusInqireDao extends YGPAAbstractDAO {
 	 */		
 	public List<?> selectMechQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
 		return list("gamFcltyQcSttusInqireDao.selectMechQcMngResultItemList_D", searchVO);
-	}	
-
-	/**
-	 * 건축 점검관리결과항목 목록 조회
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */		
-	public List<?> selectArchQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return list("gamFcltyQcSttusInqireDao.selectArchQcMngResultItemList_D", searchVO);
-	}	
+	}
 	
 }

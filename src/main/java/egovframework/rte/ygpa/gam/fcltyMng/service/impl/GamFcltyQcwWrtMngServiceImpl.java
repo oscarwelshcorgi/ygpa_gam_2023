@@ -191,6 +191,16 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	}
 
 	/**
+	 * 기계 점검관리결과항목 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	public List<?> selectMechQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+		return gamFcltyQcwWrtMngDao.selectMechQcMngResultItemList(searchVO);
+	}
+	
+	/**
 	 * 출력물용 점검관리결과항목 목록 조회
 	 * @param vo
 	 * @return list

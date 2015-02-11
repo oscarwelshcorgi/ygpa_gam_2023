@@ -193,73 +193,58 @@
           	O.FCLTS_MNG_NO ASC, G.PRT_FCLTY_NM ASC
     </select>
 		
-	<!-- 일반적 점검관리결과항목목록 -->		
+	<!-- 점검관리결과항목목록 -->		
 	<select id="gamFcltyQcSttusInqireDao.selectQcMngResultItemList_D" parameterClass="gamFcltyQcSttusInqireVO" resultClass="egovMap">
-		SELECT
-			DECODE(R.INSP_RESULT_CHK, NULL, 'N', R.INSP_RESULT_CHK) INSP_RESULT_CHK 
-			, I.QC_ITEM_NM
-			, I.QC_ITEM_UPPER_CD
-			, (SELECT S.QC_ITEM_NM FROM QC_ITEM_CD_F S WHERE S.QC_ITEM_CD = I.QC_ITEM_UPPER_CD ) QC_ITEM_UPPER_NM
-			, I.QC_ITEM_CD
-			, GAM_GET_INSP_RESULT_CHK_NM(INSP_RESULT_CHK) INSP_RESULT_CHK_NM
-		FROM
-			QC_ITEM_CD_F I
-		LEFT OUTER JOIN
-			QC_MNG_RESULT_ITEM_F R
-		ON
-			I.QC_ITEM_CD = R.QC_ITEM_CD
-			AND I.FCLTS_JOB_SE = R.FCLTS_JOB_SE
-     		AND R.QC_MNG_SEQ = #sQcMngSeq#
-		WHERE
-			I.LEAF_YN = 'Y'
-			AND I.FCLTS_JOB_SE = #sFcltsJobSe#
-		    <isNotEmpty property="sFcltsMngGroupNo">
-		    	AND R.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
-		   	</isNotEmpty>
-		ORDER BY
-			I.QC_ITEM_UPPER_CD 
-			,I.QC_ITEM_CD
-  	</select>
-  	
-	<!-- 기계 점검관리결과항목목록 -->		
-	<select id="gamFcltyQcSttusInqireDao.selectMechQcMngResultItemList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
-		SELECT
-			DECODE(R.INSP_RESULT_CHK, NULL, 'N', R.INSP_RESULT_CHK) INSP_RESULT_CHK 
-			, I.QC_ITEM_UPPER_CD
-			, (SELECT S.QC_ITEM_NM FROM QC_ITEM_CD_F S WHERE S.QC_ITEM_CD = I.QC_ITEM_UPPER_CD ) QC_ITEM_UPPER_NM
-			, I.QC_ITEM_CD
-			, GAM_GET_INSP_RESULT_CHK_NM(INSP_RESULT_CHK) INSP_RESULT_CHK_NM
-		FROM
-			QC_ITEM_CD_F I
-		LEFT OUTER JOIN
-			QC_MNG_RESULT_ITEM_F R
-		ON
-			I.QC_ITEM_CD = R.QC_ITEM_CD
-			AND I.FCLTS_JOB_SE = R.FCLTS_JOB_SE
-     		AND R.QC_MNG_SEQ = #sQcMngSeq#
-		WHERE
-			I.LEAF_YN = 'Y'
-			AND I.FCLTS_JOB_SE = 'M'
-		    <isNotEmpty property="sFcltsMngGroupNo">
-		    	AND R.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
-		   	</isNotEmpty>
-		    <isNotEmpty property="sMechCdStartChar">
-		    	AND I.QC_ITEM_CD LIKE #sMechCdStartChar# || '%'
-		   	</isNotEmpty>
-		ORDER BY
-			I.QC_ITEM_UPPER_CD 
-			,I.QC_ITEM_CD
-  	</select>
-
-	<!-- 건축 점검관리결과항목목록 -->		
-	<select id="gamFcltyQcSttusInqireDao.selectArchQcMngResultItemList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
 		SELECT
 			A.QC_ITEM_UPPER_CD
 			, (SELECT QC_ITEM_NM FROM QC_ITEM_CD_F WHERE QC_ITEM_CD = A.QC_ITEM_UPPER_CD) QC_ITEM_UPPER_NM
 			, A.QC_ITEM_CD
 			, A.QC_ITEM_NM
 			, A.INSP_RESULT_CHK
-			, GAM_GET_INSP_RESULT_CHK_NM(A.INSP_RESULT_CHK) INSP_RESULT_CHK_NM
+		FROM
+			(
+				SELECT
+					(CASE WHEN I.DEPTH_SORT > 3 THEN RPAD(SUBSTRB(I.QC_ITEM_UPPER_CD,1,3),9,'0') ELSE I.QC_ITEM_UPPER_CD END) AS QC_ITEM_UPPER_CD
+					, I.QC_ITEM_CD
+					, (CASE WHEN I.DEPTH_SORT > 2 THEN LPAD(' ',(I.DEPTH_SORT - 3)*4,' ') || I.QC_ITEM_NM END) AS QC_ITEM_NM
+					, I.DEPTH_SORT
+					, ROW_NUMBER() OVER (PARTITION BY SUBSTRB(I.QC_ITEM_CD,1,3) ORDER BY I.QC_ITEM_CD) AS QC_ITEM_NO
+					, M.FCLTS_MNG_GROUP_NO
+					, M.FCLTS_JOB_SE
+					, M.QC_MNG_SEQ
+					, DECODE(R.INSP_RESULT_CHK, NULL, 'N', R.INSP_RESULT_CHK) INSP_RESULT_CHK
+					, GAM_GET_INSP_RESULT_CHK_NM(R.INSP_RESULT_CHK) INSP_RESULT_CHK_NM 
+				FROM
+					QC_ITEM_CD_F I
+				LEFT OUTER JOIN
+					QC_MNG_RESULT_ITEM_F R
+				ON
+					I.QC_ITEM_CD = R.QC_ITEM_CD
+					AND I.FCLTS_JOB_SE = R.FCLTS_JOB_SE
+			      	AND R.QC_MNG_SEQ = #sQcMngSeq#
+				LEFT OUTER JOIN
+					QC_MNG_DTLS_F M
+				ON
+					R.FCLTS_MNG_GROUP_NO = M.FCLTS_MNG_GROUP_NO
+					AND R.FCLTS_JOB_SE = M.FCLTS_JOB_SE
+					AND R.QC_MNG_SEQ = M.QC_MNG_SEQ
+				WHERE
+					I.FCLTS_JOB_SE = #sFcltsJobSe#
+					AND I.DEPTH_SORT >= 3
+				ORDER BY
+					I.QC_ITEM_CD
+			) A
+		WHERE
+			1 = 1
+		    <isNotEmpty property="sFcltsMngGroupNo">
+		    	AND A.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+		   	</isNotEmpty>
+  	</select>
+  	
+	<!-- 점검관리결과항목목록 갯수-->		
+	<select id="gamFcltyQcSttusInqireDao.selectQcMngResultItemListTotCnt_S" parameterClass="gamFcltyQcSttusInqireVO" resultClass="int">
+		SELECT
+			COUNT(*) TOT_CNT
 		FROM
 			(
 				SELECT
@@ -287,7 +272,7 @@
 					AND R.FCLTS_JOB_SE = M.FCLTS_JOB_SE
 					AND R.QC_MNG_SEQ = M.QC_MNG_SEQ
 				WHERE
-					I.FCLTS_JOB_SE = 'A'
+					I.FCLTS_JOB_SE = #sFcltsJobSe#
 					AND I.DEPTH_SORT >= 3
 				ORDER BY
 					I.QC_ITEM_CD
@@ -297,6 +282,37 @@
 		    <isNotEmpty property="sFcltsMngGroupNo">
 		    	AND A.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
 		   	</isNotEmpty>
-	</select>
+  	</select>
   	
+	<!-- 기계 점검관리결과항목목록 -->		
+	<select id="gamFcltyQcSttusInqireDao.selectMechQcMngResultItemList_D" parameterClass="gamFcltyQcSttusInqireVO" resultClass="egovMap">
+		SELECT
+			DECODE(R.INSP_RESULT_CHK, NULL, 'N', R.INSP_RESULT_CHK) INSP_RESULT_CHK 
+			, I.QC_ITEM_UPPER_CD
+			, (SELECT S.QC_ITEM_NM FROM QC_ITEM_CD_F S WHERE S.QC_ITEM_CD = I.QC_ITEM_UPPER_CD ) QC_ITEM_UPPER_NM
+			, I.QC_ITEM_CD
+			, I.QC_ITEM_NM
+			, GAM_GET_INSP_RESULT_CHK_NM(INSP_RESULT_CHK) INSP_RESULT_CHK_NM
+		FROM
+			QC_ITEM_CD_F I
+		LEFT OUTER JOIN
+			QC_MNG_RESULT_ITEM_F R
+		ON
+			I.QC_ITEM_CD = R.QC_ITEM_CD
+			AND I.FCLTS_JOB_SE = R.FCLTS_JOB_SE
+     		AND R.QC_MNG_SEQ = #sQcMngSeq#
+		WHERE
+			I.LEAF_YN = 'Y'
+			AND I.FCLTS_JOB_SE = 'M'
+		    <isNotEmpty property="sFcltsMngGroupNo">
+		    	AND R.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+		   	</isNotEmpty>
+		    <isNotEmpty property="sMechCdStartChar">
+		    	AND I.QC_ITEM_CD LIKE #sMechCdStartChar# || '%'
+		   	</isNotEmpty>
+		ORDER BY
+			I.QC_ITEM_UPPER_CD 
+			,I.QC_ITEM_CD
+  	</select>
+
 </sqlMap>

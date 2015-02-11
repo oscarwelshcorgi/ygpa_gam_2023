@@ -13,6 +13,7 @@ import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcSttusInqireService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcSttusInqireVO;
+import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcwWrtMngVO;
 
 /**
  * 
@@ -86,13 +87,23 @@ public class GamFcltyQcSttusInqireServiceImpl extends AbstractServiceImpl implem
 	}
 		
 	/**
-	 * 일반적 점검관리결과항목 목록 조회
+	 * 점검관리결과항목 목록 조회
 	 * @param vo
 	 * @return list
 	 * @throws Exception
 	 */		
 	public List<?> selectQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
 		return gamFcltyQcSttusInqireDao.selectQcMngResultItemList(searchVO);
+	}
+
+	/**
+	 * 점검관리결과항목 목록 개수 조회
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */		
+	public int selectQcMngResultItemListTotCnt(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return gamFcltyQcSttusInqireDao.selectQcMngResultItemListTotCnt(searchVO);
 	}
 
 	/**
@@ -103,16 +114,6 @@ public class GamFcltyQcSttusInqireServiceImpl extends AbstractServiceImpl implem
 	 */		
 	public List<?> selectMechQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
 		return gamFcltyQcSttusInqireDao.selectMechQcMngResultItemList(searchVO);
-	}
-
-	/**
-	 * 건축 점검관리결과항목 목록 조회
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */		
-	public List<?> selectArchQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
-		return gamFcltyQcSttusInqireDao.selectArchQcMngResultItemList(searchVO);
 	}
 	
 }

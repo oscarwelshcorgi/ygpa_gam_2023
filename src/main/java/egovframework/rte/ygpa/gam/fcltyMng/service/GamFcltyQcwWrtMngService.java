@@ -108,6 +108,14 @@ public interface GamFcltyQcwWrtMngService {
 	int selectQcMngResultItemListTotCnt(GamFcltyQcwWrtMngVO searchVO) throws Exception;
 	
 	/**
+	 * 기계 점검관리결과항목 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */		
+	List<?> selectMechQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception;
+
+	/**
 	 * 출력물용 점검관리결과항목 목록 조회
 	 * @param vo
 	 * @return list
