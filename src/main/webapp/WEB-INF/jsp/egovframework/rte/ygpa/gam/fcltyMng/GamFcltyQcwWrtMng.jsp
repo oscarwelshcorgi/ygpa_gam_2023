@@ -632,7 +632,7 @@ GamFcltyQcwWrtMngModule.prototype.loadQcSubDataList = function() {
 		}
 		if(this._mainmode == 'insert') {
 			searchVO[searchVO.length] = { name: 'sFcltsJobSe', value: this.$('#fcltsJobSe').val() };
-			searchVO[searchVO.length] = { name: 'sQcMngSeq', value: '' };
+			//searchVO[searchVO.length] = { name: 'sQcMngSeq', value: '' };
 		} 
 		else {
 			searchVO[searchVO.length] = { name: 'sFcltsJobSe', value: this.$('#fcltsJobSe').val() };

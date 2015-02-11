@@ -241,7 +241,7 @@ public class GamFcltyQcSttusInqireController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-
+    	
     	List resultList = null;
     	if(searchVO.getsFcltsJobSe().equals("M"))
     		resultList = gamFcltyQcSttusInqireService.selectMechQcMngResultItemList(searchVO);
@@ -254,5 +254,4 @@ public class GamFcltyQcSttusInqireController {
     	map.put("resultList", resultList);
     	return map;
     }
-
 }

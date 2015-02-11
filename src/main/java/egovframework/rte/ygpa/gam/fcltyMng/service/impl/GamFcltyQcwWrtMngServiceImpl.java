@@ -171,7 +171,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	}
 		
 	/**
-	 * 일반용 점검관리결과항목 목록 조회
+	 * 점검관리결과항목 목록 조회
 	 * @param vo
 	 * @return list
 	 * @throws Exception
@@ -181,25 +181,15 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	}
 
 	/**
-	 * 기계 점검관리결과항목 목록 조회
+	 * 점검관리결과항목 목록 개수 조회
 	 * @param vo
-	 * @return list
+	 * @return int
 	 * @throws Exception
 	 */		
-	public List<?> selectMechQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
-		return gamFcltyQcwWrtMngDao.selectMechQcMngResultItemList(searchVO);
+	public int selectQcMngResultItemListTotCnt(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+		return gamFcltyQcwWrtMngDao.selectQcMngResultItemListTotCnt(searchVO);
 	}
 
-	/**
-	 * 건축 점검관리결과항목 목록 조회
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */		
-	public List<?> selectArchQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
-		return gamFcltyQcwWrtMngDao.selectArchQcMngResultItemList(searchVO);
-	}
-	
 	/**
 	 * 출력물용 점검관리결과항목 목록 조회
 	 * @param vo

@@ -175,23 +175,13 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	}
 	
 	/**
-	 * 기계 점검관리결과항목 목록 조회
+	 * 점검관리결과항목 목록 갯수 조회
 	 * @param vo
-	 * @return list
+	 * @return int
 	 * @throws Exception
 	 */		
-	public List<?> selectMechQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
-		return list("gamFcltyQcwWrtMngDao.selectMechQcMngResultItemList_D", searchVO);
-	}
-
-	/**
-	 * 건축 점검관리결과항목 목록 조회
-	 * @param vo
-	 * @return list
-	 * @throws Exception
-	 */		
-	public List<?> selectArchQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
-		return list("gamFcltyQcwWrtMngDao.selectArchQcMngResultItemList_D", searchVO);
+	public int selectQcMngResultItemListTotCnt(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyQcwWrtMngDao.selectQcMngResultItemListTotCnt_S", searchVO);
 	}
 
 	/**
