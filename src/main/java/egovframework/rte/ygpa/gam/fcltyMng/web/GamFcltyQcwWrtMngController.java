@@ -458,6 +458,8 @@ public class GamFcltyQcwWrtMngController {
 		model.addAttribute("resultMsg", "");
     	model.addAttribute("resultList", qcResultItemList);
     	model.addAttribute("detailData", detailData);
-    	return printPageName;
+    	
+    	
+    	return "/ygpa/gam/fcltyMng/GamFcltyQcPrintA";
 	}
 }
