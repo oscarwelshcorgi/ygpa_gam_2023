@@ -6,6 +6,12 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamMechFcltySpecMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamMechFcltySpecMngVO"/>
     
+    
+    <resultMap id="gamMechFcltySpecMngSumMap" class="gamMechFcltySpecMngVO">
+		<result property="totCnt" column="TOT_CNT" columnIndex="1"/>
+		<result property="sumMfcAmt" column="SUM_MFC_AMT" columnIndex="2"/>
+	</resultMap>
+    
     <select id="gamMechFcltySpecMngDao.selectMechFcltySpecMngList_D" parameterClass="gamMechFcltySpecMngVO" resultClass="egovMap">
         SELECT A.*
            FROM (
@@ -31,7 +37,6 @@
 						  , F.LO_CRDNT
 						  , F.LAT
 						  , F.LNG
-						  , GAM_GETCODENAME('GAM067', F.GIS_PRT_FCLTY_CD) PRT_FCLTY_SE_NM
 						  , F.FCLTS_MNG_NO
 						  , A.GIS_ASSETS_NM
 						  , A.GIS_ASSETS_LOCPLC
@@ -41,7 +46,8 @@
 						  , GAM_GETCODENAME('GAM002', A.GIS_ASSETS_LOC_CD) GIS_ASSETS_LOC_NM
 						  , (SELECT FCLTS_MNG_GROUP_NM FROM FCLTS_MNG_GROUP_F WHERE FCLTS_MNG_GROUP_NO = F.FCLTS_MNG_GROUP_NO) FCLTS_MNG_GROUP_NO_NM 
 						  , M.LOC
-						  , M.EQPMN_NM
+						  , M.EQPMN_NO
+						  , M.MFC_AMT
 						FROM
 						  GIS_PRT_FCLTY_CD_F F,
 						  GIS_ASSETS_CD_F A,
@@ -78,9 +84,10 @@
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
     
-    <select id="gamMechFcltySpecMngDao.selectMechFcltySpecMngListTotCnt_S" parameterClass="gamMechFcltySpecMngVO" resultClass="int">
+    <select id="gamMechFcltySpecMngDao.selectMechFcltySpecMngListTotCnt_S" parameterClass="gamMechFcltySpecMngVO" resultMap="gamMechFcltySpecMngSumMap">
     	SELECT 
-    	  COUNT(*) TOTCNT
+    	  COUNT(*) TOT_CNT
+		  , NVL(SUM(M.MFC_AMT),0) AS SUM_MFC_AMT
 		FROM
 		  GIS_PRT_FCLTY_CD_F F,
 		  GIS_ASSETS_CD_F A,
@@ -168,6 +175,7 @@
 			, M.RM
 			, M.MECH_FCLTS_CL_CD
 			, (SELECT FCLTS_CL_CD_NM FROM FCLTS_CL_CD_F WHERE FCLTS_CL_CD = M.MECH_FCLTS_CL_CD) MECH_FCLTS_CL_CD_NM
+			, M.RATE_WGHT 
     	FROM
     		GIS_PRT_FCLTY_CD_F F
     		, MECH_FCLTY_SPEC_F M
@@ -215,6 +223,7 @@
 			, MECH_FCLTS_CL_CD
 		    , REG_USR
 		    , REGIST_DT
+		    , RATE_WGHT 
 		  )
 		  VALUES (
 		    #gisAssetsPrtAtCode# || #gisAssetsCd# || #gisAssetsSubCd# || #gisPrtFcltyCd# || #gisPrtFcltySeq# || #prtFcltySe# 
@@ -253,6 +262,7 @@
 			, #mechFcltsClCd#
 		    , #regUsr#
 		    , SYSDATE
+		    , #rateWght#
 		  )
     </insert>
     
@@ -294,6 +304,7 @@
 		    , MECH_FCLTS_CL_CD = #mechFcltsClCd#
 		    , UPD_USR = #updUsr#
 		    , UPDT_DT = SYSDATE
+		    , RATE_WGHT = #rateWght#
 		  WHERE
 		    FCLTS_MNG_NO = #fcltsMngNo#
     </update>

@@ -82,6 +82,8 @@ public class GamMechFcltySpecInqireController {
 	@ResponseBody Map<String, Object> selectMechFcltySpecMngList(GamMechFcltySpecInqireVO searchVO) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
+		int totCnt;
+		long sumMfcAmt;
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -102,13 +104,17 @@ public class GamMechFcltySpecInqireController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		List resultList = gamMechFcltySpecInqireService.selectMechFcltySpecInqireList(searchVO);
-		int totCnt = gamMechFcltySpecInqireService.selectMechFcltySpecInqireListTotCnt(searchVO);
+		GamMechFcltySpecInqireVO sumData = gamMechFcltySpecInqireService.selectMechFcltySpecInqireListTotCnt(searchVO);
+		
+		totCnt = sumData.getTotCnt();
+		sumMfcAmt = sumData.getSumMfcAmt();
 		
         paginationInfo.setTotalRecordCount(totCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
+    	map.put("sumMfcAmt", sumMfcAmt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
 

@@ -41,7 +41,7 @@ public interface GamMechFcltySpecInqireService {
 	 * @return int
 	 * @throws Exception
 	 */
-	int selectMechFcltySpecInqireListTotCnt(GamMechFcltySpecInqireVO searchVO)throws Exception;
+	GamMechFcltySpecInqireVO selectMechFcltySpecInqireListTotCnt(GamMechFcltySpecInqireVO searchVO)throws Exception;
 
 	/**
 	 * 기계시설제원관리 데이터 조회

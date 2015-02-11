@@ -42,7 +42,7 @@ public interface GamMechFcltySpecMngService {
 	 * @return int
 	 * @throws Exception
 	 */		
-	int selectMechFcltySpecMngListTotCnt(GamMechFcltySpecMngVO searchVO) throws Exception;
+	GamMechFcltySpecMngVO selectMechFcltySpecMngListTotCnt(GamMechFcltySpecMngVO searchVO) throws Exception;
 
 	/**
 	 * 기계시설재원관리 데이터 조회

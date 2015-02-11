@@ -45,8 +45,8 @@ public class GamMechFcltySpecInqireDao extends YGPAAbstractDAO {
 	 * @param searchVO
 	 * @return
 	 */
-	public int selectMechFcltySpecInqireListTotCnt(GamMechFcltySpecInqireVO searchVO) throws Exception {
-		return (Integer)getSqlMapClientTemplate().queryForObject("gamMechFcltySpecInqireDao.selectMechFcltySpecInqireListTotCnt_S", searchVO);
+	public GamMechFcltySpecInqireVO selectMechFcltySpecInqireListTotCnt(GamMechFcltySpecInqireVO searchVO) throws Exception {
+		return (GamMechFcltySpecInqireVO) selectByPk("gamMechFcltySpecInqireDao.selectMechFcltySpecInqireListTotCnt_S", searchVO);
 	}
 
 	/**

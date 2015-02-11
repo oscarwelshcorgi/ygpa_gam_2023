@@ -57,7 +57,7 @@ public class GamMechFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	 * @return int
 	 * @throws Exception
 	 */		
-	public int selectMechFcltySpecMngListTotCnt(GamMechFcltySpecMngVO searchVO) throws Exception {
+	public GamMechFcltySpecMngVO selectMechFcltySpecMngListTotCnt(GamMechFcltySpecMngVO searchVO) throws Exception {
 		return gamMechFcltySpecMngDao.selectMechFcltySpecMngListTotCnt(searchVO);
 	}
 

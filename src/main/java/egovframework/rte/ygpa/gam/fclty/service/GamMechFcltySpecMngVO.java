@@ -45,6 +45,14 @@ public class GamMechFcltySpecMngVO extends ComDefaultVO {
 
 	/** 시설물 관리 번호 (조회조건-첨부파일정보출력시 사용) **/
 	private String sFcltsMngNo;
+	
+	/** 자료수 */
+	private int totCnt;
+	
+	/** 장비가액합계 */
+	private long sumMfcAmt;
+	
+	
 
 	/**
 	 * @return the sPrtAtCode
@@ -128,6 +136,34 @@ public class GamMechFcltySpecMngVO extends ComDefaultVO {
 	 */
 	public void setsFcltsMngNo(String sFcltsMngNo) {
 		this.sFcltsMngNo = sFcltsMngNo;
+	}
+
+	/**
+	 * @return the totCnt
+	 */
+	public int getTotCnt() {
+		return totCnt;
+	}
+
+	/**
+	 * @param totCnt the totCnt to set
+	 */
+	public void setTotCnt(int totCnt) {
+		this.totCnt = totCnt;
+	}
+
+	/**
+	 * @return the sumMfcAmt
+	 */
+	public long getSumMfcAmt() {
+		return sumMfcAmt;
+	}
+
+	/**
+	 * @param sumMfcAmt the sumMfcAmt to set
+	 */
+	public void setSumMfcAmt(long sumMfcAmt) {
+		this.sumMfcAmt = sumMfcAmt;
 	}
 
 }

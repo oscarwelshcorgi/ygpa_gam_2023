@@ -55,7 +55,7 @@ public class GamMechFcltySpecInqireServiceImpl extends AbstractServiceImpl imple
 	 * @throws Exception
 	 */
 	@Override
-	public int selectMechFcltySpecInqireListTotCnt(GamMechFcltySpecInqireVO searchVO) throws Exception {
+	public GamMechFcltySpecInqireVO selectMechFcltySpecInqireListTotCnt(GamMechFcltySpecInqireVO searchVO) throws Exception {
 		return gamMechFcltySpecInqireDao.selectMechFcltySpecInqireListTotCnt(searchVO);
 	}
 

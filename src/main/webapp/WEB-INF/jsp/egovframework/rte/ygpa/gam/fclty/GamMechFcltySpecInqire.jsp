@@ -59,15 +59,16 @@ GamMechFcltySpecInqireModule.prototype.loadComplete = function(params) {
 		colModel : [
 					{display:"항구분",		name:"gisAssetsPrtAtName",	width:80,		sortable:false,		align:"center"},
 					{display:"시설명",		name:"prtFcltyNm",			width:280,		sortable:false,		align:"left"},
-					{display:"장비명",		name:"eqpmnNm",				width:120,		sortable:false,		align:"left"},
+					{display:"장비번호",		name:"eqpmnNo",				width:120,		sortable:false,		align:"left"},
 					{display:"소재지",		name:"loc",					width:180,		sortable:false,		align:"left"},
 					{display:"시설물관리그룹",	name:"fcltsMngGroupNoNm",	width:120,		sortable:false,		align:"left"},
-					{display:"시설분류",	 	name:"prtFcltySeNm",		width:80,		sortable:false,		align:"left"},
+					{display:"장비가액",	 	name:"mfcAmt",				width:150,		sortable:false,		align:"right",		displayFormat: 'number'},
 					{display:"설치일자",		name:"prtFcltyInstlDt",		width:80,		sortable:false,		align:"center"}
 			],
 		height: 'auto',
 		preProcess : function(module,data) {
 			module.$('#totalCount').val($.number(data.totalCount));
+			module.$('#sumMfcAmt').val($.number(data.sumMfcAmt));
 			return data;
 		}
 	});
@@ -258,16 +259,19 @@ GamMechFcltySpecInqireModule.prototype.changedDetailSubFormArea = function() {
 			this.$('#detailSubFormArea_2').hide();
 			this.$('#detailSubFormArea_3').hide();
 			this.$('#detailSubFormArea_1').show();
+			this.$('#rateWghtArea').show();
 			break;
 		case '2' : 
 			this.$('#detailSubFormArea_1').hide();
 			this.$('#detailSubFormArea_3').hide();
 			this.$('#detailSubFormArea_2').show();
+			this.$('#rateWghtArea').hide();
 			break;
 		case '3' : 
 			this.$('#detailSubFormArea_1').hide();
 			this.$('#detailSubFormArea_2').hide();
 			this.$('#detailSubFormArea_3').show();
+			this.$('#rateWghtArea').hide();
 			break;
 	}
 };
@@ -525,6 +529,8 @@ var module_instance = new GamMechFcltySpecInqireModule();
 							<tr>
 								<th style="width:6%; height:20; text-align:center;">자료수</th>
 								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
+								<th style="width:6%; height:20; text-align:center;">총장비가액</th>
+								<td><input type="text" size="20" id="sumMfcAmt" class="ygpaNumber" disabled="disabled"/></td>
 								<td style="text-align:right;">
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
 	                                <button data-role="showMap" data-gis-layer="gisMechFclty" data-flexi-grid="mainGrid" data-style="default">맵조회</button>
@@ -579,7 +585,9 @@ var module_instance = new GamMechFcltySpecInqireModule();
 							</td>
 							<th width="12%" height="17" class="required_text">기계시설물구분</th>
 							<td>
-								<input type="text" id="mechFcltsSeNm" size="32" disabled="disabled">
+								<input type="text" id="mechFcltsSeNm" size="20" disabled="disabled">
+								&nbsp;&nbsp;&nbsp;
+								<span id="rateWghtArea">정격하중 <input type="text" id="rateWght" style="width:60px;" disabled="disabled" class="ygpaNumber"></span>
 								<input type="hidden" id="mechFcltsSe">
 							</td>
 						</tr>

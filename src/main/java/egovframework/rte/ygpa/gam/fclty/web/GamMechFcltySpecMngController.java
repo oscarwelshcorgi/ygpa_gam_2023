@@ -91,6 +91,8 @@ public class GamMechFcltySpecMngController {
 	@ResponseBody Map selectMechFcltySpecMngList(GamMechFcltySpecMngVO searchVO) throws Exception {
 
 		Map map = new HashMap();
+		int totCnt;
+		long sumMfcAmt;
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -111,13 +113,17 @@ public class GamMechFcltySpecMngController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		List resultList = gamMechFcltySpecMngService.selectMechFcltySpecMngList(searchVO);
-		int totCnt = gamMechFcltySpecMngService.selectMechFcltySpecMngListTotCnt(searchVO);
+		GamMechFcltySpecMngVO sumData = gamMechFcltySpecMngService.selectMechFcltySpecMngListTotCnt(searchVO);
+		
+		totCnt = sumData.getTotCnt();
+		sumMfcAmt = sumData.getSumMfcAmt();
 		
         paginationInfo.setTotalRecordCount(totCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
 		map.put("resultCode", 0);			// return ok
     	map.put("totalCount", totCnt);
+    	map.put("sumMfcAmt", sumMfcAmt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
     	return map;

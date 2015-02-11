@@ -75,6 +75,7 @@ public class GamFcltReportMngController {
 
     	Map map = new HashMap();
     	EgovMap result = null;
+    	String fcltsNo, fcltsSe;
     	
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -117,7 +118,8 @@ public class GamFcltReportMngController {
     	//보수.보강이력 리스트 총갯수
     	int mntnResultHistListTotalCount = gamFcltReportMngService.selectFcleMntnRprMngListTotalCount(searchVO);
     	
-		
+    	fcltsNo = searchVO.getFcltsNo();
+    	fcltsSe = fcltsNo.substring(0,1);
     	
         model.addAttribute("result", result);
         
@@ -130,6 +132,8 @@ public class GamFcltReportMngController {
         model.addAttribute("resultHistListTotalCount", resultHistListTotalCount);
         model.addAttribute("mntnResultHistList", mntnResultHistList);
         model.addAttribute("mntnResultHistListTotalCount", mntnResultHistListTotalCount);
+        
+        model.addAttribute("fcltsSe", fcltsSe);
         
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");

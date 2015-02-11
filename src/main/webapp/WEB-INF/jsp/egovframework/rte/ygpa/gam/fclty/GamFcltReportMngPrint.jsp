@@ -148,7 +148,7 @@
         			</tr>
         			<tr height="40px">
         				<td colspan="3" style="text-align:left;font-size:13px;border-right:0;"> ▷ 비고</td>
-        				<td colspan="8" style="text-align:center;font-size:13px;border-left:0;word-break:break-all;"> <c:out value="${result.basicRm }" /></td>
+        				<td colspan="8" style="text-align:left;font-size:13px;border-left:0;word-break:break-all;"> <c:out value="${result.basicRm }" /></td>
         			</tr>
         		</tbody>  
         	</table>
@@ -158,7 +158,241 @@
     <div class="page">
         <div class="subpage ygpa_report" >
         	<div style="height:40px;text-align:left;vertical-align:middle;border-top:1px red;font-size:20px;"> 2. 상세제원</div>
+<!-- A이면 건축, B이면 토목->교량 아니면 토목(H)으로 인쇄화면 디스플레이 처리 -->
+<c:choose>
+	<c:when test="${fcltsSe == 'A' }">
     		<table style="width:100%;" class="rpr_form_table">
+        		<tbody>
+        			<tr height="30px">
+        				<td colspan="2" rowspan="2" style="width:120px;text-align:center;font-size:13px;">시설물명</td>
+        				<td colspan="2" rowspan="2" style="width:140px;text-align:center;font-size:13px;">주용도</td>
+        				<td colspan="4" style="text-align:center;font-size:13px;">층수</td>
+        				<td colspan="2" style="text-align:center;font-size:13px;">최고층고</td>
+        			</tr>
+        			<tr height="30px">
+        				<td style="width:110px;text-align:center;font-size:13px;">지상(옥탑제외)</td>
+        				<td style="width:70px;text-align:center;font-size:13px;">옥탑</td>
+        				<td style="width:70px;text-align:center;font-size:13px;">지하</td>
+        				<td style="width:70px;text-align:center;font-size:13px;">최고높이</td>
+        				<td style="width:70px;text-align:center;font-size:13px;">높이</td>
+        				<td style="width:70px;text-align:center;font-size:13px;">해당층</td>
+        			</tr>
+        			<tr height="40px">
+        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.fcltsNm }" /></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        			</tr>
+        			<tr height="30px">
+        				<td colspan="2" style="text-align:center;font-size:13px;">구조형식</td>
+        				<td style="width:70px;text-align:center;font-size:13px;">지정형태</td>
+        				<td style="width:70px;text-align:center;font-size:13px;">기초형식</td>
+        				<td style="text-align:center;font-size:13px;">기초밑면깊이</td>
+        				<td style="text-align:center;font-size:13px;">대지면적</td>
+        				<td style="text-align:center;font-size:13px;">건축면적</td>
+        				<td style="text-align:center;font-size:13px;">건축연면적</td>
+        				<td style="text-align:center;font-size:13px;">건폐율</td>
+        				<td style="text-align:center;font-size:13px;">용적율</td>
+        			</tr>
+        			<tr height="40px">
+        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        			</tr>
+        			<tr height="30px">
+        				<td rowspan="2" style="text-align:center;font-size:13px;">주차시설</td>
+        				<td style="text-align:center;font-size:13px;">주차면젹</td>
+        				<td style="text-align:center;font-size:13px;">옥내주차면적</td>
+        				<td style="text-align:center;font-size:13px;">옥외주차면적</td>
+        				<td style="text-align:center;font-size:13px;">주차대수</td>
+        				<td style="text-align:center;font-size:13px;">옥내주차대수</td>
+        				<td style="text-align:center;font-size:13px;">옥외주차대수</td>
+        				<td colspan="2" style="text-align:center;font-size:13px;">일시최대 사용인원</td>
+        				<td style="text-align:center;font-size:13px;">1일 사용인원</td>
+        			</tr>
+        			<tr height="40px">
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        			</tr>
+        			<tr height="30px">
+        				<td rowspan="6" style="text-align:center;font-size:13px;">설 비</td>
+        				<td rowspan="2" style="text-align:center;font-size:13px;">환기(공조)<br>방식</td>
+        				<td rowspan="2" style="text-align:center;font-size:13px;">기계시설일경<br>배기닥트유무</td>
+        				<td rowspan="2" style="text-align:center;font-size:13px;">물탱크위치</td>
+        				<td rowspan="2" style="text-align:center;font-size:13px;">변전실위치</td>
+        				<td rowspan="2" style="text-align:center;font-size:13px;">유류저장<br>시설위치</td>
+        				<td rowspan="2" style="text-align:center;font-size:13px;">오수정화<br>시설위치</td>
+        				<td colspan="3" style="text-align:center;font-size:13px;">승 강 기 대 수</td>
+        			</tr>
+        			<tr height="30px">
+        				<td style="text-align:center;font-size:13px;">승객용</td>
+        				<td style="text-align:center;font-size:13px;">화물용</td>
+        				<td style="text-align:center;font-size:13px;">비상용</td>
+        			</tr>
+        			<tr height="40px">
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        			</tr>
+        			<tr height="30px">
+        				<td colspan="2" style="text-align:center;font-size:13px;">중 앙 냉 방</td>
+        				<td colspan="2" style="text-align:center;font-size:13px;">중 앙 난 방</td>
+        				<td rowspan="2" style="text-align:center;font-size:13px;">전기인입용량</td>
+        				<td rowspan="2" style="text-align:center;font-size:13px;">정화조형식</td>
+        				<td rowspan="2" style="text-align:center;font-size:13px;">건물유지관리<br>시스템</td>
+        				<td rowspan="2" style="text-align:center;font-size:13px;">유지관리<br>부대시설</td>
+        				<td rowspan="2" style="text-align:center;font-size:13px;">승강기<br>운영방식</td>
+        			</tr>
+        			<tr height="30px">
+        				<td style="text-align:center;font-size:13px;">냉방유무</td>
+        				<td style="text-align:center;font-size:13px;">냉방열원</td>
+        				<td style="text-align:center;font-size:13px;">난방유무</td>
+        				<td style="text-align:center;font-size:13px;">난방열원</td>
+        			</tr>
+        			<tr height="40px">
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        			</tr>
+        			<tr height="100px">
+        				<td colspan="2" style="text-align:left;font-size:13px;border-right:0;"> ▷ 기타 상세제원</td>
+        				<td colspan="8" style="text-align:left;font-size:13px;border-left:0;"></td>
+        			</tr>
+        		</tbody>  
+        	</table>
+	</c:when>
+	<c:when test="${fcltsSe == 'B' }">
+    		<table style="width:100%;" class="rpr_form_table">
+        		<tbody>
+        			<tr height="40px">
+        				<td colspan="3" style="text-align:center;font-size:13px;">시설물명</td>
+        				<td colspan="2" style="text-align:center;font-size:13px;">교량시점위치<br>(읍면동리까지 기입)</td>
+        				<td colspan="2" style="text-align:center;font-size:13px;">교량종점위치<br>(읍면동리까지 기입)</td>
+        				<td colspan="2" style="text-align:center;font-size:13px;">설계활하중</td>
+        				<td style="width:200px;text-align:center;font-size:13px;">허용통행하중</td>
+        			</tr>
+        			<tr height="40px">
+        				<td colspan="3" style="text-align:center;font-size:13px;"></td>
+        				<td colspan="2" style="text-align:left;font-size:13px;"></td>
+        				<td colspan="2" style="text-align:left;font-size:13px;"></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        			</tr>
+        			<tr height="40px">
+        				<td colspan="3" style="text-align:center;font-size:13px;">연&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;장</td>
+        				<td colspan="3" style="text-align:center;font-size:13px;">폭</td>
+        				<td colspan="3" style="text-align:center;font-size:13px;">차로수</td>
+        				<td rowspan="2" style="text-align:center;font-size:13px;">내진설계 적용여부</td>
+        			</tr>
+        			<tr height="40px">
+        				<td style="width:80px;text-align:center;font-size:13px;">길이(m)</td>
+        				<td style="width:80px;text-align:center;font-size:13px;">경간수</td>
+        				<td style="width:120px;text-align:center;font-size:13px;">최대경간장(m)</td>
+        				<td style="width:80px;text-align:center;font-size:13px;">보도(m)</td>
+        				<td style="width:80px;text-align:center;font-size:13px;">차도(m)</td>
+        				<td style="width:80px;text-align:center;font-size:13px;">계(m)</td>
+        				<td style="width:80px;text-align:center;font-size:13px;">상행</td>
+        				<td style="width:80px;text-align:center;font-size:13px;">하행</td>
+        				<td style="text-align:center;font-size:13px;">계</td>
+        			</tr>
+        			<tr height="40px">
+        				<td style="width:80px;text-align:center;font-size:13px;"></td>
+        				<td style="width:80px;text-align:center;font-size:13px;"></td>
+        				<td style="width:120px;text-align:center;font-size:13px;"></td>
+        				<td style="width:80px;text-align:center;font-size:13px;"></td>
+        				<td style="width:80px;text-align:center;font-size:13px;"></td>
+        				<td style="width:80px;text-align:center;font-size:13px;"></td>
+        				<td style="width:80px;text-align:center;font-size:13px;"></td>
+        				<td style="width:80px;text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        			</tr>
+        			<tr height="40px">
+        				<td rowspan="3" style="text-align:center;font-size:13px;">상부구조</td>
+        				<td colspan="2" style="text-align:center;font-size:13px;">경간구성</td>
+        				<td colspan="7" style="text-align:center;font-size:13px;"></td>
+        			</tr>
+        			<tr height="40px">
+        				<td colspan="2" style="text-align:center;font-size:13px;">주경간 형식</td>
+        				<td colspan="2" style="text-align:center;font-size:13px;">부경간 형식</td>
+        				<td colspan="2" style="text-align:center;font-size:13px;">받침 종류</td>
+        				<td colspan="2" style="text-align:center;font-size:13px;">신축이음 종류</td>
+        				<td style="text-align:center;font-size:13px;">하부 통과제한높이(m)</td>
+        			</tr>
+        			<tr height="40px">
+        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        			</tr>
+        			<tr height="40px">
+        				<td rowspan="4" style="text-align:center;font-size:13px;">하부구조</td>
+        				<td colspan="4" style="text-align:center;font-size:13px;">교&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;각</td>
+        				<td colspan="2" style="text-align:center;font-size:13px;">교&nbsp;&nbsp;&nbsp;대</td>
+        				<td colspan="2" rowspan="2" style="text-align:center;font-size:13px;">교차노선<br>(또는 교차하천)</td>
+        				<td rowspan="2" style="text-align:center;font-size:13px;">교차하천 최고수심(m)</td>
+        			</tr>
+        			<tr height="40px">
+        				<td colspan="2" style="text-align:center;font-size:13px;">형&nbsp;&nbsp;&nbsp;식</td>
+        				<td style="text-align:center;font-size:13px;">갯&nbsp;&nbsp;수</td>
+        				<td style="text-align:center;font-size:13px;">기초형식</td>
+        				<td style="text-align:center;font-size:13px;">형&nbsp;&nbsp;식</td>
+        				<td style="text-align:center;font-size:13px;">기초형식</td>
+        			</tr>
+        			<tr height="40px">
+        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td colspan="2" rowspan="2" style="text-align:center;font-size:13px;"></td>
+        				<td rowspan="2" style="text-align:center;font-size:13px;"></td>
+        			</tr>
+        			<tr height="40px">
+        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"></td>
+        			</tr>
+        			<tr height="100px">
+        				<td colspan="2" style="text-align:left;font-size:13px;border-right:0;"> ▷ 기타 상세제원</td>
+        				<td colspan="8" style="text-align:left;font-size:13px;border-left:0;"></td>
+        			</tr>
+        		</tbody>  
+        	</table>
+	</c:when>
+	<c:otherwise>
+			<table style="width:100%;" class="rpr_form_table">
         		<tbody>
         			<tr height="60px">
         				<td colspan="2" style="width:80px;text-align:center;font-size:13px;">시설물명</td>
@@ -219,10 +453,12 @@
         			</tr>
         			<tr height="60px">
         				<td colspan="2" style="text-align:left;font-size:13px;border-right:0;"> ▷ 기타 상세제원</td>
-        				<td colspan="5" style="text-align:center;font-size:13px;border-left:0;word-break:break-all;"> <c:out value="${result.etcDtlsSpec }" /></td>
+        				<td colspan="5" style="text-align:left;font-size:13px;border-left:0;word-break:break-all;"> <c:out value="${result.etcDtlsSpec }" /></td>
         			</tr>
         		</tbody>  
         	</table>
+	</c:otherwise>
+</c:choose>
         </div>
     </div>
     <div class="page">

@@ -46,6 +46,15 @@ public class GamMechFcltySpecInqireVO extends ComDefaultVO {
 
 	/** 시설물 관리 번호 (조회조건-첨부파일정보출력시 사용) **/
 	private String fcltsMngNo;
+	
+	/** 자료수 */
+	private int totCnt;
+	
+	/** 장비가액합계 */
+	private long sumMfcAmt;
+	
+	
+	
 
 	/**
 	 * @return the sPrtAtCode
@@ -136,6 +145,34 @@ public class GamMechFcltySpecInqireVO extends ComDefaultVO {
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	/**
+	 * @return the totCnt
+	 */
+	public int getTotCnt() {
+		return totCnt;
+	}
+
+	/**
+	 * @param totCnt the totCnt to set
+	 */
+	public void setTotCnt(int totCnt) {
+		this.totCnt = totCnt;
+	}
+
+	/**
+	 * @return the sumMfcAmt
+	 */
+	public long getSumMfcAmt() {
+		return sumMfcAmt;
+	}
+
+	/**
+	 * @param sumMfcAmt the sumMfcAmt to set
+	 */
+	public void setSumMfcAmt(long sumMfcAmt) {
+		this.sumMfcAmt = sumMfcAmt;
 	}	
 	
 }
