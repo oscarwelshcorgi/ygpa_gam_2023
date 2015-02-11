@@ -233,6 +233,7 @@ GamFcltyQcwWrtMngModule.prototype.loadDetail = function() {
 				module.checkQcInspSe();
 				module.fillAtchFileList(result.atchFileList);
 				module.loadQcSubDataList();
+				module.setPrintUrl();
 			}
 			else {
 				module._mainmode = 'listed';
@@ -412,6 +413,40 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 		this.$('#qcObjFcltsGrid').flexEmptyData();
 	}
 };
+
+
+<%
+/**
+ * @FUNCTION NAME : setPrintUrl
+ * @DESCRIPTION   : 업무구분에 따른 인쇄 url 셋팅
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.setPrintUrl = function() {
+	
+	if(this.$('#fcltsJobSe').val() == 'A') {
+		this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcPrintA.do');
+	}
+	if(this.$('#fcltsJobSe').val() == 'C') {
+		this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcPrintC.do');
+	}
+	if(this.$('#fcltsJobSe').val() == 'E') {
+		this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcPrintE.do');
+	}
+	if(this.$('#fcltsJobSe').val() == 'I') {
+		this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcPrintI.do');
+	}
+	if(this.$('#fcltsJobSe').val() == 'M') {
+		if(this.$('#mechFcltsSe').val() == "1"){
+			this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcPrintM1.do');
+		}else{
+			this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcPrintM2.do');
+		}
+	}
+	
+};
+
+
 
 <%
 /**
@@ -1324,7 +1359,8 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 					<button id="btnDetailAdd" class="buttonAdd">　　추　가　　</button>
 					<button id="btnDetailDelete" class="buttonDelete">　　삭　제　　</button>
 					<button id="btnSave" class="buttonSave">　　저　장　　</button>
-					<button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url="<c:url value='/fcltyMng/printQcMngDtls.do'/>">　　인　쇄　　</button>
+					<!-- <button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url="/fcltyMng/printQcMngDtls.do">　　인　쇄　　</button> -->
+					<button id="btnPrint" data-role="printPage" data-search-option="detailForm">　　인　쇄　　</button>
 				</div>
 			</div>
 		</div>

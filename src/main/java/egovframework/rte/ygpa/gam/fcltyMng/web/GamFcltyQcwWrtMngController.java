@@ -405,14 +405,17 @@ public class GamFcltyQcwWrtMngController {
     	return "/ygpa/gam/fcltyMng/GamPopupQcResultItemCd";
     }
 	
+
+	
+	
 	/**
-	 * 시설물 점검표 인쇄
+	 * 건축시설물 점검표 인쇄
 	 * @param map
 	 * @return 
 	 * @throws Exception
 	 */
     @SuppressWarnings("rawtypes")
-	@RequestMapping(value="/fcltyMng/printQcMngDtls.do")
+	@RequestMapping(value="/fcltyMng/selectFcltyQcPrintA.do")
 	public String printQcMngDtls(@RequestParam Map<String, Object> qcPrintOpt, ModelMap model) throws Exception {
     	String printPageName = null;
     	
@@ -431,30 +434,7 @@ public class GamFcltyQcwWrtMngController {
 		searchVO.setLastIndex(9999);
 		searchVO.setRecordCountPerPage(9999);		
 
-    	if(searchVO.getFcltsJobSe().equals("A")) {
-    		//건축 시설물점검 인쇄페이지
-    		printPageName = "/ygpa/gam/fcltyMng/GamFcltyQcPrintA";
-    	} else if(searchVO.getFcltsJobSe().equals("C")) {
-    		//토목 시설물점검 인쇄페이지
-    		printPageName = "/ygpa/gam/fcltyMng/GamFcltyQcPrintC";
-    	} else if(searchVO.getFcltsJobSe().equals("E")) {
-    		//전기 시설물점검 인쇄페이지
-    		printPageName = "/ygpa/gam/fcltyMng/GamFcltyQcPrintE";
-    	} else if(searchVO.getFcltsJobSe().equals("I")) {
-    		//정보통신 시설물점검 인쇄페이지
-    		printPageName = "/ygpa/gam/fcltyMng/GamFcltyQcPrintI";
-    	} else if(searchVO.getFcltsJobSe().equals("M")) {
-    		//기계 시설물점검 인쇄페이지(항만하역장비와 기계장비로 나누어짐)
-    		if(searchVO.getMechFcltsSe().equals("1")) {
-	    		//하역장비 페이지
-	    		printPageName = "/ygpa/gam/fcltyMng/GamFcltyQcPrintM1";
-    		}
-    		else {
-	    		//기계설비 페이지
-	    		printPageName = "/ygpa/gam/fcltyMng/GamFcltyQcPrintM2";
-    		}
-    	}
-    	
+    	    	
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	
     	if(!isAuthenticated) {
