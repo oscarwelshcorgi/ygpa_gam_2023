@@ -675,7 +675,7 @@ GamFcltsMngRegistMngModule.prototype.addData = function() {
 	this.$('#cnstOrderBody').val("");
 	this.$('#cnstNm').val("");
 	this.$('#cnstSupervisor').val("");
-	this.$('#planBookMnten').val("");
+	this.$('#planBookMnten').val("대상-보존");
 	this.$('#wrtDt').val("");
 	this.$('#wrtUsr').val("");
 	this.$('#lastUpdtDt').val("");
@@ -795,11 +795,6 @@ GamFcltsMngRegistMngModule.prototype.saveData = function() {
 	if (this.isValidDateFromTo(inspectBeginDt, inspectEndDt, false) == false) {
 		alert('감리 기간이 부정확합니다.');
 		this.$("#inspectEndDt").focus();
-		return;
-	}
-	if (this.isValidFirstDate(planEndDt, cnstBeginDt, false) == false) {
-		alert('공사 시작 일자가 설계 종료 일자보다 큽니다.');
-		this.$("#cnstBeginDt").focus();
 		return;
 	}
 	if (this.isValidFirstDate(bldDt, flawEndDt, false) == false) {
@@ -1373,7 +1368,7 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								</td>
 								<th style="width:10%; height:20; text-align:center;">총공사비 합계</th>
 								<td>
-									<input type="text" size="20" id="sumCnstrctAmt" class="ygpaNumber" disabled="disabled"/>
+									<input type="text" size="25" id="sumCnstrctAmt" class="ygpaNumber" disabled="disabled"/>
 								</td>
 								<td style="text-align:right;">
 									<button id="btnAdd" class="buttonAdd">추가</button>
@@ -1477,7 +1472,7 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								<td>
 									<input type="text" size="30" id="flawEndDt" class="emdcal"/>
 								</td>
-								<th style="width:10%; height:24px;">제원／안전／보수</th>
+								<th style="width:10%; height:24px;">제원/안전/보수</th>
 								<td>
 									<select id="dtlsSpecYn">
 										<option value="Y">유</option>
@@ -1522,7 +1517,7 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								</td>
 								<th style="width:10%; height:24px;">총　공　사　비</th>
 								<td>
-									<input type="text" size="33" id="cnstrctAmt" class="ygpaNumber" maxlength="20"/>
+									<input type="text" size="30" id="cnstrctAmt" class="ygpaNumber" maxlength="20"/> 원
 								</td>
 							</tr>
 							<tr>
@@ -1535,7 +1530,7 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								<td>
 									<input type="text" size="33" id="inspector" maxlength="100"/>
 								</td>
-								<th style="width:10%; height:24px;">영10조　　대상</th>
+								<th style="width:10%; height:24px;">영 10 조　대상</th>
 								<td>
 									<select id="erqProofPlanApplcEnnc">
 										<option value="Y">예</option>
@@ -1600,7 +1595,7 @@ var module_instance = new GamFcltsMngRegistMngModule();
 							<tr>
 								<th style="width:10%; height:24px;">구조（잔교식）</th>
 								<td colspan="5">
-									말뚝식(구경,연장,본수) : <input type="text" id="fmt2Desc11" size="16" maxlength="50"/>
+									말뚝식 (구경,연장,본수) : <input type="text" id="fmt2Desc11" size="16" maxlength="50"/>
 									<input type="text" id="fmt2Desc12" size="16" maxlength="50"/>
 									<input type="text" id="fmt2Desc13" size="16" maxlength="50"/>
 									&nbsp;/&nbsp;
@@ -1612,9 +1607,9 @@ var module_instance = new GamFcltsMngRegistMngModule();
 							<tr>
 								<th style="width:10%; height:24px;">구조(널말뚝식)</th>
 								<td colspan="5">
-									규격 : <input type="text" id="fmt3Desc1" size="33" maxlength="50"/>
+									규격 : <input type="text" id="fmt3Desc1" size="30" maxlength="50"/>
 									&nbsp;/&nbsp;
-									기타 : <input type="text" id="fmt3Desc2" size="100" maxlength="100"/>
+									기타 : <input type="text" id="fmt3Desc2" size="102" maxlength="100"/>
 								</td>
 							</tr>
 						</table>
