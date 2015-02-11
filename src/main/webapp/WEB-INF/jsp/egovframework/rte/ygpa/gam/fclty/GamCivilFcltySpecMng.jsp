@@ -924,7 +924,6 @@ var module_instance = new GamCivilFcltySpecMngModule();
 								<th style="width:6%; height:20; text-align:center;">자료수</th>
 								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
 								<td style="text-align:right;">
-									<button data-role="printPage" data-search-option="fcltReportMngVO" data-url='/fclty/selectFcltReportMngPrint.do'>시설물관리대장인쇄</button>
 									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
 									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>

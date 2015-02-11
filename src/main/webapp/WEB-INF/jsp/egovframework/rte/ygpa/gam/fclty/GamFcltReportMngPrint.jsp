@@ -48,23 +48,23 @@
 <div class="book">
     <div class="page">
         <div class="subpage ygpa_report" >
-        	<div style="height:50px;text-align:left;vertical-align:middle;border-top:1px red;font-size:25px;font-weight:bold;">5. 시설물관리대장</div>
-        	<div style="height:40px;text-align:left;vertical-align:middle;border-top:1px red;font-size:20px;"> 1. 기본현황</div>
+        	<div style="height:40px;text-align:left;vertical-align:middle;border-top:1px red;font-size:25px;font-weight:bold;">5. 시설물관리대장</div>
+        	<div style="height:30px;text-align:left;vertical-align:middle;border-top:1px red;font-size:20px;"> 1. 기본현황</div>
     		<table style="width:100%;" class="rpr_form_table">
         		<tbody>
         			<tr height="40px">
-        				<td colspan="3" style="width:80px;text-align:center;font-size:13px;">시설물 번호</td>
+        				<td colspan="3" style="width:90px;text-align:center;font-size:13px;">시설물 번호</td>
         				<td style="width:210px;text-align:center;font-size:13px;">관리번호</td>
-        				<td colspan="3" style="width:80px;text-align:center;font-size:13px;">시설물명</td>
+        				<td colspan="3" style="width:100px;text-align:center;font-size:13px;">시설물명</td>
         				<td style="text-align:center;font-size:13px;">노선</td>
         				<td style="text-align:center;font-size:13px;">시설물종류</td>
         				<td style="text-align:center;font-size:13px;">시설물종별</td>
         				<td style="text-align:center;font-size:13px;">시설물구분</td>
         			</tr>
         			<tr height="40px">
-        				<td colspan="3" style="width:80px;text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.fcltsNo }" /></td>
+        				<td colspan="3" style="width:90px;text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.fcltsNo }" /></td>
         				<td style="width:210px;text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.fcltsMngGroupNo }" /></td>
-        				<td colspan="3" style="width:80px;text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.fcltsNm }" /></td>
+        				<td colspan="3" style="width:100px;text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.fcltsNm }" /></td>
         				<td style="text-align:center;font-size:13px;width:80px;word-break:break-all;"><c:out value="${result.route }" /></td>
         				<td style="text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.fcltsKnd }" /></td>
         				<td style="text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.fcltsGbn }" /></td>
@@ -91,7 +91,7 @@
         				<td colspan="2" style="text-align:center;font-size:13px;">준공일</td>
         				<td colspan="2" style="text-align:center;font-size:13px;">하자담보책임만료일</td>
         				<td style="text-align:center;font-size:13px;">상세제원</td>
-        				<td colspan="2" style="text-align:center;font-size:13px;">안전점검 및<br>정밀안전진단이력</td>
+        				<td colspan="2" style="width:150px;text-align:center;font-size:13px;">안전점검 및<br>정밀안전진단이력</td>
         				<td colspan="4" style="text-align:center;font-size:13px;">보수·보강<br>이력</td>
         			</tr>
         			<tr height="40px">
@@ -111,7 +111,7 @@
         			<tr height="40px">
         				<td colspan="3" style="text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.planBeginDt }" /> ~ <br><c:out value="${result.planEndDt }" /></td>
         				<td colspan="2" style="text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.planner }" /></td>
-        				<td colspan="2" style="text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.cnstBeginDt }" /> ~ <c:out value="${result.cnstEndDt }" /></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.cnstBeginDt }" /> ~ <br><c:out value="${result.cnstEndDt }" /></td>
         				<td colspan="2" style="text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.cnstrtr }" /></td>
         				<td colspan="2" style="text-align:center;font-size:13px;word-break:break-all;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.cnstrctAmt }" /></td>
         			</tr>
