@@ -178,8 +178,13 @@
  						 WHERE 1=1
  						 
  						 AND M.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-						 AND EXISTS ( SELECT F.FCLTS_MNG_NO FROM QC_MNG_OBJ_FCLTS_F F WHERE F.FCLTS_MNG_NO =#fcltsMngNo#) 
-
+						  
+						AND EXISTS (SELECT  F.FCLTS_MNG_NO  
+				   				FROM QC_MNG_OBJ_FCLTS_F F 
+				   				WHERE F.FCLTS_MNG_GROUP_NO = R.FCLTS_MNG_GROUP_NO 
+				   				AND F.FCLTS_JOB_SE = R.FCLTS_JOB_SE 
+				   				AND F.QC_MNG_SEQ=R.QC_MNG_SEQ 
+				   				AND F.FCLTS_MNG_NO =#fcltsMngNo#)   
                			<isNotEmpty property="sUsagePdFrom" prepend="AND">
 							<![CDATA[
 								  M.QC_BEGIN_DT >= TO_DATE(#sUsagePdFrom#, 
@@ -235,8 +240,13 @@
 							MNTN_RPR_DTLS_F M 
 						WHERE 1=1
  						 AND M.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-						 AND EXISTS ( SELECT F.FCLTS_MNG_NO FROM MNTN_RPR_OBJ_FCLTS_F F WHERE F.FCLTS_MNG_NO =#fcltsMngNo#) 
-				   		   
+					 
+				   		AND EXISTS (SELECT  F.FCLTS_MNG_NO  
+				   				FROM MNTN_RPR_OBJ_FCLTS_F F 
+				   				WHERE F.FCLTS_MNG_GROUP_NO = R.FCLTS_MNG_GROUP_NO 
+				   				AND F.FCLTS_JOB_SE = R.FCLTS_JOB_SE 
+				   				AND F.MNTN_RPR_SEQ=R.MNTN_RPR_SEQ 
+				   				AND F.FCLTS_MNG_NO =#fcltsMngNo#)   
 				   		   
 			             	<isNotEmpty property="sUsagePdFrom" prepend="AND">
 								<![CDATA[
@@ -296,16 +306,21 @@
 						WHERE
 							1 = 1 
  				   AND R.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-				   AND EXISTS ( SELECT F.FCLTS_MNG_NO FROM FLAW_RPR_OBJ_FCLTS_F F WHERE F.FCLTS_MNG_NO =#fcltsMngNo#)
+				   AND EXISTS (SELECT  F.FCLTS_MNG_NO  
+				   				FROM FLAW_RPR_OBJ_FCLTS_F F 
+				   				WHERE F.FCLTS_MNG_GROUP_NO = R.FCLTS_MNG_GROUP_NO 
+				   				AND F.FCLTS_JOB_SE = R.FCLTS_JOB_SE 
+				   				AND F.FLAW_RPR_SEQ=R.FLAW_RPR_SEQ 
+				   				AND F.FCLTS_MNG_NO =#fcltsMngNo#)
 	             	
 	             	<isNotEmpty property="sUsagePdFrom" prepend="AND">
 						<![CDATA[
-							  R.FLAW_RPR_START_DT >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+							  R.FLAW_EXAM_DT >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
 						]]>
 					</isNotEmpty>
 					<isNotEmpty property="sUsagePdTo" prepend="AND">
 						<![CDATA[
-							  R.FLAW_RPR_START_DT <= TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
+							  R.FLAW_EXAM_DT <= TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
 						]]>
 					</isNotEmpty>
  				) S
