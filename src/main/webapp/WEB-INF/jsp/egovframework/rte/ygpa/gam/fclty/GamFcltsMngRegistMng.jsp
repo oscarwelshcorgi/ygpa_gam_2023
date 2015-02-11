@@ -737,6 +737,11 @@ GamFcltsMngRegistMngModule.prototype.saveData = function() {
 		this.$("#fcltsNo").focus();
 		return;
 	}
+	if (fcltsMngGroupNo == "") {
+		alert('시설물 관리 그룹이 부정확합니다.');
+		this.$("#fcltsMngGroupNo").focus();
+		return;
+	}
 	if (fcltsNm == "") {
 		alert('시설물 명이 부정확합니다.');
 		this.$("#fcltsNm").focus();
