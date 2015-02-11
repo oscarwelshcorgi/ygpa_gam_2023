@@ -96,6 +96,7 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 		module._mainmode = 'modify';
 		module._mainKeyValue = row.fcltsNo;
 		module._mainFcltsMngGroupNo = row.fcltsMngGroupNo;
+		module.loadDetail('listTab');
 		module.enableListButtonItem();
     });
 
@@ -207,6 +208,7 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 	this._mntnRprFcltsMngGroupNo = '';
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnPrint').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -582,6 +584,7 @@ GamFcltsMngRegistMngModule.prototype.loadDetail = function(tabId) {
 		}
 		this.makeFormValues('#detailForm', row[0]);
 		this.makeDivValues('#detailForm', row[0]);
+		this.$('#fcltsJobSe').val(this.$('#sFcltsJobSe').val());
 		this.makeFcltsKndData(this.$('#fcltsKnd').val());
 	} else {
 		var searchVO = this.getFormValues('#detailForm');
@@ -589,6 +592,7 @@ GamFcltsMngRegistMngModule.prototype.loadDetail = function(tabId) {
 			if (result.resultCode == "0") {
 				module.makeFormValues('#detailForm', result.result);
 				module.makeDivValues('#detailForm', result.result);
+				module.$('#fcltsJobSe').val(this.$('#sFcltsJobSe').val());
 				module.makeFcltsKndData(module.$('#fcltsKnd').val());
 			}
 		});
@@ -921,19 +925,24 @@ GamFcltsMngRegistMngModule.prototype.enableListButtonItem = function() {
 	if (this._mainmode == "insert") {
 		this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnPrint').disable({disableClass:"ui-state-disabled"});
 	} else {
 		this.$('#btnAdd').enable();
 		this.$('#btnAdd').removeClass('ui-state-disabled');
 		var row = this.$('#mainGrid').selectedRows()[0];
 		if (row == null) {
 			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnPrint').disable({disableClass:"ui-state-disabled"});
 			return;
 		}
 		if (this._mainKeyValue != "") {
 			this.$('#btnDelete').enable();
 			this.$('#btnDelete').removeClass('ui-state-disabled');
+			this.$('#btnPrint').enable();
+			this.$('#btnPrint').removeClass('ui-state-disabled');
 		} else {
 			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnPrint').disable({disableClass:"ui-state-disabled"});
 		}
 	}
 
@@ -1244,7 +1253,11 @@ console.log("onTabChange");
 			if (this._mainFcltsMngGroupNo != "") {
 				if (this._mainFcltsMngGroupNo != this._qcMngFcltsMngGroupNo) {
 					this._qcMngFcltsMngGroupNo = this._mainFcltsMngGroupNo;
-					var detailOpt = { 'fcltsMngGroupNo':this._qcMngFcltsMngGroupNo };
+					var sFcltsJobSe = this.$('#sFcltsJobSe').val();
+					var detailOpt = {
+										'fcltsMngGroupNo':this._qcMngFcltsMngGroupNo,
+										'fcltsJobSe':sFcltsJobSe
+									};
 					this.$('#qcPlanGrid').flexOptions({params:detailOpt}).flexReload();
 					this.$('#qcHistGrid').flexOptions({params:detailOpt}).flexReload();
 				}
@@ -1258,7 +1271,11 @@ console.log("onTabChange");
 			if (this._mainFcltsMngGroupNo != "") {
 				if (this._mainFcltsMngGroupNo != this._mntnRprFcltsMngGroupNo) {
 					this._mntnRprFcltsMngGroupNo = this._mainFcltsMngGroupNo;
-					var detailOpt = { 'fcltsMngGroupNo':this._mntnRprFcltsMngGroupNo };
+					var sFcltsJobSe = this.$('#sFcltsJobSe').val();
+					var detailOpt = {
+							'fcltsMngGroupNo':this._qcMngFcltsMngGroupNo,
+							'fcltsJobSe':sFcltsJobSe
+						};
 					this.$('#mntnPlanGrid').flexOptions({params:detailOpt}).flexReload();
 					this.$('#mntnHistGrid').flexOptions({params:detailOpt}).flexReload();
 				}
@@ -1294,15 +1311,15 @@ var module_instance = new GamFcltsMngRegistMngModule();
 				<table style="width:100%;" class="searchPanel">
 					<tbody>
 						<tr>
-							<th>시설물　　번호</th>
+							<th>시설물 번호</th>
 							<td>
-								<input id="sFcltsMngGroupNo" type="text" size="18" maxlength="14"/>
+								<input id="sFcltsMngGroupNo" type="text" size="16" maxlength="14"/>
 							</td>
-							<th>시　설　물　명</th>
+							<th>시설물 명</th>
 							<td>
-								<input id="sFcltsMngGroupNm" type="text" size="50" maxlength="80"/>
+								<input id="sFcltsMngGroupNm" type="text" size="30" maxlength="80"/>
 							</td>
-							<th>시설물　　종별</th>
+							<th>시설물 종별</th>
 							<td>
 								<select id="sFcltsGbn">
 									<option value="" selected>선택</option>
@@ -1310,6 +1327,17 @@ var module_instance = new GamFcltsMngRegistMngModule();
 									<option value="2">2종</option>
 									<option value="3">1종/2종</option>
 									<option value="9">기타</option>
+								</select>
+							</td>
+							<th>조회 구분</th>
+							<td>
+								<select id="sFcltsJobSe">
+									<option value="" selected>전체</option>
+									<option value="E">전기시설</option>
+									<option value="M">기계시설</option>
+									<option value="C">토목시설</option>
+									<option value="A">건축시설</option>
+									<option value="I">정보통신시설</option>
 								</select>
 							</td>
 							<td>
@@ -1348,9 +1376,10 @@ var module_instance = new GamFcltsMngRegistMngModule();
 									<input type="text" size="20" id="sumCnstrctAmt" class="ygpaNumber" disabled="disabled"/>
 								</td>
 								<td style="text-align:right;">
-									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
-									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
-									<button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+									<button id="btnAdd" class="buttonAdd">추가</button>
+									<button id="btnDelete" class="buttonDelete">삭제</button>
+									<button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
+									<button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url='/fclty/selectFcltReportMngPrint.do'>시설물관리대장인쇄</button>
 								</td>
 						</table>
 					</form>
@@ -1368,6 +1397,7 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								</td>
 								<th style="width:10%; height:24px;">시설물관리그룹</th>
 								<td colspan="3">
+									<input type="hidden" id="fcltsJobSe">
 									<input type="text" size="18" id="fcltsMngGroupNo" maxlength="8"/>
 									<input type="text" size="60" id="fcltsMngGroupNm" disabled/>
 									<button id="popupFcltsMngGroupNo" class="popupButton">선택</button>

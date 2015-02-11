@@ -449,6 +449,11 @@
 								,TO_CHAR(T1.QC_BEGIN_DT,'YYYY-MM-DD') || ' ~ ' || TO_CHAR(T1.QC_END_DT,'YYYY-MM-DD') AS QC_INSP_DT_FROM_TO
 							FROM QC_MNG_DTLS_F T1
 						WHERE T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+
+						<isNotEmpty property="fcltsJobSe">
+						AND T1.FCLTS_JOB_SE = #fcltsJobSe#
+						</isNotEmpty>
+
 						AND T1.PLAN_HIST_SE = 'P'
 						ORDER BY T1.QC_INSP_DT ASC
 				) S
@@ -496,6 +501,11 @@
 								,TO_CHAR(T1.QC_BEGIN_DT,'YYYY-MM-DD') || ' ~ ' || TO_CHAR(T1.QC_END_DT,'YYYY-MM-DD') AS QC_INSP_DT_FROM_TO
 							FROM QC_MNG_DTLS_F T1
 						WHERE T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+
+						<isNotEmpty property="fcltsJobSe">
+						AND T1.FCLTS_JOB_SE = #fcltsJobSe#
+						</isNotEmpty>
+
 						AND T1.PLAN_HIST_SE = 'H'
 						ORDER BY T1.QC_INSP_DT ASC
 				) S
@@ -539,6 +549,11 @@
 								,TO_CHAR(T1.MNTN_RPR_CNST_START_DT,'YYYY-MM-DD') || ' ~ ' || TO_CHAR(T1.MNTN_RPR_CNST_END_DT,'YYYY-MM-DD') AS MNTN_RPR_CNST_DT_FROM_TO
 							FROM MNTN_RPR_DTLS_F T1
 						WHERE T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+
+						<isNotEmpty property="fcltsJobSe">
+						AND T1.FCLTS_JOB_SE = #fcltsJobSe#
+						</isNotEmpty>
+
 						AND T1.PLAN_HIST_SE = 'P'
 						ORDER BY T1.MNTN_RPR_CNST_START_DT ASC
 				) S
@@ -582,6 +597,11 @@
 								,TO_CHAR(T1.MNTN_RPR_CNST_START_DT,'YYYY-MM-DD') || ' ~ ' || TO_CHAR(T1.MNTN_RPR_CNST_END_DT,'YYYY-MM-DD') AS MNTN_RPR_CNST_DT_FROM_TO
 							FROM MNTN_RPR_DTLS_F T1
 						WHERE T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+
+						<isNotEmpty property="fcltsJobSe">
+						AND T1.FCLTS_JOB_SE = #fcltsJobSe#
+						</isNotEmpty>
+
 						AND T1.PLAN_HIST_SE = 'H'
 						ORDER BY T1.MNTN_RPR_CNST_START_DT ASC
 				) S

@@ -96,6 +96,7 @@ public class GamFcltsMngRegistMngVO extends ComDefaultVO {
 	private	String sFcltsNo;				// 검색 시설물 번호
 	private	String sFcltsNm;				// 검색 시설물 명
 	private	String sFcltsGbn;				// 검색 시설물 종별
+	private	String sFcltsJobSe;				// 검색 시설물 업무 구분
 	private	String sStartBldDt;				// 검색 시작 준공 일자
 	private	String sEndBldDt;				// 검색 종료 준공 일자
 	private	String totalCount;				// 조회 자료 수
@@ -904,6 +905,18 @@ public class GamFcltsMngRegistMngVO extends ComDefaultVO {
 	 */
 	public void setsFcltsGbn(String sFcltsGbn) {
 		this.sFcltsGbn = sFcltsGbn;
+	}
+	/**
+	 * @return the sFcltsJobSe
+	 */
+	public String getsFcltsJobSe() {
+		return sFcltsJobSe;
+	}
+	/**
+	 * @param sFcltsJobSe the sFcltsJobSe to set
+	 */
+	public void setsFcltsJobSe(String sFcltsJobSe) {
+		this.sFcltsJobSe = sFcltsJobSe;
 	}
 	/**
 	 * @return the sStartBldDt
