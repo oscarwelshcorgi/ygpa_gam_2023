@@ -176,7 +176,7 @@ public class GamFcltyUsageSttusInqireController {
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/fcltyMng/selectLoadQcWrtMngData.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/fcltyMng/selectLoadQcwWrtMngData.do", method = RequestMethod.POST)
 	@ResponseBody Map selectLoadQcWrtMngDataList(GamFcltyUsageSttusInqireVO searchVO) throws Exception {
 		
 		Map map = new HashMap();
@@ -239,7 +239,7 @@ public class GamFcltyUsageSttusInqireController {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/fcltyMng/selectLoadRepairMngData.do", method = RequestMethod.POST)
-	@ResponseBody Map selectLoadRepairMngDataList(GamFcltyUsageSttusInqireVO searchVO) throws Exception {
+	@ResponseBody Map selectLoadFlawMngDataList(GamFcltyUsageSttusInqireVO searchVO) throws Exception {
 		
 		Map map = new HashMap();
 

@@ -300,12 +300,12 @@
 	             	
 	             	<isNotEmpty property="sUsagePdFrom" prepend="AND">
 						<![CDATA[
-							  M.FLAW_RPR_START_DT >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+							  R.FLAW_RPR_START_DT >= TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
 						]]>
 					</isNotEmpty>
 					<isNotEmpty property="sUsagePdTo" prepend="AND">
 						<![CDATA[
-							  M.FLAW_RPR_START_DT <= TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
+							  R.FLAW_RPR_START_DT <= TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
 						]]>
 					</isNotEmpty>
  				) S
