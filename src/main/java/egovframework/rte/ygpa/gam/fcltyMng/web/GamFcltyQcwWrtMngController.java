@@ -628,7 +628,6 @@ public class GamFcltyQcwWrtMngController {
 		ObjectMapper mapper = new ObjectMapper();
 		GamFcltyQcwWrtMngVO searchVO = null;
 		List qcResultItemList = null;
-		int resultCnt = 0;
 		
 		searchVO = mapper.convertValue(qcPrintOpt, GamFcltyQcwWrtMngVO.class);
 		
@@ -646,15 +645,8 @@ public class GamFcltyQcwWrtMngController {
 		}
 		
 		EgovMap detailData = gamFcltyQcwWrtMngService.selectQcMngDtlsDetail(searchVO);
-				
-		resultCnt = gamFcltyQcwWrtMngService.selectQcMngResultItemListTotCnt(searchVO);
-		if(resultCnt > 0) {
-			qcResultItemList = gamFcltyQcwWrtMngService.selectQcMngResultItemList(searchVO);
-		} else {
-			searchVO.setsFcltsMngGroupNo(null);
-			searchVO.setsQcMngSeq("");
-			qcResultItemList = gamFcltyQcwWrtMngService.selectQcMngResultItemList(searchVO);
-		}    		
+		
+		qcResultItemList = gamFcltyQcwWrtMngService.selectMechQcMngResultItemList(searchVO);
 		
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
