@@ -42,20 +42,22 @@
 	</script>
 </head>
 <body>
-  <c:set var="pagePerCount" value="35"/>
+  <c:set var="pagePerCount" value="28"/>
   <c:set var="qcItemUpperCd" value=""/>
-  <c:set var="upperCount" value="0"/>
-  <c:set var="itemUpperCdCount" value="0" />
+  <c:set var="rowspanCount" value="0"/>
+  <c:set var="upperItemRowspanCount" value="0" />
+  <c:set var="pageSkip" value="true" />
+  <c:set var="printRecordCount" value="0" />
   
   <c:if test="${resultCode==0 }">
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
     <div class="page">
         <div class="subpage ygpa_report" >
-	    	<h1 class="ygpa_report_h1">정보통신시설점검표</h1>
+	    	<div style="width:100%;height:50px;text-align:center;vertical-align:middle;border-top:1px red;font-size:25px;font-weight:bold;">정 보 통 신 시 설 점 검 표</div>
 		<span>○ 시설명 : <c:out value="${detailData['fcltsMngGroupNm']}"></c:out></span>
-		<div style="text-align:right">※　정상 : ○　　요주의 : △　　불량 : ×</div>
 	<c:if test="${fn:length(resultList) == 0}">
+		<div style="text-align:right">※　정상 : ○　　요주의 : △　　불량 : ×</div>
 		<table class="rpr_main_table">
 	  		<thead>
 	  			<tr>
@@ -71,7 +73,14 @@
 			</tr>
 	</c:if>
     <c:forEach var="result" items="${resultList }" varStatus="resultStatus">
-           			<c:if test="${resultStatus.index%pagePerCount==0 }"> <% /*  페이지 당 출력 갯수 */ %>
+    				<c:if test="${pageSkip eq false}">
+    					<c:if test="${(printRecordCount ge pagePerCount) and (qcItemUpperCd ne result.qcItemUpperCd) }">
+    						<c:set var="pageSkip" value="true"/>
+							<c:set var="printRecordCount" value="0" />
+    					</c:if>
+    				</c:if>
+           			<c:if test="${pageSkip eq true }"> <% /*  페이지 당 출력 갯수 */ %>
+           				<c:set var="pageSkip" value="false"/>
            				<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
 			        		</tbody>
 			        		</table>
@@ -81,6 +90,7 @@
 						        <div class="subpage ygpa_report" >
            				</c:if>
         				<!--  헤더 반복  -->
+						<div style="text-align:right">※　정상 : ○　　요주의 : △　　불량 : ×</div>
        		        	<table class="rpr_main_table">
 			        		<thead>
 				       			<tr>
@@ -109,12 +119,12 @@
 	        			<c:choose>
 	        				<c:when test="${qcItemUpperCd ne result.qcItemUpperCd }">
 	        					<c:set var="qcItemUpperCd" value="${result.qcItemUpperCd}" />
-	        					<c:set var="itemUpperCdCount" value="${result.qcItemUpperCdCount }" />
-	        					<c:set var="upperCount" value="1" />
+	        					<c:set var="upperItemRowspanCount" value="${result.qcItemUpperCdCount }" />
+	        					<c:set var="rowspanCount" value="1" />
 	        					<c:choose>
-	        						<c:when test="${itemUpperCdCount gt 1}">
+	        						<c:when test="${upperItemRowspanCount gt 1}">
 	        							<tr>
-		        						<td rowspan="${itemUpperCdCount}" style="background:#ffffff; text-align:center;"><c:out value="${result.qcItemUpperNm }" /></td>
+		        						<td rowspan="${upperItemRowspanCount}" style="background:#ffffff; text-align:center;"><c:out value="${result.qcItemUpperNm }" /></td>
 		        						<td style="border-bottom:0; background:#ffffff"><c:out value="${result.qcItemNm }" /></td>
 		        						<td style="border-bottom:0; background:#ffffff; text-align:center"><c:out value="${inspResultChk }" /></td>
 		        						<td style="border-bottom:0; background:#ffffff"></td>
@@ -131,9 +141,9 @@
 	        					</c:choose>
 	        				</c:when>
 	        				<c:otherwise>
-	        					<c:set var="upperCount" value="${upperCount+1 }" />
+	        					<c:set var="rowspanCount" value="${rowspanCount+1 }" />
 	        					<c:choose>
-	        						<c:when test="${upperCount ge result.qcItemUpperCdCount}">
+	        						<c:when test="${rowspanCount ge upperItemRowspanCount}">
 	        							<tr>
 		        						<td style="background:#ffffff;"><c:out value="${result.qcItemNm }" /></td>
 		        						<td style="background:#ffffff; text-align:center"><c:out value="${inspResultChk }" /></td>
@@ -150,6 +160,7 @@
 	        					</c:choose>
 	        				</c:otherwise>
 	        			</c:choose>
+	        			<c:set var="printRecordCount" value="${printRecordCount+1}" />
     </c:forEach>
         		</tbody>
         		<tfoot>
