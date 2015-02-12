@@ -44,11 +44,12 @@
 <body>
   <c:set var="pagePerCount" value="24"/>
   <c:set var="qcItemUpperCd" value=""/>
+  <c:set var="qcItemUpperUpperCd" value=""/>
   <c:set var="rowspanCount" value="0"/>
   <c:set var="upperItemRowspanCount" value="0" />
   <c:set var="pageSkip" value="true" />
   <c:set var="printRecordCount" value="0" />
-  <c:set var="startChar" value="○"/>
+  <c:set var="startChar" value="○ "/>
   
   <c:if test="${resultCode==0 }">
   <a id="printButton" href="#">인쇄</a>
@@ -126,21 +127,31 @@
 	        					<c:set var="qcItemUpperCd" value="${result.qcItemUpperCd}" />
 	        					<c:set var="upperItemRowspanCount" value="${result.qcItemUpperCdCount }" />
 	        					<c:set var="rowspanCount" value="1" />
+	        					<c:if test="${qcItemUpperUpperCd ne result.qcItemUpperUpperCd}">
+	        						<c:set var="qcItemUpperUpperCd" value="${result.qcItemUpperUpperCd }"></c:set>
+	        							<tr>
+		        						<td style="border-bottom:0; background:#ffffff; text-align:center;"><c:out value="${result.qcItemUpperUpperNm }" /></td>
+		        						<td style="border-bottom:0; background:#ffffff;"></td>
+		        						<td style="border-bottom:0; background:#ffffff;"></td>
+		        						<td style="border-bottom:0; background:#ffffff;"></td>
+		        						</tr>
+	        						<c:set var="printRecordCount" value="${printRecordCount+1}" />
+	        					</c:if>
 	        					<c:choose>
 	        						<c:when test="${upperItemRowspanCount gt 1}">
 	        							<tr>
 		        						<td rowspan="${upperItemRowspanCount}" style="background:#ffffff; text-align:center;"><c:out value="${result.qcItemUpperNm }" /></td>
-		        						<td style="border-bottom:0; background:#ffffff"><c:out value="${startChar}" /><c:out value="${result.qcItemNm }" /></td>
+		        						<td style="border-bottom:0; background:#ffffff;"><c:out value="${startChar}" /><c:out value="${result.qcItemNm }" /></td>
 		        						<td style="border-bottom:0; background:#ffffff; text-align:center"><c:out value="${inspResultChk }" /></td>
-		        						<td style="border-bottom:0; background:#ffffff"></td>
+		        						<td style="border-bottom:0; background:#ffffff;"></td>
 		        						</tr>
 	        						</c:when>
 	        						<c:otherwise>
 	        							<tr>
 		        						<td style="background:#ffffff; text-align:center;"><c:out value="${result.qcItemUpperNm }" /></td>
-		        						<td style="background:#ffffff"><c:out value="${startChar}" /><c:out value="${result.qcItemNm }" /></td>
+		        						<td style="background:#ffffff;"><c:out value="${startChar}" /><c:out value="${result.qcItemNm }" /></td>
 		        						<td style="background:#ffffff; text-align:center"><c:out value="${inspResultChk }" /></td>
-		        						<td style="background:#ffffff"></td>
+		        						<td style="background:#ffffff;"></td>
 		        						</tr>
 	        						</c:otherwise>
 	        					</c:choose>
