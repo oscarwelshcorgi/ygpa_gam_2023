@@ -68,19 +68,19 @@
         		<tbody>
         			<tr height="40px">
         				<th style="width:40px;text-align:center;vertical-align:middle;font-size:13px;">시 설 명</th>
-        				<td style="width:100px;text-align:center;font-size:13px;"><c:out value="${result.fcltsMngGroupNm }" ></c:out></td>
+        				<td style="width:100px;text-align:center;font-size:13px;"><c:out value="${detailMngGroup.fcltsMngGroupNm }" ></c:out></td>
         				<th colspan="2" style="text-align:center;vertical-align:middle;font-size:13px;">시설물소재지</th>
-        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.loc }" ></c:out></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${detailMngGroup.loc }" ></c:out></td>
         			</tr>
         			<tr height="40px">
         				<th style="text-align:center;vertical-align:middle;font-size:13px;">시설개요</th>
         				<td style="text-align:center;font-size:13px;"></td>
         				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">종별/상태등급</th>
-        				<td style="text-align:center;font-size:13px;"> <c:out value="${result.fcltsGbnNm }" ></c:out> / </td>
+        				<td style="text-align:center;font-size:13px;"> <c:out value="${detailMngGroup.fcltsGbnNm }" ></c:out> / </td>
         			</tr>
         			<tr height="40px">
         				<th style="text-align:center;vertical-align:middle;font-size:13px;">준공년도</th>
-        				<td style="text-align:center;font-size:13px;"><c:out value="${result.bldYear }" ></c:out></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${detailMngGroup.bldYear }" ></c:out></td>
         				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">하 자 만 료 일</th>
         				<td style="text-align:center;font-size:13px;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;년 &nbsp;&nbsp;&nbsp;&nbsp;월 &nbsp;&nbsp;&nbsp;&nbsp;일 </td>
         			</tr>
@@ -88,7 +88,7 @@
         				<th style="text-align:center;vertical-align:middle;font-size:13px;">시설규모</th>
         				<td style="text-align:center;font-size:13px;"></td>
         				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">시&nbsp;&nbsp;공&nbsp;&nbsp;회&nbsp;&nbsp;사</th>
-        				<td style="text-align:center;font-size:13px;"><c:out value="${result.cnstrtr }" ></c:out></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${detailMngGroup.cnstrtr }" ></c:out></td>
         			</tr>
         			<tr height="40px">
         				<th style="text-align:center;vertical-align:middle;font-size:13px;">점검항목</th>
@@ -117,19 +117,19 @@
         		<tbody>
         			<tr height="40px">
         				<th style="width:40px;text-align:center;vertical-align:middle;font-size:13px;">시 설 명</th>
-        				<td style="width:100px;text-align:center;font-size:13px;"><c:out value="${result.fcltsMngGroupNm }" ></c:out></td>
+        				<td style="width:100px;text-align:center;font-size:13px;"><c:out value="${detailMngGroup.fcltsMngGroupNm }" ></c:out></td>
         				<th colspan="2" style="text-align:center;vertical-align:middle;font-size:13px;">시설물소재지</th>
-        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.loc }" ></c:out></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${detailMngGroup.loc }" ></c:out></td>
         			</tr>
         			<tr height="40px">
         				<th style="text-align:center;vertical-align:middle;font-size:13px;">시설개요</th>
         				<td style="text-align:center;font-size:13px;"></td>
         				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">종별/상태등급</th>
-        				<td style="text-align:center;font-size:13px;"> <c:out value="${result.fcltsGbnNm }" ></c:out> / </td>
+        				<td style="text-align:center;font-size:13px;"> <c:out value="${detailMngGroup.fcltsGbnNm }" ></c:out> / </td>
         			</tr>
         			<tr height="40px">
         				<th style="text-align:center;vertical-align:middle;font-size:13px;">준공년도</th>
-        				<td style="text-align:center;font-size:13px;"><c:out value="${result.bldYear }" ></c:out></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${detailMngGroup.bldYear }" ></c:out></td>
         				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">하 자 만 료 일</th>
         				<td style="text-align:center;font-size:13px;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;년 &nbsp;&nbsp;&nbsp;&nbsp;월 &nbsp;&nbsp;&nbsp;&nbsp;일 </td>
         			</tr>
@@ -137,7 +137,7 @@
         				<th style="text-align:center;vertical-align:middle;font-size:13px;">시설규모</th>
         				<td style="text-align:center;font-size:13px;"></td>
         				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">시&nbsp;&nbsp;공&nbsp;&nbsp;회&nbsp;&nbsp;사</th>
-        				<td style="text-align:center;font-size:13px;"><c:out value="${result.cnstrtr }" ></c:out></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${detailMngGroup.cnstrtr }" ></c:out></td>
         			</tr>
         			<tr height="40px">
         				<th style="text-align:center;vertical-align:middle;font-size:13px;">점검항목</th>
