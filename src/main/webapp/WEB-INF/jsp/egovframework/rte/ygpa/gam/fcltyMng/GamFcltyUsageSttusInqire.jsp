@@ -189,7 +189,7 @@
 	this.$("#repairMngGrid").on('onLoadDataComplete', function(event, module, data, grid, param) {
 		module.selectData();
 	});  
-	  this.$("#sUsagePdFrom").val(EMD.util.getDate(EMD.util.addMonths(-1000)));
+	  this.$("#sUsagePdFrom").val(EMD.util.getDate(EMD.util.addMonths(-12)));
 	  this.$("#sUsagePdTo").val(EMD.util.getDate());
 
  };
