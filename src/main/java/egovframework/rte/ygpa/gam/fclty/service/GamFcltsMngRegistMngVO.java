@@ -93,6 +93,79 @@ public class GamFcltsMngRegistMngVO extends ComDefaultVO {
 	private	String fcltsSeNm;				// 시설물 구분 명
 	private	String fcltsKndNm;				// 시설물 종류 명
 	private	String fcltsMngGroupNm;			// 시설물 관리 그룹 명
+	private	String baseFmt;					// 기초 형식
+	private	String strctFmt;				// 구조 형식
+	private	String ar;						// 연면적
+	private	String archAr;					// 건축 면적
+	private	String plotAr;					// 대지 면적
+	private	String mainUsagePrpos;			// 주 사용 용도
+	private	String prkAr;					// 주차 면적
+	private	String isdPrkAr;				// 옥내 주차 면적
+	private	String osdPrkAr;				// 옥외 주차 면적
+	private	String prkCnt;					// 주차 대수
+	private	String isdPrkCnt;				// 옥내 주차 대수
+	private	String osdPrkCnt;				// 옥외 주차 대수
+	private	String exhaustDuctEnnc;			// 배기 닥트 유무
+	private	String vntltnArcndtMthd;		// 환기 공조 방식
+	private	String wrtTankLoc;				// 물탱크 위치
+	private	String sbtLoc;					// 변전실 위치
+	private	String oilSavefcltyLoc;			// 유류 저장시설 위치
+	private	String swgClupfcltyLoc;			// 오수 정화시설 위치
+	private	String liftCntPsngr;			// 승강기 대수 승객용
+	private	String liftCntCargo;			// 승강기 대수 화물용
+	private	String liftCntEmgcy;			// 승강기 대수 비상용
+	private	String liftOperMthd;			// 승강기 운영 방식
+	private	String clngEnnc;				// 냉방 유무
+	private	String clngSrc;					// 냉방 열원
+	private	String htngEnnc;				// 난방 유무
+	private	String htngSrc;					// 난방 열원
+	private	String spictankFmt;				// 정화조 형식
+	private	String elctyLeadInCapa;			// 전기 인입 용량
+	private	String groundFloorCn;			// 지상 층수
+	private	String topFloorCn;				// 옥탑 층수
+	private	String underFloorCn;			// 지하 층수
+	private	String highHt;					// 최고 높이
+	private	String highFllorHt;				// 최고층 높이
+	private	String highFllorHtPos;			// 최고층 해당층
+	private	String baseSideDp;				// 기초 밑면 깊이
+	private	String floorArRate;				// 건폐율
+	private	String capaRate;				// 용적율
+	private	String dtMaxUsageCn;			// 일시 최대 사용 인원
+	private	String dtUsageCn;				// 1일 사용 인원
+	private	String bldMntnMngSysYn;			// 건물유지관리시스템 유무
+	private	String mntnMngAddFcltyYn;		// 유지관리 부대시설 유무
+	private	String apptTp;					// 지정 형태
+	private	String bridgeStartLoc;			// 교량 시점 위치
+	private	String bridgeEndLoc;			// 교량 종점 위치
+	private	String planLiveWght;			// 설계활 하중
+	private	String allowPassWght;			// 허용 통행 하중
+	private	String extLt;					// 연장 길이
+	private	String extSpanCn;				// 연장 경간수
+	private	String extMaxSpanLt;			// 연장 최대 경간장
+	private	String paveWd;					// 보도 폭
+	private	String roadWd;					// 차도 폭
+	private	String sumPaveRoadWd;			// 합계 폭
+	private	String upRoadCn;				// 상행 차로 수
+	private	String downRoadCn;				// 하행 차로 수
+	private	String sumUpDownRoadCn;			// 합계 차로 수
+	private	String spanComp;				// 경간 구성
+	private	String mainSpanFmt;				// 주 경간 형식
+	private	String sunSpanFmt;				// 부 경간 형식
+	private	String propSe;					// 받침 종류
+	private	String buldConnSe;				// 신축 이음 종류
+	private	String subPassLmtHt;			// 하부 통과 제한 높이
+	private	String bridgePierFmt1;			// 교각 형식 1
+	private	String bridgePierCn1;			// 교각 갯수 1
+	private	String bridgePierBaseFmt1;		// 교각 기초 형식 1
+	private	String bridgePierFmt2;			// 교각 형식 2
+	private	String bridgePierCn2;			// 교각 갯수 2
+	private	String bridgePierBaseFmt2;		// 교각 기초 형식 2
+	private	String bridgePropFmt1;			// 교대 형식 1
+	private	String bridgePropBaseFmt1;		// 교대 기초 형식 1
+	private	String bridgePropFmt2;			// 교대 형식 2
+	private	String bridgePropBaseFmt2;		// 교대 기초 형식 2
+	private	String crossRoute;				// 교차 노선
+	private	String crossRiverHighDpwt;		// 교차 하천 최고 수심
 	private	String sFcltsNo;				// 검색 시설물 번호
 	private	String sFcltsNm;				// 검색 시설물 명
 	private	String sFcltsGbn;				// 검색 시설물 종별
@@ -869,6 +942,882 @@ public class GamFcltsMngRegistMngVO extends ComDefaultVO {
 	 */
 	public void setFcltsMngGroupNm(String fcltsMngGroupNm) {
 		this.fcltsMngGroupNm = fcltsMngGroupNm;
+	}
+	/**
+	 * @return the baseFmt
+	 */
+	public String getBaseFmt() {
+		return baseFmt;
+	}
+	/**
+	 * @param baseFmt the baseFmt to set
+	 */
+	public void setBaseFmt(String baseFmt) {
+		this.baseFmt = baseFmt;
+	}
+	/**
+	 * @return the strctFmt
+	 */
+	public String getStrctFmt() {
+		return strctFmt;
+	}
+	/**
+	 * @param strctFmt the strctFmt to set
+	 */
+	public void setStrctFmt(String strctFmt) {
+		this.strctFmt = strctFmt;
+	}
+	/**
+	 * @return the ar
+	 */
+	public String getAr() {
+		return ar;
+	}
+	/**
+	 * @param ar the ar to set
+	 */
+	public void setAr(String ar) {
+		this.ar = ar;
+	}
+	/**
+	 * @return the archAr
+	 */
+	public String getArchAr() {
+		return archAr;
+	}
+	/**
+	 * @param archAr the archAr to set
+	 */
+	public void setArchAr(String archAr) {
+		this.archAr = archAr;
+	}
+	/**
+	 * @return the plotAr
+	 */
+	public String getPlotAr() {
+		return plotAr;
+	}
+	/**
+	 * @param plotAr the plotAr to set
+	 */
+	public void setPlotAr(String plotAr) {
+		this.plotAr = plotAr;
+	}
+	/**
+	 * @return the mainUsagePrpos
+	 */
+	public String getMainUsagePrpos() {
+		return mainUsagePrpos;
+	}
+	/**
+	 * @param mainUsagePrpos the mainUsagePrpos to set
+	 */
+	public void setMainUsagePrpos(String mainUsagePrpos) {
+		this.mainUsagePrpos = mainUsagePrpos;
+	}
+	/**
+	 * @return the prkAr
+	 */
+	public String getPrkAr() {
+		return prkAr;
+	}
+	/**
+	 * @param prkAr the prkAr to set
+	 */
+	public void setPrkAr(String prkAr) {
+		this.prkAr = prkAr;
+	}
+	/**
+	 * @return the isdPrkAr
+	 */
+	public String getIsdPrkAr() {
+		return isdPrkAr;
+	}
+	/**
+	 * @param isdPrkAr the isdPrkAr to set
+	 */
+	public void setIsdPrkAr(String isdPrkAr) {
+		this.isdPrkAr = isdPrkAr;
+	}
+	/**
+	 * @return the osdPrkAr
+	 */
+	public String getOsdPrkAr() {
+		return osdPrkAr;
+	}
+	/**
+	 * @param osdPrkAr the osdPrkAr to set
+	 */
+	public void setOsdPrkAr(String osdPrkAr) {
+		this.osdPrkAr = osdPrkAr;
+	}
+	/**
+	 * @return the prkCnt
+	 */
+	public String getPrkCnt() {
+		return prkCnt;
+	}
+	/**
+	 * @param prkCnt the prkCnt to set
+	 */
+	public void setPrkCnt(String prkCnt) {
+		this.prkCnt = prkCnt;
+	}
+	/**
+	 * @return the isdPrkCnt
+	 */
+	public String getIsdPrkCnt() {
+		return isdPrkCnt;
+	}
+	/**
+	 * @param isdPrkCnt the isdPrkCnt to set
+	 */
+	public void setIsdPrkCnt(String isdPrkCnt) {
+		this.isdPrkCnt = isdPrkCnt;
+	}
+	/**
+	 * @return the osdPrkCnt
+	 */
+	public String getOsdPrkCnt() {
+		return osdPrkCnt;
+	}
+	/**
+	 * @param osdPrkCnt the osdPrkCnt to set
+	 */
+	public void setOsdPrkCnt(String osdPrkCnt) {
+		this.osdPrkCnt = osdPrkCnt;
+	}
+	/**
+	 * @return the exhaustDuctEnnc
+	 */
+	public String getExhaustDuctEnnc() {
+		return exhaustDuctEnnc;
+	}
+	/**
+	 * @param exhaustDuctEnnc the exhaustDuctEnnc to set
+	 */
+	public void setExhaustDuctEnnc(String exhaustDuctEnnc) {
+		this.exhaustDuctEnnc = exhaustDuctEnnc;
+	}
+	/**
+	 * @return the vntltnArcndtMthd
+	 */
+	public String getVntltnArcndtMthd() {
+		return vntltnArcndtMthd;
+	}
+	/**
+	 * @param vntltnArcndtMthd the vntltnArcndtMthd to set
+	 */
+	public void setVntltnArcndtMthd(String vntltnArcndtMthd) {
+		this.vntltnArcndtMthd = vntltnArcndtMthd;
+	}
+	/**
+	 * @return the wrtTankLoc
+	 */
+	public String getWrtTankLoc() {
+		return wrtTankLoc;
+	}
+	/**
+	 * @param wrtTankLoc the wrtTankLoc to set
+	 */
+	public void setWrtTankLoc(String wrtTankLoc) {
+		this.wrtTankLoc = wrtTankLoc;
+	}
+	/**
+	 * @return the sbtLoc
+	 */
+	public String getSbtLoc() {
+		return sbtLoc;
+	}
+	/**
+	 * @param sbtLoc the sbtLoc to set
+	 */
+	public void setSbtLoc(String sbtLoc) {
+		this.sbtLoc = sbtLoc;
+	}
+	/**
+	 * @return the oilSavefcltyLoc
+	 */
+	public String getOilSavefcltyLoc() {
+		return oilSavefcltyLoc;
+	}
+	/**
+	 * @param oilSavefcltyLoc the oilSavefcltyLoc to set
+	 */
+	public void setOilSavefcltyLoc(String oilSavefcltyLoc) {
+		this.oilSavefcltyLoc = oilSavefcltyLoc;
+	}
+	/**
+	 * @return the swgClupfcltyLoc
+	 */
+	public String getSwgClupfcltyLoc() {
+		return swgClupfcltyLoc;
+	}
+	/**
+	 * @param swgClupfcltyLoc the swgClupfcltyLoc to set
+	 */
+	public void setSwgClupfcltyLoc(String swgClupfcltyLoc) {
+		this.swgClupfcltyLoc = swgClupfcltyLoc;
+	}
+	/**
+	 * @return the liftCntPsngr
+	 */
+	public String getLiftCntPsngr() {
+		return liftCntPsngr;
+	}
+	/**
+	 * @param liftCntPsngr the liftCntPsngr to set
+	 */
+	public void setLiftCntPsngr(String liftCntPsngr) {
+		this.liftCntPsngr = liftCntPsngr;
+	}
+	/**
+	 * @return the liftCntCargo
+	 */
+	public String getLiftCntCargo() {
+		return liftCntCargo;
+	}
+	/**
+	 * @param liftCntCargo the liftCntCargo to set
+	 */
+	public void setLiftCntCargo(String liftCntCargo) {
+		this.liftCntCargo = liftCntCargo;
+	}
+	/**
+	 * @return the liftCntEmgcy
+	 */
+	public String getLiftCntEmgcy() {
+		return liftCntEmgcy;
+	}
+	/**
+	 * @param liftCntEmgcy the liftCntEmgcy to set
+	 */
+	public void setLiftCntEmgcy(String liftCntEmgcy) {
+		this.liftCntEmgcy = liftCntEmgcy;
+	}
+	/**
+	 * @return the liftOperMthd
+	 */
+	public String getLiftOperMthd() {
+		return liftOperMthd;
+	}
+	/**
+	 * @param liftOperMthd the liftOperMthd to set
+	 */
+	public void setLiftOperMthd(String liftOperMthd) {
+		this.liftOperMthd = liftOperMthd;
+	}
+	/**
+	 * @return the clngEnnc
+	 */
+	public String getClngEnnc() {
+		return clngEnnc;
+	}
+	/**
+	 * @param clngEnnc the clngEnnc to set
+	 */
+	public void setClngEnnc(String clngEnnc) {
+		this.clngEnnc = clngEnnc;
+	}
+	/**
+	 * @return the clngSrc
+	 */
+	public String getClngSrc() {
+		return clngSrc;
+	}
+	/**
+	 * @param clngSrc the clngSrc to set
+	 */
+	public void setClngSrc(String clngSrc) {
+		this.clngSrc = clngSrc;
+	}
+	/**
+	 * @return the htngEnnc
+	 */
+	public String getHtngEnnc() {
+		return htngEnnc;
+	}
+	/**
+	 * @param htngEnnc the htngEnnc to set
+	 */
+	public void setHtngEnnc(String htngEnnc) {
+		this.htngEnnc = htngEnnc;
+	}
+	/**
+	 * @return the htngSrc
+	 */
+	public String getHtngSrc() {
+		return htngSrc;
+	}
+	/**
+	 * @param htngSrc the htngSrc to set
+	 */
+	public void setHtngSrc(String htngSrc) {
+		this.htngSrc = htngSrc;
+	}
+	/**
+	 * @return the spictankFmt
+	 */
+	public String getSpictankFmt() {
+		return spictankFmt;
+	}
+	/**
+	 * @param spictankFmt the spictankFmt to set
+	 */
+	public void setSpictankFmt(String spictankFmt) {
+		this.spictankFmt = spictankFmt;
+	}
+	/**
+	 * @return the elctyLeadInCapa
+	 */
+	public String getElctyLeadInCapa() {
+		return elctyLeadInCapa;
+	}
+	/**
+	 * @param elctyLeadInCapa the elctyLeadInCapa to set
+	 */
+	public void setElctyLeadInCapa(String elctyLeadInCapa) {
+		this.elctyLeadInCapa = elctyLeadInCapa;
+	}
+	/**
+	 * @return the groundFloorCn
+	 */
+	public String getGroundFloorCn() {
+		return groundFloorCn;
+	}
+	/**
+	 * @param groundFloorCn the groundFloorCn to set
+	 */
+	public void setGroundFloorCn(String groundFloorCn) {
+		this.groundFloorCn = groundFloorCn;
+	}
+	/**
+	 * @return the topFloorCn
+	 */
+	public String getTopFloorCn() {
+		return topFloorCn;
+	}
+	/**
+	 * @param topFloorCn the topFloorCn to set
+	 */
+	public void setTopFloorCn(String topFloorCn) {
+		this.topFloorCn = topFloorCn;
+	}
+	/**
+	 * @return the underFloorCn
+	 */
+	public String getUnderFloorCn() {
+		return underFloorCn;
+	}
+	/**
+	 * @param underFloorCn the underFloorCn to set
+	 */
+	public void setUnderFloorCn(String underFloorCn) {
+		this.underFloorCn = underFloorCn;
+	}
+	/**
+	 * @return the highHt
+	 */
+	public String getHighHt() {
+		return highHt;
+	}
+	/**
+	 * @param highHt the highHt to set
+	 */
+	public void setHighHt(String highHt) {
+		this.highHt = highHt;
+	}
+	/**
+	 * @return the highFllorHt
+	 */
+	public String getHighFllorHt() {
+		return highFllorHt;
+	}
+	/**
+	 * @param highFllorHt the highFllorHt to set
+	 */
+	public void setHighFllorHt(String highFllorHt) {
+		this.highFllorHt = highFllorHt;
+	}
+	/**
+	 * @return the highFllorHtPos
+	 */
+	public String getHighFllorHtPos() {
+		return highFllorHtPos;
+	}
+	/**
+	 * @param highFllorHtPos the highFllorHtPos to set
+	 */
+	public void setHighFllorHtPos(String highFllorHtPos) {
+		this.highFllorHtPos = highFllorHtPos;
+	}
+	/**
+	 * @return the baseSideDp
+	 */
+	public String getBaseSideDp() {
+		return baseSideDp;
+	}
+	/**
+	 * @param baseSideDp the baseSideDp to set
+	 */
+	public void setBaseSideDp(String baseSideDp) {
+		this.baseSideDp = baseSideDp;
+	}
+	/**
+	 * @return the floorArRate
+	 */
+	public String getFloorArRate() {
+		return floorArRate;
+	}
+	/**
+	 * @param floorArRate the floorArRate to set
+	 */
+	public void setFloorArRate(String floorArRate) {
+		this.floorArRate = floorArRate;
+	}
+	/**
+	 * @return the capaRate
+	 */
+	public String getCapaRate() {
+		return capaRate;
+	}
+	/**
+	 * @param capaRate the capaRate to set
+	 */
+	public void setCapaRate(String capaRate) {
+		this.capaRate = capaRate;
+	}
+	/**
+	 * @return the dtMaxUsageCn
+	 */
+	public String getDtMaxUsageCn() {
+		return dtMaxUsageCn;
+	}
+	/**
+	 * @param dtMaxUsageCn the dtMaxUsageCn to set
+	 */
+	public void setDtMaxUsageCn(String dtMaxUsageCn) {
+		this.dtMaxUsageCn = dtMaxUsageCn;
+	}
+	/**
+	 * @return the dtUsageCn
+	 */
+	public String getDtUsageCn() {
+		return dtUsageCn;
+	}
+	/**
+	 * @param dtUsageCn the dtUsageCn to set
+	 */
+	public void setDtUsageCn(String dtUsageCn) {
+		this.dtUsageCn = dtUsageCn;
+	}
+	/**
+	 * @return the bldMntnMngSysYn
+	 */
+	public String getBldMntnMngSysYn() {
+		return bldMntnMngSysYn;
+	}
+	/**
+	 * @param bldMntnMngSysYn the bldMntnMngSysYn to set
+	 */
+	public void setBldMntnMngSysYn(String bldMntnMngSysYn) {
+		this.bldMntnMngSysYn = bldMntnMngSysYn;
+	}
+	/**
+	 * @return the mntnMngAddFcltyYn
+	 */
+	public String getMntnMngAddFcltyYn() {
+		return mntnMngAddFcltyYn;
+	}
+	/**
+	 * @param mntnMngAddFcltyYn the mntnMngAddFcltyYn to set
+	 */
+	public void setMntnMngAddFcltyYn(String mntnMngAddFcltyYn) {
+		this.mntnMngAddFcltyYn = mntnMngAddFcltyYn;
+	}
+	/**
+	 * @return the apptTp
+	 */
+	public String getApptTp() {
+		return apptTp;
+	}
+	/**
+	 * @param apptTp the apptTp to set
+	 */
+	public void setApptTp(String apptTp) {
+		this.apptTp = apptTp;
+	}
+	/**
+	 * @return the bridgeStartLoc
+	 */
+	public String getBridgeStartLoc() {
+		return bridgeStartLoc;
+	}
+	/**
+	 * @param bridgeStartLoc the bridgeStartLoc to set
+	 */
+	public void setBridgeStartLoc(String bridgeStartLoc) {
+		this.bridgeStartLoc = bridgeStartLoc;
+	}
+	/**
+	 * @return the bridgeEndLoc
+	 */
+	public String getBridgeEndLoc() {
+		return bridgeEndLoc;
+	}
+	/**
+	 * @param bridgeEndLoc the bridgeEndLoc to set
+	 */
+	public void setBridgeEndLoc(String bridgeEndLoc) {
+		this.bridgeEndLoc = bridgeEndLoc;
+	}
+	/**
+	 * @return the planLiveWght
+	 */
+	public String getPlanLiveWght() {
+		return planLiveWght;
+	}
+	/**
+	 * @param planLiveWght the planLiveWght to set
+	 */
+	public void setPlanLiveWght(String planLiveWght) {
+		this.planLiveWght = planLiveWght;
+	}
+	/**
+	 * @return the allowPassWght
+	 */
+	public String getAllowPassWght() {
+		return allowPassWght;
+	}
+	/**
+	 * @param allowPassWght the allowPassWght to set
+	 */
+	public void setAllowPassWght(String allowPassWght) {
+		this.allowPassWght = allowPassWght;
+	}
+	/**
+	 * @return the extLt
+	 */
+	public String getExtLt() {
+		return extLt;
+	}
+	/**
+	 * @param extLt the extLt to set
+	 */
+	public void setExtLt(String extLt) {
+		this.extLt = extLt;
+	}
+	/**
+	 * @return the extSpanCn
+	 */
+	public String getExtSpanCn() {
+		return extSpanCn;
+	}
+	/**
+	 * @param extSpanCn the extSpanCn to set
+	 */
+	public void setExtSpanCn(String extSpanCn) {
+		this.extSpanCn = extSpanCn;
+	}
+	/**
+	 * @return the extMaxSpanLt
+	 */
+	public String getExtMaxSpanLt() {
+		return extMaxSpanLt;
+	}
+	/**
+	 * @param extMaxSpanLt the extMaxSpanLt to set
+	 */
+	public void setExtMaxSpanLt(String extMaxSpanLt) {
+		this.extMaxSpanLt = extMaxSpanLt;
+	}
+	/**
+	 * @return the paveWd
+	 */
+	public String getPaveWd() {
+		return paveWd;
+	}
+	/**
+	 * @param paveWd the paveWd to set
+	 */
+	public void setPaveWd(String paveWd) {
+		this.paveWd = paveWd;
+	}
+	/**
+	 * @return the roadWd
+	 */
+	public String getRoadWd() {
+		return roadWd;
+	}
+	/**
+	 * @param roadWd the roadWd to set
+	 */
+	public void setRoadWd(String roadWd) {
+		this.roadWd = roadWd;
+	}
+	/**
+	 * @return the sumPaveRoadWd
+	 */
+	public String getSumPaveRoadWd() {
+		return sumPaveRoadWd;
+	}
+	/**
+	 * @param sumPaveRoadWd the sumPaveRoadWd to set
+	 */
+	public void setSumPaveRoadWd(String sumPaveRoadWd) {
+		this.sumPaveRoadWd = sumPaveRoadWd;
+	}
+	/**
+	 * @return the upRoadCn
+	 */
+	public String getUpRoadCn() {
+		return upRoadCn;
+	}
+	/**
+	 * @param upRoadCn the upRoadCn to set
+	 */
+	public void setUpRoadCn(String upRoadCn) {
+		this.upRoadCn = upRoadCn;
+	}
+	/**
+	 * @return the downRoadCn
+	 */
+	public String getDownRoadCn() {
+		return downRoadCn;
+	}
+	/**
+	 * @param downRoadCn the downRoadCn to set
+	 */
+	public void setDownRoadCn(String downRoadCn) {
+		this.downRoadCn = downRoadCn;
+	}
+	/**
+	 * @return the sumUpDownRoadCn
+	 */
+	public String getSumUpDownRoadCn() {
+		return sumUpDownRoadCn;
+	}
+	/**
+	 * @param sumUpDownRoadCn the sumUpDownRoadCn to set
+	 */
+	public void setSumUpDownRoadCn(String sumUpDownRoadCn) {
+		this.sumUpDownRoadCn = sumUpDownRoadCn;
+	}
+	/**
+	 * @return the spanComp
+	 */
+	public String getSpanComp() {
+		return spanComp;
+	}
+	/**
+	 * @param spanComp the spanComp to set
+	 */
+	public void setSpanComp(String spanComp) {
+		this.spanComp = spanComp;
+	}
+	/**
+	 * @return the mainSpanFmt
+	 */
+	public String getMainSpanFmt() {
+		return mainSpanFmt;
+	}
+	/**
+	 * @param mainSpanFmt the mainSpanFmt to set
+	 */
+	public void setMainSpanFmt(String mainSpanFmt) {
+		this.mainSpanFmt = mainSpanFmt;
+	}
+	/**
+	 * @return the sunSpanFmt
+	 */
+	public String getSunSpanFmt() {
+		return sunSpanFmt;
+	}
+	/**
+	 * @param sunSpanFmt the sunSpanFmt to set
+	 */
+	public void setSunSpanFmt(String sunSpanFmt) {
+		this.sunSpanFmt = sunSpanFmt;
+	}
+	/**
+	 * @return the propSe
+	 */
+	public String getPropSe() {
+		return propSe;
+	}
+	/**
+	 * @param propSe the propSe to set
+	 */
+	public void setPropSe(String propSe) {
+		this.propSe = propSe;
+	}
+	/**
+	 * @return the buldConnSe
+	 */
+	public String getBuldConnSe() {
+		return buldConnSe;
+	}
+	/**
+	 * @param buldConnSe the buldConnSe to set
+	 */
+	public void setBuldConnSe(String buldConnSe) {
+		this.buldConnSe = buldConnSe;
+	}
+	/**
+	 * @return the subPassLmtHt
+	 */
+	public String getSubPassLmtHt() {
+		return subPassLmtHt;
+	}
+	/**
+	 * @param subPassLmtHt the subPassLmtHt to set
+	 */
+	public void setSubPassLmtHt(String subPassLmtHt) {
+		this.subPassLmtHt = subPassLmtHt;
+	}
+	/**
+	 * @return the bridgePierFmt1
+	 */
+	public String getBridgePierFmt1() {
+		return bridgePierFmt1;
+	}
+	/**
+	 * @param bridgePierFmt1 the bridgePierFmt1 to set
+	 */
+	public void setBridgePierFmt1(String bridgePierFmt1) {
+		this.bridgePierFmt1 = bridgePierFmt1;
+	}
+	/**
+	 * @return the bridgePierCn1
+	 */
+	public String getBridgePierCn1() {
+		return bridgePierCn1;
+	}
+	/**
+	 * @param bridgePierCn1 the bridgePierCn1 to set
+	 */
+	public void setBridgePierCn1(String bridgePierCn1) {
+		this.bridgePierCn1 = bridgePierCn1;
+	}
+	/**
+	 * @return the bridgePierBaseFmt1
+	 */
+	public String getBridgePierBaseFmt1() {
+		return bridgePierBaseFmt1;
+	}
+	/**
+	 * @param bridgePierBaseFmt1 the bridgePierBaseFmt1 to set
+	 */
+	public void setBridgePierBaseFmt1(String bridgePierBaseFmt1) {
+		this.bridgePierBaseFmt1 = bridgePierBaseFmt1;
+	}
+	/**
+	 * @return the bridgePierFmt2
+	 */
+	public String getBridgePierFmt2() {
+		return bridgePierFmt2;
+	}
+	/**
+	 * @param bridgePierFmt2 the bridgePierFmt2 to set
+	 */
+	public void setBridgePierFmt2(String bridgePierFmt2) {
+		this.bridgePierFmt2 = bridgePierFmt2;
+	}
+	/**
+	 * @return the bridgePierCn2
+	 */
+	public String getBridgePierCn2() {
+		return bridgePierCn2;
+	}
+	/**
+	 * @param bridgePierCn2 the bridgePierCn2 to set
+	 */
+	public void setBridgePierCn2(String bridgePierCn2) {
+		this.bridgePierCn2 = bridgePierCn2;
+	}
+	/**
+	 * @return the bridgePierBaseFmt2
+	 */
+	public String getBridgePierBaseFmt2() {
+		return bridgePierBaseFmt2;
+	}
+	/**
+	 * @param bridgePierBaseFmt2 the bridgePierBaseFmt2 to set
+	 */
+	public void setBridgePierBaseFmt2(String bridgePierBaseFmt2) {
+		this.bridgePierBaseFmt2 = bridgePierBaseFmt2;
+	}
+	/**
+	 * @return the bridgePropFmt1
+	 */
+	public String getBridgePropFmt1() {
+		return bridgePropFmt1;
+	}
+	/**
+	 * @param bridgePropFmt1 the bridgePropFmt1 to set
+	 */
+	public void setBridgePropFmt1(String bridgePropFmt1) {
+		this.bridgePropFmt1 = bridgePropFmt1;
+	}
+	/**
+	 * @return the bridgePropBaseFmt1
+	 */
+	public String getBridgePropBaseFmt1() {
+		return bridgePropBaseFmt1;
+	}
+	/**
+	 * @param bridgePropBaseFmt1 the bridgePropBaseFmt1 to set
+	 */
+	public void setBridgePropBaseFmt1(String bridgePropBaseFmt1) {
+		this.bridgePropBaseFmt1 = bridgePropBaseFmt1;
+	}
+	/**
+	 * @return the bridgePropFmt2
+	 */
+	public String getBridgePropFmt2() {
+		return bridgePropFmt2;
+	}
+	/**
+	 * @param bridgePropFmt2 the bridgePropFmt2 to set
+	 */
+	public void setBridgePropFmt2(String bridgePropFmt2) {
+		this.bridgePropFmt2 = bridgePropFmt2;
+	}
+	/**
+	 * @return the bridgePropBaseFmt2
+	 */
+	public String getBridgePropBaseFmt2() {
+		return bridgePropBaseFmt2;
+	}
+	/**
+	 * @param bridgePropBaseFmt2 the bridgePropBaseFmt2 to set
+	 */
+	public void setBridgePropBaseFmt2(String bridgePropBaseFmt2) {
+		this.bridgePropBaseFmt2 = bridgePropBaseFmt2;
+	}
+	/**
+	 * @return the crossRoute
+	 */
+	public String getCrossRoute() {
+		return crossRoute;
+	}
+	/**
+	 * @param crossRoute the crossRoute to set
+	 */
+	public void setCrossRoute(String crossRoute) {
+		this.crossRoute = crossRoute;
+	}
+	/**
+	 * @return the crossRiverHighDpwt
+	 */
+	public String getCrossRiverHighDpwt() {
+		return crossRiverHighDpwt;
+	}
+	/**
+	 * @param crossRiverHighDpwt the crossRiverHighDpwt to set
+	 */
+	public void setCrossRiverHighDpwt(String crossRiverHighDpwt) {
+		this.crossRiverHighDpwt = crossRiverHighDpwt;
 	}
 	/**
 	 * @return the sFcltsNo

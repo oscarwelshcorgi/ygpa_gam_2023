@@ -35,7 +35,7 @@
 %>
 function GamFcltsMngRegistMngModule() {}
 
-GamFcltsMngRegistMngModule.prototype = new EmdModule(1000, 645);
+GamFcltsMngRegistMngModule.prototype = new EmdModule(1000, 710);
 
 GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 
@@ -107,6 +107,11 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
+	this.$("#fcltsNo").bind("keyup change", {module: this}, function(event) {
+		var fcltsNo = $(this).val();
+		event.data.module.changeDetailAreaForm(fcltsNo);
+	});
+
 	this.$("#fcltsMngGroupNo").bind("keyup change", {module: this}, function(event) {
 		event.data.module.getFcltsMngGroupNm("#fcltsMngGroupNo", "#fcltsMngGroupNm");
 		var fcltsNm = event.data.module.$('#fcltsNm').val();
@@ -123,6 +128,22 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 	this.$('#fcltsKndSelect').on('change',{module:this}, function(event){
 		var sFcltsKnd = $(this).val();
 		event.data.module.$('#fcltsKnd').val(sFcltsKnd);
+	});
+
+	this.$('#paveWd').on('keyup change',{module:this}, function(event){
+		event.data.module.calcSumPaveRoadWd();
+	});
+
+	this.$('#roadWd').on('keyup change',{module:this}, function(event){
+		event.data.module.calcSumPaveRoadWd();
+	});
+
+	this.$('#upRoadCn').on('keyup change',{module:this}, function(event){
+		event.data.module.calcSumUpDownRoadCn();
+	});
+
+	this.$('#downRoadCn').on('keyup change',{module:this}, function(event){
+		event.data.module.calcSumUpDownRoadCn();
 	});
 
 	this.$("#qcPlanGrid").flexigrid({
@@ -339,6 +360,72 @@ GamFcltsMngRegistMngModule.prototype.isValidAmount = function(amountValue) {
 
 <%
 /**
+ * @FUNCTION NAME : calcSumPaveRoadWd
+ * @DESCRIPTION   : 폭 합계를 계산한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsMngRegistMngModule.prototype.calcSumPaveRoadWd = function() {
+
+	var paveWd = this.$('#paveWd').val().replace(/,/gi, "") * 1;
+	var roadWd = this.$('#roadWd').val().replace(/,/gi, "") * 1;
+	var sumPaveRoadWd = paveWd + roadWd;
+	this.$('#sumPaveRoadWd').val('' + $.number(sumPaveRoadWd));
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : calcSumUpDownRoadCn
+ * @DESCRIPTION   : 차로수 합계를 계산한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltsMngRegistMngModule.prototype.calcSumUpDownRoadCn = function() {
+
+	var upRoadCn = this.$('#upRoadCn').val().replace(/,/gi, "") * 1;
+	var downRoadCn = this.$('#downRoadCn').val().replace(/,/gi, "") * 1;
+	var sumUpDownRoadCn = upRoadCn + downRoadCn;
+	this.$('#sumUpDownRoadCn').val('' + $.number(sumUpDownRoadCn));
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : changeDetailAreaForm
+ * @DESCRIPTION   : 시설 번호에 따른 폼 입력 영역 변경
+ * @PARAMETER     :
+ *   1. argFcltsNo - FCLTS NO.(시설 번호)
+**/
+%>
+GamFcltsMngRegistMngModule.prototype.changeDetailAreaForm = function(argFcltsNo) {
+
+	var fcltsNoSe = "Z";
+	if (argFcltsNo != "") {
+		fcltsNoSe = argFcltsNo.substring(0,1);
+	}
+	if (fcltsNoSe == "H") {
+		this.$('#archDetailArea').hide();
+		this.$('#bridgeDetailArea').hide();
+		this.$('#cvlEngDetailArea').show();
+	} else if (fcltsNoSe == "A") {
+		this.$('#cvlEngDetailArea').hide();
+		this.$('#bridgeDetailArea').hide();
+		this.$('#archDetailArea').show();
+	} else if (fcltsNoSe == "B") {
+		this.$('#cvlEngDetailArea').hide();
+		this.$('#archDetailArea').hide();
+		this.$('#bridgeDetailArea').show();
+	} else {
+		this.$('#cvlEngDetailArea').hide();
+		this.$('#archDetailArea').hide();
+		this.$('#bridgeDetailArea').hide();
+	}
+
+};
+
+<%
+/**
  * @FUNCTION NAME : getFcltsMngGroupNm
  * @DESCRIPTION   : 시설물 관리 그룹 명을 구한다.
  * @PARAMETER     :
@@ -492,6 +579,12 @@ GamFcltsMngRegistMngModule.prototype.onButtonClick = function(buttonId) {
 			this._mainFcltsMngGroupNo = '';
 			this.makeFormValues('#detailForm', {});
 			this.makeDivValues('#detailForm', {});
+			this.makeFormValues('#cvlEngDetailAreaForm', {});
+			this.makeDivValues('#cvlEngDetailAreaForm', {});
+			this.makeFormValues('#archDetailAreaForm', {});
+			this.makeDivValues('#archDetailAreaForm', {});
+			this.makeFormValues('#bridgeDetailAreaForm', {});
+			this.makeDivValues('#bridgeDetailAreaForm', {});
 			this.disableDetailInputItem();
 			this.addData();
 			break;
@@ -584,6 +677,12 @@ GamFcltsMngRegistMngModule.prototype.loadDetail = function(tabId) {
 		}
 		this.makeFormValues('#detailForm', row[0]);
 		this.makeDivValues('#detailForm', row[0]);
+		this.makeFormValues('#cvlEngDetailAreaForm', row[0]);
+		this.makeDivValues('#cvlEngDetailAreaForm', row[0]);
+		this.makeFormValues('#archDetailAreaForm', row[0]);
+		this.makeDivValues('#archDetailAreaForm', row[0]);
+		this.makeFormValues('#bridgeDetailAreaForm', row[0]);
+		this.makeDivValues('#bridgeDetailAreaForm', row[0]);
 		this.$('#fcltsJobSe').val(this.$('#sFcltsJobSe').val());
 		this.makeFcltsKndData(this.$('#fcltsKnd').val());
 	} else {
@@ -592,6 +691,12 @@ GamFcltsMngRegistMngModule.prototype.loadDetail = function(tabId) {
 			if (result.resultCode == "0") {
 				module.makeFormValues('#detailForm', result.result);
 				module.makeDivValues('#detailForm', result.result);
+				module.makeFormValues('#cvlEngDetailAreaForm', result.result);
+				module.makeDivValues('#cvlEngDetailAreaForm', result.result);
+				module.makeFormValues('#archDetailAreaForm', result.result);
+				module.makeDivValues('#archDetailAreaForm', result.result);
+				module.makeFormValues('#bridgeDetailAreaForm', result.result);
+				module.makeDivValues('#bridgeDetailAreaForm', result.result);
 				module.$('#fcltsJobSe').val(this.$('#sFcltsJobSe').val());
 				module.makeFcltsKndData(module.$('#fcltsKnd').val());
 			}
@@ -700,6 +805,79 @@ GamFcltsMngRegistMngModule.prototype.addData = function() {
 	this.$('#fcltsMngGroupNo').val("");
 	this.$('#fcltsMngGroupNm').val("");
 	this.$('#loc').val("");
+	this.$('#baseFmt').val("");
+	this.$('#strctFmt').val("");
+	this.$('#ar').val("");
+	this.$('#archAr').val("");
+	this.$('#plotAr').val("");
+	this.$('#mainUsagePrpos').val("");
+	this.$('#prkAr').val("");
+	this.$('#isdPrkAr').val("");
+	this.$('#osdPrkAr').val("");
+	this.$('#prkCnt').val("");
+	this.$('#isdPrkCnt').val("");
+	this.$('#osdPrkCnt').val("");
+	this.$('#exhaustDuctEnnc').val("");
+	this.$('#vntltnArcndtMthd').val("");
+	this.$('#wrtTankLoc').val("");
+	this.$('#sbtLoc').val("");
+	this.$('#oilSavefcltyLoc').val("");
+	this.$('#swgClupfcltyLoc').val("");
+	this.$('#liftCntPsngr').val("");
+	this.$('#liftCntCargo').val("");
+	this.$('#liftCntEmgcy').val("");
+	this.$('#liftOperMthd').val("");
+	this.$('#clngEnnc').val("");
+	this.$('#clngSrc').val("");
+	this.$('#htngEnnc').val("");
+	this.$('#htngSrc').val("");
+	this.$('#spictankFmt').val("");
+	this.$('#elctyLeadInCapa').val("");
+	this.$('#groundFloorCn').val("");
+	this.$('#topFloorCn').val("");
+	this.$('#underFloorCn').val("");
+	this.$('#highHt').val("");
+	this.$('#highFllorHt').val("");
+	this.$('#highFllorHtPos').val("");
+	this.$('#baseSideDp').val("");
+	this.$('#floorArRate').val("");
+	this.$('#capaRate').val("");
+	this.$('#dtMaxUsageCn').val("");
+	this.$('#dtUsageCn').val("");
+	this.$('#bldMntnMngSysYn').val("");
+	this.$('#mntnMngAddFcltyYn').val("");
+	this.$('#apptTp').val("");
+	this.$('#bridgeStartLoc').val("");
+	this.$('#bridgeEndLoc').val("");
+	this.$('#planLiveWght').val("");
+	this.$('#allowPassWght').val("");
+	this.$('#extLt').val("");
+	this.$('#extSpanCn').val("");
+	this.$('#extMaxSpanLt').val("");
+	this.$('#paveWd').val("");
+	this.$('#roadWd').val("");
+	this.$('#sumPaveRoadWd').val("");
+	this.$('#upRoadCn').val("");
+	this.$('#downRoadCn').val("");
+	this.$('#sumUpDownRoadCn').val("");
+	this.$('#spanComp').val("");
+	this.$('#mainSpanFmt').val("");
+	this.$('#sunSpanFmt').val("");
+	this.$('#propSe').val("");
+	this.$('#buldConnSe').val("");
+	this.$('#subPassLmtHt').val("");
+	this.$('#bridgePierFmt1').val("");
+	this.$('#bridgePierCn1').val("");
+	this.$('#bridgePierBaseFmt1').val("");
+	this.$('#bridgePierFmt2').val("");
+	this.$('#bridgePierCn2').val("");
+	this.$('#bridgePierBaseFmt2').val("");
+	this.$('#bridgePropFmt1').val("");
+	this.$('#bridgePropBaseFmt1').val("");
+	this.$('#bridgePropFmt2').val("");
+	this.$('#bridgePropBaseFmt2').val("");
+	this.$('#crossRoute').val("");
+	this.$('#crossRiverHighDpwt').val("");
 	this.enableDetailInputItem();
 	this.$('#fcltsNo').focus();
 
@@ -843,7 +1021,7 @@ GamFcltsMngRegistMngModule.prototype.saveData = function() {
 		return;
 	}
 	if (this._mainmode == "insert") {
-		var inputVO = this.makeFormArgs("#detailForm");
+		var inputVO = this.makeFormArgs("#detailTab");
 		this._mainKeyValue = fcltsNo;
 		this._mainFcltsMngGroupNo = fcltsMngGroupNo;
 		this.doAction('/fclty/gamInsertFcltsMngRegistMng.do', inputVO, function(module, result) {
@@ -853,7 +1031,7 @@ GamFcltsMngRegistMngModule.prototype.saveData = function() {
 			alert(result.resultMsg);
 		});
 	} else {
-		var inputVO = this.makeFormArgs("#detailForm");
+		var inputVO = this.makeFormArgs("#detailTab");
 		this._mainFcltsMngGroupNo = fcltsMngGroupNo;
 		this.doAction('/fclty/gamUpdateFcltsMngRegistMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
@@ -881,7 +1059,7 @@ GamFcltsMngRegistMngModule.prototype.deleteData = function() {
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
-		var deleteVO = this.makeFormArgs("#detailForm");
+		var deleteVO = this.makeFormArgs("#detailTab");
 		this.doAction('/fclty/gamDeleteFcltsMngRegistMng.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module._mainmode = 'query';
@@ -1013,6 +1191,79 @@ GamFcltsMngRegistMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#fmt3Desc2').enable();
 		this.$('#etcDtlsSpec').enable();
 		this.$('#fcltsMngGroupNo').enable();
+		this.$('#baseFmt').enable();
+		this.$('#strctFmt').enable();
+		this.$('#ar').enable();
+		this.$('#archAr').enable();
+		this.$('#plotAr').enable();
+		this.$('#mainUsagePrpos').enable();
+		this.$('#prkAr').enable();
+		this.$('#isdPrkAr').enable();
+		this.$('#osdPrkAr').enable();
+		this.$('#prkCnt').enable();
+		this.$('#isdPrkCnt').enable();
+		this.$('#osdPrkCnt').enable();
+		this.$('#exhaustDuctEnnc').enable();
+		this.$('#vntltnArcndtMthd').enable();
+		this.$('#wrtTankLoc').enable();
+		this.$('#sbtLoc').enable();
+		this.$('#oilSavefcltyLoc').enable();
+		this.$('#swgClupfcltyLoc').enable();
+		this.$('#liftCntPsngr').enable();
+		this.$('#liftCntCargo').enable();
+		this.$('#liftCntEmgcy').enable();
+		this.$('#liftOperMthd').enable();
+		this.$('#clngEnnc').enable();
+		this.$('#clngSrc').enable();
+		this.$('#htngEnnc').enable();
+		this.$('#htngSrc').enable();
+		this.$('#spictankFmt').enable();
+		this.$('#elctyLeadInCapa').enable();
+		this.$('#groundFloorCn').enable();
+		this.$('#topFloorCn').enable();
+		this.$('#underFloorCn').enable();
+		this.$('#highHt').enable();
+		this.$('#highFllorHt').enable();
+		this.$('#highFllorHtPos').enable();
+		this.$('#baseSideDp').enable();
+		this.$('#floorArRate').enable();
+		this.$('#capaRate').enable();
+		this.$('#dtMaxUsageCn').enable();
+		this.$('#dtUsageCn').enable();
+		this.$('#bldMntnMngSysYn').enable();
+		this.$('#mntnMngAddFcltyYn').enable();
+		this.$('#apptTp').enable();
+		this.$('#bridgeStartLoc').enable();
+		this.$('#bridgeEndLoc').enable();
+		this.$('#planLiveWght').enable();
+		this.$('#allowPassWght').enable();
+		this.$('#extLt').enable();
+		this.$('#extSpanCn').enable();
+		this.$('#extMaxSpanLt').enable();
+		this.$('#paveWd').enable();
+		this.$('#roadWd').enable();
+		this.$('#sumPaveRoadWd').enable();
+		this.$('#upRoadCn').enable();
+		this.$('#downRoadCn').enable();
+		this.$('#sumUpDownRoadCn').enable();
+		this.$('#spanComp').enable();
+		this.$('#mainSpanFmt').enable();
+		this.$('#sunSpanFmt').enable();
+		this.$('#propSe').enable();
+		this.$('#buldConnSe').enable();
+		this.$('#subPassLmtHt').enable();
+		this.$('#bridgePierFmt1').enable();
+		this.$('#bridgePierCn1').enable();
+		this.$('#bridgePierBaseFmt1').enable();
+		this.$('#bridgePierFmt2').enable();
+		this.$('#bridgePierCn2').enable();
+		this.$('#bridgePierBaseFmt2').enable();
+		this.$('#bridgePropFmt1').enable();
+		this.$('#bridgePropBaseFmt1').enable();
+		this.$('#bridgePropFmt2').enable();
+		this.$('#bridgePropBaseFmt2').enable();
+		this.$('#crossRoute').enable();
+		this.$('#crossRiverHighDpwt').enable();
 		this.$('#popupFcltsMngGroupNo').enable();
 		this.$('#popupFcltsMngGroupNo').removeClass('ui-state-disabled');
 		this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
@@ -1076,6 +1327,79 @@ GamFcltsMngRegistMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#fmt3Desc2').enable();
 			this.$('#etcDtlsSpec').enable();
 			this.$('#fcltsMngGroupNo').enable();
+			this.$('#baseFmt').enable();
+			this.$('#strctFmt').enable();
+			this.$('#ar').enable();
+			this.$('#archAr').enable();
+			this.$('#plotAr').enable();
+			this.$('#mainUsagePrpos').enable();
+			this.$('#prkAr').enable();
+			this.$('#isdPrkAr').enable();
+			this.$('#osdPrkAr').enable();
+			this.$('#prkCnt').enable();
+			this.$('#isdPrkCnt').enable();
+			this.$('#osdPrkCnt').enable();
+			this.$('#exhaustDuctEnnc').enable();
+			this.$('#vntltnArcndtMthd').enable();
+			this.$('#wrtTankLoc').enable();
+			this.$('#sbtLoc').enable();
+			this.$('#oilSavefcltyLoc').enable();
+			this.$('#swgClupfcltyLoc').enable();
+			this.$('#liftCntPsngr').enable();
+			this.$('#liftCntCargo').enable();
+			this.$('#liftCntEmgcy').enable();
+			this.$('#liftOperMthd').enable();
+			this.$('#clngEnnc').enable();
+			this.$('#clngSrc').enable();
+			this.$('#htngEnnc').enable();
+			this.$('#htngSrc').enable();
+			this.$('#spictankFmt').enable();
+			this.$('#elctyLeadInCapa').enable();
+			this.$('#groundFloorCn').enable();
+			this.$('#topFloorCn').enable();
+			this.$('#underFloorCn').enable();
+			this.$('#highHt').enable();
+			this.$('#highFllorHt').enable();
+			this.$('#highFllorHtPos').enable();
+			this.$('#baseSideDp').enable();
+			this.$('#floorArRate').enable();
+			this.$('#capaRate').enable();
+			this.$('#dtMaxUsageCn').enable();
+			this.$('#dtUsageCn').enable();
+			this.$('#bldMntnMngSysYn').enable();
+			this.$('#mntnMngAddFcltyYn').enable();
+			this.$('#apptTp').enable();
+			this.$('#bridgeStartLoc').enable();
+			this.$('#bridgeEndLoc').enable();
+			this.$('#planLiveWght').enable();
+			this.$('#allowPassWght').enable();
+			this.$('#extLt').enable();
+			this.$('#extSpanCn').enable();
+			this.$('#extMaxSpanLt').enable();
+			this.$('#paveWd').enable();
+			this.$('#roadWd').enable();
+			this.$('#sumPaveRoadWd').enable();
+			this.$('#upRoadCn').enable();
+			this.$('#downRoadCn').enable();
+			this.$('#sumUpDownRoadCn').enable();
+			this.$('#spanComp').enable();
+			this.$('#mainSpanFmt').enable();
+			this.$('#sunSpanFmt').enable();
+			this.$('#propSe').enable();
+			this.$('#buldConnSe').enable();
+			this.$('#subPassLmtHt').enable();
+			this.$('#bridgePierFmt1').enable();
+			this.$('#bridgePierCn1').enable();
+			this.$('#bridgePierBaseFmt1').enable();
+			this.$('#bridgePierFmt2').enable();
+			this.$('#bridgePierCn2').enable();
+			this.$('#bridgePierBaseFmt2').enable();
+			this.$('#bridgePropFmt1').enable();
+			this.$('#bridgePropBaseFmt1').enable();
+			this.$('#bridgePropFmt2').enable();
+			this.$('#bridgePropBaseFmt2').enable();
+			this.$('#crossRoute').enable();
+			this.$('#crossRiverHighDpwt').enable();
 			this.$('#popupFcltsMngGroupNo').enable();
 			this.$('#popupFcltsMngGroupNo').removeClass('ui-state-disabled');
 			this.$('#btnInsert').enable();
@@ -1140,6 +1464,79 @@ GamFcltsMngRegistMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#fmt3Desc2').disable();
 			this.$('#etcDtlsSpec').disable();
 			this.$('#fcltsMngGroupNo').disable();
+			this.$('#baseFmt').disable();
+			this.$('#strctFmt').disable();
+			this.$('#ar').disable();
+			this.$('#archAr').disable();
+			this.$('#plotAr').disable();
+			this.$('#mainUsagePrpos').disable();
+			this.$('#prkAr').disable();
+			this.$('#isdPrkAr').disable();
+			this.$('#osdPrkAr').disable();
+			this.$('#prkCnt').disable();
+			this.$('#isdPrkCnt').disable();
+			this.$('#osdPrkCnt').disable();
+			this.$('#exhaustDuctEnnc').disable();
+			this.$('#vntltnArcndtMthd').disable();
+			this.$('#wrtTankLoc').disable();
+			this.$('#sbtLoc').disable();
+			this.$('#oilSavefcltyLoc').disable();
+			this.$('#swgClupfcltyLoc').disable();
+			this.$('#liftCntPsngr').disable();
+			this.$('#liftCntCargo').disable();
+			this.$('#liftCntEmgcy').disable();
+			this.$('#liftOperMthd').disable();
+			this.$('#clngEnnc').disable();
+			this.$('#clngSrc').disable();
+			this.$('#htngEnnc').disable();
+			this.$('#htngSrc').disable();
+			this.$('#spictankFmt').disable();
+			this.$('#elctyLeadInCapa').disable();
+			this.$('#groundFloorCn').disable();
+			this.$('#topFloorCn').disable();
+			this.$('#underFloorCn').disable();
+			this.$('#highHt').disable();
+			this.$('#highFllorHt').disable();
+			this.$('#highFllorHtPos').disable();
+			this.$('#baseSideDp').disable();
+			this.$('#floorArRate').disable();
+			this.$('#capaRate').disable();
+			this.$('#dtMaxUsageCn').disable();
+			this.$('#dtUsageCn').disable();
+			this.$('#bldMntnMngSysYn').disable();
+			this.$('#mntnMngAddFcltyYn').disable();
+			this.$('#apptTp').disable();
+			this.$('#bridgeStartLoc').disable();
+			this.$('#bridgeEndLoc').disable();
+			this.$('#planLiveWght').disable();
+			this.$('#allowPassWght').disable();
+			this.$('#extLt').disable();
+			this.$('#extSpanCn').disable();
+			this.$('#extMaxSpanLt').disable();
+			this.$('#paveWd').disable();
+			this.$('#roadWd').disable();
+			this.$('#sumPaveRoadWd').disable();
+			this.$('#upRoadCn').disable();
+			this.$('#downRoadCn').disable();
+			this.$('#sumUpDownRoadCn').disable();
+			this.$('#spanComp').disable();
+			this.$('#mainSpanFmt').disable();
+			this.$('#sunSpanFmt').disable();
+			this.$('#propSe').disable();
+			this.$('#buldConnSe').disable();
+			this.$('#subPassLmtHt').disable();
+			this.$('#bridgePierFmt1').disable();
+			this.$('#bridgePierCn1').disable();
+			this.$('#bridgePierBaseFmt1').disable();
+			this.$('#bridgePierFmt2').disable();
+			this.$('#bridgePierCn2').disable();
+			this.$('#bridgePierBaseFmt2').disable();
+			this.$('#bridgePropFmt1').disable();
+			this.$('#bridgePropBaseFmt1').disable();
+			this.$('#bridgePropFmt2').disable();
+			this.$('#bridgePropBaseFmt2').disable();
+			this.$('#crossRoute').disable();
+			this.$('#crossRiverHighDpwt').disable();
 			this.$('#popupFcltsMngGroupNo').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
@@ -1213,6 +1610,79 @@ GamFcltsMngRegistMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#fmt3Desc2').disable();
 	this.$('#etcDtlsSpec').disable();
 	this.$('#fcltsMngGroupNo').disable();
+	this.$('#baseFmt').disable();
+	this.$('#strctFmt').disable();
+	this.$('#ar').disable();
+	this.$('#archAr').disable();
+	this.$('#plotAr').disable();
+	this.$('#mainUsagePrpos').disable();
+	this.$('#prkAr').disable();
+	this.$('#isdPrkAr').disable();
+	this.$('#osdPrkAr').disable();
+	this.$('#prkCnt').disable();
+	this.$('#isdPrkCnt').disable();
+	this.$('#osdPrkCnt').disable();
+	this.$('#exhaustDuctEnnc').disable();
+	this.$('#vntltnArcndtMthd').disable();
+	this.$('#wrtTankLoc').disable();
+	this.$('#sbtLoc').disable();
+	this.$('#oilSavefcltyLoc').disable();
+	this.$('#swgClupfcltyLoc').disable();
+	this.$('#liftCntPsngr').disable();
+	this.$('#liftCntCargo').disable();
+	this.$('#liftCntEmgcy').disable();
+	this.$('#liftOperMthd').disable();
+	this.$('#clngEnnc').disable();
+	this.$('#clngSrc').disable();
+	this.$('#htngEnnc').disable();
+	this.$('#htngSrc').disable();
+	this.$('#spictankFmt').disable();
+	this.$('#elctyLeadInCapa').disable();
+	this.$('#groundFloorCn').disable();
+	this.$('#topFloorCn').disable();
+	this.$('#underFloorCn').disable();
+	this.$('#highHt').disable();
+	this.$('#highFllorHt').disable();
+	this.$('#highFllorHtPos').disable();
+	this.$('#baseSideDp').disable();
+	this.$('#floorArRate').disable();
+	this.$('#capaRate').disable();
+	this.$('#dtMaxUsageCn').disable();
+	this.$('#dtUsageCn').disable();
+	this.$('#bldMntnMngSysYn').disable();
+	this.$('#mntnMngAddFcltyYn').disable();
+	this.$('#apptTp').disable();
+	this.$('#bridgeStartLoc').disable();
+	this.$('#bridgeEndLoc').disable();
+	this.$('#planLiveWght').disable();
+	this.$('#allowPassWght').disable();
+	this.$('#extLt').disable();
+	this.$('#extSpanCn').disable();
+	this.$('#extMaxSpanLt').disable();
+	this.$('#paveWd').disable();
+	this.$('#roadWd').disable();
+	this.$('#sumPaveRoadWd').disable();
+	this.$('#upRoadCn').disable();
+	this.$('#downRoadCn').disable();
+	this.$('#sumUpDownRoadCn').disable();
+	this.$('#spanComp').disable();
+	this.$('#mainSpanFmt').disable();
+	this.$('#sunSpanFmt').disable();
+	this.$('#propSe').disable();
+	this.$('#buldConnSe').disable();
+	this.$('#subPassLmtHt').disable();
+	this.$('#bridgePierFmt1').disable();
+	this.$('#bridgePierCn1').disable();
+	this.$('#bridgePierBaseFmt1').disable();
+	this.$('#bridgePierFmt2').disable();
+	this.$('#bridgePierCn2').disable();
+	this.$('#bridgePierBaseFmt2').disable();
+	this.$('#bridgePropFmt1').disable();
+	this.$('#bridgePropBaseFmt1').disable();
+	this.$('#bridgePropFmt2').disable();
+	this.$('#bridgePropBaseFmt2').disable();
+	this.$('#crossRoute').disable();
+	this.$('#crossRiverHighDpwt').disable();
 	this.$('#popupFcltsMngGroupNo').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
@@ -1230,7 +1700,7 @@ GamFcltsMngRegistMngModule.prototype.disableDetailInputItem = function() {
 **/
 %>
 GamFcltsMngRegistMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
-console.log("onTabChange");
+
 	switch (newTabId) {
 		case 'listTab':
 			break;
@@ -1241,13 +1711,26 @@ console.log("onTabChange");
 			} else if (this._mainmode == "insert") {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
+				this.makeFormValues('#cvlEngDetailAreaForm', {});
+				this.makeDivValues('#cvlEngDetailAreaForm', {});
+				this.makeFormValues('#archDetailAreaForm', {});
+				this.makeDivValues('#archDetailAreaForm', {});
+				this.makeFormValues('#bridgeDetailAreaForm', {});
+				this.makeDivValues('#bridgeDetailAreaForm', {});
 				this.disableDetailInputItem();
 				this.addData();
 			} else {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
+				this.makeFormValues('#cvlEngDetailAreaForm', {});
+				this.makeDivValues('#cvlEngDetailAreaForm', {});
+				this.makeFormValues('#archDetailAreaForm', {});
+				this.makeDivValues('#archDetailAreaForm', {});
+				this.makeFormValues('#bridgeDetailAreaForm', {});
+				this.makeDivValues('#bridgeDetailAreaForm', {});
 				this.disableDetailInputItem();
 			}
+			this.changeDetailAreaForm(this.$('#fcltsNo').val());
 			break;
 		case 'qcMngTab':
 			if (this._mainFcltsMngGroupNo != "") {
@@ -1313,11 +1796,11 @@ var module_instance = new GamFcltsMngRegistMngModule();
 						<tr>
 							<th>시설물 번호</th>
 							<td>
-								<input id="sFcltsMngGroupNo" type="text" size="16" maxlength="14"/>
+								<input id="sFcltsNo" type="text" size="16" maxlength="14"/>
 							</td>
 							<th>시설물 명</th>
 							<td>
-								<input id="sFcltsMngGroupNm" type="text" size="30" maxlength="80"/>
+								<input id="sFcltsNm" type="text" size="30" maxlength="80"/>
 							</td>
 							<th>시설물 종별</th>
 							<td>
@@ -1391,11 +1874,11 @@ var module_instance = new GamFcltsMngRegistMngModule();
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:10%; height:24px;">시설물　　번호</th>
+								<th style="width:10%; height:18px;">시설물　　번호</th>
 								<td>
 									<input type="text" id="fcltsNo" size="33" maxlength="14"/>
 								</td>
-								<th style="width:10%; height:24px;">시설물관리그룹</th>
+								<th style="width:10%; height:18px;">시설물관리그룹</th>
 								<td colspan="3">
 									<input type="hidden" id="fcltsJobSe">
 									<input type="text" size="18" id="fcltsMngGroupNo" maxlength="8"/>
@@ -1404,11 +1887,11 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:24px;">노　　　　　선</th>
+								<th style="width:10%; height:18px;">노　　　　　선</th>
 								<td>
 									<input type="text" id="route" size="33" maxlength="20"/>
 								</td>
-								<th style="width:10%; height:24px;">시설물　　종별</th>
+								<th style="width:10%; height:18px;">종　별／영10조</th>
 								<td>
 									<select id="fcltsGbn">
 										<option value="" selected>선택</option>
@@ -1417,8 +1900,12 @@ var module_instance = new GamFcltsMngRegistMngModule();
 										<option value="3">1종/2종</option>
 										<option value="9">기타</option>
 									</select>
+									<select id="erqProofPlanApplcEnnc">
+										<option value="Y">예</option>
+										<option value="N">아니오</option>
+									</select>
 								</td>
-								<th style="width:10%; height:24px;">시설물　　종류</th>
+								<th style="width:10%; height:18px;">시설물　　종류</th>
 								<td>
 									<input id="fcltsKnd" type="hidden"/>
 									<select id="fcltsSe">
@@ -1439,11 +1926,11 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:24px;">시　설　물　명</th>
+								<th style="width:10%; height:18px;">시　설　물　명</th>
 								<td>
 									<input type="text" id="fcltsNm" size="33" maxlength="80"/>
 								</td>
-								<th style="width:10%; height:24px;">위　　　　　치</th>
+								<th style="width:10%; height:18px;">위　　　　　치</th>
 								<td colspan="3">
 									시,도:<input type="text" id="locDo" size="10" maxlength="20"/>
 									&nbsp;&nbsp;
@@ -1455,29 +1942,29 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:24px;">관　리　주　체</th>
+								<th style="width:10%; height:18px;">관　리　주　체</th>
 								<td>
 									<input type="text" id="mngMainbd" size="33" maxlength="50"/>
 								</td>
-								<th style="width:10%; height:24px;">관리주체　구분</th>
+								<th style="width:10%; height:18px;">관리주체　구분</th>
 								<td>
 									<input type="text" id="mngMainbdSe" size="33" maxlength="10"/>
 								</td>
-								<th style="width:10%; height:24px;">소　　유　　자</th>
+								<th style="width:10%; height:18px;">소　　유　　자</th>
 								<td>
 									<input type="text" id="owner" size="33" maxlength="50"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:24px;">준　　공　　일</th>
+								<th style="width:10%; height:18px;">준　　공　　일</th>
 								<td>
 									<input type="text" size="30" id="bldDt" class="emdcal"/>
 								</td>
-								<th style="width:10%; height:24px;">하자책임만료일</th>
+								<th style="width:10%; height:18px;">하자책임만료일</th>
 								<td>
 									<input type="text" size="30" id="flawEndDt" class="emdcal"/>
 								</td>
-								<th style="width:10%; height:24px;">제원/안전/보수</th>
+								<th style="width:10%; height:18px;">제원/안전/보수</th>
 								<td>
 									<select id="dtlsSpecYn">
 										<option value="Y">유</option>
@@ -1496,98 +1983,102 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:24px;">설　계　기　간</th>
+								<th style="width:10%; height:18px;">설　계　기　간</th>
 								<td>
 									<input type="text" size="11" id="planBeginDt" class="emdcal"/>∼
 									<input type="text" size="11" id="planEndDt" class="emdcal"/>
 								</td>
-								<th style="width:10%; height:24px;">설　　계　　자</th>
+								<th style="width:10%; height:18px;">설　　계　　자</th>
 								<td>
 									<input type="text" size="33" id="planner" maxlength="100"/>
 								</td>
-								<th style="width:10%; height:24px;">설계도서　보존</th>
+								<th style="width:10%; height:18px;">설계도서　보존</th>
 								<td>
 									<input type="text" size="33" id="planBookMnten" maxlength="20"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:24px;">공　사　기　간</th>
+								<th style="width:10%; height:18px;">공　사　기　간</th>
 								<td>
 									<input type="text" size="11" id="cnstBeginDt" class="emdcal"/>∼
 									<input type="text" size="11" id="cnstEndDt" class="emdcal"/>
 								</td>
-								<th style="width:10%; height:24px;">시　　공　　자</th>
+								<th style="width:10%; height:18px;">시　　공　　자</th>
 								<td>
 									<input type="text" size="33" id="cnstrtr" maxlength="100"/>
 								</td>
-								<th style="width:10%; height:24px;">총　공　사　비</th>
+								<th style="width:10%; height:18px;">총　공　사　비</th>
 								<td>
 									<input type="text" size="30" id="cnstrctAmt" class="ygpaNumber" maxlength="20"/> 원
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:24px;">감　리　기　간</th>
+								<th style="width:10%; height:18px;">감　리　기　간</th>
 								<td>
 									<input type="text" size="11" id="inspectBeginDt" class="emdcal"/>∼
 									<input type="text" size="11" id="inspectEndDt" class="emdcal"/>
 								</td>
-								<th style="width:10%; height:24px;">감　　리　　자</th>
+								<th style="width:10%; height:18px;">감　　리　　자</th>
 								<td>
 									<input type="text" size="33" id="inspector" maxlength="100"/>
 								</td>
-								<th style="width:10%; height:24px;">영 10 조　대상</th>
-								<td>
-									<select id="erqProofPlanApplcEnnc">
-										<option value="Y">예</option>
-										<option value="N">아니오</option>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<th style="width:10%; height:24px;">공사　　발주자</th>
+								<th style="width:10%; height:18px;">공사　　발주자</th>
 								<td>
 									<input type="text" size="33" id="cnstOrderBody" maxlength="100"/>
 								</td>
-								<th style="width:10%; height:24px;">공　　사　　명</th>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">공　　사　　명</th>
 								<td>
 									<input type="text" size="33" id="cnstNm" maxlength="255"/>
 								</td>
-								<th style="width:10%; height:24px;">공사　　감독관</th>
+								<th style="width:10%; height:18px;">공사　　감독관</th>
 								<td>
 									<input type="text" size="33" id="cnstSupervisor" maxlength="100"/>
 								</td>
-							</tr>
-							<tr>
-								<th style="width:10%; height:24px;">계류선박／연장</th>
-								<td>
-									<input type="text" size="14" id="maxShipScl" maxlength="20"/>／
-									<input type="text" size="14" id="extd" maxlength="20"/>
-								</td>
-								<th style="width:10%; height:24px;">천단고／수　심</th>
-								<td>
-									<input type="text" size="14" id="upsideAlt" maxlength="20"/>／
-									<input type="text" size="14" id="dpwt" maxlength="20"/>
-								</td>
-								<th style="width:10%; height:24px;">작성일／작성자</th>
+								<th style="width:10%; height:18px;">작성일／작성자</th>
 								<td>
 									<input type="text" size="12" id="wrtDt" class="emdcal"/>／
 									<input type="text" size="13" id="wrtUsr" maxlength="20"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:24px;">비　　　　　고</th>
+								<th style="width:10%; height:18px;">비　　　　　고</th>
 								<td colspan="3">
 									<input type="text" size="91" id="basicRm" maxlength="1000"/>
 								</td>
-								<th style="width:10%; height:24px;">수정일／수정자</th>
+								<th style="width:10%; height:18px;">수정일／수정자</th>
 								<td>
 									<input type="text" size="12" id="lastUpdtDt" class="emdcal"/>／
 									<input type="text" size="13" id="lastUpdtUsr" maxlength="20"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:24px;">구조（중력식）</th>
+								<th width="10%" height="18">기타　상세제원</th>
 								<td colspan="5">
+									<input type="text" size="149" id="etcDtlsSpec" maxlength="500"/>
+								</td>
+							</tr>
+						</table>
+					</form>
+<!-- -->
+					<form id="cvlEngDetailAreaForm">
+						<table id="cvlEngDetailArea" class="detailPanel" style="width:100%; display:none;">
+							<tr>
+								<th style="width:10%; height:18px;">규　　　　　격</th>
+								<td>
+									최대계류 선박규모 : <input type="text" size="24" id="maxShipScl" maxlength="20"/>
+									&nbsp;/&nbsp;
+									연장 : <input type="text" size="23" id="extd" maxlength="20"/>
+									&nbsp;/&nbsp;
+									천단고 : <input type="text" size="24" id="upsideAlt" maxlength="20"/>
+									&nbsp;/&nbsp;
+									수심 : <input type="text" size="24" id="dpwt" maxlength="20"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">구　조(중력식)</th>
+								<td>
 									케이슨식 : <input type="text" id="fmt1Desc1" size="22" maxlength="50"/>
 									&nbsp;/&nbsp;
 									L형 블럭 : <input type="text" id="fmt1Desc2" size="22" maxlength="50"/>
@@ -1598,8 +2089,8 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:24px;">구조（잔교식）</th>
-								<td colspan="5">
+								<th style="width:10%; height:18px;">구　조(잔교식)</th>
+								<td>
 									말뚝식 (구경,연장,본수) : <input type="text" id="fmt2Desc11" size="16" maxlength="50"/>
 									<input type="text" id="fmt2Desc12" size="16" maxlength="50"/>
 									<input type="text" id="fmt2Desc13" size="16" maxlength="50"/>
@@ -1610,8 +2101,8 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:24px;">구조(널말뚝식)</th>
-								<td colspan="5">
+								<th style="width:10%; height:18px;">구조(널말뚝식)</th>
+								<td>
 									규격 : <input type="text" id="fmt3Desc1" size="30" maxlength="50"/>
 									&nbsp;/&nbsp;
 									기타 : <input type="text" id="fmt3Desc2" size="102" maxlength="100"/>
@@ -1619,6 +2110,268 @@ var module_instance = new GamFcltsMngRegistMngModule();
 							</tr>
 						</table>
 					</form>
+<!-- -->
+<!-- -->
+					<form id="archDetailAreaForm">
+						<table id="archDetailArea" class="detailPanel" style="width:100%; display:none;">
+							<tr>
+								<th style="width:10%; height:18px;">주　사용　용도</th>
+								<td>
+									<input type="text" size="33" id="mainUsagePrpos" maxlength="100"/>
+								</td>
+								<th style="width:10%; height:18px;">구　조　형　식</th>
+								<td>
+									<input type="text" size="33" id="strctFmt" maxlength="100"/>
+								</td>
+								<th style="width:10%; height:18px;">기　초　형　식</th>
+								<td>
+									<input type="text" size="33" id="baseFmt" maxlength="100"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">층　　　　　수</th>
+								<td colspan="3">
+									지상 (옥탑제외) : <input type="text" id="groundFloorCn" size="10" maxlength="10"/> /
+									옥탑 : <input type="text" id="topFloorCn" size="10" maxlength="10"/> /
+									지하 : <input type="text" id="underFloorCn" size="10" maxlength="10"/> /
+									최고높이 : <input type="text" id="highHt" size="12" maxlength="10"/>
+								</td>
+								<th style="width:10%; height:18px;">최　고　층　고</th>
+								<td>
+									높이 : <input type="text" id="highFllorHt" size="8" maxlength="10"/> /
+									해당층 : <input type="text" id="highFllorHtPos" size="7" maxlength="10"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">면적/건폐/용적</th>
+								<td colspan="3">
+									대지 :<input type="text" id="plotAr" size="10" maxlength="20"/> /
+									건축 :<input type="text" id="archAr" size="10" maxlength="20"/> /
+									연면적 :<input type="text" id="ar" size="10" maxlength="20"/> /
+									건폐율 :<input type="text" id="floorArRate" size="7" maxlength="10"/> /
+									용적율:<input type="text" id="capaRate" size="7" maxlength="10"/>
+								</td>
+								<th style="width:10%; height:18px;">지정형태／깊이</th>
+								<td>
+									<input type="text" size="14" id="apptTp" maxlength="20"/>／
+									<input type="text" size="14" id="baseSideDp" maxlength="20"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">주　차　시　설</th>
+								<td colspan="5">
+									주차면적:<input type="text" id="prkAr" size="8" maxlength="20"/> /
+									옥내면적:<input type="text" id="isdPrkAr" size="8" maxlength="20"/> /
+									옥외면적:<input type="text" id="osdPrkAr" size="8" maxlength="20"/> /
+									주차대수:<input type="text" id="prkCnt" size="6" maxlength="10"/> /
+									옥내주차:<input type="text" id="isdPrkCnt" size="6" maxlength="10"/> /
+									옥외주차:<input type="text" id="osdPrkCnt" size="6" maxlength="10"/> /
+									일시최대:<input type="text" id="dtMaxUsageCn" size="5" maxlength="10"/> /
+									1일사용:<input type="text" id="dtUsageCn" size="6" maxlength="10"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">승강기운영방식</th>
+								<td>
+									<input type="text" size="33" id="liftOperMthd" maxlength="50"/>
+								</td>
+								<th style="width:10%; height:18px;">승객/비상/화물</th>
+								<td>
+									<input type="text" size="8" id="liftCntPsngr" class="ygpaNumber" maxlength="6"/>／
+									<input type="text" size="8" id="liftCntEmgcy" class="ygpaNumber" maxlength="6"/>／
+									<input type="text" size="8" id="liftCntCargo" class="ygpaNumber" maxlength="6"/>
+								</td>
+								<th style="width:10%; height:18px;">환기공조　방식</th>
+								<td>
+									<input type="text" size="33" id="vntltnArcndtMthd" maxlength="50"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">오수정화/물탱크</th>
+								<td>
+									<input type="text" size="14" id="swgClupfcltyLoc" maxlength="50"/>／
+									<input type="text" size="14" id="wrtTankLoc" maxlength="50"/>
+								</td>
+								<th style="width:10%; height:18px;">유류저장/변전실</th>
+								<td>
+									<input type="text" size="14" id="oilSavefcltyLoc" maxlength="50"/>／
+									<input type="text" size="14" id="sbtLoc" maxlength="50"/>
+								</td>
+								<th style="width:10%; height:18px;">정화조　　형식</th>
+								<td>
+									<input type="text" size="33" id="spictankFmt" maxlength="50"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">냉방유무／열원</th>
+								<td>
+									<select id="clngEnnc">
+										<option value="Y">유</option>
+										<option value="N">무</option>
+									</select>
+									/
+									<input type="text" size="24" id="clngSrc" maxlength="50"/>
+								</td>
+								<th style="width:10%; height:18px;">난방유무／열원</th>
+								<td>
+									<select id="htngEnnc">
+										<option value="Y">유</option>
+										<option value="N">무</option>
+									</select>
+									/
+									<input type="text" size="24" id="htngSrc" maxlength="50"/>
+								</td>
+								<th style="width:10%; height:18px;">전기　인입용량</th>
+								<td>
+									<input type="text" size="33" id="elctyLeadInCapa" maxlength="20"/>
+								</td>
+							</tr>
+							<tr>
+								<th width="10%" height="18">배기닥트　유무</th>
+								<td>
+									<select id="exhaustDuctEnnc">
+										<option value="Y">유</option>
+										<option value="N">무</option>
+									</select>
+								</td>
+								<th width="10%" height="18">유지관리시스템</th>
+								<td>
+									<select id="bldMntnMngSysYn">
+										<option value="Y">유</option>
+										<option value="N">무</option>
+									</select>
+								</td>
+								<th width="10%" height="18">부　대　시　설</th>
+								<td>
+									<select id="mntnMngAddFcltyYn">
+										<option value="Y">유</option>
+										<option value="N">무</option>
+									</select>
+								</td>
+							</tr>
+						</table>
+					</form>
+<!-- -->
+<!-- -->
+					<form id="bridgeDetailAreaForm">
+						<table id="bridgeDetailArea" class="detailPanel" style="width:100%; display:none;">
+							<tr>
+								<th style="width:10%; height:18px;">교량시점　위치</th>
+								<td>
+									<input type="text" size="33" id="bridgeStartLoc" maxlength="100"/>
+								</td>
+								<th style="width:10%; height:18px;">교량종점　위치</th>
+								<td>
+									<input type="text" size="33" id="bridgeEndLoc" maxlength="100"/>
+								</td>
+								<th style="width:10%; height:18px;">설계　　활하중</th>
+								<td>
+									<input type="text" size="33" id="planLiveWght" maxlength="20"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">허용 통행 하중</th>
+								<td>
+									<input type="text" size="33" id="allowPassWght" maxlength="20"/>
+								</td>
+								<th style="width:10%; height:18px;">길　이／경간수</th>
+								<td>
+									<input type="text" size="14" id="extLt" maxlength="10"/> ／
+									<input type="text" size="14" id="extSpanCn" maxlength="10"/>
+								</td>
+								<th style="width:10%; height:18px;">최대　　경간장</th>
+								<td>
+									<input type="text" size="33" id="extMaxSpanLt" maxlength="10"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">　폭　(보　도)</th>
+								<td>
+									<input type="text" id="paveWd" size="33" maxlength="10"/>
+								</td>
+								<th style="width:10%; height:18px;">　폭　(차　도)</th>
+								<td>
+									<input type="text" id="roadWd" size="33" maxlength="10"/>
+								</td>
+								<th style="width:10%; height:18px;">　폭　(　계　)</th>
+								<td>
+									<input type="text" id="sumPaveRoadWd" size="33" maxlength="10"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">차　로(상　행)</th>
+								<td>
+									<input type="text" id="upRoadCn" size="33" maxlength="10"/>
+								</td>
+								<th style="width:10%; height:18px;">차　로(하　행)</th>
+								<td>
+									<input type="text" id="downRoadCn" size="33" maxlength="10"/>
+								</td>
+								<th style="width:10%; height:18px;">차　로(　계　)</th>
+								<td>
+									<input type="text" id="sumUpDownRoadCn" size="33" maxlength="10"/>
+								</td>
+							</tr>
+							<tr>
+								<th width="10%" height="18">경　간　구　성</th>
+								<td>
+									<input type="text" size="33" id="spanComp" maxlength="100"/>
+								</td>
+								<th width="10%" height="18">주　경간　형식</th>
+								<td>
+									<input type="text" size="33" id="mainSpanFmt" maxlength="50"/>
+								</td>
+								<th width="10%" height="18">부　경간　형식</th>
+								<td>
+									<input type="text" size="33" id="subSpanFmt" maxlength="50"/>
+								</td>
+							</tr>
+							<tr>
+								<th width="10%" height="18">받　침　종　류</th>
+								<td>
+									<input type="text" size="33" id="propSe" maxlength="20"/>
+								</td>
+								<th width="10%" height="18">신축이음　종류</th>
+								<td>
+									<input type="text" size="33" id="buldConnSe" maxlength="20"/>
+								</td>
+								<th width="10%" height="18">통과제한　높이</th>
+								<td>
+									<input type="text" size="33" id="subPassLmtHt" maxlength="10"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">교　각　형　식</th>
+								<td>
+									<input type="text" size="33" id="bridgePierFmt1" maxlength="50"/>
+								</td>
+								<th style="width:10%; height:18px;">교　각　갯　수</th>
+								<td>
+									<input type="text" size="33" id="bridgePierCn1" maxlength="10"/>
+								</td>
+								<th style="width:10%; height:18px;">교각　기초형식</th>
+								<td>
+									<input type="text" size="33" id="bridgePierBaseFmt1" maxlength="50"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">교　대　형　식</th>
+								<td>
+									<input type="text" size="33" id="bridgePropFmt" maxlength="50"/>
+								</td>
+								<th style="width:10%; height:18px;">교대　기초형식</th>
+								<td>
+									<input type="text" size="33" id="bridgePropBaseFmt" maxlength="50"/>
+								</td>
+								<th style="width:10%; height:18px;">교차노선／수심</th>
+								<td>
+									<input type="text" size="14" id="crossRoute" maxlength="50"/> ／
+									<input type="text" size="14" id="crossRiverHighDpwt" maxlength="10"/>
+								</td>
+							</tr>
+						</table>
+					</form>
+<!-- -->
 					<table style="width:100%;">
 						<tr>
 							<td style="text-align:right">
