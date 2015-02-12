@@ -4,15 +4,17 @@
 package egovframework.rte.ygpa.gam.fcltyMng.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
-
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageSttusInqireService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageSttusInqireVO;
+import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUseUnuseSttusInqireVO;
 import egovframework.rte.ygpa.gam.fcltyMng.service.impl.GamFcltyUsageSttusInqireDao;
 
 
@@ -105,5 +107,14 @@ public class GamFcltyUsageSttusInqireServiceImpl extends AbstractServiceImpl imp
 		return gamFcltyUsageSttusInqireDao.selectMntnRprDtlsList(vo);
 	}
 
-	
+	/**
+	 * 시설물관리그룹명 조회
+	 * @param vo
+	 * @return
+	 */
+
+	public EgovMap selectFcltsMngGroupNm(Map searchVO) throws Exception {
+		return gamFcltyUsageSttusInqireDao.selectFcltsMngGroupNm(searchVO);
+	}
+
 }

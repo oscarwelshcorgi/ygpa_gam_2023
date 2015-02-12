@@ -29,7 +29,6 @@ import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageSttusInqireService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageSttusInqireVO;
 
@@ -353,5 +352,40 @@ public class GamFcltyUsageSttusInqireController {
 	}
 	
 	
+	/**
+	 *  시설물임대현황 엑셀다운로드 
+	 * @param searchVO
+	 * @param sPrtAtCode
+	 * @param sUsagePdFrom
+	 * @param sUsagePdTo
+	 * @return map
+	 * @throws Exception
+	 */
+	
+	@RequestMapping(value="/fcltyMng/selectGetSearchFcltsMngGroupNm.do")
+	@ResponseBody Map<String, Object> selectGetSearchFcltsMngGroupNm(@RequestParam Map<String, Object> searchVO)	throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			Map result = gamFcltyUsageSttusInqireService.selectFcltsMngGroupNm(searchVO);
+
+			map.put("resultCode", 0);
+			map.put("result", result);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (Exception e) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+		}
+
+		return map;
+	}
 	
 	}

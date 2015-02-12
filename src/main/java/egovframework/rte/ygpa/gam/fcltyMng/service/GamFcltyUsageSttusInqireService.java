@@ -86,4 +86,12 @@ public interface GamFcltyUsageSttusInqireService {
 	List selectMntnRprDtlsList(GamFcltyUsageSttusInqireVO vo) throws Exception;
 
 
+	/**
+	 * 시설물관리그룹명조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	
+	EgovMap selectFcltsMngGroupNm(Map searchVO) throws Exception;
 	}

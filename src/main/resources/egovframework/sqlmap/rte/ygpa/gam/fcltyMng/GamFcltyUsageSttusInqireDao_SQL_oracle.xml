@@ -327,5 +327,13 @@
 			) A
 
 	</select>
+	
+<select id="gamFcltyUseUnuseSttusInqireDao.selectFcltsMngGroupNm_S" parameterClass="hashMap" resultClass="egovMap">	
+	
+	SELECT FCLTS_MNG_GROUP_NM 
 
+	FROM FCLTS_MNG_GROUP_F 
+
+	WHERE FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+</select>
 </sqlMap>

@@ -191,7 +191,10 @@
 	});  
 	  this.$("#sUsagePdFrom").val(EMD.util.getDate(EMD.util.addMonths(-12)));
 	  this.$("#sUsagePdTo").val(EMD.util.getDate());
-
+		
+	  this.$("#sFcltsMngGroupNo").bind("keyup change", {module: this}, function(event) {
+	  	event.data.module.getSearchFcltsMngGroupNm();
+	  });	
  };
  
  <%
@@ -356,12 +359,31 @@ GamFcltyUsageSttusInqireModule.prototype.selectLoadRepairMngData = function() {
 	};	
 
 
-	// 시설물관리그룹 검색조건 클릭시 초기화 처리
-	this.$("#sFcltsMngGroupNo").bind("click", {module: this}, function(event) {
-		event.data.module.$("#sFcltsMngGroupNo").val(value[""]);
-		event.data.module.$("#sFcltsMngGroupNoNm").val(value[""]);
-	});
-	
+
+<%
+/**
+ * @FUNCTION NAME : getSearchFcltsMngGroupNm
+ * @DESCRIPTION   : 조회조건 시설물관리그룹명을 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyUsageSttusInqireModule.prototype.getSearchFcltsMngGroupNm= function() {
+console.log('asdf');
+	var sFcltsMngGroupNo = this.$('#sFcltsMngGroupNo').val();
+	if (sFcltsMngGroupNo.length == 14) {
+		var searchVO = { 'sFcltsMngGroupNo':sFcltsMngGroupNo };
+		this.doAction('/fcltyMng/selectGetSearchFcltsMngGroupNm.do', searchVO, function(module, result) {
+			console.log(result);
+			if (result.resultCode == "0") {
+				module.$('#sFcltsMngGroupNoNm').val(result.result.fcltsMngGroupNm);
+			}
+		});
+	} else {
+		this.$('#sFcltsMngGroupNoNm').val('');
+	}
+
+};
+
 <%
 /**
  * @FUNCTION NAME : onClosePopup

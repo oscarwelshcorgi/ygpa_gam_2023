@@ -4,12 +4,14 @@
 package egovframework.rte.ygpa.gam.fcltyMng.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
-
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUsageSttusInqireVO;
+import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyUseUnuseSttusInqireVO;
 
 
 
@@ -96,6 +98,11 @@ public class GamFcltyUsageSttusInqireDao extends YGPAAbstractDAO{
 		return list("gamFcltyUsageSttusInqireDao.selectMntnRprDtlsList", vo);
 	}
 
-	
+
+	// TODO Auto-generated method stub
+	public EgovMap selectFcltsMngGroupNm(Map searchVO) {
+		return (EgovMap)selectByPk("gamFcltyUseUnuseSttusInqireDao.selectFcltsMngGroupNm_S", searchVO);
+	}	
+
 
 }
