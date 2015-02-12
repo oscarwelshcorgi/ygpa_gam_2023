@@ -212,5 +212,16 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	public void deleteQcMngResultItemList(Map<?, ?> vo) throws Exception {
 		delete("gamFcltyQcwWrtMngDao.deleteQcMngResultItemList_S", vo);
 	}
+	
+	
+	/**
+	 * 관리그룹 데이터 조회
+	 * @param vo
+	 * @return EgovMap
+	 * @throws Exception
+	 */			
+	public EgovMap selectFcltsMngGroupInfo(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+		return (EgovMap) selectByPk("gamFcltyQcwWrtMngDao.selectFcltsMngGroupInfo_S", searchVO);
+	}
 
 }

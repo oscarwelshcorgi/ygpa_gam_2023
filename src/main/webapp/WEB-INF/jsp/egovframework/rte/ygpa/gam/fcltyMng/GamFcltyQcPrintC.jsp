@@ -53,14 +53,14 @@
         	<div style="width:100%;height:50px;text-align:center;vertical-align:middle;border-top:1px red;font-size:25px;font-weight:bold;text-decoration:underline;">토목 시설물 점검표</div>
         	<table style="width:100%;">
         		<tr height="40px">
-        			<td style="text-align:left;vertical-align:bottom;font-size:15px;">항&nbsp;&nbsp;&nbsp;명 : <c:out value="${detailData.fcltsMngGroupNm }" /></td>
+        			<td style="text-align:left;vertical-align:bottom;font-size:15px;">항&nbsp;&nbsp;&nbsp;명 : <c:out value="${result.qcItemUpperNm }" ></c:out></td>
         			<td style="width:150px;text-align:right;vertical-align:bottom;font-size:15px;">점검일 : </td>
-        			<td style="width:150px;text-align:center;vertical-align:bottom;font-size:15px;"></td>
+        			<td style="width:150px;text-align:center;vertical-align:bottom;font-size:15px;"><c:out value="${result.qcInspDt }" ></c:out></td>
         		</tr>
-        		<tr height="40px">
+        		<tr height="20px">
         			<td style="text-align:left;vertical-align:bottom;font-size:15px;"> </td>
         			<td style="width:150px;text-align:right;vertical-align:bottom;font-size:15px;">점검자 : </td>
-        			<td style="width:150px;text-align:center;vertical-align:bottom;font-size:15px;"></td>
+        			<td style="width:150px;text-align:center;vertical-align:bottom;font-size:15px;"><c:out value="${result.qcInspTp }" ></c:out></td>
         		</tr>
         	</table>
 <c:if test="${fn:length(resultList) == 0}">
@@ -68,23 +68,35 @@
         		<tbody>
         			<tr height="40px">
         				<th style="width:40px;text-align:center;vertical-align:middle;font-size:13px;">시 설 명</th>
-        				<td style="width:100px;text-align:center;font-size:13px;"></td>
+        				<td style="width:100px;text-align:center;font-size:13px;"><c:out value="${result.fcltsMngGroupNm }" ></c:out></td>
         				<th colspan="2" style="text-align:center;vertical-align:middle;font-size:13px;">시설물소재지</th>
-        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.loc }" ></c:out></td>
         			</tr>
         			<tr height="40px">
-        				<th style="width:40px;text-align:center;vertical-align:middle;font-size:13px;">시 설 명</th>
-        				<td style="width:100px;text-align:center;font-size:13px;"></td>
-        				<th colspan="2" style="text-align:center;vertical-align:middle;font-size:13px;">시설물소재지</th>
-        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
+        				<th style="text-align:center;vertical-align:middle;font-size:13px;">시설개요</th>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">종별/상태등급</th>
+        				<td style="text-align:center;font-size:13px;"> <c:out value="${result.fcltsGbnNm }" ></c:out> / </td>
         			</tr>
         			<tr height="40px">
-        				<td style="width:40px;text-align:center;vertical-align:middle;font-size:13px;">점검항목</td>
-        				<td style="width:100px;text-align:center;vertical-align:middle;font-size:13px;">점검세부항목</td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;">점 검 내 용</td>
+        				<th style="text-align:center;vertical-align:middle;font-size:13px;">준공년도</th>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.bldYear }" ></c:out></td>
+        				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">하 자 만 료 일</th>
+        				<td style="text-align:center;font-size:13px;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;년 &nbsp;&nbsp;&nbsp;&nbsp;월 &nbsp;&nbsp;&nbsp;&nbsp;일 </td>
         			</tr>
-        			<tr>
-        				<td colspan="3" style="text-align:center;font-size:13px;">자료가 존재 하지 않습니다.</td>
+        			<tr height="40px">
+        				<th style="text-align:center;vertical-align:middle;font-size:13px;">시설규모</th>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">시&nbsp;&nbsp;공&nbsp;&nbsp;회&nbsp;&nbsp;사</th>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.cnstrtr }" ></c:out></td>
+        			</tr>
+        			<tr height="40px">
+        				<th style="text-align:center;vertical-align:middle;font-size:13px;">점검항목</th>
+        				<th colspan="2" style="text-align:center;vertical-align:middle;font-size:13px;">점검세부항목</th>
+        				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">점 검 내 용</th>
+        			</tr>
+        			<tr height="40px">
+        				<td colspan="6" style="text-align:center;font-size:13px;">자료가 존재 하지 않습니다.</td>
         			</tr>
 </c:if>
 
@@ -104,41 +116,50 @@
         	<table style="width:100%;" class="rpr_form_table">
         		<tbody>
         			<tr height="40px">
-        				<td style="width:150px;text-align:center;vertical-align:middle;font-size:13px;">구분</td>
-        				<td style="width:350px;text-align:center;vertical-align:middle;font-size:13px;">점 검 내 용</td>
-        				<td style="width:100px;text-align:center;vertical-align:middle;font-size:13px;">점 검 결 과</td>
-        				<td style="width:90px;text-align:center;vertical-align:middle;font-size:13px;">비 고</td>
+        				<th style="width:40px;text-align:center;vertical-align:middle;font-size:13px;">시 설 명</th>
+        				<td style="width:100px;text-align:center;font-size:13px;"><c:out value="${result.fcltsMngGroupNm }" ></c:out></td>
+        				<th colspan="2" style="text-align:center;vertical-align:middle;font-size:13px;">시설물소재지</th>
+        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.loc }" ></c:out></td>
+        			</tr>
+        			<tr height="40px">
+        				<th style="text-align:center;vertical-align:middle;font-size:13px;">시설개요</th>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">종별/상태등급</th>
+        				<td style="text-align:center;font-size:13px;"> <c:out value="${result.fcltsGbnNm }" ></c:out> / </td>
+        			</tr>
+        			<tr height="40px">
+        				<th style="text-align:center;vertical-align:middle;font-size:13px;">준공년도</th>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.bldYear }" ></c:out></td>
+        				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">하 자 만 료 일</th>
+        				<td style="text-align:center;font-size:13px;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;년 &nbsp;&nbsp;&nbsp;&nbsp;월 &nbsp;&nbsp;&nbsp;&nbsp;일 </td>
+        			</tr>
+        			<tr height="40px">
+        				<th style="text-align:center;vertical-align:middle;font-size:13px;">시설규모</th>
+        				<td style="text-align:center;font-size:13px;"></td>
+        				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">시&nbsp;&nbsp;공&nbsp;&nbsp;회&nbsp;&nbsp;사</th>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.cnstrtr }" ></c:out></td>
+        			</tr>
+        			<tr height="40px">
+        				<th style="text-align:center;vertical-align:middle;font-size:13px;">점검항목</th>
+        				<th colspan="2" style="text-align:center;vertical-align:middle;font-size:13px;">점검세부항목</th>
+        				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">점 검 내 용</th>
         			</tr>
         </c:if>
-        			<tr height="30px">
+        			<tr height="25px">
         <c:choose>
 			<c:when test="${result.qcItemUpperNm != qcItemUpperNm or resultStatus.index==0 }">
-        				<td rowspan="<c:out value="${result.qcItemUpperCount }" />" style="text-align:center;vertical-align:middle;font-size:13px;word-break:break-all;"><c:out value="${result.qcItemUpperNm }" ></c:out></td>
-        				<td style="text-align:left;vertical-align:middle;font-size:13px;border-bottom:0;">O <c:out value="${result.qcItemNm }" ></c:out></td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;border-bottom:0;"><c:out value="${result.inspResultChkMark }" ></c:out></td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;border-bottom:0;"></td>
+        				<td rowspan="<c:out value="${result.qcItemUpperCdCount }" />" style="text-align:center;font-size:13px;word-break:break-all;"><c:out value="${result.qcItemUpperNm }" ></c:out></td>
+        				<td colspan="2" style="text-align:left;font-size:13px;border-bottom:0;">O <c:out value="${result.qcItemNm }" ></c:out></td>
+        				<td rowspan="<c:out value="${result.qcItemUpperCdCount }" />" colspan="3"  style="text-align:center;font-size:13px;border-bottom:0;"><c:out value="${result.qcGroupInspResult }" ></c:out></td>
         	</c:when>
 			<c:otherwise>
-        				<td style="text-align:left;vertical-align:middle;font-size:13px;border-top:0;border-bottom:0;">O <c:out value="${result.qcItemNm }" ></c:out></td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;border-top:0;border-bottom:0;"><c:out value="${result.inspResultChkMark }" ></c:out></td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;border-top:0;border-bottom:0;"></td>
+        				<td colspan="2" style="text-align:left;font-size:13px;border-top:0;border-bottom:0;">O <c:out value="${result.qcItemNm }" ></c:out></td>
 			</c:otherwise>
 		</c:choose>
         			</tr>
         <c:set var="qcItemUpperNm" value="${result.qcItemUpperNm }" />
 </c:forEach>
         		</tbody>
-        	</table>
-        	<div style="height:50px;"></div>
-        	<table style="width:100%;">
-        		<tr height="30px">
-        			<td style="text-align:right;font-size:15px;">점검일자 : <c:out value="${detailData.wrtDt }" /></td>
-        			<td style="width:150px;height:20px;text-align:center;font-size:15px;"></td>
-        		</tr>
-        		<tr height="30px">
-        			<td style="text-align:right;font-size:15px;">점 검 자 : <c:out value="${detailData.wrtUsr }" /></td>
-        			<td style="text-align:center;font-size:15px;"></td>
-        		</tr>
         	</table>
         </div>
     </div>

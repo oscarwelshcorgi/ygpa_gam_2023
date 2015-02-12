@@ -114,5 +114,14 @@ public interface GamFcltyQcwWrtMngService {
 	 * @throws Exception
 	 */		
 	List<?> selectMechQcMngResultItemList(GamFcltyQcwWrtMngVO searchVO) throws Exception;
+	
+	
+	/**
+	 * 관리그룹 데이터 조회
+	 * @param vo
+	 * @return EgovMap
+	 * @throws Exception
+	 */		
+	EgovMap selectFcltsMngGroupInfo(GamFcltyQcwWrtMngVO searchVO) throws Exception;
 
 }

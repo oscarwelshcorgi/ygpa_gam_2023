@@ -199,4 +199,15 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 		return gamFcltyQcwWrtMngDao.selectMechQcMngResultItemList(searchVO);
 	}
 	
+	
+	/**
+	 * 관리그룹 데이터 조회
+	 * @param vo
+	 * @return EgovMap
+	 * @throws Exception
+	 */	
+	public EgovMap selectFcltsMngGroupInfo(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+		return gamFcltyQcwWrtMngDao.selectFcltsMngGroupInfo(searchVO);
+	}
+	
 }

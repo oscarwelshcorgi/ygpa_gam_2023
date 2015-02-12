@@ -594,6 +594,9 @@ public class GamFcltyQcwWrtMngController {
 	    	return printPageName;
 		}
 		
+		
+		EgovMap detailMngGroup = gamFcltyQcwWrtMngService.selectFcltsMngGroupInfo(searchVO);
+		
 		EgovMap detailData = gamFcltyQcwWrtMngService.selectQcMngDtlsDetail(searchVO);
 				
 		resultCnt = gamFcltyQcwWrtMngService.selectQcMngResultItemListTotCnt(searchVO);
@@ -607,6 +610,7 @@ public class GamFcltyQcwWrtMngController {
 		
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
+		model.addAttribute("detailMngGroup", detailMngGroup);
 		model.addAttribute("resultList", qcResultItemList);
 		model.addAttribute("detailData", detailData);
 		
