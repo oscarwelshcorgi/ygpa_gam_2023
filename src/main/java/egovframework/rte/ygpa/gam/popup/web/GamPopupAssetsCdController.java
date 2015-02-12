@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdDefaultVO;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdService;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdVO;
 
@@ -50,7 +51,7 @@ public class GamPopupAssetsCdController {
      * @throws Exception
      */
     @RequestMapping(value="/popup/selectAssetCodeList.do", method=RequestMethod.POST)
-    @ResponseBody Map<String, Object> selectAssetCodeList(GamPopupGisAssetsCdVO searchVO) throws Exception {
+    @ResponseBody Map<String, Object> selectAssetCodeList(GamPopupGisAssetsCdDefaultVO searchVO) throws Exception {
 		Map map = new HashMap();
 
     	/** pageing */

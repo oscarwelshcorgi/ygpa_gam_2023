@@ -23,6 +23,7 @@ import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldAssessVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentAttachFileVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentDefaultVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtDetailVO;
@@ -94,7 +95,7 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
      * @param vo
      * @throws Exception
      */
-	public void insertHtldRentMngt(GamHtldRentMngtVO rentVo, List<GamHtldRentMngtDetailVO> createList, List<GamHtldRentAttachFileVO> createFileList) throws Exception {
+	public GamHtldRentMngtVO insertHtldRentMngt(GamHtldRentMngtVO rentVo, List<GamHtldRentMngtDetailVO> createList) throws Exception {
 		int i=0;
 		String updtId=rentVo.getUpdUsr();
 		//String deptCd=rentVo.getDeptcd();
@@ -105,7 +106,16 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 		rentVo.setMngNo(newRentVo.getMngNo());
 		rentVo.setMngCnt(newRentVo.getMngCnt());
 
+		GamHtldAssessVO assessVo = new GamHtldAssessVO();
+
 		gamHtldRentMngtDao.insertHtldRentMngt(rentVo);
+
+		assessVo.setMngYear(rentVo.getMngYear());
+		assessVo.setMngNo(rentVo.getMngNo());
+		assessVo.setMngCnt(rentVo.getMngCnt());
+		assessVo.setApplcPrice(rentVo.getApplcPrice());
+		assessVo.setDtFrom(rentVo.getGrUsagePdFrom());
+		gamHtldRentMngtDao.insertHtldAssess(assessVo);
 
 		for(i=0; i<createList.size(); i++) {
 			GamHtldRentMngtDetailVO d= createList.get(i);
@@ -117,15 +127,7 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 			gamHtldRentMngtDao.insertHtldRentMngtDetail(d);
 		}
 
-		for(i=0; i<createFileList.size(); i++) {
-			GamHtldRentAttachFileVO d= createFileList.get(i);
-			d.setRegUsr(updtId);
-			d.setPrtAtCode(rentVo.getPrtAtCode());
-			d.setMngYear(newRentVo.getMngYear());
-			d.setMngNo(newRentVo.getMngNo());
-			d.setMngCnt(newRentVo.getMngCnt());
-			gamHtldRentMngtDao.insertHtldRentMngtFile(d);
-		}
+		return newRentVo;
 	}
 
     /**
@@ -159,8 +161,7 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 	 * @param vo GamHtldRentMngtVO
 	 * @exception Exception
 	 */
-	public void updateHtldRentMngt(GamHtldRentMngtVO rentVo, List<GamHtldRentMngtDetailVO> createList,  List<GamHtldRentMngtDetailVO> updateList,  List<GamHtldRentMngtDetailVO> deleteList
-			, List<GamHtldRentAttachFileVO> createFileList,  List<GamHtldRentAttachFileVO> updateFileList,  List<GamHtldRentAttachFileVO> deleteFileList) throws Exception {
+	public void updateHtldRentMngt(GamHtldRentMngtVO rentVo, List<GamHtldRentMngtDetailVO> createList,  List<GamHtldRentMngtDetailVO> updateList,  List<GamHtldRentMngtDetailVO> deleteList) throws Exception {
 		int i=0;
 		String updtId=rentVo.getUpdUsr();
 		//String deptCd=rentVo.getDeptcd();
@@ -177,22 +178,12 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 		for(i=0; i<createList.size(); i++) {
 			GamHtldRentMngtDetailVO d= createList.get(i);
 			d.setRegUsr(updtId);
+			d.setPrtAtCode(rentVo.getPrtAtCode());
+			d.setMngYear(rentVo.getMngYear());
+			d.setMngNo(rentVo.getMngNo());
+			d.setMngCnt(rentVo.getMngCnt());
+			d.setQuayGroupCd(rentVo.getQuayGroupCd());
 			gamHtldRentMngtDao.insertHtldRentMngtDetail(d);
-		}
-
-		for(i=0; i<deleteFileList.size(); i++) {
-			GamHtldRentAttachFileVO d= deleteFileList.get(i);
-			gamHtldRentMngtDao.deleteHtldRentMngtPhotoSingle(d);
-		}
-		for(i=0; i<updateFileList.size(); i++) {
-			GamHtldRentAttachFileVO d= updateFileList.get(i);
-			d.setUpdUsr(updtId);
-			gamHtldRentMngtDao.updateHtldRentMngtFile(d);
-		}
-		for(i=0; i<createFileList.size(); i++) {
-			GamHtldRentAttachFileVO d= createFileList.get(i);
-			d.setRegUsr(updtId);
-			gamHtldRentMngtDao.insertHtldRentMngtFile(d);
 		}
 
 		gamHtldRentMngtDao.updateHtldRentMngt(rentVo);
@@ -302,6 +293,42 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 	public List selectHtldRentMngtFileList(GamHtldRentMngtVO vo)
 			throws Exception {
 		return gamHtldRentMngtDao.selectHtldRentMngtFileList(vo);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtService#selectHtldAssessList(egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentDefaultVO)
+	 */
+	@Override
+	public List selectHtldAssessList(GamHtldRentDefaultVO searchVO)
+			throws Exception {
+        return gamHtldRentMngtDao.selectHtldAssessList(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtService#selectHtldAssessSum(egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentDefaultVO)
+	 */
+	@Override
+	public EgovMap selectHtldAssessSum(GamHtldRentDefaultVO searchVO)
+			throws Exception {
+        return gamHtldRentMngtDao.selectHtldAssessSum(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtService#selectHtldNticRcivList(egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentDefaultVO)
+	 */
+	@Override
+	public List selectHtldNticRcivList(GamHtldRentDefaultVO searchVO)
+			throws Exception {
+        return gamHtldRentMngtDao.selectHtldNticRcivList(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtService#selectHtldNticRcivSum(egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentDefaultVO)
+	 */
+	@Override
+	public EgovMap selectHtldNticRcivSum(GamHtldRentDefaultVO searchVO)
+			throws Exception {
+        return gamHtldRentMngtDao.selectHtldNticRcivSum(searchVO);
 	}
 
 }

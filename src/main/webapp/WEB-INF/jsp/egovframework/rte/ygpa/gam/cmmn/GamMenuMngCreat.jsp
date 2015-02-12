@@ -58,7 +58,7 @@ GamMenuMngCreateModule.prototype.loadComplete = function() {
 		module.doExecuteDialog('selectMenuCreate', '메뉴 생성', '/cmmn/popup/showMenuCreat.do', opts);
 	});
 
-	// console.log('hello');
+	console.log('hello');
 };
 
 
@@ -93,7 +93,12 @@ GamMenuMngCreateModule.prototype.onClosePopup = function(popupId, msg){
 		 	this.$("#menuMngCreateList").flexOptions({params:searchOpt}).flexReload();
 
 		break;
-
+		case "createMenu":
+			var opts = {
+				'authorCode': this.$("#menuMngCreateList").selectedRows()[0]['authorCode']
+			};
+			this.doExecuteDialog('selectMenuCreate', '메뉴 생성', '/cmmn/popup/showMenuCreat.do', opts);
+			break;
 		// 신규저장
 		case "insertBtn":
 			var searchOpt = this.makeFormArgs("#searchGisAssetCode");
@@ -122,7 +127,7 @@ var module_instance = new GamMenuMngCreateModule();
 						<tr>
 							<th>권한코드</th>
 							<td>&nbsp;<input id="searchKeyword" type="text" size="80" maxlength="60" title="검색조건" /></td>
-							<td><button id="searchBtn" class="buttonSearch">조회</button></td>
+							<td><button id="searchBtn" class="buttonSearch">조회</button>
 						</tr>
 					</tbody>
 				</table>
@@ -132,5 +137,7 @@ var module_instance = new GamMenuMngCreateModule();
 
 	<div class="emdTabPage fillHeight" style="overflow: hidden;">
 		<table id="menuMngCreateList" style="display:none" class="fillHeight"></table>
+		<div class="emdControlPanel"><button id="createMenu">생성</button></td>
+		</div>
 	</div>
 </div>

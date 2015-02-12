@@ -11,6 +11,8 @@
     <typeAlias alias="gamHtldRentMngtLevReqestVO" type="egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtLevReqestVO"/>
     <typeAlias alias="gamHtldRentAttachFileVO" type="egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentAttachFileVO"/>
 
+    <typeAlias alias="gamHtldAssessVO" type="egovframework.rte.ygpa.gam.oper.htld.service.GamHtldAssessVO"/>
+
     <resultMap id="gamHtldRentMngtInfoMap" class="egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtVO">
 		<result property="prtAtCode" column="PRT_AT_CODE" columnIndex="1"/>
 		<result property="quayGroupCd" column="QUAY_GROUP_CD" columnIndex="2"/>
@@ -258,7 +260,7 @@
             , A.REQST_SE_CD
             , NVL(A.GR_AR,0) GR_AR
             , NVL(A.GR_FEE,0) GR_FEE
-            , (SELECT APPLC_PRICE FROM HTLD_RENT_ASSESS_F WHERE PRT_AT_CODE=A.PRT_AT_CODE AND MNG_YEAR=A.MNG_YEAR AND MNG_NO=A.MNG_NO AND MNG_CNT=A.MNG_CNT) APPLC_PRICE
+            , (SELECT APPLC_PRICE FROM HTLD_RENT_ASSESS_F WHERE PRT_AT_CODE=A.PRT_AT_CODE AND MNG_YEAR=A.MNG_YEAR AND MNG_NO=A.MNG_NO AND MNG_CNT=A.MNG_CNT AND ASSESS_NO='0') APPLC_PRICE
             , A.PRMISN_YN
             , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
             , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
@@ -421,25 +423,21 @@
 
 
     <select id="gamHtldRentMngtDao.selectHtldRentMngtMaxKey_S" parameterClass="gamHtldRentMngtVO" resultMap="gamHtldRentMngtInfoMaxKeyMap">
-        SELECT
-                TO_CHAR(SYSDATE,'YYYY') MNG_YEAR
-		       , (SELECT LPAD(NVL(MAX(MNG_NO),0) + 1,'3','0')
-		             FROM ASSETS_RENT_F
-		            WHERE MNG_YEAR = TO_CHAR(SYSDATE,'YYYY')) MNG_NO
-		       , '01' MNG_CNT
-		FROM DUAL
+		SELECT LPAD(NVL(MAX(MNG_NO),0) + 1,'3','0') MNG_NO
+		FROM ASSETS_RENT_F
+		WHERE MNG_YEAR = #mngYear#
     </select>
 
     <insert id="gamHtldRentMngtDao.insertHtldRentMngt_S">
 	    INSERT
 		INTO ASSETS_RENT_F
 		  (
-		    G2_ID ,
 		    PRT_AT_CODE ,
 		    MNG_YEAR ,
 		    MNG_NO ,
 		    MNG_CNT ,
 		    ENTRPSCD ,
+		    ENTRPS_NM,
 		    REQST_DT ,
 		    REQST_SE_CD ,
 		    GR_AR ,
@@ -475,12 +473,12 @@
 		  )
 		  VALUES
 		  (
-		    (SELECT NVL(MAX(G2_ID), -1)+1 FROM ASSETS_RENT_F) ,
 		    #prtAtCode# ,
 		    #mngYear# ,
 		    #mngNo# ,
 		    #mngCnt# ,
 		    #entrpscd# ,
+		    (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=#entrpscd#) ,
 		    TO_DATE(#reqstDt#,'YYYY-MM-DD') ,
 		    #reqstSeCd# ,
 		    #grAr# ,
@@ -504,7 +502,7 @@
 		    #gisCd# ,
 		    #deptcd# ,
 		    #payMth# ,
-		    #quayGroupCd# ,
+		    'H' ,
 		    TO_DATE(#frstReqstDt#, 'YYYY-MM-DD') ,
 		    'N' ,
 		    TO_NUMBER(NVL(#payinstIntrrate#, 0)) / 100 ,
@@ -518,38 +516,39 @@
 
     <update id="gamHtldRentMngtDao.updateHtldRentMngt_S">
         UPDATE ASSETS_RENT_F SET
-		         ENTRPSCD         = #entrpscd#
-		       , RENT_AREA_CD=#rentAreaCd#
-		       , OPER_YR_MT = #operYrMt#
-		       , FRGHT_TP = #frghtTp#
-		       , COMP_TP = #compTp#
-		       , REQST_DT    = TO_DATE(#reqstDt#, 'YYYY-MM-DD')
-		       , REQST_SE_CD      = '3'
-		       , GR_AR            = #grAr#
-		       , GR_FEE           = #grFee#
-		       , NTIC_MTH         = #nticMth#
-		       , GR_USAGE_PD_FROM = TO_DATE(#grUsagePdFrom#, 'YYYY-MM-DD')
-		       , GR_USAGE_PD_TO   = TO_DATE(#grUsagePdTo#, 'YYYY-MM-DD')
-		       , DOC_NO           = #docNo#
-		       , RM               = #rm#
-		       , CMT              = #cmt#
-		       , ETC              = #etc#
-		       , UPD_USR          = #updUsr#
-		       , UPDT_DT          = SYSDATE
-		       , GR_RDCXPT_FEE    = #grRdcxptFee#
-		       , GIS_CD           = #gisCd#
-		       , DEPTCD           = #deptcd#
-		       , PAY_MTH          = #payMth#
-		       , TAXT_SE = #taxtSe#
+	         ENTRPSCD         = #entrpscd#
+	       , ENTRPS_NM         = (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=#entrpscd#)
+	       , RENT_AREA_CD = #rentAreaCd#
+	       , OPER_YR_MT = #operYrMt#
+	       , FRGHT_TP = #frghtTp#
+	       , COMP_TP = #compTp#
+	       , REQST_DT    = TO_DATE(#reqstDt#, 'YYYY-MM-DD')
+	       , REQST_SE_CD      = '3'
+	       , GR_AR            = #grAr#
+	       , GR_FEE           = #grFee#
+	       , NTIC_MTH         = #nticMth#
+	       , GR_USAGE_PD_FROM = TO_DATE(#grUsagePdFrom#, 'YYYY-MM-DD')
+	       , GR_USAGE_PD_TO   = TO_DATE(#grUsagePdTo#, 'YYYY-MM-DD')
+	       , DOC_NO           = #docNo#
+	       , RM               = #rm#
+	       , CMT              = #cmt#
+	       , ETC              = #etc#
+	       , UPD_USR          = #updUsr#
+	       , UPDT_DT          = SYSDATE
+	       , GR_RDCXPT_FEE    = #grRdcxptFee#
+	       , GIS_CD           = #gisCd#
+	       , DEPTCD           = #deptcd#
+	       , PAY_MTH          = #payMth#
+	       , TAXT_SE	= #taxtSe#
 
-		       <isEmpty property="payinstIntrrate">
-		       , PAYINST_INTRRATE = 0
-		       </isEmpty>
+	       <isEmpty property="payinstIntrrate">
+	       , PAYINST_INTRRATE = 0
+	       </isEmpty>
 
-	           <isNotEmpty property="payinstIntrrate">
-               , PAYINST_INTRRATE = TO_NUMBER(#payinstIntrrate#) / 100
-               </isNotEmpty>
-				, CHARGER_NO = #chargerNo#
+          <isNotEmpty property="payinstIntrrate">
+             , PAYINST_INTRRATE = TO_NUMBER(#payinstIntrrate#) / 100
+             </isNotEmpty>
+		, CHARGER_NO = #chargerNo#
 
 		WHERE  PRT_AT_CODE        = #prtAtCode#
 		AND    MNG_YEAR           = #mngYear#
@@ -631,7 +630,6 @@
 		INSERT
 		INTO ASSETS_RENT_DETAIL_F
 		  (
-		    G2_ID,
 		    ASSETS_USAGE_SEQ ,
 		    MNG_YEAR ,
 		    MNG_NO ,
@@ -665,7 +663,6 @@
 		  )
 		  VALUES
 		  (
-		    (SELECT NVL(MAX(G2_ID), -1)+1 FROM ASSETS_RENT_DETAIL_F),
 		    (SELECT (NVL(MAX(TO_NUMBER(ASSETS_USAGE_SEQ)),0)+1)
 			    FROM ASSETS_RENT_DETAIL_F
 			    WHERE MNG_YEAR  = #mngYear#
@@ -744,7 +741,6 @@
            AND MNG_NO      = #mngNo#
            AND MNG_CNT     = #mngCnt#
            AND ASSETS_USAGE_SEQ     = #assetsUsageSeq#
-           AND A.QUAY_GROUP_CD='H'
     </delete>
 
     <select id="gamHtldRentMngtDao.selectHtldRentMngtFileList_D" parameterClass="gamHtldRentMngtVO" resultClass="egovMap">
@@ -803,7 +799,7 @@
                                            , #photoSj#
                                            , #filenmPhysicl#
                                            , #filenmLogic#
-                                           , TO_DATE(#shotDt:DATE:NO_ENTRY#)
+                                           , TO_DATE(#shotDt#,;YYYY-MM-DD')
                                            , #regUsr#
                                            , SYSDATE
                                            , #prtAtCode#
@@ -819,7 +815,7 @@
 		       PHOTO_SJ       = #photoSj#,
 		       <!-- FILENM_PHYSICL = :FILENM_PHYSICL,
 		       FILENM_LOGIC   = :FILENM_LOGIC, -->
-		       SHOT_DT        = TO_DATE(#shotDt:DATE:NO_ENTRY#),
+		       SHOT_DT        = TO_DATE(#shotDt#,;YYYY-MM-DD'),
 		       <!-- REG_USR        = :REG_USR,
 		       REGIST_DT      = :REGIST_DT,-->
 		       PHOTO_DESC     = #photoDesc#
@@ -850,7 +846,6 @@
               AND MNG_CNT     = #mngCnt#
 	    </selectKey>
         INSERT INTO ASSETS_RENT_F (
-        	G2_ID,
                                      PRT_AT_CODE
                                    , MNG_YEAR
                                    , MNG_NO
@@ -885,7 +880,7 @@
                                    , REQST_DT
                                    , PAYINST_INTRRATE
                                )
-                         SELECT    (SELECT NVL(MAX(G2_ID), -1)+1 FROM ASSETS_RENT_F),
+                         SELECT
                          	A.PRT_AT_CODE
                                  , A.MNG_YEAR
                                  , A.MNG_NO
@@ -928,7 +923,6 @@
 
     <insert id="gamHtldRentMngtDao.insertHtldRentMngtExtendDetail_D">
         INSERT INTO ASSETS_RENT_DETAIL_F (
-        	G2_ID,
 		                                     ASSETS_USAGE_SEQ
 		                                   , MNG_YEAR
                                            , MNG_NO
@@ -960,7 +954,7 @@
                                            , GIS_ASSETS_PRT_AT_CODE
                                            , USAGE_AR
 		                                 )
-                         SELECT    (SELECT NVL(MAX(A.G2_ID), -1)+1 FROM ASSETS_RENT_DETAIL_F),
+                         SELECT
 											A.ASSETS_USAGE_SEQ
 		                                   , A.MNG_YEAR
                                            , A.MNG_NO
@@ -1128,538 +1122,173 @@
 		]]>
     </select>
 
-
-    <!--  이하 정리
-
-
-
-
-    <select id="gamHtldRentMngtDao.selectHtldRentMngtMngCnt_S" parameterClass="gamHtldRentMngtVO" resultMap="gamHtldRentMngtMaxMngMap">
-			SELECT
-				MAX(MNG_CNT) mngCnt
-			FROM ASSETS_RENT_F
-			WHERE A.QUAY_GROUP_CD='H'
-				AND A.PRT_AT_CODE = '622'
-				AND A.MNG_YEAR = #mngYear#
-				AND A.MNG_NO = #mngNo#
-	</select>
-
-    <select id="gamHtldRentMngtDao.selectHtldRentMngtGetNewKey_S" parameterClass="gamHtldRentMngtVO" resultMap="gamHtldRentMngtMaxMngMap">
-			SELECT TO_CHAR(SYSDATE,'YYYY') mngYear,
-				NVL(MAX(G2_ID), -1)+1 FROM ASSETS_RENT_F) mngNo,
-				'01' mngCnt
-			FROM ASSETS_RENT_F
-			WHERE MNG_YEAR = TO_CHAR(SYSDATE,'YYYY'))
-    </select>
-
-    <insert id="gamHtldRentMngtDao.insertHtldRentMngtRenew_S">
-        INSERT INTO ASSETS_RENT_F (
-        	G2_ID,
-                                     PRT_AT_CODE
-                                   , MNG_YEAR
-                                   , MNG_NO
-                                   , MNG_CNT
-                                   , ENTRPSCD
-                                   , REQST_SE_CD
-                                   , GR_AR
-                                   , GR_FEE
-                                   , NTIC_MTH
-                                   , PRMISN_YN
-                                   , TAXT_SE
-                                   , DOC_NO
-                                   , RM
-                                   , CMT
-                                   , ETC
-                                   , REG_USR
-                                   , REGIST_DT
-                                   , UPD_USR
-                                   , UPDT_DT
-                                   , GR_RDCXPT_FEE
-                                   , GIS_CD
-                                   , DEPTCD
-                                   , PAY_MTH
-                                   , FRST_PRMISN_DT
-                                   , GR_USAGE_PD_FROM
-                                   , GR_USAGE_PD_TO
-                                   , SANCTN_STTUS
-                                   , SANCTNER_EMPL_NO
-                                   , QUAY_CD
-                                   , FRST_REQST_DT
-                                   , QUAY_GROUP_CD
-                                   , REQST_DT
-                                   , PAYINST_INTRRATE
-                               )
-                         SELECT    (SELECT NVL(MAX(G2_ID), -1)+1 FROM ASSETS_RENT_F),
-                         	A.PRT_AT_CODE
-                                 , A.MNG_YEAR
-                                 , A.MNG_NO
-                                 , #maxMngCnt#
-                                 , A.ENTRPSCD
-                                 , #reqstSeCd#
-                                 , A.GR_AR
-                                 , A.GR_FEE
-                                 , A.NTIC_MTH
-                                 , 'N'
-                                 , A.TAXT_SE
-                                 , A.DOC_NO
-                                 , A.RM
-                                 , A.CMT
-                                 , A.ETC
-                                 , #regUsr#
-                                 , SYSDATE
-                                 , #updUsr#
-                                 , SYSDATE
-                                 , A.GR_RDCXPT_FEE
-                                 , A.GIS_CD
-                                 , A.DEPTCD
-                                 , A.PAY_MTH
-                                 , A.FRST_PRMISN_DT
-                                 , A.GR_USAGE_PD_FROM
-                                 , A.GR_USAGE_PD_TO
-                                 , 'N'
-                                 , A.SANCTNER_EMPL_NO
-                                 , A.QUAY_CD
-                                 , A.FRST_REQST_DT
-                                 , A.QUAY_GROUP_CD
-                                 , SYSDATE
-                                 , A.PAYINST_INTRRATE
-				           FROM ASSETS_RENT_F A
-				          WHERE A.PRT_AT_CODE = '622'
-				            AND A.MNG_YEAR    = #mngYear#
-				            AND A.MNG_NO      = #mngNo#
-				            AND A.MNG_CNT     = #mngCnt#
-    </insert>
-
-    <select id="gamHtldRentMngtDao.selectHtldRentMngtDetailListTotCnt_S" parameterClass="gamHtldRentMngtVO" resultClass="int">
-            SELECT COUNT(*) totcnt
-              FROM ASSETS_RENT_DETAIL_F A
-             WHERE 1=1
-               AND A.PRT_AT_CODE = '622'
-               AND A.MNG_YEAR    = #mngYear#
-               AND A.MNG_NO      = #mngNo#
-               AND A.MNG_CNT     = #mngCnt#
-    </select>
-
-    <delete id="gamHtldRentMngtDao.deleteHtldRentMngtDetail_D">
-        DELETE FROM ASSETS_RENT_DETAIL_F
-         WHERE PRT_AT_CODE = #prtAtCode#
-           AND MNG_YEAR    = #mngYear#
-           AND MNG_NO      = #mngNo#
-           AND MNG_CNT     = #mngCnt#
-           AND A.QUAY_GROUP_CD='H'
-    </delete>
-
-
-    <delete id="gamHtldRentMngtDao.deleteHtldRentMngtDetail2_S">
-        DELETE FROM ASSETS_RENT_DETAIL_F
-         WHERE ASSETS_USAGE_SEQ = #assetsUsageSeq#
-           AND MNG_YEAR         = #mngYear#
-           AND MNG_NO           = #mngNo#
-           AND MNG_CNT          = #mngCnt#
-			AND PRT_AT_CODE = #prtAtCode#
-    </delete>
-
-    <update id="gamHtldRentMngtDao.updateHtldRentMngtPrmisn_S">
-        UPDATE ASSETS_RENT_F SET
-
-                <isEqual property="reqstSeCd" compareValue="1">
-                    FRST_PRMISN_DT = SYSDATE,
-                </isEqual>
-
-                PRMISN_DT     = SYSDATE
-              , PRMISN_YN     = #prmisnYn#
-        WHERE  PRT_AT_CODE   = #prtAtCode#
-        AND    MNG_YEAR      = #mngYear#
-        AND    MNG_NO        = #mngNo#
-        AND    MNG_CNT       = #mngCnt#
-        AND QUAY_GROUP_CD='H'
-    </update>
-
-    <insert id="gamHtldRentMngtDao.insertHtldRentMngtLevReqest_S">
-        INSERT INTO LEV_REQEST_F (
-                             NTIC_CNT
-                           , FCLTY_SE
-                           , CHRGE_KND
-                           , ENTRPSCD
-                           , ENTRPS_NM
-                           , NTIC_PD_FROM
-                           , CONST_PER_TO
-                           , ACCNUT_YEAR
-                           , NTICNO
-                           , NTIC_DT
-                           , PAY_TMLMT
-                           , OLNLP
-                           , FEE
-                           , VAT_YN
-                           , VAT
-                           , NTIC_AMT
-                           , RM
-                           , RCIV_SE
-                           , RCIV_DT
-                           , NHT_ISUE_YN
-                           , ARRRG_NO
-                           , ARRRG_AMT
-                           , REQEST_SEQ
-                           , DEPTCD
-                           , NTIC_MTH
-                           , REG_USR
-                           , REGIST_DT
-                           , UPD_USR
-                           , UPDT_DT
-                           , PRT_AT_CODE
-                           , MNG_YEAR
-                           , MNG_NO
-                           , MNG_CNT
-                         )
-                  VALUES (
-                             #nticCnt#
-                           , #fcltySe#
-                           , #chrgeKnd#
-                           , #entrpscd#
-                           , #entrpsNm#
-                           , #nticPdFrom#
-                           , #constPerTo#
-                           , #accnutYear#
-                           , #nticno#
-                           , #nticDt#
-                           , #payTmlmt#
-                           , #olnlp#
-                           , #fee#
-                           , #vatYn#
-                           , #vat#
-                           , #nticAmt#
-                           , #rm#
-                           , #rcivSe#
-                           , #rcivDt#
-                           , #nhtIsueYn#
-                           , #arrrgNo#
-                           , #arrrgAmt#
-                           , #reqestSeq#
-                           , #deptcd#
-                           , #nticMth#
-                           , #regUsr#
-                           , SYSDATE
-                           , #updUsr#
-                           , SYSDATE
-                           , '622'
-                           , #mngYear#
-                           , #mngNo#
-                           , #mngCnt#
-                         )
-    </insert>
-
-    <update id="gamHtldRentMngtDao.updateHtldRentMngtPrmisnCancel_S">
-        UPDATE ASSETS_RENT_F SET
-                PRMISN_DT     = SYSDATE
-              , PRMISN_YN     = #prmisnYn#
-        WHERE  PRT_AT_CODE   = '622'
-        AND    MNG_YEAR      = #mngYear#
-        AND    MNG_NO        = #mngNo#
-        AND    MNG_CNT       = #mngCnt#
-    </update>
-
-    <select id="gamHtldRentMngtDao.selectUsagePdMonthCnt_S" parameterClass="GamHtldRentMngtLevReqestVO" resultClass="int">
-        SELECT
-               ROUND(MONTHS_BETWEEN(TO_DATE(LAST_DAY(#grUsagePdTo#)), TO_DATE(SUBSTR(#grUsagePdFrom#,0,6)||'01')))
-          FROM DUAL
-    </select>
-
-    <select id="gamHtldRentMngtDao.selectHtldRentMngtMaxMngCnt_S" parameterClass="gamHtldRentMngtVO" resultClass="String">
-		SELECT
-		       LPAD((MAX(A.MNG_CNT)+ 1),'2','0') MNG_CNT
-		  FROM ASSETS_RENT_F A
-		 WHERE A.PRT_AT_CODE = #prtAtCode#
-		   AND A.MNG_YEAR    = #mngYear#
-		   AND A.MNG_NO      = #mngNo#
-		   AND QUAY_GROUP_CD=#quayGroupCd#
-    </select>
-
-    <select id="gamHtldRentMngtDao.selectHtldRentMngtDetailInfo_S" parameterClass="gamHtldRentMngtVO" resultMap="gamHtldRentMngtDetailInfoMap">
-        SELECT
-               A.ASSETS_USAGE_SEQ
-             , A.GIS_ASSETS_CD
-             , A.GIS_ASSETS_SUB_CD
-             , A.USAGE_AR
-             , TO_CHAR((A.USAGE_PD_TO + 1), 'YYYY-MM-DD') USAGE_PD_FROM
-             , TO_CHAR(((A.USAGE_PD_TO + 1) + (A.USAGE_PD_TO - A.USAGE_PD_FROM)), 'YYYY-MM-DD') USAGE_PD_TO
-             , A.USAGE_PURPS
-             , A.USAGE_DTLS
-             , A.USAGE_PRPOS_CD
-             , A.EXEMPT_SE
-             , A.EXEMPT_RSN_CD
-             , A.EXEMPT_RSN
-             , TO_CHAR(A.EXEMPT_PD_FROM, 'YYYY-MM-DD') EXEMPT_PD_FROM
-             , TO_CHAR(A.EXEMPT_PD_TO, 'YYYY-MM-DD') EXEMPT_PD_TO
-             , A.COMPUT_DTLS
-             , A.OLNLP
-             , A.APPLC_PRICE
-             , A.APPLC_TARIFF
-             , A.APPLC_MTH
-             , A.PACK_SE
-             , A.ENTRPS_SE
-             , A.FEE_CALC_SE
-             , A.RDCXPT_FEE_CALC_SE
-             , A.RDCXPT_FEE
-             , A.FEE
-             , TO_CHAR(A.TRMNAT_DT, 'YYYY-MM-DD') TRMNAT_DT
-             , A.TRMNAT_RSN
-             , A.GIS_CD
-             , A.REG_USR
-             , A.REGIST_DT
-             , A.UPD_USR
-             , A.UPDT_DT
-             , A.PRT_AT_CODE
-             , A.GIS_ASSETS_PRT_AT_CODE
-             , A.MNG_YEAR
-             , A.MNG_NO
-             , A.MNG_CNT
-             , A.QUAY_CD
-         FROM ASSETS_RENT_DETAIL_F A
-        WHERE 1=1
-          AND A.PRT_AT_CODE = '622'
-          AND A.MNG_YEAR    = #mngYear#
-          AND A.MNG_NO      = #mngNo#
-          AND A.MNG_CNT     = #mngCnt#
-    </select>
-
-    <insert id="gamHtldRentMngtDao.insertHtldRentMngtDetailRenew_S">
-	    <selectKey keyProperty="maxAssetsUsageSeq" resultClass="int">
-	       SELECT
-	              (NVL(MAX(TO_NUMBER(ASSETS_USAGE_SEQ)),0)+1) MAX_ASSETS_USAGE_SEQ
-             FROM ASSETS_RENT_DETAIL_F
-            WHERE MNG_YEAR    = #mngYear#
-              AND MNG_NO      = #mngNo#
-              AND MNG_CNT     = #mngCnt#
-              AND PRT_AT_CODE = '622'
-	    </selectKey>
-
-	    INSERT INTO ASSETS_RENT_DETAIL_F (
-	    	G2_ID,
-                                             ASSETS_USAGE_SEQ
-                                           , GIS_ASSETS_CD
-                                           , GIS_ASSETS_SUB_CD
-                                           , USAGE_AR
-                                           , USAGE_PD_FROM
-                                           , USAGE_PD_TO
-                                           , USAGE_PURPS
-                                           , USAGE_DTLS
-                                           , USAGE_PRPOS_CD
-                                           , EXEMPT_SE
-                                           , EXEMPT_RSN_CD
-                                           , EXEMPT_RSN
-                                           , EXEMPT_PD_FROM
-                                           , EXEMPT_PD_TO
-                                           , COMPUT_DTLS
-                                           , OLNLP
-                                           , APPLC_PRICE
-                                           , APPLC_TARIFF
-                                           , APPLC_MTH
-                                           , PACK_SE
-                                           , ENTRPS_SE
-                                           , FEE_CALC_SE
-                                           , RDCXPT_FEE_CALC_SE
-                                           , RDCXPT_FEE
-                                           , FEE
-                                           , TRMNAT_DT
-                                           , TRMNAT_RSN
-                                           , GIS_CD
-                                           , REG_USR
-                                           , REGIST_DT
-                                           , UPD_USR
-                                           , UPDT_DT
-                                           , PRT_AT_CODE
-                                           , GIS_ASSETS_PRT_AT_CODE
-                                           , MNG_YEAR
-                                           , MNG_NO
-                                           , MNG_CNT
-                                           , QUAY_CD
-                                         )
-                                  VALUES (
-                                  	(SELECT NVL(MAX(G2_ID), -1)+1 FROM ASSETS_RENT_DETAIL_F),
-                                             #maxAssetsUsageSeq#
-                                           , #gisAssetsCd#
-                                           , #gisAssetsSubCd#
-                                           , #usageAr#
-                                           , TO_DATE(#usagePdFrom:DATE:NO_ENTRY#)
-                                           , TO_DATE(#usagePdTo:DATE:NO_ENTRY#)
-                                           , #usagePurps#
-                                           , #usageDtls#
-                                           , #usagePrposCd#
-                                           , #exemptSe#
-                                           , #exemptRsnCd#
-                                           , #exemptRsn#
-                                           , TO_DATE(#exemptPdFrom:DATE:NO_ENTRY#)
-                                           , TO_DATE(#exemptPdTo:DATE:NO_ENTRY#)
-                                           , #computDtls#
-                                           , #olnlp#
-                                           , #applcPrice#
-                                           , #applcTariff#
-                                           , #applcMth#
-                                           , #packSe#
-                                           , #entrpsSe#
-                                           , #feeCalcSe#
-                                           , #rdcxptFeeCalcSe#
-                                           , #rdcxptFee#
-                                           , #fee#
-                                           , TO_DATE(#trmnatDt:DATE:NO_ENTRY#)
-                                           , #trmnatRsn#
-                                           , #gisCd#
-                                           , #regUsr#
-                                           , SYSDATE
-                                           , #updUsr#
-                                           , SYSDATE
-                                           , '622'
-                                           , #gisAssetsPrtAtCode#
-                                           , #mngYear#
-                                           , #mngNo#
-                                           , #mngCnt#
-                                           , #quayCd#
-                                         )
-    </insert>
-
-    <select id="gamHtldRentMngtDao.selectOlnlpInfo_S" resultMap="CmmCodeDetail">
-            SELECT
-                '' CODE_ID,
-                OLNLP CODE,
-                (TO_CHAR(BEGIN_DT,'YYYY-MM-DD') || ' ~ ' || TO_CHAR(END_DT,'YYYY-MM-DD') || ' : [' || OLNLP || '원') CODE_NM,
-                '' CODE_DC
-            FROM
-                OLNLP_F
-            WHERE 1=1
-            ORDER BY BEGIN_DT DESC
-    </select>
-
-    <select id="gamHtldRentMngtDao.selectHtldRentMngtFileListTotCnt_S" parameterClass="gamHtldRentAttachFileVO" resultClass="int">
-            SELECT COUNT(*) totcnt
-              FROM ASSETS_RENT_PHOTO_F A
-             WHERE PRT_AT_CODE = #prtAtCode#
-               AND MNG_YEAR    = #mngYear#
-               AND MNG_NO      = #mngNo#
-               AND MNG_CNT     = #mngCnt#
-    </select>
-
-    <select id="gamHtldRentMngtDao.selectHtldRentMngtRenewInfo_S" parameterClass="gamHtldRentMngtVO" resultMap="gamHtldRentMngtRenewInfoMap">
-        SELECT
-		         TO_CHAR((MAX(USAGE_PD_TO) + 1), 'YYYY-MM-DD') GR_USAGE_PD_FROM
-               , TO_CHAR(((MAX(USAGE_PD_TO) + 1) + (MAX(USAGE_PD_TO) - MIN(USAGE_PD_FROM))), 'YYYY-MM-DD') GR_USAGE_PD_TO
-		       , SUM(NVL(FEE,0))      GR_FEE
-		       , SUM(NVL(USAGE_AR,0)) GR_AR
-		       , SUM(NVL(RDCXPT_FEE,0)) GR_RDCXPT_FEE
-		  FROM ASSETS_RENT_DETAIL_F
-		 WHERE PRT_AT_CODE = '622'
-		   AND MNG_YEAR    = #mngYear#
-		   AND MNG_NO      = #mngNo#
-		   AND MNG_CNT     = #mngCnt#
-    </select>
-
-    <update id="gamHtldRentMngtDao.updateHtldRentMngtRenewInfo_S">
-        UPDATE ASSETS_RENT_F SET
-		       GR_AR            = #grAr#
-		     , GR_FEE           = #grFee#
-		     , GR_RDCXPT_FEE    = #grRdcxptFee#
-		     , GR_USAGE_PD_FROM = TO_DATE(#grUsagePdFrom:DATE:NO_ENTRY#)
-		     , GR_USAGE_PD_TO   = TO_DATE(#grUsagePdTo:DATE:NO_ENTRY#)
-		WHERE PRT_AT_CODE = '622'
-		  AND MNG_YEAR    = #mngYear#
-		  AND MNG_NO      = #mngNo#
-		  AND MNG_CNT     = #maxMngCnt#
-    </update>
-
-    <select id="gamHtldRentMngtDao.selectHtldRentMngtCurrRenewInfo_S" parameterClass="gamHtldRentMngtVO" resultMap="gamHtldRentMngtRenewInfoMap">
-        SELECT
-                 TO_CHAR(MIN(USAGE_PD_FROM),'YYYY-MM-DD') GR_USAGE_PD_FROM
-               , TO_CHAR(MAX(USAGE_PD_TO),'YYYY-MM-DD')   GR_USAGE_PD_TO
-               , SUM(NVL(FEE,0))      GR_FEE
-               , SUM(NVL(USAGE_AR,0)) GR_AR
-               , SUM(NVL(RDCXPT_FEE,0)) GR_RDCXPT_FEE
-          FROM ASSETS_RENT_DETAIL_F
-         WHERE PRT_AT_CODE = '622'
-           AND MNG_YEAR    = #mngYear#
-           AND MNG_NO      = #mngNo#
-           AND MNG_CNT     = #mngCnt#
-    </select>
-
-    <select id="gamHtldRentMngtDao.selectHtldRentMngtDetailQuaycd_S" parameterClass="gamHtldRentMngtVO" resultMap="gamHtldRentMngtDetailQuaycdMap">
-        SELECT
-               PRT_AT_CODE
-             , MNG_YEAR
-             , MNG_NO
-             , MNG_CNT
-             , QUAY_CD
-		  FROM ASSETS_RENT_DETAIL_F
-		 WHERE PRT_AT_CODE = '622'
-		   AND MNG_YEAR    = #mngYear#
-		   AND MNG_NO      = #mngNo#
-		   AND MNG_CNT     = #maxMngCnt#
-		   AND ASSETS_USAGE_SEQ = (
-		                            SELECT MIN(ASSETS_USAGE_SEQ)
-		                              FROM ASSETS_RENT_DETAIL_F
-		                             WHERE PRT_AT_CODE = '622'
-		                               AND MNG_YEAR    = #mngYear#
-		                               AND MNG_NO      = #mngNo#
-		                               AND MNG_CNT     = #maxMngCnt#
-		                          )
-    </select>
-
-    <update id="gamHtldRentMngtDao.updateHtldRentMngtQuaycd_S">
-        UPDATE ASSETS_RENT_F SET
-               QUAY_CD    = #quayCd#
-        WHERE PRT_AT_CODE = '622'
-          AND MNG_YEAR    = #mngYear#
-          AND MNG_NO      = #mngNo#
-          AND MNG_CNT     = #maxMngCnt#
-    </update>
-
-    <select id="gamHtldRentMngtDao.selectHtldRentMngtBeforeQuarterInfo_S" parameterClass="gamHtldRentMngtVO" resultMap="gamHtldRentMngtBeforeQuarterInfoMap">
-        SELECT
-			    CASE
-			        WHEN CHK_DIV = 'DI_1'
-			        THEN TO_NUMBER(C_YEAR) - 1
-			        ELSE TO_NUMBER(C_YEAR)
-			    END THIS_YEAR
-			    , CASE
-			        WHEN CHK_DIV = 'DI_1'
-			        THEN '10'
-			        WHEN CHK_DIV = 'DI_2'
-			        THEN '01'
-			        WHEN CHK_DIV = 'DI_3'
-			        THEN '04'
-			        WHEN CHK_DIV = 'DI_4'
-			        THEN '07'
-			        ELSE CHK_DIV
-			    END DIV_ST
-			    , CASE
-			        WHEN CHK_DIV = 'DI_1'
-			        THEN '12'
-			        WHEN CHK_DIV = 'DI_2'
-			        THEN '03'
-			        WHEN CHK_DIV = 'DI_3'
-			        THEN '06'
-			        WHEN CHK_DIV = 'DI_4'
-			        THEN '09'
-			        ELSE CHK_DIV
-			    END DIV_END
+   <select id="gamHtldRentMngtDao.selectHtldAssessList_D" parameterClass="gamHtldRentMngtVO" resultClass="egovMap">
+		SELECT A.*
+		FROM (
+			SELECT ROWNUM RNUM, S.*
 			FROM (
-			    SELECT
-			        C_YEAR
-			        , CASE
-			            WHEN C_DIY BETWEEN '01' AND '03'
-			            THEN 'DI_1'
-			            WHEN C_DIY BETWEEN '04' AND '06'
-			            THEN 'DI_2'
-			            WHEN C_DIY BETWEEN '07' AND '09'
-			            THEN 'DI_3'
-			            WHEN C_DIY BETWEEN '10' AND '12'
-			            THEN 'DI_4'
-			            ELSE 'NO'
-			        END CHK_DIV
-			    FROM (
-			        SELECT
-			              SUBSTR(#cYear#,1,4) C_YEAR
-			            , SUBSTR(#cYear#,5,2) C_DIY
-			        FROM DUAL
-			    )
-			)
+				SELECT
+					PRT_AT_CODE,
+					MNG_YEAR,
+					MNG_NO,
+					MNG_CNT,
+					ASSESS_NO,
+					ASSESS_SE,
+					GAM_GETCODENAME('GAM071', ASSESS_SE) ASSESS_SE_NM,
+					TO_CHAR(DT_FROM, 'YYYY-MM-DD') DT_FROM,
+					TO_CHAR(DT_TO, 'YYYY-MM-DD') DT_TO,
+					ASSESS_RESULT,
+					APPLC_PRICE,
+					TO_CHAR(ASSESS_DT, 'YYYY-MM-DD') ASSESS_DT
+				FROM HTLD_RENT_ASSESS_F A
+				WHERE 1=1
+					AND A.PRT_AT_CODE = #prtAtCode#
+					AND A.MNG_YEAR = #mngYear#
+					AND A.MNG_NO = #mngNo#
+					AND A.MNG_CNT = #mngCnt#
+				ORDER BY ASSESS_NO
+			) S
+		) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
- -->
+
+    <select id="gamHtldRentMngtDao.selectHtldAssessSum_S" parameterClass="gamHtldRentMngtVO" resultClass="egovMap">
+		SELECT
+			COUNT(A.*) RESULT_COUNT
+		FROM HTLD_RENT_ASSESS_F A
+		WHERE 1=1
+			AND A.PRT_AT_CODE = #prtAtCode#
+			AND A.MNG_YEAR = #mngYear#
+			AND A.MNG_NO = #mngNo#
+			AND A.MNG_CNT = #mngCnt#
+			AND A.ASSESS_RESULT IS NOT NULL
+    </select>
+
+   <select id="gamHtldRentMngtDao.insertHtldAssess_S" parameterClass="gamHtldAssessVO" resultClass="egovMap">
+	   	INSERT INTO HTLD_RENT_ASSESS_F (
+			PRT_AT_CODE,
+			MNG_YEAR,
+			MNG_NO,
+			MNG_CNT,
+			ASSESS_NO,
+			ASSESS_SE,
+			ASSESS_RESULT,
+			APPLC_PRICE,
+			DT_FROM,
+			DT_TO,
+			ASSESS_DT
+	   	)
+	   	VALUES (
+	   		#prtAtCode#,
+			#mngYear#,
+			#mngNo#,
+			#mngCnt#,
+			#assessNo#,
+			#assessSe#,
+			#assessResult#,
+			#applcPrice#,
+			TO_DATE(#dtFrom#, 'YYYY-MM-DD'),
+			TO_DATE(#dtFrom#, 'YYYY-MM-DD')*365*3,
+			TO_DATE(#assessDt#, 'YYYY-MM-DD')
+	   	)
+    </select>
+
+   <select id="gamHtldRentMngtDao.selectHtldNticRcivList_D" parameterClass="gamHtldRentMngtVO" resultClass="egovMap">
+	SELECT A.*
+	FROM (
+		SELECT ROWNUM RNUM, S.*
+		FROM (
+			select
+				L.PRT_AT_CODE,
+				L.MNG_YEAR,
+				L.MNG_NO,
+				L.MNG_CNT,
+				L.NTIC_CNT,
+				L.CHRGE_KND,
+				GAM_GET_FEE_TP_NM(L.PRT_AT_CODE,'H',L.CHRGE_KND) CHRGE_KND_NM,
+				'00' NTIC_SER_NO,
+				r.bill_amnt,
+				r.bill_dt,
+				r.ocr_dt,
+				r.rcvd_dt,
+				r.rcvd_tp
+			from lev_reqest_f l, rev_coll_f r
+			where
+				l.prt_at_code=r.prt_at_code
+				and l.accnut_year=r.fiscal_yr
+				and l.nticno=r.bill_no
+				AND L.PRT_AT_CODE = #prtAtCode#
+				AND L.MNG_YEAR = #mngYear#
+				AND L.MNG_NO = #mngNo#
+				AND L.MNG_CNT = #mngCnt#
+			union
+			select
+				L.PRT_AT_CODE,
+				L.MNG_YEAR,
+				L.MNG_NO,
+				L.MNG_CNT,
+				L.NTIC_CNT,
+				L.CHRGE_KND,
+				GAM_GET_FEE_TP_NM(L.PRT_AT_CODE,'H',L.CHRGE_KND) CHRGE_KND_NM,
+				u.dly_ser_no ntic_ser_no,
+				u.dly_bill_amnt bill_amnt,
+				u.dly_bill_dt bill_dt,
+				u.ocr_dt ocr_dt,
+				u.dly_rcvd_dt rcvd_dt,
+				u.dly_rcvd_tp rcvd_tp
+			from lev_reqest_f l, unpaid_f u
+			where
+				l.prt_at_code=u.prt_at_code
+				and l.accnut_year=u.fiscal_yr
+				and l.nticno=u.bill_no
+				AND L.PRT_AT_CODE = #prtAtCode#
+				AND L.MNG_YEAR = #mngYear#
+				AND L.MNG_NO = #mngNo#
+				AND L.MNG_CNT = #mngCnt#
+		) S
+		order by S.bill_dt desc
+
+	) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+
+    <select id="gamHtldRentMngtDao.selectHtldNticRcivSum_S" parameterClass="gamHtldRentMngtVO" resultClass="egovMap">
+		select
+  			SUM(DECODE(rcvd_tp, '2', bill_amnt_sum, '3', bill_amnt_sum, 0)) rcvd_amnt_sum,
+			SUM(DECODE(rcvd_tp, '2', 0, '3', 0, bill_amnt_sum)) not_rcvd_amnt_sum
+		from (
+			  SELECT
+			    rcvd_tp,
+			    SUM(bill_amnt) bill_amnt_sum
+			      from (
+			select
+			  r.bill_amnt,
+			  r.rcvd_tp
+			from lev_reqest_f l, rev_coll_f r
+			where
+			  l.prt_at_code=r.prt_at_code
+			  and l.accnut_year=r.fiscal_yr
+			  and l.nticno=r.bill_no
+			AND L.PRT_AT_CODE = #prtAtCode#
+			AND L.MNG_YEAR = #mngYear#
+			AND L.MNG_NO = #mngNo#
+			AND L.MNG_CNT = #mngCnt#
+			union
+			  select
+			  u.dly_bill_amnt bill_amnt,
+			  u.dly_rcvd_tp rcvd_tp
+			from lev_reqest_f l, unpaid_f u
+			where
+			  l.prt_at_code=u.prt_at_code
+			  and l.accnut_year=u.fiscal_yr
+			  and l.nticno=u.bill_no
+			AND L.PRT_AT_CODE = #prtAtCode#
+			AND L.MNG_YEAR = #mngYear#
+			AND L.MNG_NO = #mngNo#
+			AND L.MNG_CNT = #mngCnt#
+			)
+			group by rcvd_tp
+		)
+    </select>
+
 </sqlMap>

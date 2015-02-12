@@ -76,6 +76,8 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
     	module._editChanged=false;
     	module._editable=false;
     	module._selectedItem=row;
+    	module._rentDetail=row;
+    	module._detailMode="";
     	module.setButtonStatus();
     });
 
@@ -84,6 +86,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
     	module._editChanged=false;
     	module._editable=false;
     	module._selectedItem=row;
+    	module._detailMode="";
         module.$("#assetRentListTab").tabs("option", {active: 1});
     });
 
@@ -92,14 +95,14 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
         module: this,
         dataType: 'json',
         colModel : [
-                    {display:'자산코드', name:'gisAssetsCdStr',width:60, sortable:false,align:'center'},
-                    {display:'자산명', name:'gisAssetsNm',width:140, sortable:false,align:'left'},
-                    {display:'소재지', name:'gisAssetsLocplcAll',width:200, sortable:false,align:'center'},
-                    {display:'자산면적', name:'gisAssetsAr',width:80, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'사용면적', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.00"}
+                    {display:'자산코드', name:'gisAssetsCode',width:80, sortable:false,align:'center'},
+                    {display:'자산명', name:'gisAssetsNm',width:240, sortable:false,align:'left'},
+                    {display:'소재지', name:'gisAssetsLocplcAll',width:300, sortable:false,align:'center'},
+                    {display:'자산면적', name:'gisAssetsAr',width:110, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'사용면적', name:'usageAr',width:110, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.00"}
                     ],
         showTableToggleBtn: true,
-        height: '120',
+        height: '200',
         preProcess: function(module, data) {
         	$.each(data.resultList, function() {
         		this._updtId = '';
@@ -111,37 +114,56 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
 
     this.$("#assetRentDetailList").on('onItemSelected', function(event, module, row, grid, param) {
     	module._selectRentDetailItem=row;
-    	module._rentDetailMode='';
+    	module._detailMode="";
     });
 
     this.$("#assetRentDetailList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-    	module._selectRentDetailItem=row;
-    	module._rentDetailMode='';
-        module.$("#assetRentListTab").tabs("option", {active: 2});
     });
 
     this.$("#assetRentDetailList").on('onCellEdited', function(event, module, row, grid, param) {
+        if(row._updtId!="I") row._updtId="U";
     	module.onCalc();
     });
 
     // 실적평가 그리드 설정
     this.$("#bizAssessGrid").flexigrid({
         module: this,
+        url: '/oper/htld/selectHtldAssessList.do',
         dataType: 'json',
         colModel : [
-                    {display:'회차', name:'photoSeq', width:80, sortable:true, align:'center'},
-                    {display:'평가기간', name:'photoSj', width:240, sortable:true, align:'left'},
-                    {display:'평가일', name:'photoDesc', width:100, sortable:true, align:'left'},
-                    {display:'평기결과', name:'shotDt', width:100, sortable:true, align:'center'}
+                    {display:'평가회차', name:'assessNo', width:80, sortable:true, align:'center'},
+                    {display:'평가기간', name:'assessPd', width:240, sortable:true, align:'left'},
+                    {display:'구분', name:'assessSeNm', width:100, sortable:true, align:'left'},
+                    {display:'평가일', name:'assessDt', width:100, sortable:true, align:'left'},
+                    {display:'평가결과', name:'assessResult', width:100, sortable:true, align:'center', displayFormat:'dyn'},
+                    {display:'비고', name:'rm', width:100, sortable:true, align:'left'}
                     ],
         showTableToggleBtn: false,
-        height: '240'
+        height: 'auto'
     });
 
     this.$("#bizAssessGrid").on('onItemSelected', function(event, module, row, grid, param) {
-        module.makeFormValues('#gamAssetRentFileForm', row);
-        module._editDataAssess=module.getFormValues('#gamAssetRentFileForm', row);
-        module._editRowAssess=module.$('#assetRentFileList').selectedRowIds()[0];
+    });
+
+    this.$("#nticListGrid").flexigrid({
+        module: this,
+        url: '/oper/htld/selectHtldNticList.do',
+        dataType: 'json',
+        colModel : [
+                    {display:'고지회차', name:'nticNo', width:70, sortable:true, align:'center'},
+                    {display:'횟수', name:'nticCnt', width:50, sortable:true, align:'center'},
+                    {display:'임대기간', name:'rentPeriod', width:200, sortable:true, align:'center'},
+                    {display:'고지내역', name:'nticTp', width:80, sortable:true, align:'left'},
+                    {display:'고지금액', name:'nticAmount', width:100, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'고지일자', name:'nticDt', width:110, sortable:true, align:'center'},
+                    {display:'납부금액', name:'ricvAmount', width:100, sortable:true, align:'right', displayFormat:'number'},
+                    {display:'납부일자', name:'rcivDt', width:110, sortable:true, align:'center'}
+                    ],
+        showTableToggleBtn: false,
+        height: 'auto'
+    });
+
+    this.$("#nticListGrid").on('onItemSelected', function(event, module, row, grid, param) {
     });
 
     this.setEvents();
@@ -166,20 +188,6 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
 	이벤트 정의
 --%>
 GamHtldRentMngtModule.prototype.setEvents = function() {
-	// tabs 2
-    this.$('#applcTariff').on('change', {module: this}, function(event) {
-        if( $(this).val() == '' ) {
-            event.data.module.$('#applcTariffNm').val("");
-        } else {
-            event.data.module.$('#applcTariffNm').val($(this).getSelectedCodeLabel());
-        }
-    });
-    this.$('#exemptSe').on('change', {module: this}, function(event) {
-    	event.data.module.onExemptSeChange($(this).val());
-    });
-    this.$('#applcMth').on('change', {module: this}, function(event) {
-        event.data.module.onApplcMthChange($(this).val());
-    });
     this.$("#sEntrpscd").bind("keyup change", {module: this}, function(event) {
 		if(event.data.module.$('#sEntrpscd').val() ==''){
 			event.data.module.$('#sEntrpsNm').val('');
@@ -198,7 +206,7 @@ GamHtldRentMngtModule.prototype.setEvents = function() {
     	event.data.module.onChangeNticMth($(this).val());
     });
     this.$('#payinstIntrrate').on('change keyup', {module: this}, function(event) {
-        event.data.module.calcFirstPaymentAmount();
+        event.data.module.onCalc();
     });
     this.$('#cofixList').on('change', {module: this}, function(event) {
     	event.data.module.onCofixListChange($(this).val());
@@ -327,7 +335,7 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 	자산코드와 주소를 문자열로 변환한다
 --%>
 GamHtldRentMngtModule.prototype.makeAssetCd = function(assetCd) {
-	assetCd.gisAssetsCdStr = assetCd.gisAssetsCd+'-'+assetCd.gisAssetsSubCd;
+	assetCd.gisAssetsCode = assetCd.gisAssetsCd+'-'+assetCd.gisAssetsSubCd;
 	assetCd.gisAssetsLocplcAll = assetCd.gisAssetsLocplc;
 	if(assetCd.gisAssetsLnm!=undefined && assetCd.gisAssetsLnm!=null) {
 		assetCd.gisAssetsLocplcAll+=" "+assetCd.gisAssetsLnm;
@@ -350,7 +358,7 @@ GamHtldRentMngtModule.prototype.onChangeNticMth = function(nticMth) {
     	this.$('#payinstIntrrate').val("");
     }
     // calc first payment amount
-    this.calcFirstPaymentAmount();
+    this.onCalc();
 };
 
 <%--
@@ -369,7 +377,7 @@ GamHtldRentMngtModule.prototype.onCofixListChange = function(cofix) {
 		}
 
     	this.$('#payinstIntrrate').val( payinstIntrrateCal );
-    	this.calcFirstPaymentAmount();
+    	this.onCalc();
     }
 };
 
@@ -426,318 +434,6 @@ GamHtldRentMngtModule.prototype.loadEntrpsChargerList = function() {
 };
 
 <%--
-요금 산정 방식에 따른 첫회 사용료 계산 함수
---%>
-GamHtldRentMngtModule.prototype.calcFirstPaymentAmount = function() {
-	var firstAmt=0;
-	var nticMth=this.$('#nticMth').val();
-	var totalAmount=this.getNumber(this.$('#grFee').val());
-	var payinstIntrrate=this.getNumber(this.$('#payinstIntrrate').val())/100;
-    var grUsagePdFrom = EMD.util.strToDate(this.$('#grUsagePdFrom').val());
-    var grUsagePdTo = EMD.util.strToDate(this.$('#grUsagePdTo').val());
-    var fromDt, toDt;
-	var totalMonths = grUsagePdTo.getMonth() - grUsagePdFrom.getMonth()+1;
-	var totalDays = Math.floor((grUsagePdTo-grUsagePdFrom) / (1000*60*60*24))+1;
-    var nDays;
-    var firstPayValStr="";
-
-	switch(nticMth) {
-	case '2':	// 반기납
-		fromDt = grUsagePdFrom;
-		toDt = new Date(fromDt);
-		toDt.setMonth(fromDt.getMonth()+6);
-		toDt=toDt-(1000*60*60*24);
-		if(6>=totalMonths) firstAmt=totalAmount;
-		else {
-			firstAmt = totalAmount*6/totalMonths;
-		}
-		// 이자율 계산
-		firstAmt += (totalAmount-firstAmt) * (payinstIntrrate) /2;
-		firstAmt = Math.floor(firstAmt);
-		firstPayValStr="반기납 : 총사용료 ("+$.number(totalAmount, true)+"원) ";
-		break;
-	case '3':	// 3분납
-		fromDt = grUsagePdFrom;
-		toDt = new Date(fromDt);
-		if(grUsagePdFrom.getMonth()<4) {
-			toDt.setMonth(4);
-		}
-		else if(grUsagePdFrom.getMonth()<8) {
-			toDt.setMonth(8);
-		}
-		else  {
-			toDt.setFullYear(toDt.getFullYear()+1);
-			toDt.setMonth(0);
-		}
-		toDt=toDt-(1000*60*60*24);
-		if(4>=totalMonths) firstAmt=totalAmount;
-		else {
-			firstAmt=totalAmount*4/totalMonths;
-		}
-		// 이자율 계산
-		firstAmt += (totalAmount-firstAmt) * (payinstIntrrate) /3;
-		firstAmt = Math.floor(firstAmt);
-		firstPayValStr="3분납 : 총사용료 ("+$.number(totalAmount, true)+"원)";
-		break;
-	case '4':	// 분기납
-		fromDt = grUsagePdFrom;
-		toDt = new Date(fromDt);
-		if(grUsagePdFrom.getMonth()<3) {
-			toDt.setMonth(3);
-		}
-		else if(grUsagePdFrom.getMonth()<6) {
-			toDt.setMonth(6);
-		}
-		else if(grUsagePdFrom.getMonth()<9) {
-			toDt.setMonth(9);
-		}
-		else {
-			toDt.setFullYear(toDt.getFullYear()+1);
-			toDt.setMonth(0);
-		}
-		toDt=toDt-(1000*60*60*24);
-		if(3>=totalMonths) firstAmt=totalAmount;
-		else {
-			nDays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
-			firstAmt=Math.floor(totalAmount*3/totalMonths);
-		}
-		firstAmt += (totalAmount-firstAmt) * (payinstIntrrate) /4;
-		firstPayValStr="분기납 : 총사용료 ("+$.number(totalAmount, true)+"원)";
-		break;
-	case '5':	// 월납
-		fromDt = grUsagePdFrom;
-		toDt = new Date(fromDt);
-		toDt.setMonth(grUsagePdFrom.getMonth()+1);
-		toDt=toDt-(1000*60*60*24);
-		if(1>=totalMonths) firstAmt=totalAmount;
-		else {
-			nDays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
-			firstAmt=Math.floor(totalAmount*1/totalMonths);
-		}
-		firstAmt += (totalAmount-firstAmt) * (payinstIntrrate) /12;
-		firstAmt = Math.floor(firstAmt);
-		firstPayValStr="월납 : 총사용료 ("+$.number(totalAmount, true)+"원)";
-		break;
-	case '6':	// 연납
-		fromDt = grUsagePdFrom;
-		toDt = new Date(fromDt);
-		toDt.setMonth(grUsagePdFrom.getMonth()+1);
-		toDt=toDt-(1000*60*60*24);
-		if(1>=totalMonths) firstAmt=totalAmount;
-		else {
-			nDays = Math.floor((toDt-fromDt) / (1000*60*60*24))+1;
-			firstAmt=Math.floor(totalAmount*1/totalMonths);
-		}
-		firstAmt += (totalAmount-firstAmt) * (payinstIntrrate) /12;
-		firstAmt = Math.floor(firstAmt);
-		firstPayValStr="연납 : 총사용료 ("+$.number(totalAmount, true)+"원)";
-		break;
-	default:
-		firstAmt=totalAmount;
-		fromDt=grUsagePdFrom;
-		toDt=grUsagePdFrom;
-		nDays = Math.floor((grUsagePdTo-grUsagePdFrom) / (1000*60*60*24))+1;
-		firstPayValStr="일시납 : 총사용료 ("+$.number(totalAmount, true)+"원)";
-		break;
-	}
-
-	this.$('#firstPayVal').val($.number(firstAmt));
-	this.$('#firstPayValStr').text(firstPayValStr);
-};
-
-<%--
-	적용방법에 따른 변경 이벤트 핸들러
---%>
-GamHtldRentMngtModule.prototype.onApplcMthChange = function(applcMth) {
-	switch(applcMth) {
-	case '1':	// 국유재산법
-		this.$('.nationAssetLaw').show();
-		this.$('.tradePortLaw').hide();
-		break;
-	case '2':	// 공사규정
-		this.$('.nationAssetLaw').show();
-		this.$('.tradePortLaw').hide();
-		break;
-	case '3':	// 입찰
-		this.$('.nationAssetLaw').show();
-		this.$('.tradePortLaw').hide();
-		break;
-	case '4':	// 무역항규정
-	case '6':	// 배후단지
-		this.$('.nationAssetLaw').hide();
-		this.$('.tradePortLaw').show();
-		break;
-	case '5':	// 임대계약서
-		this.$('.nationAssetLaw').hide();
-		this.$('.tradePortLaw').hide();
-//		this.$('#applcTariff').val('0');
-		break;
-	default:	// 기타
-		this.$('.nationAssetLaw').show();
-		this.$('.tradePortLaw').hide();
-		break;
-	}
-    this.onCalc();
-};
-
-<%--
-	면제 구분 방식에 변경의 이벤트 핸들러
---%>
-GamHtldRentMngtModule.prototype.onExemptSeChange = function(exemptSe) {
-    if(exemptSe=='0') {
-    	this.$('.exempt').hide();
-}
-    else {
-    	this.$('.exempt').show();
-    	if(exemptSe=='1') {
-    		this.$('#exemptPdFrom').enable();
-    		this.$('#exemptPdTo').enable();
-    	}
-    	else {
-    		this.$('#exemptPdFrom').disable();
-    		this.$('#exemptPdTo').disable();
-    	}
-    }
-
-    if( exemptSe != '1' ) {
-    	this.$('#exemptPdFrom').val("");
-    	this.$('#exemptPdTo').val("");
-    }
-};
-
-<%--
-	국유재산법 사용료 계산
---%>
-GamHtldRentMngtModule.prototype.calcNationAssetLaw = function() {
-    if( this.$('#olnlp').val() != '' && this.$('#usagePdFrom').val() != '' && this.$('#usagePdTo').val() != ''
-        && this.$('#usageAr').val() != '' && this.$('#applcTariff').val() != '' && this.$('#exemptSe').val() != ''
-    ) {
-        var calFee      = 0;  //계산된 사용료
-        var olnlp       = 0;  //공시지가
-        var usageAr     = 0;  //사용면적
-        var applcTariff = 0;  //적용요율(계산용)
-        var applcTariffStr = "";  //적용요율
-        var rdcxptFee   = 0;  //감면사용료
-        var dayUseCnt   = 0;  //사용일수
-        var usagePdFrom = ""; //사용기간 from
-        var usagePdTo   = ""; //사용기간 to
-        var exemptPdFrom = "";    // 면제기간
-        var exemptPdTo = "";      // 면제기간
-        var exemptCnt   = 0;      // 면제일수
-        var exemptSe    = ""; //면제구분 0:면제없음, 1:일부면제, 2:전체면제
-
-        olnlp = this.$('#olnlp').val().replace(/,/g, '')*1;
-        usageAr = Number(this.$('#usageAr').val().replace(/,/g, ''));
-        applcTariff = Number(this.$('#applcTariff').val().replace(/,/g, ''));
-        applcTariffStr = this.$('#applcTariff').getSelectedCodeLabel();
-        usagePdFrom = this.$('#usagePdFrom').val();
-        usagePdTo = this.$('#usagePdTo').val();
-        exemptPdFrom = this.$('#exemptPdFrom').val();
-        exemptPdTo = this.$('#exemptPdTo').val();
-        exemptSe = this.$('#exemptSe').val();
-
-        var monfee=Math.round(olnlp*applcTariff/12);
-
-        if( exemptSe == '1' ) {        // 일부면제
-              if( exemptPdFrom == '' ) {
-                  return;
-              }
-              if( exemptPdTo == '' ) {
-                  return;
-              }
-        }
-
-        if( exemptSe == '0' ) {               // 면제없음.
-            rdcxptFee = 0;
-        } else if( exemptSe == '1' ) {   // 일부면제
-        	var dtFr = EMD.util.strToDate(exemptPdFrom);
-        	var dtTo = EMD.util.strToDate(exemptPdTo);
-
-        	var days = Math.round(Math.abs((dtTo-dtFr)/(1000*60*60*24)));
-
-            /* 면제 일수 계산 */
-            exemptCnt = Number(days);
-
-            exemptMonths = this.calcMonth(dtFr, dtTo);
-
-            rdcxptFee = monfee*usageAr*exemptMonths.month+monfee*usageAr*exemptMonths.day/exemptMonths.lastMonthDay;
-        }
-
-        /* 날짜계산 */
-
-        var dtFr = EMD.util.strToDate(usagePdFrom);
-        var dtTo = EMD.util.strToDate(usagePdTo);
-
-        usageMonths = this.calcMonth(dtFr, dtTo);
-
-        //(사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 ? 감면사용료 )
-        if( exemptSe == '2' ) {     // 전체면제 일 경우 사용료는 0
-        	rdcxptFee = calFee;
-        	exemptCnt = dayUseCnt;
-            calFee = 0;
-        } else {
-            calFee = monfee*usageAr*usageMonths.month+monfee*usageAr*usageMonths.day/usageMonths.lastMonthDay - rdcxptFee;
-        }
-        var calcStr="";
-        if(usageMonths.month) {
-        	if(usageMonths.day) {
-        		calcStr="( 공시지가("+$.number(olnlp, false)+"원)*적용요율("+applcTariff*1000+"/1000)*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월 "+usageMonths.day+"일/"+usageMonths.lastMonthDay+")";
-        	}
-        	else {
-        		calcStr="( 공시지가("+$.number(olnlp, false)+"원)*적용요율("+applcTariff*1000+"/1000)*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월)";
-        	}
-        }
-        else {
-    		calcStr="( 공시지가("+$.number(olnlp, false)+"원)*적용요율("+applcTariff*1000+"/1000)*사용면적("+$.number(usageAr, false)+"m²)*(사용개월수("+$.number(usageMonths.month, false)+"개월)";
-
-        }
-        if(rdcxptFee>0) {
-			if(exemptMonths.month) {
-				if(exemptMonths.day) {
-		    		calcStr+="-( 면제개월수("+exemptMonths.month+"개월 "+exemptMonths.day+"일/"+exemptMonths.lastMonthDay+")";
-
-				}
-				else {
-		    		calcStr+="-( 면제개월수("+exemptMonths.month+"개월)";
-				}
-			}
-			else {
-	    		calcStr+="-( 면제일수("+exemptMonths.day+"일/"+exemptMonths.lastMonthDay+")";
-			}
-			calcStr += " 면제 금액 : "+$.number(rdcxptFee, false)+"원)";
-        }
-        calcStr += " )";
-    	this.$('#computDtls').val(calcStr);
-
-/*         calFee = Math.floor(calFee/10)*10;
-        rdcxptFee = Math.floor(rdcxptFee/10)*10;
-
-        //(사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 ? 감면사용료 )
-        if( exemptSe == '2' ) {     // 전체면제 일 경우 사용료는 0
-        	rdcxptFee = calFee;
-        	exemptCnt = dayUseCnt;
-            calFee = 0;
-        } else {
-            calFee = olnlp*dayUseCnt/365*usageAr*applcTariff - rdcxptFee;
-        }
-        this.$('#computDtls').val("( 공시지가("+$.number(olnlp, false)+"원)*사용면적("+$.number(usageAr, false)+"m²)*(사용일수("+$.number(dayUseCnt, false)+"일)-면제일수("+$.number(exemptCnt, false)+"일) ) / 365 * "+applcTariffStr);
-*/
-        calFee = Math.ceil(calFee/10)*10;
-        rdcxptFee = Math.ceil(rdcxptFee/10)*10;
-
-        this.$('#fee').val($.number(calFee));
-        this.$('#rdcxptFee').val($.number(rdcxptFee));
-    } else {
-        var applcTariff = Number(this.$('#applcTariff').val().replace(/,/g, ''));
-		if(applcTariff!=0) {
-	    	this.$('#fee').val('');
-	        this.$('#rdcxptFee').val('');
-		}
-    }
-
-};
-
-<%--
 	기간에 대한 달 수 계산 함수
 --%>
 GamHtldRentMngtModule.prototype.calcMonth = function(dtFrom, dtTo) {
@@ -765,9 +461,14 @@ GamHtldRentMngtModule.prototype.calcMonth = function(dtFrom, dtTo) {
 };
 
 <%--
-	무역항규정 사용료 계산 함수
+	적용방법에 따른 요금 계산
 --%>
-GamHtldRentMngtModule.prototype.calcTradePortLaw = function() {
+GamHtldRentMngtModule.prototype.onCalc = function() {
+	var usageAr=0;
+	this.$('#assetRentDetailList')[0].dgrid.forEachRow(function(id) {
+    	usageAr+=Number(this.cells(id,4).getValue());
+    });
+	this.$('#grAr').val(usageAr);
 
     if( this.$('#grUsagePdFrom').val() != '' && this.$('#grUsagePdTo').val() != ''
          && this.$('#applcPrice').val() != '' ) {
@@ -779,17 +480,15 @@ GamHtldRentMngtModule.prototype.calcTradePortLaw = function() {
         var usagePdFrom = ""; //사용기간 from
         var usagePdTo   = ""; //사용기간 to
 
-        this.$('#assetRentDetailList')[0].forEachCell('usageAr', function(cellObj,ind) {
-        	usageAr+=Number(cellObj);
-        });
-        this.$('#grAr').val(usageAr);
         applcPrice = Number(this.$('#applcPrice').val().replace(/,/g, ''));
-        usagePdFrom = EMD.util.getDate(this.$('#grUsagePdFrom').val());
+        usagePdFrom = EMD.util.strToDate(this.$('#grUsagePdFrom').val());
     	usagePdTo = new Date(usagePdFrom);
-        if(this.$('#nticMth')=='1') {
-        	usagePdTo = EMD.util.getDate(this.$('#grUsagePdTo').val());
+    	var nticMth=this.$('#nticMth').val();
+    	var usageAr=this.$('#grAr').val();
+        if(nticMth=='1') {
+        	usagePdTo = EMD.util.strToDate(this.$('#grUsagePdTo').val());
         }
-        else if(this.$('#nticMth')=='2') {
+        else if(nticMth=='2') {
         	if(usagePdTo.getMonth()<6) {
         		usagePdTo.setMonth(6);
         		usagePdTo.setDate(0);
@@ -800,7 +499,7 @@ GamHtldRentMngtModule.prototype.calcTradePortLaw = function() {
         		usagePdTo.setYear(usagePdTo.getYear()+1);
         	}
         }
-        else if(this.$('#nticMth')=='2') {
+        else if(nticMth=='2') {
         	if(usagePdTo.getMonth()<6) {
         		usagePdTo.setMonth(6);
         		usagePdTo.setDate(0);
@@ -811,7 +510,7 @@ GamHtldRentMngtModule.prototype.calcTradePortLaw = function() {
         		usagePdTo.setYear(usagePdTo.getYear()+1);
         	}
         }
-        else if(this.$('#nticMth')=='3') {
+        else if(nticMth=='3') {
         	if(usagePdTo.getMonth()<5) {
         		usagePdTo.setMonth(5);
         		usagePdTo.setDate(0);
@@ -826,7 +525,7 @@ GamHtldRentMngtModule.prototype.calcTradePortLaw = function() {
         		usagePdTo.setYear(usagePdTo.getYear()+1);
         	}
         }
-        else if(this.$('#nticMth')=='4') {
+        else if(nticMth=='4') {
         	if(usagePdTo.getMonth()<4) {
         		usagePdTo.setMonth(4);
         		usagePdTo.setDate(0);
@@ -845,22 +544,22 @@ GamHtldRentMngtModule.prototype.calcTradePortLaw = function() {
         		usagePdTo.setYear(usagePdTo.getYear()+1);
         	}
         }
-        else if(this.$('#nticMth')=='5') {
+        else if(nticMth=='5') {
     		usagePdTo.setMonth(usagePdTo.getMonth()+1);
     		usagePdTo.setDate(0);
         }
-        else if(this.$('#nticMth')=='6') {
+        else if(nticMth=='6') {
     		usagePdTo.setMonth(0);
     		usagePdTo.setDate(0);
     		usagePdTo.setYear(usagePdTo.getYear()+1);
         }
         else {
-        	EMD.util.showMessage(this.$('#nticMth'), '지원하지 않는 고지방법입니다.');
+        	EMD.util.showMessage(nticMth, '지원하지 않는 고지방법입니다.');
         }
 
         /* 날짜계산 */
-        var dtFr = EMD.util.strToDate(usagePdFrom);
-        var dtTo = EMD.util.strToDate(usagePdTo);
+        var dtFr = new Date(usagePdFrom);
+        var dtTo = new Date(usagePdTo);
 
         usageMonths = this.calcMonth(dtFr, dtTo);
 
@@ -881,24 +580,15 @@ GamHtldRentMngtModule.prototype.calcTradePortLaw = function() {
     	this.$('#rm').val(calcStr);
 
         calFee = Math.floor(calFee/10)*10;
-        rdcxptFee = Math.floor(rdcxptFee/10)*10;
 
-        this.$('#fee').val($.number(calFee));
-        this.$('#rdcxptFee').val($.number(rdcxptFee));
+        this.$('#grCalcFee').val($.number(calFee));
     } else {
-        applcTariff = Number(this.$('#applcTariff').val().replace(/,/g, ''));
+        applcTariff = this.$('#applcPrice').val();
 		if(applcTariff!=0) {
 	    	this.$('#fee').val('');
 	        this.$('#rdcxptFee').val('');
 		}
     }
-};
-
-<%--
-	적용방법에 따른 요금 계산
---%>
-GamHtldRentMngtModule.prototype.onCalc = function() {
-	this.calcTradePortLaw();
 };
 
 <%--
@@ -1029,8 +719,6 @@ GamHtldRentMngtModule.prototype.addRentData = function() {
 
     // 기본값 정의
     var today = EMD.util.getDate();
-    this.$('#frstReqstDt').val(today);
-    this.$('#reqstDt').val(today);
 
 	this.$('#prtAtCode').val('622');
 	this.$('#payMth').val('Pre');
@@ -1049,7 +737,6 @@ GamHtldRentMngtModule.prototype.addRentData = function() {
 --%>
 GamHtldRentMngtModule.prototype.extendRentData = function() {
 	var rows = this.$('#assetRentMngtList').selectedRows();
-
 
 	if (rows.length >= 1) {
 		if (confirm("연장신청을 하시겠습니까?")) {
@@ -1075,16 +762,16 @@ GamHtldRentMngtModule.prototype.extendRentData = function() {
 임대계약 저장
 --%>
 GamHtldRentMngtModule.prototype.storeRentData = function() {
-        	if(!validateGamAssetRent(this.$('#gamAssetRentForm')[0])) {
-                return;
-            }
+	if(!validateGamAssetRent(this.$('#gamAssetRentForm')[0])) {
+        return;
+    }
 
-            if( this.$('#nticMth').val() != '1' && this.$('#payinstIntrrate').val() == '' ) {
-                alert("고지방법이 분납인 경우는 분납이자율을 입력하십시오.");
-                return;
-            }
+    if( this.$('#nticMth').val() != '1' && this.$('#payinstIntrrate').val() == '' ) {
+        alert("고지방법이 분납인 경우는 분납이자율을 입력하십시오.");
+        return;
+    }
 
-            if( confirm("저장하시겠습니까?") ) {
+   if( confirm("저장하시겠습니까?") ) {
     	if(this._detailMode=="") {	// update data
     		var assetRent = {};
     		assetRent['assetRentVo'] = JSON.stringify(this.getFormValues('#gamAssetRentForm'));
@@ -1092,10 +779,6 @@ GamHtldRentMngtModule.prototype.storeRentData = function() {
     		assetRent['_cList'] = JSON.stringify(this.$('#assetRentDetailList').selectFilterData([{col: '_updtId', filter: 'I'}]));
     		assetRent['_uList'] = JSON.stringify(this.$('#assetRentDetailList').selectFilterData([{col: '_updtId', filter: 'U'}]));
     		assetRent['_dList'] = JSON.stringify(this._deleteDataList);
-
-    		assetRent['_cfList'] = JSON.stringify(this.$('#assetRentFileList').selectFilterData([{col: '_updtId', filter: 'I'}]));
-    		assetRent['_ufList'] = JSON.stringify(this.$('#assetRentFileList').selectFilterData([{col: '_updtId', filter: 'U'}]));
-    		assetRent['_dfList'] = JSON.stringify(this._deleteDataFileList);
 
             this.doAction('/oper/htld/updateHtldRent.do', assetRent, function(module, result) {
                 if(result.resultCode == 0){
@@ -1110,17 +793,18 @@ GamHtldRentMngtModule.prototype.storeRentData = function() {
     		var assetRent = {};
     		assetRent['assetRentVo'] = JSON.stringify(this.getFormValues('#gamAssetRentForm'));
     		assetRent['_cList'] = JSON.stringify(this.$('#assetRentDetailList').flexGetData());
-    		assetRent['_cfList'] = JSON.stringify(this.$('#assetRentFileList').flexGetData());
 
             this.doAction('/oper/htld/insertHtldRent.do', assetRent, function(module, result) {
-                    if(result.resultCode == 0){
+                if(result.resultCode == 0){
                 	module._loadedItem=false;
                 	module._editChanged=false;
-                	module.loadDetail();
+                	module._detailMode="";
+                	module.makeFormValues('#gamAssetRentForm', result.newRentVo);
+//                	module.loadDetail();
                     }
                     alert(result.resultMsg);
-                });
-            }
+           	});
+       }
     }
 };
 
@@ -1151,73 +835,6 @@ GamHtldRentMngtModule.prototype.deleteRentData = function() {
             };
 
 <%--
-	사용승낙
---%>
-GamHtldRentMngtModule.prototype.confirmPrmisn = function() {
-            var rows = this.$('#assetRentMngtList').selectedRows();
-            var row = rows[0];
-
-            if(rows.length>=1) {
-            	if( row['prmisnYn'] == 'Y' ) {
-                    alert("이미 사용승낙된 상태 입니다.");
-                    return;
-                }
-
-                if( row['sanctnSttus'] != '1' ) {
-                	if(!confirm("결재완료 되지 않았습니다. 결재 처리 되지 않은 자료를 사용승낙을 하시겠습니까?")) {
-                        return;
-                	}
-                }
-
-            	var opts = {
-                    'prtAtCode': rows[0]['prtAtCode'],
-                    'mngYear': rows[0]['mngYear'],
-                    'mngNo': rows[0]['mngNo'],
-                    'mngCnt': rows[0]['mngCnt'],
-            'quayGroupCd': rows[0]['quayGroupCd'],
-                    'taxtSe': rows[0]['taxtSe']
-                };
-
-        this.doExecuteDialog('insertAssetRentPrmisnPopup', '승낙', '/oper/htld/popup/showHtldRentPrmisn.do', opts);
-
-            } else {
-                alert("목록에서 선택하십시오.");
-            }
-};
-
-<%--
-	사용승낙 취소
---%>
-GamHtldRentMngtModule.prototype.cancelPrmisn = function() {
-            var rows = this.$('#assetRentMngtList').selectedRows();
-            var row = this.$('#assetRentMngtList').selectedRows()[0];
-
-            /* if( rows[0]['quayGroupCd'] != 'P' ) {
-                alert("해당 건은 자산임대관리 메뉴에서 승낙취소가 불가능합니다.");
-                return;
-            } */
-
-            if( row['prmisnYn'] != 'Y' ) {
-                alert("승낙된 상태가 아닙니다.");
-                return;
-            }
-
-            if(rows.length>=1) {
-                if( confirm("승낙취소를 하시겠습니까?") ) {
-            this.doAction('/oper/htld/cancelHtldRentPrmisn.do', rows[0], function(module, result) {
-                        if(result.resultCode=='0') {
-                        	 module.loadData();
-                        }
-
-                        alert(result.resultMsg);
-                    });
-                }
-            } else {
-                alert("목록에서 선택하십시오.");
-            }
-};
-
-<%--
 	추가고지 기존 고지분에 추가로 고지를 한다.
 --%>
 GamHtldRentMngtModule.prototype.addNoticeAdit = function() {
@@ -1240,14 +857,7 @@ GamHtldRentMngtModule.prototype.addNoticeAdit = function() {
 	임대 상세 추가.
 --%>
 GamHtldRentMngtModule.prototype.addRentDetailItem = function() {
-	this.$('#assetRentDetailList').noSelect();
-	this._rentDetailMode='I';
-	this.$("#assetRentListTab").tabs("option", {active: 2});  // 탭을 전환 한다.
-	this.$("#usagePdFrom").val(EMD.util.getDate());
-	this.$("#applcMth").val("6");
-	this.onApplcMthChange("6");
-
-	this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '/popup/showAssetsCd.do', {});
+	this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '/popup/showAssetsCd.do', {}, {"gisAssetsPrprtySeCd":"L"});
 };
 
 <%--
@@ -1263,7 +873,7 @@ GamHtldRentMngtModule.prototype.deleteRentDetailItem = function() {
 		    var row=this.$('#assetRentDetailList').flexGetRow(rowId[i]);
 
 		    if(row._updtId==undefined || row._updtId!='I') {
-		    	this._deleteRentDetailItem[this._deleteRentDetailItem.length]=row;
+		    	this._deleteDataList[this._deleteDataList.length]=row;
 		    }
 		    this.$('#assetRentDetailList').flexRemoveRow(rowId[i]);
 		}
@@ -1359,31 +969,6 @@ GamHtldRentMngtModule.prototype.validateRentDetail = function() {
 };
 
 <%--
-	임대 상세 적용
---%>
-GamHtldRentMngtModule.prototype.applyRentDetailItem = function() {
-	if(!this.validateRentDetail()) {
-                    return;
-                }
-    var detail=this.getFormValues('#gamAssetRentDetailForm', this._selectRentDetailItem);
-    detail['_updtId']="U";
-
-    if(this._rentDetailMode=='I') {
-    	this.makeAssetCd(detail);
-    	this.$('#assetRentDetailList').flexAddRow(detail);
-                }
-    else {
-        this.$('#assetRentDetailList').flexUpdateRow(this._selectRentDetailRow, detail);
-            }
-
-	this.calcRentMasterValues();	// 총사용료, 총면적 재 계산
-
-    this.$("#assetRentListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
-
-    this._editChanged=true;
-            	};
-
-<%--
 	파일 적용
 --%>
 GamHtldRentMngtModule.prototype.applyPhotoData = function() {
@@ -1425,6 +1010,40 @@ GamHtldRentMngtModule.prototype.loadData = function() {
 };
 
 <%--
+	실적평가 목록을 조회 한다.
+--%>
+GamHtldRentMngtModule.prototype.loadAssessList = function() {
+	if(this._rentDetail==null) {
+		alert('선택한 계약이 없습니다.');
+		return;
+	}
+    var searchOpt=EMD.util.objectToArray({
+    	prtAtCode: this._rentDetail.prtAtCode,
+    	mngYear: this._rentDetail.mngYear,
+    	mngNo: this._rentDetail.mngNo,
+    	mngCnt: this._rentDetail.mngCnt
+    });
+    this.$('#bizAssessGrid').flexOptions({params:searchOpt}).flexReload();
+};
+
+<%--
+	고지내역을 조회 한다.
+--%>
+GamHtldRentMngtModule.prototype.loadNticList = function() {
+	if(this._rentDetail==null) {
+		alert('선택한 계약이 없습니다.');
+		return;
+	}
+    var searchOpt=EMD.util.objectToArray({
+    	prtAtCode: this._rentDetail.prtAtCode,
+    	mngYear: this._rentDetail.mngYear,
+    	mngNo: this._rentDetail.mngNo,
+    	mngCnt: this._rentDetail.mngCnt
+    });
+    this.$('#nticListGrid').flexOptions({params:searchOpt}).flexReload();
+};
+
+<%--
 탭이 변경 되기 전에 호출되는 이벤트 핸들러 : 리턴값이 false이면 탭 변경이 취소되어 탭이 바뀌질 않는다.
 --%>
 GamHtldRentMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
@@ -1461,8 +1080,10 @@ GamHtldRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
    		this.loadDetail();
         break;
     case 'tabs3':
+    	this.loadAssessList();
         break;
     case 'tabs4':
+    	this.loadNticList();
         break;
         }
 };
@@ -1478,16 +1099,6 @@ GamHtldRentMngtModule.prototype.loadDetail  = function(mode) {
     	this.makeFormValues('#gamAssetRentForm', this._selectedItem);
     	this.$('#assetRentDetailList').flexEmptyData();
     	this.setButtonStatus();
-    	if(mode=='detail') {
-	        row={
-	        		'applcMth': '6',
-	        		'applcTariff': '0.05',
-	        		'exemptSe': '0'
-	        };
-		 	this.loadOlnlpList();
-		    this.makeFormArgs('#gamAssetRentForm', row);
-			this.onApplcMthChange(row['applcMth']);
-    	}
     	this._loadedItem=true;
 	}
 	else {	// if modify
@@ -1496,8 +1107,12 @@ GamHtldRentMngtModule.prototype.loadDetail  = function(mode) {
 	    }
         else {
 	        this.doAction('/oper/htld/selectHtldRentDetailPk.do', this._selectedItem, function(module, data) {
+	        	if(data.resultCode!=0) {
+	        		alert(data.resultMsg);
+	        		return;
+	        	}
 	        	module.makeFormValues('#gamAssetRentForm', data.result);
-
+	        	this._rentDetail=data.result;
 	        	module.$('#assetRentDetailList').flexEmptyData();
 	        	var detail={resultList: data.resultDetailList};
 	        	module.$('#assetRentDetailList')[0].dgrid.p.preProcess(module, detail);
@@ -1526,7 +1141,6 @@ GamHtldRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
              this.$('#sEntrpscd').val(value.entrpscd);
              this.$('#sEntrpsNm').val(value.entrpsNm);
          } else {
-             alert('취소 되었습니다');
          }
          break;
      case 'insertEntrpsInfoPopup':
@@ -1535,7 +1149,6 @@ GamHtldRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
              this.$('#entrpsNm').val(value.entrpsNm);
              this.loadEntrpsChargerList();	// 담당자 목록을 불러온다.
          } else {
-             alert('취소 되었습니다');
          }
          break;
      case 'insertAssetRentPrmisnPopup':
@@ -1544,41 +1157,17 @@ GamHtldRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
 					this.loadData();
              }
          } else {
-             alert('취소 되었습니다');
          }
          break;
      case 'insertLevReqestAdit':
     	 break;
      case 'selectAssetsCdRentPopup':
          if (msg != 'cancel') {
-             this.$('#gisAssetsPrtAtCode').val(value.gisAssetsPrtAtCode);
-             this.$('#gisAssetsCd').val(value.gisAssetsCd);
-             this.$('#gisAssetsSubCd').val(value.gisAssetsSubCd);
-             this.$('#gisAssetsNm').val(value.gisAssetsNm);
-             this.$('#gisAssetsLocplc').val(value.gisAssetsLocplc);
-             this.$('#gisAssetsLnm').val(value.gisAssetsLnm);
-             this.$('#gisAssetsLnmSub').val(value.gisAssetsLnmSub);
-      		var gisAssetsLocplcAll = value.gisAssetsLocplc;
-			if(value.gisAssetsLnm!=undefined && value.gisAssetsLnm!=null) {
-				gisAssetsLocplcAll+=" "+value.gisAssetsLnm;
-				if(value.gisAssetsLnmSub!=undefined && value.gisAssetsLnmSub!=null) {
-					gisAssetsLocplcAll = gisAssetsLocplcAll+"-"+value.gisAssetsLnmSub;
-				}
-			}
-            this.$('#gisAssetsLocplcAll').val(gisAssetsLocplcAll);
-
-             this.$('#gisAssetsAr').val(value.gisAssetsAr);
-             this.$('#gisAssetsRealRentAr').val(value.gisAssetsRealRentAr);
-             this.$('#gisAssetsPrtAtCodeNm').val(value.gisAssetsPrtAtCodeNm);
-
-             this.$('#usageAr').val(value.gisAssetsRealRentAr);
-//              this.$('#quayCd').val(value.gisAssetsQuayCd);
-             this.$('#assetsCdStr').val(value.gisAssetsCd + "-" + value.gisAssetsSubCd);
-             this._selectAssetsCd=value;
-
-             this.loadOlnlpList(value);
+        	 value._updtId="I"
+        	 value.usageAr=Number(value.gisAssetsRealRentAr);
+        	 this.$('#assetRentDetailList').flexAddRow(value);
+        	 this.onCalc();
          } else {
-             alert('취소 되었습니다');
          }
          break;
 
@@ -1588,45 +1177,6 @@ GamHtldRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
          break;
      }
 };
-
-<%--
-	시설코드에 따른 공시 지가를 로드 한다.
---%>
-GamHtldRentMngtModule.prototype.loadOlnlpList = function(prtFcltyCd, sel_price) {
-	this.$('#olnlpList').empty();
-	if(prtFcltyCd==null || prtFcltyCd['gisAssetsPrtAtCode']==undefined
-			|| prtFcltyCd['gisAssetsCd']==undefined
-			|| prtFcltyCd['gisAssetsSubCd']==undefined) return;
-	this._selOlnlpPrice=sel_price;
-    this.doAction('/asset/rent/selectOlnlpInfo.do', prtFcltyCd, function(module, result) {
-        if(result.resultCode=='0') {
-        	var n=false;
-       	 var olnlplist = module.$('#olnlpList');
-       	 olnlplist.off('change');
-       	 olnlplist.empty();
-   		 olnlplist.append('<option value="">공시지가선택</option>');
-       	 $.each(result.resultList, function() {
-       		 if(!n) {
-       			 if(module._selOlnlpPrice==olnlp) {
-       				olnlplist.append('<option value="'+this.olnlp+'" selected="selected">'+this.olnlpApplyDates+'</option>');
-       				n=true;
-       			 }
-       			 else olnlplist.append('<option value="'+this.olnlp+'">'+this.olnlpApplyDates+'</option>');
-       		 }
-       		 else olnlplist.append('<option value="'+this.olnlp+'">'+this.olnlpApplyDates+'</option>');
-       	 });
-   		 olnlplist.on('change', {module: module}, function(event) {
-   			 event.data.module.$('#olnlp').val($.number($(this).children(':selected').val()));
-   			event.data.module.onCalc();
-   		 });
-   		if(!n) {
-   		olnlplist.find('option:eq(1)').attr("selected","selected");
-   		module.$('#olnlp').val(olnlplist.find('option:eq(1)').val());
-        }
-        }
-    });
-};
-
 
 <%--
 다음 변수는 고정 적으로 정의 해야 함
@@ -1727,7 +1277,7 @@ var module_instance = new GamHtldRentMngtModule();
                 </div>
             </div>
 
-            <div id="tabs2" class="emdTabPage" style="overflow:scroll;">
+            <div id="tabs2" class="emdTabPage " style="overflow:scroll;">
                 <div class="emdControlPanel">
                     <form id="gamAssetRentForm">
 						<input type="hidden" id="prtAtCode" value="622"/>
@@ -1762,7 +1312,7 @@ var module_instance = new GamHtldRentMngtModule();
                             <tr>
 								<th width="10%" height="18">업종</th>
                                 <td>
-									<input type="text" size="40" id="compTp"/>
+									<input type="text" size="20" id="compTp"/>
                                 </td>
 								<th width="10%" height="18">취급화종</th>
                                 <td colspan="3">
@@ -1773,33 +1323,21 @@ var module_instance = new GamHtldRentMngtModule();
 								<th width="10%" height="18">임대면적</th>
                                 <td><input type="text" size="16" class="ygpaNumber" data-decimal-point="2" id="grAr" disabled/></td>
 								<th width="10%" height="18">적용단가</th>
-                                <td><input type="text" size="16" class="ygpaNumber" id="applcPrice"/></td>
+                                <td><input type="text" size="16" class="ygpaNumber calcInput" id="applcPrice"/></td>
 								<th width="10%" height="18">첫회 임대료</th>
-                                <td><input type="text" size="16" class="ygpaNumber" id="grFee" disabled/></td>
+                                <td><input type="text" size="16" class="ygpaNumber" id="grCalcFee" disabled/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">고지방법</th>
                                 <td>
                                     <input id="nticMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM008" />
                                 </td>
-								<th width="10%" height="18">분납이자율</th>
-                                <td colspan="3">
-									<input type="text" size="5" id="payinstIntrrate" maxlength="4" size="5"/>
-                                    <select id="cofixList">
-                                        <option value="">선택</option>
-                                        <c:forEach items="${cofixList}" var="cofixListItem">
-                                            <option value="${cofixListItem.code }">${cofixListItem.codeNm }</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
 								<th width="10%" height="18">납부방법</th>
                                 <td>
                                     <input id="payMth" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM043" />
                                 </td>
 								<th width="10%" height="18">과세구분</th>
-                                <td colspan="3">
+                                <td>
                                     <input id="taxtSe" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM016" />
                                 </td>
                             </tr>
@@ -1844,83 +1382,13 @@ var module_instance = new GamHtldRentMngtModule();
 	                 </table>
                  </div>
             </div>
-            <div id="tabs3" class="emdTabPage" style="overflow: scroll;">
-
-                <table id="assetRentFileList" style="display:none"></table>
-                <div class="emdControlPanel"><button id="btnUploadFile">업로드</button><button id="btnDownloadFile">다운로드</button><button id="btnRemoveFile">삭제</button></div>
-                <form id="gamAssetRentFileForm">
-                    <input type="hidden" id="photoPrtAtCode" data-column-id="prtAtCode"/>
-                    <input type="hidden" id="photoMngYear" data-column-id="mngYear"/>
-                    <input type="hidden" id="photoMngNo" data-column-id="mngNo"/>
-                    <input type="hidden" id="photoMngCnt" data-column-id="mngCnt"/>
-                    <input type="hidden" id="photoSeq" data-column-id="photoSeq"/>
-
-                    <table class="editForm">
-                        <tr>
-							<th width="10%" height="18">사진제목</th>
-                            <td>
-                                <input id="photoSj" type="text" size="70" class="photoEditItem" maxlength="40"/>
-                            </td>
-							<th width="10%" height="18">촬영일자</th>
-                            <td>
-                                <input id="shotDt" type="text" size="10" class="emdcal photoEditItem" readonly>
-                            </td>
-                        </tr>
-                        <tr>
-							<th width="10%" height="18">사진파일명</th>
-                            <td colspan="3">
-                                <input id="filenmLogic" type="text" size="135" class="photoEditItem" disabled/>
-                            </td>
-                        </tr>
-                        <tr>
-							<th width="10%" height="18">사진설명</th>
-                            <td colspan="3">
-                                <input id="photoDesc" type="text" size="135" class="photoEditItem" maxlength="90">
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-                <div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
-
+            <div id="tabs3" class="emdTabPage fillHeight" style="overflow: hidden;">
+                <table id="bizAssessGrid" style="display:none" class="fillHeight"></table>
+                <div class="emdControlPanel"><button id="btnCallBizAssess">평가등록 바로가기</button></div>
             </div>
-            <div id="tabs4" class="emdTabPage" style="overflow: scroll;">
-
-                <table id="assetRentFileList" style="display:none"></table>
-                <div class="emdControlPanel"><button id="btnUploadFile">업로드</button><button id="btnDownloadFile">다운로드</button><button id="btnRemoveFile">삭제</button></div>
-                <form id="gamAssetRentFileForm">
-                    <input type="hidden" id="photoPrtAtCode" data-column-id="prtAtCode"/>
-                    <input type="hidden" id="photoMngYear" data-column-id="mngYear"/>
-                    <input type="hidden" id="photoMngNo" data-column-id="mngNo"/>
-                    <input type="hidden" id="photoMngCnt" data-column-id="mngCnt"/>
-                    <input type="hidden" id="photoSeq" data-column-id="photoSeq"/>
-
-                    <table class="editForm">
-                        <tr>
-							<th width="10%" height="18">사진제목</th>
-                            <td>
-                                <input id="photoSj" type="text" size="70" class="photoEditItem" maxlength="40"/>
-                            </td>
-							<th width="10%" height="18">촬영일자</th>
-                            <td>
-                                <input id="shotDt" type="text" size="10" class="emdcal photoEditItem" readonly>
-                            </td>
-                        </tr>
-                        <tr>
-							<th width="10%" height="18">사진파일명</th>
-                            <td colspan="3">
-                                <input id="filenmLogic" type="text" size="135" class="photoEditItem" disabled/>
-                            </td>
-                        </tr>
-                        <tr>
-							<th width="10%" height="18">사진설명</th>
-                            <td colspan="3">
-                                <input id="photoDesc" type="text" size="135" class="photoEditItem" maxlength="90">
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-                <div class="emdPanel"><img id="previewImage" style="border: 1px solid #000; max-width:800px; max-height: 600px" src=""></div>
-
+            <div id="tabs4" class="emdTabPage fillHeight" style="overflow: hidden;">
+                <table id="nticListGrid" style="display:none" class="fillHeight"></table>
+                <div class="emdControlPanel"><button id="btnCallBizAssess">임대료고지 바로가기</button></div>
             </div>
 
 

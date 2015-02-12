@@ -15,7 +15,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  *
  *  Copyright (C)  All right reserved.
  */
-public class GamPopupGisAssetsCdDefaultVO implements Serializable {
+public class GamPopupGisAssetsCdDefaultVO extends GamPopupGisAssetsCdVO implements Serializable {
 
 	/** 검색조건 */
     private String searchCondition = "";

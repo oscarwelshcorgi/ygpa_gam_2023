@@ -55,17 +55,17 @@ public interface GamHtldRentMngtService {
 	 * 배후단지임대정보를 등록 한다.
 	 * @param rentVo
 	 * @param createList
+	 * @return GamHtldRentMngtVO 추가한 임대 정보
 	 * @throws Exception
 	 */
-	void insertHtldRentMngt(GamHtldRentMngtVO rentVo, List<GamHtldRentMngtDetailVO> createList, List<GamHtldRentAttachFileVO> createFileList) throws Exception;
+    GamHtldRentMngtVO insertHtldRentMngt(GamHtldRentMngtVO rentVo, List<GamHtldRentMngtDetailVO> createList) throws Exception;
 
 	/**
 	 * 배후단지임대정보를 수정 한다.
 	 * @param dataList GamHtldRentMngtVO
 	 * @exception Exception
 	 */
-	void updateHtldRentMngt(GamHtldRentMngtVO rentVo, List<GamHtldRentMngtDetailVO> createList,  List<GamHtldRentMngtDetailVO> updateList,  List<GamHtldRentMngtDetailVO> deleteList
-			, List<GamHtldRentAttachFileVO> createFileList,  List<GamHtldRentAttachFileVO> updateFileList,  List<GamHtldRentAttachFileVO> deleteFileList) throws Exception;
+	void updateHtldRentMngt(GamHtldRentMngtVO rentVo, List<GamHtldRentMngtDetailVO> createList,  List<GamHtldRentMngtDetailVO> updateList,  List<GamHtldRentMngtDetailVO> deleteList) throws Exception;
 
     /**
 	 * 배후단지임대 연장 신청을 등록한다.
@@ -143,5 +143,34 @@ public interface GamHtldRentMngtService {
    	 * @exception Exception
    	 */
     public EgovMap selectHtldRentMngtCofixInfoMax(Map searchVO) throws Exception;
+
+    /**
+     * 평가 목록 조회
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    List selectHtldAssessList(GamHtldRentDefaultVO searchVO) throws Exception;
+
+    /**
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    EgovMap selectHtldAssessSum(GamHtldRentDefaultVO searchVO) throws Exception;
+
+    /**
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    List selectHtldNticRcivList(GamHtldRentDefaultVO searchVO) throws Exception;
+
+    /**
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    EgovMap selectHtldNticRcivSum(GamHtldRentDefaultVO searchVO) throws Exception;
 
 }

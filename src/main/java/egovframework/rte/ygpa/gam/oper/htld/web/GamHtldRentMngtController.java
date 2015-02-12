@@ -218,23 +218,14 @@ public class GamHtldRentMngtController {
     	createList = mapper.readValue((String)assetRent.get("_cList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
     			GamHtldRentMngtDetailVO.class));
 
-    	List<GamHtldRentAttachFileVO> createFileList=null;
-
-    	if(assetRent.containsKey("_cfList")) {
-	    	createFileList = mapper.readValue((String)assetRent.get("_cfList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
-	    			GamHtldRentAttachFileVO.class));
-    	}
-    	else {
-    		createFileList = new ArrayList();
-    	}
-
-        gamHtldRentMngtService.insertHtldRentMngt(gamHtldRentMngtVO, createList, createFileList);
+    	GamHtldRentMngtVO newRentVo = gamHtldRentMngtService.insertHtldRentMngt(gamHtldRentMngtVO, createList);
 
         resultCode = 0; // return ok
         resultMsg  = egovMessageSource.getMessage("success.common.update");
 
     	map.put("resultCode", resultCode);
     	map.put("resultMsg", resultMsg);
+    	map.put("newRentVo", newRentVo);
 
 		return map;
     }
@@ -348,19 +339,7 @@ public class GamHtldRentMngtController {
 	    	deleteList = mapper.readValue((String)assetRent.get("_dList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
 	    			GamHtldRentMngtDetailVO.class));
 
-    	List<GamHtldRentAttachFileVO> createFileList=null, updateFileList=null, deleteFileList=null;
-    	if(assetRent.containsKey("_cfList"))
-	    	createFileList = mapper.readValue((String)assetRent.get("_cfList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
-	    			GamHtldRentAttachFileVO.class));
-    	if(assetRent.containsKey("_ufList"))
-	    	updateFileList = mapper.readValue((String)assetRent.get("_ufList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
-	    			GamHtldRentAttachFileVO.class));
-    	if(assetRent.containsKey("_dfList"))
-	    	deleteFileList = mapper.readValue((String)assetRent.get("_dfList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
-	    			GamHtldRentAttachFileVO.class));
-
-        gamHtldRentMngtService.updateHtldRentMngt(gamHtldRentMngtVO, createList, updateList, deleteList
-        		, createFileList, updateFileList, deleteFileList);
+        gamHtldRentMngtService.updateHtldRentMngt(gamHtldRentMngtVO, createList, updateList, deleteList);
 
         resultCode = 0; // return ok
         resultMsg  = egovMessageSource.getMessage("success.common.update");
@@ -431,126 +410,6 @@ public class GamHtldRentMngtController {
 
     	return "/ygpa/gam/oper/htld/GamPopupHtldRentMngtPrmisn";
     }
-
-    /**
-     * 배후단지임대 승낙을 한다.
-     * @param gamHtldRentMngtVO
-     * @param bindingResult
-     * @return map
-     * @throws Exception
-     */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/htld/confirmHtldRentPrmisn.do")
-    public @ResponseBody Map updateHtldRentMngtPrmisn(
-     	   @ModelAttribute("gamHtldRentMngtVO") GamHtldRentMngtVO gamHtldRentMngtVO,
-     	   @RequestParam("chrgeKnd") String chrgeKnd,
-     	   BindingResult bindingResult)
-            throws Exception {
-
-     	 Map map = new HashMap();
-     	 Map paramMap = null;
-         String resultMsg = "";
-         int resultCode = 1;
-
-     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-     	if(!isAuthenticated) {
- 	        map.put("resultCode", 1);
-     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-         	return map;
-     	}
-
-         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-
-
-         gamHtldRentMngtVO.setUpdUsr(loginVO.getId());
-
-         //승낙 서비스 클래스 호출
-         //gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap); //승낙
-
-         if(!"H".equals(gamHtldRentMngtVO.getQuayGroupCd())
-        		 || gamHtldRentMngtVO.getPrtAtCode().length()!=3
-        		 || gamHtldRentMngtVO.getMngYear().length()!=4
-        		 || gamHtldRentMngtVO.getMngNo().length()!=3
-        		 || gamHtldRentMngtVO.getMngCnt().length()!=2) {
-             resultCode = 2;
-        	 resultMsg = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
-         }
-         else {
-
-             ObjectMapper mapper = new ObjectMapper();
-             paramMap = mapper.convertValue(gamHtldRentMngtVO, Map.class);
-
-             paramMap.put("chrgeKnd", chrgeKnd);
-
-        	 gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap);
-
-	         resultCode = 0;
-	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");
-         }
-
-     	 map.put("resultCode", resultCode);
-         map.put("resultMsg", resultMsg);
-
- 		return map;
-     }
-
-    /**
-     * 배후단지임대 승낙취소(허가취소)를 한다.
-     * @param gamHtldRentMngtVO
-     * @param bindingResult
-     * @return map
-     * @throws Exception
-     */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/htld/cancelHtldRentPrmisn.do")
-    public @ResponseBody Map updateHtldRentMngtPrmisnCancel(
-     	   @ModelAttribute("gamHtldRentMngtVO") GamHtldRentMngtVO gamHtldRentMngtVO,
-     	   BindingResult bindingResult)
-            throws Exception {
-
-     	 Map map = new HashMap();
-     	 Map paramMap = null;
-         String resultMsg = "";
-         int resultCode = 1;
-
-     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-     	if(!isAuthenticated) {
- 	        map.put("resultCode", 1);
-     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-         	return map;
-     	}
-
-         LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-
-         gamHtldRentMngtVO.setUpdUsr(loginVO.getId());
-
-         if(!"H".equals(gamHtldRentMngtVO.getQuayGroupCd())
-        		 || gamHtldRentMngtVO.getPrtAtCode().length()!=3
-        		 || gamHtldRentMngtVO.getMngYear().length()!=4
-        		 || gamHtldRentMngtVO.getMngNo().length()!=3
-        		 || gamHtldRentMngtVO.getMngCnt().length()!=2) {
-             resultCode = 2;
-        	 resultMsg = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
-         }
-         else {
-
-        	 ObjectMapper mapper = new ObjectMapper();
-             paramMap = mapper.convertValue(gamHtldRentMngtVO, Map.class);
-
-             gamAssetsUsePermMngtService.cancelAssetsRentUsePerm(paramMap);
-
-	         resultCode = 0;
-	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");
-         }
-
-         resultCode = 0;
- 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.execCancel"); //승낙이 정상적으로 취소되었습니다.
-
-     	 map.put("resultCode", resultCode);
-         map.put("resultMsg", resultMsg);
-
- 		return map;
-     }
 
 	/**
      * 코멘트를 저장한다.
@@ -668,5 +527,94 @@ public class GamHtldRentMngtController {
 
     	return new ModelAndView("gridExcelView", "gridResultMap", map);
     }
+
+
+	/**
+	 * 실적평가 목록을 조회 한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/htld/selectHtldAssessList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectHtldAssessList(GamHtldRentDefaultVO searchVO) throws Exception {
+
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		//배후단지 평가 목록
+    	Map totalSum = gamHtldRentMngtService.selectHtldAssessSum(searchVO);
+    	List assessList = gamHtldRentMngtService.selectHtldAssessList(searchVO);
+
+//    	paginationInfo.setTotalRecordCount(totalCnt);
+//        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalSum", totalSum);
+    	map.put("resultList", assessList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+
+	/**
+	 * 계약에 대한 고지/납부 목록을 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/htld/selectHtldNticList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectHtldNticList(GamHtldRentDefaultVO searchVO) throws Exception {
+
+		int totalCnt;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		//배후단지임대목록
+    	Map totalSum = gamHtldRentMngtService.selectHtldNticRcivSum(searchVO);
+    	List nticList = gamHtldRentMngtService.selectHtldNticRcivList(searchVO);
+
+//    	paginationInfo.setTotalRecordCount(totalCnt);
+//        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalSum", totalSum);
+    	map.put("resultList", nticList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+
 
 }

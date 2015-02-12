@@ -56,12 +56,11 @@
 								, GIS_ASSETS_LNM
 								, GIS_ASSETS_LNM_SUB
 								, GIS_ASSETS_AR
-								, GIS_ASSETS_USAGE_YN
 								, GIS_ASSETS_REAL_RENT_AR
 								, GIS_ASSETS_QUAY_GROUP_CD
         						, GIS_ASSETS_QUAY_CD
 						FROM GIS_ASSETS_CD_F
-						WHERE 1=1
+						WHERE GIS_ASSETS_USAGE_YN='Y'
 					<isNotEmpty prepend="AND" property="gisAssetsPrtAtCode">
 						GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
 					</isNotEmpty>
@@ -82,6 +81,15 @@
 					</isNotEmpty>
 					<isNotEmpty prepend="AND" property="gisAssetsLnmSub">
 						GIS_ASSETS_LNM_SUB LIKE #gisAssetsLnmSub#
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="gisAssetsLocCd">
+						GIS_ASSETS_LOC_CD = #gisAssetsLocCd#
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="gisAssetsSeCd">
+						GIS_ASSETS_SE_CD = #gisAssetsSeCd#
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="gisAssetsPrprtySeCd">
+						GIS_ASSETS_PRPRTY_SE_CD = #gisAssetsPrprtySeCd#
 					</isNotEmpty>
 					ORDER BY GIS_ASSETS_PRT_AT_CODE, GIS_ASSETS_SUB_CD, GIS_ASSETS_CD
 
@@ -106,6 +114,21 @@
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="gisAssetsLocplc">
 				GIS_ASSETS_LOCPLC LIKE '%' || #gisAssetsLocplc# || '%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="gisAssetsLnm">
+				GIS_ASSETS_LNM LIKE #gisAssetsLnm# || '%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="gisAssetsLnmSub">
+				GIS_ASSETS_LNM_SUB LIKE #gisAssetsLnmSub#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="gisAssetsLocCd">
+				GIS_ASSETS_LOC_CD = #gisAssetsLocCd#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="gisAssetsSeCd">
+				GIS_ASSETS_SE_CD = #gisAssetsSeCd#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="gisAssetsPrprtySeCd">
+				GIS_ASSETS_PRPRTY_SE_CD = #gisAssetsPrprtySeCd#
 			</isNotEmpty>
 	</select>
 </sqlMap>

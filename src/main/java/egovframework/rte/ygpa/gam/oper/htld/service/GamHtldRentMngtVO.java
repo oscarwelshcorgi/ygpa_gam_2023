@@ -159,6 +159,11 @@ public class GamHtldRentMngtVO extends ComDefaultVO {
     /** 결재자 명 */
     private String chargerNo;
 
+    /**
+     * 적용단가
+     */
+    private String applcPrice;
+
 	public String getPrtAtCode() {
 		return prtAtCode;
 	}
@@ -434,6 +439,18 @@ public class GamHtldRentMngtVO extends ComDefaultVO {
 	}
 	public void setChargerNo(String chargerNo) {
 		this.chargerNo = chargerNo;
+	}
+	/**
+	 * @return the applcPrice
+	 */
+	public String getApplcPrice() {
+		return applcPrice;
+	}
+	/**
+	 * @param applcPrice the applcPrice to set
+	 */
+	public void setApplcPrice(String applcPrice) {
+		this.applcPrice = applcPrice;
 	}
 
 }

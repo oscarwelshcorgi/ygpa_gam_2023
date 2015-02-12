@@ -87,7 +87,7 @@ GamGisAssetSttusInqireModule.prototype.loadComplete = function() {
         }
     });
 
-	this.$('#searchDate').val(EMD.util.getDate());
+	this.$('#searchDateFrom').val(EMD.util.getDate());
 
     //this.$("#gisAssetSttusList")[0].dgrid.attachHeader('#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,시설종류,시설갯수');
     this.$("#gisAssetSttusList")[0].dgrid.attachFooter('조회 수,#cspan,#cspan,#cspan,0 건,#cspan,0 m<sup>2</sup>,,0 m<sup>2</sup>,0 m<sup>2</sup>,0 %',
@@ -130,7 +130,7 @@ GamGisAssetSttusInqireModule.prototype.onSubmit = function() {
 };
 
 GamGisAssetSttusInqireModule.prototype.loadData = function() {
-	if(this.$('#searchDate').val()==="") {
+	if(this.$('#searchDateFrom').val()==="") {
 		alert('조회기준일자는 필수 값입니다.');
 		return;
 	}

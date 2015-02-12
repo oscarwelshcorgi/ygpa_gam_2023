@@ -53,6 +53,10 @@
                   msg="errors.required">
 
          <javascript><![CDATA[
+	         function getFormWindowId(form) {
+	         	return form.id.substring(0, form.id.indexOf("_",7)+1);
+	         }
+
          	function getFormField(form, win_id, field) {
          		var fields = $(form).find("input[data-column-id='"+field+"']");
          		var rf = null;
@@ -69,6 +73,19 @@
          		}
          		return rf;
          	}
+         	function getFocusField(field) {
+         		var focusField=null;
+         		if(field.type != 'hidden') {
+               		focusField = field;
+               }
+               else {
+               	var f=$('#'+$(field).attr('id')+'_select');
+               	if(f.length==1) {
+               	 focusField = f[0];
+               	}
+               }
+               return focusField;
+         	}
 
             function validateRequired(form, required) {
                 var isValid = true;
@@ -76,7 +93,7 @@
                 var i = 0;
                 var fields = new Array();
                 oRequired = new required();
-                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+                var window_id=getFormWindowId(form);
                 for (x in oRequired) {
                 	var field = getFormField(form, window_id, oRequired[x][0]);
                 	if (field==null) {
@@ -104,15 +121,7 @@
                         if (trim(value).length == 0) {
 
 	                        if (focusField==null) {
-	                        	if (field.type != 'hidden') {
-	                            	focusField = field;
-	                            }
-	                            else {
-	                            	var f=$('#'+$(field).attr('id')+'_select');
-	                            	if(f.length==1) {
-	                            	 focusField = f[0];
-	                            	}
-	                            }
+	                        	focusField=getFocusField(field);
 	                        }
 	                        fields[i++] = oRequired[x][1];
 	                        isValid = false;
@@ -194,7 +203,7 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+                var window_id=getFormWindowId(form);
                 oMinLength = new minlength();
                 for (x in oMinLength) {
                     var field = getFormField(form, window_id, oMinLength[x][0]);
@@ -208,15 +217,7 @@
                         var iMin = parseInt(oMinLength[x][2]("minlength"));
                         if ((trim(field.value).length > 0) && (field.value.length < iMin)) {
                             if (focusField==null) {
-	                        	if (field.type != 'hidden') {
-	                            	focusField = field;
-	                            }
-	                            else {
-	                            	var f=$('#'+$(field).attr('id')+'_select');
-	                            	if(f.length==1) {
-	                            	 focusField = f[0];
-	                            	}
-	                            }
+	                        	focusField = getFocusField(field);
 	                        }
                             fields[i++] = oMinLength[x][1];
                             isValid = false;
@@ -251,7 +252,7 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+                var window_id=getFormWindowId(form);
                 oMaxLength = new maxlength();
                 for (x in oMaxLength) {
                 	var field = getFormField(form, window_id, oMaxLength[x][0]);
@@ -264,15 +265,7 @@
                         var iMax = parseInt(oMaxLength[x][2]("maxlength"));
                         if (field.value.length > iMax) {
                             if (focusField==null) {
-	                        	if (field.type != 'hidden') {
-	                            	focusField = field;
-	                            }
-	                            else {
-	                            	var f=$('#'+$(field).attr('id')+'_select');
-	                            	if(f.length==1) {
-	                            	 focusField = f[0];
-	                            	}
-	                            }
+	                        	focusField = getFocusField(field);
 	                        }
                             fields[i++] = oMaxLength[x][1];
                             isValid = false;
@@ -307,7 +300,7 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+                var window_id=getFormWindowId(form);
                 oMasked = new mask();
                 for (x in oMasked) {
                 	var field = getFormField(form, window_id, oMasked[x][0]);
@@ -320,15 +313,7 @@
 
                         if (!matchPattern(field.value, oMasked[x][2]("mask"))) {
                             if (focusField==null) {
-	                        	if (field.type != 'hidden') {
-	                            	focusField = field;
-	                            }
-	                            else {
-	                            	var f=$('#'+$(field).attr('id')+'_select');
-	                            	if(f.length==1) {
-	                            	 focusField = f[0];
-	                            	}
-	                            }
+	                        	focusField = getFocusField(field);
 	                        }
                             fields[i++] = oMasked[x][1];
                             isValid = false;
@@ -369,7 +354,7 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+                var window_id=getFormWindowId(form);
                 oByte = new ByteValidations();
                 for (x in oByte) {
                 	var field = getFormField(form, window_id, oByte[x][0]);
@@ -390,39 +375,21 @@
 								value = field.options[si].value;
 							}
 						} else {
-							value = field.value;
+							value = $(field).val();
 						}
-
                         if (value.length > 0) {
                             if (!isAllDigits(value)) {
                                 bValid = false;
                                 if (focusField==null) {
-		                        	if (field.type != 'hidden') {
-		                            	focusField = field;
-		                            }
-		                            else {
-		                            	var f=$('#'+$(field).attr('id')+'_select');
-		                            	if(f.length==1) {
-		                            	 focusField = f[0];
-		                            	}
-		                            }
+		                        	focusField = getFocusField(field);
 		                        }
                                 fields[i++] = oByte[x][1];
 
                             } else {
-
 	                            var iValue = parseInt(value);
 	                            if (isNaN(iValue) || !(iValue >= -128 && iValue <= 127)) {
 	                                if (focusField==null) {
-			                        	if (field.type != 'hidden') {
-			                            	focusField = field;
-			                            }
-			                            else {
-			                            	var f=$('#'+$(field).attr('id')+'_select');
-			                            	if(f.length==1) {
-			                            	 focusField = f[0];
-			                            	}
-			                            }
+			                        	focusField = getFocusField(field);
 			                        }
 	                                fields[i++] = oByte[x][1];
 	                                bValid = false;
@@ -461,7 +428,7 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+                var window_id=getFormWindowId(form);
                 oShort = new ShortValidations();
                 for (x in oShort) {
                 	var field = getFormField(form, window_id, oShort[x][0]);
@@ -481,22 +448,13 @@
 								value = field.options[si].value;
 							}
 						} else {
-							value = field.value;
+							value = $(field).val();
 						}
-
                         if (value.length > 0) {
                             if (!isAllDigits(value)) {
                                 bValid = false;
                                 if (focusField==null) {
-		                        	if (field.type != 'hidden') {
-		                            	focusField = field;
-		                            }
-		                            else {
-		                            	var f=$('#'+$(field).attr('id')+'_select');
-		                            	if(f.length==1) {
-		                            	 focusField = f[0];
-		                            	}
-		                            }
+		                        	focusField = getFocusField(field);
 		                        }
                                 fields[i++] = oShort[x][1];
 
@@ -543,7 +501,7 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+                var window_id=getFormWindowId(form);
                 oInteger = new IntegerValidations();
                 for (x in oInteger) {
                 	var field = getFormField(form, window_id, oInteger[x][0]);
@@ -564,23 +522,14 @@
 							    value = field.options[si].value;
 						    }
 						} else {
-							value = field.value;
+							value = $(field).val();
 						}
-
                         if (value.length > 0) {
 
                             if (!isAllDigits(value)) {
                                 bValid = false;
                                 if (focusField==null) {
-		                        	if (field.type != 'hidden') {
-		                            	focusField = field;
-		                            }
-		                            else {
-		                            	var f=$('#'+$(field).attr('id')+'_select');
-		                            	if(f.length==1) {
-		                            	 focusField = f[0];
-		                            	}
-		                            }
+		                        	focusField = getFocusField(field);
 		                        }
 						        fields[i++] = oInteger[x][1];
 
@@ -588,15 +537,7 @@
 	                            var iValue = parseInt(value);
 	                            if (isNaN(iValue) || !(iValue >= -2147483648 && iValue <= 2147483647)) {
 	                                if (focusField==null) {
-			                        	if (field.type != 'hidden') {
-			                            	focusField = field;
-			                            }
-			                            else {
-			                            	var f=$('#'+$(field).attr('id')+'_select');
-			                            	if(f.length==1) {
-			                            	 focusField = f[0];
-			                            	}
-			                            }
+			                        	focusField = getFocusField(field);
 			                        }
 	                                fields[i++] = oInteger[x][1];
 	                                bValid = false;
@@ -666,7 +607,7 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+                var window_id=getFormWindowId(form);
                 oFloat = new FloatValidations();
                 for (x in oFloat) {
                 	var field = getFormField(form, window_id, oFloat[x][0]);
@@ -687,7 +628,7 @@
 							    value = field.options[si].value;
 							}
 						} else {
-							value = field.value;
+							value = $(field).val();
 						}
 
                         if (value.length > 0) {
@@ -698,15 +639,7 @@
                             if (!isAllDigits(joinedString)) {
                                 bValid = false;
                                 if (focusField==null) {
-		                        	if (field.type != 'hidden') {
-		                            	focusField = field;
-		                            }
-		                            else {
-		                            	var f=$('#'+$(field).attr('id')+'_select');
-		                            	if(f.length==1) {
-		                            	 focusField = f[0];
-		                            	}
-		                            }
+		                        	focusField = getFocusField(field);
 		                        }
                                 fields[i++] = oFloat[x][1];
 
@@ -714,15 +647,7 @@
 	                            var iValue = parseFloat(value);
 	                            if (isNaN(iValue)) {
 	                                if (focusField==null) {
-			                        	if (field.type != 'hidden') {
-			                            	focusField = field;
-			                            }
-			                            else {
-			                            	var f=$('#'+$(field).attr('id')+'_select');
-			                            	if(f.length==1) {
-			                            	 focusField = f[0];
-			                            	}
-			                            }
+			                        	focusField = getFocusField(field);
 			                        }
 	                                fields[i++] = oFloat[x][1];
 	                                bValid = false;
@@ -772,7 +697,7 @@
                var focusField = null;
                var i = 0;
                var fields = new Array();
-                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+                var window_id=getFormWindowId(form);
                oDate = new DateValidations();
                for (x in oDate) {
                     var field = getFormField(form, window_id, oDate[x][0]);
@@ -809,30 +734,14 @@
                          if(matched != null) {
                             if (!isValidDate(matched[2], matched[1], matched[3])) {
                                if (focusField==null) {
-		                        	if (field.type != 'hidden') {
-		                            	focusField = field;
-		                            }
-		                            else {
-		                            	var f=$('#'+$(field).attr('id')+'_select');
-		                            	if(f.length==1) {
-		                            	 focusField = f[0];
-		                            	}
-		                            }
+		                        	focusField = getFocusField(field);
 		                        }
                                fields[i++] = oDate[x][1];
                                bValid =  false;
                             }
                          } else {
                             if (focusField==null) {
-	                        	if (field.type != 'hidden') {
-	                            	focusField = field;
-	                            }
-	                            else {
-	                            	var f=$('#'+$(field).attr('id')+'_select');
-	                            	if(f.length==1) {
-	                            	 focusField = f[0];
-	                            	}
-	                            }
+	                        	focusField = getFocusField(field);
 	                        }
                             fields[i++] = oDate[x][1];
                             bValid =  false;
@@ -855,30 +764,14 @@
                          if(matched != null) {
                              if (!isValidDate(matched[1], matched[2], matched[3])) {
                                  if (focusField==null) {
-		                        	if (field.type != 'hidden') {
-		                            	focusField = field;
-		                            }
-		                            else {
-		                            	var f=$('#'+$(field).attr('id')+'_select');
-		                            	if(f.length==1) {
-		                            	 focusField = f[0];
-		                            	}
-		                            }
+		                        	focusField = getFocusField(field);
 		                        }
                                  fields[i++] = oDate[x][1];
                                  bValid =  false;
                               }
                          } else {
                              if (focusField==null) {
-	                        	if (field.type != 'hidden') {
-	                            	focusField = field;
-	                            }
-	                            else {
-	                            	var f=$('#'+$(field).attr('id')+'_select');
-	                            	if(f.length==1) {
-	                            	 focusField = f[0];
-	                            	}
-	                            }
+	                        	focusField = getFocusField(field);
 	                        }
                              fields[i++] = oDate[x][1];
                              bValid =  false;
@@ -901,45 +794,21 @@
                          if(matched != null) {
                              if (!isValidDate(matched[3], matched[2], matched[1])) {
                                  if (focusField==null) {
-		                        	if (field.type != 'hidden') {
-		                            	focusField = field;
-		                            }
-		                            else {
-		                            	var f=$('#'+$(field).attr('id')+'_select');
-		                            	if(f.length==1) {
-		                            	 focusField = f[0];
-		                            	}
-		                            }
+		                        	focusField = getFocusField(field);
 		                        }
                                   fields[i++] = oDate[x][1];
                                   bValid =  false;
                               }
                           } else {
                               if (focusField==null) {
-	                        	if (field.type != 'hidden') {
-	                            	focusField = field;
-	                            }
-	                            else {
-	                            	var f=$('#'+$(field).attr('id')+'_select');
-	                            	if(f.length==1) {
-	                            	 focusField = f[0];
-	                            	}
-	                            }
+	                        	focusField = getFocusField(field);
 	                        }
                               fields[i++] = oDate[x][1];
                               bValid =  false;
                           }
                      } else {
                          if (focusField==null) {
-	                        	if (field.type != 'hidden') {
-	                            	focusField = field;
-	                            }
-	                            else {
-	                            	var f=$('#'+$(field).attr('id')+'_select');
-	                            	if(f.length==1) {
-	                            	 focusField = f[0];
-	                            	}
-	                            }
+	                        	focusField = getFocusField(field);
 	                        }
                          fields[i++] = oDate[x][1];
                          bValid =  false;
@@ -1014,7 +883,7 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+                var window_id=getFormWindowId(form);
                 oRange = new intRange();
                 for (x in oRange) {
                     var field = getFormField(form, window_id, oRange[x][0]);
@@ -1031,15 +900,7 @@
                         var iValue = parseInt(field.value);
                         if (!(iValue >= iMin && iValue <= iMax)) {
                             if (focusField==null) {
-	                        	if (field.type != 'hidden') {
-	                            	focusField = field;
-	                            }
-	                            else {
-	                            	var f=$('#'+$(field).attr('id')+'_select');
-	                            	if(f.length==1) {
-	                            	 focusField = f[0];
-	                            	}
-	                            }
+	                        	focusField = getFocusField(field);
 	                        }
                             fields[i++] = oRange[x][1];
                             isValid = false;
@@ -1073,7 +934,7 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+                var window_id=getFormWindowId(form);
                 oRange = new floatRange();
                 for (x in oRange) {
                     var field = getFormField(form, window_id, oRange[x][0]);
@@ -1087,18 +948,11 @@
 
                         var fMin = parseFloat(oRange[x][2]("min"));
                         var fMax = parseFloat(oRange[x][2]("max"));
-                        var fValue = parseFloat(field.value);
+                        var value=$(field).val();
+                        var fValue = parseFloat(value);
                         if (!(fValue >= fMin && fValue <= fMax)) {
                             if (focusField==null) {
-	                        	if (field.type != 'hidden') {
-	                            	focusField = field;
-	                            }
-	                            else {
-	                            	var f=$('#'+$(field).attr('id')+'_select');
-	                            	if(f.length==1) {
-	                            	 focusField = f[0];
-	                            	}
-	                            }
+	                        	focusField = getFocusField(field);
 	                        }
                             fields[i++] = oRange[x][1];
                             isValid = false;
@@ -1132,7 +986,7 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+                var window_id=getFormWindowId(form);
                 oCreditCard = new creditCard();
                 for (x in oCreditCard) {
                 	var field = getFormField(form, window_id, oCreditCard[x][0]);
@@ -1144,15 +998,7 @@
                         (field.value.length > 0)) {
                         if (!luhnCheck(field.value)) {
                             if (focusField==null) {
-	                        	if (field.type != 'hidden') {
-	                            	focusField = field;
-	                            }
-	                            else {
-	                            	var f=$('#'+$(field).attr('id')+'_select');
-	                            	if(f.length==1) {
-	                            	 focusField = f[0];
-	                            	}
-	                            }
+	                        	focusField = getFocusField(field);
 	                        }
                             fields[i++] = oCreditCard[x][1];
                             bValid = false;
@@ -1223,7 +1069,7 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+                var window_id=getFormWindowId(form);
                 oEmail = new email();
                 for (x in oEmail) {
                 	var field = getFormField(form, window_id, oEmail[x][0]);
@@ -1235,15 +1081,7 @@
                         (field.value.length > 0)) {
                         if (!checkEmail(field.value)) {
                             if (focusField==null) {
-	                        	if (field.type != 'hidden') {
-	                            	focusField = field;
-	                            }
-	                            else {
-	                            	var f=$('#'+$(field).attr('id')+'_select');
-	                            	if(f.length==1) {
-	                            	 focusField = f[0];
-	                            	}
-	                            }
+	                        	focusField = getFocusField(field);
 	                        }
                             fields[i++] = oEmail[x][1];
                             bValid = false;
@@ -1333,7 +1171,7 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+                var window_id=getFormWindowId(form);
                 oIhidnum = new ihidnum();
                 for (x in oIhidnum) {
                 	var field = getFormField(form, window_id, oIhidnum[x][0]);
@@ -1345,15 +1183,7 @@
                         field.type == 'textarea') {
                         if (trim(field.value).length==0 || !checkIhIdNum(field.value)) {
                             if (focusField==null) {
-	                        	if (field.type != 'hidden') {
-	                            	focusField = field;
-	                            }
-	                            else {
-	                            	var f=$('#'+$(field).attr('id')+'_select');
-	                            	if(f.length==1) {
-	                            	 focusField = f[0];
-	                            	}
-	                            }
+	                        	focusField = getFocusField(field);
 	                        }
                             fields[i++] = oIhidnum[x][1];
                             bValid = false;
@@ -1419,7 +1249,7 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+                var window_id=getFormWindowId(form);
                 oKorean = new korean();
                 for (x in oKorean) {
                 	var field = getFormField(form, window_id, oKorean[x][0]);
@@ -1429,15 +1259,7 @@
                     if (field.type == 'text' || field.type == 'textarea') {
                         if (trim(field.value).length==0 || !checkKorean(field.value)) {
                             if (focusField==null) {
-	                        	if (field.type != 'hidden') {
-	                            	focusField = field;
-	                            }
-	                            else {
-	                            	var f=$('#'+$(field).attr('id')+'_select');
-	                            	if(f.length==1) {
-	                            	 focusField = f[0];
-	                            	}
-	                            }
+	                        	focusField = getFocusField(field);
 	                        }
                             fields[i++] = oKorean[x][1];
                             bValid = false;

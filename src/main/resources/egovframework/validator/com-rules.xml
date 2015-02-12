@@ -64,23 +64,23 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-                var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+                var window_id=getFormWindowId(form);
                 oPassword = new password1();
                 for (x in oPassword) {
-                    var field = form[window_id+oPassword[x][0]];
+                    var field = getFormField(form, window_id, oRequired[x][0]);
                     if (field.type == 'password') {
                         if (trim(field.value).length==0 || !checkPassword1(field)) {
-                            if (i == 0) {
-                                focusField = field;
-                            }
+                            if (focusField==null) {
+	                        	focusField=getFocusField(field);
+	                        }
                             fields[i++] = oPassword[x][1];
                             bValid = false;
                         }
                     }
                 }
-                if (fields.length > 0) {
-                    focusField.focus();
-                    alert(fields.join('\n'));
+                if (focusField != null) {
+                  	focusField.focus();
+                  	EMD.util.showMessage(focusField, fields[0]);
                 }
                 return bValid;
           }
@@ -115,23 +115,23 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-				var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+				var window_id=getFormWindowId(form);
                 oPassword = new password2();
                 for (x in oPassword) {
-                    var field = form[window_id+oPassword[x][0]];
+                    var field = getFormField(form, window_id, oRequired[x][0]);
                     if (field.type == 'password') {
                         if (trim(field.value).length==0 || !checkPassword2(field)) {
-                            if (i == 0) {
-                                focusField = field;
-                            }
+                            if (focusField==null) {
+	                        	focusField=getFocusField(field);
+	                        }
                             fields[i++] = oPassword[x][1];
                             bValid = false;
                         }
                     }
                 }
-                if (fields.length > 0) {
-                    focusField.focus();
-                    alert(fields.join('\n'));
+                if (focusField != null) {
+                  	focusField.focus();
+                  	EMD.util.showMessage(focusField, fields[0]);
                 }
                 return bValid;
           }
@@ -166,23 +166,23 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-           		var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+           		var window_id=getFormWindowId(form);
                 oPassword = new password3();
                 for (x in oPassword) {
-                    var field = form[window_id+oPassword[x][0]];
+                    var field = getFormField(form, window_id, oRequired[x][0]);
                     if (field.type == 'password') {
                         if (trim(field.value).length==0 || !checkPassword3(field)) {
-                            if (i == 0) {
-                                focusField = field;
-                            }
+                            if (focusField==null) {
+	                        	focusField=getFocusField(field);
+	                        }
                             fields[i++] = oPassword[x][1];
                             bValid = false;
                         }
                     }
                 }
-                if (fields.length > 0) {
-                    focusField.focus();
-                    alert(fields.join('\n'));
+                if (focusField != null) {
+                  	focusField.focus();
+                  	EMD.util.showMessage(focusField, fields[0]);
                 }
                 return bValid;
           }
@@ -234,23 +234,23 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-           		var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+           		var window_id=getFormWindowId(form);
                 oPassword = new password4();
                 for (x in oPassword) {
-                    var field = form[window_id+oPassword[x][0]];
+                    var field = getFormField(form, window_id, oRequired[x][0]);
                     if (field.type == 'password') {
                         if (trim(field.value).length==0 || !checkPassword4(field)) {
-                            if (i == 0) {
-                                focusField = field;
-                            }
+                            if (focusField==null) {
+	                        	focusField=getFocusField(field);
+	                        }
                             fields[i++] = oPassword[x][1];
                             bValid = false;
                         }
                     }
                 }
-                if (fields.length > 0) {
-                    focusField.focus();
-                    alert(fields.join('\n'));
+                if (focusField != null) {
+                  	focusField.focus();
+                  	EMD.util.showMessage(focusField, fields[0]);
                 }
                 return bValid;
           }
@@ -301,23 +301,23 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-           		var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+           		var window_id=getFormWindowId(form);
                 oPassword = new password5();
                 for (x in oPassword) {
-                    var field = form[window_id+oPassword[x][0]];
+                    var field = getFormField(form, window_id, oRequired[x][0]);
                     if (field.type == 'password') {
                         if (trim(field.value).length==0 || !checkPassword5(field)) {
-                            if (i == 0) {
-                                focusField = field;
-                            }
+                            if (focusField==null) {
+	                        	focusField=getFocusField(field);
+	                        }
                             fields[i++] = oPassword[x][1];
                             bValid = false;
                         }
                     }
                 }
-                if (fields.length > 0) {
-                    focusField.focus();
-                    alert(fields.join('\n'));
+                if (focusField != null) {
+                  	focusField.focus();
+                  	EMD.util.showMessage(focusField, fields[0]);
                 }
                 return bValid;
           }
@@ -367,7 +367,7 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-           		var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+           		var window_id=getFormWindowId(form);
                 oInteger = new minInteger();
                 for (x in oInteger) {
                 	var field = form[window_id+oInteger[x][0]];
@@ -385,24 +385,24 @@
 							    value = field.options[si].value;
 						    }
 						} else {
-							value = field.value;
+							value = $(field).val();
 						}
 
                         if (value.length > 0) {
 
                             if (!isOK(value)) {
                                 bValid = false;
-                                if (i == 0) {
-	                                focusField = field;
-	                            }
+                                if (focusField==null) {
+	                        		focusField=getFocusField(field);
+	                        	}
 						        fields[i++] = oInteger[x][1];
 
                             } else {
 	                            var iValue = parseInt(value);
 	                            if (isNaN(iValue) || !(iValue >= -2147483648 && iValue <= 2147483647)) {
-	                                if (i == 0) {
-	                                    focusField = field;
-	                                }
+	                                if (focusField==null) {
+			                        	focusField=getFocusField(field);
+			                        }
 	                                fields[i++] = oInteger[x][1];
 	                                bValid = false;
 	                           }
@@ -410,9 +410,9 @@
                        }
                     }
                 }
-                if (fields.length > 0) {
-                   focusField.focus();
-                   alert(fields.join('\n'));
+                if (focusField != null) {
+                  	focusField.focus();
+                  	EMD.util.showMessage(focusField, fields[0]);
                 }
                 return bValid;
             }
@@ -438,23 +438,23 @@
                 var focusField = null;
                 var i = 0;
                 var fields = new Array();
-           		var window_id=form.id.substring(0, form.id.indexOf("_",7)+1);
+           		var window_id=getFormWindowId(form);
                 oEnglish = new english();
                 for (x in oEnglish) {
                 	var field = form[window_id+oEnglish[x][0]];
                     if (field.type == 'text' || field.type == 'textarea') {
                         if (trim(field.value).length==0 || !checkEnglish(field.value)) {
-                            if (i == 0) {
-                                focusField = field;
-                            }
+                            if (focusField==null) {
+	                        	focusField=getFocusField(field);
+	                        }
                             fields[i++] = oEnglish[x][1];
                             bValid = false;
                         }
                     }
                 }
-                if (fields.length > 0) {
-                    focusField.focus();
-                    alert(fields.join('\n'));
+                if (focusField != null) {
+                  	focusField.focus();
+                  	EMD.util.showMessage(focusField, fields[0]);
                 }
                 return bValid;
           }

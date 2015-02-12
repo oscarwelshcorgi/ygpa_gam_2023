@@ -28,7 +28,7 @@ function GamAssetCodePopupModule() {}
 GamAssetCodePopupModule.prototype = new EmdPopupModule(700, 480);
 
 // 팝업이 호출 되었을때 호출 되는 함수
-GamAssetCodePopupModule.prototype.loadComplete = function() {
+GamAssetCodePopupModule.prototype.loadComplete = function(param) {
 
 	this.resizable(true);
 
@@ -39,14 +39,14 @@ GamAssetCodePopupModule.prototype.loadComplete = function() {
 		url: '/popup/selectAssetCodeList.do',
 		//dataType: "json",
 		colModel : [
-					{display:"순번", 					name:"rnum", 				width:40, 	sortable:true, align:"center"},
-					{display:"항구분", 					name:"prtAtCodeName",	width:60, 	sortable:true, align:"center"},
-					{display:"자산코드", 				name:"gisAssetsCode", 		width:60, 	sortable:true, align:"center"},
-					{display:"자산명", 					name:"gisAssetsNm", 		width:120, 	sortable:true, align:"center"},
-					{display:"소재지", 					name:"gisAssetsLocplcAll", 	width:180, 	sortable:true, align:"center"},
-					{display:"사용여부",					name:"gisAssetsUsageYn",	width:80, 	sortable:true, align:"center"}
+					{display:"순번", 					name:"rnum", 				width:60, 	sortable:true, align:"center"},
+					{display:"항구분", 					name:"prtAtCodeName",	width:70, 	sortable:true, align:"center"},
+					{display:"자산코드", 				name:"gisAssetsCode", 		width:70, 	sortable:true, align:"center"},
+					{display:"자산명", 					name:"gisAssetsNm", 		width:130, 	sortable:true, align:"center"},
+					{display:"소재지", 					name:"gisAssetsLocplcAll", 	width:200, 	sortable:true, align:"center"},
+					{display:"면적",					name:"gisAssetsRealRentAr",	width:80, 	sortable:true, align:"right"}
 					],
-		height: '300',
+		height: '330',
 		preProcess: function(module, data) {
 			$.each(data.resultList, function() {
 				this.gisAssetsLocplcAll=this.gisAssetsLocplc;
@@ -67,7 +67,9 @@ GamAssetCodePopupModule.prototype.loadComplete = function() {
 		module.closeDialog("ok", row);
 	});
 
-	console.log('load complete');
+	if(param!=undefined) {
+		this.$('#gisAssetsPrprtySeCd').val(param.gisAssetsPrprtySeCd);
+	}
 };
 
 
@@ -108,8 +110,8 @@ var popup_instance = new GamAssetCodePopupModule();
 					<tr>
 						<th>항코드</th>
 						<td><input id="gisAssetsPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" /></td>
-						<th>자산코드</th>
-						<td><input id="gisAssetsCd" type="text" size="3" />&nbsp;-&nbsp;<input id="gisAssetsSubCd" type="text" size="2" /></td>
+						<th>자산구분</th>
+						<td><input id="gisAssetsPrprtySeCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM001"/></td>
 						<th>자산명</th>
 						<td><input id="gisAssetsNm" type="text" size="20" /></td>
 						<td rowspan="2"><button id="selectGisAssetCode">조회</button></td>

@@ -36,17 +36,28 @@
 				  SELECT  D.GIS_ASSETS_PRT_AT_CODE, D.GIS_ASSETS_CD, D.GIS_ASSETS_SUB_CD, A.ENTRPSCD, gam_getentrpsnm(A.ENTRPSCD, '1') ENTRPS_NM, SUM(D.USAGE_AR) USAGE_AR
 				  FROM ASSETS_RENT_F A,ASSETS_RENT_DETAIL_F D
 				  WHERE 1=1
-				    AND TO_DATE('2015-01-01', 'YYYY-MM-DD') > D.usage_pd_to
-				    AND TO_DATE('2015-12-30', 'YYYY-MM-DD') > D.usage_pd_from
+
+  				<isNotEmpty property="searchDateFrom">
+				    AND TO_DATE(#searchDateFrom#, 'YYYY-MM-DD') > D.usage_pd_to
+				    </isNotEmpty>
+  				<isNotEmpty property="searchDateTo">
+				    AND TO_DATE(#searchDateTo#, 'YYYY-MM-DD') > D.usage_pd_from
+				    </isNotEmpty>
 				    GROUP BY D.GIS_ASSETS_PRT_AT_CODE, D.GIS_ASSETS_CD, D.GIS_ASSETS_SUB_CD, A.ENTRPSCD
 				) R
 				WHERE 1=1
 				  AND G.GIS_ASSETS_PRT_AT_CODE=R.GIS_ASSETS_PRT_AT_CODE
 				  AND G.GIS_ASSETS_CD=R.GIS_ASSETS_CD
 				  AND G.GIS_ASSETS_SUB_CD=R.GIS_ASSETS_SUB_CD
-				  AND G.land_prt_at_code='622'
-				  AND G.land_assets_cd='LMM'
-				  AND G.land_assets_sub_cd='01'
+  				<isNotEmpty property="gisAssetsPrtAtCode">
+					AND G.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+				</isNotEmpty>
+				<isNotEmpty property="gisAssetsLocCd">
+					AND G.GIS_ASSETS_LOC_CD = #gisAssetsLocCd#
+				</isNotEmpty>
+				<isNotEmpty property="gisAssetsPrprtySeCd">
+					AND G.GIS_ASSETS_PRPRTY_SE_CD = #gisAssetsPrprtySeCd#
+				</isNotEmpty>
 				GROUP BY g.land_prt_at_code, g.land_assets_cd, g.land_assets_sub_cd
 			) S
 		) Z
@@ -112,9 +123,16 @@
 					<isNotEmpty prepend="AND" property="entrpsNm">
 							A.ENTRPS_NM LIKE '%' || #entrpsNm# || '%'
 					</isNotEmpty>
-					<isNotEmpty property="searchDate" prepend="AND">
+					<isNotEmpty property="searchDateFrom" prepend="AND">
 						<![CDATA[
-							TO_DATE(#searchDate#,'yyyy-mm-dd') BETWEEN B.USAGE_PD_FROM AND B.USAGE_PD_TO+1
+							TO_DATE(#searchDateFrom#,'yyyy-mm-dd') < B.USAGE_PD_TO+1
+							AND TO_DATE(#searchDateFrom#,'yyyy-mm-dd') > B.USAGE_PD_FROM
+						]]>
+					</isNotEmpty>
+					<isNotEmpty property="searchDateTo" prepend="AND">
+						<![CDATA[
+							TO_DATE(#searchDateTo#,'yyyy-mm-dd') > B.USAGE_PD_FROM
+							AND TO_DATE(#searchDateTo#,'yyyy-mm-dd') > B.USAGE_PD_TO
 						]]>
 					</isNotEmpty>
 					GROUP BY B.GIS_ASSETS_PRT_AT_CODE, B.GIS_ASSETS_CD, B.GIS_ASSETS_SUB_CD

@@ -1548,7 +1548,8 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
         case 'popupFcltyCd':    //GIS자산코드 팝업을 호출한다.
             var opts;
 
-            this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '/popup/showAssetsCd.do', opts);
+            this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '/popup/showAssetsCd.do', opts, {"gisAssetsPrprtySeCd":"L"});
+
 
             break;
 

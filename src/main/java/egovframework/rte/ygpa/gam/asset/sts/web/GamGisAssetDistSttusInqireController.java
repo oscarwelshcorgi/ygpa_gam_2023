@@ -140,11 +140,12 @@ public class GamGisAssetDistSttusInqireController {
     		String auth="";
     		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-    		searchVO.put("authorities", EgovUserDetailsHelper.getAuthorities());
 
     		try {
 				Map assetCodeInfo = gamGisAssetDistSttusInqireService.selectAssetDistSttusInfoByCode(searchVO);
 				List distList = gamGisAssetDistSttusInqireService.selectAssetDistSttusInfoListByCode(searchVO);
+
+//				searchVO.put("authorities", EgovUserDetailsHelper.getAuthorities());
 
 	    		model.addAttribute("assetCodeInfo", assetCodeInfo);
 				model.addAttribute("distList", distList);

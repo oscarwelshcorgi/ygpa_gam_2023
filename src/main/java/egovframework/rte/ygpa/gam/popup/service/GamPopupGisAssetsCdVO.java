@@ -12,7 +12,7 @@ package egovframework.rte.ygpa.gam.popup.service;
  *
  *  Copyright (C)  All right reserved.
  */
-public class GamPopupGisAssetsCdVO extends GamPopupGisAssetsCdDefaultVO{
+public class GamPopupGisAssetsCdVO {
     private static final long serialVersionUID = 1L;
 
     /** GIS_ASSETS_PRT_AT_CODE */
@@ -43,7 +43,54 @@ public class GamPopupGisAssetsCdVO extends GamPopupGisAssetsCdDefaultVO{
     /** GIS_ASSETS_LNM_SUB */
     private String gisAssetsLnmSub;
 
-    /** GIS_ASSETS_AR */
+    /**
+     * 재산구분코드
+     */
+    private String gisAssetsPrprtySeCd;
+
+    /**
+     * 위치코드
+     */
+    private String gisAssetsLocCd;
+
+    /**
+     * 자산구분코드
+     */
+    private String gisAssetsSeCd;
+
+    /**
+	 * @return the gisAssetsLocCd
+	 */
+	public String getGisAssetsLocCd() {
+		return gisAssetsLocCd;
+	}
+
+
+	/**
+	 * @param gisAssetsLocCd the gisAssetsLocCd to set
+	 */
+	public void setGisAssetsLocCd(String gisAssetsLocCd) {
+		this.gisAssetsLocCd = gisAssetsLocCd;
+	}
+
+
+	/**
+	 * @return the gisAssetsSeCd
+	 */
+	public String getGisAssetsSeCd() {
+		return gisAssetsSeCd;
+	}
+
+
+	/**
+	 * @param gisAssetsSeCd the gisAssetsSeCd to set
+	 */
+	public void setGisAssetsSeCd(String gisAssetsSeCd) {
+		this.gisAssetsSeCd = gisAssetsSeCd;
+	}
+
+
+	/** GIS_ASSETS_AR */
     private java.math.BigDecimal gisAssetsAr;
 
     /** GIS_ASSETS_USAGE_YN */
@@ -147,6 +194,22 @@ public class GamPopupGisAssetsCdVO extends GamPopupGisAssetsCdDefaultVO{
 
 	public void setGisAssetsCode(String gisAssetsCode) {
 		this.gisAssetsCode = gisAssetsCode;
+	}
+
+
+	/**
+	 * @return the gisAssetsPrprtySeCd
+	 */
+	public String getGisAssetsPrprtySeCd() {
+		return gisAssetsPrprtySeCd;
+	}
+
+
+	/**
+	 * @param gisAssetsPrprtySeCd the gisAssetsPrprtySeCd to set
+	 */
+	public void setGisAssetsPrprtySeCd(String gisAssetsPrprtySeCd) {
+		this.gisAssetsPrprtySeCd = gisAssetsPrprtySeCd;
 	}
 
 }
