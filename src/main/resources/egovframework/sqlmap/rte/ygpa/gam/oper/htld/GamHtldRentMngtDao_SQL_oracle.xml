@@ -799,7 +799,7 @@
                                            , #photoSj#
                                            , #filenmPhysicl#
                                            , #filenmLogic#
-                                           , TO_DATE(#shotDt#,;YYYY-MM-DD')
+                                           , TO_DATE(#shotDt#,'YYYY-MM-DD')
                                            , #regUsr#
                                            , SYSDATE
                                            , #prtAtCode#
@@ -815,7 +815,7 @@
 		       PHOTO_SJ       = #photoSj#,
 		       <!-- FILENM_PHYSICL = :FILENM_PHYSICL,
 		       FILENM_LOGIC   = :FILENM_LOGIC, -->
-		       SHOT_DT        = TO_DATE(#shotDt#,;YYYY-MM-DD'),
+		       SHOT_DT        = TO_DATE(#shotDt#,'YYYY-MM-DD'),
 		       <!-- REG_USR        = :REG_USR,
 		       REGIST_DT      = :REGIST_DT,-->
 		       PHOTO_DESC     = #photoDesc#

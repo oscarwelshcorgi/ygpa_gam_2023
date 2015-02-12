@@ -427,14 +427,14 @@
 									    WHERE MNG_YEAR = TO_CHAR(SYSDATE,'YYYY'))
                                    , '01'
                                    , #entrpscd#
-                                   , TO_DATE(#reqstDt#,;YYYY-MM-DD')
+                                   , TO_DATE(#reqstDt#,'YYYY-MM-DD')
                                    , '1'
                                    , 0
                                    , 0
                                    , #taxtSe#
                                    , #nticMth#
                                    <!--, #frstPrmisnDt#
-                                   , TO_DATE(#prmisnDt#,;YYYY-MM-DD')
+                                   , TO_DATE(#prmisnDt#,'YYYY-MM-DD')
                                    , TO_CHAR(SYSDATE,'YYYYMMDD')
                                    , TO_CHAR(ADD_MONTHS(SYSDATE-1, 12),'YYYYMMDD')
                                    , #docNo# -->
@@ -451,7 +451,7 @@
                                    , #deptcd#
                                    , #payMth#
                                    , 'E'
-                                   , TO_DATE(#frstReqstDt#,;YYYY-MM-DD')
+                                   , TO_DATE(#frstReqstDt#,'YYYY-MM-DD')
                                    , 'N'
 
                                    <isEmpty property="payinstIntrrate">
@@ -545,16 +545,16 @@
     <update id="gamCmmnCntrRentMngtDao.updateCmmnCntrRentMngt_S">
         UPDATE ASSETS_RENT_F SET
 		         ENTRPSCD         = #entrpscd#
-		       <!-- , REQST_DT    = TO_DATE(#reqstDt#,;YYYY-MM-DD')  -->
+		       <!-- , REQST_DT    = TO_DATE(#reqstDt#,'YYYY-MM-DD')  -->
 		       <!-- , REQST_SE_CD      = '3'  -->
 		       <!-- , GR_AR            = #grAr#
 		       , GR_FEE           = #grFee#  -->
 		       , NTIC_MTH         = #nticMth#
-		       <!-- , FRST_PRMISN_DT   = TO_DATE(#frstPrmisnDt#,;YYYY-MM-DD')  -->
+		       <!-- , FRST_PRMISN_DT   = TO_DATE(#frstPrmisnDt#,'YYYY-MM-DD')  -->
 		       <!-- , PRMISN_DT        = REPLACE(#prmisnDt#,'-','')
 		       , PRMISN_YN        = #prmisnYn#
-		       , GR_USAGE_PD_FROM = TO_DATE(#grUsagePdFrom#,;YYYY-MM-DD')
-		       , GR_USAGE_PD_TO   = TO_DATE(#grUsagePdTo#,;YYYY-MM-DD')
+		       , GR_USAGE_PD_FROM = TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')
+		       , GR_USAGE_PD_TO   = TO_DATE(#grUsagePdTo#,'YYYY-MM-DD')
 		       , DOC_NO           = #docNo# -->
 		       , RM               = #rm#
 		       , CMT              = #cmt#
@@ -746,15 +746,15 @@
                                            , #detailMngNo#
                                            , #detailMngCnt#
                                            , #detailPrtAtCode#
-		                                   , TO_DATE(#usagePdFrom#,;YYYY-MM-DD')
-                                           , TO_DATE(#usagePdTo#,;YYYY-MM-DD')
+		                                   , TO_DATE(#usagePdFrom#,'YYYY-MM-DD')
+                                           , TO_DATE(#usagePdTo#,'YYYY-MM-DD')
 		                                   , REPLACE(#olnlp#,',','')
 		                                   , REPLACE(#applcPrice#,',','')
 		                                   , REPLACE(#applcTariff#,',','')
                                            , #applcMth#
                                            , #exemptSe#
-                                           , TO_DATE(#exemptPdFrom#,;YYYY-MM-DD')
-                                           , TO_DATE(#exemptPdTo#,;YYYY-MM-DD')
+                                           , TO_DATE(#exemptPdFrom#,'YYYY-MM-DD')
+                                           , TO_DATE(#exemptPdTo#,'YYYY-MM-DD')
                                            , #exemptRsnCd#
                                            , #exemptRsn#
 		                                   , REPLACE(#rdcxptFee#,',','')
@@ -779,16 +779,16 @@
 		         GIS_ASSETS_CD          = #gisAssetsCd#
 		       , GIS_ASSETS_SUB_CD      = #gisAssetsSubCd#
 		       , USAGE_AR               = REPLACE(#usageAr#,',','')
-		       , USAGE_PD_FROM          = TO_DATE(#usagePdFrom#,;YYYY-MM-DD')
-		       , USAGE_PD_TO            = TO_DATE(#usagePdTo#,;YYYY-MM-DD')
+		       , USAGE_PD_FROM          = TO_DATE(#usagePdFrom#,'YYYY-MM-DD')
+		       , USAGE_PD_TO            = TO_DATE(#usagePdTo#,'YYYY-MM-DD')
 		       , USAGE_PURPS            = #usagePurps#
 		       , USAGE_DTLS             = #usageDtls#
 		       <!-- , USAGE_PRPOS_CD         = #usagePrposCd#  -->
 		       , EXEMPT_SE              = #exemptSe#
 		       , EXEMPT_RSN_CD          = #exemptRsnCd#
 		       , EXEMPT_RSN             = #exemptRsn#
-		       , EXEMPT_PD_FROM         = TO_DATE(#exemptPdFrom#,;YYYY-MM-DD')
-		       , EXEMPT_PD_TO           = TO_DATE(#exemptPdTo#,;YYYY-MM-DD')
+		       , EXEMPT_PD_FROM         = TO_DATE(#exemptPdFrom#,'YYYY-MM-DD')
+		       , EXEMPT_PD_TO           = TO_DATE(#exemptPdTo#,'YYYY-MM-DD')
 		       , COMPUT_DTLS            = #computDtls#
 		       , OLNLP                  = REPLACE(#olnlp#,',','')
 		       , APPLC_PRICE	= REPLACE(#applcPrice#,',','')
@@ -800,7 +800,7 @@
 		       <!-- , RDCXPT_FEE_CALC_SE     = #rdcxptFeeCalcSe# -->
 		       , RDCXPT_FEE             = REPLACE(#rdcxptFee#,',','')
 		       , FEE                    = REPLACE(#fee#,',','')
-		       <!-- , TRMNAT_DT              = TO_DATE(#trmnatDt#,;YYYY-MM-DD')  -->
+		       <!-- , TRMNAT_DT              = TO_DATE(#trmnatDt#,'YYYY-MM-DD')  -->
 		       <!-- , TRMNAT_RSN             = #trmnatRsn# -->
 		       <!-- , GIS_CD                 = #detailGisCd# -->
 		       , UPD_USR                = #updUsr#
@@ -1085,16 +1085,16 @@
                                            , #gisAssetsCd#
                                            , #gisAssetsSubCd#
                                            , #usageAr#
-                                           , TO_DATE(#usagePdFrom#,;YYYY-MM-DD')
-                                           , TO_DATE(#usagePdTo#,;YYYY-MM-DD')
+                                           , TO_DATE(#usagePdFrom#,'YYYY-MM-DD')
+                                           , TO_DATE(#usagePdTo#,'YYYY-MM-DD')
                                            , #usagePurps#
                                            , #usageDtls#
                                            , #usagePrposCd#
                                            , #exemptSe#
                                            , #exemptRsnCd#
                                            , #exemptRsn#
-                                           , TO_DATE(#exemptPdFrom#,;YYYY-MM-DD')
-                                           , TO_DATE(#exemptPdTo#,;YYYY-MM-DD')
+                                           , TO_DATE(#exemptPdFrom#,'YYYY-MM-DD')
+                                           , TO_DATE(#exemptPdTo#,'YYYY-MM-DD')
                                            , #computDtls#
                                            , #olnlp#
                                            , #applcPrice#
@@ -1106,7 +1106,7 @@
                                            , #rdcxptFeeCalcSe#
                                            , #rdcxptFee#
                                            , #fee#
-                                           , TO_DATE(#trmnatDt#,;YYYY-MM-DD')
+                                           , TO_DATE(#trmnatDt#,'YYYY-MM-DD')
                                            , #trmnatRsn#
                                            , #gisCd#
                                            , #regUsr#
@@ -1198,7 +1198,7 @@
                                            , #photoSj#
                                            , #filenmPhysicl#
                                            , #filenmLogic#
-                                           , TO_DATE(#shotDt#,;YYYY-MM-DD')
+                                           , TO_DATE(#shotDt#,'YYYY-MM-DD')
                                            , #regUsr#
                                            , SYSDATE
                                            , #prtAtCode#
@@ -1214,7 +1214,7 @@
 		       PHOTO_SJ       = #photoSj#,
 		       <!-- FILENM_PHYSICL = :FILENM_PHYSICL,
 		       FILENM_LOGIC   = :FILENM_LOGIC, -->
-		       SHOT_DT        = TO_DATE(#shotDt#,;YYYY-MM-DD'),
+		       SHOT_DT        = TO_DATE(#shotDt#,'YYYY-MM-DD'),
 		       <!-- REG_USR        = :REG_USR,
 		       REGIST_DT      = :REGIST_DT,-->
 		       PHOTO_DESC     = #photoDesc#
@@ -1272,8 +1272,8 @@
 		       GR_AR            = #grAr#
 		     , GR_FEE           = #grFee#
 		     , GR_RDCXPT_FEE    = #grRdcxptFee#
-		     , GR_USAGE_PD_FROM = TO_DATE(#grUsagePdFrom#,;YYYY-MM-DD')
-		     , GR_USAGE_PD_TO   = TO_DATE(#grUsagePdTo#,;YYYY-MM-DD')
+		     , GR_USAGE_PD_FROM = TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')
+		     , GR_USAGE_PD_TO   = TO_DATE(#grUsagePdTo#,'YYYY-MM-DD')
 		WHERE PRT_AT_CODE = #prtAtCode#
 		  AND MNG_YEAR    = #mngYear#
 		  AND MNG_NO      = #mngNo#

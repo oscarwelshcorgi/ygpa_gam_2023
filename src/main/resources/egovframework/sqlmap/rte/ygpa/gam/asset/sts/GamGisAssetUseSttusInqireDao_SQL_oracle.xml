@@ -84,7 +84,7 @@
 				SELECT
 				  G.land_prt_at_code GIS_ASSETS_PRT_AT_CODE,
 				  G.land_assets_cd GIS_ASSETS_CD,
-				  G.land_assets_sub_cd GIS_ASSETS_SUB_CD,
+				  G.land_assets_sub_cd GIS_ASSETS_SUB_CD
 				FROM GIS_ASSETS_CD_V G, (
 				  SELECT  D.GIS_ASSETS_PRT_AT_CODE, D.GIS_ASSETS_CD, D.GIS_ASSETS_SUB_CD, A.ENTRPSCD, gam_getentrpsnm(A.ENTRPSCD, '1') ENTRPS_NM, SUM(D.USAGE_AR) USAGE_AR
 				  FROM ASSETS_RENT_F A,ASSETS_RENT_DETAIL_F D

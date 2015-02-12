@@ -418,7 +418,6 @@
 								   , CHARGER_NO
                                    )
                             VALUES (
-                            	(SELECT
                                      #prtAtCode#
                                    , TO_CHAR(SYSDATE,'YYYY')
                                    , (SELECT LPAD(NVL(MAX(MNG_NO),0) + 1,'3','0')
