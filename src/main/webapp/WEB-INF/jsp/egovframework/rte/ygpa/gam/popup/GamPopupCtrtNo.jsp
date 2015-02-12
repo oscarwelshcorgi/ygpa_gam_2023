@@ -35,14 +35,13 @@ GamPopupFcltsClCdModule.prototype.loadComplete = function() {
 		url: '/popup/selectCtrtNoList.do',
 		dataType: "json",
 		colModel : [
-					{display:'계약번호', 		name:'ctrtNo',				width:120, 		sortable:false,		align:'center'},
-					{display:'구분', 			name:'ctrtSe',				width:60, 		sortable:false,		align:'center'},
-                    {display:'공고번호', 		name:'bidPblancNo',			width:100, 		sortable:false,		align:'center'},
-                    {display:'계약명', 		name:'ctrtNm',				width:300, 		sortable:false,		align:'left'},
-                    {display:'입찰공고일', 	name:'bidPblancDt',			width:80, 		sortable:false,		align:'center'},
-                    {display:'입찰일', 		name:'bidDt',				width:80, 		sortable:false,		align:'center'},
-                    {display:'등록업체코드', 	name:'registEntrpsCd',		width:100, 		sortable:false,		align:'left'},
-                    {display:'등록업체명', 	name:'registEntrpsNm',		width:150, 		sortable:false,		align:'left'}
+					{display:'계약 번호',			name:'ctrtNo',				width:120,		sortable:false,		align:'center'},
+					{display:'구분',				name:'ctrtSeNm',			width:60,		sortable:false,		align:'center'},
+					{display:'발주 방식',			name:'orderMthd',			width:100,		sortable:false,		align:'left'},
+					{display:'계약 명',				name:'ctrtNm',				width:200,		sortable:false,		align:'left'},
+					{display:'계약 방법',			name:'ctrtMth',				width:100,		sortable:false,		align:'left'},
+					{display:'계약 일자',			name:'ctrtDt',				width:80,		sortable:false,		align:'center'},
+					{display:'계약 금액',			name:'ctrtAmt',				width:100,		sortable:false,		align:'right', 		displayFormat: 'number'}
 			],
 		height: "320"
 	});

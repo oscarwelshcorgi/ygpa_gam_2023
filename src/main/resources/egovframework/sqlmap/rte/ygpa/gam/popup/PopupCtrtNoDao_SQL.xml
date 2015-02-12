@@ -20,22 +20,22 @@
                                 	END) AS CTRT_SE
                                 , I.BID_PBLANC_NO
                                 , I.CTRT_NM
+                                , I.ORDER_MTHD
+                                , I.CTRT_MTH
+                                , GAM_GET_CTRT_SE_NM(I.CTRT_SE) AS CTRT_SE_NM
                                 , TO_CHAR(I.BID_PBLANC_DT, 'YYYY-MM-DD') AS BID_PBLANC_DT
                                 , TO_CHAR(I.BID_DT, 'YYYY-MM-DD') AS BID_DT
                                 , TO_CHAR(I.CTRT_DT_FROM, 'YYYY-MM-DD') AS CTRT_DT_FROM
                                 , TO_CHAR(I.CTRT_DT_TO, 'YYYY-MM-DD') AS CTRT_DT_TO
+                                , TO_CHAR(I.CTRT_DT,'YYYY-MM-DD') AS CTRT_DT
                                 , I.REGIST_ENTRPS_CD
                                 , I.PLAN_AMT
                                 , I.CTRT_AMT
-                                , NVL(J.RPRSNTV,J.ENTRPS_NM) CNSTRTR
+                                , (SELECT NVL(RPRSNTV,ENTRPS_NM) FROM CTRT_JOIN_CONTR_F WHERE CTRT_NO=I.CTRT_NO AND ROWNUM=1 ) CNSTRTR
                                 , GAM_GETENTRPSNM(I.REGIST_ENTRPS_CD, 1) AS REGIST_ENTRPS_NM
-                                , J.ENTRPS_NM
+                                , (SELECT ENTRPS_NM FROM CTRT_JOIN_CONTR_F WHERE CTRT_NO=I.CTRT_NO AND ROWNUM=1 ) ENTRPS_NM
                             FROM
 				            	CTRT_INFO_F I
-							LEFT OUTER JOIN
-								CTRT_JOIN_CONTR_F J
-							ON
-								I.CTRT_NO = J.CTRT_NO
 							WHERE 1 = 1
 								<isNotEmpty property="sCtrtNo">
 									AND I.CTRT_NO LIKE #sCtrtNo# || '%'
