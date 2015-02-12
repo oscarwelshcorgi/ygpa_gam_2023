@@ -179,13 +179,13 @@
         			</tr>
         			<tr height="40px">
         				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.fcltsNm }" /></td>
-        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.mainUsagePrpos }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.groundFloorCn }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.topFloorCn }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.underFloorCn }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.highHt }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.highFllorHt }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.highFllorHtPos }" /></td>
         			</tr>
         			<tr height="30px">
         				<td colspan="2" style="text-align:center;font-size:13px;">구조형식</td>
@@ -199,15 +199,15 @@
         				<td style="text-align:center;font-size:13px;">용적율</td>
         			</tr>
         			<tr height="40px">
-        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.strctFmt }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.apptTp }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.baseFmt }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.baseSideDp }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.plotAr }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.archAr }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.ar }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.floorArRate }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.capaRate }" /></td>
         			</tr>
         			<tr height="30px">
         				<td rowspan="2" style="text-align:center;font-size:13px;">주차시설</td>
@@ -221,14 +221,14 @@
         				<td style="text-align:center;font-size:13px;">1일 사용인원</td>
         			</tr>
         			<tr height="40px">
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.prkAr }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.isdPrkAr }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.osdPrkAr }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.prkCnt }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.isdPrkCnt }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.osdPrkCnt }" /></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.dtMaxUsageCn }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.dtUsageCn }" /></td>
         			</tr>
         			<tr height="30px">
         				<td rowspan="6" style="text-align:center;font-size:13px;">설 비</td>
@@ -246,15 +246,15 @@
         				<td style="text-align:center;font-size:13px;">비상용</td>
         			</tr>
         			<tr height="40px">
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.vntltnArcndtMthd }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.exhaustDuctEnnc }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.wrtTankLoc }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.sbtLoc }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.oilSavefcltyLoc }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.swgClupfcltyLoc }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.liftCntPsngr }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.liftCntCargo }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.liftCntEmgcy }" /></td>
         			</tr>
         			<tr height="30px">
         				<td colspan="2" style="text-align:center;font-size:13px;">중 앙 냉 방</td>
@@ -272,19 +272,19 @@
         				<td style="text-align:center;font-size:13px;">난방열원</td>
         			</tr>
         			<tr height="40px">
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.clngEnnc }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.clngSrc }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.htngEnnc }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.htngSrc }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.elctyLeadInCapa }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.spictankFmt }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.bldMntnMngSysYn }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.mntnMngAddFcltyYn }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.liftOperMthd }" /></td>
         			</tr>
         			<tr height="100px">
         				<td colspan="2" style="text-align:left;font-size:13px;border-right:0;"> ▷ 기타 상세제원</td>
-        				<td colspan="8" style="text-align:left;font-size:13px;border-left:0;"></td>
+        				<td colspan="8" style="text-align:left;font-size:13px;border-left:0;"><c:out value="${result.etcDtlsSpec }" /></td>
         			</tr>
         		</tbody>  
         	</table>
@@ -300,11 +300,11 @@
         				<td style="width:200px;text-align:center;font-size:13px;">허용통행하중</td>
         			</tr>
         			<tr height="40px">
-        				<td colspan="3" style="text-align:center;font-size:13px;"></td>
-        				<td colspan="2" style="text-align:left;font-size:13px;"></td>
-        				<td colspan="2" style="text-align:left;font-size:13px;"></td>
-        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
+        				<td colspan="3" style="text-align:center;font-size:13px;"><c:out value="${result.fcltsNm }" /></td>
+        				<td colspan="2" style="text-align:left;font-size:13px;"><c:out value="${result.bridgeStartLoc }" /></td>
+        				<td colspan="2" style="text-align:left;font-size:13px;"><c:out value="${result.bridgeEndLoc }" /></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.planLiveWght }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.allowPassWght }" /></td>
         			</tr>
         			<tr height="40px">
         				<td colspan="3" style="text-align:center;font-size:13px;">연&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;장</td>
@@ -324,21 +324,21 @@
         				<td style="text-align:center;font-size:13px;">계</td>
         			</tr>
         			<tr height="40px">
-        				<td style="width:80px;text-align:center;font-size:13px;"></td>
-        				<td style="width:80px;text-align:center;font-size:13px;"></td>
-        				<td style="width:120px;text-align:center;font-size:13px;"></td>
-        				<td style="width:80px;text-align:center;font-size:13px;"></td>
-        				<td style="width:80px;text-align:center;font-size:13px;"></td>
-        				<td style="width:80px;text-align:center;font-size:13px;"></td>
-        				<td style="width:80px;text-align:center;font-size:13px;"></td>
-        				<td style="width:80px;text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
+        				<td style="width:80px;text-align:center;font-size:13px;"><c:out value="${result.extLt }" /></td>
+        				<td style="width:80px;text-align:center;font-size:13px;"><c:out value="${result.extSpanCn }" /></td>
+        				<td style="width:120px;text-align:center;font-size:13px;"><c:out value="${result.extMaxSpanLt }" /></td>
+        				<td style="width:80px;text-align:center;font-size:13px;"><c:out value="${result.paveWd }" /></td>
+        				<td style="width:80px;text-align:center;font-size:13px;"><c:out value="${result.roadWd }" /></td>
+        				<td style="width:80px;text-align:center;font-size:13px;"><c:out value="${result.sumPaveRoadWd }" /></td>
+        				<td style="width:80px;text-align:center;font-size:13px;"><c:out value="${result.upRoadCn }" /></td>
+        				<td style="width:80px;text-align:center;font-size:13px;"><c:out value="${result.downRoadCn }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.sumUpDownRoadCn }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.erqProofPlanApplcEnn }" /></td>
         			</tr>
         			<tr height="40px">
         				<td rowspan="3" style="text-align:center;font-size:13px;">상부구조</td>
         				<td colspan="2" style="text-align:center;font-size:13px;">경간구성</td>
-        				<td colspan="7" style="text-align:center;font-size:13px;"></td>
+        				<td colspan="7" style="text-align:center;font-size:13px;"><c:out value="${result.spanComp }" /></td>
         			</tr>
         			<tr height="40px">
         				<td colspan="2" style="text-align:center;font-size:13px;">주경간 형식</td>
@@ -348,11 +348,11 @@
         				<td style="text-align:center;font-size:13px;">하부 통과제한높이(m)</td>
         			</tr>
         			<tr height="40px">
-        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
-        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
-        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
-        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.mainSpanFmt }" /></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.sunSpanFmt }" /></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.propSe }" /></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.buldConnSe }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.subPassLmtHt }" /></td>
         			</tr>
         			<tr height="40px">
         				<td rowspan="4" style="text-align:center;font-size:13px;">하부구조</td>
@@ -369,24 +369,24 @@
         				<td style="text-align:center;font-size:13px;">기초형식</td>
         			</tr>
         			<tr height="40px">
-        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td colspan="2" rowspan="2" style="text-align:center;font-size:13px;"></td>
-        				<td rowspan="2" style="text-align:center;font-size:13px;"></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.bridgePierFmt1 }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.bridgePierCn1 }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.bridgePierBaseFmt1 }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.bridgePropFmt1 }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.bridgePropBaseFmt1 }" /></td>
+        				<td colspan="2" rowspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.crossRoute }" /></td>
+        				<td rowspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.crossRiverHighDpwt }" /></td>
         			</tr>
         			<tr height="40px">
-        				<td colspan="2" style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
-        				<td style="text-align:center;font-size:13px;"></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${result.bridgePierFmt2 }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.bridgePierCn2 }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.bridgePierBaseFmt2 }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.bridgePropFmt2 }" /></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${result.bridgePropBaseFmt2 }" /></td>
         			</tr>
         			<tr height="100px">
         				<td colspan="2" style="text-align:left;font-size:13px;border-right:0;"> ▷ 기타 상세제원</td>
-        				<td colspan="8" style="text-align:left;font-size:13px;border-left:0;"></td>
+        				<td colspan="8" style="text-align:left;font-size:13px;border-left:0;"><c:out value="${result.etcDtlsSpec }" /></td>
         			</tr>
         		</tbody>  
         	</table>
