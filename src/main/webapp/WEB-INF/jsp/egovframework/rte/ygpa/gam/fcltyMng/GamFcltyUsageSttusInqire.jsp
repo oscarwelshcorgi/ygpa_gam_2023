@@ -259,9 +259,9 @@ GamFcltyUsageSttusInqireModule.prototype.onSubmit = function() {
  		return;
  	} //validation check
 	if (this.$("#sUsagePdFrom").val() > this.$("#sUsagePdTo").val()){
- 		alert('조회 기간 From의 날짜가 To 날짜보다 클수 없습니다.');
- 		return;
-	}
+ 	EMD.util.showMessage(this.$('#sUsagePdTo')[0], "조회 기간 From의 날짜가 To 날짜보다 클수 없습니다.");
+	return false;
+}
 	this.loadData();
 };
 
@@ -643,7 +643,7 @@ GamFcltyUsageSttusInqireModule.prototype.onTabChangeBefore = function(newTabId, 
 					<form id="gisPrtFcltyCdForm">
 						<table style="width:100%;" class="summaryPanel">
 							<tr>
-								<th width="80" height="20">조회 자료수</th>
+								<th width="15" height="20">조회 자료수</th>
 								<td ><input type="text" size="12" id="gisTotalCount" class="ygpaNumber" disabled="disabled" /></td>
 								<td style="text-align: right">
 									<button data-role="gridXlsDown" data-flexi-grid="mainGrid">엑셀다운로드</button>
