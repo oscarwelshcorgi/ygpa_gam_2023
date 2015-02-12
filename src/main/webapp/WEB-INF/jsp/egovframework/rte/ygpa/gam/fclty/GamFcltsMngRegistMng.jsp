@@ -1270,6 +1270,7 @@ GamFcltsMngRegistMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
 		this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnDetailPrint').disable({disableClass:"ui-state-disabled"});
 	} else {
 		if (this._mainKeyValue != "") {
 			this.$('#fcltsNo').disable();
@@ -1408,6 +1409,8 @@ GamFcltsMngRegistMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnSave').removeClass('ui-state-disabled');
 			this.$('#btnRemove').enable();
 			this.$('#btnRemove').removeClass('ui-state-disabled');
+			this.$('#btnDetailPrint').enable();
+			this.$('#btnDetailPrint').removeClass('ui-state-disabled');
 		} else {
 			this.$('#fcltsNo').disable();
 			this.$('#fcltsNm').disable();
@@ -1541,6 +1544,7 @@ GamFcltsMngRegistMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnDetailPrint').disable({disableClass:"ui-state-disabled"});
 		}
 	}
 
@@ -1687,6 +1691,7 @@ GamFcltsMngRegistMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnDetailPrint').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -2378,6 +2383,7 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								<button id="btnInsert" class="buttonAdd">　　추　가　　</button>
 								<button id="btnSave" class="buttonSave">　　저　장　　</button>
 								<button id="btnRemove" class="buttonDelete">　　삭　제　　</button>
+								<button id="btnDetailPrint" data-role="printPage" data-search-option="detailForm" data-url='/fclty/selectFcltReportMngPrint.do'>시설물관리대장인쇄</button>
 							</td>
 						</tr>
 					</table>
