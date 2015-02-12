@@ -13,7 +13,7 @@
 	 *   수정일          수정자                수정내용
 	 *  -----------    --------    ---------------------------
 	 *  2014.12.08		jckim       최초 생성
-	 *	2014.02.11		정성현		
+	 *	2014.02.11		정성현		대부분 수정
 	 * author jckim
 	 * since 2014.12.08
 	 *
@@ -53,14 +53,14 @@
 		module : this,
 		url : '/fcltyMng/gamFcltyGisPrtFcltyCdList.do',
 		dataType : 'json',
-		colModel : [ {display : '항구분', name : 'gisAssetsPrtAtNm', width : 80, sortable : false, align : 'center'}
-		            ,{display : '시설 구분', name : 'fcltsJobSeNm', width : 100, sortable : false, align : 'center'}
-		            ,{display : '시설 명', name : 'prtFcltyNm', width : 250, sortable : false, align : 'left'}
-		            ,{display : '시설물관리그룹', name:'fcltsMngGroupNm',	width:120, sortable:false, align:'left'}
-		            ,{display : '시설 규격', name : 'prtFcltyStndrd', width : 100, sortable : false, align : 'center'}
-		            ,{display : '시설 단위', name : 'prtFcltyUnit', width : 100, sortable : false, align : 'center'}
-		            ,{display : '시설 수량', name : 'prtPrtFcltyCnt', width : 90, sortable : false, align : 'center'}
-		            ,{display : '시설 담당', name : 'prtPrtFcltyMnger', width : 100, sortable : false, align : 'center'}
+		colModel : [ {display : '항구분',		 name : 'gisAssetsPrtAtNm', width : 80, sortable : false, align : 'center'}
+		            ,{display : '시설 구분',		 name : 'fcltsJobSeNm', width : 100, sortable : false, align : 'center'}
+		            ,{display : '시설 명',		 name : 'prtFcltyNm', width : 250, sortable : false, align : 'left'}
+		            ,{display : '시설물관리그룹',name:'fcltsMngGroupNm',	width:120, sortable:false, align:'left'}
+		            ,{display : '시설 규격',		 name : 'prtFcltyStndrd', width : 100, sortable : false, align : 'center'}
+		            ,{display : '시설 단위',		 name : 'prtFcltyUnit', width : 100, sortable : false, align : 'center'}
+		            ,{display : '시설 수량',		 name : 'prtPrtFcltyCnt', width : 90, sortable : false, align : 'center'}
+		            ,{display : '시설 담당',		 name : 'prtPrtFcltyMnger', width : 100, sortable : false, align : 'center'}
 		],
 		showTableToggleBtn : false,
 		height : 'auto',
@@ -77,21 +77,21 @@
 		module : this,
 		url : '/fcltyMng/selectLoadAssetRentData.do',
 		dataType : 'json',
-		colModel : [ {display : '항구분', name : 'prtAtCode', width : 60, sortable : false, align : 'center'}
-		            , {display : '사용기간', name : 'usagePd', width : 200, sortable : false, align : 'center'}
-		            ,{display : '업체명', name : 'entrpscd', width : 120, sortable : false, align : 'left'}
-		            ,{display : '신청일자', name : 'reqstDt', width : 75, sortable : false, align : 'center'}
-		            ,{display : '허가일자', name : 'prmisnDt', width : 75, sortable : false, align : 'center'}
-		            ,{display : '납부방법', name : 'payMth', width : 70, sortable : false, align : 'center'}
-		            ,{display : '과세구분', name : 'taxtNm', width : 90, sortable : false, align : 'center'}
-		            ,{display : '사용면적㎡',  name : 'usageAr', width : 70, sortable : false, align : 'right', displayFormat : 'number', displayOption:{format:"0,000.00"}},
-		            ,{display : '사용목적', name : 'usagePurps', width : 150, sortable : false, align : 'left'}
-		            ,{display : '사용내역', name : 'usageDtls', width : 125, sortable : false, align : 'left'}
-		            ,{display : '산출내역', name : 'computDtls', width : 90, sortable : false, align : 'left'}
-		            ,{display : '공시지가', name : 'olnlp', width : 70, sortable : false, align : 'right', displayFormat : 'number'}
-		            ,{display : '적용요율', name : 'applcTariff', width : 70, sortable : false, align : 'right' , displayFormat : 'number', displayOption:{format:"0,000.00"}},
-		            ,{display : '적용방법', name : 'applcMth', width : 70, sortable : false, align : 'left'}
-		            ,{display : '금액', name : 'fee', width : 100, sortable : false, align : 'right', displayFormat : 'number'}
+		colModel : [ {display : '항구분', 	  	 name : 'prtAtCode', width : 60, sortable : false, align : 'center'}
+		            ,{display : '사용기간',  	 name : 'usagePd', width : 200, sortable : false, align : 'center'}
+		            ,{display : '업체명', 		 name : 'entrpscd', width : 120, sortable : false, align : 'left'}
+		            ,{display : '신청일자', 		 name : 'reqstDt', width : 75, sortable : false, align : 'center'}
+		            ,{display : '허가일자',		 name : 'prmisnDt', width : 75, sortable : false, align : 'center'}
+		            ,{display : '납부방법',		 name : 'payMth', width : 70, sortable : false, align : 'center'}
+		            ,{display : '과세구분',		 name : 'taxtNm', width : 90, sortable : false, align : 'center'}
+		            ,{display : '사용면적㎡', 	 name : 'usageAr', width : 70, sortable : false, align : 'right', displayFormat : 'number', displayOption:{format:"0,000.00"}},
+		            ,{display : '사용목적',		 name : 'usagePurps', width : 150, sortable : false, align : 'left'}
+		            ,{display : '사용내역',		 name : 'usageDtls', width : 125, sortable : false, align : 'left'}
+		            ,{display : '산출내역',		 name : 'computDtls', width : 90, sortable : false, align : 'left'}
+		            ,{display : '공시지가',		 name : 'olnlp', width : 70, sortable : false, align : 'right', displayFormat : 'number'}
+		            ,{display : '적용요율',		 name : 'applcTariff', width : 70, sortable : false, align : 'right' , displayFormat : 'number', displayOption:{format:"0,000.00"}},
+		            ,{display : '적용방법',		 name : 'applcMth', width : 70, sortable : false, align : 'left'}
+		            ,{display : '금액',			 name : 'fee', width : 100, sortable : false, align : 'right', displayFormat : 'number'}
 		             ],
 		height : 'auto'
 		,preProcess :function(module,data){
@@ -108,18 +108,18 @@
 		module : this,
 		url : '/fcltyMng/selectLoadQcwWrtMngData.do',
 		dataType : 'json',
-		colModel : [ {display : '관리 그룹', name : 'fcltsMngGroupNm', width : 110, sortable : false, align : 'center'}
-			        ,{display : '업무 구분', name : 'fcltsJobNm', width : 70, sortable : false, align : 'center'}
-			        ,{display : '시행 년도', name : 'enforceYear', width : 60, sortable : false, align : 'center'}
-			        ,{display : '관리 명', name : 'qcMngNm', width : 80, sortable : false, align : 'left'}
-			        ,{display : '진단 일자', name : 'qcInspDt', width : 75, sortable : false, align : 'center'}
-			        ,{display : '진단 구분', name : 'qcInspSeNm', width : 60, sortable : false, align : 'center'}
-			        ,{display : '진단 기관 명', name : 'qcInspInsttNm', width : 80, sortable : false, align : 'right'}
-			        ,{display : '기술자 명', name : 'responEngineerNm', width : 70, sortable : false, align : 'right'}
-			        ,{display : '시작일자', name : 'qcBeginDt', width : 75, sortable : false, align : 'center'}
-			        ,{display : '종료 일자', name : 'qcEndDt', width : 75, sortable : false, align : 'center'}
-			        ,{display : '진단 금액', name : 'qcInspAmt', width : 80, sortable : false, align : 'right', displayFormat : 'number'}
-			        ,{display : '비고', name : 'rm', width : 85, sortable : false, align : 'left'}
+		colModel : [ {display : '관리 그룹', 		name : 'fcltsMngGroupNm', width : 110, sortable : false, align : 'center'}
+			        ,{display : '업무 구분', 		name : 'fcltsJobNm', width : 70, sortable : false, align : 'center'}
+	        		,{display : '시행 년도', 		name : 'enforceYear', width : 60, sortable : false, align : 'center'}
+			        ,{display : '관리 명', 			name : 'qcMngNm', width : 80, sortable : false, align : 'left'}
+			        ,{display : '진단 일자', 		name : 'qcInspDt', width : 75, sortable : false, align : 'center'}
+			        ,{display : '진단 구분',			name : 'qcInspSeNm', width : 60, sortable : false, align : 'center'}
+			        ,{display : '진단 기관 명',		name : 'qcInspInsttNm', width : 80, sortable : false, align : 'right'}
+			        ,{display : '기술자 명', 		name : 'responEngineerNm', width : 70, sortable : false, align : 'right'}
+			        ,{display : '시작일자', 			name : 'qcBeginDt', width : 75, sortable : false, align : 'center'}
+			        ,{display : '종료 일자',			name : 'qcEndDt', width : 75, sortable : false, align : 'center'}
+			        ,{display : '진단 금액', 		name : 'qcInspAmt', width : 80, sortable : false, align : 'right', displayFormat : 'number'}
+			        ,{display : '비고',				name : 'rm', width : 85, sortable : false, align : 'left'}
 		],
 		height : '250'
 	});
@@ -140,12 +140,12 @@
 		dataType : 'json',
 		colModel : [{display:"시설물관리그룹", 		name:"fcltsMngGroupNm",			width:130, 		sortable:false,		align:"center"},
 					{display:"유지보수공사명",		name:"mntnRprCnstNm",			width:250, 		sortable:false,		align:"left"},
-					{display:"시작일자",			name:"mntnRprCnstStartDt",		width:80, 		sortable:false,		align:"center"},
-					{display:"종료일자",			name:"mntnRprCnstEndDt",		width:80, 		sortable:false,		align:"center"},
+					{display:"시작일자",				name:"mntnRprCnstStartDt",		width:80, 		sortable:false,		align:"center"},
+					{display:"종료일자",				name:"mntnRprCnstEndDt",		width:80, 		sortable:false,		align:"center"},
 					{display:"공사금액", 			name:"mntnRprCnstAmt",			width:100, 		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"유지보수예산", 		name:"mntnRprBdgt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-					{display:"시공자", 			name:"cnstrtr",					width:150, 		sortable:false,		align:"center"},
-					{display:" ", 		name:"mntnFcltsCnstInfo",		width:0, 		sortable:false,		align:"center"}
+					{display:"시공자", 				name:"cnstrtr",					width:150, 		sortable:false,		align:"center"},
+					{display:" ", 					name:"mntnFcltsCnstInfo",		width:0, 		sortable:false,		align:"center"}
 					
 					
 			],
@@ -237,57 +237,9 @@
 			}
 		}
 	}; 
-<%
-/**
- * @FUNCTION NAME : onButtonClick
- * @DESCRIPTION   : BUTTON CLICK EVENT
- * @PARAMETER     :
- *   1. buttonId - BUTTON ID
-**/
-%>
-
-GamFcltyUsageSttusInqireModule.prototype.onButtonClick = function(buttonId) {
-	switch (buttonId) {
-		case 'btnGisExcelDownload':
-			this.downloadGisExcel();
-			break;
-		case 'btnAssetsExcelDownload' :
-			this.downloadAssetsExcel();
-			break;
-			// 검색조건 시설물 관리 그룹 팝업
-		case "searchPopupBtn":
-			this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', null);
-		break;
-	}
-
-};
 
 
 
-<%
-/**
- * @FUNCTION NAME : onClosePopup
- * @DESCRIPTION   : CLOSE POPUP EVENT
- * @PARAMETER     :
- *   1. buttonId - BUTTON ID
- *   2. msg      - MESSAGE
- *   3. value    - VALUE
-**/
-%>
-GamFcltyUsageSttusInqireModule.prototype.onClosePopup = function(popupId, msg, value){
-	switch(popupId){
-		// 검색조건 시설물 관리 그룹 
-		case "sSelectFcltsMngGroup":
-			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
-			this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
-		break;
-
-		default:
-			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
-
-		break;
-	}
-};
 
 
 <%
@@ -404,17 +356,62 @@ GamFcltyUsageSttusInqireModule.prototype.selectLoadRepairMngData = function() {
 	};	
 
 
+	// 시설물관리그룹 검색조건 클릭시 초기화 처리
+	this.$("#sFcltsMngGroupNo").bind("click", {module: this}, function(event) {
+		event.data.module.$("#sFcltsMngGroupNo").val(value[""]);
+		event.data.module.$("#sFcltsMngGroupNoNm").val(value[""]);
+	});
+	
 <%
 /**
- * @FUNCTION NAME : downloadExcel
- * @DESCRIPTION   :  시설물관리그룹 검색조건 클릭시 초기화 처리
- * @PARAMETER     : NONE
+ * @FUNCTION NAME : onClosePopup
+ * @DESCRIPTION   : CLOSE POPUP EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+ *   2. msg      - MESSAGE
+ *   3. value    - VALUE
 **/
 %>
-this.$("#sFcltsMngGroupNo").bind("click", {module: this}, function(event) {
-	event.data.module.$("#sFcltsMngGroupNo").val('');
-	event.data.module.$("#sFcltsMngGroupNoNm").val('');
-});
+GamFcltyUsageSttusInqireModule.prototype.onClosePopup = function(popupId, msg, value){
+	switch(popupId){
+		// 검색조건 시설물 관리 그룹 
+		case "sSelectFcltsMngGroup":
+			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
+			this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
+		break;
+
+		default:
+			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
+
+		break;
+	}
+};
+
+<%
+/**
+ * @FUNCTION NAME : onButtonClick
+ * @DESCRIPTION   : BUTTON CLICK EVENT
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
+GamFcltyUsageSttusInqireModule.prototype.onButtonClick = function(buttonId) {
+	switch (buttonId) {
+		case 'btnGisExcelDownload':
+			this.downloadGisExcel();
+			break;
+		case 'btnAssetsExcelDownload' :
+			this.downloadAssetsExcel();
+			break;
+			// 검색조건 시설물 관리 그룹 팝업
+		case "searchPopupBtn":
+			this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', null);
+		break;
+	}
+
+};
+
+
 <%
 /**
  * @FUNCTION NAME : downloadExcel
@@ -591,7 +588,7 @@ GamFcltyUsageSttusInqireModule.prototype.onTabChangeBefore = function(newTabId, 
 							<th>시설물 관리 그룹</th>
 							<!-- <td><input type="text" id="sFcltsMngNo"/></td> -->
 							<td colspan="3">
-								<input id="sFcltsMngGroupNo" type="text" size="14" title="시설물관리그룹넘버" />&nbsp;-&nbsp;
+								<input id="sFcltsMngGroupNo" type="text" size="14" title="시설물관리그룹넘버" />
 								<input id="sFcltsMngGroupNoNm" type="text" size="30" title="시설물관리그룹명" disabled="disabled" />
 								<button id="searchPopupBtn" class="popupButton">선택</button>
 							</td>
