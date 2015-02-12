@@ -70,6 +70,30 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
        			,fcltsMngNo: this.$('#fcltsMngNo').val()
 			});
         	break;
+        case 'fcltyFlawRpr':
+        	EMD.util.create_window("시설물 하자보수 관리", "/fcltyMng/gamFcltyRepairMng.do", null, {
+        		action: "manage"
+           		,fcltsMngGroupNo: this.$('#fcltsMngGroupNo').val()
+               	,fcltsMngGroupNm: this.$('#fcltsMngGroupNm').val()
+       			,fcltsMngNo: this.$('#fcltsMngNo').val()
+			});
+        	break;
+        case 'fcltyMntnRpr':
+        	EMD.util.create_window("시설물 유지보수 관리", "/fcltyMng/gamFcltyMaintMng.do", null, {
+        		action: "manage"
+               		,fcltsMngGroupNo: this.$('#fcltsMngGroupNo').val()
+               	,fcltsMngGroupNm: this.$('#fcltsMngGroupNm').val()
+           			,fcltsMngNo: this.$('#fcltsMngNo').val()
+			});
+        	break;
+        case 'fcltyQcMng':
+        	EMD.util.create_window("시설물 점검기록 관리", "/fcltyMng/gamFcltyQcwWrtMng.do", null, {
+        		action: "manage"
+               		,fcltsMngGroupNo: this.$('#fcltsMngGroupNo').val()
+               	,fcltsMngGroupNm: this.$('#fcltsMngGroupNm').val()
+           			,fcltsMngNo: this.$('#fcltsMngNo').val()
+			});
+        	break;
         case 'assignFeature':
         	EMD.util.create_window("시설 제원 코드 지정", "/fclty/gamElctyFcltySpecMng.do", null, {
         		action: "setFeature"
@@ -96,6 +120,8 @@ var popupInfoModule = new GamMapPopupModule();
 <input id="gisPrtFcltySeq" type="hidden" value="<c:out value='${fcltyCd.gisPrtFcltySeq }' />" />
 <input id="fcltySe" type="hidden" value="<c:out value='${fcltyCd.fcltySe }' />" />
 <input id="fcltsMngNo" type="hidden" value="<c:out value='${fcltyCd.fcltsMngNo }' />" />
+<input id="fcltsMngGroupNo" type="hidden" value="<c:out value='${fcltyCd.fcltsMngGroupNo }' />" />
+<input id="fcltsMngGroupNm" type="hidden" value="<c:out value='${fcltyCd.fcltsMngGroupNm }' />" />
 <c:forEach var="imgfile" items="${fileList}">
 	<input name="atchFileNmPhysicl" type="hidden" value="<c:out value='${imgfile.atchFileNmPhysicl }' />"/>
 </c:forEach>
@@ -125,9 +151,14 @@ var popupInfoModule = new GamMapPopupModule();
 				</c:if>
 			</tbody></table>
 			<c:if test="${fn:containsIgnoreCase(auth,'role_admin')||fn:containsIgnoreCase(auth,'role_manager') }">
-				<button id="fcltyCdMngt" data-icon="ui-icon-newwin">전기시설제원 관리</button>
+				<button id="fcltyCdMngt" data-icon="ui-icon-newwin">제원</button>
+				<button id="fcltyFlawRpr" data-icon="ui-icon-newwin">하자보수</button>
+				<button id="fcltyMntnRpr" data-icon="ui-icon-newwin">유지보수</button>
+				<button id="fcltyQcMng" data-icon="ui-icon-newwin">점검기록</button>
 			</c:if>
-			<button id="fcltyCdInqire" data-icon="ui-icon-newwin">전기시설제원 조회</button>
+			<c:if test="${!fn:containsIgnoreCase(auth,'role_admin')&&!fn:containsIgnoreCase(auth,'role_manager') }">
+				<button id="fcltyCdInqire" data-icon="ui-icon-newwin">제원 조회</button>
+			</c:if>
 		</div>
 	</c:if>
 </c:if>
