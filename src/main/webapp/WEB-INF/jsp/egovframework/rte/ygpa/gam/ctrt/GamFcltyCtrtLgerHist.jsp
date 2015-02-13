@@ -1258,6 +1258,7 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 				<li><a href="#pymntTab" class="emdTab">계약 대금 지급</a></li>
 				<li><a href="#caryFwdTab" class="emdTab">계약 이행 이월</a></li>
 				<li><a href="#scsbidTab" class="emdTab">계약 낙찰 정보</a></li>
+				<li><a href="#flawTab" class="emdTab">하자 보증</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
