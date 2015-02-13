@@ -685,58 +685,60 @@ GamFcltyQcwWrtMngModule.prototype.deleteData = function() {
 **/
 %>
 GamFcltyQcwWrtMngModule.prototype.loadQcSubDataList = function() {
-	if(this.$('#fcltsJobSe').val() != '' || this.$('#fcltsMngGroupNo').val() != '') {
-		var searchVO = [];
-		
-		if(this.$('#fcltsJobSe').val() == 'M') {
-			if(this.$('#mechFcltsSe').val() == '1') {
-				searchVO[searchVO.length] = { name: 'sMechCdStartChar', value: 'M02' };
-				this.$('#sMechCdStartChar').val('M02');
-			} else {
-				searchVO[searchVO.length] = { name: 'sMechCdStartChar', value: 'M01' };
-				this.$('#sMechCdStartChar').val('M01');
-			}
-			this.$('#mechFcltsSe').show();
+	if(this.$('#fcltsJobSe').val() == '' || this.$('#fcltsMngGroupNo').val() == '')
+		return;
+	
+	var searchVO = [];
+	
+	if(this.$('#fcltsJobSe').val() == 'M') {
+		if(this.$('#mechFcltsSe').val() == '1') {
+			searchVO[searchVO.length] = { name: 'sMechCdStartChar', value: 'M02' };
+			this.$('#sMechCdStartChar').val('M02');
 		} else {
-			this.$('#mechFcltsSe').hide();
+			searchVO[searchVO.length] = { name: 'sMechCdStartChar', value: 'M01' };
+			this.$('#sMechCdStartChar').val('M01');
 		}
-		if(this._mainmode == 'insert') {
-			searchVO[searchVO.length] = { name: 'sFcltsJobSe', value: this.$('#fcltsJobSe').val() };
-			//searchVO[searchVO.length] = { name: 'sQcMngSeq', value: '' };
-		} 
-		else {
-			searchVO[searchVO.length] = { name: 'sFcltsJobSe', value: this.$('#fcltsJobSe').val() };
-			searchVO[searchVO.length] = { name: 'sFcltsMngGroupNo', value: this.$('#fcltsMngGroupNo').val() };
-			searchVO[searchVO.length] = { name: 'sQcMngSeq', value: this.$('#qcMngSeq').val() };
-		}
-		searchVO[searchVO.length] = { name: 'sGamCode', value: this.getGamCode() };
-		
-		this._qcResultList = null;
-		this._qcresultmode = '';
-		this.setControlStatus();
-		if(this.$('#fcltsJobSe').val() != '') {
-			this.doAction('/fcltyMng/selectQcMngResultItemList.do', searchVO, function(module, result) {
-		 		if(result.resultCode == '0') {
-		 			module._qcResultList = result.resultList;
-		 			module._qcresultmode = 'loaded';
-		 			module.setControlStatus();
-		 			if(module._mainmode == 'insert') {
-		 				searchVO[searchVO.length] = { name: 'sFcltsMngGroupNo', value: module.$('#fcltsMngGroupNo').val() };
-		 			}
-		 			module.$('#qcObjFcltsGrid').flexOptions({params:searchVO}).flexReload();
-		 		}
-		 		else {
-		 			alert(result.resultMsg);
-		 		}
-			});
-		}
-		else {
- 			if(this._mainmode == 'insert') {
- 				searchVO[searchVO.length] = { name: 'sFcltsMngGroupNo', value: this.$('#fcltsMngGroupNo').val() };
- 			}
-			this.$('#qcObjFcltsGrid').flexOptions({params:searchVO}).flexReload();
-		}
+		this.$('#mechFcltsSe').show();
+	} else {
+		this.$('#mechFcltsSe').hide();
 	}
+	if(this._mainmode == 'insert') {
+		searchVO[searchVO.length] = { name: 'sFcltsJobSe', value: this.$('#fcltsJobSe').val() };
+		//searchVO[searchVO.length] = { name: 'sQcMngSeq', value: '' };
+	} 
+	else {
+		searchVO[searchVO.length] = { name: 'sFcltsJobSe', value: this.$('#fcltsJobSe').val() };
+		searchVO[searchVO.length] = { name: 'sFcltsMngGroupNo', value: this.$('#fcltsMngGroupNo').val() };
+		searchVO[searchVO.length] = { name: 'sQcMngSeq', value: this.$('#qcMngSeq').val() };
+	}
+	searchVO[searchVO.length] = { name: 'sGamCode', value: this.getGamCode() };
+	
+	this._qcResultList = null;
+	this._qcresultmode = '';
+	this.setControlStatus();
+	if(this.$('#fcltsJobSe').val() != '') {
+		this.doAction('/fcltyMng/selectQcMngResultItemList.do', searchVO, function(module, result) {
+	 		if(result.resultCode == '0') {
+	 			module._qcResultList = result.resultList;
+	 			module._qcresultmode = 'loaded';
+	 			module.setControlStatus();
+	 			if(module._mainmode == 'insert') {
+	 				searchVO[searchVO.length] = { name: 'sFcltsMngGroupNo', value: module.$('#fcltsMngGroupNo').val() };
+	 			}
+	 			module.$('#qcObjFcltsGrid').flexOptions({params:searchVO}).flexReload();
+	 		}
+	 		else {
+	 			alert(result.resultMsg);
+	 		}
+		});
+	}
+	else {
+			if(this._mainmode == 'insert') {
+				searchVO[searchVO.length] = { name: 'sFcltsMngGroupNo', value: this.$('#fcltsMngGroupNo').val() };
+			}
+		this.$('#qcObjFcltsGrid').flexOptions({params:searchVO}).flexReload();
+	}
+	
 };
 
 <%
