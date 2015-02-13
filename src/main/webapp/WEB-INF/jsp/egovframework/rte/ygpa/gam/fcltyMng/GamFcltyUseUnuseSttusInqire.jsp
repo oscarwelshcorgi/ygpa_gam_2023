@@ -111,16 +111,20 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadComplete = function() {
     this.$("#detailGrid").on("onLoadDataComplete", function(event, module) {
     	module.drawBarChart();		
     });
+    
+    
+	  this.$("#searchDtFr").val(EMD.util.getDate(EMD.util.addMonths(-12)));
+	  this.$("#searchDtTo").val(EMD.util.getDate());
+		
 };
 GamFcltyUseUnuseSttusInqireModule.prototype.onSubmit = function() {
  	if(!validateFcltyUseUnuseDate(this.$('#fcltyUseUnuseSearchForm')[0])){
  		return;
  		
  	}
- 	if (this.$("#searchDtFr").val() > this.$("#searchDtTo").val()){
- 		alert('조회 기간 From의 날짜가 To 날짜보다 클수 없습니다.');
- 		return;
- 			
+	if (this.$("#searchDtFr").val() > this.$("#searchDtTo").val()){
+	 	EMD.util.showMessage(this.$('#sUsagePdTo')[0], "조회 기간 From의 날짜가 To 날짜보다 클수 없습니다.");
+		return false;		
 	}
  	
  	this.$('#detailGrid').flexEmptyData();
@@ -166,7 +170,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.loadRentDetailData = function() {
 
 	this.drawPieChart(row);
 	
-}
+};
 
 
 // 탭 변경시 실행
@@ -283,7 +287,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.drawBarChart = function() {
 module.barChart.parse(usageArArr, "json");
 module.barChart.refresh();
 
-}) 
+}); 
 };
 
 
@@ -298,7 +302,7 @@ GamFcltyUseUnuseSttusInqireModule.prototype.drawPieChart = function(result) {
 	var usageAr =result['usageAr'];
 	var realRentAr=result['gisAssetsRealRentAr'];
 	var usageArPerData = result['usageArPer'];
-	var index=0;
+		
 	
 		 if(realRentAr >= usageAr){
 	  remainAr = realRentAr-usageAr;
@@ -444,29 +448,21 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 			</ul>
 
 			<div id="tabs1" class="emdTabPage" style="overflow: hidden;">
-				<table id="mainGrid" style="display: none" class="fillHeight"></table>
-				 
-			<div id="emdControlPanel" class="emdControlPanel">
+						<table id="mainGrid" style="display: none" class="fillHeight"></table>
+				<div id="emdControlPanel" class="emdControlPanel">
 					<form id="emdControlPanelForm">
 						<table style="width:100%;" class="summaryPanel">
 							<tr>
-								<th width="15%" height="25">자료수</th>
-						<td><input type="text" size="8" id="dataCount" class="ygpaNumber" disabled="disabled" /></td>
-						<th width="15%" height="25">총 자산면적㎡</th>
-						<td><input type="text" size="24" id="sumAssetsAr" class="ygpaNumber" data-column-id="sumAssetsAr" data-decimal-point="2" disabled="disabled"/> ㎡</td>
-						<th width="15%" height="25">총 사용면적㎡</th>
-						<td><input type="text" size="24" id="sumUsageAr" class="ygpaNumber" data-column-id="sumUsageAr" data-decimal-point="2" disabled="disabled"/> ㎡</td>
+									<th width="15%" height="25">자료수</th>
+								<td><input type="text" size="8" id="dataCount" class="ygpaNumber" disabled="disabled" /></td>
+									<th width="15%" height="25">총 자산면적㎡</th>
+								<td><input type="text" size="12" id="sumAssetsAr" class="ygpaNumber" data-column-id="sumAssetsAr" data-decimal-point="2" disabled="disabled"/> ㎡</td>
+									<th width="15%" height="25">총 사용면적㎡</th>
+								<td><input type="text" size="12" id="sumUsageAr" class="ygpaNumber" data-column-id="sumUsageAr" data-decimal-point="2" disabled="disabled"/> ㎡</td>
+								
+								<td><button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+								<button data-role="showMap" data-gis-layer="gisAssetsCd" data-flexi-grid="mainGrid" data-style="default">맵조회</button></td>
 							</tr>
-						</table>
-						<table style="width:100%;">
-	                        <tr>
-	                      <!--   <button data-role="showMap" data-gis-layer="gisAssetsCd"
-									data-flexi-grid="fcltyUseUnuseSttusInqireList" data-style="default">맵조회</button> -->
-	                            <td style="text-align: right">
-	                            	<button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
-	                            </td>
-	                        
-	                        </tr>
 						</table>
 					</form>
 				</div>
@@ -507,18 +503,15 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
                                 <td><input type="text" size="7" id="usageArPer" style="text-align: right;" disabled/> %</td>
                                 </tr>
 							
-							<input type="hidden"  id="usagePdFrom"/>
-							<input type="hidden"  id="usagePdTo"/>
+					<tr>
+						<td><input type="hidden"  id="usagePdFrom"/>
+							<input type="hidden"  id="usagePdTo"/></td>
+					</tr>
 							
                         </table>
                     </form>
 
-
-	                 
-	
-                 
-                 
-                 <table class="editForm" style="width:100%;">
+			<table class="editForm" style="width:100%;">
 							<tr>
 						<th style="font-weight:bold; height:15px;">업체별 상세 내역</th>
 								</tr>
@@ -608,7 +601,7 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
                             </tr>
                             <tr>
 								<th width="10%" height="18">산　출　내　역</th>
-                                <td colspan="5"><input type="text" size="100" rows="2" id="computDtls" disabled/></td>
+                                <td colspan="5"><input type="text" size="100"  id="computDtls" disabled/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">사　용　목　적</th>
@@ -624,11 +617,12 @@ var module_instance = new GamFcltyUseUnuseSttusInqireModule();
 						<th style="font-weight:bold; height:15px;">사용 현황 그래프</th>
 								</tr>
 					</table>
-							<td>
-							</table>
+							
 							<table class="summaryPanel">
+							<tr>
 								<td><div id="pieChartCons" style="width:632px;height:300px;border:1px solid #A4BED4;"></div></td>
 								<td><div id="usageBarChartCons" style="width:315px;height:300px;border:1px solid #A4BED4;"></div></td>	
+                         	<tr>
                          	</table>
                             </form>
 		</div>
