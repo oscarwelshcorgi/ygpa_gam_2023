@@ -94,6 +94,16 @@ public interface GamFcltyCtrtLgerHistService {
 	 */
 	List selectFcltyCtrtLgerHistScsbidInfoList(GamFcltyCtrtMngScsbidInfoVO searchVO) throws Exception;
 
+
+	/**
+	 * @name selectFcltyCtrtLgerHistFlawGrntyList
+	 * @param searchVO
+	 * @return List
+	 * @throws Exception
+	 */
+	List selectFcltyCtrtLgerHistFlawGrntyList(GamFcltyCtrtMngFlawGrntyVO searchVO) throws Exception;
+
+
 	/**
 	 * @param searchVO
 	 * @return

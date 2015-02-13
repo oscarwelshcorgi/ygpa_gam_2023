@@ -488,7 +488,7 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 
 
 	/**
-	 * @name selectCtrtFlawGrntyMngList
+	 * @name selectFcltyCtrtMngFlawGrntyList
 	 * @param searchVO
 	 * @return List
 	 */

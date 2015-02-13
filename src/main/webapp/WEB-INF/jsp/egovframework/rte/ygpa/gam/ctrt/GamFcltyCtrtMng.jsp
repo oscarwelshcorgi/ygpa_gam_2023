@@ -4192,9 +4192,9 @@ GamFcltyCtrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			}
 			break;
 		case 'flawTab':
-			if (this._flawGrntyKeyValue != "") {
+			if (this._mainKeyValue != "") {
 				var flawGrntyCtrtNo = this.$('#flawGrntyCtrtNo').val();
-				if (flawGrntyCtrtNo == "" || flawGrntyCtrtNo != this._flawGrntyKeyValue) {
+				if (flawGrntyCtrtNo == "" || flawGrntyCtrtNo != this._mainKeyValue) {
 					this.loadFlawGrntyDetail('listTab');
 					this.enableFlawGrntyDetailInputItem();
 				}

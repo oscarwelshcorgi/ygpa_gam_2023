@@ -12,6 +12,7 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtLgerHistVO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngChangeVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngFlawGrntyVO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngFulfillCaryFwdVO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngJoinContrVO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngMoneyPymntVO;
@@ -115,6 +116,17 @@ public class GamFcltyCtrtLgerHistDao extends YGPAAbstractDAO {
 	public List selectFcltyCtrtLgerHistScsbidInfoList(GamFcltyCtrtMngScsbidInfoVO searchVO) {
 		return list("gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistScsbidInfoList_D", searchVO);
 	}
+
+
+	/**
+	 * @name selectFcltyCtrtLgerHistFlawGrntyList
+	 * @param searchVO
+	 * @return List
+	 */
+	public List selectFcltyCtrtLgerHistFlawGrntyList(GamFcltyCtrtMngFlawGrntyVO searchVO) {
+		return list("gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistFlawGrntyList_D", searchVO);
+	}
+
 
 	/**
 	 * @name selectEntrpsInfo

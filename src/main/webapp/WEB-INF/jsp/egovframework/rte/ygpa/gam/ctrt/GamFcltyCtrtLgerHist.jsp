@@ -277,6 +277,35 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
 		module.loadScsbidDetail('scsbidTab');
 	});
 
+	this.$("#flawGrid").flexigrid({
+		module : this,
+		url : '/ctrt/gamSelectFcltyCtrtMngFlawGrntyList.do',
+		dataType : 'json',
+		colModel : [
+					{display:'순번',					name:'flawGrntySeq',			width:50,		sortable:false,		align:'center'},
+					{display:'하자 만료 일',			name:'flawEndDt',				width:80,		sortable:false,		align:'center'},
+					{display:'보증 시작 일',			name:'flawGrntyStartDt',		width:80,		sortable:false,		align:'center'},
+					{display:'보증 종료 일',			name:'flawGrntyEndDt',			width:80,		sortable:false,		align:'center'},
+					{display:'보증 가입 금액',			name:'flawGrntySrbctAmt',		width:100,		sortable:false,		align:'right'},
+					{display:'보증 율',					name:'flawGrntyRate',			width:60,		sortable:false,		align:'right'},
+					{display:'보증 계약 금액',			name:'flawGrntyCtrtAmt',		width:100,		sortable:false,		align:'right'},
+					{display:'보험 증권 번호',			name:'flawGrntyInsuNo',			width:100,		sortable:false,		align:'left'},
+					{display:'보증 보험 회사',			name:'flawGrntyInsuCmpy',		width:150,		sortable:false,		align:'left'},
+					{display:'보증 보험 회사 주소',		name:'flawGrntyInsuAddr',		width:200,		sortable:false,		align:'left'},
+					{display:'대표자',					name:'flawGrntyInsuRprsntv',	width:80,		sortable:false,		align:'left'}
+					],
+		showTableToggleBtn : false,
+		height : '210'
+	});
+
+	this.$("#flawGrid").on('onItemSelected', function(event, module, row, grid, param) {
+		module._flawgrntymode = 'modify';
+		module._flawGrntyKeyValue = row.flawGrntyCtrtNo;
+		module._flawGrntySeq = row.flawGrntySeq;
+		module.$('#flawGrntySeq').val(row.flawGrntySeq);
+		module.loadFlawGrntyDetail('joinTab');
+	});
+
 	this.$("#sRegistEntrpsCd").bind("keyup change", {module: this}, function(event) {
 		event.data.module.getSearchEntrpsNm();
 	});
@@ -301,6 +330,9 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
 	this._scsbidmode = 'query';
 	this._scsbidKeyValue = '';
 	this._scsbidSeq = '';
+	this._flawgrntymode = 'query';
+	this._flawGrntyKeyValue = '';
+	this._flawGrntySeq = '';
 	this._searchButtonClick = false;
 	var year = new Date().getFullYear();
 	this.$('#sStartCtrtDt').val(year + '-01-01');
@@ -484,6 +516,9 @@ GamFcltyCtrtLgerHistModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnScsbidExcelDownload':
 			this.downloadExcel(buttonId);
 			break;
+		case 'btnFlawGrntyExcelDownload':
+			this.downloadExcel(buttonId);
+			break;
 		case 'popupSearchRegistEntrpsCd':
 			this.doExecuteDialog(buttonId, '업체 선택', '/popup/showEntrpsInfo.do', null);
 			break;
@@ -554,6 +589,9 @@ GamFcltyCtrtLgerHistModule.prototype.onSubmit = function() {
 	this._scsbidmode = 'query';
 	this._scsbidKeyValue = '';
 	this._scsbidSeq = '';
+	this._flawgrntymode = 'query';
+	this._flawGrntyKeyValue = '';
+	this._flawGrntySeq = '';
 	this._searchButtonClick = true;
 	this.loadData();
 
@@ -707,6 +745,17 @@ GamFcltyCtrtLgerHistModule.prototype.copyCtrtInfoData = function(tabId) {
 		this.$('#scsbidCtrtAmt').val(ctrtAmt);
 		this.$('#scsbidCtrtDtFrom').val(ctrtDtFrom);
 		this.$('#scsbidCtrtDtTo').val(ctrtDtTo);
+	} else if (tabId == "flawTab") {
+		this.$('#flawCtrtNo').val(ctrtNo);
+		this.$('#flawCtrtSe').val(ctrtSe);
+		this.$('#flawCtrtNm').val(ctrtNm);
+		this.$('#flawCauseAct').val(causeAct);
+		this.$('#flawOrderMthd').val(orderMthd);
+		this.$('#flawCtrtMth').val(ctrtMth);
+		this.$('#flawCtrtDt').val(ctrtDt);
+		this.$('#flawCtrtAmt').val(ctrtAmt);
+		this.$('#flawCtrtDtFrom').val(ctrtDtFrom);
+		this.$('#flawCtrtDtTo').val(ctrtDtTo);
 	}
 
 };
@@ -899,6 +948,37 @@ GamFcltyCtrtLgerHistModule.prototype.loadScsbidDetail = function(tabId) {
 
 <%
 /**
+ * @FUNCTION NAME : loadFlawGrntyDetail
+ * @DESCRIPTION   : FLAW GRNTY 상세항목을 로딩 한다.
+ * @PARAMETER     :
+ *   1. tabId - TAB ID
+**/
+%>
+GamFcltyCtrtLgerHistModule.prototype.loadFlawGrntyDetail = function(tabId) {
+
+	if (tabId == 'listTab') {
+		this.makeFormValues('#flawGrntyForm', {});
+		this.makeDivValues('#flawGrntyForm', {});
+		this.$('#flawGrid').flexEmptyData();
+		if (this._mainKeyValue == "") {
+			return;
+		}
+		this.copyCtrtInfoData('flawTab');
+		var detailOpt = this.getFormValues('#flawGrntyForm');
+		this.$('#flawGrid').flexOptions({params:detailOpt}).flexReload();
+	} else if (tabId == 'flawTab') {
+		var row = this.$('#scsbidGrid').selectedRows();
+		if (row.length==0) {
+			return;
+		}
+		this.makeFormValues('#flawGrntyForm', row[0]);
+		this.makeDivValues('#flawGrntyForm', row[0]);
+	}
+
+};
+
+<%
+/**
  * @FUNCTION NAME : getSearchEntrpsNm
  * @DESCRIPTION   : 조회조건 업체 명을 구한다.
  * @PARAMETER     : NONE
@@ -953,6 +1033,9 @@ GamFcltyCtrtLgerHistModule.prototype.downloadExcel = function(buttonId) {
 		case 'btnScsbidExcelDownload':
 			gridRowCount = this.$("#scsbidGrid").flexRowCount();
 			break;
+		case 'btnFlawGrntyExcelDownload':
+			gridRowCount = this.$("#flawGrid").flexRowCount();
+			break;
 		default:
 			return;
 	}
@@ -981,6 +1064,9 @@ GamFcltyCtrtLgerHistModule.prototype.downloadExcel = function(buttonId) {
 			break;
 		case 'btnScsbidExcelDownload':
 			this.$('#scsbidGrid').flexExcelDown('/ctrt/gamExcelDownloadFcltyCtrtLgerHistScsbidInfo.do');
+			break;
+		case 'btnFlawGrntyExcelDownload':
+			this.$('#flawGrid').flexExcelDown('/ctrt/gamExcelDownloadFcltyCtrtLgerHistFlawGrnty.do');
 			break;
 	}
 
@@ -1078,6 +1164,18 @@ GamFcltyCtrtLgerHistModule.prototype.onTabChange = function(newTabId, oldTabId) 
 				this.makeFormValues('#scsbidForm', {});
 				this.makeDivValues('#scsbidForm', {});
 				this.$('#scsbidGrid').flexEmptyData();
+			}
+			break;
+		case 'flawTab':
+			if (this._mainKeyValue != "") {
+				var flawGrntyCtrtNo = this.$('#flawGrntyCtrtNo').val();
+				if (flawGrntyCtrtNo == "" || flawGrntyCtrtNo != this._mainKeyValue) {
+					this.loadFlawGrntyDetail('listTab');
+				}
+			} else {
+				this.makeFormValues('#flawGrntyForm', {});
+				this.makeDivValues('#flawGrntyForm', {});
+				this.$('#flawGrid').flexEmptyData();
 			}
 			break;
 	}
@@ -2024,6 +2122,129 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 							<th width="10%" height="18">비　　　　　고</th>
 							<td colspan="5">
 								<input type="text" size="150" id="scsbidRm" disabled/>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<!-- 219. TAB 9 AREA (FLAW GRNTY) -->
+			<div id="flawTab" class="emdTabPage" style="overflow:scroll;">
+				<form id="flawGrntyForm">
+					<table class="summaryPanel" style="width:100%;">
+						<tr>
+							<th style="font-weight:bold; height:20px;">계약 정보 내역</th>
+						</tr>
+					</table>
+					<table class="detailPanel" style="width:100%;">
+						<tr>
+							<th style="width:10%; height:18px;">계　약　번　호</th>
+							<td>
+								<select id="flawCtrtSe" disabled>
+									<option value="1">공사</option>
+									<option value="2">용역</option>
+									<option value="3">지급자재</option>
+								</select>
+								<input type="text" size="19" id="flawGrntyCtrtNo" disabled/>
+							</td>
+							<th style="width:10%; height:18px;">계　　약　　명</th>
+							<td colspan="3">
+								<input type="text" size="92" id="flawCtrtNm" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th style="width:10%; height:18px;">원　인　행　위</th>
+							<td>
+								<input type="text" size="33" id="flawCauseAct" disabled/>
+							</td>
+							<th style="width:10%; height:18px;">발　주　방　식</th>
+							<td>
+								<input type="text" size="33" id="flawOrderMthd" disabled/>
+							</td>
+							<th style="width:10%; height:18px;">계　약　방　법</th>
+							<td>
+								<input type="text" size="33" id="flawCtrtMth" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th style="width:10%; height:18px;">계　약　일　자</th>
+							<td>
+								<input type="text" size="33" id="flawCtrtDt" disabled/>
+							</td>
+							<th style="width:10%; height:18px;">계　약　금　액</th>
+							<td>
+								<input type="text" size="30" id="flawCtrtAmt" class="ygpaNumber" disabled/> 원
+							</td>
+							<th style="width:10%; height:18px;">계　약　기　간</th>
+							<td>
+								<input type="text" size="14" id="flawCtrtDtFrom" disabled/> ∼
+								<input type="text" size="14" id="flawCtrtDtTo" disabled/>
+							</td>
+						</tr>
+					</table>
+					<table class="summaryPanel" style="width:100%;">
+						<tr>
+							<th style="font-weight:bold; height:20px;">계약 하자 보증 내역</th>
+							<td style="text-align:right;">
+								<button id="btnFlawGrntyInsert" class="buttonAdd">　　추　가　　</button>
+								<button id="btnFlawGrntySave" class="buttonSave">　　저　장　　</button>
+								<button id="btnFlawGrntyRemove" class="buttonDelete">　　삭　제　　</button>
+                                <button id="btnFlawGrntyExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+							</td>
+						</tr>
+					</table>
+					<table id="flawGrid" style="display:none"></table>
+					<table class="detailPanel" style="width:100%;">
+						<tr>
+							<th style="width:10%; height:18px;">순　　　　　번</th>
+							<td>
+								<input type="text" size="33" id="flawGrntySeq" disabled/>
+							</td>
+							<th style="width:10%; height:18px;">하자　　만료일</th>
+							<td>
+								<input type="text" size="33" id="flawEndDt" disabled/>
+							</td>
+							<th style="width:10%; height:18px;">하자 보증 기간</th>
+							<td>
+								<input type="text" size="14" id="flawGrntyStartDt" disabled/> ~
+								<input type="text" size="14" id="flawGrntyEndDt" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th style="width:10%; height:18px;">보증 증권 번호</th>
+							<td>
+								<input type="text" size="33" id="flawGrntyInsuNo" disabled/>
+							</td>
+							<th style="width:10%; height:18px;">보증 가입 금액</th>
+							<td>
+								<input type="text" size="30" id="flawGrntySrbctAmt" class="ygpaNumber" disabled/> 원
+							</td>
+							<th style="width:10%; height:18px;">보증 계약 금액</th>
+							<td>
+								<input type="text" size="30" id="flawGrntyCtrtAmt" class="ygpaNumber" disabled/> 원
+							</td>
+						</tr>
+						<tr>
+							<th style="width:10%; height:18px;">보증 보험 회사</th>
+							<td>
+								<input type="text" size="33" id="flawGrntyInsuCmpy" disabled/>
+							</td>
+							<th style="width:10%; height:18px;">보증 보험 주소</th>
+							<td>
+								<input type="text" size="33" id="flawGrntyInsuAddr" disabled/>
+							</td>
+							<th style="width:10%; height:18px;">보증보험대표자</th>
+							<td>
+								<input type="text" size="33" id="flawGrntyInsuRprsntv" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th style="width:10%; height:18px;">보증　　보험율</th>
+							<td>
+								<input type="text" size="30" id="flawGrntyRate" class="ygpaNumber" disabled/>％
+							</td>
+							<th style="width:10%; height:18px;">비　　　　　고</th>
+							<td colspan="3">
+								<input type="text" size="92" id="flawGrntyRm" disabled/>
 							</td>
 						</tr>
 					</table>

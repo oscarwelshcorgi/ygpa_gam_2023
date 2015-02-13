@@ -15,6 +15,7 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtLgerHistService;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtLgerHistVO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngChangeVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngFlawGrntyVO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngFulfillCaryFwdVO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngJoinContrVO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngMoneyPymntVO;
@@ -89,6 +90,13 @@ public class GamFcltyCtrtLgerHistServiceImpl  extends AbstractServiceImpl implem
 	public List selectFcltyCtrtLgerHistScsbidInfoList(GamFcltyCtrtMngScsbidInfoVO searchVO) throws Exception {
 		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistScsbidInfoList(searchVO);
 	}
+
+
+	@Override
+	public List selectFcltyCtrtLgerHistFlawGrntyList(GamFcltyCtrtMngFlawGrntyVO searchVO) throws Exception {
+		return gamFcltyCtrtLgerHistDao.selectFcltyCtrtLgerHistFlawGrntyList(searchVO);
+	}
+
 
 	@Override
 	public EgovMap selectEntrpsInfo(Map searchVO) throws Exception {

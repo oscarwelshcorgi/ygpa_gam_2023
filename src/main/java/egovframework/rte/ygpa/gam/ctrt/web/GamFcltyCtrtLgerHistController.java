@@ -29,6 +29,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtLgerHistService;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtLgerHistVO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngChangeVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngFlawGrntyVO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngFulfillCaryFwdVO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngJoinContrVO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngMoneyPymntVO;
@@ -559,6 +560,75 @@ public class GamFcltyCtrtLgerHistController {
 		return new ModelAndView("gridExcelView", "gridResultMap", map);
 
 	}
+
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/ctrt/gamSelectFcltyCtrtLgerHistFlawGrntyList.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectFcltyCtrtLgerHistFlawGrntyList(GamFcltyCtrtMngFlawGrntyVO searchVO) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistFlawGrntyList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("searchOption", searchVO);
+
+		return map;
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/ctrt/gamExcelDownloadFcltyCtrtLgerHistFlawGrnty.do", method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelDownloadFcltyCtrtLgerHistFlawGrnty(@RequestParam Map<String, Object> excelParam) throws Exception {
+
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return new ModelAndView("gridExcelView", "gridResultMap", map);
+		}
+
+		header = mapper.readValue((String)excelParam.get("header"),
+								  new TypeReference<List<HashMap<String,String>>>(){});
+		excelParam.remove("header");
+
+		GamFcltyCtrtMngFlawGrntyVO searchVO= new GamFcltyCtrtMngFlawGrntyVO();
+		searchVO = mapper.convertValue(excelParam, GamFcltyCtrtMngFlawGrntyVO.class);
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		List resultList = gamFcltyCtrtLgerHistService.selectFcltyCtrtLgerHistFlawGrntyList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+		map.put("header", header);
+
+		return new ModelAndView("gridExcelView", "gridResultMap", map);
+
+	}
+
 
 	@RequestMapping(value="/ctrt/gamSelectFcltyCtrtLgerHistEntrpsInfo.do")
 	@ResponseBody Map<String, Object> gamSelectFcltyCtrtLgerHistEntrpsInfo(@RequestParam Map<String, Object> searchVO)	throws Exception {
