@@ -45,7 +45,7 @@ GamFcltyQcSttusInqireModule.prototype = new EmdModule(1000,750);
  * @PARAMETER     : NONE
 **/
 %>
-GamFcltyQcSttusInqireModule.prototype.loadComplete = function() {
+GamFcltyQcSttusInqireModule.prototype.loadComplete = function(params) {
 	this._mainmode = '';
 	
 	this._qcResultList = null;
@@ -100,8 +100,10 @@ GamFcltyQcSttusInqireModule.prototype.loadComplete = function() {
 		colModel : [
 					{display:"선택",		name:"chkRole",		width:40,	sortable:false,	align:"center", displayFormat:"checkbox"},
 					{display:"점검시설명",	name:"prtFcltyNm",	width:245,	sortable:false,	align:"left"},
+					{display:"시설분류",	name:"gisPrtFcltyNm",	width:150,	sortable:false,	align:"left"},
 			],
 		height: '450',
+		groupBy: 'gisPrtFcltyNm',
 		preProcess : function(module,data) {
 			$.each(data.resultList, function() {
 				this.chkRole = this.chkRole === 'TRUE';
@@ -128,7 +130,35 @@ GamFcltyQcSttusInqireModule.prototype.loadComplete = function() {
 
 	this.fillSelectBoxYear('#sEnforceYear');
 	this.$('#sEnforceYear').val((new Date()).getFullYear());
-	this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);	
+	this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
+	
+	this.getMapInfoList(params);
+};
+
+<%
+/**
+ * @FUNCTION NAME : getMapInfoList
+ * @DESCRIPTION   : 맵에서 유지보수 정보를 클릭할때 넘어오는 Param으로 리스트 가져오는 함수
+ * @PARAMETER     
+ *		1. fcltsMngGroupNo   : 시설물 관리 그룹 코드
+ *		2. fcltsMngGroupNoNm : 시설물 관리 그룹 코드명
+**/
+%>
+GamFcltyQcSttusInqireModule.prototype.getMapInfoList = function(params){
+	this._params=params;
+	if(params!=null) {
+		if(params.action!=null) {
+			switch(params.action) {
+				case "manage":
+					this.$('#sFcltsMngGroupNo').val(this._params.fcltsMngGroupNo);
+					this.$('#sFcltsMngGroupNm').val(this._params.fcltsMngGroupNoNm);
+					
+					this.loadData();
+				break;
+			}
+		}
+	}
+
 };
 
 <%
@@ -327,7 +357,8 @@ GamFcltyQcSttusInqireModule.prototype.loadQcSubDataList = function() {
 	var searchVO = [
 	                { name: 'sFcltsJobSe', value: this.$('#fcltsJobSe').val() },
 	                { name: 'sFcltsMngGroupNo', value: this.$('#fcltsMngGroupNo').val() },
-	                { name: 'sQcMngSeq', value: this.$('#qcMngSeq').val() }
+	                { name: 'sQcMngSeq', value: this.$('#qcMngSeq').val() },
+	                { name: 'sGamCode', value: this.getGamCode() }
 	               ];
 	
 	if(this.$('#fcltsJobSe').val() == 'M') {
@@ -357,6 +388,25 @@ GamFcltyQcSttusInqireModule.prototype.loadQcSubDataList = function() {
  			alert(result.resultMsg);
  		}
 	});
+};
+
+<%
+/**
+ * @FUNCTION NAME : getGamCode
+ * @DESCRIPTION   : 업무구분에 따른 시설분류 대분류코드 얻기
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcSttusInqireModule.prototype.getGamCode = function() {
+	var result = '';
+	switch(this.$('#fcltsJobSe').val()) {
+	case 'A' : result = 'GAM066'; break;
+	case 'C' : result = 'GAM070'; break;
+	case 'E' : result = 'GAM068'; break;
+	case 'I' : result = 'GAM069'; break;
+	case 'M' : result = 'GAM067'; break;
+	}
+	return result;
 };
 
 <%

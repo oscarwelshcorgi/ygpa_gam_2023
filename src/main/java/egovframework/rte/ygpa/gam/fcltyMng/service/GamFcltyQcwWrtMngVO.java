@@ -52,6 +52,9 @@ public class GamFcltyQcwWrtMngVO extends ComDefaultVO {
 	/**기계 점검항목목록 조건(조회조건)*/
 	private String sMechCdStartChar;
 	
+	/**업무구분에 따른 대상시설물 조건(조회조건)*/
+	private String sGamCode;
+
 	/**시설물관리그룹번호(출력용 조건)*/
 	private String fcltsMngGroupNo;
 	
@@ -174,6 +177,20 @@ public class GamFcltyQcwWrtMngVO extends ComDefaultVO {
 	 */
 	public void setsMechCdStartChar(String sMechCdStartChar) {
 		this.sMechCdStartChar = sMechCdStartChar;
+	}
+
+	/**
+	 * @return the sGamCode
+	 */
+	public String getsGamCode() {
+		return sGamCode;
+	}
+
+	/**
+	 * @param sGamCode the sGamCode to set
+	 */
+	public void setsGamCode(String sGamCode) {
+		this.sGamCode = sGamCode;
 	}
 
 	/**
