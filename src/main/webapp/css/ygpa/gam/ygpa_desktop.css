@@ -590,17 +590,47 @@ background-repeat: no-repeat;
 
 .legendPanel {
 	float: left;
+	bottom: 90px;
+	right: 12px;
+/* 	width: 100px; */
+	z-index: 1000;
+	display: block;
+	position: fixed;
+	background: white;
+	padding: 8px;
+}
+
+.legendPanel h2 {
+	float: left;
+	font-size: 12px;
 	bottom: 30px;
 	right: 102px;
-	width: 100px;
+	/* width: 100px; */
 	height: 31px;
+	/* cursor: pointer; */
+	background: blue;
+	color: white;
 }
 
 .legendPanel div {
 	float: left;
 	bottom: 30px;
 	right: 102px;
-	width: 100px;
 	height: 31px;
+    cursor: pointer;
+}
+
+.legendPanel ul {
+	float: left;
+	bottom: 30px;
+	right: 102px;
+    cursor: pointer;
+}
+
+.legendPanel ul li {
+	float: left;
+	bottom: 30px;
+	right: 102px;
+	height: 20px;
     cursor: pointer;
 }
