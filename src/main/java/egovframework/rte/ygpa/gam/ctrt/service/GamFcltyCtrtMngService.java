@@ -377,6 +377,64 @@ public interface GamFcltyCtrtMngService {
 	 */
 	String selectFcltyCtrtMngScsbidInfoMaxSeq(GamFcltyCtrtMngScsbidInfoVO gamFcltyCtrtMngScsbidInfoVO) throws Exception;
 
+
+	/**
+	 * @name selectFcltyCtrtMngFlawGrntyList
+	 * @param searchVO
+	 * @return List
+	 * @throws Exception
+	 */
+	List selectFcltyCtrtMngFlawGrntyList(GamFcltyCtrtMngFlawGrntyVO searchVO) throws Exception;
+
+	/**
+	 * @name insertFcltyCtrtMngFlawGrnty
+	 * @param gamFcltyCtrtMngFlawGrntyVO
+	 * @return void
+	 * @throws Exception
+	 */
+	void insertFcltyCtrtMngFlawGrnty(GamFcltyCtrtMngFlawGrntyVO gamFcltyCtrtMngFlawGrntyVO) throws Exception;
+
+	/**
+	 * @name updateFcltyCtrtMngFlawGrnty
+	 * @param gamFcltyCtrtMngFlawGrntyVO
+	 * @return void
+	 * @throws Exception
+	 */
+	void updateFcltyCtrtMngFlawGrnty(GamFcltyCtrtMngFlawGrntyVO gamFcltyCtrtMngFlawGrntyVO) throws Exception;
+
+	/**
+	 * @name deleteFcltyCtrtMngFlawGrnty
+	 * @param gamFcltyCtrtMngFlawGrntyVO
+	 * @return void
+	 * @throws Exception
+	 */
+	void deleteFcltyCtrtMngFlawGrnty(GamFcltyCtrtMngFlawGrntyVO gamFcltyCtrtMngFlawGrntyVO) throws Exception;
+
+	/**
+	 * @name deleteFcltyCtrtMngAllFlawGrnty
+	 * @param gamFcltyCtrtMngFlawGrntyVO
+	 * @return void
+	 * @throws Exception
+	 */
+	void deleteFcltyCtrtMngAllFlawGrnty(GamFcltyCtrtMngFlawGrntyVO gamFcltyCtrtMngFlawGrntyVO) throws Exception;
+
+	/**
+	 * @name selectFcltyCtrtMngFlawGrntyPk
+	 * @param gamFcltyCtrtMngFlawGrntyVO
+	 * @return EgovMap
+	 * @throws Exception
+	 */
+	EgovMap selectFcltyCtrtMngFlawGrntyPk(GamFcltyCtrtMngFlawGrntyVO gamFcltyCtrtMngFlawGrntyVO) throws Exception;
+
+	/**
+	 * @name selectFcltyCtrtMngFlawGrntyMaxSeq
+	 * @param gamFcltyCtrtMngFlawGrntyVO
+	 * @return String
+	 * @throws Exception
+	 */
+	String selectFcltyCtrtMngFlawGrntyMaxSeq(GamFcltyCtrtMngFlawGrntyVO gamFcltyCtrtMngFlawGrntyVO) throws Exception;
+
+
 	/**
 	 * @param searchVO
 	 * @return

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngChangeVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngFlawGrntyVO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngFulfillCaryFwdVO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngJoinContrVO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngMoneyPymntVO;
@@ -484,6 +485,71 @@ public class GamFcltyCtrtMngDao extends YGPAAbstractDAO {
 	public String selectFcltyCtrtMngScsbidInfoMaxSeq(GamFcltyCtrtMngScsbidInfoVO gamFcltyCtrtMngScsbidInfoVO) {
 		return (String)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngScsbidInfoMaxSeq_S", gamFcltyCtrtMngScsbidInfoVO);
 	}
+
+
+	/**
+	 * @name selectCtrtFlawGrntyMngList
+	 * @param searchVO
+	 * @return List
+	 */
+	public List selectFcltyCtrtMngFlawGrntyList(GamFcltyCtrtMngFlawGrntyVO searchVO) {
+		return list("gamFcltyCtrtMngDao.selectFcltyCtrtMngFlawGrntyList_D", searchVO);
+	}
+
+	/**
+	 * @name insertFcltyCtrtMngFlawGrnty
+	 * @param gamFcltyCtrtMngFlawGrntyVO
+	 * @return void
+	 */
+	public void insertFcltyCtrtMngFlawGrnty(GamFcltyCtrtMngFlawGrntyVO gamFcltyCtrtMngFlawGrntyVO) {
+		insert("gamFcltyCtrtMngDao.insertFcltyCtrtMngFlawGrnty_S", gamFcltyCtrtMngFlawGrntyVO);
+	}
+
+	/**
+	 * @name updateFcltyCtrtMngFlawGrnty
+	 * @param gamFcltyCtrtMngFlawGrntyVO
+	 * @return void
+	 */
+	public void updateFcltyCtrtMngFlawGrnty(GamFcltyCtrtMngFlawGrntyVO gamFcltyCtrtMngFlawGrntyVO) {
+		update("gamFcltyCtrtMngDao.updateFcltyCtrtMngFlawGrnty_S", gamFcltyCtrtMngFlawGrntyVO);
+	}
+
+	/**
+	 * @name deleteFcltyCtrtMngFlawGrnty
+	 * @param gamFcltyCtrtMngFlawGrntyVO
+	 * @return void
+	 */
+	public void deleteFcltyCtrtMngFlawGrnty(GamFcltyCtrtMngFlawGrntyVO gamFcltyCtrtMngFlawGrntyVO) {
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMngFlawGrnty_S", gamFcltyCtrtMngFlawGrntyVO);
+	}
+
+	/**
+	 * @name deleteFcltyCtrtMngAllFlawGrnty
+	 * @param gamFcltyCtrtMngFlawGrntyVO
+	 * @return void
+	 */
+	public void deleteFcltyCtrtMngAllFlawGrnty(GamFcltyCtrtMngFlawGrntyVO gamFcltyCtrtMngFlawGrntyVO) {
+		delete("gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllFlawGrnty_S", gamFcltyCtrtMngFlawGrntyVO);
+	}
+
+	/**
+	 * @name selectFcltyCtrtMngFlawGrntyPk
+	 * @param gamFcltyCtrtMngFlawGrntyVO
+	 * @return EgovMap
+	 */
+	public EgovMap selectFcltyCtrtMngFlawGrntyPk(GamFcltyCtrtMngFlawGrntyVO gamFcltyCtrtMngFlawGrntyVO) {
+		return (EgovMap)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngFlawGrntyPk_S", gamFcltyCtrtMngFlawGrntyVO);
+	}
+
+	/**
+	 * @name selectFcltyCtrtMngFlawGrntyMaxSeq
+	 * @param gamFcltyCtrtMngFlawGrntyVO
+	 * @return String
+	 */
+	public String selectFcltyCtrtMngFlawGrntyMaxSeq(GamFcltyCtrtMngFlawGrntyVO gamFcltyCtrtMngFlawGrntyVO) {
+		return (String)selectByPk("gamFcltyCtrtMngDao.selectFcltyCtrtMngFlawGrntyMaxSeq_S", gamFcltyCtrtMngFlawGrntyVO);
+	}
+
 
 	/**
 	 * @name selectEntrpsInfo

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngChangeVO;
+import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngFlawGrntyVO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngFulfillCaryFwdVO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngJoinContrVO;
 import egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngMoneyPymntVO;
@@ -61,29 +62,35 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 
 	@Override
 	public void deleteFcltyCtrtMng(GamFcltyCtrtMngVO gamFcltyCtrtMngVO) throws Exception {
+		String ctrtNo = (String)gamFcltyCtrtMngVO.getCtrtNo();
+
 		GamFcltyCtrtMngJoinContrVO gamFcltyCtrtMngJoinContrVO = new GamFcltyCtrtMngJoinContrVO();
-		gamFcltyCtrtMngJoinContrVO.setJoinCtrtNo(gamFcltyCtrtMngVO.getCtrtNo());
+		gamFcltyCtrtMngJoinContrVO.setJoinCtrtNo(ctrtNo);
 		gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllJoinContr(gamFcltyCtrtMngJoinContrVO);
 
 		GamFcltyCtrtMngSubctrtVO gamFcltyCtrtMngSubctrtVO = new GamFcltyCtrtMngSubctrtVO();
-		gamFcltyCtrtMngSubctrtVO.setSubCtrtNo(gamFcltyCtrtMngVO.getCtrtNo());
+		gamFcltyCtrtMngSubctrtVO.setSubCtrtNo(ctrtNo);
 		gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllSubctrt(gamFcltyCtrtMngSubctrtVO);
 
 		GamFcltyCtrtMngChangeVO gamFcltyCtrtMngChangeVO = new GamFcltyCtrtMngChangeVO();
-		gamFcltyCtrtMngChangeVO.setChangeInfoCtrtNo(gamFcltyCtrtMngVO.getCtrtNo());
+		gamFcltyCtrtMngChangeVO.setChangeInfoCtrtNo(ctrtNo);
 		gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllChange(gamFcltyCtrtMngChangeVO);
 
 		GamFcltyCtrtMngMoneyPymntVO gamFcltyCtrtMngMoneyPymntVO = new GamFcltyCtrtMngMoneyPymntVO();
-		gamFcltyCtrtMngMoneyPymntVO.setPymntCtrtNo(gamFcltyCtrtMngVO.getCtrtNo());
+		gamFcltyCtrtMngMoneyPymntVO.setPymntCtrtNo(ctrtNo);
 		gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllMoneyPymnt(gamFcltyCtrtMngMoneyPymntVO);
 
 		GamFcltyCtrtMngFulfillCaryFwdVO gamFcltyCtrtMngFulfillCaryFwdVO = new GamFcltyCtrtMngFulfillCaryFwdVO();
-		gamFcltyCtrtMngFulfillCaryFwdVO.setCaryFwdCtrtNo(gamFcltyCtrtMngVO.getCtrtNo());
+		gamFcltyCtrtMngFulfillCaryFwdVO.setCaryFwdCtrtNo(ctrtNo);
 		gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllFulfillCaryFwd(gamFcltyCtrtMngFulfillCaryFwdVO);
 
 		GamFcltyCtrtMngScsbidInfoVO gamFcltyCtrtMngScsbidInfoVO = new GamFcltyCtrtMngScsbidInfoVO();
-		gamFcltyCtrtMngScsbidInfoVO.setScsbidCtrtNo(gamFcltyCtrtMngVO.getCtrtNo());
+		gamFcltyCtrtMngScsbidInfoVO.setScsbidCtrtNo(ctrtNo);
 		gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllScsbidInfo(gamFcltyCtrtMngScsbidInfoVO);
+
+		GamFcltyCtrtMngFlawGrntyVO gamFcltyCtrtMngFlawGrntyVO = new GamFcltyCtrtMngFlawGrntyVO();
+		gamFcltyCtrtMngFlawGrntyVO.setFlawGrntyCtrtNo(ctrtNo);
+		gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllFlawGrnty(gamFcltyCtrtMngFlawGrntyVO);
 
 		gamFcltyCtrtMngDao.deleteFcltyCtrtMng(gamFcltyCtrtMngVO);
 	}
@@ -288,6 +295,43 @@ public class GamFcltyCtrtMngServiceImpl extends AbstractServiceImpl implements G
 	public String selectFcltyCtrtMngScsbidInfoMaxSeq(GamFcltyCtrtMngScsbidInfoVO gamFcltyCtrtMngScsbidInfoVO) throws Exception {
 		return gamFcltyCtrtMngDao.selectFcltyCtrtMngScsbidInfoMaxSeq(gamFcltyCtrtMngScsbidInfoVO);
 	}
+
+
+	@Override
+	public List selectFcltyCtrtMngFlawGrntyList(GamFcltyCtrtMngFlawGrntyVO searchVO) throws Exception {
+		return gamFcltyCtrtMngDao.selectFcltyCtrtMngFlawGrntyList(searchVO);
+	}
+
+	@Override
+	public void insertFcltyCtrtMngFlawGrnty(GamFcltyCtrtMngFlawGrntyVO gamFcltyCtrtMngFlawGrntyVO) throws Exception {
+		gamFcltyCtrtMngDao.insertFcltyCtrtMngFlawGrnty(gamFcltyCtrtMngFlawGrntyVO);
+	}
+
+	@Override
+	public void updateFcltyCtrtMngFlawGrnty(GamFcltyCtrtMngFlawGrntyVO gamFcltyCtrtMngFlawGrntyVO) throws Exception {
+		gamFcltyCtrtMngDao.updateFcltyCtrtMngFlawGrnty(gamFcltyCtrtMngFlawGrntyVO);
+	}
+
+	@Override
+	public void deleteFcltyCtrtMngFlawGrnty(GamFcltyCtrtMngFlawGrntyVO gamFcltyCtrtMngFlawGrntyVO) throws Exception {
+		gamFcltyCtrtMngDao.deleteFcltyCtrtMngFlawGrnty(gamFcltyCtrtMngFlawGrntyVO);
+	}
+
+	@Override
+	public void deleteFcltyCtrtMngAllFlawGrnty(GamFcltyCtrtMngFlawGrntyVO gamFcltyCtrtMngFlawGrntyVO) throws Exception {
+		gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllFlawGrnty(gamFcltyCtrtMngFlawGrntyVO);
+	}
+
+	@Override
+	public EgovMap selectFcltyCtrtMngFlawGrntyPk(GamFcltyCtrtMngFlawGrntyVO gamFcltyCtrtMngFlawGrntyVO) throws Exception {
+		return gamFcltyCtrtMngDao.selectFcltyCtrtMngFlawGrntyPk(gamFcltyCtrtMngFlawGrntyVO);
+	}
+
+	@Override
+	public String selectFcltyCtrtMngFlawGrntyMaxSeq(GamFcltyCtrtMngFlawGrntyVO gamFcltyCtrtMngFlawGrntyVO) throws Exception {
+		return gamFcltyCtrtMngDao.selectFcltyCtrtMngFlawGrntyMaxSeq(gamFcltyCtrtMngFlawGrntyVO);
+	}
+
 
 	@Override
 	public EgovMap selectEntrpsInfo(Map searchVO) throws Exception {

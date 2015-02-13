@@ -12,6 +12,7 @@
 	<typeAlias alias="gamFcltyCtrtMngMoneyPymntVO" type="egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngMoneyPymntVO"/>
 	<typeAlias alias="gamFcltyCtrtMngFulfillCaryFwdVO" type="egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngFulfillCaryFwdVO"/>
 	<typeAlias alias="gamFcltyCtrtMngScsbidInfoVO" type="egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngScsbidInfoVO"/>
+	<typeAlias alias="gamFcltyCtrtMngFlawGrntyVO" type="egovframework.rte.ygpa.gam.ctrt.service.GamFcltyCtrtMngFlawGrntyVO"/>
 	<!-- RESULT MAP 정의 -->
 	<resultMap id="gamFcltyCtrtMngSumMap" class="gamFcltyCtrtMngVO">
 		<result property="totalCount" column="TOTAL_COUNT" columnIndex="1"/>
@@ -1188,6 +1189,162 @@
 			FROM CTRT_SCSBID_INFO_F T1
 		WHERE T1.CTRT_NO = #scsbidCtrtNo#
 	</select>
+
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngFlawGrntyList_D" parameterClass="gamFcltyCtrtMngFlawGrntyVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.CTRT_NO AS FLAW_GRNTY_CTRT_NO
+								,LTRIM(TO_CHAR(NVL(T1.SEQ,0),'990')) AS FLAW_GRNTY_SEQ
+								,TO_CHAR(T1.FLAW_END_DT,'YYYY-MM-DD') AS FLAW_END_DT
+								,TO_CHAR(T1.FLAW_GRNTY_START_DT,'YYYY-MM-DD') AS FLAW_GRNTY_START_DT
+								,TO_CHAR(T1.FLAW_GRNTY_END_DT,'YYYY-MM-DD') AS FLAW_GRNTY_END_DT
+								,LTRIM(TO_CHAR(NVL(T1.FLAW_GRNTY_SRBCT_AMT,0),'9,999,999,999,999,990')) AS FLAW_GRNTY_SRBCT_AMT
+								,LTRIM(TO_CHAR(NVL(T1.FLAW_GRNTY_RATE,0),'990')) AS FLAW_GRNTY_RATE
+								,LTRIM(TO_CHAR(NVL(T1.FLAW_GRNTY_CTRT_AMT,0),'9,999,999,999,999,990')) AS FLAW_GRNTY_CTRT_AMT
+								,T1.FLAW_GRNTY_INSU_NO AS FLAW_GRNTY_INSU_NO
+								,T1.FLAW_GRNTY_INSU_CMPY AS FLAW_GRNTY_INSU_CMPY
+								,T1.FLAW_GRNTY_INSU_ADDR AS FLAW_GRNTY_INSU_ADDR
+								,T1.FLAW_GRNTY_INSU_RPRSNTV AS FLAW_GRNTY_INSU_RPRSNTV
+								,T1.RM AS FLAW_GRNTY_RM
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,T2.CTRT_SE AS FLAW_GRNTY_CTRT_SE
+								,T2.CTRT_NM AS FLAW_GRNTY_CTRT_NM
+								,TO_CHAR(T2.CTRT_DT,'YYYY-MM-DD') AS FLAW_GRNTY_CTRT_DT
+								,LTRIM(TO_CHAR(NVL(T2.CTRT_AMT,0),'9,999,999,999,999,990')) AS FLAW_GRNTY_CTRT_AMT
+								,TO_CHAR(T2.CTRT_DT_FROM,'YYYY-MM-DD') AS FLAW_GRNTY_CTRT_DT_FROM
+								,TO_CHAR(T2.CTRT_DT_TO,'YYYY-MM-DD') AS FLAW_GRNTY_CTRT_DT_TO
+								,T2.CTRT_MTH AS FLAW_GRNTY_CTRT_MTH
+								,T2.ORDER_MTHD AS FLAW_GRNTY_ORDER_MTHD
+								,T2.CAUSE_ACT AS FLAW_GRNTY_CAUSE_ACT
+							FROM CTRT_FLAW_GRNTY_F T1
+							LEFT OUTER JOIN CTRT_INFO_F T2 ON (T1.CTRT_NO=T2.CTRT_NO)
+						WHERE 1=1
+						AND T1.CTRT_NO = #flawGrntyCtrtNo#
+						ORDER BY T1.SEQ ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<insert id="gamFcltyCtrtMngDao.insertFcltyCtrtMngFlawGrnty_S" parameterClass="gamFcltyCtrtMngFlawGrntyVO">
+		INSERT INTO CTRT_FLAW_GRNTY_F
+		(
+			 CTRT_NO
+			,SEQ
+			,FLAW_END_DT
+			,FLAW_GRNTY_START_DT
+			,FLAW_GRNTY_END_DT
+			,FLAW_GRNTY_SRBCT_AMT
+			,FLAW_GRNTY_RATE
+			,FLAW_GRNTY_CTRT_AMT
+			,FLAW_GRNTY_INSU_NO
+			,FLAW_GRNTY_INSU_CMPY
+			,FLAW_GRNTY_INSU_ADDR
+			,FLAW_GRNTY_INSU_RPRSNTV
+			,RM
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 #flawGrntyCtrtNo#
+			,NVL(TO_NUMBER(REPLACE(#flawGrntySeq#,',','')),0)
+			,TO_DATE(#flawEndDt#,'YYYY-MM-DD')
+			,TO_DATE(#flawGrntyStartDt#,'YYYY-MM-DD')
+			,TO_DATE(#flawGrntyEndDt#,'YYYY-MM-DD')
+			,NVL(TO_NUMBER(REPLACE(#flawGrntySrbctAmt#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#flawGrntyRate#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#flawGrntyCtrtAmt#,',','')),0)
+			,#flawGrntyInsuNo#
+			,#flawGrntyInsuCmpy#
+			,#flawGrntyInsuAddr#
+			,#flawGrntyInsuRprsntv#
+			,#flawGrntyRm#
+			,#regUsr#
+			,SYSDATE
+		)
+	</insert>
+
+	<update id="gamFcltyCtrtMngDao.updateFcltyCtrtMngFlawGrnty_S" parameterClass="gamFcltyCtrtMngFlawGrntyVO">
+		UPDATE CTRT_FLAW_GRNTY_F SET
+			 FLAW_END_DT = TO_DATE(#flawEndDt#,'YYYY-MM-DD')
+			,FLAW_GRNTY_START_DT = TO_DATE(#flawGrntyStartDt#,'YYYY-MM-DD')
+			,FLAW_GRNTY_END_DT = TO_DATE(#flawGrntyEndDt#,'YYYY-MM-DD')
+			,FLAW_GRNTY_SRBCT_AMT = NVL(TO_NUMBER(REPLACE(#flawGrntySrbctAmt#,',','')),0)
+			,FLAW_GRNTY_RATE = NVL(TO_NUMBER(REPLACE(#flawGrntyRate#,',','')),0)
+			,FLAW_GRNTY_CTRT_AMT = NVL(TO_NUMBER(REPLACE(#flawGrntyCtrtAmt#,',','')),0)
+			,FLAW_GRNTY_INSU_NO = #flawGrntyInsuNo#
+			,FLAW_GRNTY_INSU_CMPY = #flawGrntyInsuCmpy#
+			,FLAW_GRNTY_INSU_ADDR = #flawGrntyInsuAddr#
+			,FLAW_GRNTY_INSU_RPRSNTV = #flawGrntyInsuRprsntv#
+			,RM = #flawGrntyRm#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE CTRT_NO = #flawGrntyCtrtNo#
+		AND SEQ = NVL(TO_NUMBER(REPLACE(#flawGrntySeq#,',','')),0)
+	</update>
+
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMngFlawGrnty_S" parameterClass="gamFcltyCtrtMngFlawGrntyVO">
+		DELETE FROM CTRT_FLAW_GRNTY_F
+		WHERE CTRT_NO = #flawGrntyCtrtNo#
+		AND SEQ = NVL(TO_NUMBER(REPLACE(#flawGrntySeq#,',','')),0)
+	</delete>
+
+	<delete id="gamFcltyCtrtMngDao.deleteFcltyCtrtMngAllFlawGrnty_S" parameterClass="gamFcltyCtrtMngFlawGrntyVO">
+		DELETE FROM CTRT_FLAW_GRNTY_F
+		WHERE CTRT_NO = #flawGrntyCtrtNo#
+	</delete>
+
+	<select id="gamCtrtFlawGrntyMngDao.selectFcltyCtrtMngFlawGrntyPk_S" parameterClass="gamFcltyCtrtMngFlawGrntyVO" resultClass="egovMap">
+		SELECT
+				 T1.CTRT_NO AS FLAW_GRNTY_CTRT_NO
+				,LTRIM(TO_CHAR(NVL(T1.SEQ,0),'990')) AS FLAW_GRNTY_SEQ
+				,TO_CHAR(T1.FLAW_END_DT,'YYYY-MM-DD') AS FLAW_END_DT
+				,TO_CHAR(T1.FLAW_GRNTY_START_DT,'YYYY-MM-DD') AS FLAW_GRNTY_START_DT
+				,TO_CHAR(T1.FLAW_GRNTY_END_DT,'YYYY-MM-DD') AS FLAW_GRNTY_END_DT
+				,LTRIM(TO_CHAR(NVL(T1.FLAW_GRNTY_SRBCT_AMT,0),'9,999,999,999,999,990')) AS FLAW_GRNTY_SRBCT_AMT
+				,LTRIM(TO_CHAR(NVL(T1.FLAW_GRNTY_RATE,0),'990')) AS FLAW_GRNTY_RATE
+				,LTRIM(TO_CHAR(NVL(T1.FLAW_GRNTY_CTRT_AMT,0),'9,999,999,999,999,990')) AS FLAW_GRNTY_CTRT_AMT
+				,T1.FLAW_GRNTY_INSU_NO AS FLAW_GRNTY_INSU_NO
+				,T1.FLAW_GRNTY_INSU_CMPY AS FLAW_GRNTY_INSU_CMPY
+				,T1.FLAW_GRNTY_INSU_ADDR AS FLAW_GRNTY_INSU_ADDR
+				,T1.FLAW_GRNTY_INSU_RPRSNTV AS FLAW_GRNTY_INSU_RPRSNTV
+				,T1.RM AS FLAW_GRNTY_RM
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,T2.CTRT_SE AS FLAW_GRNTY_CTRT_SE
+				,T2.CTRT_NM AS FLAW_GRNTY_CTRT_NM
+				,TO_CHAR(T2.CTRT_DT,'YYYY-MM-DD') AS FLAW_GRNTY_CTRT_DT
+				,LTRIM(TO_CHAR(NVL(T2.CTRT_AMT,0),'9,999,999,999,999,990')) AS FLAW_GRNTY_CTRT_AMT
+				,TO_CHAR(T2.CTRT_DT_FROM,'YYYY-MM-DD') AS FLAW_GRNTY_CTRT_DT_FROM
+				,TO_CHAR(T2.CTRT_DT_TO,'YYYY-MM-DD') AS FLAW_GRNTY_CTRT_DT_TO
+				,T2.CTRT_MTH AS FLAW_GRNTY_CTRT_MTH
+				,T2.ORDER_MTHD AS FLAW_GRNTY_ORDER_MTHD
+				,T2.CAUSE_ACT AS FLAW_GRNTY_CAUSE_ACT
+			FROM CTRT_FLAW_GRNTY_F T1
+			LEFT OUTER JOIN CTRT_INFO_F T2 ON (T1.CTRT_NO=T2.CTRT_NO)
+		WHERE T1.CTRT_NO = #flawGrntyCtrtNo#
+		AND T1.SEQ = NVL(TO_NUMBER(REPLACE(#flawGrntySeq#,',','')),0)
+	</select>
+
+	<select id="gamFcltyCtrtMngDao.selectFcltyCtrtMngFlawGrntyMaxSeq_S" parameterClass="gamFcltyCtrtMngFlawGrntyVO" resultClass="java.lang.String">
+		SELECT
+				 LTRIM(TO_CHAR(NVL(MAX(T1.SEQ),0) + 1,'000')) AS MAX_SEQ
+			FROM CTRT_FLAW_GRNTY_F T1
+		WHERE T1.CTRT_NO = #flawGrntyCtrtNo#
+	</select>
+
 
 	<select id="gamFcltyCtrtMngDao.selectEntrpsInfo_S" parameterClass="hashmap" resultClass="egovMap">
 		SELECT

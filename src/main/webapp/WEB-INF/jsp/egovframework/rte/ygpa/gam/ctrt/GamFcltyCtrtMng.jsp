@@ -308,6 +308,40 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 		module.enableScsbidDetailInputItem();
 	});
 
+	this.$("#flawGrid").flexigrid({
+		module : this,
+		url : '/ctrt/gamSelectFcltyCtrtMngFlawGrntyList.do',
+		dataType : 'json',
+		colModel : [
+					{display:'순번',					name:'flawGrntySeq',			width:50,		sortable:false,		align:'center'},
+					{display:'하자 만료 일',			name:'flawEndDt',				width:80,		sortable:false,		align:'center'},
+					{display:'보증 시작 일',			name:'flawGrntyStartDt',		width:80,		sortable:false,		align:'center'},
+					{display:'보증 종료 일',			name:'flawGrntyEndDt',			width:80,		sortable:false,		align:'center'},
+					{display:'보증 가입 금액',			name:'flawGrntySrbctAmt',		width:100,		sortable:false,		align:'right'},
+					{display:'보증 율',					name:'flawGrntyRate',			width:60,		sortable:false,		align:'right'},
+					{display:'보증 계약 금액',			name:'flawGrntyCtrtAmt',		width:100,		sortable:false,		align:'right'},
+					{display:'보험 증권 번호',			name:'flawGrntyInsuNo',			width:100,		sortable:false,		align:'left'},
+					{display:'보증 보험 회사',			name:'flawGrntyInsuCmpy',		width:150,		sortable:false,		align:'left'},
+					{display:'보증 보험 회사 주소',		name:'flawGrntyInsuAddr',		width:200,		sortable:false,		align:'left'},
+					{display:'대표자',					name:'flawGrntyInsuRprsntv',	width:80,		sortable:false,		align:'left'}
+					],
+		showTableToggleBtn : false,
+		height : '210'
+	});
+
+	this.$("#flawGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectFlawGrntyData();
+	});
+
+	this.$("#flawGrid").on('onItemSelected', function(event, module, row, grid, param) {
+		module._flawgrntymode = 'modify';
+		module._flawGrntyKeyValue = row.flawGrntyCtrtNo;
+		module._flawGrntySeq = row.flawGrntySeq;
+		module.$('#flawGrntySeq').val(row.flawGrntySeq);
+		module.loadFlawGrntyDetail('joinTab');
+		module.enableFlawGrntyDetailInputItem();
+	});
+
 	this.$("#sRegistEntrpsCd").bind("keyup change", {module: this}, function(event) {
 		event.data.module.getSearchEntrpsNm();
 	});
@@ -336,6 +370,9 @@ GamFcltyCtrtMngModule.prototype.loadComplete = function() {
 	this._scsbidmode = 'query';
 	this._scsbidKeyValue = '';
 	this._scsbidSeq = '';
+	this._flawgrntymode = 'query';
+	this._flawGrntyKeyValue = '';
+	this._flawGrntySeq = '';
 	this._searchButtonClick = false;
 	var year = new Date().getFullYear();
 	this.$('#sStartCtrtDt').val(year + '-01-01');
@@ -560,6 +597,23 @@ GamFcltyCtrtMngModule.prototype.isValidAmount = function(amountValue, zeroCheckF
 GamFcltyCtrtMngModule.prototype.isValidRate = function(rateValue) {
 
 	if (rateValue > 1 || rateValue < 0) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : isValidPercent
+ * @DESCRIPTION   : PERCENT에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. percentValue - PERCENT VALUE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.isValidPercent = function(percentValue) {
+
+	if (percentValue > 100 || percentValue < 0) {
 		return false;
 	}
 	return true;
@@ -818,7 +872,7 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 			this.downloadExcel(buttonId);
 			break;
 		case 'btnCaryFwdInsert':
-			this._caryFwdmode = 'insert';
+			this._caryfwdmode = 'insert';
 			this._caryFwdKeyValue = '';
 			this.makeFormValues('#caryFwdForm', {});
 			this.makeDivValues('#caryFwdForm', {});
@@ -851,6 +905,24 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 			this.deleteScsbidData();
 			break;
 		case 'btnScsbidExcelDownload':
+			this.downloadExcel(buttonId);
+			break;
+		case 'btnFlawGrntyInsert':
+			this._flawgrntymode = 'insert';
+			this._flawGrntyKeyValue = '';
+			this.makeFormValues('#flawGrntyForm', {});
+			this.makeDivValues('#flawGrntyForm', {});
+			this.disableFlawGrntyDetailInputItem();
+			this.copyCtrtInfoData('flawTab');
+			this.addFlawGrntyData();
+			break;
+	    case 'btnFlawGrntySave':
+	    	this.saveFlawGrntyData();
+			break;
+		case 'btnFlawGrntyRemove':
+			this.deleteFlawGrntyData();
+			break;
+		case 'btnFlawGrntyExcelDownload':
 			this.downloadExcel(buttonId);
 			break;
 		case 'popupSearchRegistEntrpsCd':
@@ -927,6 +999,9 @@ GamFcltyCtrtMngModule.prototype.onSubmit = function() {
 	this._scsbidmode = 'query';
 	this._scsbidKeyValue = '';
 	this._scsbidSeq = '';
+	this._flawgrntymode = 'query';
+	this._flawGrntyKeyValue = '';
+	this._flawGrntySeq = '';
 	this._searchButtonClick = true;
 	this.loadData();
 	this.enableListButtonItem();
@@ -1111,6 +1186,17 @@ GamFcltyCtrtMngModule.prototype.copyCtrtInfoData = function(tabId) {
 		this.$('#scsbidCtrtAmt').val(ctrtAmt);
 		this.$('#scsbidCtrtDtFrom').val(ctrtDtFrom);
 		this.$('#scsbidCtrtDtTo').val(ctrtDtTo);
+	} else if (tabId == "flawTab") {
+		this.$('#flawCtrtNo').val(ctrtNo);
+		this.$('#flawCtrtSe').val(ctrtSe);
+		this.$('#flawCtrtNm').val(ctrtNm);
+		this.$('#flawCauseAct').val(causeAct);
+		this.$('#flawOrderMthd').val(orderMthd);
+		this.$('#flawCtrtMth').val(ctrtMth);
+		this.$('#flawCtrtDt').val(ctrtDt);
+		this.$('#flawCtrtAmt').val(ctrtAmt);
+		this.$('#flawCtrtDtFrom').val(ctrtDtFrom);
+		this.$('#flawCtrtDtTo').val(ctrtDtTo);
 	}
 
 };
@@ -1422,7 +1508,7 @@ GamFcltyCtrtMngModule.prototype.selectPymntData = function() {
 <%
 /**
  * @FUNCTION NAME : loadCaryFwdDetail
- * @DESCRIPTION   : CARYFWD 상세항목을 로딩 한다.
+ * @DESCRIPTION   : CARY FWD 상세항목을 로딩 한다.
  * @PARAMETER     :
  *   1. tabId - TAB ID
 **/
@@ -1468,7 +1554,7 @@ GamFcltyCtrtMngModule.prototype.refreshCaryFwdData = function() {
 <%
 /**
  * @FUNCTION NAME : selectCaryFwdData
- * @DESCRIPTION   : CARYFWD DATA SELECT
+ * @DESCRIPTION   : CARY FWD DATA SELECT
  * @PARAMETER     : NONE
 **/
 %>
@@ -1489,7 +1575,7 @@ GamFcltyCtrtMngModule.prototype.selectCaryFwdData = function() {
 	var caryFwdSeq = this._caryFwdSeq;
 	this.$("#caryFwdGrid").selectFilterRow([{col:"caryFwdCtrtNo", filter:caryFwdCtrtNo},
 											{col:"caryFwdSeq", filter:caryFwdSeq}]);
-	this._caryFwdmode = 'modify';
+	this._caryfwdmode = 'modify';
 	this.loadCaryFwdDetail('caryFwdTab');
 	this.enableCaryFwdDetailInputItem();
 
@@ -1568,6 +1654,82 @@ GamFcltyCtrtMngModule.prototype.selectScsbidData = function() {
 	this._scsbidmode = 'modify';
 	this.loadScsbidDetail('scsbidTab');
 	this.enableScsbidDetailInputItem();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : loadFlawGrntyDetail
+ * @DESCRIPTION   : FLAW GRNTY 상세항목을 로딩 한다.
+ * @PARAMETER     :
+ *   1. tabId - TAB ID
+**/
+%>
+GamFcltyCtrtMngModule.prototype.loadFlawGrntyDetail = function(tabId) {
+
+	if (tabId == 'listTab') {
+		this.makeFormValues('#flawGrntyForm', {});
+		this.makeDivValues('#flawGrntyForm', {});
+		this.$('#flawGrid').flexEmptyData();
+		if (this._mainKeyValue == "") {
+			return;
+		}
+		this.copyCtrtInfoData('flawTab');
+		var detailOpt = this.getFormValues('#flawGrntyForm');
+		this.$('#flawGrid').flexOptions({params:detailOpt}).flexReload();
+	} else if (tabId == 'flawTab') {
+		var searchVO = this.getFormValues('#flawGrntyForm');
+		this.doAction('/ctrt/gamSelectFcltyCtrtMngFlawGrntyPk.do', searchVO, function(module, result){
+			if (result.resultCode == "0") {
+				module.makeFormValues('#flawGrntyForm', result.result);
+				module.makeDivValues('#flawGrntyForm', result.result);
+			}
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : refreshFlawGrntyData
+ * @DESCRIPTION   : FLAW GRNTY DATA REFRESH (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.refreshFlawGrntyData = function() {
+
+	var searchOpt=this.makeFormArgs('#flawGrntyForm');
+	this.$('#flawGrid').flexOptions({params:searchOpt}).flexReload();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectFlawGrntyData
+ * @DESCRIPTION   : FLAW GRNTY DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.selectFlawGrntyData = function() {
+
+	if (this._flawgrntymode == 'query') {
+		this.enableFlawGrntyDetailInputItem();
+		return;
+	} else if (this._flawgrntymode != 'insert' && this._flawgrntymode != 'modify') {
+		this.enableFlawGrntyDetailInputItem();
+		return;
+	}
+	if (this._flawGrntyKeyValue == "" || this._flawGrntySeq == "") {
+		this.disableFlawGrntyDetailInputItem();
+		return;
+	}
+	var flawGrntyCtrtNo = this._flawGrntyKeyValue;
+	var flawGrntySeq = this._flawGrntySeq;
+	this.$("#flawGrid").selectFilterRow([{col:"flawGrntyCtrtNo", filter:flawGrntyCtrtNo},
+										 {col:"flawGrntySeq", filter:flawGrntySeq}]);
+	this._flawgrntymode = 'modify';
+	this.loadFlawGrntyDetail('flawTab');
+	this.enableFlawGrntyDetailInputItem();
 
 };
 
@@ -1684,7 +1846,7 @@ GamFcltyCtrtMngModule.prototype.getNewPymntSeq = function() {
 <%
 /**
  * @FUNCTION NAME : getNewCaryFwdSeq
- * @DESCRIPTION   : 새로운 CARYFWD 순번을 구한다.
+ * @DESCRIPTION   : 새로운 CARY FWD 순번을 구한다.
  * @PARAMETER     : NONE
 **/
 %>
@@ -1720,6 +1882,28 @@ GamFcltyCtrtMngModule.prototype.getNewScsbidSeq = function() {
 	this.doAction('/ctrt/gamSelectFcltyCtrtMngScsbidInfoMaxSeq.do', searchVO, function(module, result) {
 		if (result.resultCode == "0") {
 			module.$('#scsbidSeq').val(result.sMaxSeq);
+		}
+	});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : getNewFlawGrntySeq
+ * @DESCRIPTION   : 새로운 FLAW GRNTY 순번을 구한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.getNewFlawGrntySeq = function() {
+
+	var searchVO = this.makeFormArgs("#flawGrntyForm");
+	var flawGrntyCtrtNo = this.$('#flawGrntyCtrtNo').val();
+	if (flawGrntyCtrtNo == "") {
+		return;
+	}
+	this.doAction('/ctrt/gamSelectFcltyCtrtMngFlawGrntyMaxSeq.do', searchVO, function(module, result) {
+		if (result.resultCode == "0") {
+			module.$('#flawGrntySeq').val(result.sMaxSeq);
 		}
 	});
 
@@ -2797,6 +2981,148 @@ GamFcltyCtrtMngModule.prototype.deleteScsbidData = function() {
 
 <%
 /**
+ * @FUNCTION NAME : addFlawGrntyData
+ * @DESCRIPTION   : FLAW GRNTY 항목을 추가한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.addFlawGrntyData = function() {
+
+	this.$('#flawGrntyCtrtNo').val(this.$('#ctrtNo').val());
+	this.$('#flawGrntySeq').val("001");
+	this.$('#flawEndDt').val("");
+	this.$('#flawGrntyStartDt').val("");
+	this.$('#flawGrntyEndDt').val("");
+	this.$('#flawGrntySrbctAmt').val("0");
+	this.$('#flawGrntyRate').val("0");
+	this.$('#flawGrntyCtrtAmt').val("0");
+	this.$('#flawGrntyInsuNo').val("");
+	this.$('#flawGrntyInsuCmpy').val("");
+	this.$('#flawGrntyInsuAddr').val("");
+	this.$('#flawGrntyInsuRprsntv').val("");
+	this.enableFlawGrntyDetailInputItem();
+	this.$('#flawEndDt').focus();
+	this.getNewFlawGrntySeq();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : saveFlawGrntyData
+ * @DESCRIPTION   : FLAW GRNTY 항목을 저장한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.saveFlawGrntyData = function() {
+
+	var inputVO = this.makeFormArgs("#flawGrntyForm");
+	var flawGrntyCtrtNo = this.$('#flawGrntyCtrtNo').val();
+	var flawGrntySeq = this.$('#flawGrntySeq').val();
+	var flawEndDt = this.$('#flawEndDt').val();
+	var flawGrntyStartDt = this.$('#flawGrntyStartDt').val();
+	var flawGrntyEndDt = this.$('#flawGrntyEndDt').val();
+	var flawGrntySrbctAmt = Number(this.$('#flawGrntySrbctAmt').val().replace(/,/gi, ""));
+	var flawGrntyRate = Number(this.$('#flawGrntyRate').val().replace(/,/gi, ""));
+	var flawGrntyCtrtAmt = Number(this.$('#flawGrntyCtrtAmt').val().replace(/,/gi, ""));
+	if (flawGrntyCtrtNo == "") {
+		alert('계약 번호가 부정확합니다.');
+		return;
+	}
+	if (flawGrntySeq == "") {
+		alert('순번이 부정확합니다.');
+		return;
+	}
+	if (this.isValidDate(flawEndDt, true) == false) {
+		alert('하자 만료 일자가 부정확합니다.');
+		this.$("#flawEndDt").focus();
+		return;
+	}
+	if (this.isValidDate(flawGrntyStartDt, false) == false) {
+		alert('하자 보증 시작 일자가 부정확합니다.');
+		this.$("#flawGrntyStartDt").focus();
+		return;
+	}
+	if (this.isValidDate(flawGrntyEndDt, false) == false) {
+		alert('하자 보증 종료 일자가 부정확합니다.');
+		this.$("#flawGrntyEndDt").focus();
+		return;
+	}
+	if (this.isValidDateFromTo(flawGrntyStartDt, flawGrntyEndDt, false) == false) {
+		alert('하자 보증 기간이 부정확합니다.');
+		this.$("#flawGrntyEndDt").focus();
+		return;
+	}
+	if (this.isValidPercent(flawGrntyRate) == false) {
+		alert('하자 보증 율이 부정확합니다.');
+		this.$("#flawGrntyRate").focus();
+		return;
+	}
+	if (this.isValidAmount(flawGrntySrbctAmt, false) == false) {
+		alert('하자 보증 가입 금액이 부정확합니다.');
+		this.$("#flawGrntySrbctAmt").focus();
+		return;
+	}
+	if (this.isValidAmount(flawGrntyCtrtAmt, false) == false) {
+		alert('하자 보증 계약 금액이 부정확합니다.');
+		this.$("#flawGrntyCtrtAmt").focus();
+		return;
+	}
+	if (this._flawgrntymode == "insert") {
+		this._flawGrntyKeyValue = joinCtrtNo;
+		this._flawGrntySeq = joinSeq;
+		this.doAction('/ctrt/gamInsertFcltyCtrtMngFlawGrnty.do', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.refreshFlawGrntyData();
+			}
+			alert(result.resultMsg);
+		});
+	} else {
+		this.doAction('/ctrt/gamUpdateFcltyCtrtMngFlawGrnty.do', inputVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.refreshFlawGrntyData();
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : deleteFlawGrntyData
+ * @DESCRIPTION   : FLAW GRNTY 항목을 삭제한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.deleteFlawGrntyData = function() {
+
+	var flawGrntyCtrtNo = this.$('#flawGrntyCtrtNo').val();
+	var flawGrntySeq = this.$('#flawGrntySeq').val();
+	if (flawGrntyCtrtNo == "") {
+		alert('계약 번호가 부정확합니다.');
+		return;
+	}
+	if (flawGrntySeq == "") {
+		alert('순번이 부정확합니다.');
+		return;
+	}
+	if (confirm("삭제하시겠습니까?")) {
+		var deleteVO = this.makeFormArgs("#flawGrntyForm");
+		this.doAction('/ctrt/gamDeleteFcltyCtrtMngFlawGrnty.do', deleteVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module._flawgrntymode = 'query';
+				module._flawGrntyKeyValue = '';
+				module._flawGrntySeq = '';
+				module.loadFlawGrntyDetail('listTab');
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
  * @FUNCTION NAME : getSearchEntrpsNm
  * @DESCRIPTION   : 조회조건 업체 명을 구한다.
  * @PARAMETER     : NONE
@@ -2874,6 +3200,9 @@ GamFcltyCtrtMngModule.prototype.downloadExcel = function(buttonId) {
 		case 'btnScsbidExcelDownload':
 			gridRowCount = this.$("#scsbidGrid").flexRowCount();
 			break;
+		case 'btnFlawGrntyExcelDownload':
+			gridRowCount = this.$("#flawGrid").flexRowCount();
+			break;
 		default:
 			return;
 	}
@@ -2902,6 +3231,9 @@ GamFcltyCtrtMngModule.prototype.downloadExcel = function(buttonId) {
 			break;
 		case 'btnScsbidExcelDownload':
 			this.$('#scsbidGrid').flexExcelDown('/ctrt/gamExcelDownloadFcltyCtrtMngScsbidInfo.do');
+			break;
+		case 'btnFlawGrntyExcelDownload':
+			this.$('#flawGrid').flexExcelDown('/ctrt/gamExcelDownloadFcltyCtrtMngFlawGrnty.do');
 			break;
 	}
 
@@ -3512,7 +3844,7 @@ GamFcltyCtrtMngModule.prototype.disablePymntDetailInputItem = function() {
 %>
 GamFcltyCtrtMngModule.prototype.enableCaryFwdDetailInputItem = function() {
 
-	if (this._caryFwdmode == "insert") {
+	if (this._caryfwdmode == "insert") {
 		this.$('#fulfillCaryFwdYear').enable();
 		this.$('#fulfillAmt').enable();
 		this.$('#caryFwdAmt').enable();
@@ -3653,6 +3985,101 @@ GamFcltyCtrtMngModule.prototype.disableScsbidDetailInputItem = function() {
 
 <%
 /**
+ * @FUNCTION NAME : enableFlawGrntyDetailInputItem
+ * @DESCRIPTION   : FLAW GRNTY DETAIL 입력항목을 ENABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.enableFlawGrntyDetailInputItem = function() {
+
+	if (this._flawgrntymode == "insert") {
+		this.$('#flawEndDt').enable();
+		this.$('#flawGrntyStartDt').enable();
+		this.$('#flawGrntyEndDt').enable();
+		this.$('#flawGrntySrbctAmt').enable();
+		this.$('#flawGrntyRate').enable();
+		this.$('#flawGrntyCtrtAmt').enable();
+		this.$('#flawGrntyInsuNo').enable();
+		this.$('#flawGrntyInsuCmpy').enable();
+		this.$('#flawGrntyInsuAddr').enable();
+		this.$('#flawGrntyInsuRprsntv').enable();
+		this.$('#flawGrntyRm').enable();
+		this.$('#btnFlawGrntyInsert').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnFlawGrntySave').enable();
+		this.$('#btnFlawGrntySave').removeClass('ui-state-disabled');
+		this.$('#btnFlawGrntyRemove').disable({disableClass:"ui-state-disabled"});
+	} else {
+		if (this._flawGrntyKeyValue != "") {
+			this.$('#flawEndDt').enable();
+			this.$('#flawGrntyStartDt').enable();
+			this.$('#flawGrntyEndDt').enable();
+			this.$('#flawGrntySrbctAmt').enable();
+			this.$('#flawGrntyRate').enable();
+			this.$('#flawGrntyCtrtAmt').enable();
+			this.$('#flawGrntyInsuNo').enable();
+			this.$('#flawGrntyInsuCmpy').enable();
+			this.$('#flawGrntyInsuAddr').enable();
+			this.$('#flawGrntyInsuRprsntv').enable();
+			this.$('#flawGrntyRm').enable();
+			this.$('#btnFlawGrntyInsert').enable();
+			this.$('#btnFlawGrntyInsert').removeClass('ui-state-disabled');
+			this.$('#btnFlawGrntySave').enable();
+			this.$('#btnFlawGrntySave').removeClass('ui-state-disabled');
+			this.$('#btnFlawGrntyRemove').enable();
+			this.$('#btnFlawGrntyRemove').removeClass('ui-state-disabled');
+		} else {
+			this.$('#flawEndDt').disable();
+			this.$('#flawGrntyStartDt').disable();
+			this.$('#flawGrntyEndDt').disable();
+			this.$('#flawGrntySrbctAmt').disable();
+			this.$('#flawGrntyRate').disable();
+			this.$('#flawGrntyCtrtAmt').disable();
+			this.$('#flawGrntyInsuNo').disable();
+			this.$('#flawGrntyInsuCmpy').disable();
+			this.$('#flawGrntyInsuAddr').disable();
+			this.$('#flawGrntyInsuRprsntv').disable();
+			this.$('#flawGrntyRm').disable();
+			if (this.$('#flawGrntyCtrtNo').val() != "") {
+				this.$('#btnFlawGrntyInsert').enable();
+				this.$('#btnFlawGrntyInsert').removeClass('ui-state-disabled');
+			} else {
+				this.$('#btnFlawGrntyInsert').disable({disableClass:"ui-state-disabled"});
+			}
+			this.$('#btnFlawGrntySave').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnFlawGrntyRemove').disable({disableClass:"ui-state-disabled"});
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : disableFlawGrntyDetailInputItem
+ * @DESCRIPTION   : FLAW GRNTY DETAIL 입력항목을 DISABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.disableFlawGrntyDetailInputItem = function() {
+
+	this.$('#flawEndDt').disable();
+	this.$('#flawGrntyStartDt').disable();
+	this.$('#flawGrntyEndDt').disable();
+	this.$('#flawGrntySrbctAmt').disable();
+	this.$('#flawGrntyRate').disable();
+	this.$('#flawGrntyCtrtAmt').disable();
+	this.$('#flawGrntyInsuNo').disable();
+	this.$('#flawGrntyInsuCmpy').disable();
+	this.$('#flawGrntyInsuAddr').disable();
+	this.$('#flawGrntyInsuRprsntv').disable();
+	this.$('#flawGrntyRm').disable();
+	this.$('#btnFlawGrntyInsert').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnFlawGrntySave').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnFlawGrntyRemove').disable({disableClass:"ui-state-disabled"});
+
+};
+
+<%
+/**
  * @FUNCTION NAME : onTabChange
  * @DESCRIPTION   : 탭이 변경 될때 호출된다. (태그로 정의 되어 있음)
  * @PARAMETER     :
@@ -3764,6 +4191,20 @@ GamFcltyCtrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.disableScsbidDetailInputItem();
 			}
 			break;
+		case 'flawTab':
+			if (this._flawGrntyKeyValue != "") {
+				var flawGrntyCtrtNo = this.$('#flawGrntyCtrtNo').val();
+				if (flawGrntyCtrtNo == "" || flawGrntyCtrtNo != this._flawGrntyKeyValue) {
+					this.loadFlawGrntyDetail('listTab');
+					this.enableFlawGrntyDetailInputItem();
+				}
+			} else {
+				this.makeFormValues('#flawGrntyForm', {});
+				this.makeDivValues('#flawGrntyForm', {});
+				this.$('#flawGrid').flexEmptyData();
+				this.disableFlawGrntyDetailInputItem();
+			}
+			break;
 	}
 
 };
@@ -3844,6 +4285,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 				<li><a href="#pymntTab" class="emdTab">계약 대금 지급</a></li>
 				<li><a href="#caryFwdTab" class="emdTab">계약 이행 이월</a></li>
 				<li><a href="#scsbidTab" class="emdTab">계약 낙찰 정보</a></li>
+				<li><a href="#flawTab" class="emdTab">하자 보증</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
@@ -3876,7 +4318,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th width="10%" height="27px">계　약　번　호</th>
+								<th style="width:10%; height:27px;">계　약　번　호</th>
 								<td>
 									<select id="ctrtSe">
 										<option value="" selected>선택</option>
@@ -3886,59 +4328,59 @@ var module_instance = new GamFcltyCtrtMngModule();
 									</select>
 									<input type="text" size="21" id="ctrtNo" maxlength="100"/>
 								</td>
-								<th width="10%" height="27px">계　　약　　명</th>
+								<th style="width:10%; height:27px;">계　　약　　명</th>
 								<td colspan="3">
 									<input type="text" size="93" id="ctrtNm" maxlength="100"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="27px">원　인　행　위</th>
+								<th style="width:10%; height:27px;">원　인　행　위</th>
 								<td>
 									<input type="text" size="33" id="causeAct" maxlength="100"/>
 								</td>
-								<th width="10%" height="27px">기　초　금　액</th>
+								<th style="width:10%; height:27px;">기　초　금　액</th>
 								<td>
 									<input type="text" size="30" id="baseAmt" class="ygpaNumber" maxlength="20"/> 원
 								</td>
-								<th width="10%" height="27px">설　계　금　액</th>
+								<th style="width:10%; height:27px;">설　계　금　액</th>
 								<td>
 									<input type="text" size="30" id="planAmt" class="ygpaNumber" maxlength="20"/> 원
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="27px">발　주　방　식</th>
+								<th style="width:10%; height:27px;">발　주　방　식</th>
 								<td>
 									<input type="text" size="33" id="orderMthd" maxlength="100"/>
 								</td>
-								<th width="10%" height="27px">계　약　방　법</th>
+								<th style="width:10%; height:27px;">계　약　방　법</th>
 								<td>
 									<input type="text" size="33" id="ctrtMth" maxlength="100"/>
 								</td>
-								<th width="10%" height="27px">조달 공고 번호</th>
+								<th style="width:10%; height:27px;">조달 공고 번호</th>
 								<td>
 									<input type="text" size="33" id="prcuPblancNo" maxlength="100"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="27px">입찰 공고 번호</th>
+								<th style="width:10%; height:27px;">입찰 공고 번호</th>
 								<td>
 									<input type="text" size="33" id="bidPblancNo" maxlength="100"/>
 								</td>
-								<th width="10%" height="27px">입찰 공고 일자</th>
+								<th style="width:10%; height:27px;">입찰 공고 일자</th>
 								<td>
 									<input type="text" size="30" id="bidPblancDt" class="emdcal"/>
 								</td>
-								<th width="10%" height="27px">입　찰　일　자</th>
+								<th style="width:10%; height:27px;">입　찰　일　자</th>
 								<td>
 									<input type="text" size="30" id="bidDt" class="emdcal"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="27px">입　찰　방　법</th>
+								<th style="width:10%; height:27px;">입　찰　방　법</th>
 								<td>
 									<input type="text" size="33" id="bidMth" maxlength="100"/>
 								</td>
-								<th width="10%" height="27px">등　록　업　체</th>
+								<th style="width:10%; height:27px;">등　록　업　체</th>
 								<td colspan="3">
 									<input type="text" size="15" id="registEntrpsCd" maxlength="8"/>
 									<input type="text" size="63" id="registEntrpsNm" disabled/>
@@ -3946,29 +4388,29 @@ var module_instance = new GamFcltyCtrtMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="27px">낙　　찰　　자</th>
+								<th style="width:10%; height:27px;">낙　　찰　　자</th>
 								<td>
 									<input type="text" size="33" id="scsbider" maxlength="100"/>
 								</td>
-								<th width="10%" height="27px">낙　찰　금　액</th>
+								<th style="width:10%; height:27px;">낙　찰　금　액</th>
 								<td>
 									<input type="text" size="30" id="scsbidAmt" class="ygpaNumber" maxlength="20"/> 원
 								</td>
-								<th width="10%" height="27px">낙　　찰　　율</th>
+								<th style="width:10%; height:27px;">낙　　찰　　율</th>
 								<td>
 									<input type="text" size="33" id="scsbidRate" class="ygpaNumber" maxlength="6" data-decimal-point="5"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="27px">계　약　일　자</th>
+								<th style="width:10%; height:27px;">계　약　일　자</th>
 								<td>
 									<input type="text" size="30" id="ctrtDt" class="emdcal"/>
 								</td>
-								<th width="10%" height="27px">계약 보증 금액</th>
+								<th style="width:10%; height:27px;">계약 보증 금액</th>
 								<td>
 									<input type="text" size="30" id="ctrtGrntyAmt" class="ygpaNumber" maxlength="20"/> 원
 								</td>
-								<th width="10%" height="27px">계약 보증 방법</th>
+								<th style="width:10%; height:27px;">계약 보증 방법</th>
 								<td>
 									<select id="ctrtGrntyMth">
 										<option value="" selected>선택</option>
@@ -3978,47 +4420,47 @@ var module_instance = new GamFcltyCtrtMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="27px">계　약　금　액</th>
+								<th style="width:10%; height:27px;">계　약　금　액</th>
 								<td>
 									<input type="text" size="30" id="ctrtAmt" class="ygpaNumber" maxlength="20"/> 원
 								</td>
-								<th width="10%" height="27px">계　약　기　간</th>
+								<th style="width:10%; height:27px;">계　약　기　간</th>
 								<td>
 									<input type="text" size="11" id="ctrtDtFrom" class="emdcal"/> ∼
 									<input type="text" size="11" id="ctrtDtTo" class="emdcal"/>
 								</td>
-								<th width="10%" height="27px">계약 검사 일자</th>
+								<th style="width:10%; height:27px;">계약 검사 일자</th>
 								<td>
 									<input type="text" size="30" id="ctrtExamDt" class="emdcal"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="27px">예　정　금　액</th>
+								<th style="width:10%; height:27px;">예　정　금　액</th>
 								<td>
 									<input type="text" size="30" id="prmtAmt" class="ygpaNumber" maxlength="20"/> 원
 								</td>
-								<th width="10%" height="27px">하　자　기　간</th>
+								<th style="width:10%; height:27px;">하　자　기　간</th>
 								<td>
 									<input type="text" size="11" id="flawDtFrom" class="emdcal"/> ∼
 									<input type="text" size="11" id="flawDtTo" class="emdcal"/>
 								</td>
-								<th width="10%" height="27px">연　대　보　증</th>
+								<th style="width:10%; height:27px;">연　대　보　증</th>
 								<td>
 									<input type="text" size="33" id="sldrtGrnty" maxlength="100"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="27px">감　　독　　자</th>
+								<th style="width:10%; height:27px;">감　　독　　자</th>
 								<td>
 									<input type="text" size="9" id="intendant1" maxlength="10"/>
 									<input type="text" size="9" id="intendant2" maxlength="10"/>
 									<input type="text" size="9" id="intendant3" maxlength="10"/>
 								</td>
-								<th width="10%" height="27px">담당 부서 코드</th>
+								<th style="width:10%; height:27px;">담당 부서 코드</th>
 								<td>
 									<input type="text" size="33" id="jobChrgDeptCd" class="ygpaCmmnCd" data-code-id="GAM064" data-default-prompt="없음">
 								</td>
-								<th width="10%" height="27px">이월 예산 금액</th>
+								<th style="width:10%; height:27px;">이월 예산 금액</th>
 								<td>
 									<input type="text" size="30" id="caryFwdBdgtAmt" class="ygpaNumber" maxlength="20"/> 원
 								</td>
@@ -4030,15 +4472,15 @@ var module_instance = new GamFcltyCtrtMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="27px">품의 거래처 명</th>
+								<th style="width:10%; height:27px;">품의 거래처 명</th>
 								<td>
 									<input type="text" size="33" id="cnstCstmrNm" disabled/>
 								</td>
-								<th width="10%" height="27px">승　인　일　자</th>
+								<th style="width:10%; height:27px;">승　인　일　자</th>
 								<td>
 									<input type="text" size="33" id="confmDt" disabled/>
 								</td>
-								<th width="10%" height="27px">승인자　　코드</th>
+								<th style="width:10%; height:27px;">승인자　　코드</th>
 								<td>
 									<input type="text" size="33" id="confmerCd" disabled/>
 								</td>
@@ -4066,7 +4508,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 					</table>
 					<table class="detailPanel" style="width:100%;">
 						<tr>
-							<th width="10%" height="18">계　약　번　호</th>
+							<th style="width:10%; height:18px;">계　약　번　호</th>
 							<td>
 								<select id="joinCtrtSe" disabled>
 									<option value="1">공사</option>
@@ -4075,35 +4517,35 @@ var module_instance = new GamFcltyCtrtMngModule();
 								</select>
 								<input type="text" size="19" id="joinCtrtNo" disabled/>
 							</td>
-							<th width="10%" height="18">계　　약　　명</th>
+							<th style="width:10%; height:18px;">계　　약　　명</th>
 							<td colspan="3">
 								<input type="text" size="92" id="joinCtrtNm" disabled/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">원　인　행　위</th>
+							<th style="width:10%; height:18px;">원　인　행　위</th>
 							<td>
 								<input type="text" size="33" id="joinCauseAct" disabled/>
 							</td>
-							<th width="10%" height="18">발　주　방　식</th>
+							<th style="width:10%; height:18px;">발　주　방　식</th>
 							<td>
 								<input type="text" size="33" id="joinOrderMthd" disabled/>
 							</td>
-							<th width="10%" height="18">계　약　방　법</th>
+							<th style="width:10%; height:18px;">계　약　방　법</th>
 							<td>
 								<input type="text" size="33" id="joinCtrtMth" disabled/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">계　약　일　자</th>
+							<th style="width:10%; height:18px;">계　약　일　자</th>
 							<td>
 								<input type="text" size="33" id="joinCtrtDt" disabled/>
 							</td>
-							<th width="10%" height="18">계　약　금　액</th>
+							<th style="width:10%; height:18px;">계　약　금　액</th>
 							<td>
 								<input type="text" size="30" id="joinCtrtAmt" class="ygpaNumber" disabled/> 원
 							</td>
-							<th width="10%" height="18">계　약　기　간</th>
+							<th style="width:10%; height:18px;">계　약　기　간</th>
 							<td>
 								<input type="text" size="14" id="joinCtrtDtFrom" disabled/> ∼
 								<input type="text" size="14" id="joinCtrtDtTo" disabled/>
@@ -4124,79 +4566,79 @@ var module_instance = new GamFcltyCtrtMngModule();
 					<table id="joinGrid" style="display:none"></table>
 					<table class="detailPanel" style="width:100%;">
 						<tr>
-							<th width="10%" height="18">순　번／지분율</th>
+							<th style="width:10%; height:18px;">순　번／지분율</th>
 							<td>
 								<input type="text" size="10" id="joinSeq" disabled/>／
 								<input type="text" size="19" id="qotaRate" class="ygpaNumber" data-decimal-point="5" maxlength="20"/>
 							</td>
-							<th width="10%" height="18">업　　체　　명</th>
+							<th style="width:10%; height:18px;">업　　체　　명</th>
 							<td>
 								<input type="text" size="21" id="joinEntrpsNm" maxlength="100"/>
 								<button id="popupJoinEntrpsCd" class="popupButton">선택</button>
 							</td>
-							<th width="10%" height="18">대　　표　　자</th>
+							<th style="width:10%; height:18px;">대　　표　　자</th>
 							<td>
 								<input type="text" size="33" id="joinRprsntv" maxlength="100"/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">사업자　　번호</th>
+							<th style="width:10%; height:18px;">사업자　　번호</th>
 							<td>
 								<input type="text" size="33" id="joinBsnmNo" maxlength="14"/>
 							</td>
-							<th width="10%" height="18">업　　　　　종</th>
+							<th style="width:10%; height:18px;">업　　　　　종</th>
 							<td>
 								<input type="text" size="33" id="induty" maxlength="40"/>
 							</td>
-							<th width="10%" height="18">주　요　품　목</th>
+							<th style="width:10%; height:18px;">주　요　품　목</th>
 							<td>
 								<input type="text" size="33" id="stplPrdlst" maxlength="40"/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">전　화　번　호</th>
+							<th style="width:10%; height:18px;">전　화　번　호</th>
 							<td>
 								<input type="text" size="33" id="joinTlphonNo" maxlength="100"/>
 							</td>
-							<th width="10%" height="18">팩　스　번　호</th>
+							<th style="width:10%; height:18px;">팩　스　번　호</th>
 							<td>
 								<input type="text" size="33" id="joinFaxNo" maxlength="100"/>
 							</td>
-							<th width="10%" height="18">담　　당　　자</th>
+							<th style="width:10%; height:18px;">담　　당　　자</th>
 							<td>
 								<input type="text" size="33" id="charger" maxlength="20"/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">담당자　　직위</th>
+							<th style="width:10%; height:18px;">담당자　　직위</th>
 							<td>
 								<input type="text" size="33" id="chargerOfcPos" maxlength="20"/>
 							</td>
-							<th width="10%" height="18">담당자　　H　P</th>
+							<th style="width:10%; height:18px;">담당자　　H　P</th>
 							<td>
 								<input type="text" size="33" id="chargerMoblphonNo" maxlength="20"/>
 							</td>
-							<th width="10%" height="18">담당자　E-MAIL</th>
+							<th style="width:10%; height:18px;">담당자　E-MAIL</th>
 							<td>
 								<input type="text" size="33" id="chargerEmail" maxlength="50"/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">우　편　번　호</th>
+							<th style="width:10%; height:18px;">우　편　번　호</th>
 							<td>
 								<input type="text" size="33" id="postNo" maxlength="7"/>
 							</td>
-							<th width="10%" height="18">지　번　주　소</th>
+							<th style="width:10%; height:18px;">지　번　주　소</th>
 							<td colspan="3">
 								<input type="text" size="93" id="lnmAdres" maxlength="200"/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">거　래　관　계</th>
+							<th style="width:10%; height:18px;">거　래　관　계</th>
 							<td>
 								<input type="text" size="33" id="dealRelate" maxlength="20"/>
 							</td>
-							<th width="10%" height="18">도로명　　주소</th>
+							<th style="width:10%; height:18px;">도로명　　주소</th>
 							<td colspan="3">
 								<input type="text" size="93" id="roadnmAdres" maxlength="200"/>
 							</td>
@@ -4214,7 +4656,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 					</table>
 					<table class="detailPanel" style="width:100%;">
 						<tr>
-							<th width="10%" height="18">계　약　번　호</th>
+							<th style="width:10%; height:18px;">계　약　번　호</th>
 							<td>
 								<select id="subCtrtSe" disabled>
 									<option value="1">공사</option>
@@ -4223,35 +4665,35 @@ var module_instance = new GamFcltyCtrtMngModule();
 								</select>
 								<input type="text" size="19" id="subCtrtNo" disabled/>
 							</td>
-							<th width="10%" height="18">계　　약　　명</th>
+							<th style="width:10%; height:18px;">계　　약　　명</th>
 							<td colspan="3">
 								<input type="text" size="92" id="subCtrtNm" disabled/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">원　인　행　위</th>
+							<th style="width:10%; height:18px;">원　인　행　위</th>
 							<td>
 								<input type="text" size="33" id="subCauseAct" disabled/>
 							</td>
-							<th width="10%" height="18">발　주　방　식</th>
+							<th style="width:10%; height:18px;">발　주　방　식</th>
 							<td>
 								<input type="text" size="33" id="subOrderMthd" disabled/>
 							</td>
-							<th width="10%" height="18">계　약　방　법</th>
+							<th style="width:10%; height:18px;">계　약　방　법</th>
 							<td>
 								<input type="text" size="33" id="subCtrtMth" disabled/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">계　약　일　자</th>
+							<th style="width:10%; height:18px;">계　약　일　자</th>
 							<td>
 								<input type="text" size="33" id="subCtrtDt" disabled/>
 							</td>
-							<th width="10%" height="18">계　약　금　액</th>
+							<th style="width:10%; height:18px;">계　약　금　액</th>
 							<td>
 								<input type="text" size="30" id="subCtrtAmt" class="ygpaNumber" disabled/> 원
 							</td>
-							<th width="10%" height="18">계　약　기　간</th>
+							<th style="width:10%; height:18px;">계　약　기　간</th>
 							<td>
 								<input type="text" size="14" id="subCtrtDtFrom" disabled/> ∼
 								<input type="text" size="14" id="subCtrtDtTo" disabled/>
@@ -4272,23 +4714,23 @@ var module_instance = new GamFcltyCtrtMngModule();
 					<table id="subGrid" style="display:none"></table>
 					<table class="detailPanel" style="width:100%;">
 						<tr>
-							<th width="10%" height="18">순　　　　　번</th>
+							<th style="width:10%; height:18px;">순　　　　　번</th>
 							<td>
 								<input type="text" size="33" id="subSeq" disabled/>
 							</td>
-							<th width="10%" height="18">업　　체　　명</th>
+							<th style="width:10%; height:18px;">업　　체　　명</th>
 							<td>
 								<input type="text" size="21" id="subEntrpsNm" maxlength="100"/>
 								<button id="popupSubEntrpsCd" class="popupButton">선택</button>
 							</td>
-							<th width="10%" height="18">하도급계약기간</th>
+							<th style="width:10%; height:18px;">하도급계약기간</th>
 							<td>
 								<input type="text" size="11" id="subctrtCtrtDtFrom" class="emdcal"/> ∼
 								<input type="text" size="11" id="subctrtCtrtDtTo" class="emdcal"/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">대금 지급 합의</th>
+							<th style="width:10%; height:18px;">대금 지급 합의</th>
 							<td>
 								<select id="moneyPymntAgree">
 									<option value="" selected>선택</option>
@@ -4296,21 +4738,21 @@ var module_instance = new GamFcltyCtrtMngModule();
 									<option value="20">하도급지급미합의</option>
 								</select>
 							</td>
-							<th width="10%" height="18">하　도　급　율</th>
+							<th style="width:10%; height:18px;">하　도　급　율</th>
 							<td>
 								<input type="text" size="33" id="subctrtRate" class="ygpaNumber" data-decimal-point="5" maxlength="20"/>
 							</td>
-							<th width="10%" height="18">원도급　　금액</th>
+							<th style="width:10%; height:18px;">원도급　　금액</th>
 							<td>
 								<input type="text" size="30" id="orginlContrAmt" class="ygpaNumber" maxlength="20"/> 원
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">하도급계약금액</th>
+							<th style="width:10%; height:18px;">하도급계약금액</th>
 							<td>
 								<input type="text" size="30" id="subctrtCtrtAmt" class="ygpaNumber" maxlength="20"/> 원
 							</td>
-							<th width="10%" height="18">공　　　　　종</th>
+							<th style="width:10%; height:18px;">공　　　　　종</th>
 							<td colspan="3">
 								<input type="text" size="92" id="workClass" maxlength="100"/>
 							</td>
@@ -4328,7 +4770,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 					</table>
 					<table class="detailPanel" style="width:100%;">
 						<tr>
-							<th width="10%" height="18">계　약　번　호</th>
+							<th style="width:10%; height:18px;">계　약　번　호</th>
 							<td>
 								<select id="changeInfoCtrtSe" disabled>
 									<option value="1">공사</option>
@@ -4337,35 +4779,35 @@ var module_instance = new GamFcltyCtrtMngModule();
 								</select>
 								<input type="text" size="19" id="changeInfoCtrtNo" disabled/>
 							</td>
-							<th width="10%" height="18">계　　약　　명</th>
+							<th style="width:10%; height:18px;">계　　약　　명</th>
 							<td colspan="3">
 								<input type="text" size="92" id="changeInfoCtrtNm" disabled/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">원　인　행　위</th>
+							<th style="width:10%; height:18px;">원　인　행　위</th>
 							<td>
 								<input type="text" size="33" id="changeInfoCauseAct" disabled/>
 							</td>
-							<th width="10%" height="18">발　주　방　식</th>
+							<th style="width:10%; height:18px;">발　주　방　식</th>
 							<td>
 								<input type="text" size="33" id="changeInfoOrderMthd" disabled/>
 							</td>
-							<th width="10%" height="18">계　약　방　법</th>
+							<th style="width:10%; height:18px;">계　약　방　법</th>
 							<td>
 								<input type="text" size="33" id="changeInfoCtrtMth" disabled/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">계　약　일　자</th>
+							<th style="width:10%; height:18px;">계　약　일　자</th>
 							<td>
 								<input type="text" size="33" id="changeInfoCtrtDt" disabled/>
 							</td>
-							<th width="10%" height="18">계　약　금　액</th>
+							<th style="width:10%; height:18px;">계　약　금　액</th>
 							<td>
 								<input type="text" size="30" id="changeInfoCtrtAmt" class="ygpaNumber" disabled/> 원
 							</td>
-							<th width="10%" height="18">계　약　기　간</th>
+							<th style="width:10%; height:18px;">계　약　기　간</th>
 							<td>
 								<input type="text" size="14" id="changeInfoCtrtDtFrom" disabled/> ∼
 								<input type="text" size="14" id="changeInfoCtrtDtTo" disabled/>
@@ -4386,11 +4828,11 @@ var module_instance = new GamFcltyCtrtMngModule();
 					<table id="changeGrid" style="display:none"></table>
 					<table class="detailPanel" style="width:100%;">
 						<tr>
-							<th width="10%" height="18">순　　　　　번</th>
+							<th style="width:10%; height:18px;">순　　　　　번</th>
 							<td>
 								<input type="text" size="33" id="changeSeq" disabled/>
 							</td>
-							<th width="10%" height="18">변　경　구　분</th>
+							<th style="width:10%; height:18px;">변　경　구　분</th>
 							<td>
 								<select id="changeSe">
 									<option value="" selected>선택</option>
@@ -4399,34 +4841,34 @@ var module_instance = new GamFcltyCtrtMngModule();
 									<option value="9">기타</option>
 								</select>
 							</td>
-							<th width="10%" height="18">변　경　일　자</th>
+							<th style="width:10%; height:18px;">변　경　일　자</th>
 							<td>
 								<input type="text" size="30" id="changeDt" class="emdcal"/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">변　경　사　유</th>
+							<th style="width:10%; height:18px;">변　경　사　유</th>
 							<td colspan="5">
 								<input type="text" size="150" id="changeRsn" maxlength="100"/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">변경 계약 기간</th>
+							<th style="width:10%; height:18px;">변경 계약 기간</th>
 							<td>
 								<input type="text" size="11" id="changeCtrtDtFrom" class="emdcal"/> ~
 								<input type="text" size="11" id="changeCtrtDtTo" class="emdcal"/>
 							</td>
-							<th width="10%" height="18">변경 계약 금액</th>
+							<th style="width:10%; height:18px;">변경 계약 금액</th>
 							<td>
 								<input type="text" size="30" id="changeCtrtAmt" class="ygpaNumber" maxlength="20"/> 원
 							</td>
-							<th width="10%" height="18">최종 계약 금액</th>
+							<th style="width:10%; height:18px;">최종 계약 금액</th>
 							<td>
 								<input type="text" size="30" id="lastCtrtAmt" class="ygpaNumber" maxlength="20"/> 원
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">비　　　　　고</th>
+							<th style="width:10%; height:18px;">비　　　　　고</th>
 							<td colspan="5">
 								<input type="text" size="150" id="changeRm" maxlength="1000"/>
 							</td>
@@ -4444,7 +4886,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 					</table>
 					<table class="detailPanel" style="width:100%;">
 						<tr>
-							<th width="10%" height="18">계　약　번　호</th>
+							<th style="width:10%; height:18px;">계　약　번　호</th>
 							<td>
 								<select id="pymntCtrtSe" disabled>
 									<option value="1">공사</option>
@@ -4453,35 +4895,35 @@ var module_instance = new GamFcltyCtrtMngModule();
 								</select>
 								<input type="text" size="19" id="pymntCtrtNo" disabled/>
 							</td>
-							<th width="10%" height="18">계　　약　　명</th>
+							<th style="width:10%; height:18px;">계　　약　　명</th>
 							<td colspan="3">
 								<input type="text" size="92" id="pymntCtrtNm" disabled/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">원　인　행　위</th>
+							<th style="width:10%; height:18px;">원　인　행　위</th>
 							<td>
 								<input type="text" size="33" id="pymntCauseAct" disabled/>
 							</td>
-							<th width="10%" height="18">발　주　방　식</th>
+							<th style="width:10%; height:18px;">발　주　방　식</th>
 							<td>
 								<input type="text" size="33" id="pymntOrderMthd" disabled/>
 							</td>
-							<th width="10%" height="18">계　약　방　법</th>
+							<th style="width:10%; height:18px;">계　약　방　법</th>
 							<td>
 								<input type="text" size="33" id="pymntCtrtMth" disabled/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">계　약　일　자</th>
+							<th style="width:10%; height:18px;">계　약　일　자</th>
 							<td>
 								<input type="text" size="33" id="pymntCtrtDt" disabled/>
 							</td>
-							<th width="10%" height="18">계　약　금　액</th>
+							<th style="width:10%; height:18px;">계　약　금　액</th>
 							<td>
 								<input type="text" size="30" id="pymntCtrtAmt" class="ygpaNumber" disabled/> 원
 							</td>
-							<th width="10%" height="18">계　약　기　간</th>
+							<th style="width:10%; height:18px;">계　약　기　간</th>
 							<td>
 								<input type="text" size="14" id="pymntCtrtDtFrom" disabled/> ∼
 								<input type="text" size="14" id="pymntCtrtDtTo" disabled/>
@@ -4502,7 +4944,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 					<table id="pymntGrid" style="display:none"></table>
 					<table class="detailPanel" style="width:100%;">
 						<tr>
-							<th width="10%" height="18">순번／지급분류</th>
+							<th style="width:10%; height:18px;">순번／지급분류</th>
 							<td>
 								<input type="text" size="10" id="pymntSeq" disabled/>／
 								<select id="pymntCl">
@@ -4512,31 +4954,31 @@ var module_instance = new GamFcltyCtrtMngModule();
 									<option value="30">잔금</option>
 								</select>
 							</td>
-							<th width="10%" height="18">지　급　일　자</th>
+							<th style="width:10%; height:18px;">지　급　일　자</th>
 							<td>
 								<input type="text" size="30" id="pymntDt" class="emdcal"/>
 							</td>
-							<th width="10%" height="18">금회 기성 금액</th>
+							<th style="width:10%; height:18px;">금회 기성 금액</th>
 							<td>
 								<input type="text" size="30" id="thisTimeEstbAmt" class="ygpaNumber" maxlength="20"/> 원
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">선금 정산 금액</th>
+							<th style="width:10%; height:18px;">선금 정산 금액</th>
 							<td>
 								<input type="text" size="30" id="depositExcclcAmt" class="ygpaNumber" maxlength="20"/> 원
 							</td>
-							<th width="10%" height="18">지　급　금　액</th>
+							<th style="width:10%; height:18px;">지　급　금　액</th>
 							<td>
 								<input type="text" size="30" id="pymntAmt" class="ygpaNumber" maxlength="20"/> 원
 							</td>
-							<th width="10%" height="18">지급 누계 금액</th>
+							<th style="width:10%; height:18px;">지급 누계 금액</th>
 							<td>
 								<input type="text" size="30" id="pymntAggrAmt" class="ygpaNumber" maxlength="20"/> 원
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">비　　　　　고</th>
+							<th style="width:10%; height:18px;">비　　　　　고</th>
 							<td colspan="5">
 								<input type="text" size="150" id="pymntRm" maxlength="1000"/>
 							</td>
@@ -4554,7 +4996,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 					</table>
 					<table class="detailPanel" style="width:100%;">
 						<tr>
-							<th width="10%" height="18">계　약　번　호</th>
+							<th style="width:10%; height:18px;">계　약　번　호</th>
 							<td>
 								<select id="caryFwdCtrtSe" disabled>
 									<option value="1">공사</option>
@@ -4563,35 +5005,35 @@ var module_instance = new GamFcltyCtrtMngModule();
 								</select>
 								<input type="text" size="19" id="caryFwdCtrtNo" disabled/>
 							</td>
-							<th width="10%" height="18">계　　약　　명</th>
+							<th style="width:10%; height:18px;">계　　약　　명</th>
 							<td colspan="3">
 								<input type="text" size="92" id="caryFwdCtrtNm" disabled/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">원　인　행　위</th>
+							<th style="width:10%; height:18px;">원　인　행　위</th>
 							<td>
 								<input type="text" size="33" id="caryFwdCauseAct" disabled/>
 							</td>
-							<th width="10%" height="18">발　주　방　식</th>
+							<th style="width:10%; height:18px;">발　주　방　식</th>
 							<td>
 								<input type="text" size="33" id="caryFwdOrderMthd" disabled/>
 							</td>
-							<th width="10%" height="18">계　약　방　법</th>
+							<th style="width:10%; height:18px;">계　약　방　법</th>
 							<td>
 								<input type="text" size="33" id="caryFwdCtrtMth" disabled/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">계　약　일　자</th>
+							<th style="width:10%; height:18px;">계　약　일　자</th>
 							<td>
 								<input type="text" size="33" id="caryFwdCtrtDt" disabled/>
 							</td>
-							<th width="10%" height="18">계　약　금　액</th>
+							<th style="width:10%; height:18px;">계　약　금　액</th>
 							<td>
 								<input type="text" size="30" id="caryFwdCtrtAmt" class="ygpaNumber" disabled/> 원
 							</td>
-							<th width="10%" height="18">계　약　기　간</th>
+							<th style="width:10%; height:18px;">계　약　기　간</th>
 							<td>
 								<input type="text" size="14" id="caryFwdCtrtDtFrom" disabled/> ∼
 								<input type="text" size="14" id="caryFwdCtrtDtTo" disabled/>
@@ -4612,16 +5054,16 @@ var module_instance = new GamFcltyCtrtMngModule();
 					<table id="caryFwdGrid" style="display:none"></table>
 					<table class="detailPanel" style="width:100%;">
 						<tr>
-							<th width="10%" height="18">순번／이월년도</th>
+							<th style="width:10%; height:18px;">순번／이월년도</th>
 							<td>
 								<input type="text" size="10" id="caryFwdSeq" disabled/>／
 								<input type="text" size="19" id="fulfillCaryFwdYear" maxlength="4"/>
 							</td>
-							<th width="10%" height="18">이　행　금　액</th>
+							<th style="width:10%; height:18px;">이　행　금　액</th>
 							<td>
 								<input type="text" size="30" id="fulfillAmt" class="ygpaNumber" maxlength="20"/> 원
 							</td>
-							<th width="10%" height="18">이　월　금　액</th>
+							<th style="width:10%; height:18px;">이　월　금　액</th>
 							<td>
 								<input type="text" size="30" id="caryFwdAmt" class="ygpaNumber" maxlength="20"/> 원
 							</td>
@@ -4639,7 +5081,7 @@ var module_instance = new GamFcltyCtrtMngModule();
 					</table>
 					<table class="detailPanel" style="width:100%;">
 						<tr>
-							<th width="10%" height="18">계　약　번　호</th>
+							<th style="width:10%; height:18px;">계　약　번　호</th>
 							<td>
 								<select id="scsbidCtrtSe" disabled>
 									<option value="1">공사</option>
@@ -4648,35 +5090,35 @@ var module_instance = new GamFcltyCtrtMngModule();
 								</select>
 								<input type="text" size="19" id="scsbidCtrtNo" disabled/>
 							</td>
-							<th width="10%" height="18">계　　약　　명</th>
+							<th style="width:10%; height:18px;">계　　약　　명</th>
 							<td colspan="3">
 								<input type="text" size="92" id="scsbidCtrtNm" disabled/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">원　인　행　위</th>
+							<th style="width:10%; height:18px;">원　인　행　위</th>
 							<td>
 								<input type="text" size="33" id="scsbidCauseAct" disabled/>
 							</td>
-							<th width="10%" height="18">발　주　방　식</th>
+							<th style="width:10%; height:18px;">발　주　방　식</th>
 							<td>
 								<input type="text" size="33" id="scsbidOrderMthd" disabled/>
 							</td>
-							<th width="10%" height="18">계　약　방　법</th>
+							<th style="width:10%; height:18px;">계　약　방　법</th>
 							<td>
 								<input type="text" size="33" id="scsbidCtrtMth" disabled/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">계　약　일　자</th>
+							<th style="width:10%; height:18px;">계　약　일　자</th>
 							<td>
 								<input type="text" size="33" id="scsbidCtrtDt" disabled/>
 							</td>
-							<th width="10%" height="18">계　약　금　액</th>
+							<th style="width:10%; height:18px;">계　약　금　액</th>
 							<td>
 								<input type="text" size="30" id="scsbidCtrtAmt" class="ygpaNumber" disabled/> 원
 							</td>
-							<th width="10%" height="18">계　약　기　간</th>
+							<th style="width:10%; height:18px;">계　약　기　간</th>
 							<td>
 								<input type="text" size="11" id="scsbidCtrtDtFrom" disabled/> ∼
 								<input type="text" size="11" id="scsbidCtrtDtTo" disabled/>
@@ -4697,39 +5139,162 @@ var module_instance = new GamFcltyCtrtMngModule();
 					<table id="scsbidGrid" style="display:none"></table>
 					<table class="detailPanel" style="width:100%;">
 						<tr>
-							<th width="10%" height="18">순번／낙찰순위</th>
+							<th style="width:10%; height:18px;">순번／낙찰순위</th>
 							<td>
 								<input type="text" size="10" id="scsbidSeq" disabled/>／
 								<input type="text" size="19" id="scsbidRank" maxlength="3"/>
 							</td>
-							<th width="10%" height="18">업　　체　　명</th>
+							<th style="width:10%; height:18px;">업　　체　　명</th>
 							<td>
 								<input type="text" size="21" id="scsbidEntrpsNm" maxlength="100"/>
 								<button id="popupScsbidEntrpsCd" class="popupButton">선택</button>
 							</td>
-							<th width="10%" height="18">대　　표　　자</th>
+							<th style="width:10%; height:18px;">대　　표　　자</th>
 							<td>
 								<input type="text" size="33" id="scsbidRprsntv" maxlength="100"/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">사업자　　번호</th>
+							<th style="width:10%; height:18px;">사업자　　번호</th>
 							<td>
 								<input type="text" size="33" id="scsbidBsnmNo" maxlength="14"/>
 							</td>
-							<th width="10%" height="18">전　화　번　호</th>
+							<th style="width:10%; height:18px;">전　화　번　호</th>
 							<td>
 								<input type="text" size="33" id="scsbidTlphonNo" maxlength="100"/>
 							</td>
-							<th width="10%" height="18">팩　스　번　호</th>
+							<th style="width:10%; height:18px;">팩　스　번　호</th>
 							<td>
 								<input type="text" size="33" id="scsbidFaxNo" maxlength="100"/>
 							</td>
 						</tr>
 						<tr>
-							<th width="10%" height="18">비　　　　　고</th>
+							<th style="width:10%; height:18px;">비　　　　　고</th>
 							<td colspan="5">
 								<input type="text" size="150" id="scsbidRm" maxlength="1000"/>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<!-- 219. TAB 9 AREA (FLAW GRNTY) -->
+			<div id="flawTab" class="emdTabPage" style="overflow:scroll;">
+				<form id="flawGrntyForm">
+					<table class="summaryPanel" style="width:100%;">
+						<tr>
+							<th style="font-weight:bold; height:20px;">계약 정보 내역</th>
+						</tr>
+					</table>
+					<table class="detailPanel" style="width:100%;">
+						<tr>
+							<th style="width:10%; height:18px;">계　약　번　호</th>
+							<td>
+								<select id="flawCtrtSe" disabled>
+									<option value="1">공사</option>
+									<option value="2">용역</option>
+									<option value="3">지급자재</option>
+								</select>
+								<input type="text" size="19" id="flawGrntyCtrtNo" disabled/>
+							</td>
+							<th style="width:10%; height:18px;">계　　약　　명</th>
+							<td colspan="3">
+								<input type="text" size="92" id="flawCtrtNm" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th style="width:10%; height:18px;">원　인　행　위</th>
+							<td>
+								<input type="text" size="33" id="flawCauseAct" disabled/>
+							</td>
+							<th style="width:10%; height:18px;">발　주　방　식</th>
+							<td>
+								<input type="text" size="33" id="flawOrderMthd" disabled/>
+							</td>
+							<th style="width:10%; height:18px;">계　약　방　법</th>
+							<td>
+								<input type="text" size="33" id="flawCtrtMth" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th style="width:10%; height:18px;">계　약　일　자</th>
+							<td>
+								<input type="text" size="33" id="flawCtrtDt" disabled/>
+							</td>
+							<th style="width:10%; height:18px;">계　약　금　액</th>
+							<td>
+								<input type="text" size="30" id="flawCtrtAmt" class="ygpaNumber" disabled/> 원
+							</td>
+							<th style="width:10%; height:18px;">계　약　기　간</th>
+							<td>
+								<input type="text" size="14" id="flawCtrtDtFrom" disabled/> ∼
+								<input type="text" size="14" id="flawCtrtDtTo" disabled/>
+							</td>
+						</tr>
+					</table>
+					<table class="summaryPanel" style="width:100%;">
+						<tr>
+							<th style="font-weight:bold; height:20px;">계약 하자 보증 내역</th>
+							<td style="text-align:right;">
+								<button id="btnFlawGrntyInsert" class="buttonAdd">　　추　가　　</button>
+								<button id="btnFlawGrntySave" class="buttonSave">　　저　장　　</button>
+								<button id="btnFlawGrntyRemove" class="buttonDelete">　　삭　제　　</button>
+                                <button id="btnFlawGrntyExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+							</td>
+						</tr>
+					</table>
+					<table id="flawGrid" style="display:none"></table>
+					<table class="detailPanel" style="width:100%;">
+						<tr>
+							<th style="width:10%; height:18px;">순　　　　　번</th>
+							<td>
+								<input type="text" size="33" id="flawGrntySeq" disabled/>
+							</td>
+							<th style="width:10%; height:18px;">하자　　만료일</th>
+							<td>
+								<input type="text" size="30" id="flawEndDt" class="emdcal"/>
+							</td>
+							<th style="width:10%; height:18px;">하자 보증 기간</th>
+							<td>
+								<input type="text" size="11" id="flawGrntyStartDt" class="emdcal"/> ~
+								<input type="text" size="11" id="flawGrntyEndDt" class="emdcal"/>
+							</td>
+						</tr>
+						<tr>
+							<th style="width:10%; height:18px;">보증 증권 번호</th>
+							<td>
+								<input type="text" size="33" id="flawGrntyInsuNo" maxlength="30"/>
+							</td>
+							<th style="width:10%; height:18px;">보증 가입 금액</th>
+							<td>
+								<input type="text" size="30" id="flawGrntySrbctAmt" class="ygpaNumber" maxlength="20"/> 원
+							</td>
+							<th style="width:10%; height:18px;">보증 계약 금액</th>
+							<td>
+								<input type="text" size="30" id="flawGrntyCtrtAmt" class="ygpaNumber" maxlength="20"/> 원
+							</td>
+						</tr>
+						<tr>
+							<th style="width:10%; height:18px;">보증 보험 회사</th>
+							<td>
+								<input type="text" size="33" id="flawGrntyInsuCmpy" maxlength="50"/>
+							</td>
+							<th style="width:10%; height:18px;">보증 보험 주소</th>
+							<td>
+								<input type="text" size="33" id="flawGrntyInsuAddr" maxlength="100"/>
+							</td>
+							<th style="width:10%; height:18px;">보증보험대표자</th>
+							<td>
+								<input type="text" size="33" id="flawGrntyInsuRprsntv" maxlength="50"/>
+							</td>
+						</tr>
+						<tr>
+							<th style="width:10%; height:18px;">보증　　보험율</th>
+							<td>
+								<input type="text" size="30" id="flawGrntyRate" class="ygpaNumber" maxlength="3"/>％
+							</td>
+							<th style="width:10%; height:18px;">비　　　　　고</th>
+							<td colspan="3">
+								<input type="text" size="92" id="flawGrntyRm" maxlength="1000"/>
 							</td>
 						</tr>
 					</table>
