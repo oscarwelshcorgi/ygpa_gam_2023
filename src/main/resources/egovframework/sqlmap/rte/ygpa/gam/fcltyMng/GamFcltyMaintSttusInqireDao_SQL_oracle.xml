@@ -179,6 +179,7 @@
         SELECT  
 			G.FCLTS_MNG_NO
 			, G.PRT_FCLTY_NM
+			, GAM_GETCODENAME(#codeId#,G.GIS_PRT_FCLTY_CD) GIS_PRT_FCLTY_NM
 		FROM
 			GIS_PRT_FCLTY_CD_F G 
         LEFT OUTER JOIN 
@@ -186,15 +187,13 @@
         ON 
 			O.FCLTS_MNG_GROUP_NO = G.FCLTS_MNG_GROUP_NO 
 			AND O.FCLTS_MNG_NO = G.FCLTS_MNG_NO 
+			AND O.MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)  
 		WHERE 
-			1=1
-
-			AND G.PRT_FCLTY_SE = #fcltsJobSe#
+			G.PRT_FCLTY_SE = #fcltsJobSe#
 			AND G.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo# 
-			AND O.MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#) 
 
         ORDER BY 
-          	O.FCLTS_MNG_NO ASC, G.PRT_FCLTY_NM ASC
+          	G.PRT_FCLTY_SE, G.FCLTS_MNG_NO ASC
 	</select>
 	
 	

@@ -82,9 +82,11 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function(params) {
 		dataType: "json",
 		colModel : [
 					{display:"관리번호", 			name:"fcltsMngNo",			width:130, 		sortable:false,		align:"center"},
-					{display:"시설명",			name:"prtFcltyNm",			width:250,		sortable:false,		align:"left"}
+					{display:"시설명",			name:"prtFcltyNm",			width:250,		sortable:false,		align:"left"},
+					{display:"시설분류",			name:"gisPrtFcltyNm",		width:50,		sortable:false,		align:"left"}
 			],
-		height: "295"
+		height: "295",
+		groupBy: "gisPrtFcltyNm",
 	});
 
  	this.$("#fcltyMaintSttusInqireList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -355,6 +357,49 @@ GamFcltyMaintSttusInqireModule.prototype.loadDetail = function(){
 		}
     });
 	
+};
+
+
+<%
+/**
+ * @FUNCTION NAME : getCodeId
+ * @DESCRIPTION   : 시설물분류 코드 아이디 리턴 함수
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyMaintSttusInqireModule.prototype.getCodeId = function(fcltsJobSe) {
+	
+	var codeId = '';
+	switch(fcltsJobSe) {
+		// 전기시설물
+		case "E":
+			codeId = 'GAM068';
+		break;
+		
+		// 기계시설물
+		case "M":
+			codeId = 'GAM067';
+		break;
+		
+		// 토목시설물
+		case "C":
+			codeId = 'GAM070';
+		break;
+		
+		// 건축시설물
+		case "A":
+			codeId = 'GAM066';
+		break;
+		
+		// 정보통신시설물
+		case "I":
+			codeId = 'GAM069';
+		break;
+		
+	}
+	
+	
+	return codeId;
 };
 
 

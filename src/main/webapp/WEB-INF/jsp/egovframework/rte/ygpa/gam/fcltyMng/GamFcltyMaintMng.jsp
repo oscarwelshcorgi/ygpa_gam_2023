@@ -198,7 +198,9 @@ GamFcltyMaintMngModule.prototype.setDefaultParam = function(){
 	this.$("#sMntnRprCnstStartDtTo").val(toYear + "-" + toMonth + "-" + toDay);
 	
 	this.$("#sFcltsJobSe").val(EMD.userinfo["mngFcltyCd"]);
-
+	
+	this.$('#planHistSe').val('H');
+	this.$('#planHistSe').disable();
 };
 
 
@@ -235,13 +237,15 @@ GamFcltyMaintMngModule.prototype.applyDataChanged = function() {
 	var codeId = this.getCodeId(fcltsJobSe);
 	this.$("#codeId").val(codeId);
 	
-	var searchVO = [
-	                { name: 'fcltsJobSe', value: fcltsJobSe },
-	                { name: 'fcltsMngGroupNo', value: fcltsMngGroupNo },
-	                { name: 'mntnRprSeq', value: mntnRprSeq }
-	               ];
-	
-	this.$('#mntnRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
+	if(fcltsJobSe && fcltsMngGroupNo){
+		var searchVO = [
+		                { name: 'fcltsJobSe', value: fcltsJobSe },
+		                { name: 'fcltsMngGroupNo', value: fcltsMngGroupNo },
+		                { name: 'mntnRprSeq', value: mntnRprSeq }
+		               ];
+		
+		this.$('#mntnRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
+	}
 };
 
 
@@ -1001,9 +1005,9 @@ var module_instance = new GamFcltyMaintMngModule();
 											<option value="">선택</option>
 										</select>
 									</td>
-									<th width="100px" height="18" class="required_text">시설물업무구분</th>
+									<th width="100px" height="18">시설물업무구분</th>
 									<td>
-										<select id="fcltsJobSe" data-required="true" title="시설물업무구분" class="EditItem">
+										<select id="fcltsJobSe" title="시설물업무구분" class="EditItem">
 											<option value="">선택</option>
 											<option value="E">전기시설물</option>
 											<option value="M">기계시설물</option>
@@ -1037,18 +1041,18 @@ var module_instance = new GamFcltyMaintMngModule();
 										</select>
 										<input type="hidden" id="mntnRprSeq" title="유지보수순번" />
 									</td>
-									<th height="18" class="required_text">계획이력구분</th>
+									<th height="18">계획이력구분</th>
 									<td>
-										<select id="planHistSe" data-required="true" title="계획이력구분">
+										<select id="planHistSe" title="계획이력구분">
 											<option value="P">계획</option>
 											<option value="H">이력</option>
 										</select>
 									</td>
 								</tr>
 								<tr>
-									<th height="17" class="required_text">시설물관리그룹</th>
+									<th height="17">시설물관리그룹</th>
 									<td colspan="3">
-										<input type="text" size="20" id="fcltsMngGroupNo" disabled="disabled" data-required="true" title="시설물관리그룹넘버" />-
+										<input type="text" size="20" id="fcltsMngGroupNo" disabled="disabled" title="시설물관리그룹넘버" />-
 										<input type="text" size="35" id="fcltsMngGroupNoNm" disabled="disabled" title="시설물관리그룹명"/>
 										<button id="searchFcltsMngGroupNo" class="popupButton">선택</button>
 									</td>

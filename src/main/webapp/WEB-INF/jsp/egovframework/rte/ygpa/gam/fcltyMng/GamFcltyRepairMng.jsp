@@ -1089,7 +1089,7 @@ var module_instance = new GamFcltyRepairMngModule();
 						<tr>
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
 							<td colspan="3">
-								<input type="text" size="18" id="fcltsMngGroupNo" disabled="disabled" data-required="true" title="시설물관리그룹넘버" />
+								<input type="text" size="18" id="fcltsMngGroupNo" disabled="disabled" title="시설물관리그룹넘버" />
 								<input type="text" size="28" id="fcltsMngGoupNoNm" disabled="disabled" title="시설물관리그룹명"/>
 								<button id="searchFcltsMngGroupNo" class="popupButton">선택</button>
 							</td>
@@ -1101,7 +1101,7 @@ var module_instance = new GamFcltyRepairMngModule();
 							</td>
 							<th width="15%" height="23" class="required_text">시설물업무구분</th>
 							<td>
-								<select id="fcltsJobSe" data-required="true" title="시설물업무구분">
+								<select id="fcltsJobSe" title="시설물업무구분">
 									<option value="">선택</option>
 									<option value="E">전기시설물</option>
 									<option value="M">기계시설물</option>

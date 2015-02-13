@@ -461,6 +461,7 @@
 </c:choose>
         </div>
     </div>
+<!-- 
     <div class="page">
 <c:set var="pagePerCount" value="14"/>
 <c:if test="${fn:length(resultList) == 0}">
@@ -491,7 +492,7 @@
 	<div class="page">
 		</c:if>
 		<div class="subpage ygpa_report" >
-			<!--  헤더 반복  -->
+			<% /*  헤더 반복 */ %>
 		<c:choose>
 			<c:when test="${(resultListTotalCount - resultStatus.index) > pagePerCount }"><c:set var="continueChk" value="(계속)"/></c:when>
 			<c:otherwise><c:set var="continueChk" value=""/></c:otherwise>
@@ -521,7 +522,7 @@
         	</table>
         </div>
     </div>
-    
+ -->    
     <div class="page">
 <c:set var="pagePerCount1" value="4"/>
 <c:if test="${fn:length(resultHistList) == 0}">
@@ -603,7 +604,7 @@
         	</table>
         </div>
     </div>
-    
+<!--     
     <div class="page">
 <c:set var="pagePerCount2" value="10"/>
 <c:if test="${fn:length(mntnResultList) == 0}">
@@ -634,7 +635,7 @@
 	<div class="page">
 		</c:if>
 		<div class="subpage ygpa_report" >
-			<!--  헤더 반복  -->
+			<% /*  헤더 반복 */ %>
 		<c:choose>
 			<c:when test="${(mntnResultListTotalCount - resultStatus.index) > pagePerCount2 }"><c:set var="continueChk" value="(계속)"/></c:when>
 			<c:otherwise><c:set var="continueChk" value=""/></c:otherwise>
@@ -664,7 +665,7 @@
         	</table>
         </div>
     </div>
-    
+ -->    
     
     <div class="page">
 <c:set var="pagePerCount3" value="5"/>

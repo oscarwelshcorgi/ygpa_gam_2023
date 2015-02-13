@@ -25,7 +25,7 @@
  */
 function GamPopupFcltsClCdModule() {}
 
-GamPopupFcltsClCdModule.prototype = new EmdPopupModule(640, 480);
+GamPopupFcltsClCdModule.prototype = new EmdPopupModule(830, 480);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamPopupFcltsClCdModule.prototype.loadComplete = function() {
