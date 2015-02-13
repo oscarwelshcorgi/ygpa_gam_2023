@@ -45,7 +45,7 @@ GamFcltyMaintMngModule.prototype = new EmdModule(1000,600);	// 초기 시작 창
  * @PARAMETER     : NONE
 **/
 %>
-GamFcltyMaintMngModule.prototype.loadComplete = function() {
+GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 	
 	this._mode = "";
 	this._deleteDataMaintList=[];
@@ -89,9 +89,11 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"선택", 				name:"chkRole",				width:40, 		sortable:false,		align:"center", 	displayFormat:"checkbox"},
-					{display:"시설명",			name:"prtFcltyNm",			width:343,		sortable:false,		align:"left"}
+					{display:"시설명",			name:"prtFcltyNm",			width:343,		sortable:false,		align:"left"},
+					{display:"시설분류",			name:"gisPrtFcltyNm",		width:50,		sortable:false,		align:"left"}
 			],
 		height: "323",
+		groupBy: "gisPrtFcltyNm",
 		preProcess : function(module,data) {
 			$.each(data.resultList, function() {
 				this.chkRole = this.chkRole==="TRUE";
@@ -139,13 +141,38 @@ GamFcltyMaintMngModule.prototype.loadComplete = function() {
 		event.data.module.$("#sCtrtNo").val('');
 		event.data.module.$("#sCtrtNm").val('');
 	});
-
+	
 	// 기본값 셋팅
 	this.setDefaultParam();
-	
-	// 연도 셀렉트 옵션에 뿌리기
 	this.applySelectYear();
+	this.getMapInfoList(params);
+	
+};
 
+
+<%
+/**
+ * @FUNCTION NAME : getMapInfoList
+ * @DESCRIPTION   : 맵에서 유지보수 정보를 클릭할때 넘어오는 Param으로 리스트 가져오는 함수
+ * @PARAMETER     
+ *		1. fcltsMngGroupNo   : 시설물 관리 그룹 코드
+ *		2. fcltsMngGroupNoNm : 시설물 관리 그룹 코드명
+**/
+%>
+GamFcltyMaintMngModule.prototype.getMapInfoList = function(params){
+	this._params=params;
+	if(params!=null) {
+		if(params.action!=null) {
+			switch(params.action) {
+				case "manage":
+					this.$('#sFcltsMngGroupNo').val(this._params.fcltsMngGroupNo);
+					this.$('#sFcltsMngGroupNoNm').val(this._params.fcltsMngGroupNoNm);
+					
+					this.loadData();
+				break;
+			}
+		}
+	}
 
 };
 
@@ -205,6 +232,9 @@ GamFcltyMaintMngModule.prototype.applyDataChanged = function() {
 	var fcltsMngGroupNo = this.$("#fcltsMngGroupNo").val();
 	var mntnRprSeq = this.$("#mntnRprSeq").val();
 	
+	var codeId = this.getCodeId(fcltsJobSe);
+	this.$("#codeId").val(codeId);
+	
 	var searchVO = [
 	                { name: 'fcltsJobSe', value: fcltsJobSe },
 	                { name: 'fcltsMngGroupNo', value: fcltsMngGroupNo },
@@ -212,6 +242,49 @@ GamFcltyMaintMngModule.prototype.applyDataChanged = function() {
 	               ];
 	
 	this.$('#mntnRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
+};
+
+
+<%
+/**
+ * @FUNCTION NAME : getCodeId
+ * @DESCRIPTION   : 시설물분류 코드 아이디 리턴 함수
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyMaintMngModule.prototype.getCodeId = function(fcltsJobSe) {
+	
+	var codeId = '';
+	switch(fcltsJobSe) {
+		// 전기시설물
+		case "E":
+			codeId = 'GAM068';
+		break;
+		
+		// 기계시설물
+		case "M":
+			codeId = 'GAM067';
+		break;
+		
+		// 토목시설물
+		case "C":
+			codeId = 'GAM070';
+		break;
+		
+		// 건축시설물
+		case "A":
+			codeId = 'GAM066';
+		break;
+		
+		// 정보통신시설물
+		case "I":
+			codeId = 'GAM069';
+		break;
+		
+	}
+	
+	
+	return codeId;
 };
 
 
@@ -389,10 +462,18 @@ GamFcltyMaintMngModule.prototype.loadDetail = function(){
 	                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
 	                { name: 'mntnRprSeq', value: row['mntnRprSeq'] }
 	               ];
-
+	
 	this.doAction('/fcltyMng/selectFcltyMaintMngDetail.do', searchVO, function(module, result) {
 		if(result.resultCode == "0"){
 			module.makeFormValues('#fcltyMaintMngListVO', result.result);
+			
+			var fcltsJobSe = module.$('#fcltsJobSe').val();
+			var codeId = module.getCodeId(fcltsJobSe);
+			
+			var codeVO = { name: 'codeId', value: codeId };
+			searchVO.push(codeVO);
+			
+			module.$("#codeId").val(codeId);
 			module.$('#mntnRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
 			module.fillAtchFileList(searchVO);
 		}else{
@@ -930,6 +1011,7 @@ var module_instance = new GamFcltyMaintMngModule();
 											<option value="A">건축시설물</option>
 											<option value="I">정보통신시설물</option>
 										</select>
+										<input type="hidden" id="codeId">
 									</td>
 								</tr>
 								<tr>

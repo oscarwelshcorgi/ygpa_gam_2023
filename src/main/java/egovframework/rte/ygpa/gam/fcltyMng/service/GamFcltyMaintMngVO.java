@@ -74,6 +74,9 @@ public class GamFcltyMaintMngVO extends ComDefaultVO {
 	/** 유지보수예산합계 */
 	private long sumMntnRprBdgt;
 	
+	/** 공통코드아이디 */
+	private String codeId;
+	
 	
 	
 
@@ -263,6 +266,20 @@ public class GamFcltyMaintMngVO extends ComDefaultVO {
 	 */
 	public void setSumMntnRprBdgt(long sumMntnRprBdgt) {
 		this.sumMntnRprBdgt = sumMntnRprBdgt;
+	}
+
+	/**
+	 * @return the codeId
+	 */
+	public String getCodeId() {
+		return codeId;
+	}
+
+	/**
+	 * @param codeId the codeId to set
+	 */
+	public void setCodeId(String codeId) {
+		this.codeId = codeId;
 	}
 	
 	

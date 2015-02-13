@@ -44,7 +44,7 @@ GamFcltyMaintSttusInqireModule.prototype = new EmdModule(1000,600);	// 초기 �
  * @PARAMETER     : NONE
 **/
 %>
-GamFcltyMaintSttusInqireModule.prototype.loadComplete = function() {
+GamFcltyMaintSttusInqireModule.prototype.loadComplete = function(params) {
 	
 	//console.log("GamFcltyMaintSttusInqireModule");
 	// 테이블 설정
@@ -107,7 +107,36 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function() {
 	
 	// 기본값 셋팅
 	this.setDefaultParam();
+	this.getMapInfoList(params);
 };
+
+
+<%
+/**
+ * @FUNCTION NAME : getMapInfoList
+ * @DESCRIPTION   : 맵에서 유지보수 정보를 클릭할때 넘어오는 Param으로 리스트 가져오는 함수
+ * @PARAMETER     
+ *		1. fcltsMngGroupNo   : 시설물 관리 그룹 코드
+ *		2. fcltsMngGroupNoNm : 시설물 관리 그룹 코드명
+**/
+%>
+GamFcltyMaintSttusInqireModule.prototype.getMapInfoList = function(params){
+	this._params=params;
+	if(params!=null) {
+		if(params.action!=null) {
+			switch(params.action) {
+				case "manage":
+					this.$('#sFcltsMngGroupNo').val(this._params.fcltsMngGroupNo);
+					this.$('#sFcltsMngGroupNoNm').val(this._params.fcltsMngGroupNoNm);
+					
+					this.loadData();
+				break;
+			}
+		}
+	}
+
+};
+
 
 
 <%
@@ -131,6 +160,7 @@ GamFcltyMaintSttusInqireModule.prototype.setDefaultParam = function(){
 	this.$("#sMntnRprCnstStartDtTo").val(toYear + "-" + toMonth + "-" + toDay);
 	
 	this.$("#sFcltsJobSe").val(EMD.userinfo["mngFcltyCd"]);
+	
 };
 
 
@@ -312,6 +342,12 @@ GamFcltyMaintSttusInqireModule.prototype.loadDetail = function(){
 	this.doAction('/fcltyMng/selectFcltyMaintSttusInqireDetail.do', searchVO, function(module, result) {
 		if(result.resultCode == "0"){
 			module.makeDivValues('#fcltyMaintSttusInqireListVO', result.result);
+			
+			var codeId = module.getCodeId(row['fcltsJobSe']);
+			
+			var codeVO = { name: 'codeId', value: codeId };
+			searchVO.push(codeVO);
+			
 			module.$('#mntnRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
 			module.fillAtchFileList(searchVO);
 		}else{
@@ -589,7 +625,10 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 									<th width="100px" height="18" class="required_text" style="border-bottom:none;">시행년도</th>
 									<td width="200px" style="border-bottom:none;"><span id="enforceYear" title="시행년도"></span></td>
 									<th width="100px" height="18" class="required_text">시설물업무구분</th>
-									<td><span id="fcltsJobSeNm" title="시설물업무구분"></span></td>
+									<td>
+										<span id="fcltsJobSeNm" title="시설물업무구분"></span>
+										<input type="hidden" id="codeId">
+									</td>
 								</tr>
 								<tr>
 									<th height="18" class="required_text">유지보수구분</th>

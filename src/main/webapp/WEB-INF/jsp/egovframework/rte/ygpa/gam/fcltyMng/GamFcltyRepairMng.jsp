@@ -114,12 +114,39 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		event.data.module.objFcltsDataChanged(event.target);
 	});
  	
- 	
- 	// 기본값 셋팅
+	
+	// 기본값 셋팅
 	this.setDefaultParam();
-	
 	this.applySelectYear();
+	this.getMapInfoList(params);
 	
+};
+
+
+<%
+/**
+ * @FUNCTION NAME : getMapInfoList
+ * @DESCRIPTION   : 맵에서 유지보수 정보를 클릭할때 넘어오는 Param으로 리스트 가져오는 함수
+ * @PARAMETER     
+ *		1. fcltsMngGroupNo   : 시설물 관리 그룹 코드
+ *		2. fcltsMngGroupNoNm : 시설물 관리 그룹 코드명
+**/
+%>
+GamFcltyRepairMngModule.prototype.getMapInfoList = function(params){
+	this._params=params;
+	if(params!=null) {
+		if(params.action!=null) {
+			switch(params.action) {
+				case "manage":
+					this.$('#sFcltsMngGroupNo').val(this._params.fcltsMngGroupNo);
+					this.$('#sFcltsMngGroupNoNm').val(this._params.fcltsMngGroupNoNm);
+					
+					this.loadData();
+				break;
+			}
+		}
+	}
+
 };
 
 
