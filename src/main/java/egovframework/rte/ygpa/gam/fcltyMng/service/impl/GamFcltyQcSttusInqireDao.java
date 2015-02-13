@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcSttusInqireVO;
-import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcwWrtMngVO;
 
 /**
  * 
@@ -110,5 +109,14 @@ public class GamFcltyQcSttusInqireDao extends YGPAAbstractDAO {
 	public List<?> selectMechQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception {
 		return list("gamFcltyQcSttusInqireDao.selectMechQcMngResultItemList_D", searchVO);
 	}
-	
+
+	/**
+	 * 관리그룹 데이터 조회
+	 * @param vo
+	 * @return EgovMap
+	 * @throws Exception
+	 */			
+	public EgovMap selectFcltsMngGroupInfo(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return (EgovMap) selectByPk("gamFcltyQcSttusInqireDao.selectFcltsMngGroupInfo_S", searchVO);
+	}
 }

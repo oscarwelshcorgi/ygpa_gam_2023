@@ -88,5 +88,13 @@ public interface GamFcltyQcSttusInqireService {
 	 * @throws Exception
 	 */		
 	List<?> selectMechQcMngResultItemList(GamFcltyQcSttusInqireVO searchVO) throws Exception;
+
+	/**
+	 * 관리그룹 데이터 조회
+	 * @param vo
+	 * @return EgovMap
+	 * @throws Exception
+	 */		
+	EgovMap selectFcltsMngGroupInfo(GamFcltyQcSttusInqireVO searchVO) throws Exception;
 	
 }

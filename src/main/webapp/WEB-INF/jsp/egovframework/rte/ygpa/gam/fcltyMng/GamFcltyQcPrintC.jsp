@@ -53,14 +53,28 @@
         	<div style="width:100%;height:50px;text-align:center;vertical-align:middle;border-top:1px red;font-size:25px;font-weight:bold;text-decoration:underline;">토목 시설물 점검표</div>
         	<table style="width:100%;">
         		<tr height="40px">
-        			<td style="text-align:left;vertical-align:bottom;font-size:15px;">항&nbsp;&nbsp;&nbsp;명 : <c:out value="${result.qcItemUpperNm }" ></c:out></td>
+        			<td style="text-align:left;vertical-align:bottom;font-size:15px;">항&nbsp;&nbsp;&nbsp;명 : <c:out value="${detailMngGroup.prtAtCodeNm }" ></c:out></td>
         			<td style="width:150px;text-align:right;vertical-align:bottom;font-size:15px;">점검일 : </td>
-        			<td style="width:150px;text-align:center;vertical-align:bottom;font-size:15px;"><c:out value="${result.qcInspDt }" ></c:out></td>
+        			<c:choose>
+        				<c:when test="${empty detailData['wrtDt'] }">
+        					<td style="width:150px;text-align:center;vertical-align:bottom;font-size:15px;"><c:out value="　　. 　. 　." /></td>
+        				</c:when>
+        				<c:otherwise>
+        					<td style="width:150px;text-align:center;vertical-align:bottom;font-size:15px;"><c:out value="${fn:replace(detailData['wrtDt'], '-', '. ')}" /></td>
+        				</c:otherwise>
+        			</c:choose>
         		</tr>
         		<tr height="20px">
         			<td style="text-align:left;vertical-align:bottom;font-size:15px;"> </td>
         			<td style="width:150px;text-align:right;vertical-align:bottom;font-size:15px;">점검자 : </td>
-        			<td style="width:150px;text-align:center;vertical-align:bottom;font-size:15px;"><c:out value="${result.qcInspTp }" ></c:out></td>
+        			<c:choose>
+	        			<c:when test="${empty detailData['wrtUsr'] }">
+        					<td style="width:150px;text-align:center;vertical-align:bottom;font-size:15px;"><c:out value="　　　　" /> (인)</td>
+        				</c:when>
+        				<c:otherwise>
+        					<td style="width:150px;text-align:center;vertical-align:bottom;font-size:15px;"><c:out value="${detailData['wrtUsr']}" /> (인)</td>
+        				</c:otherwise>
+        			</c:choose>
         		</tr>
         	</table>
 <c:if test="${fn:length(resultList) == 0}">
@@ -68,27 +82,34 @@
         		<tbody>
         			<tr height="40px">
         				<th style="width:40px;text-align:center;vertical-align:middle;font-size:13px;">시 설 명</th>
-        				<td style="width:100px;text-align:center;font-size:13px;"><c:out value="${detailMngGroup.fcltsMngGroupNm }" ></c:out></td>
+        				<td style="width:100px;text-align:center;font-size:13px;"><c:out value="${detailMngGroup.fcltsMngGroupNm }" /></td>
         				<th colspan="2" style="text-align:center;vertical-align:middle;font-size:13px;">시설물소재지</th>
-        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${detailMngGroup.loc }" ></c:out></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${detailMngGroup.loc }" /></td>
         			</tr>
         			<tr height="40px">
         				<th style="text-align:center;vertical-align:middle;font-size:13px;">시설개요</th>
         				<td style="text-align:center;font-size:13px;"></td>
         				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">종별/상태등급</th>
-        				<td style="text-align:center;font-size:13px;"> <c:out value="${detailMngGroup.fcltsGbnNm }" ></c:out> / </td>
+        				<td style="text-align:center;font-size:13px;"> <c:out value="${detailMngGroup.fcltsGbnNm }" /> / <c:out value="${detailData.sttusEvlLvlNm }" /> </td>
         			</tr>
         			<tr height="40px">
         				<th style="text-align:center;vertical-align:middle;font-size:13px;">준공년도</th>
-        				<td style="text-align:center;font-size:13px;"><c:out value="${detailMngGroup.bldYear }" ></c:out></td>
+        				<td style="text-align:center;font-size:13px;"><c:out value="${detailMngGroup.bldYear }"/></td>
         				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">하 자 만 료 일</th>
-        				<td style="text-align:center;font-size:13px;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;년 &nbsp;&nbsp;&nbsp;&nbsp;월 &nbsp;&nbsp;&nbsp;&nbsp;일 </td>
+        				<c:choose>
+        					<c:when test="${empty detailMngGroup.flawEndDt}">
+        						<td style="text-align:center;font-size:13px;">　　　　년 　　월 　　일 </td>
+        					</c:when>
+        					<c:otherwise>
+        						<td style="text-align:center;font-size:13px;"><c:out value="${detailMngGroup.flawEndDtYear }"/>년 <c:out value="${detailMngGroup.flawEndDtMonth }"/>월 <c:out value="${detailMngGroup.flawEndDtDay }"/>일 </td>
+        					</c:otherwise>
+        				</c:choose>
         			</tr>
         			<tr height="40px">
         				<th style="text-align:center;vertical-align:middle;font-size:13px;">시설규모</th>
         				<td style="text-align:center;font-size:13px;"></td>
         				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">시&nbsp;&nbsp;공&nbsp;&nbsp;회&nbsp;&nbsp;사</th>
-        				<td style="text-align:center;font-size:13px;"><c:out value="${detailMngGroup.cnstrtr }" ></c:out></td>
+        				<td style="text-align:center;font-size:13px;"></td>
         			</tr>
         			<tr height="40px">
         				<th style="text-align:center;vertical-align:middle;font-size:13px;">점검항목</th>
@@ -117,27 +138,34 @@
         		<tbody>
         			<tr height="40px">
         				<th style="width:40px;text-align:center;vertical-align:middle;font-size:13px;">시 설 명</th>
-        				<td style="width:100px;text-align:center;font-size:13px;"><c:out value="${detailMngGroup.fcltsMngGroupNm }" ></c:out></td>
+        				<td style="width:100px;text-align:center;font-size:13px;"><c:out value="${detailMngGroup.fcltsMngGroupNm }" /></td>
         				<th colspan="2" style="text-align:center;vertical-align:middle;font-size:13px;">시설물소재지</th>
-        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${detailMngGroup.loc }" ></c:out></td>
+        				<td colspan="2" style="text-align:center;font-size:13px;"><c:out value="${detailMngGroup.loc }" /></td>
         			</tr>
         			<tr height="40px">
         				<th style="text-align:center;vertical-align:middle;font-size:13px;">시설개요</th>
         				<td style="text-align:center;font-size:13px;"></td>
         				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">종별/상태등급</th>
-        				<td style="text-align:center;font-size:13px;"> <c:out value="${detailMngGroup.fcltsGbnNm }" ></c:out> / </td>
+        				<td style="text-align:center;font-size:13px;"> <c:out value="${detailMngGroup.fcltsGbnNm }" /> / <c:out value="${detailData.sttusEvlLvlNm }" /> </td>
         			</tr>
         			<tr height="40px">
         				<th style="text-align:center;vertical-align:middle;font-size:13px;">준공년도</th>
         				<td style="text-align:center;font-size:13px;"><c:out value="${detailMngGroup.bldYear }" ></c:out></td>
         				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">하 자 만 료 일</th>
-        				<td style="text-align:center;font-size:13px;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;년 &nbsp;&nbsp;&nbsp;&nbsp;월 &nbsp;&nbsp;&nbsp;&nbsp;일 </td>
+        				<c:choose>
+        					<c:when test="${empty detailMngGroup.flawEndDt}">
+        						<td style="text-align:center;font-size:13px;">　　　　년 　　월 　　일 </td>
+        					</c:when>
+        					<c:otherwise>
+        						<td style="text-align:center;font-size:13px;"><c:out value="${detailMngGroup.flawEndDtYear }"/>년 <c:out value="${detailMngGroup.flawEndDtMonth }"/>월 <c:out value="${detailMngGroup.flawEndDtDay }"/>일 </td>
+        					</c:otherwise>
+        				</c:choose>
         			</tr>
         			<tr height="40px">
         				<th style="text-align:center;vertical-align:middle;font-size:13px;">시설규모</th>
         				<td style="text-align:center;font-size:13px;"></td>
         				<th colspan="3" style="text-align:center;vertical-align:middle;font-size:13px;">시&nbsp;&nbsp;공&nbsp;&nbsp;회&nbsp;&nbsp;사</th>
-        				<td style="text-align:center;font-size:13px;"><c:out value="${detailMngGroup.cnstrtr }" ></c:out></td>
+        				<td style="text-align:center;font-size:13px;"></td>
         			</tr>
         			<tr height="40px">
         				<th style="text-align:center;vertical-align:middle;font-size:13px;">점검항목</th>

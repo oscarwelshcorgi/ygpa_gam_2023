@@ -298,9 +298,11 @@ GamFcltyQcwWrtMngModule.prototype.initBeforeInsert = function() {
 	this.checkQcInspSe();
 	this.$('#mechFcltsSe').val('1');
 	this.setControlStatus();
-	this.$('#planHistSe').val('P');
+	this.$('#planHistSe').val('H');
 	this.$('#enforceYear').val((new Date()).getFullYear());
 	this.$('#fcltsJobSe').val(EMD.userinfo.mngFcltyCd);
+	this.$('#wrtDt').val(EMD.util.getDate());
+	this.$('#wrtUsr').val(EMD.userinfo.name);
 	this.loadQcSubDataList();
 	this.$('#mainTab').tabs('option', {active: 1});
 };
@@ -1216,9 +1218,9 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 									</td>
 									<th height="17">계획　이력　구분</th>
 									<td>
-										<select id="planHistSe">
+										<select id="planHistSe" disabled="disabled">
 		                                    <option value="P">계획</option>
-		                                    <option value="H">이력</option>
+		                                    <option value="H" selected="selected">이력</option>
 		                                </select>										
 									</td>
 								</tr>

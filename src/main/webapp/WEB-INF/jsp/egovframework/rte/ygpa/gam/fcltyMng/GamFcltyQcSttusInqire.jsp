@@ -220,6 +220,7 @@ GamFcltyQcSttusInqireModule.prototype.loadDetail = function() {
 				module.makeFormValues('#detailForm', result.detailData);
 				module.fillAtchFileList(result.atchFileList);
 				module.loadQcSubDataList();
+				module.setPrintUrl();
 			}
 			else {
 				module._mainmode = 'listed';
@@ -247,6 +248,37 @@ GamFcltyQcSttusInqireModule.prototype.loadDetail = function() {
 	else {
 		this.$('#sQcSe').val('');
 		this.$('#sQcSe').disable();
+	}
+};
+
+<%
+/**
+ * @FUNCTION NAME : setPrintUrl
+ * @DESCRIPTION   : 업무구분에 따른 인쇄 url 셋팅
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcSttusInqireModule.prototype.setPrintUrl = function() {
+	
+	if(this.$('#fcltsJobSe').val() == 'A') {
+		this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcSttusPrintA.do');
+	}
+	if(this.$('#fcltsJobSe').val() == 'C') {
+		this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcSttusPrintC.do');
+	}
+	if(this.$('#fcltsJobSe').val() == 'E') {
+		this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcSttusPrintE.do');
+	}
+	if(this.$('#fcltsJobSe').val() == 'I') {
+		this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcSttusPrintI.do');
+	}
+	if(this.$('#fcltsJobSe').val() == 'M') {
+		if(this.$('#mechFcltsSe').val() == "1"){
+			this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcSttusPrintM1.do');
+		}else{
+			// 기계설비 점검표 인쇄
+			this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcSttusPrintM2.do');
+		}
 	}
 };
 
@@ -301,8 +333,10 @@ GamFcltyQcSttusInqireModule.prototype.loadQcSubDataList = function() {
 	if(this.$('#fcltsJobSe').val() == 'M') {
 		if(this.$('#mechFcltsSe').val() == '1') {
 			searchVO[searchVO.length] = { name: 'sMechCdStartChar', value: 'M02' };
+			this.$('#sMechCdStartChar').val('M02');
 		} else {
 			searchVO[searchVO.length] = { name: 'sMechCdStartChar', value: 'M01' };
+			this.$('#sMechCdStartChar').val('M01');
 		}
 		this.$('#mechFcltsSeNm').show();
 	} else {
@@ -626,14 +660,15 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 										<input id="fcltsMngGroupNm" type="text" size="40" disabled="disabled"/>
 										<input type="hidden" id="fcltsMngGroupNo"/>
 										<input type="hidden" id="fcltsJobSe"/>
+										<input type="hidden" id="qcMngSeq"/>
+										<input type="hidden" id="mechFcltsSe"/>
+										<input type="hidden" id="sMechCdStartChar"/>
 									</td>
 								</tr>
 								<tr>
 									<th width="14%" height="17">업　무　구　분</th>
 									<td width="40%">
 										<input id="fcltsJobSeNm" type="text" size="24" disabled="disabled"/>
-										<input id="fcltsJobSe" type="hidden" />
-										<input id="qcMngSeq" type="hidden" />
 									</td>
 									<th width="14%" height="17">점검　진단　예산</th>
 									<td width="32%"><input id="qcInspBdgt" type="text" size="20" class="ygpaNumber" disabled="disabled"/> 원</td>
@@ -716,7 +751,6 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 										<textarea id="qcInspResult" cols="88" rows="5" disabled="disabled"></textarea>
 										<button id="popupViewQcResultItem" class="popupButton">점검결과항목보기</button>
 										<input id="mechFcltsSeNm" type="text" size="20" disabled="disabled" />
-										<input id="mechFcltsSe" type="hidden" />	
 									</td>
 								</tr>
 								<tr>
@@ -761,7 +795,7 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 					</tr>
 				</table>
 				<div class="emdControlPanel">
-					<!-- <button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url="<c:url value='/fcltyMng/printQcMngDtls.do'/>">　　인　쇄　　</button> -->
+					<button id="btnPrint" data-role="printPage" data-search-option="detailForm">　　인　쇄　　</button>
 				</div>
 			</div>
 		</div>

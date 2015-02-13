@@ -13,7 +13,6 @@ import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcSttusInqireService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcSttusInqireVO;
-import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcwWrtMngVO;
 
 /**
  * 
@@ -116,4 +115,13 @@ public class GamFcltyQcSttusInqireServiceImpl extends AbstractServiceImpl implem
 		return gamFcltyQcSttusInqireDao.selectMechQcMngResultItemList(searchVO);
 	}
 	
+	/**
+	 * 관리그룹 데이터 조회
+	 * @param vo
+	 * @return EgovMap
+	 * @throws Exception
+	 */	
+	public EgovMap selectFcltsMngGroupInfo(GamFcltyQcSttusInqireVO searchVO) throws Exception {
+		return gamFcltyQcSttusInqireDao.selectFcltsMngGroupInfo(searchVO);
+	}	
 }

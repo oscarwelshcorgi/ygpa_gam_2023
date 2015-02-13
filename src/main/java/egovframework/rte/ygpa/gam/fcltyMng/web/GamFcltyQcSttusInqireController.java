@@ -266,4 +266,299 @@ public class GamFcltyQcSttusInqireController {
     	map.put("resultList", resultList);
     	return map;
     }
+
+	
+	/**
+	 * 건축시설물 점검표 인쇄
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+    @SuppressWarnings("rawtypes")
+	@RequestMapping(value="/fcltyMng/selectFcltyQcSttusPrintA.do")
+	public String printQcMngDtls(@RequestParam Map<String, Object> qcPrintOpt, ModelMap model) throws Exception {
+    	String printPageName = null;
+    	
+		ObjectMapper mapper = new ObjectMapper();
+		GamFcltyQcSttusInqireVO searchVO = null;
+		List qcResultItemList = null;
+		int resultCnt = 0;
+    	
+    	searchVO = mapper.convertValue(qcPrintOpt, GamFcltyQcSttusInqireVO.class);
+    	
+    	searchVO.setsFcltsJobSe(searchVO.getFcltsJobSe());
+    	searchVO.setsFcltsMngGroupNo(searchVO.getFcltsMngGroupNo());
+    	searchVO.setsQcMngSeq(searchVO.getQcMngSeq());
+    	
+    	    	
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return printPageName;
+    	}
+    	
+		EgovMap detailData = gamFcltyQcSttusInqireService.selectQcMngDtlsDetail(searchVO);
+				
+		resultCnt = gamFcltyQcSttusInqireService.selectQcMngResultItemListTotCnt(searchVO);
+    	if(resultCnt > 0) {
+    		qcResultItemList = gamFcltyQcSttusInqireService.selectQcMngResultItemList(searchVO);
+    	} else {
+    		searchVO.setsFcltsMngGroupNo(null);
+    		searchVO.setsQcMngSeq("");
+    		qcResultItemList = gamFcltyQcSttusInqireService.selectQcMngResultItemList(searchVO);
+    	}    		
+		
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+    	model.addAttribute("resultList", qcResultItemList);
+    	model.addAttribute("detailData", detailData);
+    	
+    	
+    	return "/ygpa/gam/fcltyMng/GamFcltyQcPrintA";
+	}
+
+    /**
+	 * 정보통신 시설물 점검표 인쇄
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value="/fcltyMng/selectFcltyQcSttusPrintI.do")
+	public String selectFcltyQcPrintI(@RequestParam Map<String, Object> qcPrintOpt, ModelMap model) throws Exception {
+		String printPageName = null;
+		
+		ObjectMapper mapper = new ObjectMapper();
+		GamFcltyQcSttusInqireVO searchVO = null;
+		List qcResultItemList = null;
+		int resultCnt = 0;
+		
+		searchVO = mapper.convertValue(qcPrintOpt, GamFcltyQcSttusInqireVO.class);
+		
+		searchVO.setsFcltsJobSe(searchVO.getFcltsJobSe());
+		searchVO.setsFcltsMngGroupNo(searchVO.getFcltsMngGroupNo());
+		searchVO.setsQcMngSeq(searchVO.getQcMngSeq());
+		
+		    	
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		
+		if(!isAuthenticated) {
+			model.addAttribute("resultCode", 1);
+			model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+	    	return printPageName;
+		}
+		
+		EgovMap detailData = gamFcltyQcSttusInqireService.selectQcMngDtlsDetail(searchVO);
+				
+		resultCnt = gamFcltyQcSttusInqireService.selectQcMngResultItemListTotCnt(searchVO);
+		if(resultCnt > 0) {
+			qcResultItemList = gamFcltyQcSttusInqireService.selectQcMngResultItemList(searchVO);
+		} else {
+			searchVO.setsFcltsMngGroupNo(null);
+			searchVO.setsQcMngSeq("");
+			qcResultItemList = gamFcltyQcSttusInqireService.selectQcMngResultItemList(searchVO);
+		}    		
+		
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+		model.addAttribute("resultList", qcResultItemList);
+		model.addAttribute("detailData", detailData);
+		
+		
+		return "/ygpa/gam/fcltyMng/GamFcltyQcPrintI";
+	}
+    
+    
+    /**
+	 * 전기 시설물 점검표 인쇄
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value="/fcltyMng/selectFcltyQcSttusPrintE.do")
+	public String selectFcltyQcPrintE(@RequestParam Map<String, Object> qcPrintOpt, ModelMap model) throws Exception {
+		String printPageName = null;
+		
+		ObjectMapper mapper = new ObjectMapper();
+		GamFcltyQcSttusInqireVO searchVO = null;
+		List qcResultItemList = null;
+		int resultCnt = 0;
+		
+		searchVO = mapper.convertValue(qcPrintOpt, GamFcltyQcSttusInqireVO.class);
+		
+		searchVO.setsFcltsJobSe(searchVO.getFcltsJobSe());
+		searchVO.setsFcltsMngGroupNo(searchVO.getFcltsMngGroupNo());
+		searchVO.setsQcMngSeq(searchVO.getQcMngSeq());
+		
+		    	
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		
+		if(!isAuthenticated) {
+			model.addAttribute("resultCode", 1);
+			model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+	    	return printPageName;
+		}
+		
+		EgovMap detailData = gamFcltyQcSttusInqireService.selectQcMngDtlsDetail(searchVO);
+				
+		resultCnt = gamFcltyQcSttusInqireService.selectQcMngResultItemListTotCnt(searchVO);
+		if(resultCnt > 0) {
+			qcResultItemList = gamFcltyQcSttusInqireService.selectQcMngResultItemList(searchVO);
+		} else {
+			searchVO.setsFcltsMngGroupNo(null);
+			searchVO.setsQcMngSeq("");
+			qcResultItemList = gamFcltyQcSttusInqireService.selectQcMngResultItemList(searchVO);
+		}    		
+		
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+		model.addAttribute("resultList", qcResultItemList);
+		model.addAttribute("detailData", detailData);
+		
+		
+		return "/ygpa/gam/fcltyMng/GamFcltyQcPrintE";
+	}
+    
+
+    /**
+	 * 토목 시설물 점검표 인쇄
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value="/fcltyMng/selectFcltyQcSttusPrintC.do")
+	public String selectFcltyQcPrintC(@RequestParam Map<String, Object> qcPrintOpt, ModelMap model) throws Exception {
+		String printPageName = null;
+		
+		ObjectMapper mapper = new ObjectMapper();
+		GamFcltyQcSttusInqireVO searchVO = null;
+		List qcResultItemList = null;
+		int resultCnt = 0;
+		
+		searchVO = mapper.convertValue(qcPrintOpt, GamFcltyQcSttusInqireVO.class);
+		
+		searchVO.setsFcltsJobSe(searchVO.getFcltsJobSe());
+		searchVO.setsFcltsMngGroupNo(searchVO.getFcltsMngGroupNo());
+		searchVO.setsQcMngSeq(searchVO.getQcMngSeq());
+		
+		    	
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		
+		if(!isAuthenticated) {
+			model.addAttribute("resultCode", 1);
+			model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+	    	return printPageName;
+		}
+		
+		
+		EgovMap detailMngGroup = gamFcltyQcSttusInqireService.selectFcltsMngGroupInfo(searchVO);
+		
+		EgovMap detailData = gamFcltyQcSttusInqireService.selectQcMngDtlsDetail(searchVO);
+				
+		resultCnt = gamFcltyQcSttusInqireService.selectQcMngResultItemListTotCnt(searchVO);
+		if(resultCnt > 0) {
+			qcResultItemList = gamFcltyQcSttusInqireService.selectQcMngResultItemList(searchVO);
+		} else {
+			searchVO.setsFcltsMngGroupNo(null);
+			searchVO.setsQcMngSeq("");
+			qcResultItemList = gamFcltyQcSttusInqireService.selectQcMngResultItemList(searchVO);
+		}    		
+		
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+		model.addAttribute("detailMngGroup", detailMngGroup);
+		model.addAttribute("resultList", qcResultItemList);
+		model.addAttribute("detailData", detailData);
+		
+		
+		return "/ygpa/gam/fcltyMng/GamFcltyQcPrintC";
+	}
+
+    /**
+	 * 항만 하역장비 시설물 점검표 인쇄
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value="/fcltyMng/selectFcltyQcSttusPrintM1.do")
+	public String selectFcltyQcPrintM1(@RequestParam Map<String, Object> qcPrintOpt, ModelMap model) throws Exception {
+		String printPageName = null;
+		
+		ObjectMapper mapper = new ObjectMapper();
+		GamFcltyQcSttusInqireVO searchVO = null;
+		List qcResultItemList = null;
+		
+		searchVO = mapper.convertValue(qcPrintOpt, GamFcltyQcSttusInqireVO.class);
+		
+		searchVO.setsFcltsJobSe(searchVO.getFcltsJobSe());
+		searchVO.setsFcltsMngGroupNo(searchVO.getFcltsMngGroupNo());
+		searchVO.setsQcMngSeq(searchVO.getQcMngSeq());
+		
+		    	
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		
+		if(!isAuthenticated) {
+			model.addAttribute("resultCode", 1);
+			model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+	    	return printPageName;
+		}
+		
+		EgovMap detailData = gamFcltyQcSttusInqireService.selectQcMngDtlsDetail(searchVO);
+		
+		qcResultItemList = gamFcltyQcSttusInqireService.selectMechQcMngResultItemList(searchVO);
+		
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+		model.addAttribute("resultList", qcResultItemList);
+		model.addAttribute("detailData", detailData);
+		
+		
+		return "/ygpa/gam/fcltyMng/GamFcltyQcPrintM1";
+	}
+	
+    /**
+	 * 기계설비 점검표 인쇄
+	 * @param map
+	 * @return 
+	 * @throws Exception
+	 */
+    @SuppressWarnings("rawtypes")
+	@RequestMapping(value="/fcltyMng/selectFcltyQcSttusPrintM2.do")
+	public String selectFcltyQcPrintM2(@RequestParam Map<String, Object> qcPrintOpt, ModelMap model) throws Exception {
+    	String printPageName = null;
+    	
+		ObjectMapper mapper = new ObjectMapper();
+		GamFcltyQcSttusInqireVO searchVO = null;
+    	
+    	searchVO = mapper.convertValue(qcPrintOpt, GamFcltyQcSttusInqireVO.class);
+    	
+    	searchVO.setsFcltsJobSe(searchVO.getFcltsJobSe());
+    	searchVO.setsFcltsMngGroupNo(searchVO.getFcltsMngGroupNo());
+    	searchVO.setsQcMngSeq(searchVO.getQcMngSeq());
+    	    	
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return printPageName;
+    	}
+    	
+		List mechQcMngResultItemList = gamFcltyQcSttusInqireService.selectMechQcMngResultItemList(searchVO);
+		
+		EgovMap detailData = gamFcltyQcSttusInqireService.selectQcMngDtlsDetail(searchVO);
+				
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+    	model.addAttribute("resultList", mechQcMngResultItemList);
+    	model.addAttribute("detailData", detailData);
+    	
+    	
+    	return "/ygpa/gam/fcltyMng/GamFcltyQcPrintM2";
+	}
 }
