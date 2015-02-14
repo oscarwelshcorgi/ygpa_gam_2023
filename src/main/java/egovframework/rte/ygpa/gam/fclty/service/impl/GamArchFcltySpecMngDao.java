@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fclty.service.GamArchFcltySpecMngVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecAtchFileVO;
 
 /**
@@ -233,5 +234,89 @@ public class GamArchFcltySpecMngDao extends YGPAAbstractDAO {
 	public List selectFcltsClCdList() {
 		return list("gamArchFcltySpecMngDao.selectFcltsClCdList_D", null);
 	}
+
+
+	/**
+	 * @name selectFcltsClCdMngTreeList
+	 * @param gamAtchFileDirMngVO
+	 * @return List
+	 */
+	public List selectArchFcltySpecMngAtchFileDirList(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+		return list("gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileDirList_D", gamAtchFileDirMngVO);
+	}
+
+	/**
+	 * @name selectArchFcltySpecMngAtchFileDirPk
+	 * @param gamAtchFileDirMngVO
+	 * @return EgovMap
+	 */
+	public EgovMap selectArchFcltySpecMngAtchFileDirPk(GamAtchFileDirMngVO gamAtchFileDirMngVO) {
+		return (EgovMap)selectByPk("gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileDirPk_S", gamAtchFileDirMngVO);
+	}
+
+	/**
+	 * @name insertArchFcltySpecMngAtchFileDir
+	 * @param gamAtchFileDirMngVO
+	 * @return void
+	 */
+	public void insertArchFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) {
+		insert("gamArchFcltySpecMngDao.insertArchFcltySpecMngAtchFileDir_S", gamAtchFileDirMngVO);
+	}
+
+	/**
+	 * @name updateArchFcltySpecMngAtchFileDir
+	 * @param gamAtchFileDirMngVO
+	 * @return void
+	 */
+	public void updateArchFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) {
+		update("gamArchFcltySpecMngDao.updateArchFcltySpecMngAtchFileDir_S", gamAtchFileDirMngVO);
+	}
+
+	/**
+	 * @name updateArchFcltySpecMngAtchFileDirLeafYn
+	 * @param gamAtchFileDirMngVO
+	 * @return void
+	 */
+	public void updateArchFcltySpecMngAtchFileDirLeafYn(GamAtchFileDirMngVO gamAtchFileDirMngVO) {
+		update("gamArchFcltySpecMngDao.updateArchFcltySpecMngAtchFileDirLeafYn_S", gamAtchFileDirMngVO);
+	}
+
+	/**
+	 * @name deleteArchFcltySpecMngAtchFileDir
+	 * @param gamAtchFileDirMngVO
+	 * @return void
+	 */
+	public void deleteArchFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) {
+		delete("gamArchFcltySpecMngDao.deleteArchFcltySpecMngAtchFileDir_S", gamAtchFileDirMngVO);
+	}
+
+	/**
+	 * @name deleteArchFcltySpecMngAtchFileDirLowerData
+	 * @param gamAtchFileDirMngVO
+	 * @return
+	 */
+	public void deleteArchFcltySpecMngAtchFileDirLowerData(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+		delete("gamArchFcltySpecMngDao.deleteArchFcltySpecMngAtchFileDirLowerData_S", gamAtchFileDirMngVO);
+	}
+
+
+	/**
+	 * @name selectArchFcltySpecMngAtchFileDirNewNo
+	 * @param gamAtchFileDirMngVO
+	 * @return String
+	 */
+	public String selectArchFcltySpecMngAtchFileDirNewNo(GamAtchFileDirMngVO gamAtchFileDirMngVO) {
+		return (String)selectByPk("gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileDirNewNo_S", gamAtchFileDirMngVO);
+	}
+
+	/**
+	 * @name selectArchFcltySpecMngAtchFileDirLowerDataCnt
+	 * @param gamAtchFileDirMngVO
+	 * @return List
+	 */
+	public List selectArchFcltySpecMngAtchFileDirLowerDataCnt(GamAtchFileDirMngVO gamAtchFileDirMngVO) {
+		return list("gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileDirLowerDataCnt_S", gamAtchFileDirMngVO);
+	}
+
 
 }

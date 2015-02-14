@@ -626,6 +626,9 @@ GamArchFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'popupSpecFcltsMngGroupNo':
 			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showFcltsMngGroup.do', null);
 			break;
+		case 'btnDirRefresh':
+			this.displayAtchFileDirectory("");
+			break;
 	}
 
 };
@@ -1649,6 +1652,43 @@ GamArchFcltySpecMngModule.prototype.downloadExcel = function(buttonId) {
 
 <%
 /**
+ * @FUNCTION NAME : displayAtchFileDirectory
+ * @DESCRIPTION   : 첨부 파일 디렉토리를 TREE형태로 보여준다.
+ * @PARAMETER     :
+ *   1. argDirNo - DIR NO.
+**/
+%>
+GamArchFcltySpecMngModule.prototype.displayAtchFileDirectory = function(argDirNo) {
+
+	this.$("#atchFileDirTreeList").empty();
+	var inputVO = this.makeFormArgs("#dirForm");
+	this.doAction('/fclty/gamSelectArchFcltySpecMngAtchFileDirList.do', inputVO, function(module, result) {
+		if (result.resultCode == "0") {
+			if (result.resultList.length > 0) {
+				var atchFileDirTreeNode = module.$('#atchFileDirTreeList');
+				var atchFileDirTreeItems = [];
+				for (var i=0; i < result.resultList.length; i++) {
+					var atchFileDir = result.resultList[i];
+					atchFileDirTreeItems[atchFileDirTreeItems.length] = [atchFileDir.dirNo, atchFileDir.dirUpperNo, atchFileDir.dirNm];
+				}
+				module.tree = new dhtmlXTreeObject(atchFileDirTreeNode.attr('id'), "100%", "100%", 0);
+				module.tree.setImagePath("./js/codebase/imgs/dhxtree_skyblue/");
+				module.tree.loadJSArray(atchFileDirTreeItems);
+				module.tree.setUserData('module', module);
+				module.tree.openAllItems(0);
+				module.tree.module = module;
+				if (argDirNo != "") {
+					module.tree.selectItem(argDirNo);
+					module.tree.focusItem(argDirNo);
+				}
+			}
+		}
+	});
+
+};
+
+<%
+/**
  * @FUNCTION NAME : enableListButtonItem
  * @DESCRIPTION   : LIST 버튼항목을 ENABLE 한다.
  * @PARAMETER     : NONE
@@ -2177,6 +2217,7 @@ var module_instance = new GamArchFcltySpecMngModule();
 				<li><a href="#listTab" class="emdTab">건축시설 목록</a></li>
 				<li><a href="#detailTab" class="emdTab">건축시설 제원</a></li>
 				<li><a href="#fileTab" class="emdTab">건축시설 첨부파일</a></li>
+				<li><a href="#dirTab" class="emdTab">디렉토리</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
@@ -2566,6 +2607,67 @@ var module_instance = new GamArchFcltySpecMngModule();
 					</tr>
 				</table>
 			</div>
+
+			<!-- 215. TAB 4 AREA (DIR) -->
+			<div id="dirTab" class="emdTabPage" style="overflow:scroll;">
+				<form id="dirForm">
+					<table style="width:100%;">
+						<tr>
+							<td style="text-align:right">
+								<button id="btnDirAdd" class="buttonAdd">　　생　성　　</button>
+								<button id="btnDirRename" class="buttonSave">　　변　경　　</button>
+								<button id="btnDirRemove" class="buttonDelete">　　삭　제　　</button>
+								<button id="btnDirRefresh">　재　조　회　</button>
+							</td>
+						</tr>
+					</table>
+					<table style="width:100%;">
+						<tr>
+							<td>
+							<div id="atchFileDirTreeList" class="tree" style="position:relative; left:1px; top:4px; width:735px; height:280px; z-index:10; overflow: scroll; border: 1px solid; margin-right: 8px; border-radius: 7px; padding : 8px;" data-resize="contentFill">
+							</div>
+							</td>
+						</tr>
+					</table>
+					<table class="detailPanel">
+						<tr>
+							<th width="10%" height="20px">디렉토리번호</th>
+							<td>
+								<input id="dirNo" type="text" size="33" disabled/>
+							</td>
+							<th width="10%" height="20px">업무구분</th>
+							<td>
+								<input id="dirFcltsJobSe" type="text" size="33" disabled/>
+							</td>
+							<th width="10%" height="20px">디렉토리명</th>
+							<td>
+								<input id="dirNm" type="text" size="33" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="20px">UPPER 번호</th>
+							<td>
+								<input id="dirUpperNo" type="text" size="33" disabled/>
+							</td>
+							<th width="10%" height="20px">단계</th>
+							<td>
+								<input id="depthSort" type="text" size="33" disabled/>
+							</td>
+							<th width="10%" height="20px">LEAF 여부</th>
+							<td>
+								<input id="leafYn" type="text" size="33" disabled/>
+							</td>
+						</tr>
+						<tr>
+							<th width="10%" height="20px">디렉토리 PATH</th>
+							<td colspan="5">
+								<input id="dirPath" type="text" size="33" disabled/>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+
 		</div>
 	</div>
 </div>

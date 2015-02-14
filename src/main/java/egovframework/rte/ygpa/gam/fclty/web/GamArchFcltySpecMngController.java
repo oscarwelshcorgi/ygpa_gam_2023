@@ -29,6 +29,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.fclty.service.GamArchFcltySpecMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamArchFcltySpecMngVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecAtchFileVO;
 
 /**
@@ -547,6 +548,181 @@ public class GamArchFcltySpecMngController {
 
 		map.put("resultCode", 0);
 		map.put("sFcltsClCdNm", sFcltsClCdNm);
+
+		return map;
+
+	}
+
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/fclty/gamSelectArchFcltySpecMngAtchFileDirList.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectArchFcltySpecMngAtchFileDirList(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		List resultList = gamArchFcltySpecMngService.selectArchFcltySpecMngAtchFileDirList(gamAtchFileDirMngVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+
+		return map;
+
+	}
+
+	@RequestMapping(value="/fclty/gamSelectArchFcltySpecMngAtchFileDirPk.do")
+	@ResponseBody Map<String, Object> gamSelectArchFcltySpecMngAtchFileDirPk(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			Map result = gamArchFcltySpecMngService.selectArchFcltySpecMngAtchFileDirPk(gamAtchFileDirMngVO);
+
+			map.put("resultCode", 0);
+			map.put("result", result);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (Exception e) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+		}
+
+		return map;
+
+	}
+
+	@RequestMapping(value="/fclty/gamInsertArchFcltySpecMngAtchFileDir.do")
+	@ResponseBody Map<String, Object> gamInsertArchFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			gamAtchFileDirMngVO.setRegUsr((String)user.getId());
+			gamArchFcltySpecMngService.insertArchFcltySpecMngAtchFileDir(gamAtchFileDirMngVO);
+
+			map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (Exception e) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+
+		return map;
+
+	}
+
+	@RequestMapping(value="/fclty/gamUpdateArchFcltySpecMngAtchFileDir.do")
+	@ResponseBody Map<String, Object> gamUpdateArchFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			gamAtchFileDirMngVO.setUpdUsr((String)user.getId());
+			gamArchFcltySpecMngService.updateArchFcltySpecMngAtchFileDir(gamAtchFileDirMngVO);
+
+			map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		} catch (Exception e) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+		}
+
+		return map;
+
+	}
+
+	@RequestMapping(value="/fclty/gamDeleteArchFcltySpecMngAtchFileDir.do")
+	@ResponseBody Map<String, Object> gamDeleteArchFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			gamArchFcltySpecMngService.deleteArchFcltySpecMngAtchFileDir(gamAtchFileDirMngVO);
+
+			map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (Exception e) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+		}
+
+		return map;
+
+	}
+
+	@RequestMapping(value="/fclty/gamSelectArchFcltySpecMngAtchFileDirNewNo.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectArchFcltySpecMngAtchFileDirNewNo(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+
+		String sNewNo;
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		sNewNo = gamArchFcltySpecMngService.selectArchFcltySpecMngAtchFileDirNewNo(gamAtchFileDirMngVO);
+
+		map.put("resultCode", 0);
+		map.put("sNewNo", sNewNo);
+
+		return map;
+
+	}
+
+	@RequestMapping(value="/fclty/gamSelectArchFcltySpecMngAtchFileDirLowerDataCnt.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectArchFcltySpecMngAtchFileDirLowerDataCnt(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		List resultList = gamArchFcltySpecMngService.selectArchFcltySpecMngAtchFileDirLowerDataCnt(gamAtchFileDirMngVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
 
 		return map;
 

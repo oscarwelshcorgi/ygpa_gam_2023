@@ -7,6 +7,7 @@
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 	<typeAlias alias="gamArchFcltySpecMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamArchFcltySpecMngVO"/>
 	<typeAlias alias="gamFcltySpecAtchFileVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecAtchFileVO"/>
+	<typeAlias alias="gamAtchFileDirMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO"/>
 	<!-- RESULT MAP 정의 -->
 	<resultMap id="gamArchFcltySpecMngSumMap" class="gamArchFcltySpecMngVO">
 		<result property="totalCount" column="TOTAL_COUNT" columnIndex="1"/>
@@ -723,5 +724,138 @@
 		AND LEAF_YN = 'Y'
 		ORDER BY FCLTS_CL_CD
     </select>
+
+
+	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileDirList_D" parameterClass="gamAtchFileDirMngVO" resultClass="egovMap">
+		SELECT
+				 T.DIR_NO AS DIR_NO
+				,T.DEPTH_SORT AS DEPTH_SORT
+				,T.DIR_NM AS DIR_NM
+				,T.DIR_UPPER_NO
+			FROM (
+				SELECT
+						 0 AS DIR_NO
+						,0 AS DEPTH_SORT
+						,'ROOT' AS DIR_NM
+						,0 AS DIR_UPPER_NO
+					FROM DUAL
+				UNION ALL
+				SELECT
+						 T1.DIR_NO AS DIR_NO
+						,T1.DEPTH_SORT AS DEPTH_SORT
+						,T1.DIR_NM AS DIR_NM
+						,(CASE WHEN T1.DEPTH_SORT <![CDATA[ > ]]> 1 THEN T1.DIR_UPPER_NO ELSE 0 END) AS DIR_UPPER_NO
+					FROM ATCH_FILE_DIR_F T1
+
+				<isNotEmpty property="dirFcltsJobSe">
+				AND T1.FCLTS_JOB_SE = #dirFcltsJobSe#
+				</isNotEmpty>
+
+				) T
+		ORDER BY T.DIR_NO,T.DEPTH_SORT
+	</select>
+
+	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileDirPk_S" parameterClass="gamAtchFileDirMngVO" resultClass="egovMap">
+		SELECT
+				 LTRIM(TO_CHAR(NVL(T1.DIR_NO,0),'9,999,999,999,999,990')) AS DIR_NO
+				,T1.DIR_NM AS DIR_NM
+				,T1.DIR_PATH AS DIR_PATH
+				,LTRIM(TO_CHAR(NVL(T1.DIR_UPPER_NO,0),'9,999,999,999,999,990')) AS DIR_UPPER_NO
+				,LTRIM(TO_CHAR(NVL(T1.DEPTH_SORT,0),'990')) AS DEPTH_SORT
+				,T1.LEAF_YN AS LEAF_YN
+				,T1.FCLTS_JOB_SE AS DIR_FCLTS_JOB_SE
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+			FROM ATCH_FILE_DIR_F T1
+		WHERE T1.DIR_NO = NVL(TO_NUMBER(REPLACE(#dirNo#,',','')),0)
+	</select>
+
+	<insert id="gamArchFcltySpecMngDao.insertArchFcltySpecMngAtchFileDir_S" parameterClass="gamAtchFileDirMngVO">
+		INSERT INTO ATCH_FILE_DIR_F
+		(
+			 DIR_NO
+			,DIR_NM
+			,DIR_PATH
+			,DIR_UPPER_NO
+			,DEPTH_SORT
+			,LEAF_YN
+			,FCLTS_JOB_SE
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 NVL(TO_NUMBER(REPLACE(#dirNo#,',','')),0)
+			,#dirNm#
+			,#dirPath#
+			,NVL(TO_NUMBER(REPLACE(#dirUpperNo#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#depthSort#,',','')),0)
+			,#leafYn#
+			,#dirFcltsJobSe#
+			,#regUsr#
+			,SYSDATE
+		)
+	</insert>
+
+	<update id="gamArchFcltySpecMngDao.updateArchFcltySpecMngAtchFileDir_S" parameterClass="gamAtchFileDirMngVO">
+		UPDATE ATCH_FILE_DIR_F SET
+			 DIR_NM = #dirNm#
+			,DIR_PATH = #dirPath#
+			,DIR_UPPER_NO = TO_NUMBER(REPLACE(#dirUpperNo#,',',''))
+			,DEPTH_SORT = TO_NUMBER(REPLACE(#depthSort#,',',''))
+			,LEAF_YN = #leafYn#
+			,FCLTS_JOB_SE = #dirFcltsJobSe#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE DIR_NO = TO_NUMBER(REPLACE(#dirNo#,',',''))
+	</update>
+
+	<update id="gamArchFcltySpecMngDao.updateArchFcltySpecMngAtchFileDirLeafYn_S" parameterClass="gamAtchFileDirMngVO">
+		UPDATE ATCH_FILE_DIR_F SET
+			 LEAF_YN = (
+				SELECT (CASE WHEN COUNT(*) > 0 THEN 'N' ELSE 'Y' END)
+					FROM ATCH_FILE_DIR_F
+				WHERE DIR_UPPER_NO = TO_NUMBER(REPLACE(#dirUpperNo#,',',''))
+				AND DIR_NO <![CDATA[ <> ]]> TO_NUMBER(REPLACE(#dirNo#,',',''))
+			)
+		WHERE DIR_NO = TO_NUMBER(REPLACE(#dirUpperNo#,',',''))
+	</update>
+
+	<delete id="gamArchFcltySpecMngDao.deleteArchFcltySpecMngAtchFileDir_S" parameterClass="gamAtchFileDirMngVO">
+		DELETE FROM ATCH_FILE_DIR_F
+		WHERE DIR_NO = TO_NUMBER(REPLACE(#dirNo#,',',''))
+	</delete>
+
+	<delete id="gamArchFcltySpecMngDao.deleteArchFcltySpecMngAtchFileDirLowerData_S" parameterClass="gamAtchFileDirMngVO">
+		DELETE FROM ATCH_FILE_DIR_F
+		WHERE DIR_NO IN (
+			SELECT DIR_NO
+				FROM ATCH_FILE_DIR_F
+			WHERE DIR_NO <![CDATA[ > ]]> TO_NUMBER(REPLACE(#dirNo#,',','')))
+			START WITH DIR_UPPER_NO = TO_NUMBER(REPLACE(#dirNo#,',','')))
+			CONNECT BY DIR_UPPER_NO = PRIOR DIR_NO
+		)
+	</delete>
+
+	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileDirNewNo_S" parameterClass="gamAtchFileDirMngVO" resultClass="java.lang.String">
+		SELECT
+				TO_CHAR(ATCH_FILE_DIR_SEQ.NEXTVAL) AS NEW_DIR_NO
+			FROM DUAL
+	</select>
+
+	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileDirLowerDataCnt_S" parameterClass="gamAtchFileDirMngVO" resultClass="egovMap">
+		SELECT
+				 COUNT(*) AS LOWER_DATA_CNT
+			FROM ATCH_FILE_DIR_F
+		WHERE DIR_NO IN (
+			SELECT DIR_NO
+				FROM ATCH_FILE_DIR_F
+			WHERE DIR_NO <![CDATA[ > ]]> TO_NUMBER(REPLACE(#dirNo#,',','')))
+			START WITH DIR_UPPER_NO = TO_NUMBER(REPLACE(#dirNo#,',','')))
+			CONNECT BY DIR_UPPER_NO = PRIOR DIR_NO
+		)
+	</select>
 
 </sqlMap>

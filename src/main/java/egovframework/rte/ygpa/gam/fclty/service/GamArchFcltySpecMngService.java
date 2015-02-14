@@ -173,4 +173,58 @@ public interface GamArchFcltySpecMngService {
 	 */
 	public List selectFcltsClCdList() throws Exception;
 
+
+	/**
+	 * @name selectArchFcltySpecMngAtchFileDirList
+	 * @param gamAtchFileDirMngVO
+	 * @return List
+	 * @throws Exception
+	 */
+	List selectArchFcltySpecMngAtchFileDirList(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception;
+
+	/**
+	 * @name selectArchFcltySpecMngAtchFileDirPk
+	 * @param gamAtchFileDirMngVO
+	 * @return EgovMap
+	 * @throws Exception
+	 */
+	EgovMap selectArchFcltySpecMngAtchFileDirPk(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception;
+
+	/**
+	 * @name insertArchFcltySpecMngAtchFileDir
+	 * @param gamAtchFileDirMngVO
+	 * @throws Exception
+	 */
+	void insertArchFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception;
+
+	/**
+	 * @name updateArchFcltySpecMngAtchFileDir
+	 * @param gamAtchFileDirMngVO
+	 * @throws Exception
+	 */
+	void updateArchFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception;
+
+	/**
+	 * @name deleteArchFcltySpecMngAtchFileDir
+	 * @param gamAtchFileDirMngVO
+	 * @throws Exception
+	 */
+	void deleteArchFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception;
+
+	/**
+	 * @name selectArchFcltySpecMngAtchFileDirNewNo
+	 * @param gamAtchFileDirMngVO
+	 * @return String
+	 * @throws Exception
+	 */
+	String selectArchFcltySpecMngAtchFileDirNewNo(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception;
+
+	/**
+	 * @name selectArchFcltySpecMngAtchFileDirLowerDataCnt
+	 * @param gamAtchFileDirMngVO
+	 * @return List
+	 * @throws Exception
+	 */
+	List selectArchFcltySpecMngAtchFileDirLowerDataCnt(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception;
+
 }

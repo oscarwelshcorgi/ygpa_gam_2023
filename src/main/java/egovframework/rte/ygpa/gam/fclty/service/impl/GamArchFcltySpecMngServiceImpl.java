@@ -14,6 +14,7 @@ import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fclty.service.GamArchFcltySpecMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamArchFcltySpecMngVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecAtchFileVO;
 
 /**
@@ -140,6 +141,45 @@ public class GamArchFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	@Override
 	public List selectFcltsClCdList() throws Exception {
 		return gamArchFcltySpecMngDao.selectFcltsClCdList();
+	}
+
+
+	@Override
+	public List selectArchFcltySpecMngAtchFileDirList(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+		return gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileDirList(gamAtchFileDirMngVO);
+	}
+
+	@Override
+	public EgovMap selectArchFcltySpecMngAtchFileDirPk(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+		return gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileDirPk(gamAtchFileDirMngVO);
+	}
+
+	@Override
+	public void insertArchFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+		gamArchFcltySpecMngDao.insertArchFcltySpecMngAtchFileDir(gamAtchFileDirMngVO);
+		gamArchFcltySpecMngDao.updateArchFcltySpecMngAtchFileDirLeafYn(gamAtchFileDirMngVO);
+	}
+
+	@Override
+	public void updateArchFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+		gamArchFcltySpecMngDao.updateArchFcltySpecMngAtchFileDir(gamAtchFileDirMngVO);
+	}
+
+	@Override
+	public void deleteArchFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+		gamArchFcltySpecMngDao.deleteArchFcltySpecMngAtchFileDirLowerData(gamAtchFileDirMngVO);
+		gamArchFcltySpecMngDao.deleteArchFcltySpecMngAtchFileDir(gamAtchFileDirMngVO);
+		gamArchFcltySpecMngDao.updateArchFcltySpecMngAtchFileDirLeafYn(gamAtchFileDirMngVO);
+	}
+
+	@Override
+	public String selectArchFcltySpecMngAtchFileDirNewNo(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+		return gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileDirNewNo(gamAtchFileDirMngVO);
+	}
+
+	@Override
+	public List selectArchFcltySpecMngAtchFileDirLowerDataCnt(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+		return gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileDirLowerDataCnt(gamAtchFileDirMngVO);
 	}
 
 }
