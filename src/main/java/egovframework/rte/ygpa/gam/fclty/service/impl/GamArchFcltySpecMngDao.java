@@ -273,12 +273,21 @@ public class GamArchFcltySpecMngDao extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * @name updateArchFcltySpecMngAtchFileDirLeafYn
+	 * @name updateArchFcltySpecMngInsertAtchFileDirLeafYn
 	 * @param gamAtchFileDirMngVO
 	 * @return void
 	 */
-	public void updateArchFcltySpecMngAtchFileDirLeafYn(GamAtchFileDirMngVO gamAtchFileDirMngVO) {
-		update("gamArchFcltySpecMngDao.updateArchFcltySpecMngAtchFileDirLeafYn_S", gamAtchFileDirMngVO);
+	public void updateArchFcltySpecMngInsertAtchFileDirLeafYn(GamAtchFileDirMngVO gamAtchFileDirMngVO) {
+		update("gamArchFcltySpecMngDao.updateArchFcltySpecMngInsertAtchFileDirLeafYn_S", gamAtchFileDirMngVO);
+	}
+
+	/**
+	 * @name updateArchFcltySpecMngDeleteAtchFileDirLeafYn
+	 * @param gamAtchFileDirMngVO
+	 * @return void
+	 */
+	public void updateArchFcltySpecMngDeleteAtchFileDirLeafYn(GamAtchFileDirMngVO gamAtchFileDirMngVO) {
+		update("gamArchFcltySpecMngDao.updateArchFcltySpecMngDeleteAtchFileDirLeafYn_S", gamAtchFileDirMngVO);
 	}
 
 	/**

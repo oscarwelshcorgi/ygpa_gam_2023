@@ -746,11 +746,6 @@
 						,T1.DIR_NM AS DIR_NM
 						,(CASE WHEN T1.DEPTH_SORT <![CDATA[ > ]]> 1 THEN T1.DIR_UPPER_NO ELSE 1 END) AS DIR_UPPER_NO
 					FROM ATCH_FILE_DIR_F T1
-
-				<isNotEmpty property="dirFcltsJobSe">
-				AND T1.FCLTS_JOB_SE = #dirFcltsJobSe#
-				</isNotEmpty>
-
 				) T
 		ORDER BY T.DIR_NO,T.DEPTH_SORT
 	</select>
@@ -812,7 +807,13 @@
 		WHERE DIR_NO = TO_NUMBER(REPLACE(#dirNo#,',',''))
 	</update>
 
-	<update id="gamArchFcltySpecMngDao.updateArchFcltySpecMngAtchFileDirLeafYn_S" parameterClass="gamAtchFileDirMngVO">
+	<update id="gamArchFcltySpecMngDao.updateArchFcltySpecMngInsertAtchFileDirLeafYn_S" parameterClass="gamAtchFileDirMngVO">
+		UPDATE ATCH_FILE_DIR_F SET
+			 LEAF_YN = 'N'
+		WHERE DIR_NO = TO_NUMBER(REPLACE(#dirUpperNo#,',',''))
+	</update>
+
+	<update id="gamArchFcltySpecMngDao.updateArchFcltySpecMngDeleteAtchFileDirLeafYn_S" parameterClass="gamAtchFileDirMngVO">
 		UPDATE ATCH_FILE_DIR_F SET
 			 LEAF_YN = (
 				SELECT (CASE WHEN COUNT(*) > 0 THEN 'N' ELSE 'Y' END)

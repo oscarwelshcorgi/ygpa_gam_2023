@@ -159,7 +159,7 @@ public class GamArchFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 		String strDepthSort = (String)gamAtchFileDirMngVO.getDepthSort();
 		gamArchFcltySpecMngDao.insertArchFcltySpecMngAtchFileDir(gamAtchFileDirMngVO);
 		if (!"1".equals(strDepthSort)) {
-			gamArchFcltySpecMngDao.updateArchFcltySpecMngAtchFileDirLeafYn(gamAtchFileDirMngVO);
+			gamArchFcltySpecMngDao.updateArchFcltySpecMngInsertAtchFileDirLeafYn(gamAtchFileDirMngVO);
 		}
 	}
 
@@ -174,7 +174,7 @@ public class GamArchFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 		gamArchFcltySpecMngDao.deleteArchFcltySpecMngAtchFileDirLowerData(gamAtchFileDirMngVO);
 		gamArchFcltySpecMngDao.deleteArchFcltySpecMngAtchFileDir(gamAtchFileDirMngVO);
 		if (!"1".equals(strDepthSort)) {
-			gamArchFcltySpecMngDao.updateArchFcltySpecMngAtchFileDirLeafYn(gamAtchFileDirMngVO);
+			gamArchFcltySpecMngDao.updateArchFcltySpecMngDeleteAtchFileDirLeafYn(gamAtchFileDirMngVO);
 		}
 	}
 

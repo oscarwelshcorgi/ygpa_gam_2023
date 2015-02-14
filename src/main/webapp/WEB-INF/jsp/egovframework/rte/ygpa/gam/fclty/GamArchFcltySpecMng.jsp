@@ -938,6 +938,7 @@ GamArchFcltySpecMngModule.prototype.refreshDirData = function(argDirNo) {
 		this.$('#depthSort').val("0");
 		this.$('#leafYn').val("N");
 		this.$('#dirFcltsJobSe').val("A");
+		this.$('#inputDirNm').val("ROOT");
 	}
 
 };
@@ -1775,7 +1776,7 @@ GamArchFcltySpecMngModule.prototype.addAtchFileDirectory = function() {
 	var depthSort = Number(this.$('#depthSort').val());
 	var leafYn = this.$('#leafYn').val();
 	var dirFcltsJobSe = this.$('#dirFcltsJobSe').val();
-	var inputDirNm = this.$('#dirNm').val();
+	var inputDirNm = this.$('#inputDirNm').val();
 	if (inputDirNm == "") {
 		alert('디렉토리명이 부정확합니다.');
 		this.$("#inputDirNm").focus();
@@ -1797,7 +1798,7 @@ GamArchFcltySpecMngModule.prototype.addAtchFileDirectory = function() {
 		alert('상위 디렉토리 정보가 부정확합니다. (상위번호)');
 		return;
 	}
-	if (depthSort <= 0) {
+	if (depthSort < 0) {
 		alert('상위 디렉토리 정보가 부정확합니다. (단계)');
 		return;
 	}
@@ -1807,6 +1808,11 @@ GamArchFcltySpecMngModule.prototype.addAtchFileDirectory = function() {
 	}
 	if (dirFcltsJobSe == "") {
 		alert('상위 디렉토리 정보가 부정확합니다. (업무구분)');
+		return;
+	}
+	if (inputDirNm == dirNm) {
+		alert('생성 디렉토리명이 현재 디렉토리명과 동일합니다.');
+		this.$("#inputDirNm").focus();
 		return;
 	}
 	if (confirm("[" + inputDirNm + "] 디렉토리를 생성하시겠습니까?")) {
@@ -1824,10 +1830,10 @@ GamArchFcltySpecMngModule.prototype.addAtchFileDirectory = function() {
 		this.$('#depthSort').val("" + depthSort);
 		this.$('#leafYn').val(leafYn);
 		this.$('#dirFcltsJobSe').val(dirFcltsJobSe);
-		this.$('#dirNo').val(dirNo);
+		this.$('#dirNo').val("" + dirNo);
 		this.doAction('/fclty/gamInsertArchFcltySpecMngAtchFileDir.do', insertVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module.displayAtchFileDirectory('' + dirNo);
+				module.displayAtchFileDirectory("" + dirNo);
 			}
 			alert(result.resultMsg);
 		});
