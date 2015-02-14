@@ -487,6 +487,23 @@ GamArchFcltySpecMngModule.prototype.setLoc = function(argPrtFcltyLoc) {
 
 <%
 /**
+ * @FUNCTION NAME : onAtchFileDirTreeItemClick
+ * @DESCRIPTION   : ATTACHE FILE DIRECTORY TREE ITEM CLICK EVENT
+ * @PARAMETER     :
+ *   1. itemId - ITEM ID
+**/
+%>
+GamArchFcltySpecMngModule.prototype.onAtchFileDirTreeItemClick = function(itemId) {
+console.log("onAtchFileDirTreeItemClick");
+
+	var dirNo = itemId;
+	var dirNm = $(this)[0].getItemText(itemId);
+	alert('item selected : ' + dirNo + ' (' + dirNm + ')');
+
+};
+
+<%
+/**
  * @FUNCTION NAME : onClosePopup
  * @DESCRIPTION   : CLOSE POPUP EVENT
  * @PARAMETER     :
@@ -1675,13 +1692,14 @@ GamArchFcltySpecMngModule.prototype.displayAtchFileDirectory = function(argDirNo
 				module.tree.setImagePath("./js/codebase/imgs/dhxtree_skyblue/");
 				module.tree.loadJSArray(atchFileDirTreeItems);
 				module.tree.setUserData('module', module);
-				module.tree.openAllItems(0);
+ 				module.tree.openAllItems(0);
 				module.tree.module = module;
+				module.tree.setOnClickHandler(module.onAtchFileDirTreeItemClick);
 				if (argDirNo != "") {
 					module.tree.selectItem(argDirNo);
 					module.tree.focusItem(argDirNo);
 				}
-			}
+ 			}
 		}
 	});
 
