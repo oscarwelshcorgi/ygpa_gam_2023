@@ -2661,7 +2661,7 @@ var module_instance = new GamArchFcltySpecMngModule();
 						<tr>
 							<th width="10%" height="20px">디렉토리 PATH</th>
 							<td colspan="5">
-								<input id="dirPath" type="text" size="33" disabled/>
+								<input id="dirPath" type="text" size="148" disabled/>
 							</td>
 						</tr>
 					</table>

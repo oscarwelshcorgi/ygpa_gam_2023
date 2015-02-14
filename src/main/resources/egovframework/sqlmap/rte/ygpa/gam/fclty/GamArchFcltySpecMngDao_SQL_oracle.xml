@@ -734,7 +734,7 @@
 				,T.DIR_UPPER_NO
 			FROM (
 				SELECT
-						 0 AS DIR_NO
+						 1 AS DIR_NO
 						,0 AS DEPTH_SORT
 						,'ROOT' AS DIR_NM
 						,0 AS DIR_UPPER_NO
@@ -744,7 +744,7 @@
 						 T1.DIR_NO AS DIR_NO
 						,T1.DEPTH_SORT AS DEPTH_SORT
 						,T1.DIR_NM AS DIR_NM
-						,(CASE WHEN T1.DEPTH_SORT <![CDATA[ > ]]> 1 THEN T1.DIR_UPPER_NO ELSE 0 END) AS DIR_UPPER_NO
+						,(CASE WHEN T1.DEPTH_SORT <![CDATA[ > ]]> 1 THEN T1.DIR_UPPER_NO ELSE 1 END) AS DIR_UPPER_NO
 					FROM ATCH_FILE_DIR_F T1
 
 				<isNotEmpty property="dirFcltsJobSe">
@@ -757,11 +757,11 @@
 
 	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileDirPk_S" parameterClass="gamAtchFileDirMngVO" resultClass="egovMap">
 		SELECT
-				 LTRIM(TO_CHAR(NVL(T1.DIR_NO,0),'9,999,999,999,999,990')) AS DIR_NO
+				 TO_CHAR(T1.DIR_NO) AS DIR_NO
 				,T1.DIR_NM AS DIR_NM
 				,T1.DIR_PATH AS DIR_PATH
-				,LTRIM(TO_CHAR(NVL(T1.DIR_UPPER_NO,0),'9,999,999,999,999,990')) AS DIR_UPPER_NO
-				,LTRIM(TO_CHAR(NVL(T1.DEPTH_SORT,0),'990')) AS DEPTH_SORT
+				,TO_CHAR(T1.DIR_UPPER_NO) AS DIR_UPPER_NO
+				,TO_CHAR(T1.DEPTH_SORT) AS DEPTH_SORT
 				,T1.LEAF_YN AS LEAF_YN
 				,T1.FCLTS_JOB_SE AS DIR_FCLTS_JOB_SE
 				,T1.REG_USR AS REG_USR
@@ -787,11 +787,11 @@
 		)
 		VALUES
 		(
-			 NVL(TO_NUMBER(REPLACE(#dirNo#,',','')),0)
+			 TO_NUMBER(REPLACE(#dirNo#,',',''))
 			,#dirNm#
 			,#dirPath#
-			,NVL(TO_NUMBER(REPLACE(#dirUpperNo#,',','')),0)
-			,NVL(TO_NUMBER(REPLACE(#depthSort#,',','')),0)
+			,TO_NUMBER(REPLACE(#dirUpperNo#,',',''))
+			,TO_NUMBER(REPLACE(#depthSort#,',',''))
 			,#leafYn#
 			,#dirFcltsJobSe#
 			,#regUsr#
