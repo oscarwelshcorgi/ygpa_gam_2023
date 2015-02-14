@@ -156,8 +156,11 @@ public class GamArchFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 
 	@Override
 	public void insertArchFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+		String strDepthSort = (String)gamAtchFileDirMngVO.getDepthSort();
 		gamArchFcltySpecMngDao.insertArchFcltySpecMngAtchFileDir(gamAtchFileDirMngVO);
-		gamArchFcltySpecMngDao.updateArchFcltySpecMngAtchFileDirLeafYn(gamAtchFileDirMngVO);
+		if (!"1".equals(strDepthSort)) {
+			gamArchFcltySpecMngDao.updateArchFcltySpecMngAtchFileDirLeafYn(gamAtchFileDirMngVO);
+		}
 	}
 
 	@Override
@@ -167,9 +170,12 @@ public class GamArchFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 
 	@Override
 	public void deleteArchFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+		String strDepthSort = (String)gamAtchFileDirMngVO.getDepthSort();
 		gamArchFcltySpecMngDao.deleteArchFcltySpecMngAtchFileDirLowerData(gamAtchFileDirMngVO);
 		gamArchFcltySpecMngDao.deleteArchFcltySpecMngAtchFileDir(gamAtchFileDirMngVO);
-		gamArchFcltySpecMngDao.updateArchFcltySpecMngAtchFileDirLeafYn(gamAtchFileDirMngVO);
+		if (!"1".equals(strDepthSort)) {
+			gamArchFcltySpecMngDao.updateArchFcltySpecMngAtchFileDirLeafYn(gamAtchFileDirMngVO);
+		}
 	}
 
 	@Override

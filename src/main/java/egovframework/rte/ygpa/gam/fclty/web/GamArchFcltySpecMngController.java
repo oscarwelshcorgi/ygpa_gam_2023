@@ -608,6 +608,7 @@ public class GamArchFcltySpecMngController {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
+		String sNewNo;
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		if (!isAuthenticated) {
@@ -617,6 +618,9 @@ public class GamArchFcltySpecMngController {
 		}
 
 		try {
+			sNewNo = gamArchFcltySpecMngService.selectArchFcltySpecMngAtchFileDirNewNo(gamAtchFileDirMngVO);
+
+			gamAtchFileDirMngVO.setDirNo(sNewNo);
 			gamAtchFileDirMngVO.setRegUsr((String)user.getId());
 			gamArchFcltySpecMngService.insertArchFcltySpecMngAtchFileDir(gamAtchFileDirMngVO);
 

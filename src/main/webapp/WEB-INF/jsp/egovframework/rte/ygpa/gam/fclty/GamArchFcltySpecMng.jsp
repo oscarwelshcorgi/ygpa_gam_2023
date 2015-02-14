@@ -494,11 +494,8 @@ GamArchFcltySpecMngModule.prototype.setLoc = function(argPrtFcltyLoc) {
 **/
 %>
 GamArchFcltySpecMngModule.prototype.onAtchFileDirTreeItemClick = function(itemId) {
-console.log("onAtchFileDirTreeItemClick");
 
-	var dirNo = itemId;
-	var dirNm = $(this)[0].getItemText(itemId);
-	alert('item selected : ' + dirNo + ' (' + dirNm + ')');
+	$(this)[0].module.refreshDirData(itemId);
 
 };
 
@@ -645,6 +642,13 @@ GamArchFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnDirRefresh':
 			this.displayAtchFileDirectory("");
+			break;
+		case 'btnDirAdd':
+			this.addAtchFileDirectory();
+			break;
+		case 'btnDirRename':
+			break;
+		case 'btnDirRemove':
 			break;
 	}
 
@@ -861,6 +865,20 @@ GamArchFcltySpecMngModule.prototype.loadFileDetail = function(tabId) {
 
 <%
 /**
+ * @FUNCTION NAME : refreshFileData
+ * @DESCRIPTION   : FILE DATA REFRESH (LIST)
+ * @PARAMETER     : NONE
+**/
+%>
+GamArchFcltySpecMngModule.prototype.refreshFileData = function() {
+
+	var detailOpt = this.getFormValues('#fileForm');
+	this.$('#fileGrid').flexOptions({params:detailOpt}).flexReload();
+
+};
+
+<%
+/**
  * @FUNCTION NAME : selectFileData
  * @DESCRIPTION   : FILE DATA SELECT
  * @PARAMETER     : NONE
@@ -886,6 +904,41 @@ GamArchFcltySpecMngModule.prototype.selectFileData = function() {
 	this._filemode = 'modify';
 	this.loadFileDetail('fileTab');
 	this.enableFileDetailInputItem();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : refreshDirData
+ * @DESCRIPTION   : DIRECTORY DATA REFRESH (LIST)
+ * @PARAMETER     :
+ *   1. itemId - ITEM ID
+**/
+%>
+GamArchFcltySpecMngModule.prototype.refreshDirData = function(argDirNo) {
+
+	if (argDirNo > 1) {
+		this.$('#dirNo').val('' + argDirNo);
+		var searchVO = this.getFormValues('#dirForm');
+		this.doAction('/fclty/gamSelectArchFcltySpecMngAtchFileDirPk.do', searchVO, function(module, result){
+			if (result.resultCode == "0") {
+				module.makeFormValues('#dirForm', result.result);
+				module.makeDivValues('#dirForm', result.result);
+				module.$('#inputDirNm').val(result.result.dirNm);
+			} else {
+				module.makeFormValues('#dirForm', {});
+				module.makeDivValues('#dirForm', {});
+			}
+		});
+	} else {
+		this.$('#dirNo').val("1");
+		this.$('#dirNm').val("ROOT");
+		this.$('#dirPath').val("/");
+		this.$('#dirUpperNo').val("0");
+		this.$('#depthSort').val("0");
+		this.$('#leafYn').val("N");
+		this.$('#dirFcltsJobSe').val("A");
+	}
 
 };
 
@@ -1698,10 +1751,87 @@ GamArchFcltySpecMngModule.prototype.displayAtchFileDirectory = function(argDirNo
 				if (argDirNo != "") {
 					module.tree.selectItem(argDirNo);
 					module.tree.focusItem(argDirNo);
+					module.refreshDirData(argDirNo);
 				}
  			}
 		}
 	});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : addAtchFileDirectory
+ * @DESCRIPTION   : ATTACHE FILE DIRECTORY를 추가한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamArchFcltySpecMngModule.prototype.addAtchFileDirectory = function() {
+
+	var dirNo = Number(this.$('#dirNo').val());
+	var dirNm = this.$('#dirNm').val();
+	var dirPath = this.$('#dirPath').val();
+	var dirUpperNo = Number(this.$('#dirUpperNo').val());
+	var depthSort = Number(this.$('#depthSort').val());
+	var leafYn = this.$('#leafYn').val();
+	var dirFcltsJobSe = this.$('#dirFcltsJobSe').val();
+	var inputDirNm = this.$('#dirNm').val();
+	if (inputDirNm == "") {
+		alert('디렉토리명이 부정확합니다.');
+		this.$("#inputDirNm").focus();
+		return;
+	}
+	if (dirNo <= 0) {
+		alert('상위 디렉토리 정보가 부정확합니다. (번호)');
+		return;
+	}
+	if (dirNm == "") {
+		alert('상위 디렉토리 정보가 부정확합니다. (명)');
+		return;
+	}
+	if (dirPath == "") {
+		alert('상위 디렉토리 정보가 부정확합니다. (PATH)');
+		return;
+	}
+	if (dirUpperNo < 0) {
+		alert('상위 디렉토리 정보가 부정확합니다. (상위번호)');
+		return;
+	}
+	if (depthSort <= 0) {
+		alert('상위 디렉토리 정보가 부정확합니다. (단계)');
+		return;
+	}
+	if (leafYn != "Y" && leafYn != "N") {
+		alert('상위 디렉토리 정보가 부정확합니다. (LEAF 여부)');
+		return;
+	}
+	if (dirFcltsJobSe == "") {
+		alert('상위 디렉토리 정보가 부정확합니다. (업무구분)');
+		return;
+	}
+	if (confirm("[" + inputDirNm + "] 디렉토리를 생성하시겠습니까?")) {
+		this.$('#dirNm').val(inputDirNm);
+		this.$('#dirPath').val(dirPath + inputDirNm + "/");
+		this.$('#dirUpperNo').val(dirNo);
+		this.$('#depthSort').val("" + (depthSort + 1));
+		this.$('#leafYn').val("Y");
+		this.$('#dirFcltsJobSe').val("A");
+		this.$('#dirNo').val("");
+		var insertVO = this.makeFormArgs("#dirForm");
+		this.$('#dirNm').val(dirNm);
+		this.$('#dirPath').val(dirPath);
+		this.$('#dirUpperNo').val(dirUpperNo);
+		this.$('#depthSort').val("" + depthSort);
+		this.$('#leafYn').val(leafYn);
+		this.$('#dirFcltsJobSe').val(dirFcltsJobSe);
+		this.$('#dirNo').val(dirNo);
+		this.doAction('/fclty/gamInsertArchFcltySpecMngAtchFileDir.do', insertVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.displayAtchFileDirectory('' + dirNo);
+			}
+			alert(result.resultMsg);
+		});
+	}
 
 };
 
@@ -2279,14 +2409,14 @@ var module_instance = new GamArchFcltySpecMngModule();
 						</table>
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th width="10%" height="18">GIS 　자산코드</th>
+								<th style="width:10%; height:18px;">GIS 　자산코드</th>
 								<td>
 									<input type="hidden" id="gisAssetsLocCd"/>
 									<input type="hidden" id="gisAssetsLocNm"/>
 									<input type="text" size="22" id="gisAssetsNm" disabled/>
 									<button id="popupSpecGisAssetsCd" class="popupButton">선택</button>
 								</td>
-								<th width="10%" height="18">항구분／분　류</th>
+								<th style="width:10%; height:18px;">항구분／분　류</th>
 								<td>
 									<input type="hidden" id="prtFcltySeNm"/>
 									<input type="text" size="3" id="gisAssetsPrtAtCode" disabled/>
@@ -2301,7 +2431,7 @@ var module_instance = new GamArchFcltySpecMngModule();
 										<option value="I">통신시설</option>
 									</select>
 								</td>
-								<th width="10%" height="18">시　설　코　드</th>
+								<th style="width:10%; height:18px;">시　설　코　드</th>
 								<td>
 									<input type="hidden" id="prtFcltyGisCd"/>
 									<input type="hidden" id="gisPrtFcltyCdSub"/>
@@ -2312,11 +2442,11 @@ var module_instance = new GamArchFcltySpecMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">시　　설　　명</th>
+								<th style="width:10%; height:18px;">시　　설　　명</th>
 								<td>
 									<input type="text" size="33" id="prtFcltyNm" maxlength="80"/>
 								</td>
-								<th width="10%" height="18">소　　재　　지</th>
+								<th style="width:10%; height:18px;">소　　재　　지</th>
 								<td>
 									<input type="hidden" id="laCrdnt"/>
 									<input type="hidden" id="loCrdnt"/>
@@ -2326,37 +2456,37 @@ var module_instance = new GamArchFcltySpecMngModule();
 									<input type="hidden" id="loc"/>
 									<input type="text" size="33" id="prtFcltyLoc"/>
 								</td>
-								<th width="10%" height="18">규　격／단　위</th>
+								<th style="width:10%; height:18px;">규　격／단　위</th>
 								<td>
 									<input type="text" size="20" id="prtFcltyStndrd" maxlength="80"/>／
 									<input type="text" size="10" id="prtFcltyUnit" maxlength="10"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">면　적／수　량</th>
+								<th style="width:10%; height:18px;">면　적／수　량</th>
 								<td>
 									<input type="text" size="11" id="prtFcltyAr" class="ygpaNumber" data-decimal-point="2" maxlength="13"/> m<sup>2</sup>／
 									<input type="text" size="11" id="prtPrtFcltyCnt" class="ygpaNumber" maxlength="10"/> 개
 								</td>
-								<th width="10%" height="18">설치일／변경일</th>
+								<th style="width:10%; height:18px;">설치일／변경일</th>
 								<td>
 									<input type="text" size="11" id="prtFcltyInstlDt" class="emdcal"/>／
 									<input type="text" size="11" id="prtFcltyChangeDt" class="emdcal"/>
 								</td>
-								<th width="10%" height="18">만료일／담당자</th>
+								<th style="width:10%; height:18px;">만료일／담당자</th>
 								<td>
 									<input type="text" size="11" id="prtFcltyExprDt" class="emdcal"/>／
 									<input type="text" size="16" id="prtPrtFcltyMnger" maxlength="80"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">관　리　업　체</th>
+								<th style="width:10%; height:18px;">관　리　업　체</th>
 								<td>
 									<input type="text" size="2" id="prtFcltyMngEntrpsCd" maxlength="8"/>
 									<input type="text" size="17" id="prtFcltyMngEntrpsNm" disabled/>
 									<button id="popupSpecPrtFcltyMngEntrpsCd" class="popupButton">선택</button>
 								</td>
-								<th width="10%" height="18">시설물관리그룹</th>
+								<th style="width:10%; height:18px;">시설물관리그룹</th>
 								<td colspan="3">
 									<input type="text" size="18" id="fcltsMngGroupNo" maxlength="8"/>
 									<input type="text" size="61" id="fcltsMngGroupNm" disabled/>
@@ -2376,7 +2506,7 @@ var module_instance = new GamArchFcltySpecMngModule();
 						</table>
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th width="10%" height="18">시설물　　분류</th>
+								<th style="width:10%; height:18px;">시설물　　분류</th>
 								<td>
 									<input type="hidden" id="archFcltsClCdNm"/>
 									<select id="archFcltsClCd">
@@ -2386,109 +2516,109 @@ var module_instance = new GamArchFcltySpecMngModule();
 										</c:forEach>
 									</select>
 								</td>
-								<th width="10%" height="18">주　사용　용도</th>
+								<th style="width:10%; height:18px;">주　사용　용도</th>
 								<td colspan="3">
 									<input type="text" size="93" id="mainUsagePrpos" maxlength="200"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">준　공　일　자</th>
+								<th style="width:10%; height:18px;">준　공　일　자</th>
 								<td>
 									<input type="text" size="30" id="bldDt" class="emdcal"/>
 								</td>
-								<th width="10%" height="18">구　조　형　식</th>
+								<th style="width:10%; height:18px;">구　조　형　식</th>
 								<td>
 									<input type="text" size="33" id="strctFmt" maxlength="100"/>
 								</td>
-								<th width="10%" height="18">기　초　형　식</th>
+								<th style="width:10%; height:18px;">기　초　형　식</th>
 								<td>
 									<input type="text" size="33" id="baseFmt" maxlength="100"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">연　　면　　적</th>
+								<th style="width:10%; height:18px;">연　　면　　적</th>
 								<td>
 									<input type="text" size="30" id="ar" class="ygpaNumber" data-decimal-point="2" maxlength="13"/> m<sup>2</sup>
 								</td>
-								<th width="10%" height="18">대　지　면　적</th>
+								<th style="width:10%; height:18px;">대　지　면　적</th>
 								<td>
 									<input type="text" size="30" id="plotAr" class="ygpaNumber" data-decimal-point="2" maxlength="13"/> m<sup>2</sup>
 								</td>
-								<th width="10%" height="18">건　축　면　적</th>
+								<th style="width:10%; height:18px;">건　축　면　적</th>
 								<td>
 									<input type="text" size="30" id="archAr" class="ygpaNumber" data-decimal-point="2" maxlength="13"/> m<sup>2</sup>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">주차면적／대수</th>
+								<th style="width:10%; height:18px;">주차면적／대수</th>
 								<td>
 									<input type="text" size="11" id="prkAr" class="ygpaNumber" data-decimal-point="2" maxlength="13"/> m<sup>2</sup>／
 									<input type="text" size="11" id="prkCnt" class="ygpaNumber" maxlength="6"/> 대
 								</td>
-								<th width="10%" height="18">옥외면적／대수</th>
+								<th style="width:10%; height:18px;">옥외면적／대수</th>
 								<td>
 									<input type="text" size="11" id="osdPrkAr" class="ygpaNumber" data-decimal-point="2" maxlength="13"/> m<sup>2</sup>／
 									<input type="text" size="11" id="osdPrkCnt" class="ygpaNumber" maxlength="6"/> 대
 								</td>
-								<th width="10%" height="18">옥내면적／대수</th>
+								<th style="width:10%; height:18px;">옥내면적／대수</th>
 								<td>
 									<input type="text" size="11" id="isdPrkAr" class="ygpaNumber" data-decimal-point="2" maxlength="13"/> m<sup>2</sup>／
 									<input type="text" size="11" id="isdPrkCnt" class="ygpaNumber" maxlength="6"/> 대
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">승강기운영방식</th>
+								<th style="width:10%; height:18px;">승강기운영방식</th>
 								<td>
 									<input type="text" size="33" id="liftOperMthd" maxlength="100"/>
 								</td>
-								<th width="10%" height="18">승객/비상/화물</th>
+								<th style="width:10%; height:18px;">승객/비상/화물</th>
 								<td>
 									<input type="text" size="5" id="liftCntPsngr" class="ygpaNumber" maxlength="6"/> 대／
 									<input type="text" size="5" id="liftCntEmgcy" class="ygpaNumber" maxlength="6"/> 대／
 									<input type="text" size="5" id="liftCntCargo" class="ygpaNumber" maxlength="6"/> 대
 								</td>
-								<th width="10%" height="18">환기공조　방식</th>
+								<th style="width:10%; height:18px;">환기공조　방식</th>
 								<td>
 									<input type="text" size="33" id="vntltnArcndtMthd" maxlength="50"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">전기　인입용량</th>
+								<th style="width:10%; height:18px;">전기　인입용량</th>
 								<td>
 									<input type="text" size="29" id="elctyLeadInCapa" class="ygpaNumber" data-decimal-point="2" maxlength="13"/> kW
 								</td>
-								<th width="10%" height="18">변전실　　위치</th>
+								<th style="width:10%; height:18px;">변전실　　위치</th>
 								<td>
 									<input type="text" size="33" id="sbtLoc" maxlength="100"/>
 								</td>
-								<th width="10%" height="18">정화조　　형식</th>
+								<th style="width:10%; height:18px;">정화조　　형식</th>
 								<td>
 									<input type="text" size="33" id="spictankFmt" maxlength="100"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">오수정화　위치</th>
+								<th style="width:10%; height:18px;">오수정화　위치</th>
 								<td>
 									<input type="text" size="33" id="swgClupfcltyLoc" maxlength="100"/>
 								</td>
-								<th width="10%" height="18">물탱크　　위치</th>
+								<th style="width:10%; height:18px;">물탱크　　위치</th>
 								<td>
 									<input type="text" size="33" id="wrtTankLoc" maxlength="100"/>
 								</td>
-								<th width="10%" height="18">유류저장　위치</th>
+								<th style="width:10%; height:18px;">유류저장　위치</th>
 								<td>
 									<input type="text" size="33" id="oilSavefcltyLoc" maxlength="100"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">배기닥트　유무</th>
+								<th style="width:10%; height:18px;">배기닥트　유무</th>
 								<td>
 									<select id="exhaustDuctEnnc">
 										<option value="Y">Y</option>
 										<option value="N">N</option>
 									</select>
 								</td>
-								<th width="10%" height="18">냉방유무／열원</th>
+								<th style="width:10%; height:18px;">냉방유무／열원</th>
 								<td>
 									<select id="clngEnnc">
 										<option value="Y">Y</option>
@@ -2497,7 +2627,7 @@ var module_instance = new GamArchFcltySpecMngModule();
 									/
 									<input type="text" size="25" id="clngSrc" maxlength="100"/>
 								</td>
-								<th width="10%" height="18">난방유무／열원</th>
+								<th style="width:10%; height:18px;">난방유무／열원</th>
 								<td>
 									<select id="htngEnnc">
 										<option value="Y">Y</option>
@@ -2508,65 +2638,65 @@ var module_instance = new GamArchFcltySpecMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">외　　　　　장</th>
+								<th style="width:10%; height:18px;">외　　　　　장</th>
 								<td>
 									<input type="text" size="33" id="fcg" maxlength="200"/>
 								</td>
-								<th width="10%" height="18">내　　　　　장</th>
+								<th style="width:10%; height:18px;">내　　　　　장</th>
 								<td>
 									<input type="text" size="33" id="itr" maxlength="200"/>
 								</td>
-								<th width="10%" height="18">천　　　　　장</th>
+								<th style="width:10%; height:18px;">천　　　　　장</th>
 								<td>
 									<input type="text" size="33" id="ceil" maxlength="200"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">지　　　　　붕</th>
+								<th style="width:10%; height:18px;">지　　　　　붕</th>
 								<td>
 									<input type="text" size="33" id="roof" maxlength="200"/>
 								</td>
-								<th width="10%" height="18">지　붕　방　수</th>
+								<th style="width:10%; height:18px;">지　붕　방　수</th>
 								<td>
 									<input type="text" size="33" id="roofWtprf" maxlength="200"/>
 								</td>
-								<th width="10%" height="18">하자　만료일자</th>
+								<th style="width:10%; height:18px;">하자　만료일자</th>
 								<td>
 									<input type="text" size="30" id="flawEndDt" class="emdcal"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">설계　공사　명</th>
+								<th style="width:10%; height:18px;">설계　공사　명</th>
 								<td>
 									<input type="text" size="33" id="planCnstNm" maxlength="200"/>
 								</td>
-								<th width="10%" height="18">설계　수행회사</th>
+								<th style="width:10%; height:18px;">설계　수행회사</th>
 								<td>
 									<input type="text" size="33" id="planExcCmpny" maxlength="200"/>
 								</td>
-								<th width="10%" height="18">설　계　기　간</th>
+								<th style="width:10%; height:18px;">설　계　기　간</th>
 								<td>
 									<input type="text" size="11" id="planBeginDt" class="emdcal"/>∼
 									<input type="text" size="11" id="planEndDt" class="emdcal"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">시공　공사　명</th>
+								<th style="width:10%; height:18px;">시공　공사　명</th>
 								<td>
 									<input type="text" size="33" id="cnstrctCnstNm" maxlength="200"/>
 								</td>
-								<th width="10%" height="18">시공　수행회사</th>
+								<th style="width:10%; height:18px;">시공　수행회사</th>
 								<td>
 									<input type="text" size="33" id="cnstrctExcCmpny" maxlength="200"/>
 								</td>
-								<th width="10%" height="18">시　공　기　간</th>
+								<th style="width:10%; height:18px;">시　공　기　간</th>
 								<td>
 									<input type="text" size="11" id="cnstrctBeginDt" class="emdcal"/>∼
 									<input type="text" size="11" id="cnstrctEndDt" class="emdcal"/>
 								</td>
 							</tr>
 							<tr>
-								<th width="10%" height="18">비　　　　　고</th>
+								<th style="width:10%; height:18px;">비　　　　　고</th>
 								<td colSpan="5">
 									<input type="text" size="149" id="rm" maxlength="1000"/>
 								</td>
@@ -2583,13 +2713,13 @@ var module_instance = new GamArchFcltySpecMngModule();
 							<form id="fileForm">
 								<table class="detailPanel">
 									<tr>
-										<th width="15%" height="20px">시설물관리번호</th>
+										<th style="width:15%; height:20px;">시설물관리번호</th>
 										<td>
 											<input id="atchFileFcltsMngNo" type="text" size="65" disabled/>
 										</td>
 									</tr>
 									<tr>
-										<th width="15%" height="20px">구　　　　분</th>
+										<th style="width:15%; height:20px;">구　　　　분</th>
 										<td>
 											<input id="atchFileSeq" type="text" size="5" disabled/>
 											<select id="atchFileSe">
@@ -2600,7 +2730,7 @@ var module_instance = new GamArchFcltySpecMngModule();
 										</td>
 									</tr>
 									<tr>
-										<th width="15%" height="20px">설　　　　명</th>
+										<th style="width:15%; height:20px;">설　　　　명</th>
 										<td>
 											<input id="atchFileSj" type="text" size="65" maxlength="80"/>
 											<input type="hidden" id="atchFileNmLogic"/>
@@ -2629,13 +2759,24 @@ var module_instance = new GamArchFcltySpecMngModule();
 			<!-- 215. TAB 4 AREA (DIR) -->
 			<div id="dirTab" class="emdTabPage" style="overflow:scroll;">
 				<form id="dirForm">
-					<table style="width:100%;">
+					<table class="detailPanel" style="width:100%;">
 						<tr>
+							<th style="width:10%; height:20px;">디렉토리</th>
+							<td>
+								<input id="dirNo" type="hidden"/>
+								<input id="dirNm" type="hidden"/>
+								<input id="dirFcltsJobSe" type="hidden"/>
+								<input id="dirUpperNo" type="hidden"/>
+								<input id="dirPath" type="hidden"/>
+								<input id="depthSort" type="hidden"/>
+								<input id="leafYn" type="hidden"/>
+								<input id="inputDirNm" type="text" size="80" maxlength="100"/>
+							</td>
 							<td style="text-align:right">
-								<button id="btnDirAdd" class="buttonAdd">　　생　성　　</button>
-								<button id="btnDirRename" class="buttonSave">　　변　경　　</button>
-								<button id="btnDirRemove" class="buttonDelete">　　삭　제　　</button>
-								<button id="btnDirRefresh">　재　조　회　</button>
+								<button id="btnDirRefresh">재　조　회</button>
+								<button id="btnDirAdd" class="buttonAdd">생　　성</button>
+								<button id="btnDirRename" class="buttonSave">변　　경</button>
+								<button id="btnDirRemove" class="buttonDelete">삭　　제</button>
 							</td>
 						</tr>
 					</table>
@@ -2644,42 +2785,6 @@ var module_instance = new GamArchFcltySpecMngModule();
 							<td>
 							<div id="atchFileDirTreeList" class="tree" style="position:relative; left:1px; top:4px; width:735px; height:280px; z-index:10; overflow: scroll; border: 1px solid; margin-right: 8px; border-radius: 7px; padding : 8px;" data-resize="contentFill">
 							</div>
-							</td>
-						</tr>
-					</table>
-					<table class="detailPanel">
-						<tr>
-							<th width="10%" height="20px">디렉토리번호</th>
-							<td>
-								<input id="dirNo" type="text" size="33" disabled/>
-							</td>
-							<th width="10%" height="20px">업무구분</th>
-							<td>
-								<input id="dirFcltsJobSe" type="text" size="33" disabled/>
-							</td>
-							<th width="10%" height="20px">디렉토리명</th>
-							<td>
-								<input id="dirNm" type="text" size="33" disabled/>
-							</td>
-						</tr>
-						<tr>
-							<th width="10%" height="20px">UPPER 번호</th>
-							<td>
-								<input id="dirUpperNo" type="text" size="33" disabled/>
-							</td>
-							<th width="10%" height="20px">단계</th>
-							<td>
-								<input id="depthSort" type="text" size="33" disabled/>
-							</td>
-							<th width="10%" height="20px">LEAF 여부</th>
-							<td>
-								<input id="leafYn" type="text" size="33" disabled/>
-							</td>
-						</tr>
-						<tr>
-							<th width="10%" height="20px">디렉토리 PATH</th>
-							<td colspan="5">
-								<input id="dirPath" type="text" size="148" disabled/>
 							</td>
 						</tr>
 					</table>
