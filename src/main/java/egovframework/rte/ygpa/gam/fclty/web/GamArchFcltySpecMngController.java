@@ -589,6 +589,7 @@ public class GamArchFcltySpecMngController {
 			gamArchFcltySpecMngService.insertArchFcltySpecMngFcltsAtchFile(gamFcltsAtchFileMngVO);
 
 			map.put("resultCode", 0);
+			map.put("atchFileNo", sNewNo);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			e.printStackTrace();
