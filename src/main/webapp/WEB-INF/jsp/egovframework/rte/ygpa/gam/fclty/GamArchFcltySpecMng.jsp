@@ -647,8 +647,10 @@ GamArchFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			this.addAtchFileDirectory();
 			break;
 		case 'btnDirRename':
+			this.renameAtchFileDirectory();
 			break;
 		case 'btnDirRemove':
+			this.removeAtchFileDirectory();
 			break;
 	}
 
@@ -1834,6 +1836,146 @@ GamArchFcltySpecMngModule.prototype.addAtchFileDirectory = function() {
 		this.doAction('/fclty/gamInsertArchFcltySpecMngAtchFileDir.do', insertVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.displayAtchFileDirectory("" + dirNo);
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : renameAtchFileDirectory
+ * @DESCRIPTION   : ATTACHE FILE DIRECTORY NAME을 변경한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamArchFcltySpecMngModule.prototype.renameAtchFileDirectory = function() {
+
+	var dirNo = Number(this.$('#dirNo').val());
+	var dirNm = this.$('#dirNm').val();
+	var dirPath = this.$('#dirPath').val();
+	var dirUpperNo = Number(this.$('#dirUpperNo').val());
+	var depthSort = Number(this.$('#depthSort').val());
+	var leafYn = this.$('#leafYn').val();
+	var dirFcltsJobSe = this.$('#dirFcltsJobSe').val();
+	var inputDirNm = this.$('#inputDirNm').val();
+	if (inputDirNm == "") {
+		alert('디렉토리명이 부정확합니다.');
+		this.$("#inputDirNm").focus();
+		return;
+	}
+	if (dirNo <= 0) {
+		alert('디렉토리 정보가 부정확합니다. (번호)');
+		return;
+	}
+	if (dirNm == "") {
+		alert('디렉토리 정보가 부정확합니다. (명)');
+		return;
+	}
+	if (dirPath == "") {
+		alert('디렉토리 정보가 부정확합니다. (PATH)');
+		return;
+	}
+	if (dirUpperNo < 0) {
+		alert('디렉토리 정보가 부정확합니다. (상위번호)');
+		return;
+	}
+	if (depthSort < 0) {
+		alert('디렉토리 정보가 부정확합니다. (단계)');
+		return;
+	}
+	if (leafYn != "Y" && leafYn != "N") {
+		alert('디렉토리 정보가 부정확합니다. (LEAF 여부)');
+		return;
+	}
+	if (dirFcltsJobSe == "") {
+		alert('디렉토리 정보가 부정확합니다. (업무구분)');
+		return;
+	}
+	if (inputDirNm == dirNm) {
+		alert('변경 디렉토리명이 현재 디렉토리명과 동일합니다.');
+		this.$("#inputDirNm").focus();
+		return;
+	}
+	var tempDirPath = dirPath.replace(/\/+$/, "");
+	var oldDirNm = tempDirPath.substring(tempDirPath.lastIndexOf("/")+1);
+	var upperDirPath = tempDirPath.substring(0,tempDirPath.lastIndexOf("/"));
+	var newDirPath = upperDirPath + "/" + inputDirNm + "/";
+	if (oldDirNm != dirNm) {
+		alert('디렉토리 PATH에 현재 디렉토리명이 존재하지 않습니다.');
+		return;
+	}
+	if (confirm("[" + dirNm + "]을 " + "[" + inputDirNm + "]로 변경하시겠습니까?")) {
+		this.$('#dirNm').val(inputDirNm);
+		this.$('#dirPath').val(newDirPath);
+		var updateVO = this.makeFormArgs("#dirForm");
+		this.$('#dirNm').val(dirNm);
+		this.$('#dirPath').val(dirPath);
+		this.doAction('/fclty/gamUpdateArchFcltySpecMngAtchFileDir.do', updateVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.displayAtchFileDirectory("" + dirNo);
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : removeAtchFileDirectory
+ * @DESCRIPTION   : ATTACHE FILE DIRECTORY를 제거한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamArchFcltySpecMngModule.prototype.removeAtchFileDirectory = function() {
+
+	var dirNo = Number(this.$('#dirNo').val());
+	var dirNm = this.$('#dirNm').val();
+	var dirPath = this.$('#dirPath').val();
+	var dirUpperNo = Number(this.$('#dirUpperNo').val());
+	var depthSort = Number(this.$('#depthSort').val());
+	var leafYn = this.$('#leafYn').val();
+	var dirFcltsJobSe = this.$('#dirFcltsJobSe').val();
+	if (dirNm == "") {
+		alert('디렉토리명이 부정확합니다.');
+		this.$("#inputDirNm").focus();
+		return;
+	}
+	if (dirNo <= 0) {
+		alert('디렉토리 정보가 부정확합니다. (번호)');
+		return;
+	}
+	if (dirNm == "") {
+		alert('디렉토리 정보가 부정확합니다. (명)');
+		return;
+	}
+	if (dirPath == "") {
+		alert('디렉토리 정보가 부정확합니다. (PATH)');
+		return;
+	}
+	if (dirUpperNo < 0) {
+		alert('디렉토리 정보가 부정확합니다. (상위번호)');
+		return;
+	}
+	if (depthSort < 0) {
+		alert('디렉토리 정보가 부정확합니다. (단계)');
+		return;
+	}
+	if (leafYn != "Y" && leafYn != "N") {
+		alert('디렉토리 정보가 부정확합니다. (LEAF 여부)');
+		return;
+	}
+	if (dirFcltsJobSe == "") {
+		alert('디렉토리 정보가 부정확합니다. (업무구분)');
+		return;
+	}
+	if (confirm("[" + dirNm + "] 디렉토리를 삭제하시겠습니까?")) {
+		var deleteVO = this.makeFormArgs("#dirForm");
+		this.doAction('/fclty/gamDeleteArchFcltySpecMngAtchFileDir.do', deleteVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.displayAtchFileDirectory("");
 			}
 			alert(result.resultMsg);
 		});
