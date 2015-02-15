@@ -6,8 +6,8 @@
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 	<typeAlias alias="gamArchFcltySpecMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamArchFcltySpecMngVO"/>
-	<typeAlias alias="gamFcltySpecAtchFileVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecAtchFileVO"/>
 	<typeAlias alias="gamAtchFileDirMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO"/>
+	<typeAlias alias="gamFcltsAtchFileMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO"/>
 	<!-- RESULT MAP 정의 -->
 	<resultMap id="gamArchFcltySpecMngSumMap" class="gamArchFcltySpecMngVO">
 		<result property="totalCount" column="TOTAL_COUNT" columnIndex="1"/>
@@ -562,141 +562,6 @@
 	</delete>
 
 
-	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileList_D" parameterClass="gamFcltySpecAtchFileVO" resultClass="egovMap">
-		SELECT T.*
-			FROM (
-				SELECT  ROWNUM RNUM, S.*
-					FROM (
-						SELECT
-								 T1.FCLTS_MNG_NO AS ATCH_FILE_FCLTS_MNG_NO
-								,LTRIM(TO_CHAR(NVL(T1.ATCH_FILE_SEQ,0),'000')) AS ATCH_FILE_SEQ
-								,T1.ATCH_FILE_SJ AS ATCH_FILE_SJ
-								,T1.ATCH_FILE_NM_LOGIC AS ATCH_FILE_NM_LOGIC
-								,T1.ATCH_FILE_NM_PHYSICL AS ATCH_FILE_NM_PHYSICL
-								,T1.REG_USR AS REG_USR
-								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
-								,T1.UPD_USR AS UPD_USR
-								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
-								,T1.ATCH_FILE_SE AS ATCH_FILE_SE
-								,TO_CHAR(T1.ATCH_FILE_WRITNG_DT,'YYYY-MM-DD') AS ATCH_FILE_WRITNG_DT
-								,GAM_GET_FILE_SE_NM(T1.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
-							FROM FCLTS_SPEC_ATCH_FILE_F T1
-						WHERE 1=1
-						AND T1.FCLTS_MNG_NO = #atchFileFcltsMngNo#
-						ORDER BY T1.ATCH_FILE_SEQ ASC
-				) S
-		) T
-		<![CDATA[
-		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
-		]]>
-	</select>
-
-	<insert id="gamArchFcltySpecMngDao.insertArchFcltySpecMngAtchFile_S" parameterClass="gamFcltySpecAtchFileVO">
-		INSERT INTO FCLTS_SPEC_ATCH_FILE_F
-		(
-			 FCLTS_MNG_NO
-			,ATCH_FILE_SEQ
-			,ATCH_FILE_SJ
-			,ATCH_FILE_NM_LOGIC
-			,ATCH_FILE_NM_PHYSICL
-			,REG_USR
-			,REGIST_DT
-			,ATCH_FILE_SE
-			,ATCH_FILE_WRITNG_DT
-		)
-		VALUES
-		(
-			 #atchFileFcltsMngNo#
-			,NVL(TO_NUMBER(REPLACE(#atchFileSeq#,',','')),0)
-			,#atchFileSj#
-			,#atchFileNmLogic#
-			,#atchFileNmPhysicl#
-			,#regUsr#
-			,SYSDATE
-			,#atchFileSe#
-			,SYSDATE
-		)
-	</insert>
-
-	<insert id="gamArchFcltySpecMngDao.uploadArchFcltySpecMngAtchFile_S" parameterClass="gamFcltySpecAtchFileVO">
-		INSERT INTO FCLTS_SPEC_ATCH_FILE_F
-		(
-			 FCLTS_MNG_NO
-			,ATCH_FILE_SEQ
-			,ATCH_FILE_SJ
-			,ATCH_FILE_NM_LOGIC
-			,ATCH_FILE_NM_PHYSICL
-			,REG_USR
-			,REGIST_DT
-			,ATCH_FILE_SE
-			,ATCH_FILE_WRITNG_DT
-		)
-		SELECT
-				 #atchFileFcltsMngNo#
-				,(SELECT NVL(MAX(ATCH_FILE_SEQ),0) + 1
-					FROM FCLTS_SPEC_ATCH_FILE_F
-				  WHERE FCLTS_MNG_NO = #atchFileFcltsMngNo#)
-				,#atchFileSj#
-				,#atchFileNmLogic#
-				,#atchFileNmPhysicl#
-				,#regUsr#
-				,SYSDATE
-				,#atchFileSe#
-				,SYSDATE
-			FROM DUAL
-	</insert>
-
-	<update id="gamArchFcltySpecMngDao.updateArchFcltySpecMngAtchFile_S" parameterClass="gamFcltySpecAtchFileVO">
-		UPDATE FCLTS_SPEC_ATCH_FILE_F SET
-			 ATCH_FILE_SJ = #atchFileSj#
-			,ATCH_FILE_NM_LOGIC = #atchFileNmLogic#
-			,ATCH_FILE_NM_PHYSICL = #atchFileNmPhysicl#
-			,UPD_USR = #updUsr#
-			,UPDT_DT = SYSDATE
-			,ATCH_FILE_SE = #atchFileSe#
-			,ATCH_FILE_WRITNG_DT = SYSDATE
-		WHERE FCLTS_MNG_NO = #atchFileFcltsMngNo#
-		AND ATCH_FILE_SEQ = NVL(TO_NUMBER(REPLACE(#atchFileSeq#,',','')),0)
-	</update>
-
-	<delete id="gamArchFcltySpecMngDao.deleteArchFcltySpecMngAtchFile_S" parameterClass="gamFcltySpecAtchFileVO">
-		DELETE FROM FCLTS_SPEC_ATCH_FILE_F
-		WHERE FCLTS_MNG_NO = #atchFileFcltsMngNo#
-		AND ATCH_FILE_SEQ = NVL(TO_NUMBER(REPLACE(#atchFileSeq#,',','')),0)
-	</delete>
-
-	<delete id="gamArchFcltySpecMngDao.deleteArchFcltySpecMngAllAtchFile_S" parameterClass="gamFcltySpecAtchFileVO">
-		DELETE FROM FCLTS_SPEC_ATCH_FILE_F
-		WHERE FCLTS_MNG_NO = #atchFileFcltsMngNo#
-	</delete>
-
-	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFilePk_S" parameterClass="gamFcltySpecAtchFileVO" resultClass="egovMap">
-		SELECT
-				 T1.FCLTS_MNG_NO AS ATCH_FILE_FCLTS_MNG_NO
-				,LTRIM(TO_CHAR(NVL(T1.ATCH_FILE_SEQ,0),'000')) AS ATCH_FILE_SEQ
-				,T1.ATCH_FILE_SJ AS ATCH_FILE_SJ
-				,T1.ATCH_FILE_NM_LOGIC AS ATCH_FILE_NM_LOGIC
-				,T1.ATCH_FILE_NM_PHYSICL AS ATCH_FILE_NM_PHYSICL
-				,T1.REG_USR AS REG_USR
-				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
-				,T1.UPD_USR AS UPD_USR
-				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
-				,T1.ATCH_FILE_SE AS ATCH_FILE_SE
-				,TO_CHAR(T1.ATCH_FILE_WRITNG_DT,'YYYY-MM-DD') AS ATCH_FILE_WRITNG_DT
-				,GAM_GET_FILE_SE_NM(T1.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
-			FROM FCLTS_SPEC_ATCH_FILE_F T1
-		WHERE T1.FCLTS_MNG_NO = #atchFileFcltsMngNo#
-		AND T1.ATCH_FILE_SEQ = NVL(TO_NUMBER(REPLACE(#atchFileSeq#,',','')),0)
-	</select>
-
-	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileMaxSeq_S" parameterClass="gamFcltySpecAtchFileVO" resultClass="java.lang.String">
-		SELECT
-				 LTRIM(TO_CHAR(NVL(MAX(T1.ATCH_FILE_SEQ),0) + 1,'000')) AS MAX_ATCH_FILE_SEQ
-			FROM FCLTS_SPEC_ATCH_FILE_F T1
-		WHERE T1.FCLTS_MNG_NO = #atchFileFcltsMngNo#
-	</select>
-
-
 	<select id="gamArchFcltySpecMngDao.selectFcltsMngGroupNm_S" parameterClass="hashmap" resultClass="java.lang.String">
 		SELECT FCLTS_MNG_GROUP_NM
 			FROM FCLTS_MNG_GROUP_F
@@ -857,6 +722,130 @@
 			START WITH DIR_UPPER_NO = TO_NUMBER(REPLACE(#dirNo#,',',''))
 			CONNECT BY DIR_UPPER_NO = PRIOR DIR_NO
 		)
+	</select>
+
+
+	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngFcltsAtchFileList_D" parameterClass="gamFcltsAtchFileMngVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 TO_CHAR(T1.ATCH_FILE_NO) AS ATCH_FILE_NO
+								,T1.ATCH_FILE_NM_LOGIC AS ATCH_FILE_NM_LOGIC
+								,T1.ATCH_FILE_NM_PHYSICL AS ATCH_FILE_NM_PHYSICL
+								,T1.ATCH_FILE_SE AS ATCH_FILE_SE
+								,TO_CHAR(T1.DIR_NO) AS ATCH_FILE_DIR_NO
+								,T1.FCLTS_DATA_SE AS ATCH_FILE_FCLTS_DATA_SE
+								,T1.FCLTS_MNG_NO AS ATCH_FILE_FCLTS_MNG_NO
+								,T1.FCLTS_JOB_SE AS ATCH_FILE_FCLTS_JOB_SE
+								,TO_CHAR(T1.FCLTS_MNG_SEQ) AS ATCH_FILE_FCLTS_MNG_SEQ
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,GAM_GET_FILE_SE_NM(T1.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+							FROM FCLTS_ATCH_FILE_F T1
+						WHERE 1=1
+
+						<isNotEmpty property="atchFileDirNo">
+						AND T1.DIR_NO = NVL(TO_NUMBER(REPLACE(#atchFileDirNo#,',','')),0)
+						</isNotEmpty>
+
+						ORDER BY T1.ATCH_FILE_NO ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<insert id="gamArchFcltySpecMngDao.insertArchFcltySpecMngFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
+		INSERT INTO FCLTS_ATCH_FILE_F
+		(
+			 ATCH_FILE_NO
+			,ATCH_FILE_NM_LOGIC
+			,ATCH_FILE_NM_PHYSICL
+			,ATCH_FILE_SE
+			,DIR_NO
+			,FCLTS_DATA_SE
+			,FCLTS_MNG_NO
+			,FCLTS_JOB_SE
+			,FCLTS_MNG_SEQ
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 TO_NUMBER(REPLACE(#atchFileNo#,',',''))
+			,#atchFileNmLogic#
+			,#atchFileNmPhysicl#
+			,#atchFileSe#
+			,TO_NUMBER(REPLACE(#atchFileDirNo#,',',''))
+			,#atchFileFcltsDataSe#
+			,#atchFileFcltsMngNo#
+			,#atchFileFcltsJobSe#
+			,TO_NUMBER(REPLACE(#atchFileFcltsMngSeq#,',',''))
+			,#regUsr#
+			,SYSDATE
+		)
+	</insert>
+
+	<update id="gamArchFcltySpecMngDao.updateArchFcltySpecMngFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
+		UPDATE FCLTS_ATCH_FILE_F SET
+			 ATCH_FILE_NM_LOGIC = #atchFileNmLogic#
+			,ATCH_FILE_NM_PHYSICL = #atchFileNmPhysicl#
+			,ATCH_FILE_SE = #atchFileSe#
+			,DIR_NO = TO_NUMBER(REPLACE(#atchFileDirNo#,',',''))
+			,FCLTS_DATA_SE = #atchFileFcltsDataSe#
+			,FCLTS_MNG_NO = #atchFileFcltsMngNo#
+			,FCLTS_JOB_SE = #atchFileFcltsJobSe#
+			,FCLTS_MNG_SEQ = TO_NUMBER(REPLACE(#atchFileFcltsMngSeq#,',',''))
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE ATCH_FILE_NO = NVL(TO_NUMBER(REPLACE(#atchFileNo#,',','')),0)
+	</update>
+
+	<delete id="gamArchFcltySpecMngDao.deleteArchFcltySpecMngFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
+		DELETE FROM FCLTS_ATCH_FILE_F
+		WHERE ATCH_FILE_NO = TO_NUMBER(REPLACE(#atchFileNo#,',',''))
+	</delete>
+
+	<delete id="gamArchFcltySpecMngDao.deleteArchFcltySpecMngAllFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
+		DELETE FROM FCLTS_ATCH_FILE_F
+		WHERE DIR_NO IN (
+			SELECT DIR_NO
+				FROM ATCH_FILE_DIR_F
+			WHERE DIR_NO <![CDATA[ > ]]> TO_NUMBER(REPLACE(#atchFileDirNo#,',',''))
+			START WITH DIR_UPPER_NO = TO_NUMBER(REPLACE(#atchFileDirNo#,',',''))
+			CONNECT BY DIR_UPPER_NO = PRIOR DIR_NO
+		)
+	</delete>
+
+	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngFcltsAtchFilePk_S" parameterClass="gamFcltsAtchFileMngVO" resultClass="egovMap">
+		SELECT
+				 TO_CHAR(T1.ATCH_FILE_NO) AS ATCH_FILE_NO
+				,T1.ATCH_FILE_NM_LOGIC AS ATCH_FILE_NM_LOGIC
+				,T1.ATCH_FILE_NM_PHYSICL AS ATCH_FILE_NM_PHYSICL
+				,T1.ATCH_FILE_SE AS ATCH_FILE_SE
+				,TO_CHAR(T1.DIR_NO) AS ATCH_FILE_DIR_NO
+				,T1.FCLTS_DATA_SE AS ATCH_FILE_FCLTS_DATA_SE
+				,T1.FCLTS_MNG_NO AS ATCH_FILE_FCLTS_MNG_NO
+				,T1.FCLTS_JOB_SE AS ATCH_FILE_FCLTS_JOB_SE
+				,TO_CHAR(T1.FCLTS_MNG_SEQ) AS ATCH_FILE_FCLTS_MNG_SEQ
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,GAM_GET_FILE_SE_NM(T1.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+			FROM FCLTS_ATCH_FILE_F T1
+		WHERE T1.ATCH_FILE_NO = TO_NUMBER(REPLACE(#atchFileNo#,',',''))
+	</select>
+
+	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngFcltsAtchFileNewNo_S" parameterClass="gamFcltsAtchFileMngVO" resultClass="java.lang.String">
+		SELECT
+				TO_CHAR(FCLTS_ATCH_FILE_SEQ.NEXTVAL) AS NEW_DIR_NO
+			FROM DUAL
 	</select>
 
 </sqlMap>

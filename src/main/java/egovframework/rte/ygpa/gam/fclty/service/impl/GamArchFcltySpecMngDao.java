@@ -12,7 +12,7 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fclty.service.GamArchFcltySpecMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO;
-import egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecAtchFileVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO;
 
 /**
  *
@@ -123,79 +123,6 @@ public class GamArchFcltySpecMngDao extends YGPAAbstractDAO {
 	 */
 	public String selectArchFcltySpecMngMaxGisPrtFcltySeq(GamArchFcltySpecMngVO gamArchFcltySpecMngVO) {
 		return (String)selectByPk("gamArchFcltySpecMngDao.selectArchFcltySpecMngMaxGisPrtFcltySeq_S", gamArchFcltySpecMngVO);
-	}
-
-
-	/**
-	 * @name selectArchFcltySpecMngAtchFileList
-	 * @param searchVO
-	 * @return List
-	 */
-	public List selectArchFcltySpecMngAtchFileList(GamFcltySpecAtchFileVO searchVO) {
-		return list("gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileList_D", searchVO);
-	}
-
-	/**
-	 * @name insertArchFcltySpecMngAtchFile
-	 * @param gamFcltySpecAtchFileVO
-	 * @return void
-	 */
-	public void insertArchFcltySpecMngAtchFile(GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO) {
-		insert("gamArchFcltySpecMngDao.insertArchFcltySpecMngAtchFile_S", gamFcltySpecAtchFileVO);
-	}
-
-	/**
-	 * @name uploadArchFcltySpecMngAtchFile
-	 * @param gamFcltySpecAtchFileVO
-	 * @return void
-	 */
-	public void uploadArchFcltySpecMngAtchFile(GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO) {
-		insert("gamArchFcltySpecMngDao.uploadArchFcltySpecMngAtchFile_S", gamFcltySpecAtchFileVO);
-	}
-
-	/**
-	 * @name updateArchFcltySpecMngAtchFile
-	 * @param gamFcltySpecAtchFileVO
-	 * @return void
-	 */
-	public void updateArchFcltySpecMngAtchFile(GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO) {
-		update("gamArchFcltySpecMngDao.updateArchFcltySpecMngAtchFile_S", gamFcltySpecAtchFileVO);
-	}
-
-	/**
-	 * @name deleteArchFcltySpecMngAtchFile
-	 * @param gamFcltySpecAtchFileVO
-	 * @return void
-	 */
-	public void deleteArchFcltySpecMngAtchFile(GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO) {
-		delete("gamArchFcltySpecMngDao.deleteArchFcltySpecMngAtchFile_S", gamFcltySpecAtchFileVO);
-	}
-
-	/**
-	 * @name deleteArchFcltySpecMngAllAtchFile
-	 * @param gamFcltySpecAtchFileVO
-	 * @return void
-	 */
-	public void deleteArchFcltySpecMngAllAtchFile(GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO) {
-		delete("gamArchFcltySpecMngDao.deleteArchFcltySpecMngAllAtchFile_S", gamFcltySpecAtchFileVO);
-	}
-
-	/**
-	 * @name selectArchFcltySpecMngAtchFilePk
-	 * @param gamFcltySpecAtchFileVO
-	 * @return EgovMap
-	 */
-	public EgovMap selectArchFcltySpecMngAtchFilePk(GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO) {
-		return (EgovMap)selectByPk("gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFilePk_S", gamFcltySpecAtchFileVO);
-	}
-
-	/**
-	 * @name selectArchFcltySpecMngAtchFileMaxSeq
-	 * @param gamFcltySpecAtchFileVO
-	 * @return String
-	 */
-	public String selectArchFcltySpecMngAtchFileMaxSeq(GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO) {
-		return (String)selectByPk("gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileMaxSeq_S", gamFcltySpecAtchFileVO);
 	}
 
 
@@ -327,5 +254,68 @@ public class GamArchFcltySpecMngDao extends YGPAAbstractDAO {
 		return list("gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileDirLowerDataCnt_S", gamAtchFileDirMngVO);
 	}
 
+
+	/**
+	 * @name selectArchFcltySpecMngFcltsAtchFileList
+	 * @param searchVO
+	 * @return List
+	 */
+	public List selectArchFcltySpecMngFcltsAtchFileList(GamFcltsAtchFileMngVO searchVO) {
+		return list("gamArchFcltySpecMngDao.selectArchFcltySpecMngFcltsAtchFileList_D", searchVO);
+	}
+
+	/**
+	 * @name insertArchFcltySpecMngFcltsAtchFile
+	 * @param gamFcltySpecAtchFileVO
+	 * @return void
+	 */
+	public void insertArchFcltySpecMngFcltsAtchFile(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) {
+		insert("gamArchFcltySpecMngDao.insertArchFcltySpecMngFcltsAtchFile_S", gamFcltsAtchFileMngVO);
+	}
+
+	/**
+	 * @name updateArchFcltySpecMngFcltsAtchFile
+	 * @param gamFcltsAtchFileMngVO
+	 * @return void
+	 */
+	public void updateArchFcltySpecMngFcltsAtchFile(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) {
+		update("gamArchFcltySpecMngDao.updateArchFcltySpecMngFcltsAtchFile_S", gamFcltsAtchFileMngVO);
+	}
+
+	/**
+	 * @name deleteArchFcltySpecMngFcltsAtchFile
+	 * @param gamFcltsAtchFileMngVO
+	 * @return void
+	 */
+	public void deleteArchFcltySpecMngFcltsAtchFile(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) {
+		delete("gamArchFcltySpecMngDao.deleteArchFcltySpecMngFcltsAtchFile_S", gamFcltsAtchFileMngVO);
+	}
+
+	/**
+	 * @name deleteArchFcltySpecMngAllFcltsAtchFile
+	 * @param gamFcltsAtchFileMngVO
+	 * @return void
+	 */
+	public void deleteArchFcltySpecMngAllFcltsAtchFile(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) {
+		delete("gamArchFcltySpecMngDao.deleteArchFcltySpecMngAllFcltsAtchFile_S", gamFcltsAtchFileMngVO);
+	}
+
+	/**
+	 * @name selectArchFcltySpecMngFcltsAtchFilePk
+	 * @param gamFcltsAtchFileMngVO
+	 * @return EgovMap
+	 */
+	public EgovMap selectArchFcltySpecMngFcltsAtchFilePk(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) {
+		return (EgovMap)selectByPk("gamArchFcltySpecMngDao.selectArchFcltySpecMngFcltsAtchFilePk_S", gamFcltsAtchFileMngVO);
+	}
+
+	/**
+	 * @name selectArchFcltySpecMngFcltsAtchFileNewNo
+	 * @param gamFcltsAtchFileMngVO
+	 * @return String
+	 */
+	public String selectArchFcltySpecMngFcltsAtchFileNewNo(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) {
+		return (String)selectByPk("gamArchFcltySpecMngDao.selectArchFcltySpecMngFcltsAtchFileNewNo_S", gamFcltsAtchFileMngVO);
+	}
 
 }

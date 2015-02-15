@@ -85,63 +85,6 @@ public interface GamArchFcltySpecMngService {
 
 
 	/**
-	 * @name selectArchFcltySpecMngAtchFileList
-	 * @param searchVO
-	 * @return List
-	 * @throws Exception
-	 */
-	List selectArchFcltySpecMngAtchFileList(GamFcltySpecAtchFileVO searchVO) throws Exception;
-
-	/**
-	 * @name insertArchFcltySpecMngAtchFile
-	 * @param gamFcltySpecAtchFileVO
-	 * @return void
-	 * @throws Exception
-	 */
-	void insertArchFcltySpecMngAtchFile(GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO) throws Exception;
-
-	/**
-	 * @name uploadArchFcltySpecMngAtchFile
-	 * @param gamFcltySpecAtchFileVO
-	 * @return void
-	 * @throws Exception
-	 */
-	void uploadArchFcltySpecMngAtchFile(GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO) throws Exception;
-
-	/**
-	 * @name updateArchFcltySpecMngAtchFile
-	 * @param gamFcltySpecAtchFileVO
-	 * @return void
-	 * @throws Exception
-	 */
-	void updateArchFcltySpecMngAtchFile(GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO) throws Exception;
-
-	/**
-	 * @name deleteArchFcltySpecMngAtchFile
-	 * @param gamFcltySpecAtchFileVO
-	 * @return void
-	 * @throws Exception
-	 */
-	void deleteArchFcltySpecMngAtchFile(GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO) throws Exception;
-
-	/**
-	 * @name selectArchFcltySpecMngAtchFilePk
-	 * @param gamFcltySpecAtchFileVO
-	 * @return EgovMap
-	 * @throws Exception
-	 */
-	EgovMap selectArchFcltySpecMngAtchFilePk(GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO) throws Exception;
-
-	/**
-	 * @name selectArchFcltySpecMngAtchFileMaxSeq
-	 * @param gamFcltySpecAtchFileVO
-	 * @return String
-	 * @throws Exception
-	 */
-	String selectArchFcltySpecMngAtchFileMaxSeq(GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO) throws Exception;
-
-
-	/**
 	 * @name selectFcltsMngGroupNm
 	 * @param searchVO
 	 * @return String
@@ -226,5 +169,54 @@ public interface GamArchFcltySpecMngService {
 	 * @throws Exception
 	 */
 	List selectArchFcltySpecMngAtchFileDirLowerDataCnt(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception;
+
+
+	/**
+	 * @name selectArchFcltySpecMngFcltsAtchFileList
+	 * @param searchVO
+	 * @return List
+	 * @throws Exception
+	 */
+	List selectArchFcltySpecMngFcltsAtchFileList(GamFcltsAtchFileMngVO searchVO) throws Exception;
+
+	/**
+	 * @name insertArchFcltySpecMngFcltsAtchFile
+	 * @param gamFcltySpecAtchFileVO
+	 * @return void
+	 * @throws Exception
+	 */
+	void insertArchFcltySpecMngFcltsAtchFile(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception;
+
+	/**
+	 * @name updateArchFcltySpecMngFcltsAtchFile
+	 * @param gamFcltsAtchFileMngVO
+	 * @return void
+	 * @throws Exception
+	 */
+	void updateArchFcltySpecMngFcltsAtchFile(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception;
+
+	/**
+	 * @name deleteArchFcltySpecMngFcltsAtchFile
+	 * @param gamFcltsAtchFileMngVO
+	 * @return void
+	 * @throws Exception
+	 */
+	void deleteArchFcltySpecMngFcltsAtchFile(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception;
+
+	/**
+	 * @name selectArchFcltySpecMngFcltsAtchFilePk
+	 * @param gamFcltsAtchFileMngVO
+	 * @return EgovMap
+	 * @throws Exception
+	 */
+	EgovMap selectArchFcltySpecMngFcltsAtchFilePk(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception;
+
+	/**
+	 * @name selectArchFcltySpecMngFcltsAtchFileNewNo
+	 * @param gamFcltsAtchFileMngVO
+	 * @return String
+	 * @throws Exception
+	 */
+	String selectArchFcltySpecMngFcltsAtchFileNewNo(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception;
 
 }

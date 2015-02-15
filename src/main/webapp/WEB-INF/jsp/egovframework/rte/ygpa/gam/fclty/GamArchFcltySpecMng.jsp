@@ -141,15 +141,14 @@ GamArchFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 	this.$("#fileGrid").flexigrid({
 		module : this,
-		url : '/fclty/gamSelectArchFcltySpecMngAtchFileList.do',
+		url : '/fclty/gamSelectArchFcltySpecMngFcltsAtchFileList.do',
 		dataType : 'json',
 		colModel : [
-					{display:"순번",				name:"atchFileSeq",				width:50,		sortable:false,		align:"center"},
-					{display:"구분",				name:"atchFileSeNm",			width:50,		sortable:false,		align:"center"},
-					{display:"설명",				name:"atchFileSj",				width:200,		sortable:false,		align:"left"},
-					{display:"파일명",				name:"atchFileNmLogic",			width:160,		sortable:false,		align:"left"}
+					{display:"번호",		name:"atchFileNo",			width:100,		sortable:false,		align:"center"},
+					{display:"구분",		name:"atchFileSeNm",		width:60,		sortable:false,		align:"center"},
+					{display:"파일명",		name:"atchFileNmLogic",		width:300,		sortable:false,		align:"left"}
 					],
-		height: "420"
+		height: "240"
 	});
 
 	this.$("#fileGrid").on('onLoadDataComplete', function(event, module, data) {
@@ -1971,7 +1970,7 @@ GamArchFcltySpecMngModule.prototype.removeAtchFileDirectory = function() {
 		alert('디렉토리 정보가 부정확합니다. (업무구분)');
 		return;
 	}
-	if (confirm("[" + dirNm + "] 디렉토리를 삭제하시겠습니까?")) {
+	if (confirm("[" + dirNm + "] 디렉토리를 삭제하시겠습니까?\r\n(하위 디렉토리 및 첨부 파일도 모두 삭제됩니다)")) {
 		var deleteVO = this.makeFormArgs("#dirForm");
 		this.doAction('/fclty/gamDeleteArchFcltySpecMngAtchFileDir.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
@@ -2425,6 +2424,7 @@ GamArchFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			}
 			break;
 		case 'fileTab':
+			/*
 			if (this._mainKeyValue != "") {
 				var atchFcltsMngNo = this.$('#atchFcltsMngNo').val();
 				if (atchFcltsMngNo == "" || atchFcltsMngNo != this._fileKeyValue || this._mainKeyValue != this._fileKeyValue) {
@@ -2438,6 +2438,7 @@ GamArchFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.$('#previewImage').attr('src', '');
 				this.disableFileDetailInputItem();
 			}
+			*/
 			break;
 	}
 
@@ -2513,7 +2514,6 @@ var module_instance = new GamArchFcltySpecMngModule();
 				<li><a href="#listTab" class="emdTab">건축시설 목록</a></li>
 				<li><a href="#detailTab" class="emdTab">건축시설 제원</a></li>
 				<li><a href="#fileTab" class="emdTab">건축시설 첨부파일</a></li>
-				<li><a href="#dirTab" class="emdTab">디렉토리</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
@@ -2855,62 +2855,12 @@ var module_instance = new GamArchFcltySpecMngModule();
 			</div>
 			<!-- 214. TAB 3 AREA (FILE) -->
 			<div id="fileTab" class="emdTabPage" style="overflow:scroll;">
-				<table>
+				<table class="detailPanel" style="width:100%;">
 					<tr>
-						<td width="50%">
-							<form id="fileForm">
-								<table class="detailPanel">
-									<tr>
-										<th style="width:15%; height:20px;">시설물관리번호</th>
-										<td>
-											<input id="atchFileFcltsMngNo" type="text" size="65" disabled/>
-										</td>
-									</tr>
-									<tr>
-										<th style="width:15%; height:20px;">구　　　　분</th>
-										<td>
-											<input id="atchFileSeq" type="text" size="5" disabled/>
-											<select id="atchFileSe">
-												<option value="D">문서</option>
-												<option value="P">사진</option>
-												<option value="Z">기타</option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<th style="width:15%; height:20px;">설　　　　명</th>
-										<td>
-											<input id="atchFileSj" type="text" size="65" maxlength="80"/>
-											<input type="hidden" id="atchFileNmLogic"/>
-											<input type="hidden" id="atchFileNmPhysicl"/>
-											<input type="hidden" id="atchFileWritngDt"/>
-										</td>
-									</tr>
-								</table>
-							</form>
-							<div class="emdControlPanel">
-								<button id="btnFileUpload" class="buttonAdd">추가　(업로드)</button>
-								<button id="btnFileDownload">다　운　로　드</button>
-								<button id="btnFileRemove" class="buttonDelete">　삭　　　제　</button>
-								<button id="btnFileSave" class="buttonSave">　저　　　장　</button>
-								&nbsp;  &nbsp;
-							</div>
-							<table id="fileGrid" style="display:none" class="fillHeight"></table>
-						</td>
-						<td style="text-align:center; vertical-align:middle; border:black 3px double;">
-							<img id="previewImage" style="border: 1px solid #000; max-width:300px; max-height: 300px" src="">
-						</td>
-					</tr>
-				</table>
-			</div>
-
-			<!-- 215. TAB 4 AREA (DIR) -->
-			<div id="dirTab" class="emdTabPage" style="overflow:scroll;">
-				<form id="dirForm">
-					<table class="detailPanel" style="width:100%;">
-						<tr>
-							<th style="width:10%; height:20px;">디렉토리</th>
-							<td>
+						<th style="font-weight:bold; height:20px;">디렉토리 영역 : </th>
+						<th style="width:10%; height:20px;">선택디렉토리</th>
+						<td style="width:50%;">
+							<form id="dirForm">
 								<input id="dirNo" type="hidden"/>
 								<input id="dirNm" type="hidden"/>
 								<input id="dirFcltsJobSe" type="hidden"/>
@@ -2918,27 +2868,55 @@ var module_instance = new GamArchFcltySpecMngModule();
 								<input id="dirPath" type="hidden"/>
 								<input id="depthSort" type="hidden"/>
 								<input id="leafYn" type="hidden"/>
-								<input id="inputDirNm" type="text" size="80" maxlength="100"/>
-							</td>
-							<td style="text-align:right">
-								<button id="btnDirRefresh">재　조　회</button>
-								<button id="btnDirAdd" class="buttonAdd">생　　성</button>
-								<button id="btnDirRename" class="buttonSave">변　　경</button>
-								<button id="btnDirRemove" class="buttonDelete">삭　　제</button>
-							</td>
-						</tr>
-					</table>
-					<table style="width:100%;">
-						<tr>
-							<td>
-							<div id="atchFileDirTreeList" class="tree" style="position:relative; left:1px; top:4px; width:735px; height:280px; z-index:10; overflow: scroll; border: 1px solid; margin-right: 8px; border-radius: 7px; padding : 8px;" data-resize="contentFill">
-							</div>
-							</td>
-						</tr>
-					</table>
-				</form>
+								<input id="inputDirNm" type="text" size="50" maxlength="100"/>
+							</form>
+						</td>
+						<th style="font-weight:bold; height:20px;">첨부파일 영역 : </th>
+						<th style="width:15%; height:20px;">선택첨부파일</th>
+						<td>
+							<form id="fileForm">
+								<input id="atchFileNo" type="hidden"/>
+								<input id="atchFileNmPhysicl" type="hidden"/>
+								<input id="atchFileSe" type="hidden"/>
+								<input id="atchFileDirNo" type="hidden"/>
+								<input id="atchFileDataSe" type="hidden"/>
+								<input id="atchFileJobSe" type="hidden"/>
+								<input id="atchFileFcltsMngNo" type="hidden"/>
+								<input id="atchFileFcltsMngSeq" type="hidden"/>
+								<input id="atchFileNmLogic" type="text" size="50" disabled/>
+							</form>
+						</td>
+					</tr>
+				</table>
+				<table style="width:100%;">
+					<tr>
+						<td style="width:50%;">
+							<div id="atchFileDirTreeList" class="tree" style="position:relative; margin:4px; width:455px; height:460px; z-index:10; overflow: scroll; border: 1px solid; margin-right: 8px; border-radius: 7px; padding : 8px;" data-resize="contentFill"></div>
+						</td>
+						<td style="width:50%;">
+							<table id="fileGrid" style="margin:1px; display:none;"></table>
+							<img id="previewImage" style="margin:1px; width:477px; height:235px; border:1px solid #000; max-width:477px; max-height:235px" src="">
+						</td>
+					</tr>
+				</table>
+				<table class="detailPanel" style="width:100%;">
+					<tr>
+						<td style="width:50%;">
+							<button id="btnDirRefresh">디렉토리 재조회</button>
+							<button id="btnDirAdd" class="buttonAdd">디렉토리 생성</button>
+							<button id="btnDirRename" class="buttonSave">디렉토리명 변경</button>
+							<button id="btnDirRemove" class="buttonDelete">디렉토리 삭제</button>
+						</td>
+						<td style="width:50%; text-align:right;">
+							<button id="btnFileRefresh">파일 재조회</button>
+							<button id="btnFileUpload" class="buttonAdd">파일 추가</button>
+							<button id="btnFileDownload">파일 다운로드</button>
+							<button id="btnFileRemove" class="buttonDelete">파일 삭제</button>
+							<button id="btnFilePreview">파일 미리보기</button>
+						</td>
+					</tr>
+				</table>
 			</div>
-
 		</div>
 	</div>
 </div>

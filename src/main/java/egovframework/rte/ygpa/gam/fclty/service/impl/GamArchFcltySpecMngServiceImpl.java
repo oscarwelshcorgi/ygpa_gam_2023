@@ -15,7 +15,7 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fclty.service.GamArchFcltySpecMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamArchFcltySpecMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO;
-import egovframework.rte.ygpa.gam.fclty.service.GamFcltySpecAtchFileVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO;
 
 /**
  *
@@ -64,9 +64,6 @@ public class GamArchFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 
 	@Override
 	public void deleteArchFcltySpecMng(GamArchFcltySpecMngVO gamArchFcltySpecMngVO) throws Exception {
-		GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO = new GamFcltySpecAtchFileVO();
-		gamFcltySpecAtchFileVO.setAtchFileFcltsMngNo(gamArchFcltySpecMngVO.getFcltsMngNo());
-		gamArchFcltySpecMngDao.deleteArchFcltySpecMngAllAtchFile(gamFcltySpecAtchFileVO);
 		gamArchFcltySpecMngDao.deleteArchFcltySpecMng(gamArchFcltySpecMngVO);
 		gamArchFcltySpecMngDao.deleteArchFcltySpecMngGisPrtFcltyCd(gamArchFcltySpecMngVO);
 	}
@@ -84,42 +81,6 @@ public class GamArchFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	@Override
 	public String selectArchFcltySpecMngMaxGisPrtFcltySeq(GamArchFcltySpecMngVO gamArchFcltySpecMngVO) throws Exception {
 		return gamArchFcltySpecMngDao.selectArchFcltySpecMngMaxGisPrtFcltySeq(gamArchFcltySpecMngVO);
-	}
-
-
-	@Override
-	public List selectArchFcltySpecMngAtchFileList(GamFcltySpecAtchFileVO searchVO) throws Exception {
-		return gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileList(searchVO);
-	}
-
-	@Override
-	public void insertArchFcltySpecMngAtchFile(GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO) throws Exception {
-		gamArchFcltySpecMngDao.insertArchFcltySpecMngAtchFile(gamFcltySpecAtchFileVO);
-	}
-
-	@Override
-	public void uploadArchFcltySpecMngAtchFile(GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO) throws Exception {
-		gamArchFcltySpecMngDao.uploadArchFcltySpecMngAtchFile(gamFcltySpecAtchFileVO);
-	}
-
-	@Override
-	public void updateArchFcltySpecMngAtchFile(GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO) throws Exception {
-		gamArchFcltySpecMngDao.updateArchFcltySpecMngAtchFile(gamFcltySpecAtchFileVO);
-	}
-
-	@Override
-	public void deleteArchFcltySpecMngAtchFile(GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO) throws Exception {
-		gamArchFcltySpecMngDao.deleteArchFcltySpecMngAtchFile(gamFcltySpecAtchFileVO);
-	}
-
-	@Override
-	public EgovMap selectArchFcltySpecMngAtchFilePk(GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO) throws Exception {
-		return gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFilePk(gamFcltySpecAtchFileVO);
-	}
-
-	@Override
-	public String selectArchFcltySpecMngAtchFileMaxSeq(GamFcltySpecAtchFileVO gamFcltySpecAtchFileVO) throws Exception {
-		return gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileMaxSeq(gamFcltySpecAtchFileVO);
 	}
 
 
@@ -176,6 +137,9 @@ public class GamArchFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 		if (!"1".equals(strDepthSort)) {
 			gamArchFcltySpecMngDao.updateArchFcltySpecMngDeleteAtchFileDirLeafYn(gamAtchFileDirMngVO);
 		}
+		GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO = new GamFcltsAtchFileMngVO();
+		gamFcltsAtchFileMngVO.setAtchFileDirNo(gamAtchFileDirMngVO.getDirNo());
+		gamArchFcltySpecMngDao.deleteArchFcltySpecMngAllFcltsAtchFile(gamFcltsAtchFileMngVO);
 	}
 
 	@Override
@@ -186,6 +150,37 @@ public class GamArchFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	@Override
 	public List selectArchFcltySpecMngAtchFileDirLowerDataCnt(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
 		return gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileDirLowerDataCnt(gamAtchFileDirMngVO);
+	}
+
+
+	@Override
+	public List selectArchFcltySpecMngFcltsAtchFileList(GamFcltsAtchFileMngVO searchVO) throws Exception {
+		return gamArchFcltySpecMngDao.selectArchFcltySpecMngFcltsAtchFileList(searchVO);
+	}
+
+	@Override
+	public void insertArchFcltySpecMngFcltsAtchFile(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception {
+		gamArchFcltySpecMngDao.insertArchFcltySpecMngFcltsAtchFile(gamFcltsAtchFileMngVO);
+	}
+
+	@Override
+	public void updateArchFcltySpecMngFcltsAtchFile(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception {
+		gamArchFcltySpecMngDao.updateArchFcltySpecMngFcltsAtchFile(gamFcltsAtchFileMngVO);
+	}
+
+	@Override
+	public void deleteArchFcltySpecMngFcltsAtchFile(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception {
+		gamArchFcltySpecMngDao.deleteArchFcltySpecMngFcltsAtchFile(gamFcltsAtchFileMngVO);
+	}
+
+	@Override
+	public EgovMap selectArchFcltySpecMngFcltsAtchFilePk(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception {
+		return gamArchFcltySpecMngDao.selectArchFcltySpecMngFcltsAtchFilePk(gamFcltsAtchFileMngVO);
+	}
+
+	@Override
+	public String selectArchFcltySpecMngFcltsAtchFileNewNo(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception {
+		return gamArchFcltySpecMngDao.selectArchFcltySpecMngFcltsAtchFileNewNo(gamFcltsAtchFileMngVO);
 	}
 
 }
