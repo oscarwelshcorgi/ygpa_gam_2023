@@ -164,7 +164,7 @@ public class GamArchFcltySpecMngDao extends YGPAAbstractDAO {
 
 
 	/**
-	 * @name selectFcltsClCdMngTreeList
+	 * @name selectArchFcltySpecMngAtchFileDirList
 	 * @param gamAtchFileDirMngVO
 	 * @return List
 	 */
@@ -234,7 +234,6 @@ public class GamArchFcltySpecMngDao extends YGPAAbstractDAO {
 	public void deleteArchFcltySpecMngAtchFileDirLowerData(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
 		delete("gamArchFcltySpecMngDao.deleteArchFcltySpecMngAtchFileDirLowerData_S", gamAtchFileDirMngVO);
 	}
-
 
 	/**
 	 * @name selectArchFcltySpecMngAtchFileDirNewNo

@@ -1380,7 +1380,7 @@ GamArchFcltySpecMngModule.prototype.refreshDirData = function(argDirNo) {
 			}
 		});
 	} else {
-		this.$('#dirNo').val("0");
+		this.$('#dirNo').val("1");
 		this.$('#dirNm').val("ROOT");
 		this.$('#dirPath').val("/");
 		this.$('#dirUpperNo').val("0");
@@ -1680,7 +1680,7 @@ GamArchFcltySpecMngModule.prototype.refreshFileData = function(argAtchFileNo) {
  * @DESCRIPTION   : UPLOAD FILE 항목을 저장한다.
  * @PARAMETER     :
  *   1. argAtchFileFcltsMngNo - ATTACHE FILE FCLTS MNG NO.
- *   2. argAtchFileDirNo - ATTACHE FILE DIRECTORY NO.
+ *   2. argAtchFileFcltsDirNo - ATTACHE FILE FCLTS DIRECTORY NO.
  *   3. argAtchFileFcltsJobSe - ATTACHE FILE FCLTS JOB SE
  *   4. argAtchFileFcltsDataSe - ATTACHE FILE FCLTS DATA SE
  *   5. argAtchFileFcltsMngSeq - ATTACHE FILE FCLTS MNG SEQ.
@@ -1688,7 +1688,7 @@ GamArchFcltySpecMngModule.prototype.refreshFileData = function(argAtchFileNo) {
  *   7. argAtchFileNmPhysicl - ATTACHE FILE NAME PHYSICAL
 **/
 %>
-GamArchFcltySpecMngModule.prototype.saveUploadFileData = function(argAtchFileFcltsMngNo, argAtchFileDirNo, argAtchFileFcltsJobSe, argAtchFileFcltsDataSe, argAtchFileNmLogic, argAtchFileNmPhysicl) {
+GamArchFcltySpecMngModule.prototype.saveUploadFileData = function(argAtchFileFcltsMngNo, argAtchFileFcltsDirNo, argAtchFileFcltsJobSe, argAtchFileFcltsDataSe, argAtchFileFcltsMngSeq, argAtchFileNmLogic, argAtchFileNmPhysicl) {
 
 	var inputVO = [];
 	var atchFileSe = "D";
@@ -1698,16 +1698,18 @@ GamArchFcltySpecMngModule.prototype.saveUploadFileData = function(argAtchFileFcl
 		if (ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif") {
 			atchFileSe = "P";
 			atchFileSeNm = "사진";
+		} else if (ext == "dwg" || ext == "dxf") {
+			atchFileSe = "C";
+			atchFileSeNm = "도면";
 		}
 	}
 	inputVO={
-			'atchFileSeq':argAtchFileSeq,
 			'atchFileNo':"",
 			'atchFileNmLogic':argAtchFileNmLogic,
 			'atchFileNmPhysicl':argAtchFileNmPhysicl,
 			'atchFileSe':atchFileSe,
 			'atchFileSeNm':atchFileSeNm,
-			'atchFileDirNo':argAtchFileDirNo,
+			'atchFileDirNo':argAtchFileFcltsDirNo,
 			'atchFileFcltsDataSe':argAtchFileFcltsDataSe,
 			'atchFileFcltsMngNo':argAtchFileFcltsMngNo,
 			'atchFileFcltsJobSe':argAtchFileFcltsJobSe,
@@ -1746,19 +1748,18 @@ GamArchFcltySpecMngModule.prototype.saveUploadFileData = function(argAtchFileFcl
 %>
 GamArchFcltySpecMngModule.prototype.uploadFile = function() {
 
-	var atchFileDirNo = Number(this.$('#dirNo').val());
+	var atchFileFcltsDirNo = Number(this.$('#dirNo').val());
 	var atchFileFcltsMngNo = this.$('#fcltsMngNo').val();
 	var atchFileFcltsDataSe = "D";
 	var atchFileFcltsJobSe = "A";
 	var atchFileFcltsMngSeq = "";
-	if (dirNo <= 0) {
+	if (atchFileFcltsDirNo <= 0) {
 		alert('업로드 디렉토리가 선택되지 않았습니다.');
 		return;
 	}
 	this.uploadPfPhoto("uploadFile", function(module, result) {
 		$.each(result, function(){
-			atchFileSeq += 1;
-			module.saveUploadFileData(atchFileFcltsMngNo, atchFileDirNo, atchFileFcltsJobSe, atchFileFcltsDataSe, atchFileFcltsMngSeq, this.logicalFileNm, this.physcalFileNm);
+			module.saveUploadFileData(atchFileFcltsMngNo, atchFileFcltsDirNo, atchFileFcltsJobSe, atchFileFcltsDataSe, atchFileFcltsMngSeq, this.logicalFileNm, this.physcalFileNm);
 		});
 	}, "첨부파일 업로드");
 

@@ -426,6 +426,10 @@
 		WHERE 1=1
 		AND T1.PRT_FCLTY_SE = 'A'
 
+		<isNotEmpty property="sFcltsMngNo">
+		AND T1.FCLTS_MNG_NO = #sFcltsMngNo#
+		</isNotEmpty>
+
 		<isNotEmpty property="sPrtAtCode">
 		AND T1.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
 		</isNotEmpty>
