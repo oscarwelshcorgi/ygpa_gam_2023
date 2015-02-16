@@ -1380,7 +1380,7 @@ GamArchFcltySpecMngModule.prototype.refreshDirData = function(argDirNo) {
 			}
 		});
 	} else {
-		this.$('#dirNo').val("1");
+		this.$('#dirNo').val("0");
 		this.$('#dirNm').val("ROOT");
 		this.$('#dirPath').val("/");
 		this.$('#dirUpperNo').val("0");
