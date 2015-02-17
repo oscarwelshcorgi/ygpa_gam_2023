@@ -877,7 +877,7 @@ GamCvlEngFcltySpecMngModule.prototype.setFcltsMngNo = function() {
 	if (gisAssetsPrtAtCode == "" || gisAssetsCd == "" || gisAssetsSubCd == "" || gisPrtFcltyCd == "" || prtFcltySe == "" || gisPrtFcltySeq == "") {
 		this.$('#fcltsMngNo').val("");
 	} else {
-		this.$('#fcltsMngNo').val(gisPrtFcltyCd + gisPrtFcltySeq + gisAssetsPrtAtCode + gisAssetsCd + gisAssetsSubCd + prtFcltySe);
+		this.$('#fcltsMngNo').val(gisAssetsPrtAtCode + gisAssetsCd + gisAssetsSubCd + gisPrtFcltyCd + gisPrtFcltySeq + prtFcltySe);
 	}
 
 };
