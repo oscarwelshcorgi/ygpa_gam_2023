@@ -296,6 +296,7 @@
 			, GAM_GETCODENAME('GAM043', A.PAY_MTH) PAY_MTH_NM
 			, TO_CHAR(NVL(A.PAYINST_INTRRATE,0) * 100) AS PAYINST_INTRRATE
 			, CHARGER_NO
+			, APPLC_PRICE
 		FROM ASSETS_RENT_F A
 		WHERE A.QUAY_GROUP_CD='H'
 			AND A.PRT_AT_CODE = #prtAtCode#
@@ -469,7 +470,8 @@
 		    RENT_AREA_CD,
 		    OPER_YR_MT,
 		    COMP_TP,
-		    FRGHT_TP
+		    FRGHT_TP,
+		    APPLC_PRICE
 		  )
 		  VALUES
 		  (
@@ -510,7 +512,8 @@
 		    #rentAreaCd#,
 		    #operYrMt#,
 		    #compTp#,
-		    #frghtTp#
+		    #frghtTp#,
+		    #applcPrice#
 		     )
     </insert>
 
@@ -540,7 +543,7 @@
 	       , DEPTCD           = #deptcd#
 	       , PAY_MTH          = #payMth#
 	       , TAXT_SE	= #taxtSe#
-
+			, APPLC_PRICE = #applcPrice#
 	       <isEmpty property="payinstIntrrate">
 	       , PAYINST_INTRRATE = 0
 	       </isEmpty>
@@ -1154,7 +1157,7 @@
 
     <select id="gamHtldRentMngtDao.selectHtldAssessSum_S" parameterClass="gamHtldRentMngtVO" resultClass="egovMap">
 		SELECT
-			COUNT(A.*) RESULT_COUNT
+			COUNT(*) RESULT_COUNT
 		FROM HTLD_RENT_ASSESS_F A
 		WHERE 1=1
 			AND A.PRT_AT_CODE = #prtAtCode#
@@ -1206,11 +1209,13 @@
 				L.NTIC_CNT,
 				L.CHRGE_KND,
 				GAM_GET_FEE_TP_NM(L.PRT_AT_CODE,'H',L.CHRGE_KND) CHRGE_KND_NM,
+				TO_CHAR(L.ntic_pd_from, 'YYYY-MM-DD') ntic_pd_from,
+        		TO_CHAR(L.ntic_pd_to, 'YYYY-MM-DD') ntic_pd_to,
 				'00' NTIC_SER_NO,
 				r.bill_amnt,
-				r.bill_dt,
-				r.ocr_dt,
-				r.rcvd_dt,
+				to_char(r.bill_dt, 'YYYY-MM-DD') bill_dt,
+				to_char(r.ocr_dt, 'YYYY-MM-DD') ocr_dt,
+				to_char(r.rcvd_dt, 'YYYY-MM-DD') rcvd_dt,
 				r.rcvd_tp
 			from lev_reqest_f l, rev_coll_f r
 			where
@@ -1230,11 +1235,13 @@
 				L.NTIC_CNT,
 				L.CHRGE_KND,
 				GAM_GET_FEE_TP_NM(L.PRT_AT_CODE,'H',L.CHRGE_KND) CHRGE_KND_NM,
+				TO_CHAR(L.ntic_pd_from, 'YYYY-MM-DD') ntic_pd_from,
+        		TO_CHAR(L.ntic_pd_to, 'YYYY-MM-DD') ntic_pd_to,
 				u.dly_ser_no ntic_ser_no,
 				u.dly_bill_amnt bill_amnt,
-				u.dly_bill_dt bill_dt,
-				u.ocr_dt ocr_dt,
-				u.dly_rcvd_dt rcvd_dt,
+				to_char(u.dly_bill_dt, 'YYYY-MM-DD') bill_dt,
+				to_char(u.ocr_dt, 'YYYY-MM-DD') ocr_dt,
+				to_char(u.dly_rcvd_dt, 'YYYY-MM-DD') rcvd_dt,
 				u.dly_rcvd_tp rcvd_tp
 			from lev_reqest_f l, unpaid_f u
 			where

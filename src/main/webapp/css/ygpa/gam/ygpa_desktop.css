@@ -592,7 +592,6 @@ background-repeat: no-repeat;
 	float: left;
 	bottom: 90px;
 	right: 12px;
-/* 	width: 100px; */
 	z-index: 1000;
 	display: block;
 	position: fixed;
@@ -601,36 +600,35 @@ background-repeat: no-repeat;
 }
 
 .legendPanel h2 {
-	float: left;
-	font-size: 12px;
-	bottom: 30px;
-	right: 102px;
-	/* width: 100px; */
-	height: 31px;
-	/* cursor: pointer; */
-	background: blue;
-	color: white;
+font-size: 13px;
+background: #3FB6D8;
+color: whitesmoke;
+padding: 2px 35px;
 }
 
-.legendPanel div {
-	float: left;
-	bottom: 30px;
-	right: 102px;
-	height: 31px;
-    cursor: pointer;
+.legendPanel > div {
+float: left;
+cursor: pointer;
+margin: 4px;
+display: block;
+position: relative;
 }
 
 .legendPanel ul {
-	float: left;
-	bottom: 30px;
-	right: 102px;
-    cursor: pointer;
+cursor: pointer;
+display: block;
+padding: 2px;
+position: relative;
 }
 
-.legendPanel ul li {
-	float: left;
-	bottom: 30px;
-	right: 102px;
-	height: 20px;
-    cursor: pointer;
+.legendPanel ul > li {
+height: 40px;
+cursor: pointer;
+}
+
+
+.legendPanel span.symbol {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
 }

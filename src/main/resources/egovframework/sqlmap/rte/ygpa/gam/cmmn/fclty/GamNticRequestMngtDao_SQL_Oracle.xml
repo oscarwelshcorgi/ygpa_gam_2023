@@ -689,7 +689,7 @@
          , #billType#
          , '00'
          , #korNm#
-         , #bzRgstId#
+         , NVL(#bzRgstId#, '1111111111')
          , #billYyyymm#
          , #addr#
          , ' '

@@ -591,9 +591,11 @@ var module_instance = new GamAssetRentFeeMngtModule();
                     <button id="btnExecNticIssue">고지</button>
                     <button id="btnCancelNticIssue">고지취소</button>
                     <button id="btnNticIssuePrint">고지서출력</button>
+                    <!--
                     <button id="btnTaxPrint">계산서출력</button>
                     <button id="btnNoticeAdit">추가고지</button>
                     <button id="btnNoticeAditDel">추가고지삭제</button>
+                     -->
                     <button id="btnExcelDownload">엑셀다운로드</button>
                     <button id="btnRentFeePayMngt">납부현황관리</button>
                 </div>
