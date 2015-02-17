@@ -10,7 +10,7 @@ import egovframework.com.cmm.ComDefaultVO;
 /**
  *
  * @author ACEWOLF
- * @since 2015. 1. 15.
+ * @since 2015. 2. 17.
  * @version 1.0
  * @see
  * <pre>
@@ -18,14 +18,14 @@ import egovframework.com.cmm.ComDefaultVO;
  *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
- *  2015. 1. 15.		ACEWOLF		최초 생성
+ *  2015. 2. 17.		ACEWOLF		최초 생성
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GamArchFcltySpecMngVO extends ComDefaultVO {
+public class GamCvlEngFcltySpecMngVO extends ComDefaultVO {
 
 	private static final long serialVersionUID = 1L;
 
@@ -64,52 +64,54 @@ public class GamArchFcltySpecMngVO extends ComDefaultVO {
 	private	String gisAssetsLocplcLnm;		// GIS 자산 소재지
 	private	String gisAssetsLocNm;			// GIS 자산 위치 명
 	private	String loc;						// 위치
-	private	String archFcltsClCd;			// 건축 시설물 분류 코드
-	private	String archFcltsClCdNm;			// 건축 시설물 분류 코드 명
-	private	String bldDt;					// 준공 일자
-	private	String flawEndDt;				// 하자 만료 일자
-	private	String baseFmt;					// 기초 형식
+	private	String cvlEngFcltsClCd;			// 토목 시설물 분류 코드
+	private	String cvlEngFcltsClCdNm;		// 토목 시설물 분류 코드 명
+	private	String fcltsExt;				// 시설물 연장
 	private	String strctFmt;				// 구조 형식
-	private	String ar;						// 연면적
-	private	String archAr;					// 건축 면적
-	private	String plotAr;					// 대지 면적
-	private	String mainUsagePrpos;			// 주 사용 용도
-	private	String prkAr;					// 주차 면적
-	private	String isdPrkAr;				// 옥내 주차 면적
-	private	String osdPrkAr;				// 옥외 주차 면적
-	private	String prkCnt;					// 주차 대수
-	private	String isdPrkCnt;				// 옥내 주차 대수
-	private	String osdPrkCnt;				// 옥외 주차 대수
-	private	String exhaustDuctEnnc;			// 배기 닥트 유무
-	private	String vntltnArcndtMthd;		// 환기 공조 방식
-	private	String wrtTankLoc;				// 물탱크 위치
-	private	String sbtLoc;					// 변전실 위치
-	private	String oilSavefcltyLoc;			// 유류 저장시설 위치
-	private	String swgClupfcltyLoc;			// 오수 정화시설 위치
-	private	String liftCntPsngr;			// 승강기 대수 승객용
-	private	String liftCntCargo;			// 승강기 대수 화물용
-	private	String liftCntEmgcy;			// 승강기 대수 비상용
-	private	String liftOperMthd;			// 승강기 운영 방식
-	private	String clngEnnc;				// 냉방 유무
-	private	String clngSrc;					// 냉방 열원
-	private	String htngEnnc;				// 난방 유무
-	private	String htngSrc;					// 난방 열원
-	private	String spictankFmt;				// 정화조 형식
-	private	String elctyLeadInCapa;			// 전기 인입 용량
-	private	String fcg;						// 외장
-	private	String itr;						// 내장
-	private	String ceil;					// 천장
-	private	String roof;					// 지붕
-	private	String roofWtprf;				// 지붕 방수
-	private	String planCnstNm;				// 설계 공사 명
-	private	String planExcCmpny;			// 설계 수행 회사
-	private	String planBeginDt;				// 설계 시작 일자
-	private	String planEndDt;				// 설계 종료 일자
-	private	String cnstrctCnstNm;			// 시공 공사 명
-	private	String cnstrctExcCmpny;			// 시공 수행 회사
-	private	String cnstrctBeginDt;			// 시공 시작 일자
-	private	String cnstrctEndDt;			// 시공 종료 일자
-	private	String rm;						// 비고
+	private	String upsideAltud;				// 천단 표고
+	private	String berthDpwt;				// 선좌 수심
+	private	String permWd;					// 상치 폭
+	private	String apronWd;					// 에이프런 폭
+	private	String apronPackKnd;			// 에이프런 포장 종류
+	private	String apronPackGrdnt;			// 에이프런 포장 구배
+	private	String csdhpShipScl;			// 접안 선박 규모
+	private	String frostDmgWght;			// 상재 하중
+	private	String baseBttmSoil;			// 기초 저면 토질
+	private	String hndlFrght;				// 취급 화물
+	private	String pileClbr;				// 말뚝 구경
+	private	String pileExt;					// 말뚝 연장
+	private	String pileQty;					// 말뚝 본수
+	private	String sheetFileStndrd;			// 널말뚝 규격
+	private	String hydrntQy;				// 급수전 수량
+	private	String firepgQy;				// 소화전 수량
+	private	String yardPackKnd;				// 야적장 포장 종류
+	private	String yardAr;					// 야적장 면적
+	private	String fenderKndCd;				// 방충재 종류 코드
+	private	String fenderPmntItv;			// 방충재 배치 간격
+	private	String fenderFmt;				// 방충재 형식
+	private	String mrpostStndrd1;			// 계선주 규격_1
+	private	String mrpostPmntItv1;			// 계선주 배치 간격_1
+	private	String mrpostQy1;				// 계선주 수량_1
+	private	String mrpostPwr1;				// 계선주 견인력_1
+	private	String mrpostStndrd2;			// 계선주 규격_2
+	private	String mrpostPmntItv2;			// 계선주 배치 간격_2
+	private	String mrpostQy2;				// 계선주 수량_2
+	private	String mrpostPwr2;				// 계선주 견인력_2
+	private	String berth;					// 선석
+	private	String stplHndlFrght;			// 주요 취급 화물
+	private	String stplMoorShip;			// 주요 계류 선박
+	private	String beginPtLoc;				// 시작 점 위치
+	private	String endPtLoc;				// 종착 점 위치
+	private	String wd;						// 폭
+	private	String lt;						// 길이
+	private	String packKnd;					// 포장 종류
+	private	String upsideWd;				// 천단 폭
+	private	String planHegh;				// 설계 파고
+	private	String wavemainDir;				// 파랑주 방향
+	private	String outerSwaveSlpRate;		// 외측소 파공 경사 비율
+	private	String inSwaveSlpRate;			// 내측소 파공 경사 비율
+	private	String outerSwaveCover;			// 외측소 파공 피복
+	private	String inSwaveCover;			// 내측소 파공 피복
 	private	String regUsr;					// 등록자
 	private	String registDt;				// 등록일시
 	private	String updUsr;					// 수정자
@@ -122,11 +124,9 @@ public class GamArchFcltySpecMngVO extends ComDefaultVO {
 	private	String sPrtFcltyNm;				// 검색 항만시설 명
 	private	String sPrtAtCode;				// 검색 항구분
 	private	String sFcltsMngGroupNo;		// 검색 시설물 관리 그룹 번호
-	private	String sPrtFcltyCd;				// 검색 시설물 분류
 	private	String totalCount;				// 조회 자료 수
-	private	String sumAr;					// 연면적 합계
-	private	String sumArchAr;				// 건축 면적 합계
-	private	String sumPlotAr;				// 대지 면적 합계
+	private	String sumYardAr;				// 야적장 면적 합계
+	private	String sumBerth;				// 선석 합계
 
 	/**
 	 * @return the gisPrtFcltyCd
@@ -549,64 +549,40 @@ public class GamArchFcltySpecMngVO extends ComDefaultVO {
 		this.loc = loc;
 	}
 	/**
-	 * @return the archFcltsClCd
+	 * @return the cvlEngFcltsClCd
 	 */
-	public String getArchFcltsClCd() {
-		return archFcltsClCd;
+	public String getCvlEngFcltsClCd() {
+		return cvlEngFcltsClCd;
 	}
 	/**
-	 * @param archFcltsClCd the archFcltsClCd to set
+	 * @param cvlEngFcltsClCd the cvlEngFcltsClCd to set
 	 */
-	public void setArchFcltsClCd(String archFcltsClCd) {
-		this.archFcltsClCd = archFcltsClCd;
+	public void setCvlEngFcltsClCd(String cvlEngFcltsClCd) {
+		this.cvlEngFcltsClCd = cvlEngFcltsClCd;
 	}
 	/**
-	 * @return the archFcltsClCdNm
+	 * @return the cvlEngFcltsClCdNm
 	 */
-	public String getArchFcltsClCdNm() {
-		return archFcltsClCdNm;
+	public String getCvlEngFcltsClCdNm() {
+		return cvlEngFcltsClCdNm;
 	}
 	/**
-	 * @param archFcltsClCdNm the archFcltsClCdNm to set
+	 * @param cvlEngFcltsClCdNm the cvlEngFcltsClCdNm to set
 	 */
-	public void setArchFcltsClCdNm(String archFcltsClCdNm) {
-		this.archFcltsClCdNm = archFcltsClCdNm;
+	public void setCvlEngFcltsClCdNm(String cvlEngFcltsClCdNm) {
+		this.cvlEngFcltsClCdNm = cvlEngFcltsClCdNm;
 	}
 	/**
-	 * @return the bldDt
+	 * @return the fcltsExt
 	 */
-	public String getBldDt() {
-		return bldDt;
+	public String getFcltsExt() {
+		return fcltsExt;
 	}
 	/**
-	 * @param bldDt the bldDt to set
+	 * @param fcltsExt the fcltsExt to set
 	 */
-	public void setBldDt(String bldDt) {
-		this.bldDt = bldDt;
-	}
-	/**
-	 * @return the flawEndDt
-	 */
-	public String getFlawEndDt() {
-		return flawEndDt;
-	}
-	/**
-	 * @param flawEndDt the flawEndDt to set
-	 */
-	public void setFlawEndDt(String flawEndDt) {
-		this.flawEndDt = flawEndDt;
-	}
-	/**
-	 * @return the baseFmt
-	 */
-	public String getBaseFmt() {
-		return baseFmt;
-	}
-	/**
-	 * @param baseFmt the baseFmt to set
-	 */
-	public void setBaseFmt(String baseFmt) {
-		this.baseFmt = baseFmt;
+	public void setFcltsExt(String fcltsExt) {
+		this.fcltsExt = fcltsExt;
 	}
 	/**
 	 * @return the strctFmt
@@ -621,484 +597,388 @@ public class GamArchFcltySpecMngVO extends ComDefaultVO {
 		this.strctFmt = strctFmt;
 	}
 	/**
-	 * @return the ar
+	 * @return the upsideAltud
 	 */
-	public String getAr() {
-		return ar;
+	public String getUpsideAltud() {
+		return upsideAltud;
 	}
 	/**
-	 * @param ar the ar to set
+	 * @param upsideAltud the upsideAltud to set
 	 */
-	public void setAr(String ar) {
-		this.ar = ar;
+	public void setUpsideAltud(String upsideAltud) {
+		this.upsideAltud = upsideAltud;
 	}
 	/**
-	 * @return the archAr
+	 * @return the berthDpwt
 	 */
-	public String getArchAr() {
-		return archAr;
+	public String getBerthDpwt() {
+		return berthDpwt;
 	}
 	/**
-	 * @param archAr the archAr to set
+	 * @param berthDpwt the berthDpwt to set
 	 */
-	public void setArchAr(String archAr) {
-		this.archAr = archAr;
+	public void setBerthDpwt(String berthDpwt) {
+		this.berthDpwt = berthDpwt;
 	}
 	/**
-	 * @return the plotAr
+	 * @return the permWd
 	 */
-	public String getPlotAr() {
-		return plotAr;
+	public String getPermWd() {
+		return permWd;
 	}
 	/**
-	 * @param plotAr the plotAr to set
+	 * @param permWd the permWd to set
 	 */
-	public void setPlotAr(String plotAr) {
-		this.plotAr = plotAr;
+	public void setPermWd(String permWd) {
+		this.permWd = permWd;
 	}
 	/**
-	 * @return the mainUsagePrpos
+	 * @return the apronWd
 	 */
-	public String getMainUsagePrpos() {
-		return mainUsagePrpos;
+	public String getApronWd() {
+		return apronWd;
 	}
 	/**
-	 * @param mainUsagePrpos the mainUsagePrpos to set
+	 * @param apronWd the apronWd to set
 	 */
-	public void setMainUsagePrpos(String mainUsagePrpos) {
-		this.mainUsagePrpos = mainUsagePrpos;
+	public void setApronWd(String apronWd) {
+		this.apronWd = apronWd;
 	}
 	/**
-	 * @return the prkAr
+	 * @return the apronPackKnd
 	 */
-	public String getPrkAr() {
-		return prkAr;
+	public String getApronPackKnd() {
+		return apronPackKnd;
 	}
 	/**
-	 * @param prkAr the prkAr to set
+	 * @param apronPackKnd the apronPackKnd to set
 	 */
-	public void setPrkAr(String prkAr) {
-		this.prkAr = prkAr;
+	public void setApronPackKnd(String apronPackKnd) {
+		this.apronPackKnd = apronPackKnd;
 	}
 	/**
-	 * @return the isdPrkAr
+	 * @return the apronPackGrdnt
 	 */
-	public String getIsdPrkAr() {
-		return isdPrkAr;
+	public String getApronPackGrdnt() {
+		return apronPackGrdnt;
 	}
 	/**
-	 * @param isdPrkAr the isdPrkAr to set
+	 * @param apronPackGrdnt the apronPackGrdnt to set
 	 */
-	public void setIsdPrkAr(String isdPrkAr) {
-		this.isdPrkAr = isdPrkAr;
+	public void setApronPackGrdnt(String apronPackGrdnt) {
+		this.apronPackGrdnt = apronPackGrdnt;
 	}
 	/**
-	 * @return the osdPrkAr
+	 * @return the csdhpShipScl
 	 */
-	public String getOsdPrkAr() {
-		return osdPrkAr;
+	public String getCsdhpShipScl() {
+		return csdhpShipScl;
 	}
 	/**
-	 * @param osdPrkAr the osdPrkAr to set
+	 * @param csdhpShipScl the csdhpShipScl to set
 	 */
-	public void setOsdPrkAr(String osdPrkAr) {
-		this.osdPrkAr = osdPrkAr;
+	public void setCsdhpShipScl(String csdhpShipScl) {
+		this.csdhpShipScl = csdhpShipScl;
 	}
 	/**
-	 * @return the prkCnt
+	 * @return the frostDmgWght
 	 */
-	public String getPrkCnt() {
-		return prkCnt;
+	public String getFrostDmgWght() {
+		return frostDmgWght;
 	}
 	/**
-	 * @param prkCnt the prkCnt to set
+	 * @param frostDmgWght the frostDmgWght to set
 	 */
-	public void setPrkCnt(String prkCnt) {
-		this.prkCnt = prkCnt;
+	public void setFrostDmgWght(String frostDmgWght) {
+		this.frostDmgWght = frostDmgWght;
 	}
 	/**
-	 * @return the isdPrkCnt
+	 * @return the baseBttmSoil
 	 */
-	public String getIsdPrkCnt() {
-		return isdPrkCnt;
+	public String getBaseBttmSoil() {
+		return baseBttmSoil;
 	}
 	/**
-	 * @param isdPrkCnt the isdPrkCnt to set
+	 * @param baseBttmSoil the baseBttmSoil to set
 	 */
-	public void setIsdPrkCnt(String isdPrkCnt) {
-		this.isdPrkCnt = isdPrkCnt;
+	public void setBaseBttmSoil(String baseBttmSoil) {
+		this.baseBttmSoil = baseBttmSoil;
 	}
 	/**
-	 * @return the osdPrkCnt
+	 * @return the hndlFrght
 	 */
-	public String getOsdPrkCnt() {
-		return osdPrkCnt;
+	public String getHndlFrght() {
+		return hndlFrght;
 	}
 	/**
-	 * @param osdPrkCnt the osdPrkCnt to set
+	 * @param hndlFrght the hndlFrght to set
 	 */
-	public void setOsdPrkCnt(String osdPrkCnt) {
-		this.osdPrkCnt = osdPrkCnt;
+	public void setHndlFrght(String hndlFrght) {
+		this.hndlFrght = hndlFrght;
 	}
 	/**
-	 * @return the exhaustDuctEnnc
+	 * @return the pileClbr
 	 */
-	public String getExhaustDuctEnnc() {
-		return exhaustDuctEnnc;
+	public String getPileClbr() {
+		return pileClbr;
 	}
 	/**
-	 * @param exhaustDuctEnnc the exhaustDuctEnnc to set
+	 * @param pileClbr the pileClbr to set
 	 */
-	public void setExhaustDuctEnnc(String exhaustDuctEnnc) {
-		this.exhaustDuctEnnc = exhaustDuctEnnc;
+	public void setPileClbr(String pileClbr) {
+		this.pileClbr = pileClbr;
 	}
 	/**
-	 * @return the vntltnArcndtMthd
+	 * @return the pileExt
 	 */
-	public String getVntltnArcndtMthd() {
-		return vntltnArcndtMthd;
+	public String getPileExt() {
+		return pileExt;
 	}
 	/**
-	 * @param vntltnArcndtMthd the vntltnArcndtMthd to set
+	 * @param pileExt the pileExt to set
 	 */
-	public void setVntltnArcndtMthd(String vntltnArcndtMthd) {
-		this.vntltnArcndtMthd = vntltnArcndtMthd;
+	public void setPileExt(String pileExt) {
+		this.pileExt = pileExt;
 	}
 	/**
-	 * @return the wrtTankLoc
+	 * @return the pileQty
 	 */
-	public String getWrtTankLoc() {
-		return wrtTankLoc;
+	public String getPileQty() {
+		return pileQty;
 	}
 	/**
-	 * @param wrtTankLoc the wrtTankLoc to set
+	 * @param pileQty the pileQty to set
 	 */
-	public void setWrtTankLoc(String wrtTankLoc) {
-		this.wrtTankLoc = wrtTankLoc;
+	public void setPileQty(String pileQty) {
+		this.pileQty = pileQty;
 	}
 	/**
-	 * @return the sbtLoc
+	 * @return the sheetFileStndrd
 	 */
-	public String getSbtLoc() {
-		return sbtLoc;
+	public String getSheetFileStndrd() {
+		return sheetFileStndrd;
 	}
 	/**
-	 * @param sbtLoc the sbtLoc to set
+	 * @param sheetFileStndrd the sheetFileStndrd to set
 	 */
-	public void setSbtLoc(String sbtLoc) {
-		this.sbtLoc = sbtLoc;
+	public void setSheetFileStndrd(String sheetFileStndrd) {
+		this.sheetFileStndrd = sheetFileStndrd;
 	}
 	/**
-	 * @return the oilSavefcltyLoc
+	 * @return the hydrntQy
 	 */
-	public String getOilSavefcltyLoc() {
-		return oilSavefcltyLoc;
+	public String getHydrntQy() {
+		return hydrntQy;
 	}
 	/**
-	 * @param oilSavefcltyLoc the oilSavefcltyLoc to set
+	 * @param hydrntQy the hydrntQy to set
 	 */
-	public void setOilSavefcltyLoc(String oilSavefcltyLoc) {
-		this.oilSavefcltyLoc = oilSavefcltyLoc;
+	public void setHydrntQy(String hydrntQy) {
+		this.hydrntQy = hydrntQy;
 	}
 	/**
-	 * @return the swgClupfcltyLoc
+	 * @return the firepgQy
 	 */
-	public String getSwgClupfcltyLoc() {
-		return swgClupfcltyLoc;
+	public String getFirepgQy() {
+		return firepgQy;
 	}
 	/**
-	 * @param swgClupfcltyLoc the swgClupfcltyLoc to set
+	 * @param firepgQy the firepgQy to set
 	 */
-	public void setSwgClupfcltyLoc(String swgClupfcltyLoc) {
-		this.swgClupfcltyLoc = swgClupfcltyLoc;
+	public void setFirepgQy(String firepgQy) {
+		this.firepgQy = firepgQy;
 	}
 	/**
-	 * @return the liftCntPsngr
+	 * @return the yardPackKnd
 	 */
-	public String getLiftCntPsngr() {
-		return liftCntPsngr;
+	public String getYardPackKnd() {
+		return yardPackKnd;
 	}
 	/**
-	 * @param liftCntPsngr the liftCntPsngr to set
+	 * @param yardPackKnd the yardPackKnd to set
 	 */
-	public void setLiftCntPsngr(String liftCntPsngr) {
-		this.liftCntPsngr = liftCntPsngr;
+	public void setYardPackKnd(String yardPackKnd) {
+		this.yardPackKnd = yardPackKnd;
 	}
 	/**
-	 * @return the liftCntCargo
+	 * @return the yardAr
 	 */
-	public String getLiftCntCargo() {
-		return liftCntCargo;
+	public String getYardAr() {
+		return yardAr;
 	}
 	/**
-	 * @param liftCntCargo the liftCntCargo to set
+	 * @param yardAr the yardAr to set
 	 */
-	public void setLiftCntCargo(String liftCntCargo) {
-		this.liftCntCargo = liftCntCargo;
+	public void setYardAr(String yardAr) {
+		this.yardAr = yardAr;
 	}
 	/**
-	 * @return the liftCntEmgcy
+	 * @return the fenderKndCd
 	 */
-	public String getLiftCntEmgcy() {
-		return liftCntEmgcy;
+	public String getFenderKndCd() {
+		return fenderKndCd;
 	}
 	/**
-	 * @param liftCntEmgcy the liftCntEmgcy to set
+	 * @param fenderKndCd the fenderKndCd to set
 	 */
-	public void setLiftCntEmgcy(String liftCntEmgcy) {
-		this.liftCntEmgcy = liftCntEmgcy;
+	public void setFenderKndCd(String fenderKndCd) {
+		this.fenderKndCd = fenderKndCd;
 	}
 	/**
-	 * @return the liftOperMthd
+	 * @return the fenderPmntItv
 	 */
-	public String getLiftOperMthd() {
-		return liftOperMthd;
+	public String getFenderPmntItv() {
+		return fenderPmntItv;
 	}
 	/**
-	 * @param liftOperMthd the liftOperMthd to set
+	 * @param fenderPmntItv the fenderPmntItv to set
 	 */
-	public void setLiftOperMthd(String liftOperMthd) {
-		this.liftOperMthd = liftOperMthd;
+	public void setFenderPmntItv(String fenderPmntItv) {
+		this.fenderPmntItv = fenderPmntItv;
 	}
 	/**
-	 * @return the clngEnnc
+	 * @return the fenderFmt
 	 */
-	public String getClngEnnc() {
-		return clngEnnc;
+	public String getFenderFmt() {
+		return fenderFmt;
 	}
 	/**
-	 * @param clngEnnc the clngEnnc to set
+	 * @param fenderFmt the fenderFmt to set
 	 */
-	public void setClngEnnc(String clngEnnc) {
-		this.clngEnnc = clngEnnc;
+	public void setFenderFmt(String fenderFmt) {
+		this.fenderFmt = fenderFmt;
 	}
 	/**
-	 * @return the clngSrc
+	 * @return the mrpostStndrd1
 	 */
-	public String getClngSrc() {
-		return clngSrc;
+	public String getMrpostStndrd1() {
+		return mrpostStndrd1;
 	}
 	/**
-	 * @param clngSrc the clngSrc to set
+	 * @param mrpostStndrd1 the mrpostStndrd1 to set
 	 */
-	public void setClngSrc(String clngSrc) {
-		this.clngSrc = clngSrc;
+	public void setMrpostStndrd1(String mrpostStndrd1) {
+		this.mrpostStndrd1 = mrpostStndrd1;
 	}
 	/**
-	 * @return the htngEnnc
+	 * @return the mrpostPmntItv1
 	 */
-	public String getHtngEnnc() {
-		return htngEnnc;
+	public String getMrpostPmntItv1() {
+		return mrpostPmntItv1;
 	}
 	/**
-	 * @param htngEnnc the htngEnnc to set
+	 * @param mrpostPmntItv1 the mrpostPmntItv1 to set
 	 */
-	public void setHtngEnnc(String htngEnnc) {
-		this.htngEnnc = htngEnnc;
+	public void setMrpostPmntItv1(String mrpostPmntItv1) {
+		this.mrpostPmntItv1 = mrpostPmntItv1;
 	}
 	/**
-	 * @return the htngSrc
+	 * @return the mrpostQy1
 	 */
-	public String getHtngSrc() {
-		return htngSrc;
+	public String getMrpostQy1() {
+		return mrpostQy1;
 	}
 	/**
-	 * @param htngSrc the htngSrc to set
+	 * @param mrpostQy1 the mrpostQy1 to set
 	 */
-	public void setHtngSrc(String htngSrc) {
-		this.htngSrc = htngSrc;
+	public void setMrpostQy1(String mrpostQy1) {
+		this.mrpostQy1 = mrpostQy1;
 	}
 	/**
-	 * @return the spictankFmt
+	 * @return the mrpostPwr1
 	 */
-	public String getSpictankFmt() {
-		return spictankFmt;
+	public String getMrpostPwr1() {
+		return mrpostPwr1;
 	}
 	/**
-	 * @param spictankFmt the spictankFmt to set
+	 * @param mrpostPwr1 the mrpostPwr1 to set
 	 */
-	public void setSpictankFmt(String spictankFmt) {
-		this.spictankFmt = spictankFmt;
+	public void setMrpostPwr1(String mrpostPwr1) {
+		this.mrpostPwr1 = mrpostPwr1;
 	}
 	/**
-	 * @return the elctyLeadInCapa
+	 * @return the mrpostStndrd2
 	 */
-	public String getElctyLeadInCapa() {
-		return elctyLeadInCapa;
+	public String getMrpostStndrd2() {
+		return mrpostStndrd2;
 	}
 	/**
-	 * @param elctyLeadInCapa the elctyLeadInCapa to set
+	 * @param mrpostStndrd2 the mrpostStndrd2 to set
 	 */
-	public void setElctyLeadInCapa(String elctyLeadInCapa) {
-		this.elctyLeadInCapa = elctyLeadInCapa;
+	public void setMrpostStndrd2(String mrpostStndrd2) {
+		this.mrpostStndrd2 = mrpostStndrd2;
 	}
 	/**
-	 * @return the fcg
+	 * @return the mrpostPmntItv2
 	 */
-	public String getFcg() {
-		return fcg;
+	public String getMrpostPmntItv2() {
+		return mrpostPmntItv2;
 	}
 	/**
-	 * @param fcg the fcg to set
+	 * @param mrpostPmntItv2 the mrpostPmntItv2 to set
 	 */
-	public void setFcg(String fcg) {
-		this.fcg = fcg;
+	public void setMrpostPmntItv2(String mrpostPmntItv2) {
+		this.mrpostPmntItv2 = mrpostPmntItv2;
 	}
 	/**
-	 * @return the itr
+	 * @return the mrpostQy2
 	 */
-	public String getItr() {
-		return itr;
+	public String getMrpostQy2() {
+		return mrpostQy2;
 	}
 	/**
-	 * @param itr the itr to set
+	 * @param mrpostQy2 the mrpostQy2 to set
 	 */
-	public void setItr(String itr) {
-		this.itr = itr;
+	public void setMrpostQy2(String mrpostQy2) {
+		this.mrpostQy2 = mrpostQy2;
 	}
 	/**
-	 * @return the ceil
+	 * @return the mrpostPwr2
 	 */
-	public String getCeil() {
-		return ceil;
+	public String getMrpostPwr2() {
+		return mrpostPwr2;
 	}
 	/**
-	 * @param ceil the ceil to set
+	 * @param mrpostPwr2 the mrpostPwr2 to set
 	 */
-	public void setCeil(String ceil) {
-		this.ceil = ceil;
+	public void setMrpostPwr2(String mrpostPwr2) {
+		this.mrpostPwr2 = mrpostPwr2;
 	}
 	/**
-	 * @return the roof
+	 * @return the berth
 	 */
-	public String getRoof() {
-		return roof;
+	public String getBerth() {
+		return berth;
 	}
 	/**
-	 * @param roof the roof to set
+	 * @param berth the berth to set
 	 */
-	public void setRoof(String roof) {
-		this.roof = roof;
+	public void setBerth(String berth) {
+		this.berth = berth;
 	}
 	/**
-	 * @return the roofWtprf
+	 * @return the stplHndlFrght
 	 */
-	public String getRoofWtprf() {
-		return roofWtprf;
+	public String getStplHndlFrght() {
+		return stplHndlFrght;
 	}
 	/**
-	 * @param roofWtprf the roofWtprf to set
+	 * @param stplHndlFrght the stplHndlFrght to set
 	 */
-	public void setRoofWtprf(String roofWtprf) {
-		this.roofWtprf = roofWtprf;
+	public void setStplHndlFrght(String stplHndlFrght) {
+		this.stplHndlFrght = stplHndlFrght;
 	}
 	/**
-	 * @return the planCnstNm
+	 * @return the stplMoorShip
 	 */
-	public String getPlanCnstNm() {
-		return planCnstNm;
+	public String getStplMoorShip() {
+		return stplMoorShip;
 	}
 	/**
-	 * @param planCnstNm the planCnstNm to set
+	 * @param stplMoorShip the stplMoorShip to set
 	 */
-	public void setPlanCnstNm(String planCnstNm) {
-		this.planCnstNm = planCnstNm;
-	}
-	/**
-	 * @return the planExcCmpny
-	 */
-	public String getPlanExcCmpny() {
-		return planExcCmpny;
-	}
-	/**
-	 * @param planExcCmpny the planExcCmpny to set
-	 */
-	public void setPlanExcCmpny(String planExcCmpny) {
-		this.planExcCmpny = planExcCmpny;
-	}
-	/**
-	 * @return the planBeginDt
-	 */
-	public String getPlanBeginDt() {
-		return planBeginDt;
-	}
-	/**
-	 * @param planBeginDt the planBeginDt to set
-	 */
-	public void setPlanBeginDt(String planBeginDt) {
-		this.planBeginDt = planBeginDt;
-	}
-	/**
-	 * @return the planEndDt
-	 */
-	public String getPlanEndDt() {
-		return planEndDt;
-	}
-	/**
-	 * @param planEndDt the planEndDt to set
-	 */
-	public void setPlanEndDt(String planEndDt) {
-		this.planEndDt = planEndDt;
-	}
-	/**
-	 * @return the cnstrctCnstNm
-	 */
-	public String getCnstrctCnstNm() {
-		return cnstrctCnstNm;
-	}
-	/**
-	 * @param cnstrctCnstNm the cnstrctCnstNm to set
-	 */
-	public void setCnstrctCnstNm(String cnstrctCnstNm) {
-		this.cnstrctCnstNm = cnstrctCnstNm;
-	}
-	/**
-	 * @return the cnstrctExcCmpny
-	 */
-	public String getCnstrctExcCmpny() {
-		return cnstrctExcCmpny;
-	}
-	/**
-	 * @param cnstrctExcCmpny the cnstrctExcCmpny to set
-	 */
-	public void setCnstrctExcCmpny(String cnstrctExcCmpny) {
-		this.cnstrctExcCmpny = cnstrctExcCmpny;
-	}
-	/**
-	 * @return the cnstrctBeginDt
-	 */
-	public String getCnstrctBeginDt() {
-		return cnstrctBeginDt;
-	}
-	/**
-	 * @param cnstrctBeginDt the cnstrctBeginDt to set
-	 */
-	public void setCnstrctBeginDt(String cnstrctBeginDt) {
-		this.cnstrctBeginDt = cnstrctBeginDt;
-	}
-	/**
-	 * @return the cnstrctEndDt
-	 */
-	public String getCnstrctEndDt() {
-		return cnstrctEndDt;
-	}
-	/**
-	 * @param cnstrctEndDt the cnstrctEndDt to set
-	 */
-	public void setCnstrctEndDt(String cnstrctEndDt) {
-		this.cnstrctEndDt = cnstrctEndDt;
-	}
-	/**
-	 * @return the rm
-	 */
-	public String getRm() {
-		return rm;
-	}
-	/**
-	 * @param rm the rm to set
-	 */
-	public void setRm(String rm) {
-		this.rm = rm;
+	public void setStplMoorShip(String stplMoorShip) {
+		this.stplMoorShip = stplMoorShip;
 	}
 	/**
 	 * @return the regUsr
@@ -1147,6 +1027,150 @@ public class GamArchFcltySpecMngVO extends ComDefaultVO {
 	 */
 	public void setUpdtDt(String updtDt) {
 		this.updtDt = updtDt;
+	}
+	/**
+	 * @return the beginPtLoc
+	 */
+	public String getBeginPtLoc() {
+		return beginPtLoc;
+	}
+	/**
+	 * @param beginPtLoc the beginPtLoc to set
+	 */
+	public void setBeginPtLoc(String beginPtLoc) {
+		this.beginPtLoc = beginPtLoc;
+	}
+	/**
+	 * @return the endPtLoc
+	 */
+	public String getEndPtLoc() {
+		return endPtLoc;
+	}
+	/**
+	 * @param endPtLoc the endPtLoc to set
+	 */
+	public void setEndPtLoc(String endPtLoc) {
+		this.endPtLoc = endPtLoc;
+	}
+	/**
+	 * @return the wd
+	 */
+	public String getWd() {
+		return wd;
+	}
+	/**
+	 * @param wd the wd to set
+	 */
+	public void setWd(String wd) {
+		this.wd = wd;
+	}
+	/**
+	 * @return the lt
+	 */
+	public String getLt() {
+		return lt;
+	}
+	/**
+	 * @param lt the lt to set
+	 */
+	public void setLt(String lt) {
+		this.lt = lt;
+	}
+	/**
+	 * @return the packKnd
+	 */
+	public String getPackKnd() {
+		return packKnd;
+	}
+	/**
+	 * @param packKnd the packKnd to set
+	 */
+	public void setPackKnd(String packKnd) {
+		this.packKnd = packKnd;
+	}
+	/**
+	 * @return the upsideWd
+	 */
+	public String getUpsideWd() {
+		return upsideWd;
+	}
+	/**
+	 * @param upsideWd the upsideWd to set
+	 */
+	public void setUpsideWd(String upsideWd) {
+		this.upsideWd = upsideWd;
+	}
+	/**
+	 * @return the planHegh
+	 */
+	public String getPlanHegh() {
+		return planHegh;
+	}
+	/**
+	 * @param planHegh the planHegh to set
+	 */
+	public void setPlanHegh(String planHegh) {
+		this.planHegh = planHegh;
+	}
+	/**
+	 * @return the wavemainDir
+	 */
+	public String getWavemainDir() {
+		return wavemainDir;
+	}
+	/**
+	 * @param wavemainDir the wavemainDir to set
+	 */
+	public void setWavemainDir(String wavemainDir) {
+		this.wavemainDir = wavemainDir;
+	}
+	/**
+	 * @return the outerSwaveSlpRate
+	 */
+	public String getOuterSwaveSlpRate() {
+		return outerSwaveSlpRate;
+	}
+	/**
+	 * @param outerSwaveSlpRate the outerSwaveSlpRate to set
+	 */
+	public void setOuterSwaveSlpRate(String outerSwaveSlpRate) {
+		this.outerSwaveSlpRate = outerSwaveSlpRate;
+	}
+	/**
+	 * @return the inSwaveSlpRate
+	 */
+	public String getInSwaveSlpRate() {
+		return inSwaveSlpRate;
+	}
+	/**
+	 * @param inSwaveSlpRate the inSwaveSlpRate to set
+	 */
+	public void setInSwaveSlpRate(String inSwaveSlpRate) {
+		this.inSwaveSlpRate = inSwaveSlpRate;
+	}
+	/**
+	 * @return the outerSwaveCover
+	 */
+	public String getOuterSwaveCover() {
+		return outerSwaveCover;
+	}
+	/**
+	 * @param outerSwaveCover the outerSwaveCover to set
+	 */
+	public void setOuterSwaveCover(String outerSwaveCover) {
+		this.outerSwaveCover = outerSwaveCover;
+	}
+	/**
+	 * @return the inSwaveCover
+	 */
+	public String getInSwaveCover() {
+		return inSwaveCover;
+	}
+	/**
+	 * @param inSwaveCover the inSwaveCover to set
+	 */
+	public void setInSwaveCover(String inSwaveCover) {
+		this.inSwaveCover = inSwaveCover;
 	}
 	/**
 	 * @return the prtFcltyLoc
@@ -1245,18 +1269,6 @@ public class GamArchFcltySpecMngVO extends ComDefaultVO {
 		this.sFcltsMngGroupNo = sFcltsMngGroupNo;
 	}
 	/**
-	 * @return the sPrtFcltyCd
-	 */
-	public String getsPrtFcltyCd() {
-		return sPrtFcltyCd;
-	}
-	/**
-	 * @param sPrtFcltyCd the sPrtFcltyCd to set
-	 */
-	public void setsPrtFcltyCd(String sPrtFcltyCd) {
-		this.sPrtFcltyCd = sPrtFcltyCd;
-	}
-	/**
 	 * @return the totalCount
 	 */
 	public String getTotalCount() {
@@ -1269,40 +1281,28 @@ public class GamArchFcltySpecMngVO extends ComDefaultVO {
 		this.totalCount = totalCount;
 	}
 	/**
-	 * @return the sumAr
+	 * @return the sumYardAr
 	 */
-	public String getSumAr() {
-		return sumAr;
+	public String getSumYardAr() {
+		return sumYardAr;
 	}
 	/**
-	 * @param sumAr the sumAr to set
+	 * @param sumYardAr the sumYardAr to set
 	 */
-	public void setSumAr(String sumAr) {
-		this.sumAr = sumAr;
+	public void setSumYardAr(String sumYardAr) {
+		this.sumYardAr = sumYardAr;
 	}
 	/**
-	 * @return the sumArchAr
+	 * @return the sumBerth
 	 */
-	public String getSumArchAr() {
-		return sumArchAr;
+	public String getSumBerth() {
+		return sumBerth;
 	}
 	/**
-	 * @param sumArchAr the sumArchAr to set
+	 * @param sumBerth the sumBerth to set
 	 */
-	public void setSumArchAr(String sumArchAr) {
-		this.sumArchAr = sumArchAr;
-	}
-	/**
-	 * @return the sumPlotAr
-	 */
-	public String getSumPlotAr() {
-		return sumPlotAr;
-	}
-	/**
-	 * @param sumPlotAr the sumPlotAr to set
-	 */
-	public void setSumPlotAr(String sumPlotAr) {
-		this.sumPlotAr = sumPlotAr;
+	public void setSumBerth(String sumBerth) {
+		this.sumBerth = sumBerth;
 	}
 
 }

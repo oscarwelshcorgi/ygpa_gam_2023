@@ -27,15 +27,15 @@ import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import egovframework.rte.ygpa.gam.fclty.service.GamArchFcltySpecMngService;
-import egovframework.rte.ygpa.gam.fclty.service.GamArchFcltySpecMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamCvlEngFcltySpecMngService;
+import egovframework.rte.ygpa.gam.fclty.service.GamCvlEngFcltySpecMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO;
 
 /**
  *
  * @author ACEWOLF
- * @since 2015. 1. 15.
+ * @since 2015. 2. 17.
  * @version 1.0
  * @see
  * <pre>
@@ -43,14 +43,14 @@ import egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO;
  *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
- *  2015. 1. 15.		ACEWOLF		최초 생성
+ *  2015. 2. 17.		ACEWOLF		최초 생성
  *
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
 
 @Controller
-public class GamArchFcltySpecMngController {
+public class GamCvlEngFcltySpecMngController {
 
 	/** Validator */
 	@Autowired
@@ -64,24 +64,24 @@ public class GamArchFcltySpecMngController {
 	@Resource(name="egovMessageSource")
 	EgovMessageSource egovMessageSource;
 
-	@Resource(name = "gamArchFcltySpecMngService")
-	private GamArchFcltySpecMngService gamArchFcltySpecMngService;
+	@Resource(name = "gamCvlEngFcltySpecMngService")
+	private GamCvlEngFcltySpecMngService gamCvlEngFcltySpecMngService;
 
-	@RequestMapping(value="/fclty/gamArchFcltySpecMng.do")
+	@RequestMapping(value="/fclty/gamCvlEngFcltySpecMng.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
-		//List fcltsClCdList = gamArchFcltySpecMngService.selectFcltsClCdList();
+		List fcltsClCdList = gamCvlEngFcltySpecMngService.selectFcltsClCdList();
 
-		//model.addAttribute("fcltsClCdList", fcltsClCdList);
+		model.addAttribute("fcltsClCdList", fcltsClCdList);
 		model.addAttribute("windowId", windowId);
 
-		return "/ygpa/gam/fclty/GamArchFcltySpecMng";
+		return "/ygpa/gam/fclty/GamCvlEngFcltySpecMng";
 
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/fclty/gamSelectArchFcltySpecMngList.do", method=RequestMethod.POST)
-	@ResponseBody Map gamSelectArchFcltySpecMngList(GamArchFcltySpecMngVO searchVO) throws Exception {
+	@RequestMapping(value="/fclty/gamSelectCvlEngFcltySpecMngList.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectCvlEngFcltySpecMngList(GamCvlEngFcltySpecMngVO searchVO) throws Exception {
 
 		Map map = new HashMap();
 
@@ -101,22 +101,21 @@ public class GamArchFcltySpecMngController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		GamArchFcltySpecMngVO resultSum = gamArchFcltySpecMngService.selectArchFcltySpecMngListSum(searchVO);
-		List resultList = gamArchFcltySpecMngService.selectArchFcltySpecMngList(searchVO);
+		GamCvlEngFcltySpecMngVO resultSum = gamCvlEngFcltySpecMngService.selectCvlEngFcltySpecMngListSum(searchVO);
+		List resultList = gamCvlEngFcltySpecMngService.selectCvlEngFcltySpecMngList(searchVO);
 
 		map.put("resultCode", 0);
 		map.put("totalCount", resultSum.getTotalCount());
-		map.put("sumAr", resultSum.getSumAr());
-		map.put("sumArchAr", resultSum.getSumArchAr());
-		map.put("sumPlotAr", resultSum.getSumPlotAr());
+		map.put("sumYardAr", resultSum.getSumYardAr());
+		map.put("sumBerth", resultSum.getSumBerth());
 		map.put("resultList", resultList);
 
 		return map;
 
 	}
 
-	@RequestMapping(value="/fclty/gamInsertArchFcltySpecMng.do")
-	@ResponseBody Map<String, Object> gamInsertArchFcltySpecMng(GamArchFcltySpecMngVO gamArchFcltySpecMngVO) throws Exception {
+	@RequestMapping(value="/fclty/gamInsertCvlEngFcltySpecMng.do")
+	@ResponseBody Map<String, Object> gamInsertCvlEngFcltySpecMng(GamCvlEngFcltySpecMngVO gamCvlEngFcltySpecMngVO) throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -129,8 +128,8 @@ public class GamArchFcltySpecMngController {
 		}
 
 		try {
-			gamArchFcltySpecMngVO.setRegUsr((String)user.getId());
-			gamArchFcltySpecMngService.insertArchFcltySpecMng(gamArchFcltySpecMngVO);
+			gamCvlEngFcltySpecMngVO.setRegUsr((String)user.getId());
+			gamCvlEngFcltySpecMngService.insertCvlEngFcltySpecMng(gamCvlEngFcltySpecMngVO);
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
@@ -144,8 +143,8 @@ public class GamArchFcltySpecMngController {
 
 	}
 
-	@RequestMapping(value="/fclty/gamUpdateArchFcltySpecMng.do")
-	@ResponseBody Map<String, Object> gamUpdateArchFcltySpecMng(GamArchFcltySpecMngVO gamArchFcltySpecMngVO) throws Exception {
+	@RequestMapping(value="/fclty/gamUpdateCvlEngFcltySpecMng.do")
+	@ResponseBody Map<String, Object> gamUpdateCvlEngFcltySpecMng(GamCvlEngFcltySpecMngVO gamCvlEngFcltySpecMngVO) throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -158,8 +157,8 @@ public class GamArchFcltySpecMngController {
 		}
 
 		try {
-			gamArchFcltySpecMngVO.setUpdUsr((String)user.getId());
-			gamArchFcltySpecMngService.updateArchFcltySpecMng(gamArchFcltySpecMngVO);
+			gamCvlEngFcltySpecMngVO.setUpdUsr((String)user.getId());
+			gamCvlEngFcltySpecMngService.updateCvlEngFcltySpecMng(gamCvlEngFcltySpecMngVO);
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
@@ -173,8 +172,8 @@ public class GamArchFcltySpecMngController {
 
 	}
 
-	@RequestMapping(value="/fclty/gamDeleteArchFcltySpecMng.do")
-	@ResponseBody Map<String, Object> gamDeleteArchFcltySpecMng(GamArchFcltySpecMngVO gamArchFcltySpecMngVO) throws Exception {
+	@RequestMapping(value="/fclty/gamDeleteCvlEngFcltySpecMng.do")
+	@ResponseBody Map<String, Object> gamDeleteCvlEngFcltySpecMng(GamCvlEngFcltySpecMngVO gamCvlEngFcltySpecMngVO) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -186,7 +185,7 @@ public class GamArchFcltySpecMngController {
 		}
 
 		try {
-			gamArchFcltySpecMngService.deleteArchFcltySpecMng(gamArchFcltySpecMngVO);
+			gamCvlEngFcltySpecMngService.deleteCvlEngFcltySpecMng(gamCvlEngFcltySpecMngVO);
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
@@ -200,8 +199,8 @@ public class GamArchFcltySpecMngController {
 
 	}
 
-	@RequestMapping(value="/fclty/gamSelectArchFcltySpecMngPk.do")
-	@ResponseBody Map<String, Object> gamSelectArchFcltySpecMngPk(GamArchFcltySpecMngVO gamArchFcltySpecMngVO) throws Exception {
+	@RequestMapping(value="/fclty/gamSelectCvlEngFcltySpecMngPk.do")
+	@ResponseBody Map<String, Object> gamSelectCvlEngFcltySpecMngPk(GamCvlEngFcltySpecMngVO gamCvlEngFcltySpecMngVO) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -213,7 +212,7 @@ public class GamArchFcltySpecMngController {
 		}
 
 		try {
-			Map result = gamArchFcltySpecMngService.selectArchFcltySpecMngPk(gamArchFcltySpecMngVO);
+			Map result = gamCvlEngFcltySpecMngService.selectCvlEngFcltySpecMngPk(gamCvlEngFcltySpecMngVO);
 
 			map.put("resultCode", 0);
 			map.put("result", result);
@@ -229,8 +228,8 @@ public class GamArchFcltySpecMngController {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/fclty/gamSelectArchFcltySpecMngMaxGisPrtFcltySeq.do", method=RequestMethod.POST)
-	@ResponseBody Map gamSelectArchFcltySpecMngMaxGisPrtFcltySeq(GamArchFcltySpecMngVO gamArchFcltySpecMngVO) throws Exception {
+	@RequestMapping(value="/fclty/gamSelectCvlEngFcltySpecMngMaxGisPrtFcltySeq.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectCvlEngFcltySpecMngMaxGisPrtFcltySeq(GamCvlEngFcltySpecMngVO gamCvlEngFcltySpecMngVO) throws Exception {
 
 		String sMaxGisPrtFcltySeq;
 		Map map = new HashMap();
@@ -242,7 +241,7 @@ public class GamArchFcltySpecMngController {
 			return map;
 		}
 
-		sMaxGisPrtFcltySeq = gamArchFcltySpecMngService.selectArchFcltySpecMngMaxGisPrtFcltySeq(gamArchFcltySpecMngVO);
+		sMaxGisPrtFcltySeq = gamCvlEngFcltySpecMngService.selectCvlEngFcltySpecMngMaxGisPrtFcltySeq(gamCvlEngFcltySpecMngVO);
 
 		map.put("resultCode", 0);
 		map.put("sMaxGisPrtFcltySeq", sMaxGisPrtFcltySeq);
@@ -252,8 +251,8 @@ public class GamArchFcltySpecMngController {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/fclty/gamExcelDownloadArchFcltySpecMng.do", method=RequestMethod.POST)
-	@ResponseBody ModelAndView gamExcelDownloadArchFcltySpecMng(@RequestParam Map<String, Object> excelParam) throws Exception {
+	@RequestMapping(value="/fclty/gamExcelDownloadCvlEngFcltySpecMng.do", method=RequestMethod.POST)
+	@ResponseBody ModelAndView gamExcelDownloadCvlEngFcltySpecMng(@RequestParam Map<String, Object> excelParam) throws Exception {
 
 		Map map = new HashMap();
 		List header;
@@ -270,13 +269,13 @@ public class GamArchFcltySpecMngController {
 								  new TypeReference<List<HashMap<String,String>>>(){});
 		excelParam.remove("header");
 
-		GamArchFcltySpecMngVO searchVO= new GamArchFcltySpecMngVO();
-		searchVO = mapper.convertValue(excelParam, GamArchFcltySpecMngVO.class);
+		GamCvlEngFcltySpecMngVO searchVO= new GamCvlEngFcltySpecMngVO();
+		searchVO = mapper.convertValue(excelParam, GamCvlEngFcltySpecMngVO.class);
 		searchVO.setFirstIndex(0);
 		searchVO.setLastIndex(9999);
 		searchVO.setRecordCountPerPage(9999);
 
-		List resultList = gamArchFcltySpecMngService.selectArchFcltySpecMngList(searchVO);
+		List resultList = gamCvlEngFcltySpecMngService.selectCvlEngFcltySpecMngList(searchVO);
 
 		map.put("resultCode", 0);
 		map.put("resultList", resultList);
@@ -288,8 +287,8 @@ public class GamArchFcltySpecMngController {
 
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/fclty/gamSelectArchFcltySpecMngFcltsMngGroupNm.do" , method=RequestMethod.POST)
-	@ResponseBody Map gamSelectArchFcltySpecMngFcltsMngGroupNm(@RequestParam Map<String, Object> searchVO) throws Exception {
+	@RequestMapping(value="/fclty/gamSelectCvlEngFcltySpecMngFcltsMngGroupNm.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectCvlEngFcltySpecMngFcltsMngGroupNm(@RequestParam Map<String, Object> searchVO) throws Exception {
 
 		String sFcltsMngGroupNm;
 		Map map = new HashMap();
@@ -301,7 +300,7 @@ public class GamArchFcltySpecMngController {
 			return map;
 		}
 
-		sFcltsMngGroupNm = gamArchFcltySpecMngService.selectFcltsMngGroupNm(searchVO);
+		sFcltsMngGroupNm = gamCvlEngFcltySpecMngService.selectFcltsMngGroupNm(searchVO);
 
 		map.put("resultCode", 0);
 		map.put("sFcltsMngGroupNm", sFcltsMngGroupNm);
@@ -311,8 +310,8 @@ public class GamArchFcltySpecMngController {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/fclty/gamSelectArchFcltySpecMngEntrpsNm.do" , method=RequestMethod.POST)
-	@ResponseBody Map gamSelectArchFcltySpecMngEntrpsNm(@RequestParam Map<String, Object> searchVO) throws Exception {
+	@RequestMapping(value="/fclty/gamSelectCvlEngFcltySpecMngEntrpsNm.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectCvlEngFcltySpecMngEntrpsNm(@RequestParam Map<String, Object> searchVO) throws Exception {
 
 		String sEntrpsNm;
 		Map map = new HashMap();
@@ -324,7 +323,7 @@ public class GamArchFcltySpecMngController {
 			return map;
 		}
 
-		sEntrpsNm = gamArchFcltySpecMngService.selectEntrpsNm(searchVO);
+		sEntrpsNm = gamCvlEngFcltySpecMngService.selectEntrpsNm(searchVO);
 
 		map.put("resultCode", 0);
 		map.put("sEntrpsNm", sEntrpsNm);
@@ -334,8 +333,8 @@ public class GamArchFcltySpecMngController {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/fclty/gamSelectArchFcltySpecMngFcltsClCdNm.do" , method=RequestMethod.POST)
-	@ResponseBody Map gamSelectArchFcltySpecMngFcltsClCdNm(@RequestParam Map<String, Object> searchVO) throws Exception {
+	@RequestMapping(value="/fclty/gamSelectCvlEngFcltySpecMngFcltsClCdNm.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectCvlEngFcltySpecMngFcltsClCdNm(@RequestParam Map<String, Object> searchVO) throws Exception {
 
 		String sFcltsClCdNm;
 		Map map = new HashMap();
@@ -347,7 +346,7 @@ public class GamArchFcltySpecMngController {
 			return map;
 		}
 
-		sFcltsClCdNm = gamArchFcltySpecMngService.selectFcltsClCdNm(searchVO);
+		sFcltsClCdNm = gamCvlEngFcltySpecMngService.selectFcltsClCdNm(searchVO);
 
 		map.put("resultCode", 0);
 		map.put("sFcltsClCdNm", sFcltsClCdNm);
@@ -358,8 +357,8 @@ public class GamArchFcltySpecMngController {
 
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/fclty/gamSelectArchFcltySpecMngAtchFileDirList.do", method=RequestMethod.POST)
-	@ResponseBody Map gamSelectArchFcltySpecMngAtchFileDirList(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+	@RequestMapping(value="/fclty/gamSelectCvlEngFcltySpecMngAtchFileDirList.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectCvlEngFcltySpecMngAtchFileDirList(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
 
 		Map map = new HashMap();
 
@@ -370,7 +369,7 @@ public class GamArchFcltySpecMngController {
 			return map;
 		}
 
-		List resultList = gamArchFcltySpecMngService.selectArchFcltySpecMngAtchFileDirList(gamAtchFileDirMngVO);
+		List resultList = gamCvlEngFcltySpecMngService.selectCvlEngFcltySpecMngAtchFileDirList(gamAtchFileDirMngVO);
 
 		map.put("resultCode", 0);
 		map.put("resultList", resultList);
@@ -379,8 +378,8 @@ public class GamArchFcltySpecMngController {
 
 	}
 
-	@RequestMapping(value="/fclty/gamSelectArchFcltySpecMngAtchFileDirPk.do")
-	@ResponseBody Map<String, Object> gamSelectArchFcltySpecMngAtchFileDirPk(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+	@RequestMapping(value="/fclty/gamSelectCvlEngFcltySpecMngAtchFileDirPk.do")
+	@ResponseBody Map<String, Object> gamSelectCvlEngFcltySpecMngAtchFileDirPk(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -392,7 +391,7 @@ public class GamArchFcltySpecMngController {
 		}
 
 		try {
-			Map result = gamArchFcltySpecMngService.selectArchFcltySpecMngAtchFileDirPk(gamAtchFileDirMngVO);
+			Map result = gamCvlEngFcltySpecMngService.selectCvlEngFcltySpecMngAtchFileDirPk(gamAtchFileDirMngVO);
 
 			map.put("resultCode", 0);
 			map.put("result", result);
@@ -406,8 +405,8 @@ public class GamArchFcltySpecMngController {
 
 	}
 
-	@RequestMapping(value="/fclty/gamInsertArchFcltySpecMngAtchFileDir.do")
-	@ResponseBody Map<String, Object> gamInsertArchFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+	@RequestMapping(value="/fclty/gamInsertCvlEngFcltySpecMngAtchFileDir.do")
+	@ResponseBody Map<String, Object> gamInsertCvlEngFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -421,11 +420,11 @@ public class GamArchFcltySpecMngController {
 		}
 
 		try {
-			sNewNo = gamArchFcltySpecMngService.selectArchFcltySpecMngAtchFileDirNewNo(gamAtchFileDirMngVO);
+			sNewNo = gamCvlEngFcltySpecMngService.selectCvlEngFcltySpecMngAtchFileDirNewNo(gamAtchFileDirMngVO);
 
 			gamAtchFileDirMngVO.setDirNo(sNewNo);
 			gamAtchFileDirMngVO.setRegUsr((String)user.getId());
-			gamArchFcltySpecMngService.insertArchFcltySpecMngAtchFileDir(gamAtchFileDirMngVO);
+			gamCvlEngFcltySpecMngService.insertCvlEngFcltySpecMngAtchFileDir(gamAtchFileDirMngVO);
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
@@ -438,8 +437,8 @@ public class GamArchFcltySpecMngController {
 
 	}
 
-	@RequestMapping(value="/fclty/gamUpdateArchFcltySpecMngAtchFileDir.do")
-	@ResponseBody Map<String, Object> gamUpdateArchFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+	@RequestMapping(value="/fclty/gamUpdateCvlEngFcltySpecMngAtchFileDir.do")
+	@ResponseBody Map<String, Object> gamUpdateCvlEngFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -453,7 +452,7 @@ public class GamArchFcltySpecMngController {
 
 		try {
 			gamAtchFileDirMngVO.setUpdUsr((String)user.getId());
-			gamArchFcltySpecMngService.updateArchFcltySpecMngAtchFileDir(gamAtchFileDirMngVO);
+			gamCvlEngFcltySpecMngService.updateCvlEngFcltySpecMngAtchFileDir(gamAtchFileDirMngVO);
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
@@ -466,8 +465,8 @@ public class GamArchFcltySpecMngController {
 
 	}
 
-	@RequestMapping(value="/fclty/gamDeleteArchFcltySpecMngAtchFileDir.do")
-	@ResponseBody Map<String, Object> gamDeleteArchFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+	@RequestMapping(value="/fclty/gamDeleteCvlEngFcltySpecMngAtchFileDir.do")
+	@ResponseBody Map<String, Object> gamDeleteCvlEngFcltySpecMngAtchFileDir(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -479,7 +478,7 @@ public class GamArchFcltySpecMngController {
 		}
 
 		try {
-			gamArchFcltySpecMngService.deleteArchFcltySpecMngAtchFileDir(gamAtchFileDirMngVO);
+			gamCvlEngFcltySpecMngService.deleteCvlEngFcltySpecMngAtchFileDir(gamAtchFileDirMngVO);
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
@@ -492,8 +491,8 @@ public class GamArchFcltySpecMngController {
 
 	}
 
-	@RequestMapping(value="/fclty/gamSelectArchFcltySpecMngAtchFileDirNewNo.do", method=RequestMethod.POST)
-	@ResponseBody Map gamSelectArchFcltySpecMngAtchFileDirNewNo(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+	@RequestMapping(value="/fclty/gamSelectCvlEngFcltySpecMngAtchFileDirNewNo.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectCvlEngFcltySpecMngAtchFileDirNewNo(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
 
 		String sNewNo;
 		Map map = new HashMap();
@@ -505,7 +504,7 @@ public class GamArchFcltySpecMngController {
 			return map;
 		}
 
-		sNewNo = gamArchFcltySpecMngService.selectArchFcltySpecMngAtchFileDirNewNo(gamAtchFileDirMngVO);
+		sNewNo = gamCvlEngFcltySpecMngService.selectCvlEngFcltySpecMngAtchFileDirNewNo(gamAtchFileDirMngVO);
 
 		map.put("resultCode", 0);
 		map.put("sNewNo", sNewNo);
@@ -514,8 +513,8 @@ public class GamArchFcltySpecMngController {
 
 	}
 
-	@RequestMapping(value="/fclty/gamSelectArchFcltySpecMngAtchFileDirLowerDataCnt.do", method=RequestMethod.POST)
-	@ResponseBody Map gamSelectArchFcltySpecMngAtchFileDirLowerDataCnt(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
+	@RequestMapping(value="/fclty/gamSelectCvlEngFcltySpecMngAtchFileDirLowerDataCnt.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectCvlEngFcltySpecMngAtchFileDirLowerDataCnt(GamAtchFileDirMngVO gamAtchFileDirMngVO) throws Exception {
 
 		Map map = new HashMap();
 
@@ -526,7 +525,7 @@ public class GamArchFcltySpecMngController {
 			return map;
 		}
 
-		List resultList = gamArchFcltySpecMngService.selectArchFcltySpecMngAtchFileDirLowerDataCnt(gamAtchFileDirMngVO);
+		List resultList = gamCvlEngFcltySpecMngService.selectCvlEngFcltySpecMngAtchFileDirLowerDataCnt(gamAtchFileDirMngVO);
 
 		map.put("resultCode", 0);
 		map.put("resultList", resultList);
@@ -537,8 +536,8 @@ public class GamArchFcltySpecMngController {
 
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/fclty/gamSelectArchFcltySpecMngFcltsAtchFileList.do", method=RequestMethod.POST)
-	@ResponseBody Map gamSelectArchFcltySpecMngFcltsAtchFileList(GamFcltsAtchFileMngVO searchVO) throws Exception {
+	@RequestMapping(value="/fclty/gamSelectCvlEngFcltySpecMngFcltsAtchFileList.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectCvlEngFcltySpecMngFcltsAtchFileList(GamFcltsAtchFileMngVO searchVO) throws Exception {
 
 		Map map = new HashMap();
 
@@ -558,7 +557,7 @@ public class GamArchFcltySpecMngController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		List resultList = gamArchFcltySpecMngService.selectArchFcltySpecMngFcltsAtchFileList(searchVO);
+		List resultList = gamCvlEngFcltySpecMngService.selectCvlEngFcltySpecMngFcltsAtchFileList(searchVO);
 
 		map.put("resultCode", 0);
 		map.put("resultList", resultList);
@@ -567,8 +566,8 @@ public class GamArchFcltySpecMngController {
 
 	}
 
-	@RequestMapping(value="/fclty/gamInsertArchFcltySpecMngFcltsAtchFile.do")
-	@ResponseBody Map<String, Object> gamInsertArchFcltySpecMngFcltsAtchFile(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception {
+	@RequestMapping(value="/fclty/gamInsertCvlEngFcltySpecMngFcltsAtchFile.do")
+	@ResponseBody Map<String, Object> gamInsertCvlEngFcltySpecMngFcltsAtchFile(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -582,11 +581,11 @@ public class GamArchFcltySpecMngController {
 		}
 
 		try {
-			sNewNo = gamArchFcltySpecMngService.selectArchFcltySpecMngFcltsAtchFileNewNo(gamFcltsAtchFileMngVO);
+			sNewNo = gamCvlEngFcltySpecMngService.selectCvlEngFcltySpecMngFcltsAtchFileNewNo(gamFcltsAtchFileMngVO);
 
 			gamFcltsAtchFileMngVO.setAtchFileNo(sNewNo);
 			gamFcltsAtchFileMngVO.setRegUsr((String)user.getId());
-			gamArchFcltySpecMngService.insertArchFcltySpecMngFcltsAtchFile(gamFcltsAtchFileMngVO);
+			gamCvlEngFcltySpecMngService.insertCvlEngFcltySpecMngFcltsAtchFile(gamFcltsAtchFileMngVO);
 
 			map.put("resultCode", 0);
 			map.put("atchFileNo", sNewNo);
@@ -601,8 +600,8 @@ public class GamArchFcltySpecMngController {
 
 	}
 
-	@RequestMapping(value="/fclty/gamUpdateArchFcltySpecMngFcltsAtchFile.do")
-	@ResponseBody Map<String, Object> gamUpdateArchFcltySpecMngFcltsAtchFile(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception {
+	@RequestMapping(value="/fclty/gamUpdateCvlEngFcltySpecMngFcltsAtchFile.do")
+	@ResponseBody Map<String, Object> gamUpdateCvlEngFcltySpecMngFcltsAtchFile(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -616,7 +615,7 @@ public class GamArchFcltySpecMngController {
 
 		try {
 			gamFcltsAtchFileMngVO.setUpdUsr((String)user.getId());
-			gamArchFcltySpecMngService.updateArchFcltySpecMngFcltsAtchFile(gamFcltsAtchFileMngVO);
+			gamCvlEngFcltySpecMngService.updateCvlEngFcltySpecMngFcltsAtchFile(gamFcltsAtchFileMngVO);
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
@@ -630,8 +629,8 @@ public class GamArchFcltySpecMngController {
 
 	}
 
-	@RequestMapping(value="/fclty/gamDeleteArchFcltySpecMngFcltsAtchFile.do")
-	@ResponseBody Map<String, Object> gamDeleteArchFcltySpecMngFcltsAtchFile(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception {
+	@RequestMapping(value="/fclty/gamDeleteCvlEngFcltySpecMngFcltsAtchFile.do")
+	@ResponseBody Map<String, Object> gamDeleteCvlEngFcltySpecMngFcltsAtchFile(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -643,7 +642,7 @@ public class GamArchFcltySpecMngController {
 		}
 
 		try {
-			gamArchFcltySpecMngService.deleteArchFcltySpecMngFcltsAtchFile(gamFcltsAtchFileMngVO);
+			gamCvlEngFcltySpecMngService.deleteCvlEngFcltySpecMngFcltsAtchFile(gamFcltsAtchFileMngVO);
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
@@ -657,8 +656,8 @@ public class GamArchFcltySpecMngController {
 
 	}
 
-	@RequestMapping(value="/fclty/gamSelectArchFcltySpecMngFcltsAtchFilePk.do")
-	@ResponseBody Map<String, Object> gamSelectArchFcltySpecMngFcltsAtchFilePk(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception {
+	@RequestMapping(value="/fclty/gamSelectCvlEngFcltySpecMngFcltsAtchFilePk.do")
+	@ResponseBody Map<String, Object> gamSelectCvlEngFcltySpecMngFcltsAtchFilePk(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -670,7 +669,7 @@ public class GamArchFcltySpecMngController {
 		}
 
 		try {
-			Map result = gamArchFcltySpecMngService.selectArchFcltySpecMngFcltsAtchFilePk(gamFcltsAtchFileMngVO);
+			Map result = gamCvlEngFcltySpecMngService.selectCvlEngFcltySpecMngFcltsAtchFilePk(gamFcltsAtchFileMngVO);
 
 			map.put("resultCode", 0);
 			map.put("result", result);
@@ -686,8 +685,8 @@ public class GamArchFcltySpecMngController {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/fclty/gamSelectArchFcltySpecMngFcltsAtchFileNewNo.do", method=RequestMethod.POST)
-	@ResponseBody Map gamSelectArchFcltySpecMngFcltsAtchFileNewNo(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception {
+	@RequestMapping(value="/fclty/gamSelectCvlEngFcltySpecMngFcltsAtchFileNewNo.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectCvlEngFcltySpecMngFcltsAtchFileNewNo(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception {
 
 		String sNewNo;
 		Map map = new HashMap();
@@ -699,7 +698,7 @@ public class GamArchFcltySpecMngController {
 			return map;
 		}
 
-		sNewNo = gamArchFcltySpecMngService.selectArchFcltySpecMngFcltsAtchFileNewNo(gamFcltsAtchFileMngVO);
+		sNewNo = gamCvlEngFcltySpecMngService.selectCvlEngFcltySpecMngFcltsAtchFileNewNo(gamFcltsAtchFileMngVO);
 
 		map.put("resultCode", 0);
 		map.put("sNewNo", sNewNo);

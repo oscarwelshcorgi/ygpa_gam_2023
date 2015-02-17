@@ -5,18 +5,17 @@
 	<!-- TYPE ALIAS 정의 -->
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
-	<typeAlias alias="gamArchFcltySpecMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamArchFcltySpecMngVO"/>
+	<typeAlias alias="gamCvlEngFcltySpecMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamCvlEngFcltySpecMngVO"/>
 	<typeAlias alias="gamAtchFileDirMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO"/>
 	<typeAlias alias="gamFcltsAtchFileMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO"/>
 	<!-- RESULT MAP 정의 -->
-	<resultMap id="gamArchFcltySpecMngSumMap" class="gamArchFcltySpecMngVO">
+	<resultMap id="gamCvlEngFcltySpecMngSumMap" class="gamCvlEngFcltySpecMngVO">
 		<result property="totalCount" column="TOTAL_COUNT" columnIndex="1"/>
-		<result property="sumAr" column="SUM_AR" columnIndex="2"/>
-		<result property="sumArchAr" column="SUM_ARCH_AR" columnIndex="3"/>
-		<result property="sumPlotAr" column="SUM_PLOT_AR" columnIndex="4"/>
+		<result property="sumYardAr" column="SUM_YARD_AR" columnIndex="2"/>
+		<result property="sumBerth" column="SUM_BERTH" columnIndex="3"/>
 	</resultMap>
 
-	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngList_D" parameterClass="gamArchFcltySpecMngVO" resultClass="egovMap">
+	<select id="gamCvlEngFcltySpecMngDao.selectCvlEngFcltySpecMngList_D" parameterClass="gamCvlEngFcltySpecMngVO" resultClass="egovMap">
 		SELECT T.*
 			FROM (
 				SELECT  ROWNUM RNUM, S.*
@@ -56,64 +55,65 @@
 								,T3.GIS_ASSETS_NM
 								,GAM_GET_LOCPLC_LNM_SUB(T3.GIS_ASSETS_LOCPLC,T3.GIS_ASSETS_LNM,T3.GIS_ASSETS_LNM_SUB) AS GIS_ASSETS_LOCPLC_LNM
 								,GAM_GETCODENAME('GAM002',T3.GIS_ASSETS_LOC_CD) AS GIS_ASSETS_LOC_NM
-								,TO_CHAR(T2.BLD_DT,'YYYY-MM-DD') AS BLD_DT
-								,TO_CHAR(T2.FLAW_END_DT,'YYYY-MM-DD') AS FLAW_END_DT
-								,T2.BASE_FMT AS BASE_FMT
+								,LTRIM(TO_CHAR(NVL(T2.FCLTS_EXT,0),'9,999,999,990.00')) AS FCLTS_EXT
 								,T2.STRCT_FMT AS STRCT_FMT
-								,LTRIM(TO_CHAR(NVL(T2.AR,0),'9,999,999,990.00')) AS AR
-								,LTRIM(TO_CHAR(NVL(T2.ARCH_AR,0),'9,999,999,990.00')) AS ARCH_AR
-								,LTRIM(TO_CHAR(NVL(T2.PLOT_AR,0),'9,999,999,990.00')) AS PLOT_AR
-								,T2.MAIN_USAGE_PRPOS AS MAIN_USAGE_PRPOS
-								,LTRIM(TO_CHAR(NVL(T2.PRK_AR,0),'9,999,999,990.00')) AS PRK_AR
-								,LTRIM(TO_CHAR(NVL(T2.ISD_PRK_AR,0),'9,999,999,990.00')) AS ISD_PRK_AR
-								,LTRIM(TO_CHAR(NVL(T2.OSD_PRK_AR,0),'9,999,999,990.00')) AS OSD_PRK_AR
-								,LTRIM(TO_CHAR(NVL(T2.PRK_CNT,0),'99,990')) AS PRK_CNT
-								,LTRIM(TO_CHAR(NVL(T2.ISD_PRK_CNT,0),'99,990')) AS ISD_PRK_CNT
-								,LTRIM(TO_CHAR(NVL(T2.OSD_PRK_CNT,0),'99,990')) AS OSD_PRK_CNT
-								,T2.EXHAUST_DUCT_ENNC AS EXHAUST_DUCT_ENNC
-								,T2.VNTLTN_ARCNDT_MTHD AS VNTLTN_ARCNDT_MTHD
-								,T2.WRT_TANK_LOC AS WRT_TANK_LOC
-								,T2.SBT_LOC AS SBT_LOC
-								,T2.OIL_SAVEFCLTY_LOC AS OIL_SAVEFCLTY_LOC
-								,T2.SWG_CLUPFCLTY_LOC AS SWG_CLUPFCLTY_LOC
-								,LTRIM(TO_CHAR(NVL(T2.LIFT_CNT_PSNGR,0),'99,990')) AS LIFT_CNT_PSNGR
-								,LTRIM(TO_CHAR(NVL(T2.LIFT_CNT_CARGO,0),'99,990')) AS LIFT_CNT_CARGO
-								,LTRIM(TO_CHAR(NVL(T2.LIFT_CNT_EMGCY,0),'99,990')) AS LIFT_CNT_EMGCY
-								,T2.LIFT_OPER_MTHD AS LIFT_OPER_MTHD
-								,T2.CLNG_ENNC AS CLNG_ENNC
-								,T2.CLNG_SRC AS CLNG_SRC
-								,T2.HTNG_ENNC AS HTNG_ENNC
-								,T2.HTNG_SRC AS HTNG_SRC
-								,T2.SPICTANK_FMT AS SPICTANK_FMT
-								,LTRIM(TO_CHAR(NVL(T2.ELCTY_LEAD_IN_CAPA,0),'99,999,990.00')) AS ELCTY_LEAD_IN_CAPA
-								,T2.FCG AS FCG
-								,T2.ITR AS ITR
-								,T2.CEIL AS CEIL
-								,T2.ROOF AS ROOF
-								,T2.ROOF_WTPRF AS ROOF_WTPRF
-								,T2.PLAN_CNST_NM AS PLAN_CNST_NM
-								,T2.PLAN_EXC_CMPNY AS PLAN_EXC_CMPNY
-								,TO_CHAR(T2.PLAN_BEGIN_DT,'YYYY-MM-DD') AS PLAN_BEGIN_DT
-								,TO_CHAR(T2.PLAN_END_DT,'YYYY-MM-DD') AS PLAN_END_DT
-								,T2.CNSTRCT_CNST_NM AS CNSTRCT_CNST_NM
-								,T2.CNSTRCT_EXC_CMPNY AS CNSTRCT_EXC_CMPNY
-								,TO_CHAR(T2.CNSTRCT_BEGIN_DT,'YYYY-MM-DD') AS CNSTRCT_BEGIN_DT
-								,TO_CHAR(T2.CNSTRCT_END_DT,'YYYY-MM-DD') AS CNSTRCT_END_DT
-								,T2.RM AS RM
+								,LTRIM(TO_CHAR(NVL(T2.UPSIDE_ALTUD,0),'99,999,990.00')) AS UPSIDE_ALTUD
+								,LTRIM(TO_CHAR(NVL(T2.BERTH_DPWT,0),'99,999,990.00')) AS BERTH_DPWT
+								,LTRIM(TO_CHAR(NVL(T2.PERM_WD,0),'99,999,990.00')) AS PERM_WD
+								,LTRIM(TO_CHAR(NVL(T2.APRON_WD,0),'99,999,990.00')) AS APRON_WD
+								,T2.APRON_PACK_KND AS APRON_PACK_KND
+								,T2.APRON_PACK_GRDNT AS APRON_PACK_GRDNT
+								,LTRIM(TO_CHAR(NVL(T2.CSDHP_SHIP_SCL,0),'99,999,990.00')) AS CSDHP_SHIP_SCL
+								,LTRIM(TO_CHAR(NVL(T2.FROST_DMG_WGHT,0),'99,999,990.00')) AS FROST_DMG_WGHT
+								,T2.BASE_BTTM_SOIL AS BASE_BTTM_SOIL
+								,T2.HNDL_FRGHT AS HNDL_FRGHT
+								,LTRIM(TO_CHAR(NVL(T2.PILE_CLBR,0),'999,990.00')) AS PILE_CLBR
+								,LTRIM(TO_CHAR(NVL(T2.PILE_EXT,0),'99,999,990.00')) AS PILE_EXT
+								,LTRIM(TO_CHAR(NVL(T2.PILE_QTY,0),'99,990')) AS PILE_QTY
+								,T2.SHEET_FILE_STNDRD AS SHEET_FILE_STNDRD
+								,LTRIM(TO_CHAR(NVL(T2.HYDRNT_QY,0),'99,990')) AS HYDRNT_QY
+								,LTRIM(TO_CHAR(NVL(T2.FIREPG_QY,0),'99,990')) AS FIREPG_QY
+								,T2.YARD_PACK_KND AS YARD_PACK_KND
+								,LTRIM(TO_CHAR(NVL(T2.YARD_AR,0),'9,999,999,990.00')) AS YARD_AR
+								,T2.FENDER_KND_CD AS FENDER_KND_CD
+								,T2.FENDER_PMNT_ITV AS FENDER_PMNT_ITV
+								,T2.FENDER_FMT AS FENDER_FMT
+								,T2.MRPOST_STNDRD_1 AS MRPOST_STNDRD_1
+								,T2.MRPOST_PMNT_ITV_1 AS MRPOST_PMNT_ITV_1
+								,LTRIM(TO_CHAR(NVL(T2.MRPOST_QY_1,0),'99,990')) AS MRPOST_QY_1
+								,T2.MRPOST_PWR_1 AS MRPOST_PWR_1
+								,T2.MRPOST_STNDRD_2 AS MRPOST_STNDRD_2
+								,T2.MRPOST_PMNT_ITV_2 AS MRPOST_PMNT_ITV_2
+								,LTRIM(TO_CHAR(NVL(T2.MRPOST_QY_2,0),'99,990')) AS MRPOST_QY_2
+								,T2.MRPOST_PWR_2 AS MRPOST_PWR_2
+								,LTRIM(TO_CHAR(NVL(T2.BERTH,0),'99,990')) AS BERTH
+								,T2.STPL_HNDL_FRGHT AS STPL_HNDL_FRGHT
+								,T2.STPL_MOOR_SHIP AS STPL_MOOR_SHIP
 								,T2.REG_USR AS REG_USR
 								,TO_CHAR(T2.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
 								,T2.UPD_USR AS UPD_USR
 								,TO_CHAR(T2.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
 								,T2.LOC AS LOC
-								,T2.ARCH_FCLTS_CL_CD AS ARCH_FCLTS_CL_CD
-								,GAM_GET_FCLTS_CL_CD_NM(T2.ARCH_FCLTS_CL_CD) AS ARCH_FCLTS_CL_CD_NM
-								,NVL(T2.LOC,GAM_GET_LOCPLC_LNM_SUB(T3.GIS_ASSETS_LOCPLC,T3.GIS_ASSETS_LNM,T3.GIS_ASSETS_LNM_SUB)) AS PRT_FCLTY_LOC
+								,T2.BEGIN_PT_LOC AS BEGIN_PT_LOC
+								,T2.END_PT_LOC AS END_PT_LOC
+								,LTRIM(TO_CHAR(NVL(T2.WD,0),'99,999,990.00')) AS WD
+								,LTRIM(TO_CHAR(NVL(T2.LT,0),'9,999,999,990.00')) AS LT
+								,T2.PACK_KND AS PACK_KND
+								,LTRIM(TO_CHAR(NVL(T2.UPSIDE_WD,0),'99,999,990.00')) AS UPSIDE_WD
+								,LTRIM(TO_CHAR(NVL(T2.PLAN_HEGH,0),'99,999,990.00')) AS PLAN_HEGH
+								,T2.WAVEMAIN_DIR AS WAVEMAIN_DIR
+								,LTRIM(TO_CHAR(NVL(T2.OUTER_SWAVE_SLP_RATE,0),'999,990.00')) AS OUTER_SWAVE_SLP_RATE
+								,LTRIM(TO_CHAR(NVL(T2.IN_SWAVE_SLP_RATE,0),'999,990.00')) AS IN_SWAVE_SLP_RATE
+								,T2.OUTER_SWAVE_COVER AS OUTER_SWAVE_COVER
+								,T2.IN_SWAVE_COVER AS IN_SWAVE_COVER
+								,T2.CVL_ENG_FCLTS_CL_CD AS CVL_ENG_FCLTS_CL_CD
+								,GAM_GET_FCLTS_CL_CD_NM(T2.CVL_ENG_FCLTS_CL_CD) AS CVL_ENG_FCLTS_CL_CD_NM
 								,(CASE WHEN T2.ROWID IS NOT NULL THEN 'Y' ELSE 'N' END) AS FCLTY_SPEC_EXIST_YN
 							FROM GIS_PRT_FCLTY_CD_F T1
-							LEFT OUTER JOIN ARCH_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO)
+							LEFT OUTER JOIN CVL_ENG_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO)
 							LEFT OUTER JOIN GIS_ASSETS_CD_F T3 ON (T1.GIS_ASSETS_PRT_AT_CODE=T3.GIS_ASSETS_PRT_AT_CODE AND T1.GIS_ASSETS_CD=T3.GIS_ASSETS_CD AND T1.GIS_ASSETS_SUB_CD=T3.GIS_ASSETS_SUB_CD)
 						WHERE 1=1
-						AND T1.PRT_FCLTY_SE = 'A'
+						AND T1.PRT_FCLTY_SE = 'C'
 
 						<isNotEmpty property="sFcltsMngNo">
 						AND T1.FCLTS_MNG_NO = #sFcltsMngNo#
@@ -136,11 +136,7 @@
 						</isNotEmpty>
 
 						<isNotEmpty property="sFcltsClCd">
-						AND T2.ARCH_FCLTS_CL_CD = #sFcltsClCd#
-						</isNotEmpty>
-
-						<isNotEmpty property="sPrtFcltyCd">
-						AND T1.PRT_FCLTY_CD = #sPrtFcltyCd#
+						AND T2.CVL_ENG_FCLTS_CL_CD = #sFcltsClCd#
 						</isNotEmpty>
 
 						ORDER BY T1.GIS_ASSETS_PRT_AT_CODE ASC
@@ -153,172 +149,178 @@
 		]]>
 	</select>
 
-	<insert id="gamArchFcltySpecMngDao.insertArchFcltySpecMng_S" parameterClass="gamArchFcltySpecMngVO">
-		INSERT INTO ARCH_FCLTY_SPEC_F
+	<insert id="gamCvlEngFcltySpecMngDao.insertCvlEngFcltySpecMng_S" parameterClass="gamCvlEngFcltySpecMngVO">
+		INSERT INTO CVL_ENG_FCLTY_SPEC_F
 		(
-			 BLD_DT
-			,FLAW_END_DT
-			,BASE_FMT
+			 FCLTS_EXT
 			,STRCT_FMT
-			,AR
-			,ARCH_AR
-			,PLOT_AR
-			,MAIN_USAGE_PRPOS
-			,PRK_AR
-			,ISD_PRK_AR
-			,OSD_PRK_AR
-			,PRK_CNT
-			,ISD_PRK_CNT
-			,OSD_PRK_CNT
-			,EXHAUST_DUCT_ENNC
-			,VNTLTN_ARCNDT_MTHD
-			,WRT_TANK_LOC
-			,SBT_LOC
-			,OIL_SAVEFCLTY_LOC
-			,SWG_CLUPFCLTY_LOC
-			,LIFT_CNT_PSNGR
-			,LIFT_CNT_CARGO
-			,LIFT_CNT_EMGCY
-			,LIFT_OPER_MTHD
-			,CLNG_ENNC
-			,CLNG_SRC
-			,HTNG_ENNC
-			,HTNG_SRC
-			,SPICTANK_FMT
-			,ELCTY_LEAD_IN_CAPA
-			,FCG
-			,ITR
-			,CEIL
-			,ROOF
-			,ROOF_WTPRF
-			,PLAN_CNST_NM
-			,PLAN_EXC_CMPNY
-			,PLAN_BEGIN_DT
-			,PLAN_END_DT
-			,CNSTRCT_CNST_NM
-			,CNSTRCT_EXC_CMPNY
-			,CNSTRCT_BEGIN_DT
-			,CNSTRCT_END_DT
-			,RM
+			,UPSIDE_ALTUD
+			,BERTH_DPWT
+			,PERM_WD
+			,APRON_WD
+			,APRON_PACK_KND
+			,APRON_PACK_GRDNT
+			,CSDHP_SHIP_SCL
+			,FROST_DMG_WGHT
+			,BASE_BTTM_SOIL
+			,HNDL_FRGHT
+			,PILE_CLBR
+			,PILE_EXT
+			,PILE_QTY
+			,SHEET_FILE_STNDRD
+			,HYDRNT_QY
+			,FIREPG_QY
+			,YARD_PACK_KND
+			,YARD_AR
+			,FENDER_KND_CD
+			,FENDER_PMNT_ITV
+			,FENDER_FMT
+			,MRPOST_STNDRD_1
+			,MRPOST_PMNT_ITV_1
+			,MRPOST_QY_1
+			,MRPOST_PWR_1
+			,MRPOST_STNDRD_2
+			,MRPOST_PMNT_ITV_2
+			,MRPOST_QY_2
+			,MRPOST_PWR_2
+			,BERTH
+			,STPL_HNDL_FRGHT
+			,STPL_MOOR_SHIP
 			,REG_USR
 			,REGIST_DT
 			,FCLTS_MNG_NO
 			,LOC
-			,ARCH_FCLTS_CL_CD
+			,BEGIN_PT_LOC
+			,END_PT_LOC
+			,WD
+			,LT
+			,PACK_KND
+			,UPSIDE_WD
+			,PLAN_HEGH
+			,WAVEMAIN_DIR
+			,OUTER_SWAVE_SLP_RATE
+			,IN_SWAVE_SLP_RATE
+			,OUTER_SWAVE_COVER
+			,IN_SWAVE_COVER
+			,CVL_ENG_FCLTS_CL_CD
 		)
 		VALUES
 		(
-			 TO_DATE(#bldDt#,'YYYY-MM-DD')
-			,TO_DATE(#flawEndDt#,'YYYY-MM-DD')
-			,#baseFmt#
+			 NVL(TO_NUMBER(REPLACE(#fcltsExt#,',','')),0)
 			,#strctFmt#
-			,NVL(TO_NUMBER(REPLACE(#ar#,',','')),0)
-			,NVL(TO_NUMBER(REPLACE(#archAr#,',','')),0)
-			,NVL(TO_NUMBER(REPLACE(#plotAr#,',','')),0)
-			,#mainUsagePrpos#
-			,NVL(TO_NUMBER(REPLACE(#prkAr#,',','')),0)
-			,NVL(TO_NUMBER(REPLACE(#isdPrkAr#,',','')),0)
-			,NVL(TO_NUMBER(REPLACE(#osdPrkAr#,',','')),0)
-			,NVL(TO_NUMBER(REPLACE(#prkCnt#,',','')),0)
-			,NVL(TO_NUMBER(REPLACE(#isdPrkCnt#,',','')),0)
-			,NVL(TO_NUMBER(REPLACE(#osdPrkCnt#,',','')),0)
-			,#exhaustDuctEnnc#
-			,#vntltnArcndtMthd#
-			,#wrtTankLoc#
-			,#sbtLoc#
-			,#oilSavefcltyLoc#
-			,#swgClupfcltyLoc#
-			,NVL(TO_NUMBER(REPLACE(#liftCntPsngr#,',','')),0)
-			,NVL(TO_NUMBER(REPLACE(#liftCntCargo#,',','')),0)
-			,NVL(TO_NUMBER(REPLACE(#liftCntEmgcy#,',','')),0)
-			,#liftOperMthd#
-			,#clngEnnc#
-			,#clngSrc#
-			,#htngEnnc#
-			,#htngSrc#
-			,#spictankFmt#
-			,NVL(TO_NUMBER(REPLACE(#elctyLeadInCapa#,',','')),0)
-			,#fcg#
-			,#itr#
-			,#ceil#
-			,#roof#
-			,#roofWtprf#
-			,#planCnstNm#
-			,#planExcCmpny#
-			,TO_DATE(#planBeginDt#,'YYYY-MM-DD')
-			,TO_DATE(#planEndDt#,'YYYY-MM-DD')
-			,#cnstrctCnstNm#
-			,#cnstrctExcCmpny#
-			,TO_DATE(#cnstrctBeginDt#,'YYYY-MM-DD')
-			,TO_DATE(#cnstrctEndDt#,'YYYY-MM-DD')
-			,#rm#
+			,NVL(TO_NUMBER(REPLACE(#upsideAltud#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#berthDpwt#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#permWd#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#apronWd#,',','')),0)
+			,#apronPackKnd#
+			,#apronPackGrdnt#
+			,NVL(TO_NUMBER(REPLACE(#csdhpShipScl#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#frostDmgWght#,',','')),0)
+			,#baseBttmSoil#
+			,#hndlFrght#
+			,NVL(TO_NUMBER(REPLACE(#pileClbr#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#pileExt#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#pileQty#,',','')),0)
+			,#sheetFileStndrd#
+			,NVL(TO_NUMBER(REPLACE(#hydrntQy#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#firepgQy#,',','')),0)
+			,#yardPackKnd#
+			,NVL(TO_NUMBER(REPLACE(#yardAr#,',','')),0)
+			,#fenderKndCd#
+			,#fenderPmntItv#
+			,#fenderFmt#
+			,#mrpostStndrd1#
+			,#mrpostPmntItv1#
+			,NVL(TO_NUMBER(REPLACE(#mrpostQy1#,',','')),0)
+			,#mrpostPwr1#
+			,#mrpostStndrd2#
+			,#mrpostPmntItv2#
+			,NVL(TO_NUMBER(REPLACE(#mrpostQy2#,',','')),0)
+			,#mrpostPwr2#
+			,NVL(TO_NUMBER(REPLACE(#berth#,',','')),0)
+			,#stplHndlFrght#
+			,#stplMoorShip#
 			,#regUsr#
 			,SYSDATE
 			,#fcltsMngNo#
 			,#loc#
-			,#archFcltsClCd#
+			,#beginPtLoc#
+			,#endPtLoc#
+			,NVL(TO_NUMBER(REPLACE(#wd#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#lt#,',','')),0)
+			,#packKnd#
+			,NVL(TO_NUMBER(REPLACE(#upsideWd#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#planHegh#,',','')),0)
+			,#wavemainDir#
+			,NVL(TO_NUMBER(REPLACE(#outerSwaveSlpRate#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#inSwaveSlpRate#,',','')),0)
+			,#outerSwaveCover#
+			,#inSwaveCover#
+			,#cvlEngFcltsClCd#
 		)
 	</insert>
 
-	<update id="gamArchFcltySpecMngDao.updateArchFcltySpecMng_S" parameterClass="gamArchFcltySpecMngVO">
-		UPDATE ARCH_FCLTY_SPEC_F SET
-			 BLD_DT = TO_DATE(#bldDt#,'YYYY-MM-DD')
-			,FLAW_END_DT = TO_DATE(#flawEndDt#,'YYYY-MM-DD')
-			,BASE_FMT = #baseFmt#
+	<update id="gamCvlEngFcltySpecMngDao.updateCvlEngFcltySpecMng_S" parameterClass="gamCvlEngFcltySpecMngVO">
+		UPDATE CVL_ENG_FCLTY_SPEC_F SET
+			 FCLTS_EXT = NVL(TO_NUMBER(REPLACE(#fcltsExt#,',','')),0)
 			,STRCT_FMT = #strctFmt#
-			,AR = NVL(TO_NUMBER(REPLACE(#ar#,',','')),0)
-			,ARCH_AR = NVL(TO_NUMBER(REPLACE(#archAr#,',','')),0)
-			,PLOT_AR = NVL(TO_NUMBER(REPLACE(#plotAr#,',','')),0)
-			,MAIN_USAGE_PRPOS = #mainUsagePrpos#
-			,PRK_AR = NVL(TO_NUMBER(REPLACE(#prkAr#,',','')),0)
-			,ISD_PRK_AR = NVL(TO_NUMBER(REPLACE(#isdPrkAr#,',','')),0)
-			,OSD_PRK_AR = NVL(TO_NUMBER(REPLACE(#osdPrkAr#,',','')),0)
-			,PRK_CNT = NVL(TO_NUMBER(REPLACE(#prkCnt#,',','')),0)
-			,ISD_PRK_CNT = NVL(TO_NUMBER(REPLACE(#isdPrkCnt#,',','')),0)
-			,OSD_PRK_CNT = NVL(TO_NUMBER(REPLACE(#osdPrkCnt#,',','')),0)
-			,EXHAUST_DUCT_ENNC = #exhaustDuctEnnc#
-			,VNTLTN_ARCNDT_MTHD = #vntltnArcndtMthd#
-			,WRT_TANK_LOC = #wrtTankLoc#
-			,SBT_LOC = #sbtLoc#
-			,OIL_SAVEFCLTY_LOC = #oilSavefcltyLoc#
-			,SWG_CLUPFCLTY_LOC = #swgClupfcltyLoc#
-			,LIFT_CNT_PSNGR = NVL(TO_NUMBER(REPLACE(#liftCntPsngr#,',','')),0)
-			,LIFT_CNT_CARGO = NVL(TO_NUMBER(REPLACE(#liftCntCargo#,',','')),0)
-			,LIFT_CNT_EMGCY = NVL(TO_NUMBER(REPLACE(#liftCntEmgcy#,',','')),0)
-			,LIFT_OPER_MTHD = #liftOperMthd#
-			,CLNG_ENNC = #clngEnnc#
-			,CLNG_SRC = #clngSrc#
-			,HTNG_ENNC = #htngEnnc#
-			,HTNG_SRC = #htngSrc#
-			,SPICTANK_FMT = #spictankFmt#
-			,ELCTY_LEAD_IN_CAPA = NVL(TO_NUMBER(REPLACE(#elctyLeadInCapa#,',','')),0)
-			,FCG = #fcg#
-			,ITR = #itr#
-			,CEIL = #ceil#
-			,ROOF = #roof#
-			,ROOF_WTPRF = #roofWtprf#
-			,PLAN_CNST_NM = #planCnstNm#
-			,PLAN_EXC_CMPNY = #planExcCmpny#
-			,PLAN_BEGIN_DT = TO_DATE(#planBeginDt#,'YYYY-MM-DD')
-			,PLAN_END_DT = TO_DATE(#planEndDt#,'YYYY-MM-DD')
-			,CNSTRCT_CNST_NM = #cnstrctCnstNm#
-			,CNSTRCT_EXC_CMPNY = #cnstrctExcCmpny#
-			,CNSTRCT_BEGIN_DT = TO_DATE(#cnstrctBeginDt#,'YYYY-MM-DD')
-			,CNSTRCT_END_DT = TO_DATE(#cnstrctEndDt#,'YYYY-MM-DD')
-			,RM = #rm#
+			,UPSIDE_ALTUD = NVL(TO_NUMBER(REPLACE(#upsideAltud#,',','')),0)
+			,BERTH_DPWT = NVL(TO_NUMBER(REPLACE(#berthDpwt#,',','')),0)
+			,PERM_WD = NVL(TO_NUMBER(REPLACE(#permWd#,',','')),0)
+			,APRON_WD = NVL(TO_NUMBER(REPLACE(#apronWd#,',','')),0)
+			,APRON_PACK_KND = #apronPackKnd#
+			,APRON_PACK_GRDNT = #apronPackGrdnt#
+			,CSDHP_SHIP_SCL = NVL(TO_NUMBER(REPLACE(#csdhpShipScl#,',','')),0)
+			,FROST_DMG_WGHT = NVL(TO_NUMBER(REPLACE(#frostDmgWght#,',','')),0)
+			,BASE_BTTM_SOIL = #baseBttmSoil#
+			,HNDL_FRGHT = #hndlFrght#
+			,PILE_CLBR = NVL(TO_NUMBER(REPLACE(#pileClbr#,',','')),0)
+			,PILE_EXT = NVL(TO_NUMBER(REPLACE(#pileExt#,',','')),0)
+			,PILE_QTY = NVL(TO_NUMBER(REPLACE(#pileQty#,',','')),0)
+			,SHEET_FILE_STNDRD = #sheetFileStndrd#
+			,HYDRNT_QY = NVL(TO_NUMBER(REPLACE(#hydrntQy#,',','')),0)
+			,FIREPG_QY = NVL(TO_NUMBER(REPLACE(#firepgQy#,',','')),0)
+			,YARD_PACK_KND = #yardPackKnd#
+			,YARD_AR = NVL(TO_NUMBER(REPLACE(#yardAr#,',','')),0)
+			,FENDER_KND_CD = #fenderKndCd#
+			,FENDER_PMNT_ITV = #fenderPmntItv#
+			,FENDER_FMT = #fenderFmt#
+			,MRPOST_STNDRD_1 = #mrpostStndrd1#
+			,MRPOST_PMNT_ITV_1 = #mrpostPmntItv1#
+			,MRPOST_QY_1 = NVL(TO_NUMBER(REPLACE(#mrpostQy1#,',','')),0)
+			,MRPOST_PWR_1 = #mrpostPwr1#
+			,MRPOST_STNDRD_2 = #mrpostStndrd2#
+			,MRPOST_PMNT_ITV_2 = #mrpostPmntItv2#
+			,MRPOST_QY_2 = NVL(TO_NUMBER(REPLACE(#mrpostQy2#,',','')),0)
+			,MRPOST_PWR_2 = #mrpostPwr2#
+			,BERTH = NVL(TO_NUMBER(REPLACE(#berth#,',','')),0)
+			,STPL_HNDL_FRGHT = #stplHndlFrght#
+			,STPL_MOOR_SHIP = #stplMoorShip#
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
 			,LOC = #loc#
-			,ARCH_FCLTS_CL_CD = #archFcltsClCd#
+			,BEGIN_PT_LOC = #beginPtLoc#
+			,END_PT_LOC = #endPtLoc#
+			,WD = NVL(TO_NUMBER(REPLACE(#wd#,',','')),0)
+			,LT = NVL(TO_NUMBER(REPLACE(#lt#,',','')),0)
+			,PACK_KND = #packKnd#
+			,UPSIDE_WD = NVL(TO_NUMBER(REPLACE(#upsideWd#,',','')),0)
+			,PLAN_HEGH = NVL(TO_NUMBER(REPLACE(#planHegh#,',','')),0)
+			,WAVEMAIN_DIR = #wavemainDir#
+			,OUTER_SWAVE_SLP_RATE = NVL(TO_NUMBER(REPLACE(#outerSwaveSlpRate#,',','')),0)
+			,IN_SWAVE_SLP_RATE = NVL(TO_NUMBER(REPLACE(#inSwaveSlpRate#,',','')),0)
+			,OUTER_SWAVE_COVER = #outerSwaveCover#
+			,IN_SWAVE_COVER = #inSwaveCover#
+			,CVL_ENG_FCLTS_CL_CD = #cvlEngFcltsClCd#
 		WHERE FCLTS_MNG_NO = #fcltsMngNo#
 	</update>
 
-	<delete id="gamArchFcltySpecMngDao.deleteArchFcltySpecMng_S" parameterClass="gamArchFcltySpecMngVO">
-		DELETE FROM ARCH_FCLTY_SPEC_F
+	<delete id="gamCvlEngFcltySpecMngDao.deleteCvlEngFcltySpecMng_S" parameterClass="gamCvlEngFcltySpecMngVO">
+		DELETE FROM CVL_ENG_FCLTY_SPEC_F
 		WHERE FCLTS_MNG_NO = #fcltsMngNo#
 	</delete>
 
-	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngPk_S" parameterClass="gamArchFcltySpecMngVO" resultClass="egovMap">
+	<select id="gamCvlEngFcltySpecMngDao.selectCvlEngFcltySpecMngPk_S" parameterClass="gamCvlEngFcltySpecMngVO" resultClass="egovMap">
 		SELECT
 				 T1.GIS_PRT_FCLTY_CD AS GIS_PRT_FCLTY_CD
 				,T1.GIS_PRT_FCLTY_CD AS GIS_PRT_FCLTY_CD_DISPLAY
@@ -354,61 +356,62 @@
 				,T3.GIS_ASSETS_NM
 				,GAM_GET_LOCPLC_LNM_SUB(T3.GIS_ASSETS_LOCPLC,T3.GIS_ASSETS_LNM,T3.GIS_ASSETS_LNM_SUB) AS GIS_ASSETS_LOCPLC_LNM
 				,GAM_GETCODENAME('GAM002',T3.GIS_ASSETS_LOC_CD) AS GIS_ASSETS_LOC_NM
-				,TO_CHAR(T2.BLD_DT,'YYYY-MM-DD') AS BLD_DT
-				,TO_CHAR(T2.FLAW_END_DT,'YYYY-MM-DD') AS FLAW_END_DT
-				,T2.BASE_FMT AS BASE_FMT
+				,LTRIM(TO_CHAR(NVL(T2.FCLTS_EXT,0),'9,999,999,990.00')) AS FCLTS_EXT
 				,T2.STRCT_FMT AS STRCT_FMT
-				,LTRIM(TO_CHAR(NVL(T2.AR,0),'9,999,999,990.00')) AS AR
-				,LTRIM(TO_CHAR(NVL(T2.ARCH_AR,0),'9,999,999,990.00')) AS ARCH_AR
-				,LTRIM(TO_CHAR(NVL(T2.PLOT_AR,0),'9,999,999,990.00')) AS PLOT_AR
-				,T2.MAIN_USAGE_PRPOS AS MAIN_USAGE_PRPOS
-				,LTRIM(TO_CHAR(NVL(T2.PRK_AR,0),'9,999,999,990.00')) AS PRK_AR
-				,LTRIM(TO_CHAR(NVL(T2.ISD_PRK_AR,0),'9,999,999,990.00')) AS ISD_PRK_AR
-				,LTRIM(TO_CHAR(NVL(T2.OSD_PRK_AR,0),'9,999,999,990.00')) AS OSD_PRK_AR
-				,LTRIM(TO_CHAR(NVL(T2.PRK_CNT,0),'99,990')) AS PRK_CNT
-				,LTRIM(TO_CHAR(NVL(T2.ISD_PRK_CNT,0),'99,990')) AS ISD_PRK_CNT
-				,LTRIM(TO_CHAR(NVL(T2.OSD_PRK_CNT,0),'99,990')) AS OSD_PRK_CNT
-				,T2.EXHAUST_DUCT_ENNC AS EXHAUST_DUCT_ENNC
-				,T2.VNTLTN_ARCNDT_MTHD AS VNTLTN_ARCNDT_MTHD
-				,T2.WRT_TANK_LOC AS WRT_TANK_LOC
-				,T2.SBT_LOC AS SBT_LOC
-				,T2.OIL_SAVEFCLTY_LOC AS OIL_SAVEFCLTY_LOC
-				,T2.SWG_CLUPFCLTY_LOC AS SWG_CLUPFCLTY_LOC
-				,LTRIM(TO_CHAR(NVL(T2.LIFT_CNT_PSNGR,0),'99,990')) AS LIFT_CNT_PSNGR
-				,LTRIM(TO_CHAR(NVL(T2.LIFT_CNT_CARGO,0),'99,990')) AS LIFT_CNT_CARGO
-				,LTRIM(TO_CHAR(NVL(T2.LIFT_CNT_EMGCY,0),'99,990')) AS LIFT_CNT_EMGCY
-				,T2.LIFT_OPER_MTHD AS LIFT_OPER_MTHD
-				,T2.CLNG_ENNC AS CLNG_ENNC
-				,T2.CLNG_SRC AS CLNG_SRC
-				,T2.HTNG_ENNC AS HTNG_ENNC
-				,T2.HTNG_SRC AS HTNG_SRC
-				,T2.SPICTANK_FMT AS SPICTANK_FMT
-				,LTRIM(TO_CHAR(NVL(T2.ELCTY_LEAD_IN_CAPA,0),'99,999,990.00')) AS ELCTY_LEAD_IN_CAPA
-				,T2.FCG AS FCG
-				,T2.ITR AS ITR
-				,T2.CEIL AS CEIL
-				,T2.ROOF AS ROOF
-				,T2.ROOF_WTPRF AS ROOF_WTPRF
-				,T2.PLAN_CNST_NM AS PLAN_CNST_NM
-				,T2.PLAN_EXC_CMPNY AS PLAN_EXC_CMPNY
-				,TO_CHAR(T2.PLAN_BEGIN_DT,'YYYY-MM-DD') AS PLAN_BEGIN_DT
-				,TO_CHAR(T2.PLAN_END_DT,'YYYY-MM-DD') AS PLAN_END_DT
-				,T2.CNSTRCT_CNST_NM AS CNSTRCT_CNST_NM
-				,T2.CNSTRCT_EXC_CMPNY AS CNSTRCT_EXC_CMPNY
-				,TO_CHAR(T2.CNSTRCT_BEGIN_DT,'YYYY-MM-DD') AS CNSTRCT_BEGIN_DT
-				,TO_CHAR(T2.CNSTRCT_END_DT,'YYYY-MM-DD') AS CNSTRCT_END_DT
-				,T2.RM AS RM
+				,LTRIM(TO_CHAR(NVL(T2.UPSIDE_ALTUD,0),'99,999,990.00')) AS UPSIDE_ALTUD
+				,LTRIM(TO_CHAR(NVL(T2.BERTH_DPWT,0),'99,999,990.00')) AS BERTH_DPWT
+				,LTRIM(TO_CHAR(NVL(T2.PERM_WD,0),'99,999,990.00')) AS PERM_WD
+				,LTRIM(TO_CHAR(NVL(T2.APRON_WD,0),'99,999,990.00')) AS APRON_WD
+				,T2.APRON_PACK_KND AS APRON_PACK_KND
+				,T2.APRON_PACK_GRDNT AS APRON_PACK_GRDNT
+				,LTRIM(TO_CHAR(NVL(T2.CSDHP_SHIP_SCL,0),'99,999,990.00')) AS CSDHP_SHIP_SCL
+				,LTRIM(TO_CHAR(NVL(T2.FROST_DMG_WGHT,0),'99,999,990.00')) AS FROST_DMG_WGHT
+				,T2.BASE_BTTM_SOIL AS BASE_BTTM_SOIL
+				,T2.HNDL_FRGHT AS HNDL_FRGHT
+				,LTRIM(TO_CHAR(NVL(T2.PILE_CLBR,0),'999,990.00')) AS PILE_CLBR
+				,LTRIM(TO_CHAR(NVL(T2.PILE_EXT,0),'99,999,990.00')) AS PILE_EXT
+				,LTRIM(TO_CHAR(NVL(T2.PILE_QTY,0),'99,990')) AS PILE_QTY
+				,T2.SHEET_FILE_STNDRD AS SHEET_FILE_STNDRD
+				,LTRIM(TO_CHAR(NVL(T2.HYDRNT_QY,0),'99,990')) AS HYDRNT_QY
+				,LTRIM(TO_CHAR(NVL(T2.FIREPG_QY,0),'99,990')) AS FIREPG_QY
+				,T2.YARD_PACK_KND AS YARD_PACK_KND
+				,LTRIM(TO_CHAR(NVL(T2.YARD_AR,0),'9,999,999,990.00')) AS YARD_AR
+				,T2.FENDER_KND_CD AS FENDER_KND_CD
+				,T2.FENDER_PMNT_ITV AS FENDER_PMNT_ITV
+				,T2.FENDER_FMT AS FENDER_FMT
+				,T2.MRPOST_STNDRD_1 AS MRPOST_STNDRD_1
+				,T2.MRPOST_PMNT_ITV_1 AS MRPOST_PMNT_ITV_1
+				,LTRIM(TO_CHAR(NVL(T2.MRPOST_QY_1,0),'99,990')) AS MRPOST_QY_1
+				,T2.MRPOST_PWR_1 AS MRPOST_PWR_1
+				,T2.MRPOST_STNDRD_2 AS MRPOST_STNDRD_2
+				,T2.MRPOST_PMNT_ITV_2 AS MRPOST_PMNT_ITV_2
+				,LTRIM(TO_CHAR(NVL(T2.MRPOST_QY_2,0),'99,990')) AS MRPOST_QY_2
+				,T2.MRPOST_PWR_2 AS MRPOST_PWR_2
+				,LTRIM(TO_CHAR(NVL(T2.BERTH,0),'99,990')) AS BERTH
+				,T2.STPL_HNDL_FRGHT AS STPL_HNDL_FRGHT
+				,T2.STPL_MOOR_SHIP AS STPL_MOOR_SHIP
 				,T2.REG_USR AS REG_USR
 				,TO_CHAR(T2.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
 				,T2.UPD_USR AS UPD_USR
 				,TO_CHAR(T2.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
 				,T2.LOC AS LOC
-				,T2.ARCH_FCLTS_CL_CD AS ARCH_FCLTS_CL_CD
-				,GAM_GET_FCLTS_CL_CD_NM(T2.ARCH_FCLTS_CL_CD) AS ARCH_FCLTS_CL_CD_NM
-				,NVL(T2.LOC,GAM_GET_LOCPLC_LNM_SUB(T3.GIS_ASSETS_LOCPLC,T3.GIS_ASSETS_LNM,T3.GIS_ASSETS_LNM_SUB)) AS PRT_FCLTY_LOC
+				,T2.BEGIN_PT_LOC AS BEGIN_PT_LOC
+				,T2.END_PT_LOC AS END_PT_LOC
+				,LTRIM(TO_CHAR(NVL(T2.WD,0),'99,999,990.00')) AS WD
+				,LTRIM(TO_CHAR(NVL(T2.LT,0),'9,999,999,990.00')) AS LT
+				,T2.PACK_KND AS PACK_KND
+				,LTRIM(TO_CHAR(NVL(T2.UPSIDE_WD,0),'99,999,990.00')) AS UPSIDE_WD
+				,LTRIM(TO_CHAR(NVL(T2.PLAN_HEGH,0),'99,999,990.00')) AS PLAN_HEGH
+				,T2.WAVEMAIN_DIR AS WAVEMAIN_DIR
+				,LTRIM(TO_CHAR(NVL(T2.OUTER_SWAVE_SLP_RATE,0),'999,990.00')) AS OUTER_SWAVE_SLP_RATE
+				,LTRIM(TO_CHAR(NVL(T2.IN_SWAVE_SLP_RATE,0),'999,990.00')) AS IN_SWAVE_SLP_RATE
+				,T2.OUTER_SWAVE_COVER AS OUTER_SWAVE_COVER
+				,T2.IN_SWAVE_COVER AS IN_SWAVE_COVER
+				,T2.CVL_ENG_FCLTS_CL_CD AS CVL_ENG_FCLTS_CL_CD
+				,GAM_GET_FCLTS_CL_CD_NM(T2.CVL_ENG_FCLTS_CL_CD) AS CVL_ENG_FCLTS_CL_CD_NM
 				,(CASE WHEN T2.ROWID IS NOT NULL THEN 'Y' ELSE 'N' END) AS FCLTY_SPEC_EXIST_YN
 			FROM GIS_PRT_FCLTY_CD_F T1
-			LEFT OUTER JOIN ARCH_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO)
+			LEFT OUTER JOIN CVL_ENG_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO)
 			LEFT OUTER JOIN GIS_ASSETS_CD_F T3 ON (T1.GIS_ASSETS_PRT_AT_CODE=T3.GIS_ASSETS_PRT_AT_CODE AND T1.GIS_ASSETS_CD=T3.GIS_ASSETS_CD AND T1.GIS_ASSETS_SUB_CD=T3.GIS_ASSETS_SUB_CD)
 		WHERE T1.GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
 		AND T1.GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
@@ -418,17 +421,16 @@
 		AND T1.PRT_FCLTY_SE = #prtFcltySe#
 	</select>
 
-	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngListSum_S" parameterClass="gamArchFcltySpecMngVO" resultMap="gamArchFcltySpecMngSumMap">
+	<select id="gamCvlEngFcltySpecMngDao.selectCvlEngFcltySpecMngListSum_S" parameterClass="gamCvlEngFcltySpecMngVO" resultMap="gamCvlEngFcltySpecMngSumMap">
 		SELECT
 				 TO_CHAR(NVL(COUNT(*),0),'999,999,999,999,999') AS TOTAL_COUNT
-				,TO_CHAR(NVL(SUM(T2.AR),0),'999,999,999,999,999') AS SUM_AR
-				,TO_CHAR(NVL(SUM(T2.ARCH_AR),0),'999,999,999,999,999') AS SUM_ARCH_AR
-				,TO_CHAR(NVL(SUM(T2.PLOT_AR),0),'999,999,999,999,999') AS SUM_PLOT_AR
+				,TO_CHAR(NVL(SUM(T2.YARD_AR),0),'999,999,999,999,999') AS SUM_YARD_AR
+				,TO_CHAR(NVL(SUM(T2.BERTH),0),'999,999,999,999,999') AS SUM_BERTH
 			FROM GIS_PRT_FCLTY_CD_F T1
-			LEFT OUTER JOIN ARCH_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO)
+			LEFT OUTER JOIN CVL_ENG_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO)
 			LEFT OUTER JOIN GIS_ASSETS_CD_F T3 ON (T1.GIS_ASSETS_PRT_AT_CODE=T3.GIS_ASSETS_PRT_AT_CODE AND T1.GIS_ASSETS_CD=T3.GIS_ASSETS_CD AND T1.GIS_ASSETS_SUB_CD=T3.GIS_ASSETS_SUB_CD)
 		WHERE 1=1
-		AND T1.PRT_FCLTY_SE = 'A'
+		AND T1.PRT_FCLTY_SE = 'C'
 
 		<isNotEmpty property="sFcltsMngNo">
 		AND T1.FCLTS_MNG_NO = #sFcltsMngNo#
@@ -451,15 +453,12 @@
 		</isNotEmpty>
 
 		<isNotEmpty property="sFcltsClCd">
-		AND T2.ARCH_FCLTS_CL_CD = #sFcltsClCd#
+		AND T2.CVL_ENG_FCLTS_CL_CD = #sFcltsClCd#
 		</isNotEmpty>
 
-		<isNotEmpty property="sPrtFcltyCd">
-		AND T1.PRT_FCLTY_CD = #sPrtFcltyCd#
-		</isNotEmpty>
 	</select>
 
-	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngMaxGisPrtFcltySeq_S" parameterClass="gamArchFcltySpecMngVO" resultClass="java.lang.String">
+	<select id="gamCvlEngFcltySpecMngDao.selectCvlEngFcltySpecMngMaxGisPrtFcltySeq_S" parameterClass="gamCvlEngFcltySpecMngVO" resultClass="java.lang.String">
 		SELECT
 				 LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(T1.GIS_PRT_FCLTY_SEQ)),0) + 1,'0000')) AS MAX_GIS_PRT_FCLTY_SEQ
 			FROM GIS_PRT_FCLTY_CD_F T1
@@ -471,7 +470,7 @@
 	</select>
 
 
-	<insert id="gamArchFcltySpecMngDao.insertArchFcltySpecMngGisPrtFcltyCd_S" parameterClass="gamArchFcltySpecMngVO">
+	<insert id="gamCvlEngFcltySpecMngDao.insertCvlEngFcltySpecMngGisPrtFcltyCd_S" parameterClass="gamCvlEngFcltySpecMngVO">
 		INSERT INTO GIS_PRT_FCLTY_CD_F
 		(
 			 GIS_PRT_FCLTY_CD
@@ -532,7 +531,7 @@
 		)
 	</insert>
 
-	<update id="gamArchFcltySpecMngDao.updateArchFcltySpecMngGisPrtFcltyCd_S" parameterClass="gamArchFcltySpecMngVO">
+	<update id="gamCvlEngFcltySpecMngDao.updateCvlEngFcltySpecMngGisPrtFcltyCd_S" parameterClass="gamCvlEngFcltySpecMngVO">
 		UPDATE GIS_PRT_FCLTY_CD_F SET
 			 PRT_FCLTY_NM = #prtFcltyNm#
 			,PRT_FCLTY_STNDRD = #prtFcltyStndrd#
@@ -562,7 +561,7 @@
 		AND PRT_FCLTY_SE = #prtFcltySe#
 	</update>
 
-	<delete id="gamArchFcltySpecMngDao.deleteArchFcltySpecMngGisPrtFcltyCd_S" parameterClass="gamArchFcltySpecMngVO">
+	<delete id="gamCvlEngFcltySpecMngDao.deleteCvlEngFcltySpecMngGisPrtFcltyCd_S" parameterClass="gamCvlEngFcltySpecMngVO">
 		DELETE FROM GIS_PRT_FCLTY_CD_F
 		WHERE GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
 		AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
@@ -573,36 +572,36 @@
 	</delete>
 
 
-	<select id="gamArchFcltySpecMngDao.selectFcltsMngGroupNm_S" parameterClass="hashmap" resultClass="java.lang.String">
+	<select id="gamCvlEngFcltySpecMngDao.selectFcltsMngGroupNm_S" parameterClass="hashmap" resultClass="java.lang.String">
 		SELECT FCLTS_MNG_GROUP_NM
 			FROM FCLTS_MNG_GROUP_F
 		WHERE FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
 	</select>
 
-	<select id="gamArchFcltySpecMngDao.selectEntrpsNm_S" parameterClass="hashmap" resultClass="java.lang.String">
+	<select id="gamCvlEngFcltySpecMngDao.selectEntrpsNm_S" parameterClass="hashmap" resultClass="java.lang.String">
 		SELECT ENTRPS_NM
 			FROM ENTRPS_INFO_F
 		WHERE ENTRPSCD = #sEntrpscd#
 	</select>
 
-	<select id="gamArchFcltySpecMngDao.selectFcltsClCdNm_S" parameterClass="hashmap" resultClass="java.lang.String">
+	<select id="gamCvlEngFcltySpecMngDao.selectFcltsClCdNm_S" parameterClass="hashmap" resultClass="java.lang.String">
 		SELECT FCLTS_CL_CD_NM
 			FROM FCLTS_CL_CD_F
 		WHERE FCLTS_CL_CD = #sFcltsClCd#
 	</select>
 
-	<select id="gamArchFcltySpecMngDao.selectFcltsClCdList_D" resultClass="egovMap">
+	<select id="gamCvlEngFcltySpecMngDao.selectFcltsClCdList_D" resultClass="egovMap">
 		SELECT
 				 FCLTS_CL_CD
 				,FCLTS_CL_CD_NM
 			FROM FCLTS_CL_CD_F
-		WHERE FCLTS_JOB_SE = 'A'
+		WHERE FCLTS_JOB_SE = 'C'
 		AND LEAF_YN = 'Y'
 		ORDER BY FCLTS_CL_CD
     </select>
 
 
-	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileDirList_D" parameterClass="gamAtchFileDirMngVO" resultClass="egovMap">
+	<select id="gamCvlEngFcltySpecMngDao.selectCvlEngFcltySpecMngAtchFileDirList_D" parameterClass="gamAtchFileDirMngVO" resultClass="egovMap">
 		SELECT
 				 T.DIR_NO AS DIR_NO
 				,T.DEPTH_SORT AS DEPTH_SORT
@@ -626,7 +625,7 @@
 		ORDER BY T.DIR_NO,T.DEPTH_SORT
 	</select>
 
-	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileDirPk_S" parameterClass="gamAtchFileDirMngVO" resultClass="egovMap">
+	<select id="gamCvlEngFcltySpecMngDao.selectCvlEngFcltySpecMngAtchFileDirPk_S" parameterClass="gamAtchFileDirMngVO" resultClass="egovMap">
 		SELECT
 				 TO_CHAR(T1.DIR_NO) AS DIR_NO
 				,T1.DIR_NM AS DIR_NM
@@ -643,7 +642,7 @@
 		WHERE T1.DIR_NO = NVL(TO_NUMBER(REPLACE(#dirNo#,',','')),0)
 	</select>
 
-	<insert id="gamArchFcltySpecMngDao.insertArchFcltySpecMngAtchFileDir_S" parameterClass="gamAtchFileDirMngVO">
+	<insert id="gamCvlEngFcltySpecMngDao.insertCvlEngFcltySpecMngAtchFileDir_S" parameterClass="gamAtchFileDirMngVO">
 		INSERT INTO ATCH_FILE_DIR_F
 		(
 			 DIR_NO
@@ -670,7 +669,7 @@
 		)
 	</insert>
 
-	<update id="gamArchFcltySpecMngDao.updateArchFcltySpecMngAtchFileDir_S" parameterClass="gamAtchFileDirMngVO">
+	<update id="gamCvlEngFcltySpecMngDao.updateCvlEngFcltySpecMngAtchFileDir_S" parameterClass="gamAtchFileDirMngVO">
 		UPDATE ATCH_FILE_DIR_F SET
 			 DIR_NM = #dirNm#
 			,DIR_PATH = #dirPath#
@@ -683,13 +682,13 @@
 		WHERE DIR_NO = TO_NUMBER(REPLACE(#dirNo#,',',''))
 	</update>
 
-	<update id="gamArchFcltySpecMngDao.updateArchFcltySpecMngInsertAtchFileDirLeafYn_S" parameterClass="gamAtchFileDirMngVO">
+	<update id="gamCvlEngFcltySpecMngDao.updateCvlEngFcltySpecMngInsertAtchFileDirLeafYn_S" parameterClass="gamAtchFileDirMngVO">
 		UPDATE ATCH_FILE_DIR_F SET
 			 LEAF_YN = 'N'
 		WHERE DIR_NO = TO_NUMBER(REPLACE(#dirUpperNo#,',',''))
 	</update>
 
-	<update id="gamArchFcltySpecMngDao.updateArchFcltySpecMngDeleteAtchFileDirLeafYn_S" parameterClass="gamAtchFileDirMngVO">
+	<update id="gamCvlEngFcltySpecMngDao.updateCvlEngFcltySpecMngDeleteAtchFileDirLeafYn_S" parameterClass="gamAtchFileDirMngVO">
 		UPDATE ATCH_FILE_DIR_F SET
 			 LEAF_YN = (
 				SELECT (CASE WHEN COUNT(*) > 0 THEN 'N' ELSE 'Y' END)
@@ -700,12 +699,12 @@
 		WHERE DIR_NO = TO_NUMBER(REPLACE(#dirUpperNo#,',',''))
 	</update>
 
-	<delete id="gamArchFcltySpecMngDao.deleteArchFcltySpecMngAtchFileDir_S" parameterClass="gamAtchFileDirMngVO">
+	<delete id="gamCvlEngFcltySpecMngDao.deleteCvlEngFcltySpecMngAtchFileDir_S" parameterClass="gamAtchFileDirMngVO">
 		DELETE FROM ATCH_FILE_DIR_F
 		WHERE DIR_NO = TO_NUMBER(REPLACE(#dirNo#,',',''))
 	</delete>
 
-	<delete id="gamArchFcltySpecMngDao.deleteArchFcltySpecMngAtchFileDirLowerData_S" parameterClass="gamAtchFileDirMngVO">
+	<delete id="gamCvlEngFcltySpecMngDao.deleteCvlEngFcltySpecMngAtchFileDirLowerData_S" parameterClass="gamAtchFileDirMngVO">
 		DELETE FROM ATCH_FILE_DIR_F
 		WHERE DIR_NO IN (
 			SELECT DIR_NO
@@ -716,13 +715,13 @@
 		)
 	</delete>
 
-	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileDirNewNo_S" parameterClass="gamAtchFileDirMngVO" resultClass="java.lang.String">
+	<select id="gamCvlEngFcltySpecMngDao.selectCvlEngFcltySpecMngAtchFileDirNewNo_S" parameterClass="gamAtchFileDirMngVO" resultClass="java.lang.String">
 		SELECT
 				TO_CHAR(ATCH_FILE_DIR_SEQ.NEXTVAL) AS NEW_DIR_NO
 			FROM DUAL
 	</select>
 
-	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngAtchFileDirLowerDataCnt_S" parameterClass="gamAtchFileDirMngVO" resultClass="egovMap">
+	<select id="gamCvlEngFcltySpecMngDao.selectCvlEngFcltySpecMngAtchFileDirLowerDataCnt_S" parameterClass="gamAtchFileDirMngVO" resultClass="egovMap">
 		SELECT
 				 COUNT(*) AS LOWER_DATA_CNT
 			FROM ATCH_FILE_DIR_F
@@ -736,7 +735,7 @@
 	</select>
 
 
-	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngFcltsAtchFileList_D" parameterClass="gamFcltsAtchFileMngVO" resultClass="egovMap">
+	<select id="gamCvlEngFcltySpecMngDao.selectCvlEngFcltySpecMngFcltsAtchFileList_D" parameterClass="gamFcltsAtchFileMngVO" resultClass="egovMap">
 		SELECT T.*
 			FROM (
 				SELECT  ROWNUM RNUM, S.*
@@ -771,7 +770,7 @@
 		]]>
 	</select>
 
-	<insert id="gamArchFcltySpecMngDao.insertArchFcltySpecMngFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
+	<insert id="gamCvlEngFcltySpecMngDao.insertCvlEngFcltySpecMngFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
 		INSERT INTO FCLTS_ATCH_FILE_F
 		(
 			 ATCH_FILE_NO
@@ -802,7 +801,7 @@
 		)
 	</insert>
 
-	<update id="gamArchFcltySpecMngDao.updateArchFcltySpecMngFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
+	<update id="gamCvlEngFcltySpecMngDao.updateCvlEngFcltySpecMngFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
 		UPDATE FCLTS_ATCH_FILE_F SET
 			 ATCH_FILE_NM_LOGIC = #atchFileNmLogic#
 			,ATCH_FILE_NM_PHYSICL = #atchFileNmPhysicl#
@@ -817,12 +816,12 @@
 		WHERE ATCH_FILE_NO = NVL(TO_NUMBER(REPLACE(#atchFileNo#,',','')),0)
 	</update>
 
-	<delete id="gamArchFcltySpecMngDao.deleteArchFcltySpecMngFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
+	<delete id="gamCvlEngFcltySpecMngDao.deleteCvlEngFcltySpecMngFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
 		DELETE FROM FCLTS_ATCH_FILE_F
 		WHERE ATCH_FILE_NO = TO_NUMBER(REPLACE(#atchFileNo#,',',''))
 	</delete>
 
-	<delete id="gamArchFcltySpecMngDao.deleteArchFcltySpecMngAllFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
+	<delete id="gamCvlEngFcltySpecMngDao.deleteCvlEngFcltySpecMngAllFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
 		DELETE FROM FCLTS_ATCH_FILE_F
 		WHERE DIR_NO IN (
 			SELECT DIR_NO
@@ -833,7 +832,7 @@
 		)
 	</delete>
 
-	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngFcltsAtchFilePk_S" parameterClass="gamFcltsAtchFileMngVO" resultClass="egovMap">
+	<select id="gamCvlEngFcltySpecMngDao.selectCvlEngFcltySpecMngFcltsAtchFilePk_S" parameterClass="gamFcltsAtchFileMngVO" resultClass="egovMap">
 		SELECT
 				 TO_CHAR(T1.ATCH_FILE_NO) AS ATCH_FILE_NO
 				,T1.ATCH_FILE_NM_LOGIC AS ATCH_FILE_NM_LOGIC
@@ -853,7 +852,7 @@
 		WHERE T1.ATCH_FILE_NO = TO_NUMBER(REPLACE(#atchFileNo#,',',''))
 	</select>
 
-	<select id="gamArchFcltySpecMngDao.selectArchFcltySpecMngFcltsAtchFileNewNo_S" parameterClass="gamFcltsAtchFileMngVO" resultClass="java.lang.String">
+	<select id="gamCvlEngFcltySpecMngDao.selectCvlEngFcltySpecMngFcltsAtchFileNewNo_S" parameterClass="gamFcltsAtchFileMngVO" resultClass="java.lang.String">
 		SELECT
 				TO_CHAR(FCLTS_ATCH_FILE_SEQ.NEXTVAL) AS NEW_DIR_NO
 			FROM DUAL
