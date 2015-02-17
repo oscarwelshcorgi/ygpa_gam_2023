@@ -2500,7 +2500,7 @@ var module_instance = new GamCvlEngFcltySpecMngModule();
 									<input type="text" size="33" id="stplHndlFrght" maxlength="300"/>
 								</td>
 								<th style="width:10%; height:18px;">구　조　형　식</th>
-								<td>
+								<td colspan="3">
 									<input type="text" size="93" id="strctFmt" maxlength="100"/>
 								</td>
 							</tr>

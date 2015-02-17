@@ -2487,7 +2487,7 @@ var module_instance = new GamArchFcltySpecMngModule();
 									<input type="text" size="33" id="baseFmt" maxlength="100"/>
 								</td>
 								<th style="width:10%; height:18px;">구　조　형　식</th>
-								<td>
+								<td colspan="3">
 									<input type="text" size="93" id="strctFmt" maxlength="100"/>
 								</td>
 							</tr>
