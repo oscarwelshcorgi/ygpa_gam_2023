@@ -55,14 +55,13 @@ GamCvlEngFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"항구분",				name:"gisAssetsPrtAtCodeNm",	width:60,		sortable:false,		align:"center"},
 					{display:"항만시설 명",			name:"prtFcltyNm",				width:150,		sortable:false,		align:"left"},
 					{display:"시설물 관리 그룹",	name:"fcltsMngGroupNm",			width:120,		sortable:false,		align:"left"},
-					{display:"시설물 분류",			name:"cvlEngFcltsClCdNm",		width:100,		sortable:false,		align:"left"},
+					{display:"시설물 분류",			name:"gisPrtFcltyCdNm",			width:100,		sortable:false,		align:"left"},
 					{display:"소재지",	 			name:"loc",						width:150,		sortable:false,		align:"left"},
 					{display:"구조 형식",	 		name:"strctFmt",				width:150,		sortable:false,		align:"left"},
 					{display:"선석",				name:"berth",					width:80,		sortable:false,		align:"right"},
 					{display:"폭",				 	name:"wd",						width:80,		sortable:false,		align:"right"},
 					{display:"길이",	 			name:"lt",						width:80,		sortable:false,		align:"right"},
 					{display:"주요 취급 화물", 		name:"stplHndlFrght",			width:150,		sortable:false,		align:"left"},
-					{display:"주요 계류 선박", 		name:"stplMoorShip",			width:150,		sortable:false,		align:"left"},
 					{display:"포장 종류",			name:"packKnd",					width:100,		sortable:false,		align:"left"},
 					{display:"시설 면적",	 		name:"prtFcltyAr",				width:80,		sortable:false,		align:"right"},
 					{display:"구분",	 			name:"prtFcltySeNm",			width:80,		sortable:false,		align:"left"},
@@ -130,10 +129,6 @@ GamCvlEngFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 	this.$("#fcltsMngGroupNo").bind("keyup change", {module: this}, function(event) {
 		event.data.module.getFcltsMngGroupNm("#fcltsMngGroupNo", "#fcltsMngGroupNm");
-	});
-
-	this.$("#cvlEngFcltsClCd").bind("keyup change", {module: this}, function(event) {
-		event.data.module.getFcltsClCdNm("#cvlEngFcltsClCd", "#cvlEngFcltsClCdNm");
 	});
 
 	this.$("#prtFcltyLoc").bind("change", {module: this}, function(event) {
@@ -607,7 +602,7 @@ GamCvlEngFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, valu
 			if (msg == 'ok') {
 				this.$('#fcltsMngGroupNo').val(value.fcltsMngGroupNo);
 				this.$('#fcltsMngGroupNm').val(value.fcltsMngGroupNm);
-				this.$('#cvlEngFcltsClCd').focus();
+				this.$('#stplHndlFrght').focus();
 			}
 			break;
 	}
@@ -931,7 +926,6 @@ GamCvlEngFcltySpecMngModule.prototype.addData = function() {
 	this.$('#prtFcltyMngEntrpsNm').val("");
 	this.$('#fcltsMngGroupNo').val("");
 	this.$('#fcltsMngGroupNm').val("");
-	this.$('#cvlEngFcltsClCdNm').val("");
 	this.$('#cvlEngFcltsClCd').val("");
 	this.$('fcltsExt').val("0.00");
 	this.$('strctFmt').val("");
@@ -1009,7 +1003,6 @@ GamCvlEngFcltySpecMngModule.prototype.saveData = function() {
 	var prtFcltyChangeDt = this.$('#prtFcltyChangeDt').val();
 	var prtFcltyExprDt = this.$('#prtFcltyExprDt').val();
 	var fcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();
-	var cvlEngFcltsClCd = this.$('#cvlEngFcltsClCd').val();
 	var berth = Number(this.$('#berth').val().replace(/,/gi, ""));
 	var lt = Number(this.$('#lt').val().replace(/,/gi, ""));
 	var wd = Number(this.$('#wd').val().replace(/,/gi, ""));
@@ -1030,7 +1023,6 @@ GamCvlEngFcltySpecMngModule.prototype.saveData = function() {
 	var mrpostQy1 = Number(this.$('#mrpostQy1').val().replace(/,/gi, ""));
 	var mrpostQy2 = Number(this.$('#mrpostQy2').val().replace(/,/gi, ""));
 	var upsideAltud = Number(this.$('#upsideAltud').val().replace(/,/gi, ""));
-	var upsideWd = Number(this.$('#upsideWd').val().replace(/,/gi, ""));
 	var planHegh = Number(this.$('#planHegh').val().replace(/,/gi, ""));
 	if (gisAssetsPrtAtCode == "" || gisAssetsCd == "" || gisAssetsSubCd == "") {
 		alert('GIS 자산 코드가 부정확합니다.');
@@ -1103,11 +1095,6 @@ GamCvlEngFcltySpecMngModule.prototype.saveData = function() {
 	if (fcltsMngGroupNo == "") {
 		alert('시설물 관리 그룹이 부정확합니다.');
 		this.$("#fcltsMngGroupNo").focus();
-		return;
-	}
-	if (cvlEngFcltsClCd == "") {
-		alert('시설물 분류가 부정확합니다.');
-		this.$("#cvlEngFcltsClCd").focus();
 		return;
 	}
 	if (this.isValidCnt(berth) == false) {
@@ -1208,11 +1195,6 @@ GamCvlEngFcltySpecMngModule.prototype.saveData = function() {
 	if (this.isValidNumber8P2(upsideAltud) == false) {
 		alert('천단 표고가 부정확합니다.');
 		this.$("#upsideAltud").focus();
-		return;
-	}
-	if (this.isValidNumber8P2(upsideWd) == false) {
-		alert('천단 폭이 부정확합니다.');
-		this.$("#upsideWd").focus();
 		return;
 	}
 	if (this.isValidNumber8P2(planHegh) == false) {
@@ -1936,7 +1918,6 @@ GamCvlEngFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#prtPrtFcltyMnger').enable();
 		this.$('#prtFcltyMngEntrpsCd').enable();
 		this.$('#fcltsMngGroupNo').enable();
-		this.$('#cvlEngFcltsClCd').enable();
 		this.$('fcltsExt').enable();
 		this.$('strctFmt').enable();
 		this.$('upsideAltud').enable();
@@ -1970,14 +1951,12 @@ GamCvlEngFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 		this.$('mrpostPwr2').enable();
 		this.$('berth').enable();
 		this.$('stplHndlFrght').enable();
-		this.$('stplMoorShip').enable();
 		this.$('loc').enable();
 		this.$('beginPtLoc').enable();
 		this.$('endPtLoc').enable();
 		this.$('wd').enable();
 		this.$('lt').enable();
 		this.$('packKnd').enable();
-		this.$('upsideWd').enable();
 		this.$('planHegh').enable();
 		this.$('wavemainDir').enable();
 		this.$('outerSwaveSlpRate').enable();
@@ -2009,7 +1988,6 @@ GamCvlEngFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#prtPrtFcltyMnger').enable();
 			this.$('#prtFcltyMngEntrpsCd').enable();
 			this.$('#fcltsMngGroupNo').enable();
-			this.$('#cvlEngFcltsClCd').enable();
 			this.$('fcltsExt').enable();
 			this.$('strctFmt').enable();
 			this.$('upsideAltud').enable();
@@ -2043,14 +2021,12 @@ GamCvlEngFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('mrpostPwr2').enable();
 			this.$('berth').enable();
 			this.$('stplHndlFrght').enable();
-			this.$('stplMoorShip').enable();
 			this.$('loc').enable();
 			this.$('beginPtLoc').enable();
 			this.$('endPtLoc').enable();
 			this.$('wd').enable();
 			this.$('lt').enable();
 			this.$('packKnd').enable();
-			this.$('upsideWd').enable();
 			this.$('planHegh').enable();
 			this.$('wavemainDir').enable();
 			this.$('outerSwaveSlpRate').enable();
@@ -2082,7 +2058,6 @@ GamCvlEngFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#prtPrtFcltyMnger').disable();
 			this.$('#prtFcltyMngEntrpsCd').disable();
 			this.$('#fcltsMngGroupNo').disable();
-			this.$('#cvlEngFcltsClCd').disable();
 			this.$('fcltsExt').disable();
 			this.$('strctFmt').disable();
 			this.$('upsideAltud').disable();
@@ -2116,14 +2091,12 @@ GamCvlEngFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('mrpostPwr2').disable();
 			this.$('berth').disable();
 			this.$('stplHndlFrght').disable();
-			this.$('stplMoorShip').disable();
 			this.$('loc').disable();
 			this.$('beginPtLoc').disable();
 			this.$('endPtLoc').disable();
 			this.$('wd').disable();
 			this.$('lt').disable();
 			this.$('packKnd').disable();
-			this.$('upsideWd').disable();
 			this.$('planHegh').disable();
 			this.$('wavemainDir').disable();
 			this.$('outerSwaveSlpRate').disable();
@@ -2163,7 +2136,6 @@ GamCvlEngFcltySpecMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#prtPrtFcltyMnger').disable();
 	this.$('#prtFcltyMngEntrpsCd').disable();
 	this.$('#fcltsMngGroupNo').disable();
-	this.$('#cvlEngFcltsClCd').disable();
 	this.$('fcltsExt').disable();
 	this.$('strctFmt').disable();
 	this.$('upsideAltud').disable();
@@ -2197,14 +2169,12 @@ GamCvlEngFcltySpecMngModule.prototype.disableDetailInputItem = function() {
 	this.$('mrpostPwr2').disable();
 	this.$('berth').disable();
 	this.$('stplHndlFrght').disable();
-	this.$('stplMoorShip').disable();
 	this.$('loc').disable();
 	this.$('beginPtLoc').disable();
 	this.$('endPtLoc').disable();
 	this.$('wd').disable();
 	this.$('lt').disable();
 	this.$('packKnd').disable();
-	this.$('upsideWd').disable();
 	this.$('planHegh').disable();
 	this.$('wavemainDir').disable();
 	this.$('outerSwaveSlpRate').disable();
@@ -2358,12 +2328,7 @@ var module_instance = new GamCvlEngFcltySpecMngModule();
 						<tr>
 							<th>시설물 분류</th>
 							<td>
-								<select id="sFcltsClCd">
-									<option value="" selected="selected">선택</option>
-									<c:forEach  items="${fcltsClCdList}" var="fcltsClCdItem">
-										<option value="${fcltsClCdItem.fcltsClCd}">${fcltsClCdItem.fcltsClCdNm}</option>
-									</c:forEach>
-								</select>
+								<input id="sGisPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM070"/>
 							</td>
 							<th>시설 명</th>
 							<td>
@@ -2460,7 +2425,7 @@ var module_instance = new GamCvlEngFcltySpecMngModule();
 									<input type="hidden" id="gisPrtFcltyCdNm"/>
 									<input type="text" size="3" id="gisPrtFcltyCdDisplay" disabled/>-
 									<input type="text" size="6" id="gisPrtFcltySeq" disabled/>
-									<input id="gisPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="" data-code-id="GAM005"/>
+									<input id="gisPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="" data-code-id="GAM070"/>
 								</td>
 							</tr>
 							<tr>
@@ -2528,39 +2493,15 @@ var module_instance = new GamCvlEngFcltySpecMngModule();
 						</table>
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:10%; height:18px;">시설물　　분류</th>
-								<td>
-									<input type="hidden" id="cvlEngFcltsClCdNm"/>
-									<select id="cvlEngFcltsClCd">
-										<option value="" selected="selected">선택</option>
-										<c:forEach  items="${fcltsClCdList}" var="fcltsClCdItem">
-											<option value="${fcltsClCdItem.fcltsClCd}">${fcltsClCdItem.fcltsClCdNm}</option>
-										</c:forEach>
-									</select>
-								</td>
 								<th style="width:10%; height:18px;">주요 취급 화물</th>
 								<td>
+									<input type="hidden" id="cvlEngFcltsClCd"/>
+									<input type="hidden" id="stplMoorShip"/>
 									<input type="text" size="33" id="stplHndlFrght" maxlength="300"/>
 								</td>
-								<th style="width:10%; height:18px;">주요 계류 선박</th>
-								<td>
-									<input type="text" size="33" id="stplMoorShip" maxlength="300"/>
-								</td>
-							</tr>
-							<tr>
 								<th style="width:10%; height:18px;">구　조　형　식</th>
 								<td>
-									<input type="text" size="33" id="strctFmt" maxlength="100"/>
-								</td>
-								<th style="width:10%; height:18px;">선석수 ／ 길이</th>
-								<td>
-									<input type="text" size="11" id="berth" class="ygpaNumber" maxlength="6"/> 개 ／
-									<input type="text" size="11" id="lt" class="ygpaNumber" data-decimal-point="2" maxlength="13"/> m
-								</td>
-								<th style="width:10%; height:18px;">폭 ／ 포장종류</th>
-								<td>
-									<input type="text" size="12" id="wd" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m ／
-									<input type="text" size="13" id="packKnd" maxlength="30"/>
+									<input type="text" size="93" id="strctFmt" maxlength="100"/>
 								</td>
 							</tr>
 							<tr>
@@ -2568,7 +2509,7 @@ var module_instance = new GamCvlEngFcltySpecMngModule();
 								<td>
 									<input type="text" size="33" id="baseBttmSoil" maxlength="150"/>
 								</td>
-								<th style="width:10%; height:18px;">시 설 물 연 장</th>
+								<th style="width:10%; height:18px;">시설물　　연장</th>
 								<td>
 									<input type="text" size="33" id="fcltsExt" class="ygpaNumber" data-decimal-point="2" maxlength="13"/>
 								</td>
@@ -2578,11 +2519,26 @@ var module_instance = new GamCvlEngFcltySpecMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">에 이 프 런 폭</th>
+								<th style="width:10%; height:18px;">선석수 ／ 길이</th>
+								<td>
+									<input type="text" size="11" id="berth" class="ygpaNumber" maxlength="6"/> 개 ／
+									<input type="text" size="11" id="lt" class="ygpaNumber" data-decimal-point="2" maxlength="13"/> m
+								</td>
+								<th style="width:10%; height:18px;">　　　폭　　　</th>
+								<td>
+									<input type="text" size="30" id="wd" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
+								</td>
+								<th style="width:10%; height:18px;">포　장　종　류</th>
+								<td>
+									<input type="text" size="33" id="packKnd" maxlength="30"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">에이프런　　폭</th>
 								<td>
 									<input type="text" size="30" id="apronWd" class="ygpaNumber" data-decimal-point="2" maxlength="13"/> m
 								</td>
-								<th style="width:10%; height:18px;">포　장　종　류</th>
+								<th style="width:10%; height:18px;">에이프런　포장</th>
 								<td>
 									<input type="text" size="33" id="apronPackKnd" maxlength="30"/>
 								</td>
@@ -2602,7 +2558,7 @@ var module_instance = new GamCvlEngFcltySpecMngModule();
 									<input type="text" size="14" id="pileClbr" class="ygpaNumber" data-decimal-point="2" maxlength="8"/>／
 									<input type="text" size="14" id="pileExt" class="ygpaNumber" data-decimal-point="2" maxlength="10"/>
 								</td>
-								<th style="width:10%; height:18px;">널 말 뚝 규 격</th>
+								<th style="width:10%; height:18px;">널말뚝　　규격</th>
 								<td>
 									<input type="text" size="33" id="sheetFileStndrd" maxlength="100"/>
 								</td>
@@ -2612,7 +2568,7 @@ var module_instance = new GamCvlEngFcltySpecMngModule();
 								<td>
 									<input type="text" size="33" id="frostDmgWght" class="ygpaNumber" data-decimal-point="2" maxlength="10"/>
 								</td>
-								<th style="width:10%; height:18px;">야 적 장 면 적</th>
+								<th style="width:10%; height:18px;">야적장　　면적</th>
 								<td>
 									<input type="text" size="30" id="yardAr" class="ygpaNumber" data-decimal-point="2" maxlength="13"/> m<sup>2</sup>
 								</td>
@@ -2622,11 +2578,11 @@ var module_instance = new GamCvlEngFcltySpecMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">방 충 재 종 류</th>
+								<th style="width:10%; height:18px;">방충재　　종류</th>
 								<td>
 									<input type="text" size="33" id="fenderKndCd" maxlength="30"/>
 								</td>
-								<th style="width:10%; height:18px;">방 충 재 형 식</th>
+								<th style="width:10%; height:18px;">방충재　　형식</th>
 								<td>
 									<input type="text" size="33" id="fenderFmt" maxlength="30"/>
 								</td>
@@ -2640,17 +2596,17 @@ var module_instance = new GamCvlEngFcltySpecMngModule();
 								<td>
 									<input type="text" size="30" id="berthDpwt" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
 								</td>
-								<th style="width:10%; height:18px;">급 수 전 수 량</th>
+								<th style="width:10%; height:18px;">급수전　　수량</th>
 								<td>
 									<input type="text" size="30" id="hydrntQy" class="ygpaNumber" maxlength="6"/> 개
 								</td>
-								<th style="width:10%; height:18px;">소 화 전 수 량</th>
+								<th style="width:10%; height:18px;">소화전　　수량</th>
 								<td>
 									<input type="text" size="30" id="firepgQy" class="ygpaNumber" maxlength="6"/> 개
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">시 작 점 위 치</th>
+								<th style="width:10%; height:18px;">시작점　　위치</th>
 								<td>
 									<input type="text" size="33" id="beginPtLoc" maxlength="100"/>
 								</td>
@@ -2664,7 +2620,7 @@ var module_instance = new GamCvlEngFcltySpecMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">종 착 점 위 치</th>
+								<th style="width:10%; height:18px;">종착점　　위치</th>
 								<td>
 									<input type="text" size="33" id="endPtLoc" maxlength="100"/>
 								</td>
@@ -2708,16 +2664,16 @@ var module_instance = new GamCvlEngFcltySpecMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">천단표고 ／ 폭</th>
+								<th style="width:10%; height:18px;">천　단　표　고</th>
 								<td>
-									<input type="text" size="11" id="upsideAltud" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m ／
-									<input type="text" size="11" id="upsideWd" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
+									<input type="hidden" id="upsideWd"/>
+									<input type="text" size="33" id="upsideAltud" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
 								</td>
 								<th style="width:10%; height:18px;">설　계　파　고</th>
 								<td>
 									<input type="text" size="33" id="planHegh" class="ygpaNumber" data-decimal-point="2" maxlength="10"/>
 								</td>
-								<th style="width:10%; height:18px;">파 랑 주 방 향</th>
+								<th style="width:10%; height:18px;">파랑주　　방향</th>
 								<td>
 									<input type="text" size="33" id="wavemainDir" maxlength="30"/>
 								</td>

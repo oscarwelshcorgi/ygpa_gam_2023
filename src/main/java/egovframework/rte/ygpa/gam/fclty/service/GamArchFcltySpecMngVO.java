@@ -122,7 +122,7 @@ public class GamArchFcltySpecMngVO extends ComDefaultVO {
 	private	String sPrtFcltyNm;				// 검색 항만시설 명
 	private	String sPrtAtCode;				// 검색 항구분
 	private	String sFcltsMngGroupNo;		// 검색 시설물 관리 그룹 번호
-	private	String sPrtFcltyCd;				// 검색 시설물 분류
+	private	String sGisPrtFcltyCd;			// 검색 GIS 시설 코드
 	private	String totalCount;				// 조회 자료 수
 	private	String sumAr;					// 연면적 합계
 	private	String sumArchAr;				// 건축 면적 합계
@@ -1245,16 +1245,16 @@ public class GamArchFcltySpecMngVO extends ComDefaultVO {
 		this.sFcltsMngGroupNo = sFcltsMngGroupNo;
 	}
 	/**
-	 * @return the sPrtFcltyCd
+	 * @return the sGisPrtFcltyCd
 	 */
-	public String getsPrtFcltyCd() {
-		return sPrtFcltyCd;
+	public String getsGisPrtFcltyCd() {
+		return sGisPrtFcltyCd;
 	}
 	/**
-	 * @param sPrtFcltyCd the sPrtFcltyCd to set
+	 * @param sGisPrtFcltyCd the sGisPrtFcltyCd to set
 	 */
-	public void setsPrtFcltyCd(String sPrtFcltyCd) {
-		this.sPrtFcltyCd = sPrtFcltyCd;
+	public void setsGisPrtFcltyCd(String sGisPrtFcltyCd) {
+		this.sGisPrtFcltyCd = sGisPrtFcltyCd;
 	}
 	/**
 	 * @return the totalCount

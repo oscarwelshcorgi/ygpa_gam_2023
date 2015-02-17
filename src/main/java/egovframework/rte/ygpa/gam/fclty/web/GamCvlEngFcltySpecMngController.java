@@ -70,9 +70,9 @@ public class GamCvlEngFcltySpecMngController {
 	@RequestMapping(value="/fclty/gamCvlEngFcltySpecMng.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
-		List fcltsClCdList = gamCvlEngFcltySpecMngService.selectFcltsClCdList();
+		//List fcltsClCdList = gamCvlEngFcltySpecMngService.selectFcltsClCdList();
 
-		model.addAttribute("fcltsClCdList", fcltsClCdList);
+		//model.addAttribute("fcltsClCdList", fcltsClCdList);
 		model.addAttribute("windowId", windowId);
 
 		return "/ygpa/gam/fclty/GamCvlEngFcltySpecMng";

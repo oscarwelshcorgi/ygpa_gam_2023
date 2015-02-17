@@ -55,7 +55,7 @@ GamArchFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"항구분",				name:"gisAssetsPrtAtCodeNm",	width:60,		sortable:false,		align:"center"},
 					{display:"항만시설 명",			name:"prtFcltyNm",				width:150,		sortable:false,		align:"left"},
 					{display:"시설물 관리 그룹",	name:"fcltsMngGroupNm",			width:120,		sortable:false,		align:"left"},
-					{display:"시설물 분류",			name:"archFcltsClCdNm",			width:100,		sortable:false,		align:"left"},
+					{display:"시설물 분류",			name:"gisPrtFcltyCdNm",			width:100,		sortable:false,		align:"left"},
 					{display:"소재지",	 			name:"loc",						width:150,		sortable:false,		align:"left"},
 					{display:"준공 일자",	 		name:"bldDt",					width:80,		sortable:false,		align:"center"},
 					{display:"기초 형식",	 		name:"baseFmt",					width:150,		sortable:false,		align:"left"},
@@ -129,10 +129,6 @@ GamArchFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 	this.$("#fcltsMngGroupNo").bind("keyup change", {module: this}, function(event) {
 		event.data.module.getFcltsMngGroupNm("#fcltsMngGroupNo", "#fcltsMngGroupNm");
-	});
-
-	this.$("#archFcltsClCd").bind("keyup change", {module: this}, function(event) {
-		event.data.module.getFcltsClCdNm("#archFcltsClCd", "#archFcltsClCdNm");
 	});
 
 	this.$("#prtFcltyLoc").bind("change", {module: this}, function(event) {
@@ -555,7 +551,7 @@ GamArchFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value)
 			if (msg == 'ok') {
 				this.$('#fcltsMngGroupNo').val(value.fcltsMngGroupNo);
 				this.$('#fcltsMngGroupNm').val(value.fcltsMngGroupNm);
-				this.$('#archFcltsClCd').focus();
+				this.$('#bldDt').focus();
 			}
 			break;
 	}
@@ -879,7 +875,6 @@ GamArchFcltySpecMngModule.prototype.addData = function() {
 	this.$('#prtFcltyMngEntrpsNm').val("");
 	this.$('#fcltsMngGroupNo').val("");
 	this.$('#fcltsMngGroupNm').val("");
-	this.$('#archFcltsClCdNm').val("");
 	this.$('#archFcltsClCd').val("");
 	this.$('#bldDt').val("");
 	this.$('#strctFmt').val("");
@@ -955,7 +950,6 @@ GamArchFcltySpecMngModule.prototype.saveData = function() {
 	var prtFcltyChangeDt = this.$('#prtFcltyChangeDt').val();
 	var prtFcltyExprDt = this.$('#prtFcltyExprDt').val();
 	var fcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();
-	var archFcltsClCd = this.$('#archFcltsClCd').val();
 	var bldDt = this.$('#bldDt').val();
 	var ar = Number(this.$('#ar').val().replace(/,/gi, ""));
 	var plotAr = Number(this.$('#plotAr').val().replace(/,/gi, ""));
@@ -1049,11 +1043,6 @@ GamArchFcltySpecMngModule.prototype.saveData = function() {
 	if (fcltsMngGroupNo == "") {
 		alert('시설물 관리 그룹이 부정확합니다.');
 		this.$("#fcltsMngGroupNo").focus();
-		return;
-	}
-	if (archFcltsClCd == "") {
-		alert('시설물 분류가 부정확합니다.');
-		this.$("#archFcltsClCd").focus();
 		return;
 	}
 	if (this.isValidDate(bldDt, false) == false) {
@@ -1907,7 +1896,6 @@ GamArchFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#prtPrtFcltyMnger').enable();
 		this.$('#prtFcltyMngEntrpsCd').enable();
 		this.$('#fcltsMngGroupNo').enable();
-		this.$('#archFcltsClCd').enable();
 		this.$('#bldDt').enable();
 		this.$('#strctFmt').enable();
 		this.$('#flawEndDt').enable();
@@ -1978,7 +1966,6 @@ GamArchFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#prtPrtFcltyMnger').enable();
 			this.$('#prtFcltyMngEntrpsCd').enable();
 			this.$('#fcltsMngGroupNo').enable();
-			this.$('#archFcltsClCd').enable();
 			this.$('#bldDt').enable();
 			this.$('#strctFmt').enable();
 			this.$('#flawEndDt').enable();
@@ -2049,7 +2036,6 @@ GamArchFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#prtPrtFcltyMnger').disable();
 			this.$('#prtFcltyMngEntrpsCd').disable();
 			this.$('#fcltsMngGroupNo').disable();
-			this.$('#archFcltsClCd').disable();
 			this.$('#bldDt').disable();
 			this.$('#strctFmt').disable();
 			this.$('#flawEndDt').disable();
@@ -2128,7 +2114,6 @@ GamArchFcltySpecMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#prtPrtFcltyMnger').disable();
 	this.$('#prtFcltyMngEntrpsCd').disable();
 	this.$('#fcltsMngGroupNo').disable();
-	this.$('#archFcltsClCd').disable();
 	this.$('#bldDt').disable();
 	this.$('#strctFmt').disable();
 	this.$('#flawEndDt').disable();
@@ -2321,7 +2306,7 @@ var module_instance = new GamArchFcltySpecMngModule();
 						<tr>
 							<th>시설물 분류</th>
 							<td>
-								<input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM066"/>
+								<input id="sGisPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM066"/>
 							</td>
 							<th>시설 명</th>
 							<td>
@@ -2488,6 +2473,7 @@ var module_instance = new GamArchFcltySpecMngModule();
 							<tr>
 								<th style="width:10%; height:18px;">준　공　일　자</th>
 								<td>
+									<input type="hidden" id="archFcltsClCd"/>
 									<input type="text" size="30" id="bldDt" class="emdcal"/>
 								</td>
 								<th style="width:10%; height:18px;">주　사용　용도</th>
