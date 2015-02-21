@@ -60,7 +60,7 @@ GamInfoCommFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"품목 명",	 			name:"prdlstNm",				width:100,		sortable:false,		align:"left"},
 					{display:"규격",				name:"stndrd",					width:100,		sortable:false,		align:"left"},
 					{display:"수량",	 			name:"qy",						width:80,		sortable:false,		align:"right"},
-					{display:"설치 일자",	 		name:"instlDt",					width:80,		sortable:false,		align:"center"},
+					{display:"제조 일자",	 		name:"instlDt",					width:80,		sortable:false,		align:"center"},
 					{display:"제조사",		 		name:"maker",					width:150,		sortable:false,		align:"left"},
 					{display:"취득 금액",	 		name:"acqAmt",					width:100,		sortable:false,		align:"right"},
 					{display:"제품 번호",		 	name:"instlNo",					width:100,		sortable:false,		align:"left"},
@@ -1087,7 +1087,7 @@ GamInfoCommFcltySpecMngModule.prototype.saveData = function() {
 		return;
 	}
 	if (this.isValidDate(instlDt, false) == false) {
-		alert('설치 일자가 부정확합니다.');
+		alert('제조 일자가 부정확합니다.');
 		this.$("#instlDt").focus();
 		return;
 	}
@@ -2278,191 +2278,90 @@ var module_instance = new GamInfoCommFcltySpecMngModule();
 						</table>
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:10%; height:18px;">시설물　　분류</th>
-								<td>
-									<input type="hidden" id="infoCommFcltsClCd"/>
-									<select id="infoCommFcltsClCd">
-										<option value="" selected="selected">선택</option>
-										<c:forEach  items="${fcltsClCdList}" var="fcltsClCdItem">
-											<option value="${fcltsClCdItem.fcltsClCd}">${fcltsClCdItem.fcltsClCdNm}</option>
-										</c:forEach>
-									</select>
-								</td>
-								<th style="width:10%; height:18px;">해당　건축시설</th>
+								<th style="width:10%; height:18px;">품　　목　　명</th>
 								<td colspan="3">
-									<input type="text" size="18" id="archFcltsMngNo" maxlength="20"/> -
-									<input type="text" size="58" id="archFcltsNm" disabled/>
-									<button id="popupSpecArchFcltsMngNo" class="popupButton">선택</button>
+									<input type="text" size="149" id="prdlstNm" maxlength="60"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">용　　　　　도</th>
-								<td>
-									<input type="text" size="33" id="prpos" maxlength="100"/>
-								</td>
-								<th style="width:10%; height:18px;">형　　　　　식</th>
-								<td>
-									<input type="text" size="33" id="fmt" maxlength="100"/>
-								</td>
 								<th style="width:10%; height:18px;">규　　　　　격</th>
-								<td>
-									<input type="text" size="33" id="stndrd" maxlength="50"/>
+								<td colspan="3">
+									<input type="text" size="33" id="stndrd" maxlength="80"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">소　유　주　체</th>
-								<td>
-									<input type="text" size="33" id="posesnMainbd" maxlength="30"/>
-								</td>
-								<th style="width:10%; height:18px;">운　영　회　사</th>
-								<td>
-									<input type="text" size="33" id="operCmpny" maxlength="100"/>
-								</td>
-								<th style="width:10%; height:18px;">품　　　　　명</th>
-								<td>
-									<input type="text" size="33" id="gdsnm" maxlength="150"/>
+								<th style="width:10%; height:18px;">모　　　　　델</th>
+								<td colspan="3">
+									<input type="text" size="149" id="model" maxlength="250"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">장　비　번　호</th>
+								<th style="width:10%; height:18px;">제　품　번　호</th>
+								<td colspan="3">
+									<input type="text" size="149" id="instlNo" maxlength="50"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">제　　조　　사</th>
+								<td colspan="3">
+									<input type="text" size="149" id="maker" maxlength="100"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">기　　　　　능</th>
+								<td colspan="3">
+									<input type="text" size="149" id="func" maxlength="100"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">제　어　방　식</th>
+								<td colspan="3">
+									<input type="text" size="33" id="ctrlMthd" maxlength="50"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">설　치　구　분</th>
+								<td colspan="3">
+									<input type="text" size="92" id="instlSe" maxlength="50"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">설　치　높　이</th>
 								<td>
-									<input type="text" size="33" id="eqpmnNo" maxlength="50"/>
+									<input type="text" size="11" id="instlHt" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
+								</td>
+								<th style="width:10%; height:18px;">제　조　일　자</th>
+								<td>
+									<input type="text" size="33" id="instlDt" class="emdcal"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">수　　　　　량</th>
+								<td>
+									<input type="text" size="30" id="qy" class="ygpaNumber" maxlength="6"/> 개
 								</td>
 								<th style="width:10%; height:18px;">취　득　금　액</th>
 								<td>
 									<input type="text" size="30" id="acqAmt" class="ygpaNumber" maxlength="20"/> 원
 								</td>
-								<th style="width:10%; height:18px;">내　용　년　수</th>
-								<td>
-									<input type="text" size="33" id="cnyear" maxlength="20"/>
-								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">제　작　회　사</th>
-								<td>
-									<input type="text" size="33" id="mfcCmpny" maxlength="100"/>
-								</td>
-								<th style="width:10%; height:18px;">제　작　일　자</th>
-								<td>
-									<input type="text" size="30" id="mfcDt" class="emdcal"/>
-								</td>
-								<th style="width:10%; height:18px;">설　치　일　자</th>
-								<td>
-									<input type="text" size="30" id="instlDt" class="emdcal"/>
-								</td>
-							</tr>
-							<tr>
-								<th style="width:10%; height:18px;">관　　리　　자</th>
-								<td>
-									<input type="text" size="33" id="manager" maxlength="20"/>
-								</td>
-								<th style="width:10%; height:18px;">사　용　업　체</th>
-								<td>
-									<input type="text" size="33" id="usageEntrps" maxlength="100"/>
-								</td>
-								<th style="width:10%; height:18px;">사　용　기　간</th>
-								<td>
-									<input type="text" size="11" id="usageBeginDt" class="emdcal"/>∼
-									<input type="text" size="11" id="usageEndDt" class="emdcal"/>
-								</td>
-							</tr>
-							<tr>
-								<th style="width:10%; height:18px;">사　용　목　적</th>
+								<th style="width:10%; height:18px;">세　부　내　역</th>
 								<td colspan="3">
-									<input type="text" size="92" id="usagePurps" maxlength="200"/>
-								</td>
-								<th style="width:10%; height:18px;">상태등급／흘수</th>
-								<td>
-									<input type="hidden" id="sttusLvlNm"/>
-									<select id="sttusLvl" disabled>
-										<option value="0">양호</option>
-										<option value="1">보통</option>
-										<option value="2">불량</option>
-										<option value="A">A</option>
-										<option value="B">B</option>
-										<option value="C">C</option>
-										<option value="D">D</option>
-										<option value="E">E</option>
-										<option value="Z">불명</option>
-									</select>
-									／
-									<input type="text" size="21" id="draft" maxlength="100"/>
+									<input type="text" size="149" id="ptlrDtls" maxlength="250"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">길　　　　　이</th>
-								<td>
-									<input type="text" size="30" id="lt" class="ygpaNumber" data-decimal-point="2" maxlength="13"/> m
-								</td>
-								<th style="width:10%; height:18px;">수　　　　　량</th>
-								<td>
-									<input type="text" size="30" id="qy" class="ygpaNumber" maxlength="6"/> 개
-								</td>
-								<th style="width:10%; height:18px;">단　　　　　위</th>
-								<td>
-									<input type="text" size="33" id="unit" maxlength="20"/>
-								</td>
-							</tr>
-							<tr>
-								<th style="width:10%; height:18px;">하　역　능　력</th>
-								<td>
-									<input type="text" size="33" id="lnlAblty" maxlength="30"/>
-								</td>
-								<th style="width:10%; height:18px;">자　　　　　중</th>
-								<td>
-									<input type="text" size="33" id="selfLoad" maxlength="200"/>
-								</td>
-								<th style="width:10%; height:18px;">정　격　하　중</th>
-								<td>
-									<input type="text" size="33" id="rateWght" maxlength="200"/>
-								</td>
-							</tr>
-							<tr>
-								<th style="width:10%; height:18px;">최대 바퀴 하중</th>
-								<td>
-									<input type="text" size="33" id="maxWheelWght" maxlength="200"/>
-								</td>
-								<th style="width:10%; height:18px;">레　일　간　격</th>
-								<td>
-									<input type="text" size="33" id="railItv" maxlength="200"/>
-								</td>
-								<th style="width:10%; height:18px;">정　격　마　력</th>
-								<td>
-									<input type="text" size="33" id="rateHp" maxlength="200"/>
-								</td>
-							</tr>
-							<tr>
-								<th style="width:10%; height:18px;">처　리　능　력</th>
-								<td>
-									<input type="text" size="33" id="processAblty" maxlength="100"/>
-								</td>
-								<th style="width:10%; height:18px;">적　재　톤　수</th>
-								<td>
-									<input type="text" size="33" id="capaTon" maxlength="100"/>
-								</td>
-								<th style="width:10%; height:18px;">강　재　중　량</th>
-								<td>
-									<input type="text" size="33" id="structWqnt" maxlength="100"/>
-								</td>
-							</tr>
-							<tr>
-								<th style="width:10%; height:18px;">검　사　기　관</th>
-								<td>
-									<input type="text" size="33" id="examInstt" maxlength="100"/>
-								</td>
-								<th style="width:10%; height:18px;">검사 합격 번호</th>
-								<td>
-									<input type="text" size="33" id="examOkNo" maxlength="10"/>
-								</td>
-								<th style="width:10%; height:18px;">검　사　기　간</th>
-								<td>
-									<input type="text" size="11" id="examBeginDt" class="emdcal"/>∼
-									<input type="text" size="11" id="examEndDt" class="emdcal"/>
+								<th style="width:10%; height:18px;">해당　건축시설</th>
+								<td colspan="3">
+									<input type="text" size="18" id="archFcltsMngNo" maxlength="20"/> -
+									<input type="text" size="90" id="archFcltsNm" disabled/>
+									<button id="popupSpecArchFcltsMngNo" class="popupButton">선택</button>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:18px;">비　　　　　고</th>
-								<td colSpan="5">
+								<td colspan="3">
 									<input type="text" size="149" id="rm" maxlength="1000"/>
 								</td>
 							</tr>
