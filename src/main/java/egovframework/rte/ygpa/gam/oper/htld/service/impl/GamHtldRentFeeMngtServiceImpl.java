@@ -169,4 +169,30 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 	public Map selectNoticeRequest(GamHtldRentFeeMngtVO searchVO) {
 		return gamHtldRentFeeMngtDao.selectNoticeRequest(searchVO);
 	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtService#updateHtldRentFee(java.util.List, java.util.List)
+	 */
+	@Override
+	public void updateHtldRentFee(List<GamHtldRentFeeMngtVO> createList,
+			List<GamHtldRentFeeMngtVO> updateList) throws Exception {
+		if(createList!=null) {
+			for(int i=0; i<createList.size(); i++) {
+				GamHtldRentFeeMngtVO vo=createList.get(i);
+				int lcount = gamHtldRentFeeMngtDao.selectInsertHtldRentFeeCnt(vo);
+				if(lcount==0) gamHtldRentFeeMngtDao.insertHtldRentFee(vo);
+				else {
+					vo.setUpdUsr(vo.getRegUsr());
+					gamHtldRentFeeMngtDao.updateHtldRentFee(vo);
+				}
+			}
+		}
+
+		if(updateList!=null) {
+			for(int i=0; i<updateList.size(); i++) {
+				GamHtldRentFeeMngtVO vo=updateList.get(i);
+				gamHtldRentFeeMngtDao.updateHtldRentFee(vo);
+			}
+		}
+	}
 }

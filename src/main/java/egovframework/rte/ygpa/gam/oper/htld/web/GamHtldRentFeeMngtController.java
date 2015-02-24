@@ -22,6 +22,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
@@ -177,6 +178,38 @@ public class GamHtldRentFeeMngtController {
 
     	return map;
     }
+
+    @RequestMapping(value="/oper/htld/updateHtldRentFee.do")
+    public @ResponseBody Map updateHtldRentFee(
+     	   @ModelAttribute("gamHtldRentFeeMngtVO") GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO,
+     	   BindingResult bindingResult)
+            throws Exception {
+
+     	 Map map = new HashMap();
+         String resultMsg = "";
+         int resultCode = 1;
+
+     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+     	if(!isAuthenticated) {
+ 	        map.put("resultCode", 1);
+     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+         	return map;
+     	}
+
+     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+     	gamHtldRentFeeMngtVO.setUpdUsr(loginVo.getId()); //수정자 (세션 로그인 아이디)
+
+         gamHtldRentFeeMngtService.updateHtldRentFeeMngt(gamHtldRentFeeMngtVO);
+
+         resultCode = 0;
+ 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+
+     	 map.put("resultCode", resultCode);
+         map.put("resultMsg", resultMsg);
+
+ 		return map;
+     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/oper/htld/gamSelectHtldRentFeeMngtListExcel.do", method=RequestMethod.POST)
@@ -969,15 +1002,15 @@ public class GamHtldRentFeeMngtController {
     	return "ygpa/gam/oper/htld/GamPrtfcltyRentPrintTaxNoticeIssue";
     	}
 
-    @RequestMapping(value="/oper/htld/updateHtldRentFeeMngtListDetail.do")
+    @RequestMapping(value="/oper/htld/updateHtldRentFeeList.do")
     public @ResponseBody Map updateAssetRentFeeMngtListDetail(
-     	   @ModelAttribute("gamHtldRentFeeMngtVO") GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO,
-     	   BindingResult bindingResult)
+    		@RequestParam Map<String, Object> nticList)
             throws Exception {
 
      	 Map map = new HashMap();
          String resultMsg = "";
          int resultCode = 1;
+         ObjectMapper mapper = new ObjectMapper();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -988,8 +1021,27 @@ public class GamHtldRentFeeMngtController {
 
     	try {
     		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-    		gamHtldRentFeeMngtVO.setUpdUsr(loginVo.getId()); //수정자 (세션 로그인 아이디)
-    		gamHtldRentFeeMngtService.updateAssetRentFeeMngtListDetail(gamHtldRentFeeMngtVO);
+
+        	List<GamHtldRentFeeMngtVO> createList=null, updateList=null;
+        	if(nticList.containsKey("_cList")) {
+    	    	createList = mapper.readValue((String)nticList.get("_cList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
+    	    			GamHtldRentFeeMngtVO.class));
+    	    	for(int i=0; i<createList.size(); i++) {
+    	    		GamHtldRentFeeMngtVO vo = createList.get(i);
+    	    		vo.setRegUsr(loginVo.getId());
+    	    	}
+        	}
+        	if(nticList.containsKey("_uList")) {
+    	    	updateList = mapper.readValue((String)nticList.get("_uList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
+    	    			GamHtldRentFeeMngtVO.class));
+    	    	for(int i=0; i<updateList.size(); i++) {
+    	    		GamHtldRentFeeMngtVO vo = updateList.get(i);
+    	    		vo.setUpdUsr(loginVo.getId());
+    	    	}
+        	}
+
+        	gamHtldRentFeeMngtService.updateHtldRentFee(createList, updateList);
+
 	         resultCode = 0;
 	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
     	}

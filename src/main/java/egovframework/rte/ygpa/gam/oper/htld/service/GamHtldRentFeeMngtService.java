@@ -115,4 +115,7 @@ public interface GamHtldRentFeeMngtService {
    	 */
     public List selectCofixIntrrateList(GamHtldRentFeeMngtVO searchVO) throws Exception;
 
+	void updateHtldRentFee(List<GamHtldRentFeeMngtVO> createList,  List<GamHtldRentFeeMngtVO> updateList) throws Exception;
+
+
 }

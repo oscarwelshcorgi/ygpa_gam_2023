@@ -76,7 +76,6 @@ public class GamHtldRentFeeDefaultVO extends GamHtldRentFeeMngtVO {
     /** 검색 종료 일자 */
     private String searchTo;
 
-
     /**
 	 * @return the sNticMth
 	 */

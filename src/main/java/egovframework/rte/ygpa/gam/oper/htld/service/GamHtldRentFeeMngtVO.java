@@ -35,6 +35,16 @@ public class GamHtldRentFeeMngtVO extends ComDefaultVO {
     /** 업체 명 */
     private String entrpsNm;
 
+    /**
+     * 총 사용 시작
+     */
+    private String grUsagePdFrom;
+
+    /**
+     * 총 사용 종료
+     */
+    private String grUsagePdTo;
+
     /** 고지 기간 FROM */
     private String nticPdFrom;
 
@@ -899,6 +909,34 @@ public class GamHtldRentFeeMngtVO extends ComDefaultVO {
 
 	public void setPayinstIntrrate(String payinstIntrrate) {
 		this.payinstIntrrate = payinstIntrrate;
+	}
+
+	/**
+	 * @return the grUsagePdFrom
+	 */
+	public String getGrUsagePdFrom() {
+		return grUsagePdFrom;
+	}
+
+	/**
+	 * @param grUsagePdFrom the grUsagePdFrom to set
+	 */
+	public void setGrUsagePdFrom(String grUsagePdFrom) {
+		this.grUsagePdFrom = grUsagePdFrom;
+	}
+
+	/**
+	 * @return the grUsagePdTo
+	 */
+	public String getGrUsagePdTo() {
+		return grUsagePdTo;
+	}
+
+	/**
+	 * @param grUsagePdTo the grUsagePdTo to set
+	 */
+	public void setGrUsagePdTo(String grUsagePdTo) {
+		this.grUsagePdTo = grUsagePdTo;
 	}
 
 }

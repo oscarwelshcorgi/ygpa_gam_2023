@@ -494,7 +494,7 @@
                    NVL(a.vat_yn,'0') vat_yn,
                    NVL(a.bill_amnt,0) + NVL(a.vat,0) sum_bill_amnt,
                    TO_CHAR(sysdate,'YYYYMMDD') cur_date
-              FROM rev_coll_f a
+              FROM REV_COLL_F_TEST a
              WHERE prt_at_code = #prt_at_code#
                AND fee_tp      = #fee_tp#
                AND fiscal_yr   = #fiscal_yr#
@@ -557,7 +557,7 @@
                A.ORIGIN_FEE_TP,
                A.ORIGIN_FISCAL_YR,
                A.ORIGIN_BILL_NO
-    FROM REV_COLL_F A, ASSETS_RENT_F AR,
+    FROM REV_COLL_F_TEST A, ASSETS_RENT_F AR,
       LEV_REQEST_F L
     WHERE A.PRT_AT_CODE = #prtAtCode#
     AND A.PRT_AT_CODE   = L.PRT_AT_CODE
@@ -657,7 +657,7 @@
                A.ORIGIN_FEE_TP,
                A.ORIGIN_FISCAL_YR,
                A.ORIGIN_BILL_NO
-    FROM REV_COLL_F A,
+    FROM REV_COLL_F_TEST A,
       LEV_REQEST_F L
     WHERE 1=1
     AND A.BILL_PRT_YN='Y'
@@ -684,7 +684,7 @@
 
     <select id="gamHtldRentFeePaySttusMngtDao.selectNticArrrgListTotCnt_S" parameterClass="gamHtldRentArrrgMngtVO" resultClass="int">
           SELECT COUNT(*) totcnt
-				FROM   REV_COLL_F A, ASSETS_RENT_F AR, LEV_REQEST_F L
+				FROM   REV_COLL_F_TEST A, ASSETS_RENT_F AR, LEV_REQEST_F L
         WHERE A.PRT_AT_CODE   = #prtAtCode#
           AND A.PRT_AT_CODE = L.PRT_AT_CODE
           AND A.FEE_TP = GAM_GET_FEE_TP(L.CHRGE_KND)

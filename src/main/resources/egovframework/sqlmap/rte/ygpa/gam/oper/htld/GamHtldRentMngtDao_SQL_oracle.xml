@@ -296,7 +296,6 @@
 			, GAM_GETCODENAME('GAM043', A.PAY_MTH) PAY_MTH_NM
 			, TO_CHAR(NVL(A.PAYINST_INTRRATE,0) * 100) AS PAYINST_INTRRATE
 			, CHARGER_NO
-			, APPLC_PRICE
 		FROM ASSETS_RENT_F A
 		WHERE A.QUAY_GROUP_CD='H'
 			AND A.PRT_AT_CODE = #prtAtCode#
@@ -397,7 +396,6 @@
 			, TO_CHAR(A.EXEMPT_PD_TO+(A.EXEMPT_PD_TO-A.EXEMPT_PD_FROM)+1,'YYYY-MM-DD') EXEMPT_PD_TO
 			, A.COMPUT_DTLS
 			, A.OLNLP
-			, A.APPLC_PRICE
 			, A.APPLC_TARIFF
 			, A.APPLC_MTH
 			, A.PACK_SE
@@ -470,8 +468,7 @@
 		    RENT_AREA_CD,
 		    OPER_YR_MT,
 		    COMP_TP,
-		    FRGHT_TP,
-		    APPLC_PRICE
+		    FRGHT_TP
 		  )
 		  VALUES
 		  (
@@ -512,8 +509,7 @@
 		    #rentAreaCd#,
 		    #operYrMt#,
 		    #compTp#,
-		    #frghtTp#,
-		    #applcPrice#
+		    #frghtTp#
 		     )
     </insert>
 
@@ -543,7 +539,6 @@
 	       , DEPTCD           = #deptcd#
 	       , PAY_MTH          = #payMth#
 	       , TAXT_SE	= #taxtSe#
-			, APPLC_PRICE = #applcPrice#
 	       <isEmpty property="payinstIntrrate">
 	       , PAYINST_INTRRATE = 0
 	       </isEmpty>
@@ -1217,7 +1212,7 @@
 				to_char(r.ocr_dt, 'YYYY-MM-DD') ocr_dt,
 				to_char(r.rcvd_dt, 'YYYY-MM-DD') rcvd_dt,
 				r.rcvd_tp
-			from lev_reqest_f l, rev_coll_f r
+			from lev_reqest_f l, REV_COLL_F_TEST r
 			where
 				l.prt_at_code=r.prt_at_code
 				and l.accnut_year=r.fiscal_yr
@@ -1271,7 +1266,7 @@
 			select
 			  r.bill_amnt,
 			  r.rcvd_tp
-			from lev_reqest_f l, rev_coll_f r
+			from lev_reqest_f l, REV_COLL_F_TEST r
 			where
 			  l.prt_at_code=r.prt_at_code
 			  and l.accnut_year=r.fiscal_yr

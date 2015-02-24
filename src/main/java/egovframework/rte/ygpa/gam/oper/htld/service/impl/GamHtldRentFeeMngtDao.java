@@ -145,4 +145,17 @@ public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
 	public Map selectNoticeRequest(GamHtldRentFeeMngtVO searchVO) {
 		return (Map) selectByPk("gamHtldRentFeeMngtDao.selectNoticeRequest_S", searchVO);
 	}
+
+    public int selectInsertHtldRentFeeCnt(GamHtldRentFeeMngtVO searchVO) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamHtldRentFeeMngtDao.selectInsertHtldRentFee_S", searchVO);
+    }
+
+    public void insertHtldRentFee(GamHtldRentFeeMngtVO vo){
+		insert("gamHtldRentFeeMngtDao.insertHtldRentFee_S", vo);
+	}
+
+	public void updateHtldRentFee(GamHtldRentFeeMngtVO vo){
+		update("gamHtldRentFeeMngtDao.updateHtldRentFee_S", vo);
+	}
+
 }
