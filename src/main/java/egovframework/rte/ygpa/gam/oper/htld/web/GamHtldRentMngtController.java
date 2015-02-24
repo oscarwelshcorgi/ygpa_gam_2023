@@ -171,12 +171,12 @@ public class GamHtldRentMngtController {
 		List resultList = gamHtldRentMngtService.selectHtldRentMngtDetailList(searchVO);
 
 		// 파일 목록 조회
-    	List resultAttachList = gamHtldRentMngtService.selectHtldRentMngtFileList(searchVO);
+    	//List resultAttachList = gamHtldRentMngtService.selectHtldRentMngtFileList(searchVO);
 
     	map.put("resultCode", 0);	// return ok
     	map.put("result", assetRentDetail);
     	map.put("resultDetailList", resultList);
-    	map.put("resultAttachList", resultAttachList);
+//    	map.put("resultAttachList", resultAttachList);
 
     	return map;
     }

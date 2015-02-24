@@ -95,12 +95,13 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
         module: this,
         dataType: 'json',
         colModel : [
-                    {display:'자산코드', name:'gisAssetsCode',width:80, sortable:false,align:'center'},
-                    {display:'자산명', name:'gisAssetsNm',width:240, sortable:false,align:'left'},
-                    {display:'소재지', name:'gisAssetsLocplcAll',width:300, sortable:false,align:'center'},
-                    {display:'자산면적', name:'gisAssetsAr',width:110, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'사용면적', name:'usageAr',width:110, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.00"}
-                    ],
+           {display:'자산코드', name:'gisAssetsCode',width:80, sortable:false,align:'center'},
+           {display:'자산명', name:'gisAssetsNm',width:240, sortable:false,align:'left'},
+           {display:'소재지', name:'gisAssetsLocplcAll',width:260, sortable:false,align:'center'},
+           {display:'자산면적', name:'gisAssetsAr',width:110, sortable:false,align:'right', displayFormat: 'number'},
+           {display:'적용단가', name:'applcPrice',width:110, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.00"},
+           {display:'사용면적', name:'usageAr',width:110, sortable:false,align:'right', displayFormat: 'input-number', displayOption:"0,000.00"}
+        ],
         showTableToggleBtn: true,
         height: '200',
         preProcess: function(module, data) {
@@ -518,17 +519,6 @@ GamHtldRentMngtModule.prototype.onCalc = function() {
     	var usageAr=this.$('#grAr').val();
         if(nticMth=='1') {
         	usagePdTo = EMD.util.strToDate(this.$('#grUsagePdTo').val());
-        }
-        else if(nticMth=='2') {
-        	if(usagePdTo.getMonth()<6) {
-        		usagePdTo.setMonth(6);
-        		usagePdTo.setDate(0);
-        	}
-        	else {
-        		usagePdTo.setMonth(0);
-        		usagePdTo.setDate(0);
-        		usagePdTo.setYear(usagePdTo.getYear()+1);
-        	}
         }
         else if(nticMth=='2') {
         	if(usagePdTo.getMonth()<6) {
@@ -1384,17 +1374,11 @@ var module_instance = new GamHtldRentMngtModule();
 									<input type="text" size="20" id="compTp"/>
                                 </td>
 								<th width="10%" height="18">취급화종</th>
-                                <td colspan="3">
+                                <td>
                                     <input type="text" size="20" id="frghtTp" />
                                 </td>
-                            </tr>
-                            <tr>
 								<th width="10%" height="18">임대면적</th>
                                 <td><input type="text" size="16" class="ygpaNumber" data-decimal-point="2" id="grAr" disabled/></td>
-								<th width="10%" height="18">적용단가</th>
-                                <td><input type="text" size="16" class="ygpaNumber calcInput" id="applcPrice"/></td>
-								<th width="10%" height="18">첫회 임대료</th>
-                                <td><input type="text" size="16" class="ygpaNumber" id="grCalcFee" disabled/></td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">고지방법</th>
