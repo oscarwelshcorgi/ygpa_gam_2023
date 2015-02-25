@@ -117,5 +117,20 @@ public interface GamHtldRentFeeMngtService {
 
 	void updateHtldRentFee(List<GamHtldRentFeeMngtVO> createList,  List<GamHtldRentFeeMngtVO> updateList) throws Exception;
 
+	Map selectAssetLevReqestNticPk(GamHtldRentFeeMngtVO searchVO);
 
+	/**
+	 * 고지처리
+	 * @param vo
+	 * @throws Exception
+	 */
+	public void sendLevReqestRevCollF(Map<String, Object> vo) throws Exception;
+
+	public List selectNticPrintMaster(Map searchVO) throws Exception;
+
+	public List selectNticPrintDetail(Map searchVO) throws Exception;
+
+	public void cancelNticRequest(Map<String, Object> vo) throws Exception;
+
+	public void updateNticPrintState(Map<String, Object> vo) throws Exception;
 }

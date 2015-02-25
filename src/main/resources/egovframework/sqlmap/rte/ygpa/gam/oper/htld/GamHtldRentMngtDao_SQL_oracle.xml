@@ -422,9 +422,13 @@
 
 
     <select id="gamHtldRentMngtDao.selectHtldRentMngtMaxKey_S" parameterClass="gamHtldRentMngtVO" resultMap="gamHtldRentMngtInfoMaxKeyMap">
-		SELECT LPAD(NVL(MAX(MNG_NO),0) + 1,'3','0') MNG_NO
+		SELECT
+			TO_CHAR(SYSDATE, 'YYYY') MNG_YEAR,
+			LPAD(NVL(MAX(MNG_NO),0) + 1,'3','0') MNG_NO,
+			'01' MNG_CNT
 		FROM ASSETS_RENT_F
-		WHERE MNG_YEAR = #mngYear#
+		WHERE PRT_AT_CODE=#prtAtCode#
+		AND MNG_YEAR = TO_CHAR(SYSDATE, 'YYYY')
     </select>
 
     <insert id="gamHtldRentMngtDao.insertHtldRentMngt_S">
@@ -1162,7 +1166,7 @@
 			AND A.ASSESS_RESULT IS NOT NULL
     </select>
 
-   <select id="gamHtldRentMngtDao.insertHtldAssess_S" parameterClass="gamHtldAssessVO" resultClass="egovMap">
+   <insert id="gamHtldRentMngtDao.insertHtldAssess_S" parameterClass="gamHtldAssessVO">
 	   	INSERT INTO HTLD_RENT_ASSESS_F (
 			PRT_AT_CODE,
 			MNG_YEAR,
@@ -1186,10 +1190,10 @@
 			#assessResult#,
 			#applcPrice#,
 			TO_DATE(#dtFrom#, 'YYYY-MM-DD'),
-			TO_DATE(#dtFrom#, 'YYYY-MM-DD')*365*3,
+			TO_DATE(#dtFrom#, 'YYYY-MM-DD')+365*3,
 			TO_DATE(#assessDt#, 'YYYY-MM-DD')
 	   	)
-    </select>
+    </insert>
 
    <select id="gamHtldRentMngtDao.selectHtldNticRcivList_D" parameterClass="gamHtldRentMngtVO" resultClass="egovMap">
 	SELECT A.*

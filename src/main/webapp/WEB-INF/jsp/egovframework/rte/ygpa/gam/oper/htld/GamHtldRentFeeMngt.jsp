@@ -46,7 +46,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 				{display:'사용료', name:'fee',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'이자', name:'intrAmnt',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
-				{display:'이자율(%)', name:'payinstIntrrate',width:60, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
+				{display:'이자율(%)', name:'intrRate',width:60, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
 				{display:'고지금액', name:'nticAmt',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'}
 				// {display:'결재상태', name:'sanctnSttusNm',width:60, sortable:false,align:'center'}
@@ -165,35 +165,36 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
             var vat=Math.floor(fee*0.01)*10;
             row['vat']=vat;
 			var dtfr = EMD.util.strToDate(module.$('#grUsagePdFrom').val());
-			var payinstIntrrate=Number(row['payinstIntrrate']);
+			var intrRate=Number(row['intrRate']);
 			var intrAmnt=0;
 
-			if(payinstIntrrate!=0 && row['nticMth']!='1') {
-				payinstIntrrate/=100;
+			if(intrRate!=0 && row['nticMth']!='1') {
+				intrRate/=100;
 				if(row['nticMth']=='2'){
 					if(dtfr.getMonth()<6) {
-						intrAmnt=fee*payinstIntrrate;
+						intrAmnt=fee*intrRate;
 					}
 				}
 				else if(row['nticMth']=='3'){
 					if(dtfr.getMonth()<4) {
-						intrAmnt=(fee*2)*payinstIntrrate;
+						intrAmnt=(fee*2)*intrRate;
 					}
 					else if(dtfr.getMonth()<8) {
-						intrAmnt=(fee)*payinstIntrrate*2/3;
+						intrAmnt=(fee)*intrRate*2/3;
 					}
 				}
 				else if(row['nticMth']=='4'){
 					if(dtfr.getMonth()<3) {
-						intrAmnt=(fee*3)*payinstIntrrate;
+						intrAmnt=(fee*3)*intrRate;
 					}
 					else if(dtfr.getMonth()<6) {
-						intrAmnt=fee*payinstIntrrate;
+						intrAmnt=fee*intrRate;
 					}
 					else if(dtfr.getMonth()<9) {
-						intrAmnt=fee*payinstIntrrate/4;
+						intrAmnt=fee*intrRate/4;
 					}
 				}
+				intrAmnt=Math.floor(intrAmnt*0.1)*10;
 			}
 			else {
 				intrAmnt=0;
@@ -234,40 +235,41 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
             module.$("#assetRentFeeList").flexUpdateRow(rid, row);
         	module.onCalc();
         }
-        if(cid=="payinstIntrrate") {
+        if(cid=="intrRate") {
         	var fee=Number(row['fee']);
             var vat=Number(row['vat']);
 			var dtfr = EMD.util.strToDate(module.$('#grUsagePdFrom').val());
-			var payinstIntrrate=Number(row['payinstIntrrate']);
+			var intrRate=Number(row['intrRate']);
 			var intrAmnt=0;
             if(row._updtId!="I") row._updtId="U";
 
-			if(payinstIntrrate!=0 && row['nticMth']!='1') {
-				payinstIntrrate/=100;
+			if(intrRate!=0 && row['nticMth']!='1') {
+				intrRate/=100;
 				if(row['nticMth']=='2'){
 					if(dtfr.getMonth()<6) {
-						intrAmnt=fee*payinstIntrrate;
+						intrAmnt=fee*intrRate;
 					}
 				}
 				else if(row['nticMth']=='3'){
 					if(dtfr.getMonth()<4) {
-						intrAmnt=(fee*2)*payinstIntrrate;
+						intrAmnt=(fee*2)*intrRate;
 					}
 					else if(dtfr.getMonth()<8) {
-						intrAmnt=(fee)*payinstIntrrate*2/3;
+						intrAmnt=(fee)*intrRate*2/3;
 					}
 				}
 				else if(row['nticMth']=='4'){
 					if(dtfr.getMonth()<3) {
-						intrAmnt=(fee*3)*payinstIntrrate;
+						intrAmnt=(fee*3)*intrRate;
 					}
 					else if(dtfr.getMonth()<6) {
-						intrAmnt=fee*payinstIntrrate;
+						intrAmnt=fee*intrRate;
 					}
 					else if(dtfr.getMonth()<9) {
-						intrAmnt=fee*payinstIntrrate/4;
+						intrAmnt=fee*intrRate/4;
 					}
 				}
+				intrAmnt=Math.floor(intrAmnt*0.1)*10;
 			}
 			else {
 				intrAmnt=0;
@@ -276,6 +278,9 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
             row['nticAmt']=fee+vat+intrAmnt;
 
             module.$("#assetRentFeeList").flexUpdateRow(rid, row);
+            if(confirm('모든 항목에 동일한 이자율을 적용 하시겠습니까?')) {
+            	var d=module.$("#assetRentFeeList").flexGetData();
+            }
         	module.onCalc();
         }
     });
@@ -287,12 +292,12 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         colModel : [
                     {display:'고지회차', name:'nticCnt', width:50, sortable:true, align:'center'},
                     {display:'요금부과기간', name:'rentPeriod', width:200, sortable:true, align:'center'},
-                    {display:'요금종류', name:'chrgeKndNm', width:120, sortable:true, align:'ㅊ둣ㄷㄱ'},
+                    {display:'요금종류', name:'chrgeKndNm', width:120, sortable:true, align:'center'},
                     {display:'고지금액', name:'billAmnt', width:100, sortable:true, align:'right', displayFormat:'number'},
                     {display:'고지일자', name:'billDt', width:110, sortable:true, align:'center'},
                     {display:'납부상태', name:'rcvdTpNm', width:80, sortable:true, align:'center'},
                     {display:'납부일자', name:'rcvdDt', width:110, sortable:true, align:'center'}
-                    ],
+           ],
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
@@ -324,6 +329,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         	this.$('#sMngYear').val(params.nticVo.mngYear);
         	this.$('#sMngNo').val(params.nticVo.mngNo);
         	this.$('#sMngCnt').val(params.nticVo.mngCnt);
+    	    this.$('#grUsagePdFrom').val(EMD.util.getDate());
 
         	this.loadData();
     	}
@@ -614,6 +620,11 @@ GamAssetRentFeeMngtModule.prototype.openNticIssuePopup = function() {
         }
         */
 
+        if( rows['_updtId'] == "I" || rows['_updtId'] == "U" ) {
+        	alert("저장 되지 않은 자료입니다. 저장 후 고지 하시기 바랍니다.");
+        	return;
+        }
+
         if( rows['nhtIsueYn'] == 'Y' ) {
         	alert("이미 고지된 건 입니다.");
         	return;
@@ -748,19 +759,22 @@ GamAssetRentFeeMngtModule.prototype.onClosePopup = function(popupId, msg, value)
     case 'nticIssuePopup':
         if (msg != 'cancel') {
         	console.log('notice');
-            if( confirm($.number(value.nticAmt)+"원 을 고지 하시겠습니까?") ) {
+            //if( confirm($.number(value.nticAmt)+"원 을 고지 하시겠습니까?") ) {
             	var arg = EMD.util.objectToArray(value);
                 this.doAction('/oper/htld/insertHtldFeeNticSingle.do', arg, function(module, result) {
 
                     if(result.resultCode=='0') {
+                    	module.loadData();
+                    	/*
                         var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
                         module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
                         module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
+                        */
                     }
 
                     alert(result.resultMsg);
                 });
-            }
+            //}
         } else {
         }
     	break;

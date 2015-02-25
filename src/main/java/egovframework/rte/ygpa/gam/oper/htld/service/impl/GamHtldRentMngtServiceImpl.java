@@ -110,6 +110,7 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 
 		gamHtldRentMngtDao.insertHtldRentMngt(rentVo);
 
+		assessVo.setPrtAtCode(rentVo.getPrtAtCode());
 		assessVo.setMngYear(rentVo.getMngYear());
 		assessVo.setMngNo(rentVo.getMngNo());
 		assessVo.setMngCnt(rentVo.getMngCnt());
@@ -121,13 +122,13 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 			GamHtldRentMngtDetailVO d= createList.get(i);
 			d.setRegUsr(updtId);
 			d.setPrtAtCode(rentVo.getPrtAtCode());
-			d.setMngYear(newRentVo.getMngYear());
-			d.setMngNo(newRentVo.getMngNo());
-			d.setMngCnt(newRentVo.getMngCnt());
+			d.setMngYear(rentVo.getMngYear());
+			d.setMngNo(rentVo.getMngNo());
+			d.setMngCnt(rentVo.getMngCnt());
 			gamHtldRentMngtDao.insertHtldRentMngtDetail(d);
 		}
 
-		return newRentVo;
+		return rentVo;
 	}
 
     /**

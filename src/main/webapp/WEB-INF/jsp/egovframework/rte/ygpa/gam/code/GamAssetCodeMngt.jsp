@@ -94,12 +94,31 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 		dataType: 'json',
 		colModel : [
 					{display:'사진순번', name:'photoSeq', width:80, sortable:false, align:'center'},
+					{display:'사진', name:'photoUrl', width:80, sortable:false, align:'center', displayFormat:'image'},
 					{display:'사진제목', name:'photoSj', width:300, sortable:false, align:'left'},
 					{display:'파일명', name:'filenmLogic', width:200, sortable:false, align:'left'},
 					{display:'촬영일자', name:'shotDt', width:120, sortable:false, align:'center'},
 					{display:'등록자', name:'regUsr', width:155, sortable:false, align:'center'}
 					],
-		height: '120'
+		height: '120',
+		preProcess: function(module, data) {
+			$.each(data.resultList, function() {
+				this.photoUrl='';
+				var filenm=this.filenmPhysicl;
+				var ext=filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
+				if(ext=='jpg' || ext=='jpeg' || ext=='bmp' || ext=='png' || ext=='gif') {
+				    this.photoUrl=imgURL = module.getUrl("/code/assets/getAssetImage.do?physicalFileNm=")+filenm
+				    	+ '^' + this.filenmLogic;
+
+				}
+				else {
+					if(ext=='hwp') {
+//					    this.photoUrl=imgURL = module.getUrl("/code/assets/getAssetImage.do?physicalFileNm=")+filenm;
+					}
+				}
+			});
+			return data;
+		}
 	});
 
 	this._deletePhotoList = [];	// 삭제 사진 리스트

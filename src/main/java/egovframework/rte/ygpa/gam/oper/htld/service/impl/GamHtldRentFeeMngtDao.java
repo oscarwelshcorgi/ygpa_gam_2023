@@ -117,6 +117,15 @@ public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
         return list("gamHtldRentFeeMngtDao.selectNticPrintFeeList_D", searchVO);
 	}
 
+
+	public List selectNticPrintMaster(Map searchVO) throws Exception  {
+		return list("gamHtldRentFeeMngtDao.selectNticPrintMaster_D", searchVO);
+	}
+
+	public List selectNticPrintDetail(Map searchVO) throws Exception {
+        return list("gamHtldRentFeeMngtDao.selectNticPrintDetail_D", searchVO);
+	}
+
 	public List selectTaxNtcPrintInfo(Map searchVO) throws Exception {
         return list("gamHtldRentFeeMngtDao.selectTaxNticPrintFeeList_D", searchVO);
 	}
@@ -146,6 +155,10 @@ public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
 		return (Map) selectByPk("gamHtldRentFeeMngtDao.selectNoticeRequest_S", searchVO);
 	}
 
+	public Map selectNoticeRequestPk(GamHtldRentFeeMngtVO searchVO) {
+		return (Map) selectByPk("gamHtldRentFeeMngtDao.selectNoticeRequestPk_S", searchVO);
+	}
+
     public int selectInsertHtldRentFeeCnt(GamHtldRentFeeMngtVO searchVO) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamHtldRentFeeMngtDao.selectInsertHtldRentFee_S", searchVO);
     }
@@ -157,5 +170,53 @@ public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
 	public void updateHtldRentFee(GamHtldRentFeeMngtVO vo){
 		update("gamHtldRentFeeMngtDao.updateHtldRentFee_S", vo);
 	}
+
+	public EgovMap selectNticNoAccnutYear(Map<String, Object> vo) throws Exception {
+        return (EgovMap) selectByPk("gamHtldRentFeeMngtDao.selectNticNoAccnutYear_S", vo);
+    }
+
+	public EgovMap selectIntrNticNoAccnutYear(Map<String, Object> vo) throws Exception {
+        return (EgovMap) selectByPk("gamHtldRentFeeMngtDao.selectIntrNticNoAccnutYear_S", vo);
+    }
+
+	public EgovMap selectNticRequestRcvdTp(Map<String, Object> vo) throws Exception {
+        return (EgovMap) selectByPk("gamHtldRentFeeMngtDao.selectNticRequestRcvdTp_S", vo);
+	}
+
+	public void updateLevReqestIssueYn(Map<String, Object> vo) throws Exception {
+        update("gamHtldRentFeeMngtDao.updateLevReqestIssueYn", vo);
+	}
+
+	public void updateLevReqestPrintState(Map<String, Object> vo) throws Exception {
+        update("gamHtldRentFeeMngtDao.updateLevReqestNhtPrintYn", vo);
+	}
+
+	public void updateRevCollPrintState(Map<String, Object> vo) throws Exception {
+        update("gamHtldRentFeeMngtDao.updateRevCollFBillPrintYn", vo);
+	}
+
+	public void updateUnpaidPrintState(Map<String, Object> vo) throws Exception {
+        update("gamHtldRentFeeMngtDao.updateUnpaidFBillPrintYn", vo);
+	}
+
+	/**
+	 * 고지 정보를 전송한다.
+	 */
+	public String insertNticRequestRevCollF(Map<String, Object> vo) throws Exception {
+        return (String)insert("gamHtldRentFeeMngtDao.insertNticRequestRevCollF_S", vo);
+    }
+
+	public String insertIntrNticRequestRevCollF(Map<String, Object> vo) throws Exception {
+        return (String)insert("gamHtldRentFeeMngtDao.insertIntrNticRequestRevCollF_S", vo);
+    }
+
+
+	public void deleteNticRequestRevCollF(Map<String, Object> vo) throws Exception {
+        delete("gamHtldRentFeeMngtDao.deleteNticRequestRevCollF_S", vo);
+    }
+
+	public void deleteIntrNticRequestRevCollF(Map<String, Object> vo) throws Exception {
+        delete("gamHtldRentFeeMngtDao.deleteIntrNticRequestRevCollF_S", vo);
+    }
 
 }

@@ -27,7 +27,7 @@
 --%>
 function GamPopupNticIssueModule() {}
 
-GamPopupNticIssueModule.prototype = new EmdPopupModule(500, 260);
+GamPopupNticIssueModule.prototype = new EmdPopupModule(500, 300);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamPopupNticIssueModule.prototype.loadComplete = function() {
@@ -49,7 +49,7 @@ GamPopupNticIssueModule.prototype.loadComplete = function() {
 		event.data.module.calcInterest();
 	});
 
-	this.calcInterest();
+
 
 //	console.log('debug');
 };
@@ -59,8 +59,8 @@ GamPopupNticIssueModule.prototype.loadComplete = function() {
 GamPopupNticIssueModule.prototype.onButtonClick = function(buttonId) {
 	switch(buttonId) {
 	case 'btnNoticeIssue':
-		if( this.$('#intrRate').val() == '' ) {
-            alert("분납 이자율을 선택하십시오.");
+		if( this.$('#nticAmt').val() == '' ) {
+            alert("고지 할 요금종류를 선택하십시오.");
             return;
         }
 
@@ -73,156 +73,82 @@ GamPopupNticIssueModule.prototype.onButtonClick = function(buttonId) {
 	}
 };
 
-GamPopupNticIssueModule.prototype.calcInterest = function() {
-	var cofixInput = this.$('#chkInCofix').attr("checked")=="checked"?true:false;
-	var rate=null;
-	var grFee = this.$('#grFee').val().replace(/,/g,"")*1;
-	var fee = this.$('#fee').val().replace(/,/g,"")*1;
-	var nticAmt=fee;
-	var balance = grFee-fee;
-	var nticPdFrom = EMD.util.strToDate(this.$('#nticPdFrom').val());
-	var nticPdTo = EMD.util.strToDate(this.$('#nticPdTo').val());
-	var ndays = (nticPdTo.getTime()-nticPdFrom.getTime())/(24*60*60*1000)+1;
-	var interest=0;
-	if(cofixInput) {
-		rate=this.$('#blceStdrIntrrate').val()/100;
-	}
-	else {
-		rate=this.$('#intrRate').val()/100;
-	}
-	if(rate!==0) {
-		interest = Math.ceil(balance*rate*(ndays/365)/10)*10;
-	}
-	nticAmt=fee+interest;
-	this.$('#totalfee').val($.number(nticAmt));
-	var vat=Math.ceil(nticAmt/100)*10;
-	this.$('#vat').val($.number(vat));
-	this.$('#nticAmt').val($.number(nticAmt+vat));
-
-	this.$('#intrAmnt').val($.number(interest));
-};
-
 // 다음 변수는 고정 적으로 정의 해야 함
 var popup_instance = new GamPopupNticIssueModule();
 </script>
 <div class="dialog">
 	<div class="emdPanel">
 		<form id="noticeForm">
-		    <input type="hidden" id="prtAtCode" value="<c:out value="${gamHtldRentFeeMngtVO.prtAtCode }"/>"/>
-		    <input type="hidden" id="mngYear" value="<c:out value="${gamHtldRentFeeMngtVO.mngYear }"/>"/>
-		    <input type="hidden" id="mngNo" value="<c:out value="${gamHtldRentFeeMngtVO.mngNo }"/>"/>
-		    <input type="hidden" id="mngCnt" value="<c:out value="${gamHtldRentFeeMngtVO.mngCnt }"/>"/>
-		    <input type="hidden" id="nticCnt" value="<c:out value="${gamHtldRentFeeMngtVO.nticCnt }"/>"/>
-		    <input type="hidden" id="chrgeKnd" value="<c:out value="${gamHtldRentFeeMngtVO.chrgeKnd }"/>"/>
-		    <input type="hidden" id="quayGroupCd" value="<c:out value="${gamHtldRentFeeMngtVO.quayGroupCd }"/>"/>
-			<input type="hidden" id="nticPdFrom" value="<c:out value="${gamHtldRentFeeMngtVO.nticPdFrom }"/>"/>
-			<input type="hidden" id="nticPdTo" value="<c:out value="${gamHtldRentFeeMngtVO.nticPdTo }"/>"/>
-			<input type="hidden" id="vatYn" value="<c:out value="${gamHtldRentFeeMngtVO.vatYn }"/>"/>
+		    <input type="hidden" id="prtAtCode" value="<c:out value="${levReqestMaster.prtAtCode }"/>"/>
+		    <input type="hidden" id="mngYear" value="<c:out value="${levReqestMaster.mngYear }"/>"/>
+		    <input type="hidden" id="mngNo" value="<c:out value="${levReqestMaster.mngNo }"/>"/>
+		    <input type="hidden" id="mngCnt" value="<c:out value="${levReqestMaster.mngCnt }"/>"/>
+		    <input type="hidden" id="nticCnt" value="<c:out value="${levReqestMaster.nticCnt }"/>"/>
 
 			<table class="detailPanel">
 				<tbody>
 					<tr>
-                        <th>고지 대상 업체</th>
+                        <th style="width:100px; text-align: center;">고지 대상 업체</th>
                         <td colSpan="3">
-                            <c:out value="${gamHtldRentFeeMngtVO.entrpsNm }"/>
+                            <c:out value="${levReqestMaster.entrpsNm }"/>
                         </td>
                     </tr>
                     <tr>
-                        <th>총사용기간</th>
+                        <th style="width:100px; text-align: center;">고지횟수</th>
                         <td colspan="3">
-                            <c:out value="${gamHtldRentFeeMngtVO.grUsagePdFrom }" />
-                            ~
-                            <c:out value="${gamHtldRentFeeMngtVO.grUsagePdTo }" />
+                            <c:out value="${levReqestMaster.nticCnt }" />
                         </td>
                     </tr>
                     <tr>
-                        <th>사용면적</th>
-                        <td>
-                            <input id="grAr" class="ygpaNumber" size="10" value="<fmt:formatNumber type="number" value="${gamHtldRentFeeMngtVO.grAr }" />"/> m<sup>2</sup>
+                        <th style="width:100px; text-align: center;">사용기간</th>
+                        <td colspan="3">
+                            <c:out value="${levReqestMaster.nticPdFrom }" />
+                            ~
+                            <c:out value="${levReqestMaster.nticPdTo }" />
                         </td>
-                        <th>총사용료</th>
-                        <td>
-                            <input id="grFee" class="ygpaNumber" size="18" value="<fmt:formatNumber type="number" value="${gamHtldRentFeeMngtVO.grFee }" />"/> 원
+                    </tr>
+                    <tr>
+                        <th style="width:100px; text-align: center;">총사용면적</th>
+                        <td style="width:100px; text-align:right;" colspan="3">
+                            <fmt:formatNumber type="number" value="${levReqestMaster.grAr }" /> m<sup>2</sup>
                         </td>
                     </tr>
 					<tr>
-                        <th>사용료</th>
-                        <td>
-                            <input id="fee" class="ygpaNumber" size="18" value="<fmt:formatNumber type="number" value="${gamHtldRentFeeMngtVO.fee }" />"/> 원
+                        <th style="width:100px; text-align: center;">사용료</th>
+                        <td style="width:100px; text-align:right;">
+                            <fmt:formatNumber type="number" value="${levReqestMaster.fee }" /> 원
                         </td>
-                        <th>이자</th>
-                        <td>
-                            <input id="intrAmnt" class="ygpaNumber" size="18" value="<fmt:formatNumber type="number" value="${gamHtldRentFeeMngtVO.intrAmnt }" />"/> 원
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>사용료 합계</th>
-                        <td>
-                            <input id="totalfee" class="ygpaNumber" size="18" value="" /> 원
-                        </td>
-                        <th>부가세</th>
-                        <td>
-                            <input id="vat" class="ygpaNumber" size="18" value="<fmt:formatNumber type="number" value="${gamHtldRentFeeMngtVO.vat }" />"/> 원
+                        <th style="width:100px; text-align: center;">부가세</th>
+                        <td style="width:100px; text-align:right;">
+                            <fmt:formatNumber type="number" value="${levReqestMaster.vat }" /> 원
                         </td>
                     </tr>
                     <tr>
-                        <th>고지 금액</th>
-                        <td colspan="3">
-                            <input id="nticAmt" class="ygpaNumber" size="18" value="<fmt:formatNumber type="number" value="${gamHtldRentFeeMngtVO.nticAmt }" />"/> 원
+                        <th style="width:100px; text-align: center;">분납 이자율</th>
+                        <td style="width:100px; text-align:right;">
+                        <fmt:formatNumber type="number" value="${levReqestMaster.intrRate*10 }" /> %
+                        </td>
+                        <th style="width:100px; text-align: center;">이자</th>
+                        <td style="width:100px; text-align:right;">
+                        <fmt:formatNumber type="number" value="${levReqestMaster.intrAmnt }" /> 원
                         </td>
                     </tr>
                     <tr>
-                        <th>분납 이자율</th>
-                        <td colspan="3">
-                            <select id="intrRate">
-                                <option value="" selected="selected">선택</option>
-
-                                <c:forEach  items="${cofixList}" var="intrrate">
-	                                <option value="<c:out value="${intrrate.blceStdrIntrrate }"/>"><c:out value="${fn:substring(intrrate.objYrmt, 0,4) }"/>-<c:out value="${fn:substring(intrrate.objYrmt, 4,6) }"/> : <c:out value="${intrrate.blceStdrIntrrate }"/> %</option>
-	                            </c:forEach>
-                            </select>
-                            <input type="checkbox" id="chkInCofix"/> 이자율 추가
+                        <th style="width:100px; text-align: center;">고지 금액</th>
+                        <td colspan="3" style="width:100px; text-align:right;">
+                            <fmt:formatNumber type="number" value="${levReqestMaster.nticAmt }" /> 원
                         </td>
                     </tr>
-                    <tr id="cofix" style="display:none;">
-                        <th>cofix이자율</th>
+                    <tr>
+                        <th style="width:100px; text-align: center;">고지 요금 종류</th>
+                        <td colspan="3" style="text-align:center;">
+                            <input id="chrgeKnd" class="ygpaCmmnCd" data-code-id="GAM053" data-required="true" data-default-prompt="필수 선택" value=""/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="width:100px; text-align: center;">납부기한</th>
                         <td colspan="3">
-                        	<table class="detailPanel">
-	                        	<tbody>
-		                        	<tr>
-		                        		<th>
-		                        			적용년월
-		                        		</th>
-		                        		<td>
-		                        			<input id="objYrMt" />
-		                        		</td>
-		                        	</tr>
-		                        	<tr>
-		                        		<th>
-		                        			잔액기준
-		                        		</th>
-		                        		<td>
-		                        			<input id="blceStdrIntrrate" /> %
-		                        		</td>
-		                        	</tr>
-		                        	<tr>
-		                        		<th>
-		                        			신규취급액기준
-		                        		</th>
-		                        		<td>
-		                        			<input id="newManipAmtStdrIntrrate" /> %
-		                        		</td>
-		                        	</tr>
-		                        	<tr>
-		                        		<th>
-		                        			고시일자
-		                        		</th>
-		                        		<td>
-		                        			<input id="annodt" class="emdcal" />
-		                        		</td>
-		                        	</tr>
-	                        	</tbody>
-                        	</table>
+                        <input id="payTmlmt"  value="<c:out value="${levReqestMaster.payTmlmt }" />" class="emdcal" data-required="true"/>
                         </td>
                     </tr>
 				</tbody>

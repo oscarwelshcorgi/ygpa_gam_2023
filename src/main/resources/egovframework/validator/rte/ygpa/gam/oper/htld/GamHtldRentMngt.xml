@@ -31,6 +31,20 @@
                 </var>
             </field>
              -->
+            <field property="grUsagePdFrom" depends="required, date">
+                <arg0 key="계약시작일자" resource="false"/>
+                <var>
+                    <var-name>datePatternStrict</var-name>
+                    <var-value>yyyy-MM-dd</var-value>
+                </var>
+            </field>
+            <field property="grUsagePdTo" depends="required, date">
+                <arg0 key="계약종료일자" resource="false"/>
+                <var>
+                    <var-name>datePatternStrict</var-name>
+                    <var-value>yyyy-MM-dd</var-value>
+                </var>
+            </field>
             <field property="operYrMt" depends="required, maxlength">
                 <arg0 key="운영연월" resource="false"/>
            		<arg1 key="6" resource="false"/>

@@ -118,8 +118,8 @@
 					  ,
 					  S.VAT_YN,
 					  S.NTIC_AMT,
-					  S.INTR_AMNT,
-					  S.PAYINST_INTRRATE*100 PAYINST_INTRRATE,
+					  S.INTR_AMNT INTR_AMNT,
+					  S.INTR_RATE,
 					  S.SANCTN_STTUS_NM,
 					  S.SANCTN_STTUS,
 					  S.NTIC_DT,
@@ -159,7 +159,7 @@
 					  NVL(L.VAT,0) VAT ,
 					  NVL(L.NTIC_AMT,0) NTIC_AMT ,
 					  NVL(L.INTR_AMNT, 0) INTR_AMNT,
-					  NVL(L.PAYINST_INTRRATE, 0) PAYINST_INTRRATE,
+					  L.INTR_RATE*100 INTR_RATE,
 					  L.RM ,
 					  L.RCIV_SE ,
 					  TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT ,
@@ -728,6 +728,115 @@
                            , #mngCnt#
                          )
     </insert>
+
+    <select id="gamHtldRentFeeMngtDao.selectNticPrintMaster_D" parameterClass="hashMap" resultClass="egovMap">
+		SELECT Z.*
+		FROM
+		  (SELECT ROWNUM RNUM,
+		    P2MGR.sf_makedigit@YGPA_P2MGR(A.PRT_AT_CODE
+		    || ASCII(SUBSTR(A.FEE_TP,1,1))
+		    || SUBSTR(A.FEE_TP,2,1)
+		    || A.FISCAL_YR
+		    || A.BILL_NO
+		    || NVL(A.ARRRG_NO, '0'),'BILLNO') CSTMR_REF_CODE,
+		    (SELECT DECODE(A.PRT_AT_CODE, '620', '1', '621', '2', '3')
+		      || FEE_TP_MAP
+		      || SUBSTR(A.FISCAL_YR, 3,2)
+		      || A.BILL_NO
+		      || NVL(A.ARRRG_NO, '00')
+		    FROM P2MGR.FEE_TP_F@YGPA_P2MGR
+		    WHERE PRT_AT_CODE = A.PRT_AT_CODE
+		    AND FEE_TP        = A.FEE_TP
+		    ) ELEC_PAY_NO,
+		    DECODE(A.PRT_AT_CODE, '622', '6374594', '6374604') GIRO_NO,
+		    P2MGR.sf_makedigit@YGPA_P2MGR(A.BILL_AMNT, 'AMT') ELEC_NTIC_AMT,
+		    A.*
+		  FROM
+		    (
+		    SELECT R.PRT_AT_CODE,
+		      R.FISCAL_YR,
+		      R.FEE_TP,
+		      R.BILL_NO,
+		      R.BILL_AMNT,
+		      R.AGENT_NAME,
+		      R.AGENT_CODE,
+		      TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM,
+		      TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO,
+		      TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT,
+		      L.ARRRG_NO,
+		      (SELECT RPRSNTV_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=L.ENTRPSCD) RPRSNTV_NM,
+		      (SELECT ADRES FROM ENTRPS_INFO_F WHERE ENTRPSCD=L.ENTRPSCD) ADRES,
+		      (SELECT ADRES2 FROM ENTRPS_INFO_F WHERE ENTRPSCD=L.ENTRPSCD) ADRES2,
+		      (SELECT ZIP FROM ENTRPS_INFO_F WHERE ENTRPSCD=L.ENTRPSCD) ZIP,
+		      GAM_GET_FEE_TP_NM(L.PRT_AT_CODE, 'H', DECODE(R.FEE_TP, 'V2', 'A3',R.WORK_CODE)) CHRGE_KND_NM,
+		      R.BZ_RGST_ID,
+		      R.VAT,
+		      R.VAT_YN,
+		      GAM_GETCODENAME('GAM016', R.VAT_YN) TAXT_SE_NM,
+		      TO_CHAR(R.BILL_DT, 'YYYY-MM-DD') BILL_DT,
+		      TO_CHAR(R.DUE_DATE, 'YYYY-MM-DD') DUE_DATE
+
+		   FROM LEV_REQEST_F L, REV_COLL_F_TEST R
+		    WHERE 1=1
+		      AND L.PRT_AT_CODE=R.PRT_AT_CODE
+		      AND L.ACCNUT_YEAR=R.FISCAL_YR
+		      AND ((L.NTICNO=R.BILL_NO AND GAM_GET_FEE_TP(L.CHRGE_KND)=R.FEE_TP) OR (L.INTR_FEE_NTICNO=R.BILL_NO AND GAM_GET_FEE_TP(L.INTR_CHRGE_KND)=R.FEE_TP))
+					      AND L.PRT_AT_CODE   = #prtAtCode#
+					      AND L.MNG_YEAR      = #mngYear#
+					      AND L.MNG_NO        = #mngNo#
+					      AND L.MNG_CNT       = #mngCnt#
+					      AND L.NTIC_CNT      = #nticCnt#
+		      ) A
+		  ) Z
+    </select>
+
+    <select id="gamHtldRentFeeMngtDao.selectNticPrintDetail_D" parameterClass="hashMap" resultClass="egovMap">
+    	SELECT
+    		D.USAGE_AR,
+    		D.COMPUT_DTLS ,
+	        (SELECT GIS_ASSETS_NM
+	        FROM GIS_ASSETS_CD_F
+	        WHERE ROWNUM              =1
+	        AND GIS_ASSETS_PRT_AT_CODE=D.GIS_ASSETS_PRT_AT_CODE
+	        AND GIS_ASSETS_CD         =D.GIS_ASSETS_CD
+	        AND GIS_ASSETS_SUB_CD     =D.GIS_ASSETS_SUB_CD
+	        ) GIS_ASSETS_NM ,
+	        (SELECT GIS_ASSETS_LOCPLC
+	        FROM GIS_ASSETS_CD_F
+	        WHERE ROWNUM              =1
+	        AND GIS_ASSETS_PRT_AT_CODE=D.GIS_ASSETS_PRT_AT_CODE
+	        AND GIS_ASSETS_CD         =D.GIS_ASSETS_CD
+	        AND GIS_ASSETS_SUB_CD     =D.GIS_ASSETS_SUB_CD
+	        ) GIS_ASSETS_LOCPLC ,
+	        (SELECT GIS_ASSETS_LNM
+	        FROM GIS_ASSETS_CD_F
+	        WHERE ROWNUM              =1
+	        AND GIS_ASSETS_PRT_AT_CODE=D.GIS_ASSETS_PRT_AT_CODE
+	        AND GIS_ASSETS_CD         =D.GIS_ASSETS_CD
+	        AND GIS_ASSETS_SUB_CD     =D.GIS_ASSETS_SUB_CD
+	        ) GIS_ASSETS_LNM ,
+	        (SELECT GIS_ASSETS_LNM_SUB
+	        FROM GIS_ASSETS_CD_F
+	        WHERE ROWNUM              =1
+	        AND GIS_ASSETS_PRT_AT_CODE=D.GIS_ASSETS_PRT_AT_CODE
+	        AND GIS_ASSETS_CD         =D.GIS_ASSETS_CD
+	        AND GIS_ASSETS_SUB_CD     =D.GIS_ASSETS_SUB_CD
+	        ) GIS_ASSETS_LNM_SUB
+      FROM
+        ASSETS_RENT_F A,
+        ASSETS_RENT_DETAIL_F D
+      WHERE 1             = 1
+      AND A.PRT_AT_CODE   = D.PRT_AT_CODE
+      AND A.MNG_YEAR      = D.MNG_YEAR
+      AND A.MNG_NO        = D.MNG_NO
+      AND A.MNG_CNT       = D.MNG_CNT
+      AND A.QUAY_GROUP_CD = 'H'
+      AND A.PRT_AT_CODE   = #prtAtCode#
+      AND A.MNG_YEAR      = #mngYear#
+      AND A.MNG_NO        = #mngNo#
+      AND A.MNG_CNT       = #mngCnt#
+    ORDER BY D.ASSETS_USAGE_SEQ ASC
+    </select>
 
     <select id="gamHtldRentFeeMngtDao.selectNticPrintFeeList_D" parameterClass="hashMap" resultClass="egovMap">
     	SELECT Z.*
@@ -1368,7 +1477,7 @@
 	       , L.ARRRG_NO
 	       , L.ARRRG_TARIFF
 	       , L.ARRRG_PAY_DATES
-	       , L.PAYINST_INTRRATE
+	       , L.INTR_AMNT
 	       , L.INTR_CHRGE_KND
 	       , L.INTR_FEE_NTICNO
 	  FROM ASSETS_RENT_F A, LEV_REQEST_F L
@@ -1452,20 +1561,21 @@
 
     <select id="gamHtldRentFeeMngtDao.selectNoticeRequest_S" parameterClass="gamHtldRentFeeMngtVO" resultClass="egovMap">
 		SELECT
-			#prtAtCode# PRT_AT_CODE,
-			#mngYear# MNG_YEAR,
-			#mngNo# MNG_NO,
-			#mngCnt# MNG_CNT,
-			#nticCnt# NTIC_CNT,
-			#prtAtCode# PRT_AT_CODE,
-	        L.CHRGE_KND,
-			TO_CHAR(p2mgr.sf_get_wrk_dt@ygpa_portmis(SYSDATE+14), 'YYYY-MM-DD') PAY_TMLMT,
-			#intrRate# INTR_RATE,
-			#intrAmnt# INTR_AMNT,
+			L.PRT_AT_CODE PRT_AT_CODE,
+			L.MNG_YEAR,
+			L.MNG_NO,
+			L.MNG_CNT,
+			L.NTIC_CNT,
+	        #chrgeKnd# CHRGE_KND,
+	        L.ENTRPSCD,
+	        L.ENTRPS_NM,
+			#payTmlmt# PAY_TMLMT,
+			L.INTR_AMNT,
 			L.FEE,
-			#vat# VAT,
-			#nticAmt# NTIC_AMT,
-			L.NHT_PRINT_YN,
+			L.VAT,
+			L.VAT_YN,
+			L.NTIC_AMT,
+			L.INTR_AMNT,
 			'DB' REIM_CHRGE_KND,
 			'A3' INTR_CHRGE_KND
 	  FROM LEV_REQEST_F L
@@ -1475,7 +1585,208 @@
        AND L.MNG_NO = #mngNo#
        AND L.MNG_CNT = #mngCnt#
        AND L.NTIC_CNT = #nticCnt#
-       AND L.CHRGE_KND = #chrgeKnd#
+    </select>
+
+      <select id="gamHtldRentFeeMngtDao.selectNticNoAccnutYear_S" parameterClass="egovMap" resultClass="egovMap">
+		SELECT LPAD(NVL(MAX(BILL_NO), 0) + 1, 6, '0') NTICNO,
+		       TO_CHAR(SYSDATE, 'YYYY') ACCNUT_YEAR
+		FROM REV_COLL_F_TEST
+		WHERE PRT_AT_CODE = #prtAtCode# AND FEE_TP = GAM_GET_FEE_TP(#chrgeKnd#) AND FISCAL_YR = TO_CHAR(SYSDATE, 'YYYY')
+	</select>
+
+      <select id="gamHtldRentFeeMngtDao.selectIntrNticNoAccnutYear_S" parameterClass="egovMap" resultClass="egovMap">
+		SELECT LPAD(NVL(MAX(BILL_NO), 0) + 1, 6, '0') NTICNO,
+		       TO_CHAR(SYSDATE, 'YYYY') ACCNUT_YEAR
+		FROM REV_COLL_F_TEST
+		WHERE PRT_AT_CODE = #prtAtCode# AND FEE_TP = GAM_GET_FEE_TP(#intrChrgeKnd#) AND FISCAL_YR = TO_CHAR(SYSDATE, 'YYYY')
+	</select>
+
+      <select id="gamHtldRentFeeMngtDao.selectNticRequestRcvdTp_S" parameterClass="egovMap" resultClass="egovMap">
+		SELECT BILL_NO,
+				RCVD_TP,
+		       RCVD_DT,
+		       BILL_PRT_YN
+		FROM REV_COLL_F_TEST P
+		WHERE (P.PRT_AT_CODE, P.FISCAL_YR, P.FEE_TP, P.BILL_NO)
+			IN (
+				SELECT PRT_AT_CODE,
+				    ACCNUT_YEAR,
+				    GAM_GET_FEE_TP(CHRGE_KND),
+				    GAM_GET_WORK_CODE(PRT_AT_CODE, MNG_YEAR, MNG_NO, MNG_CNT, NTIC_CNT, CHRGE_KND),
+				    NTICNO
+				FROM LEV_REQEST_F
+				WHERE PRT_AT_CODE=#prtAtCode# AND MNG_YEAR=#mngYear# AND MNG_NO=#mngNo# AND MNG_CNT=#mngCnt# AND NTIC_CNT=#nticCnt# AND CHRGE_KND=#chrgeKnd#
+			)
+	</select>
+
+    <update id="gamHtldRentFeeMngtDao.updateLevReqestIssueYn" parameterClass="egovMap">
+        UPDATE LEV_REQEST_F SET
+      		NHT_ISUE_YN=#nhtIsueYn#,
+      		NTICNO=#nticno#,
+      		ACCNUT_YEAR=#accnutYear#,
+      		CHRGE_KND=#chrgeKnd#,
+      		PAY_TMLMT=#payTmlmt#
+     		<isNotNull prepend="," property="intrChrgeKnd">
+      			INTR_CHRGE_KND=#intrChrgeKnd#
+     		</isNotNull>
+     		<isNotNull prepend="," property="intrFeeNticno">
+     			INTR_FEE_NTICNO=#intrFeeNticno#
+     		</isNotNull>
+       <isEqual prepend="," property="nhtIsueYn" compareValue="Y">
+       		NTIC_DT=SYSDATE
+     	</isEqual>
+       <isNotEqual prepend="," property="nhtIsueYn" compareValue="Y">
+       		NTIC_DT=''
+     	</isNotEqual>
+     	WHERE
+			PRT_AT_CODE=#prtAtCode#
+	      	AND MNG_YEAR=#mngYear#
+	      	AND MNG_NO=#mngNo#
+	      	AND MNG_CNT=#mngCnt#
+	      	AND NTIC_CNT=#nticCnt#
+	      	AND (NHT_PRINT_YN IS NULL OR NHT_PRINT_YN = 'N')
+  </update>
+
+    <insert id="gamHtldRentFeeMngtDao.insertNticRequestRevCollF_S" parameterClass="egovMap" >
+        INSERT INTO REV_COLL_F_TEST (
+      PRT_AT_CODE,
+      FEE_TP,
+      WORK_CODE,
+      FISCAL_YR, BILL_NO,
+      AGENT_CODE, BZ_RGST_ID, AGENT_NAME, SSN,
+      BILL_DT, DUE_DATE, BILL_PRT_YN,
+      BILL_AMNT, EXMP_AMNT, OVER_AMNT, DC_AMNT,
+		RCVD_TP,
+      UPDT_UID, UPDT_DATE, FIRST_BILL_DT, VAT_YN, VAT, STR_DATE, END_DATE,
+      DEPT,USER_NAME
+      )
+        SELECT
+      L.PRT_AT_CODE,
+      GAM_GET_FEE_TP(L.CHRGE_KND) FEE_TP,
+      GAM_GET_WORK_CODE(L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT, L.NTIC_CNT, L.CHRGE_KND)  WORK_CODE,
+      #accnutYear# FISCAL_YR, #nticno# BILL_NO,
+      L.ENTRPSCD,
+      (SELECT BIZRNO FROM ENTRPS_INFO_F E WHERE L.ENTRPSCD=ENTRPSCD) BZ_RGST_ID,
+      L.ENTRPS_NM AGENT_NAME,
+      (SELECT SSN FROM ENTRPS_INFO_F E WHERE L.ENTRPSCD=ENTRPSCD) SSN,
+      SYSDATE,
+      TO_DATE(L.PAY_TMLMT, 'YYYY-MM-DD'),
+      L.NHT_PRINT_YN,
+      L.FEE, L.RDCXPT_FEE, 0, 0,
+	  '0',
+      #updUsr#, SYSDATE, SYSDATE, L.VAT_YN, L.VAT, L.NTIC_PD_FROM, L.NTIC_PD_TO,
+      #deptCd#,
+      #userName#
+      FROM LEV_REQEST_F L
+      WHERE PRT_AT_CODE=#prtAtCode#
+      	AND MNG_YEAR=#mngYear#
+      	AND MNG_NO=#mngNo#
+      	AND MNG_CNT=#mngCnt#
+      	AND NTIC_CNT=#nticCnt#
+    </insert>
+
+    <insert id="gamHtldRentFeeMngtDao.insertIntrNticRequestRevCollF_S" parameterClass="egovMap" >
+        INSERT INTO REV_COLL_F_TEST (
+      PRT_AT_CODE,
+      FEE_TP,
+      WORK_CODE,
+      FISCAL_YR, BILL_NO,
+      AGENT_CODE, BZ_RGST_ID, AGENT_NAME, SSN,
+      BILL_DT, DUE_DATE, BILL_PRT_YN,
+      BILL_AMNT, EXMP_AMNT, OVER_AMNT, DC_AMNT,
+		RCVD_TP,
+      UPDT_UID, UPDT_DATE, FIRST_BILL_DT, VAT_YN, VAT, STR_DATE, END_DATE,
+      DEPT,USER_NAME
+      )
+        SELECT
+      L.PRT_AT_CODE,
+      GAM_GET_FEE_TP(#intrChrgeKnd#) FEE_TP,
+      GAM_GET_WORK_CODE(L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT, L.NTIC_CNT, #intrChrgeKnd#)  WORK_CODE,
+      #accnutYear# FISCAL_YR, #intrFeeNticno# BILL_NO,
+      L.ENTRPSCD,
+      (SELECT BIZRNO FROM ENTRPS_INFO_F E WHERE L.ENTRPSCD=ENTRPSCD) BZ_RGST_ID,
+      L.ENTRPS_NM AGENT_NAME,
+      (SELECT SSN FROM ENTRPS_INFO_F E WHERE L.ENTRPSCD=ENTRPSCD) SSN,
+      SYSDATE,
+      TO_DATE(L.PAY_TMLMT, 'YYYY-MM-DD'),
+      L.NHT_PRINT_YN,
+      L.INTR_AMNT, 0, 0, 0,
+	  '0',
+      #updUsr#, SYSDATE, SYSDATE, '0', '0', L.NTIC_PD_FROM, L.NTIC_PD_TO,
+      #deptCd#,
+      #userName#
+      FROM LEV_REQEST_F L
+      WHERE PRT_AT_CODE=#prtAtCode#
+      	AND MNG_YEAR=#mngYear#
+      	AND MNG_NO=#mngNo#
+      	AND MNG_CNT=#mngCnt#
+      	AND NTIC_CNT=#nticCnt#
+    </insert>
+
+    <delete id="gamHtldRentFeeMngtDao.deleteNticRequestRevCollF_S">
+         DELETE FROM REV_COLL_F_TEST
+          WHERE (PRT_AT_CODE, FISCAL_YR, FEE_TP, WORK_CODE, BILL_NO) IN (
+          	SELECT L.PRT_AT_CODE,
+          		L.ACCNUT_YEAR,
+          		GAM_GET_FEE_TP(L.CHRGE_KND),
+          		GAM_GET_WORK_CODE(L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT, L.NTIC_CNT, L.CHRGE_KND),
+          		L.NTICNO
+          	FROM LEV_REQEST_F L
+		      WHERE PRT_AT_CODE=#prtAtCode#
+		      	AND MNG_YEAR=#mngYear#
+		      	AND MNG_NO=#mngNo#
+		      	AND MNG_CNT=#mngCnt#
+		      	AND NTIC_CNT=#nticCnt#
+      	)
+    </delete>
+
+        <delete id="gamHtldRentFeeMngtDao.deleteIntrNticRequestRevCollF_S">
+         DELETE FROM REV_COLL_F_TEST
+          WHERE (PRT_AT_CODE, FISCAL_YR, FEE_TP, WORK_CODE, BILL_NO) IN (
+          	SELECT L.PRT_AT_CODE,
+          		L.ACCNUT_YEAR,
+          		GAM_GET_FEE_TP(L.INTR_CHRGE_KND),
+          		GAM_GET_WORK_CODE(L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT, L.NTIC_CNT, L.INTR_CHRGE_KND),
+          		L.INTR_FEE_NTICNO
+          	FROM LEV_REQEST_F L
+		      WHERE PRT_AT_CODE=#prtAtCode#
+		      	AND MNG_YEAR=#mngYear#
+		      	AND MNG_NO=#mngNo#
+		      	AND MNG_CNT=#mngCnt#
+		      	AND NTIC_CNT=#nticCnt#
+      	)
+    </delete>
+
+    <select id="gamHtldRentFeeMngtDao.selectNoticeRequestPk_S" parameterClass="gamHtldRentFeeMngtVO" resultClass="egovMap">
+		SELECT L.PRT_AT_CODE,
+		  L.MNG_YEAR,
+		  L.MNG_NO,
+		  L.MNG_CNT,
+		  L.NTIC_CNT,
+		  L.ENTRPSCD,
+		  L.ENTRPS_NM,
+		  TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM,
+		  TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_FROM,
+		  A.GR_AR,
+		  TO_CHAR(p2mgr.sf_get_wrk_dt@ygpa_portmis(SYSDATE+15), 'YYYY-MM-DD') PAY_TMLMT,
+		  L.INTR_RATE*100 INTR_RATE,
+		  L.INTR_AMNT,
+		  L.FEE,
+		  L.VAT,
+		  L.NTIC_AMT
+		FROM ASSETS_RENT_F A,
+		  LEV_REQEST_F L
+		WHERE 1 = 1
+		AND L.PRT_AT_CODE=A.PRT_AT_CODE
+		AND L.MNG_YEAR=A.MNG_YEAR
+		AND L.MNG_NO=A.MNG_NO
+		AND L.MNG_CNT=A.MNG_CNT
+		AND A.QUAY_GROUP_CD='H'
+	    AND L.PRT_AT_CODE = #prtAtCode#
+        AND L.MNG_YEAR = #mngYear#
+        AND L.MNG_NO = #mngNo#
+        AND L.MNG_CNT = #mngCnt#
+        AND L.NTIC_CNT = #nticCnt#
     </select>
 
     <select id="gamHtldRentFeeMngtDao.selectInsertHtldRentFee_S" parameterClass="gamHtldRentFeeMngtVO" resultClass="int">
@@ -1509,7 +1820,7 @@
           , VAT
           , NTIC_AMT
           , INTR_AMNT
-		  , PAYINST_INTRRATE
+		  , INTR_RATE
           , NTIC_MTH
           , REG_USR
           , REGIST_DT
@@ -1531,7 +1842,7 @@
           , #vat#
           , #nticAmt#
           , #intrAmnt#
-          , #payinstIntrrate#/100
+          , #intrRate#/100
           , NTIC_MTH
           , #regUsr#
           , SYSDATE
@@ -1553,7 +1864,7 @@
 		     , NTIC_AMT     = #nticAmt#
 		     , NTIC_MTH     = #nticMth#
 		     , INTR_AMNT     = #intrAmnt#
-		     , PAYINST_INTRRATE     = #payinstIntrrate#/100
+		     , INTR_RATE     = #intrRate#/100
 		     , UPD_USR      = #updUsr#
 		     , UPDT_DT      = SYSDATE
 		WHERE  PRT_AT_CODE  = #prtAtCode#
@@ -1565,5 +1876,54 @@
 		    AND (NHT_ISUE_YN IS NULL OR NHT_ISUE_YN  <> 'Y')
 	      ]]>
     </update>
+
+  <update id="gamHtldRentFeeMngtDao.updateLevReqestNhtPrintYn" parameterClass="hashMap">
+        UPDATE LEV_REQEST_F SET
+      		NHT_PRINT_YN=#nhtPrintYn#
+      		WHERE
+			PRT_AT_CODE=#prtAtCode#
+      	AND MNG_YEAR=#mngYear#
+      	AND MNG_NO=#mngNo#
+      	AND MNG_CNT=#mngCnt#
+      	AND NTIC_CNT=#nticCnt#
+      	<!-- AND CHRGE_KND=#chrgeKnd# -->
+  </update>
+
+  <update id="gamHtldRentFeeMngtDao.updateRevCollFBillPrintYn" parameterClass="hashMap">
+        UPDATE REV_COLL_F_TEST SET
+      		BILL_PRT_YN=#nhtPrintYn#
+      		WHERE
+      			(PRT_AT_CODE, FISCAL_YR, FEE_TP, WORK_CODE, BILL_NO) IN (
+          	SELECT L.PRT_AT_CODE,
+          		L.ACCNUT_YEAR,
+          		GAM_GET_FEE_TP(L.INTR_CHRGE_KND),
+          		GAM_GET_WORK_CODE(L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT, L.NTIC_CNT, L.INTR_CHRGE_KND),
+          		L.INTR_FEE_NTICNO
+          	FROM LEV_REQEST_F L
+		      WHERE PRT_AT_CODE=#prtAtCode#
+		      	AND MNG_YEAR=#mngYear#
+		      	AND MNG_NO=#mngNo#
+		      	AND MNG_CNT=#mngCnt#
+		      	AND NTIC_CNT=#nticCnt#
+      	)
+  </update>
+
+  <update id="gamHtldRentFeeMngtDao.updateUnpaidFBillPrintYn" parameterClass="hashMap">
+        UPDATE UNPAID_F_TEST SET
+      		DLY_BILL_PRT_YN=#nhtPrintYn#
+      		WHERE
+	      		(PRT_AT_CODE, FISCAL_YR, FEE_TP, WORK_CODE, BILL_NO) IN (
+          	SELECT L.PRT_AT_CODE,
+          		L.ACCNUT_YEAR,
+          		GAM_GET_FEE_TP(L.INTR_CHRGE_KND),
+          		GAM_GET_WORK_CODE(L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT, L.NTIC_CNT, L.INTR_CHRGE_KND),
+          		L.INTR_FEE_NTICNO
+          	FROM LEV_REQEST_F L
+		      WHERE PRT_AT_CODE=#prtAtCode#
+		      	AND MNG_YEAR=#mngYear#
+		      	AND MNG_NO=#mngNo#
+		      	AND MNG_CNT=#mngCnt#
+		      	AND NTIC_CNT=#nticCnt#
+  </update>
 
 </sqlMap>

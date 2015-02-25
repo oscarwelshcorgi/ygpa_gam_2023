@@ -36,8 +36,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         url: '/oper/htld/gamSelectHtldRentFeePaySttusMngtList.do',
         dataType: 'json',
         colModel : [
-    				{display:'관리번호', name:'rentMngNo',width:96, sortable:false,align:'center'},
-    				{display:'횟수', name:'nticCnt',width:50, sortable:false,align:'center'},
+    				{display:'고지횟수', name:'nticCnt',width:50, sortable:false,align:'center'},
     				{display:'고지업체명', name:'entrpsNm',width:200, sortable:false,align:'left'},
     				{display:'요금종류명', name:'chrgeKndNm',width:180, sortable:false,align:'left'},
     				{display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},

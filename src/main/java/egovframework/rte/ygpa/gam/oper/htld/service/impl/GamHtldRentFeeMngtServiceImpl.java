@@ -34,6 +34,7 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 	@Resource(name="gamHtldRentFeeMngtDao")
     private GamHtldRentFeeMngtDao gamHtldRentFeeMngtDao;
 
+
 	protected Log log = LogFactory.getLog(this.getClass());
 
 	/**
@@ -194,5 +195,91 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 				gamHtldRentFeeMngtDao.updateHtldRentFee(vo);
 			}
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtService#selectAssetLevReqestNticPk(egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtVO)
+	 */
+	@Override
+	public Map selectAssetLevReqestNticPk(GamHtldRentFeeMngtVO searchVO) {
+		// TODO Auto-generated method stub
+		return gamHtldRentFeeMngtDao.selectNoticeRequestPk(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtService#sendLevReqestRevCollF(java.util.Map)
+	 */
+	@Override
+	public void sendLevReqestRevCollF(Map<String, Object> vo) throws Exception {
+		// TODO Auto-generated method stub
+        Map map = gamHtldRentFeeMngtDao.selectNticNoAccnutYear(vo);
+        vo.put("accnutYear", map.get("accnutYear"));
+		vo.put("nticno", map.get("nticno"));
+//        map = gamHtldRentFeeMngtDao.selectIntrNticNoAccnutYear(vo);
+//		vo.put("intrFeeNticno", map.get("nticno"));
+		vo.put("nhtIsueYn", "Y");
+
+		gamHtldRentFeeMngtDao.insertNticRequestRevCollF(vo);
+//		if(!"".equals(vo.get("intrAmnt")) || !"0".equals(vo.get("intrAmnt"))) {
+//			gamHtldRentFeeMngtDao.insertIntrNticRequestRevCollF(vo);
+//		}
+		gamHtldRentFeeMngtDao.updateLevReqestIssueYn(vo);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtService#selectNticPrintMaster(java.util.Map)
+	 */
+	@Override
+	public List selectNticPrintMaster(Map searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return gamHtldRentFeeMngtDao.selectNticPrintMaster(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtService#selectNticPrintDetail(java.util.Map)
+	 */
+	@Override
+	public List selectNticPrintDetail(Map searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return gamHtldRentFeeMngtDao.selectNticPrintDetail(searchVO);
+	}
+
+	@Override
+	public void cancelNticRequest(Map<String, Object> vo) throws Exception {
+		Map map =gamHtldRentFeeMngtDao.selectNticRequestRcvdTp(vo);	// 수납 여부를 조회한다.
+		if("3".equals((String)map.get("rcvdTp"))) {	// 수납 여부 확인
+			throw processException("fail.cancelNticIssue.msg");
+		}
+		if("Y".equals((String)map.get("billPrtYn"))) {
+//			egiroPrintCancel(vo);    // 고지가 된 경우 고지 취소를 한다. 2014-08-13 eunsungj.
+			vo.put("nhtPrintYn", "N");
+			updateNticPrintState(vo);
+		}
+		gamHtldRentFeeMngtDao.deleteNticRequestRevCollF(vo);	// 고지정보를 삭제한다.
+		gamHtldRentFeeMngtDao.deleteIntrNticRequestRevCollF(vo);	// 이자 고지정보를 삭제한다.
+		vo.put("accnutYear", "");
+		vo.put("nticno", "");
+		vo.put("nhtIsueYn", "N");
+		gamHtldRentFeeMngtDao.updateLevReqestIssueYn(vo);	// 고지를 취소한다.
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtService#updateNticPrintState(java.util.Map)
+	 */
+	@Override
+	public void updateNticPrintState(Map<String, Object> vo) throws Exception {
+		if(vo.get("arrrgNo")!=null) { // 연체 고지
+			gamHtldRentFeeMngtDao.updateUnpaidPrintState(vo);
+		}
+		gamHtldRentFeeMngtDao.updateRevCollPrintState(vo);
+
+		gamHtldRentFeeMngtDao.updateLevReqestPrintState(vo);
+
+//		if("Y".equals(vo.get("nhtPrintYn"))) {
+//	    	egiroPrint(vo);
+//		}
+//		else {
+//			egiroPrintCancel(vo);
+//		}
 	}
 }

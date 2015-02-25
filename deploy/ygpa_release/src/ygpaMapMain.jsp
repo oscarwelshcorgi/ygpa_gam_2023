@@ -97,6 +97,13 @@
     <div class="abs" id="wrapper">
         <div id="desktop" class="abs mapdesk">
         </div>
+        <div id="legendPanel" class="legendPanel">
+        	<div id="archGroup"></div>
+        	<div id="civilGroup"></div>
+        	<div id="mechGroup"></div>
+        	<div id="elecGroup"></div>
+        	<div id="infoGroup"></div>
+        </div>
         <div id="sideMenu">
           <ul>
             <li><a href="#">주소 찾기</a></li>

@@ -367,8 +367,8 @@ GamInfoTechFcltySpecMngModule.prototype.setControlStatus = function() {
 %>
 GamInfoTechFcltySpecMngModule.prototype.validateDetailForm = function() {
 	if(this._mainmode == 'insert') {
-		if(this.$('#gisAssetsPrtAtCode').val() == '' 
-					|| this.$('#gisAssetsCd').val() == '' 
+		if(this.$('#gisAssetsPrtAtCode').val() == ''
+					|| this.$('#gisAssetsCd').val() == ''
 					|| this.$('#gisAssetsSubCd').val() == '') {
 			EMD.util.showMessage(this.$('#popupDetailGisCode')[0], 'GIS자산코드를 선택하세요.');
 			return false;
@@ -391,17 +391,17 @@ GamInfoTechFcltySpecMngModule.prototype.validateDetailForm = function() {
 /**
  * @FUNCTION NAME : validateDuration
  * @DESCRIPTION   : 유효성 있는 기간 체크
- * @PARAMETER     : 
-	 1. startDate   : 시작일 문자열, 
-	 2. endDate     : 종료일 문자열, 
-	 3. startTitle  : 시작일 제목, 
-	 4. endTitle    : 종료일 제목, 
-	 5. startIgnore : 
+ * @PARAMETER     :
+	 1. startDate   : 시작일 문자열,
+	 2. endDate     : 종료일 문자열,
+	 3. startTitle  : 시작일 제목,
+	 4. endTitle    : 종료일 제목,
+	 5. startIgnore :
 		 5-1. true  : 시작일 필수입력사항 미체크,
-		 5-2. false : 시작일 필수입력사항 체크 
-	 6. endIgnore : 
+		 5-2. false : 시작일 필수입력사항 체크
+	 6. endIgnore :
 		 6-1. true  : 종료일 필수입력사항 미체크,
-		 6-2. false : 종료일 필수입력사항 체크 
+		 6-2. false : 종료일 필수입력사항 체크
 	 7. equals      :
 		 7-1. true  : 종료일이 시작일 보다 크거나 같으면 허용
 		 7-2. false : 종료일이 시작일 보다 커야 허용
@@ -448,8 +448,8 @@ GamInfoTechFcltySpecMngModule.prototype.validateDuration = function(startDate, e
 	}
 	startDate = EMD.util.strToDate(startDate);
 	endDate = EMD.util.strToDate(endDate);
-	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 : 
-							(startDate.getTime() == endDate.getTime()) ? 0 : 1;	
+	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 :
+							(startDate.getTime() == endDate.getTime()) ? 0 : 1;
 	result = (equals) ? (compareResult >= 0) : (compareResult > 0);
 	if(!result) {
 		alert(endTitle +'은(는) ' + startTitle + ((equals) ? '보다 같거나 커야합니다.' : '보다 커야합니다.'));
@@ -468,13 +468,13 @@ GamInfoTechFcltySpecMngModule.prototype.getSaveData = function() {
 	var result = [];
 	var fcltsMngNo = this.$('#fcltsMngNo').val();
 	var fileList = this.$('#atchFileGrid').flexGetData();
-	
+
 	if(this._mainmode == 'modify') {
 		for(var i=0; i<fileList.length; i++) {
 			fileList[i]['fcltsMngNo'] = fcltsMngNo;
 		}
 	}
-	
+
 	result[result.length] = {name: 'detailForm', value: JSON.stringify(this.makeFormArgs('#detailForm', 'object'))};
 	result[result.length] = {name: 'insertAtchFileList', value: JSON.stringify(this.$('#atchFileGrid').selectFilterData([{col: '_updtId', filter: 'I'}])) };
 	if(this._mainmode == 'modify') {
@@ -496,12 +496,12 @@ GamInfoTechFcltySpecMngModule.prototype.saveData = function() {
 	if(!this.validateDetailForm()){
 		return;
 	}
-	
-	if(!this.validateDuration(this.$('#prtFcltyInstlDt').val(), this.$('#prtFcltyChangeDt').val(), 
+
+	if(!this.validateDuration(this.$('#prtFcltyInstlDt').val(), this.$('#prtFcltyChangeDt').val(),
 									'설치일자', '변경일자', true, true, false)) {
 		return;
 	}
-	
+
 	var inputData = this.getSaveData();
 
 	if(this._mainmode == 'insert') {
@@ -625,12 +625,12 @@ GamInfoTechFcltySpecMngModule.prototype.uploadAtchFileItem = function() {
 		$.each(result, function(){
 			module.$('#atchFileGrid').flexAddRow(
 					{
-						_updtId:'I', 
+						_updtId:'I',
 						fcltsMngNo:module.$('#fcltsMngNo').val(),
-						atchFileSe:'D', 
-						atchFileSeNm :'문서', 
+						atchFileSe:'D',
+						atchFileSeNm :'문서',
 						atchFileNmLogic:this.logicalFileNm,
-						atchFileNmPhysicl: this.physcalFileNm, 
+						atchFileNmPhysicl: this.physcalFileNm,
 						atchFileWritingDt:''
 					});
 		});
@@ -759,7 +759,7 @@ GamInfoTechFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			}
 			this.setFeatureCode('gisTeleFclty',
 					row[0],
-					this._param.feature);
+					this._params.feature);
 			alert('지정 되었습니다.');
 //			this.closeWindow();
 			break;

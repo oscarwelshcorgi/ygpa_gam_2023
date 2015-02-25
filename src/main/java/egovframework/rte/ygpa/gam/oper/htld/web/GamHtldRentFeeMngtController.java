@@ -829,11 +829,9 @@ public class GamHtldRentFeeMngtController {
      	  ModelMap model)
             throws Exception {
 
-		List cofixList = gamHtldRentFeeMngtService.selectCofixIntrrateList(gamHtldRentFeeMngtVO);
-		Map master = gamHtldRentFeeMngtService.selectAssetRentFeeDetailMstPk(gamHtldRentFeeMngtVO);
+		Map master = gamHtldRentFeeMngtService.selectAssetLevReqestNticPk(gamHtldRentFeeMngtVO);
 
-		model.addAttribute("gamHtldRentFeeMngtVO", master);
-		model.addAttribute("cofixList", cofixList);
+		model.addAttribute("levReqestMaster", master);
 
     	return "/ygpa/gam/oper/htld/GamPopupHtldRentFeeNticIssue";
      }
@@ -876,7 +874,9 @@ public class GamHtldRentFeeMngtController {
     		nticParam.put("reimChrgeKnd", "DB");
     		nticParam.put("intrChrgeKnd", "A3");	// 이자 요금 코드
 
-	 		gamNticRequestMngtService.sendNticRequest(nticParam);
+    		gamHtldRentFeeMngtService.sendLevReqestRevCollF(nticParam);
+
+//	 		gamNticRequestMngtService.sendNticRequest(nticParam);
 
 	        resultCode = 0;
 	 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
@@ -931,7 +931,7 @@ public class GamHtldRentFeeMngtController {
 	 		paramMap.put("chrgeKnd", gamHtldRentFeeMngtVO.getChrgeKnd());
 	 		paramMap.put("deptCd", loginVo.getDeptCd());
 
-	 		gamNticRequestMngtService.cancelNticRequest(paramMap);
+	 		gamHtldRentFeeMngtService.cancelNticRequest(paramMap);
 
 	        resultCode = 0;
 	 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
@@ -943,6 +943,40 @@ public class GamHtldRentFeeMngtController {
 
      	map.put("resultCode", resultCode);
         map.put("resultMsg", resultMsg);
+
+ 		return map;
+     }
+
+    @RequestMapping(value="/oper/htld/printHtldNoticeIssue.do")
+    public @ResponseBody Map printHtldNoticeIssue(@RequestParam Map<String, Object> vo, ModelMap model)
+            throws Exception {
+
+     	 Map map = new HashMap();
+         String resultMsg = "";
+         int resultCode = 1;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	try {
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+    		vo.put("updUsr", loginVo.getId());
+    		vo.put("nhtPrintYn", "Y");
+    		gamHtldRentFeeMngtService.updateNticPrintState(vo);
+	         resultCode = 0;
+	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+    	}
+    	catch(Exception e) {
+	         resultCode = 0;
+	 		 resultMsg  = egovMessageSource.getMessage("fail.common.update"); //정상적으로 처리되었습니다.
+    	}
+
+     	 map.put("resultCode", resultCode);
+         map.put("resultMsg", resultMsg);
 
  		return map;
      }
@@ -966,16 +1000,19 @@ public class GamHtldRentFeeMngtController {
     	else {
 //    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-    		List list = gamHtldRentFeeMngtService.selectNpticPrintInfo(approvalOpt);
+    		List master = gamHtldRentFeeMngtService.selectNticPrintMaster(approvalOpt);
+
+    		List detail = gamHtldRentFeeMngtService.selectNticPrintDetail(approvalOpt);
 
 //    		model.addAttribute("emplyrNo", loginVo.getEmplNo());
 
     		model.addAttribute("resultCode", 0);
-    		model.addAttribute("resultList", list);
+    		model.addAttribute("resultList", master);
+    		model.addAttribute("detail", detail);
     		model.addAttribute("resultMsg", "");
     	}
 
-    	return "ygpa/gam/oper/htld/GamPrtfcltyPrintNoticeIssue";
+    	return "ygpa/gam/oper/htld/GamHtldPrintNoticeIssue";
     	}
 
     @RequestMapping(value="/oper/htld/printHtldRentFeeTaxNotice.do")
