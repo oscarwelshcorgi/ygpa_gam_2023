@@ -113,8 +113,12 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 				}
 				else {
 					if(ext=='hwp') {
-//					    this.photoUrl=imgURL = module.getUrl("/code/assets/getAssetImage.do?physicalFileNm=")+filenm;
+						this.photoUrl='js/codebase/imgs/hwp.png';
 					}
+					else if(ext=='dwg') {
+						this.photoUrl='js/codebase/imgs/dwg.png';
+					}
+					else this.photoUrl='js/codebase/imgs/unknown.png';
 				}
 			});
 			return data;
