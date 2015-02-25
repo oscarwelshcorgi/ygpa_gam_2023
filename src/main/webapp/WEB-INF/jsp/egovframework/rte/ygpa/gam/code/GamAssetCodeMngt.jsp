@@ -108,7 +108,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 				var ext=filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
 				if(ext=='jpg' || ext=='jpeg' || ext=='bmp' || ext=='png' || ext=='gif') {
 				    this.photoUrl=imgURL = module.getUrl("/code/assets/getAssetImage.do?physicalFileNm=")+filenm
-				    	+ '^' + this.filenmLogic;
+				    	+ '^' + this.filenmLogic + '^' + '64';
 
 				}
 				else {
