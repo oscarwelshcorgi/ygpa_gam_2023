@@ -147,7 +147,6 @@ GamArchFcltySpecMngModule.prototype.loadComplete = function(params) {
 					],
 		height: "477",
 		preProcess: function(module, data) {
-			console.log("preprocess");
 			$.each(data.resultList, function() {
 				this.photoUrl = "";
 				var atchFileNmPhysicl = this.atchFileNmPhysicl;
@@ -169,6 +168,12 @@ GamArchFcltySpecMngModule.prototype.loadComplete = function(params) {
 	this.$("#fileGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module.refreshFileData(row.atchFileNo);
 		module.enableFileButtonItem();
+	});
+
+	this.$("#fileGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		module.refreshFileData(row.atchFileNo);
+		module.enableFileButtonItem();
+		module.showFcltsAtchFileViewPopup();
 	});
 
 	this._params = params;
@@ -572,6 +577,25 @@ GamArchFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value)
 				this.$('#fcltsMngGroupNo').val(value.fcltsMngGroupNo);
 				this.$('#fcltsMngGroupNm').val(value.fcltsMngGroupNm);
 				this.$('#bldDt').focus();
+			}
+			break;
+		case 'popupFcltsAtchFileView':
+			if (msg == 'ok') {
+				var atchFileNo = this.$('#atchFileNo').val();
+				if (atchFileNo == value.atchFileNo) {
+					this.$('#atchFileSe').val(value.atchFileSe);
+					this.$('#atchFileSeNm').val(value.atchFileSeNm);
+					this.$('#atchFileSj').val(value.atchFileSj);
+					var selectRow = this.$('#fileGrid').selectedRows();
+					if(selectRow.length > 0) {
+						var row = selectRow[0];
+						row['atchFileSeNm'] = value.atchFileSeNm;
+						row['atchFileSe'] = value.atchFileSe;
+						row['atchFileSj'] = value.atchFileSj;
+						var rowid = this.$("#fileGrid").selectedRowIds()[0];
+						this.$('#fileGrid').flexUpdateRow(rowid, row);
+					}
+				}
 			}
 			break;
 	}
@@ -1855,6 +1879,32 @@ GamArchFcltySpecMngModule.prototype.displayPreviewFile = function() {
 
 <%
 /**
+ * @FUNCTION NAME : showFcltsAtchFileViewPopup
+ * @DESCRIPTION   : FCLTS ATTACHE FILE VIEW POPUP
+ * @PARAMETER     : NONE
+**/
+%>
+GamArchFcltySpecMngModule.prototype.showFcltsAtchFileViewPopup = function() {
+
+	var atchFileNo = this.$('#atchFileNo').val();
+	var atchFileNmPhysicl = this.$('#atchFileNmPhysicl').val();
+	var imageURL = "";
+	if (atchFileNo == "") {
+		return;
+	}
+	if (atchFileNmPhysicl != "") {
+		imageURL = this.getPfPhotoUrl(atchFileNmPhysicl);
+	}
+    var searchOpts = {
+		'atchFileNo':atchFileNo,
+		'imageURL':imageURL
+    };
+	this.doExecuteDialog('popupFcltsAtchFileView', '시설물 첨부 파일 보기', '/popup/showFcltsAtchFileViewPopup.do', null, searchOpts);
+
+};
+
+<%
+/**
  * @FUNCTION NAME : enableListButtonItem
  * @DESCRIPTION   : LIST 버튼항목을 ENABLE 한다.
  * @PARAMETER     : NONE
@@ -2714,6 +2764,7 @@ var module_instance = new GamArchFcltySpecMngModule();
 								<input id="atchFileNmPhysicl" type="hidden"/>
 								<input id="atchFileSe" type="hidden"/>
 								<input id="atchFileSeNm" type="hidden"/>
+								<input id="atchFileSj" type="hidden"/>
 								<input id="atchFileDirNo" type="hidden"/>
 								<input id="atchFileDataSe" type="hidden"/>
 								<input id="atchFileJobSe" type="hidden"/>

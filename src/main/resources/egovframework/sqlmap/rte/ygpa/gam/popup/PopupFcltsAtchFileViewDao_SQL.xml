@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!-- SQL MAP 정의 -->
+<sqlMap namespace="ygpa.gam.popup">
+	<!-- TYPE ALIAS 정의 -->
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamFcltsAtchFileMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO"/>
+
+	<select id="PopupFcltsAtchFileViewDao.selectFcltsAtchFileViewPk_S" parameterClass="gamFcltsAtchFileMngVO" resultClass="egovMap">
+		SELECT
+				 TO_CHAR(T1.ATCH_FILE_NO) AS ATCH_FILE_NO
+				,T1.ATCH_FILE_NM_LOGIC AS ATCH_FILE_NM_LOGIC
+				,T1.ATCH_FILE_NM_PHYSICL AS ATCH_FILE_NM_PHYSICL
+				,T1.ATCH_FILE_SE AS ATCH_FILE_SE
+				,T1.ATCH_FILE_SJ AS ATCH_FILE_SJ
+				,TO_CHAR(T1.DIR_NO) AS ATCH_FILE_DIR_NO
+				,T1.FCLTS_DATA_SE AS ATCH_FILE_FCLTS_DATA_SE
+				,T1.FCLTS_MNG_NO AS ATCH_FILE_FCLTS_MNG_NO
+				,T1.FCLTS_JOB_SE AS ATCH_FILE_FCLTS_JOB_SE
+				,TO_CHAR(T1.FCLTS_MNG_SEQ) AS ATCH_FILE_FCLTS_MNG_SEQ
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,GAM_GET_FILE_SE_NM(T1.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+			FROM FCLTS_ATCH_FILE_F T1
+		WHERE T1.ATCH_FILE_NO = TO_NUMBER(REPLACE(#atchFileNo#,',',''))
+	</select>
+
+	<update id="PopupFcltsAtchFileViewDao.updateFcltsAtchFileView_S" parameterClass="gamFcltsAtchFileMngVO">
+		UPDATE FCLTS_ATCH_FILE_F SET
+			 ATCH_FILE_SE = #atchFileSe#
+			,ATCH_FILE_SJ = #atchFileSj#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE ATCH_FILE_NO = NVL(TO_NUMBER(REPLACE(#atchFileNo#,',','')),0)
+	</update>
+
+</sqlMap>
