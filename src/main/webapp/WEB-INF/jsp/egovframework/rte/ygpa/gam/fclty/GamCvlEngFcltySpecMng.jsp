@@ -1348,7 +1348,7 @@ GamCvlEngFcltySpecMngModule.prototype.displayAtchFileDirectory = function(argDir
 					atchFileDirTreeItems[atchFileDirTreeItems.length] = [atchFileDir.dirNo, atchFileDir.dirUpperNo, atchFileDir.dirNm];
 				}
 				module.tree = new dhtmlXTreeObject(atchFileDirTreeNode.attr('id'), "100%", "100%", 0);
-				module.tree.setImagePath("./js/codebase/imgs/dhxtree_skyblue/");
+				module.tree.setImagePath("<c:url value='/js/codebase/imgs/dhxtree_skyblue/'/>");
 				module.tree.loadJSArray(atchFileDirTreeItems);
 				module.tree.setUserData('module', module);
  				module.tree.openAllItems(0);

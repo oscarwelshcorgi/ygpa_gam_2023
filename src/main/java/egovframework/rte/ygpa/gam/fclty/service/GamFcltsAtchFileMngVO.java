@@ -30,6 +30,7 @@ public class GamFcltsAtchFileMngVO extends ComDefaultVO {
 	private	String atchFileNmLogic;			// 첨부 파일 명 논리
 	private	String atchFileNmPhysicl;		// 첨부 파일 명 물리
 	private	String atchFileSe;				// 첨부 파일 구분
+	private	String atchFileSj;				// 첨부 파일 설명
 	private	String atchFileDirNo;			// 디렉토리 번호
 	private	String atchFileFcltsDataSe;		// 시설물 자료 구분
 	private	String atchFileFcltsMngNo;		// 시설물 관리 번호
@@ -87,6 +88,18 @@ public class GamFcltsAtchFileMngVO extends ComDefaultVO {
 	 */
 	public void setAtchFileSe(String atchFileSe) {
 		this.atchFileSe = atchFileSe;
+	}
+	/**
+	 * @return the atchFileSj
+	 */
+	public String getAtchFileSj() {
+		return atchFileSj;
+	}
+	/**
+	 * @param atchFileSj the atchFileSj to set
+	 */
+	public void setAtchFileSj(String atchFileSj) {
+		this.atchFileSj = atchFileSj;
 	}
 	/**
 	 * @return the atchFileDirNo

@@ -747,6 +747,7 @@
 								,T1.ATCH_FILE_NM_LOGIC AS ATCH_FILE_NM_LOGIC
 								,T1.ATCH_FILE_NM_PHYSICL AS ATCH_FILE_NM_PHYSICL
 								,T1.ATCH_FILE_SE AS ATCH_FILE_SE
+								,T1.ATCH_FILE_SJ AS ATCH_FILE_SJ
 								,TO_CHAR(T1.DIR_NO) AS ATCH_FILE_DIR_NO
 								,T1.FCLTS_DATA_SE AS ATCH_FILE_FCLTS_DATA_SE
 								,T1.FCLTS_MNG_NO AS ATCH_FILE_FCLTS_MNG_NO
@@ -779,6 +780,7 @@
 			,ATCH_FILE_NM_LOGIC
 			,ATCH_FILE_NM_PHYSICL
 			,ATCH_FILE_SE
+			,ATCH_FILE_SJ
 			,DIR_NO
 			,FCLTS_DATA_SE
 			,FCLTS_MNG_NO
@@ -793,6 +795,7 @@
 			,#atchFileNmLogic#
 			,#atchFileNmPhysicl#
 			,#atchFileSe#
+			,#atchFileSj#
 			,TO_NUMBER(REPLACE(#atchFileDirNo#,',',''))
 			,#atchFileFcltsDataSe#
 			,#atchFileFcltsMngNo#
@@ -808,6 +811,7 @@
 			 ATCH_FILE_NM_LOGIC = #atchFileNmLogic#
 			,ATCH_FILE_NM_PHYSICL = #atchFileNmPhysicl#
 			,ATCH_FILE_SE = #atchFileSe#
+			,ATCH_FILE_SJ = #atchFileSj#
 			,DIR_NO = TO_NUMBER(REPLACE(#atchFileDirNo#,',',''))
 			,FCLTS_DATA_SE = #atchFileFcltsDataSe#
 			,FCLTS_MNG_NO = #atchFileFcltsMngNo#
@@ -840,6 +844,7 @@
 				,T1.ATCH_FILE_NM_LOGIC AS ATCH_FILE_NM_LOGIC
 				,T1.ATCH_FILE_NM_PHYSICL AS ATCH_FILE_NM_PHYSICL
 				,T1.ATCH_FILE_SE AS ATCH_FILE_SE
+				,T1.ATCH_FILE_SJ AS ATCH_FILE_SJ
 				,TO_CHAR(T1.DIR_NO) AS ATCH_FILE_DIR_NO
 				,T1.FCLTS_DATA_SE AS ATCH_FILE_FCLTS_DATA_SE
 				,T1.FCLTS_MNG_NO AS ATCH_FILE_FCLTS_MNG_NO
