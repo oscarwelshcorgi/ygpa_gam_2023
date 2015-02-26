@@ -41,9 +41,13 @@
         <appender-ref ref="console"/>
     </logger>
  -->
+    <logger name="java.sql.ResultSet" additivity="false">
+    	<level value="DEBUG"/>
+        <appender-ref ref="console"/>
+    </logger>
 
     <logger name="egovframework" additivity="false">
-        <level value="INFO"/>
+        <level value="DEBUG"/>
         <appender-ref ref="console"/>
     </logger>
 
@@ -54,7 +58,7 @@
 	</logger>
 
 	<logger name="org.springframework" additivity="false">
-		<level value="INFO" />
+		<level value="DEBUG" />
 		<appender-ref ref="console" />
 	</logger>
 

@@ -68,6 +68,7 @@ public class GamMapsArchMngtController {
 				Map fcltyCdInfo = gamMapsArchFcltyInqireService.selectFcltySpecInfo(searchVO);
 				List fileList = gamMapsArchFcltyInqireService.selectFcltyFileList(searchVO);
 				List<String> authorities = EgovUserDetailsHelper.getAuthorities();
+				String hasIndoor="";
 
 				for(int i=0; i<authorities.size(); i++) {
 					String author = EgovUserDetailsHelper.getAuthorities().get(i);
@@ -75,16 +76,50 @@ public class GamMapsArchMngtController {
 					if(auth.length()!=0) auth+=",";
 					if("role_admin".equalsIgnoreCase(author)) {
 						auth+="role_admin";
+						if("622".equals(fcltyCdInfo.get("gisAssetsPrtAtCode"))
+								&& "AHG".equals(fcltyCdInfo.get("gisAssetsCd"))
+								&& "01".equals(fcltyCdInfo.get("gisAssetsSubCd"))
+								&& "AE".equals(fcltyCdInfo.get("gisPrtFcltyCd"))
+								&& "0001".equals(fcltyCdInfo.get("gisPrtFcltySeq")) ) {
+							// 황금물류 센터
+							hasIndoor="/gis/innroom/gamGoldenLogisCenter.do";
+						}
+						if("622".equals(fcltyCdInfo.get("gisAssetsPrtAtCode"))
+								&& "AHE".equals(fcltyCdInfo.get("gisAssetsCd"))
+								&& "04".equals(fcltyCdInfo.get("gisAssetsSubCd"))
+								&& "AE".equals(fcltyCdInfo.get("gisPrtFcltyCd"))
+								&& "0001".equals(fcltyCdInfo.get("gisPrtFcltySeq")) ) {
+							// 국제물류 센터
+							hasIndoor="/gis/innroom/gamNationalLogisCenter.do";
+						}
 						break;
 					}
 					else {
 						if("A".equals(loginVo.getMngFcltyCd())) {
 							auth+="role_manager";
+							if("622".equals(fcltyCdInfo.get("gisAssetsPrtAtCode"))
+									&& "AHG".equals(fcltyCdInfo.get("gisAssetsCd"))
+									&& "01".equals(fcltyCdInfo.get("gisAssetsSubCd"))
+									&& "AE".equals(fcltyCdInfo.get("gisPrtFcltyCd"))
+									&& "0001".equals(fcltyCdInfo.get("gisPrtFcltySeq")) ) {
+								// 황금물류 센터
+								hasIndoor="/gis/innroom/gamGoldenLogisCenter.do";
+							}
+							if("622".equals(fcltyCdInfo.get("gisAssetsPrtAtCode"))
+									&& "AHE".equals(fcltyCdInfo.get("gisAssetsCd"))
+									&& "04".equals(fcltyCdInfo.get("gisAssetsSubCd"))
+									&& "AE".equals(fcltyCdInfo.get("gisPrtFcltyCd"))
+									&& "0001".equals(fcltyCdInfo.get("gisPrtFcltySeq")) ) {
+								// 국제물류 센터
+								hasIndoor="/gis/innroom/gamNationalLogisCenter.do";
+							}
 						}
+
 					}
 					auth+=author.toLowerCase();
 				}
 
+				fcltyCdInfo.put("hasIndoor", hasIndoor);
 				model.addAttribute("fcltyCd", fcltyCdInfo);
 				model.addAttribute("fileList", fileList);
 				model.addAttribute("auth", auth);

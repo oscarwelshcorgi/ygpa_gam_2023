@@ -907,7 +907,7 @@ public class GamHtldRentFeeMngtController {
      	   BindingResult bindingResult)
             throws Exception {
      	Map map = new HashMap();
-     	Map paramMap = new HashMap();
+     	Map paramMap = new EgovMap();
         String resultMsg = "";
         int resultCode = 1;
         int anlrveLevCnt = 0;
@@ -1140,5 +1140,25 @@ public class GamHtldRentFeeMngtController {
     	return map;
     }
 
+
+	@RequestMapping(value="/oper/htld/gamHtldRentHwpPreview.do")
+	String gamHtldRentHwpPreview(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
+
+		model.addAttribute("searchOpt", approvalOpt);
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			model.addAttribute("resultCode", 1);
+			model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+		} else {
+
+			model.addAttribute("resultCode", 0);
+			model.addAttribute("resultList", approvalOpt);
+			model.addAttribute("resultMsg", "");
+		}
+
+		return "/ygpa/gam/oper/htld/GamHtldHwpPreview";
+
+	}
 
 }

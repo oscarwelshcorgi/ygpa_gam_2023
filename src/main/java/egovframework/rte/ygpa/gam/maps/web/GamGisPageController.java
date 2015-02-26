@@ -51,4 +51,61 @@ public class GamGisPageController {
     	return "ygpa/gam/main/gisBuildInfoPage";
     }
 
+    @RequestMapping(value="/gis/innroom/gamMarinCenterInfo.do")
+    String gamMarinCenterInfo(ModelMap model) throws Exception {
+    	//
+    	// 메뉴 로딩
+    	LOG.debug("##### gamMain access auth : "+EgovUserDetailsHelper.class.toString());
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
+    		return "ygpa/gam/main/loginError";
+    	}
+    	else {
+    	}
+
+    	return "ygpa/gam/indoor/GamMarinCenterMngt";
+    }
+
+    @RequestMapping(value="/gis/innroom/gamNationalLogisCenter.do")
+    String gamNationalLogisCenter(ModelMap model) throws Exception {
+    	//
+    	// 메뉴 로딩
+    	LOG.debug("##### gamMain access auth : "+EgovUserDetailsHelper.class.toString());
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
+    		return "ygpa/gam/main/loginError";
+    	}
+    	else {
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+    		model.addAttribute("updUsr", loginVo.getId());
+    	}
+
+    	return "ygpa/gam/indoor/GamNationalLogisCenter";
+    }
+
+    @RequestMapping(value="/gis/innroom/gamGoldenLogisCenter.do")
+    String gamGoldenLogisCenter(ModelMap model) throws Exception {
+    	//
+    	// 메뉴 로딩
+    	LOG.debug("##### gamMain access auth : "+EgovUserDetailsHelper.class.toString());
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
+    		return "ygpa/gam/main/loginError";
+    	}
+    	else {
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+    		model.addAttribute("updUsr", loginVo.getId());
+    	}
+
+    	return "ygpa/gam/indoor/GamGoldenLogisCenter";
+    }
 }

@@ -94,6 +94,9 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
            			,fcltsMngNo: this.$('#fcltsMngNo').val()
 			});
         	break;
+        case 'fcltyIndoorMng':
+        	this.openPopupWindow(this.$('#fcltyIndoorMng').data("url"));
+        	break;
         case 'assignFeature':
         	EMD.util.create_window("건축 시설 제원 코드 위치 지정", "/fclty/gamConstFcltySpecMng.do", null, {
         		action: "setFeature"
@@ -155,6 +158,9 @@ var popupInfoModule = new GamMapPopupModule();
 				<button id="fcltyFlawRpr" data-icon="ui-icon-newwin">하자보수</button>
 				<button id="fcltyMntnRpr" data-icon="ui-icon-newwin">유지보수</button>
 				<button id="fcltyQcMng" data-icon="ui-icon-newwin">점검기록</button>
+				<c:if test="${fcltyCd.hasIndoor!=''}">
+					<button id="fcltyIndoorMng" data-url="${fcltyCd.hasIndoor}" data-icon="ui-icon-newwin">실내공간정보 관리</button>
+				</c:if>
 			</c:if>
 			<c:if test="${!fn:containsIgnoreCase(auth,'role_admin')&&!fn:containsIgnoreCase(auth,'role_manager') }">
 				<button id="fcltyCdInqire" data-icon="ui-icon-newwin">제원 조회</button>

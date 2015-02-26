@@ -256,7 +256,6 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 			updateNticPrintState(vo);
 		}
 		gamHtldRentFeeMngtDao.deleteNticRequestRevCollF(vo);	// 고지정보를 삭제한다.
-		gamHtldRentFeeMngtDao.deleteIntrNticRequestRevCollF(vo);	// 이자 고지정보를 삭제한다.
 		vo.put("accnutYear", "");
 		vo.put("nticno", "");
 		vo.put("nhtIsueYn", "N");
