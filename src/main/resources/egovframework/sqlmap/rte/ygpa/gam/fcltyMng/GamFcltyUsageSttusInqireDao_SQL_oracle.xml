@@ -44,7 +44,6 @@
 					<isNotEmpty property="sFcltsMngGroupNo" prepend="AND">
 						   M.FCLTS_MNG_GROUP_NO like '%'||#sFcltsMngGroupNo#||'%'
 					</isNotEmpty>
-					
 		             ) S
 		        ) A
 		<![CDATA[
@@ -109,6 +108,10 @@
 									  D.USAGE_PD_FROM < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
 								]]>
 							</isNotEmpty>
+							<isNotEmpty property="sRegistEntrpsCd" prepend="AND">
+						  			  M.ENTRPSCD = #sRegistEntrpsCd#
+				    		</isNotEmpty>
+							
 						   AND D.PRT_AT_CODE = M.PRT_AT_CODE
 						   AND D.MNG_YEAR = M.MNG_YEAR
 						   AND D.MNG_NO = M.MNG_NO
@@ -140,6 +143,9 @@
 			<![CDATA[
 				  D.USAGE_PD_FROM <= TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')
 			]]>
+		</isNotEmpty>
+		<isNotEmpty property="sRegistEntrpsCd" prepend="AND">
+				  M.ENTRPSCD = #sRegistEntrpsCd#
 		</isNotEmpty>
 		   AND D.PRT_AT_CODE = M.PRT_AT_CODE
 		   AND D.MNG_YEAR = M.MNG_YEAR

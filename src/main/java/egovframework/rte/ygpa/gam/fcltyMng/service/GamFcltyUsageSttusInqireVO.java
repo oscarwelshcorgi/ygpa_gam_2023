@@ -37,6 +37,10 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 
 	/** 시설물 관리번호(조회조건) **/
 	private String sFcltsMngGroupNo;
+	
+	/** 업체 관리번호(조회조건) **/
+	private String sRegistEntrpsCd;
+	
 
 	/** 사용기간 (조회조건) **/
 	private String sUsagePdFrom;
@@ -351,5 +355,18 @@ public class GamFcltyUsageSttusInqireVO extends ComDefaultVO {
 		return serialVersionUID;
 	}
 
+	/**
+	 * @return the sRegistEntrpsCd
+	 */
+	public String getsRegistEntrpsCd() {
+		return sRegistEntrpsCd;
+	}
+
+	/**
+	 * @param sRegistEntrpsCd the sRegistEntrpsCd to set
+	 */
+	public void setsRegistEntrpsCd(String sRegistEntrpsCd) {
+		this.sRegistEntrpsCd = sRegistEntrpsCd;
+	}
 
 }

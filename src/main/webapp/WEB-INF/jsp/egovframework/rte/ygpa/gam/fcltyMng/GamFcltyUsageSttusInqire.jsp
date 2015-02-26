@@ -194,7 +194,11 @@
 		
 	  this.$("#sFcltsMngGroupNo").bind("keyup change", {module: this}, function(event) {
 	  	event.data.module.getSearchFcltsMngGroupNm();
-	  });	
+	  });
+	  
+	this.$("#sRegistEntrpsCd").bind("keyup change", {module: this}, function(event) {
+		event.data.module.getQueryEntrpsNm();
+	});
  };
  
  <%
@@ -401,7 +405,10 @@ GamFcltyUsageSttusInqireModule.prototype.onClosePopup = function(popupId, msg, v
 			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
 		break;
-
+		case 'selectEntrpsInfoPopup': //등록업체 선택(조회)
+	        this.$('#sRegistEntrpsCd').val(value['entrpscd']);
+	        this.$('#sRegistEntrpsNm').val(value['entrpsNm']);
+	    break;
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
 
@@ -428,7 +435,10 @@ GamFcltyUsageSttusInqireModule.prototype.onButtonClick = function(buttonId) {
 			// 검색조건 시설물 관리 그룹 팝업
 		case "searchPopupBtn":
 			this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', null);
-		break;
+			break;
+		case 'popupEntrpsInfo': // 업체선택 팝업을 호출한다.(조회)
+	        this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', null);
+	        break;
 	}
 
 };
@@ -575,6 +585,22 @@ GamFcltyUsageSttusInqireModule.prototype.onTabChangeBefore = function(newTabId, 
 		return true;
 	};
 
+<%
+/**
+ * @FUNCTION NAME : getQueryEntrpsNm
+ * @DESCRIPTION   : 조회조건 사용업체 명을 지운다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyUsageSttusInqireModule.prototype.getQueryEntrpsNm = function() {
+	var sEntrpscd = this.$('#sRegistEntrpsCd').val();
+	if (sEntrpscd.length != 8) {
+		this.$('#sRegistEntrpsNm').val('');
+	}
+
+};
+	
+	
 	// 다음 변수는 고정 적으로 정의 해야 함
 	var module_instance = new GamFcltyUsageSttusInqireModule();
 </script>
@@ -619,6 +645,14 @@ GamFcltyUsageSttusInqireModule.prototype.onTabChangeBefore = function(newTabId, 
 								<input id="sUsagePdFrom" type="text" class="emdcal" size="8" > ~ <!-- data-required="true"> ~  -->
 								<input id="sUsagePdTo" type="text" class="emdcal" size="8">
 							</td>
+						</tr>
+						<tr>
+							<th>사용업체</th>
+							<td colspan="5">
+                            	<input id="sRegistEntrpsCd" type="text" size="14" maxlength="8">
+                         		<input id="sRegistEntrpsNm" type="text" size="30" disabled="disabled">
+                         		<button id="popupEntrpsInfo" class="popupButton">선택</button>
+                         	</td>
 						</tr>
 					</tbody>
 				</table>
