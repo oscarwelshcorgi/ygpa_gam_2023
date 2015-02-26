@@ -672,8 +672,8 @@ GamArchFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnDirRemove':
 			this.removeAtchFileDirectory();
 			break;
-		case 'btnFileRefresh':
-			this.displayAtchFileList(this.$('#dirNo').val());
+		case 'btnFileAllSelect':
+			this.selectAllFile();
 			break;
 		case 'btnFileUpload':
 			this.uploadFile();
@@ -1716,6 +1716,28 @@ GamArchFcltySpecMngModule.prototype.refreshFileData = function(argAtchFileNo) {
 
 <%
 /**
+ * @FUNCTION NAME : selectAllFile
+ * @DESCRIPTION   : ALL FILE SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamArchFcltySpecMngModule.prototype.selectAllFile = function() {
+
+	var rows = this.$('#fileGrid').flexGetData();
+	var atchFileDataCount = rows.length;
+	if (atchFileDataCount > 0) {
+		for (var i=0; i<atchFileDataCount; i++) {
+			var row = rows[i];
+			row["atchFileSelChk"] = true;
+			var rowid = this.$('#fileGrid')[0].dgrid.getRowId(i);
+			this.$('#fileGrid').flexUpdateRow(rowid, row);
+		}
+	}
+
+};
+
+<%
+/**
  * @FUNCTION NAME : saveUploadFileData
  * @DESCRIPTION   : UPLOAD FILE 항목을 저장한다.
  * @PARAMETER     :
@@ -1883,10 +1905,10 @@ GamArchFcltySpecMngModule.prototype.deleteFileData = function() {
 **/
 %>
 GamArchFcltySpecMngModule.prototype.deleteMultiFileData = function() {
-console.log("deleteMultiFileData");
+
 	var rows = this.$('#fileGrid').selectFilterData([{col:'atchFileSelChk', filter: true}]);
 	if (rows.length <= 0) {
-		alert('삭제할 첨부 파일 자료가 선택되지 않았습니다.');
+		alert('다운로드할 첨부 파일 자료가 선택되지 않았습니다.');
 		return;
 	}
 	var atchFileDirNo = this.$('#dirNo').val();
@@ -2331,8 +2353,8 @@ GamArchFcltySpecMngModule.prototype.enableFileButtonItem = function() {
 	var atchFileNo = this.$('#atchFileNo').val();
 	if (dirNo != "") {
 		if (atchFileNo != "") {
-			this.$('#btnFileRefresh').enable();
-			this.$('#btnFileRefresh').removeClass('ui-state-disabled');
+			this.$('#btnFileAllSelect').enable();
+			this.$('#btnFileAllSelect').removeClass('ui-state-disabled');
 			this.$('#btnFileUpload').enable();
 			this.$('#btnFileUpload').removeClass('ui-state-disabled');
 			this.$('#btnFileDownload').enable();
@@ -2342,8 +2364,8 @@ GamArchFcltySpecMngModule.prototype.enableFileButtonItem = function() {
 			this.$('#btnFilePreview').enable();
 			this.$('#btnFilePreview').removeClass('ui-state-disabled');
 		} else {
-			this.$('#btnFileRefresh').enable();
-			this.$('#btnFileRefresh').removeClass('ui-state-disabled');
+			this.$('#btnFileAllSelect').enable();
+			this.$('#btnFileAllSelect').removeClass('ui-state-disabled');
 			this.$('#btnFileUpload').enable();
 			this.$('#btnFileUpload').removeClass('ui-state-disabled');
 			this.$('#btnFileDownload').enable();
@@ -2354,7 +2376,7 @@ GamArchFcltySpecMngModule.prototype.enableFileButtonItem = function() {
 			this.$('#btnFilePreview').removeClass('ui-state-disabled');
 		}
 	} else {
-		this.$('#btnFileRefresh').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnFileAllSelect').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnFileUpload').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnFileDownload').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnFileRemove').disable({disableClass:"ui-state-disabled"});
@@ -2372,7 +2394,7 @@ GamArchFcltySpecMngModule.prototype.enableFileButtonItem = function() {
 %>
 GamArchFcltySpecMngModule.prototype.disableFileButtonItem = function() {
 
-	this.$('#btnFileRefresh').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnFileAllSelect').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnFileUpload').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnFileDownload').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnFileRemove').disable({disableClass:"ui-state-disabled"});
@@ -2872,7 +2894,7 @@ var module_instance = new GamArchFcltySpecMngModule();
 							<button id="btnDirRemove" class="buttonDelete">디렉토리 삭제</button>
 						</td>
 						<td style="width:50%; text-align:right;">
-							<button id="btnFileRefresh">파일 재조회</button>
+							<button id="btnFileAllSelect">전체 선택</button>
 							<button id="btnFileUpload" class="buttonAdd">파일 추가</button>
 							<button id="btnFileDownload">파일 다운로드</button>
 							<button id="btnFileRemove" class="buttonDelete">파일 삭제</button>
