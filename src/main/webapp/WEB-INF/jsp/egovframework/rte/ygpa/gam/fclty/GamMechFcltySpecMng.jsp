@@ -1027,7 +1027,16 @@ var module_instance = new GamMechFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th>시설분류</th>
-							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM067" /></td>
+						<!-- 	<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM067" /></td> -->
+							<td>
+							<select id="sPrtFcltyCd">
+							<option value="">전체</option>
+							<option value="M1">컨테이너크레인</option>
+							<option value="MA">부잔교</option>
+							<option value="MB">건축 기계설비</option>
+							<option value="MZ">하역장비현황</option>
+							</select>
+							</td>
 							<th>시설명</th>
 							<td><input id="sPrtFcltyNm" type="text" size="30" maxlength="30" /></td>
 							<th>소재지</th>
@@ -1236,7 +1245,7 @@ var module_instance = new GamMechFcltySpecMngModule();
 							<th width="12%" height="17" class="required_text">고　무　방충재</th>
 							<td><input data-column-id="rubberFender" type="text" size="50" class="ygpaNumber" data-decimal-point="2"/> m</td>
 							<th width="12%" height="17" class="required_text">전　기　방　식</th>
-							<td><input data-column-id="elctyMthd" type="text" size="50" maxlength="25" /></td>
+							<td><input data-column-id="elctyMthd" type="text" size="50" maxlength="25" /> mm</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">적　재　톤　수</th>
@@ -1286,9 +1295,9 @@ var module_instance = new GamMechFcltySpecMngModule();
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">물　　탱　　크</th>
-							<td><input data-column-id="waterTank" type="text" size="50" class="ygpaNumber" data-decimal-point="2" /> m</td>
+							<td><input data-column-id="waterTank" type="text" size="50" class="ygpaNumber" data-decimal-point="2" /> ℓ</td>
 							<th width="12%" height="17" class="required_text">유류　저장탱크</th>
-							<td><input data-column-id="oilSaveTank" type="text" size="50" class="ygpaNumber" data-decimal-point="2" /> m</td>
+							<td><input data-column-id="oilSaveTank" type="text" size="50" class="ygpaNumber" data-decimal-point="2" /> ℓ</td>
 						</tr>
 						<tr>
 							<th width="12%" height="17" class="required_text">정화조　　형식</th>

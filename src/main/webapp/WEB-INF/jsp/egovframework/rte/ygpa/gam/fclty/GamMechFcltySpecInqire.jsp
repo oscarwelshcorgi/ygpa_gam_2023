@@ -501,7 +501,16 @@ var module_instance = new GamMechFcltySpecInqireModule();
 						</tr>
 						<tr>
 							<th>시설분류</th>
-							<td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM067" /></td>
+							<!-- <td><input id="sPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM067" /></td> -->
+							<td>
+							<select id="sPrtFcltyCd">
+								<option value="">전체</option>
+								<option value="M1">컨테이너크레인</option>
+								<option value="MA">부잔교</option>
+								<option value="MB">건축 기계설비</option>
+								<option value="MZ">하역장비현황</option>
+							</select>
+							</td>
 							<th>시설명</th>
 							<td><input id="sPrtFcltyNm" type="text" size="30" maxlength="30" /></td>
 							<th>소재지</th>
