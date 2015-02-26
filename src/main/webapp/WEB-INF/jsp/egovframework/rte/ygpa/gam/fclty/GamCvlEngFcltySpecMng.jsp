@@ -140,11 +140,31 @@ GamCvlEngFcltySpecMngModule.prototype.loadComplete = function(params) {
 		url : '/fclty/gamSelectCvlEngFcltySpecMngFcltsAtchFileList.do',
 		dataType : 'json',
 		colModel : [
-					{display:"번호",		name:"atchFileNo",			width:100,		sortable:false,		align:"center"},
+					{display:"선택",		name:"atchFileSelChk",		width:40,		sortable:false,		align:"center",		displayFormat:"checkbox"},
+					{display:"번호",		name:"atchFileNo",			width:60,		sortable:false,		align:"center"},
 					{display:"구분",		name:"atchFileSeNm",		width:60,		sortable:false,		align:"center"},
-					{display:"파일명",		name:"atchFileNmLogic",		width:300,		sortable:false,		align:"left"}
+					{display:"파일명",		name:"atchFileNmLogic",		width:200,		sortable:false,		align:"left"},
+					{display:"프리뷰",		name:"photoUrl",			width:100,		sortable:false,		align:"center",		displayFormat:"image"}
 					],
-		height: "240"
+		height: "477",
+		preProcess: function(module, data) {
+			$.each(data.resultList, function() {
+				this.atchFileSelChk = (this.atchFileSelChk === 'TRUE');
+				this.photoUrl = "";
+				var atchFileNmPhysicl = this.atchFileNmPhysicl;
+				var ext = atchFileNmPhysicl.substring(atchFileNmPhysicl.lastIndexOf(".")+1).toLowerCase();
+				if (ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif") {
+					this.photoUrl = module.getPfPhotoUrl(atchFileNmPhysicl) + "^" + this.atchFileNmLogic + "^" + "100";
+				} else if (ext == "hwp") {
+					this.photoUrl = "js/codebase/imgs/hwp.png";
+				} else if (ext == "dwg") {
+					this.photoUrl = "js/codebase/imgs/dwg.png";
+				} else {
+					this.photoUrl = "js/codebase/imgs/unknown.png";
+				}
+			});
+			return data;
+		}
 	});
 
 	this.$("#fileGrid").on('onItemSelected', function(event, module, row, grid, param) {
@@ -152,11 +172,18 @@ GamCvlEngFcltySpecMngModule.prototype.loadComplete = function(params) {
 		module.enableFileButtonItem();
 	});
 
+	this.$("#fileGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		module.refreshFileData(row.atchFileNo);
+		module.enableFileButtonItem();
+		module.showFcltsAtchFileViewPopup();
+	});
+
 	this._params = params;
 	this._mainmode = 'query';
 	this._mainKeyValue = '';
 	this._searchButtonClick = false;
 	this._atchFileDirLoad = false;
+	this._atchFilePreview = false;
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnShowMap').disable({disableClass:"ui-state-disabled"});
@@ -605,6 +632,25 @@ GamCvlEngFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, valu
 				this.$('#stplHndlFrght').focus();
 			}
 			break;
+		case 'popupFcltsAtchFileView':
+			if (msg == 'ok') {
+				var atchFileNo = this.$('#atchFileNo').val();
+				if (atchFileNo == value.atchFileNo) {
+					this.$('#atchFileSe').val(value.atchFileSe);
+					this.$('#atchFileSeNm').val(value.atchFileSeNm);
+					this.$('#atchFileSj').val(value.atchFileSj);
+					var selectRow = this.$('#fileGrid').selectedRows();
+					if(selectRow.length > 0) {
+						var row = selectRow[0];
+						row['atchFileSeNm'] = value.atchFileSeNm;
+						row['atchFileSe'] = value.atchFileSe;
+						row['atchFileSj'] = value.atchFileSj;
+						var rowid = this.$("#fileGrid").selectedRowIds()[0];
+						this.$('#fileGrid').flexUpdateRow(rowid, row);
+					}
+				}
+			}
+			break;
 	}
 
 };
@@ -677,20 +723,20 @@ GamCvlEngFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnDirRemove':
 			this.removeAtchFileDirectory();
 			break;
-		case 'btnFileRefresh':
-			this.displayAtchFileList(this.$('#dirNo').val());
+		case 'btnFileAllSelect':
+			this.selectAllFile();
 			break;
 		case 'btnFileUpload':
 			this.uploadFile();
 			break;
 		case 'btnFileDownload':
-			this.downloadFile();
+			this.downloadMultiFile();
 			break;
 		case 'btnFileRemove':
-			this.deleteFileData();
+			this.deleteMultiFileData();
 			break;
 	    case 'btnFilePreview':
-	    	this.previewFile(true);
+	    	this.displayPreviewFile();
 			break;
 	}
 
@@ -1535,6 +1581,10 @@ GamCvlEngFcltySpecMngModule.prototype.renameAtchFileDirectory = function() {
 		alert('디렉토리 정보가 부정확합니다. (업무구분)');
 		return;
 	}
+	if (dirFcltsJobSe != "C") {
+		alert('다른 시설담당자가 생성한 디렉토리입니다. (변경불가)');
+		return;
+	}
 	if (inputDirNm == dirNm) {
 		alert('변경 디렉토리명이 현재 디렉토리명과 동일합니다.');
 		this.$("#inputDirNm").focus();
@@ -1613,6 +1663,10 @@ GamCvlEngFcltySpecMngModule.prototype.removeAtchFileDirectory = function() {
 		alert('디렉토리 정보가 부정확합니다. (업무구분)');
 		return;
 	}
+	if (dirFcltsJobSe != "C") {
+		alert('다른 시설담당자가 생성한 디렉토리입니다. (삭제불가)');
+		return;
+	}
 	if (confirm("[" + dirNm + "] 디렉토리를 삭제하시겠습니까?\r\n(하위 디렉토리 및 첨부 파일도 모두 삭제됩니다)")) {
 		var deleteVO = this.makeFormArgs("#dirForm");
 		this.doAction('/fclty/gamDeleteCvlEngFcltySpecMngAtchFileDir.do', deleteVO, function(module, result) {
@@ -1635,7 +1689,6 @@ GamCvlEngFcltySpecMngModule.prototype.removeAtchFileDirectory = function() {
 %>
 GamCvlEngFcltySpecMngModule.prototype.displayAtchFileList = function(argAtchFileDirNo) {
 
-	this.$('#previewImage').attr('src', '');
 	this.makeFormValues('#fileForm', {});
 	this.makeDivValues('#fileForm', {});
 	this.$('#fileGrid').flexEmptyData();
@@ -1663,7 +1716,6 @@ GamCvlEngFcltySpecMngModule.prototype.refreshFileData = function(argAtchFileNo) 
 
 	if (argAtchFileNo != null && argAtchFileNo != "") {
 		this.$('#atchFileNo').val(argAtchFileNo);
-		this.$('#previewImage').attr('src', '');
 		var searchVO = this.getFormValues('#fileForm');
 		this.doAction('/fclty/gamSelectCvlEngFcltySpecMngFcltsAtchFilePk.do', searchVO, function(module, result){
 			if (result.resultCode == "0") {
@@ -1677,10 +1729,31 @@ GamCvlEngFcltySpecMngModule.prototype.refreshFileData = function(argAtchFileNo) 
 			}
 		});
 	} else {
-		this.$('#previewImage').attr('src', '');
 		this.makeFormValues('#fileForm', {});
 		this.makeDivValues('#fileForm', {});
 		this.disableFileButtonItem();
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectAllFile
+ * @DESCRIPTION   : ALL FILE SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamCvlEngFcltySpecMngModule.prototype.selectAllFile = function() {
+
+	var rows = this.$('#fileGrid').flexGetData();
+	var atchFileDataCount = rows.length;
+	if (atchFileDataCount > 0) {
+		for (var i=0; i<atchFileDataCount; i++) {
+			var row = rows[i];
+			row["atchFileSelChk"] = true;
+			var rowid = this.$('#fileGrid')[0].dgrid.getRowId(i);
+			this.$('#fileGrid').flexUpdateRow(rowid, row);
+		}
 	}
 
 };
@@ -1795,6 +1868,27 @@ GamCvlEngFcltySpecMngModule.prototype.downloadFile = function() {
 
 <%
 /**
+ * @FUNCTION NAME : downloadMultiFile
+ * @DESCRIPTION   : MULTI FILE DOWNLOAD
+ * @PARAMETER     : NONE
+**/
+%>
+GamCvlEngFcltySpecMngModule.prototype.downloadMultiFile = function() {
+
+	var rows = this.$('#fileGrid').selectFilterData([{col:'atchFileSelChk', filter: true}]);
+	if (rows.length <= 0) {
+		alert('다운로드할 첨부 파일 자료가 선택되지 않았습니다.');
+		return;
+	}
+	for (var i=0; i<rows.length; i++) {
+		var row = rows[i];
+		this.downPfPhoto(row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
+	}
+
+};
+
+<%
+/**
  * @FUNCTION NAME : deleteFileData
  * @DESCRIPTION   : FILE 항목을 삭제한다.
  * @PARAMETER     : NONE
@@ -1804,8 +1898,13 @@ GamCvlEngFcltySpecMngModule.prototype.deleteFileData = function() {
 
 	var atchFileDirNo = this.$('#dirNo').val();
 	var atchFileNo = this.$('#atchFileNo').val();
+	var atchFileFcltsJobSe = this.$('#atchFileFcltsJobSe').val();
 	if (atchFileNo == "") {
 		alert('첨부 파일 번호가 부정확합니다.');
+		return;
+	}
+	if (atchFileFcltsJobSe != "C") {
+		alert('다른 시설담당자가 첨부한 파일입니다. (삭제불가)');
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
@@ -1822,32 +1921,105 @@ GamCvlEngFcltySpecMngModule.prototype.deleteFileData = function() {
 
 <%
 /**
- * @FUNCTION NAME : previewFile
- * @DESCRIPTION   : FILE PREVIEW
- * @PARAMETER     :
- *   1. argPreviewFlag - PREVIEW FLAG
+ * @FUNCTION NAME : deleteMultiFileData
+ * @DESCRIPTION   : MULTI FILE 항목을 삭제한다.
+ * @PARAMETER     : NONE
 **/
 %>
-GamCvlEngFcltySpecMngModule.prototype.previewFile = function(argPreviewFlag) {
+GamCvlEngFcltySpecMngModule.prototype.deleteMultiFileData = function() {
 
-	if (argPreviewFlag == true) {
-		var selectRow = this.$('#fileGrid').selectedRows();
-		if (selectRow.length > 0) {
-			var row = selectRow[0];
-			var atchFileNmPhysicl = row["atchFileNmPhysicl"];
-			if (atchFileNmPhysicl != null || atchFileNmPhysicl != "") {
-				var ext = atchFileNmPhysicl.substring(atchFileNmPhysicl.lastIndexOf(".")+1).toLowerCase();
-				if (ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif") {
-					$imgURL = this.getPfPhotoUrl(atchFileNmPhysicl);
-					this.$("#previewImage").attr("src", $imgURL);
-				} else {
-					this.$("#previewImage").removeAttr("src");
-				}
-			}
-		}
-	} else {
-		this.$('#previewImage').attr('src', '');
+	var rows = this.$('#fileGrid').selectFilterData([{col:'atchFileSelChk', filter: true}]);
+	if (rows.length <= 0) {
+		alert('다운로드할 첨부 파일 자료가 선택되지 않았습니다.');
+		return;
 	}
+	var atchFileDirNo = this.$('#dirNo').val();
+	var atchFileNo = "";
+	var atchFileFcltsJobSe = "";
+	var atchFileNmLogic = "";
+	var deleteDataCount = rows.length;
+	var deleteAtchFileNoList = "";
+	for (var i=0; i<deleteDataCount; i++) {
+		var row = rows[i];
+		atchFileNo = row["atchFileNo"];
+		atchFileFcltsJobSe = row["atchFileFcltsJobSe"];
+		atchFileNmLogic = row["atchFileNmLogic"];
+		if (atchFileNo == "") {
+			alert('[' + atchFileNmLogic + '] 첨부 파일 번호가 부정확합니다.');
+			return;
+		}
+		if (atchFileFcltsJobSe != "C") {
+			alert('[' + atchFileNmLogic + '] 다른 시설담당자가 첨부한 파일입니다. (삭제불가)');
+			return;
+		}
+		if (deleteAtchFileNoList != "") {
+			deleteAtchFileNoList = deleteAtchFileNoList + "," + atchFileNo;
+		} else {
+			deleteAtchFileNoList = atchFileNo;
+		}
+	}
+	if (confirm("[" + deleteDataCount + "] 건의 첨부 파일 자료를 삭제하시겠습니까?")) {
+		var deleteVO = {
+				'deleteAtchFileNoList':deleteAtchFileNoList
+		};
+		this.doAction('/fclty/gamDeleteCvlEngFcltySpecMngFcltsAtchFileMulti.do', deleteVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.displayAtchFileList(atchFileDirNo);
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : displayPreviewFile
+ * @DESCRIPTION   : FILE PREVIEW DISPLAY
+ * @PARAMETER     : NONE
+**/
+%>
+GamCvlEngFcltySpecMngModule.prototype.displayPreviewFile = function() {
+
+	var atchFilePreviewFlag = this.$('#fileGrid')[0].dgrid.isColumnHidden(4);
+	var columnWidth = "200";
+	if (atchFilePreviewFlag == true) {
+		atchFilePreviewFlag = false;
+		columnWidth = "200";
+	} else {
+		atchFilePreviewFlag = true;
+		columnWidth = "300";
+	}
+	this.$('#fileGrid')[0].dgrid.setColumnHidden(4,atchFilePreviewFlag);
+	this.$('#fileGrid')[0].dgrid.setColWidth(3, columnWidth);
+	this._atchFilePreview = atchFilePreviewFlag;
+	this.displayAtchFileList(this.$('#dirNo').val());
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : showFcltsAtchFileViewPopup
+ * @DESCRIPTION   : FCLTS ATTACHE FILE VIEW POPUP
+ * @PARAMETER     : NONE
+**/
+%>
+GamCvlEngFcltySpecMngModule.prototype.showFcltsAtchFileViewPopup = function() {
+
+	var atchFileNo = this.$('#atchFileNo').val();
+	var atchFileNmPhysicl = this.$('#atchFileNmPhysicl').val();
+	var imageURL = "";
+	if (atchFileNo == "") {
+		return;
+	}
+	if (atchFileNmPhysicl != "") {
+		imageURL = this.getPfPhotoUrl(atchFileNmPhysicl);
+	}
+    var searchOpts = {
+		'atchFileNo':atchFileNo,
+		'imageURL':imageURL
+    };
+	this.doExecuteDialog('popupFcltsAtchFileView', '시설물 첨부 파일 보기', '/popup/showFcltsAtchFileViewPopup.do', null, searchOpts);
 
 };
 
@@ -2203,8 +2375,8 @@ GamCvlEngFcltySpecMngModule.prototype.enableFileButtonItem = function() {
 	var atchFileNo = this.$('#atchFileNo').val();
 	if (dirNo != "") {
 		if (atchFileNo != "") {
-			this.$('#btnFileRefresh').enable();
-			this.$('#btnFileRefresh').removeClass('ui-state-disabled');
+			this.$('#btnFileAllSelect').enable();
+			this.$('#btnFileAllSelect').removeClass('ui-state-disabled');
 			this.$('#btnFileUpload').enable();
 			this.$('#btnFileUpload').removeClass('ui-state-disabled');
 			this.$('#btnFileDownload').enable();
@@ -2214,16 +2386,19 @@ GamCvlEngFcltySpecMngModule.prototype.enableFileButtonItem = function() {
 			this.$('#btnFilePreview').enable();
 			this.$('#btnFilePreview').removeClass('ui-state-disabled');
 		} else {
-			this.$('#btnFileRefresh').enable();
-			this.$('#btnFileRefresh').removeClass('ui-state-disabled');
+			this.$('#btnFileAllSelect').enable();
+			this.$('#btnFileAllSelect').removeClass('ui-state-disabled');
 			this.$('#btnFileUpload').enable();
 			this.$('#btnFileUpload').removeClass('ui-state-disabled');
-			this.$('#btnFileDownload').disable({disableClass:"ui-state-disabled"});
-			this.$('#btnFileRemove').disable({disableClass:"ui-state-disabled"});
-			this.$('#btnFilePreview').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnFileDownload').enable();
+			this.$('#btnFileDownload').removeClass('ui-state-disabled');
+			this.$('#btnFileRemove').enable();
+			this.$('#btnFileRemove').removeClass('ui-state-disabled');
+			this.$('#btnFilePreview').enable();
+			this.$('#btnFilePreview').removeClass('ui-state-disabled');
 		}
 	} else {
-		this.$('#btnFileRefresh').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnFileAllSelect').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnFileUpload').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnFileDownload').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnFileRemove').disable({disableClass:"ui-state-disabled"});
@@ -2241,7 +2416,7 @@ GamCvlEngFcltySpecMngModule.prototype.enableFileButtonItem = function() {
 %>
 GamCvlEngFcltySpecMngModule.prototype.disableFileButtonItem = function() {
 
-	this.$('#btnFileRefresh').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnFileAllSelect').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnFileUpload').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnFileDownload').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnFileRemove').disable({disableClass:"ui-state-disabled"});
@@ -2282,6 +2457,8 @@ GamCvlEngFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId)
 			if (this._atchFileDirLoad == false) {
 				this.displayAtchFileDirectory("");
 				this._atchFileDirLoad = true;
+				this.$('#fileGrid')[0].dgrid.setColumnHidden(4, true);
+				this.$('#fileGrid')[0].dgrid.setColWidth(3, "300");
 			}
 			break;
 	}
@@ -2708,9 +2885,10 @@ var module_instance = new GamCvlEngFcltySpecMngModule();
 								<input id="atchFileNmPhysicl" type="hidden"/>
 								<input id="atchFileSe" type="hidden"/>
 								<input id="atchFileSeNm" type="hidden"/>
+								<input id="atchFileSj" type="hidden"/>
 								<input id="atchFileDirNo" type="hidden"/>
 								<input id="atchFileDataSe" type="hidden"/>
-								<input id="atchFileJobSe" type="hidden"/>
+								<input id="atchFileFcltsJobSe" type="hidden"/>
 								<input id="atchFileFcltsMngNo" type="hidden"/>
 								<input id="atchFileFcltsMngSeq" type="hidden"/>
 								<input id="atchFileNmLogic" type="text" size="50" disabled/>
@@ -2725,7 +2903,6 @@ var module_instance = new GamCvlEngFcltySpecMngModule();
 						</td>
 						<td style="width:50%;">
 							<table id="fileGrid" style="margin:1px; display:none;"></table>
-							<img id="previewImage" style="margin:1px; width:477px; height:235px; border:1px solid #000; max-width:477px; max-height:235px" src="">
 						</td>
 					</tr>
 				</table>
@@ -2738,7 +2915,7 @@ var module_instance = new GamCvlEngFcltySpecMngModule();
 							<button id="btnDirRemove" class="buttonDelete">디렉토리 삭제</button>
 						</td>
 						<td style="width:50%; text-align:right;">
-							<button id="btnFileRefresh">파일 재조회</button>
+							<button id="btnFileAllSelect">전체 선택</button>
 							<button id="btnFileUpload" class="buttonAdd">파일 추가</button>
 							<button id="btnFileDownload">파일 다운로드</button>
 							<button id="btnFileRemove" class="buttonDelete">파일 삭제</button>
