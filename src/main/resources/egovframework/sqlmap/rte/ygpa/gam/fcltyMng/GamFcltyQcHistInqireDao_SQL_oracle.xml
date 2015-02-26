@@ -54,6 +54,11 @@
 						<isNotEmpty property="sFcltsMngNo">
 						  	AND O.FCLTS_MNG_NO = #sFcltsMngNo#
 						</isNotEmpty>
+						
+						<isNotEmpty property="sFcltsJobSe">
+						  	AND O.FCLTS_JOB_SE = #sFcltsJobSe#
+						</isNotEmpty>
+						
 						<isNotEmpty property="sQcInspDtFr">
 						  	<![CDATA[ AND O.QC_INSP_DT >= TO_DATE(#sQcInspDtFr#, 'YYYY-MM-DD') ]]>
 						</isNotEmpty>

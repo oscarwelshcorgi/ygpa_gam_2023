@@ -453,7 +453,7 @@ GamFcltyRepairSttusInqireModule.prototype.downloadExcel = function(buttonId) {
 		case "btnPreviewFile":
 			this.imgPreview();
 		break;
-		
+
 		// 파일다운로드
 		case "btnDownloadFile":
 			this.downloadFileData();
@@ -461,6 +461,9 @@ GamFcltyRepairSttusInqireModule.prototype.downloadExcel = function(buttonId) {
 
 	}
 };
+
+
+
 
 
 <%
@@ -523,7 +526,7 @@ var module_instance = new GamFcltyRepairSttusInqireModule();
 							</td>
 							<th>계약명</th>
 							<td><input type="text" id="sFlawRprNm" size="50" title="하자보수명" /></td>
-							<td rowspan="2"><button class="buttonSearch" title="조회">조회</button></td>
+							<td rowspan="3"><button class="buttonSearch" title="조회">조회</button></td>
 						</tr>
 						<tr>
 							<th>하자검사구분</th>
@@ -538,6 +541,11 @@ var module_instance = new GamFcltyRepairSttusInqireModule();
 							<td>
 								<input id="sFlawRprStartDtFr" type="text" size="15" class="emdcal" title="하자검사일 검색시작일" /> ~ <input id="sFlawRprStartDtTo" type="text" size="15" class="emdcal" title="하자검사일 검색종료일" />
 							</td>
+						</tr>
+						<tr>
+							<th>시공업체명</th>
+							<td colspan="3"><input type="text" id="sFlawRprEntrpsNm" size="70" title="시공업체" /></td>
+							
 						</tr>
 					</tbody>
 				</table>

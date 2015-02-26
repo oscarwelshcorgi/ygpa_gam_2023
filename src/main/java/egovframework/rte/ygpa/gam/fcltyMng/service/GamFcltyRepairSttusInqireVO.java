@@ -46,7 +46,11 @@ public class GamFcltyRepairSttusInqireVO extends ComDefaultVO  {
 	/** 하자검사일 검색종료일 - 검색 */
 	private String sFlawRprStartDtTo;
 	
-		
+	private String sFlawRprEntrpsNm;
+
+	
+	/** 하자보수 시설명 */
+	private String sPrtFcltyNm;
 	
 	/** 시설물업무구분 */
 	private String fcltsJobSe;
@@ -204,6 +208,35 @@ public class GamFcltyRepairSttusInqireVO extends ComDefaultVO  {
 	 */
 	public void setSumFlawRprAmt(long sumFlawRprAmt) {
 		this.sumFlawRprAmt = sumFlawRprAmt;
+	}
+
+	/**
+	 * @return the sFlawRprEntrpsNm
+	 */
+	public String getsFlawRprEntrpsNm() {
+		return sFlawRprEntrpsNm;
+	}
+
+	/**
+	 * @param sFlawRprEntrpsNm the sFlawRprEntrpsNm to set
+	 */
+	public void setsFlawRprEntrpsNm(String sFlawRprEntrpsNm) {
+		this.sFlawRprEntrpsNm = sFlawRprEntrpsNm;
+	}
+
+
+	/**
+	 * @return the sPrtFcltyNm
+	 */
+	public String getsPrtFcltyNm() {
+		return sPrtFcltyNm;
+	}
+
+	/**
+	 * @param sPrtFcltyNm the sPrtFcltyNm to set
+	 */
+	public void setsPrtFcltyNm(String sPrtFcltyNm) {
+		this.sPrtFcltyNm = sPrtFcltyNm;
 	}
 
 	

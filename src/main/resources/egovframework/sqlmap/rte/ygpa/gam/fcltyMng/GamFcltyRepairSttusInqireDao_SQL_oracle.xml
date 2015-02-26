@@ -52,6 +52,10 @@
 	           				AND R.FCLTS_JOB_SE = #sFcltsJobSe#
 	           			</isNotEmpty>
 	           			
+	           			<isNotEmpty property="sFlawRprEntrpsNm">
+	           				AND R.FLAW_RPR_ENTRPS_NM LIKE '%' || #sFlawRprEntrpsNm# || '%'
+	           			</isNotEmpty>
+	           			
 	           			<isNotEmpty property="sFlawRprNm">
 	           				AND R.FLAW_RPR_NM LIKE '%' || #sFlawRprNm# || '%'
 	           			</isNotEmpty>

@@ -37,6 +37,9 @@ public class GamFcltyQcHistInqireVO extends ComDefaultVO {
 	/**점검진단 종료일(조회조건)*/
 	private String sQcInspDtTo;
 
+	/**점검진단 업무구분(조회조건)*/
+	private String sFcltsJobSe;
+	
 	/**
 	 * @return the sQcInspInsttNm
 	 */
@@ -91,5 +94,19 @@ public class GamFcltyQcHistInqireVO extends ComDefaultVO {
 	 */
 	public void setsQcInspDtTo(String sQcInspDtTo) {
 		this.sQcInspDtTo = sQcInspDtTo;
+	}
+
+	/**
+	 * @return the sFcltsJobSe
+	 */
+	public String getsFcltsJobSe() {
+		return sFcltsJobSe;
+	}
+
+	/**
+	 * @param sFcltsJobSe the sFcltsJobSe to set
+	 */
+	public void setsFcltsJobSe(String sFcltsJobSe) {
+		this.sFcltsJobSe = sFcltsJobSe;
 	}
 }

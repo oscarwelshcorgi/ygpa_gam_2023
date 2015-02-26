@@ -378,8 +378,20 @@ var module_instance = new GamFcltyRepairHistInqireModule();
 				<table class="searchPanel">
 					<tbody>
 						<tr>
+							<th>시설물업무구분</th>
+							<td>
+								<select id="sFcltsJobSe" title="시설물업무구분">
+									<option value="">선택</option>
+									<option value="E">전기시설물</option>
+									<option value="M">기계시설물</option>
+									<option value="C">토목시설물</option>
+									<option value="A">건축시설물</option>
+									<option value="I">정보통신시설물</option>
+								</select>
+							</td>
 							<th>시공업체명</th>
-							<td colspan="3"><input type="text" id="sFlawRprEntrpsNm" size="100" title="시공업체" /></td>
+							<td><input type="text" id="sFlawRprEntrpsNm" size="40" title="시공업체" /></td>
+							
 							<td rowspan="2"><button class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
@@ -390,7 +402,7 @@ var module_instance = new GamFcltyRepairHistInqireModule();
 								<button id="btnSearchFcltsMngNo" class="popupButton">선택</button>
 							</td>
 							<th>하자보수공사시작일</th>
-							<td>
+							<td colspan="3">
 								<input id="sFlawRprStartDtFr" type="text" class="emdcal" size="15" title="하자검사일 검색시작일" /> ~ <input id="sFlawRprStartDtTo" type="text" class="emdcal" size="15" title="하자검사일 검색종료일" />
 							</td>
 						</tr>

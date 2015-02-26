@@ -111,9 +111,9 @@ GamFcltyQcHistInqireModule.prototype.loadDetailData = function() {
 		this.doAction('/fcltyMng/selectQcHistDtlsDetail.do', opts, function(module, result) { 
 			if(result.resultCode == "0"){
 				module.makeDivValues('#fcltyQcHistInqireVO', result.result);
-				module.$("#qcInspResult").text(result.result.qcInspResult);
-				module.$("#actionCn").text(result.result.actionCn);
-				module.$("#objQcInspResult").text(result.result.objQcInspResult);
+				module.$("#qcInspResult").val(result.result.qcInspResult);
+				module.$("#actionCn").val(result.result.actionCn);
+				module.$("#objQcInspResult").val(result.result.objQcInspResult);
 			}
 			else {
 				module.initDisplay();
@@ -185,8 +185,20 @@ var module_instance = new GamFcltyQcHistInqireModule();
 					<tbody>
 						<tr>
 							<th>점검진단 기관명</th>
-							<td colspan="3"><input type="text" id="sQcInspInsttNm" size="46"/></td>
+							<td><input type="text" id="sQcInspInsttNm" size="46"/></td>
+							<th>업무구분</th>
+								<td>
+									<select id="sFcltsJobSe" title="시설물업무구분검색조건">
+										<option value="">선택</option>
+										<option value="E">전기시설물</option>
+										<option value="M">기계시설물</option>
+										<option value="C">토목시설물</option>
+										<option value="A">건축시설물</option>
+										<option value="I">정보통신시설물</option>
+									</select>
+								</td>
 							<td rowspan="2"><button id="btnSearch" class="buttonSearch">조회</button></td>
+						
 						</tr>
 						<tr>
 							<th>점검 시설명</th>

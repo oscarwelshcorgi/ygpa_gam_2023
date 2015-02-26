@@ -41,6 +41,9 @@ public class GamFcltyRepairHistInqireVO extends ComDefaultVO  {
 	/** 하자보수 시설코드 */
 	private String sFcltsMngNo;
 	
+	/** 하자보수 업무구분 */
+	private String sFcltsJobSe;
+	
 	/** 하자보수공사시작일 검색 Fr */
 	private String sFlawRprStartDtFr;
 	
@@ -215,6 +218,20 @@ public class GamFcltyRepairHistInqireVO extends ComDefaultVO  {
 	 */
 	public void setFcltsMngNo(String fcltsMngNo) {
 		this.fcltsMngNo = fcltsMngNo;
+	}
+
+	/**
+	 * @return the sFcltsJobSe
+	 */
+	public String getsFcltsJobSe() {
+		return sFcltsJobSe;
+	}
+
+	/**
+	 * @param sFcltsJobSe the sFcltsJobSe to set
+	 */
+	public void setsFcltsJobSe(String sFcltsJobSe) {
+		this.sFcltsJobSe = sFcltsJobSe;
 	}
 	
 	
