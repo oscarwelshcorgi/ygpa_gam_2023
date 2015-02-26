@@ -583,12 +583,12 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 						<tr>
 							<th>시설물관리그룹</th>
 							<td>
-								<input type="text" size="15" id="sFcltsMngGroupNo" title="시설물관리그룹넘버" />-
-								<input type="text" size="17" id="sFcltsMngGroupNoNm" disabled="disabled" title="시설물관리그룹명"/>
+								<input type="text" size="12" id="sFcltsMngGroupNo" title="시설물관리그룹넘버" />-
+								<input type="text" size="10" id="sFcltsMngGroupNoNm" disabled="disabled" title="시설물관리그룹명"/>
 								<button id="sSearchFcltsMngGroupNo" class="popupButton">선택</button>
 							</td>
 							<th>공사계약</th>
-							<td>
+							<td colspan="3">
 								<input type="text" size="15" id="sCtrtNo" title="계약번호"/>-
 								<input type="text" size="17" id="sCtrtNm" disabled="disabled" title="계약명"/>
 								<button id="sCtrtNoPopupBtn" class="popupButton">선택</button>
@@ -596,7 +596,11 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 							<td rowspan="3"><button class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
-							<th>시설물업무구분</th>
+							<th>시공업체명</th>
+							<td><input type="text" id="sCnstrtr" size="40" title="시공업체" /></td>
+							<th>유지보수공사명</th>
+							<td><input type="text" id="sMntnRprCnstNm" size="17" title="유지보수공사명검색조건" /></td>
+							<th>업무구분</th>
 							<td>
 								<select id="sFcltsJobSe" title="시설물업무구분검색조건">
 									<option value="">선택</option>
@@ -607,8 +611,7 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 									<option value="I">정보통신시설물</option>
 								</select>
 							</td>
-							<th>유지보수공사명</th>
-							<td><input type="text" id="sMntnRprCnstNm" size="49" title="유지보수공사명검색조건" /></td>
+							
 						</tr>
 						<tr>
 							<th>유지보수구분</th>
@@ -623,9 +626,10 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 									<option value="9">기타</option>
 								</select>
 							</td>
+							
 							<th>유지보수공사시작일</th>
-							<td>
-								<input id="sMntnRprCnstStartDtFr" type="text" class="emdcal" size="17" title="유지보수공사검색시작일" /> ~ <input id="sMntnRprCnstStartDtTo" type="text" class="emdcal" size="17" title="유지보수공사검색종료일" />
+							<td colspan="3">
+								<input id="sMntnRprCnstStartDtFr" type="text" class="emdcal" size="12" title="유지보수공사검색시작일" /> ~ <input id="sMntnRprCnstStartDtTo" type="text" class="emdcal" size="12" title="유지보수공사검색종료일" />
 							</td>
 						</tr>
 					</tbody>

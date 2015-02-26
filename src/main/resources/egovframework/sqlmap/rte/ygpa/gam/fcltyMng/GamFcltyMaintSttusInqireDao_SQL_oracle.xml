@@ -60,6 +60,10 @@
 	           				AND M.CTRT_NO = #sCtrtNo#
 	           			</isNotEmpty>
 							
+						<isNotEmpty property="sCnstrtr">
+	           				AND M.CNSTRTR = #sCnstrtr#
+	           			</isNotEmpty>	
+	           			
 						<isNotEmpty property="sFcltsJobSe">
 	           				AND M.FCLTS_JOB_SE = #sFcltsJobSe#
 	           			</isNotEmpty>
@@ -119,6 +123,10 @@
 			AND M.MNTN_RPR_SE = #sMntnRprSe#
 		</isNotEmpty>
 		        			
+		<isNotEmpty property="sCnstrtr">
+	     	AND M.CNSTRTR = #sCnstrtr#
+	    </isNotEmpty>	
+	           			        			
 		<isNotEmpty property="sMntnRprCnstStartDtFr">
 			AND 
 			(

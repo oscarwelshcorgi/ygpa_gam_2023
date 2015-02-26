@@ -48,6 +48,8 @@ public class GamFcltyMaintHistInqireVO extends ComDefaultVO {
 	/** 유지보수공사시작일 검색 To */
 	private String sMntnRprCnstStartDtTo;
 	
+	private String sFcltsJobSe;
+	
 	
 	private String fcltsJobSe;
 	
@@ -234,6 +236,20 @@ public class GamFcltyMaintHistInqireVO extends ComDefaultVO {
 	 */
 	public void setSumMntnRprBdgt(long sumMntnRprBdgt) {
 		this.sumMntnRprBdgt = sumMntnRprBdgt;
+	}
+
+	/**
+	 * @return the sFcltsJobSe
+	 */
+	public String getsFcltsJobSe() {
+		return sFcltsJobSe;
+	}
+
+	/**
+	 * @param sFcltsJobSe the sFcltsJobSe to set
+	 */
+	public void setsFcltsJobSe(String sFcltsJobSe) {
+		this.sFcltsJobSe = sFcltsJobSe;
 	}
 
 	

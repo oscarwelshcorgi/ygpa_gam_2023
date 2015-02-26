@@ -53,6 +53,8 @@ public class GamFcltyMaintSttusInqireVO extends ComDefaultVO {
 	/** 유지보수공사시작일 검색 To */
 	private String sMntnRprCnstStartDtTo;
 	
+	private String sCnstrtr;
+	
 
 	private String fcltsJobSe;
 	
@@ -268,6 +270,20 @@ public class GamFcltyMaintSttusInqireVO extends ComDefaultVO {
 	 */
 	public void setCodeId(String codeId) {
 		this.codeId = codeId;
+	}
+
+	/**
+	 * @return the sCnstrtr
+	 */
+	public String getsCnstrtr() {
+		return sCnstrtr;
+	}
+
+	/**
+	 * @param sCnstrtr the sCnstrtr to set
+	 */
+	public void setsCnstrtr(String sCnstrtr) {
+		this.sCnstrtr = sCnstrtr;
 	}
 
 	

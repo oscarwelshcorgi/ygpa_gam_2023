@@ -48,8 +48,10 @@ GamFcltyMaintHistInqireModule.prototype.loadComplete = function() {
 		dataType: "json",
 		colModel : [
 					{display:"시행년도", 			name:"enforceYear",				width:60, 		sortable:false,		align:"center"},
-					{display:"계약번호", 			name:"ctrtNo",					width:200, 		sortable:false,		align:"center"},
+					{display:"유지보수공사명",		name:"mntnRprCnstNm",			width:250, 		sortable:false,		align:"left"},
+					{display:"유지보수부위", 		name:"mntnRprPart",				width:250, 		sortable:false,		align:"center"},
 					{display:"시공업체", 			name:"cnstrtr",					width:200, 		sortable:false,		align:"center"},
+					{display:"공사금액", 			name:"mntnRprCnstAmt",			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"시설명", 			name:"prtFcltyNm",				width:200, 		sortable:false,		align:"center"},
 					{display:"유지보수구분",		name:"mntnRprSeNm",				width:80, 		sortable:false,		align:"center"},
 					{display:"유지보수공법",		name:"mntnRprCnstMth",			width:80,		sortable:false,		align:"center"},
@@ -57,11 +59,9 @@ GamFcltyMaintHistInqireModule.prototype.loadComplete = function() {
 					{display:"수량",				name:"qy",						width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"단가",				name:"price",					width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"대상시설물공사금액",	name:"objMntnRprCnstAmt",		width:140,		sortable:false,		align:'right', 		displayFormat: 'number'},
-					{display:"유지보수공사명",		name:"mntnRprCnstNm",			width:250, 		sortable:false,		align:"left"},
-					{display:"공사금액", 			name:"mntnRprCnstAmt",			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+					{display:"계약번호", 			name:"ctrtNo",					width:200, 		sortable:false,		align:"center"},
 					{display:"유지보수예산", 		name:"mntnRprBdgt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-					{display:"유지보수부위", 		name:"mntnRprPart",				width:250, 		sortable:false,		align:"center"},
-					{display:"유지보수정보", 		name:"mntnFcltsCnstInfo",		width:200, 		sortable:false,		align:"center"}
+					{display:"", 		name:"mntnFcltsCnstInfo",		width:1, 		sortable:false,		align:"center"}
 			],
 		height: "auto",
 		groupBy: "mntnFcltsCnstInfo",
@@ -386,7 +386,18 @@ var module_instance = new GamFcltyMaintHistInqireModule();
 					<tbody>
 						<tr>
 							<th>시공업체명</th>
-							<td colspan="3"><input type="text" id="sCnstrtr" size="130" title="시공업체" /></td>
+							<td><input type="text" id="sCnstrtr" size="50" title="시공업체" /></td>
+							<th>업무구분</th>
+							<td>
+								<select id="sFcltsJobSe" title="시설물업무구분검색조건">
+									<option value="">선택</option>
+									<option value="E">전기시설물</option>
+									<option value="M">기계시설물</option>
+									<option value="C">토목시설물</option>
+									<option value="A">건축시설물</option>
+									<option value="I">정보통신시설물</option>
+								</select>
+							</td>
 							<td rowspan="2"><button class="buttonSearch">조회</button></td>
 						</tr>
 						<tr>
