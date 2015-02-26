@@ -662,6 +662,34 @@ public class GamArchFcltySpecMngController {
 
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/fclty/gamDeleteArchFcltySpecMngFcltsAtchFileMulti.do")
+	@ResponseBody Map<String, Object> gamDeleteArchFcltySpecMngFcltsAtchFileMulti(@RequestParam Map deleteVO) throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			gamArchFcltySpecMngService.deleteArchFcltySpecMngFcltsAtchFileMulti(deleteVO);
+
+			map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+		}
+
+		return map;
+
+	}
+
 	@RequestMapping(value="/fclty/gamSelectArchFcltySpecMngFcltsAtchFilePk.do")
 	@ResponseBody Map<String, Object> gamSelectArchFcltySpecMngFcltsAtchFilePk(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception {
 

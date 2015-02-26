@@ -40,6 +40,8 @@ public class GamFcltsAtchFileMngVO extends ComDefaultVO {
 	private	String registDt;				// 등록일시
 	private	String updUsr;					// 수정자
 	private	String updtDt;					// 수정일시
+	private	String atchFileSeNm;			// 첨부 파일 구분 명
+	private	String atchFileSelChk;			// 첨부 파일 선택 검사
 
 	/**
 	 * @return the atchFileNo
@@ -208,6 +210,30 @@ public class GamFcltsAtchFileMngVO extends ComDefaultVO {
 	 */
 	public void setUpdtDt(String updtDt) {
 		this.updtDt = updtDt;
+	}
+	/**
+	 * @return the atchFileSeNm
+	 */
+	public String getAtchFileSeNm() {
+		return atchFileSeNm;
+	}
+	/**
+	 * @param atchFileSeNm the atchFileSeNm to set
+	 */
+	public void setAtchFileSeNm(String atchFileSeNm) {
+		this.atchFileSeNm = atchFileSeNm;
+	}
+	/**
+	 * @return the atchFileSelChk
+	 */
+	public String getAtchFileSelChk() {
+		return atchFileSelChk;
+	}
+	/**
+	 * @param atchFileSelChk the atchFileSelChk to set
+	 */
+	public void setAtchFileSelChk(String atchFileSelChk) {
+		this.atchFileSelChk = atchFileSelChk;
 	}
 
 }
