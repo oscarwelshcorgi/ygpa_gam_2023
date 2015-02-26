@@ -179,6 +179,11 @@ public class GamInfoCommFcltySpecMngServiceImpl extends AbstractServiceImpl impl
 	}
 
 	@Override
+	public void deleteInfoCommFcltySpecMngFcltsAtchFileMulti(Map<?, ?> deleteVO) throws Exception {
+		gamInfoCommFcltySpecMngDao.deleteInfoCommFcltySpecMngFcltsAtchFileMulti(deleteVO);
+	}
+
+	@Override
 	public EgovMap selectInfoCommFcltySpecMngFcltsAtchFilePk(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception {
 		return gamInfoCommFcltySpecMngDao.selectInfoCommFcltySpecMngFcltsAtchFilePk(gamFcltsAtchFileMngVO);
 	}

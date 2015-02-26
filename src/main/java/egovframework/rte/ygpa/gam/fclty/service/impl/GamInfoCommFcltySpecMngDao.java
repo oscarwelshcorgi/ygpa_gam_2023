@@ -309,6 +309,15 @@ public class GamInfoCommFcltySpecMngDao extends YGPAAbstractDAO {
 	}
 
 	/**
+	 * @name deleteInfoCommFcltySpecMngFcltsAtchFileMulti
+	 * @param deleteVO
+	 * @return void
+	 */
+	public void deleteInfoCommFcltySpecMngFcltsAtchFileMulti(Map<?, ?> deleteVO) {
+		delete("gamInfoCommFcltySpecMngDao.deleteInfoCommFcltySpecMngFcltsAtchFileMulti_S", deleteVO);
+	}
+
+	/**
 	 * @name selectInfoCommFcltySpecMngFcltsAtchFilePk
 	 * @param gamFcltsAtchFileMngVO
 	 * @return EgovMap

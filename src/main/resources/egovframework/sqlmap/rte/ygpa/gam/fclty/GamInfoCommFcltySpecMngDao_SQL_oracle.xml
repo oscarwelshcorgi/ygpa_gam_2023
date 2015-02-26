@@ -619,6 +619,7 @@
 								,T1.ATCH_FILE_NM_LOGIC AS ATCH_FILE_NM_LOGIC
 								,T1.ATCH_FILE_NM_PHYSICL AS ATCH_FILE_NM_PHYSICL
 								,T1.ATCH_FILE_SE AS ATCH_FILE_SE
+								,T1.ATCH_FILE_SJ AS ATCH_FILE_SJ
 								,TO_CHAR(T1.DIR_NO) AS ATCH_FILE_DIR_NO
 								,T1.FCLTS_DATA_SE AS ATCH_FILE_FCLTS_DATA_SE
 								,T1.FCLTS_MNG_NO AS ATCH_FILE_FCLTS_MNG_NO
@@ -629,6 +630,7 @@
 								,T1.UPD_USR AS UPD_USR
 								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
 								,GAM_GET_FILE_SE_NM(T1.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+								,'FALSE' AS ATCH_FILE_SEL_CHK
 							FROM FCLTS_ATCH_FILE_F T1
 						WHERE 1=1
 
@@ -651,6 +653,7 @@
 			,ATCH_FILE_NM_LOGIC
 			,ATCH_FILE_NM_PHYSICL
 			,ATCH_FILE_SE
+			,ATCH_FILE_SJ
 			,DIR_NO
 			,FCLTS_DATA_SE
 			,FCLTS_MNG_NO
@@ -665,6 +668,7 @@
 			,#atchFileNmLogic#
 			,#atchFileNmPhysicl#
 			,#atchFileSe#
+			,#atchFileSj#
 			,TO_NUMBER(REPLACE(#atchFileDirNo#,',',''))
 			,#atchFileFcltsDataSe#
 			,#atchFileFcltsMngNo#
@@ -680,6 +684,7 @@
 			 ATCH_FILE_NM_LOGIC = #atchFileNmLogic#
 			,ATCH_FILE_NM_PHYSICL = #atchFileNmPhysicl#
 			,ATCH_FILE_SE = #atchFileSe#
+			,ATCH_FILE_SJ = #atchFileSj#
 			,DIR_NO = TO_NUMBER(REPLACE(#atchFileDirNo#,',',''))
 			,FCLTS_DATA_SE = #atchFileFcltsDataSe#
 			,FCLTS_MNG_NO = #atchFileFcltsMngNo#
@@ -706,12 +711,21 @@
 		)
 	</delete>
 
+	<delete id="gamInfoCommFcltySpecMngDao.deleteInfoCommFcltySpecMngFcltsAtchFileMulti_S" parameterClass="hashMap">
+		DELETE FROM FCLTS_ATCH_FILE_F
+		WHERE ATCH_FILE_NO IN (SELECT LTRIM(REGEXP_SUBSTR(','||#deleteAtchFileNoList#||',','[^'||','||']+', 1, LEVEL ), ',') AS ATCH_FILE_NO
+								 FROM DUAL
+							   CONNECT BY LEVEL <![CDATA[ <= ]]> (LENGTH(','||#deleteAtchFileNoList#) - LENGTH(REPLACE(','||#deleteAtchFileNoList#,','))) / LENGTH(',')
+							  )
+	</delete>
+
 	<select id="gamInfoCommFcltySpecMngDao.selectInfoCommFcltySpecMngFcltsAtchFilePk_S" parameterClass="gamFcltsAtchFileMngVO" resultClass="egovMap">
 		SELECT
 				 TO_CHAR(T1.ATCH_FILE_NO) AS ATCH_FILE_NO
 				,T1.ATCH_FILE_NM_LOGIC AS ATCH_FILE_NM_LOGIC
 				,T1.ATCH_FILE_NM_PHYSICL AS ATCH_FILE_NM_PHYSICL
 				,T1.ATCH_FILE_SE AS ATCH_FILE_SE
+				,T1.ATCH_FILE_SJ AS ATCH_FILE_SJ
 				,TO_CHAR(T1.DIR_NO) AS ATCH_FILE_DIR_NO
 				,T1.FCLTS_DATA_SE AS ATCH_FILE_FCLTS_DATA_SE
 				,T1.FCLTS_MNG_NO AS ATCH_FILE_FCLTS_MNG_NO
@@ -722,6 +736,7 @@
 				,T1.UPD_USR AS UPD_USR
 				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
 				,GAM_GET_FILE_SE_NM(T1.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+				,'FALSE' AS ATCH_FILE_SEL_CHK
 			FROM FCLTS_ATCH_FILE_F T1
 		WHERE T1.ATCH_FILE_NO = TO_NUMBER(REPLACE(#atchFileNo#,',',''))
 	</select>

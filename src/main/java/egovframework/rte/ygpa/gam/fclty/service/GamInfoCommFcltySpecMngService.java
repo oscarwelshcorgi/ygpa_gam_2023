@@ -212,6 +212,14 @@ public interface GamInfoCommFcltySpecMngService {
 	void deleteInfoCommFcltySpecMngFcltsAtchFile(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception;
 
 	/**
+	 * @name deleteInfoCommFcltySpecMngFcltsAtchFileMulti
+	 * @param deleteVO
+	 * @return void
+	 * @throws Exception
+	 */
+	void deleteInfoCommFcltySpecMngFcltsAtchFileMulti(Map<?, ?> deleteVO) throws Exception;
+
+	/**
 	 * @name selectInfoCommFcltySpecMngFcltsAtchFilePk
 	 * @param gamFcltsAtchFileMngVO
 	 * @return EgovMap
