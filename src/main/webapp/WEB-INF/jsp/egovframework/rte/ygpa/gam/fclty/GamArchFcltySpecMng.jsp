@@ -149,6 +149,7 @@ GamArchFcltySpecMngModule.prototype.loadComplete = function(params) {
 		height: "477",
 		preProcess: function(module, data) {
 			$.each(data.resultList, function() {
+				this.atchFileSelChk = (this.atchFileSelChk === 'TRUE');
 				this.photoUrl = "";
 				var atchFileNmPhysicl = this.atchFileNmPhysicl;
 				var ext = atchFileNmPhysicl.substring(atchFileNmPhysicl.lastIndexOf(".")+1).toLowerCase();
@@ -678,10 +679,10 @@ GamArchFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			this.uploadFile();
 			break;
 		case 'btnFileDownload':
-			this.downloadFile();
+			this.downloadMultiFile();
 			break;
 		case 'btnFileRemove':
-			this.deleteFileData();
+			this.deleteMultiFileData();
 			break;
 	    case 'btnFilePreview':
 	    	this.displayPreviewFile();
@@ -1853,12 +1854,12 @@ GamArchFcltySpecMngModule.prototype.deleteFileData = function() {
 
 	var atchFileDirNo = this.$('#dirNo').val();
 	var atchFileNo = this.$('#atchFileNo').val();
-	var atchFileJobSe = this.$('#atchFileJobSe').val();
+	var atchFileFcltsJobSe = this.$('#atchFileFcltsJobSe').val();
 	if (atchFileNo == "") {
 		alert('첨부 파일 번호가 부정확합니다.');
 		return;
 	}
-	if (atchFileJobSe != "A") {
+	if (atchFileFcltsJobSe != "A") {
 		alert('다른 시설담당자가 첨부한 파일입니다. (삭제불가)');
 		return;
 	}
@@ -1882,7 +1883,7 @@ GamArchFcltySpecMngModule.prototype.deleteFileData = function() {
 **/
 %>
 GamArchFcltySpecMngModule.prototype.deleteMultiFileData = function() {
-
+console.log("deleteMultiFileData");
 	var rows = this.$('#fileGrid').selectFilterData([{col:'atchFileSelChk', filter: true}]);
 	if (rows.length <= 0) {
 		alert('삭제할 첨부 파일 자료가 선택되지 않았습니다.');
@@ -1890,20 +1891,20 @@ GamArchFcltySpecMngModule.prototype.deleteMultiFileData = function() {
 	}
 	var atchFileDirNo = this.$('#dirNo').val();
 	var atchFileNo = "";
-	var atchFileJobSe = "";
+	var atchFileFcltsJobSe = "";
 	var atchFileNmLogic = "";
 	var deleteDataCount = rows.length;
 	var deleteAtchFileNoList = "";
 	for (var i=0; i<deleteDataCount; i++) {
 		var row = rows[i];
 		atchFileNo = row["atchFileNo"];
-		atchFileJobSe = row["atchFileJobSe"];
+		atchFileFcltsJobSe = row["atchFileFcltsJobSe"];
 		atchFileNmLogic = row["atchFileNmLogic"];
 		if (atchFileNo == "") {
 			alert('[' + atchFileNmLogic + '] 첨부 파일 번호가 부정확합니다.');
 			return;
 		}
-		if (atchFileJobSe != "A") {
+		if (atchFileFcltsJobSe != "A") {
 			alert('[' + atchFileNmLogic + '] 다른 시설담당자가 첨부한 파일입니다. (삭제불가)');
 			return;
 		}
@@ -1916,7 +1917,7 @@ GamArchFcltySpecMngModule.prototype.deleteMultiFileData = function() {
 	if (confirm("[" + deleteDataCount + "] 건의 첨부 파일 자료를 삭제하시겠습니까?")) {
 		var deleteVO = {
 				'deleteAtchFileNoList':deleteAtchFileNoList
-		}
+		};
 		this.doAction('/fclty/gamDeleteArchFcltySpecMngFcltsAtchFileMulti.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.displayAtchFileList(atchFileDirNo);
@@ -2844,7 +2845,7 @@ var module_instance = new GamArchFcltySpecMngModule();
 								<input id="atchFileSj" type="hidden"/>
 								<input id="atchFileDirNo" type="hidden"/>
 								<input id="atchFileDataSe" type="hidden"/>
-								<input id="atchFileJobSe" type="hidden"/>
+								<input id="atchFileFcltsJobSe" type="hidden"/>
 								<input id="atchFileFcltsMngNo" type="hidden"/>
 								<input id="atchFileFcltsMngSeq" type="hidden"/>
 								<input id="atchFileNmLogic" type="text" size="50" disabled/>
