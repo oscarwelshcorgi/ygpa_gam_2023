@@ -40,7 +40,7 @@
 							  , A.BZ_RGST_ID
 							  , TO_CHAR(A.APPL_DATE, 'YYYY-MM-DD') APPL_DATE
 							  , TO_CHAR(A.PERF_DT, 'YYYY-MM-DD') PERF_DT
-							FROM SOC_APPLY_F@YGPA_P2MGR A
+							FROM P2MGR.SOC_APPLY_F@YGPA_P2MGR A
                             WHERE 1=1					
 						         <isNotEmpty property="sPrtAtCode">
 						             AND A.PRT_AT_CODE = #sPrtAtCode#
@@ -66,7 +66,7 @@
 		  COUNT(*) TOTCNT
 		  , SUM(NVL(A.EXMP_AMNT, 0)) SUM_EXMP_AMNT
 		  , SUM(NVL(A.EXMP_ACC, 0)) SUM_EXMP_ACC
-		FROM SOC_APPLY_F@YGPA_P2MGR A
+		FROM P2MGR.SOC_APPLY_F@YGPA_P2MGR A
         WHERE 1=1					
 	        <isNotEmpty property="sPrtAtCode">
 	            AND A.PRT_AT_CODE = #sPrtAtCode#

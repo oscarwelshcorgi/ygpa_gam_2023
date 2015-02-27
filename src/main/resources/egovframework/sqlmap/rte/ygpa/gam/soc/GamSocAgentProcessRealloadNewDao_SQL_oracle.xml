@@ -43,7 +43,7 @@
 				                    , NVL(E.DC_RATE_NM, '0') || '%' DC_RATE_NM
 				                    , NVL(E.EXMP_AMNT, 0) EXMP_AMNT
 							FROM
-									SOC_EXMP_F@YGPA_P2MGR E
+									P2MGR.SOC_EXMP_F@YGPA_P2MGR E
 							WHERE
 									1 = 1	
 						         <isNotEmpty property="sAppPrtAtCode">
@@ -100,7 +100,7 @@
 		SELECT
 		   COUNT(*) TOT_CNT
 		   , NVL(SUM(E.EXMP_AMNT),0) SUM_EXMP_AMNT
-		FROM SOC_EXMP_F@YGPA_P2MGR E
+		FROM P2MGR.SOC_EXMP_F@YGPA_P2MGR E
         WHERE					
 			1 = 1	
          <isNotEmpty property="sAppPrtAtCode">
