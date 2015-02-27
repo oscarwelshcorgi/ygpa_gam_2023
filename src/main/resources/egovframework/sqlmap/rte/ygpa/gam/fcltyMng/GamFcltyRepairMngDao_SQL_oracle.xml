@@ -267,9 +267,9 @@
 				, FLAW_EXAM_RESULT
 				, RM
 				, CTRT_NO
-				, R.FLAW_EXAM_USR
-				, R.FLAW_EXAM_USR_DEPT
-				, R.FLAW_EXAM_USR_NM
+				, FLAW_EXAM_USR
+				, FLAW_EXAM_USR_DEPT
+				, FLAW_EXAM_USR_NM
 			) 
 			VALUES 
 			(
