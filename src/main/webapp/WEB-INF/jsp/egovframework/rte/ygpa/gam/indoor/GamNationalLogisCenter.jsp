@@ -38,11 +38,17 @@
 
 <style>
 html, body {
-        width: 100%;
-        height: 100%;
-        margin: 0px;
-        overflow: hidden;
-   }
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	overflow: hidden;
+}
+
+div #header {
+   	width: 100%;
+   	height:100%;
+   	float:left;
+}
 </style>
 
 <script src="<c:url value='/js/OpenLayers.js'/>"></script>
@@ -70,15 +76,19 @@ jQuery(document).ready(function() {
 	var floor=[
 				{
 					name: '1 층',
-					layer: '1F'
+					layer: '1'
 				},
 				{
 					name: '2 층',
-					layer: '2F'
+					layer: '2'
 				},
 				{
 					name: '지붕층',
 					layer: 'ROOF'
+				},
+				{
+					name: '지붕층2',
+					layer: 'ROOF_FLOOR'
 				}
 		];
 
@@ -86,6 +96,20 @@ jQuery(document).ready(function() {
 
 		var map=initMap('NL_PL', 'NL_ROOM', floor, [0, 0, 190, 93]);
 
+		/*
+		var formData = [
+		                 {type:"settings",position:"label-left"},
+		                 {type: "label", width:200, label: "국제물류센터 실내공간정보"},
+		                 {type:"newcolumn"},
+		                 {type: "input", width: 300, name: 'searchKeyword', label: '시설 검색:'},
+		                 {type:"newcolumn"},
+	                     {type: "button", name:"seach", value:"검색"}
+		             ];
+
+		//var myform = headerCell.attachForm(formData);
+
+		headerCell.attachObject('header');
+		*/
 		var formData = [
 		                 {type:"settings",position:"label-left"},
 		                 {type: "label", width:200, label: "국제물류센터 실내공간정보"}
@@ -125,7 +149,7 @@ jQuery(document).ready(function() {
 		});
 
 		var propertyFormData = [
-		                 {type:"settings",position:"label-top"},
+		                 {type:"settings",position:"label-top",inputWidth:196},
 		                 {type: "hidden", name:"ROOM_ID"},
 		                 {type: "input", name:"ROOM_NM", label: "공간 정보 명"},
 		                 {type: "input", name:"STD", label: "규격", rows:2},
@@ -139,6 +163,7 @@ jQuery(document).ready(function() {
 		             ];
 
 		var propertyForm=propertyCell.attachForm(propertyFormData);
+
 		propertyForm.attachEvent("onButtonClick", function(name, value) {
 			if(name=="btnSave") {
 				propertyForm._feature.attributes=propertyForm.getFormData();
@@ -173,6 +198,14 @@ jQuery(document).ready(function() {
 <body>
 <input id="userId" type="hidden" value="<c:out value='${updUsr }'/>" />
 	<div id="div_map" style="display:none;"></div>
+	<div id="header">
+		<h2>국제물류센터 실내공간정보</h2>
+		<!--
+		<span style="margin-left:200px;">공간 명 검색</span>
+		<input type="text" name="searchText" style="width:300px;"/>
+		<button id="btnSearch" />찻  기</button>
+		 -->
+	</div>
 </body>
 </html>
 

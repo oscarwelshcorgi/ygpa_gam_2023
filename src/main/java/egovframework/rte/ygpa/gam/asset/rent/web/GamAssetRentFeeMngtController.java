@@ -931,7 +931,7 @@ public class GamAssetRentFeeMngtController {
     	}
     	catch(Exception e) {
 	         resultCode = 0;
-	 		 resultMsg  = egovMessageSource.getMessage("fail.common.update"); //정상적으로 처리되었습니다.
+	 		 resultMsg  = egovMessageSource.getMessage("fail.common.update"); // 오류 발생
     	}
 
      	 map.put("resultCode", resultCode);

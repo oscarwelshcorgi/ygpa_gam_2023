@@ -64,8 +64,6 @@ html, body {
 <script>
 
 var context_root = "<c:url value='/' />";
-var gis_engine_url = "http://192.168.200.61:8080/G2DataService/GService?";
-var gis_feature_type = 'MRC_1F_1';
 OpenLayers.ProxyHost = context_root+"proxy.jsp?url=";
 
 jQuery(document).ready(function() {
@@ -95,7 +93,7 @@ jQuery(document).ready(function() {
 		var formData = [
 		                 {type:"settings",position:"label-left"},
 		                 {type: "label", width:200, label: "황금물류센터 실내공간정보"}
-		                 /* ,
+			/* ,
 		                 {type:"newcolumn"},
 		                 {type: "input", width: 300, name: 'searchKeyword', label: '시설 검색:'},
 		                 {type:"newcolumn"},
@@ -167,6 +165,12 @@ jQuery(document).ready(function() {
 			propertyForm.clear();
 			propertyForm.setFormData(e.attributes);
 			propertyForm._feature=e;
+		});
+		map.events.register('featureunselected', propertyForm, function(e) {
+			if(!propertyCell.isCollapsed()) {
+				propertyCell.collapse();
+			}
+			propertyForm.clear();
 		});
 
 	});

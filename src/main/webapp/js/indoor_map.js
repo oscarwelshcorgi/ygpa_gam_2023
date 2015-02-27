@@ -2,6 +2,8 @@ var gis_engine_url = "http://192.168.200.61:8080/G2DataService/GService?";
 //var gis_engine_url = "http://192.168.0.71:8092/G2DataService/GService?";
 
 var myLayout;
+var mainLayout;
+var mainGrid;
 var map;
 var baseLayer;
 
@@ -47,7 +49,7 @@ var DeleteFeature = new OpenLayers.Class(OpenLayers.Control, {
 function initLayout() {
 	myLayout = new dhtmlXLayoutObject({
 	    parent: document.body,    // id or object for parent container
-	    pattern: "4T",          // layout's pattern
+	    pattern: "5I",          // layout's pattern
 	    skin: "dhx_skyblue",     // optional, layout's skin
 	    offsets: {          // optional, offsets for fullscreen init
 	        top:    10,     // you can specify all four sides
@@ -59,28 +61,33 @@ function initLayout() {
         	{
         		id: "a",
         		header: false,
-        		height: 50,
+        		height: 40,
         		fix_size: [null, true]
         	},
         	{
         		id: "b",
         		text: "층 선택",
         		header: true,
-        		width: 220
+        		width: 150
         	},
         	{
         		id: "c",
         		text: "도면",
-        		header: false,
-        		fix_size: [true, true]
+        		header: false
         	},
         	{
         		id: "d",
-        		text: "속성장보",
+        		text: "속성정보",
         		header: true,
-        		width: 300,
-        		collapse: true,
-        		fix_size: [null, true]
+        		width: 200,
+        		collapse: true
+        	},
+        	{
+        		id: "e",
+        		text: "조회 데이터",
+        		header: false,
+        		width: 200,
+        		collapse: true
         	}
         ]
 	});
@@ -89,6 +96,17 @@ function initLayout() {
 	categoryCell = myLayout.cells("b");
 
 	propertyCell = myLayout.cells("d");
+
+	mainGrid = myLayout.cells("e").attachGrid();
+	mainGrid.setImagePath(context_root+"/js/codebase/imgs/");
+	mainGrid.setHeader("ID,공간 정보 명,규격,등록자,등록일,수정자,수정일자");
+	mainGrid.setInitWidths("100,250,300,100,120,100,120,100");
+	mainGrid.setColAlign("right,center,center,center,center,center,center");
+	mainGrid.setColTypes("ro,ro,ro,ro,ro,ro,ro,ro");
+	mainGrid.setColSorting("int,str,str,str,str,str,str");
+	mainGrid.init();
+
+//	myLayout.setAutoSize("c", "b:d");
 }
 
 function initMap(base_layer, edit_layer, floors, ext) {
@@ -99,8 +117,9 @@ function initMap(base_layer, edit_layer, floors, ext) {
 
     $('#div_map').height(myLayout.cells("c").getHeight());
 
-	myLayout.cells("c").attachObject("div_map");
-	myLayout.cells("c").progressOn();
+    myLayout.cells("c").attachObject("div_map");
+    myLayout.cells("c").progressOn();
+
 	map = new OpenLayers.Map({
 		div : "div_map",
 		allOverlays : true,
