@@ -89,7 +89,7 @@ display: block;
 	width: 14.8cm;
 	height: 8.8cm;
 	font-size: 0.4cm;
-	font-family: 굴림;
+	font-family: 돋움;
  }
 
 div.sender {
@@ -100,7 +100,7 @@ div.sender {
 	width: 10cm;
 	height: 3.0cm;
 	font-size: 0.35cm;
-	font-family: 굴림;
+	font-family: 돋움;
 }
 
 #senderAddress {
@@ -124,7 +124,7 @@ div.letterMsg {
 	height: 0.7cm;
 	border: 0.06cm black solid;
 	font-size: 0.4cm;
-	font-family: 굴림;
+	font-family: 돋움;
 	text-align: center;
 	vertical-align: middle;
 	padding: 0.1cm;
@@ -138,14 +138,14 @@ div.receiver {
 	width: 16cm;
 	height: 3.4cm;
 	font-size: 0.35cm;
-	font-family: 굴림;
+	font-family: 돋움;
 	text-align: right;
 	right: 0cm;
 	bottom: 0cm;
 }
 
 #companyName {
-	font-family: 굴림;
+	font-family: 돋움;
 	font-size: 0.4cm;
 	margin-right: 2cm;
 }
@@ -155,7 +155,7 @@ div.receiver {
 	/* width: 8cm; */
 	/* height: 1.4cm; */
 	text-align: right;
-	font-family: 굴림;
+	font-family: 돋움;
 	font-size: 0.4cm;
 }
 
@@ -170,15 +170,15 @@ div.receiver {
 }
 
 div.notice {
-	position: relative;
-	/* display: inline-block; */
-	/* left: 0.35cm; */
-	/* top: 1.3cm; */
-	width: 5.2cm;
-	height: 8cm;
-	font-size: 0.35cm;
-	font-family: 굴림;
-	float: left;
+position: absolute;
+/* display: inline-block; */
+ left: 0.1cm;
+/* top: 1.3cm; */
+width: 5.2cm;
+height: 8cm;
+font-size: 0.35cm;
+font-family: 돋움;
+float: left;
 }
 
  div.notice > h2 {
@@ -200,16 +200,17 @@ div.notice {
  }
 
  div.receipDetail {
-	/* position: relative; */
+	position: absolute;
 	display: inline-block;
-	/* left: 0.35cm; */
+	left: 0.35cm;
 	/* top: 1.3cm; */
 	width: 5.2cm;
 	height: 8cm;
 	font-size: 0.35cm;
-	font-family: 굴림;
+	font-family: 돋움;
 	/* clear: both; */
-	margin-left: 2cm;
+	margin-left: 6.85cm;
+	margin-top: 1.72cm;
  }
 
  div.feeAmount {
@@ -219,18 +220,18 @@ div.notice {
 	width: 4.4cm;
 	height: 0.46cm;
 	font-size: 0.4cm;
-	font-family: 굴림;
+	font-family: 돋움;
 	text-align: right;
  }
 
  div.feeDetail {
 	position: relative;
 	/* left: 8.65cm; */
-	/* top: 12.7cm; */
+	top: 0.3cm;
 	width: 4.2cm;
 	height: 4.8cm;
 	font-size: 0.28cm;
-	font-family: 굴림;
+	font-family: 돋움;
 	padding: 0.1cm;
 	margin-left: 1.1cm;
  }
@@ -247,15 +248,16 @@ div.notice {
  }
 
  div.rmk {
-	/* position: relative; */
+	position: absolute;
 	display: inline-block;
 	/* left: 12.45cm; */
 	/* top: 11.3cm; */
-	width: 6.7cm;
+	width: 7.85cm;
 	height: 8cm;
-	font-size: 0.35cm;
-	font-family: 굴림;
-	margin-top: 2cm;
+	font-size: 0.30cm;
+	font-family: 돋움;
+	margin-top: 0.85cm;
+	margin-left: 12.2cm;
 }
 
  div.rmk > h2 {
@@ -340,15 +342,15 @@ div.notice {
 
  .giroDetail {
 	position: relative;
-	left: 2.6cm;
+	left: 2.55cm;
 	top: 3.8cm;
-	width: 11.9cm;
+	width: 11.8cm;
 	height: 1.3cm;
 	font-size: 0.35cm;
  }
 
  #girobizrno {
-	position: relative;
+	position: absolute;
 	left: 0cm;
 	top: 0cm;
 	width: 4.5cm;
@@ -357,7 +359,7 @@ div.notice {
  }
 
  #nticDate {
-	position: relative;
+	position: absolute;
 	width: 4.5cm;
 	height: 0.5cm;
 	top: 0cm;
@@ -366,16 +368,16 @@ div.notice {
  }
 
  #nticNo {
-	position: relative;
+	position: absolute;
 	left: 0cm;
-	/* top: 0.44cm; */
+	top: 0.44cm;
 	width: 4.5cm;
 	height: 0.4cm;
 	padding: 0.04cm;
  }
 
  #payTmlmt {
-	position: relative;
+	position: absolute;
 	width: 4.5cm;
 	height: 0.5cm;
 	top: 0.44cm;
@@ -384,7 +386,7 @@ div.notice {
  }
 
  #girormk {
- 	position: relative;
+ 	position: absolute;
 	left: 0cm;
 	top: 0.85cm;
 	width: 11.9cm;
@@ -393,9 +395,9 @@ div.notice {
  }
 
  #noticermk {
-	position: relative;
+	position: absolute;
 	left: 1.2cm;
-	top: 8cm;
+	top: 8.25cm;
 	width: 11.9cm;
 	height: 0.4cm;
 	font-size: 0.3cm;
@@ -408,6 +410,7 @@ div.notice {
 	left: 20px;
 	top: 10px;
 	display:block;
+	z-index: 9999;
 }
 
 
@@ -417,16 +420,13 @@ div.notice {
 }
 @media print {
 	#printButton {
-		position:fixed;
-		left: 20px;
-		top: 10px;
 		display:none;
 	}
 
 	.page {
 	    width: 21cm;
-	    min-height: 28.7cm;
-	    padding: 1cm;
+	    min-height: 29.7cm;
+		/* padding: 1cm; */
 	    margin: 0cm auto;
 	    border: 1px #D3D3D3 solid;
 	    border-radius: 5px;
@@ -439,20 +439,43 @@ div.notice {
 	}
 
 	.subpage {
-	    padding: 1cm;
-	/*     border: 5px red solid;
-	 */    height: 256mm;
+		padding: 0.27cm;
+		/* border: 5px red solid; */
+		height: 256mm;
 	}
+
+	div.postPage {
+		position: relative;
+		padding: 2cm 1.7cm;
+		height: 10cm;
+	}
+
+	div.receipPage {
+		position: relative;
+		padding: 0cm;
+		height: 9cm;
+		display: block;
+	}
+
+	 div.giro {
+		position: relative;
+		left: 5.8cm;
+		/* top: 19.55cm; */
+		width: 14.8cm;
+		height: 8.8cm;
+		font-size: 0.4cm;
+		font-family: 돋움;
+	 }
 
 	div.sender {
 		position: relative;
 		display: block;
-		left: 2cm;
-		top: 2.6cm;
+		/* left: 2cm; */
+		/* top: 2.6cm; */
 		width: 10cm;
-		height: 1.6cm;
+		height: 2.8cm;
 		font-size: 0.35cm;
-		font-family: 굴림;
+		font-family: 돋움;
 	}
 
 	#senderAddress {
@@ -467,88 +490,76 @@ div.notice {
 		padding: 0.2cm
 	}
 
-	div.receiver {
-		position: relative;
-		display: block;
-		left: 8cm;
-		top: 6cm;
-		width: 11cm;
-		height: 2.4cm;
-		font-size: 0.35cm;
-		font-family: 굴림;
-		text-align: right;
-	}
-
-	#companyName {
-		position: relative;
-		left: 0cm;
-		top: 0cm;
-		width: 8cm;
-		height: 0.4cm;
-		text-align: right;
-		font-family: 굴림;
-		font-size: 0.4cm;
-	}
-
-	#ceoName {
-		position: relative;
-		left: 8cm;
-		top: 0cm;
-		width: 3cm;
-		height: 0.4cm;
-		text-align: right;
-		font-family: 굴림;
-		font-size: 0.4cm;
-	}
-
-	#recAddress {
-		position: relative;
-		left: 0cm;
-		top: 0.6cm;
-		width: 11cm;
-		height: 0.4cm;
-		text-align: right;
-	}
-
-	#recPostcode {
-		position: relative;
-		left: 0cm;
-		top: 1cm;
-		width: 11cm;
-		height: 0.4cm;
-		text-align: right;
-	}
-
 	div.letterMsg {
 		position: relative;
 		display: block;
-		left: 8.35cm;
-		top: 4.4cm;
+		left: 6cm;
+		/* top: 4.4cm; */
 		width: 5.1cm;
 		height: 0.7cm;
 		border: 0.06cm black solid;
 		font-size: 0.4cm;
-		font-family: 굴림;
+		font-family: 돋움;
 		text-align: center;
 		vertical-align: middle;
 		padding: 0.1cm;
 	}
 
-	div.notice {
+	div.receiver {
 		position: relative;
 		display: block;
-		left: 0.35cm;
-		top: 10.3cm;
-		width: 5.2cm;
-		height: 8cm;
+		/* left: 8cm;
+		top: 1.2cm; */
+		width: 16cm;
+		height: 3.4cm;
 		font-size: 0.35cm;
-		font-family: 굴림;
+		font-family: 돋움;
+		text-align: right;
+		right: 0cm;
+		bottom: 0cm;
+	}
+
+	#companyName {
+		font-family: 돋움;
+		font-size: 0.4cm;
+		margin-right: 2cm;
+	}
+
+	#ceoName {
+		top: 0cm;
+		/* width: 8cm; */
+		/* height: 1.4cm; */
+		text-align: right;
+		font-family: 돋움;
+		font-size: 0.4cm;
+	}
+
+	#recAddress {
+		text-align: right;
+		margin-top: 0.6cm;
+	}
+
+	#recPostcode {
+		text-align: right;
+		margin-top: 0.6cm;
+	}
+
+	div.notice {
+	position: absolute;
+	/* display: inline-block; */
+	/* left: 0.35cm; */
+	/* top: 1.3cm; */
+	width: 4.8cm;
+	height: 8cm;
+	font-size: 0.35cm;
+	font-family: 돋움;
+	float: left;
 	}
 
 	 div.notice > h2 {
 		position: relative;
 		text-align: center;
-		width: 5cm;
+		width: 4.75cm;
 		padding: 0.1cm;
 		border: 1px black solid;
 	 }
@@ -557,32 +568,48 @@ div.notice {
 	 	position: relative;
 	 	text-align: left;
 		padding: 0.2cm 0.1cm;
+		font-size: 0.31cm;
 	 }
 
 	 .bold {
 	 	font-weight: bold;
 	 }
 
+	 div.receipDetail {
+		position: absolute;
+		display: inline-block;
+		left: 0.2cm;
+		/* top: 1.3cm; */
+		width: 5.2cm;
+		height: 8cm;
+		font-size: 0.35cm;
+		font-family: 돋움;
+		/* clear: both; */
+		margin-left: 6.85cm;
+		margin-top: 1.85cm;
+	 }
+
 	 div.feeAmount {
-		position: relative;
-		left: 7.35cm;
-		top: 12.0cm;
+		/* position: relative; */
+		/* left: 7.35cm; */
+		/* top: 12.0cm; */
 		width: 4.4cm;
 		height: 0.46cm;
 		font-size: 0.4cm;
-		font-family: 굴림;
+		font-family: 돋움;
 		text-align: right;
 	 }
 
 	 div.feeDetail {
 		position: relative;
-		left: 8.65cm;
-		top: 12.7cm;
-		width: 4.2cm;
-		height: 4.8cm;
-		font-size: 0.32cm;
-		font-family: 굴림;
-		padding: 0.1cm;
+	/* left: 8.65cm; */
+	top: 0.3cm;
+	width: 4.2cm;
+	height: 4.8cm;
+	font-size: 0.28cm;
+	font-family: 돋움;
+	padding: 0.1cm;
+	margin-left: 1.1cm;
 	 }
 
 	 div.feeDetail > ul {
@@ -593,17 +620,20 @@ div.notice {
 	 div.feeDetail > ul > li {
 		display: block;
 		padding-bottom: 0.15cm;
+		height: 0.5cm;
 	 }
 
 	 div.rmk {
-		position: relative;
-		display: block;
-		left: 12.45cm;
-		top: 11.3cm;
-		width: 7.7cm;
+		position: absolute;
+		display: inline-block;
+		/* left: 12.45cm; */
+		/* top: 11.3cm; */
+		width: 7.85cm;
 		height: 8cm;
-		font-size: 0.35cm;
-		font-family: 굴림;
+		font-size: 0.30cm;
+		font-family: 돋움;
+		margin-top: 1cm;
+		margin-left: 12cm;
 	}
 
 	 div.rmk > h2 {
@@ -626,12 +656,12 @@ div.notice {
 
 	 #totalAmount {
 		position: relative;
-		left: 9.8cm;
-		top: 1.25cm;
+		left: 9.1cm;
+		top: 1.8cm;
 		width: 4.6cm;
 		height: 0.65cm;
 		font-size: 0.4cm;
-	font-family: OCR-B-10 BT;
+		font-family: OCR-B-10 BT;
 		text-align: right;
 		padding: 0.1cm;
 		text-align: right;
@@ -639,8 +669,8 @@ div.notice {
 
 	 #elecPayNo {
 		position: relative;
-		left: 7.7cm;
-		top: 3.7cm;
+		left: 7.4cm;
+		top: 4.0cm;
 		width: 6.8cm;
 		height: 0.8cm;
 		font-size: 0.4cm;
@@ -652,7 +682,7 @@ div.notice {
 	 .girocode {
 		position: relative;
 		left: 0.8cm;
-		top: 1.6cm;
+		top: 2cm;
 		width: 13.2cm;
 		height: 0.4cm;
 		font-size: 0.4cm;
@@ -662,38 +692,41 @@ div.notice {
 	 #girono {
 		display: inline;
 		position: relative;
-		left: 0.8cm;
+		left: 0.2cm;
 	 }
 
 	 #cstmrrefcode {
 		display: inline;
 		position: relative;
-		left: 4cm;
+		/* left: 1cm; */
+		margin-left: 0.8cm;
 	 }
 
 	 #giroamount {
 		display: inline;
 		position: relative;
-		left: 9.3cm;
+		/* left: 0.3cm; */
+		margin-left: 0.8cm;
 	 }
 
 	 #girocc {
 		display: inline;
 		position: relative;
-		left: 12.5cm;
+		/* left: 12.5cm; */
+		margin-left: 0.4cm;
 	 }
 
 	 .giroDetail {
 		position: relative;
-		left: 2.8cm;
-		top: 5.3cm;
-		width: 11.9cm;
+		left: 2.45cm;
+		top: 3.8cm;
+		width: 11.8cm;
 		height: 1.3cm;
 		font-size: 0.35cm;
 	 }
 
 	 #girobizrno {
-		position: relative;
+		position: absolute;
 		left: 0cm;
 		top: 0cm;
 		width: 4.5cm;
@@ -702,7 +735,7 @@ div.notice {
 	 }
 
 	 #nticDate {
-		position: relative;
+		position: absolute;
 		width: 4.5cm;
 		height: 0.5cm;
 		top: 0cm;
@@ -711,7 +744,7 @@ div.notice {
 	 }
 
 	 #nticNo {
-		position: relative;
+		position: absolute;
 		left: 0cm;
 		top: 0.44cm;
 		width: 4.5cm;
@@ -720,7 +753,7 @@ div.notice {
 	 }
 
 	 #payTmlmt {
-		position: relative;
+		position: absolute;
 		width: 4.5cm;
 		height: 0.5cm;
 		top: 0.44cm;
@@ -729,7 +762,7 @@ div.notice {
 	 }
 
 	 #girormk {
-	 	position: relative;
+	 	position: absolute;
 		left: 0cm;
 		top: 0.85cm;
 		width: 11.9cm;
@@ -738,9 +771,9 @@ div.notice {
 	 }
 
 	 #noticermk {
-		position: relative;
+		position: absolute;
 		left: 1.2cm;
-		top: 8cm;
+		top: 8.25cm;
 		width: 11.9cm;
 		height: 0.4cm;
 		font-size: 0.3cm;
@@ -758,11 +791,11 @@ div.notice {
 	$( window ).load(function() {
 		$('#printButton').button().click(function(){
 			var vo = [
-			          {name : 'prtAtCode', value: '<c:out value="${resultList[0].prtAtCode}"/>'},
-			          {name : 'mngYear', value: '<c:out value="${resultList[0].mngYear}"/>'},
-			          {name : 'mngNo', value: '<c:out value="${resultList[0].mngNo}"/>'},
-			          {name : 'mngCnt', value: '<c:out value="${resultList[0].mngCnt}"/>'},
-			          {name : 'nticCnt', value: '<c:out value="${resultList[0].nticCnt}"/>'}
+			          {name : 'prtAtCode', value: '<c:out value="${searchOpt.prtAtCode}"/>'},
+			          {name : 'mngYear', value: '<c:out value="${searchOpt.mngYear}"/>'},
+			          {name : 'mngNo', value: '<c:out value="${searchOpt.mngNo}"/>'},
+			          {name : 'mngCnt', value: '<c:out value="${searchOpt.mngCnt}"/>'},
+			          {name : 'nticCnt', value: '<c:out value="${searchOpt.nticCnt}"/>'}
 			          ];
 
 			$.ajax({
@@ -833,26 +866,34 @@ div.notice {
 		      				<li class="entrpsNm"><c:out value="${master.agentName}"/></li>
 		      				<li class="entrpsNm"><c:out value="${master.rprsntvNm}"/></li>
 		      				<li class="nticDate"><c:out value="${master.nticDt}"/></li>
-		      				<li class="payTmlmt"><c:out value="${master.payTmlmt}"/></li>
+		      				<li class="payTmlmt"><c:out value="${master.dueDate}"/></li>
 		      				<li class="bizrNo"><c:out value="${fn:substring(master.bzRgstId, 0,3)}"/>-**-*****</li>
 		   				</ul>
 		      		</div>
 	       		</div>
 	      		<div class="rmk">
 	      			<h2>부과내역</h2>
+	      			<c:set var="totalFee" value="0"/>
 	  			    <c:forEach var="detailItem" items="${detail }">
 	      			<p>소재지 : <c:out value="${detailItem.gisAssetsLocplc}"/>&nbsp;<c:out value="${detailItem.gisAssetsLnm}"/><c:if test="${detailItem.gisAssetsLnmSub!=null}">-<c:out value="${detailItem.gisAssetsLnmSub}"/></c:if></p>
-	      			<p>사용 면적 :  <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.usageAr}" /> m<sup>2</sup>&nbsp;</p>
+	      			<p>면적 :  <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.usageAr}" /> m<sup>2</sup>&nbsp;단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.applcPrice}" /> 원</p>
+	      			<p>년사용료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.dPrice}" /> 원</p>
+	      			<c:set var="totalFee" value="${totalFee+detailItem.dPrice }"/>
 	  			    </c:forEach>
-	      			<p>업 체 : <c:out value="${master.entrpsNm}"/> (<c:out value="${master.entrpscd}"/>)</p>
+	      			<p>년사용료 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${totalFee}" /> 원</p>
 	      			<h2>산출근거</h2>
-	      			<p><c:out value="${master.chrgeKndNm}"/> : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.billAmnt}" /> 원</p>
+	      			<p>
+	      			사용기간 : <c:out value="${master.nticPdFrom}"/> ~ <c:out value="${master.nticPdTo}"/><br/>
+	      			<c:out value="${master.chrgeKndNm}"/> : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.billAmnt}" /> 원</p>
 				    <p>
+				    <c:if test="${master.intrAmnt>0}">
+		      			이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.intrAmnt}" /> 원 (이자율 : <fmt:formatNumber type="number" maxIntegerDigits="5" maxFractionDigits="2" value="${master.intrRate}" />% Cofix수신금리)
+	      			</c:if>
 	      			<c:if test="${master.arrrgAmt>0}">
 		      			연체료 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.arrrgAmt}" /> 원 (연체일 : <c:out value="${master.arrrgPayDates}"/>일)
 	      			</c:if>
 	      			</p>
-	      			<p class="summary">소 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.fee+master.intrAmnt+master.feeA4+master.feeD1+master.arrrgAmt}" /> 원<br />
+	      			<p class="summary">소 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.fee+master.intrAmnt+master.arrrgAmt}" /> 원<br />
 	      			부가세(<c:out value="${master.taxtSeNm}"/>) : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.vat}" /> 원<br />
 	      			합 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.billAmnt}" /> 원
 	      			</p>
@@ -873,7 +914,7 @@ div.notice {
       				<div id="nticno"><c:out value="${master.prtAtCode}"/>-<c:out value="${master.feeTp}"/>-<c:out value="${master.fiscalYr}"/>-<c:out value="${master.billNo}"/></div>
       				<div id="nticDate"><c:out value="${master.billDt}"/></div>
       				<div id="payTmlmt"><c:out value="${master.dueDate}"/></div>
-      				<div id="girormk">고지회차 : <c:out value="${master.nticCnt}"/>회차</div>
+      				<div id="girormk"><c:out value="${master.chrgeKndNm}"/> <c:out value="${master.nticCnt}"/>회차 사용료</div>
 	       		</div>
 	       		<div id="noticermk">납기가 지난 고지서는 납부할 수 없으며, 금융기관에서는 온라인 수납처리 바랍니다.</div>
 			</div>

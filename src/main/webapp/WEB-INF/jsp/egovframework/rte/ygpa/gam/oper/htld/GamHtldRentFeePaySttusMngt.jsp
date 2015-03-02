@@ -37,12 +37,14 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         dataType: 'json',
         colModel : [
     				{display:'고지횟수', name:'nticCnt',width:50, sortable:false,align:'center'},
-    				{display:'고지업체명', name:'entrpsNm',width:200, sortable:false,align:'left'},
-    				{display:'요금종류명', name:'chrgeKndNm',width:180, sortable:false,align:'left'},
+    				{display:'고지업체명', name:'entrpsNm',width:130, sortable:false,align:'left'},
+    				{display:'요금종류명', name:'chrgeKndNm',width:150, sortable:false,align:'left'},
+    				{display:'고지대상기간', name:'nticPdPeriod',width:160, sortable:false,align:'center'},
     				{display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
-    				{display:'사용료', name:'fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
-    				{display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'number'},
-    				{display:'고지금액', name:'totalNticAmount',width:100, sortable:false,align:'right', displayFormat: 'number'},
+    				{display:'사용료', name:'fee',width:78, sortable:false,align:'right', displayFormat: 'number'},
+    				{display:'이자', name:'intrAmnt',width:78, sortable:false,align:'right', displayFormat: 'number'},
+    				{display:'부가세', name:'vat',width:78, sortable:false,align:'right', displayFormat: 'number'},
+    				{display:'고지금액', name:'totalNticAmount',width:80, sortable:false,align:'right', displayFormat: 'number'},
 					{display:'납부기한', name:'payTmlmt',width:80, sortable:false,align:'center'},
 					{display:'수납구분', name:'rcivSeNm',width:80, sortable:false,align:'center'},
 					{display:'수납일자', name:'rcivDt',width:100, sortable:false,align:'center'}
@@ -70,6 +72,9 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         preProcess: function(module,data) {
         	module.makeFormValues('#summaryForm', data);
         	module.makeDivValues('#htldRentFeePaySttusMngtListSum', data);
+        	$.each(data.resultList, function() {
+        		this.nticPdPeriod = this.nticPdFrom+" ~ "+this.nticPdTo;
+        	});
             return data;
         }
     });
@@ -398,31 +403,42 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 			module.resultDetail = result.resultMaster;	// 상세값을 저장한다.
 			if(result.resultArrrg==undefined) {
 				module.resultArrrg=null;
-				module.$('#arrrgDetail').hide();
 			}
 			else {
 				module.resultArrrg = result.resultArrrg;	// 연체 고지 출력을 위해 저장
 
-
 				if(result.resultArrrg.arrrgTariff!=null) {
 					result.resultArrrg.arrrgRate =result.resultArrrg.arrrgTariff/100;
 				}
-				else result.resultArrrg.arrrgRate =0.12;
+				else result.resultArrrg.arrrgRate =0.03;
 
-				module.$('#arrrgDetail').show();
 				module.makeDivValues('#arrrgDetail', result.resultArrrg); // 결과값을 채운다.
 				module.makeFormValues('#arrrgDetailVO', result.resultArrrg); // 결과값을 폼에 채운다.
 				// module.$('#dlyBillDt').val(result.resultArrrg.dlyBillDt);
-				module.$('#dlyBillDt').val(result.resultArrrg.dlyBillDt);
-				module.calcDlyDueDate();
-				module.today = result.resultArrrg.dlyBillDt;	// 쿼리를 조회 할때 연체 고지 일자는 오늘 날짜를 가져온다.
+				module.$('#dlyBillDt').val(EMD.util.getDate());
 				module.calculateArrrgFee();
 			}
 		} else {
 			alert(result.resultMsg);
 		}
+		module.setButtonState();
 	});
 
+};
+
+GamHtldRentFeePaySttusMngtModule.prototype.setButtonState = function() {
+	var tabId=this.$("#htldRentFeePaySttusMngtListTab").tabs({"option": "active"});
+	if(tabId=="tabs1") {
+
+	}
+	else if(tabId=="tabs2") {
+		if(this.resultArrrg==undefined || this.resultArrrg==null) {
+			this.$('#arrrgDetail').hide();
+		}
+		else {
+			this.$('#arrrgDetail').show();
+		}
+	}
 };
 
 GamHtldRentFeePaySttusMngtModule.prototype.calcDlyDueDate = function() {
@@ -577,7 +593,8 @@ GamHtldRentFeePaySttusMngtModule.prototype.calculateArrrgFee = function() {
 
  	this._iTermDay=iTermDay;
 
-	this.$('#arrrgAmt').val($.number(iDlyAmnt));
+
+	this.$('#arrrgAmt').val(iDlyAmnt);
 	this.$('#arrrgRate').val(strText);
 };
 
@@ -699,7 +716,9 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
                 			<th width="10%" >총납부금액</th>
 							<td><input type="text" size="16" id="sumPayAmt" class="ygpaNumber" disabled="disabled" /></td>
 							<td>
+							<!--
 							<button id="btnUpdatePayDtls" data-icon="ui-icon-circle-check">납부확인</button>
+							 -->
 							<button data-role="gridXlsDown" data-flexi-grid="htldRentFeePaySttusMngtList" data-xls-name="배후단지납부현황목록.xls" data-xls-title="배후단지 납부현황 목록">엑셀</button>
 							</td>
 							<!-- <td><button id="btnNticArrrg" data-icon="ui-icon-clock">연체일괄고지</button></td> -->
@@ -780,10 +799,20 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
                             <td><input id="arrrgRate" data-column-id="arrrgRate" style="width:80px"/></td>
                         </tr>
                         <tr>
-                        	<th><span class="label">연체금액</span></th>
+                        	<th><span class="label">연체료</span></th>
                             <td><input id="arrrgAmt" data-column-id="arrrgAmt" class="ygpaNumber" style="width:90px" data-decimal-point="0" /> 원</td>
                         	<th><span class="label">산출내역</span></th>
                             <td colspan="3"><input id="dlyBillRsn" style="width:100%"/></td>
+                        </tr>
+                        <tr>
+                        	<th><span class="label">연체금액</span></th>
+                            <td><input id="arrrgTotAmt" data-column-id="arrrgAmt" class="ygpaNumber" style="width:90px" data-decimal-point="0" /> 원</td>
+                        	<th><span class="label">부가세</span></th>
+                            <td><input id="dlyBillVat" style="width:100%"/>
+                            <th><span class="label">연체고지금액</span></th>
+                            <td>
+                            	<input id="arrrgBillAmt" style="width:100%"/>
+                       		</td>
                         </tr>
                     </table>
                     </form>

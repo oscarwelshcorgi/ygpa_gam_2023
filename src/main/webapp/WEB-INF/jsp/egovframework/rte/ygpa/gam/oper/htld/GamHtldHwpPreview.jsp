@@ -75,7 +75,7 @@
 	}
 	function InitToolBarJS()
 	{
-		HwpControl.HwpCtrl.SetToolBar(0, "FilePreview, Print, Separator, Undo, Redo, Separator, Cut, Copy, Paste,"
+		HwpControl.HwpCtrl.SetToolBar(0, "FileSave, FilePreview, Print, Separator, Undo, Redo, Separator, Cut, Copy, Paste,"
 		+"Separator, ParaNumberBullet, MultiColumn, SpellingCheck, HwpDic, Separator, PictureInsertDialog, MacroPlay1");
 
 		HwpControl.HwpCtrl.SetToolBar(1, "DrawObjCreatorLine, DrawObjCreatorRectangle, DrawObjCreatorEllipse,"
@@ -94,11 +94,13 @@
 	{
 		HwpControl.HwpCtrl.InitScan(0xff, 0x70, 0, 0, 0, 0);
 	}
+	var lastPos=0;
 	function replaceText() {
 		var TextSet;
 		var ret;
 		var retmsg;
 		var txt;
+		var search_txt=null;
 		TextSet = HwpControl.HwpCtrl.CreateSet("GetText");
 		txt = "";
 		ret = HwpControl.HwpCtrl.GetTextBySet(TextSet);
@@ -113,17 +115,21 @@
 		case 2:
 			retmsg = "일반 텍스트";
 			txt = TextSet.Item("Text");
+			search_txt=TextSet.Item("Text");
 			break;
 		case 3:
 			retmsg = "다음 문단";
 			txt = TextSet.Item("Text");
+			search_txt=TextSet.Item("Text");
 			break;
 		case 4:
 			retmsg = "제어문자 내부로 들어감";
+			search_txt=TextSet.Item("Text");
 			txt = "{\n";
 			break;
 		case 5:
 			retmsg = "제어 문자를 빠져 나옴";
+			search_txt=TextSet.Item("Text");
 			txt = "}\n";
 			break;
 		case 101:
@@ -133,7 +139,17 @@
 			retmsg = "텍스트 변환 실패";
 			break;
 		}
-		alert(retmsg + "\n" + TextSet.Item("Text"));
+		if(search_txt!=null && search_txt!="") {
+			var v=search_txt.match(/#\d+#/);
+			if(v!=null && v!="") {
+				console.log('found arg : '+v);
+				var varName=v[0].substring(1,v[0].length-1);
+				var p=HwpControl.HwpCtrl.GetPosBySet();
+				lastPos=p.Item("Pos");
+
+			}
+		}
+		//console.log(retmsg + ":" + TextSet.Item("Text"));
 		HwpControl.HwpCtrl.MovePos(201, 0, 0);
 		return ret;
 	}
@@ -157,6 +173,10 @@
 		case 2:
 			retmsg = "일반 텍스트";
 			txt = TextSet.Item("Text");
+			var v=txt.match(/#\d+#/);
+			if(v!=null && v!="") {
+				console.log('found arg : '+v);
+			}
 			break;
 		case 3:
 			retmsg = "다음 문단";
@@ -177,7 +197,6 @@
 			retmsg = "텍스트 변환 실패";
 			break;
 		}
-		alert(retmsg + "\n" + TextSet.Item("Text"));
 		HwpControl.HwpCtrl.MovePos(201, 0, 0);
 		return ret;
 
@@ -213,15 +232,31 @@
 		HwpControl.HwpCtrl.focus();
 	}
 
+	function putField(item, value) {
+		if(HwpControl.HwpCtrl.FieldExist(item)) {
+			HwpControl.HwpCtrl.PutFieldText(item, value);
+		}
+	}
+
 	$( window ).load(function() {
 		HwpControl.HwpCtrl.SetClientName("DEBUG");
 		InitToolBarJS();
-		if(!HwpControl.HwpCtrl.Open("http://localhost:8990/ygam/images/HTLDTEST.hwp"))
+		if(!HwpControl.HwpCtrl.Open("http://localhost:8990/ygam/tmpl/TEMPLATE_TEST.hwp"))
 		{
 			alert("Base Path가 잘못 지정된 것 같습니다. 소스에서 BasePath 를 수정하십시요");
 		}
 		initScan();
-		replaceText();
+		for(var i=0; i<100; i++) {
+			var ret = replaceText();
+			if(ret==1) {
+				HwpControl.HwpCtrl.ReleaseScan();
+				putField('title', '템플릿 문서를 테스트 합니다.');
+				putField('name', '장은성');
+				putField('date', new Date().toString());
+				alert('검색을 종료 합니다.');
+				break;
+			}
+		}
 	});
 	</script>
   </head>
@@ -230,7 +265,7 @@
 <SCRIPT language="JavaScript">
 
 //_GetBasePath()가 작동하지 않으면, OnStart()함수의 BasePath=_GetBasePath();를 지우고, 이 예제 파일이 있는 곳을 지정해 준다.
-</SCRIPT><br />
+</SCRIPT>
 <form name="HwpControl">
     <OBJECT id=HwpCtrl style="lef: 0px; top: 0px;" height="600" width="100%" align="center"
 	classid=CLSID:BD9C32DE-3155-4691-8972-097D53B10052>

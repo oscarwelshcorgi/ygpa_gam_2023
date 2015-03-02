@@ -758,6 +758,9 @@
 		      R.FEE_TP,
 		      R.BILL_NO,
 		      R.BILL_AMNT,
+            L.INTR_AMNT,
+		      L.NTIC_CNT,
+              L.INTR_RATE*100 INTR_RATE,
 		      R.AGENT_NAME,
 		      R.AGENT_CODE,
 		      TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM,
@@ -793,6 +796,8 @@
     <select id="gamHtldRentFeeMngtDao.selectNticPrintDetail_D" parameterClass="hashMap" resultClass="egovMap">
     	SELECT
     		D.USAGE_AR,
+			  D.APPLC_PRICE,
+    		TRUNC(D.USAGE_AR*D.APPLC_PRICE, -1) D_PRICE,
     		D.COMPUT_DTLS ,
 	        (SELECT GIS_ASSETS_NM
 	        FROM GIS_ASSETS_CD_F

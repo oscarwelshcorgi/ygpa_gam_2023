@@ -418,6 +418,7 @@ div.notice {
 	    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 	}
 
+
 	.subpage {
 	    padding: 1cm;
 	/*     border: 5px red solid;
@@ -641,7 +642,7 @@ div.notice {
 	 .girocode {
 		position: relative;
 		left: 0.2cm;
-		top: 1.65cm;
+		top: 1.7cm;
 		width: 13.2cm;
 		height: 0.4cm;
 		font-size: 0.4cm;
@@ -675,7 +676,7 @@ div.notice {
 	 .giroDetail {
 		position: absolute;
 		left: 2.55cm;
-		top: 5.4cm;
+		top: 5.26cm;
 		width: 11.9cm;
 		height: 1.3cm;
 		font-size: 0.35cm;
@@ -821,7 +822,7 @@ div.notice {
       				<li class="cstmrRefNo"><c:out value="${fn:substring(result.cstmrRefCode, 0,6)}"/>&nbsp;<c:out value="${fn:substring(result.cstmrRefCode, 6,10)}"/>&nbsp;<c:out value="${fn:substring(result.cstmrRefCode, 10,17)}"/></li>
       				<li class="chrgeKndNm"><c:out value="${result.chrgeKndNm}"/></li>
       				<li class="entrpsNm"><c:out value="${result.entrpsNm}"/></li>
-      				<li class="entrpsNm"><c:out value="${result.rprsntvNm}"/></li>
+      				<li class="entrpsNm"><c:out value="${result.entrpsNm}"/></li>
       				<li class="nticDate"><c:out value="${result.nticDt}"/></li>
       				<li class="payTmlmt"><c:out value="${result.payTmlmt}"/></li>
       				<li class="bizrNo"><c:out value="${fn:substring(result.bizrno, 0,3)}"/>-**-*****</li>

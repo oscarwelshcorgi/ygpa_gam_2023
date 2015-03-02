@@ -45,6 +45,7 @@
                    	S.VAT,
                    	S.SANCTN_STTUS_NM,
                    	S.SANCTN_STTUS,
+                   	S.INTR_AMNT,
                    	S.NTIC_AMT TOTAL_NTIC_AMOUNT,
                    	S.NTIC_DT,
                    	S.PAY_TMLMT,
@@ -77,6 +78,7 @@
 							       , NVL(L.FEE,0) FEE
 							       , L.VAT_YN
 							       , NVL(L.VAT,0) VAT
+							       , NVL(L.INTR_AMNT, 0) INTR_AMNT
 							       , NVL(L.NTIC_AMT,0) NTIC_AMT
 							       , L.RM
 							       , L.RCIV_SE
@@ -147,7 +149,7 @@
 								</isEqual>
 
 								<isEqual property="rcivSe" compareValue="N">
-									AND L.RCIV_SE IN ('0','1', '4')
+									AND (L.RCIV_SE IS NULL OR L.RCIV_SE IN ('0','1', '4'))
 								</isEqual>
 
 							   <isNotEmpty property="sChrgeKnd">
@@ -184,7 +186,7 @@
              	AND A.MNG_CNT=L.MNG_CNT
 		   AND L.NHT_ISUE_YN='Y'
 
-<isNotEmpty property="sPrtAtCode">
+							   <isNotEmpty property="sPrtAtCode">
 							       AND L.PRT_AT_CODE = #sPrtAtCode#
 							   </isNotEmpty>
 
@@ -216,9 +218,13 @@
 							       AND L.MNG_CNT     = #sMngCnt#
 							   </isNotEmpty>
 
-							   <isNotEmpty property="rcivSe">
-							   	AND L.RCIV_SE = #rcivSe#
-							   </isNotEmpty>
+								<isEqual property="rcivSe" compareValue="Y">
+									AND L.RCIV_SE IN ('2','3')
+								</isEqual>
+
+								<isEqual property="rcivSe" compareValue="N">
+									AND (L.RCIV_SE IS NULL OR L.RCIV_SE IN ('0','1', '4'))
+								</isEqual>
 
 							   <isNotEmpty property="sChrgeKnd">
 							   	AND L.CHRGE_KND = #sChrgeKnd#
@@ -235,7 +241,7 @@
              	AND A.MNG_NO=L.MNG_NO
              	AND A.MNG_CNT=L.MNG_CNT
 							   AND L.NHT_ISUE_YN='Y'
-								<isNotEmpty property="sPrtAtCode">
+							   <isNotEmpty property="sPrtAtCode">
 							       AND L.PRT_AT_CODE = #sPrtAtCode#
 							   </isNotEmpty>
 
@@ -267,9 +273,13 @@
 							       AND L.MNG_CNT     = #sMngCnt#
 							   </isNotEmpty>
 
-							   <isNotEmpty property="rcivSe">
-							   	AND L.RCIV_SE = #rcivSe#
-							   </isNotEmpty>
+								<isEqual property="rcivSe" compareValue="Y">
+									AND L.RCIV_SE IN ('2','3')
+								</isEqual>
+
+								<isEqual property="rcivSe" compareValue="N">
+									AND (L.RCIV_SE IS NULL OR L.RCIV_SE IN ('0','1', '4'))
+								</isEqual>
 
 							   <isNotEmpty property="sChrgeKnd">
 							   	AND L.CHRGE_KND = #sChrgeKnd#

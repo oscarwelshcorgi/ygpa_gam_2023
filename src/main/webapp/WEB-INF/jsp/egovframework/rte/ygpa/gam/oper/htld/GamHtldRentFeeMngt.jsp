@@ -120,16 +120,18 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 				}
 				intrAmnt=Math.floor(intrAmnt*0.1)*10;
 	            feeAmnt=fee+intrAmnt;
-	            vat=Math.floor(feeAmnt*0.01)*10;
-	            row['vat']=vat;
-
 			}
 			else {
 				intrAmnt=0;
 			}
-            row['feeAmnt']=feeAmnt;
 			row['intrAmnt']=intrAmnt;
-            row['nticAmt']=fee+vat+intrAmnt;
+            row['feeAmnt']=feeAmnt;
+            if(row['vatYn']=='2' || row['vatYn']=='Y') {
+                vat=Math.floor(feeAmnt*0.01)*10;
+            }
+            else vat=0;
+            row['vat']=vat;
+            row['nticAmt']=feeAmnt+vat;
 
             module.$("#assetRentFeeList").flexUpdateRow(rid, row);
         	module.onCalc();
@@ -160,6 +162,13 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
             var vat=Number(row['vat']);
 			var feeAmnt=fee+intrAmnt;
             if(row._updtId!="I") row._updtId="U";
+            feeAmnt=fee+intrAmnt;
+            if(row['vatYn']=='2' || row['vatYn']=='Y') {
+                vat=Math.floor(feeAmnt*0.01)*10;
+            }
+            else vat=0;
+            row['feeAmnt']=feeAmnt;
+            row['vat']=vat;
             row['nticAmt']=feeAmnt+vat;
 
             module.$("#assetRentFeeList").flexUpdateRow(rid, row);
@@ -206,8 +215,14 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 			}
 			row['intrAmnt']=intrAmnt;
 			var feeAmnt=fee+intrAmnt;
-			row['feeAmnt']=feeAmnt;
-            row['nticAmt']=fee+vat;
+            feeAmnt=fee+intrAmnt;
+            if(row['vatYn']=='2' || row['vatYn']=='Y') {
+                vat=Math.floor(feeAmnt*0.01)*10;
+            }
+            else vat=0;
+            row['feeAmnt']=feeAmnt;
+            row['vat']=vat;
+            row['nticAmt']=feeAmnt+vat;
 
             module.$("#assetRentFeeList").flexUpdateRow(rid, row);
             /*
@@ -457,16 +472,18 @@ GamAssetRentFeeMngtModule.prototype.makeRowData = function(item) {
                 }
 
                 if( confirm("선택한 건의 고지를 취소 하시겠습니까?") ) {
-                    this.doAction('/oper/htld/cancelHtldRentFeeNticSingle.do', rows, function(module, result) {
+                	if(confirm("해당 건의 징수의뢰 자료가 삭제되고 전송된 세금계산서가 있을 경우 해당 업체에 마이너스 세금계산서가 발부 됩니다. 계속 하시겠습까?")) {
+                        this.doAction('/oper/htld/cancelHtldRentFeeNticSingle.do', rows, function(module, result) {
 
-                        if(result.resultCode=='0') {
-                            var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
-                            module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
-                            module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
-                        }
+                            if(result.resultCode=='0') {
+                                var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
+                                module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
+                                module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
+                            }
 
-                        alert(result.resultMsg);
-                    });
+                            alert(result.resultMsg);
+                        });
+                	}
                 }
             } else {
             	alert("목록에서 고지 취소 할 항목을 선택하십시오.");
@@ -921,8 +938,8 @@ var module_instance = new GamAssetRentFeeMngtModule();
                    	<button data-role="gridXlsDown" data-flexi-grid="assetRentFeeList" data-xls-name="배후단지임대료고지.xls" data-xls-title="배후단지 임대료 고지 내역">엑셀</button>
                    	<!--
                     <button id="btnExcelDownload">엑셀다운로드</button>
-                     -->
                      <button id="btnHwpDownload">HWP</button>
+                     -->
                     <button id="btnRentFeePayMngt">납부현황관리</button>
 					<button id="btnSaveNticList">변경내역 저장</button>
                 </div>

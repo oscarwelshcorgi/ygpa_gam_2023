@@ -248,7 +248,7 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 	public void cancelNticRequest(Map<String, Object> vo) throws Exception {
 		Map map =gamHtldRentFeeMngtDao.selectNticRequestRcvdTp(vo);	// 수납 여부를 조회한다.
 		if("3".equals((String)map.get("rcvdTp"))) {	// 수납 여부 확인
-			throw processException("fail.cancelNticIssue.msg");
+			throw processException("fail.cancelNticIssue.msg");	// 이미 수납 된 자료는 고지 취소 불가 함.
 		}
 		if("Y".equals((String)map.get("billPrtYn"))) {
 //			egiroPrintCancel(vo);    // 고지가 된 경우 고지 취소를 한다. 2014-08-13 eunsungj.
@@ -270,7 +270,7 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 		if(vo.get("arrrgNo")!=null) { // 연체 고지
 			gamHtldRentFeeMngtDao.updateUnpaidPrintState(vo);
 		}
-		gamHtldRentFeeMngtDao.updateRevCollPrintState(vo);
+		else gamHtldRentFeeMngtDao.updateRevCollPrintState(vo);
 
 		gamHtldRentFeeMngtDao.updateLevReqestPrintState(vo);
 

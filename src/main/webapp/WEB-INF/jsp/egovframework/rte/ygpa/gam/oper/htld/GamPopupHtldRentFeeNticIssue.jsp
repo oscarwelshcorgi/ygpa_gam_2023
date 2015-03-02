@@ -33,6 +33,7 @@ GamPopupNticIssueModule.prototype = new EmdPopupModule(500, 300);
 GamPopupNticIssueModule.prototype.loadComplete = function() {
 	this.resizable(true);
 
+	/*
 	this.$('#chkInCofix').on("click", {module: this}, function(event) {
 		var module=event.data.module;
 		if($(this).attr("checked")=="checked") {
@@ -49,7 +50,7 @@ GamPopupNticIssueModule.prototype.loadComplete = function() {
 		event.data.module.calcInterest();
 	});
 
-
+	*/
 
 //	console.log('debug');
 };
@@ -118,24 +119,24 @@ var popup_instance = new GamPopupNticIssueModule();
                         <td style="width:100px; text-align:right;">
                             <fmt:formatNumber type="number" value="${levReqestMaster.fee }" /> 원
                         </td>
-                        <th style="width:100px; text-align: center;">부가세</th>
-                        <td style="width:100px; text-align:right;">
-                            <fmt:formatNumber type="number" value="${levReqestMaster.vat }" /> 원
-                        </td>
-                    </tr>
-                    <tr>
-                        <th style="width:100px; text-align: center;">분납 이자율</th>
-                        <td style="width:100px; text-align:right;">
-                        <fmt:formatNumber type="number" value="${levReqestMaster.intrRate*10 }" /> %
-                        </td>
                         <th style="width:100px; text-align: center;">이자</th>
                         <td style="width:100px; text-align:right;">
                         <fmt:formatNumber type="number" value="${levReqestMaster.intrAmnt }" /> 원
                         </td>
                     </tr>
+<%--                     <tr>
+                        <th style="width:100px; text-align: center;">분납 이자율</th>
+                        <td style="width:100px; text-align:right;">
+                        <fmt:formatNumber type="number" value="${levReqestMaster.intrRate*10 }" /> %
+                        </td>
+                    </tr> --%>
                     <tr>
+                        <th style="width:100px; text-align: center;">부가세</th>
+                        <td style="width:100px; text-align:right;">
+                            <fmt:formatNumber type="number" value="${levReqestMaster.vat }" /> 원
+                        </td>
                         <th style="width:100px; text-align: center;">고지 금액</th>
-                        <td colspan="3" style="width:100px; text-align:right;">
+                        <td style="width:100px; text-align:right;">
                             <fmt:formatNumber type="number" value="${levReqestMaster.nticAmt }" /> 원
                         </td>
                     </tr>
