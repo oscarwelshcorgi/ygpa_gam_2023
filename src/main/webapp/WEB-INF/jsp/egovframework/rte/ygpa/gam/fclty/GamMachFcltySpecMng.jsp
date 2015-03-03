@@ -6,8 +6,8 @@
 <%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
 /**
- * @Class Name : GamInfoCommFcltySpecMng.jsp
- * @Description : 정보통신시설 제원 관리
+ * @Class Name : GamMachFcltySpecMng.jsp
+ * @Description : 기계시설 제원 관리
  * @Modification Information
  *
  *   수정일          수정자                   수정내용
@@ -29,14 +29,14 @@
 
 <%
 /**
- * @FUNCTION NAME : GamInfoCommFcltySpecMngModule
+ * @FUNCTION NAME : GamMachFcltySpecMngModule
  * @DESCRIPTION   : MODULE 고유 함수
  * @PARAMETER     : NONE
 **/
 %>
-function GamInfoCommFcltySpecMngModule() {}
+function GamMachFcltySpecMngModule() {}
 
-GamInfoCommFcltySpecMngModule.prototype = new EmdModule(1000, 730);
+GamMachFcltySpecMngModule.prototype = new EmdModule(1000, 730);
 
 <%
 /**
@@ -45,11 +45,11 @@ GamInfoCommFcltySpecMngModule.prototype = new EmdModule(1000, 730);
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.loadComplete = function(params) {
+GamMachFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 	this.$("#mainGrid").flexigrid({
 		module : this,
-		url : '/fclty/gamSelectInfoCommFcltySpecMngList.do',
+		url : '/fclty/gamSelectMachFcltySpecMngList.do',
 		dataType : "json",
 		colModel : [
 					{display:"항구분",				name:"gisAssetsPrtAtCodeNm",	width:60,		sortable:false,		align:"center"},
@@ -57,18 +57,18 @@ GamInfoCommFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"시설물 관리 그룹",	name:"fcltsMngGroupNm",			width:120,		sortable:false,		align:"left"},
 					{display:"시설물 분류",			name:"gisPrtFcltyCdNm",			width:100,		sortable:false,		align:"left"},
 					{display:"소재지",	 			name:"loc",						width:150,		sortable:false,		align:"left"},
-					{display:"품목 명",	 			name:"prdlstNm",				width:100,		sortable:false,		align:"left"},
-					{display:"규격",				name:"stndrd",					width:100,		sortable:false,		align:"left"},
-					{display:"수량",	 			name:"qy",						width:80,		sortable:false,		align:"right"},
-					{display:"제조 일자",	 		name:"instlDt",					width:80,		sortable:false,		align:"center"},
-					{display:"제조사",		 		name:"maker",					width:150,		sortable:false,		align:"left"},
-					{display:"취득 금액",	 		name:"acqAmt",					width:100,		sortable:false,		align:"right"},
-					{display:"제품 번호",		 	name:"instlNo",					width:100,		sortable:false,		align:"left"},
-					{display:"모델",	 			name:"model",					width:100,		sortable:false,		align:"left"},
-					{display:"기능",		 		name:"func",					width:150,		sortable:false,		align:"left"},
-					{display:"제어 방식",		 	name:"ctrlMthd",				width:100,		sortable:false,		align:"left"},
-					{display:"설치 구분",	 		name:"instlSe",					width:100,		sortable:false,		align:"left"},
-					{display:"해당 건축시설",	 	name:"archFcltsNm",				width:150,		sortable:false,		align:"left"},
+					{display:"시설 구분",		 	name:"mechFcltsSeNm",			width:80,		sortable:false,		align:"left"},
+					{display:"장비명",	 			name:"eqpmnNm",					width:150,		sortable:false,		align:"left"},
+					{display:"장비 번호",	 		name:"eqpmnNo",					width:80,		sortable:false,		align:"left"},
+					{display:"운영 회사",		 	name:"operCmpny",				width:100,		sortable:false,		align:"left"},
+					{display:"제작 회사",	 		name:"mfcCmpny",				width:150,		sortable:false,		align:"left"},
+					{display:"제작 금액",	 		name:"mfcAmt",					width:100,		sortable:false,		align:"right"},
+					{display:"설치 년월",	 		name:"instlYrmt",				width:80,		sortable:false,		align:"center"},
+					{display:"도급자",	 			name:"contrUsr",				width:80,		sortable:false,		align:"left"},
+					{display:"도급 금액",			name:"contrAmt",				width:100,		sortable:false,		align:"right"},
+					{display:"규격",				name:"eqpmnStndrd",				width:80,		sortable:false,		align:"right"},
+					{display:"연결 도교",			name:"linkBridge",				width:80,		sortable:false,		align:"right"},
+					{display:"해당 건축시설",	 	name:"archFcltsNm",				width:100,		sortable:false,		align:"left"},
 					{display:"시설물 관리 번호",	name:"fcltsMngNo",				width:120,		sortable:false,		align:"left"},
 					{display:"자산 명",	 			name:"gisAssetsNm",				width:200,		sortable:false,		align:"left"},
 					{display:"자산 위치",	 		name:"gisAssetsLocNm",			width:200,		sortable:false,		align:"left"}
@@ -77,8 +77,8 @@ GamInfoCommFcltySpecMngModule.prototype.loadComplete = function(params) {
 		height : 'auto',
 		preProcess : function(module,data) {
 			module.$('#totalCount').val($.number(data.totalCount));
-			module.$('#sumQy').val($.number(data.sumQy));
-			module.$('#sumAcqAmt').val($.number(data.sumAcqAmt));
+			module.$('#sumMfcAmt').val($.number(data.sumMfcAmt));
+			module.$('#sumContrAmt').val($.number(data.sumContrAmt));
 			return data;
 		}
 	});
@@ -125,9 +125,14 @@ GamInfoCommFcltySpecMngModule.prototype.loadComplete = function(params) {
 		event.data.module.setLoc($(this).val());
 	});
 
+	this.$("#mechFcltsSe").bind("change", {module: this}, function(event) {
+		var mechFcltsSe = $(this).val();
+		event.data.module.changeDetailAreaForm(mechFcltsSe);
+	});
+
 	this.$("#fileGrid").flexigrid({
 		module : this,
-		url : '/fclty/gamSelectInfoCommFcltySpecMngFcltsAtchFileList.do',
+		url : '/fclty/gamSelectMachFcltySpecMngFcltsAtchFileList.do',
 		dataType : 'json',
 		colModel : [
 					{display:"선택",		name:"atchFileSelChk",		width:40,		sortable:false,		align:"center",		displayFormat:"checkbox"},
@@ -210,6 +215,38 @@ GamInfoCommFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 <%
 /**
+ * @FUNCTION NAME : isValidYearMonth
+ * @DESCRIPTION   : YEAR & MONTH STRING에 대한 VALIDATION을 검사한다.
+ * @PARAMETER     :
+ *   1. yearMonthString - YEAR & MONTH STRING
+ *   2. nullCheckFlag - NULL CHECK FLAG
+**/
+%>
+GamMachFcltySpecMngModule.prototype.isValidYearMonth = function(yearMonthString, nullCheckFlag) {
+
+	if (nullCheckFlag == true) {
+		if (yearMonthString == "") {
+			return false;
+		}
+	} else {
+		if (yearMonthString == "") {
+			return true;
+		}
+	}
+	var year = Number(yearMonthString.substring(0,4));
+	var month = Number(yearMonthString.substring(5,7));
+	if (year > 9999 || year < 1900) {
+		return false;
+	}
+	if (month > 12 || month < 1) {
+		return false;
+	}
+	return true;
+
+};
+
+<%
+/**
  * @FUNCTION NAME : isValidDate
  * @DESCRIPTION   : DATE STRING에 대한 VALIDATION을 검사한다.
  * @PARAMETER     :
@@ -217,7 +254,7 @@ GamInfoCommFcltySpecMngModule.prototype.loadComplete = function(params) {
  *   2. nullCheckFlag - NULL CHECK FLAG
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.isValidDate = function(dateString, nullCheckFlag) {
+GamMachFcltySpecMngModule.prototype.isValidDate = function(dateString, nullCheckFlag) {
 
 	if (nullCheckFlag == true) {
 		if (dateString == "") {
@@ -266,7 +303,7 @@ GamInfoCommFcltySpecMngModule.prototype.isValidDate = function(dateString, nullC
  *   3. nullCheckFlag - NULL CHECK FLAG
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.isValidDateFromTo = function(startDateString, endDateString, nullCheckFlag) {
+GamMachFcltySpecMngModule.prototype.isValidDateFromTo = function(startDateString, endDateString, nullCheckFlag) {
 
 	if (nullCheckFlag == true) {
 		if (startDateString == "" || endDateString == "") {
@@ -296,7 +333,7 @@ GamInfoCommFcltySpecMngModule.prototype.isValidDateFromTo = function(startDateSt
  *   3. nullCheckFlag - NULL CHECK FLAG
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.isValidFirstDate = function(firstDateString, secondDateString, nullCheckFlag) {
+GamMachFcltySpecMngModule.prototype.isValidFirstDate = function(firstDateString, secondDateString, nullCheckFlag) {
 
 	if (nullCheckFlag == true) {
 		if (firstDateString == "" || secondDateString == "") {
@@ -324,7 +361,7 @@ GamInfoCommFcltySpecMngModule.prototype.isValidFirstDate = function(firstDateStr
  *   1. amountValue - AMOUNT VALUE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.isValidAmount = function(amountValue) {
+GamMachFcltySpecMngModule.prototype.isValidAmount = function(amountValue) {
 
 	if (amountValue > 9999999999999999 || amountValue < 0) {
 		return false;
@@ -341,7 +378,7 @@ GamInfoCommFcltySpecMngModule.prototype.isValidAmount = function(amountValue) {
  *   1. arValue - AR VALUE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.isValidAr = function(arValue) {
+GamMachFcltySpecMngModule.prototype.isValidAr = function(arValue) {
 
 	if (arValue > 99999999.99 || arValue < 0) {
 		return false;
@@ -358,7 +395,7 @@ GamInfoCommFcltySpecMngModule.prototype.isValidAr = function(arValue) {
  *   1. cntValue - COUNT VALUE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.isValidCnt = function(cntValue) {
+GamMachFcltySpecMngModule.prototype.isValidCnt = function(cntValue) {
 
 	if (cntValue > 99999 || cntValue < 0) {
 		return false;
@@ -375,7 +412,7 @@ GamInfoCommFcltySpecMngModule.prototype.isValidCnt = function(cntValue) {
  *   1. numValue - NUMBER VALUE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.isValidNumber10P2 = function(numValue) {
+GamMachFcltySpecMngModule.prototype.isValidNumber10P2 = function(numValue) {
 
 	if (numValue > 99999999.99 || numValue < 0) {
 		return false;
@@ -392,7 +429,7 @@ GamInfoCommFcltySpecMngModule.prototype.isValidNumber10P2 = function(numValue) {
  *   1. numValue - NUMBER VALUE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.isValidNumber8P2 = function(numValue) {
+GamMachFcltySpecMngModule.prototype.isValidNumber8P2 = function(numValue) {
 
 	if (numValue > 999999.99 || numValue < 0) {
 		return false;
@@ -409,7 +446,7 @@ GamInfoCommFcltySpecMngModule.prototype.isValidNumber8P2 = function(numValue) {
  *   1. numValue - NUMBER VALUE
 **/
 %>
- GamInfoCommFcltySpecMngModule.prototype.isValidNumber6P2 = function(numValue) {
+ GamMachFcltySpecMngModule.prototype.isValidNumber6P2 = function(numValue) {
 
 	if (numValue > 9999.99 || numValue < 0) {
 		return false;
@@ -427,7 +464,7 @@ GamInfoCommFcltySpecMngModule.prototype.isValidNumber8P2 = function(numValue) {
  *   2. argFcltsMngGroupNmVariableName - 시설물 관리 그룹 명 변수 명
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.getFcltsMngGroupNm = function(argFcltsMngGroupNoVariableName, argFcltsMngGroupNmVariableName) {
+GamMachFcltySpecMngModule.prototype.getFcltsMngGroupNm = function(argFcltsMngGroupNoVariableName, argFcltsMngGroupNmVariableName) {
 
 	var sFcltsMngGroupNm = "";
 	if (argFcltsMngGroupNoVariableName == null || argFcltsMngGroupNoVariableName == "") {
@@ -436,7 +473,7 @@ GamInfoCommFcltySpecMngModule.prototype.getFcltsMngGroupNm = function(argFcltsMn
 	var sFcltsMngGroupNo = this.$(argFcltsMngGroupNoVariableName).val();
 	if (sFcltsMngGroupNo.length == 14) {
 		var searchVO = { 'sFcltsMngGroupNo':sFcltsMngGroupNo };
-		this.doAction('/fclty/gamSelectInfoCommFcltySpecMngFcltsMngGroupNm.do', searchVO, function(module, result) {
+		this.doAction('/fclty/gamSelectMachFcltySpecMngFcltsMngGroupNm.do', searchVO, function(module, result) {
 			if (result.resultCode == "0") {
 				sFcltsMngGroupNm = result.sFcltsMngGroupNm;
 				if (argFcltsMngGroupNmVariableName != null && argFcltsMngGroupNmVariableName != "") {
@@ -462,7 +499,7 @@ GamInfoCommFcltySpecMngModule.prototype.getFcltsMngGroupNm = function(argFcltsMn
  *   2. argEntrpsNmVariableName - 업체 명 변수 명
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.getEntrpsNm = function(argEntrpsCdVariableName, argEntrpsNmVariableName) {
+GamMachFcltySpecMngModule.prototype.getEntrpsNm = function(argEntrpsCdVariableName, argEntrpsNmVariableName) {
 
 	var sEntrpsNm = "";
 	if (argEntrpsCdVariableName == null || argEntrpsCdVariableName == "") {
@@ -471,7 +508,7 @@ GamInfoCommFcltySpecMngModule.prototype.getEntrpsNm = function(argEntrpsCdVariab
 	var sEntrpscd = this.$(argEntrpsCdVariableName).val();
 	if (sEntrpscd.length() == 8) {
 		var searchVO = { 'sEntrpscd':sEntrpscd };
-		this.doAction('/fclty/gamSelectInfoCommFcltySpecMngEntrpsNm.do', searchVO, function(module, result) {
+		this.doAction('/fclty/gamSelectMachFcltySpecMngEntrpsNm.do', searchVO, function(module, result) {
 			if (result.resultCode == "0") {
 				sEntrpsNm = result.sEntrpsNm;
 				if (argEntrpsNmVariableName != null && argEntrpsNmVariableName != "") {
@@ -495,7 +532,7 @@ GamInfoCommFcltySpecMngModule.prototype.getEntrpsNm = function(argEntrpsCdVariab
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.getFcltsClCdNm = function(argFcltsClCdVariableName, argFcltsClCdNmVariableName) {
+GamMachFcltySpecMngModule.prototype.getFcltsClCdNm = function(argFcltsClCdVariableName, argFcltsClCdNmVariableName) {
 
 	var sFcltsClCdNm = "";
 	if (argFcltsClCdVariableName == null || argFcltsClCdVariableName == "") {
@@ -504,7 +541,7 @@ GamInfoCommFcltySpecMngModule.prototype.getFcltsClCdNm = function(argFcltsClCdVa
 	var sFcltsClCd = this.$(argFcltsClCdVariableName).val();
 	if (sFcltsClCd.length == 14) {
 		var searchVO = { 'sFcltsClCd':sFcltsClCd };
-		this.doAction('/fclty/gamSelectInfoCommFcltySpecMngFcltsClCdNm.do', searchVO, function(module, result) {
+		this.doAction('/fclty/gamSelectMachFcltySpecMngFcltsClCdNm.do', searchVO, function(module, result) {
 			if (result.resultCode == "0") {
 				sFcltsClCdNm = result.sFcltsClCdNm;
 				if (argFcltsClCdNmVariableName != null && argFcltsClCdNmVariableName != "") {
@@ -529,11 +566,96 @@ GamInfoCommFcltySpecMngModule.prototype.getFcltsClCdNm = function(argFcltsClCdVa
  *   1. argPrtFcltyLoc - 소재지
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.setLoc = function(argPrtFcltyLoc) {
+GamMachFcltySpecMngModule.prototype.setLoc = function(argPrtFcltyLoc) {
 
 	var loc = this.$('#loc').val();
 	if (loc != argPrtFcltyLoc) {
 		this.$('#loc').val(argPrtFcltyLoc);
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : setEqpmnNm
+ * @DESCRIPTION   : 장비명을 설정한다.
+ * @PARAMETER     :
+ *   1. argEqpmnNm - 장비명
+**/
+%>
+GamMachFcltySpecMngModule.prototype.setEqpmnNm = function(argEqpmnNm) {
+
+	var equipNm = this.$('#equipNm').val();
+	if (equipNm != argEqpmnNm) {
+		this.$('#equipNm').val(argEqpmnNm);
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : setInstlYrmt
+ * @DESCRIPTION   : 설치년월을 설정한다.
+ * @PARAMETER     :
+ *   1. argInstlYrmt - 설치년월
+**/
+%>
+GamMachFcltySpecMngModule.prototype.setInstlYrmt = function(argInstlYrmt) {
+
+	var instlYrmt = this.$('#instlYrmt').val();
+	if (instlYrmt != argInstlYrmt) {
+		this.$('#instlYrmt').val(argInstlYrmt);
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : setMfcCmpny
+ * @DESCRIPTION   : 제조회사를 설정한다.
+ * @PARAMETER     :
+ *   1. argMfcCmpny - 제조회사
+**/
+%>
+GamMachFcltySpecMngModule.prototype.setMfcCmpny = function(argMfcCmpny) {
+
+	var mfcCmpny = this.$('#mfcCmpny').val();
+	if (mfcCmpny != argMfcCmpny) {
+		this.$('#mfcCmpny').val(argMfcCmpny);
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : setMfcAmt
+ * @DESCRIPTION   : 제조금액을 설정한다.
+ * @PARAMETER     :
+ *   1. argMfcAmt - 제조금액
+**/
+%>
+GamMachFcltySpecMngModule.prototype.setMfcAmt = function(argMfcAmt) {
+
+	var mfcAmt = this.$('#mfcAmt').val();
+	if (mfcAmt != argMfcAmt) {
+		this.$('#mfcAmt').val(argMfcAmt);
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : setOperCmpny
+ * @DESCRIPTION   : 운영회사를 설정한다.
+ * @PARAMETER     :
+ *   1. argOperCmpny - 운영회사
+**/
+%>
+GamMachFcltySpecMngModule.prototype.setOperCmpny = function(argOperCmpny) {
+
+	var operCmpny = this.$('#operCmpny').val();
+	if (operCmpny != argOperCmpny) {
+		this.$('#operCmpny').val(argOperCmpny);
 	}
 
 };
@@ -547,7 +669,7 @@ GamInfoCommFcltySpecMngModule.prototype.setLoc = function(argPrtFcltyLoc) {
  *   2. argGisPrtFcltyNmVariableName - 시설물 명 변수 명
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.getGisPrtFcltyNm = function(argFcltsMngNoVariableName, argGisPrtFcltyNmVariableName) {
+GamMachFcltySpecMngModule.prototype.getGisPrtFcltyNm = function(argFcltsMngNoVariableName, argGisPrtFcltyNmVariableName) {
 
 	var sGisPrtFcltyNm = "";
 	if (argFcltsMngNoVariableName == null || argFcltsMngNoVariableName == "") {
@@ -556,7 +678,7 @@ GamInfoCommFcltySpecMngModule.prototype.getGisPrtFcltyNm = function(argFcltsMngN
 	var sFcltsMngNo = this.$(argFcltsMngNoVariableName).val();
 	if (sFcltsMngNo.length == 15) {
 		var searchVO = { 'sFcltsMngNo':sFcltsMngNo };
-		this.doAction('/fclty/gamSelectInfoCommFcltySpecMngGisPrtFcltyNm.do', searchVO, function(module, result) {
+		this.doAction('/fclty/gamSelectMachFcltySpecMngGisPrtFcltyNm.do', searchVO, function(module, result) {
 			if (result.resultCode == "0") {
 				sGisPrtFcltyNm = result.sGisPrtFcltyNm;
 				if (argGisPrtFcltyNmVariableName != null && argGisPrtFcltyNmVariableName != "") {
@@ -575,13 +697,47 @@ GamInfoCommFcltySpecMngModule.prototype.getGisPrtFcltyNm = function(argFcltsMngN
 
 <%
 /**
+ * @FUNCTION NAME : changeDetailAreaForm
+ * @DESCRIPTION   : 시설물 구분에 따른 폼 입력 영역 변경
+ * @PARAMETER     :
+ *   1. argMechFcltsSe - 시설물 구분
+**/
+%>
+GamMachFcltySpecMngModule.prototype.changeDetailAreaForm = function(argMechFcltsSe) {
+
+	var mechFcltsSe = "Z";
+	if (argMechFcltsSe != null) {
+		mechFcltsSe = argMechFcltsSe;
+	}
+	if (mechFcltsSe == "1") {
+		this.$('#archDetailArea').hide();
+		this.$('#bridgeDetailArea').hide();
+		this.$('#cvlEngDetailArea').show();
+	} else if (mechFcltsSe == "2") {
+		this.$('#cvlEngDetailArea').hide();
+		this.$('#archDetailArea').hide();
+		this.$('#bridgeDetailArea').show();
+	} else if (mechFcltsSe == "3") {
+		this.$('#cvlEngDetailArea').hide();
+		this.$('#bridgeDetailArea').hide();
+		this.$('#archDetailArea').show();
+	} else {
+		this.$('#cvlEngDetailArea').hide();
+		this.$('#archDetailArea').hide();
+		this.$('#bridgeDetailArea').hide();
+	}
+
+};
+
+<%
+/**
  * @FUNCTION NAME : onAtchFileDirTreeItemClick
  * @DESCRIPTION   : ATTACHE FILE DIRECTORY TREE ITEM CLICK EVENT
  * @PARAMETER     :
  *   1. itemId - ITEM ID
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.onAtchFileDirTreeItemClick = function(itemId) {
+GamMachFcltySpecMngModule.prototype.onAtchFileDirTreeItemClick = function(itemId) {
 
 	$(this)[0].module.refreshDirData(itemId);
 
@@ -597,7 +753,7 @@ GamInfoCommFcltySpecMngModule.prototype.onAtchFileDirTreeItemClick = function(it
  *   3. value    - VALUE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value) {
+GamMachFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value) {
 
 	switch (popupId) {
 		case 'popupSearchFcltsMngGroupNo':
@@ -654,14 +810,14 @@ GamInfoCommFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, va
 			if (msg == 'ok') {
 				this.$('#fcltsMngGroupNo').val(value.fcltsMngGroupNo);
 				this.$('#fcltsMngGroupNm').val(value.fcltsMngGroupNm);
-				this.$('#prdlstNm').focus();
+				this.$('#mechFcltsSe').focus();
 			}
 			break;
 		case 'popupSpecArchFcltsMngNo':
 			if (msg == 'ok') {
 				this.$('#archFcltsMngNo').val(value.fcltsMngNo);
 				this.$('#archFcltsNm').val(value.prtFcltyNm);
-				this.$('#stndrd').focus();
+				this.$('#rm').focus();
 			}
 			break;
 		case 'popupFcltsAtchFileView':
@@ -695,7 +851,7 @@ GamInfoCommFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, va
  *   1. buttonId - BUTTON ID
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
+GamMachFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 
 	switch (buttonId) {
 		case 'btnAdd':
@@ -787,7 +943,7 @@ GamInfoCommFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.onSubmit = function() {
+GamMachFcltySpecMngModule.prototype.onSubmit = function() {
 
 	this._mainmode = 'query';
 	this._mainKeyValue = '';
@@ -803,7 +959,7 @@ GamInfoCommFcltySpecMngModule.prototype.onSubmit = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.loadData = function() {
+GamMachFcltySpecMngModule.prototype.loadData = function() {
 
 	this.$("#mainTab").tabs("option", {active: 0});
 	var searchOpt=this.makeFormArgs('#searchForm');
@@ -818,7 +974,7 @@ GamInfoCommFcltySpecMngModule.prototype.loadData = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.refreshData = function() {
+GamMachFcltySpecMngModule.prototype.refreshData = function() {
 
 	var searchOpt=this.makeFormArgs('#searchForm');
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
@@ -833,7 +989,7 @@ GamInfoCommFcltySpecMngModule.prototype.refreshData = function() {
  *   1. tabId - TAB ID
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.loadDetail = function(tabId) {
+GamMachFcltySpecMngModule.prototype.loadDetail = function(tabId) {
 
 	if (tabId == 'listTab') {
 		var row = this.$('#mainGrid').selectedRows();
@@ -846,7 +1002,7 @@ GamInfoCommFcltySpecMngModule.prototype.loadDetail = function(tabId) {
 		this.makeDivValues('#detailForm', row[0]);
 	} else if (tabId == 'detailTab') {
 		var searchVO = this.getFormValues('#detailForm');
-		this.doAction('/fclty/gamSelectInfoCommFcltySpecMngPk.do', searchVO, function(module, result){
+		this.doAction('/fclty/gamSelectMachFcltySpecMngPk.do', searchVO, function(module, result){
 			if (result.resultCode == "0") {
 				module.makeFormValues('#detailForm', result.result);
 				module.makeDivValues('#detailForm', result.result);
@@ -863,7 +1019,7 @@ GamInfoCommFcltySpecMngModule.prototype.loadDetail = function(tabId) {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.selectData = function() {
+GamMachFcltySpecMngModule.prototype.selectData = function() {
 
 	if (this._mainmode == 'query') {
 		this.$('#sFcltsMngNo').val("");
@@ -907,7 +1063,7 @@ GamInfoCommFcltySpecMngModule.prototype.selectData = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.getFcltsMngGroupNoNm = function() {
+GamMachFcltySpecMngModule.prototype.getFcltsMngGroupNoNm = function() {
 
 	var sFcltsMngGroupNo = this.$('#sFcltsMngGroupNo').val();
 	if (sFcltsMngGroupNo.length != 14) {
@@ -923,7 +1079,7 @@ GamInfoCommFcltySpecMngModule.prototype.getFcltsMngGroupNoNm = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.getNewGisPrtFcltySeq = function() {
+GamMachFcltySpecMngModule.prototype.getNewGisPrtFcltySeq = function() {
 
 	var searchVO = this.makeFormArgs("#detailForm");
 	var gisAssetsPrtAtCode = this.$('#gisAssetsPrtAtCode').val();
@@ -935,7 +1091,7 @@ GamInfoCommFcltySpecMngModule.prototype.getNewGisPrtFcltySeq = function() {
 	if (gisAssetsPrtAtCode == "" || gisAssetsCd == "" || gisAssetsSubCd == "" || gisPrtFcltyCd == "" || prtFcltySe == "") {
 		return;
 	}
-	this.doAction('/fclty/gamSelectInfoCommFcltySpecMngMaxGisPrtFcltySeq.do', searchVO, function(module, result) {
+	this.doAction('/fclty/gamSelectMachFcltySpecMngMaxGisPrtFcltySeq.do', searchVO, function(module, result) {
 		if (result.resultCode == "0") {
 			module.$('#gisPrtFcltySeq').val(result.sMaxGisPrtFcltySeq);
 		}
@@ -950,7 +1106,7 @@ GamInfoCommFcltySpecMngModule.prototype.getNewGisPrtFcltySeq = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.setFcltsMngNo = function() {
+GamMachFcltySpecMngModule.prototype.setFcltsMngNo = function() {
 
 	var gisAssetsPrtAtCode = this.$('#gisAssetsPrtAtCode').val();
 	var gisAssetsCd = this.$('#gisAssetsCd').val();
@@ -973,18 +1129,18 @@ GamInfoCommFcltySpecMngModule.prototype.setFcltsMngNo = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.addData = function() {
+GamMachFcltySpecMngModule.prototype.addData = function() {
 
 	this.$('#fcltsMngNo').val("");
 	this.$('#gisAssetsLocCd').val("");
 	this.$('#gisAssetsLocNm').val("");
 	this.$('#gisAssetsNm').val("");
-	this.$('#prtFcltySeNm').val("정보통신시설");
+	this.$('#prtFcltySeNm').val("기계시설");
 	this.$('#gisAssetsPrtAtCode').val("");
 	this.$('#gisAssetsCd').val("");
 	this.$('#gisAssetsSubCd').val("");
 	this.$('#gisAssetsPrtAtCodeNm').val("");
-	this.$('#prtFcltySe').val("I");
+	this.$('#prtFcltySe').val("M");
 	this.$('#prtFcltyGisCd').val("");
 	this.$('#gisPrtFcltyCdSub').val("");
 	this.$('#gisPrtFcltyCdNm').val("");
@@ -1010,19 +1166,45 @@ GamInfoCommFcltySpecMngModule.prototype.addData = function() {
 	this.$('#prtFcltyMngEntrpsNm').val("");
 	this.$('#fcltsMngGroupNo').val("");
 	this.$('#fcltsMngGroupNm').val("");
-	this.$('#infoCommFcltsClCd').val("");
-	this.$('#stndrd').val("");
-	this.$('#instlDt').val("");
-	this.$('#instlSe').val("");
-	this.$('#instlNo').val("");
-	this.$('#func').val("");
-	this.$('#ctrlMthd').val("");
-	this.$('#prdlstNm').val("");
-	this.$('#model').val("");
-	this.$('#qy').val("0");
-	this.$('#ptlrDtls').val("");
-	this.$('#maker').val("");
-	this.$('#acqAmt').val("0");
+	this.$('#mechFcltsClCd').val("");
+	this.$('#mechFcltsSe').val("");
+	this.$('#mechFcltsSeNm').val("");
+	this.$('#cvlEngEqpmnNm').val("");
+	this.$('#shipEqpmnNm').val("");
+	this.$('#archEqpmnNm').val("");
+	this.$('#eqpmnNo').val("");
+	this.$('#cvlEngOperCmpny').val("");
+	this.$('#archOperCmpny').val("");
+	this.$('#cvlEngMfcCmpny').val("");
+	this.$('#shipMfcCmpny').val("0");
+	this.$('#cvlEngMfcAmt').val("0");
+	this.$('#shipMfcAmt').val("0");
+	this.$('#cvlEngInstlYrmt').val("");
+	this.$('#shipInstlYrmt').val("");
+	this.$('#archInstlYrmt').val("");
+	this.$('#mfcChkUsr').val("");
+	this.$('#outReach').val("0.00");
+	this.$('#backReach').val("0.00");
+	this.$('#refloatHt').val("0.00");
+	this.$('#processAblty').val("");
+	this.$('#driveWd').val("0.00");
+	this.$('#railWd').val("0.00");
+	this.$('#selfLoad').val("0.00");
+	this.$('#wheelWght').val("");
+	this.$('#eqpmnStndrd').val("0.00");
+	this.$('#linkBridge').val("0.00");
+	this.$('#rubberFender').val("0.00");
+	this.$('#elctyMthd').val("");
+	this.$('#capaTon').val("0.00");
+	this.$('#contrUsr').val("");
+	this.$('#contrAmt').val("0");
+	this.$('#vntltnArcndtMthd').val("");
+	this.$('#clngSrc').val("");
+	this.$('#htngSrc').val("");
+	this.$('#waterTank').val("0.00");
+	this.$('#oilSaveTank').val("0.00");
+	this.$('#spictankFmt').val("");
+	this.$('#rateWght').val("");
 	this.$('#loc').val("");
 	this.$('#archFcltsMngNo').val("");
 	this.$('#archFcltsNm').val("");
@@ -1039,9 +1221,8 @@ GamInfoCommFcltySpecMngModule.prototype.addData = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.saveData = function() {
+GamMachFcltySpecMngModule.prototype.saveData = function() {
 
-	var inputVO = this.makeFormArgs("#detailForm");
 	var fcltsMngNo = this.$('#fcltsMngNo').val();
 	var gisAssetsPrtAtCode = this.$('#gisAssetsPrtAtCode').val();
 	var gisAssetsCd = this.$('#gisAssetsCd').val();
@@ -1057,9 +1238,7 @@ GamInfoCommFcltySpecMngModule.prototype.saveData = function() {
 	var prtFcltyChangeDt = this.$('#prtFcltyChangeDt').val();
 	var prtFcltyExprDt = this.$('#prtFcltyExprDt').val();
 	var fcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();
-	var instlDt = this.$('#instlDt').val();
-	var qy = Number(this.$('#qy').val().replace(/,/gi, ""));
-	var acqAmt = Number(this.$('#acqAmt').val().replace(/,/gi, ""));
+	var mechFcltsSe = this.$('#mechFcltsSe').val();
 	if (gisAssetsPrtAtCode == "" || gisAssetsCd == "" || gisAssetsSubCd == "") {
 		alert('GIS 자산 코드가 부정확합니다.');
 		return;
@@ -1133,31 +1312,165 @@ GamInfoCommFcltySpecMngModule.prototype.saveData = function() {
 		this.$("#fcltsMngGroupNo").focus();
 		return;
 	}
-	if (this.isValidDate(instlDt, false) == false) {
-		alert('제조 일자가 부정확합니다.');
-		this.$("#instlDt").focus();
+	if (mechFcltsSe == "1") {
+		var eqpmnNm = this.$('#cvlEngEqpmnNm').val();
+		var instlYrmt = this.$('#cvlEngInstlYrmt').val();
+		var mfcAmt = Number(this.$('#cvlEngMfcAmt').val().replace(/,/gi, ""));
+		var outReach = Number(this.$('#outReach').val().replace(/,/gi, ""));
+		var backReach = Number(this.$('#backReach').val().replace(/,/gi, ""));
+		var refloatHt = Number(this.$('#refloatHt').val().replace(/,/gi, ""));
+		var driveWd = Number(this.$('#driveWd').val().replace(/,/gi, ""));
+		var railWd = Number(this.$('#railWd').val().replace(/,/gi, ""));
+		var selfLoad = Number(this.$('#selfLoad').val().replace(/,/gi, ""));
+		var mfcCmpny = this.$('#cvlEngMfcCmpny').val();
+		if (eqpmnNm == "") {
+			alert('장비 명이 부정확합니다.');
+			this.$("#cvlEngEqpmnNm").focus();
+			return;
+		}
+		if (this.isValidYearMonth(instlYrmt, false) == false) {
+			alert('설치 년월이 부정확합니다.');
+			this.$("#cvlEngInstlYrmt").focus();
+			return;
+		}
+		if (this.isValidAmount(mfcAmt) == false) {
+			alert('제작 금액이 부정확합니다.');
+			this.$("#cvlEngMfcAmt").focus();
+			return;
+		}
+		if (this.isValidNumber8P2(outReach) == false) {
+			alert('아웃 리치가 부정확합니다.');
+			this.$("#outReach").focus();
+			return;
+		}
+		if (this.isValidNumber8P2(backReach) == false) {
+			alert('백 리치가 부정확합니다.');
+			this.$("#backReach").focus();
+			return;
+		}
+		if (this.isValidNumber8P2(refloatHt) == false) {
+			alert('인양 높이가 부정확합니다.');
+			this.$("#refloatHt").focus();
+			return;
+		}
+		if (this.isValidNumber8P2(driveWd) == false) {
+			alert('주행 폭이 부정확합니다.');
+			this.$("#driveWd").focus();
+			return;
+		}
+		if (this.isValidNumber8P2(railWd) == false) {
+			alert('레일 폭이 부정확합니다.');
+			this.$("#railWd").focus();
+			return;
+		}
+		if (this.isValidNumber8P2(selfLoad) == false) {
+			alert('자중이 부정확합니다.');
+			this.$("#selfLoad").focus();
+			return;
+		}
+		this.setEqpmnNm(eqpmnNm);
+		this.setInstlYrmt(instlYrmt);
+		this.setMfcCmpny(mfcCmpny);
+		this.setMfcAmt(mfcAmt);
+	} else if (mechFcltsSe == "2") {
+		var eqpmnNm = this.$('#shipEqpmnNm').val();
+		var instlYrmt = this.$('#shipInstlYrmt').val();
+		var mfcAmt = Number(this.$('#shipMfcAmt').val().replace(/,/gi, ""));
+		var eqpmnStndrd = Number(this.$('#eqpmnStndrd').val().replace(/,/gi, ""));
+		var linkBridge = Number(this.$('#linkBridge').val().replace(/,/gi, ""));
+		var rubberFender = Number(this.$('#rubberFender').val().replace(/,/gi, ""));
+		var capaTon = Number(this.$('#capaTon').val().replace(/,/gi, ""));
+		var mfcCmpny = this.$('#shipMfcCmpny').val();
+		if (eqpmnNm == "") {
+			alert('장비 명이 부정확합니다.');
+			this.$("#shipEqpmnNm").focus();
+			return;
+		}
+		if (this.isValidYearMonth(instlYrmt, false) == false) {
+			alert('설치 년월이 부정확합니다.');
+			this.$("#shipInstlYrmt").focus();
+			return;
+		}
+		if (this.isValidAmount(mfcAmt) == false) {
+			alert('제작 금액이 부정확합니다.');
+			this.$("#shipMfcAmt").focus();
+			return;
+		}
+		if (this.isValidNumber8P2(eqpmnStndrd) == false) {
+			alert('규격이 부정확합니다.');
+			this.$("#eqpmnStndrd").focus();
+			return;
+		}
+		if (this.isValidNumber8P2(linkBridge) == false) {
+			alert('연결 도교가 부정확합니다.');
+			this.$("#linkBridge").focus();
+			return;
+		}
+		if (this.isValidNumber8P2(rubberFender) == false) {
+			alert('고무 방충재가 부정확합니다.');
+			this.$("#rubberFender").focus();
+			return;
+		}
+		if (this.isValidNumber8P2(capaTon) == false) {
+			alert('적재 톤수가 부정확합니다.');
+			this.$("#capaTon").focus();
+			return;
+		}
+		this.setEqpmnNm(eqpmnNm);
+		this.setInstlYrmt(instlYrmt);
+		this.setMfcCmpny(mfcCmpny);
+		this.setMfcAmt(mfcAmt);
+	} else if (mechFcltsSe == "3") {
+		var eqpmnNm = this.$('#archEqpmnNm').val();
+		var instlYrmt = this.$('#archInstlYrmt').val();
+		var contrAmt = Number(this.$('#contrAmt').val().replace(/,/gi, ""));
+		var waterTank = Number(this.$('#waterTank').val().replace(/,/gi, ""));
+		var oilSaveTank = Number(this.$('#oilSaveTank').val().replace(/,/gi, ""));
+		var operCmpny = this.$('#archOperCmpny').val();
+		if (eqpmnNm == "") {
+			alert('장비 명이 부정확합니다.');
+			this.$("#archEqpmnNm").focus();
+			return;
+		}
+		if (this.isValidYearMonth(instlYrmt, false) == false) {
+			alert('설치 년월이 부정확합니다.');
+			this.$("#archInstlYrmt").focus();
+			return;
+		}
+		if (this.isValidAmount(contrAmt) == false) {
+			alert('도급 금액이 부정확합니다.');
+			this.$("#contrAmt").focus();
+			return;
+		}
+		if (this.isValidNumber8P2(waterTank) == false) {
+			alert('물 탱크가 부정확합니다.');
+			this.$("#waterTank").focus();
+			return;
+		}
+		if (this.isValidNumber8P2(oilSaveTank) == false) {
+			alert('유류 저장 탱크가 부정확합니다.');
+			this.$("#oilSaveTank").focus();
+			return;
+		}
+		this.setEqpmnNm(eqpmnNm);
+		this.setInstlYrmt(instlYrmt);
+		this.setOperCmpny(operCmpny);
+	} else {
+		alert('시설물 구분이 부정확합니다.');
+		this.$("#mechFcltsSe").focus();
 		return;
 	}
-	if (this.isValidCnt(qy) == false) {
-		alert('수량이 부정확합니다.');
-		this.$("#qy").focus();
-		return;
-	}
-	if (this.isValidAmount(acqAmt) == false) {
-		alert('취득 금액이 부정확합니다.');
-		this.$("#acqAmt").focus();
-		return;
-	}
+	var inputVO = this.makeFormArgs("#detailForm");
 	if (this._mainmode == "insert") {
 		this._mainKeyValue = fcltsMngNo;
-		this.doAction('/fclty/gamInsertInfoCommFcltySpecMng.do', inputVO, function(module, result) {
+		this.doAction('/fclty/gamInsertMachFcltySpecMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.refreshData();
 			}
 			alert(result.resultMsg);
 		});
 	} else {
-		this.doAction('/fclty/gamUpdateInfoCommFcltySpecMng.do', inputVO, function(module, result) {
+		this.doAction('/fclty/gamUpdateMachFcltySpecMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.refreshData();
 			}
@@ -1174,7 +1487,7 @@ GamInfoCommFcltySpecMngModule.prototype.saveData = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.deleteData = function() {
+GamMachFcltySpecMngModule.prototype.deleteData = function() {
 
 	var gisAssetsPrtAtCode = this.$('#gisAssetsPrtAtCode').val();
 	var gisAssetsCd = this.$('#gisAssetsCd').val();
@@ -1208,7 +1521,7 @@ GamInfoCommFcltySpecMngModule.prototype.deleteData = function() {
 	}
 	if (confirm("삭제하시겠습니까?")) {
 		var deleteVO = this.makeFormArgs("#detailForm");
-		this.doAction('/fclty/gamDeleteInfoCommFcltySpecMng.do', deleteVO, function(module, result) {
+		this.doAction('/fclty/gamDeleteMachFcltySpecMng.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module._mainmode = 'query';
 				module._mainKeyValue = '';
@@ -1227,7 +1540,7 @@ GamInfoCommFcltySpecMngModule.prototype.deleteData = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.saveMap = function() {
+GamMachFcltySpecMngModule.prototype.saveMap = function() {
 
 	this.$('#btnSaveMap').disable({disableClass:"ui-state-disabled"});
 	var rows = this.$("#mainGrid").selectedRows();
@@ -1250,7 +1563,7 @@ GamInfoCommFcltySpecMngModule.prototype.saveMap = function() {
  *   1. buttonId - BUTTON ID
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.downloadExcel = function(buttonId) {
+GamMachFcltySpecMngModule.prototype.downloadExcel = function(buttonId) {
 
 	var gridRowCount = 0;
 	switch (buttonId) {
@@ -1266,7 +1579,7 @@ GamInfoCommFcltySpecMngModule.prototype.downloadExcel = function(buttonId) {
 	}
 	switch (buttonId) {
 		case 'btnExcelDownload':
-			this.$('#mainGrid').flexExcelDown('/fclty/gamExcelDownloadInfoCommFcltySpecMng.do');
+			this.$('#mainGrid').flexExcelDown('/fclty/gamExcelDownloadMachFcltySpecMng.do');
 			break;
 	}
 
@@ -1280,11 +1593,11 @@ GamInfoCommFcltySpecMngModule.prototype.downloadExcel = function(buttonId) {
  *   1. argDirNo - DIRECTORY NO.
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.displayAtchFileDirectory = function(argDirNo) {
+GamMachFcltySpecMngModule.prototype.displayAtchFileDirectory = function(argDirNo) {
 
 	this.$("#atchFileDirTreeList").empty();
 	var inputVO = this.makeFormArgs("#dirForm");
-	this.doAction('/fclty/gamSelectInfoCommFcltySpecMngAtchFileDirList.do', inputVO, function(module, result) {
+	this.doAction('/fclty/gamSelectMachFcltySpecMngAtchFileDirList.do', inputVO, function(module, result) {
 		if (result.resultCode == "0") {
 			if (result.resultList.length > 0) {
 				var atchFileDirTreeNode = module.$('#atchFileDirTreeList');
@@ -1319,12 +1632,12 @@ GamInfoCommFcltySpecMngModule.prototype.displayAtchFileDirectory = function(argD
  *   1. argDirNo - DIRECTORY NO.
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.refreshDirData = function(argDirNo) {
+GamMachFcltySpecMngModule.prototype.refreshDirData = function(argDirNo) {
 
 	if (argDirNo > 1) {
 		this.$('#dirNo').val('' + argDirNo);
 		var searchVO = this.getFormValues('#dirForm');
-		this.doAction('/fclty/gamSelectInfoCommFcltySpecMngAtchFileDirPk.do', searchVO, function(module, result){
+		this.doAction('/fclty/gamSelectMachFcltySpecMngAtchFileDirPk.do', searchVO, function(module, result){
 			if (result.resultCode == "0") {
 				module.makeFormValues('#dirForm', result.result);
 				module.makeDivValues('#dirForm', result.result);
@@ -1343,7 +1656,7 @@ GamInfoCommFcltySpecMngModule.prototype.refreshDirData = function(argDirNo) {
 		this.$('#dirUpperNo').val("0");
 		this.$('#depthSort').val("0");
 		this.$('#leafYn').val("N");
-		this.$('#dirFcltsJobSe').val("I");
+		this.$('#dirFcltsJobSe').val("M");
 		this.$('#inputDirNm').val("ROOT");
 		this.displayAtchFileList("");
 	}
@@ -1357,7 +1670,7 @@ GamInfoCommFcltySpecMngModule.prototype.refreshDirData = function(argDirNo) {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.addAtchFileDirectory = function() {
+GamMachFcltySpecMngModule.prototype.addAtchFileDirectory = function() {
 
 	var dirNo = Number(this.$('#dirNo').val());
 	var dirNm = this.$('#dirNm').val();
@@ -1411,7 +1724,7 @@ GamInfoCommFcltySpecMngModule.prototype.addAtchFileDirectory = function() {
 		this.$('#dirUpperNo').val(dirNo);
 		this.$('#depthSort').val("" + (depthSort + 1));
 		this.$('#leafYn').val("Y");
-		this.$('#dirFcltsJobSe').val("I");
+		this.$('#dirFcltsJobSe').val("M");
 		this.$('#dirNo').val("");
 		var insertVO = this.makeFormArgs("#dirForm");
 		this.$('#dirNm').val(dirNm);
@@ -1421,7 +1734,7 @@ GamInfoCommFcltySpecMngModule.prototype.addAtchFileDirectory = function() {
 		this.$('#leafYn').val(leafYn);
 		this.$('#dirFcltsJobSe').val(dirFcltsJobSe);
 		this.$('#dirNo').val("" + dirNo);
-		this.doAction('/fclty/gamInsertInfoCommFcltySpecMngAtchFileDir.do', insertVO, function(module, result) {
+		this.doAction('/fclty/gamInsertMachFcltySpecMngAtchFileDir.do', insertVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.displayAtchFileDirectory("" + dirNo);
 			}
@@ -1438,7 +1751,7 @@ GamInfoCommFcltySpecMngModule.prototype.addAtchFileDirectory = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.renameAtchFileDirectory = function() {
+GamMachFcltySpecMngModule.prototype.renameAtchFileDirectory = function() {
 
 	var dirNo = Number(this.$('#dirNo').val());
 	var dirNm = this.$('#dirNm').val();
@@ -1481,7 +1794,7 @@ GamInfoCommFcltySpecMngModule.prototype.renameAtchFileDirectory = function() {
 		alert('디렉토리 정보가 부정확합니다. (업무구분)');
 		return;
 	}
-	if (dirFcltsJobSe != "I") {
+	if (dirFcltsJobSe != "M") {
 		alert('다른 시설담당자가 생성한 디렉토리입니다. (변경불가)');
 		return;
 	}
@@ -1504,7 +1817,7 @@ GamInfoCommFcltySpecMngModule.prototype.renameAtchFileDirectory = function() {
 		var updateVO = this.makeFormArgs("#dirForm");
 		this.$('#dirNm').val(dirNm);
 		this.$('#dirPath').val(dirPath);
-		this.doAction('/fclty/gamUpdateInfoCommFcltySpecMngAtchFileDir.do', updateVO, function(module, result) {
+		this.doAction('/fclty/gamUpdateMachFcltySpecMngAtchFileDir.do', updateVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.displayAtchFileDirectory("" + dirNo);
 			}
@@ -1521,7 +1834,7 @@ GamInfoCommFcltySpecMngModule.prototype.renameAtchFileDirectory = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.removeAtchFileDirectory = function() {
+GamMachFcltySpecMngModule.prototype.removeAtchFileDirectory = function() {
 
 	var dirNo = Number(this.$('#dirNo').val());
 	var dirNm = this.$('#dirNm').val();
@@ -1563,13 +1876,13 @@ GamInfoCommFcltySpecMngModule.prototype.removeAtchFileDirectory = function() {
 		alert('디렉토리 정보가 부정확합니다. (업무구분)');
 		return;
 	}
-	if (dirFcltsJobSe != "I") {
+	if (dirFcltsJobSe != "M") {
 		alert('다른 시설담당자가 생성한 디렉토리입니다. (삭제불가)');
 		return;
 	}
 	if (confirm("[" + dirNm + "] 디렉토리를 삭제하시겠습니까?\r\n(하위 디렉토리 및 첨부 파일도 모두 삭제됩니다)")) {
 		var deleteVO = this.makeFormArgs("#dirForm");
-		this.doAction('/fclty/gamDeleteInfoCommFcltySpecMngAtchFileDir.do', deleteVO, function(module, result) {
+		this.doAction('/fclty/gamDeleteMachFcltySpecMngAtchFileDir.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.displayAtchFileDirectory("");
 			}
@@ -1587,7 +1900,7 @@ GamInfoCommFcltySpecMngModule.prototype.removeAtchFileDirectory = function() {
  *   1. argAtchFileDirNo - ATTACHE FILE DIRECTORY NO.
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.displayAtchFileList = function(argAtchFileDirNo) {
+GamMachFcltySpecMngModule.prototype.displayAtchFileList = function(argAtchFileDirNo) {
 
 	this.makeFormValues('#fileForm', {});
 	this.makeDivValues('#fileForm', {});
@@ -1612,12 +1925,12 @@ GamInfoCommFcltySpecMngModule.prototype.displayAtchFileList = function(argAtchFi
  *   1. argAtchFileNo - ATTACHE FILE NO.
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.refreshFileData = function(argAtchFileNo) {
+GamMachFcltySpecMngModule.prototype.refreshFileData = function(argAtchFileNo) {
 
 	if (argAtchFileNo != null && argAtchFileNo != "") {
 		this.$('#atchFileNo').val(argAtchFileNo);
 		var searchVO = this.getFormValues('#fileForm');
-		this.doAction('/fclty/gamSelectInfoCommFcltySpecMngFcltsAtchFilePk.do', searchVO, function(module, result){
+		this.doAction('/fclty/gamSelectMachFcltySpecMngFcltsAtchFilePk.do', searchVO, function(module, result){
 			if (result.resultCode == "0") {
 				module.makeFormValues('#fileForm', result.result);
 				module.makeDivValues('#fileForm', result.result);
@@ -1643,7 +1956,7 @@ GamInfoCommFcltySpecMngModule.prototype.refreshFileData = function(argAtchFileNo
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.selectAllFile = function() {
+GamMachFcltySpecMngModule.prototype.selectAllFile = function() {
 
 	var rows = this.$('#fileGrid').flexGetData();
 	var atchFileDataCount = rows.length;
@@ -1672,7 +1985,7 @@ GamInfoCommFcltySpecMngModule.prototype.selectAllFile = function() {
  *   7. argAtchFileNmPhysicl - ATTACHE FILE NAME PHYSICAL
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.saveUploadFileData = function(argAtchFileFcltsMngNo, argAtchFileFcltsDirNo, argAtchFileFcltsJobSe, argAtchFileFcltsDataSe, argAtchFileFcltsMngSeq, argAtchFileNmLogic, argAtchFileNmPhysicl) {
+GamMachFcltySpecMngModule.prototype.saveUploadFileData = function(argAtchFileFcltsMngNo, argAtchFileFcltsDirNo, argAtchFileFcltsJobSe, argAtchFileFcltsDataSe, argAtchFileFcltsMngSeq, argAtchFileNmLogic, argAtchFileNmPhysicl) {
 
 	var inputVO = [];
 	var atchFileSe = "D";
@@ -1703,7 +2016,7 @@ GamInfoCommFcltySpecMngModule.prototype.saveUploadFileData = function(argAtchFil
 			'updUsr':"",
 			'updtDt':""
 	};
-	this.doAction('/fclty/gamInsertInfoCommFcltySpecMngFcltsAtchFile.do', inputVO, function(module, result) {
+	this.doAction('/fclty/gamInsertMachFcltySpecMngFcltsAtchFile.do', inputVO, function(module, result) {
 		if (result.resultCode == "0") {
 			module.$("#fileGrid").flexAddRow({ atchFileNo:result.atchFileNo,
 											   atchFileSe:atchFileSe,
@@ -1730,12 +2043,12 @@ GamInfoCommFcltySpecMngModule.prototype.saveUploadFileData = function(argAtchFil
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.uploadFile = function() {
+GamMachFcltySpecMngModule.prototype.uploadFile = function() {
 
 	var atchFileFcltsDirNo = Number(this.$('#dirNo').val());
 	var atchFileFcltsMngNo = this.$('#fcltsMngNo').val();
 	var atchFileFcltsDataSe = "D";
-	var atchFileFcltsJobSe = "I";
+	var atchFileFcltsJobSe = "M";
 	var atchFileFcltsMngSeq = "";
 	if (atchFileFcltsDirNo <= 0) {
 		alert('업로드 디렉토리가 선택되지 않았습니다.');
@@ -1756,7 +2069,7 @@ GamInfoCommFcltySpecMngModule.prototype.uploadFile = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.downloadFile = function() {
+GamMachFcltySpecMngModule.prototype.downloadFile = function() {
 
 	var selectRow = this.$('#fileGrid').selectedRows();
 	if (selectRow.length > 0) {
@@ -1773,7 +2086,7 @@ GamInfoCommFcltySpecMngModule.prototype.downloadFile = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.downloadMultiFile = function() {
+GamMachFcltySpecMngModule.prototype.downloadMultiFile = function() {
 
 	var rows = this.$('#fileGrid').selectFilterData([{col:'atchFileSelChk', filter: true}]);
 	if (rows.length <= 0) {
@@ -1794,7 +2107,7 @@ GamInfoCommFcltySpecMngModule.prototype.downloadMultiFile = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.deleteFileData = function() {
+GamMachFcltySpecMngModule.prototype.deleteFileData = function() {
 
 	var atchFileDirNo = this.$('#dirNo').val();
 	var atchFileNo = this.$('#atchFileNo').val();
@@ -1803,13 +2116,13 @@ GamInfoCommFcltySpecMngModule.prototype.deleteFileData = function() {
 		alert('첨부 파일 번호가 부정확합니다.');
 		return;
 	}
-	if (atchFileFcltsJobSe != "I") {
+	if (atchFileFcltsJobSe != "M") {
 		alert('다른 시설담당자가 첨부한 파일입니다. (삭제불가)');
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
 		var deleteVO = this.makeFormArgs("#fileForm");
-		this.doAction('/fclty/gamDeleteInfoCommFcltySpecMngFcltsAtchFile.do', deleteVO, function(module, result) {
+		this.doAction('/fclty/gamDeleteMachFcltySpecMngFcltsAtchFile.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.displayAtchFileList(atchFileDirNo);
 			}
@@ -1826,7 +2139,7 @@ GamInfoCommFcltySpecMngModule.prototype.deleteFileData = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.deleteMultiFileData = function() {
+GamMachFcltySpecMngModule.prototype.deleteMultiFileData = function() {
 
 	var rows = this.$('#fileGrid').selectFilterData([{col:'atchFileSelChk', filter: true}]);
 	if (rows.length <= 0) {
@@ -1848,7 +2161,7 @@ GamInfoCommFcltySpecMngModule.prototype.deleteMultiFileData = function() {
 			alert('[' + atchFileNmLogic + '] 첨부 파일 번호가 부정확합니다.');
 			return;
 		}
-		if (atchFileFcltsJobSe != "I") {
+		if (atchFileFcltsJobSe != "M") {
 			alert('[' + atchFileNmLogic + '] 다른 시설담당자가 첨부한 파일입니다. (삭제불가)');
 			return;
 		}
@@ -1862,7 +2175,7 @@ GamInfoCommFcltySpecMngModule.prototype.deleteMultiFileData = function() {
 		var deleteVO = {
 				'deleteAtchFileNoList':deleteAtchFileNoList
 		};
-		this.doAction('/fclty/gamDeleteInfoCommFcltySpecMngFcltsAtchFileMulti.do', deleteVO, function(module, result) {
+		this.doAction('/fclty/gamDeleteMachFcltySpecMngFcltsAtchFileMulti.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.displayAtchFileList(atchFileDirNo);
 			}
@@ -1879,7 +2192,7 @@ GamInfoCommFcltySpecMngModule.prototype.deleteMultiFileData = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.displayPreviewFile = function() {
+GamMachFcltySpecMngModule.prototype.displayPreviewFile = function() {
 
 	var atchFilePreviewFlag = this.$('#fileGrid')[0].dgrid.isColumnHidden(4);
 	var columnWidth = "200";
@@ -1904,7 +2217,7 @@ GamInfoCommFcltySpecMngModule.prototype.displayPreviewFile = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.showFcltsAtchFileViewPopup = function() {
+GamMachFcltySpecMngModule.prototype.showFcltsAtchFileViewPopup = function() {
 
 	var atchFileNo = this.$('#atchFileNo').val();
 	var atchFileNmPhysicl = this.$('#atchFileNmPhysicl').val();
@@ -1930,7 +2243,7 @@ GamInfoCommFcltySpecMngModule.prototype.showFcltsAtchFileViewPopup = function() 
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.enableListButtonItem = function() {
+GamMachFcltySpecMngModule.prototype.enableListButtonItem = function() {
 
 	if (this._mainmode == "insert") {
 		this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
@@ -1974,7 +2287,7 @@ GamInfoCommFcltySpecMngModule.prototype.enableListButtonItem = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.enableDetailInputItem = function() {
+GamMachFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 
 	if (this._mainmode == "insert") {
 		this.$('#gisPrtFcltyCd').enable();
@@ -1990,18 +2303,43 @@ GamInfoCommFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#prtPrtFcltyMnger').enable();
 		this.$('#prtFcltyMngEntrpsCd').enable();
 		this.$('#fcltsMngGroupNo').enable();
-		this.$('#stndrd').enable();
-		this.$('#instlDt').enable();
-		this.$('#instlSe').enable();
-		this.$('#instlNo').enable();
-		this.$('#func').enable();
-		this.$('#ctrlMthd').enable();
-		this.$('#prdlstNm').enable();
-		this.$('#model').enable();
-		this.$('#qy').enable();
-		this.$('#ptlrDtls').enable();
-		this.$('#maker').enable();
-		this.$('#acqAmt').enable();
+		this.$('#mechFcltsSe').enable();
+		this.$('#cvlEngEqpmnNm').enable();
+		this.$('#shipEqpmnNm').enable();
+		this.$('#archEqpmnNm').enable();
+		this.$('#eqpmnNo').enable();
+		this.$('#cvlEngOperCmpny').enable();
+		this.$('#archOperCmpny').enable();
+		this.$('#cvlEngMfcCmpny').enable();
+		this.$('#shipMfcCmpny').enable();
+		this.$('#cvlEngMfcAmt').enable();
+		this.$('#shipMfcAmt').enable();
+		this.$('#cvlEngInstlYrmt').enable();
+		this.$('#shipInstlYrmt').enable();
+		this.$('#archInstlYrmt').enable();
+		this.$('#mfcChkUsr').enable();
+		this.$('#outReach').enable();
+		this.$('#backReach').enable();
+		this.$('#refloatHt').enable();
+		this.$('#processAblty').enable();
+		this.$('#driveWd').enable();
+		this.$('#railWd').enable();
+		this.$('#selfLoad').enable();
+		this.$('#wheelWght').enable();
+		this.$('#eqpmnStndrd').enable();
+		this.$('#linkBridge').enable();
+		this.$('#rubberFender').enable();
+		this.$('#elctyMthd').enable();
+		this.$('#capaTon').enable();
+		this.$('#contrUsr').enable();
+		this.$('#contrAmt').enable();
+		this.$('#vntltnArcndtMthd').enable();
+		this.$('#clngSrc').enable();
+		this.$('#htngSrc').enable();
+		this.$('#waterTank').enable();
+		this.$('#oilSaveTank').enable();
+		this.$('#spictankFmt').enable();
+		this.$('#rateWght').enable();
 		this.$('#rm').enable();
 		this.$('#loc').enable();
 		this.$('#archFcltsMngNo').enable();
@@ -2032,18 +2370,43 @@ GamInfoCommFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#prtPrtFcltyMnger').enable();
 			this.$('#prtFcltyMngEntrpsCd').enable();
 			this.$('#fcltsMngGroupNo').enable();
-			this.$('#stndrd').enable();
-			this.$('#instlDt').enable();
-			this.$('#instlSe').enable();
-			this.$('#instlNo').enable();
-			this.$('#func').enable();
-			this.$('#ctrlMthd').enable();
-			this.$('#prdlstNm').enable();
-			this.$('#model').enable();
-			this.$('#qy').enable();
-			this.$('#ptlrDtls').enable();
-			this.$('#maker').enable();
-			this.$('#acqAmt').enable();
+			this.$('#mechFcltsSe').disable();
+			this.$('#cvlEngEqpmnNm').enable();
+			this.$('#shipEqpmnNm').enable();
+			this.$('#archEqpmnNm').enable();
+			this.$('#eqpmnNo').enable();
+			this.$('#cvlEngOperCmpny').enable();
+			this.$('#archOperCmpny').enable();
+			this.$('#cvlEngMfcCmpny').enable();
+			this.$('#shipMfcCmpny').enable();
+			this.$('#cvlEngMfcAmt').enable();
+			this.$('#shipMfcAmt').enable();
+			this.$('#cvlEngInstlYrmt').enable();
+			this.$('#shipInstlYrmt').enable();
+			this.$('#archInstlYrmt').enable();
+			this.$('#mfcChkUsr').enable();
+			this.$('#outReach').enable();
+			this.$('#backReach').enable();
+			this.$('#refloatHt').enable();
+			this.$('#processAblty').enable();
+			this.$('#driveWd').enable();
+			this.$('#railWd').enable();
+			this.$('#selfLoad').enable();
+			this.$('#wheelWght').enable();
+			this.$('#eqpmnStndrd').enable();
+			this.$('#linkBridge').enable();
+			this.$('#rubberFender').enable();
+			this.$('#elctyMthd').enable();
+			this.$('#capaTon').enable();
+			this.$('#contrUsr').enable();
+			this.$('#contrAmt').enable();
+			this.$('#vntltnArcndtMthd').enable();
+			this.$('#clngSrc').enable();
+			this.$('#htngSrc').enable();
+			this.$('#waterTank').enable();
+			this.$('#oilSaveTank').enable();
+			this.$('#spictankFmt').enable();
+			this.$('#rateWght').enable();
 			this.$('#rm').enable();
 			this.$('#loc').enable();
 			this.$('#archFcltsMngNo').enable();
@@ -2074,18 +2437,43 @@ GamInfoCommFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#prtPrtFcltyMnger').disable();
 			this.$('#prtFcltyMngEntrpsCd').disable();
 			this.$('#fcltsMngGroupNo').disable();
-			this.$('#stndrd').disable();
-			this.$('#instlDt').disable();
-			this.$('#instlSe').disable();
-			this.$('#instlNo').disable();
-			this.$('#func').disable();
-			this.$('#ctrlMthd').disable();
-			this.$('#prdlstNm').disable();
-			this.$('#model').disable();
-			this.$('#qy').disable();
-			this.$('#ptlrDtls').disable();
-			this.$('#maker').disable();
-			this.$('#acqAmt').disable();
+			this.$('#mechFcltsSe').disable();
+			this.$('#cvlEngEqpmnNm').disable();
+			this.$('#shipEqpmnNm').disable();
+			this.$('#archEqpmnNm').disable();
+			this.$('#eqpmnNo').disable();
+			this.$('#cvlEngOperCmpny').disable();
+			this.$('#archOperCmpny').disable();
+			this.$('#cvlEngMfcCmpny').disable();
+			this.$('#shipMfcCmpny').disable();
+			this.$('#cvlEngMfcAmt').disable();
+			this.$('#shipMfcAmt').disable();
+			this.$('#cvlEngInstlYrmt').disable();
+			this.$('#shipInstlYrmt').disable();
+			this.$('#archInstlYrmt').disable();
+			this.$('#mfcChkUsr').disable();
+			this.$('#outReach').disable();
+			this.$('#backReach').disable();
+			this.$('#refloatHt').disable();
+			this.$('#processAblty').disable();
+			this.$('#driveWd').disable();
+			this.$('#railWd').disable();
+			this.$('#selfLoad').disable();
+			this.$('#wheelWght').disable();
+			this.$('#eqpmnStndrd').disable();
+			this.$('#linkBridge').disable();
+			this.$('#rubberFender').disable();
+			this.$('#elctyMthd').disable();
+			this.$('#capaTon').disable();
+			this.$('#contrUsr').disable();
+			this.$('#contrAmt').disable();
+			this.$('#vntltnArcndtMthd').disable();
+			this.$('#clngSrc').disable();
+			this.$('#htngSrc').disable();
+			this.$('#waterTank').disable();
+			this.$('#oilSaveTank').disable();
+			this.$('#spictankFmt').disable();
+			this.$('#rateWght').disable();
 			this.$('#rm').disable();
 			this.$('#loc').disable();
 			this.$('#archFcltsMngNo').disable();
@@ -2108,7 +2496,7 @@ GamInfoCommFcltySpecMngModule.prototype.enableDetailInputItem = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.disableDetailInputItem = function() {
+GamMachFcltySpecMngModule.prototype.disableDetailInputItem = function() {
 
 	this.$('#gisPrtFcltyCd').disable();
 	this.$('#prtFcltyNm').disable();
@@ -2123,18 +2511,43 @@ GamInfoCommFcltySpecMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#prtPrtFcltyMnger').disable();
 	this.$('#prtFcltyMngEntrpsCd').disable();
 	this.$('#fcltsMngGroupNo').disable();
-	this.$('#stndrd').disable();
-	this.$('#instlDt').disable();
-	this.$('#instlSe').disable();
-	this.$('#instlNo').disable();
-	this.$('#func').disable();
-	this.$('#ctrlMthd').disable();
-	this.$('#prdlstNm').disable();
-	this.$('#model').disable();
-	this.$('#qy').disable();
-	this.$('#ptlrDtls').disable();
-	this.$('#maker').disable();
-	this.$('#acqAmt').disable();
+	this.$('#mechFcltsSe').disable();
+	this.$('#cvlEngEqpmnNm').disable();
+	this.$('#shipEqpmnNm').disable();
+	this.$('#archEqpmnNm').disable();
+	this.$('#eqpmnNo').disable();
+	this.$('#cvlEngOperCmpny').disable();
+	this.$('#archOperCmpny').disable();
+	this.$('#cvlEngMfcCmpny').disable();
+	this.$('#shipMfcCmpny').disable();
+	this.$('#cvlEngMfcAmt').disable();
+	this.$('#shipMfcAmt').disable();
+	this.$('#cvlEngInstlYrmt').disable();
+	this.$('#shipInstlYrmt').disable();
+	this.$('#archInstlYrmt').disable();
+	this.$('#mfcChkUsr').disable();
+	this.$('#outReach').disable();
+	this.$('#backReach').disable();
+	this.$('#refloatHt').disable();
+	this.$('#processAblty').disable();
+	this.$('#driveWd').disable();
+	this.$('#railWd').disable();
+	this.$('#selfLoad').disable();
+	this.$('#wheelWght').disable();
+	this.$('#eqpmnStndrd').disable();
+	this.$('#linkBridge').disable();
+	this.$('#rubberFender').disable();
+	this.$('#elctyMthd').disable();
+	this.$('#capaTon').disable();
+	this.$('#contrUsr').disable();
+	this.$('#contrAmt').disable();
+	this.$('#vntltnArcndtMthd').disable();
+	this.$('#clngSrc').disable();
+	this.$('#htngSrc').disable();
+	this.$('#waterTank').disable();
+	this.$('#oilSaveTank').disable();
+	this.$('#spictankFmt').disable();
+	this.$('#rateWght').disable();
 	this.$('#rm').disable();
 	this.$('#loc').disable();
 	this.$('#archFcltsMngNo').disable();
@@ -2155,7 +2568,7 @@ GamInfoCommFcltySpecMngModule.prototype.disableDetailInputItem = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.enableFileButtonItem = function() {
+GamMachFcltySpecMngModule.prototype.enableFileButtonItem = function() {
 
 	var dirNo = this.$('#dirNo').val();
 	var atchFileNo = this.$('#atchFileNo').val();
@@ -2200,7 +2613,7 @@ GamInfoCommFcltySpecMngModule.prototype.enableFileButtonItem = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.disableFileButtonItem = function() {
+GamMachFcltySpecMngModule.prototype.disableFileButtonItem = function() {
 
 	this.$('#btnFileAllSelect').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnFileUpload').disable({disableClass:"ui-state-disabled"});
@@ -2219,7 +2632,7 @@ GamInfoCommFcltySpecMngModule.prototype.disableFileButtonItem = function() {
  *   2. oldTabId - OLD TAB ID
 **/
 %>
-GamInfoCommFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
+GamMachFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 
 	switch (newTabId) {
 		case 'listTab':
@@ -2238,6 +2651,7 @@ GamInfoCommFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabI
 				this.makeDivValues('#detailForm', {});
 				this.disableDetailInputItem();
 			}
+			this.changeDetailAreaForm(this.$('#mechFcltsSe').val());
 			break;
 		case 'fileTab':
 			if (this._atchFileDirLoad == false) {
@@ -2251,7 +2665,7 @@ GamInfoCommFcltySpecMngModule.prototype.onTabChange = function(newTabId, oldTabI
 
 };
 
-var module_instance = new GamInfoCommFcltySpecMngModule();
+var module_instance = new GamMachFcltySpecMngModule();
 
 </script>
 
@@ -2291,7 +2705,16 @@ var module_instance = new GamInfoCommFcltySpecMngModule();
 						<tr>
 							<th>시설물 분류</th>
 							<td>
-								<input id="sGisPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM069"/>
+								<!--
+								<input id="sGisPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM067"/>
+								 -->
+								<select id="sGisPrtFcltyCd">
+									<option value="" selected>전체</option>
+									<option value="M1">컨테이너크레인</option>
+									<option value="MA">부잔교</option>
+									<option value="MB">건축 기계설비</option>
+									<option value="00">하역장비현황</option>
+								</select>
 							</td>
 							<th>시설 명</th>
 							<td>
@@ -2313,9 +2736,9 @@ var module_instance = new GamInfoCommFcltySpecMngModule();
 		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
 			<!-- 211. TAB 정의 -->
 			<ul>
-				<li><a href="#listTab" class="emdTab">정보통신시설 목록</a></li>
-				<li><a href="#detailTab" class="emdTab">정보통신시설 제원</a></li>
-				<li><a href="#fileTab" class="emdTab">정보통신시설 첨부파일</a></li>
+				<li><a href="#listTab" class="emdTab">기계시설 목록</a></li>
+				<li><a href="#detailTab" class="emdTab">기계시설 제원</a></li>
+				<li><a href="#fileTab" class="emdTab">기계시설 첨부파일</a></li>
 			</ul>
 			<!-- 212. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
@@ -2324,12 +2747,12 @@ var module_instance = new GamInfoCommFcltySpecMngModule();
 					<form id="listSumForm">
 						<table style="width:100%;">
 							<tr>
-								<th style="width:10%; height:20; text-align:center;">자료수</th>
-								<td><input type="text" size="6" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
-								<th style="width:10%; height:20; text-align:center;">수량 합계</th>
-								<td><input type="text" size="10" id="sumQy" class="ygpaNumber" disabled="disabled"/></td>
-								<th style="width:10%; height:20; text-align:center;">취득 가액 합계</th>
-								<td><input type="text" size="18" id="sumAcqAmt" class="ygpaNumber" disabled="disabled"/></td>
+								<th style="width:8%; height:20; text-align:center;">자료수</th>
+								<td><input type="text" size="8" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
+								<th style="width:8%; height:20; text-align:center;">제조금액 합계</th>
+								<td><input type="text" size="18" id="sumMfcAmt" class="ygpaNumber" disabled="disabled"/></td>
+								<th style="width:8%; height:20; text-align:center;">도급금액 합계</th>
+								<td><input type="text" size="18" id="sumContrAmt" class="ygpaNumber" disabled="disabled"/></td>
 								<td style="text-align:right;">
 									<button id="btnAdd" class="buttonAdd">추가</button>
 									<button id="btnDelete" class="buttonDelete">삭제</button>
@@ -2349,7 +2772,7 @@ var module_instance = new GamInfoCommFcltySpecMngModule();
 					<form id="detailForm">
 						<table class="summaryPanel" style="width:100%;">
 							<tr>
-								<th style="font-weight:bold; height:20px;">정보통신시설 일반</th>
+								<th style="font-weight:bold; height:20px;">기계시설 일반</th>
 								<td style="text-align:right;">
 									<input type="hidden" id="fcltySpecExistYn"/>
 									&nbsp;시설물관리번호 : &nbsp;
@@ -2388,7 +2811,7 @@ var module_instance = new GamInfoCommFcltySpecMngModule();
 									<input type="hidden" id="gisPrtFcltyCdNm"/>
 									<input type="text" size="3" id="gisPrtFcltyCdDisplay" disabled/>-
 									<input type="text" size="6" id="gisPrtFcltySeq" disabled/>
-									<input id="gisPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="" data-code-id="GAM069"/>
+									<input id="gisPrtFcltyCd" class="ygpaCmmnCd" data-default-prompt="" data-code-id="GAM067"/>
 								</td>
 							</tr>
 							<tr>
@@ -2446,7 +2869,7 @@ var module_instance = new GamInfoCommFcltySpecMngModule();
 						</table>
 						<table class="summaryPanel" style="width:100%;">
 							<tr>
-								<th style="font-weight:bold; height:20px;">정보통신시설 제원</th>
+								<th style="font-weight:bold; height:20px;">기계시설 제원</th>
 								<td style="text-align:right;">
 									<button id="btnSpecInsert" class="buttonAdd">　추　가　</button>
 									<button id="btnSpecSave" class="buttonSave">　저　장　</button>
@@ -2454,79 +2877,209 @@ var module_instance = new GamInfoCommFcltySpecMngModule();
 								</td>
 							</tr>
 						</table>
-						<table class="detailPanel" style="width:100%;">
+						<table id="fcltsSeDetailArea" class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:10%; height:18px;">품　　목　　명</th>
+								<th style="width:10%; height:18px;">시설물　　구분</th>
 								<td colspan="3">
-									<input type="text" size="149" id="prdlstNm" maxlength="60"/>
+									<input type="hidden" id="mechFcltsSeNm"/>
+									<input type="hidden" id="eqpmnNm"/>
+									<input type="hidden" id="instlYrmt"/>
+									<input type="hidden" id="mfcCmpny"/>
+									<input type="hidden" id="mfcAmt"/>
+									<input type="hidden" id="operCmpny"/>
+									<select id="mechFcltsSe">
+										<option value="1">하역장비</option>
+										<option value="2">항만부잔교</option>
+										<option value="3">건축 기계설비</option>
+									</select>
+								</td>
+							</tr>
+						</table>
+						<table id="cvlEngDetailArea" class="detailPanel" style="width:100%; display:none;">
+							<tr>
+								<th style="width:10%; height:18px;">장　　비　　명</th>
+								<td>
+									<input type="text" size="62" id="cvlEngEqpmnNm" maxlength="150"/>
+								</td>
+								<th style="width:10%; height:18px;">장　비　번　호</th>
+								<td>
+									<input type="text" size="62" id="eqpmnNo" maxlength="50"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">설　치　년　월</th>
+								<td>
+									<input type="text" size="62" id="cvlEngInstlYrmt" maxlength="7"/>
+								</td>
+								<th style="width:10%; height:18px;">운　　영　　사</th>
+								<td>
+									<input type="text" size="62" id="cvlEngOperCmpny" maxlength="100"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">제　　작　　사</th>
+								<td>
+									<input type="text" size="62" id="cvlEngMfcCmpny" maxlength="100"/>
+								</td>
+								<th style="width:10%; height:18px;">제　　작　　비</th>
+								<td>
+									<input type="text" size="59" id="cvlEngMfcAmt" class="ygpaNumber" maxlength="20"/> 원
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">제조　　검사자</th>
+								<td>
+									<input type="text" size="62" id="mfcChkUsr" maxlength="20"/>
+								</td>
+								<th style="width:10%; height:18px;">아　웃　리　치</th>
+								<td>
+									<input type="text" size="59" id="outReach" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">백　　리　　치</th>
+								<td>
+									<input type="text" size="59" id="backReach" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
+								</td>
+								<th style="width:10%; height:18px;">인　양　높　이</th>
+								<td>
+									<input type="text" size="59" id="refloatHt" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">처　리　능　력</th>
+								<td>
+									<input type="text" size="62" id="processAblty" maxlength="200"/>
+								</td>
+								<th style="width:10%; height:18px;">주　　행　　폭</th>
+								<td>
+									<input type="text" size="59" id="driveWd" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">레　　일　　폭</th>
+								<td>
+									<input type="text" size="59" id="railWd" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
+								</td>
+								<th style="width:10%; height:18px;">자　　　　　중</th>
+								<td>
+									<input type="text" size="59" id="selfLoad" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> 톤
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">윤　　하　　중</th>
+								<td>
+									<input type="text" size="62" id="wheelWght" maxlength="150"/>
+								</td>
+								<th style="width:10%; height:18px;">정　격　하　중</th>
+								<td>
+									<input type="text" size="62" id="rageWght" maxlength="200"/>
+								</td>
+							</tr>
+						</table>
+						<table id="bridgeDetailArea" class="detailPanel" style="width:100%; display:none;">
+							<tr>
+								<th style="width:10%; height:18px;">함　　선　　명</th>
+								<td>
+									<input type="text" size="62" id="shipEqpmnNm" maxlength="50"/>
+								</td>
+								<th style="width:10%; height:18px;">설　치　년　월</th>
+								<td>
+									<input type="text" size="62" id="shipInstlYrmt" maxlength="7"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">제　　작　　사</th>
+								<td>
+									<input type="text" size="62" id="shipMfcCmpny" maxlength="100"/>
+								</td>
+								<th style="width:10%; height:18px;">제　　작　　비</th>
+								<td>
+									<input type="text" size="59" id="shipMfcAmt" class="ygpaNumber" maxlength="20"/> 원
 								</td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:18px;">규　　　　　격</th>
-								<td colspan="3">
-									<input type="text" size="149" id="stndrd" maxlength="80"/>
-								</td>
-							</tr>
-							<tr>
-								<th style="width:10%; height:18px;">모　　　　　델</th>
-								<td colspan="3">
-									<input type="text" size="149" id="model" maxlength="250"/>
-								</td>
-							</tr>
-							<tr>
-								<th style="width:10%; height:18px;">제　품　번　호</th>
-								<td colspan="3">
-									<input type="text" size="149" id="instlNo" maxlength="50"/>
-								</td>
-							</tr>
-							<tr>
-								<th style="width:10%; height:18px;">제　　조　　사</th>
-								<td colspan="3">
-									<input type="text" size="149" id="maker" maxlength="100"/>
-								</td>
-							</tr>
-							<tr>
-								<th style="width:10%; height:18px;">기　　　　　능</th>
-								<td colspan="3">
-									<input type="text" size="149" id="func" maxlength="100"/>
-								</td>
-							</tr>
-							<tr>
-								<th style="width:10%; height:18px;">제　어　방　식</th>
-								<td colspan="3">
-									<input type="text" size="149" id="ctrlMthd" maxlength="50"/>
-								</td>
-							</tr>
-							<tr>
-								<th style="width:10%; height:18px;">설　치　구　분</th>
-								<td colspan="3">
-									<input type="text" size="149" id="instlSe" maxlength="50"/>
-								</td>
-							</tr>
-							<tr>
-								<th style="width:10%; height:18px;">설　치　높　이</th>
 								<td>
-									<input type="text" size="58" id="instlHt" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
+									<input type="text" size="59" id="eqpmnStndrd" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
 								</td>
-								<th style="width:10%; height:18px;">제　조　일　자</th>
+								<th style="width:10%; height:18px;">연　결　도　교</th>
 								<td>
-									<input type="text" size="58" id="instlDt" class="emdcal"/>
+									<input type="text" size="59" id="linkBridge" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">수　　　　　량</th>
+								<th style="width:10%; height:18px;">고무　　방충재</th>
 								<td>
-									<input type="text" size="58" id="qy" class="ygpaNumber" maxlength="6"/> 개
+									<input type="text" size="59" id="rubberFender" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
 								</td>
-								<th style="width:10%; height:18px;">취　득　금　액</th>
+								<th style="width:10%; height:18px;">전　기　방　식</th>
 								<td>
-									<input type="text" size="58" id="acqAmt" class="ygpaNumber" maxlength="20"/> 원
+									<input type="text" size="59" id="elctyMthd" maxlength="50"/> mm
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">세　부　내　역</th>
+								<th style="width:10%; height:18px;">적　재　톤　수</th>
 								<td colspan="3">
-									<input type="text" size="149" id="ptlrDtls" maxlength="250"/>
+									<input type="text" size="59" id="capaTon" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> 톤
+								</td>
+							</tr>
+						</table>
+						<table id="archDetailArea" class="detailPanel" style="width:100%; display:none;">
+							<tr>
+								<th style="width:10%; height:18px;">건　　물　　명</th>
+								<td>
+									<input type="text" size="62" id="archEqpmnNm" maxlength="150"/>
+								</td>
+								<th style="width:10%; height:18px;">운　　영　　사</th>
+								<td>
+									<input type="text" size="62" id="archOperCmpny" maxlength="100"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">설　치　년　월</th>
+								<td>
+									<input type="text" size="62" id="archInstlYrmt" maxlength="7"/>
+								</td>
+								<th style="width:10%; height:18px;">도　　급　　자</th>
+								<td>
+									<input type="text" size="62" id="contrUsr" maxlength="20"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">도　　급　　액</th>
+								<td>
+									<input type="text" size="59" id="contrAmt" class="ygpaNumber" maxlength="20"/> 원
+								</td>
+								<th style="width:10%; height:18px;">환기　공조방식</th>
+								<td>
+									<input type="text" size="62" id="vntltnArcndtMthd" maxlength="50"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">냉　방　열　원</th>
+								<td>
+									<input type="text" size="62" id="clngSrc" maxlength="25"/>
+								</td>
+								<th style="width:10%; height:18px;">난　방　열　원</th>
+								<td>
+									<input type="text" size="62" id="htngSrc" maxlength="25"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">물　　탱　　크</th>
+								<td>
+									<input type="text" size="59" id="waterTank" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> 톤
+								</td>
+								<th style="width:10%; height:18px;">유류　저장탱크</th>
+								<td>
+									<input type="text" size="59" id="oilSaveTank" class="ygpaNumber" data-decimal-point="2"/> ℓ
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">정화조　　형식</th>
+								<td colspan="3">
+									<input type="text" size="62" id="spictankFmt" maxlength="50"/>
 								</td>
 							</tr>
 							<tr>
@@ -2537,6 +3090,8 @@ var module_instance = new GamInfoCommFcltySpecMngModule();
 									<button id="popupSpecArchFcltsMngNo" class="popupButton">선택</button>
 								</td>
 							</tr>
+						</table>
+						<table id="rmDetailArea" class="detailPanel" style="width:100%;">
 							<tr>
 								<th style="width:10%; height:18px;">비　　　　　고</th>
 								<td colspan="3">

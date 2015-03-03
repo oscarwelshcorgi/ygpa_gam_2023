@@ -1,0 +1,888 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!-- SQL MAP 정의 -->
+<sqlMap namespace="ygpa.gam.fclty">
+	<!-- TYPE ALIAS 정의 -->
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamMachFcltySpecMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamMachFcltySpecMngVO"/>
+	<typeAlias alias="gamAtchFileDirMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO"/>
+	<typeAlias alias="gamFcltsAtchFileMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO"/>
+	<!-- RESULT MAP 정의 -->
+	<resultMap id="gamMachFcltySpecMngSumMap" class="gamMachFcltySpecMngVO">
+		<result property="totalCount" column="TOTAL_COUNT" columnIndex="1"/>
+		<result property="sumMfcAmt" column="SUM_MFC_AMT" columnIndex="2"/>
+		<result property="sumContrAmt" column="SUM_CONTR_AMT" columnIndex="3"/>
+	</resultMap>
+
+	<select id="gamMachFcltySpecMngDao.selectMachFcltySpecMngList_D" parameterClass="gamMachFcltySpecMngVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.GIS_PRT_FCLTY_CD AS GIS_PRT_FCLTY_CD
+								,T1.GIS_PRT_FCLTY_CD AS GIS_PRT_FCLTY_CD_DISPLAY
+								,T1.GIS_PRT_FCLTY_CD_SUB AS GIS_PRT_FCLTY_CD_SUB
+								,T1.GIS_PRT_FCLTY_SEQ AS GIS_PRT_FCLTY_SEQ
+								,T1.GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE
+								,T1.GIS_ASSETS_CD AS GIS_ASSETS_CD
+								,T1.GIS_ASSETS_SUB_CD AS GIS_ASSETS_SUB_CD
+								,T1.PRT_FCLTY_SE AS PRT_FCLTY_SE
+								,T1.PRT_FCLTY_NM AS PRT_FCLTY_NM
+								,T1.PRT_FCLTY_STNDRD AS PRT_FCLTY_STNDRD
+								,T1.PRT_FCLTY_UNIT AS PRT_FCLTY_UNIT
+								,TO_CHAR(T1.PRT_FCLTY_INSTL_DT,'YYYY-MM-DD') AS PRT_FCLTY_INSTL_DT
+								,TO_CHAR(T1.PRT_FCLTY_CHANGE_DT,'YYYY-MM-DD') AS PRT_FCLTY_CHANGE_DT
+								,T1.PRT_FCLTY_MNG_ENTRPS_CD AS PRT_FCLTY_MNG_ENTRPS_CD
+								,T1.PRT_FCLTY_GIS_CD AS PRT_FCLTY_GIS_CD
+								,T1.LA_CRDNT
+								,T1.LO_CRDNT
+								,LTRIM(TO_CHAR(NVL(T1.PRT_FCLTY_AR,0),'99,999,990.00')) AS PRT_FCLTY_AR
+								,T1.LAT
+								,T1.LNG
+								,TO_CHAR(T1.PRT_FCLTY_EXPR_DT,'YYYY-MM-DD') AS PRT_FCLTY_EXPR_DT
+								,T1.PRT_PRT_FCLTY_CNT AS PRT_PRT_FCLTY_CNT
+								,T1.PRT_PRT_FCLTY_MNGER AS PRT_PRT_FCLTY_MNGER
+								,T1.FCLTS_MNG_NO AS FCLTS_MNG_NO
+								,T1.FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
+								,GAM_GET_PRT_FCLTY_SE_NM(T1.PRT_FCLTY_SE) AS PRT_FCLTY_SE_NM
+								,GAM_GETCODENAME('GAM067',T1.GIS_PRT_FCLTY_CD) AS GIS_PRT_FCLTY_CD_NM
+								,GAM_GETCODENAME('GAM019',T1.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_CODE_NM
+								,GAM_GET_FCLTS_MNG_GROUP_NM(T1.FCLTS_MNG_GROUP_NO) AS FCLTS_MNG_GROUP_NM
+								,GAM_GETENTRPSNM(T1.PRT_FCLTY_MNG_ENTRPS_CD,'1') AS PRT_FCLTY_MNG_ENTRPS_NM
+								,T3.GIS_ASSETS_LOC_CD
+								,T3.GIS_ASSETS_NM
+								,GAM_GET_LOCPLC_LNM_SUB(T3.GIS_ASSETS_LOCPLC,T3.GIS_ASSETS_LNM,T3.GIS_ASSETS_LNM_SUB) AS GIS_ASSETS_LOCPLC_LNM
+								,GAM_GETCODENAME('GAM002',T3.GIS_ASSETS_LOC_CD) AS GIS_ASSETS_LOC_NM
+								,T2.MECH_FCLTS_SE AS MECH_FCLTS_SE
+								,T2.EQPMN_NM AS EQPMN_NM
+								,T2.EQPMN_NO AS EQPMN_NO
+								,T2.OPER_CMPNY AS OPER_CMPNY
+								,T2.MFC_CMPNY AS MFC_CMPNY
+								,LTRIM(TO_CHAR(NVL(T2.MFC_AMT,0),'9,999,999,999,999,990')) AS MFC_AMT
+								,T2.INSTL_YRMT AS INSTL_YRMT
+								,T2.MFC_CHK_USR AS MFC_CHK_USR
+								,LTRIM(TO_CHAR(NVL(T2.OUT_REACH,0),'99,999,990.00')) AS OUT_REACH
+								,LTRIM(TO_CHAR(NVL(T2.BACK_REACH,0),'99,999,990.00')) AS BACK_REACH
+								,LTRIM(TO_CHAR(NVL(T2.REFLOAT_HT,0),'99,999,990.00')) AS REFLOAT_HT
+								,T2.PROCESS_ABLTY AS PROCESS_ABLTY
+								,LTRIM(TO_CHAR(NVL(T2.DRIVE_WD,0),'99,999,990.00')) AS DRIVE_WD
+								,LTRIM(TO_CHAR(NVL(T2.RAIL_WD,0),'99,999,990.00')) AS RAIL_WD
+								,LTRIM(TO_CHAR(NVL(T2.SELF_LOAD,0),'99,999,990.00')) AS SELF_LOAD
+								,T2.WHEEL_WGHT AS WHEEL_WGHT
+								,LTRIM(TO_CHAR(NVL(T2.EQPMN_STNDRD,0),'99,999,990.00')) AS EQPMN_STNDRD
+								,LTRIM(TO_CHAR(NVL(T2.LINK_BRIDGE,0),'99,999,990.00')) AS LINK_BRIDGE
+								,LTRIM(TO_CHAR(NVL(T2.RUBBER_FENDER,0),'99,999,990.00')) AS RUBBER_FENDER
+								,T2.ELCTY_MTHD AS ELCTY_MTHD
+								,LTRIM(TO_CHAR(NVL(T2.CAPA_TON,0),'99,999,990.00')) AS CAPA_TON
+								,T2.CONTR_USR AS CONTR_USR
+								,LTRIM(TO_CHAR(NVL(T2.CONTR_AMT,0),'9,999,999,999,999,990')) AS CONTR_AMT
+								,T2.VNTLTN_ARCNDT_MTHD AS VNTLTN_ARCNDT_MTHD
+								,T2.CLNG_SRC AS CLNG_SRC
+								,T2.HTNG_SRC AS HTNG_SRC
+								,LTRIM(TO_CHAR(NVL(T2.WATER_TANK,0),'99,999,990.00')) AS WATER_TANK
+								,LTRIM(TO_CHAR(NVL(T2.OIL_SAVE_TANK,0),'99,999,990.00')) AS OIL_SAVE_TANK
+								,T2.SPICTANK_FMT AS SPICTANK_FMT
+								,T2.PRPOS AS PRPOS
+								,T2.FMT AS FMT
+								,T2.STNDRD AS STNDRD
+								,TO_CHAR(T2.MFC_DT,'YYYY-MM-DD') AS MFC_DT
+								,T2.STTUS_LVL AS STTUS_LVL
+								,T2.STRUCT_WQNT AS STRUCT_WQNT
+								,T2.FENDER_INSTL_YR AS FENDER_INSTL_YR
+								,LTRIM(TO_CHAR(NVL(T2.FENDER_INSTL_QY,0),'99,990')) AS FENDER_INSTL_QY
+								,T2.ELCTY_MTHD_INSTL_YR AS ELCTY_MTHD_INSTL_YR
+								,LTRIM(TO_CHAR(NVL(T2.ELCTY_MTHD_INSTL_QY,0),'99,990')) AS ELCTY_MTHD_INSTL_QY
+								,T2.FENDER_STNDRD AS FENDER_STNDRD
+								,T2.RATE_WGHT AS RATE_WGHT
+								,T2.RM AS RM
+								,T2.REG_USR AS REG_USR
+								,TO_CHAR(T2.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T2.UPD_USR AS UPD_USR
+								,TO_CHAR(T2.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,T2.LOC AS LOC
+								,T2.ARCH_FCLTS_MNG_NO AS ARCH_FCLTS_MNG_NO
+								,GAM_GET_PRT_FCLTY_NM(T2.ARCH_FCLTS_MNG_NO) AS ARCH_FCLTS_NM
+								,T2.MECH_FCLTS_CL_CD AS MECH_FCLTS_CL_CD
+								,GAM_GET_FCLTS_CL_CD_NM(T2.MECH_FCLTS_CL_CD) AS MECH_FCLTS_CL_CD_NM
+								,NVL(T2.LOC,GAM_GET_LOCPLC_LNM_SUB(T3.GIS_ASSETS_LOCPLC,T3.GIS_ASSETS_LNM,T3.GIS_ASSETS_LNM_SUB)) AS PRT_FCLTY_LOC
+								,T2.EQPMN_NM AS CVL_ENG_EQPMN_NM
+								,T2.EQPMN_NM AS SHIP_EQPMN_NM
+								,T2.EQPMN_NM AS ARCH_EQPMN_NM
+								,T2.OPER_CMPNY AS CVL_ENG_OPER_CMPNY
+								,T2.OPER_CMPNY AS ARCH_OPER_CMPNY
+								,T2.MFC_CMPNY AS CVL_ENG_MFC_CMPNY
+								,T2.MFC_CMPNY AS SHIP_MFC_CMPNY
+								,LTRIM(TO_CHAR(NVL(T2.MFC_AMT,0),'9,999,999,999,999,990')) AS CVL_ENG_MFC_AMT
+								,LTRIM(TO_CHAR(NVL(T2.MFC_AMT,0),'9,999,999,999,999,990')) AS SHIP_MFC_AMT
+								,T2.INSTL_YRMT AS CVL_ENG_INSTL_YRMT
+								,T2.INSTL_YRMT AS SHIP_INSTL_YRMT
+								,T2.INSTL_YRMT AS ARCH_INSTL_YRMT
+								,(CASE WHEN T2.ROWID IS NOT NULL THEN 'Y' ELSE 'N' END) AS FCLTY_SPEC_EXIST_YN
+							FROM GIS_PRT_FCLTY_CD_F T1
+							LEFT OUTER JOIN MECH_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO)
+							LEFT OUTER JOIN GIS_ASSETS_CD_F T3 ON (T1.GIS_ASSETS_PRT_AT_CODE=T3.GIS_ASSETS_PRT_AT_CODE AND T1.GIS_ASSETS_CD=T3.GIS_ASSETS_CD AND T1.GIS_ASSETS_SUB_CD=T3.GIS_ASSETS_SUB_CD)
+						WHERE 1=1
+						AND T1.PRT_FCLTY_SE = 'M'
+
+						<isNotEmpty property="sFcltsMngNo">
+						AND T1.FCLTS_MNG_NO = #sFcltsMngNo#
+						</isNotEmpty>
+
+						<isNotEmpty property="sPrtAtCode">
+						AND T1.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+						</isNotEmpty>
+
+						<isNotEmpty property="sFcltsMngGroupNo">
+						AND T1.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+						</isNotEmpty>
+
+						<isNotEmpty property="sPrtFcltyNm">
+						AND T1.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
+						</isNotEmpty>
+
+						<isNotEmpty property="sLoc">
+						AND (T3.GIS_ASSETS_LOCPLC LIKE '%' || #sLoc# || '%' OR T2.LOC LIKE '%' || #sLoc# || '%')
+						</isNotEmpty>
+
+						<isNotEmpty property="sFcltsClCd">
+						AND T2.MECH_FCLTS_CL_CD = #sFcltsClCd#
+						</isNotEmpty>
+
+						<isNotEmpty property="sGisPrtFcltyCd">
+						AND T1.GIS_PRT_FCLTY_CD = #sGisPrtFcltyCd#
+						</isNotEmpty>
+
+						ORDER BY T1.GIS_ASSETS_PRT_AT_CODE ASC
+								,T1.GIS_ASSETS_CD ASC
+								,T1.GIS_ASSETS_SUB_CD ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<insert id="gamMachFcltySpecMngDao.insertMachFcltySpecMng_S" parameterClass="gamMachFcltySpecMngVO">
+		INSERT INTO MECH_FCLTY_SPEC_F
+		(
+			 FCLTS_MNG_NO
+			,ARCH_FCLTS_MNG_NO
+			,MECH_FCLTS_SE
+			,LOC
+			,EQPMN_NM
+			,EQPMN_NO
+			,OPER_CMPNY
+			,MFC_CMPNY
+			,MFC_AMT
+			,INSTL_YRMT
+			,MFC_CHK_USR
+			,OUT_REACH
+			,BACK_REACH
+			,REFLOAT_HT
+			,PROCESS_ABLTY
+			,DRIVE_WD
+			,RAIL_WD
+			,SELF_LOAD
+			,WHEEL_WGHT
+			,EQPMN_STNDRD
+			,LINK_BRIDGE
+			,RUBBER_FENDER
+			,ELCTY_MTHD
+			,CAPA_TON
+			,CONTR_USR
+			,CONTR_AMT
+			,VNTLTN_ARCNDT_MTHD
+			,CLNG_SRC
+			,HTNG_SRC
+			,WATER_TANK
+			,OIL_SAVE_TANK
+			,SPICTANK_FMT
+			,RM
+			,MECH_FCLTS_CL_CD
+			,REG_USR
+			,REGIST_DT
+			,PRPOS
+			,FMT
+			,STNDRD
+			,MFC_DT
+			,STTUS_LVL
+			,STRUCT_WQNT
+			,FENDER_INSTL_YR
+			,FENDER_INSTL_QY
+			,ELCTY_MTHD_INSTL_YR
+			,ELCTY_MTHD_INSTL_QY
+			,FENDER_STNDRD
+			,RATE_WGHT
+		)
+		VALUES
+		(
+			 #fcltsMngNo#
+			,#archFcltsMngNo#
+			,#mechFcltsSe#
+			,#loc#
+			,#eqpmnNm#
+			,#eqpmnNo#
+			,#operCmpny#
+			,#mfcCmpny#
+			,NVL(TO_NUMBER(REPLACE(#mfcAmt#,',','')),0)
+			,#instlYrmt#
+			,#mfcChkUsr#
+			,NVL(TO_NUMBER(REPLACE(#outReach#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#backReach#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#refloatHt#,',','')),0)
+			,#processAblty#
+			,NVL(TO_NUMBER(REPLACE(#driveWd#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#railWd#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#selfLoad#,',','')),0)
+			,#wheelWght#
+			,NVL(TO_NUMBER(REPLACE(#eqpmnStndrd#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#linkBridge#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#rubberFender#,',','')),0)
+			,#elctyMthd#
+			,NVL(TO_NUMBER(REPLACE(#capaTon#,',','')),0)
+			,#contrUsr#
+			,NVL(TO_NUMBER(REPLACE(#contrAmt#,',','')),0)
+			,#vntltnArcndtMthd#
+			,#clngSrc#
+			,#htngSrc#
+			,NVL(TO_NUMBER(REPLACE(#waterTank#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#oilSaveTank#,',','')),0)
+			,#spictankFmt#
+			,#rm#
+			,#mechFcltsClCd#
+			,#regUsr#
+			,SYSDATE
+			,#prpos#
+			,#fmt#
+			,#stndrd#
+			,TO_DATE(#mfcDt#,'YYYY-MM-DD')
+			,#sttusLvl#
+			,#structWqnt#
+			,#fenderInstlYr#
+			,NVL(TO_NUMBER(REPLACE(#fenderInstlQy#,',','')),0)
+			,#elctyMthdInstlYr#
+			,NVL(TO_NUMBER(REPLACE(#elctyMthdInstlQy#,',','')),0)
+			,#fenderStndrd#
+			,#rateWght#
+		)
+	</insert>
+
+	<update id="gamMachFcltySpecMngDao.updateMachFcltySpecMng_S" parameterClass="gamMachFcltySpecMngVO">
+		UPDATE MECH_FCLTY_SPEC_F SET
+			 ARCH_FCLTS_MNG_NO = #archFcltsMngNo#
+			,MECH_FCLTS_SE = #mechFcltsSe#
+			,LOC = #loc#
+			,EQPMN_NM = #eqpmnNm#
+			,EQPMN_NO = #eqpmnNo#
+			,OPER_CMPNY = #operCmpny#
+			,MFC_CMPNY = #mfcCmpny#
+			,MFC_AMT = NVL(TO_NUMBER(REPLACE(#mfcAmt#,',','')),0)
+			,INSTL_YRMT = #instlYrmt#
+			,MFC_CHK_USR = #mfcChkUsr#
+			,OUT_REACH = NVL(TO_NUMBER(REPLACE(#outReach#,',','')),0)
+			,BACK_REACH = NVL(TO_NUMBER(REPLACE(#backReach#,',','')),0)
+			,REFLOAT_HT = NVL(TO_NUMBER(REPLACE(#refloatHt#,',','')),0)
+			,PROCESS_ABLTY = #processAblty#
+			,DRIVE_WD = NVL(TO_NUMBER(REPLACE(#driveWd#,',','')),0)
+			,RAIL_WD = NVL(TO_NUMBER(REPLACE(#railWd#,',','')),0)
+			,SELF_LOAD = NVL(TO_NUMBER(REPLACE(#selfLoad#,',','')),0)
+			,WHEEL_WGHT = #wheelWght#
+			,EQPMN_STNDRD = NVL(TO_NUMBER(REPLACE(#eqpmnStndrd#,',','')),0)
+			,LINK_BRIDGE = NVL(TO_NUMBER(REPLACE(#linkBridge#,',','')),0)
+			,RUBBER_FENDER = NVL(TO_NUMBER(REPLACE(#rubberFender#,',','')),0)
+			,ELCTY_MTHD = #elctyMthd#
+			,CAPA_TON = NVL(TO_NUMBER(REPLACE(#capaTon#,',','')),0)
+			,CONTR_USR = #contrUsr#
+			,CONTR_AMT = NVL(TO_NUMBER(REPLACE(#contrAmt#,',','')),0)
+			,VNTLTN_ARCNDT_MTHD = #vntltnArcndtMthd#
+			,CLNG_SRC = #clngSrc#
+			,HTNG_SRC = #htngSrc#
+			,WATER_TANK = NVL(TO_NUMBER(REPLACE(#waterTank#,',','')),0)
+			,OIL_SAVE_TANK = NVL(TO_NUMBER(REPLACE(#oilSaveTank#,',','')),0)
+			,SPICTANK_FMT = #spictankFmt#
+			,RM = #rm#
+			,MECH_FCLTS_CL_CD = #mechFcltsClCd#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+			,PRPOS = #prpos#
+			,FMT = #fmt#
+			,STNDRD = #stndrd#
+			,MFC_DT = TO_DATE(#mfcDt#,'YYYY-MM-DD')
+			,STTUS_LVL = #sttusLvl#
+			,STRUCT_WQNT = #structWqnt#
+			,FENDER_INSTL_YR = #fenderInstlYr#
+			,FENDER_INSTL_QY = NVL(TO_NUMBER(REPLACE(#fenderInstlQy#,',','')),0)
+			,ELCTY_MTHD_INSTL_YR = #elctyMthdInstlYr#
+			,ELCTY_MTHD_INSTL_QY = NVL(TO_NUMBER(REPLACE(#elctyMthdInstlQy#,',','')),0)
+			,FENDER_STNDRD = #fenderStndrd#
+			,RATE_WGHT = #rateWght#
+		WHERE FCLTS_MNG_NO = #fcltsMngNo#
+	</update>
+
+	<delete id="gamMachFcltySpecMngDao.deleteMachFcltySpecMng_S" parameterClass="gamMachFcltySpecMngVO">
+		DELETE FROM MECH_FCLTY_SPEC_F
+		WHERE FCLTS_MNG_NO = #fcltsMngNo#
+	</delete>
+
+	<select id="gamMachFcltySpecMngDao.selectMachFcltySpecMngPk_S" parameterClass="gamMachFcltySpecMngVO" resultClass="egovMap">
+		SELECT
+				 T1.GIS_PRT_FCLTY_CD AS GIS_PRT_FCLTY_CD
+				,T1.GIS_PRT_FCLTY_CD AS GIS_PRT_FCLTY_CD_DISPLAY
+				,T1.GIS_PRT_FCLTY_CD_SUB AS GIS_PRT_FCLTY_CD_SUB
+				,T1.GIS_PRT_FCLTY_SEQ AS GIS_PRT_FCLTY_SEQ
+				,T1.GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE
+				,T1.GIS_ASSETS_CD AS GIS_ASSETS_CD
+				,T1.GIS_ASSETS_SUB_CD AS GIS_ASSETS_SUB_CD
+				,T1.PRT_FCLTY_SE AS PRT_FCLTY_SE
+				,T1.PRT_FCLTY_NM AS PRT_FCLTY_NM
+				,T1.PRT_FCLTY_STNDRD AS PRT_FCLTY_STNDRD
+				,T1.PRT_FCLTY_UNIT AS PRT_FCLTY_UNIT
+				,TO_CHAR(T1.PRT_FCLTY_INSTL_DT,'YYYY-MM-DD') AS PRT_FCLTY_INSTL_DT
+				,TO_CHAR(T1.PRT_FCLTY_CHANGE_DT,'YYYY-MM-DD') AS PRT_FCLTY_CHANGE_DT
+				,T1.PRT_FCLTY_MNG_ENTRPS_CD AS PRT_FCLTY_MNG_ENTRPS_CD
+				,T1.PRT_FCLTY_GIS_CD AS PRT_FCLTY_GIS_CD
+				,T1.LA_CRDNT
+				,T1.LO_CRDNT
+				,LTRIM(TO_CHAR(NVL(T1.PRT_FCLTY_AR,0),'99,999,990.00')) AS PRT_FCLTY_AR
+				,T1.LAT
+				,T1.LNG
+				,TO_CHAR(T1.PRT_FCLTY_EXPR_DT,'YYYY-MM-DD') AS PRT_FCLTY_EXPR_DT
+				,T1.PRT_PRT_FCLTY_CNT AS PRT_PRT_FCLTY_CNT
+				,T1.PRT_PRT_FCLTY_MNGER AS PRT_PRT_FCLTY_MNGER
+				,T1.FCLTS_MNG_NO AS FCLTS_MNG_NO
+				,T1.FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
+				,GAM_GET_PRT_FCLTY_SE_NM(T1.PRT_FCLTY_SE) AS PRT_FCLTY_SE_NM
+				,GAM_GETCODENAME('GAM067',T1.GIS_PRT_FCLTY_CD) AS GIS_PRT_FCLTY_CD_NM
+				,GAM_GETCODENAME('GAM019',T1.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_CODE_NM
+				,GAM_GET_FCLTS_MNG_GROUP_NM(T1.FCLTS_MNG_GROUP_NO) AS FCLTS_MNG_GROUP_NM
+				,GAM_GETENTRPSNM(T1.PRT_FCLTY_MNG_ENTRPS_CD,'1') AS PRT_FCLTY_MNG_ENTRPS_NM
+				,T3.GIS_ASSETS_LOC_CD
+				,T3.GIS_ASSETS_NM
+				,GAM_GET_LOCPLC_LNM_SUB(T3.GIS_ASSETS_LOCPLC,T3.GIS_ASSETS_LNM,T3.GIS_ASSETS_LNM_SUB) AS GIS_ASSETS_LOCPLC_LNM
+				,GAM_GETCODENAME('GAM002',T3.GIS_ASSETS_LOC_CD) AS GIS_ASSETS_LOC_NM
+				,T2.MECH_FCLTS_SE AS MECH_FCLTS_SE
+				,T2.EQPMN_NM AS EQPMN_NM
+				,T2.EQPMN_NO AS EQPMN_NO
+				,T2.OPER_CMPNY AS OPER_CMPNY
+				,T2.MFC_CMPNY AS MFC_CMPNY
+				,LTRIM(TO_CHAR(NVL(T2.MFC_AMT,0),'9,999,999,999,999,990')) AS MFC_AMT
+				,T2.INSTL_YRMT AS INSTL_YRMT
+				,T2.MFC_CHK_USR AS MFC_CHK_USR
+				,LTRIM(TO_CHAR(NVL(T2.OUT_REACH,0),'99,999,990.00')) AS OUT_REACH
+				,LTRIM(TO_CHAR(NVL(T2.BACK_REACH,0),'99,999,990.00')) AS BACK_REACH
+				,LTRIM(TO_CHAR(NVL(T2.REFLOAT_HT,0),'99,999,990.00')) AS REFLOAT_HT
+				,T2.PROCESS_ABLTY AS PROCESS_ABLTY
+				,LTRIM(TO_CHAR(NVL(T2.DRIVE_WD,0),'99,999,990.00')) AS DRIVE_WD
+				,LTRIM(TO_CHAR(NVL(T2.RAIL_WD,0),'99,999,990.00')) AS RAIL_WD
+				,LTRIM(TO_CHAR(NVL(T2.SELF_LOAD,0),'99,999,990.00')) AS SELF_LOAD
+				,T2.WHEEL_WGHT AS WHEEL_WGHT
+				,LTRIM(TO_CHAR(NVL(T2.EQPMN_STNDRD,0),'99,999,990.00')) AS EQPMN_STNDRD
+				,LTRIM(TO_CHAR(NVL(T2.LINK_BRIDGE,0),'99,999,990.00')) AS LINK_BRIDGE
+				,LTRIM(TO_CHAR(NVL(T2.RUBBER_FENDER,0),'99,999,990.00')) AS RUBBER_FENDER
+				,T2.ELCTY_MTHD AS ELCTY_MTHD
+				,LTRIM(TO_CHAR(NVL(T2.CAPA_TON,0),'99,999,990.00')) AS CAPA_TON
+				,T2.CONTR_USR AS CONTR_USR
+				,LTRIM(TO_CHAR(NVL(T2.CONTR_AMT,0),'9,999,999,999,999,990')) AS CONTR_AMT
+				,T2.VNTLTN_ARCNDT_MTHD AS VNTLTN_ARCNDT_MTHD
+				,T2.CLNG_SRC AS CLNG_SRC
+				,T2.HTNG_SRC AS HTNG_SRC
+				,LTRIM(TO_CHAR(NVL(T2.WATER_TANK,0),'99,999,990.00')) AS WATER_TANK
+				,LTRIM(TO_CHAR(NVL(T2.OIL_SAVE_TANK,0),'99,999,990.00')) AS OIL_SAVE_TANK
+				,T2.SPICTANK_FMT AS SPICTANK_FMT
+				,T2.PRPOS AS PRPOS
+				,T2.FMT AS FMT
+				,T2.STNDRD AS STNDRD
+				,TO_CHAR(T2.MFC_DT,'YYYY-MM-DD') AS MFC_DT
+				,T2.STTUS_LVL AS STTUS_LVL
+				,T2.STRUCT_WQNT AS STRUCT_WQNT
+				,T2.FENDER_INSTL_YR AS FENDER_INSTL_YR
+				,LTRIM(TO_CHAR(NVL(T2.FENDER_INSTL_QY,0),'99,990')) AS FENDER_INSTL_QY
+				,T2.ELCTY_MTHD_INSTL_YR AS ELCTY_MTHD_INSTL_YR
+				,LTRIM(TO_CHAR(NVL(T2.ELCTY_MTHD_INSTL_QY,0),'99,990')) AS ELCTY_MTHD_INSTL_QY
+				,T2.FENDER_STNDRD AS FENDER_STNDRD
+				,T2.RATE_WGHT AS RATE_WGHT
+				,T2.RM AS RM
+				,T2.REG_USR AS REG_USR
+				,TO_CHAR(T2.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T2.UPD_USR AS UPD_USR
+				,TO_CHAR(T2.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,T2.LOC AS LOC
+				,T2.ARCH_FCLTS_MNG_NO AS ARCH_FCLTS_MNG_NO
+				,GAM_GET_PRT_FCLTY_NM(T2.ARCH_FCLTS_MNG_NO) AS ARCH_FCLTS_NM
+				,T2.MECH_FCLTS_CL_CD AS MECH_FCLTS_CL_CD
+				,GAM_GET_FCLTS_CL_CD_NM(T2.MECH_FCLTS_CL_CD) AS MECH_FCLTS_CL_CD_NM
+				,NVL(T2.LOC,GAM_GET_LOCPLC_LNM_SUB(T3.GIS_ASSETS_LOCPLC,T3.GIS_ASSETS_LNM,T3.GIS_ASSETS_LNM_SUB)) AS PRT_FCLTY_LOC
+				,T2.EQPMN_NM AS CVL_ENG_EQPMN_NM
+				,T2.EQPMN_NM AS SHIP_EQPMN_NM
+				,T2.EQPMN_NM AS ARCH_EQPMN_NM
+				,T2.OPER_CMPNY AS CVL_ENG_OPER_CMPNY
+				,T2.OPER_CMPNY AS ARCH_OPER_CMPNY
+				,T2.MFC_CMPNY AS CVL_ENG_MFC_CMPNY
+				,T2.MFC_CMPNY AS SHIP_MFC_CMPNY
+				,LTRIM(TO_CHAR(NVL(T2.MFC_AMT,0),'9,999,999,999,999,990')) AS CVL_ENG_MFC_AMT
+				,LTRIM(TO_CHAR(NVL(T2.MFC_AMT,0),'9,999,999,999,999,990')) AS SHIP_MFC_AMT
+				,T2.INSTL_YRMT AS CVL_ENG_INSTL_YRMT
+				,T2.INSTL_YRMT AS SHIP_INSTL_YRMT
+				,T2.INSTL_YRMT AS ARCH_INSTL_YRMT
+				,(CASE WHEN T2.ROWID IS NOT NULL THEN 'Y' ELSE 'N' END) AS FCLTY_SPEC_EXIST_YN
+			FROM GIS_PRT_FCLTY_CD_F T1
+			LEFT OUTER JOIN MECH_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO)
+			LEFT OUTER JOIN GIS_ASSETS_CD_F T3 ON (T1.GIS_ASSETS_PRT_AT_CODE=T3.GIS_ASSETS_PRT_AT_CODE AND T1.GIS_ASSETS_CD=T3.GIS_ASSETS_CD AND T1.GIS_ASSETS_SUB_CD=T3.GIS_ASSETS_SUB_CD)
+		WHERE T1.GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
+		AND T1.GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
+		AND T1.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+		AND T1.GIS_ASSETS_CD = #gisAssetsCd#
+		AND T1.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+		AND T1.PRT_FCLTY_SE = #prtFcltySe#
+	</select>
+
+	<select id="gamMachFcltySpecMngDao.selectMachFcltySpecMngListSum_S" parameterClass="gamMachFcltySpecMngVO" resultMap="gamMachFcltySpecMngSumMap">
+		SELECT
+				 TO_CHAR(NVL(COUNT(*),0),'999,999,999,999,999') AS TOTAL_COUNT
+				,TO_CHAR(NVL(SUM(T2.MFC_AMT),0),'999,999,999,999,999') AS SUM_MFC_AMT
+				,TO_CHAR(NVL(SUM(T2.CONTR_AMT),0),'999,999,999,999,999') AS SUM_CONTR_AMT
+			FROM GIS_PRT_FCLTY_CD_F T1
+			LEFT OUTER JOIN MECH_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO)
+			LEFT OUTER JOIN GIS_ASSETS_CD_F T3 ON (T1.GIS_ASSETS_PRT_AT_CODE=T3.GIS_ASSETS_PRT_AT_CODE AND T1.GIS_ASSETS_CD=T3.GIS_ASSETS_CD AND T1.GIS_ASSETS_SUB_CD=T3.GIS_ASSETS_SUB_CD)
+		WHERE 1=1
+		AND T1.PRT_FCLTY_SE = 'M'
+
+		<isNotEmpty property="sFcltsMngNo">
+		AND T1.FCLTS_MNG_NO = #sFcltsMngNo#
+		</isNotEmpty>
+
+		<isNotEmpty property="sPrtAtCode">
+		AND T1.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+		</isNotEmpty>
+
+		<isNotEmpty property="sFcltsMngGroupNo">
+		AND T1.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+		</isNotEmpty>
+
+		<isNotEmpty property="sPrtFcltyNm">
+		AND T1.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
+		</isNotEmpty>
+
+		<isNotEmpty property="sLoc">
+		AND (T3.GIS_ASSETS_LOCPLC LIKE '%' || #sLoc# || '%' OR T2.LOC LIKE '%' || #sLoc# || '%')
+		</isNotEmpty>
+
+		<isNotEmpty property="sFcltsClCd">
+		AND T2.MECH_FCLTS_CL_CD = #sFcltsClCd#
+		</isNotEmpty>
+
+		<isNotEmpty property="sGisPrtFcltyCd">
+		AND T1.GIS_PRT_FCLTY_CD = #sGisPrtFcltyCd#
+		</isNotEmpty>
+
+	</select>
+
+	<select id="gamMachFcltySpecMngDao.selectMachFcltySpecMngMaxGisPrtFcltySeq_S" parameterClass="gamMachFcltySpecMngVO" resultClass="java.lang.String">
+		SELECT
+				 LTRIM(TO_CHAR(NVL(TO_NUMBER(MAX(T1.GIS_PRT_FCLTY_SEQ)),0) + 1,'0000')) AS MAX_GIS_PRT_FCLTY_SEQ
+			FROM GIS_PRT_FCLTY_CD_F T1
+		WHERE T1.GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+		AND T1.GIS_ASSETS_CD = #gisAssetsCd#
+		AND T1.GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+		AND T1.GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
+		AND T1.PRT_FCLTY_SE = #prtFcltySe#
+	</select>
+
+
+	<insert id="gamMachFcltySpecMngDao.insertMachFcltySpecMngGisPrtFcltyCd_S" parameterClass="gamMachFcltySpecMngVO">
+		INSERT INTO GIS_PRT_FCLTY_CD_F
+		(
+			 GIS_PRT_FCLTY_CD
+			,GIS_PRT_FCLTY_SEQ
+			,GIS_ASSETS_PRT_AT_CODE
+			,GIS_ASSETS_CD
+			,GIS_ASSETS_SUB_CD
+			,PRT_FCLTY_SE
+			,PRT_FCLTY_NM
+			,PRT_FCLTY_STNDRD
+			,PRT_FCLTY_UNIT
+			,PRT_FCLTY_INSTL_DT
+			,PRT_FCLTY_CHANGE_DT
+			,REG_USR
+			,REGIST_DT
+			,PRT_FCLTY_MNG_ENTRPS_CD
+			,PRT_FCLTY_GIS_CD
+			,LA_CRDNT
+			,LO_CRDNT
+			,PRT_FCLTY_AR
+			,LAT
+			,LNG
+			,PRT_FCLTY_EXPR_DT
+			,PRT_PRT_FCLTY_CNT
+			,PRT_PRT_FCLTY_MNGER
+			,GIS_PRT_FCLTY_CD_SUB
+			,FCLTS_MNG_NO
+			,FCLTS_MNG_GROUP_NO
+		)
+		VALUES
+		(
+			 #gisPrtFcltyCd#
+			,#gisPrtFcltySeq#
+			,#gisAssetsPrtAtCode#
+			,#gisAssetsCd#
+			,#gisAssetsSubCd#
+			,#prtFcltySe#
+			,#prtFcltyNm#
+			,#prtFcltyStndrd#
+			,#prtFcltyUnit#
+			,TO_DATE(#prtFcltyInstlDt#,'YYYY-MM-DD')
+			,TO_DATE(#prtFcltyChangeDt#,'YYYY-MM-DD')
+			,#regUsr#
+			,SYSDATE
+			,#prtFcltyMngEntrpsCd#
+			,#prtFcltyGisCd#
+			,NVL(TO_NUMBER(REPLACE(#laCrdnt#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#loCrdnt#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#prtFcltyAr#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#lat#,',','')),0)
+			,NVL(TO_NUMBER(REPLACE(#lng#,',','')),0)
+			,TO_DATE(#prtFcltyExprDt#,'YYYY-MM-DD')
+			,#prtPrtFcltyCnt#
+			,#prtPrtFcltyMnger#
+			,#gisPrtFcltyCdSub#
+			,#fcltsMngNo#
+			,#fcltsMngGroupNo#
+		)
+	</insert>
+
+	<update id="gamMachFcltySpecMngDao.updateMachFcltySpecMngGisPrtFcltyCd_S" parameterClass="gamMachFcltySpecMngVO">
+		UPDATE GIS_PRT_FCLTY_CD_F SET
+			 PRT_FCLTY_NM = #prtFcltyNm#
+			,PRT_FCLTY_STNDRD = #prtFcltyStndrd#
+			,PRT_FCLTY_UNIT = #prtFcltyUnit#
+			,PRT_FCLTY_INSTL_DT = TO_DATE(#prtFcltyInstlDt#,'YYYY-MM-DD')
+			,PRT_FCLTY_CHANGE_DT = TO_DATE(#prtFcltyChangeDt#,'YYYY-MM-DD')
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+			,PRT_FCLTY_MNG_ENTRPS_CD = #prtFcltyMngEntrpsCd#
+			,PRT_FCLTY_GIS_CD = #prtFcltyGisCd#
+			,LA_CRDNT = NVL(TO_NUMBER(REPLACE(#laCrdnt#,',','')),0)
+			,LO_CRDNT = NVL(TO_NUMBER(REPLACE(#loCrdnt#,',','')),0)
+			,PRT_FCLTY_AR = NVL(TO_NUMBER(REPLACE(#prtFcltyAr#,',','')),0)
+			,LAT = NVL(TO_NUMBER(REPLACE(#lat#,',','')),0)
+			,LNG = NVL(TO_NUMBER(REPLACE(#lng#,',','')),0)
+			,PRT_FCLTY_EXPR_DT = TO_DATE(#prtFcltyExprDt#,'YYYY-MM-DD')
+			,PRT_PRT_FCLTY_CNT = #prtPrtFcltyCnt#
+			,PRT_PRT_FCLTY_MNGER = #prtPrtFcltyMnger#
+			,GIS_PRT_FCLTY_CD_SUB = #gisPrtFcltyCdSub#
+			,FCLTS_MNG_NO = #fcltsMngNo#
+			,FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		WHERE GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
+		AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
+		AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+		AND GIS_ASSETS_CD = #gisAssetsCd#
+		AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+		AND PRT_FCLTY_SE = #prtFcltySe#
+	</update>
+
+	<delete id="gamMachFcltySpecMngDao.deleteMachFcltySpecMngGisPrtFcltyCd_S" parameterClass="gamMachFcltySpecMngVO">
+		DELETE FROM GIS_PRT_FCLTY_CD_F
+		WHERE GIS_PRT_FCLTY_CD = #gisPrtFcltyCd#
+		AND GIS_PRT_FCLTY_SEQ = #gisPrtFcltySeq#
+		AND GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
+		AND GIS_ASSETS_CD = #gisAssetsCd#
+		AND GIS_ASSETS_SUB_CD = #gisAssetsSubCd#
+		AND PRT_FCLTY_SE = #prtFcltySe#
+	</delete>
+
+
+	<select id="gamMachFcltySpecMngDao.selectFcltsMngGroupNm_S" parameterClass="hashmap" resultClass="java.lang.String">
+		SELECT FCLTS_MNG_GROUP_NM
+			FROM FCLTS_MNG_GROUP_F
+		WHERE FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+	</select>
+
+	<select id="gamMachFcltySpecMngDao.selectEntrpsNm_S" parameterClass="hashmap" resultClass="java.lang.String">
+		SELECT ENTRPS_NM
+			FROM ENTRPS_INFO_F
+		WHERE ENTRPSCD = #sEntrpscd#
+	</select>
+
+	<select id="gamMachFcltySpecMngDao.selectFcltsClCdNm_S" parameterClass="hashmap" resultClass="java.lang.String">
+		SELECT FCLTS_CL_CD_NM
+			FROM FCLTS_CL_CD_F
+		WHERE FCLTS_CL_CD = #sFcltsClCd#
+	</select>
+
+	<select id="gamMachFcltySpecMngDao.selectFcltsClCdList_D" resultClass="egovMap">
+		SELECT
+				 FCLTS_CL_CD
+				,FCLTS_CL_CD_NM
+			FROM FCLTS_CL_CD_F
+		WHERE FCLTS_JOB_SE = 'M'
+		AND LEAF_YN = 'Y'
+		ORDER BY FCLTS_CL_CD
+    </select>
+
+	<select id="gamMachFcltySpecMngDao.selectGisPrtFcltyNm_S" parameterClass="hashmap" resultClass="java.lang.String">
+		SELECT PRT_FCLTY_NM
+			FROM GIS_PRT_FCLTY_CD_F
+		WHERE FCLTS_MNG_NO = #sFcltsMngNo#
+	</select>
+
+
+	<select id="gamMachFcltySpecMngDao.selectMachFcltySpecMngAtchFileDirList_D" parameterClass="gamAtchFileDirMngVO" resultClass="egovMap">
+		SELECT
+				 T.DIR_NO AS DIR_NO
+				,T.DEPTH_SORT AS DEPTH_SORT
+				,T.DIR_NM AS DIR_NM
+				,T.DIR_UPPER_NO
+			FROM (
+				SELECT
+						 1 AS DIR_NO
+						,0 AS DEPTH_SORT
+						,'ROOT' AS DIR_NM
+						,0 AS DIR_UPPER_NO
+					FROM DUAL
+				UNION ALL
+				SELECT
+						 T1.DIR_NO AS DIR_NO
+						,T1.DEPTH_SORT AS DEPTH_SORT
+						,T1.DIR_NM AS DIR_NM
+						,(CASE WHEN T1.DEPTH_SORT <![CDATA[ > ]]> 1 THEN T1.DIR_UPPER_NO ELSE 1 END) AS DIR_UPPER_NO
+					FROM ATCH_FILE_DIR_F T1
+				) T
+		ORDER BY T.DIR_NO,T.DEPTH_SORT
+	</select>
+
+	<select id="gamMachFcltySpecMngDao.selectMachFcltySpecMngAtchFileDirPk_S" parameterClass="gamAtchFileDirMngVO" resultClass="egovMap">
+		SELECT
+				 TO_CHAR(T1.DIR_NO) AS DIR_NO
+				,T1.DIR_NM AS DIR_NM
+				,T1.DIR_PATH AS DIR_PATH
+				,TO_CHAR(T1.DIR_UPPER_NO) AS DIR_UPPER_NO
+				,TO_CHAR(T1.DEPTH_SORT) AS DEPTH_SORT
+				,T1.LEAF_YN AS LEAF_YN
+				,T1.FCLTS_JOB_SE AS DIR_FCLTS_JOB_SE
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+			FROM ATCH_FILE_DIR_F T1
+		WHERE T1.DIR_NO = NVL(TO_NUMBER(REPLACE(#dirNo#,',','')),0)
+	</select>
+
+	<insert id="gamMachFcltySpecMngDao.insertMachFcltySpecMngAtchFileDir_S" parameterClass="gamAtchFileDirMngVO">
+		INSERT INTO ATCH_FILE_DIR_F
+		(
+			 DIR_NO
+			,DIR_NM
+			,DIR_PATH
+			,DIR_UPPER_NO
+			,DEPTH_SORT
+			,LEAF_YN
+			,FCLTS_JOB_SE
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 TO_NUMBER(REPLACE(#dirNo#,',',''))
+			,#dirNm#
+			,#dirPath#
+			,TO_NUMBER(REPLACE(#dirUpperNo#,',',''))
+			,TO_NUMBER(REPLACE(#depthSort#,',',''))
+			,#leafYn#
+			,#dirFcltsJobSe#
+			,#regUsr#
+			,SYSDATE
+		)
+	</insert>
+
+	<update id="gamMachFcltySpecMngDao.updateMachFcltySpecMngAtchFileDir_S" parameterClass="gamAtchFileDirMngVO">
+		UPDATE ATCH_FILE_DIR_F SET
+			 DIR_NM = #dirNm#
+			,DIR_PATH = #dirPath#
+			,DIR_UPPER_NO = TO_NUMBER(REPLACE(#dirUpperNo#,',',''))
+			,DEPTH_SORT = TO_NUMBER(REPLACE(#depthSort#,',',''))
+			,LEAF_YN = #leafYn#
+			,FCLTS_JOB_SE = #dirFcltsJobSe#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE DIR_NO = TO_NUMBER(REPLACE(#dirNo#,',',''))
+	</update>
+
+	<update id="gamMachFcltySpecMngDao.updateMachFcltySpecMngInsertAtchFileDirLeafYn_S" parameterClass="gamAtchFileDirMngVO">
+		UPDATE ATCH_FILE_DIR_F SET
+			 LEAF_YN = 'N'
+		WHERE DIR_NO = TO_NUMBER(REPLACE(#dirUpperNo#,',',''))
+	</update>
+
+	<update id="gamMachFcltySpecMngDao.updateMachFcltySpecMngDeleteAtchFileDirLeafYn_S" parameterClass="gamAtchFileDirMngVO">
+		UPDATE ATCH_FILE_DIR_F SET
+			 LEAF_YN = (
+				SELECT (CASE WHEN COUNT(*) > 0 THEN 'N' ELSE 'Y' END)
+					FROM ATCH_FILE_DIR_F
+				WHERE DIR_UPPER_NO = TO_NUMBER(REPLACE(#dirUpperNo#,',',''))
+				AND DIR_NO <![CDATA[ <> ]]> TO_NUMBER(REPLACE(#dirNo#,',',''))
+			)
+		WHERE DIR_NO = TO_NUMBER(REPLACE(#dirUpperNo#,',',''))
+	</update>
+
+	<delete id="gamMachFcltySpecMngDao.deleteMachFcltySpecMngAtchFileDir_S" parameterClass="gamAtchFileDirMngVO">
+		DELETE FROM ATCH_FILE_DIR_F
+		WHERE DIR_NO = TO_NUMBER(REPLACE(#dirNo#,',',''))
+	</delete>
+
+	<delete id="gamMachFcltySpecMngDao.deleteMachFcltySpecMngAtchFileDirLowerData_S" parameterClass="gamAtchFileDirMngVO">
+		DELETE FROM ATCH_FILE_DIR_F
+		WHERE DIR_NO IN (
+			SELECT DIR_NO
+				FROM ATCH_FILE_DIR_F
+			WHERE DIR_NO <![CDATA[ > ]]> TO_NUMBER(REPLACE(#dirNo#,',',''))
+			START WITH DIR_UPPER_NO = TO_NUMBER(REPLACE(#dirNo#,',',''))
+			CONNECT BY DIR_UPPER_NO = PRIOR DIR_NO
+		)
+	</delete>
+
+	<select id="gamMachFcltySpecMngDao.selectMachFcltySpecMngAtchFileDirNewNo_S" parameterClass="gamAtchFileDirMngVO" resultClass="java.lang.String">
+		SELECT
+				TO_CHAR(ATCH_FILE_DIR_SEQ.NEXTVAL) AS NEW_DIR_NO
+			FROM DUAL
+	</select>
+
+	<select id="gamMachFcltySpecMngDao.selectMachFcltySpecMngAtchFileDirLowerDataCnt_S" parameterClass="gamAtchFileDirMngVO" resultClass="egovMap">
+		SELECT
+				 COUNT(*) AS LOWER_DATA_CNT
+			FROM ATCH_FILE_DIR_F
+		WHERE DIR_NO IN (
+			SELECT DIR_NO
+				FROM ATCH_FILE_DIR_F
+			WHERE DIR_NO <![CDATA[ > ]]> TO_NUMBER(REPLACE(#dirNo#,',',''))
+			START WITH DIR_UPPER_NO = TO_NUMBER(REPLACE(#dirNo#,',',''))
+			CONNECT BY DIR_UPPER_NO = PRIOR DIR_NO
+		)
+	</select>
+
+
+	<select id="gamMachFcltySpecMngDao.selectMachFcltySpecMngFcltsAtchFileList_D" parameterClass="gamFcltsAtchFileMngVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 TO_CHAR(T1.ATCH_FILE_NO) AS ATCH_FILE_NO
+								,T1.ATCH_FILE_NM_LOGIC AS ATCH_FILE_NM_LOGIC
+								,T1.ATCH_FILE_NM_PHYSICL AS ATCH_FILE_NM_PHYSICL
+								,T1.ATCH_FILE_SE AS ATCH_FILE_SE
+								,TO_CHAR(T1.DIR_NO) AS ATCH_FILE_DIR_NO
+								,T1.FCLTS_DATA_SE AS ATCH_FILE_FCLTS_DATA_SE
+								,T1.FCLTS_MNG_NO AS ATCH_FILE_FCLTS_MNG_NO
+								,T1.FCLTS_JOB_SE AS ATCH_FILE_FCLTS_JOB_SE
+								,TO_CHAR(T1.FCLTS_MNG_SEQ) AS ATCH_FILE_FCLTS_MNG_SEQ
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,GAM_GET_FILE_SE_NM(T1.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+							FROM FCLTS_ATCH_FILE_F T1
+						WHERE 1=1
+
+						<isNotEmpty property="atchFileDirNo">
+						AND T1.DIR_NO = NVL(TO_NUMBER(REPLACE(#atchFileDirNo#,',','')),0)
+						</isNotEmpty>
+
+						ORDER BY T1.ATCH_FILE_NO ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<insert id="gamMachFcltySpecMngDao.insertMachFcltySpecMngFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
+		INSERT INTO FCLTS_ATCH_FILE_F
+		(
+			 ATCH_FILE_NO
+			,ATCH_FILE_NM_LOGIC
+			,ATCH_FILE_NM_PHYSICL
+			,ATCH_FILE_SE
+			,DIR_NO
+			,FCLTS_DATA_SE
+			,FCLTS_MNG_NO
+			,FCLTS_JOB_SE
+			,FCLTS_MNG_SEQ
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 TO_NUMBER(REPLACE(#atchFileNo#,',',''))
+			,#atchFileNmLogic#
+			,#atchFileNmPhysicl#
+			,#atchFileSe#
+			,TO_NUMBER(REPLACE(#atchFileDirNo#,',',''))
+			,#atchFileFcltsDataSe#
+			,#atchFileFcltsMngNo#
+			,#atchFileFcltsJobSe#
+			,TO_NUMBER(REPLACE(#atchFileFcltsMngSeq#,',',''))
+			,#regUsr#
+			,SYSDATE
+		)
+	</insert>
+
+	<update id="gamMachFcltySpecMngDao.updateMachFcltySpecMngFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
+		UPDATE FCLTS_ATCH_FILE_F SET
+			 ATCH_FILE_NM_LOGIC = #atchFileNmLogic#
+			,ATCH_FILE_NM_PHYSICL = #atchFileNmPhysicl#
+			,ATCH_FILE_SE = #atchFileSe#
+			,DIR_NO = TO_NUMBER(REPLACE(#atchFileDirNo#,',',''))
+			,FCLTS_DATA_SE = #atchFileFcltsDataSe#
+			,FCLTS_MNG_NO = #atchFileFcltsMngNo#
+			,FCLTS_JOB_SE = #atchFileFcltsJobSe#
+			,FCLTS_MNG_SEQ = TO_NUMBER(REPLACE(#atchFileFcltsMngSeq#,',',''))
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE ATCH_FILE_NO = NVL(TO_NUMBER(REPLACE(#atchFileNo#,',','')),0)
+	</update>
+
+	<delete id="gamMachFcltySpecMngDao.deleteMachFcltySpecMngFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
+		DELETE FROM FCLTS_ATCH_FILE_F
+		WHERE ATCH_FILE_NO = TO_NUMBER(REPLACE(#atchFileNo#,',',''))
+	</delete>
+
+	<delete id="gamMachFcltySpecMngDao.deleteMachFcltySpecMngAllFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
+		DELETE FROM FCLTS_ATCH_FILE_F
+		WHERE DIR_NO IN (
+			SELECT DIR_NO
+				FROM ATCH_FILE_DIR_F
+			WHERE DIR_NO <![CDATA[ > ]]> TO_NUMBER(REPLACE(#atchFileDirNo#,',',''))
+			START WITH DIR_UPPER_NO = TO_NUMBER(REPLACE(#atchFileDirNo#,',',''))
+			CONNECT BY DIR_UPPER_NO = PRIOR DIR_NO
+		)
+	</delete>
+
+	<select id="gamMachFcltySpecMngDao.selectMachFcltySpecMngFcltsAtchFilePk_S" parameterClass="gamFcltsAtchFileMngVO" resultClass="egovMap">
+		SELECT
+				 TO_CHAR(T1.ATCH_FILE_NO) AS ATCH_FILE_NO
+				,T1.ATCH_FILE_NM_LOGIC AS ATCH_FILE_NM_LOGIC
+				,T1.ATCH_FILE_NM_PHYSICL AS ATCH_FILE_NM_PHYSICL
+				,T1.ATCH_FILE_SE AS ATCH_FILE_SE
+				,TO_CHAR(T1.DIR_NO) AS ATCH_FILE_DIR_NO
+				,T1.FCLTS_DATA_SE AS ATCH_FILE_FCLTS_DATA_SE
+				,T1.FCLTS_MNG_NO AS ATCH_FILE_FCLTS_MNG_NO
+				,T1.FCLTS_JOB_SE AS ATCH_FILE_FCLTS_JOB_SE
+				,TO_CHAR(T1.FCLTS_MNG_SEQ) AS ATCH_FILE_FCLTS_MNG_SEQ
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,GAM_GET_FILE_SE_NM(T1.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+			FROM FCLTS_ATCH_FILE_F T1
+		WHERE T1.ATCH_FILE_NO = TO_NUMBER(REPLACE(#atchFileNo#,',',''))
+	</select>
+
+	<select id="gamMachFcltySpecMngDao.selectMachFcltySpecMngFcltsAtchFileNewNo_S" parameterClass="gamFcltsAtchFileMngVO" resultClass="java.lang.String">
+		SELECT
+				TO_CHAR(FCLTS_ATCH_FILE_SEQ.NEXTVAL) AS NEW_DIR_NO
+			FROM DUAL
+	</select>
+
+</sqlMap>
