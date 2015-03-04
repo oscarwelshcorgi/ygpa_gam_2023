@@ -53,7 +53,7 @@ GamElectyFcltySpecMngModule.prototype.loadComplete = function(params) {
 		dataType : "json",
 		colModel : [
 					{display:"항구분",				name:"gisAssetsPrtAtCodeNm",	width:60,		sortable:false,		align:"center"},
-					{display:"항만시설 명",			name:"prtFcltyNm",				width:150,		sortable:false,		align:"left"},
+					{display:"항만시설 명",			name:"prtFcltyNm",				width:200,		sortable:false,		align:"left"},
 					{display:"시설물 관리 그룹",	name:"fcltsMngGroupNm",			width:120,		sortable:false,		align:"left"},
 					{display:"시설물 분류",			name:"gisPrtFcltyCdNm",			width:100,		sortable:false,		align:"left"},
 					{display:"소재지",	 			name:"loc",						width:150,		sortable:false,		align:"left"},
@@ -2657,15 +2657,10 @@ var module_instance = new GamElectyFcltySpecMngModule();
 						</table>
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:10%; height:18px;">시설물　　분류</th>
+								<th style="width:10%; height:18px;">관　　리　　자</th>
 								<td>
-									<input type="hidden" id="elctyFcltsClCdNm"/>
-									<select id="elctyFcltsClCd">
-										<option value="" selected="selected">선택</option>
-										<c:forEach  items="${fcltsClCdList}" var="fcltsClCdItem">
-											<option value="${fcltsClCdItem.fcltsClCd}">${fcltsClCdItem.fcltsClCdNm}</option>
-										</c:forEach>
-									</select>
+									<input type="hidden" id="elctyFcltsClCd"/>
+									<input type="text" size="33" id="manager" maxlength="20"/>
 								</td>
 								<th style="width:10%; height:18px;">해당　건축시설</th>
 								<td colspan="3">
@@ -2717,18 +2712,17 @@ var module_instance = new GamElectyFcltySpecMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">관　　리　　자</th>
-								<td>
-									<input type="text" size="33" id="manager" maxlength="20"/>
-								</td>
 								<th style="width:10%; height:18px;">사　용　업　체</th>
 								<td>
 									<input type="text" size="33" id="usageEntrps" maxlength="100"/>
 								</td>
-								<th style="width:10%; height:18px;">관로/케이블연장</th>
+								<th style="width:10%; height:18px;">관　　　　　로</th>
 								<td>
-									<input type="text" size="11" id="ductLineLt" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m ／
-									<input type="text" size="11" id="cableExt" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
+									<input type="text" size="30" id="ductLineLt" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
+								</td>
+								<th style="width:10%; height:18px;">케이블　　연장</th>
+								<td>
+									<input type="text" size="30" id="cableExt" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
 								</td>
 							</tr>
 							<tr>

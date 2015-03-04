@@ -53,7 +53,7 @@ GamMachFcltySpecMngModule.prototype.loadComplete = function(params) {
 		dataType : "json",
 		colModel : [
 					{display:"항구분",				name:"gisAssetsPrtAtCodeNm",	width:60,		sortable:false,		align:"center"},
-					{display:"항만시설 명",			name:"gisAssetsNm",				width:150,		sortable:false,		align:"left"},
+					{display:"항만시설 명",			name:"prtFcltyNm",				width:200,		sortable:false,		align:"left"},
 					{display:"시설물 관리 그룹",	name:"fcltsMngGroupNm",			width:120,		sortable:false,		align:"left"},
 					{display:"시설물 분류",			name:"gisPrtFcltyCdNm",			width:100,		sortable:false,		align:"left"},
 					{display:"소재지",	 			name:"loc",						width:150,		sortable:false,		align:"left"},
@@ -2896,6 +2896,7 @@ var module_instance = new GamMachFcltySpecMngModule();
 									<input type="hidden" id="mfcCmpny"/>
 									<input type="hidden" id="mfcAmt"/>
 									<input type="hidden" id="operCmpny"/>
+									<input type="hidden" id="mechFcltsClCd"/>
 									<select id="mechFcltsSe">
 										<option value="1">하역장비</option>
 										<option value="2">항만부잔교</option>

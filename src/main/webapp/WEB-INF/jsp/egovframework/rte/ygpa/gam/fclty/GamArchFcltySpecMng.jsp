@@ -53,7 +53,7 @@ GamArchFcltySpecMngModule.prototype.loadComplete = function(params) {
 		dataType : "json",
 		colModel : [
 					{display:"항구분",				name:"gisAssetsPrtAtCodeNm",	width:60,		sortable:false,		align:"center"},
-					{display:"항만시설 명",			name:"prtFcltyNm",				width:150,		sortable:false,		align:"left"},
+					{display:"항만시설 명",			name:"prtFcltyNm",				width:200,		sortable:false,		align:"left"},
 					{display:"시설물 관리 그룹",	name:"fcltsMngGroupNm",			width:120,		sortable:false,		align:"left"},
 					{display:"시설물 분류",			name:"gisPrtFcltyCdNm",			width:100,		sortable:false,		align:"left"},
 					{display:"소재지",	 			name:"loc",						width:150,		sortable:false,		align:"left"},
