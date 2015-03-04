@@ -69,7 +69,7 @@ GamMachFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"규격",				name:"eqpmnStndrd",				width:80,		sortable:false,		align:"right"},
 					{display:"연결 도교",			name:"linkBridge",				width:80,		sortable:false,		align:"right"},
 					{display:"해당 건축시설",	 	name:"archFcltsNm",				width:100,		sortable:false,		align:"left"},
-					{display:"시설물 관리 번호",	name:"fcltsMngNo",				width:120,		sortable:false,		align:"left"},
+					{display:"시설물 관리 번호",	name:"fcltsMngNo",				width:130,		sortable:false,		align:"left"},
 					{display:"자산 명",	 			name:"gisAssetsNm",				width:200,		sortable:false,		align:"left"},
 					{display:"자산 위치",	 		name:"gisAssetsLocNm",			width:200,		sortable:false,		align:"left"}
 					],
@@ -872,6 +872,18 @@ GamMachFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnSaveMap':
 			this.saveMap();
 			break;
+	    case 'btnSpecFirstData':
+	    	this.firstData();
+			break;
+	    case 'btnSpecPrevData':
+	    	this.prevData();
+			break;
+	    case 'btnSpecNextData':
+	    	this.nextData();
+			break;
+	    case 'btnSpecLastData':
+	    	this.lastData();
+			break;
 		case 'btnSpecInsert':
 			this._mainmode = 'insert';
 			this._mainKeyValue = '';
@@ -1118,6 +1130,177 @@ GamMachFcltySpecMngModule.prototype.setFcltsMngNo = function() {
 		this.$('#fcltsMngNo').val("");
 	} else {
 		this.$('#fcltsMngNo').val(gisAssetsPrtAtCode + gisAssetsCd + gisAssetsSubCd + gisPrtFcltyCd + gisPrtFcltySeq + prtFcltySe);
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : firstData
+ * @DESCRIPTION   : FIRST DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamMachFcltySpecMngModule.prototype.firstData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainKeyValue == "") {
+		return;
+	}
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		return;
+	}
+	var firstRowIndex = 0;
+	var row = rows[firstRowIndex];
+	var firstFcltsMngNo = row["fcltsMngNo"];
+	if (firstFcltsMngNo != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"fcltsMngNo", filter:firstFcltsMngNo}]);
+		this._mainmode = 'modify';
+		this._mainKeyValue = firstFcltsMngNo;
+		this.makeFormValues('#detailForm', rows[firstRowIndex]);
+		this.makeDivValues('#detailForm', rows[firstRowIndex]);
+		this.enableDetailInputItem();
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : prevData
+ * @DESCRIPTION   : PREVIOUS DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamMachFcltySpecMngModule.prototype.prevData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainKeyValue == "") {
+		return;
+	}
+	var fcltsMngNo = this._mainKeyValue;
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		alert("자료가 존재하지 않습니다!");
+		return;
+	}
+	var prevRowIndex = -1;
+	for (var i=0; i < gridRowCount; i++) {
+		var row = rows[i];
+		if (fcltsMngNo == row["fcltsMngNo"]) {
+			prevRowIndex = i - 1;
+			break;
+		}
+	}
+	if (prevRowIndex < 0) {
+		alert("첫번째 자료 입니다!");
+		return;
+	}
+	if (prevRowIndex >= gridRowCount) {
+		alert("자료 위치가 부정확합니다!");
+		return;
+	}
+	var row = rows[prevRowIndex];
+	var prevFcltsMngNo = row["fcltsMngNo"];
+	if (prevFcltsMngNo != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"fcltsMngNo", filter:prevFcltsMngNo}]);
+		this._mainmode = 'modify';
+		this._mainKeyValue = prevFcltsMngNo;
+		this.makeFormValues('#detailForm', rows[prevRowIndex]);
+		this.makeDivValues('#detailForm', rows[prevRowIndex]);
+		this.enableDetailInputItem();
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : nextData
+ * @DESCRIPTION   : NEXT DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamMachFcltySpecMngModule.prototype.nextData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainKeyValue == "") {
+		return;
+	}
+	var fcltsMngNo = this._mainKeyValue;
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		alert("자료가 존재하지 않습니다!");
+		return;
+	}
+	var nextRowIndex = -1;
+	for (var i=0; i < gridRowCount; i++) {
+		var row = rows[i];
+		if (fcltsMngNo == row["fcltsMngNo"]) {
+			nextRowIndex = i + 1;
+			break;
+		}
+	}
+	if (nextRowIndex < 0) {
+		alert("자료 위치가 부정확합니다!");
+		return;
+	}
+	if (nextRowIndex >= gridRowCount) {
+		alert("마지막 자료 입니다!");
+		return;
+	}
+	var row = rows[nextRowIndex];
+	var nextFcltsMngNo = row["fcltsMngNo"];
+	if (nextFcltsMngNo != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"fcltsMngNo", filter:nextFcltsMngNo}]);
+		this._mainmode = 'modify';
+		this._mainKeyValue = nextFcltsMngNo;
+		this.makeFormValues('#detailForm', rows[nextRowIndex]);
+		this.makeDivValues('#detailForm', rows[nextRowIndex]);
+		this.enableDetailInputItem();
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : lastData
+ * @DESCRIPTION   : LAST DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamMachFcltySpecMngModule.prototype.lastData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainKeyValue == "") {
+		return;
+	}
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		alert("자료가 존재하지 않습니다!");
+		return;
+	}
+	var lastRowIndex = gridRowCount - 1;
+	var row = rows[lastRowIndex];
+	var lastFcltsMngNo = row["fcltsMngNo"];
+	if (lastFcltsMngNo != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"fcltsMngNo", filter:lastFcltsMngNo}]);
+		this._mainmode = 'modify';
+		this._mainKeyValue = lastFcltsMngNo;
+		this.makeFormValues('#detailForm', rows[lastRowIndex]);
+		this.makeDivValues('#detailForm', rows[lastRowIndex]);
+		this.enableDetailInputItem();
 	}
 
 };
@@ -2358,6 +2541,10 @@ GamMachFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#btnSpecSave').enable();
 		this.$('#btnSpecSave').removeClass('ui-state-disabled');
 		this.$('#btnSpecRemove').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnSpecFirstData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnSpecPrevData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnSpecNextData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnSpecLastData').disable({disableClass:"ui-state-disabled"});
 	} else {
 		if (this._mainKeyValue != "") {
 			this.$('#gisPrtFcltyCd').disable();
@@ -2428,6 +2615,14 @@ GamMachFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnSpecSave').removeClass('ui-state-disabled');
 			this.$('#btnSpecRemove').enable();
 			this.$('#btnSpecRemove').removeClass('ui-state-disabled');
+			this.$('#btnSpecFirstData').enable();
+			this.$('#btnSpecFirstData').removeClass('ui-state-disabled');
+			this.$('#btnSpecPrevData').enable();
+			this.$('#btnSpecPrevData').removeClass('ui-state-disabled');
+			this.$('#btnSpecNextData').enable();
+			this.$('#btnSpecNextData').removeClass('ui-state-disabled');
+			this.$('#btnSpecLastData').enable();
+			this.$('#btnSpecLastData').removeClass('ui-state-disabled');
 		} else {
 			this.$('#gisPrtFcltyCd').disable();
 			this.$('#prtFcltyNm').disable();
@@ -2491,6 +2686,10 @@ GamMachFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnSpecInsert').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSpecSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSpecRemove').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnSpecFirstData').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnSpecPrevData').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnSpecNextData').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnSpecLastData').disable({disableClass:"ui-state-disabled"});
 		}
 	}
 
@@ -2567,6 +2766,10 @@ GamMachFcltySpecMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#btnSpecInsert').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSpecSave').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSpecRemove').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnSpecFirstData').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnSpecPrevData').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnSpecNextData').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnSpecLastData').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -2880,6 +3083,10 @@ var module_instance = new GamMachFcltySpecMngModule();
 							<tr>
 								<th style="font-weight:bold; height:20px;">기계시설 제원</th>
 								<td style="text-align:right;">
+									<button id="btnSpecFirstData">처음자료</button>
+									<button id="btnSpecPrevData">이전자료</button>
+									<button id="btnSpecNextData">다음자료</button>
+									<button id="btnSpecLastData">마지막자료</button>
 									<button id="btnSpecInsert" class="buttonAdd">　추　가　</button>
 									<button id="btnSpecSave" class="buttonSave">　저　장　</button>
 									<button id="btnSpecRemove" class="buttonDelete">　삭　제　</button>
