@@ -106,7 +106,6 @@ GamMachFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 	this.$('#gisPrtFcltyCd').on('change',{module:this}, function(event){
 		event.data.module.getNewGisPrtFcltySeq();
-		event.data.module.setFcltsMngNo();
 	});
 
 	this.$("#prtFcltyMngEntrpsCd").bind("keyup change", {module: this}, function(event) {
@@ -795,7 +794,6 @@ GamMachFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value)
 				this.$('#prtFcltyLoc').val(prtFcltyLoc);
 				this.$('#loc').val(prtFcltyLoc);
 				this.getNewGisPrtFcltySeq();
-				this.setFcltsMngNo();
 				this.$('#gisPrtFcltyCd').focus();
 			}
 			break;
@@ -883,6 +881,9 @@ GamMachFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 	    case 'btnSpecLastData':
 	    	this.lastData();
+			break;
+	    case 'btnSpecCopyData':
+	    	this.copyData();
 			break;
 		case 'btnSpecInsert':
 			this._mainmode = 'insert';
@@ -1106,6 +1107,7 @@ GamMachFcltySpecMngModule.prototype.getNewGisPrtFcltySeq = function() {
 	this.doAction('/fclty/gamSelectMachFcltySpecMngMaxGisPrtFcltySeq.do', searchVO, function(module, result) {
 		if (result.resultCode == "0") {
 			module.$('#gisPrtFcltySeq').val(result.sMaxGisPrtFcltySeq);
+			module.setFcltsMngNo();
 		}
 	});
 
@@ -1126,10 +1128,14 @@ GamMachFcltySpecMngModule.prototype.setFcltsMngNo = function() {
 	var gisPrtFcltyCd = this.$('#gisPrtFcltyCd').val();
 	var prtFcltySe = this.$('#prtFcltySe').val();
 	var gisPrtFcltySeq = this.$('#gisPrtFcltySeq').val();
+	var fcltsMngNo = this.$('#fcltsMngNo').val();
 	if (gisAssetsPrtAtCode == "" || gisAssetsCd == "" || gisAssetsSubCd == "" || gisPrtFcltyCd == "" || prtFcltySe == "" || gisPrtFcltySeq == "") {
 		this.$('#fcltsMngNo').val("");
 	} else {
-		this.$('#fcltsMngNo').val(gisAssetsPrtAtCode + gisAssetsCd + gisAssetsSubCd + gisPrtFcltyCd + gisPrtFcltySeq + prtFcltySe);
+		var newFcltsMngNo = gisAssetsPrtAtCode + gisAssetsCd + gisAssetsSubCd + gisPrtFcltyCd + gisPrtFcltySeq + prtFcltySe;
+		if (fcltsMngNo == "" || fcltsMngNo != newFcltsMngNo) {
+			this.$('#fcltsMngNo').val(newFcltsMngNo);
+		}
 	}
 
 };
@@ -1302,6 +1308,58 @@ GamMachFcltySpecMngModule.prototype.lastData = function() {
 		this.makeDivValues('#detailForm', rows[lastRowIndex]);
 		this.enableDetailInputItem();
 	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : copyData
+ * @DESCRIPTION   : DATA COPY (MAIN)
+ * @PARAMETER     : NONE
+**/
+%>
+GamMachFcltySpecMngModule.prototype.copyData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainKeyValue == "") {
+		return;
+	}
+	var fcltsMngNo = this._mainKeyValue;
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		alert("자료가 존재하지 않습니다!");
+		return;
+	}
+	var currentRowIndex = -1;
+	for (var i=0; i < gridRowCount; i++) {
+		var row = rows[i];
+		if (fcltsMngNo == row["fcltsMngNo"]) {
+			currentRowIndex = i;
+			break;
+		}
+	}
+	if (currentRowIndex < 0 || currentRowIndex >= gridRowCount) {
+		alert("자료 위치가 부정확합니다!");
+		return;
+	}
+	this._mainmode = 'insert';
+	this._mainKeyValue = "";
+	this.makeFormValues('#detailForm', rows[currentRowIndex]);
+	this.makeDivValues('#detailForm', rows[currentRowIndex]);
+	this.enableDetailInputItem();
+	this.$('#fcltsMngNo').val("");
+	this.$('#prtFcltySeNm').val("기계시설");
+	this.$('#prtFcltySe').val("M");
+	this.$('#prtFcltyGisCd').val("");
+	this.$('#laCrdnt').val("");
+	this.$('#loCrdnt').val("");
+	this.$('#lat').val("");
+	this.$('#lng').val("");
+	this.getNewGisPrtFcltySeq();
+	this.$('#mechFcltsSe').focus();
 
 };
 
@@ -1507,6 +1565,7 @@ GamMachFcltySpecMngModule.prototype.saveData = function() {
 		var railWd = Number(this.$('#railWd').val().replace(/,/gi, ""));
 		var selfLoad = Number(this.$('#selfLoad').val().replace(/,/gi, ""));
 		var mfcCmpny = this.$('#cvlEngMfcCmpny').val();
+		var operCmpny = this.$('#cvlEngOperCmpny').val();
 		if (eqpmnNm == "") {
 			alert('장비 명이 부정확합니다.');
 			this.$("#cvlEngEqpmnNm").focus();
@@ -1556,6 +1615,7 @@ GamMachFcltySpecMngModule.prototype.saveData = function() {
 		this.setInstlYrmt(instlYrmt);
 		this.setMfcCmpny(mfcCmpny);
 		this.setMfcAmt(mfcAmt);
+		this.setOperCmpny(operCmpny);
 	} else if (mechFcltsSe == "2") {
 		var eqpmnNm = this.$('#shipEqpmnNm').val();
 		var instlYrmt = this.$('#shipInstlYrmt').val();
@@ -1644,6 +1704,7 @@ GamMachFcltySpecMngModule.prototype.saveData = function() {
 		this.$("#mechFcltsSe").focus();
 		return;
 	}
+	this.setFcltsMngNo();
 	var inputVO = this.makeFormArgs("#detailForm");
 	if (this._mainmode == "insert") {
 		this._mainKeyValue = fcltsMngNo;
@@ -2545,6 +2606,7 @@ GamMachFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#btnSpecPrevData').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnSpecNextData').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnSpecLastData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnSpecCopyData').disable({disableClass:"ui-state-disabled"});
 	} else {
 		if (this._mainKeyValue != "") {
 			this.$('#gisPrtFcltyCd').disable();
@@ -2623,6 +2685,8 @@ GamMachFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnSpecNextData').removeClass('ui-state-disabled');
 			this.$('#btnSpecLastData').enable();
 			this.$('#btnSpecLastData').removeClass('ui-state-disabled');
+			this.$('#btnSpecCopyData').enable();
+			this.$('#btnSpecCopyData').removeClass('ui-state-disabled');
 		} else {
 			this.$('#gisPrtFcltyCd').disable();
 			this.$('#prtFcltyNm').disable();
@@ -2690,6 +2754,7 @@ GamMachFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnSpecPrevData').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSpecNextData').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSpecLastData').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnSpecCopyData').disable({disableClass:"ui-state-disabled"});
 		}
 	}
 
@@ -2770,6 +2835,7 @@ GamMachFcltySpecMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#btnSpecPrevData').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSpecNextData').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSpecLastData').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnSpecCopyData').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -3083,13 +3149,14 @@ var module_instance = new GamMachFcltySpecMngModule();
 							<tr>
 								<th style="font-weight:bold; height:20px;">기계시설 제원</th>
 								<td style="text-align:right;">
-									<button id="btnSpecFirstData">처음자료</button>
-									<button id="btnSpecPrevData">이전자료</button>
-									<button id="btnSpecNextData">다음자료</button>
-									<button id="btnSpecLastData">마지막자료</button>
-									<button id="btnSpecInsert" class="buttonAdd">　추　가　</button>
-									<button id="btnSpecSave" class="buttonSave">　저　장　</button>
-									<button id="btnSpecRemove" class="buttonDelete">　삭　제　</button>
+									<button id="btnSpecFirstData">처음 자료</button>
+									<button id="btnSpecPrevData">이전 자료</button>
+									<button id="btnSpecNextData">다음 자료</button>
+									<button id="btnSpecLastData">마지막 자료</button>
+									<button id="btnSpecInsert" class="buttonAdd">추가</button>
+									<button id="btnSpecSave" class="buttonSave">저장</button>
+									<button id="btnSpecRemove" class="buttonDelete">삭제</button>
+									<button id="btnSpecCopyData" class="buttonAdd">복사 추가</button>
 								</td>
 							</tr>
 						</table>
