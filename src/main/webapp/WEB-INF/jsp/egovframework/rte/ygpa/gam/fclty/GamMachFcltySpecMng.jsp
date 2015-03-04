@@ -3277,6 +3277,7 @@ var module_instance = new GamMachFcltySpecMngModule();
 										<option value="">선택</option>
 										<option value="4단">4단 장치작업</option>
 										<option value="5단">5단 장치작업</option>
+										<option value="철송">철송</option>
 									</select>
 								</td>
 							</tr>
