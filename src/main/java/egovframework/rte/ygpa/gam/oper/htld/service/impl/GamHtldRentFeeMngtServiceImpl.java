@@ -281,4 +281,13 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 //			egiroPrintCancel(vo);
 //		}
 	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtService#deleteHtldRentFeeMngtList(egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeDefaultVO)
+	 */
+	@Override
+	public void deleteHtldRentFeeMngtList(GamHtldRentFeeDefaultVO vo)
+			throws Exception {
+		gamHtldRentFeeMngtDao.deleteHtldRentFeeMngtList(vo);
+	}
 }

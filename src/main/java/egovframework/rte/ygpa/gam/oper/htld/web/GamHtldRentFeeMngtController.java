@@ -211,6 +211,38 @@ public class GamHtldRentFeeMngtController {
  		return map;
      }
 
+    @RequestMapping(value="/oper/htld/clearHtldRentFeeList.do")
+    public @ResponseBody Map clearHtldRentFeeList(
+     	   @ModelAttribute("gamHtldRentFeeMngtVO") GamHtldRentFeeDefaultVO clearRentFeeList,
+     	   BindingResult bindingResult)
+            throws Exception {
+
+     	 Map map = new HashMap();
+         String resultMsg = "";
+         int resultCode = 1;
+
+     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+     	if(!isAuthenticated) {
+ 	        map.put("resultCode", 1);
+     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+         	return map;
+     	}
+
+     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+     	clearRentFeeList.setUpdUsr(loginVo.getId()); //수정자 (세션 로그인 아이디)
+
+         gamHtldRentFeeMngtService.deleteHtldRentFeeMngt(clearRentFeeList);
+
+         resultCode = 0;
+ 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+
+     	 map.put("resultCode", resultCode);
+         map.put("resultMsg", resultMsg);
+
+ 		return map;
+     }
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/oper/htld/gamSelectHtldRentFeeMngtListExcel.do", method=RequestMethod.POST)
     @ResponseBody ModelAndView selectHtldRentFeeMngtListExcel(@RequestParam Map<String, Object> excelParam) throws Exception {

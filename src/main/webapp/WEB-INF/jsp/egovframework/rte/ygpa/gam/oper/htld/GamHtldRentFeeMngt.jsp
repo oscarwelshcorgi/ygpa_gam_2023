@@ -319,7 +319,7 @@ GamAssetRentFeeMngtModule.prototype.makeRowData = function(item) {
 	}
 	else {
 		item._updtId="I";
-		var dtfr = EMD.util.strToDate(module.$('#grUsagePdFrom').val());
+		var dtfr = EMD.util.strToDate(this.$('#grUsagePdFrom').val());
 		var dtto = null;
 		if(item.nticMth=='1') {
 			dtfr.setFullYear(dtfr.getFullYear()+1);
@@ -360,15 +360,15 @@ GamAssetRentFeeMngtModule.prototype.makeRowData = function(item) {
 		}
 		else if(item.nticMth=='4'){
 			if(dtfr.getMonth()<3) {
-				dtfr.setMonth(2);
+				dtfr.setMonth(3);
 				dtfr.setDate(1);
 			}
 			else if(dtfr.getMonth()<6) {
-				dtfr.setMonth(5);
+				dtfr.setMonth(6);
 				dtfr.setDate(1);
 			}
 			else if(dtfr.getMonth()<9) {
-				dtfr.setMonth(8);
+				dtfr.setMonth(9);
 				dtfr.setDate(1);
 			}
 			else {
@@ -454,6 +454,9 @@ GamAssetRentFeeMngtModule.prototype.makeRowData = function(item) {
         case 'btnSaveNticList':	// 고지 내역 저장
         	this.saveNticList();
         	break;
+        case 'btnClearNticList': // 변경 내역 초기화
+        	this.clearNticList();
+        	break;
         case 'btnExecNticIssue':	// 고지 의뢰
         case 'btnExecNticIssue2':
         	this.openNticIssuePopup();
@@ -472,7 +475,7 @@ GamAssetRentFeeMngtModule.prototype.makeRowData = function(item) {
                 }
 
                 if( confirm("선택한 건의 고지를 취소 하시겠습니까?") ) {
-                	if(confirm("해당 건의 징수의뢰 자료가 삭제되고 전송된 세금계산서가 있을 경우 해당 업체에 마이너스 세금계산서가 발부 됩니다. 계속 하시겠습까?")) {
+                	if(rows['nhtPrintYn']!='Y' || confirm("해당 건의 징수의뢰 자료가 삭제되고 전송된 세금계산서가 있을 경우 해당 업체에 마이너스 세금계산서가 발부 됩니다. 계속 하시겠습까?")) {
                         this.doAction('/oper/htld/cancelHtldRentFeeNticSingle.do', rows, function(module, result) {
 
                             if(result.resultCode=='0') {
@@ -647,6 +650,32 @@ GamAssetRentFeeMngtModule.prototype.saveNticList = function() {
         alert(result.resultMsg);
     });
 };
+
+GamAssetRentFeeMngtModule.prototype.clearNticList = function() {
+	var nticYn='N';
+	this.$('#assetRentFeeList')[0].dgrid.forEachRow(function(id) {
+		if(this.cells(id, 5).getValue()=='Y') {
+			nticYn='Y';
+		}
+    });
+	if(nticYn=='Y') {
+		alert('고지된 자료가 존재하여 자료를 초기화 할 수 없습니다.');
+		return;
+	}
+	if(confirm('조회된 자료에 입력한 내역을 삭제하고 자료를 초기화 하시겠습니까?')) {
+	    var searchOpt=this.makeFormArgs('#gamAssetRentFeeSearchForm');
+		var dtfr = EMD.util.strToDate(this.$('#grUsagePdFrom').val());
+
+
+	    this.doAction('/oper/htld/clearHtldRentFeeList.do', {'nticPdFrom': dtFr}, function(module, result) {
+	        if(result.resultCode == 0){
+	        	module.loadData();
+	        	module.setButtonStatus();
+	        }
+	        alert(result.resultMsg);
+	    });
+	}
+}
 
 GamAssetRentFeeMngtModule.prototype.openNticIssuePopup = function() {
     if(this.$('#assetRentFeeList').selectedRowCount()>0) {
@@ -942,6 +971,8 @@ var module_instance = new GamAssetRentFeeMngtModule();
                      -->
                     <button id="btnRentFeePayMngt">납부현황관리</button>
 					<button id="btnSaveNticList">변경내역 저장</button>
+					<button id="btnClearNticList">초기화</button>
+					<button data-role="openWindow" data-url="/code/gamCofixIntrrateMngt.do" data-title="COFIX 이자율 관리">이자율관리</button>
                 </div>
             </div>
 

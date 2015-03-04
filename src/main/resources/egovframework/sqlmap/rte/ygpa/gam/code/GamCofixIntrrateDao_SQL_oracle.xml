@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cofixIntrrateMngt">
+
+	<typeAlias alias="gamCofixIntrrateDefaultVO" type="egovframework.rte.ygpa.gam.code.service.GamCofixIntrrateDefaultVO"/>
+	<typeAlias alias="gamCofixIntrrateVO" type="egovframework.rte.ygpa.gam.code.service.GamCofixIntrrateVO"/>
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<select id="gamCofixIntrrateMngtDao.selectCofixIntrrateList_D" parameterClass="gamCofixIntrrateDefaultVO" resultClass="egovMap">
+	       SELECT  ROWNUM RNUM, S.*
+		   FROM (
+				SELECT
+						OBJ_YRMT,
+						BLCE_STDR_INTRRATE*100 BLCE_STDR_INTRRATE,
+						NEW_MANIP_AMT_STDR_INTRRATE*100 NEW_MANIP_AMT_STDR_INTRRATE,
+						TO_CHAR(ANNODT, 'YYYY-MM-DD') ANNODT
+				FROM COFIX_INTRRATE_F
+				WHERE 1=1
+			<isNotEmpty prepend="AND" property="objYrmt">
+				OBJ_YRMT LIKE #objYrmt# || '%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="searchDtFrom">
+			<![CDATA[
+				ANNODT >= TO_DATE(#searchDtFrom#, 'YYYY-MM-DD')
+				]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="searchDtTo">
+			<![CDATA[
+				ANNODT < TO_DATE(#searchDtTo#, 'YYYY-MM-DD')
+				]]>
+			</isNotEmpty>
+			ORDER BY OBJ_YRMT DESC, ANNODT DESC
+			) S
+	</select>
+
+	<insert id="gamCofixIntrrateMngtDao.insertCofixIntrrate_S">
+		<![CDATA[
+			INSERT INTO COFIX_INTRRATE_F
+				( OBJ_YRMT,
+				BLCE_STDR_INTRRATE,
+				NEW_MANIP_AMT_STDR_INTRRATE,
+				ANNODT
+				 )
+			VALUES ( #objYrmt#,
+				#blceStdrIntrrate#/100,
+				#newManipAmtStdrIntrrate#/100,
+				TO_DATE(#annodt#, 'YYYY-MM-DD')
+ 			)
+		]]>
+	</insert>
+
+	<update id="gamCofixIntrrateMngtDao.updateCofixIntrrate_S">
+		<![CDATA[
+			UPDATE COFIX_INTRRATE_F
+			SET BLCE_STDR_INTRRATE=#blceStdrIntrrate#/100,
+				NEW_MANIP_AMT_STDR_INTRRATE=#newManipAmtStdrIntrrate#/100,
+				ANNODT=TO_DATE(#annodt#, 'YYYY-MM-DD')
+			WHERE
+				OBJ_YRMT=#objYrmt#
+		]]>
+	</update>
+
+	<delete id="gamCofixIntrrateMngtDao.deleteCofixIntrrate_S">
+		<![CDATA[
+			DELETE FROM COFIX_INTRRATE_F
+			WHERE OBJ_YRMT=#objYrmt#
+		]]>
+	</delete>
+
+
+</sqlMap>

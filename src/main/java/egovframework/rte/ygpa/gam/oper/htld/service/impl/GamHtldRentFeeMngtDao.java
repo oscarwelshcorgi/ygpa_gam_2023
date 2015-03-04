@@ -219,4 +219,13 @@ public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
         delete("gamHtldRentFeeMngtDao.deleteIntrNticRequestRevCollF_S", vo);
     }
 
+	/**
+	 * 징수의뢰 목록을 삭제한다.
+	 * @param vo GamHtldRentFeeMngtVO
+	 * @exception Exception
+	 */
+	public void deleteHtldRentFeeMngtList(GamHtldRentFeeMngtVO vo){
+		delete("gamHtldRentFeeMngtDao.deleteHtldRentFeeMngtList_S", vo);
+	}
+
 }

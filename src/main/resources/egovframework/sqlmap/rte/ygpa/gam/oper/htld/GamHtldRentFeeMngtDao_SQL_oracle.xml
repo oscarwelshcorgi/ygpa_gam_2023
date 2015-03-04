@@ -155,7 +155,7 @@
 					  GAM_GETCODENAME('GAM046', L.SANCTN_STTUS) SANCTN_STTUS_NM ,
 					  NVL(L.OLNLP,0) OLNLP ,
 					  NVL(L.FEE, 0) FEE ,
-					  L.VAT_YN ,
+					  NVL(L.VAT_YN, A.TAXT_SE) VAT_YN,
 					  NVL(L.VAT,0) VAT ,
 					  NVL(L.NTIC_AMT,0) NTIC_AMT ,
 					  NVL(L.INTR_AMNT, 0) INTR_AMNT,
@@ -1930,5 +1930,32 @@
 		      	AND MNG_CNT=#mngCnt#
 		      	AND NTIC_CNT=#nticCnt#
   </update>
+
+	<delete id="gamHtldRentFeeMngtDao.deleteHtldRentFeeMngtList_S">
+	<![CDATA[
+	    delete lev_reqest_f
+		where (PRT_AT_CODE, mng_year, mng_no, mng_cnt, ntic_cnt) IN (
+		select l.prt_at_code,
+		  l.mng_year,
+		  l.mng_no,
+		  l.mng_cnt,
+		  l.ntic_cnt
+		from assets_rent_f a, lev_reqest_f l
+		where 1=1
+		  and a.prt_at_code=l.prt_at_code
+		  and a.mng_year=l.mng_year
+		  and a.mng_no=l.mng_no
+		  and a.mng_cnt=l.mng_cnt
+		  and a.quay_group_cd='H'
+		  and (
+		    (a.ntic_mth='1' and l.ntic_pd_from>=to_date(#nticPdFrom#, 'YYYY-MM-DD') and l.ntic_pd_to<add_months(to_date(#nticPdFrom#, 'YYYY-MM-DD'), 12))
+		    OR (a.ntic_mth='2' and l.ntic_pd_from>=to_date(#nticPdFrom#, 'YYYY-MM-DD') and l.ntic_pd_to<add_months(to_date(#nticPdFrom#, 'YYYY-MM-DD'),6))
+		    OR (a.ntic_mth='3' and l.ntic_pd_from>=to_date(#nticPdFrom#, 'YYYY-MM-DD') and l.ntic_pd_to<add_months(to_date(#nticPdFrom#, 'YYYY-MM-DD'),4))
+		    OR (a.ntic_mth='4' and l.ntic_pd_from>=to_date(#nticPdFrom#, 'YYYY-MM-DD') and l.ntic_pd_to<add_months(to_date(#nticPdFrom#, 'YYYY-MM-DD'),3))
+		    OR (l.ntic_pd_from>=to_date(#nticPdFrom#, 'YYYY-MM-DD') and l.ntic_pd_to<add_months(to_date(#nticPdFrom#, 'YYYY-MM-DD'),1))
+		    )
+		)
+		]]>
+	</delete>
 
 </sqlMap>

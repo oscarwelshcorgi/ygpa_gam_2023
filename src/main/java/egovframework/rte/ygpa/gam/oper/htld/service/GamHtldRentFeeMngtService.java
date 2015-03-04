@@ -133,4 +133,12 @@ public interface GamHtldRentFeeMngtService {
 	public void cancelNticRequest(Map<String, Object> vo) throws Exception;
 
 	public void updateNticPrintState(Map<String, Object> vo) throws Exception;
+
+	/**
+	 * 징수의뢰 정보 목록을 삭제 한다.
+	 * @param vo
+	 * @throws Exception
+	 */
+	void deleteHtldRentFeeMngtList(GamHtldRentFeeDefaultVO vo) throws Exception;
+
 }
