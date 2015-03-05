@@ -1846,7 +1846,11 @@ GamMachFcltySpecMngModule.prototype.downloadExcel = function(buttonId) {
 	var gridRowCount = 0;
 	switch (buttonId) {
 		case 'btnExcelDownload':
-			gridRowCount = this.$("#mainGrid").flexRowCount();
+			if (this._mainGridDisplay == 'statusGrid') {
+				gridRowCount = this.$("#statusGrid").flexRowCount();
+			} else {
+				gridRowCount = this.$("#mainGrid").flexRowCount();
+			}
 			break;
 		default:
 			return;
@@ -1857,7 +1861,11 @@ GamMachFcltySpecMngModule.prototype.downloadExcel = function(buttonId) {
 	}
 	switch (buttonId) {
 		case 'btnExcelDownload':
-			this.$('#mainGrid').flexExcelDown('/fclty/gamExcelDownloadMachFcltySpecMng.do');
+			if (this._mainGridDisplay == 'statusGrid') {
+				this.$('#statusGrid').flexiXlsDown("하역장비현황.xls","하역장비현황");
+			} else {
+				this.$('#mainGrid').flexExcelDown('/fclty/gamExcelDownloadMachFcltySpecMng.do');
+			}
 			break;
 	}
 
