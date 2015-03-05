@@ -748,16 +748,16 @@ div.notice {
 	$( window ).load(function() {
 		$('#printButton').button().click(function(){
 			var vo = [
-			          {name : 'prtAtCode', value: '<c:out value="${resultList[0].prtAtCode}"/>'},
-			          {name : 'mngYear', value: '<c:out value="${resultList[0].mngYear}"/>'},
-			          {name : 'mngNo', value: '<c:out value="${resultList[0].mngNo}"/>'},
-			          {name : 'mngCnt', value: '<c:out value="${resultList[0].mngCnt}"/>'},
-			          {name : 'nticCnt', value: '<c:out value="${resultList[0].nticCnt}"/>'},
-			          {name : 'chrgeKnd', value: '<c:out value="${resultList[0].chrgeKnd}"/>'}
+			          {name : 'prtAtCode', value: '<c:out value="${result.prtAtCode}"/>'},
+			          {name : 'mngYear', value: '<c:out value="${result.mngYear}"/>'},
+			          {name : 'mngNo', value: '<c:out value="${result.mngNo}"/>'},
+			          {name : 'mngCnt', value: '<c:out value="${result.mngCnt}"/>'},
+			          {name : 'nticCnt', value: '<c:out value="${result.nticCnt}"/>'},
+			          {name : 'chrgeKnd', value: '<c:out value="${result.chrgeKnd}"/>'}
 			          ];
 
 			$.ajax({
-				url: '<c:url value="/asset/rent/printAssetRentFeePayNoticeIssue.do" />',
+				url: '<c:url value="/oper/gnrl/printRentFeeNoticeIssue.do" />',
 				type: 'POST',
 				module: this,
 				dataType: 'json',
@@ -779,10 +779,6 @@ div.notice {
   <fmt:parseDate value='${result.payTmlmt}' var='payTmlmtDate' pattern="yyyy-MM-dd" scope="page"/>
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
-<c:set var="result" value="${resultList[0] }" />
-<%--
-    <c:forEach var="result" items="${resultList }">
---%>
     <div class="page">
         <div class="subpage">
 			<div class="sender">
@@ -861,9 +857,6 @@ div.notice {
 			</div>
         </div>
     </div>
-    <%--
-    </c:forEach>
-    --%>
 </div>
   </c:if>
     <c:if test="${resultCode!=0 }">

@@ -1958,4 +1958,113 @@
 		]]>
 	</delete>
 
+    <select id="gamHtldRentFeeMngtDao.selectRevCollF" parameterClass="map" resultClass="egovMap">
+        /*+ gamNticRequestMngtDAO.selectRevCollF */
+        /* [전자고지] 고지 정보 조회 eunsungj */
+        SELECT
+			R.PRT_AT_CODE,
+			R.FEE_TP,
+			R.FISCAL_YR,
+			R.BILL_NO,
+			R.VSSL_KEY,
+			R.YR,
+			R.SER_NO,
+			R.ACCNT_CODE,
+			R.AGENT_CODE,
+			R.BILL_AMNT,
+			R.BILL_AMNT_R3,
+			R.BILL_AMNT_R2,
+			R.BILL_AMNT_R1,
+			TO_CHAR(R.BILL_DT, 'YYYYMMDD') BILL_DT,
+			R.BILL_PRT_YN,
+			R.AMNT_RSN,
+			R.SSN,
+			TO_CHAR(R.DUE_DATE, 'YYYYMMDD') DUE_DATE,
+			TO_CHAR(R.FIRST_BILL_DT, 'YYYYMMDD') FIRST_BILL_DT,
+			R.ICHE_STATUS,
+			R.BZ_RGST_ID,
+			R.AGENT_NAME,
+			R.IO_TP,
+			TO_CHAR(R.RCVD_DT, 'YYYYMMDD') RCVD_DT,
+			R.RCVD_TP,
+			R.RSLT_CODE,
+			R.VSSL_KOR_NM,
+			TO_CHAR(R.UPDT_DATE, 'YYYYMMDD') UPDT_DATE,
+			R.UPDT_UID,
+			R.EXMP_AMNT,
+			R.OVER_AMNT,
+			R.SALIMI_NO,
+			TO_CHAR(R.IO_DT, 'YYYYMMDD') IO_DT,
+			R.DC_AMNT,
+			R.DC_CODE,
+			R.DC_RATE,
+			R.RCVD_NM,
+			TO_CHAR(R.RECPT_EPDT, 'YYYYMMDD') RECPT_EPDT,
+			R.POST_BILL_YN,
+			R.NOPAY_LOSS_REAS_CD,
+			R.ELCT_BILL_RSLT,
+			TO_CHAR(R.BULL_INFO_INQR_DTIME, 'YYYYMMDD') BULL_INFO_INQR_DTIME,
+			R.LAST,
+			R.VAT,
+			R.VAT_YN,
+			R.JINGSUJA,
+			R.JIRO_RCVD_TP,
+			R.JIRO_RCVD_BR,
+			R.COMMISSION,
+			R.MAGAM_FLAG,
+			TO_CHAR(R.OCR_DT, 'YYYYMMDD') OCR_DT,
+			R.DEPT,
+			R.EMPL,
+			R.WORK_CODE,
+			R.ORIGIN_FEE_TP,
+			R.ORIGIN_FISCAL_YR,
+			R.ORIGIN_BILL_NO,
+			R.CYBER_VAT,
+			R.VACCT_NO,
+			TO_CHAR(R.END_DATE, 'YYYYMMDD') END_DATE,
+			R.FAC_CODE,
+			R.FAC_SUB_CODE,
+			TO_CHAR(R.STR_DATE, 'YYYYMMDD') STR_DATE,
+			R.CALL_LETTER,
+			R.CNV_YN,
+			R.INPUT_YN,
+			R.FINAL_FLAG,
+			R.RESPONSE_DESC1,
+			R.RESPONSE_DESC2,
+			R.LOGIS_CONFIRM_NAME,
+			R.LOGIS_SEND_YN,
+			R.SENDING_COUNT,
+			R.BILL_COUNT,
+			R.RCVD_COUNT,
+			R.TAX_CODE,
+			R.TAX_MODIFY_CODE,
+			R.VAT1,
+			R.VAT2,
+			R.VAT3,
+			R.SMALL_BILL_NO_INFO,
+			R.SMALL_BILL_NO,
+			R.SMALL_FISCAL_YR,
+			R.SMALL_BILL_YN,
+			R.BILL_AMNT_BF,
+			R.USER_NAME,
+			<!--
+			(R.BILL_AMNT+NVL(R.VAT, 0)+NVL(R.REIM_FEE, 0)) BILL_SUM_AMNT,
+			 -->
+			 L.NTIC_AMT BILL_SUM_AMNT,
+      		L.ARRRG_NO DLY_SER_NO,
+      		TO_CHAR(L.PAY_TMLMT, 'YYYYMMDD') DLY_DUE_DT
+        FROM REV_COLL_F R, LEV_REQEST_F L
+        WHERE 1=1
+          AND L.PRT_AT_CODE=#prtAtCode#
+          AND L.MNG_YEAR=#mngYear#
+          AND L.MNG_NO=#mngNo#
+          AND L.MNG_CNT=#mngCnt#
+          AND L.NTIC_CNT=#nticCnt#
+          AND L.CHRGE_KND=#chrgeKnd#
+                    AND R.PRT_AT_CODE = L.PRT_AT_CODE
+          AND R.FEE_TP = GAM_GET_FEE_TP(L.CHRGE_KND)
+          AND R.FISCAL_YR = L.ACCNUT_YEAR
+          AND R.BILL_NO = L.NTICNO
+    </select>
+
 </sqlMap>

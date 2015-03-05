@@ -393,43 +393,42 @@
   </update>
 
   <update id="gamNticRequestMngtDAO.updateRevCollFBillPrintYn" parameterClass="hashMap">
+      <![CDATA[
         UPDATE REV_COLL_F SET
       		BILL_PRT_YN=#nhtPrintYn#
-      		WHERE
-	      		PRT_AT_CODE=#prtAtCode#
-	      		AND FEE_TP=GAM_GET_FEE_TP(#chrgeKnd#)
-	      		AND FISCAL_YR=(SELECT ACCNUT_YEAR FROM LEV_REQEST_F WHERE PRT_AT_CODE=#prtAtCode#
+      		WHERE (PRT_AT_CODE, WORK_CODE, FISCAL_YR, BILL_NO)
+            IN (
+              SELECT PRT_AT_CODE, CHRGE_KND, ACCNUT_YEAR, NTICNO
+              FROM LEV_REQEST_F
+              WHERE 1=1
 			      	AND MNG_YEAR=#mngYear#
 			      	AND MNG_NO=#mngNo#
 			      	AND MNG_CNT=#mngCnt#
 			      	AND NTIC_CNT=#nticCnt#
-			      	AND CHRGE_KND=#chrgeKnd#)
-	     		AND BILL_NO=(SELECT NTICNO FROM LEV_REQEST_F WHERE PRT_AT_CODE=#prtAtCode#
-			      	AND MNG_YEAR=#mngYear#
-			      	AND MNG_NO=#mngNo#
-			      	AND MNG_CNT=#mngCnt#
-			      	AND NTIC_CNT=#nticCnt#
-			      	AND CHRGE_KND=#chrgeKnd#)
+			      	AND CHRGE_KND=#chrgeKnd#
+            )
+            AND rcvd_tp<>'3'
+            ]]>
   </update>
 
   <update id="gamNticRequestMngtDAO.updateUnpaidFBillPrintYn" parameterClass="hashMap">
+    <![CDATA[
         UPDATE UNPAID_F SET
       		DLY_BILL_PRT_YN=#nhtPrintYn#
-      		WHERE
-	      		PRT_AT_CODE=#prtAtCode#
-	      		AND FEE_TP=GAM_GET_FEE_TP(#chrgeKnd#)
-	      		AND FISCAL_YR=(SELECT ACCNUT_YEAR FROM LEV_REQEST_F WHERE PRT_AT_CODE=#prtAtCode#
+      		WHERE (PRT_AT_CODE, WORK_CODE, FISCAL_YR, BILL_NO, DLY_SER_NO)
+            IN (
+              SELECT PRT_AT_CODE, CHRGE_KND, ACCNUT_YEAR, NTICNO, ARRRG_NO
+              FROM LEV_REQEST_F
+              WHERE 1=1
 			      	AND MNG_YEAR=#mngYear#
 			      	AND MNG_NO=#mngNo#
 			      	AND MNG_CNT=#mngCnt#
 			      	AND NTIC_CNT=#nticCnt#
-			      	AND CHRGE_KND=#chrgeKnd#)
-	     		AND BILL_NO=(SELECT NTICNO FROM LEV_REQEST_F WHERE PRT_AT_CODE=#prtAtCode#
-			      	AND MNG_YEAR=#mngYear#
-			      	AND MNG_NO=#mngNo#
-			      	AND MNG_CNT=#mngCnt#
-			      	AND NTIC_CNT=#nticCnt#
-			      	AND CHRGE_KND=#chrgeKnd#)
+			      	AND CHRGE_KND=#chrgeKnd#
+                AND ARRRG_NO IS NOT NULL
+            )
+            AND dly_rcvd_tp<>'3'
+            ]]>
   </update>
 
   <delete id="gamNticRequestMngtDAO.deleteAssetsUsagePdByStats_D" parameterClass="hashMap">

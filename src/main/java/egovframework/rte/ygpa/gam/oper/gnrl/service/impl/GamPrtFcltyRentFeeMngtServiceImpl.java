@@ -1,6 +1,9 @@
 package egovframework.rte.ygpa.gam.oper.gnrl.service.impl;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -135,7 +138,7 @@ public class GamPrtFcltyRentFeeMngtServiceImpl  extends AbstractServiceImpl impl
 	}
 
 	@Override
-	public List selectNpticPrintInfo(Map searchVO) throws Exception {
+	public Map selectNpticPrintInfo(GamPrtFcltyRentFeeMngtVO searchVO) throws Exception {
 		return gamPrtFcltyRentFeeMngtDao.selectNpticPrintInfo(searchVO);
 	}
 
@@ -173,4 +176,29 @@ public class GamPrtFcltyRentFeeMngtServiceImpl  extends AbstractServiceImpl impl
 		return gamPrtFcltyRentFeeMngtDao.selectNpticPrintInfo2(searchVO);
 	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService#updateNticPrintYn(java.util.Map)
+	 */
+//	@Override
+//	public void updateNticPrintState(GamPrtFcltyRentFeeMngtVO vo) throws Exception {
+//		Map map = gamPrtFcltyRentFeeMngtDao.selectNpticPrintInfo(vo);
+//		if(vo.getNhtPrintYn().equals(map.get("nhtPrintYn"))) {
+//			log.debug("이미 처리 된 자료 입니다.");
+//			return;
+//		}
+//		gamPrtFcltyRentFeeMngtDao.updateLevReqestNhtPrintYn(vo);
+//		if(map.get("arrrgNo")!=null && "".equals(map.get("arrrgNo"))) {
+//			// 연체 고지
+//			gamPrtFcltyRentFeeMngtDao.updateUnpaidBillPrintYn(map);
+//		}
+//		gamPrtFcltyRentFeeMngtDao.updateRevCollBillPrintYn(map);
+//
+//		// 2014-08-13 전자고지 출력
+//		if("Y"==vo.getNhtPrintYn()) {
+//	    	egiroPrint(map);
+//		}
+//		else {
+//			egiroPrintCancel(map);
+//		}
+//	}
 }

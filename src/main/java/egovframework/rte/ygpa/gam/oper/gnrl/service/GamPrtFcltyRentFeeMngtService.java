@@ -95,7 +95,7 @@ public interface GamPrtFcltyRentFeeMngtService {
 	 */
 	public void insertPrtFcltyRentFeeMngtLevReqest(GamPrtFcltyRentFeeMngtVO vo) throws Exception;
 
-	List selectNpticPrintInfo(Map searchVO) throws Exception;
+	Map selectNpticPrintInfo(GamPrtFcltyRentFeeMngtVO searchVO) throws Exception;
 
 	/**
 	 * 연체금만 있는 고지서를 출력한다.

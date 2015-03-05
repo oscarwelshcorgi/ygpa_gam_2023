@@ -140,5 +140,24 @@ public class GamPrtFcltyRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 		return (EgovMap) selectByPk("gamPrtFcltyRentFeePaySttusMngtDao.selectPrtFcltyRentFeePaySttusMngtDlyInfo_S", searchVO);
     }
 
+	/**
+	 * 연체금만 있는 고지서를 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public EgovMap selectArrrgNpticPrintInfo(Map searchVO) throws Exception {
+        return (EgovMap) selectByPk("gamPrtFcltyRentFeePaySttusMngtDao.selectArrrgNpticPrintInfo_S", searchVO);
+	}
+
+	/**
+	 * 연체금만 있는 고지서를 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public List selectArrrgNpticPrintInfo2(Map searchVO) throws Exception {
+        return list("gamPrtFcltyRentFeePaySttusMngtDao.selectArrrgNpticPrintInfo2_D", searchVO);
+	}
 
 }

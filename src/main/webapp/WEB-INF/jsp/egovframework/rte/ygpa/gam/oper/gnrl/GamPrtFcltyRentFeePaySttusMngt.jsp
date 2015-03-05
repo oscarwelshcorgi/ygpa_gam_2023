@@ -738,9 +738,7 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
 							<th style="text-align:right">
 								<button id="btnNticArrrgSingle" data-icon="ui-icon-clock">연체고지</button>
 								<button id="btnNticIssuePrint" data-icon="ui-icon-clock">고지서출력</button>
-								<!--
 								<button id="btnNticIssuePrint2" data-icon="ui-icon-clock">고지서출력(연체만)</button>
-								 -->
 							</th>
 						</tr>
 					</tbody>
@@ -908,8 +906,8 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
 								<td style="text-align:right">
 									<button data-cmd="btnNticArrrgCancelPk" data-icon="ui-icon-clock">고지취소</button>
 									<button data-cmd="btnNticIssuePrint" data-icon="ui-icon-print">고지서출력</button>
-									<!--
 									<button data-cmd="btnNticIssuePrint2" data-icon="ui-icon-print">고지서출력(연체만)</button>
+									<!--
 									<button data-cmd="btnNticIssuePrintCancelPk" data-icon="ui-icon-cancel">출력취소</button>
 									 -->
 								</td>

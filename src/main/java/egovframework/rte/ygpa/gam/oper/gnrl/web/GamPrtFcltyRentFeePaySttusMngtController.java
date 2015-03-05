@@ -605,4 +605,80 @@ public class GamPrtFcltyRentFeePaySttusMngtController {
 
     	return new ModelAndView("gridExcelView", "gridResultMap", map);
     }
+
+	/**
+     * 연체 고지서를 출력한다.
+     * @param approvalOpt
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/gnrl/printPrtFcltyRentFeePayNotice.do")
+    String printAssetRentFeePayNotice(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
+    	String report = "ygpa/gam/oper/gnrl/GamPrtfcltyPrintNoticeIssue";
+    	model.addAttribute("searchOpt", approvalOpt);
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    	}
+    	else {
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+    		Map nticItem = gamPrtFcltyRentFeePaySttusMngtService.selectArrrgNpticPrintInfo(approvalOpt);
+
+    		if("11076".equals(loginVo.getEmplNo()) || "14010".equals(loginVo.getEmplNo())) {
+//    			log.debug("new paper selected");
+    			report = "ygpa/gam/oper/gnrl/GamPrtfcltyPrintNoticeIssue2";	// 신규 고지서
+    		}
+//    		model.addAttribute("emplyrNo", loginVo.getEmplNo());
+
+    		model.addAttribute("resultCode", 0);
+    		model.addAttribute("result", nticItem);
+    		model.addAttribute("resultMsg", "");
+    	}
+
+    	return report;
+    	}
+
+    /**
+     * 연체료만가 분리 된 고지서를 출력한다.
+     * @param approvalOpt
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/gnrl/printPrtFcltyRentFeePayNotice2.do")
+    String printAssetRentFeePayNotice2(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
+    	String report = "ygpa/gam/oper/gnrl/GamPrtfcltyPrintNoticeIssue";
+    	model.addAttribute("searchOpt", approvalOpt);
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    	}
+    	else {
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+    		List resultList = gamPrtFcltyRentFeePaySttusMngtService.selectArrrgNpticPrintInfo2(approvalOpt);
+
+    		if("11076".equals(loginVo.getEmplNo()) || "14010".equals(loginVo.getEmplNo())) {
+//    			log.debug("new paper selected");
+    			report = "ygpa/gam/oper/gnrl/GamPrtfcltyPrintNoticeIssue2";	// 신규 고지서
+    		}
+
+//    		model.addAttribute("emplyrNo", loginVo.getEmplNo());
+
+    		model.addAttribute("resultCode", 0);
+    		model.addAttribute("result", resultList.get(0));
+    		model.addAttribute("arrrgItem", resultList.get(1));
+    		model.addAttribute("resultMsg", "");
+    	}
+
+    	return report;
+    	}
+
+
 }

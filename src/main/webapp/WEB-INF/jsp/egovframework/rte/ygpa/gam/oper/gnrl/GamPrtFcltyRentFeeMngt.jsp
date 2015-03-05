@@ -328,7 +328,7 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
                 	return;
                 }
 
-                this.printPayNotice('/oper/gnrl/printPrtFcltyRentFeePayNotice.do', rows);
+                this.printPayNotice('/oper/gnrl/printRentFeeNotice.do', rows);
             } else {
             	alert("목록에서 고지서를 출력 할 항목을 선택하십시오.");
             	return;

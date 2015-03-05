@@ -149,4 +149,20 @@ public interface GamPrtFcltyRentFeePaySttusMngtService {
 	 */
 	EgovMap selectPrtFcltyRentFeePaySttusMngtDlyListSum(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception;
 
+	/**
+	 * 연체료 고지서를 출력한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectArrrgNpticPrintInfo(Map searchVO) throws Exception;
+
+	/**
+	 * 연체금만 있는 고지서를 출력한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	List selectArrrgNpticPrintInfo2(Map searchVO) throws Exception;
+
 }

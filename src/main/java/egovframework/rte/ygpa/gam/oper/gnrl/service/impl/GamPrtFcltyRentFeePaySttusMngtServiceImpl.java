@@ -217,7 +217,23 @@ public class GamPrtFcltyRentFeePaySttusMngtServiceImpl  extends AbstractServiceI
 		return gamPrtFcltyRentFeePaySttusMngtDao.selectPrtFcltyRentFeePaySttusMngtDlyInfo(searchVO);
 	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtService#selectArrrgNpticPrintInfo(java.util.Map)
+	 */
+	@Override
+	public EgovMap selectArrrgNpticPrintInfo(Map searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return gamPrtFcltyRentFeePaySttusMngtDao.selectArrrgNpticPrintInfo(searchVO);
+	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtService#selectArrrgNpticPrintInfo2(java.util.Map)
+	 */
+	@Override
+	public List selectArrrgNpticPrintInfo2(Map searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return gamPrtFcltyRentFeePaySttusMngtDao.selectArrrgNpticPrintInfo2(searchVO);
+	}
 
 
 }

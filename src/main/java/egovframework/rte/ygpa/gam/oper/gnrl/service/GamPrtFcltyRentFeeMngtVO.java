@@ -155,6 +155,11 @@ public class GamPrtFcltyRentFeeMngtVO extends ComDefaultVO {
     /** 고지서 발부 여부 */
     private String nhtIsueYn;
 
+    /**
+     * 고지서 출력 여부
+     */
+    private String nhtPrintYn;
+
     /** 연체 번호 */
     private String arrrgNo;
 
@@ -1575,6 +1580,20 @@ public class GamPrtFcltyRentFeeMngtVO extends ComDefaultVO {
 
 	public void setsNticCnt(String sNticCnt) {
 		this.sNticCnt = sNticCnt;
+	}
+
+	/**
+	 * @return the nhtPrintYn
+	 */
+	public String getNhtPrintYn() {
+		return nhtPrintYn;
+	}
+
+	/**
+	 * @param nhtPrintYn the nhtPrintYn to set
+	 */
+	public void setNhtPrintYn(String nhtPrintYn) {
+		this.nhtPrintYn = nhtPrintYn;
 	}
 
 

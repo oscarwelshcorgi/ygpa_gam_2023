@@ -54,6 +54,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
                     ],
         showTableToggleBtn: false,
         height: 'auto',
+        rowHeight: 50,
         groupBy: "rentArea",
         preProcess: function(module,data) {
         	$.each(data.resultList, function() {
@@ -386,7 +387,7 @@ GamAssetRentFeeMngtModule.prototype.makeRowData = function(item) {
 		else {
 			item.nticPdFrom = EMD.util.getDate(dtfr);
 			item.nticPdTo = EMD.util.getDate(dtto);
-			item.nticPdDate = item.nticPdFrom + '~'+ item.nticPdTo;
+			item.nticPdDate = item.nticPdFrom + ' ~ '+ item.nticPdTo;
 		}
 	}
 	if(item.feeAmnt==undefined) {

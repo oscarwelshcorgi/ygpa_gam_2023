@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO;
 
 /**
@@ -118,8 +119,14 @@ public class GamPrtFcltyRentFeeMngtDao extends YGPAAbstractDAO {
 		insert("gamPrtFcltyRentFeeMngtDao.insertPrtFcltyRentFeeMngtLevReqest_S", vo);
 	}
 
-	public List selectNpticPrintInfo(Map searchVO) throws Exception {
-        return list("gamPrtFcltyRentFeeMngtDao.selectNticPrintFeeList_D", searchVO);
+	/**
+	 * 고지서 정보를 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public Map selectNpticPrintInfo(GamPrtFcltyRentFeeMngtVO searchVO) throws Exception {
+        return (Map) selectByPk("gamPrtFcltyRentFeeMngtDao.selectNticPrintFeeList_S", searchVO);
 	}
 
 	/**
@@ -151,6 +158,36 @@ public class GamPrtFcltyRentFeeMngtDao extends YGPAAbstractDAO {
 
 	public Map selectAssetRentFeeDetailSumPk(GamPrtFcltyRentFeeMngtVO searchVO) {
 		return (Map) selectByPk("gamPrtFcltyRentFeeMngtDao.selectAssetRentFeeDetailSumPk_S", searchVO);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void updateLevReqestNhtPrintYn(GamPrtFcltyRentFeeMngtVO vo) {
+        update("gamPrtFcltyRentFeeMngtDao.updateLevReqestNhtPrintYn_S", vo);
+	}
+
+	/**
+	 * 연체 고지 출력 처리
+	 * @param map
+	 */
+	public void updateUnpaidBillPrintYn(Map map) {
+        update("gamPrtFcltyRentFeeMngtDao.updateUnpaidBillPrintYn_S", map);
+	}
+
+	/**
+	 * @param map
+	 */
+	public void updateRevCollBillPrintYn(Map map) {
+        update("gamPrtFcltyRentFeeMngtDao.updateRevCollBillPrintYn_S", map);
+	}
+
+	/**
+	 * @param map
+	 * @return
+	 */
+	public Map selectRevCollF(Map map) {
+        return (EgovMap) selectByPk("gamPrtFcltyRentFeeMngtDao.selectRevCollF", map);
 	}
 
 
