@@ -74,7 +74,7 @@ GamMachFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"자산 위치",	 		name:"gisAssetsLocNm",			width:200,		sortable:false,		align:"left"}
 					],
 		showTableToggleBtn : false,
-		height : 'auto',
+		height : '520',
 		preProcess : function(module,data) {
 			module.$('#totalCount').val($.number(data.totalCount));
 			module.$('#sumMfcAmt').val($.number(data.sumMfcAmt));
@@ -129,6 +129,26 @@ GamMachFcltySpecMngModule.prototype.loadComplete = function(params) {
 		event.data.module.changeDetailAreaForm(mechFcltsSe);
 	});
 
+	this.$("#statusGrid").flexigrid({
+		module : this,
+		url : '/fclty/gamSelectMachFcltySpecMngCvlEngStatusList.do',
+		dataType : "json",
+		colModel : [
+					{display:"부두명",				name:"sttusFcltsMngGroupNm",	width:130,		sortable:false,		align:"center"},
+					{display:"운영사",			 	name:"sttusOperCmpny",			width:100,		sortable:false,		align:"center"},
+					{display:"C/C",					name:"sttusCcCount",			width:100,		sortable:false,		align:"center"},
+					{display:"T/C",					name:"sttusTcCountDisplay",		width:110,		sortable:false,		align:"center"},
+					{display:"Y/T",					name:"sttusYtCount",			width:100,		sortable:false,		align:"center"},
+					{display:"샷시",				name:"sttusCsCount",			width:100,		sortable:false,		align:"center"},
+					{display:"Reach",				name:"sttusRsCount",			width:100,		sortable:false,		align:"center"},
+					{display:"Top Handler",			name:"sttusThCount",			width:100,		sortable:false,		align:"center"},
+					{display:"비고(eRTGC)",			name:"sttusTcRtgcCount",		width:100,		sortable:false,		align:"center"}
+					],
+		showTableToggleBtn : false,
+		height : '477',
+		mergeRows : 'sttusFcltsMngGroupNm'
+	});
+
 	this.$("#fileGrid").flexigrid({
 		module : this,
 		url : '/fclty/gamSelectMachFcltySpecMngFcltsAtchFileList.do',
@@ -178,6 +198,8 @@ GamMachFcltySpecMngModule.prototype.loadComplete = function(params) {
 	this._searchButtonClick = false;
 	this._atchFileDirLoad = false;
 	this._atchFilePreview = false;
+	this._mainGridDisplay = 'mainGrid';
+	this.$('#statusGrid').hide();
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnShowMap').disable({disableClass:"ui-state-disabled"});
@@ -975,8 +997,19 @@ GamMachFcltySpecMngModule.prototype.onSubmit = function() {
 GamMachFcltySpecMngModule.prototype.loadData = function() {
 
 	this.$("#mainTab").tabs("option", {active: 0});
+	var sGisPrtFcltyCd = this.$('#sGisPrtFcltyCd').val();
 	var searchOpt=this.makeFormArgs('#searchForm');
-	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+	if (sGisPrtFcltyCd != "00") {
+		this._mainGridDisplay = 'mainGrid';
+		this.$('#statusGrid').hide();
+		this.$('#mainGrid').show();
+		this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+	} else {
+		this._mainGridDisplay = 'statusGrid';
+		this.$('#mainGrid').hide();
+		this.$('#statusGrid').show();
+		this.$('#statusGrid').flexOptions({params:searchOpt}).flexReload();
+	}
 
 };
 
@@ -1341,7 +1374,7 @@ GamMachFcltySpecMngModule.prototype.copyData = function() {
 			break;
 		}
 	}
-	if (currentRowIndex < 0 || currentRowIndex >= gridRowCount) {
+	if (currentRowIndex >= gridRowCount || currentRowIndex < 0) {
 		alert("자료 위치가 부정확합니다!");
 		return;
 	}
@@ -3021,6 +3054,7 @@ var module_instance = new GamMachFcltySpecMngModule();
 			<!-- 212. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
 				<table id="mainGrid" style="display:none;" class="fillHeight"></table>
+				<table id="statusGrid" style="display:none;" class="fillHeight"></table>
 				<div id="listSumPanel" class="emdControlPanel">
 					<form id="listSumForm">
 						<table style="width:100%;">

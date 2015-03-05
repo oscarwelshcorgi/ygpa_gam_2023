@@ -85,13 +85,13 @@ GamCarRefuelSttusMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 		module._mainKeyValue = row.carRegistNo;
 		module.enableListButtonItem();
 	});
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 		module._mainKeyValue = row.carRegistNo;
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
@@ -100,7 +100,7 @@ GamCarRefuelSttusMngModule.prototype.loadComplete = function() {
 		event.data.module.$('#refuelMt').val(event.data.module.$('#sRefuelMt').val());
 	});
 
-	this._mode = '';
+	this._mainmode = '';
 	this._mainKeyValue = '';
 	this._searchButtonClick = false;
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
@@ -245,7 +245,7 @@ GamCarRefuelSttusMngModule.prototype.onButtonClick = function(buttonId) {
 	    	this.saveData();
 			break;
 		case 'btnDelete':
-			if (this._mode=="modify") {
+			if (this._mainmode=="modify") {
 				this.loadDetail('listTab');
 				this.enableDetailInputItem();
 				this.deleteData();
@@ -279,7 +279,7 @@ GamCarRefuelSttusMngModule.prototype.onSubmit = function() {
 		this.$("#sRefuelMt").focus();
 		return;
 	}
-	this._mode = 'query';
+	this._mainmode = 'query';
 	this._mainKeyValue = '';
 	this._searchButtonClick = true;
 	this.loadData();
@@ -424,14 +424,14 @@ GamCarRefuelSttusMngModule.prototype.loadDetail = function(tabId) {
 GamCarRefuelSttusMngModule.prototype.selectData = function() {
 
 	//this.rowSpanGridData();
-	if (this._mode == 'query') {
+	if (this._mainmode == 'query') {
 		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
 		this._searchButtonClick = false;
 		return;
-	} else if (this._mode != 'insert' && this._mode != 'modify') {
+	} else if (this._mainmode != 'insert' && this._mainmode != 'modify') {
 		this._searchButtonClick = false;
 		return;
 	}
@@ -441,7 +441,7 @@ GamCarRefuelSttusMngModule.prototype.selectData = function() {
 	}
 	var carRegistNo = this._mainKeyValue;
 	this.$("#mainGrid").selectFilterRow([{col:"carRegistNo", filter:carRegistNo}]);
-	this._mode = 'modify';
+	this._mainmode = 'modify';
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();
 	this.drawChart();
@@ -570,7 +570,7 @@ GamCarRefuelSttusMngModule.prototype.deleteData = function() {
 		var deleteVO = this.makeFormArgs("#detailForm");
 		this.doAction('/mngFee/gamDeleteCarRefuelSttusMng.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module._mode = 'query';
+				module._mainmode = 'query';
 				module._mainKeyValue = '';
 				module.loadData();
 			}
@@ -613,7 +613,7 @@ GamCarRefuelSttusMngModule.prototype.uploadExcel = function() {
 			return;
 		} else {
 			alert(resp.resultMsg);
-			module._mode = 'query';
+			module._mainmode = 'query';
 			module._mainKeyValue = '';
 			module.loadData();
 		}
@@ -630,7 +630,7 @@ GamCarRefuelSttusMngModule.prototype.uploadExcel = function() {
 %>
 GamCarRefuelSttusMngModule.prototype.enableListButtonItem = function() {
 
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 	} else {
 		var row = this.$('#mainGrid').selectedRows()[0];
@@ -657,7 +657,7 @@ GamCarRefuelSttusMngModule.prototype.enableListButtonItem = function() {
 %>
 GamCarRefuelSttusMngModule.prototype.enableDetailInputItem = function() {
 
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this.$('#carRegistNo').disable();
 		this.$('#fuelKnd').disable();
 		this.$('#carNm').disable();
@@ -764,10 +764,10 @@ GamCarRefuelSttusMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 		case 'listTab':
 			break;
 		case 'detailTab':
-			if (this._mode=="modify") {
+			if (this._mainmode=="modify") {
 				this.loadDetail(oldTabId);
 				this.enableDetailInputItem();
-			} else if (this._mode=="insert") {
+			} else if (this._mainmode=="insert") {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
 				this.disableDetailInputItem();

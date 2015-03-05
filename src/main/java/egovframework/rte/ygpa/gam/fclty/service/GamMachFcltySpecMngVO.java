@@ -139,6 +139,15 @@ public class GamMachFcltySpecMngVO extends ComDefaultVO {
 	private	String totalCount;				// 조회 자료 수
 	private	String sumMfcAmt;				// 제조 금액 합계
 	private	String sumContrAmt;				// 도급 금액 합계
+	private	String sttusFcltsMngGroupNm;	// 장비현황 시설물 관리 그룹 명
+	private	String sttusOperCmpny;			// 장비현황 운영 회사
+	private	String sttusCcCount;			// 장비현황 C/C COUNT
+	private	String sttusTcCountDisplay;		// 장비현황 T/C COUNT
+	private	String sttusYtCount;			// 장비현황 Y/T COUNT
+	private	String sttusCsCount;			// 장비현황 C/S COUNT
+	private	String sttusRsCount;			// 장비현황 R/S COUNT
+	private	String sttusThCount;			// 장비현황 T/H COUNT
+	private	String sttusTcRtgcCount;		// 장비현황 T/C RTGC COUNT
 
 	/**
 	 * @return the gisPrtFcltyCd
@@ -1459,6 +1468,114 @@ public class GamMachFcltySpecMngVO extends ComDefaultVO {
 	 */
 	public void setSumContrAmt(String sumContrAmt) {
 		this.sumContrAmt = sumContrAmt;
+	}
+	/**
+	 * @return the sttusFcltsMngGroupNm
+	 */
+	public String getSttusFcltsMngGroupNm() {
+		return sttusFcltsMngGroupNm;
+	}
+	/**
+	 * @param sttusFcltsMngGroupNm the sttusFcltsMngGroupNm to set
+	 */
+	public void setSttusFcltsMngGroupNm(String sttusFcltsMngGroupNm) {
+		this.sttusFcltsMngGroupNm = sttusFcltsMngGroupNm;
+	}
+	/**
+	 * @return the sttusOperCmpny
+	 */
+	public String getSttusOperCmpny() {
+		return sttusOperCmpny;
+	}
+	/**
+	 * @param sttusOperCmpny the sttusOperCmpny to set
+	 */
+	public void setSttusOperCmpny(String sttusOperCmpny) {
+		this.sttusOperCmpny = sttusOperCmpny;
+	}
+	/**
+	 * @return the sttusCcCount
+	 */
+	public String getSttusCcCount() {
+		return sttusCcCount;
+	}
+	/**
+	 * @param sttusCcCount the sttusCcCount to set
+	 */
+	public void setSttusCcCount(String sttusCcCount) {
+		this.sttusCcCount = sttusCcCount;
+	}
+	/**
+	 * @return the sttusTcCountDisplay
+	 */
+	public String getSttusTcCountDisplay() {
+		return sttusTcCountDisplay;
+	}
+	/**
+	 * @param sttusTcCountDisplay the sttusTcCountDisplay to set
+	 */
+	public void setSttusTcCountDisplay(String sttusTcCountDisplay) {
+		this.sttusTcCountDisplay = sttusTcCountDisplay;
+	}
+	/**
+	 * @return the sttusYtCount
+	 */
+	public String getSttusYtCount() {
+		return sttusYtCount;
+	}
+	/**
+	 * @param sttusYtCount the sttusYtCount to set
+	 */
+	public void setSttusYtCount(String sttusYtCount) {
+		this.sttusYtCount = sttusYtCount;
+	}
+	/**
+	 * @return the sttusCsCount
+	 */
+	public String getSttusCsCount() {
+		return sttusCsCount;
+	}
+	/**
+	 * @param sttusCsCount the sttusCsCount to set
+	 */
+	public void setSttusCsCount(String sttusCsCount) {
+		this.sttusCsCount = sttusCsCount;
+	}
+	/**
+	 * @return the sttusRsCount
+	 */
+	public String getSttusRsCount() {
+		return sttusRsCount;
+	}
+	/**
+	 * @param sttusRsCount the sttusRsCount to set
+	 */
+	public void setSttusRsCount(String sttusRsCount) {
+		this.sttusRsCount = sttusRsCount;
+	}
+	/**
+	 * @return the sttusThCount
+	 */
+	public String getSttusThCount() {
+		return sttusThCount;
+	}
+	/**
+	 * @param sttusThCount the sttusThCount to set
+	 */
+	public void setSttusThCount(String sttusThCount) {
+		this.sttusThCount = sttusThCount;
+	}
+	/**
+	 * @return the sttusTcRtgcCount
+	 */
+	public String getSttusTcRtgcCount() {
+		return sttusTcRtgcCount;
+	}
+	/**
+	 * @param sttusTcRtgcCount the sttusTcRtgcCount to set
+	 */
+	public void setSttusTcRtgcCount(String sttusTcRtgcCount) {
+		this.sttusTcRtgcCount = sttusTcRtgcCount;
 	}
 
 }

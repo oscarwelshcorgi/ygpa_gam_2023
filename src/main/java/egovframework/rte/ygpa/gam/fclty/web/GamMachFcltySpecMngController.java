@@ -114,6 +114,28 @@ public class GamMachFcltySpecMngController {
 
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/fclty/gamSelectMachFcltySpecMngCvlEngStatusList.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectMachFcltySpecMngCvlEngStatusList(GamMachFcltySpecMngVO searchVO) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		List resultList = gamMachFcltySpecMngService.selectMachFcltySpecMngCvlEngStatusList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+
+		return map;
+
+	}
+
 	@RequestMapping(value="/fclty/gamInsertMachFcltySpecMng.do")
 	@ResponseBody Map<String, Object> gamInsertMachFcltySpecMng(GamMachFcltySpecMngVO gamMachFcltySpecMngVO) throws Exception {
 

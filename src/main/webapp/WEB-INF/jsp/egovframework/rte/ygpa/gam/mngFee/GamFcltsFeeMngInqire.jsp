@@ -128,11 +128,11 @@ GamFcltsFeeMngInqireModule.prototype.loadComplete = function(params) {
 	});
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 	});
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
@@ -140,7 +140,7 @@ GamFcltsFeeMngInqireModule.prototype.loadComplete = function(params) {
 		event.data.module.getQueryEntrpsNm();
 	});
 
-	this._mode = '';
+	this._mainmode = '';
 	this._searchButtonClick = false;
 	if (params != null) {
 		if (params.action == "selectFcltsFeeMngInqire") {
@@ -153,9 +153,11 @@ GamFcltsFeeMngInqireModule.prototype.loadComplete = function(params) {
         	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 		}
 	} else {
-		var mon = new Date().getMonth()+1;
-		if (mon.length==1) {
-			mon="0"+mon;
+		var mon = new Date().getMonth() + 1;
+		if (mon > 0 && mon < 10) {
+			mon = "0" + mon;
+		} else {
+			mon = "" + mon;
 		}
 		this.$('#sStartMngMt').val(mon);
 		this.$('#sEndMngMt').val(mon);
@@ -419,7 +421,7 @@ GamFcltsFeeMngInqireModule.prototype.onSubmit = function() {
 		this.$("#sStartMngYear").focus();
 		return;
 	}
-	this._mode="query";
+	this._mainmode="query";
 	this._searchButtonClick = true;
 	this.loadData();
 
@@ -471,13 +473,13 @@ GamFcltsFeeMngInqireModule.prototype.loadDetail = function() {
 GamFcltsFeeMngInqireModule.prototype.selectData = function() {
 
 	var gridRowCount = this.$("#mainGrid").flexRowCount();
-	if (this._mode == 'query') {
+	if (this._mainmode == 'query') {
 		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
 		this._searchButtonClick = false;
 		return;
-	} else if (this._mode != 'insert' && this._mode != 'modify') {
+	} else if (this._mainmode != 'insert' && this._mainmode != 'modify') {
 		this._searchButtonClick = false;
 		return;
 	}
@@ -581,7 +583,7 @@ GamFcltsFeeMngInqireModule.prototype.onTabChange = function(newTabId, oldTabId) 
 		case 'listTab':
 			break;
 		case 'detailTab':
-			if (this._mode=="modify") {
+			if (this._mainmode=="modify") {
 				this.loadDetail();
 			} else {
 				this.makeFormValues('#detailForm', {});

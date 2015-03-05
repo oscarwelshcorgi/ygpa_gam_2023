@@ -155,13 +155,13 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 	});
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 		module._mainKeyValue = row.mngMt + row.mngFeeJobSe + row.mngSeq + row.reqestSeq;
 		module.enableListButtonItem();
 	});
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 		module._mainKeyValue = row.mngMt + row.mngFeeJobSe + row.mngSeq + row.reqestSeq;
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
@@ -193,7 +193,7 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
 		event.data.module.setPayTmlmt();
 	});
 
-	this._mode = '';
+	this._mainmode = '';
 	this._mainKeyValue = '';
 	this._searchButtonClick = false;
 	this._detailDisplay = 'detail';
@@ -205,15 +205,17 @@ GamFcltsFeeMngNticModule.prototype.loadComplete = function(params) {
         	this.$('#sEndMngYear').val(params.paramVo.mngMtYear);
         	this.$('#sEndMngMt').val(params.paramVo.mngMtMon);
         	this.$('#sMngFeeJobSe').val(params.paramVo.mngFeeJobSe);
-        	this._mode="query";
+        	this._mainmode="query";
         	this._mainKeyValue = "";
         	var searchOpt=this.makeFormArgs('#searchForm');
         	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 		}
 	} else {
-		var mon = new Date().getMonth()+1;
-		if (mon.length==1) {
-			mon="0"+mon;
+		var mon = new Date().getMonth() + 1;
+		if (mon > 0 && mon < 10) {
+			mon = "0" + mon;
+		} else {
+			mon = "" + mon;
 		}
 		this.$('#sStartMngMt').val(mon);
 		this.$('#sEndMngMt').val(mon);
@@ -549,7 +551,7 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 			this.saveNticIssue();
 			break;
 		case 'btnProcessNticIssue':
-			if (this._mode=="modify") {
+			if (this._mainmode=="modify") {
 				this.loadDetail('listTab');
 				this.enableDetailInputItem();
 				this.processNticIssue();
@@ -559,7 +561,7 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 			this.processNticIssue();
 			break;
 		case 'btnCancelNticIssue':
-			if (this._mode=="modify") {
+			if (this._mainmode=="modify") {
 				this.loadDetail('listTab');
 				this.enableDetailInputItem();
 				this.cancelNticIssue();
@@ -569,7 +571,7 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 			this.cancelNticIssue();
 			break;
 		case 'btnPrintNticIssue':
-			if (this._mode=="modify") {
+			if (this._mainmode=="modify") {
 				this.loadDetail('listTab');
 				this.enableDetailInputItem();
 				this.printNticIssue();
@@ -579,19 +581,19 @@ GamFcltsFeeMngNticModule.prototype.onButtonClick = function(buttonId) {
 			this.printNticIssue();
 			break;
 		case 'btnAddNticIssue':
-			if (this._mode=="modify") {
+			if (this._mainmode=="modify") {
 				this.loadDetail('listTab');
-				this._mode="insert";
+				this._mainmode="insert";
 				this.$("#mainTab").tabs("option", {active: 1});
 				this.addNticIssue();
 			}
 			break;
 		case 'btnAddNticIssue2':
-			this._mode="insert";
+			this._mainmode="insert";
 			this.addNticIssue();
 			break;
 		case 'btnDelNticIssue':
-			if (this._mode=="modify") {
+			if (this._mainmode=="modify") {
 				this.loadDetail('listTab');
 				this.enableDetailInputItem();
 				this.deleteNticIssue();
@@ -676,7 +678,7 @@ GamFcltsFeeMngNticModule.prototype.onSubmit = function() {
 		this.$("#sStartMngYear").focus();
 		return;
 	}
-	this._mode="query";
+	this._mainmode="query";
 	this._mainKeyValue = '';
 	this._searchButtonClick = true;
 	this.loadData();
@@ -764,14 +766,14 @@ GamFcltsFeeMngNticModule.prototype.loadDetail = function(tabId) {
 GamFcltsFeeMngNticModule.prototype.selectData = function() {
 
 	this.rowColorGridData();
-	if (this._mode == 'query') {
+	if (this._mainmode == 'query') {
 		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
 		this._searchButtonClick = false;
 		return;
-	} else if (this._mode != 'insert' && this._mode != 'modify') {
+	} else if (this._mainmode != 'insert' && this._mainmode != 'modify') {
 		this._searchButtonClick = false;
 		return;
 	}
@@ -787,7 +789,7 @@ GamFcltsFeeMngNticModule.prototype.selectData = function() {
 	                                     {col:"mngFeeJobSe", filter:mngFeeJobSe},
 										 {col:"mngSeq", filter:mngSeq},
 										 {col:"reqestSeq", filter:reqestSeq}]);
-	this._mode = 'modify';
+	this._mainmode = 'modify';
 	this.disableDetailInputItem();
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();
@@ -1090,7 +1092,7 @@ GamFcltsFeeMngNticModule.prototype.saveNticIssue = function() {
 		this.$("#fee").focus();
 		return;
 	}
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this.doAction('/mngFee/gamInsertFcltsFeeMngNtic.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.loadData();
@@ -1398,7 +1400,7 @@ GamFcltsFeeMngNticModule.prototype.deleteNticIssue = function() {
 		var inputVO = this.makeFormArgs("#detailForm");
 		this.doAction('/mngFee/gamDeleteFcltsFeeMngNtic.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module._mode = 'query';
+				module._mainmode = 'query';
 				module._mainKeyValue = '';
 				module.loadData();
 			}
@@ -1727,7 +1729,7 @@ GamFcltsFeeMngNticModule.prototype.cancelNticIssueUnpaid = function() {
 %>
 GamFcltsFeeMngNticModule.prototype.enableListButtonItem = function() {
 
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this.$('#btnProcessNticIssue').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnCancelNticIssue').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnPrintNticIssue').disable({disableClass:"ui-state-disabled"});
@@ -1814,7 +1816,7 @@ GamFcltsFeeMngNticModule.prototype.enableDetailInputItem = function() {
 	var aditNticYn = this.$('#aditNticYn').val();
 	var arrrgNo = this.$('#arrrgNo').val();
 	var arrrgSttus = this.$('#arrrgSttus').val();
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this.$('#chrgeKnd').enable();
 		this.$('#vatYn').enable();
 		this.$('#fee').enable();
@@ -1987,10 +1989,10 @@ GamFcltsFeeMngNticModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		case 'listTab':
 			break;
 		case 'detailTab':
-			if (this._mode=="modify") {
+			if (this._mainmode=="modify") {
 				this.loadDetail(oldTabId);
 				this.enableDetailInputItem();
-			} else if (this._mode=="insert") {
+			} else if (this._mainmode=="insert") {
 				this.$('#chrgeKnd').focus();
 			} else {
 				this.makeFormValues('#detailForm', {});

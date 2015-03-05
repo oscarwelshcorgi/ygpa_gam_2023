@@ -74,13 +74,13 @@ GamGrHseEmitQyMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 		module._mainKeyValue = row.fuelCd + row.mngYear + row.mngMt;
 		module.enableListButtonItem();
 	});
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 		module._mainKeyValue = row.fuelCd + row.mngYear + row.mngMt;
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
@@ -97,10 +97,10 @@ GamGrHseEmitQyMngModule.prototype.loadComplete = function() {
 		event.data.module.calcGrHseEmitQy();
 	});
 
-	this._mode = '';
+	this._mainmode = '';
 	this._mainKeyValue = '';
 	this._searchButtonClick = false;
-	var mon = new Date().getMonth()+1;
+	var mon = new Date().getMonth() + 1;
 	if (mon > 0 && mon < 10) {
 		mon = "0" + mon;
 	} else {
@@ -277,12 +277,12 @@ GamGrHseEmitQyMngModule.prototype.onButtonClick = function(buttonId) {
 
 	switch (buttonId) {
 		case 'btnAdd':
-			this._mode = 'insert';
+			this._mainmode = 'insert';
 			this._mainKeyValue = '';
 			this.$("#mainTab").tabs("option", {active: 1});
 			break;
 		case 'btnInsert':
-			this._mode = 'insert';
+			this._mainmode = 'insert';
 			this._mainKeyValue = '';
 			this.makeFormValues('#detailForm', {});
 			this.makeDivValues('#detailForm', {});
@@ -293,7 +293,7 @@ GamGrHseEmitQyMngModule.prototype.onButtonClick = function(buttonId) {
 	    	this.saveData();
 			break;
 		case 'btnDelete':
-			if (this._mode=="modify") {
+			if (this._mainmode=="modify") {
 				this.loadDetail('listTab');
 				this.enableDetailInputItem();
 				this.deleteData();
@@ -336,7 +336,7 @@ GamGrHseEmitQyMngModule.prototype.onSubmit = function() {
 		this.$("#sMngMt").focus();
 		return;
 	}
-	this._mode = 'query';
+	this._mainmode = 'query';
 	this._mainKeyValue = '';
 	this._searchButtonClick = true;
 	this.loadData();
@@ -413,14 +413,14 @@ GamGrHseEmitQyMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamGrHseEmitQyMngModule.prototype.selectData = function() {
 
-	if (this._mode == 'query') {
+	if (this._mainmode == 'query') {
 		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
 		this._searchButtonClick = false;
 		return;
-	} else if (this._mode != 'insert' && this._mode != 'modify') {
+	} else if (this._mainmode != 'insert' && this._mainmode != 'modify') {
 		this._searchButtonClick = false;
 		return;
 	}
@@ -434,7 +434,7 @@ GamGrHseEmitQyMngModule.prototype.selectData = function() {
 	this.$("#mainGrid").selectFilterRow([{col:"fuelCd", filter:fuelCd},
 										 {col:"mngYear", filter:mngYear},
 										 {col:"mngMt", filter:mngMt}]);
-	this._mode = 'modify';
+	this._mainmode = 'modify';
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();
 	this.drawChart();
@@ -530,7 +530,7 @@ GamGrHseEmitQyMngModule.prototype.saveData = function() {
 		this.$("#grHseEmitQy").focus();
 		return;
 	}
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this._mainKeyValue = fuelCd + mngYear + mngMtYear + mngMtMon;
 		this.doAction('/mngFee/gamInsertGrHseEmitQyMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
@@ -584,7 +584,7 @@ GamGrHseEmitQyMngModule.prototype.deleteData = function() {
 		var deleteVO = this.makeFormArgs("#detailForm");
 		this.doAction('/mngFee/gamDeleteGrHseEmitQyMng.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module._mode = 'query';
+				module._mainmode = 'query';
 				module._mainKeyValue = '';
 				module.loadData();
 			}
@@ -632,7 +632,7 @@ GamGrHseEmitQyMngModule.prototype.copyData = function() {
 		}
 		module.doAction('/mngFee/gamCopyGrHseEmitQyMng.do', searchVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module._mode = 'query';
+				module._mainmode = 'query';
 				module._mainKeyValue = '';
 				module.loadData();
 			}
@@ -714,7 +714,7 @@ GamGrHseEmitQyMngModule.prototype.calcGrHseEmitQy = function() {
 %>
 GamGrHseEmitQyMngModule.prototype.enableListButtonItem = function() {
 
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 	} else {
@@ -744,7 +744,7 @@ GamGrHseEmitQyMngModule.prototype.enableListButtonItem = function() {
 %>
 GamGrHseEmitQyMngModule.prototype.enableDetailInputItem = function() {
 
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this.$('#mngMtYear').enable();
 		this.$('#mngMtMon').enable();
 		this.$('#usageQy').enable();
@@ -821,10 +821,10 @@ GamGrHseEmitQyMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		case 'listTab':
 			break;
 		case 'detailTab':
-			if (this._mode=="modify") {
+			if (this._mainmode=="modify") {
 				this.loadDetail(oldTabId);
 				this.enableDetailInputItem();
-			} else if (this._mode=="insert") {
+			} else if (this._mainmode=="insert") {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
 				this.disableDetailInputItem();

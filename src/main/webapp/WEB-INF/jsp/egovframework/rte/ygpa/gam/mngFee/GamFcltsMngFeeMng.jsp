@@ -102,13 +102,13 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 		module._mainKeyValue = row.mainMngMt + row.mainMngFeeJobSe;
 		module.enableListButtonItem();
 	});
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 		module._mainKeyValue = row.mainMngMt + row.mainMngFeeJobSe;
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
@@ -190,14 +190,16 @@ GamFcltsMngFeeMngModule.prototype.loadComplete = function() {
 		event.data.module.getQueryEntrpsNm();
 	});
 
-	this._mode = '';
+	this._mainmode = '';
 	this._detailmode = '';
 	this._mainKeyValue = '';
 	this._detailKeyValue = '';
 	this._searchButtonClick = false;
-	var mon = new Date().getMonth()+1;
-	if (mon.length==1) {
-		mon="0"+mon;
+	var mon = new Date().getMonth() + 1;
+	if (mon > 0 && mon < 10) {
+		mon = "0" + mon;
+	} else {
+		mon = "" + mon;
 	}
 	this.$('#sStartMngMt').val(mon);
 	this.$('#sEndMngMt').val(mon);
@@ -673,12 +675,12 @@ GamFcltsMngFeeMngModule.prototype.onButtonClick = function(buttonId) {
 
 	switch (buttonId) {
 		case 'btnAdd':
-			this._mode = 'insert';
+			this._mainmode = 'insert';
 			this._detailmode = 'query';
 			this.$("#mainTab").tabs("option", {active: 1});
 			break;
 		case 'btnDelete':
-			if (this._mode=="modify") {
+			if (this._mainmode=="modify") {
 				this.loadDetail('listTab');
 				this.enableDetailInputItem();
 				this.enableSubDetailInputItem();
@@ -780,7 +782,7 @@ GamFcltsMngFeeMngModule.prototype.onSubmit = function() {
 		this.$("#sStartMngYear").focus();
 		return;
 	}
-	this._mode = 'query';
+	this._mainmode = 'query';
 	this._detailmode = 'query';
 	this._mainKeyValue = '';
 	this._detailKeyValue = '';
@@ -879,14 +881,14 @@ GamFcltsMngFeeMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamFcltsMngFeeMngModule.prototype.selectData = function() {
 
-	if (this._mode == 'query') {
+	if (this._mainmode == 'query') {
 		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
 		this._searchButtonClick = false;
 		return;
-	} else if (this._mode != 'insert' && this._mode != 'modify') {
+	} else if (this._mainmode != 'insert' && this._mainmode != 'modify') {
 		this._searchButtonClick = false;
 		return;
 	}
@@ -898,7 +900,7 @@ GamFcltsMngFeeMngModule.prototype.selectData = function() {
 	var mngFeeJobSe = this._mainKeyValue.substring(6,7);
 	this.$("#mainGrid").selectFilterRow([{col:"mngMt", filter:mngMt},
 										 {col:"mngFeeJobSe", filter:mngFeeJobSe}]);
-	this._mode = 'modify';
+	this._mainmode = 'modify';
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();
 	this.enableSubDetailInputItem();
@@ -1227,7 +1229,7 @@ GamFcltsMngFeeMngModule.prototype.saveData = function() {
 		alert('관리비 합계가 부정확합니다.');
 		return;
 	}
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this._mainKeyValue = mainMngMtYear + mainMngMtMon + mainMngFeeJobSe;
 		this.doAction('/mngFee/gamInsertFcltsMngFeeMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
@@ -1291,7 +1293,7 @@ GamFcltsMngFeeMngModule.prototype.deleteData = function() {
 		var inputVO = this.makeFormArgs("#detailForm");
 		this.doAction('/mngFee/gamDeleteFcltsMngFeeMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module._mode = 'query';
+				module._mainmode = 'query';
 				module._detailmode = 'query';
 				module._mainKeyValue = '';
 				module._detailKeyValue = '';
@@ -1954,7 +1956,7 @@ GamFcltsMngFeeMngModule.prototype.downloadExcelDetail = function() {
 %>
 GamFcltsMngFeeMngModule.prototype.enableListButtonItem = function() {
 
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnOpenFcltsFeeMngNtic').disable({disableClass:"ui-state-disabled"});
@@ -2007,7 +2009,7 @@ GamFcltsMngFeeMngModule.prototype.enableListButtonItem = function() {
 GamFcltsMngFeeMngModule.prototype.enableDetailInputItem = function() {
 
 	var nhtIsueYn = this.$('#mainNhtIsueYn').val();
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this.$('#mainMngMtYear').enable();
 		this.$('#mainMngMtMon').enable();
 		this.$('#mainMngFeeJobSe').enable();
@@ -2289,11 +2291,11 @@ GamFcltsMngFeeMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		case 'listTab':
 			break;
 		case 'detailTab':
-			if (this._mode=="modify") {
+			if (this._mainmode=="modify") {
 				this.loadDetail(oldTabId);
 				this.enableDetailInputItem();
 				this.enableSubDetailInputItem();
-			} else if (this._mode=="insert") {
+			} else if (this._mainmode=="insert") {
 				this._mainKeyValue = '';
 				this._detailKeyValue = '';
 				this.makeFormValues('#detailForm', {});

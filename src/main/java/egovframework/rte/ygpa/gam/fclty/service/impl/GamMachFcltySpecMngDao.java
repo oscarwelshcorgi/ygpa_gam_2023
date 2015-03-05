@@ -44,6 +44,15 @@ public class GamMachFcltySpecMngDao extends YGPAAbstractDAO {
 	}
 
 	/**
+	 * @name selectMachFcltySpecMngCvlEngStatusList
+	 * @param searchVO
+	 * @return List
+	 */
+	public List selectMachFcltySpecMngCvlEngStatusList(GamMachFcltySpecMngVO searchVO) {
+		return list("gamMachFcltySpecMngDao.selectMachFcltySpecMngCvlEngStatusList_D", searchVO);
+	}
+
+	/**
 	 * @name insertMachFcltySpecMng
 	 * @param gamMachFcltySpecMngVO
 	 * @return void

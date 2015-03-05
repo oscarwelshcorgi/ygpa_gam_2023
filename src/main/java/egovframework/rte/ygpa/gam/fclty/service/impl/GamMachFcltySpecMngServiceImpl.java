@@ -46,6 +46,11 @@ public class GamMachFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	}
 
 	@Override
+	public List selectMachFcltySpecMngCvlEngStatusList(GamMachFcltySpecMngVO searchVO) throws Exception {
+		return gamMachFcltySpecMngDao.selectMachFcltySpecMngCvlEngStatusList(searchVO);
+	}
+
+	@Override
 	public void insertMachFcltySpecMng(GamMachFcltySpecMngVO gamMachFcltySpecMngVO) throws Exception {
 		gamMachFcltySpecMngDao.insertMachFcltySpecMngGisPrtFcltyCd(gamMachFcltySpecMngVO);
 		gamMachFcltySpecMngDao.insertMachFcltySpecMng(gamMachFcltySpecMngVO);

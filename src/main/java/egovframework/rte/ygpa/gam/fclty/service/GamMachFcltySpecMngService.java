@@ -36,6 +36,14 @@ public interface GamMachFcltySpecMngService {
 	List selectMachFcltySpecMngList(GamMachFcltySpecMngVO searchVO) throws Exception;
 
 	/**
+	 * @name selectMachFcltySpecMngCvlEngStatusList
+	 * @param searchVO
+	 * @return List
+	 * @throws Exception
+	 */
+	List selectMachFcltySpecMngCvlEngStatusList(GamMachFcltySpecMngVO searchVO) throws Exception;
+
+	/**
 	 * @name insertMachFcltySpecMng
 	 * @param gamMachFcltySpecMngVO
 	 * @return void
