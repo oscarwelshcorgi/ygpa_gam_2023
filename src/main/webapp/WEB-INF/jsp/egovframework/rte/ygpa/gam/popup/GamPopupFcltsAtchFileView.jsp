@@ -268,7 +268,7 @@ var popup_instance = new GamPopupFcltsAtchFileViewModule();
 		<div class="emdPanel fillHeight">
 			<img id="previewImage" style="margin:1px; width:550px; height:280px; border:1px solid #000; max-width:550px; max-height:280px" src="">
 			<div class="emdControlPanel">
-				<button id="btnUpdate">저장</button>
+				<button id="btnUpdate" class="buttonSave">저장</button>
 				<button id="btnDownload">다운로드</button>
 				<button id="btnExit">종료</button>
 			</div>

@@ -75,31 +75,31 @@ GamElctyEquipCapaMngModule.prototype.loadComplete = function() {
 	});
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 		module._mainKeyValue = row.mngYear + row.fcltsMngGroupNo + row.mngSeq;
 		module.enableListButtonItem();
 	});
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 		module._mainKeyValue = row.mngYear + row.fcltsMngGroupNo + row.mngSeq;
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
 	this.$('#mngYear').on('change',{module:this}, function(event){
 		event.data.module.getNewMngSeq();
-		if (module._mode == 'insert') {
+		if (module._mainmode == 'insert') {
 			event.data.module.getPrevYearCapa();
 		}
 	});
 
 	this.$('#elctyEquipNm').on('change',{module:this}, function(event){
-		if (module._mode == 'insert') {
+		if (module._mainmode == 'insert') {
 			event.data.module.getPrevYearCapa();
 		}
 	});
 
-	this._mode = '';
+	this._mainmode = '';
 	this._mainKeyValue = '';
 	this._searchButtonClick = false;
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
@@ -282,7 +282,7 @@ GamElctyEquipCapaMngModule.prototype.onClosePopup = function(popupId, msg, value
 				this.$('#fcltsMngGroupNo').val(value.fcltsMngGroupNo);
 				this.$('#elctyEquipNm').val(value.fcltsMngGroupNm);
 				this.getNewMngSeq();
-				if (this._mode == 'insert') {
+				if (this._mainmode == 'insert') {
 					this.getPrevYearCapa();
 				}
 			}
@@ -303,12 +303,12 @@ GamElctyEquipCapaMngModule.prototype.onButtonClick = function(buttonId) {
 
 	switch (buttonId) {
 		case 'btnAdd':
-			this._mode = 'insert';
+			this._mainmode = 'insert';
 			this._mainKeyValue = '';
 			this.$("#mainTab").tabs("option", {active: 1});
 			break;
 		case 'btnInsert':
-			this._mode = 'insert';
+			this._mainmode = 'insert';
 			this._mainKeyValue = '';
 			this.makeFormValues('#detailForm', {});
 			this.makeDivValues('#detailForm', {});
@@ -319,7 +319,7 @@ GamElctyEquipCapaMngModule.prototype.onButtonClick = function(buttonId) {
 	    	this.saveData();
 			break;
 		case 'btnDelete':
-			if (this._mode=="modify") {
+			if (this._mainmode=="modify") {
 				this.loadDetail('listTab');
 				this.enableDetailInputItem();
 				this.deleteData();
@@ -359,7 +359,7 @@ GamElctyEquipCapaMngModule.prototype.onSubmit = function() {
 		this.$("#sMngYear").focus();
 		return;
 	}
-	this._mode = 'query';
+	this._mainmode = 'query';
 	this._mainKeyValue = '';
 	this._searchButtonClick = true;
 	this.loadData();
@@ -438,14 +438,14 @@ GamElctyEquipCapaMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamElctyEquipCapaMngModule.prototype.selectData = function() {
 
-	if (this._mode == 'query') {
+	if (this._mainmode == 'query') {
 		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
 		this._searchButtonClick = false;
 		return;
-	} else if (this._mode != 'insert' && this._mode != 'modify') {
+	} else if (this._mainmode != 'insert' && this._mainmode != 'modify') {
 		this._searchButtonClick = false;
 		return;
 	}
@@ -459,7 +459,7 @@ GamElctyEquipCapaMngModule.prototype.selectData = function() {
 	this.$("#mainGrid").selectFilterRow([{col:"mngYear", filter:mngYear},
 	                                     {col:"fcltsMngGroupNo", filter:fcltsMngGroupNo},
 	                                     {col:"mngSeq", filter:mngSeq}]);
-	this._mode = 'modify';
+	this._mainmode = 'modify';
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();
 	this.drawChart();
@@ -548,7 +548,7 @@ GamElctyEquipCapaMngModule.prototype.saveData = function() {
 		this.$("#usageVolt").focus();
 		return;
 	}
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this._mainKeyValue = mngYear + fcltsMngGroupNo + mngSeq;
 		this.doAction('/mngFee/gamInsertElctyEquipCapaMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
@@ -596,7 +596,7 @@ GamElctyEquipCapaMngModule.prototype.deleteData = function() {
 		var deleteVO = this.makeFormArgs("#detailForm");
 		this.doAction('/mngFee/gamDeleteElctyEquipCapaMng.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module._mode = 'query';
+				module._mainmode = 'query';
 				module._mainKeyValue = '';
 				module.loadData();
 			}
@@ -638,7 +638,7 @@ GamElctyEquipCapaMngModule.prototype.copyData = function() {
 		}
 		module.doAction('/mngFee/gamCopyElctyEquipCapaMng.do', searchVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module._mode = 'query';
+				module._mainmode = 'query';
 				module._mainKeyValue = '';
 				module.loadData();
 			}
@@ -734,7 +734,7 @@ GamElctyEquipCapaMngModule.prototype.getPrevYearCapa = function() {
 %>
 GamElctyEquipCapaMngModule.prototype.enableListButtonItem = function() {
 
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 	} else {
@@ -764,7 +764,7 @@ GamElctyEquipCapaMngModule.prototype.enableListButtonItem = function() {
 %>
 GamElctyEquipCapaMngModule.prototype.enableDetailInputItem = function() {
 
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this.$('#mngYear').enable();
 		this.$('#elctyEquipNm').enable();
 		this.$('#elctySe').enable();
@@ -845,10 +845,10 @@ GamElctyEquipCapaMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 		case 'listTab':
 			break;
 		case 'detailTab':
-			if (this._mode=="modify") {
+			if (this._mainmode=="modify") {
 				this.loadDetail(oldTabId);
 				this.enableDetailInputItem();
-			} else if (this._mode=="insert") {
+			} else if (this._mainmode=="insert") {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
 				this.disableDetailInputItem();
@@ -932,11 +932,17 @@ var module_instance = new GamElctyEquipCapaMngModule();
 						<table style="width:100%;">
 							<tr>
 								<th style="text-align:center;">조회 자료수</th>
-								<td><input type="text" size="15" id=totalCount class="ygpaNumber" disabled="disabled" /></td>
+								<td>
+									<input type="text" size="15" id=totalCount class="ygpaNumber" disabled="disabled"/>
+								</td>
 								<th style="text-align:center;">총 설비 용량</th>
-								<td><input type="text" size="15" id="sumEquipCapa" class="ygpaNumber" disabled="disabled" /></td>
+								<td>
+									<input type="text" size="15" id="sumEquipCapa" class="ygpaNumber" disabled="disabled"/>
+								</td>
 								<th style="text-align:center;">총 계약 용량</th>
-								<td><input type="text" size="15" id="sumCtrtCapa" class="ygpaNumber" disabled="disabled" /></td>
+								<td>
+									<input type="text" size="15" id="sumCtrtCapa" class="ygpaNumber" disabled="disabled"/>
+								</td>
 							</tr>
 						</table>
 					</form>

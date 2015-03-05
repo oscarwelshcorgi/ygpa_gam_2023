@@ -1147,7 +1147,11 @@ GamCvlEngFcltySpecMngModule.prototype.lastData = function() {
 			break;
 		}
 	}
-	if (currentRowIndex < 0 || currentRowIndex >= gridRowCount) {
+	if (currentRowIndex < 0) {
+		alert("자료 위치가 부정확합니다!");
+		return;
+	}
+	if (currentRowIndex >= gridRowCount) {
 		alert("자료 위치가 부정확합니다!");
 		return;
 	}
@@ -2933,9 +2937,10 @@ var module_instance = new GamCvlEngFcltySpecMngModule();
 									<button id="btnSpecPrevData">이전자료</button>
 									<button id="btnSpecNextData">다음자료</button>
 									<button id="btnSpecLastData">마지막자료</button>
-									<button id="btnSpecInsert" class="buttonAdd">　추　가　</button>
-									<button id="btnSpecSave" class="buttonSave">　저　장　</button>
-									<button id="btnSpecRemove" class="buttonDelete">　삭　제　</button>
+									<button id="btnSpecInsert" class="buttonAdd">추가</button>
+									<button id="btnSpecSave" class="buttonSave">저장</button>
+									<button id="btnSpecRemove" class="buttonDelete">삭제</button>
+									<button id="btnSpecCopyData" class="buttonAdd">복사 추가</button>
 								</td>
 							</tr>
 						</table>
