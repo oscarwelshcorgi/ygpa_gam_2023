@@ -94,7 +94,6 @@ GamMngFeeCodeMngModule.prototype.loadComplete = function() {
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 
-	console.log('debug');
 };
 
 <%
