@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!-- SQL MAP 정의 -->
+<sqlMap namespace="ygpa.gam.fclty">
+	<!-- TYPE ALIAS 정의 -->
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamFcltsChargerMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltsChargerMngVO"/>
+	<!-- RESULT MAP 정의 -->
+	<resultMap id="gamFcltsChargerMngSumMap" class="gamFcltsChargerMngVO">
+		<result property="totalCount" column="TOTAL_COUNT" columnIndex="1"/>
+	</resultMap>
+
+	<select id="gamFcltsChargerMngDao.selectFcltsChargerMngList_D" parameterClass="gamFcltsChargerMngVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.CHARGER_NM AS CHARGER_NM
+								,T1.FCLTS_JOB_SE AS FCLTS_JOB_SE
+								,T1.CHARGER_DISPLAY_NM AS CHARGER_DISPLAY_NM
+								,T1.CHARGER_OFC_POS AS CHARGER_OFC_POS
+								,T1.CHARGER_DEPT AS CHARGER_DEPT
+								,T1.SIGN_FILE_NM_LOGIC AS SIGN_FILE_NM_LOGIC
+								,T1.SIGN_FILE_NM_PHYSICL AS SIGN_FILE_NM_PHYSICL
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,GAM_GET_FCLTS_JOB_SE_NM(T1.FCLTS_JOB_SE) AS FCLTS_JOB_SE_NM
+							FROM FCLTS_CHARGER_F T1
+						WHERE 1=1
+
+						<isNotEmpty property="sChargerNm">
+						AND T1.CHARGER_NM = #sChargerNm#
+						</isNotEmpty>
+
+						<isNotEmpty property="sFcltsJobSe">
+						AND T1.FCLTS_JOB_SE = #sFcltsJobSe#
+						</isNotEmpty>
+
+						ORDER BY T1.CHARGER_NM ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<insert id="gamFcltsChargerMngDao.insertFcltsChargerMng_S" parameterClass="gamFcltsChargerMngVO">
+		INSERT INTO FCLTS_CHARGER_F
+		(
+			 CHARGER_NM
+			,FCLTS_JOB_SE
+			,CHARGER_DISPLAY_NM
+			,CHARGER_OFC_POS
+			,CHARGER_DEPT
+			,SIGN_FILE_NM_LOGIC
+			,SIGN_FILE_NM_PHYSICL
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 #chargerNm#
+			,#fcltsJobSe#
+			,#chargerDisplayNm#
+			,#chargerOfcPos#
+			,#chargerDept#
+			,#signFileNmLogic#
+			,#signFileNmPhysicl#
+			,#regUsr#
+			,SYSDATE
+		)
+	</insert>
+
+	<update id="gamFcltsChargerMngDao.updateFcltsChargerMng_S" parameterClass="gamFcltsChargerMngVO">
+		UPDATE FCLTS_CHARGER_F SET
+			 CHARGER_DISPLAY_NM = #chargerDisplayNm#
+			,CHARGER_OFC_POS = #chargerOfcPos#
+			,CHARGER_DEPT = #chargerDept#
+			,SIGN_FILE_NM_LOGIC = #signFileNmLogic#
+			,SIGN_FILE_NM_PHYSICL = #signFileNmPhysicl#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE CHARGER_NM = #chargerNm#
+		AND FCLTS_JOB_SE = #fcltsJobSe#
+	</update>
+
+	<delete id="gamFcltsChargerMngDao.deleteFcltsChargerMng_S" parameterClass="gamFcltsChargerMngVO">
+		DELETE FROM FCLTS_CHARGER_F
+		WHERE CHARGER_NM = #chargerNm#
+		AND FCLTS_JOB_SE = #fcltsJobSe#
+	</delete>
+
+	<select id="gamFcltsChargerMngDao.selectFcltsChargerMngListSum_S" parameterClass="gamFcltsChargerMngVO" resultMap="gamFcltsChargerMngSumMap">
+		SELECT
+				 TO_CHAR(NVL(COUNT(*),0),'999,999,999,999,999') AS TOTAL_COUNT
+			FROM FCLTS_CHARGER_F T1
+		WHERE 1=1
+
+		<isNotEmpty property="sChargerNm">
+		AND T1.CHARGER_NM = #sChargerNm#
+		</isNotEmpty>
+
+		<isNotEmpty property="sFcltsJobSe">
+		AND T1.FCLTS_JOB_SE = #sFcltsJobSe#
+		</isNotEmpty>
+
+	</select>
+
+	<select id="gamFcltsChargerMngDao.selectFcltsChargerMngPk_S" parameterClass="gamFcltsChargerMngVO" resultClass="egovMap">
+		SELECT
+				 T1.CHARGER_NM AS CHARGER_NM
+				,T1.FCLTS_JOB_SE AS FCLTS_JOB_SE
+				,T1.CHARGER_DISPLAY_NM AS CHARGER_DISPLAY_NM
+				,T1.CHARGER_OFC_POS AS CHARGER_OFC_POS
+				,T1.CHARGER_DEPT AS CHARGER_DEPT
+				,T1.SIGN_FILE_NM_LOGIC AS SIGN_FILE_NM_LOGIC
+				,T1.SIGN_FILE_NM_PHYSICL AS SIGN_FILE_NM_PHYSICL
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,GAM_GET_FCLTS_JOB_SE_NM(T1.FCLTS_JOB_SE) AS FCLTS_JOB_SE_NM
+			FROM FCLTS_CHARGER_F T1
+		WHERE T1.CHARGER_NM = #chargerNm#
+		AND T1.FCLTS_JOB_SE = #fcltsJobSe#
+	</select>
+
+</sqlMap>
