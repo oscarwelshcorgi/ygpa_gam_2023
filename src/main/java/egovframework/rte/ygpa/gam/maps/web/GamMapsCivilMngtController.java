@@ -79,7 +79,7 @@ public class GamMapsCivilMngtController {
 						break;
 					}
 					else {
-						if("A".equals(loginVo.getMngFcltyCd())) {
+						if("C".equals(loginVo.getMngFcltyCd())) {
 							auth+="role_manager";
 						}
 					}

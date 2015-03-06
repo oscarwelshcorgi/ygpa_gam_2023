@@ -98,7 +98,7 @@ div.sender {
 	width: 10cm;
 	height: 1.6cm;
 	font-size: 0.35cm;
-	font-family: 굴림;
+	font-family: 돋움;
 }
 
 #senderAddress {
@@ -121,7 +121,7 @@ div.receiver {
 	width: 11cm;
 	height: 2.4cm;
 	font-size: 0.35cm;
-	font-family: 굴림;
+	font-family: 돋움;
 	text-align: right;
 }
 
@@ -132,7 +132,7 @@ div.receiver {
 	width: 8cm;
 	height: 0.4cm;
 	text-align: right;
-	font-family: 굴림;
+	font-family: 돋움;
 	font-size: 0.4cm;
 }
 
@@ -143,7 +143,7 @@ div.receiver {
 	width: 3cm;
 	height: 0.4cm;
 	text-align: right;
-	font-family: 굴림;
+	font-family: 돋움;
 	font-size: 0.4cm;
 }
 
@@ -174,7 +174,7 @@ div.letterMsg {
 	height: 0.7cm;
 	border: 0.06cm black solid;
 	font-size: 0.4cm;
-	font-family: 굴림;
+	font-family: 돋움;
 	text-align: center;
 	vertical-align: middle;
 	padding: 0.1cm;
@@ -188,7 +188,7 @@ div.notice {
 	width: 5.2cm;
 	height: 8cm;
 	font-size: 0.35cm;
-	font-family: 굴림;
+	font-family: 돋움;
 }
 
  div.notice > h2 {
@@ -216,7 +216,7 @@ div.notice {
 	width: 4.4cm;
 	height: 0.46cm;
 	font-size: 0.4cm;
-	font-family: 굴림;
+	font-family: 돋움;
 	text-align: right;
  }
 
@@ -227,7 +227,7 @@ div.notice {
 	width: 3.3cm;
 	height: 4.8cm;
 	font-size: 0.32cm;
-	font-family: 굴림;
+	font-family: 돋움;
 	padding: 0.1cm;
  }
 
@@ -251,7 +251,7 @@ div.notice {
 	width: 7.7cm;
 	height: 8cm;
 	font-size: 0.35cm;
-	font-family: 굴림;
+	font-family: 돋움;
 }
 
  div.rmk > h2 {
@@ -279,7 +279,7 @@ div.notice {
 	width: 14.8cm;
 	height: 8.8cm;
 	font-size: 0.4cm;
-	font-family: 굴림;
+	font-family: 돋움;
  }
 
  #totalAmount {
@@ -396,8 +396,8 @@ div.notice {
 
  #noticermk {
 	position: absolute;
-	left: 1.2cm;
-	top: 8cm;
+	left: 1.4cm;
+	top: 8.05cm;
 	width: 11.9cm;
 	height: 0.4cm;
 	font-size: 0.3cm;
@@ -474,7 +474,7 @@ div.notice {
 		width: 10cm;
 		height: 1.6cm;
 		font-size: 0.35cm;
-		font-family: 굴림;
+		font-family: 돋움;
 	}
 
 	#senderAddress {
@@ -497,7 +497,7 @@ div.notice {
 		width: 11cm;
 		height: 2.4cm;
 		font-size: 0.35cm;
-		font-family: 굴림;
+		font-family: 돋움;
 		text-align: right;
 	}
 
@@ -508,7 +508,7 @@ div.notice {
 		width: 8cm;
 		height: 0.4cm;
 		text-align: right;
-		font-family: 굴림;
+		font-family: 돋움;
 		font-size: 0.4cm;
 	}
 
@@ -519,7 +519,7 @@ div.notice {
 		width: 3cm;
 		height: 0.4cm;
 		text-align: right;
-		font-family: 굴림;
+		font-family: 돋움;
 		font-size: 0.4cm;
 	}
 
@@ -550,7 +550,7 @@ div.notice {
 		height: 0.7cm;
 		border: 0.06cm black solid;
 		font-size: 0.4cm;
-		font-family: 굴림;
+		font-family: 돋움;
 		text-align: center;
 		vertical-align: middle;
 		padding: 0.1cm;
@@ -559,18 +559,18 @@ div.notice {
 	div.notice {
 		position: absolute;
 		display: block;
-		left: 0.35cm;
+		left: 0.4cm;
 		top: 0.5cm;
-		width: 5.2cm;
-		height: 8cm;
+		width: 4.9cm;
+		height: 9cm;
 		font-size: 0.35cm;
-		font-family: 굴림;
+		font-family: 돋움;
 	}
 
 	 div.notice > h2 {
 		position: relative;
 		text-align: center;
-		width: 5cm;
+		width: 4.9cm;
 		padding: 0.1cm;
 		border: 1px black solid;
 	 }
@@ -588,22 +588,22 @@ div.notice {
 	 div.feeAmount {
 		position: absolute;
 		left: 7.25cm;
-		top: 2.4cm;
+		top: 2.3cm;
 		width: 4.4cm;
 		height: 0.46cm;
 		font-size: 0.4cm;
-		font-family: 굴림;
+		font-family: 돋움;
 		text-align: right;
 	 }
 
 	 div.feeDetail {
 		position: absolute;
-		left: 8.4cm;
-		top: 3.1cm;
+		left: 8.6cm;
+		top: 3.05cm;
 		width: 3.3cm;
 		height: 4.8cm;
-		font-size: 0.32cm;
-		font-family: 굴림;
+		font-size: 0.3cm;
+		font-family: 돋움;
 		padding: 0.1cm;
 	 }
 
@@ -622,12 +622,12 @@ div.notice {
 	 div.rmk {
 		position: absolute;
 		display: block;
-		left: 12.2cm;
+		left: 12.4cm;
 		top: 1.5cm;
 		width: 7.7cm;
 		height: 8cm;
 		font-size: 0.35cm;
-		font-family: 굴림;
+		font-family: 돋움;
 	}
 
 	 div.rmk > h2 {
@@ -655,13 +655,13 @@ div.notice {
 		width: 14.8cm;
 		height: 8.8cm;
 		font-size: 0.4cm;
-		font-family: 굴림;
+		font-family: 돋움;
 	 }
 
 	 #totalAmount {
 		position: absolute;
-		left: 9.3cm;
-		top: 1.5cm;
+		left: 9.8cm;
+		top: 1.25cm;
 		width: 4.6cm;
 		height: 0.65cm;
 		font-size: 0.4cm;
@@ -673,7 +673,7 @@ div.notice {
 	 #elecPayNo {
 		position: absolute;
 		left: 8.2cm;
-		top: 4.3cm;
+		top: 4.1cm;
 		width: 6.8cm;
 		height: 0.8cm;
 		font-size: 0.4cm;
@@ -685,7 +685,7 @@ div.notice {
 	 .girocode {
 		position: absolute;
 		left: 0.45cm;
-		top: 3.1cm;
+		top: 3.05cm;
 		width: 13.2cm;
 		height: 0.4cm;
 		font-size: 0.4cm;
@@ -695,7 +695,7 @@ div.notice {
 	 #girono {
 		display: inline;
 		position: absolute;
-		left: 0.8cm;
+		left: 3.8cm;
 	 }
 
 	 #cstmrrefcode {
@@ -718,7 +718,7 @@ div.notice {
 
 	 .giroDetail {
 		position: absolute;
-		left: 2.7cm;
+		left: 3cm;
 		top: 5.3cm;
 		width: 11.9cm;
 		height: 1.3cm;
@@ -772,8 +772,8 @@ div.notice {
 
 	 #noticermk {
 		position: absolute;
-		left: 1.2cm;
-		top: 8cm;
+		left: 1.4cm;
+		top: 7.8cm;
 		width: 11.9cm;
 		height: 0.4cm;
 		font-size: 0.3cm;

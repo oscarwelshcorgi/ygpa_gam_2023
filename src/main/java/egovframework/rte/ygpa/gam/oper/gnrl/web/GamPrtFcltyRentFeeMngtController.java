@@ -1056,7 +1056,7 @@ public class GamPrtFcltyRentFeeMngtController {
 	     * @throws Exception
 	     */
 	    @RequestMapping(value="/oper/gnrl/printRentFeeNoticeIssue.do")
-	    public @ResponseBody Map printAssetRentFeePayNoticeIssue(GamPrtFcltyRentFeeMngtVO vo)
+	    public @ResponseBody Map printRentFeeNoticeIssue(GamPrtFcltyRentFeeMngtVO vo)
 	            throws Exception {
 
 	     	 Map map = new HashMap();
@@ -1097,42 +1097,52 @@ public class GamPrtFcltyRentFeeMngtController {
 	 		return map;
 	     }
 
-
 	    /**
-	     * 연체료만 있는 고지서를 출력한다.
-	     * @param approvalOpt
-	     * @param model
+	     * 분리 고지된 고지서의 인쇄 상태를 업데이트 한다.
+	     * @param gamAssetRentFeeMngtVO
+	     * @param bindingResult
 	     * @return
 	     * @throws Exception
-	    @RequestMapping(value="/oper/gnrl/printPrtFcltyRentFeePayNotice2.do")
-	    String printAssetRentFeePayNotice2(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
-	    	String report = "ygpa/gam/oper/gnrl/GamPrtfcltyPrintArrgNoticeIssue2";
-	    	model.addAttribute("searchOpt", approvalOpt);
+	     */
+	    @RequestMapping(value="/oper/gnrl/printRentFeeSepNoticeIssue.do")
+	    public @ResponseBody Map printRentFeeSepNoticeIssue(GamPrtFcltyRentFeeMngtVO vo)
+	            throws Exception {
+
+	     	 Map map = new HashMap();
+	         String resultMsg = "";
+	         int resultCode = 1;
 
 	    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 	    	if(!isAuthenticated) {
-	    		model.addAttribute("resultCode", 1);
-	    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+		        map.put("resultCode", 1);
+	    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+	        	return map;
 	    	}
-	    	else {
+
+	    	try {
 	    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+	    		vo.setUpdUsr(loginVo.getId());
+	    		vo.setNhtPrintYn("Y");
+	    		map.put("prtAtCode", vo.getPrtAtCode());
+	    		map.put("mngYear", vo.getMngYear());
+	    		map.put("mngNo", vo.getMngNo());
+	    		map.put("mngCnt", vo.getMngCnt());
+	    		map.put("nticCnt", vo.getNticCnt());
+	    		map.put("chrgeKnd", vo.getChrgeKnd());
+	    		map.put("nhtPrintYn", vo.getNhtPrintYn());
 
-	    		List list = gamPrtFcltyRentFeeMngtService.selectNpticPrintInfo2(approvalOpt);
-
-	    		if("11076".equals(loginVo.getEmplNo()) || "14010".equals(loginVo.getEmplNo())) {
-//	    			log.debug("new paper selected");
-	    			report = "ygpa/gam/oper/gnrl/GamPrtfcltyPrintArrgNoticeIssue2";	// 신규 고지서
-	    		}
-
-//	    		model.addAttribute("emplyrNo", loginVo.getEmplNo());
-
-	    		model.addAttribute("resultCode", 0);
-	    		model.addAttribute("resultList", list);
-	    		model.addAttribute("resultMsg", "");
+	    		gamNticRequestMngtService.updateNticPrintState2(map);
+		         resultCode = 0;
+		 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+	    	}
+	    	catch(Exception e) {
+		         resultCode = 0;
+		 		 resultMsg  = egovMessageSource.getMessage("fail.common.update"); // 오류 발생
 	    	}
 
-	    	return report;
-	    	}
-	     */
+	     	 map.put("resultCode", resultCode);
+	         map.put("resultMsg", resultMsg);
 
+	 		return map;
+	     }
 }

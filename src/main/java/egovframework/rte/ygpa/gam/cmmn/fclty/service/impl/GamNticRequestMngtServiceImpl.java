@@ -19,6 +19,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
 
 /**
@@ -254,75 +255,50 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
     	//return mapResult ;
     }
 
+    /**
+     * 연체료 분리 고지 처리
+     * @param map
+     * @throws Exception
+     */
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	public void egiroPrint2(Map map) throws Exception{
     	Map mapResult = new HashMap();
-    	Date date = new Date();
-    	SimpleDateFormat formater = new SimpleDateFormat("yyyyMMdd");
-    	String currentDate = formater.format(date);
-
-    	logger.debug("******************** 전자고지체계구축 고지출력 시작 (연체만) !!!! ******************** \n * map : " + map);
-
-    	Map revCollF = gamNticRequestMngtDAO.selectRevCollF(map);
-
-    	String strPrtAtCode = (String)revCollF.get("prtAtCode") ;
-    	String strPrtAtNum = "" ;
-    	//String strCustomerNum = (String)map.get("customerNum") ;
-    	String strCustomerNum = "" ;
-    	BigDecimal bdAmount = new BigDecimal(revCollF.get("dly_bill_amnt").toString());
-    	BigDecimal bdBillSumAmnt = new BigDecimal(revCollF.get("dly_bill_amnt").toString());
-    	String strDueDate = (String)revCollF.get("dueDate") ;
-    	String strCloseDate = (String)revCollF.get("dueDate") ;
-    	String strBillDate =  (String)revCollF.get("billDt") ;
-    	String strGiroNum = "" ;
-    	String strEgiroNum = "" ;
-    	String strAgentCode = (String)revCollF.get("agentCode") ;
-    	String strBillType = "" ;
-    	String strBzRgstId = (String)revCollF.get("bzRgstId") ;
-    	String strBillYyyymm = strBillDate.substring(0, 6) ;
-    	String strKorNm = "" ;		// SELECT SHP_OWOP_F
-    	String strAddr = "" ;		// SELECT SHP_OWOP_F
-    	String strFeeTp = (String)revCollF.get("feeTp") ;
-    	String strFiscalYr = (String)revCollF.get("fiscalYr") ;
-    	String strBillNo = (String)revCollF.get("billNo") ;
-    	String strDlySerNo = (String)revCollF.get("dlySerNo");
+    	String currentDate = "";
+    	String strKorNm = "" ;
+    	String strAddr = "" ;
     	String strFeeTpNum = "" ;
+    	String strEgiroNum = "" ;
 
-    	if ( "620".equals(strPrtAtCode) ) {			// 여수
-    		strPrtAtNum = "1" ;
-    		strGiroNum = "6374604" ;
-    	} else if ( "621".equals(strPrtAtCode) ) {	// 여천
-    		strPrtAtNum = "2" ;
-    		strGiroNum = "6374604" ;
-    	} else if ( "622".equals(strPrtAtCode) ) {	// 광양
-    		strPrtAtNum = "3" ;
-    		strGiroNum = "6374594" ;
+    	logger.debug("******************** 전자고지체계구축 고지출력 시작 (사용료 연체 분리 고지) !!!! ******************** \n * map : " + map);
+
+    	EgovMap egiroInfo = gamNticRequestMngtDAO.selectEgiroInfoByPk(map);
+
+    	if(egiroInfo==null || egiroInfo.isEmpty()) {
+    		logger.warn("고지서 출력을 위한 자료를 찾을 수 없습니다.");
+    		throw processException("fail.request.msg");
     	}
-
-    	// 연체건인지 아닌지를 판단
-    	if( "".equals(strDlySerNo) || strDlySerNo == null ) {
-    		strDlySerNo = "00" ;
-    		strBillType = "0" ;
-    		strCustomerNum = "0" ;
-    	} else {
-    		strBillType = "1" ;
-    		strCustomerNum = strDlySerNo ;
-    		strDueDate = (String)revCollF.get("dlyDueDt");
-    	}
-
-    	mapResult.put("prtAtCode", strPrtAtCode );
-    	mapResult.put("feeTp", strFeeTp );
-    	mapResult.put("fiscalYr", strFiscalYr );
-    	mapResult.put("billNo", strBillNo );
-    	mapResult.put("dlySerNo", strDlySerNo );
+    	mapResult.putAll(egiroInfo);
 
     	// 당일 고지발행건인지 아닌지 확인
     	Map egiroMap = gamNticRequestMngtDAO.getWorkDtSysdateInfo(mapResult);
 
+    	if( egiroMap != null && !egiroMap.isEmpty() ){
+    		gamNticRequestMngtDAO.updateEgiroPrintCancel(mapResult);
+    		// 연체 고지 삭제
+    		String feeTp=(String)mapResult.get("feeTp");
+    		String dlySerNo=(String)mapResult.get("dlySerNo");
+    		mapResult.put("feeTp", "UG");
+    		mapResult.put("dlySerNo", mapResult.get("arrrgNo"));
+        	egiroMap = gamNticRequestMngtDAO.getWorkDtSysdateInfo(mapResult);
+
+    		gamNticRequestMngtDAO.updateEgiroPrintCancel(egiroMap);
+    	}
+
     	if( egiroMap == null || egiroMap.isEmpty() ){
 
+    		currentDate=(String)egiroInfo.get("currentDate");
         	// 대표자명, 주소를 찾아오는 쿼리
-        	Map agentMap = gamNticRequestMngtDAO.getEgiroAgentInfo(revCollF);
+        	Map agentMap = gamNticRequestMngtDAO.getEgiroAgentInfo(mapResult);
         	strKorNm = (String)agentMap.get("korNm");
         	strAddr = (String)agentMap.get("addr");
 
@@ -330,31 +306,29 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
         	Map feeMap = gamNticRequestMngtDAO.getEgiroFeeTpMap(mapResult);
         	strFeeTpNum = (String)feeMap.get("feeTpMap");
 
-        	strEgiroNum = strPrtAtNum + strFeeTpNum + strFiscalYr.substring(2, 4) + strBillNo + strDlySerNo ;
+        	strEgiroNum = (String)egiroInfo.get("prtAtNum") + strFeeTpNum + ((String)egiroInfo.get("fiscalYr")).substring(2, 4) + (String)egiroInfo.get("billNo") + (String)egiroInfo.get("dlySerNo") ;
 
-        	mapResult.put("customerNum", strCustomerNum );
-        	mapResult.put("amount", bdBillSumAmnt );
-        	mapResult.put("amouuntAf", bdBillSumAmnt );
-        	mapResult.put("dueDate", strDueDate.substring(0, 8) );
-        	mapResult.put("closeDate", strCloseDate.substring(0, 8) );
-        	mapResult.put("giroNum", strGiroNum );
         	mapResult.put("egiroNum", strEgiroNum );
-        	mapResult.put("agentCode", strAgentCode );
-        	mapResult.put("billType", strBillType );
         	mapResult.put("korNm", strKorNm );
-        	mapResult.put("bzRgstId", strBzRgstId );
-        	mapResult.put("billYyyymm", strBillYyyymm );
         	mapResult.put("addr", strAddr );
         	mapResult.put("printDt", currentDate);
         	mapResult.put("cancelDt", "");
 
         	Map MakeDigit = gamNticRequestMngtDAO.getSfMakeDigit(mapResult);
+
         	mapResult.put("makedigit", (String)MakeDigit.get("makedigit"));
 
-        	// 전자고지체계구축 고지출력
-        	gamNticRequestMngtDAO.insertEgiroPrint(mapResult);
-    	} else {
-    		logger.debug("*** [고지서출력취소하지 않고 연속적 출력이므로 EGIRO 에  INSERT 불가함] ***");
+        	// 전자고지체계구축 고지출력 (원금 재 고지)
+        	gamNticRequestMngtDAO.insertEgiroPrint2(mapResult);
+        	// 연체료 고지
+        	mapResult.put("dlySerNo", mapResult.get("arrrgNo"));
+        	mapResult.put("billType", "1");
+        	mapResult.put("customerNo", mapResult.get("arrrgNo"));
+        	mapResult.put("amount", mapResult.get("arrrgAmt"));
+        	mapResult.put("amountAf", mapResult.get("arrrgAmt"));
+
+        	gamNticRequestMngtDAO.insertEgiroPrint2(mapResult);
+
     	}
 
     	logger.debug("******************** 전자고지체계구축 고지출력 끝 ********************");

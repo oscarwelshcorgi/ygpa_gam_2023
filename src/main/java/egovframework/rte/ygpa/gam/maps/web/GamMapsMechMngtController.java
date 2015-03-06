@@ -79,7 +79,7 @@ public class GamMapsMechMngtController {
 						break;
 					}
 					else {
-						if("A".equals(loginVo.getMngFcltyCd())) {
+						if("M".equals(loginVo.getMngFcltyCd())) {
 							auth+="role_manager";
 						}
 					}

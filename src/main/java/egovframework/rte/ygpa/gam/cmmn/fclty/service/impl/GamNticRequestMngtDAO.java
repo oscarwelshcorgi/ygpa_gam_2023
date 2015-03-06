@@ -196,6 +196,10 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
         return (String)insert("gamNticRequestMngtDAO.insertEgiroPrint", vo);
 	}
 
+	public String insertEgiroPrint2(Map<String, Object> vo) throws Exception {
+        return (String)insert("gamNticRequestMngtDAO.insertEgiroPrint2", vo);
+	}
+
 	public void updateEgiroPrintCancel(Map<String, Object> vo) throws Exception {
         update("gamNticRequestMngtDAO.updateEgiroPrintCancel", vo);
 	}
@@ -219,6 +223,10 @@ public class GamNticRequestMngtDAO extends YGPAAbstractDAO {
 
 	public EgovMap selectRevCollF(Map<String, Object> vo) throws Exception {
         return (EgovMap) selectByPk("gamNticRequestMngtDAO.selectRevCollF", vo);
+	}
+
+	public EgovMap selectEgiroInfoByPk(Map<String, Object> vo) throws Exception {
+        return (EgovMap) selectByPk("gamNticRequestMngtDAO.selectEgiroInfoByPk", vo);
 	}
 
 	/**

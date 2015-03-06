@@ -419,7 +419,7 @@ var module_instance = new GamUserMngListModule();
 			                </td>
 			                <th>관리시설</th>
 			                <td>
-			                    <input id="mngFcltyCd" title="관리부두" class="ygpaCmmnCd" data-code-id="GAM065" type="text" size="10" data-default-prompt="없음" />
+			                    <input id="mngFcltyCd" title="관리시설" class="ygpaCmmnCd" data-code-id="GAM065" type="text" size="10" data-default-prompt="없음" />
 			                </td>
 			            </tr>
 			            <tr>

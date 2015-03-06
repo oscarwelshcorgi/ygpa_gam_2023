@@ -401,6 +401,7 @@
               SELECT PRT_AT_CODE, CHRGE_KND, ACCNUT_YEAR, NTICNO
               FROM LEV_REQEST_F
               WHERE 1=1
+              		AND PRT_AT_CODE=#prtAtCode#
 			      	AND MNG_YEAR=#mngYear#
 			      	AND MNG_NO=#mngNo#
 			      	AND MNG_CNT=#mngCnt#
@@ -420,6 +421,7 @@
               SELECT PRT_AT_CODE, CHRGE_KND, ACCNUT_YEAR, NTICNO, ARRRG_NO
               FROM LEV_REQEST_F
               WHERE 1=1
+              		AND PRT_AT_CODE=#prtAtCode#
 			      	AND MNG_YEAR=#mngYear#
 			      	AND MNG_NO=#mngNo#
 			      	AND MNG_CNT=#mngCnt#
@@ -628,6 +630,45 @@
           AND R.BILL_NO = L.NTICNO
     </select>
 
+	<select id="gamNticRequestMngtDAO.selectEgiroInfoByPk" parameterClass="map" resultClass="egovMap">
+        /*+ gamNticRequestMngtDAO.selectEgiroInfoByPk */
+        /* [전자고지] 고지 정보 조회 eunsungj */
+        SELECT
+		  R.PRT_AT_CODE,
+		  R.FEE_TP,
+		  R.FISCAL_YR,
+		  R.BILL_NO,
+		  decode(R.PRT_AT_CODE, '620', '6374604', '621', '6374604', '622', '6374594') GIRO_NUM,
+		  decode(R.PRT_AT_CODE, '620', '1', '621', '2', '622', '3') PRT_AT_NUM,
+		  '00' DLY_SER_NO,
+		  TO_CHAR(L.PAY_TMLMT, 'YYYYMMDD') DUE_DATE,
+		  '0' BILL_TYPE,
+		  '0' CUSTOMER_NO,
+		  L.FEE+L.VAT AMOUNT,
+		  L.FEE+L.VAT AMOUNT_AF,
+		  L.ARRRG_NO,
+		  L.ARRRG_AMT,
+		  R.AGENT_CODE,
+		  R.BZ_RGST_ID,
+		  R.AGENT_NAME,
+		  TO_CHAR(R.BILL_DT, 'YYYYMM') BILL_YYYYMM,
+  			TO_CHAR(SYSDATE, 'YYYYMMDD') CURRENT_DATE
+		FROM REV_COLL_F R,
+		  LEV_REQEST_F L
+		WHERE 1           =1
+          AND L.PRT_AT_CODE=#prtAtCode#
+          AND L.MNG_YEAR=#mngYear#
+          AND L.MNG_NO=#mngNo#
+          AND L.MNG_CNT=#mngCnt#
+          AND L.NTIC_CNT=#nticCnt#
+          AND L.CHRGE_KND=#chrgeKnd#
+			AND R.PRT_AT_CODE = L.PRT_AT_CODE
+			AND R.FEE_TP      = GAM_GET_FEE_TP(L.CHRGE_KND)
+			AND R.FISCAL_YR   = L.ACCNUT_YEAR
+			AND R.BILL_NO     = L.NTICNO
+			AND l.arrrg_no is not null
+	</select>
+
       <insert id="gamNticRequestMngtDAO.insertEgiroPrint" parameterClass="map">
         /* gamNticRequestMngtDAO.insertEgiroPrint */
         /* 전자고지 체계 구축 고지출력 kang (EGIRO) */
@@ -679,6 +720,84 @@
          , #makedigit#
          , #amount#
          , #amouuntAf#
+         , 'A'
+         , #dueDate#
+         , TO_CHAR(ADD_MONTHS(to_date(#dueDate#,'yyyymmdd'),1),'YYYYMMDD')
+         , #giroNum#
+         , #egiroNum#
+         , #agentCode#
+         , #billType#
+         , '00'
+         , #korNm#
+         , NVL(#bzRgstId#, '1111111111')
+         , #billYyyymm#
+         , #addr#
+         , ' '
+         , '0'
+         , ''
+         , ''
+         , '00'
+         , ''
+         , ''
+         , ''
+         , #feeTp#
+         , #fiscalYr#
+         , #billNo#
+         , #dlySerNo#
+        )
+    </insert>
+
+      <insert id="gamNticRequestMngtDAO.insertEgiroPrint2" parameterClass="map">
+        /* gamNticRequestMngtDAO.insertEgiroPrint2 */
+        /* 전자고지 체계 구축 고지출력 eunsungj (EGIRO) */
+        INSERT INTO PAYEOSU.EGIRO@YGPA_PORTMIS (
+           PRT_AT_CODE
+         , TRANID
+         , WORK_DT
+         , PRINT_DT
+         , CANCEL_DT
+         , EGIRO_TYPE
+         , DATA_TYPE
+         , SEQ_NUM
+         , CUSTOMER_NUM
+         , AMOUNT
+         , AMOUNT_AF
+         , DATA_FORMAT
+         , DUE_DATE
+         , CLOSE_DATE
+         , GIRO_NUM
+         , EGIRO_NUM
+         , AGENT_CODE
+         , BILL_TYPE
+         , ETC_TYPE
+         , KOR_NM
+         , BZ_RGST_ID
+         , BILL_YYYYMM
+         , ADDR
+         , RET_CODE
+         , RCVD_SEQ
+         , CHENAP_TIME
+         , CHENAP_MM
+         , ETC_COUNT
+         , ETC_TITLE
+         , ETC_TXT
+         , SEND_YN
+         , FEE_TP
+         , FISCAL_YR
+         , BILL_NO
+         , DLY_SER_NO)
+        VALUES (
+           #prtAtCode#
+         , TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSSSSFF')||RPAD(NVL(#prtAtCode#,' '),3)
+         , TO_CHAR(SYSDATE, 'YYYYMMDD')
+         , TO_CHAR(SYSDATE, 'YYYYMMDD')
+         , ''
+         , 'GR6533'
+         , '22'
+         , ''
+         , #makedigit#
+         , #amount#
+         , #amountAf#
          , 'A'
          , #dueDate#
          , TO_CHAR(ADD_MONTHS(to_date(#dueDate#,'yyyymmdd'),1),'YYYYMMDD')

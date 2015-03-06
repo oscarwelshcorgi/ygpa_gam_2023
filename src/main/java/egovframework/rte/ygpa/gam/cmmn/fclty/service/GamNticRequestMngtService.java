@@ -75,7 +75,7 @@ public interface GamNticRequestMngtService {
 	public void updateNticPrintState(Map<String, Object> vo) throws Exception;
 
 	/**
-	 * 고지서(연체만) 출력 여부를 업데이트 한다.
+	 * 연체료 분리된 고지서 출력 여부를 업데이트 한다.
 	 * @param vo
 	 * @throws Exception
 	 */

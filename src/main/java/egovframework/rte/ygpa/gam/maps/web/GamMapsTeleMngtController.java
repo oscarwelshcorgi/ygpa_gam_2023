@@ -79,7 +79,7 @@ public class GamMapsTeleMngtController {
 						break;
 					}
 					else {
-						if("A".equals(loginVo.getMngFcltyCd())) {
+						if("T".equals(loginVo.getMngFcltyCd())) {
 							auth+="role_manager";
 						}
 					}

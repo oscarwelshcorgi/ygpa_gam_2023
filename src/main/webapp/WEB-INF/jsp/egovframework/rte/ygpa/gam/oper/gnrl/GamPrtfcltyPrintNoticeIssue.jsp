@@ -60,7 +60,7 @@
     -moz-background-size: cover;    /* Mozilla*/
     -o-background-size: cover;      /* Opera*/
     background-size: cover;         /* Generic*/
-    /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .subpage {
@@ -226,7 +226,7 @@ div.notice {
 	top: 3.05cm;
 	width: 3.3cm;
 	height: 4.8cm;
-	font-size: 0.32cm;
+	font-size: 0.3cm;
 	font-family: 돋움;
 	padding: 0.1cm;
  }
@@ -421,9 +421,6 @@ div.notice {
 }
 @media print {
 	#printButton {
-		position:fixed;
-		left: 20px;
-		top: 10px;
 		display:none;
 	}
 
@@ -432,149 +429,77 @@ div.notice {
 	    min-height: 29.7cm;
 	    padding: 0cm;
 	    margin: 0cm auto;
-/* 	    border: 1px #D3D3D3 solid;
-	    border-radius: 5px; */
-	    -webkit-background-size: cover; /* For WebKit*/
-	    -moz-background-size: cover;    /* Mozilla*/
-	    -o-background-size: cover;      /* Opera*/
-	    background-size: cover;         /* Generic*/
-/* 	    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); */
+	    background: none;
 	}
 
 	.subpage {
-	    padding: 0cm;
-	/*     border: 5px red solid;
-	 */    height: 297mm;
+	     height: 297mm;
 	}
 
 	.subpage1 {
-		position: relative;
-		left: 0cm;
-		top: 0cm;
 		height: 9.7cm;
 	}
 
 	.subpage2 {
-		position: relative;
-		left: 0cm;
-		top: 0cm;
 		height: 9.8cm;
 	}
 
 	.subpage3 {
-		position: relative;
-		left: 0cm;
-		top: 0cm;
 		height: 8.9cm;
 	}
 
 	div.sender {
-		position: absolute;
-		display: block;
 		left: 2cm;
 		top: 2.5cm;
-		width: 10cm;
-		height: 1.6cm;
-		font-size: 0.35cm;
-		font-family: 돋움;
 	}
 
 	#senderAddress {
-		display: block;
-		position: absolute;
 		padding: 0.2cm
 	}
 
 	#senderPostcode {
-		display: block;
-		position: absolute;
 		padding: 0.8cm
 	}
 
 	div.receiver {
-		position: absolute;
-		display: block;
 		left: 8cm;
 		top: 6cm;
-		width: 11cm;
-		height: 2.4cm;
-		font-size: 0.35cm;
-		font-family: 돋움;
-		text-align: right;
 	}
 
 	#companyName {
-		position: absolute;
 		left: 0cm;
 		top: 0cm;
-		width: 8cm;
-		height: 0.4cm;
-		text-align: right;
-		font-family: 돋움;
-		font-size: 0.4cm;
 	}
 
 	#ceoName {
-		position: absolute;
 		left: 8cm;
 		top: 0cm;
-		width: 3cm;
-		height: 0.4cm;
-		text-align: right;
-		font-family: 돋움;
-		font-size: 0.4cm;
 	}
 
 	#recAddress {
- 		position: absolute;
 		left: 0cm;
 		top: 0.6cm;
-		width: 11cm;
-		height: 0.4cm;
-		text-align: right;
 	}
 
 	#recPostcode {
- 		position: absolute;
 		left: 0cm;
 		top: 1.4cm;
-		width: 11cm;
-		height: 0.4cm;
-		text-align: right;
 	}
 
 	div.letterMsg {
-		position: absolute;
-		display: block;
 		left: 8.35cm;
 		top: 4.4cm;
-		width: 5.1cm;
-		height: 0.7cm;
-		border: 0.06cm black solid;
-		font-size: 0.4cm;
-		font-family: 돋움;
-		text-align: center;
-		vertical-align: middle;
-		padding: 0.1cm;
 	}
 
 	div.notice {
-		position: absolute;
-		display: block;
-		left: 0.35cm;
+		left: 0.4cm;
 		top: 0.5cm;
-		width: 5.2cm;
-		height: 8cm;
-		font-size: 0.35cm;
-		font-family: 돋움;
+		width: 4.9cm;
+		height: 9cm;
 	}
 
 	 div.notice > h2 {
-		position: relative;
-		text-align: center;
-		width: 5cm;
-		padding: 0.1cm;
-		border: 1px black solid;
+		width: 4.9cm;
 	 }
 
 	 div.notice > p {
@@ -588,24 +513,15 @@ div.notice {
 	 }
 
 	 div.feeAmount {
-		position: absolute;
 		left: 7.25cm;
-		top: 2.4cm;
-		width: 4.4cm;
-		height: 0.46cm;
-		font-size: 0.4cm;
-		font-family: 돋움;
-		text-align: right;
+		top: 2.25cm;
 	 }
 
 	 div.feeDetail {
-		position: absolute;
-		left: 8.4cm;
-		top: 3.1cm;
+		left: 8.6cm;
+		top: 3cm;
 		width: 3.3cm;
 		height: 4.8cm;
-		font-size: 0.32cm;
-		font-family: 돋움;
 		padding: 0.1cm;
 	 }
 
@@ -622,76 +538,33 @@ div.notice {
 	 }
 
 	 div.rmk {
-		position: absolute;
-		display: block;
-		left: 12.2cm;
-		top: 1.5cm;
-		width: 7.7cm;
-		height: 8cm;
-		font-size: 0.35cm;
-		font-family: 돋움;
+		left: 12.4cm;
 	}
-
-	 div.rmk > h2 {
-		position: relative;
-		text-align: center;
-		width: 100%;
-		padding: 0.1cm;
-		border: 1px black solid;
-	 }
-
-	 div.rmk > p {
-		position: relative;
-		text-align: left;
-		padding: 0.1cm 0.1cm;
-	 }
 
 	 .summary {
 		padding: 0.1cm 0.1cm;
 	 }
 
 	  div.giro {
-		position: absolute;
 		left: 5.8cm;
 		top: 0cm;
 		width: 14.8cm;
 		height: 8.8cm;
-		font-size: 0.4cm;
-		font-family: 돋움;
 	 }
 
 	 #totalAmount {
-		position: absolute;
-		left: 9.3cm;
-		top: 1.5cm;
-		width: 4.6cm;
-		height: 0.65cm;
-		font-size: 0.4cm;
-		font-family: OCR-B-10 BT;
-		text-align: right;
-		padding: 0.1cm;
+		left: 9.8cm;
+		top: 1.35cm;
 	 }
 
 	 #elecPayNo {
-		position: absolute;
-		left: 8.2cm;
-		top: 4.3cm;
-		width: 6.8cm;
-		height: 0.8cm;
-		font-size: 0.4cm;
-		font-family: OCR-B-10 BT;
-		text-align: left;
-		padding: 0.15cm;
+		top: 4.2cm;
 	 }
 
 	 .girocode {
 		position: absolute;
-		left: 0.45cm;
-		top: 3.1cm;
-		width: 13.2cm;
-		height: 0.4cm;
-		font-size: 0.4cm;
-		font-family: OCR-B-10 BT;
+		left: 0.55cm;
+		top: 3.05cm;
 	 }
 
 	 #girono {
@@ -719,12 +592,7 @@ div.notice {
 	 }
 
 	 .giroDetail {
-		position: absolute;
-		left: 2.7cm;
-		top: 5.3cm;
-		width: 11.9cm;
-		height: 1.3cm;
-		font-size: 0.35cm;
+		top: 5.2cm;
 	 }
 
 	 #girobizrno {
@@ -774,8 +642,8 @@ div.notice {
 
 	 #noticermk {
 		position: absolute;
-		left: 1.2cm;
-		top: 8cm;
+		left: 1.4cm;
+		top: 7.8cm;
 		width: 11.9cm;
 		height: 0.4cm;
 		font-size: 0.3cm;
@@ -802,7 +670,7 @@ div.notice {
 			          ];
 
 			$.ajax({
-				url: '<c:url value="/oper/gnrl/printRentFeeNoticeIssue.do" />',
+				url: $('#printUrl').val(),
 				type: 'POST',
 				module: this,
 				dataType: 'json',
@@ -820,6 +688,12 @@ div.notice {
   </head>
   <body>
   <c:if test="${resultCode==0 }">
+  <c:if test="${arrrgItem!=null }">
+  	<input id="printUrl" type="hidden" value="<c:url value='/oper/gnrl/printRentFeeSepNoticeIssue.do' />"/>
+  </c:if>
+  <c:if test="${arrrgItem==null }">
+  	<input id="printUrl" type="hidden" value="<c:url value='/oper/gnrl/printRentFeeNoticeIssue.do' />"/>
+  </c:if>
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
     <div class="page">
@@ -1012,7 +886,7 @@ div.notice {
 	      				<div id="nticno"><c:out value="${arrrgItem.prtAtCode}"/>-<c:out value="${arrrgItem.chrgeKnd}"/>-<c:out value="${arrrgItem.accnutYear}"/>-<c:out value="${arrrgItem.nticCnt}"/></div>
 	      				<div id="nticDate"><c:out value="${arrrgItem.nticDt}"/></div>
 	      				<div id="payTmlmt"><c:out value="${arrrgItem.payTmlmt}"/></div>
-	      				<div id="girormk">항코드 : <c:out value="${arrrgItem.prtAtcode}"/> 관리번호 : <c:out value="${arrrgItem.mngYear}"/>-<c:out value="${arrrgItem.mngNo}"/>-<c:out value="${arrrgItem.mngCnt}"/> 고지회차 : <c:out value="${arrrgItem.nticCnt}"/>회차</div>
+	      				<div id="girormk">항코드 : <c:out value="${arrrgItem.prtAtCode}"/> 관리번호 : <c:out value="${arrrgItem.mngYear}"/>-<c:out value="${arrrgItem.mngNo}"/>-<c:out value="${arrrgItem.mngCnt}"/> 고지회차 : <c:out value="${arrrgItem.nticCnt}"/>회차</div>
 		       		</div>
 		       		<div id="noticermk">납기가 지난 고지서는 납부할 수 없으며, 금융기관에서는 온라인 수납처리 바랍니다.</div>
 				</div>
