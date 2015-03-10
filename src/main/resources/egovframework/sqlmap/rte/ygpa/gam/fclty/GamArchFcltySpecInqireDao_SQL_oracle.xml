@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!-- SQL MAP 정의 -->
+<sqlMap namespace="ygpa.gam.fclty">
+	<!-- TYPE ALIAS 정의 -->
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamArchFcltySpecInqireVO" type="egovframework.rte.ygpa.gam.fclty.service.GamArchFcltySpecInqireVO"/>
+	<typeAlias alias="gamAtchFileDirMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO"/>
+	<typeAlias alias="gamFcltsAtchFileMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO"/>
+	<!-- RESULT MAP 정의 -->
+	<resultMap id="gamArchFcltySpecInqireSumMap" class="gamArchFcltySpecInqireVO">
+		<result property="totalCount" column="TOTAL_COUNT" columnIndex="1"/>
+		<result property="sumAr" column="SUM_AR" columnIndex="2"/>
+		<result property="sumArchAr" column="SUM_ARCH_AR" columnIndex="3"/>
+		<result property="sumPlotAr" column="SUM_PLOT_AR" columnIndex="4"/>
+	</resultMap>
+
+	<select id="gamArchFcltySpecInqireDao.selectArchFcltySpecInqireList_D" parameterClass="gamArchFcltySpecInqireVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.GIS_PRT_FCLTY_CD AS GIS_PRT_FCLTY_CD
+								,T1.GIS_PRT_FCLTY_CD AS GIS_PRT_FCLTY_CD_DISPLAY
+								,T1.GIS_PRT_FCLTY_CD_SUB AS GIS_PRT_FCLTY_CD_SUB
+								,T1.GIS_PRT_FCLTY_SEQ AS GIS_PRT_FCLTY_SEQ
+								,T1.GIS_ASSETS_PRT_AT_CODE AS GIS_ASSETS_PRT_AT_CODE
+								,T1.GIS_ASSETS_CD AS GIS_ASSETS_CD
+								,T1.GIS_ASSETS_SUB_CD AS GIS_ASSETS_SUB_CD
+								,T1.PRT_FCLTY_SE AS PRT_FCLTY_SE
+								,T1.PRT_FCLTY_NM AS PRT_FCLTY_NM
+								,T1.PRT_FCLTY_STNDRD AS PRT_FCLTY_STNDRD
+								,T1.PRT_FCLTY_UNIT AS PRT_FCLTY_UNIT
+								,TO_CHAR(T1.PRT_FCLTY_INSTL_DT,'YYYY-MM-DD') AS PRT_FCLTY_INSTL_DT
+								,TO_CHAR(T1.PRT_FCLTY_CHANGE_DT,'YYYY-MM-DD') AS PRT_FCLTY_CHANGE_DT
+								,T1.PRT_FCLTY_MNG_ENTRPS_CD AS PRT_FCLTY_MNG_ENTRPS_CD
+								,T1.PRT_FCLTY_GIS_CD AS PRT_FCLTY_GIS_CD
+								,T1.LA_CRDNT
+								,T1.LO_CRDNT
+								,LTRIM(TO_CHAR(NVL(T1.PRT_FCLTY_AR,0),'99,999,990.00')) AS PRT_FCLTY_AR
+								,T1.LAT
+								,T1.LNG
+								,TO_CHAR(T1.PRT_FCLTY_EXPR_DT,'YYYY-MM-DD') AS PRT_FCLTY_EXPR_DT
+								,T1.PRT_PRT_FCLTY_CNT AS PRT_PRT_FCLTY_CNT
+								,T1.PRT_PRT_FCLTY_MNGER AS PRT_PRT_FCLTY_MNGER
+								,T1.FCLTS_MNG_NO AS FCLTS_MNG_NO
+								,T1.FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
+								,GAM_GET_PRT_FCLTY_SE_NM(T1.PRT_FCLTY_SE) AS PRT_FCLTY_SE_NM
+								,GAM_GETCODENAME('GAM066',T1.GIS_PRT_FCLTY_CD) AS GIS_PRT_FCLTY_CD_NM
+								,GAM_GETCODENAME('GAM019',T1.GIS_ASSETS_PRT_AT_CODE) AS GIS_ASSETS_PRT_AT_CODE_NM
+								,GAM_GET_FCLTS_MNG_GROUP_NM(T1.FCLTS_MNG_GROUP_NO) AS FCLTS_MNG_GROUP_NM
+								,GAM_GETENTRPSNM(T1.PRT_FCLTY_MNG_ENTRPS_CD,'1') AS PRT_FCLTY_MNG_ENTRPS_NM
+								,T3.GIS_ASSETS_LOC_CD
+								,T3.GIS_ASSETS_NM
+								,GAM_GET_LOCPLC_LNM_SUB(T3.GIS_ASSETS_LOCPLC,T3.GIS_ASSETS_LNM,T3.GIS_ASSETS_LNM_SUB) AS GIS_ASSETS_LOCPLC_LNM
+								,GAM_GETCODENAME('GAM002',T3.GIS_ASSETS_LOC_CD) AS GIS_ASSETS_LOC_NM
+								,TO_CHAR(T2.BLD_DT,'YYYY-MM-DD') AS BLD_DT
+								,TO_CHAR(T2.FLAW_END_DT,'YYYY-MM-DD') AS FLAW_END_DT
+								,T2.BASE_FMT AS BASE_FMT
+								,T2.STRCT_FMT AS STRCT_FMT
+								,LTRIM(TO_CHAR(NVL(T2.AR,0),'9,999,999,990.00')) AS AR
+								,LTRIM(TO_CHAR(NVL(T2.ARCH_AR,0),'9,999,999,990.00')) AS ARCH_AR
+								,LTRIM(TO_CHAR(NVL(T2.PLOT_AR,0),'9,999,999,990.00')) AS PLOT_AR
+								,T2.MAIN_USAGE_PRPOS AS MAIN_USAGE_PRPOS
+								,LTRIM(TO_CHAR(NVL(T2.PRK_AR,0),'9,999,999,990.00')) AS PRK_AR
+								,LTRIM(TO_CHAR(NVL(T2.ISD_PRK_AR,0),'9,999,999,990.00')) AS ISD_PRK_AR
+								,LTRIM(TO_CHAR(NVL(T2.OSD_PRK_AR,0),'9,999,999,990.00')) AS OSD_PRK_AR
+								,LTRIM(TO_CHAR(NVL(T2.PRK_CNT,0),'99,990')) AS PRK_CNT
+								,LTRIM(TO_CHAR(NVL(T2.ISD_PRK_CNT,0),'99,990')) AS ISD_PRK_CNT
+								,LTRIM(TO_CHAR(NVL(T2.OSD_PRK_CNT,0),'99,990')) AS OSD_PRK_CNT
+								,T2.EXHAUST_DUCT_ENNC AS EXHAUST_DUCT_ENNC
+								,T2.VNTLTN_ARCNDT_MTHD AS VNTLTN_ARCNDT_MTHD
+								,T2.WRT_TANK_LOC AS WRT_TANK_LOC
+								,T2.SBT_LOC AS SBT_LOC
+								,T2.OIL_SAVEFCLTY_LOC AS OIL_SAVEFCLTY_LOC
+								,T2.SWG_CLUPFCLTY_LOC AS SWG_CLUPFCLTY_LOC
+								,LTRIM(TO_CHAR(NVL(T2.LIFT_CNT_PSNGR,0),'99,990')) AS LIFT_CNT_PSNGR
+								,LTRIM(TO_CHAR(NVL(T2.LIFT_CNT_CARGO,0),'99,990')) AS LIFT_CNT_CARGO
+								,LTRIM(TO_CHAR(NVL(T2.LIFT_CNT_EMGCY,0),'99,990')) AS LIFT_CNT_EMGCY
+								,T2.LIFT_OPER_MTHD AS LIFT_OPER_MTHD
+								,T2.CLNG_ENNC AS CLNG_ENNC
+								,T2.CLNG_SRC AS CLNG_SRC
+								,T2.HTNG_ENNC AS HTNG_ENNC
+								,T2.HTNG_SRC AS HTNG_SRC
+								,T2.SPICTANK_FMT AS SPICTANK_FMT
+								,LTRIM(TO_CHAR(NVL(T2.ELCTY_LEAD_IN_CAPA,0),'99,999,990.00')) AS ELCTY_LEAD_IN_CAPA
+								,T2.FCG AS FCG
+								,T2.ITR AS ITR
+								,T2.CEIL AS CEIL
+								,T2.ROOF AS ROOF
+								,T2.ROOF_WTPRF AS ROOF_WTPRF
+								,T2.PLAN_CNST_NM AS PLAN_CNST_NM
+								,T2.PLAN_EXC_CMPNY AS PLAN_EXC_CMPNY
+								,TO_CHAR(T2.PLAN_BEGIN_DT,'YYYY-MM-DD') AS PLAN_BEGIN_DT
+								,TO_CHAR(T2.PLAN_END_DT,'YYYY-MM-DD') AS PLAN_END_DT
+								,T2.CNSTRCT_CNST_NM AS CNSTRCT_CNST_NM
+								,T2.CNSTRCT_EXC_CMPNY AS CNSTRCT_EXC_CMPNY
+								,TO_CHAR(T2.CNSTRCT_BEGIN_DT,'YYYY-MM-DD') AS CNSTRCT_BEGIN_DT
+								,TO_CHAR(T2.CNSTRCT_END_DT,'YYYY-MM-DD') AS CNSTRCT_END_DT
+								,T2.RM AS RM
+								,T2.REG_USR AS REG_USR
+								,TO_CHAR(T2.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T2.UPD_USR AS UPD_USR
+								,TO_CHAR(T2.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,T2.LOC AS LOC
+								,T2.ARCH_FCLTS_CL_CD AS ARCH_FCLTS_CL_CD
+								,GAM_GET_FCLTS_CL_CD_NM(T2.ARCH_FCLTS_CL_CD) AS ARCH_FCLTS_CL_CD_NM
+								,NVL(T2.LOC,GAM_GET_LOCPLC_LNM_SUB(T3.GIS_ASSETS_LOCPLC,T3.GIS_ASSETS_LNM,T3.GIS_ASSETS_LNM_SUB)) AS PRT_FCLTY_LOC
+								,(CASE WHEN T2.ROWID IS NOT NULL THEN 'Y' ELSE 'N' END) AS FCLTY_SPEC_EXIST_YN
+							FROM GIS_PRT_FCLTY_CD_F T1
+							LEFT OUTER JOIN ARCH_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO)
+							LEFT OUTER JOIN GIS_ASSETS_CD_F T3 ON (T1.GIS_ASSETS_PRT_AT_CODE=T3.GIS_ASSETS_PRT_AT_CODE AND T1.GIS_ASSETS_CD=T3.GIS_ASSETS_CD AND T1.GIS_ASSETS_SUB_CD=T3.GIS_ASSETS_SUB_CD)
+						WHERE 1=1
+						AND T1.PRT_FCLTY_SE = 'A'
+
+						<isNotEmpty property="sFcltsMngNo">
+						AND T1.FCLTS_MNG_NO = #sFcltsMngNo#
+						</isNotEmpty>
+
+						<isNotEmpty property="sPrtAtCode">
+						AND T1.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+						</isNotEmpty>
+
+						<isNotEmpty property="sFcltsMngGroupNo">
+						AND T1.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+						</isNotEmpty>
+
+						<isNotEmpty property="sPrtFcltyNm">
+						AND T1.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
+						</isNotEmpty>
+
+						<isNotEmpty property="sLoc">
+						AND (T3.GIS_ASSETS_LOCPLC LIKE '%' || #sLoc# || '%' OR T2.LOC LIKE '%' || #sLoc# || '%')
+						</isNotEmpty>
+
+						<isNotEmpty property="sFcltsClCd">
+						AND T2.ARCH_FCLTS_CL_CD = #sFcltsClCd#
+						</isNotEmpty>
+
+						<isNotEmpty property="sGisPrtFcltyCd">
+						AND T1.GIS_PRT_FCLTY_CD = #sGisPrtFcltyCd#
+						</isNotEmpty>
+
+						ORDER BY T1.GIS_ASSETS_PRT_AT_CODE ASC
+								,T1.GIS_ASSETS_CD ASC
+								,T1.GIS_ASSETS_SUB_CD ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<select id="gamArchFcltySpecInqireDao.selectArchFcltySpecInqireListSum_S" parameterClass="gamArchFcltySpecInqireVO" resultMap="gamArchFcltySpecInqireSumMap">
+		SELECT
+				 TO_CHAR(NVL(COUNT(*),0),'999,999,999,999,999') AS TOTAL_COUNT
+				,TO_CHAR(NVL(SUM(T2.AR),0),'999,999,999,999,999') AS SUM_AR
+				,TO_CHAR(NVL(SUM(T2.ARCH_AR),0),'999,999,999,999,999') AS SUM_ARCH_AR
+				,TO_CHAR(NVL(SUM(T2.PLOT_AR),0),'999,999,999,999,999') AS SUM_PLOT_AR
+			FROM GIS_PRT_FCLTY_CD_F T1
+			LEFT OUTER JOIN ARCH_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO)
+			LEFT OUTER JOIN GIS_ASSETS_CD_F T3 ON (T1.GIS_ASSETS_PRT_AT_CODE=T3.GIS_ASSETS_PRT_AT_CODE AND T1.GIS_ASSETS_CD=T3.GIS_ASSETS_CD AND T1.GIS_ASSETS_SUB_CD=T3.GIS_ASSETS_SUB_CD)
+		WHERE 1=1
+		AND T1.PRT_FCLTY_SE = 'A'
+
+		<isNotEmpty property="sFcltsMngNo">
+		AND T1.FCLTS_MNG_NO = #sFcltsMngNo#
+		</isNotEmpty>
+
+		<isNotEmpty property="sPrtAtCode">
+		AND T1.GIS_ASSETS_PRT_AT_CODE = #sPrtAtCode#
+		</isNotEmpty>
+
+		<isNotEmpty property="sFcltsMngGroupNo">
+		AND T1.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+		</isNotEmpty>
+
+		<isNotEmpty property="sPrtFcltyNm">
+		AND T1.PRT_FCLTY_NM LIKE '%' || #sPrtFcltyNm# || '%'
+		</isNotEmpty>
+
+		<isNotEmpty property="sLoc">
+		AND (T3.GIS_ASSETS_LOCPLC LIKE '%' || #sLoc# || '%' OR T2.LOC LIKE '%' || #sLoc# || '%')
+		</isNotEmpty>
+
+		<isNotEmpty property="sFcltsClCd">
+		AND T2.ARCH_FCLTS_CL_CD = #sFcltsClCd#
+		</isNotEmpty>
+
+		<isNotEmpty property="sGisPrtFcltyCd">
+		AND T1.GIS_PRT_FCLTY_CD = #sGisPrtFcltyCd#
+		</isNotEmpty>
+	</select>
+
+	<select id="gamArchFcltySpecInqireDao.selectArchFcltySpecInqireFcltsAtchFileList_D" parameterClass="gamFcltsAtchFileMngVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 TO_CHAR(T1.ATCH_FILE_NO) AS ATCH_FILE_NO
+								,T1.ATCH_FILE_NM_LOGIC AS ATCH_FILE_NM_LOGIC
+								,T1.ATCH_FILE_NM_PHYSICL AS ATCH_FILE_NM_PHYSICL
+								,T1.ATCH_FILE_SE AS ATCH_FILE_SE
+								,T1.ATCH_FILE_SJ AS ATCH_FILE_SJ
+								,TO_CHAR(T1.DIR_NO) AS ATCH_FILE_DIR_NO
+								,T1.FCLTS_DATA_SE AS ATCH_FILE_FCLTS_DATA_SE
+								,T1.FCLTS_MNG_NO AS ATCH_FILE_FCLTS_MNG_NO
+								,T1.FCLTS_JOB_SE AS ATCH_FILE_FCLTS_JOB_SE
+								,TO_CHAR(T1.FCLTS_MNG_SEQ) AS ATCH_FILE_FCLTS_MNG_SEQ
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,GAM_GET_FILE_SE_NM(T1.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+								,'FALSE' AS ATCH_FILE_SEL_CHK
+							FROM FCLTS_ATCH_FILE_F T1
+						WHERE 1=1
+
+						<isNotEmpty property="atchFileDirNo">
+						AND T1.DIR_NO = NVL(TO_NUMBER(REPLACE(#atchFileDirNo#,',','')),0)
+						</isNotEmpty>
+
+						ORDER BY T1.ATCH_FILE_NO ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+	
+	<select id="gamArchFcltySpecInqireDao.selectArchFcltySpecInqireAtchFileDirList_D" parameterClass="gamAtchFileDirMngVO" resultClass="egovMap">
+		SELECT
+				 T.DIR_NO AS DIR_NO
+				,T.DEPTH_SORT AS DEPTH_SORT
+				,T.DIR_NM AS DIR_NM
+				,T.DIR_UPPER_NO
+			FROM (
+				SELECT
+						 1 AS DIR_NO
+						,0 AS DEPTH_SORT
+						,'ROOT' AS DIR_NM
+						,0 AS DIR_UPPER_NO
+					FROM DUAL
+				UNION ALL
+				SELECT
+						 T1.DIR_NO AS DIR_NO
+						,T1.DEPTH_SORT AS DEPTH_SORT
+						,T1.DIR_NM AS DIR_NM
+						,(CASE WHEN T1.DEPTH_SORT <![CDATA[ > ]]> 1 THEN T1.DIR_UPPER_NO ELSE 1 END) AS DIR_UPPER_NO
+					FROM ATCH_FILE_DIR_F T1
+				) T
+		ORDER BY T.DIR_NO,T.DEPTH_SORT
+	</select>
+	
+	<select id="gamArchFcltySpecInqireDao.selectArchFcltySpecInqireAtchFileDirPk_S" parameterClass="gamAtchFileDirMngVO" resultClass="egovMap">
+		SELECT
+				 TO_CHAR(T1.DIR_NO) AS DIR_NO
+				,T1.DIR_NM AS DIR_NM
+				,T1.DIR_PATH AS DIR_PATH
+				,TO_CHAR(T1.DIR_UPPER_NO) AS DIR_UPPER_NO
+				,TO_CHAR(T1.DEPTH_SORT) AS DEPTH_SORT
+				,T1.LEAF_YN AS LEAF_YN
+				,T1.FCLTS_JOB_SE AS DIR_FCLTS_JOB_SE
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+			FROM ATCH_FILE_DIR_F T1
+		WHERE T1.DIR_NO = NVL(TO_NUMBER(REPLACE(#dirNo#,',','')),0)
+	</select>
+	
+	<select id="gamArchFcltySpecInqireDao.selectArchFcltySpecInqireFcltsAtchFilePk_S" parameterClass="gamFcltsAtchFileMngVO" resultClass="egovMap">
+		SELECT
+				 TO_CHAR(T1.ATCH_FILE_NO) AS ATCH_FILE_NO
+				,T1.ATCH_FILE_NM_LOGIC AS ATCH_FILE_NM_LOGIC
+				,T1.ATCH_FILE_NM_PHYSICL AS ATCH_FILE_NM_PHYSICL
+				,T1.ATCH_FILE_SE AS ATCH_FILE_SE
+				,T1.ATCH_FILE_SJ AS ATCH_FILE_SJ
+				,TO_CHAR(T1.DIR_NO) AS ATCH_FILE_DIR_NO
+				,T1.FCLTS_DATA_SE AS ATCH_FILE_FCLTS_DATA_SE
+				,T1.FCLTS_MNG_NO AS ATCH_FILE_FCLTS_MNG_NO
+				,T1.FCLTS_JOB_SE AS ATCH_FILE_FCLTS_JOB_SE
+				,TO_CHAR(T1.FCLTS_MNG_SEQ) AS ATCH_FILE_FCLTS_MNG_SEQ
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,GAM_GET_FILE_SE_NM(T1.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+				,'FALSE' AS ATCH_FILE_SEL_CHK
+			FROM FCLTS_ATCH_FILE_F T1
+		WHERE T1.ATCH_FILE_NO = TO_NUMBER(REPLACE(#atchFileNo#,',',''))
+	</select>
+	
+	<select id="gamArchFcltySpecInqireDao.selectFcltsMngGroupNm_S" parameterClass="hashmap" resultClass="java.lang.String">
+		SELECT FCLTS_MNG_GROUP_NM
+			FROM FCLTS_MNG_GROUP_F
+		WHERE FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+	</select>
+
+</sqlMap>

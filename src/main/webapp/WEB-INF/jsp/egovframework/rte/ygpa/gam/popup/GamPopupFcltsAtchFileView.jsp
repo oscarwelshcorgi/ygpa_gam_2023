@@ -47,7 +47,15 @@ GamPopupFcltsAtchFileViewModule.prototype = new EmdPopupModule(600, 440);
 GamPopupFcltsAtchFileViewModule.prototype.loadComplete = function(params) {
 
 	this.resizable(true);
-
+	
+	var inqire = params.inqire;
+	
+	if(inqire == true){
+		this.$('#btnUpdate').hide();
+		this.$('#atchFileSe').disable();
+		this.$('#atchFileSj').disable();
+	};
+	
 	this.$('#atchFileSe').on('change',{module:this}, function(event){
 		var module = event.data.module;
 		var atchFileSe = $(this).val();
