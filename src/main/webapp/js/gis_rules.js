@@ -1,0 +1,1718 @@
+//건축 시설 룰 셋
+var fcltyConstRuleSet = [
+	{
+		title: "건축시설",
+		filter: new OpenLayers.Filter.Comparison({
+			type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			property: "FCLTY_SE",
+			value: "A"
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_${FCLTY_CD}.png",
+				graphicWidth: 32,
+				graphicHeight: 37,
+				graphicXOffset: -16,
+				graphicYOffset: -37,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			},
+			"Line" : {
+				strokeWidth : 3,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			},
+			"Polygon" : {
+				fillColor: "#45CEC9",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "여객터미널",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'A2'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_A2.png",
+				graphicWidth: 32,
+				graphicHeight: 37,
+				graphicXOffset: -16,
+				graphicYOffset: -37,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "관리동",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'A3'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_A3.png",
+				graphicWidth: 32,
+				graphicHeight: 37,
+				graphicXOffset: -16,
+				graphicYOffset: -37,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	}
+];
+
+//기계 시설 룰셋
+var fcltyMechRuleSet = [
+	{
+		filter: new OpenLayers.Filter.Comparison({
+			type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			property: "FCLTY_SE",
+			value: "M"
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_${FCLTY_CD}.png",
+				graphicWidth: 32,
+				graphicHeight: 37,
+				graphicXOffset: -16,
+				graphicYOffset: -37,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			},
+			"Line" : {
+				strokeWidth : 3,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			},
+			"Polygon" : {
+				fillColor: "#FF9600",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#000080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: '트렌스퍼 크레인',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'M'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'M2'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_M2.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "${FCLTY_NM}",
+				fontColor: "green",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "ct",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: '트윈스프레더',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'M'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'M3'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_M3.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "${FCLTY_NM}",
+				fontColor: "green",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "ct",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: '하버크레인',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'M'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'M4'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_M4.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "${FCLTY_NM}",
+				fontColor: "green",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "ct",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: '컨테이너 크레인',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'M'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'M1'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_M1.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "${FCLTY_NM}",
+				fontColor: "green",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "ct",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: '야드트랙터',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'M'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'M5'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_M5.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333"
+			}
+		}
+	},
+	{
+		title: '리치스태커',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'M'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'M6'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_M6.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333"
+			}
+		}
+	},
+	{
+		title: '탑핸들러',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'M'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'M7'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_M7.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333"
+			}
+		}
+	},
+	{
+		title: '샷시',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'M'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'M8'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_M8.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333"
+			}
+		}
+	},
+	{
+		title: '지게차',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'M'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'M8'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_M9.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333"
+			}
+		}
+	},
+	{
+		title: '부잔교',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'M'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'MA'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_MA.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333"
+			}
+		}
+	},
+	{
+		title: '건축설비',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'M'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'MA'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#FF9600",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#000080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	}
+];
+
+var fcltyPowerRuleSet = [
+	{
+		filter: new OpenLayers.Filter.Comparison({
+			type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			property: "FCLTY_SE",
+			value: "E"
+		}),
+		symbolizer: {
+			"Point" : {
+				strokeColor : "#333333",
+				strokeOpacity : 1,
+				strokeWidth : 1,
+				fillColor : "red",
+				fillOpacity : 1,
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_${FCLTY_CD}.png",
+				graphicWidth: 32,
+				graphicHeight: 37,
+				graphicXOffset: -16,
+				graphicYOffset: -37,
+				label : "${FCLTY_NM}",
+				fontColor: "blue",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "ct",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			},
+			"Line" : {
+				strokeWidth : 3,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			},
+			"Polygon" : {
+				fillColor: "#45CEC9",
+				fillOpacity: 0.5,
+				strokeWidth : 3,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: '가스차단기',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'E'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'E1'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_E1.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333"
+			}
+		}
+	},
+	{
+		title: '변압기(TR)',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'E'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'E2'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_E2.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333"
+			}
+		}
+	},
+	{
+		title: '수배전반',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'E'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'E3'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Line" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_E3.png",
+				graphicWidth: 32,
+				graphicHeight: 37,
+				graphicXOffset: -16,
+				graphicYOffset: -37,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 3,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				strokeLinecap: 'round',
+				strokeDashstyle: 'dashdot',
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "14px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "bold",
+				labelAlign: "cb",
+				labelAlign: "cm",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: '중앙감시반',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'E'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'E4'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_E4.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333"
+			}
+		}
+	},
+	{
+		title: '관로',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'E'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'E5'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_E5.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333"
+			}
+		}
+	},
+	{
+		title: '비상발전기',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'E'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'E6'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_E6.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -10,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "${FCLTY_NM}",
+				fontColor: "blue",
+				fontSize: "10px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "ct",
+				labelXOffset: 0,
+				labelYOffset: -12,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: '조명탑 (4각탑)',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'E'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'E7'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_E7.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "${FCLTY_NM}",
+				fontColor: "blue",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "ct",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: '조명탑 (1POLE)',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'E'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'E8'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_E8.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "${FCLTY_NM}",
+				fontColor: "blue",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "ct",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: '가로등1등-100M',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'E'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'E9'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_E9.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "",
+				fontColor: "blue",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "ct",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: '가로등2등-100M',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'E'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'EA'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_EA.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "",
+				fontColor: "blue",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "ct",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: '가로등1등-40M',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'E'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'EB'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_EB.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "",
+				fontColor: "blue",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "ct",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: '가로등2등-40M',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'E'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'EC'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_EC.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "",
+				fontColor: "blue",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "ct",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: '주차등(1등)',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'E'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'ED'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_ED.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "",
+				fontColor: "blue",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "ct",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: '공원(1등)',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'E'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'EE'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_EE.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "",
+				fontColor: "blue",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "ct",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	}
+];
+
+// 토목 시설
+var fcltyCivilRuleSet = [
+	{
+	  filter: new OpenLayers.Filter.Comparison({
+	      type: OpenLayers.Filter.Comparison.EQUAL_TO,
+	      property: "FCLTY_SE",
+	      value: "C"
+	  }),
+	  symbolizer: {
+		  "Point" : {
+			  pointRadius : 10,
+			  externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_${FCLTY_CD}.png",
+			  graphicWidth: 32,
+			  graphicHeight: 37,
+			  graphicXOffset: -16,
+			  graphicYOffset: -37,
+			  fillColor : "red",
+			  fillOpacity : 1,
+			  strokeWidth : 1,
+			  strokeOpacity : 1,
+			  strokeColor : "#333333"
+		  },
+		  "Line" : {
+			  strokeWidth : 3,
+			  strokeOpacity : 1,
+			  strokeColor : "#800080"
+		  },
+		  "Polygon" : {
+			  fillColor: "#45CEC9",
+			  fillOpacity: 0.5,
+			  strokeWidth : 3,
+			  strokeOpacity : 1,
+			  strokeColor : "#800080"
+		  }
+	  }
+	},
+	{
+		title: "방충재",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'C'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'C1'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_C1.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#5432C9"
+			}
+		}
+	},
+	{
+		title: "계선주",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'C'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'C2'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_C2.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#5432C9"
+			}
+		}
+	},
+	{
+		title:"배수관로",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'C'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'C5'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Line" : {
+				strokeWidth : 5,
+				strokeOpacity : 0.75,
+				strokeColor : "#FF7F27",
+				strokeLinecap: 'square',
+				strokeDashstyle: 'solid',
+			}
+		}
+	},
+	{
+		title:"상수관로",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'C'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'C4'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Line" : {
+				strokeWidth : 5,
+				strokeOpacity : 0.75,
+				strokeColor : "#0E25D1",
+				strokeLinecap: 'square',
+				strokeDashstyle: 'solid'
+			}
+		}
+	},
+	{
+		title:"오수관로",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'C'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'C3'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Line" : {
+				strokeWidth : 5,
+				strokeOpacity : 0.75,
+				strokeColor : "#BD00C9",
+				strokeLinecap: 'square',
+				strokeDashstyle: 'solid'
+			}
+		}
+	}
+];
+
+// 정보통신
+var fcltyITRuleSet = [
+	{
+		filter: new OpenLayers.Filter.Comparison({
+			type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			property: "FCLTY_SE",
+			value: "I"
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+	//			externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/cctv.png",
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_${FCLTY_CD}.png",
+				graphicWidth: 32,
+				graphicHeight: 37,
+				graphicXOffset: -16,
+				graphicYOffset: -37,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "${FCLTY_NM}",
+				fontColor: "green",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "cb",
+				labelAlign: "cm",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			},
+			"Line" : {
+				strokeWidth : 3,
+				strokeOpacity : 1,
+				strokeColor : "#800080"
+			},
+			"Polygon" : {
+				fillColor: "#45CEC9",
+				fillOpacity: 0.5,
+				strokeWidth : 3,
+				strokeOpacity : 1,
+				strokeColor : "#800080"
+			}
+		}
+	},
+	{
+		filter: new OpenLayers.Filter.Comparison({
+			type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			property: "FCLTY_SE",
+			value: "I"
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+	//			externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/cctv.png",
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_${FCLTY_CD}.png",
+				graphicWidth: 32,
+				graphicHeight: 37,
+				graphicXOffset: -16,
+				graphicYOffset: -37,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "${FCLTY_NM}",
+				fontColor: "green",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "cb",
+				labelAlign: "cm",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			},
+			"Line" : {
+				strokeWidth : 3,
+				strokeOpacity : 1,
+				strokeColor : "#800080"
+			},
+			"Polygon" : {
+				fillColor: "#45CEC9",
+				fillOpacity: 0.5,
+				strokeWidth : 3,
+				strokeOpacity : 1,
+				strokeColor : "#800080"
+			}
+		}
+	},
+	{
+		title: "스피드돔 카메라",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'I'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'I1'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_I1.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#5432C9",
+				label : "${FCLTY_NM}",
+				fontColor: "green",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "cb",
+				labelAlign: "cm",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "고정형 카메라",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'I'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'I2'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_I2.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#5432C9",
+				label : "${FCLTY_NM}",
+				fontColor: "green",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "cb",
+				labelAlign: "cm",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "RFID 차량용리더",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'I'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'I3'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_I3.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#5432C9",
+				label : "${FCLTY_NM}",
+				fontColor: "green",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "cb",
+				labelAlign: "cm",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "RFID 인원용리더",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'I'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'I4'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_I4.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#5432C9",
+				label : "${FCLTY_NM}",
+				fontColor: "green",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "cb",
+				labelAlign: "cm",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	}
+];

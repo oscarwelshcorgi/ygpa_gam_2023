@@ -108,4 +108,6 @@ public class GamGisPageController {
 
     	return "ygpa/gam/indoor/GamGoldenLogisCenter";
     }
+
+
 }

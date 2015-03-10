@@ -69,6 +69,7 @@
     <script src="<c:url value='/js/emf_map.ygpa_gam.js'/>"></script>
 
     <script src="<c:url value='/js/DynamicMeasure.js'/>"></script>
+    <script src="<c:url value='/js/gis_rules.js'/>"></script>
     <script src="<c:url value='/js/emf.map.desktop.js'/>"></script>
     <!--
     <script src="<c:url value='/js/codebase/dhtmlxgrid.js'/>"></script>
@@ -117,11 +118,6 @@
         <div id="desktop" class="abs mapdesk">
         </div>
         <div id="legendPanel" class="legendPanel">
-        	<div id="archGroup"></div>
-        	<div id="civilGroup"></div>
-        	<div id="mechGroup"></div>
-        	<div id="elecGroup"></div>
-        	<div id="infoGroup"></div>
         </div>
         <div id="sideMenu">
           <ul>
