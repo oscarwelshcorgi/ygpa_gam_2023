@@ -41,7 +41,7 @@ public class GamFcltsChargerMngVO extends ComDefaultVO {
 	private	String updUsr;				// 수정자
 	private	String updtDt;				// 수정일시
 	private	String fcltsJobSeNm;		// 시설물 업무 구분 명
-	private	String totalCount;				// 조회 자료 수
+	private	String totalCount;			// 조회 자료 수
 	private	String sChargerNm;			// 검색 담당자 명
 	private	String sFcltsJobSe;			// 검색 시설물 업무 구분
 
