@@ -1,7 +1,6 @@
 //건축 시설 룰 셋
 var fcltyConstRuleSet = [
 	{
-		title: "건축시설",
 		filter: new OpenLayers.Filter.Comparison({
 			type: OpenLayers.Filter.Comparison.EQUAL_TO,
 			property: "FCLTY_SE",
@@ -28,7 +27,7 @@ var fcltyConstRuleSet = [
 		}
 	},
 	{
-		title: "운영건물",
+		title: "운영건물,세관건물",
 		filter: new OpenLayers.Filter.Comparison({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -65,7 +64,6 @@ var fcltyConstRuleSet = [
 		}
 	},
 	{
-		title: "세관건물",
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -139,7 +137,7 @@ var fcltyConstRuleSet = [
 		}
 	},
 	{
-		title: "마린센터",
+		title: "마린센터,물류센터",
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -176,7 +174,6 @@ var fcltyConstRuleSet = [
 		}
 	},
 	{
-		title: "물류센터",
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -1058,7 +1055,50 @@ var fcltyMechRuleSet = [
 		}
 	},
 	{
-		title: '트렌스퍼 크레인',
+		title: '컨테이너크레인',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'M'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'M1'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_M1.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "${FCLTY_NM}",
+				fontColor: "green",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "ct",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: '트렌스퍼크레인',
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -1187,49 +1227,6 @@ var fcltyMechRuleSet = [
 		}
 	},
 	{
-		title: '컨테이너 크레인',
-		filter: new OpenLayers.Filter.Logical({
-			type: OpenLayers.Filter.Logical.AND,
-			filters: [
-			          new OpenLayers.Filter.Comparison({
-			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
-			        	  property: "FCLTY_SE",
-			        	  value: 'M'
-			          }),
-			          new OpenLayers.Filter.Comparison({
-			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
-			        	  property: "FCLTY_CD",
-			        	  value: 'M1'
-			          })
-			          ]
-		}),
-		symbolizer: {
-			"Point" : {
-				pointRadius : 10,
-				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_M1.png",
-				graphicWidth: 16,
-				graphicHeight: 19,
-				graphicXOffset: -8,
-				graphicYOffset: -19,
-				fillColor : "red",
-				fillOpacity : 1,
-				strokeWidth : 1,
-				strokeOpacity : 1,
-				strokeColor : "#333333",
-				label : "${FCLTY_NM}",
-				fontColor: "green",
-				fontSize: "12px",
-				fontFamily: "Nanum Gothic",
-				fontWeight: "thin",
-				labelAlign: "ct",
-				labelXOffset: 0,
-				labelYOffset: -3,
-				labelOutlineColor: "white",
-				labelOutlineWidth: 3
-			}
-		}
-	},
-	{
 		title: '야드트랙터',
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
@@ -1263,7 +1260,7 @@ var fcltyMechRuleSet = [
 		}
 	},
 	{
-		title: '리치스태커',
+		title: '리치스텍커',
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -1374,7 +1371,7 @@ var fcltyMechRuleSet = [
 			          new OpenLayers.Filter.Comparison({
 			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
 			        	  property: "FCLTY_CD",
-			        	  value: 'M8'
+			        	  value: 'M9'
 			          })
 			          ]
 		}),
@@ -1412,23 +1409,27 @@ var fcltyMechRuleSet = [
 			          ]
 		}),
 		symbolizer: {
-			"Point" : {
-				pointRadius : 10,
-				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_MA.png",
-				graphicWidth: 16,
-				graphicHeight: 19,
-				graphicXOffset: -8,
-				graphicYOffset: -19,
-				fillColor : "red",
-				fillOpacity : 1,
+			"Polygon" : {
+				fillColor: "#FF00FF",
+				fillOpacity: 0.5,
 				strokeWidth : 1,
 				strokeOpacity : 1,
-				strokeColor : "#333333"
+				strokeColor : "#000080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
 			}
 		}
 	},
 	{
-		title: '건축설비',
+		title: '건축 기계설비',
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -1440,11 +1441,75 @@ var fcltyMechRuleSet = [
 			          new OpenLayers.Filter.Comparison({
 			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
 			        	  property: "FCLTY_CD",
-			        	  value: 'MA'
+			        	  value: 'MB'
 			          })
 			          ]
 		}),
 		symbolizer: {
+			"Polygon" : {
+				fillColor: "#FF9600",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#000080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{	title:'기타',
+		filter: new OpenLayers.Filter.Comparison({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'M'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'MZ'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_MZ.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333"
+			},
+			"Line" : {
+				strokeWidth : 3,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			},
 			"Polygon" : {
 				fillColor: "#FF9600",
 				fillOpacity: 0.5,
@@ -2336,57 +2401,55 @@ var fcltyCivilRuleSet = [
 				strokeDashstyle: 'solid'
 			}
 		}
-	}
+	},
+	{	  title:'기타',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'C'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'CZ'
+			          })
+			          ]
+		  }),
+		  symbolizer: {
+			  "Point" : {
+					pointRadius : 10,
+					externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_CZ.png",
+					graphicWidth: 16,
+					graphicHeight: 19,
+					graphicXOffset: -8,
+					graphicYOffset: -19,
+					fillColor : "red",
+					fillOpacity : 1,
+					strokeWidth : 1,
+					strokeOpacity : 1,
+					strokeColor : "#5432C9"
+				},
+			  "Line" : {
+				  strokeWidth : 3,
+				  strokeOpacity : 1,
+				  strokeColor : "#800080"
+			  },
+			  "Polygon" : {
+				  fillColor: "#45CEC9",
+				  fillOpacity: 0.5,
+				  strokeWidth : 3,
+				  strokeOpacity : 1,
+				  strokeColor : "#800080"
+			  }
+		  }
+		}
 ];
 
 // 정보통신
 var fcltyITRuleSet = [
-	{
-		filter: new OpenLayers.Filter.Comparison({
-			type: OpenLayers.Filter.Comparison.EQUAL_TO,
-			property: "FCLTY_SE",
-			value: "I"
-		}),
-		symbolizer: {
-			"Point" : {
-				pointRadius : 10,
-	//			externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/cctv.png",
-				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_${FCLTY_CD}.png",
-				graphicWidth: 32,
-				graphicHeight: 37,
-				graphicXOffset: -16,
-				graphicYOffset: -37,
-				fillColor : "red",
-				fillOpacity : 1,
-				strokeWidth : 1,
-				strokeOpacity : 1,
-				strokeColor : "#333333",
-				label : "${FCLTY_NM}",
-				fontColor: "green",
-				fontSize: "12px",
-				fontFamily: "Nanum Gothic",
-				fontWeight: "thin",
-				labelAlign: "cb",
-				labelAlign: "cm",
-				labelXOffset: 0,
-				labelYOffset: -3,
-				labelOutlineColor: "white",
-				labelOutlineWidth: 3
-			},
-			"Line" : {
-				strokeWidth : 3,
-				strokeOpacity : 1,
-				strokeColor : "#800080"
-			},
-			"Polygon" : {
-				fillColor: "#45CEC9",
-				fillOpacity: 0.5,
-				strokeWidth : 3,
-				strokeOpacity : 1,
-				strokeColor : "#800080"
-			}
-		}
-	},
 	{
 		filter: new OpenLayers.Filter.Comparison({
 			type: OpenLayers.Filter.Comparison.EQUAL_TO,
@@ -2606,6 +2669,50 @@ var fcltyITRuleSet = [
 				labelYOffset: -3,
 				labelOutlineColor: "white",
 				labelOutlineWidth: 3
+			}
+		}
+	},
+	{	title: '기타',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'I'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'IZ'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_IZ.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#5432C9",
+			},
+			"Line" : {
+				strokeWidth : 3,
+				strokeOpacity : 1,
+				strokeColor : "#800080"
+			},
+			"Polygon" : {
+				fillColor: "#45CEC9",
+				fillOpacity: 0.5,
+				strokeWidth : 3,
+				strokeOpacity : 1,
+				strokeColor : "#800080"
 			}
 		}
 	}
