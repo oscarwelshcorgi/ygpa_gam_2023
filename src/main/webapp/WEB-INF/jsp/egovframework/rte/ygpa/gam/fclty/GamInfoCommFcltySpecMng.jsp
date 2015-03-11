@@ -167,6 +167,11 @@ GamInfoCommFcltySpecMngModule.prototype.loadComplete = function(params) {
 		module.showFcltsAtchFileViewPopup();
 	});
 
+	this.$('#dirQueryOption').on('change',{module:this}, function(event){
+		event.data.module.displayAtchFileDirectory("");
+		event.data.module.displayAtchFileList("");
+	});
+
 	this._params = params;
 	this._mainmode = 'query';
 	this._mainKeyValue = '';
@@ -1645,6 +1650,10 @@ GamInfoCommFcltySpecMngModule.prototype.addAtchFileDirectory = function() {
 		alert('상위 디렉토리 정보가 부정확합니다. (업무구분)');
 		return;
 	}
+	if (dirFcltsJobSe != "I") {
+		alert('다른 시설담당자가 생성한 디렉토리입니다. (생성불가)');
+		return;
+	}
 	if (inputDirNm == dirNm) {
 		alert('생성 디렉토리명이 현재 디렉토리명과 동일합니다.');
 		this.$("#inputDirNm").focus();
@@ -2826,7 +2835,6 @@ var module_instance = new GamInfoCommFcltySpecMngModule();
 			<div id="fileTab" class="emdTabPage" style="overflow:scroll;">
 				<table class="detailPanel" style="width:100%;">
 					<tr>
-						<th style="font-weight:bold; height:20px;">디렉토리 영역 : </th>
 						<th style="width:10%; height:20px;">선택디렉토리</th>
 						<td style="width:50%;">
 							<form id="dirForm">
@@ -2838,6 +2846,14 @@ var module_instance = new GamInfoCommFcltySpecMngModule();
 								<input id="depthSort" type="hidden"/>
 								<input id="leafYn" type="hidden"/>
 								<input id="inputDirNm" type="text" size="50" maxlength="100"/>
+								<select id="dirQueryOption">
+									<option value="">전체</option>
+									<option value="A">건축시설</option>
+									<option value="C">토목시설</option>
+									<option value="M">기계시설</option>
+									<option value="E">전기시설</option>
+									<option value="I" selected>통신시설</option>
+								</select>
 							</form>
 						</td>
 						<th style="font-weight:bold; height:20px;">첨부파일 영역 : </th>

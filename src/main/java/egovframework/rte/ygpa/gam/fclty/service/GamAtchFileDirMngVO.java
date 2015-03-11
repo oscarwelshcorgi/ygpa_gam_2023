@@ -37,6 +37,7 @@ public class GamAtchFileDirMngVO extends ComDefaultVO {
 	private	String registDt;			// 등록일시
 	private	String updUsr;				// 수정자
 	private	String updtDt;				// 수정일시
+	private	String dirQueryOption;		// 디렉토리 조회 OPTION
 
 	/**
 	 * @return the dirNo
@@ -169,6 +170,18 @@ public class GamAtchFileDirMngVO extends ComDefaultVO {
 	 */
 	public void setUpdtDt(String updtDt) {
 		this.updtDt = updtDt;
+	}
+	/**
+	 * @return the dirQueryOption
+	 */
+	public String getDirQueryOption() {
+		return dirQueryOption;
+	}
+	/**
+	 * @param dirQueryOption the dirQueryOption to set
+	 */
+	public void setDirQueryOption(String dirQueryOption) {
+		this.dirQueryOption = dirQueryOption;
 	}
 
 }

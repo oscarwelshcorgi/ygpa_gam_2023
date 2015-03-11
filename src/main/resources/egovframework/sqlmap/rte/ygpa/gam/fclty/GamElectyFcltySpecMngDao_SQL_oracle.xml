@@ -606,6 +606,10 @@
 						,T1.DIR_NM AS DIR_NM
 						,(CASE WHEN T1.DEPTH_SORT <![CDATA[ > ]]> 1 THEN T1.DIR_UPPER_NO ELSE 1 END) AS DIR_UPPER_NO
 					FROM ATCH_FILE_DIR_F T1
+				WHERE 1 = 1
+				<isNotEmpty property="dirQueryOption">
+				AND T1.FCLTS_JOB_SE = #dirQueryOption#
+				</isNotEmpty>
 				) T
 		ORDER BY T.DIR_NO,T.DEPTH_SORT
 	</select>
