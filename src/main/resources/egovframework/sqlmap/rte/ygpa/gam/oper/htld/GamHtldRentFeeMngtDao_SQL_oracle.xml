@@ -1665,29 +1665,25 @@
       UPDT_UID, UPDT_DATE, FIRST_BILL_DT, VAT_YN, VAT, STR_DATE, END_DATE,
       DEPT,USER_NAME
       )
-        SELECT
-      L.PRT_AT_CODE,
-      GAM_GET_FEE_TP(L.CHRGE_KND) FEE_TP,
-      GAM_GET_WORK_CODE(L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT, L.NTIC_CNT, L.CHRGE_KND)  WORK_CODE,
-      #accnutYear# FISCAL_YR, #nticno# BILL_NO,
-      L.ENTRPSCD,
-      (SELECT BIZRNO FROM ENTRPS_INFO_F E WHERE L.ENTRPSCD=ENTRPSCD) BZ_RGST_ID,
-      L.ENTRPS_NM AGENT_NAME,
-      (SELECT SSN FROM ENTRPS_INFO_F E WHERE L.ENTRPSCD=ENTRPSCD) SSN,
-      SYSDATE,
-      TO_DATE(L.PAY_TMLMT, 'YYYY-MM-DD'),
-      L.NHT_PRINT_YN,
-      L.FEE, L.RDCXPT_FEE, 0, 0,
-	  '0',
-      #updUsr#, SYSDATE, SYSDATE, L.VAT_YN, L.VAT, L.NTIC_PD_FROM, L.NTIC_PD_TO,
-      #deptCd#,
-      #userName#
-      FROM LEV_REQEST_F L
-      WHERE PRT_AT_CODE=#prtAtCode#
-      	AND MNG_YEAR=#mngYear#
-      	AND MNG_NO=#mngNo#
-      	AND MNG_CNT=#mngCnt#
-      	AND NTIC_CNT=#nticCnt#
+      values (
+      	#prtAtCode#,
+      	GAM_GET_FEE_TP(#chrgeKnd#),
+      	#chrgeKnd#,
+      	#accnutYear#,
+      	#nticno#,
+      	#entrpscd#,
+      	(SELECT BIZRNO FROM ENTRPS_INFO_F WHERE ENTRPSCD=#entrpscd#),
+      	#entrpsNm#,
+      	(SELECT SSN FROM ENTRPS_INFO_F WHERE ENTRPSCD=#entrpscd#),
+      	SYSDATE,
+      	#payTmlmt#,
+      	#nhtPrintYn#,
+      	#fee#, #rdcxptFee#, 0, 0,
+      	'0',
+      	#updUsr#, SYSDATE, SYSDATE, #vatYn#, #vat#, #nticPdFrom#, #nticPdTo#,
+	      #deptCd#,
+	      #userName#
+      )
     </insert>
 
     <insert id="gamHtldRentFeeMngtDao.insertIntrNticRequestRevCollF_S" parameterClass="egovMap" >

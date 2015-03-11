@@ -3,6 +3,8 @@
  */
 package egovframework.rte.ygpa.gam.code.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  *
  * @author EUNSUNGJ
@@ -19,7 +21,7 @@ package egovframework.rte.ygpa.gam.code.service;
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GamCofixIntrrateVO {
 	private String objYrmt;
 	private String blceStdrIntrrate;

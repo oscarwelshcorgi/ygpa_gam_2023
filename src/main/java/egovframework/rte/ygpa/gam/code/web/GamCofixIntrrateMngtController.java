@@ -75,7 +75,7 @@ public class GamCofixIntrrateMngtController {
     }
 
     @RequestMapping(value="/code/selectCofixIntrrateList.do")
-	@ResponseBody Map<String, Object> selectBupJungDongCodeList (GamCofixIntrrateDefaultVO searchVO) throws Exception {
+	@ResponseBody Map<String, Object> selectCofixIntrrateList (GamCofixIntrrateDefaultVO searchVO) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 

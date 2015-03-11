@@ -89,12 +89,12 @@ GamCofixMngtModule.prototype.onButtonClick = function(buttonId) {
 	case 'btnSave':
 		// 변경된 자료를 저장한다.
 		var inputVO=[];
- 		inputVO[inputVO.length]={name: 'updateList', value :JSON.stringify(this.$('#cofixList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
-		inputVO[inputVO.length]={name: 'insertList', value: JSON.stringify(this.$('#cofixList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
-		inputVO[inputVO.length]={name: 'deleteList', value: JSON.stringify(this._deleteDataList) };
+ 		inputVO[inputVO.length]={name: '_uList', value :JSON.stringify(this.$('#cofixList').selectFilterData([{col: '_updtId', filter: 'U'}])) };
+		inputVO[inputVO.length]={name: '_cList', value: JSON.stringify(this.$('#cofixList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+		inputVO[inputVO.length]={name: '_dList', value: JSON.stringify(this._deleteItem) };
 		// 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
 
-	 	this.doAction('/code/updateCofixIntrrate.do', inputVO, function(result) {
+	 	this.doAction('/code/updateCofixIntrrateList.do', inputVO, function(result) {
 	 		if(result.resultCode == 0){
 	 			this.$('#cofixList').flexReload();
 	 		}
