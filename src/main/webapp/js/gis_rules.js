@@ -8,44 +8,6 @@ var fcltyConstRuleSet = [
 			value: "A"
 		}),
 		symbolizer: {
-			"Point" : {
-				pointRadius : 10,
-				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_${FCLTY_CD}.png",
-				graphicWidth: 32,
-				graphicHeight: 37,
-				graphicXOffset: -16,
-				graphicYOffset: -37,
-				fillColor : "red",
-				fillOpacity : 1,
-				strokeWidth : 1,
-				strokeOpacity : 1,
-				strokeColor : "#333333",
-				label : "${FCLTY_NM}",
-				fontColor: "black",
-				fontSize: "12px",
-				fontFamily: "Courier New, monospace",
-				fontWeight: "bold",
-				labelAlign: "cm",
-				labelXOffset: "2px",
-				labelYOffset: "16px",
-				labelOutlineColor: "white",
-				labelOutlineWidth: 3
-			},
-			"Line" : {
-				strokeWidth : 3,
-				strokeOpacity : 1,
-				strokeColor : "#800080",
-				label : "${FCLTY_NM}",
-				fontColor: "black",
-				fontSize: "12px",
-				fontFamily: "Courier New, monospace",
-				fontWeight: "bold",
-				labelAlign: "cm",
-				labelXOffset: "2px",
-				labelYOffset: "16px",
-				labelOutlineColor: "white",
-				labelOutlineWidth: 3
-			},
 			"Polygon" : {
 				fillColor: "#45CEC9",
 				fillOpacity: 0.5,
@@ -66,7 +28,192 @@ var fcltyConstRuleSet = [
 		}
 	},
 	{
-		title: "여객터미널",
+		title: "운영건물",
+		filter: new OpenLayers.Filter.Comparison({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'A1'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#FF00FF",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "세관건물",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'A5'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#FF00FF",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "복합건물",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'AC'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#FF00FF",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "마린센터",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'AB'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#FF0000",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "물류센터",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'AE'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#FF0000",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "휴게소",
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -83,18 +230,12 @@ var fcltyConstRuleSet = [
 			          ]
 		}),
 		symbolizer: {
-			"Point" : {
-				pointRadius : 10,
-				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_A2.png",
-				graphicWidth: 32,
-				graphicHeight: 37,
-				graphicXOffset: -16,
-				graphicYOffset: -37,
-				fillColor : "red",
-				fillOpacity : 1,
+			"Polygon" : {
+				fillColor: "#FFFF00",
+				fillOpacity: 0.5,
 				strokeWidth : 1,
 				strokeOpacity : 1,
-				strokeColor : "#333333",
+				strokeColor : "#800080",
 				label : "${FCLTY_NM}",
 				fontColor: "black",
 				fontSize: "12px",
@@ -109,7 +250,155 @@ var fcltyConstRuleSet = [
 		}
 	},
 	{
-		title: "관리동",
+		title: "근로자대기소",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'A6'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#FFFF00",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "편의시설",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'AG'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#FFFF00",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "화장실",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'AK'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#FFFF00",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "노조회관",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'AN'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#FFFF00",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "GATE-COMPLEX",
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -126,18 +415,567 @@ var fcltyConstRuleSet = [
 			          ]
 		}),
 		symbolizer: {
-			"Point" : {
-				pointRadius : 10,
-				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_A3.png",
-				graphicWidth: 32,
-				graphicHeight: 37,
-				graphicXOffset: -16,
-				graphicYOffset: -37,
-				fillColor : "red",
-				fillOpacity : 1,
+			"Polygon" : {
+				fillColor: "#00FF00",
+				fillOpacity: 0.5,
 				strokeWidth : 1,
 				strokeOpacity : 1,
-				strokeColor : "#333333",
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "경비실",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'AJ'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#00FF00",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "경비초소",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'AL'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#00FF00",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "청경실",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'AM'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#00FF00",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "홍보관",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'AF'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#0000FF",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "사무실",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'AI'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#0000FF",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "청사",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'AP'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#0000FF",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "CFS/CIS",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'A4'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#9900FF",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "창고",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'AH'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#9900FF",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "선좌변전소",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'A7'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#FF99CC",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "주변전소",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'AA'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#FF99CC",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "변전실",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'AO'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#FF99CC",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "정비공장",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'A8'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#66FF66",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "주유소",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'A9'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#66FF66",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "폐수처리조",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'AD'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#66FF66",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
+		title: "기타",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'A'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'AZ'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Polygon" : {
+				fillColor: "#00FFFF",
+				fillOpacity: 0.5,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#800080",
 				label : "${FCLTY_NM}",
 				fontColor: "black",
 				fontSize: "12px",
@@ -1467,6 +2305,33 @@ var fcltyCivilRuleSet = [
 				strokeWidth : 5,
 				strokeOpacity : 0.75,
 				strokeColor : "#BD00C9",
+				strokeLinecap: 'square',
+				strokeDashstyle: 'solid'
+			}
+		}
+	},
+	{
+		title:"급수관로",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'C'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'C6'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Line" : {
+				strokeWidth : 5,
+				strokeOpacity : 0.75,
+				strokeColor : "#00FF00",
 				strokeLinecap: 'square',
 				strokeDashstyle: 'solid'
 			}
