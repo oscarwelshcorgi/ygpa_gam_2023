@@ -254,6 +254,7 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 //			egiroPrintCancel(vo);    // 고지가 된 경우 고지 취소를 한다. 2014-08-13 eunsungj.
 			vo.put("nhtPrintYn", "N");
 			updateNticPrintState(vo);
+			return;
 		}
 		gamHtldRentFeeMngtDao.deleteNticRequestRevCollF(vo);	// 고지정보를 삭제한다.
 		vo.put("accnutYear", "");
@@ -289,5 +290,14 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 	public void deleteHtldRentFeeMngtList(GamHtldRentFeeDefaultVO vo)
 			throws Exception {
 		gamHtldRentFeeMngtDao.deleteHtldRentFeeMngtList(vo);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtService#clearHtldRentFeeList(egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeDefaultVO)
+	 */
+	@Override
+	public void clearHtldRentFeeList(GamHtldRentFeeDefaultVO vo)
+			throws Exception {
+		gamHtldRentFeeMngtDao.clearHtldRentFeeList(vo);
 	}
 }

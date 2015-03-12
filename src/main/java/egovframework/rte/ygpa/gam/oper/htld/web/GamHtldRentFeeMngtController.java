@@ -213,7 +213,7 @@ public class GamHtldRentFeeMngtController {
 
     @RequestMapping(value="/oper/htld/clearHtldRentFeeList.do")
     public @ResponseBody Map clearHtldRentFeeList(
-     	   @ModelAttribute("gamHtldRentFeeMngtVO") GamHtldRentFeeDefaultVO clearRentFeeList,
+    		GamHtldRentFeeDefaultVO gamHtldRentFeeMngtVO,
      	   BindingResult bindingResult)
             throws Exception {
 
@@ -230,9 +230,9 @@ public class GamHtldRentFeeMngtController {
 
      	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
-     	clearRentFeeList.setUpdUsr(loginVo.getId()); //수정자 (세션 로그인 아이디)
+     	gamHtldRentFeeMngtVO.setUpdUsr(loginVo.getId()); //수정자 (세션 로그인 아이디)
 
-         gamHtldRentFeeMngtService.deleteHtldRentFeeMngt(clearRentFeeList);
+         gamHtldRentFeeMngtService.clearHtldRentFeeList(gamHtldRentFeeMngtVO);
 
          resultCode = 0;
  		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.

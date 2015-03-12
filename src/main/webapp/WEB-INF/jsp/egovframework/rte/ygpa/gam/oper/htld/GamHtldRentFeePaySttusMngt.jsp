@@ -655,6 +655,7 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
     <div id="searchViewStack" class="emdPanel">
         <div class="viewPanel">
             <form id="gamHtldRentFeePaySttusMngtSearchForm">
+            	<input type="hidden" id="sPrtAtCode" value="622"/>
                 <table style="width:100%;" class="searchPanel">
                     <tbody>
                         <tr>

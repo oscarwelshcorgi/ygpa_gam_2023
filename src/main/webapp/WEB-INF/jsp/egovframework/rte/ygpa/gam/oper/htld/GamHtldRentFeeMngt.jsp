@@ -36,6 +36,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         url: '/oper/htld/gamSelectHtldRentFeeMngtList.do',
         dataType: 'json',
         colModel : [
+				{display:'상태', name:'state',width:30, sortable:false,align:'center'},
                 {display:'구역', name:'rentArea',width:82, sortable:false,align:'center'},
 				{display:'고지횟수', name:'nticCnt',width:50, sortable:false,align:'center'},
 				{display:'입주기업', name:'entrpsNm',width:140, sortable:false,align:'left'},
@@ -74,7 +75,16 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
     this.$("#assetRentFeeList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         // 이벤트내에선 모듈에 대해 선택한다.
         //module.$("#assetRentFeeListTab").tabs("option", {active: 1});    // 탭을 전환 한다.
-    	module.setButtonStatus();
+        var rows = module.$('#assetRentFeeList').selectedRows();
+        var opts = {};
+
+        if(rows.length>0) {
+        	opts = {
+        			action: 'selectRentFeePay',
+        			nticVo:{ prtAtCode: rows[0].prtAtCode, mngYear: rows[0].mngYear, mngNo: rows[0].mngNo, mngCnt: rows[0].mngCnt, nticCnt: rows[0].mngCnt }
+        	};
+        }
+   	 	EMD.util.create_window('배후단지납부현황관리', '/oper/htld/gamHtldRentFeePaySttusMngt.do', null, opts);
     });
 
     this.$("#assetRentFeeList").on('onCellEdited', function(event, module, row, rid, cid) {
@@ -84,14 +94,16 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         		alert('고지된 자료는 수정 되지 않습니다.');
         		return;
         	}
-            if(row._updtId!="I") row._updtId="U";
+            if(row._updtId!="I") {
+            	row._updtId="U";
+            	row.state="*";
+            }
             var fee=Number(row['fee']);
             var intrAmnt=Number(row['intrAmnt']);
             var feeAmnt = 0;
             var vat = 0;
 			var dtfr = EMD.util.strToDate(module.$('#grUsagePdFrom').val());
 			var intrRate=Number(row['intrRate']);
-			var intrAmnt=0;
 
 			if(intrRate!=0 && row['nticMth']!='1') {
 				intrRate/=100;
@@ -142,7 +154,10 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         		alert('고지된 자료는 수정 되지 않습니다.');
         		return;
         	}
-            if(row._updtId!="I") row._updtId="U";
+            if(row._updtId!="I") {
+            	row._updtId="U";
+            	row.state="*";
+            }
             var feeAmnt=Number(row['feeAmnt']);
             row['nticAmt']=feeAmnt+Number(row['vat']);
             module.$("#assetRentFeeList").flexUpdateRow(rid, row);
@@ -153,7 +168,10 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         		alert('고지된 자료는 수정 되지 않습니다.');
         		return;
         	}
-            if(row._updtId!="I") row._updtId="U";
+            if(row._updtId!="I") {
+            	row._updtId="U";
+            	row.state="*";
+            }
             module.$("#assetRentFeeList").flexUpdateRow(rid, row);
         	module.onCalc();
         }
@@ -162,7 +180,10 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 			var intrAmnt = Number(row['intrAmnt']);
             var vat=Number(row['vat']);
 			var feeAmnt=fee+intrAmnt;
-            if(row._updtId!="I") row._updtId="U";
+            if(row._updtId!="I") {
+            	row._updtId="U";
+            	row.state="*";
+            }
             feeAmnt=fee+intrAmnt;
             if(row['vatYn']=='2' || row['vatYn']=='Y') {
                 vat=Math.floor(feeAmnt*0.01)*10;
@@ -181,7 +202,10 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 			var dtfr = EMD.util.strToDate(module.$('#grUsagePdFrom').val());
 			var intrRate=Number(row['intrRate']);
 			var intrAmnt=0;
-            if(row._updtId!="I") row._updtId="U";
+            if(row._updtId!="I") {
+            	row._updtId="U";
+            	row.state="*";
+            }
 
 			if(intrRate!=0 && row['nticMth']!='1') {
 				intrRate/=100;
@@ -317,85 +341,128 @@ GamAssetRentFeeMngtModule.prototype.makeRowData = function(item) {
 	item.grUsagePd = item.grUsagePdFrom+ '~'+ item.grUsagePdTo;
 	if(item.nticPdFrom!=null && item.nticPdTo!=null) {
 		item.nticPdDate = item.nticPdFrom + '~'+ item.nticPdTo;
+		if(item.feeAmnt==undefined) {
+			item.feeAmnt=item.fee+item.intrAmnt;
+		}
+		item.state="";
+		return;
 	}
-	else {
-		item._updtId="I";
-		var dtfr = EMD.util.strToDate(this.$('#grUsagePdFrom').val());
-		var dtto = null;
-		if(item.nticMth=='1') {
-			dtfr.setFullYear(dtfr.getFullYear()+1);
-			dtfr.setMonth(0);
+	item._updtId="I";
+	item.state="*";
+	var dtfr = EMD.util.strToDate(this.$('#grUsagePdFrom').val());
+	var dtto = null;
+	if(item.nticMth=='1') {
+		dtfr.setFullYear(dtfr.getFullYear()+1);
+		dtfr.setMonth(0);
+		dtfr.setDate(0);
+		dtto = new Date(dtfr);
+		dtto.setFullYear(dtto.getFullYear()+1);
+	}
+	else if(item.nticMth=='2'){
+		if(dtfr.getMonth()<6) {
+			dtfr.setMonth(7);
 			dtfr.setDate(0);
-			dtto = new Date(dtfr);
-			dtto.setFullYear(dtto.getFullYear()+1);
-		}
-		else if(item.nticMth=='2'){
-			if(dtfr.getMonth()<6) {
-				dtfr.setMonth(7);
-				dtfr.setDate(0);
-			}
-			else {
-				dtfr.setFullYear(dtfr.getFullYear()+1);
-				dtfr.setMonth(1);
-				dtfr.setDate(0);
-			}
-			dtto = new Date(dtfr);
-			dtto.setMonth(dtto.getMonth()+6);
-		}
-		else if(item.nticMth=='3'){
-			if(dtfr.getMonth()<4) {
-				dtfr.setMonth(5);
-				dtfr.setDate(0);
-			}
-			else if(dtfr.getMonth()<8) {
-				dtfr.setMonth(9);
-				dtfr.setDate(0);
-			}
-			else {
-				dtfr.setFullYear(dtfr.getFullYear()+1);
-				dtfr.setMonth(1);
-				dtfr.setDate(0);
-			}
-			dtto = new Date(dtfr);
-			dtto.setMonth(dtto.getMonth()+4);
-		}
-		else if(item.nticMth=='4'){
-			if(dtfr.getMonth()<3) {
-				dtfr.setMonth(3);
-				dtfr.setDate(1);
-			}
-			else if(dtfr.getMonth()<6) {
-				dtfr.setMonth(6);
-				dtfr.setDate(1);
-			}
-			else if(dtfr.getMonth()<9) {
-				dtfr.setMonth(9);
-				dtfr.setDate(1);
-			}
-			else {
-				dtfr.setFullYear(dtfr.getFullYear()+1);
-				dtfr.setMonth(0);
-				dtfr.setDate(1);
-			}
-			dtto = new Date(dtfr);
-			dtto.setMonth(dtto.getMonth()+3);
-			dtto.setDate(0);
-		}
-		if(dtto==null) {
-			item.nticPdDate = '고지대상아님';
 		}
 		else {
-			item.nticPdFrom = EMD.util.getDate(dtfr);
-			item.nticPdTo = EMD.util.getDate(dtto);
-			item.nticPdDate = item.nticPdFrom + ' ~ '+ item.nticPdTo;
+			dtfr.setFullYear(dtfr.getFullYear()+1);
+			dtfr.setMonth(1);
+			dtfr.setDate(0);
 		}
+		dtto = new Date(dtfr);
+		dtto.setMonth(dtto.getMonth()+6);
+	}
+	else if(item.nticMth=='3'){
+		if(dtfr.getMonth()<4) {
+			dtfr.setMonth(5);
+			dtfr.setDate(0);
+		}
+		else if(dtfr.getMonth()<8) {
+			dtfr.setMonth(9);
+			dtfr.setDate(0);
+		}
+		else {
+			dtfr.setFullYear(dtfr.getFullYear()+1);
+			dtfr.setMonth(1);
+			dtfr.setDate(0);
+		}
+		dtto = new Date(dtfr);
+		dtto.setMonth(dtto.getMonth()+4);
+	}
+	else if(item.nticMth=='4'){
+		if(dtfr.getMonth()<3) {
+			dtfr.setMonth(3);
+			dtfr.setDate(1);
+		}
+		else if(dtfr.getMonth()<6) {
+			dtfr.setMonth(6);
+			dtfr.setDate(1);
+		}
+		else if(dtfr.getMonth()<9) {
+			dtfr.setMonth(9);
+			dtfr.setDate(1);
+		}
+		else {
+			dtfr.setFullYear(dtfr.getFullYear()+1);
+			dtfr.setMonth(0);
+			dtfr.setDate(1);
+		}
+		dtto = new Date(dtfr);
+		dtto.setMonth(dtto.getMonth()+3);
+		dtto.setDate(0);
+	}
+	if(dtto==null) {
+		item.nticPdDate = '고지대상아님';
+	}
+	else {
+		item.nticPdFrom = EMD.util.getDate(dtfr);
+		item.nticPdTo = EMD.util.getDate(dtto);
+		item.nticPdDate = item.nticPdFrom + '~'+ item.nticPdTo;
+	}
+	if((item.intrAmnt==undefined|| intrAmnt==null) && item.intrRate!=null && item.intrRate!=0) {
+		var fee=Number(item.fee);
+		var intrRate=Number(item.intrRate)/100;
+		var intrAmnt=0;
+
+		if(item.nticMth!='1') {
+			if(item.nticMth=='2'){
+				if(dtfr.getMonth()<6) {
+					intrAmnt=fee*intrRate;
+				}
+			}
+			else if(item.nticMth=='3'){
+				if(dtfr.getMonth()<4) {
+					intrAmnt=(fee*2)*intrRate;
+				}
+				else if(dtfr.getMonth()<8) {
+					intrAmnt=(fee)*intrRate*2/3;
+				}
+			}
+			else if(item.nticMth=='4'){
+				if(dtfr.getMonth()<3) {
+					intrAmnt=(fee*3)*intrRate;
+				}
+				else if(dtfr.getMonth()<6) {
+					intrAmnt=fee*intrRate;
+				}
+				else if(dtfr.getMonth()<9) {
+					intrAmnt=fee*intrRate/4;
+				}
+			}
+			intrAmnt=Math.floor(intrAmnt*0.1)*10;
+		}
+		else {
+			intrAmnt=0;
+		}
+		item.intrAmnt=intrAmnt;
 	}
 	if(item.feeAmnt==undefined) {
 		item.feeAmnt=item.fee+item.intrAmnt;
 	}
-	else {
-		console.log('error : '+item.feeAmnt);
+	var vatRate=0;
+	if(item.vatYn=='2') {
+		vatRate=0.1;
 	}
+	item.vat=Math.floor(item.feeAmnt*vatRate*0.1)*10;
 	if(item.nticAmt===0) {
 		item.nticAmt=item.feeAmnt+item.vat;
 	}
@@ -664,11 +731,10 @@ GamAssetRentFeeMngtModule.prototype.clearNticList = function() {
 		return;
 	}
 	if(confirm('조회된 자료에 입력한 내역을 삭제하고 자료를 초기화 하시겠습니까?')) {
-	    var searchOpt=this.makeFormArgs('#gamAssetRentFeeSearchForm');
-		var dtfr = EMD.util.strToDate(this.$('#grUsagePdFrom').val());
+		var dtfr = this.$('#grUsagePdFrom').val();
+		var dtto = this.$('#grUsagePdTo').val();
 
-
-	    this.doAction('/oper/htld/clearHtldRentFeeList.do', {'nticPdFrom': dtFr}, function(module, result) {
+	    this.doAction('/oper/htld/clearHtldRentFeeList.do', {'nticPdFrom': dtfr, 'nticPdTo': dtto}, function(module, result) {
 	        if(result.resultCode == 0){
 	        	module.loadData();
 	        	module.setButtonStatus();
@@ -902,7 +968,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
         <div id="assetRentFeeListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" data-onchange-before="onTabChangeBefore">
             <ul>
                 <li><a href="#tabs1" class="emdTab">배후단지사용료고지 목록</a></li>
-                <li><a href="#tabs2" class="emdTab">배후단지사용료고지 이력</a></li>
+                <!-- <li><a href="#tabs2" class="emdTab">배후단지사용료고지 이력</a></li> -->
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;" data-onactivate="onShowTab1Activate">
@@ -971,19 +1037,19 @@ var module_instance = new GamAssetRentFeeMngtModule();
                      <button id="btnHwpDownload">HWP</button>
                      -->
                     <button id="btnRentFeePayMngt">납부현황관리</button>
-					<button id="btnSaveNticList">변경내역 저장</button>
+					<button id="btnSaveNticList">목록저장</button>
 					<button id="btnClearNticList">초기화</button>
 					<button data-role="openWindow" data-url="/code/gamCofixIntrrateMngt.do" data-title="COFIX 이자율 관리">이자율관리</button>
                 </div>
             </div>
 
-            <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
+<!--             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
                	<table id="nticListGrid" style="display:none" class="fillHeight"></table>
                 <div class="emdControlPanel">
                 	<button id="btnCallBizNticAssess">임대료고지 관리</button>
                 	<button data-role="gridXlsDown" data-flexi-grid="nticListGrid" data-xls-name="배후단지임대료고지내역.xls" data-xls-title="배후단지 임대료 고지 내역">엑셀</button>
               	</div>
-	        </div>
+	        </div> -->
 	    </div>
 	</div>
 </div>

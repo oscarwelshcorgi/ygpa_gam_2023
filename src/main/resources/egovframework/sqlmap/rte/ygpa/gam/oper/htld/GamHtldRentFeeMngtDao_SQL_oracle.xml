@@ -120,6 +120,7 @@
 					  S.NTIC_AMT,
 					  S.INTR_AMNT INTR_AMNT,
 					  S.INTR_RATE,
+					  S.COFIX_OBJ_YRMT,
 					  S.SANCTN_STTUS_NM,
 					  S.SANCTN_STTUS,
 					  S.NTIC_DT,
@@ -159,7 +160,46 @@
 					  NVL(L.VAT,0) VAT ,
 					  NVL(L.NTIC_AMT,0) NTIC_AMT ,
 					  NVL(L.INTR_AMNT, 0) INTR_AMNT,
-					  L.INTR_RATE*100 INTR_RATE,
+					  <isNotEmpty property="grUsagePdFrom">
+					  <![CDATA[
+					  	NVL(L.INTR_RATE, (select BLCE_STDR_INTRRATE
+							from cofix_intrrate_f
+							where obj_yrmt=(select case
+							  when to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD'), 'MM')<4 then to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD')-365, 'YYYY')||'12'
+							  when to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD'), 'MM')<7 then to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD'), 'YYYY')||'03'
+							  when to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD'), 'MM')<10 then to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD'), 'YYYY')||'06'
+							  else to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD'), 'YYYY')||'09'
+							  end
+							from dual)))*100 INTR_RATE,
+						  NVL(L.cofix_obj_yrmt, (select case
+							  when to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD'), 'MM')<4 then to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD')-365, 'YYYY')||'12'
+							  when to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD'), 'MM')<7 then to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD'), 'YYYY')||'03'
+							  when to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD'), 'MM')<10 then to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD'), 'YYYY')||'06'
+							  else to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD'), 'YYYY')||'09'
+							  end
+							from dual)) cofix_obj_yrmt,
+						]]>
+					  </isNotEmpty>
+					  <isEmpty property="grUsagePdFrom">
+					  <![CDATA[
+						  NVL(L.INTR_RATE, (select BLCE_STDR_INTRRATE
+							from cofix_intrrate_f
+							where obj_yrmt=(select case
+							  when to_char(SYSDATE, 'MM')<4 then to_char(SYSDATE-365, 'YYYY')||'12'
+							  when to_char(SYSDATE, 'MM')<7 then to_char(SYSDATE, 'YYYY')||'03'
+							  when to_char(SYSDATE, 'MM')<10 then to_char(SYSDATE, 'YYYY')||'06'
+							  else to_char(SYSDATE, 'YYYY')||'09'
+							  end
+							from dual)))*100 INTR_RATE,
+						  NVL(L.cofix_obj_yrmt, (select case
+							  when to_char(SYSDATE, 'MM')<4 then to_char(SYSDATE-365, 'YYYY')||'12'
+							  when to_char(SYSDATE, 'MM')<7 then to_char(SYSDATE, 'YYYY')||'03'
+							  when to_char(SYSDATE, 'MM')<10 then to_char(SYSDATE, 'YYYY')||'06'
+							  else to_char(SYSDATE, 'YYYY')||'09'
+							  end
+							from dual)) cofix_obj_yrmt,
+						]]>
+					  </isEmpty>
 					  L.RM ,
 					  L.RCIV_SE ,
 					  TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT ,
@@ -2063,4 +2103,34 @@
           AND R.BILL_NO = L.NTICNO
     </select>
 
+	<delete id="gamHtldRentFeeMngtDao.clearHtldRentFeeList_D" parameterClass="gamHtldRentFeeDefaultVO">
+	<![CDATA[
+		DELETE FROM LEV_REQEST_F
+		where (PRT_AT_CODE,
+		  MNG_YEAR,
+		  MNG_NO,
+		  MNG_CNT,
+		  NTIC_CNT
+		  ) in (
+		  select
+		  L.PRT_AT_CODE,
+		  L.MNG_YEAR,
+		  L.MNG_NO,
+		  L.MNG_CNT,
+		  L.NTIC_CNT
+					FROM ASSETS_RENT_F A LEFT JOIN
+					  LEV_REQEST_F L
+					  ON A.PRT_AT_CODE  = L.PRT_AT_CODE
+					AND A.MNG_YEAR     = L.MNG_YEAR
+					AND A.MNG_NO       = L.MNG_NO
+					AND A.MNG_CNT      = L.MNG_CNT
+					AND L.NTIC_PD_FROM >= TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
+					AND L.NTIC_PD_FROM < TO_DATE(#nticPdTo#, 'YYYY-MM-DD')
+					WHERE 1            = 1
+					AND A.QUAY_GROUP_CD='H'
+					AND a.gr_usage_pd_from < TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
+					AND a.gr_usage_pd_to > TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
+          )
+          ]]>
+	</delete>
 </sqlMap>

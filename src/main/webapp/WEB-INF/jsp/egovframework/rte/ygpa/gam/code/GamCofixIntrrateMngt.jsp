@@ -105,11 +105,11 @@ GamCofixMngtModule.prototype.onButtonClick = function(buttonId) {
 		this.$('#cofixList').flexAddRow({_updtId:'I'});
 		break;
 	case 'btnDelItem':
-		var rows=this.$('#cofixList').selectedRows();
+		var rows=this.$('#cofixList').selectedRowIds();
 		if(rows.length>0) {
 			for(var k in rows) {
-				this._deleteItem[this._deleteItem.length] = rows[k];
-				this.$('#cofixList').flexRemoveRow(k);
+				this._deleteItem[this._deleteItem.length] = this.$('#cofixList').flexGetRow(rows[k]);
+				this.$('#cofixList').flexRemoveRow(rows[k]);
 			}
 		}
 		break;
@@ -165,7 +165,7 @@ var module_instance = new GamCofixMngtModule();
 			<table style="width:300px;" class="searchPanel">
 				<tbody>
 					<tr>
-						<td><button id="btnAddItem">추가</button><button id="btnDelItem">삭제</button><button id="btnSave">저장</button><button id="btnPrev">이전</button><button id="btnNext">다음</button></td>
+						<td><button id="btnAddItem">추가</button><button id="btnDelItem">삭제</button><button id="btnSave">저장</button><!-- <button id="btnPrev">이전</button><button id="btnNext">다음</button> --></td>
 					</tr>
 				</tbody>
 			</table>

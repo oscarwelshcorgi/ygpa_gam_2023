@@ -228,4 +228,11 @@ public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
 		delete("gamHtldRentFeeMngtDao.deleteHtldRentFeeMngtList_S", vo);
 	}
 
+	/**
+	 * @param vo
+	 */
+	public void clearHtldRentFeeList(GamHtldRentFeeDefaultVO vo) {
+		delete("gamHtldRentFeeMngtDao.clearHtldRentFeeList_D", vo);
+	}
+
 }
