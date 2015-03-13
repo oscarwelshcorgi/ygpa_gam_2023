@@ -302,7 +302,7 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
                 }
 
                 if( confirm("선택한 건의 고지를 취소 하시겠습니까?") ) {
-                    if( rows['nhtPrintYn'] == 'Y' && !confirm("출력한 자료를 취소하려고 합니다. 출력한 자료를 취소하면 발행된 마이너스 세금계산서가 발행 되고 징수의뢰 자료가 삭제 됩니다. 계속 하시겠습니까?") ) {
+                    if( rows['nhtPrintYn'] == 'Y' && !confirm("출력한 자료를 취소하려고 합니다. 고지 취소를 하려면 먼저 출력을 취소 해야 합니다. 출력을 취소하면 발행된 마이너스 세금계산서가 발행 되고 징수의뢰 자료가 삭제 됩니다. 출력을 취소 하시겠습니까?") ) {
                     	return;
                     }
 
