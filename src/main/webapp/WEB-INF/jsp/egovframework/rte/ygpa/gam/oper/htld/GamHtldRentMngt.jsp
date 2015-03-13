@@ -257,14 +257,8 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 		if(rows.length) {
 			this.$('#addAssetRentRenew').show();
 			this.$('#btnEApproval').hide();	// 결재 요청 disable
-			if(rows[0].prmisnYn=='Y') {
-				this.$('#btnRemoveItem').hide();
-				this.$('#btnRentFeeMngt').show();
-        	}
-			else {
-				this.$('#btnRemoveItem').show();
-				this.$('#btnRentFeeMngt').hide();
-			}
+			this.$('#btnRemoveItem').hide();
+			this.$('#btnRentFeeMngt').show();
 			this.$('#btnHtldRentListExcelDownload').show();
 		}
 		else {
@@ -303,7 +297,6 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 			var rows = this.$('#assetRentMngtList').selectedRows();
 			if(rows.length) {
 				this.$('#btnEApproval2').hide();	// 결재 요청 disable
-				if(rows[0].prmisnYn=='Y') {
 					this.$('#btnRemoveItem2').hide();
 
 //					this.$('#btnSaveItem').hide(); // test
@@ -317,23 +310,6 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 
 			        this.$('#entrpscd').attr('readonly', true);
 			        this.$('#popupEntrpsInfoInput').attr('disabled', 'disabled');
-	}
-				else {
-					this.$('#btnRemoveItem2').show();
-
-					this.$('#btnSaveItem').show();
-					this._editable=true;
-
-					this.$('#popupEntrpsInfoInput').show();
-					this.$('#btnMangeCharger').show();
-
-					this.$('#btnInsertItemDetail').show();
-					this.$('#btnRemoveItemDetail').show();
-
-			        this.$('#entrpscd').removeAttr('readonly');
-			        this.$('#popupEntrpsInfoInput').removeAttr('disabled');
-
-	}
 		        this.$('#btnSaveComment').show();
 			}
 			else {
@@ -898,10 +874,12 @@ GamHtldRentMngtModule.prototype.addNoticeAdit = function() {
 
     if(rows.length>=1) {
     	var row=rows[0];
+    	/*
             if( row['prmisnYn'] != 'Y' ) {
                 alert("승낙된 상태가 아닙니다.");
                 return;
             }
+    	*/
         this.doExecuteDialog('insertLevReqestAdit', '추가 사용료 고지', '/oper/gnrl/popupLevReqestAdit.do', row);
 
             } else {

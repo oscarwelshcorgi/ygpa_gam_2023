@@ -48,6 +48,11 @@
     -moz-box-sizing: border-box;
 }
 
+.book {
+	margin: 0px;
+	padding: 0px;
+}
+
 .page {
     width: 21cm;
     min-height: 28.7cm;
@@ -426,14 +431,15 @@ div.notice {
 
 	.page {
 	    width: 21cm;
-	    min-height: 29.7cm;
+	    height: 28.7cm;
 	    padding: 0cm;
 	    margin: 0cm auto;
 	    background: none;
+	    page-break-after: always;
 	}
 
 	.subpage {
-	     height: 297mm;
+	     height: 287mm;
 	}
 
 	.subpage1 {
@@ -899,6 +905,5 @@ div.notice {
     <c:if test="${resultCode!=0 }">
     	<h2>인쇄 할 대상이 존재하지 않습니다.</h2>
     </c:if>
-
   </body>
 </html>

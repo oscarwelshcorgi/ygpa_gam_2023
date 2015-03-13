@@ -733,7 +733,6 @@
                                            , USAGE_AR
 		                                 )
 		                          VALUES (
-		                          	(SELECT
 		                                     ( SELECT NVL(MAX(TO_NUMBER(ASSETS_USAGE_SEQ)),0)+1
 											     FROM ASSETS_RENT_DETAIL_F
 											    WHERE MNG_YEAR    = #detailMngYear#
@@ -1078,7 +1077,6 @@
                                            , QUAY_CD
                                          )
                                   VALUES (
-                                  	(SELECT
                                              #maxAssetsUsageSeq#
                                            , #gisAssetsCd#
                                            , #gisAssetsSubCd#

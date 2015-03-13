@@ -2188,7 +2188,7 @@ var module_instance = new GamAssetRentMngtModule();
 	                        <button id="btnEApproval">결재요청</button><button id="btnPrmisn">사용승낙</button>
 	                            <button id="btnPrmisnCancel">승낙취소</button><button id="btnRemoveItem" class="buttonDelete">신청삭제</button>
 	                            <button id="btnSaveItem" class="buttonSave">신청저장</button>
-								<button id="btnEditMap" data-role="editMap" data-gis-layer="gisAssetsCd">맵편집</button>
+								<!-- <button id="btnEditMap" data-role="editMap" data-gis-layer="assetsRent">맵편집</button> -->
 	                            <!-- <button id="btnNoticeAdit2">추가고지</button> -->
 	                            <!-- <button id="btnCancelItem">취소</button>  -->
 	                        </td>

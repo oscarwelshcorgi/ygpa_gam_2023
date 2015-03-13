@@ -662,6 +662,7 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
                             <th style="width: 70px">납부구분</th>
                             <td>
                             	<select id="rcivSe">
+                            		<option value="">전체</option>
                             		<option value="N" selected>미납</option>
                             		<option value="Y">수납</option>
                             	</select>

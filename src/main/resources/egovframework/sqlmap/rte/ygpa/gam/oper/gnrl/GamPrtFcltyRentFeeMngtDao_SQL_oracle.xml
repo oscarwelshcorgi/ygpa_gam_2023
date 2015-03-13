@@ -178,13 +178,13 @@
 
 						         <isNotEmpty property="sUsagePdFrom">
 									<![CDATA[
-						         		AND L.NTIC_PD_FROM > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+						         		AND A.PRMISN_DT > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
 						         	]]>
 						         </isNotEmpty>
 
 						         <isNotEmpty property="sUsagePdTo">
 									<![CDATA[
-							         	AND L.NTIC_PD_FROM < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
+							         	AND A.PRMISN_DT < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
 						         	]]>
 						         </isNotEmpty>
 
@@ -253,7 +253,7 @@
 							   </isNotEmpty>
 
                 ) S
-                ORDER BY S.MNG_YEAR DESC, S.MNG_NO DESC, S.MNG_CNT DESC
+                ORDER BY S.PRMISN_DT DESC, S.NTIC_DT DESC
              ) A
              ) Z
         <![CDATA[

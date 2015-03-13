@@ -151,7 +151,7 @@
 							   </isNotEmpty>
 
                 ) S
-                ORDER BY S.ENTRPS_NM ASC, S.NTIC_CNT ASC
+                ORDER BY S.NTIC_DT DESC
              ) A
              ) Z
         <![CDATA[

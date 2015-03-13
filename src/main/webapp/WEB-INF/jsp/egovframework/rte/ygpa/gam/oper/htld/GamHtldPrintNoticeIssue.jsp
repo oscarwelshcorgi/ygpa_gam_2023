@@ -55,7 +55,7 @@
 	margin: 0cm auto;
 	border: 1px #D3D3D3 solid;
 	border-radius: 5px;
-	background-image: url('/ygam/images/egovframework/ygpa/gam/misc/giro_page.png');
+	background-image: url('<c:url value="/images/egovframework/ygpa/gam/misc/giro_page.png" />');
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -170,15 +170,15 @@ div.receiver {
 }
 
 div.notice {
-position: absolute;
-/* display: inline-block; */
- left: 0.1cm;
-/* top: 1.3cm; */
-width: 5.2cm;
-height: 8cm;
-font-size: 0.35cm;
-font-family: 돋움;
-float: left;
+	position: absolute;
+	/* display: inline-block; */
+	 left: 0.1cm;
+	/* top: 1.3cm; */
+	width: 5.2cm;
+	height: 8cm;
+	font-size: 0.35cm;
+	font-family: 돋움;
+	float: left;
 }
 
  div.notice > h2 {
@@ -230,7 +230,7 @@ float: left;
 	top: 0.3cm;
 	width: 4.2cm;
 	height: 4.8cm;
-	font-size: 0.28cm;
+	font-size: 0.27cm;
 	font-family: 돋움;
 	padding: 0.1cm;
 	margin-left: 1.1cm;
@@ -545,15 +545,15 @@ float: left;
 	}
 
 	div.notice {
-	position: absolute;
-	/* display: inline-block; */
-	/* left: 0.35cm; */
-	/* top: 1.3cm; */
-	width: 4.8cm;
-	height: 8cm;
-	font-size: 0.35cm;
-	font-family: 돋움;
-	float: left;
+		position: absolute;
+		/* display: inline-block; */
+		/* left: 0.35cm; */
+		/* top: 1.3cm; */
+		width: 4.8cm;
+		height: 8cm;
+		font-size: 0.35cm;
+		font-family: 돋움;
+		float: left;
 	}
 
 	 div.notice > h2 {
@@ -602,14 +602,8 @@ float: left;
 
 	 div.feeDetail {
 		position: relative;
-	/* left: 8.65cm; */
-	top: 0.3cm;
-	width: 4.2cm;
-	height: 4.8cm;
-	font-size: 0.28cm;
-	font-family: 돋움;
-	padding: 0.1cm;
-	margin-left: 1.1cm;
+		top: 0.3cm;
+		width: 4.2cm;
 	 }
 
 	 div.feeDetail > ul {
@@ -876,8 +870,7 @@ float: left;
 	      			<c:set var="totalFee" value="0"/>
 	  			    <c:forEach var="detailItem" items="${detail }">
 	      			<p>소재지 : <c:out value="${detailItem.gisAssetsLocplc}"/>&nbsp;<c:out value="${detailItem.gisAssetsLnm}"/><c:if test="${detailItem.gisAssetsLnmSub!=null}">-<c:out value="${detailItem.gisAssetsLnmSub}"/></c:if></p>
-	      			<p>면적 :  <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.usageAr}" /> m<sup>2</sup>&nbsp;단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.applcPrice}" /> 원</p>
-	      			<p>년사용료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.dPrice}" /> 원</p>
+	      			<p>년임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.dPrice}" /> 원 (면적 :  <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.usageAr}" /> m<sup>2</sup>&nbsp;단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.applcPrice}" /> 원)</p>
 	      			<c:set var="totalFee" value="${totalFee+detailItem.dPrice }"/>
 	  			    </c:forEach>
 	      			<p>년사용료 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${totalFee}" /> 원</p>

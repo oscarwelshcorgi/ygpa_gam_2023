@@ -48,6 +48,12 @@
     -moz-box-sizing: border-box;
 }
 
+.book {
+	margin: 0px;
+	padding: 0px;
+}
+
+
 .page {
     width: 21cm;
     min-height: 28.7cm;
@@ -426,14 +432,15 @@ div.notice {
 
 	.page {
 	    width: 21cm;
-	    min-height: 29.7cm;
+	    height: 28.7cm;
 	    padding: 0cm;
 	    margin: 0cm auto;
 	    background: none;
+	    page-break-after: always;
 	}
 
 	.subpage {
-	     height: 297mm;
+	     height: 287mm;
 	}
 
 	.subpage1 {

@@ -65,7 +65,7 @@ GamUserMngListModule.prototype.loadComplete = function() {
 	this._mode="";
 	this.setButtonState();
 
-	console.debug('GamUserMng load completed.');
+//	console.log('GamUserMng load completed.');
 };
 
 
