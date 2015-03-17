@@ -2293,35 +2293,6 @@ var fcltyCivilRuleSet = [
 		}
 	},
 	{
-		title:"배수관로 (맨홀)",
-		filter: new OpenLayers.Filter.Logical({
-			type: OpenLayers.Filter.Logical.AND,
-			filters: [
-			          new OpenLayers.Filter.Comparison({
-			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
-			        	  property: "FCLTY_SE",
-			        	  value: 'C'
-			          }),
-			          new OpenLayers.Filter.Comparison({
-			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
-			        	  property: "FCLTY_CD",
-			        	  value: 'C5'
-			          })
-			          ]
-		}),
-		symbolizer: {
-			"Polygon" : {
-				strokeWidth : 1,
-				strokeOpacity : 0.75,
-				strokeColor : "#FF7F27",
-				strokeLinecap: 'square',
-				strokeDashstyle: 'solid',
-				fillColor: "#032CFA",
-				fillOpacity: 0.5,
-			}
-		}
-	},
-	{
 		title:"상수관로",
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
