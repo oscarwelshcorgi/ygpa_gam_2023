@@ -91,7 +91,7 @@ var popup_instance = new GamPopupPrtOperRentModule();
                                 <option value="" selected="selected">선택</option>
 
                                 <c:forEach  items="${chrgeKndCdList}" var="chrgeKndCdItem">
-	                                <option value="${chrgeKndCdItem.code }">${chrgeKndCdItem.codeNm }</option>
+	                                <option value="${chrgeKndCdItem.feeTp }">${chrgeKndCdItem.feeTpKorNm }</option>
 	                            </c:forEach>
                             </select>
                         </td>

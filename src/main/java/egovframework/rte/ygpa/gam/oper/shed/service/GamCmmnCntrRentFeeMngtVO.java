@@ -74,44 +74,27 @@ public class GamCmmnCntrRentFeeMngtVO extends ComDefaultVO {
      * 결재 일시
      */
     private String sanctnDt;
-    
+
     /**
      * 변상금 2014-10-13 추가 (eunsungj)
      */
     private String reimFee;
 
     /**
-	 * @return the reimFee
-	 */
-	public String getReimFee() {
-		return reimFee;
-	}
-
-	/**
-	 * @param reimFee the reimFee to set
-	 */
-	public void setReimFee(String reimFee) {
-		this.reimFee = reimFee;
-	}
-
-	/**
-	 * @return the reimFeeNticno
-	 */
-	public String getReimFeeNticno() {
-		return reimFeeNticno;
-	}
-
-	/**
-	 * @param reimFeeNticno the reimFeeNticno to set
-	 */
-	public void setReimFeeNticno(String reimFeeNticno) {
-		this.reimFeeNticno = reimFeeNticno;
-	}
-
-	/**
      * 변상금 고지번호 2014-10-13 추가 (eunsungj)
      */
     private String reimFeeNticno;
+
+    /**
+     * 고지방법
+     * @return
+     */
+    private String sNticMth;
+
+    /**
+     * 고지 횟수
+     */
+    private String sNticCnt;
 
     public String getSanctnSttus() {
 		return sanctnSttus;
@@ -171,6 +154,11 @@ public class GamCmmnCntrRentFeeMngtVO extends ComDefaultVO {
 
     /** 고지서 발부 여부 */
     private String nhtIsueYn;
+
+    /**
+     * 고지서 출력 여부
+     */
+    private String nhtPrintYn;
 
     /** 연체 번호 */
     private String arrrgNo;
@@ -1560,6 +1548,52 @@ public class GamCmmnCntrRentFeeMngtVO extends ComDefaultVO {
 
 	public void setNticDtTo(String nticDtTo) {
 		this.nticDtTo = nticDtTo;
+	}
+
+	public String getReimFee() {
+		return reimFee;
+	}
+
+	public void setReimFee(String reimFee) {
+		this.reimFee = reimFee;
+	}
+
+	public String getReimFeeNticno() {
+		return reimFeeNticno;
+	}
+
+	public void setReimFeeNticno(String reimFeeNticno) {
+		this.reimFeeNticno = reimFeeNticno;
+	}
+
+	public String getsNticMth() {
+		return sNticMth;
+	}
+
+	public void setsNticMth(String sNticMth) {
+		this.sNticMth = sNticMth;
+	}
+
+	public String getsNticCnt() {
+		return sNticCnt;
+	}
+
+	public void setsNticCnt(String sNticCnt) {
+		this.sNticCnt = sNticCnt;
+	}
+
+	/**
+	 * @return the nhtPrintYn
+	 */
+	public String getNhtPrintYn() {
+		return nhtPrintYn;
+	}
+
+	/**
+	 * @param nhtPrintYn the nhtPrintYn to set
+	 */
+	public void setNhtPrintYn(String nhtPrintYn) {
+		this.nhtPrintYn = nhtPrintYn;
 	}
 
 

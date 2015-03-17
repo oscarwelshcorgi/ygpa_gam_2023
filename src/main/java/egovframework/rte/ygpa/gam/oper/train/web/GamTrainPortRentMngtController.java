@@ -33,6 +33,7 @@ import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
+
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentFeeMngtVO;
 import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentMngtDetailVO;
 import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentMngtLevReqestVO;
@@ -79,7 +80,7 @@ public class GamTrainPortRentMngtController {
     private GamAssetsUsePermMngtService gamAssetsUsePermMngtService;
 
     /**
-     * 철송장임대관리 화면을 로딩한다.
+     * 철송장임대사용관리 화면을 로딩한다.
      *
      * @param windowId
      * @param model the model
@@ -133,7 +134,7 @@ public class GamTrainPortRentMngtController {
     }
 
 	/**
-     * 철송장임대목록을 조회한다.
+     * 철송장임대사용목록을 조회한다.
      *
      * @param searchVO
      * @return map
@@ -162,7 +163,7 @@ public class GamTrainPortRentMngtController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		//철송장임대목록
+		//철송장임대사용목록
     	totalCnt = gamTrainPortRentMngtService.selectTrainPortRentMngtListTotCnt(searchVO);
     	List assetRentList = gamTrainPortRentMngtService.selectTrainPortRentMngtList(searchVO);
 
@@ -184,7 +185,7 @@ public class GamTrainPortRentMngtController {
     }
 
 	/**
-     * 철송장임대상세리스트를 조회한다.
+     * 철송장임대사용상세리스트를 조회한다.
      *
      * @param searchVO
      * @return map
@@ -213,12 +214,9 @@ public class GamTrainPortRentMngtController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		// 철송장임대상세리스트 및 총건수
+		// 철송장임대사용상세리스트 및 총건수
 		totalCnt = gamTrainPortRentMngtService.selectTrainPortRentMngtDetailListTotCnt(searchVO);
 		List resultList = gamTrainPortRentMngtService.selectTrainPortRentMngtDetailList(searchVO);
-
-		paginationInfo.setTotalRecordCount(totalCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
@@ -297,7 +295,7 @@ public class GamTrainPortRentMngtController {
     		log.debug("###################################################### deleteList.size() => "+deleteList.size());
 			*/
 
-    		//철송장임대저장
+    		//철송장임대사용저장
     		GamTrainPortRentMngtVO saveVO= new GamTrainPortRentMngtVO();
 			saveVO.setPrtAtCode(form.get("prtAtCode"));
 			saveVO.setDeptcd(loginVO.getOrgnztId());
@@ -332,7 +330,7 @@ public class GamTrainPortRentMngtController {
 
     			gamTrainPortRentMngtService.insertTrainPortRentMngtFirst(saveVO);
 
-    			//철송장임대 상세저장을 위한 키
+    			//철송장임대사용 상세저장을 위한 키
     			saveDetailVO.setDetailPrtAtCode(form.get("prtAtCode"));
         		saveDetailVO.setDetailMngYear(keyVO.getMngYear());
         		saveDetailVO.setDetailMngNo(keyVO.getMngNo());
@@ -342,14 +340,14 @@ public class GamTrainPortRentMngtController {
 
     	        gamTrainPortRentMngtService.updateTrainPortRentMngt(saveVO);
 
-    			//철송장임대 상세저장을 위한 키
+    			//철송장임대사용 상세저장을 위한 키
     			saveDetailVO.setDetailPrtAtCode(form.get("prtAtCode"));
         		saveDetailVO.setDetailMngYear(form.get("mngYear"));
         		saveDetailVO.setDetailMngNo(form.get("mngNo"));
         		saveDetailVO.setDetailMngCnt(form.get("mngCnt"));
     		}
 
-    		//철송장임대 상세저장
+    		//철송장임대사용 상세저장
     		for( int i = 0 ; i < insertList.size() ; i++ ) {
     			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ insertList.get(i) String => " + insertList.get(i));
 
@@ -382,7 +380,8 @@ public class GamTrainPortRentMngtController {
     			insertDetailVO.setComputDtls(resultMap.get("computDtls").toString());
     			insertDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
     			insertDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
-//    			insertDetailVO.setQuayCd(resultMap.get("quayCd").toString());
+    			insertDetailVO.setUsagePdChk(resultMap.get("usagePdChk").toString());
+    			//insertDetailVO.setQuayCd(resultMap.get("quayCd").toString());
 
     			insertDetailVO.setRegUsr(loginVO.getId());
     			insertDetailVO.setUpdUsr(loginVO.getId());
@@ -427,6 +426,7 @@ public class GamTrainPortRentMngtController {
     			updateDetailVO.setComputDtls(resultMap.get("computDtls").toString());
     			updateDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
     			updateDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
+    			updateDetailVO.setUsagePdChk(resultMap.get("usagePdChk").toString());
 //    			updateDetailVO.setQuayCd(resultMap.get("quayCd").toString());
 
     			updateDetailVO.setRegUsr(loginVO.getId());
@@ -533,15 +533,15 @@ public class GamTrainPortRentMngtController {
     			quaycdVO = gamTrainPortRentMngtService.selectTrainPortRentMngtDetailQuaycd(updRentVO);
 
     			//부두코드 업데이트
-    			if( quaycdVO == null || quaycdVO.getQuayCd() == null || "".equals(quaycdVO.getQuayCd()) ) {
-    				quaycdVO = new GamTrainPortRentMngtVO();
-    				quaycdVO.setPrtAtCode(paramVO.getPrtAtCode());
-    				quaycdVO.setMngYear(paramVO.getMngYear());
-    				quaycdVO.setMngNo(paramVO.getMngNo());
-    				quaycdVO.setMaxMngCnt(paramVO.getMngCnt());
-    			}
-
-    			gamTrainPortRentMngtService.updateTrainPortRentMngtQuaycd(quaycdVO);
+//    			if( quaycdVO == null || quaycdVO.getQuayCd() == null || "".equals(quaycdVO.getQuayCd()) ) {
+//    				quaycdVO = new GamTrainPortRentMngtVO();
+//    				quaycdVO.setPrtAtCode(paramVO.getPrtAtCode());
+//    				quaycdVO.setMngYear(paramVO.getMngYear());
+//    				quaycdVO.setMngNo(paramVO.getMngNo());
+//    				quaycdVO.setMaxMngCnt(paramVO.getMngCnt());
+//    			}
+//
+//    			gamTrainPortRentMngtService.updateTrainPortRentMngtQuaycd(quaycdVO);
     		}
 
     		resultCode = 0;
@@ -563,7 +563,7 @@ public class GamTrainPortRentMngtController {
     }
 
 	/**
-     * 철송장임대,상세를 저장한다.
+     * 철송장임대사용,상세를 저장한다.
      * @param String
      * @param gamTrainPortRentMngtVO
      * @param bindingResult
@@ -580,7 +580,6 @@ public class GamTrainPortRentMngtController {
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
-
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -589,6 +588,16 @@ public class GamTrainPortRentMngtController {
     	}
 
     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+        /*
+        String sLocationUrl = null;
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	*/
+
     	/*
         if("insert".equals(cmd)) {
 	        beanValidator.validate(gamTrainPortRentMngtVO, bindingResult);
@@ -629,7 +638,7 @@ public class GamTrainPortRentMngtController {
 
 
     /**
-     * 철송장임대 연장신청을 등록한다.
+     * 철송장임대사용 연장신청을 등록한다.
      * @param gamTrainPortRentMngtVO
      * @param bindingResult
      * @return map
@@ -658,7 +667,7 @@ public class GamTrainPortRentMngtController {
 
 	    	if( gamTrainPortRentMngtVO.getMngCnt().equals(resultVO.getMaxMngCnt()) ) {
 	    		//키 같고 max관리번호가 같으면 연장신청 등록
-	        	gamTrainPortRentMngtVO.setUpdUsr(loginVo.getId());
+	    		gamTrainPortRentMngtVO.setRegUsr(loginVo.getId());
 	    		gamTrainPortRentMngtService.insertTrainPortRentMngtRenew(gamTrainPortRentMngtVO);
 
 	    		resultCode = 0; // return ok
@@ -681,7 +690,7 @@ public class GamTrainPortRentMngtController {
     }
 
     /**
-     * 철송장임대 정보를 수정한다.
+     * 철송장임대사용 정보를 수정한다.
      * @param String
      * @param gamTrainPortRentMngtVO
      * @param bindingResult
@@ -730,7 +739,7 @@ public class GamTrainPortRentMngtController {
     }
 
     /**
-     * 철송장임대 정보를 삭제한다.
+     * 철송장임대사용 정보를 삭제한다.
      * @param String
      * @param gamTrainPortRentMngtVO
      * @param bindingResult
@@ -795,7 +804,7 @@ public class GamTrainPortRentMngtController {
     }
 
     /**
-     * 철송장임대 상세를 등록한다.
+     * 철송장임대사용 상세를 등록한다.
      * @param String
      * @param gamTrainPortRentMngtDetailVO
      * @param bindingResult
@@ -821,6 +830,15 @@ public class GamTrainPortRentMngtController {
     	}
 
     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+        /*
+        String sLocationUrl = null;
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	*/
 
     	/*
         if("insert".equals(cmd)) {
@@ -878,7 +896,7 @@ public class GamTrainPortRentMngtController {
     }
 
     /**
-     * 철송장임대 상세를 수정한다.
+     * 철송장임대사용 상세를 수정한다.
      * @param String
      * @param gamTrainPortRentMngtDetailVO
      * @param bindingResult
@@ -904,6 +922,15 @@ public class GamTrainPortRentMngtController {
     	}
 
     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+        /*
+        String sLocationUrl = null;
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	*/
 
     	log.debug("######################################## detailCmd => " + detailCmd);
     	log.debug("######################################## gamTrainPortRentMngtVO.getDetailPrtAtCode() => " + gamTrainPortRentMngtDetailVO.getDetailPrtAtCode());
@@ -957,7 +984,7 @@ public class GamTrainPortRentMngtController {
     }
 
     /**
-     * 철송장임대 상세를 삭제한다.
+     * 철송장임대사용 상세를 삭제한다.
      * @param gamTrainPortRentMngtDetailVO
      * @param bindingResult
      * @return map
@@ -979,6 +1006,16 @@ public class GamTrainPortRentMngtController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
+
+        /*
+        String sLocationUrl = null;
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	*/
 
     	/*
         if("insert".equals(cmd)) {
@@ -1016,9 +1053,9 @@ public class GamTrainPortRentMngtController {
      * @throws Exception the exception
      */
 	@RequestMapping(value="/oper/train/popup/showTrainPortRentMngtPrmisn.do")
-    String showEntrpsInfo(GamTrainPortRentMngtLevReqestVO gamTrainPortRentMngtLevReqestVO, ModelMap model) throws Exception {
+    String showEntrpsInfo(GamTrainPortRentMngtVO gamTrainPortRentMngtLevReqestVO, ModelMap model) throws Exception {
 
-		List chrgeKndCdList = gamTrainPortRentMngtService.selectChargeKndList();
+		List chrgeKndCdList = gamTrainPortRentMngtService.selectChargeKndList(gamTrainPortRentMngtLevReqestVO);
 
 		model.addAttribute("gamTrainPortRentMngtInfo", gamTrainPortRentMngtLevReqestVO);
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
@@ -1027,7 +1064,7 @@ public class GamTrainPortRentMngtController {
     }
 
     /**
-     * 철송장임대 승낙을 한다.
+     * 철송장임대사용 승낙을 한다.
      * @param gamTrainPortRentMngtVO
      * @param bindingResult
      * @return map
@@ -1053,13 +1090,6 @@ public class GamTrainPortRentMngtController {
 
          LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-         System.out.println("##################################### 승낙시작!!");
-         System.out.println("##################################### getPrtAtCode => " +  gamTrainPortRentMngtVO.getPrtAtCode());
-         System.out.println("##################################### getMngYear => " +  gamTrainPortRentMngtVO.getMngYear());
-         System.out.println("##################################### getMngNo => " +  gamTrainPortRentMngtVO.getMngNo());
-         System.out.println("##################################### getMngCnt => " +  gamTrainPortRentMngtVO.getMngCnt());
-         System.out.println("##################################### getChrgeKnd => " +  gamTrainPortRentMngtVO.getChrgeKnd());
-
          //prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류
          paramMap.put("prtAtCode", gamTrainPortRentMngtVO.getPrtAtCode());
          paramMap.put("mngYear", gamTrainPortRentMngtVO.getMngYear());
@@ -1068,8 +1098,7 @@ public class GamTrainPortRentMngtController {
          paramMap.put("regUsr", loginVO.getId());
          paramMap.put("deptcd", loginVO.getOrgnztId());
          paramMap.put("chrgeKnd", gamTrainPortRentMngtVO.getChrgeKnd());
-
-         System.out.println("##################################### paramMap => " + paramMap);
+         paramMap.put("taxtSe", gamTrainPortRentMngtVO.getTaxtSe());
 
          //승낙 서비스 클래스 호출
          //gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap); //승낙
@@ -1092,7 +1121,7 @@ public class GamTrainPortRentMngtController {
      }
 
     /**
-     * 철송장임대 승낙취소(허가취소)를 한다.
+     * 철송장임대사용 승낙취소(허가취소)를 한다.
      * @param gamTrainPortRentMngtVO
      * @param bindingResult
      * @return map
@@ -1130,8 +1159,6 @@ public class GamTrainPortRentMngtController {
          paramMap.put("mngNo", gamTrainPortRentMngtVO.getMngNo());
          paramMap.put("mngCnt", gamTrainPortRentMngtVO.getMngCnt());
          paramMap.put("regUsr", loginVO.getId());
-         paramMap.put("chrgeKnd", gamTrainPortRentMngtVO.getChrgeKnd());
-         paramMap.put("taxtSe", gamTrainPortRentMngtVO.getTaxtSe());
 
          System.out.println("##################################### paramMap => " + paramMap);
 
@@ -1219,7 +1246,7 @@ public class GamTrainPortRentMngtController {
         String updateFlag = "";
         int resultCode = 1;
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+        Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
@@ -1228,7 +1255,7 @@ public class GamTrainPortRentMngtController {
 
     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
-        if( gamTrainPortRentMngtVO.getMngYear() == null || "".equals(gamTrainPortRentMngtVO.getMngYear()) ) {
+    	if( gamTrainPortRentMngtVO.getMngYear() == null || "".equals(gamTrainPortRentMngtVO.getMngYear()) ) {
         	updateFlag = "N";
         } else {
         	updateFlag = "Y";
@@ -1251,9 +1278,25 @@ public class GamTrainPortRentMngtController {
 		return map;
     }
 
-    /**
+	/**
+     * 과태료 처분 팝업화면을 로딩한다.
+     *
+     * @param gamAssetDisUseMngtVO
+     * @param model the model
+     * @return "/ygpa/gam/asset/GamPopupAssetRentPrmisn"
+     * @throws Exception the exception
+     */
+	@RequestMapping(value="/oper/train/popupPenaltyFee.do")
+    String showAssetDisUse(Map mngItem, ModelMap model) throws Exception {
+
+		model.addAttribute("mngItem", mngItem);
+
+    	return "/ygpa/gam/oper/train/GamPopupTrainPortPenaltyFee";
+   }
+
+	/**
 	 * 추가고지 팝업화면을 로딩한다.
-	 * @param gamPrtFcltyRentMngtLevReqestVO
+	 * @param gamTrainPortRentMngtLevReqestVO
 	 * @param model
 	 * @return
 	 * @throws Exception
@@ -1263,14 +1306,15 @@ public class GamTrainPortRentMngtController {
 
 		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
 
-		codeVo.setCodeId("GAM055"); //요금종류 철송장
+		codeVo.setCodeId("GAM055"); //요금종류
 		List chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 
-		model.addAttribute("gamPrtFcltyRentMngtInfo", gamTrainPortRentMngtVO);
+		model.addAttribute("gamTrainPortRentMngtInfo", gamTrainPortRentMngtVO);
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
 
   	return "ygpa/gam/oper/train/GamPopupTrainPortRentMngtLevReqestAdit";
   }
+
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/oper/train/selectTrainPortRentMngtListExcel.do", method=RequestMethod.POST)

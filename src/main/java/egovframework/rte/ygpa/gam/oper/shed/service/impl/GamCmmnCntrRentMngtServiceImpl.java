@@ -15,6 +15,7 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtDetailVO;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtLevReqestVO;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtService;
@@ -41,7 +42,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 	protected Log log = LogFactory.getLog(this.getClass());
 
 	/**
-	 * 공컨장치장임대 목록을 조회한다.
+	 * 공컨장치장임대사용 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
@@ -51,7 +52,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     }
 
     /**
-	 * 공컨장치장임대 목록 총 갯수를 조회한다.
+	 * 공컨장치장임대사용 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -63,7 +64,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     /**
 	 * 자료수, 총면적, 총사용료를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대목록
+	 * @return 공컨장치장임대사용목록
 	 * @exception Exception
 	 */
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtSum(GamCmmnCntrRentMngtVO searchVO) throws Exception {
@@ -71,7 +72,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     }
 
     /**
-	 * 공컨장치장임대 최초 신청을 등록한다.
+	 * 공컨장치장임대사용 최초 신청을 등록한다.
 	 * @param vo GamCmmnCntrRentMngtVO
 	 * @exception Exception
 	 */
@@ -82,7 +83,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     /**
 	 * 관리번호(MAX) 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대목록
+	 * @return 공컨장치장임대사용목록
 	 * @exception Exception
 	 */
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtMaxNo(GamCmmnCntrRentMngtVO searchVO) throws Exception {
@@ -90,24 +91,24 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     }
 
     /**
-	 * 공컨장치장임대 연장 신청을 등록한다.
+	 * 공컨장치장임대사용 연장 신청을 등록한다.
 	 * @param vo GamCmmnCntrRentMngtVO
 	 * @exception Exception
 	 */
     public void insertCmmnCntrRentMngtRenew(GamCmmnCntrRentMngtVO vo) throws Exception {
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-		//공컨장치장임대 복사등록된  MngCnt의 max값을 가져온다.
+		//공컨장치장임대사용 복사등록된  MngCnt의 max값을 가져온다.
 		String maxMngCnt = gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtMaxMngCnt(vo);
 
-		//공컨장치장임대 복사등록
+		//공컨장치장임대사용 복사등록
 		vo.setMaxMngCnt(maxMngCnt);
 		vo.setRegUsr(loginVO.getId());
 		vo.setUpdUsr(loginVO.getId());
 		vo.setReqstSeCd("2");
 		gamCmmnCntrRentMngtDao.insertCmmnCntrRentMngtRenew(vo);
 
-		//공컨장치장임대상세정보 조회
+		//공컨장치장임대사용상세정보 조회
 		List detailList = gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtDetailInfo(vo);
 
 		GamCmmnCntrRentMngtDetailVO resultVo = null;
@@ -120,7 +121,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 			resultVo.setRegUsr(loginVO.getId());
 			resultVo.setUpdUsr(loginVO.getId());
 
-			//공컨장치장임대상세 복사등록
+			//공컨장치장임대사용상세 복사등록
 			gamCmmnCntrRentMngtDao.insertCmmnCntrRentMngtDetailRenew(resultVo);
 		}
 
@@ -140,7 +141,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 	}
 
 	/**
-	 * 공컨장치장임대정보를 수정한다.
+	 * 공컨장치장임대사용정보를 수정한다.
 	 * @param vo GamCmmnCntrRentMngtVO
 	 * @exception Exception
 	 */
@@ -149,7 +150,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 	}
 
 	/**
-	 * 공컨장치장임대 상세 목록을 조회한다.
+	 * 공컨장치장임대사용 상세 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
@@ -159,7 +160,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     }
 
     /**
-	 * 공컨장치장임대 상세 목록 총 갯수를 조회한다.
+	 * 공컨장치장임대사용 상세 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -189,21 +190,21 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 	}
 
     /**
-	 * 공컨장치장임대 정보를 삭제한다.
+	 * 공컨장치장임대사용 정보를 삭제한다.
 	 * @param vo GamCmmnCntrRentMngtDetailVO
 	 * @exception Exception
 	 */
 	public void deleteCmmnCntrRentMngt(GamCmmnCntrRentMngtVO vo) throws Exception {
 
-		gamCmmnCntrRentMngtDao.deleteCmmnCntrRentMngtPhoto(vo); //공컨장치장임대 사진정보 삭제
+		gamCmmnCntrRentMngtDao.deleteCmmnCntrRentMngtPhoto(vo); //공컨장치장임대사용 사진정보 삭제
 
-		gamCmmnCntrRentMngtDao.deleteCmmnCntrRentMngtDetail(vo); //공컨장치장임대 상세정보 삭제
+		gamCmmnCntrRentMngtDao.deleteCmmnCntrRentMngtDetail(vo); //공컨장치장임대사용 상세정보 삭제
 
-		gamCmmnCntrRentMngtDao.deleteCmmnCntrRentMngt(vo); // 공컨장치장임대정보 삭제
+		gamCmmnCntrRentMngtDao.deleteCmmnCntrRentMngt(vo); // 공컨장치장임대사용정보 삭제
 	}
 
 	/**
-	 * 공컨장치장임대 상세정보를 삭제한다.
+	 * 공컨장치장임대사용 상세정보를 삭제한다.
 	 * @param vo GamCmmnCntrRentMngtDetailVO
 	 * @exception Exception
 	 */
@@ -212,7 +213,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 	}
 
 	/**
-	 * 공컨장치장임대 상세를 등록한다.
+	 * 공컨장치장임대사용 상세를 등록한다.
 	 * @param vo GamCmmnCntrRentMngtDetailVO
 	 * @exception Exception
 	 */
@@ -221,7 +222,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 	}
 
 	/**
-	 * 공컨장치장임대 상세를 수정한다.
+	 * 공컨장치장임대사용 상세를 수정한다.
 	 * @param vo GamCmmnCntrRentMngtDetailVO
 	 * @exception Exception
 	 */
@@ -230,7 +231,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 	}
 
 	/**
-	 * 공컨장치장임대 상세를 삭제한다.
+	 * 공컨장치장임대사용 상세를 삭제한다.
 	 * @param vo GamCmmnCntrRentMngtDetailVO
 	 * @exception Exception
 	 */
@@ -239,9 +240,9 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 	}
 
 	/**
-	 * 승낙할 공컨장치장임대 정보 조회.
+	 * 승낙할 공컨장치장임대사용 정보 조회.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대정보
+	 * @return 공컨장치장임대사용정보
 	 * @exception Exception
 	 */
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtPrmisnInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception {
@@ -249,7 +250,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     }
 
 	/**
-	 * 공컨장치장임대 허가여부를 취소한다.
+	 * 공컨장치장임대사용 허가여부를 취소한다.
 	 * @param vo GamCmmnCntrRentMngtLevReqestVO
 	 * @exception Exception
 	 */
@@ -305,9 +306,9 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 	}
 
 	/**
-	 * 공컨장치장임대 신규저장시 키값 가져오기.
+	 * 공컨장치장임대사용 신규저장시 키값 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대 목록
+	 * @return 공컨장치장임대사용 목록
 	 * @exception Exception
 	 */
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtMaxKey(GamCmmnCntrRentMngtVO searchVO) throws Exception {
@@ -326,7 +327,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 	/**
 	 * 연장신청시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대 목록
+	 * @return 공컨장치장임대사용 목록
 	 * @exception Exception
 	 */
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtRenewInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception {
@@ -345,7 +346,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
 	/**
 	 * 신청저장시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대 목록
+	 * @return 공컨장치장임대사용 목록
 	 * @exception Exception
 	 */
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtCurrRenewInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception {
@@ -353,9 +354,9 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     }
 
     /**
-	 * 신청저장시 공컨장치장임대상세테이블의 (MIN)순번의 부두코드 가져오기.
+	 * 신청저장시 공컨장치장임대사용상세테이블의 (MIN)순번의 부두코드 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대목록
+	 * @return 공컨장치장임대사용목록
 	 * @exception Exception
 	 */
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtDetailQuaycd(GamCmmnCntrRentMngtVO searchVO) throws Exception {
@@ -363,7 +364,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     }
 
     /**
-	 * 신청저장시 공컨장치장임대테이블의 부두코드를 업데이트 한다.
+	 * 신청저장시 공컨장치장임대사용테이블의 부두코드를 업데이트 한다.
 	 * @param vo GamCmmnCntrRentMngtDetailVO
 	 * @exception Exception
 	 */
@@ -384,7 +385,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     /**
 	 * 현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대목록
+	 * @return 공컨장치장임대사용목록
 	 * @exception Exception
 	 */
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtBeforeQuarterInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception {
@@ -394,7 +395,7 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     /**
 	 * 이전 분기의 연도와 월에 해당하는 코픽스 이자율 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대목록
+	 * @return 공컨장치장임대사용목록
 	 * @exception Exception
 	 */
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtCofixInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception {
@@ -404,20 +405,19 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     /**
 	 * 가장 마지막데이터의 연도와 월에 해당하는 코픽스 이자율 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대목록
+	 * @return 공컨장치장임대사용목록
 	 * @exception Exception
 	 */
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtCofixInfoMax(GamCmmnCntrRentMngtVO searchVO) throws Exception {
         return gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtCofixInfoMax(searchVO);
     }
 
-    /* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtService#selectChargeKndList()
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamCmmnCntrRentMngtService#selectChargeKndList()
 	 */
 	@Override
-	public List selectChargeKndList() throws Exception {
+	public List selectChargeKndList(GamCmmnCntrRentMngtVO searchVO) throws Exception {
 		// TODO Auto-generated method stub
-		return gamCmmnCntrRentMngtDao.selectChargeKndList();
+		return gamCmmnCntrRentMngtDao.selectChargeKndList(searchVO);
 	}
-
 }

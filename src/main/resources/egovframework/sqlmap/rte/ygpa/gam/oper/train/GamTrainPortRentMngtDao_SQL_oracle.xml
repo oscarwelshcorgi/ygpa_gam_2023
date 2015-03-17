@@ -134,7 +134,7 @@
         <result property="annodt" column="ANNODT" columnIndex="5"/>
     </resultMap>
 
-    <select id="gamTrainPortRentMngtDao.selectTrainPortRentMngtList_D" parameterClass="gamTrainPortRentMngtVO" resultClass="egovMap">
+   <select id="gamTrainPortRentMngtDao.selectTrainPortRentMngtList_D" parameterClass="gamTrainPortRentMngtVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -185,6 +185,7 @@
                                   , GAM_GETCODENAME('GAM008', A.NTIC_MTH) AS NTIC_MTH_NM
                                   , GAM_GETCODENAME('GAM043', A.PAY_MTH) PAY_MTH_NM
                                   , (SELECT CD.ORGNZT_NM FROM COMTNORGNZTINFO CD WHERE CD.ORGNZT_ID = A.DEPTCD AND ROWNUM = 1) DEPTCD_NM
+                                  , CHARGER_NO
                              FROM ASSETS_RENT_F A
                             WHERE A.QUAY_GROUP_CD='T'
 
@@ -243,10 +244,11 @@
 
 
                              <!-- ORDER BY REGIST_DT DESC -->
-                             ORDER BY A.MNG_YEAR DESC, A.MNG_NO DESC, A.MNG_CNT DESC
+                             ORDER BY A.PRMISN_YN, A.REQST_DT DESC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+
     </select>
 
     <select id="gamTrainPortRentMngtDao.selectTrainPortRentMngtListTotCnt_S" parameterClass="gamTrainPortRentMngtVO" resultClass="int">
@@ -306,6 +308,7 @@
                                                                    )
                      )
              </isNotEmpty>
+
     </select>
 
     <select id="gamTrainPortRentMngtDao.selectTrainPortRentMngtSum_S" parameterClass="gamTrainPortRentMngtVO" resultMap="gamTrainPortRentMngtSumMap">
@@ -369,6 +372,7 @@
                                                                )
                  )
          </isNotEmpty>
+
     </select>
 
     <select id="gamTrainPortRentMngtDao.selectTrainPortRentMngtMaxNo_S" parameterClass="gamTrainPortRentMngtVO" resultMap="gamTrainPortRentMngtMaxMngMap">
@@ -415,7 +419,7 @@
                                    , FRST_REQST_DT
                                    , SANCTN_STTUS
                                    , PAYINST_INTRRATE
-								   , CHARGER_NO
+                                   , CHARGER_NO
                                    )
                             VALUES (
                                      #prtAtCode#
@@ -425,14 +429,14 @@
 									    WHERE MNG_YEAR = TO_CHAR(SYSDATE,'YYYY'))
                                    , '01'
                                    , #entrpscd#
-                                   , TO_DATE(#reqstDt#, 'YYYY-MM-DD')
+                                   , TO_DATE(#reqstDt#,'YYYY-MM-DD')
                                    , '1'
                                    , 0
                                    , 0
-                                    , #taxtSe#
+                                   , #taxtSe#
                                    , #nticMth#
                                    <!--, #frstPrmisnDt#
-                                   , TO_DATE(#prmisnDt#, 'YYYY-MM-DD')
+                                   , TO_DATE(#prmisnDt#,'YYYY-MM-DD')
                                    , TO_CHAR(SYSDATE,'YYYYMMDD')
                                    , TO_CHAR(ADD_MONTHS(SYSDATE-1, 12),'YYYYMMDD')
                                    , #docNo# -->
@@ -449,7 +453,7 @@
                                    , #deptcd#
                                    , #payMth#
                                    , 'T'
-                                   , TO_DATE(#frstReqstDt#, 'YYYY-MM-DD')
+                                   , TO_DATE(#frstReqstDt#,'YYYY-MM-DD')
                                    , 'N'
 
                                    <isEmpty property="payinstIntrrate">
@@ -474,8 +478,8 @@
                                    , GR_AR
                                    , GR_FEE
                                    , NTIC_MTH
-                                   , PRMISN_YN
                                    , TAXT_SE
+                                   , PRMISN_YN
                                    , DOC_NO
                                    , RM
                                    , CMT
@@ -500,7 +504,7 @@
                                    , PAYINST_INTRRATE
                                )
                          SELECT
-                         			A.PRT_AT_CODE
+                         		 A.PRT_AT_CODE
                                  , A.MNG_YEAR
                                  , A.MNG_NO
                                  , #maxMngCnt#
@@ -509,11 +513,11 @@
                                  , A.GR_AR
                                  , A.GR_FEE
                                  , A.NTIC_MTH
+                                 , A.TAXT_SE
                                  , 'N'
                                  , A.DOC_NO
                                  , A.RM
                                  , A.CMT
-                                 , A.TAXT_SE
                                  , A.ETC
                                  , #regUsr#
                                  , SYSDATE
@@ -543,16 +547,16 @@
     <update id="gamTrainPortRentMngtDao.updateTrainPortRentMngt_S">
         UPDATE ASSETS_RENT_F SET
 		         ENTRPSCD         = #entrpscd#
-		       <!-- , REQST_DT    = TO_DATE(#reqstDt#, 'YYYY-MM-DD')  -->
+		       <!-- , REQST_DT    = TO_DATE(#reqstDt#,'YYYY-MM-DD')  -->
 		       <!-- , REQST_SE_CD      = '3'  -->
 		       <!-- , GR_AR            = #grAr#
 		       , GR_FEE           = #grFee#  -->
 		       , NTIC_MTH         = #nticMth#
-		       <!-- , FRST_PRMISN_DT   = TO_DATE(#frstPrmisnDt#, 'YYYY-MM-DD')  -->
+		       <!-- , FRST_PRMISN_DT   = TO_DATE(#frstPrmisnDt#,'YYYY-MM-DD')  -->
 		       <!-- , PRMISN_DT        = REPLACE(#prmisnDt#,'-','')
 		       , PRMISN_YN        = #prmisnYn#
-		       , GR_USAGE_PD_FROM = TO_DATE(#grUsagePdFrom#, 'YYYY-MM-DD')
-		       , GR_USAGE_PD_TO   = TO_DATE(#grUsagePdTo#, 'YYYY-MM-DD')
+		       , GR_USAGE_PD_FROM = TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')
+		       , GR_USAGE_PD_TO   = TO_DATE(#grUsagePdTo#,'YYYY-MM-DD')
 		       , DOC_NO           = #docNo# -->
 		       , RM               = #rm#
 		       , CMT              = #cmt#
@@ -639,6 +643,7 @@
                                 , A.QUAY_CD
                                 , A.APPLC_TARIFF APPLC_TARIFF_STR
                                 , GAM_GETCODENAME('GAM003', A.QUAY_CD) QUAY_CD_NM
+                                , NVL(USAGE_PD_CHK,'N')  AS USAGE_PD_CHK
                             FROM ASSETS_RENT_DETAIL_F A
 							LEFT OUTER JOIN GIS_ASSETS_CD_F F ON (F.GIS_ASSETS_PRT_AT_CODE = NVL(A.GIS_ASSETS_PRT_AT_CODE, A.PRT_AT_CODE) AND
 																	F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD AND
@@ -653,12 +658,13 @@
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+
     </select>
 
     <select id="gamTrainPortRentMngtDao.selectTrainPortRentMngtDetailListTotCnt_S" parameterClass="gamTrainPortRentMngtVO" resultClass="int">
-            SELECT COUNT(*) TOTCNT
+            SELECT COUNT(*) totcnt
               FROM ASSETS_RENT_DETAIL_F A
-             WHERE 1 = 1
+             WHERE 1=1
                AND A.PRT_AT_CODE = #prtAtCode#
                AND A.MNG_YEAR    = #mngYear#
                AND A.MNG_NO      = #mngNo#
@@ -731,6 +737,7 @@
                                            , GIS_ASSETS_SUB_CD
                                            , GIS_ASSETS_PRT_AT_CODE
                                            , USAGE_AR
+                                           , USAGE_PD_CHK
 		                                 )
 		                          VALUES (
 		                                     ( SELECT NVL(MAX(TO_NUMBER(ASSETS_USAGE_SEQ)),0)+1
@@ -743,15 +750,15 @@
                                            , #detailMngNo#
                                            , #detailMngCnt#
                                            , #detailPrtAtCode#
-		                                   , TO_DATE(#usagePdFrom#, 'YYYY-MM-DD')
-                                           , TO_DATE(#usagePdTo#, 'YYYY-MM-DD')
+		                                   , TO_DATE(#usagePdFrom#,'YYYY-MM-DD')
+                                           , TO_DATE(#usagePdTo#,'YYYY-MM-DD')
 		                                   , REPLACE(#olnlp#,',','')
 		                                   , REPLACE(#applcPrice#,',','')
 		                                   , REPLACE(#applcTariff#,',','')
                                            , #applcMth#
                                            , #exemptSe#
-                                           , TO_DATE(#exemptPdFrom#, 'YYYY-MM-DD')
-                                           , TO_DATE(#exemptPdTo#, 'YYYY-MM-DD')
+                                           , TO_DATE(#exemptPdFrom#,'YYYY-MM-DD')
+                                           , TO_DATE(#exemptPdTo#,'YYYY-MM-DD')
                                            , #exemptRsnCd#
                                            , #exemptRsn#
 		                                   , REPLACE(#rdcxptFee#,',','')
@@ -768,6 +775,7 @@
                                            , #gisAssetsSubCd#
                                            , #gisAssetsPrtAtCode#
                                            , REPLACE(#usageAr#,',','')
+                                           , #usagePdChk#
 		                                 )
     </insert>
 
@@ -776,16 +784,16 @@
 		         GIS_ASSETS_CD          = #gisAssetsCd#
 		       , GIS_ASSETS_SUB_CD      = #gisAssetsSubCd#
 		       , USAGE_AR               = REPLACE(#usageAr#,',','')
-		       , USAGE_PD_FROM          = TO_DATE(#usagePdFrom#, 'YYYY-MM-DD')
-		       , USAGE_PD_TO            = TO_DATE(#usagePdTo#, 'YYYY-MM-DD')
+		       , USAGE_PD_FROM          = TO_DATE(#usagePdFrom#,'YYYY-MM-DD')
+		       , USAGE_PD_TO            = TO_DATE(#usagePdTo#,'YYYY-MM-DD')
 		       , USAGE_PURPS            = #usagePurps#
 		       , USAGE_DTLS             = #usageDtls#
 		       <!-- , USAGE_PRPOS_CD         = #usagePrposCd#  -->
 		       , EXEMPT_SE              = #exemptSe#
 		       , EXEMPT_RSN_CD          = #exemptRsnCd#
 		       , EXEMPT_RSN             = #exemptRsn#
-		       , EXEMPT_PD_FROM         = TO_DATE(#exemptPdFrom#, 'YYYY-MM-DD')
-		       , EXEMPT_PD_TO           = TO_DATE(#exemptPdTo#, 'YYYY-MM-DD')
+		       , EXEMPT_PD_FROM         = TO_DATE(#exemptPdFrom#,'YYYY-MM-DD')
+		       , EXEMPT_PD_TO           = TO_DATE(#exemptPdTo#,'YYYY-MM-DD')
 		       , COMPUT_DTLS            = #computDtls#
 		       , OLNLP                  = REPLACE(#olnlp#,',','')
 		       , APPLC_PRICE	= REPLACE(#applcPrice#,',','')
@@ -797,13 +805,14 @@
 		       <!-- , RDCXPT_FEE_CALC_SE     = #rdcxptFeeCalcSe# -->
 		       , RDCXPT_FEE             = REPLACE(#rdcxptFee#,',','')
 		       , FEE                    = REPLACE(#fee#,',','')
-		       <!-- , TRMNAT_DT              = TO_DATE(#trmnatDt#, 'YYYY-MM-DD')  -->
+		       <!-- , TRMNAT_DT              = TO_DATE(#trmnatDt#,'YYYY-MM-DD')  -->
 		       <!-- , TRMNAT_RSN             = #trmnatRsn# -->
 		       <!-- , GIS_CD                 = #detailGisCd# -->
 		       , UPD_USR                = #updUsr#
 		       , UPDT_DT                = SYSDATE
 		       , GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
 		       , QUAY_CD                = #quayCd#
+		       , USAGE_PD_CHK           = #usagePdChk#
 		  WHERE  ASSETS_USAGE_SEQ       = #assetsUsageSeq#
 		    AND  MNG_YEAR               = #detailMngYear#
 		    AND  MNG_NO                 = #detailMngNo#
@@ -830,11 +839,11 @@
                , A.REQST_SE_CD
                , A.GR_AR
                , A.GR_FEE
+               , A.TAXT_SE
                , A.NTIC_MTH
                , TO_CHAR(A.FRST_PRMISN_DT, 'YYYY-MM-DD') FRST_PRMISN_DT
                , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
                , A.PRMISN_YN
-               , A.TAXT_SE
                , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
                , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
                , A.DOC_NO
@@ -964,7 +973,7 @@
     </select>
 
     <select id="gamTrainPortRentMngtDao.selectTrainPortRentMngtMaxMngCnt_S" parameterClass="gamTrainPortRentMngtVO" resultClass="String">
-        SELECT
+		SELECT
 		       <!-- (MAX(A.MNG_CNT)) MNG_CNT -->
 		       LPAD((MAX(A.MNG_CNT)+ 1),'2','0') MNG_CNT
 		  FROM ASSETS_RENT_F A
@@ -1081,16 +1090,16 @@
                                            , #gisAssetsCd#
                                            , #gisAssetsSubCd#
                                            , #usageAr#
-                                           , TO_DATE(#usagePdFrom#, 'YYYY-MM-DD')
-                                           , TO_DATE(#usagePdTo#, 'YYYY-MM-DD')
+                                           , TO_DATE(#usagePdFrom#,'YYYY-MM-DD')
+                                           , TO_DATE(#usagePdTo#,'YYYY-MM-DD')
                                            , #usagePurps#
                                            , #usageDtls#
                                            , #usagePrposCd#
                                            , #exemptSe#
                                            , #exemptRsnCd#
                                            , #exemptRsn#
-                                           , TO_DATE(#exemptPdFrom#, 'YYYY-MM-DD')
-                                           , TO_DATE(#exemptPdTo#, 'YYYY-MM-DD')
+                                           , TO_DATE(#exemptPdFrom#,'YYYY-MM-DD')
+                                           , TO_DATE(#exemptPdTo#,'YYYY-MM-DD')
                                            , #computDtls#
                                            , #olnlp#
                                            , #applcPrice#
@@ -1102,7 +1111,7 @@
                                            , #rdcxptFeeCalcSe#
                                            , #rdcxptFee#
                                            , #fee#
-                                           , TO_DATE(#trmnatDt#, 'YYYY-MM-DD')
+                                           , TO_DATE(#trmnatDt#,'YYYY-MM-DD')
                                            , #trmnatRsn#
                                            , #gisCd#
                                            , #regUsr#
@@ -1158,6 +1167,7 @@
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+
     </select>
 
     <select id="gamTrainPortRentMngtDao.selectTrainPortRentMngtFileListTotCnt_S" parameterClass="gamTrainPortRentMngtVO" resultClass="int">
@@ -1194,7 +1204,7 @@
                                            , #photoSj#
                                            , #filenmPhysicl#
                                            , #filenmLogic#
-                                           , TO_DATE(#shotDt#, 'YYYY-MM-DD')
+                                           , TO_DATE(#shotDt#,'YYYY-MM-DD')
                                            , #regUsr#
                                            , SYSDATE
                                            , #prtAtCode#
@@ -1210,7 +1220,7 @@
 		       PHOTO_SJ       = #photoSj#,
 		       <!-- FILENM_PHYSICL = :FILENM_PHYSICL,
 		       FILENM_LOGIC   = :FILENM_LOGIC, -->
-		       SHOT_DT        = TO_DATE(#shotDt#, 'YYYY-MM-DD'),
+		       SHOT_DT        = TO_DATE(#shotDt#,'YYYY-MM-DD'),
 		       <!-- REG_USR        = :REG_USR,
 		       REGIST_DT      = :REGIST_DT,-->
 		       PHOTO_DESC     = #photoDesc#
@@ -1268,8 +1278,8 @@
 		       GR_AR            = #grAr#
 		     , GR_FEE           = #grFee#
 		     , GR_RDCXPT_FEE    = #grRdcxptFee#
-		     , GR_USAGE_PD_FROM = TO_DATE(#grUsagePdFrom#, 'YYYY-MM-DD')
-		     , GR_USAGE_PD_TO   = TO_DATE(#grUsagePdTo#, 'YYYY-MM-DD')
+		     , GR_USAGE_PD_FROM = TO_DATE(#grUsagePdFrom#,'YYYY-MM-DD')
+		     , GR_USAGE_PD_TO   = TO_DATE(#grUsagePdTo#,'YYYY-MM-DD')
 		WHERE PRT_AT_CODE = #prtAtCode#
 		  AND MNG_YEAR    = #mngYear#
 		  AND MNG_NO      = #mngNo#
@@ -1414,16 +1424,18 @@
 		 WHERE A.OBJ_YRMT = ( SELECT MAX(B.OBJ_YRMT) FROM COFIX_INTRRATE_F B )
     </select>
 
-	<select id="gamTrainPortRentMngtDao.selectChargeKndList_D" resultClass="egovMap">
+    <select id="gamTrainPortRentMngtDao.selectChargeKndList_D" parameterClass="gamTrainPortRentMngtVO" resultClass="egovMap">
             		<![CDATA[
 			SELECT
-			 PRT_AT_CODE, FEE_TP, FEE_TP_NM
+			PRT_AT_CODE, FEE_TP, FEE_TP_KOR_NM
 			FROM
-			 FEE_TP_F
+			FEE_TP_F
 			WHERE
-			 PRT_AT_CODE=#prtAtCode#
+			PRT_AT_CODE=#prtAtCode#
+			AND QUAY_GROUP_CD = 'T'
 				AND FEE_TP NOT IN ('A3', 'A4', 'UG', 'DA')
-			ORDER BY FEE_TP_NM
+			ORDER BY FEE_TP
 		]]>
     </select>
 </sqlMap>
+  

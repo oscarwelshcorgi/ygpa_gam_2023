@@ -15,7 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
@@ -25,6 +29,8 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamFcltyRentArrrgMngtVO;
+
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentArrrgMngtVO;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentFeePaySttusMngtService;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentFeePaySttusMngtVO;
@@ -70,9 +76,8 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
     private GamCmmnCntrRentFeePaySttusMngtService gamCmmnCntrRentFeePaySttusMngtService;
 
 
-
     /**
-     * 공컨장치장임대납부현황관리 화면을 로딩한다.
+     * 항만관련부지임대납부현황관리 화면을 로딩한다.
      *
      * @param windowId
      * @param model the model
@@ -122,15 +127,15 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
     }
 
 	/**
-     * 자산임대료납부관리 목록을 조회한다.
+     * 항만관련부지임대납부현황관리 목록을 조회한다.
      *
      * @param searchVO
      * @return map
      * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/shed/gamSelectCmmnCntrRentFeePayDtlsMngtList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectCmmnCntrRentFeePayDtlsMngtList(GamCmmnCntrRentFeePaySttusMngtVO searchVO) throws Exception {
+    @RequestMapping(value="/oper/shed/gamSelectCmmnCntrRentFeePaySttusMngtList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectCmmnCntrRentFeePaySttusMngtList(GamCmmnCntrRentFeePaySttusMngtVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -151,14 +156,17 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-    	totalCnt = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePayDtlsListTotCnt(searchVO);
-    	List resultList = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePayDtlsList(searchVO);
+		//목록
+    	totalCnt = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePaySttusMngtListTotCnt(searchVO);
+    	List resultList = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePaySttusMngtList(searchVO);
 
-    	//고지금액합계, 수납금액합계
-    	GamCmmnCntrRentFeePaySttusMngtVO resultSum = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePayDtlsMngtSum(searchVO);
 
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+    	//자료수, 사용료, 부가세, 고지액
+    	GamCmmnCntrRentFeePaySttusMngtVO resultSum = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePaySttusMngtSum(searchVO);
+    	//GamCmmnCntrRentFeePaySttusMngtVO resultSum = new GamCmmnCntrRentFeePaySttusMngtVO();
 
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
@@ -180,15 +188,15 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
     }
 
 	/**
-     * 자산임대료납부관리 상세정보를 조회한다.
+     * 항만관련부지임대납부현황관리 상세정보를 조회한다.
      *
      * @param searchVO
      * @return map
      * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/shed/selecCmmnCntrRentFeePayDtlsMngtDetail.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectCmmnCntrRentFeePayDtlsMngtDetail(GamCmmnCntrRentFeePaySttusMngtVO searchVO) throws Exception {
+    @RequestMapping(value="/oper/shed/selectCmmnCntrRentFeePaySttusMngtDetail.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectCmmnCntrRentFeePaySttusMngtDetail(GamCmmnCntrRentFeePaySttusMngtVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -209,9 +217,9 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-    	List resultList = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePayDtlsMngtDetailList(searchVO);
-    	Map master = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePayDtlsMngtDetailMstPk(searchVO);
-    	Map summary = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePayDtlsMngtDetailSumPk(searchVO);
+    	List resultList = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePaySttusMngtDetailList(searchVO);
+    	Map master = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePaySttusMngtDetailMstPk(searchVO);
+    	Map summary = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePaySttusMngtDetailSumPk(searchVO);
     	Map arrrgDetail = gamCmmnCntrRentFeePaySttusMngtService.selectNticArrrgDetail(searchVO);;
 
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -227,49 +235,48 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
     	return map;
     }
 
-	    @SuppressWarnings("unchecked")
-		@RequestMapping(value="/oper/shed/updateCmmnCntrRentFeePayDtlsMngtList.do")
-	    public @ResponseBody Map updateCmmnCntrRentFeePayDtlsMngtList()
-	            throws Exception {
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/oper/shed/updateCmmnCntrRentFeePaySttusMngtList.do")
+    public @ResponseBody Map updateCmmnCntrRentFeePaySttusMngtList()
+            throws Exception {
 
-	     	Map map = new HashMap();
-	     	Map paramMap = new HashMap();
-	        String resultMsg = "";
-	        int resultCode = 1;
-	        int anlrveLevCnt = 0;
+     	Map map = new HashMap();
+     	Map paramMap = new HashMap();
+        String resultMsg = "";
+        int resultCode = 1;
+        int anlrveLevCnt = 0;
 
-	    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-	    	if(!isAuthenticated) {
-		        map.put("resultCode", 1);
-	    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-	        	return map;
-	    	}
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
 
-	    	try {
-	    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+    	try {
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-//	    		paramMap.put("updUsr", loginVo.getId());
+//    		paramMap.put("updUsr", loginVo.getId());
 
-	    		int result=gamNticRequestMngtService.updateRentFeePaySttusRefresh();;
+    		int result=gamNticRequestMngtService.updateRentFeePaySttusRefresh();
 
-		        resultCode = 0;
-		 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+	        resultCode = 0;
+	 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
 
-		     	map.put("resultCode", resultCode);
-		        map.put("resultMsg", resultMsg);
-		        map.put("updateCount", result);
-	    	}
-	    	catch(Exception e) {
-		        map.put("resultCode", -1);
-	    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
-	        	return map;
-	    	}
+	     	map.put("resultCode", resultCode);
+	        map.put("resultMsg", resultMsg);
+	        map.put("updateCount", result);
+    	}
+    	catch(Exception e) {
+	        map.put("resultCode", -1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+        	return map;
+    	}
 
-	 		return map;
-	     }
+ 		return map;
+     }
 
-
-    /**
+	/**
      *  연체 세입 조회
      * @param searchOpt
      * @param model
@@ -279,6 +286,7 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
     @RequestMapping(value="/oper/shed/showNticArrrgPopup.do")
     String showAssetsCd(GamPopupGisAssetsCdVO searchOpt, ModelMap model) throws Exception {
     	model.addAttribute("searchOpt", searchOpt);
+
     	return "/ygpa/gam/oper/shed/GamNticArrrgPopup";
     }
 
@@ -289,7 +297,7 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
      * @throws Exception
      */
     @RequestMapping(value="/oper/shed/selectNticArrrgList.do", method=RequestMethod.POST)
-    @ResponseBody Map<String, Object> selectNticArrrgList(GamCmmnCntrRentArrrgMngtVO searchVO) throws Exception {
+    @ResponseBody Map<String, Object> selectNticArrrgList(GamFcltyRentArrrgMngtVO searchVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
@@ -300,7 +308,7 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
         	return map;
     	}
 
-    	PaginationInfo paginationInfo = new PaginationInfo();
+		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
@@ -327,7 +335,7 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
      * @throws Exception
      */
     @RequestMapping(value="/oper/shed/insertNticArrrgList.do", method=RequestMethod.POST)
-    @ResponseBody Map<String, Object> insertNticArrrgList(GamCmmnCntrRentArrrgMngtVO searchVO) throws Exception {
+    @ResponseBody Map<String, Object> insertNticArrrgList(GamFcltyRentArrrgMngtVO searchVO) throws Exception {
 
 
 		Map map = new HashMap<String,Object>();
@@ -363,6 +371,14 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
 		return map;
     }
 
+
+
+    /**
+     * 연체 고지
+     * @param nticVo
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value="/oper/shed/insertNticArrrg.do", method=RequestMethod.POST)
     @ResponseBody Map<String, Object> insertNticArrrg(@RequestParam Map nticVo) throws Exception {
 
@@ -382,6 +398,40 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
 		nticVo.put("updUsr",loginVO.getId());
+		nticVo.put("deptCd",loginVO.getDeptCd());
+		nticVo.put("emplNo", loginVO.getEmplNo());
+		nticVo.put("userName", loginVO.getName());
+
+		gamNticRequestMngtService.sendUnpaidRequest(nticVo);
+
+        map.put("resultCode", 0);
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));
+
+		return map;
+    }
+
+    @RequestMapping(value="/oper/shed/updateNticArrrg.do", method=RequestMethod.POST)
+    @ResponseBody Map<String, Object> updateNticArrrg(@RequestParam Map nticVo) throws Exception {
+
+
+		Map map = new HashMap<String,Object>();
+
+    	int resultCode = -1;
+    	String resultMsg = "";
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+		nticVo.put("updUsr",loginVO.getId());
+		nticVo.put("deptCd",loginVO.getDeptCd());
+		nticVo.put("emplNo", loginVO.getEmplNo());
+		nticVo.put("userName", loginVO.getName());
 
 		gamNticRequestMngtService.sendUnpaidRequest(nticVo);
 
@@ -392,7 +442,80 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
     }
 
     /**
-     * 항만시설연체현황관리 목록을 조회한다.
+     * 연체 고지 취소
+     * @param nticVo
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/shed/cancelNticArrrg.do", method=RequestMethod.POST)
+    @ResponseBody Map<String, Object> cancelNticArrrg(@RequestParam Map nticVo) throws Exception {
+
+
+		Map map = new HashMap<String,Object>();
+
+    	int resultCode = -1;
+    	String resultMsg = "";
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+		nticVo.put("updUsr",loginVO.getId());
+		nticVo.put("deptCd",loginVO.getDeptCd());
+		nticVo.put("emplNo", loginVO.getEmplNo());
+		nticVo.put("userName", loginVO.getName());
+
+		gamNticRequestMngtService.cancelUnpaidRequest(nticVo);
+
+        map.put("resultCode", 0);
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));
+
+		return map;
+    }
+
+    /**
+     * 단일 건에 대해서 고지를 취소 한다.
+     * @param nticVo
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/shed/cancelNticArrrgPk.do", method=RequestMethod.POST)
+    @ResponseBody Map<String, Object> cancelNticArrrgPk(@RequestParam Map nticVo) throws Exception {
+
+
+		Map map = new HashMap<String,Object>();
+
+    	int resultCode = -1;
+    	String resultMsg = "";
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+		nticVo.put("updUsr",loginVO.getId());
+		nticVo.put("deptCd",loginVO.getDeptCd());
+		nticVo.put("emplNo", loginVO.getEmplNo());
+
+		gamNticRequestMngtService.cancelUnpaidRequestPk(nticVo);
+
+        map.put("resultCode", 0);
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));
+
+		return map;
+    }
+
+    /**
+     * 항만관련부지임대연체현황관리 목록을 조회한다.
      *change**
      * @param searchVO
      * @return map
@@ -424,6 +547,8 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
     	List resultList = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePaySttusMngtDlyList(searchVO);
 
     	int totCnt = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePaySttusMngtDlyListTotCnt(searchVO);
+
+    	Map dlyInfo = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePaySttusMngtDlyInfo(searchVO);
     	Map summary = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePaySttusMngtDlyListSum(searchVO);
 
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -431,11 +556,130 @@ public class GamCmmnCntrRentFeePaySttusMngtController {
 
     	map.put("resultCode", 0);	// return ok
     	map.put("resultList", resultList);
+    	map.put("resultDlyInfo", dlyInfo);
     	map.put("totCnt", totCnt);
     	map.put("resultSummary", summary);
     	map.put("searchOption", searchVO);
 
     	return map;
     }
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/shed/selectCmmnCntrRentFeePaySttusMngtListExcel.do", method=RequestMethod.POST)
+    @ResponseBody ModelAndView selectErpAssetCodeListExcel(@RequestParam Map<String, Object> excelParam) throws Exception {
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return new ModelAndView("gridExcelView", "gridResultMap", map);
+    	}
+
+
+    	// 환경설정
+    	/** EgovPropertyService */
+    	GamCmmnCntrRentFeePaySttusMngtVO searchVO= new GamCmmnCntrRentFeePaySttusMngtVO();
+
+        header = mapper.readValue((String)excelParam.get("header"),
+			    new TypeReference<List<HashMap<String,String>>>(){});
+
+        excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
+
+		// 조회 조건
+		searchVO = mapper.convertValue(excelParam, GamCmmnCntrRentFeePaySttusMngtVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		/** List Data */
+//    	int totCnt = erpAssetCdService.selectErpAssetCdListTotCnt(searchVO);
+
+    	List gamAssetList = gamCmmnCntrRentFeePaySttusMngtService.selectCmmnCntrRentFeePaySttusMngtList(searchVO);
+
+    	map.put("resultList", gamAssetList);
+    	map.put("header", header);
+
+    	return new ModelAndView("gridExcelView", "gridResultMap", map);
+    }
+
+	/**
+     * 연체 고지서를 출력한다.
+     * @param approvalOpt
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/shed/printCmmnCntrRentFeePayNotice.do")
+    String printAssetRentFeePayNotice(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
+    	String report = "ygpa/gam/oper/shed/GamCmmnCntrPrintNoticeIssue";
+    	model.addAttribute("searchOpt", approvalOpt);
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    	}
+    	else {
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+    		Map nticItem = gamCmmnCntrRentFeePaySttusMngtService.selectArrrgNpticPrintInfo(approvalOpt);
+
+    		if("11076".equals(loginVo.getEmplNo()) || "14010".equals(loginVo.getEmplNo())) {
+//    			log.debug("new paper selected");
+    			report = "ygpa/gam/oper/shed/GamCmmnCntrPrintNoticeIssue2";	// 신규 고지서
+    		}
+//    		model.addAttribute("emplyrNo", loginVo.getEmplNo());
+
+    		model.addAttribute("resultCode", 0);
+    		model.addAttribute("result", nticItem);
+    		model.addAttribute("resultMsg", "");
+    	}
+
+    	return report;
+    	}
+
+    /**
+     * 연체료만가 분리 된 고지서를 출력한다.
+     * @param approvalOpt
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/shed/printCmmnCntrRentFeePayNotice2.do")
+    String printAssetRentFeePayNotice2(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
+    	String report = "ygpa/gam/oper/shed/GamCmmnCntrPrintNoticeIssue";
+    	model.addAttribute("searchOpt", approvalOpt);
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    	}
+    	else {
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+    		List resultList = gamCmmnCntrRentFeePaySttusMngtService.selectArrrgNpticPrintInfo2(approvalOpt);
+
+    		if("11076".equals(loginVo.getEmplNo()) || "14010".equals(loginVo.getEmplNo())) {
+//    			log.debug("new paper selected");
+    			report = "ygpa/gam/oper/shed/GamCmmnCntrPrintNoticeIssue2";	// 신규 고지서
+    		}
+
+//    		model.addAttribute("emplyrNo", loginVo.getEmplNo());
+
+    		model.addAttribute("resultCode", 0);
+    		model.addAttribute("result", resultList.get(0));
+    		model.addAttribute("arrrgItem", resultList.get(1));
+    		model.addAttribute("resultMsg", "");
+    	}
+
+    	return report;
+    	}
+
 
 }

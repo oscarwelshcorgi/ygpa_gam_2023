@@ -3,7 +3,7 @@ package egovframework.rte.ygpa.gam.oper.cntnr.service;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import egovframework.com.cmm.ComDefaultVO;
-import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
+
 
 /**
  * @Class Name : GamCntnrQuayRentMngtVO.java
@@ -51,6 +51,7 @@ public class GamCntnrQuayRentMngtVO extends ComDefaultVO {
     /** 총 사용료 */
     private String grFee;
 
+    /** 과세 구분 */
     private String taxtSe;
 
     /** 고지 방법 */
@@ -238,27 +239,30 @@ public class GamCntnrQuayRentMngtVO extends ComDefaultVO {
 
     private String blceStdrIntrrateShow;
 
-    /**
-     * 업체 담당자 번호
-     */
-    private String chargerNo;
+    /** 신청기간(사용기간) 일/월별 체크 2014-10-21*/
+    private String usagePdChk;
 
     /**
-	 * @return the chargerNo
+	 * @return the usagePdChk
 	 */
-	public String getChargerNo() {
-		return chargerNo;
+	public String getUsagePdChk() {
+		return usagePdChk;
 	}
 
 	/**
-	 * @param chargerNo the chargerNo to set
+	 * @param usagePdChk the usagePdChk to set
 	 */
-	public void setChargerNo(String chargerNo) {
-		this.chargerNo = chargerNo;
+	public void setUsagePdChk(String usagePdChk) {
+		this.usagePdChk = usagePdChk;
 	}
 
 	/** 총감면사용료 */
     private String sumGrRdcxptFee;
+
+    /**
+     * 업체 담당자 번호
+     */
+    private String chargerNo;
 
 	/**
 	 * @return the prtAtCode
@@ -1330,6 +1334,14 @@ public class GamCntnrQuayRentMngtVO extends ComDefaultVO {
 
 	public void setTaxtSe(String taxtSe) {
 		this.taxtSe = taxtSe;
+	}
+
+	public String getChargerNo() {
+		return chargerNo;
+	}
+
+	public void setChargerNo(String chargerNo) {
+		this.chargerNo = chargerNo;
 	}
 
 }

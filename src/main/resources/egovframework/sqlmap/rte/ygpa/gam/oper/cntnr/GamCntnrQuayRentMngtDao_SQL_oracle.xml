@@ -133,8 +133,7 @@
         <result property="newManipAmtStdrIntrrate" column="NEW_MANIP_AMT_STDR_INTRRATE" columnIndex="4"/>
         <result property="annodt" column="ANNODT" columnIndex="5"/>
     </resultMap>
-
-    <select id="gamCntnrQuayRentMngtDao.selectCntnrQuayRentMngtList_D" parameterClass="gamCntnrQuayRentMngtVO" resultClass="egovMap">
+ <select id="gamCntnrQuayRentMngtDao.selectCntnrQuayRentMngtList_D" parameterClass="gamCntnrQuayRentMngtVO" resultClass="egovMap">
            SELECT A.*
            FROM (
                    SELECT  ROWNUM RNUM, S.*
@@ -244,7 +243,7 @@
 
 
                              <!-- ORDER BY REGIST_DT DESC -->
-                             ORDER BY A.MNG_YEAR DESC, A.MNG_NO DESC, A.MNG_CNT DESC
+                             ORDER BY A.PRMISN_YN, A.REQST_DT DESC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -463,7 +462,7 @@
                                    <isNotEmpty property="payinstIntrrate">
                                    , TO_NUMBER(#payinstIntrrate#) / 100
                                    </isNotEmpty>
-								   , #chargerNo#
+                                   , #chargerNo#
                                    )
     </insert>
 
@@ -478,8 +477,8 @@
                                    , GR_AR
                                    , GR_FEE
                                    , NTIC_MTH
-                                   , PRMISN_YN
                                    , TAXT_SE
+                                   , PRMISN_YN
                                    , DOC_NO
                                    , RM
                                    , CMT
@@ -513,8 +512,8 @@
                                  , A.GR_AR
                                  , A.GR_FEE
                                  , A.NTIC_MTH
-                                 , 'N'
                                  , A.TAXT_SE
+                                 , 'N'
                                  , A.DOC_NO
                                  , A.RM
                                  , A.CMT
@@ -576,7 +575,7 @@
 	           <isNotEmpty property="payinstIntrrate">
                , PAYINST_INTRRATE = TO_NUMBER(#payinstIntrrate#) / 100
                </isNotEmpty>
-			   , CHARGER_NO = #chargerNo#
+				, CHARGER_NO = #chargerNo#
 		WHERE  PRT_AT_CODE        = #prtAtCode#
 		AND    MNG_YEAR           = #mngYear#
 		AND    MNG_NO             = #mngNo#
@@ -643,6 +642,7 @@
                                 , A.QUAY_CD
                                 , A.APPLC_TARIFF APPLC_TARIFF_STR
                                 , GAM_GETCODENAME('GAM003', A.QUAY_CD) QUAY_CD_NM
+                                , NVL(USAGE_PD_CHK,'N')  AS USAGE_PD_CHK
                             FROM ASSETS_RENT_DETAIL_F A
 							LEFT OUTER JOIN GIS_ASSETS_CD_F F ON (F.GIS_ASSETS_PRT_AT_CODE = NVL(A.GIS_ASSETS_PRT_AT_CODE, A.PRT_AT_CODE) AND
 																	F.GIS_ASSETS_SUB_CD = A.GIS_ASSETS_SUB_CD AND
@@ -736,6 +736,7 @@
                                            , GIS_ASSETS_SUB_CD
                                            , GIS_ASSETS_PRT_AT_CODE
                                            , USAGE_AR
+                                           , USAGE_PD_CHK
 		                                 )
 		                          VALUES (
 		                                     ( SELECT NVL(MAX(TO_NUMBER(ASSETS_USAGE_SEQ)),0)+1
@@ -773,6 +774,7 @@
                                            , #gisAssetsSubCd#
                                            , #gisAssetsPrtAtCode#
                                            , REPLACE(#usageAr#,',','')
+                                           , #usagePdChk#
 		                                 )
     </insert>
 
@@ -809,6 +811,7 @@
 		       , UPDT_DT                = SYSDATE
 		       , GIS_ASSETS_PRT_AT_CODE = #gisAssetsPrtAtCode#
 		       , QUAY_CD                = #quayCd#
+		       , USAGE_PD_CHK           = #usagePdChk#
 		  WHERE  ASSETS_USAGE_SEQ       = #assetsUsageSeq#
 		    AND  MNG_YEAR               = #detailMngYear#
 		    AND  MNG_NO                 = #detailMngNo#
@@ -835,8 +838,8 @@
                , A.REQST_SE_CD
                , A.GR_AR
                , A.GR_FEE
-               , A.NTIC_MTH
                , A.TAXT_SE
+               , A.NTIC_MTH
                , TO_CHAR(A.FRST_PRMISN_DT, 'YYYY-MM-DD') FRST_PRMISN_DT
                , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
                , A.PRMISN_YN
@@ -1420,17 +1423,17 @@
 		 WHERE A.OBJ_YRMT = ( SELECT MAX(B.OBJ_YRMT) FROM COFIX_INTRRATE_F B )
     </select>
 
-	<select id="gamCntnrQuayRentMngtDao.selectChargeKndList_D" resultClass="egovMap" parameterClass="java.lang.String">
+    <select id="gamCntnrQuayRentMngtDao.selectChargeKndList_D" parameterClass="gamCntnrQuayRentMngtVO" resultClass="egovMap">
             		<![CDATA[
 			SELECT
-			PRT_AT_CODE, FEE_TP, FEE_TP_NM
+			PRT_AT_CODE, FEE_TP, FEE_TP_KOR_NM
 			FROM
 			FEE_TP_F
 			WHERE
-			1=1
-			AND PRT_AT_CODE = #prtAtCode#
+			PRT_AT_CODE=#prtAtCode#
+			AND QUAY_GROUP_CD = 'C'
 				AND FEE_TP NOT IN ('A3', 'A4', 'UG', 'DA')
-			ORDER BY FEE_TP_NM
+			ORDER BY FEE_TP
 		]]>
     </select>
 </sqlMap>

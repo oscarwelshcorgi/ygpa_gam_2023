@@ -47,6 +47,13 @@ public interface GamCmmnCntrRentFeeMngtService {
 	 * @exception Exception
 	 */
 	void updateCmmnCntrRentFeeMngt(GamCmmnCntrRentFeeMngtVO vo) throws Exception;
+
+	/**
+	 * 임대고지 사용료를 변경한다.
+	 * @param vo
+	 * @throws Exception
+	 */
+	public void updateCmmnCntrRentFee(GamCmmnCntrRentFeeMngtVO vo) throws Exception;
 	
 	/**
 	 * 공컨장치장임대료고지관리 정보 조회.
@@ -84,9 +91,17 @@ public interface GamCmmnCntrRentFeeMngtService {
 	 * @exception Exception
 	 */
 	public void insertCmmnCntrRentFeeMngtLevReqest(GamCmmnCntrRentFeeMngtVO vo) throws Exception;
-	
-	List selectNpticPrintInfo(Map searchVO) throws Exception;
-	
+
+	Map selectNpticPrintInfo(GamCmmnCntrRentFeeMngtVO searchVO) throws Exception;
+
+	/**
+	 * 연체금만 있는 고지서를 출력한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	List selectNpticPrintInfo2(Map searchVO) throws Exception;
+
 	List selectTaxNtcPrintInfo(Map searchVO) throws Exception;
 	
 	void updateAssetRentFeeMngtListDetail(GamCmmnCntrRentFeeMngtVO vo) throws Exception;

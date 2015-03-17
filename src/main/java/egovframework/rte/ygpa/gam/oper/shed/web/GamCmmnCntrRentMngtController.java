@@ -33,7 +33,7 @@ import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
+
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtDetailVO;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtLevReqestVO;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtService;
@@ -79,7 +79,7 @@ public class GamCmmnCntrRentMngtController {
     private GamAssetsUsePermMngtService gamAssetsUsePermMngtService;
 
     /**
-     * 공컨장치장임대관리 화면을 로딩한다.
+     * 항만관련부지임대사용관리 화면을 로딩한다.
      *
      * @param windowId
      * @param model the model
@@ -133,7 +133,7 @@ public class GamCmmnCntrRentMngtController {
     }
 
 	/**
-     * 공컨장치장임대목록을 조회한다.
+     * 항만관련부지임대사용목록을 조회한다.
      *
      * @param searchVO
      * @return map
@@ -162,7 +162,7 @@ public class GamCmmnCntrRentMngtController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		//공컨장치장임대목록
+		//항만관련부지임대사용목록
     	totalCnt = gamCmmnCntrRentMngtService.selectCmmnCntrRentMngtListTotCnt(searchVO);
     	List assetRentList = gamCmmnCntrRentMngtService.selectCmmnCntrRentMngtList(searchVO);
 
@@ -184,7 +184,7 @@ public class GamCmmnCntrRentMngtController {
     }
 
 	/**
-     * 공컨장치장임대상세리스트를 조회한다.
+     * 항만관련부지임대사용상세리스트를 조회한다.
      *
      * @param searchVO
      * @return map
@@ -213,12 +213,9 @@ public class GamCmmnCntrRentMngtController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		// 공컨장치장임대상세리스트 및 총건수
+		// 항만관련부지임대사용상세리스트 및 총건수
 		totalCnt = gamCmmnCntrRentMngtService.selectCmmnCntrRentMngtDetailListTotCnt(searchVO);
 		List resultList = gamCmmnCntrRentMngtService.selectCmmnCntrRentMngtDetailList(searchVO);
-
-		paginationInfo.setTotalRecordCount(totalCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
@@ -229,7 +226,7 @@ public class GamCmmnCntrRentMngtController {
     }
 
 	/**
-     * 공컨장치장임대,상세,첨부파일을 저장한다.
+     * 항만관련부지임대,상세,첨부파일을 저장한다.
      * @param String
      * @param gamCmmnCntrRentMngtVO
      * @param bindingResult
@@ -297,7 +294,7 @@ public class GamCmmnCntrRentMngtController {
     		log.debug("###################################################### deleteList.size() => "+deleteList.size());
 			*/
 
-    		//공컨장치장임대저장
+    		//항만관련부지임대사용저장
     		GamCmmnCntrRentMngtVO saveVO= new GamCmmnCntrRentMngtVO();
 			saveVO.setPrtAtCode(form.get("prtAtCode"));
 			saveVO.setDeptcd(loginVO.getOrgnztId());
@@ -332,7 +329,7 @@ public class GamCmmnCntrRentMngtController {
 
     			gamCmmnCntrRentMngtService.insertCmmnCntrRentMngtFirst(saveVO);
 
-    			//공컨장치장임대 상세저장을 위한 키
+    			//항만관련부지임대사용 상세저장을 위한 키
     			saveDetailVO.setDetailPrtAtCode(form.get("prtAtCode"));
         		saveDetailVO.setDetailMngYear(keyVO.getMngYear());
         		saveDetailVO.setDetailMngNo(keyVO.getMngNo());
@@ -342,14 +339,14 @@ public class GamCmmnCntrRentMngtController {
 
     	        gamCmmnCntrRentMngtService.updateCmmnCntrRentMngt(saveVO);
 
-    			//공컨장치장임대 상세저장을 위한 키
+    			//항만관련부지임대사용 상세저장을 위한 키
     			saveDetailVO.setDetailPrtAtCode(form.get("prtAtCode"));
         		saveDetailVO.setDetailMngYear(form.get("mngYear"));
         		saveDetailVO.setDetailMngNo(form.get("mngNo"));
         		saveDetailVO.setDetailMngCnt(form.get("mngCnt"));
     		}
 
-    		//공컨장치장임대 상세저장
+    		//항만관련부지임대사용 상세저장
     		for( int i = 0 ; i < insertList.size() ; i++ ) {
     			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ insertList.get(i) String => " + insertList.get(i));
 
@@ -382,7 +379,8 @@ public class GamCmmnCntrRentMngtController {
     			insertDetailVO.setComputDtls(resultMap.get("computDtls").toString());
     			insertDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
     			insertDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
-//    			insertDetailVO.setQuayCd(resultMap.get("quayCd").toString());
+    			insertDetailVO.setUsagePdChk(resultMap.get("usagePdChk").toString());
+    			//insertDetailVO.setQuayCd(resultMap.get("quayCd").toString());
 
     			insertDetailVO.setRegUsr(loginVO.getId());
     			insertDetailVO.setUpdUsr(loginVO.getId());
@@ -427,6 +425,7 @@ public class GamCmmnCntrRentMngtController {
     			updateDetailVO.setComputDtls(resultMap.get("computDtls").toString());
     			updateDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
     			updateDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
+    			updateDetailVO.setUsagePdChk(resultMap.get("usagePdChk").toString());
 //    			updateDetailVO.setQuayCd(resultMap.get("quayCd").toString());
 
     			updateDetailVO.setRegUsr(loginVO.getId());
@@ -461,11 +460,11 @@ public class GamCmmnCntrRentMngtController {
     			insertFileVO.setMngNo(saveDetailVO.getDetailMngNo());
     			insertFileVO.setMngCnt(saveDetailVO.getDetailMngCnt());
 
-    			insertFileVO.setPhotoSj(resultMap.get("photoSj").toString());
-    			insertFileVO.setFilenmLogic(resultMap.get("filenmLogic").toString());
-    			insertFileVO.setFilenmPhysicl(resultMap.get("filenmPhysicl").toString());
-    			insertFileVO.setShotDt(resultMap.get("shotDt").toString());
-    			insertFileVO.setPhotoDesc(resultMap.get("photoDesc").toString());
+    			insertFileVO.setPhotoSj((String)resultMap.get("photoSj"));
+    			insertFileVO.setFilenmLogic((String)resultMap.get("filenmLogic"));
+    			insertFileVO.setFilenmPhysicl((String)resultMap.get("filenmPhysicl"));
+    			insertFileVO.setShotDt((String)resultMap.get("shotDt"));
+    			insertFileVO.setPhotoDesc((String)resultMap.get("photoDesc"));
     			insertFileVO.setRegUsr(loginVO.getId());
 
     			System.out.println("############################################### insertFileVO => " + insertFileVO);
@@ -533,15 +532,15 @@ public class GamCmmnCntrRentMngtController {
     			quaycdVO = gamCmmnCntrRentMngtService.selectCmmnCntrRentMngtDetailQuaycd(updRentVO);
 
     			//부두코드 업데이트
-    			if( quaycdVO == null || quaycdVO.getQuayCd() == null || "".equals(quaycdVO.getQuayCd()) ) {
-    				quaycdVO = new GamCmmnCntrRentMngtVO();
-    				quaycdVO.setPrtAtCode(paramVO.getPrtAtCode());
-    				quaycdVO.setMngYear(paramVO.getMngYear());
-    				quaycdVO.setMngNo(paramVO.getMngNo());
-    				quaycdVO.setMaxMngCnt(paramVO.getMngCnt());
-    			}
-
-    			gamCmmnCntrRentMngtService.updateCmmnCntrRentMngtQuaycd(quaycdVO);
+//    			if( quaycdVO == null || quaycdVO.getQuayCd() == null || "".equals(quaycdVO.getQuayCd()) ) {
+//    				quaycdVO = new GamCmmnCntrRentMngtVO();
+//    				quaycdVO.setPrtAtCode(paramVO.getPrtAtCode());
+//    				quaycdVO.setMngYear(paramVO.getMngYear());
+//    				quaycdVO.setMngNo(paramVO.getMngNo());
+//    				quaycdVO.setMaxMngCnt(paramVO.getMngCnt());
+//    			}
+//
+//    			gamCmmnCntrRentMngtService.updateCmmnCntrRentMngtQuaycd(quaycdVO);
     		}
 
     		resultCode = 0;
@@ -563,7 +562,7 @@ public class GamCmmnCntrRentMngtController {
     }
 
 	/**
-     * 공컨장치장임대,상세를 저장한다.
+     * 항만관련부지임대사용,상세를 저장한다.
      * @param String
      * @param gamCmmnCntrRentMngtVO
      * @param bindingResult
@@ -580,7 +579,6 @@ public class GamCmmnCntrRentMngtController {
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
-
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -589,6 +587,16 @@ public class GamCmmnCntrRentMngtController {
     	}
 
     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+        /*
+        String sLocationUrl = null;
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	*/
+
     	/*
         if("insert".equals(cmd)) {
 	        beanValidator.validate(gamCmmnCntrRentMngtVO, bindingResult);
@@ -629,7 +637,7 @@ public class GamCmmnCntrRentMngtController {
 
 
     /**
-     * 공컨장치장임대 연장신청을 등록한다.
+     * 항만관련부지임대사용 연장신청을 등록한다.
      * @param gamCmmnCntrRentMngtVO
      * @param bindingResult
      * @return map
@@ -681,7 +689,7 @@ public class GamCmmnCntrRentMngtController {
     }
 
     /**
-     * 공컨장치장임대 정보를 수정한다.
+     * 항만관련부지임대사용 정보를 수정한다.
      * @param String
      * @param gamCmmnCntrRentMngtVO
      * @param bindingResult
@@ -730,7 +738,7 @@ public class GamCmmnCntrRentMngtController {
     }
 
     /**
-     * 공컨장치장임대 정보를 삭제한다.
+     * 항만관련부지임대사용 정보를 삭제한다.
      * @param String
      * @param gamCmmnCntrRentMngtVO
      * @param bindingResult
@@ -795,7 +803,7 @@ public class GamCmmnCntrRentMngtController {
     }
 
     /**
-     * 공컨장치장임대 상세를 등록한다.
+     * 항만관련부지임대사용 상세를 등록한다.
      * @param String
      * @param gamCmmnCntrRentMngtDetailVO
      * @param bindingResult
@@ -821,6 +829,16 @@ public class GamCmmnCntrRentMngtController {
     	}
 
     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+        /*
+        String sLocationUrl = null;
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	*/
+
     	/*
         if("insert".equals(cmd)) {
 	        beanValidator.validate(gamCmmnCntrRentMngtVO, bindingResult);
@@ -877,7 +895,7 @@ public class GamCmmnCntrRentMngtController {
     }
 
     /**
-     * 공컨장치장임대 상세를 수정한다.
+     * 항만관련부지임대사용 상세를 수정한다.
      * @param String
      * @param gamCmmnCntrRentMngtDetailVO
      * @param bindingResult
@@ -903,6 +921,15 @@ public class GamCmmnCntrRentMngtController {
     	}
 
     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+        /*
+        String sLocationUrl = null;
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	*/
 
     	log.debug("######################################## detailCmd => " + detailCmd);
     	log.debug("######################################## gamCmmnCntrRentMngtVO.getDetailPrtAtCode() => " + gamCmmnCntrRentMngtDetailVO.getDetailPrtAtCode());
@@ -956,7 +983,7 @@ public class GamCmmnCntrRentMngtController {
     }
 
     /**
-     * 공컨장치장임대 상세를 삭제한다.
+     * 항만관련부지임대사용 상세를 삭제한다.
      * @param gamCmmnCntrRentMngtDetailVO
      * @param bindingResult
      * @return map
@@ -978,6 +1005,16 @@ public class GamCmmnCntrRentMngtController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
+
+        /*
+        String sLocationUrl = null;
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+    	*/
 
     	/*
         if("insert".equals(cmd)) {
@@ -1015,9 +1052,9 @@ public class GamCmmnCntrRentMngtController {
      * @throws Exception the exception
      */
 	@RequestMapping(value="/oper/shed/popup/showCmmnCntrRentMngtPrmisn.do")
-    String showEntrpsInfo(GamCmmnCntrRentMngtLevReqestVO gamCmmnCntrRentMngtLevReqestVO, ModelMap model) throws Exception {
+    String showEntrpsInfo(GamCmmnCntrRentMngtVO gamCmmnCntrRentMngtLevReqestVO, ModelMap model) throws Exception {
 
-		List chrgeKndCdList = gamCmmnCntrRentMngtService.selectChargeKndList();
+		List chrgeKndCdList = gamCmmnCntrRentMngtService.selectChargeKndList(gamCmmnCntrRentMngtLevReqestVO);
 
 		model.addAttribute("gamCmmnCntrRentMngtInfo", gamCmmnCntrRentMngtLevReqestVO);
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
@@ -1026,7 +1063,7 @@ public class GamCmmnCntrRentMngtController {
     }
 
     /**
-     * 공컨장치장임대 승낙을 한다.
+     * 항만관련부지임대사용 승낙을 한다.
      * @param gamCmmnCntrRentMngtVO
      * @param bindingResult
      * @return map
@@ -1052,13 +1089,6 @@ public class GamCmmnCntrRentMngtController {
 
          LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-         System.out.println("##################################### 승낙시작!!");
-         System.out.println("##################################### getPrtAtCode => " +  gamCmmnCntrRentMngtVO.getPrtAtCode());
-         System.out.println("##################################### getMngYear => " +  gamCmmnCntrRentMngtVO.getMngYear());
-         System.out.println("##################################### getMngNo => " +  gamCmmnCntrRentMngtVO.getMngNo());
-         System.out.println("##################################### getMngCnt => " +  gamCmmnCntrRentMngtVO.getMngCnt());
-         System.out.println("##################################### getChrgeKnd => " +  gamCmmnCntrRentMngtVO.getChrgeKnd());
-
          //prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류
          paramMap.put("prtAtCode", gamCmmnCntrRentMngtVO.getPrtAtCode());
          paramMap.put("mngYear", gamCmmnCntrRentMngtVO.getMngYear());
@@ -1067,8 +1097,7 @@ public class GamCmmnCntrRentMngtController {
          paramMap.put("regUsr", loginVO.getId());
          paramMap.put("deptcd", loginVO.getOrgnztId());
          paramMap.put("chrgeKnd", gamCmmnCntrRentMngtVO.getChrgeKnd());
-
-         System.out.println("##################################### paramMap => " + paramMap);
+         paramMap.put("taxtSe", gamCmmnCntrRentMngtVO.getTaxtSe());
 
          //승낙 서비스 클래스 호출
          //gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap); //승낙
@@ -1091,7 +1120,7 @@ public class GamCmmnCntrRentMngtController {
      }
 
     /**
-     * 공컨장치장임대 승낙취소(허가취소)를 한다.
+     * 항만관련부지임대사용 승낙취소(허가취소)를 한다.
      * @param gamCmmnCntrRentMngtVO
      * @param bindingResult
      * @return map
@@ -1129,8 +1158,6 @@ public class GamCmmnCntrRentMngtController {
          paramMap.put("mngNo", gamCmmnCntrRentMngtVO.getMngNo());
          paramMap.put("mngCnt", gamCmmnCntrRentMngtVO.getMngCnt());
          paramMap.put("regUsr", loginVO.getId());
-         paramMap.put("chrgeKnd", gamCmmnCntrRentMngtVO.getChrgeKnd());
-         paramMap.put("taxtSe", gamCmmnCntrRentMngtVO.getTaxtSe());
 
          System.out.println("##################################### paramMap => " + paramMap);
 
@@ -1218,7 +1245,7 @@ public class GamCmmnCntrRentMngtController {
         String updateFlag = "";
         int resultCode = 1;
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+        Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
@@ -1226,7 +1253,8 @@ public class GamCmmnCntrRentMngtController {
     	}
 
     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-        if( gamCmmnCntrRentMngtVO.getMngYear() == null || "".equals(gamCmmnCntrRentMngtVO.getMngYear()) ) {
+
+    	if( gamCmmnCntrRentMngtVO.getMngYear() == null || "".equals(gamCmmnCntrRentMngtVO.getMngYear()) ) {
         	updateFlag = "N";
         } else {
         	updateFlag = "Y";
@@ -1249,9 +1277,25 @@ public class GamCmmnCntrRentMngtController {
 		return map;
     }
 
-    /**
+	/**
+     * 과태료 처분 팝업화면을 로딩한다.
+     *
+     * @param gamAssetDisUseMngtVO
+     * @param model the model
+     * @return "/ygpa/gam/asset/GamPopupAssetRentPrmisn"
+     * @throws Exception the exception
+     */
+	@RequestMapping(value="/oper/shed/popupPenaltyFee.do")
+    String showAssetDisUse(Map mngItem, ModelMap model) throws Exception {
+
+		model.addAttribute("mngItem", mngItem);
+
+    	return "/ygpa/gam/oper/shed/GamPopupCmmnCntrPenaltyFee";
+   }
+
+	/**
 	 * 추가고지 팝업화면을 로딩한다.
-	 * @param GamCmmnCntrRentMngtVO
+	 * @param gamCmmnCntrRentMngtLevReqestVO
 	 * @param model
 	 * @return
 	 * @throws Exception
@@ -1264,14 +1308,15 @@ public class GamCmmnCntrRentMngtController {
 		codeVo.setCodeId("GAM054"); //요금종류
 		List chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 
-		model.addAttribute("gamPrtFcltyRentMngtInfo", gamCmmnCntrRentMngtVO);
+		model.addAttribute("gamCmmnCntrRentMngtInfo", gamCmmnCntrRentMngtVO);
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
 
   	return "ygpa/gam/oper/shed/GamPopupCmmnCntrRentMngtLevReqestAdit";
   }
 
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/gnrl/selectCmmnCntrRentMngtListExcel.do", method=RequestMethod.POST)
+    @RequestMapping(value="/oper/shed/selectCmmnCntrRentMngtListExcel.do", method=RequestMethod.POST)
     @ResponseBody ModelAndView selectErpAssetCodeListExcel(@RequestParam Map<String, Object> excelParam) throws Exception {
 		Map map = new HashMap();
 		List header;
@@ -1312,5 +1357,4 @@ public class GamCmmnCntrRentMngtController {
 
     	return new ModelAndView("gridExcelView", "gridResultMap", map);
     }
-
 }

@@ -13,10 +13,12 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtService;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtVO;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentArrrgMngtVO;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamFcltyRentArrrgMngtVO;
+
 
 
 /**
@@ -34,6 +36,9 @@ import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMn
 @Service("gamCntnrQuayRentFeePaySttusMngtService")
 
 public class GamCntnrQuayRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl implements GamCntnrQuayRentFeePaySttusMngtService {
+
+	@Resource(name="gamNticRequestMngtService")
+    private GamNticRequestMngtService gamNticRequestMngtService;
 
 	@Resource(name="gamCntnrQuayRentFeePaySttusMngtDao")
     private GamCntnrQuayRentFeePaySttusMngtDao gamCntnrQuayRentFeePaySttusMngtDao;
@@ -74,8 +79,6 @@ public class GamCntnrQuayRentFeePaySttusMngtServiceImpl  extends AbstractService
 
 
 
-
-
     /**
 	 * 고지금액합계, 수납금액합계
 	 * @param searchVO - 조회할 정보가 담긴 VO
@@ -90,7 +93,7 @@ public class GamCntnrQuayRentFeePaySttusMngtServiceImpl  extends AbstractService
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectNticArrrgList(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
 	@Override
-	public List<?> selectNticArrrgList(GamCntnrQuayRentArrrgMngtVO searchVO) throws Exception {
+	public List<?> selectNticArrrgList(GamFcltyRentArrrgMngtVO searchVO) throws Exception {
 		// TODO Auto-generated method stub
 		return gamCntnrQuayRentFeePaySttusMngtDao.selectNticArrrgList(searchVO);
 	}
@@ -99,7 +102,7 @@ public class GamCntnrQuayRentFeePaySttusMngtServiceImpl  extends AbstractService
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectNticArrrgListTotCnt(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
 	@Override
-	public int selectNticArrrgListTotCnt(GamCntnrQuayRentArrrgMngtVO searchVO) throws Exception {
+	public int selectNticArrrgListTotCnt(GamFcltyRentArrrgMngtVO searchVO) throws Exception {
 		// TODO Auto-generated method stub
 		return gamCntnrQuayRentFeePaySttusMngtDao.selectNticArrrgListTotCnt(searchVO);
 	}
@@ -172,6 +175,8 @@ public class GamCntnrQuayRentFeePaySttusMngtServiceImpl  extends AbstractService
 
 
 
+
+
 	/* (non-Javadoc)change**
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectAssetRentFeePayDtlsMngtDetailList(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
@@ -182,7 +187,7 @@ public class GamCntnrQuayRentFeePaySttusMngtServiceImpl  extends AbstractService
 
 
 	/**change**
-	 * 항만시설연체 목록 총 갯수를 조회한다.
+	 * 컨테이너부두임대연체 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -198,5 +203,34 @@ public class GamCntnrQuayRentFeePaySttusMngtServiceImpl  extends AbstractService
 	public EgovMap selectCntnrQuayRentFeePaySttusMngtDlyListSum(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception {
 		return gamCntnrQuayRentFeePaySttusMngtDao.selectCntnrQuayRentFeePaySttusMngtDlyListSum(searchVO);
 	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamCntnrQuayRentFeePaySttusMngtService#selectCntnrQuayRentFeePaySttusMngtDlyInfo(egovframework.rte.ygpa.gam.oper.gnrl.service.GamCntnrQuayRentFeePaySttusMngtVO)
+	 */
+	@Override
+	public EgovMap selectCntnrQuayRentFeePaySttusMngtDlyInfo(
+			GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return gamCntnrQuayRentFeePaySttusMngtDao.selectCntnrQuayRentFeePaySttusMngtDlyInfo(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamCntnrQuayRentFeePaySttusMngtService#selectArrrgNpticPrintInfo(java.util.Map)
+	 */
+	@Override
+	public EgovMap selectArrrgNpticPrintInfo(Map searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return gamCntnrQuayRentFeePaySttusMngtDao.selectArrrgNpticPrintInfo(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamCntnrQuayRentFeePaySttusMngtService#selectArrrgNpticPrintInfo2(java.util.Map)
+	 */
+	@Override
+	public List selectArrrgNpticPrintInfo2(Map searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return gamCntnrQuayRentFeePaySttusMngtDao.selectArrrgNpticPrintInfo2(searchVO);
+	}
+
 
 }

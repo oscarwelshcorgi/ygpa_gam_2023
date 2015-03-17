@@ -9,7 +9,8 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtVO;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentArrrgMngtVO;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamFcltyRentArrrgMngtVO;
+
 
 
 /**
@@ -62,7 +63,6 @@ public class GamCntnrQuayRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 
 
 
-
 	public EgovMap selectCntnrQuayRentFeePaySttusMngtDetailMstPk(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception {
 		return (EgovMap) selectByPk("gamCntnrQuayRentFeePaySttusMngtDao.selectCntnrQuayRentFeePaySttusMngtDetailMaster_D", searchVO);
     }
@@ -92,12 +92,12 @@ public class GamCntnrQuayRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 		return (GamCntnrQuayRentFeePaySttusMngtVO) selectByPk("gamCntnrQuayRentFeePaySttusMngtDao.selectCntnrQuayRentFeePaySttusMngtSum_S", searchVO);
 	}
 
-	public List<?> selectNticArrrgList(GamCntnrQuayRentArrrgMngtVO searchVO)
+	public List<?> selectNticArrrgList(GamFcltyRentArrrgMngtVO searchVO)
 			throws Exception {
         return list("gamCntnrQuayRentFeePaySttusMngtDao.selectNticArrrgList_D", searchVO);
 	}
 
-	public int selectNticArrrgListTotCnt(GamCntnrQuayRentArrrgMngtVO searchVO)
+	public int selectNticArrrgListTotCnt(GamFcltyRentArrrgMngtVO searchVO)
 			throws Exception {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamCntnrQuayRentFeePaySttusMngtDao.selectNticArrrgListTotCnt_S", searchVO);
 	}
@@ -125,9 +125,9 @@ public class GamCntnrQuayRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 
 
 	/** change**
-	 * 항만시설납부현황관리 목록 총 갯수를 조회한다.
+	 * 컨테이너부두임대납부현황관리 목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 항만시설납부현황관리 목록 총 갯수
+	 * @return 컨테이너부두임대납부현황관리 목록 총 갯수
 	 * @exception
 	 */
     public int selectCntnrQuayRentFeePaySttusMngtDlyListTotCnt(GamCntnrQuayRentFeePaySttusMngtVO searchVO) {
@@ -138,5 +138,29 @@ public class GamCntnrQuayRentFeePaySttusMngtDao extends YGPAAbstractDAO {
     public EgovMap selectCntnrQuayRentFeePaySttusMngtDlyListSum(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception {
 		return (EgovMap) selectByPk("gamCntnrQuayRentFeePaySttusMngtDao.selectCntnrQuayRentFeePaySttusMngtDlyListSum_D", searchVO);
     }
+
+    public EgovMap selectCntnrQuayRentFeePaySttusMngtDlyInfo(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception {
+		return (EgovMap) selectByPk("gamCntnrQuayRentFeePaySttusMngtDao.selectCntnrQuayRentFeePaySttusMngtDlyInfo_S", searchVO);
+    }
+
+	/**
+	 * 연체금만 있는 고지서를 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public EgovMap selectArrrgNpticPrintInfo(Map searchVO) throws Exception {
+        return (EgovMap) selectByPk("gamCntnrQuayRentFeePaySttusMngtDao.selectArrrgNpticPrintInfo_S", searchVO);
+	}
+
+	/**
+	 * 연체금만 있는 고지서를 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public List selectArrrgNpticPrintInfo2(Map searchVO) throws Exception {
+        return list("gamCntnrQuayRentFeePaySttusMngtDao.selectArrrgNpticPrintInfo2_D", searchVO);
+	}
 
 }

@@ -38,7 +38,7 @@ import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentMngtDetailV
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentMngtLevReqestVO;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentMngtService;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentMngtVO;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
+
 
 /**
  * @Class Name : GamCntnrQuayRentMngtController.java
@@ -80,7 +80,7 @@ public class GamCntnrQuayRentMngtController {
     private GamAssetsUsePermMngtService gamAssetsUsePermMngtService;
 
     /**
-     * 컨테이너부두임대관리 화면을 로딩한다.
+     * 항만시설사용관리 화면을 로딩한다.
      *
      * @param windowId
      * @param model the model
@@ -134,7 +134,7 @@ public class GamCntnrQuayRentMngtController {
     }
 
 	/**
-     * 컨테이너부두임대목록을 조회한다.
+     * 항만시설사용목록을 조회한다.
      *
      * @param searchVO
      * @return map
@@ -163,7 +163,7 @@ public class GamCntnrQuayRentMngtController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		//컨테이너부두임대목록
+		//항만시설사용목록
     	totalCnt = gamCntnrQuayRentMngtService.selectCntnrQuayRentMngtListTotCnt(searchVO);
     	List assetRentList = gamCntnrQuayRentMngtService.selectCntnrQuayRentMngtList(searchVO);
 
@@ -185,7 +185,7 @@ public class GamCntnrQuayRentMngtController {
     }
 
 	/**
-     * 컨테이너부두임대상세리스트를 조회한다.
+     * 항만시설사용상세리스트를 조회한다.
      *
      * @param searchVO
      * @return map
@@ -214,12 +214,9 @@ public class GamCntnrQuayRentMngtController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		// 컨테이너부두임대상세리스트 및 총건수
+		// 항만시설사용상세리스트 및 총건수
 		totalCnt = gamCntnrQuayRentMngtService.selectCntnrQuayRentMngtDetailListTotCnt(searchVO);
 		List resultList = gamCntnrQuayRentMngtService.selectCntnrQuayRentMngtDetailList(searchVO);
-
-		paginationInfo.setTotalRecordCount(totalCnt);
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
@@ -230,7 +227,7 @@ public class GamCntnrQuayRentMngtController {
     }
 
 	/**
-     * 컨테이너부두임대,상세,첨부파일을 저장한다.
+     * 항만시설,상세,첨부파일을 저장한다.
      * @param String
      * @param gamCntnrQuayRentMngtVO
      * @param bindingResult
@@ -298,7 +295,7 @@ public class GamCntnrQuayRentMngtController {
     		log.debug("###################################################### deleteList.size() => "+deleteList.size());
 			*/
 
-    		//컨테이너부두임대저장
+    		//항만시설사용저장
     		GamCntnrQuayRentMngtVO saveVO= new GamCntnrQuayRentMngtVO();
 			saveVO.setPrtAtCode(form.get("prtAtCode"));
 			saveVO.setDeptcd(loginVO.getOrgnztId());
@@ -333,7 +330,7 @@ public class GamCntnrQuayRentMngtController {
 
     			gamCntnrQuayRentMngtService.insertCntnrQuayRentMngtFirst(saveVO);
 
-    			//컨테이너부두임대 상세저장을 위한 키
+    			//항만시설사용 상세저장을 위한 키
     			saveDetailVO.setDetailPrtAtCode(form.get("prtAtCode"));
         		saveDetailVO.setDetailMngYear(keyVO.getMngYear());
         		saveDetailVO.setDetailMngNo(keyVO.getMngNo());
@@ -343,14 +340,14 @@ public class GamCntnrQuayRentMngtController {
 
     	        gamCntnrQuayRentMngtService.updateCntnrQuayRentMngt(saveVO);
 
-    			//컨테이너부두임대 상세저장을 위한 키
+    			//항만시설사용 상세저장을 위한 키
     			saveDetailVO.setDetailPrtAtCode(form.get("prtAtCode"));
         		saveDetailVO.setDetailMngYear(form.get("mngYear"));
         		saveDetailVO.setDetailMngNo(form.get("mngNo"));
         		saveDetailVO.setDetailMngCnt(form.get("mngCnt"));
     		}
 
-    		//컨테이너부두임대 상세저장
+    		//항만시설사용 상세저장
     		for( int i = 0 ; i < insertList.size() ; i++ ) {
     			log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ insertList.get(i) String => " + insertList.get(i));
 
@@ -383,7 +380,8 @@ public class GamCntnrQuayRentMngtController {
     			insertDetailVO.setComputDtls(resultMap.get("computDtls").toString());
     			insertDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
     			insertDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
-//    			insertDetailVO.setQuayCd(resultMap.get("quayCd").toString());
+    			insertDetailVO.setUsagePdChk(resultMap.get("usagePdChk").toString());
+    			//insertDetailVO.setQuayCd(resultMap.get("quayCd").toString());
 
     			insertDetailVO.setRegUsr(loginVO.getId());
     			insertDetailVO.setUpdUsr(loginVO.getId());
@@ -428,6 +426,7 @@ public class GamCntnrQuayRentMngtController {
     			updateDetailVO.setComputDtls(resultMap.get("computDtls").toString());
     			updateDetailVO.setUsagePurps(resultMap.get("usagePurps").toString());
     			updateDetailVO.setUsageDtls(resultMap.get("usageDtls").toString());
+    			updateDetailVO.setUsagePdChk(resultMap.get("usagePdChk").toString());
 //    			updateDetailVO.setQuayCd(resultMap.get("quayCd").toString());
 
     			updateDetailVO.setRegUsr(loginVO.getId());
@@ -462,11 +461,11 @@ public class GamCntnrQuayRentMngtController {
     			insertFileVO.setMngNo(saveDetailVO.getDetailMngNo());
     			insertFileVO.setMngCnt(saveDetailVO.getDetailMngCnt());
 
-    			insertFileVO.setPhotoSj(resultMap.get("photoSj").toString());
-    			insertFileVO.setFilenmLogic(resultMap.get("filenmLogic").toString());
-    			insertFileVO.setFilenmPhysicl(resultMap.get("filenmPhysicl").toString());
-    			insertFileVO.setShotDt(resultMap.get("shotDt").toString());
-    			insertFileVO.setPhotoDesc(resultMap.get("photoDesc").toString());
+    			insertFileVO.setPhotoSj((String)resultMap.get("photoSj"));
+    			insertFileVO.setFilenmLogic((String)resultMap.get("filenmLogic"));
+    			insertFileVO.setFilenmPhysicl((String)resultMap.get("filenmPhysicl"));
+    			insertFileVO.setShotDt((String)resultMap.get("shotDt"));
+    			insertFileVO.setPhotoDesc((String)resultMap.get("photoDesc"));
     			insertFileVO.setRegUsr(loginVO.getId());
 
     			System.out.println("############################################### insertFileVO => " + insertFileVO);
@@ -534,15 +533,15 @@ public class GamCntnrQuayRentMngtController {
     			quaycdVO = gamCntnrQuayRentMngtService.selectCntnrQuayRentMngtDetailQuaycd(updRentVO);
 
     			//부두코드 업데이트
-    			if( quaycdVO == null || quaycdVO.getQuayCd() == null || "".equals(quaycdVO.getQuayCd()) ) {
-    				quaycdVO = new GamCntnrQuayRentMngtVO();
-    				quaycdVO.setPrtAtCode(paramVO.getPrtAtCode());
-    				quaycdVO.setMngYear(paramVO.getMngYear());
-    				quaycdVO.setMngNo(paramVO.getMngNo());
-    				quaycdVO.setMaxMngCnt(paramVO.getMngCnt());
-    			}
-
-    			gamCntnrQuayRentMngtService.updateCntnrQuayRentMngtQuaycd(quaycdVO);
+//    			if( quaycdVO == null || quaycdVO.getQuayCd() == null || "".equals(quaycdVO.getQuayCd()) ) {
+//    				quaycdVO = new GamCntnrQuayRentMngtVO();
+//    				quaycdVO.setPrtAtCode(paramVO.getPrtAtCode());
+//    				quaycdVO.setMngYear(paramVO.getMngYear());
+//    				quaycdVO.setMngNo(paramVO.getMngNo());
+//    				quaycdVO.setMaxMngCnt(paramVO.getMngCnt());
+//    			}
+//
+//    			gamCntnrQuayRentMngtService.updateCntnrQuayRentMngtQuaycd(quaycdVO);
     		}
 
     		resultCode = 0;
@@ -564,7 +563,7 @@ public class GamCntnrQuayRentMngtController {
     }
 
 	/**
-     * 컨테이너부두임대,상세를 저장한다.
+     * 항만시설사용,상세를 저장한다.
      * @param String
      * @param gamCntnrQuayRentMngtVO
      * @param bindingResult
@@ -581,7 +580,6 @@ public class GamCntnrQuayRentMngtController {
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
-
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -590,7 +588,7 @@ public class GamCntnrQuayRentMngtController {
     	}
 
     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	/*
+        /*
         String sLocationUrl = null;
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -640,7 +638,7 @@ public class GamCntnrQuayRentMngtController {
 
 
     /**
-     * 컨테이너부두임대 연장신청을 등록한다.
+     * 항만시설사용 연장신청을 등록한다.
      * @param gamCntnrQuayRentMngtVO
      * @param bindingResult
      * @return map
@@ -692,7 +690,7 @@ public class GamCntnrQuayRentMngtController {
     }
 
     /**
-     * 컨테이너부두임대 정보를 수정한다.
+     * 항만시설사용 정보를 수정한다.
      * @param String
      * @param gamCntnrQuayRentMngtVO
      * @param bindingResult
@@ -741,7 +739,7 @@ public class GamCntnrQuayRentMngtController {
     }
 
     /**
-     * 컨테이너부두임대 정보를 삭제한다.
+     * 항만시설사용 정보를 삭제한다.
      * @param String
      * @param gamCntnrQuayRentMngtVO
      * @param bindingResult
@@ -806,7 +804,7 @@ public class GamCntnrQuayRentMngtController {
     }
 
     /**
-     * 컨테이너부두임대 상세를 등록한다.
+     * 항만시설사용 상세를 등록한다.
      * @param String
      * @param gamCntnrQuayRentMngtDetailVO
      * @param bindingResult
@@ -898,7 +896,7 @@ public class GamCntnrQuayRentMngtController {
     }
 
     /**
-     * 컨테이너부두임대 상세를 수정한다.
+     * 항만시설사용 상세를 수정한다.
      * @param String
      * @param gamCntnrQuayRentMngtDetailVO
      * @param bindingResult
@@ -986,7 +984,7 @@ public class GamCntnrQuayRentMngtController {
     }
 
     /**
-     * 컨테이너부두임대 상세를 삭제한다.
+     * 항만시설사용 상세를 삭제한다.
      * @param gamCntnrQuayRentMngtDetailVO
      * @param bindingResult
      * @return map
@@ -1055,10 +1053,13 @@ public class GamCntnrQuayRentMngtController {
      * @throws Exception the exception
      */
 	@RequestMapping(value="/oper/cntnr/popup/showCntnrQuayRentMngtPrmisn.do")
-    String showEntrpsInfo(GamCntnrQuayRentMngtLevReqestVO gamCntnrQuayRentMngtLevReqestVO, ModelMap model) throws Exception {
+    String showEntrpsInfo(GamCntnrQuayRentMngtVO gamCntnrQuayRentMngtLevReqestVO, ModelMap model) throws Exception {
 
-		List chrgeKndCdList = gamCntnrQuayRentMngtService.selectChargeKndList();
-
+		List chrgeKndCdList = gamCntnrQuayRentMngtService.selectChargeKndList(gamCntnrQuayRentMngtLevReqestVO);
+			
+		for(int i=0;i<chrgeKndCdList.size() ;i++){
+			System.out.println(chrgeKndCdList.get(i));
+		}
 		model.addAttribute("gamCntnrQuayRentMngtInfo", gamCntnrQuayRentMngtLevReqestVO);
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
 
@@ -1066,68 +1067,7 @@ public class GamCntnrQuayRentMngtController {
     }
 
     /**
-     * 컨테이너부두임대 승낙취소(허가취소)를 한다.
-     * @param gamCntnrQuayRentMngtVO
-     * @param bindingResult
-     * @return map
-     * @throws Exception
-     */
-    /*
-    @RequestMapping(value="/oper/cntnr/gamUpdateCntnrQuayRentMngtPrmisnCancel.do")
-    public @ResponseBody Map updateCntnrQuayRentMngtPrmisnCancel(
-     	   @ModelAttribute("gamCntnrQuayRentMngtVO") GamCntnrQuayRentMngtVO gamCntnrQuayRentMngtVO,
-     	   BindingResult bindingResult)
-            throws Exception {
-
-     	 Map map = new HashMap();
-         String resultMsg = "";
-         int resultCode = 1;
-
-         //승낙할 임대정보조회
-         GamCntnrQuayRentMngtVO rentPrmisnInfo = gamCntnrQuayRentMngtService.selectCntnrQuayRentMngtPrmisnInfo(gamCntnrQuayRentMngtVO);
-
-         //징수의뢰 테이블에 갯수 카운트 조회
-         int levReqestCnt = gamCntnrQuayRentMngtService.selectCntnrQuayRentMngtLevReqestCnt(gamCntnrQuayRentMngtVO);
-
-         if( !"Y".equals(rentPrmisnInfo.getPrmisnYn()) ) {
-         	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject7")); //승낙된 상태가 아닙니다.
-
-     		return map;
-         }
-
-         if( levReqestCnt > 0 ) {
-         	map.put("resultCode", 1);
-            map.put("resultMsg", egovMessageSource.getMessage("gam.asset.rent.prmisn.reject8")); //징수의뢰에 정보가 존재하여 승낙을 취소 할 수 없습니다.
-
-     		return map;
-         }
-
-         GamCntnrQuayRentMngtLevReqestVO levReqestInfo = new GamCntnrQuayRentMngtLevReqestVO();
-         levReqestInfo.setPrtAtCode( rentPrmisnInfo.getPrtAtCode() );
-         levReqestInfo.setMngYear( rentPrmisnInfo.getMngYear() );
-         levReqestInfo.setMngNo( rentPrmisnInfo.getMngNo() );
-         levReqestInfo.setMngCnt( rentPrmisnInfo.getMngCnt() );
-
-         levReqestInfo.setPrmisnYn("N"); //허가여부
-         levReqestInfo.setRegUsr("admin1"); //등록자 (세션 로그인 아이디)
-         levReqestInfo.setUpdUsr("admin1"); //등록자 (세션 로그인 아이디)
-
-         //임대정보의 허가여부를 N으로 업데이트
-         gamCntnrQuayRentMngtService.updateCntnrQuayRentMngtPrmisnCancel(levReqestInfo);
-
-         resultCode = 0;
- 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.execCancel"); //승낙이 정상적으로 취소되었습니다.
-
-     	 map.put("resultCode", resultCode);
-         map.put("resultMsg", resultMsg);
-
- 		return map;
-     }
-	*/
-
-    /**
-     * 컨테이너부두임대 승낙을 한다.
+     * 항만시설사용 승낙을 한다.
      * @param gamCntnrQuayRentMngtVO
      * @param bindingResult
      * @return map
@@ -1153,13 +1093,6 @@ public class GamCntnrQuayRentMngtController {
 
          LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-         System.out.println("##################################### 승낙시작!!");
-         System.out.println("##################################### getPrtAtCode => " +  gamCntnrQuayRentMngtVO.getPrtAtCode());
-         System.out.println("##################################### getMngYear => " +  gamCntnrQuayRentMngtVO.getMngYear());
-         System.out.println("##################################### getMngNo => " +  gamCntnrQuayRentMngtVO.getMngNo());
-         System.out.println("##################################### getMngCnt => " +  gamCntnrQuayRentMngtVO.getMngCnt());
-         System.out.println("##################################### getChrgeKnd => " +  gamCntnrQuayRentMngtVO.getChrgeKnd());
-
          //prtAtCode:항코드, mngYear:관리번호, mngNo:관리 순번, mngCnt:관리 횟수, chrgeKnd: 요금종류
          paramMap.put("prtAtCode", gamCntnrQuayRentMngtVO.getPrtAtCode());
          paramMap.put("mngYear", gamCntnrQuayRentMngtVO.getMngYear());
@@ -1169,8 +1102,6 @@ public class GamCntnrQuayRentMngtController {
          paramMap.put("deptcd", loginVO.getOrgnztId());
          paramMap.put("chrgeKnd", gamCntnrQuayRentMngtVO.getChrgeKnd());
          paramMap.put("taxtSe", gamCntnrQuayRentMngtVO.getTaxtSe());
-
-         System.out.println("##################################### paramMap => " + paramMap);
 
          //승낙 서비스 클래스 호출
          //gamAssetsUsePermMngtService.confirmAssetsRentUsePerm(paramMap); //승낙
@@ -1193,7 +1124,7 @@ public class GamCntnrQuayRentMngtController {
      }
 
     /**
-     * 컨테이너부두임대 승낙취소(허가취소)를 한다.
+     * 항만시설사용 승낙취소(허가취소)를 한다.
      * @param gamCntnrQuayRentMngtVO
      * @param bindingResult
      * @return map
@@ -1318,7 +1249,7 @@ public class GamCntnrQuayRentMngtController {
         String updateFlag = "";
         int resultCode = 1;
 
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+        Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
@@ -1327,7 +1258,7 @@ public class GamCntnrQuayRentMngtController {
 
     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
-        if( gamCntnrQuayRentMngtVO.getMngYear() == null || "".equals(gamCntnrQuayRentMngtVO.getMngYear()) ) {
+    	if( gamCntnrQuayRentMngtVO.getMngYear() == null || "".equals(gamCntnrQuayRentMngtVO.getMngYear()) ) {
         	updateFlag = "N";
         } else {
         	updateFlag = "Y";
@@ -1349,9 +1280,26 @@ public class GamCntnrQuayRentMngtController {
 
 		return map;
     }
-    /**
+
+	/**
+     * 과태료 처분 팝업화면을 로딩한다.
+     *
+     * @param gamAssetDisUseMngtVO
+     * @param model the model
+     * @return "/ygpa/gam/asset/GamPopupAssetRentPrmisn"
+     * @throws Exception the exception
+     */
+	@RequestMapping(value="/oper/cntnr/popupPenaltyFee.do")
+    String showAssetDisUse(Map mngItem, ModelMap model) throws Exception {
+
+		model.addAttribute("mngItem", mngItem);
+
+    	return "/ygpa/gam/oper/cntnr/GamPopupCntnrQuayPenaltyFee";
+   }
+
+	/**
 	 * 추가고지 팝업화면을 로딩한다.
-	 * @param GamCntnrQuayRentMngtVO
+	 * @param gamCntnrQuayRentMngtLevReqestVO
 	 * @param model
 	 * @return
 	 * @throws Exception
@@ -1364,14 +1312,15 @@ public class GamCntnrQuayRentMngtController {
 		codeVo.setCodeId("GAM052"); //요금종류
 		List chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
 
-		model.addAttribute("gamPrtFcltyRentMngtInfo", gamCntnrQuayRentMngtVO);
+		model.addAttribute("gamCntnrQuayRentMngtInfo", gamCntnrQuayRentMngtVO);
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
 
   	return "ygpa/gam/oper/cntnr/GamPopupCntnrRentMngtLevReqestAdit";
   }
 
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/gnrl/selectCntnrQuayRentMngtListExcel.do", method=RequestMethod.POST)
+    @RequestMapping(value="/oper/cntnr/selectCntnrQuayRentMngtListExcel.do", method=RequestMethod.POST)
     @ResponseBody ModelAndView selectErpAssetCodeListExcel(@RequestParam Map<String, Object> excelParam) throws Exception {
 		Map map = new HashMap();
 		List header;
@@ -1412,6 +1361,4 @@ public class GamCntnrQuayRentMngtController {
 
     	return new ModelAndView("gridExcelView", "gridResultMap", map);
     }
-
-
 }

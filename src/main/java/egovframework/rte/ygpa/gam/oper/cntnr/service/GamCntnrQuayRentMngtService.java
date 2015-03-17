@@ -2,6 +2,7 @@ package egovframework.rte.ygpa.gam.oper.cntnr.service;
 
 import java.util.List;
 
+
 /**
  * @Class Name : GamCntnrQuayRentMngtService.java
  * @Description : 컨테이너부두임대목록관리
@@ -17,9 +18,9 @@ import java.util.List;
 public interface GamCntnrQuayRentMngtService {
 
 	/**
-	 * 컨테이너부두임대 목록을 조회한다.
+	 * 컨테이너부두임대사용 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 컨테이너부두임대목록
+	 * @return 컨테이너부두임대사용목록
 	 * @exception Exception
 	 */
     List selectCntnrQuayRentMngtList(GamCntnrQuayRentMngtVO searchVO) throws Exception;
@@ -27,22 +28,22 @@ public interface GamCntnrQuayRentMngtService {
     /**
 	 * 자료수, 총면적, 총사용료를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 컨테이너부두임대목록
+	 * @return 컨테이너부두임대사용목록
 	 * @exception Exception
 	 */
     GamCntnrQuayRentMngtVO selectCntnrQuayRentMngtSum(GamCntnrQuayRentMngtVO searchVO) throws Exception;
 
     /**
-	 * 컨테이너부두임대 목록 총 갯수를 조회한다.
+	 * 컨테이너부두임대사용 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 컨테이너부두임대 목록 총 갯수
+	 * @return 컨테이너부두임대사용 목록 총 갯수
 	 * @exception
 	 */
     int selectCntnrQuayRentMngtListTotCnt(GamCntnrQuayRentMngtVO searchVO) throws Exception;
 
 
     /**
-	 * 컨테이너부두임대 최초 신청을 등록한다.
+	 * 컨테이너부두임대사용 최초 신청을 등록한다.
 	 * @param vo GamCntnrQuayRentMngtVO
 	 * @exception Exception
 	 */
@@ -51,27 +52,27 @@ public interface GamCntnrQuayRentMngtService {
 	/**
 	 * 관리번호(MAX) 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 컨테이너부두임대목록
+	 * @return 컨테이너부두임대사용목록
 	 * @exception Exception
 	 */
     GamCntnrQuayRentMngtVO selectCntnrQuayRentMngtMaxNo(GamCntnrQuayRentMngtVO searchVO) throws Exception;
 
     /**
-	 * 컨테이너부두임대 연장 신청을 등록한다.
+	 * 컨테이너부두임대사용 연장 신청을 등록한다.
 	 * @param vo GamCntnrQuayRentMngtVO
 	 * @exception Exception
 	 */
 	void insertCntnrQuayRentMngtRenew(GamCntnrQuayRentMngtVO vo) throws Exception;
 
 	/**
-	 * 컨테이너부두임대정보를 수정한다.
+	 * 컨테이너부두임대사용정보를 수정한다.
 	 * @param vo GamCntnrQuayRentMngtVO
 	 * @exception Exception
 	 */
 	void updateCntnrQuayRentMngt(GamCntnrQuayRentMngtVO vo) throws Exception;
 
 	/**
-	 * 컨테이너부두임대 상세 목록을 조회한다.
+	 * 컨테이너부두임대사용 상세 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
@@ -79,7 +80,7 @@ public interface GamCntnrQuayRentMngtService {
     List selectCntnrQuayRentMngtDetailList(GamCntnrQuayRentMngtVO vo) throws Exception;
 
     /**
-	 * 컨테이너부두임대 상세 목록 총 갯수를 조회한다.
+	 * 컨테이너부두임대사용 상세 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -103,50 +104,50 @@ public interface GamCntnrQuayRentMngtService {
     int selectCntnrQuayRentMngtLevReqestCnt(GamCntnrQuayRentMngtVO vo) throws Exception;
 
     /**
-	 * 컨테이너부두임대 정보를 삭제한다.
+	 * 컨테이너부두임대사용 정보를 삭제한다.
 	 * @param vo GamCntnrQuayRentMngtDetailVO
 	 * @exception Exception
 	 */
 	void deleteCntnrQuayRentMngt(GamCntnrQuayRentMngtVO vo) throws Exception;
 
 	/**
-	 * 컨테이너부두임대 상세정보를 삭제한다.
+	 * 컨테이너부두임대사용 상세정보를 삭제한다.
 	 * @param vo GamCntnrQuayRentMngtDetailVO
 	 * @exception Exception
 	 */
 	void deleteCntnrQuayRentMngtDetail(GamCntnrQuayRentMngtVO vo) throws Exception;
 
 	/**
-	 * 컨테이너부두임대 상세를 등록한다.
+	 * 컨테이너부두임대사용 상세를 등록한다.
 	 * @param vo GamCntnrQuayRentMngtDetailVO
 	 * @exception Exception
 	 */
 	void insertCntnrQuayRentMngtDetail(GamCntnrQuayRentMngtDetailVO vo) throws Exception;
 
 	/**
-	 * 컨테이너부두임대 상세를 수정한다.
+	 * 컨테이너부두임대사용 상세를 수정한다.
 	 * @param vo GamCntnrQuayRentMngtDetailVO
 	 * @exception Exception
 	 */
 	void updateCntnrQuayRentMngtDetail(GamCntnrQuayRentMngtDetailVO vo) throws Exception;
 
 	/**
-	 * 컨테이너부두임대 상세를 삭제한다.
+	 * 컨테이너부두임대사용 상세를 삭제한다.
 	 * @param vo GamCntnrQuayRentMngtDetailVO
 	 * @exception Exception
 	 */
 	void deleteCntnrQuayRentMngtDetail2(GamCntnrQuayRentMngtDetailVO vo) throws Exception;
 
 	/**
-	 * 승낙할 컨테이너부두임대 정보 조회.
+	 * 승낙할 컨테이너부두임대사용 정보 조회.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 컨테이너부두임대정보
+	 * @return 컨테이너부두임대사용정보
 	 * @exception Exception
 	 */
     GamCntnrQuayRentMngtVO selectCntnrQuayRentMngtPrmisnInfo(GamCntnrQuayRentMngtVO searchVO) throws Exception;
 
 	/**
-	 * 컨테이너부두임대 허가여부를 취소한다.
+	 * 컨테이너부두임대사용 허가여부를 취소한다.
 	 * @param vo GamCntnrQuayRentMngtVO
 	 * @exception Exception
 	 */
@@ -190,9 +191,9 @@ public interface GamCntnrQuayRentMngtService {
 	void deleteCntnrQuayRentMngtPhotoSingle(GamCntnrQuayRentMngtVO vo) throws Exception;
 
 	/**
-	 * 컨테이너부두임대 신규저장시 키값 가져오기.
+	 * 컨테이너부두임대사용 신규저장시 키값 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return  컨테이너부두임대 목록
+	 * @return  컨테이너부두임대사용 목록
 	 * @exception Exception
 	 */
     public GamCntnrQuayRentMngtVO selectCntnrQuayRentMngtMaxKey(GamCntnrQuayRentMngtVO searchVO) throws Exception;
@@ -207,7 +208,7 @@ public interface GamCntnrQuayRentMngtService {
 	/**
 	 * 연장신청시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 컨테이너부두임대 목록
+	 * @return 컨테이너부두임대사용 목록
 	 * @exception Exception
 	 */
     public GamCntnrQuayRentMngtVO selectCntnrQuayRentMngtRenewInfo(GamCntnrQuayRentMngtVO searchVO) throws Exception;
@@ -222,21 +223,21 @@ public interface GamCntnrQuayRentMngtService {
 	/**
 	 * 신청저장시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 컨테이너부두임대 목록
+	 * @return 컨테이너부두임대사용 목록
 	 * @exception Exception
 	 */
     public GamCntnrQuayRentMngtVO selectCntnrQuayRentMngtCurrRenewInfo(GamCntnrQuayRentMngtVO searchVO) throws Exception;
 
     /**
-   	 * 신청저장시 컨테이너부두임대 상세테이블의 (MIN)순번의 부두코드 가져오기.
+   	 * 신청저장시 컨테이너부두임대사용 상세테이블의 (MIN)순번의 부두코드 가져오기.
    	 * @param searchVO - 조회할 정보가 담긴 VO
-   	 * @return 컨테이너부두임대 목록
+   	 * @return 컨테이너부두임대사용 목록
    	 * @exception Exception
    	 */
     public GamCntnrQuayRentMngtVO selectCntnrQuayRentMngtDetailQuaycd(GamCntnrQuayRentMngtVO searchVO) throws Exception;
 
     /**
-   	 * 신청저장시 컨테이너부두임대 테이블의 부두코드를 업데이트 한다.
+   	 * 신청저장시 컨테이너부두임대사용 테이블의 부두코드를 업데이트 한다.
    	 * @param vo GamCntnrQuayRentMngtDetailVO
    	 * @exception Exception
    	 */
@@ -253,7 +254,7 @@ public interface GamCntnrQuayRentMngtService {
     /**
 	 * 현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 컨테이너부두임대목록
+	 * @return 컨테이너부두임대사용목록
 	 * @exception Exception
 	 */
     public GamCntnrQuayRentMngtVO selectCntnrQuayRentMngtBeforeQuarterInfo(GamCntnrQuayRentMngtVO searchVO) throws Exception;
@@ -261,7 +262,7 @@ public interface GamCntnrQuayRentMngtService {
     /**
 	 * 이전 분기의 연도와 월에 해당하는 코픽스 이자율 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 컨테이너부두임대목록
+	 * @return 컨테이너부두임대사용목록
 	 * @exception Exception
 	 */
     public GamCntnrQuayRentMngtVO selectCntnrQuayRentMngtCofixInfo(GamCntnrQuayRentMngtVO searchVO) throws Exception;
@@ -269,11 +270,11 @@ public interface GamCntnrQuayRentMngtService {
     /**
    	 * 가장 마지막데이터의 연도와 월에 해당하는 코픽스 이자율 가져오기.
    	 * @param searchVO - 조회할 정보가 담긴 VO
-   	 * @return 컨테이너부두임대목록
+   	 * @return 컨테이너부두임대사용목록
    	 * @exception Exception
    	 */
     public GamCntnrQuayRentMngtVO selectCntnrQuayRentMngtCofixInfoMax(GamCntnrQuayRentMngtVO searchVO) throws Exception;
 
-    public List selectChargeKndList() throws Exception;
+    public List selectChargeKndList(GamCntnrQuayRentMngtVO searchVO) throws Exception;
 
 }

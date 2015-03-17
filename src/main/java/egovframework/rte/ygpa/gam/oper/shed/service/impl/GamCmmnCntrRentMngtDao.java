@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
+
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtDetailVO;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtLevReqestVO;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtVO;
@@ -25,9 +26,9 @@ import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtVO;
 public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 
 	/**
-	 * 공컨장치장임대관리 목록을 조회한다.
+	 * 공컨장치장임대사용관리 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장임대관리 목록
+	 * @return 공컨장치장임대사용관리 목록
 	 * @exception Exception
 	 */
     public List selectCmmnCntrRentMngtList(GamCmmnCntrRentMngtVO searchVO) throws Exception {
@@ -35,9 +36,9 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
     }
 
     /**
-	 * 공컨장치장임대관리 목록 총 갯수를 조회한다.
+	 * 공컨장치장임대사용관리 목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장임대관리 목록 총 갯수
+	 * @return 공컨장치장임대사용관리 목록 총 갯수
 	 * @exception
 	 */
     public int selectCmmnCntrRentMngtListTotCnt(GamCmmnCntrRentMngtVO searchVO) {
@@ -47,7 +48,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
     /**
 	 * 자료수, 총면적, 총사용료를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장임대관리 목록
+	 * @return 공컨장치장임대사용관리 목록
 	 * @exception Exception
 	 */
 	public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtSum(GamCmmnCntrRentMngtVO searchVO) throws Exception {
@@ -55,7 +56,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * 공컨장치장임대 최초 신청을 등록한다.
+	 * 공컨장치장임대사용 최초 신청을 등록한다.
 	 * @param vo GamCmmnCntrRentMngtVO
 	 * @exception Exception
 	 */
@@ -67,7 +68,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	/**
 	 * 해당건에 대한 (MAX)관리번호
 	 * @param searchMap - GamCmmnCntrRentMngtVO
-	 * @return 공컨장치장임대관리 목록 총 갯수
+	 * @return 공컨장치장임대사용관리 목록 총 갯수
 	 * @exception
 	 */
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtMaxNo(GamCmmnCntrRentMngtVO vo) {
@@ -75,7 +76,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
     }
 
     /**
-	 * 공컨장치장임대 연장 신청을 등록한다.
+	 * 공컨장치장임대사용 연장 신청을 등록한다.
 	 * @param vo GamCmmnCntrRentMngtVO
 	 * @exception Exception
 	 */
@@ -84,9 +85,9 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * 공컨장치장임대 연장 신청된 MaxMngCnt 조회한다.
+	 * 공컨장치장임대사용 연장 신청된 MaxMngCnt 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장임대관리 목록 총 갯수
+	 * @return 공컨장치장임대사용관리 목록 총 갯수
 	 * @exception
 	 */
     public String selectCmmnCntrRentMngtMaxMngCnt(GamCmmnCntrRentMngtVO searchVO) {
@@ -94,7 +95,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
     }
 
 	/**
-	 * 공컨장치장임대 연장 신청시 공컨장치장임대 상세를 복사하여 등록한다.
+	 * 공컨장치장임대사용 연장 신청시 공컨장치장임대사용 상세를 복사하여 등록한다.
 	 * @param vo GamCmmnCntrRentMngtVO
 	 * @exception Exception
 	 */
@@ -103,7 +104,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * 공컨장치장임대 정보를 수정한다.
+	 * 공컨장치장임대사용 정보를 수정한다.
 	 * @param vo GamCmmnCntrRentMngtVO
 	 * @exception Exception
 	 */
@@ -112,9 +113,9 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * 공컨장치장임대관리 상세목록을 조회한다.
+	 * 공컨장치장임대사용관리 상세목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장임대관리 목록
+	 * @return 공컨장치장임대사용관리 목록
 	 * @exception Exception
 	 */
     public List selectCmmnCntrRentMngtDetailList(GamCmmnCntrRentMngtVO vo) throws Exception {
@@ -122,9 +123,9 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
     }
 
     /**
-	 * 공컨장치장임대관리 상세목록 총 갯수를 조회한다.
+	 * 공컨장치장임대사용관리 상세목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장임대관리 목록 총 갯수
+	 * @return 공컨장치장임대사용관리 목록 총 갯수
 	 * @exception
 	 */
     public int selectCmmnCntrRentMngtDetailListTotCnt(GamCmmnCntrRentMngtVO vo) {
@@ -134,7 +135,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
     /**
 	 * 징수의뢰 해당 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장임대관리 목록 총 갯수
+	 * @return 공컨장치장임대사용관리 목록 총 갯수
 	 * @exception
 	 */
     public int selectCmmnCntrRentMngtLevReqestCnt(GamCmmnCntrRentMngtVO vo) {
@@ -142,7 +143,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
     }
 
     /**
-	 * 공컨장치장임대 사진정보를 삭제한다.
+	 * 공컨장치장임대사용 사진정보를 삭제한다.
 	 * @param vo GamCmmnCntrRentMngtVO
 	 * @exception Exception
 	 */
@@ -151,7 +152,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * 공컨장치장임대 정보를 삭제한다.
+	 * 공컨장치장임대사용 정보를 삭제한다.
 	 * @param vo GamCmmnCntrRentMngtVO
 	 * @exception Exception
 	 */
@@ -160,7 +161,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * 공컨장치장임대 상세정보를 삭제한다.
+	 * 공컨장치장임대사용 상세정보를 삭제한다.
 	 * @param vo GamCmmnCntrRentMngtVO
 	 * @exception Exception
 	 */
@@ -169,7 +170,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * 공컨장치장임대 상세를 등록한다.
+	 * 공컨장치장임대사용 상세를 등록한다.
 	 * @param vo GamCmmnCntrRentMngtDetailVO
 	 * @exception Exception
 	 */
@@ -178,7 +179,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * 공컨장치장임대 상세를 수정한다.
+	 * 공컨장치장임대사용 상세를 수정한다.
 	 * @param vo GamCmmnCntrRentMngtDetailVO
 	 * @exception Exception
 	 */
@@ -187,7 +188,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * 공컨장치장임대 상세를 삭제한다.
+	 * 공컨장치장임대사용 상세를 삭제한다.
 	 * @param vo GamCmmnCntrRentMngtDetailVO
 	 * @exception Exception
 	 */
@@ -196,9 +197,9 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * 승낙할 공컨장치장임대 정보 조회.
+	 * 승낙할 공컨장치장임대사용 정보 조회.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장임대정보
+	 * @return 공컨장치장임대사용정보
 	 * @exception Exception
 	 */
 	public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtPrmisnInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception {
@@ -206,7 +207,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * 공컨장치장임대 허가여부를 수정한다.
+	 * 공컨장치장임대사용 허가여부를 수정한다.
 	 * @param vo GamCmmnCntrRentMngtVO
 	 * @exception Exception
 	 */
@@ -224,7 +225,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * 공컨장치장임대 허가여부를 취소한다.
+	 * 공컨장치장임대사용 허가여부를 취소한다.
 	 * @param vo GamCmmnCntrRentMngtVO
 	 * @exception Exception
 	 */
@@ -243,9 +244,9 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
     }
 
 	/**
-	 * 공컨장치장임대상세 목록을 조회한다.
+	 * 공컨장치장임대사용상세 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장임대상세 목록
+	 * @return 공컨장치장임대사용상세 목록
 	 * @exception Exception
 	 */
     public List selectCmmnCntrRentMngtDetailInfo(GamCmmnCntrRentMngtVO vo) throws Exception {
@@ -265,7 +266,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
     /**
 	 * 파일 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장임대관리 목록
+	 * @return 공컨장치장임대사용관리 목록
 	 * @exception Exception
 	 */
     public List selectCmmnCntrRentMngtFileList(GamCmmnCntrRentMngtVO searchVO) throws Exception {
@@ -275,7 +276,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
     /**
 	 * 파일 목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장임대관리목록 총 갯수
+	 * @return 공컨장치장임대사용관리목록 총 갯수
 	 * @exception
 	 */
     public int selectCmmnCntrRentMngtFileListTotCnt(GamCmmnCntrRentMngtVO searchVO) {
@@ -310,9 +311,9 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * 공컨장치장임대 신규저장시 키값 가져오기.
+	 * 공컨장치장임대사용 신규저장시 키값 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장임대관리 목록
+	 * @return 공컨장치장임대사용관리 목록
 	 * @exception Exception
 	 */
 	public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtMaxKey(GamCmmnCntrRentMngtVO searchVO) throws Exception {
@@ -331,7 +332,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	/**
 	 * 연장신청시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장임대 목록
+	 * @return 공컨장치장임대사용 목록
 	 * @exception Exception
 	 */
 	public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtRenewInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception {
@@ -350,7 +351,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	/**
 	 * 신청저장시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장임대 목록
+	 * @return 공컨장치장임대사용 목록
 	 * @exception Exception
 	 */
 	public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtCurrRenewInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception {
@@ -358,9 +359,9 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * 신청저장시 공컨장치장임대상세테이블의 (MIN)순번의 부두코드 가져오기.
+	 * 신청저장시 공컨장치장임대사용상세테이블의 (MIN)순번의 부두코드 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장임대관리 목록
+	 * @return 공컨장치장임대사용관리 목록
 	 * @exception Exception
 	 */
 	public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtDetailQuaycd(GamCmmnCntrRentMngtVO searchVO) throws Exception {
@@ -368,7 +369,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	}
 
 	/**
-	 * 신청저장시 공컨장치장임대테이블의 부두코드를 업데이트 한다.
+	 * 신청저장시 공컨장치장임대사용테이블의 부두코드를 업데이트 한다.
 	 * @param vo GamCmmnCntrRentMngtDetailVO
 	 * @exception Exception
 	 */
@@ -389,7 +390,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
     /**
 	 * 현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장임대관리 목록
+	 * @return 공컨장치장임대사용관리 목록
 	 * @exception Exception
 	 */
 	public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtBeforeQuarterInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception {
@@ -399,7 +400,7 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	/**
 	 * 이전 분기의 연도와 월에 해당하는 코픽스 이자율 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장임대관리 목록
+	 * @return 공컨장치장임대사용관리 목록
 	 * @exception Exception
 	 */
 	public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtCofixInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception {
@@ -409,14 +410,14 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 	/**
 	 * 가장 마지막데이터의 연도와 월에 해당하는 코픽스 이자율 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 공컨장치장임대관리 목록
+	 * @return 공컨장치장임대사용관리 목록
 	 * @exception Exception
 	 */
 	public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtCofixInfoMax(GamCmmnCntrRentMngtVO searchVO) throws Exception {
 		return (GamCmmnCntrRentMngtVO) selectByPk("gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtCofixInfoMax_S", searchVO);
 	}
 
-	public List selectChargeKndList() throws Exception {
-		return list("gamCmmnCntrRentMngtDao.selectChargeKndList_D", null);
+	public List selectChargeKndList(GamCmmnCntrRentMngtVO searchVO) throws Exception {
+		return list("gamCmmnCntrRentMngtDao.selectChargeKndList_D", searchVO);
 	}
 }

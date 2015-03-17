@@ -15,7 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
@@ -29,7 +33,8 @@ import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdVO;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentArrrgMngtVO;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtService;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtVO;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamFcltyRentArrrgMngtVO;
+
 
 
 /**
@@ -156,6 +161,7 @@ public class GamCntnrQuayRentFeePaySttusMngtController {
     	totalCnt = gamCntnrQuayRentFeePaySttusMngtService.selectCntnrQuayRentFeePaySttusMngtListTotCnt(searchVO);
     	List resultList = gamCntnrQuayRentFeePaySttusMngtService.selectCntnrQuayRentFeePaySttusMngtList(searchVO);
 
+
     	paginationInfo.setTotalRecordCount(totalCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
@@ -181,10 +187,6 @@ public class GamCntnrQuayRentFeePaySttusMngtController {
 
     	return map;
     }
-
-
-
-
 
 	/**
      * 컨테이너부두임대납부현황관리 상세정보를 조회한다.
@@ -296,7 +298,7 @@ public class GamCntnrQuayRentFeePaySttusMngtController {
      * @throws Exception
      */
     @RequestMapping(value="/oper/cntnr/selectNticArrrgList.do", method=RequestMethod.POST)
-    @ResponseBody Map<String, Object> selectNticArrrgList(GamCntnrQuayRentArrrgMngtVO searchVO) throws Exception {
+    @ResponseBody Map<String, Object> selectNticArrrgList(GamFcltyRentArrrgMngtVO searchVO) throws Exception {
 
     	Map<String, Object> map = new HashMap<String, Object>();
 
@@ -334,7 +336,7 @@ public class GamCntnrQuayRentFeePaySttusMngtController {
      * @throws Exception
      */
     @RequestMapping(value="/oper/cntnr/insertNticArrrgList.do", method=RequestMethod.POST)
-    @ResponseBody Map<String, Object> insertNticArrrgList(GamCntnrQuayRentArrrgMngtVO searchVO) throws Exception {
+    @ResponseBody Map<String, Object> insertNticArrrgList(GamFcltyRentArrrgMngtVO searchVO) throws Exception {
 
 
 		Map map = new HashMap<String,Object>();
@@ -372,6 +374,12 @@ public class GamCntnrQuayRentFeePaySttusMngtController {
 
 
 
+    /**
+     * 연체 고지
+     * @param nticVo
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value="/oper/cntnr/insertNticArrrg.do", method=RequestMethod.POST)
     @ResponseBody Map<String, Object> insertNticArrrg(@RequestParam Map nticVo) throws Exception {
 
@@ -391,6 +399,9 @@ public class GamCntnrQuayRentFeePaySttusMngtController {
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
 		nticVo.put("updUsr",loginVO.getId());
+		nticVo.put("deptCd",loginVO.getDeptCd());
+		nticVo.put("emplNo", loginVO.getEmplNo());
+		nticVo.put("userName", loginVO.getName());
 
 		gamNticRequestMngtService.sendUnpaidRequest(nticVo);
 
@@ -400,16 +411,119 @@ public class GamCntnrQuayRentFeePaySttusMngtController {
 		return map;
     }
 
+    @RequestMapping(value="/oper/cntnr/updateNticArrrg.do", method=RequestMethod.POST)
+    @ResponseBody Map<String, Object> updateNticArrrg(@RequestParam Map nticVo) throws Exception {
+
+
+		Map map = new HashMap<String,Object>();
+
+    	int resultCode = -1;
+    	String resultMsg = "";
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+		nticVo.put("updUsr",loginVO.getId());
+		nticVo.put("deptCd",loginVO.getDeptCd());
+		nticVo.put("emplNo", loginVO.getEmplNo());
+		nticVo.put("userName", loginVO.getName());
+
+		gamNticRequestMngtService.sendUnpaidRequest(nticVo);
+
+        map.put("resultCode", 0);
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));
+
+		return map;
+    }
 
     /**
-     * 항만시설연체현황관리 목록을 조회한다.
+     * 연체 고지 취소
+     * @param nticVo
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/cntnr/cancelNticArrrg.do", method=RequestMethod.POST)
+    @ResponseBody Map<String, Object> cancelNticArrrg(@RequestParam Map nticVo) throws Exception {
+
+
+		Map map = new HashMap<String,Object>();
+
+    	int resultCode = -1;
+    	String resultMsg = "";
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+		nticVo.put("updUsr",loginVO.getId());
+		nticVo.put("deptCd",loginVO.getDeptCd());
+		nticVo.put("emplNo", loginVO.getEmplNo());
+		nticVo.put("userName", loginVO.getName());
+
+		gamNticRequestMngtService.cancelUnpaidRequest(nticVo);
+
+        map.put("resultCode", 0);
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));
+
+		return map;
+    }
+
+    /**
+     * 단일 건에 대해서 고지를 취소 한다.
+     * @param nticVo
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/cntnr/cancelNticArrrgPk.do", method=RequestMethod.POST)
+    @ResponseBody Map<String, Object> cancelNticArrrgPk(@RequestParam Map nticVo) throws Exception {
+
+
+		Map map = new HashMap<String,Object>();
+
+    	int resultCode = -1;
+    	String resultMsg = "";
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+		nticVo.put("updUsr",loginVO.getId());
+		nticVo.put("deptCd",loginVO.getDeptCd());
+		nticVo.put("emplNo", loginVO.getEmplNo());
+
+		gamNticRequestMngtService.cancelUnpaidRequestPk(nticVo);
+
+        map.put("resultCode", 0);
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));
+
+		return map;
+    }
+
+    /**
+     * 컨테이너부두임대연체현황관리 목록을 조회한다.
      *change**
      * @param searchVO
      * @return map
      * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/gnrl/selectCntnrQuayRentFeePaySttusMngtListDlyList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/oper/cntnr/selectCntnrQuayRentFeePaySttusMngtDlyList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectCntnrQuayRentFeePaySttusMngtDlyList(GamCntnrQuayRentFeePaySttusMngtVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
@@ -434,6 +548,8 @@ public class GamCntnrQuayRentFeePaySttusMngtController {
     	List resultList = gamCntnrQuayRentFeePaySttusMngtService.selectCntnrQuayRentFeePaySttusMngtDlyList(searchVO);
 
     	int totCnt = gamCntnrQuayRentFeePaySttusMngtService.selectCntnrQuayRentFeePaySttusMngtDlyListTotCnt(searchVO);
+
+    	Map dlyInfo = gamCntnrQuayRentFeePaySttusMngtService.selectCntnrQuayRentFeePaySttusMngtDlyInfo(searchVO);
     	Map summary = gamCntnrQuayRentFeePaySttusMngtService.selectCntnrQuayRentFeePaySttusMngtDlyListSum(searchVO);
 
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
@@ -441,11 +557,130 @@ public class GamCntnrQuayRentFeePaySttusMngtController {
 
     	map.put("resultCode", 0);	// return ok
     	map.put("resultList", resultList);
+    	map.put("resultDlyInfo", dlyInfo);
     	map.put("totCnt", totCnt);
     	map.put("resultSummary", summary);
     	map.put("searchOption", searchVO);
 
     	return map;
     }
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/cntnr/selectCntnrQuayRentFeePaySttusMngtListExcel.do", method=RequestMethod.POST)
+    @ResponseBody ModelAndView selectErpAssetCodeListExcel(@RequestParam Map<String, Object> excelParam) throws Exception {
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return new ModelAndView("gridExcelView", "gridResultMap", map);
+    	}
+
+
+    	// 환경설정
+    	/** EgovPropertyService */
+    	GamCntnrQuayRentFeePaySttusMngtVO searchVO= new GamCntnrQuayRentFeePaySttusMngtVO();
+
+        header = mapper.readValue((String)excelParam.get("header"),
+			    new TypeReference<List<HashMap<String,String>>>(){});
+
+        excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
+
+		// 조회 조건
+		searchVO = mapper.convertValue(excelParam, GamCntnrQuayRentFeePaySttusMngtVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		/** List Data */
+//    	int totCnt = erpAssetCdService.selectErpAssetCdListTotCnt(searchVO);
+
+    	List gamAssetList = gamCntnrQuayRentFeePaySttusMngtService.selectCntnrQuayRentFeePaySttusMngtList(searchVO);
+
+    	map.put("resultList", gamAssetList);
+    	map.put("header", header);
+
+    	return new ModelAndView("gridExcelView", "gridResultMap", map);
+    }
+
+	/**
+     * 연체 고지서를 출력한다.
+     * @param approvalOpt
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/cntnr/printCntnrQuayRentFeePayNotice.do")
+    String printAssetRentFeePayNotice(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
+    	String report = "ygpa/gam/oper/cntnr/GamCntnrQuayPrintNoticeIssue";
+    	model.addAttribute("searchOpt", approvalOpt);
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    	}
+    	else {
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+    		Map nticItem = gamCntnrQuayRentFeePaySttusMngtService.selectArrrgNpticPrintInfo(approvalOpt);
+
+    		if("11076".equals(loginVo.getEmplNo()) || "14010".equals(loginVo.getEmplNo())) {
+//    			log.debug("new paper selected");
+    			report = "ygpa/gam/oper/cntnr/GamCntnrQuayPrintNoticeIssue2";	// 신규 고지서
+    		}
+//    		model.addAttribute("emplyrNo", loginVo.getEmplNo());
+
+    		model.addAttribute("resultCode", 0);
+    		model.addAttribute("result", nticItem);
+    		model.addAttribute("resultMsg", "");
+    	}
+
+    	return report;
+    	}
+
+    /**
+     * 연체료만가 분리 된 고지서를 출력한다.
+     * @param approvalOpt
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/cntnr/printCntnrQuayRentFeePayNotice2.do")
+    String printAssetRentFeePayNotice2(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
+    	String report = "ygpa/gam/oper/cntnr/GamCntnrQuayPrintNoticeIssue";
+    	model.addAttribute("searchOpt", approvalOpt);
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    	}
+    	else {
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+    		List resultList = gamCntnrQuayRentFeePaySttusMngtService.selectArrrgNpticPrintInfo2(approvalOpt);
+
+    		if("11076".equals(loginVo.getEmplNo()) || "14010".equals(loginVo.getEmplNo())) {
+//    			log.debug("new paper selected");
+    			report = "ygpa/gam/oper/cntnr/GamCntnrQuayPrintNoticeIssue2";	// 신규 고지서
+    		}
+
+//    		model.addAttribute("emplyrNo", loginVo.getEmplNo());
+
+    		model.addAttribute("resultCode", 0);
+    		model.addAttribute("result", resultList.get(0));
+    		model.addAttribute("arrrgItem", resultList.get(1));
+    		model.addAttribute("resultMsg", "");
+    	}
+
+    	return report;
+    	}
+
 
 }

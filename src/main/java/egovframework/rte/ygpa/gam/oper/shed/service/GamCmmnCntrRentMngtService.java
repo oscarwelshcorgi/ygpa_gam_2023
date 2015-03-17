@@ -2,6 +2,8 @@ package egovframework.rte.ygpa.gam.oper.shed.service;
 
 import java.util.List;
 
+
+
 /**
  * @Class Name : GamCmmnCntrRentMngtService.java
  * @Description : 공컨장치장임대목록관리
@@ -17,9 +19,9 @@ import java.util.List;
 public interface GamCmmnCntrRentMngtService {
 
 	/**
-	 * 공컨장치장임대 목록을 조회한다.
+	 * 항만부지임대사용 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대목록
+	 * @return 항만부지임대사용목록
 	 * @exception Exception
 	 */
     List selectCmmnCntrRentMngtList(GamCmmnCntrRentMngtVO searchVO) throws Exception;
@@ -27,22 +29,22 @@ public interface GamCmmnCntrRentMngtService {
     /**
 	 * 자료수, 총면적, 총사용료를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대목록
+	 * @return 항만부지임대사용목록
 	 * @exception Exception
 	 */
     GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtSum(GamCmmnCntrRentMngtVO searchVO) throws Exception;
 
     /**
-	 * 공컨장치장임대 목록 총 갯수를 조회한다.
+	 * 항만부지임대사용 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대 목록 총 갯수
+	 * @return 항만부지임대사용 목록 총 갯수
 	 * @exception
 	 */
     int selectCmmnCntrRentMngtListTotCnt(GamCmmnCntrRentMngtVO searchVO) throws Exception;
 
 
     /**
-	 * 공컨장치장임대 최초 신청을 등록한다.
+	 * 항만부지임대사용 최초 신청을 등록한다.
 	 * @param vo GamCmmnCntrRentMngtVO
 	 * @exception Exception
 	 */
@@ -51,27 +53,27 @@ public interface GamCmmnCntrRentMngtService {
 	/**
 	 * 관리번호(MAX) 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대목록
+	 * @return 항만부지임대사용목록
 	 * @exception Exception
 	 */
     GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtMaxNo(GamCmmnCntrRentMngtVO searchVO) throws Exception;
 
     /**
-	 * 공컨장치장임대 연장 신청을 등록한다.
+	 * 항만부지임대사용 연장 신청을 등록한다.
 	 * @param vo GamCmmnCntrRentMngtVO
 	 * @exception Exception
 	 */
 	void insertCmmnCntrRentMngtRenew(GamCmmnCntrRentMngtVO vo) throws Exception;
 
 	/**
-	 * 공컨장치장임대정보를 수정한다.
+	 * 항만부지임대사용정보를 수정한다.
 	 * @param vo GamCmmnCntrRentMngtVO
 	 * @exception Exception
 	 */
 	void updateCmmnCntrRentMngt(GamCmmnCntrRentMngtVO vo) throws Exception;
 
 	/**
-	 * 공컨장치장임대 상세 목록을 조회한다.
+	 * 항만부지임대사용 상세 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
@@ -79,7 +81,7 @@ public interface GamCmmnCntrRentMngtService {
     List selectCmmnCntrRentMngtDetailList(GamCmmnCntrRentMngtVO vo) throws Exception;
 
     /**
-	 * 공컨장치장임대 상세 목록 총 갯수를 조회한다.
+	 * 항만부지임대사용 상세 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -103,54 +105,54 @@ public interface GamCmmnCntrRentMngtService {
     int selectCmmnCntrRentMngtLevReqestCnt(GamCmmnCntrRentMngtVO vo) throws Exception;
 
     /**
-	 * 공컨장치장임대 정보를 삭제한다.
+	 * 항만부지임대사용 정보를 삭제한다.
 	 * @param vo GamCmmnCntrRentMngtDetailVO
 	 * @exception Exception
 	 */
 	void deleteCmmnCntrRentMngt(GamCmmnCntrRentMngtVO vo) throws Exception;
 
 	/**
-	 * 공컨장치장임대 상세정보를 삭제한다.
+	 * 항만부지임대사용 상세정보를 삭제한다.
 	 * @param vo GamCmmnCntrRentMngtDetailVO
 	 * @exception Exception
 	 */
 	void deleteCmmnCntrRentMngtDetail(GamCmmnCntrRentMngtVO vo) throws Exception;
 
 	/**
-	 * 공컨장치장임대 상세를 등록한다.
+	 * 항만부지임대사용 상세를 등록한다.
 	 * @param vo GamCmmnCntrRentMngtDetailVO
 	 * @exception Exception
 	 */
 	void insertCmmnCntrRentMngtDetail(GamCmmnCntrRentMngtDetailVO vo) throws Exception;
 
 	/**
-	 * 공컨장치장임대 상세를 수정한다.
+	 * 항만부지임대사용 상세를 수정한다.
 	 * @param vo GamCmmnCntrRentMngtDetailVO
 	 * @exception Exception
 	 */
 	void updateCmmnCntrRentMngtDetail(GamCmmnCntrRentMngtDetailVO vo) throws Exception;
 
 	/**
-	 * 공컨장치장임대 상세를 삭제한다.
+	 * 항만부지임대사용 상세를 삭제한다.
 	 * @param vo GamCmmnCntrRentMngtDetailVO
 	 * @exception Exception
 	 */
 	void deleteCmmnCntrRentMngtDetail2(GamCmmnCntrRentMngtDetailVO vo) throws Exception;
 
 	/**
-	 * 공컨장치장임대 허가여부를 취소한다.
+	 * 승낙할 항만부지임대사용 정보 조회.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 항만부지임대사용정보
+	 * @exception Exception
+	 */
+    GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtPrmisnInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception;
+
+	/**
+	 * 항만부지임대사용 허가여부를 취소한다.
 	 * @param vo GamCmmnCntrRentMngtVO
 	 * @exception Exception
 	 */
 	void updateCmmnCntrRentMngtPrmisnCancel(GamCmmnCntrRentMngtLevReqestVO vo) throws Exception;
-
-	/**
-	 * 승낙할 공컨장치장임대 정보 조회.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대정보
-	 * @exception Exception
-	 */
-	GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtPrmisnInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception;
 
 	/**
 	 * 파일 목록을 조회한다.
@@ -190,9 +192,9 @@ public interface GamCmmnCntrRentMngtService {
 	void deleteCmmnCntrRentMngtPhotoSingle(GamCmmnCntrRentMngtVO vo) throws Exception;
 
 	/**
-	 * 공컨장치장임대 신규저장시 키값 가져오기.
+	 * 항만부지임대사용 신규저장시 키값 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return  공컨장치장임대 목록
+	 * @return  항만부지임대사용 목록
 	 * @exception Exception
 	 */
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtMaxKey(GamCmmnCntrRentMngtVO searchVO) throws Exception;
@@ -207,7 +209,7 @@ public interface GamCmmnCntrRentMngtService {
 	/**
 	 * 연장신청시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대 목록
+	 * @return 항만부지임대사용 목록
 	 * @exception Exception
 	 */
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtRenewInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception;
@@ -222,21 +224,21 @@ public interface GamCmmnCntrRentMngtService {
 	/**
 	 * 신청저장시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대 목록
+	 * @return 항만부지임대사용 목록
 	 * @exception Exception
 	 */
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtCurrRenewInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception;
 
     /**
-   	 * 신청저장시 공컨장치장임대 상세테이블의 (MIN)순번의 부두코드 가져오기.
+   	 * 신청저장시 항만부지임대사용 상세테이블의 (MIN)순번의 부두코드 가져오기.
    	 * @param searchVO - 조회할 정보가 담긴 VO
-   	 * @return 공컨장치장임대 목록
+   	 * @return 항만부지임대사용 목록
    	 * @exception Exception
    	 */
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtDetailQuaycd(GamCmmnCntrRentMngtVO searchVO) throws Exception;
 
     /**
-   	 * 신청저장시 공컨장치장임대 테이블의 부두코드를 업데이트 한다.
+   	 * 신청저장시 항만부지임대사용 테이블의 부두코드를 업데이트 한다.
    	 * @param vo GamCmmnCntrRentMngtDetailVO
    	 * @exception Exception
    	 */
@@ -253,7 +255,7 @@ public interface GamCmmnCntrRentMngtService {
     /**
 	 * 현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대목록
+	 * @return 항만부지임대사용목록
 	 * @exception Exception
 	 */
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtBeforeQuarterInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception;
@@ -261,7 +263,7 @@ public interface GamCmmnCntrRentMngtService {
     /**
 	 * 이전 분기의 연도와 월에 해당하는 코픽스 이자율 가져오기.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 공컨장치장임대목록
+	 * @return 항만부지임대사용목록
 	 * @exception Exception
 	 */
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtCofixInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception;
@@ -269,10 +271,11 @@ public interface GamCmmnCntrRentMngtService {
     /**
    	 * 가장 마지막데이터의 연도와 월에 해당하는 코픽스 이자율 가져오기.
    	 * @param searchVO - 조회할 정보가 담긴 VO
-   	 * @return 공컨장치장임대목록
+   	 * @return 항만부지임대사용목록
    	 * @exception Exception
    	 */
     public GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtCofixInfoMax(GamCmmnCntrRentMngtVO searchVO) throws Exception;
 
-    public List selectChargeKndList() throws Exception;
+    public List selectChargeKndList(GamCmmnCntrRentMngtVO searchVO) throws Exception;
+
 }
