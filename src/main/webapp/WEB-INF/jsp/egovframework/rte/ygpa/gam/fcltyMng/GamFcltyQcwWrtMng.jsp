@@ -36,7 +36,7 @@
 function GamFcltyQcwWrtMngModule() {
 }
 
-GamFcltyQcwWrtMngModule.prototype = new EmdModule(1000,750);
+GamFcltyQcwWrtMngModule.prototype = new EmdModule(1000,760);
 
 <%
 /**
@@ -782,6 +782,7 @@ GamFcltyQcwWrtMngModule.prototype.getQcObjList = function() {
 		}
 	}
 	return resultList;
+	
 };
 
 <%
@@ -1056,6 +1057,18 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 									, '/popup/showFcltsMngGroup.do'
 									, {}
 								);
+			break;
+			
+		case 'btnAllSelect' :
+			
+			this.$('#qcObjFcltsGrid')[0].dgrid.checkAll(true);
+			
+			break;
+		
+		case 'btnAllUnSelect' :
+			
+			this.$('#qcObjFcltsGrid')[0].dgrid.checkAll(false);
+			
 			break;
 	}
 };
@@ -1405,20 +1418,25 @@ var module_instance = new GamFcltyQcwWrtMngModule();
                             </select>	
 						</td>
 						<td style="text-align:right">
-							<button id="btnUploadFile">업로드</button>
-							<button id="btnDownloadFile">다운로드</button>
-							<button id="btnPreviewFile">첨부파일미리보기</button>
-							<button id="btnRemoveFile">첨부파일삭제</button>
+							<button id="btnAllSelect">전체선택</button>
+							<button id="btnAllUnSelect">선택해제</button>
 							<div id="previewDialogArea" style="display: none;"></div>
 						</td>
 					</tr>
 				</table>
-				<div class="emdControlPanel">
+				
+				<div class="emdSummaryPanel">
+				<button id="btnUploadFile">업로드</button>
+					<button id="btnDownloadFile">다운로드</button>
+					<button id="btnPreviewFile">첨부파일미리보기</button>
+					<button id="btnRemoveFile">첨부파일삭제</button>
+				<div style="text-align:right">
 					<button id="btnDetailAdd" class="buttonAdd">　　추　가　　</button>
 					<button id="btnDetailDelete" class="buttonDelete">　　삭　제　　</button>
 					<button id="btnSave" class="buttonSave">　　저　장　　</button>
 					<!-- <button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url="/fcltyMng/printQcMngDtls.do">　　인　쇄　　</button> -->
 					<button id="btnPrint" data-role="printPage" data-search-option="detailForm">　　인　쇄　　</button>
+				</div>
 				</div>
 			</div>
 		</div>
