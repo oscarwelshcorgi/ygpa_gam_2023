@@ -17,7 +17,8 @@
 				SELECT  ROWNUM RNUM, S.*
 					FROM (
 						SELECT
-								 T1.CHARGER_NM AS CHARGER_NM
+								 T1.CHARGER_NO AS CHARGER_NO
+								,T1.CHARGER_NM AS CHARGER_NM
 								,T1.FCLTS_JOB_SE AS FCLTS_JOB_SE
 								,T1.CHARGER_DISPLAY_NM AS CHARGER_DISPLAY_NM
 								,T1.CHARGER_OFC_POS AS CHARGER_OFC_POS
@@ -31,6 +32,10 @@
 								,GAM_GET_FCLTS_JOB_SE_NM(T1.FCLTS_JOB_SE) AS FCLTS_JOB_SE_NM
 							FROM FCLTS_CHARGER_F T1
 						WHERE 1=1
+
+						<isNotEmpty property="sChargerNo">
+						AND T1.CHARGER_NO = #sChargerNo#
+						</isNotEmpty>
 
 						<isNotEmpty property="sChargerNm">
 						AND T1.CHARGER_NM = #sChargerNm#
@@ -51,7 +56,8 @@
 	<insert id="gamFcltsChargerMngDao.insertFcltsChargerMng_S" parameterClass="gamFcltsChargerMngVO">
 		INSERT INTO FCLTS_CHARGER_F
 		(
-			 CHARGER_NM
+			 CHARGER_NO
+			,CHARGER_NM
 			,FCLTS_JOB_SE
 			,CHARGER_DISPLAY_NM
 			,CHARGER_OFC_POS
@@ -63,7 +69,8 @@
 		)
 		VALUES
 		(
-			 #chargerNm#
+			 #chargerNo#
+			,#chargerNm#
 			,#fcltsJobSe#
 			,#chargerDisplayNm#
 			,#chargerOfcPos#
@@ -77,20 +84,21 @@
 
 	<update id="gamFcltsChargerMngDao.updateFcltsChargerMng_S" parameterClass="gamFcltsChargerMngVO">
 		UPDATE FCLTS_CHARGER_F SET
-			 CHARGER_DISPLAY_NM = #chargerDisplayNm#
+			 CHARGER_NM = #chargerNm#
+			,CHARGER_DISPLAY_NM = #chargerDisplayNm#
 			,CHARGER_OFC_POS = #chargerOfcPos#
 			,CHARGER_DEPT = #chargerDept#
 			,SIGN_FILE_NM_LOGIC = #signFileNmLogic#
 			,SIGN_FILE_NM_PHYSICL = #signFileNmPhysicl#
 			,UPD_USR = #updUsr#
 			,UPDT_DT = SYSDATE
-		WHERE CHARGER_NM = #chargerNm#
+		WHERE CHARGER_NO = #chargerNo#
 		AND FCLTS_JOB_SE = #fcltsJobSe#
 	</update>
 
 	<delete id="gamFcltsChargerMngDao.deleteFcltsChargerMng_S" parameterClass="gamFcltsChargerMngVO">
 		DELETE FROM FCLTS_CHARGER_F
-		WHERE CHARGER_NM = #chargerNm#
+		WHERE CHARGER_NO = #chargerNo#
 		AND FCLTS_JOB_SE = #fcltsJobSe#
 	</delete>
 
@@ -99,6 +107,10 @@
 				 TO_CHAR(NVL(COUNT(*),0),'999,999,999,999,999') AS TOTAL_COUNT
 			FROM FCLTS_CHARGER_F T1
 		WHERE 1=1
+
+		<isNotEmpty property="sChargerNo">
+		AND T1.CHARGER_NO = #sChargerNo#
+		</isNotEmpty>
 
 		<isNotEmpty property="sChargerNm">
 		AND T1.CHARGER_NM = #sChargerNm#
@@ -112,7 +124,8 @@
 
 	<select id="gamFcltsChargerMngDao.selectFcltsChargerMngPk_S" parameterClass="gamFcltsChargerMngVO" resultClass="egovMap">
 		SELECT
-				 T1.CHARGER_NM AS CHARGER_NM
+				 T1.CHARGER_NO AS CHARGER_NO
+				,T1.CHARGER_NM AS CHARGER_NM
 				,T1.FCLTS_JOB_SE AS FCLTS_JOB_SE
 				,T1.CHARGER_DISPLAY_NM AS CHARGER_DISPLAY_NM
 				,T1.CHARGER_OFC_POS AS CHARGER_OFC_POS
@@ -125,7 +138,7 @@
 				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
 				,GAM_GET_FCLTS_JOB_SE_NM(T1.FCLTS_JOB_SE) AS FCLTS_JOB_SE_NM
 			FROM FCLTS_CHARGER_F T1
-		WHERE T1.CHARGER_NM = #chargerNm#
+		WHERE T1.CHARGER_NO = #chargerNo#
 		AND T1.FCLTS_JOB_SE = #fcltsJobSe#
 	</select>
 

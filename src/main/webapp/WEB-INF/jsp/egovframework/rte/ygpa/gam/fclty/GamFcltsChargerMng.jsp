@@ -52,11 +52,12 @@ GamFcltsChargerMngModule.prototype.loadComplete = function() {
 		url : '/fclty/gamSelectFcltsChargerMngList.do',
 		dataType : 'json',
 		colModel : [
-					{display:'담당자 명', 		name:'chargerNm',				width:135, 		sortable:false,		align:'left'},
+					{display:'담당자 사번', 	name:'chargerNo',				width:100, 		sortable:false,		align:'left'},
+					{display:'담당자 명', 		name:'chargerNm',				width:100, 		sortable:false,		align:'left'},
 					{display:'업무 구분', 		name:'fcltsJobSeNm',			width:100, 		sortable:false,		align:'left'},
-					{display:'담당자 표시', 	name:'chargerDisplayNm',		width:135, 		sortable:false,		align:'left'},
+					{display:'담당자 표시', 	name:'chargerDisplayNm',		width:100, 		sortable:false,		align:'left'},
 					{display:'담당자 직위', 	name:'chargerOfcPos',			width:135, 		sortable:false,		align:'left'},
-					{display:'담당자 부서', 	name:'chargerDept',				width:135, 		sortable:false,		align:'left'},
+					{display:'담당자 부서', 	name:'chargerDept',				width:140, 		sortable:false,		align:'left'},
 					{display:'직인 파일명', 	name:'signFileNmLogic',			width:100, 		sortable:false,		align:'left'},
 					{display:"프리뷰",			name:"photoUrl",				width:100,		sortable:false,		align:"center",		displayFormat:"image"}
 					],
@@ -91,13 +92,13 @@ GamFcltsChargerMngModule.prototype.loadComplete = function() {
 
 	this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mainmode = 'modify';
-		module._mainKeyValue = row.fcltsJobSe + row.chargerNm;
+		module._mainKeyValue = row.fcltsJobSe + row.chargerNo;
 		module.enableListButtonItem();
 	});
 
 	this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._mainmode = 'modify';
-		module._mainKeyValue = row.fcltsJobSe + row.chargerNm;
+		module._mainKeyValue = row.fcltsJobSe + row.chargerNo;
 		module.$("#mainTab").tabs("option", {active: 1});
 	});
 
@@ -116,6 +117,9 @@ GamFcltsChargerMngModule.prototype.loadComplete = function() {
 	this._mainKeyValue = '';
 	this._searchButtonClick = false;
 	this._signFilePreview = false;
+	if (EMD.userinfo.mngFcltyCd == null || EMD.userinfo.mngFcltyCd != "*") {
+		this.$('#sChargerNo').val(EMD.userinfo.emplNo);
+	}
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 	this.$('#mainGrid')[0].dgrid.setColumnHidden(6, true);
@@ -331,8 +335,8 @@ GamFcltsChargerMngModule.prototype.selectData = function() {
 		return;
 	}
 	var fcltsJobSe = this._mainKeyValue.substring(0,1);
-	var chargerNm = this._mainKeyValue.substring(1,21);
-	this.$("#mainGrid").selectFilterRow([{col:"chargerNm", filter:chargerNm},
+	var chargerNo = this._mainKeyValue.substring(1,21);
+	this.$("#mainGrid").selectFilterRow([{col:"chargerNo", filter:chargerNo},
 										 {col:"fcltsJobSe", filter:fcltsJobSe}]);
 	this._mainmode = 'modify';
 	this.loadDetail('detailTab');
@@ -351,6 +355,7 @@ GamFcltsChargerMngModule.prototype.addData = function() {
 
 	var fcltsJobSe = this.$('#sFcltsJobSe').val();
 	var fcltsJobSeNm = this.getFcltsJobSeNm(fcltsJobSe);
+	this.$('#chargerNo').val("");
 	this.$('#chargerNm').val("");
 	this.$('#fcltsJobSe').val(fcltsJobSe);
 	this.$('#fcltsJobSeNm').val(fcltsJobSeNm);
@@ -360,7 +365,7 @@ GamFcltsChargerMngModule.prototype.addData = function() {
 	this.$('#signFileNmLogic').val("");
 	this.$('#signFileNmPhysicl').val("");
 	this.enableDetailInputItem();
-	this.$('#chargerNm').focus();
+	this.$('#chargerNo').focus();
 
 };
 
@@ -374,11 +379,17 @@ GamFcltsChargerMngModule.prototype.addData = function() {
 GamFcltsChargerMngModule.prototype.saveData = function() {
 
 	var fcltsJobSe = this.$('#fcltsJobSe').val();
+	var chargerNo = this.$('#chargerNo').val();
 	var chargerNm = this.$('#chargerNm').val();
 	var chargerDisplayNm = this.$('#chargerDisplayNm').val();
 	if (fcltsJobSe != "A" && fcltsJobSe != "C" && fcltsJobSe != "M" && fcltsJobSe != "E" && fcltsJobSe != "I") {
 		alert('업무 구분이 부정확합니다.');
 		this.$("#fcltsJobSe").focus();
+		return;
+	}
+	if (chargerNo == "") {
+		alert('담당자 사번이 부정확합니다.');
+		this.$("#chargerNo").focus();
 		return;
 	}
 	if (chargerNm == "") {
@@ -393,7 +404,7 @@ GamFcltsChargerMngModule.prototype.saveData = function() {
 	}
 	var inputVO = this.makeFormArgs("#detailForm");
 	if (this._mainmode == "insert") {
-		this._mainKeyValue = fcltsJobSe + chargerNm;
+		this._mainKeyValue = fcltsJobSe + chargerNo;
 		this.doAction('/fclty/gamInsertFcltsChargerMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.refreshData();
@@ -421,15 +432,15 @@ GamFcltsChargerMngModule.prototype.saveData = function() {
 GamFcltsChargerMngModule.prototype.deleteData = function() {
 
 	var fcltsJobSe = this.$('#fcltsJobSe').val();
-	var chargerNm = this.$('#chargerNm').val();
+	var chargerNo = this.$('#chargerNo').val();
 	if (fcltsJobSe == "") {
 		alert('업무 구분이 부정확합니다.');
 		this.$("#fcltsJobSe").focus();
 		return;
 	}
-	if (chargerNm == "") {
-		alert('담당자 명이 부정확합니다.');
-		this.$("#chargerNm").focus();
+	if (chargerNo == "") {
+		alert('담당자 사번이 부정확합니다.');
+		this.$("#chargerNo").focus();
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
@@ -456,15 +467,15 @@ GamFcltsChargerMngModule.prototype.deleteData = function() {
 GamFcltsChargerMngModule.prototype.registerSign = function() {
 
 	var fcltsJobSe = this.$('#fcltsJobSe').val();
-	var chargerNm = this.$('#chargerNm').val();
+	var chargerNo = this.$('#chargerNo').val();
 	if (fcltsJobSe == "") {
 		alert('업무 구분이 부정확합니다.');
 		this.$("#fcltsJobSe").focus();
 		return;
 	}
-	if (chargerNm == "") {
-		alert('담당자 명이 부정확합니다.');
-		this.$("#chargerNm").focus();
+	if (chargerNo == "") {
+		alert('담당자 사번이 부정확합니다.');
+		this.$("#chargerNo").focus();
 		return;
 	}
 	this.uploadPfPhoto("registerSign", function(module, result) {
@@ -551,13 +562,13 @@ GamFcltsChargerMngModule.prototype.firstData = function() {
 	}
 	var firstRowIndex = 0;
 	var row = rows[firstRowIndex];
-	var chargerNm = row["chargerNm"];
+	var chargerNo = row["chargerNo"];
 	var fcltsJobSe = row["fcltsJobSe"];
-	if (chargerNm != "" && fcltsJobSe != "") {
-		this.$("#mainGrid").selectFilterRow([{col:"chargerNm", filter:chargerNm},
+	if (chargerNo != "" && fcltsJobSe != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"chargerNo", filter:chargerNo},
 											 {col:"fcltsJobSe", filter:fcltsJobSe}]);
 		this._mainmode = 'modify';
-		this._mainKeyValue = fcltsJobSe + chargerNm;
+		this._mainKeyValue = fcltsJobSe + chargerNo;
 		this.makeFormValues('#detailForm', rows[firstRowIndex]);
 		this.makeDivValues('#detailForm', rows[firstRowIndex]);
 		this.enableDetailInputItem();
@@ -590,7 +601,7 @@ GamFcltsChargerMngModule.prototype.prevData = function() {
 	var keyValue = "";
 	for (var i=0; i < gridRowCount; i++) {
 		var row = rows[i];
-		keyValue = row["fcltsJobSe"] + row["chargerNm"];
+		keyValue = row["fcltsJobSe"] + row["chargerNo"];
 		if (this._mainKeyValue == keyValue) {
 			prevRowIndex = i - 1;
 			break;
@@ -605,13 +616,13 @@ GamFcltsChargerMngModule.prototype.prevData = function() {
 		return;
 	}
 	var row = rows[prevRowIndex];
-	var chargerNm = row["chargerNm"];
+	var chargerNo = row["chargerNo"];
 	var fcltsJobSe = row["fcltsJobSe"];
-	if (chargerNm != "" && fcltsJobSe != "") {
-		this.$("#mainGrid").selectFilterRow([{col:"chargerNm", filter:chargerNm},
+	if (chargerNo != "" && fcltsJobSe != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"chargerNo", filter:chargerNo},
 											 {col:"fcltsJobSe", filter:fcltsJobSe}]);
 		this._mainmode = 'modify';
-		this._mainKeyValue = fcltsJobSe + chargerNm;
+		this._mainKeyValue = fcltsJobSe + chargerNo;
 		this.makeFormValues('#detailForm', rows[prevRowIndex]);
 		this.makeDivValues('#detailForm', rows[prevRowIndex]);
 		this.enableDetailInputItem();
@@ -644,7 +655,7 @@ GamFcltsChargerMngModule.prototype.nextData = function() {
 	var keyValue = "";
 	for (var i=0; i < gridRowCount; i++) {
 		var row = rows[i];
-		keyValue = row["fcltsJobSe"] + row["chargerNm"];
+		keyValue = row["fcltsJobSe"] + row["chargerNo"];
 		if (this._mainKeyValue == keyValue) {
 			nextRowIndex = i + 1;
 			break;
@@ -659,13 +670,13 @@ GamFcltsChargerMngModule.prototype.nextData = function() {
 		return;
 	}
 	var row = rows[nextRowIndex];
-	var chargerNm = row["chargerNm"];
+	var chargerNo = row["chargerNo"];
 	var fcltsJobSe = row["fcltsJobSe"];
-	if (chargerNm != "" && fcltsJobSe != "") {
-		this.$("#mainGrid").selectFilterRow([{col:"chargerNm", filter:chargerNm},
+	if (chargerNo != "" && fcltsJobSe != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"chargerNo", filter:chargerNo},
 											 {col:"fcltsJobSe", filter:fcltsJobSe}]);
 		this._mainmode = 'modify';
-		this._mainKeyValue = fcltsJobSe + chargerNm;
+		this._mainKeyValue = fcltsJobSe + chargerNo;
 		this.makeFormValues('#detailForm', rows[nextRowIndex]);
 		this.makeDivValues('#detailForm', rows[nextRowIndex]);
 		this.enableDetailInputItem();
@@ -696,13 +707,13 @@ GamFcltsChargerMngModule.prototype.lastData = function() {
 	}
 	var lastRowIndex = gridRowCount - 1;
 	var row = rows[lastRowIndex];
-	var chargerNm = row["chargerNm"];
+	var chargerNo = row["chargerNo"];
 	var fcltsJobSe = row["fcltsJobSe"];
-	if (chargerNm != "" && fcltsJobSe != "") {
-		this.$("#mainGrid").selectFilterRow([{col:"chargerNm", filter:chargerNm},
+	if (chargerNo != "" && fcltsJobSe != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"chargerNo", filter:chargerNo},
 											 {col:"fcltsJobSe", filter:fcltsJobSe}]);
 		this._mainmode = 'modify';
-		this._mainKeyValue = fcltsJobSe + chargerNm;
+		this._mainKeyValue = fcltsJobSe + chargerNo;
 		this.makeFormValues('#detailForm', rows[lastRowIndex]);
 		this.makeDivValues('#detailForm', rows[lastRowIndex]);
 		this.enableDetailInputItem();
@@ -751,6 +762,7 @@ GamFcltsChargerMngModule.prototype.enableDetailInputItem = function() {
 
 	if (this._mainmode == "insert") {
 		this.$('#fcltsJobSe').enable();
+		this.$('#chargerNo').enable();
 		this.$('#chargerNm').enable();
 		this.$('#chargerDisplayNm').enable();
 		this.$('#chargerOfcPos').enable();
@@ -768,6 +780,7 @@ GamFcltsChargerMngModule.prototype.enableDetailInputItem = function() {
 	} else {
 		if (this._mainKeyValue != "") {
 			this.$('#fcltsJobSe').enable();
+			this.$('#chargerNo').enable();
 			this.$('#chargerNm').enable();
 			this.$('#chargerDisplayNm').enable();
 			this.$('#chargerOfcPos').enable();
@@ -790,6 +803,7 @@ GamFcltsChargerMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnLastData').removeClass('ui-state-disabled');
 		} else {
 			this.$('#fcltsJobSe').disable();
+			this.$('#chargerNo').disable();
 			this.$('#chargerNm').disable();
 			this.$('#chargerDisplayNm').disable();
 			this.$('#chargerOfcPos').disable();
@@ -817,6 +831,7 @@ GamFcltsChargerMngModule.prototype.enableDetailInputItem = function() {
 GamFcltsChargerMngModule.prototype.disableDetailInputItem = function() {
 
 	this.$('#fcltsJobSe').disable();
+	this.$('#chargerNo').disable();
 	this.$('#chargerNm').disable();
 	this.$('#chargerDisplayNm').disable();
 	this.$('#chargerOfcPos').disable();
@@ -892,6 +907,7 @@ var module_instance = new GamFcltsChargerMngModule();
 						<tr>
 							<th style="width:10%; height:18;">담　당　자　명</th>
 							<td>
+								<input id="sChargerNo" type="hidden"/>
 								<input type="text" size="35" id="sChargerNm" maxlength="20">
 							</td>
 							<th style="width:10%; height:18;">업　무　구　분</th>
@@ -969,38 +985,44 @@ var module_instance = new GamFcltsChargerMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:35px;">담　당　자　명</th>
+								<th style="width:15%; height:30px;">담당자　　사번</th>
+								<td>
+									<input type="text" size="35" id="chargerNo" maxlength="20"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:15%; height:30px;">담　당　자　명</th>
 								<td>
 									<input type="text" size="35" id="chargerNm" maxlength="20"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:35px;">담당자　표시명</th>
+								<th style="width:15%; height:30px;">담당자　표시명</th>
 								<td>
 									<input type="text" size="35" id="chargerDisplayNm" maxlength="20"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:35px;">담당자　　직위</th>
+								<th style="width:15%; height:30px;">담당자　　직위</th>
 								<td>
 									<input type="text" size="35" id="chargerOfcPos" maxlength="20"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:35px;">담당자　　부서</th>
+								<th style="width:15%; height:30px;">담당자　　부서</th>
 								<td>
 									<input type="text" size="35" id="chargerDept" maxlength="20"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:35px;">등　　록　　자</th>
+								<th style="width:15%; height:30px;">등　　록　　자</th>
 								<td>
 									<input type="text" size="13" id="regUsr" disabled>
 									<input type="text" size="20" id="registDt" disabled>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:15%; height:35px;">수　　정　　자</th>
+								<th style="width:15%; height:30px;">수　　정　　자</th>
 								<td>
 									<input type="text" size="13" id="updUsr" disabled>
 									<input type="text" size="20" id="updtDt" disabled>

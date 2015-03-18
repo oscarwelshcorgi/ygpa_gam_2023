@@ -29,6 +29,7 @@ public class GamFcltsChargerMngVO extends ComDefaultVO {
 
 	private static final long serialVersionUID = 1L;
 
+	private	String chargerNo;			// 담당자 사번
 	private	String chargerNm;			// 담당자 명
 	private	String fcltsJobSe;			// 시설물 업무 구분
 	private	String chargerDisplayNm;	// 담당자 표시 명
@@ -45,6 +46,18 @@ public class GamFcltsChargerMngVO extends ComDefaultVO {
 	private	String sChargerNm;			// 검색 담당자 명
 	private	String sFcltsJobSe;			// 검색 시설물 업무 구분
 
+	/**
+	 * @return the chargerNo
+	 */
+	public String getChargerNo() {
+		return chargerNo;
+	}
+	/**
+	 * @param chargerNo the chargerNo to set
+	 */
+	public void setChargerNo(String chargerNo) {
+		this.chargerNo = chargerNo;
+	}
 	/**
 	 * @return the chargerNm
 	 */

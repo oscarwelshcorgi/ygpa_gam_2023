@@ -82,7 +82,6 @@ GamElectyFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"케이블 연장",		 	name:"cableExt",				width:90,		sortable:false,		align:"right"},
 					{display:"조명탑 높이",	 		name:"lightwrHt",				width:90,		sortable:false,		align:"right"},
 					{display:"전주 수량",	 		name:"premainQy",				width:80,		sortable:false,		align:"right"},
-					{display:"LAMP 수량",	 		name:"lampQy",					width:80,		sortable:false,		align:"right"},
 					{display:"등기구 수량",	 		name:"lightappQy",				width:90,		sortable:false,		align:"right"},
 					{display:"조명탑 LAMP 수량",	name:"lightwrLampQy",			width:100,		sortable:false,		align:"right"},
 					{display:"해당 건축시설",	 	name:"archFcltsNm",				width:150,		sortable:false,		align:"left"},
@@ -3084,6 +3083,7 @@ var module_instance = new GamElectyFcltySpecMngModule();
 									<input type="text" size="30" id="lightappQy" class="ygpaNumber" maxlength="6"/> 개
 								</td>
 							</tr>
+							<!-- 2015.03.18 이재승 주임 요구 (등기구, LAMP 둘중 하나만 표시)
 							<tr>
 								<th style="width:10%; height:18px;">LAMP　형　식</th>
 								<td>
@@ -3098,6 +3098,7 @@ var module_instance = new GamElectyFcltySpecMngModule();
 									<input type="text" size="30" id="lampQy" class="ygpaNumber" maxlength="6"/> 개
 								</td>
 							</tr>
+							 -->
 							<tr>
 								<th style="width:10%; height:18px;">조　　명　　탑</th>
 								<td colspan="5">
