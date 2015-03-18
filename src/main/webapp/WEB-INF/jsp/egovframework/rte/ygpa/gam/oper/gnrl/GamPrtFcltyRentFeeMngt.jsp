@@ -290,6 +290,7 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
             }
         	break;
         case 'btnCancelNticIssue':	// 고지 취소
+        	
         case 'btnCancelNticIssue2':
             if(this.$('#assetRentFeeList').selectedRowCount()>0) {
 
@@ -315,9 +316,9 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
                         	var rowIds = module.$('#assetRentFeeList').selectedRowIds()[0];
                         	module.$('#assetRentFeeList').flexUpdateRow(rowIds, rows);
 
-/*                             var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
+                             var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
                             module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
-                            module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload(); */
+                            module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload(); 
                         }
 
                         alert(result.resultMsg);

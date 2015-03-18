@@ -634,7 +634,7 @@ GamFcltyQcwWrtMngModule.prototype.saveData = function() {
 	}	
 	
 	var inputData = this.getSaveData();
-	console.log(inputData);
+	
 	if(this._mainmode == 'insert') {
 	 	this.doAction('/fcltyMng/insertQcMngDtls.do', inputData, function(module, result) {
 	 		if(result.resultCode == '0') {
@@ -770,7 +770,7 @@ GamFcltyQcwWrtMngModule.prototype.getGamCode = function() {
 GamFcltyQcwWrtMngModule.prototype.getQcObjList = function() {
 	var resultList = [];
 	var rows = this.$('#qcObjFcltsGrid').selectFilterData([{col: 'chkRole', filter: true}]);
-	console.log(rows);
+	console.log('debug');
 	if(rows.length > 0) {
 		for(var i=0; i<rows.length; i++) {
 			var row = rows[i];

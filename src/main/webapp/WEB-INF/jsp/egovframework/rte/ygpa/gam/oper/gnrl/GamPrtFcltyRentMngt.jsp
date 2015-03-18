@@ -1166,6 +1166,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                 this.doAction('/oper/gnrl/gamSavePrtFcltyRentMngt.do', inputVO, function(module, result) {
                     if(result.resultCode == 0){
                     	module.loadData();
+                    	module.$('#assetRentFileList').flexReload();
                     }
                     alert(result.resultMsg);
                 });
@@ -1642,9 +1643,9 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 
         case 'btnUploadFile':
             // 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
-            this.uploadFile('uploadPhoto', function(module, result) {
+            this.uploadPfPhoto('uploadPhoto', function(module, result) {
 //              var userid=EMD.util.getLoginUserVO().userNm; 임시
-                var userid='admin';
+//                var userid='admin';
                 $.each(result, function(){
                     //module.$('#assetRentFileList').flexAddRow({photoSj: '', filenmLogical: this.logicalFileNm, filenmPhyicl: this.physcalFileNm, regUsr: userid, registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
                     //module.$('#assetRentFileList').flexAddRow({prtAtCode: '', mngYear: '', mngNo: '', mngCnt: '', photoSeq: '', photoSj: '', filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm, shotDt: '', photoDesc: '', regUsr: '', registDt:  EMD.util.getTimeStamp()}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
@@ -1789,10 +1790,45 @@ GamAssetRentMngtModule.prototype.loadData = function() {
     this.$("#assetRentListTab").tabs("option", {active: 0});
     var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
     this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+    
 	// console.log('debug');
 
 };
-
+GamAssetRentMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
+	 switch(newTabId) {
+	    case 'tabs1':
+	        break;
+	  
+	    case 'tabs2':
+	    	  var row = this.$('#assetRentMngtList').selectedRows();
+		        if(row.length==0) {
+		        	alert('항목을 먼저 선택해주세요.');
+	        	this.$("#assetRentListTab").tabs("option", {active: 0});
+				return false;
+		        }
+		        break;
+	        break;
+	    
+	    case 'tabs3':
+	    	 var row = this.$('#assetRentDetailList').selectedRows();
+	        if(row.length==0) {
+	        	alert('항만시설 내역의 항목을 먼저 선택해주세요.');
+        	this.$("#assetRentListTab").tabs("option", {active: 1});
+			return false;
+	        }
+	        break;
+	    
+	    case 'tabs4':
+	        var row = this.$('#assetRentMngtList').selectedRows();
+	        if(row.length==0) {
+	        	alert('항목을 먼저 선택해주세요.');
+	      	this.$("#assetRentListTab").tabs("option", {active: 1});
+			return false;
+	        }
+	        break;
+	            
+	 }
+}
 GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
     switch(newTabId) {
     case 'tabs1':
@@ -1984,7 +2020,7 @@ var module_instance = new GamAssetRentMngtModule();
     </div>
 
     <div class="emdPanel fillHeight">
-        <div id="assetRentListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+        <div id="assetRentListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" data-onchange-before="onTabChangeBefore">
             <ul>
                 <li><a href="#tabs1" class="emdTab">항만시설 목록</a></li>
                 <li><a href="#tabs2" class="emdTab">항만시설 내역</a></li>
