@@ -1166,6 +1166,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                 this.doAction('/oper/train/gamSaveTrainPortRentMngt.do', inputVO, function(module, result) {
                     if(result.resultCode == 0){
                     	module.loadData();
+                    	module.$('#assetRentFileList').flexReload();
                     }
                     alert(result.resultMsg);
                 });
@@ -1793,6 +1794,41 @@ GamAssetRentMngtModule.prototype.loadData = function() {
 
 };
 
+GamAssetRentMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
+	 switch(newTabId) {
+	    case 'tabs1':
+	        break;
+	  
+	    case 'tabs2':
+	    	  var row = this.$('#assetRentMngtList').selectedRows();
+		        if(row.length==0) {
+		        	alert('항목을 먼저 선택해주세요.');
+	        	this.$("#assetRentListTab").tabs("option", {active: 0});
+				return false;
+		        }
+		        break;
+	        break;
+	    
+	    case 'tabs3':
+	    	 var row = this.$('#assetRentDetailList').selectedRows();
+	        if(row.length==0) {
+	        	alert('항만시설 내역의 항목을 먼저 선택해주세요.');
+        	this.$("#assetRentListTab").tabs("option", {active: 1});
+			return false;
+	        }
+	        break;
+	    
+	    case 'tabs4':
+	        var row = this.$('#assetRentMngtList').selectedRows();
+	        if(row.length==0) {
+	        	alert('항목을 먼저 선택해주세요.');
+	      	this.$("#assetRentListTab").tabs("option", {active: 1});
+			return false;
+	        }
+	        break;
+	            
+	 }
+}
 GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
     switch(newTabId) {
     case 'tabs1':
@@ -1984,7 +2020,7 @@ var module_instance = new GamAssetRentMngtModule();
     </div>
 
     <div class="emdPanel fillHeight">
-        <div id="assetRentListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
+        <div id="assetRentListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" data-onchange-before="onTabChangeBefore">
             <ul>
                 <li><a href="#tabs1" class="emdTab">철송장임대 목록</a></li>
                 <li><a href="#tabs2" class="emdTab">철송장임대 내역</a></li>
