@@ -634,7 +634,7 @@ GamFcltyQcwWrtMngModule.prototype.saveData = function() {
 	}	
 	
 	var inputData = this.getSaveData();
-	
+	console.log(inputData);
 	if(this._mainmode == 'insert') {
 	 	this.doAction('/fcltyMng/insertQcMngDtls.do', inputData, function(module, result) {
 	 		if(result.resultCode == '0') {
@@ -770,6 +770,7 @@ GamFcltyQcwWrtMngModule.prototype.getGamCode = function() {
 GamFcltyQcwWrtMngModule.prototype.getQcObjList = function() {
 	var resultList = [];
 	var rows = this.$('#qcObjFcltsGrid').selectFilterData([{col: 'chkRole', filter: true}]);
+	console.log(rows);
 	if(rows.length > 0) {
 		for(var i=0; i<rows.length; i++) {
 			var row = rows[i];
@@ -1060,17 +1061,47 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 			
 		case 'btnAllSelect' :
-			
-			this.$('#qcObjFcltsGrid')[0].dgrid.checkAll(true);
-			
-			break;
 		
+			this.allSelectQcObj();
+			break;
+	
 		case 'btnAllUnSelect' :
 			
-			this.$('#qcObjFcltsGrid')[0].dgrid.checkAll(false);
-			
+			this.allUnSelectQcObj();
 			break;
+		}
+};
+
+
+
+GamFcltyQcwWrtMngModule.prototype.allSelectQcObj= function() {
+
+	var rows = this.$('#qcObjFcltsGrid').flexGetData();
+	var qcObjDataCount = rows.length;
+	if (qcObjDataCount > 0) {
+		for (var i=0; i<qcObjDataCount; i++) {
+			var row = rows[i];
+			row["chkRole"] = true;
+			var rowid = this.$('#qcObjFcltsGrid')[0].dgrid.getRowId(i);
+			this.$('#qcObjFcltsGrid').flexUpdateRow(rowid, row);
+		}
 	}
+
+};
+
+GamFcltyQcwWrtMngModule.prototype.allUnSelectQcObj= function() {
+
+	var rows = this.$('#qcObjFcltsGrid').flexGetData();
+	var qcObjDataCount = rows.length;
+	if (qcObjDataCount > 0) {
+		for (var i=0; i<qcObjDataCount; i++) {
+			var row = rows[i];
+			row["chkRole"] = false;
+			var rowid = this.$('#qcObjFcltsGrid')[0].dgrid.getRowId(i);
+			this.$('#qcObjFcltsGrid').flexUpdateRow(rowid, row);
+		}
+	}
+
 };
 
 <%
@@ -1082,6 +1113,7 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
  *   2. msg      - MESSAGE
  *   3. value    - VALUE
 **/
+
 %>
 GamFcltyQcwWrtMngModule.prototype.onClosePopup = function(popupId, msg, value){
 	switch(popupId){
