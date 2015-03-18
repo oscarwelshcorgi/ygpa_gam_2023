@@ -1652,16 +1652,19 @@ GamArchFcltySpecMngModule.prototype.refreshDirData = function(argDirNo) {
 
 	if (argDirNo > 1) {
 		this.$('#dirNo').val('' + argDirNo);
+		var dirQueryOption = this.$('#dirQueryOption').val();
 		var searchVO = this.getFormValues('#dirForm');
 		this.doAction('/fclty/gamSelectArchFcltySpecMngAtchFileDirPk.do', searchVO, function(module, result){
 			if (result.resultCode == "0") {
 				module.makeFormValues('#dirForm', result.result);
 				module.makeDivValues('#dirForm', result.result);
+				module.$('#dirQueryOption').val(dirQueryOption);
 				module.$('#inputDirNm').val(result.result.dirNm);
 				module.displayAtchFileList(argDirNo);
 			} else {
 				module.makeFormValues('#dirForm', {});
 				module.makeDivValues('#dirForm', {});
+				module.$('#dirQueryOption').val(dirQueryOption);
 				module.displayAtchFileList("");
 			}
 		});

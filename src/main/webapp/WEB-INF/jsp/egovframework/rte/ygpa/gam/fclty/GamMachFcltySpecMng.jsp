@@ -1927,16 +1927,19 @@ GamMachFcltySpecMngModule.prototype.refreshDirData = function(argDirNo) {
 
 	if (argDirNo > 1) {
 		this.$('#dirNo').val('' + argDirNo);
+		var dirQueryOption = this.$('#dirQueryOption').val();
 		var searchVO = this.getFormValues('#dirForm');
 		this.doAction('/fclty/gamSelectMachFcltySpecMngAtchFileDirPk.do', searchVO, function(module, result){
 			if (result.resultCode == "0") {
 				module.makeFormValues('#dirForm', result.result);
 				module.makeDivValues('#dirForm', result.result);
+				module.$('#dirQueryOption').val(dirQueryOption);
 				module.$('#inputDirNm').val(result.result.dirNm);
 				module.displayAtchFileList(argDirNo);
 			} else {
 				module.makeFormValues('#dirForm', {});
 				module.makeDivValues('#dirForm', {});
+				module.$('#dirQueryOption').val(dirQueryOption);
 				module.displayAtchFileList("");
 			}
 		});
@@ -3357,7 +3360,7 @@ var module_instance = new GamMachFcltySpecMngModule();
 							<tr>
 								<th style="width:10%; height:18px;">규　　　　　격</th>
 								<td>
-									<input type="text" size="59" id="eqpmnStndrd" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
+									<input type="text" size="62" id="eqpmnStndrd" maxlength="50"/>
 								</td>
 								<th style="width:10%; height:18px;">연　결　도　교</th>
 								<td>
@@ -3371,7 +3374,7 @@ var module_instance = new GamMachFcltySpecMngModule();
 								</td>
 								<th style="width:10%; height:18px;">전　기　방　식</th>
 								<td>
-									<input type="text" size="59" id="elctyMthd" maxlength="50"/> mm
+									<input type="text" size="62" id="elctyMthd" maxlength="50"/>
 								</td>
 							</tr>
 							<tr>
