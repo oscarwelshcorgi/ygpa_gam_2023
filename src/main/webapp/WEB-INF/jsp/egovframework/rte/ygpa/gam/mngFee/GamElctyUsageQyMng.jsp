@@ -266,7 +266,8 @@ console.log("drawChart");
 						case 11 : dataValue = result.resultList[0]['mt12Qy']*1;	break;
 						default : dataValue = 0;								break;
 					}
-					dataValueArr[i] = { year : usageYr, gauge: dataValue };
+					num=$.number(dataValue);	<%-- 컴마를 붙여 데이터에 저장한다. --%>
+					dataValueArr[i] = { year : usageYr, gauge: dataValue, txtGauge: num };
 					if (maxDataValue < dataValue) {
 						maxDataValue = dataValue;
 					}
@@ -274,7 +275,7 @@ console.log("drawChart");
 			} else {
 				for (var i=0; i<12; i++) {
 					dataValue = 0;
-					dataValueArr[i] = { year : i + 1, gauge: dataValue };
+					dataValueArr[i] = { year : i + 1, gauge: dataValue, txtGauge: '0' };
 				};
 			}
 			if (maxDataValue < 10) {
@@ -288,8 +289,8 @@ console.log("drawChart");
 					color			: "#000BE0",
 		            gradient		: "rising",
 					width			: 30,
-					label			: "#gauge#",
-					tooltip			: "#gauge# kw/h",
+					label			: "#txtGauge#",
+					tooltip			: "#txtGauge# kw/h",
 					xAxis			: {
 						title 		: chartValueNm,
 						template	: "#year#"
@@ -298,7 +299,10 @@ console.log("drawChart");
 						start		: 0,
 						end			: maxDataValue + 10,
 						step		: Math.ceil(maxDataValue / 10),
-						title		: chartValueNm
+						title		: chartValueNm,
+						template	: function(value) {		<%-- 컴마를 붙여 리턴 한다. --%>
+							return $.number(value);
+						}
 					}
 				});
 			} else {
@@ -307,7 +311,10 @@ console.log("drawChart");
 					start           : 0,
 					end             : maxDataValue + 10,
 					step            : Math.ceil(maxDataValue / 10),
-					title           : chartValueNm
+					title           : chartValueNm,
+					template	: function(value) {
+						return $.number(value);
+					}
 				});
 			}
 			module.barChart.parse(dataValueArr, "json");
@@ -325,7 +332,8 @@ console.log("drawChart");
 					} else {
 						dataValue = result.resultList[i]['usageQy']*1;
 					}
-					dataValueArr[i] = { year : usageYr, gauge: dataValue };
+					num=$.number(dataValue);	// 숫자로 변환한다.
+					dataValueArr[i] = { year : usageYr, gauge: dataValue, txtGauge: num };
 					if (maxDataValue < dataValue) {
 						maxDataValue = dataValue;
 					}
@@ -333,7 +341,7 @@ console.log("drawChart");
 			} else {
 				for (var i=0; i<12; i++) {
 					dataValue = 0;
-					dataValueArr[i] = { year : usageYr - 12 - i, gauge: dataValue };
+					dataValueArr[i] = { year : usageYr - 12 - i, gauge: dataValue, txtGauge: '0' };
 				};
 			}
 			if (maxDataValue < 10) {
@@ -347,8 +355,8 @@ console.log("drawChart");
 					color			: "#000BE0",
 		            gradient		: "rising",
 					width			: 30,
-					label			: "#gauge#",
-					tooltip			: "#gauge# kw/h",
+					label			: "#txtGauge#",
+					tooltip			: "#txtGauge# kw/h",
 					xAxis			: {
 						title 		: chartValueNm,
 						template	: "#year#"
@@ -357,7 +365,10 @@ console.log("drawChart");
 						start		: 0,
 						end			: maxDataValue + 10,
 						step		: Math.ceil(maxDataValue / 10),
-						title		: chartValueNm
+						title		: chartValueNm,
+						template	: function(value) {
+							return $.number(value);
+						}
 					}
 				});
 			} else {
@@ -366,7 +377,10 @@ console.log("drawChart");
 					start           : 0,
 					end             : maxDataValue + 10,
 					step            : Math.ceil(maxDataValue / 10),
-					title           : chartValueNm
+					title           : chartValueNm,
+					template	: function(value) {
+						return $.number(value);
+					}
 				});
 			}
 			module.barChart.parse(dataValueArr, "json");
