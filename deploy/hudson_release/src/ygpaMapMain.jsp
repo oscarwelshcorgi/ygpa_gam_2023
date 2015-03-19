@@ -8,7 +8,7 @@
 <%
   /**
   * @Class Name : ygpaMapMain.jsp
-  * @Description : 맵 조회 화면 (RELEASE)
+  * @Description : 맵 조회 화면 (HUDSON RELEASE)
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -109,6 +109,8 @@
   <body>
     <div class="abs" id="wrapper">
         <div id="desktop" class="abs mapdesk">
+        </div>
+        <div id="legendPanel" class="legendPanel">
         </div>
         <div id="sideMenu">
           <ul>
