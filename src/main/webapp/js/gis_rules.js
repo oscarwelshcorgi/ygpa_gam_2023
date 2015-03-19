@@ -2346,33 +2346,6 @@ var fcltyCivilRuleSet = [
 			}
 		}
 	},
-	{
-		title:"급수관로",
-		filter: new OpenLayers.Filter.Logical({
-			type: OpenLayers.Filter.Logical.AND,
-			filters: [
-			          new OpenLayers.Filter.Comparison({
-			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
-			        	  property: "FCLTY_SE",
-			        	  value: 'C'
-			          }),
-			          new OpenLayers.Filter.Comparison({
-			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
-			        	  property: "FCLTY_CD",
-			        	  value: 'C6'
-			          })
-			          ]
-		}),
-		symbolizer: {
-			"Line" : {
-				strokeWidth : 5,
-				strokeOpacity : 0.75,
-				strokeColor : "#00FF00",
-				strokeLinecap: 'square',
-				strokeDashstyle: 'solid'
-			}
-		}
-	},
 	{	  title:'기타',
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
