@@ -102,13 +102,20 @@ GamElctyUsageQyMngModule.prototype.loadComplete = function() {
 		event.data.module.saveChartValueSe();
 	});
 
+	this.$('#chartLabelDisplay').on('change',{module:this}, function(event){
+		event.data.module.saveChartLabelDisplay();
+	});
+
 	this._mainmode = "";
 	this._mainKeyValue = "";
 	this._chartValueSe = "M";
+	this._chartLabelDisplay = "Y";
 	this._searchButtonClick = false;
 	var year = new Date().getFullYear() - 1;
 	this.$('#sStartUsageYear').val(year);
 	this.$('#sEndUsageYear').val(year);
+	this.$('#chartValueSe').val(this._chartValueSe);
+	this.$('#chartLabelDisplay').val(this._chartLabelDisplay);
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 
@@ -224,6 +231,22 @@ GamElctyUsageQyMngModule.prototype.saveChartValueSe = function() {
 
 <%
 /**
+ * @FUNCTION NAME : saveChartLabelDisplay
+ * @DESCRIPTION   : 그래프 값 표시여부를 저장한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyUsageQyMngModule.prototype.saveChartLabelDisplay = function() {
+
+	var chartLabelDisplay = this.$('#chartLabelDisplay').val();
+	if (chartLabelDisplay != "") {
+		this._chartLabelDisplay = chartLabelDisplay;
+	}
+
+};
+
+<%
+/**
  * @FUNCTION NAME : drawChart
  * @DESCRIPTION   : CHART DRAW
  * @PARAMETER     : NONE
@@ -234,18 +257,53 @@ console.log("drawChart");
 	var dataValueArr = [];
 	var maxDataValue = 0;
 	var dataValue = 0;
-	var chartValueSe = this._chartValueSe;
+	var chartValueSe = this.$('#chartValueSe').val();
+	var chartLabelDisplay = this.$('#chartLabelDisplay').val();
 	var chartValueNm = "";
+	var chartValueUnit = "";
 	var usageYr = Number(this.$('#sEndUsageYear').val());
 	var searchVO = this.makeFormArgs("#detailForm");
-	this.$('#chartValueSe').val(this._chartValueSe);
+	if (chartValueSe != this._chartValueSe) {
+		this.$('#chartValueSe').val(this._chartValueSe);
+		chartValueSe = this._chartValueSe;
+	}
+	if (chartLabelDisplay != this._chartLabelDisplay) {
+		this.$('#chartLabelDisplay').val(this._chartLabelDisplay);
+		chartLabelDisplay = this._chartLabelDisplay;
+	}
 	if (chartValueSe == "A") {
 		chartValueNm = "전기 요금";
+		chartValueUnit = "원";
 	} else if (chartValueSe == "P") {
 		chartValueNm = "PEEK 사용량";
+		chartValueUnit = "kw/h";
 	} else {
 		chartValueNm = "전력 사용량";
+		chartValueUnit = "kw/h";
 	}
+	var chartConfig = {
+			view			: "bar",
+			container		: this.$('#elctyUsageQyChart')[0],
+			value			: "#gauge#",
+			color			: "#000BE0",
+	        gradient		: "rising",
+			width			: 20,
+			label			: "#txtGauge#",
+			tooltip			: "#txtGauge#",
+			xAxis			: {
+				title 		: chartValueNm,
+				template	: "#year#"
+			},
+			yAxis			: {
+				start		: 0,
+				end			: maxDataValue + 10,
+				step		: Math.ceil(maxDataValue / 10),
+				title		: chartValueNm,
+				template	: function(value) {
+					return $.number(value);
+				}
+			}
+		};
 	if (chartValueSe == "M") {
 		this.doAction('/mngFee/gamSelectElctyUsageQyMngMonthChart.do', searchVO, function(module, result) {
 			if (result.resultCode == "0") {
@@ -266,7 +324,7 @@ console.log("drawChart");
 						case 11 : dataValue = result.resultList[0]['mt12Qy']*1;	break;
 						default : dataValue = 0;								break;
 					}
-					num=$.number(dataValue);	<%-- 컴마를 붙여 데이터에 저장한다. --%>
+					num = $.number(dataValue);
 					dataValueArr[i] = { year : usageYr, gauge: dataValue, txtGauge: num };
 					if (maxDataValue < dataValue) {
 						maxDataValue = dataValue;
@@ -282,29 +340,7 @@ console.log("drawChart");
 				maxDataValue = 10;
 			}
 			if (module.barChart == null) {
-				module.barChart = new dhtmlXChart({
-					view			: "bar",
-					container		: module.$('#elctyUsageQyChart')[0],
-					value			: "#gauge#",
-					color			: "#000BE0",
-		            gradient		: "rising",
-					width			: 30,
-					label			: "#txtGauge#",
-					tooltip			: "#txtGauge# kw/h",
-					xAxis			: {
-						title 		: chartValueNm,
-						template	: "#year#"
-					},
-					yAxis			: {
-						start		: 0,
-						end			: maxDataValue + 10,
-						step		: Math.ceil(maxDataValue / 10),
-						title		: chartValueNm,
-						template	: function(value) {		<%-- 컴마를 붙여 리턴 한다. --%>
-							return $.number(value);
-						}
-					}
-				});
+				module.barChart = new dhtmlXChart(chartConfig);
 			} else {
 				module.barChart.clearAll();
 				module.barChart.define("yAxis", {
@@ -312,10 +348,11 @@ console.log("drawChart");
 					end             : maxDataValue + 10,
 					step            : Math.ceil(maxDataValue / 10),
 					title           : chartValueNm,
-					template	: function(value) {
+					template		: function(value) {
 						return $.number(value);
 					}
 				});
+				module.barChart.define("tooltip", "#txtGauge# " + chartValueUnit);
 			}
 			module.barChart.parse(dataValueArr, "json");
 			module.barChart.refresh();
@@ -332,7 +369,7 @@ console.log("drawChart");
 					} else {
 						dataValue = result.resultList[i]['usageQy']*1;
 					}
-					num=$.number(dataValue);	// 숫자로 변환한다.
+					num = $.number(dataValue);
 					dataValueArr[i] = { year : usageYr, gauge: dataValue, txtGauge: num };
 					if (maxDataValue < dataValue) {
 						maxDataValue = dataValue;
@@ -348,29 +385,7 @@ console.log("drawChart");
 				maxDataValue = 10;
 			}
 			if (module.barChart == null) {
-				module.barChart = new dhtmlXChart({
-					view			: "bar",
-					container		: module.$('#elctyUsageQyChart')[0],
-					value			: "#gauge#",
-					color			: "#000BE0",
-		            gradient		: "rising",
-					width			: 30,
-					label			: "#txtGauge#",
-					tooltip			: "#txtGauge# kw/h",
-					xAxis			: {
-						title 		: chartValueNm,
-						template	: "#year#"
-					},
-					yAxis			: {
-						start		: 0,
-						end			: maxDataValue + 10,
-						step		: Math.ceil(maxDataValue / 10),
-						title		: chartValueNm,
-						template	: function(value) {
-							return $.number(value);
-						}
-					}
-				});
+				module.barChart = new dhtmlXChart(chartConfig);
 			} else {
 				module.barChart.clearAll();
 				module.barChart.define("yAxis", {
@@ -378,10 +393,15 @@ console.log("drawChart");
 					end             : maxDataValue + 10,
 					step            : Math.ceil(maxDataValue / 10),
 					title           : chartValueNm,
-					template	: function(value) {
+					template		: function(value) {
 						return $.number(value);
 					}
 				});
+				if (chartLabelDisplay == "Y") {
+					module.barChart.define("label", "#txtGauge#");
+				} else {
+					module.barChart.define("label", "");
+				}
 			}
 			module.barChart.parse(dataValueArr, "json");
 			module.barChart.refresh();
@@ -899,6 +919,7 @@ GamElctyUsageQyMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#btnSave').removeClass('ui-state-disabled');
 		this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 		this.$('#chartValueSe').disable();
+		this.$('#chartLabelDisplay').disable();
 		this.$('#btnChartSearch').disable({disableClass:"ui-state-disabled"});
 	} else {
 		if (this._mainKeyValue != "") {
@@ -926,6 +947,7 @@ GamElctyUsageQyMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnRemove').enable();
 			this.$('#btnRemove').removeClass('ui-state-disabled');
 			this.$('#chartValueSe').enable();
+			this.$('#chartLabelDisplay').enable();
 			this.$('#btnChartSearch').enable();
 			this.$('#btnChartSearch').removeClass('ui-state-disabled');
 		} else {
@@ -950,6 +972,7 @@ GamElctyUsageQyMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 			this.$('#chartValueSe').disable();
+			this.$('#chartLabelDisplay').disable();
 			this.$('#btnChartSearch').disable({disableClass:"ui-state-disabled"});
 		}
 	}
@@ -986,6 +1009,7 @@ GamElctyUsageQyMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
 	this.$('#chartValueSe').disable();
+	this.$('#chartLabelDisplay').disable();
 	this.$('#btnChartSearch').disable({disableClass:"ui-state-disabled"});
 
 };
@@ -1135,7 +1159,13 @@ var module_instance = new GamElctyUsageQyMngModule();
 										<option value="A">년별 전기 요금</option>
 										<option value="P">년별 PEEK 사용량</option>
 									</select>
-									&nbsp;     &nbsp;
+									&nbsp; &nbsp;
+									<select id="chartLabelDisplay">
+										<option value="">선택</option>
+										<option value="Y">값 표시</option>
+										<option value="N">값 미표시</option>
+									</select>
+									&nbsp; &nbsp;
 									<button id="btnChartSearch">그래프 조회</button>
 								</td>
 							</tr>
