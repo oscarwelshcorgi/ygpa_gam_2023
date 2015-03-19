@@ -33,6 +33,8 @@
 	<script src="/js/jquery-1.10.2.min.js"></script>
 	<script src="/js/jquery-migrate-1.2.1.min.js"></script>
 	<script src="/js/jquery-ui.min.js"></script>
+	
+	
 	<script>
 	$( window ).load(function() {
 		$('#printButton').button().click(function(){
@@ -54,6 +56,7 @@
   <c:set var="pagePerCount" value="9"/>
   
   <c:if test="${resultCode==0 }">
+  
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
     <div class="page">
@@ -112,6 +115,71 @@
         			</tr>
         		</tbody>
         	</table>
+        </div>
+        </div>
+        <div class="page">
+                <div class="subpage ygpa_report" >
+           <table style="height:20%; width:100%;">
+           <thead>
+        			<tr height="15px">
+        				<td></td>
+        			</tr>
+        			<tr height="15px">
+		  				<td style="text-align:center;vertical-align:top;font-size:30px;font-weight:bold;text-decoration:underline;">하　자　내　용</td>
+		 			</tr>
+        		</thead>
+        		<tbody>
+        			<tr height="80px">
+        				<td style="text-align:center;vertical-align:middle;font-size:15px;">&nbsp;(example: 2013년 광양항 항만시설물 보수보강공사<c:out value="${result.flawRprNm }" />)</td>
+        			</tr>
+        			<tr height="20px">
+        				<td></td>
+        	 </table>
+           <table style="height:25%; width:100%; border:1px gray solid;">
+         	 <tr height="10px">
+        				<td style="border:1px gray solid;text-align:center;vertical-align:middle;background:linear-gradient(gray,white, gray);">하자내용</td><td style="border:1px gray solid;text-align:center;vertical-align:middle;background:linear-gradient(gray,white, gray);">비 고</td>
+		</tr>
+			<tr height="30px">
+        				<td style="border:1px gray solid;"></td><td style="border:1px gray solid;"></td>
+		</tr>        				        				
+           </table>
+           <table style="height:5%; width:100%;"><tr height="10px"><td style="font-size:15px;text-align:left;vertical-align:bottom;">○ 사진대지</td></tr></table>
+    		<table style="height:50%; width:100%; border:1px gray solid;">
+    			<tr height="60px">
+    				<td style="border:1px gray solid;"></td><td style="border:1px gray solid;">
+    				<img style="width:6cm;" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
+					</td>
+					<td style="border:1px gray solid;"></td><td style="border:1px gray solid;">
+    				<img style="width:6cm;" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006063.png' />"/>
+					</td>
+    			</tr>
+    			<tr height="60px">
+    				<td style="border:1px gray solid;"></td><td style="border:1px gray solid;">
+    				<img style="width:6cm;" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006064.jpg' />"/>
+					</td>
+					<td style="border:1px gray solid;"></td><td style="border:1px gray solid;">
+    				<img style="width:6cm;" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006088.jpg' />"/>
+					</td>
+    			</tr>
+    			<tr height="60px">
+    				<td style="border:1px gray solid;"></td><td style="border:1px gray solid;">
+    				<img style="width:6cm;" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
+					</td>
+					<td style="border:1px gray solid;"></td><td style="border:1px gray solid;">
+    				<img style="width:6cm;" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
+					</td>
+    			</tr>
+    			
+   				<tr height="10px">
+   					<td style="border:1px gray solid;"></td><td style="border:1px gray solid;"></td>
+   				</tr>
+    			<tr height="60px">
+    				<td style="border:1px gray solid;"></td><td style="border:1px gray solid;"></td>
+    			</tr>
+    			<tr height="10px">
+    				<td style="border:1px gray solid;"></td><td style="border:1px gray solid;"></td>
+   				</tr>
+    		</table>
         </div>
     </div>
 </div>
