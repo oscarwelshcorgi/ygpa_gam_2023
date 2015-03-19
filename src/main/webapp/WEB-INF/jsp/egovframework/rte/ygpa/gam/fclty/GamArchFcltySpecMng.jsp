@@ -191,7 +191,7 @@ GamArchFcltySpecMngModule.prototype.loadComplete = function(params) {
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnShowMap').disable({disableClass:"ui-state-disabled"});
-	this.$('#btnEditMap').disable({disableClass:"ui-state-disabled"});
+	//this.$('#btnEditMap').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSaveMap').disable({disableClass:"ui-state-disabled"});
 	if (params != null) {
 		if (params.action != null) {
@@ -2272,7 +2272,7 @@ GamArchFcltySpecMngModule.prototype.enableListButtonItem = function() {
 		this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnShowMap').disable({disableClass:"ui-state-disabled"});
-		this.$('#btnEditMap').disable({disableClass:"ui-state-disabled"});
+		//this.$('#btnEditMap').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnSaveMap').disable({disableClass:"ui-state-disabled"});
 	} else {
 		this.$('#btnAdd').enable();
@@ -2281,7 +2281,7 @@ GamArchFcltySpecMngModule.prototype.enableListButtonItem = function() {
 		if (row == null) {
 			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnShowMap').disable({disableClass:"ui-state-disabled"});
-			this.$('#btnEditMap').disable({disableClass:"ui-state-disabled"});
+			//this.$('#btnEditMap').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSaveMap').disable({disableClass:"ui-state-disabled"});
 			return;
 		}
@@ -2290,13 +2290,13 @@ GamArchFcltySpecMngModule.prototype.enableListButtonItem = function() {
 			this.$('#btnDelete').removeClass('ui-state-disabled');
 			this.$('#btnShowMap').enable();
 			this.$('#btnShowMap').removeClass('ui-state-disabled');
-			this.$('#btnEditMap').enable();
-			this.$('#btnEditMap').removeClass('ui-state-disabled');
+			//this.$('#btnEditMap').enable();
+			//this.$('#btnEditMap').removeClass('ui-state-disabled');
 			this.$('#btnSaveMap').disable({disableClass:"ui-state-disabled"});
 		} else {
 			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnShowMap').disable({disableClass:"ui-state-disabled"});
-			this.$('#btnEditMap').disable({disableClass:"ui-state-disabled"});
+			//this.$('#btnEditMap').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSaveMap').disable({disableClass:"ui-state-disabled"});
 		}
 	}

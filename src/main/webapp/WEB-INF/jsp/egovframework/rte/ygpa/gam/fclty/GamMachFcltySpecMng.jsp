@@ -208,7 +208,7 @@ GamMachFcltySpecMngModule.prototype.loadComplete = function(params) {
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnShowMap').disable({disableClass:"ui-state-disabled"});
-	this.$('#btnEditMap').disable({disableClass:"ui-state-disabled"});
+	//this.$('#btnEditMap').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSaveMap').disable({disableClass:"ui-state-disabled"});
 	if (params != null) {
 		if (params.action != null) {
@@ -2547,7 +2547,7 @@ GamMachFcltySpecMngModule.prototype.enableListButtonItem = function() {
 		this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnShowMap').disable({disableClass:"ui-state-disabled"});
-		this.$('#btnEditMap').disable({disableClass:"ui-state-disabled"});
+		//this.$('#btnEditMap').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnSaveMap').disable({disableClass:"ui-state-disabled"});
 	} else {
 		this.$('#btnAdd').enable();
@@ -2556,7 +2556,7 @@ GamMachFcltySpecMngModule.prototype.enableListButtonItem = function() {
 		if (row == null) {
 			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnShowMap').disable({disableClass:"ui-state-disabled"});
-			this.$('#btnEditMap').disable({disableClass:"ui-state-disabled"});
+			//this.$('#btnEditMap').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSaveMap').disable({disableClass:"ui-state-disabled"});
 			return;
 		}
@@ -2565,13 +2565,13 @@ GamMachFcltySpecMngModule.prototype.enableListButtonItem = function() {
 			this.$('#btnDelete').removeClass('ui-state-disabled');
 			this.$('#btnShowMap').enable();
 			this.$('#btnShowMap').removeClass('ui-state-disabled');
-			this.$('#btnEditMap').enable();
-			this.$('#btnEditMap').removeClass('ui-state-disabled');
+			//this.$('#btnEditMap').enable();
+			//this.$('#btnEditMap').removeClass('ui-state-disabled');
 			this.$('#btnSaveMap').disable({disableClass:"ui-state-disabled"});
 		} else {
 			this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnShowMap').disable({disableClass:"ui-state-disabled"});
-			this.$('#btnEditMap').disable({disableClass:"ui-state-disabled"});
+			//this.$('#btnEditMap').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSaveMap').disable({disableClass:"ui-state-disabled"});
 		}
 	}
@@ -3089,8 +3089,8 @@ var module_instance = new GamMachFcltySpecMngModule();
 									<button id="btnAdd" class="buttonAdd">추가</button>
 									<button id="btnDelete" class="buttonDelete">삭제</button>
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
-									<button id="btnShowMap" data-role="showMap" data-gis-layer="gisArchFclty" data-flexi-grid="mainGrid" data-style="default">맵조회</button>
-									<button id="btnEditMap" data-role="editMap" data-gis-layer="gisArchFclty">맵편집</button>
+									<button id="btnShowMap" data-role="showMap" data-gis-layer="gisMechFclty" data-flexi-grid="mainGrid" data-style="default">맵조회</button>
+									<button id="btnEditMap" data-role="editMap" data-gis-layer="gisMechFclty">맵편집</button>
 									<button id="btnSaveMap">맵지정</button>
 								</td>
 							</tr>
