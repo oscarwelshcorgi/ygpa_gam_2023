@@ -26,37 +26,78 @@
     <title>여수광양항만공사 - GIS기반 자산관리 시스템</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-	<link rel="stylesheet" href="/css/ygpa/gam/reset.css" />
-	<link rel="stylesheet" href="/css/demo/jquery-ui-1.10.4.custom.css" />
-	<link rel="stylesheet" href="/css/ygpa/gam/ygpa_report.css" />
+	<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/reset.css' />" />
+	<link rel="stylesheet" href="<c:url value='/css/demo/jquery-ui-1.10.4.custom.css' />" />
+	<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ygpa_report.css' />" />
 
-	<script src="/js/jquery-1.10.2.min.js"></script>
-	<script src="/js/jquery-migrate-1.2.1.min.js"></script>
-	<script src="/js/jquery-ui.min.js"></script>
-	
-	
+    <style>
+	table.pageBrTbl {
+		width: 100%;
+		page-break-after: auto;
+		border: solid black 0.05mm;
+  		border-spacing: 0;
+	}
+
+	table.pageBrTbl>tbody>tr {
+		page-break-inside: avoid;
+		page-break-after: auto;
+		page-break-before: auto;
+		height: 6cm;
+	}
+
+	table.pageBrTbl>tbody>tr>td {
+		page-break-inside: avoid;
+		page-break-after: avoid;
+		page-break-before: auto;
+		border:0.3mm gray solid;
+		width: 50%;
+		padding: 0.5cm;
+		vertical-align: middle;
+	}
+
+	table.pageBrTbl>thead {
+		display: table-header-group;
+	}
+
+	table.pageBrTbl>tfoot {
+		display: table-footer-group;
+	}
+
+	img.tdFull {
+	    display: block;
+		width:7cm;
+        max-height:100%;
+        margin:auto;
+	}
+</style>
+
+	<script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
+	<script src="<c:url value='/js/jquery-migrate-1.2.1.min.js'/>"></script>
+	<script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
+
+
 	<script>
 	$( window ).load(function() {
 		$('#printButton').button().click(function(){
 	        			window.print();
 		});
-		
+
 		var now = new Date();
 		var year= now.getFullYear();
 		var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
 		var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
-		        
+
 		var currDate = year + '년 ' + mon + '월 ' + day + '일';
-		
+
 		$('#today').text(currDate);
 	});
 	</script>
   </head>
   <body>
   <c:set var="pagePerCount" value="9"/>
-  
+
   <c:if test="${resultCode==0 }">
-  
+
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
     <div class="page">
@@ -117,7 +158,7 @@
         	</table>
         </div>
         </div>
-        <div class="page">
+        <div class="page">	<!--  class="page"> 페이지 누락 됨 -->
                 <div class="subpage ygpa_report" >
            <table style="height:20%; width:100%;">
            <thead>
@@ -141,44 +182,59 @@
 		</tr>
 			<tr height="30px">
         				<td style="border:1px gray solid;"></td><td style="border:1px gray solid;"></td>
-		</tr>        				        				
+		</tr>
            </table>
            <table style="height:5%; width:100%;"><tr height="10px"><td style="font-size:15px;text-align:left;vertical-align:bottom;">○ 사진대지</td></tr></table>
-    		<table style="height:50%; width:100%; border:1px gray solid;">
-    			<tr height="60px">
-    				<td style="border:1px gray solid;"></td><td style="border:1px gray solid;">
-    				<img style="width:6cm;" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
+    		<table class="pageBrTbl">
+    			<tr>
+    				<td>
+    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
 					</td>
-					<td style="border:1px gray solid;"></td><td style="border:1px gray solid;">
-    				<img style="width:6cm;" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006063.png' />"/>
-					</td>
-    			</tr>
-    			<tr height="60px">
-    				<td style="border:1px gray solid;"></td><td style="border:1px gray solid;">
-    				<img style="width:6cm;" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006064.jpg' />"/>
-					</td>
-					<td style="border:1px gray solid;"></td><td style="border:1px gray solid;">
-    				<img style="width:6cm;" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006088.jpg' />"/>
+					<td>
+    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006063.png' />"/>
 					</td>
     			</tr>
-    			<tr height="60px">
-    				<td style="border:1px gray solid;"></td><td style="border:1px gray solid;">
-    				<img style="width:6cm;" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
+    			<tr>
+    				<td>
+    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006064.jpg' />"/>
 					</td>
-					<td style="border:1px gray solid;"></td><td style="border:1px gray solid;">
-    				<img style="width:6cm;" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
+					<td>
+    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006088.jpg' />"/>
 					</td>
     			</tr>
-    			
-   				<tr height="10px">
-   					<td style="border:1px gray solid;"></td><td style="border:1px gray solid;"></td>
-   				</tr>
-    			<tr height="60px">
-    				<td style="border:1px gray solid;"></td><td style="border:1px gray solid;"></td>
+    			<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. -->
+	    		</table>
+	        </div>
+    	</div>
+        <div class="page">	<!--  class="page"> 페이지 누락 됨 -->
+            <div class="subpage ygpa_report" >
+	    		<table class="pageBrTbl">
+	    		<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. 출력한 갯수가 페이지를 벗어나면 위에 페이지 끊기를 추가 한다. -->
+
+    			<tr>
+    				<td>
+    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
+					</td>
+					<td>
+    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
+					</td>
     			</tr>
-    			<tr height="10px">
-    				<td style="border:1px gray solid;"></td><td style="border:1px gray solid;"></td>
-   				</tr>
+    			<tr>
+    				<td>
+    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
+					</td>
+					<td>
+    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
+					</td>
+    			</tr>
+    			<tr>
+    				<td>
+    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
+					</td>
+					<td>
+    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
+					</td>
+    			</tr>
     		</table>
         </div>
     </div>
