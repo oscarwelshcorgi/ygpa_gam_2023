@@ -99,8 +99,18 @@ GamElctyEquipCapaMngModule.prototype.loadComplete = function() {
 		}
 	});
 
+	this.$('#chartValueSe').on('change',{module:this}, function(event){
+		event.data.module.saveChartValueSe();
+	});
+
+	this.$('#chartLabelDisplay').on('change',{module:this}, function(event){
+		event.data.module.saveChartLabelDisplay();
+	});
+
 	this._mainmode = '';
 	this._mainKeyValue = '';
+	this._chartValueSe = "E";
+	this._chartLabelDisplay = "Y";
 	this._searchButtonClick = false;
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
@@ -172,23 +182,73 @@ GamElctyEquipCapaMngModule.prototype.isValidYear = function(yearString, nullChec
 
 <%
 /**
+ * @FUNCTION NAME : saveChartValueSe
+ * @DESCRIPTION   : 그래프 형태를 저장한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyEquipCapaMngModule.prototype.saveChartValueSe = function() {
+
+	var chartValueSe = this.$('#chartValueSe').val();
+	if (chartValueSe != "") {
+		this._chartValueSe = chartValueSe;
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : saveChartLabelDisplay
+ * @DESCRIPTION   : 그래프 값 표시여부를 저장한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyEquipCapaMngModule.prototype.saveChartLabelDisplay = function() {
+
+	var chartLabelDisplay = this.$('#chartLabelDisplay').val();
+	if (chartLabelDisplay != "") {
+		this._chartLabelDisplay = chartLabelDisplay;
+	}
+
+};
+
+<%
+/**
  * @FUNCTION NAME : drawChart
  * @DESCRIPTION   : CHART DRAW
  * @PARAMETER     : NONE
 **/
 %>
 GamElctyEquipCapaMngModule.prototype.drawChart = function() {
-
+console.log("drawChart");
 	var dataValueArr = [];
 	var maxDataValue = 0;
 	var dataValue1 = 0;
 	var dataValue2 = 0;
-	var dataValue3 = 0;
+	var numValue1 = 0;
+	var numValue2 = 0;
 	var dataCount = 0;
 	var elctyEquipNm = "";
-	var dataValueName = "설비용량, 계약용량 (kw/h)";
+	var chartValueNm = "";
 	var dispElctyEquipNm = "";
+	var chartValueSe = this.$('#chartValueSe').val();
+	var chartLabelDisplay = this.$('#chartLabelDisplay').val();
 	var searchVO = this.makeFormArgs("#detailForm");
+	if (chartValueSe != this._chartValueSe) {
+		this.$('#chartValueSe').val(this._chartValueSe);
+		chartValueSe = this._chartValueSe;
+	}
+	if (chartLabelDisplay != this._chartLabelDisplay) {
+		this.$('#chartLabelDisplay').val(this._chartLabelDisplay);
+		chartLabelDisplay = this._chartLabelDisplay;
+	}
+	if (chartValueSe == "E") {
+		chartValueNm = "설비용량";
+	} else if (chartValueSe == "C") {
+		chartValueNm = "계약용량";
+	} else {
+		chartValueNm = "설비용량,계약용량";
+	}
 	this.doAction('/mngFee/gamSelectElctyEquipCapaMngChart.do', searchVO, function(module, result) {
 		if (result.resultCode == "0") {
 			dataCount = result.resultList[0]['dataCount']*1;
@@ -197,24 +257,39 @@ GamElctyEquipCapaMngModule.prototype.drawChart = function() {
 				dispElctyEquipNm = module.makeWordWrap(elctyEquipNm.replace(/ /gi, ""), 6);
 				dataValue1 = result.resultList[i]['equipCapa']*1;
 				dataValue2 = result.resultList[i]['ctrtCapa']*1;
-				dataValue3 = result.resultList[i]['usageVolt']*1;
-				dataValueArr[i] = {equip: dispElctyEquipNm, value1: dataValue1, value2: dataValue2, value3: dataValue3};
-				if (maxDataValue < dataValue1) {
-					maxDataValue = dataValue1;
-				}
-				if (maxDataValue < dataValue2) {
-					maxDataValue = dataValue2;
-				}
-				if (maxDataValue < dataValue3) {
-					maxDataValue = dataValue3;
+				numValue1 = $.number(dataValue1);
+				numValue2 = $.number(dataValue2);
+				if (chartValueSe == "E") {
+					dataValueArr[i] = { equip: dispElctyEquipNm, value1: dataValue1, txtValue1: numValue1 };
+					if (maxDataValue < dataValue1) {
+						maxDataValue = dataValue1;
+					}
+				} else if (chartValueSe == "C") {
+					dataValueArr[i] = { equip: dispElctyEquipNm, value1: dataValue2, txtValue1: numValue2 };
+					if (maxDataValue < dataValue2) {
+						maxDataValue = dataValue2;
+					}
+				} else {
+					dataValueArr[i] = { equip: dispElctyEquipNm, value1: dataValue1, value2: dataValue2, txtValue1: numValue1, txtValue2: numValue2 };
+					if (maxDataValue < dataValue1) {
+						maxDataValue = dataValue1;
+					}
+					if (maxDataValue < dataValue2) {
+						maxDataValue = dataValue2;
+					}
 				}
 			};
 		} else {
 			for (var i=0; i<1; i++) {
 				dataValue1 = 0;
 				dataValue2 = 0;
-				dataValue3 = 0;
-				dataValueArr[i] = {equip: dispElctyEquipNm, value1: dataValue1, value2: dataValue2, value3: dataValue3};
+				if (chartValueSe == "E") {
+					dataValueArr[i] = { equip: dispElctyEquipNm, value1: dataValue1, txtValue1: '0' };
+				} else if (chartValueSe == "C") {
+					dataValueArr[i] = { equip: dispElctyEquipNm, value1: dataValue2, txtValue1: '0' };
+				} else {
+					dataValueArr[i] = { equip: dispElctyEquipNm, value1: dataValue1, value2: dataValue2, txtValue1: '0', txtValue2: '0' };
+				}
 			};
 		}
 		if (maxDataValue < 10) {
@@ -227,9 +302,9 @@ GamElctyEquipCapaMngModule.prototype.drawChart = function() {
 				value			: "#value1#",
 				color			: "#000BE0",
 	            gradient		: "rising",
-				width			: 30,
-				label			: "#value1#",
-				tooltip			: "#value1# kw/h",
+				width			: 20,
+				label			: "#txtValue1#",
+				tooltip			: "#txtValue1#",
 				xAxis			: {
 					title 		: "전기 설비 용량",
 					template	: "#equip#"
@@ -238,15 +313,18 @@ GamElctyEquipCapaMngModule.prototype.drawChart = function() {
 					start		: 0,
 					end			: maxDataValue + 10,
 					step		: Math.ceil(maxDataValue / 10),
-					title		: dataValueName
+					title		: chartValueNm,
+					template	: function(value) {
+						return $.number(value);
+					}
 				}
 			});
 			module.barChart.addSeries({
 				value				: "#value2#",
 				color				: "#66cc00",
-				label				: "#value2#",
+				label				: "#txtValue2#",
 				tooltip				: {
-					template		: "#value2# kw/h"
+					template		: "#txtValue2#"
 	            }
 			});
 		} else {
@@ -255,11 +333,26 @@ GamElctyEquipCapaMngModule.prototype.drawChart = function() {
 				start			: 0,
 				end				: maxDataValue + 10,
 				step			: Math.ceil(maxDataValue / 10),
-				title			: dataValueName
+				title			: chartValueNm,
+				template		: function(value) {
+					return $.number(value);
+				}
 			});
+			if (chartLabelDisplay == "Y") {
+				module.barChart.define("label", "#txtValue1#");
+			} else {
+				module.barChart.define("label", "");
+			}
 		}
 		module.barChart.parse(dataValueArr, "json");
 		module.barChart.refresh();
+		if (chartValueSe == "E") {
+			module.barChart.hideSeries(1);
+		} else if (chartValueSe == "C") {
+			module.barChart.hideSeries(1);
+		} else {
+			module.barChart.showSeries(1);
+		}
 	});
 
 };
@@ -337,8 +430,20 @@ GamElctyEquipCapaMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'popupFcltsMngGroup':
 			this.doExecuteDialog('popupFcltsMngGroup', '시설물 관리 그룹 선택', '/popup/showFcltsMngGroup.do', null);
 			break;
-		case 'btnGraphSearch':
+		case 'btnChartSearch':
 			this.drawChart();
+			break;
+	    case 'btnFirstData':
+	    	this.firstData();
+			break;
+	    case 'btnPrevData':
+	    	this.prevData();
+			break;
+	    case 'btnNextData':
+	    	this.nextData();
+			break;
+	    case 'btnLastData':
+	    	this.lastData();
 			break;
 	}
 
@@ -463,6 +568,195 @@ GamElctyEquipCapaMngModule.prototype.selectData = function() {
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();
 	this.drawChart();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : firstData
+ * @DESCRIPTION   : FIRST DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyEquipCapaMngModule.prototype.firstData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainKeyValue == "") {
+		return;
+	}
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		return;
+	}
+	var rowIndex = 0;
+	var row = rows[rowIndex];
+	var mngYear = row["mngYear"];
+	var fcltsMngGroupNo = row["fcltsMngGroupNo"];
+	var mngSeq = row["mngSeq"];
+	if (mngYear != "" && fcltsMngGroupNo != "" && mngSeq != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"mngYear", filter:mngYear},
+											 {col:"fcltsMngGroupNo", filter:fcltsMngGroupNo},
+											 {col:"mngSeq", filter:mngSeq}]);
+		this._mainmode = 'modify';
+		this._mainKeyValue = mngYear + fcltsMngGroupNo + mngSeq;
+		this.makeFormValues('#detailForm', rows[rowIndex]);
+		this.makeDivValues('#detailForm', rows[rowIndex]);
+		this.enableDetailInputItem();
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : prevData
+ * @DESCRIPTION   : PREVIOUS DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyEquipCapaMngModule.prototype.prevData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainKeyValue == "") {
+		return;
+	}
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		alert("자료가 존재하지 않습니다!");
+		return;
+	}
+	var rowIndex = -1;
+	var keyValue = "";
+	for (var i=0; i < gridRowCount; i++) {
+		var row = rows[i];
+		keyValue = row["mngYear"] + row["fcltsMngGroupNo"] + row["mngSeq"];
+		if (this._mainKeyValue == keyValue) {
+			rowIndex = i - 1;
+			break;
+		}
+	}
+	if (rowIndex < 0) {
+		alert("첫번째 자료 입니다!");
+		return;
+	}
+	if (rowIndex >= gridRowCount) {
+		alert("자료 위치가 부정확합니다!");
+		return;
+	}
+	var row = rows[rowIndex];
+	var mngYear = row["mngYear"];
+	var fcltsMngGroupNo = row["fcltsMngGroupNo"];
+	var mngSeq = row["mngSeq"];
+	if (mngYear != "" && fcltsMngGroupNo != "" && mngSeq != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"mngYear", filter:mngYear},
+											 {col:"fcltsMngGroupNo", filter:fcltsMngGroupNo},
+											 {col:"mngSeq", filter:mngSeq}]);
+		this._mainmode = 'modify';
+		this._mainKeyValue = mngYear + fcltsMngGroupNo + mngSeq;
+		this.makeFormValues('#detailForm', rows[rowIndex]);
+		this.makeDivValues('#detailForm', rows[rowIndex]);
+		this.enableDetailInputItem();
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : nextData
+ * @DESCRIPTION   : NEXT DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyEquipCapaMngModule.prototype.nextData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainKeyValue == "") {
+		return;
+	}
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		alert("자료가 존재하지 않습니다!");
+		return;
+	}
+	var rowIndex = -1;
+	var keyValue = "";
+	for (var i=0; i < gridRowCount; i++) {
+		var row = rows[i];
+		keyValue = row["mngYear"] + row["fcltsMngGroupNo"] + row["mngSeq"];
+		if (this._mainKeyValue == keyValue) {
+			rowIndex = i + 1;
+			break;
+		}
+	}
+	if (rowIndex < 0) {
+		alert("자료 위치가 부정확합니다!");
+		return;
+	}
+	if (rowIndex >= gridRowCount) {
+		alert("마지막 자료 입니다!");
+		return;
+	}
+	var row = rows[rowIndex];
+	var mngYear = row["mngYear"];
+	var fcltsMngGroupNo = row["fcltsMngGroupNo"];
+	var mngSeq = row["mngSeq"];
+	if (mngYear != "" && fcltsMngGroupNo != "" && mngSeq != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"mngYear", filter:mngYear},
+											 {col:"fcltsMngGroupNo", filter:fcltsMngGroupNo},
+											 {col:"mngSeq", filter:mngSeq}]);
+		this._mainmode = 'modify';
+		this._mainKeyValue = mngYear + fcltsMngGroupNo + mngSeq;
+		this.makeFormValues('#detailForm', rows[rowIndex]);
+		this.makeDivValues('#detailForm', rows[rowIndex]);
+		this.enableDetailInputItem();
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : lastData
+ * @DESCRIPTION   : LAST DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamElctyEquipCapaMngModule.prototype.lastData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainKeyValue == "") {
+		return;
+	}
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		alert("자료가 존재하지 않습니다!");
+		return;
+	}
+	var rowIndex = gridRowCount - 1;
+	var row = rows[rowIndex];
+	var mngYear = row["mngYear"];
+	var fcltsMngGroupNo = row["fcltsMngGroupNo"];
+	var mngSeq = row["mngSeq"];
+	if (mngYear != "" && fcltsMngGroupNo != "" && mngSeq != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"mngYear", filter:mngYear},
+											 {col:"fcltsMngGroupNo", filter:fcltsMngGroupNo},
+											 {col:"mngSeq", filter:mngSeq}]);
+		this._mainmode = 'modify';
+		this._mainKeyValue = mngYear + fcltsMngGroupNo + mngSeq;
+		this.makeFormValues('#detailForm', rows[rowIndex]);
+		this.makeDivValues('#detailForm', rows[rowIndex]);
+		this.enableDetailInputItem();
+	}
 
 };
 
@@ -777,6 +1071,13 @@ GamElctyEquipCapaMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
 		this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+		this.$('#chartValueSe').disable();
+		this.$('#chartLabelDisplay').disable();
+		this.$('#btnChartSearch').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnFirstData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnPrevData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnNextData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnLastData').disable({disableClass:"ui-state-disabled"});
 	} else {
 		if (this._mainKeyValue != "") {
 			this.$('#mngYear').disable();
@@ -792,6 +1093,18 @@ GamElctyEquipCapaMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnSave').removeClass('ui-state-disabled');
 			this.$('#btnRemove').enable();
 			this.$('#btnRemove').removeClass('ui-state-disabled');
+			this.$('#chartValueSe').enable();
+			this.$('#chartLabelDisplay').enable();
+			this.$('#btnChartSearch').enable();
+			this.$('#btnChartSearch').removeClass('ui-state-disabled');
+			this.$('#btnFirstData').enable();
+			this.$('#btnFirstData').removeClass('ui-state-disabled');
+			this.$('#btnPrevData').enable();
+			this.$('#btnPrevData').removeClass('ui-state-disabled');
+			this.$('#btnNextData').enable();
+			this.$('#btnNextData').removeClass('ui-state-disabled');
+			this.$('#btnLastData').enable();
+			this.$('#btnLastData').removeClass('ui-state-disabled');
 		} else {
 			this.$('#mngYear').disable();
 			this.$('#elctyEquipNm').disable();
@@ -803,6 +1116,13 @@ GamElctyEquipCapaMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+			this.$('#chartValueSe').disable();
+			this.$('#chartLabelDisplay').disable();
+			this.$('#btnChartSearch').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnFirstData').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnPrevData').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnNextData').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnLastData').disable({disableClass:"ui-state-disabled"});
 		}
 	}
 
@@ -827,6 +1147,13 @@ GamElctyEquipCapaMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+	this.$('#chartValueSe').disable();
+	this.$('#chartLabelDisplay').disable();
+	this.$('#btnChartSearch').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnFirstData').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnPrevData').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnNextData').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnLastData').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -900,6 +1227,10 @@ var module_instance = new GamElctyEquipCapaMngModule();
 									<option value="" selected>전체</option>
 									<option value="1">산업용</option>
 									<option value="2">일반용</option>
+									<option value="3">교육용</option>
+									<option value="4">주택용</option>
+									<option value="5">가로등</option>
+									<option value="6">기타</option>
 								</select>
 							</td>
 							<th>전기 설비 명</th>
@@ -964,7 +1295,7 @@ var module_instance = new GamElctyEquipCapaMngModule();
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:10%; height:25;">관　리　년　도</th>
+								<th style="width:10%; height:29px;">관　리　년　도</th>
 								<td>
 									<select id="mngYear" class='selt'>
 										<option value="">선택</option>
@@ -975,71 +1306,92 @@ var module_instance = new GamElctyEquipCapaMngModule();
 									&nbsp; &nbsp;
 									<input type="text" size="10" id="mngSeq" disabled/>
 								</td>
-								<td rowspan="11" style="padding-left:4px;">
-									<div id="elctyEquipCapaChart" style="width:510px;height:380px;border:1px solid #A4BED4;"></div>
+								<th style="width:10%; height:18;">그래프　　구분</th>
+								<td>
+									<select id="chartValueSe">
+										<option value="">선택</option>
+										<option value="E">설비용량</option>
+										<option value="C">계약용량</option>
+										<option value="A">설비용량+계약용량</option>
+									</select>
+									&nbsp; &nbsp;
+									<select id="chartLabelDisplay">
+										<option value="">선택</option>
+										<option value="Y">값 표시</option>
+										<option value="N">값 미표시</option>
+									</select>
+									&nbsp; &nbsp;
+									<button id="btnChartSearch">그래프 조회</button>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:25;">시설물그룹번호</th>
+								<th style="width:10%; height:29px;">시설물그룹번호</th>
 								<td>
 									<input type="text" size="13" id="fcltsMngGroupNo" disabled/>
 									<button id="popupFcltsMngGroup" class="popupButton">선택</button>
 								</td>
+								<td colspan="2" rowspan="10" style="padding-left:4px;">
+									<div id="elctyEquipCapaChart" style="width:510px;height:370px;border:1px solid #A4BED4;"></div>
+								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:25;">전기　시설　명</th>
+								<th style="width:10%; height:29px;">전기　시설　명</th>
 								<td>
 									<input type="text" size="25" id="elctyEquipNm" maxlength="80"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:25;">전　기　구　분</th>
+								<th style="width:10%; height:29px;">전　기　구　분</th>
 								<td>
 									<input id="elctySeNm" type="hidden"/>
 									<select id="elctySe">
 										<option value="1">산업용</option>
 										<option value="2">일반용</option>
+										<option value="3">교육용</option>
+										<option value="4">주택용</option>
+										<option value="5">가로등</option>
+										<option value="6">기타</option>
 									</select>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:25;">설　비　용　량</th>
+								<th style="width:10%; height:29px;">설　비　용　량</th>
 								<td>
 									<input type="text" size="21" id="equipCapa" class="ygpaNumber" maxlength="13"/> kW
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:25;">계　약　용　량</th>
+								<th style="width:10%; height:29px;">계　약　용　량</th>
 								<td>
 									<input type="text" size="21" id="ctrtCapa" class="ygpaNumber" maxlength="13"/> kW
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:25;">사　용　전　압</th>
+								<th style="width:10%; height:29px;">사　용　전　압</th>
 								<td>
 									<input type="text" size="21" id="usageVolt" class="ygpaNumber" maxlength="9"/>  V
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:25;">등　　록　　자</th>
+								<th style="width:10%; height:29px;">등　　록　　자</th>
 								<td>
 									<input type="text" size="25" id="regUsr" disabled>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:25;">등　록　일　시</th>
+								<th style="width:10%; height:29px;">등　록　일　시</th>
 								<td>
 									<input type="text" size="25" id="registDt" disabled>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:25;">수　　정　　자</th>
+								<th style="width:10%; height:29px;">수　　정　　자</th>
 								<td>
 									<input type="text" size="25" id="updUsr" disabled>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:25;">수　정　일　시</th>
+								<th style="width:10%; height:29px;">수　정　일　시</th>
 								<td>
 									<input type="text" size="25" id="updtDt" disabled>
 								</td>
@@ -1049,6 +1401,10 @@ var module_instance = new GamElctyEquipCapaMngModule();
 					<table style="width:100%;">
 						<tr>
 							<td style="text-align:right;">
+								<button id="btnFirstData">처음 자료</button>
+								<button id="btnPrevData">이전 자료</button>
+								<button id="btnNextData">다음 자료</button>
+								<button id="btnLastData">마지막 자료</button>
 								<button id="btnInsert" class="buttonAdd">　　추　가　　</button>
 								<button id="btnSave" class="buttonSave">　　저　장　　</button>
 								<button id="btnRemove" class="buttonDelete">　　삭　제　　</button>
