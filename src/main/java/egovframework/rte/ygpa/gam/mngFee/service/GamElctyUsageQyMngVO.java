@@ -35,6 +35,18 @@ public class GamElctyUsageQyMngVO extends ComDefaultVO {
 	private	String usageQy;				// 사용 량
 	private	String usageAmt;			// 사용 금액
 	private	String peekQy;				// PEEK 량
+	private	String mt01Qy;				// 01월 사용 량
+	private	String mt02Qy;				// 02월 사용 량
+	private	String mt03Qy;				// 03월 사용 량
+	private	String mt04Qy;				// 04월 사용 량
+	private	String mt05Qy;				// 05월 사용 량
+	private	String mt06Qy;				// 06월 사용 량
+	private	String mt07Qy;				// 07월 사용 량
+	private	String mt08Qy;				// 08월 사용 량
+	private	String mt09Qy;				// 09월 사용 량
+	private	String mt10Qy;				// 10월 사용 량
+	private	String mt11Qy;				// 11월 사용 량
+	private	String mt12Qy;				// 12월 사용 량
 	private	String regUsr;				// 등록자
 	private	String registDt;			// 등록일시
 	private	String updUsr;				// 수정자
@@ -121,6 +133,150 @@ public class GamElctyUsageQyMngVO extends ComDefaultVO {
 	 */
 	public void setPeekQy(String peekQy) {
 		this.peekQy = peekQy;
+	}
+	/**
+	 * @return the mt01Qy
+	 */
+	public String getMt01Qy() {
+		return mt01Qy;
+	}
+	/**
+	 * @param mt01Qy the mt01Qy to set
+	 */
+	public void setMt01Qy(String mt01Qy) {
+		this.mt01Qy = mt01Qy;
+	}
+	/**
+	 * @return the mt02Qy
+	 */
+	public String getMt02Qy() {
+		return mt02Qy;
+	}
+	/**
+	 * @param mt02Qy the mt02Qy to set
+	 */
+	public void setMt02Qy(String mt02Qy) {
+		this.mt02Qy = mt02Qy;
+	}
+	/**
+	 * @return the mt03Qy
+	 */
+	public String getMt03Qy() {
+		return mt03Qy;
+	}
+	/**
+	 * @param mt03Qy the mt03Qy to set
+	 */
+	public void setMt03Qy(String mt03Qy) {
+		this.mt03Qy = mt03Qy;
+	}
+	/**
+	 * @return the mt04Qy
+	 */
+	public String getMt04Qy() {
+		return mt04Qy;
+	}
+	/**
+	 * @param mt04Qy the mt04Qy to set
+	 */
+	public void setMt04Qy(String mt04Qy) {
+		this.mt04Qy = mt04Qy;
+	}
+	/**
+	 * @return the mt05Qy
+	 */
+	public String getMt05Qy() {
+		return mt05Qy;
+	}
+	/**
+	 * @param mt05Qy the mt05Qy to set
+	 */
+	public void setMt05Qy(String mt05Qy) {
+		this.mt05Qy = mt05Qy;
+	}
+	/**
+	 * @return the mt06Qy
+	 */
+	public String getMt06Qy() {
+		return mt06Qy;
+	}
+	/**
+	 * @param mt06Qy the mt06Qy to set
+	 */
+	public void setMt06Qy(String mt06Qy) {
+		this.mt06Qy = mt06Qy;
+	}
+	/**
+	 * @return the mt07Qy
+	 */
+	public String getMt07Qy() {
+		return mt07Qy;
+	}
+	/**
+	 * @param mt07Qy the mt07Qy to set
+	 */
+	public void setMt07Qy(String mt07Qy) {
+		this.mt07Qy = mt07Qy;
+	}
+	/**
+	 * @return the mt08Qy
+	 */
+	public String getMt08Qy() {
+		return mt08Qy;
+	}
+	/**
+	 * @param mt08Qy the mt08Qy to set
+	 */
+	public void setMt08Qy(String mt08Qy) {
+		this.mt08Qy = mt08Qy;
+	}
+	/**
+	 * @return the mt09Qy
+	 */
+	public String getMt09Qy() {
+		return mt09Qy;
+	}
+	/**
+	 * @param mt09Qy the mt09Qy to set
+	 */
+	public void setMt09Qy(String mt09Qy) {
+		this.mt09Qy = mt09Qy;
+	}
+	/**
+	 * @return the mt10Qy
+	 */
+	public String getMt10Qy() {
+		return mt10Qy;
+	}
+	/**
+	 * @param mt10Qy the mt10Qy to set
+	 */
+	public void setMt10Qy(String mt10Qy) {
+		this.mt10Qy = mt10Qy;
+	}
+	/**
+	 * @return the mt11Qy
+	 */
+	public String getMt11Qy() {
+		return mt11Qy;
+	}
+	/**
+	 * @param mt11Qy the mt11Qy to set
+	 */
+	public void setMt11Qy(String mt11Qy) {
+		this.mt11Qy = mt11Qy;
+	}
+	/**
+	 * @return the mt12Qy
+	 */
+	public String getMt12Qy() {
+		return mt12Qy;
+	}
+	/**
+	 * @param mt12Qy the mt12Qy to set
+	 */
+	public void setMt12Qy(String mt12Qy) {
+		this.mt12Qy = mt12Qy;
 	}
 	/**
 	 * @return the regUsr
