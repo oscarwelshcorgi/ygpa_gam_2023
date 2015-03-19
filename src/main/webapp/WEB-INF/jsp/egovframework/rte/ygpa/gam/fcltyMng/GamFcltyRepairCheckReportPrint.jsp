@@ -97,6 +97,7 @@
   <c:set var="pagePerCount" value="9"/>
 
   <c:if test="${resultCode==0 }">
+<c:set var="imgFiles" value="${fn:split('FILE_000000000006055.jpg,FILE_000000000006063.png,FILE_000000000006064.jpg,FILE_000000000006088.jpg,FILE_000000000006063.png,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006063.png,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg', ',')}" scope="page" />
 
   <a id="printButton" href="#">인쇄</a>
 <div class="book">
@@ -186,22 +187,19 @@
            </table>
            <table style="height:5%; width:100%;"><tr height="10px"><td style="font-size:15px;text-align:left;vertical-align:bottom;">○ 사진대지</td></tr></table>
     		<table class="pageBrTbl">
+				<c:forEach var="imgFile" items="${imgFiles }" varStatus="status" end="3" step="2">
     			<tr>
     				<td>
-    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
+    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${imgFile }' />"/>
 					</td>
 					<td>
-    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006063.png' />"/>
+    				<c:if test="${fn:length(imgFiles) gt status.index+1 }">
+	    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${imgFiles[status.index+1] }' />"/>
+					</c:if>
 					</td>
     			</tr>
-    			<tr>
-    				<td>
-    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006064.jpg' />"/>
-					</td>
-					<td>
-    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006088.jpg' />"/>
-					</td>
-    			</tr>
+    			</c:forEach>
+    	<c:if test="${fn:length(imgFiles) gt 3 }">
     			<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. -->
 	    		</table>
 	        </div>
@@ -210,33 +208,32 @@
             <div class="subpage ygpa_report" >
 	    		<table class="pageBrTbl">
 	    		<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. 출력한 갯수가 페이지를 벗어나면 위에 페이지 끊기를 추가 한다. -->
-
+				<c:forEach var="imgFile" items="${imgFiles }" varStatus="status" begin="4" step="2">
     			<tr>
     				<td>
-    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
+    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${imgFile }' />"/>
 					</td>
 					<td>
-    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
+    				<c:if test="${fn:length(imgFiles) gt status.index+1 }">
+	    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${imgFiles[status.index+1] }' />"/>
+					</c:if>
 					</td>
     			</tr>
-    			<tr>
-    				<td>
-    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
-					</td>
-					<td>
-    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
-					</td>
-    			</tr>
-    			<tr>
-    				<td>
-    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
-					</td>
-					<td>
-    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=FILE_000000000006055.jpg' />"/>
-					</td>
-    			</tr>
-    		</table>
-        </div>
+    			<c:if test="${(status.index-status.begin) % 6 == 0 && !status.first && !status.last }">
+    			    			<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. -->
+	    		</table>
+	        </div>
+    	</div>
+        <div class="page">	<!--  class="page"> 페이지 누락 됨 -->
+            <div class="subpage ygpa_report" >
+	    		<table class="pageBrTbl">
+	    		<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. 출력한 갯수가 페이지를 벗어나면 위에 페이지 끊기를 추가 한다. -->
+    			</c:if>
+    			</c:forEach>
+        </c:if>
+        	   </table>
+	        </div>
+    	</div>
     </div>
 </div>
   </c:if>
