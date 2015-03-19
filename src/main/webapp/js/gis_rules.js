@@ -2266,7 +2266,7 @@ var fcltyCivilRuleSet = [
 		}
 	},
 	{
-		title:"배수관로",
+		title:"오수관로",
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -2320,7 +2320,7 @@ var fcltyCivilRuleSet = [
 		}
 	},
 	{
-		title:"오수관로",
+		title:"배수관로",
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
