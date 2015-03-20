@@ -485,39 +485,6 @@ public class GamFcltyRepairMngController {
     	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckReportPrint";
     }
 
-/*	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/fcltyMng/downloadFcltyRepairCheckReportHwp.do")
-	public ModelAndView downloadFcltyRepairCheckReportHwp(@RequestParam Map<String, Object> fcltyRepairCheckReportOpt, ModelMap model) throws Exception {
-
-    	Map map = new HashMap();
-    	EgovMap result = null;
-
-    	// 0. Spring Security 사용자권한 처리
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return "/ygpa/gam/fcltyMng/GamFcltyRepairCheckReportPrint";
-    	}
-
-		ObjectMapper mapper = new ObjectMapper();
-
-		GamFcltyRepairMngVO searchVO;
-    	searchVO = mapper.convertValue(fcltyRepairCheckReportOpt, GamFcltyRepairMngVO.class);
-
-
-		//하자검사조서
-    	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
-
-        model.addAttribute("result", result);
-		model.addAttribute("resultCode", 0);
-		model.addAttribute("resultMsg", "");
-
-    	ModelAndView m = new ModelAndView("ygpa/gam/fcltyMng/GamFcltyRepairCheckReportPrint", model);
-    	m.
-    	return m;
-    }*/
-
 	/**
      * 하자만료검사조서인쇄
      *
