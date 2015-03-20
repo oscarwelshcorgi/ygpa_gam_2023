@@ -63,7 +63,7 @@ public class GamFcltyRepairMngController {
 	/** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
+
     @Resource(name="gamFcltyRepairMngService")
     protected GamFcltyRepairMngService gamFcltyRepairMngService;
 
@@ -80,8 +80,8 @@ public class GamFcltyRepairMngController {
     	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/fcltyMng/GamFcltyRepairMng";
     }
-	
-	
+
+
 	/**
 	 * 하자보수내역 조회
 	 * @param searchVO
@@ -116,7 +116,7 @@ public class GamFcltyRepairMngController {
 		List fcltyRepairMngList = gamFcltyRepairMngService.selectFcltyRepairMngList(searchVO);
 
 		GamFcltyRepairMngVO resultSum = gamFcltyRepairMngService.selectFcltyRepairMngListTotCnt(searchVO);
-		
+
         paginationInfo.setTotalRecordCount(resultSum.getTotCnt());
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
@@ -127,8 +127,8 @@ public class GamFcltyRepairMngController {
 
     	return map;
     }
-	
-	
+
+
 	/**
 	 * 하자보수상세내역 조회
 	 * @param searchVO
@@ -157,8 +157,8 @@ public class GamFcltyRepairMngController {
 
     	return map;
     }
-	
-	
+
+
 	/**
 	 * 하자보수 대상시설물 조회
 	 * @param GamFcltyRepairMngVO
@@ -203,7 +203,7 @@ public class GamFcltyRepairMngController {
 
     	return map;
     }
-	
+
 
 	/**
 	 * 하자보수 첨부파일 조회
@@ -234,8 +234,8 @@ public class GamFcltyRepairMngController {
 
     	return map;
     }
-	
-	
+
+
 	/**
 	 * 하자보수내역 등록
 	 * @param Map
@@ -245,14 +245,14 @@ public class GamFcltyRepairMngController {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/insertFcltyRepairMng.do")
     public @ResponseBody Map insertFcltyRepairMng(@RequestParam Map fcltyRepairItem) throws Exception {
-		
+
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Map map = new HashMap();
     	ObjectMapper mapper = new ObjectMapper();
     	List<HashMap<String,String>> insertObjList=null;
     	List<HashMap<String,String>> insertFileList=null;
     	Map insertRprData = new HashMap();
-    	
+
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -262,15 +262,15 @@ public class GamFcltyRepairMngController {
 
     	insertRprData = mapper.readValue((String)fcltyRepairItem.get("fcltyRepairMngListVO"),
     		    new TypeReference<HashMap<String,String>>(){});
-    	
+
     	insertObjList = mapper.readValue((String)fcltyRepairItem.get("insertObjList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
-    	
+
     	insertFileList = mapper.readValue((String)fcltyRepairItem.get("insertRepairFileList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
 
     	insertRprData.put("regUsr",user.getId());
-    	
+
     	try {
 
     		// 하자보수내역 입력
@@ -279,7 +279,7 @@ public class GamFcltyRepairMngController {
     		map.put("resultCode", 0);			// return ok
     		map.put("flawRprSeq", insertRprData.get("flawRprSeq"));
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-            
+
 		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
@@ -287,8 +287,8 @@ public class GamFcltyRepairMngController {
 
       	return map;
     }
-	
-	
+
+
 	/**
 	 * 하자보수내역 수정
 	 * @param Map
@@ -308,7 +308,7 @@ public class GamFcltyRepairMngController {
     	List<Map<String,String>> userList=null;
     	Map insertRprData = new HashMap();
     	Map<String, String> userMap = new HashMap<String, String>();
-    	
+
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -318,14 +318,14 @@ public class GamFcltyRepairMngController {
 
     	insertRprData = mapper.readValue((String)fcltyRepairItem.get("fcltyRepairMngListVO"),
     		    new TypeReference<HashMap<String,String>>(){});
-    	
+
     	insertObjList = mapper.readValue((String)fcltyRepairItem.get("insertObjList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
     	updateObjList = mapper.readValue((String)fcltyRepairItem.get("updateObjList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
     	deleteObjList = mapper.readValue((String)fcltyRepairItem.get("deleteObjList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
-    	
+
     	insertFileList = mapper.readValue((String)fcltyRepairItem.get("insertRepairFileList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
 
@@ -334,7 +334,7 @@ public class GamFcltyRepairMngController {
 		userList.add(userMap);
 
 		Map<String,Object> mergeMap = new HashMap<String,Object>();
-		
+
 		insertObjList.addAll(updateObjList);
 
 		mergeMap.put("CU", insertObjList);
@@ -342,7 +342,7 @@ public class GamFcltyRepairMngController {
 		mergeMap.put("USER", userList);
 
     	insertRprData.put("regUsr",user.getId());
-    	
+
     	try {
 
     		// 하자보수내역 입력
@@ -350,17 +350,17 @@ public class GamFcltyRepairMngController {
 
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-            
+
 		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
 
       	return map;
-    	
+
     }
-	
-	
+
+
 	/**
 	 * 하자보수내역 삭제
 	 * @param Map
@@ -379,7 +379,7 @@ public class GamFcltyRepairMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	
+
 
     	try {
 
@@ -388,7 +388,7 @@ public class GamFcltyRepairMngController {
 
     		map.put("resultCode", 0);
             map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
-            
+
 		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
@@ -396,7 +396,7 @@ public class GamFcltyRepairMngController {
 
       	return map;
     }
-	
+
 
 	/**
 	 * 시설물 하자보수관리 리스트를 엑셀로 다운로드한다.
@@ -434,18 +434,18 @@ public class GamFcltyRepairMngController {
 		searchVO.setLastIndex(9999);
 		searchVO.setRecordCountPerPage(9999);
 
-		
-		//계약이력목록 
+
+		//계약이력목록
     	List fcltyRepairMngList = gamFcltyRepairMngService.selectFcltyRepairMngList(searchVO);
-		
+
 
     	map.put("resultList", fcltyRepairMngList);
     	map.put("header", header);
 
     	return new ModelAndView("gridExcelView", "gridResultMap", map);
     }
-    
-    
+
+
     /**
      * 하자검사조서인쇄
      *
@@ -453,7 +453,7 @@ public class GamFcltyRepairMngController {
      * @return map
      * @throws Exception the exception
      */
-	
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/fcltyMng/selectFcltyRepairCheckReportPrint.do")
 	public String selectFcltyRepairCheckReportPrint(@RequestParam Map<String, Object> fcltyRepairCheckReportOpt, ModelMap model) throws Exception {
@@ -470,22 +470,22 @@ public class GamFcltyRepairMngController {
     	}
 
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 		GamFcltyRepairMngVO searchVO;
     	searchVO = mapper.convertValue(fcltyRepairCheckReportOpt, GamFcltyRepairMngVO.class);
 
-		
+
 		//하자검사조서
     	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
-    	
+
         model.addAttribute("result", result);
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
 
     	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckReportPrint";
     }
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+
+/*	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/fcltyMng/downloadFcltyRepairCheckReportHwp.do")
 	public ModelAndView downloadFcltyRepairCheckReportHwp(@RequestParam Map<String, Object> fcltyRepairCheckReportOpt, ModelMap model) throws Exception {
 
@@ -501,23 +501,23 @@ public class GamFcltyRepairMngController {
     	}
 
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 		GamFcltyRepairMngVO searchVO;
     	searchVO = mapper.convertValue(fcltyRepairCheckReportOpt, GamFcltyRepairMngVO.class);
 
-		
+
 		//하자검사조서
     	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
-    	
+
         model.addAttribute("result", result);
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
-		
+
     	ModelAndView m = new ModelAndView("ygpa/gam/fcltyMng/GamFcltyRepairCheckReportPrint", model);
     	m.
     	return m;
-    }
-	
+    }*/
+
 	/**
      * 하자만료검사조서인쇄
      *
@@ -525,7 +525,7 @@ public class GamFcltyRepairMngController {
      * @return map
      * @throws Exception the exception
      */
-	
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/fcltyMng/selectFcltyRepairExpireCheckReportPrint.do")
 	public String selectFcltyRepairExpireCheckReportPrint(@RequestParam Map<String, Object> fcltyRepairExpireCheckReportOpt, ModelMap model) throws Exception {
@@ -542,22 +542,22 @@ public class GamFcltyRepairMngController {
     	}
 
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 		GamFcltyRepairMngVO searchVO;
     	searchVO = mapper.convertValue(fcltyRepairExpireCheckReportOpt, GamFcltyRepairMngVO.class);
 
-		
+
 		//하자만료검사조서
     	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
-    	
+
         model.addAttribute("result", result);
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
 
     	return "ygpa/gam/fcltyMng/GamFcltyRepairExpireCheckReportPrint";
     }
-	
-	
+
+
 	/**
      * 하자검사결과인쇄
      *
@@ -565,7 +565,7 @@ public class GamFcltyRepairMngController {
      * @return map
      * @throws Exception the exception
      */
-	
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/fcltyMng/selectFcltyRepairCheckResultPrint.do")
 	public String selectFcltyRepairCheckResultPrint(@RequestParam Map<String, Object> fcltyRepairCheckResultOpt, ModelMap model) throws Exception {
@@ -581,10 +581,10 @@ public class GamFcltyRepairMngController {
     	}
 
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 		GamFcltyRepairMngVO searchVO;
     	searchVO = mapper.convertValue(fcltyRepairCheckResultOpt, GamFcltyRepairMngVO.class);
-    	
+
     	searchVO.setFirstIndex(0);
 		searchVO.setLastIndex(9999);
 		searchVO.setRecordCountPerPage(9999);
@@ -593,18 +593,18 @@ public class GamFcltyRepairMngController {
 		searchVO.setLastIndex(9999);
 		searchVO.setRecordCountPerPage(9999);
 
-		
+
 		//계약이력목록
     	List fcltyRepairMngList = gamFcltyRepairMngService.selectFcltyRepairMngList(searchVO);
-    	
+
         model.addAttribute("resultList", fcltyRepairMngList);
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
 
     	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckResultPrint";
     }
-	
-	
+
+
 	/**
      * 하자검사관리대장인쇄
      *
@@ -612,7 +612,7 @@ public class GamFcltyRepairMngController {
      * @return map
      * @throws Exception the exception
      */
-	
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/fcltyMng/selectFcltyRepairCheckMngPrint.do")
 	public String selectFcltyRepairCheckMngPrint(@RequestParam Map<String, Object> fcltyRepairCheckMngOpt, ModelMap model) throws Exception {
@@ -620,7 +620,7 @@ public class GamFcltyRepairMngController {
     	Map map = new HashMap();
     	EgovMap result = null;
     	int totCnt;
-    	
+
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -630,20 +630,20 @@ public class GamFcltyRepairMngController {
     	}
 
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 		GamFcltyRepairMngVO searchVO;
     	searchVO = mapper.convertValue(fcltyRepairCheckMngOpt, GamFcltyRepairMngVO.class);
 
 		//하자검사관리대장인쇄
     	result = gamFcltyRepairMngService.selectFcltyRepairCheckMng(searchVO);
-		
+
 		String ctrtNo = (String) result.get("ctrtNo");
-		
+
 		//하자보증내용
     	List fcltyRepairMngListPerCtrt = gamFcltyRepairMngService.selectFcltyRepairMngListPerCtrt(ctrtNo);
-    	
+
     	totCnt =  gamFcltyRepairMngService.selectFcltyRepairMngListPerCtrtTotalCnt(ctrtNo);
-    	
+
         model.addAttribute("result", result);
         model.addAttribute("resultList", fcltyRepairMngListPerCtrt);
         model.addAttribute("totCnt", totCnt);
@@ -652,6 +652,6 @@ public class GamFcltyRepairMngController {
 
     	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckMngPrint";
     }
-	
+
 
 }
