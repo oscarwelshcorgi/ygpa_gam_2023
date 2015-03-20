@@ -55,6 +55,11 @@ public class GamHtldRentArrrgMngtVO extends ComDefaultVO {
 	private String nticCnt;
 
 	/**
+	 * 신규 납부기한
+	 */
+	private String newPayTmlmt;
+
+	/**
 	 * 납부기한 시작
 	 */
 	private String payTmlmtFrom;
@@ -82,9 +87,20 @@ public class GamHtldRentArrrgMngtVO extends ComDefaultVO {
 	/**
 	 * 연체요율
 	 */
-	private String arrrgRate;
+	private String arrrgTariff;
+
+	/**
+	 * 연체료 합계
+	 */
+	private String arrrgAmt;
+
+	private String regUsr;
 
 	private String updUsr;
+
+	private String userName;
+
+	private String deptCd;
 
 	public String getPrtAtCode() {
 		return prtAtCode;
@@ -122,11 +138,11 @@ public class GamHtldRentArrrgMngtVO extends ComDefaultVO {
 	public void setChrgeKnd(String chrgeKnd) {
 		this.chrgeKnd = chrgeKnd;
 	}
-	public String getArrrgRate() {
-		return arrrgRate;
+	public String getArrrgTariff() {
+		return arrrgTariff;
 	}
-	public void setArrrgRate(String arrrgRate) {
-		this.arrrgRate = arrrgRate;
+	public void setArrrgTariff(String arrrgRate) {
+		this.arrrgTariff = arrrgRate;
 	}
 	public String getUpdUsr() {
 		return updUsr;
@@ -157,6 +173,66 @@ public class GamHtldRentArrrgMngtVO extends ComDefaultVO {
 	}
 	public void setNticCnt(String nticCnt) {
 		this.nticCnt = nticCnt;
+	}
+	/**
+	 * @return the regUsr
+	 */
+	public String getRegUsr() {
+		return regUsr;
+	}
+	/**
+	 * @param regUsr the regUsr to set
+	 */
+	public void setRegUsr(String regUsr) {
+		this.regUsr = regUsr;
+	}
+	/**
+	 * @return the newPayTmlmt
+	 */
+	public String getNewPayTmlmt() {
+		return newPayTmlmt;
+	}
+	/**
+	 * @param newPayTmlmt the newPayTmlmt to set
+	 */
+	public void setNewPayTmlmt(String newPayTmlmt) {
+		this.newPayTmlmt = newPayTmlmt;
+	}
+	/**
+	 * @return the arrrgAmt
+	 */
+	public String getArrrgAmt() {
+		return arrrgAmt;
+	}
+	/**
+	 * @param arrrgAmt the arrrgAmt to set
+	 */
+	public void setArrrgAmt(String arrrgAmt) {
+		this.arrrgAmt = arrrgAmt;
+	}
+	/**
+	 * @return the deptCd
+	 */
+	public String getDeptCd() {
+		return deptCd;
+	}
+	/**
+	 * @param deptCd the deptCd to set
+	 */
+	public void setDeptCd(String deptCd) {
+		this.deptCd = deptCd;
+	}
+	/**
+	 * @return the userName
+	 */
+	public String getUserName() {
+		return userName;
+	}
+	/**
+	 * @param userName the userName to set
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 

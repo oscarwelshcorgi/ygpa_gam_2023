@@ -1,5 +1,5 @@
-var gis_engine_url = "http://192.168.200.61:8080/G2DataService/GService?";
-//var gis_engine_url = "http://192.168.0.71:8092/G2DataService/GService?";
+//var gis_engine_url = "http://192.168.200.61:8080/G2DataService/GService?";
+var gis_engine_url = "http://192.168.0.71:8092/G2DataService/GService?";
 
 var myLayout;
 var mainLayout;

@@ -545,7 +545,7 @@
                TO_CHAR(A.DUE_DATE,'YYYY-MM-DD') PAY_TMLMT,
                trunc(SYSDATE-PAY_TMLMT) ARRRG_DATES,
                (SYSDATE+15) NEW_PAY_TMLMT,
-               TO_NUMBER(#arrrgRate#)/100 ARRRG_RATE,
+               TO_NUMBER(#arrrgTariff#)/100 ARRRG_RATE,
                A.ICHE_STATUS,
                '' ICHE_STATUS_NM,
                A.BZ_RGST_ID BIZRNO,

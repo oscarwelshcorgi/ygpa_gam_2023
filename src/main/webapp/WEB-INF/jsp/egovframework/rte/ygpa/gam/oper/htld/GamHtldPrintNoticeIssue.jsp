@@ -877,7 +877,7 @@ div.notice {
 	      			<h2>산출근거</h2>
 	      			<p>
 	      			사용기간 : <c:out value="${master.nticPdFrom}"/> ~ <c:out value="${master.nticPdTo}"/><br/>
-	      			<c:out value="${master.chrgeKndNm}"/> : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.billAmnt}" /> 원</p>
+	      			<c:out value="${master.chrgeKndNm}"/> : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.fee}" /> 원</p>
 				    <p>
 				    <c:if test="${master.intrAmnt>0}">
 		      			이자 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.intrAmnt}" /> 원 (이자율 : <fmt:formatNumber type="number" maxIntegerDigits="5" maxFractionDigits="2" value="${master.intrRate}" />% Cofix수신금리)

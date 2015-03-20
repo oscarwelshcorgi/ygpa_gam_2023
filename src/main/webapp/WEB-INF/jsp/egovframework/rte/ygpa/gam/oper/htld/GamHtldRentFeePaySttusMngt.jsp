@@ -146,10 +146,9 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         	this.loadData();
     	}
     } else {
-    	/*
-        this.$('#sUsagePdFrom').val(EMD.util.getDate());
-        this.$('#sUsagePdTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
-    	*/
+        this.$('#sNticDtFrom').val(EMD.util.getDate());
+        this.$('#sNticDtTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
+    	this.loadData();
     }
     console.log('loadCompleted');
 };
@@ -187,7 +186,8 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         case 'btnNticArrrg':
             this.doExecuteDialog('nticArrrgPopup', '연체 일괄 고지', '/oper/htld/showNticArrrgPopup.do', opts);
         	break;
-        case 'btnNticArrrgSingle':
+        case 'btnNticArrrgSingle1':
+        case 'btnNticArrrgSingle2':
 			this.nticArrrgSingle();
         	break;
         case 'btnNticArrrgCancel':
@@ -238,6 +238,35 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
 };
 
 GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
+    if(this.$('#htldRentFeePaySttusMngtList').selectedRowCount()>0) {
+
+        //alert(EMD.context_root);
+
+        var rows = this.$('#htldRentFeePaySttusMngtList').selectedRows()[0];
+
+        if( rows['rcivDt'] == 'Y' ) {
+        	alert("이미 수납 된 건 입니다.");
+        	return;
+        }
+
+    	var opts = {
+                'prtAtCode': rows['prtAtCode'],
+                'mngYear': rows['mngYear'],
+                'mngNo': rows['mngNo'],
+                'mngCnt': rows['mngCnt'],
+                'nticCnt' : rows['nticCnt'],
+                'taxtSe': rows['taxtSe']
+            };
+
+    	this.doExecuteDialog('arrrgNticIssuePopup', '연체료 고지', '/oper/htld/showArrrgNticIssuePopup.do', opts);
+
+    } else {
+    	alert("목록에서 고지 할 건을 선택하십시오.");
+    	return;
+    }
+};
+/*
+GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
 	var rows = this.$('#htldRentFeePaySttusMngtList').selectedRows();
 	if(rows.length==0) {
 		alert('연체 고지 할 항목을 선택 하세요.');
@@ -247,12 +276,6 @@ GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
 	var row=rows[0];
 
 	if(!confirm('이 건에 대해 연체 고지를 하시겠습니까?')) return;
-
-	var arrrgRate=this.$('#arrrgRate').val();
-	var dlyBillAmnt=this.$('#arrrgAmt').number(true).val();
-	var dlyBillDt=this.$('#dlyBillDt').val();
-	var dlyDueDt=this.$('#dlyDueDt').val();
-	var dlyBillRsn=this.$('#dlyBillRsn').val();
 
 	var arrrgDetail = [
 	               { name: 'prtAtCode', value: this.resultDetail.prtAtCode},
@@ -298,7 +321,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
 		});
 	}
 
-};
+}; */
 
 GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgCancelAll = function() {
 
@@ -638,6 +661,28 @@ GamHtldRentFeePaySttusMngtModule.prototype.onClosePopup = function(popupId, msg,
         break;
     case 'nticArrrgPopup':
     	break;
+    case 'arrrgNticIssuePopup':
+        if (msg != 'cancel') {
+        	console.log('notice');
+            //if( confirm($.number(value.nticAmt)+"원 을 고지 하시겠습니까?") ) {
+            	var arg = EMD.util.objectToArray(value);
+                this.doAction('/oper/htld/insertHtldArrrgNticSingle.do', arg, function(module, result) {
+
+                    if(result.resultCode=='0') {
+                    	module.loadData();
+                    	/*
+                        var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
+                        module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
+                        module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
+                        */
+                    }
+
+                    alert(result.resultMsg);
+                });
+            //}
+        } else {
+        }
+    	break;
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
 
@@ -722,6 +767,7 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
 							<button id="btnUpdatePayDtls" data-icon="ui-icon-circle-check">납부확인</button>
 							 -->
 							<button data-role="gridXlsDown" data-flexi-grid="htldRentFeePaySttusMngtList" data-xls-name="배후단지납부현황목록.xls" data-xls-title="배후단지 납부현황 목록">엑셀</button>
+							<button id="btnNticArrrgSingle1" data-icon="ui-icon-clock">연체고지</button>
 							</td>
 							<!-- <td><button id="btnNticArrrg" data-icon="ui-icon-clock">연체일괄고지</button></td> -->
                 		</tr>
@@ -779,7 +825,7 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
 						<tr>
 							<th width="50%">연체내역</th>
 							<th style="text-align:right">
-								<button id="btnNticArrrgSingle" data-icon="ui-icon-clock">연체고지</button>
+								<button id="btnNticArrrgSingle2" data-icon="ui-icon-clock">연체고지</button>
 								<button id="btnNticIssuePrint" data-icon="ui-icon-clock">고지서출력</button>
 								<!--
 								<button id="btnNticIssuePrint2" data-icon="ui-icon-clock">고지서출력(연체만)</button>

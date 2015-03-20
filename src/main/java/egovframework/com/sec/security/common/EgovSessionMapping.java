@@ -63,6 +63,8 @@ public class EgovSessionMapping extends EgovUsersByUsernameMapping {
         /**2010.06.30 *이용   *조직명 추가  */
         String strOrgnztNm    = rs.getString("orgnzt_nm");
         String strDeptCd = rs.getString("dept_cd");
+        String strQuayGroupCd = rs.getString("quay_group_cd");
+        String strMngFcltyCd = rs.getString("mng_fclty_cd");
 
 
 
@@ -79,6 +81,8 @@ public class EgovSessionMapping extends EgovUsersByUsernameMapping {
         /**2010.06.30 *이용   *조직명 추가  */
         loginVO.setOrgnztNm(strOrgnztNm);
         loginVO.setDeptCd(strDeptCd);
+        loginVO.setQuayGroupCd(strQuayGroupCd);
+        loginVO.setMngFcltyCd(strMngFcltyCd);
 
         return new EgovUserDetails(strUserId, strPassWord, strEnabled, loginVO);
     }

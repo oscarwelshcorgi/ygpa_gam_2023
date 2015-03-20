@@ -18,6 +18,7 @@ import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentArrrgMngtVO;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
+import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtService;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtVO;
 
@@ -90,7 +91,6 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
 	 */
 	@Override
 	public List<?> selectNticArrrgList(GamHtldRentArrrgMngtVO searchVO) throws Exception {
-		// TODO Auto-generated method stub
 		return gamHtldRentFeePaySttusMngtDao.selectNticArrrgList(searchVO);
 	}
 
@@ -99,7 +99,6 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
 	 */
 	@Override
 	public int selectNticArrrgListTotCnt(GamHtldRentArrrgMngtVO searchVO) throws Exception {
-		// TODO Auto-generated method stub
 		return gamHtldRentFeePaySttusMngtDao.selectNticArrrgListTotCnt(searchVO);
 	}
 
@@ -130,9 +129,6 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
             }
         }
 
-
-
-		// TODO Auto-generated method stub
 		return gamHtldRentFeePaySttusMngtDao.mergeNticArrrgList(mergeMap);
 	}
 
@@ -165,7 +161,6 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
 	 */
 	@Override
 	public Map selectNticArrrgDetail(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {
-		// TODO Auto-generated method stub
 		return gamHtldRentFeePaySttusMngtDao.selectNticArrrgDetail(searchVO);
 	}
 
@@ -206,8 +201,30 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
 	@Override
 	public EgovMap selectPrtFcltyRentFeePaySttusMngtDlyInfo(
 			GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {
-		// TODO Auto-generated method stub
 		return gamHtldRentFeePaySttusMngtDao.selectPrtFcltyRentFeePaySttusMngtDlyInfo(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtService#selectArrrglevReqestPk(egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtVO)
+	 */
+	@Override
+	public Map selectArrrglevReqestPk(GamHtldRentFeePaySttusMngtVO gamHtldRentFeeMngtVO) throws Exception {
+		return gamHtldRentFeePaySttusMngtDao.selectArrrglevReqestPk(gamHtldRentFeeMngtVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtService#sendLevReqestUnpaidF(egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtVO)
+	 */
+	@Override
+	public void sendLevReqestUnpaidF(
+			GamHtldRentArrrgMngtVO gamHtldRentFeeMngtVO) throws Exception {
+		Map map = gamHtldRentFeePaySttusMngtDao.selectLevReqestUnpaidF(gamHtldRentFeeMngtVO);
+
+		map.put("emplNo", gamHtldRentFeeMngtVO.getUpdUsr());
+		map.put("userName", gamHtldRentFeeMngtVO.getUserName());
+
+		gamHtldRentFeePaySttusMngtDao.insertNticRequestUnpaidF(map);
+		gamHtldRentFeePaySttusMngtDao.updateNticRequestUnpaidF(map);
 	}
 
 

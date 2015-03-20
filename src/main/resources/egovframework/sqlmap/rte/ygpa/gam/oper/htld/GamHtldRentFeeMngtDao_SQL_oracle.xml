@@ -798,7 +798,8 @@
 		      R.FEE_TP,
 		      R.BILL_NO,
 		      R.BILL_AMNT,
-            L.INTR_AMNT,
+		      L.FEE,
+	          L.INTR_AMNT,
 		      L.NTIC_CNT,
               L.INTR_RATE*100 INTR_RATE,
 		      R.AGENT_NAME,
@@ -1718,7 +1719,7 @@
       	SYSDATE,
       	#payTmlmt#,
       	#nhtPrintYn#,
-      	#fee#, #rdcxptFee#, 0, 0,
+      	#fee#+#intrAmnt#+#vat#, #rdcxptFee#, 0, 0,
       	'0',
       	#updUsr#, SYSDATE, SYSDATE, #vatYn#, #vat#, #nticPdFrom#, #nticPdTo#,
 	      #deptCd#,
@@ -1937,9 +1938,9 @@
       			(PRT_AT_CODE, FISCAL_YR, FEE_TP, WORK_CODE, BILL_NO) IN (
           	SELECT L.PRT_AT_CODE,
           		L.ACCNUT_YEAR,
-          		GAM_GET_FEE_TP(L.INTR_CHRGE_KND),
+          		GAM_GET_FEE_TP(L.CHRGE_KND),
           		GAM_GET_WORK_CODE(L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT, L.NTIC_CNT, L.INTR_CHRGE_KND),
-          		L.INTR_FEE_NTICNO
+          		L.NTICNO
           	FROM LEV_REQEST_F L
 		      WHERE PRT_AT_CODE=#prtAtCode#
 		      	AND MNG_YEAR=#mngYear#

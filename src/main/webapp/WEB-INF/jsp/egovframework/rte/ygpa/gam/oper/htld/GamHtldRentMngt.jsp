@@ -210,8 +210,6 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
     this.setButtonStatus();
 
     this.loadData();	// 데이터 조회
-
-    console.log('debug');	// debug가 종료 되면 반드시 제거 할 것
 };
 
 <%--
@@ -398,7 +396,7 @@ GamHtldRentMngtModule.prototype.loadEntrpsChargerList = function() {
 		//var loadOpt = [{name: 'entrpscd', value: entrpsCd}];
 		var loadOpt = {'entrpscd': entrpsCd};
 	    this.doAction('/asset/rent/selectEntrpsChargerList.do', loadOpt, function(module, result) {
-	    	console.log('charger list load completed');
+	    	//console.log('charger list load completed');
 	        if(result.resultCode=='0') {
 		       	 var selectCharger = module.$('#selectCharger');
 		       	selectCharger.off('change');
@@ -410,7 +408,7 @@ GamHtldRentMngtModule.prototype.loadEntrpsChargerList = function() {
 		       	selectCharger.on('change', {module: module}, function(event) {
 		       		var sel = $(this).children(':selected');
 		       		var m = event.data.module;
-		       		console.log('charger selected : '+sel);
+		       		//console.log('charger selected : '+sel);
 		   			m.$('#chargerNo').val(sel.val());
 		   			if(sel.val()!=null && sel.val()!='') {
 		   				var tlNo=sel.data('tlphonno');

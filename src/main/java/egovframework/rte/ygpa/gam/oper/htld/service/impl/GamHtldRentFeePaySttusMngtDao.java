@@ -139,4 +139,41 @@ public class GamHtldRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 		return (EgovMap) selectByPk("gamPrtFcltyRentFeePaySttusMngtDao.selectPrtFcltyRentFeePaySttusMngtDlyInfo_S", searchVO);
     }
 
+	/**
+	 * @param gamHtldRentFeeMngtVO
+	 * @return
+	 */
+	public Map selectArrrglevReqestPk(
+			GamHtldRentFeePaySttusMngtVO gamHtldRentFeeMngtVO) {
+		return (EgovMap) selectByPk("gamHtldRentFeePaySttusMngtDao.selectArrrglevReqestPk_S", gamHtldRentFeeMngtVO);
+	}
+
+	/**
+	 * 연체내역조회
+	 * @param gamHtldRentFeeMngtVO
+	 * @return
+	 */
+	public Map selectLevReqestUnpaidF(
+			GamHtldRentArrrgMngtVO gamHtldRentFeeMngtVO) {
+		return (EgovMap) selectByPk("gamHtldRentFeePaySttusMngtDao.selectLevReqestUnpaidF_S", gamHtldRentFeeMngtVO);
+	}
+
+	/**
+	 * 연체고지 등록
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public String insertNticRequestUnpaidF(Map<String, Object> vo) throws Exception {
+        return (String)insert("gamHtldRentFeePaySttusMngtDao.insertNticRequestUnpaidF_S", vo);
+    }
+
+	/**
+	 * @param map
+	 */
+	public void updateNticRequestUnpaidF(Map map) {
+        update("gamHtldRentFeePaySttusMngtDao.updateNticRequestUnpaidF_S", map);
+	}
+
+
 }

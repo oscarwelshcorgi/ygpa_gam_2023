@@ -163,4 +163,21 @@
 		<property name="fillChar" value="0" />
 	</bean>
 
+	<bean name="gamRentFileIdGnrService"
+		class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService"
+		destroy-method="destroy">
+		<property name="dataSource" ref="egov.dataSource" />
+		<property name="strategy" ref="rentFileStrategy" />
+		<property name="blockSize" 	value="10"/>
+		<property name="table"	   	value="ASSETS_INFO_IDS_F"/>
+		<property name="tableName"	value="RENT_FILE"/>
+	</bean>
+
+	<bean name="rentFileStrategy"
+		class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="RENT_" />
+		<property name="cipers" value="15" />
+		<property name="fillChar" value="0" />
+	</bean>
+
 </beans>

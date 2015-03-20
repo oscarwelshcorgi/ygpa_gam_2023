@@ -11,6 +11,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +29,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentArrrgMngtVO;
+import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtService;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtVO;
 
@@ -275,6 +278,67 @@ public class GamHtldRentFeePaySttusMngtController {
  		return map;
      }
 
+    @SuppressWarnings({ "rawtypes" })
+	@RequestMapping(value="/oper/htld/showArrrgNticIssuePopup.do")
+    public String showNticIssuePopup(
+    		GamHtldRentFeePaySttusMngtVO gamHtldRentFeeMngtVO,
+     	  ModelMap model)
+            throws Exception {
+
+		Map master = gamHtldRentFeePaySttusMngtService.selectArrrglevReqestPk(gamHtldRentFeeMngtVO);
+
+		model.addAttribute("arrrglevReqest", master);
+
+    	return "/ygpa/gam/oper/htld/GamPopupHtldRentArrrgNticIssue";
+     }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value="/oper/htld/insertHtldArrrgNticSingle.do")
+    public @ResponseBody Map insertHtldArrrgNticSingle(
+     	   @ModelAttribute("htldRentArrrgMngtVO") GamHtldRentArrrgMngtVO htldRentArrrgMngtVO,
+     	   BindingResult bindingResult)
+            throws Exception {
+
+     	Map map = new HashMap();
+     	Map paramMap = new HashMap();
+        String resultMsg = "";
+        int resultCode = 1;
+        int anlrveLevCnt = 0;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	try {
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+    		htldRentArrrgMngtVO.setRegUsr(loginVo.getId());
+    		htldRentArrrgMngtVO.setUpdUsr(loginVo.getId());
+    		htldRentArrrgMngtVO.setUserName(loginVo.getName());
+    		htldRentArrrgMngtVO.setDeptCd(loginVo.getDeptCd());
+
+    		gamHtldRentFeePaySttusMngtService.sendLevReqestUnpaidF(htldRentArrrgMngtVO);
+
+//    	 		gamNticRequestMngtService.sendNticRequest(nticParam);
+
+	        resultCode = 0;
+	 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+
+	     	map.put("resultCode", resultCode);
+	        map.put("resultMsg", resultMsg);
+    	}
+    	catch(Exception e) {
+	        map.put("resultCode", -1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.nticIssue.msg"));
+        	return map;
+    	}
+
+ 		return map;
+     }
+
 	/**
      *  연체 세입 조회
      * @param searchOpt
@@ -352,6 +416,8 @@ public class GamHtldRentFeePaySttusMngtController {
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
 		searchVO.setUpdUsr(loginVO.getId());
+		searchVO.setRegUsr(loginVO.getId());
+		searchVO.setDeptCd(loginVO.getDeptCd());
 
 		Map<String,Object> mergeMap = new HashMap<String,Object>();
 
@@ -359,7 +425,7 @@ public class GamHtldRentFeePaySttusMngtController {
 
 		for(int i=0; i<gamNticArrrgList.size(); i++) {
 			Map<String, Object> nticArg = (Map<String, Object>)gamNticArrrgList.get(i);
-			nticArg.put("arrrgRate", searchVO.getArrrgRate());
+			nticArg.put("arrrgRate", searchVO.getArrrgTariff());
 		}
 
 		gamNticRequestMngtService.sendMultiUnpaidRequest(gamNticArrrgList);

@@ -1196,6 +1196,7 @@ var module_instance = new GamFcltyRepairMngModule();
 				</form>
 				<div class="emdControlPanel">
 					<button data-role="printPage" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairCheckMngPrint.do'>하자검사관리대장인쇄</button>
+					<button data-role="downloadHwp" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairCheckReportHwp.do'>하자검사조서다운로드</button>
 					<button data-role="printPage" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairCheckReportPrint.do'>하자검사조서인쇄</button>
 					<button data-role="printPage" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairExpireCheckReportPrint.do'>하자만료검사조서인쇄</button>
 					<button id="addBtn" class="buttonAdd">　　추　가　　</button>

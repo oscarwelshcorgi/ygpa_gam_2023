@@ -559,7 +559,7 @@
                TO_CHAR(A.DUE_DATE,'YYYY-MM-DD') PAY_TMLMT,
                trunc(SYSDATE-PAY_TMLMT) ARRRG_DATES,
                (SYSDATE+15) NEW_PAY_TMLMT,
-               TO_NUMBER(#arrrgRate#)/100 ARRRG_RATE,
+               TO_NUMBER(#arrrgTariff#)/100 ARRRG_RATE,
                A.ICHE_STATUS,
                '' ICHE_STATUS_NM,
                A.BZ_RGST_ID BIZRNO,
@@ -754,7 +754,7 @@
     </insert>
 
 
-    <select id="gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyList_D" parameterClass="GamHtldRentFeePaySttusMngtVO" resultClass="egovMap">
+    <select id="gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyList_D" parameterClass="gamHtldRentFeePaySttusMngtVO" resultClass="egovMap">
 			SELECT A.*
 				  FROM
 				       (SELECT Z.*,
@@ -808,7 +808,7 @@
     </select>
 
 
-    <select id="gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyListTotCnt_S" parameterClass="GamHtldRentFeePaySttusMngtVO" resultClass="int">
+    <select id="gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyListTotCnt_S" parameterClass="gamHtldRentFeePaySttusMngtVO" resultClass="int">
 
             SELECT COUNT(*) totcnt
 				FROM
@@ -850,7 +850,7 @@
     </select>
 
 
-    <select id="gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyListSum_D" parameterClass="GamHtldRentFeePaySttusMngtVO" resultClass="egovMap">
+    <select id="gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyListSum_D" parameterClass="gamHtldRentFeePaySttusMngtVO" resultClass="egovMap">
             SELECT
             	TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) AS DP_TOT_CNT
             	,TRIM(TO_CHAR(NVL(SUM(T1.DLY_BILL_AMNT),0), '999,999,999,999')) AS SUM_DLY_BILL_AMNT
@@ -890,5 +890,198 @@
 	                    AND T1.BILL_NO = #nticno#
 	                </isNotEmpty>
     </select>
+
+	<select id="gamHtldRentFeePaySttusMngtDao.selectArrrglevReqestPk_S" parameterClass="gamHtldRentFeePaySttusMngtVO" resultClass="egovMap">
+		SELECT
+		  PRT_AT_CODE,
+		  MNG_YEAR,
+		  MNG_NO,
+		  MNG_CNT,
+		  NTIC_CNT,
+		  FCLTY_SE,
+		  CHRGE_KND,
+		  ENTRPSCD,
+		  ENTRPS_NM,
+		  TO_CHAR(NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM,
+		  TO_CHAR(NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO,
+		  ACCNUT_YEAR,
+		  NTICNO,
+		  NTIC_DT,
+		  PAY_TMLMT,
+		  TO_CHAR(p2mgr.sf_get_wrk_dt@ygpa_portmis(SYSDATE+15), 'YYYY-MM-DD') NEW_PAY_TMLMT,
+		  FEE,
+		  VAT_YN,
+		  VAT,
+		  NTIC_AMT,
+		  RCIV_SE,
+		  RCIV_DT,
+		  NHT_ISUE_YN,
+		  NHT_PRINT_YN,
+		  ARRRG_NO,
+		  ARRRG_AMT,
+		  REQEST_SEQ,
+		  DEPTCD,
+		  NTIC_MTH,
+		  REG_USR,
+		  REGIST_DT,
+		  UPD_USR,
+		  UPDT_DT,
+		  RDCXPT_FEE,
+		  ARRRG_TARIFF,
+		  ARRRG_PAY_DATES,
+		  MNG_FEE,
+		  FACIL_MNG_FEE,
+		  ADIT_NTIC_YN,
+		  SETOFF_YN,
+		  PAYINST_INTRRATE,
+		  INTR_AMNT,
+		  INTR_CHRGE_KND,
+		  INTR_FEE_NTICNO,
+		  COFIX_OBJ_YRMT,
+		  INTR_RATE
+		FROM LEV_REQEST_F
+		WHERE PRT_AT_CODE=#prtAtCode#
+		and MNG_YEAR=#mngYear#
+		and mng_no=#mngNo#
+		and mng_cnt=#mngCnt#
+		and ntic_cnt=#nticCnt#
+    </select>
+
+ 	<select id="gamHtldRentFeePaySttusMngtDao.selectLevReqestUnpaidF_S" parameterClass="gamHtldRentArrrgMngtVO" resultClass="egovMap">
+		SELECT
+		  L.PRT_AT_CODE,
+		  L.MNG_YEAR,
+		  L.MNG_NO,
+		  L.MNG_CNT,
+		  L.NTIC_CNT,
+		  L.FCLTY_SE,
+		  L.CHRGE_KND,
+		  L.ENTRPSCD,
+		  L.ENTRPS_NM,
+		  TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM,
+		  TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO,
+		  L.ACCNUT_YEAR,
+		  L.NTICNO,
+		  TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT,
+		  TO_CHAR(L.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT,
+		  L.FEE,
+		  L.RDCXPT_FEE,
+		  L.VAT_YN,
+		  L.VAT,
+		  L.NTIC_AMT,
+		  L.RCIV_SE,
+		  L.RCIV_DT,
+		  L.NHT_ISUE_YN,
+		  L.NHT_PRINT_YN,
+		  (SELECT lpad(nvl(MAX(DLY_SER_NO), 0)+1, 2, '0') FROM UNPAID_F WHERE PRT_AT_CODE=L.PRT_AT_CODE
+		  	AND FISCAL_YR=L.ACCNUT_YEAR
+		  	AND WORK_CODE=L.CHRGE_KND
+		  	AND FEE_TP=GAM_GET_FEE_TP(L.CHRGE_KND)
+		  	AND BILL_NO=L.NTICNO) DLY_SER_NO,
+		  #arrrgAmt# DLY_BILL_AMNT,
+		  #arrrgAmt# DBILL_AMNT,
+		  #newPayTmlmt# DLY_DUE_DT,
+		  TO_CHAR(nvl((SELECT lpad(nvl(MAX(DLY_SER_NO), 0)+1, 2, '0') FROM UNPAID_F WHERE PRT_AT_CODE=L.PRT_AT_CODE
+		  	AND FISCAL_YR=L.ACCNUT_YEAR
+		  	AND WORK_CODE=L.CHRGE_KND
+		  	AND FEE_TP=GAM_GET_FEE_TP(L.CHRGE_KND)
+		  	AND BILL_NO=L.NTICNO), L.PAY_TMLMT), 'YYYY-MM-DD') PRV_DUE_DT,
+	  	TO_CHAR(nvl((SELECT lpad(nvl(MAX(DLY_BILL_DT), 0)+1, 2, '0') FROM UNPAID_F WHERE PRT_AT_CODE=L.PRT_AT_CODE
+	  	AND FISCAL_YR=L.ACCNUT_YEAR
+	  	AND WORK_CODE=L.CHRGE_KND
+	  	AND FEE_TP=GAM_GET_FEE_TP(L.CHRGE_KND)
+	  	AND BILL_NO=L.NTICNO), L.NTIC_DT), 'YYYY-MM-DD') PRV_BILL_DT,
+		  L.NTIC_MTH,
+		  #regUsr# REG_USR,
+		  SYSDATE REGIST_DT,
+		  #arrrgTariff# ARRRG_TARIFF,
+		  TRUNC(SYSDATE-L.PAY_TMLMT) ARRRG_PAY_DATES,
+		  L.SETOFF_YN,
+		  L.PAYINST_INTRRATE,
+		  L.INTR_AMNT,
+		  L.INTR_CHRGE_KND,
+		  L.INTR_FEE_NTICNO,
+		  L.COFIX_OBJ_YRMT,
+		  L.INTR_RATE,
+		  TO_CHAR(SYSDATE, 'YYYY-MM-DD') DLY_BILL_DT,
+		  '( ' || TRIM(TO_CHAR(L.FEE, '999,999,999,999')) || ' * ' || TRIM(TO_CHAR(#arrrgTariff#/100, '9.9999')) || ' )' DLY_BILL_RSN,
+		  #deptCd# DEPT_CD
+		FROM LEV_REQEST_F L
+		WHERE L.PRT_AT_CODE=#prtAtCode#
+		and L.MNG_YEAR=#mngYear#
+		and L.mng_no=#mngNo#
+		and L.mng_cnt=#mngCnt#
+		and L.ntic_cnt=#nticCnt#
+    </select>
+
+    <insert id="gamHtldRentFeePaySttusMngtDao.insertNticRequestUnpaidF_S" parameterClass="egovMap" >
+        INSERT INTO UNPAID_F (
+      PRT_AT_CODE, FEE_TP, WORK_CODE, FISCAL_YR, BILL_NO,
+      DLY_SER_NO, DLY_BILL_AMNT, DLY_BILL_DT, DLY_DUE_DT, DLY_RCVD_DT, DLY_BILL_PRT_YN, DLY_RCVD_TP,
+      FIRST_BILL_DT, DBILL_AMNT,
+      BZ_RGST_ID,
+      DLY_BILL_RSN, UPDT_UID, UPDT_DATE,
+      AGENT_CODE, ACCNT_CODE, ICHE_STATUS, POST_BILL_YN, STR_DATE,END_DATE,
+      DEPT, EMPL, PRV_DUE_DT, DJIRO_AMNT, USER_NAME, PRV_BILL_DT
+      )
+      SELECT
+        L.PRT_AT_CODE, GAM_GET_FEE_TP(L.CHRGE_KND), L.CHRGE_KND, L.ACCNUT_YEAR, L.NTICNO,
+        #dlySerNo#, #dlyBillAmnt#, TO_DATE(#dlyBillDt#, 'YYYY-MM-DD'), TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'), '', 'N', '1',
+      	#nticDt#, #dbillAmnt#,
+      	GAM_GETENTRPSNM(L.ENTRPSCD, '2'),
+      	#dlyBillRsn#,
+      	#regUsr#, SYSDATE,
+      	L.ENTRPSCD, '194', 'N', 'N', #nticPdFrom#, #nticPdTo#,
+      	#deptCd#, #emplNo#, #prvDueDt#, TRUNC(L.NTIC_AMT+#dlyBillAmnt#, -1), #userName#, #prvBillDt#
+      FROM LEV_REQEST_F L
+      WHERE PRT_AT_CODE=#prtAtCode#
+      	AND MNG_YEAR=#mngYear#
+      	AND MNG_NO=#mngNo#
+      	AND MNG_CNT=#mngCnt#
+      	AND NTIC_CNT=#nticCnt#
+      	AND CHRGE_KND=#chrgeKnd#
+    </insert>
+
+	<update id="gamHtldRentFeePaySttusMngtDao.updateLevReqestArrrgAmt_S" parameterClass="egovMap">
+        UPDATE LEV_REQEST_F SET
+        	NTIC_DT=TO_DATE(#dlyBillDt#, 'YYYY-MM-DD'),
+        	PAY_TMLMT=TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'),
+      		ARRRG_NO=#dlySerNo#,
+      		ARRRG_AMT=TRUNC(TO_NUMBER(#dlyBillAmnt#), -1),
+      		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#),
+      		ARRRG_PAY_DATES=#applyPayDates#,
+      		NTIC_AMT=TRUNC(FEE+INTR_AMNT+NVL(VAT,0)+NVL(REIM_FEE,0)+TO_NUMBER(#dlyBillAmnt#), -1),
+      		RCIV_SE=#rcivSe#,
+      		UPD_USR=#regUsr#,
+      		UPDT_DT=SYSDATE
+     	WHERE
+			PRT_AT_CODE=#prtAtCode#
+	      	AND MNG_YEAR=#mngYear#
+	      	AND MNG_NO=#mngNo#
+	      	AND MNG_CNT=#mngCnt#
+	      	AND NTIC_CNT=#nticCnt#
+	      	AND CHRGE_KND=#chrgeKnd#
+	</update>
+
+  <update id="gamHtldRentFeePaySttusMngtDao.updateUnpaidFBillPrintYn" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE UNPAID_F SET
+      		DLY_BILL_PRT_YN=#nhtPrintYn#
+      		WHERE (PRT_AT_CODE, WORK_CODE, FISCAL_YR, BILL_NO, DLY_SER_NO)
+            IN (
+              SELECT PRT_AT_CODE, CHRGE_KND, ACCNUT_YEAR, NTICNO, ARRRG_NO
+              FROM LEV_REQEST_F
+              WHERE 1=1
+              		AND PRT_AT_CODE=#prtAtCode#
+			      	AND MNG_YEAR=#mngYear#
+			      	AND MNG_NO=#mngNo#
+			      	AND MNG_CNT=#mngCnt#
+			      	AND NTIC_CNT=#nticCnt#
+			      	AND CHRGE_KND=#chrgeKnd#
+                AND ARRRG_NO IS NOT NULL
+            )
+            AND dly_rcvd_tp<>'3'
+            ]]>
+  </update>
 
 </sqlMap>

@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.htld.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -253,7 +254,9 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 		if("Y".equals((String)map.get("billPrtYn"))) {
 //			egiroPrintCancel(vo);    // 고지가 된 경우 고지 취소를 한다. 2014-08-13 eunsungj.
 			vo.put("nhtPrintYn", "N");
-			updateNticPrintState(vo);
+			Map opt = new HashMap();
+			opt.putAll(vo);
+			updateNticPrintState(opt);
 			return;
 		}
 		gamHtldRentFeeMngtDao.deleteNticRequestRevCollF(vo);	// 고지정보를 삭제한다.

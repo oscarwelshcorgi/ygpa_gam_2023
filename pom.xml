@@ -794,7 +794,13 @@
 											<include> index.jsp </include>
 										</includes>
 									</resource>
-
+									<resource>
+										<directory>deploy/ygpa_release/js/</directory>
+										<targetPath>/js</targetPath>
+										<includes>
+											<include> **/*.js </include>
+										</includes>
+									</resource>
 							</webResources>
 						</configuration>
 					</plugin>

@@ -150,4 +150,15 @@ public interface GamHtldRentFeePaySttusMngtService {
 	EgovMap selectPrtFcltyRentFeePaySttusMngtDlyInfo(
 			GamHtldRentFeePaySttusMngtVO searchVO) throws Exception;
 
+	/**
+	 * @param gamHtldRentFeeMngtVO
+	 * @return
+	 */
+	Map selectArrrglevReqestPk(GamHtldRentFeePaySttusMngtVO gamHtldRentFeeMngtVO) throws Exception;
+
+	/**
+	 * @param gamHtldRentFeeMngtVO
+	 */
+	void sendLevReqestUnpaidF(GamHtldRentArrrgMngtVO gamHtldRentFeeMngtVO) throws Exception;
+
 }

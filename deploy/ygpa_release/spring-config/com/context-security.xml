@@ -118,6 +118,7 @@
 
         <b:property name="usersByUsernameQuery" value="SELECT USER_ID, ESNTL_ID AS PASSWORD, 1 ENABLED, USER_NM, EMPL_NO, USER_ZIP,
                                                               USER_ADRES, USER_EMAIL, USER_SE, ORGNZT_ID, ESNTL_ID, QUAY_GROUP_CD,
+                                                              MNG_FCLTY_CD,
                                                               (select a.ORGNZT_NM from COMTNORGNZTINFO a where a.ORGNZT_ID = m.ORGNZT_ID) ORGNZT_NM,
                                                               (select a.DEPT_CD from COMTNORGNZTINFO a where a.ORGNZT_ID = m.ORGNZT_ID) DEPT_CD
                                                          FROM COMVNUSERMASTER m WHERE CONCAT(USER_SE, USER_ID) = ? "/>
