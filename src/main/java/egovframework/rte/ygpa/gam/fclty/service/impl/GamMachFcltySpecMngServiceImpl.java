@@ -16,6 +16,7 @@ import egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamMachFcltySpecMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamMachFcltySpecMngVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamMachFcltySttusMngVO;
 
 /**
  *
@@ -191,6 +192,32 @@ public class GamMachFcltySpecMngServiceImpl extends AbstractServiceImpl implemen
 	@Override
 	public String selectMachFcltySpecMngFcltsAtchFileNewNo(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception {
 		return gamMachFcltySpecMngDao.selectMachFcltySpecMngFcltsAtchFileNewNo(gamFcltsAtchFileMngVO);
+	}
+
+
+	@Override
+	public List selectMachFcltySpecMngMachFcltySttusList(GamMachFcltySttusMngVO searchVO) throws Exception {
+		return gamMachFcltySpecMngDao.selectMachFcltySpecMngMachFcltySttusList(searchVO);
+	}
+
+	@Override
+	public void insertMachFcltySpecMngMachFcltySttus(GamMachFcltySttusMngVO gamMachFcltySttusMngVO) throws Exception {
+		gamMachFcltySpecMngDao.insertMachFcltySpecMngMachFcltySttus(gamMachFcltySttusMngVO);
+	}
+
+	@Override
+	public void updateMachFcltySpecMngMachFcltySttus(GamMachFcltySttusMngVO gamMachFcltySttusMngVO) throws Exception {
+		gamMachFcltySpecMngDao.updateMachFcltySpecMngMachFcltySttus(gamMachFcltySttusMngVO);
+	}
+
+	@Override
+	public void deleteMachFcltySpecMngMachFcltySttus(GamMachFcltySttusMngVO gamMachFcltySttusMngVO) throws Exception {
+		gamMachFcltySpecMngDao.deleteMachFcltySpecMngMachFcltySttus(gamMachFcltySttusMngVO);
+	}
+
+	@Override
+	public EgovMap selectMachFcltySpecMngMachFcltySttusPk(GamMachFcltySttusMngVO gamMachFcltySttusMngVO) throws Exception {
+		return gamMachFcltySpecMngDao.selectMachFcltySpecMngMachFcltySttusPk(gamMachFcltySttusMngVO);
 	}
 
 }

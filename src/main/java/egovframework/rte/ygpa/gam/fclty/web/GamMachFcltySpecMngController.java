@@ -31,6 +31,7 @@ import egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamMachFcltySpecMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamMachFcltySpecMngVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamMachFcltySttusMngVO;
 
 /**
  *
@@ -747,6 +748,151 @@ public class GamMachFcltySpecMngController {
 
 		map.put("resultCode", 0);
 		map.put("sNewNo", sNewNo);
+
+		return map;
+
+	}
+
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/fclty/gamSelectMachFcltySpecMngMachFcltySttusList.do", method=RequestMethod.POST)
+	@ResponseBody Map gamSelectMachFcltySpecMngMachFcltySttusList(GamMachFcltySttusMngVO searchVO) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamMachFcltySpecMngService.selectMachFcltySpecMngMachFcltySttusList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+
+		return map;
+
+	}
+
+	@RequestMapping(value="/fclty/gamInsertMachFcltySpecMngMachFcltySttus.do")
+	@ResponseBody Map<String, Object> gamInsertMachFcltySpecMngMachFcltySttus(GamMachFcltySttusMngVO gamMachFcltySttusMngVO) throws Exception {
+
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			gamMachFcltySttusMngVO.setRegUsr((String)user.getId());
+			gamMachFcltySpecMngService.insertMachFcltySpecMngMachFcltySttus(gamMachFcltySttusMngVO);
+
+			map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+
+		return map;
+
+	}
+
+	@RequestMapping(value="/fclty/gamUpdateMachFcltySpecMngMachFcltySttus.do")
+	@ResponseBody Map<String, Object> gamUpdateMachFcltySpecMngMachFcltySttus(GamMachFcltySttusMngVO gamMachFcltySttusMngVO) throws Exception {
+
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			gamMachFcltySttusMngVO.setUpdUsr((String)user.getId());
+			gamMachFcltySpecMngService.updateMachFcltySpecMngMachFcltySttus(gamMachFcltySttusMngVO);
+
+			map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+		}
+
+		return map;
+
+	}
+
+	@RequestMapping(value="/fclty/gamDeleteMachFcltySpecMngMachFcltySttus.do")
+	@ResponseBody Map<String, Object> gamDeleteMachFcltySpecMngMachFcltySttus(GamMachFcltySttusMngVO gamMachFcltySttusMngVO) throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			gamMachFcltySpecMngService.deleteMachFcltySpecMngMachFcltySttus(gamMachFcltySttusMngVO);
+
+			map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+		}
+
+		return map;
+
+	}
+
+	@RequestMapping(value="/fclty/gamSelectMachFcltySpecMngMachFcltySttusPk.do")
+	@ResponseBody Map<String, Object> gamSelectMachFcltySpecMngMachFcltySttusPk(GamMachFcltySttusMngVO gamMachFcltySttusMngVO) throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			Map result = gamMachFcltySpecMngService.selectMachFcltySpecMngMachFcltySttusPk(gamMachFcltySttusMngVO);
+
+			map.put("resultCode", 0);
+			map.put("result", result);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+		}
 
 		return map;
 

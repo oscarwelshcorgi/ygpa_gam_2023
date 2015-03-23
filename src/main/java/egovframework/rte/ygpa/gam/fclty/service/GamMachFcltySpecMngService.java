@@ -235,4 +235,45 @@ public interface GamMachFcltySpecMngService {
 	 */
 	String selectMachFcltySpecMngFcltsAtchFileNewNo(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception;
 
+
+	/**
+	 * @name selectMachFcltySpecMngMachFcltySttusList
+	 * @param searchVO
+	 * @return List
+	 * @throws Exception
+	 */
+	List selectMachFcltySpecMngMachFcltySttusList(GamMachFcltySttusMngVO searchVO) throws Exception;
+
+	/**
+	 * @name insertMachFcltySpecMngMachFcltySttus
+	 * @param gamMachFcltySttusMngVO
+	 * @return void
+	 * @throws Exception
+	 */
+	void insertMachFcltySpecMngMachFcltySttus(GamMachFcltySttusMngVO gamMachFcltySttusMngVO) throws Exception;
+
+	/**
+	 * @name updateMachFcltySpecMngMachFcltySttus
+	 * @param gamMachFcltySttusMngVO
+	 * @return void
+	 * @throws Exception
+	 */
+	void updateMachFcltySpecMngMachFcltySttus(GamMachFcltySttusMngVO gamMachFcltySttusMngVO) throws Exception;
+
+	/**
+	 * @name deleteMachFcltySpecMngMachFcltySttus
+	 * @param gamMachFcltySttusMngVO
+	 * @return void
+	 * @throws Exception
+	 */
+	void deleteMachFcltySpecMngMachFcltySttus(GamMachFcltySttusMngVO gamMachFcltySttusMngVO) throws Exception;
+
+	/**
+	 * @name selectMachFcltySpecMngMachFcltySttusPk
+	 * @param gamMachFcltySttusMngVO
+	 * @return EgovMap
+	 * @throws Exception
+	 */
+	EgovMap selectMachFcltySpecMngMachFcltySttusPk(GamMachFcltySttusMngVO gamMachFcltySttusMngVO) throws Exception;
+
 }

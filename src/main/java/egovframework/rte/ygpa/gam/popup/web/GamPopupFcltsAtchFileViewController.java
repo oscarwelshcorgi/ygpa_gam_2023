@@ -58,7 +58,7 @@ public class GamPopupFcltsAtchFileViewController {
 	private GamPopupFcltsAtchFileViewService gamPopupFcltsAtchFileViewService;
 
 	@RequestMapping(value="/popup/showFcltsAtchFileViewPopup.do")
-	String showQcItemCdPopup(GamFcltsAtchFileMngVO searchOpt, ModelMap model) throws Exception {
+	String showFcltsAtchFileViewPopup(GamFcltsAtchFileMngVO searchOpt, ModelMap model) throws Exception {
 
 		model.addAttribute("searchOpt", searchOpt);
 

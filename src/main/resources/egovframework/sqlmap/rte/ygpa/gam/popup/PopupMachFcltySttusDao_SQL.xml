@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!-- SQL MAP 정의 -->
+<sqlMap namespace="ygpa.gam.popup">
+	<!-- TYPE ALIAS 정의 -->
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamMachFcltySttusMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamMachFcltySttusMngVO"/>
+
+	<select id="PopupMachFcltySttusDao.selectMachFcltySttusPk_S" parameterClass="GamMachFcltySttusMngVO" resultClass="egovMap">
+		SELECT
+				 T1.WHARF_NM AS WHARF_NM
+				,(CASE WHEN T1.WHARF_NM = '계' THEN NULL ELSE T1.OPER_CMPNY END) AS OPER_CMPNY
+				,T1.CC_COUNT AS CC_COUNT
+				,T1.TC_COUNT AS TC_COUNT
+				,T1.YT_COUNT AS YT_COUNT
+				,T1.CS_COUNT AS CS_COUNT
+				,T1.RS_COUNT AS RS_COUNT
+				,T1.TH_COUNT AS TH_COUNT
+				,T1.TC_RTGC_COUNT AS TC_RTGC_COUNT
+				,T1.FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+			FROM MECH_FCLTY_STTUS_F T1
+		WHERE T1.WHARF_NM = #wharfNm#
+		AND OPER_CMPNY = #operCmpny#
+	</select>
+
+	<insert id="PopupMachFcltySttusDao.insertMachFcltySttus_S" parameterClass="GamMachFcltySttusMngVO">
+		INSERT INTO MECH_FCLTY_STTUS_F
+		(
+			 WHARF_NM
+			,OPER_CMPNY
+			,CC_COUNT
+			,TC_COUNT
+			,YT_COUNT
+			,CS_COUNT
+			,RS_COUNT
+			,TH_COUNT
+			,TC_RTGC_COUNT
+			,FCLTS_MNG_GROUP_NO
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 #wharfNm#
+			,#operCmpny#
+			,#ccCount#
+			,#tcCount#
+			,#ytCount#
+			,#csCount#
+			,#rsCount#
+			,#thCount#
+			,#tcRtgcCount#
+			,#fcltsMngGroupNo#
+			,#regUsr#
+			,SYSDATE
+		)
+	</insert>
+
+	<update id="PopupMachFcltySttusDao.updateMachFcltySttus_S" parameterClass="GamMachFcltySttusMngVO">
+		UPDATE MECH_FCLTY_STTUS_F SET
+			 CC_COUNT = #ccCount#
+			,TC_COUNT = #tcCount#
+			,YT_COUNT = #ytCount#
+			,CS_COUNT = #csCount#
+			,RS_COUNT = #rsCount#
+			,TH_COUNT = #thCount#
+			,TC_RTGC_COUNT = #tcRtgcCount#
+			,FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE WHARF_NM = #wharfNm#
+		AND OPER_CMPNY = #operCmpny#
+	</update>
+
+	<delete id="PopupMachFcltySttusDao.deleteMachFcltySttus_S" parameterClass="GamMachFcltySttusMngVO">
+		DELETE FROM MECH_FCLTY_STTUS_F
+		WHERE WHARF_NM = #wharfNm#
+		AND OPER_CMPNY = #operCmpny#
+	</delete>
+
+</sqlMap>

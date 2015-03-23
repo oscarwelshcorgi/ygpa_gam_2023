@@ -66,7 +66,7 @@ GamMachFcltySpecMngModule.prototype.loadComplete = function(params) {
 					{display:"설치 년월",	 		name:"instlYrmt",				width:80,		sortable:false,		align:"center"},
 					{display:"도급자",	 			name:"contrUsr",				width:80,		sortable:false,		align:"left"},
 					{display:"도급 금액",			name:"contrAmt",				width:100,		sortable:false,		align:"right"},
-					{display:"규격",				name:"eqpmnStndrd",				width:80,		sortable:false,		align:"right"},
+					{display:"규격",				name:"eqpmnStndrd",				width:150,		sortable:false,		align:"left"},
 					{display:"연결 도교",			name:"linkBridge",				width:80,		sortable:false,		align:"right"},
 					{display:"해당 건축시설",	 	name:"archFcltsNm",				width:100,		sortable:false,		align:"left"},
 					{display:"시설물 관리 번호",	name:"fcltsMngNo",				width:130,		sortable:false,		align:"left"},
@@ -131,22 +131,39 @@ GamMachFcltySpecMngModule.prototype.loadComplete = function(params) {
 
 	this.$("#statusGrid").flexigrid({
 		module : this,
-		url : '/fclty/gamSelectMachFcltySpecMngCvlEngStatusList.do',
+		url : '/fclty/gamSelectMachFcltySpecMngMachFcltySttusList.do',
 		dataType : "json",
 		colModel : [
-					{display:"부두명",				name:"sttusFcltsMngGroupNm",	width:130,		sortable:false,		align:"center"},
-					{display:"운영사",			 	name:"sttusOperCmpny",			width:100,		sortable:false,		align:"center"},
-					{display:"C/C",					name:"sttusCcCount",			width:100,		sortable:false,		align:"center"},
-					{display:"T/C",					name:"sttusTcCountDisplay",		width:110,		sortable:false,		align:"center"},
-					{display:"Y/T",					name:"sttusYtCount",			width:100,		sortable:false,		align:"center"},
-					{display:"샷시",				name:"sttusCsCount",			width:100,		sortable:false,		align:"center"},
-					{display:"Reach",				name:"sttusRsCount",			width:100,		sortable:false,		align:"center"},
-					{display:"Top Handler",			name:"sttusThCount",			width:100,		sortable:false,		align:"center"},
-					{display:"비고(eRTGC)",			name:"sttusTcRtgcCount",		width:100,		sortable:false,		align:"center"}
+					{display:"부두명",				name:"wharfNm",			width:130,		sortable:false,		align:"center"},
+					{display:"운영사",			 	name:"operCmpny",		width:100,		sortable:false,		align:"center"},
+					{display:"C/C",					name:"ccCount",			width:100,		sortable:false,		align:"center"},
+					{display:"T/C",					name:"tcCount",			width:110,		sortable:false,		align:"center"},
+					{display:"Y/T",					name:"ytCount",			width:100,		sortable:false,		align:"center"},
+					{display:"샷시",				name:"csCount",			width:100,		sortable:false,		align:"center"},
+					{display:"Reach",				name:"rsCount",			width:100,		sortable:false,		align:"center"},
+					{display:"Top Handler",			name:"thCount",			width:100,		sortable:false,		align:"center"},
+					{display:"비고(eRTGC)",			name:"tcRtgcCount",		width:100,		sortable:false,		align:"center"}
 					],
 		showTableToggleBtn : false,
 		height : '477',
-		mergeRows : 'sttusFcltsMngGroupNm'
+		mergeRows : 'wharfNm'
+	});
+
+	this.$("#statusGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectStatusData();
+	});
+
+	this.$("#statusGrid").on('onItemSelected', function(event, module, row, grid, param) {
+		module._statusmode = 'modify';
+		module._statusKeyValue1 = row.wharfNm;
+		module._statusKeyValue2 = row.operCmpny;
+	});
+
+	this.$("#statusGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
+		module._statusmode = 'modify';
+		module._statusKeyValue1 = row.wharfNm;
+		module._statusKeyValue2 = row.operCmpny;
+		module.showMachFcltySttusPopup("U");
 	});
 
 	this.$("#fileGrid").flexigrid({
@@ -200,6 +217,9 @@ GamMachFcltySpecMngModule.prototype.loadComplete = function(params) {
 	this._params = params;
 	this._mainmode = 'query';
 	this._mainKeyValue = '';
+	this._statusmode = 'query';
+	this._statusKeyValue1 = '';
+	this._statusKeyValue2 = '';
 	this._searchButtonClick = false;
 	this._atchFileDirLoad = false;
 	this._atchFilePreview = false;
@@ -864,6 +884,25 @@ GamMachFcltySpecMngModule.prototype.onClosePopup = function(popupId, msg, value)
 				}
 			}
 			break;
+		case 'popupMachFcltySttus':
+			if (msg == 'ok') {
+				if (value.processType == "I") {
+					this._statusmode = "modify";
+					this._statusKeyValue1 = value.wharfNm;
+					this._statusKeyValue2 = value.operCmpny;
+				} else if (value.processType == "U") {
+					this._statusmode = "modify";
+					this._statusKeyValue1 = value.wharfNm;
+					this._statusKeyValue2 = value.operCmpny;
+				} else {
+					this._statusmode = "query";
+					this._statusKeyValue1 = "";
+					this._statusKeyValue2 = "";
+				}
+				var searchOpt=this.makeFormArgs('#searchForm');
+				this.$('#statusGrid').flexOptions({params:searchOpt}).flexReload();
+			}
+			break;
 	}
 
 };
@@ -1104,6 +1143,38 @@ GamMachFcltySpecMngModule.prototype.selectData = function() {
 	this._mainmode = 'modify';
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectStatusData
+ * @DESCRIPTION   : STATUS DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamMachFcltySpecMngModule.prototype.selectStatusData = function() {
+
+	if (this._statusmode == 'query') {
+		var gridRowCount = this.$("#statusGrid").flexRowCount();
+		if (gridRowCount == 0 && this._searchButtonClick == true) {
+			alert('해당 조건의 자료가 존재하지 않습니다!');
+		}
+		this._searchButtonClick = false;
+		return;
+	} else if (this._statusmode != 'insert' && this._statusmode != 'modify') {
+		this._searchButtonClick = false;
+		return;
+	}
+	this._searchButtonClick = false;
+	if (this._statusKeyValue1 == "" || this._statusKeyValue2 == "") {
+		return;
+	}
+	var wharfNm = this._statusKeyValue1;
+	var operCmpny = this._statusKeyValue2;
+	this.$("#statusGrid").selectFilterRow([{col:"wharfNm", filter:wharfNm},
+										   {col:"operCmpny", filter:operCmpny}]);
+	this._statusmode = 'modify';
 
 };
 
@@ -1403,6 +1474,70 @@ GamMachFcltySpecMngModule.prototype.copyData = function() {
 
 <%
 /**
+ * @FUNCTION NAME : showMachFcltySttusPopup
+ * @DESCRIPTION   : MACH FCLTY STTUS POPUP
+ * @PARAMETER     :
+ *   1. argProcessType - PROCESS TYPE
+**/
+%>
+GamMachFcltySpecMngModule.prototype.showMachFcltySttusPopup = function(argProcessType) {
+
+	var wharfNm = "";
+	var operCmpny = "";
+	var ccCount = "";
+	var tcCount = "";
+	var ytCount = "";
+	var csCount = "";
+	var rsCount = "";
+	var thCount = "";
+	var tcRtgcCount = "";
+	var fcltsMngGroupNo = "";
+	if (argProcessType == "I") {
+		wharfNm = "부두명";
+		operCmpny = "운영사";
+	} else if (argProcessType == "U") {
+		var selectRow = this.$('#statusGrid').selectedRows();
+		if(selectRow.length <= 0) {
+			alert('자료가 선택되지 않았습니다.');
+			return;
+		}
+		var row = selectRow[0];
+		wharfNm = row['wharfNm'];
+		operCmpny = row['operCmpny'];
+		ccCount = row['ccCount'];
+		tcCount = row['tcCount'];
+		ytCount = row['ytCount'];
+		csCount = row['csCount'];
+		rsCount = row['rsCount'];
+		thCount = row['thCount'];
+		tcRtgcCount = row['tcRtgcCount'];
+		fcltsMngGroupNo = row['fcltsMngGroupNo'];
+		if (wharfNm == "계") {
+			operCmpny = "계";
+		}
+	} else {
+		alert('처리구분이 부정확합니다.');
+		return;
+	}
+    var searchOpts = {
+		'processType':argProcessType,
+		'wharfNm':wharfNm,
+		'operCmpny':operCmpny,
+		'ccCount':ccCount,
+		'tcCount':tcCount,
+		'ytCount':ytCount,
+		'csCount':csCount,
+		'rsCount':rsCount,
+		'thCount':thCount,
+		'tcRtgcCount':tcRtgcCount,
+		'fcltsMngGroupNo':fcltsMngGroupNo
+    };
+	this.doExecuteDialog('popupMachFcltySttus', '기계 시설 현황', '/popup/showMachFcltySttusPopup.do', null, searchOpts);
+
+};
+
+<%
+/**
  * @FUNCTION NAME : addData
  * @DESCRIPTION   : DATA ADD (MAIN)
  * @PARAMETER     : NONE
@@ -1470,7 +1605,7 @@ GamMachFcltySpecMngModule.prototype.addData = function() {
 	this.$('#railWd').val("0.00");
 	this.$('#selfLoad').val("0.00");
 	this.$('#wheelWght').val("");
-	this.$('#eqpmnStndrd').val("0.00");
+	this.$('#eqpmnStndrd').val("");
 	this.$('#linkBridge').val("0.00");
 	this.$('#rubberFender').val("0.00");
 	this.$('#elctyMthd').val("");
@@ -1483,6 +1618,8 @@ GamMachFcltySpecMngModule.prototype.addData = function() {
 	this.$('#waterTank').val("0.00");
 	this.$('#oilSaveTank').val("0.00");
 	this.$('#spictankFmt').val("");
+	this.$('#fenderStndrd').val("");
+	this.$('#linkBridgeStndrd').val("");
 	this.$('#rateWght').val("");
 	this.$('#fmt').val("");
 	this.$('#stndrd').val("");
@@ -1658,7 +1795,6 @@ GamMachFcltySpecMngModule.prototype.saveData = function() {
 		var eqpmnNm = this.$('#shipEqpmnNm').val();
 		var instlYrmt = this.$('#shipInstlYrmt').val();
 		var mfcAmt = Number(this.$('#shipMfcAmt').val().replace(/,/gi, ""));
-		var eqpmnStndrd = Number(this.$('#eqpmnStndrd').val().replace(/,/gi, ""));
 		var linkBridge = Number(this.$('#linkBridge').val().replace(/,/gi, ""));
 		var rubberFender = Number(this.$('#rubberFender').val().replace(/,/gi, ""));
 		var capaTon = Number(this.$('#capaTon').val().replace(/,/gi, ""));
@@ -1676,11 +1812,6 @@ GamMachFcltySpecMngModule.prototype.saveData = function() {
 		if (this.isValidAmount(mfcAmt) == false) {
 			alert('제작 금액이 부정확합니다.');
 			this.$("#shipMfcAmt").focus();
-			return;
-		}
-		if (this.isValidNumber8P2(eqpmnStndrd) == false) {
-			alert('규격이 부정확합니다.');
-			this.$("#eqpmnStndrd").focus();
 			return;
 		}
 		if (this.isValidNumber8P2(linkBridge) == false) {
@@ -2637,6 +2768,8 @@ GamMachFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#waterTank').enable();
 		this.$('#oilSaveTank').enable();
 		this.$('#spictankFmt').enable();
+		this.$('#fenderStndrd').enable();
+		this.$('#linkBridgeStndrd').enable();
 		this.$('#rateWght').enable();
 		this.$('#fmt').enable();
 		this.$('#stndrd').enable();
@@ -2711,6 +2844,8 @@ GamMachFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#waterTank').enable();
 			this.$('#oilSaveTank').enable();
 			this.$('#spictankFmt').enable();
+			this.$('#fenderStndrd').enable();
+			this.$('#linkBridgeStndrd').enable();
 			this.$('#rateWght').enable();
 			this.$('#fmt').enable();
 			this.$('#stndrd').enable();
@@ -2790,6 +2925,8 @@ GamMachFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#waterTank').disable();
 			this.$('#oilSaveTank').disable();
 			this.$('#spictankFmt').disable();
+			this.$('#fenderStndrd').disable();
+			this.$('#linkBridgeStndrd').disable();
 			this.$('#rateWght').disable();
 			this.$('#fmt').disable();
 			this.$('#stndrd').disable();
@@ -2871,6 +3008,8 @@ GamMachFcltySpecMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#waterTank').disable();
 	this.$('#oilSaveTank').disable();
 	this.$('#spictankFmt').disable();
+	this.$('#fenderStndrd').disable();
+	this.$('#linkBridgeStndrd').disable();
 	this.$('#rateWght').disable();
 	this.$('#fmt').disable();
 	this.$('#stndrd').disable();
@@ -3359,12 +3498,18 @@ var module_instance = new GamMachFcltySpecMngModule();
 							</tr>
 							<tr>
 								<th style="width:10%; height:18px;">규　　　　　격</th>
-								<td>
-									<input type="text" size="62" id="eqpmnStndrd" maxlength="50"/>
+								<td colspan="3">
+									<input type="text" size="149" id="eqpmnStndrd" maxlength="100"/>
 								</td>
+							</tr>
+							<tr>
 								<th style="width:10%; height:18px;">연　결　도　교</th>
 								<td>
 									<input type="text" size="59" id="linkBridge" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
+								</td>
+								<th style="width:10%; height:18px;">연결도교　규격</th>
+								<td>
+									<input type="text" size="62" id="linkBridgeStndrd" maxlength="100"/>
 								</td>
 							</tr>
 							<tr>
@@ -3372,15 +3517,19 @@ var module_instance = new GamMachFcltySpecMngModule();
 								<td>
 									<input type="text" size="59" id="rubberFender" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
 								</td>
-								<th style="width:10%; height:18px;">전　기　방　식</th>
+								<th style="width:10%; height:18px;">고무방충재규격</th>
 								<td>
-									<input type="text" size="62" id="elctyMthd" maxlength="50"/>
+									<input type="text" size="62" id="fenderStndrd" maxlength="100"/>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:18px;">적　재　톤　수</th>
-								<td colspan="3">
+								<td>
 									<input type="text" size="59" id="capaTon" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> 톤
+								</td>
+								<th style="width:10%; height:18px;">전　기　방　식</th>
+								<td>
+									<input type="text" size="62" id="elctyMthd" maxlength="50"/>
 								</td>
 							</tr>
 						</table>

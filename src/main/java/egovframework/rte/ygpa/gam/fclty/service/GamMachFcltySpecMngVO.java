@@ -106,6 +106,7 @@ public class GamMachFcltySpecMngVO extends ComDefaultVO {
 	private	String elctyMthdInstlYr;		// 전기 방식 설치 년도
 	private	String elctyMthdInstlQy;		// 전기 방식 설치 수량
 	private	String fenderStndrd;			// 방충재 규격
+	private	String linkBridgeStndrd;		// 연결 도교 규격
 	private	String rateWght;				// 정격 하중
 	private	String mechFcltsSeNm;			// 기계 시설물 구분 명
 	private	String archFcltsMngNo;			// 건축 시설물 관리 번호
@@ -1072,6 +1073,18 @@ public class GamMachFcltySpecMngVO extends ComDefaultVO {
 	 */
 	public void setFenderStndrd(String fenderStndrd) {
 		this.fenderStndrd = fenderStndrd;
+	}
+	/**
+	 * @return the linkBridgeStndrd
+	 */
+	public String getLinkBridgeStndrd() {
+		return linkBridgeStndrd;
+	}
+	/**
+	 * @param linkBridgeStndrd the linkBridgeStndrd to set
+	 */
+	public void setLinkBridgeStndrd(String linkBridgeStndrd) {
+		this.linkBridgeStndrd = linkBridgeStndrd;
 	}
 	/**
 	 * @return the rateWght

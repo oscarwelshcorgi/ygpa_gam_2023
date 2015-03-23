@@ -13,6 +13,7 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamMachFcltySpecMngVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamMachFcltySttusMngVO;
 
 /**
  *
@@ -333,6 +334,52 @@ public class GamMachFcltySpecMngDao extends YGPAAbstractDAO {
 	 */
 	public String selectMachFcltySpecMngFcltsAtchFileNewNo(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) {
 		return (String)selectByPk("gamMachFcltySpecMngDao.selectMachFcltySpecMngFcltsAtchFileNewNo_S", gamFcltsAtchFileMngVO);
+	}
+
+
+	/**
+	 * @name selectMachFcltySpecMngMachFcltySttusList
+	 * @param searchVO
+	 * @return List
+	 */
+	public List selectMachFcltySpecMngMachFcltySttusList(GamMachFcltySttusMngVO searchVO) {
+		return list("gamMachFcltySpecMngDao.selectMachFcltySpecMngMachFcltySttusList_D", searchVO);
+	}
+
+	/**
+	 * @name insertMachFcltySpecMngMachFcltySttus
+	 * @param gamMachFcltySttusMngVO
+	 * @return void
+	 */
+	public void insertMachFcltySpecMngMachFcltySttus(GamMachFcltySttusMngVO gamMachFcltySttusMngVO) {
+		insert("gamMachFcltySpecMngDao.insertMachFcltySpecMngMachFcltySttus_S", gamMachFcltySttusMngVO);
+	}
+
+	/**
+	 * @name updateMachFcltySpecMngMachFcltySttus
+	 * @param gamMachFcltySttusMngVO
+	 * @return void
+	 */
+	public void updateMachFcltySpecMngMachFcltySttus(GamMachFcltySttusMngVO gamMachFcltySttusMngVO) {
+		update("gamMachFcltySpecMngDao.updateMachFcltySpecMngMachFcltySttus_S", gamMachFcltySttusMngVO);
+	}
+
+	/**
+	 * @name deleteMachFcltySpecMngMachFcltySttus
+	 * @param gamMachFcltySttusMngVO
+	 * @return void
+	 */
+	public void deleteMachFcltySpecMngMachFcltySttus(GamMachFcltySttusMngVO gamMachFcltySttusMngVO) {
+		delete("gamMachFcltySpecMngDao.deleteMachFcltySpecMngMachFcltySttus_S", gamMachFcltySttusMngVO);
+	}
+
+	/**
+	 * @name selectMachFcltySpecMngMachFcltySttusPk
+	 * @param gamMachFcltySttusMngVO
+	 * @return EgovMap
+	 */
+	public EgovMap selectMachFcltySpecMngMachFcltySttusPk(GamMachFcltySttusMngVO gamMachFcltySttusMngVO) {
+		return (EgovMap)selectByPk("gamMachFcltySpecMngDao.selectMachFcltySpecMngMachFcltySttusPk_S", gamMachFcltySttusMngVO);
 	}
 
 }
