@@ -2052,7 +2052,7 @@ var module_instance = new GamAssetRentMngtModule();
     </div>
 
     <div class="emdPanel fillHeight">
-        <div id="assetRentListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange" data-onchange-before="onTabChangeBefore">
+        <div id="assetRentListTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
             <ul>
                 <li><a href="#tabs1" class="emdTab">항만시설 목록</a></li>
                 <li><a href="#tabs2" class="emdTab">항만시설 내역</a></li>
