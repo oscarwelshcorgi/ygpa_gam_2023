@@ -78,7 +78,38 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 			return data;
 		}
 	});
-	
+
+	this.$("#fileGrid").flexigrid({
+		module : this,
+		url : '/fcltyMng/selectFcltyRepairFileList.do',
+		dataType : 'json',
+		colModel : [
+					{display:"선택",		name:"atchFileSelChk",		width:40,		sortable:false,		align:"center",		displayFormat:"checkbox"},
+					{display:"번호",		name:"atchFileSeq",			width:60,		sortable:false,		align:"center"},
+					{display:"구분",		name:"atchFileSj",		width:60,		sortable:false,		align:"center"},
+					{display:"파일명",		name:"atchFileNmLogic",		width:200,		sortable:false,		align:"left"},
+					{display:"프리뷰",		name:"photoUrl",			width:100,		sortable:false,		align:"center",		displayFormat:"image"}
+					],
+		height: "175",
+		preProcess: function(module, data) {
+			$.each(data.resultList, function() {
+				this.atchFileSelChk = (this.atchFileSelChk === 'TRUE');
+				this.photoUrl = "";
+				var atchFileNmPhysicl = this.atchFileNmPhysicl;
+				var ext = atchFileNmPhysicl.substring(atchFileNmPhysicl.lastIndexOf(".")+1).toLowerCase();
+				if (ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif") {
+					this.photoUrl = module.getPfPhotoUrl(atchFileNmPhysicl) + "^" + this.atchFileNmLogic + "^" + "100";
+				} else if (ext == "hwp") {
+					this.photoUrl = "js/codebase/imgs/hwp.png";
+				} else if (ext == "dwg") {
+					this.photoUrl = "js/codebase/imgs/dwg.png";
+				} else {
+					this.photoUrl = "js/codebase/imgs/unknown.png";
+				}
+			});
+			return data;
+		}
+	});	
 	
 	this.$("#flawRprObjFcltsF").flexigrid({
 		module: this,
@@ -98,6 +129,13 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 	
  	this.$("#fcltyRepairMngList").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mode = 'modify';
+		var searchVO = [
+		                { name: 'fcltsJobSe', value: row['fcltsJobSe'] },
+		                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
+		                { name: 'flawRprSeq', value: row['flawRprSeq'] }
+		               ];
+	        module.$('#fileGrid').flexOptions({params:searchVO}).flexReload(); 
+
 	});
  	
  	this.$("#fcltyRepairMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -301,13 +339,7 @@ GamFcltyRepairMngModule.prototype.loadData = function(){
 	
 };
 
-<%
-/**
- * @FUNCTION NAME : loadDetail
- * @DESCRIPTION   : DATA LOAD (DETAIL)
- * @PARAMETER     : NONE
-**/
-%>
+
 GamFcltyRepairMngModule.prototype.loadDetail = function(){
 	var row = this.$('#fcltyRepairMngList').selectedRows();
 	if(row.length==0) {
@@ -337,7 +369,6 @@ GamFcltyRepairMngModule.prototype.loadDetail = function(){
 		}
     });
 };
-
 
 <%
 /**
@@ -388,8 +419,8 @@ GamFcltyRepairMngModule.prototype.imgPreview = function(){
 				event.data.module.$('#previewDialog').dialog({
 					modal: true,
 					maxWidth: 800,
-					maxHeight: 600,
-					resizable: false,
+					maxHeight: 640,
+					resizable: true,
 					draggable: true,
 					width: 'auto',
 					title: '이미지미리보기',
@@ -719,10 +750,17 @@ GamFcltyRepairMngModule.prototype.makeSelectArgs = function(selId) {
 %>
 GamFcltyRepairMngModule.prototype.atchFileUpload = function() {
 	this.uploadPfPhoto('uploadPhoto', function(module, result) {
-		$.each(result, function(){
-			module.$('#fcltyRepairFileList').append('<option value="' + this.physcalFileNm + '">' + this.logicalFileNm + '</option>');
-		});
-	}, '유지보수관리 첨부파일 업로드');	
+	 	 $.each(result, function(){
+			module.$('#fileGrid').flexAddRow({
+		
+			atchFileSj:this.logicalFileNm.substring(0, this.logicalFileNm.lastIndexOf('.')),
+			atchFileNmLogic: this.logicalFileNm 
+			
+        	
+			}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+	
+	},  '유지보수관리 첨부파일 업로드');	 
+	});
 };
 
 
@@ -875,6 +913,10 @@ GamFcltyRepairMngModule.prototype.onButtonClick = function(buttonId) {
 			this.atchFileUpload();
 		break;
 		
+		case "btnUploadFile2":
+			this.atchFileUpload();
+		break;
+		
 		// 파일다운로드
 		case "btnDownloadFile":
 			this.downloadFileData();
@@ -921,6 +963,7 @@ GamFcltyRepairMngModule.prototype.onButtonClick = function(buttonId) {
 GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	if(oldTabId == 'tabs1' && this._mode == 'modify') {
 		this.loadDetail();
+	
 	}
 
 	switch(newTabId) {
@@ -1182,19 +1225,28 @@ var module_instance = new GamFcltyRepairMngModule();
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">하자보수내용</th>
-							<td colspan="7"><textarea id="flawRprContents" cols="143" rows="5" title="하자보수내용" maxlength="1333"></textarea></td>
+							<td colspan="3"><textarea id="flawRprContents" cols="72" rows="5" title="하자보수내용" maxlength="1333"></textarea></td>
+							<td colspan="4" rowspan="12"><table id="fileGrid" style="margin:1px; display:none;"></table></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">하자보수결과</th>
-							<td colspan="7"><textarea id="flawExamResult" cols="143" rows="5" title="하자보수결과" maxlength="1333"></textarea></td>
+							<td colspan="3"><textarea id="flawExamResult" cols="72" rows="5" title="하자보수결과" maxlength="1333"></textarea></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">비고</th>
-							<td colspan="7"><input id="rm" type="text" size="145" title="비고" maxlength="333" /></td>
+							<td colspan="3"><input id="rm" type="text" size="72" title="비고" maxlength="333" /></td>
 						</tr>
 					</table>
 				</form>
 				<div class="emdControlPanel">
+				<div>
+					<button id="btnPreviewFile">첨부파일 미리보기</button> 
+					<div id="previewHidden" style="display: none;"></div>
+					<button id="btnUploadFile2">업로드</button> 
+					<button id="btnDownloadFile">다운로드</button> 
+					<button id="btnRemoveFile" class="buttonDelete"> 삭 제 </button>
+				</div>
+				<div>
 					<button data-role="printPage" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairCheckMngPrint.do'>하자검사관리대장인쇄</button>
 					<button data-role="downloadHwp" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairCheckReportHwp.do'>하자검사조서다운로드</button>
 					<button data-role="printPage" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairCheckReportPrint.do'>하자검사조서인쇄</button>
