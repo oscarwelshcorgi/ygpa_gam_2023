@@ -58,6 +58,10 @@ GamPopupAtchDirFileModule.prototype.loadComplete = function(params) {
 		height: "300"
 	});
 
+	this.$("#mainGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectData();
+	});
+
 	this.$("#mainGrid").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module.closeDialog("ok", row);
 	});
@@ -67,6 +71,22 @@ GamPopupAtchDirFileModule.prototype.loadComplete = function(params) {
 		this.$('#sFcltsJobSe').val(params.sFcltsJobSe);
 	}
 	this.$('#sDirFileNm').focus();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectData
+ * @DESCRIPTION   : DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamPopupAtchDirFileModule.prototype.selectData = function() {
+
+	var gridRowCount = this.$("#mainGrid").flexRowCount();
+	if (gridRowCount == 0) {
+		alert('해당 조건의 자료가 존재하지 않습니다!');
+	}
 
 };
 
@@ -113,6 +133,11 @@ GamPopupAtchDirFileModule.prototype.onSubmit = function() {
 %>
 GamPopupAtchDirFileModule.prototype.loadData = function() {
 
+	var sDirFileNm = this.$('#sDirFileNm').val();
+	if (sDirFileNm.length < 2) {
+		alert("디렉토리명/파일명을 2자 이상 입력하십시오.");
+		return;
+	}
 	var searchOpt = this.makeFormArgs('#searchForm');
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
 
