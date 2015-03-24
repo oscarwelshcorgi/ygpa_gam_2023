@@ -32,5 +32,6 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupQcItemCdTreeDao_SQL.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupFcltsAtchFileViewDao_SQL.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupMachFcltySttusDao_SQL.xml" />
+	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/popup/PopupAtchDirFileDao_SQL.xml" />
 
 </sqlMapConfig>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.popup">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamPopupAtchDirFileVO" type="egovframework.rte.ygpa.gam.popup.service.GamPopupAtchDirFileVO"/>
+
+	<select id="gamPopupAtchDirFileDao.selectAtchDirList_D" parameterClass="gamPopupAtchDirFileVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 'D' AS LIST_SE
+								,TO_CHAR(T1.DIR_NO) AS DIR_NO
+								,T1.DIR_NM AS DIR_NM
+								,T1.DIR_PATH AS DIR_PATH
+								,NULL AS FILE_NO
+								,NULL AS FILE_NM
+							FROM ATCH_FILE_DIR_F T1
+						WHERE 1 = 1
+
+						<isNotEmpty property="sFcltsJobSe">
+						AND T1.FCLTS_JOB_SE = #sFcltsJobSe#
+						</isNotEmpty>
+
+						<isNotEmpty property="sDirFileNm">
+						AND T1.DIR_NM LIKE '%' || #sDirFileNm# || '%'
+						</isNotEmpty>
+
+						ORDER BY T1.DIR_PATH
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<select id="gamPopupAtchDirFileDao.selectAtchFileList_D" parameterClass="gamPopupAtchDirFileVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 'F' AS LIST_SE
+								,TO_CHAR(T1.DIR_NO) AS DIR_NO
+								,T2.DIR_NM AS DIR_NM
+								,T2.DIR_PATH AS DIR_PATH
+								,TO_CHAR(T1.ATCH_FILE_NO) AS FILE_NO
+								,T1.ATCH_FILE_NM_LOGIC AS FILE_NM
+							FROM FCLTS_ATCH_FILE_F T1
+							LEFT OUTER JOIN ATCH_FILE_DIR_F T2 ON (T1.DIR_NO = T2.DIR_NO)
+						WHERE 1 = 1
+
+						<isNotEmpty property="sFcltsJobSe">
+						AND T1.FCLTS_JOB_SE = #sFcltsJobSe#
+						</isNotEmpty>
+
+						<isNotEmpty property="sDirFileNm">
+						AND T1.ATCH_FILE_NM_LOGIC LIKE '%' || #sDirFileNm# || '%'
+						</isNotEmpty>
+
+						ORDER BY T2.DIR_PATH,T1.ATCH_FILE_NM_LOGIC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+</sqlMap>
