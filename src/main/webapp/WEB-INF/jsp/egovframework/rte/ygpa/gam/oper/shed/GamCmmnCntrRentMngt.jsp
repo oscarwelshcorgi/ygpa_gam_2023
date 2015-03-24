@@ -180,24 +180,31 @@ GamAssetRentMngtModule.prototype.loadComplete = function() {
 
     });
 
+    this.$("#assetCodePhotoList").on("onLoadDataComplete", function(event, module, data, grid, param) {
+		module._deletePhotoList=[];
+		module._edited=false;
+		module.$('#previewImage').attr('src', '#');
+
+	});
+
     this.$("#assetRentFileList").on('onItemSelected', function(event, module, row, grid, param) {
         module.makeFormValues('#gamAssetRentFileForm', row);
         module._editDataFile=module.getFormValues('#gamAssetRentFileForm', row);
         module._editRowFile=module.$('#assetRentFileList').selectedRowIds()[0];
 
         if(row.filenmPhysicl!=null || row.filenmPhysicl!='') {
-            // 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
-            var filenm=row['filenmPhysicl'];
-            var ext=filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
-            if(ext=='jpg' || ext=='jpeg' || ext=='bmp' || ext=='png' || ext=='gif') {
-                $imgURL = module.getImageUrl(filenm);
-                module.$("#previewImage").fadeIn(400, function() {
-                    module.$("#previewImage").attr('src', $imgURL);
-                });
-            }
-            else {
-                module.$("#previewImage").attr('src', '');
-            }
+			// 파일의 확장자를 체크하여 이미지 파일이면 미리보기를 수행한다.
+			var filenm=row['filenmPhysicl'];
+			var ext=filenm.substring(filenm.lastIndexOf(".")+1).toLowerCase();
+			if(ext=='jpg' || ext=='jpeg' || ext=='bmp' || ext=='png' || ext=='gif') {
+			    $imgURL = module.getUrl("/oper/shed/getRentAttachFile.do?physicalFileNm=")+filenm;
+			    module.$("#previewImage").fadeIn(400, function() {
+			    	module.$("#previewImage").attr('src', $imgURL);
+			    });
+			}
+			else {
+				module.$("#previewImage").attr(src, '#');
+			}
         }
     });
 
@@ -1641,7 +1648,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 
             break;
 
-        case 'btnUploadFile':
+/*         case 'btnUploadFile':
             // 사진을 업로드하고 업로드한 사진 목록을 result에 어레이로 리턴한다.
             this.uploadFile('uploadPhoto', function(module, result) {
 //              var userid=EMD.util.getLoginUserVO().userNm; 임시
@@ -1656,13 +1663,38 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             //this._editDataFile=this.getFormValues('#gamAssetRentFileForm', {_updtId:'I'});
             //this._editRowFile=this.$('#assetRentFileList').flexGetData().length;
 
-            break;
+            break; */
 
+		case 'btnUploadFile':
+				this.uploadSingleFile('/oper/shed/uploadRentAttachFile.do', function(module, resp) {
+					if(resp.resultCode!=0) {
+						alert(resp.resultMsg);
+						return;
+					}
+					$.each(resp.result, function() {
+		                module.$('#assetRentFileList').flexAddRow({
+		                	_updtId:'I',
+		                	prtAtCode: '',
+		                	mngYear: '',
+		                	mngNo: '',
+		                	mngCnt: '',
+		                	photoSeq: '',
+		                	photoSj:this.logicalFileNm.substring(0, this.logicalFileNm.lastIndexOf('.')),
+		                	filenmLogic: this.logicalFileNm, filenmPhysicl: this.physcalFileNm,
+		                	shotDt: '',
+		                	photoDesc: '',
+		                	regUsr: '',
+		                	registDt:''}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+					});
+					if(resp.result!=null && resp.result.length>0) this._edited=true;
+				});
+			break;
+			
         case 'btnDownloadFile':
     		var selectRow = this.$('#assetRentFileList').selectedRows();
     		if(selectRow.length > 0) {
     			var row=selectRow[0];
-    			this.downloadFile(row["filenmPhysicl"], row["filenmLogic"]);
+    			this.downloadSingleFile("/oper/shed/downloadRentAttachFile.do", row["filenmPhysicl"]);
     		}
     		break;
         case 'btnApplyPhotoData':
@@ -1822,7 +1854,7 @@ GamAssetRentMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId
 	        var row = this.$('#assetRentMngtList').selectedRows();
 	        if(row.length==0) {
 	        	alert('항목을 먼저 선택해주세요.');
-	      	this.$("#assetRentListTab").tabs("option", {active: 1});
+	      	this.$("#assetRentListTab").tabs("option", {active: 0});
 			return false;
 	        }
 	        break;

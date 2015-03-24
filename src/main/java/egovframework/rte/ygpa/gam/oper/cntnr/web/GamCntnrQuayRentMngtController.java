@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -28,14 +30,17 @@ import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
+import egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
+import egovframework.rte.ygpa.gam.cmmn.service.GamFileServiceVo;
+import egovframework.rte.ygpa.gam.cmmn.service.GamFileUploadUtil;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentMngtDetailVO;
-import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentMngtLevReqestVO;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentMngtService;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentMngtVO;
 
@@ -78,6 +83,9 @@ public class GamCntnrQuayRentMngtController {
 
     @Resource(name = "gamAssetsUsePermMngtService")
     private GamAssetsUsePermMngtService gamAssetsUsePermMngtService;
+
+    @Resource(name="gamRentFileIdGnrService")
+    EgovTableIdGnrService gamRentFileIdGnrService;
 
     /**
      * 항만시설사용관리 화면을 로딩한다.
@@ -1360,5 +1368,43 @@ public class GamCntnrQuayRentMngtController {
     	map.put("header", header);
 
     	return new ModelAndView("gridExcelView", "gridResultMap", map);
+    }
+	// 파일 처리 (자산 임대 공통 - 리퀘스트 패스만 변경 하여 사용)
+    @RequestMapping(value="/oper/cntnr/uploadRentAttachFile.do", method=RequestMethod.POST)
+    public @ResponseBody Map uploadFile(HttpServletRequest request, Model model) throws Exception {
+		Map map = new HashMap();
+		String uploadPath = EgovProperties.getProperty("assetsRent.fileStorePath");
+		try {
+			List<GamFileServiceVo> list = GamFileUploadUtil.uploadFiles(request, uploadPath, gamRentFileIdGnrService);
+
+			map.put("resultCode", "0");
+			map.put("result", list);
+		}
+		catch(Exception e) {
+			map.put("resultCode", "-1");
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
+		}
+
+		return map;
+	}
+
+    @RequestMapping("/oper/cntnr/getRentAttachFile.do")
+    public void getImage(final HttpServletRequest request, HttpServletResponse response) throws Exception {
+		GamFileServiceVo gamFileServiceVo = new GamFileServiceVo();
+		String uploadPath = EgovProperties.getProperty("assetsRent.fileStorePath");
+
+		gamFileServiceVo.setPhyscalFileNm((String)request.getParameter("physicalFileNm"));
+
+		GamFileUploadUtil.downloadImage(request, response, uploadPath, gamFileServiceVo);
+    }
+
+    @RequestMapping("/oper/cntnr/downloadRentAttachFile.do")
+    public void getDownload(final HttpServletRequest request, HttpServletResponse response) throws Exception {
+		GamFileServiceVo gamFileServiceVo = new GamFileServiceVo();
+		String uploadPath = EgovProperties.getProperty("assetsRent.fileStorePath");
+
+		gamFileServiceVo.setPhyscalFileNm((String)request.getParameter("physicalFileNm"));
+
+		GamFileUploadUtil.downloadFile(request, response, uploadPath, gamFileServiceVo);
     }
 }
