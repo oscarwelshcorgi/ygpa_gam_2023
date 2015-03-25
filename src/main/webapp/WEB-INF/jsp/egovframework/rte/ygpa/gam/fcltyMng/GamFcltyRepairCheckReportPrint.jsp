@@ -33,22 +33,22 @@
     <style>
 	table.pageBrTbl {
 		width: 100%;
-		page-break-after: auto;
+	/* 	page-break-after: auto; */
 		border: solid black 0.05mm;
   		border-spacing: 0;
 	}
 
 	table.pageBrTbl>tbody>tr {
-		page-break-inside: avoid;
+		/* page-break-inside: avoid;
 		page-break-after: auto;
-		page-break-before: auto;
+		page-break-before: auto; */
 		height: 6cm;
 	}
 
 	table.pageBrTbl>tbody>tr>td {
-		page-break-inside: avoid;
+		/* page-break-inside: avoid;
 		page-break-after: avoid;
-		page-break-before: auto;
+		page-break-before: auto; */
 		border:0.3mm gray solid;
 		width: 50%;
 		padding: 0.5cm;
@@ -97,9 +97,11 @@
   <c:set var="pagePerCount" value="9"/>
 
   <c:if test="${resultCode==0 }">
-<c:set var="imgFiles" value="${fn:split('FILE_000000000006055.jpg,FILE_000000000006063.png,FILE_000000000006064.jpg,FILE_000000000006088.jpg,FILE_000000000006063.png,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006063.png,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg', ',')}" scope="page" />
-
-  <a id="printButton" href="#">인쇄</a>
+ <%-- <c:set var="imgFiles" value="${fn:split('FILE_000000000006055.jpg,FILE_000000000006063.png,FILE_000000000006064.jpg,FILE_000000000006088.jpg,FILE_000000000006063.png,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006063.png,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg', ',')}" scope="page" /> --%>
+ <c:forEach var="imgList" items="${imgList}" begin="0" end="3">
+<c:set var="imgFiles" value="${imgList.filenmPhysicl }" scope="page"/>
+</c:forEach> 
+<a id="printButton" href="#">인쇄</a>
 <div class="book">
     <div class="page">
         <div class="subpage ygpa_report" >
@@ -115,6 +117,7 @@
         		<tbody>
         			<tr height="80px">
         				<td style="vertical-align:middle;font-size:15px;">&nbsp;공 사 명 : <c:out value="${result.flawRprNm }" /></td>
+        				
         			</tr>
         			<tr height="20px">
         				<td></td>
@@ -143,7 +146,7 @@
         			</tr>
         			<tr height="60px">
         				<td style="text-align:center;vertical-align:middle;font-size:15px;">
-			        		하자검사자 : <span>여수광양항만공사</span>&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${result.flawExamUsr }" />&nbsp;&nbsp;<span>도장</span>
+			        		하자검사자 : <span>여수광양항만공사</span>&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${result.flawExamUsr }" />&nbsp;&nbsp;<span>도장</span><img src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/>
         				</td>
         			</tr>
         			<tr height="100px">

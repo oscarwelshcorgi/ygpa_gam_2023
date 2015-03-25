@@ -456,11 +456,13 @@ public class GamFcltyRepairMngController {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/fcltyMng/selectFcltyRepairCheckReportPrint.do")
-	public String selectFcltyRepairCheckReportPrint(@RequestParam Map<String, Object> fcltyRepairCheckReportOpt, ModelMap model) throws Exception {
-
+	public String selectFcltyRepairCheckReportPrint(@RequestParam Map<String, Object> fcltyRepairCheckReportOpt, ModelMap model,GamFcltyRepairMngVO GamFcltyRepairMngVO) throws Exception {
+	
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map map = new HashMap();
     	EgovMap result = null;
-
+    	EgovMap charger= null;
+    	
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -468,7 +470,9 @@ public class GamFcltyRepairMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return "/ygpa/gam/fcltyMng/GamFcltyRepairCheckReportPrint";
     	}
-
+    	System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"+user.getId());
+    	GamFcltyRepairMngVO.setRegUsr((String)user.getId());
+    	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(GamFcltyRepairMngVO);
 		ObjectMapper mapper = new ObjectMapper();
 
 		GamFcltyRepairMngVO searchVO;
@@ -481,6 +485,7 @@ public class GamFcltyRepairMngController {
         model.addAttribute("result", result);
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
+		model.addAttribute("charger",charger);
 
     	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckReportPrint";
     }

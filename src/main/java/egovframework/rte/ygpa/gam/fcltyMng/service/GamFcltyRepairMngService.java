@@ -147,4 +147,19 @@ public interface GamFcltyRepairMngService {
 	 */
 	int selectFcltyRepairMngListPerCtrtTotalCnt(String vo) throws Exception;
 
+
+	/**
+	 * @return
+	 */
+	List selectFcltyRepairCheckReportImgList(GamFcltyRepairMngVO searchVO) throws Exception;
+
+
+	/**
+	 * @param gamFcltyRepairMngVO
+	 */
+	EgovMap selectFcltyRepairCheckReportCharger(GamFcltyRepairMngVO gamFcltyRepairMngVO) throws Exception;
+
+
+	
+
 }

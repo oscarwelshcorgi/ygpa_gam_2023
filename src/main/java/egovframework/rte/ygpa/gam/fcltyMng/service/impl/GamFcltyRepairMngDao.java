@@ -237,7 +237,27 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 	public int selectFcltyRepairMngListPerCtrtTotalCnt(String vo) throws Exception {
 		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyRepairMngDao.selectFcltyRepairMngListPerCtrtTotalCnt_S", vo);
 	}
+
+
+	/**
+	 * @return
+	 */
+	public List selectFcltyRepairCheckReportImgList_D(GamFcltyRepairMngVO vo) {
+		// TODO Auto-generated method stub
+		return list("gamFcltyRepairMngDao.selectFcltyRepairCheckReportImgList_D",vo);
+	}
+
+
+	/**
+	 * @param gamFcltyRepairMngVO
+	 * @return
+	 */
+	public EgovMap selectFcltyRepairCheckReportCharger(GamFcltyRepairMngVO GamFcltyRepairMngVO) throws Exception{
+		return (EgovMap) selectByPk("gamfcltyRepiarMngDao.selectFcltyRepairCheckReportCharger_S", GamFcltyRepairMngVO);
+	}
+
+}
 	
 	
 
-}
+

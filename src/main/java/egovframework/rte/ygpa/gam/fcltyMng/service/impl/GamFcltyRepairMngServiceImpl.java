@@ -236,4 +236,13 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	}
 
 
+	
+	public List selectFcltyRepairCheckReportImgList(GamFcltyRepairMngVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		return gamFcltyRepairMngDao.selectFcltyRepairCheckReportImgList_D(vo);
+	}
+	public EgovMap selectFcltyRepairCheckReportCharger(GamFcltyRepairMngVO GamFcltyRepairMngVO) throws Exception{
+		return (EgovMap)gamFcltyRepairMngDao.selectFcltyRepairCheckReportCharger(GamFcltyRepairMngVO);
+	}
+
 }

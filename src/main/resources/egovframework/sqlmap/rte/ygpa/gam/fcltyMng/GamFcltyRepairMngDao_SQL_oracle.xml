@@ -208,6 +208,7 @@
 			, FLAW_RPR_SEQ
 			, ATCH_FILE_SEQ
 			, ATCH_FILE_SE
+			,GAM_GET_FILE_SE_NM(ATCH_FILE_SE) AS ATCH_FILE_SE_NM
 			, GAM_GET_FILE_SE_NM(ATCH_FILE_SE) AS ATCH_FILE_SE_NM
 			, ATCH_FILE_SJ
 			, ATCH_FILE_NM_LOGIC
@@ -217,6 +218,7 @@
 			, REGIST_DT
 			, UPD_USR
 			, UPDT_DT
+			,'FALSE' AS ATCH_FILE_SEL_CHK
 		FROM
 			FLAW_RPR_ATCH_FILE_F 
 		WHERE
@@ -538,6 +540,29 @@
 		
 	</select>
 	
+	<select id="gamfcltyRepiarMngDao.selectFcltyRepairCheckReportCharger_S" parameterClass="gamFcltyRepairMngVO" resultClass="egovMap">
+	
+			
+			SELECT 
+				  CHARGER_DEPT ,
+				  CHARGER_DISPLAY_NM ,
+				  CHARGER_NM ,
+				  CHARGER_NO ,
+				  CHARGER_OFC_POS ,
+				  FCLTS_JOB_SE ,
+				  REG_USR ,
+				  REGIST_DT ,
+				  SIGN_FILE_NM_LOGIC ,
+				  SIGN_FILE_NM_PHYSICL ,
+				  UPD_USR ,
+				  UPDT_DT 
+				  FROM FCLTS_CHARGER_F
+				  
+		 	 WHERE 
+				  REG_USR = #regUsr#
+	
+	</select>
+	
 	
 	<select id="gamFcltyRepairMngDao.selectFcltyRepairCheckMng_S" parameterClass="gamFcltyRepairMngVO" resultClass="egovMap">
 	
@@ -590,5 +615,14 @@
 		WHERE
 			R.CTRT_NO = #ctrtNo#
 	</select>
+	
+	
+	<select id="gamFcltyRepairMngDao.selectFcltyRepairCheckReportImgList_D" parameterClass="gamFcltyRepairMngVO" resultClass="egovMap">
+		select 
+			filenm_physicl
+		 from 
+		 	assets_rent_photo_f
 
+	</select>
+	
 </sqlMap>

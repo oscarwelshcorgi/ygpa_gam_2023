@@ -46,6 +46,7 @@ public class GamFcltyRepairMngVO extends ComDefaultVO  {
 	/** 하자검사일 검색종료일 - 검색 */
 	private String sFlawRprStartDtTo;
 	
+	private String regUsr;
 	
 	/** 시설물업무구분 */
 	private String fcltsJobSe;
@@ -204,6 +205,20 @@ public class GamFcltyRepairMngVO extends ComDefaultVO  {
 	 */
 	public void setSumFlawRprAmt(long sumFlawRprAmt) {
 		this.sumFlawRprAmt = sumFlawRprAmt;
+	}
+
+	/**
+	 * @return the regUsr
+	 */
+	public String getRegUsr() {
+		return regUsr;
+	}
+
+	/**
+	 * @param regUsr the regUsr to set
+	 */
+	public void setRegUsr(String regUsr) {
+		this.regUsr = regUsr;
 	}
 
 	
