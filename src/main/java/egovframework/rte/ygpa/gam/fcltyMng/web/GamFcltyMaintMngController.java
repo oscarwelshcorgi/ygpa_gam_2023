@@ -8,9 +8,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,10 +27,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.cmmn.service.GamFileServiceVo;
+import egovframework.rte.ygpa.gam.cmmn.service.GamFileUploadUtil;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyMaintMngService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyMaintMngVO;
 
@@ -62,9 +69,12 @@ public class GamFcltyMaintMngController {
 	/** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
+
     @Resource(name="gamFcltyMaintMngService")
     protected GamFcltyMaintMngService gamFcltyMaintMngService;
+
+    @Resource(name="gamMaintFileIdGnrService")
+    EgovTableIdGnrService gamMaintFileIdGnrService;
 
 
 	/**
@@ -79,12 +89,12 @@ public class GamFcltyMaintMngController {
     	model.addAttribute("windowId", windowId);
     	return "/ygpa/gam/fcltyMng/GamFcltyMaintMng";
     }
-	
-	
+
+
 	/**
 	 * 유지보수내역 조회
 	 * @param searchVO
-	 * @return map 
+	 * @return map
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -93,7 +103,7 @@ public class GamFcltyMaintMngController {
 
 		Map map = new HashMap();
 
-    	// 0. Spring Security 사용자권한 처리 
+    	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -129,7 +139,7 @@ public class GamFcltyMaintMngController {
     	return map;
     }
 
-	
+
 	/**
 	 * 유지보수상세내역 조회
 	 * @param searchVO
@@ -159,9 +169,9 @@ public class GamFcltyMaintMngController {
 
     	return map;
     }
-	
 
-	
+
+
 	/**
 	 * 유지보수 대상시설물 조회
 	 * @param searchVO
@@ -191,8 +201,8 @@ public class GamFcltyMaintMngController {
 
     	return map;
     }
-	
-	
+
+
 	/**
 	 * 유지보수 첨부파일 조회
 	 * @param searchVO
@@ -222,8 +232,8 @@ public class GamFcltyMaintMngController {
 
     	return map;
     }
-	
-	
+
+
 	/**
 	 * 유지보수내역 등록
 	 * @param Map
@@ -233,7 +243,7 @@ public class GamFcltyMaintMngController {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/insertFcltyMaintMng.do")
     public @ResponseBody Map insertFcltyMaintMng(@RequestParam Map fcltyMaintItem) throws Exception {
-		
+
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map map = new HashMap();
     	ObjectMapper mapper = new ObjectMapper();
@@ -247,18 +257,18 @@ public class GamFcltyMaintMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	
+
     	insertMntnData = mapper.readValue((String)fcltyMaintItem.get("saveFcltyMaintMngVO"),
     		    new TypeReference<HashMap<String,String>>(){});
 
     	insertObjList = mapper.readValue((String)fcltyMaintItem.get("insertMntnObjList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
-    	
+
     	insertFileList = mapper.readValue((String)fcltyMaintItem.get("insertMntnFileList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
 
     	insertMntnData.put("regUsr",user.getId());
-    	
+
     	try {
     		// 유지보수내역 저장
     		gamFcltyMaintMngService.insertFcltyMaintMng(insertMntnData, insertObjList, insertFileList);
@@ -266,7 +276,7 @@ public class GamFcltyMaintMngController {
     		map.put("resultCode", 0);			// return ok
     		map.put("mntnRprSeq", insertMntnData.get("mntnRprSeq"));
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
-            
+
 		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
@@ -274,8 +284,8 @@ public class GamFcltyMaintMngController {
 
       	return map;
     }
-	
-	
+
+
 	/**
 	 * 유지보수내역 수정
 	 * @param Map
@@ -299,18 +309,18 @@ public class GamFcltyMaintMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	
+
     	updateMntnData = mapper.readValue((String)fcltyMaintItem.get("saveFcltyMaintMngVO"),
     		    new TypeReference<HashMap<String,String>>(){});
 
     	insertObjList = mapper.readValue((String)fcltyMaintItem.get("insertMntnObjList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
-    	
+
     	insertFileList = mapper.readValue((String)fcltyMaintItem.get("insertMntnFileList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
 
     	fcltyMaintItem.put("regUsr",user.getId());
-    	
+
 
     	try {
 
@@ -319,7 +329,7 @@ public class GamFcltyMaintMngController {
 
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
-            
+
 		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
@@ -327,8 +337,8 @@ public class GamFcltyMaintMngController {
 
       	return map;
     }
-	
-	
+
+
 	/**
 	 * 유지보수내역 삭제
 	 * @param Map
@@ -347,7 +357,7 @@ public class GamFcltyMaintMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	
+
 
     	try {
 
@@ -356,7 +366,7 @@ public class GamFcltyMaintMngController {
 
     		map.put("resultCode", 0);
             map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
-            
+
 		} catch (Exception e) {
 			map.put("resultCode", 1);
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
@@ -364,8 +374,8 @@ public class GamFcltyMaintMngController {
 
       	return map;
     }
-	
-	
+
+
 	/**
 	 * 시설물 유지보수관리 리스트를 엑셀로 다운로드한다.
 	 * @param searchVO
@@ -402,15 +412,54 @@ public class GamFcltyMaintMngController {
 		searchVO.setLastIndex(9999);
 		searchVO.setRecordCountPerPage(9999);
 
-		
+
 		//계약이력목록
     	List fcltyMaintMngList = gamFcltyMaintMngService.selectFcltyMaintMngList(searchVO);
-		
+
 
     	map.put("resultList", fcltyMaintMngList);
     	map.put("header", header);
 
     	return new ModelAndView("gridExcelView", "gridResultMap", map);
+    }
+
+	// 파일 처리
+    @RequestMapping(value="/fcltyMng/uploadMaintAttachFile.do", method=RequestMethod.POST)
+    public @ResponseBody Map uploadFile(HttpServletRequest request, Model model) throws Exception {
+		Map map = new HashMap();
+		String uploadPath = EgovProperties.getProperty("maintAttach.fileStorePath");
+		try {
+			List<GamFileServiceVo> list = GamFileUploadUtil.uploadFiles(request, uploadPath, gamMaintFileIdGnrService);
+
+			map.put("resultCode", "0");
+			map.put("result", list);
+		}
+		catch(Exception e) {
+			map.put("resultCode", "-1");
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
+		}
+
+		return map;
+	}
+
+    @RequestMapping("/fcltyMng/getMaintAttachFile.do")
+    public void getImage(final HttpServletRequest request, HttpServletResponse response) throws Exception {
+		GamFileServiceVo gamFileServiceVo = new GamFileServiceVo();
+		String uploadPath = EgovProperties.getProperty("maintAttach.fileStorePath");
+
+		gamFileServiceVo.setPhyscalFileNm((String)request.getParameter("physicalFileNm"));
+
+		GamFileUploadUtil.downloadImage(request, response, uploadPath, gamFileServiceVo);
+    }
+
+    @RequestMapping("/fcltyMng/downloadMaintAttachFile.do")
+    public void getDownload(final HttpServletRequest request, HttpServletResponse response) throws Exception {
+		GamFileServiceVo gamFileServiceVo = new GamFileServiceVo();
+		String uploadPath = EgovProperties.getProperty("maintAttach.fileStorePath");
+
+		gamFileServiceVo.setPhyscalFileNm((String)request.getParameter("physicalFileNm"));
+
+		GamFileUploadUtil.downloadFile(request, response, uploadPath, gamFileServiceVo);
     }
 
 }

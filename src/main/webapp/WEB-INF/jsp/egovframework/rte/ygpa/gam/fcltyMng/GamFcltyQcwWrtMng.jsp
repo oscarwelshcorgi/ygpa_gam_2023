@@ -47,10 +47,10 @@ GamFcltyQcwWrtMngModule.prototype = new EmdModule(1000,760);
 %>
 GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 	this._mainmode = '';
-	
+
 	this._qcResultList = null;
 	this._qcresultmode = '';
-	
+
 	this.$('#mainGrid').flexigrid({
 		module: this,
 		url: '/fcltyMng/selectQcMngDtlsList.do',
@@ -86,7 +86,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 		module._mainmode = 'modify';
 		module.setControlStatus();
 	});
-	
+
 	this.$('#mainGrid').on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._mainmode = 'modify';
 		module.setControlStatus();
@@ -109,14 +109,14 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 				this.chkRole = this.chkRole === 'TRUE';
 			});
 			return data;
-		}		
+		}
 	});
-	
+
 	this.$('#sFcltsMngGroupNo').bind('click', {module: this}, function(event) {
 		event.data.module.$('#sFcltsMngGroupNo').val('');
 		event.data.module.$('#sFcltsMngGroupNm').val('');
 	});
-	
+
 	this.$('#fcltsJobSe').bind('change', {module: this}, function(event) {
 		event.data.module.loadQcSubDataList();
 	});
@@ -124,27 +124,27 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 	this.$('#mechFcltsSe').bind('change', {module: this}, function(event) {
 		event.data.module.loadQcSubDataList();
 	});
-		
+
 	this.$('#sQcInspSe').bind('change', {module: this}, function(event) {
 		event.data.module.checkSearchQcInspSe();
 	});
-	
+
 	this.$('#sQcSe').disable();
 
 	this.$('#qcInspSe').bind('change', {module: this}, function(event) {
 		event.data.module.checkQcInspSe();
 	});
 	this.$('#qcSe').disable();
-	
+
 	this.$('#mechFcltsSe').hide();
-	
+
 	this.setControlStatus();
 
-	this.fillSelectBoxYear('#enforceYear');	
+	this.fillSelectBoxYear('#enforceYear');
 	this.fillSelectBoxYear('#sEnforceYear');
 	this.$('#sEnforceYear').val((new Date()).getFullYear());
 	this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
-	
+
 	this.getMapInfoList(params);
 };
 
@@ -152,7 +152,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 /**
  * @FUNCTION NAME : getMapInfoList
  * @DESCRIPTION   : 맵에서 유지보수 정보를 클릭할때 넘어오는 Param으로 리스트 가져오는 함수
- * @PARAMETER     
+ * @PARAMETER
  *		1. fcltsMngGroupNo   : 시설물 관리 그룹 코드
  *		2. fcltsMngGroupNoNm : 시설물 관리 그룹 코드명
 **/
@@ -165,7 +165,7 @@ GamFcltyQcwWrtMngModule.prototype.getMapInfoList = function(params){
 				case "manage":
 					this.$('#sFcltsMngGroupNo').val(this._params.fcltsMngGroupNo);
 					this.$('#sFcltsMngGroupNm').val(this._params.fcltsMngGroupNoNm);
-					
+
 					this.loadData();
 				break;
 			}
@@ -257,7 +257,7 @@ GamFcltyQcwWrtMngModule.prototype.loadDetail = function() {
 	           		{name: 'sFcltsJobSe', value: row['fcltsJobSe'] },
 	           		{name: 'sQcMngSeq', value: row['qcMngSeq'] }
 		           ];
-		this.doAction('/fcltyMng/selectQcMngDtlsDetail.do', opts, function(module, result) { 
+		this.doAction('/fcltyMng/selectQcMngDtlsDetail.do', opts, function(module, result) {
 			if(result.resultCode == '0'){
 				module.makeFormValues('#detailForm', result.detailData);
 				module.checkQcInspSe();
@@ -287,7 +287,7 @@ GamFcltyQcwWrtMngModule.prototype.checkSearchQcInspSe = function() {
 	var value = this.$('#sQcInspSe').val();
 	if(value == '1' || value == '4' || value == '5') {
 		this.$('#sQcSe').enable();
-	} 
+	}
 	else {
 		this.$('#sQcSe').val('');
 		this.$('#sQcSe').disable();
@@ -305,7 +305,7 @@ GamFcltyQcwWrtMngModule.prototype.checkQcInspSe = function() {
 	var value = this.$('#qcInspSe').val();
 	if(value == '1' || value == '4' || value == '5') {
 		this.$('#qcSe').enable();
-	} 
+	}
 	else {
 		this.$('#qcSe').val('');
 		this.$('#qcSe').disable();
@@ -425,7 +425,7 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 		this.$('#btnPreviewFile').disable({disableClass:'ui-state-disabled'});
 		this.$('#popupEditQcResultItem').disable({disableClass:'ui-state-disabled'});
 		this.$('#qcObjFcltsGrid').flexEmptyData();
-	} 
+	}
 	else {
 		this.$('#atchFile option').remove();
 		this.$('#atchFile').append('<option value="">선택</option>');
@@ -455,7 +455,7 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 **/
 %>
 GamFcltyQcwWrtMngModule.prototype.setPrintUrl = function() {
-	
+
 	if(this.$('#fcltsJobSe').val() == 'A') {
 		this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcPrintA.do');
 	}
@@ -476,7 +476,7 @@ GamFcltyQcwWrtMngModule.prototype.setPrintUrl = function() {
 			this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcPrintM2.do');
 		}
 	}
-	
+
 };
 
 
@@ -508,17 +508,17 @@ GamFcltyQcwWrtMngModule.prototype.validateDetailForm = function() {
 /**
  * @FUNCTION NAME : validateDuration
  * @DESCRIPTION   : 유효성 있는 기간 체크
- * @PARAMETER     : 
-	 1. startDate   : 시작일 문자열, 
-	 2. endDate     : 종료일 문자열, 
-	 3. startTitle  : 시작일 제목, 
-	 4. endTitle    : 종료일 제목, 
-	 5. startIgnore : 
+ * @PARAMETER     :
+	 1. startDate   : 시작일 문자열,
+	 2. endDate     : 종료일 문자열,
+	 3. startTitle  : 시작일 제목,
+	 4. endTitle    : 종료일 제목,
+	 5. startIgnore :
 		 5-1. true  : 시작일 필수입력사항 미체크,
-		 5-2. false : 시작일 필수입력사항 체크 
-	 6. endIgnore : 
+		 5-2. false : 시작일 필수입력사항 체크
+	 6. endIgnore :
 		 6-1. true  : 종료일 필수입력사항 미체크,
-		 6-2. false : 종료일 필수입력사항 체크 
+		 6-2. false : 종료일 필수입력사항 체크
 	 7. equals      :
 		 7-1. true  : 종료일이 시작일 보다 크거나 같으면 허용
 		 7-2. false : 종료일이 시작일 보다 커야 허용
@@ -565,8 +565,8 @@ GamFcltyQcwWrtMngModule.prototype.validateDuration = function(startDate, endDate
 	}
 	startDate = EMD.util.strToDate(startDate);
 	endDate = EMD.util.strToDate(endDate);
-	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 : 
-							(startDate.getTime() == endDate.getTime()) ? 0 : 1;	
+	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 :
+							(startDate.getTime() == endDate.getTime()) ? 0 : 1;
 	result = (equals) ? (compareResult >= 0) : (compareResult > 0);
 	if(!result) {
 		alert(endTitle +'은(는) ' + startTitle + ((equals) ? '보다 같거나 커야합니다.' : '보다 커야합니다.'));
@@ -587,12 +587,12 @@ GamFcltyQcwWrtMngModule.prototype.getSaveData = function() {
 	var qcObjList = this.getQcObjList();
 	var qcResultList = this.getQcResultItemList();
 	var atchFileList = this.getAtchFileList();
-		
+
 	result[result.length] = {name: 'detailForm', value :JSON.stringify(detailForm) };
 	result[result.length] = {name: 'qcObjList', value :JSON.stringify(qcObjList)};
 	result[result.length] = {name: 'qcResultList', value :JSON.stringify(qcResultList)};
 	result[result.length] = {name: 'atchFileList', value :JSON.stringify(atchFileList)};
-	
+
 	return result;
 };
 
@@ -607,34 +607,34 @@ GamFcltyQcwWrtMngModule.prototype.saveData = function() {
 	if(!this.validateDetailForm()){
 		return;
 	}
-	
-	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#qcInspDt').val(),  
+
+	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#qcInspDt').val(),
 								'시행년도', '시행일자', true, true, true)) {
 		return;
 	}
 
-	if(!this.validateDuration(this.$('#qcInspDt').val(), this.$('#qcBeginDt').val(),  
+	if(!this.validateDuration(this.$('#qcInspDt').val(), this.$('#qcBeginDt').val(),
 								'시행일자', '점검기간 시작일', true, true, true)) {
 		return;
 	}
 
-	if(!this.validateDuration(this.$('#qcBeginDt').val(), this.$('#qcEndDt').val(),  
+	if(!this.validateDuration(this.$('#qcBeginDt').val(), this.$('#qcEndDt').val(),
 								'점검기간 시작일', '점검기간 종료일', false, false, true)) {
 		return;
 	}
 
-	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#qcBeginDt').val(),  
+	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#qcBeginDt').val(),
 								'시행년도', '점검진단 시작일', true, true, true)) {
 		return;
 	}
 
-	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#qcEndDt').val(),  
+	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#qcEndDt').val(),
 								'시행년도', '점검진단 종료일', true, true, true)) {
 		return;
-	}	
-	
+	}
+
 	var inputData = this.getSaveData();
-	
+
 	if(this._mainmode == 'insert') {
 	 	this.doAction('/fcltyMng/insertQcMngDtls.do', inputData, function(module, result) {
 	 		if(result.resultCode == '0') {
@@ -687,9 +687,9 @@ GamFcltyQcwWrtMngModule.prototype.deleteData = function() {
 GamFcltyQcwWrtMngModule.prototype.loadQcSubDataList = function() {
 	if(this.$('#fcltsJobSe').val() == '' || this.$('#fcltsMngGroupNo').val() == '')
 		return;
-	
+
 	var searchVO = [];
-	
+
 	if(this.$('#fcltsJobSe').val() == 'M') {
 		if(this.$('#mechFcltsSe').val() == '1') {
 			searchVO[searchVO.length] = { name: 'sMechCdStartChar', value: 'M02' };
@@ -705,14 +705,14 @@ GamFcltyQcwWrtMngModule.prototype.loadQcSubDataList = function() {
 	if(this._mainmode == 'insert') {
 		searchVO[searchVO.length] = { name: 'sFcltsJobSe', value: this.$('#fcltsJobSe').val() };
 		//searchVO[searchVO.length] = { name: 'sQcMngSeq', value: '' };
-	} 
+	}
 	else {
 		searchVO[searchVO.length] = { name: 'sFcltsJobSe', value: this.$('#fcltsJobSe').val() };
 		searchVO[searchVO.length] = { name: 'sFcltsMngGroupNo', value: this.$('#fcltsMngGroupNo').val() };
 		searchVO[searchVO.length] = { name: 'sQcMngSeq', value: this.$('#qcMngSeq').val() };
 	}
 	searchVO[searchVO.length] = { name: 'sGamCode', value: this.getGamCode() };
-	
+
 	this._qcResultList = null;
 	this._qcresultmode = '';
 	this.setControlStatus();
@@ -738,7 +738,7 @@ GamFcltyQcwWrtMngModule.prototype.loadQcSubDataList = function() {
 			}
 		this.$('#qcObjFcltsGrid').flexOptions({params:searchVO}).flexReload();
 	}
-	
+
 };
 
 <%
@@ -783,7 +783,7 @@ GamFcltyQcwWrtMngModule.prototype.getQcObjList = function() {
 		}
 	}
 	return resultList;
-	
+
 };
 
 <%
@@ -799,9 +799,9 @@ GamFcltyQcwWrtMngModule.prototype.getQcResultItemList = function() {
 	if(rows.length > 0) {
 		for(var i=0; i<rows.length; i++) {
 			var row = rows[i];
-			resultList[resultList.length] = {	
-				fcltsMngGroupNo : this.$('#fcltsMngGroupNo').val() 
-				, fcltsJobSe : this.$('#fcltsJobSe').val() 
+			resultList[resultList.length] = {
+				fcltsMngGroupNo : this.$('#fcltsMngGroupNo').val()
+				, fcltsJobSe : this.$('#fcltsJobSe').val()
 				, qcMngSeq : this.$('#qcMngSeq').val()
 				, qcItemCd : row['qcItemCd']
 				, inspResultChk : row['inspResultChk']
@@ -822,7 +822,7 @@ GamFcltyQcwWrtMngModule.prototype.getQcResultItemList = function() {
 GamFcltyQcwWrtMngModule.prototype.getAtchFileList = function() {
 	var resultList = [];
 	var len = this.$('#atchFile option').size();
-	var logicalFileNm, physcalFileNm; 
+	var logicalFileNm, physcalFileNm;
 	for(var i=0; i<len; i++) {
 		physcalFileNm = this.$('#atchFile option:eq(' + i + ')').val();
 		logicalFileNm = this.$('#atchFile option:eq(' + i + ')').text();
@@ -854,7 +854,7 @@ GamFcltyQcwWrtMngModule.prototype.fillAtchFileList = function(atchFileList) {
 	this.$('#atchFile').append('<option value="">선택</option>');
 	$.each(atchFileList, function(index){
 		module.$('#atchFile').append(
-				'<option value="' + atchFileList[index].atchFileNmPhysicl + '">' 
+				'<option value="' + atchFileList[index].atchFileNmPhysicl + '">'
 				+ atchFileList[index].atchFileNmLogic + '</option>');
 	});
 };
@@ -867,13 +867,18 @@ GamFcltyQcwWrtMngModule.prototype.fillAtchFileList = function(atchFileList) {
 **/
 %>
 GamFcltyQcwWrtMngModule.prototype.atchFileUpload = function() {
-	this.uploadPfPhoto('uploadPhoto', function(module, result) {
-		$.each(result, function(){
-			module.$('#atchFile').append(
-					'<option value="' + this.physcalFileNm + '">' 
-					+ this.logicalFileNm + '</option>');
+	this.uploadSingleFile('/fcltyMng/uploadQcWrtAttachFile.do', function(module, resp) {
+		if(resp.resultCode!=0) {
+			alert(resp.resultMsg);
+			return;
+		}
+		$.each(resp.result, function() {
+            module.$('#atchFile').append(
+					'<option value="' + this.physcalFileNm + '">'
+					+ this.logicalFileNm + '</option>'); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
 		});
-	}, '점검관리 첨부파일 업로드');	
+		if(resp.result!=null && resp.result.length>0) this._edited=true;
+	});
 };
 
 <%
@@ -885,11 +890,11 @@ GamFcltyQcwWrtMngModule.prototype.atchFileUpload = function() {
 %>
 GamFcltyQcwWrtMngModule.prototype.atchFileDownload = function() {
 	if(this.$('#atchFile').val() != '') {
-		this.downPfPhoto(this.$('#atchFile').val(), this.$('#atchFile').find('option:selected').text());
-	} 
+		this.downloadSingleFile("/fcltyMng/downloadQcWrtAttachFile.do", this.$('#atchFile').find('option:selected').val(), this.$('#atchFile').find('option:selected').text() );
+	}
 	else {
 		alert('첨부파일을 선택해주십시오.');
-	} 
+	}
 };
 
 <%
@@ -905,7 +910,7 @@ GamFcltyQcwWrtMngModule.prototype.atchFileRemove = function() {
 	}
 	else {
 		alert('첨부파일을 선택해주십시오.');
-	} 
+	}
 };
 
 <%
@@ -918,13 +923,15 @@ GamFcltyQcwWrtMngModule.prototype.atchFileRemove = function() {
 GamFcltyQcwWrtMngModule.prototype.showPreviewImage = function(fileName){
 	if(fileName != '') {
 		var ext = fileName.substring(fileName.lastIndexOf('.')+1).toLowerCase();
+		var imgURL='';
 		if(ext == 'jpg' || ext == 'jpeg' || ext == 'bmp' || ext == 'png' || ext == 'gif')
 		{
 			this.$('#previewDialogArea').append(
-				'<div id="' + this.getId('previewDialog') + '">' + 
-				'<img id="' + this.getId('previewImage') + '" src=""/>' + 
+				'<div id="' + this.getId('previewDialog') + '">' +
+				'<img id="' + this.getId('previewImage') + '" src=""/>' +
 				'</div>');
-			var imgURL = this.getPfPhotoUrl(fileName);
+			imgURL = this.getUrl("/fcltyMng/getQcWrtAttachFile.do?physicalFileNm=")+fileName;
+
 			this.$("#previewImage").attr('src', imgURL);
 			this.$("#previewImage").bind('load', {module: this}, function(event) {
 				event.data.module.$('#previewDialog').dialog({
@@ -935,12 +942,12 @@ GamFcltyQcwWrtMngModule.prototype.showPreviewImage = function(fileName){
 			 		draggable: true,
 			 		width: 'auto',
 			 		title: '이미지미리보기',
-			 		buttons:[{text:"close", click: function() { 
+			 		buttons:[{text:"close", click: function() {
 			 						$(this).dialog('close');
 			 					}
 			 				}]
 			 	});
-			}); 
+			});
 		}
 		else {
 			alert('이미지 파일이 아닙니다.');
@@ -965,8 +972,8 @@ GamFcltyQcwWrtMngModule.prototype.showQcInspResult = function() {
 		for(var i=0; i<rows.length; i++) {
 			var row = rows[i];
 			if(row['inspResultChk'] != 'N') {
-				qcInspResultVal += row['qcItemNm'] + ' : ' 
-								+ (row['inspResultChk'] == 'W' ? '요주의' : 
+				qcInspResultVal += row['qcItemNm'] + ' : '
+								+ (row['inspResultChk'] == 'W' ? '요주의' :
 									(row['inspResultChk'] == 'X' ? '불량' : '')) + '\n';
 			}
 		}
@@ -992,25 +999,25 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnSearch':
 			this.loadData();
 			break;
-			
+
 		case 'btnExcelDownload':
 			this.downloadExcel();
 			break;
-			
-		case 'btnAdd' : 
+
+		case 'btnAdd' :
  		case 'btnDetailAdd' :
 			this.initBeforeInsert();
 			break;
-			
+
 		case 'btnDelete' :
 		case 'btnDetailDelete' :
 			this.deleteData();
 			break;
-			
+
 		case 'btnSave' :
 			this.saveData();
 			break;
-		
+
 		case 'btnUploadFile' :
 			this.atchFileUpload();
 			break;
@@ -1022,18 +1029,18 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnRemoveFile' :
 			this.atchFileRemove();
 			break;
-			
+
 		case 'btnPreviewFile' :
 			this.showPreviewImage(this.$('#atchFile').val());
 			break;
-			
+
 		case 'popupEditQcResultItem' :
-			this.doExecuteDialog(	
-									'editQcResultItem' 
-									, '점검결과항목 편집' 
-									, '/popup/showQcMngResultItemPopup.do' 
-									, {} 
-									, { 	
+			this.doExecuteDialog(
+									'editQcResultItem'
+									, '점검결과항목 편집'
+									, '/popup/showQcMngResultItemPopup.do'
+									, {}
+									, {
 										'fcltsJobSeNm' : this.$('#fcltsJobSe').find('option:selected').text()
 										, 'fcltsMngGroupNm' : this.$('#fcltsMngGroupNm').val()
 										, 'qcResultList' : this._qcResultList
@@ -1041,32 +1048,32 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 									}
 								);
 			break;
-			
+
 		case 'popupDetailFcltsMngGroup':
-			this.doExecuteDialog(	
-									'selectDetailFcltsMngGroup' 
-									, '관리그룹 선택' 
+			this.doExecuteDialog(
+									'selectDetailFcltsMngGroup'
+									, '관리그룹 선택'
 									, '/popup/showFcltsMngGroup.do'
 									, {}
 								);
 			break;
 
 		case 'popupSearchFcltsMngGroup':
-			this.doExecuteDialog(	
-									'selectSearchFcltsMngGroup' 
+			this.doExecuteDialog(
+									'selectSearchFcltsMngGroup'
 									, '관리그룹 선택'
 									, '/popup/showFcltsMngGroup.do'
 									, {}
 								);
 			break;
-			
+
 		case 'btnAllSelect' :
-		
+
 			this.allSelectQcObj();
 			break;
-	
+
 		case 'btnAllUnSelect' :
-			
+
 			this.allUnSelectQcObj();
 			break;
 		}
@@ -1243,7 +1250,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 			</form>
 		</div>
 	</div>
-	
+
 	<!-- 2. DATA AREA (자료 영역) -->
 	<div class="emdPanel fillHeight">
 		<!-- 2.1. TAB AREA (탭 영역) -->
@@ -1253,7 +1260,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 				<li><a href="#listTab" class="emdTab">시설물점검목록</a></li>
 				<li><a href="#detailTab" class="emdTab">시설물점검내역</a></li>
 			</ul>
-			
+
 			<!-- 2.1.2. TAB 1 AREA (LIST) -->
 			<div id="listTab" class="emdTabPage" style="overflow: hidden;">
 				<table id="mainGrid" style="display:none" class="fillHeight"></table>
@@ -1318,7 +1325,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 										<select id="planHistSe" disabled="disabled">
 		                                    <option value="P">계획</option>
 		                                    <option value="H" selected="selected">이력</option>
-		                                </select>										
+		                                </select>
 									</td>
 								</tr>
 								<tr>
@@ -1385,7 +1392,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 		                                    <option value="D">D</option>
 		                                    <option value="E">E</option>
 		                                    <option value="Z">불명</option>
-		                                </select>			
+		                                </select>
 									</td>
 									<th height="17">점검　진단　기관명</th>
 									<td><input type="text" size="20" id="qcInspInsttNm" maxlength="60" /></td>
@@ -1393,7 +1400,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 								<tr>
 									<th height="17">점　검　기　간</th>
 									<td>
-										<input id="qcBeginDt" type="text" class="emdcal" size="12"/> ~ 
+										<input id="qcBeginDt" type="text" class="emdcal" size="12"/> ~
 										<input id="qcEndDt" type="text" class="emdcal" size="12"/>
 									</td>
 									<th height="17">책임　기술자　명</th>
@@ -1402,7 +1409,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 								<tr>
 									<th height="17">작　성　일　자</th>
 									<td>
-										<input id="wrtDt" type="text" class="emdcal" size="12"/> 
+										<input id="wrtDt" type="text" class="emdcal" size="12"/>
 									</td>
 									<th height="17">작　　성　　자</th>
 									<td><input id="wrtUsr" type="text" size="20" maxlength="7" /></td>
@@ -1447,7 +1454,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 						<th width="11%" height="20">첨　부　파　일</th>
 						<td colspan="2">
 							<select id="atchFile">
-                            </select>	
+                            </select>
 						</td>
 						<td style="text-align:right">
 							<button id="btnAllSelect">전체선택</button>
@@ -1456,7 +1463,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 						</td>
 					</tr>
 				</table>
-				
+
 				<div class="emdSummaryPanel">
 				<button id="btnUploadFile">업로드</button>
 					<button id="btnDownloadFile">다운로드</button>

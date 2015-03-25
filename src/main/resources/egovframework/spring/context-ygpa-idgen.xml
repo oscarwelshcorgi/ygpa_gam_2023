@@ -180,4 +180,57 @@
 		<property name="fillChar" value="0" />
 	</bean>
 
+	<!-- 유지보수 관리 파일 아이디 -->
+	<bean name="gamMaintFileIdGnrService"
+		class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService"
+		destroy-method="destroy">
+		<property name="dataSource" ref="egov.dataSource" />
+		<property name="strategy" ref="maintFileStrategy" />
+		<property name="blockSize" 	value="10"/>
+		<property name="table"	   	value="ASSETS_INFO_IDS_F"/>
+		<property name="tableName"	value="MAINT_FILE"/>
+	</bean>
+
+	<bean name="maintFileStrategy"
+		class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="MAINT_" />
+		<property name="cipers" value="15" />
+		<property name="fillChar" value="0" />
+	</bean>
+
+	<!-- 하자보수 관리 파일 아이디 -->
+	<bean name="gamRepairFileIdGnrService"
+		class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService"
+		destroy-method="destroy">
+		<property name="dataSource" ref="egov.dataSource" />
+		<property name="strategy" ref="repairFileStrategy" />
+		<property name="blockSize" 	value="10"/>
+		<property name="table"	   	value="ASSETS_INFO_IDS_F"/>
+		<property name="tableName"	value="RPR_FILE"/>
+	</bean>
+
+	<bean name="repairFileStrategy"
+		class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="RPR_" />
+		<property name="cipers" value="15" />
+		<property name="fillChar" value="0" />
+	</bean>
+
+	<!-- 점검기록 관리 파일 아이디 -->
+	<bean name="gamQcWrtFileIdGnrService"
+		class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService"
+		destroy-method="destroy">
+		<property name="dataSource" ref="egov.dataSource" />
+		<property name="strategy" ref="qcWrtFileStrategy" />
+		<property name="blockSize" 	value="10"/>
+		<property name="table"	   	value="ASSETS_INFO_IDS_F"/>
+		<property name="tableName"	value="QCWRT_FILE"/>
+	</bean>
+
+	<bean name="qcWrtFileStrategy"
+		class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="QC_" />
+		<property name="cipers" value="15" />
+		<property name="fillChar" value="0" />
+	</bean>
 </beans>

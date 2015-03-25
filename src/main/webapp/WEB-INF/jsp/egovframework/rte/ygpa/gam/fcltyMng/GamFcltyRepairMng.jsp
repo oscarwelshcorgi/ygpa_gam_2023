@@ -50,7 +50,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 	this._deleteObjFcltsList=[];
 	this._deleteDataRepairList=[];
 	this._deleteDataFileList=[];
-	
+
 	//console.log('GamFcltyRepairMngModule');
 
 	this.$("#fcltyRepairMngList").flexigrid({
@@ -79,38 +79,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		}
 	});
 
-	this.$("#fileGrid").flexigrid({
-		module : this,
-		url : '/fcltyMng/selectFcltyRepairFileList.do',
-		dataType : 'json',
-		colModel : [
-					{display:"선택",		name:"atchFileSelChk",		width:40,		sortable:false,		align:"center",		displayFormat:"checkbox"},
-					{display:"번호",		name:"atchFileSeq",			width:60,		sortable:false,		align:"center"},
-					{display:"구분",		name:"atchFileSj",		width:60,		sortable:false,		align:"center"},
-					{display:"파일명",		name:"atchFileNmLogic",		width:200,		sortable:false,		align:"left"},
-					{display:"프리뷰",		name:"photoUrl",			width:100,		sortable:false,		align:"center",		displayFormat:"image"}
-					],
-		height: "175",
-		preProcess: function(module, data) {
-			$.each(data.resultList, function() {
-				this.atchFileSelChk = (this.atchFileSelChk === 'TRUE');
-				this.photoUrl = "";
-				var atchFileNmPhysicl = this.atchFileNmPhysicl;
-				var ext = atchFileNmPhysicl.substring(atchFileNmPhysicl.lastIndexOf(".")+1).toLowerCase();
-				if (ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif") {
-					this.photoUrl = module.getPfPhotoUrl(atchFileNmPhysicl) + "^" + this.atchFileNmLogic + "^" + "100";
-				} else if (ext == "hwp") {
-					this.photoUrl = "js/codebase/imgs/hwp.png";
-				} else if (ext == "dwg") {
-					this.photoUrl = "js/codebase/imgs/dwg.png";
-				} else {
-					this.photoUrl = "js/codebase/imgs/unknown.png";
-				}
-			});
-			return data;
-		}
-	});	
-	
+
 	this.$("#flawRprObjFcltsF").flexigrid({
 		module: this,
 		url: '/fcltyMng/selectFlawRprObjFcltsF.do',
@@ -125,39 +94,32 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 			],
 		height: "110"
 	});
-	
-	
+
+
  	this.$("#fcltyRepairMngList").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mode = 'modify';
-		var searchVO = [
-		                { name: 'fcltsJobSe', value: row['fcltsJobSe'] },
-		                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
-		                { name: 'flawRprSeq', value: row['flawRprSeq'] }
-		               ];
-	        module.$('#fileGrid').flexOptions({params:searchVO}).flexReload(); 
-
 	});
- 	
+
  	this.$("#fcltyRepairMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module._mode="modify";
 		module.$("#fcltyRepairMngListTab").tabs("option", {active: 1});
 	});
- 	
+
  	this.$("#flawRprObjFcltsF").on('onItemSelected', function(event, module, row, grid, param) {
  		module.applyObjDataChanged();
 	});
- 	
- 	
+
+
  	this.$(".objFcltsEditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.objFcltsDataChanged(event.target);
 	});
- 	
-	
+
+
 	// 기본값 셋팅
 	this.setDefaultParam();
 	this.applySelectYear();
 	this.getMapInfoList(params);
-	
+
 };
 
 
@@ -165,7 +127,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 /**
  * @FUNCTION NAME : getMapInfoList
  * @DESCRIPTION   : 맵에서 유지보수 정보를 클릭할때 넘어오는 Param으로 리스트 가져오는 함수
- * @PARAMETER     
+ * @PARAMETER
  *		1. fcltsMngGroupNo   : 시설물 관리 그룹 코드
  *		2. fcltsMngGroupNoNm : 시설물 관리 그룹 코드명
 **/
@@ -178,7 +140,7 @@ GamFcltyRepairMngModule.prototype.getMapInfoList = function(params){
 				case "manage":
 					this.$('#sFcltsMngGroupNo').val(this._params.fcltsMngGroupNo);
 					this.$('#sFcltsMngGroupNoNm').val(this._params.fcltsMngGroupNoNm);
-					
+
 					this.loadData();
 				break;
 			}
@@ -198,16 +160,16 @@ GamFcltyRepairMngModule.prototype.getMapInfoList = function(params){
 GamFcltyRepairMngModule.prototype.setDefaultParam = function(){
 	var toDate = new Date();
 	var toYear = toDate.getFullYear();
-	
+
 	var toMonth = toDate.getMonth() + 1;
 	if(toMonth < 10) toMonth = "0" + toMonth;
-	
+
 	var toDay = toDate.getDay();
 	if(toDay < 10) toDay = "0" + toDay;
-	
+
 	this.$("#sFlawRprStartDtFr").val(toYear + "-01-01");
 	this.$("#sFlawRprStartDtTo").val(toYear + "-" + toMonth + "-" + toDay);
-	
+
 	this.$("#sFcltsJobSe").val(EMD.userinfo["mngFcltyCd"]);
 };
 
@@ -222,7 +184,7 @@ GamFcltyRepairMngModule.prototype.setDefaultParam = function(){
 GamFcltyRepairMngModule.prototype.applySelectYear = function(){
 	var toDate = new Date();
 	var toYear = toDate.getFullYear();
-	
+
 	for(var i = toYear;i>=1980;i--){
 		this.$("#enforceYear").append("<option value='" + i + "'>" + i + "년</option>");
 	}
@@ -232,17 +194,17 @@ GamFcltyRepairMngModule.prototype.applySelectYear = function(){
 /**
  * @FUNCTION NAME : validateDuration
  * @DESCRIPTION   : 유효성 있는 기간 체크
- * @PARAMETER     : 
-	 1. startDate   : 시작일 문자열, 
-	 2. endDate     : 종료일 문자열, 
-	 3. startTitle  : 시작일 제목, 
-	 4. endTitle    : 종료일 제목, 
-	 5. startIgnore : 
+ * @PARAMETER     :
+	 1. startDate   : 시작일 문자열,
+	 2. endDate     : 종료일 문자열,
+	 3. startTitle  : 시작일 제목,
+	 4. endTitle    : 종료일 제목,
+	 5. startIgnore :
 		 5-1. true  : 시작일 필수입력사항 미체크,
-		 5-2. false : 시작일 필수입력사항 체크 
-	 6. endIgnore : 
+		 5-2. false : 시작일 필수입력사항 체크
+	 6. endIgnore :
 		 6-1. true  : 종료일 필수입력사항 미체크,
-		 6-2. false : 종료일 필수입력사항 체크 
+		 6-2. false : 종료일 필수입력사항 체크
 	 7. equals      :
 		 7-1. true  : 종료일이 시작일 보다 크거나 같으면 허용
 		 7-2. false : 종료일이 시작일 보다 커야 허용
@@ -289,8 +251,8 @@ GamFcltyRepairMngModule.prototype.validateDuration = function(startDate, endDate
 	}
 	startDate = EMD.util.strToDate(startDate);
 	endDate = EMD.util.strToDate(endDate);
-	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 : 
-							(startDate.getTime() == endDate.getTime()) ? 0 : 1;	
+	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 :
+							(startDate.getTime() == endDate.getTime()) ? 0 : 1;
 	result = (equals) ? (compareResult >= 0) : (compareResult > 0);
 	if(!result) {
 		alert(endTitle +'은(는) ' + startTitle + ((equals) ? '보다 같거나 커야합니다.' : '보다 커야합니다.'));
@@ -307,7 +269,7 @@ GamFcltyRepairMngModule.prototype.validateDuration = function(startDate, endDate
 **/
 %>
 GamFcltyRepairMngModule.prototype.onSubmit = function(){
-	if(!this.validateDuration(this.$('#sFlawRprStartDtFr').val(), this.$('#sFlawRprStartDtTo').val(),  
+	if(!this.validateDuration(this.$('#sFlawRprStartDtFr').val(), this.$('#sFlawRprStartDtTo').val(),
 			'하자검사기간조회 시작일', '하자검사기간조회 종료일',  true,  true, true)) {
 		return;
 	}
@@ -326,7 +288,7 @@ GamFcltyRepairMngModule.prototype.loadData = function(){
 
 	// tabs2 항목 초기화
 	this.makeFormValues('#fcltyRepairMngListVO', {});
-	
+
 	// tabs3 그리드 초기화
 	this.$('#flawRprObjFcltsF').flexEmptyData();
 	this.$('#gamObjFcltsForm input').val('');
@@ -336,10 +298,16 @@ GamFcltyRepairMngModule.prototype.loadData = function(){
 	this.$("#fcltyRepairMngListTab").tabs("option", {active: 0});
 	var searchOpt=this.makeFormArgs('#searchFcltyRepairMngForm');
 	this.$('#fcltyRepairMngList').flexOptions({params:searchOpt}).flexReload();
-	
+
 };
 
-
+<%
+/**
+ * @FUNCTION NAME : loadDetail
+ * @DESCRIPTION   : DATA LOAD (DETAIL)
+ * @PARAMETER     : NONE
+**/
+%>
 GamFcltyRepairMngModule.prototype.loadDetail = function(){
 	var row = this.$('#fcltyRepairMngList').selectedRows();
 	if(row.length==0) {
@@ -347,19 +315,19 @@ GamFcltyRepairMngModule.prototype.loadDetail = function(){
 		this.$("#fcltyRepairMngListTab").tabs("option", {active: 0});
 		return;
 	}
-	
+
 	row = row[0];
 	var searchVO = [
 	                { name: 'fcltsJobSe', value: row['fcltsJobSe'] },
 	                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
 	                { name: 'flawRprSeq', value: row['flawRprSeq'] }
 	               ];
-	
+
 	// tabs2 항목 데이타로딩
 	this.doAction('/fcltyMng/selectFcltyRepairMngDetail.do', searchVO, function(module, result) {
 		if(result.resultCode == "0"){
 			module.makeFormValues('#fcltyRepairMngListVO', result.result);
-			
+
 			// tabs3 그리드 리로드
 			module.makeDivValues('#gamObjFcltsDetailForm',result.result);
 			module.$('#flawRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
@@ -370,11 +338,12 @@ GamFcltyRepairMngModule.prototype.loadDetail = function(){
     });
 };
 
+
 <%
 /**
  * @FUNCTION NAME : fillAtchFileList
  * @DESCRIPTION   : 첨부파일 리스트를 select element에 채워넣기.
- * @PARAMETER     : 
+ * @PARAMETER     :
  *   1. searchVO
  *     1-1. fcltsJobSe : 시설물업무구분
  *     1-2. fcltsMngGroupNo : 시설물 관리그룹번호
@@ -412,22 +381,22 @@ GamFcltyRepairMngModule.prototype.imgPreview = function(){
 
 		if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
 			this.$('#previewHidden').append('<div id="'+this.getId("previewDialog")+'"><img id="'+this.getId("previewImage")+'" src=""/></div>');
-			var imgURL = this.getPfPhotoUrl(selImg);
+			var imgURL = this.getUrl("/fcltyMng/getRepairAttachFile.do?physicalFileNm=")+selImg;
 			this.$("#previewImage").attr("src", imgURL);
-			
+
 			this.$("#previewImage").bind('load', {module: this},function(event){
 				event.data.module.$('#previewDialog').dialog({
 					modal: true,
 					maxWidth: 800,
-					maxHeight: 640,
-					resizable: true,
+					maxHeight: 600,
+					resizable: false,
 					draggable: true,
 					width: 'auto',
 					title: '이미지미리보기',
 					buttons:[{text:"close", click: function() { $(this).dialog('close'); }}]
 				});
-			});   
-			
+			});
+
 		}else{
 			this.$("#previewImage").removeAttr("src");
 			alert('미리보기는 이미지파일만 가능합니다.');
@@ -435,7 +404,7 @@ GamFcltyRepairMngModule.prototype.imgPreview = function(){
 	}else{
 		alert('미리보기할 파일을 선택하세요.');
 	}
-	
+
 };
 
 
@@ -449,7 +418,7 @@ GamFcltyRepairMngModule.prototype.imgPreview = function(){
 GamFcltyRepairMngModule.prototype.addData = function() {
 
 	this._mode="insert";
-	
+
 	// tabs2 초기화
 	this.makeFormValues('#fcltyRepairMngListVO', {});
 	this.$("#searchFcltsMngGroupNo").show();
@@ -457,11 +426,11 @@ GamFcltyRepairMngModule.prototype.addData = function() {
 	this.$("#fcltsJobSe").val(EMD.userinfo["mngFcltyCd"]);
 	var toYear = new Date().getFullYear();
 	this.$("#enforceYear").val(toYear);
-	
-	
+
+
 	// tabs3 초기화
 	this.$("#flawRprObjFcltsF").flexEmptyData();
-	
+
 	this.$("#fcltyRepairMngListTab").tabs("option", {active: 1});
 
 };
@@ -475,14 +444,14 @@ GamFcltyRepairMngModule.prototype.addData = function() {
 **/
 %>
 GamFcltyRepairMngModule.prototype.deleteData = function() {
-	
+
 	var row = this.$('#fcltyRepairMngList').selectedRows();
 	if(row.length==0) {
 		alert('선택된 항목이 없습니다.');
 		this.$("#fcltyRepairMngListTab").tabs("option", {active: 0});
 		return;
 	}
-	
+
 	if(confirm("삭제하시겠습니까?")){
 		row = row[0];
 		var inputVO = { 'fcltsJobSe': row['fcltsJobSe'],'fcltsMngGroupNo': row['fcltsMngGroupNo'],'flawRprSeq': row['flawRprSeq'] };
@@ -505,16 +474,16 @@ GamFcltyRepairMngModule.prototype.deleteData = function() {
 **/
 %>
 GamFcltyRepairMngModule.prototype.applyObjDataChanged = function(){
-	
+
 	var row = this.$('#flawRprObjFcltsF').selectedRows();
 	row = row[0];
-	
+
 	if(row['_updtId']!='I'){
 		this.$('#searchFcltsMngNo').hide();
 	}else{
 		this.$('#searchFcltsMngNo').show();
 	}
-	
+
 	this.$('#oFcltsMngNo').val(row['fcltsMngNo']);
 	this.$('#prtFcltyNm').val(row['prtFcltyNm']);
 	this.$('#oFlawExamDt').val(row['flawExamDt']);
@@ -542,7 +511,7 @@ GamFcltyRepairMngModule.prototype.objFcltsDataChanged = function(target) {
 			row['fcltsMngNo'] = $(target).val();
 			changed=true;
 		}
-		
+
 		if(this.$('#prtFcltyNm').is(target)) {
 			row['prtFcltyNm'] = $(target).val();
 			changed=true;
@@ -587,7 +556,7 @@ GamFcltyRepairMngModule.prototype.addObjFcltsItem = function() {
 	this.$("#flawRprObjFcltsF").flexAddRow({'_updtId': 'I', 'fcltsMngGroupNo':'', 'fcltsJobSe':'', 'flawRprSeq':'', 'fcltsMngNo':'', 'flawEnnc':'', 'flawExamDt':'', 'flawExamResult':'', 'rm':''});
 	var allRows = this.$('#flawRprObjFcltsF').flexGetData();
 	var selRowId = allRows.length - 1;
-	this.$("#flawRprObjFcltsF").selectRowId(selRowId);	
+	this.$("#flawRprObjFcltsF").selectRowId(selRowId);
 };
 
 
@@ -627,48 +596,48 @@ GamFcltyRepairMngModule.prototype.delObjFcltsItem = function() {
 **/
 %>
 GamFcltyRepairMngModule.prototype.saveData = function() {
-	
+
 	if(!validateFcltyRepairMngVO(this.$("#fcltyRepairMngListVO")[0])){
 		this.$("#fcltyRepairMngListTab").tabs("option", {active: 1});
 		return;
 	}
-	
-	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#flawExamDt').val(),  
+
+	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#flawExamDt').val(),
 			'시행년도', '하자검사일자', false, true, true)) {
 		return;
 	}
-	
-	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#flawOccrrncDt').val(),  
+
+	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#flawOccrrncDt').val(),
 			'시행년도', '하자발생일자', false, true, true)) {
 		return;
 	}
-	
-	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#flawRprStartDt').val(),  
+
+	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#flawRprStartDt').val(),
 			'시행년도', '하자보수시작일', false, true, true)) {
 		return;
 	}
-	
-	if(!this.validateDuration(this.$('#flawExamDt').val(), this.$('#flawOccrrncDt').val(),  
+
+	if(!this.validateDuration(this.$('#flawExamDt').val(), this.$('#flawOccrrncDt').val(),
 			'하자검사일자', '하자발생일자',  true, true, true)) {
 		return;
 	}
-	
-	if(!this.validateDuration(this.$('#flawExamDt').val(), this.$('#flawRprStartDt').val(),  
+
+	if(!this.validateDuration(this.$('#flawExamDt').val(), this.$('#flawRprStartDt').val(),
 			'하자검사일자', '하자보수시작일',  true, true, true)) {
 		return;
 	}
-	
-	if(!this.validateDuration(this.$('#flawOccrrncDt').val(), this.$('#flawRprStartDt').val(),  
+
+	if(!this.validateDuration(this.$('#flawOccrrncDt').val(), this.$('#flawRprStartDt').val(),
 			'하자발생일자', '하자보수시작일',  true, true, false)) {
 		return;
 	}
-	
-	if(!this.validateDuration(this.$('#flawRprStartDt').val(), this.$('#flawRprEndDt').val(),  
+
+	if(!this.validateDuration(this.$('#flawRprStartDt').val(), this.$('#flawRprEndDt').val(),
 			'하자보수시작일', '하자보수종료일',  false, false, true)) {
 		return;
 	}
-	
-	
+
+
 	var inputVO = this.makeSaveParam();
 
 	if(this._mode == "insert") {
@@ -677,7 +646,7 @@ GamFcltyRepairMngModule.prototype.saveData = function() {
 	 			module.$("#fcltsJobSe").disable();
 	 			module.$("#searchFcltsMngGroupNo").hide();
 	 			module.$("#flawRprSeq").val(result.flawRprSeq);
-	 			
+
 	 			module._mode = "modify";
 	 		}
 	 		alert(result.resultMsg);
@@ -699,11 +668,11 @@ GamFcltyRepairMngModule.prototype.saveData = function() {
 **/
 %>
 GamFcltyRepairMngModule.prototype.makeSaveParam = function() {
-	
+
 	var inputVO = [];
  	inputVO[inputVO.length] = {name: 'fcltyRepairMngListVO', value :JSON.stringify(this.makeFormArgs("#fcltyRepairMngListVO",'object')) };
  	inputVO[inputVO.length] = {name: 'insertRepairFileList', value :JSON.stringify(this.makeSelectArgs("#fcltyRepairFileList")) };
- 	
+
  	// 조건은 수정시에만 필요한 데이타 형식
  	if(this._mode == "modify") {
  		var all_rows = this.$('#flawRprObjFcltsF').flexGetData();
@@ -712,12 +681,12 @@ GamFcltyRepairMngModule.prototype.makeSaveParam = function() {
  			all_rows[i]["fcltsMngGroupNo"] = this.$("#fcltsMngGroupNo").val();
  			all_rows[i]["flawRprSeq"] = this.$("#flawRprSeq").val();
  		}
- 		
+
 		inputVO[inputVO.length]={name: 'updateObjList', value :JSON.stringify(this.$('#flawRprObjFcltsF').selectFilterData([{col: '_updtId', filter: 'U'}])) };
 	 	inputVO[inputVO.length]={name: 'deleteObjList', value: JSON.stringify(this._deleteObjFcltsList) };
  	}
  	inputVO[inputVO.length] = {name: 'insertObjList', 		 value: JSON.stringify(this.$('#flawRprObjFcltsF').selectFilterData([{col: '_updtId', filter: 'I'}])) };
- 	
+
 	return inputVO;
 };
 
@@ -749,17 +718,17 @@ GamFcltyRepairMngModule.prototype.makeSelectArgs = function(selId) {
 **/
 %>
 GamFcltyRepairMngModule.prototype.atchFileUpload = function() {
-	this.uploadPfPhoto('uploadPhoto', function(module, result) {
-	 	 $.each(result, function(){
-			module.$('#fileGrid').flexAddRow({
-		
-			atchFileSj:this.logicalFileNm.substring(0, this.logicalFileNm.lastIndexOf('.')),
-			atchFileNmLogic: this.logicalFileNm 
-			
-        	
-			}); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
-	
-	},  '유지보수관리 첨부파일 업로드');	 
+	this.uploadSingleFile('/fcltyMng/uploadRepairAttachFile.do', function(module, resp) {
+		if(resp.resultCode!=0) {
+			alert(resp.resultMsg);
+			return;
+		}
+		$.each(resp.result, function() {
+            module.$('#fcltyRepairFileList').append(
+					'<option value="' + this.physcalFileNm + '">'
+					+ this.logicalFileNm + '</option>'); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+		});
+		if(resp.result!=null && resp.result.length>0) this._edited=true;
 	});
 };
 
@@ -777,7 +746,7 @@ GamFcltyRepairMngModule.prototype.atchFileRemove = function() {
 	}
 	else {
 		alert('첨부파일을 선택해주십시오.');
-	} 
+	}
 };
 
 
@@ -789,12 +758,10 @@ GamFcltyRepairMngModule.prototype.atchFileRemove = function() {
 **/
 %>
 GamFcltyRepairMngModule.prototype.downloadFileData = function() {
-	var selectFilePhysicl = this.$('#fcltyRepairFileList').val();
-	var selectFileLogic = this.$('#fcltyRepairFileList').find('option:selected').text();
-
-	if(selectFilePhysicl) {
-		this.downPfPhoto(selectFilePhysicl, selectFileLogic);
-	}else{
+	if(this.$('#fcltyRepairFileList').val() != '') {
+		this.downloadSingleFile("/fcltyMng/downloadRepairAttachFile.do", this.$('#fcltyRepairFileList').find('option:selected').val(), this.$('#fcltyRepairFileList').find('option:selected').text() );
+	}
+	else {
 		alert('다운로드할 파일을 선택하세요.');
 	}
 };
@@ -810,11 +777,11 @@ GamFcltyRepairMngModule.prototype.downloadFileData = function() {
 GamFcltyRepairMngModule.prototype.fillTitleData = function() {
 	var changData = this.makeFormArgs('#fcltyRepairMngListVO');
 	this.makeDivValues('#gamObjFcltsDetailForm',changData);
-	
+
 	// 셀렉트박스는 한글처리
 	var fcltsJobSeNm = this.$('#fcltsJobSe').find('option:selected').text();
 	var flawExamSeNm = this.$('#flawExamSe').find('option:selected').text();
-	
+
 	this.$('#objFcltsJobSeNm').text(fcltsJobSeNm);
 	this.$('#objFlawExamSeNm').text(flawExamSeNm);
 
@@ -825,7 +792,7 @@ GamFcltyRepairMngModule.prototype.fillTitleData = function() {
 /**
  * @FUNCTION NAME : existRepairFcltsItem
  * @DESCRIPTION   : 유지보수 대상시설물 존재유무 체크
- * @PARAMETER     : 
+ * @PARAMETER     :
  * 		1. fcltsMngNo : 시설물관리번호
 **/
 %>
@@ -854,7 +821,7 @@ GamFcltyRepairMngModule.prototype.existRepairFcltsItem = function(fcltsMngNo) {
 **/
 %>
 GamFcltyRepairMngModule.prototype.downloadExcel = function() {
-	
+
 	var rowCount = this.$('#fcltyRepairMngList').flexRowCount();
 	if (rowCount <= 0) {
 		alert('조회된 자료가 없습니다.');
@@ -877,17 +844,17 @@ GamFcltyRepairMngModule.prototype.downloadExcel = function() {
 GamFcltyRepairMngModule.prototype.onButtonClick = function(buttonId) {
 
 	switch(buttonId) {
-	
+
 		// 대상시설물 추가
 		case "addObjItemBtn":
 			this.addObjFcltsItem();
 		break;
-		
+
 		// 대상시설물 삭제
 		case "delObjItemBtn":
 			this.delObjFcltsItem();
 		break;
-		
+
 		// 추가
 		case "addBtn":
 			this.addData();
@@ -902,46 +869,42 @@ GamFcltyRepairMngModule.prototype.onButtonClick = function(buttonId) {
 		case "deleteBtn":
 			this.deleteData();
 		break;
-		
+
 		// 이미지미리보기
 		case "btnPreviewFile":
 			this.imgPreview();
 		break;
-		
+
 		// 파일업로드
 		case "btnUploadFile":
 			this.atchFileUpload();
 		break;
-		
-		case "btnUploadFile2":
-			this.atchFileUpload();
-		break;
-		
+
 		// 파일다운로드
 		case "btnDownloadFile":
 			this.downloadFileData();
 		break;
-		
+
 		// 파일삭제
 		case "btnRemoveFile":
 			this.atchFileRemove();
 		break;
-		
+
 		// 엑셀다운로드
 		case "btnExcelDownload":
 			this.downloadExcel();
 		break;
-		
+
 		// 대상시설물
 		case "searchFcltsMngNo":
 			this.doExecuteDialog("selectFcltsMngNo", "대상시설물 관리번호", '/popup/showFcltsMngNo.do', {}, {'fcltsJobSe' : this.$('#fcltsJobSe').val()});
 		break;
-		
+
 		// 시설물관리그룹
 		case "searchFcltsMngGroupNo":
 			this.doExecuteDialog("selectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
 		break;
-		
+
 		// 계약번호
 		case "ctrtNoPopupBtn":
 			this.doExecuteDialog("selectCtrtNo", "계약번호", '/popup/popupCtrtNo.do', {});
@@ -963,7 +926,6 @@ GamFcltyRepairMngModule.prototype.onButtonClick = function(buttonId) {
 GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 	if(oldTabId == 'tabs1' && this._mode == 'modify') {
 		this.loadDetail();
-	
 	}
 
 	switch(newTabId) {
@@ -974,7 +936,7 @@ GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			if((this._mode != 'insert') && (this._mode != 'modify')) {
 				this.$("#fcltyRepairMngListTab").tabs("option", {active: 0});
 				alert('하자보수 항목을 선택 하세요.');
-			} 
+			}
 
 			if(oldTabId == 'tabs1') {
 				this.$("#tabs2").scrollTop(0);
@@ -984,19 +946,19 @@ GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 				this.$("#fcltsJobSe").disable();
 			}
 		break;
-		
+
 		case "tabs3":
 			if((this._mode != 'insert') && (this._mode != 'modify')) {
 				this.$("#fcltyRepairMngListTab").tabs("option", {active: 0});
 				alert('하자보수 항목을 선택 하세요.');
-			} 
+			}
 			if(this._mode=="modify"){
-				// tabs2에서 수정사항발생시 반영 
+				// tabs2에서 수정사항발생시 반영
 				this.fillTitleData();
 			}
 		break;
 	}
-	
+
 };
 
 
@@ -1013,19 +975,19 @@ GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 GamFcltyRepairMngModule.prototype.onClosePopup = function(popupId, msg, value){
 
 	switch(popupId){
-		
+
 		case "selectFcltsMngNo":
 			if(this.existRepairFcltsItem(value['fcltsMngNo'])) {
 				alert('대상시설물이 이미 존재합니다.');
 			} else {
 				this.$("#oFcltsMngNo").val(value["fcltsMngNo"]);
 				this.$("#prtFcltyNm").val(value["prtFcltyNm"]);
-				
+
 				// 대상시설물 팝업에서 상태값 변경시 그리드 적용
 				this.$(".objFcltsEditItem").trigger("change");
 			}
 		break;
-	
+
 		case "selectFcltsMngGroup":
 			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#fcltsMngGoupNoNm").val(value["fcltsMngGroupNm"]);
@@ -1120,7 +1082,7 @@ var module_instance = new GamFcltyRepairMngModule();
 							</td>
 						</tr>
 					</table>
-					
+
 				</div>
 			</div>
 
@@ -1199,7 +1161,7 @@ var module_instance = new GamFcltyRepairMngModule();
 							<td><input id="flawOccrrncDt" type="text" size="15" title="하자발생일자" class="emdcal" /></td>
 							<th width="15%" height="23" class="required_text">하자보수기간</th>
 							<td colspan="3">
-								<input id="flawRprStartDt" type="text" size="20" title="하자보수시작일자" class="emdcal" /> ~ 
+								<input id="flawRprStartDt" type="text" size="20" title="하자보수시작일자" class="emdcal" /> ~
 								<input id="flawRprEndDt" type="text" size="20" title="하자보수종료일자" class="emdcal" />
 							</td>
 						</tr>
@@ -1225,28 +1187,19 @@ var module_instance = new GamFcltyRepairMngModule();
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">하자보수내용</th>
-							<td colspan="3"><textarea id="flawRprContents" cols="72" rows="5" title="하자보수내용" maxlength="1333"></textarea></td>
-							<td colspan="4" rowspan="12"><table id="fileGrid" style="margin:1px; display:none;"></table></td>
+							<td colspan="7"><textarea id="flawRprContents" cols="143" rows="5" title="하자보수내용" maxlength="1333"></textarea></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">하자보수결과</th>
-							<td colspan="3"><textarea id="flawExamResult" cols="72" rows="5" title="하자보수결과" maxlength="1333"></textarea></td>
+							<td colspan="7"><textarea id="flawExamResult" cols="143" rows="5" title="하자보수결과" maxlength="1333"></textarea></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">비고</th>
-							<td colspan="3"><input id="rm" type="text" size="72" title="비고" maxlength="333" /></td>
+							<td colspan="7"><input id="rm" type="text" size="145" title="비고" maxlength="333" /></td>
 						</tr>
 					</table>
 				</form>
 				<div class="emdControlPanel">
-				<div>
-					<button id="btnPreviewFile">첨부파일 미리보기</button> 
-					<div id="previewHidden" style="display: none;"></div>
-					<button id="btnUploadFile2">업로드</button> 
-					<button id="btnDownloadFile">다운로드</button> 
-					<button id="btnRemoveFile" class="buttonDelete"> 삭 제 </button>
-				</div>
-				<div>
 					<button data-role="printPage" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairCheckMngPrint.do'>하자검사관리대장인쇄</button>
 					<button data-role="downloadHwp" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairCheckReportHwp.do'>하자검사조서다운로드</button>
 					<button data-role="printPage" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairCheckReportPrint.do'>하자검사조서인쇄</button>
@@ -1256,7 +1209,7 @@ var module_instance = new GamFcltyRepairMngModule();
 					<button id="saveBtn" class="buttonSave">  저 장  </button>
 				</div>
 			</div>
-			
+
 			<!-- 하자보수 대상 시설물 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 				<div class="emdControlPanel">
@@ -1338,13 +1291,13 @@ var module_instance = new GamFcltyRepairMngModule();
 									<td>
 										<select id="fcltyRepairFileList">
 											<option value="">선택</option>
-										</select> 
+										</select>
 									</td>
 									<td colspan="6" style="text-align:right;">
-										<button id="btnPreviewFile">첨부파일 미리보기</button> 
+										<button id="btnPreviewFile">첨부파일 미리보기</button>
 										<div id="previewHidden" style="display: none;"></div>
-										<button id="btnUploadFile">업로드</button> 
-										<button id="btnDownloadFile">다운로드</button> 
+										<button id="btnUploadFile">업로드</button>
+										<button id="btnDownloadFile">다운로드</button>
 										<button id="btnRemoveFile" class="buttonDelete"> 삭 제 </button>
 									</td>
 								</tr>

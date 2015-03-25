@@ -46,11 +46,11 @@ GamFcltyMaintMngModule.prototype = new EmdModule(1000,600);	// 초기 시작 창
 **/
 %>
 GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
-	
+
 	this._mode = "";
 	this._deleteDataMaintList=[];
 	this._deleteDataFileList=[];
-	
+
 	console.log("GamFcltyMaintMngModule");
 	// 테이블 설정
 	this.$("#fcltyMaintMngList").flexigrid({
@@ -69,8 +69,8 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 					{display:"시공자", 			name:"cnstrtr",					width:150, 		sortable:false,		align:"center"},
 					{display:"계약명", 			name:"ctrtNm",					width:250, 		sortable:false,		align:"left"},
 					{display:"유지보수정보", 		name:"mntnFcltsCnstInfo",		width:200, 		sortable:false,		align:"center"}
-					
-					
+
+
 			],
 		height: "auto",
 		groupBy: "mntnFcltsCnstInfo",
@@ -81,7 +81,7 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 			return data;
 		}
 	});
-	
+
 
 	this.$("#mntnRprObjFcltsF").flexigrid({
 		module: this,
@@ -101,8 +101,8 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 			return data;
 		}
 	});
-	
-	
+
+
 	this.$(".EditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.applyDataChanged();
 	});
@@ -113,40 +113,40 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 		module.makeFormValues("#gamPopupMaintForm", row);
 	});
 
- 	
+
  	this.$("#fcltyMaintMngList").on('onItemSelected', function(event, module, row, grid, param) {
 		module._mode = 'modify';
 	});
- 	
+
  	this.$("#fcltyMaintMngList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module._mode="modify";
 		module.$("#fcltyMaintMngListTab").tabs("option", {active: 1});
 	});
- 	
- 	
+
+
 	// 파일 정보 속성이 변경 된 경우 이벤트 실행sFcltsMngGroupNo
 	this.$(".fileEditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.applyFileChanged(event.target);
 	});
-	
-	
+
+
 	// 시설물관리그룹 검색조건 클릭시 초기화 처리
 	this.$("#sFcltsMngGroupNo").bind("click", {module: this}, function(event) {
 		event.data.module.$("#sFcltsMngGroupNo").val('');
 		event.data.module.$("#sFcltsMngGroupNoNm").val('');
 	});
-	
+
 	// 공사계약 검색조건 클릭시 초기화 처리
 	this.$("#sCtrtNo").bind("click", {module: this}, function(event) {
 		event.data.module.$("#sCtrtNo").val('');
 		event.data.module.$("#sCtrtNm").val('');
 	});
-	
+
 	// 기본값 셋팅
 	this.setDefaultParam();
 	this.applySelectYear();
 	this.getMapInfoList(params);
-	
+
 };
 
 
@@ -154,7 +154,7 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 /**
  * @FUNCTION NAME : getMapInfoList
  * @DESCRIPTION   : 맵에서 유지보수 정보를 클릭할때 넘어오는 Param으로 리스트 가져오는 함수
- * @PARAMETER     
+ * @PARAMETER
  *		1. fcltsMngGroupNo   : 시설물 관리 그룹 코드
  *		2. fcltsMngGroupNoNm : 시설물 관리 그룹 코드명
 **/
@@ -167,7 +167,7 @@ GamFcltyMaintMngModule.prototype.getMapInfoList = function(params){
 				case "manage":
 					this.$('#sFcltsMngGroupNo').val(this._params.fcltsMngGroupNo);
 					this.$('#sFcltsMngGroupNoNm').val(this._params.fcltsMngGroupNoNm);
-					
+
 					this.loadData();
 				break;
 			}
@@ -187,18 +187,18 @@ GamFcltyMaintMngModule.prototype.getMapInfoList = function(params){
 GamFcltyMaintMngModule.prototype.setDefaultParam = function(){
 	var toDate = new Date();
 	var toYear = toDate.getFullYear();
-	
+
 	var toMonth = toDate.getMonth() + 1;
 	if(toMonth < 10) toMonth = "0" + toMonth;
-	
+
 	var toDay = toDate.getDay();
 	if(toDay < 10) toDay = "0" + toDay;
-	
+
 	this.$("#sMntnRprCnstStartDtFr").val(toYear + "-01-01");
 	this.$("#sMntnRprCnstStartDtTo").val(toYear + "-" + toMonth + "-" + toDay);
-	
+
 	this.$("#sFcltsJobSe").val(EMD.userinfo["mngFcltyCd"]);
-	
+
 	this.$('#planHistSe').val('H');
 	this.$('#planHistSe').disable();
 };
@@ -214,7 +214,7 @@ GamFcltyMaintMngModule.prototype.setDefaultParam = function(){
 GamFcltyMaintMngModule.prototype.applySelectYear = function(){
 	var toDate = new Date();
 	var toYear = toDate.getFullYear();
-	
+
 	for(var i = toYear;i>=1980;i--){
 		this.$("#enforceYear").append("<option value='" + i + "'>" + i + "년</option>");
 	}
@@ -229,21 +229,21 @@ GamFcltyMaintMngModule.prototype.applySelectYear = function(){
 **/
 %>
 GamFcltyMaintMngModule.prototype.applyDataChanged = function() {
-	
+
 	var fcltsJobSe = this.$("#fcltsJobSe").val();
 	var fcltsMngGroupNo = this.$("#fcltsMngGroupNo").val();
 	var mntnRprSeq = this.$("#mntnRprSeq").val();
-	
+
 	var codeId = this.getCodeId(fcltsJobSe);
 	this.$("#codeId").val(codeId);
-	
+
 	if(fcltsJobSe && fcltsMngGroupNo){
 		var searchVO = [
 		                { name: 'fcltsJobSe', value: fcltsJobSe },
 		                { name: 'fcltsMngGroupNo', value: fcltsMngGroupNo },
 		                { name: 'mntnRprSeq', value: mntnRprSeq }
 		               ];
-		
+
 		this.$('#mntnRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
 	}
 };
@@ -257,37 +257,37 @@ GamFcltyMaintMngModule.prototype.applyDataChanged = function() {
 **/
 %>
 GamFcltyMaintMngModule.prototype.getCodeId = function(fcltsJobSe) {
-	
+
 	var codeId = '';
 	switch(fcltsJobSe) {
 		// 전기시설물
 		case "E":
 			codeId = 'GAM068';
 		break;
-		
+
 		// 기계시설물
 		case "M":
 			codeId = 'GAM067';
 		break;
-		
+
 		// 토목시설물
 		case "C":
 			codeId = 'GAM070';
 		break;
-		
+
 		// 건축시설물
 		case "A":
 			codeId = 'GAM066';
 		break;
-		
+
 		// 정보통신시설물
 		case "I":
 			codeId = 'GAM069';
 		break;
-		
+
 	}
-	
-	
+
+
 	return codeId;
 };
 
@@ -308,7 +308,7 @@ GamFcltyMaintMngModule.prototype.imgPreview = function(){
 
 		if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
 			this.$('#previewHidden').append('<div id="'+this.getId("previewDialog")+'"><img id="'+this.getId("previewImage")+'" src=""/></div>');
-			var imgURL = this.getPfPhotoUrl(selImg);
+			imgURL = this.getUrl("/fcltyMng/getMaintAttachFile.do?physicalFileNm=")+selImg;
 			this.$("#previewImage").attr("src", imgURL);
 
 			this.$("#previewImage").bind('load', {module: this},function(event){
@@ -322,8 +322,8 @@ GamFcltyMaintMngModule.prototype.imgPreview = function(){
 					title: '이미지미리보기',
 					buttons:[{text:"close", click: function() { $(this).dialog('close'); }}]
 				});
-			});   
-			
+			});
+
 		}else{
 			this.$("#previewImage").removeAttr("src");
 			alert('미리보기는 이미지파일만 가능합니다.');
@@ -331,24 +331,24 @@ GamFcltyMaintMngModule.prototype.imgPreview = function(){
 	}else{
 		alert('미리보기할 파일을 선택하세요.');
 	}
-	
+
 };
 
 <%
 /**
  * @FUNCTION NAME : validateDuration
  * @DESCRIPTION   : 유효성 있는 기간 체크
- * @PARAMETER     : 
-	 1. startDate   : 시작일 문자열, 
-	 2. endDate     : 종료일 문자열, 
-	 3. startTitle  : 시작일 제목, 
-	 4. endTitle    : 종료일 제목, 
-	 5. startIgnore : 
+ * @PARAMETER     :
+	 1. startDate   : 시작일 문자열,
+	 2. endDate     : 종료일 문자열,
+	 3. startTitle  : 시작일 제목,
+	 4. endTitle    : 종료일 제목,
+	 5. startIgnore :
 		 5-1. true  : 시작일 필수입력사항 미체크,
-		 5-2. false : 시작일 필수입력사항 체크 
-	 6. endIgnore : 
+		 5-2. false : 시작일 필수입력사항 체크
+	 6. endIgnore :
 		 6-1. true  : 종료일 필수입력사항 미체크,
-		 6-2. false : 종료일 필수입력사항 체크 
+		 6-2. false : 종료일 필수입력사항 체크
 	 7. equals      :
 		 7-1. true  : 종료일이 시작일 보다 크거나 같으면 허용
 		 7-2. false : 종료일이 시작일 보다 커야 허용
@@ -395,8 +395,8 @@ GamFcltyMaintMngModule.prototype.validateDuration = function(startDate, endDate,
 	}
 	startDate = EMD.util.strToDate(startDate);
 	endDate = EMD.util.strToDate(endDate);
-	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 : 
-							(startDate.getTime() == endDate.getTime()) ? 0 : 1;	
+	var compareResult = (startDate.getTime() > endDate.getTime()) ? -1 :
+							(startDate.getTime() == endDate.getTime()) ? 0 : 1;
 	result = (equals) ? (compareResult >= 0) : (compareResult > 0);
 	if(!result) {
 		alert(endTitle +'은(는) ' + startTitle + ((equals) ? '보다 같거나 커야합니다.' : '보다 커야합니다.'));
@@ -413,8 +413,8 @@ GamFcltyMaintMngModule.prototype.validateDuration = function(startDate, endDate,
 **/
 %>
 GamFcltyMaintMngModule.prototype.onSubmit = function(){
-	
-	if(!this.validateDuration(this.$('#sMntnRprCnstStartDtFr').val(), this.$('#sMntnRprCnstStartDtTo').val(),  
+
+	if(!this.validateDuration(this.$('#sMntnRprCnstStartDtFr').val(), this.$('#sMntnRprCnstStartDtTo').val(),
 			'유지보수공사검색시작일', '유지보수공사검색종료일',  true,  true, true)) {
 		return;
 	}
@@ -429,18 +429,18 @@ GamFcltyMaintMngModule.prototype.onSubmit = function(){
 **/
 %>
 GamFcltyMaintMngModule.prototype.loadData = function(){
-	
+
 	this.makeFormValues('#fcltyMaintMngListVO', {});
-	
+
 	this.$('#mntnRprObjFcltsF').flexEmptyData();
-	
+
 	this.$('#fcltyMaintFileList').empty();
 	this.$('#fcltyMaintFileList').append('<option value="">선택</option>');
-	
+
 	this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
 	var searchOpt=this.makeFormArgs('#searchFcltyMaintMngForm');
 	this.$('#fcltyMaintMngList').flexOptions({params:searchOpt}).flexReload();
-	
+
 };
 
 
@@ -452,31 +452,31 @@ GamFcltyMaintMngModule.prototype.loadData = function(){
 **/
 %>
 GamFcltyMaintMngModule.prototype.loadDetail = function(){
-	
+
 	var row = this.$('#fcltyMaintMngList').selectedRows();
 	if(row.length==0) {
 		alert('선택된 항목이 없습니다.');
 		this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
 		return;
 	}
-	
+
 	row = row[0];
 	var searchVO = [
 	                { name: 'fcltsJobSe', value: row['fcltsJobSe'] },
 	                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
 	                { name: 'mntnRprSeq', value: row['mntnRprSeq'] }
 	               ];
-	
+
 	this.doAction('/fcltyMng/selectFcltyMaintMngDetail.do', searchVO, function(module, result) {
 		if(result.resultCode == "0"){
 			module.makeFormValues('#fcltyMaintMngListVO', result.result);
-			
+
 			var fcltsJobSe = module.$('#fcltsJobSe').val();
 			var codeId = module.getCodeId(fcltsJobSe);
-			
+
 			var codeVO = { name: 'codeId', value: codeId };
 			searchVO.push(codeVO);
-			
+
 			module.$("#codeId").val(codeId);
 			module.$('#mntnRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
 			module.fillAtchFileList(searchVO);
@@ -492,7 +492,7 @@ GamFcltyMaintMngModule.prototype.loadDetail = function(){
 /**
  * @FUNCTION NAME : fillAtchFileList
  * @DESCRIPTION   : 첨부파일 리스트를 select element에 채워넣기.
- * @PARAMETER     : 
+ * @PARAMETER     :
  *   1. searchVO
  *     1-1. fcltsJobSe : 시설물업무구분
  *     1-2. fcltsMngGroupNo : 시설물 관리그룹번호
@@ -521,38 +521,38 @@ GamFcltyMaintMngModule.prototype.fillAtchFileList = function(searchVO) {
 **/
 %>
 GamFcltyMaintMngModule.prototype.addData = function() {
-	
+
 	this._mode="insert";
-	
+
 	// tabs2 초기화
 	this.makeFormValues('#fcltyMaintMngListVO', {});
 	this.$("#enforceYear").val(new Date().getFullYear());
 	this.$("#planHistSe").val('P');
 	this.$("#searchFcltsMngGroupNo").show();
 	this.$("#fcltsJobSe").enable();
-	
+
 	this.$("#mntnRprObjFcltsF").flexEmptyData();
 	this.$("#fcltsJobSe").val(EMD.userinfo["mngFcltyCd"]);
 	this.$(".EditItem").trigger("change");
-	
-	
+
+
 	var toDate = new Date();
 	var toYear = toDate.getFullYear();
-	
+
 	var toMonth = toDate.getMonth() + 1;
 	if(toMonth < 10) toMonth = "0" + toMonth;
-	
+
 	var toDay = toDate.getDay();
 	if(toDay < 10) toDay = "0" + toDay;
 
 	this.$("#wrtDt").val(toYear + "-" + toMonth + "-" + toDay);
 	this.$("#wrtUsr").val(EMD.userinfo["name"]);
-	
-	
+
+
 
 	this.$("#fcltyMaintFileList").empty();
 	this.$('#fcltyMaintFileList').append('<option value="">선택</option>');
-	
+
 	this.$("#fcltyMaintMngListTab").tabs("option", {active: 1});
 
 };
@@ -584,18 +584,18 @@ GamFcltyMaintMngModule.prototype.makeSelectArgs = function(selId) {
 **/
 %>
 GamFcltyMaintMngModule.prototype.saveData = function() {
-	
+
 	if(!validateFcltyMaintMngVO(this.$("#fcltyMaintMngListVO")[0])){
 		this.$("#fcltyMaintMngListTab").tabs("option", {active: 1});
 		return;
 	}
-	
-	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#mntnRprCnstStartDt').val(),  
+
+	if(!this.validateDuration(this.$('#enforceYear').val() + '-01-01', this.$('#mntnRprCnstStartDt').val(),
 			'시행년도', '공사시작일', false, true, true)) {
 		return;
 	}
-	
-	if(!this.validateDuration(this.$('#mntnRprCnstStartDt').val(), this.$('#mntnRprCnstEndDt').val(),  
+
+	if(!this.validateDuration(this.$('#mntnRprCnstStartDt').val(), this.$('#mntnRprCnstEndDt').val(),
 			'공사시작일', '공사종료일', false, false, true)) {
 		return;
 	}
@@ -604,14 +604,14 @@ GamFcltyMaintMngModule.prototype.saveData = function() {
  	inputVO[inputVO.length] = {name: 'saveFcltyMaintMngVO', value :JSON.stringify(this.makeFormArgs("#fcltyMaintMngListVO",'object')) };
  	inputVO[inputVO.length] = {name: 'insertMntnObjList', value :JSON.stringify(this.$('#mntnRprObjFcltsF').selectFilterData([{col: 'chkRole', filter: true}])) };
  	inputVO[inputVO.length] = {name: 'insertMntnFileList', value :JSON.stringify(this.makeSelectArgs("#fcltyMaintFileList")) };
- 	
+
 	if(this._mode == "insert") {
 	 	this.doAction('/fcltyMng/insertFcltyMaintMng.do', inputVO, function(module, result) {
 	 		if(result.resultCode == "0"){
 	 			module.$("#fcltsJobSe").disable();
 	 			module.$("#searchFcltsMngGroupNo").hide();
 	 			module.$("#mntnRprSeq").val(result.mntnRprSeq);
-	 			
+
 	 			module._mode = "modify";
 	 		}
 	 		alert(result.resultMsg);
@@ -632,14 +632,14 @@ GamFcltyMaintMngModule.prototype.saveData = function() {
 **/
 %>
 GamFcltyMaintMngModule.prototype.deleteData = function() {
-	
+
 	var row = this.$('#fcltyMaintMngList').selectedRows();
 	if(row.length==0) {
 		alert('선택된 항목이 없습니다.');
 		this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
 		return;
 	}
-	
+
 	if(confirm("삭제하시겠습니까?")){
 		row = row[0];
 		var inputVO = { 'fcltsJobSe': row['fcltsJobSe'],'fcltsMngGroupNo': row['fcltsMngGroupNo'],'mntnRprSeq': row['mntnRprSeq'] };
@@ -662,11 +662,16 @@ GamFcltyMaintMngModule.prototype.deleteData = function() {
 **/
 %>
 GamFcltyMaintMngModule.prototype.atchFileUpload = function() {
-	this.uploadPfPhoto('uploadPhoto', function(module, result) {
-		$.each(result, function(){
+	this.uploadSingleFile('/fcltyMng/uploadMaintAttachFile.do', function(module, resp) {
+		if(resp.resultCode!=0) {
+			alert(resp.resultMsg);
+			return;
+		}
+		$.each(resp.result, function() {
 			module.$('#fcltyMaintFileList').append('<option value="' + this.physcalFileNm + '">' + this.logicalFileNm + '</option>');
 		});
-	}, '유지보수관리 첨부파일 업로드');	
+		if(resp.result!=null && resp.result.length>0) this._edited=true;
+	});
 };
 
 
@@ -683,7 +688,7 @@ GamFcltyMaintMngModule.prototype.atchFileRemove = function() {
 	}
 	else {
 		alert('첨부파일을 선택해주십시오.');
-	} 
+	}
 };
 
 
@@ -699,7 +704,8 @@ GamFcltyMaintMngModule.prototype.downloadFileData = function() {
 	var selectFileLogic = this.$('#fcltyMaintFileList').find('option:selected').text();
 
 	if(selectFilePhysicl) {
-		this.downPfPhoto(selectFilePhysicl, selectFileLogic);
+		this.downloadSingleFile("/fcltyMng/downloadMaintAttachFile.do", selectFilePhysicl, selectFileLogic );
+
 	}else{
 		alert('다운로드할 파일을 선택하세요.');
 	}
@@ -738,7 +744,7 @@ GamFcltyMaintMngModule.prototype.fillDetailBasicData = function(value) {
 	this.$("#mntnRprBdgt").val(value["planAmt"]);
 	this.$("#mntnRprCnstAmt").val(value["ctrtAmt"]);
 	this.$("#cnstrtr").val(value["cnstrtr"]);
-	
+
 };
 
 
@@ -768,27 +774,27 @@ GamFcltyMaintMngModule.prototype.fillDetailBasicData = function(value) {
 		case "deleteBtn":
 			this.deleteData();
 		break;
-		
+
 		// 이미지미리보기
 		case "btnPreviewFile":
 			this.imgPreview();
 		break;
-		
+
 		// 파일업로드
 		case "btnUploadFile":
 			this.atchFileUpload();
 		break;
-		
+
 		// 파일다운로드
 		case "btnDownloadFile":
 			this.downloadFileData();
 		break;
-		
+
 		// 파일삭제
 		case "btnRemoveFile":
 			this.atchFileRemove();
 		break;
-		
+
 		// 엑셀다운로드
 		case "btnExcelDownload":
 			this.downloadExcel();
@@ -798,17 +804,17 @@ GamFcltyMaintMngModule.prototype.fillDetailBasicData = function(value) {
 		case "searchFcltsMngGroupNo":
 			this.doExecuteDialog("selectFcltsMngGroup", "시설물 관리 그룹 번호", '/popup/showFcltsMngGroup.do', {});
 		break;
-		
+
 		// 계약번호
 		case "ctrtNoPopupBtn":
 			this.doExecuteDialog("selectCtrtNo", "계약번호", '/popup/popupCtrtNo.do', {});
 		break;
-		
+
 		// 검색조건시설물관리그룹
 		case "sSearchFcltsMngGroupNo":
 			this.doExecuteDialog("sSelectFcltsMngGroup", "시설물 관리 그룹 번호 검색", '/popup/showFcltsMngGroup.do', {});
 		break;
-		
+
 		// 검색조건계약번호
 		case "sCtrtNoPopupBtn":
 			this.doExecuteDialog("sSelectCtrtNo", "계약번호 검색", '/popup/popupCtrtNo.do', {});
@@ -837,7 +843,7 @@ GamFcltyMaintMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			if((this._mode != 'insert') && (this._mode != 'modify')) {
 				this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
 				alert('유지보수 항목을 선택 하세요.');
-			} 
+			}
 			if(oldTabId == 'tabs1') {
 				this.$("#tabs2").scrollTop(0);
 			}
@@ -847,7 +853,7 @@ GamFcltyMaintMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			}
 		break;
 	}
-	
+
 };
 
 
@@ -864,23 +870,23 @@ GamFcltyMaintMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
  GamFcltyMaintMngModule.prototype.onClosePopup = function(popupId, msg, value){
 
 	switch(popupId){
-		
+
 		case "selectFcltsMngGroup":
 			this.$("#fcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#fcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
-			
+
 			this.$(".EditItem").trigger("change");
 		break;
-		
+
 		case "selectCtrtNo":
 			this.fillDetailBasicData(value);
 		break;
-		
+
 		case "sSelectFcltsMngGroup":
 			this.$("#sFcltsMngGroupNo").val(value["fcltsMngGroupNo"]);
 			this.$("#sFcltsMngGroupNoNm").val(value["fcltsMngGroupNm"]);
 		break;
-		
+
 		case "sSelectCtrtNo":
 			this.$("#sCtrtNo").val(value["ctrtNo"]);
 			this.$("#sCtrtNm").val(value["ctrtNm"]);
@@ -986,7 +992,7 @@ var module_instance = new GamFcltyMaintMngModule();
 							</td>
 						</tr>
 					</table>
-					
+
 				</div>
 			</div>
 
@@ -1029,7 +1035,7 @@ var module_instance = new GamFcltyMaintMngModule();
 											<option value="4">변경-증설</option>
 											<option value="5">변경-구조변경</option>
 											<option value="9">기타</option>
-										</select>, 
+										</select>,
 										<select id="mntnSubRprSe" title="유지보수하위구분">
 											<option value="">선택</option>
 											<option value="1">개량</option>
@@ -1064,7 +1070,7 @@ var module_instance = new GamFcltyMaintMngModule();
 										<input type="text" size="35" id="ctrtNm" disabled="disabled" title="계약명"/>
 										<button id="ctrtNoPopupBtn" class="popupButton">선택</button>
 									</td>
-									
+
 								</tr>
 								<tr>
 									<th height="18" class="required_text">공사명</th>
@@ -1111,13 +1117,13 @@ var module_instance = new GamFcltyMaintMngModule();
 						<td>
 							<select id="fcltyMaintFileList">
 								<option value="">선택</option>
-							</select> 
+							</select>
 						</td>
 						<td style="text-align:right;">
-							<button id="btnPreviewFile">첨부파일 미리보기</button> 
+							<button id="btnPreviewFile">첨부파일 미리보기</button>
 							<div id="previewHidden" style="display: none;"></div>
-							<button id="btnUploadFile">업로드</button> 
-							<button id="btnDownloadFile">다운로드</button> 
+							<button id="btnUploadFile">업로드</button>
+							<button id="btnDownloadFile">다운로드</button>
 							<button id="btnRemoveFile">첨부파일삭제</button>
 						</td>
 					</tr>
@@ -1127,7 +1133,7 @@ var module_instance = new GamFcltyMaintMngModule();
 					<button id="addBtn" class="buttonAdd">　　추　가　　</button>
 					<button id="deleteBtn" class="buttonDelete">　　삭　제　　</button>
 					<button id="saveBtn" class="buttonSave">　　저　장　　</button>
-					
+
 				</div>
 			</div>
 		</div>

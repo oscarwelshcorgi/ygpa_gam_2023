@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,10 +29,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.cmmn.service.GamFileServiceVo;
+import egovframework.rte.ygpa.gam.cmmn.service.GamFileUploadUtil;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngVO;
 
@@ -70,6 +75,8 @@ public class GamFcltyRepairMngController {
     @Resource(name="gamFcltyRepairMngService")
     protected GamFcltyRepairMngService gamFcltyRepairMngService;
 
+    @Resource(name="gamRepairFileIdGnrService")
+    EgovTableIdGnrService gamRepairFileIdGnrService;
 
 	/**
      * 하자보수내역 관리화면호출
@@ -639,5 +646,43 @@ public class GamFcltyRepairMngController {
     	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckMngPrint";
     }
 
+	// 파일 처리
+    @RequestMapping(value="/fcltyMng/uploadRepairAttachFile.do", method=RequestMethod.POST)
+    public @ResponseBody Map uploadFile(HttpServletRequest request, Model model) throws Exception {
+		Map map = new HashMap();
+		String uploadPath = EgovProperties.getProperty("repairAttach.fileStorePath");
+		try {
+			List<GamFileServiceVo> list = GamFileUploadUtil.uploadFiles(request, uploadPath, gamRepairFileIdGnrService);
+
+			map.put("resultCode", "0");
+			map.put("result", list);
+		}
+		catch(Exception e) {
+			map.put("resultCode", "-1");
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
+		}
+
+		return map;
+	}
+
+    @RequestMapping("/fcltyMng/getRepairAttachFile.do")
+    public void getImage(final HttpServletRequest request, HttpServletResponse response) throws Exception {
+		GamFileServiceVo gamFileServiceVo = new GamFileServiceVo();
+		String uploadPath = EgovProperties.getProperty("repairAttach.fileStorePath");
+
+		gamFileServiceVo.setPhyscalFileNm((String)request.getParameter("physicalFileNm"));
+
+		GamFileUploadUtil.downloadImage(request, response, uploadPath, gamFileServiceVo);
+    }
+
+    @RequestMapping("/fcltyMng/downloadRepairAttachFile.do")
+    public void getDownload(final HttpServletRequest request, HttpServletResponse response) throws Exception {
+		GamFileServiceVo gamFileServiceVo = new GamFileServiceVo();
+		String uploadPath = EgovProperties.getProperty("repairAttach.fileStorePath");
+
+		gamFileServiceVo.setPhyscalFileNm((String)request.getParameter("physicalFileNm"));
+
+		GamFileUploadUtil.downloadFile(request, response, uploadPath, gamFileServiceVo);
+    }
 
 }

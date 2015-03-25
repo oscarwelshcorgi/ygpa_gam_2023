@@ -1694,7 +1694,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
     		var selectRow = this.$('#assetRentFileList').selectedRows();
     		if(selectRow.length > 0) {
     			var row=selectRow[0];
-    			this.downloadSingleFile("/oper/gnrl/downloadRentAttachFile.do", row["filenmPhysicl"]);
+    			this.downloadSingleFile("/oper/gnrl/downloadRentAttachFile.do", row["physcalFileNm"], row["logicalFileNm"]);
     		}
     		break;
         case 'btnApplyPhotoData':
