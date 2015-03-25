@@ -122,7 +122,7 @@ GamFcltsChargerMngModule.prototype.loadComplete = function() {
 	}
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
-	this.$('#mainGrid')[0].dgrid.setColumnHidden(6, true);
+	this.$('#mainGrid')[0].dgrid.setColumnHidden(7, true);
 
 };
 
@@ -138,11 +138,11 @@ GamFcltsChargerMngModule.prototype.getFcltsJobSeNm = function(argFcltsJobSe) {
 
 	var fcltsJobSeNm = "";
 	switch (argFcltsJobSe) {
-		case "A" : fcltsJobSeNm = '건축시설'; break;
-		case "C" : fcltsJobSeNm = '토목시설'; break;
-		case "E" : fcltsJobSeNm = '전기시설'; break;
-		case "I" : fcltsJobSeNm = '정보통신시설'; break;
-		case "M" : fcltsJobSeNm = '기계시설'; break;
+		case "A" : fcltsJobSeNm = '건축시설';		break;
+		case "C" : fcltsJobSeNm = '토목시설';		break;
+		case "E" : fcltsJobSeNm = '전기시설';		break;
+		case "I" : fcltsJobSeNm = '정보통신시설';	break;
+		case "M" : fcltsJobSeNm = '기계시설';		break;
 	}
 	return fcltsJobSeNm;
 };
@@ -155,8 +155,8 @@ GamFcltsChargerMngModule.prototype.getFcltsJobSeNm = function(argFcltsJobSe) {
 **/
 %>
 GamFcltsChargerMngModule.prototype.displayPreviewSign = function() {
-console.log("displayPreviewSign");
-	var signFilePreviewFlag = this.$('#mainGrid')[0].dgrid.isColumnHidden(6);
+
+	var signFilePreviewFlag = this.$('#mainGrid')[0].dgrid.isColumnHidden(7);
 	var signFileNameFlag = false;
 	if (signFilePreviewFlag == true) {
 		signFilePreviewFlag = false;
@@ -165,8 +165,8 @@ console.log("displayPreviewSign");
 		signFilePreviewFlag = true;
 		signFileNameFlag = false;
 	}
-	this.$('#mainGrid')[0].dgrid.setColumnHidden(6, signFilePreviewFlag);
-	this.$('#mainGrid')[0].dgrid.setColumnHidden(5, signFileNameFlag);
+	this.$('#mainGrid')[0].dgrid.setColumnHidden(7, signFilePreviewFlag);
+	this.$('#mainGrid')[0].dgrid.setColumnHidden(6, signFileNameFlag);
 
 };
 
@@ -355,8 +355,14 @@ GamFcltsChargerMngModule.prototype.addData = function() {
 
 	var fcltsJobSe = this.$('#sFcltsJobSe').val();
 	var fcltsJobSeNm = this.getFcltsJobSeNm(fcltsJobSe);
-	this.$('#chargerNo').val("");
-	this.$('#chargerNm').val("");
+	var mainGridRowCount = this.$("#mainGrid").flexRowCount();
+	if (mainGridRowCount <= 0) {
+		this.$('#chargerNo').val(EMD.userinfo.emplNo);
+		this.$('#chargerNm').val(EMD.userinfo.name);
+	} else {
+		this.$('#chargerNo').val("");
+		this.$('#chargerNm').val("");
+	}
 	this.$('#fcltsJobSe').val(fcltsJobSe);
 	this.$('#fcltsJobSeNm').val(fcltsJobSeNm);
 	this.$('#chargerDisplayNm').val("");
