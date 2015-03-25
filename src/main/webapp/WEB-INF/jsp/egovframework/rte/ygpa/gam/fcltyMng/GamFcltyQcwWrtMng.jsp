@@ -1476,6 +1476,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 					<button id="btnSave" class="buttonSave">　　저　장　　</button>
 					<!-- <button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url="/fcltyMng/printQcMngDtls.do">　　인　쇄　　</button> -->
 					<button id="btnPrint" data-role="printPage" data-search-option="detailForm">　　인　쇄　　</button>
+					<button id="btnHwp" data-role="printDown" data-url="/fcltyMng/selectFcltyQcHwpM1.do" data-filename="검사조서.hwp" data-search-option="detailForm">H　W　P 　</button>
 				</div>
 				</div>
 			</div>
