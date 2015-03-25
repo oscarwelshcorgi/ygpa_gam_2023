@@ -1,4 +1,4 @@
-//건축 시설 룰 셋
+//건축 시설
 var fcltyConstRuleSet = [
 	{
 		filter: new OpenLayers.Filter.Comparison({
@@ -988,7 +988,7 @@ var fcltyConstRuleSet = [
 	}
 ];
 
-//기계 시설 룰셋
+//기계 시설
 var fcltyMechRuleSet = [
 	{
 		filter: new OpenLayers.Filter.Comparison({
@@ -1531,6 +1531,7 @@ var fcltyMechRuleSet = [
 	}
 ];
 
+//전기 시설
 var fcltyPowerRuleSet = [
 	{
 		filter: new OpenLayers.Filter.Comparison({
@@ -1597,7 +1598,7 @@ var fcltyPowerRuleSet = [
 		}
 	},
 	{
-		title: '가스차단기',
+		title: '차단기',
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -1630,7 +1631,7 @@ var fcltyPowerRuleSet = [
 		}
 	},
 	{
-		title: '변압기(TR)',
+		title: '변압기',
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -1663,7 +1664,7 @@ var fcltyPowerRuleSet = [
 		}
 	},
 	{
-		title: '수배전반',
+		title: '154kV LINE',
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -1709,7 +1710,7 @@ var fcltyPowerRuleSet = [
 		}
 	},
 	{
-		title: '중앙감시반',
+		title: '계전기',
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -1742,7 +1743,7 @@ var fcltyPowerRuleSet = [
 		}
 	},
 	{
-		title: '관로',
+		title: '개폐기 및 스위치',
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -1775,7 +1776,7 @@ var fcltyPowerRuleSet = [
 		}
 	},
 	{
-		title: '비상발전기',
+		title: '계량기',
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -2163,9 +2164,9 @@ var fcltyPowerRuleSet = [
 	}
 ];
 
-// 토목 시설
+//토목 시설
 var fcltyCivilRuleSet = [
-	{
+	{ title: "미지정",
 	  filter: new OpenLayers.Filter.Comparison({
 	      type: OpenLayers.Filter.Comparison.EQUAL_TO,
 	      property: "FCLTY_SE",
@@ -2188,14 +2189,14 @@ var fcltyCivilRuleSet = [
 		  "Line" : {
 			  strokeWidth : 3,
 			  strokeOpacity : 1,
-			  strokeColor : "#800080"
+			  strokeColor : "#000000"
 		  },
 		  "Polygon" : {
 			  fillColor: "#45CEC9",
 			  fillOpacity: 0.5,
 			  strokeWidth : 3,
 			  strokeOpacity : 1,
-			  strokeColor : "#800080"
+			  strokeColor : "#000000"
 		  }
 	  }
 	},
@@ -2392,7 +2393,7 @@ var fcltyCivilRuleSet = [
 		}
 ];
 
-// 정보통신
+//정보통신 시설
 var fcltyITRuleSet = [
 	{
 		filter: new OpenLayers.Filter.Comparison({
