@@ -3,12 +3,15 @@
  */
 package egovframework.rte.ygpa.gam.fcltyMng.web;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -456,7 +459,7 @@ public class GamFcltyRepairMngController {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/fcltyMng/selectFcltyRepairCheckReportPrint.do")
-	public String selectFcltyRepairCheckReportPrint(@RequestParam Map<String, Object> fcltyRepairCheckReportOpt, ModelMap model,GamFcltyRepairMngVO GamFcltyRepairMngVO) throws Exception {
+	public String selectFcltyRepairCheckReportPrint(GamFcltyRepairMngVO searchVO, ModelMap model) throws Exception {
 	
 		//LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map map = new HashMap();
@@ -474,14 +477,22 @@ public class GamFcltyRepairMngController {
     	//GamFcltyRepairMngVO.setRegUsr((String)user.getId());
     	
     	
-		ObjectMapper mapper = new ObjectMapper();
-
-		GamFcltyRepairMngVO searchVO;
-    	searchVO = mapper.convertValue(fcltyRepairCheckReportOpt, GamFcltyRepairMngVO.class);
-    	System.out.println("**************"+searchVO.getFlawExamUsr());    	
+    /*	
+    	GamFcltyRepairMngVO.setFlawExamUsr(URLDecoder.decode(request.getParameter("flawExamUsr"),"UTF-8"));
+    	System.out.println("**************"+GamFcltyRepairMngVO.getFlawExamUsr());    	
     	//하자검사조서 직인
-    	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(searchVO);
+    	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(GamFcltyRepairMngVO);
+		*/
 		
+    	
+    	ObjectMapper mapper = new ObjectMapper();
+
+		//GamFcltyRepairMngVO searchVO;
+		
+		
+    	//searchVO = mapper.convertValue(fcltyRepairCheckReportOpt, GamFcltyRepairMngVO.class);
+    	
+    	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(searchVO);
     	//하자검사조서
     	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
     	
