@@ -867,7 +867,8 @@ GamFcltyQcwWrtMngModule.prototype.fillAtchFileList = function(atchFileList) {
 **/
 %>
 GamFcltyQcwWrtMngModule.prototype.atchFileUpload = function() {
-	this.uploadSingleFile('/fcltyMng/uploadQcWrtAttachFile.do', function(module, resp) {
+	console.log('upload');
+	this.uploadMultiFile('/fcltyMng/uploadQcWrtAttachFile.do', function(module, resp) {
 		if(resp.resultCode!=0) {
 			alert(resp.resultMsg);
 			return;

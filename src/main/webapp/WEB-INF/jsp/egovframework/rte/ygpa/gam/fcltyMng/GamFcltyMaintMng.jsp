@@ -662,7 +662,7 @@ GamFcltyMaintMngModule.prototype.deleteData = function() {
 **/
 %>
 GamFcltyMaintMngModule.prototype.atchFileUpload = function() {
-	this.uploadSingleFile('/fcltyMng/uploadMaintAttachFile.do', function(module, resp) {
+	this.uploadMultiFile('/fcltyMng/uploadMaintAttachFile.do', function(module, resp) {
 		if(resp.resultCode!=0) {
 			alert(resp.resultMsg);
 			return;

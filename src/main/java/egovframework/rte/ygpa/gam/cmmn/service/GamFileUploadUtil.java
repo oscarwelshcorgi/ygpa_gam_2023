@@ -76,10 +76,7 @@ public class GamFileUploadUtil {
 				"request !instanceof MultipartHttpServletRequest");
 		MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
 
-		final Map<String, MultipartFile> files = multiRequest.getFileMap();
-		Assert.notNull(files, "files is null");
-		Assert.state(files.size() > 0, "0 files exist");
-		Assert.state(files.size() < maxFileSize, "file size too big");
+		List<MultipartFile> filelist = multiRequest.getFiles("__uploadFile");
 
 		File saveFolder = new File(uploadPath);
 
@@ -88,16 +85,10 @@ public class GamFileUploadUtil {
 			saveFolder.mkdirs();
 		}
 
-		Iterator<Entry<String, MultipartFile>> itr = files.entrySet()
-				.iterator();
-		MultipartFile file;
 		List<GamFileServiceVo> list = new ArrayList<GamFileServiceVo>();
 		String filePath;
 
-		while (itr.hasNext()) {
-			Entry<String, MultipartFile> entry = itr.next();
-
-			file = entry.getValue();
+        for (MultipartFile file : filelist) {
 			String[] tokens = file.getOriginalFilename().split("\\.(?=[^\\.]+$)");
 			if (!"".equals(file.getOriginalFilename())
 					|| !"exe".equalsIgnoreCase(tokens[1])) {	// 파일명이 없는 파일과 실행파일은 저장 할 수 없다.
@@ -131,7 +122,7 @@ public class GamFileUploadUtil {
 					LOG.warn("fileType is not accept!!");
 				}
 			}
-		}
+        }
 
 		return list;
 

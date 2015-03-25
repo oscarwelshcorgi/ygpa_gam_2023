@@ -718,7 +718,7 @@ GamFcltyRepairMngModule.prototype.makeSelectArgs = function(selId) {
 **/
 %>
 GamFcltyRepairMngModule.prototype.atchFileUpload = function() {
-	this.uploadSingleFile('/fcltyMng/uploadRepairAttachFile.do', function(module, resp) {
+	this.uploadMultiFile('/fcltyMng/uploadRepairAttachFile.do', function(module, resp) {
 		if(resp.resultCode!=0) {
 			alert(resp.resultMsg);
 			return;
