@@ -74,18 +74,18 @@ GamEnergyUsageMngModule.prototype.loadComplete = function() {
 	});
 
     this.$("#mainGrid").on('onItemSelected', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 		module._mainKeyValue = row.mngYear + row.fuelCd;
 		module.enableListButtonItem();
     });
 
     this.$("#mainGrid").on('onItemDoubleClick', function(event, module, row, grid, param) {
-		module._mode = 'modify';
+		module._mainmode = 'modify';
 		module._mainKeyValue = row.mngYear + row.fuelCd;
 		module.$("#mainTab").tabs("option", {active: 1});
     });
 
-	this._mode = '';
+	this._mainmode = '';
 	this._mainKeyValue = '';
 	this._searchButtonClick = false;
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
@@ -199,15 +199,15 @@ GamEnergyUsageMngModule.prototype.drawChart = function() {
 **/
 %>
 GamEnergyUsageMngModule.prototype.onButtonClick = function(buttonId) {
-
+console.log("asdf");
 	switch (buttonId) {
 		case 'btnAdd':
-			this._mode = 'insert';
+			this._mainmode = 'insert';
 			this._mainKeyValue = '';
 			this.$("#mainTab").tabs("option", {active: 1});
 			break;
 		case 'btnInsert':
-			this._mode = 'insert';
+			this._mainmode = 'insert';
 			this._mainKeyValue = '';
 			this.makeFormValues('#detailForm', {});
 			this.makeDivValues('#detailForm', {});
@@ -218,7 +218,7 @@ GamEnergyUsageMngModule.prototype.onButtonClick = function(buttonId) {
 	    	this.saveData();
 			break;
 		case 'btnDelete':
-			if (this._mode=="modify") {
+			if (this._mainmode=="modify") {
 				this.loadDetail('listTab');
 				this.enableDetailInputItem();
 				this.deleteData();
@@ -232,6 +232,18 @@ GamEnergyUsageMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 		case 'btnExcelDownload':
 			this.downloadExcel();
+			break;
+	    case 'btnFirstData':
+	    	this.firstData();
+			break;
+	    case 'btnPrevData':
+	    	this.prevData();
+			break;
+	    case 'btnNextData':
+	    	this.nextData();
+			break;
+	    case 'btnLastData':
+	    	this.lastData();
 			break;
 	}
 
@@ -252,7 +264,7 @@ GamEnergyUsageMngModule.prototype.onSubmit = function() {
 		this.$("#sMngYear").focus();
 		return;
 	}
-	this._mode = 'query';
+	this._mainmode = 'query';
 	this._mainKeyValue = '';
 	this._searchButtonClick = true;
 	this.loadData();
@@ -329,14 +341,14 @@ GamEnergyUsageMngModule.prototype.loadDetail = function(tabId) {
 %>
 GamEnergyUsageMngModule.prototype.selectData = function() {
 
-	if (this._mode == 'query') {
+	if (this._mainmode == 'query') {
 		var gridRowCount = this.$("#mainGrid").flexRowCount();
 		if (gridRowCount == 0 && this._searchButtonClick == true) {
 			alert('해당 조건의 자료가 존재하지 않습니다!');
 		}
 		this._searchButtonClick = false;
 		return;
-	} else if (this._mode != 'insert' && this._mode != 'modify') {
+	} else if (this._mainmode != 'insert' && this._mainmode != 'modify') {
 		this._searchButtonClick = false;
 		return;
 	}
@@ -348,10 +360,191 @@ GamEnergyUsageMngModule.prototype.selectData = function() {
 	var fuelCd = this._mainKeyValue.substring(4,8);
 	this.$("#mainGrid").selectFilterRow([{col:"mngYear", filter:mngYear},
 										 {col:"fuelCd", filter:fuelCd}]);
-	this._mode = 'modify';
+	this._mainmode = 'modify';
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();
 	this.drawChart();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : firstData
+ * @DESCRIPTION   : FIRST DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamEnergyUsageMngModule.prototype.firstData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainKeyValue == "") {
+		return;
+	}
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		return;
+	}
+	var rowIndex = 0;
+	var row = rows[rowIndex];
+	var mngYear = row["mngYear"];
+	var fuelCd = row["fuelCd"];
+	if (mngYear != "" && fuelCd != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"fuelCd", filter:fuelCd},
+											 {col:"mngYear", filter:mngYear}]);
+		this._mainmode = 'modify';
+		this._mainKeyValue = mngYear + fuelCd;
+		this.makeFormValues('#detailForm', rows[rowIndex]);
+		this.makeDivValues('#detailForm', rows[rowIndex]);
+		this.enableDetailInputItem();
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : prevData
+ * @DESCRIPTION   : PREVIOUS DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamEnergyUsageMngModule.prototype.prevData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainKeyValue == "") {
+		return;
+	}
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		alert("자료가 존재하지 않습니다!");
+		return;
+	}
+	var rowIndex = -1;
+	var keyValue = "";
+	for (var i=0; i < gridRowCount; i++) {
+		var row = rows[i];
+		keyValue = row["mngYear"] + row["fuelCd"];
+		if (this._mainKeyValue == keyValue) {
+			rowIndex = i - 1;
+			break;
+		}
+	}
+	if (rowIndex < 0) {
+		alert("첫번째 자료 입니다!");
+		return;
+	}
+	if (rowIndex >= gridRowCount) {
+		alert("자료 위치가 부정확합니다!");
+		return;
+	}
+	var row = rows[rowIndex];
+	var mngYear = row["mngYear"];
+	var fuelCd = row["fuelCd"];
+	if (mngYear != "" && fuelCd != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"fuelCd", filter:fuelCd},
+											 {col:"mngYear", filter:mngYear}]);
+		this._mainmode = 'modify';
+		this._mainKeyValue = mngYear + fuelCd;
+		this.makeFormValues('#detailForm', rows[rowIndex]);
+		this.makeDivValues('#detailForm', rows[rowIndex]);
+		this.enableDetailInputItem();
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : nextData
+ * @DESCRIPTION   : NEXT DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamEnergyUsageMngModule.prototype.nextData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainKeyValue == "") {
+		return;
+	}
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		alert("자료가 존재하지 않습니다!");
+		return;
+	}
+	var rowIndex = -1;
+	var keyValue = "";
+	for (var i=0; i < gridRowCount; i++) {
+		var row = rows[i];
+		keyValue = row["mngYear"] + row["fuelCd"];
+		if (this._mainKeyValue == keyValue) {
+			rowIndex = i + 1;
+			break;
+		}
+	}
+	if (rowIndex < 0) {
+		alert("자료 위치가 부정확합니다!");
+		return;
+	}
+	if (rowIndex >= gridRowCount) {
+		alert("마지막 자료 입니다!");
+		return;
+	}
+	var row = rows[rowIndex];
+	var mngYear = row["mngYear"];
+	var fuelCd = row["fuelCd"];
+	if (mngYear != "" && fuelCd != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"fuelCd", filter:fuelCd},
+											 {col:"mngYear", filter:mngYear}]);
+		this._mainmode = 'modify';
+		this._mainKeyValue = mngYear + fuelCd;
+		this.makeFormValues('#detailForm', rows[rowIndex]);
+		this.makeDivValues('#detailForm', rows[rowIndex]);
+		this.enableDetailInputItem();
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : lastData
+ * @DESCRIPTION   : LAST DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamEnergyUsageMngModule.prototype.lastData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainKeyValue == "") {
+		return;
+	}
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		alert("자료가 존재하지 않습니다!");
+		return;
+	}
+	var rowIndex = gridRowCount - 1;
+	var row = rows[rowIndex];
+	var mngYear = row["mngYear"];
+	var fuelCd = row["fuelCd"];
+	if (mngYear != "" && fuelCd != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"fuelCd", filter:fuelCd},
+											 {col:"mngYear", filter:mngYear}]);
+		this._mainmode = 'modify';
+		this._mainKeyValue = mngYear + fuelCd;
+		this.makeFormValues('#detailForm', rows[rowIndex]);
+		this.makeDivValues('#detailForm', rows[rowIndex]);
+		this.enableDetailInputItem();
+	}
 
 };
 
@@ -427,7 +620,7 @@ GamEnergyUsageMngModule.prototype.saveData = function() {
 		this.$("#grHseCoef").focus();
 		return;
 	}
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this._mainKeyValue = mngYear + fuelCd;
 		this.doAction('/mngFee/gamInsertEnergyUsageMng.do', inputVO, function(module, result) {
 			if (result.resultCode == "0") {
@@ -471,7 +664,7 @@ GamEnergyUsageMngModule.prototype.deleteData = function() {
 		var deleteVO = this.makeFormArgs("#detailForm");
 		this.doAction('/mngFee/gamDeleteEnergyUsageMng.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module._mode = 'query';
+				module._mainmode = 'query';
 				module._mainKeyValue = '';
 				module.loadData();
 			}
@@ -513,7 +706,7 @@ GamEnergyUsageMngModule.prototype.copyData = function() {
 		}
 		module.doAction('/mngFee/gamCopyEnergyUsageMng.do', searchVO, function(module, result) {
 			if (result.resultCode == "0") {
-				module._mode = 'query';
+				module._mainmode = 'query';
 				module._mainKeyValue = '';
 				module.loadData();
 			}
@@ -550,7 +743,7 @@ GamEnergyUsageMngModule.prototype.downloadExcel = function() {
 %>
 GamEnergyUsageMngModule.prototype.enableListButtonItem = function() {
 
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 		this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 	} else {
@@ -580,7 +773,7 @@ GamEnergyUsageMngModule.prototype.enableListButtonItem = function() {
 %>
 GamEnergyUsageMngModule.prototype.enableDetailInputItem = function() {
 
-	if (this._mode == "insert") {
+	if (this._mainmode == "insert") {
 		this.$('#mngYear').enable();
 		this.$('#fuelCd').enable();
 		this.$('#fuelNm').enable();
@@ -593,6 +786,10 @@ GamEnergyUsageMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
 		this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnFirstData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnPrevData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnNextData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnLastData').disable({disableClass:"ui-state-disabled"});
 	} else {
 		if (this._mainKeyValue != "") {
 			this.$('#mngYear').disable();
@@ -609,6 +806,14 @@ GamEnergyUsageMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnSave').removeClass('ui-state-disabled');
 			this.$('#btnRemove').enable();
 			this.$('#btnRemove').removeClass('ui-state-disabled');
+			this.$('#btnFirstData').enable();
+			this.$('#btnFirstData').removeClass('ui-state-disabled');
+			this.$('#btnPrevData').enable();
+			this.$('#btnPrevData').removeClass('ui-state-disabled');
+			this.$('#btnNextData').enable();
+			this.$('#btnNextData').removeClass('ui-state-disabled');
+			this.$('#btnLastData').enable();
+			this.$('#btnLastData').removeClass('ui-state-disabled');
 		} else {
 			this.$('#mngYear').disable();
 			this.$('#fuelCd').disable();
@@ -621,6 +826,10 @@ GamEnergyUsageMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnFirstData').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnPrevData').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnNextData').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnLastData').disable({disableClass:"ui-state-disabled"});
 		}
 	}
 
@@ -646,6 +855,10 @@ GamEnergyUsageMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#btnInsert').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnSave').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnRemove').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnFirstData').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnPrevData').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnNextData').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnLastData').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -664,10 +877,10 @@ GamEnergyUsageMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 		case 'listTab':
 			break;
 		case 'detailTab':
-			if (this._mode=="modify") {
+			if (this._mainmode=="modify") {
 				this.loadDetail(oldTabId);
 				this.enableDetailInputItem();
-			} else if (this._mode=="insert") {
+			} else if (this._mainmode=="insert") {
 				this.makeFormValues('#detailForm', {});
 				this.makeDivValues('#detailForm', {});
 				this.disableDetailInputItem();
@@ -835,6 +1048,10 @@ var module_instance = new GamEnergyUsageMngModule();
 					<table style="width:100%;">
 						<tr>
 							<td style="text-align:right;">
+								<button id="btnFirstData">처음 자료</button>
+								<button id="btnPrevData">이전 자료</button>
+								<button id="btnNextData">다음 자료</button>
+								<button id="btnLastData">마지막 자료</button>
 								<button id="btnInsert" class="buttonAdd">　　추　가　　</button>
 								<button id="btnSave" class="buttonSave">　　저　장　　</button>
 								<button id="btnRemove" class="buttonDelete">　　삭　제　　</button>

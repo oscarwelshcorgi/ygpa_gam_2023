@@ -99,6 +99,7 @@
 	<select id="gamElctyEquipCapaMngDao.selectElctyEquipCapaMngChartList_D" parameterClass="gamElctyEquipCapaMngVo" resultClass="egovMap">
 		SELECT /*+ INDEX (T1 PK_ELCTY_EQUIP_CAPA_F) */
 				 T1.ELCTY_EQUIP_NM
+				,ROW_NUMBER() OVER (ORDER BY T1.ELCTY_EQUIP_NM) AS ELCTY_EQUIP_NO
 				,NVL(SUM(T1.EQUIP_CAPA),0) AS EQUIP_CAPA
 				,NVL(SUM(T1.CTRT_CAPA),0) AS CTRT_CAPA
 				,NVL(SUM(T1.USAGE_VOLT),0) AS USAGE_VOLT

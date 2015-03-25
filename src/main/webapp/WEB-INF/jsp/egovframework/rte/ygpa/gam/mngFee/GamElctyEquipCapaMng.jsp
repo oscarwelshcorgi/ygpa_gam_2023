@@ -36,7 +36,7 @@
 %>
 function GamElctyEquipCapaMngModule() {}
 
-GamElctyEquipCapaMngModule.prototype = new EmdModule(800, 600);
+GamElctyEquipCapaMngModule.prototype = new EmdModule(1100, 700);
 
 <%
 /**
@@ -52,12 +52,14 @@ GamElctyEquipCapaMngModule.prototype.loadComplete = function() {
 		url : '/mngFee/gamSelectElctyEquipCapaMng.do',
 		dataType : 'json',
 		colModel : [
-					{display:'관리 년도',		name:'mngYear',			width:90, 		sortable:false,		align:'center'},
-					{display:'전기 시설 명',	name:'elctyEquipNm',	width:235, 		sortable:false,		align:'left'},
-					{display:'전기 구분',		name:'elctySeNm',		width:90, 		sortable:false,		align:'center'},
+					{display:'관리 년도',		name:'mngYear',			width:100, 		sortable:false,		align:'center'},
+					{display:'전기 시설 명',	name:'elctyEquipNm',	width:250, 		sortable:false,		align:'left'},
+					{display:'전기 구분',		name:'elctySeNm',		width:100, 		sortable:false,		align:'center'},
 					{display:'설비 용량',		name:'equipCapa',		width:110, 		sortable:false,		align:'right'},
 					{display:'계약 용량',		name:'ctrtCapa',		width:110, 		sortable:false,		align:'right'},
-					{display:'사용 전압',		name:'usageVolt',		width:110, 		sortable:false,		align:'right'}
+					{display:'사용 전압',		name:'usageVolt',		width:110, 		sortable:false,		align:'right'},
+					{display:'등록자',			name:'regUsr',			width:100, 		sortable:false,		align:'center'},
+					{display:'등록일시',		name:'registDt',		width:160, 		sortable:false,		align:'center'}
 					],
 		showTableToggleBtn : false,
 		height : 'auto',
@@ -220,8 +222,9 @@ GamElctyEquipCapaMngModule.prototype.saveChartLabelDisplay = function() {
 **/
 %>
 GamElctyEquipCapaMngModule.prototype.drawChart = function() {
-console.log("drawChart");
+
 	var dataValueArr = [];
+	var legendArr = [];
 	var maxDataValue = 0;
 	var dataValue1 = 0;
 	var dataValue2 = 0;
@@ -253,6 +256,7 @@ console.log("drawChart");
 		if (result.resultCode == "0") {
 			dataCount = result.resultList[0]['dataCount']*1;
 			for (var i=0; i<dataCount; i++) {
+				elctyEquipNo = result.resultList[i]['elctyEquipNo'];
 				elctyEquipNm = result.resultList[i]['elctyEquipNm'];
 				dispElctyEquipNm = module.makeWordWrap(elctyEquipNm.replace(/ /gi, ""), 6);
 				dataValue1 = result.resultList[i]['equipCapa']*1;
@@ -260,17 +264,17 @@ console.log("drawChart");
 				numValue1 = $.number(dataValue1);
 				numValue2 = $.number(dataValue2);
 				if (chartValueSe == "E") {
-					dataValueArr[i] = { equip: dispElctyEquipNm, value1: dataValue1, txtValue1: numValue1 };
+					dataValueArr[i] = { elctyEquipNo: elctyEquipNo ,equip: dispElctyEquipNm, value1: dataValue1, txtValue1: numValue1 };
 					if (maxDataValue < dataValue1) {
 						maxDataValue = dataValue1;
 					}
 				} else if (chartValueSe == "C") {
-					dataValueArr[i] = { equip: dispElctyEquipNm, value1: dataValue2, txtValue1: numValue2 };
+					dataValueArr[i] = { elctyEquipNo: elctyEquipNo ,equip: dispElctyEquipNm, value1: dataValue2, txtValue1: numValue2 };
 					if (maxDataValue < dataValue2) {
 						maxDataValue = dataValue2;
 					}
 				} else {
-					dataValueArr[i] = { equip: dispElctyEquipNm, value1: dataValue1, value2: dataValue2, txtValue1: numValue1, txtValue2: numValue2 };
+					dataValueArr[i] = { elctyEquipNo: elctyEquipNo ,equip: dispElctyEquipNm, value1: dataValue1, value2: dataValue2, txtValue1: numValue1, txtValue2: numValue2 };
 					if (maxDataValue < dataValue1) {
 						maxDataValue = dataValue1;
 					}
@@ -278,18 +282,21 @@ console.log("drawChart");
 						maxDataValue = dataValue2;
 					}
 				}
+				legendArr[i] = {text:"" + (i + 1) + ":" + elctyEquipNm, color:"#000BE0"};
 			};
 		} else {
 			for (var i=0; i<1; i++) {
 				dataValue1 = 0;
 				dataValue2 = 0;
+				elctyEquipNo = i + 1;
 				if (chartValueSe == "E") {
-					dataValueArr[i] = { equip: dispElctyEquipNm, value1: dataValue1, txtValue1: '0' };
+					dataValueArr[i] = { elctyEquipNo: elctyEquipNo ,equip: dispElctyEquipNm, value1: dataValue1, txtValue1: '0' };
 				} else if (chartValueSe == "C") {
-					dataValueArr[i] = { equip: dispElctyEquipNm, value1: dataValue2, txtValue1: '0' };
+					dataValueArr[i] = { elctyEquipNo: elctyEquipNo ,equip: dispElctyEquipNm, value1: dataValue2, txtValue1: '0' };
 				} else {
-					dataValueArr[i] = { equip: dispElctyEquipNm, value1: dataValue1, value2: dataValue2, txtValue1: '0', txtValue2: '0' };
+					dataValueArr[i] = { elctyEquipNo: elctyEquipNo ,equip: dispElctyEquipNm, value1: dataValue1, value2: dataValue2, txtValue1: '0', txtValue2: '0' };
 				}
+				legendArr[i] = {text:"" + (i + 1) + ": NONE", color:"#000BE0"};
 			};
 		}
 		if (maxDataValue < 10) {
@@ -305,9 +312,16 @@ console.log("drawChart");
 				width			: 20,
 				label			: "#txtValue1#",
 				tooltip			: "#txtValue1#",
+				legend:{
+					values:legendArr,
+					valign:"middle",
+					align:"right",
+					width:200,
+					layout:"y"
+				},
 				xAxis			: {
 					title 		: "전기 설비 용량",
-					template	: "#equip#"
+					template	: "#elctyEquipNo#"
 				},
 				yAxis			: {
 					start		: 0,
@@ -1235,7 +1249,7 @@ var module_instance = new GamElctyEquipCapaMngModule();
 							</td>
 							<th>전기 설비 명</th>
 							<td>
-								<input type="text" size="20" id="sElctyEquipNm" maxlength="80">
+								<input type="text" size="90" id="sElctyEquipNm" maxlength="80">
 							</td>
 							<td>
 								<button class="buttonSearch">조회</button>
@@ -1295,7 +1309,7 @@ var module_instance = new GamElctyEquipCapaMngModule();
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:10%; height:29px;">관　리　년　도</th>
+								<th style="width:10%; height:30px;">관　리　년　도</th>
 								<td>
 									<select id="mngYear" class='selt'>
 										<option value="">선택</option>
@@ -1306,42 +1320,25 @@ var module_instance = new GamElctyEquipCapaMngModule();
 									&nbsp; &nbsp;
 									<input type="text" size="10" id="mngSeq" disabled/>
 								</td>
-								<th style="width:10%; height:18;">그래프　　구분</th>
-								<td>
-									<select id="chartValueSe">
-										<option value="">선택</option>
-										<option value="E">설비용량</option>
-										<option value="C">계약용량</option>
-										<option value="A">설비용량+계약용량</option>
-									</select>
-									&nbsp; &nbsp;
-									<select id="chartLabelDisplay">
-										<option value="">선택</option>
-										<option value="Y">값 표시</option>
-										<option value="N">값 미표시</option>
-									</select>
-									&nbsp; &nbsp;
-									<button id="btnChartSearch">그래프 조회</button>
+								<td colspan="2" rowspan="11" style="padding-left:4px;">
+									<div id="elctyEquipCapaChart" style="width:810px;height:515px;border:1px solid #A4BED4;"></div>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:29px;">시설물그룹번호</th>
+								<th style="width:10%; height:30px;">시설물그룹번호</th>
 								<td>
 									<input type="text" size="13" id="fcltsMngGroupNo" disabled/>
 									<button id="popupFcltsMngGroup" class="popupButton">선택</button>
 								</td>
-								<td colspan="2" rowspan="10" style="padding-left:4px;">
-									<div id="elctyEquipCapaChart" style="width:510px;height:370px;border:1px solid #A4BED4;"></div>
-								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:29px;">전기　시설　명</th>
+								<th style="width:10%; height:30px;">전기　시설　명</th>
 								<td>
 									<input type="text" size="25" id="elctyEquipNm" maxlength="80"/>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:29px;">전　기　구　분</th>
+								<th style="width:10%; height:30px;">전　기　구　분</th>
 								<td>
 									<input id="elctySeNm" type="hidden"/>
 									<select id="elctySe">
@@ -1355,43 +1352,43 @@ var module_instance = new GamElctyEquipCapaMngModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:29px;">설　비　용　량</th>
+								<th style="width:10%; height:30px;">설　비　용　량</th>
 								<td>
 									<input type="text" size="21" id="equipCapa" class="ygpaNumber" maxlength="13"/> kW
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:29px;">계　약　용　량</th>
+								<th style="width:10%; height:30px;">계　약　용　량</th>
 								<td>
 									<input type="text" size="21" id="ctrtCapa" class="ygpaNumber" maxlength="13"/> kW
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:29px;">사　용　전　압</th>
+								<th style="width:10%; height:30px;">사　용　전　압</th>
 								<td>
 									<input type="text" size="21" id="usageVolt" class="ygpaNumber" maxlength="9"/>  V
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:29px;">등　　록　　자</th>
+								<th style="width:10%; height:30px;">등　　록　　자</th>
 								<td>
 									<input type="text" size="25" id="regUsr" disabled>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:29px;">등　록　일　시</th>
+								<th style="width:10%; height:30px;">등　록　일　시</th>
 								<td>
 									<input type="text" size="25" id="registDt" disabled>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:29px;">수　　정　　자</th>
+								<th style="width:10%; height:30px;">수　　정　　자</th>
 								<td>
 									<input type="text" size="25" id="updUsr" disabled>
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:29px;">수　정　일　시</th>
+								<th style="width:10%; height:30px;">수　정　일　시</th>
 								<td>
 									<input type="text" size="25" id="updtDt" disabled>
 								</td>
@@ -1401,6 +1398,21 @@ var module_instance = new GamElctyEquipCapaMngModule();
 					<table style="width:100%;">
 						<tr>
 							<td style="text-align:right;">
+								&nbsp;그래프 구분 &nbsp;
+								<select id="chartValueSe">
+									<option value="">선택</option>
+									<option value="E">설비용량</option>
+									<option value="C">계약용량</option>
+									<option value="A">설비용량+계약용량</option>
+								</select>
+								&nbsp;표시 &nbsp;
+								<select id="chartLabelDisplay">
+									<option value="">선택</option>
+									<option value="Y">값 표시</option>
+									<option value="N">값 미표시</option>
+								</select>
+								&nbsp; &nbsp;
+								<button id="btnChartSearch">그래프 조회</button>
 								<button id="btnFirstData">처음 자료</button>
 								<button id="btnPrevData">이전 자료</button>
 								<button id="btnNextData">다음 자료</button>
