@@ -155,6 +155,10 @@ GamCvlEngFcltySpecInqireModule.prototype.loadComplete = function(params) {
 	this._atchFileDirLoad = false;
 	this._atchFilePreview = false;
 	
+	this.$("#fileGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.selectFileData();
+	});	
+
 	this.$("#fileGrid").on('onItemSelected', function(event, module, row, grid, param) {
 		module.refreshFileData(row.atchFileNo);
 	});
@@ -258,6 +262,16 @@ GamCvlEngFcltySpecInqireModule.prototype.onClosePopup = function(popupId, msg, v
 				}
 			}
 			break;
+		case 'btnAtchDirFileSearch':
+			if (msg == 'ok') {
+				if (value.listSe == "F") {
+					this._fileKeyValue = value.fileNo;
+					this.displayAtchFileDirectory("" + value.dirNo);
+				} else {
+					this.displayAtchFileDirectory("" + value.dirNo);
+				}
+			}
+			break;
 	}
 
 };
@@ -303,6 +317,15 @@ GamCvlEngFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 			break;
 	    case 'btnFilePreview':
 	    	this.displayPreviewFile();
+			break;
+	    case 'btnAtchDirFileSearch':
+			var sFcltsJobSe = this.$('#dirQueryOption').val();
+			var sSearchSe = "D";
+            var searchOpts = {
+    				'sSearchSe':sSearchSe,
+    				'sFcltsJobSe':sFcltsJobSe
+                };
+			this.doExecuteDialog('btnAtchDirFileSearch', '디렉토리/파일 검색', '/popup/showAtchDirFile.do', null, searchOpts);
 			break;
 	}
 
@@ -404,6 +427,25 @@ GamCvlEngFcltySpecInqireModule.prototype.selectData = function() {
 		}
 		return;
 	}
+};
+
+<%
+/**
+ * @FUNCTION NAME : selectFileData
+ * @DESCRIPTION   : FILE DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamCvlEngFcltySpecInqireModule.prototype.selectFileData = function() {
+
+	if (this._fileKeyValue == "") {
+		return;
+	}
+	var atchFileNo = this._fileKeyValue;
+	this._fileKeyValue = "";
+	this.$("#fileGrid").selectFilterRow([{col:"atchFileNo", filter:atchFileNo}]);
+	this.refreshFileData(atchFileNo);
+
 };
 
 <%
@@ -670,16 +712,19 @@ GamCvlEngFcltySpecInqireModule.prototype.refreshDirData = function(argDirNo) {
 
 	if (argDirNo > 1) {
 		this.$('#dirNo').val('' + argDirNo);
+		var dirQueryOption = this.$('#dirQueryOption').val();
 		var searchVO = this.getFormValues('#dirForm');
 		this.doAction('/fclty/gamSelectCvlEngFcltySpecInqireAtchFileDirPk.do', searchVO, function(module, result){
 			if (result.resultCode == "0") {
 				module.makeFormValues('#dirForm', result.result);
 				module.makeDivValues('#dirForm', result.result);
+				module.$('#dirQueryOption').val(dirQueryOption);
 				module.$('#inputDirNm').val(result.result.dirNm);
 				module.displayAtchFileList(argDirNo);
 			} else {
 				module.makeFormValues('#dirForm', {});
 				module.makeDivValues('#dirForm', {});
+				module.$('#dirQueryOption').val(dirQueryOption);
 				module.displayAtchFileList("");
 			}
 		});
@@ -1268,7 +1313,7 @@ var module_instance = new GamCvlEngFcltySpecInqireModule();
 				<table class="detailPanel" style="width:100%;">
 					<tr>
 						<th style="width:10%; height:20px;">선택디렉토리</th>
-						<td style="width:50%;">
+						<td>
 							<form id="dirForm">
 								<input id="dirNo" type="hidden"/>
 								<input id="dirNm" type="hidden"/>
@@ -1288,8 +1333,10 @@ var module_instance = new GamCvlEngFcltySpecInqireModule();
 								</select>
 							</form>
 						</td>
-						<th style="font-weight:bold; height:20px;">첨부파일 영역 : </th>
-						<th style="width:15%; height:20px;">선택첨부파일</th>
+						<td>
+							<button id="btnAtchDirFileSearch">디렉토리/파일 검색</button>
+						</td>
+						<th style="width:10%; height:20px;">선택첨부파일</th>
 						<td>
 							<form id="fileForm">
 								<input id="atchFileNo" type="hidden"/>
@@ -1302,7 +1349,7 @@ var module_instance = new GamCvlEngFcltySpecInqireModule();
 								<input id="atchFileFcltsJobSe" type="hidden"/>
 								<input id="atchFileFcltsMngNo" type="hidden"/>
 								<input id="atchFileFcltsMngSeq" type="hidden"/>
-								<input id="atchFileNmLogic" type="text" size="50" disabled/>
+								<input id="atchFileNmLogic" type="text" size="41" disabled/>
 							</form>
 						</td>
 					</tr>
