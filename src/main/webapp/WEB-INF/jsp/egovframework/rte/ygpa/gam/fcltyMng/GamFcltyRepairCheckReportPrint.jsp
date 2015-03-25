@@ -33,53 +33,53 @@
     <style>
 	table.pageBrTbl {
 		width: 100%;
-	/* 	page-break-after: auto; */
+		/* 	page-break-after: auto; */
 		border: solid black 0.05mm;
-  		border-spacing: 0;
+		border-spacing: 0;
 	}
-
+	
 	table.pageBrTbl>tbody>tr {
 		/* page-break-inside: avoid;
-		page-break-after: auto;
-		page-break-before: auto; */
+			page-break-after: auto;
+			page-break-before: auto; */
 		height: 6cm;
 	}
-
+	
 	table.pageBrTbl>tbody>tr>td {
 		/* page-break-inside: avoid;
-		page-break-after: avoid;
-		page-break-before: auto; */
-		border:0.3mm gray solid;
+			page-break-after: avoid;
+			page-break-before: auto; */
+		border: 0.3mm gray solid;
 		width: 50%;
 		padding: 0.5cm;
 		vertical-align: middle;
 	}
-
+	
 	table.pageBrTbl>thead {
 		display: table-header-group;
 	}
-
+	
 	table.pageBrTbl>tfoot {
 		display: table-footer-group;
 	}
-
+	
 	img.tdFull {
-	    display: block;
-		width:7cm;
-        max-height:100%;
-        margin:auto;
+		display: block;
+		width: 7cm;
+		max-height: 100%;
+		margin: auto;
 	}
- 	.stamp{
- 		  position: fixed;
- 			left: 16cm;
-		 top: 8cm;
-  text-indent: 0.5cm;
-  
- 	}
- 	img.stamp{
- 	top:7.5cm;
- 	
- 	}
+	
+	.stamp {
+		position: absolute;
+		left: 16.5cm;
+		top: 23cm;
+		text-indent: 0.5cm;
+	}
+	
+	img.stamp {
+		top: 22.5cm;
+	}
 </style>
 
 	<script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
@@ -156,10 +156,10 @@
         				<td style="text-align:right;vertical-align:middle;font-size:15px;padding:60px;"><span id="today"></span></td>
         			</tr>
         			<tr height="60px">
-        				<td style="text-align:right;vertical-align:middle;font-size:15px;padding:60px;">
+        				<td style="text-align:right;vertical-align:middle;font-size:15px;padding:100px;">
 			        		하자검사자 : <c:out value="${result.flawExamUsrNm }" />
 			        		<div  class="stamp">(인)</div>
-			        		<img class="stamp" style="filter:Alpha(Opacity=90);Opacity:0.9;" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/>
+			        		<img class="stamp" style="filter:Alpha(Opacity=50);Opacity:0.5;" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/>
 			       			
 			       		</td>
         			</tr>
