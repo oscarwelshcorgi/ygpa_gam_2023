@@ -971,7 +971,7 @@ var module_instance = new GamFcltsChargerMngModule();
 					<form id="detailForm">
 						<table class="detailPanel" style="width:100%;">
 							<tr>
-								<th style="width:15%; height:35px;">업　무　구　분</th>
+								<th style="width:15%; height:30px;">업　무　구　분</th>
 								<td>
 									<input id="fcltsJobSeNm" type="hidden"/>
 									<select id="fcltsJobSe">
@@ -984,7 +984,7 @@ var module_instance = new GamFcltsChargerMngModule();
 									</select>
 									<button id="btnSignRegister">직인 등록</button>
 								</td>
-								<td rowspan="7" style="text-align:center; vertical-align:middle;">
+								<td rowspan="8" style="text-align:center; vertical-align:middle;">
 									<input id="signFileNmLogic" type="hidden"/>
 									<input id="signFileNmPhysicl" type="hidden"/>
 									<img id="previewImage" style="border:1px solid #000; width:415px; height:415px; max-width:415px; max-height:415px;" src="">

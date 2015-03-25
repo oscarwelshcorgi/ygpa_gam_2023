@@ -43,6 +43,7 @@ public class GamFcltsChargerMngVO extends ComDefaultVO {
 	private	String updtDt;				// 수정일시
 	private	String fcltsJobSeNm;		// 시설물 업무 구분 명
 	private	String totalCount;			// 조회 자료 수
+	private	String sChargerNo;			// 검색 담당자 사번
 	private	String sChargerNm;			// 검색 담당자 명
 	private	String sFcltsJobSe;			// 검색 시설물 업무 구분
 
@@ -213,6 +214,18 @@ public class GamFcltsChargerMngVO extends ComDefaultVO {
 	 */
 	public void setTotalCount(String totalCount) {
 		this.totalCount = totalCount;
+	}
+	/**
+	 * @return the sChargerNo
+	 */
+	public String getsChargerNo() {
+		return sChargerNo;
+	}
+	/**
+	 * @param sChargerNo the sChargerNo to set
+	 */
+	public void setsChargerNo(String sChargerNo) {
+		this.sChargerNo = sChargerNo;
 	}
 	/**
 	 * @return the sChargerNm
