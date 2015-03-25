@@ -458,7 +458,7 @@ public class GamFcltyRepairMngController {
     @RequestMapping(value="/fcltyMng/selectFcltyRepairCheckReportPrint.do")
 	public String selectFcltyRepairCheckReportPrint(@RequestParam Map<String, Object> fcltyRepairCheckReportOpt, ModelMap model,GamFcltyRepairMngVO GamFcltyRepairMngVO) throws Exception {
 	
-		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		//LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map map = new HashMap();
     	EgovMap result = null;
     	EgovMap charger= null;
@@ -470,18 +470,21 @@ public class GamFcltyRepairMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return "/ygpa/gam/fcltyMng/GamFcltyRepairCheckReportPrint";
     	}
-    	System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"+user.getId());
-    	GamFcltyRepairMngVO.setRegUsr((String)user.getId());
-    	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(GamFcltyRepairMngVO);
+    	
+    	//GamFcltyRepairMngVO.setRegUsr((String)user.getId());
+    	
+    	
 		ObjectMapper mapper = new ObjectMapper();
 
 		GamFcltyRepairMngVO searchVO;
     	searchVO = mapper.convertValue(fcltyRepairCheckReportOpt, GamFcltyRepairMngVO.class);
-
-
-		//하자검사조서
+    	System.out.println("**************"+searchVO.getFlawExamUsr());    	
+    	//하자검사조서 직인
+    	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(searchVO);
+		
+    	//하자검사조서
     	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
-
+    	
         model.addAttribute("result", result);
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");

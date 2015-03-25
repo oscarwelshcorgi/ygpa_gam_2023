@@ -69,6 +69,14 @@
         max-height:100%;
         margin:auto;
 	}
+	table.tdPad>tbody>tr>td {
+		text-align:	right;
+		vertical-align	:middle;
+		font-size:	15px; 
+		padding-right: 25px;
+		font-family : '바탕체'; 
+	}
+	
 </style>
 
 	<script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
@@ -105,7 +113,7 @@
 <div class="book">
     <div class="page">
         <div class="subpage ygpa_report" >
-    		<table style="width:100%;border:1px gray solid;">
+    		<table class="tdPad" style="width:100%;border:1px gray solid;">
         		<thead>
         			<tr height="60px">
         				<td></td>
@@ -116,7 +124,7 @@
         		</thead>
         		<tbody>
         			<tr height="80px">
-        				<td style="vertical-align:middle;font-size:15px;">&nbsp;공 사 명 : <c:out value="${result.flawRprNm }" /></td>
+        				<td style="text-align:left; padding-left:25px;">&nbsp;공 사 명 : <c:out value="${result.flawRprNm }" /></td>
         				
         			</tr>
         			<tr height="20px">
@@ -124,10 +132,10 @@
         			</tr>
         			<tr height="30px">
         			<!-- TODO: 현재 DB의 값이 없어 미적용 향후 처리 예정 -->
-        				<td style="text-align:right;vertical-align:middle;font-size:15px;">2012년 11월 26일 준공(향후적용)</td>
+        				<td>2012년 11월 26일 준공(향후적용)</td>
         			</tr>
         			<tr height="30px">
-        				<td style="text-align:right;vertical-align:middle;font-size:15px;"><c:out value="${result.ctrtDt }" /> <c:out value="${result.flawRprEntrpsNm }" /> 대표이사 <c:out value="${result.rprsntv }" />과 계약분</td>
+        				<td><c:out value="${result.ctrtDt }" /> <c:out value="${result.flawRprEntrpsNm }" /> 대표이사 <c:out value="${result.rprsntv }" />과 계약분</td>
         			</tr>
         			<tr height="30px">
         				<td style="text-align:right;vertical-align:middle;font-size:15px;">도급액 : 일금 <c:out value="${result.ctrtAmtKo }" />원정 (₩<fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.ctrtAmt }" />원)</td>
@@ -142,11 +150,12 @@
         				</td>
         			</tr>
         			<tr height="140px">
-        				<td style="text-align:center;vertical-align:middle;font-size:15px;"><span id="today"></span></td>
+        				<td style="text-align:right;vertical-align:middle;font-size:15px;"><span id="today"></span></td>
         			</tr>
         			<tr height="60px">
-        				<td style="text-align:center;vertical-align:middle;font-size:15px;">
-			        		하자검사자 : <span>여수광양항만공사</span>&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${result.flawExamUsr }" />&nbsp;&nbsp;<span>도장</span><img src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/>
+        				<td style="text-align:right;vertical-align:middle;font-size:15px;">
+			        		하자검사자 : <c:out value="${result.flawExamUsrNm }" />&nbsp;&nbsp;<span>(인)</span><img src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/>
+			        		<c:out value="${charger.signFileNmPhysicl}"/>
         				</td>
         			</tr>
         			<tr height="100px">
