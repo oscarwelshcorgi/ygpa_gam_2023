@@ -466,7 +466,7 @@ public class GamFcltyRepairMngController {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/fcltyMng/selectFcltyRepairCheckReportPrint.do")
-	public String selectFcltyRepairCheckReportPrint(GamFcltyRepairMngVO searchVO, ModelMap model) throws Exception {
+	public String selectFcltyRepairCheckReportPrint(@RequestParam Map<String, Object> fcltyRepairCheckReportOpt ,GamFcltyRepairMngVO searchVO, ModelMap model) throws Exception {
 	
 		//LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map map = new HashMap();
@@ -503,11 +503,20 @@ public class GamFcltyRepairMngController {
     	//하자검사조서
     	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
     	
+    	List imgList =  gamFcltyRepairMngService.selectFcltyRepairCheckReportImgList(searchVO);
+    	
+   
         model.addAttribute("result", result);
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
 		model.addAttribute("charger",charger);
-
+		model.addAttribute("imgList",imgList);
+		
+		//hwp선택시 파일명
+		if(fcltyRepairCheckReportOpt.get("filename") != null){
+			model.addAttribute("isHwp", true);
+			model.addAttribute("filename", fcltyRepairCheckReportOpt.get("filename"));
+    		}
     	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckReportPrint";
     }
 
@@ -546,6 +555,11 @@ public class GamFcltyRepairMngController {
         model.addAttribute("result", result);
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
+		//hwp선택시 파일명
+		if(fcltyRepairExpireCheckReportOpt.get("filename") != null){
+			model.addAttribute("isHwp", true);
+			model.addAttribute("filename", fcltyRepairExpireCheckReportOpt.get("filename"));
+    		}
 
     	return "ygpa/gam/fcltyMng/GamFcltyRepairExpireCheckReportPrint";
     }
@@ -593,6 +607,12 @@ public class GamFcltyRepairMngController {
         model.addAttribute("resultList", fcltyRepairMngList);
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
+		
+		//hwp선택시 파일명
+		if(fcltyRepairCheckResultOpt.get("filename") != null){
+			model.addAttribute("isHwp", true);
+			model.addAttribute("filename", fcltyRepairCheckResultOpt.get("filename"));
+    		}
 
     	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckResultPrint";
     }
@@ -642,7 +662,12 @@ public class GamFcltyRepairMngController {
         model.addAttribute("totCnt", totCnt);
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
-
+		
+		//hwp선택시 파일명
+		if(fcltyRepairCheckMngOpt.get("filename") != null){
+			model.addAttribute("isHwp", true);
+			model.addAttribute("filename", fcltyRepairCheckMngOpt.get("filename"));
+    		}
     	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckMngPrint";
     }
 

@@ -610,10 +610,10 @@
 
 
 	<select id="gamFcltyRepairMngDao.selectFcltyRepairCheckReportImgList_D" parameterClass="gamFcltyRepairMngVO" resultClass="egovMap">
-		select
-			filenm_physicl
-		 from
-		 	assets_rent_photo_f
+		  SELECT 
+		  	FILENM_PHYSICL 
+		  FROM
+			ASSETS_RENT_PHOTO_F
 
 	</select>
 

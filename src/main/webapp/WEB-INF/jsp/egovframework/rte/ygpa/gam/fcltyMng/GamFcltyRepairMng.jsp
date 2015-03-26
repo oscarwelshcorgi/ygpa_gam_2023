@@ -78,7 +78,38 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 			return data;
 		}
 	});
-
+	
+	this.$("#fileGrid").flexigrid({
+		module : this,
+		url : '/fclty/gamSelectArchFcltySpecMngFcltsAtchFileList.do',
+		dataType : 'json',
+		colModel : [
+					{display:"선택",		name:"atchFileSelChk",		width:40,		sortable:false,		align:"center",		displayFormat:"checkbox"},
+					{display:"번호",		name:"atchFileNo",			width:60,		sortable:false,		align:"center"},
+					{display:"구분",		name:"atchFileSeNm",		width:60,		sortable:false,		align:"center"},
+					{display:"파일명",		name:"atchFileNmLogic",		width:200,		sortable:false,		align:"left"},
+					{display:"프리뷰",		name:"photoUrl",			width:100,		sortable:false,		align:"center",		displayFormat:"image"}
+					],
+		height: "175",
+		preProcess: function(module, data) {
+			$.each(data.resultList, function() {
+				this.atchFileSelChk = (this.atchFileSelChk === 'TRUE');
+				this.photoUrl = "";
+				var atchFileNmPhysicl = this.atchFileNmPhysicl;
+				var ext = atchFileNmPhysicl.substring(atchFileNmPhysicl.lastIndexOf(".")+1).toLowerCase();
+				if (ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif") {
+					this.photoUrl = module.getPfPhotoUrl(atchFileNmPhysicl) + "^" + this.atchFileNmLogic + "^" + "100";
+				} else if (ext == "hwp") {
+					this.photoUrl = "js/codebase/imgs/hwp.png";
+				} else if (ext == "dwg") {
+					this.photoUrl = "js/codebase/imgs/dwg.png";
+				} else {
+					this.photoUrl = "js/codebase/imgs/unknown.png";
+				}
+			});
+			return data;
+		}
+	});
 
 	this.$("#flawRprObjFcltsF").flexigrid({
 		module: this,
@@ -113,16 +144,43 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
  	this.$(".objFcltsEditItem").bind("change keyup", {module: this}, function(event) {
 		event.data.module.objFcltsDataChanged(event.target);
 	});
+ 	
+	this.$("#printSe").bind("change keyup", {module: this}, function(event) {
+		event.data.module.setPrintSe();
+	});
 
 
 	// 기본값 셋팅
 	this.setDefaultParam();
 	this.applySelectYear();
 	this.getMapInfoList(params);
-
+	
 };
 
+GamFcltyRepairMngModule.prototype.setPrintSe = function(){
 
+	if(this.$("#printSe").val() =='print'){
+		this.$("#mngPrint").data('url','/fcltyMng/selectFcltyRepairCheckMngPrint.do');
+		this.$("#mngPrint").data('role','printPage');
+		this.$("#chkPrint").data('url','/fcltyMng/selectFcltyRepairCheckReportPrint.do');
+		this.$("#chkPrint").data('role','printPage');
+		this.$("#expPrint").data('url','/fcltyMng/selectFcltyRepairExpireCheckReportPrint.do');
+		this.$("#expPrint").data('role','printPage');
+	}else if(this.$("#printSe").val() =='hwp'){
+		this.$("#mngPrint").data('url','/fcltyMng/selectFcltyRepairCheckMngPrint.do');
+		this.$("#mngPrint").data('role','printDown');
+		this.$("#mngPrint").data('filename','검사관리대장.hwp');
+		this.$("#chkPrint").data('url','/fcltyMng/selectFcltyRepairCheckReportPrint.do');
+		this.$("#chkPrint").data('role','printDown');
+		this.$("#chkPrint").data('filename','검사조서.hwp');
+		this.$("#expPrint").data('url','/fcltyMng/selectFcltyRepairExpireCheckReportPrint.do');
+		this.$("#expPrint").data('role','printDown');
+		this.$("#expPrint").data('filename','만료검사조서.hwp');
+	}else{
+		
+	}
+	
+}
 <%
 /**
  * @FUNCTION NAME : getMapInfoList
@@ -332,6 +390,8 @@ GamFcltyRepairMngModule.prototype.loadDetail = function(){
 			module.makeDivValues('#gamObjFcltsDetailForm',result.result);
 			module.$('#flawRprObjFcltsF').flexOptions({params:searchVO}).flexReload();
 			module.fillAtchFileList(searchVO);
+			// 인쇄 구분
+			module.setPrintSe();
 		}else{
 			module.$("#fcltyRepairMngListTab").tabs("option", {active: 0});
 		}
@@ -1076,6 +1136,7 @@ var module_instance = new GamFcltyRepairMngModule();
 							<td><input type="text" id="sumFlawRprAmt" style="width:100px;text-align:right;" readonly="readonly"></td>
 							<td style="text-align:right;">
 								<button data-role="printPage" data-search-option="searchFcltyRepairMngForm" data-url='/fcltyMng/selectFcltyRepairCheckResultPrint.do'>하자검사결과인쇄</button>
+								<button data-role="printDown" data-search-option="searchFcltyRepairMngForm" data-filename="검사조서.hwp" data-url='/fcltyMng/selectFcltyRepairCheckResultPrint.do'>H　W　P</button>
 								<button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
 								<button id="addBtn" class="buttonAdd">　　추　가　　</button>
 								<button id="deleteBtn" class="buttonDelete">　　삭　제　　</button>
@@ -1187,23 +1248,27 @@ var module_instance = new GamFcltyRepairMngModule();
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">하자보수내용</th>
-							<td colspan="7"><textarea id="flawRprContents" cols="143" rows="5" title="하자보수내용" maxlength="1333"></textarea></td>
+							<td colspan="3"><textarea id="flawRprContents" cols="72" rows="5" title="하자보수내용" maxlength="1333"></textarea></td>
+							<td colspan="4" rowspan="12"><table id="fileGrid" style="margin:1px; display:none;"></table></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">하자보수결과</th>
-							<td colspan="7"><textarea id="flawExamResult" cols="143" rows="5" title="하자보수결과" maxlength="1333"></textarea></td>
+							<td colspan="3"><textarea id="flawExamResult" cols="72" rows="5" title="하자보수결과" maxlength="1333"></textarea></td>
 						</tr>
 						<tr>
 							<th width="15%" height="23" class="required_text">비고</th>
-							<td colspan="7"><input id="rm" type="text" size="145" title="비고" maxlength="333" /></td>
+							<td colspan="3"><input id="rm" type="text" size="72" title="비고" maxlength="333" /></td>
 						</tr>
 					</table>
 				</form>
 				<div class="emdControlPanel">
-					<button data-role="printPage" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairCheckMngPrint.do'>하자검사관리대장인쇄</button>
-					<button data-role="downloadHwp" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairCheckReportHwp.do'>하자검사조서다운로드</button>
-					<button data-role="printPage" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairCheckReportPrint.do'>하자검사조서인쇄</button>
-					<button data-role="printPage" data-search-option="fcltyRepairMngListVO" data-url='/fcltyMng/selectFcltyRepairExpireCheckReportPrint.do'>하자만료검사조서인쇄</button>
+						<select id="printSe" title="출력구분">
+								<option value="print">인쇄</option>
+								<option value="hwp">한글문서</option>
+						</select>
+					<button id="mngPrint"  data-search-option="fcltyRepairMngListVO">하자검사관리대장 출력</button>
+					<button id="chkPrint"  data-search-option="fcltyRepairMngListVO">하자검사조서 출력</button>
+					<button id="expPrint"  data-search-option="fcltyRepairMngListVO">하자만료검사조서 출력</button>
 					<button id="addBtn" class="buttonAdd">　　추　가　　</button>
 					<button id="deleteBtn" class="buttonDelete">　　삭　제　　</button>
 					<button id="saveBtn" class="buttonSave">  저 장  </button>

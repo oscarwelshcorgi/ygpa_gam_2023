@@ -1,3 +1,4 @@
+<%@ page import="java.net.URLDecoder"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -21,11 +22,26 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
+
+<%
+// 한글 파일 출력일 경우 컨트롤러에 isHwp 에 값을 담아서 리턴한다. fileName 에는 파일명을 넣는다.
+if(request.getAttribute("isHwp")!=null){
+	String fileName = request.getParameter("filename");
+	fileName = java.net.URLEncoder.encode(fileName, "UTF-8");
+	response.reset();
+	response.setHeader("Content-Disposition", "attachment;filename=\""+fileName + "\"");
+	response.setHeader("Content-Description", "JSP Generated Data");
+	response.setContentType("application/hwp; charset=UTF-8");
+}
+// 한글파일에는 css가 먹지 않음.... 안타깝게도... 테이블에 속성정의를 해주어야 함... 귀찮더라도 작업 바람
+// table에 border="1" width="530" 을 추가하면 됨
+%>
 <html lang="ko" xml:lang="ko">
 <head>
 	<title>여수광양항만공사 - GIS기반 자산관리 시스템</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+    <c:if test="${isHwp eq null }">
 	<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/reset.css'/>" />
 	<link rel="stylesheet" href="<c:url value='/css/demo/jquery-ui-1.10.4.custom.css' />" />
 	<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ygpa_report.css' />" />
@@ -40,6 +56,7 @@
 			});
 		});
 	</script>
+	</c:if>
 </head>
 <body>
   <c:set var="pagePerCount" value="28"/>
@@ -50,7 +67,9 @@
   <c:set var="printRecordCount" value="0" />
   
   <c:if test="${resultCode==0 }">
+    	<c:if test="${isHwp eq null }">
   <a id="printButton" href="#">인쇄</a>
+  </c:if>
 <div class="book">
     <div class="page">
         <div class="subpage ygpa_report" >
@@ -58,7 +77,7 @@
 		<span>○ 시설명 : <c:out value="${detailData['fcltsMngGroupNm']}"></c:out></span>
 	<c:if test="${fn:length(resultList) == 0}">
 		<div style="text-align:right">※　정상 : ○　　요주의 : △　　불량 : ×</div>
-		<table class="rpr_main_table">
+		<table class="rpr_main_table" border="1" width="530">
 	  		<thead>
 	  			<tr>
 	  				<th width="20%" style="background:#ffffff">시실명</th>
@@ -91,7 +110,7 @@
            				</c:if>
         				<!--  헤더 반복  -->
 						<div style="text-align:right">※　정상 : ○　　요주의 : △　　불량 : ×</div>
-       		        	<table class="rpr_main_table">
+       		        	<table class="rpr_main_table" border="1" width="530">
 			        		<thead>
 				       			<tr>
 					  				<th width="20%" style="background:#ffffff">시실명</th>

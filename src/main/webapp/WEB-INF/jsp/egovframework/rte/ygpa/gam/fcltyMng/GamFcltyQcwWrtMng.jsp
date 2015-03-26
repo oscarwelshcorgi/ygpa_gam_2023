@@ -264,6 +264,7 @@ GamFcltyQcwWrtMngModule.prototype.loadDetail = function() {
 				module.fillAtchFileList(result.atchFileList);
 				module.loadQcSubDataList();
 				module.setPrintUrl();
+			//	module.setHwpUrl();
 			}
 			else {
 				module._mainmode = 'listed';
@@ -455,31 +456,65 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 **/
 %>
 GamFcltyQcwWrtMngModule.prototype.setPrintUrl = function() {
-
 	if(this.$('#fcltsJobSe').val() == 'A') {
 		this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcPrintA.do');
+		this.$('#btnHwp').data('url','/fcltyMng/selectFcltyQcPrintA.do');
 	}
 	if(this.$('#fcltsJobSe').val() == 'C') {
 		this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcPrintC.do');
+		this.$('#btnHwp').data('url','/fcltyMng/selectFcltyQcPrintC.do');
 	}
 	if(this.$('#fcltsJobSe').val() == 'E') {
 		this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcPrintE.do');
+		this.$('#btnHwp').data('url','/fcltyMng/selectFcltyQcPrintE.do');
 	}
 	if(this.$('#fcltsJobSe').val() == 'I') {
 		this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcPrintI.do');
+		this.$('#btnHwp').data('url','/fcltyMng/selectFcltyQcPrintI.do');
 	}
 	if(this.$('#fcltsJobSe').val() == 'M') {
 		if(this.$('#mechFcltsSe').val() == "1"){
 			this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcPrintM1.do');
+			this.$('#btnHwp').data('url','/fcltyMng/selectFcltyQcPrintM1.do');
 		}else{
 			// 기계설비 점검표 인쇄
 			this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcPrintM2.do');
+			this.$('#btnHwp').data('url','/fcltyMng/selectFcltyQcPrintM2.do');
+			}
 		}
-	}
-
 };
 
+<%
+/**
+ * @FUNCTION NAME : setHwpUrl
+ * @DESCRIPTION   : 업무구분에 따른 HWP url 셋팅
+ * @PARAMETER     : NONE
+**/
+%>
 
+GamFcltyQcwWrtMngModule.prototype.setHwpUrl = function() {
+			
+	if(this.$('#fcltsJobSe').val() == 'A') {
+		this.$('#btnHwp').data('url','/fcltyMng/selectFcltyQcPrintHwpA.do');
+	}
+	if(this.$('#fcltsJobSe').val() == 'C') {
+		this.$('#btnHwp').data('url','/fcltyMng/selectFcltyQcPrintHwpC.do');
+	}
+	if(this.$('#fcltsJobSe').val() == 'E') {
+		this.$('#btnHwp').data('url','/fcltyMng/selectFcltyQcPrintHwpE.do');
+	}
+	if(this.$('#fcltsJobSe').val() == 'I') {
+		this.$('#btnHwp').data('url','/fcltyMng/selectFcltyQcPrintHwpI.do');
+	}
+	if(this.$('#fcltsJobSe').val() == 'M') {
+		if(this.$('#mechFcltsSe').val() == "1"){
+			this.$('#btnHwp').data('url','/fcltyMng/selectFcltyQcPrintHwpM1.do');
+		}else{
+			// 기계설비 점검표 인쇄
+			this.$('#btnHwp').data('url','/fcltyMng/selectFcltyQcPrintHwpM2.do');
+			}
+		}
+};
 
 <%
 /**
@@ -1311,6 +1346,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 											<option value="I">정보통신시설</option>
 											<option value="M">기계시설</option>
 		                                </select>
+		                                <input type="hidden" id="printSe"/>
 		                                <input type="hidden" id="qcMngSeq"/>
 									</td>
 									<th width="14%" height="17">점검　진단　예산</th>
@@ -1476,7 +1512,9 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 					<button id="btnSave" class="buttonSave">　　저　장　　</button>
 					<!-- <button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url="/fcltyMng/printQcMngDtls.do">　　인　쇄　　</button> -->
 					<button id="btnPrint" data-role="printPage" data-search-option="detailForm">　　인　쇄　　</button>
-					<button id="btnHwp" data-role="printDown" data-url="/fcltyMng/selectFcltyQcHwpM1.do" data-filename="검사조서.hwp" data-search-option="detailForm">H　W　P 　</button>
+					
+					<!-- <button id="btnHwp" data-role="printDown" data-url="/fcltyMng/selectFcltyQcHwp.do" data-filename="검사조서.hwp" data-search-option="detailForm">H　W　P 　</button> -->
+					<button id="btnHwp" data-role="printDown" data-filename="검사조서.hwp" data-search-option="detailForm">H　W　P 　</button>
 				</div>
 				</div>
 			</div>

@@ -464,10 +464,17 @@ public class GamFcltyQcwWrtMngController {
 		model.addAttribute("resultMsg", "");
     	model.addAttribute("resultList", qcResultItemList);
     	model.addAttribute("detailData", detailData);
-
-
+    	
+		//hwp선택시 파일명
+		if(qcPrintOpt.get("filename") != null){
+			model.addAttribute("isHwp", true);
+			model.addAttribute("filename", qcPrintOpt.get("filename"));
+    		}
+    	
     	return "/ygpa/gam/fcltyMng/GamFcltyQcPrintA";
 	}
+
+
 
     /**
 	 * 정보통신 시설물 점검표 인쇄
@@ -516,9 +523,14 @@ public class GamFcltyQcwWrtMngController {
 		model.addAttribute("resultList", qcResultItemList);
 		model.addAttribute("detailData", detailData);
 
-
+		//hwp선택시 파일명
+		if(qcPrintOpt.get("filename") != null){
+			model.addAttribute("isHwp", true);
+			model.addAttribute("filename", qcPrintOpt.get("filename"));
+    		}
 		return "/ygpa/gam/fcltyMng/GamFcltyQcPrintI";
 	}
+
 
 
     /**
@@ -567,13 +579,18 @@ public class GamFcltyQcwWrtMngController {
 		model.addAttribute("resultMsg", "");
 		model.addAttribute("resultList", qcResultItemList);
 		model.addAttribute("detailData", detailData);
-
-
+		
+		//hwp선택시 파일명
+		if(qcPrintOpt.get("filename") != null){
+			model.addAttribute("isHwp", true);
+			model.addAttribute("filename", qcPrintOpt.get("filename"));
+    		}
 		return "/ygpa/gam/fcltyMng/GamFcltyQcPrintE";
 	}
 
-
-    /**
+	  
+    
+	/**
 	 * 토목 시설물 점검표 인쇄
 	 * @param map
 	 * @return
@@ -623,10 +640,18 @@ public class GamFcltyQcwWrtMngController {
 		model.addAttribute("detailMngGroup", detailMngGroup);
 		model.addAttribute("resultList", qcResultItemList);
 		model.addAttribute("detailData", detailData);
-
+		
+		//hwp선택시 파일명
+		if(qcPrintOpt.get("filename") != null){
+			model.addAttribute("isHwp", true);
+			model.addAttribute("filename", qcPrintOpt.get("filename"));
+    		}
 
 		return "/ygpa/gam/fcltyMng/GamFcltyQcPrintC";
 	}
+	
+
+
 
     /**
 	 * 항만 하역장비 시설물 점검표 인쇄
@@ -666,54 +691,17 @@ public class GamFcltyQcwWrtMngController {
 		model.addAttribute("resultMsg", "");
 		model.addAttribute("resultList", qcResultItemList);
 		model.addAttribute("detailData", detailData);
-
-
+	
+		//hwp선택시 파일명
+		if(qcPrintOpt.get("filename") != null){
+			model.addAttribute("isHwp", true);
+			model.addAttribute("filename", qcPrintOpt.get("filename"));
+    		}
+		
 		return "/ygpa/gam/fcltyMng/GamFcltyQcPrintM1";
 	}
 
-    /**
-	 * 항만 하역장비 시설물 점검표 인쇄
-	 * @param map
-	 * @return
-	 * @throws Exception
-	 */
-	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/fcltyMng/selectFcltyQcHwpM1.do")
-	public String selectFcltyQcHwpM1(@RequestParam Map<String, Object> qcPrintOpt, ModelMap model) throws Exception {
-		String printPageName = null;
-
-		ObjectMapper mapper = new ObjectMapper();
-		GamFcltyQcwWrtMngVO searchVO = null;
-		List qcResultItemList = null;
-
-		searchVO = mapper.convertValue(qcPrintOpt, GamFcltyQcwWrtMngVO.class);
-
-		searchVO.setsFcltsJobSe(searchVO.getFcltsJobSe());
-		searchVO.setsFcltsMngGroupNo(searchVO.getFcltsMngGroupNo());
-		searchVO.setsQcMngSeq(searchVO.getQcMngSeq());
-
-
-		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-
-		if(!isAuthenticated) {
-			model.addAttribute("resultCode", 1);
-			model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-	    	return printPageName;
-		}
-
-		EgovMap detailData = gamFcltyQcwWrtMngService.selectQcMngDtlsDetail(searchVO);
-
-		qcResultItemList = gamFcltyQcwWrtMngService.selectMechQcMngResultItemList(searchVO);
-
-		model.addAttribute("resultCode", 0);
-		model.addAttribute("resultMsg", "");
-		model.addAttribute("resultList", qcResultItemList);
-		model.addAttribute("detailData", detailData);
-		model.addAttribute("isHwp", true);
-		model.addAttribute("filename", qcPrintOpt.get("filename"));
-
-		return "/ygpa/gam/fcltyMng/GamFcltyQcPrintM1";
-	}
+	
 
     /**
 	 * 기계설비 점검표 인쇄
@@ -752,10 +740,16 @@ public class GamFcltyQcwWrtMngController {
     	model.addAttribute("resultList", mechQcMngResultItemList);
     	model.addAttribute("detailData", detailData);
 
-
+		//hwp선택시 파일명
+		if(qcPrintOpt.get("filename") != null){
+			model.addAttribute("isHwp", true);
+			model.addAttribute("filename", qcPrintOpt.get("filename"));
+    		}
+		
     	return "/ygpa/gam/fcltyMng/GamFcltyQcPrintM2";
 	}
 
+ 
     // 파일 처리
     @RequestMapping(value="/fcltyMng/uploadQcWrtAttachFile.do", method=RequestMethod.POST)
     public @ResponseBody Map uploadFile(HttpServletRequest request, Model model) throws Exception {

@@ -1,3 +1,4 @@
+<%@ page import="java.net.URLDecoder"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -21,11 +22,26 @@
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
+<%
+// 한글 파일 출력일 경우 컨트롤러에 isHwp 에 값을 담아서 리턴한다. fileName 에는 파일명을 넣는다.
+if(request.getAttribute("isHwp")!=null){
+	String fileName = request.getParameter("filename");
+	fileName = java.net.URLEncoder.encode(fileName, "UTF-8");
+	response.reset();
+	response.setHeader("Content-Disposition", "attachment;filename=\""+fileName + "\"");
+	response.setHeader("Content-Description", "JSP Generated Data");
+	response.setContentType("application/hwp; charset=UTF-8");
+}
+// 한글파일에는 css가 먹지 않음.... 안타깝게도... 테이블에 속성정의를 해주어야 함... 귀찮더라도 작업 바람
+// table에 border="1" width="530" 을 추가하면 됨
+%>
+
 <html lang="ko" xml:lang="ko">
   <head>
     <title>여수광양항만공사 - GIS기반 자산관리 시스템</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+    <c:if test="${isHwp eq null }">
 	<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/reset.css' />" />
 	<link rel="stylesheet" href="<c:url value='/css/demo/jquery-ui-1.10.4.custom.css' />" />
 	<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ygpa_report.css' />" />
@@ -73,12 +89,15 @@
 	.stamp {
 		position: absolute;
 		left: 16.5cm;
-		top: 23cm;
-		text-indent: 0.5cm;
+		top: 17.7cm;
+		
 	}
 	
 	img.stamp {
-		top: 22.5cm;
+		top: 17.5cm;
+	}
+	table.pageFont{
+	font-family:한컴바탕;
 	}
 </style>
 
@@ -103,31 +122,35 @@
 		$('#today').text(currDate);
 	});
 	</script>
+	</c:if>
   </head>
   <body>
   <c:set var="pagePerCount" value="9"/>
 
   <c:if test="${resultCode==0 }">
+  <c:if test="${isHwp eq null }">
  <%-- <c:set var="imgFiles" value="${fn:split('FILE_000000000006055.jpg,FILE_000000000006063.png,FILE_000000000006064.jpg,FILE_000000000006088.jpg,FILE_000000000006063.png,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006063.png,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg', ',')}" scope="page" /> --%>
- <c:forEach var="imgList" items="${imgList}" begin="0" end="3">
-<c:set var="imgFiles" value="${imgList.filenmPhysicl }" scope="page"/>
-</c:forEach> 
+<%--  <c:forEach var="imgList" items="${imgList}">
+<c:out value="${imgList.filenmPhysicl}"/> 
+
+</c:forEach> --%>
 <a id="printButton" href="#">인쇄</a>
+</c:if>
 <div class="book">
     <div class="page">
         <div class="subpage ygpa_report" >
-    		<table style="width:100%;border:1px gray solid;">
+    		<table class="pageFont" style="width:100%;border:1px gray solid;" border="1" width="530">
         		<thead>
         			<tr height="60px">
         				<td></td>
         			</tr>
         			<tr height="100px">
-		  				<td style="text-align:center;vertical-align:bottom;font-size:30px;font-weight:bold;text-decoration:underline;">하 자 검 사 조 서</td>
+		  				<td style="text-align:center;vertical-align:top;font-size:30px;font-weight:bold;text-decoration:underline;">하 자 검 사 조 서</td>
 		 			</tr>
         		</thead>
         		<tbody>
         			<tr height="80px">
-       				<td style="text-align:left;vertical-align:middle;font-size:15px;padding-right: 20px;">&nbsp;공 사 명 : <c:out value="${result.flawRprNm }" /></td>
+       				<td style="text-align:left;vertical-align:middle;font-weight:bold;font-size:15px;padding-left:15px;">&nbsp;공 사 명 : <c:out value="${result.flawRprNm }" /></td>
         				
         			</tr>
         			<tr height="20px">
@@ -152,11 +175,11 @@
         					위 공사 하자검사의 명을 받아 <c:out value="${result.flawExamDt }" /> 검사한 결과 <span style="text-decoration:underline;"><c:out value="${result.flawExamResult }" /></span>을 확인함
         				</td>
         			</tr>
-        			<tr height="140px">
-        				<td style="text-align:right;vertical-align:middle;font-size:15px;padding:60px;"><span id="today"></span></td>
+        			<tr height="60px">
+        				<td style="text-align:right;vertical-align:middle;font-size:15px;padding-right:100px;"><span id="today"></span></td>
         			</tr>
         			<tr height="60px">
-        				<td style="text-align:right;vertical-align:middle;font-size:15px;padding:100px;">
+        				<td style="text-align:right;vertical-align:middle;font-size:15px;padding-right:100px;">
 			        		하자검사자 : <c:out value="${result.flawExamUsrNm }" />
 			        		<div  class="stamp">(인)</div>
 			        		<img class="stamp" style="filter:Alpha(Opacity=50);Opacity:0.5;" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/>
@@ -178,7 +201,7 @@
         </div>
         <div class="page">	<!--  class="page"> 페이지 누락 됨 -->
                 <div class="subpage ygpa_report" >
-           <table style="height:20%; width:100%;">
+           <table style="height:20%; width:100%;" border="1" width="530">
            <thead>
         			<tr height="15px">
         				<td></td>
@@ -194,7 +217,7 @@
         			<tr height="20px">
         				<td></td>
         	 </table>
-           <table style="height:25%; width:100%; border:1px gray solid;">
+           <table style="height:25%; width:100%; border:1px gray solid;" border="1" width="530">
          	 <tr height="10px">
         				<td style="border:1px gray solid;text-align:center;vertical-align:middle;background:linear-gradient(gray,white, gray);">하자내용</td><td style="border:1px gray solid;text-align:center;vertical-align:middle;background:linear-gradient(gray,white, gray);">비 고</td>
 		</tr>
@@ -202,12 +225,12 @@
         				<td style="border:1px gray solid;"></td><td style="border:1px gray solid;"></td>
 		</tr>
            </table>
-           <table style="height:5%; width:100%;"><tr height="10px"><td style="font-size:15px;text-align:left;vertical-align:bottom;">○ 사진대지</td></tr></table>
-    		<table class="pageBrTbl">
+           <table style="height:5%; width:100%;" border="1" width="530"><tr height="10px"><td style="font-size:15px;text-align:left;vertical-align:bottom;">○ 사진대지</td></tr></table>
+    		<table class="pageBrTbl" border="1" width="530">
 				<c:forEach var="imgFile" items="${imgFiles }" varStatus="status" end="3" step="2">
     			<tr>
     				<td>
-    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${imgFile }' />"/>
+    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/>
 					</td>
 					<td>
     				<c:if test="${fn:length(imgFiles) gt status.index+1 }">
@@ -223,7 +246,7 @@
     	</div>
         <div class="page">	<!--  class="page"> 페이지 누락 됨 -->
             <div class="subpage ygpa_report" >
-	    		<table class="pageBrTbl">
+	    		<table class="pageBrTbl" border="1" width="530">
 	    		<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. 출력한 갯수가 페이지를 벗어나면 위에 페이지 끊기를 추가 한다. -->
 				<c:forEach var="imgFile" items="${imgFiles }" varStatus="status" begin="4" step="2">
     			<tr>
@@ -243,7 +266,7 @@
     	</div>
         <div class="page">	<!--  class="page"> 페이지 누락 됨 -->
             <div class="subpage ygpa_report" >
-	    		<table class="pageBrTbl">
+	    		<table class="pageBrTbl" border="1" width="530">
 	    		<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. 출력한 갯수가 페이지를 벗어나면 위에 페이지 끊기를 추가 한다. -->
     			</c:if>
     			</c:forEach>
@@ -259,4 +282,3 @@
     	<p>에러 메시지 : <c:out value="${ resultMessage}"/></p>
     </c:if>
   </body>
-</html>
