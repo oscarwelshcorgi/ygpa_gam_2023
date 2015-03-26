@@ -2166,7 +2166,7 @@ var fcltyPowerRuleSet = [
 
 //토목 시설
 var fcltyCivilRuleSet = [
-	{ title: "미지정",
+	{ 
 	  filter: new OpenLayers.Filter.Comparison({
 	      type: OpenLayers.Filter.Comparison.EQUAL_TO,
 	      property: "FCLTY_SE",
