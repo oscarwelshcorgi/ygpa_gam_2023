@@ -673,7 +673,7 @@ public class GamFcltyRepairMngController {
 
 	// 파일 처리
     @RequestMapping(value="/fcltyMng/uploadRepairAttachFile.do", method=RequestMethod.POST)
-    public @ResponseBody Map uploadFile(HttpServletRequest request, Model model) throws Exception {
+    public @ResponseBody String uploadFile(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
 		Map map = new HashMap();
 		String uploadPath = EgovProperties.getProperty("repairAttach.fileStorePath");
 		try {
@@ -687,7 +687,12 @@ public class GamFcltyRepairMngController {
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
 		}
 
-		return map;
+		ObjectMapper mapper = new ObjectMapper();
+		String json = mapper.writeValueAsString(map);
+		response.setContentType("text/html;charset=euc-kr");
+
+		return json;	// ie 문제 때문에 스트링으로 출력한다.
+
 	}
 
     @RequestMapping("/fcltyMng/getRepairAttachFile.do")
