@@ -1304,9 +1304,6 @@ GamArchFcltySpecMngModule.prototype.saveData = function() {
 	var liftCntEmgcy = Number(this.$('#liftCntEmgcy').val().replace(/,/gi, ""));
 	var liftCntCargo = Number(this.$('#liftCntCargo').val().replace(/,/gi, ""));
 	var elctyLeadInCapa = Number(this.$('#elctyLeadInCapa').val().replace(/,/gi, ""));
-	var exhaustDuctEnnc = this.$('#exhaustDuctEnnc').val();
-	var htngEnnc = this.$('#htngEnnc').val();
-	var clngEnnc = this.$('#clngEnnc').val();
 	var flawEndDt = this.$('#flawEndDt').val();
 	var planBeginDt = this.$('#planBeginDt').val();
 	var planEndDt = this.$('#planEndDt').val();
@@ -1453,21 +1450,6 @@ GamArchFcltySpecMngModule.prototype.saveData = function() {
 	if (this.isValidAr(elctyLeadInCapa) == false) {
 		alert('전기 인입 용량이 부정확합니다.');
 		this.$("#elctyLeadInCapa").focus();
-		return;
-	}
-	if (exhaustDuctEnnc != "Y" && exhaustDuctEnnc != "N") {
-		alert('배기 닥트 유무가 부정확합니다.');
-		this.$("#exhaustDuctEnnc").focus();
-		return;
-	}
-	if (htngEnnc != "Y" && htngEnnc != "N") {
-		alert('난방 유무가 부정확합니다.');
-		this.$("#htngEnnc").focus();
-		return;
-	}
-	if (clngEnnc != "Y" && clngEnnc != "N") {
-		alert('냉방 유무가 부정확합니다.');
-		this.$("#clngEnnc").focus();
 		return;
 	}
 	if (this.isValidDate(flawEndDt, false) == false) {
