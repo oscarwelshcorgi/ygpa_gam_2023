@@ -140,11 +140,25 @@ GamElectyFcltySpecInqireModule.prototype.loadComplete = function(params) {
 				if (ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif") {
 					this.photoUrl = module.getPfPhotoUrl(atchFileNmPhysicl) + "^" + this.atchFileNmLogic + "^" + "100";
 				} else if (ext == "hwp") {
-					this.photoUrl = "js/codebase/imgs/hwp.png";
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/hwp.png";
 				} else if (ext == "dwg") {
-					this.photoUrl = "js/codebase/imgs/dwg.png";
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/dwg.png";
+				} else if (ext == "xls") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/xls.png";
+				} else if (ext == "xlsx") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/xlsx.png";
+				} else if (ext == "pdf") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/pdf.jpg";
+				} else if (ext == "dow") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/dow.png";
+				} else if (ext == "ppt") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/ppt.png";
+				} else if (ext == "txt") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/txt.png";
+				} else if (ext == "zip") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/zip.jpg";
 				} else {
-					this.photoUrl = "js/codebase/imgs/unknown.png";
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/unknown.png";
 				}
 			});
 			return data;
