@@ -47,7 +47,7 @@ GamMapPopupModule.prototype.loadComplete = function() {
 GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         case 'fcltyCdMngt':
-        	EMD.util.create_window("토목시설코드 관리", "/fclty/gamCivilFcltySpecMng.do", null, {
+        	EMD.util.create_window("토목시설 제원 관리", "/fclty/gamCvlEngFcltySpecMng.do", null, {
         		action: "prtFcltyInqire"
        			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
        			,gisAssetsCd: this.$('#gisAssetsCd').val()
@@ -58,6 +58,18 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
        			,fcltsMngNo: this.$('#fcltsMngNo').val()
 			});
             break;
+        case 'fcltyCdInqire':
+        	EMD.util.create_window("토목시설 제원 조회", "/fclty/gamCvlEngFcltySpecInqrie.do", null, {
+        		action: "prtFcltyInqire"
+       			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
+       			,gisAssetsCd: this.$('#gisAssetsCd').val()
+       			,gisAssetsSubCd: this.$('#gisAssetsSubCd').val()
+       			,gisPrtFcltyCd: this.$('#gisPrtFcltyCd').val()
+       			,gisPrtFcltySeq: this.$('#gisPrtFcltySeq').val()
+       			,fcltySe: this.$('#fcltySe').val()
+       			,fcltsMngNo: this.$('#fcltsMngNo').val()
+			});
+        	break;
         case 'fcltyFlawRpr':
         	EMD.util.create_window("시설물 하자보수 관리", "/fcltyMng/gamFcltyRepairMng.do", null, {
         		action: "manage"
@@ -80,18 +92,6 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
                		,fcltsMngGroupNo: this.$('#fcltsMngGroupNo').val()
                	,fcltsMngGroupNm: this.$('#fcltsMngGroupNm').val()
            			,fcltsMngNo: this.$('#fcltsMngNo').val()
-			});
-        	break;
-        case 'fcltyCdInqire':
-        	EMD.util.create_window("토목시설코드 조회", "/fclty/gamCivilFcltySpecInqire.do", null, {
-        		action: "prtFcltyInqire"
-       			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
-       			,gisAssetsCd: this.$('#gisAssetsCd').val()
-       			,gisAssetsSubCd: this.$('#gisAssetsSubCd').val()
-       			,gisPrtFcltyCd: this.$('#gisPrtFcltyCd').val()
-       			,gisPrtFcltySeq: this.$('#gisPrtFcltySeq').val()
-       			,fcltySe: this.$('#fcltySe').val()
-       			,fcltsMngNo: this.$('#fcltsMngNo').val()
 			});
         	break;
         case 'assignFeature':

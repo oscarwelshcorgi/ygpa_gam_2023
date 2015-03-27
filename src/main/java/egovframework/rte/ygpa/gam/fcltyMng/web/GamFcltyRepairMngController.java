@@ -467,12 +467,12 @@ public class GamFcltyRepairMngController {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/fcltyMng/selectFcltyRepairCheckReportPrint.do")
 	public String selectFcltyRepairCheckReportPrint(@RequestParam Map<String, Object> fcltyRepairCheckReportOpt ,GamFcltyRepairMngVO searchVO, ModelMap model) throws Exception {
-	
+
 		//LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map map = new HashMap();
     	EgovMap result = null;
     	EgovMap charger= null;
-    	
+
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -480,38 +480,38 @@ public class GamFcltyRepairMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return "/ygpa/gam/fcltyMng/GamFcltyRepairCheckReportPrint";
     	}
-    	
+
     	//GamFcltyRepairMngVO.setRegUsr((String)user.getId());
-    	
-    	
-    /*	
+
+
+    /*
     	GamFcltyRepairMngVO.setFlawExamUsr(URLDecoder.decode(request.getParameter("flawExamUsr"),"UTF-8"));
-    	System.out.println("**************"+GamFcltyRepairMngVO.getFlawExamUsr());    	
+    	System.out.println("**************"+GamFcltyRepairMngVO.getFlawExamUsr());
     	//하자검사조서 직인
     	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(GamFcltyRepairMngVO);
 		*/
-		
-    	
+
+
     	ObjectMapper mapper = new ObjectMapper();
 
 		//GamFcltyRepairMngVO searchVO;
-		
-		
+
+
     	//searchVO = mapper.convertValue(fcltyRepairCheckReportOpt, GamFcltyRepairMngVO.class);
-    	
+
     	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(searchVO);
     	//하자검사조서
     	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
-    	
+
     	List imgList =  gamFcltyRepairMngService.selectFcltyRepairCheckReportImgList(searchVO);
-    	
-   
+
+
         model.addAttribute("result", result);
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
 		model.addAttribute("charger",charger);
 		model.addAttribute("imgList",imgList);
-		
+
 		//hwp선택시 파일명
 		if(fcltyRepairCheckReportOpt.get("filename") != null){
 			model.addAttribute("isHwp", true);
@@ -607,7 +607,7 @@ public class GamFcltyRepairMngController {
         model.addAttribute("resultList", fcltyRepairMngList);
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
-		
+
 		//hwp선택시 파일명
 		if(fcltyRepairCheckResultOpt.get("filename") != null){
 			model.addAttribute("isHwp", true);
@@ -662,7 +662,7 @@ public class GamFcltyRepairMngController {
         model.addAttribute("totCnt", totCnt);
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
-		
+
 		//hwp선택시 파일명
 		if(fcltyRepairCheckMngOpt.get("filename") != null){
 			model.addAttribute("isHwp", true);
@@ -689,7 +689,7 @@ public class GamFcltyRepairMngController {
 
 		ObjectMapper mapper = new ObjectMapper();
 		String json = mapper.writeValueAsString(map);
-		response.setContentType("text/html;charset=euc-kr");
+		response.setContentType("text/html; charset=utf-8");
 
 		return json;	// ie 문제 때문에 스트링으로 출력한다.
 

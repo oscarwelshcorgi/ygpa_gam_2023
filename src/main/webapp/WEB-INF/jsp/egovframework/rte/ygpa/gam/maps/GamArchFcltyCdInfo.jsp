@@ -47,7 +47,7 @@ GamMapPopupModule.prototype.loadComplete = function() {
 GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         case 'fcltyCdMngt':
-        	EMD.util.create_window("건축시설코드 관리", "/fclty/gamConstFcltySpecMng.do", null, {
+        	EMD.util.create_window("건축시설 제원 관리", "/fclty/gamArchFcltySpecMng.do", null, {
         		action: "prtFcltyInqire"
        			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
        			,gisAssetsCd: this.$('#gisAssetsCd').val()
@@ -59,7 +59,7 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
 			});
             break;
         case 'fcltyCdInqire':
-        	EMD.util.create_window("건축시설코드 조회", "/fclty/gamConstFcltySpecInqire.do", null, {
+        	EMD.util.create_window("건축시설 제원 조회", "/fclty/gamArchFcltySpecInqire.do", null, {
         		action: "prtFcltyInqire"
        			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
        			,gisAssetsCd: this.$('#gisAssetsCd').val()

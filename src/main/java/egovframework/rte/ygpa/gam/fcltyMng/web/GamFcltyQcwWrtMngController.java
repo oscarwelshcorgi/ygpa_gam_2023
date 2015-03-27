@@ -464,13 +464,13 @@ public class GamFcltyQcwWrtMngController {
 		model.addAttribute("resultMsg", "");
     	model.addAttribute("resultList", qcResultItemList);
     	model.addAttribute("detailData", detailData);
-    	
+
 		//hwp선택시 파일명
 		if(qcPrintOpt.get("filename") != null){
 			model.addAttribute("isHwp", true);
 			model.addAttribute("filename", qcPrintOpt.get("filename"));
     		}
-    	
+
     	return "/ygpa/gam/fcltyMng/GamFcltyQcPrintA";
 	}
 
@@ -579,7 +579,7 @@ public class GamFcltyQcwWrtMngController {
 		model.addAttribute("resultMsg", "");
 		model.addAttribute("resultList", qcResultItemList);
 		model.addAttribute("detailData", detailData);
-		
+
 		//hwp선택시 파일명
 		if(qcPrintOpt.get("filename") != null){
 			model.addAttribute("isHwp", true);
@@ -588,8 +588,8 @@ public class GamFcltyQcwWrtMngController {
 		return "/ygpa/gam/fcltyMng/GamFcltyQcPrintE";
 	}
 
-	  
-    
+
+
 	/**
 	 * 토목 시설물 점검표 인쇄
 	 * @param map
@@ -640,7 +640,7 @@ public class GamFcltyQcwWrtMngController {
 		model.addAttribute("detailMngGroup", detailMngGroup);
 		model.addAttribute("resultList", qcResultItemList);
 		model.addAttribute("detailData", detailData);
-		
+
 		//hwp선택시 파일명
 		if(qcPrintOpt.get("filename") != null){
 			model.addAttribute("isHwp", true);
@@ -649,7 +649,7 @@ public class GamFcltyQcwWrtMngController {
 
 		return "/ygpa/gam/fcltyMng/GamFcltyQcPrintC";
 	}
-	
+
 
 
 
@@ -691,17 +691,17 @@ public class GamFcltyQcwWrtMngController {
 		model.addAttribute("resultMsg", "");
 		model.addAttribute("resultList", qcResultItemList);
 		model.addAttribute("detailData", detailData);
-	
+
 		//hwp선택시 파일명
 		if(qcPrintOpt.get("filename") != null){
 			model.addAttribute("isHwp", true);
 			model.addAttribute("filename", qcPrintOpt.get("filename"));
     		}
-		
+
 		return "/ygpa/gam/fcltyMng/GamFcltyQcPrintM1";
 	}
 
-	
+
 
     /**
 	 * 기계설비 점검표 인쇄
@@ -745,11 +745,11 @@ public class GamFcltyQcwWrtMngController {
 			model.addAttribute("isHwp", true);
 			model.addAttribute("filename", qcPrintOpt.get("filename"));
     		}
-		
+
     	return "/ygpa/gam/fcltyMng/GamFcltyQcPrintM2";
 	}
 
- 
+
     // 파일 처리
     @RequestMapping(value="/fcltyMng/uploadQcWrtAttachFile.do", method=RequestMethod.POST)
     public @ResponseBody String uploadFile(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
@@ -768,7 +768,7 @@ public class GamFcltyQcwWrtMngController {
 
 		ObjectMapper mapper = new ObjectMapper();
 		String json = mapper.writeValueAsString(map);
-		response.setContentType("text/html;charset=euc-kr");
+		response.setContentType("text/html; charset=utf-8");
 
 		return json;	// ie 문제 때문에 스트링으로 출력한다.
 	}

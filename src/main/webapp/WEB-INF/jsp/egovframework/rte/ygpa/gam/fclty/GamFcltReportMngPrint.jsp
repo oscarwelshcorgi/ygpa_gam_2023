@@ -26,15 +26,15 @@
     <title>여수광양항만공사 - GIS기반 자산관리 시스템</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-	<link rel="stylesheet" href="/css/ygpa/gam/reset.css" />
-	<link rel="stylesheet" href="/css/demo/jquery-ui-1.10.4.custom.css" />
-	<link rel="stylesheet" href="/css/ygpa/gam/ygpa_report_l.css" />
+	<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/reset.css' />" />
+	<link rel="stylesheet" href="<c:url value='/css/demo/jquery-ui-1.10.4.custom.css' />" />
+	<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ygpa_report_l.css' />" />
 
-	<script src="/js/jquery-1.10.2.min.js"></script>
-	<script src="/js/jquery-migrate-1.2.1.min.js"></script>
-	<script src="/js/jquery-ui.min.js"></script>
+	<script src="<c:url value='/js/jquery-1.10.2.min.js' />"></script>
+	<script src="<c:url value='/js/jquery-migrate-1.2.1.min.js' />"></script>
+	<script src="<c:url value='/js/jquery-ui.min.js' />"></script>
 	<script>
-	
+
 	$( window ).load(function() {
 		$('#printButton').button().click(function(){
 	        			window.print();
@@ -150,9 +150,9 @@
         				<td colspan="3" style="text-align:left;font-size:13px;border-right:0;"> ▷ 비고</td>
         				<td colspan="8" style="text-align:left;font-size:13px;border-left:0;word-break:break-all;"> <c:out value="${result.basicRm }" /></td>
         			</tr>
-        		</tbody>  
+        		</tbody>
         	</table>
-    		
+
         </div>
     </div>
     <div class="page">
@@ -286,7 +286,7 @@
         				<td colspan="2" style="text-align:left;font-size:13px;border-right:0;"> ▷ 기타 상세제원</td>
         				<td colspan="8" style="text-align:left;font-size:13px;border-left:0;"><c:out value="${result.etcDtlsSpec }" /></td>
         			</tr>
-        		</tbody>  
+        		</tbody>
         	</table>
 	</c:when>
 	<c:when test="${fcltsSe == 'B' }">
@@ -388,7 +388,7 @@
         				<td colspan="2" style="text-align:left;font-size:13px;border-right:0;"> ▷ 기타 상세제원</td>
         				<td colspan="8" style="text-align:left;font-size:13px;border-left:0;"><c:out value="${result.etcDtlsSpec }" /></td>
         			</tr>
-        		</tbody>  
+        		</tbody>
         	</table>
 	</c:when>
 	<c:otherwise>
@@ -455,13 +455,13 @@
         				<td colspan="2" style="text-align:left;font-size:13px;border-right:0;"> ▷ 기타 상세제원</td>
         				<td colspan="5" style="text-align:left;font-size:13px;border-left:0;word-break:break-all;"> <c:out value="${result.etcDtlsSpec }" /></td>
         			</tr>
-        		</tbody>  
+        		</tbody>
         	</table>
 	</c:otherwise>
 </c:choose>
         </div>
     </div>
-<!-- 
+<!--
     <div class="page">
 <c:set var="pagePerCount" value="14"/>
 <c:if test="${fn:length(resultList) == 0}">
@@ -483,7 +483,7 @@
 </c:if>
 <c:forEach var="result" items="${resultList }" varStatus="resultStatus">
 	<c:if test="${resultStatus.index%pagePerCount==0 }"> <% /*  페이지 당 출력 갯수 */ %>
-	
+
 		<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
 				</tbody>
 			</table>
@@ -518,11 +518,11 @@
         				<td style="text-align:center;font-size:13px;"><c:out value="${result.rm }" /></td>
         			</tr>
 </c:forEach>
-        		</tbody>  
+        		</tbody>
         	</table>
         </div>
     </div>
- -->    
+ -->
     <div class="page">
 <c:set var="pagePerCount1" value="4"/>
 <c:if test="${fn:length(resultHistList) == 0}">
@@ -551,7 +551,7 @@
 </c:if>
 <c:forEach var="result" items="${resultHistList }" varStatus="resultStatus">
 	<c:if test="${resultStatus.index%pagePerCount1==0 }"> <% /*  페이지 당 출력 갯수 */ %>
-	
+
 		<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
 				</tbody>
 			</table>
@@ -600,11 +600,11 @@
         				<td style="width:120px;text-align:center;font-size:13px;"><c:out value="${result.wrtUsr }" /></td>
         			</tr>
 </c:forEach>
-        		</tbody>  
+        		</tbody>
         	</table>
         </div>
     </div>
-<!--     
+<!--
     <div class="page">
 <c:set var="pagePerCount2" value="10"/>
 <c:if test="${fn:length(mntnResultList) == 0}">
@@ -626,7 +626,7 @@
 </c:if>
 <c:forEach var="result" items="${mntnResultList }" varStatus="resultStatus">
 	<c:if test="${resultStatus.index%pagePerCount2==0 }"> <% /*  페이지 당 출력 갯수 */ %>
-	
+
 		<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
 				</tbody>
 			</table>
@@ -661,12 +661,12 @@
         				<td style="text-align:center;font-size:13px;"><fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.mntnRprBdgt }" /></td>
         			</tr>
 </c:forEach>
-        		</tbody>  
+        		</tbody>
         	</table>
         </div>
     </div>
- -->    
-    
+ -->
+
     <div class="page">
 <c:set var="pagePerCount3" value="5"/>
 <c:if test="${fn:length(mntnResultHistList) == 0}">
@@ -696,7 +696,7 @@
 </c:if>
 <c:forEach var="result" items="${mntnResultHistList }" varStatus="resultStatus">
 	<c:if test="${resultStatus.index%pagePerCount3==0 }"> <% /*  페이지 당 출력 갯수 */ %>
-	
+
 		<c:if test="${resultStatus.index!=0 }">	<% /*  페이지 구분*/ %>
 				</tbody>
 			</table>
@@ -747,11 +747,11 @@
         				<td style="text-align:center;font-size:13px;"><c:out value="${result.wrtUsr }" /></td>
         			</tr>
 </c:forEach>
-        		</tbody>  
+        		</tbody>
         	</table>
         </div>
     </div>
-    
+
 </div>
   </c:if>
     <c:if test="${resultCode!=0 }">

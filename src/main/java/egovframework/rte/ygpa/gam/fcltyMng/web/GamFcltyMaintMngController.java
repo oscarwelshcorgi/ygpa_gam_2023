@@ -441,7 +441,7 @@ public class GamFcltyMaintMngController {
 
 		ObjectMapper mapper = new ObjectMapper();
 		String json = mapper.writeValueAsString(map);
-		response.setContentType("text/html;charset=euc-kr");
+		response.setContentType("text/html; charset=utf-8");
 
 		return json;	// ie 문제 때문에 스트링으로 출력한다.
 	}

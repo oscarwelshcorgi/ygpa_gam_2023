@@ -47,7 +47,7 @@ GamMapPopupModule.prototype.loadComplete = function() {
 GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         case 'fcltyCdMngt':
-        	EMD.util.create_window("전기시설코드 관리", "/fclty/gamElctyFcltySpecMng.do", null, {
+        	EMD.util.create_window("전기시설 제원 관리", "/fclty/gamElectyFcltySpecMng.do", null, {
         		action: "prtFcltyInqire"
        			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
        			,gisAssetsCd: this.$('#gisAssetsCd').val()
@@ -59,7 +59,7 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
 			});
             break;
         case 'fcltyCdInqire':
-        	EMD.util.create_window("전기시설코드 조회", "/fclty/gamElctyFcltySpecInqire.do", null, {
+        	EMD.util.create_window("전기시설 제원 조회", "/fclty/gamElectyFcltySpecInqire.do", null, {
         		action: "prtFcltyInqire"
        			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
        			,gisAssetsCd: this.$('#gisAssetsCd').val()

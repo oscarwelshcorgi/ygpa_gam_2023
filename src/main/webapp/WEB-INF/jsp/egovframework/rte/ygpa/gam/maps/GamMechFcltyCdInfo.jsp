@@ -47,7 +47,7 @@ GamMapPopupModule.prototype.loadComplete = function() {
 GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         case 'fcltyCdMngt':
-        	EMD.util.create_window("기계시설코드 관리", "/fclty/gamMechFcltySpecMng.do", null, {
+        	EMD.util.create_window("기계시설 제원 관리", "/fclty/gamMachFcltySpecMng.do", null, {
         		action: "prtFcltyInqire"
        			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
        			,gisAssetsCd: this.$('#gisAssetsCd').val()
@@ -59,7 +59,7 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
 			});
             break;
         case 'fcltyCdInqire':
-        	EMD.util.create_window("기계시설코드 조회", "/fclty/gamMechFcltySpecInqire.do", null, {
+        	EMD.util.create_window("기계시설 제원 조회", "/fclty/gamMachFcltySpecInqire.do", null, {
         		action: "prtFcltyInqire"
        			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
        			,gisAssetsCd: this.$('#gisAssetsCd').val()
