@@ -3,6 +3,7 @@
  */
 package egovframework.rte.ygpa.gam.fcltyMng.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -99,7 +100,7 @@ public interface GamFcltyRepairMngService {
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes" })
-	void updateFcltyRepairMng(Map updateRprData, Map updateObj, List updateFileList) throws Exception;
+	void updateFcltyRepairMng(Map updateRprData, Map updateObj, List updateFileList,List deleteFileList) throws Exception;
 	
 	
 	/**
@@ -158,6 +159,9 @@ public interface GamFcltyRepairMngService {
 	 * @param gamFcltyRepairMngVO
 	 */
 	EgovMap selectFcltyRepairCheckReportCharger(GamFcltyRepairMngVO gamFcltyRepairMngVO) throws Exception;
+
+
+
 
 
 	

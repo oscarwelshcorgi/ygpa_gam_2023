@@ -315,6 +315,7 @@ public class GamFcltyRepairMngController {
     	List<HashMap<String,String>> updateObjList=null;
     	List<HashMap<String,String>> deleteObjList=null;
     	List<HashMap<String,String>> insertFileList=null;
+    	List<HashMap<String,String>> deleteFileList=null;
     	List<Map<String,String>> userList=null;
     	Map insertRprData = new HashMap();
     	Map<String, String> userMap = new HashMap<String, String>();
@@ -338,6 +339,9 @@ public class GamFcltyRepairMngController {
 
     	insertFileList = mapper.readValue((String)fcltyRepairItem.get("insertRepairFileList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
+    	
+    	deleteFileList = mapper.readValue((String)fcltyRepairItem.get("deleteRepairFileList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
 
     	userList = new ArrayList();
 		userMap.put("id",  user.getId());
@@ -356,7 +360,7 @@ public class GamFcltyRepairMngController {
     	try {
 
     		// 하자보수내역 입력
-    		gamFcltyRepairMngService.updateFcltyRepairMng(insertRprData, mergeMap, insertFileList);
+    		gamFcltyRepairMngService.updateFcltyRepairMng(insertRprData, mergeMap, insertFileList, deleteFileList);
 
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));

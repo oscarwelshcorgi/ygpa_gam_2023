@@ -139,7 +139,7 @@ if(request.getAttribute("isHwp")!=null){
 <div class="book">
     <div class="page">
         <div class="subpage ygpa_report" >
-    		<table class="pageFont" style="width:100%;border:1px gray solid;" border="1" width="530">
+    		<table class="pageFont" style="width:100%;border:1px gray solid;"  width="530">
         		<thead>
         			<tr height="60px">
         				<td></td>
@@ -201,7 +201,7 @@ if(request.getAttribute("isHwp")!=null){
         </div>
         <div class="page">	<!--  class="page"> 페이지 누락 됨 -->
                 <div class="subpage ygpa_report" >
-           <table style="height:20%; width:100%;" border="1" width="530">
+           <table style="height:20%; width:100%;"  width="530">
            <thead>
         			<tr height="15px">
         				<td></td>
@@ -217,7 +217,7 @@ if(request.getAttribute("isHwp")!=null){
         			<tr height="20px">
         				<td></td>
         	 </table>
-           <table style="height:25%; width:100%; border:1px gray solid;" border="1" width="530">
+           <table style="height:25%; width:100%; border:1px gray solid;"  width="530">
          	 <tr height="10px">
         				<td style="border:1px gray solid;text-align:center;vertical-align:middle;background:linear-gradient(gray,white, gray);">하자내용</td><td style="border:1px gray solid;text-align:center;vertical-align:middle;background:linear-gradient(gray,white, gray);">비 고</td>
 		</tr>
@@ -225,8 +225,8 @@ if(request.getAttribute("isHwp")!=null){
         				<td style="border:1px gray solid;"></td><td style="border:1px gray solid;"></td>
 		</tr>
            </table>
-           <table style="height:5%; width:100%;" border="1" width="530"><tr height="10px"><td style="font-size:15px;text-align:left;vertical-align:bottom;">○ 사진대지</td></tr></table>
-    		<table class="pageBrTbl" border="1" width="530">
+           <table style="height:5%; width:100%;"  width="530"><tr height="10px"><td style="font-size:15px;text-align:left;vertical-align:bottom;">○ 사진대지</td></tr></table>
+    		<table class="pageBrTbl"  width="530">
 				<c:forEach var="imgFile" items="${imgFiles }" varStatus="status" end="3" step="2">
     			<tr>
     				<td>
@@ -246,7 +246,7 @@ if(request.getAttribute("isHwp")!=null){
     	</div>
         <div class="page">	<!--  class="page"> 페이지 누락 됨 -->
             <div class="subpage ygpa_report" >
-	    		<table class="pageBrTbl" border="1" width="530">
+	    		<table class="pageBrTbl"  width="530">
 	    		<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. 출력한 갯수가 페이지를 벗어나면 위에 페이지 끊기를 추가 한다. -->
 				<c:forEach var="imgFile" items="${imgFiles }" varStatus="status" begin="4" step="2">
     			<tr>
@@ -266,7 +266,7 @@ if(request.getAttribute("isHwp")!=null){
     	</div>
         <div class="page">	<!--  class="page"> 페이지 누락 됨 -->
             <div class="subpage ygpa_report" >
-	    		<table class="pageBrTbl" border="1" width="530">
+	    		<table class="pageBrTbl"  width="530">
 	    		<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. 출력한 갯수가 페이지를 벗어나면 위에 페이지 끊기를 추가 한다. -->
     			</c:if>
     			</c:forEach>

@@ -77,7 +77,7 @@ if(request.getAttribute("isHwp")!=null){
 <div class="book">
     <div class="page">
         <div class="subpage ygpa_report" >
-    		<table style="width:100%;border:1px gray solid;" border="1" width="530">
+    		<table style="width:100%;border:1px gray solid;"  width="530">
         		<thead>
         			<tr height="60px">
         				<td></td>

@@ -152,13 +152,13 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void updateFcltyRepairMng(Map updateRprData, Map updateObj, List updateFileList) throws Exception{
+	public void updateFcltyRepairMng(Map updateRprData, Map updateObj, List updateFileList,List deleteRepairFileList) throws Exception{
 		String fcltsMngGroupNo = (String) updateRprData.get("fcltsMngGroupNo");
 		String fcltsJobSe = (String) updateRprData.get("fcltsJobSe");
 		String flawRprSeq = (String) updateRprData.get("flawRprSeq");
 
 		Map insertFile = null;
-		
+		Map deleteFile = null;
 		gamFcltyRepairMngDao.updateFcltyRepairMng(updateRprData);
 		
 		// 하자보수 대상시설물 입력처리
@@ -166,8 +166,14 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		
 		
 		// 하자보수 첨부파일 입력처리
-		gamFcltyRepairMngDao.deleteFcltyRepairFile(updateRprData);
-		
+		for(int i=0;i<deleteRepairFileList.size();i++){
+			deleteFile = (Map) deleteRepairFileList.get(i);
+			deleteFile.put("fcltsJobSe",fcltsJobSe);
+			deleteFile.put("fcltsMngGroupNo",fcltsMngGroupNo);
+			deleteFile.put("flawRprSeq",flawRprSeq);
+			gamFcltyRepairMngDao.deleteFcltyRepairFile(deleteFile);
+		}
+				
 		for(int i=0;i<updateFileList.size();i++){
 			insertFile = (Map) updateFileList.get(i);
 			insertFile.put("fcltsMngGroupNo",fcltsMngGroupNo);

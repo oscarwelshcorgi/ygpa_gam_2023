@@ -1868,6 +1868,7 @@ var module_instance = new GamFcltsMngRegistMngModule();
 									<button id="btnDelete" class="buttonDelete">삭제</button>
 									<button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
 									<button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url='/fclty/selectFcltReportMngPrint.do'>시설물관리대장인쇄</button>
+									<button id="btnHwp" data-role="printDown" data-filename="검사조서.hwp" data-url='/fclty/selectFcltReportMngPrintHwp.do' data-search-option="detailForm">H　W　P 　</button>
 								</td>
 						</table>
 					</form>

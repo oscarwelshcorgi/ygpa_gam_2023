@@ -63,8 +63,10 @@ public class GamFcltyRepairMngVO extends ComDefaultVO  {
 	/** 하자보수금액합계 */
 	private long sumFlawRprAmt;
 	
-	
-
+	private String atchFileSj;
+	private String atchFileNmPhysicl;
+	private String atchFileNmLogic;
+	private String atchFileSeq;
 	/**
 	 * @return the sFcltsJobSe
 	 */
@@ -219,6 +221,62 @@ public class GamFcltyRepairMngVO extends ComDefaultVO  {
 	 */
 	public void setFlawExamUsr(String flawExamUsr) {
 		this.flawExamUsr = flawExamUsr;
+	}
+
+	/**
+	 * @return the atchFileSj
+	 */
+	public String getAtchFileSj() {
+		return atchFileSj;
+	}
+
+	/**
+	 * @param atchFileSj the atchFileSj to set
+	 */
+	public void setAtchFileSj(String atchFileSj) {
+		this.atchFileSj = atchFileSj;
+	}
+
+	/**
+	 * @return the atchFileNmPhysicl
+	 */
+	public String getAtchFileNmPhysicl() {
+		return atchFileNmPhysicl;
+	}
+
+	/**
+	 * @param atchFileNmPhysicl the atchFileNmPhysicl to set
+	 */
+	public void setAtchFileNmPhysicl(String atchFileNmPhysicl) {
+		this.atchFileNmPhysicl = atchFileNmPhysicl;
+	}
+
+	/**
+	 * @return the atchFileNmLogic
+	 */
+	public String getAtchFileNmLogic() {
+		return atchFileNmLogic;
+	}
+
+	/**
+	 * @param atchFileNmLogic the atchFileNmLogic to set
+	 */
+	public void setAtchFileNmLogic(String atchFileNmLogic) {
+		this.atchFileNmLogic = atchFileNmLogic;
+	}
+
+	/**
+	 * @return the atchFileSeq
+	 */
+	public String getAtchFileSeq() {
+		return atchFileSeq;
+	}
+
+	/**
+	 * @param atchFileSeq the atchFileSeq to set
+	 */
+	public void setAtchFileSeq(String atchFileSeq) {
+		this.atchFileSeq = atchFileSeq;
 	}
 
 

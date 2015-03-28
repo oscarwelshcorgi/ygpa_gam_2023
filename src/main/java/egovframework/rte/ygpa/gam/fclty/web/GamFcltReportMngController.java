@@ -140,5 +140,86 @@ public class GamFcltReportMngController {
 
     	return "ygpa/gam/fclty/GamFcltReportMngPrint";
     }
+	/**
+     * 시설물관리대장인쇄 hwp
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/fclty/selectFcltReportMngPrintHwp.do")
+	public String selectFcltReportMngPrintHwp(@RequestParam Map<String, Object> fcltReportMngOpt, ModelMap model) throws Exception {
 
+    	Map map = new HashMap();
+    	EgovMap result = null;
+    	String fcltsNo, fcltsSe;
+    	
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return "/ygpa/gam/fclty/GamFcltReportMngPrint";
+    	}
+
+		ObjectMapper mapper = new ObjectMapper();
+		
+		GamFcltReportMngVO searchVO;
+    	searchVO = mapper.convertValue(fcltReportMngOpt, GamFcltReportMngVO.class);
+
+		//시설물관리대장 기본현황/상세제원 인쇄
+    	result = gamFcltReportMngService.selectFcltReportMng(searchVO);
+    	
+    	//안전점검 및 정밀안전진단계획리스트 인쇄
+    	searchVO.setPlanHistSe("P");
+    	List resultList = gamFcltReportMngService.selectFcleQcMngList(searchVO);
+    	//안전점검 및 정밀안전진단계획총갯수
+    	int resultListTotalCount = gamFcltReportMngService.selectFcleQcMngListTotalCount(searchVO);
+    	
+    	//보수.보강계획 리스트 인쇄
+    	List mntnResultList = gamFcltReportMngService.selectFcleMntnRprMngList(searchVO);
+    	//보수.보강계획 리스트 총갯수
+    	int mntnResultListTotalCount = gamFcltReportMngService.selectFcleMntnRprMngListTotalCount(searchVO);
+    	
+    	
+    	//안전점검 및 정밀안전진단이력리스트 인쇄
+    	searchVO.setPlanHistSe("H");
+    	List resultHistList = gamFcltReportMngService.selectFcleQcMngList(searchVO);
+    	
+    	//안전점검 및 정밀안전진단이력총갯수
+    	int resultHistListTotalCount = gamFcltReportMngService.selectFcleQcMngListTotalCount(searchVO);
+    	
+    	//보수.보강이력 리스트 인쇄
+    	List mntnResultHistList = gamFcltReportMngService.selectFcleMntnRprMngList(searchVO);
+    	
+    	//보수.보강이력 리스트 총갯수
+    	int mntnResultHistListTotalCount = gamFcltReportMngService.selectFcleMntnRprMngListTotalCount(searchVO);
+    	
+    	fcltsNo = searchVO.getFcltsNo();
+    	fcltsSe = fcltsNo.substring(0,1);
+    	
+        model.addAttribute("result", result);
+        
+        model.addAttribute("resultList", resultList);
+        model.addAttribute("resultListTotalCount", resultListTotalCount);
+        model.addAttribute("mntnResultList", mntnResultList);
+        model.addAttribute("mntnResultListTotalCount", mntnResultListTotalCount);
+        
+        model.addAttribute("resultHistList", resultHistList);
+        model.addAttribute("resultHistListTotalCount", resultHistListTotalCount);
+        model.addAttribute("mntnResultHistList", mntnResultHistList);
+        model.addAttribute("mntnResultHistListTotalCount", mntnResultHistListTotalCount);
+        
+        model.addAttribute("fcltsSe", fcltsSe);
+        
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+		
+		model.addAttribute("isHwp", true);
+		model.addAttribute("filename", fcltReportMngOpt.get("filename"));
+
+    	return "ygpa/gam/fclty/GamFcltReportMngPrint";
+    }
 }
