@@ -258,7 +258,7 @@ div.olControlMousePosition {
 
 .olFramedCloudPopupContent {
     padding: 5px;
-    overflow: auto;
+    overflow: hidden;
 }
 
 .olControlNoSelect {
