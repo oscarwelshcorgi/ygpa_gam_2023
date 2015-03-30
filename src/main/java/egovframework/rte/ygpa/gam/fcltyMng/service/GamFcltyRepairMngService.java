@@ -150,15 +150,16 @@ public interface GamFcltyRepairMngService {
 
 
 	/**
-	 * @return
-	 */
-	List selectFcltyRepairCheckReportImgList(GamFcltyRepairMngVO searchVO) throws Exception;
-
-
-	/**
 	 * @param gamFcltyRepairMngVO
 	 */
 	EgovMap selectFcltyRepairCheckReportCharger(GamFcltyRepairMngVO gamFcltyRepairMngVO) throws Exception;
+
+
+	/**
+	 * @param deleteFileVO
+	 * @throws Exception 
+	 */
+	void deleteFcltyRepairMngList(GamFcltyRepairMngVO deleteFileVO) throws Exception;
 
 
 

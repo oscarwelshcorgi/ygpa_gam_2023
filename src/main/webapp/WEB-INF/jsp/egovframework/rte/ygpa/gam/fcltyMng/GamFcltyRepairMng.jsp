@@ -50,7 +50,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 	this._deleteObjFcltsList=[];
 	this._deleteDataRepairList=[];
 	this._deleteDataFileList=[];
-
+	
 	//console.log('GamFcltyRepairMngModule');
 
 	this.$("#fcltyRepairMngList").flexigrid({
@@ -110,7 +110,11 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 	this.$("#fcltyRepairFileList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module.showFcltsAtchFileViewPopup();
 	});
-	
+	this.$("#fcltyRepairFileList").on('onItemSelected', function(event, module, row, grid, param) {
+		/* module.$("#atchFileSeq").val(row['atchFileSeq']);
+		console.log(module.$("#atchFileSeq").val()); */
+		module.makeFormValues("#fileListForm", row);
+	});
  	this.$("#fcltyRepairMngList").on('onItemSelected', function(event, module, row, grid, param) {
  		module._mode = 'modify';
 	});
@@ -140,21 +144,35 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 
 };
 GamFcltyRepairMngModule.prototype.showFcltsAtchFileViewPopup = function() {
-
-	var atchFileNo = this.$('#atchFileNo').val();
-	var atchFileNmPhysicl = this.$('#atchFileNmPhysicl').val();
-	var imageURL = "";
+	console.log('debug');
+	var row = this.$('#fcltyRepairFileList').selectedRows()[0];
+	var selImg = row['atchFileNmPhysicl'];
+	console.log(selImg);
+	
+	var fcltsJobSe = this.$('#fcltsJobSe').val();
+	console.log(fcltsJobSe);
+	var fcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();
+	var flawRprSeq = this.$('#flawRprSeq').val();
+	var atchFileNo = this.$('#photoAtchFileSeq').val();
+	
+	
 	if (atchFileNo == "") {
 		return;
 	}
-	if (atchFileNmPhysicl != "") {
-		imageURL = this.getPfPhotoUrl(atchFileNmPhysicl);
+	if (selImg != "") {
+	var imageURL = this.getUrl("/fcltyMng/getRepairAttachFile.do?physicalFileNm=")+selImg;
+								
+	 console.log(imageURL);
 	}
     var searchOpts = {
 		'atchFileNo':atchFileNo,
+		'fcltsJobSe': fcltsJobSe,
+		'fcltsMngGroupNo' : fcltsMngGroupNo ,
+		'flawRprSeq' : flawRprSeq,
 		'imageURL':imageURL
+		
     };
-	this.doExecuteDialog('popupFcltsAtchFileView', '시설물 첨부 파일 보기', '/popup/showFcltsAtchFileViewPopup.do', null, searchOpts);
+	this.doExecuteDialog('popupFcltsAtchFileView', '시설물 첨부 파일 보기', '/popup/showRepairMngFileViewPopup.do', null, searchOpts);
 
 };
 <%
@@ -727,11 +745,15 @@ GamFcltyRepairMngModule.prototype.saveData = function() {
 	 	});
 	}else{
 	 	this.doAction('/fcltyMng/updateFcltyRepairMng.do', inputVO, function(module, result) {
-	 		alert(result.resultMsg);
+	 		
+	 		if(result.resultCode == "0"){
 	 		module.loadData();
 	 		this.$("#fcltyRepairMngListTab").tabs("option", {active: 0});
+	 			}
+	 		alert(result.resultMsg);
 	 	});
-	};
+	 	
+	 	};
 			
 };
 
@@ -748,7 +770,12 @@ GamFcltyRepairMngModule.prototype.makeSaveParam = function() {
 	var inputVO = [];
  	inputVO[inputVO.length] = {name: 'fcltyRepairMngListVO', value :JSON.stringify(this.makeFormArgs("#fcltyRepairMngListVO",'object')) };
  	inputVO[inputVO.length]=  {name: 'insertRepairFileList', value: JSON.stringify(this.$('#fcltyRepairFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
- 	inputVO[inputVO.length]=  {name: 'deleteRepairFileList', value: JSON.stringify(this.$('#fcltyRepairFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
+ 	
+ 	if(this._deleteRepairFileList == undefined ) {
+         this._deleteRepairFileList=[];
+     }
+ 	inputVO[inputVO.length]=  {name: 'deleteRepairFileList', value: JSON.stringify(this._deleteRepairFileList)};
+ 	
  	// 조건은 수정시에만 필요한 데이타 형식
  	if(this._mode == "modify") {
  		var all_rows = this.$('#flawRprObjFcltsF').flexGetData();
@@ -826,11 +853,11 @@ GamFcltyRepairMngModule.prototype.atchFileRemove = function() {
         if(this.$('#fcltyRepairFileList').selectedRowIds().length>0) {
             for(var i=this.$('#fcltyRepairFileList').selectedRowIds().length-1; i>=0; i--) {
                 var row=this.$('#fcltyRepairFileList').flexGetRow(this.$('#fcltyRepairFileList').selectedRowIds()[i]);
-
+				console.log(row);
                 //alert( row._updtId );
 
                 if(row._updtId==undefined || row._updtId!='I') {
-                    this._deleteDataFileList[this._deleteDataFileList.length]=row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
+                    this._deleteRepairFileList[this._deleteRepairFileList.length]=row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
                 }
                 this.$('#fcltyRepairFileList').flexRemoveRow(this.$('#fcltyRepairFileList').selectedRowIds()[i]);
                 this.$("#previewImage").attr('src', '');
@@ -838,7 +865,7 @@ GamFcltyRepairMngModule.prototype.atchFileRemove = function() {
         }
     }
 
-    this.$('#gamAssetRentFileForm').find(':input').val('');
+    //this.$('#gamAssetRentFileForm').find(':input').val('');
     this._editDataFile = null;
 };
 
@@ -1028,6 +1055,7 @@ GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 
 	switch(newTabId) {
 		case "tabs1":
+			
 		break;
 
 		case "tabs2":
@@ -1038,6 +1066,7 @@ GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 
 			if(oldTabId == 'tabs1') {
 				this.$("#tabs2").scrollTop(0);
+				this._deleteRepairFileList=[];    // 파일삭제 목록 초기화
 			}
 			if(this._mode=="modify"){
 				this.$("#searchFcltsMngGroupNo").hide();
@@ -1190,12 +1219,15 @@ var module_instance = new GamFcltyRepairMngModule();
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyRepairMngListVO">
 					<table class="editForm"  style="width:100%;">
+					
 						<tr>
+						  
 							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
 							<td colspan="3">
 								<input type="text" size="18" id="fcltsMngGroupNo" disabled="disabled" title="시설물관리그룹넘버" />
 								<input type="text" size="28" id="fcltsMngGoupNoNm" disabled="disabled" title="시설물관리그룹명"/>
 								<button id="searchFcltsMngGroupNo" class="popupButton">선택</button>
+								
 							</td>
 							<th width="15%" height="23" class="required_text">시행년도</th>
 							<td>
@@ -1300,14 +1332,24 @@ var module_instance = new GamFcltyRepairMngModule();
 					</table>
 				</form>
 				<div class="emdControlPanel">
+				<form id="fileListForm">
+				<input type="hidden" id="photoFcltsJobSe" data-column-id="fcltsJobSe"/>
+				<input type="hidden" id="photoFcltsMngGroupNo" data-column-id="fcltsMngGroupNo"/>
+				<input type="hidden" id="photoFlawRprSeq" data-column-id="flawRprSeq"/>
+				<input type="hidden" id="photoAtchFileSeq" data-column-id="atchFileSeq"/>
+				<input type="hidden" id="photoAtchFileNmLogic" data-column-id="atchFileNmLogic"/>
+				<input type="hidden" id="atchFileNmPhysicl" data-column-id="atchFileNmPhysicl"/>
+				
+				</form>
+				
 					<div>
 						<button id="btnPreviewFile">첨부파일 미리보기</button>
 						<div id="previewHidden" style="display: none;"></div>
-						<input type="hidden" id="atchFileSeq"/> 
 						<button id="btnUploadFile">업로드</button>
 						<button id="btnDownloadFile">다운로드</button>
 						<button id="btnRemoveFile" class="buttonDelete"> 삭 제 </button>
 					</div>
+						
 					<div>	
 							<select id="printSe" title="출력구분">
 								<option value="print">인쇄</option>

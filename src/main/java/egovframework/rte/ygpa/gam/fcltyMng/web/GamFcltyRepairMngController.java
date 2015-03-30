@@ -39,6 +39,7 @@ import egovframework.rte.ygpa.gam.cmmn.service.GamFileServiceVo;
 import egovframework.rte.ygpa.gam.cmmn.service.GamFileUploadUtil;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngVO;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtDetailVO;
 
 /**
  *
@@ -316,8 +317,10 @@ public class GamFcltyRepairMngController {
     	List<HashMap<String,String>> deleteObjList=null;
     	List<HashMap<String,String>> insertFileList=null;
     	List<HashMap<String,String>> deleteFileList=null;
+    	
     	List<Map<String,String>> userList=null;
     	Map insertRprData = new HashMap();
+    	
     	Map<String, String> userMap = new HashMap<String, String>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -329,7 +332,9 @@ public class GamFcltyRepairMngController {
 
     	insertRprData = mapper.readValue((String)fcltyRepairItem.get("fcltyRepairMngListVO"),
     		    new TypeReference<HashMap<String,String>>(){});
-
+  //  	insertRprData.put("atchFileSeq", fcltyRepairItem.get("atchFileSeq"));
+    	
+    	 
     	insertObjList = mapper.readValue((String)fcltyRepairItem.get("insertObjList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
     	updateObjList = mapper.readValue((String)fcltyRepairItem.get("updateObjList"),
@@ -356,6 +361,21 @@ public class GamFcltyRepairMngController {
 		mergeMap.put("USER", userList);
 
     	insertRprData.put("regUsr",user.getId());
+
+   		for( int i = 0 ; i < deleteFileList.size() ; i++ ) {
+			
+
+			Map resultMap = deleteFileList.get(i);
+
+			GamFcltyRepairMngVO deleteFileVO = new GamFcltyRepairMngVO();
+			deleteFileVO.setFcltsMngGroupNo(resultMap.get("fcltsMngGroupNo").toString());
+			deleteFileVO.setFcltsJobSe(resultMap.get("fcltsJobSe").toString());
+			deleteFileVO.setFlawRprSeq(resultMap.get("flawRprSeq").toString());
+			deleteFileVO.setAtchFileSeq(resultMap.get("atchFileSeq").toString());
+			
+
+			gamFcltyRepairMngService.deleteFcltyRepairMngList(deleteFileVO);
+		}
 
     	try {
 
@@ -502,19 +522,20 @@ public class GamFcltyRepairMngController {
 
 
     	//searchVO = mapper.convertValue(fcltyRepairCheckReportOpt, GamFcltyRepairMngVO.class);
-
+    	//직인
     	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(searchVO);
     	//하자검사조서
     	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
-
-    	List imgList =  gamFcltyRepairMngService.selectFcltyRepairCheckReportImgList(searchVO);
+    	//첨부파일이미지
+    	List resultList = gamFcltyRepairMngService.selectFcltyRepairFileList(searchVO);
+    	
 
 
         model.addAttribute("result", result);
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
 		model.addAttribute("charger",charger);
-		model.addAttribute("imgList",imgList);
+		model.addAttribute("resultList",resultList);
 
 		//hwp선택시 파일명
 		if(fcltyRepairCheckReportOpt.get("filename") != null){

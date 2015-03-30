@@ -55,7 +55,7 @@ public class GamFcltyRepairMngVO extends ComDefaultVO  {
 	private String fcltsMngGroupNo;
 	
 	/** 하자보수순번 */
-	private int flawRprSeq;
+	private String flawRprSeq;
 	
 	/** 자료수 */
 	private int totCnt;
@@ -67,6 +67,67 @@ public class GamFcltyRepairMngVO extends ComDefaultVO  {
 	private String atchFileNmPhysicl;
 	private String atchFileNmLogic;
 	private String atchFileSeq;
+	
+	/**
+	 * @return the atchFcltsJobSe
+	 */
+	public String getAtchFcltsJobSe() {
+		return atchFcltsJobSe;
+	}
+
+	/**
+	 * @param atchFcltsJobSe the atchFcltsJobSe to set
+	 */
+	public void setAtchFcltsJobSe(String atchFcltsJobSe) {
+		this.atchFcltsJobSe = atchFcltsJobSe;
+	}
+
+	/**
+	 * @return the atchFileNo
+	 */
+	public String getAtchFileNo() {
+		return atchFileNo;
+	}
+
+	/**
+	 * @param atchFileNo the atchFileNo to set
+	 */
+	public void setAtchFileNo(String atchFileNo) {
+		this.atchFileNo = atchFileNo;
+	}
+
+	/**
+	 * @return the atchFcltsMngGroupNo
+	 */
+	public String getAtchFcltsMngGroupNo() {
+		return atchFcltsMngGroupNo;
+	}
+
+	/**
+	 * @param atchFcltsMngGroupNo the atchFcltsMngGroupNo to set
+	 */
+	public void setAtchFcltsMngGroupNo(String atchFcltsMngGroupNo) {
+		this.atchFcltsMngGroupNo = atchFcltsMngGroupNo;
+	}
+
+	/**
+	 * @return the atchFlawRprSeq
+	 */
+	public String getAtchFlawRprSeq() {
+		return atchFlawRprSeq;
+	}
+
+	/**
+	 * @param atchFlawRprSeq the atchFlawRprSeq to set
+	 */
+	public void setAtchFlawRprSeq(String atchFlawRprSeq) {
+		this.atchFlawRprSeq = atchFlawRprSeq;
+	}
+
+	private String atchFcltsJobSe;
+	private String atchFileNo;
+	private String atchFcltsMngGroupNo;
+	private String atchFlawRprSeq;
 	/**
 	 * @return the sFcltsJobSe
 	 */
@@ -167,19 +228,8 @@ public class GamFcltyRepairMngVO extends ComDefaultVO  {
 		this.fcltsMngGroupNo = fcltsMngGroupNo;
 	}
 
-	/**
-	 * @return the flawRprSeq
-	 */
-	public int getFlawRprSeq() {
-		return flawRprSeq;
-	}
 
-	/**
-	 * @param flawRprSeq the flawRprSeq to set
-	 */
-	public void setFlawRprSeq(int flawRprSeq) {
-		this.flawRprSeq = flawRprSeq;
-	}
+
 
 	/**
 	 * @return the totCnt
@@ -277,6 +327,20 @@ public class GamFcltyRepairMngVO extends ComDefaultVO  {
 	 */
 	public void setAtchFileSeq(String atchFileSeq) {
 		this.atchFileSeq = atchFileSeq;
+	}
+
+	/**
+	 * @return the flawRprSeq
+	 */
+	public String getFlawRprSeq() {
+		return flawRprSeq;
+	}
+
+	/**
+	 * @param flawRprSeq the flawRprSeq to set
+	 */
+	public void setFlawRprSeq(String flawRprSeq) {
+		this.flawRprSeq = flawRprSeq;
 	}
 
 

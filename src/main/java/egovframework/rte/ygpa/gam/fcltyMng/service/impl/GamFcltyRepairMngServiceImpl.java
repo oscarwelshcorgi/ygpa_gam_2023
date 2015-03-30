@@ -14,6 +14,7 @@ import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngVO;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
 
 /**
  * 
@@ -158,22 +159,14 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		String flawRprSeq = (String) updateRprData.get("flawRprSeq");
 
 		Map insertFile = null;
-		Map deleteFile = null;
+
 		gamFcltyRepairMngDao.updateFcltyRepairMng(updateRprData);
 		
 		// 하자보수 대상시설물 입력처리
 		gamFcltyRepairMngDao.mergeFlawRprObjFcltsF(updateObj);
 		
 		
-		// 하자보수 첨부파일 입력처리
-		for(int i=0;i<deleteRepairFileList.size();i++){
-			deleteFile = (Map) deleteRepairFileList.get(i);
-			deleteFile.put("fcltsJobSe",fcltsJobSe);
-			deleteFile.put("fcltsMngGroupNo",fcltsMngGroupNo);
-			deleteFile.put("flawRprSeq",flawRprSeq);
-			gamFcltyRepairMngDao.deleteFcltyRepairFile(deleteFile);
-		}
-				
+
 		for(int i=0;i<updateFileList.size();i++){
 			insertFile = (Map) updateFileList.get(i);
 			insertFile.put("fcltsMngGroupNo",fcltsMngGroupNo);
@@ -184,7 +177,9 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		}
 	}
 	
-	
+	public void deleteFcltyRepairMngList(GamFcltyRepairMngVO deleteFileVO) throws Exception{
+	gamFcltyRepairMngDao.deleteFcltyRepairFile(deleteFileVO);
+	}
 	/**
 	 * 하자보수내역 삭제
 	 * @param map
@@ -194,7 +189,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	public void deleteFcltyRepairMng(Map<?,?> vo) throws Exception{
 		gamFcltyRepairMngDao.deleteFcltyRepairMng(vo);
 		gamFcltyRepairMngDao.deleteFlawRprObjFcltsF(vo);
-		gamFcltyRepairMngDao.deleteFcltyRepairFile(vo);
+	//	gamFcltyRepairMngDao.deleteFcltyRepairFile(vo);
 	}
 
 	
@@ -243,10 +238,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 
 
 	
-	public List selectFcltyRepairCheckReportImgList(GamFcltyRepairMngVO vo) throws Exception {
-		// TODO Auto-generated method stub
-		return gamFcltyRepairMngDao.selectFcltyRepairCheckReportImgList_D(vo);
-	}
+
 	public EgovMap selectFcltyRepairCheckReportCharger(GamFcltyRepairMngVO GamFcltyRepairMngVO) throws Exception{
 		return (EgovMap)gamFcltyRepairMngDao.selectFcltyRepairCheckReportCharger(GamFcltyRepairMngVO);
 	}

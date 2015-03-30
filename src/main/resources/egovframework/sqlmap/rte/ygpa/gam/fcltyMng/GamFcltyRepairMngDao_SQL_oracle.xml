@@ -484,9 +484,8 @@
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 			AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
-		<isNotEmpty property="atchFileSeq">
 			AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)
-		</isNotEmpty>
+		
 
 	</delete>
 
@@ -607,12 +606,5 @@
 	</select>
 
 
-	<select id="gamFcltyRepairMngDao.selectFcltyRepairCheckReportImgList_D" parameterClass="gamFcltyRepairMngVO" resultClass="egovMap">
-		  SELECT 
-		  	FILENM_PHYSICL 
-		  FROM
-			ASSETS_RENT_PHOTO_F
-
-	</select>
 
 </sqlMap>

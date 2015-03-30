@@ -182,7 +182,7 @@ if(request.getAttribute("isHwp")!=null){
         				<td style="text-align:right;vertical-align:middle;font-size:15px;padding-right:100px;">
 			        		하자검사자 : <c:out value="${result.flawExamUsrNm }" />
 			        		<div  class="stamp">(인)</div>
-			        		<img class="stamp" style="filter:Alpha(Opacity=50);Opacity:0.5;" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/>
+			        		<img class="stamp" style="filter:Alpha(Opacity=50);Opacity:0.5;" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/>
 			       			
 			       		</td>
         			</tr>
@@ -227,19 +227,19 @@ if(request.getAttribute("isHwp")!=null){
            </table>
            <table style="height:5%; width:100%;"  width="530"><tr height="10px"><td style="font-size:15px;text-align:left;vertical-align:bottom;">○ 사진대지</td></tr></table>
     		<table class="pageBrTbl"  width="530">
-				<c:forEach var="imgFile" items="${imgFiles }" varStatus="status" end="3" step="2">
+				<c:forEach var="resultList" items="${resultList}" varStatus="status" end="3" step="2">
     			<tr>
     				<td>
-    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/>
+    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/>
 					</td>
 					<td>
-    				<c:if test="${fn:length(imgFiles) gt status.index+1 }">
-	    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${imgFiles[status.index+1] }' />"/>
+    				<c:if test="${fn:length(resultList) gt status.index+1 }">
+	    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1] }' />"/>
 					</c:if>
 					</td>
     			</tr>
     			</c:forEach>
-    	<c:if test="${fn:length(imgFiles) gt 3 }">
+    	<c:if test="${fn:length(resultList) gt 3 }">
     			<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. -->
 	    		</table>
 	        </div>
@@ -248,14 +248,14 @@ if(request.getAttribute("isHwp")!=null){
             <div class="subpage ygpa_report" >
 	    		<table class="pageBrTbl"  width="530">
 	    		<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. 출력한 갯수가 페이지를 벗어나면 위에 페이지 끊기를 추가 한다. -->
-				<c:forEach var="imgFile" items="${imgFiles }" varStatus="status" begin="4" step="2">
+				<c:forEach var="resultList" items="${resultList}" varStatus="status" begin="4" step="2">
     			<tr>
     				<td>
-    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${imgFile }' />"/>
+    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultList}' />"/>
 					</td>
 					<td>
-    				<c:if test="${fn:length(imgFiles) gt status.index+1 }">
-	    				<img class="tdFull" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${imgFiles[status.index+1] }' />"/>
+    				<c:if test="${fn:length(resultList) gt status.index+1 }">
+	    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1] }' />"/>
 					</c:if>
 					</td>
     			</tr>

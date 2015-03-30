@@ -178,7 +178,7 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @throws Exception
 	 */
-	public void deleteFcltyRepairFile(Map<?,?> vo) throws Exception{
+	public void deleteFcltyRepairFile(GamFcltyRepairMngVO vo) throws Exception{
 		delete("gamFcltyRepairMngDao.deleteFcltyRepairFile", vo);
 	}
 	
@@ -239,13 +239,6 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 	}
 
 
-	/**
-	 * @return
-	 */
-	public List selectFcltyRepairCheckReportImgList_D(GamFcltyRepairMngVO vo) {
-		// TODO Auto-generated method stub
-		return list("gamFcltyRepairMngDao.selectFcltyRepairCheckReportImgList_D",vo);
-	}
 
 
 	/**
