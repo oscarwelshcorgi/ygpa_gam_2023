@@ -493,7 +493,7 @@ GamFcltyQcwWrtMngModule.prototype.setPrintUrl = function() {
 %>
 
 GamFcltyQcwWrtMngModule.prototype.setHwpUrl = function() {
-			
+
 	if(this.$('#fcltsJobSe').val() == 'A') {
 		this.$('#btnHwp').data('url','/fcltyMng/selectFcltyQcPrintHwpA.do');
 	}
@@ -1320,7 +1320,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 			<!-- 2.1.3. TAB 2 AREA (DETAIL) -->
 			<div id="detailTab" class="emdTabPage" style="overflow: hidden;">
 				<!-- 2.1.3.1 Layout Table -->
-				<table style="width:100%;" class="editForm">
+				<table style="width:100%;" class="editForm fillHeight">
 					<tr>
 						<td width="70%">
 							<!-- 2.1.3.1.1 Element Table -->
@@ -1474,15 +1474,9 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							</table>
 							</form>
 						</td>
-						<td width="30%">
+						<td>
 							<!-- 2.1.3.1.2 Grid Table -->
-							<table  class="detailPanel"  style="width:100%;">
-								<tr>
-									<td>
-										<table id="qcObjFcltsGrid" style="display:none" class="fillHeight"></table>
-									</td>
-								</tr>
-							</table>
+							<table id="qcObjFcltsGrid" style="display:none;" class="fillHeight"></table>
 						</td>
 					</tr>
 				</table>
@@ -1512,7 +1506,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 					<button id="btnSave" class="buttonSave">　　저　장　　</button>
 					<!-- <button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url="/fcltyMng/printQcMngDtls.do">　　인　쇄　　</button> -->
 					<button id="btnPrint" data-role="printPage" data-search-option="detailForm">　　인　쇄　　</button>
-					
+
 					<!-- <button id="btnHwp" data-role="printDown" data-url="/fcltyMng/selectFcltyQcHwp.do" data-filename="검사조서.hwp" data-search-option="detailForm">H　W　P 　</button> -->
 					<button id="btnHwp" data-role="printDown" data-filename="검사조서.hwp" data-search-option="detailForm">H　W　P 　</button>
 				</div>

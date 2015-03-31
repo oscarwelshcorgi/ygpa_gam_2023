@@ -147,6 +147,8 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 	this.applySelectYear();
 	this.getMapInfoList(params);
 
+	console.log('debug');
+
 };
 
 
