@@ -317,10 +317,10 @@ public class GamFcltyRepairMngController {
     	List<HashMap<String,String>> deleteObjList=null;
     	List<HashMap<String,String>> insertFileList=null;
     	List<HashMap<String,String>> deleteFileList=null;
-    	
+
     	List<Map<String,String>> userList=null;
     	Map insertRprData = new HashMap();
-    	
+
     	Map<String, String> userMap = new HashMap<String, String>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -333,8 +333,8 @@ public class GamFcltyRepairMngController {
     	insertRprData = mapper.readValue((String)fcltyRepairItem.get("fcltyRepairMngListVO"),
     		    new TypeReference<HashMap<String,String>>(){});
   //  	insertRprData.put("atchFileSeq", fcltyRepairItem.get("atchFileSeq"));
-    	
-    	 
+
+
     	insertObjList = mapper.readValue((String)fcltyRepairItem.get("insertObjList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
     	updateObjList = mapper.readValue((String)fcltyRepairItem.get("updateObjList"),
@@ -344,7 +344,7 @@ public class GamFcltyRepairMngController {
 
     	insertFileList = mapper.readValue((String)fcltyRepairItem.get("insertRepairFileList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
-    	
+
     	deleteFileList = mapper.readValue((String)fcltyRepairItem.get("deleteRepairFileList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
 
@@ -363,7 +363,7 @@ public class GamFcltyRepairMngController {
     	insertRprData.put("regUsr",user.getId());
 
    		for( int i = 0 ; i < deleteFileList.size() ; i++ ) {
-			
+
 
 			Map resultMap = deleteFileList.get(i);
 
@@ -372,7 +372,7 @@ public class GamFcltyRepairMngController {
 			deleteFileVO.setFcltsJobSe(resultMap.get("fcltsJobSe").toString());
 			deleteFileVO.setFlawRprSeq(resultMap.get("flawRprSeq").toString());
 			deleteFileVO.setAtchFileSeq(resultMap.get("atchFileSeq").toString());
-			
+
 
 			gamFcltyRepairMngService.deleteFcltyRepairMngList(deleteFileVO);
 		}
@@ -528,7 +528,7 @@ public class GamFcltyRepairMngController {
     	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
     	//첨부파일이미지
     	List resultList = gamFcltyRepairMngService.selectFcltyRepairFileList(searchVO);
-    	
+
 
 
         model.addAttribute("result", result);
@@ -736,6 +736,7 @@ public class GamFcltyRepairMngController {
 		String uploadPath = EgovProperties.getProperty("repairAttach.fileStorePath");
 
 		gamFileServiceVo.setPhyscalFileNm((String)request.getParameter("physicalFileNm"));
+		gamFileServiceVo.setLogicalFileNm((String)request.getParameter("logicalFileNm"));
 
 		GamFileUploadUtil.downloadFile(request, response, uploadPath, gamFileServiceVo);
     }
