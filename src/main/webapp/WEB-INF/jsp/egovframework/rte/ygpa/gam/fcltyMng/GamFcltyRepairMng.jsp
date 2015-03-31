@@ -198,7 +198,7 @@ GamFcltyRepairMngModule.prototype.setPrintSe = function(){
 		this.$("#mngPrint").data('url','/fcltyMng/selectFcltyRepairCheckMngPrint.do');
 		this.$("#mngPrint").data('role','printDown');
 		this.$("#mngPrint").data('filename','검사관리대장.hwp');
-		this.$("#chkPrint").data('url','/fcltyMng/selectFcltyRepairCheckReportPrint.do');
+		this.$("#chkPrint").data('url','/fcltyMng/selectFcltyRepairCheckReportHwp.do');
 		this.$("#chkPrint").data('role','printDown');
 		this.$("#chkPrint").data('filename','검사조서.hwp');
 		this.$("#expPrint").data('url','/fcltyMng/selectFcltyRepairExpireCheckReportPrint.do');

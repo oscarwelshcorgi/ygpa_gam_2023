@@ -9,7 +9,7 @@
 <%
   /**
   * @Class Name : GamFcltyRepairCheckResultPrint.jsp
-  * @Description : 인쇄 화면
+  * @Description : 하자검사조서 인쇄 화면
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
@@ -100,7 +100,7 @@ if(request.getAttribute("isHwp")!=null){
 
 	div.title {
 		font-family:한컴바탕;
-		font-size:24px;
+		font-size:30px;
 		font-weight: 2px;
 	}
 
@@ -117,6 +117,13 @@ if(request.getAttribute("isHwp")!=null){
 		vertical-align:middle;
 		font-size:15px;
 		padding-right: 25px;
+	}
+	
+	p.dateStr2 {
+		text-align:right;
+		vertical-align:middle;
+		font-size:15px;
+		padding-right: 50px;
 	}
 
 	p.amountStr {
@@ -163,8 +170,8 @@ if(request.getAttribute("isHwp")!=null){
 	img.stamp {
 		position: absolute;
 		  left: 16.5cm;
-		  top: 18.0cm;
-		  filter:Alpha(Opacity=50);Opacity:0.5;
+		  top: 17.7cm;
+		  
 	}
 
 	table.reportPage {
@@ -213,14 +220,19 @@ if(request.getAttribute("isHwp")!=null){
 
 
 	@media print {
-		.stamp {
-			top: 17.2cm;
+	
+	.stamp {
+		position: absolute;
+		  left: 16.5cm;
+		  top: 18.2cm;
+	}
 
-		}
-
-		img.stamp {
-			top: 17.5cm;
-		}
+	img.stamp {
+		position: absolute;
+		  left: 16.5cm;
+		  top: 16.7cm;
+		  
+	}
 	}
 </style>
 
@@ -272,7 +284,7 @@ if(request.getAttribute("isHwp")!=null){
 			        				<td></td>
 			        			</tr>
 			        			<tr height="100">
-					  				<td><h1><div class="title">하 자 검 사 조 서</div></h1></td>
+					  				<td><h1><div class="title">　하　자　검　사　조　서　</div></h1></td>
 					 			</tr>
 			        		</thead>
 			        		<tbody>
@@ -296,13 +308,19 @@ if(request.getAttribute("isHwp")!=null){
 			        			<tr height="30">
 			        				<td></td>
 			        			</tr>
-			        			<tr height="130">
-			        				<td>
-			        					<p class="contextStr">위 공사 하자검사의 명을 받아 <c:out value="${result.flawExamDt }" /> 검사한 결과 <span style="text-decoration:underline;"><c:out value="${result.flawExamResult }" /></span>을(를) 확인함</p>
+			        			<tr height="130px">
+			        				<td style="vertical-align:top;font-size:15px;">
+			        					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			        					위 공사에 대하여 <c:out value="${result.flawExamDt }" />&nbsp;&nbsp;하자검사한 결과 <span style="text-decoration:underline;">
+			        			<c:choose>	
+			        				<c:when test="${result.flawEnnc == 'Y'}">하자있음</c:when>
+			        				<c:otherwise>하자없음</c:otherwise>
+			        			</c:choose>
+			        					</span>을 확인함
 			        				</td>
 			        			</tr>
 			        			<tr height="60">
-			        				<td><span id="today" class="dateStr"></span></td>
+			        				<td><p class="dateStr2"><span id="today"></span></p></td>
 			        			</tr>
 			        			<tr height="60">
 			        				<td>

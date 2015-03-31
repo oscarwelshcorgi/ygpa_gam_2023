@@ -545,7 +545,71 @@ public class GamFcltyRepairMngController {
     		}
     	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckReportPrint";
     }
+    /**
+     * 하자검사조서 한글파일 문서 출력
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/fcltyMng/selectFcltyRepairCheckReportHwp.do")
+	public String selectFcltyRepairCheckReportHwp(@RequestParam Map<String, Object> fcltyRepairCheckReportOpt ,GamFcltyRepairMngVO searchVO, ModelMap model) throws Exception {
+
+		//LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	Map map = new HashMap();
+    	EgovMap result = null;
+    	EgovMap charger= null;
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return "/ygpa/gam/fcltyMng/GamFcltyRepairCheckReportHwp";
+    	}
+
+    	//GamFcltyRepairMngVO.setRegUsr((String)user.getId());
+
+
+    /*
+    	GamFcltyRepairMngVO.setFlawExamUsr(URLDecoder.decode(request.getParameter("flawExamUsr"),"UTF-8"));
+    	System.out.println("**************"+GamFcltyRepairMngVO.getFlawExamUsr());
+    	//하자검사조서 직인
+    	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(GamFcltyRepairMngVO);
+		*/
+
+
+    	ObjectMapper mapper = new ObjectMapper();
+
+		//GamFcltyRepairMngVO searchVO;
+
+
+    	//searchVO = mapper.convertValue(fcltyRepairCheckReportOpt, GamFcltyRepairMngVO.class);
+    	//직인
+    	//charger.put("flawExamUsr", fcltyRepairCheckReportOpt.get("flawExamUsr"));
+    	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(searchVO);
+    	//하자검사조서
+    	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
+    	//첨부파일이미지
+    	List resultList = gamFcltyRepairMngService.selectFcltyRepairFileList(searchVO);
+
+
+
+        model.addAttribute("result", result);
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+		model.addAttribute("charger",charger);
+		model.addAttribute("resultList",resultList);
+
+		//hwp선택시 파일명
+		if(fcltyRepairCheckReportOpt.get("filename") != null){
+			model.addAttribute("isHwp", true);
+			model.addAttribute("filename", fcltyRepairCheckReportOpt.get("filename"));
+    		}
+    	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckReportHwp";
+    }
 	/**
      * 하자만료검사조서인쇄
      *
@@ -589,7 +653,9 @@ public class GamFcltyRepairMngController {
 
     	return "ygpa/gam/fcltyMng/GamFcltyRepairExpireCheckReportPrint";
     }
-
+	
+	
+	
 
 	/**
      * 하자검사결과인쇄
