@@ -1320,7 +1320,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 			<!-- 2.1.3. TAB 2 AREA (DETAIL) -->
 			<div id="detailTab" class="emdTabPage" style="overflow: hidden;">
 				<!-- 2.1.3.1 Layout Table -->
-				<table style="width:100%;" class="editForm fillHeight">
+				<table style="width:100%;" class="editForm">
 					<tr>
 						<td width="70%">
 							<!-- 2.1.3.1.1 Element Table -->
@@ -1475,7 +1475,6 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							</form>
 						</td>
 						<td>
-							<!-- 2.1.3.1.2 Grid Table -->
 							<table id="qcObjFcltsGrid" style="display:none;" class="fillHeight"></table>
 						</td>
 					</tr>
