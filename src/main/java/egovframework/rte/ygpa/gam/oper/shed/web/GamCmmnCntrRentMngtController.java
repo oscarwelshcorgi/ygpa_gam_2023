@@ -1402,6 +1402,7 @@ public class GamCmmnCntrRentMngtController {
 		String uploadPath = EgovProperties.getProperty("assetsRent.fileStorePath");
 
 		gamFileServiceVo.setPhyscalFileNm((String)request.getParameter("physicalFileNm"));
+		gamFileServiceVo.setLogicalFileNm((String)request.getParameter("logicalFileNm"));
 
 		GamFileUploadUtil.downloadFile(request, response, uploadPath, gamFileServiceVo);
     }

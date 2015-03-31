@@ -216,8 +216,10 @@ GamPopupRepairMngFileViewModule.prototype.processDownload = function() {
 **/
 %>
 GamPopupRepairMngFileViewModule.prototype.processExit = function() {
-
+	
+	console.log('debug');
 	if (this._updateFlag == true) {
+		
 		var returnData = {
 				'atchFileSeq':this.$('#atchFileSeq').val(),
 				'atchFileSe':this.$('#atchFileSe').val(),
@@ -226,6 +228,7 @@ GamPopupRepairMngFileViewModule.prototype.processExit = function() {
 			};
 		this.closeDialog("ok", returnData);
 	} else {
+		
 		this.cancelDialog();
 	}
 
@@ -287,7 +290,7 @@ var popup_instance = new GamPopupRepairMngFileViewModule();
 			<div class="emdControlPanel">
 				<button id="btnUpdate" class="buttonSave">저장</button>
 				<button id="btnDownload">다운로드</button>
-				<button id="btnExit">종료</button>
+				
 			</div>
 		</div>
 	</div>

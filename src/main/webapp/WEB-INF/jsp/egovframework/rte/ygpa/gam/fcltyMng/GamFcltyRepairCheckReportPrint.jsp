@@ -89,6 +89,21 @@ if(request.getAttribute("isHwp")!=null){
 	.stamp {
 		position: absolute;
 		left: 16.5cm;
+		top: 18.7cm;
+		
+	}
+	
+	img.stamp {
+		top: 18.5cm;
+	}
+	table.pageFont{
+	font-family:한컴바탕;
+	}
+	
+	@media print {
+	.stamp {
+		position: absolute;
+		left: 16.5cm;
 		top: 17.7cm;
 		
 	}
@@ -96,8 +111,7 @@ if(request.getAttribute("isHwp")!=null){
 	img.stamp {
 		top: 17.5cm;
 	}
-	table.pageFont{
-	font-family:한컴바탕;
+	
 	}
 </style>
 
@@ -130,10 +144,11 @@ if(request.getAttribute("isHwp")!=null){
   <c:if test="${resultCode==0 }">
   <c:if test="${isHwp eq null }">
  <%-- <c:set var="imgFiles" value="${fn:split('FILE_000000000006055.jpg,FILE_000000000006063.png,FILE_000000000006064.jpg,FILE_000000000006088.jpg,FILE_000000000006063.png,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006063.png,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg', ',')}" scope="page" /> --%>
-<%--  <c:forEach var="imgList" items="${imgList}">
-<c:out value="${imgList.filenmPhysicl}"/> 
+ <%-- <c:forEach var="resultItem" items="${resultList}">
+<c:out value="${resultList.filenmPhysicl}"/> 
 
-</c:forEach> --%>
+</c:forEach>  --%>
+
 <a id="printButton" href="#">인쇄</a>
 </c:if>
 <div class="book">
@@ -182,7 +197,7 @@ if(request.getAttribute("isHwp")!=null){
         				<td style="text-align:right;vertical-align:middle;font-size:15px;padding-right:100px;">
 			        		하자검사자 : <c:out value="${result.flawExamUsrNm }" />
 			        		<div  class="stamp">(인)</div>
-			        		<img class="stamp" style="filter:Alpha(Opacity=50);Opacity:0.5;" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/>
+			        		<img class="stamp" style="filter:Alpha(Opacity=50);Opacity:0.5;" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/>
 			       			
 			       		</td>
         			</tr>
@@ -199,82 +214,94 @@ if(request.getAttribute("isHwp")!=null){
         	</table>
         </div>
         </div>
-        <div class="page">	<!--  class="page"> 페이지 누락 됨 -->
-                <div class="subpage ygpa_report" >
-           <table style="height:20%; width:100%;"  width="530">
-           <thead>
-        			<tr height="15px">
-        				<td></td>
-        			</tr>
-        			<tr height="15px">
-		  				<td style="text-align:center;vertical-align:top;font-size:30px;font-weight:bold;text-decoration:underline;">하　자　내　용</td>
-		 			</tr>
-        		</thead>
-        		<tbody>
-        			<tr height="80px">
-        				<td style="text-align:center;vertical-align:middle;font-size:15px;">&nbsp;(example: 2013년 광양항 항만시설물 보수보강공사<c:out value="${result.flawRprNm }" />)</td>
-        			</tr>
-        			<tr height="20px">
-        				<td></td>
-        	 </table>
-           <table style="height:25%; width:100%; border:1px gray solid;"  width="530">
-         	 <tr height="10px">
-        				<td style="border:1px gray solid;text-align:center;vertical-align:middle;background:linear-gradient(gray,white, gray);">하자내용</td><td style="border:1px gray solid;text-align:center;vertical-align:middle;background:linear-gradient(gray,white, gray);">비 고</td>
-		</tr>
-			<tr height="30px">
-        				<td style="border:1px gray solid;"></td><td style="border:1px gray solid;"></td>
-		</tr>
-           </table>
-           <table style="height:5%; width:100%;"  width="530"><tr height="10px"><td style="font-size:15px;text-align:left;vertical-align:bottom;">○ 사진대지</td></tr></table>
-    		<table class="pageBrTbl"  width="530">
-				<c:forEach var="resultList" items="${resultList}" varStatus="status" end="3" step="2">
-    			<tr>
-    				<td>
-    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/>
-					</td>
-					<td>
-    				<c:if test="${fn:length(resultList) gt status.index+1 }">
-	    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1] }' />"/>
+        <c:if test="${result.flawEnnc == 'Y'}">
+	        <div class="page">	<!--  class="page"> 페이지 누락 됨 -->
+	                <div class="subpage ygpa_report" >
+	           <table style="height:20%; width:100%;"  width="530">
+	           <thead>
+	        			<tr height="15px">
+	        				<td></td>
+	        			</tr>
+	        			<tr height="15px">
+			  				<td style="text-align:center;vertical-align:top;font-size:30px;font-weight:bold;text-decoration:underline;">하　자　내　용</td>
+			 			</tr>
+	        		</thead>
+	        		<tbody>
+	        			<tr height="80px">
+	        				<td style="text-align:center;vertical-align:middle;font-size:15px;">&nbsp;<c:out value="${result.flawRprNm }" />)</td>
+	        			</tr>
+	        			<tr height="20px">
+	        				<td></td>
+	        	 </table>
+	           <table style="height:25%; width:100%; border:1px gray solid;"  width="530">
+	         	 <tr height="10px">
+	        				<td style="border:1px gray solid;text-align:center;vertical-align:middle;background:linear-gradient(gray,white, gray);">하자내용</td><td style="border:1px gray solid;text-align:center;vertical-align:middle;background:linear-gradient(gray,white, gray);">비 고</td>
+			</tr>
+				<tr height="30px">
+	        				<td style="border:1px gray solid;width:60%;padding:5px;" ><c:out value="${result.flawRprContents}"/></td><td style="border:1px gray solid;width:40%;padding:5px;"><c:out value="${result.rm}"/></td>
+			</tr>
+	           </table>
+	           <table style="height:5%; width:100%;"  width="530"><tr height="10px"><td style="font-size:15px;text-align:left;vertical-align:bottom;">○ 사진대지</td></tr></table>
+	    		<table class="pageBrTbl"  width="530">
+					<c:forEach var="resultItem" items="${resultList}" varStatus="status" end="3" step="2">
+	    			<tr>
+	    				<td>
+		    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />"/>
+						</td>
+						<td>
+	    				<c:if test="${fn:length(resultList) gt status.index+1 }">
+		    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />"/>
+						</c:if>
+						</td>
+	    			</tr>
+	    		 <tr>
+    			<td style="border:1px gray solid;"><c:out value="${resultItem.atchFileSj }"/></td>
+    			<td style="border:1px gray solid;">		
+   					<c:if test="${fn:length(resultList) gt status.index+1 }">
+						<c:out value="${resultList[status.index+1].atchFileSj }"/>		    				
 					</c:if>
-					</td>
-    			</tr>
-    			</c:forEach>
-    	<c:if test="${fn:length(resultList) gt 3 }">
-    			<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. -->
-	    		</table>
-	        </div>
-    	</div>
-        <div class="page">	<!--  class="page"> 페이지 누락 됨 -->
+    			</td>
+    			</tr> 
+	    			</c:forEach>
+	    			
+	    	<c:if test="${fn:length(resultList) gt 4 }">
+	    			<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. -->
+		    		</table>
+		        </div>
+	    	</div>
+        <div id="ttt" class="page">
             <div class="subpage ygpa_report" >
 	    		<table class="pageBrTbl"  width="530">
 	    		<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. 출력한 갯수가 페이지를 벗어나면 위에 페이지 끊기를 추가 한다. -->
-				<c:forEach var="resultList" items="${resultList}" varStatus="status" begin="4" step="2">
+				<c:forEach var="resultItem" items="${resultList}" varStatus="status" begin="4" step="2">
     			<tr>
     				<td>
-    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultList}' />"/>
+    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl}' />"/>
 					</td>
 					<td>
-    				<c:if test="${fn:length(resultList) gt status.index+1 }">
-	    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1] }' />"/>
+					<c:if test="${fn:length(resultList) gt status.index+1 }">
+	    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultItem[status.index+1].atchFileNmPhysicl }' />"/>
 					</c:if>
 					</td>
     			</tr>
+    			
     			<c:if test="${(status.index-status.begin) % 6 == 0 && !status.first && !status.last }">
-    			    			<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. -->
 	    		</table>
 	        </div>
     	</div>
-        <div class="page">	<!--  class="page"> 페이지 누락 됨 -->
+        <div id="tet" class="page">	<!--  class="page"> 페이지 누락 됨 -->
             <div class="subpage ygpa_report" >
 	    		<table class="pageBrTbl"  width="530">
 	    		<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. 출력한 갯수가 페이지를 벗어나면 위에 페이지 끊기를 추가 한다. -->
     			</c:if>
     			</c:forEach>
-        </c:if>
+   			</c:if>
         	   </table>
+	
 	        </div>
+    
     	</div>
-    </div>
+        </c:if>
 </div>
   </c:if>
     <c:if test="${resultCode!=0 }">

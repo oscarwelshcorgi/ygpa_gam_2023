@@ -42,7 +42,6 @@ import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtDetailVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtLevReqestVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
-
 import egovframework.rte.ygpa.gam.asset.service.GamAssetDisUseMngtVO;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
 import egovframework.rte.ygpa.gam.cmmn.service.GamFileServiceVo;
@@ -1405,7 +1404,7 @@ public class GamPrtFcltyRentMngtController {
 		String uploadPath = EgovProperties.getProperty("assetsRent.fileStorePath");
 
 		gamFileServiceVo.setPhyscalFileNm((String)request.getParameter("physicalFileNm"));
-
+		gamFileServiceVo.setLogicalFileNm((String)request.getParameter("logicalFileNm"));
 		GamFileUploadUtil.downloadFile(request, response, uploadPath, gamFileServiceVo);
     }
 }

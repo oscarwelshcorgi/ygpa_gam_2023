@@ -36,7 +36,7 @@
 %>
 function GamFcltyRepairMngModule() {}
 
-GamFcltyRepairMngModule.prototype = new EmdModule(1000,600);	// 초기 시작 창크기 지정
+GamFcltyRepairMngModule.prototype = new EmdModule(1000,610);	// 초기 시작 창크기 지정
 
 <%
 /**
@@ -103,7 +103,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		colModel : [
 					{display:"번호",		name:"atchFileSeq",			width:60,		sortable:false,		align:"center"},
 					{display:"구분",		name:"atchFileSeNm",		width:60,		sortable:false,		align:"center"},
-					{display:"파일명",	name:"atchFileNmLogic",		width:200,		sortable:false,		align:"left"},
+					{display:"파일명",	name:"atchFileNmLogic",		width:310,		sortable:false,		align:"left"},
 					],
 		height: "175",
 		
@@ -884,7 +884,7 @@ GamFcltyRepairMngModule.prototype.downloadFileData = function() {
 	if(selectRow.length > 0) {
 		var row=selectRow[0];
 		console.log(row["atchFileNmPhysicl"],row["atchFileNmLogic"]);
-		this.downloadSingleFile("/fcltyMng/downloadRepairAttachFile.do", row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
+		this.downloadSingleFile("/fcltyMng/downloadRepairAttachFile.do", row["atchFileNmPhysicl"],row["atchFileNmLogic"]);
 	};
 	
 };

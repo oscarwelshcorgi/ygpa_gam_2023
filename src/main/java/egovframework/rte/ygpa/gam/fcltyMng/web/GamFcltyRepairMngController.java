@@ -523,6 +523,7 @@ public class GamFcltyRepairMngController {
 
     	//searchVO = mapper.convertValue(fcltyRepairCheckReportOpt, GamFcltyRepairMngVO.class);
     	//직인
+    	//charger.put("flawExamUsr", fcltyRepairCheckReportOpt.get("flawExamUsr"));
     	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(searchVO);
     	//하자검사조서
     	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
