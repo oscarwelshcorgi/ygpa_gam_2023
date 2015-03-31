@@ -37,229 +37,235 @@
 // table에 border="1" width="530" 을 추가하면 됨
 %>
 
-<html lang="ko" xml:lang="ko">
-  <head>
-    <title>여수광양항만공사 - GIS기반 자산관리 시스템</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <c:if test="${isHwp eq null }">
-	<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/reset.css' />" />
-	<link rel="stylesheet" href="<c:url value='/css/demo/jquery-ui-1.10.4.custom.css' />" />
-	<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ygpa_report.css' />" />
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
 
-    <style>
-	table.pictureGridTbl {
-		width: 100%;
-		/* 	page-break-after: auto; */
-		border: solid black 0.05mm;
-		border-spacing: 0;
-	}
+<HEAD>
+<META NAME="Generator" CONTENT="Hancom HWP 8.5.8.1399">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<TITLE>하 자 검 사 조 서</TITLE>
+<STYLE type="text/css">
+<!--
+p.HStyle0
+	{style-name:"바탕글"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+li.HStyle0
+	{style-name:"바탕글"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+div.HStyle0
+	{style-name:"바탕글"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+p.HStyle1
+	{style-name:"본문"; margin-left:15.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+li.HStyle1
+	{style-name:"본문"; margin-left:15.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+div.HStyle1
+	{style-name:"본문"; margin-left:15.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+p.HStyle2
+	{style-name:"개요 1"; margin-left:10.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+li.HStyle2
+	{style-name:"개요 1"; margin-left:10.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+div.HStyle2
+	{style-name:"개요 1"; margin-left:10.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+p.HStyle3
+	{style-name:"개요 2"; margin-left:20.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+li.HStyle3
+	{style-name:"개요 2"; margin-left:20.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+div.HStyle3
+	{style-name:"개요 2"; margin-left:20.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+p.HStyle4
+	{style-name:"개요 3"; margin-left:30.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+li.HStyle4
+	{style-name:"개요 3"; margin-left:30.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+div.HStyle4
+	{style-name:"개요 3"; margin-left:30.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+p.HStyle5
+	{style-name:"개요 4"; margin-left:40.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+li.HStyle5
+	{style-name:"개요 4"; margin-left:40.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+div.HStyle5
+	{style-name:"개요 4"; margin-left:40.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+p.HStyle6
+	{style-name:"개요 5"; margin-left:50.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+li.HStyle6
+	{style-name:"개요 5"; margin-left:50.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+div.HStyle6
+	{style-name:"개요 5"; margin-left:50.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+p.HStyle7
+	{style-name:"개요 6"; margin-left:60.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+li.HStyle7
+	{style-name:"개요 6"; margin-left:60.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+div.HStyle7
+	{style-name:"개요 6"; margin-left:60.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+p.HStyle8
+	{style-name:"개요 7"; margin-left:70.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+li.HStyle8
+	{style-name:"개요 7"; margin-left:70.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+div.HStyle8
+	{style-name:"개요 7"; margin-left:70.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+p.HStyle9
+	{style-name:"쪽 번호"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬돋움; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+li.HStyle9
+	{style-name:"쪽 번호"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬돋움; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+div.HStyle9
+	{style-name:"쪽 번호"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:함초롬돋움; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+p.HStyle10
+	{style-name:"머리말"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:150%; font-size:9.0pt; font-family:함초롬돋움; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+li.HStyle10
+	{style-name:"머리말"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:150%; font-size:9.0pt; font-family:함초롬돋움; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+div.HStyle10
+	{style-name:"머리말"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:150%; font-size:9.0pt; font-family:함초롬돋움; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+p.HStyle11
+	{style-name:"각주"; margin-left:13.1pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:-13.1pt; line-height:130%; font-size:9.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+li.HStyle11
+	{style-name:"각주"; margin-left:13.1pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:-13.1pt; line-height:130%; font-size:9.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+div.HStyle11
+	{style-name:"각주"; margin-left:13.1pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:-13.1pt; line-height:130%; font-size:9.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+p.HStyle12
+	{style-name:"미주"; margin-left:13.1pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:-13.1pt; line-height:130%; font-size:9.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+li.HStyle12
+	{style-name:"미주"; margin-left:13.1pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:-13.1pt; line-height:130%; font-size:9.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+div.HStyle12
+	{style-name:"미주"; margin-left:13.1pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:-13.1pt; line-height:130%; font-size:9.0pt; font-family:함초롬바탕; letter-spacing:0; font-weight:"normal"; font-style:"normal"; color:#000000;}
+p.HStyle13
+	{style-name:"메모"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:130%; font-size:9.0pt; font-family:함초롬돋움; letter-spacing:-5%; font-weight:"normal"; font-style:"normal"; color:#000000;}
+li.HStyle13
+	{style-name:"메모"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:130%; font-size:9.0pt; font-family:함초롬돋움; letter-spacing:-5%; font-weight:"normal"; font-style:"normal"; color:#000000;}
+div.HStyle13
+	{style-name:"메모"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:130%; font-size:9.0pt; font-family:함초롬돋움; letter-spacing:-5%; font-weight:"normal"; font-style:"normal"; color:#000000;}
+-->
+</STYLE>
+</HEAD>
 
-	table.pictureGridTbl>tbody>tr {
-		/* page-break-inside: avoid;
-			page-break-after: auto;
-			page-break-before: auto; */
-		height: 6cm;
-	}
+<BODY>
 
-	table.pictureGridTbl>tbody>tr.caption {
-		/* page-break-inside: avoid;
-			page-break-after: auto;
-			page-break-before: auto; */
-		height: 0.8cm;
-	}
+<P CLASS=HStyle0></P>
+<TABLE border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;border:none;'>
+<TR>
+	<TD valign="middle" style='width:559;height:104;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:none;padding:1.4pt 8.5pt 1.4pt 8.5pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:24.0pt;font-weight:"bold";text-decoration:"underline";line-height:160%'>하 자 검 사 조 서</SPAN></P>
+	</TD>
+</TR>
+<TR>
+	<TD valign="middle" style='width:559;height:55;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:none;padding:1.4pt 8.5pt 1.4pt 8.5pt'>
+	<P CLASS=HStyle0>공사명 : ${result.flawRprNm }</P>
+	</TD>
+</TR>
+<TR>
+	<TD valign="middle" style='width:559;height:101;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:none;padding:1.4pt 8.5pt 1.4pt 8.5pt'>
+	<P CLASS=HStyle0 STYLE='text-align:right;'>2012년 11월 26일 적용</P>
+	<P CLASS=HStyle0 STYLE='text-align:right;'>{1}</P>
+	<P CLASS=HStyle0 STYLE='text-align:right;'>도급액 : {2} ({3}원)</P>
+	</TD>
+</TR>
+<TR>
+	<TD valign="top" style='width:559;height:183;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:none;padding:1.4pt 8.5pt 1.4pt 8.5pt'>
+	<P CLASS=HStyle0>위 공사에 대하여 {4} 하자검사한 결과 <SPAN STYLE='text-decoration:"underline"'>하자없음</SPAN>을 확인 함</P>
+	</TD>
+</TR>
+<TR>
+	<TD valign="middle" style='width:559;height:44;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:none;padding:1.4pt 8.5pt 1.4pt 8.5pt'>
+	<P CLASS=HStyle0 STYLE='text-align:right;'>{5}</P>
+	</TD>
+</TR>
+<TR>
+	<TD valign="middle" style='width:559;height:74;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:none;padding:1.4pt 8.5pt 1.4pt 8.5pt'>
+	<P CLASS=HStyle0 STYLE='text-align:right;'>하자검사자 : {6}&nbsp;&nbsp;&nbsp;&nbsp; (인)</P>
+	</TD>
+</TR>
+<TR>
+	<TD valign="middle" style='width:559;height:17;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:none;padding:1.4pt 8.5pt 1.4pt 8.5pt'>
+	<P CLASS=HStyle0>&nbsp;</P>
+	</TD>
+</TR>
+<TR>
+	<TD valign="middle" style='width:559;height:121;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:none;padding:1.4pt 8.5pt 1.4pt 8.5pt'>
+	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:26.0pt;font-weight:"bold";line-height:160%'>여수광양항만공사 사장 귀하</SPAN></P>
+	</TD>
+</TR>
+<TR>
+	<TD valign="middle" style='width:559;height:40;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:none;border-bottom:solid #000000 0.4pt;padding:1.4pt 8.5pt 1.4pt 8.5pt'>
+	<P CLASS=HStyle0>&nbsp;</P>
+	</TD>
+</TR>
+</TABLE>
+<P CLASS=HStyle0><IMG src="file:///C:\Users\EUNSUNGJ\Documents\PIC9E87.png" alt="그림입니다.
+원본 그림의 이름: stamp.gif
+원본 그림의 크기: 가로 168pixel, 세로 168pixel" width="48" height="48" vspace="0" hspace="0" border="0"></P>
 
-	table.pictureGridTbl>tbody>tr>td {
-		/* page-break-inside: avoid;
-			page-break-after: avoid;
-			page-break-before: auto; */
-		border: 0.3mm gray solid;
-		width: 50%;
-		padding: 0.2cm;
-		vertical-align: middle;
-		border:1px gray solid;
-		text-align: center;
-	}
+<P CLASS=HStyle0><BR></P>
 
-	table.pictureGridTbl>thead {
-		display: table-header-group;
-	}
+<P CLASS=HStyle0><BR></P>
 
-	table.pictureGridTbl>tfoot {
-		display: table-footer-group;
-	}
+<P CLASS=HStyle0><BR></P>
 
-	h1 {
-		text-align:center;
-		vertical-align:top;
-		font-size:30px;
-		font-weight:bold;
-		text-decoration:underline;
-		margin-bottom: 1cm;
-	}
+<P CLASS=HStyle0><BR></P>
 
-	div.title {
-		font-family:한컴바탕;
-		font-size:24px;
-		font-weight: 2px;
-	}
+<P CLASS=HStyle0><BR></P>
 
-	h2 {
-		text-align:left;
-		vertical-align:middle;
-		font-weight:bold;
-		font-size:15px;
-		padding-left:0.8cm;
-	}
+<P CLASS=HStyle0><BR></P>
 
-	p.dateStr {
-		text-align:right;
-		vertical-align:middle;
-		font-size:15px;
-		padding-right: 25px;
-	}
+<P CLASS=HStyle0><BR></P>
+        <c:if test="${result.flawEnnc == 'Y'}">
 
-	p.amountStr {
-		text-align:right;
-		vertical-align:middle;
-		font-size:15px;
-		padding-right: 15px;
-	}
+<P CLASS=HStyle0><BR></P>
 
-	p.contextStr {
-		vertical-align:top;
-		font-size:15px;
-		padding-top: 0.2cm;
-		padding-left: 1cm;
-	}
+<P CLASS=HStyle0><BR></P>
 
-	p.inspectDate {
-		text-align:right;
-		vertical-align:middle;
-		font-size:15px;
-		padding-right:100px;
-	}
+<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:18.0pt;text-decoration:"underline";line-height:160%'><BR></SPAN></P>
 
-	h3 {
-		text-align:center;
-		vertical-align:middle;
-		font-weight:bold;
-		font-size:30px;
-	}
+<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:18.0pt;text-decoration:"underline";line-height:160%'><BR></SPAN></P>
 
-	img.tdFull {
-		display: block;
-		width: 6cm;
-		max-height: 100%;
-		margin: auto;
-	}
+<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:18.0pt;text-decoration:"underline";line-height:160%'><BR></SPAN></P>
 
-	.stamp {
-		position: absolute;
-		  left: 16.5cm;
-		  top: 18.2cm;
-	}
+<P CLASS=HStyle0 STYLE='text-align:center;'></P>
+<TABLE border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;border:none;'>
+<TR>
+	<TD valign="middle" style='width:298;height:59;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt'>
+	<P CLASS=HStyle0>테스트</P>
+	</TD>
+	<TD valign="middle" style='width:298;height:59;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt'>
+	<P CLASS=HStyle0>합니다.</P>
+	</TD>
+</TR>
 
-	img.stamp {
-		position: absolute;
-		  left: 16.5cm;
-		  top: 18.0cm;
-		  filter:Alpha(Opacity=50);Opacity:0.5;
-	}
+<c:forEach var="resultItem" items="${resultList}" varStatus="status" end="3" step="2">
 
-	table.reportPage {
-		width: 100%;
-	}
+<TR>
+	<TD valign="middle" style='width:298;height:116;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt'>
+	<P CLASS=HStyle0><SPAN STYLE='font-weight:"bold"'><IMG src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />" alt="그림입니다." width="94" height="71" vspace="0" hspace="0" border="0"></SPAN></P>
+	</TD>
+	<TD valign="middle" style='width:298;height:116;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt'>
+	<P CLASS=HStyle0><IMG src="/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />" alt="그림입니다." width="94" height="71" vspace="0" hspace="0" border="0"></P>
+	</TD>
+</TR>
 
-	table.pageFont{
-		font-family:한컴바탕;
-		width:100%;
-		height:100%;
-		border:1px gray solid;
-	}
+</c:forEach>
 
-	table.page2Title {
-		font-family:한컴바탕;
-		width:100%;
-		height:20%;
-		border:none;
-	}
+</TABLE>
+<P CLASS=HStyle0 STYLE='text-align:center;'></P>
 
-	table.rprReport {
-		height:25%; width:100%; border:1px gray solid;
-	}
+<P CLASS=HStyle0><BR></P>
 
-	p.subtitle {
-		padding-top: 1cm;
-		padding-bottom: 0.2cm;
-		font-family:한컴바탕;
-		font-size:0.4cm;
-	}
+<P CLASS=HStyle0><BR></P>
 
-	table.rprReport th {
-		border:1px gray solid;
-		text-align:center;
-		vertical-align:middle;
-		background:linear-gradient(gray,white, gray);
-		height: 1.5cm;
-	}
-
-	table.rprReport td {
-		border:1px gray solid;
-		width:60%;
-		padding:5px;
-		height: 4cm;
-	}
+</c:if>   <!-- c:if test="${result.flawEnnc == 'Y'}" -->
 
 
-	@media print {
-		.stamp {
-			top: 17.2cm;
+</BODY>
 
-		}
-
-		img.stamp {
-			top: 17.5cm;
-		}
-	}
-</style>
-
-	<script src="<c:url value='/js/jquery-1.10.2.min.js'/>"></script>
-	<script src="<c:url value='/js/jquery-migrate-1.2.1.min.js'/>"></script>
-	<script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
+</HTML>
 
 
-	<script>
-	$( window ).load(function() {
-		$('#printButton').button().click(function(){
-	        			window.print();
-		});
+<%--
 
-		var now = new Date();
-		var year= now.getFullYear();
-		var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
-		var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
 
-		var currDate = year + '년 ' + mon + '월 ' + day + '일';
 
-		$('#today').text(currDate);
-	});
-	</script>
-	</c:if>
-  </head>
-  <body>
-  <c:set var="pagePerCount" value="9"/>
 
-  <c:if test="${resultCode==0 }">
-  <c:if test="${isHwp eq null }">
- <%-- <c:set var="imgFiles" value="${fn:split('FILE_000000000006055.jpg,FILE_000000000006063.png,FILE_000000000006064.jpg,FILE_000000000006088.jpg,FILE_000000000006063.png,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006063.png,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg', ',')}" scope="page" /> --%>
- <%-- <c:forEach var="resultItem" items="${resultList}">
-<c:out value="${resultList.filenmPhysicl}"/>
 
-</c:forEach>  --%>
 
-<a id="printButton" href="#">인쇄</a>
-</c:if>
+
+
+
+
+
 <div class="book">
     <div class="page">
         <div class="subpage ygpa_report" >
@@ -300,7 +306,7 @@
         				<td style="vertical-align:top;font-size:15px;">
         					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         					위 공사에 대하여 <c:out value="${result.flawExamDt }" />&nbsp;&nbsp;하자검사한 결과 <span style="text-decoration:underline;">
-        			<c:choose>	
+        			<c:choose>
         				<c:when test="${result.flawEnnc == 'Y'}">하자있음</c:when>
         				<c:otherwise>하자없음</c:otherwise>
         			</c:choose>
@@ -394,7 +400,7 @@
         <div id="ttt" class="page">
             <div class="subpage ygpa_report" >
 	    		<table class="pictureGridTbl"  width="530">
-	    		<%-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. 출력한 갯수가 페이지를 벗어나면 위에 페이지 끊기를 추가 한다. --%>
+	    		첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. 출력한 갯수가 페이지를 벗어나면 위에 페이지 끊기를 추가 한다.
 				<c:forEach var="resultItem" items="${resultList}" varStatus="status" begin="4" step="2">
     			<tr>
     				<td>
@@ -414,7 +420,7 @@
         <div id="tet" class="page">	<!--  class="page"> 페이지 누락 됨 -->
             <div class="subpage ygpa_report" >
 	    		<table class="pictureGridTbl"  width="530">
-	    		<%-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. 출력한 갯수가 페이지를 벗어나면 위에 페이지 끊기를 추가 한다. --%>
+	    		첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. 출력한 갯수가 페이지를 벗어나면 위에 페이지 끊기를 추가 한다.
     			</c:if>
     			</c:forEach>
    			</c:if>
@@ -430,4 +436,4 @@
     	<h2>서버 오류</h2>
     	<p>에러 메시지 : <c:out value="${ resultMessage}"/></p>
     </c:if>
-  </body>
+  </body> --%>
