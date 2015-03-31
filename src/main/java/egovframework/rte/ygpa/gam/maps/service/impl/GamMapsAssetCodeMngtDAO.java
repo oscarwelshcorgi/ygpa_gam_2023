@@ -67,11 +67,16 @@ public class GamMapsAssetCodeMngtDAO extends YGPAAbstractDAO {
 		return (EgovMap) selectByPk("gamMapsAssetCodeMngtDAO.selectMapsAssetsCodeUseSummary", vo);
 	}
 
+	/**
+	 * 임대정보 팝업 조회
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
 	@SuppressWarnings("unchecked")
-	public List selectMapsAssetsCodeUseInfo(Map vo) throws Exception{
-		return list("gamMapsAssetCodeMngtDAO.selectMapsAssetsCodeUseInfo", vo);
+	public Map selectMapsAssetsRentInfo(Map vo) throws Exception{
+		return (EgovMap) selectByPk("gamMapsAssetRentMngtDAO.selectMapsAssetsRentInfo_S", vo);
 	}
-
 
 	public String selectMapsBjdCodeInfo(String bjdCode) throws Exception{
 		return (String) selectByPk("gamMapsAssetCodeMngtDAO.selectMapsBjdCodeInfo", bjdCode);

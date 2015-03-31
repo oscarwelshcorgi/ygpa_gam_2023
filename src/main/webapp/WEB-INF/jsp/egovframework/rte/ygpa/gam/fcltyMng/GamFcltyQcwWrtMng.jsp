@@ -1298,7 +1298,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 			</ul>
 
 			<!-- 2.1.2. TAB 1 AREA (LIST) -->
-			<div id="listTab" class="emdTabPage" style="overflow: hidden;">
+			<div id="listTab" class="emdTabPage fillHeight" style="overflow: hidden;">
 				<table id="mainGrid" style="display:none" class="fillHeight"></table>
 				<div class="emdControlPanel">
 					<form id="listSumForm">
@@ -1318,9 +1318,9 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 			</div>
 
 			<!-- 2.1.3. TAB 2 AREA (DETAIL) -->
-			<div id="detailTab" class="emdTabPage" style="overflow: hidden;">
+			<div id="detailTab" class="emdTabPage fillHeight" style="overflow: hidden;">
 				<!-- 2.1.3.1 Layout Table -->
-				<table style="width:100%;" class="editForm">
+				<table style="width:100%;" class="editForm fillHeight">
 					<tr>
 						<td width="70%">
 							<!-- 2.1.3.1.1 Element Table -->

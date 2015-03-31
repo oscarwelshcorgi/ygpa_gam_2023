@@ -30,6 +30,7 @@ if(request.getAttribute("isHwp")!=null){
 	response.reset();
 	response.setHeader("Content-Disposition", "attachment;filename=\""+fileName + "\"");
 	response.setHeader("Content-Description", "JSP Generated Data");
+	response.setHeader("Cache-control","private");
 	response.setContentType("application/hwp; charset=UTF-8");
 }
 // 한글파일에는 css가 먹지 않음.... 안타깝게도... 테이블에 속성정의를 해주어야 함... 귀찮더라도 작업 바람
@@ -47,28 +48,28 @@ if(request.getAttribute("isHwp")!=null){
 	<link rel="stylesheet" href="<c:url value='/css/ygpa/gam/ygpa_report.css' />" />
 
     <style>
-	table.pageBrTbl {
+	table.pictureGridTbl {
 		width: 100%;
 		/* 	page-break-after: auto; */
 		border: solid black 0.05mm;
 		border-spacing: 0;
 	}
 
-	table.pageBrTbl>tbody>tr {
+	table.pictureGridTbl>tbody>tr {
 		/* page-break-inside: avoid;
 			page-break-after: auto;
 			page-break-before: auto; */
 		height: 6cm;
 	}
 
-	table.pageBrTbl>tbody>tr.caption {
+	table.pictureGridTbl>tbody>tr.caption {
 		/* page-break-inside: avoid;
 			page-break-after: auto;
 			page-break-before: auto; */
 		height: 0.8cm;
 	}
 
-	table.pageBrTbl>tbody>tr>td {
+	table.pictureGridTbl>tbody>tr>td {
 		/* page-break-inside: avoid;
 			page-break-after: avoid;
 			page-break-before: auto; */
@@ -80,12 +81,70 @@ if(request.getAttribute("isHwp")!=null){
 		text-align: center;
 	}
 
-	table.pageBrTbl>thead {
+	table.pictureGridTbl>thead {
 		display: table-header-group;
 	}
 
-	table.pageBrTbl>tfoot {
+	table.pictureGridTbl>tfoot {
 		display: table-footer-group;
+	}
+
+	h1 {
+		text-align:center;
+		vertical-align:top;
+		font-size:30px;
+		font-weight:bold;
+		text-decoration:underline;
+		margin-bottom: 1cm;
+	}
+
+	div.title {
+		font-family:한컴바탕;
+		font-size:24px;
+		font-weight: 2px;
+	}
+
+	h2 {
+		text-align:left;
+		vertical-align:middle;
+		font-weight:bold;
+		font-size:15px;
+		padding-left:0.8cm;
+	}
+
+	p.dateStr {
+		text-align:right;
+		vertical-align:middle;
+		font-size:15px;
+		padding-right: 25px;
+	}
+
+	p.amountStr {
+		text-align:right;
+		vertical-align:middle;
+		font-size:15px;
+		padding-right: 15px;
+	}
+
+	p.contextStr {
+		vertical-align:top;
+		font-size:15px;
+		padding-top: 0.2cm;
+		padding-left: 1cm;
+	}
+
+	p.inspectDate {
+		text-align:right;
+		vertical-align:middle;
+		font-size:15px;
+		padding-right:100px;
+	}
+
+	h3 {
+		text-align:center;
+		vertical-align:middle;
+		font-weight:bold;
+		font-size:30px;
 	}
 
 	img.tdFull {
@@ -97,30 +156,71 @@ if(request.getAttribute("isHwp")!=null){
 
 	.stamp {
 		position: absolute;
-		left: 16.5cm;
-		top: 18.7cm;
-
+		  left: 16.5cm;
+		  top: 18.2cm;
 	}
 
 	img.stamp {
-		top: 18.5cm;
+		position: absolute;
+		  left: 16.5cm;
+		  top: 18.0cm;
+		  filter:Alpha(Opacity=50);Opacity:0.5;
 	}
+
+	table.reportPage {
+		width: 100%;
+	}
+
 	table.pageFont{
-	font-family:한컴바탕;
+		font-family:한컴바탕;
+		width:100%;
+		height:100%;
+		border:1px gray solid;
 	}
+
+	table.page2Title {
+		font-family:한컴바탕;
+		width:100%;
+		height:20%;
+		border:none;
+	}
+
+	table.rprReport {
+		height:25%; width:100%; border:1px gray solid;
+	}
+
+	p.subtitle {
+		padding-top: 1cm;
+		padding-bottom: 0.2cm;
+		font-family:한컴바탕;
+		font-size:0.4cm;
+	}
+
+	table.rprReport th {
+		border:1px gray solid;
+		text-align:center;
+		vertical-align:middle;
+		background:linear-gradient(gray,white, gray);
+		height: 1.5cm;
+	}
+
+	table.rprReport td {
+		border:1px gray solid;
+		width:60%;
+		padding:5px;
+		height: 4cm;
+	}
+
 
 	@media print {
-	.stamp {
-		position: absolute;
-		left: 16.5cm;
-		top: 17.7cm;
+		.stamp {
+			top: 17.2cm;
 
-	}
+		}
 
-	img.stamp {
-		top: 17.5cm;
-	}
-
+		img.stamp {
+			top: 17.5cm;
+		}
 	}
 </style>
 
@@ -163,95 +263,102 @@ if(request.getAttribute("isHwp")!=null){
 <div class="book">
     <div class="page">
         <div class="subpage ygpa_report" >
-    		<table class="pageFont" style="width:100%;border:1px gray solid;"  width="530">
-        		<thead>
-        			<tr height="60px">
-        				<td></td>
-        			</tr>
-        			<tr height="100px">
-		  				<td style="text-align:center;vertical-align:top;font-size:30px;font-weight:bold;text-decoration:underline;">하 자 검 사 조 서</td>
-		 			</tr>
-        		</thead>
-        		<tbody>
-        			<tr height="80px">
-       				<td style="text-align:left;vertical-align:middle;font-weight:bold;font-size:15px;padding-left:15px;">&nbsp;공 사 명 : <c:out value="${result.flawRprNm }" /></td>
+        	<table border="1" class="reportPage" width="530" height="800">
+        		<tr>
+	        		<td>
+       		    		<table class="pageFont">
+			        		<thead>
+			        			<tr height="60">
+			        				<td></td>
+			        			</tr>
+			        			<tr height="100">
+					  				<td><h1><div class="title">하 자 검 사 조 서</div></h1></td>
+					 			</tr>
+			        		</thead>
+			        		<tbody>
+			        			<tr height="80">
+			       				<td width="530"><h2>공 사 명 : <c:out value="${result.flawRprNm }" /></h2></td>
 
-        			</tr>
-        			<tr height="20px">
-        				<td></td>
-        			</tr>
-        			<tr height="30px">
-        			<!-- TODO: 현재 DB의 값이 없어 미적용 향후 처리 예정 -->
-        				<td style="text-align:right;vertical-align:middle;font-size:15px;padding-right: 25px;">2012년 11월 26일 준공(향후적용)</td>
-        			</tr>
-        			<tr height="30px">
-        				<td style="text-align:right;vertical-align:middle;font-size:15px;padding-right: 25px;"><c:out value="${result.ctrtDt }" /> <c:out value="${result.flawRprEntrpsNm }" /> 대표이사 <c:out value="${result.rprsntv }" />과 계약분</td>
-        			</tr>
-        			<tr height="30px">
-        				<td style="text-align:right;vertical-align:middle;font-size:15px;padding-right: 15px;">도급액 : 일금 <c:out value="${result.ctrtAmtKo }" />원정 (₩<fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.ctrtAmt }" />원)</td>
-        			</tr>
-        			<tr height="30px">
-        				<td></td>
-        			</tr>
-        			<tr height="130px">
-        				<td style="vertical-align:top;font-size:15px;">
-        					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        					위 공사 하자검사의 명을 받아 <c:out value="${result.flawExamDt }" /> 검사한 결과 <span style="text-decoration:underline;"><c:out value="${result.flawExamResult }" /></span>을 확인함
-        				</td>
-        			</tr>
-        			<tr height="60px">
-        				<td style="text-align:right;vertical-align:middle;font-size:15px;padding-right:100px;"><span id="today"></span></td>
-        			</tr>
-        			<tr height="60px">
-        				<td style="text-align:right;vertical-align:middle;font-size:15px;padding-right:100px;">
-			        		하자검사자 : <c:out value="${result.flawExamUsrNm }" />
-			        		<div  class="stamp">(인)</div>
-			        		<img class="stamp" style="filter:Alpha(Opacity=50);Opacity:0.5;" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/>
-
-			       		</td>
-        			</tr>
-        			<tr height="100px">
-        				<td></td>
-        			</tr>
-        			<tr>
-        				<td style="text-align:center;vertical-align:middle;font-weight:bold;font-size:30px;"><h1>여수광양항만공사 사장 귀하</h1></td>
-        			</tr>
-        			<tr height="80px">
-        				<td></td>
-        			</tr>
-        		</tbody>
+			        			</tr>
+			        			<tr height="20">
+			        				<td></td>
+			        			</tr>
+			        			<tr height="30">
+			        			<!-- TODO: 현재 DB의 값이 없어 미적용 향후 처리 예정 -->
+			        				<td><p class="dateStr">2012년 11월 26일 준공(향후적용)</p></td>
+			        			</tr>
+			        			<tr height="30">
+			        				<td><p class="dateStr"><c:out value="${result.ctrtDt }" /> <c:out value="${result.flawRprEntrpsNm }" /> 대표이사 <c:out value="${result.rprsntv }" />과 계약분</p></td>
+			        			</tr>
+			        			<tr height="30">
+			        				<td><p class="amountStr">도급액 : 일금 <c:out value="${result.ctrtAmtKo }" />원정 (₩<fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.ctrtAmt }" />원)</p></td>
+			        			</tr>
+			        			<tr height="30">
+			        				<td></td>
+			        			</tr>
+			        			<tr height="130">
+			        				<td>
+			        					<p class="contextStr">위 공사 하자검사의 명을 받아 <c:out value="${result.flawExamDt }" /> 검사한 결과 <span style="text-decoration:underline;"><c:out value="${result.flawExamResult }" /></span>을(를) 확인함</p>
+			        				</td>
+			        			</tr>
+			        			<tr height="60">
+			        				<td><span id="today" class="dateStr"></span></td>
+			        			</tr>
+			        			<tr height="60">
+			        				<td>
+			        					<p class="inspectDate">
+						        		하자검사자 : <c:out value="${result.flawExamUsrNm }" />
+						        		<div  class="stamp">(인)</div>
+						        		<img class="stamp" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/>
+						        		</p>
+						       		</td>
+			        			</tr>
+			        			<tr height="100">
+			        				<td></td>
+			        			</tr>
+			        			<tr>
+			        				<td><h3>여수광양항만공사 사장 귀하</h3></td>
+			        			</tr>
+			        			<tr height="80">
+			        				<td></td>
+			        			</tr>
+			        		</tbody>
+			        	</table>
+	        		</td>
+        		</tr>
         	</table>
         </div>
         </div>
         <c:if test="${result.flawEnnc == 'Y'}">
-	        <div class="page">	<!--  class="page"> 페이지 누락 됨 -->
+	        <div class="page">
 	                <div class="subpage ygpa_report" >
-	           <table style="height:20%; width:100%;"  width="530">
-	           <thead>
-	        			<tr height="15px">
+	           <table class="page2Title" width="530">
+	        			<tr height="15">
 	        				<td></td>
 	        			</tr>
-	        			<tr height="15px">
-			  				<td style="text-align:center;vertical-align:top;font-size:30px;font-weight:bold;text-decoration:underline;">하　자　내　용</td>
+	        			<tr height="15">
+			  				<td><h1>하　자　내　용</h1></td>
 			 			</tr>
-	        		</thead>
-	        		<tbody>
-	        			<tr height="80px">
-	        				<td style="text-align:center;vertical-align:middle;font-size:15px;">&nbsp;<c:out value="${result.flawRprNm }" />)</td>
+	        			<tr height="80">
+	        				<td><h2><c:out value="${result.flawRprNm }" />)</h2></td>
 	        			</tr>
-	        			<tr height="20px">
-	        				<td></td>
+        			<tr height="20">
+        				<td></td>
+       				</tr>
 	        	 </table>
-	           <table style="height:25%; width:100%; border:1px gray solid;"  width="530">
-	         	 <tr height="10px">
-	        				<td style="border:1px gray solid;text-align:center;vertical-align:middle;background:linear-gradient(gray,white, gray);">하자내용</td><td style="border:1px gray solid;text-align:center;vertical-align:middle;background:linear-gradient(gray,white, gray);">비 고</td>
-			</tr>
-				<tr height="30px">
-	        				<td style="border:1px gray solid;width:60%;padding:5px;" ><c:out value="${result.flawRprContents}"/></td><td style="border:1px gray solid;width:40%;padding:5px;"><c:out value="${result.rm}"/></td>
-			</tr>
-	           </table>
-	           <table style="height:5%; width:100%;"  width="530"><tr height="10px"><td style="font-size:15px;text-align:left;vertical-align:bottom;">○ 사진대지</td></tr></table>
-	    		<table class="pageBrTbl"  width="530">
+	           <table border="1" class="rprReport" width="530">
+	           		<tr>
+		           		<th>하자내용</th>
+		           		<th>비 고</th>
+	           		</tr>
+	           		<tr>
+		           		<td><c:out value="${result.flawRprContents}"/></td>
+		           		<td><c:out value="${result.rm}"/></td>
+	           		</tr>
+	           	</table>
+
+	           	<p class="subtitle">○ 사진대지</p>
+	    		<table class="pictureGridTbl" border="1" width="530">
 					<c:forEach var="resultItem" items="${resultList}" varStatus="status" end="3" step="2">
 	    			<tr>
 	    				<td>
@@ -280,8 +387,8 @@ if(request.getAttribute("isHwp")!=null){
 	    	</div>
         <div id="ttt" class="page">
             <div class="subpage ygpa_report" >
-	    		<table class="pageBrTbl"  width="530">
-	    		<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. 출력한 갯수가 페이지를 벗어나면 위에 페이지 끊기를 추가 한다. -->
+	    		<table class="pictureGridTbl"  width="530">
+	    		<%-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. 출력한 갯수가 페이지를 벗어나면 위에 페이지 끊기를 추가 한다. --%>
 				<c:forEach var="resultItem" items="${resultList}" varStatus="status" begin="4" step="2">
     			<tr>
     				<td>
@@ -300,8 +407,8 @@ if(request.getAttribute("isHwp")!=null){
     	</div>
         <div id="tet" class="page">	<!--  class="page"> 페이지 누락 됨 -->
             <div class="subpage ygpa_report" >
-	    		<table class="pageBrTbl"  width="530">
-	    		<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. 출력한 갯수가 페이지를 벗어나면 위에 페이지 끊기를 추가 한다. -->
+	    		<table class="pictureGridTbl"  width="530">
+	    		<%-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. 출력한 갯수가 페이지를 벗어나면 위에 페이지 끊기를 추가 한다. --%>
     			</c:if>
     			</c:forEach>
    			</c:if>

@@ -194,6 +194,30 @@ public class GamPrtFcltyRentMngtController {
     	return map;
     }
 
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/asset/rent/selectRentMasterInfo.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectRentDetailInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+		// 항만시설사용상세리스트 및 총건수
+		Map result = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtMasterInfo(searchVO);
+
+    	map.put("resultCode", 0);	// return ok
+    	map.put("result", result);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+
 	/**
      * 항만시설사용상세리스트를 조회한다.
      *
@@ -1122,6 +1146,47 @@ public class GamPrtFcltyRentMngtController {
 
 	         resultCode = 0;
 	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.rent.prmisn.exec");
+         }
+
+     	 map.put("resultCode", resultCode);
+         map.put("resultMsg", resultMsg);
+
+ 		return map;
+     }
+
+	/**
+     * 항만시설사용 승낙취소(허가취소) 가 가능 한지 체크한다.
+     * @param gamPrtFcltyRentMngtVO
+     * @param bindingResult
+     * @return map
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/gnrl/checkPrtFcltyRentMngtPrmisnCancel.do")
+    public @ResponseBody Map checkPrtFcltyRentMngtPrmisnCancel(
+     	   @ModelAttribute("gamPrtFcltyRentMngtVO") GamPrtFcltyRentMngtVO gamPrtFcltyRentMngtVO)
+            throws Exception {
+
+     	 Map map = new HashMap();
+     	 Map paramMap = new HashMap();
+         String resultMsg = "";
+         int resultCode = 1;
+
+     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+     	if(!isAuthenticated) {
+ 	        map.put("resultCode", 1);
+     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+         	return map;
+     	}
+
+     	int noticeNo=gamPrtFcltyRentMngtService.selectRentFeeNoticeListCount(gamPrtFcltyRentMngtVO);
+
+         if(noticeNo!=0) {
+             resultCode = noticeNo;
+        	 resultMsg = egovMessageSource.getMessage("gam.asset.rent.prmisnCalcel.notice");
+         }
+         else {
+             resultCode = 0;
+             resultMsg = "";
          }
 
      	 map.put("resultCode", resultCode);

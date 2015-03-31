@@ -201,13 +201,30 @@
 					             AND A.ENTRPSCD = #sEntrpscd#
 					         </isNotEmpty>
 
-					         <isNotEmpty property="sGrUsagePdFrom">
-                                 AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-                             </isNotEmpty>
-
-                             <isNotEmpty property="sGrUsagePdTo">
-                                 AND A.GR_USAGE_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
-                             </isNotEmpty>
+							<isEqual property="searchCondition" compareValue="reqestDt">
+								<isNotEmpty property="sGrUsagePdFrom">
+								<![CDATA[
+	                                 AND A.REQST_DT >= TO_DATE(#sGrUsagePdFrom#,'yyyy-mm-dd')
+	                                 ]]>
+	                             </isNotEmpty>
+	                             <isNotEmpty property="sGrUsagePdTo">
+								<![CDATA[
+	                                 AND A.REQST_DT < TO_DATE(#sGrUsagePdTo#,'yyyy-mm-dd')+1
+	                                 ]]>
+	                             </isNotEmpty>
+							</isEqual>
+							<isEqual property="searchCondition" compareValue="usagePd">
+						        <isNotEmpty property="sGrUsagePdFrom">
+								<![CDATA[
+	                                 AND A.GR_USAGE_PD_FROM >= TO_DATE(#sGrUsagePdFrom#,'yyyy-mm-dd')
+	                                 ]]>
+	                             </isNotEmpty>
+	                             <isNotEmpty property="sGrUsagePdTo">
+								<![CDATA[
+	                                 AND A.GR_USAGE_PD_TO < TO_DATE(#sGrUsagePdTo#,'yyyy-mm-dd')+1
+	                                 ]]>
+	                             </isNotEmpty>
+							</isEqual>
 
 					         <isNotEmpty property="sGrAr">
 					             AND A.GR_AR = #sGrAr#
@@ -1437,4 +1454,70 @@
 			ORDER BY FEE_TP
 		]]>
     </select>
+
+     <select id="gamPrtFcltyRentMngtDao.selectPrtFcltyRentMngtMasterInfo_S" parameterClass="gamPrtFcltyRentMngtVO" resultClass="egovMap">
+        SELECT
+               A.PRT_AT_CODE
+             , A.PRT_AT_CODE PRT_AT_CODE_STR
+             , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = A.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM
+             , A.MNG_YEAR
+             , A.MNG_NO
+             , A.MNG_CNT
+             , A.MNG_YEAR || '-' || A.MNG_NO || '-' || A.MNG_CNT AS RENT_MNG_NO
+             , A.ENTRPSCD
+             , ( SELECT E.ENTRPS_NM FROM ENTRPS_INFO_F E WHERE E.ENTRPSCD = A.ENTRPSCD AND ROWNUM = 1 ) ENTRPS_NM
+             , A.REQST_SE_CD
+             , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM011' AND CD.CODE = A.REQST_SE_CD AND ROWNUM = 1) REQST_SE_CD_NM
+             , NVL(A.GR_AR,0) GR_AR
+             , NVL(A.GR_FEE,0) GR_FEE
+             , A.TAXT_SE
+             , A.NTIC_MTH
+             , TO_CHAR(A.FRST_PRMISN_DT, 'YYYY-MM-DD') FRST_PRMISN_DT
+             , TO_CHAR(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT
+             , A.PRMISN_YN
+             , TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM
+             , TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO
+             , A.DOC_NO
+             , A.RM
+             , A.CMT
+             , A.ETC
+             , A.REG_USR
+             , TO_CHAR(A.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+             , A.UPD_USR
+             , TO_CHAR(A.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
+             , NVL(A.GR_RDCXPT_FEE,0) GR_RDCXPT_FEE
+             , A.GIS_CD
+             , A.DEPTCD
+             , A.PAY_MTH
+             , TO_CHAR(A.FRST_REQST_DT, 'YYYY-MM-DD') FRST_REQST_DT
+             , A.SANCTN_STTUS
+             , GAM_GETCODENAME('GAM046', A.SANCTN_STTUS) SANCTN_STTUS_NM
+             , A.SANCTNER_EMPL_NO
+             , A.QUAY_CD
+             , TO_CHAR(A.SANCTN_DT, 'YYYY-MM-DD HH24:MI:SS') SANCTN_DT
+             , A.QUAY_GROUP_CD
+             , TO_CHAR(A.REQST_DT, 'YYYY-MM-DD') REQST_DT
+             , TO_CHAR(NVL(A.PAYINST_INTRRATE,0) * 100) AS PAYINST_INTRRATE
+             , GAM_GETCODENAME('GAM016', A.TAXT_SE) AS TAXT_SE_NM
+             , GAM_GETCODENAME('GAM008', A.NTIC_MTH) AS NTIC_MTH_NM
+             , GAM_GETCODENAME('GAM043', A.PAY_MTH) PAY_MTH_NM
+             , (SELECT CD.ORGNZT_NM FROM COMTNORGNZTINFO CD WHERE CD.ORGNZT_ID = A.DEPTCD AND ROWNUM = 1) DEPTCD_NM
+             , CHARGER_NO
+        FROM ASSETS_RENT_F A
+       WHERE A.QUAY_GROUP_CD='G'
+		AND A.PRT_AT_CODE = #prtAtCode#
+		AND A.MNG_YEAR = #mngYear#
+		AND A.MNG_NO = #mngNo#
+		AND A.MNG_CNT = #mngCnt#
+    </select>
+
+    <select id="gamPrtFcltyRentMngtDao.selectRentFeeNoticeListCount_S" parameterClass="gamPrtFcltyRentMngtVO" resultClass="int">
+         SELECT COUNT(*) totcnt
+           FROM LEV_REQEST_F
+          WHERE PRT_AT_CODE = #prtAtCode#
+		AND MNG_YEAR = #mngYear#
+		AND MNG_NO = #mngNo#
+		AND MNG_CNT = #mngCnt#
+		AND NHT_PRINT_YN='Y'
+	</select>
 </sqlMap>

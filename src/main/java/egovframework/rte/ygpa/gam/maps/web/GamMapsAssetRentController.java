@@ -49,33 +49,83 @@ public class GamMapsAssetRentController {
 	@Resource(name = "gamMapsAssetCodeMngtService")
 	GamMapsAssetCodeMngtService gamMapsAssetCodeMngtService;
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/maps/selectMapsAssetRentList.do", method=RequestMethod.POST)
-	@ResponseBody Map selectMapsAssetRentList(@RequestParam("assetRent") Map assetRent) throws Exception {
-		Map item = new HashMap();
+	@RequestMapping(value="/maps/assets/gamAssetRentInfo.do")
+	public String gamAssetCdInfo(@RequestParam Map searchVO, ModelMap model) throws Exception {
 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
-    		item.put("resultCode", 1);
-    		item.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
     	}
     	else {
-			// 자산상세 정보
-			List<Map<String, Object>> resultList=null;
+    		String auth="";
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+    		String quayCd=(String)searchVO.get("QUAY_CD");
 
-			// 자산 임대 정보
-			resultList = gamMapsAssetCodeMngtService.selectAssetRentInfoList(assetRent);
-
-			if(resultList.size()==0) {
-				item.put("resultCode", 2);
-				item.put("resultMsg", egovMessageSource.getMessage("errors.maps.assets.notfound"));
-				return item;
+			for(int i=0; i<EgovUserDetailsHelper.getAuthorities().size(); i++) {
+				String author = EgovUserDetailsHelper.getAuthorities().get(i);
+				// 권한별 조회 메뉴 설정
+				if(auth.length()!=0) auth+=",";
+				if("role_admin".equalsIgnoreCase(author)) {
+					auth="manager";
+					break;
+				}
+				else
+				if(quayCd=="P" && "role_asset_mngt".equalsIgnoreCase(author)) {
+					auth="manager";
+					break;
+				}
+				else
+				if(quayCd=="G" && "role_pfuse_mngt".equalsIgnoreCase(author)) {
+					auth="manager";
+					break;
+				}
+				else
+				if(quayCd=="H" && "role_htld_mngt".equalsIgnoreCase(author)) {
+					auth="manager";
+					break;
+				}
+				else
+				if(quayCd=="E" && "role_cmmncntr_mngt".equalsIgnoreCase(author)) {
+					auth="manager";
+					break;
+				}
+				else
+				if(quayCd=="C" && "role_cntrq_mngt".equalsIgnoreCase(author)) {
+					auth="manager";
+					break;
+				}
+				else
+				if(quayCd=="M" && "role_mcentr_mngt".equalsIgnoreCase(author)) {
+					auth="manager";
+					break;
+				}
 			}
-			item.put("resultCode", 0);			// return ok
-			item.put("resultList", resultList);
+
+			try {
+				Map assetsRent = gamMapsAssetCodeMngtService.selectMapsAssetsCodeUseInfo(searchVO);
+				Map searchAssetsCd = new HashMap();
+				searchAssetsCd.put("gisAssetsPrtAtCode", assetsRent.get("gisAssetsPrtAtCode"));
+				searchAssetsCd.put("gisAssetsCd", assetsRent.get("gisAssetsCd"));
+				searchAssetsCd.put("gisAssetsSubCd", assetsRent.get("gisAssetsSubCd"));
+
+				Map assetCodeInfo = gamMapsAssetCodeMngtService.selectMapsAssetsCodeInfo(searchAssetsCd);
+
+				model.addAttribute("assetCd", assetCodeInfo);
+				model.addAttribute("assetRent", assetsRent);
+
+				model.addAttribute("auth", auth);
+				model.addAttribute("resultCode", 0);
+			}
+			catch(Exception e) {
+				model.addAttribute("resultCode", -1);
+	    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+			}
     	}
 
-		return item;
-	}
+    	return "ygpa/gam/maps/GamAssetRentInfo";
+    }
+
+
 
 }

@@ -58,7 +58,7 @@ public interface GamMapsAssetCodeMngtService {
 	 * @return
 	 * @throws Exception
 	 */
-	List selectMapsAssetsCodeUseInfo(Map vo) throws Exception;
+	Map selectMapsAssetsCodeUseInfo(Map vo) throws Exception;
 
 
 	List selectAssetRentInfoList(Map vo) throws Exception;

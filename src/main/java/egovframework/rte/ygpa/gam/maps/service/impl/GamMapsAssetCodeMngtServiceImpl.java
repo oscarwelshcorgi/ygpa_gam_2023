@@ -65,14 +65,6 @@ public class GamMapsAssetCodeMngtServiceImpl extends AbstractServiceImpl
 		return gamMapsAssetCodeMngtDAO.selectMapsAssetsCodeInfo(vo);
 	}
 
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.maps.service.GamMapsAssetCodeMngtService#selectMapsAssetsCodeUseInfo(java.util.Map)
-	 */
-	@Override
-	public List selectMapsAssetsCodeUseInfo(Map vo) throws Exception {
-		// TODO Auto-generated method stub
-		return gamMapsAssetCodeMngtDAO.selectMapsAssetsCodeUseInfo(vo);
-	}
 
 	/* (non-Javadoc)
 	 * @see egovframework.rte.ygpa.gam.maps.service.GamMapsAssetCodeMngtService#selectMapsAssetsCodeUseSummary(java.util.Map)
@@ -107,6 +99,15 @@ public class GamMapsAssetCodeMngtServiceImpl extends AbstractServiceImpl
 	public List selectMapsHistSttusByCodeInfo(Map vo) throws Exception {
 		// TODO Auto-generated method stub
 		return gamMapsAssetCodeMngtDAO.selectMapsHistSttusByCodeInfo(vo);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.maps.service.GamMapsAssetCodeMngtService#selectMapsAssetsCodeUseInfo(java.util.Map)
+	 */
+	@Override
+	public Map selectMapsAssetsCodeUseInfo(Map vo) throws Exception {
+		// TODO Auto-generated method stub
+		return gamMapsAssetCodeMngtDAO.selectMapsAssetsRentInfo(vo);
 	}
 
 }

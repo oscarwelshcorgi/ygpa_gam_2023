@@ -8,4 +8,4 @@
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/asset/sts/GamGisAssetDistSttusInqireDao_SQL_oracle.xml" />
 	<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/asset/sts/GamGisAssetUseSttusInqireDao_SQL_oracle.xml" />
 
-</sqlMapConfig>
+<sqlMap resource="egovframework/sqlmap/rte/ygpa/gam/maps/GamMapsAssetRentMngtDao_SQL_oracle.xml" /></sqlMapConfig>

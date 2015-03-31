@@ -1,6 +1,7 @@
 package egovframework.rte.ygpa.gam.oper.gnrl.service;
 
 import java.util.List;
+import java.util.Map;
 
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtDetailVO;
@@ -73,6 +74,14 @@ public interface GamPrtFcltyRentMngtService {
 	 * @exception Exception
 	 */
 	void updatePrtFcltyRentMngt(GamPrtFcltyRentMngtVO vo) throws Exception;
+
+    /**
+     * 임대 정보 내역을 조회한다.
+     * @param vo
+     * @return
+     * @throws Exception
+     */
+    Map selectPrtFcltyRentMngtMasterInfo(GamPrtFcltyRentMngtVO vo) throws Exception;
 
 	/**
 	 * 항만시설사용 상세 목록을 조회한다.
@@ -280,4 +289,11 @@ public interface GamPrtFcltyRentMngtService {
 
     public List selectChargeKndList(GamPrtFcltyRentMngtVO searchVO) throws Exception;
 
+    /**
+     * 고지된 자료가 있는지 조회 한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    int selectRentFeeNoticeListCount(GamPrtFcltyRentMngtVO searchVO) throws Exception;
 }

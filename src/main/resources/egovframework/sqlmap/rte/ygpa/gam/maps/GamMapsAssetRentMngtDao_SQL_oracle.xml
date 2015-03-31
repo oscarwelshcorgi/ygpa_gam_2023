@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.maps">
+
+    <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+   <select id="gamMapsAssetRentMngtDAO.selectMapsAssetsRentInfo_S" parameterClass="hashMap" resultClass="egovMap">
+		SELECT
+		  A.PRT_AT_CODE,
+		  A.MNG_YEAR,
+		  A.MNG_NO,
+		  A.MNG_CNT,
+		  A.ENTRPSCD,
+		  A.ENTRPS_NM,
+		  to_char(A.FRST_REQST_DT, 'YYYY-MM-DD') FRST_REQST_DT,
+		  A.REQST_SE_CD,
+		  A.GR_AR,
+		  A.GR_FEE,
+		  A.NTIC_MTH,
+		  A.PRMISN_YN,
+		  to_char(A.PRMISN_DT, 'YYYY-MM-DD') PRMISN_DT,
+		  A.QUAY_CD,
+		  A.QUAY_GROUP_CD,
+		  A.DEPTCD,
+		  (SELECT orgnzt_nm FROM comtnorgnztinfo where ORGNZT_ID = A.deptcd) DEPT_NM,
+		  to_char(A.REQST_DT, 'YYYY-MM-DD') REQST_DT,
+		  A.PRMISN_USR,
+		  b.gis_assets_prt_at_code,
+		  b.gis_assets_cd,
+		  b.gis_assets_sub_cd,
+		  to_char(b.usage_pd_from, 'YYYY-MM-DD') usage_pd_from,
+		  to_char(b.usage_pd_to, 'YYYY-MM-DD') usage_pd_to,
+		  b.usage_ar,
+		  b.olnlp,
+		  b.fee
+		FROM ASSETS_RENT_F A, ASSETS_RENT_DETAIL_F B
+		WHERE 1=1
+		  AND A.PRT_AT_CODE=B.PRT_AT_CODE
+		  AND A.MNG_YEAR=B.MNG_YEAR
+		  AND A.MNG_NO=B.MNG_NO
+		  AND A.MNG_CNT=B.MNG_CNT
+		  AND A.PRT_AT_CODE=#PRT_CD#
+		  AND A.MNG_YEAR=#MNG_YEAR#
+		  AND A.MNG_NO=#MNG_NO#
+		  AND A.MNG_CNT=#MNG_CNT#
+		  AND A.QUAY_GROUP_CD=#QUAY_CD#
+	</select>
+
+</sqlMap>
