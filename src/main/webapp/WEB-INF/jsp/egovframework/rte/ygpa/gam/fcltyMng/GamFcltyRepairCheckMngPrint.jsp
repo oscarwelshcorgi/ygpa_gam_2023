@@ -58,6 +58,23 @@ if(request.getAttribute("isHwp")!=null){
 		});
 	});
 	</script>
+	<style>
+table.rpr_form_table>tr>td {
+	vertical-align: middle;
+	font-size: 13px;
+	text-align: center;
+}
+
+div.rpr_form_div {
+	height: 50px;
+	text-align: center;
+	vertical-align: middle;
+	border-top: 1px red;
+	font-size: 25px;
+	font-weight: bold;
+	text-decoration: underline;
+}
+</style>
 	</c:if>
   </head>
   <body>
@@ -71,80 +88,82 @@ if(request.getAttribute("isHwp")!=null){
 <div class="book">
     <div class="page">
         <div class="subpage ygpa_report" >
-        	<div style="height:50px;text-align:center;vertical-align:middle;border-top:1px red;font-size:25px;font-weight:bold;text-decoration:underline;">하자검사관리대장</div>
-    		<table class="rpr_form_table" border="1" width="530">
+        	<div class="rpr_form_div" style="height:50px;text-align:center;vertical-align:bottom;border-top:1px red;font-size:25px;font-weight:bold;text-decoration:underline;">하자검사관리대장</div>
+    		 
+    		 <table class="rpr_form_table" border="1"> 
         		<tbody>
         			<tr height="40px">
-        				<td style="width:80px;text-align:center;vertical-align:middle;font-size:13px;">공 사 명</td>
-        				<td colspan="2" style="width:210px;vertical-align:middle;font-size:13px;word-break:break-all;">&nbsp;<c:out value="${result.flawRprNm }" /></td>
-        				<td style="width:80px;text-align:center;vertical-align:middle;font-size:13px;">공사위치</td>
-        				<td colspan="3" style="vertical-align:middle;font-size:13px;word-break:break-all;">&nbsp;</td>
+        				<td width="80" style="width:80px;">공 사 명</td>
+        				<td width="250" colspan="2" style="width:210px;word-break:break-all;">&nbsp;<c:out value="${result.flawRprNm }" /></td>
+        				<td width="50" style="width:80px;">공사위치</td>
+        				<td width="150" colspan="3" style="word-break:break-all;">&nbsp;</td>
         			</tr>
         			<tr height="40px">
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;">도급회사명</td>
-        				<td style="width:150px;vertical-align:middle;font-size:13px;word-break:break-all;">&nbsp;<c:out value="${result.flawRprEntrpsNm }" /></td>
-        				<td style="width:60px;text-align:center;vertical-align:middle;font-size:13px;">주소</td>
-        				<td colspan="2" style="width:120px;vertical-align:middle;font-size:13px;word-break:break-all;">&nbsp;<c:out value="${result.flawRprEntrpsAdres }" /></td>
-        				<td style="width:80px;text-align:center;vertical-align:middle;font-size:13px;">대표자성명</td>
-        				<td style="width:100px;vertical-align:middle;font-size:13px;">&nbsp;<c:out value="${result.rprsntvNm }" /></td>
+        				<td width="50" >도급회사명</td>
+        				<td width="50" style="width:150px;word-break:break-all;">&nbsp;<c:out value="${result.flawRprEntrpsNm }" /></td>
+        				<td width="50" style="width:60px;">주소</td>
+        				<td width="100" colspan="2" style="width:120px;word-break:break-all;">&nbsp;<c:out value="${result.flawRprEntrpsAdres }" /></td>
+        				<td width="0" style="width:80px;">대표자성명</td>
+        				<td width="50" style="width:100px;">&nbsp;<c:out value="${result.rprsntvNm }" /></td>
+        			</tr>
+       				<tr height="40px">
+        				<td width="50" >보증회사명</td>
+        				<td width="50" style="word-break:break-all;">&nbsp;<c:out value="${result.flawExamEntrpsNm1 }" /></td>
+        				<td width="50" >주소</td>
+        				<td width="100" colspan="2" style="word-break:break-all;">&nbsp;<c:out value="${result.flawExamEntrpsAdres1 }" /></td>
+        				<td width="50" >대표자성명</td>
+        				<td width="50" >&nbsp;<c:out value="${result.examsntvNm1 }" /></td>
+        			</tr>
+					<tr height="40px">
+        				<td width="50" >보증회사명</td>
+        				<td width="50" style="word-break:break-all;">&nbsp;<c:out value="${result.flawExamEntrpsNm2 }" /></td>
+        				<td width="50"  >주소</td>
+        				<td width="100" colspan="2" style="word-break:break-all;">&nbsp;<c:out value="${result.flawExamEntrpsAdres2 }" /></td>
+        				<td width="50"  >대표자성명</td>
+        				<td width="50" >&nbsp;<c:out value="${result.examsntvNm2 }" /></td>
+        			</tr>
+     		      	<tr height="40px">
+        				<td width="50" >계약&nbsp;&nbsp;금액</td>
+        				<td width="100" colspan="2" style="text-align:right;">&nbsp;<fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.ctrtAmt }" /></td>
+        				<td width="50"  >정산액</td>
+        				<td width="150" colspan="3" style="text-align:right;vertical-align:middle;font-size:15px;">&nbsp;</td>
         			</tr>
         			<tr height="40px">
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;">보증회사명</td>
-        				<td style="vertical-align:middle;font-size:13px;word-break:break-all;">&nbsp;<c:out value="${result.flawExamEntrpsNm1 }" /></td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;">주소</td>
-        				<td colspan="2" style="vertical-align:middle;font-size:13px;word-break:break-all;">&nbsp;<c:out value="${result.flawExamEntrpsAdres1 }" /></td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;">대표자성명</td>
-        				<td style="vertical-align:middle;font-size:13px;">&nbsp;<c:out value="${result.examsntvNm1 }" /></td>
-        			</tr>
-        			<tr height="40px">
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;">보증회사명</td>
-        				<td style="vertical-align:middle;font-size:13px;word-break:break-all;">&nbsp;<c:out value="${result.flawExamEntrpsNm2 }" /></td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;">주소</td>
-        				<td colspan="2" style="vertical-align:middle;font-size:13px;word-break:break-all;">&nbsp;<c:out value="${result.flawExamEntrpsAdres2 }" /></td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;">대표자성명</td>
-        				<td style="vertical-align:middle;font-size:13px;">&nbsp;<c:out value="${result.examsntvNm2 }" /></td>
-        			</tr>
-        			<tr height="40px">
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;">계약&nbsp;&nbsp;금액</td>
-        				<td colspan="2" style="text-align:right;vertical-align:middle;font-size:13px;">&nbsp;<fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.ctrtAmt }" /></td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;">정산액</td>
-        				<td colspan="3" style="text-align:right;vertical-align:middle;font-size:15px;">&nbsp;</td>
-        			</tr>
-        			<tr height="40px">
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;">계 약 일</td>
-        				<td style="vertical-align:middle;font-size:13px;">&nbsp;<c:out value="${result.ctrtDt }" /></td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;">준공일</td>
-        				<td colspan="2" style="vertical-align:middle;font-size:13px;">&nbsp;</td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;">하자만료일</td>
-        				<td style="vertical-align:middle;font-size:13px;">&nbsp;<c:out value="${result.flawDtTo }" /></td>
+        				<td width="50" >계 약 일</td>
+        				<td width="50" >&nbsp;<c:out value="${result.ctrtDt }" /></td>
+        				<td width="50" >준공일</td>
+        				<td width="100" colspan="2" >&nbsp;</td>
+        				<td width="50" >하자만료일</td>
+        				<td width="50" >&nbsp;<c:out value="${result.flawDtTo }" /></td>
         			</tr>
         		</tbody>
         	</table>
+        	
         	<div style="height:50px;"> </div>
-        	<div style="height:50px;text-align:center;vertical-align:bottom;border-top:1px red;font-size:25px;font-weight:bold;text-decoration:underline;">하 자 보 증 내 용</div>
-        	<table class="rpr_form_table" border="1" width="530">
+        	<div class="rpr_form_div" style="height:50px;text-align:center;vertical-align:bottom;border-top:1px red;font-size:25px;font-weight:bold;text-decoration:underline;">하 자 보 증 내 용</div>
+        	<table class="rpr_form_table" >
         		<tbody>
         			<tr height="50px">
-        				<td style="width:40px;text-align:center;vertical-align:middle;font-size:13px;">구분</td>
-        				<td style="width:60px;text-align:center;vertical-align:middle;font-size:13px;">검사일</td>
-        				<td style="width:70px;text-align:center;vertical-align:middle;font-size:13px;">검사자</td>
-        				<td style="width:70px;text-align:center;vertical-align:middle;font-size:13px;">소 속</td>
-        				<td style="width:70px;text-align:center;vertical-align:middle;font-size:13px;">직급 및<br>성명</td>
-        				<td style="width:180px;text-align:center;vertical-align:middle;font-size:13px;">하자유무 및 조치사항</td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;">비고</td>
+        				<td style="width:40px;">구분</td>
+        				<td style="width:60px;">검사일</td>
+        				<td style="width:70px;">검사자</td>
+        				<td style="width:70px;">소 속</td>
+        				<td style="width:70px;">직급 및<br>성명</td>
+        				<td style="width:180px;">하자유무 및 조치사항</td>
+        				<td >비고</td>
         			</tr>
         			<tr height="200px">
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;">준공<br>검사</td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;"></td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;"></td>
-        				<td style="text-align:left;vertical-align:middle;font-size:13px;"></td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;"></td>
-        				<td style="text-align:left;vertical-align:middle;font-size:13px;"></td>
-        				<td style="text-align:left;vertical-align:middle;font-size:13px;"></td>
+        				<td >준공<br>검사</td>
+        				<td ></td>
+        				<td ></td>
+        				<td style="text-align:left;"></td>
+        				<td ></td>
+        				<td style="text-align:left;"></td>
+        				<td style="text-align:left;"></td>
         			</tr>
 <c:if test="${fn:length(resultList) == 0}">
         			<tr>
-        				<td colspan="7" style="text-align:center;font-size:13px;">자료가 존재 하지 않습니다.</td>
+        				<td colspan="7" style="font-size:13px;">자료가 존재 하지 않습니다.</td>
         			</tr>
 </c:if>
 
@@ -157,31 +176,31 @@ if(request.getAttribute("isHwp")!=null){
     			<div class="page">
 				<div class="subpage ygpa_report" >
 				<!--  헤더 반복  -->
-        			<table class="rpr_form_table" border="1" width="530">
+        			<table class="rpr_form_table" >
         				<tbody>
 		        			<tr height="50px">
-		        				<td style="width:40px;text-align:center;vertical-align:middle;font-size:13px;">구분</td>
-		        				<td style="width:60px;text-align:center;vertical-align:middle;font-size:13px;">검사일</td>
-		        				<td style="width:70px;text-align:center;vertical-align:middle;font-size:13px;">검사자</td>
-		        				<td style="width:70px;text-align:center;vertical-align:middle;font-size:13px;">소 속</td>
-		        				<td style="width:70px;text-align:center;vertical-align:middle;font-size:13px;">직급 및<br>성명</td>
-		        				<td style="width:180px;text-align:center;vertical-align:middle;font-size:13px;">하자유무 및 조치사항</td>
-		        				<td style="text-align:center;vertical-align:middle;font-size:13px;">비고</td>
+		        				<td style="width:40px;">구분</td>
+		        				<td style="width:60px;">검사일</td>
+		        				<td style="width:70px;">검사자</td>
+		        				<td style="width:70px;">소 속</td>
+		        				<td style="width:70px;">직급 및<br>성명</td>
+		        				<td style="width:180px;">하자유무 및 조치사항</td>
+		        				<td >비고</td>
 		        			</tr>
         			</c:if>
         			<tr height="50px">
         			<c:if test="${resultStatus.index==0 }">
-        				<td rowspan="<c:out value="${firstPageCount }" />" style="text-align:center;vertical-align:middle;font-size:13px;">하자<br>검사</td>
+        				<td rowspan="<c:out value="${firstPageCount }" />">하자<br>검사</td>
         			</c:if>
         			<c:if test="${resultStatus.index%pagePerCount==firstPageCount }">
-        				<td rowspan="<c:out value="${pagePerCount }" />" style="text-align:center;vertical-align:middle;font-size:13px;">하자<br>검사</td>
+        				<td rowspan="<c:out value="${pagePerCount }" />">하자<br>검사</td>
         			</c:if>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;"><c:out value="${result.flawExamDt }" /></td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;"><c:out value="${result.flawExamUsr }" /></td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;"><c:out value="${result.flawExamUsrDept }" /></td>
-        				<td style="text-align:center;vertical-align:middle;font-size:13px;"><c:out value="${result.flawExamUsrNm }" /></td>
-        				<td style="text-align:left;vertical-align:middle;font-size:13px;word-break:break-all;">&nbsp;<c:out value="${result.flawEnnc }" /></td>
-        				<td style="text-align:left;vertical-align:middle;font-size:13px;word-break:break-all;">&nbsp;<c:out value="${result.flawRprContents }" /></td>
+        				<td ><c:out value="${result.flawExamDt }" /></td>
+        				<td ><c:out value="${result.flawExamUsr }" /></td>
+        				<td ><c:out value="${result.flawExamUsrDept }" /></td>
+        				<td ><c:out value="${result.flawExamUsrNm }" /></td>
+        				<td style="text-align:left;word-break:break-all;">&nbsp;<c:out value="${result.flawEnnc }" /></td>
+        				<td style="text-align:left;word-break:break-all;">&nbsp;<c:out value="${result.flawRprContents }" /></td>
         			</tr>
         		</c:forEach>
         		</tbody>

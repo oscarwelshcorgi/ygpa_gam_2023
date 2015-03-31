@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!-- SQL MAP 정의 -->
+<sqlMap namespace="ygpa.gam.popup">
+	<!-- TYPE ALIAS 정의 -->
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamFcltyRepairMngVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngVO"/>
+
+	<select id="PopupRepairMngFileViewDao.selectRepairMngFileViewPk_S" parameterClass="gamFcltyRepairMngVO" resultClass="egovMap">
+				SELECT 
+							FCLTS_MNG_GROUP_NO
+							,FCLTS_JOB_SE
+							,FLAW_RPR_SEQ
+							,ATCH_FILE_SEQ
+							,ATCH_FILE_SE
+							,GAM_GET_FILE_SE_NM(ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+							,ATCH_FILE_SJ
+							,ATCH_FILE_NM_LOGIC
+							,ATCH_FILE_NM_PHYSICL
+							,ATCH_FILE_WRITNG_DT
+							,REG_USR
+							,REGIST_DT
+							,UPD_USR
+							,UPDT_DT 
+				FROM FLAW_RPR_ATCH_FILE_F
+				WHERE
+					FCLTS_JOB_SE = #fcltsJobSe#
+					AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+					AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
+					AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)
+	</select>
+
+	<update id="PopupRepairMngFileViewDao.updateRepairMngFileView_S" parameterClass="gamFcltyRepairMngVO">
+			UPDATE FLAW_RPR_ATCH_FILE_F SET
+					 ATCH_FILE_SE = #atchFileSe#
+					,ATCH_FILE_SJ = #atchFileSj#
+					,UPD_USR = #updUsr#
+					,UPDT_DT = SYSDATE
+			WHERE
+					FCLTS_JOB_SE = #fcltsJobSe#
+					AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+					AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
+					AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)		
+	</update>
+
+</sqlMap>

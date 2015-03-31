@@ -63,71 +63,31 @@ public class GamFcltyRepairMngVO extends ComDefaultVO  {
 	/** 하자보수금액합계 */
 	private long sumFlawRprAmt;
 	
+	
+	/**---------첨부 파일-------------*/
+	
+	/** 파일 설명 */
 	private String atchFileSj;
+	/** 파일 구분 */
+	private String atchFileSe;
+	/** 파일명 (물리) */
 	private String atchFileNmPhysicl;
+	/** 파일명 (논리) */
 	private String atchFileNmLogic;
+	/** 파일 순번*/
 	private String atchFileSeq;
 	
-	/**
-	 * @return the atchFcltsJobSe
-	 */
-	public String getAtchFcltsJobSe() {
-		return atchFcltsJobSe;
-	}
+	private String updUsr;
 
-	/**
-	 * @param atchFcltsJobSe the atchFcltsJobSe to set
-	 */
-	public void setAtchFcltsJobSe(String atchFcltsJobSe) {
-		this.atchFcltsJobSe = atchFcltsJobSe;
-	}
-
-	/**
-	 * @return the atchFileNo
-	 */
-	public String getAtchFileNo() {
-		return atchFileNo;
-	}
-
-	/**
-	 * @param atchFileNo the atchFileNo to set
-	 */
-	public void setAtchFileNo(String atchFileNo) {
-		this.atchFileNo = atchFileNo;
-	}
-
-	/**
-	 * @return the atchFcltsMngGroupNo
-	 */
-	public String getAtchFcltsMngGroupNo() {
-		return atchFcltsMngGroupNo;
-	}
-
-	/**
-	 * @param atchFcltsMngGroupNo the atchFcltsMngGroupNo to set
-	 */
-	public void setAtchFcltsMngGroupNo(String atchFcltsMngGroupNo) {
-		this.atchFcltsMngGroupNo = atchFcltsMngGroupNo;
-	}
-
-	/**
-	 * @return the atchFlawRprSeq
-	 */
-	public String getAtchFlawRprSeq() {
-		return atchFlawRprSeq;
-	}
-
-	/**
-	 * @param atchFlawRprSeq the atchFlawRprSeq to set
-	 */
-	public void setAtchFlawRprSeq(String atchFlawRprSeq) {
-		this.atchFlawRprSeq = atchFlawRprSeq;
-	}
-
-	private String atchFcltsJobSe;
-	private String atchFileNo;
-	private String atchFcltsMngGroupNo;
-	private String atchFlawRprSeq;
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * @return the sFcltsJobSe
 	 */
@@ -341,6 +301,34 @@ public class GamFcltyRepairMngVO extends ComDefaultVO  {
 	 */
 	public void setFlawRprSeq(String flawRprSeq) {
 		this.flawRprSeq = flawRprSeq;
+	}
+
+	/**
+	 * @return the updUsr
+	 */
+	public String getUpdUsr() {
+		return updUsr;
+	}
+
+	/**
+	 * @param updUsr the updUsr to set
+	 */
+	public void setUpdUsr(String updUsr) {
+		this.updUsr = updUsr;
+	}
+
+	/**
+	 * @return the atchFileSe
+	 */
+	public String getAtchFileSe() {
+		return atchFileSe;
+	}
+
+	/**
+	 * @param atchFileSe the atchFileSe to set
+	 */
+	public void setAtchFileSe(String atchFileSe) {
+		this.atchFileSe = atchFileSe;
 	}
 
 

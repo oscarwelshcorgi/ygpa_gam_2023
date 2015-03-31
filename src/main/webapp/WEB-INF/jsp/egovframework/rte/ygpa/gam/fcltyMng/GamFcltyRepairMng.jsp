@@ -102,6 +102,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		dataType : 'json',
 		colModel : [
 					{display:"번호",		name:"atchFileSeq",			width:60,		sortable:false,		align:"center"},
+					{display:"구분",		name:"atchFileSeNm",		width:60,		sortable:false,		align:"center"},
 					{display:"파일명",	name:"atchFileNmLogic",		width:200,		sortable:false,		align:"left"},
 					],
 		height: "175",
@@ -153,10 +154,10 @@ GamFcltyRepairMngModule.prototype.showFcltsAtchFileViewPopup = function() {
 	console.log(fcltsJobSe);
 	var fcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();
 	var flawRprSeq = this.$('#flawRprSeq').val();
-	var atchFileNo = this.$('#photoAtchFileSeq').val();
+	var atchFileSeq = this.$('#photoAtchFileSeq').val();
 	
 	
-	if (atchFileNo == "") {
+	if (atchFileSeq == "") {
 		return;
 	}
 	if (selImg != "") {
@@ -165,7 +166,7 @@ GamFcltyRepairMngModule.prototype.showFcltsAtchFileViewPopup = function() {
 	 console.log(imageURL);
 	}
     var searchOpts = {
-		'atchFileNo':atchFileNo,
+		'atchFileSeq':atchFileSeq,
 		'fcltsJobSe': fcltsJobSe,
 		'fcltsMngGroupNo' : fcltsMngGroupNo ,
 		'flawRprSeq' : flawRprSeq,
@@ -884,7 +885,7 @@ GamFcltyRepairMngModule.prototype.downloadFileData = function() {
 		var row=selectRow[0];
 		console.log(row["atchFileNmPhysicl"],row["atchFileNmLogic"]);
 		this.downloadSingleFile("/fcltyMng/downloadRepairAttachFile.do", row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
-	}
+	};
 	
 };
 
