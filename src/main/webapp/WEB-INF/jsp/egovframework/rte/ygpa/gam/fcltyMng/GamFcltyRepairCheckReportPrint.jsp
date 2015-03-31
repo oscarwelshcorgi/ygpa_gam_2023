@@ -53,65 +53,74 @@ if(request.getAttribute("isHwp")!=null){
 		border: solid black 0.05mm;
 		border-spacing: 0;
 	}
-	
+
 	table.pageBrTbl>tbody>tr {
 		/* page-break-inside: avoid;
 			page-break-after: auto;
 			page-break-before: auto; */
 		height: 6cm;
 	}
-	
+
+	table.pageBrTbl>tbody>tr.caption {
+		/* page-break-inside: avoid;
+			page-break-after: auto;
+			page-break-before: auto; */
+		height: 0.8cm;
+	}
+
 	table.pageBrTbl>tbody>tr>td {
 		/* page-break-inside: avoid;
 			page-break-after: avoid;
 			page-break-before: auto; */
 		border: 0.3mm gray solid;
 		width: 50%;
-		padding: 0.5cm;
+		padding: 0.2cm;
 		vertical-align: middle;
+		border:1px gray solid;
+		text-align: center;
 	}
-	
+
 	table.pageBrTbl>thead {
 		display: table-header-group;
 	}
-	
+
 	table.pageBrTbl>tfoot {
 		display: table-footer-group;
 	}
-	
+
 	img.tdFull {
 		display: block;
-		width: 7cm;
+		width: 6cm;
 		max-height: 100%;
 		margin: auto;
 	}
-	
+
 	.stamp {
 		position: absolute;
 		left: 16.5cm;
 		top: 18.7cm;
-		
+
 	}
-	
+
 	img.stamp {
 		top: 18.5cm;
 	}
 	table.pageFont{
 	font-family:한컴바탕;
 	}
-	
+
 	@media print {
 	.stamp {
 		position: absolute;
 		left: 16.5cm;
 		top: 17.7cm;
-		
+
 	}
-	
+
 	img.stamp {
 		top: 17.5cm;
 	}
-	
+
 	}
 </style>
 
@@ -145,7 +154,7 @@ if(request.getAttribute("isHwp")!=null){
   <c:if test="${isHwp eq null }">
  <%-- <c:set var="imgFiles" value="${fn:split('FILE_000000000006055.jpg,FILE_000000000006063.png,FILE_000000000006064.jpg,FILE_000000000006088.jpg,FILE_000000000006063.png,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006063.png,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg,FILE_000000000006055.jpg', ',')}" scope="page" /> --%>
  <%-- <c:forEach var="resultItem" items="${resultList}">
-<c:out value="${resultList.filenmPhysicl}"/> 
+<c:out value="${resultList.filenmPhysicl}"/>
 
 </c:forEach>  --%>
 
@@ -166,7 +175,7 @@ if(request.getAttribute("isHwp")!=null){
         		<tbody>
         			<tr height="80px">
        				<td style="text-align:left;vertical-align:middle;font-weight:bold;font-size:15px;padding-left:15px;">&nbsp;공 사 명 : <c:out value="${result.flawRprNm }" /></td>
-        				
+
         			</tr>
         			<tr height="20px">
         				<td></td>
@@ -198,7 +207,7 @@ if(request.getAttribute("isHwp")!=null){
 			        		하자검사자 : <c:out value="${result.flawExamUsrNm }" />
 			        		<div  class="stamp">(인)</div>
 			        		<img class="stamp" style="filter:Alpha(Opacity=50);Opacity:0.5;" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/>
-			       			
+
 			       		</td>
         			</tr>
         			<tr height="100px">
@@ -254,16 +263,16 @@ if(request.getAttribute("isHwp")!=null){
 						</c:if>
 						</td>
 	    			</tr>
-	    		 <tr>
-    			<td style="border:1px gray solid;"><c:out value="${resultItem.atchFileSj }"/></td>
-    			<td style="border:1px gray solid;">		
+	    		 <tr class="caption">
+    			<td><c:out value="${resultItem.atchFileSj }"/></td>
+    			<td>
    					<c:if test="${fn:length(resultList) gt status.index+1 }">
-						<c:out value="${resultList[status.index+1].atchFileSj }"/>		    				
+						<c:out value="${resultList[status.index+1].atchFileSj }"/>
 					</c:if>
     			</td>
-    			</tr> 
+    			</tr>
 	    			</c:forEach>
-	    			
+
 	    	<c:if test="${fn:length(resultList) gt 4 }">
 	    			<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. -->
 		    		</table>
@@ -284,7 +293,7 @@ if(request.getAttribute("isHwp")!=null){
 					</c:if>
 					</td>
     			</tr>
-    			
+
     			<c:if test="${(status.index-status.begin) % 6 == 0 && !status.first && !status.last }">
 	    		</table>
 	        </div>
@@ -297,9 +306,9 @@ if(request.getAttribute("isHwp")!=null){
     			</c:forEach>
    			</c:if>
         	   </table>
-	
+
 	        </div>
-    
+
     	</div>
         </c:if>
 </div>
