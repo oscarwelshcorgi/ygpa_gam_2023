@@ -2055,7 +2055,77 @@ var fcltyPowerRuleSet = [
 				labelOutlineWidth: 3
 			}
 		}
-	}
+	},
+	{
+		title:"전력선",
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'E'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'EF'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Line" : {
+				strokeWidth : 5,
+				strokeOpacity : 0.75,
+				strokeColor : "#FF0000",
+				strokeLinecap: 'square',
+				strokeDashstyle: 'solid',
+			}
+		}
+	},{	  title:'기타',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'E'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'EZ'
+			          })
+			          ]
+		  }),
+		  symbolizer: {
+			  "Point" : {
+					pointRadius : 10,
+					externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_EZ.png",
+					graphicWidth: 16,
+					graphicHeight: 19,
+					graphicXOffset: -8,
+					graphicYOffset: -19,
+					fillColor : "red",
+					fillOpacity : 1,
+					strokeWidth : 1,
+					strokeOpacity : 1,
+					strokeColor : "#5432C9"
+				},
+			  "Line" : {
+				  strokeWidth : 3,
+				  strokeOpacity : 1,
+				  strokeColor : "#800080"
+			  },
+			  "Polygon" : {
+				  fillColor: "#45CEC9",
+				  fillOpacity: 0.5,
+				  strokeWidth : 3,
+				  strokeOpacity : 1,
+				  strokeColor : "#800080"
+			  }
+		  }
+		}
 ];
 
 //토목 시설
