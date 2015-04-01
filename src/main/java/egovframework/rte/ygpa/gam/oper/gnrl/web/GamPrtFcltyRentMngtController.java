@@ -1370,7 +1370,7 @@ public class GamPrtFcltyRentMngtController {
    }
 
 	/**
-	 * 추가고지 팝업화면을 로딩한다.
+	 * 추가고지 팝업화면을 로딩한다. (요금종류 코드를 fee_tp_f 를 사용 하도록 수정 한다.)
 	 * @param gamPrtFcltyRentMngtLevReqestVO
 	 * @param model
 	 * @return
@@ -1379,10 +1379,7 @@ public class GamPrtFcltyRentMngtController {
 	@RequestMapping(value="/oper/gnrl/popupLevReqestAdit.do")
   String popupLevReqestAdit(GamPrtFcltyRentMngtVO gamPrtFcltyRentMngtVO, ModelMap model) throws Exception {
 
-		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
-
-		codeVo.setCodeId("GAM051"); //요금종류
-		List chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+		List chrgeKndCdList = gamPrtFcltyRentMngtService.selectChargeKndList(gamPrtFcltyRentMngtVO);
 
 		model.addAttribute("gamPrtFcltyRentMngtInfo", gamPrtFcltyRentMngtVO);
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);

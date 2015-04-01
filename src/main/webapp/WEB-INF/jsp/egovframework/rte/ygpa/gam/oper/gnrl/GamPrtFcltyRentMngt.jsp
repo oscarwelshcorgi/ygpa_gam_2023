@@ -429,13 +429,15 @@ GamAssetRentMngtModule.prototype.setButtonState = function() {
 				this.$('#btnRemoveItem').hide();
 				this.$('#btnRentFeeMngt').show();
 				this.$('#addAssetRentRenew').show();
-			}
+				this.$('#btnNoticeAdit').show();
+				}
 			else {
 				this.$('#btnPrmisn').show();
 				this.$('#btnPrmisnCancel').hide();
 				this.$('#btnRemoveItem').show();
 				this.$('#btnRentFeeMngt').hide();
 				this.$('#addAssetRentRenew').hide();
+				this.$('#btnNoticeAdit').hide();
 			}
 			this.$('#showMap').show();
 		}
@@ -446,6 +448,7 @@ GamAssetRentMngtModule.prototype.setButtonState = function() {
 			this.$('#btnRemoveItem').hide();
 			this.$('#btnRentFeeMngt').hide();
 			this.$('#showMap').hide();
+			this.$('#btnNoticeAdit').show();
 		}
 		break;
 	case 1:
@@ -2191,7 +2194,7 @@ var module_instance = new GamAssetRentMngtModule();
 	                                <button id="btnPrmisnCancel">승낙취소</button>
 	                                <button id="btnPrtFcltyRentMngtListExcelDownload">엑셀</button>
 	                                <button id="btnRentFeeMngt">사용료관리</button>
-	                                <!-- <button id="btnNoticeAdit">추가고지</button> -->
+	                                <button id="btnNoticeAdit">추가고지</button>
 		                        	<button data-role="showMap" data-gis-layer="assetsRent" data-flexi-grid="assetRentMngtList" data-style="default">맵조회</button>
 	                            </td>
 	                        </tr>
@@ -2354,7 +2357,7 @@ var module_instance = new GamAssetRentMngtModule();
                             <button id="btnRemoveItem2" data-cmd="btnRemoveItem" class="buttonDelete">신청삭제</button>
                             <button id="btnSaveItem2" data-cmd="btnSaveItem" class="buttonSave">신청저장</button>
 							<button id="btnEditMap2" data-cmd="btnEditMap" data-role="editMap" data-gis-layer="assetsRent">맵편집</button>
-                            <!-- <button data-cmd="btnNoticeAdit2">추가고지</button> -->
+                            <button data-cmd="btnNoticeAdit2">추가고지</button>
                             <!-- <button data-cmd="btnCancelItem">취소</button>  -->
 	                        </td>
 	                    </tr>
