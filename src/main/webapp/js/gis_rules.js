@@ -1598,8 +1598,8 @@ var fcltyPowerRuleSet = [
 		}
 	},
 	{
-		title: '차단기',
-		filter: new OpenLayers.Filter.Logical({
+		title: "변전소",
+		filter: new OpenLayers.Filter.Comparison({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
 			          new OpenLayers.Filter.Comparison({
@@ -1615,24 +1615,28 @@ var fcltyPowerRuleSet = [
 			          ]
 		}),
 		symbolizer: {
-			"Point" : {
-				pointRadius : 10,
-				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_E1.png",
-				graphicWidth: 16,
-				graphicHeight: 19,
-				graphicXOffset: -8,
-				graphicYOffset: -19,
-				fillColor : "red",
-				fillOpacity : 1,
+			"Polygon" : {
+				fillColor: "#FF00FF",
+				fillOpacity: 0.5,
 				strokeWidth : 1,
 				strokeOpacity : 1,
-				strokeColor : "#333333"
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
 			}
 		}
 	},
 	{
-		title: '변압기',
-		filter: new OpenLayers.Filter.Logical({
+		title: "변전실",
+		filter: new OpenLayers.Filter.Comparison({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
 			          new OpenLayers.Filter.Comparison({
@@ -1648,23 +1652,27 @@ var fcltyPowerRuleSet = [
 			          ]
 		}),
 		symbolizer: {
-			"Point" : {
-				pointRadius : 10,
-				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_E2.png",
-				graphicWidth: 16,
-				graphicHeight: 19,
-				graphicXOffset: -8,
-				graphicYOffset: -19,
-				fillColor : "red",
-				fillOpacity : 1,
+			"Polygon" : {
+				fillColor: "#00FF00",
+				fillOpacity: 0.5,
 				strokeWidth : 1,
 				strokeOpacity : 1,
-				strokeColor : "#333333"
+				strokeColor : "#800080",
+				label : "${FCLTY_NM}",
+				fontColor: "black",
+				fontSize: "12px",
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
 			}
 		}
 	},
 	{
-		title: '154kV LINE',
+		title: '수배전반',
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -1681,125 +1689,13 @@ var fcltyPowerRuleSet = [
 			          ]
 		}),
 		symbolizer: {
-			"Line" : {
+			"Point" : {
 				pointRadius : 10,
 				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_E3.png",
-				graphicWidth: 32,
-				graphicHeight: 37,
-				graphicXOffset: -16,
-				graphicYOffset: -37,
-				fillColor : "red",
-				fillOpacity : 1,
-				strokeWidth : 3,
-				strokeOpacity : 1,
-				strokeColor : "#333333",
-				strokeLinecap: 'round',
-				strokeDashstyle: 'dashdot',
-				label : "${FCLTY_NM}",
-				fontColor: "black",
-				fontSize: "14px",
-				fontFamily: "Nanum Gothic",
-				fontWeight: "bold",
-				labelAlign: "cb",
-				labelAlign: "cm",
-				labelXOffset: 0,
-				labelYOffset: -3,
-				labelOutlineColor: "white",
-				labelOutlineWidth: 3
-			}
-		}
-	},
-	{
-		title: '계전기',
-		filter: new OpenLayers.Filter.Logical({
-			type: OpenLayers.Filter.Logical.AND,
-			filters: [
-			          new OpenLayers.Filter.Comparison({
-			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
-			        	  property: "FCLTY_SE",
-			        	  value: 'E'
-			          }),
-			          new OpenLayers.Filter.Comparison({
-			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
-			        	  property: "FCLTY_CD",
-			        	  value: 'E4'
-			          })
-			          ]
-		}),
-		symbolizer: {
-			"Point" : {
-				pointRadius : 10,
-				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_E4.png",
 				graphicWidth: 16,
 				graphicHeight: 19,
 				graphicXOffset: -8,
 				graphicYOffset: -19,
-				fillColor : "red",
-				fillOpacity : 1,
-				strokeWidth : 1,
-				strokeOpacity : 1,
-				strokeColor : "#333333"
-			}
-		}
-	},
-	{
-		title: '개폐기 및 스위치',
-		filter: new OpenLayers.Filter.Logical({
-			type: OpenLayers.Filter.Logical.AND,
-			filters: [
-			          new OpenLayers.Filter.Comparison({
-			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
-			        	  property: "FCLTY_SE",
-			        	  value: 'E'
-			          }),
-			          new OpenLayers.Filter.Comparison({
-			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
-			        	  property: "FCLTY_CD",
-			        	  value: 'E5'
-			          })
-			          ]
-		}),
-		symbolizer: {
-			"Point" : {
-				pointRadius : 10,
-				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_E5.png",
-				graphicWidth: 16,
-				graphicHeight: 19,
-				graphicXOffset: -8,
-				graphicYOffset: -19,
-				fillColor : "red",
-				fillOpacity : 1,
-				strokeWidth : 1,
-				strokeOpacity : 1,
-				strokeColor : "#333333"
-			}
-		}
-	},
-	{
-		title: '계량기',
-		filter: new OpenLayers.Filter.Logical({
-			type: OpenLayers.Filter.Logical.AND,
-			filters: [
-			          new OpenLayers.Filter.Comparison({
-			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
-			        	  property: "FCLTY_SE",
-			        	  value: 'E'
-			          }),
-			          new OpenLayers.Filter.Comparison({
-			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
-			        	  property: "FCLTY_CD",
-			        	  value: 'E6'
-			          })
-			          ]
-		}),
-		symbolizer: {
-			"Point" : {
-				pointRadius : 10,
-				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_E6.png",
-				graphicWidth: 16,
-				graphicHeight: 19,
-				graphicXOffset: -8,
-				graphicYOffset: -10,
 				fillColor : "red",
 				fillOpacity : 1,
 				strokeWidth : 1,
@@ -1807,12 +1703,12 @@ var fcltyPowerRuleSet = [
 				strokeColor : "#333333",
 				label : "${FCLTY_NM}",
 				fontColor: "blue",
-				fontSize: "10px",
+				fontSize: "12px",
 				fontFamily: "Nanum Gothic",
 				fontWeight: "thin",
 				labelAlign: "ct",
 				labelXOffset: 0,
-				labelYOffset: -12,
+				labelYOffset: -3,
 				labelOutlineColor: "white",
 				labelOutlineWidth: 3
 			}
@@ -1905,7 +1801,7 @@ var fcltyPowerRuleSet = [
 		}
 	},
 	{
-		title: '가로등1등-100M',
+		title: '가로등(1등)',
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -1948,7 +1844,7 @@ var fcltyPowerRuleSet = [
 		}
 	},
 	{
-		title: '가로등2등-100M',
+		title: '가로등(2등)',
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -1991,7 +1887,6 @@ var fcltyPowerRuleSet = [
 		}
 	},
 	{
-		title: '가로등1등-40M',
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -2034,7 +1929,6 @@ var fcltyPowerRuleSet = [
 		}
 	},
 	{
-		title: '가로등2등-40M',
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
