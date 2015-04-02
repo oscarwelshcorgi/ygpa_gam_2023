@@ -9,7 +9,7 @@
 <%
   /**
   * @Class Name : GamFcltyRepairCheckResultPrint.jsp
-  * @Description : 인쇄 화면
+  * @Description : 하자 검사 결과 인쇄
   * @Modification Information
   *
   *   수정일         수정자                   수정내용

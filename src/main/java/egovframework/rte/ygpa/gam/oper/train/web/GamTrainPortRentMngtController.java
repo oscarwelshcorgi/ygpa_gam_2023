@@ -40,6 +40,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
 import egovframework.rte.ygpa.gam.cmmn.service.GamFileServiceVo;
 import egovframework.rte.ygpa.gam.cmmn.service.GamFileUploadUtil;
+
 import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentMngtDetailVO;
 import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentMngtService;
 import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentMngtVO;
@@ -140,7 +141,70 @@ public class GamTrainPortRentMngtController {
 
     	return "/ygpa/gam/oper/train/GamTrainPortRentMngt";
     }
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+@RequestMapping(value="/asset/train/selectRentMasterInfo.do", method=RequestMethod.POST)
+public @ResponseBody Map selectRentDetailInfo(GamTrainPortRentMngtVO searchVO) throws Exception {
 
+	int totalCnt, page, firstIndex;
+	Map map = new HashMap();
+
+	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+	if(!isAuthenticated) {
+        map.put("resultCode", 1);
+		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    	return map;
+	}
+
+	// 항만시설사용상세리스트 및 총건수
+	Map result = gamTrainPortRentMngtService.selectTrainPortRentMngtMasterInfo(searchVO);
+
+	map.put("resultCode", 0);	// return ok
+	map.put("result", result);
+	map.put("searchOption", searchVO);
+
+	return map;
+}	
+	/**
+     * 항만시설사용 승낙취소(허가취소) 가 가능 한지 체크한다.
+     * @param gamTrainPortRentMngtVO
+     * @param bindingResult
+     * @return map
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/gnrl/checkTrainPortRentMngtPrmisnCancel.do")
+    public @ResponseBody Map checkTrainPortRentMngtPrmisnCancel(
+     	   @ModelAttribute("gamTrainPortRentMngtVO") GamTrainPortRentMngtVO gamTrainPortRentMngtVO)
+            throws Exception {
+
+     	 Map map = new HashMap();
+     	 Map paramMap = new HashMap();
+         String resultMsg = "";
+         int resultCode = 1;
+
+     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+     	if(!isAuthenticated) {
+ 	        map.put("resultCode", 1);
+     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+         	return map;
+     	}
+
+     	int noticeNo=gamTrainPortRentMngtService.selectRentFeeNoticeListCount(gamTrainPortRentMngtVO);
+
+         if(noticeNo!=0) {
+             resultCode = noticeNo;
+        	 resultMsg = egovMessageSource.getMessage("gam.asset.rent.prmisnCalcel.notice");
+         }
+         else {
+             resultCode = 0;
+             resultMsg = "";
+         }
+
+     	 map.put("resultCode", resultCode);
+         map.put("resultMsg", resultMsg);
+
+ 		return map;
+     }
 	/**
      * 철송장임대사용목록을 조회한다.
      *

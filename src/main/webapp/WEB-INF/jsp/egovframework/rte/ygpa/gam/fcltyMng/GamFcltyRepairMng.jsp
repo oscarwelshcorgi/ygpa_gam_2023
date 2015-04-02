@@ -195,13 +195,13 @@ GamFcltyRepairMngModule.prototype.setPrintSe = function(){
 		this.$("#expPrint").data('url','/fcltyMng/selectFcltyRepairExpireCheckReportPrint.do');
 		this.$("#expPrint").data('role','printPage');
 	}else if(this.$("#printSe").val() =='hwp'){
-		this.$("#mngPrint").data('url','/fcltyMng/selectFcltyRepairCheckMngPrint.do');
+		this.$("#mngPrint").data('url','/fcltyMng/selectFcltyRepairCheckMngHwp.do');
 		this.$("#mngPrint").data('role','printDown');
 		this.$("#mngPrint").data('filename','검사관리대장.hwp');
 		this.$("#chkPrint").data('url','/fcltyMng/selectFcltyRepairCheckReportHwp.do');
 		this.$("#chkPrint").data('role','printDown');
 		this.$("#chkPrint").data('filename','검사조서.hwp');
-		this.$("#expPrint").data('url','/fcltyMng/selectFcltyRepairExpireCheckReportPrint.do');
+		this.$("#expPrint").data('url','/fcltyMng/selectFcltyRepairExpireCheckReportHwp.do');
 		this.$("#expPrint").data('role','printDown');
 		this.$("#expPrint").data('filename','만료검사조서.hwp');
 	}else{
@@ -830,7 +830,10 @@ GamFcltyRepairMngModule.prototype.atchFileUpload = function() {
 		$.each(resp.result, function() {
 	        	module.$('#fcltyRepairFileList').flexAddRow({
 	        		_updtId: 'I',
-	        		atchFileNmLogic: this.logicalFileNm, atchFileNmPhysicl: this.physcalFileNm	
+	        		atchFileSj : "",
+	        		atchFileSeNm : "",
+	        		atchFileNmLogic: this.logicalFileNm,
+	        		atchFileNmPhysicl: this.physcalFileNm	
 	    		});
 			});
 		if(resp.result!=null && resp.result.length>0) this._edited=true;
@@ -1127,6 +1130,26 @@ GamFcltyRepairMngModule.prototype.onClosePopup = function(popupId, msg, value){
 			this.$("#flawRprEntrpsNm").val(value["entrpsNm"]);
 		break;
 
+		case 'popupFcltsAtchFileView':
+			if (msg == 'ok') {
+				var atchFileNo = this.$('#atchFileNo').val();
+				if (atchFileNo == value.atchFileNo) {
+					this.$('#atchFileSe').val(value.atchFileSe);
+					this.$('#atchFileSeNm').val(value.atchFileSeNm);
+					this.$('#atchFileSj').val(value.atchFileSj);
+					var selectRow = this.$('#fcltyRepairFileList').selectedRows();
+					if(selectRow.length > 0) {
+						var row = selectRow[0];
+						row['atchFileSeNm'] = value.atchFileSeNm;
+						row['atchFileSe'] = value.atchFileSe;
+						row['atchFileSj'] = value.atchFileSj;
+						var rowid = this.$("#fcltyRepairFileList").selectedRowIds()[0];
+						this.$('#fcltyRepairFileList').flexUpdateRow(rowid, row);
+					}
+				}
+			}
+			break;
+			
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
 		break;
@@ -1338,6 +1361,9 @@ var module_instance = new GamFcltyRepairMngModule();
 				<input type="hidden" id="photoFcltsMngGroupNo" data-column-id="fcltsMngGroupNo"/>
 				<input type="hidden" id="photoFlawRprSeq" data-column-id="flawRprSeq"/>
 				<input type="hidden" id="photoAtchFileSeq" data-column-id="atchFileSeq"/>
+				<input id="atchFileSe" type="hidden"/>
+				<input id="atchFileSeNm" type="hidden"/>
+				<input id="atchFileSj" type="hidden"/>
 				<input type="hidden" id="photoAtchFileNmLogic" data-column-id="atchFileNmLogic"/>
 				<input type="hidden" id="atchFileNmPhysicl" data-column-id="atchFileNmPhysicl"/>
 				
@@ -1364,7 +1390,7 @@ var module_instance = new GamFcltyRepairMngModule();
 						<button id="saveBtn" class="buttonSave">  저 장  </button>
 				</div>
 			</div>
-
+		</div>
 			<!-- 하자보수 대상 시설물 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 				<div class="emdControlPanel">

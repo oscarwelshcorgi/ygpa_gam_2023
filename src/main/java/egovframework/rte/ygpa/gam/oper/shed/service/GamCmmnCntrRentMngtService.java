@@ -1,6 +1,10 @@
 package egovframework.rte.ygpa.gam.oper.shed.service;
 
 import java.util.List;
+import java.util.Map;
+
+import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtVO;
+
 
 
 
@@ -33,6 +37,22 @@ public interface GamCmmnCntrRentMngtService {
 	 * @exception Exception
 	 */
     GamCmmnCntrRentMngtVO selectCmmnCntrRentMngtSum(GamCmmnCntrRentMngtVO searchVO) throws Exception;
+   
+    /**
+     * 임대 정보 내역을 조회한다.
+     * @param vo
+     * @return
+     * @throws Exception
+     */
+    Map selectCmmnCntrRentMngtMasterInfo(GamCmmnCntrRentMngtVO vo) throws Exception;
+
+    /**
+     * 고지된 자료가 있는지 조회 한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    int selectRentFeeNoticeListCount(GamCmmnCntrRentMngtVO searchVO) throws Exception;
 
     /**
 	 * 항만부지임대사용 목록 총 갯수를 조회한다.

@@ -504,47 +504,28 @@ public class GamFcltyRepairMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return "/ygpa/gam/fcltyMng/GamFcltyRepairCheckReportPrint";
     	}
-
-    	//GamFcltyRepairMngVO.setRegUsr((String)user.getId());
-
-
-    /*
-    	GamFcltyRepairMngVO.setFlawExamUsr(URLDecoder.decode(request.getParameter("flawExamUsr"),"UTF-8"));
-    	System.out.println("**************"+GamFcltyRepairMngVO.getFlawExamUsr());
-    	//하자검사조서 직인
-    	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(GamFcltyRepairMngVO);
-		*/
-
-
     	ObjectMapper mapper = new ObjectMapper();
-
-		//GamFcltyRepairMngVO searchVO;
-
-
-    	//searchVO = mapper.convertValue(fcltyRepairCheckReportOpt, GamFcltyRepairMngVO.class);
-    	//직인
-    	//charger.put("flawExamUsr", fcltyRepairCheckReportOpt.get("flawExamUsr"));
+    	
+    	//하자검사자직인
     	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(searchVO);
     	//하자검사조서
     	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
     	//첨부파일이미지
     	List resultList = gamFcltyRepairMngService.selectFcltyRepairFileList(searchVO);
 
-
-
         model.addAttribute("result", result);
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
 		model.addAttribute("charger",charger);
 		model.addAttribute("resultList",resultList);
-
-		//hwp선택시 파일명
 		if(fcltyRepairCheckReportOpt.get("filename") != null){
 			model.addAttribute("isHwp", true);
 			model.addAttribute("filename", fcltyRepairCheckReportOpt.get("filename"));
     		}
+    		
     	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckReportPrint";
     }
+	
     /**
      * 하자검사조서 한글파일 문서 출력
      *
@@ -569,26 +550,10 @@ public class GamFcltyRepairMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return "/ygpa/gam/fcltyMng/GamFcltyRepairCheckReportHwp";
     	}
-
-    	//GamFcltyRepairMngVO.setRegUsr((String)user.getId());
-
-
-    /*
-    	GamFcltyRepairMngVO.setFlawExamUsr(URLDecoder.decode(request.getParameter("flawExamUsr"),"UTF-8"));
-    	System.out.println("**************"+GamFcltyRepairMngVO.getFlawExamUsr());
-    	//하자검사조서 직인
-    	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(GamFcltyRepairMngVO);
-		*/
-
-
+		
     	ObjectMapper mapper = new ObjectMapper();
 
-		//GamFcltyRepairMngVO searchVO;
-
-
-    	//searchVO = mapper.convertValue(fcltyRepairCheckReportOpt, GamFcltyRepairMngVO.class);
-    	//직인
-    	//charger.put("flawExamUsr", fcltyRepairCheckReportOpt.get("flawExamUsr"));
+    	//하자검사자 직인
     	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(searchVO);
     	//하자검사조서
     	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
@@ -602,14 +567,13 @@ public class GamFcltyRepairMngController {
 		model.addAttribute("resultMsg", "");
 		model.addAttribute("charger",charger);
 		model.addAttribute("resultList",resultList);
-
-		//hwp선택시 파일명
 		if(fcltyRepairCheckReportOpt.get("filename") != null){
 			model.addAttribute("isHwp", true);
 			model.addAttribute("filename", fcltyRepairCheckReportOpt.get("filename"));
     		}
     	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckReportHwp";
     }
+	
 	/**
      * 하자만료검사조서인쇄
      *
@@ -624,7 +588,7 @@ public class GamFcltyRepairMngController {
 
     	Map map = new HashMap();
     	EgovMap result = null;
-
+    	EgovMap charger= null;
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -641,11 +605,13 @@ public class GamFcltyRepairMngController {
 
 		//하자만료검사조서
     	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
+    	//하자검사자 직인
+    	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(searchVO);
 
-        model.addAttribute("result", result);
+    	model.addAttribute("result", result);
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
-		//hwp선택시 파일명
+		model.addAttribute("charger",charger);
 		if(fcltyRepairExpireCheckReportOpt.get("filename") != null){
 			model.addAttribute("isHwp", true);
 			model.addAttribute("filename", fcltyRepairExpireCheckReportOpt.get("filename"));
@@ -654,6 +620,51 @@ public class GamFcltyRepairMngController {
     	return "ygpa/gam/fcltyMng/GamFcltyRepairExpireCheckReportPrint";
     }
 	
+	/**
+     * 하자만료검사조서 한글파일 출력
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/fcltyMng/selectFcltyRepairExpireCheckReportHwp.do")
+	public String selectFcltyRepairExpireCheckReportHwp(@RequestParam Map<String, Object> fcltyRepairExpireCheckReportOpt, ModelMap model) throws Exception {
+
+    	Map map = new HashMap();
+    	EgovMap result = null;
+    	EgovMap charger= null;
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return "/ygpa/gam/fcltyMng/GamFcltyRepairExpireCheckReportHwp";
+    	}
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		GamFcltyRepairMngVO searchVO;
+    	searchVO = mapper.convertValue(fcltyRepairExpireCheckReportOpt, GamFcltyRepairMngVO.class);
+
+
+		//하자만료검사조서
+    	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
+    	//하자검사자 직인
+    	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(searchVO);
+
+    	model.addAttribute("result", result);
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+		model.addAttribute("charger",charger);
+		if(fcltyRepairExpireCheckReportOpt.get("filename") != null){
+			model.addAttribute("isHwp", true);
+			model.addAttribute("filename", fcltyRepairExpireCheckReportOpt.get("filename"));
+    		}
+
+    	return "ygpa/gam/fcltyMng/GamFcltyRepairExpireCheckReportHwp";
+    }
 	
 	
 
@@ -762,7 +773,58 @@ public class GamFcltyRepairMngController {
     		}
     	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckMngPrint";
     }
+	/**
+     * 하자검사관리대장 한글파일 문서
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/fcltyMng/selectFcltyRepairCheckMngHwp.do")
+	public String selectFcltyRepairCheckMngHwp(@RequestParam Map<String, Object> fcltyRepairCheckMngOpt, ModelMap model) throws Exception {
+
+    	Map map = new HashMap();
+    	EgovMap result = null;
+    	int totCnt;
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return "/ygpa/gam/fcltyMng/GamFcltyRepairCheckMngHwp";
+    	}
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		GamFcltyRepairMngVO searchVO;
+    	searchVO = mapper.convertValue(fcltyRepairCheckMngOpt, GamFcltyRepairMngVO.class);
+
+		//하자검사관리대장인쇄
+    	result = gamFcltyRepairMngService.selectFcltyRepairCheckMng(searchVO);
+
+		String ctrtNo = (String) result.get("ctrtNo");
+
+		//하자보증내용
+    	List fcltyRepairMngListPerCtrt = gamFcltyRepairMngService.selectFcltyRepairMngListPerCtrt(ctrtNo);
+
+    	totCnt =  gamFcltyRepairMngService.selectFcltyRepairMngListPerCtrtTotalCnt(ctrtNo);
+
+        model.addAttribute("result", result);
+        model.addAttribute("resultList", fcltyRepairMngListPerCtrt);
+        model.addAttribute("totCnt", totCnt);
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+
+		//hwp선택시 파일명
+		if(fcltyRepairCheckMngOpt.get("filename") != null){
+			model.addAttribute("isHwp", true);
+			model.addAttribute("filename", fcltyRepairCheckMngOpt.get("filename"));
+    		}
+    	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckMngHwp";
+    }
 	// 파일 처리
     @RequestMapping(value="/fcltyMng/uploadRepairAttachFile.do", method=RequestMethod.POST)
     public @ResponseBody String uploadFile(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {

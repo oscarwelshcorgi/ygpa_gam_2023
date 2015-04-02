@@ -2,6 +2,7 @@ package egovframework.rte.ygpa.gam.oper.shed.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -15,7 +16,6 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.utl.fcc.service.EgovDateUtil;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
-
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtDetailVO;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtLevReqestVO;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtService;
@@ -413,11 +413,30 @@ public class GamCmmnCntrRentMngtServiceImpl extends AbstractServiceImpl implemen
     }
 
 	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamCmmnCntrRentMngtService#selectChargeKndList()
+	 * @see egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtService#selectChargeKndList()
 	 */
 	@Override
 	public List selectChargeKndList(GamCmmnCntrRentMngtVO searchVO) throws Exception {
 		// TODO Auto-generated method stub
 		return gamCmmnCntrRentMngtDao.selectChargeKndList(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtService#selectCmmnCntrRentMngtDetailInfo(egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtVO)
+	 */
+	@Override
+	public Map selectCmmnCntrRentMngtMasterInfo(GamCmmnCntrRentMngtVO vo)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtMasterInfo(vo);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtService#selectRentFeeNoticeListCount(egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtVO)
+	 */
+	@Override
+	public int selectRentFeeNoticeListCount(GamCmmnCntrRentMngtVO searchVO)
+			throws Exception {
+		return gamCmmnCntrRentMngtDao.selectRentFeeNoticeListCount(searchVO);
 	}
 }

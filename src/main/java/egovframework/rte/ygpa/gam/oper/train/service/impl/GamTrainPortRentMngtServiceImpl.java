@@ -2,6 +2,7 @@ package egovframework.rte.ygpa.gam.oper.train.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -412,11 +413,30 @@ public class GamTrainPortRentMngtServiceImpl extends AbstractServiceImpl impleme
     }
 
 	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamTrainPortRentMngtService#selectChargeKndList()
+	 * @see egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentMngtService#selectChargeKndList()
 	 */
 	@Override
 	public List selectChargeKndList(GamTrainPortRentMngtVO searchVO) throws Exception {
 		// TODO Auto-generated method stub
 		return gamTrainPortRentMngtDao.selectChargeKndList(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentMngtService#selectTrainPortRentMngtDetailInfo(egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentMngtVO)
+	 */
+	@Override
+	public Map selectTrainPortRentMngtMasterInfo(GamTrainPortRentMngtVO vo)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return gamTrainPortRentMngtDao.selectTrainPortRentMngtMasterInfo(vo);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentMngtService#selectRentFeeNoticeListCount(egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentMngtVO)
+	 */
+	@Override
+	public int selectRentFeeNoticeListCount(GamTrainPortRentMngtVO searchVO)
+			throws Exception {
+		return gamTrainPortRentMngtDao.selectRentFeeNoticeListCount(searchVO);
 	}
 }

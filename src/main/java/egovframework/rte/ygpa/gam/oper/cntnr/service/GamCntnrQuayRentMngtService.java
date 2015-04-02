@@ -1,6 +1,7 @@
 package egovframework.rte.ygpa.gam.oper.cntnr.service;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -32,6 +33,22 @@ public interface GamCntnrQuayRentMngtService {
 	 * @exception Exception
 	 */
     GamCntnrQuayRentMngtVO selectCntnrQuayRentMngtSum(GamCntnrQuayRentMngtVO searchVO) throws Exception;
+    
+    /**
+     * 임대 정보 내역을 조회한다.
+     * @param vo
+     * @return
+     * @throws Exception
+     */
+    Map selectCntnrQuayRentMngtMasterInfo(GamCntnrQuayRentMngtVO vo) throws Exception;
+
+    /**
+     * 고지된 자료가 있는지 조회 한다.
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+    int selectRentFeeNoticeListCount(GamCntnrQuayRentMngtVO searchVO) throws Exception;
 
     /**
 	 * 컨테이너부두임대사용 목록 총 갯수를 조회한다.

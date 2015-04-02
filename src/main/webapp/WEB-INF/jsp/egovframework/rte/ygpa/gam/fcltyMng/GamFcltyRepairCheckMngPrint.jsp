@@ -161,7 +161,7 @@ div.rpr_form_div {
         				<td style="text-align:left;"></td>
         				<td style="text-align:left;"></td>
         			</tr>
-<c:if test="${fn:length(resultList) == 0}">
+			<c:if test="${fn:length(resultList) == 0}">
         			<tr>
         				<td colspan="7" style="font-size:13px;">자료가 존재 하지 않습니다.</td>
         			</tr>

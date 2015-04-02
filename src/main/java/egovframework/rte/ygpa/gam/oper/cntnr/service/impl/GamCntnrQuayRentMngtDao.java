@@ -1,6 +1,7 @@
 package egovframework.rte.ygpa.gam.oper.cntnr.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -419,5 +420,19 @@ public class GamCntnrQuayRentMngtDao extends YGPAAbstractDAO {
 
 	public List selectChargeKndList(GamCntnrQuayRentMngtVO searchVO) throws Exception {
 		return list("gamCntnrQuayRentMngtDao.selectChargeKndList_D", searchVO);
+	}
+	
+	public Map selectCntnrQuayRentMngtMasterInfo(GamCntnrQuayRentMngtVO searchVO) throws Exception {
+		return (Map) selectByPk("gamCntnrQuayRentMngtDao.selectCntnrQuayRentMngtMasterInfo_S", searchVO);
+	}
+
+	/**
+	 * 고지된 자료 갯수를 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public int selectRentFeeNoticeListCount(GamCntnrQuayRentMngtVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamCntnrQuayRentMngtDao.selectRentFeeNoticeListCount_S", searchVO);
 	}
 }

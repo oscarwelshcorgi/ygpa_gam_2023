@@ -2,6 +2,7 @@ package egovframework.rte.ygpa.gam.oper.cntnr.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -413,11 +414,30 @@ public class GamCntnrQuayRentMngtServiceImpl extends AbstractServiceImpl impleme
     }
 
 	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamCntnrQuayRentMngtService#selectChargeKndList()
+	 * @see egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentMngtService#selectChargeKndList()
 	 */
 	@Override
 	public List selectChargeKndList(GamCntnrQuayRentMngtVO searchVO) throws Exception {
 		// TODO Auto-generated method stub
 		return gamCntnrQuayRentMngtDao.selectChargeKndList(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentMngtService#selectCntnrQuayRentMngtDetailInfo(egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentMngtVO)
+	 */
+	@Override
+	public Map selectCntnrQuayRentMngtMasterInfo(GamCntnrQuayRentMngtVO vo)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return gamCntnrQuayRentMngtDao.selectCntnrQuayRentMngtMasterInfo(vo);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentMngtService#selectRentFeeNoticeListCount(egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentMngtVO)
+	 */
+	@Override
+	public int selectRentFeeNoticeListCount(GamCntnrQuayRentMngtVO searchVO)
+			throws Exception {
+		return gamCntnrQuayRentMngtDao.selectRentFeeNoticeListCount(searchVO);
 	}
 }

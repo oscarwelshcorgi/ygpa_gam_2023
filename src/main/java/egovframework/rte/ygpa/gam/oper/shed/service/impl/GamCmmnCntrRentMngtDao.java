@@ -1,11 +1,11 @@
 package egovframework.rte.ygpa.gam.oper.shed.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
-
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtDetailVO;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtLevReqestVO;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtVO;
@@ -419,5 +419,18 @@ public class GamCmmnCntrRentMngtDao extends YGPAAbstractDAO {
 
 	public List selectChargeKndList(GamCmmnCntrRentMngtVO searchVO) throws Exception {
 		return list("gamCmmnCntrRentMngtDao.selectChargeKndList_D", searchVO);
+	}
+	public Map selectCmmnCntrRentMngtMasterInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception {
+		return (Map) selectByPk("gamCmmnCntrRentMngtDao.selectCmmnCntrRentMngtMasterInfo_S", searchVO);
+	}
+
+	/**
+	 * 고지된 자료 갯수를 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public int selectRentFeeNoticeListCount(GamCmmnCntrRentMngtVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamCmmnCntrRentMngtDao.selectRentFeeNoticeListCount_S", searchVO);
 	}
 }

@@ -40,6 +40,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
 import egovframework.rte.ygpa.gam.cmmn.service.GamFileServiceVo;
 import egovframework.rte.ygpa.gam.cmmn.service.GamFileUploadUtil;
+
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtDetailVO;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtLevReqestVO;
 import egovframework.rte.ygpa.gam.oper.shed.service.GamCmmnCntrRentMngtService;
@@ -192,7 +193,69 @@ public class GamCmmnCntrRentMngtController {
 
     	return map;
     }
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+@RequestMapping(value="/asset/shed/selectRentMasterInfo.do", method=RequestMethod.POST)
+public @ResponseBody Map selectRentDetailInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception {
 
+	int totalCnt, page, firstIndex;
+	Map map = new HashMap();
+
+	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+	if(!isAuthenticated) {
+        map.put("resultCode", 1);
+		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    	return map;
+	}
+
+	// 항만시설사용상세리스트 및 총건수
+	Map result = gamCmmnCntrRentMngtService.selectCmmnCntrRentMngtMasterInfo(searchVO);
+
+	map.put("resultCode", 0);	// return ok
+	map.put("result", result);
+	map.put("searchOption", searchVO);
+
+	return map;
+}	
+	/**
+     * 항만시설사용 승낙취소(허가취소) 가 가능 한지 체크한다.
+     * @param gamCmmnCntrRentMngtVO
+     * @param bindingResult
+     * @return map
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/gnrl/checkCmmnCntrRentMngtPrmisnCancel.do")
+    public @ResponseBody Map checkCmmnCntrRentMngtPrmisnCancel(
+     	   @ModelAttribute("gamCmmnCntrRentMngtVO") GamCmmnCntrRentMngtVO gamCmmnCntrRentMngtVO)
+            throws Exception {
+
+     	 Map map = new HashMap();
+     	 Map paramMap = new HashMap();
+         String resultMsg = "";
+         int resultCode = 1;
+
+     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+     	if(!isAuthenticated) {
+ 	        map.put("resultCode", 1);
+     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+         	return map;
+     	}
+
+     	int noticeNo=gamCmmnCntrRentMngtService.selectRentFeeNoticeListCount(gamCmmnCntrRentMngtVO);
+
+         if(noticeNo!=0) {
+             resultCode = noticeNo;
+        	 resultMsg = egovMessageSource.getMessage("gam.asset.rent.prmisnCalcel.notice");
+         }
+         else {
+             resultCode = 0;
+             resultMsg = "";
+         }
+
+     	 map.put("resultCode", resultCode);
+         map.put("resultMsg", resultMsg);
+
+ 		return map;
+     }
 	/**
      * 항만관련부지임대사용상세리스트를 조회한다.
      *

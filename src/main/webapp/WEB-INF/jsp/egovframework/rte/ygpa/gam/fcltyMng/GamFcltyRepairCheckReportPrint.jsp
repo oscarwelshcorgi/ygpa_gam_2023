@@ -8,7 +8,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
   /**
-  * @Class Name : GamFcltyRepairCheckResultPrint.jsp
+  * @Class Name : GamFcltyRepairCheckReportPrint.jsp
   * @Description : 하자검사조서 인쇄 화면
   * @Modification Information
   *
@@ -31,7 +31,7 @@ if(request.getAttribute("isHwp")!=null){
 	response.setHeader("Content-Disposition", "attachment;filename=\""+fileName + "\"");
 	response.setHeader("Content-Description", "JSP Generated Data");
 	response.setHeader("Cache-control","private");
-	response.setContentType("application/hwp; charset=UTF-8");
+	response.setContentType("application/x-hwp; charset=UTF-8");
 }
 // 한글파일에는 css가 먹지 않음.... 안타깝게도... 테이블에 속성정의를 해주어야 함... 귀찮더라도 작업 바람
 // table에 border="1" width="530" 을 추가하면 됨
@@ -164,13 +164,13 @@ if(request.getAttribute("isHwp")!=null){
 	.stamp {
 		position: absolute;
 		  left: 16.5cm;
-		  top: 18.2cm;
+		  top: 19.5cm;
 	}
 
 	img.stamp {
 		position: absolute;
 		  left: 16.5cm;
-		  top: 17.7cm;
+		  top: 19cm;
 		  
 	}
 
@@ -216,6 +216,7 @@ if(request.getAttribute("isHwp")!=null){
 		width:60%;
 		padding:5px;
 		height: 4cm;
+		word-break:break-all;
 	}
 
 
@@ -224,13 +225,13 @@ if(request.getAttribute("isHwp")!=null){
 	.stamp {
 		position: absolute;
 		  left: 16.5cm;
-		  top: 18.2cm;
+		  top: 18.5cm;
 	}
 
 	img.stamp {
 		position: absolute;
 		  left: 16.5cm;
-		  top: 16.7cm;
+		  top: 18cm;
 		  
 	}
 	}
@@ -305,7 +306,7 @@ if(request.getAttribute("isHwp")!=null){
 			        			<tr height="30">
 			        				<td><p class="amountStr">도급액 : 일금 <c:out value="${result.ctrtAmtKo }" />원정 (₩<fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.ctrtAmt }" />원)</p></td>
 			        			</tr>
-			        			<tr height="30">
+			        			<tr height="80">
 			        				<td></td>
 			        			</tr>
 			        			<tr height="130px">
@@ -331,7 +332,7 @@ if(request.getAttribute("isHwp")!=null){
 						        		</p>
 						       		</td>
 			        			</tr>
-			        			<tr height="100">
+			        			<tr height="160">
 			        				<td></td>
 			        			</tr>
 			        			<tr>
@@ -358,7 +359,7 @@ if(request.getAttribute("isHwp")!=null){
 			  				<td><h1>하　자　내　용</h1></td>
 			 			</tr>
 	        			<tr height="80">
-	        				<td><h2><c:out value="${result.flawRprNm }" />)</h2></td>
+	        				<td><h2><c:out value="${result.flawRprNm }" /></h2></td>
 	        			</tr>
         			<tr height="20">
         				<td></td>
@@ -382,7 +383,7 @@ if(request.getAttribute("isHwp")!=null){
 	    				<td>
 		    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />"/>
 						</td>
-						<td>
+						<td> 
 	    				<c:if test="${fn:length(resultList) gt status.index+1 }">
 		    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />"/>
 						</c:if>

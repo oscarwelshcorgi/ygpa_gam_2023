@@ -1,11 +1,11 @@
 package egovframework.rte.ygpa.gam.oper.train.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
-
 import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentMngtDetailVO;
 import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentMngtLevReqestVO;
 import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentMngtVO;
@@ -419,5 +419,18 @@ public class GamTrainPortRentMngtDao extends YGPAAbstractDAO {
 
 	public List selectChargeKndList(GamTrainPortRentMngtVO searchVO) throws Exception {
 		return list("gamTrainPortRentMngtDao.selectChargeKndList_D", searchVO);
+	}
+	public Map selectTrainPortRentMngtMasterInfo(GamTrainPortRentMngtVO searchVO) throws Exception {
+		return (Map) selectByPk("gamTrainPortRentMngtDao.selectTrainPortRentMngtMasterInfo_S", searchVO);
+	}
+
+	/**
+	 * 고지된 자료 갯수를 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public int selectRentFeeNoticeListCount(GamTrainPortRentMngtVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamTrainPortRentMngtDao.selectRentFeeNoticeListCount_S", searchVO);
 	}
 }
