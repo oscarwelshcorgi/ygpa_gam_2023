@@ -192,6 +192,8 @@ if(request.getAttribute("isHwp")!=null){
 		border:none;
 	}
 
+
+
 	table.rprReport {
 		height:25%; width:100%; border:1px gray solid;
 	}
@@ -314,7 +316,7 @@ if(request.getAttribute("isHwp")!=null){
 			        					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			        					위 공사에 대하여 <c:out value="${result.flawExamDt }" />&nbsp;&nbsp;하자검사한 결과 
 			        					<span style="text-decoration:underline;">
-			        			<c:out value="${result.flawEnnc }"/></span>을 확인함
+			        			<c:out value="${result.castFlawEnnc }"/></span>을 확인함
 			        				</td>
 			        			</tr>
 			        			<tr height="60">
@@ -345,7 +347,10 @@ if(request.getAttribute("isHwp")!=null){
         	</table>
         </div>
         </div>
+        
+        
         <c:if test="${result.flawEnnc == 'Y'}">
+        
 	        <div class="page">
 	                <div class="subpage ygpa_report" >
 	           <table class="page2Title" width="530">
@@ -355,8 +360,8 @@ if(request.getAttribute("isHwp")!=null){
 	        			<tr height="15">
 			  				<td><h1>하　자　내　용</h1></td>
 			 			</tr>
-	        			<tr height="80">
-	        				<td><h2><c:out value="${result.flawRprNm }" /></h2></td>
+	        			<tr height="60">
+	        				<td><h2>공사명 : <c:out value="${result.flawRprNm }" /></h2></td>
 	        			</tr>
         			<tr height="20">
         				<td></td>
@@ -415,6 +420,14 @@ if(request.getAttribute("isHwp")!=null){
 	    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultItem[status.index+1].atchFileNmPhysicl }' />"/>
 					</c:if>
 					</td>
+    			</tr>
+    			<tr class="caption">
+    			<td><c:out value="${resultItem.atchFileSj }"/></td>
+    			<td>
+   					<c:if test="${fn:length(resultList) gt status.index+1 }">
+						<c:out value="${resultList[status.index+1].atchFileSj }"/>
+					</c:if>
+    			</td>
     			</tr>
 
     			<c:if test="${(status.index-status.begin) % 6 == 0 && !status.first && !status.last }">

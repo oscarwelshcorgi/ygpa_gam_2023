@@ -312,7 +312,7 @@ if(request.getAttribute("isHwp")!=null){
 			        				<td style="vertical-align:top;font-size:15px;">
 			        					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			        					위 공사에 대하여 <c:out value="${result.flawExamDt }" />&nbsp;&nbsp;하자검사한 결과 
-			        					<span style="text-decoration:underline;"><c:out value="${result.flawEnnc }"/></span>을 확인함
+			        					<span style="text-decoration:underline;"><c:out value="${result.castFlawEnnc }"/></span>을 확인함
 			        				</td>
 			        			</tr>
 			        			<tr height="60">
