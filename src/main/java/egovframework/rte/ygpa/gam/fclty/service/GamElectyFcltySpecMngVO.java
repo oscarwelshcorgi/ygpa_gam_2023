@@ -103,6 +103,12 @@ public class GamElectyFcltySpecMngVO extends ComDefaultVO {
 	private	String lightwrLightappClcd;		// 조명탑 등기구 분류코드
 	private	String lightwrLampQy;			// 조명탑 LAMP 수량
 	private	String lightwrLampClcd;			// 조명탑 LAMP 분류코드
+	private	String paPersistPeriod;			// 항만공사내구연한
+	private	String kepcoPersistPeriod;		// 한국전력내구연한
+	private	String ppsPersistPeriod;		// 조달청내구연한
+	private	String changeHist;				// 교체이력
+	private	String kepcoChangeTime;			// 한전교체시기
+	private	String ppsChangeTime;			// 조달청교체시기
 	private	String rm;						// 비고
 	private	String regUsr;					// 등록자
 	private	String registDt;				// 등록일시
@@ -1011,6 +1017,78 @@ public class GamElectyFcltySpecMngVO extends ComDefaultVO {
 	 */
 	public void setLightwrLampClcd(String lightwrLampClcd) {
 		this.lightwrLampClcd = lightwrLampClcd;
+	}
+	/**
+	 * @return the paPersistPeriod
+	 */
+	public String getPaPersistPeriod() {
+		return paPersistPeriod;
+	}
+	/**
+	 * @param paPersistPeriod the paPersistPeriod to set
+	 */
+	public void setPaPersistPeriod(String paPersistPeriod) {
+		this.paPersistPeriod = paPersistPeriod;
+	}
+	/**
+	 * @return the kepcoPersistPeriod
+	 */
+	public String getKepcoPersistPeriod() {
+		return kepcoPersistPeriod;
+	}
+	/**
+	 * @param kepcoPersistPeriod the kepcoPersistPeriod to set
+	 */
+	public void setKepcoPersistPeriod(String kepcoPersistPeriod) {
+		this.kepcoPersistPeriod = kepcoPersistPeriod;
+	}
+	/**
+	 * @return the ppsPersistPeriod
+	 */
+	public String getPpsPersistPeriod() {
+		return ppsPersistPeriod;
+	}
+	/**
+	 * @param ppsPersistPeriod the ppsPersistPeriod to set
+	 */
+	public void setPpsPersistPeriod(String ppsPersistPeriod) {
+		this.ppsPersistPeriod = ppsPersistPeriod;
+	}
+	/**
+	 * @return the changeHist
+	 */
+	public String getChangeHist() {
+		return changeHist;
+	}
+	/**
+	 * @param changeHist the changeHist to set
+	 */
+	public void setChangeHist(String changeHist) {
+		this.changeHist = changeHist;
+	}
+	/**
+	 * @return the kepcoChangeTime
+	 */
+	public String getKepcoChangeTime() {
+		return kepcoChangeTime;
+	}
+	/**
+	 * @param kepcoChangeTime the kepcoChangeTime to set
+	 */
+	public void setKepcoChangeTime(String kepcoChangeTime) {
+		this.kepcoChangeTime = kepcoChangeTime;
+	}
+	/**
+	 * @return the ppsChangeTime
+	 */
+	public String getPpsChangeTime() {
+		return ppsChangeTime;
+	}
+	/**
+	 * @param ppsChangeTime the ppsChangeTime to set
+	 */
+	public void setPpsChangeTime(String ppsChangeTime) {
+		this.ppsChangeTime = ppsChangeTime;
 	}
 	/**
 	 * @return the rm

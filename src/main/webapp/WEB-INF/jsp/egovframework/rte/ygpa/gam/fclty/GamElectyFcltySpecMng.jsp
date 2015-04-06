@@ -1375,6 +1375,12 @@ GamElectyFcltySpecMngModule.prototype.addData = function() {
 	this.$('#lightwrLampClcd').val("");
 	this.$('#archFcltsMngNo').val("");
 	this.$('#archFcltsNm').val("");
+	this.$('#paPersistPeriod').val("");
+	this.$('#kepcoPersistPeriod').val("");
+	this.$('#ppsPersistPeriod').val("");
+	this.$('#changeHist').val("");
+	this.$('#kepcoChangeTime').val("");
+	this.$('#ppsChangeTime').val("");
 	this.$('#rm').val("");
 	this.enableDetailInputItem();
 	this.$('#gisPrtFcltyCd').focus();
@@ -2444,6 +2450,12 @@ GamElectyFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#lightwrLightappClcd').enable();
 		this.$('#lightwrLampQy').enable();
 		this.$('#lightwrLampClcd').enable();
+		this.$('#paPersistPeriod').enable();
+		this.$('#kepcoPersistPeriod').enable();
+		this.$('#ppsPersistPeriod').enable();
+		this.$('#changeHist').enable();
+		this.$('#kepcoChangeTime').enable();
+		this.$('#ppsChangeTime').enable();
 		this.$('#rm').enable();
 		this.$('#loc').enable();
 		this.$('#archFcltsMngNo').enable();
@@ -2516,6 +2528,12 @@ GamElectyFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#lightwrLightappClcd').enable();
 			this.$('#lightwrLampQy').enable();
 			this.$('#lightwrLampClcd').enable();
+			this.$('#paPersistPeriod').enable();
+			this.$('#kepcoPersistPeriod').enable();
+			this.$('#ppsPersistPeriod').enable();
+			this.$('#changeHist').enable();
+			this.$('#kepcoChangeTime').enable();
+			this.$('#ppsChangeTime').enable();
 			this.$('#rm').enable();
 			this.$('#loc').enable();
 			this.$('#archFcltsMngNo').enable();
@@ -2593,6 +2611,12 @@ GamElectyFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#lightwrLightappClcd').disable();
 			this.$('#lightwrLampQy').disable();
 			this.$('#lightwrLampClcd').disable();
+			this.$('#paPersistPeriod').disable();
+			this.$('#kepcoPersistPeriod').disable();
+			this.$('#ppsPersistPeriod').disable();
+			this.$('#changeHist').disable();
+			this.$('#kepcoChangeTime').disable();
+			this.$('#ppsChangeTime').disable();
 			this.$('#rm').disable();
 			this.$('#loc').disable();
 			this.$('#archFcltsMngNo').disable();
@@ -2672,6 +2696,12 @@ GamElectyFcltySpecMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#lightwrLightappClcd').disable();
 	this.$('#lightwrLampQy').disable();
 	this.$('#lightwrLampClcd').disable();
+	this.$('#paPersistPeriod').disable();
+	this.$('#kepcoPersistPeriod').disable();
+	this.$('#ppsPersistPeriod').disable();
+	this.$('#changeHist').disable();
+	this.$('#kepcoChangeTime').disable();
+	this.$('#ppsChangeTime').disable();
 	this.$('#rm').disable();
 	this.$('#loc').disable();
 	this.$('#archFcltsMngNo').disable();
@@ -3034,13 +3064,15 @@ var module_instance = new GamElectyFcltySpecMngModule();
 								<td>
 									<input type="text" size="33" id="capa" maxlength="20"/>
 								</td>
-								<th style="width:10%; height:18px;">전　　　　　압</th>
+								<th style="width:10%; height:18px;">전　압／출　력</th>
 								<td>
-									<input type="text" size="33" id="volt" maxlength="20"/>
+									<input type="text" size="14" id="volt" maxlength="20"/>／
+									<input type="text" size="14" id="output" maxlength="20"/>
 								</td>
-								<th style="width:10%; height:18px;">출　　　　　력</th>
+								<th style="width:10%; height:18px;">관로／케이블</th>
 								<td>
-									<input type="text" size="33" id="output" maxlength="20"/>
+									<input type="text" size="11" id="ductLineLt" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m／
+									<input type="text" size="12" id="cableExt" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
 								</td>
 							</tr>
 							<tr>
@@ -3048,27 +3080,14 @@ var module_instance = new GamElectyFcltySpecMngModule();
 								<td>
 									<input type="text" size="33" id="mfcCmpny" maxlength="100"/>
 								</td>
-								<th style="width:10%; height:18px;">제　작　일　자</th>
+								<th style="width:10%; height:18px;">제작일／설치일</th>
 								<td>
-									<input type="text" size="30" id="mfcDt" class="emdcal"/>
+									<input type="text" size="11" id="mfcDt" class="emdcal"/>／
+									<input type="text" size="11" id="instlDt" class="emdcal"/>
 								</td>
-								<th style="width:10%; height:18px;">설　치　일　자</th>
-								<td>
-									<input type="text" size="30" id="instlDt" class="emdcal"/>
-								</td>
-							</tr>
-							<tr>
 								<th style="width:10%; height:18px;">사　용　업　체</th>
 								<td>
 									<input type="text" size="33" id="usageEntrps" maxlength="100"/>
-								</td>
-								<th style="width:10%; height:18px;">관　　　　　로</th>
-								<td>
-									<input type="text" size="30" id="ductLineLt" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
-								</td>
-								<th style="width:10%; height:18px;">케이블　　연장</th>
-								<td>
-									<input type="text" size="30" id="cableExt" class="ygpaNumber" data-decimal-point="2" maxlength="10"/> m
 								</td>
 							</tr>
 							<tr>
@@ -3163,7 +3182,7 @@ var module_instance = new GamElectyFcltySpecMngModule();
 								<td colspan="5">
 									높이 : <input type="text" size="10" id="lightwrHt" class="ygpaNumber" data-decimal-point="2" maxlength="8"/> m
 									&nbsp; / &nbsp;
-									등기구 분류 : <input type="text" size="17" id="lightwrLightappClcd" maxlength="30"/>
+									등기구 분류 : <input type="text" size="16" id="lightwrLightappClcd" maxlength="30"/>
 									&nbsp; / &nbsp;
 									등기구 수량 : <input type="text" size="7" id="lightwrLightappQy" class="ygpaNumber" maxlength="6"/> 개
 									&nbsp; / &nbsp;
@@ -3173,9 +3192,37 @@ var module_instance = new GamElectyFcltySpecMngModule();
 								</td>
 							</tr>
 							<tr>
+								<th style="width:10%; height:18px;">공사　내구연한</th>
+								<td>
+									<input type="text" size="33" id="paPersistPeriod" maxlength="3"/>
+								</td>
+								<th style="width:10%; height:18px;">한전　내구연한</th>
+								<td>
+									<input type="text" size="33" id="kepcoPersistPeriod" maxlength="3"/>
+								</td>
+								<th style="width:10%; height:18px;">조달청내구연한</th>
+								<td>
+									<input type="text" size="33" id="ppsPersistPeriod" maxlength="3"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">한전　교체시기</th>
+								<td>
+									<input type="text" size="33" id="kepcoChangeTime" maxlength="10"/>
+								</td>
+								<th style="width:10%; height:18px;">교　체　이　력</th>
+								<td colSpan="3">
+									<input type="text" size="93" id="changeHist" maxlength="500"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">조달청교체시기</th>
+								<td>
+									<input type="text" size="33" id="ppsChangeTime" maxlength="10"/>
+								</td>
 								<th style="width:10%; height:18px;">비　　　　　고</th>
-								<td colSpan="5">
-									<input type="text" size="149" id="rm" maxlength="1000"/>
+								<td colSpan="3">
+									<input type="text" size="93" id="rm" maxlength="1000"/>
 								</td>
 							</tr>
 						</table>
