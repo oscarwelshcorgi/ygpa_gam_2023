@@ -160,4 +160,20 @@ public class GamPrtFcltyRentFeePaySttusMngtDao extends YGPAAbstractDAO {
         return list("gamPrtFcltyRentFeePaySttusMngtDao.selectArrrgNpticPrintInfo2_D", searchVO);
 	}
 
+	public EgovMap selectFeePayPopup(GamPrtFcltyRentFeePaySttusMngtVO vo) throws Exception {
+        return (EgovMap) selectByPk("gamPrtFcltyRentFeePaySttusMngtDao.selectFeePayPopup_S", vo);
+	}
+
+	public void updateLevReqestRcivSe(GamPrtFcltyRentFeePaySttusMngtVO vo) throws Exception {
+		this.update("gamPrtFcltyRentFeePaySttusMngtDao.updateLevReqestRcivSe_S", vo);
+	}
+
+	public void updateRevCollRcvdTp(Map vo) throws Exception {
+		this.update("gamPrtFcltyRentFeePaySttusMngtDao.updateRevCollRcvdTp_S", vo);
+	}
+
+	public EgovMap selectCheckOcrResult(GamPrtFcltyRentFeePaySttusMngtVO vo) throws Exception {
+        return (EgovMap) selectByPk("gamPrtFcltyRentFeePaySttusMngtDao.selectCheckOcrResult_S", vo);
+	}
+
 }

@@ -165,4 +165,28 @@ public interface GamPrtFcltyRentFeePaySttusMngtService {
 	 */
 	List selectArrrgNpticPrintInfo2(Map searchVO) throws Exception;
 
+
+	/**
+	 * 수납처리 팝업 항목을 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectFeePayPopup(GamPrtFcltyRentFeePaySttusMngtVO vo) throws Exception;
+
+
+	/**
+	 * 수납 확인 처리를 한다.
+	 * @param vo
+	 * @throws Exception
+	 */
+	void updateRevCollRcvdTp(GamPrtFcltyRentFeePaySttusMngtVO vo) throws Exception;
+
+	/**
+	 * 지로로 수납된 자료인지 확인한다.
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectCheckOcrResult(GamPrtFcltyRentFeePaySttusMngtVO vo) throws Exception;
 }
