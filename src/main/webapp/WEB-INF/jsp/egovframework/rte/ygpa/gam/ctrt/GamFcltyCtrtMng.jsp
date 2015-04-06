@@ -799,6 +799,18 @@ GamFcltyCtrtMngModule.prototype.onButtonClick = function(buttonId) {
 		case 'btnCtrtRemove':
 			this.deleteData();
 			break;
+	    case 'btnFirstData':
+	    	this.firstData();
+			break;
+	    case 'btnPrevData':
+	    	this.prevData();
+			break;
+	    case 'btnNextData':
+	    	this.nextData();
+			break;
+	    case 'btnLastData':
+	    	this.lastData();
+			break;
 		case 'btnJoinInsert':
 			this._joinmode = 'insert';
 			this._joinKeyValue = '';
@@ -1097,6 +1109,177 @@ GamFcltyCtrtMngModule.prototype.selectData = function() {
 	this._mainmode = 'modify';
 	this.loadDetail('detailTab');
 	this.enableDetailInputItem();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : firstData
+ * @DESCRIPTION   : FIRST DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.firstData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainKeyValue == "") {
+		return;
+	}
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		return;
+	}
+	var firstRowIndex = 0;
+	var row = rows[firstRowIndex];
+	var firstCtrtNo = row["ctrtNo"];
+	if (firstCtrtNo != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"ctrtNo", filter:firstCtrtNo}]);
+		this._mainmode = 'modify';
+		this._mainKeyValue = firstCtrtNo;
+		this.makeFormValues('#detailForm', rows[firstRowIndex]);
+		this.makeDivValues('#detailForm', rows[firstRowIndex]);
+		this.enableDetailInputItem();
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : prevData
+ * @DESCRIPTION   : PREVIOUS DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.prevData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainKeyValue == "") {
+		return;
+	}
+	var ctrtNo = this._mainKeyValue;
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		alert("자료가 존재하지 않습니다!");
+		return;
+	}
+	var prevRowIndex = -1;
+	for (var i=0; i < gridRowCount; i++) {
+		var row = rows[i];
+		if (ctrtNo == row["ctrtNo"]) {
+			prevRowIndex = i - 1;
+			break;
+		}
+	}
+	if (prevRowIndex < 0) {
+		alert("첫번째 자료 입니다!");
+		return;
+	}
+	if (prevRowIndex >= gridRowCount) {
+		alert("자료 위치가 부정확합니다!");
+		return;
+	}
+	var row = rows[prevRowIndex];
+	var prevCtrtNo = row["ctrtNo"];
+	if (prevCtrtNo != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"ctrtNo", filter:prevCtrtNo}]);
+		this._mainmode = 'modify';
+		this._mainKeyValue = prevCtrtNo;
+		this.makeFormValues('#detailForm', rows[prevRowIndex]);
+		this.makeDivValues('#detailForm', rows[prevRowIndex]);
+		this.enableDetailInputItem();
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : nextData
+ * @DESCRIPTION   : NEXT DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.nextData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainKeyValue == "") {
+		return;
+	}
+	var ctrtNo = this._mainKeyValue;
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		alert("자료가 존재하지 않습니다!");
+		return;
+	}
+	var nextRowIndex = -1;
+	for (var i=0; i < gridRowCount; i++) {
+		var row = rows[i];
+		if (ctrtNo == row["ctrtNo"]) {
+			nextRowIndex = i + 1;
+			break;
+		}
+	}
+	if (nextRowIndex < 0) {
+		alert("자료 위치가 부정확합니다!");
+		return;
+	}
+	if (nextRowIndex >= gridRowCount) {
+		alert("마지막 자료 입니다!");
+		return;
+	}
+	var row = rows[nextRowIndex];
+	var nextCtrtNo = row["ctrtNo"];
+	if (nextCtrtNo != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"ctrtNo", filter:nextCtrtNo}]);
+		this._mainmode = 'modify';
+		this._mainKeyValue = nextCtrtNo;
+		this.makeFormValues('#detailForm', rows[nextRowIndex]);
+		this.makeDivValues('#detailForm', rows[nextRowIndex]);
+		this.enableDetailInputItem();
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : lastData
+ * @DESCRIPTION   : LAST DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyCtrtMngModule.prototype.lastData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainKeyValue == "") {
+		return;
+	}
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		alert("자료가 존재하지 않습니다!");
+		return;
+	}
+	var lastRowIndex = gridRowCount - 1;
+	var row = rows[lastRowIndex];
+	var lastCtrtNo = row["ctrtNo"];
+	if (lastCtrtNo != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"ctrtNo", filter:lastCtrtNo}]);
+		this._mainmode = 'modify';
+		this._mainKeyValue = lastCtrtNo;
+		this.makeFormValues('#detailForm', rows[lastRowIndex]);
+		this.makeDivValues('#detailForm', rows[lastRowIndex]);
+		this.enableDetailInputItem();
+	}
 
 };
 
@@ -3321,6 +3504,14 @@ GamFcltyCtrtMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#btnCtrtSave').enable();
 		this.$('#btnCtrtSave').removeClass('ui-state-disabled');
 		this.$('#btnCtrtRemove').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnFirstData').enable();
+		this.$('#btnFirstData').removeClass('ui-state-disabled');
+		this.$('#btnPrevData').enable();
+		this.$('#btnPrevData').removeClass('ui-state-disabled');
+		this.$('#btnNextData').enable();
+		this.$('#btnNextData').removeClass('ui-state-disabled');
+		this.$('#btnLastData').enable();
+		this.$('#btnLastData').removeClass('ui-state-disabled');
 	} else {
 		if (this._mainKeyValue != "") {
 			this.$('#ctrtNo').disable();
@@ -3367,6 +3558,14 @@ GamFcltyCtrtMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnCtrtSave').removeClass('ui-state-disabled');
 			this.$('#btnCtrtRemove').enable();
 			this.$('#btnCtrtRemove').removeClass('ui-state-disabled');
+			this.$('#btnFirstData').enable();
+			this.$('#btnFirstData').removeClass('ui-state-disabled');
+			this.$('#btnPrevData').enable();
+			this.$('#btnPrevData').removeClass('ui-state-disabled');
+			this.$('#btnNextData').enable();
+			this.$('#btnNextData').removeClass('ui-state-disabled');
+			this.$('#btnLastData').enable();
+			this.$('#btnLastData').removeClass('ui-state-disabled');
 		} else {
 			this.$('#ctrtNo').disable();
 			this.$('#ctrtSe').disable();
@@ -3407,6 +3606,10 @@ GamFcltyCtrtMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#btnCtrtInsert').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnCtrtSave').disable({disableClass:"ui-state-disabled"});
 			this.$('#btnCtrtRemove').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnFirstData').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnPrevData').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnNextData').disable({disableClass:"ui-state-disabled"});
+			this.$('#btnLastData').disable({disableClass:"ui-state-disabled"});
 		}
 	}
 
@@ -3460,6 +3663,10 @@ GamFcltyCtrtMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#btnCtrtInsert').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnCtrtSave').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnCtrtRemove').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnFirstData').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnPrevData').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnNextData').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnLastData').disable({disableClass:"ui-state-disabled"});
 
 };
 
@@ -4490,6 +4697,10 @@ var module_instance = new GamFcltyCtrtMngModule();
 					<table style="width:100%;">
 						<tr>
 							<td style="text-align:right;">
+								<button id="btnFirstData">처음자료</button>
+								<button id="btnPrevData">이전자료</button>
+								<button id="btnNextData">다음자료</button>
+								<button id="btnLastData">마지막자료</button>
 								<button id="btnCtrtInsert" class="buttonAdd">　　추　가　　</button>
 								<button id="btnCtrtSave" class="buttonSave">　　저　장　　</button>
 								<button id="btnCtrtRemove" class="buttonDelete">　　삭　제　　</button>
