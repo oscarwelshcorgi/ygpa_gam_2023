@@ -1366,9 +1366,9 @@ GamElectyFcltySpecMngModule.prototype.addData = function() {
 	this.$('#lightappFmt').val("");
 	this.$('#lightappStndrd').val("");
 	this.$('#lightappQy').val("0");
-	this.$('#lampFmt').val("");
-	this.$('#lampCapa').val("");
-	this.$('#lampQy').val("0");
+	//this.$('#lampFmt').val("");
+	//this.$('#lampCapa').val("");
+	//this.$('#lampQy').val("0");
 	this.$('#lightwrLightappQy').val("0");
 	this.$('#lightwrLightappClcd').val("");
 	this.$('#lightwrLampQy').val("0");
@@ -1423,7 +1423,7 @@ GamElectyFcltySpecMngModule.prototype.saveData = function() {
 	var premainHt = Number(this.$('#premainHt').val().replace(/,/gi, ""));
 	var premainQy = Number(this.$('#premainQy').val().replace(/,/gi, ""));
 	var lightappQy = Number(this.$('#lightappQy').val().replace(/,/gi, ""));
-	var lampQy = Number(this.$('#lampQy').val().replace(/,/gi, ""));
+	//var lampQy = Number(this.$('#lampQy').val().replace(/,/gi, ""));
 	if (gisAssetsPrtAtCode == "" || gisAssetsCd == "" || gisAssetsSubCd == "") {
 		alert('GIS 자산 코드가 부정확합니다.');
 		return;
@@ -1557,11 +1557,11 @@ GamElectyFcltySpecMngModule.prototype.saveData = function() {
 		this.$("#lightappQy").focus();
 		return;
 	}
-	if (this.isValidCnt(lampQy) == false) {
-		alert('LAMP 수량이 부정확합니다.');
-		this.$("#lampQy").focus();
-		return;
-	}
+	//if (this.isValidCnt(lampQy) == false) {
+	//	alert('LAMP 수량이 부정확합니다.');
+	//	this.$("#lampQy").focus();
+	//	return;
+	//}
 	this.setFcltsMngNo();
 	var inputVO = this.makeFormArgs("#detailForm");
 	if (this._mainmode == "insert") {
@@ -2443,9 +2443,9 @@ GamElectyFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#lightappFmt').enable();
 		this.$('#lightappStndrd').enable();
 		this.$('#lightappQy').enable();
-		this.$('#lampFmt').enable();
-		this.$('#lampCapa').enable();
-		this.$('#lampQy').enable();
+		//this.$('#lampFmt').enable();
+		//this.$('#lampCapa').enable();
+		//this.$('#lampQy').enable();
 		this.$('#lightwrLightappQy').enable();
 		this.$('#lightwrLightappClcd').enable();
 		this.$('#lightwrLampQy').enable();
@@ -2521,9 +2521,9 @@ GamElectyFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#lightappFmt').enable();
 			this.$('#lightappStndrd').enable();
 			this.$('#lightappQy').enable();
-			this.$('#lampFmt').enable();
-			this.$('#lampCapa').enable();
-			this.$('#lampQy').enable();
+			//this.$('#lampFmt').enable();
+			//this.$('#lampCapa').enable();
+			//this.$('#lampQy').enable();
 			this.$('#lightwrLightappQy').enable();
 			this.$('#lightwrLightappClcd').enable();
 			this.$('#lightwrLampQy').enable();
@@ -2604,9 +2604,9 @@ GamElectyFcltySpecMngModule.prototype.enableDetailInputItem = function() {
 			this.$('#lightappFmt').disable();
 			this.$('#lightappStndrd').disable();
 			this.$('#lightappQy').disable();
-			this.$('#lampFmt').disable();
-			this.$('#lampCapa').disable();
-			this.$('#lampQy').disable();
+			//this.$('#lampFmt').disable();
+			//this.$('#lampCapa').disable();
+			//this.$('#lampQy').disable();
 			this.$('#lightwrLightappQy').disable();
 			this.$('#lightwrLightappClcd').disable();
 			this.$('#lightwrLampQy').disable();
@@ -2689,9 +2689,9 @@ GamElectyFcltySpecMngModule.prototype.disableDetailInputItem = function() {
 	this.$('#lightappFmt').disable();
 	this.$('#lightappStndrd').disable();
 	this.$('#lightappQy').disable();
-	this.$('#lampFmt').disable();
-	this.$('#lampCapa').disable();
-	this.$('#lampQy').disable();
+	//this.$('#lampFmt').disable();
+	//this.$('#lampCapa').disable();
+	//this.$('#lampQy').disable();
 	this.$('#lightwrLightappQy').disable();
 	this.$('#lightwrLightappClcd').disable();
 	this.$('#lightwrLampQy').disable();
