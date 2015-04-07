@@ -53,15 +53,13 @@
 								  WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 								   AND FCLTS_JOB_SE = #fcltsJobSe#
 								   AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
-								   AND ATCH_FILE_SJ IS NOT NULL
-								  ORDER BY ATCH_FILE_SEQ)
+								   AND ATCH_FILE_SJ IS NOT NULL)
 			,RM = (SELECT REPLACE(WM_CONCAT(TO_CHAR(ATCH_FILE_SEQ) || '. ' || ATCH_FILE_RM || CHR(13)),',','')
 					 FROM FLAW_RPR_ATCH_FILE_F
 				   WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 					AND FCLTS_JOB_SE = #fcltsJobSe#
 					AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
-					AND ATCH_FILE_RM IS NOT NULL
-				   ORDER BY ATCH_FILE_SEQ)
+					AND ATCH_FILE_RM IS NOT NULL)
 		WHERE FCLTS_JOB_SE = #fcltsJobSe#
 		 AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 		 AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)

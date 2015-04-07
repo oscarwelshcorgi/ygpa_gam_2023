@@ -36,7 +36,7 @@
 %>
 function GamFcltyRepairMngModule() {}
 
-GamFcltyRepairMngModule.prototype = new EmdModule(1000,650);	// 초기 시작 창크기 지정
+GamFcltyRepairMngModule.prototype = new EmdModule(1000,700);	// 초기 시작 창크기 지정
 
 <%
 /**
@@ -105,7 +105,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 					{display:"구분",		name:"atchFileSeNm",		width:90,		sortable:false,		align:"center"},
 					{display:"파일명",		name:"atchFileNmLogic",		width:300,		sortable:false,		align:"left"},
 					],
-		height: "255",
+		height: "330",
 
 	});
 	this.$("#fcltyRepairFileList").on("onItemDoubleClick", function(event, module, row, grid, param) {
@@ -408,11 +408,11 @@ GamFcltyRepairMngModule.prototype.loadDetail = function(){
 	}
 
 	row = row[0];
-	var searchVO = [
-	                { name: 'fcltsJobSe', value: row['fcltsJobSe'] },
-	                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
-	                { name: 'flawRprSeq', value: row['flawRprSeq'] }
-	];
+	var searchVO = {
+            'fcltsJobSe': row['fcltsJobSe'],
+            'fcltsMngGroupNo': row['fcltsMngGroupNo'],
+            'flawRprSeq': row['flawRprSeq']
+	};
 
 	// tabs2 항목 데이타로딩
 	this.doAction('/fcltyMng/selectFcltyRepairMngDetail.do', searchVO, function(module, result) {
@@ -480,7 +480,7 @@ GamFcltyRepairMngModule.prototype.imgPreview = function(){
 			var imgURL = this.getUrl("/fcltyMng/getRepairAttachFile.do?physicalFileNm=")+selImg;
 			this.$("#previewImage").attr("src", imgURL);
 
-			this.$("#previewImage").bind('load', {module: this},function(event){
+			this.$("#previewImage").bind('load', {module: this}, function(event){
 				event.data.module.$('#previewDialog').dialog({
 					modal: true,
 					maxWidth: 800,
@@ -1137,6 +1137,8 @@ GamFcltyRepairMngModule.prototype.onClosePopup = function(popupId, msg, value){
 
 		case 'popupFcltsAtchFileView':
 			if (msg == 'ok') {
+				this.loadDetail();
+/*******************************************************************************
 				var atchFileNo = this.$('#atchFileNo').val();
 				if (atchFileNo == value.atchFileNo) {
 					this.$('#atchFileSe').val(value.atchFileSe);
@@ -1154,6 +1156,7 @@ GamFcltyRepairMngModule.prototype.onClosePopup = function(popupId, msg, value){
 						this.$('#fcltyRepairFileList').flexUpdateRow(rowid, row);
 					}
 				}
+*******************************************************************************/
 			}
 			break;
 
@@ -1344,7 +1347,7 @@ var module_instance = new GamFcltyRepairMngModule();
 							<td>
 								<input id="flawOccrrncDt" type="text" size="22" class="emdcal"/>
 							</td>
-							<td rowspan="6" style="padding-left:4px;">
+							<td rowspan="7" style="padding-left:4px;">
 								<table id="fcltyRepairFileList" style="display:none;"></table>
 							</td>
 						</tr>
@@ -1390,7 +1393,7 @@ var module_instance = new GamFcltyRepairMngModule();
 						</tr>
 						<tr>
 							<th style="width:10%; height:18px;">비　　　　　고</th>
-							<td colspan="4"><input id="rm" type="text" size="153" title="비고" maxlength="1000"/></td>
+							<td colspan="3"><textarea id="rm" cols="65" rows="5" maxlength="4000"></textarea></td>
 						</tr>
 					</table>
 				</form>

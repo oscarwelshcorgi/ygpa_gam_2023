@@ -55,4 +55,14 @@ public class GamPopupRepairMngFileViewServiceImpl extends AbstractServiceImpl im
 		gamPopupRepairMngFileViewDao.updateRepairMngFileView(gamFcltyRepairMngVO);
 	}
 
+	/**
+	 * @name updateFcltyRepairMngContentsRm
+	 * @param gamFcltyRepairMngVO
+	 * @return void
+	 * @exception Exception
+	 */
+	public void updateFcltyRepairMngContentsRm(GamFcltyRepairMngVO gamFcltyRepairMngVO) throws Exception {
+		gamPopupRepairMngFileViewDao.updateFcltyRepairMngContentsRm(gamFcltyRepairMngVO);
+	}
+
 }

@@ -43,8 +43,11 @@ public interface GamPopupRepairMngFileViewService {
 	void updateRepairMngFileView(GamFcltyRepairMngVO gamFcltyRepairMngVO) throws Exception;
 
 	/**
-	 * @param gamFcltyRepairMngVO
+	 * @name updateFcltyRepairMngContentsRm
+	 * @param gamRepairMngFileMngVO
+	 * @return void
+	 * @throws Exception
 	 */
-	
+	void updateFcltyRepairMngContentsRm(GamFcltyRepairMngVO gamFcltyRepairMngVO) throws Exception;
 
 }

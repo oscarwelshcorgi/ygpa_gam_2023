@@ -111,8 +111,9 @@ public class GamPopupRepairMngFileViewController {
 
 		try {
 			gamFcltyRepairMngVO.setUpdUsr((String)user.getId());
-			
+
 			gamPopupRepairMngFileViewService.updateRepairMngFileView(gamFcltyRepairMngVO);
+			gamPopupRepairMngFileViewService.updateFcltyRepairMngContentsRm(gamFcltyRepairMngVO);
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
