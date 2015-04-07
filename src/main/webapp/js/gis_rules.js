@@ -2100,6 +2100,49 @@ var fcltyPowerRuleSet = [
 		}
 	},
 	{
+		title: '기타조명시설',
+		filter: new OpenLayers.Filter.Logical({
+			type: OpenLayers.Filter.Logical.AND,
+			filters: [
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_SE",
+			        	  value: 'E'
+			          }),
+			          new OpenLayers.Filter.Comparison({
+			        	  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			        	  property: "FCLTY_CD",
+			        	  value: 'EI'
+			          })
+			          ]
+		}),
+		symbolizer: {
+			"Point" : {
+				pointRadius : 10,
+				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_EI.png",
+				graphicWidth: 16,
+				graphicHeight: 19,
+				graphicXOffset: -8,
+				graphicYOffset: -19,
+				fillColor : "red",
+				fillOpacity : 1,
+				strokeWidth : 1,
+				strokeOpacity : 1,
+				strokeColor : "#333333",
+				label : "",
+				fontColor: "blue",
+				fontSize: "12px",
+				fontFamily: "Nanum Gothic",
+				fontWeight: "thin",
+				labelAlign: "ct",
+				labelXOffset: 0,
+				labelYOffset: -3,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
+			}
+		}
+	},
+	{
 		title:"전력선",
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
