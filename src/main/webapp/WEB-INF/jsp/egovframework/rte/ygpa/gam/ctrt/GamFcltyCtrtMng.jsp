@@ -3504,14 +3504,10 @@ GamFcltyCtrtMngModule.prototype.enableDetailInputItem = function() {
 		this.$('#btnCtrtSave').enable();
 		this.$('#btnCtrtSave').removeClass('ui-state-disabled');
 		this.$('#btnCtrtRemove').disable({disableClass:"ui-state-disabled"});
-		this.$('#btnFirstData').enable();
-		this.$('#btnFirstData').removeClass('ui-state-disabled');
-		this.$('#btnPrevData').enable();
-		this.$('#btnPrevData').removeClass('ui-state-disabled');
-		this.$('#btnNextData').enable();
-		this.$('#btnNextData').removeClass('ui-state-disabled');
-		this.$('#btnLastData').enable();
-		this.$('#btnLastData').removeClass('ui-state-disabled');
+		this.$('#btnFirstData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnPrevData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnNextData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnLastData').disable({disableClass:"ui-state-disabled"});
 	} else {
 		if (this._mainKeyValue != "") {
 			this.$('#ctrtNo').disable();
