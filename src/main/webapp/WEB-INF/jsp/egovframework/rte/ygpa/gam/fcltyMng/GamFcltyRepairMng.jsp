@@ -36,7 +36,7 @@
 %>
 function GamFcltyRepairMngModule() {}
 
-GamFcltyRepairMngModule.prototype = new EmdModule(1000,610);	// 초기 시작 창크기 지정
+GamFcltyRepairMngModule.prototype = new EmdModule(1000,650);	// 초기 시작 창크기 지정
 
 <%
 /**
@@ -50,7 +50,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 	this._deleteObjFcltsList=[];
 	this._deleteDataRepairList=[];
 	this._deleteDataFileList=[];
-	
+
 	//console.log('GamFcltyRepairMngModule');
 
 	this.$("#fcltyRepairMngList").flexigrid({
@@ -58,9 +58,9 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectFcltyRepairMngList.do',
 		dataType: "json",
 		colModel : [
-					{display:"시설물관리그룹", 		name:"fcltsMngGoupNm",			width:130, 		sortable:false,		align:"center"},
-					{display:"계약번호", 			name:"ctrtNo",					width:200, 		sortable:false,		align:"center"},
-					{display:"계약명",			name:"flawRprNm",				width:250, 		sortable:false,		align:"left"},
+					{display:"시설물관리그룹", 		name:"fcltsMngGoupNm",			width:160, 		sortable:false,		align:"left"},
+					{display:"계약번호", 			name:"ctrtNo",					width:120, 		sortable:false,		align:"center"},
+					{display:"계약명",				name:"flawRprNm",				width:250, 		sortable:false,		align:"left"},
 					{display:"도급업체명",			name:"flawRprEntrpsNm",			width:250, 		sortable:false,		align:"left"},
 					{display:"업무구분",			name:"fcltsJobSeNm",			width:80, 		sortable:false,		align:"center"},
 					{display:"하자검사구분",		name:"flawExamSeNm",			width:80, 		sortable:false,		align:"center"},
@@ -94,19 +94,19 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 			],
 		height: "110"
 	});
-	
-	
+
+
 	this.$("#fcltyRepairFileList").flexigrid({
 		module : this,
 		url : '/fcltyMng/selectFcltyRepairFileList.do',
 		dataType : 'json',
 		colModel : [
-					{display:"번호",		name:"atchFileSeq",			width:60,		sortable:false,		align:"center"},
-					{display:"구분",		name:"atchFileSeNm",		width:60,		sortable:false,		align:"center"},
-					{display:"파일명",	name:"atchFileNmLogic",		width:310,		sortable:false,		align:"left"},
+					{display:"번호",		name:"atchFileSeq",			width:65,		sortable:false,		align:"center"},
+					{display:"구분",		name:"atchFileSeNm",		width:90,		sortable:false,		align:"center"},
+					{display:"파일명",		name:"atchFileNmLogic",		width:300,		sortable:false,		align:"left"},
 					],
-		height: "175",
-		
+		height: "255",
+
 	});
 	this.$("#fcltyRepairFileList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module.showFcltsAtchFileViewPopup();
@@ -137,32 +137,37 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 	this.$("#printSe").bind("change keyup", {module: this}, function(event) {
 		event.data.module.setPrintSe();
 	});
-	
+
+	if (EMD.userinfo.mngFcltyCd == null || EMD.userinfo.mngFcltyCd != "*") {
+		this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
+		this.$('#sFcltsJobSe').disable();
+	}
 	// 기본값 셋팅
 	this.setDefaultParam();
 	this.applySelectYear();
 	this.getMapInfoList(params);
 
 };
+
 GamFcltyRepairMngModule.prototype.showFcltsAtchFileViewPopup = function() {
 	console.log('debug');
 	var row = this.$('#fcltyRepairFileList').selectedRows()[0];
 	var selImg = row['atchFileNmPhysicl'];
 	console.log(selImg);
-	
+
 	var fcltsJobSe = this.$('#fcltsJobSe').val();
 	console.log(fcltsJobSe);
 	var fcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();
 	var flawRprSeq = this.$('#flawRprSeq').val();
 	var atchFileSeq = this.$('#photoAtchFileSeq').val();
-	
-	
+
+
 	if (atchFileSeq == "") {
 		return;
 	}
 	if (selImg != "") {
 	var imageURL = this.getUrl("/fcltyMng/getRepairAttachFile.do?physicalFileNm=")+selImg;
-								
+
 	 console.log(imageURL);
 	}
     var searchOpts = {
@@ -171,7 +176,7 @@ GamFcltyRepairMngModule.prototype.showFcltsAtchFileViewPopup = function() {
 		'fcltsMngGroupNo' : fcltsMngGroupNo ,
 		'flawRprSeq' : flawRprSeq,
 		'imageURL':imageURL
-		
+
     };
 	this.doExecuteDialog('popupFcltsAtchFileView', '시설물 첨부 파일 보기', '/popup/showRepairMngFileViewPopup.do', null, searchOpts);
 
@@ -181,7 +186,7 @@ GamFcltyRepairMngModule.prototype.showFcltsAtchFileViewPopup = function() {
  * @FUNCTION NAME : setPrintSe
  * @DESCRIPTION   : 셀렉트박스에 선택된 출력구분에 따른 url 세팅
  * @PARAMETER     : none
- 
+
 **/
 %>
 
@@ -205,9 +210,9 @@ GamFcltyRepairMngModule.prototype.setPrintSe = function(){
 		this.$("#expPrint").data('role','printDown');
 		this.$("#expPrint").data('filename','만료검사조서.hwp');
 	}else{
-		
+
 	}
-	
+
 };
 <%
 /**
@@ -407,7 +412,7 @@ GamFcltyRepairMngModule.prototype.loadDetail = function(){
 	                { name: 'fcltsJobSe', value: row['fcltsJobSe'] },
 	                { name: 'fcltsMngGroupNo', value: row['fcltsMngGroupNo'] },
 	                { name: 'flawRprSeq', value: row['flawRprSeq'] }
-	               ];
+	];
 
 	// tabs2 항목 데이타로딩
 	this.doAction('/fcltyMng/selectFcltyRepairMngDetail.do', searchVO, function(module, result) {
@@ -746,16 +751,16 @@ GamFcltyRepairMngModule.prototype.saveData = function() {
 	 	});
 	}else{
 	 	this.doAction('/fcltyMng/updateFcltyRepairMng.do', inputVO, function(module, result) {
-	 		
+
 	 		if(result.resultCode == "0"){
 	 		module.loadData();
 	 		this.$("#fcltyRepairMngListTab").tabs("option", {active: 0});
 	 			}
 	 		alert(result.resultMsg);
 	 	});
-	 	
+
 	 	};
-			
+
 };
 
 
@@ -771,12 +776,12 @@ GamFcltyRepairMngModule.prototype.makeSaveParam = function() {
 	var inputVO = [];
  	inputVO[inputVO.length] = {name: 'fcltyRepairMngListVO', value :JSON.stringify(this.makeFormArgs("#fcltyRepairMngListVO",'object')) };
  	inputVO[inputVO.length]=  {name: 'insertRepairFileList', value: JSON.stringify(this.$('#fcltyRepairFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
- 	
+
  	if(this._deleteRepairFileList == undefined ) {
          this._deleteRepairFileList=[];
      }
  	inputVO[inputVO.length]=  {name: 'deleteRepairFileList', value: JSON.stringify(this._deleteRepairFileList)};
- 	
+
  	// 조건은 수정시에만 필요한 데이타 형식
  	if(this._mode == "modify") {
  		var all_rows = this.$('#flawRprObjFcltsF').flexGetData();
@@ -790,7 +795,7 @@ GamFcltyRepairMngModule.prototype.makeSaveParam = function() {
 	 	inputVO[inputVO.length]={name: 'deleteObjList', value: JSON.stringify(this._deleteObjFcltsList) };
  	}
  	inputVO[inputVO.length] = {name: 'insertObjList', 		 value: JSON.stringify(this.$('#flawRprObjFcltsF').selectFilterData([{col: '_updtId', filter: 'I'}])) };
- 	
+
 	return inputVO;
 };
 
@@ -833,7 +838,7 @@ GamFcltyRepairMngModule.prototype.atchFileUpload = function() {
 	        		atchFileSj : "",
 	        		atchFileSeNm : "",
 	        		atchFileNmLogic: this.logicalFileNm,
-	        		atchFileNmPhysicl: this.physcalFileNm	
+	        		atchFileNmPhysicl: this.physcalFileNm
 	    		});
 			});
 		if(resp.result!=null && resp.result.length>0) this._edited=true;
@@ -889,7 +894,7 @@ GamFcltyRepairMngModule.prototype.downloadFileData = function() {
 		console.log(row["atchFileNmPhysicl"],row["atchFileNmLogic"]);
 		this.downloadSingleFile("/fcltyMng/downloadRepairAttachFile.do", row["atchFileNmPhysicl"],row["atchFileNmLogic"]);
 	};
-	
+
 };
 
 
@@ -990,8 +995,8 @@ GamFcltyRepairMngModule.prototype.onButtonClick = function(buttonId) {
 		// 저장
 		case "saveBtn":
 			this.saveData();
-			
-			
+
+
 		break;
 
 		// 삭제
@@ -1059,7 +1064,7 @@ GamFcltyRepairMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 
 	switch(newTabId) {
 		case "tabs1":
-			
+
 		break;
 
 		case "tabs2":
@@ -1149,7 +1154,7 @@ GamFcltyRepairMngModule.prototype.onClosePopup = function(popupId, msg, value){
 				}
 			}
 			break;
-			
+
 		default:
 			alert("알수없는 팝업 이벤트가 호출 되었습니다.");
 		break;
@@ -1242,26 +1247,28 @@ var module_instance = new GamFcltyRepairMngModule();
 			<!-- 하자보수내역 상세 -->
 			<div id="tabs2" class="emdTabPage" style="overflow: hidden;">
 				<form id="fcltyRepairMngListVO">
-					<table class="editForm"  style="width:100%;">
-					
+					<table class="summaryPanel" style="width:100%;">
 						<tr>
-						  
-							<th width="12%" height="17" class="required_text">시설물관리그룹</th>
+							<th style="font-weight:bold; height:20px;">하 자 검 사 정 보</th>
+						</tr>
+					</table>
+					<table class="detailPanel" style="width:100%;">
+						<tr>
+							<th style="width:10%; height:18px;">시설물관리그룹</th>
 							<td colspan="3">
-								<input type="text" size="18" id="fcltsMngGroupNo" disabled="disabled" title="시설물관리그룹넘버" />
-								<input type="text" size="28" id="fcltsMngGoupNoNm" disabled="disabled" title="시설물관리그룹명"/>
+								<input type="text" size="20" id="fcltsMngGroupNo" disabled="disabled"/>-
+								<input type="text" size="30" id="fcltsMngGoupNoNm" disabled="disabled"/>
 								<button id="searchFcltsMngGroupNo" class="popupButton">선택</button>
-								
 							</td>
-							<th width="15%" height="23" class="required_text">시행년도</th>
+							<th style="width:10%; height:18px;">시　행　년　도</th>
 							<td>
-								<select id="enforceYear" title="시행년도">
+								<select id="enforceYear">
 									<option value="">선택</option>
 								</select>
 							</td>
-							<th width="15%" height="23" class="required_text">시설물업무구분</th>
+							<th style="width:10%; height:18px;">업　무　구　분</th>
 							<td>
-								<select id="fcltsJobSe" title="시설물업무구분">
+								<select id="fcltsJobSe">
 									<option value="">선택</option>
 									<option value="E">전기시설물</option>
 									<option value="M">기계시설물</option>
@@ -1272,86 +1279,116 @@ var module_instance = new GamFcltyRepairMngModule();
 							</td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">계약번호</th>
+							<th style="width:10%; height:18px;">계　약　번　호</th>
 							<td colspan="3">
-								<input type="text" size="20" id="ctrtNo" disabled="disabled" title="계약번호"/>-
-								<input type="text" size="25" id="flawRprNm" disabled="disabled" title="계약명"/>
+								<input type="text" size="20" id="ctrtNo" disabled="disabled"/>-
+								<input type="text" size="30" id="flawRprNm" disabled="disabled"/>
 								<button id="ctrtNoPopupBtn" class="popupButton">선택</button>
 							</td>
-							<th width="15%" height="23" class="required_text">도급업체명</th>
-							<td colspan="3"><input id="flawRprEntrpsNm" type="text" size="53" title="도급업체명" disabled="disabled" /></td>
+							<th style="width:10%; height:18px;">도　급　업　체</th>
+							<td colspan="3">
+								<input id="flawRprEntrpsNm" type="text" size="65" disabled="disabled"/>
+							</td>
 						</tr>
 						<tr>
-							<th>하자검사구분</th>
-							<td colspan="3">
-								<select id="flawExamSe" title="하자검사구분">
+							<th style="width:10%; height:18px;">하자검사　구분</th>
+							<td>
+								<select id="flawExamSe">
 									<option value="">선택</option>
 									<option value="1">상반기</option>
 									<option value="2">하반기</option>
 									<option value="3">만료검사</option>
 								</select>
-								<input type="hidden" id="flawRprSeq" title="하자보수순번" />
+								<input type="hidden" id="flawRprSeq"/>
 							</td>
-							<th width="15%" height="23" class="required_text">하자검사일자</th>
-							<td colspan="3"><input id="flawExamDt" type="text" size="20" title="하자검사일자" class="emdcal" /></td>
-						</tr>
-						<tr>
-							<th width="12%" height="17">검사자</th>
-							<td colspan="3"><input type="text" size="18" id="flawExamUsr" title="검사자" /></td>
-							<th width="15%" height="23" class="required_text">소속</th>
-							<td><input type="text" size="18" id="flawExamUsrDept" title="소속" /></td>
-							<th width="15%" height="23" class="required_text">직급 및 성명</th>
-							<td><input type="text" size="18" id="flawExamUsrNm" title="직급 및 성명" /></td>
-						</tr>
-						<tr>
-							<th width="15%" height="23" class="required_text">하자유무</th>
+							<th style="width:10%; height:18px;">소속/직급-성명</th>
 							<td>
-								<select id="flawEnnc" title="하자유무">
-									<option value="">선택</option>
-									<option value="Y">유</option>
-									<option value="N">무</option>
-								</select>
+								<input type="text" size="15" id="flawExamUsrDept" maxlength="30"/>
+								<input type="text" size="15" id="flawExamUsrNm" maxlength="30"/>
 							</td>
-							<th width="15%" height="23" class="required_text">하자발생일자</th>
-							<td><input id="flawOccrrncDt" type="text" size="15" title="하자발생일자" class="emdcal" /></td>
-							<th width="15%" height="23" class="required_text">하자보수기간</th>
-							<td colspan="3">
-								<input id="flawRprStartDt" type="text" size="20" title="하자보수시작일자" class="emdcal" /> ~
-								<input id="flawRprEndDt" type="text" size="20" title="하자보수종료일자" class="emdcal" />
-							</td>
-						</tr>
-						<tr>
-							<th width="15%" height="23" class="required_text">하자보수유형</th>
+							<th style="width:10%; height:18px;">검　　사　　자</th>
 							<td>
-								<select id="flawRprTy" title="하자보수유형">
+								<input type="text" size="18" id="flawExamUsr" maxlength="100"/>
+							</td>
+							<th style="width:10%; height:18px;">하자 검사 일자</th>
+							<td>
+								<input id="flawExamDt" type="text" size="15" class="emdcal"/>
+							</td>
+						</tr>
+					</table>
+					<table class="summaryPanel" style="width:100%;">
+						<tr>
+							<th style="font-weight:bold; height:20px;">하 자 보 수 정 보</th>
+							<td style="text-align:right;">
+								<div id="previewHidden" style="display: none;"></div>
+								<button id="btnUploadFile" class="buttonAdd">파일 추가</button>
+								<button id="btnDownloadFile">파일 다운로드</button>
+								<button id="btnRemoveFile" class="buttonDelete">파일 삭제</button>
+								<button id="btnPreviewFile">파일 미리보기</button>
+							</td>
+						</tr>
+					</table>
+					<table class="detailPanel" style="width:100%;">
+						<tr>
+							<th style="width:10%; height:18px;">하　자　유　무</th>
+							<td>
+								<select id="flawEnnc">
 									<option value="">선택</option>
-									<option value="O">자체</option>
-									<option value="S">용역</option>
+									<option value="Y">유　　　　　</option>
+									<option value="N">무　　　　　</option>
 								</select>
 							</td>
-							<th width="15%" height="23" class="required_text">하자보수금액</th>
-							<td><input id="flawRprAmt" type="text" size="20" title="하자보수금액" class="ygpaNumber" maxlength="16" /> 원</td>
-							<th width="15%" height="23" class="required_text">하자보수완료여부</th>
+							<th style="width:10%; height:18px;">하자 발생 일자</th>
+							<td>
+								<input id="flawOccrrncDt" type="text" size="22" class="emdcal"/>
+							</td>
+							<td rowspan="6" style="padding-left:4px;">
+								<table id="fcltyRepairFileList" style="display:none;"></table>
+							</td>
+						</tr>
+						<tr>
+							<th style="width:10%; height:18px;">하자 보수 기간</th>
 							<td colspan="3">
-								<select id="flawRprComptYn" title="하자보수완료여부">
+								<input id="flawRprStartDt" type="text" size="24" class="emdcal"/>
+								&nbsp;　~　&nbsp;
+								<input id="flawRprEndDt" type="text" size="24" class="emdcal"/>
+							</td>
+						</tr>
+						<tr>
+							<th style="width:10%; height:18px;">하자 보수 유형</th>
+							<td>
+								<select id="flawRprTy">
 									<option value="">선택</option>
-									<option value="Y">완료</option>
-									<option value="N">미완료</option>
+									<option value="O">자체　　　　</option>
+									<option value="S">용역　　　　</option>
+								</select>
+							</td>
+							<th style="width:10%; height:18px;">하자 보수 금액</th>
+							<td>
+								<input id="flawRprAmt" type="text" size="22" title="하자보수금액" class="ygpaNumber" maxlength="16"/> 원
+							</td>
+						</tr>
+						<tr>
+							<th style="width:10%; height:18px;">하자 보수 완료</th>
+							<td colspan="3">
+								<select id="flawRprComptYn">
+									<option value="">선택</option>
+									<option value="Y">완료　　　　</option>
+									<option value="N">미완료　　　</option>
 								</select>
 							</td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">하자보수내용</th>
-							<td colspan="3"><textarea id="flawRprContents" cols="72" rows="5" title="하자보수내용" maxlength="1333"></textarea></td>
-							<td colspan="4" rowspan="12"><table id="fcltyRepairFileList" style="display:none"></table>
+							<th style="width:10%; height:18px;">하자 보수 내용</th>
+							<td colspan="3"><textarea id="flawRprContents" cols="65" rows="5" maxlength="4000"></textarea></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">하자보수결과</th>
-							<td colspan="3"><textarea id="flawExamResult" cols="72" rows="5" title="하자보수결과" maxlength="1333"></textarea></td>
+							<th style="width:10%; height:18px;">하자 보수 결과</th>
+							<td colspan="3"><textarea id="flawExamResult" cols="65" rows="5" title="하자보수결과" maxlength="4000"></textarea></td>
 						</tr>
 						<tr>
-							<th width="15%" height="23" class="required_text">비고</th>
-							<td colspan="3"><input id="rm" type="text" size="72" title="비고" maxlength="333" /></td>
+							<th style="width:10%; height:18px;">비　　　　　고</th>
+							<td colspan="4"><input id="rm" type="text" size="153" title="비고" maxlength="1000"/></td>
 						</tr>
 					</table>
 				</form>
@@ -1366,18 +1403,9 @@ var module_instance = new GamFcltyRepairMngModule();
 				<input id="atchFileSj" type="hidden"/>
 				<input type="hidden" id="photoAtchFileNmLogic" data-column-id="atchFileNmLogic"/>
 				<input type="hidden" id="atchFileNmPhysicl" data-column-id="atchFileNmPhysicl"/>
-				
+
 				</form>
-				
 					<div>
-						<button id="btnPreviewFile">첨부파일 미리보기</button>
-						<div id="previewHidden" style="display: none;"></div>
-						<button id="btnUploadFile">업로드</button>
-						<button id="btnDownloadFile">다운로드</button>
-						<button id="btnRemoveFile" class="buttonDelete"> 삭 제 </button>
-					</div>
-						
-					<div>	
 							<select id="printSe" title="출력구분">
 								<option value="print">인쇄</option>
 								<option value="hwp">한글문서</option>
@@ -1481,7 +1509,7 @@ var module_instance = new GamFcltyRepairMngModule();
 										<button id="btnDownloadFile">다운로드</button>
 										<button id="btnRemoveFile" class="buttonDelete"> 삭 제 </button>
 									</td>
-								</tr> --> 
+								</tr> -->
 							</tbody>
 						</table>
 					</form>
