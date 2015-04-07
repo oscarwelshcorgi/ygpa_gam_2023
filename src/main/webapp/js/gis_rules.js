@@ -1689,33 +1689,27 @@ var fcltyPowerRuleSet = [
 			          ]
 		}),
 		symbolizer: {
-			"Point" : {
-				pointRadius : 10,
-				externalGraphic: "/images/egovframework/ygpa/gam/maps/map_icon/icon_E3.png",
-				graphicWidth: 16,
-				graphicHeight: 19,
-				graphicXOffset: -8,
-				graphicYOffset: -19,
-				fillColor : "red",
-				fillOpacity : 1,
+			"Polygon" : {
+				fillColor: "#0100FF",
+				fillOpacity: 0.5,
 				strokeWidth : 1,
 				strokeOpacity : 1,
-				strokeColor : "#333333",
+				strokeColor : "#800080",
 				label : "${FCLTY_NM}",
-				fontColor: "blue",
+				fontColor: "black",
 				fontSize: "12px",
-				fontFamily: "Nanum Gothic",
-				fontWeight: "thin",
-				labelAlign: "ct",
-				labelXOffset: 0,
-				labelYOffset: -3,
+				fontFamily: "Courier New, monospace",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				labelXOffset: "2px",
+				labelYOffset: "16px",
 				labelOutlineColor: "white",
 				labelOutlineWidth: 3
 			}
 		}
 	},
 	{
-		title: '조명탑 (4등용)',
+		title: '조명탑 (4등)',
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
 			filters: [
@@ -1744,7 +1738,7 @@ var fcltyPowerRuleSet = [
 				strokeWidth : 1,
 				strokeOpacity : 1,
 				strokeColor : "#333333",
-				label : "${FCLTY_NM}",
+				label : "",
 				fontColor: "blue",
 				fontSize: "12px",
 				fontFamily: "Nanum Gothic",
@@ -1787,7 +1781,7 @@ var fcltyPowerRuleSet = [
 				strokeWidth : 1,
 				strokeOpacity : 1,
 				strokeColor : "#333333",
-				label : "${FCLTY_NM}",
+				label : "",
 				fontColor: "blue",
 				fontSize: "12px",
 				fontFamily: "Nanum Gothic",
@@ -1830,7 +1824,7 @@ var fcltyPowerRuleSet = [
 				strokeWidth : 1,
 				strokeOpacity : 1,
 				strokeColor : "#333333",
-				label : "${FCLTY_NM}",
+				label : "",
 				fontColor: "blue",
 				fontSize: "12px",
 				fontFamily: "Nanum Gothic",

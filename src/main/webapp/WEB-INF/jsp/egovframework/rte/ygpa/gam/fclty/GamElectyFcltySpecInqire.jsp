@@ -1270,7 +1270,7 @@ var module_instance = new GamElectyFcltySpecInqireModule();
 									<input type="text" size="30" id="lightappQy" class="ygpaNumber" maxlength="6" disabled/> 개
 								</td>
 							</tr>
-							<tr>
+							<!-- <tr>
 								<th style="width:10%; height:18px;">LAMP　형　식</th>
 								<td>
 									<input type="text" size="33" id="lampFmt" maxlength="20" disabled/>
@@ -1283,13 +1283,13 @@ var module_instance = new GamElectyFcltySpecInqireModule();
 								<td>
 									<input type="text" size="30" id="lampQy" class="ygpaNumber" maxlength="6" disabled/> 개
 								</td>
-							</tr>
+							</tr> -->
 							<tr>
 								<th style="width:10%; height:18px;">조　　명　　탑</th>
 								<td colspan="5">
 									높이 : <input type="text" size="10" id="lightwrHt" class="ygpaNumber" data-decimal-point="2" maxlength="8" disabled/> m
 									&nbsp; / &nbsp;
-									등기구 분류 : <input type="text" size="17" id="lightwrLightappClcd" maxlength="30" disabled/>
+									등기구 분류 : <input type="text" size="16" id="lightwrLightappClcd" maxlength="30" disabled/>
 									&nbsp; / &nbsp;
 									등기구 수량 : <input type="text" size="7" id="lightwrLightappQy" class="ygpaNumber" maxlength="6" disabled/> 개
 									&nbsp; / &nbsp;
@@ -1299,9 +1299,37 @@ var module_instance = new GamElectyFcltySpecInqireModule();
 								</td>
 							</tr>
 							<tr>
+								<th style="width:10%; height:18px;">공사　내구연한</th>
+								<td>
+									<input type="text" size="33" id="paPersistPeriod" disabled/>
+								</td>
+								<th style="width:10%; height:18px;">한전　내구연한</th>
+								<td>
+									<input type="text" size="33" id="kepcoPersistPeriod" disabled/>
+								</td>
+								<th style="width:10%; height:18px;">조달청내구연한</th>
+								<td>
+									<input type="text" size="33" id="ppsPersistPeriod" disabled/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">한전　교체시기</th>
+								<td>
+									<input type="text" size="33" id="kepcoChangeTime" disabled/>
+								</td>
+								<th style="width:10%; height:18px;">교　체　이　력</th>
+								<td colSpan="3">
+									<input type="text" size="93" id="changeHist" disabled/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">조달청교체시기</th>
+								<td>
+									<input type="text" size="33" id="ppsChangeTime" disabled/>
+								</td>
 								<th style="width:10%; height:18px;">비　　　　　고</th>
-								<td colSpan="5">
-									<input type="text" size="149" id="rm" maxlength="1000" disabled/>
+								<td colSpan="3">
+									<input type="text" size="93" id="rm" disabled/>
 								</td>
 							</tr>
 						</table>
