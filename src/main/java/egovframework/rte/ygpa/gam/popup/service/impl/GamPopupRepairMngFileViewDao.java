@@ -29,7 +29,7 @@ import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngVO;
 
 @Repository("gamPopupRepairMngFileViewDao")
 public class GamPopupRepairMngFileViewDao extends YGPAAbstractDAO {
-	
+
 	/**
 	 * @name selectRepairMngFileViewPk
 	 * @param gamRepairMngFileMngVO
@@ -46,6 +46,15 @@ public class GamPopupRepairMngFileViewDao extends YGPAAbstractDAO {
 	 */
 	public void updateRepairMngFileView(GamFcltyRepairMngVO gamFcltyRepairMngVO) {
 		update("PopupRepairMngFileViewDao.updateRepairMngFileView_S", gamFcltyRepairMngVO);
+	}
+
+	/**
+	 * @name updateFcltyRepairMngContentsRm
+	 * @param gamRepairMngFileMngVO
+	 * @return void
+	 */
+	public void updateFcltyRepairMngContentsRm(GamFcltyRepairMngVO gamFcltyRepairMngVO) {
+		update("PopupRepairMngFileViewDao.updateFcltyRepairMngContentsRm_S", gamFcltyRepairMngVO);
 	}
 
 }

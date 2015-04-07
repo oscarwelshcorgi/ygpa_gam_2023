@@ -8,7 +8,7 @@
 	<typeAlias alias="gamFcltyRepairMngVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngVO"/>
 
 	<select id="PopupRepairMngFileViewDao.selectRepairMngFileViewPk_S" parameterClass="gamFcltyRepairMngVO" resultClass="egovMap">
-				SELECT 
+				SELECT
 							FCLTS_MNG_GROUP_NO
 							,FCLTS_JOB_SE
 							,FLAW_RPR_SEQ
@@ -19,10 +19,11 @@
 							,ATCH_FILE_NM_LOGIC
 							,ATCH_FILE_NM_PHYSICL
 							,ATCH_FILE_WRITNG_DT
+							,ATCH_FILE_RM
 							,REG_USR
 							,REGIST_DT
 							,UPD_USR
-							,UPDT_DT 
+							,UPDT_DT
 				FROM FLAW_RPR_ATCH_FILE_F
 				WHERE
 					FCLTS_JOB_SE = #fcltsJobSe#
@@ -35,13 +36,35 @@
 			UPDATE FLAW_RPR_ATCH_FILE_F SET
 					 ATCH_FILE_SE = #atchFileSe#
 					,ATCH_FILE_SJ = #atchFileSj#
+					,ATCH_FILE_RM = #atchFileRm#
 					,UPD_USR = #updUsr#
 					,UPDT_DT = SYSDATE
 			WHERE
 					FCLTS_JOB_SE = #fcltsJobSe#
 					AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 					AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
-					AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)		
+					AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)
+	</update>
+
+	<update id="PopupRepairMngFileViewDao.updateFcltyRepairMngContentsRm_S" parameterClass="gamFcltyRepairMngVO">
+		UPDATE FLAW_RPR_DTLS_F SET
+			 FLAW_RPR_CONTENTS = (SELECT REPLACE(WM_CONCAT(TO_CHAR(ATCH_FILE_SEQ) || '. ' || ATCH_FILE_SJ || CHR(13)),',','')
+									FROM FLAW_RPR_ATCH_FILE_F
+								  WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+								   AND FCLTS_JOB_SE = #fcltsJobSe#
+								   AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
+								   AND ATCH_FILE_SJ IS NOT NULL
+								  ORDER BY ATCH_FILE_SEQ)
+			,RM = (SELECT REPLACE(WM_CONCAT(TO_CHAR(ATCH_FILE_SEQ) || '. ' || ATCH_FILE_RM || CHR(13)),',','')
+					 FROM FLAW_RPR_ATCH_FILE_F
+				   WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+					AND FCLTS_JOB_SE = #fcltsJobSe#
+					AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
+					AND ATCH_FILE_RM IS NOT NULL
+				   ORDER BY ATCH_FILE_SEQ)
+		WHERE FCLTS_JOB_SE = #fcltsJobSe#
+		 AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		 AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 	</update>
 
 </sqlMap>

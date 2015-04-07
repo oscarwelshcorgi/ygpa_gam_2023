@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package egovframework.rte.ygpa.gam.fcltyMng.service;
 
@@ -8,14 +8,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
- * 
+ *
  * @author HNJ
  * @since 2014. 12. 1.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2014. 12. 1.		HNJ		최초 생성
@@ -27,45 +27,45 @@ import egovframework.com.cmm.ComDefaultVO;
 public class GamFcltyRepairMngVO extends ComDefaultVO  {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** 시설물업무구분 - 검색 */
 	private String sFcltsJobSe;
-	
+
 	/** 하자보수명 - 검색 */
 	private String sFlawRprNm;
-	
+
 	/** 하자보수구분 - 검색 */
 	private String sFlawExamSe;
-	
+
 	/** 하자검사일 검색시작일 - 검색 */
 	private String sFlawRprStartDtFr;
-	
+
 	/** 하자검사일 검색종료일 - 검색 */
 	private String sFlawRprStartDtTo;
-	
+
 	private String flawExamUsr;
-	
+
 	/** 시설물업무구분 */
 	private String fcltsJobSe;
-	
+
 	/** 시설물관리그룹구분 */
 	private String fcltsMngGroupNo;
-	
+
 	/** 하자보수순번 */
 	private String flawRprSeq;
-	
+
 	/** 자료수 */
 	private int totCnt;
-	
+
 	/** 하자보수금액합계 */
 	private long sumFlawRprAmt;
-	
-	
+
+
 	/**---------첨부 파일-------------*/
-	
+
 	/** 파일 설명 */
 	private String atchFileSj;
 	/** 파일 구분 */
@@ -76,18 +76,20 @@ public class GamFcltyRepairMngVO extends ComDefaultVO  {
 	private String atchFileNmLogic;
 	/** 파일 순번*/
 	private String atchFileSeq;
-	
+	/** 파일 비고 */
+	private String atchFileRm;
+
 	private String updUsr;
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
 	/**
 	 * @return the sFcltsJobSe
 	 */
@@ -158,7 +160,7 @@ public class GamFcltyRepairMngVO extends ComDefaultVO  {
 		this.sFlawRprStartDtTo = sFlawRprStartDtTo;
 	}
 
-	
+
 
 	/**
 	 * @return the fcltsJobSe
@@ -287,6 +289,19 @@ public class GamFcltyRepairMngVO extends ComDefaultVO  {
 	 */
 	public void setAtchFileSeq(String atchFileSeq) {
 		this.atchFileSeq = atchFileSeq;
+	}
+	/**
+	 * @return the atchFileRm
+	 */
+	public String getAtchFileRm() {
+		return atchFileRm;
+	}
+
+	/**
+	 * @param atchFileRm the atchFileRm to set
+	 */
+	public void setAtchFileRm(String atchFileRm) {
+		this.atchFileRm = atchFileRm;
 	}
 
 	/**

@@ -47,15 +47,16 @@ GamPopupRepairMngFileViewModule.prototype = new EmdPopupModule(600, 440);
 GamPopupRepairMngFileViewModule.prototype.loadComplete = function(params) {
 
 	this.resizable(true);
-	
+
 	var inqire = params.inqire;
-	
+
 	if(inqire == true){
 		this.$('#btnUpdate').hide();
 		this.$('#atchFileSe').disable();
 		this.$('#atchFileSj').disable();
+		this.$('#atchFileRm').disable();
 	};
-	
+
  	this.$('#atchFileSe').on('change',{module:this}, function(event){
 		var module = event.data.module;
 		var atchFileSe = $(this).val();
@@ -71,7 +72,7 @@ GamPopupRepairMngFileViewModule.prototype.loadComplete = function(params) {
 			module.$('#atchFileSeNm').val("");
 		}
 	});
- 
+
 	this._updateFlag = false;
 	if (params != null) {
 		this.$('#atchFileSeq').val(params.atchFileSeq);
@@ -79,7 +80,7 @@ GamPopupRepairMngFileViewModule.prototype.loadComplete = function(params) {
 		console.log(this.$('#atchFileSeq').val());
 		this.$('#fcltsMngGroupNo').val(params.fcltsMngGroupNo);
 		this.$('#flawRprSeq').val(params.flawRprSeq);
-		
+
 		var imageURL = params.imageURL;
 		var searchVO = this.getFormValues('#detailForm');
 		this.doAction('/popup/gamSelectRepairMngFileViewPk.do', searchVO, function(module, result){
@@ -176,7 +177,7 @@ GamPopupRepairMngFileViewModule.prototype.processUpdate = function() {
 		alert('첨부 파일 구분이 부정확합니다.');
 		this.$("#atchFileSe").focus();
 		return;
-	} 
+	}
 	this.doAction('/popup/gamUpdateRepairMngFileView.do', inputVO, function(module, result) {
 		if (result.resultCode == "0") {
 			module._updateFlag = true;
@@ -204,7 +205,7 @@ GamPopupRepairMngFileViewModule.prototype.processDownload = function() {
 	/* this.downPfPhoto(atchFileNmPhysicl, atchFileNmLogic); */
 	this.downloadSingleFile("/fcltyMng/downloadRepairAttachFile.do", atchFileNmPhysicl, atchFileNmLogic);
 
-		
+
 	};
 
 
@@ -216,19 +217,20 @@ GamPopupRepairMngFileViewModule.prototype.processDownload = function() {
 **/
 %>
 GamPopupRepairMngFileViewModule.prototype.processExit = function() {
-	
-	
+
+
 	if (this._updateFlag == true) {
-		
+
 		var returnData = {
 				'atchFileSeq':this.$('#atchFileSeq').val(),
 				'atchFileSe':this.$('#atchFileSe').val(),
 				'atchFileSeNm':this.$('#atchFileSeNm').val(),
-				'atchFileSj':this.$('#atchFileSj').val()
+				'atchFileSj':this.$('#atchFileSj').val(),
+				'atchFileRm':this.$('#atchFileRm').val()
 			};
 		this.closeDialog("ok", returnData);
 	} else {
-		
+
 		this.cancelDialog();
 	}
 
@@ -258,11 +260,11 @@ var popup_instance = new GamPopupRepairMngFileViewModule();
 						<input id="fcltsJobSe" type="hidden"/>
 						<input id="fcltsMngGroupNo" type="hidden"/>
 						<input id="flawRprSeq" type="hidden"/>
-						
+
 						<input id="atchFileNmLogic" type="hidden"/>
 						<input id="atchFileNmPhysicl" type="hidden"/>
 						<input id="atchFileNmLogic" type="hidden"/>
-						
+
 						<input id="atchFileSeq" type="text" size="15" disabled/>
 					</td>
 					<th style="width:10%; height:18px;">파일 구분</th>
@@ -282,11 +284,17 @@ var popup_instance = new GamPopupRepairMngFileViewModule();
 						<input id="atchFileSj" type="text" size="80" maxlength="200"/>
 					</td>
 				</tr>
+				<tr>
+					<th style="width:10%; height:18px;">파일 비고</th>
+					<td colspan="3">
+						<input id="atchFileRm" type="text" size="80" maxlength="200"/>
+					</td>
+				</tr>
 			</table>
 		</form>
 		<!-- 12. DATA AREA (자료 영역) -->
 		<div class="emdPanel fillHeight">
-			<img id="previewImage" style="margin:1px; width:550px; height:280px; border:1px solid #000; max-width:550px; max-height:280px" src="">
+			<img id="previewImage" style="margin:1px; width:550px; height:260px; border:1px solid #000; max-width:550px; max-height:260px" src="">
 			<div class="emdControlPanel">
 				<button id="btnUpdate" class="buttonSave">저장</button>
 				<button id="btnDownload">다운로드</button>

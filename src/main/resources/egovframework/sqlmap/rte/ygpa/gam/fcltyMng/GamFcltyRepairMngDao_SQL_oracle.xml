@@ -213,6 +213,7 @@
 			, ATCH_FILE_NM_LOGIC
 			, ATCH_FILE_NM_PHYSICL
 			, TO_CHAR(ATCH_FILE_WRITNG_DT,'YYYY-MM-DD') ATCH_FILE_WRITNG_DT
+			, ATCH_FILE_RM
 			, REG_USR
 			, REGIST_DT
 			, UPD_USR
@@ -437,6 +438,7 @@
 				, ATCH_FILE_NM_LOGIC
 				, ATCH_FILE_NM_PHYSICL
 				, ATCH_FILE_WRITNG_DT
+				, ATCH_FILE_RM
 				, REG_USR
 				, REGIST_DT
 			)
@@ -451,6 +453,7 @@
 				, #atchFileNmLogic#
 				, #atchFileNmPhysicl#
 				, #atchFileWritngDt#
+				, #atchFileRm#
 				, #regUsr#
 				, SYSDATE
 			)
@@ -466,6 +469,7 @@
 				, ATCH_FILE_NM_LOGIC = #atchFileNmLogic#
 				, ATCH_FILE_NM_PHYSICL = #atchFileNmPhysicl#
 				, ATCH_FILE_WRITNG_DT = #atchFileWritngDt#
+				, ATCH_FILE_RM = #atchFileRm#
 				, UPD_USR = #updUsr#
 				, UPDT_DT = SYSDATE
 			WHERE
@@ -485,7 +489,7 @@
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 			AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 			AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)
-		
+
 
 	</delete>
 

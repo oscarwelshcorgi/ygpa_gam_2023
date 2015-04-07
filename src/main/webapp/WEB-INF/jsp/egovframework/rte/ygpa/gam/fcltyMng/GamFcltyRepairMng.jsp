@@ -150,7 +150,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 };
 
 GamFcltyRepairMngModule.prototype.showFcltsAtchFileViewPopup = function() {
-	console.log('debug');
+
 	var row = this.$('#fcltyRepairFileList').selectedRows()[0];
 	var selImg = row['atchFileNmPhysicl'];
 	console.log(selImg);
@@ -1142,12 +1142,14 @@ GamFcltyRepairMngModule.prototype.onClosePopup = function(popupId, msg, value){
 					this.$('#atchFileSe').val(value.atchFileSe);
 					this.$('#atchFileSeNm').val(value.atchFileSeNm);
 					this.$('#atchFileSj').val(value.atchFileSj);
+					this.$('#atchFileRm').val(value.atchFileRm);
 					var selectRow = this.$('#fcltyRepairFileList').selectedRows();
 					if(selectRow.length > 0) {
 						var row = selectRow[0];
 						row['atchFileSeNm'] = value.atchFileSeNm;
 						row['atchFileSe'] = value.atchFileSe;
 						row['atchFileSj'] = value.atchFileSj;
+						row['atchFileRm'] = value.atchFileRm;
 						var rowid = this.$("#fcltyRepairFileList").selectedRowIds()[0];
 						this.$('#fcltyRepairFileList').flexUpdateRow(rowid, row);
 					}
@@ -1401,6 +1403,7 @@ var module_instance = new GamFcltyRepairMngModule();
 				<input id="atchFileSe" type="hidden"/>
 				<input id="atchFileSeNm" type="hidden"/>
 				<input id="atchFileSj" type="hidden"/>
+				<input id="atchFileRm" type="hidden"/>
 				<input type="hidden" id="photoAtchFileNmLogic" data-column-id="atchFileNmLogic"/>
 				<input type="hidden" id="atchFileNmPhysicl" data-column-id="atchFileNmPhysicl"/>
 
