@@ -1464,7 +1464,7 @@ FROM
       		<isNotEmpty property="rm">
       			RM=#rm#,
       		</isNotEmpty>
-      		<isEqual compareProperty="rcivSe" compareValue="3">
+      		<isEqual property="rcivSe" compareValue="3">
       			<isNotEmpty property="rcivDt">
 	      			RCIV_DT=TO_DATE(#rcivDt#, 'YYYY-MM-DD')
 	      		</isNotEmpty>
@@ -1472,8 +1472,8 @@ FROM
 	      			RCIV_DT=SYSDATE
 	      		</isEmpty>
       		</isEqual>
-      		<isNotEqual compareProperty="rcivSe" compareValue="3">
-   		      <isEqual compareProperty="rcivSe" compareValue="2">
+      		<isNotEqual property="rcivSe" compareValue="3">
+   		      <isEqual property="rcivSe" compareValue="2">
 	      			<isNotEmpty property="rcivDt">
 		      			RCIV_DT=TO_DATE(#rcivDt#, 'YYYY-MM-DD')
 		      		</isNotEmpty>
@@ -1481,7 +1481,7 @@ FROM
 		      			RCIV_DT=SYSDATE
 		      		</isEmpty>
 	      		</isEqual>
-	      		<isNotEqual compareProperty="rcivSe" compareValue="2">
+	      		<isNotEqual property="rcivSe" compareValue="2">
       				RCIV_DT=''
       			</isNotEqual>
       		</isNotEqual>
@@ -1496,7 +1496,7 @@ FROM
     <update id="gamPrtFcltyRentFeePaySttusMngtDao.updateRevCollRcvdTp_S" parameterClass="hashMap">
         UPDATE REV_COLL_F SET
       		RCVD_TP=#rcvdTp#,
-     		<isEqual compareProperty="rcvdTp" compareValue="3">
+     		<isEqual property="rcvdTp" compareValue="3">
       			<isNotEmpty property="rcvdDt">
 	      			RCVD_DT=TO_DATE(#rcvdDt#, 'YYYY-MM-DD')
 	      		</isNotEmpty>
@@ -1504,8 +1504,8 @@ FROM
 	      			RCVD_DT=SYSDATE
 	      		</isEmpty>
       		</isEqual>
-      		<isNotEqual compareProperty="rcvdTp" compareValue="3">
-   		      <isEqual compareProperty="rcvdTp" compareValue="2">
+      		<isNotEqual property="rcvdTp" compareValue="3">
+   		      <isEqual property="rcvdTp" compareValue="2">
 	      			<isNotEmpty property="rcvdDt">
 		      			RCVD_DT=TO_DATE(#rcvdDt#, 'YYYY-MM-DD')
 		      		</isNotEmpty>
@@ -1513,7 +1513,7 @@ FROM
 		      			RCVD_DT=SYSDATE
 		      		</isEmpty>
 	      		</isEqual>
-	      		<isNotEqual compareProperty="rcvdTp" compareValue="2">
+	      		<isNotEqual property="rcvdTp" compareValue="2">
       				RCVD_DT=''
       			</isNotEqual>
       		</isNotEqual>
@@ -1550,6 +1550,7 @@ FROM
 		AND L.NTIC_CNT   =#nticCnt#
 		AND L.CHRGE_KND  =#chrgeKnd#
 		AND R.PRT_AT_CODE=L.PRT_AT_CODE
+		AND R.fiscal_yr=L.accnut_year
 		AND R.bill_no =L.nticno
 		AND R.work_code     =L.chrge_knd
 		AND R.fee_tp    = GAM_GET_FEE_TP(l.chrge_knd)

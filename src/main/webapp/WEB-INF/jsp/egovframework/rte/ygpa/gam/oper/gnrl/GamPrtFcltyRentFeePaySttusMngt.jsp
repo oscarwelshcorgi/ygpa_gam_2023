@@ -780,6 +780,10 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                             <th><span class="label">수납일자</span></th>
                             <td colspan="5"><span data-column-id="rcivDt"></span></td>
                         </tr>
+                        <tr>
+                        	<th><span class="label">비고</span></th>
+                            <td colspan="7"><span data-column-id="rm"></span></td>
+                        </tr>
                     </table>
                     <div id="arrrgDetail">
 					<table class="searchPanel">

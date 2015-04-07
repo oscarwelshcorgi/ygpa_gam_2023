@@ -33,6 +33,12 @@ GamPopupNticIssueModule.prototype = new EmdPopupModule(500, 300);
 GamPopupNticIssueModule.prototype.loadComplete = function() {
 	this.resizable(true);
 
+	this.$('#rcivSe').on('change', {module:this}, function(e) {
+		var module=e.data.module;
+		var val = $(e.target).val();
+		if(val=='2' || val=='3') module.$('#rcivDt').val(EMD.util.getDate());
+		else module.$('#rcivDt').val('');
+	});
 	console.log('debug');
 };
 
@@ -126,8 +132,12 @@ var popup_instance = new GamPopupNticIssueModule();
                     </tr>
                     <tr>
                         <th style="width:100px; text-align: center;">수납상태</th>
-                        <td colspan="3" style="text-align:center;">
+                        <td style="text-align:center;">
                             <input id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025" data-required="true" data-default-prompt="필수 선택" value="<c:out value="${feePayMaster.rcivSe }" />" />
+                        </td>
+                        <th style="width:100px; text-align: center;">수납일자</th>
+                        <td style="text-align:center;">
+                            <input id="rcivDt" class="emdcal" value="<c:out value="${feePayMaster.rcivDt }" />" size="10"/>
                         </td>
                     </tr>
                     <tr>
