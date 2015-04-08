@@ -833,19 +833,19 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 				<table class="editForm" style="width:100%">
 					<tr>
 						<th width="11%" height="20">첨　부　파　일</th>
-						<td colspan="2">
+						<td>
 							<select id="atchFile">
-                            </select>	
-						</td>
-						<td style="text-align:right">
-							<button id="btnDownloadFile">다운로드</button>
-							<button id="btnPreviewFile">첨부파일미리보기</button>
-							<div id="previewDialogArea" style="display: none;"></div>
+                            </select>
 						</td>
 					</tr>
 				</table>
-				<div class="emdControlPanel">
-					<button id="btnPrint" data-role="printPage" data-search-option="detailForm">　　인　쇄　　</button>
+				<div class="emdSummaryPanel">
+					<button id="btnDownloadFile">다운로드</button>
+					<button id="btnPreviewFile">첨부파일미리보기</button>
+					<div style="text-align:right">
+						<button id="btnPrint" class="" data-role="printPage" data-search-option="detailForm">인　쇄　</button>
+						<button id="btnHwp" data-role="printDown" data-filename="검사조서.hwp" data-search-option="detailForm">H　W　P 　</button>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -36,7 +36,7 @@
 function GamFcltyQcwWrtMngModule() {
 }
 
-GamFcltyQcwWrtMngModule.prototype = new EmdModule(1000,760);
+GamFcltyQcwWrtMngModule.prototype = new EmdModule(1000,750);
 
 <%
 /**
@@ -1320,7 +1320,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 			<!-- 2.1.3. TAB 2 AREA (DETAIL) -->
 			<div id="detailTab" class="emdTabPage fillHeight" style="overflow: hidden;">
 				<!-- 2.1.3.1 Layout Table -->
-				<table style="width:100%;" class="editForm fillHeight">
+				<table style="width:100%;" class="editForm">
 					<tr>
 						<td width="70%">
 							<!-- 2.1.3.1.1 Element Table -->
@@ -1474,8 +1474,15 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							</table>
 							</form>
 						</td>
-						<td>
-							<table id="qcObjFcltsGrid" style="display:none;" class="fillHeight"></table>
+						<td width="30%">
+							<!-- 2.1.3.1.2 Grid Table -->
+							<table  class="detailPanel"  style="width:100%;">
+								<tr>
+									<td>
+										<table id="qcObjFcltsGrid" style="display:none" class="fillHeight"></table>
+									</td>
+								</tr>
+							</table>
 						</td>
 					</tr>
 				</table>
@@ -1493,22 +1500,21 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 						</td>
 					</tr>
 				</table>
-
 				<div class="emdSummaryPanel">
-				<button id="btnUploadFile">업로드</button>
+					<button id="btnUploadFile">업로드</button>
 					<button id="btnDownloadFile">다운로드</button>
 					<button id="btnPreviewFile">첨부파일미리보기</button>
 					<button id="btnRemoveFile">첨부파일삭제</button>
-				<div style="text-align:right">
-					<button id="btnDetailAdd" class="buttonAdd">　　추　가　　</button>
-					<button id="btnDetailDelete" class="buttonDelete">　　삭　제　　</button>
-					<button id="btnSave" class="buttonSave">　　저　장　　</button>
-					<!-- <button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url="/fcltyMng/printQcMngDtls.do">　　인　쇄　　</button> -->
-					<button id="btnPrint" data-role="printPage" data-search-option="detailForm">　　인　쇄　　</button>
-
-					<!-- <button id="btnHwp" data-role="printDown" data-url="/fcltyMng/selectFcltyQcHwp.do" data-filename="검사조서.hwp" data-search-option="detailForm">H　W　P 　</button> -->
-					<button id="btnHwp" data-role="printDown" data-filename="검사조서.hwp" data-search-option="detailForm">H　W　P 　</button>
-				</div>
+					<div style="text-align:right">
+						<button id="btnDetailAdd" class="buttonAdd">　　추　가　　</button>
+						<button id="btnDetailDelete" class="buttonDelete">　　삭　제　　</button>
+						<button id="btnSave" class="buttonSave">　　저　장　　</button>
+						<!-- <button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url="/fcltyMng/printQcMngDtls.do">　　인　쇄　　</button> -->
+						<button id="btnPrint" data-role="printPage" data-search-option="detailForm">　　인　쇄　　</button>
+	
+						<!-- <button id="btnHwp" data-role="printDown" data-url="/fcltyMng/selectFcltyQcHwp.do" data-filename="검사조서.hwp" data-search-option="detailForm">H　W　P 　</button> -->
+						<button id="btnHwp" data-role="printDown" data-filename="검사조서.hwp" data-search-option="detailForm">H　W　P 　</button>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -1162,13 +1162,15 @@ var module_instance = new GamElectyFcltySpecInqireModule();
 								<td>
 									<input type="text" size="33" id="capa" maxlength="20" disabled/>
 								</td>
-								<th style="width:10%; height:18px;">전　　　　　압</th>
+								<th style="width:10%; height:18px;">전　압／출　력</th>
 								<td>
-									<input type="text" size="33" id="volt" maxlength="20" disabled/>
+									<input type="text" size="14" id="volt" maxlength="20" disabled/>／
+									<input type="text" size="14" id="output" maxlength="20" disabled/>
 								</td>
-								<th style="width:10%; height:18px;">출　　　　　력</th>
+								<th style="width:10%; height:18px;">관로／케이블</th>
 								<td>
-									<input type="text" size="33" id="output" maxlength="20" disabled/>
+									<input type="text" size="11" id="ductLineLt" class="ygpaNumber" data-decimal-point="2" maxlength="10" disabled/> m／
+									<input type="text" size="12" id="cableExt" class="ygpaNumber" data-decimal-point="2" maxlength="10" disabled/> m
 								</td>
 							</tr>
 							<tr>
@@ -1176,27 +1178,14 @@ var module_instance = new GamElectyFcltySpecInqireModule();
 								<td>
 									<input type="text" size="33" id="mfcCmpny" maxlength="100" disabled/>
 								</td>
-								<th style="width:10%; height:18px;">제　작　일　자</th>
+								<th style="width:10%; height:18px;">제작일／설치일</th>
 								<td>
-									<input type="text" size="30" id="mfcDt" class="emdcal" disabled/>
+									<input type="text" size="11" id="mfcDt" class="emdcal" disabled/>／
+									<input type="text" size="11" id="instlDt" class="emdcal" disabled/>
 								</td>
-								<th style="width:10%; height:18px;">설　치　일　자</th>
-								<td>
-									<input type="text" size="30" id="instlDt" class="emdcal" disabled/>
-								</td>
-							</tr>
-							<tr>
 								<th style="width:10%; height:18px;">사　용　업　체</th>
 								<td>
 									<input type="text" size="33" id="usageEntrps" maxlength="100" disabled/>
-								</td>
-								<th style="width:10%; height:18px;">관　　　　　로</th>
-								<td>
-									<input type="text" size="30" id="ductLineLt" class="ygpaNumber" data-decimal-point="2" maxlength="10" disabled/> m
-								</td>
-								<th style="width:10%; height:18px;">케이블　　연장</th>
-								<td>
-									<input type="text" size="30" id="cableExt" class="ygpaNumber" data-decimal-point="2" maxlength="10" disabled/> m
 								</td>
 							</tr>
 							<tr>
