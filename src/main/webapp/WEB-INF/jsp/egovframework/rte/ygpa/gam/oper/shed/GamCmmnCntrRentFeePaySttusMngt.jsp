@@ -617,20 +617,7 @@ GamCmmnCntrRentFeePaySttusMngtModule.prototype.onTabChange = function(newTabId, 
 	case 'tabs3':
 		this.loadArrrgPage();
 	    break;
-    case 'feePayPopup':
-    	if (msg != 'cancel') {
-        	console.log('feePay');
-           	var arg = EMD.util.objectToArray(value);
-            this.doAction('/oper/shed/updateRevCollRcvdTp.do', arg, function(module, result) {
-
-                if(result.resultCode=='0') {
-                	module.loadData();
-                }
-                alert(result.resultMsg);
-            });
-        } else {
-        }
-    	break;
+ 
 	}
     
 };
@@ -655,6 +642,20 @@ GamCmmnCntrRentFeePaySttusMngtModule.prototype.onClosePopup = function(popupId, 
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
 
          break;
+     case 'feePayPopup':
+     	if (msg != 'cancel') {
+         	console.log('feePay');
+            	var arg = EMD.util.objectToArray(value);
+             this.doAction('/oper/shed/updateRevCollRcvdTp.do', arg, function(module, result) {
+
+                 if(result.resultCode=='0') {
+                 	module.loadData();
+                 }
+                 alert(result.resultMsg);
+             });
+         } else {
+         }
+     	break;
      }
 };
 
