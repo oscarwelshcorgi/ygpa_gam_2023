@@ -174,6 +174,10 @@ GamTrainPortRentFeePaySttusMngtModule.prototype.loadComplete = function(params) 
                 alert(result.resultMsg);
             });
         	break;
+        case 'btnRecivePay':
+        	this.receiveFeeSingle();
+        	break;
+
         case 'btnNticArrrg':
             this.doExecuteDialog('nticArrrgPopup', '연체 일괄 고지', '/oper/train/showNticArrrgPopup.do', opts);
         	break;
@@ -284,6 +288,39 @@ GamTrainPortRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
 		});
 	}
 
+};
+
+GamTrainPortRentFeePaySttusMngtModule.prototype.receiveFeeSingle = function() {
+    if(this.$('#trainPortRentFeePaySttusMngtList').selectedRowCount()>0) {
+    			
+        var rows = this.$('#trainPortRentFeePaySttusMngtList').selectedRows()[0];
+
+     	this.doAction('/oper/train/checkOcrResult.do', rows, function(module, result) {
+    		if (result.resultCode == "0") {
+    			if(result.result['ocrDt']!=undefined) {
+    				alert('지로 수납된 자료는 변경 할 수 없습니다.');
+    				return;
+    			}
+    	    	var opts = {
+    	                'prtAtCode': result.result['prtAtCode'],
+    	                'mngYear': result.result['mngYear'],
+    	                'mngNo': result.result['mngNo'],
+    	                'mngCnt': result.result['mngCnt'],
+    	                'nticCnt' : result.result['nticCnt'],
+    		            'chrgeKnd': result.result['chrgeKnd']
+    	            };
+
+    	    	module.doExecuteDialog('feePayPopup', '수납 처리', '/oper/train/showFeePayPopup.do', opts);
+    		} else {
+    			alert(result.resultMsg);
+    		}
+    	});
+
+
+    } else {
+    	alert("목록에서 수납 처리 할 건을 선택하십시오.");
+    	return;
+    }
 };
 
 GamTrainPortRentFeePaySttusMngtModule.prototype.nticArrrgCancelAll = function() {
@@ -582,7 +619,22 @@ GamTrainPortRentFeePaySttusMngtModule.prototype.onTabChange = function(newTabId,
 	case 'tabs3':
 		this.loadArrrgPage();
 	    break;
+    case 'feePayPopup':
+    	if (msg != 'cancel') {
+        	console.log('feePay');
+           	var arg = EMD.util.objectToArray(value);
+            this.doAction('/oper/train/updateRevCollRcvdTp.do', arg, function(module, result) {
+
+                if(result.resultCode=='0') {
+                	module.loadData();
+                }
+                alert(result.resultMsg);
+            });
+        } else {
+        }
+    	break;
 	}
+    
 };
 
 //팝업이 종료 될때 리턴 값이 오출 된다.
@@ -676,6 +728,7 @@ var module_instance = new GamTrainPortRentFeePaySttusMngtModule();
                 			<th width="10%" >총납부금액</th>
 							<td><input type="text" size="16" id="sumPayAmt" class="ygpaNumber" disabled="disabled" /></td>
 							<td><button id="btnUpdatePayDtls" data-icon="ui-icon-circle-check">납부확인</button></td>
+							<td><button id="btnRecivePay" data-icon="ui-icon-circle-check">수납</button></td>
 							<td><button id="btnTrainPortRentFeePaySttusMngtListExcelDownload">엑셀</button></td>
 							<!-- <td><button id="btnNticArrrg" data-icon="ui-icon-clock">연체일괄고지</button></td> -->
                 		</tr>
@@ -725,6 +778,10 @@ var module_instance = new GamTrainPortRentFeePaySttusMngtModule();
                             <td><span data-column-id="rcivSe" class="ygpaCmmnCd" data-code-id="GAM025"></span></td>
                             <th><span class="label">수납일자</span></th>
                             <td colspan="5"><span data-column-id="rcivDt"></span></td>
+                        </tr>
+                        <tr>
+                        	<th><span class="label">비고</span></th>
+                            <td colspan="7"><span data-column-id="rm"></span></td>
                         </tr>
                     </table>
                     <div id="arrrgDetail">

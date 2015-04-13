@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamFcltyRentArrrgMngtVO;
+
 
 import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentArrrgMngtVO;
 import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeePaySttusMngtService;
@@ -92,7 +92,7 @@ public class GamTrainPortRentFeePaySttusMngtServiceImpl  extends AbstractService
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectNticArrrgList(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
 	@Override
-	public List<?> selectNticArrrgList(GamFcltyRentArrrgMngtVO searchVO) throws Exception {
+	public List<?> selectNticArrrgList(GamTrainPortRentArrrgMngtVO searchVO) throws Exception {
 		// TODO Auto-generated method stub
 		return gamTrainPortRentFeePaySttusMngtDao.selectNticArrrgList(searchVO);
 	}
@@ -101,7 +101,7 @@ public class GamTrainPortRentFeePaySttusMngtServiceImpl  extends AbstractService
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectNticArrrgListTotCnt(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
 	@Override
-	public int selectNticArrrgListTotCnt(GamFcltyRentArrrgMngtVO searchVO) throws Exception {
+	public int selectNticArrrgListTotCnt(GamTrainPortRentArrrgMngtVO searchVO) throws Exception {
 		// TODO Auto-generated method stub
 		return gamTrainPortRentFeePaySttusMngtDao.selectNticArrrgListTotCnt(searchVO);
 	}
@@ -204,7 +204,7 @@ public class GamTrainPortRentFeePaySttusMngtServiceImpl  extends AbstractService
 	}
 
 	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamTrainPortRentFeePaySttusMngtService#selectTrainPortRentFeePaySttusMngtDlyInfo(egovframework.rte.ygpa.gam.oper.gnrl.service.GamTrainPortRentFeePaySttusMngtVO)
+	 * @see egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeePaySttusMngtService#selectTrainPortRentFeePaySttusMngtDlyInfo(egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeePaySttusMngtVO)
 	 */
 	@Override
 	public EgovMap selectTrainPortRentFeePaySttusMngtDlyInfo(
@@ -214,7 +214,7 @@ public class GamTrainPortRentFeePaySttusMngtServiceImpl  extends AbstractService
 	}
 
 	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamTrainPortRentFeePaySttusMngtService#selectArrrgNpticPrintInfo(java.util.Map)
+	 * @see egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeePaySttusMngtService#selectArrrgNpticPrintInfo(java.util.Map)
 	 */
 	@Override
 	public EgovMap selectArrrgNpticPrintInfo(Map searchVO) throws Exception {
@@ -223,7 +223,7 @@ public class GamTrainPortRentFeePaySttusMngtServiceImpl  extends AbstractService
 	}
 
 	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamTrainPortRentFeePaySttusMngtService#selectArrrgNpticPrintInfo2(java.util.Map)
+	 * @see egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeePaySttusMngtService#selectArrrgNpticPrintInfo2(java.util.Map)
 	 */
 	@Override
 	public List selectArrrgNpticPrintInfo2(Map searchVO) throws Exception {
@@ -231,5 +231,46 @@ public class GamTrainPortRentFeePaySttusMngtServiceImpl  extends AbstractService
 		return gamTrainPortRentFeePaySttusMngtDao.selectArrrgNpticPrintInfo2(searchVO);
 	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeePaySttusMngtService#selectFeePayPopup(java.util.Map)
+	 */
+	@Override
+	public EgovMap selectFeePayPopup(GamTrainPortRentFeePaySttusMngtVO vo) throws Exception {
+		return gamTrainPortRentFeePaySttusMngtDao.selectFeePayPopup(vo);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeePaySttusMngtService#updateRevCollRcvdTp(egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeePaySttusMngtVO)
+	 */
+	@Override
+	public void updateRevCollRcvdTp(GamTrainPortRentFeePaySttusMngtVO vo)
+			throws Exception {
+     	Map<String, Object> map = new HashMap<String, Object>();
+
+     	gamTrainPortRentFeePaySttusMngtDao.updateLevReqestRcivSe(vo);
+
+     	map.put("rcvdSe", vo.getRcivSe());
+     	map.put("updUsr", vo.getUpdUsr());
+     	map.put("rcvdTp", vo.getRcivSe());
+     	map.put("rcvdDt", vo.getRcivDt());
+     	map.put("prtAtCode", vo.getPrtAtCode());
+     	map.put("mngYear", vo.getMngYear());
+     	map.put("mngNo", vo.getMngNo());
+     	map.put("mngCnt", vo.getMngCnt());
+     	map.put("nticCnt", vo.getNticCnt());
+     	map.put("chrgeKnd", vo.getChrgeKnd());
+
+     	gamTrainPortRentFeePaySttusMngtDao.updateRevCollRcvdTp(map);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeePaySttusMngtService#selectCheckOcrResult(egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeePaySttusMngtVO)
+	 */
+	@Override
+	public EgovMap selectCheckOcrResult(GamTrainPortRentFeePaySttusMngtVO vo)
+			throws Exception {
+		return gamTrainPortRentFeePaySttusMngtDao.selectCheckOcrResult(vo);
+
+	}
 
 }

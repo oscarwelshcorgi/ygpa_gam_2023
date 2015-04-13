@@ -17,7 +17,7 @@ import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtService;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtVO;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentArrrgMngtVO;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamFcltyRentArrrgMngtVO;
+
 
 
 
@@ -93,7 +93,7 @@ public class GamCntnrQuayRentFeePaySttusMngtServiceImpl  extends AbstractService
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectNticArrrgList(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
 	@Override
-	public List<?> selectNticArrrgList(GamFcltyRentArrrgMngtVO searchVO) throws Exception {
+	public List<?> selectNticArrrgList(GamCntnrQuayRentArrrgMngtVO searchVO) throws Exception {
 		// TODO Auto-generated method stub
 		return gamCntnrQuayRentFeePaySttusMngtDao.selectNticArrrgList(searchVO);
 	}
@@ -102,7 +102,7 @@ public class GamCntnrQuayRentFeePaySttusMngtServiceImpl  extends AbstractService
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectNticArrrgListTotCnt(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
 	@Override
-	public int selectNticArrrgListTotCnt(GamFcltyRentArrrgMngtVO searchVO) throws Exception {
+	public int selectNticArrrgListTotCnt(GamCntnrQuayRentArrrgMngtVO searchVO) throws Exception {
 		// TODO Auto-generated method stub
 		return gamCntnrQuayRentFeePaySttusMngtDao.selectNticArrrgListTotCnt(searchVO);
 	}
@@ -205,7 +205,7 @@ public class GamCntnrQuayRentFeePaySttusMngtServiceImpl  extends AbstractService
 	}
 
 	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamCntnrQuayRentFeePaySttusMngtService#selectCntnrQuayRentFeePaySttusMngtDlyInfo(egovframework.rte.ygpa.gam.oper.gnrl.service.GamCntnrQuayRentFeePaySttusMngtVO)
+	 * @see egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtService#selectCntnrQuayRentFeePaySttusMngtDlyInfo(egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtVO)
 	 */
 	@Override
 	public EgovMap selectCntnrQuayRentFeePaySttusMngtDlyInfo(
@@ -215,7 +215,7 @@ public class GamCntnrQuayRentFeePaySttusMngtServiceImpl  extends AbstractService
 	}
 
 	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamCntnrQuayRentFeePaySttusMngtService#selectArrrgNpticPrintInfo(java.util.Map)
+	 * @see egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtService#selectArrrgNpticPrintInfo(java.util.Map)
 	 */
 	@Override
 	public EgovMap selectArrrgNpticPrintInfo(Map searchVO) throws Exception {
@@ -224,13 +224,54 @@ public class GamCntnrQuayRentFeePaySttusMngtServiceImpl  extends AbstractService
 	}
 
 	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamCntnrQuayRentFeePaySttusMngtService#selectArrrgNpticPrintInfo2(java.util.Map)
+	 * @see egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtService#selectArrrgNpticPrintInfo2(java.util.Map)
 	 */
 	@Override
 	public List selectArrrgNpticPrintInfo2(Map searchVO) throws Exception {
 		// TODO Auto-generated method stub
 		return gamCntnrQuayRentFeePaySttusMngtDao.selectArrrgNpticPrintInfo2(searchVO);
 	}
+	
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtService#selectFeePayPopup(java.util.Map)
+	 */
+	@Override
+	public EgovMap selectFeePayPopup(GamCntnrQuayRentFeePaySttusMngtVO vo) throws Exception {
+		return gamCntnrQuayRentFeePaySttusMngtDao.selectFeePayPopup(vo);
+	}
+	
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtService#updateRevCollRcvdTp(egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtVO)
+	 */
+	@Override
+	public void updateRevCollRcvdTp(GamCntnrQuayRentFeePaySttusMngtVO vo)
+			throws Exception {
+     	Map<String, Object> map = new HashMap<String, Object>();
 
+     	gamCntnrQuayRentFeePaySttusMngtDao.updateLevReqestRcivSe(vo);
+
+     	map.put("rcvdSe", vo.getRcivSe());
+     	map.put("updUsr", vo.getUpdUsr());
+     	map.put("rcvdTp", vo.getRcivSe());
+     	map.put("rcvdDt", vo.getRcivDt());
+     	map.put("prtAtCode", vo.getPrtAtCode());
+     	map.put("mngYear", vo.getMngYear());
+     	map.put("mngNo", vo.getMngNo());
+     	map.put("mngCnt", vo.getMngCnt());
+     	map.put("nticCnt", vo.getNticCnt());
+     	map.put("chrgeKnd", vo.getChrgeKnd());
+
+     	gamCntnrQuayRentFeePaySttusMngtDao.updateRevCollRcvdTp(map);
+	}
+	
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtService#selectCheckOcrResult(egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtVO)
+	 */
+	@Override
+	public EgovMap selectCheckOcrResult(GamCntnrQuayRentFeePaySttusMngtVO vo)
+			throws Exception {
+		return gamCntnrQuayRentFeePaySttusMngtDao.selectCheckOcrResult(vo);
+
+	}
 
 }

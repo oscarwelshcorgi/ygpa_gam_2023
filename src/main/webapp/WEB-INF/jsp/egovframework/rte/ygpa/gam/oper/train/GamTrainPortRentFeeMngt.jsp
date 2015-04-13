@@ -50,8 +50,8 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
                     {display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
                     {display:'사용료', name:'fee',width:100, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'결재', name:'sanctnSttusNm',width:60, sortable:false,align:'center'},
-//                    {display:'고지번호', name:'nticno',width:60, sortable:false,align:'center'},
+//                    {display:'결재', name:'sanctnSttusNm',width:60, sortable:false,align:'center'},
+                    {display:'고지번호', name:'nticno',width:60, sortable:false,align:'center'},
 //                    {display:'부서명', name:'deptcdNm',width:100, sortable:false,align:'left'},
 //                    {display:'사용면적', name:'grAr',width:80, sortable:false,align:'right', displayFormat: 'number'},
 //                    {display:'고지대상기간', name:'nticPdDate',width:140, sortable:false,align:'center'},
@@ -200,13 +200,12 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
 
                 var rows = this.$('#assetRentFeeList').selectedRows()[0];
 
-                if( rows['sanctnSttus'] != '1' ) {
+                /* if( rows['sanctnSttus'] != '1' ) {
                 	if(!confirm("결재완료 되지 않았습니다. 결재 처리 되지 않은 자료를 고지 하시겠습니까?")) {
                         return;
                 	}
-                	/*                 	alert("결재가 완료 되지 않았습니다.");
-                	return; */
-                }
+                	
+                } */
 
                 if( rows['nhtIsueYn'] == 'Y' ) {
                 	alert("이미 고지된 건 입니다.");
@@ -227,6 +226,7 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
                             var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
                             module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
                             module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
+                            //module.$('#assetRentFeeList').flexUpdateRow('');
                         }
 
                         alert(result.resultMsg);
@@ -244,13 +244,12 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
 
                 var rows = this.$('#assetRentFeeList').selectedRows()[0];
 
-                if( rows['sanctnSttus'] != '1' ) {
+                /* if( rows['sanctnSttus'] != '1' ) {
                 	if(!confirm("결재완료 되지 않았습니다. 결재 처리 되지 않은 자료를 고지 하시겠습니까?")) {
                         return;
                 	}
-                	/*                 	alert("결재가 완료 되지 않았습니다.");
-                	return; */
-                }
+                	
+                } */
 
                 if( rows['nhtIsueYn'] == 'Y' ) {
                 	alert("이미 고지된 건 입니다.");
@@ -589,13 +588,17 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             <td rowspan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
                         </tr>
                         <tr>
-                            <th>결재여부</th>
+                            <!-- <th>결재여부</th>
                             <td width="100px">
                          		<input id="sanctnSttus" class="ygpaCmmnCd" data-code-id="GAM046" data-default-prompt="전체" data-column-id="sanctnSttus" />
-                            </td>
+                            </td> -->
                         	<th>고지여부</th>
                             <td width="100px">
                          		<input id="sNhtIsueYn" class="ygpaYnSelect" data-default-prompt="전체" data-column-id="sNhtIsueYn" />
+                            </td>
+                            <th>출력여부</th>
+                            <td width="100px">
+                         		<input class="ygpaYnSelect" data-default-prompt="전체" data-column-id="nhtPrintYn" />
                             </td>
                             <th>사용승낙일자</th>
                             <td>
@@ -664,7 +667,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                            	</td>
                         </tr>
                     </table>
-                    <button id="btnEApproval">결재요청</button>
+                    <!-- <button id="btnEApproval">결재요청</button> -->
                     <button id="btnExecNticIssue">고지</button>
                     <button id="btnCancelNticIssue">고지취소</button>
                     <button id="btnNticIssuePrint">고지서출력</button>
@@ -783,7 +786,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
 						<tr>
 							<th width="40%">사용료목록</th>
 							<th style="text-align:right">
-								<button id="btnEApproval2">결재요청</button>
+								<!-- <button id="btnEApproval2">결재요청</button> -->
 								<button id="btnExecNticIssue2">고지</button>
 								<button id="btnCancelNticIssue2">고지취소</button>
 								<button id="btnNticIssuePrint2">고지서출력</button>

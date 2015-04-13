@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import egovframework.rte.psl.dataaccess.util.EgovMap;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamFcltyRentArrrgMngtVO;
+import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentArrrgMngtVO;
 
 
 
@@ -90,7 +90,7 @@ public interface GamCntnrQuayRentFeePaySttusMngtService {
 	 * @return
 	 * @throws Exception
 	 */
-	List<?> selectNticArrrgList(GamFcltyRentArrrgMngtVO searchVO) throws Exception;
+	List<?> selectNticArrrgList(GamCntnrQuayRentArrrgMngtVO searchVO) throws Exception;
 
 	/**
 	 * 연체세입건을 조회한다.
@@ -106,7 +106,7 @@ public interface GamCntnrQuayRentFeePaySttusMngtService {
 	 * @return
 	 * @throws Exception
 	 */
-	int selectNticArrrgListTotCnt(GamFcltyRentArrrgMngtVO searchVO) throws Exception;
+	int selectNticArrrgListTotCnt(GamCntnrQuayRentArrrgMngtVO searchVO) throws Exception;
 
 	/**
 	 * 연체 세입을 등록한다.
@@ -167,5 +167,33 @@ public interface GamCntnrQuayRentFeePaySttusMngtService {
 	 * @throws Exception
 	 */
 	List selectArrrgNpticPrintInfo2(Map searchVO) throws Exception;
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	/**
+	 * 수납처리 팝업 항목을 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectFeePayPopup(GamCntnrQuayRentFeePaySttusMngtVO vo) throws Exception;
+
+
+	/**
+	 * 수납 확인 처리를 한다.
+	 * @param vo
+	 * @throws Exception
+	 */
+	void updateRevCollRcvdTp(GamCntnrQuayRentFeePaySttusMngtVO vo) throws Exception;
+
+	/**
+	 * 지로로 수납된 자료인지 확인한다.
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectCheckOcrResult(GamCntnrQuayRentFeePaySttusMngtVO vo) throws Exception;
 
 }

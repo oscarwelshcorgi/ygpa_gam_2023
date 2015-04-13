@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamFcltyRentArrrgMngtVO;
+
 
 import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentArrrgMngtVO;
 import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeePaySttusMngtVO;
@@ -91,12 +91,12 @@ public class GamTrainPortRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 		return (GamTrainPortRentFeePaySttusMngtVO) selectByPk("gamTrainPortRentFeePaySttusMngtDao.selectTrainPortRentFeePaySttusMngtSum_S", searchVO);
 	}
 
-	public List<?> selectNticArrrgList(GamFcltyRentArrrgMngtVO searchVO)
+	public List<?> selectNticArrrgList(GamTrainPortRentArrrgMngtVO searchVO)
 			throws Exception {
         return list("gamTrainPortRentFeePaySttusMngtDao.selectNticArrrgList_D", searchVO);
 	}
 
-	public int selectNticArrrgListTotCnt(GamFcltyRentArrrgMngtVO searchVO)
+	public int selectNticArrrgListTotCnt(GamTrainPortRentArrrgMngtVO searchVO)
 			throws Exception {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamTrainPortRentFeePaySttusMngtDao.selectNticArrrgListTotCnt_S", searchVO);
 	}
@@ -161,5 +161,19 @@ public class GamTrainPortRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 	public List selectArrrgNpticPrintInfo2(Map searchVO) throws Exception {
         return list("gamTrainPortRentFeePaySttusMngtDao.selectArrrgNpticPrintInfo2_D", searchVO);
 	}
+	public EgovMap selectFeePayPopup(GamTrainPortRentFeePaySttusMngtVO vo) throws Exception {
+        return (EgovMap) selectByPk("gamTrainPortRentFeePaySttusMngtDao.selectFeePayPopup_S", vo);
+	}
 
+	public void updateLevReqestRcivSe(GamTrainPortRentFeePaySttusMngtVO vo) throws Exception {
+		this.update("gamTrainPortRentFeePaySttusMngtDao.updateLevReqestRcivSe_S", vo);
+	}
+
+	public void updateRevCollRcvdTp(Map vo) throws Exception {
+		this.update("gamTrainPortRentFeePaySttusMngtDao.updateRevCollRcvdTp_S", vo);
+	}
+
+	public EgovMap selectCheckOcrResult(GamTrainPortRentFeePaySttusMngtVO vo) throws Exception {
+        return (EgovMap) selectByPk("gamTrainPortRentFeePaySttusMngtDao.selectCheckOcrResult_S", vo);
+	}
 }

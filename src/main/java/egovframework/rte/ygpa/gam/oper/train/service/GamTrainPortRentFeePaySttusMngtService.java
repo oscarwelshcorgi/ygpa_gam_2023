@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import egovframework.rte.psl.dataaccess.util.EgovMap;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamFcltyRentArrrgMngtVO;
+
 
 import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentArrrgMngtVO;
 import egovframework.rte.ygpa.gam.oper.train.service.GamTrainPortRentFeePaySttusMngtVO;
@@ -91,7 +91,7 @@ public interface GamTrainPortRentFeePaySttusMngtService {
 	 * @return
 	 * @throws Exception
 	 */
-	List<?> selectNticArrrgList(GamFcltyRentArrrgMngtVO searchVO) throws Exception;
+	List<?> selectNticArrrgList(GamTrainPortRentArrrgMngtVO searchVO) throws Exception;
 
 	/**
 	 * 연체세입건을 조회한다.
@@ -107,7 +107,7 @@ public interface GamTrainPortRentFeePaySttusMngtService {
 	 * @return
 	 * @throws Exception
 	 */
-	int selectNticArrrgListTotCnt(GamFcltyRentArrrgMngtVO searchVO) throws Exception;
+	int selectNticArrrgListTotCnt(GamTrainPortRentArrrgMngtVO searchVO) throws Exception;
 
 	/**
 	 * 연체 세입을 등록한다.
@@ -169,4 +169,27 @@ public interface GamTrainPortRentFeePaySttusMngtService {
 	 */
 	List selectArrrgNpticPrintInfo2(Map searchVO) throws Exception;
 
+	/**
+	 * 수납처리 팝업 항목을 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectFeePayPopup(GamTrainPortRentFeePaySttusMngtVO vo) throws Exception;
+
+
+	/**
+	 * 수납 확인 처리를 한다.
+	 * @param vo
+	 * @throws Exception
+	 */
+	void updateRevCollRcvdTp(GamTrainPortRentFeePaySttusMngtVO vo) throws Exception;
+
+	/**
+	 * 지로로 수납된 자료인지 확인한다.
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectCheckOcrResult(GamTrainPortRentFeePaySttusMngtVO vo) throws Exception;
 }

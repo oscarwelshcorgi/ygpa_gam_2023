@@ -9,7 +9,7 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentFeePaySttusMngtVO;
 import egovframework.rte.ygpa.gam.oper.cntnr.service.GamCntnrQuayRentArrrgMngtVO;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamFcltyRentArrrgMngtVO;
+
 
 
 
@@ -92,12 +92,12 @@ public class GamCntnrQuayRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 		return (GamCntnrQuayRentFeePaySttusMngtVO) selectByPk("gamCntnrQuayRentFeePaySttusMngtDao.selectCntnrQuayRentFeePaySttusMngtSum_S", searchVO);
 	}
 
-	public List<?> selectNticArrrgList(GamFcltyRentArrrgMngtVO searchVO)
+	public List<?> selectNticArrrgList(GamCntnrQuayRentArrrgMngtVO searchVO)
 			throws Exception {
         return list("gamCntnrQuayRentFeePaySttusMngtDao.selectNticArrrgList_D", searchVO);
 	}
 
-	public int selectNticArrrgListTotCnt(GamFcltyRentArrrgMngtVO searchVO)
+	public int selectNticArrrgListTotCnt(GamCntnrQuayRentArrrgMngtVO searchVO)
 			throws Exception {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamCntnrQuayRentFeePaySttusMngtDao.selectNticArrrgListTotCnt_S", searchVO);
 	}
@@ -161,6 +161,21 @@ public class GamCntnrQuayRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 	 */
 	public List selectArrrgNpticPrintInfo2(Map searchVO) throws Exception {
         return list("gamCntnrQuayRentFeePaySttusMngtDao.selectArrrgNpticPrintInfo2_D", searchVO);
+	}
+	public EgovMap selectFeePayPopup(GamCntnrQuayRentFeePaySttusMngtVO vo) throws Exception {
+        return (EgovMap) selectByPk("gamCntnrQuayRentFeePaySttusMngtDao.selectFeePayPopup_S", vo);
+	}
+
+	public void updateLevReqestRcivSe(GamCntnrQuayRentFeePaySttusMngtVO vo) throws Exception {
+		this.update("gamCntnrQuayRentFeePaySttusMngtDao.updateLevReqestRcivSe_S", vo);
+	}
+
+	public void updateRevCollRcvdTp(Map vo) throws Exception {
+		this.update("gamCntnrQuayRentFeePaySttusMngtDao.updateRevCollRcvdTp_S", vo);
+	}
+
+	public EgovMap selectCheckOcrResult(GamCntnrQuayRentFeePaySttusMngtVO vo) throws Exception {
+        return (EgovMap) selectByPk("gamCntnrQuayRentFeePaySttusMngtDao.selectCheckOcrResult_S", vo);
 	}
 
 }

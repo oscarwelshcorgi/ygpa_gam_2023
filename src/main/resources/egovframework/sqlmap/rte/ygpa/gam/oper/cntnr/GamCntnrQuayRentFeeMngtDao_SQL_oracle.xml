@@ -245,6 +245,9 @@
 	                           <isNotEmpty property="sNhtIsueYn">
 	                               AND L.NHT_ISUE_YN = #sNhtIsueYn#
 	                           </isNotEmpty>
+	                           <isNotEmpty property="nhtPrintYn">
+	                               AND L.NHT_ISUE_YN = #nhtPrintYn#
+	                           </isNotEmpty>
 	                           <isNotEmpty property="sNticMth">
 							       AND L.NTIC_MTH = #sNticMth#
 							   </isNotEmpty>
@@ -348,7 +351,9 @@
                <isNotEmpty property="sNhtIsueYn">
                    AND L.NHT_ISUE_YN = #sNhtIsueYn#
                </isNotEmpty>
-
+                <isNotEmpty property="nhtPrintYn">
+                    AND L.NHT_ISUE_YN = #nhtPrintYn#
+                </isNotEmpty>
                <isNotEmpty property="sNticMth">
 					AND L.NTIC_MTH = #sNticMth#
 				</isNotEmpty>
@@ -454,6 +459,9 @@
          <isNotEmpty property="sNhtIsueYn">
              AND L.NHT_ISUE_YN = #sNhtIsueYn#
          </isNotEmpty>
+         <isNotEmpty property="nhtPrintYn">
+      		 AND L.NHT_ISUE_YN = #nhtPrintYn#
+     	 </isNotEmpty>
     </select>
 
     <update id="gamCntnrQuayRentFeeMngtDao.updateCntnrQuayRentFeeMngt_S">
