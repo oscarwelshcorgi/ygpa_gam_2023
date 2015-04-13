@@ -241,7 +241,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 	 	break;
 	}
 
-//	console.log('GamAssetCodeModule loadcomplete');
+	console.log('GamAssetCodeModule loadcomplete');
 };
 
 // 사용자 설정 함수 추가

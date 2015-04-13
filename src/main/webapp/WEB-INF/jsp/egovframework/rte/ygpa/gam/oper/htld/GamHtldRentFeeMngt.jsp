@@ -62,7 +62,8 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         		module.makeRowData(this);
         	});
 
-        	module.onCalc();
+
+        	module.makeDivValues('#summaryTable', data.resultSum);
 
             return data;
         }
@@ -333,6 +334,21 @@ GamAssetRentFeeMngtModule.prototype.setButtonStatus = function() {
 	var tab_active = this.$('#assetRentListTab').tabs('option', 'active');
 	switch(tab_active) {
 	case 'tabs1':
+    	var row = this.$('#assetRentFeeList').selectedRows()[0];
+
+    	if(row['nhtPrintYn']!='Y') {
+    		this.$('#btnExecNticIssue').hide();
+    	}
+    	else {
+    		this.$('#btnExecNticIssue').hide();
+    	}
+
+    	if(row['nhtIsueYn']!='Y') {
+    		this.$('#btnExecNticIssue').show();
+    	}
+    	else {
+    		this.$('#btnExecNticIssue').show();
+    	}
 		break;
 	}
 };
@@ -686,7 +702,7 @@ GamAssetRentFeeMngtModule.prototype.makeRowData = function(item) {
 
 GamAssetRentFeeMngtModule.prototype.onCalc = function() {
 	var sum = {
-			totalCount:0,
+			sumCnt:0,
 			sumFee:0,
 			sumVat:0,
 			sumNticAmt:0,
@@ -694,7 +710,7 @@ GamAssetRentFeeMngtModule.prototype.onCalc = function() {
 	};
 
 	this.$('#assetRentFeeList')[0].dgrid.forEachRow(function(id) {
-		sum.totalCount++;
+		sum.sumCnt++;
 		sum.sumFee+=Number(this.cells(id,10).getValue());
 		sum.sumVat+=Number(this.cells(id,11).getValue());
 		sum.sumIntrAmt+=Number(this.cells(id,8).getValue());
@@ -992,7 +1008,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                         		자료수
                         	</th>
                             <td style="text-align: right;">
-                            	<span data-column-id="totalCount" class="ygpaNumber"></span>
+                            	<span data-column-id="sumCnt" class="ygpaNumber"></span>
                            	</td>
                      	    <th>
                         		사용료합계

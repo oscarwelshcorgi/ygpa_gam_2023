@@ -134,7 +134,7 @@ var popupInfoModule = new GamMapPopupModule();
 <c:if test="${resultCode==0 }">
 	<c:if test="${fcltyCd==null }">
 		<h2>시설정보가 없습니다.</h2>
-		<c:if test="${fn:containsIgnoreCase(auth,'role_admin')||fn:containsIgnoreCase(auth,'role_manager') }">
+		<c:if test="${ auth eq 'manager' }">
 			<button id="assignFeature">시설코드 지정</button>
 			<button id="removeFeature">영역 삭제</button>
 		</c:if>
@@ -153,7 +153,7 @@ var popupInfoModule = new GamMapPopupModule();
 					<tr><td id="imgPanel" colspan="3"><img id="imgPreview" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${fileList[0].atchFileNmPhysicl }' />" style='width:300px;' /></td></tr>
 				</c:if>
 			</tbody></table>
-			<c:if test="${fn:containsIgnoreCase(auth,'role_admin')||fn:containsIgnoreCase(auth,'role_manager') }">
+			<c:if test="${ auth eq 'manager' }">
 				<button id="fcltyCdMngt" data-icon="ui-icon-newwin">제원</button>
 				<button id="fcltyFlawRpr" data-icon="ui-icon-newwin">하자보수</button>
 				<button id="fcltyMntnRpr" data-icon="ui-icon-newwin">유지보수</button>
@@ -162,7 +162,7 @@ var popupInfoModule = new GamMapPopupModule();
 					<button id="fcltyIndoorMng" data-url="${fcltyCd.hasIndoor}" data-icon="ui-icon-newwin">실내공간정보 관리</button>
 				</c:if>
 			</c:if>
-			<c:if test="${!fn:containsIgnoreCase(auth,'role_admin')&&!fn:containsIgnoreCase(auth,'role_manager') }">
+			<c:if test="${ auth ne 'manager'}">
 				<button id="fcltyCdInqire" data-icon="ui-icon-newwin">제원 조회</button>
 			</c:if>
 		</div>

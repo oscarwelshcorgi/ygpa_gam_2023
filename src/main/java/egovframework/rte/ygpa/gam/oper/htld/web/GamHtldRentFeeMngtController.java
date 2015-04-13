@@ -170,11 +170,7 @@ public class GamHtldRentFeeMngtController {
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
-    	map.put("sumFee", resultSum.get("sumFee"));
-    	map.put("sumArrrgAmt", resultSum.get("sumArrrgAmt"));
-    	map.put("sumVat", resultSum.get("sumVat"));
-    	map.put("sumNticAmt", resultSum.get("sumNticAmt"));
-    	map.put("sumNhtIsueAmt", resultSum.get("sumNhtIsueAmt"));
+    	map.put("resultSum", resultSum);
 
     	return map;
     }
