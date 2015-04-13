@@ -3509,7 +3509,7 @@ var module_instance = new GamMachFcltySpecMngModule();
 								</td>
 								<th style="width:10%; height:18px;">정　격　하　중</th>
 								<td>
-									<input type="text" size="62" id="rageWght" maxlength="200"/>
+									<input type="text" size="62" id="rateWght" maxlength="200"/>
 								</td>
 							</tr>
 							<tr>
