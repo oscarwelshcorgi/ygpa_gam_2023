@@ -3362,7 +3362,7 @@ var module_instance = new GamMachFcltySpecMngModule();
 									<input type="hidden" id="loc"/>
 									<input type="text" size="33" id="prtFcltyLoc"/>
 								</td>
-								<th style="width:10%; height:18px;">규　격／단　위</th>
+								<th style="width:10%; height:18px;">규격／스프레더</th>
 								<td>
 									<input type="text" size="20" id="prtFcltyStndrd" maxlength="80"/>／
 									<input type="text" size="10" id="prtFcltyUnit" maxlength="10"/>
