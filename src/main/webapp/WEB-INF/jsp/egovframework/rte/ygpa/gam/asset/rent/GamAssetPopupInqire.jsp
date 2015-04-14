@@ -86,7 +86,7 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
          break;
 
      case 'btnAssetRent':
-    	 EMD.util.create_window('자산임대관리', '/asset/rent/gamAssetRentMngt.do', null);
+    	 EMD.util.create_window('gamAssetRentMngt, ''자산임대관리', '/asset/rent/gamAssetRentMngt.do', null);
     	 break;
      case 'btnAssetFeeMngt':
     	 EMD.util.create_window('자산임대료고지관리', '/asset/rent/gamAssetRentFeeMngt.do', null);

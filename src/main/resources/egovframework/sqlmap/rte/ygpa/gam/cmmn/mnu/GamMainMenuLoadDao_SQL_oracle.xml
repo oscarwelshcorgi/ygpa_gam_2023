@@ -9,21 +9,28 @@
 
 	<select id="gamMainMenuLoadDAO.selectMenuList_D" parameterClass="java.lang.String" resultClass="egovMap">
 		<![CDATA[
-			SELECT
-				  A.MENU_NO AS "menuNo"
-				, A.MENU_ORDR AS "menuOrdr"
-				, A.MENU_NM AS "menuNm"
-				, A.UPPER_MENU_NO AS "upperMenuId"
-				, (SELECT URL FROM COMTNPROGRMLIST WHERE PROGRM_FILE_NM=A.PROGRM_FILE_NM) as "url"
-				, (SELECT PROGRM_STRE_PATH FROM COMTNPROGRMLIST WHERE PROGRM_FILE_NM=A.PROGRM_FILE_NM) as "progrmStrePath"
-			FROM COMTNMENUINFO A, COMTNMENUCREATDTLS B
-			WHERE A.MENU_NO > 0
-				AND B.MENU_NO = A.MENU_NO
-				AND B.AUTHOR_CODE = (select AUTHOR_CODE AS "authorCode" from COMTNEMPLYRSCRTYESTBS
-		where SCRTY_DTRMN_TRGET_ID =
-			(select ESNTL_ID from COMVNUSERMASTER
-			where user_id = #userId# ))
-			ORDER BY A.MENU_NO, A.MENU_ORDR
+			SELECT A.MENU_NO  AS "menuNo" ,
+			  A.MENU_ORDR     AS "menuOrdr" ,
+			  A.MENU_NM       AS "menuNm" ,
+			  A.UPPER_MENU_NO AS "upperMenuId" ,
+			  P.PROGRM_FILE_NM,
+			  P.URL,
+			  P.PROGRM_STRE_PATH
+			FROM COMTNMENUINFO A,
+			  COMTNMENUCREATDTLS B,
+			  COMTNPROGRMLIST P
+			WHERE A.MENU_NO   > 0
+			AND B.MENU_NO     = A.MENU_NO
+			AND B.AUTHOR_CODE =
+			  (SELECT AUTHOR_CODE AS "authorCode"
+			  FROM COMTNEMPLYRSCRTYESTBS
+			  WHERE SCRTY_DTRMN_TRGET_ID =
+			    (SELECT ESNTL_ID FROM COMVNUSERMASTER WHERE user_id = #userId#
+			    )
+			  )
+			AND P.PROGRM_FILE_NM=A.PROGRM_FILE_NM
+			ORDER BY A.MENU_NO,
+			  A.MENU_ORDR
 		 ]]>
 	</select>
 

@@ -241,6 +241,18 @@ div.ui-resizable-handle {
   bottom: 1px;
 }
 
+.window_help {
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -webkit-background-clip: padding-box;
+  float: left;
+  font-size: 0;
+  margin: 6px 0 0 5px;
+  width: 28px;
+  height: 15px;
+}
+
 .window_min,
 .window_resize,
 .window_close {

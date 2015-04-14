@@ -7,6 +7,8 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  *
  * @author EUNSUNGJ
@@ -24,6 +26,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * </pre>
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GamDefaultVO implements Serializable  {
 
 	/**

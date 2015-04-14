@@ -370,6 +370,7 @@ select:disabled, textarea:disabled { color: #000; background-color: #ebebe4; bor
     background: white;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
+
 .printSubPage {
     padding: 1cm;
     border: 5px red solid;

@@ -78,6 +78,7 @@
 
     <script type="text/javascript">
 	var $DEBUG=false;
+	var wikiUrl="http://192.168.200.61:8100/wiki/Wiki.jsp?";
 
     jQuery(document).ready(function() {
  	   var frmwrkMenu=null;
@@ -89,6 +90,7 @@
 							menuNo: '<c:out value="${menuItem.menuNo }"/>',
 							menuNm: '<c:out value="${menuItem.menuNm }"/>',
 							url: '<c:out value="${menuItem.url }"/>',
+							progrmFileNm: '<c:out value="${menuItem.progrmFileNm }"/>',
 							<c:if test="${fn:contains(menuItem, 'submenu')}">
 							submenu: [
 										<c:forEach items="${menuItem.submenu }" var="subMenu" varStatus="status">
@@ -96,6 +98,7 @@
 											menuNo: '<c:out value="${subMenu.menuNo }"/>',
 											menuNm: '<c:out value="${subMenu.menuNm }"/>',
 											url: '<c:out value="${subMenu.url }"/>',
+											progrmFileNm: '<c:out value="${menuItem.progrmFileNm }"/>',
 											progrmStrePath: '<c:out value="${subMenu.progrmStrePath }"/>'
 										}
 										<c:if test="${!status.last}">,</c:if>
@@ -135,12 +138,12 @@
     	<c:if test="${menuItem.submenu!=null }">
 	    	<c:forEach items="${menuItem.submenu }" var="menuItem2">
           	<li>
-          		<a href="#" data-role="LoadModule" data-url="${menuItem2.url }"><c:out value="${menuItem2.menuNm }"/></a>
+          		<a href="#" data-role="LoadModule" data-progrm-file-nm="${menuItem2.prgrmFileNm }" data-url="${menuItem2.url }"><c:out value="${menuItem2.menuNm }"/></a>
     			<c:if test="${menuItem2.submenu!=null }">
     				<ul class="submenu">
 			    		<c:forEach items="${menuItem2.submenu }" var="menuItem3">
 			                <li>
-			                	<a href="#" data-role="LoadModule" data-url="<c:out value='${menuItem3.url }' />" ><c:out value="${menuItem3.menuNm }"/></a>
+			                	<a href="#" data-role="LoadModule" data-progrm-file-nm="${menuItem2.prgrmFileNm }" data-url="<c:out value='${menuItem3.url }' />" ><c:out value="${menuItem3.menuNm }"/></a>
 		                	</li>
 	                    </c:forEach>
                     </ul>

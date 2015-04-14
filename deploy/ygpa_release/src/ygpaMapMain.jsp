@@ -60,6 +60,7 @@
 
     <script type="text/javascript">
 	var $DEBUG=false;
+	var wikiUrl="http://192.168.0.71:8100/wiki/Wiki.jsp?";
 
        jQuery(document).ready(function() {
     	   var frmwrkMenu=null;
@@ -67,24 +68,26 @@
 	    	<c:if test="${frmwrkMenu!=null}">
 	   	   	frmwrkMenu = [
 					<c:forEach items="${frmwrkMenu }" var="menuItem" varStatus="menuStatus">
-						{
-							menuNo: '<c:out value="${menuItem.menuNo }"/>',
-							menuNm: '<c:out value="${menuItem.menuNm }"/>',
-							url: '<c:out value="${menuItem.url }"/>',
-							<c:if test="${fn:contains(menuItem, 'submenu')}">
-							submenu: [
-										<c:forEach items="${menuItem.submenu }" var="subMenu" varStatus="status">
-										{
-											menuNo: '<c:out value="${subMenu.menuNo }"/>',
-											menuNm: '<c:out value="${subMenu.menuNm }"/>',
-											url: '<c:out value="${subMenu.url }"/>',
-											progrmStrePath: '<c:out value="${subMenu.progrmStrePath }"/>'
-										}
-										<c:if test="${!status.last}">,</c:if>
-										</c:forEach>
-							          ]
-							</c:if>
-						}
+					{
+						menuNo: '<c:out value="${menuItem.menuNo }"/>',
+						menuNm: '<c:out value="${menuItem.menuNm }"/>',
+						url: '<c:out value="${menuItem.url }"/>',
+						progrmFileNm: '<c:out value="${menuItem.progrmFileNm }"/>',
+						<c:if test="${fn:contains(menuItem, 'submenu')}">
+						submenu: [
+									<c:forEach items="${menuItem.submenu }" var="subMenu" varStatus="status">
+									{
+										menuNo: '<c:out value="${subMenu.menuNo }"/>',
+										menuNm: '<c:out value="${subMenu.menuNm }"/>',
+										url: '<c:out value="${subMenu.url }"/>',
+										progrmFileNm: '<c:out value="${menuItem.progrmFileNm }"/>',
+										progrmStrePath: '<c:out value="${subMenu.progrmStrePath }"/>'
+									}
+									<c:if test="${!status.last}">,</c:if>
+									</c:forEach>
+						          ]
+						</c:if>
+					}
 						<c:if test="${!menuStatus.last}">,</c:if>
 					</c:forEach>
 				];

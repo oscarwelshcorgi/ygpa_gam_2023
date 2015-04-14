@@ -75,20 +75,20 @@ GamAssetFeeExprInqireModule.prototype.loadComplete = function() {
         }
     });
 
-    
+
 
     this.$("#assetFeeExprInqireList").on('onItemSelected', function(event, module, row, grid, param) {
-        
+
     });
 
-    
+
 
     this.$("#assetFeeExprInqireList").on('onItemDoubleClick', function(event, module, row, grid, param) {
         module.$("#assetRentListTab").tabs("option", {active: 1});
-        
+
     });
 
-    
+
     this.$('#exemptSe').on('change', {module: this}, function(event) {
     	event.data.module.$('#exemptSeStr').val($(this).val());
 
@@ -127,7 +127,7 @@ GamAssetFeeExprInqireModule.prototype.loadDetailForm = function() {
 	this.doAction('/asset/rent/gamSelectAssetFeeExprInqireDetailList.do', detailParam, function(module, result) {
 
 		if (result.resultCode == "0") {
-			
+
 			module.makeMultiDivValues('#assetFeeExprInqireDetailForm',result.resultList , function(row) {
 			} );	// 리스트 값을 채운다
 		} else {
@@ -145,22 +145,22 @@ GamAssetFeeExprInqireModule.prototype.loadDetailForm = function() {
     switch(buttonId) {
 
 	 // 조회
-	    case 'searchBtn':            
+	    case 'searchBtn':
 	        if( this.$('#sGrUsagePdFrom').val() == '' ) {
 	        	alert("고지도래기간(시작일)을 선택하십시오.");
 	        	return;
 	        }
-	        
+
 	        if( this.$('#sGrUsagePdTo').val() == '' ) {
 	            alert("고지도래기간(종료일)을 선택하십시오.");
 	            return;
 	        }
-	        
+
 	        this.loadRentList();
-	
+
 	        break;
 
-        
+
 
         case 'popupEntrpsInfo': // 팝업을 호출한다.(조회)
             /*
@@ -174,7 +174,7 @@ GamAssetFeeExprInqireModule.prototype.loadDetailForm = function() {
 
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
-            
+
         case 'openRentFee':	// 사용료 관리 화면을 호출 한다.
 	        if(this.$('#assetFeeExprInqireList').selectedRowCount()==1) {
 	         	var row = this.$('#assetFeeExprInqireList').selectedRows()[0];
@@ -187,14 +187,14 @@ GamAssetFeeExprInqireModule.prototype.loadDetailForm = function() {
 	        	               'nticno': row.nticno
 	        	               };
 
-	        	EMD.util.create_window('자산임대료고지관리', EMD.context_root+'/asset/rent/gamAssetRentFeeMngt.do', null, {action: "selectRentFee", nticVo: params});
+	        	EMD.util.create_window('gamAssetRentFeeMngt', '자산임대료고지관리', EMD.context_root+'/asset/rent/gamAssetRentFeeMngt.do', null, {action: "selectRentFee", nticVo: params});
 	    	}
 	        else alert('고지내역을 선택 하십시요.')
 			break;
-            
+
     }
 
-        
+
 };
 
 GamAssetFeeExprInqireModule.prototype.onSubmit = function() {
@@ -242,11 +242,11 @@ GamAssetFeeExprInqireModule.prototype.onClosePopup = function(popupId, msg, valu
              alert('취소 되었습니다');
          }
          break;
-     
+
 
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-         
+
          break;
      }
 };
@@ -302,7 +302,7 @@ var module_instance = new GamAssetFeeExprInqireModule();
 
                             <th>고지도래기간</th>
                             <td>
-                            <!-- 
+                            <!--
                             <input id="sGrUsagePdFrom" type="text" class="emdcal"
                                 size="8" value="<c:out value="${grUsagePdFromStr}"/>" readonly> ~ <input id="sGrUsagePdTo" type="text"
                                 class="emdcal" size="8" value="<c:out value="${grUsagePdToStr}"/>" readonly>
@@ -373,13 +373,13 @@ var module_instance = new GamAssetFeeExprInqireModule();
                             <tr>
 								<th width="15%" height="23">항코드/담당부서</th>
 								<td>
-									<span id="prtAtCode"></span>&nbsp;-&nbsp; 
+									<span id="prtAtCode"></span>&nbsp;-&nbsp;
 									<span id="prtAtCodeNm"></span>&nbsp;／&nbsp;
 									<span id="deptcdNm"></span>
 								</td>
 								<th width="15%" height="23">납부방법/고지방법</th>
 								<td>
-									<span id="payMthNm"></span>&nbsp;／&nbsp; 
+									<span id="payMthNm"></span>&nbsp;／&nbsp;
 									<span id="nticMthNm"></span>
 								</td>
                             </tr>
@@ -392,7 +392,7 @@ var module_instance = new GamAssetFeeExprInqireModule();
 								</td>
 								<th width="15%" height="23">신청업체</th>
 								<td>
-									<span id="entrpscd"></span>&nbsp;-&nbsp; 
+									<span id="entrpscd"></span>&nbsp;-&nbsp;
 									<span id="entrpsNm"></span>
 								</td>
                             </tr>
@@ -411,7 +411,7 @@ var module_instance = new GamAssetFeeExprInqireModule();
                             <tr>
 								<th width="15%" height="23">총사용기간</th>
 								<td>
-									<span id="grUsagePdFrom"></span>&nbsp;～&nbsp; 
+									<span id="grUsagePdFrom"></span>&nbsp;～&nbsp;
 									<span id="grUsagePdTo"></span>
 								</td>
 								<th width="15%" height="23">총사용면적</th>
@@ -445,7 +445,7 @@ var module_instance = new GamAssetFeeExprInqireModule();
                         	<tr>
                         		<th width="15%" height="23">항코드</th>
                                 <td>
-                                	<span data-column-id="gisAssetsPrtAtCode"></span> 
+                                	<span data-column-id="gisAssetsPrtAtCode"></span>
                                 	(<span data-column-id="prtAtCodeNm"></span>)
                                 </td>
 								<th width="15%" height="23">자산코드</th>
