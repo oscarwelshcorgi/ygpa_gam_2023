@@ -155,7 +155,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
         module.loadEntrpsChargerList();	// 담당자 목록을 불러온다.
 
     });
-    
+
 
 	this.$("#assetCodePhotoList").on("onLoadDataComplete", function(event, module, data, grid, param) {
 		module._deletePhotoList=[];
@@ -340,7 +340,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 			event.data.module.$('#usagePdChk').val('N');
 			alert('신청시간을 월별 계산 합니다.');
 		}
-	
+
 	 if(param!=null) {
 		 switch(param.action) {
 		 	case "prtFcltyInqire":
@@ -367,7 +367,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 		this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
 	 }
 	 this._param=param;
-	 
+
    });
 
 	console.log('debug');
@@ -379,7 +379,7 @@ GamAssetRentMngtModule.prototype.loadRentMaster = function(loadOpt) {
 
     //this.$('#gamAssetRentForm :input').val('');
 
-    this.doAction('/asset/rent/selectRentMasterInfo.do', EMD.util.objectToArray(loadOpt), function(module, result) {
+    this.doAction('/oper/train/selectRentMasterInfo.do', EMD.util.objectToArray(loadOpt), function(module, result) {
     	if(result.resultCode!=0) {
     		alert(result.resultMsg);
     		return;
@@ -739,7 +739,7 @@ GamAssetRentMngtModule.prototype.calcNationAssetLaw = function() {
 
         usageMonths = this.calcMonth(dtFr, dtTo);
         var usageDay = Math.ceil(Math.abs((dtTo-dtFr)/(1000*60*60*24)));
-        
+
         //(사용료 = 공시지가*((사용일수)/365)*사용면적)*적용요율 ? 감면사용료 )
         if( exemptSe == '2' ) {     // 전체면제 일 경우 사용료는 0
         	rdcxptFee = calFee;
@@ -1330,7 +1330,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
              this.$('#gamAssetRentDetailForm').find(':input').val('');
 
         	 this.$('#olnlpList').empty();
-			 
+
         	 this.$('#detailPrtAtCode').val( this.$('#prtAtCode').val() );
              //this.$('#detailPrtAtCodeNm').val( this.$('#prtAtCodeNm').val() );
              this.$('#detailMngYear').val( this.$('#mngYear').val() );
@@ -1782,7 +1782,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 					if(resp.result!=null && resp.result.length>0) this._edited=true;
 				});
 			break;
-			
+
         case 'btnDownloadFile':
     		var selectRow = this.$('#assetRentFileList').selectedRows();
     		if(selectRow.length > 0) {
@@ -1924,7 +1924,7 @@ GamAssetRentMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId
 	 switch(newTabId) {
 	    case 'tabs1':
 	        break;
-	  
+
 	    case 'tabs2':
 	    	if(this._cmd!='insert') {
 	    		if(this._param!=null && this._param.action=='prtFcltyInqire') break;
@@ -2133,7 +2133,7 @@ var module_instance = new GamAssetRentMngtModule();
                                     <option value="N">N</option>
                                 </select>
                             </td>
-                            
+
                             <th><select id="searchCondition">
                             	<option value="reqestDt" selected="selected">신청일자</option>
                             	<option value="usagePd">사용기간</option>
@@ -2179,9 +2179,9 @@ var module_instance = new GamAssetRentMngtModule();
 								<th width="12%" height="20">총감면사용료</th>
 								<td><input type="text" size="19" id="totalGrRdcxptFee" class="ygpaNumber" disabled="disabled" /></td>
 								<td>
-		                            
+
 		                            <input id="loginUserId" type="hidden" value="<c:out value="${loginUserId}"/>"/>
-		                            
+
 		                            <input id="blceStdrIntrrate" type="hidden" value="<c:out value="${blceStdrIntrrate}"/>"/>
 		                            <input id="blceStdrIntrrateShow" type="hidden" value="<c:out value="${blceStdrIntrrateShow}"/>"/>
 		                        </td>
@@ -2210,7 +2210,7 @@ var module_instance = new GamAssetRentMngtModule();
             <div id="tabs2" class="emdTabPage" style="overflow:scroll;">
                 <div class="emdControlPanel">
                     <form id="gamAssetRentForm">
-                        
+
                         <!-- <input type="hidden" id="quayGroupCd"/> -->
 
                         <table class="editForm">

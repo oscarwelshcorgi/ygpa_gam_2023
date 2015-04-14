@@ -83,7 +83,7 @@ public class GamTrainPortRentMngtController {
 
     @Resource(name = "gamAssetsUsePermMngtService")
     private GamAssetsUsePermMngtService gamAssetsUsePermMngtService;
-    
+
     @Resource(name="gamRentFileIdGnrService")
     EgovTableIdGnrService gamRentFileIdGnrService;
 
@@ -141,9 +141,9 @@ public class GamTrainPortRentMngtController {
 
     	return "/ygpa/gam/oper/train/GamTrainPortRentMngt";
     }
-	
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-@RequestMapping(value="/asset/train/selectRentMasterInfo.do", method=RequestMethod.POST)
+@RequestMapping(value="/oper/train/selectRentMasterInfo.do", method=RequestMethod.POST)
 public @ResponseBody Map selectRentDetailInfo(GamTrainPortRentMngtVO searchVO) throws Exception {
 
 	int totalCnt, page, firstIndex;
@@ -164,7 +164,7 @@ public @ResponseBody Map selectRentDetailInfo(GamTrainPortRentMngtVO searchVO) t
 	map.put("searchOption", searchVO);
 
 	return map;
-}	
+}
 	/**
      * 항만시설사용 승낙취소(허가취소) 가 가능 한지 체크한다.
      * @param gamTrainPortRentMngtVO

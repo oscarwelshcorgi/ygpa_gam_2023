@@ -163,7 +163,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 		module.$('#previewImage').attr('src', '#');
 
 	});
-	
+
     this.$("#assetRentFileList").on('onItemSelected', function(event, module, row, grid, param) {
         module.makeFormValues('#gamAssetRentFileForm', row);
         module._editDataFile=module.getFormValues('#gamAssetRentFileForm', row);
@@ -367,7 +367,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 		this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
 	 }
 	 this._param=param;
-	 
+
 	console.log('debug');
 	// end of load complete
 };
@@ -377,7 +377,7 @@ GamAssetRentMngtModule.prototype.loadRentMaster = function(loadOpt) {
 
     //this.$('#gamAssetRentForm :input').val('');
 
-    this.doAction('/asset/rent/selectRentMasterInfo.do', EMD.util.objectToArray(loadOpt), function(module, result) {
+    this.doAction('/oper/cntnr/selectRentMasterInfo.do', EMD.util.objectToArray(loadOpt), function(module, result) {
     	if(result.resultCode!=0) {
     		alert(result.resultMsg);
     		return;
@@ -1110,7 +1110,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 			this.loadData();
             break;
 
-        
+
             // 최초신청
         case 'addAssetRentFirst':
         	this._cmd='insert';
@@ -1146,7 +1146,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             this.$('#exemptSe').val('0'); // 면제구분
 
             break;
-            
+
         // 연장신청
         case 'addAssetRentRenew':
             var rows = this.$('#assetRentMngtList').selectedRows();
@@ -1757,7 +1757,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             //this._editRowFile=this.$('#assetRentFileList').flexGetData().length;
 
             break; */
-            
+
 		case 'btnUploadFile':
 				this.uploadSingleFile('/oper/cntnr/uploadRentAttachFile.do', function(module, resp) {
 					if(resp.resultCode!=0) {
@@ -1782,7 +1782,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
 					if(resp.result!=null && resp.result.length>0) this._edited=true;
 				});
 			break;
-			
+
         case 'btnDownloadFile':
     		var selectRow = this.$('#assetRentFileList').selectedRows();
     		if(selectRow.length > 0) {
@@ -1924,7 +1924,7 @@ GamAssetRentMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId
 	 switch(newTabId) {
 	    case 'tabs1':
 	        break;
-	  
+
 	    case 'tabs2':
 	    	if(this._cmd!='insert') {
 	    		if(this._param!=null && this._param.action=='prtFcltyInqire') break;
@@ -2170,7 +2170,7 @@ var module_instance = new GamAssetRentMngtModule();
                                     <option value="N">N</option>
                                 </select>
                             </td>
-                      
+
                 			<th><select id="searchCondition">
                             	<option value="reqestDt" selected="selected">신청일자</option>
                             	<option value="usagePd">사용기간</option>
@@ -2216,9 +2216,9 @@ var module_instance = new GamAssetRentMngtModule();
 								<th width="12%" height="20">총감면사용료</th>
 								<td><input type="text" size="19" id="totalGrRdcxptFee" class="ygpaNumber" disabled="disabled" /></td>
 								<td>
-		                            
+
 		                            <input id="loginUserId" type="hidden" value="<c:out value="${loginUserId}"/>"/>
-		                            
+
 		                            <input id="blceStdrIntrrate" type="hidden" value="<c:out value="${blceStdrIntrrate}"/>"/>
 		                            <input id="blceStdrIntrrateShow" type="hidden" value="<c:out value="${blceStdrIntrrateShow}"/>"/>
 		                        </td>
@@ -2247,7 +2247,7 @@ var module_instance = new GamAssetRentMngtModule();
             <div id="tabs2" class="emdTabPage" style="overflow:scroll;">
                 <div class="emdControlPanel">
                     <form id="gamAssetRentForm">
-                        
+
                         <!-- <input type="hidden" id="quayGroupCd"/> -->
 
                         <table class="editForm">
@@ -2266,7 +2266,7 @@ var module_instance = new GamAssetRentMngtModule();
                                     <input type="text" size="5" id="mngYear" class="mngYear" readonly/>-
                                     <input type="text" size="5" id="mngNo" class="mngNo" readonly/>-
                                     <input type="text" size="5" id="mngCnt" class="mngCnt" readonly/>
-     
+
                                 </td>
                             </tr>
                             <tr>
@@ -2413,7 +2413,7 @@ var module_instance = new GamAssetRentMngtModule();
 
                 <!-- <div class="emdControlPanel"><button id="btnSaveItemDetail">저장</button></div>  -->
                     <form id="gamAssetRentDetailForm">
-                        
+
                         <input type="hidden" id="detailPrtAtCode" data-column-id="prtAtCode"/>
 
                         <input type="hidden" id="detailPrmisnYn"/>

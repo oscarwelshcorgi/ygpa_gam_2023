@@ -195,7 +195,7 @@ public class GamPrtFcltyRentMngtController {
     }
 
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/asset/rent/selectRentMasterInfo.do", method=RequestMethod.POST)
+    @RequestMapping(value="/oper/gnrl/selectRentMasterInfo.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectRentDetailInfo(GamPrtFcltyRentMngtVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;

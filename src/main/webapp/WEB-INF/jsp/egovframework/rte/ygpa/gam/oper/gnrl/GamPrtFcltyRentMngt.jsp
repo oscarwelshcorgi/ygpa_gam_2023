@@ -374,7 +374,7 @@ GamAssetRentMngtModule.prototype.loadRentMaster = function(loadOpt) {
 
     //this.$('#gamAssetRentForm :input').val('');
 
-    this.doAction('/asset/rent/selectRentMasterInfo.do', EMD.util.objectToArray(loadOpt), function(module, result) {
+    this.doAction('/oper/gnrl/selectRentMasterInfo.do', EMD.util.objectToArray(loadOpt), function(module, result) {
     	if(result.resultCode!=0) {
     		alert(result.resultMsg);
     		return;

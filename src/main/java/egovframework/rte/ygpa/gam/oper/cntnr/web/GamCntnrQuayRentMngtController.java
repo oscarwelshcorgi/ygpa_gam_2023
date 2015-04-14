@@ -193,7 +193,7 @@ public class GamCntnrQuayRentMngtController {
     }
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-@RequestMapping(value="/asset/cntnr/selectRentMasterInfo.do", method=RequestMethod.POST)
+@RequestMapping(value="/oper/cntnr/selectRentMasterInfo.do", method=RequestMethod.POST)
 public @ResponseBody Map selectRentDetailInfo(GamCntnrQuayRentMngtVO searchVO) throws Exception {
 
 	int totalCnt, page, firstIndex;
@@ -214,7 +214,7 @@ public @ResponseBody Map selectRentDetailInfo(GamCntnrQuayRentMngtVO searchVO) t
 	map.put("searchOption", searchVO);
 
 	return map;
-}	
+}
 	/**
      * 항만시설사용 승낙취소(허가취소) 가 가능 한지 체크한다.
      * @param gamCntnrQuayRentMngtVO
@@ -1127,7 +1127,7 @@ public @ResponseBody Map selectRentDetailInfo(GamCntnrQuayRentMngtVO searchVO) t
     String showEntrpsInfo(GamCntnrQuayRentMngtVO gamCntnrQuayRentMngtLevReqestVO, ModelMap model) throws Exception {
 
 		List chrgeKndCdList = gamCntnrQuayRentMngtService.selectChargeKndList(gamCntnrQuayRentMngtLevReqestVO);
-			
+
 		for(int i=0;i<chrgeKndCdList.size() ;i++){
 			System.out.println(chrgeKndCdList.get(i));
 		}

@@ -84,7 +84,7 @@ public class GamCmmnCntrRentMngtController {
 
     @Resource(name = "gamAssetsUsePermMngtService")
     private GamAssetsUsePermMngtService gamAssetsUsePermMngtService;
-    
+
     @Resource(name="gamRentFileIdGnrService")
     EgovTableIdGnrService gamRentFileIdGnrService;
 
@@ -194,7 +194,7 @@ public class GamCmmnCntrRentMngtController {
     	return map;
     }
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-@RequestMapping(value="/asset/shed/selectRentMasterInfo.do", method=RequestMethod.POST)
+@RequestMapping(value="/oper/shed/selectRentMasterInfo.do", method=RequestMethod.POST)
 public @ResponseBody Map selectRentDetailInfo(GamCmmnCntrRentMngtVO searchVO) throws Exception {
 
 	int totalCnt, page, firstIndex;
@@ -215,7 +215,7 @@ public @ResponseBody Map selectRentDetailInfo(GamCmmnCntrRentMngtVO searchVO) th
 	map.put("searchOption", searchVO);
 
 	return map;
-}	
+}
 	/**
      * 항만시설사용 승낙취소(허가취소) 가 가능 한지 체크한다.
      * @param gamCmmnCntrRentMngtVO
