@@ -129,13 +129,10 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 </TR>
 <TR>
 	<TD width="410" height="102" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 5.1pt 1.4pt 5.1pt'>
-	<P CLASS=HStyle0 STYLE='margin-left:22.1pt;margin-bottom:4.0pt;text-indent:-22.1pt;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";'>&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='margin-left:22.1pt;margin-bottom:4.0pt;text-indent:-22.1pt;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";'>&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='margin-left:22.1pt;margin-bottom:4.0pt;text-indent:-22.1pt;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";'>&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='margin-left:22.1pt;margin-bottom:4.0pt;text-indent:-22.1pt;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";'>&nbsp;</SPAN></P>
+	<P CLASS=HStyle0><pre><c:out value="${result.flawRprContents}"/></pre></P>
 	</TD>
 	<TD width="191" height="102" valign="middle" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 5.1pt 1.4pt 5.1pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;'>&nbsp;</P>
+	<P CLASS=HStyle0><pre><c:out value="${result.rm}"/></pre></P>
 	</TD>
 </TR>
 </TABLE></P>

@@ -373,8 +373,8 @@ if(request.getAttribute("isHwp")!=null){
 		           		<th>비 고</th>
 	           		</tr>
 	           		<tr>
-		           		<td><c:out value="${result.flawRprContents}"/></td>
-		           		<td><c:out value="${result.rm}"/></td>
+		           		<td><pre><c:out value="${result.flawRprContents}"/></pre></td>
+		           		<td><pre><c:out value="${result.rm}"/></pre></td>
 	           		</tr>
 	           	</table>
 
