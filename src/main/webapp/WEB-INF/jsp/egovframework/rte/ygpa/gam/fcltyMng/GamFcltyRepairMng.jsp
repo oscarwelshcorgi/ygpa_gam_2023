@@ -148,9 +148,11 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 	this._mainFcltsMngGroupNo = "";
 	this._mainFcltsJobSe = "";
 	this._mainFlawRprSeq = "";
+	console.log(EMD.userinfo.mngFcltyCd);
 	if (EMD.userinfo.mngFcltyCd == null || EMD.userinfo.mngFcltyCd != "*") {
 		this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
 		this.$('#sFcltsJobSe').disable();
+		
 	}
 	// 기본값 셋팅
 	this.setDefaultParam();
