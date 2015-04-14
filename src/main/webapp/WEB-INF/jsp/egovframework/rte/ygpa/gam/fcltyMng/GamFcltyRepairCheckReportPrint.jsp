@@ -118,7 +118,7 @@ if(request.getAttribute("isHwp")!=null){
 		font-size:15px;
 		padding-right: 25px;
 	}
-	
+
 	p.dateStr2 {
 		text-align:right;
 		vertical-align:middle;
@@ -171,7 +171,7 @@ if(request.getAttribute("isHwp")!=null){
 		position: absolute;
 		  left: 16.5cm;
 		  top: 19cm;
-		  
+
 	}
 
 	table.reportPage {
@@ -223,7 +223,7 @@ if(request.getAttribute("isHwp")!=null){
 
 
 	@media print {
-	
+
 	.stamp {
 		position: absolute;
 		  left: 16.5cm;
@@ -234,7 +234,7 @@ if(request.getAttribute("isHwp")!=null){
 		position: absolute;
 		  left: 16.5cm;
 		  top: 18cm;
-		  
+
 	}
 	}
 </style>
@@ -314,7 +314,7 @@ if(request.getAttribute("isHwp")!=null){
 			        			<tr height="130px">
 			        				<td style="vertical-align:top;font-size:15px;">
 			        					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			        					위 공사에 대하여 <c:out value="${result.flawExamDt }" />&nbsp;&nbsp;하자검사한 결과 
+			        					위 공사에 대하여 <c:out value="${result.flawExamDt }" />&nbsp;&nbsp;하자검사한 결과
 			        					<span style="text-decoration:underline;">
 			        			<c:out value="${result.castFlawEnnc }"/></span>을 확인함
 			        				</td>
@@ -347,10 +347,10 @@ if(request.getAttribute("isHwp")!=null){
         	</table>
         </div>
         </div>
-        
-        
+
+
         <c:if test="${result.flawEnnc == 'Y'}">
-        
+
 	        <div class="page">
 	                <div class="subpage ygpa_report" >
 	           <table class="page2Title" width="530">
@@ -385,7 +385,7 @@ if(request.getAttribute("isHwp")!=null){
 	    				<td>
 		    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />"/>
 						</td>
-						<td> 
+						<td>
 	    				<c:if test="${fn:length(resultList) gt status.index+1 }">
 		    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />"/>
 						</c:if>
@@ -417,7 +417,7 @@ if(request.getAttribute("isHwp")!=null){
 					</td>
 					<td>
 					<c:if test="${fn:length(resultList) gt status.index+1 }">
-	    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultItem[status.index+1].atchFileNmPhysicl }' />"/>
+	    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />"/>
 					</c:if>
 					</td>
     			</tr>
