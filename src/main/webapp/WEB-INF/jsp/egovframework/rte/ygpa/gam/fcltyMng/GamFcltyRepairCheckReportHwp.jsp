@@ -115,7 +115,7 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 
 <P CLASS=HStyle0 STYLE='margin-bottom:4.0pt;text-align:center;'><SPAN STYLE='font-size:20.0pt;font-weight:"bold";'><BR></SPAN></P>
 
-<P CLASS=HStyle0 STYLE='margin-bottom:4.0pt;text-align:center;'><SPAN STYLE='font-size:14.0pt;'>(2013년 광양항 항만시설물 보수보강공사)</SPAN></P>
+<P CLASS=HStyle0 STYLE='margin-bottom:4.0pt;text-align:center;'><SPAN STYLE='font-size:14.0pt;'>공사명 : (<c:out value="${result.flawRprNm }" />)</SPAN></P>
 
 <P CLASS=HStyle0 STYLE='margin-bottom:4.0pt;text-align:center;line-height:120%;'>
 <TABLE border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;border:none;'>
@@ -172,7 +172,7 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 	    			<!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. -->
 </table>
 <TABLE border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;border:none;'>
-			<c:forEach var="resultItem" items="${resultList}" varStatus="status" end="3" step="2">
+			<c:forEach var="resultItem" items="${resultList}" varStatus="status" begin="4" step="2">
 
 	    			<tr>
 	    				<TD width="300" height="206" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt'>
