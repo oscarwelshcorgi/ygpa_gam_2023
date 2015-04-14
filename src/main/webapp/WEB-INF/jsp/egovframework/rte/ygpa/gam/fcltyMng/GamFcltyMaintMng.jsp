@@ -142,7 +142,7 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 		event.data.module.$("#sCtrtNm").val('');
 	});
 
-	if (EMD.userinfo.mngFcltyCd == null || EMD.userinfo.mngFcltyCd != "*") {
+	if (EMD.userinfo.mngFcltyCd != null && EMD.userinfo.mngFcltyCd != "*") {
 		this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
 		this.$('#sFcltsJobSe').disable();
 	}

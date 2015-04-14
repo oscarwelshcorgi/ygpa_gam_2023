@@ -143,7 +143,11 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 	this.fillSelectBoxYear('#enforceYear');
 	this.fillSelectBoxYear('#sEnforceYear');
 	this.$('#sEnforceYear').val((new Date()).getFullYear());
-	this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
+	
+	if (EMD.userinfo.mngFcltyCd != null && EMD.userinfo.mngFcltyCd != "*") {
+		this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
+		this.$('#sFcltsJobSe').disable();
+	}
 
 	this.getMapInfoList(params);
 };

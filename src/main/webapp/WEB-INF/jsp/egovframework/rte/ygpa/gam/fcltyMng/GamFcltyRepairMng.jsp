@@ -149,7 +149,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 	this._mainFcltsJobSe = "";
 	this._mainFlawRprSeq = "";
 	console.log(EMD.userinfo.mngFcltyCd);
-	if (EMD.userinfo.mngFcltyCd == null || EMD.userinfo.mngFcltyCd != "*") {
+	if (EMD.userinfo.mngFcltyCd != null && EMD.userinfo.mngFcltyCd != "*") {
 		this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
 		this.$('#sFcltsJobSe').disable();
 		
