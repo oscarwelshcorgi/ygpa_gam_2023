@@ -178,6 +178,24 @@ public class GamAssetRentDetailVO extends ComDefaultVO {
 	/**
 	 * @return the assetsUsageSeq
 	 */
+
+    /** 신청기간(사용기간) 일/월별 체크 2014-10-21*/
+    private String usagePdChk;
+
+	/**
+	 * @return the usagePdChk
+	 */
+	public String getUsagePdChk() {
+		return usagePdChk;
+	}
+
+	/**
+	 * @param usagePdChk the usagePdChk to set
+	 */
+	public void setUsagePdChk(String usagePdChk) {
+		this.usagePdChk = usagePdChk;
+	}
+
 	public String getAssetsUsageSeq() {
 		return assetsUsageSeq;
 	}
@@ -215,6 +233,34 @@ public class GamAssetRentDetailVO extends ComDefaultVO {
 	 */
 	public void setGisAssetsSubCd(String gisAssetsSubCd) {
 		this.gisAssetsSubCd = gisAssetsSubCd;
+	}
+
+	/**
+	 * @return the gisAssetsNm
+	 */
+	public String getGisAssetsNm() {
+		return gisAssetsNm;
+	}
+
+	/**
+	 * @param gisAssetsNm the gisAssetsNm to set
+	 */
+	public void setGisAssetsNm(String gisAssetsNm) {
+		this.gisAssetsNm = gisAssetsNm;
+	}
+
+	/**
+	 * @return the assetsCdStr
+	 */
+	public String getAssetsCdStr() {
+		return assetsCdStr;
+	}
+
+	/**
+	 * @param assetsCdStr the assetsCdStr to set
+	 */
+	public void setAssetsCdStr(String assetsCdStr) {
+		this.assetsCdStr = assetsCdStr;
 	}
 
 	/**
@@ -313,6 +359,20 @@ public class GamAssetRentDetailVO extends ComDefaultVO {
 	 */
 	public void setExemptSe(String exemptSe) {
 		this.exemptSe = exemptSe;
+	}
+
+	/**
+	 * @return the exemptSeNm
+	 */
+	public String getExemptSeNm() {
+		return exemptSeNm;
+	}
+
+	/**
+	 * @param exemptSeNm the exemptSeNm to set
+	 */
+	public void setExemptSeNm(String exemptSeNm) {
+		this.exemptSeNm = exemptSeNm;
 	}
 
 	/**
@@ -736,20 +796,6 @@ public class GamAssetRentDetailVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the detailPrmisnYn
-	 */
-	public String getDetailPrmisnYn() {
-		return detailPrmisnYn;
-	}
-
-	/**
-	 * @param detailPrmisnYn the detailPrmisnYn to set
-	 */
-	public void setDetailPrmisnYn(String detailPrmisnYn) {
-		this.detailPrmisnYn = detailPrmisnYn;
-	}
-
-	/**
 	 * @return the detailGisCd
 	 */
 	public String getDetailGisCd() {
@@ -820,6 +866,20 @@ public class GamAssetRentDetailVO extends ComDefaultVO {
 	}
 
 	/**
+	 * @return the detailPrmisnYn
+	 */
+	public String getDetailPrmisnYn() {
+		return detailPrmisnYn;
+	}
+
+	/**
+	 * @param detailPrmisnYn the detailPrmisnYn to set
+	 */
+	public void setDetailPrmisnYn(String detailPrmisnYn) {
+		this.detailPrmisnYn = detailPrmisnYn;
+	}
+
+	/**
 	 * @return the quayCd
 	 */
 	public String getQuayCd() {
@@ -847,47 +907,6 @@ public class GamAssetRentDetailVO extends ComDefaultVO {
 		this.maxAssetsUsageSeq = maxAssetsUsageSeq;
 	}
 
-	/**
-	 * @return the assetsCdStr
-	 */
-	public String getAssetsCdStr() {
-		return assetsCdStr;
-	}
-
-	/**
-	 * @param assetsCdStr the assetsCdStr to set
-	 */
-	public void setAssetsCdStr(String assetsCdStr) {
-		this.assetsCdStr = assetsCdStr;
-	}
-
-	/**
-	 * @return the gisAssetsNm
-	 */
-	public String getGisAssetsNm() {
-		return gisAssetsNm;
-	}
-
-	/**
-	 * @param gisAssetsNm the gisAssetsNm to set
-	 */
-	public void setGisAssetsNm(String gisAssetsNm) {
-		this.gisAssetsNm = gisAssetsNm;
-	}
-
-	/**
-	 * @return the exemptSeNm
-	 */
-	public String getExemptSeNm() {
-		return exemptSeNm;
-	}
-
-	/**
-	 * @param exemptSeNm the exemptSeNm to set
-	 */
-	public void setExemptSeNm(String exemptSeNm) {
-		this.exemptSeNm = exemptSeNm;
-	}
 
 	public String getApplcPrice() {
 		return applcPrice;
@@ -896,5 +915,4 @@ public class GamAssetRentDetailVO extends ComDefaultVO {
 	public void setApplcPrice(String applcPrice) {
 		this.applcPrice = applcPrice;
 	}
-
 }

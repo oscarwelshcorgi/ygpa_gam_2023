@@ -9,15 +9,14 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentDetailVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentLevReqestVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
-import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 
 /**
  * @Class Name : GamAssetRentMngtDao.java
- * @Description : 자산임대관리 DAO Class
+ * @Description : 항만시설사용목록관리 DAO Class
  * @Modification Information
  *
- * @author heroine
- * @since 2014-01-10
+ * @author domh
+ * @since 2014-01-14
  * @version 1.0
  * @see
  *
@@ -27,193 +26,193 @@ import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 public class GamAssetRentMngtDao extends YGPAAbstractDAO {
 
 	/**
-	 * 자산임대관리 목록을 조회한다.
+	 * 항만시설사용관리 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록
+	 * @return 항만시설사용관리 목록
 	 * @exception Exception
 	 */
-    public List selectAssetRentList(GamAssetRentMngtVO searchVO) throws Exception {
-        return list("gamAssetRentMngtDao.selectAssetRentList_D", searchVO);
+    public List selectAssetRentMngtList(GamAssetRentMngtVO searchVO) throws Exception {
+        return list("gamAssetRentMngtDao.selectAssetRentMngtList_D", searchVO);
     }
 
     /**
-	 * 자산임대관리 목록 총 갯수를 조회한다.
+	 * 항만시설사용관리 목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록 총 갯수
+	 * @return 항만시설사용관리 목록 총 갯수
 	 * @exception
 	 */
-    public int selectAssetRentListTotCnt(GamAssetRentMngtVO searchVO) {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectAssetRentListTotCnt_S", searchVO);
+    public int selectAssetRentMngtListTotCnt(GamAssetRentMngtVO searchVO) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectAssetRentMngtListTotCnt_S", searchVO);
     }
 
     /**
 	 * 자료수, 총면적, 총사용료를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록
+	 * @return 항만시설사용관리 목록
 	 * @exception Exception
 	 */
-	public GamAssetRentMngtVO selectAssetRentSum(GamAssetRentMngtVO searchVO) throws Exception {
-		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentSum_S", searchVO);
+	public GamAssetRentMngtVO selectAssetRentMngtSum(GamAssetRentMngtVO searchVO) throws Exception {
+		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentMngtSum_S", searchVO);
 	}
 
 	/**
-	 * 자산임대 최초 신청을 등록한다.
-	 * @param vo GamAssetRentVO
+	 * 항만시설사용 최초 신청을 등록한다.
+	 * @param vo GamAssetRentMngtVO
 	 * @exception Exception
 	 */
-	public void insertAssetRentFirst(GamAssetRentMngtVO vo){
-		insert("gamAssetRentMngtDao.insertAssetRentFirst_S", vo);
+	public void insertAssetRentMngtFirst(GamAssetRentMngtVO vo){
+		insert("gamAssetRentMngtDao.insertAssetRentMngtFirst_S", vo);
 	}
 
 
 	/**
 	 * 해당건에 대한 (MAX)관리번호
-	 * @param searchMap - GamAssetRentVO
-	 * @return 자산임대관리 목록 총 갯수
+	 * @param searchMap - GamAssetRentMngtVO
+	 * @return 항만시설사용관리 목록 총 갯수
 	 * @exception
 	 */
-    public GamAssetRentMngtVO selectAssetRentMaxNo(GamAssetRentMngtVO vo) {
-        return (GamAssetRentMngtVO)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectAssetRentMaxNo_S", vo);
+    public GamAssetRentMngtVO selectAssetRentMngtMaxNo(GamAssetRentMngtVO vo) {
+        return (GamAssetRentMngtVO)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectAssetRentMngtMaxNo_S", vo);
     }
 
     /**
-	 * 자산임대 연장 신청을 등록한다.
-	 * @param vo GamAssetRentVO
+	 * 항만시설사용 연장 신청을 등록한다.
+	 * @param vo GamAssetRentMngtVO
 	 * @exception Exception
 	 */
-	public void insertAssetRentRenew(GamAssetRentMngtVO vo){
-		insert("gamAssetRentMngtDao.insertAssetRentRenew_S", vo);
+	public void insertAssetRentMngtRenew(GamAssetRentMngtVO vo){
+		insert("gamAssetRentMngtDao.insertAssetRentMngtRenew_S", vo);
 	}
 
 	/**
-	 * 자산임대 연장 신청된 MaxMngCnt 조회한다.
+	 * 항만시설사용 연장 신청된 MaxMngCnt 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록 총 갯수
+	 * @return 항만시설사용관리 목록 총 갯수
 	 * @exception
 	 */
-    public String selectAssetRentMaxMngCnt(GamAssetRentMngtVO searchVO) {
-        return (String)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectAssetRentMaxMngCnt_S", searchVO);
+    public String selectAssetRentMngtMaxMngCnt(GamAssetRentMngtVO searchVO) {
+        return (String)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectAssetRentMngtMaxMngCnt_S", searchVO);
     }
 
 	/**
-	 * 자산임대 연장 신청시 자산임대 상세를 복사하여 등록한다.
-	 * @param vo GamAssetRentVO
+	 * 항만시설사용 연장 신청시 항만시설사용 상세를 복사하여 등록한다.
+	 * @param vo GamAssetRentMngtVO
 	 * @exception Exception
 	 */
-	public void insertAssetRentDetailRenew(GamAssetRentDetailVO vo){
-		insert("gamAssetRentMngtDao.insertAssetRentDetailRenew_S", vo);
+	public void insertAssetRentMngtDetailRenew(GamAssetRentDetailVO vo){
+		insert("gamAssetRentMngtDao.insertAssetRentMngtDetailRenew_S", vo);
 	}
 
 	/**
-	 * 자산임대 정보를 수정한다.
-	 * @param vo GamAssetRentVO
+	 * 항만시설사용 정보를 수정한다.
+	 * @param vo GamAssetRentMngtVO
 	 * @exception Exception
 	 */
-	public void updateAssetRent(GamAssetRentMngtVO vo){
-		update("gamAssetRentMngtDao.updateAssetRent_S", vo);
+	public void updateAssetRentMngt(GamAssetRentMngtVO vo){
+		update("gamAssetRentMngtDao.updateAssetRentMngt_S", vo);
 	}
 
 	/**
-	 * 자산임대관리 상세목록을 조회한다.
+	 * 항만시설사용관리 상세목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록
+	 * @return 항만시설사용관리 목록
 	 * @exception Exception
 	 */
-    public List selectAssetRentDetailList(GamAssetRentMngtVO vo) throws Exception {
-        return list("gamAssetRentMngtDao.selectAssetRentDetailList_D", vo);
+    public List selectAssetRentMngtDetailList(GamAssetRentMngtVO vo) throws Exception {
+        return list("gamAssetRentMngtDao.selectAssetRentMngtDetailList_D", vo);
     }
 
     /**
-	 * 자산임대관리 상세목록 총 갯수를 조회한다.
+	 * 항만시설사용관리 상세목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록 총 갯수
+	 * @return 항만시설사용관리 목록 총 갯수
 	 * @exception
 	 */
-    public int selectAssetRentDetailListTotCnt(GamAssetRentMngtVO vo) {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectAssetRentDetailListTotCnt_S", vo);
+    public int selectAssetRentMngtDetailListTotCnt(GamAssetRentMngtVO vo) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectAssetRentMngtDetailListTotCnt_S", vo);
     }
 
     /**
 	 * 징수의뢰 해당 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록 총 갯수
+	 * @return 항만시설사용관리 목록 총 갯수
 	 * @exception
 	 */
-    public int selectAssetRentLevReqestCnt(GamAssetRentMngtVO vo) {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectAssetRentLevReqestCnt_S", vo);
+    public int selectAssetRentMngtLevReqestCnt(GamAssetRentMngtVO vo) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectAssetRentMngtLevReqestCnt_S", vo);
     }
 
     /**
-	 * 자산임대 사진정보를 삭제한다.
-	 * @param vo GamAssetRentVO
+	 * 항만시설사용 사진정보를 삭제한다.
+	 * @param vo GamAssetRentMngtVO
 	 * @exception Exception
 	 */
-	public void deleteAssetRentPhoto(GamAssetRentMngtVO vo){
-		delete("gamAssetRentMngtDao.deleteAssetRentPhoto_S", vo);
+	public void deleteAssetRentMngtPhoto(GamAssetRentMngtVO vo){
+		delete("gamAssetRentMngtDao.deleteAssetRentMngtPhoto_S", vo);
 	}
 
 	/**
-	 * 자산임대 정보를 삭제한다.
-	 * @param vo GamAssetRentVO
+	 * 항만시설사용 정보를 삭제한다.
+	 * @param vo GamAssetRentMngtVO
 	 * @exception Exception
 	 */
-	public void deleteAssetRent(GamAssetRentMngtVO vo){
-		delete("gamAssetRentMngtDao.deleteAssetRent_S", vo);
+	public void deleteAssetRentMngt(GamAssetRentMngtVO vo){
+		delete("gamAssetRentMngtDao.deleteAssetRentMngt_S", vo);
 	}
 
 	/**
-	 * 자산임대 상세정보를 삭제한다.
-	 * @param vo GamAssetRentVO
+	 * 항만시설사용 상세정보를 삭제한다.
+	 * @param vo GamAssetRentMngtVO
 	 * @exception Exception
 	 */
-	public void deleteAssetRentDetail(GamAssetRentMngtVO vo){
-		delete("gamAssetRentMngtDao.deleteAssetRentDetail_S", vo);
+	public void deleteAssetRentMngtDetail(GamAssetRentMngtVO vo){
+		delete("gamAssetRentMngtDao.deleteAssetRentMngtDetail_S", vo);
 	}
 
 	/**
-	 * 자산임대 상세를 등록한다.
+	 * 항만시설사용 상세를 등록한다.
 	 * @param vo GamAssetRentDetailVO
 	 * @exception Exception
 	 */
-	public void insertAssetRentDetail(GamAssetRentDetailVO vo){
-		insert("gamAssetRentMngtDao.insertAssetRentDetail_S", vo);
+	public void insertAssetRentMngtDetail(GamAssetRentDetailVO vo){
+		insert("gamAssetRentMngtDao.insertAssetRentMngtDetail_S", vo);
 	}
 
 	/**
-	 * 자산임대 상세를 수정한다.
+	 * 항만시설사용 상세를 수정한다.
 	 * @param vo GamAssetRentDetailVO
 	 * @exception Exception
 	 */
-	public void updateAssetRentDetail(GamAssetRentDetailVO vo){
-		update("gamAssetRentMngtDao.updateAssetRentDetail_S", vo);
+	public void updateAssetRentMngtDetail(GamAssetRentDetailVO vo){
+		update("gamAssetRentMngtDao.updateAssetRentMngtDetail_S", vo);
 	}
 
 	/**
-	 * 자산임대 상세를 삭제한다.
+	 * 항만시설사용 상세를 삭제한다.
 	 * @param vo GamAssetRentDetailVO
 	 * @exception Exception
 	 */
-	public void deleteAssetRentDetail2(GamAssetRentDetailVO vo){
-		delete("gamAssetRentMngtDao.deleteAssetRentDetail2_S", vo);
+	public void deleteAssetRentMngtDetail2(GamAssetRentDetailVO vo){
+		delete("gamAssetRentMngtDao.deleteAssetRentMngtDetail2_S", vo);
 	}
 
 	/**
-	 * 승낙할 자산임대 정보 조회.
+	 * 승낙할 항만시설사용 정보 조회.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대정보
+	 * @return 항만시설사용정보
 	 * @exception Exception
 	 */
-	public GamAssetRentMngtVO selectAssetRentPrmisnInfo(GamAssetRentMngtVO searchVO) throws Exception {
-		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentPrmisnInfo_S", searchVO);
+	public GamAssetRentMngtVO selectAssetRentMngtPrmisnInfo(GamAssetRentMngtVO searchVO) throws Exception {
+		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentMngtPrmisnInfo_S", searchVO);
 	}
 
 	/**
-	 * 자산임대 허가여부를 수정한다.
-	 * @param vo GamAssetRentVO
+	 * 항만시설사용 허가여부를 수정한다.
+	 * @param vo GamAssetRentMngtVO
 	 * @exception Exception
 	 */
-	public void updateAssetRentPrmisn(GamAssetRentLevReqestVO vo){
-		update("gamAssetRentMngtDao.updateAssetRentPrmisn_S", vo);
+	public void updateAssetRentMngtPrmisn(GamAssetRentLevReqestVO vo){
+		update("gamAssetRentMngtDao.updateAssetRentMngtPrmisn_S", vo);
 	}
 
 	/**
@@ -221,17 +220,17 @@ public class GamAssetRentMngtDao extends YGPAAbstractDAO {
 	 * @param vo GamAssetRentLevReqestVO
 	 * @exception Exception
 	 */
-	public void insertAssetRentLevReqest(GamAssetRentLevReqestVO vo){
-		insert("gamAssetRentMngtDao.insertAssetRentLevReqest_S", vo);
+	public void insertAssetRentMngtLevReqest(GamAssetRentLevReqestVO vo){
+		insert("gamAssetRentMngtDao.insertAssetRentMngtLevReqest_S", vo);
 	}
 
 	/**
-	 * 자산임대 허가여부를 취소한다.
-	 * @param vo GamAssetRentVO
+	 * 항만시설사용 허가여부를 취소한다.
+	 * @param vo GamAssetRentMngtVO
 	 * @exception Exception
 	 */
-	public void updateAssetRentPrmisnCancel(GamAssetRentLevReqestVO vo){
-		update("gamAssetRentMngtDao.updateAssetRentPrmisnCancel_S", vo);
+	public void updateAssetRentMngtPrmisnCancel(GamAssetRentLevReqestVO vo){
+		update("gamAssetRentMngtDao.updateAssetRentMngtPrmisnCancel_S", vo);
 	}
 
 	/**
@@ -245,13 +244,13 @@ public class GamAssetRentMngtDao extends YGPAAbstractDAO {
     }
 
 	/**
-	 * 자산임대상세 목록을 조회한다.
+	 * 항만시설사용상세 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대상세 목록
+	 * @return 항만시설사용상세 목록
 	 * @exception Exception
 	 */
-    public List selectAssetRentDetailInfo(GamAssetRentMngtVO vo) throws Exception {
-        return list("gamAssetRentMngtDao.selectAssetRentDetailInfo_S", vo);
+    public List selectAssetRentMngtDetailInfo(GamAssetRentMngtVO vo) throws Exception {
+        return list("gamAssetRentMngtDao.selectAssetRentMngtDetailInfo_S", vo);
     }
 
     /**
@@ -260,84 +259,84 @@ public class GamAssetRentMngtDao extends YGPAAbstractDAO {
 	 * @return 공시지가 목록
 	 * @exception Exception
 	 */
-    public List selectOlnlpInfo(GamGisAssetCodeVO searchVO) throws Exception {
-        return list("gamAssetRentMngtDao.selectOlnlpInfo_S", searchVO);
+    public List selectOlnlpInfo() throws Exception {
+        return list("gamAssetRentMngtDao.selectOlnlpInfo_S", null);
     }
 
     /**
 	 * 파일 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록
+	 * @return 항만시설사용관리 목록
 	 * @exception Exception
 	 */
-    public List selectAssetRentFileList(GamAssetRentMngtVO searchVO) throws Exception {
-        return list("gamAssetRentMngtDao.selectAssetRentFileList_D", searchVO);
+    public List selectAssetRentMngtFileList(GamAssetRentMngtVO searchVO) throws Exception {
+        return list("gamAssetRentMngtDao.selectAssetRentMngtFileList_D", searchVO);
     }
 
     /**
 	 * 파일 목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록 총 갯수
+	 * @return 항만시설사용관리목록 총 갯수
 	 * @exception
 	 */
-    public int selectAssetRentFileListTotCnt(GamAssetRentMngtVO searchVO) {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectAssetRentFileListTotCnt_S", searchVO);
+    public int selectAssetRentMngtFileListTotCnt(GamAssetRentMngtVO searchVO) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectAssetRentMngtFileListTotCnt_S", searchVO);
     }
 
     /**
 	 * 파일을 등록한다.
-	 * @param vo GamAssetRentVO
+	 * @param vo GamAssetRentMngtVO
 	 * @exception Exception
 	 */
-	public void insertAssetRentFile(GamAssetRentMngtVO vo){
-		insert("gamAssetRentMngtDao.insertAssetRentFile_S", vo);
+	public void insertAssetRentMngtFile(GamAssetRentMngtVO vo){
+		insert("gamAssetRentMngtDao.insertAssetRentMngtFile_S", vo);
 	}
 
 	/**
-	 * 파일을 업데이트한다.
+	 * 파일을 수정한다.
 	 * @param vo GamAssetRentVO
 	 * @exception Exception
 	 */
-	public void updateAssetRentFile(GamAssetRentMngtVO vo){
-		insert("gamAssetRentMngtDao.updateAssetRentFile_S", vo);
+	public void updateAssetRentMngtFile(GamAssetRentMngtVO vo){
+		insert("gamAssetRentMngtDao.updateAssetRentMngtFile_S", vo);
 	}
 
 	/**
 	 * 파일을 삭제한다.(1row)
-	 * @param vo GamAssetRentVO
+	 * @param vo GamAssetRentMngtVO
 	 * @exception Exception
 	 */
-	public void deleteAssetRentPhotoSingle(GamAssetRentMngtVO vo){
-		delete("gamAssetRentMngtDao.deleteAssetRentPhotoSingle_S", vo);
+	public void deleteAssetRentMngtPhotoSingle(GamAssetRentMngtVO vo){
+		delete("gamAssetRentMngtDao.deleteAssetRentMngtPhotoSingle_S", vo);
 	}
 
 	/**
-	 * 임대신규저장시 키값 가져오기.
+	 * 항만시설사용 신규저장시 키값 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록
+	 * @return 항만시설사용관리 목록
 	 * @exception Exception
 	 */
-	public GamAssetRentMngtVO selectAssetRentMaxKey(GamAssetRentMngtVO searchVO) throws Exception {
-		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentMaxKey_S", searchVO);
+	public GamAssetRentMngtVO selectAssetRentMngtMaxKey(GamAssetRentMngtVO searchVO) throws Exception {
+		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentMngtMaxKey_S", searchVO);
 	}
 
 	/**
 	 * 코멘트를 수정한다.
-	 * @param vo GamAssetRentDetailVO
+	 * @param vo GamAssetRentMngtVO
 	 * @exception Exception
 	 */
-	public void updateAssetRentComment(GamAssetRentMngtVO vo){
-		update("gamAssetRentMngtDao.updateAssetRentComment_S", vo);
+	public void updateAssetRentMngtComment(GamAssetRentMngtVO vo){
+		update("gamAssetRentMngtDao.updateAssetRentMngtComment_S", vo);
 	}
 
 	/**
 	 * 연장신청시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록
+	 * @return 항만시설사용 목록
 	 * @exception Exception
 	 */
-	public GamAssetRentMngtVO selectAssetRentRenewInfo(GamAssetRentMngtVO searchVO) throws Exception {
-		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentRenewInfo_S", searchVO);
+	public GamAssetRentMngtVO selectAssetRentMngtRenewInfo(GamAssetRentMngtVO searchVO) throws Exception {
+		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentMngtRenewInfo_S", searchVO);
 	}
 
 	/**
@@ -345,40 +344,40 @@ public class GamAssetRentMngtDao extends YGPAAbstractDAO {
 	 * @param vo GamAssetRentDetailVO
 	 * @exception Exception
 	 */
-	public void updateAssetRentRenewInfo(GamAssetRentMngtVO vo){
-		update("gamAssetRentMngtDao.updateAssetRentRenewInfo_S", vo);
+	public void updateAssetRentMngtRenewInfo(GamAssetRentMngtVO vo){
+		update("gamAssetRentMngtDao.updateAssetRentMngtRenewInfo_S", vo);
 	}
 
 	/**
 	 * 신청저장시 총사용기간, 총사용료 , 총면적 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록
+	 * @return 항만시설사용 목록
 	 * @exception Exception
 	 */
-	public GamAssetRentMngtVO selectAssetRentCurrRenewInfo(GamAssetRentMngtVO searchVO) throws Exception {
-		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentCurrRenewInfo_S", searchVO);
+	public GamAssetRentMngtVO selectAssetRentMngtCurrRenewInfo(GamAssetRentMngtVO searchVO) throws Exception {
+		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentMngtCurrRenewInfo_S", searchVO);
 	}
 
 	/**
-	 * 신청저장시 임대상세테이블의 (MIN)순번의 부두코드 가져오기.
+	 * 신청저장시 항만시설사용상세테이블의 (MIN)순번의 부두코드 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록
+	 * @return 항만시설사용관리 목록
 	 * @exception Exception
 	 */
-	public GamAssetRentMngtVO selectAssetRentDetailQuaycd(GamAssetRentMngtVO searchVO) throws Exception {
-		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentDetailQuaycd_S", searchVO);
+	public GamAssetRentMngtVO selectAssetRentMngtDetailQuaycd(GamAssetRentMngtVO searchVO) throws Exception {
+		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentMngtDetailQuaycd_S", searchVO);
 	}
 
 	/**
-	 * 신청저장시 임대테이블의 부두코드를 업데이트 한다.
+	 * 신청저장시 항만시설사용테이블의 부두코드를 업데이트 한다.
 	 * @param vo GamAssetRentDetailVO
 	 * @exception Exception
 	 */
-	public void updateAssetRentQuaycd(GamAssetRentMngtVO vo){
-		update("gamAssetRentMngtDao.updateAssetRentQuaycd_S", vo);
+	public void updateAssetRentMngtQuaycd(GamAssetRentMngtVO vo){
+		update("gamAssetRentMngtDao.updateAssetRentMngtQuaycd_S", vo);
 	}
 
-	 /**
+	/**
 	 * 코픽스 이자율 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
 	 * @return 공시지가 목록
@@ -391,34 +390,49 @@ public class GamAssetRentMngtDao extends YGPAAbstractDAO {
     /**
 	 * 현재날짜기준으로 이전 분기의 연도와 시작월과 종료월 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록
+	 * @return 항만시설사용관리 목록
 	 * @exception Exception
 	 */
-	public GamAssetRentMngtVO selectAssetRentBeforeQuarterInfo(GamAssetRentMngtVO searchVO) throws Exception {
-		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentBeforeQuarterInfo_S", searchVO);
+	public GamAssetRentMngtVO selectAssetRentMngtBeforeQuarterInfo(GamAssetRentMngtVO searchVO) throws Exception {
+		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentMngtBeforeQuarterInfo_S", searchVO);
 	}
 
 	/**
 	 * 이전 분기의 연도와 월에 해당하는 코픽스 이자율 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록
+	 * @return 항만시설사용관리 목록
 	 * @exception Exception
 	 */
-	public GamAssetRentMngtVO selectAssetRentCofixInfo(GamAssetRentMngtVO searchVO) throws Exception {
-		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentCofixInfo_S", searchVO);
+	public GamAssetRentMngtVO selectAssetRentMngtCofixInfo(GamAssetRentMngtVO searchVO) throws Exception {
+		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentMngtCofixInfo_S", searchVO);
 	}
 
 	/**
 	 * 가장 마지막데이터의 연도와 월에 해당하는 코픽스 이자율 가져오기.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대관리 목록
+	 * @return 항만시설사용관리 목록
 	 * @exception Exception
 	 */
-	public GamAssetRentMngtVO selectAssetRentCofixInfoMax(GamAssetRentMngtVO searchVO) throws Exception {
-		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentCofixInfoMax_S", searchVO);
+	public GamAssetRentMngtVO selectAssetRentMngtCofixInfoMax(GamAssetRentMngtVO searchVO) throws Exception {
+		return (GamAssetRentMngtVO) selectByPk("gamAssetRentMngtDao.selectAssetRentMngtCofixInfoMax_S", searchVO);
 	}
 
-	public List selectEntrpsChargerList(Map searchVO) throws Exception {
-		return list("gamAssetRentMngtDao.selectEntrpsChargerList_D", searchVO);
+	public List selectChargeKndList(GamAssetRentMngtVO searchVO) throws Exception {
+		return list("gamAssetRentMngtDao.selectChargeKndList_D", searchVO);
+	}
+
+
+	public Map selectAssetRentMngtMasterInfo(GamAssetRentMngtVO searchVO) throws Exception {
+		return (Map) selectByPk("gamAssetRentMngtDao.selectAssetRentMngtMasterInfo_S", searchVO);
+	}
+
+	/**
+	 * 고지된 자료 갯수를 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public int selectRentFeeNoticeListCount(GamAssetRentMngtVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentMngtDao.selectRentFeeNoticeListCount_S", searchVO);
 	}
 }

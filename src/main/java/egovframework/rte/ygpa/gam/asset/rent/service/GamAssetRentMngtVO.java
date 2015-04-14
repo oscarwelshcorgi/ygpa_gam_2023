@@ -44,13 +44,11 @@ public class GamAssetRentMngtVO extends ComDefaultVO {
     /** 총 면적 */
     private String grAr;
 
-    /**
-     * 과세구분
-     */
-    private String taxtSe;
-
     /** 총 사용료 */
     private String grFee;
+
+    /** 과세 구분 */
+    private String taxtSe;
 
     /** 고지 방법 */
     private String nticMth;
@@ -237,8 +235,30 @@ public class GamAssetRentMngtVO extends ComDefaultVO {
 
     private String blceStdrIntrrateShow;
 
-    /** 총감면사용료 */
+    /** 신청기간(사용기간) 일/월별 체크 2014-10-21*/
+    private String usagePdChk;
+
+    /**
+	 * @return the usagePdChk
+	 */
+	public String getUsagePdChk() {
+		return usagePdChk;
+	}
+
+	/**
+	 * @param usagePdChk the usagePdChk to set
+	 */
+	public void setUsagePdChk(String usagePdChk) {
+		this.usagePdChk = usagePdChk;
+	}
+
+	/** 총감면사용료 */
     private String sumGrRdcxptFee;
+
+    /**
+     * 업체 담당자 번호
+     */
+    private String chargerNo;
 
 	/**
 	 * @return the prtAtCode
@@ -1310,6 +1330,14 @@ public class GamAssetRentMngtVO extends ComDefaultVO {
 
 	public void setTaxtSe(String taxtSe) {
 		this.taxtSe = taxtSe;
+	}
+
+	public String getChargerNo() {
+		return chargerNo;
+	}
+
+	public void setChargerNo(String chargerNo) {
+		this.chargerNo = chargerNo;
 	}
 
 }
