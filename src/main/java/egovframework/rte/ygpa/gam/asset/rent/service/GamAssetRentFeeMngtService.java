@@ -3,17 +3,16 @@ package egovframework.rte.ygpa.gam.asset.rent.service;
 import java.util.List;
 import java.util.Map;
 
-import egovframework.rte.psl.dataaccess.util.EgovMap;
-import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
-import egovframework.rte.ygpa.erp.code.service.ErpAssetCdVO;
+
+
 
 /**
  * @Class Name : GamAssetRentFeeMngtService.java
- * @Description : 자산임대료고지관리 Business class
+ * @Description : 항만시설사용료관리
  * @Modification Information
  *
- * @author heroin
- * @since 2014-01-10
+ * @author domh
+ * @since 2014-01-14
  * @version 1.0
  * @see
  *
@@ -27,7 +26,7 @@ public interface GamAssetRentFeeMngtService {
 	 * @return 자산임대목록
 	 * @exception Exception
 	 */
-    List selectAssetRentFeeList(GamAssetRentFeeMngtVO searchVO) throws Exception;
+    List selectAssetRentFeeMngtList(GamAssetRentFeeMngtVO searchVO) throws Exception;
 
     /**
 	 * 자산임대료고지관리 목록 총 갯수를 조회한다.
@@ -35,7 +34,7 @@ public interface GamAssetRentFeeMngtService {
 	 * @return 자산임대 목록 총 갯수
 	 * @exception
 	 */
-    int selectAssetRentFeeListTotCnt(GamAssetRentFeeMngtVO searchVO) throws Exception;
+    int selectAssetRentFeeMngtListTotCnt(GamAssetRentFeeMngtVO searchVO) throws Exception;
 
     /**
 	 * 자료수, 총면적, 총사용료를 조회한다.
@@ -43,14 +42,21 @@ public interface GamAssetRentFeeMngtService {
 	 * @return 자산임대목록
 	 * @exception Exception
 	 */
-    GamAssetRentFeeMngtVO selectAssetRentFeeSum(GamAssetRentFeeMngtVO searchVO) throws Exception;
+    GamAssetRentFeeMngtVO selectAssetRentFeeMngtSum(GamAssetRentFeeMngtVO searchVO) throws Exception;
 
     /**
 	 * 자산임대료고지관리정보를 수정한다.
 	 * @param vo GamAssetRentFeeMngtVO
 	 * @exception Exception
 	 */
-	void updateAssetRentFee(GamAssetRentFeeMngtVO vo) throws Exception;
+	void updateAssetRentFeeMngt(GamAssetRentFeeMngtVO vo) throws Exception;
+
+	/**
+	 * 임대고지 사용료를 변경한다.
+	 * @param vo
+	 * @throws Exception
+	 */
+	public void updateAssetRentFee(GamAssetRentFeeMngtVO vo) throws Exception;
 
 	/**
 	 * 자산임대료고지관리 정보 조회.
@@ -58,7 +64,7 @@ public interface GamAssetRentFeeMngtService {
 	 * @return 자산임대료고지관리정보
 	 * @exception Exception
 	 */
-    GamAssetRentFeeMngtVO selectAssetRentFeeInfo(GamAssetRentFeeMngtVO searchVO) throws Exception;
+    GamAssetRentFeeMngtVO selectAssetRentFeeMngtInfo(GamAssetRentFeeMngtVO searchVO) throws Exception;
 
     /**
    	 * 세입징수 등록건수를 조회한다.
@@ -80,56 +86,34 @@ public interface GamAssetRentFeeMngtService {
 	 * @param vo GamAssetRentFeeMngtVO
 	 * @exception Exception
 	 */
-	void deleteAssetRentFee(GamAssetRentFeeMngtVO vo) throws Exception;
+	void deleteAssetRentFeeMngt(GamAssetRentFeeMngtVO vo) throws Exception;
 
 	/**
 	 * 징수의뢰를 등록한다.
 	 * @param vo GamAssetRentFeeMngtVO
 	 * @exception Exception
 	 */
-	public void insertAssetRentLevReqest(GamAssetRentFeeMngtVO vo) throws Exception;
+	public void insertAssetRentFeeMngtLevReqest(GamAssetRentFeeMngtVO vo) throws Exception;
 
-    /**
-     * 인쇄를 위한 징수의뢰건을 조회한다.
-     * @param searchVO
-     * @return
-     * @throws Exception
-     */
-    List selectNpticPrintInfo(Map searchVO) throws Exception;
-
-
-    /**
-     * 세금계산서 출력을 위한 고지 정보를 조회한다.
-     * @param searchVO
-     * @return
-     * @throws Exception
-     */
-    List selectTaxNtcPrintInfo(Map searchVO) throws Exception;
-
-    /**
-     * 징수의뢰 상세 목록을 조회한다.
-     * @param searchVO
-     * @return
-     */
-	List selectAssetRentFeeDetailList(GamAssetRentFeeMngtVO searchVO);
+	Map selectNpticPrintInfo(GamAssetRentFeeMngtVO searchVO) throws Exception;
 
 	/**
-	 * 징수의뢰 상세 마스터를 조회한다.
+	 * 연체금만 있는 고지서를 출력한다.
 	 * @param searchVO
 	 * @return
+	 * @throws Exception
 	 */
-	Map selectAssetRentFeeDetailMstPk(GamAssetRentFeeMngtVO searchVO);
+	List selectNpticPrintInfo2(Map searchVO) throws Exception;
 
-	/**
-	 * 징수의뢰 상세 합계를 조회한다.
-	 * @param searchVO
-	 * @return
-	 */
-	Map selectAssetRentFeeDetailSumPk(GamAssetRentFeeMngtVO searchVO);
+	List selectTaxNtcPrintInfo(Map searchVO) throws Exception;
 
-	/**
-	 * 징수의뢰 정보를 수정한다.
-	 */
 	void updateAssetRentFeeMngtListDetail(GamAssetRentFeeMngtVO vo) throws Exception;
 
-}
+	List selectAssetRentFeeDetailList(GamAssetRentFeeMngtVO searchVO);
+
+	Map selectAssetRentFeeDetailMstPk(GamAssetRentFeeMngtVO searchVO);
+
+	Map selectAssetRentFeeDetailSumPk(GamAssetRentFeeMngtVO searchVO);
+
+	}
+

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO;
-import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentLevReqestVO;
+
 
 /**
  * @Class Name : GamAssetRentFeeMngtDao.java
@@ -31,8 +31,8 @@ public class GamAssetRentFeeMngtDao extends YGPAAbstractDAO {
 	 * @return 자산임대료고지관리 목록
 	 * @exception Exception
 	 */
-    public List selectAssetRentFeeList(GamAssetRentFeeMngtVO searchVO) throws Exception {
-        return list("gamAssetRentFeeMngtDao.selectAssetRentFeeList_D", searchVO);
+    public List selectAssetRentFeeMngtList(GamAssetRentFeeMngtVO searchVO) throws Exception {
+        return list("gamAssetRentFeeMngtDao.selectAssetRentFeeMngtList_D", searchVO);
     }
 
     /**
@@ -41,8 +41,8 @@ public class GamAssetRentFeeMngtDao extends YGPAAbstractDAO {
 	 * @return 자산임대료고지관리 목록 총 갯수
 	 * @exception
 	 */
-    public int selectAssetRentFeeListTotCnt(GamAssetRentFeeMngtVO searchVO) {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentFeeMngtDao.selectAssetRentFeeListTotCnt_S", searchVO);
+    public int selectAssetRentFeeMngtListTotCnt(GamAssetRentFeeMngtVO searchVO) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentFeeMngtDao.selectAssetRentFeeMngtListTotCnt_S", searchVO);
     }
 
     /**
@@ -51,8 +51,8 @@ public class GamAssetRentFeeMngtDao extends YGPAAbstractDAO {
 	 * @return 자산임대료고지관리 목록
 	 * @exception Exception
 	 */
-	public GamAssetRentFeeMngtVO selectAssetRentFeeSum(GamAssetRentFeeMngtVO searchVO) throws Exception {
-		return (GamAssetRentFeeMngtVO) selectByPk("gamAssetRentFeeMngtDao.selectAssetRentFeeSum_S", searchVO);
+	public GamAssetRentFeeMngtVO selectAssetRentFeeMngtSum(GamAssetRentFeeMngtVO searchVO) throws Exception {
+		return (GamAssetRentFeeMngtVO) selectByPk("gamAssetRentFeeMngtDao.selectAssetRentFeeMngtSum_S", searchVO);
 	}
 
 	/**
@@ -60,8 +60,16 @@ public class GamAssetRentFeeMngtDao extends YGPAAbstractDAO {
 	 * @param vo GamAssetRentFeeMngtVO
 	 * @exception Exception
 	 */
-	public void updateAssetRentFee(GamAssetRentFeeMngtVO vo){
-		update("gamAssetRentFeeMngtDao.updateAssetRentFee_S", vo);
+	public void updateAssetRentFeeMngt(GamAssetRentFeeMngtVO vo){
+		update("gamAssetRentFeeMngtDao.updateAssetRentFeeMngt_S", vo);
+	}
+
+	/**
+	 * 사용료를 변경 한다.
+	 * @param vo
+	 */
+	public void updateAssetRentFee(GamAssetRentFeeMngtVO vo) {
+		update("gamAssetRentFeeMngtDao.updateAssetRentFeeModifyFee_S", vo);
 	}
 
 	/**
@@ -70,8 +78,8 @@ public class GamAssetRentFeeMngtDao extends YGPAAbstractDAO {
 	 * @return 자산임대료고지관리정보
 	 * @exception Exception
 	 */
-	public GamAssetRentFeeMngtVO selectAssetRentFeeInfo(GamAssetRentFeeMngtVO searchVO) throws Exception {
-		return (GamAssetRentFeeMngtVO) selectByPk("gamAssetRentFeeMngtDao.selectAssetRentFeeInfo_S", searchVO);
+	public GamAssetRentFeeMngtVO selectAssetRentFeeMngtInfo(GamAssetRentFeeMngtVO searchVO) throws Exception {
+		return (GamAssetRentFeeMngtVO) selectByPk("gamAssetRentFeeMngtDao.selectAssetRentFeeMngtInfo_S", searchVO);
 	}
 
 
@@ -99,37 +107,46 @@ public class GamAssetRentFeeMngtDao extends YGPAAbstractDAO {
 	 * @param vo GamAssetRentFeeMngtVO
 	 * @exception Exception
 	 */
-	public void deleteAssetRentFee(GamAssetRentFeeMngtVO vo){
-		delete("gamAssetRentFeeMngtDao.deleteAssetRentFee_S", vo);
+	public void deleteAssetRentFeeMngt(GamAssetRentFeeMngtVO vo){
+		delete("gamAssetRentFeeMngtDao.deleteAssetRentFeeMngt_S", vo);
 	}
 
 	/**
 	 * 징수의뢰를 등록한다.
-	 * @param vo GamAssetRentLevReqestVO
+	 * @param vo GamAssetRentFeeMngtVO
 	 * @exception Exception
 	 */
-	public void insertAssetRentLevReqest(GamAssetRentFeeMngtVO vo){
-		insert("gamAssetRentFeeMngtDao.insertAssetRentLevReqest_S", vo);
+	public void insertAssetRentFeeMngtLevReqest(GamAssetRentFeeMngtVO vo){
+		insert("gamAssetRentFeeMngtDao.insertAssetRentFeeMngtLevReqest_S", vo);
 	}
 
 	/**
-	 * 고지서 출력 리스트를 조회한다.
+	 * 고지서 정보를 조회한다.
 	 * @param searchVO
 	 * @return
 	 * @throws Exception
 	 */
-	public List selectNpticPrintInfo(Map searchVO) throws Exception {
-        return list("gamAssetRentFeeMngtDao.selectNticPrintFeeList_D", searchVO);
+	public Map selectNpticPrintInfo(GamAssetRentFeeMngtVO searchVO) throws Exception {
+        return (Map) selectByPk("gamAssetRentFeeMngtDao.selectNticPrintFeeList_S", searchVO);
 	}
 
 	/**
-	 * 세금계산서를 출력한다.
+	 * 연체금만 있는 고지서를 조회한다.
 	 * @param searchVO
 	 * @return
 	 * @throws Exception
 	 */
+	public List selectNpticPrintInfo2(Map searchVO) throws Exception {
+        return list("gamAssetRentFeeMngtDao.selectNticPrintFeeList2_D", searchVO);
+	}
+
 	public List selectTaxNtcPrintInfo(Map searchVO) throws Exception {
         return list("gamAssetRentFeeMngtDao.selectTaxNticPrintFeeList_D", searchVO);
+	}
+
+	public void updateAssetRentFeeMngtListDetail(GamAssetRentFeeMngtVO vo)
+			throws Exception {
+		update("gamAssetRentFeeMngtDao.updateAssetRentFeeMngtListDetail_S", vo);
 	}
 
 	public List selectAssetRentFeeDetailList(GamAssetRentFeeMngtVO searchVO) {
@@ -144,9 +161,36 @@ public class GamAssetRentFeeMngtDao extends YGPAAbstractDAO {
 		return (Map) selectByPk("gamAssetRentFeeMngtDao.selectAssetRentFeeDetailSumPk_S", searchVO);
 	}
 
-	public void updateAssetRentFeeMngtListDetail(GamAssetRentFeeMngtVO vo)
-			throws Exception {
-		update("gamAssetRentFeeMngtDao.updateAssetRentFeeMngtListDetail_S", vo);
+	/**
+	 * @param vo
+	 */
+	public void updateLevReqestNhtPrintYn(GamAssetRentFeeMngtVO vo) {
+        update("gamAssetRentFeeMngtDao.updateLevReqestNhtPrintYn_S", vo);
 	}
+
+	/**
+	 * 연체 고지 출력 처리
+	 * @param map
+	 */
+	public void updateUnpaidBillPrintYn(Map map) {
+        update("gamAssetRentFeeMngtDao.updateUnpaidBillPrintYn_S", map);
+	}
+
+	/**
+	 * @param map
+	 */
+	public void updateRevCollBillPrintYn(Map map) {
+        update("gamAssetRentFeeMngtDao.updateRevCollBillPrintYn_S", map);
+	}
+
+	/**
+	 * @param map
+	 * @return
+	 */
+	public Map selectRevCollF(Map map) {
+        return (EgovMap) selectByPk("gamAssetRentFeeMngtDao.selectRevCollF", map);
+	}
+
+
 
 }

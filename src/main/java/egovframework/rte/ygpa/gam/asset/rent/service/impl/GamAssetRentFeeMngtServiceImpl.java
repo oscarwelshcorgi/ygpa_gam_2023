@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.asset.rent.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -10,24 +11,23 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
-import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtService;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO;
 
+
 /**
- * @Class Name : GamAssetRentFeeMngtServiceImpl.java
- * @Description : 자산임대료고지관리 Business Implement class
+ * @Class Name : GamAssetRentFeeMngtSeriveImpl.java
+ * @Description : 자산임대료관리  Implement class
  * @Modification Information
  *
- * @author heroin
- * @since 2014-01-10
+ * @author domh
+ * @since 2014-01-14
  * @version 1.0
  * @see
  *
  *  Copyright (C)  All right reserved.
  */
 @Service("gamAssetRentFeeMngtService")
-
 public class GamAssetRentFeeMngtServiceImpl  extends AbstractServiceImpl implements GamAssetRentFeeMngtService {
 
 	@Resource(name="gamAssetRentFeeMngtDao")
@@ -41,8 +41,8 @@ public class GamAssetRentFeeMngtServiceImpl  extends AbstractServiceImpl impleme
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectAssetRentFeeList(GamAssetRentFeeMngtVO searchVO) throws Exception {
-        return gamAssetRentFeeMngtDao.selectAssetRentFeeList(searchVO);
+    public List selectAssetRentFeeMngtList(GamAssetRentFeeMngtVO searchVO) throws Exception {
+        return gamAssetRentFeeMngtDao.selectAssetRentFeeMngtList(searchVO);
     }
 
     /**
@@ -51,8 +51,8 @@ public class GamAssetRentFeeMngtServiceImpl  extends AbstractServiceImpl impleme
 	 * @return cnt
 	 * @exception
 	 */
-    public int selectAssetRentFeeListTotCnt(GamAssetRentFeeMngtVO searchVO) throws Exception {
-		return gamAssetRentFeeMngtDao.selectAssetRentFeeListTotCnt(searchVO);
+    public int selectAssetRentFeeMngtListTotCnt(GamAssetRentFeeMngtVO searchVO) throws Exception {
+		return gamAssetRentFeeMngtDao.selectAssetRentFeeMngtListTotCnt(searchVO);
 	}
 
     /**
@@ -61,8 +61,8 @@ public class GamAssetRentFeeMngtServiceImpl  extends AbstractServiceImpl impleme
 	 * @return 자산임대료고지관리목록
 	 * @exception Exception
 	 */
-    public GamAssetRentFeeMngtVO selectAssetRentFeeSum(GamAssetRentFeeMngtVO searchVO) throws Exception {
-        return gamAssetRentFeeMngtDao.selectAssetRentFeeSum(searchVO);
+    public GamAssetRentFeeMngtVO selectAssetRentFeeMngtSum(GamAssetRentFeeMngtVO searchVO) throws Exception {
+        return gamAssetRentFeeMngtDao.selectAssetRentFeeMngtSum(searchVO);
     }
 
     /**
@@ -70,7 +70,20 @@ public class GamAssetRentFeeMngtServiceImpl  extends AbstractServiceImpl impleme
 	 * @param vo GamAssetRentFeeMngtVO
 	 * @exception Exception
 	 */
+	public void updateAssetRentFeeMngt(GamAssetRentFeeMngtVO vo) throws Exception {
+		gamAssetRentFeeMngtDao.updateAssetRentFeeMngt(vo);
+	}
+
+	/**
+	 * 사용료를 변경한다.
+	 * @param vo
+	 * @throws Exception
+	 */
 	public void updateAssetRentFee(GamAssetRentFeeMngtVO vo) throws Exception {
+		BigDecimal nticAmt=new BigDecimal(vo.getFee());
+		nticAmt=nticAmt.add(new BigDecimal(vo.getVat()));
+		vo.setNticAmt(nticAmt.toString());
+
 		gamAssetRentFeeMngtDao.updateAssetRentFee(vo);
 	}
 
@@ -80,8 +93,8 @@ public class GamAssetRentFeeMngtServiceImpl  extends AbstractServiceImpl impleme
 	 * @return 자산임대료고지관리정보
 	 * @exception Exception
 	 */
-    public GamAssetRentFeeMngtVO selectAssetRentFeeInfo(GamAssetRentFeeMngtVO searchVO) throws Exception {
-        return gamAssetRentFeeMngtDao.selectAssetRentFeeInfo(searchVO);
+    public GamAssetRentFeeMngtVO selectAssetRentFeeMngtInfo(GamAssetRentFeeMngtVO searchVO) throws Exception {
+        return gamAssetRentFeeMngtDao.selectAssetRentFeeMngtInfo(searchVO);
     }
 
     /**
@@ -108,8 +121,8 @@ public class GamAssetRentFeeMngtServiceImpl  extends AbstractServiceImpl impleme
 	 * @param vo GamAssetRentFeeMngtVO
 	 * @exception Exception
 	 */
-	public void deleteAssetRentFee(GamAssetRentFeeMngtVO vo) throws Exception {
-		gamAssetRentFeeMngtDao.deleteAssetRentFee(vo);
+	public void deleteAssetRentFeeMngt(GamAssetRentFeeMngtVO vo) throws Exception {
+		gamAssetRentFeeMngtDao.deleteAssetRentFeeMngt(vo);
 	}
 
 	/**
@@ -117,58 +130,72 @@ public class GamAssetRentFeeMngtServiceImpl  extends AbstractServiceImpl impleme
 	 * @param vo GamAssetRentFeeMngtVO
 	 * @exception Exception
 	 */
-	public void insertAssetRentLevReqest(GamAssetRentFeeMngtVO vo) throws Exception {
-		gamAssetRentFeeMngtDao.insertAssetRentLevReqest(vo);
+	public void insertAssetRentFeeMngtLevReqest(GamAssetRentFeeMngtVO vo) throws Exception {
+		gamAssetRentFeeMngtDao.insertAssetRentFeeMngtLevReqest(vo);
 	}
 
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtService#selectNpticPrintInfo(java.util.Map)
-	 */
 	@Override
-	public List selectNpticPrintInfo(Map searchVO) throws Exception {
+	public Map selectNpticPrintInfo(GamAssetRentFeeMngtVO searchVO) throws Exception {
 		return gamAssetRentFeeMngtDao.selectNpticPrintInfo(searchVO);
 	}
 
-
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtService#selectTaxNtcPrintInfo(java.util.Map)
-	 */
 	@Override
 	public List selectTaxNtcPrintInfo(Map searchVO) throws Exception {
 		return gamAssetRentFeeMngtDao.selectTaxNtcPrintInfo(searchVO);
 	}
 
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtService#selectAssetRentFeeDetailList(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO)
-	 */
-	@Override
-	public List selectAssetRentFeeDetailList(GamAssetRentFeeMngtVO searchVO) {
-		return gamAssetRentFeeMngtDao.selectAssetRentFeeDetailList(searchVO);
-	}
-
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtService#selectAssetRentFeeDetailMstPk(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO)
-	 */
-	@Override
-	public Map selectAssetRentFeeDetailMstPk(GamAssetRentFeeMngtVO searchVO) {
-		return gamAssetRentFeeMngtDao.selectAssetRentFeeDetailMstPk(searchVO);
-	}
-
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtService#selectAssetRentFeeDetailSumPk(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO)
-	 */
-	@Override
-	public Map selectAssetRentFeeDetailSumPk(GamAssetRentFeeMngtVO searchVO) {
-		return gamAssetRentFeeMngtDao.selectAssetRentFeeDetailSumPk(searchVO);
-	}
-
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtService#updateAssetRentFeeMngtListDetail(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO)
-	 */
 	@Override
 	public void updateAssetRentFeeMngtListDetail(GamAssetRentFeeMngtVO vo)
 			throws Exception {
 		gamAssetRentFeeMngtDao.updateAssetRentFeeMngtListDetail(vo);
 	}
 
+	@Override
+	public List selectAssetRentFeeDetailList(GamAssetRentFeeMngtVO searchVO) {
+		return gamAssetRentFeeMngtDao.selectAssetRentFeeDetailList(searchVO);
+	}
+
+	@Override
+	public Map selectAssetRentFeeDetailMstPk(GamAssetRentFeeMngtVO searchVO) {
+		return gamAssetRentFeeMngtDao.selectAssetRentFeeDetailMstPk(searchVO);
+	}
+
+	@Override
+	public Map selectAssetRentFeeDetailSumPk(GamAssetRentFeeMngtVO searchVO) {
+		return gamAssetRentFeeMngtDao.selectAssetRentFeeDetailSumPk(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtService#selectNpticPrintInfo2(java.util.Map)
+	 */
+	@Override
+	public List selectNpticPrintInfo2(Map searchVO) throws Exception {
+		return gamAssetRentFeeMngtDao.selectNpticPrintInfo2(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService#updateNticPrintYn(java.util.Map)
+	 */
+//	@Override
+//	public void updateNticPrintState(GamAssetRentFeeMngtVO vo) throws Exception {
+//		Map map = gamAssetRentFeeMngtDao.selectNpticPrintInfo(vo);
+//		if(vo.getNhtPrintYn().equals(map.get("nhtPrintYn"))) {
+//			log.debug("이미 처리 된 자료 입니다.");
+//			return;
+//		}
+//		gamAssetRentFeeMngtDao.updateLevReqestNhtPrintYn(vo);
+//		if(map.get("arrrgNo")!=null && "".equals(map.get("arrrgNo"))) {
+//			// 연체 고지
+//			gamAssetRentFeeMngtDao.updateUnpaidBillPrintYn(map);
+//		}
+//		gamAssetRentFeeMngtDao.updateRevCollBillPrintYn(map);
+//
+//		// 2014-08-13 전자고지 출력
+//		if("Y"==vo.getNhtPrintYn()) {
+//	    	egiroPrint(map);
+//		}
+//		else {
+//			egiroPrintCancel(map);
+//		}
+//	}
 }

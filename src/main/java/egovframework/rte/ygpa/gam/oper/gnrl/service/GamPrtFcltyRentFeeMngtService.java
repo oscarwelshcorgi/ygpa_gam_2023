@@ -3,9 +3,6 @@ package egovframework.rte.ygpa.gam.oper.gnrl.service;
 import java.util.List;
 import java.util.Map;
 
-import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeeMngtVO;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO;
-
 /**
  * @Class Name : GamPrtFcltyRentFeeMngtService.java
  * @Description : 항만시설사용료관리
