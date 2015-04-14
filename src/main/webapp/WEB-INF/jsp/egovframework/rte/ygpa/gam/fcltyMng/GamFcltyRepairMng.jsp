@@ -163,6 +163,7 @@ GamFcltyRepairMngModule.prototype.showFcltsAtchFileViewPopup = function() {
 
 
 	if (atchFileSeq == "") {
+		alert("사진을 저장하셔야 파일설명을 입력하실수 있습니다.");
 		return;
 	}
 	if (selImg != "") {
@@ -379,7 +380,7 @@ GamFcltyRepairMngModule.prototype.loadData = function(){
 
 	// tabs2 항목 초기화
 	this.makeFormValues('#fcltyRepairMngListVO', {});
-
+	this.$("#fcltyRepairFileList").flexEmptyData();
 	// tabs3 그리드 초기화
 	this.$('#flawRprObjFcltsF').flexEmptyData();
 	this.$('#gamObjFcltsForm input').val('');
@@ -522,7 +523,7 @@ GamFcltyRepairMngModule.prototype.addData = function() {
 	this.$("#fcltsJobSe").val(EMD.userinfo["mngFcltyCd"]);
 	var toYear = new Date().getFullYear();
 	this.$("#enforceYear").val(toYear);
-	this.$("fcltyRepairFileList").flexEmptyData();
+	this.$("#fcltyRepairFileList").flexEmptyData();
 
 	// tabs3 초기화
 	this.$("#flawRprObjFcltsF").flexEmptyData();
@@ -746,15 +747,15 @@ GamFcltyRepairMngModule.prototype.saveData = function() {
 	 			module._mode = "modify";
 	 		}
 	 		alert(result.resultMsg);
-	 		module.loadData();
-	 		this.$("#fcltyRepairMngListTab").tabs("option", {active: 0});
+	 		module.loadDetail();
+	 		this.$("#fcltyRepairMngListTab").tabs("option", {active: 1});
 	 	});
 	}else{
 	 	this.doAction('/fcltyMng/updateFcltyRepairMng.do', inputVO, function(module, result) {
 
 	 		if(result.resultCode == "0"){
-	 		module.loadData();
-	 		this.$("#fcltyRepairMngListTab").tabs("option", {active: 0});
+	 		module.loadDetail();
+	 		this.$("#fcltyRepairMngListTab").tabs("option", {active: 1});
 	 			}
 	 		alert(result.resultMsg);
 	 	});
