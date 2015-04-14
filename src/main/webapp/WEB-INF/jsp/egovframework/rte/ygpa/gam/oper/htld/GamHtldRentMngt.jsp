@@ -641,7 +641,7 @@ GamHtldRentMngtModule.prototype.getNumber = function(value) {
             			nticVo:{ prtAtCode: rows[0].prtAtCode, mngYear: rows[0].mngYear, mngNo: rows[0].mngNo, mngCnt: rows[0].mngCnt }
             	};
         }
-       	 	EMD.util.create_window('배후단지임대료관리', '/oper/htld/gamHtldRentFeeMngt.do', null, opts);
+       	 	EMD.util.create_window('gamHtldRentFeeMngt', '배후단지임대료관리', '/oper/htld/gamHtldRentFeeMngt.do', null, opts);
 			break;
 
         case 'popupEntrpsInfoInput': // 팝업을 호출한다.(자산임대신청)
@@ -657,7 +657,7 @@ GamHtldRentMngtModule.prototype.getNumber = function(value) {
             });
             break;
         case 'btnMangeCharger': // 업체정보관리
-       	 	EMD.util.create_window('업체정보 관리', '/code/gamCmpyInfoMngt.do', null, {entrpscd:this.$('#entrpscd').val()});
+       	 	EMD.util.create_window('gamCmpyInfoMngt', '업체정보 관리', '/code/gamCmpyInfoMngt.do', null, {entrpscd:this.$('#entrpscd').val()});
         	break;
         case 'btnInsertItemDetail':	//임대상세추가
         	this.addRentDetailItem();
@@ -678,7 +678,7 @@ GamHtldRentMngtModule.prototype.getNumber = function(value) {
             			nticVo:{ prtAtCode: rows[0].prtAtCode, mngYear: rows[0].mngYear, mngNo: rows[0].mngNo, mngCnt: rows[0].mngCnt }
             	};
         	}
-        	EMD.util.create_window('배후단지 실적평가 관리', '/oper/htld/gamHtldRentAssessMngt.do', null, opts);
+        	EMD.util.create_window('gamHtldRentAssessMngt', '배후단지 실적평가 관리', '/oper/htld/gamHtldRentAssessMngt.do', null, opts);
         	break;
         case 'btnCallBizNticAssess':
             var rows = this.$('#assetRentMngtList').selectedRows();
@@ -690,7 +690,7 @@ GamHtldRentMngtModule.prototype.getNumber = function(value) {
             			nticVo:{ prtAtCode: rows[0].prtAtCode, mngYear: rows[0].mngYear, mngNo: rows[0].mngNo, mngCnt: rows[0].mngCnt }
             	};
         	}
-        	EMD.util.create_window('배후단지 임대료 고지 관리', '/oper/htld/gamHtldRentFeeMngt.do', null, opts);
+        	EMD.util.create_window('gamHtldRentFeeMngt', '배후단지 임대료 고지 관리', '/oper/htld/gamHtldRentFeeMngt.do', null, opts);
         	break;
     }
 };

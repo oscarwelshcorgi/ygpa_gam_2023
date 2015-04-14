@@ -1907,7 +1907,7 @@
                 }
                 break;
             case 'btnMangeCharger': // 업체정보관리
-           	 	EMD.util.create_window('업체정보 관리', '/code/gamCmpyInfoMngt.do', null, {entrpscd:this.$('#entrpscd').val()});
+           	 	EMD.util.create_window('gamCmpyInfoMngt', '업체정보 관리', '/code/gamCmpyInfoMngt.do', null, {entrpscd:this.$('#entrpscd').val()});
             	break;
 
             case 'btnAssetRentMngtListExcelDownload':	// 엑셀 다운로드
@@ -1924,7 +1924,7 @@
                 			nticVo:{ prtAtCode: rows[0].prtAtCode, mngYear: rows[0].mngYear, mngNo: rows[0].mngNo, mngCnt: rows[0].mngCnt }
                 	};
                 }
-           	 	EMD.util.create_window('자산임대사용료관리', '/asset/rent/gamAssetRentFeeMngt.do', null, opts);
+           	 	EMD.util.create_window('gamAssetRentFeeMngt', '자산임대사용료관리', '/asset/rent/gamAssetRentFeeMngt.do', null, opts);
             	break;
         }
     };

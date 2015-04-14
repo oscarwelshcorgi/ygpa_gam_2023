@@ -184,7 +184,7 @@ GamMarineCenterFeeExprInqireModule.prototype.loadDetailForm = function() {
 	        	               'nticno': row.nticno
 	        	               };
 
-	        	EMD.util.create_window('마린센터임대료관리', EMD.context_root+'/oper/center/gamMarineCenterRentFeeMngt.do', null, {action: "selectRentFee", nticVo: params});
+	        	EMD.util.create_window('gamMarineCenterRentFeeMngt', '마린센터임대료관리', EMD.context_root+'/oper/center/gamMarineCenterRentFeeMngt.do', null, {action: "selectRentFee", nticVo: params});
 	    	}
 	        else alert('고지내역을 선택 하십시요.')
 			break;

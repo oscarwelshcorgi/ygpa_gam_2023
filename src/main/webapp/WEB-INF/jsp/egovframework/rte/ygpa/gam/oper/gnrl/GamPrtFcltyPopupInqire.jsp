@@ -85,16 +85,16 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
          break;
 
      case 'btnPrtFcltyRent':
-    	 EMD.util.create_window('항만시설 목록 관리', '/oper/gnrl/gamPrtFcltyRentMngt.do', null);
+    	 EMD.util.create_window('gamPrtFcltyRentMngt', '항만시설 목록 관리', '/oper/gnrl/gamPrtFcltyRentMngt.do', null);
     	 break;
      case 'btnPrtFcltyFeeMngt':
-    	 EMD.util.create_window('항만시설 사용료 관리', '/oper/gnrl/gamPrtFcltyRentFeeMngt.do', null);
+    	 EMD.util.create_window('gamPrtFcltyRentFeeMngt', '항만시설 사용료 관리', '/oper/gnrl/gamPrtFcltyRentFeeMngt.do', null);
     	 break;
      case 'btnPrtFcltyRentFeePayDtlsMngt':
-    	 EMD.util.create_window('항만시설 사용료납부관리', '/oper/gnrl/gamPrtFcltyRentFeePaySttusMngt.do', null);
+    	 EMD.util.create_window('gamPrtFcltyRentFeePaySttusMngt', '항만시설 사용료납부관리', '/oper/gnrl/gamPrtFcltyRentFeePaySttusMngt.do', null);
     	 break;
      case 'btnPrtFcltyUseExprInqire':
-    	 EMD.util.create_window('항만시설사용 만기도래자료조회', '/oper/gnrl/gamPrtFcltyUseExprInqire.do', null);
+    	 EMD.util.create_window('gamPrtFcltyUseExprInqire', '항만시설사용 만기도래자료조회', '/oper/gnrl/gamPrtFcltyUseExprInqire.do', null);
     	 break;
  }
 };

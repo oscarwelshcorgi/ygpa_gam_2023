@@ -445,7 +445,7 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
             			nticVo:{ prtAtCode: rows[0].prtAtCode, mngYear: rows[0].mngYear, mngNo: rows[0].mngNo, mngCnt: rows[0].mngCnt, nticCnt: rows[0].mngCnt }
             	};
             }
-       	 	EMD.util.create_window('항만관련부지납부현황관리', '/oper/shed/gamCmmnCntrRentFeePaySttusMngt.do', null, opts);
+       	 	EMD.util.create_window('gamCmmnCntrRentFeePaySttusMngt', '항만관련부지납부현황관리', '/oper/shed/gamCmmnCntrRentFeePaySttusMngt.do', null, opts);
         	break;
     }
 };

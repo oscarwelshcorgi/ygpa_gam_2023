@@ -19,7 +19,7 @@ GamMapPopupModule.prototype.loadComplete = function() {
 GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         case 'fcltyCdMngt':
-        	EMD.util.create_window("시설코드 관리", "/code/assets/gamAssetCodeMngt.do", null, {
+        	EMD.util.create_window("gamAssetCodeMngt", "시설코드 관리", "/code/assets/gamAssetCodeMngt.do", null, {
         		action: "prtFcltyInqire"
     			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
     			,gisAssetsCd: this.$('#gisAssetsCd').val()
@@ -27,7 +27,7 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
 			});
             break;
         case 'fcltyCdInqire':
-        	EMD.util.create_window("시설코드 조회", "/code/assets/gamAssetCodeList.do", null, {
+        	EMD.util.create_window("gamAssetCodeList", "시설코드 조회", "/code/assets/gamAssetCodeList.do", null, {
         		action: "prtFcltyInqire"
        			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
        			,gisAssetsCd: this.$('#gisAssetsCd').val()
@@ -35,7 +35,7 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
 			});
         	break;
         case 'assignFeature':
-        	EMD.util.create_window("시설 제원 코드 지정", "/fclty/gamConstFcltySpecMng.do", null, {
+        	EMD.util.create_window("gamConstFcltySpecMng", "시설 제원 코드 지정", "/fclty/gamConstFcltySpecMng.do", null, {
         		action: "setFeature"
     			,feature: this.getFeature()
 			});

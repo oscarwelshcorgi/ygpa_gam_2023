@@ -85,16 +85,16 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
          break;
 
      case 'btnMarineCenterRent':
-    	 EMD.util.create_window('마린센터  목록 관리', '/oper/center/gamMarineCenterRentMngt.do', null);
+    	 EMD.util.create_window('gamMarineCenterRentMngt', '마린센터  목록 관리', '/oper/center/gamMarineCenterRentMngt.do', null);
     	 break;
      case 'btnMarineCenterFeeMngt':
-    	 EMD.util.create_window('마린센터  사용료 관리', '/oper/center/gamMarineCenterRentFeeMngt.do', null);
+    	 EMD.util.create_window('gamMarineCenterRentFeeMngt', '마린센터  사용료 관리', '/oper/center/gamMarineCenterRentFeeMngt.do', null);
     	 break;
      case 'btnMarineCenterRentFeePayDtlsMngt':
-    	 EMD.util.create_window('마린센터  사용료납부관리', '/oper/center/gamMarineCenterRentNticMngt.do', null);
+    	 EMD.util.create_window('gamMarineCenterRentNticMngt', '마린센터  사용료납부관리', '/oper/center/gamMarineCenterRentNticMngt.do', null);
     	 break;
      case 'btnMarineCenterUseExprInqire':
-    	 EMD.util.create_window('마린센터  만기도래자료조회', '/oper/center/gamMarineCenterUseExprInqire.do', null);
+    	 EMD.util.create_window('gamMarineCenterUseExprInqire', '마린센터  만기도래자료조회', '/oper/center/gamMarineCenterUseExprInqire.do', null);
     	 break;
  }
 };

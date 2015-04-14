@@ -1718,7 +1718,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
             }
             break;
         case 'btnMangeCharger': // 업체정보관리
-       	 	EMD.util.create_window('업체정보 관리', '/code/gamCmpyInfoMngt.do', null, {entrpscd:this.$('#entrpscd').val()});
+       	 	EMD.util.create_window('gamCmpyInfoMngt', '업체정보 관리', '/code/gamCmpyInfoMngt.do', null, {entrpscd:this.$('#entrpscd').val()});
         	break;
 
         case 'btnMarineCenterRentMngtListExcelDownload':	// 엑셀 다운로드

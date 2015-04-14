@@ -40,7 +40,7 @@ GamMapPopupModule.prototype.loadComplete = function(feature) {
 GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         case 'assetMngt':
-        	EMD.util.create_window(this.rentMngt.title, this.rentMngt.url, null, {
+        	EMD.util.create_window('assetMngt', this.rentMngt.title, this.rentMngt.url, null, {
         		action: "prtFcltyInqire"
     			,prtAtCode: this.$('#prtAtCode').val()
     			,mngYear: this.$('#mngYear').val()
@@ -49,7 +49,7 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
 			});
             break;
         case 'assetInqire':
-        	EMD.util.create_window(this.rentInqire.title, this.rentInqire.url, null, {
+        	EMD.util.create_window('assetInqire', this.rentInqire.title, this.rentInqire.url, null, {
         		action: "prtFcltyInqire"
       			,prtAtCode: this.$('#prtAtCode').val()
       			,mngYear: this.$('#mngYear').val()
@@ -58,7 +58,7 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
 			});
         	break;
         case 'assignFeature':
-        	EMD.util.create_window(this.rentMngt.title, this.rentMngt.url, null, {
+        	EMD.util.create_window('assignFeature', this.rentMngt.title, this.rentMngt.url, null, {
         		action: "setFeature"
        			,prtAtCode: this.$('#prtAtCode').val()
        			,mngYear: this.$('#mngYear').val()

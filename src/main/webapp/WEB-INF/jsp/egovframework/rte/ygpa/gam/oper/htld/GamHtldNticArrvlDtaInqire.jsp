@@ -172,7 +172,7 @@ GamHtldNticArrvlDtaInqireModule.prototype.loadDetailForm = function() {
 	        	               'nticno': row.nticno
 	        	               };
 
-	        	EMD.util.create_window('배후단지임대료관리', EMD.context_root+'/oper/htld/gamHtldRentFeeMngt.do', null, {action: "selectRentFee", nticVo: params});
+	        	EMD.util.create_window('gamHtldRentFeeMngt', '배후단지임대료관리', EMD.context_root+'/oper/htld/gamHtldRentFeeMngt.do', null, {action: "selectRentFee", nticVo: params});
 	    	}
 	        else alert('고지내역을 선택 하십시요.')
 			break;

@@ -82,7 +82,7 @@ GamAssetSttusInfoModule.prototype.loadComplete = function() {
 GamAssetSttusInfoModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         case 'assetInqire':
-        	EMD.util.create_window("자산정보 조회", "/code/assets/gamAssetCodeList.do", null, {
+        	EMD.util.create_window("gamAssetCodeList", "자산정보 조회", "/code/assets/gamAssetCodeList.do", null, {
         		action: "prtFcltyInqire"
        			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
        			,gisAssetsCd: this.$('#gisAssetsCd').val()

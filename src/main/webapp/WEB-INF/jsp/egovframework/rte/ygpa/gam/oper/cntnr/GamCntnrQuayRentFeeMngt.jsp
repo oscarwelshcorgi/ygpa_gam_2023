@@ -446,7 +446,7 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
             			nticVo:{ prtAtCode: rows[0].prtAtCode, mngYear: rows[0].mngYear, mngNo: rows[0].mngNo, mngCnt: rows[0].mngCnt, nticCnt: rows[0].mngCnt }
             	};
             }
-       	 	EMD.util.create_window('컨테이너부두 납부현황관리', '/oper/cntnr/gamCntnrQuayRentFeePaySttusMngt.do', null, opts);
+       	 	EMD.util.create_window('gamCntnrQuayRentFeePaySttusMngt', '컨테이너부두 납부현황관리', '/oper/cntnr/gamCntnrQuayRentFeePaySttusMngt.do', null, opts);
         	break;
     }
 };

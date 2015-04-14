@@ -1427,7 +1427,7 @@ GamFcltsFeeMngNticModule.prototype.deleteNticIssue = function() {
 		action: 'selectFcltsFeeMngInqire',
 		paramVo:{ mngMtYear: rows[0].mngMtYear, mngMtMon: rows[0].mngMtMon, mngFeeJobSe: rows[0].mngFeeJobSe }
 	};
-	EMD.util.create_window('시설물 관리비 납부현황 조회', '/mngFee/gamFcltsFeeMngInqire.do', null, formParams);
+	EMD.util.create_window('gamFcltsFeeMngInqire', '시설물 관리비 납부현황 조회', '/mngFee/gamFcltsFeeMngInqire.do', null, formParams);
 
 };
 

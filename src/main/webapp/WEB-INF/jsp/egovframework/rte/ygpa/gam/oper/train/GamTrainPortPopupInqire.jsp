@@ -85,16 +85,16 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
          break;
 
      case 'btnTrainPortRent':
-    	 EMD.util.create_window('철송장 목록 관리', '/oper/train/gamTrainPortRentMngt.do', null);
+    	 EMD.util.create_window('gamTrainPortRentMngt', '철송장 목록 관리', '/oper/train/gamTrainPortRentMngt.do', null);
     	 break;
      case 'btnTrainPortFeeMngt':
-    	 EMD.util.create_window('철송장 사용료 관리', '/oper/train/gamTrainPortRentFeeMngt.do', null);
+    	 EMD.util.create_window('gamTrainPortRentFeeMngt', '철송장 사용료 관리', '/oper/train/gamTrainPortRentFeeMngt.do', null);
     	 break;
      case 'btnTrainPortRentFeePayDtlsMngt':
-    	 EMD.util.create_window('철송장 사용료납부관리', '/oper/train/gamTrainPortRentFeePaySttusMngt.do', null);
+    	 EMD.util.create_window('gamTrainPortRentFeePaySttusMngt', '철송장 사용료납부관리', '/oper/train/gamTrainPortRentFeePaySttusMngt.do', null);
     	 break;
      case 'btnTrainPortUseExprInqire':
-    	 EMD.util.create_window('철송장 만기도래자료조회', '/oper/train/gamTrainPortUseExprInqire.do', null);
+    	 EMD.util.create_window('gamTrainPortUseExprInqire', '철송장 만기도래자료조회', '/oper/train/gamTrainPortUseExprInqire.do', null);
     	 break;
  }
 };

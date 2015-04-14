@@ -19,7 +19,7 @@ GamMapPopupModule.prototype.loadComplete = function(feature) {
 GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         case 'assetMngt':
-        	EMD.util.create_window("자산코드 관리", "/code/assets/gamAssetCodeMngt.do", null, {
+        	EMD.util.create_window("gamAssetCodeMngt", "자산코드 관리", "/code/assets/gamAssetCodeMngt.do", null, {
         		action: "prtFcltyInqire"
     			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
     			,gisAssetsCd: this.$('#gisAssetsCd').val()
@@ -27,7 +27,7 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
 			});
             break;
         case 'assetInqire':
-        	EMD.util.create_window("자산코드 조회", "/code/assets/gamAssetCodeList.do", null, {
+        	EMD.util.create_window("gamAssetCodeList", "자산코드 조회", "/code/assets/gamAssetCodeList.do", null, {
         		action: "prtFcltyInqire"
        			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
        			,gisAssetsCd: this.$('#gisAssetsCd').val()
@@ -35,7 +35,7 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
 			});
         	break;
         case 'assignFeature':
-        	EMD.util.create_window("자산코드 지정", "/code/assets/gamAssetCodeMngt.do", null, {
+        	EMD.util.create_window("gamAssetCodeMngt", "자산코드 지정", "/code/assets/gamAssetCodeMngt.do", null, {
         		action: "setFeature"
 				,addr: this.$('#addr').val()
     			,lnm: this.$('#lnm').val()

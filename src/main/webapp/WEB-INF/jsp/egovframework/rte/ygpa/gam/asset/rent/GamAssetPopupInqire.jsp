@@ -86,16 +86,16 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
          break;
 
      case 'btnAssetRent':
-    	 EMD.util.create_window('gamAssetRentMngt, ''자산임대관리', '/asset/rent/gamAssetRentMngt.do', null);
+    	 EMD.util.create_window('gamAssetRentMngt', '자산임대관리', '/asset/rent/gamAssetRentMngt.do', null);
     	 break;
      case 'btnAssetFeeMngt':
-    	 EMD.util.create_window('자산임대료고지관리', '/asset/rent/gamAssetRentFeeMngt.do', null);
+    	 EMD.util.create_window('gamAssetRentFeeMngt', '자산임대료고지관리', '/asset/rent/gamAssetRentFeeMngt.do', null);
     	 break;
      case 'btnAssetRentFeePayDtlsMngt':
-    	 EMD.util.create_window('자산임대료납부관리', '/asset/rent/gamAssetRentFeePayDtlsMngt.do', null);
+    	 EMD.util.create_window('gamAssetRentFeePayDtlsMngt', '자산임대료납부관리', '/asset/rent/gamAssetRentFeePayDtlsMngt.do', null);
     	 break;
      case 'btnAssetUseExprInqire':
-    	 EMD.util.create_window('자산임대만기도래자료조회', '/asset/rent/gamAssetUseExprInqire.do', null);
+    	 EMD.util.create_window('gamAssetUseExprInqire', '자산임대만기도래자료조회', '/asset/rent/gamAssetUseExprInqire.do', null);
     	 break;
  }
 };

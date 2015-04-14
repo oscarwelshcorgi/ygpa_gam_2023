@@ -185,7 +185,7 @@ GamTrainPortNticArrvlDtaInqireModule.prototype.loadDetailForm = function() {
 	        	               'nticno': row.nticno
 	        	               };
 
-	        	EMD.util.create_window('철송장임대료관리', EMD.context_root+'/oper/train/gamTrainPortRentFeeMngt.do', null, {action: "selectRentFee", nticVo: params});
+	        	EMD.util.create_window('gamTrainPortRentFeeMngt', '철송장임대료관리', EMD.context_root+'/oper/train/gamTrainPortRentFeeMngt.do', null, {action: "selectRentFee", nticVo: params});
 	    	}
 	        else alert('고지내역을 선택 하십시요.')
 			break;

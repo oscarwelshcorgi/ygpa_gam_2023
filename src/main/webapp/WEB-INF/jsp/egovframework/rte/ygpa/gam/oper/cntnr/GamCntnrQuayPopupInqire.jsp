@@ -90,16 +90,16 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
          break;
 
      case 'btnCntnrQuayRent':
-    	 EMD.util.create_window('컨테이너부두 목록 관리', '/oper/cntnr/gamCntnrQuayRentMngt.do', null);
+    	 EMD.util.create_window('gamCntnrQuayRentMngt', '컨테이너부두 목록 관리', '/oper/cntnr/gamCntnrQuayRentMngt.do', null);
     	 break;
      case 'btnCntnrQuayFeeMngt':
-    	 EMD.util.create_window('컨테이너부두 사용료 관리', '/oper/cntnr/gamCntnrQuayRentFeeMngt.do', null);
+    	 EMD.util.create_window('gamCntnrQuayRentFeeMngt', '컨테이너부두 사용료 관리', '/oper/cntnr/gamCntnrQuayRentFeeMngt.do', null);
     	 break;
      case 'btnCntnrQuayRentFeePayDtlsMngt':
-    	 EMD.util.create_window('컨테이너부두 사용료납부관리', '/oper/cntnr/gamCntnrQuayRentFeePaySttusMngt.do', null);
+    	 EMD.util.create_window('gamCntnrQuayRentFeePaySttusMngt', '컨테이너부두 사용료납부관리', '/oper/cntnr/gamCntnrQuayRentFeePaySttusMngt.do', null);
     	 break;
      case 'btnCntnrQuayUseExprInqire':
-    	 EMD.util.create_window('컨테이너부두 만기도래자료조회', '/oper/cntnr/gamCntnrQuayUseExprInqire.do', null);
+    	 EMD.util.create_window('gamCntnrQuayUseExprInqire', '컨테이너부두 만기도래자료조회', '/oper/cntnr/gamCntnrQuayUseExprInqire.do', null);
     	 break;
  }
 };

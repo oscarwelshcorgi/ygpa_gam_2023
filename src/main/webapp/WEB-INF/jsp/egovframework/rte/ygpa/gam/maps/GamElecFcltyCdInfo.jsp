@@ -47,7 +47,7 @@ GamMapPopupModule.prototype.loadComplete = function() {
 GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
         case 'fcltyCdMngt':
-        	EMD.util.create_window("전기시설 제원 관리", "/fclty/gamElectyFcltySpecMng.do", null, {
+        	EMD.util.create_window("gamElectyFcltySpecMng", "전기시설 제원 관리", "/fclty/gamElectyFcltySpecMng.do", null, {
         		action: "prtFcltyInqire"
        			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
        			,gisAssetsCd: this.$('#gisAssetsCd').val()
@@ -59,7 +59,7 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
 			});
             break;
         case 'fcltyCdInqire':
-        	EMD.util.create_window("전기시설 제원 조회", "/fclty/gamElectyFcltySpecInqire.do", null, {
+        	EMD.util.create_window("gamElectyFcltySpecInqire", "전기시설 제원 조회", "/fclty/gamElectyFcltySpecInqire.do", null, {
         		action: "prtFcltyInqire"
        			,gisPrtAtCode: this.$('#gisAssetsPrtAtCode').val()
        			,gisAssetsCd: this.$('#gisAssetsCd').val()
@@ -71,7 +71,7 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
 			});
         	break;
         case 'fcltyFlawRpr':
-        	EMD.util.create_window("시설물 하자보수 관리", "/fcltyMng/gamFcltyRepairMng.do", null, {
+        	EMD.util.create_window("gamFcltyRepairMng", "시설물 하자보수 관리", "/fcltyMng/gamFcltyRepairMng.do", null, {
         		action: "manage"
            		,fcltsMngGroupNo: this.$('#fcltsMngGroupNo').val()
                	,fcltsMngGroupNm: this.$('#fcltsMngGroupNm').val()
@@ -79,7 +79,7 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
 			});
         	break;
         case 'fcltyMntnRpr':
-        	EMD.util.create_window("시설물 유지보수 관리", "/fcltyMng/gamFcltyMaintMng.do", null, {
+        	EMD.util.create_window("gamFcltyMaintMng", "시설물 유지보수 관리", "/fcltyMng/gamFcltyMaintMng.do", null, {
         		action: "manage"
                		,fcltsMngGroupNo: this.$('#fcltsMngGroupNo').val()
                	,fcltsMngGroupNm: this.$('#fcltsMngGroupNm').val()
@@ -87,7 +87,7 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
 			});
         	break;
         case 'fcltyQcMng':
-        	EMD.util.create_window("시설물 점검기록 관리", "/fcltyMng/gamFcltyQcwWrtMng.do", null, {
+        	EMD.util.create_window("gamFcltyQcwWrtMng", "시설물 점검기록 관리", "/fcltyMng/gamFcltyQcwWrtMng.do", null, {
         		action: "manage"
                		,fcltsMngGroupNo: this.$('#fcltsMngGroupNo').val()
                	,fcltsMngGroupNm: this.$('#fcltsMngGroupNm').val()
@@ -95,7 +95,7 @@ GamMapPopupModule.prototype.onButtonClick = function(buttonId) {
 			});
         	break;
         case 'assignFeature':
-        	EMD.util.create_window("시설 제원 코드 지정", "/fclty/gamElctyFcltySpecMng.do", null, {
+        	EMD.util.create_window("gamElctyFcltySpecMng", "시설 제원 코드 지정", "/fclty/gamElctyFcltySpecMng.do", null, {
         		action: "setFeature"
     			,feature: this.getFeature()
 			});

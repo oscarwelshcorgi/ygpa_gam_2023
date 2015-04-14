@@ -1885,7 +1885,7 @@ GamFcltsMngFeeMngModule.prototype.openFcltsFeeMngNticModule = function() {
 		action: 'selectFcltsFeeMngNtic',
 		paramVo:{ mngMtYear: rows[0].mainMngMtYear, mngMtMon: rows[0].mainMngMtMon, mngFeeJobSe: rows[0].mainMngFeeJobSe }
 	};
-	EMD.util.create_window('시설물 관리비 고지', '/mngFee/gamFcltsFeeMngNtic.do', null, formParams);
+	EMD.util.create_window('gamFcltsFeeMngNtic', '시설물 관리비 고지', '/mngFee/gamFcltsFeeMngNtic.do', null, formParams);
 
 };
 
@@ -1907,7 +1907,7 @@ GamFcltsMngFeeMngModule.prototype.openFcltsFeeMngInqireModule = function() {
 		action: 'selectFcltsFeeMngInqire',
 		paramVo:{ mngMtYear: rows[0].mainMngMtYear, mngMtMon: rows[0].mainMngMtMon, mngFeeJobSe: rows[0].mainMngFeeJobSe }
 	};
-	EMD.util.create_window('시설물 관리비 납부현황 조회', '/mngFee/gamFcltsFeeMngInqire.do', null, formParams);
+	EMD.util.create_window('gamFcltsFeeMngInqire', '시설물 관리비 납부현황 조회', '/mngFee/gamFcltsFeeMngInqire.do', null, formParams);
 
 };
 

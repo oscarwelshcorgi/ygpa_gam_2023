@@ -184,7 +184,7 @@ GamCntnrQuayNticArrvlDtaInqireModule.prototype.loadDetailForm = function() {
 	        	               'nticno': row.nticno
 	        	               };
 
-	        	EMD.util.create_window('컨테이너부두임대료관리', EMD.context_root+'/oper/cntnr/gamCntnrQuayRentFeeMngt.do', null, {action: "selectRentFee", nticVo: params});
+	        	EMD.util.create_window('gamCntnrQuayRentFeeMngt', '컨테이너부두임대료관리', EMD.context_root+'/oper/cntnr/gamCntnrQuayRentFeeMngt.do', null, {action: "selectRentFee", nticVo: params});
 	    	}
 	        else alert('고지내역을 선택 하십시요.')
 			break;

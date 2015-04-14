@@ -45,16 +45,16 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
 
  switch(buttonId) {
      case 'btnHtldRent':
-    	 EMD.util.create_window('배후단지 계약 관리', '/oper/htld/gamHtldRentMngt.do', null);
+    	 EMD.util.create_window('gamHtldRentMngt', '배후단지 계약 관리', '/oper/htld/gamHtldRentMngt.do', null);
     	 break;
      case 'btnHtldFeeMngt':
-    	 EMD.util.create_window('배후단지 임대료 관리', '/oper/htld/gamHtldRentFeeMngt.do', null);
+    	 EMD.util.create_window('gamHtldRentFeeMngt', '배후단지 임대료 관리', '/oper/htld/gamHtldRentFeeMngt.do', null);
     	 break;
      case 'btnHtldRentFeePayDtlsMngt':
-    	 EMD.util.create_window('배후단지 임대료 미납관리', '/oper/htld/gamHtldRentFeePaySttusMngt.do', null);
+    	 EMD.util.create_window('gamHtldRentFeePaySttusMngt', '배후단지 임대료 미납관리', '/oper/htld/gamHtldRentFeePaySttusMngt.do', null);
     	 break;
      case 'btnHtldUseExprInqire':
-    	 EMD.util.create_window('배후단지 계약만기도래조회', '/oper/htld/gamHtldUseExprInqire.do', null);
+    	 EMD.util.create_window('gamHtldUseExprInqire', '배후단지 계약만기도래조회', '/oper/htld/gamHtldUseExprInqire.do', null);
     	 break;
  }
 };
