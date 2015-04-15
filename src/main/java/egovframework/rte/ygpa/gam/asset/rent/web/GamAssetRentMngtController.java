@@ -1090,7 +1090,7 @@ public class GamAssetRentMngtController {
 		model.addAttribute("gamAssetRentMngtInfo", GamAssetRentLevReqestVO);
 		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
 
-    	return "/ygpa/gam/asset/rent/GamPopupAssetRentMngtPrmisn";
+    	return "/ygpa/gam/asset/rent/GamPopupAssetRentPrmisn";
     }
 
     /**
