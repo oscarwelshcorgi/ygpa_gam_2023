@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+
 /**
  * @Class Name : GamAssetRentFeePayDtlsMngtService.java
  * @Description : 자산임대료납부관리 Business class
@@ -19,22 +20,43 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 public interface GamAssetRentFeePayDtlsMngtService {
 
     /**
-	 * 자산임대료납부관리 목록을 조회한다.
+	 * 자산임대납부현황관리 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
 	 */
-    List selectAssetRentFeePayDtlsList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
+    List selectAssetRentFeePayDtlsMngtList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
 
     /**
-	 * 자산임대료납부관리 목록 총 갯수를 조회한다.
+	 * 자산임대납부현황관리 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
 	 */
-    int selectAssetRentFeePayDtlsListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
+    int selectAssetRentFeePayDtlsMngtListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
 
-	/**
+    /**
+	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 자산임대납부현황관리목록
+	 * @exception Exception
+	 */
+    GamAssetRentFeePayDtlsMngtVO selectAssetRentFeePayDtlsSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
+
+
+
+
+
+    /**
+	 * 고지금액합계, 수납금액합계
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return vo
+	 * @exception Exception
+	 */
+    GamAssetRentFeePayDtlsMngtVO selectAssetRentFeePayDtlsMngtSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
+
+
+    /**
 	 * 자산임대 상세 마스터 내역을 조회한다.
 	 * @param searchVO
 	 * @return
@@ -58,23 +80,6 @@ public interface GamAssetRentFeePayDtlsMngtService {
 	 * @throws Exception
 	 */
 	EgovMap selectAssetRentFeePayDtlsMngtDetailSumPk(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
-
-    /**
-	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 자산임대료납부관리목록
-	 * @exception Exception
-	 */
-    GamAssetRentFeePayDtlsMngtVO selectAssetRentFeePayDtlsSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
-
-
-    /**
-	 * 고지금액합계, 수납금액합계
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return vo
-	 * @exception Exception
-	 */
-    GamAssetRentFeePayDtlsMngtVO selectAssetRentFeePayDtlsMngtSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
 
 	/**
 	 * 연체 세입 목록을 조회한다.
@@ -108,6 +113,9 @@ public interface GamAssetRentFeePayDtlsMngtService {
 	 */
 	List mergeNticArrrgListMngt(Map mergeMap) throws Exception;
 
+
+
+
 	/** change**
      * 납부관리 연체 내역을 조회한다.
      * @param searchVO
@@ -118,13 +126,20 @@ public interface GamAssetRentFeePayDtlsMngtService {
 
 
     /** change**
-	 * 항만시설 연체 목록 총 갯수를 조회한다.
+	 * 자산임대 연체 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
 	 */
     int selectAssetRentFeePayDtlsMngtDlyListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
 
+	/**
+	 * 연체 내역을 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectAssetRentFeePayDtlsMngtDlyInfo(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
 
 	/** change**
 	 * 연체 내역을 조회한다.
@@ -134,4 +149,44 @@ public interface GamAssetRentFeePayDtlsMngtService {
 	 */
 	EgovMap selectAssetRentFeePayDtlsMngtDlyListSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception;
 
+	/**
+	 * 연체료 고지서를 출력한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectArrrgNpticPrintInfo(Map searchVO) throws Exception;
+
+	/**
+	 * 연체금만 있는 고지서를 출력한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	List selectArrrgNpticPrintInfo2(Map searchVO) throws Exception;
+
+
+	/**
+	 * 수납처리 팝업 항목을 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectFeePayPopup(GamAssetRentFeePayDtlsMngtVO vo) throws Exception;
+
+
+	/**
+	 * 수납 확인 처리를 한다.
+	 * @param vo
+	 * @throws Exception
+	 */
+	void updateRevCollRcvdTp(GamAssetRentFeePayDtlsMngtVO vo) throws Exception;
+
+	/**
+	 * 지로로 수납된 자료인지 확인한다.
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectCheckOcrResult(GamAssetRentFeePayDtlsMngtVO vo) throws Exception;
 }

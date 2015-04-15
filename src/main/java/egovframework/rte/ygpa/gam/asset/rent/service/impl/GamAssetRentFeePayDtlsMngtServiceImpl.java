@@ -1,9 +1,6 @@
 package egovframework.rte.ygpa.gam.asset.rent.service.impl;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,9 +34,6 @@ import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
 
 public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl implements GamAssetRentFeePayDtlsMngtService {
 
-    public static final int TERM_FOR_PAYMENT15 = 15;
-
-
 	@Resource(name="gamNticRequestMngtService")
     private GamNticRequestMngtService gamNticRequestMngtService;
 
@@ -49,34 +43,37 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
 	protected Log log = LogFactory.getLog(this.getClass());
 
 	/**
-	 * 자산임대료납부관리 목록을 조회한다.
+	 * 자산임대납부현황관리 목록을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return list
 	 * @exception Exception
 	 */
-    public List selectAssetRentFeePayDtlsList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
-        return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsList(searchVO);
+    public List selectAssetRentFeePayDtlsMngtList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+        return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtList(searchVO);
     }
 
     /**
-	 * 자산임대료납부관리 목록 총 갯수를 조회한다.
+	 * 자산임대납부현황관리 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
 	 */
-    public int selectAssetRentFeePayDtlsListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
-		return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsListTotCnt(searchVO);
+    public int selectAssetRentFeePayDtlsMngtListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+		return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtListTotCnt(searchVO);
 	}
 
     /**
 	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 자산임대료납부관리목록
+	 * @return 자산임대납부현황관리목록
 	 * @exception Exception
 	 */
     public GamAssetRentFeePayDtlsMngtVO selectAssetRentFeePayDtlsSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
         return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsSum(searchVO);
     }
+
+
+
 
 
     /**
@@ -93,8 +90,7 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectNticArrrgList(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
 	@Override
-	public List<?> selectNticArrrgList(GamAssetRentArrrgMngtVO searchVO)
-			throws Exception {
+	public List<?> selectNticArrrgList(GamAssetRentArrrgMngtVO searchVO) throws Exception {
 		// TODO Auto-generated method stub
 		return gamAssetRentFeePayDtlsMngtDao.selectNticArrrgList(searchVO);
 	}
@@ -103,8 +99,7 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectNticArrrgListTotCnt(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
 	@Override
-	public int selectNticArrrgListTotCnt(GamAssetRentArrrgMngtVO searchVO)
-			throws Exception {
+	public int selectNticArrrgListTotCnt(GamAssetRentArrrgMngtVO searchVO) throws Exception {
 		// TODO Auto-generated method stub
 		return gamAssetRentFeePayDtlsMngtDao.selectNticArrrgListTotCnt(searchVO);
 	}
@@ -146,8 +141,7 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectAssetRentFeePayDtlsMngtDetailList(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
 	@Override
-	public List selectAssetRentFeePayDtlsMngtDetailList(
-			GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+	public List selectAssetRentFeePayDtlsMngtDetailList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
         return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDetailList(searchVO);
 	}
 
@@ -155,8 +149,7 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectAssetRentFeePayDtlsMngtDetailMstPk(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
 	@Override
-	public EgovMap selectAssetRentFeePayDtlsMngtDetailMstPk(
-			GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+	public EgovMap selectAssetRentFeePayDtlsMngtDetailMstPk(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
 		return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDetailMstPk(searchVO);
 	}
 
@@ -164,8 +157,7 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectAssetRentFeePayDtlsMngtDetailSumPk(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
 	@Override
-	public EgovMap selectAssetRentFeePayDtlsMngtDetailSumPk(
-			GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+	public EgovMap selectAssetRentFeePayDtlsMngtDetailSumPk(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
 		return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDetailSumPk(searchVO);
 	}
 
@@ -173,12 +165,18 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectNticArrrgDetail(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
 	@Override
-	public Map selectNticArrrgDetail(GamAssetRentFeePayDtlsMngtVO searchVO)
-			throws Exception {
+	public Map selectNticArrrgDetail(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
 		// TODO Auto-generated method stub
 		return gamAssetRentFeePayDtlsMngtDao.selectNticArrrgDetail(searchVO);
 	}
 
+
+
+
+
+	/* (non-Javadoc)change**
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectAssetRentFeePayDtlsMngtDetailList(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
+	 */
 	@Override
 	public List selectAssetRentFeePayDtlsMngtDlyList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
         return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDlyList(searchVO);
@@ -186,7 +184,7 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
 
 
 	/**change**
-	 * 항만시설연체 목록 총 갯수를 조회한다.
+	 * 자산임대연체 목록 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return cnt
 	 * @exception
@@ -202,5 +200,76 @@ public class GamAssetRentFeePayDtlsMngtServiceImpl  extends AbstractServiceImpl 
 	public EgovMap selectAssetRentFeePayDtlsMngtDlyListSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
 		return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDlyListSum(searchVO);
 	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectAssetRentFeePayDtlsMngtDlyInfo(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
+	 */
+	@Override
+	public EgovMap selectAssetRentFeePayDtlsMngtDlyInfo(
+			GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDlyInfo(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectArrrgNpticPrintInfo(java.util.Map)
+	 */
+	@Override
+	public EgovMap selectArrrgNpticPrintInfo(Map searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return gamAssetRentFeePayDtlsMngtDao.selectArrrgNpticPrintInfo(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectArrrgNpticPrintInfo2(java.util.Map)
+	 */
+	@Override
+	public List selectArrrgNpticPrintInfo2(Map searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return gamAssetRentFeePayDtlsMngtDao.selectArrrgNpticPrintInfo2(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectFeePayPopup(java.util.Map)
+	 */
+	@Override
+	public EgovMap selectFeePayPopup(GamAssetRentFeePayDtlsMngtVO vo) throws Exception {
+		return gamAssetRentFeePayDtlsMngtDao.selectFeePayPopup(vo);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#updateRevCollRcvdTp(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
+	 */
+	@Override
+	public void updateRevCollRcvdTp(GamAssetRentFeePayDtlsMngtVO vo)
+			throws Exception {
+     	Map<String, Object> map = new HashMap<String, Object>();
+
+     	gamAssetRentFeePayDtlsMngtDao.updateLevReqestRcivSe(vo);
+
+     	map.put("rcvdSe", vo.getRcivSe());
+     	map.put("updUsr", vo.getUpdUsr());
+     	map.put("rcvdTp", vo.getRcivSe());
+     	map.put("rcvdDt", vo.getRcivDt());
+     	map.put("prtAtCode", vo.getPrtAtCode());
+     	map.put("mngYear", vo.getMngYear());
+     	map.put("mngNo", vo.getMngNo());
+     	map.put("mngCnt", vo.getMngCnt());
+     	map.put("nticCnt", vo.getNticCnt());
+     	map.put("chrgeKnd", vo.getChrgeKnd());
+
+     	gamAssetRentFeePayDtlsMngtDao.updateRevCollRcvdTp(map);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectCheckOcrResult(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
+	 */
+	@Override
+	public EgovMap selectCheckOcrResult(GamAssetRentFeePayDtlsMngtVO vo)
+			throws Exception {
+		return gamAssetRentFeePayDtlsMngtDao.selectCheckOcrResult(vo);
+
+	}
+
 
 }

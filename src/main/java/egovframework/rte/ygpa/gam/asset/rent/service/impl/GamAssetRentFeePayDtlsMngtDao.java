@@ -9,7 +9,7 @@ import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentArrrgMngtVO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO;
-import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
+
 
 /**
  * @Class Name : GamAssetRentFeePayDtlsMngtDao.java
@@ -27,30 +27,29 @@ import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentMngtVO;
 public class GamAssetRentFeePayDtlsMngtDao extends YGPAAbstractDAO {
 
 	/**
-	 * 자산임대료납부관리 목록을 조회한다.
+	 * 자산임대납부현황관리 목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대료납부관리 목록
+	 * @return 자산임대납부현황관리 목록
 	 * @exception Exception
 	 */
-    public List selectAssetRentFeePayDtlsList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
-        return list("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsList_D", searchVO);
+    public List selectAssetRentFeePayDtlsMngtList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+        return list("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtList_D", searchVO);
     }
 
     /**
-	 * 자산임대료납부관리 목록 총 갯수를 조회한다.
+	 * 자산임대납부현황관리 목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대료납부관리 목록 총 갯수
+	 * @return 자산임대납부현황관리 목록 총 갯수
 	 * @exception
 	 */
-    public int selectAssetRentFeePayDtlsListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO) {
-        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsListTotCnt_S", searchVO);
+    public int selectAssetRentFeePayDtlsMngtListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtListTotCnt_S", searchVO);
     }
-
 
     /**
 	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 자산임대료납부관리 목록
+	 * @return 자산임대납부현황관리 목록
 	 * @exception Exception
 	 */
 	public GamAssetRentFeePayDtlsMngtVO selectAssetRentFeePayDtlsSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
@@ -60,7 +59,9 @@ public class GamAssetRentFeePayDtlsMngtDao extends YGPAAbstractDAO {
 
 
 
-    public EgovMap selectAssetRentFeePayDtlsMngtDetailMstPk(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+
+
+	public EgovMap selectAssetRentFeePayDtlsMngtDetailMstPk(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
 		return (EgovMap) selectByPk("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDetailMaster_D", searchVO);
     }
 
@@ -112,6 +113,9 @@ public class GamAssetRentFeePayDtlsMngtDao extends YGPAAbstractDAO {
 		this.update("gamAssetRentFeePayDtlsMngtDao.updateRevArrrgAnlrveBndeRcvdTp", map);
 	}
 
+
+
+
 	/** change** */
 	public List selectAssetRentFeePayDtlsMngtDlyList(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
         return list("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDlyList_D", searchVO);
@@ -119,9 +123,9 @@ public class GamAssetRentFeePayDtlsMngtDao extends YGPAAbstractDAO {
 
 
 	/** change**
-	 * 자산임대료납부현황관리 목록 총 갯수를 조회한다.
+	 * 자산임대납부현황관리 목록 총 갯수를 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
-	 * @return 항만시설납부현황관리 목록 총 갯수
+	 * @return 자산임대납부현황관리 목록 총 갯수
 	 * @exception
 	 */
     public int selectAssetRentFeePayDtlsMngtDlyListTotCnt(GamAssetRentFeePayDtlsMngtVO searchVO) {
@@ -132,5 +136,45 @@ public class GamAssetRentFeePayDtlsMngtDao extends YGPAAbstractDAO {
     public EgovMap selectAssetRentFeePayDtlsMngtDlyListSum(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
 		return (EgovMap) selectByPk("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDlyListSum_D", searchVO);
     }
+
+    public EgovMap selectAssetRentFeePayDtlsMngtDlyInfo(GamAssetRentFeePayDtlsMngtVO searchVO) throws Exception {
+		return (EgovMap) selectByPk("gamAssetRentFeePayDtlsMngtDao.selectAssetRentFeePayDtlsMngtDlyInfo_S", searchVO);
+    }
+
+	/**
+	 * 연체금만 있는 고지서를 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public EgovMap selectArrrgNpticPrintInfo(Map searchVO) throws Exception {
+        return (EgovMap) selectByPk("gamAssetRentFeePayDtlsMngtDao.selectArrrgNpticPrintInfo_S", searchVO);
+	}
+
+	/**
+	 * 연체금만 있는 고지서를 조회한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public List selectArrrgNpticPrintInfo2(Map searchVO) throws Exception {
+        return list("gamAssetRentFeePayDtlsMngtDao.selectArrrgNpticPrintInfo2_D", searchVO);
+	}
+
+	public EgovMap selectFeePayPopup(GamAssetRentFeePayDtlsMngtVO vo) throws Exception {
+        return (EgovMap) selectByPk("gamAssetRentFeePayDtlsMngtDao.selectFeePayPopup_S", vo);
+	}
+
+	public void updateLevReqestRcivSe(GamAssetRentFeePayDtlsMngtVO vo) throws Exception {
+		this.update("gamAssetRentFeePayDtlsMngtDao.updateLevReqestRcivSe_S", vo);
+	}
+
+	public void updateRevCollRcvdTp(Map vo) throws Exception {
+		this.update("gamAssetRentFeePayDtlsMngtDao.updateRevCollRcvdTp_S", vo);
+	}
+
+	public EgovMap selectCheckOcrResult(GamAssetRentFeePayDtlsMngtVO vo) throws Exception {
+        return (EgovMap) selectByPk("gamAssetRentFeePayDtlsMngtDao.selectCheckOcrResult_S", vo);
+	}
 
 }
