@@ -650,9 +650,9 @@ GamMachFcltySpecMngModule.prototype.setLoc = function(argPrtFcltyLoc) {
 %>
 GamMachFcltySpecMngModule.prototype.setEqpmnNm = function(argEqpmnNm) {
 
-	var equipNm = this.$('#equipNm').val();
+	var equipNm = this.$('#eqpmnNm').val();
 	if (equipNm != argEqpmnNm) {
-		this.$('#equipNm').val(argEqpmnNm);
+		this.$('#eqpmnNm').val(argEqpmnNm);
 	}
 
 };
