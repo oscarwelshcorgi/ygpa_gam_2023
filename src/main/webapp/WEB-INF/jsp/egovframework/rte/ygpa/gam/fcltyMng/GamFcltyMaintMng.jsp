@@ -549,7 +549,7 @@ GamFcltyMaintMngModule.prototype.addData = function() {
 	var toMonth = toDate.getMonth() + 1;
 	if(toMonth < 10) toMonth = "0" + toMonth;
 
-	var toDay = toDate.getDay();
+	var toDay = toDate.getDate();
 	if(toDay < 10) toDay = "0" + toDay;
 
 	this.$("#wrtDt").val(toYear + "-" + toMonth + "-" + toDay);
