@@ -87,12 +87,11 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		colModel : [
 					{display:"순번",			name:"rnum",			width:50,		sortable:false,		align:"center"},
 					{display:"대상시설물",		name:"prtFcltyNm",		width:250,		sortable:false,		align:"left"},
-					{display:"하자유무",		name:"flawEnnc",		width:90,		sortable:true,		align:"center"},
+					{display:"하자유무",		name:"flawEnnc",		width:80,		sortable:true,		align:"center"},
 					{display:"하자검사일자",	name:"flawExamDt",		width:100,		sortable:true,		align:"center"},
-					{display:"하자검사결과",	name:"flawExamResult",	width:350,		sortable:true,		align:"left"},
-					{display:"비고",			name:"rm",				width:350,		sortable:true,		align:"left"}
+					{display:"하자검사결과",	name:"flawExamResult",	width:460,		sortable:true,		align:"left"}
 			],
-		height: "110"
+		height: "200"
 	});
 
 
@@ -152,7 +151,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 	if (EMD.userinfo.mngFcltyCd != null && EMD.userinfo.mngFcltyCd != "*") {
 		this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
 		this.$('#sFcltsJobSe').disable();
-		
+
 	}
 	// 기본값 셋팅
 	this.setDefaultParam();
@@ -1128,6 +1127,7 @@ GamFcltyRepairMngModule.prototype.downloadFileData = function() {
 %>
 GamFcltyRepairMngModule.prototype.fillTitleData = function() {
 	var changData = this.makeFormArgs('#fcltyRepairMngListVO');
+	this.makeFormValues('#gamObjFcltsDetailForm',changData);
 	this.makeDivValues('#gamObjFcltsDetailForm',changData);
 
 	// 셀렉트박스는 한글처리
@@ -1512,6 +1512,7 @@ var module_instance = new GamFcltyRepairMngModule();
 							</td>
 							<th style="width:10%; height:18px;">업　무　구　분</th>
 							<td>
+								<input type="hidden" id="fcltsJobSeNm"/>
 								<select id="fcltsJobSe">
 									<option value="">선택</option>
 									<option value="E">전기시설물</option>
@@ -1531,12 +1532,13 @@ var module_instance = new GamFcltyRepairMngModule();
 							</td>
 							<th style="width:10%; height:18px;">도　급　업　체</th>
 							<td colspan="3">
-								<input id="flawRprEntrpsNm" type="text" size="65" disabled="disabled"/>
+								<input type="text" size="65" id="flawRprEntrpsNm" disabled="disabled"/>
 							</td>
 						</tr>
 						<tr>
 							<th style="width:10%; height:18px;">하자검사　구분</th>
 							<td>
+								<input type="hidden" id="flawExamSeNm"/>
 								<select id="flawExamSe">
 									<option value="">선택</option>
 									<option value="1">상반기</option>
@@ -1556,7 +1558,7 @@ var module_instance = new GamFcltyRepairMngModule();
 							</td>
 							<th style="width:10%; height:18px;">하자 검사 일자</th>
 							<td>
-								<input id="flawExamDt" type="text" size="15" class="emdcal"/>
+								<input type="text" size="15" id="flawExamDt" class="emdcal"/>
 							</td>
 						</tr>
 					</table>
@@ -1667,49 +1669,74 @@ var module_instance = new GamFcltyRepairMngModule();
 			<!-- 하자보수 대상 시설물 -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 				<div class="emdControlPanel">
-					<table class="summaryPanel"  style="width:100%;">
-						<tbody>
-							<tr>
-								<th style="font-weight:bold;">하자보수 상세내역</th>
-							</tr>
-						</tbody>
+
+					<table class="summaryPanel" style="width:100%;">
+						<tr>
+							<th style="font-weight:bold; height:20px;">하 자 검 사 정 보</th>
+						</tr>
 					</table>
 					<form id="gamObjFcltsDetailForm">
-						<table class="detailPanel"  style="width:100%;">
-							<tbody>
-								<tr>
-									<th>시설물관리그룹</th>
-									<td><span id="fcltsMngGroupNoNm"></span></td>
-									<th>업무구분</th>
-									<td><span id="objFcltsJobSeNm"></span></td>
-									<th>하자검사구분</th>
-									<td><span id="objFlawExamSeNm"></span></td>
-								</tr>
-								<tr>
-									<th>계약번호</th>
-									<td><span id="ctrtNo"></span></td>
-									<th>계약명</th>
-									<td><span id="flawRprNm"></span></td>
-									<th>도급업체명</th>
-									<td><span id="flawRprEntrpsNm"></span></td>
-								</tr>
-							</tbody>
+						<table class="detailPanel" style="width:100%;">
+							<tr>
+								<th style="width:10%; height:18px;">시설물관리그룹</th>
+								<td colspan="3">
+									<input type="text" size="20" data-column-id="fcltsMngGroupNo" disabled="disabled"/>-
+									<input type="text" size="43" data-column-id="fcltsMngGroupNoNm" disabled="disabled"/>
+								</td>
+								<th style="width:10%; height:18px;">시　행　년　도</th>
+								<td>
+									<input type="text" size="21" data-column-id="enforceYear" disabled="disabled"/>
+								</td>
+								<th style="width:10%; height:18px;">업　무　구　분</th>
+								<td>
+									<input type="text" size="21" data-column-id="fcltsJobSeNm" disabled="disabled"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">계　약　번　호</th>
+								<td colspan="3">
+									<input type="text" size="20" data-column-id="ctrtNo" disabled="disabled"/>-
+									<input type="text" size="43" data-column-id="flawRprNm" disabled="disabled"/>
+								</td>
+								<th style="width:10%; height:18px;">도　급　업　체</th>
+								<td colspan="3">
+									<input type="text" size="65" data-column-id="flawRprEntrpsNm" disabled="disabled"/>
+								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">하자검사　구분</th>
+								<td>
+									<input type="text" size="14" data-column-id="flawExamSeNm" disabled="disabled"/>
+								</td>
+								<th style="width:10%; height:18px;">소속/직급-성명</th>
+								<td>
+									<input type="text" size="15" data-column-id="flawExamUsrDept" disabled="disabled"/>
+									<input type="text" size="15" data-column-id="flawExamUsrNm" disabled="disabled"/>
+								</td>
+								<th style="width:10%; height:18px;">검　　사　　자</th>
+								<td>
+									<input type="text" size="21" data-column-id="flawExamUsr" disabled="disabled"/>
+								</td>
+								<th style="width:10%; height:18px;">하자 검사 일자</th>
+								<td>
+									<input type="text" size="21" data-column-id="flawExamDt" disabled="disabled"/>
+								</td>
+							</tr>
 						</table>
 					</form>
-					<table class="summaryPanel"  style="width:100%;">
-						<tbody>
-							<tr>
-								<th style="font-weight:bold;">하자보수 대상시설물</th>
-							</tr>
-						</tbody>
+
+					<table class="summaryPanel" style="width:100%;">
+						<tr>
+							<th style="font-weight:bold; height:20px;">하 자 검 사　대 상 시 설 물</th>
+							<td style="text-align:right;">
+								<button id="addObjItemBtn" class="buttonAdd">  추 가 </button>
+					            <button id="delObjItemBtn" class="buttonDelete">  삭 제  </button>
+							</td>
+						</tr>
 					</table>
 				</div>
 
 				<table id="flawRprObjFcltsF" style="display:none"></table>
-				<div class="emdControlPanel">
-					<button id="addObjItemBtn" class="buttonAdd">  추 가 </button>
-		            <button id="delObjItemBtn" class="buttonDelete">  삭 제  </button>
-				</div>
 				<div class="emdControlPanel">
 					<form id="gamObjFcltsForm">
 						<table class="searchPanel">
@@ -1734,7 +1761,7 @@ var module_instance = new GamFcltyRepairMngModule();
 								</tr>
 								<tr>
 									<th>하자검사결과</th>
-									<td colspan="7"><textarea id="oFlawExamResult" cols="149" rows="2" class="objFcltsEditItem" maxlength="1333"></textarea></td>
+									<td colspan="7"><textarea id="oFlawExamResult" cols="149" rows="5" class="objFcltsEditItem" maxlength="1333"></textarea></td>
 								</tr>
 								<tr>
 									<th>비고</th>
