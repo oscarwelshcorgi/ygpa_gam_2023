@@ -56,8 +56,8 @@ GamFcltyRepairSttusInqireModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectFcltyRepairSttusInqireList.do',
 		dataType: "json",
 		colModel : [
-					{display:"시설물관리그룹", 		name:"fcltsMngGoupNm",			width:130, 		sortable:false,		align:"center"},
-					{display:"계약번호", 			name:"ctrtNo",					width:200, 		sortable:false,		align:"center"},
+					{display:"시설물관리그룹", 		name:"fcltsMngGoupNm",			width:160, 		sortable:false,		align:"left"},
+					{display:"계약번호", 			name:"ctrtNo",					width:120, 		sortable:false,		align:"center"},
 					{display:"계약명",			name:"flawRprNm",				width:250, 		sortable:false,		align:"left"},
 					{display:"도급업체명",			name:"flawRprEntrpsNm",			width:250, 		sortable:false,		align:"left"},
 					{display:"업무구분",			name:"fcltsJobSeNm",			width:80, 		sortable:false,		align:"center"},
@@ -147,7 +147,7 @@ GamFcltyRepairSttusInqireModule.prototype.setDefaultParam = function(){
 	var toMonth = toDate.getMonth() + 1;
 	if(toMonth < 10) toMonth = "0" + toMonth;
 	
-	var toDay = toDate.getDay();
+	var toDay = toDate.getDate();
 	if(toDay < 10) toDay = "0" + toDay;
 	
 	this.$("#sFlawRprStartDtFr").val(toYear + "-01-01");

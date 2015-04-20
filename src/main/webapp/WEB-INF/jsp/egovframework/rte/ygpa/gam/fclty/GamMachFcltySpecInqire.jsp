@@ -1141,7 +1141,7 @@ var module_instance = new GamMachFcltySpecInqireModule();
 								<td>
 									<input type="hidden" id="gisAssetsLocCd"/>
 									<input type="hidden" id="gisAssetsLocNm"/>
-									<input type="text" size="22" id="gisAssetsNm" disabled/>
+									<input type="text" size="33" id="gisAssetsNm" disabled/>
 								</td>
 								<th style="width:10%; height:18px;">항구분／분　류</th>
 								<td>
@@ -1183,7 +1183,7 @@ var module_instance = new GamMachFcltySpecInqireModule();
 									<input type="hidden" id="loc"/>
 									<input type="text" size="33" id="prtFcltyLoc" disabled/>
 								</td>
-								<th style="width:10%; height:18px;">규　격／단　위</th>
+								<th style="width:10%; height:18px;">규격／스프레더</th>
 								<td>
 									<input type="text" size="20" id="prtFcltyStndrd" maxlength="80" disabled/>／
 									<input type="text" size="10" id="prtFcltyUnit" maxlength="10" disabled/>
@@ -1197,25 +1197,25 @@ var module_instance = new GamMachFcltySpecInqireModule();
 								</td>
 								<th style="width:10%; height:18px;">설치일／변경일</th>
 								<td>
-									<input type="text" size="11" id="prtFcltyInstlDt" class="emdcal" disabled/>／
+									<input type="text" size="11" id="prtFcltyInstlDt" class="emdcal" disabled/>　／　
 									<input type="text" size="11" id="prtFcltyChangeDt" class="emdcal" disabled/>
 								</td>
 								<th style="width:10%; height:18px;">만료일／담당자</th>
 								<td>
 									<input type="text" size="11" id="prtFcltyExprDt" class="emdcal" disabled/>／
-									<input type="text" size="16" id="prtPrtFcltyMnger" maxlength="80" disabled/>
+									<input type="text" size="18" id="prtPrtFcltyMnger" maxlength="80" disabled/>
 								</td>
 							</tr>
 							<tr>
 								<th style="width:10%; height:18px;">관　리　업　체</th>
 								<td>
 									<input type="text" size="2" id="prtFcltyMngEntrpsCd" maxlength="8" disabled/>
-									<input type="text" size="17" id="prtFcltyMngEntrpsNm" disabled/>
+									<input type="text" size="29" id="prtFcltyMngEntrpsNm" disabled/>
 								</td>
 								<th style="width:10%; height:18px;">시설물관리그룹</th>
 								<td colspan="3">
 									<input type="text" size="18" id="fcltsMngGroupNo" maxlength="8" disabled/>
-									<input type="text" size="61" id="fcltsMngGroupNm" disabled/>
+									<input type="text" size="72" id="fcltsMngGroupNm" disabled/>
 								</td>
 							</tr>
 						</table>
@@ -1327,7 +1327,7 @@ var module_instance = new GamMachFcltySpecInqireModule();
 								</td>
 								<th style="width:10%; height:18px;">정　격　하　중</th>
 								<td>
-									<input type="text" size="62" id="rageWght" maxlength="200" disabled/>
+									<input type="text" size="62" id="rateWght" maxlength="200" disabled/>
 								</td>
 							</tr>
 							<tr>
@@ -1380,33 +1380,33 @@ var module_instance = new GamMachFcltySpecInqireModule();
 								</td>
 							</tr>
 							<tr>
-								<th style="width:10%; height:18px;">연　결　도　교</th>
-								<td>
-									<input type="text" size="59" id="linkBridge" class="ygpaNumber" data-decimal-point="2" maxlength="10" disabled/> m
-								</td>
 								<th style="width:10%; height:18px;">연결도교　규격</th>
 								<td>
 									<input type="text" size="62" id="linkBridgeStndrd" maxlength="100" disabled/>
 								</td>
-							</tr>
-							<tr>
-								<th style="width:10%; height:18px;">고무　　방충재</th>
-								<td>
-									<input type="text" size="59" id="rubberFender" class="ygpaNumber" data-decimal-point="2" maxlength="10" disabled/> m
-								</td>
-								<th style="width:10%; height:18px;">고무방충재규격</th>
-								<td>
-									<input type="text" size="62" id="fenderStndrd" maxlength="100" disabled/>
-								</td>
-							</tr>
-							<tr>
 								<th style="width:10%; height:18px;">적　재　톤　수</th>
 								<td>
 									<input type="text" size="59" id="capaTon" class="ygpaNumber" data-decimal-point="2" maxlength="10" disabled/> 톤
 								</td>
+							</tr>
+							<tr>
+								<th style="width:10%; height:18px;">고무방충재규격</th>
+								<td>
+									<input type="text" size="62" id="fenderStndrd" maxlength="100" disabled/>
+								</td>
+								<th style="width:10%; height:18px;">고무방충재수량</th>
+								<td>
+									<input type="text" size="59" id="fenderInstlQy" class="ygpaNumber" maxlength="10" disabled/>EA
+								</td>
+							</tr>
+							<tr>
 								<th style="width:10%; height:18px;">전　기　방　식</th>
 								<td>
 									<input type="text" size="62" id="elctyMthd" maxlength="50" disabled/>
+								</td>
+								<th style="width:10%; height:18px;">전기방식　수량</th>
+								<td>
+									<input type="text" size="59" id="elctyMthdInstlQy" class="ygpaNumber" maxlength="10" disabled/>EA
 								</td>
 							</tr>
 						</table>

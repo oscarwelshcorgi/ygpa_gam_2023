@@ -60,7 +60,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		colModel : [
 					{display:"시설물관리그룹", 		name:"fcltsMngGroupNm",			width:160, 		sortable:false,		align:"left"},
 					{display:"계약번호", 			name:"ctrtNo",					width:120, 		sortable:false,		align:"center"},
-					{display:"계약명",				name:"flawRprNm",				width:250, 		sortable:false,		align:"left"},
+					{display:"계약명",			name:"flawRprNm",				width:250, 		sortable:false,		align:"left"},
 					{display:"도급업체명",			name:"flawRprEntrpsNm",			width:250, 		sortable:false,		align:"left"},
 					{display:"업무구분",			name:"fcltsJobSeNm",			width:80, 		sortable:false,		align:"center"},
 					{display:"하자검사구분",		name:"flawExamSeNm",			width:80, 		sortable:false,		align:"center"},
@@ -69,7 +69,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 					{display:"하자보수유형",		name:"flawRprTyNm",				width:80, 		sortable:false,		align:"center"},
 					{display:"하자보수기간",		name:"flawRprTerm",				width:160, 		sortable:false,		align:"center"},
 					{display:"하자보수금액", 		name:"flawRprAmt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-					{display:"하자보수완료여부", 	name:"flawRprComptYn",			width:120, 		sortable:false,		align:"center"}
+					{display:"하자보수완료여부", 		name:"flawRprComptYn",			width:120, 		sortable:false,		align:"center"}
 			],
 		height: "auto",
 		preProcess : function(module,data) {
