@@ -994,21 +994,27 @@ public class GamPrtFcltyRentMngtController {
         //임대정보 조회후 승낙여부 체크
         GamPrtFcltyRentMngtVO rentPrmisnInfo = gamPrtFcltyRentMngtService.selectPrtFcltyRentMngtPrmisnInfo(gamPrtFcltyRentMngtVO);
 
-        if( EgovStringUtil.isEmpty(rentPrmisnInfo.getPrmisnYn()) || !rentPrmisnInfo.getPrmisnYn().equals("Y") ) { //임대정보가 승낙이 되지 않았을 경우에만 수정가능
-	    	if("modify".equals(detailCmd)) {
-		    	gamPrtFcltyRentMngtDetailVO.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
+        if(rentPrmisnInfo!=null) {	// 취약점 점검 수정 KJC 2015-04-20
+	        if( EgovStringUtil.isEmpty(rentPrmisnInfo.getPrmisnYn()) || !rentPrmisnInfo.getPrmisnYn().equals("Y") ) { //임대정보가 승낙이 되지 않았을 경우에만 수정가능
+		    	if("modify".equals(detailCmd)) {
+			    	gamPrtFcltyRentMngtDetailVO.setUpdUsr(loginVo.getId()); //등록자 (세션 로그인 아이디)
 
-		        gamPrtFcltyRentMngtService.updatePrtFcltyRentMngtDetail(gamPrtFcltyRentMngtDetailVO);
+			        gamPrtFcltyRentMngtService.updatePrtFcltyRentMngtDetail(gamPrtFcltyRentMngtDetailVO);
 
-		        resultCode = 0; // return ok
-				resultMsg  = egovMessageSource.getMessage("success.common.update");
-	    	} else {
-	    		resultCode = 1; // return fail
-	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
-	    	}
-        } else {
-        	resultCode = 1; // return fail
-    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.detailModify.reject");
+			        resultCode = 0; // return ok
+					resultMsg  = egovMessageSource.getMessage("success.common.update");
+		    	} else {
+		    		resultCode = 1; // return fail
+		    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.err.exceptional");
+		    	}
+	        } else {
+	        	resultCode = 1; // return fail
+	    		resultMsg  = egovMessageSource.getMessage("gam.asset.rent.detailModify.reject");
+	        }
+        }
+        else {
+        	resultCode = -1; // return fail
+    		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
         }
 
     	map.put("resultCode", resultCode);
