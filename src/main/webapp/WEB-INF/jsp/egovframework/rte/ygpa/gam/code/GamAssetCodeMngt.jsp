@@ -36,8 +36,8 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 		module: this,
 		url: '/code/assets/selectGisAssetCodeList.do',
 		colModel : [
-			{display:'선택<div id="'+this.getId('title_chkRole')+'" style="padding-right:3px"></div>',name:'chkRole', width:40, sortable:false, align:'center', displayFormat: 'checkbox'},
-			{display:'', name:'gisFlag', width:24, sortable:false, align:'center', displayFormat: 'jqimg'},
+			{display:'선택<div id="'+this.getId('title_chkRole')+'" style="padding-right:3px"></div>',name:'chkRole', width:40, sortable:false, align:'center', displayFormat: 'checkbox', skipxls: true},
+			{display:'', name:'gisFlag', width:24, sortable:false, align:'center', displayFormat: 'jqimg', skipxls: true},
 			{display:'항구분', name:'prtAtNm', width:75, sortable:false, align:'center'},
 			{display:'자산코드', name:'assetCode', width:60, sortable:false, align:'center'},
 			{display:'자산명', name:'gisAssetsNm', width:180, sortable:false, align:'left'},
@@ -52,7 +52,7 @@ GamAssetCodeModule.prototype.loadComplete = function(params) {
 			{display:'관리부서', name:'mngDeptNm', width:80, sortable:false, align:'center'},
 			{display:'운영부서', name:'operDeptNm', width:80, sortable:false, align:'center'},
 			{display:'사용여부', name:'gisAssetsUsageYn', width:86, sortable:false, align:'center'},
-			{display:'GIS', name:'gisStat', width:40, sortable:true, align:'center'}
+			{display:'GIS', name:'gisStat', width:40, sortable:true, align:'center', skipxls: true}
 			],
 		height: 'auto',
 		preProcess: function(module, data) {
@@ -473,7 +473,7 @@ GamAssetCodeModule.prototype.onButtonClick = function(buttonId) {
 
 		}, '시설사진 업로드');
 		*/
-		this.uploadSingleFile('/code/assets/uploadAssetFile.do', function(module, resp) {
+		this.uploadMultiFile('/code/assets/uploadAssetFile.do', function(module, resp) {
 			if(resp.resultCode!=0) {
 				alert(resp.resultMsg);
 				return;
@@ -940,7 +940,7 @@ var module_instance = new GamAssetCodeModule();
 					<button data-role="printPage" data-search-option="searchGisAssetCode" data-url="<c:url value='/code/assets/selectGisAssetCodeListPrint.do'/>">인쇄</button>
 					<c:if test="${isAdmin==true }">
 					<button data-role="editMap" data-gis-layer="gisAssetsCd">맵편집</button>
-					<button data-role="gridXlsDown" data-flexi-grid="assetCodeList" data-xls-name="자산정보목록.xlsx" data-xls-title="YGPA 자산 목록">엑셀</button>
+					<button data-role="gridXlsDown" data-flexi-grid="assetCodeList" data-xls-name="자산정보목록.xls" data-xls-title="YGPA 자산 목록">엑셀</button>
 					<button id="btnGetAddress">주소지정(Admin)</button>
 					</c:if>
 					<!-- <button id="storeAutoMapGenerate">위치등록(배치)</button> -->	<!-- 빌드 시 -->

@@ -17,11 +17,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.CmmnDetailCode;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.ygpa.gam.code.service.GamBjdOlnlpMngtService;
+import egovframework.rte.ygpa.gam.code.service.GamBjdOlnlpMngtVO;
 import egovframework.rte.ygpa.gam.code.service.GamBupJungDongCodeDefaultVO;
 import egovframework.rte.ygpa.gam.code.service.GamBupJungDongCodeMngtService;
 import egovframework.rte.ygpa.gam.code.service.GamBupJungDongCodeVO;
@@ -69,7 +74,7 @@ public class GamBjdOlnlpMngtController {
     }
 
     @RequestMapping(value="/code/selectBjdOlnlpList.do")
-	@ResponseBody Map<String, Object> selectBjdOlnlpList(GamBupjungdongOlnlpVO searchVO) throws Exception {
+	@ResponseBody Map<String, Object> selectBjdOlnlpList(GamBjdOlnlpMngtVO searchVO) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -81,13 +86,96 @@ public class GamBjdOlnlpMngtController {
     	}
 
     	List<?> bupjungdongCodeList = gamBjdOlnlpMngtService.selectBjdOlnlpList(searchVO);
+    	int totalCount = gamBjdOlnlpMngtService.selectBjdOlnlpListTotCnt(searchVO);
 
 		map.put("resultCode", 0);			// return ok
-    	map.put("totalCount", bupjungdongCodeList.size());
+    	map.put("totalCount", totalCount);
     	map.put("resultList", bupjungdongCodeList);
     	map.put("searchOption", searchVO);
 
     	return map;
+	}
+
+	@RequestMapping(value="/code/mergeGamBjdOlnlpMngt.do")
+	@ResponseBody Map<String, Object> mergeGamOlnlpMngt(@RequestParam Map<String, Object> dataList) throws Exception {
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String, String> userMap = new HashMap<String, String>();
+		ObjectMapper mapper = new ObjectMapper();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	List<HashMap<String,String>> insertList=null;
+    	List<HashMap<String,String>> updateList=null;
+    	List<HashMap<String,String>> deleteList=null;
+    	List<Map<String,String>> userList=null;
+
+    	int resultCode = -1;
+    	String resultMsg = "";
+
+		insertList = mapper.readValue((String)dataList.get("insertList"),
+		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		updateList = mapper.readValue((String)dataList.get("updateList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		deleteList = mapper.readValue((String)dataList.get("deleteList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+		userList = new ArrayList();
+		userMap.put("id",  loginVO.getId());
+		userList.add(userMap);
+
+		Map<String,Object> mergeMap = new HashMap<String,Object>();
+
+		insertList.addAll(updateList);	// combine list
+
+		mergeMap.put("CU", insertList);
+		mergeMap.put("D", deleteList);
+		mergeMap.put("USER", userList);
+
+		gamBjdOlnlpMngtService.mergeOlnlpMngt(mergeMap);
+
+        map.put("resultCode", 0);
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+
+		return map;
+	}
+
+
+	@RequestMapping(value="/code/applyBjdOlnlpMngt.do")
+	@ResponseBody Map<String, Object> applyOlnlpData(@RequestParam Map<String, Object> dataList) throws Exception {
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String, String> userMap = new HashMap<String, String>();
+		ObjectMapper mapper = new ObjectMapper();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+		try {
+			gamBjdOlnlpMngtService.applyOlnlpData();
+		}
+		catch(Exception e) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.merge"));
+			return map;
+		}
+        map.put("resultCode", 0);
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.merge"));
+		return map;
 	}
 
 }

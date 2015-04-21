@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.code">
+
+	<typeAlias alias="gamBjdOlnlpMngtVO" type="egovframework.rte.ygpa.gam.code.service.GamBjdOlnlpMngtVO"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<select id="gamBjdOlnlpMngtDao.selectBjdOlnlpList_D" parameterClass="gamBjdOlnlpMngtVO" resultClass="egovMap">
+	       SELECT  ROWNUM RNUM, S.*
+		   FROM (
+				SELECT A.BUPJUNGDONG_CD,
+				  A.BUPJUNGDONG_NM,
+				  A.EXIST_YN,
+				  #olnlpApplcYear# olnlp_applc_year,
+				  b.mt,
+				  b.lnm,
+				  NVL((SELECT 'R'
+				  FROM bupjungdong_olnlp_f
+				  WHERE b.bupjungdong_cd=bupjungdong_cd
+				      AND nvl(mt,'N')                =nvl(b.mt,'N')
+					  AND lnm               =b.lnm
+					  AND olnlp_applc_year  =#olnlpApplcYear#
+				  ), 'I') UPDT_ID,
+				  (SELECT olnlp
+				  FROM bupjungdong_olnlp_f
+				  WHERE b.bupjungdong_cd=bupjungdong_cd
+				      AND nvl(mt,'N')                =nvl(b.mt,'N')
+					  AND lnm               =b.lnm
+					  AND olnlp_applc_year  =#olnlpApplcYear#
+				  ) olnlp
+				FROM (SELECT * FROM BUPJUNGDONG_CD_F
+					  WHERE 1=1
+  				<isNotEmpty prepend="AND" property="loc">
+					  and bupjungdong_nm like '%' || #loc# || '%'
+			  </isNotEmpty>
+					  ) a,
+				  (SELECT bupjungdong_cd,
+				    mt,
+				    lnm,
+				    MAX(olnlp)
+				  FROM bupjungdong_olnlp_f
+				  GROUP BY bupjungdong_cd,
+				    mt,
+				    lnm
+				  ) b
+				WHERE a.BUPJUNGDONG_CD=b.BUPJUNGDONG_CD
+
+			ORDER BY A.BUPJUNGDONG_NM,b.lnm
+			) S
+	</select>
+
+	<select id="gamBjdOlnlpMngtDao.selectBjdOlnlpListTotCnt_S" parameterClass="gamBjdOlnlpMngtVO" resultClass="java.lang.Integer">
+		SELECT count(*) totCnt
+		FROM (SELECT * FROM BUPJUNGDONG_CD_F
+			  WHERE 1=1
+		<isNotEmpty prepend="AND" property="loc">
+			  and bupjungdong_nm like '%' || #loc# || '%'
+		</isNotEmpty>
+			  ) a,
+		  (SELECT bupjungdong_cd,
+		    mt,
+		    lnm,
+		    MAX(olnlp)
+		  FROM bupjungdong_olnlp_f
+		  GROUP BY bupjungdong_cd,
+		    mt,
+		    lnm
+		  ) b
+		WHERE a.BUPJUNGDONG_CD=b.BUPJUNGDONG_CD
+	</select>
+
+      	<insert id="gamBjdOlnlpMngtDao.insertOlnlpMngt" parameterClass="hashMap">
+		INSERT
+		  INTO bupjungdong_olnlp_f
+		       (
+		           OLNLP_APPLC_YEAR,
+					BUPJUNGDONG_CD,
+					LNM,
+					MT,
+					OLNLP,
+					REG_USR,
+					REGIST_DT
+		       )
+		       VALUES
+		       (
+		       		#olnlpApplcYear#,
+		           #bupjungdongCd#,
+		           #lnm# ,
+		           #mt# ,
+		           #olnlp# ,
+		           #regUsr# ,
+		           SYSDATE
+		       )
+    </insert>
+
+  	<update id="gamBjdOlnlpMngtDao.updateOlnlpMngt" parameterClass="hashMap">
+		UPDATE bupjungdong_olnlp_f
+		SET
+		<isNotEmpty property="olnlp">
+		       OLNLP = #olnlp#,
+		</isNotEmpty>
+			REGIST_DT = SYSDATE
+		 WHERE OLNLP_APPLC_YEAR = #olnlpApplcYear#
+		   AND BUPJUNGDONG_CD = #bupjungdongCd#
+	       AND MT = #mt#
+	       AND LNM = #lnm#
+    </update>
+
+    <delete id="gamBjdOlnlpMngtDao.deleteOlnlpMngt" parameterClass="hashMap">
+      DELETE
+		  FROM bupjungdong_olnlp_f
+		 WHERE OLNLP_APPLC_YEAR = #olnlpApplcYear#
+		   AND BUPJUNGDONG_CD = #bupjungdongCd#
+	       AND MT = #mt#
+	       AND LNM = #lnm#
+    </delete>
+
+    <delete id="gamBjdOlnlpMngtDao.deleteOlnlpExists">
+       delete from olnlp_f
+		where 1=1
+		  and (gis_assets_prt_at_code, gis_assets_cd, gis_assets_sub_cd
+		  , begin_dt
+		  ) in (
+		   select a.gis_assets_prt_at_code, a.gis_assets_cd, a.gis_assets_sub_cd
+		   , to_date(c.olnlp_applc_year||'0101', 'YYYYMMDD')
+		   from gis_assets_cd_f a, (select b.bupjungdong_nm, o.mt, o.lnm, o.olnlp_applc_year, o.olnlp  from bupjungdong_cd_f b, bupjungdong_olnlp_f o
+		where b.bupjungdong_cd=o.bupjungdong_cd) c
+		   where a.gis_assets_locplc = c.bupjungdong_nm
+		   and lpad(a.gis_assets_lnm,4, '0')||'-'||lpad(nvl(a.gis_assets_lnm_sub,0),4, '0') = c.lnm
+		  )
+    </delete>
+
+    <insert id="gamBjdOlnlpMngtDao.addOlnlpAll">
+    	INSERT
+		INTO olnlp_f
+		  (
+		  olnlp_seq,
+		    gis_assets_prt_at_code,
+		    gis_assets_cd,
+		    gis_assets_sub_cd,
+		    olnlp,
+		    begin_dt,
+		    end_dt
+		  )
+		  SELECT (SELECT nvl(MAX(olnlp_seq),0) FROM OLNLP_F WHERE a.gis_assets_prt_at_code=gis_assets_prt_at_code
+		      and a.gis_assets_cd=gis_assets_cd
+		      and a.gis_assets_sub_cd=gis_assets_sub_cd)+ROWNUM,
+		    a.gis_assets_prt_at_code,
+		      a.gis_assets_cd,
+		      a.gis_assets_sub_cd,
+		      c.olnlp ,
+		      to_date(c.olnlp_applc_year
+		      ||'0101', 'YYYYMMDD') begin_dt ,
+		      add_months(to_date(c.olnlp_applc_year
+		      ||'0101', 'YYYYMMDD'), 12) end_dt
+		    FROM gis_assets_cd_f a,
+		      (SELECT b.bupjungdong_nm,
+		        o.mt,
+		        o.lnm,
+		        o.olnlp_applc_year,
+		        o.olnlp
+		      FROM bupjungdong_cd_f b,
+		        bupjungdong_olnlp_f o
+		      WHERE b.bupjungdong_cd=o.bupjungdong_cd
+		      ) c
+		    WHERE a.gis_assets_locplc = c.bupjungdong_nm
+		    AND lpad(a.gis_assets_lnm,4, '0')
+		      ||'-'
+		      ||lpad(NVL(a.gis_assets_lnm_sub,0),4, '0') = c.lnm
+    </insert>
+
+</sqlMap>

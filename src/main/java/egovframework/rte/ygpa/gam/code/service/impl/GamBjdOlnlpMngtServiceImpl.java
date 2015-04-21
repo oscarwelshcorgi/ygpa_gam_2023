@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.code.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.code.service.GamBjdOlnlpMngtService;
+import egovframework.rte.ygpa.gam.code.service.GamBjdOlnlpMngtVO;
 import egovframework.rte.ygpa.gam.code.service.GamBupJungDongCodeDefaultVO;
 import egovframework.rte.ygpa.gam.code.service.GamBupJungDongCodeMngtService;
 import egovframework.rte.ygpa.gam.code.service.GamBupJungDongCodeVO;
@@ -35,13 +37,43 @@ import egovframework.rte.ygpa.gam.code.service.GamBupjungdongOlnlpVO;
 @Service("gamBjdOlnlpMngtService")
 public class GamBjdOlnlpMngtServiceImpl extends AbstractServiceImpl implements GamBjdOlnlpMngtService{
 
+	@Resource(name="gamBjdOlnlpMngtDao")
+	  private GamBjdOlnlpMngtDao gamBjdOlnlpMngtDao;
+
 	/* (non-Javadoc)
 	 * @see egovframework.rte.ygpa.gam.code.service.GamBjdOlnlpMngtService#selectBjdOlnlpList(egovframework.rte.ygpa.gam.code.service.GamBupjungdongOlnlpVO)
 	 */
 	@Override
-	public List selectBjdOlnlpList(GamBupjungdongOlnlpVO vo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List selectBjdOlnlpList(GamBjdOlnlpMngtVO vo) throws Exception {
+		return gamBjdOlnlpMngtDao.selectBjdOlnlpList(vo);
 	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.code.service.GamBjdOlnlpMngtService#selectBjdOlnlpListTotCnt(egovframework.rte.ygpa.gam.code.service.GamBjdOlnlpMngtVO)
+	 */
+	@Override
+	public int selectBjdOlnlpListTotCnt(GamBjdOlnlpMngtVO vo) throws Exception {
+		return gamBjdOlnlpMngtDao.selectBjdOlnlpListToTCnt(vo);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.code.service.GamBjdOlnlpMngtService#mergeOlnlpMngt(java.util.Map)
+	 */
+	@Override
+	public List mergeOlnlpMngt(Map mergeMap) throws Exception {
+		return gamBjdOlnlpMngtDao.mergeOlnlpMngt(mergeMap);
+
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.code.service.GamBjdOlnlpMngtService#applyOlnlpData()
+	 */
+	@Override
+	public void applyOlnlpData() throws Exception {
+		gamBjdOlnlpMngtDao.deleteOlnlpExists();
+		gamBjdOlnlpMngtDao.addOlnlpAll();
+	}
+
+
 
 }

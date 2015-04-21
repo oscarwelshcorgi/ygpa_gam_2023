@@ -14,17 +14,23 @@
 
     <mvc:annotation-driven>
 	    <mvc:message-converters>
-	        <!-- @ResponseBody로 String 처리할때 한글처리 -->
+	        <!-- @ResponseBody로 JSON String 처리할때 한글처리 -->
 	        <bean class="org.springframework.http.converter.StringHttpMessageConverter">
 	            <property name="supportedMediaTypes">
 	                <list>
-	                    <value>text/html;charset=UTF-8</value>
+	                    <value>text/plain;charset=UTF-8</value>
+	                </list>
+	            </property>
+	        </bean>
+	        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+	            <property name="supportedMediaTypes">
+	                <list>
+	                    <value>text/plain;charset=UTF-8</value>
 	                </list>
 	            </property>
 	        </bean>
 	    </mvc:message-converters>
     </mvc:annotation-driven>
-
 	<!-- The controllers are autodetected POJOs labeled with the @Controller annotation. -->
 	<context:component-scan base-package="egovframework">
 		<context:include-filter expression="org.springframework.stereotype.Controller" type="annotation"/>

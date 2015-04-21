@@ -4,6 +4,7 @@
 package egovframework.rte.ygpa.gam.code.service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -24,11 +25,33 @@ import java.util.List;
 
 public interface GamBjdOlnlpMngtService {
 	/**
-	 * 법정동코드 목록 조회
+	 * 공시지가목록 조회
 	 * @param vo
 	 * @return lis t
 	 * @throws Exception
 	 */
-	List selectBjdOlnlpList(GamBupjungdongOlnlpVO vo) throws Exception;
+	List selectBjdOlnlpList(GamBjdOlnlpMngtVO vo) throws Exception;
 
+	/**
+	 * 공시지가목록 갯수 조회
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	int selectBjdOlnlpListTotCnt(GamBjdOlnlpMngtVO vo) throws Exception;
+
+	/**
+	 * 공시지가 저장
+	 * @param mergeMap
+	 * @return
+	 * @throws Exception
+	 */
+	List mergeOlnlpMngt(Map mergeMap) throws Exception;
+
+
+	/**
+	 * 기존 자산별 공시지가 데이터를 업데이트 한다.
+	 * @throws Exception
+	 */
+	void applyOlnlpData() throws Exception;
 }

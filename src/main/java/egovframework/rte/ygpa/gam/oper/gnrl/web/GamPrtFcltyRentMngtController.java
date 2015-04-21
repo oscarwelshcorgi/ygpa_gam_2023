@@ -1439,7 +1439,7 @@ public class GamPrtFcltyRentMngtController {
 
 	// 파일 처리 (자산 임대 공통 - 리퀘스트 패스만 변경 하여 사용)
     @RequestMapping(value="/oper/gnrl/uploadRentAttachFile.do", method=RequestMethod.POST)
-    public @ResponseBody Map uploadFile(HttpServletRequest request, Model model) throws Exception {
+    public @ResponseBody Map uploadFile(HttpServletRequest request) throws Exception {
 		Map map = new HashMap();
 		String uploadPath = EgovProperties.getProperty("assetsRent.fileStorePath");
 		try {
@@ -1452,7 +1452,6 @@ public class GamPrtFcltyRentMngtController {
 			map.put("resultCode", "-1");
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.upload"));
 		}
-
 		return map;
 	}
 
