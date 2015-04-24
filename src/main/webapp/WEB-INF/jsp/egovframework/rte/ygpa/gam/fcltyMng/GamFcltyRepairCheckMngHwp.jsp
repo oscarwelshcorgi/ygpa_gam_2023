@@ -31,6 +31,7 @@ if(request.getAttribute("isHwp")!=null){
 	response.reset();
 	response.setHeader("Content-Disposition", "attachment;filename=\""+fileName + "\"");
 	response.setHeader("Content-Description", "JSP Generated Data");
+	response.setHeader("Cache-control","private");
 	response.setContentType("application/hwp; charset=UTF-8");
 }
 // 한글파일에는 css가 먹지 않음.... 안타깝게도... 테이블에 속성정의를 해주어야 함... 귀찮더라도 작업 바람
