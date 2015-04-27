@@ -91,7 +91,7 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:15.0pt;font-weight:"bold";'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN><SPAN STYLE='font-size:15.0pt;line-height:160%;'>20&nbsp;&nbsp;년&nbsp;&nbsp;월&nbsp;&nbsp;일 준공</SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${result.ctrtDt }" /> <c:out value="${result.flawRprEntrpsNm }" /></SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;도급액 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${result.ctrtAmt }" />원</SPAN></P>
+	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;도급액 : <c:out value="${result.ctrtAmt }" />원</SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:140%;'><span STYLE='font-size:14.0pt;letter-spacing:-5pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;위 공사의 하자검사의 명을 받아 <c:out value="${result.flawExamDt }" /> 검사한 결과</SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:14.0pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><c:out value="${result.castFlawEnnc }"/></u>을 확인함</SPAN></P>
