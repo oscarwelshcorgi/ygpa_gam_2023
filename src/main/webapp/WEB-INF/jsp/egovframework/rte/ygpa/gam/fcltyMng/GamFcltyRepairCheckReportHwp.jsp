@@ -145,11 +145,11 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 			<c:forEach var="resultItem" items="${resultList}" varStatus="status" end="3" step="2">
 				<TR>
 					<TD width="300" height="232" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />" width="228" height="170" vspace="0" hspace="0" border="0"></P>
+					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />" width="280" height="210" vspace="0" hspace="0" border="0"></P>
 					</TD>
 					<TD width="300" height="232" valign="middle" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 					<c:if test="${fn:length(resultList) gt status.index+1 }">
-					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />" width="228" height="170" vspace="0" hspace="0" border="0"></P>
+					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />" width="280" height="210" vspace="0" hspace="0" border="0"></P>
 					</c:if>
 					</TD>
 				</TR>
@@ -175,11 +175,11 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 
 	    		<TR>
 					<TD width="300" height="232" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />" width="228" height="170" vspace="0" hspace="0" border="0"></P>
+					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />" width="280" height="210" vspace="0" hspace="0" border="0"></P>
 					</TD>
 					<TD width="300" height="232" valign="middle" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 					<c:if test="${fn:length(resultList) gt status.index+1 }">
-					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />" width="228" height="170" vspace="0" hspace="0" border="0"></P>
+					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />" width="280" height="210" vspace="0" hspace="0" border="0"></P>
 					</c:if>
 					</TD>
 				</TR>
