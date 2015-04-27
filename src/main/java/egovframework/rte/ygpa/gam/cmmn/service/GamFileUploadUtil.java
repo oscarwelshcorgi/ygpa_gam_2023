@@ -172,6 +172,9 @@ public class GamFileUploadUtil {
 			}
 
 			response.setHeader("Content-Type", type);
+			response.setHeader("Content-Disposition", "attachment; filename=\""
+					+ gamFileServiceVo.getPhyscalFileNm() + "\"");
+
 			response.setContentLength(bStream.size());
 
 			bStream.writeTo(response.getOutputStream());

@@ -5,8 +5,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.com.cmm.LoginVO;
-import egovframework.com.cop.ems.service.EgovSndngMailRegistService;
-import egovframework.com.cop.ems.service.SndngMailVO;
+//import egovframework.com.cop.ems.service.EgovSndngMailRegistService;
+//import egovframework.com.cop.ems.service.SndngMailVO;
 import egovframework.com.uat.uia.service.EgovLoginService;
 import egovframework.com.utl.fcc.service.EgovNumberUtil;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
@@ -37,8 +37,8 @@ public class EgovLoginServiceImpl extends AbstractServiceImpl implements
     private LoginDAO loginDAO;
 
     /** EgovSndngMailRegistService */
-	@Resource(name = "sndngMailRegistService")
-    private EgovSndngMailRegistService sndngMailRegistService;
+//	@Resource(name = "sndngMailRegistService")
+//    private EgovSndngMailRegistService sndngMailRegistService;
 
 
 
@@ -188,14 +188,14 @@ public class EgovLoginServiceImpl extends AbstractServiceImpl implements
     	loginDAO.updatePassword(pwVO);
 
     	// 4. 임시 비밀번호를 이메일 발송한다.(메일연동솔루션 활용)
-    	SndngMailVO sndngMailVO = new SndngMailVO();
-    	sndngMailVO.setDsptchPerson("webmaster");
-    	sndngMailVO.setRecptnPerson(vo.getEmail());
-    	sndngMailVO.setSj("[MOPAS] 임시 비밀번호를 발송했습니다.");
-    	sndngMailVO.setEmailCn("고객님의 임시 비밀번호는 " + newpassword + " 입니다.");
-    	sndngMailVO.setAtchFileId("");
+//    	SndngMailVO sndngMailVO = new SndngMailVO();
+//    	sndngMailVO.setDsptchPerson("webmaster");
+//    	sndngMailVO.setRecptnPerson(vo.getEmail());
+//    	sndngMailVO.setSj("[MOPAS] 임시 비밀번호를 발송했습니다.");
+//    	sndngMailVO.setEmailCn("고객님의 임시 비밀번호는 " + newpassword + " 입니다.");
+//    	sndngMailVO.setAtchFileId("");
 
-    	result = sndngMailRegistService.insertSndngMail(sndngMailVO);
+//    	result = sndngMailRegistService.insertSndngMail(sndngMailVO);
 
     	return result;
     }
