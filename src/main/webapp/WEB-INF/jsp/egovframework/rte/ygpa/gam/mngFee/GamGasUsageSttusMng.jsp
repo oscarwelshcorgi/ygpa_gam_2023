@@ -470,6 +470,7 @@ GamGasUsageSttusMngModule.prototype.firstData = function() {
 		this.makeFormValues('#detailForm', rows[rowIndex]);
 		this.makeDivValues('#detailForm', rows[rowIndex]);
 		this.enableDetailInputItem();
+		this.drawChart();
 	}
 
 };
@@ -526,6 +527,7 @@ GamGasUsageSttusMngModule.prototype.prevData = function() {
 		this.makeFormValues('#detailForm', rows[rowIndex]);
 		this.makeDivValues('#detailForm', rows[rowIndex]);
 		this.enableDetailInputItem();
+		this.drawChart();
 	}
 
 };
@@ -582,6 +584,7 @@ GamGasUsageSttusMngModule.prototype.nextData = function() {
 		this.makeFormValues('#detailForm', rows[rowIndex]);
 		this.makeDivValues('#detailForm', rows[rowIndex]);
 		this.enableDetailInputItem();
+		this.drawChart();
 	}
 
 };
@@ -621,6 +624,7 @@ GamGasUsageSttusMngModule.prototype.lastData = function() {
 		this.makeFormValues('#detailForm', rows[rowIndex]);
 		this.makeDivValues('#detailForm', rows[rowIndex]);
 		this.enableDetailInputItem();
+		this.drawChart();
 	}
 
 };

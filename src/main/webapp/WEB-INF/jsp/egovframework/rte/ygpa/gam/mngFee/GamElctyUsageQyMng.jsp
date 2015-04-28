@@ -638,6 +638,7 @@ GamElctyUsageQyMngModule.prototype.firstData = function() {
 		this.makeFormValues('#detailForm', rows[rowIndex]);
 		this.makeDivValues('#detailForm', rows[rowIndex]);
 		this.enableDetailInputItem();
+		this.drawChart();
 	}
 
 };
@@ -694,6 +695,7 @@ GamElctyUsageQyMngModule.prototype.prevData = function() {
 		this.makeFormValues('#detailForm', rows[rowIndex]);
 		this.makeDivValues('#detailForm', rows[rowIndex]);
 		this.enableDetailInputItem();
+		this.drawChart();
 	}
 
 };
@@ -750,6 +752,7 @@ GamElctyUsageQyMngModule.prototype.nextData = function() {
 		this.makeFormValues('#detailForm', rows[rowIndex]);
 		this.makeDivValues('#detailForm', rows[rowIndex]);
 		this.enableDetailInputItem();
+		this.drawChart();
 	}
 
 };
@@ -789,6 +792,7 @@ GamElctyUsageQyMngModule.prototype.lastData = function() {
 		this.makeFormValues('#detailForm', rows[rowIndex]);
 		this.makeDivValues('#detailForm', rows[rowIndex]);
 		this.enableDetailInputItem();
+		this.drawChart();
 	}
 
 };
