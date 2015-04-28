@@ -1,5 +1,5 @@
 <%@ page import="java.net.URLDecoder"%>
-<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page contentType="text/html; charset=euc-kr" pageEncoding="euc-kr"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
@@ -9,21 +9,21 @@
 <%
   /**
   * @Class Name : GamFcltyRepairCheckReportHwp.jsp
-  * @Description : ÌïòÏûêÍ≤ÄÏÇ¨Ï°∞ÏÑú ÌïúÍ∏ÄÌååÏùº Ï∂úÎ†•
+  * @Description : «œ¿⁄∞ÀªÁ¡∂º≠ «—±€∆ƒ¿œ √‚∑¬
   * @Modification Information
   *
-  *   ÏàòÏ†ïÏùº         ÏàòÏ†ïÏûê                   ÏàòÏ†ïÎÇ¥Ïö©
+  *   ºˆ¡§¿œ         ºˆ¡§¿⁄                   ºˆ¡§≥ªøÎ
   *  -------    --------    ---------------------------
-  *  2015.1.7    HNJ          ÏµúÏ¥à ÏÉùÏÑ±
+  *  2015.1.7    HNJ          √÷√  ª˝º∫
   *
-  * author Ï†ïÏÑ±ÌòÑ
+  * author ¡§º∫«ˆ
   * since 2015.04.02
   *
   * Copyright (C) 2013 by LFIT  All right reserved.
   */
 %>
 <%
-// ÌïúÍ∏Ä ÌååÏùº Ï∂úÎ†•Ïùº Í≤ΩÏö∞ Ïª®Ìä∏Î°§Îü¨Ïóê isHwp Ïóê Í∞íÏùÑ Îã¥ÏïÑÏÑú Î¶¨ÌÑ¥ÌïúÎã§. fileName ÏóêÎäî ÌååÏùºÎ™ÖÏùÑ ÎÑ£ÎäîÎã§.
+// «—±€ ∆ƒ¿œ √‚∑¬¿œ ∞ÊøÏ ƒ¡∆Æ∑—∑Øø° isHwp ø° ∞™¿ª ¥„æ∆º≠ ∏Æ≈œ«—¥Ÿ. fileName ø°¥¬ ∆ƒ¿œ∏Ì¿ª ≥÷¥¬¥Ÿ.
 if(request.getAttribute("isHwp")!=null){
 	String fileName = request.getParameter("filename");
 	fileName = java.net.URLEncoder.encode(fileName, "UTF-8");
@@ -31,176 +31,970 @@ if(request.getAttribute("isHwp")!=null){
 	response.setHeader("Content-Disposition", "attachment;filename=\""+fileName + "\"");
 	response.setHeader("Content-Description", "JSP Generated Data");
 	response.setHeader("Cache-control","private");
-	response.setContentType("application/hwp; charset=UTF-8");
+	response.setContentType("application/hwp; charset=EUC-KR");
 }
-// ÌïúÍ∏ÄÌååÏùºÏóêÎäî cssÍ∞Ä Î®πÏßÄ ÏïäÏùå.... ÏïàÌÉÄÍπùÍ≤åÎèÑ... ÌÖåÏù¥Î∏îÏóê ÏÜçÏÑ±Ï†ïÏùòÎ•º Ìï¥Ï£ºÏñ¥Ïïº Ìï®... Í∑ÄÏ∞ÆÎçîÎùºÎèÑ ÏûëÏóÖ Î∞îÎûå
-// tableÏóê border="1" width="530" ÏùÑ Ï∂îÍ∞ÄÌïòÎ©¥ Îê®
+// «—±€∆ƒ¿œø°¥¬ css∞° ∏‘¡ˆ æ ¿Ω.... æ»≈∏±ı∞‘µµ... ≈◊¿Ã∫Ìø° º”º∫¡§¿«∏¶ «ÿ¡÷æÓæﬂ «‘... ±Õ¬˙¥ı∂Ûµµ ¿€æ˜ πŸ∂˜
+// tableø° border="1" width="530" ¿ª √ﬂ∞°«œ∏È µ 
 %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML>
-
-<HEAD>
-<META NAME="Generator" CONTENT="Haansoft HWP 8.0.0.466">
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
-<TITLE></TITLE>
-<STYLE>
-<!--
-P.HStyle0, LI.HStyle0, DIV.HStyle0
-	{style-name:"Î∞îÌÉïÍ∏Ä"; margin-left:0.0pt; margin-right:0.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:ÌïúÏª¥Î∞îÌÉï; letter-spacing:0.0pt; font-weight:"normal"; font-style:"normal"; color:#000000;}
-P.HStyle1, LI.HStyle1, DIV.HStyle1
-	{style-name:"Î≥∏Î¨∏"; margin-left:15.0pt; margin-right:0.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:Î∞îÌÉï; letter-spacing:0.0pt; font-weight:"normal"; font-style:"normal"; color:#000000;}
-P.HStyle2, LI.HStyle2, DIV.HStyle2
-	{style-name:"Í∞úÏöî 1"; margin-left:0.0pt; margin-right:0.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:Î∞îÌÉï; letter-spacing:0.0pt; font-weight:"normal"; font-style:"normal"; color:#000000;}
-P.HStyle3, LI.HStyle3, DIV.HStyle3
-	{style-name:"Í∞úÏöî 2"; margin-left:0.0pt; margin-right:0.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:Î∞îÌÉï; letter-spacing:0.0pt; font-weight:"normal"; font-style:"normal"; color:#000000;}
-P.HStyle4, LI.HStyle4, DIV.HStyle4
-	{style-name:"Í∞úÏöî 3"; margin-left:0.0pt; margin-right:0.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:Î∞îÌÉï; letter-spacing:0.0pt; font-weight:"normal"; font-style:"normal"; color:#000000;}
-P.HStyle5, LI.HStyle5, DIV.HStyle5
-	{style-name:"Í∞úÏöî 4"; margin-left:0.0pt; margin-right:0.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:Î∞îÌÉï; letter-spacing:0.0pt; font-weight:"normal"; font-style:"normal"; color:#000000;}
-P.HStyle6, LI.HStyle6, DIV.HStyle6
-	{style-name:"Í∞úÏöî 5"; margin-left:0.0pt; margin-right:0.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:Î∞îÌÉï; letter-spacing:0.0pt; font-weight:"normal"; font-style:"normal"; color:#000000;}
-P.HStyle7, LI.HStyle7, DIV.HStyle7
-	{style-name:"Í∞úÏöî 6"; margin-left:0.0pt; margin-right:0.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:Î∞îÌÉï; letter-spacing:0.0pt; font-weight:"normal"; font-style:"normal"; color:#000000;}
-P.HStyle8, LI.HStyle8, DIV.HStyle8
-	{style-name:"Í∞úÏöî 7"; margin-left:0.0pt; margin-right:0.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:Î∞îÌÉï; letter-spacing:0.0pt; font-weight:"normal"; font-style:"normal"; color:#000000;}
-P.HStyle9, LI.HStyle9, DIV.HStyle9
-	{style-name:"Ï™Ω Î≤àÌò∏"; margin-left:0.0pt; margin-right:0.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:Íµ¥Î¶º; letter-spacing:0.0pt; font-weight:"normal"; font-style:"normal"; color:#000000;}
-P.HStyle10, LI.HStyle10, DIV.HStyle10
-	{style-name:"Î®∏Î¶¨Îßê"; margin-left:0.0pt; margin-right:0.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:150%; font-size:9.0pt; font-family:Íµ¥Î¶º; letter-spacing:0.2pt; font-weight:"normal"; font-style:"normal"; color:#000000;}
-P.HStyle11, LI.HStyle11, DIV.HStyle11
-	{style-name:"Í∞ÅÏ£º"; margin-left:13.1pt; margin-right:0.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:-13.1pt; line-height:130%; font-size:9.0pt; font-family:Î∞îÌÉï; letter-spacing:0.5pt; font-weight:"normal"; font-style:"normal"; color:#000000;}
--->
-</STYLE>
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<HWPML Style="embed" SubVersion="8.0.0.0" Version="2.8">
+<HEAD SecCnt="1">
+<DOCSUMMARY>
+</DOCSUMMARY>
+<DOCSETTING>
+<BEGINNUMBER Endnote="1" Equation="1" Footnote="1" Page="1" Picture="1" Table="1"/>
+<CARETPOS List="0" Para="7" Pos="8"/>
+</DOCSETTING>
+<MAPPINGTABLE>
+<BINITEM APath="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />" RPath="" Type="Link"/>
+<BINDATALIST Count="<c:url value="${fn:length(resultList) }" />">
+<c:forEach var="resultItem" items="${resultList}" varStatus="status" end="3" step="2">
+	<BINITEM APath="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />" RPath="" Type="Link"/>
+	<c:if test="${fn:length(resultList) gt status.index+1 }">
+	<BINITEM APath="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />" RPath="" Type="Link"/>
+	</c:if>
+</c:forEach>
+</BINDATALIST>
+<FACENAMELIST>
+<FONTFACE Count="5" Lang="Hangul">
+<FONT Id="0" Name="«—ƒƒπŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="1" Name="±º∏≤" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="2" Name="πŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="3" Name="«—ƒƒπŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="4" Name="»ﬁ∏’∏Ì¡∂" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="4" StrokeVariation="1" Weight="5" XHeight="1"/>
+</FONT>
+</FONTFACE>
+<FONTFACE Count="5" Lang="Latin">
+<FONT Id="0" Name="«—ƒƒπŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="1" Name="±º∏≤" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="2" Name="πŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="3" Name="«—ƒƒπŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="4" Name="HCI Poppy" Type="hft">
+<TYPEINFO ArmStyle="0" Contrast="0" FamilyType="1" Letterform="0" Midline="0" Proportion="0" StrokeVariation="0" Weight="0" XHeight="0"/>
+</FONT>
+</FONTFACE>
+<FONTFACE Count="5" Lang="Hanja">
+<FONT Id="0" Name="«—ƒƒπŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="1" Name="±º∏≤" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="2" Name="πŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="3" Name="«—ƒƒπŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="4" Name="«—æÁΩ≈∏Ì¡∂" Type="hft">
+<TYPEINFO ArmStyle="0" Contrast="0" FamilyType="1" Letterform="0" Midline="0" Proportion="0" StrokeVariation="0" Weight="0" XHeight="0"/>
+</FONT>
+</FONTFACE>
+<FONTFACE Count="5" Lang="Japanese">
+<FONT Id="0" Name="«—ƒƒπŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="1" Name="±º∏≤" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="2" Name="πŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="3" Name="«—ƒƒπŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="4" Name="«—æÁΩ≈∏Ì¡∂" Type="hft">
+<TYPEINFO ArmStyle="0" Contrast="0" FamilyType="1" Letterform="0" Midline="0" Proportion="0" StrokeVariation="0" Weight="0" XHeight="0"/>
+</FONT>
+</FONTFACE>
+<FONTFACE Count="5" Lang="Other">
+<FONT Id="0" Name="«—ƒƒπŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="1" Name="±º∏≤" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="2" Name="πŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="3" Name="«—ƒƒπŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="4" Name="«—æÁΩ≈∏Ì¡∂" Type="hft">
+<TYPEINFO ArmStyle="0" Contrast="0" FamilyType="1" Letterform="0" Midline="0" Proportion="0" StrokeVariation="0" Weight="0" XHeight="0"/>
+</FONT>
+</FONTFACE>
+<FONTFACE Count="5" Lang="Symbol">
+<FONT Id="0" Name="«—ƒƒπŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="1" Name="±º∏≤" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="2" Name="πŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="3" Name="«—ƒƒπŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="4" Name="«—æÁΩ≈∏Ì¡∂" Type="hft">
+<TYPEINFO ArmStyle="0" Contrast="0" FamilyType="1" Letterform="0" Midline="0" Proportion="0" StrokeVariation="0" Weight="0" XHeight="0"/>
+</FONT>
+</FONTFACE>
+<FONTFACE Count="5" Lang="User">
+<FONT Id="0" Name="«—ƒƒπŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="1" Name="±º∏≤" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="2" Name="πŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="3" Name="«—ƒƒπŸ≈¡" Type="ttf">
+<TYPEINFO ArmStyle="1" Contrast="0" FamilyType="2" Letterform="1" Midline="1" Proportion="0" StrokeVariation="1" Weight="6" XHeight="1"/>
+</FONT>
+<FONT Id="4" Name="∏Ì¡∂" Type="hft">
+<TYPEINFO ArmStyle="0" Contrast="0" FamilyType="1" Letterform="0" Midline="0" Proportion="0" StrokeVariation="0" Weight="0" XHeight="0"/>
+</FONT>
+</FONTFACE>
+</FACENAMELIST>
+<BORDERFILLLIST Count="13">
+<BORDERFILL BackSlash="0" BreakCellSeparateLine="0" CenterLine="0" CounterBackSlash="0" CounterSlash="0" CrookedSlash="0" Id="1" Shadow="false" Slash="0" ThreeD="false">
+<LEFTBORDER Type="Solid" Width="0.12mm"/>
+<RIGHTBORDER Type="Solid" Width="0.12mm"/>
+<TOPBORDER Type="Solid" Width="0.12mm"/>
+<BOTTOMBORDER Type="Solid" Width="0.12mm"/>
+</BORDERFILL>
+<BORDERFILL BackSlash="0" BreakCellSeparateLine="0" CenterLine="0" CounterBackSlash="0" CounterSlash="0" CrookedSlash="0" Id="2" Shadow="false" Slash="0" ThreeD="false">
+<LEFTBORDER Type="Solid" Width="0.4mm"/>
+<RIGHTBORDER Type="Solid" Width="0.12mm"/>
+<TOPBORDER Type="Solid" Width="0.12mm"/>
+<BOTTOMBORDER Type="Solid" Width="0.4mm"/>
+</BORDERFILL>
+<BORDERFILL BackSlash="0" BreakCellSeparateLine="0" CenterLine="0" CounterBackSlash="0" CounterSlash="0" CrookedSlash="0" Id="3" Shadow="false" Slash="0" ThreeD="false">
+<LEFTBORDER Type="Solid" Width="0.12mm"/>
+<RIGHTBORDER Type="Solid" Width="0.4mm"/>
+<TOPBORDER Type="Solid" Width="0.12mm"/>
+<BOTTOMBORDER Type="Solid" Width="0.4mm"/>
+</BORDERFILL>
+<BORDERFILL BackSlash="0" BreakCellSeparateLine="0" CenterLine="0" CounterBackSlash="0" CounterSlash="0" CrookedSlash="0" Id="4" Shadow="false" Slash="0" ThreeD="false">
+<LEFTBORDER Type="Solid" Width="0.4mm"/>
+<RIGHTBORDER Type="Solid" Width="0.4mm"/>
+<TOPBORDER Type="Solid" Width="0.12mm"/>
+<BOTTOMBORDER Type="Solid" Width="0.12mm"/>
+</BORDERFILL>
+<BORDERFILL BackSlash="0" BreakCellSeparateLine="0" CenterLine="0" CounterBackSlash="0" CounterSlash="0" CrookedSlash="0" Id="5" Shadow="false" Slash="0" ThreeD="false">
+<LEFTBORDER Type="Solid" Width="0.4mm"/>
+<RIGHTBORDER Type="Solid" Width="0.4mm"/>
+<TOPBORDER Type="Solid" Width="0.4mm"/>
+<BOTTOMBORDER Type="Solid" Width="0.4mm"/>
+</BORDERFILL>
+<BORDERFILL BackSlash="0" BreakCellSeparateLine="0" CenterLine="0" CounterBackSlash="0" CounterSlash="0" CrookedSlash="0" Id="6" Shadow="false" Slash="0" ThreeD="false">
+<LEFTBORDER Type="Solid" Width="0.4mm"/>
+<RIGHTBORDER Type="Solid" Width="0.12mm"/>
+<TOPBORDER Type="Solid" Width="0.4mm"/>
+<BOTTOMBORDER Type="Solid" Width="0.12mm"/>
+<FILLBRUSH>
+<GRADATION Alpha="0" Angle="0" CenterX="50" CenterY="50" ColorNum="2" Step="50" StepCenter="50" Type="Linear">
+<COLOR Value="16777215"/>
+<COLOR Value="12632256"/>
+</GRADATION>
+</FILLBRUSH>
+</BORDERFILL>
+<BORDERFILL BackSlash="0" BreakCellSeparateLine="0" CenterLine="0" CounterBackSlash="0" CounterSlash="0" CrookedSlash="0" Id="7" Shadow="false" Slash="0" ThreeD="false">
+<LEFTBORDER Type="Solid" Width="0.12mm"/>
+<RIGHTBORDER Type="Solid" Width="0.4mm"/>
+<TOPBORDER Type="Solid" Width="0.4mm"/>
+<BOTTOMBORDER Type="Solid" Width="0.12mm"/>
+<FILLBRUSH>
+<GRADATION Alpha="0" Angle="0" CenterX="50" CenterY="50" ColorNum="2" Step="50" StepCenter="50" Type="Linear">
+<COLOR Value="16777215"/>
+<COLOR Value="12632256"/>
+</GRADATION>
+</FILLBRUSH>
+</BORDERFILL>
+<BORDERFILL BackSlash="0" BreakCellSeparateLine="0" CenterLine="0" CounterBackSlash="0" CounterSlash="0" CrookedSlash="0" Id="8" Shadow="false" Slash="0" ThreeD="false">
+<LEFTBORDER Type="Solid" Width="0.4mm"/>
+<RIGHTBORDER Type="Solid" Width="0.4mm"/>
+<TOPBORDER Type="Solid" Width="0.12mm"/>
+<BOTTOMBORDER Type="Solid" Width="0.4mm"/>
+</BORDERFILL>
+<BORDERFILL BackSlash="0" BreakCellSeparateLine="0" CenterLine="0" CounterBackSlash="0" CounterSlash="0" CrookedSlash="0" Id="9" Shadow="false" Slash="0" ThreeD="false">
+<LEFTBORDER Type="None" Width="0.1mm"/>
+<RIGHTBORDER Type="None" Width="0.1mm"/>
+<TOPBORDER Type="None" Width="0.1mm"/>
+<BOTTOMBORDER Type="None" Width="0.1mm"/>
+<DIAGONAL Type="Solid" Width="0.1mm"/>
+<FILLBRUSH>
+<WINDOWBRUSH Alpha="0" FaceColor="4294967295" HatchColor="4278190080"/>
+</FILLBRUSH>
+</BORDERFILL>
+<BORDERFILL BackSlash="0" BreakCellSeparateLine="0" CenterLine="0" CounterBackSlash="0" CounterSlash="0" CrookedSlash="0" Id="10" Shadow="false" Slash="0" ThreeD="false">
+<LEFTBORDER Type="Solid" Width="0.4mm"/>
+<RIGHTBORDER Type="Solid" Width="0.1mm"/>
+<TOPBORDER Type="Solid" Width="0.4mm"/>
+<BOTTOMBORDER Type="Solid" Width="0.12mm"/>
+</BORDERFILL>
+<BORDERFILL BackSlash="0" BreakCellSeparateLine="0" CenterLine="0" CounterBackSlash="0" CounterSlash="0" CrookedSlash="0" Id="11" Shadow="false" Slash="0" ThreeD="false">
+<LEFTBORDER Type="Solid" Width="0.1mm"/>
+<RIGHTBORDER Type="Solid" Width="0.4mm"/>
+<TOPBORDER Type="Solid" Width="0.4mm"/>
+<BOTTOMBORDER Type="Solid" Width="0.12mm"/>
+</BORDERFILL>
+<BORDERFILL BackSlash="0" BreakCellSeparateLine="0" CenterLine="0" CounterBackSlash="0" CounterSlash="0" CrookedSlash="0" Id="12" Shadow="false" Slash="0" ThreeD="false">
+<LEFTBORDER Type="Solid" Width="0.4mm"/>
+<RIGHTBORDER Type="Solid" Width="0.1mm"/>
+<TOPBORDER Type="Solid" Width="0.12mm"/>
+<BOTTOMBORDER Type="Solid" Width="0.12mm"/>
+</BORDERFILL>
+<BORDERFILL BackSlash="0" BreakCellSeparateLine="0" CenterLine="0" CounterBackSlash="0" CounterSlash="0" CrookedSlash="0" Id="13" Shadow="false" Slash="0" ThreeD="false">
+<LEFTBORDER Type="Solid" Width="0.1mm"/>
+<RIGHTBORDER Type="Solid" Width="0.4mm"/>
+<TOPBORDER Type="Solid" Width="0.12mm"/>
+<BOTTOMBORDER Type="Solid" Width="0.12mm"/>
+</BORDERFILL>
+</BORDERFILLLIST>
+<CHARSHAPELIST Count="23">
+<CHARSHAPE BorderFillId="0" Height="1000" Id="0" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="0" Height="1000" Id="1" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="2" Hanja="2" Japanese="2" Latin="2" Other="2" Symbol="2" User="2"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="0" Height="900" Id="2" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="1" Hanja="1" Japanese="1" Latin="1" Other="1" Symbol="1" User="1"/>
+<RATIO Hangul="98" Hanja="98" Japanese="98" Latin="98" Other="98" Symbol="98" User="98"/>
+<CHARSPACING Hangul="-2" Hanja="-2" Japanese="-2" Latin="-2" Other="-2" Symbol="-2" User="-2"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="0" Height="900" Id="3" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="2" Hanja="2" Japanese="2" Latin="2" Other="2" Symbol="2" User="2"/>
+<RATIO Hangul="95" Hanja="95" Japanese="95" Latin="95" Other="95" Symbol="95" User="95"/>
+<CHARSPACING Hangul="-5" Hanja="-5" Japanese="-5" Latin="-5" Other="-5" Symbol="-5" User="-5"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="0" Height="1000" Id="4" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="1" Hanja="1" Japanese="1" Latin="1" Other="1" Symbol="1" User="1"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="0" Height="1400" Id="5" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="3" Hanja="3" Japanese="3" Latin="3" Other="3" Symbol="3" User="3"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="0" Height="2000" Id="6" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="3" Hanja="3" Japanese="3" Latin="3" Other="3" Symbol="3" User="3"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<BOLD/>
+<UNDERLINE Color="0" Shape="Solid" Type="Bottom"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="0" Height="1200" Id="7" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="4" Hanja="4" Japanese="4" Latin="4" Other="4" Symbol="4" User="4"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="0" Height="1200" Id="8" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="4" Hanja="4" Japanese="4" Latin="4" Other="4" Symbol="4" User="4"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="-6" Hanja="-6" Japanese="-6" Latin="-6" Other="-6" Symbol="-6" User="-6"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="0" Height="1100" Id="9" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="4" Hanja="4" Japanese="4" Latin="4" Other="4" Symbol="4" User="4"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="9" Height="1000" Id="10" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="3" Hanja="3" Japanese="3" Latin="3" Other="3" Symbol="3" User="3"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="9" Height="2000" Id="11" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="3" Hanja="3" Japanese="3" Latin="3" Other="3" Symbol="3" User="3"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="9" Height="2000" Id="12" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="3" Hanja="3" Japanese="3" Latin="3" Other="3" Symbol="3" User="3"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<BOLD/>
+<UNDERLINE Color="0" Shape="Solid" Type="Bottom"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="9" Height="1600" Id="13" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="3" Hanja="3" Japanese="3" Latin="3" Other="3" Symbol="3" User="3"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="9" Height="1500" Id="14" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="3" Hanja="3" Japanese="3" Latin="3" Other="3" Symbol="3" User="3"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="9" Height="1500" Id="15" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="3" Hanja="3" Japanese="3" Latin="3" Other="3" Symbol="3" User="3"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<BOLD/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="9" Height="1500" Id="16" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="3" Hanja="3" Japanese="3" Latin="3" Other="3" Symbol="3" User="3"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="-13" Hanja="-13" Japanese="-13" Latin="-13" Other="-13" Symbol="-13" User="-13"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="9" Height="1500" Id="17" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="3" Hanja="3" Japanese="3" Latin="3" Other="3" Symbol="3" User="3"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="-13" Hanja="-13" Japanese="-13" Latin="-13" Other="-13" Symbol="-13" User="-13"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<UNDERLINE Color="0" Shape="Solid" Type="Bottom"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="9" Height="1500" Id="18" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="3" Hanja="3" Japanese="3" Latin="3" Other="3" Symbol="3" User="3"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="-1" Hanja="-1" Japanese="-1" Latin="-1" Other="-1" Symbol="-1" User="-1"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="9" Height="1500" Id="19" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="3" Hanja="3" Japanese="3" Latin="3" Other="3" Symbol="3" User="3"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="-5" Hanja="-5" Japanese="-5" Latin="-5" Other="-5" Symbol="-5" User="-5"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="9" Height="2000" Id="20" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="3" Hanja="3" Japanese="3" Latin="3" Other="3" Symbol="3" User="3"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<BOLD/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="9" Height="1500" Id="21" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="3" Hanja="3" Japanese="3" Latin="3" Other="3" Symbol="3" User="3"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="-20" Hanja="-20" Japanese="-20" Latin="-20" Other="-20" Symbol="-20" User="-20"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+</CHARSHAPE>
+<CHARSHAPE BorderFillId="9" Height="1000" Id="22" ShadeColor="4294967295" SymMark="0" TextColor="0" UseFontSpace="false" UseKerning="false">
+<FONTID Hangul="3" Hanja="3" Japanese="3" Latin="3" Other="3" Symbol="3" User="3"/>
+<RATIO Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHARSPACING Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<RELSIZE Hangul="100" Hanja="100" Japanese="100" Latin="100" Other="100" Symbol="100" User="100"/>
+<CHAROFFSET Hangul="0" Hanja="0" Japanese="0" Latin="0" Other="0" Symbol="0" User="0"/>
+<ITALIC/>
+</CHARSHAPE>
+</CHARSHAPELIST>
+<TABDEFLIST Count="3">
+<TABDEF AutoTabLeft="false" AutoTabRight="false" Id="0"/>
+<TABDEF AutoTabLeft="true" AutoTabRight="false" Id="1"/>
+<TABDEF AutoTabLeft="false" AutoTabRight="true" Id="2">
+<TABITEM Leader="None" Pos="0" Type="Left"/>
+</TABDEF>
+</TABDEFLIST>
+<NUMBERINGLIST Count="1">
+<NUMBERING Id="1" Start="0">
+<PARAHEAD Alignment="Right" AutoIndent="false" Level="1" NumFormat="Digit" Start="1" TextOffset="50" TextOffsetType="percent" UseInstWidth="false" WidthAdjust="3000">
+^1.</PARAHEAD>
+<PARAHEAD Alignment="Right" AutoIndent="false" Level="2" NumFormat="HangulSyllable" Start="1" TextOffset="50" TextOffsetType="percent" UseInstWidth="false" WidthAdjust="4000">
+^2.</PARAHEAD>
+<PARAHEAD Alignment="Right" AutoIndent="false" Level="3" NumFormat="Digit" Start="1" TextOffset="50" TextOffsetType="percent" UseInstWidth="false" WidthAdjust="5000">
+(^3)</PARAHEAD>
+<PARAHEAD Alignment="Right" AutoIndent="false" Level="4" NumFormat="HangulSyllable" Start="1" TextOffset="50" TextOffsetType="percent" UseInstWidth="false" WidthAdjust="6000">
+(^4)</PARAHEAD>
+<PARAHEAD Alignment="Right" AutoIndent="false" Level="5" NumFormat="Digit" Start="1" TextOffset="50" TextOffsetType="percent" UseInstWidth="false" WidthAdjust="7000">
+^5)</PARAHEAD>
+<PARAHEAD Alignment="Right" AutoIndent="false" Level="6" NumFormat="HangulSyllable" Start="1" TextOffset="50" TextOffsetType="percent" UseInstWidth="false" WidthAdjust="8000">
+^6)</PARAHEAD>
+<PARAHEAD Alignment="Right" AutoIndent="false" Level="7" NumFormat="CircledDigit" Start="1" TextOffset="50" TextOffsetType="percent" UseInstWidth="false" WidthAdjust="9000">
+^7</PARAHEAD>
+</NUMBERING>
+</NUMBERINGLIST>
+<PARASHAPELIST Count="16">
+<PARASHAPE Align="Left" AutoSpaceEAsianEng="false" AutoSpaceEAsianNum="false" BreakLatinWord="KeepWord" BreakNonLatinWord="false" Condense="0" FontLineHeight="false" HeadingType="None" Id="0" KeepLines="false" KeepWithNext="false" Level="0" LineWrap="Break" PageBreakBefore="false" SnapToGrid="false" TabDef="0" VerAlign="Baseline" WidowOrphan="false">
+<PARAMARGIN Indent="0" Left="0" LineSpacing="160" LineSpacingType="Percent" Next="0" Prev="0" Right="0"/>
+<PARABORDER BorderFill="9" Connect="false" IgnoreMargin="false"/>
+</PARASHAPE>
+<PARASHAPE Align="Justify" AutoSpaceEAsianEng="false" AutoSpaceEAsianNum="false" BreakLatinWord="KeepWord" BreakNonLatinWord="true" Condense="0" FontLineHeight="false" HeadingType="None" Id="1" KeepLines="false" KeepWithNext="false" Level="0" LineWrap="Break" PageBreakBefore="false" SnapToGrid="true" TabDef="0" VerAlign="Baseline" WidowOrphan="false">
+<PARAMARGIN Indent="0" Left="0" LineSpacing="160" LineSpacingType="Percent" Next="0" Prev="0" Right="0"/>
+<PARABORDER Connect="false" IgnoreMargin="false"/>
+</PARASHAPE>
+<PARASHAPE Align="Justify" AutoSpaceEAsianEng="false" AutoSpaceEAsianNum="false" BreakLatinWord="KeepWord" BreakNonLatinWord="true" Condense="0" FontLineHeight="false" HeadingType="None" Id="2" KeepLines="false" KeepWithNext="false" Level="0" LineWrap="Break" PageBreakBefore="false" SnapToGrid="true" TabDef="1" VerAlign="Baseline" WidowOrphan="false">
+<PARAMARGIN Indent="-2624" Left="0" LineSpacing="130" LineSpacingType="Percent" Next="0" Prev="0" Right="0"/>
+<PARABORDER Connect="false" IgnoreMargin="false"/>
+</PARASHAPE>
+<PARASHAPE Align="Justify" AutoSpaceEAsianEng="false" AutoSpaceEAsianNum="false" BreakLatinWord="KeepWord" BreakNonLatinWord="true" Condense="20" FontLineHeight="false" HeadingType="Outline" Id="3" KeepLines="false" KeepWithNext="false" Level="0" LineWrap="Break" PageBreakBefore="false" SnapToGrid="true" TabDef="0" VerAlign="Baseline" WidowOrphan="false">
+<PARAMARGIN Indent="0" Left="0" LineSpacing="160" LineSpacingType="Percent" Next="0" Prev="0" Right="0"/>
+<PARABORDER Connect="false" IgnoreMargin="false"/>
+</PARASHAPE>
+<PARASHAPE Align="Justify" AutoSpaceEAsianEng="false" AutoSpaceEAsianNum="false" BreakLatinWord="KeepWord" BreakNonLatinWord="true" Condense="0" FontLineHeight="false" HeadingType="Outline" Id="4" KeepLines="false" KeepWithNext="false" Level="1" LineWrap="Break" PageBreakBefore="false" SnapToGrid="true" TabDef="1" VerAlign="Baseline" WidowOrphan="false">
+<PARAMARGIN Indent="0" Left="0" LineSpacing="160" LineSpacingType="Percent" Next="0" Prev="0" Right="0"/>
+<PARABORDER Connect="false" IgnoreMargin="false"/>
+</PARASHAPE>
+<PARASHAPE Align="Justify" AutoSpaceEAsianEng="false" AutoSpaceEAsianNum="false" BreakLatinWord="KeepWord" BreakNonLatinWord="true" Condense="0" FontLineHeight="false" HeadingType="Outline" Id="5" KeepLines="false" KeepWithNext="false" Level="2" LineWrap="Break" PageBreakBefore="false" SnapToGrid="true" TabDef="0" VerAlign="Baseline" WidowOrphan="false">
+<PARAMARGIN Indent="0" Left="0" LineSpacing="160" LineSpacingType="Percent" Next="0" Prev="0" Right="0"/>
+<PARABORDER Connect="false" IgnoreMargin="false"/>
+</PARASHAPE>
+<PARASHAPE Align="Justify" AutoSpaceEAsianEng="false" AutoSpaceEAsianNum="false" BreakLatinWord="KeepWord" BreakNonLatinWord="true" Condense="0" FontLineHeight="false" HeadingType="Outline" Id="6" KeepLines="false" KeepWithNext="false" Level="3" LineWrap="Break" PageBreakBefore="false" SnapToGrid="true" TabDef="1" VerAlign="Baseline" WidowOrphan="false">
+<PARAMARGIN Indent="0" Left="0" LineSpacing="160" LineSpacingType="Percent" Next="0" Prev="0" Right="0"/>
+<PARABORDER Connect="false" IgnoreMargin="false"/>
+</PARASHAPE>
+<PARASHAPE Align="Justify" AutoSpaceEAsianEng="false" AutoSpaceEAsianNum="false" BreakLatinWord="KeepWord" BreakNonLatinWord="true" Condense="0" FontLineHeight="false" HeadingType="Outline" Id="7" KeepLines="false" KeepWithNext="false" Level="4" LineWrap="Break" PageBreakBefore="false" SnapToGrid="true" TabDef="0" VerAlign="Baseline" WidowOrphan="false">
+<PARAMARGIN Indent="0" Left="0" LineSpacing="160" LineSpacingType="Percent" Next="0" Prev="0" Right="0"/>
+<PARABORDER Connect="false" IgnoreMargin="false"/>
+</PARASHAPE>
+<PARASHAPE Align="Justify" AutoSpaceEAsianEng="false" AutoSpaceEAsianNum="false" BreakLatinWord="KeepWord" BreakNonLatinWord="true" Condense="0" FontLineHeight="false" HeadingType="Outline" Id="8" KeepLines="false" KeepWithNext="false" Level="5" LineWrap="Break" PageBreakBefore="false" SnapToGrid="true" TabDef="1" VerAlign="Baseline" WidowOrphan="false">
+<PARAMARGIN Indent="0" Left="0" LineSpacing="160" LineSpacingType="Percent" Next="0" Prev="0" Right="0"/>
+<PARABORDER Connect="false" IgnoreMargin="false"/>
+</PARASHAPE>
+<PARASHAPE Align="Justify" AutoSpaceEAsianEng="false" AutoSpaceEAsianNum="false" BreakLatinWord="KeepWord" BreakNonLatinWord="true" Condense="0" FontLineHeight="false" HeadingType="Outline" Id="9" KeepLines="false" KeepWithNext="false" Level="6" LineWrap="Break" PageBreakBefore="false" SnapToGrid="true" TabDef="1" VerAlign="Baseline" WidowOrphan="false">
+<PARAMARGIN Indent="0" Left="0" LineSpacing="160" LineSpacingType="Percent" Next="0" Prev="0" Right="0"/>
+<PARABORDER Connect="false" IgnoreMargin="false"/>
+</PARASHAPE>
+<PARASHAPE Align="Justify" AutoSpaceEAsianEng="false" AutoSpaceEAsianNum="false" BreakLatinWord="KeepWord" BreakNonLatinWord="true" Condense="20" FontLineHeight="false" HeadingType="None" Id="10" KeepLines="false" KeepWithNext="false" Level="0" LineWrap="Break" PageBreakBefore="false" SnapToGrid="true" TabDef="0" VerAlign="Baseline" WidowOrphan="false">
+<PARAMARGIN Indent="0" Left="3000" LineSpacing="160" LineSpacingType="Percent" Next="0" Prev="0" Right="0"/>
+<PARABORDER Connect="false" IgnoreMargin="false"/>
+</PARASHAPE>
+<PARASHAPE Align="Justify" AutoSpaceEAsianEng="false" AutoSpaceEAsianNum="false" BreakLatinWord="KeepWord" BreakNonLatinWord="false" Condense="0" FontLineHeight="false" HeadingType="None" Id="11" KeepLines="false" KeepWithNext="false" Level="0" LineWrap="Break" PageBreakBefore="false" SnapToGrid="true" TabDef="2" VerAlign="Baseline" WidowOrphan="false">
+<PARAMARGIN Indent="0" Left="0" LineSpacing="150" LineSpacingType="Percent" Next="0" Prev="0" Right="0"/>
+<PARABORDER Connect="false" IgnoreMargin="false"/>
+</PARASHAPE>
+<PARASHAPE Align="Center" AutoSpaceEAsianEng="false" AutoSpaceEAsianNum="false" BreakLatinWord="KeepWord" BreakNonLatinWord="false" Condense="0" FontLineHeight="false" HeadingType="None" Id="12" KeepLines="false" KeepWithNext="false" Level="0" LineWrap="Break" PageBreakBefore="false" SnapToGrid="false" TabDef="0" VerAlign="Baseline" WidowOrphan="false">
+<PARAMARGIN Indent="0" Left="0" LineSpacing="160" LineSpacingType="Percent" Next="0" Prev="0" Right="0"/>
+<PARABORDER Connect="false" IgnoreMargin="false"/>
+</PARASHAPE>
+<PARASHAPE Align="Justify" AutoSpaceEAsianEng="false" AutoSpaceEAsianNum="false" BreakLatinWord="KeepWord" BreakNonLatinWord="true" Condense="0" FontLineHeight="false" HeadingType="None" Id="13" KeepLines="false" KeepWithNext="false" Level="0" LineWrap="Break" PageBreakBefore="false" SnapToGrid="false" TabDef="0" VerAlign="Baseline" WidowOrphan="false">
+<PARAMARGIN Indent="0" Left="0" LineSpacing="160" LineSpacingType="Percent" Next="0" Prev="0" Right="0"/>
+<PARABORDER Connect="false" IgnoreMargin="false"/>
+</PARASHAPE>
+<PARASHAPE Align="Justify" AutoSpaceEAsianEng="false" AutoSpaceEAsianNum="false" BreakLatinWord="KeepWord" BreakNonLatinWord="true" Condense="0" FontLineHeight="false" HeadingType="None" Id="14" KeepLines="false" KeepWithNext="false" Level="0" LineWrap="Break" PageBreakBefore="false" SnapToGrid="false" TabDef="0" VerAlign="Baseline" WidowOrphan="false">
+<PARAMARGIN Indent="-4416" Left="0" LineSpacing="160" LineSpacingType="Percent" Next="0" Prev="0" Right="0"/>
+<PARABORDER Connect="false" IgnoreMargin="false"/>
+</PARASHAPE>
+<PARASHAPE Align="Justify" AutoSpaceEAsianEng="false" AutoSpaceEAsianNum="false" BreakLatinWord="KeepWord" BreakNonLatinWord="true" Condense="0" FontLineHeight="false" HeadingType="None" Id="15" KeepLines="false" KeepWithNext="false" Level="0" LineWrap="Break" PageBreakBefore="false" SnapToGrid="false" TabDef="0" VerAlign="Baseline" WidowOrphan="false">
+<PARAMARGIN Indent="0" Left="0" LineSpacing="160" LineSpacingType="Percent" Next="0" Prev="0" Right="0"/>
+<PARABORDER BorderFill="9" Connect="false" IgnoreMargin="false"/>
+</PARASHAPE>
+</PARASHAPELIST>
+<STYLELIST Count="12">
+<STYLE CharShape="10" EngName="Normal" Id="0" LangId="1042" LockForm="0" Name="πŸ≈¡±€" NextStyle="0" ParaShape="15" Type="Para"/>
+<STYLE CharShape="1" EngName="Body" Id="1" LangId="1042" LockForm="0" Name="∫ªπÆ" NextStyle="1" ParaShape="10" Type="Para"/>
+<STYLE CharShape="1" EngName="Outline 1" Id="2" LangId="1042" LockForm="0" Name="∞≥ø‰ 1" NextStyle="2" ParaShape="3" Type="Para"/>
+<STYLE CharShape="1" EngName="Outline 2" Id="3" LangId="1042" LockForm="0" Name="∞≥ø‰ 2" NextStyle="3" ParaShape="4" Type="Para"/>
+<STYLE CharShape="1" EngName="Outline 3" Id="4" LangId="1042" LockForm="0" Name="∞≥ø‰ 3" NextStyle="4" ParaShape="5" Type="Para"/>
+<STYLE CharShape="1" EngName="Outline 4" Id="5" LangId="1042" LockForm="0" Name="∞≥ø‰ 4" NextStyle="5" ParaShape="6" Type="Para"/>
+<STYLE CharShape="1" EngName="Outline 5" Id="6" LangId="1042" LockForm="0" Name="∞≥ø‰ 5" NextStyle="6" ParaShape="7" Type="Para"/>
+<STYLE CharShape="1" EngName="Outline 6" Id="7" LangId="1042" LockForm="0" Name="∞≥ø‰ 6" NextStyle="7" ParaShape="8" Type="Para"/>
+<STYLE CharShape="1" EngName="Outline 7" Id="8" LangId="1042" LockForm="0" Name="∞≥ø‰ 7" NextStyle="8" ParaShape="9" Type="Para"/>
+<STYLE CharShape="4" EngName="Page Number" Id="9" LangId="1042" LockForm="0" Name="¬  π¯»£" NextStyle="9" ParaShape="1" Type="Para"/>
+<STYLE CharShape="2" EngName="Header" Id="10" LangId="1042" LockForm="0" Name="∏”∏Æ∏ª" NextStyle="10" ParaShape="11" Type="Para"/>
+<STYLE CharShape="3" EngName="Footnote" Id="11" LangId="1042" LockForm="0" Name="∞¢¡÷" NextStyle="11" ParaShape="2" Type="Para"/>
+</STYLELIST>
+</MAPPINGTABLE>
+<COMPATIBLEDOCUMENT TargetProgram="None">
+<LAYOUTCOMPATIBILITY AdjustBaselineInFixedLinespacing="false" AdjustLineheightToFont="false" AdjustParaBorderOffsetWithBorder="false" AdjustParaBorderfillToSpacing="false" ApplyAtLeastToPercent100Pct="false" ApplyCharSpacingToCharGrid="false" ApplyExtendHeaderFooterEachSection="false" ApplyFontWeightToBold="false" ApplyFontspaceToLatin="false" ApplyNextspacingOfLastPara="false" ApplyParaBorderToOutside="false" ApplyPrevspacingBeneathObject="false" BaseCharUnitOfIndentOnFirstChar="false" BaseCharUnitOnEAsian="false" BaseLinespacingOnLinegrid="false" ConnectParaBorderfillOfEqualBorder="false" DoNotAdjustEmptyAnchorLine="false" DoNotAdjustWordInJustify="false" DoNotAlignWhitespaceOnRight="false" DoNotApplyAutoSpaceEAsianEng="false" DoNotApplyAutoSpaceEAsianNum="false" DoNotApplyExtensionCharCompose="false" DoNotApplyGridInHeaderFooter="false" DoNotApplyImageEffect="false" DoNotApplyShapeComment="false" DoNotApplyStrikeoutWithUnderline="false" DoNotApplyVertOffsetOfForward="false" DoNotFormattingAtBeneathAnchor="false" DoNotHoldAnchorOfTable="false" ExtendLineheightToOffset="false" ExtendLineheightToParaBorderOffset="false" ExtendVertLimitToPageMargins="false" FixedUnderlineWidth="false" OverlapBothAllowOverlap="false" TreatQuotationAsLatin="false" UseInnerUnderline="false" UseLowercaseStrikeout="false"/>
+</COMPATIBLEDOCUMENT>
 </HEAD>
-
 <BODY>
-
-<P CLASS=HStyle0'>
-<TABLE border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;border:none;'>
-<TR>
-	<TD width="562" height="870" valign="top" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:20.0pt;'>&nbsp;&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:20.0pt;'>&nbsp;&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:140%;text-align:center;'><SPAN STYLE='font-size:20.0pt;font-weight:"bold";";line-height:160%;'><u>Ìïò Ïûê Í≤Ä ÏÇ¨ Ï°∞ ÏÑú</u></SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:16.0pt;'>&nbsp;&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:16.0pt;'>&nbsp;&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:15.0pt;font-weight:"bold";'>&nbsp;&nbsp;Í≥µÏÇ¨Î™Ö : <c:out value="${result.flawRprNm }" /></SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:15.0pt;font-weight:"bold";'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN><SPAN STYLE='font-size:15.0pt;line-height:160%;'>20&nbsp;&nbsp;ÎÖÑ&nbsp;&nbsp;Ïõî&nbsp;&nbsp;Ïùº Ï§ÄÍ≥µ</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${result.ctrtDt }" /> <c:out value="${result.flawRprEntrpsNm }" /></SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ÎèÑÍ∏âÏï° : <c:out value="${result.ctrtAmt }" />Ïõê</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:140%;'><span STYLE='font-size:14.0pt;letter-spacing:-5pt;'>&nbsp;&nbsp;&nbsp;ÏúÑ Í≥µÏÇ¨Ïùò ÌïòÏûêÍ≤ÄÏÇ¨Ïùò Î™ÖÏùÑ Î∞õÏïÑ <c:out value="${result.flawExamDt }" /> Í≤ÄÏÇ¨Ìïú Í≤∞Í≥º</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:14.0pt;'>&nbsp;&nbsp;&nbsp;<u><c:out value="${result.castFlawEnnc }"/></u>ÏùÑ ÌôïÏù∏Ìï®</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:130%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:130%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:130%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${result.hwpDate }"/></SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:100%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:100%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:130%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ÌïòÏûêÍ≤ÄÏÇ¨Ïõê : <c:out value="${result.flawExamUsrNm }" /> (Ïù∏)<img src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/></SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:150%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:150%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:150%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:150%;text-align:center;'><SPAN STYLE='font-size:20.0pt;font-weight:"bold";line-height:160%;'>Ïó¨ÏàòÍ¥ëÏñëÌï≠ÎßåÍ≥µÏÇ¨ÏÇ¨Ïû• Í∑ÄÌïò</SPAN></P>
-	</TD>
-</TR>
-</TABLE></P>
-<c:if test="${result.flawEnnc == 'Y'}">
-
-<P CLASS=HStyle0 STYLE='text-align:center;line-height:160%;'><SPAN STYLE='font-size:20.0pt;font-weight:"bold";'><u>Ìïò&nbsp;&nbsp;&nbsp; Ïûê&nbsp;&nbsp;&nbsp; ÎÇ¥&nbsp;&nbsp;&nbsp; Ïö©</u></SPAN></P>
-
-<P CLASS=HStyle0 STYLE='text-align:center;line-height:160%;'><SPAN STYLE='font-size:14.0pt;'>(<c:out value="${result.flawRprNm }" />)</SPAN></P>
-
-<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:14.0pt;line-height:160%;'><BR></SPAN></P>
-
-<P CLASS=HStyle0 STYLE='text-align:center;'>
-<TABLE border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;border:none;'>
-<TR>
-	<TD width="380" height="60" valign="middle" bgcolor="#ffffff" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:12.0pt;font-family:"Ìú¥Î®ºÎ™ÖÏ°∞";line-height:160%;'>ÌïòÏûêÎÇ¥Ïö©</SPAN></P>
-	</TD>
-	<TD width="180" height="60" valign="middle" bgcolor="#ffffff" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:12.0pt;font-family:"Ìú¥Î®ºÎ™ÖÏ°∞";line-height:160%;'>ÎπÑ Í≥†</SPAN></P>
-	</TD>
-</TR>
-<TR>
-	<TD width="380" height="117" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0><SPAN STYLE='font-size:12.0pt;font-family:"Ìú¥Î®ºÎ™ÖÏ°∞";'><pre><c:out value="${result.flawRprContents}"/></pre></SPAN></P>
-	</TD>
-	<TD width="180" height="117" valign="middle" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0><SPAN STYLE='font-size:12.0pt;font-family:"Ìú¥Î®ºÎ™ÖÏ°∞";'><pre><c:out value="${result.rm}"/></pre></SPAN></P>
-	</TD>
-</TR>
-</TABLE></P>
-
-<P CLASS=HStyle0><SPAN STYLE='font-size:14.0pt;line-height:160%;'><BR></SPAN></P>
-
-<P CLASS=HStyle0><SPAN STYLE='font-size:14.0pt;line-height:160%;'>‚óã ÏÇ¨ÏßÑÎåÄÏßÄ</SPAN></P>
-
-<P CLASS=HStyle0 STYLE='margin-bottom:4.0pt;text-align:center;line-height:120%;'>
-<TABLE border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;border:none;'>
-			<c:forEach var="resultItem" items="${resultList}" varStatus="status" end="3" step="2">
-				<TR>
-					<TD width="280" height="232" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />" width="260" height="195" vspace="0" hspace="0" border="0"></P>
-					</TD>
-					<TD width="280" height="232" valign="middle" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-					<c:if test="${fn:length(resultList) gt status.index+1 }">
-					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />" width="260" height="195" vspace="0" hspace="0" border="0"></P>
-					</c:if>
-					</TD>
-				</TR>
-				<TR>
-					<TD width="280" height="30" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-					<P CLASS=HStyle0><SPAN STYLE='font-size:11.0pt;font-family:"Ìú¥Î®ºÎ™ÖÏ°∞";line-height:160%;'>&nbsp;<c:out value="${resultItem.atchFileSj }"/></SPAN></P>
-					</TD>
-					<TD width="280" height="30" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-					<P CLASS=HStyle0><SPAN STYLE='font-size:11.0pt;font-family:"Ìú¥Î®ºÎ™ÖÏ°∞";line-height:160%;'>&nbsp;
-											<c:if test="${fn:length(resultList) gt status.index+1 }">
-												<c:out value="${resultList[status.index+1].atchFileSj }"/>
-											</c:if></SPAN></P>
-					</TD>
-				</TR>
-   			</c:forEach>
-</table>
-
-<!-- Ï≤´ÌéòÏù¥ÏßÄÎäî ÎëêÏ§Ñ Îßå Ï∂úÎ†•ÌïòÍ≥† Ïù¥ÏÉÅÏù∏ Í≤ΩÏö∞ Îã§Ïùå ÌéòÏù¥ÏßÄ Ï∂úÎ†•ÌïúÎã§. -->
-<c:if test="${fn:length(resultList) gt 4 }">
-
-<TABLE border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;border:none;'>
-			<c:forEach var="resultItem" items="${resultList}" varStatus="status" begin="4" step="2">
-
-	    		<TR>
-					<TD width="280" height="232" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />" width="260" height="195" vspace="0" hspace="0" border="0"></P>
-					</TD>
-					<TD width="280" height="232" valign="middle" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-					<c:if test="${fn:length(resultList) gt status.index+1 }">
-					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />" width="260" height="195" vspace="0" hspace="0" border="0"></P>
-					</c:if>
-					</TD>
-				</TR>
-				<TR>
-					<TD width="280" height="30" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-					<P CLASS=HStyle0><SPAN STYLE='font-size:11.0pt;font-family:"Ìú¥Î®ºÎ™ÖÏ°∞";line-height:160%;'>&nbsp;<c:out value="${resultItem.atchFileSj }"/></SPAN></P>
-					</TD>
-					<TD width="280" height="30" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-					<P CLASS=HStyle0><SPAN STYLE='font-size:11.0pt;font-family:"Ìú¥Î®ºÎ™ÖÏ°∞";line-height:160%;'>&nbsp;
-											<c:if test="${fn:length(resultList) gt status.index+1 }">
-												<c:out value="${resultList[status.index+1].atchFileSj }"/>
-											</c:if></SPAN></P>
-					</TD>
-				</TR>
-
-   			</c:forEach>
-</table>
-
-</c:if>
-
+<SECTION Id="0">
+<P ColumnBreak="false" PageBreak="false" ParaShape="12" Style="0">
+<TEXT CharShape="5">
+<SECDEF CharGrid="0" FirstBorder="false" FirstFill="false" LineGrid="0" OutlineShape="1" SpaceColumns="1134" TabStop="8000" TextDirection="0" TextVerticalWidthHead="0">
+<STARTNUMBER Equation="0" Figure="0" Page="0" PageStartsOn="Both" Table="0"/>
+<HIDE Border="false" EmptyLine="false" Fill="false" Footer="false" Header="false" MasterPage="false" PageNumPos="false"/>
+<PAGEDEF GutterType="LeftOnly" Height="84188" Landscape="0" Width="59528">
+<PAGEMARGIN Bottom="4252" Footer="2835" Gutter="0" Header="2835" Left="7087" Right="7087" Top="5668"/>
+</PAGEDEF>
+<FOOTNOTESHAPE>
+<AUTONUMFORMAT SuffixChar=")" Superscript="false" Type="Digit"/>
+<NOTELINE Length="5cm" Type="Solid" Width="0.1mm"/>
+<NOTESPACING AboveLine="567" BelowLine="567" BetweenNotes="850"/>
+<NOTENUMBERING NewNumber="1" Type="Continuous"/>
+<NOTEPLACEMENT BeneathText="false" Place="EachColumn"/>
+</FOOTNOTESHAPE>
+<ENDNOTESHAPE>
+<AUTONUMFORMAT SuffixChar=")" Superscript="false" Type="Digit"/>
+<NOTELINE Length="5cm" Type="Solid" Width="0.1mm"/>
+<NOTESPACING AboveLine="567" BelowLine="567" BetweenNotes="850"/>
+<NOTENUMBERING NewNumber="1" Type="Continuous"/>
+<NOTEPLACEMENT BeneathText="false" Place="EndOfDocument"/>
+</ENDNOTESHAPE>
+<PAGEBORDERFILL FillArea="Paper" FooterInside="false" HeaderInside="false" TextBorder="true" Type="Both">
+<PAGEOFFSET Bottom="1417" Left="1417" Right="1417" Top="1417"/>
+</PAGEBORDERFILL>
+<PAGEBORDERFILL FillArea="Paper" FooterInside="false" HeaderInside="false" TextBorder="true" Type="Even">
+<PAGEOFFSET Bottom="1417" Left="1417" Right="1417" Top="1417"/>
+</PAGEBORDERFILL>
+<PAGEBORDERFILL FillArea="Paper" FooterInside="false" HeaderInside="false" TextBorder="true" Type="Odd">
+<PAGEOFFSET Bottom="1417" Left="1417" Right="1417" Top="1417"/>
+</PAGEBORDERFILL>
+</SECDEF>
+<COLDEF Count="1" Layout="Left" SameGap="0" SameSize="true" Type="Newspaper"/>
+<TABLE BorderFill="1" CellSpacing="0" ColCount="1" PageBreak="Cell" RepeatHeader="true" RowCount="1">
+<SHAPEOBJECT InstId="1340405374" Lock="false" NumberingType="Table" ZOrder="5">
+<SIZE Height="66089" HeightRelTo="Absolute" Protect="false" Width="44788" WidthRelTo="Absolute"/>
+<POSITION AffectLSpacing="false" AllowOverlap="false" FlowWithText="true" HoldAnchorAndSO="false" HorzAlign="Left" HorzOffset="0" HorzRelTo="Para" TreatAsChar="true" VertAlign="Top" VertOffset="0" VertRelTo="Para"/>
+<OUTSIDEMARGIN Bottom="141" Left="141" Right="141" Top="141"/>
+</SHAPEOBJECT>
+<INSIDEMARGIN Bottom="141" Left="141" Right="141" Top="141"/>
+<ROW>
+<CELL BorderFill="5" ColAddr="0" ColSpan="1" Dirty="false" Editable="false" HasMargin="false" Header="false" Height="66089" Protect="false" RowAddr="0" RowSpan="1" Width="44788">
+<PARALIST LineWrap="Break" LinkListID="0" LinkListIDNext="0" TextDirection="0" VertAlign="Top">
+<P ParaShape="15" Style="0">
+<TEXT CharShape="11"/>
 </P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="11"/>
+</P>
+<P ParaShape="12" Style="0">
+<TEXT CharShape="12">
+<CHAR>
+«œ ¿⁄ ∞À ªÁ ¡∂ º≠</CHAR>
+</TEXT>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="13"/>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="13"/>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="13">
+<CHAR>
+ </CHAR>
+</TEXT>
+<TEXT CharShape="14">
+<CHAR>
+ </CHAR>
+</TEXT>
+<TEXT CharShape="15">
+<CHAR>
+∞¯ªÁ∏Ì : <c:out value="${result.flawRprNm }" /></CHAR>
+</TEXT>
+<TEXT CharShape="14"/>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="14"/>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="14">
+<CHAR>
+                 </CHAR>
+</TEXT>
+<TEXT CharShape="14">
+<CHAR>
+20  ≥‚  ø˘  ¿œ ¡ÿ∞¯</CHAR>
+</TEXT>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="14">
+<CHAR>
+                 <c:out value="${result.ctrtDt }" /> <c:out value="${result.flawRprEntrpsNm }" /></CHAR>
+</TEXT>
+<TEXT CharShape="14">
+<CHAR>
+</CHAR>
+</TEXT>
+<TEXT CharShape="14">
+</CHAR>
+</TEXT>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="14">
+<CHAR>
+                 µµ±ﬁæ◊ :  <c:out value="${result.ctrtAmt }" />ø¯</CHAR>
+</TEXT>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="14"/>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="14">
+<CHAR>
+     </CHAR>
+</TEXT>
+<TEXT CharShape="21">
+<CHAR>
+¿ß ∞¯ªÁ¿« «œ¿⁄∞ÀªÁ¿« ∏Ì¿ª πﬁæ∆  <c:out value="${result.flawExamDt }" /> ∞ÀªÁ«— ∞·∞˙</CHAR>
+</TEXT>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="16">
+<CHAR>
+      </CHAR>
+</TEXT>
+<TEXT CharShape="17">
+<CHAR>
+<c:out value="${result.castFlawEnnc }"/></CHAR>
+</TEXT>
+<TEXT CharShape="16">
+<CHAR>
+ »Æ¿Œ«‘</CHAR>
+</TEXT>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="14"/>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="14"/>
+</P>
+<P ParaShape="0" Style="0">
+<TEXT CharShape="14">
+<CHAR>
+                                      <c:out value="${result.hwpDate }"/></CHAR>
+</TEXT>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="14"/>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="14">
+	<PICTURE Reverse="false">
+	<SHAPEOBJECT InstId="1897708559" Lock="false" NumberingType="Figure" TextWrap="BehindText" ZOrder="0">
+	<SIZE Height="4620" HeightRelTo="Absolute" Protect="false" Width="3960" WidthRelTo="Absolute"/>
+	<POSITION AffectLSpacing="false" AllowOverlap="false" FlowWithText="true" HoldAnchorAndSO="false" HorzAlign="Left" HorzOffset="39071" HorzRelTo="Para" TreatAsChar="false" VertAlign="Top" VertOffset="900" VertRelTo="Para"/>
+	<OUTSIDEMARGIN Bottom="0" Left="0" Right="0" Top="0"/>
+	<SHAPECOMMENT></SHAPECOMMENT>
+	</SHAPEOBJECT>
+	<SHAPECOMPONENT GroupLevel="0" HorzFlip="false" InstID="823966736" OriHeight="4620" OriWidth="3960" VertFlip="false" XPos="0" YPos="0">
+	<ROTATIONINFO Angle="0" CenterX="1980" CenterY="2310"/>
+	<RENDERINGINFO>
+	<TRANSMATRIX E1="1.00000" E2="0.00000" E3="0.00000" E4="0.00000" E5="1.00000" E6="0.00000"/>
+	<SCAMATRIX E1="1.00000" E2="0.00000" E3="0.00000" E4="0.00000" E5="1.00000" E6="0.00000"/>
+	<ROTMATRIX E1="1.00000" E2="0.00000" E3="0.00000" E4="0.00000" E5="1.00000" E6="0.00000"/>
+	</RENDERINGINFO>
+	</SHAPECOMPONENT>
+	<IMAGERECT X0="0" X1="3960" X2="3960" X3="0" Y0="0" Y1="0" Y2="4620" Y3="4620"/>
+	<IMAGECLIP Bottom="4560" Left="0" Right="3900" Top="0"/>
+	<INSIDEMARGIN Bottom="0" Left="0" Right="0" Top="0"/>
+	<IMAGE Alpha="0" BinItem="1" Bright="0" Contrast="0" Effect="RealPic"/>
+	<EFFECTS/>
+	</PICTURE>
+<CHAR/>
+</TEXT>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="14">
+<CHAR>
+                        «œ¿⁄∞ÀªÁø¯ : <c:out value="${result.flawExamUsrNm }" /></CHAR>
+</TEXT>
+<TEXT CharShape="14">
+<CHAR>
+</CHAR>
+</TEXT>
+<TEXT CharShape="14">
+<CHAR>
+  (¿Œ)</CHAR>
+</TEXT>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="14">
+<CHAR>
+              </CHAR>
+</TEXT>
+<TEXT CharShape="18">
+<CHAR>
+                      </CHAR>
+</TEXT>
+<TEXT CharShape="14"/>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="14">
+<CHAR>
+                         </CHAR>
+</TEXT>
+<TEXT CharShape="19">
+<CHAR>
+         </CHAR>
+</TEXT>
+<TEXT CharShape="14">
+<CHAR>
+   </CHAR>
+</TEXT>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="14"/>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="14"/>
+</P>
+<P ParaShape="12" Style="0">
+<TEXT CharShape="20">
+<CHAR>
+ø©ºˆ±§æÁ«◊∏∏∞¯ªÁªÁ¿Â ±Õ«œ</CHAR>
+</TEXT>
+</P>
+</PARALIST>
+</CELL>
+</ROW>
+</TABLE>
+<CHAR/>
+</TEXT>
+</P>
+<c:if test="${result.flawEnnc == 'Y'}">
+<P ColumnBreak="false" PageBreak="true" ParaShape="12" Style="0">
+<TEXT CharShape="6">
+<CHAR>
+«œ    ¿⁄    ≥ª    øÎ</CHAR>
+</TEXT>
+</P>
+<P ParaShape="12" Style="0">
+<TEXT CharShape="5">
+<CHAR>
+(<c:out value="${result.flawRprNm }" />)</CHAR>
+</TEXT>
+</P>
+<P ParaShape="12" Style="0">
+<TEXT CharShape="5"/>
+</P>
+<P ParaShape="12" Style="0">
+<TEXT CharShape="5">
+<TABLE BorderFill="1" CellSpacing="0" ColCount="2" PageBreak="Cell" RepeatHeader="true" RowCount="2">
+<SHAPEOBJECT InstId="1851935990" Lock="false" NumberingType="Table" ZOrder="6">
+<SIZE Height="13313" HeightRelTo="Absolute" Protect="false" Width="45034" WidthRelTo="Absolute"/>
+<POSITION AffectLSpacing="false" AllowOverlap="false" FlowWithText="true" HoldAnchorAndSO="false" HorzAlign="Left" HorzOffset="0" HorzRelTo="Para" TreatAsChar="true" VertAlign="Top" VertOffset="0" VertRelTo="Para"/>
+<OUTSIDEMARGIN Bottom="141" Left="141" Right="141" Top="141"/>
+</SHAPEOBJECT>
+<INSIDEMARGIN Bottom="141" Left="141" Right="141" Top="141"/>
+<ROW>
+<CELL BorderFill="6" ColAddr="0" ColSpan="1" Dirty="false" Editable="false" HasMargin="false" Header="false" Height="4534" Protect="false" RowAddr="0" RowSpan="1" Width="30724">
+<PARALIST LineWrap="Break" LinkListID="0" LinkListIDNext="0" TextDirection="0" VertAlign="Center">
+<P ParaShape="12" Style="0">
+<TEXT CharShape="7">
+<CHAR>
+«œ¿⁄≥ªøÎ</CHAR>
+</TEXT>
+</P>
+</PARALIST>
+</CELL>
+<CELL BorderFill="7" ColAddr="1" ColSpan="1" Dirty="false" Editable="false" HasMargin="false" Header="false" Height="4534" Protect="false" RowAddr="0" RowSpan="1" Width="14310">
+<PARALIST LineWrap="Break" LinkListID="0" LinkListIDNext="0" TextDirection="0" VertAlign="Center">
+<P ParaShape="12" Style="0">
+<TEXT CharShape="7">
+<CHAR>
+∫Ò ∞Ì</CHAR>
+</TEXT>
+</P>
+</PARALIST>
+</CELL>
+</ROW>
+<ROW>
+<CELL BorderFill="2" ColAddr="0" ColSpan="1" Dirty="false" Editable="false" HasMargin="false" Header="false" Height="8779" Protect="false" RowAddr="1" RowSpan="1" Width="30724">
+<PARALIST LineWrap="Break" LinkListID="0" LinkListIDNext="0" TextDirection="0" VertAlign="Center">
+<P ParaShape="14" Style="0">
+<TEXT CharShape="8">
+<CHAR>
+<c:out value="${result.flawRprContents}"/></CHAR>
+</TEXT>
+</P>
+</PARALIST>
+</CELL>
+<CELL BorderFill="3" ColAddr="1" ColSpan="1" Dirty="false" Editable="false" HasMargin="false" Header="false" Height="8779" Protect="false" RowAddr="1" RowSpan="1" Width="14310">
+<PARALIST LineWrap="Break" LinkListID="0" LinkListIDNext="0" TextDirection="0" VertAlign="Center">
+<P ParaShape="12" Style="0">
+<TEXT CharShape="7">
+<CHAR>
+<c:out value="${result.rm}"/></CHAR>
+</TEXT>
+</P>
+</PARALIST>
+</CELL>
+</ROW>
+</TABLE>
+<CHAR/>
+</TEXT>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="5"/>
+</P>
+<P ParaShape="13" Style="0">
+<TEXT CharShape="5">
+<CHAR>
+°€ ªÁ¡¯¥Î¡ˆ</CHAR>
+</TEXT>
+</P>
+<P ParaShape="12" Style="0">
+<TEXT CharShape="5">
+	<TABLE BorderFill="1" CellSpacing="0" ColCount="2" PageBreak="Cell" RepeatHeader="true" RowCount="4">
 
+<SHAPEOBJECT InstId="1851935994" Lock="false" NumberingType="Table" ZOrder="7">
+<SIZE Height="39188" HeightRelTo="Absolute" Protect="false" Width="45024" WidthRelTo="Absolute"/>
+<POSITION AffectLSpacing="false" AllowOverlap="false" FlowWithText="true" HoldAnchorAndSO="false" HorzAlign="Left" HorzOffset="0" HorzRelTo="Para" TreatAsChar="true" VertAlign="Top" VertOffset="0" VertRelTo="Para"/>
+<OUTSIDEMARGIN Bottom="141" Left="141" Right="141" Top="141"/>
+</SHAPEOBJECT>
+<INSIDEMARGIN Bottom="141" Left="141" Right="141" Top="141"/>
+
+<c:forEach var="resultItem" items="${resultList}" varStatus="status" end="3" step="2">
+<ROW>
+<CELL BorderFill="10" ColAddr="0" ColSpan="1" Dirty="false" Editable="false" HasMargin="false" Header="false" Height="17413" Protect="false" RowAddr="0" RowSpan="1" Width="22512">
+<PARALIST LineWrap="Break" LinkListID="0" LinkListIDNext="0" TextDirection="0" VertAlign="Center">
+<P ParaShape="12" Style="0">
+<TEXT CharShape="0">
+<CHAR>
+   </CHAR>
+   
+	<PICTURE Reverse="false">
+	<SHAPEOBJECT InstId="1897708565" Lock="false" NumberingType="Figure" TextFlow="BothSides" ZOrder="1">
+	<SIZE Height="13080" HeightRelTo="Absolute" Protect="false" Width="16740" WidthRelTo="Absolute"/>
+	<POSITION AffectLSpacing="false" AllowOverlap="false" FlowWithText="true" HoldAnchorAndSO="false" HorzAlign="Left" HorzOffset="11864" HorzRelTo="Para" TreatAsChar="true" VertAlign="Top" VertOffset="0" VertRelTo="Para"/>
+	<OUTSIDEMARGIN Bottom="0" Left="0" Right="0" Top="0"/>
+	<SHAPECOMMENT></SHAPECOMMENT>
+	</SHAPEOBJECT>
+	<SHAPECOMPONENT GroupLevel="0" HorzFlip="false" InstID="823966742" OriHeight="13080" OriWidth="16740" VertFlip="false" XPos="0" YPos="0">
+	<ROTATIONINFO Angle="0" CenterX="8370" CenterY="6540"/>
+	<RENDERINGINFO>
+	<TRANSMATRIX E1="1.00000" E2="0.00000" E3="0.00000" E4="0.00000" E5="1.00000" E6="0.00000"/>
+	<SCAMATRIX E1="1.00000" E2="0.00000" E3="0.00000" E4="0.00000" E5="1.00000" E6="0.00000"/>
+	<ROTMATRIX E1="1.00000" E2="0.00000" E3="0.00000" E4="0.00000" E5="1.00000" E6="0.00000"/>
+	</RENDERINGINFO>
+	</SHAPECOMPONENT>
+	<IMAGERECT X0="0" X1="16740" X2="16740" X3="0" Y0="0" Y1="0" Y2="13080" Y3="13080"/>
+	<IMAGECLIP Bottom="13080" Left="0" Right="16740" Top="0"/>
+	<INSIDEMARGIN Bottom="0" Left="0" Right="0" Top="0"/>
+	<IMAGE Alpha="0" BinItem="${status.index+2 }" Bright="0" Contrast="0" Effect="RealPic"/>
+	<EFFECTS/>
+	</PICTURE>
+	
+<CHAR/>
+</TEXT>
+</P>
+</PARALIST>
+</CELL>
+<CELL BorderFill="11" ColAddr="1" ColSpan="1" Dirty="false" Editable="false" HasMargin="false" Header="false" Height="17413" Protect="false" RowAddr="0" RowSpan="1" Width="22512">
+<PARALIST LineWrap="Break" LinkListID="0" LinkListIDNext="0" TextDirection="0" VertAlign="Center">
+<P ParaShape="12" Style="0">
+<TEXT CharShape="0">
+<c:if test="${fn:length(resultList) gt status.index+1 }">
+<PICTURE Reverse="false">
+<SHAPEOBJECT InstId="1897742301" Lock="false" NumberingType="Figure" TextFlow="BothSides" ZOrder="2">
+<SIZE Height="15960" HeightRelTo="Absolute" Protect="false" Width="21660" WidthRelTo="Absolute"/>
+<POSITION AffectLSpacing="false" AllowOverlap="false" FlowWithText="true" HoldAnchorAndSO="false" HorzAlign="Left" HorzOffset="877" HorzRelTo="Para" TreatAsChar="true" VertAlign="Top" VertOffset="0" VertRelTo="Para"/>
+<OUTSIDEMARGIN Bottom="0" Left="0" Right="0" Top="0"/>
+<SHAPECOMMENT>
+±◊∏≤¿‘¥œ¥Ÿ.
+</SHAPECOMMENT>
+</SHAPEOBJECT>
+<SHAPECOMPONENT GroupLevel="0" HorzFlip="false" InstID="824000478" OriHeight="15960" OriWidth="21660" VertFlip="false" XPos="0" YPos="0">
+<ROTATIONINFO Angle="0" CenterX="10830" CenterY="7980"/>
+<RENDERINGINFO>
+<TRANSMATRIX E1="1.00000" E2="0.00000" E3="0.00000" E4="0.00000" E5="1.00000" E6="0.00000"/>
+<SCAMATRIX E1="1.00000" E2="0.00000" E3="0.00000" E4="0.00000" E5="1.00000" E6="0.00000"/>
+<ROTMATRIX E1="1.00000" E2="0.00000" E3="0.00000" E4="0.00000" E5="1.00000" E6="0.00000"/>
+</RENDERINGINFO>
+</SHAPECOMPONENT>
+<IMAGERECT X0="0" X1="21660" X2="21660" X3="0" Y0="0" Y1="0" Y2="15960" Y3="15960"/>
+<IMAGECLIP Bottom="15960" Left="0" Right="21660" Top="0"/>
+<INSIDEMARGIN Bottom="0" Left="0" Right="0" Top="0"/>
+<IMAGE Alpha="0" BinItem="${status.index+3 }" Bright="0" Contrast="0" Effect="RealPic"/>
+<EFFECTS/>
+</PICTURE>
 </c:if>
+<CHAR/>
+</TEXT>
+</P>
+</PARALIST>
+</CELL>
+</ROW>
 
+<ROW>
+<CELL BorderFill="4" ColAddr="0" ColSpan="1" Dirty="false" Editable="false" HasMargin="false" Header="false" Height="1948" Protect="false" RowAddr="1" RowSpan="1" Width="22512">
+<PARALIST LineWrap="Break" LinkListID="0" LinkListIDNext="0" TextDirection="0" VertAlign="Center">
+<P ParaShape="13" Style="0">
+<TEXT CharShape="9">
+<CHAR>
+<c:out value="${resultItem.atchFileSj }"/></CHAR>
+</TEXT>
+</P>
+</PARALIST>
+</CELL>
+<CELL BorderFill="4" ColAddr="1" ColSpan="1" Dirty="false" Editable="false" HasMargin="false" Header="false" Height="1948" Protect="false" RowAddr="1" RowSpan="1" Width="22512">
+<PARALIST LineWrap="Break" LinkListID="0" LinkListIDNext="0" TextDirection="0" VertAlign="Center">
+<P ParaShape="13" Style="0">
+<TEXT CharShape="9">
+<CHAR>
+<c:if test="${fn:length(resultList) gt status.index+1 }">
+<c:out value="${resultList[status.index+1].atchFileSj }"/>
+</c:if>
+</TEXT>
+<TEXT CharShape="9"/>
+</P>
+</PARALIST>
+</CELL>
+</ROW>
+</c:forEach>
+
+</TABLE>
+
+<CHAR/>
+</TEXT>
+</P>
+</SECTION>
 </BODY>
-
-</HTML>
+</c:if>
+<TAIL>
+<SCRIPTCODE Type="JScript" Version="1.0">
+<SCRIPTHEADER>
+</SCRIPTHEADER>
+<SCRIPTSOURCE>
+</SCRIPTSOURCE>
+</SCRIPTCODE>
+</TAIL>
+</HWPML>
