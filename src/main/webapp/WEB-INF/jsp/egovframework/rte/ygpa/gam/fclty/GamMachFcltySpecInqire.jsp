@@ -771,7 +771,7 @@ GamMachFcltySpecInqireModule.prototype.displayAtchFileDirectory = function(argDi
 				module.tree.setImagePath("<c:url value='/js/codebase/imgs/dhxtree_skyblue/'/>");
 				module.tree.loadJSArray(atchFileDirTreeItems);
 				module.tree.setUserData('module', module);
- 				module.tree.openAllItems(0);
+				module.tree.openItem(1);
 				module.tree.module = module;
 				module.tree.setOnClickHandler(module.onAtchFileDirTreeItemClick);
 				if (argDirNo != "") {
