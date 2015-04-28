@@ -78,7 +78,6 @@ if(request.getAttribute("isHwp")!=null){
 		padding: 0.2cm;
 		vertical-align: middle;
 		border:1px gray solid;
-		text-align: center;
 	}
 
 	table.pictureGridTbl>thead {
@@ -156,7 +155,7 @@ if(request.getAttribute("isHwp")!=null){
 
 	img.tdFull {
 		display: block;
-		width: 6cm;
+		width: 7.5cm;
 		max-height: 100%;
 		margin: auto;
 	}
@@ -326,7 +325,7 @@ if(request.getAttribute("isHwp")!=null){
 			        				<td>
 			        					<p class="inspectDate">
 						        		하자검사자 : <c:out value="${result.flawExamUsrNm }" />
-						        		<div  class="stamp">(인)</div>
+						        		<div class="stamp">(인)</div>
 						        		<img class="stamp" src="<c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/>
 						        		</p>
 						       		</td>
@@ -392,10 +391,10 @@ if(request.getAttribute("isHwp")!=null){
 						</td>
 	    			</tr>
 	    		 <tr class="caption">
-    			<td><c:out value="${resultItem.atchFileSj }"/></td>
+    			<td>&nbsp;&nbsp;<c:out value="${resultItem.atchFileSj }"/></td>
     			<td>
    					<c:if test="${fn:length(resultList) gt status.index+1 }">
-						<c:out value="${resultList[status.index+1].atchFileSj }"/>
+						&nbsp;&nbsp;<c:out value="${resultList[status.index+1].atchFileSj }"/>
 					</c:if>
     			</td>
     			</tr>
@@ -422,10 +421,10 @@ if(request.getAttribute("isHwp")!=null){
 					</td>
     			</tr>
     			<tr class="caption">
-    			<td><c:out value="${resultItem.atchFileSj }"/></td>
+    			<td>&nbsp;&nbsp;<c:out value="${resultItem.atchFileSj }"/></td>
     			<td>
    					<c:if test="${fn:length(resultList) gt status.index+1 }">
-						<c:out value="${resultList[status.index+1].atchFileSj }"/>
+						&nbsp;&nbsp;<c:out value="${resultList[status.index+1].atchFileSj }"/>
 					</c:if>
     			</td>
     			</tr>

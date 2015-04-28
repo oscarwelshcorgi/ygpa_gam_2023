@@ -78,7 +78,7 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 <P CLASS=HStyle0'>
 <TABLE border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;border:none;'>
 <TR>
-	<TD width="597" height="880" valign="top" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<TD width="562" height="870" valign="top" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:20.0pt;'>&nbsp;&nbsp;</SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:20.0pt;'>&nbsp;&nbsp;</SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:140%;text-align:center;'><SPAN STYLE='font-size:20.0pt;font-weight:"bold";";line-height:160%;'><u>하 자 검 사 조 서</u></SPAN></P>
@@ -90,16 +90,14 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${result.ctrtDt }" /> <c:out value="${result.flawRprEntrpsNm }" /></SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;도급액 : <c:out value="${result.ctrtAmt }" />원</SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:140%;'><span STYLE='font-size:14.0pt;letter-spacing:-5pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;위 공사의 하자검사의 명을 받아 <c:out value="${result.flawExamDt }" /> 검사한 결과</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:14.0pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><c:out value="${result.castFlawEnnc }"/></u>을 확인함</SPAN></P>
+	<P CLASS=HStyle0 STYLE='line-height:140%;'><span STYLE='font-size:14.0pt;letter-spacing:-5pt;'>&nbsp;&nbsp;&nbsp;위 공사의 하자검사의 명을 받아 <c:out value="${result.flawExamDt }" /> 검사한 결과</SPAN></P>
+	<P CLASS=HStyle0 STYLE='line-height:140%;'><SPAN STYLE='font-size:14.0pt;'>&nbsp;&nbsp;&nbsp;<u><c:out value="${result.castFlawEnnc }"/></u>을 확인함</SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:130%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:130%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:130%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${result.hwpDate }"/></SPAN></P>
+	<P CLASS=HStyle0 STYLE='line-height:130%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${result.hwpDate }"/></SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:100%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:100%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:130%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;하자검사원 : <c:out value="${result.flawExamUsrNm }" /> (인)<img src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/></SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:150%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:150%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
+	<P CLASS=HStyle0 STYLE='line-height:130%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;하자검사원 : <c:out value="${result.flawExamUsrNm }" /> (인)<img src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />"/></SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:150%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:150%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:150%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
@@ -107,7 +105,6 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 	</TD>
 </TR>
 </TABLE></P>
-<br><br>
 <c:if test="${result.flawEnnc == 'Y'}">
 
 <P CLASS=HStyle0 STYLE='text-align:center;line-height:160%;'><SPAN STYLE='font-size:20.0pt;font-weight:"bold";'><u>하&nbsp;&nbsp;&nbsp; 자&nbsp;&nbsp;&nbsp; 내&nbsp;&nbsp;&nbsp; 용</u></SPAN></P>
@@ -119,18 +116,18 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 <P CLASS=HStyle0 STYLE='text-align:center;'>
 <TABLE border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;border:none;'>
 <TR>
-	<TD width="410" height="60" valign="middle" bgcolor="#ffffff" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<TD width="380" height="60" valign="middle" bgcolor="#ffffff" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:160%;'>하자내용</SPAN></P>
 	</TD>
-	<TD width="191" height="60" valign="middle" bgcolor="#ffffff" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<TD width="180" height="60" valign="middle" bgcolor="#ffffff" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:160%;'>비 고</SPAN></P>
 	</TD>
 </TR>
 <TR>
-	<TD width="410" height="117" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<TD width="380" height="117" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";'><pre><c:out value="${result.flawRprContents}"/></pre></SPAN></P>
 	</TD>
-	<TD width="191" height="117" valign="middle" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+	<TD width="180" height="117" valign="middle" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";'><pre><c:out value="${result.rm}"/></pre></SPAN></P>
 	</TD>
 </TR>
@@ -144,20 +141,20 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 <TABLE border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;border:none;'>
 			<c:forEach var="resultItem" items="${resultList}" varStatus="status" end="3" step="2">
 				<TR>
-					<TD width="300" height="232" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />" width="280" height="210" vspace="0" hspace="0" border="0"></P>
+					<TD width="280" height="232" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />" width="260" height="195" vspace="0" hspace="0" border="0"></P>
 					</TD>
-					<TD width="300" height="232" valign="middle" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+					<TD width="280" height="232" valign="middle" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 					<c:if test="${fn:length(resultList) gt status.index+1 }">
-					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />" width="280" height="210" vspace="0" hspace="0" border="0"></P>
+					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />" width="260" height="195" vspace="0" hspace="0" border="0"></P>
 					</c:if>
 					</TD>
 				</TR>
 				<TR>
-					<TD width="300" height="26" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+					<TD width="280" height="30" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 					<P CLASS=HStyle0><SPAN STYLE='font-size:11.0pt;font-family:"휴먼명조";line-height:160%;'>&nbsp;<c:out value="${resultItem.atchFileSj }"/></SPAN></P>
 					</TD>
-					<TD width="300" height="26" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+					<TD width="280" height="30" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 					<P CLASS=HStyle0><SPAN STYLE='font-size:11.0pt;font-family:"휴먼명조";line-height:160%;'>&nbsp;
 											<c:if test="${fn:length(resultList) gt status.index+1 }">
 												<c:out value="${resultList[status.index+1].atchFileSj }"/>
@@ -174,20 +171,20 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 			<c:forEach var="resultItem" items="${resultList}" varStatus="status" begin="4" step="2">
 
 	    		<TR>
-					<TD width="300" height="232" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />" width="280" height="210" vspace="0" hspace="0" border="0"></P>
+					<TD width="280" height="232" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />" width="260" height="195" vspace="0" hspace="0" border="0"></P>
 					</TD>
-					<TD width="300" height="232" valign="middle" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+					<TD width="280" height="232" valign="middle" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 					<c:if test="${fn:length(resultList) gt status.index+1 }">
-					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />" width="280" height="210" vspace="0" hspace="0" border="0"></P>
+					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />" width="260" height="195" vspace="0" hspace="0" border="0"></P>
 					</c:if>
 					</TD>
 				</TR>
 				<TR>
-					<TD width="300" height="26" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+					<TD width="280" height="30" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 					<P CLASS=HStyle0><SPAN STYLE='font-size:11.0pt;font-family:"휴먼명조";line-height:160%;'>&nbsp;<c:out value="${resultItem.atchFileSj }"/></SPAN></P>
 					</TD>
-					<TD width="300" height="26" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+					<TD width="280" height="30" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 					<P CLASS=HStyle0><SPAN STYLE='font-size:11.0pt;font-family:"휴먼명조";line-height:160%;'>&nbsp;
 											<c:if test="${fn:length(resultList) gt status.index+1 }">
 												<c:out value="${resultList[status.index+1].atchFileSj }"/>
