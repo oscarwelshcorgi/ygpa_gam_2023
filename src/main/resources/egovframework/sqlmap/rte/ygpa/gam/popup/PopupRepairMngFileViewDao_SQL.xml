@@ -48,13 +48,13 @@
 
 	<update id="PopupRepairMngFileViewDao.updateFcltyRepairMngContentsRm_S" parameterClass="gamFcltyRepairMngVO">
 		UPDATE FLAW_RPR_DTLS_F SET
-			 FLAW_RPR_CONTENTS = (SELECT REPLACE(WM_CONCAT(TO_CHAR(ATCH_FILE_SEQ) || '. ' || ATCH_FILE_SJ || CHR(13)),',','')
+			 FLAW_RPR_CONTENTS = (SELECT REPLACE(WM_CONCAT(' ○ ' || ATCH_FILE_SJ || CHR(13)),',','')
 									FROM FLAW_RPR_ATCH_FILE_F
 								  WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 								   AND FCLTS_JOB_SE = #fcltsJobSe#
 								   AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
 								   AND ATCH_FILE_SJ IS NOT NULL)
-			,RM = (SELECT REPLACE(WM_CONCAT(TO_CHAR(ATCH_FILE_SEQ) || '. ' || ATCH_FILE_RM || CHR(13)),',','')
+			,RM = (SELECT REPLACE(WM_CONCAT(' ' ||ATCH_FILE_RM || CHR(13)),',','')
 					 FROM FLAW_RPR_ATCH_FILE_F
 				   WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 					AND FCLTS_JOB_SE = #fcltsJobSe#
