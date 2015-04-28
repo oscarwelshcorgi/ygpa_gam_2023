@@ -145,11 +145,11 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 			<c:forEach var="resultItem" items="${resultList}" varStatus="status" end="3" step="2">
 				<TR>
 					<TD width="300" height="232" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />" width="280" height="210" vspace="0" hspace="0" border="0"></P>
+					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />" width="280" height="210" vspace="0" hspace="0" border="0"></P>
 					</TD>
 					<TD width="300" height="232" valign="middle" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 					<c:if test="${fn:length(resultList) gt status.index+1 }">
-					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />" width="280" height="210" vspace="0" hspace="0" border="0"></P>
+					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />" width="280" height="210" vspace="0" hspace="0" border="0"></P>
 					</c:if>
 					</TD>
 				</TR>
@@ -169,17 +169,17 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 
 <!-- 첫페이지는 두줄 만 출력하고 이상인 경우 다음 페이지 출력한다. -->
 <c:if test="${fn:length(resultList) gt 4 }">
-	    	
+
 <TABLE border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;border:none;'>
 			<c:forEach var="resultItem" items="${resultList}" varStatus="status" begin="4" step="2">
 
 	    		<TR>
 					<TD width="300" height="232" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />" width="280" height="210" vspace="0" hspace="0" border="0"></P>
+					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />" width="280" height="210" vspace="0" hspace="0" border="0"></P>
 					</TD>
 					<TD width="300" height="232" valign="middle" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 					<c:if test="${fn:length(resultList) gt status.index+1 }">
-					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />" width="280" height="210" vspace="0" hspace="0" border="0"></P>
+					<P CLASS=HStyle0 STYLE='text-align:center;'><IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />" width="280" height="210" vspace="0" hspace="0" border="0"></P>
 					</c:if>
 					</TD>
 				</TR>
@@ -194,7 +194,7 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 											</c:if></SPAN></P>
 					</TD>
 				</TR>
-					
+
    			</c:forEach>
 </table>
 
