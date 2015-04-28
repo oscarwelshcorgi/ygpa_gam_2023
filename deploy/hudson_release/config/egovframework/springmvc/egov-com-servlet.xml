@@ -70,6 +70,7 @@
 		<!-- 인증 체크가 필요 없는 URL 리스트 -->
 		<property name="permittedURL">
 			<set>
+				<value>/fcltyMng/fdown/[a-zA-Z]+\.do</value>
 				<value>/uat/uia/[a-zA-Z]+\.do</value>
 				<value>/code404.do</value>
 				<value>/code500.do</value>

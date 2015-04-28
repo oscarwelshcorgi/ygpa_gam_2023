@@ -1,0 +1,11 @@
+* [메인페이지|Main]
+* [매뉴얼정보|About]
+* [새소식|News]
+* [최근변경사항|Recent Changes]
+* [리스트|WikiEtiquette]
+
+* [검색하기|Search]
+* [사용하지않는페이지|UnusedPages]
+* [미정의페이지|UndefinedPages]
+* [페이지 인덱스|Page Index]
+* [시스템정보|SystemInfo]

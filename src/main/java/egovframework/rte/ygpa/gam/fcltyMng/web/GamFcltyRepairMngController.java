@@ -849,7 +849,7 @@ public class GamFcltyRepairMngController {
 
 	}
 
-    @RequestMapping("/fcltyMng/getRepairAttachFile.do")
+    @RequestMapping("/fcltyMng/fdown/getRepairAttachFile.do")
     public void getImage(final HttpServletRequest request, HttpServletResponse response) throws Exception {
 		GamFileServiceVo gamFileServiceVo = new GamFileServiceVo();
 		String uploadPath = EgovProperties.getProperty("repairAttach.fileStorePath");

@@ -383,11 +383,11 @@ if(request.getAttribute("isHwp")!=null){
 					<c:forEach var="resultItem" items="${resultList}" varStatus="status" end="3" step="2">
 	    			<tr>
 	    				<td>
-		    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />"/>
+		    				<img class="tdFull" src="<c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl }' />"/>
 						</td>
 						<td>
 	    				<c:if test="${fn:length(resultList) gt status.index+1 }">
-		    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />"/>
+		    				<img class="tdFull" src="<c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />"/>
 						</c:if>
 						</td>
 	    			</tr>
@@ -413,11 +413,11 @@ if(request.getAttribute("isHwp")!=null){
 				<c:forEach var="resultItem" items="${resultList}" varStatus="status" begin="4" step="2">
     			<tr>
     				<td>
-    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl}' />"/>
+    				<img class="tdFull" src="<c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultItem.atchFileNmPhysicl}' />"/>
 					</td>
 					<td>
 					<c:if test="${fn:length(resultList) gt status.index+1 }">
-	    				<img class="tdFull" src="<c:url value='/fcltyMng/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />"/>
+	    				<img class="tdFull" src="<c:url value='/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=${resultList[status.index+1].atchFileNmPhysicl }' />"/>
 					</c:if>
 					</td>
     			</tr>

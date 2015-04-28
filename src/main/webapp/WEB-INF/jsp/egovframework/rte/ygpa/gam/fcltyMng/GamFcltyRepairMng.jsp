@@ -176,7 +176,7 @@ GamFcltyRepairMngModule.prototype.showFcltsAtchFileViewPopup = function() {
 		return;
 	}
 	if (selImg != "") {
-	var imageURL = this.getUrl("/fcltyMng/getRepairAttachFile.do?physicalFileNm=")+selImg;
+	var imageURL = this.getUrl("/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=")+selImg;
 
 	 console.log(imageURL);
 	}
@@ -687,7 +687,7 @@ GamFcltyRepairMngModule.prototype.imgPreview = function(){
 
 		if(ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif"){
 			this.$('#previewHidden').append('<div id="'+this.getId("previewDialog")+'"><img id="'+this.getId("previewImage")+'" src=""/></div>');
-			var imgURL = this.getUrl("/fcltyMng/getRepairAttachFile.do?physicalFileNm=")+selImg;
+			var imgURL = this.getUrl("/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=")+selImg;
 			this.$("#previewImage").attr("src", imgURL);
 
 			this.$("#previewImage").bind('load', {module: this}, function(event){

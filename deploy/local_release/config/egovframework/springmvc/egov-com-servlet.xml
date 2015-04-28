@@ -81,6 +81,7 @@
 		<property name="permittedURL">
 			<set>
 				<value>/uat/uia/[a-zA-Z]+\.do</value>
+				<value>/fcltyMng/fdown/[a-zA-Z]+\.do</value>
 			</set>
 		</property>
 	</bean>

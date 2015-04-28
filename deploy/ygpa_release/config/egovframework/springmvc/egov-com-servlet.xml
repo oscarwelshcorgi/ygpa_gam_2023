@@ -71,6 +71,7 @@
 		<property name="permittedURL">
 			<set>
 				<value>/uat/uia/[a-zA-Z]+\.do</value>
+				<value>/fcltyMng/fdown/[a-zA-Z]+\.do</value>
 				<value>/code404.do</value>
 				<value>/code500.do</value>
 			</set>
