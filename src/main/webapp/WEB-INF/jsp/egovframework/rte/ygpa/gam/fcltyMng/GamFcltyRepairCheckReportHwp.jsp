@@ -97,7 +97,8 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 	<P CLASS=HStyle0 STYLE='line-height:130%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${result.hwpDate }"/></SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:100%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:100%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
-	<P CLASS=HStyle0 STYLE='line-height:130%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;하자검사원 : <c:out value="${result.flawExamUsrNm }" /> (인)<img src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />" width="50" vspace="0" hspace="0" border="0"/></SPAN></P>
+	<P CLASS=HStyle0 STYLE='line-height:130%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;하자검사원 : <c:out value="${result.flawExamUsrNm }" /> (인)<IMG src="http://<%=request.getServerName() %>:<%=request.getServerPort() %><c:url value='/cmm/getPfImage.do?physicalFileNm=${charger.signFileNmPhysicl}' />" /></SPAN></P>
+	<P CLASS=HStyle0 STYLE='line-height:150%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:150%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:150%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
 	<P CLASS=HStyle0 STYLE='line-height:150%;'><SPAN STYLE='font-size:15.0pt;'>&nbsp;&nbsp;</SPAN></P>
@@ -151,10 +152,10 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 					</TD>
 				</TR>
 				<TR>
-					<TD width="280" height="30" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+					<TD width="280" height="30" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 					<P CLASS=HStyle0><SPAN STYLE='font-size:11.0pt;font-family:"휴먼명조";line-height:160%;'>&nbsp;<c:out value="${resultItem.atchFileSj }"/></SPAN></P>
 					</TD>
-					<TD width="280" height="30" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+					<TD width="280" height="30" valign="middle" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 					<P CLASS=HStyle0><SPAN STYLE='font-size:11.0pt;font-family:"휴먼명조";line-height:160%;'>&nbsp;
 											<c:if test="${fn:length(resultList) gt status.index+1 }">
 												<c:out value="${resultList[status.index+1].atchFileSj }"/>
@@ -181,10 +182,10 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 					</TD>
 				</TR>
 				<TR>
-					<TD width="280" height="30" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+					<TD width="280" height="30" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 					<P CLASS=HStyle0><SPAN STYLE='font-size:11.0pt;font-family:"휴먼명조";line-height:160%;'>&nbsp;<c:out value="${resultItem.atchFileSj }"/></SPAN></P>
 					</TD>
-					<TD width="280" height="30" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+					<TD width="280" height="30" valign="middle" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 					<P CLASS=HStyle0><SPAN STYLE='font-size:11.0pt;font-family:"휴먼명조";line-height:160%;'>&nbsp;
 											<c:if test="${fn:length(resultList) gt status.index+1 }">
 												<c:out value="${resultList[status.index+1].atchFileSj }"/>
