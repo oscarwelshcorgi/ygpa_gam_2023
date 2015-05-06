@@ -2333,7 +2333,7 @@ var fcltyCivilRuleSet = [
 				strokeOpacity : 0.75,
 				strokeColor : "#FF7F27",
 				strokeLinecap: 'square',
-				strokeDashstyle: 'solid',
+				strokeDashstyle: 'solid'
 			}
 		}
 	},
@@ -2689,7 +2689,7 @@ var fcltyITRuleSet = [
 				fillOpacity : 1,
 				strokeWidth : 1,
 				strokeOpacity : 1,
-				strokeColor : "#5432C9",
+				strokeColor : "#5432C9"
 			},
 			"Line" : {
 				strokeWidth : 3,
