@@ -75,7 +75,7 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 
 <BODY>
 
-<P CLASS=HStyle0'>
+<P CLASS=HStyle0 STYLE='margin-bottom:4.0pt;text-align:center;line-height:120%;'>
 <TABLE border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;border:none;'>
 <TR>
 	<TD width="562" height="870" valign="top" style='border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
@@ -124,14 +124,22 @@ P.HStyle11, LI.HStyle11, DIV.HStyle11
 	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:160%;'>비 고</SPAN></P>
 	</TD>
 </TR>
+
+<c:forEach var="resultItem" items="${resultList}" varStatus="status" begin="0" step="1">
+<c:if test="${!empty resultItem.atchFileSj }">
 <TR>
-	<TD width="380" height="117" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";'><pre><c:out value="${result.flawRprContents}"/></pre></SPAN></P>
-	</TD>
-	<TD width="180" height="117" valign="middle" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";'><pre><c:out value="${result.rm}"/></pre></SPAN></P>
-	</TD>
+		<TD width="380" height="25" valign="middle" style='border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+		<%-- <P CLASS=HStyle0><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";'><pre><c:out value="${result.flawRprContents}"/></pre></SPAN></P> --%>
+		<P CLASS=HStyle0><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";'><pre><c:out value="${resultItem.atchFileSj}"/></pre></SPAN></P>
+		</TD>
+		<TD width="180" height="25" valign="middle" style='border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+		<%-- <P CLASS=HStyle0><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";'><pre><c:out value="${result.rm}"/></pre></SPAN></P> --%>
+		<P CLASS=HStyle0><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";'><pre><c:out value="${resultList[status.index+1].atchFileRm}"/></pre></SPAN></P>
+		</TD>
 </TR>
+</c:if>
+</c:forEach>
+
 </TABLE></P>
 
 <P CLASS=HStyle0><SPAN STYLE='font-size:14.0pt;line-height:160%;'><BR></SPAN></P>

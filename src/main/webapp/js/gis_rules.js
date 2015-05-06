@@ -2159,7 +2159,7 @@ var fcltyPowerRuleSet = [
 				strokeOpacity : 0.75,
 				strokeColor : "#FF0000",
 				strokeLinecap: 'square',
-				strokeDashstyle: 'solid',
+				strokeDashstyle: 'solid'
 			}
 		}
 	},{	  title:'기타',
