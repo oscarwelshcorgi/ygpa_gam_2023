@@ -36,7 +36,7 @@
 function GamFcltyQcwWrtMngModule() {
 }
 
-GamFcltyQcwWrtMngModule.prototype = new EmdModule(1000,750);
+GamFcltyQcwWrtMngModule.prototype = new EmdModule(1000,700);
 
 <%
 /**
@@ -84,11 +84,17 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 
 	this.$('#mainGrid').on('onItemSelected', function(event, module, row, grid, param) {
 		module._mainmode = 'modify';
+		module._mainFcltsMngGroupNo = row.fcltsMngGroupNo;
+		module._mainFcltsJobSe = row.fcltsJobSe;
+		module._mainQcMngSeq = row.qcMngSeq;
 		module.setControlStatus();
 	});
 
 	this.$('#mainGrid').on('onItemDoubleClick', function(event, module, row, grid, param) {
 		module._mainmode = 'modify';
+		module._mainFcltsMngGroupNo = row.fcltsMngGroupNo;
+		module._mainFcltsJobSe = row.fcltsJobSe;
+		module._mainQcMngSeq = row.qcMngSeq;
 		module.setControlStatus();
 		module.$('#mainTab').tabs('option', {active: 1});
 	});
@@ -99,10 +105,9 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 		dataType: 'json',
 		colModel : [
 					{display:"선택",		name:"chkRole",		width:40,	sortable:false,	align:"center", displayFormat:"checkbox"},
-					{display:"점검시설명",	name:"prtFcltyNm",	width:245,	sortable:false,	align:"left"},
-					{display:"시설분류",	name:"gisPrtFcltyNm",	width:150,	sortable:false,	align:"left"},
+					{display:"점검시설명",	name:"prtFcltyNm",	width:303,	sortable:false,	align:"left"}
 			],
-		height: '450',
+		height: '455',
 		groupBy: 'gisPrtFcltyNm',
 		preProcess : function(module,data) {
 			$.each(data.resultList, function() {
@@ -110,6 +115,65 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 			});
 			return data;
 		}
+	});
+
+	this.$("#fileGrid").flexigrid({
+		module : this,
+		url : '/fcltyMng/gamSelectFcltyQcwWrtMngQcMngAtchFileList.do',
+		dataType : 'json',
+		colModel : [
+					{display:"선택",		name:"atchFileSelChk",		width:40,		sortable:false,		align:"center",		displayFormat:"checkbox"},
+					{display:"번호",		name:"atchFileSeq",			width:40,		sortable:false,		align:"center"},
+					{display:"구분",		name:"atchFileSeNm",		width:60,		sortable:false,		align:"center"},
+					{display:"파일명",		name:"atchFileNmLogic",		width:200,		sortable:false,		align:"left"},
+					{display:"프리뷰",		name:"photoUrl",			width:200,		sortable:false,		align:"center",		displayFormat:"image"}
+					],
+		height : "430",
+		preProcess: function(module, data) {
+			$.each(data.resultList, function() {
+				this.atchFileSelChk = (this.atchFileSelChk === 'TRUE');
+				this.photoUrl = "";
+				var atchFileNmPhysicl = this.atchFileNmPhysicl;
+				var ext = atchFileNmPhysicl.substring(atchFileNmPhysicl.lastIndexOf(".")+1).toLowerCase();
+				if (ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif") {
+					this.photoUrl = module.getUrl("/fcltyMng/getQcWrtAttachFile.do?physicalFileNm=")+atchFileNmPhysicl + "^" + this.atchFileNmLogic + "^" + "200";
+				} else if (ext == "hwp") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/hwp.png";
+				} else if (ext == "dwg") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/dwg.png";
+				} else if (ext == "xls") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/xls.png";
+				} else if (ext == "xlsx") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/xlsx.png";
+				} else if (ext == "pdf") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/pdf.jpg";
+				} else if (ext == "dow") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/dow.png";
+				} else if (ext == "ppt") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/ppt.png";
+				} else if (ext == "txt") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/txt.png";
+				} else if (ext == "zip") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/zip.jpg";
+				} else {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/unknown.png";
+				}
+			});
+			return data;
+		}
+	});
+
+	this.$("#fileGrid").on('onLoadDataComplete', function(event, module, data) {
+		module.enableFileButtonItem();
+	});
+
+	this.$("#fileGrid").on('onItemSelected', function(event, module, row, grid, param) {
+		module.enableFileButtonItem();
+	});
+
+	this.$("#fileGrid").on("onItemDoubleClick", function(event, module, row, grid, param) {
+		module.enableFileButtonItem();
+		module.showQcMngAtchFileViewPopup();
 	});
 
 	this.$('#sFcltsMngGroupNo').bind('click', {module: this}, function(event) {
@@ -143,7 +207,20 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 	this.fillSelectBoxYear('#enforceYear');
 	this.fillSelectBoxYear('#sEnforceYear');
 	this.$('#sEnforceYear').val((new Date()).getFullYear());
-	
+
+	this._mainmode = "query";
+	this._mainFcltsMngGroupNo = "";
+	this._mainFcltsJobSe = "";
+	this._mainQcMngSeq = "";
+	this._detailDisplay = 'fclts';
+	this._atchFilePreview = false;
+	this.$('#fileGrid')[0].dgrid.setColumnHidden(4, true);
+	this.$('#fileGrid').hide();
+	this.$('#btnFileUpload').hide();
+	this.$('#btnFileDownload').hide();
+	this.$('#btnFileRemove').hide();
+	this.$('#btnFilePreview').hide();
+
 	if (EMD.userinfo.mngFcltyCd != null && EMD.userinfo.mngFcltyCd != "*") {
 		this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
 		this.$('#sFcltsJobSe').disable();
@@ -162,6 +239,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 **/
 %>
 GamFcltyQcwWrtMngModule.prototype.getMapInfoList = function(params){
+
 	this._params=params;
 	if(params!=null) {
 		if(params.action!=null) {
@@ -194,13 +272,216 @@ GamFcltyQcwWrtMngModule.prototype.fillSelectBoxYear = function(id) {
 
 <%
 /**
+ * @FUNCTION NAME : firstData
+ * @DESCRIPTION   : FIRST DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.firstData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainFcltsMngGroupNo == "" || this._mainFcltsJobSe == "" || this._mainQcMngSeq == "") {
+		return;
+	}
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		return;
+	}
+	var firstRowIndex = 0;
+	var row = rows[firstRowIndex];
+	var fcltsMngGroupNo = row["fcltsMngGroupNo"];
+	var fcltsJobSe = row["fcltsJobSe"];
+	var qcMngSeq = row["qcMngSeq"];
+	if (fcltsMngGroupNo != "" && fcltsJobSe != "" && qcMngSeq != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"fcltsMngGroupNo", filter:fcltsMngGroupNo},
+											 {col:"fcltsJobSe", filter:fcltsJobSe},
+											 {col:"qcMngSeq", filter:qcMngSeq}]);
+		this._mainmode = 'modify';
+		this._mainFcltsMngGroupNo = fcltsMngGroupNo;
+		this._mainFcltsJobSe = fcltsJobSe;
+		this._mainQcMngSeq = qcMngSeq;
+		this.loadDetail();
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : prevData
+ * @DESCRIPTION   : PREVIOUS DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.prevData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainFcltsMngGroupNo == "" || this._mainFcltsJobSe == "" || this._mainQcMngSeq == "") {
+		return;
+	}
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		alert("자료가 존재하지 않습니다!");
+		return;
+	}
+	var prevRowIndex = -1;
+	var fcltsMngGroupNo = "";
+	var fcltsJobSe = "";
+	var qcMngSeq = "";
+	for (var i=0; i < gridRowCount; i++) {
+		var row = rows[i];
+		fcltsMngGroupNo = row["fcltsMngGroupNo"];
+		fcltsJobSe = row["fcltsJobSe"];
+		qcMngSeq = row["qcMngSeq"];
+		if (this._mainFcltsMngGroupNo == fcltsMngGroupNo && this._mainFcltsJobSe == fcltsJobSe && this._mainQcMngSeq == qcMngSeq) {
+			prevRowIndex = i - 1;
+			break;
+		}
+	}
+	if (prevRowIndex < 0) {
+		alert("첫번째 자료 입니다!");
+		return;
+	}
+	if (prevRowIndex >= gridRowCount) {
+		alert("자료 위치가 부정확합니다!");
+		return;
+	}
+	var row = rows[prevRowIndex];
+	fcltsMngGroupNo = row["fcltsMngGroupNo"];
+	fcltsJobSe = row["fcltsJobSe"];
+	qcMngSeq = row["qcMngSeq"];
+	if (fcltsMngGroupNo != "" && fcltsJobSe != "" && qcMngSeq != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"fcltsMngGroupNo", filter:fcltsMngGroupNo},
+											 {col:"fcltsJobSe", filter:fcltsJobSe},
+											 {col:"qcMngSeq", filter:qcMngSeq}]);
+		this._mainmode = 'modify';
+		this._mainFcltsMngGroupNo = fcltsMngGroupNo;
+		this._mainFcltsJobSe = fcltsJobSe;
+		this._mainQcMngSeq = qcMngSeq;
+		this.loadDetail();
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : nextData
+ * @DESCRIPTION   : NEXT DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.nextData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainFcltsMngGroupNo == "" || this._mainFcltsJobSe == "" || this._mainQcMngSeq == "") {
+		return;
+	}
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		alert("자료가 존재하지 않습니다!");
+		return;
+	}
+	var nextRowIndex = -1;
+	var fcltsMngGroupNo = "";
+	var fcltsJobSe = "";
+	var qcMngSeq = "";
+	for (var i=0; i < gridRowCount; i++) {
+		var row = rows[i];
+		fcltsMngGroupNo = row["fcltsMngGroupNo"];
+		fcltsJobSe = row["fcltsJobSe"];
+		qcMngSeq = row["qcMngSeq"];
+		if (this._mainFcltsMngGroupNo == fcltsMngGroupNo && this._mainFcltsJobSe == fcltsJobSe && this._mainQcMngSeq == qcMngSeq) {
+			nextRowIndex = i + 1;
+			break;
+		}
+	}
+	if (nextRowIndex < 0) {
+		alert("자료 위치가 부정확합니다!");
+		return;
+	}
+	if (nextRowIndex >= gridRowCount) {
+		alert("마지막 자료 입니다!");
+		return;
+	}
+	var row = rows[nextRowIndex];
+	fcltsMngGroupNo = row["fcltsMngGroupNo"];
+	fcltsJobSe = row["fcltsJobSe"];
+	qcMngSeq = row["qcMngSeq"];
+	if (fcltsMngGroupNo != "" && fcltsJobSe != "" && qcMngSeq != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"fcltsMngGroupNo", filter:fcltsMngGroupNo},
+											 {col:"fcltsJobSe", filter:fcltsJobSe},
+											 {col:"qcMngSeq", filter:qcMngSeq}]);
+		this._mainmode = 'modify';
+		this._mainFcltsMngGroupNo = fcltsMngGroupNo;
+		this._mainFcltsJobSe = fcltsJobSe;
+		this._mainQcMngSeq = qcMngSeq;
+		this.loadDetail();
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : lastData
+ * @DESCRIPTION   : LAST DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.lastData = function() {
+
+	if (this._mainmode != 'modify') {
+		return;
+	}
+	if (this._mainFcltsMngGroupNo == "" || this._mainFcltsJobSe == "" || this._mainQcMngSeq == "") {
+		return;
+	}
+	var rows = this.$("#mainGrid").flexGetData();
+	var gridRowCount = rows.length;
+	if (gridRowCount <= 0) {
+		alert("자료가 존재하지 않습니다!");
+		return;
+	}
+	var lastRowIndex = gridRowCount - 1;
+	var row = rows[lastRowIndex];
+	var fcltsMngGroupNo = row["fcltsMngGroupNo"];
+	var fcltsJobSe = row["fcltsJobSe"];
+	var qcMngSeq = row["qcMngSeq"];
+	if (fcltsMngGroupNo != "" && fcltsJobSe != "" && qcMngSeq != "") {
+		this.$("#mainGrid").selectFilterRow([{col:"fcltsMngGroupNo", filter:fcltsMngGroupNo},
+											 {col:"fcltsJobSe", filter:fcltsJobSe},
+											 {col:"qcMngSeq", filter:qcMngSeq}]);
+		this._mainmode = 'modify';
+		this._mainFcltsMngGroupNo = fcltsMngGroupNo;
+		this._mainFcltsJobSe = fcltsJobSe;
+		this._mainQcMngSeq = qcMngSeq;
+		this.loadDetail();
+	}
+
+};
+
+<%
+/**
  * @FUNCTION NAME : onSubmit
  * @DESCRIPTION   : (프레임워크에서 SUBMIT 이벤트 호출 시 호출 한다.)
  * @PARAMETER     : NONE
 **/
 %>
 GamFcltyQcwWrtMngModule.prototype.onSubmit = function() {
+
+	this._mainmode = "query";
+	this._mainFcltsMngGroupNo = "";
+	this._mainFcltsJobSe = "";
+	this._mainQcMngSeq = "";
 	this.loadData();
+
 };
 
 <%
@@ -211,9 +492,11 @@ GamFcltyQcwWrtMngModule.prototype.onSubmit = function() {
 **/
 %>
 GamFcltyQcwWrtMngModule.prototype.loadData = function() {
+
 	this.$('#mainTab').tabs('option', {active: 0});
 	var searchOpt = this.makeFormArgs('#searchForm');
 	this.$('#mainGrid').flexOptions({params:searchOpt}).flexReload();
+
 };
 
 <%
@@ -224,9 +507,11 @@ GamFcltyQcwWrtMngModule.prototype.loadData = function() {
 **/
 %>
 GamFcltyQcwWrtMngModule.prototype.loadDataComplete = function() {
+
 	this._mainmode = 'listed';
 	this.makeFormValues('#detailForm', {});
 	this.setControlStatus();
+
 };
 
 <%
@@ -237,12 +522,14 @@ GamFcltyQcwWrtMngModule.prototype.loadDataComplete = function() {
 **/
 %>
 GamFcltyQcwWrtMngModule.prototype.downloadExcel = function() {
+
 	var rowCount = this.$('#mainGrid').flexRowCount();
 	if (rowCount <= 0) {
 		alert('조회된 자료가 없습니다.');
 		return;
 	}
 	this.$('#mainGrid').flexExcelDown('/fcltyMng/excelDownloadQcMngDtlsList.do');
+
 };
 
 <%
@@ -253,6 +540,7 @@ GamFcltyQcwWrtMngModule.prototype.downloadExcel = function() {
 **/
 %>
 GamFcltyQcwWrtMngModule.prototype.loadDetail = function() {
+
 	var rows = this.$('#mainGrid').selectedRows();
 	if(rows.length > 0) {
 		var row = rows[0];
@@ -265,13 +553,14 @@ GamFcltyQcwWrtMngModule.prototype.loadDetail = function() {
 			if(result.resultCode == '0'){
 				module.makeFormValues('#detailForm', result.detailData);
 				module.checkQcInspSe();
-				module.fillAtchFileList(result.atchFileList);
 				module.loadQcSubDataList();
+				module.displayAtchFileList();
 				module.setPrintUrl();
 			//	module.setHwpUrl();
 			}
 			else {
 				module._mainmode = 'listed';
+				module.$('#fileGrid').flexEmptyData();
 				module.setControlStatus();
 				alert(result.resultMsg);
 			}
@@ -279,6 +568,7 @@ GamFcltyQcwWrtMngModule.prototype.loadDetail = function() {
 	} else {
 		alert('조회할 데이터를 선택하세요.');
 	}
+
 };
 
 <%
@@ -325,7 +615,10 @@ GamFcltyQcwWrtMngModule.prototype.checkQcInspSe = function() {
 **/
 %>
 GamFcltyQcwWrtMngModule.prototype.initBeforeInsert = function() {
-	this._mainmode = 'insert';
+	this._mainmode="insert";
+	this._mainFcltsMngGroupNo = "";
+	this._mainFcltsJobSe = "";
+	this._mainQcMngSeq = "";
 	this._qcResultList = null;
 	this._qcresultmode = '';
 	this.makeFormValues('#detailForm', {});
@@ -351,8 +644,6 @@ GamFcltyQcwWrtMngModule.prototype.initBeforeInsert = function() {
 %>
 GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 	if(this._mainmode == 'insert') {
-		this.$('#atchFile option').remove();
-		this.$('#atchFile').append('<option value="">선택</option>');
 		this.$('#fcltsJobSe').enable();
 		this.$('#popupDetailFcltsMngGroup').enable();
 		this.$('#popupDetailFcltsMngGroup').removeClass('ui-state-disabled');
@@ -363,14 +654,6 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 		this.$('#btnSave').enable();
 		this.$('#btnSave').removeClass('ui-state-disabled');
 		this.$('#btnPrint').disable({disableClass:'ui-state-disabled'});
-		this.$('#btnUploadFile').enable();
-		this.$('#btnUploadFile').removeClass('ui-state-disabled');
-		this.$('#btnDownloadFile').enable();
-		this.$('#btnDownloadFile').removeClass('ui-state-disabled');
-		this.$('#btnRemoveFile').enable();
-		this.$('#btnRemoveFile').removeClass('ui-state-disabled');
-		this.$('#btnPreviewFile').enable();
-		this.$('#btnPreviewFile').removeClass('ui-state-disabled');
 		if(this._qcresultmode == 'loaded') {
 			this.$('#popupEditQcResultItem').enable();
 			this.$('#popupEditQcResultItem').removeClass('ui-state-disabled');
@@ -378,7 +661,13 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 		else {
 			this.$('#popupEditQcResultItem').disable({disableClass:'ui-state-disabled'});
 		}
+		this.$('#btnFirstData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnPrevData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnNextData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnLastData').disable({disableClass:"ui-state-disabled"});
 		this.$('#qcObjFcltsGrid').flexEmptyData();
+		this.$('#fileGrid').flexEmptyData();
+		this.disableFileButtonItem();
 	}
 	else if(this._mainmode == 'modify') {
 		this.$('#fcltsJobSe').disable();
@@ -395,14 +684,6 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 		this.$('#btnSave').removeClass('ui-state-disabled');
 		this.$('#btnPrint').enable();
 		this.$('#btnPrint').removeClass('ui-state-disabled');
-		this.$('#btnUploadFile').enable();
-		this.$('#btnUploadFile').removeClass('ui-state-disabled');
-		this.$('#btnDownloadFile').enable();
-		this.$('#btnDownloadFile').removeClass('ui-state-disabled');
-		this.$('#btnRemoveFile').enable();
-		this.$('#btnRemoveFile').removeClass('ui-state-disabled');
-		this.$('#btnPreviewFile').enable();
-		this.$('#btnPreviewFile').removeClass('ui-state-disabled');
 		if(this._qcresultmode == 'loaded') {
 			this.$('#popupEditQcResultItem').enable();
 			this.$('#popupEditQcResultItem').removeClass('ui-state-disabled');
@@ -410,10 +691,17 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 		else {
 			this.$('#popupEditQcResultItem').disable({disableClass:'ui-state-disabled'});
 		}
+		this.$('#btnFirstData').enable();
+		this.$('#btnFirstData').removeClass('ui-state-disabled');
+		this.$('#btnPrevData').enable();
+		this.$('#btnPrevData').removeClass('ui-state-disabled');
+		this.$('#btnNextData').enable();
+		this.$('#btnNextData').removeClass('ui-state-disabled');
+		this.$('#btnLastData').enable();
+		this.$('#btnLastData').removeClass('ui-state-disabled');
+		this.enableFileButtonItem();
 	}
 	else if(this._mainmode == 'listed') {
-		this.$('#atchFile option').remove();
-		this.$('#atchFile').append('<option value="">선택</option>');
 		this.$('#fcltsJobSe').disable();
 		this.$('#popupDetailFcltsMngGroup').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnAdd').enable();
@@ -424,16 +712,16 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 		this.$('#btnDetailDelete').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnSave').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnPrint').disable({disableClass:'ui-state-disabled'});
-		this.$('#btnUploadFile').disable({disableClass:'ui-state-disabled'});
-		this.$('#btnDownloadFile').disable({disableClass:'ui-state-disabled'});
-		this.$('#btnRemoveFile').disable({disableClass:'ui-state-disabled'});
-		this.$('#btnPreviewFile').disable({disableClass:'ui-state-disabled'});
 		this.$('#popupEditQcResultItem').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnFirstData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnPrevData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnNextData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnLastData').disable({disableClass:"ui-state-disabled"});
 		this.$('#qcObjFcltsGrid').flexEmptyData();
+		this.$('#fileGrid').flexEmptyData();
+		this.disableFileButtonItem();
 	}
 	else {
-		this.$('#atchFile option').remove();
-		this.$('#atchFile').append('<option value="">선택</option>');
 		this.$('#fcltsJobSe').disable();
 		this.$('#popupDetailFcltsMngGroup').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnAdd').disable({disableClass:'ui-state-disabled'});
@@ -442,12 +730,14 @@ GamFcltyQcwWrtMngModule.prototype.setControlStatus = function() {
 		this.$('#btnDetailDelete').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnSave').disable({disableClass:'ui-state-disabled'});
 		this.$('#btnPrint').disable({disableClass:'ui-state-disabled'});
-		this.$('#btnUploadFile').disable({disableClass:'ui-state-disabled'});
-		this.$('#btnDownloadFile').disable({disableClass:'ui-state-disabled'});
-		this.$('#btnRemoveFile').disable({disableClass:'ui-state-disabled'});
-		this.$('#btnPreviewFile').disable({disableClass:'ui-state-disabled'});
 		this.$('#popupEditQcResultItem').disable({disableClass:'ui-state-disabled'});
+		this.$('#btnFirstData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnPrevData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnNextData').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnLastData').disable({disableClass:"ui-state-disabled"});
 		this.$('#qcObjFcltsGrid').flexEmptyData();
+		this.$('#fileGrid').flexEmptyData();
+		this.disableFileButtonItem();
 	}
 };
 
@@ -484,8 +774,8 @@ GamFcltyQcwWrtMngModule.prototype.setPrintUrl = function() {
 			// 기계설비 점검표 인쇄
 			this.$('#btnPrint').data('url','/fcltyMng/selectFcltyQcPrintM2.do');
 			this.$('#btnHwp').data('url','/fcltyMng/selectFcltyQcPrintM2.do');
-			}
 		}
+	}
 };
 
 <%
@@ -516,8 +806,8 @@ GamFcltyQcwWrtMngModule.prototype.setHwpUrl = function() {
 		}else{
 			// 기계설비 점검표 인쇄
 			this.$('#btnHwp').data('url','/fcltyMng/selectFcltyQcPrintHwpM2.do');
-			}
 		}
+	}
 };
 
 <%
@@ -625,12 +915,10 @@ GamFcltyQcwWrtMngModule.prototype.getSaveData = function() {
 	var detailForm = this.makeFormArgs('#detailForm', 'object');
 	var qcObjList = this.getQcObjList();
 	var qcResultList = this.getQcResultItemList();
-	var atchFileList = this.getAtchFileList();
 
 	result[result.length] = {name: 'detailForm', value :JSON.stringify(detailForm) };
 	result[result.length] = {name: 'qcObjList', value :JSON.stringify(qcObjList)};
 	result[result.length] = {name: 'qcResultList', value :JSON.stringify(qcResultList)};
-	result[result.length] = {name: 'atchFileList', value :JSON.stringify(atchFileList)};
 
 	return result;
 };
@@ -678,7 +966,10 @@ GamFcltyQcwWrtMngModule.prototype.saveData = function() {
 	 	this.doAction('/fcltyMng/insertQcMngDtls.do', inputData, function(module, result) {
 	 		if(result.resultCode == '0') {
 	 			module.$('#qcMngSeq').val(result.qcMngSeq);
-	 			module._mainmode = 'modify';
+	 			module._mainmode = "modify";
+	 			module._mainFcltsMngGroupNo = module.$("#fcltsMngGroupNo").val();
+	 			module._mainFcltsJobSe = module.$("#fcltsJobSe").val();
+	 			module._mainQcMngSeq = module.$("#qcMngSeq").val();
 	 			module.setControlStatus();
 	 		}
 	 		alert(result.resultMsg);
@@ -709,6 +1000,10 @@ GamFcltyQcwWrtMngModule.prototype.deleteData = function() {
 		var deleteVO = rows[0];
 	 	this.doAction('/fcltyMng/deleteQcMngDtls.do', deleteVO, function(module, result) {
 	 		if(result.resultCode == '0') {
+	 			module._mainmode = "query";
+	 			module._mainFcltsMngGroupNo = "";
+	 			module._mainFcltsJobSe = "";
+	 			module._mainQcMngSeq = "";
 	 			module.loadData();
 	 		}
 	 		alert(result.resultMsg);
@@ -850,152 +1145,411 @@ GamFcltyQcwWrtMngModule.prototype.getQcResultItemList = function() {
 	return resultList;
 };
 
-
 <%
 /**
- * @FUNCTION NAME : getAtchFileList
- * @DESCRIPTION   : 첨부파일 리스트 얻기
+ * @FUNCTION NAME : enableFileButtonItem
+ * @DESCRIPTION   : FILE BUTTON 항목을 ENABLE 한다.
  * @PARAMETER     : NONE
 **/
 %>
-GamFcltyQcwWrtMngModule.prototype.getAtchFileList = function() {
-	var resultList = [];
-	var len = this.$('#atchFile option').size();
-	var logicalFileNm, physcalFileNm;
-	for(var i=0; i<len; i++) {
-		physcalFileNm = this.$('#atchFile option:eq(' + i + ')').val();
-		logicalFileNm = this.$('#atchFile option:eq(' + i + ')').text();
-		if(physcalFileNm != '') {
-			resultList[resultList.length] = {
-												fcltsMngGroupNo:this.$('#fcltsMngGroupNo').val()
-												, fcltsJobSe:this.$('#fcltsJobSe').val()
-												, qcMngSeq:this.$('#qcMngSeq').val()
-												, atchFileSe:'P'
-												, atchFileNmLogic:logicalFileNm
-												, atchFileNmPhysicl: physcalFileNm
-												, atchFileWritingDt:''
-											};
+GamFcltyQcwWrtMngModule.prototype.enableFileButtonItem = function() {
+
+	var atchFileDataCount = this.$('#fileGrid').flexRowCount();
+	if (atchFileDataCount > 0) {
+		this.$('#btnFileUpload').enable();
+		this.$('#btnFileUpload').removeClass('ui-state-disabled');
+		this.$('#btnFileDownload').enable();
+		this.$('#btnFileDownload').removeClass('ui-state-disabled');
+		this.$('#btnFileRemove').enable();
+		this.$('#btnFileRemove').removeClass('ui-state-disabled');
+		this.$('#btnFilePreview').enable();
+		this.$('#btnFilePreview').removeClass('ui-state-disabled');
+	} else {
+		this.$('#btnFileUpload').enable();
+		this.$('#btnFileUpload').removeClass('ui-state-disabled');
+		this.$('#btnFileDownload').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnFileRemove').disable({disableClass:"ui-state-disabled"});
+		this.$('#btnFilePreview').disable({disableClass:"ui-state-disabled"});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : disableFileButtonItem
+ * @DESCRIPTION   : FILE BUTTON 항목을 DISABLE 한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.disableFileButtonItem = function() {
+
+	this.$('#btnFileUpload').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnFileDownload').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnFileRemove').disable({disableClass:"ui-state-disabled"});
+	this.$('#btnFilePreview').disable({disableClass:"ui-state-disabled"});
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : displayAtchFileList
+ * @DESCRIPTION   : 첨부 파일 목록을 보여준다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.displayAtchFileList = function() {
+
+	var sFcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();
+	var sFcltsJobSe = this.$('#fcltsJobSe').val();
+	var sQcMngSeq = this.$('#qcMngSeq').val();
+	this.$('#fileGrid').flexEmptyData();
+	if (sFcltsMngGroupNo != "" && sFcltsJobSe != "" && sQcMngSeq != "") {
+		var searchVO = [
+		           		{name: 'sFcltsMngGroupNo', value: sFcltsMngGroupNo },
+		           		{name: 'sFcltsJobSe', value: sFcltsJobSe },
+		           		{name: 'sQcMngSeq', value: sQcMngSeq }
+			           ];
+		this.$('#fileGrid').flexOptions({params:searchVO}).flexReload();
+		this.enableFileButtonItem();
+	} else {
+		this.disableFileButtonItem();
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : displayPreviewFile
+ * @DESCRIPTION   : FILE PREVIEW DISPLAY
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.displayPreviewFile = function() {
+
+	var atchFilePreviewFlag = this.$('#fileGrid')[0].dgrid.isColumnHidden(4);
+	if (atchFilePreviewFlag == true) {
+		atchFilePreviewFlag = false;
+	} else {
+		atchFilePreviewFlag = true;
+	}
+	this.$('#fileGrid')[0].dgrid.setColumnHidden(3, !atchFilePreviewFlag);
+	this.$('#fileGrid')[0].dgrid.setColumnHidden(4, atchFilePreviewFlag);
+	this._atchFilePreview = atchFilePreviewFlag;
+	this.displayAtchFileList();
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : setSelectStatusAllAtchFile
+ * @DESCRIPTION   : ALL ATTACH FILE SELECT STATUS 설정
+ * @PARAMETER     :
+ *   1. argStatusFlag - SELECT STATUS FLAG
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.setSelectStatusAllAtchFile = function(argStatusFlag) {
+
+	var rows = this.$('#fileGrid').flexGetData();
+	var atchFileDataCount = rows.length;
+	if (atchFileDataCount > 0) {
+		for (var i=0; i<atchFileDataCount; i++) {
+			var row = rows[i];
+			row["atchFileSelChk"] = argStatusFlag;
+			var rowid = this.$('#fileGrid')[0].dgrid.getRowId(i);
+			this.$('#fileGrid').flexUpdateRow(rowid, row);
 		}
 	}
-	return resultList;
+
 };
 
 <%
 /**
- * @FUNCTION NAME : fillAtchFileList
- * @DESCRIPTION   : 첨부파일 리스트를 select element에 채워넣기.
- * @PARAMETER     : NONE
+ * @FUNCTION NAME : saveUploadFileData
+ * @DESCRIPTION   : UPLOAD FILE 항목을 저장한다.
+ * @PARAMETER     :
+ *   1. argFcltsMngGroupNo - FCLTS MNG GROUP NO.
+ *   2. argFcltsJobSe - FCLTS JOB SE
+ *   3. argQcMngSeq - QC MNG SEQ.
+ *   4. argAtchFileNmLogic - ATTACHE FILE NAME LOGICAL.
+ *   5. argAtchFileNmPhysicl - ATTACHE FILE NAME PHYSICAL
 **/
 %>
-GamFcltyQcwWrtMngModule.prototype.fillAtchFileList = function(atchFileList) {
-	var module = this;
-	this.$('#atchFile option').remove();
-	this.$('#atchFile').append('<option value="">선택</option>');
-	$.each(atchFileList, function(index){
-		module.$('#atchFile').append(
-				'<option value="' + atchFileList[index].atchFileNmPhysicl + '">'
-				+ atchFileList[index].atchFileNmLogic + '</option>');
+GamFcltyQcwWrtMngModule.prototype.saveUploadFileData = function(argFcltsMngGroupNo, argFcltsJobSe, argQcMngSeq, argAtchFileNmLogic, argAtchFileNmPhysicl) {
+
+	var inputVO = [];
+	var atchFileSe = "D";
+	var atchFileSeNm = "문서";
+	var atchFileWritngDt = "";
+	var toDay = new Date();
+	var year = "";
+	var month = "";
+	var day = "";
+	year = toDay.getFullYear();
+	month = toDay.getMonth() + 1;
+	day = toDay.getDate();
+	if (month >= 1 && month <= 9) {
+		if (day >= 1 && day <= 9) {
+			atchFileWritngDt = year + "-" + "0" + month + "-" + "0" + day;
+		} else {
+			atchFileWritngDt = year + "-" + "0" + month + "-" + day;
+		}
+	} else {
+		if (day >= 1 && day <= 9) {
+			atchFileWritngDt = year + "-" + month + "-" + "0" + day;
+		} else {
+			atchFileWritngDt = year + "-" + month + "-" + day;
+		}
+	}
+	if (argAtchFileNmPhysicl != null || argAtchFileNmPhysicl != "") {
+		var ext = argAtchFileNmPhysicl.substring(argAtchFileNmPhysicl.lastIndexOf(".")+1).toLowerCase();
+		if (ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif") {
+			atchFileSe = "P";
+			atchFileSeNm = "사진";
+		} else if (ext == "dwg" || ext == "dxf") {
+			atchFileSe = "C";
+			atchFileSeNm = "도면";
+		}
+	}
+	inputVO={
+			'fcltsMngGroupNo':argFcltsMngGroupNo,
+			'fcltsJobSe':argFcltsJobSe,
+			'qcMngSeq':argQcMngSeq,
+			'atchFileSeq':"",
+			'atchFileSe':atchFileSe,
+			'atchFileSj':"",
+			'atchFileNmLogic':argAtchFileNmLogic,
+			'atchFileNmPhysicl':argAtchFileNmPhysicl,
+			'atchFileWritngDt':atchFileWritngDt,
+			'atchFileRm':"",
+			'regUsr':"",
+			'registDt':"",
+			'updUsr':"",
+			'updtDt':""
+	};
+	this.doAction('/fcltyMng/gamInsertFcltyQcwWrtMngQcMngAtchFile.do', inputVO, function(module, result) {
+		if (result.resultCode == "0") {
+			module.$("#fileGrid").flexAddRow({ fcltsMngGroupNo: argFcltsMngGroupNo,
+											   fcltsJobSe: argFcltsJobSe,
+											   qcMngSeq: argQcMngSeq,
+											   atchFileSeq:result.atchFileSeq,
+											   atchFileSe:atchFileSe,
+											   atchFileSeNm:atchFileSeNm,
+											   atchFileSj:"",
+											   atchFileNmLogic: argAtchFileNmLogic,
+											   atchFileNmPhysicl: argAtchFileNmPhysicl,
+											   atchFileWritngDt: atchFileWritngDt,
+											   atchFileRm: ""
+											  });
+		} else {
+			alert(result.resultMsg);
+		}
 	});
+
 };
 
 <%
 /**
- * @FUNCTION NAME : atchFileUpload
- * @DESCRIPTION   : 첨부파일 업로드
+ * @FUNCTION NAME : uploadFile
+ * @DESCRIPTION   : FILE UPLOAD
  * @PARAMETER     : NONE
 **/
 %>
-GamFcltyQcwWrtMngModule.prototype.atchFileUpload = function() {
-	console.log('upload');
+GamFcltyQcwWrtMngModule.prototype.uploadFile = function() {
+
+	var fcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();
+	var fcltsJobSe = this.$('#fcltsJobSe').val();
+	var qcMngSeq = this.$('#qcMngSeq').val();
+	if (fcltsMngGroupNo == "" || fcltsJobSe == "" || qcMngSeq == "") {
+		alert('점검기록 정보가 부정확합니다.');
+		return;
+	}
 	this.uploadMultiFile('/fcltyMng/uploadQcWrtAttachFile.do', function(module, resp) {
 		if(resp.resultCode!=0) {
 			alert(resp.resultMsg);
 			return;
 		}
 		$.each(resp.result, function() {
-            module.$('#atchFile').append(
-					'<option value="' + this.physcalFileNm + '">'
-					+ this.logicalFileNm + '</option>'); // 업로드 파일명이 physcalFileNm (물리명), logicalFileNm (논리명)으로 리턴 된다.
+			module.saveUploadFileData(fcltsMngGroupNo, fcltsJobSe, qcMngSeq, this.logicalFileNm, this.physcalFileNm);
 		});
-		if(resp.result!=null && resp.result.length>0) this._edited=true;
 	});
+
 };
 
 <%
 /**
- * @FUNCTION NAME : atchFileDownload
- * @DESCRIPTION   : 첨부파일 다운로드
+ * @FUNCTION NAME : downloadFile
+ * @DESCRIPTION   : FILE DOWNLOAD
  * @PARAMETER     : NONE
 **/
 %>
-GamFcltyQcwWrtMngModule.prototype.atchFileDownload = function() {
-	if(this.$('#atchFile').val() != '') {
-		this.downloadSingleFile("/fcltyMng/downloadQcWrtAttachFile.do", this.$('#atchFile').find('option:selected').val(), this.$('#atchFile').find('option:selected').text() );
+GamFcltyQcwWrtMngModule.prototype.downloadFile = function() {
+
+	var selectRow = this.$('#fileGrid').selectedRows();
+	if (selectRow.length > 0) {
+		var row = selectRow[0];
+		this.downloadSingleFile("/fcltyMng/downloadQcWrtAttachFile.do", row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
 	}
-	else {
-		alert('첨부파일을 선택해주십시오.');
-	}
+
 };
 
 <%
 /**
- * @FUNCTION NAME : atchFileRemove
- * @DESCRIPTION   : 첨부파일제거
+ * @FUNCTION NAME : downloadMultiFile
+ * @DESCRIPTION   : MULTI FILE DOWNLOAD
  * @PARAMETER     : NONE
 **/
 %>
-GamFcltyQcwWrtMngModule.prototype.atchFileRemove = function() {
-	if(this.$('#atchFile').val() != '') {
-		this.$('#atchFile option[value="' + this.$('#atchFile').val() + '"]').remove();
+GamFcltyQcwWrtMngModule.prototype.downloadMultiFile = function() {
+
+	var rows = this.$('#fileGrid').selectFilterData([{col:'atchFileSelChk', filter: true}]);
+	if (rows.length <= 0) {
+		alert('다운로드할 첨부 파일 자료가 선택되지 않았습니다.');
+		return;
 	}
-	else {
-		alert('첨부파일을 선택해주십시오.');
+	for (var i=0; i<rows.length; i++) {
+		var row = rows[i];
+		this.downloadSingleFile("/fcltyMng/downloadQcWrtAttachFile.do", row["atchFileNmPhysicl"], row["atchFileNmLogic"]);
 	}
+
 };
 
 <%
 /**
-* @FUNCTION NAME : showPreviewImage
-* @DESCRIPTION : 첨부파일 미리보기 대화상자
-* @PARAMETER : NONE
+ * @FUNCTION NAME : deleteFileData
+ * @DESCRIPTION   : FILE 항목을 삭제한다.
+ * @PARAMETER     : NONE
 **/
 %>
-GamFcltyQcwWrtMngModule.prototype.showPreviewImage = function(fileName){
-	if(fileName != '') {
-		var ext = fileName.substring(fileName.lastIndexOf('.')+1).toLowerCase();
-		var imgURL='';
-		if(ext == 'jpg' || ext == 'jpeg' || ext == 'bmp' || ext == 'png' || ext == 'gif')
-		{
-			this.$('#previewDialogArea').append(
-				'<div id="' + this.getId('previewDialog') + '">' +
-				'<img id="' + this.getId('previewImage') + '" src=""/>' +
-				'</div>');
-			imgURL = this.getUrl("/fcltyMng/getQcWrtAttachFile.do?physicalFileNm=")+fileName;
+GamFcltyQcwWrtMngModule.prototype.deleteFileData = function() {
 
-			this.$("#previewImage").attr('src', imgURL);
-			this.$("#previewImage").bind('load', {module: this}, function(event) {
-				event.data.module.$('#previewDialog').dialog({
-					modal: true,
-					maxWidth: 800,
-					maxHeight: 600,
-					resizable: false,
-			 		draggable: true,
-			 		width: 'auto',
-			 		title: '이미지미리보기',
-			 		buttons:[{text:"close", click: function() {
-			 						$(this).dialog('close');
-			 					}
-			 				}]
-			 	});
-			});
+	var deleteVO = [];
+	var fcltsMngGroupNo = "";
+	var fcltsJobSe = "";
+	var qcMngSeq = "";
+	var atchFileSeq = "";
+	var selectRow = this.$('#fileGrid').selectedRows();
+	if (selectRow.length <= 0) {
+		alert('삭제할 첨부 파일 자료가 선택되지 않았습니다.');
+		return;
+	}
+	var row = selectRow[0];
+	fcltsMngGroupNo = row["fcltsMngGroupNo"];
+	fcltsJobSe = row["fcltsJobSe"];
+	qcMngSeq = row["qcMngSeq"];
+	atchFileSeq = row["atchFileSeq"];
+	if (fcltsMngGroupNo == "" || fcltsJobSe == "" || qcMngSeq == "" || atchFileSeq == "") {
+		alert('삭제할 첨부 파일 정보가 부정확합니다.');
+		return;
+	}
+	if (confirm("삭제하시겠습니까?")) {
+		deleteVO = {
+					'fcltsMngGroupNo' : fcltsMngGroupNo,
+					'fcltsJobSe' : fcltsJobSe,
+					'qcMngSeq' : qcMngSeq,
+					'atchFileSeq' : atchFileSeq
+		};
+		this.doAction('/fcltyMng/gamDeleteFcltyQcwWrtMngQcMngAtchFile.do', deleteVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.displayAtchFileList();
+			}
+			alert(result.resultMsg);
+		});
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : deleteMultiFileData
+ * @DESCRIPTION   : MULTI FILE 항목을 삭제한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.deleteMultiFileData = function() {
+
+	var rows = this.$('#fileGrid').selectFilterData([{col:'atchFileSelChk', filter: true}]);
+	if (rows.length <= 0) {
+		alert('다운로드할 첨부 파일 자료가 선택되지 않았습니다.');
+		return;
+	}
+	var fcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();
+	var fcltsJobSe = this.$('#fcltsJobSe').val();
+	var qcMngSeq = this.$('#qcMngSeq').val();
+	if (fcltsMngGroupNo == "" || fcltsJobSe == "" || qcMngSeq == "") {
+		alert('삭제할 첨부 파일 정보가 부정확합니다.');
+		return;
+	}
+	var atchFileSeq = "";
+	var atchFileNmLogic = "";
+	var deleteDataCount = rows.length;
+	var deleteAtchFileSeqList = "";
+	for (var i=0; i<deleteDataCount; i++) {
+		var row = rows[i];
+		atchFileSeq = row["atchFileSeq"];
+		atchFileNmLogic = row["atchFileNmLogic"];
+		if (atchFileSeq == "") {
+			alert('[' + atchFileNmLogic + '] 첨부 파일 번호가 부정확합니다.');
+			return;
 		}
-		else {
-			alert('이미지 파일이 아닙니다.');
+		if (deleteAtchFileSeqList != "") {
+			deleteAtchFileSeqList = deleteAtchFileSeqList + "," + atchFileSeq;
+		} else {
+			deleteAtchFileSeqList = atchFileSeq;
 		}
 	}
-	else {
-		alert('첨부파일을 선택하십시오.');
+	if (confirm("[" + deleteDataCount + "] 건의 첨부 파일 자료를 삭제하시겠습니까?")) {
+		var deleteVO = {
+						'fcltsMngGroupNo' : fcltsMngGroupNo,
+						'fcltsJobSe' : fcltsJobSe,
+						'qcMngSeq' : qcMngSeq,
+						'deleteAtchFileSeqList' : deleteAtchFileSeqList
+		};
+		this.doAction('/fcltyMng/gamDeleteFcltyQcwWrtMngQcMngAtchFileMulti.do', deleteVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.displayAtchFileList();
+			}
+			alert(result.resultMsg);
+		});
 	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : showFcltsAtchFileViewPopup
+ * @DESCRIPTION   : QC MNG ATTACHE FILE VIEW POPUP
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.showQcMngAtchFileViewPopup = function() {
+
+	var selectRow = this.$('#fileGrid').selectedRows();
+	if (selectRow.length <= 0) {
+		return;
+	}
+	var row = selectRow[0];
+	fcltsMngGroupNo = row["fcltsMngGroupNo"];
+	fcltsJobSe = row["fcltsJobSe"];
+	qcMngSeq = row["qcMngSeq"];
+	atchFileSeq = row["atchFileSeq"];
+	if (fcltsMngGroupNo == "" || fcltsJobSe == "" || qcMngSeq == "" || atchFileSeq == "") {
+		alert('조회할 첨부 파일 정보가 부정확합니다.');
+		return;
+	}
+	var atchFileNmPhysicl = row['atchFileNmPhysicl'];
+	var imageURL = "";
+	if (atchFileNmPhysicl != "") {
+		imageURL = this.getUrl("/fcltyMng/getQcWrtAttachFile.do?physicalFileNm=") + atchFileNmPhysicl;
+	}
+	var searchOpts = {
+						'fcltsMngGroupNo' : fcltsMngGroupNo,
+						'fcltsJobSe' : fcltsJobSe,
+						'qcMngSeq' : qcMngSeq,
+						'atchFileSeq' : atchFileSeq,
+						'imageURL' : imageURL
+	};
+	this.doExecuteDialog('popupQcMngAtchFileView', '점검관리 첨부파일 보기', '/popup/showQcMngAtchFileViewPopup.do', null, searchOpts);
+
 };
 
 <%
@@ -1058,22 +1612,6 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 			this.saveData();
 			break;
 
-		case 'btnUploadFile' :
-			this.atchFileUpload();
-			break;
-
-		case 'btnDownloadFile' :
-			this.atchFileDownload();
-			break;
-
-		case 'btnRemoveFile' :
-			this.atchFileRemove();
-			break;
-
-		case 'btnPreviewFile' :
-			this.showPreviewImage(this.$('#atchFile').val());
-			break;
-
 		case 'popupEditQcResultItem' :
 			this.doExecuteDialog(
 									'editQcResultItem'
@@ -1108,15 +1646,69 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 			break;
 
 		case 'btnAllSelect' :
-
-			this.allSelectQcObj();
+			if (this._detailDisplay == 'fclts') {
+				this.allSelectQcObj();
+			} else if (this._detailDisplay == 'file') {
+				this.setSelectStatusAllAtchFile(true);
+			}
 			break;
 
 		case 'btnAllUnSelect' :
 
-			this.allUnSelectQcObj();
+			if (this._detailDisplay == 'fclts') {
+				this.allUnSelectQcObj();
+			} else if (this._detailDisplay == 'file') {
+				this.setSelectStatusAllAtchFile(false);
+			}
 			break;
-		}
+
+		case 'btnFcltsList':
+			if (this._detailDisplay != 'fclts') {
+				this._detailDisplay = 'fclts';
+				this.$('#fileGrid').hide();
+				this.$('#qcObjFcltsGrid').show();
+				this.$('#btnFileUpload').hide();
+				this.$('#btnFileDownload').hide();
+				this.$('#btnFileRemove').hide();
+				this.$('#btnFilePreview').hide();
+			}
+			break;
+		case 'btnFileList':
+			if (this._detailDisplay != 'file') {
+				this._detailDisplay = 'file';
+				this.$('#qcObjFcltsGrid').hide();
+				this.$('#fileGrid').show();
+				this.$('#btnFileUpload').show();
+				this.$('#btnFileDownload').show();
+				this.$('#btnFileRemove').show();
+				this.$('#btnFilePreview').show();
+			}
+			break;
+		case 'btnFileUpload':
+			this.uploadFile();
+			break;
+		case 'btnFileDownload':
+			this.downloadMultiFile();
+			break;
+		case 'btnFileRemove':
+			this.deleteMultiFileData();
+			break;
+	    case 'btnFilePreview':
+	    	this.displayPreviewFile();
+			break;
+	    case 'btnFirstData':
+	    	this.firstData();
+			break;
+	    case 'btnPrevData':
+	    	this.prevData();
+			break;
+	    case 'btnNextData':
+	    	this.nextData();
+			break;
+	    case 'btnLastData':
+	    	this.lastData();
+			break;
+	}
 };
 
 
@@ -1162,8 +1754,9 @@ GamFcltyQcwWrtMngModule.prototype.allUnSelectQcObj= function() {
 **/
 
 %>
-GamFcltyQcwWrtMngModule.prototype.onClosePopup = function(popupId, msg, value){
-	switch(popupId){
+GamFcltyQcwWrtMngModule.prototype.onClosePopup = function(popupId, msg, value) {
+
+	switch (popupId) {
 		case 'editQcResultItem':
 			this._qcResultList = null;
 			this._qcResultList = value['resultList'];
@@ -1178,10 +1771,16 @@ GamFcltyQcwWrtMngModule.prototype.onClosePopup = function(popupId, msg, value){
 			this.$('#sFcltsMngGroupNo').val(value['fcltsMngGroupNo']);
 			this.$('#sFcltsMngGroupNm').val(value['fcltsMngGroupNm']);
 			break;
+		case 'popupQcMngAtchFileView':
+			if (msg == 'ok') {
+				this.displayAtchFileList();
+			}
+			break;
 		default:
 			alert('알수없는 팝업 이벤트가 호출 되었습니다.');
 			break;
 	}
+
 };
 
 <%
@@ -1194,6 +1793,7 @@ GamFcltyQcwWrtMngModule.prototype.onClosePopup = function(popupId, msg, value){
 **/
 %>
 GamFcltyQcwWrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
+
 	switch (newTabId) {
 		case 'listTab':
 			break;
@@ -1203,6 +1803,7 @@ GamFcltyQcwWrtMngModule.prototype.onTabChange = function(newTabId, oldTabId) {
 			}
 			break;
 	}
+
 };
 
 var module_instance = new GamFcltyQcwWrtMngModule();
@@ -1218,22 +1819,22 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 /******************************** UI     START ********************************/
 %>
 
-<input type="hidden" id="window_id" value="<c:out value="${windowId}" />" />
+<input type="hidden" id="window_id" value='${windowId}' />
 <div class="window_main">
-	<!-- 1. SEARCH AREA (조회조건 영역) -->
+	<!-- 11. SEARCH AREA (조회조건 영역) -->
 	<div id="searchViewStack" class="emdPanel">
-		<div class="viewStack">
+		<div class="viewPanel">
 			<form id="searchForm">
-				<table class="searchPanel">
+				<table style="width:100%;" class="searchPanel">
 					<tbody>
 						<tr>
-							<th>관　리　그　룹</th>
+							<th>관리그룹</th>
 							<td>
 								<input type="text" size="15" id="sFcltsMngGroupNo"/>-
 								<input type="text" size="17" id="sFcltsMngGroupNm" disabled="disabled"/>
 								<button id="popupSearchFcltsMngGroup" class="popupButton">선택</button>
 							</td>
-							<th>업　무　구　분</th>
+							<th>업무구분</th>
 							<td>
 								<select id="sFcltsJobSe" class="searchEditItem">
 									<option value="">선택</option>
@@ -1245,10 +1846,22 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 								</select>
 								<input id="sFcltsJobSeNm" type="hidden" />
 							</td>
-							<td rowspan="3"><button id="btnSearch" class="buttonSearch">조회</button></td>
+							<th>시행년도</th>
+							<td>
+								<select id="sEnforceYear">
+									<option value="">선택</option>
+                                </select>
+							</td>
+							<td rowspan="2">
+								<button id="btnSearch" class="buttonSearch">조회</button>
+							</td>
 						</tr>
 						<tr>
-							<th height="17">점검　진단　구분</th>
+							<th>점검관리명</th>
+							<td>
+								<input type="text" id="sQcMngNm" size="50" />
+							</td>
+							<th>점검진단구분</th>
 							<td>
 								<select id="sQcInspSe">
 		                        	<option value="">선택</option>
@@ -1263,7 +1876,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 		                            <option value="9">기타</option>
 		                        </select>
 							</td>
-							<th>점　검　구　분</th>
+							<th>점검구분</th>
 							<td>
 								<select id="sQcSe" class="searchEditItem">
                                     <option value="">선택</option>
@@ -1275,41 +1888,31 @@ var module_instance = new GamFcltyQcwWrtMngModule();
                                 <input id="sQcSeNm" type="hidden" />
 							</td>
 						</tr>
-						<tr>
-							<th>시　행　년　도</th>
-							<td>
-								<select id="sEnforceYear">
-									<option value="">선택</option>
-                                </select>
-							</td>
-							<th>점검　관리　명</th>
-							<td><input type="text" id="sQcMngNm" size="50" /></td>
-						</tr>
 					</tbody>
 				</table>
 			</form>
 		</div>
 	</div>
-
 	<!-- 2. DATA AREA (자료 영역) -->
 	<div class="emdPanel fillHeight">
-		<!-- 2.1. TAB AREA (탭 영역) -->
+		<!-- 21. TAB AREA (탭 영역) -->
 		<div id="mainTab" class="emdTabPanel fillHeight" data-onchange="onTabChange">
-			<!-- 2.1.1. TAB 정의 -->
+			<!-- 211. TAB 정의 -->
 			<ul>
-				<li><a href="#listTab" class="emdTab">시설물점검목록</a></li>
-				<li><a href="#detailTab" class="emdTab">시설물점검내역</a></li>
+				<li><a href="#listTab" class="emdTab">시설물 점검목록</a></li>
+				<li><a href="#detailTab" class="emdTab">시설물 점검내역</a></li>
 			</ul>
-
-			<!-- 2.1.2. TAB 1 AREA (LIST) -->
-			<div id="listTab" class="emdTabPage fillHeight" style="overflow: hidden;">
-				<table id="mainGrid" style="display:none" class="fillHeight"></table>
-				<div class="emdControlPanel">
+			<!-- 212. TAB 1 AREA (LIST) -->
+			<div id="listTab" class="emdTabPage fillHeight" style="overflow:hidden;" >
+				<table id="mainGrid" style="display:none;" class="fillHeight"></table>
+				<div id="listSumPanel" class="emdControlPanel">
 					<form id="listSumForm">
 						<table style="width:100%;">
 							<tr>
-								<th style="width:6%; height:20; text-align:center;">자료수</th>
-								<td><input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled"/></td>
+								<th style="width:10%; height:20; text-align:center;">자료수</th>
+								<td>
+									<input type="text" size="12" id="totalCount" class="ygpaNumber" disabled="disabled"/>
+								</td>
 								<td style="text-align:right;">
 									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
 									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
@@ -1323,25 +1926,39 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 
 			<!-- 2.1.3. TAB 2 AREA (DETAIL) -->
 			<div id="detailTab" class="emdTabPage fillHeight" style="overflow: hidden;">
+				<table class="summaryPanel" style="width:100%;">
+					<tr>
+						<th style="font-weight:bold; height:20px;">시설물 점검내역</th>
+						<td style="text-align:right;">
+							<button id="btnAllSelect">선택</button>
+							<button id="btnAllUnSelect">해제</button>
+							&nbsp;　　　&nbsp;
+							<button id="btnFcltsList">대상시설물 목록</button>
+							<button id="btnFileList">첨부파일 목록</button>
+						</td>
+					</tr>
+				</table>
 				<!-- 2.1.3.1 Layout Table -->
 				<table style="width:100%;" class="editForm">
 					<tr>
-						<td width="70%">
+						<td width="60%">
 							<!-- 2.1.3.1.1 Element Table -->
 							<form id="detailForm">
 							<input type="hidden" id="sMechCdStartChar">
 							<table  class="detailPanel"  style="width:100%;">
 								<tr>
-									<th width="14%">관　리　그　룹</th>
+									<th style="width:14%; height:18px;">관　리　그　룹</th>
 									<td colspan="3">
-										<input type="hidden" id="fcltsMngGroupNo"/>
-										<input type="text" size="40" id="fcltsMngGroupNm" disabled="disabled"/>
+										<input type="text" size="20" id="fcltsMngGroupNo" disabled="disabled"/>-
+										<input type="text" size="53" id="fcltsMngGroupNm" disabled="disabled"/>
 										<button id="popupDetailFcltsMngGroup" class="popupButton">선택</button>
 									</td>
 								</tr>
 								<tr>
-									<th width="14%" height="17">업　무　구　분</th>
+									<th style="width:14%; height:18px;">업　무　구　분</th>
 									<td width="40%">
+		                                <input type="hidden" id="printSe"/>
+		                                <input type="hidden" id="qcMngSeq"/>
 										<select id="fcltsJobSe">
 											<option value="">선택</option>
 											<option value="A">건축시설</option>
@@ -1350,176 +1967,192 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 											<option value="I">정보통신시설</option>
 											<option value="M">기계시설</option>
 		                                </select>
-		                                <input type="hidden" id="printSe"/>
-		                                <input type="hidden" id="qcMngSeq"/>
-									</td>
-									<th width="14%" height="17">점검　진단　예산</th>
-									<td width="32%"><input id="qcInspBdgt" type="text" size="20" class="ygpaNumber"/> 원</td>
-								</tr>
-								<tr>
-									<th height="17">점검　관리　명</th>
-									<td>
-										<input type="text" size="35" id="qcMngNm" maxlength="66" />
-									</td>
-									<th height="17">계획　이력　구분</th>
-									<td>
 										<select id="planHistSe" disabled="disabled">
 		                                    <option value="P">계획</option>
 		                                    <option value="H" selected="selected">이력</option>
 		                                </select>
 									</td>
-								</tr>
-								<tr>
-									<th height="17">점검　진단　구분</th>
-									<td>
-										<select id="qcInspSe">
-		                                    <option value="">선택</option>
-		                                    <option value="1">정기점검</option>
-		                                    <option value="2">정밀점검</option>
-		                                    <option value="3">초기점검</option>
-		                                    <option value="4">긴급점검(손상)</option>
-		                                    <option value="5">긴급점검(특별)</option>
-		                                    <option value="6">정밀안전점검(정기)</option>
-		                                    <option value="7">정밀안전점검(긴급)</option>
-		                                    <option value="8">정밀안전점검(하자)</option>
-		                                    <option value="9">기타</option>
-		                                </select>
-									</td>
-									<th height="17">점　검　구　분</th>
-									<td>
-										<select id="qcSe">
-		                                    <option value="">선택</option>
-		                                    <option value="1">해빙기대비</option>
-		                                    <option value="2">풍수해대비</option>
-		                                    <option value="3">동절기대비</option>
-		                                    <option value="4">우기대비</option>
-		                                </select>
-									</td>
-								</tr>
-								<tr>
-									<th height="17">시　행　년　도</th>
+									<th style="width:14%; height:18px;">시　행　년　도</th>
 									<td>
 										<!-- 년도 자동 주입 -->
 										<select id="enforceYear">
 											<option value="">선택</option>
 		                                </select>
 									</td>
-									<th height="17">점검　진단　자</th>
+								</tr>
+								<tr>
+									<th style="width:14%; height:18px;">점검진단　예산</th>
+									<td width="32%">
+										<input type="text" size="21" id="qcInspBdgt" class="ygpaNumber"/> 원
+									</td>
+									<th style="width:14%; height:18px;">점검　관리　명</th>
+									<td>
+										<input type="text" size="35" id="qcMngNm" maxlength="70"/>
+									</td>
+								</tr>
+								<tr>
+									<th style="width:14%; height:18px;">점　검　구　분</th>
+									<td>
+										<select id="qcSe">
+		                                    <option value="">선택</option>
+		                                    <option value="1">해빙기 대비　　　　　</option>
+		                                    <option value="2">풍수해 대비　　　　　</option>
+		                                    <option value="3">동절기 대비　　　　　</option>
+		                                    <option value="4">우기 대비　　　　　　</option>
+		                                </select>
+									</td>
+									<th style="width:14%; height:18px;">점검진단　구분</th>
+									<td>
+										<select id="qcInspSe">
+		                                    <option value="">선택</option>
+		                                    <option value="1">정기점검　　　　　　　　　　　　</option>
+		                                    <option value="2">정밀점검　　　　　　　　　　　　</option>
+		                                    <option value="3">초기점검　　　　　　　　　　　　</option>
+		                                    <option value="4">긴급점검(손상)　　　　　　　　　</option>
+		                                    <option value="5">긴급점검(특별)　　　　　　　　　</option>
+		                                    <option value="6">정밀안전점검(정기)　　　　　　　</option>
+		                                    <option value="7">정밀안전점검(긴급)　　　　　　　</option>
+		                                    <option value="8">정밀안전점검(하자)　　　　　　　</option>
+		                                    <option value="9">기타</option>
+		                                </select>
+									</td>
+								</tr>
+								<tr>
+									<th style="width:14%; height:18px;">점검　진단　자</th>
 									<td>
 										<select id="qcInspTp">
 		                                    <option value="">선택</option>
-		                                    <option value="1">자체점검</option>
-		                                    <option value="2">용역점검</option>
+		                                    <option value="1">자체 점검　　　　　　</option>
+		                                    <option value="2">용역 점검　　　　　　</option>
 		                                </select>
+									</td>
+									<th style="width:14%; height:18px;">시　행　일　자</th>
+									<td>
+										<input type="text" class="emdcal" id="qcInspDt" size="32"/>
 									</td>
 								</tr>
 								<tr>
-									<th height="17">시　행　일　자</th>
-									<td><input id="qcInspDt" type="text" class="emdcal" size="12"/></td>
-									<th height="17">점검　진단　금액</th>
-									<td><input id="qcInspAmt" type="text" size="20" class="ygpaNumber"/> 원</td>
+									<th style="width:14%; height:18px;">점검진단　금액</th>
+									<td>
+										<input type="text" size="21" id="qcInspAmt" class="ygpaNumber"/> 원
+									</td>
+									<th style="width:14%; height:18px;">점검진단기관명</th>
+									<td>
+										<input type="text" size="35" id="qcInspInsttNm" maxlength="70"/>
+									</td>
 								</tr>
 								<tr>
-									<th height="17">상태　평가　등급</th>
+									<th style="width:14%; height:18px;">책임　기술자명</th>
 									<td>
+										<input type="text" size="23" id="responEngineerNm" maxlength="20"/>
+									</td>
+									<th style="width:14%; height:18px;">점　검　기　간</th>
+									<td>
+										<input type="text" size="12" id="qcBeginDt" class="emdcal"/> ~
+										<input type="text" size="12" id="qcEndDt" class="emdcal"/>
+									</td>
+								</tr>
+								<tr>
+									<th style="width:14%; height:18px;">작　성　일　자</th>
+									<td>
+										<input type="text" size="20" id="wrtDt" class="emdcal"/>
+									</td>
+									<th style="width:14%; height:18px;">작　　성　　자</th>
+									<td>
+										<input type="text" size="35" id="wrtUsr" maxlength="20"/>
+									</td>
+								</tr>
+								<tr>
+									<th style="width:14%; height:18px;">상태평가　등급</th>
+									<td colspan="3">
 										<select id="sttusEvlLvl">
 		                                    <option value="">선택</option>
-		                                    <option value="0">양호</option>
-		                                    <option value="1">보통</option>
-		                                    <option value="2">불량</option>
-		                                    <option value="A">A</option>
-		                                    <option value="B">B</option>
-		                                    <option value="C">C</option>
-		                                    <option value="D">D</option>
-		                                    <option value="E">E</option>
-		                                    <option value="Z">불명</option>
+		                                    <option value="0">양호　　　　　　　　</option>
+		                                    <option value="1">보통　　　　　　　　</option>
+		                                    <option value="2">불량　　　　　　　　</option>
+		                                    <option value="A">A 　　　　　　　　　</option>
+		                                    <option value="B">B 　　　　　　　　　</option>
+		                                    <option value="C">C 　　　　　　　　　</option>
+		                                    <option value="D">D 　　　　　　　　　</option>
+		                                    <option value="E">E 　　　　　　　　　</option>
+		                                    <option value="Z">불명　　　　　　　　</option>
 		                                </select>
-									</td>
-									<th height="17">점검　진단　기관명</th>
-									<td><input type="text" size="20" id="qcInspInsttNm" maxlength="60" /></td>
-								</tr>
-								<tr>
-									<th height="17">점　검　기　간</th>
-									<td>
-										<input id="qcBeginDt" type="text" class="emdcal" size="12"/> ~
-										<input id="qcEndDt" type="text" class="emdcal" size="12"/>
-									</td>
-									<th height="17">책임　기술자　명</th>
-									<td><input type="text" size="20" id="responEngineerNm" maxlength="20" /></td>
-								</tr>
-								<tr>
-									<th height="17">작　성　일　자</th>
-									<td>
-										<input id="wrtDt" type="text" class="emdcal" size="12"/>
-									</td>
-									<th height="17">작　　성　　자</th>
-									<td><input id="wrtUsr" type="text" size="20" maxlength="7" /></td>
-								</tr>
-								<tr>
-									<th height="17">점검　진단　결과</th>
-									<td colspan="3">
-										<textarea id="qcInspResult" cols="88" rows="5"></textarea>
-										<button id="popupEditQcResultItem" class="popupButton">점검결과항목선택</button>
+										&nbsp;　　점검결과항목선택 :&nbsp;
 										<select id="mechFcltsSe">
 											<option value="1">하역장비</option>
 											<option value="2">항만부잔교</option>
-											<option value="3">건축 기계설비</option>
+											<option value="3">건축기계설비</option>
 										</select>
+										<button id="popupEditQcResultItem">점검결과항목선택</button>
 									</td>
 								</tr>
 								<tr>
-									<th height="17">조　치　내　용</th>
-									<td colspan="3"><textarea id="actionCn" cols="88" rows="5"></textarea></td>
+									<th style="width:14%; height:18px;">점검진단　결과</th>
+									<td colspan="3">
+										<textarea id="qcInspResult" cols="87" rows="5"></textarea>
+									</td>
 								</tr>
 								<tr>
-									<th height="17">비　　　　　고</th>
-									<td colspan="3"><input id="rm" type="text" size="90"/></td>
+									<th style="width:14%; height:18px;">조　치　내　용</th>
+									<td colspan="3">
+										<textarea id="actionCn" cols="87" rows="5"></textarea>
+									</td>
+								</tr>
+								<tr>
+									<th style="width:14%; height:18px;">비　　　　　고</th>
+									<td colspan="3">
+										<textarea id="rm" cols="87" rows="4"></textarea>
+									</td>
 								</tr>
 							</table>
 							</form>
 						</td>
-						<td width="30%">
+						<td width="40%">
 							<!-- 2.1.3.1.2 Grid Table -->
-							<table  class="detailPanel"  style="width:100%;">
+							<table id="fcltsListArea" class="detailPanel" style="width:100%;">
 								<tr>
 									<td>
 										<table id="qcObjFcltsGrid" style="display:none" class="fillHeight"></table>
 									</td>
 								</tr>
 							</table>
+							<table id="fileListArea" class="detailPanel" style="width:100%;">
+								<tr>
+									<td>
+										<table id="fileGrid" style="display:none" class="fillHeight"></table>
+									</td>
+								</tr>
+								<tr>
+									<td style="text-align:right">
+										<button id="btnFileUpload" class="buttonAdd">파일 추가</button>
+										<button id="btnFileDownload">파일 다운로드</button>
+										<button id="btnFileRemove" class="buttonDelete">파일 삭제</button>
+										<button id="btnFilePreview">미리보기</button>
+									</td>
+								</tr>
+							</table>
 						</td>
 					</tr>
 				</table>
-				<table class="editForm" style="width:100%">
+				<table style="width:100%;">
 					<tr>
-						<th width="11%" height="20">첨　부　파　일</th>
-						<td colspan="2">
-							<select id="atchFile">
-                            </select>
+						<td style="text-align:left;">
+							<button id="btnFirstData">처음 자료</button>
+							<button id="btnPrevData">이전 자료</button>
+							<button id="btnNextData">다음 자료</button>
+							<button id="btnLastData">마지막 자료</button>
 						</td>
 						<td style="text-align:right">
-							<button id="btnAllSelect">전체선택</button>
-							<button id="btnAllUnSelect">선택해제</button>
-							<div id="previewDialogArea" style="display: none;"></div>
+							<button id="btnDetailAdd" class="buttonAdd">　　추　가　　</button>
+							<button id="btnDetailDelete" class="buttonDelete">　　삭　제　　</button>
+							<button id="btnSave" class="buttonSave">　　저　장　　</button>
+							<!-- <button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url="/fcltyMng/printQcMngDtls.do">　　인　쇄　　</button> -->
+							<button id="btnPrint" data-role="printPage" data-search-option="detailForm">　　인　쇄　　</button>
+							<!-- <button id="btnHwp" data-role="printDown" data-url="/fcltyMng/selectFcltyQcHwp.do" data-filename="검사조서.hwp" data-search-option="detailForm">한글문서</button> -->
+							<button id="btnHwp" data-role="printDown" data-filename="검사조서.hwp" data-search-option="detailForm">한글문서</button>
 						</td>
 					</tr>
 				</table>
-				<div class="emdSummaryPanel">
-					<button id="btnUploadFile">업로드</button>
-					<button id="btnDownloadFile">다운로드</button>
-					<button id="btnPreviewFile">첨부파일미리보기</button>
-					<button id="btnRemoveFile">첨부파일삭제</button>
-					<div style="text-align:right">
-						<button id="btnDetailAdd" class="buttonAdd">　　추　가　　</button>
-						<button id="btnDetailDelete" class="buttonDelete">　　삭　제　　</button>
-						<button id="btnSave" class="buttonSave">　　저　장　　</button>
-						<!-- <button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url="/fcltyMng/printQcMngDtls.do">　　인　쇄　　</button> -->
-						<button id="btnPrint" data-role="printPage" data-search-option="detailForm">　　인　쇄　　</button>
-	
-						<!-- <button id="btnHwp" data-role="printDown" data-url="/fcltyMng/selectFcltyQcHwp.do" data-filename="검사조서.hwp" data-search-option="detailForm">H　W　P 　</button> -->
-						<button id="btnHwp" data-role="printDown" data-filename="검사조서.hwp" data-search-option="detailForm">H　W　P 　</button>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>

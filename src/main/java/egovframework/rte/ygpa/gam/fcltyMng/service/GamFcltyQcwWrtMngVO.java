@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package egovframework.rte.ygpa.gam.fcltyMng.service;
 
@@ -8,14 +8,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
- * 
+ *
  * @author 김종민
  * @since 2014. 11. 24.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2014. 11. 24.		김종민		최초 생성
@@ -30,42 +30,63 @@ public class GamFcltyQcwWrtMngVO extends ComDefaultVO {
 
 	/**시설물업무구분(조회조건)*/
 	private String sFcltsJobSe;
-	
+
 	/**점검진단구분(조회조건)*/
 	private String sQcInspSe;
-	
+
 	/**점검관리명(조회조건)*/
 	private String sQcMngNm;
-	
+
 	/**시설물관리그룹번호(조회조건)*/
 	private String sFcltsMngGroupNo;
-	
+
 	/**점검관리순번(조회조건)*/
 	private String sQcMngSeq;
-	
+
 	/**점검구분(조회조건)*/
 	private String sQcSe;
-	
+
 	/**시행년도(조회조건)*/
 	private String sEnforceYear;
 
 	/**기계 점검항목목록 조건(조회조건)*/
 	private String sMechCdStartChar;
-	
+
 	/**업무구분에 따른 대상시설물 조건(조회조건)*/
 	private String sGamCode;
 
 	/**시설물관리그룹번호(출력용 조건)*/
 	private String fcltsMngGroupNo;
-	
+
 	/**시설물업무구분(출력용 조건)*/
 	private String fcltsJobSe;
-	
+
 	/**점검관리순번(출력용 조건)*/
 	private String qcMngSeq;
-	
+
 	/**기계시설분류(출력용 조건)*/
 	private String mechFcltsSe;
+
+	/** 파일 설명 */
+	private String atchFileSj;
+	/** 파일 구분 */
+	private String atchFileSe;
+	/** 파일명 (물리) */
+	private String atchFileNmPhysicl;
+	/** 파일명 (논리) */
+	private String atchFileNmLogic;
+	/** 파일 순번*/
+	private String atchFileSeq;
+	/** 파일 비고 */
+	private String atchFileRm;
+	/** 파일 구분 명 */
+	private String atchFileSeNm;
+	/** 파일 작성 일자 */
+	private String atchFileWritngDt;
+	private	String regUsr;					// 등록자
+	private	String registDt;				// 등록일시
+	private	String updUsr;					// 수정자
+	private	String updtDt;					// 수정일시
 
 	/**
 	 * @return the sFcltsJobSe
@@ -247,6 +268,175 @@ public class GamFcltyQcwWrtMngVO extends ComDefaultVO {
 	 */
 	public void setMechFcltsSe(String mechFcltsSe) {
 		this.mechFcltsSe = mechFcltsSe;
+	}
+
+
+	/**
+	 * @return the atchFileSj
+	 */
+	public String getAtchFileSj() {
+		return atchFileSj;
+	}
+
+	/**
+	 * @param atchFileSj the atchFileSj to set
+	 */
+	public void setAtchFileSj(String atchFileSj) {
+		this.atchFileSj = atchFileSj;
+	}
+
+	/**
+	 * @return the atchFileSe
+	 */
+	public String getAtchFileSe() {
+		return atchFileSe;
+	}
+
+	/**
+	 * @param atchFileSe the atchFileSe to set
+	 */
+	public void setAtchFileSe(String atchFileSe) {
+		this.atchFileSe = atchFileSe;
+	}
+
+	/**
+	 * @return the atchFileNmPhysicl
+	 */
+	public String getAtchFileNmPhysicl() {
+		return atchFileNmPhysicl;
+	}
+
+	/**
+	 * @param atchFileNmPhysicl the atchFileNmPhysicl to set
+	 */
+	public void setAtchFileNmPhysicl(String atchFileNmPhysicl) {
+		this.atchFileNmPhysicl = atchFileNmPhysicl;
+	}
+
+	/**
+	 * @return the atchFileNmLogic
+	 */
+	public String getAtchFileNmLogic() {
+		return atchFileNmLogic;
+	}
+
+	/**
+	 * @param atchFileNmLogic the atchFileNmLogic to set
+	 */
+	public void setAtchFileNmLogic(String atchFileNmLogic) {
+		this.atchFileNmLogic = atchFileNmLogic;
+	}
+
+	/**
+	 * @return the atchFileSeq
+	 */
+	public String getAtchFileSeq() {
+		return atchFileSeq;
+	}
+
+	/**
+	 * @param atchFileSeq the atchFileSeq to set
+	 */
+	public void setAtchFileSeq(String atchFileSeq) {
+		this.atchFileSeq = atchFileSeq;
+	}
+
+	/**
+	 * @return the atchFileRm
+	 */
+	public String getAtchFileRm() {
+		return atchFileRm;
+	}
+
+	/**
+	 * @param atchFileRm the atchFileRm to set
+	 */
+	public void setAtchFileRm(String atchFileRm) {
+		this.atchFileRm = atchFileRm;
+	}
+
+	/**
+	 * @return the atchFileSeNm
+	 */
+	public String getAtchFileSeNm() {
+		return atchFileSeNm;
+	}
+
+	/**
+	 * @param atchFileSeNm the atchFileSeNm to set
+	 */
+	public void setAtchFileSeNm(String atchFileSeNm) {
+		this.atchFileSeNm = atchFileSeNm;
+	}
+
+	/**
+	 * @return the atchFileWritngDt
+	 */
+	public String getAtchFileWritngDt() {
+		return atchFileWritngDt;
+	}
+
+	/**
+	 * @param atchFileWritngDt the atchFileWritngDt to set
+	 */
+	public void setAtchFileWritngDt(String atchFileWritngDt) {
+		this.atchFileWritngDt = atchFileWritngDt;
+	}
+
+	/**
+	 * @return the regUsr
+	 */
+	public String getRegUsr() {
+		return regUsr;
+	}
+
+	/**
+	 * @param regUsr the regUsr to set
+	 */
+	public void setRegUsr(String regUsr) {
+		this.regUsr = regUsr;
+	}
+
+	/**
+	 * @return the registDt
+	 */
+	public String getRegistDt() {
+		return registDt;
+	}
+
+	/**
+	 * @param registDt the registDt to set
+	 */
+	public void setRegistDt(String registDt) {
+		this.registDt = registDt;
+	}
+
+	/**
+	 * @return the updUsr
+	 */
+	public String getUpdUsr() {
+		return updUsr;
+	}
+
+	/**
+	 * @param updUsr the updUsr to set
+	 */
+	public void setUpdUsr(String updUsr) {
+		this.updUsr = updUsr;
+	}
+
+	/**
+	 * @return the updtDt
+	 */
+	public String getUpdtDt() {
+		return updtDt;
+	}
+
+	/**
+	 * @param updtDt the updtDt to set
+	 */
+	public void setUpdtDt(String updtDt) {
+		this.updtDt = updtDt;
 	}
 
 }

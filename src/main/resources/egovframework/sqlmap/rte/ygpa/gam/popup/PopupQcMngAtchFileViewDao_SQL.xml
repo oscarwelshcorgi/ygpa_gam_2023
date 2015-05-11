@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ygpa.gam.popup">
+
+	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="gamQcMngAtchFileMngVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamQcMngAtchFileMngVO"/>
+
+	<select id="PopupQcMngAtchFileViewDao.selectQcMngAtchFileViewPk_S" parameterClass="gamQcMngAtchFileMngVO" resultClass="egovMap">
+		SELECT
+				 T1.FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
+				,TO_CHAR(T1.QC_MNG_SEQ) AS QC_MNG_SEQ
+				,T1.FCLTS_JOB_SE AS FCLTS_JOB_SE
+				,TO_CHAR(T1.ATCH_FILE_SEQ) AS ATCH_FILE_SEQ
+				,T1.ATCH_FILE_SE AS ATCH_FILE_SE
+				,T1.ATCH_FILE_SJ AS ATCH_FILE_SJ
+				,T1.ATCH_FILE_NM_LOGIC AS ATCH_FILE_NM_LOGIC
+				,T1.ATCH_FILE_NM_PHYSICL AS ATCH_FILE_NM_PHYSICL
+				,TO_CHAR(T1.ATCH_FILE_WRITNG_DT,'YYYY-MM-DD') AS ATCH_FILE_WRITNG_DT
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,T1.ATCH_FILE_RM AS ATCH_FILE_RM
+				,GAM_GET_FILE_SE_NM(T1.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+				,'FALSE' AS ATCH_FILE_SEL_CHK
+			FROM QC_MNG_ATCH_FILE_F T1
+		WHERE T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		AND T1.FCLTS_JOB_SE = #fcltsJobSe#
+		AND T1.QC_MNG_SEQ = NVL(TO_NUMBER(REPLACE(#qcMngSeq#,',','')),0)
+		AND T1.ATCH_FILE_SEQ = NVL(TO_NUMBER(REPLACE(#atchFileSeq#,',','')),0)
+	</select>
+
+	<update id="PopupQcMngAtchFileViewDao.updateQcMngAtchFileView_S" parameterClass="gamQcMngAtchFileMngVO">
+		UPDATE QC_MNG_ATCH_FILE_F SET
+			 ATCH_FILE_SE = #atchFileSe#
+			,ATCH_FILE_SJ = #atchFileSj#
+			,ATCH_FILE_RM = #atchFileRm#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		AND FCLTS_JOB_SE = #fcltsJobSe#
+		AND QC_MNG_SEQ = NVL(TO_NUMBER(REPLACE(#qcMngSeq#,',','')),0)
+		AND ATCH_FILE_SEQ = NVL(TO_NUMBER(REPLACE(#atchFileSeq#,',','')),0)
+	</update>
+
+</sqlMap>

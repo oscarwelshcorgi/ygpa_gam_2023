@@ -5,7 +5,8 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamFcltyQcwWrtMngVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcwWrtMngVO"/>
-    
+	<typeAlias alias="gamQcMngAtchFileMngVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamQcMngAtchFileMngVO"/>
+
     <!-- 점검관리목록 -->
 	<select id="gamFcltyQcwWrtMngDao.selectQcMngDtlsList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
         SELECT A.*
@@ -14,7 +15,7 @@
                 	FROM (
 						SELECT
 							Q.FCLTS_MNG_GROUP_NO
-							, F.FCLTS_MNG_GROUP_NM 
+							, F.FCLTS_MNG_GROUP_NM
 							, Q.FCLTS_JOB_SE
     						, GAM_GET_FCLTS_JOB_SE_NM(Q.FCLTS_JOB_SE) AS FCLTS_JOB_SE_NM
 							, TO_CHAR(Q.QC_MNG_SEQ) QC_MNG_SEQ
@@ -39,10 +40,10 @@
 							, TO_CHAR(Q.WRT_DT, 'YYYY-MM-DD') WRT_DT
 							, Q.WRT_USR
 							, Q.PLAN_HIST_SE
-							, GAM_GET_PLAN_HIST_SE_NM(Q.PLAN_HIST_SE) PLAN_HIST_SE_NM 						
+							, GAM_GET_PLAN_HIST_SE_NM(Q.PLAN_HIST_SE) PLAN_HIST_SE_NM
 						FROM
 							QC_MNG_DTLS_F Q
-			            INNER JOIN 
+			            INNER JOIN
 			            	FCLTS_MNG_GROUP_F F
 			            ON
 			              	Q.FCLTS_MNG_GROUP_NO = F.FCLTS_MNG_GROUP_NO
@@ -58,7 +59,7 @@
 						  	AND Q.QC_INSP_SE = #sQcInspSe#
 						</isNotEmpty>
 						<isNotEmpty property="sQcMngNm">
-						  	AND Q.QC_MNG_NM LIKE '%' || #sQcMngNm# || '%' 
+						  	AND Q.QC_MNG_NM LIKE '%' || #sQcMngNm# || '%'
 						</isNotEmpty>
 						<isNotEmpty property="sQcSe">
 						  	AND Q.QC_SE = #sQcSe#
@@ -74,7 +75,7 @@
 							, Q.QC_MNG_SEQ
                 ) S
              ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
 	</select>
 
 	<!-- 점검관리목록 개수 -->
@@ -95,7 +96,7 @@
 		  	AND Q.QC_INSP_SE = #sQcInspSe#
 		</isNotEmpty>
 		<isNotEmpty property="sQcMngNm">
-		  	AND Q.QC_MNG_NM LIKE '%' || #sQcMngNm# || '%' 
+		  	AND Q.QC_MNG_NM LIKE '%' || #sQcMngNm# || '%'
 		</isNotEmpty>
 		<isNotEmpty property="sQcSe">
 		  	AND Q.QC_SE = #sQcSe#
@@ -132,27 +133,27 @@
 			, TO_CHAR(Q.WRT_DT, 'YYYY-MM-DD') WRT_DT
 			, Q.WRT_USR
 			, Q.MECH_FCLTS_SE
-			, Q.PLAN_HIST_SE		
+			, Q.PLAN_HIST_SE
 		FROM
 			QC_MNG_DTLS_F Q
 		WHERE
-			Q.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo# 
+			Q.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
 			AND Q.FCLTS_JOB_SE = #sFcltsJobSe#
 			AND Q.QC_MNG_SEQ = TO_NUMBER(#sQcMngSeq#)
 	</select>
-	
-	
+
+
 	<!-- 점검관리 순번 얻기 -->
 	<select id="gamFcltyQcwWrtMngDao.selectMaxQcMngSeq_S" parameterClass="hashMap" resultClass="String">
 		SELECT
 			TO_CHAR(NVL(MAX(QC_MNG_SEQ),0) + 1)
 		FROM
 			QC_MNG_DTLS_F
-		WHERE 
-			FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo# 
+		WHERE
+			FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 			AND FCLTS_JOB_SE = #fcltsJobSe#
 	</select>
-	
+
 	<!-- 점검관리내역 등록 -->
 	<insert id="gamFcltyQcwWrtMngDao.insertQcMngDtls_S" parameterClass="hashMap">
 		INSERT INTO
@@ -179,9 +180,9 @@
 				, WRT_DT
 				, WRT_USR
 				, MECH_FCLTS_SE
-				, PLAN_HIST_SE				
+				, PLAN_HIST_SE
 				, REG_USR
-				, REGIST_DT		
+				, REGIST_DT
 			) VALUES (
 				#fcltsMngGroupNo#
 				, #fcltsJobSe#
@@ -205,12 +206,12 @@
 				, TO_DATE(#wrtDt#, 'YYYY-MM-DD')
 				, #wrtUsr#
 				, #mechFcltsSe#
-				, #planHistSe#				
+				, #planHistSe#
 				, #regUsr#
 				, SYSDATE
 			)
 	</insert>
-	
+
 	<!-- 점검관리내역 수정 -->
 	<update id="gamFcltyQcwWrtMngDao.updateQcMngDtls_S" parameterClass="hashMap">
 		UPDATE
@@ -243,7 +244,7 @@
 			AND FCLTS_JOB_SE = #fcltsJobSe#
 			AND QC_MNG_SEQ = TO_NUMBER(#qcMngSeq#)
 	</update>
-	
+
 	<!-- 점검관리내역 삭제 -->
 	<delete id="gamFcltyQcwWrtMngDao.deleteQcMngDtls_S" parameterClass="hashMap">
 		DELETE FROM
@@ -251,20 +252,33 @@
 		WHERE
 			FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 			AND FCLTS_JOB_SE = #fcltsJobSe#
-			AND QC_MNG_SEQ = TO_NUMBER(#qcMngSeq#)	
+			AND QC_MNG_SEQ = TO_NUMBER(#qcMngSeq#)
 	</delete>
 
 	<!-- 점검관리첨부파일 목록  -->
 	<select id="gamFcltyQcwWrtMngDao.selectQcMngAtchFileList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
 		SELECT
-		  	F.ATCH_FILE_NM_LOGIC
-		  	, F.ATCH_FILE_NM_PHYSICL
+			  F.FCLTS_JOB_SE
+			, F.FCLTS_MNG_GROUP_NO
+			, F.QC_MNG_SEQ
+			, F.ATCH_FILE_SEQ
+			, F.ATCH_FILE_SE
+			, GAM_GET_FILE_SE_NM(F.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+			, F.ATCH_FILE_SJ
+			, F.ATCH_FILE_NM_LOGIC
+			, F.ATCH_FILE_NM_PHYSICL
+			, TO_CHAR(F.ATCH_FILE_WRITNG_DT,'YYYY-MM-DD') ATCH_FILE_WRITNG_DT
+			, F.ATCH_FILE_RM
+			, F.REG_USR
+			, F.REGIST_DT
+			, F.UPD_USR
+			, F.UPDT_DT
 		FROM
 			QC_MNG_ATCH_FILE_F F
 		WHERE
 			F.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
 			AND F.FCLTS_JOB_SE = #sFcltsJobSe#
-			AND F.QC_MNG_SEQ = TO_NUMBER(#sQcMngSeq#) 
+			AND F.QC_MNG_SEQ = TO_NUMBER(#sQcMngSeq#)
 		ORDER BY
 			F.ATCH_FILE_SEQ
 	</select>
@@ -304,12 +318,12 @@
 				, #atchFileSj#
 				, #atchFileNmLogic#
 				, #atchFileNmPhysicl#
-				, TO_DATE(#atchFileWritingDt#, 'YYYY-MM-DD')
+				, TO_DATE(#atchFileWritngDt#, 'YYYY-MM-DD')
 				, #regUsr#
 				, SYSDATE
 			)
 	</insert>
-	
+
 	<!-- 점검관리첨부파일목록 삭제 -->
 	<delete id="gamFcltyQcwWrtMngDao.deleteQcMngAtchFileList_S" parameterClass="hashMap">
 		DELETE FROM
@@ -323,21 +337,21 @@
 
 	<!-- 점검관리대상 시설물 목록  -->
 	<select id="gamFcltyQcwWrtMngDao.selectQcMngObjFcltsList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
- 		SELECT  
+ 		SELECT
 			G.FCLTS_MNG_NO
 			, G.PRT_FCLTY_NM
 			, DECODE(O.FCLTS_MNG_NO,NULL,'','TRUE') CHK_ROLE
 			, G.PRT_FCLTY_SE
 			, GAM_GETCODENAME(#sGamCode#, G.GIS_PRT_FCLTY_CD) AS GIS_PRT_FCLTY_NM
 		FROM
-			GIS_PRT_FCLTY_CD_F G 
-        LEFT OUTER JOIN 
-			QC_MNG_OBJ_FCLTS_F O 
-        ON 
-			O.FCLTS_MNG_GROUP_NO = G.FCLTS_MNG_GROUP_NO 
+			GIS_PRT_FCLTY_CD_F G
+        LEFT OUTER JOIN
+			QC_MNG_OBJ_FCLTS_F O
+        ON
+			O.FCLTS_MNG_GROUP_NO = G.FCLTS_MNG_GROUP_NO
 			AND O.FCLTS_MNG_NO = G.FCLTS_MNG_NO
 			AND O.QC_MNG_SEQ = TO_NUMBER(#sQcMngSeq#)
-		WHERE 
+		WHERE
 			<![CDATA[ 1<>1 ]]>
 			OR (
 				<isNotEmpty property="sFcltsJobSe">
@@ -350,10 +364,10 @@
 					G.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
 				</isNotEmpty>
 				)
-        ORDER BY 
+        ORDER BY
           	G.PRT_FCLTY_SE, O.FCLTS_MNG_NO
     </select>
-	
+
 	<!-- 점검관리대상 시설물 등록 -->
 	<insert id="gamFcltyQcwWrtMngDao.insertQcMngObjFclts_S" parameterClass="hashMap">
 		INSERT INTO
@@ -368,7 +382,7 @@
 				, QC_INSP_RESULT
 				, RM
 				, REG_USR
-				, REGIST_DT			
+				, REGIST_DT
 			)
 			VALUES (
 				#fcltsMngGroupNo#
@@ -381,10 +395,10 @@
 				, #qcInspResult#
 				, #rm#
 				, #regUsr#
-				, SYSDATE			
+				, SYSDATE
 			)
 	</insert>
-	
+
 	<!-- 점검관리대상 시설물 목록 삭제 -->
 	<delete id="gamFcltyQcwWrtMngDao.deleteQcMngObjFcltsList_S" parameterClass="hashMap">
 		DELETE FROM
@@ -395,12 +409,12 @@
 			AND QC_MNG_SEQ = TO_NUMBER(#qcMngSeq#)
 	</delete>
 
-	<!-- 점검관리결과항목목록 -->		
+	<!-- 점검관리결과항목목록 -->
 	<select id="gamFcltyQcwWrtMngDao.selectQcMngResultItemList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
 		SELECT
 			A.QC_ITEM_UPPER_CD
 			, (SELECT QC_ITEM_NM FROM QC_ITEM_CD_F WHERE QC_ITEM_CD = A.QC_ITEM_UPPER_CD) QC_ITEM_UPPER_NM
-			, (SELECT COUNT(*) FROM QC_ITEM_CD_F WHERE QC_ITEM_CD LIKE SUBSTRB(A.QC_ITEM_UPPER_CD,1,3) || '%' AND QC_ITEM_CD > A.QC_ITEM_UPPER_CD) QC_ITEM_UPPER_CD_COUNT 	
+			, (SELECT COUNT(*) FROM QC_ITEM_CD_F WHERE QC_ITEM_CD LIKE SUBSTRB(A.QC_ITEM_UPPER_CD,1,3) || '%' AND QC_ITEM_CD > A.QC_ITEM_UPPER_CD) QC_ITEM_UPPER_CD_COUNT
 			, A.QC_ITEM_CD
 			, A.QC_ITEM_NM
 			, A.INSP_RESULT_CHK
@@ -446,7 +460,7 @@
 		   	</isNotEmpty>
   	</select>
 
-	<!-- 점검관리결과항목목록 갯수-->		
+	<!-- 점검관리결과항목목록 갯수-->
 	<select id="gamFcltyQcwWrtMngDao.selectQcMngResultItemListTotCnt_S" parameterClass="gamFcltyQcwWrtMngVO" resultClass="int">
 		SELECT
 			COUNT(*) TOT_CNT
@@ -488,11 +502,11 @@
 		    	AND A.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
 		   	</isNotEmpty>
   	</select>
-	
-	<!-- 기계 점검관리결과항목목록 -->		
+
+	<!-- 기계 점검관리결과항목목록 -->
 	<select id="gamFcltyQcwWrtMngDao.selectMechQcMngResultItemList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
 		SELECT
-			DECODE(R.INSP_RESULT_CHK, NULL, 'N', R.INSP_RESULT_CHK) INSP_RESULT_CHK 
+			DECODE(R.INSP_RESULT_CHK, NULL, 'N', R.INSP_RESULT_CHK) INSP_RESULT_CHK
 			, I.QC_ITEM_UPPER_CD
 			, (SELECT S.QC_ITEM_NM FROM QC_ITEM_CD_F S WHERE S.QC_ITEM_CD = I.QC_ITEM_UPPER_CD ) QC_ITEM_UPPER_NM
 		    , (SELECT S.QC_ITEM_UPPER_CD FROM QC_ITEM_CD_F S WHERE S.QC_ITEM_CD = I.QC_ITEM_UPPER_CD ) QC_ITEM_UPPER_UPPER_CD
@@ -502,11 +516,11 @@
 			, I.QC_ITEM_CD
 			, I.QC_ITEM_NM
 			, GAM_GET_INSP_RESULT_CHK_NM(INSP_RESULT_CHK) INSP_RESULT_CHK_NM
-			, (CASE WHEN INSP_RESULT_CHK = 'N' THEN 'O' 
+			, (CASE WHEN INSP_RESULT_CHK = 'N' THEN 'O'
 					WHEN INSP_RESULT_CHK = 'W' THEN '△'
 					WHEN INSP_RESULT_CHK = 'X' THEN 'X'
-					ELSE '' 
-			  END) INSP_RESULT_CHK_MARK 
+					ELSE ''
+			  END) INSP_RESULT_CHK_MARK
 		FROM
 			QC_ITEM_CD_F I
 		LEFT OUTER JOIN
@@ -525,10 +539,10 @@
 		    	AND I.QC_ITEM_CD LIKE #sMechCdStartChar# || '%'
 		   	</isNotEmpty>
 		ORDER BY
-			I.QC_ITEM_UPPER_CD 
+			I.QC_ITEM_UPPER_CD
 			,I.QC_ITEM_CD
   	</select>
-	
+
 	<!-- 점검결과항목등록 -->
 	<insert id="gamFcltyQcwWrtMngDao.insertQcMngResultItem_S" parameterClass="hashMap">
     	<selectKey keyProperty="maxSeq" resultClass="String">
@@ -565,7 +579,7 @@
 				, SYSDATE
 			)
 	</insert>
-	
+
 	<!-- 점검결과항목 목록 삭제 -->
 	<delete id="gamFcltyQcwWrtMngDao.deleteQcMngResultItemList_S" parameterClass="hashMap">
 		DELETE FROM
@@ -575,8 +589,8 @@
 			AND FCLTS_JOB_SE = #fcltsJobSe#
 			AND QC_MNG_SEQ = TO_NUMBER(#qcMngSeq#)
 	</delete>
-	
-	
+
+
 	<!-- 토목시설물점검표 출력 -->
 	<select id="gamFcltyQcwWrtMngDao.selectFcltsMngGroupInfo_S" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
 		SELECT
@@ -600,14 +614,160 @@
 			, G.ELCTY_FCLTY_USE_YN
 			, G.INFO_COMM_FCLTY_USE_YN
 			, G.FLAW_END_DT
-			, TO_CHAR(G.FLAW_END_DT, 'YYYY') FLAW_END_DT_YEAR 
+			, TO_CHAR(G.FLAW_END_DT, 'YYYY') FLAW_END_DT_YEAR
 			, TO_CHAR(G.FLAW_END_DT, 'MM') FLAW_END_DT_MONTH
-			, TO_CHAR(G.FLAW_END_DT, 'DD') FLAW_END_DT_DAY 
+			, TO_CHAR(G.FLAW_END_DT, 'DD') FLAW_END_DT_DAY
 		FROM
 			FCLTS_MNG_GROUP_F G
-		WHERE 
+		WHERE
 			G.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
-			
+
 	</select>
-	
+
+
+
+	<select id="gamFcltyQcwWrtMngDao.selectFcltyQcwWrtMngQcMngAtchFileList_D" parameterClass="gamQcMngAtchFileMngVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
+								,TO_CHAR(T1.QC_MNG_SEQ) AS QC_MNG_SEQ
+								,T1.FCLTS_JOB_SE AS FCLTS_JOB_SE
+								,TO_CHAR(T1.ATCH_FILE_SEQ) AS ATCH_FILE_SEQ
+								,T1.ATCH_FILE_SE AS ATCH_FILE_SE
+								,T1.ATCH_FILE_SJ AS ATCH_FILE_SJ
+								,T1.ATCH_FILE_NM_LOGIC AS ATCH_FILE_NM_LOGIC
+								,T1.ATCH_FILE_NM_PHYSICL AS ATCH_FILE_NM_PHYSICL
+								,TO_CHAR(T1.ATCH_FILE_WRITNG_DT,'YYYY-MM-DD') AS ATCH_FILE_WRITNG_DT
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,T1.ATCH_FILE_RM AS ATCH_FILE_RM
+								,GAM_GET_FILE_SE_NM(T1.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+								,'FALSE' AS ATCH_FILE_SEL_CHK
+							FROM QC_MNG_ATCH_FILE_F T1
+						WHERE T1.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+						AND T1.FCLTS_JOB_SE = #sFcltsJobSe#
+						AND T1.QC_MNG_SEQ = NVL(TO_NUMBER(REPLACE(#sQcMngSeq#,',','')),0)
+						ORDER BY T1.ATCH_FILE_SEQ ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<insert id="gamFcltyQcwWrtMngDao.insertFcltyQcwWrtMngQcMngAtchFile_S" parameterClass="gamQcMngAtchFileMngVO">
+		INSERT INTO QC_MNG_ATCH_FILE_F
+		(
+			 FCLTS_MNG_GROUP_NO
+			,FCLTS_JOB_SE
+			,QC_MNG_SEQ
+			,ATCH_FILE_SEQ
+			,ATCH_FILE_SE
+			,ATCH_FILE_SJ
+			,ATCH_FILE_NM_LOGIC
+			,ATCH_FILE_NM_PHYSICL
+			,ATCH_FILE_WRITNG_DT
+			,ATCH_FILE_RM
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 #fcltsMngGroupNo#
+			,#fcltsJobSe#
+			,TO_NUMBER(REPLACE(#qcMngSeq#,',',''))
+			,TO_NUMBER(REPLACE(#atchFileSeq#,',',''))
+			,#atchFileSe#
+			,#atchFileSj#
+			,#atchFileNmLogic#
+			,#atchFileNmPhysicl#
+			,NVL(TO_DATE(#atchFileWritngDt#,'YYYY-MM-DD'),TRUNC(SYSDATE))
+			,#atchFileRm#
+			,#regUsr#
+			,SYSDATE
+		)
+	</insert>
+
+	<update id="gamFcltyQcwWrtMngDao.updateFcltyQcwWrtMngQcMngAtchFile_S" parameterClass="gamQcMngAtchFileMngVO">
+		UPDATE QC_MNG_ATCH_FILE_F SET
+			,ATCH_FILE_SE = #atchFileSe#
+			,ATCH_FILE_SJ = #atchFileSj#
+			 ATCH_FILE_NM_LOGIC = #atchFileNmLogic#
+			,ATCH_FILE_NM_PHYSICL = #atchFileNmPhysicl#
+			,ATCH_FILE_WRITNG_DT = NVL(TO_DATE(#atchFileWritngDt#,'YYYY-MM-DD'),TRUNC(SYSDATE))
+			,ATCH_FILE_RM = #atchFileRm#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		AND FCLTS_JOB_SE = #fcltsJobSe#
+		AND QC_MNG_SEQ = NVL(TO_NUMBER(REPLACE(#qcMngSeq#,',','')),0)
+		AND ATCH_FILE_SEQ = NVL(TO_NUMBER(REPLACE(#atchFileSeq#,',','')),0)
+	</update>
+
+	<delete id="gamFcltyQcwWrtMngDao.deleteFcltyQcwWrtMngQcMngAtchFile_S" parameterClass="gamQcMngAtchFileMngVO">
+		DELETE FROM QC_MNG_ATCH_FILE_F
+		WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		AND FCLTS_JOB_SE = #fcltsJobSe#
+		AND QC_MNG_SEQ = NVL(TO_NUMBER(REPLACE(#qcMngSeq#,',','')),0)
+		AND ATCH_FILE_SEQ = NVL(TO_NUMBER(REPLACE(#atchFileSeq#,',','')),0)
+	</delete>
+
+	<delete id="gamFcltyQcwWrtMngDao.deleteFcltyQcwWrtMngQcMngAtchFileMulti_S" parameterClass="hashMap">
+		DELETE FROM QC_MNG_ATCH_FILE_F
+		WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		AND FCLTS_JOB_SE = #fcltsJobSe#
+		AND QC_MNG_SEQ = NVL(TO_NUMBER(REPLACE(#qcMngSeq#,',','')),0)
+		AND ATCH_FILE_SEQ IN (SELECT LTRIM(REGEXP_SUBSTR(','||#deleteAtchFileSeqList#||',','[^'||','||']+', 1, LEVEL ), ',') AS ATCH_FILE_NO
+								 FROM DUAL
+							   CONNECT BY LEVEL <![CDATA[ <= ]]> (LENGTH(','||#deleteAtchFileSeqList#) - LENGTH(REPLACE(','||#deleteAtchFileSeqList#,','))) / LENGTH(',')
+							  )
+	</delete>
+
+	<delete id="gamFcltyQcwWrtMngDao.deleteFcltyQcwWrtMngAllQcMngAtchFile_S" parameterClass="gamQcMngAtchFileMngVO">
+		DELETE FROM QC_MNG_ATCH_FILE_F
+		WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		AND FCLTS_JOB_SE = #fcltsJobSe#
+		AND QC_MNG_SEQ = NVL(TO_NUMBER(REPLACE(#qcMngSeq#,',','')),0)
+	</delete>
+
+	<select id="gamFcltyQcwWrtMngDao.selectFcltyQcwWrtMngQcMngAtchFilePk_S" parameterClass="gamQcMngAtchFileMngVO" resultClass="egovMap">
+		SELECT
+				 T1.FCLTS_MNG_GROUP_NO AS FCLTS_MNG_GROUP_NO
+				,TO_CHAR(T1.QC_MNG_SEQ) AS QC_MNG_SEQ
+				,T1.FCLTS_JOB_SE AS FCLTS_JOB_SE
+				,TO_CHAR(T1.ATCH_FILE_SEQ) AS ATCH_FILE_SEQ
+				,T1.ATCH_FILE_SE AS ATCH_FILE_SE
+				,T1.ATCH_FILE_SJ AS ATCH_FILE_SJ
+				,T1.ATCH_FILE_NM_LOGIC AS ATCH_FILE_NM_LOGIC
+				,T1.ATCH_FILE_NM_PHYSICL AS ATCH_FILE_NM_PHYSICL
+				,TO_CHAR(T1.ATCH_FILE_WRITNG_DT,'YYYY-MM-DD') AS ATCH_FILE_WRITNG_DT
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,T1.ATCH_FILE_RM AS ATCH_FILE_RM
+				,GAM_GET_FILE_SE_NM(T1.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+				,'FALSE' AS ATCH_FILE_SEL_CHK
+			FROM QC_MNG_ATCH_FILE_F T1
+		WHERE T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		AND T1.FCLTS_JOB_SE = #fcltsJobSe#
+		AND T1.QC_MNG_SEQ = NVL(TO_NUMBER(REPLACE(#qcMngSeq#,',','')),0)
+		AND T1.ATCH_FILE_SEQ = NVL(TO_NUMBER(REPLACE(#atchFileSeq#,',','')),0)
+	</select>
+
+	<select id="gamFcltyQcwWrtMngDao.selectFcltyQcwWrtMngQcMngAtchFileNewSeq_S" parameterClass="gamQcMngAtchFileMngVO" resultClass="java.lang.String">
+		SELECT
+				TO_CHAR(NVL(MAX(T1.ATCH_FILE_SEQ),0) + 1) AS NEW_SEQ
+			FROM QC_MNG_ATCH_FILE_F T1
+		WHERE T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		AND T1.FCLTS_JOB_SE = #fcltsJobSe#
+		AND T1.QC_MNG_SEQ = NVL(TO_NUMBER(REPLACE(#qcMngSeq#,',','')),0)
+	</select>
+
+
 </sqlMap>

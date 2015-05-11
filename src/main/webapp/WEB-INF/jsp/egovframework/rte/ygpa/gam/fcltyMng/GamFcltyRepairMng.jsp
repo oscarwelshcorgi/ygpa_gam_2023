@@ -58,9 +58,9 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectFcltyRepairMngList.do',
 		dataType: "json",
 		colModel : [
-					{display:"시설물관리그룹", 		name:"fcltsMngGroupNm",			width:160, 		sortable:false,		align:"left"},
-					{display:"계약번호", 			name:"ctrtNo",					width:120, 		sortable:false,		align:"center"},
-					{display:"계약명",			name:"flawRprNm",				width:250, 		sortable:false,		align:"left"},
+					{display:"시설물관리그룹",		name:"fcltsMngGroupNm",			width:160, 		sortable:false,		align:"left"},
+					{display:"계약번호",			name:"ctrtNo",					width:120, 		sortable:false,		align:"center"},
+					{display:"계약명",				name:"flawRprNm",				width:250, 		sortable:false,		align:"left"},
 					{display:"도급업체명",			name:"flawRprEntrpsNm",			width:250, 		sortable:false,		align:"left"},
 					{display:"업무구분",			name:"fcltsJobSeNm",			width:80, 		sortable:false,		align:"center"},
 					{display:"하자검사구분",		name:"flawExamSeNm",			width:80, 		sortable:false,		align:"center"},
@@ -68,8 +68,8 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 					{display:"하자발생일자",		name:"flawOccrrncDt",			width:80, 		sortable:false,		align:"center"},
 					{display:"하자보수유형",		name:"flawRprTyNm",				width:80, 		sortable:false,		align:"center"},
 					{display:"하자보수기간",		name:"flawRprTerm",				width:160, 		sortable:false,		align:"center"},
-					{display:"하자보수금액", 		name:"flawRprAmt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-					{display:"하자보수완료여부", 		name:"flawRprComptYn",			width:120, 		sortable:false,		align:"center"}
+					{display:"하자보수금액",		name:"flawRprAmt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+					{display:"하자보수완료여부",	name:"flawRprComptYn",			width:120, 		sortable:false,		align:"center"}
 			],
 		height: "auto",
 		preProcess : function(module,data) {
@@ -102,7 +102,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		colModel : [
 					{display:"번호",		name:"atchFileSeq",			width:65,		sortable:false,		align:"center"},
 					{display:"구분",		name:"atchFileSeNm",		width:90,		sortable:false,		align:"center"},
-					{display:"파일명",		name:"atchFileNmLogic",		width:300,		sortable:false,		align:"left"},
+					{display:"파일명",		name:"atchFileNmLogic",		width:300,		sortable:false,		align:"left"}
 					],
 		height: "330",
 
@@ -147,7 +147,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 	this._mainFcltsMngGroupNo = "";
 	this._mainFcltsJobSe = "";
 	this._mainFlawRprSeq = "";
-	console.log(EMD.userinfo.mngFcltyCd);
+
 	if (EMD.userinfo.mngFcltyCd != null && EMD.userinfo.mngFcltyCd != "*") {
 		this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
 		this.$('#sFcltsJobSe').disable();
@@ -164,21 +164,16 @@ GamFcltyRepairMngModule.prototype.showFcltsAtchFileViewPopup = function() {
 
 	var row = this.$('#fcltyRepairFileList').selectedRows()[0];
 	var selImg = row['atchFileNmPhysicl'];
-
 	var fcltsJobSe = this.$('#fcltsJobSe').val();
 	var fcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();
 	var flawRprSeq = this.$('#flawRprSeq').val();
 	var atchFileSeq = this.$('#photoAtchFileSeq').val();
-
-
 	if (atchFileSeq == "") {
 		alert("사진을 저장하셔야 파일설명을 입력하실수 있습니다.");
 		return;
 	}
 	if (selImg != "") {
-	var imageURL = this.getUrl("/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=")+selImg;
-
-	 console.log(imageURL);
+		var imageURL = this.getUrl("/fcltyMng/fdown/getRepairAttachFile.do?physicalFileNm=")+selImg;
 	}
     var searchOpts = {
 		'atchFileSeq':atchFileSeq,
@@ -188,9 +183,10 @@ GamFcltyRepairMngModule.prototype.showFcltsAtchFileViewPopup = function() {
 		'imageURL':imageURL
 
     };
-	this.doExecuteDialog('popupFcltsAtchFileView', '시설물 첨부 파일 보기', '/popup/showRepairMngFileViewPopup.do', null, searchOpts);
+	this.doExecuteDialog('popupFcltsAtchFileView', '하자보수 첨부파일 보기', '/popup/showRepairMngFileViewPopup.do', null, searchOpts);
 
 };
+
 <%
 /**
  * @FUNCTION NAME : setPrintSe
@@ -202,14 +198,14 @@ GamFcltyRepairMngModule.prototype.showFcltsAtchFileViewPopup = function() {
 
 GamFcltyRepairMngModule.prototype.setPrintSe = function(){
 
-	if(this.$("#printSe").val() =='print'){
+	if (this.$("#printSe").val() == 'print'){
 		this.$("#mngPrint").data('url','/fcltyMng/selectFcltyRepairCheckMngPrint.do');
 		this.$("#mngPrint").data('role','printPage');
 		this.$("#chkPrint").data('url','/fcltyMng/selectFcltyRepairCheckReportPrint.do');
 		this.$("#chkPrint").data('role','printPage');
 		this.$("#expPrint").data('url','/fcltyMng/selectFcltyRepairExpireCheckReportPrint.do');
 		this.$("#expPrint").data('role','printPage');
-	}else if(this.$("#printSe").val() =='hwp'){
+	} else if (this.$("#printSe").val() == 'hwp'){
 		this.$("#mngPrint").data('url','/fcltyMng/selectFcltyRepairCheckMngHwp.do');
 		this.$("#mngPrint").data('role','printDown');
 		this.$("#mngPrint").data('filename','검사관리대장.hwp');
@@ -219,8 +215,6 @@ GamFcltyRepairMngModule.prototype.setPrintSe = function(){
 		this.$("#expPrint").data('url','/fcltyMng/selectFcltyRepairExpireCheckReportHwp.do');
 		this.$("#expPrint").data('role','printDown');
 		this.$("#expPrint").data('filename','만료검사조서.hwp');
-	}else{
-
 	}
 
 };
@@ -234,6 +228,7 @@ GamFcltyRepairMngModule.prototype.setPrintSe = function(){
 **/
 %>
 GamFcltyRepairMngModule.prototype.getMapInfoList = function(params){
+
 	this._params=params;
 	if(params!=null) {
 		if(params.action!=null) {
@@ -1051,16 +1046,16 @@ GamFcltyRepairMngModule.prototype.atchFileUpload = function() {
 		if(resp.resultCode!=0) {
 			alert(resp.resultMsg);
 			return;
-			}
+		}
 		$.each(resp.result, function() {
-	        	module.$('#fcltyRepairFileList').flexAddRow({
-	        		_updtId: 'I',
-	        		atchFileSj : "",
-	        		atchFileSeNm : "",
-	        		atchFileNmLogic: this.logicalFileNm,
-	        		atchFileNmPhysicl: this.physcalFileNm
-	    		});
-			});
+        	module.$('#fcltyRepairFileList').flexAddRow({
+        		_updtId: 'I',
+        		atchFileSj : "",
+        		atchFileSeNm : "",
+        		atchFileNmLogic: this.logicalFileNm,
+        		atchFileNmPhysicl: this.physcalFileNm
+    		});
+		});
 		if(resp.result!=null && resp.result.length>0) this._edited=true;
 	});
 };

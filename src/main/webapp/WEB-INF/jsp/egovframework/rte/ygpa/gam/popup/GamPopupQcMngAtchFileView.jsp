@@ -5,13 +5,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
 /**
-  * @Class Name : GamPopupRepairMngFileView.jsp
-  * @Description : 하자보수 첨부 파일 VIEW 팝업 (Prototype)
+  * @Class Name : GamPopupQcMngAtchFileView.jsp
+  * @Description : 점검관리 첨부 파일 VIEW 팝업 (Prototype)
   * @Modification Information
   *
   *   수정일         수정자                   수정내용
   *  -------    --------    ---------------------------
-  *  2015.02.26  ACEWOLF          최초 생성
+  *  2015.05.08  ACEWOLF          최초 생성
   *
   * author ACEWOLF
   * since 2014.01.22
@@ -28,14 +28,14 @@
 
 <%
 /**
- * @FUNCTION NAME : GamPopupRepairMngFileViewModule
+ * @FUNCTION NAME : GamPopupQcMngAtchFileViewModule
  * @DESCRIPTION   : MODULE 고유 함수
  * @PARAMETER     : NONE
 **/
 %>
-function GamPopupRepairMngFileViewModule() {}
+function GamPopupQcMngAtchFileViewModule() {}
 
-GamPopupRepairMngFileViewModule.prototype = new EmdPopupModule(600, 440);
+GamPopupQcMngAtchFileViewModule.prototype = new EmdPopupModule(600, 440);
 
 <%
 /**
@@ -44,18 +44,9 @@ GamPopupRepairMngFileViewModule.prototype = new EmdPopupModule(600, 440);
  * @PARAMETER     : NONE
 **/
 %>
-GamPopupRepairMngFileViewModule.prototype.loadComplete = function(params) {
+GamPopupQcMngAtchFileViewModule.prototype.loadComplete = function(params) {
 
 	this.resizable(true);
-
-	var inqire = params.inqire;
-
-	if (inqire == true) {
-		this.$('#btnUpdate').hide();
-		this.$('#atchFileSe').disable();
-		this.$('#atchFileSj').disable();
-		this.$('#atchFileRm').disable();
-	};
 
  	this.$('#atchFileSe').on('change',{module:this}, function(event){
 		var module = event.data.module;
@@ -75,15 +66,20 @@ GamPopupRepairMngFileViewModule.prototype.loadComplete = function(params) {
 
 	this._updateFlag = false;
 	if (params != null) {
-		this.$('#atchFileSeq').val(params.atchFileSeq);
-		this.$('#fcltsJobSe').val(params.fcltsJobSe);
-		console.log(this.$('#atchFileSeq').val());
+		var inqire = params.inqire;
+		if (inqire == true) {
+			this.$('#btnUpdate').hide();
+			this.$('#atchFileSe').disable();
+			this.$('#atchFileSj').disable();
+			this.$('#atchFileRm').disable();
+		};
 		this.$('#fcltsMngGroupNo').val(params.fcltsMngGroupNo);
-		this.$('#flawRprSeq').val(params.flawRprSeq);
-
+		this.$('#fcltsJobSe').val(params.fcltsJobSe);
+		this.$('#qcMngSeq').val(params.qcMngSeq);
+		this.$('#atchFileSeq').val(params.atchFileSeq);
 		var imageURL = params.imageURL;
 		var searchVO = this.getFormValues('#detailForm');
-		this.doAction('/popup/gamSelectRepairMngFileViewPk.do', searchVO, function(module, result){
+		this.doAction('/popup/gamSelectQcMngAtchFileViewPk.do', searchVO, function(module, result){
 			if (result.resultCode == "0") {
 				module.makeFormValues('#detailForm', result.result);
 				module.makeDivValues('#detailForm', result.result);
@@ -115,7 +111,7 @@ GamPopupRepairMngFileViewModule.prototype.loadComplete = function(params) {
  *   1. argImageURL - IMAGE URL
 **/
 %>
-GamPopupRepairMngFileViewModule.prototype.previewFile = function(argImageURL) {
+GamPopupQcMngAtchFileViewModule.prototype.previewFile = function(argImageURL) {
 
 	if (argImageURL != "") {
 		var atchFileNmPhysicl = this.$('#atchFileNmPhysicl').val();
@@ -141,7 +137,7 @@ GamPopupRepairMngFileViewModule.prototype.previewFile = function(argImageURL) {
  *   1. buttonId - BUTTON ID
 **/
 %>
-GamPopupRepairMngFileViewModule.prototype.onButtonClick = function(buttonId) {
+GamPopupQcMngAtchFileViewModule.prototype.onButtonClick = function(buttonId) {
 
 	switch (buttonId) {
 		case 'btnUpdate':
@@ -164,7 +160,7 @@ GamPopupRepairMngFileViewModule.prototype.onButtonClick = function(buttonId) {
  * @PARAMETER     : NONE
 **/
 %>
-GamPopupRepairMngFileViewModule.prototype.processUpdate = function() {
+GamPopupQcMngAtchFileViewModule.prototype.processUpdate = function() {
 
 	var inputVO = this.makeFormArgs("#detailForm");
 	var atchFileSeq = this.$('#atchFileSeq').val();
@@ -178,7 +174,7 @@ GamPopupRepairMngFileViewModule.prototype.processUpdate = function() {
 		this.$("#atchFileSe").focus();
 		return;
 	}
-	this.doAction('/popup/gamUpdateRepairMngFileView.do', inputVO, function(module, result) {
+	this.doAction('/popup/gamUpdateQcMngAtchFileView.do', inputVO, function(module, result) {
 		if (result.resultCode == "0") {
 			module._updateFlag = true;
 		}
@@ -194,7 +190,7 @@ GamPopupRepairMngFileViewModule.prototype.processUpdate = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamPopupRepairMngFileViewModule.prototype.processDownload = function() {
+GamPopupQcMngAtchFileViewModule.prototype.processDownload = function() {
 
 	var atchFileNmPhysicl = this.$('#atchFileNmPhysicl').val();
 	var atchFileNmLogic = this.$('#atchFileNmLogic').val();
@@ -202,8 +198,7 @@ GamPopupRepairMngFileViewModule.prototype.processDownload = function() {
 		alert('첨부 파일 명이 부정확합니다.');
 		return;
 	}
-	/* this.downPfPhoto(atchFileNmPhysicl, atchFileNmLogic); */
-	this.downloadSingleFile("/fcltyMng/downloadRepairAttachFile.do", atchFileNmPhysicl, atchFileNmLogic);
+	this.downloadSingleFile("/fcltyMng/downloadQcWrtAttachFile.do", atchFileNmPhysicl, atchFileNmLogic);
 
 };
 
@@ -214,7 +209,7 @@ GamPopupRepairMngFileViewModule.prototype.processDownload = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamPopupRepairMngFileViewModule.prototype.processExit = function() {
+GamPopupQcMngAtchFileViewModule.prototype.processExit = function() {
 
 	if (this._updateFlag == true) {
 		var returnData = {
@@ -231,7 +226,7 @@ GamPopupRepairMngFileViewModule.prototype.processExit = function() {
 
 };
 
-var popup_instance = new GamPopupRepairMngFileViewModule();
+var popup_instance = new GamPopupQcMngAtchFileViewModule();
 
 </script>
 
@@ -254,12 +249,10 @@ var popup_instance = new GamPopupRepairMngFileViewModule();
 					<td>
 						<input id="fcltsJobSe" type="hidden"/>
 						<input id="fcltsMngGroupNo" type="hidden"/>
-						<input id="flawRprSeq" type="hidden"/>
-
+						<input id="qcMngSeq" type="hidden"/>
 						<input id="atchFileNmLogic" type="hidden"/>
 						<input id="atchFileNmPhysicl" type="hidden"/>
 						<input id="atchFileNmLogic" type="hidden"/>
-
 						<input id="atchFileSeq" type="text" size="15" disabled/>
 					</td>
 					<th style="width:10%; height:18px;">파일 구분</th>
