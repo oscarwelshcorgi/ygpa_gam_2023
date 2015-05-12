@@ -8,6 +8,7 @@
 	<typeAlias alias="gamCvlEngFcltySpecMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamCvlEngFcltySpecMngVO"/>
 	<typeAlias alias="gamAtchFileDirMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO"/>
 	<typeAlias alias="gamFcltsAtchFileMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO"/>
+	<typeAlias alias="gamMntnRprDtlsVO" type="egovframework.rte.ygpa.gam.fclty.service.GamMntnRprDtlsVO"/>
 	<!-- RESULT MAP 정의 -->
 	<resultMap id="gamCvlEngFcltySpecMngSumMap" class="gamCvlEngFcltySpecMngVO">
 		<result property="totalCount" column="TOTAL_COUNT" columnIndex="1"/>
@@ -885,6 +886,37 @@
 		SELECT
 				TO_CHAR(FCLTS_ATCH_FILE_SEQ.NEXTVAL) AS NEW_DIR_NO
 			FROM DUAL
+	</select>
+
+
+	<select id="gamCvlEngFcltySpecMngDao.selectCvlEngFcltySpecMngMntnRprDtlsList_D" parameterClass="gamMntnRprDtlsVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.MNTN_RPR_SEQ AS MNTN_RPR_SEQ
+								,T1.MNTN_RPR_CNST_NM AS MNTN_RPR_CNST_NM
+								,TO_CHAR(T1.MNTN_RPR_CNST_START_DT,'YYYY-MM-DD') AS MNTN_RPR_CNST_START_DT
+								,TO_CHAR(T1.MNTN_RPR_CNST_END_DT,'YYYY-MM-DD') AS MNTN_RPR_CNST_END_DT
+								,LTRIM(TO_CHAR(NVL(T1.MNTN_RPR_CNST_AMT,0),'999,999,999,999,990')) AS MNTN_RPR_CNST_AMT
+								,GAM_GET_MNTN_RPR_SE_NM(T1.MNTN_RPR_SE) AS MNTN_RPR_SE_NM
+								,T1.ENFORCE_YEAR AS ENFORCE_YEAR
+							FROM MNTN_RPR_DTLS_F T1
+						WHERE T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+						AND T1.FCLTS_JOB_SE = #fcltsJobSe#
+						AND EXISTS (SELECT 'Y'
+										FROM MNTN_RPR_OBJ_FCLTS_F
+									WHERE FCLTS_MNG_GROUP_NO = T1.FCLTS_MNG_GROUP_NO
+									AND FCLTS_JOB_SE = T1.FCLTS_JOB_SE
+									AND MNTN_RPR_SEQ = T1.MNTN_RPR_SEQ
+									AND FCLTS_MNG_NO = #fcltsMngNo#)
+						ORDER BY T1.MNTN_RPR_SEQ ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
 	</select>
 
 </sqlMap>

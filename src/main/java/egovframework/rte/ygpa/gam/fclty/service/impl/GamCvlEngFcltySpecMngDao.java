@@ -13,6 +13,7 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamCvlEngFcltySpecMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamMntnRprDtlsVO;
 
 /**
  *
@@ -324,6 +325,16 @@ public class GamCvlEngFcltySpecMngDao extends YGPAAbstractDAO {
 	 */
 	public String selectCvlEngFcltySpecMngFcltsAtchFileNewNo(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) {
 		return (String)selectByPk("gamCvlEngFcltySpecMngDao.selectCvlEngFcltySpecMngFcltsAtchFileNewNo_S", gamFcltsAtchFileMngVO);
+	}
+
+
+	/**
+	 * @name selectCvlEngFcltySpecMngMntnRprDtlsList
+	 * @param searchVO
+	 * @return List
+	 */
+	public List selectCvlEngFcltySpecMngMntnRprDtlsList(GamMntnRprDtlsVO searchVO) {
+		return list("gamCvlEngFcltySpecMngDao.selectCvlEngFcltySpecMngMntnRprDtlsList_D", searchVO);
 	}
 
 }

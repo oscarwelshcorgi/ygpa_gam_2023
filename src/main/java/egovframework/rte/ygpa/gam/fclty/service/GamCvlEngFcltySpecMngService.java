@@ -227,4 +227,13 @@ public interface GamCvlEngFcltySpecMngService {
 	 */
 	String selectCvlEngFcltySpecMngFcltsAtchFileNewNo(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception;
 
+
+	/**
+	 * @name selectCvlEngFcltySpecMngMntnRprDtlsList
+	 * @param searchVO
+	 * @return List
+	 * @throws Exception
+	 */
+	List selectCvlEngFcltySpecMngMntnRprDtlsList(GamMntnRprDtlsVO searchVO) throws Exception;
+
 }
