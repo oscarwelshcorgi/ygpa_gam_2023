@@ -26,7 +26,9 @@
 %>
 
 <script>
-
+var fcltyMaintMngListPopup;
+var fcltyMaintMngListGrid;
+var fcltyMaintMngDataList = [];
 <%
 /**
  * @FUNCTION NAME : GamCvlEngFcltySpecInqireModule
@@ -61,31 +63,32 @@ GamCvlEngFcltySpecInqireModule.prototype.loadComplete = function(params) {
 					{display:"선석",				name:"berth",					width:80,		sortable:false,		align:"right"},
 					{display:"폭",				 	name:"wd",						width:80,		sortable:false,		align:"right"},
 					{display:"길이",	 			name:"lt",						width:80,		sortable:false,		align:"right"},
-					{display:"주요 취급 화물", 		name:"stplHndlFrght",			width:150,		sortable:false,		align:"left"},
-					{display:"포장 종류",			name:"packKnd",					width:100,		sortable:false,		align:"left"},
+					//{display:"주요 취급 화물", 		name:"stplHndlFrght",			width:150,		sortable:false,		align:"left"},
+					//{display:"포장 종류",			name:"packKnd",					width:100,		sortable:false,		align:"left"},
 					{display:"시설 면적",	 		name:"prtFcltyAr",				width:80,		sortable:false,		align:"right"},
 					{display:"구분",	 			name:"prtFcltySeNm",			width:80,		sortable:false,		align:"left"},
-					{display:"설치 일자",	 		name:"prtFcltyInstlDt",			width:80,		sortable:false,		align:"center"},
-					{display:"변경 일자",	 		name:"prtFcltyChangeDt",		width:80,		sortable:false,		align:"center"},
-					{display:"만료 일자",	 		name:"prtFcltyExprDt",			width:80,		sortable:false,		align:"center"},
+					//{display:"설치 일자",	 		name:"prtFcltyInstlDt",			width:80,		sortable:false,		align:"center"},
+					//{display:"변경 일자",	 		name:"prtFcltyChangeDt",		width:80,		sortable:false,		align:"center"},
+					//{display:"만료 일자",	 		name:"prtFcltyExprDt",			width:80,		sortable:false,		align:"center"},
 					{display:"규격",				name:"prtFcltyStndrd",			width:80,		sortable:false,		align:"left"},
 					{display:"단위",	 			name:"prtFcltyUnit",			width:80,		sortable:false,		align:"left"},
 					{display:"수량",	 			name:"prtPrtFcltyCnt",			width:80,		sortable:false,		align:"left"},
-					{display:"담당자",	 			name:"prtPrtFcltyMnger",		width:80,		sortable:false,		align:"left"},
-					{display:"관리 업체",	 		name:"prtFcltyMngEntrpsNm",		width:150,		sortable:false,		align:"left"},
-					{display:"접안 선박 규모",	 	name:"csdhpShipScl",			width:100,		sortable:false,		align:"right"},
+					//{display:"담당자",	 			name:"prtPrtFcltyMnger",		width:80,		sortable:false,		align:"left"},
+					//{display:"관리 업체",	 		name:"prtFcltyMngEntrpsNm",		width:150,		sortable:false,		align:"left"},
+					//{display:"접안 선박 규모",	 	name:"csdhpShipScl",			width:100,		sortable:false,		align:"right"},
 					{display:"시설물 연장",	 		name:"fcltsExt",				width:100,		sortable:false,		align:"right"},
 					{display:"방충재 종류",		 	name:"fenderKndCd",				width:100,		sortable:false,		align:"left"},
 					{display:"방충재 배치 간격",	name:"fenderPmntItv",			width:120,		sortable:false,		align:"left"},
 					{display:"방충재 형식",		 	name:"fenderFmt",				width:150,		sortable:false,		align:"left"},
-					{display:"에이프런 폭",	 		name:"apronWd",					width:100,		sortable:false,		align:"right"},
-					{display:"에이프런 포장 종류",	name:"apronPackKnd",			width:120,		sortable:false,		align:"left"},
-					{display:"에이프런 포장 구배",	name:"apronPackGrdnt",			width:150,		sortable:false,		align:"left"},
-					{display:"야적장 면적",	 		name:"yardAr",					width:100,		sortable:false,		align:"right"},
-					{display:"야적장 포장 종류",	name:"yardPackKnd",				width:120,		sortable:false,		align:"left"},
+					//{display:"에이프런 폭",	 		name:"apronWd",					width:100,		sortable:false,		align:"right"},
+					//{display:"에이프런 포장 종류",	name:"apronPackKnd",			width:120,		sortable:false,		align:"left"},
+					//{display:"에이프런 포장 구배",	name:"apronPackGrdnt",			width:150,		sortable:false,		align:"left"},
+					//{display:"야적장 면적",	 		name:"yardAr",					width:100,		sortable:false,		align:"right"},
+					//{display:"야적장 포장 종류",	name:"yardPackKnd",				width:120,		sortable:false,		align:"left"},
 					{display:"시설물 관리 번호",	name:"fcltsMngNo",				width:130,		sortable:false,		align:"left"},
+					//{display:"자산 위치",	 		name:"gisAssetsLocNm",			width:200,		sortable:false,		align:"left"},
 					{display:"자산 명",	 			name:"gisAssetsNm",				width:200,		sortable:false,		align:"left"},
-					{display:"자산 위치",	 		name:"gisAssetsLocNm",			width:200,		sortable:false,		align:"left"}
+					{display:"유지보수기간",	 		name:"mntnRprCnstDt",			width:160,		sortable:false,		align:"left"}
 					],
 		showTableToggleBtn : false,
 		height : 'auto',
@@ -225,6 +228,91 @@ GamCvlEngFcltySpecInqireModule.prototype.getFcltsMngGroupNm = function(argFcltsM
 
 <%
 /**
+ * @FUNCTION NAME : buildFcltyMaintMngList
+ * @DESCRIPTION   : FCLTY MAINT MNG LIST를 구성한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamCvlEngFcltySpecInqireModule.prototype.buildFcltyMaintMngList = function() {
+
+	fcltyMaintMngDataList = [];
+	this.$('#fcltyMaintMngList option').remove();
+	var searchVO = [{ name: 'fcltsMngGroupNo', value: this.$('#fcltsMngGroupNo').val() },
+					{ name: 'fcltsJobSe', value: "C" },
+	                { name: 'fcltsMngNo', value: this.$('#fcltsMngNo').val() }
+	               ];
+	this.doAction('/fclty/gamSelectCvlEngFcltySpecInqireMntnRprDtlsList.do', searchVO, function(module, result) {
+		if (result.resultCode == "0") {
+			if (result.resultList.length <= 0) {
+				module.$('#fcltyMaintMngList').append('<option value="">없음　　　　　　　　</option>');
+			}
+			$.each(result.resultList, function(){
+				module.$('#fcltyMaintMngList').append('<option value="' + this.mntnRprCnstStartDt + '~' + this.mntnRprCnstEndDt + '">' + this.mntnRprCnstStartDt + '~' + this.mntnRprCnstEndDt + '</option>');
+				fcltyMaintMngDataList[fcltyMaintMngDataList.length] = { 'mntnRprSeq' : this.mntnRprSeq,
+																		'mntnRprCnstDt' : this.mntnRprCnstStartDt + '~' + this.mntnRprCnstEndDt,
+																		'mntnRprCnstNm' : this.mntnRprCnstNm };
+			});
+		} else {
+			module.$('#fcltyMaintMngList').append('<option value="">없음　　　　　　　　</option>');
+		}
+    });
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : showFcltyMaintMngList
+ * @DESCRIPTION   : FCLTY MAINT MNG LIST POPUP SHOW
+ * @PARAMETER     :
+ *   1. argParent - PARENT
+**/
+%>
+GamCvlEngFcltySpecInqireModule.prototype.showFcltyMaintMngList = function(argParent) {
+
+	if (!fcltyMaintMngListPopup) {
+		fcltyMaintMngListPopup = new dhtmlXPopup();
+		fcltyMaintMngListGrid = fcltyMaintMngListPopup.attachGrid(430,200);
+		fcltyMaintMngListGrid.setHeader("순번, 유지보수기간, 유지보수명");
+		fcltyMaintMngListGrid.setInitWidths("50,150,220");
+		fcltyMaintMngListGrid.setColAlign("center,center,left");
+		fcltyMaintMngListGrid.setColTypes("ed,ed,ed");
+		fcltyMaintMngListGrid.setColSorting("str,str,str");
+		fcltyMaintMngListGrid.init();
+	}
+	if (fcltyMaintMngListPopup.isVisible()) {
+		fcltyMaintMngListPopup.hide();
+	} else {
+		var x = window.dhx4.absLeft(argParent);
+		var y = window.dhx4.absTop(argParent);
+		var w = argParent.offsetWidth;
+		var h = argParent.offsetHeight;
+		fcltyMaintMngListPopup.show(x,y,w,h);
+		fcltyMaintMngListGrid.clearAll();
+		for (var i=0; i < fcltyMaintMngDataList.length ; i++) {
+			var dataValue = fcltyMaintMngDataList[i].mntnRprSeq + ', ' + fcltyMaintMngDataList[i].mntnRprCnstDt + ', ' + fcltyMaintMngDataList[i].mntnRprCnstNm;
+			fcltyMaintMngListGrid.addRow(fcltyMaintMngDataList[i].mntnRprSeq, dataValue);
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : hideFcltyMaintMngList
+ * @DESCRIPTION   : FCLTY MAINT MNG LIST POPUP HIDE
+ * @PARAMETER     : NONE
+**/
+%>
+GamCvlEngFcltySpecInqireModule.prototype.hideFcltyMaintMngList = function() {
+
+	if (fcltyMaintMngListPopup) {
+		fcltyMaintMngListPopup.hide();
+	}
+
+};
+
+<%
+/**
  * @FUNCTION NAME : onAtchFileDirTreeItemClick
  * @DESCRIPTION   : ATTACHE FILE DIRECTORY TREE ITEM CLICK EVENT
  * @PARAMETER     :
@@ -341,6 +429,9 @@ GamCvlEngFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
                 };
 			this.doExecuteDialog('btnAtchDirFileSearch', '디렉토리/파일 검색', '/popup/showAtchDirFile.do', null, searchOpts);
 			break;
+	    case 'btnFcltyMaintMngList':
+			this.showFcltyMaintMngList(this.$('#btnFcltyMaintMngList')[0]);
+			break;
 	}
 
 };
@@ -409,6 +500,7 @@ GamCvlEngFcltySpecInqireModule.prototype.loadDetail = function(tabId) {
 		}
 		this.makeFormValues('#detailForm', row[0]);
 		this.makeDivValues('#detailForm', row[0]);
+		this.buildFcltyMaintMngList();
 	}
 };
 
@@ -507,6 +599,7 @@ GamCvlEngFcltySpecInqireModule.prototype.firstData = function() {
 		this._mainKeyValue = firstFcltsMngNo;
 		this.makeFormValues('#detailForm', rows[firstRowIndex]);
 		this.makeDivValues('#detailForm', rows[firstRowIndex]);
+		this.buildFcltyMaintMngList();
 	}
 
 };
@@ -557,6 +650,7 @@ GamCvlEngFcltySpecInqireModule.prototype.prevData = function() {
 		this._mainKeyValue = prevFcltsMngNo;
 		this.makeFormValues('#detailForm', rows[prevRowIndex]);
 		this.makeDivValues('#detailForm', rows[prevRowIndex]);
+		this.buildFcltyMaintMngList();
 	}
 
 };
@@ -607,6 +701,7 @@ GamCvlEngFcltySpecInqireModule.prototype.nextData = function() {
 		this._mainKeyValue = nextFcltsMngNo;
 		this.makeFormValues('#detailForm', rows[nextRowIndex]);
 		this.makeDivValues('#detailForm', rows[nextRowIndex]);
+		this.buildFcltyMaintMngList();
 	}
 
 };
@@ -641,6 +736,7 @@ GamCvlEngFcltySpecInqireModule.prototype.lastData = function() {
 		this._mainKeyValue = lastFcltsMngNo;
 		this.makeFormValues('#detailForm', rows[lastRowIndex]);
 		this.makeDivValues('#detailForm', rows[lastRowIndex]);
+		this.buildFcltyMaintMngList();
 	}
 
 };
@@ -1076,13 +1172,7 @@ var module_instance = new GamCvlEngFcltySpecInqireModule();
 								</td>
 								<th style="width:10%; height:18px;">소　　재　　지</th>
 								<td>
-									<input type="hidden" id="laCrdnt"/>
-									<input type="hidden" id="loCrdnt"/>
-									<input type="hidden" id="lat"/>
-									<input type="hidden" id="lng"/>
-									<input type="hidden" id="gisAssetsLocplcLnm"/>
-									<input type="hidden" id="loc"/>
-									<input type="text" size="33" id="prtFcltyLoc" disabled/>
+									<input type="text" size="33" id="loc" disabled/>
 								</td>
 								<th style="width:10%; height:18px;">규　격／단　위</th>
 								<td>
@@ -1096,15 +1186,17 @@ var module_instance = new GamCvlEngFcltySpecInqireModule();
 									<input type="text" size="11" id="prtFcltyAr" class="ygpaNumber" data-decimal-point="2" maxlength="13" disabled/> m<sup>2</sup>／
 									<input type="text" size="11" id="prtPrtFcltyCnt" class="ygpaNumber" maxlength="10" disabled/> 개
 								</td>
-								<th style="width:10%; height:18px;">설치일／변경일</th>
+								<th style="width:10%; height:18px;">설치일／담당자</th>
 								<td>
 									<input type="text" size="11" id="prtFcltyInstlDt" class="emdcal" disabled/>／
-									<input type="text" size="11" id="prtFcltyChangeDt" class="emdcal" disabled/>
+									<input type="text" size="14" id="prtPrtFcltyMnger" maxlength="80" disabled/>
 								</td>
-								<th style="width:10%; height:18px;">만료일／담당자</th>
+								<th style="width:10%; height:18px;">유지보수　이력</th>
 								<td>
-									<input type="text" size="11" id="prtFcltyExprDt" class="emdcal" disabled/>／
-									<input type="text" size="16" id="prtPrtFcltyMnger" maxlength="80" disabled/>
+									<select id="fcltyMaintMngList">
+										<option value="">없음　　　　　　　　</option>
+									</select>
+									<button id="btnFcltyMaintMngList">조회</button>
 								</td>
 							</tr>
 							<tr>

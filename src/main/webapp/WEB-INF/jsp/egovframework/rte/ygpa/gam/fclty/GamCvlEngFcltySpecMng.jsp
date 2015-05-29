@@ -89,7 +89,8 @@ GamCvlEngFcltySpecMngModule.prototype.loadComplete = function(params) {
 					//{display:"야적장 포장 종류",	name:"yardPackKnd",				width:120,		sortable:false,		align:"left"},
 					{display:"시설물 관리 번호",	name:"fcltsMngNo",				width:130,		sortable:false,		align:"left"},
 					//{display:"자산 위치",	 		name:"gisAssetsLocNm",			width:200,		sortable:false,		align:"left"},
-					{display:"자산 명",	 			name:"gisAssetsNm",				width:200,		sortable:false,		align:"left"}
+					{display:"자산 명",	 			name:"gisAssetsNm",				width:200,		sortable:false,		align:"left"},
+					{display:"유지보수기간",	 		name:"mntnRprCnstDt",			width:160,		sortable:false,		align:"left"}
 					],
 		showTableToggleBtn : false,
 		height : 'auto',
@@ -957,6 +958,7 @@ GamCvlEngFcltySpecMngModule.prototype.loadDetail = function(tabId) {
 		this.makeDivValues('#detailForm', row[0]);
 		this.buildFcltyMaintMngList();
 	} else if (tabId == 'detailTab') {
+		console.log("ok");
 		var searchVO = this.getFormValues('#detailForm');
 		this.doAction('/fclty/gamSelectCvlEngFcltySpecMngPk.do', searchVO, function(module, result){
 			if (result.resultCode == "0") {

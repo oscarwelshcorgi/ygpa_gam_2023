@@ -14,6 +14,7 @@ import egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamCvlEngFcltySpecInqireVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamCvlEngFcltySpecMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamMntnRprDtlsVO;
 
 /**
  * 
@@ -89,6 +90,14 @@ public class GamCvlEngFcltySpecInqireDao extends YGPAAbstractDAO {
 	 */
 	public String selectFcltsMngGroupNm(Map searchVO) {
 		return (String)selectByPk("gamCvlEngFcltySpecInqireDao.selectFcltsMngGroupNm_S", searchVO);
+	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public List selectCvlEngFcltySpecInqireMntnRprDtlsList(GamMntnRprDtlsVO searchVO) {
+		return list("gamCvlEngFcltySpecInqireDao.selectCvlEngFcltySpecInqireMntnRprDtlsList_D", searchVO);
 	}
 
 	
