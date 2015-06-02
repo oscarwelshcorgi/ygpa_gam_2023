@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package egovframework.rte.ygpa.gam.fcltyMng.service;
 
@@ -8,14 +8,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
- * 
+ *
  * @author HNJ
  * @since 2014. 11. 25.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2014. 11. 25.		HNJ		최초 생성
@@ -27,58 +27,61 @@ import egovframework.com.cmm.ComDefaultVO;
 public class GamFcltyMaintMngVO extends ComDefaultVO {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	
+
+
 	/** 시설물관리그룹 */
 	private String sFcltsMngGroupNo;
-	
+
 	/** 공사계약 */
 	private String sCtrtNo;
-	
-	
+
+
 	/** 시설물업무구분 */
 	private String sFcltsJobSe;
-	
+
 	/** 유지보수공사명 */
 	private String sMntnRprCnstNm;
-	
+
 	/** 유지보수구분 */
 	private String sMntnRprSe;
-	
+
 	/** 유지보수공사시작일 검색 Fr */
 	private String sMntnRprCnstStartDtFr;
-	
+
 	/** 유지보수공사시작일 검색 To */
 	private String sMntnRprCnstStartDtTo;
-	
+
+	/** MAP 시설물관리번호 */
+	private String sMapFcltsMngNo;
+
 
 	/** 시설물업무구분 */
 	private String fcltsJobSe;
-	
+
 	/** 시설물관리그룹 */
 	private String fcltsMngGroupNo;
-	
+
 	/** 유지보수순번 */
 	private String mntnRprSeq;
-	
-	
+
+
 	/** 자료수 */
 	private int totCnt;
-	
+
 	/** 공사금액합계 */
 	private long sumMntnRprCnstAmt;
-	
+
 	/** 유지보수예산합계 */
 	private long sumMntnRprBdgt;
-	
+
 	/** 공통코드아이디 */
 	private String codeId;
-	
-	
-	
+
+
+
 
 	/**
 	 * @return the sFcltsMngGroupNo
@@ -178,7 +181,21 @@ public class GamFcltyMaintMngVO extends ComDefaultVO {
 		this.sMntnRprCnstStartDtTo = sMntnRprCnstStartDtTo;
 	}
 
-	
+	/**
+	 * @return the sMapFcltsMngNo
+	 */
+	public String getsMapFcltsMngNo() {
+		return sMapFcltsMngNo;
+	}
+
+	/**
+	 * @param sMapFcltsMngNo the sMapFcltsMngNo to set
+	 */
+	public void setsMapFcltsMngNo(String sMapFcltsMngNo) {
+		this.sMapFcltsMngNo = sMapFcltsMngNo;
+	}
+
+
 
 	/**
 	 * @return the fcltsJobSe
@@ -194,7 +211,7 @@ public class GamFcltyMaintMngVO extends ComDefaultVO {
 		this.fcltsJobSe = fcltsJobSe;
 	}
 
-	
+
 
 	/**
 	 * @return the mntnRprSeq
@@ -210,7 +227,7 @@ public class GamFcltyMaintMngVO extends ComDefaultVO {
 		this.mntnRprSeq = mntnRprSeq;
 	}
 
-	
+
 
 	/**
 	 * @return the fcltsMngGroupNo
@@ -281,11 +298,11 @@ public class GamFcltyMaintMngVO extends ComDefaultVO {
 	public void setCodeId(String codeId) {
 		this.codeId = codeId;
 	}
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 
 }

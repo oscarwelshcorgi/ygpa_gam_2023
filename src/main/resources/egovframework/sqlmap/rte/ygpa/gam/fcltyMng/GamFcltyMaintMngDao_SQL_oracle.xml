@@ -5,7 +5,7 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamFcltyMaintMngVO" type="egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyMaintMngVO"/>
-    
+
     <resultMap id="gamFcltyMaintMngSumMap" class="gamFcltyMaintMngVO">
 		<result property="totCnt" column="TOT_CNT" columnIndex="1"/>
 		<result property="sumMntnRprCnstAmt" column="SUM_MNTN_RPR_CNST_AMT" columnIndex="2"/>
@@ -47,32 +47,32 @@
 							, M.RESPON_ENGINEER
 							, M.ENFORCE_YEAR
 						FROM
-							MNTN_RPR_DTLS_F M 
+							MNTN_RPR_DTLS_F M
 						WHERE
-							1 = 1 
-							
+							1 = 1
+
 						<isNotEmpty property="sFcltsMngGroupNo">
 	           				AND M.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
 	           			</isNotEmpty>
-	           			
+
 	           			<isNotEmpty property="sCtrtNo">
 	           				AND M.CTRT_NO = #sCtrtNo#
 	           			</isNotEmpty>
-							
+
 						<isNotEmpty property="sFcltsJobSe">
 	           				AND M.FCLTS_JOB_SE = #sFcltsJobSe#
 	           			</isNotEmpty>
-	           			
+
 	           			<isNotEmpty property="sMntnRprCnstNm">
 	           				AND M.MNTN_RPR_CNST_NM LIKE '%' || #sMntnRprCnstNm# || '%'
 	           			</isNotEmpty>
-	           			
+
 	           			<isNotEmpty property="sMntnRprSe">
 	           				AND M.MNTN_RPR_SE = #sMntnRprSe#
 	           			</isNotEmpty>
-	           			
+
 	           			<isNotEmpty property="sMntnRprCnstStartDtFr">
-	           				AND 
+	           				AND
 	           				(
 	           					<![CDATA[ M.MNTN_RPR_CNST_START_DT >= #sMntnRprCnstStartDtFr# ]]>
 	           				<isNotEmpty property="sMntnRprCnstStartDtTo">
@@ -80,13 +80,22 @@
 		           			</isNotEmpty>
 		           			)
 	           			</isNotEmpty>
-	           			
+
+						<isNotEmpty property="sMapFcltsMngNo">
+							AND EXISTS (SELECT 'Y'
+											FROM MNTN_RPR_OBJ_FCLTS_F
+										WHERE FCLTS_MNG_GROUP_NO = M.FCLTS_MNG_GROUP_NO
+										 AND FCLTS_JOB_SE = M.FCLTS_JOB_SE
+										 AND MNTN_RPR_SEQ = M.MNTN_RPR_SEQ
+										 AND FCLTS_MNG_NO = #sMapFcltsMngNo#)
+						</isNotEmpty>
+
 						ORDER BY
 							M.WRT_DT DESC NULLS LAST,
 							M.MNTN_RPR_CNST_NM ASC
                 ) S
              ) A
-        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>		
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
 	</select>
 
 	<select id="gamFcltyMaintMngDao.selectFcltyMaintMngListTotCnt_S" parameterClass="gamFcltyMaintMngVO" resultMap="gamFcltyMaintMngSumMap">
@@ -95,32 +104,32 @@
 			, NVL(SUM(M.MNTN_RPR_CNST_AMT),0) AS SUM_MNTN_RPR_CNST_AMT
 			, NVL(SUM(M.MNTN_RPR_BDGT),0) AS SUM_MNTN_RPR_BDGT
 		FROM
-			MNTN_RPR_DTLS_F M 
+			MNTN_RPR_DTLS_F M
 		WHERE
-			1 = 1 
-			
+			1 = 1
+
 		<isNotEmpty property="sFcltsMngGroupNo">
 			AND M.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
 		</isNotEmpty>
-		
+
 		<isNotEmpty property="sCtrtNo">
 			AND M.CTRT_NO = #sCtrtNo#
 		</isNotEmpty>
-			
+
 		<isNotEmpty property="sFcltsJobSe">
 			AND M.FCLTS_JOB_SE = #sFcltsJobSe#
 		</isNotEmpty>
-		        			
+
 		<isNotEmpty property="sMntnRprCnstNm">
 			AND M.MNTN_RPR_CNST_NM LIKE '%' || #sMntnRprCnstNm# || '%'
 		</isNotEmpty>
-		        			
+
 		<isNotEmpty property="sMntnRprSe">
 			AND M.MNTN_RPR_SE = #sMntnRprSe#
 		</isNotEmpty>
-		        			
+
 		<isNotEmpty property="sMntnRprCnstStartDtFr">
-			AND 
+			AND
 			(
 				<![CDATA[ M.MNTN_RPR_CNST_START_DT >= #sMntnRprCnstStartDtFr# ]]>
 			<isNotEmpty property="sMntnRprCnstStartDtTo">
@@ -128,10 +137,19 @@
 			</isNotEmpty>
 			)
 		</isNotEmpty>
-		
+
+		<isNotEmpty property="sMapFcltsMngNo">
+			AND EXISTS (SELECT 'Y'
+							FROM MNTN_RPR_OBJ_FCLTS_F
+						WHERE FCLTS_MNG_GROUP_NO = M.FCLTS_MNG_GROUP_NO
+						 AND FCLTS_JOB_SE = M.FCLTS_JOB_SE
+						 AND MNTN_RPR_SEQ = M.MNTN_RPR_SEQ
+						 AND FCLTS_MNG_NO = #sMapFcltsMngNo#)
+		</isNotEmpty>
+
 	</select>
-	
-	
+
+
 	<select id="gamFcltyMaintMngDao.selectFcltyMaintMngDetail_S" parameterClass="gamFcltyMaintMngVO" resultClass="egovMap">
 		SELECT
 			M.MNTN_RPR_CNST_NM
@@ -163,52 +181,52 @@
 			, M.WRT_USR
 			, M.PLAN_HIST_SE
 		FROM
-			MNTN_RPR_DTLS_F M 
-		WHERE 
+			MNTN_RPR_DTLS_F M
+		WHERE
 			M.FCLTS_JOB_SE = #fcltsJobSe#
 			AND M.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 			AND M.MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	</select>
-	
-	
+
+
 	<!-- 유지보수대상시설물내역 -->
 	<select id="gamFcltyMaintMngDao.selectMntnRprObjFcltsFList_D" parameterClass="gamFcltyMaintMngVO" resultClass="egovMap">
 
-		SELECT  
+		SELECT
 			G.FCLTS_MNG_NO
 			, G.PRT_FCLTY_NM
 			, G.PRT_FCLTY_SE
 			, GAM_GETCODENAME(#codeId#,G.GIS_PRT_FCLTY_CD) GIS_PRT_FCLTY_NM
-			, DECODE(O.FCLTS_MNG_NO,NULL,'','TRUE') CHK_ROLE 
+			, DECODE(O.FCLTS_MNG_NO,NULL,'','TRUE') CHK_ROLE
 		FROM
-			GIS_PRT_FCLTY_CD_F G 
-        LEFT OUTER JOIN 
-			MNTN_RPR_OBJ_FCLTS_F O 
-        ON 
-			O.FCLTS_MNG_GROUP_NO = G.FCLTS_MNG_GROUP_NO 
-			AND O.FCLTS_MNG_NO = G.FCLTS_MNG_NO 
-			AND O.MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)  
-		WHERE 
+			GIS_PRT_FCLTY_CD_F G
+        LEFT OUTER JOIN
+			MNTN_RPR_OBJ_FCLTS_F O
+        ON
+			O.FCLTS_MNG_GROUP_NO = G.FCLTS_MNG_GROUP_NO
+			AND O.FCLTS_MNG_NO = G.FCLTS_MNG_NO
+			AND O.MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
+		WHERE
 			<![CDATA[ 1<>1 ]]>
 
 		OR (
 		<isNotEmpty property="fcltsJobSe">
 			G.PRT_FCLTY_SE = #fcltsJobSe#
 			<isNotEmpty property="fcltsMngGroupNo">
-				AND 
+				AND
 			</isNotEmpty>
 		</isNotEmpty>
 		<isNotEmpty property="fcltsMngGroupNo">
 			G.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 		</isNotEmpty>
 			)
-        ORDER BY 
+        ORDER BY
           	G.PRT_FCLTY_SE, G.FCLTS_MNG_NO ASC
-          	
+
 	</select>
-	
-	
-	
+
+
+
 	<!-- 유지보수첨부파일내역 -->
 	<select id="gamFcltyMaintMngDao.selectFcltyMaintFileList_D" parameterClass="gamFcltyMaintMngVO" resultClass="egovMap">
         SELECT
@@ -227,33 +245,33 @@
 			, UPD_USR
 			, UPDT_DT
 		FROM
-			MNTN_RPR_ATCH_FILE_F 
+			MNTN_RPR_ATCH_FILE_F
 		WHERE
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 			AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
-        			
+
 		ORDER BY
 			MNTN_RPR_SEQ ASC
 	</select>
 
-	
+
 	<!-- 유지보수순번 -->
 	<select id="gamFcltyMaintMngDao.selectNextMntnRprSeq_S" parameterClass="hashMap" resultClass="int">
 		SELECT
 			(NVL(MAX(MNTN_RPR_SEQ),0) + 1) NEXT_MNTN_RPR_SEQ
 		FROM
-			MNTN_RPR_DTLS_F 
-		WHERE 
+			MNTN_RPR_DTLS_F
+		WHERE
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 	</select>
-	
-	
+
+
 	<!-- 유지보수내역입력 -->
 	<insert id="gamFcltyMaintMngDao.insertFcltyMaintMng">
-		INSERT INTO 
-			MNTN_RPR_DTLS_F 
+		INSERT INTO
+			MNTN_RPR_DTLS_F
 			(
 				MNTN_RPR_CNST_NM
 				, PLANNER_NM
@@ -279,8 +297,8 @@
 				, WRT_DT
 				, WRT_USR
 				, PLAN_HIST_SE
-			) 
-			VALUES 
+			)
+			VALUES
 			(
 				#mntnRprCnstNm#
 				, #plannerNm#
@@ -308,10 +326,10 @@
 				, #planHistSe#
 			)
 	</insert>
-	
+
 	<!-- 유지보수내역수정 -->
 	<update id="gamFcltyMaintMngDao.updateFcltyMaintMng">
-		UPDATE MNTN_RPR_DTLS_F 
+		UPDATE MNTN_RPR_DTLS_F
 			SET
 				MNTN_RPR_CNST_NM = #mntnRprCnstNm#
 				, PLANNER_NM = #plannerNm#
@@ -330,31 +348,31 @@
 				, RESPON_ENGINEER = #responEngineer#
 				, ENFORCE_YEAR = #enforceYear#
 				, UPD_USR = #updUsr#
-				, UPDT_DT = SYSDATE 
+				, UPDT_DT = SYSDATE
 				, WRT_DT = #wrtDt#
 				, WRT_USR = #wrtUsr#
 				, PLAN_HIST_SE = #planHistSe#
-			WHERE 
+			WHERE
 				FCLTS_JOB_SE = #fcltsJobSe#
 				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 				AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	</update>
-	
+
 	<!-- 유지보수내역삭제 -->
 	<delete id="gamFcltyMaintMngDao.deleteFcltyMaintMng">
-		DELETE FROM 
-			MNTN_RPR_DTLS_F 
-		WHERE 
+		DELETE FROM
+			MNTN_RPR_DTLS_F
+		WHERE
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 			AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	</delete>
-	
-	
+
+
 	<!-- 유지보수대상시설물입력 -->
 	<insert id="gamFcltyMaintMngDao.insertMntnRprObjFcltsF">
-		INSERT INTO 
-			MNTN_RPR_OBJ_FCLTS_F 
+		INSERT INTO
+			MNTN_RPR_OBJ_FCLTS_F
 			(
 				FCLTS_JOB_SE
 				, FCLTS_MNG_GROUP_NO
@@ -368,8 +386,8 @@
 				, FCLTS_MNG_NO
 				, REG_USR
 				, REGIST_DT
-			) 
-			VALUES 
+			)
+			VALUES
 			(
 				#fcltsJobSe#
 				, #fcltsMngGroupNo#
@@ -385,39 +403,39 @@
 				, SYSDATE
 			)
 	</insert>
-	
-	
+
+
 	<!-- 유지보수대상시설물삭제 -->
 	<delete id="gamFcltyMaintMngDao.deleteMntnRprObjFcltsF">
-		DELETE FROM  
-			MNTN_RPR_OBJ_FCLTS_F 
-		WHERE 
+		DELETE FROM
+			MNTN_RPR_OBJ_FCLTS_F
+		WHERE
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 			AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 		<isNotEmpty property="fcltsMngNo">
 			AND FCLTS_MNG_NO = #fcltsMngNo#
 		</isNotEmpty>
-			
+
 	</delete>
 
-	
-	
+
+
 	<!-- 유지보수첨부파일입력 -->
 	<insert id="gamFcltyMaintMngDao.insertFcltyMaintFile">
 		<selectKey keyProperty="maxAtchFileSeq" resultClass="String">
-	       	SELECT 
+	       	SELECT
 	       		(NVL(MAX(ATCH_FILE_SEQ),0) + 1)
-			FROM 
+			FROM
 				MNTN_RPR_ATCH_FILE_F
-			WHERE 
+			WHERE
 				FCLTS_JOB_SE = #fcltsJobSe#
 				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 				AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 	    </selectKey>
-	    
-		INSERT INTO 
-			MNTN_RPR_ATCH_FILE_F 
+
+		INSERT INTO
+			MNTN_RPR_ATCH_FILE_F
 			(
 				FCLTS_JOB_SE
 				, FCLTS_MNG_GROUP_NO
@@ -430,8 +448,8 @@
 				, ATCH_FILE_WRITNG_DT
 				, REG_USR
 				, REGIST_DT
-			) 
-			VALUES 
+			)
+			VALUES
 			(
 				#fcltsJobSe#
 				, #fcltsMngGroupNo#
@@ -447,19 +465,19 @@
 			)
 	</insert>
 
-	
+
 	<!-- 유지보수첨부파일삭제 -->
 	<delete id="gamFcltyMaintMngDao.deleteFcltyMaintFile">
 		DELETE FROM
-			MNTN_RPR_ATCH_FILE_F 
-		WHERE 
+			MNTN_RPR_ATCH_FILE_F
+		WHERE
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 			AND MNTN_RPR_SEQ = TO_NUMBER(#mntnRprSeq#)
 		<isNotEmpty property="atchFileSeq">
 			AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)
 		</isNotEmpty>
-			
+
 	</delete>
 
 </sqlMap>

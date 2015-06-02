@@ -146,7 +146,7 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 		this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
 		this.$('#sFcltsJobSe').disable();
 	}
-	
+
 	// 기본값 셋팅
 	this.setDefaultParam();
 	this.applySelectYear();
@@ -174,6 +174,7 @@ GamFcltyMaintMngModule.prototype.getMapInfoList = function(params){
 				case "manage":
 					this.$('#sFcltsMngGroupNo').val(this._params.fcltsMngGroupNo);
 					this.$('#sFcltsMngGroupNoNm').val(this._params.fcltsMngGroupNoNm);
+					this.$('#sMapFcltsMngNo').val(this._params.fcltsMngNo);
 
 					this.loadData();
 				break;
@@ -447,6 +448,7 @@ GamFcltyMaintMngModule.prototype.loadData = function(){
 	this.$("#fcltyMaintMngListTab").tabs("option", {active: 0});
 	var searchOpt=this.makeFormArgs('#searchFcltyMaintMngForm');
 	this.$('#fcltyMaintMngList').flexOptions({params:searchOpt}).flexReload();
+	this.$('#sMapFcltsMngNo').val("");
 
 };
 
@@ -921,6 +923,7 @@ var module_instance = new GamFcltyMaintMngModule();
 						<tr>
 							<th>시설물관리그룹</th>
 							<td>
+								<input type="hidden" id="sMapFcltsMngNo">
 								<input type="text" size="15" id="sFcltsMngGroupNo" title="시설물관리그룹넘버" />-
 								<input type="text" size="17" id="sFcltsMngGroupNoNm" disabled="disabled" title="시설물관리그룹명"/>
 								<button id="sSearchFcltsMngGroupNo" class="popupButton">선택</button>
