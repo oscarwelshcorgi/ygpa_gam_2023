@@ -72,6 +72,7 @@
 	           			</isNotEmpty>
 
 	           			<isNotEmpty property="sMntnRprCnstStartDtFr">
+	           			<isEmpty property="sMapFcltsMngNo">
 	           				AND
 	           				(
 	           					<![CDATA[ M.MNTN_RPR_CNST_START_DT >= #sMntnRprCnstStartDtFr# ]]>
@@ -79,6 +80,7 @@
 		           				<![CDATA[ AND M.MNTN_RPR_CNST_START_DT <= #sMntnRprCnstStartDtTo# ]]>
 		           			</isNotEmpty>
 		           			)
+	           			</isEmpty>
 	           			</isNotEmpty>
 
 						<isNotEmpty property="sMapFcltsMngNo">
