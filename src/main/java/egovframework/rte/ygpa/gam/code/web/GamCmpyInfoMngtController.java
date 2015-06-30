@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package egovframework.rte.ygpa.gam.code.web;
 
@@ -31,14 +31,14 @@ import egovframework.rte.ygpa.gam.code.service.GamEntrpsChargerFVO;
 import egovframework.rte.ygpa.gam.code.service.GamEntrpsInfoFVO;
 import egovframework.rte.ygpa.gam.sample.web.GamAssetMngSampleController;
 /**
- * 
+ *
  * @author kok
  * @since 2014. 3. 5.
  * @version 1.0
  * @see
  * <pre>
  * << 개정이력(Modification Information) >>
- *   
+ *
  *   수정일 		 수정자		 수정내용
  *  -------		--------	---------------------------
  *  2014. 3. 5.		kok		최초 생성
@@ -53,13 +53,13 @@ public class GamCmpyInfoMngtController {
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
-    
+
 	@Resource(name = "gamCmpyInfoMngtService")
     private GamCmpyInfoMngtService gamCmpyInfoMngtService;
-	
+
 	@Autowired
 	private DefaultBeanValidator beanValidator;
-	
+
     /** cmmUseService */
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
@@ -67,11 +67,11 @@ public class GamCmpyInfoMngtController {
 	/** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
+
     LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    
+
     protected static final Log LOG = LogFactory.getLog(GamAssetMngSampleController.class);
-    
+
     /**
      * 화면 호출
      * @param windowId
@@ -82,17 +82,17 @@ public class GamCmpyInfoMngtController {
     @RequestMapping(value="/code/gamCmpyInfoMngt.do")
     String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
     	model.addAttribute("windowId", windowId);
-    	
+
     	// 관리부서
     	ComDefaultCodeVO vo = new ComDefaultCodeVO();
     	vo.setTableNm("COMTNORGNZTINFO");
     	List<?> groupId_result = cmmUseService.selectOgrnztIdDetail(vo);
     	model.addAttribute("ogrnztId_result",         groupId_result);
-    	
+
     	return "/ygpa/gam/code/GamCmpyInfoMngt";
     }
-    
-    
+
+
     /**
      * 화면 호출
      * @param windowId
@@ -112,8 +112,8 @@ public class GamCmpyInfoMngtController {
 
         return "/ygpa/gam/code/GamCmpyInfoList";
     }
-    
-    
+
+
     /**
 	 * 업체정보 목록을 조회한다.
 	 * @param searchVO
@@ -139,18 +139,18 @@ public class GamCmpyInfoMngtController {
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
-		
+
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
 		searchVO.setEntrpscd(searchEntrpsCd);
 		searchVO.setEntrpsNm(searchEntrpsNm);
 		searchVO.setBizrno(searchBizrno);
 
         List cmpyInfoMngtList = gamCmpyInfoMngtService.selectCmpyInfoMngtList(searchVO);
         int totCnt = gamCmpyInfoMngtService.selectCmpyInfoMngtListTotCnt(searchVO);
-        
+
         paginationInfo.setTotalRecordCount(totCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
@@ -162,7 +162,7 @@ public class GamCmpyInfoMngtController {
     	return map;
 	}
 
-    
+
     /**
      * 업체정보관리 상세화면
      * @param entrpscd
@@ -171,9 +171,9 @@ public class GamCmpyInfoMngtController {
      */
 	@RequestMapping(value="/code/cmpyInfoMngtDetail.do")
  	@ResponseBody Map<String, Object> selectCmpyInfoMngtDetail (@RequestParam("entrpscd") String entrpscd) throws Exception {
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -183,7 +183,7 @@ public class GamCmpyInfoMngtController {
 
     	GamEntrpsInfoFVO vo = new GamEntrpsInfoFVO();
 		vo.setEntrpscd(entrpscd);
-		
+
 		GamEntrpsInfoFVO detail = gamCmpyInfoMngtService.selectCmpyInfoMngtDetail(vo);
 
 		map.put("detail", detail);
@@ -215,14 +215,14 @@ public class GamCmpyInfoMngtController {
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
-		
+
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+
         List cmpyMngtList = gamCmpyInfoMngtService.selectCmpyMngtList(searchVO);
         int totCnt = gamCmpyInfoMngtService.selectCmpyMngtListTotCnt(searchVO);
-        
+
         paginationInfo.setTotalRecordCount(totCnt);
         searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
@@ -233,8 +233,8 @@ public class GamCmpyInfoMngtController {
 
     	return map;
 	}
-    
-    
+
+
     /**
      * 업체담당자정보 상세화면
      * @param entrpscd
@@ -243,9 +243,9 @@ public class GamCmpyInfoMngtController {
      */
 	@RequestMapping(value="/code/cmpyMngtDetail.do")
  	@ResponseBody Map<String, Object> selectCmpyMngtDetail (@RequestParam("entrpscd") String entrpscd, @RequestParam("chargerNo") Integer chargerNo) throws Exception {
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
 	        map.put("resultCode", 1);
@@ -256,7 +256,7 @@ public class GamCmpyInfoMngtController {
 		GamEntrpsChargerFVO vo = new GamEntrpsChargerFVO();
 		vo.setChargerNo(chargerNo);
 		vo.setEntrpscd(entrpscd);
-		
+
 		GamEntrpsChargerFVO detail = gamCmpyInfoMngtService.selectCmpyMngtDetail(vo);
 
 		map.put("detail", detail);
@@ -271,8 +271,8 @@ public class GamCmpyInfoMngtController {
      * @throws Exception
      */
     @RequestMapping(value="/code/gamCheckEntrpscd.do")
-	@ResponseBody Map<String, Object> checkEntrpscd (@RequestParam("entrpscd") String entrpscd) throws Exception {    
-    	
+	@ResponseBody Map<String, Object> checkEntrpscd (@RequestParam("entrpscd") String entrpscd) throws Exception {
+
     	Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -283,14 +283,14 @@ public class GamCmpyInfoMngtController {
     	}
 
     	int codeCount = gamCmpyInfoMngtService.checkEntrpscd(entrpscd);
-    	
+
     	map.put("codeCount", codeCount);
     	map.put("resultCode", 0);
 
         return map;
     }
-    
-    
+
+
 	/**
 	 * 업체정보 관리 저장
 	 * @param chargerVo
@@ -298,8 +298,8 @@ public class GamCmpyInfoMngtController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/code/gamCmpyInfoMngtRegist.do")
-	@ResponseBody Map<String, Object> insertCmpyInfoMngt(@RequestParam Map<String, Object> cmpyMngtList) throws Exception {    
-    	
+	@ResponseBody Map<String, Object> insertCmpyInfoMngt(@RequestParam Map<String, Object> cmpyMngtList) throws Exception {
+
     	Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -312,29 +312,27 @@ public class GamCmpyInfoMngtController {
     	cmpyMngtList.put("USERID", user.getId());
     	try {
     		gamCmpyInfoMngtService.insertCmpyInfoMngt(cmpyMngtList);
-        	
+
         	map.put("resultCode", 0);			// return ok
     		map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
-			// TODO: handle exception
-
 			map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
 
         return map;
     }
-	
+
 
     /**
-     * 업체정보 관리 수정     
+     * 업체정보 관리 수정
      * @param cmpyMngtList
      * @return map
      * @throws Exception
      */
     @RequestMapping(value="/code/gamCmpyInfoMngtModify.do")
 	@ResponseBody Map<String, Object> updateCmmnCode (@RequestParam Map<String, Object> cmpyMngtList) throws Exception {
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -347,29 +345,28 @@ public class GamCmpyInfoMngtController {
     	cmpyMngtList.put("USERID", user.getId());
     	try {
     		gamCmpyInfoMngtService.updateCmpyInfoMngt(cmpyMngtList);
-        	
+
         	map.put("resultCode", 0);			// return ok
-    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));	
+    		map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
 		} catch (Exception e) {
-			// TODO: handle exception
 
 			map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
 		}
-    	
+
     	return map;
     }
-    
-    
+
+
     /**
-     * 업체정보를 삭제한다. 
+     * 업체정보를 삭제한다.
      * @param cmmnCode
      * @return map
      * @throws Exception
      */
     @RequestMapping(value="/code/gamCmpyInfoMngtRemove.do")
 	@ResponseBody Map<String, Object> deleteCmmnCode (@RequestParam("entrpscd") String entrpscd) throws Exception {
-    	
+
     	Map<String, Object> map = new HashMap<String, Object>();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -389,7 +386,7 @@ public class GamCmpyInfoMngtController {
 			map.put("resultCode", 1);
           	map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
 		}
-    	
+
     	return map;
 	}
 }

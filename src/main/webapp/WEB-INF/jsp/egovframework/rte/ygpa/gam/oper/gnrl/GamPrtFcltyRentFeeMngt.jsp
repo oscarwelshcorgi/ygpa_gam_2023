@@ -126,7 +126,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 
     this._modifyFee=false;
 
-//    console.log('loadComplete.');
+    console.log('loadComplete.');
 };
 
 <%--
@@ -224,10 +224,15 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
                     this.doAction('/oper/gnrl/insertPrtFcltyRentFeeNticSingle.do', rows, function(module, result) {
 
                         if(result.resultCode=='0') {
-                            var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
-                            module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
-                            module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
-                            //module.$('#assetRentFeeList').flexUpdateRow('');
+                            //var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
+                            //module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
+                            //module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
+                            var rows = module.$('#assetRentFeeList').selectedRows()[0];
+                        	rows['nhtIsueYn']='Y';
+                    		rows['nhtIsueYnStr']="고지";
+                        	var rowIds = module.$('#assetRentFeeList').selectedRowIds()[0];
+                        	module.$('#assetRentFeeList').flexUpdateRow(rowIds, rows);
+                        	//module.$('#assetRentFeeList').flexUpdateRow('');
                         }
 
                         alert(result.resultMsg);
@@ -277,6 +282,7 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
                         	rows['nhtIsueYn']='Y';
                         	var rowIds = module.$('#assetRentFeeList').selectedRowIds()[0];
                         	module.$('#assetRentFeeList').flexUpdateRow(rowIds, rows);
+                        	//module.$('#assetRentFeeList').selectRowId(rowIds);
                             /* var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
                             module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
                             module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload(); */

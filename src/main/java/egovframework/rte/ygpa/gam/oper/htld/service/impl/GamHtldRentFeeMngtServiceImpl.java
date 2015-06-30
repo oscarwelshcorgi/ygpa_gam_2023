@@ -303,4 +303,13 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 			throws Exception {
 		gamHtldRentFeeMngtDao.clearHtldRentFeeList(vo);
 	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtService#selectHtldCofixPk()
+	 */
+	@Override
+	public Map selectHtldCofixPk(GamHtldRentFeeDefaultVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		return gamHtldRentFeeMngtDao.selectHtldCofixPk(vo);
+	}
 }

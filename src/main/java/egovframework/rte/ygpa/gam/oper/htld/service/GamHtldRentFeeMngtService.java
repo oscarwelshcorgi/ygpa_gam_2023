@@ -36,6 +36,13 @@ public interface GamHtldRentFeeMngtService {
     int selectHtldRentFeeMngtListTotCnt(GamHtldRentFeeDefaultVO searchVO) throws Exception;
 
     /**
+     * Cofix 이자율을 조회 한다.
+     * @return
+     * @throws Exception
+     */
+    Map selectHtldCofixPk(GamHtldRentFeeDefaultVO searchVO) throws Exception;
+
+    /**
 	 * 자료수, 총면적, 총사용료를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return 자산임대목록

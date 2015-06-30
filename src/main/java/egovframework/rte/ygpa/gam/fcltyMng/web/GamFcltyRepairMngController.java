@@ -4,7 +4,9 @@
 package egovframework.rte.ygpa.gam.fcltyMng.web;
 
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -505,7 +507,7 @@ public class GamFcltyRepairMngController {
         	return "/ygpa/gam/fcltyMng/GamFcltyRepairCheckReportPrint";
     	}
     	ObjectMapper mapper = new ObjectMapper();
-    	
+
     	//하자검사자직인
     	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(searchVO);
     	//하자검사조서
@@ -522,10 +524,10 @@ public class GamFcltyRepairMngController {
 			model.addAttribute("isHwp", true);
 			model.addAttribute("filename", fcltyRepairCheckReportOpt.get("filename"));
     		}
-    		
+
     	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckReportPrint";
     }
-	
+
     /**
      * 하자검사조서 한글파일 문서 출력
      *
@@ -550,7 +552,7 @@ public class GamFcltyRepairMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return "/ygpa/gam/fcltyMng/GamFcltyRepairCheckReportHwp";
     	}
-		
+
     	ObjectMapper mapper = new ObjectMapper();
 
     	//하자검사자 직인
@@ -573,7 +575,71 @@ public class GamFcltyRepairMngController {
     		}
     	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckReportHwp";
     }
-	
+
+	@RequestMapping(value="/fcltyMng/selectFcltyRepairCheckReportHwp2.do")
+	String selectFcltyRepairCheckReportHwp2(@RequestParam Map<String, Object> fcltyRepairCheckReportOpt ,GamFcltyRepairMngVO searchVO, ModelMap model) throws Exception {
+		List varItems = new ArrayList<Map>();
+
+		//LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	Map map = new HashMap();
+    	EgovMap result = null;
+    	EgovMap charger= null;
+
+    	// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return "/ygpa/gam/cmmn/GamHwpOcxPreview";
+    	}
+
+    	ObjectMapper mapper = new ObjectMapper();
+
+    	//하자검사자 직인
+    	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(searchVO);
+    	//하자검사조서
+    	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
+    	//첨부파일이미지
+    	List resultList = gamFcltyRepairMngService.selectFcltyRepairFileList(searchVO);
+
+
+
+        model.addAttribute("result", result);
+		model.addAttribute("resultCode", 0);
+		model.addAttribute("resultMsg", "");
+		model.addAttribute("charger",charger);
+		model.addAttribute("resultList",resultList);
+		if(fcltyRepairCheckReportOpt.get("filename") != null){
+			model.addAttribute("isHwp", true);
+			model.addAttribute("filename", fcltyRepairCheckReportOpt.get("filename"));
+    		}
+
+		model.addAttribute("hwpTemplateName", "fclty_rpr_templ.hwp");	// 파일 명을 지정 한다. (/tmpl 기준)
+
+		// 변수 전달
+		map.put("name", "title");
+		map.put("value", "제목을 서버에서 전송 합니다.");
+		map.put("type", "TEXT");
+		varItems.add(map);
+		map = new HashMap();
+		map.put("name", "name");
+		map.put("value", "테스트");
+		map.put("type", "TEXT");
+		varItems.add(map);
+		map = new HashMap();
+		map.put("name", "date");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-DD");
+		map.put("value", format.format(new Date()));
+		map.put("type", "TEXT");
+		varItems.add(map);
+
+		model.addAttribute("varItems", varItems);
+
+		return "/ygpa/gam/cmmn/GamHwpOcxPreview";
+
+	}
+
+
 	/**
      * 하자만료검사조서인쇄
      *
@@ -619,7 +685,7 @@ public class GamFcltyRepairMngController {
 
     	return "ygpa/gam/fcltyMng/GamFcltyRepairExpireCheckReportPrint";
     }
-	
+
 	/**
      * 하자만료검사조서 한글파일 출력
      *
@@ -665,8 +731,8 @@ public class GamFcltyRepairMngController {
 
     	return "ygpa/gam/fcltyMng/GamFcltyRepairExpireCheckReportHwp";
     }
-	
-	
+
+
 
 	/**
      * 하자검사결과인쇄

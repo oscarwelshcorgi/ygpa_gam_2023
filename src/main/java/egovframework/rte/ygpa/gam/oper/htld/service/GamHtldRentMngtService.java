@@ -1,7 +1,10 @@
 package egovframework.rte.ygpa.gam.oper.htld.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+
+import org.joda.time.LocalDate;
 
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
@@ -173,4 +176,18 @@ public interface GamHtldRentMngtService {
      */
     EgovMap selectHtldNticRcivSum(GamHtldRentDefaultVO searchVO) throws Exception;
 
+    /**
+     * 기간 내 요금을 산정한다.
+     * @param fromDate
+     * @param toDate
+     * @param monthFee
+     * @return
+     */
+    public BigDecimal getTotalFee(LocalDate fromDate, LocalDate toDate, BigDecimal monthFee);
+
+    /**
+     * 현재 등록 되어있는 사용 자료에 대한 고지 목록을 생성한다.
+     * @throws Exception
+     */
+    public void createHtldRentMngtFirst() throws Exception;
 }

@@ -1,5 +1,10 @@
 package egovframework.rte.ygpa.gam.oper.htld.web;
 
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -166,11 +171,14 @@ public class GamHtldRentFeeMngtController {
     	//자료수, 사용료, 연체, 부가세, 고지액
     	Map resultSum = gamHtldRentFeeMngtService.selectHtldRentFeeMngtSum(searchVO);
 
+    	Map resultCofix = gamHtldRentFeeMngtService.selectHtldCofixPk(searchVO);
+
     	map.put("resultCode", 0);	// return ok
     	map.put("totalCount", totalCnt);
     	map.put("resultList", resultList);
     	map.put("searchOption", searchVO);
     	map.put("resultSum", resultSum);
+    	map.put("cofixIntr", resultCofix.get("intrRate"));
 
     	return map;
     }
@@ -897,10 +905,13 @@ public class GamHtldRentFeeMngtController {
     		Map nticParam = gamHtldRentFeeMngtService.selectNoticeRequest(gamHtldRentFeeMngtVO);
 
     		nticParam.put("updUsr", loginVo.getId());
+    		nticParam.put("nhtPrintYn", "N");
     		nticParam.put("userName", loginVo.getName());
     		nticParam.put("deptCd", loginVo.getDeptCd());
     		nticParam.put("reimChrgeKnd", "DB");
     		nticParam.put("intrChrgeKnd", "A3");	// 이자 요금 코드
+    		nticParam.put("intrAmnt", gamHtldRentFeeMngtVO.getIntrAmnt());
+    		nticParam.put("intrRate", gamHtldRentFeeMngtVO.getIntrRate());
 
     		gamHtldRentFeeMngtService.sendLevReqestRevCollF(nticParam);
 
@@ -1171,6 +1182,7 @@ public class GamHtldRentFeeMngtController {
 
 	@RequestMapping(value="/oper/htld/gamHtldRentHwpPreview.do")
 	String gamHtldRentHwpPreview(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
+		List varItems = new ArrayList<Map>();
 
 		model.addAttribute("searchOpt", approvalOpt);
 
@@ -1183,6 +1195,25 @@ public class GamHtldRentFeeMngtController {
 			model.addAttribute("resultCode", 0);
 			model.addAttribute("resultList", approvalOpt);
 			model.addAttribute("resultMsg", "");
+			model.addAttribute("hwpTemplateName", "TEMPLATE_TEST.hwp");	// 파일 명을 지정 한다. (/tmpl 기준)
+			Map map = new HashMap();
+			map.put("name", "title");
+			map.put("value", "제목을 서버에서 전송 합니다.");
+			map.put("type", "TEXT");
+			varItems.add(map);
+			map = new HashMap();
+			map.put("name", "name");
+			map.put("value", "장은성");
+			map.put("type", "TEXT");
+			varItems.add(map);
+			map = new HashMap();
+			map.put("name", "date");
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-DD");
+			map.put("value", format.format(new Date()));
+			map.put("type", "TEXT");
+			varItems.add(map);
+
+			model.addAttribute("varItems", varItems);
 		}
 
 		return "/ygpa/gam/oper/htld/GamHtldHwpPreview";

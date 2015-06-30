@@ -54,6 +54,11 @@ public class GamHtldRentFeeDefaultVO extends GamHtldRentFeeMngtVO {
     /** 검색조건 */
     private String sEntrpscd;
 
+    /**
+     * 업체명 검색
+     */
+    private String sEntrpsNm;
+
     /** 검색조건 */
     private String sUsagePrposCd;
 
@@ -285,6 +290,20 @@ public class GamHtldRentFeeDefaultVO extends GamHtldRentFeeMngtVO {
 	 */
 	public void setSearchTo(String searchTo) {
 		this.searchTo = searchTo;
+	}
+
+	/**
+	 * @return the sEntrpsNm
+	 */
+	public String getsEntrpsNm() {
+		return sEntrpsNm;
+	}
+
+	/**
+	 * @param sEntrpsNm the sEntrpsNm to set
+	 */
+	public void setsEntrpsNm(String sEntrpsNm) {
+		this.sEntrpsNm = sEntrpsNm;
 	}
 
 

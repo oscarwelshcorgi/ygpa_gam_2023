@@ -1,5 +1,7 @@
 package egovframework.rte.ygpa.gam.oper.htld.service;
 
+import java.io.Serializable;
+
 import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
 
 /**
@@ -14,7 +16,7 @@ import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
  *
  *  Copyright (C)  All right reserved.
  */
-public class GamHtldRentMngtLevReqestVO extends ErpCmmnCdDefaultVO {
+public class GamHtldRentMngtLevReqestVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** 고지 횟수 */
@@ -35,8 +37,8 @@ public class GamHtldRentMngtLevReqestVO extends ErpCmmnCdDefaultVO {
     /** 고지 기간 FROM */
     private String nticPdFrom;
 
-    /** 공사기간 TO */
-    private String constPerTo;
+    /** 고지 기간 FROM */
+    private String nticPdTo;
 
     /** 회계 년도 */
     private String accnutYear;
@@ -238,15 +240,15 @@ public class GamHtldRentMngtLevReqestVO extends ErpCmmnCdDefaultVO {
 	/**
 	 * @return the constPerTo
 	 */
-	public String getConstPerTo() {
-		return constPerTo;
+	public String getNticPdTo() {
+		return nticPdTo;
 	}
 
 	/**
 	 * @param constPerTo the constPerTo to set
 	 */
-	public void setConstPerTo(String constPerTo) {
-		this.constPerTo = constPerTo;
+	public void setNticPdTo(String nticPdTo) {
+		this.nticPdTo = nticPdTo;
 	}
 
 	/**

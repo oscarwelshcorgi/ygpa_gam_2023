@@ -105,7 +105,7 @@ var popup_instance = new GamPopupPrtOperRentModule();
                             </select>
                         </td>
                         -->
-                        <td><button id=btnPrmisnExec class="submit">승낙</button></td>
+                        <td><button id="btnPrmisnExec" class="submit">승낙</button></td>
                     </tr>
 				</tbody>
 		    </table>

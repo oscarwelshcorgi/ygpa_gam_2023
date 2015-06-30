@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.htld.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -316,4 +317,173 @@ public class GamHtldRentMngtDao extends YGPAAbstractDAO {
 	public void insertHtldAssess(GamHtldAssessVO vo) throws Exception {
 		insert("gamHtldRentMngtDao.insertHtldAssess_S", vo);
 	}
+
+	/**
+	 * 고지 자료를 등록한다.
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public String insertHtldRentBill(GamHtldRentMngtLevReqestVO vo) throws Exception {
+        return (String)insert("gamHtldRentMngtDao.insertBillCreate", vo);
+	}
+
+	public void deleteBillByRentMngtVO(GamHtldRentMngtVO vo) throws Exception {
+		delete("gamHtldRentMngtDao.deleteBillByRentMngtVO_D", vo);
+	}
+
+	/**
+	 * 고지된 항목이 있는지 조회 한다.
+	 * @param searchVO
+	 * @return
+	 */
+	public int selectHtldRentMngtNticLevReqestCnt(GamHtldRentMngtVO searchVO) {
+        return (Integer)getSqlMapClientTemplate().queryForObject("gamHtldRentMngtDao.selectHtldRentMngtNticLevReqestCnt_S", searchVO);
+    }
+
+	/**
+	 * 전체 사용료를 등록한다.
+	 */
+    public String insertBillCreateOnce(GamHtldRentMngtVO vo) throws Exception {
+    	Map<String, String> map = new HashMap<String,String>();
+    	map.put("chrgeKnd", vo.getChrgeKnd());
+    	map.put("regUsr", vo.getRegUsr());
+    	map.put("deptcd", vo.getDeptcd());
+    	map.put("prtAtCode", vo.getPrtAtCode());
+    	map.put("mngYear", vo.getPrtAtCode());
+    	map.put("mngNo", vo.getMngNo());
+    	map.put("mngCnt", vo.getMngCnt());
+    	map.put("entrpscd", vo.getEntrpscd());
+    	map.put("taxtSe", vo.getTaxtSe());
+    	map.put("rm", vo.getRm());
+    	map.put("nticMth", vo.getNticMth());
+    	map.put("regUsr", vo.getRegUsr());
+    	//map.put("blTpNum", "1");
+    	map.put("grFee",  vo.getGrFee());
+    	map.put("grUsagePdFrom", vo.getGrUsagePdFrom());
+    	map.put("grUsagePdTo", vo.getGrUsagePdTo());
+        return (String)insert("gamHtldRentMngtDao.insertBillCreateOnce", map);
+    }
+
+    /**
+	 * 월 사용료를 등록한다.
+	 */
+    public String insertBillCreatePreMonth(GamHtldRentMngtVO vo) throws Exception {
+    	Map<String, String> map = new HashMap<String,String>();
+    	map.put("chrgeKnd", vo.getChrgeKnd());
+    	map.put("regUsr", vo.getRegUsr());
+    	map.put("deptcd", vo.getDeptcd());
+    	map.put("prtAtCode", vo.getPrtAtCode());
+    	map.put("mngYear", vo.getPrtAtCode());
+    	map.put("mngNo", vo.getMngNo());
+    	map.put("mngCnt", vo.getMngCnt());
+    	map.put("entrpscd", vo.getEntrpscd());
+    	map.put("taxtSe", vo.getTaxtSe());
+    	map.put("rm", vo.getRm());
+    	map.put("nticMth", vo.getNticMth());
+    	map.put("regUsr", vo.getRegUsr());
+    	map.put("grFee",  vo.getGrFee());
+    	map.put("grUsagePdFrom", vo.getGrUsagePdFrom());
+    	map.put("grUsagePdTo", vo.getGrUsagePdTo());
+		map.put("blTpNum", "1");
+        return (String)insert("gamHtldRentMngtDao.insertBillCreateMore", map);
+    }
+
+    /**
+	 * 3분납 사용료를 등록한다.
+	 */
+    public String insertBillCreatePreThird(GamHtldRentMngtVO vo) throws Exception {
+    	Map<String, String> map = new HashMap<String,String>();
+    	map.put("chrgeKnd", vo.getChrgeKnd());
+    	map.put("regUsr", vo.getRegUsr());
+    	map.put("deptcd", vo.getDeptcd());
+    	map.put("prtAtCode", vo.getPrtAtCode());
+    	map.put("mngYear", vo.getPrtAtCode());
+    	map.put("mngNo", vo.getMngNo());
+    	map.put("mngCnt", vo.getMngCnt());
+    	map.put("entrpscd", vo.getEntrpscd());
+    	map.put("taxtSe", vo.getTaxtSe());
+    	map.put("rm", vo.getRm());
+    	map.put("nticMth", vo.getNticMth());
+    	map.put("regUsr", vo.getRegUsr());
+    	map.put("grFee",  vo.getGrFee());
+    	map.put("grUsagePdFrom", vo.getGrUsagePdFrom());
+    	map.put("grUsagePdTo", vo.getGrUsagePdTo());
+		map.put("blTpNum", "4");
+        return (String)insert("gamHtldRentMngtDao.insertBillCreateMore", map);
+    }
+
+    /**
+	 * 분기별 사용료를 등록한다.
+	 */
+    public String insertBillCreatePreQuater(GamHtldRentMngtVO vo) throws Exception {
+//		vo.put("blTpNum", "3");
+    	Map<String, String> map = new HashMap<String,String>();
+    	map.put("chrgeKnd", vo.getChrgeKnd());
+    	map.put("regUsr", vo.getRegUsr());
+    	map.put("deptcd", vo.getDeptcd());
+    	map.put("prtAtCode", vo.getPrtAtCode());
+    	map.put("mngYear", vo.getPrtAtCode());
+    	map.put("mngNo", vo.getMngNo());
+    	map.put("mngCnt", vo.getMngCnt());
+    	map.put("entrpscd", vo.getEntrpscd());
+    	map.put("taxtSe", vo.getTaxtSe());
+    	map.put("rm", vo.getRm());
+    	map.put("nticMth", vo.getNticMth());
+    	map.put("regUsr", vo.getRegUsr());
+    	map.put("grFee",  vo.getGrFee());
+    	map.put("grUsagePdFrom", vo.getGrUsagePdFrom());
+    	map.put("grUsagePdTo", vo.getGrUsagePdTo());
+		map.put("blTpNum", "3");
+        return (String)insert("gamHtldRentMngtDao.insertBillCreateMore", map);
+    }
+
+    /**
+	 * 반기별 사용료를 등록한다.
+	 */
+    public String insertBillCreatePreHalf(GamHtldRentMngtVO vo) throws Exception {
+    	Map<String, String> map = new HashMap<String,String>();
+    	map.put("chrgeKnd", vo.getChrgeKnd());
+    	map.put("regUsr", vo.getRegUsr());
+    	map.put("deptcd", vo.getDeptcd());
+    	map.put("prtAtCode", vo.getPrtAtCode());
+    	map.put("mngYear", vo.getPrtAtCode());
+    	map.put("mngNo", vo.getMngNo());
+    	map.put("mngCnt", vo.getMngCnt());
+    	map.put("entrpscd", vo.getEntrpscd());
+    	map.put("taxtSe", vo.getTaxtSe());
+    	map.put("rm", vo.getRm());
+    	map.put("nticMth", vo.getNticMth());
+    	map.put("regUsr", vo.getRegUsr());
+    	map.put("grFee",  vo.getGrFee());
+    	map.put("grUsagePdFrom", vo.getGrUsagePdFrom());
+    	map.put("grUsagePdTo", vo.getGrUsagePdTo());
+		map.put("blTpNum", "6");
+        return (String)insert("gamHtldRentMngtDao.insertBillCreateMore", map);
+    }
+
+    /**
+	 * 연별 사용료를 등록한다.
+	 */
+    public String insertBillCreatePreYear(GamHtldRentMngtVO vo) throws Exception {
+    	Map<String, String> map = new HashMap<String,String>();
+    	map.put("chrgeKnd", vo.getChrgeKnd());
+    	map.put("regUsr", vo.getRegUsr());
+    	map.put("deptcd", vo.getDeptcd());
+    	map.put("prtAtCode", vo.getPrtAtCode());
+    	map.put("mngYear", vo.getPrtAtCode());
+    	map.put("mngNo", vo.getMngNo());
+    	map.put("mngCnt", vo.getMngCnt());
+    	map.put("entrpscd", vo.getEntrpscd());
+    	map.put("taxtSe", vo.getTaxtSe());
+    	map.put("rm", vo.getRm());
+    	map.put("nticMth", vo.getNticMth());
+    	map.put("regUsr", vo.getRegUsr());
+    	map.put("grFee",  vo.getGrFee());
+    	map.put("grUsagePdFrom", vo.getGrUsagePdFrom());
+    	map.put("grUsagePdTo", vo.getGrUsagePdTo());
+		map.put("blTpNum", "12");
+        return (String)insert("gamHtldRentMngtDao.insertBillCreateMore", map);
+    }
+
 }

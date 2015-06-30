@@ -339,7 +339,14 @@ public class GamHtldRentMngtController {
 	    	deleteList = mapper.readValue((String)assetRent.get("_dList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
 	    			GamHtldRentMngtDetailVO.class));
 
-        gamHtldRentMngtService.updateHtldRentMngt(gamHtldRentMngtVO, createList, updateList, deleteList);
+    	try {
+    		gamHtldRentMngtService.updateHtldRentMngt(gamHtldRentMngtVO, createList, updateList, deleteList);
+    	}
+    	catch(Exception e) {
+        	map.put("resultCode", -1);
+        	map.put("resultMsg", e.getMessage());
+        	return map;
+    	}
 
         resultCode = 0; // return ok
         resultMsg  = egovMessageSource.getMessage("success.common.update");

@@ -1,5 +1,8 @@
 package egovframework.rte.ygpa.gam.oper.htld.service.impl;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +36,12 @@ public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
     public List selectHtldRentFeeMngtList(GamHtldRentFeeDefaultVO searchVO) throws Exception {
-        return list("gamHtldRentFeeMngtDao.selectHtldRentFeeMngtList_D", searchVO);
+//    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//    	Date dt = format.parse(searchVO.get)
+
+    	List feeList = list("gamHtldRentFeeMngtDao.selectHtldRentFeeMngtList_D", searchVO);
+
+        return feeList;
     }
 
     /**
@@ -161,6 +169,10 @@ public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
 
     public int selectInsertHtldRentFeeCnt(GamHtldRentFeeMngtVO searchVO) {
         return (Integer)getSqlMapClientTemplate().queryForObject("gamHtldRentFeeMngtDao.selectInsertHtldRentFee_S", searchVO);
+    }
+
+    public Map selectHtldCofixPk(GamHtldRentFeeMngtVO searchVO) {
+    	return (Map) selectByPk("gamHtldRentFeeMngtDao.selectHtldCofix_S", searchVO);
     }
 
     public void insertHtldRentFee(GamHtldRentFeeMngtVO vo){

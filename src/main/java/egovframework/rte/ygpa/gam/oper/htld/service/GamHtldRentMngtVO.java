@@ -36,6 +36,11 @@ public class GamHtldRentMngtVO extends ComDefaultVO {
     /** 관리횟수 */
     private String mngCnt;
 
+    /**
+     * 요금종류코드
+     */
+    private String chrgeKnd;
+
     /** 구역코드 */
     private String rentAreaCd;
 
@@ -451,6 +456,18 @@ public class GamHtldRentMngtVO extends ComDefaultVO {
 	 */
 	public void setApplcPrice(String applcPrice) {
 		this.applcPrice = applcPrice;
+	}
+	/**
+	 * @return the chrgeKnd
+	 */
+	public String getChrgeKnd() {
+		return chrgeKnd;
+	}
+	/**
+	 * @param chrgeKnd the chrgeKnd to set
+	 */
+	public void setChrgeKnd(String chrgeKnd) {
+		this.chrgeKnd = chrgeKnd;
 	}
 
 }

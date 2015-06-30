@@ -210,6 +210,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
     this.setButtonStatus();
 
     this.loadData();	// 데이터 조회
+    console.log('load complete');
 };
 
 <%--
@@ -295,7 +296,7 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 			var rows = this.$('#assetRentMngtList').selectedRows();
 			if(rows.length) {
 				this.$('#btnEApproval2').hide();	// 결재 요청 disable
-					this.$('#btnRemoveItem2').hide();
+//					this.$('#btnRemoveItem2').hide();
 
 //					this.$('#btnSaveItem').hide(); // test
 					this.$('#btnSaveItem').show();
@@ -303,8 +304,8 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 					this.$('#popupEntrpsInfoInput').hide();
 					this.$('#btnMangeCharger').hide();
 
-					this.$('#btnInsertItemDetail').hide();
-					this.$('#btnRemoveItemDetail').hide();
+//					this.$('#btnInsertItemDetail').hide();
+//					this.$('#btnRemoveItemDetail').hide();
 
 			        this.$('#entrpscd').attr('readonly', true);
 			        this.$('#popupEntrpsInfoInput').attr('disabled', 'disabled');
@@ -312,7 +313,7 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 			}
 			else {
 				this.$('#btnEApproval2').hide();
-				this.$('#btnRemoveItem2').hide();
+//				this.$('#btnRemoveItem2').hide();
 				this.$('#btnSaveItem').hide();
 
 				this.$('#entrpscd').removeAttr('readonly');
@@ -797,6 +798,11 @@ GamHtldRentMngtModule.prototype.storeRentData = function() {
     if( this.$('#nticMth').val() != '1' && this.$('#intrRate').val() == '' ) {
         alert("고지방법이 분납인 경우는 분납이자율을 입력하십시오.");
         return;
+    }
+
+    if(this.$('#chrgeKnd').val()=='') {
+    	alert("요금 종류 코드를 선택 하십시요.");
+    	return;
     }
 
    if( confirm("저장하시겠습니까?") ) {
@@ -1372,7 +1378,11 @@ var module_instance = new GamHtldRentMngtModule();
                             </tr>
                             <tr>
 								<th width="10%" height="18">비고</th>
-                                <td colspan="5"><input type="text" size="120" id="rm" maxlength="90"/></td>
+                                <td colspan="3"><input type="text" size="60" id="rm" maxlength="90"/></td>
+                                <th width="10%" height="18">요금종류 </th>
+                                <td>
+                                    <input id="chrgeKnd" class="ygpaCmmnCd" data-default-prompt="선택" data-code-id="GAM053" />
+                                </td>
                             </tr>
                             <tr>
 								<th width="10%" height="18">코멘트</th>

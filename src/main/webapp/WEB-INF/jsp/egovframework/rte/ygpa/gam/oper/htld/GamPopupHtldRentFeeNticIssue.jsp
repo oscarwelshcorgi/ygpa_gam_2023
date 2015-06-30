@@ -85,6 +85,8 @@ var popup_instance = new GamPopupNticIssueModule();
 		    <input type="hidden" id="mngNo" value="<c:out value="${levReqestMaster.mngNo }"/>"/>
 		    <input type="hidden" id="mngCnt" value="<c:out value="${levReqestMaster.mngCnt }"/>"/>
 		    <input type="hidden" id="nticCnt" value="<c:out value="${levReqestMaster.nticCnt }"/>"/>
+		    <input type="hidden" id="intrAmnt" value="<c:out value="${levReqestMaster.intrAmnt }"/>"/>
+		    <input type="hidden" id="intrRate" value="<c:out value="${levReqestMaster.intrRate }"/>"/>
 
 			<table class="detailPanel">
 				<tbody>
@@ -143,7 +145,7 @@ var popup_instance = new GamPopupNticIssueModule();
                     <tr>
                         <th style="width:100px; text-align: center;">고지 요금 종류</th>
                         <td colspan="3" style="text-align:center;">
-                            <input id="chrgeKnd" class="ygpaCmmnCd" data-code-id="GAM053" data-required="true" data-default-prompt="필수 선택" value=""/>
+                            <input id="chrgeKnd" class="ygpaCmmnCd" data-code-id="GAM053" data-required="true" data-default-prompt="필수 선택" value="${levReqestMaster.chrgeKnd }"/>
                         </td>
                     </tr>
                     <tr>

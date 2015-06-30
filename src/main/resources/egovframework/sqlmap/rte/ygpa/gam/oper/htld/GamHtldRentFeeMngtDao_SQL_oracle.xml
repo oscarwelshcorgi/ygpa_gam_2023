@@ -47,8 +47,223 @@
 		<result property="mngCnt" column="MNG_CNT" columnIndex="33"/>
     </resultMap>
 
+	<select id="gamHtldRentFeeMngtDao.selectHtldRentFeeMngtList_D" parameterClass="gamHtldRentFeeDefaultVO" resultClass="egovMap">
+		<![CDATA[
+			SELECT A.RENT_AREA_CD,
+		  GAM_GETCODENAME('GAM062', A.RENT_AREA_CD) RENT_AREA,
+		  A.MNG_YEAR
+		    || '-'
+		    || A.MNG_NO
+		    || '-'
+		    || A.MNG_CNT AS RENT_MNG_NO,
+		  L.NTIC_CNT,
+		  L.FCLTY_SE ,
+		  L.CHRGE_KND ,
+		  GAM_GET_FEE_TP_NM(A.PRT_AT_CODE, 'H', L.CHRGE_KND) CHRGE_KND_NM,
+		  A.ENTRPSCD ,
+		  A.ENTRPS_NM ,
+		  A.NTIC_MTH,
+		  GAM_GETCODENAME('GAM008', A.NTIC_MTH) NTIC_MTH_NM,
+		  TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM ,
+		  TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO ,
+		  L.ACCNUT_YEAR ,
+		  L.NTICNO ,
+		  TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT ,
+		  TO_CHAR(L.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT ,
+		  L.SANCTN_STTUS ,
+		  L.SANCTNER_EMPL_NO ,
+		  TO_CHAR(L.SANCTN_DT) SANCTN_DT ,
+		  GAM_GETCODENAME('GAM046', L.SANCTN_STTUS) SANCTN_STTUS_NM ,
+		  NVL(L.OLNLP,0) OLNLP ,
+		  NVL(L.FEE, 0) FEE ,
+		  NVL(L.VAT_YN, A.TAXT_SE) VAT_YN,
+		  NVL(L.VAT,0) VAT ,
+		  NVL(L.NTIC_AMT,0) NTIC_AMT ,
+		  NVL(L.INTR_AMNT, 0) INTR_AMNT,
+		  NVL(L.INTR_RATE,
+		  (SELECT BLCE_STDR_INTRRATE
+		  FROM cofix_intrrate_f
+		  WHERE obj_yrmt=
+		    (SELECT
+		      CASE
+		        WHEN TO_CHAR(L.NTIC_PD_FROM, 'MM')<4
+		        THEN TO_CHAR(L.NTIC_PD_FROM-365, 'YYYY')||'12'
+		        WHEN TO_CHAR(L.NTIC_PD_FROM, 'MM')<7
+		        THEN TO_CHAR(L.NTIC_PD_FROM, 'YYYY')||'03'
+		        WHEN TO_CHAR(L.NTIC_PD_FROM, 'MM')<10
+		        THEN TO_CHAR(L.NTIC_PD_FROM, 'YYYY')||'06'
+		        ELSE TO_CHAR(L.NTIC_PD_FROM, 'YYYY')||'09'
+		      END
+		    FROM dual
+		    )
+		  ))*100 INTR_RATE,
+		  NVL(L.cofix_obj_yrmt,
+		  (SELECT
+		      CASE
+		        WHEN TO_CHAR(L.NTIC_PD_FROM, 'MM')<4
+		        THEN TO_CHAR(L.NTIC_PD_FROM-365, 'YYYY')||'12'
+		        WHEN TO_CHAR(L.NTIC_PD_FROM, 'MM')<7
+		        THEN TO_CHAR(L.NTIC_PD_FROM, 'YYYY')||'03'
+		        WHEN TO_CHAR(L.NTIC_PD_FROM, 'MM')<10
+		        THEN TO_CHAR(L.NTIC_PD_FROM, 'YYYY')||'06'
+		        ELSE TO_CHAR(L.NTIC_PD_FROM, 'YYYY')||'09'
+		      END
+		    FROM dual
+		  )) cofix_obj_yrmt,
+		  L.RM ,
+		  L.RCIV_SE ,
+		  TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT ,
+		  L.NHT_ISUE_YN ,
+		  NVL(L.NHT_PRINT_YN,'N') AS NHT_PRINT_YN ,
+		  L.ARRRG_NO ,
+		  NVL(L.ARRRG_AMT,0) ARRRG_AMT ,
+		  L.ARRRG_TARIFF ,
+		  L.ARRRG_PAY_DATES ,
+		  L.REQEST_SEQ ,
+		  L.DEPTCD ,
+		  L.REG_USR ,
+		  TO_CHAR(L.REGIST_DT, 'YYYY-MM-DD') REGIST_DT ,
+		  L.UPD_USR ,
+		  TO_CHAR(L.UPDT_DT, 'YYYY-MM-DD') UPDT_DT ,
+		  A.PRT_AT_CODE ,
+		  A.MNG_YEAR ,
+		  A.MNG_NO ,
+		  A.MNG_CNT ,
+		  A.TAXT_SE,
+		  GAM_GETCODENAME('GAM019', A.PRT_AT_CODE) PRT_AT_CODE_NM ,
+		  GAM_GETDEPTNAME(L.DEPTCD) DEPTCD_NM ,
+		  NVL(A.GR_AR,0) GR_AR ,
+		  TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM ,
+		  TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO ,
+		  L.ADIT_NTIC_YN,
+		  (SELECT SUM(usage_ar*applc_price)
+		  FROM assets_rent_detail_f
+		  WHERE prt_at_code=a.prt_at_code
+		  AND mng_year     =a.mng_year
+		  AND mng_no       =a.mng_no
+		  AND mng_cnt      =a.mng_cnt
+		  ) year_price,
+		  (SELECT SUM(usage_ar*applc_price*MONTHS_BETWEEN(usage_pd_to, usage_pd_from))
+		  FROM assets_rent_detail_f
+		  WHERE prt_at_code=a.prt_at_code
+		  AND mng_year     =a.mng_year
+		  AND mng_no       =a.mng_no
+		  AND mng_cnt      =a.mng_cnt
+		  ) total_price
+		  ]]>
+		FROM ASSETS_RENT_F A,
+		  lev_reqest_f L
+		WHERE 1             =1
+		AND A.prt_at_code   =L.PRT_AT_CODE
+		AND A.MNG_YEAR      =L.MNG_YEAR
+		AND A.MNG_NO        =L.MNG_NO
+		AND A.MNG_CNT       =L.MNG_CNT
+		AND A.quay_group_cd = 'H'
+		<isNotEmpty property="nticPdFrom" prepend="AND">
+		<![CDATA[
+			L.NTIC_PD_FROM >= TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
+			]]>
+		</isNotEmpty>
+		<isNotEmpty property="nticPdTo" prepend="AND">
+		<![CDATA[
+			L.NTIC_PD_FROM < TO_DATE(#nticPdTo#, 'YYYY-MM-DD')
+			]]>
+		</isNotEmpty>
+		<isNotEmpty property="sPrtAtCode" prepend="AND">
+		<![CDATA[
+			A.PRT_AT_CODE=#sPrtAtCode#
+			]]>
+		</isNotEmpty>
+		<isNotEmpty property="sMngYear" prepend="AND">
+		<![CDATA[
+			A.MNG_YEAR=#sMngYear#
+			]]>
+		</isNotEmpty>
+				<isNotEmpty property="sMngNo" prepend="AND">
+		<![CDATA[
+			A.MNG_NO=#sMngNo#
+			]]>
+		</isNotEmpty>
+				<isNotEmpty property="sMngCnt" prepend="AND">
+		<![CDATA[
+			A.MNG_CNT=#sMngCnt#
+			]]>
+		</isNotEmpty>
+		<isNotEmpty property="sEntrpscd" prepend="AND">
+		<![CDATA[
+			A.ENTRPSCD LIKE #sEntrpscd# || '%'
+			]]>
+		</isNotEmpty>
+		<isNotEmpty property="sEntrpsNm" prepend="AND">
+		<![CDATA[
+			A.ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%'
+			]]>
+		</isNotEmpty>
+		<isEqual property="sNhtIsueYn" compareValue="Y" prepend="AND">
+		<![CDATA[
+			(L.NHT_ISUE_YN IS NOT NULL AND L.NHT_ISUE_YN='Y')
+			]]>
+		</isEqual>
+    </select>
 
-    <select id="gamHtldRentFeeMngtDao.selectHtldRentFeeMngtList_D" parameterClass="gamHtldRentFeeDefaultVO" resultClass="egovMap">
+    <select id="gamHtldRentFeeMngtDao.selectHtldRentFeeMngtListTotCnt_S" parameterClass="gamHtldRentFeeDefaultVO" resultClass="int">
+    	SELECT count(*)
+    	FROM ASSETS_RENT_F A,
+		  lev_reqest_f L
+		WHERE 1             =1
+		AND A.prt_at_code   =L.PRT_AT_CODE
+		AND A.MNG_YEAR      =L.MNG_YEAR
+		AND A.MNG_NO        =L.MNG_NO
+		AND A.MNG_CNT       =L.MNG_CNT
+		AND A.quay_group_cd = 'H'
+		<isNotEmpty property="nticPdFrom" prepend="AND">
+		<![CDATA[
+			L.NTIC_PD_FROM >= TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
+			]]>
+		</isNotEmpty>
+		<isNotEmpty property="nticPdTo" prepend="AND">
+		<![CDATA[
+			L.NTIC_PD_FROM < TO_DATE(#nticPdTo#, 'YYYY-MM-DD')
+			]]>
+		</isNotEmpty>
+		<isNotEmpty property="sPrtAtCode" prepend="AND">
+		<![CDATA[
+			A.PRT_AT_CODE=#sPrtAtCode#
+			]]>
+		</isNotEmpty>
+		<isNotEmpty property="sMngYear" prepend="AND">
+		<![CDATA[
+			A.MNG_YEAR=#sMngYear#
+			]]>
+		</isNotEmpty>
+				<isNotEmpty property="sMngNo" prepend="AND">
+		<![CDATA[
+			A.MNG_NO=#sMngNo#
+			]]>
+		</isNotEmpty>
+				<isNotEmpty property="sMngCnt" prepend="AND">
+		<![CDATA[
+			A.MNG_CNT=#sMngCnt#
+			]]>
+		</isNotEmpty>
+				<isNotEmpty property="sEntrpscd" prepend="AND">
+		<![CDATA[
+			A.ENTRPSCD LIKE #sEntrpscd# || '%'
+			]]>
+		</isNotEmpty>
+				<isNotEmpty property="sEntrpsNm" prepend="AND">
+		<![CDATA[
+			A.ENTRPS_NM LIKE '%' || #sEntrpsNm# || '%'
+			]]>
+		</isNotEmpty>
+		<isEqual property="sNhtIsueYn" compareValue="Y" prepend="AND">
+		<![CDATA[
+			(L.NHT_ISUE_YN IS NOT NULL AND L.NHT_ISUE_YN='Y')
+			]]>
+		</isEqual>
+   	</select>
+
+    <select id="gamHtldRentFeeMngtDao.selectHtldRentFeeMngtList_D_backup" parameterClass="gamHtldRentFeeDefaultVO" resultClass="egovMap">
 		SELECT Z.* FROM (
            SELECT ROWNUM RNUM, A.*
            FROM (
@@ -74,48 +289,49 @@
 					  S.NTICNO,
 					  S.CHRGE_KND,
 					  GAM_GET_FEE_TP_NM(S.PRT_AT_CODE, 'H', S.CHRGE_KND) CHRGE_KND_NM,
-					  trunc(
-					  case when S.NTIC_PD_FROM is null then
-					    case
-					    when S.ntic_mth='1' THEN
-					      S.YEAR_PRICE
-					    when S.ntic_mth='2' THEN
-					      S.YEAR_PRICE/2
-					    when S.ntic_mth='3' THEN
-					      S.YEAR_PRICE/3
-					    when S.ntic_mth='4' THEN
-					      S.YEAR_PRICE/4
-					    else
-					      S.YEAR_PRICE/12
-					    end
-					  else
-					    S.FEE
-					  end, -1) FEE
-					  ,
-					  case when S.NTIC_PD_FROM is null then
-					  trunc(
-					    case
-					    when S.TAXT_SE='1' OR S.TAXT_SE='2' THEN
-					      case
-					      when S.ntic_mth='1' THEN
-					        trunc(S.YEAR_PRICE, -1)/10
-					      when S.ntic_mth='2' THEN
-					        trunc(S.YEAR_PRICE/2, -1)/10
-					      when S.ntic_mth='3' THEN
-					        trunc(S.YEAR_PRICE/3, -1)/10
-					      when S.ntic_mth='4' THEN
-					        trunc(S.YEAR_PRICE/4, -1)/10
-					      else
-					        S.YEAR_PRICE/12/10
-					      end
-					    else
-					      0
-					    end
-					    , -1)
-					  else
-					    S.VAT
-					  end VAT
-					  ,
+			        TRUNC(
+					      CASE
+					        WHEN S.NTIC_PD_FROM IS NULL
+					        THEN
+					          CASE
+					            WHEN S.ntic_mth='1'
+					            THEN S.TOTAL_PRICE
+					            WHEN S.ntic_mth='2'
+					            THEN S.YEAR_PRICE/2
+					            WHEN S.ntic_mth='3'
+					            THEN S.YEAR_PRICE/3
+					            WHEN S.ntic_mth='4'
+					            THEN S.YEAR_PRICE/4
+					            WHEN S.NTIC_MTH='5'
+					            THEN S.YEAR_PRICE/12
+					            ELSE S.YEAR_PRICE
+					          END
+					        ELSE S.FEE
+					      END, -1) FEE ,
+					      CASE
+					        WHEN S.NTIC_PD_FROM IS NULL
+					        THEN TRUNC(
+					          CASE
+					            WHEN S.TAXT_SE='1'
+					            OR S.TAXT_SE  ='2'
+					            THEN
+					              CASE
+					                WHEN S.ntic_mth='1'
+					                THEN TRUNC(S.TOTAL_PRICE, -1)/10
+					                WHEN S.ntic_mth='2'
+					                THEN TRUNC(S.YEAR_PRICE/2, -1)/10
+					                WHEN S.ntic_mth='3'
+					                THEN TRUNC(S.YEAR_PRICE/3, -1)/10
+					                WHEN S.ntic_mth='4'
+					                THEN TRUNC(S.YEAR_PRICE/4, -1)/10
+					                WHEN S.ntic_mth='5'
+					                THEN TRUNC(S.YEAR_PRICE/12, -1)/10
+					                ELSE S.YEAR_PRICE      /10
+					              END
+					            ELSE 0
+					          END , -1)
+					        ELSE S.VAT
+					      END VAT ,
 					  S.VAT_YN,
 					  S.NTIC_AMT,
 					  S.INTR_AMNT INTR_AMNT,
@@ -226,8 +442,16 @@
 					  TO_CHAR(A.GR_USAGE_PD_FROM, 'YYYY-MM-DD') GR_USAGE_PD_FROM ,
 					  TO_CHAR(A.GR_USAGE_PD_TO, 'YYYY-MM-DD') GR_USAGE_PD_TO ,
 					  ADIT_NTIC_YN,
-					  (select sum(usage_ar*applc_price) from assets_rent_detail_f where prt_at_code=a.prt_at_code and mng_year=a.mng_year and mng_no=a.mng_no and mng_cnt=a.mng_cnt) year_price
-					FROM ASSETS_RENT_F A LEFT OUTER JOIN
+					  (select sum(usage_ar*applc_price) from assets_rent_detail_f where prt_at_code=a.prt_at_code and mng_year=a.mng_year and mng_no=a.mng_no and mng_cnt=a.mng_cnt) year_price,
+					  (SELECT
+				          SUM(usage_ar*applc_price*MONTHS_BETWEEN(usage_pd_to, usage_pd_from))
+				        FROM assets_rent_detail_f
+				        WHERE prt_at_code=a.prt_at_code
+				        AND mng_year     =a.mng_year
+				        AND mng_no       =a.mng_no
+				        AND mng_cnt      =a.mng_cnt
+				        ) total_price
+					FROM (SELECT * FROM ASSETS_RENT_F WHERE QUAY_GROUP_CD ='H') A LEFT OUTER JOIN
 					  LEV_REQEST_F L
 					  ON A.PRT_AT_CODE  = L.PRT_AT_CODE
 					AND A.MNG_YEAR     = L.MNG_YEAR
@@ -258,9 +482,7 @@
         ]]>
                </isNotEmpty>
 					  ) S
-					ORDER BY S.MNG_YEAR DESC,
-					  S.MNG_NO DESC,
-					  S.MNG_CNT DESC
+    				ORDER BY RENT_AREA, NTIC_MTH_NM, ENTRPS_NM
              ) A
              ) Z
         <![CDATA[
@@ -268,104 +490,56 @@
         ]]>
     </select>
 
-    <select id="gamHtldRentFeeMngtDao.selectHtldRentFeeMngtListTotCnt_S" parameterClass="gamHtldRentFeeDefaultVO" resultClass="int">
+    <select id="gamHtldRentFeeMngtDao.selectHtldRentFeeMngtListTotCnt_S_backup" parameterClass="gamHtldRentFeeDefaultVO" resultClass="int">
            SELECT COUNT(*) totcnt FROM
             	(SELECT *
-              FROM ASSETS_RENT_F A, LEV_REQEST_F L
-             WHERE A.QUAY_GROUP_CD='H'
-             	AND A.PRT_AT_CODE=L.PRT_AT_CODE
-             	AND A.MNG_YEAR=L.MNG_YEAR
-             	AND A.MNG_NO=L.MNG_NO
-             	AND A.MNG_CNT=L.MNG_CNT
-
-               <isNotEmpty property="sPrtAtCode">
-                   AND L.PRT_AT_CODE = #sPrtAtCode#
+              FROM (SELECT * FROM ASSETS_RENT_F WHERE QUAY_GROUP_CD ='H') A LEFT OUTER JOIN
+					  LEV_REQEST_F L
+					  ON A.PRT_AT_CODE  = L.PRT_AT_CODE
+					AND A.MNG_YEAR     = L.MNG_YEAR
+					AND A.MNG_NO       = L.MNG_NO
+					AND A.MNG_CNT      = L.MNG_CNT
+               <isNotEmpty property="grUsagePdFrom">
+        <![CDATA[
+					AND L.NTIC_PD_FROM >= TO_DATE(#grUsagePdFrom#, 'YYYY-MM-DD')
+        ]]>
                </isNotEmpty>
-
-               <isNotEmpty property="sReqstSeCd">
-                   AND (
-                         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
-                                                                              SELECT   R.PRT_AT_CODE
-                                                                                     , R.MNG_YEAR
-                                                                                     , R.MNG_NO
-                                                                                     , R.MNG_CNT
-                                                                                FROM ASSETS_RENT_F R
-                                                                               WHERE R.REQST_SE_CD = #sReqstSeCd#
-                                                                             )
-                       )
+				<isNotEmpty property="grUsagePdTo">
+        <![CDATA[
+					AND L.NTIC_PD_FROM < TO_DATE(#grUsagePdTo#, 'YYYY-MM-DD')
+        ]]>
                </isNotEmpty>
-
-               <isNotEmpty property="sEntrpscd">
-                   AND L.entrpscd = #sEntrpscd#
+					WHERE 1            = 1
+					AND A.QUAY_GROUP_CD='H'
+               <isNotEmpty property="grUsagePdFrom">
+        <![CDATA[
+					AND a.gr_usage_pd_from < TO_DATE(#grUsagePdFrom#, 'YYYY-MM-DD')
+					AND a.gr_usage_pd_to > TO_DATE(#grUsagePdFrom#, 'YYYY-MM-DD')
+        ]]>
                </isNotEmpty>
-
-			   <isNotEmpty property="sanctnSttus">
-			       AND L.SANCTN_STTUS = #sanctnSttus#
-			   </isNotEmpty>
-
-               <isNotEmpty property="sMngYear">
-                   AND L.MNG_YEAR    = #sMngYear#
+                              <isNotEmpty property="grUsagePdTo">
+        <![CDATA[
+					AND a.gr_usage_pd_from < TO_DATE(#grUsagePdTo#, 'YYYY-MM-DD')
+					AND a.gr_usage_pd_to > TO_DATE(#grUsagePdTo#, 'YYYY-MM-DD')
+        ]]>
                </isNotEmpty>
-
-               <isNotEmpty property="sMngNo">
-                   AND L.MNG_NO      = #sMngNo#
-               </isNotEmpty>
-
-               <isNotEmpty property="sMngCnt">
-                   AND L.MNG_CNT     = #sMngCnt#
-               </isNotEmpty>
-
-               <isNotEmpty property="sRrArFrom">
-				<![CDATA[
-               	AND A.GR_AR > #sRrArFrom#
-               	]]>
-               </isNotEmpty>
-          	    <isNotEmpty property="sRrArTo">
-				<![CDATA[
-               	AND A.GR_AR < #sRrArTo#
-               	]]>
-               </isNotEmpty>
-
-				<isEqual property="searchOption" compareValue="1">
-		         <isNotEmpty property="searchFrom">
-					<![CDATA[
-		         		AND L.NTIC_PD_FROM >= TO_DATE(#searchFrom#, 'YYYY-MM-DD')
-		         	]]>
-		         </isNotEmpty>
-
-		         <isNotEmpty property="searchTo">
-					<![CDATA[
-			         	AND L.NTIC_PD_FROM < TO_DATE(#searchTo#, 'YYYY-MM-DD')+1
-		         	]]>
-		         </isNotEmpty>
-				</isEqual>
-
-				<isEqual property="searchOption" compareValue="2">
-		         <isNotEmpty property="searchFrom">
-					<![CDATA[
-		         		AND L.NTIC_DT >= TO_DATE(#searchFrom#, 'YYYY-MM-DD')
-		         	]]>
-		         </isNotEmpty>
-
-		         <isNotEmpty property="searchTo">
-					<![CDATA[
-			         	AND L.NTIC_DT < TO_DATE(#searchTo#, 'YYYY-MM-DD')+1
-		         	]]>
-		         </isNotEmpty>
-				</isEqual>
-
-               <isNotEmpty property="sNhtIsueYn">
-                   AND L.NHT_ISUE_YN = #sNhtIsueYn#
-               </isNotEmpty>
-
-               <isNotEmpty property="sNticMth">
-					AND L.NTIC_MTH = #sNticMth#
-				</isNotEmpty>
-
-				<isNotEmpty property="sNticCnt">
-					AND L.NTIC_CNT = #sNticCnt#
-				</isNotEmpty>
           ) Z
+    </select>
+
+    <select id="gamHtldRentFeeMngtDao.selectHtldCofix_S" parameterClass="gamHtldRentFeeDefaultVO" resultClass="egovMap">
+    <![CDATA[
+    	SELECT
+    		NVL((select BLCE_STDR_INTRRATE
+		from cofix_intrrate_f
+		where obj_yrmt=(select case
+		  when to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD'), 'MM')<4 then to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD')-365, 'YYYY')||'12'
+		  when to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD'), 'MM')<7 then to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD'), 'YYYY')||'03'
+		  when to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD'), 'MM')<10 then to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD'), 'YYYY')||'06'
+		  else to_char(to_date(#grUsagePdFrom#, 'YYYY-MM-DD'), 'YYYY')||'09'
+		  end
+		from dual)), 0)*100 INTR_RATE
+		FROM dual
+		]]>
     </select>
 
     <select id="gamHtldRentFeeMngtDao.selectHtldRentFeeMngtSum_S" parameterClass="gamHtldRentFeeDefaultVO" resultClass="egovMap">
@@ -379,95 +553,36 @@
                ,   TRIM(TO_CHAR(SUM(NVL((CASE WHEN L.NHT_ISUE_YN = 'Y' THEN L.NTIC_AMT END), 0)) , '999,999,999,999')) SUM_NHT_ISUE_AMT
                , TRIM(TO_CHAR(SUM(NVL(L.VAT, 0)), '999,999,999,999')) SUM_VAT
                , TRIM(TO_CHAR(SUM(NVL(L.NTIC_AMT,0)), '999,999,999,999')) SUM_NTIC_AMT
-          FROM ASSETS_RENT_F A, LEV_REQEST_F L
-         WHERE 1 = 1
-             AND A.QUAY_GROUP_CD='H'
-             	AND A.PRT_AT_CODE=L.PRT_AT_CODE
-             	AND A.MNG_YEAR=L.MNG_YEAR
-             	AND A.MNG_NO=L.MNG_NO
-             	AND A.MNG_CNT=L.MNG_CNT
-         <isNotEmpty property="sPrtAtCode">
-             AND L.PRT_AT_CODE = #sPrtAtCode#
-         </isNotEmpty>
-
-         <isNotEmpty property="sReqstSeCd">
-             AND (
-                   (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
-                                                                        SELECT   R.PRT_AT_CODE
-                                                                               , R.MNG_YEAR
-                                                                               , R.MNG_NO
-                                                                               , R.MNG_CNT
-                                                                          FROM ASSETS_RENT_F R
-                                                                         WHERE R.REQST_SE_CD = #sReqstSeCd#
-                                                                       )
-                 )
-         </isNotEmpty>
-
-         <isNotEmpty property="sEntrpscd">
-             AND L.entrpscd = #sEntrpscd#
-         </isNotEmpty>
-
-	   <isNotEmpty property="sanctnSttus">
-	       AND L.SANCTN_STTUS = #sanctnSttus#
-	   </isNotEmpty>
-
-         <isNotEmpty property="sMngYear">
-             AND L.MNG_YEAR    = #sMngYear#
-         </isNotEmpty>
-
-         <isNotEmpty property="sMngNo">
-             AND L.MNG_NO      = #sMngNo#
-         </isNotEmpty>
-
-         <isNotEmpty property="sMngCnt">
-             AND L.MNG_CNT     = #sMngCnt#
-         </isNotEmpty>
-
-               <isNotEmpty property="sRrArFrom">
-				<![CDATA[
-               	AND A.GR_AR > #sRrArFrom#
-               	]]>
+          FROM (SELECT * FROM ASSETS_RENT_F WHERE QUAY_GROUP_CD ='H') A LEFT OUTER JOIN
+					  LEV_REQEST_F L
+					  ON A.PRT_AT_CODE  = L.PRT_AT_CODE
+					AND A.MNG_YEAR     = L.MNG_YEAR
+					AND A.MNG_NO       = L.MNG_NO
+					AND A.MNG_CNT      = L.MNG_CNT
+               <isNotEmpty property="grUsagePdFrom">
+        <![CDATA[
+					AND L.NTIC_PD_FROM >= TO_DATE(#grUsagePdFrom#, 'YYYY-MM-DD')
+        ]]>
                </isNotEmpty>
-          	    <isNotEmpty property="sRrArTo">
-				<![CDATA[
-               	AND A.GR_AR < #sRrArTo#
-               	]]>
+				<isNotEmpty property="grUsagePdTo">
+        <![CDATA[
+					AND L.NTIC_PD_FROM < TO_DATE(#grUsagePdTo#, 'YYYY-MM-DD')
+        ]]>
                </isNotEmpty>
-
-				<isEqual property="searchOption" compareValue="1">
-		         <isNotEmpty property="searchFrom">
-					<![CDATA[
-		         		AND L.NTIC_PD_FROM >= TO_DATE(#searchFrom#, 'YYYY-MM-DD')
-		         	]]>
-		         </isNotEmpty>
-
-		         <isNotEmpty property="searchTo">
-					<![CDATA[
-			         	AND L.NTIC_PD_FROM < TO_DATE(#searchTo#, 'YYYY-MM-DD')+1
-		         	]]>
-		         </isNotEmpty>
-				</isEqual>
-
-				<isEqual property="searchOption" compareValue="2">
-		         <isNotEmpty property="searchFrom">
-					<![CDATA[
-		         		AND L.NTIC_DT >= TO_DATE(#searchFrom#, 'YYYY-MM-DD')
-		         	]]>
-		         </isNotEmpty>
-
-		         <isNotEmpty property="searchTo">
-					<![CDATA[
-			         	AND L.NTIC_DT < TO_DATE(#searchTo#, 'YYYY-MM-DD')+1
-		         	]]>
-		         </isNotEmpty>
-				</isEqual>
-
-         <isNotEmpty property="sNhtIsueYn">
-             AND L.NHT_ISUE_YN = #sNhtIsueYn#
-         </isNotEmpty>
-   				<isNotEmpty property="sNticCnt">
-			AND L.NTIC_CNT = #sNticCnt#
-		</isNotEmpty>
+					WHERE 1            = 1
+					AND A.QUAY_GROUP_CD='H'
+               <isNotEmpty property="grUsagePdFrom">
+        <![CDATA[
+					AND a.gr_usage_pd_from < TO_DATE(#grUsagePdFrom#, 'YYYY-MM-DD')
+					AND a.gr_usage_pd_to > TO_DATE(#grUsagePdFrom#, 'YYYY-MM-DD')
+        ]]>
+               </isNotEmpty>
+                              <isNotEmpty property="grUsagePdTo">
+        <![CDATA[
+					AND a.gr_usage_pd_from < TO_DATE(#grUsagePdTo#, 'YYYY-MM-DD')
+					AND a.gr_usage_pd_to > TO_DATE(#grUsagePdTo#, 'YYYY-MM-DD')
+        ]]>
+               </isNotEmpty>
     </select>
 
     <update id="gamHtldRentFeeMngtDao.updateHtldRentFeeMngt_S">
@@ -820,7 +935,7 @@
 		      TO_CHAR(R.BILL_DT, 'YYYY-MM-DD') BILL_DT,
 		      TO_CHAR(R.DUE_DATE, 'YYYY-MM-DD') DUE_DATE
 
-		   FROM LEV_REQEST_F L, REV_COLL_F_TEST R
+		   FROM LEV_REQEST_F L, REV_COLL_F R
 		    WHERE 1=1
 		      AND L.PRT_AT_CODE=R.PRT_AT_CODE
 		      AND L.ACCNUT_YEAR=R.FISCAL_YR
@@ -1435,7 +1550,7 @@
         R.EMPL,
         to_char(R.STR_DATE, 'YYYY-MM-DD') STR_DATE,
         to_char(R.END_DATE, 'YYYY-MM-DD') END_DATE
-		  FROM LEV_REQEST_F L, REV_COLL_F_TEST R
+		  FROM LEV_REQEST_F L, REV_COLL_F R
 		 WHERE 1 = 1
       AND L.PRT_AT_CODE=R.PRT_AT_CODE
       AND L.ACCNUT_YEAR=R.FISCAL_YR
@@ -1616,7 +1731,6 @@
 	        L.ENTRPSCD,
 	        L.ENTRPS_NM,
 			#payTmlmt# PAY_TMLMT,
-			L.INTR_AMNT,
 			L.FEE,
 			L.VAT,
 			L.VAT_YN,
@@ -1636,14 +1750,14 @@
       <select id="gamHtldRentFeeMngtDao.selectNticNoAccnutYear_S" parameterClass="egovMap" resultClass="egovMap">
 		SELECT LPAD(NVL(MAX(BILL_NO), 0) + 1, 6, '0') NTICNO,
 		       TO_CHAR(SYSDATE, 'YYYY') ACCNUT_YEAR
-		FROM REV_COLL_F_TEST
+		FROM REV_COLL_F
 		WHERE PRT_AT_CODE = #prtAtCode# AND FEE_TP = GAM_GET_FEE_TP(#chrgeKnd#) AND FISCAL_YR = TO_CHAR(SYSDATE, 'YYYY')
 	</select>
 
       <select id="gamHtldRentFeeMngtDao.selectIntrNticNoAccnutYear_S" parameterClass="egovMap" resultClass="egovMap">
 		SELECT LPAD(NVL(MAX(BILL_NO), 0) + 1, 6, '0') NTICNO,
 		       TO_CHAR(SYSDATE, 'YYYY') ACCNUT_YEAR
-		FROM REV_COLL_F_TEST
+		FROM REV_COLL_F
 		WHERE PRT_AT_CODE = #prtAtCode# AND FEE_TP = GAM_GET_FEE_TP(#intrChrgeKnd#) AND FISCAL_YR = TO_CHAR(SYSDATE, 'YYYY')
 	</select>
 
@@ -1652,7 +1766,7 @@
 				RCVD_TP,
 		       RCVD_DT,
 		       BILL_PRT_YN
-		FROM REV_COLL_F_TEST P
+		FROM REV_COLL_F P
 		WHERE (P.PRT_AT_CODE, P.FISCAL_YR, P.FEE_TP, P.WORK_CODE, P.BILL_NO)
 			IN (
 				SELECT PRT_AT_CODE,
@@ -1672,6 +1786,12 @@
       		ACCNUT_YEAR=#accnutYear#,
       		CHRGE_KND=#chrgeKnd#,
       		PAY_TMLMT=#payTmlmt#
+     		<isNotNull prepend="," property="intrAmnt">
+      			INTR_AMNT=#intrAmnt#
+     		</isNotNull>
+     		<isNotNull prepend="," property="intrRate">
+      			INTR_RATE=TO_NUMBER(#intrRate#)/100
+     		</isNotNull>
      		<isNotNull prepend="," property="intrChrgeKnd">
       			INTR_CHRGE_KND=#intrChrgeKnd#
      		</isNotNull>
@@ -1694,7 +1814,7 @@
   </update>
 
     <insert id="gamHtldRentFeeMngtDao.insertNticRequestRevCollF_S" parameterClass="egovMap" >
-        INSERT INTO REV_COLL_F_TEST (
+        INSERT INTO REV_COLL_F (
       PRT_AT_CODE,
       FEE_TP,
       WORK_CODE,
@@ -1728,7 +1848,7 @@
     </insert>
 
     <insert id="gamHtldRentFeeMngtDao.insertIntrNticRequestRevCollF_S" parameterClass="egovMap" >
-        INSERT INTO REV_COLL_F_TEST (
+        INSERT INTO REV_COLL_F (
       PRT_AT_CODE,
       FEE_TP,
       WORK_CODE,
@@ -1766,7 +1886,7 @@
     </insert>
 
     <delete id="gamHtldRentFeeMngtDao.deleteNticRequestRevCollF_S">
-         DELETE FROM REV_COLL_F_TEST
+         DELETE FROM REV_COLL_F
           WHERE (PRT_AT_CODE, FISCAL_YR, FEE_TP, WORK_CODE, BILL_NO) IN (
           	SELECT L.PRT_AT_CODE,
           		L.ACCNUT_YEAR,
@@ -1783,7 +1903,7 @@
     </delete>
 
         <delete id="gamHtldRentFeeMngtDao.deleteIntrNticRequestRevCollF_S">
-         DELETE FROM REV_COLL_F_TEST
+         DELETE FROM REV_COLL_F
           WHERE (PRT_AT_CODE, FISCAL_YR, FEE_TP, WORK_CODE, BILL_NO) IN (
           	SELECT L.PRT_AT_CODE,
           		L.ACCNUT_YEAR,
@@ -1807,15 +1927,16 @@
 		  L.NTIC_CNT,
 		  L.ENTRPSCD,
 		  L.ENTRPS_NM,
-		  TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM,
-		  TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_FROM,
+		  #nticPdFrom# NTIC_PD_FROM,
+		  #nticPdTo# NTIC_PD_TO,
 		  A.GR_AR,
 		  TO_CHAR(p2mgr.sf_get_wrk_dt@ygpa_portmis(SYSDATE+15), 'YYYY-MM-DD') PAY_TMLMT,
-		  L.INTR_RATE*100 INTR_RATE,
-		  L.INTR_AMNT,
+		  #intrRate# INTR_RATE,
+		  #intrAmnt# INTR_AMNT,
 		  L.FEE,
 		  L.VAT,
-		  L.NTIC_AMT
+		  #nticAmt# NTIC_AMT,
+		  #chrgeKnd# CHRGE_KND
 		FROM ASSETS_RENT_F A,
 		  LEV_REQEST_F L
 		WHERE 1 = 1
@@ -1932,7 +2053,7 @@
   </update>
 
   <update id="gamHtldRentFeeMngtDao.updateRevCollFBillPrintYn" parameterClass="hashMap">
-        UPDATE REV_COLL_F_TEST SET
+        UPDATE REV_COLL_F SET
       		BILL_PRT_YN=#nhtPrintYn#
       		WHERE
       			(PRT_AT_CODE, FISCAL_YR, FEE_TP, WORK_CODE, BILL_NO) IN (
@@ -2126,7 +2247,13 @@
 					AND A.MNG_NO       = L.MNG_NO
 					AND A.MNG_CNT      = L.MNG_CNT
 					AND L.NTIC_PD_FROM >= TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
-					AND L.NTIC_PD_FROM < TO_DATE(#nticPdTo#, 'YYYY-MM-DD')
+          ]]>
+					<isNotEmpty prepend="AND" property="nticPdTo">
+	<![CDATA[
+						L.NTIC_PD_FROM < TO_DATE(#nticPdTo#, 'YYYY-MM-DD')
+          ]]>
+					</isNotEmpty>
+	<![CDATA[
 					WHERE 1            = 1
 					AND A.QUAY_GROUP_CD='H'
 					AND a.gr_usage_pd_from < TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
