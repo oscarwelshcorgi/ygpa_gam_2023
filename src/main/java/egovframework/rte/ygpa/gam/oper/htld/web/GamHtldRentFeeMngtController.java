@@ -912,6 +912,8 @@ public class GamHtldRentFeeMngtController {
     		nticParam.put("intrChrgeKnd", "A3");	// 이자 요금 코드
     		nticParam.put("intrAmnt", gamHtldRentFeeMngtVO.getIntrAmnt());
     		nticParam.put("intrRate", gamHtldRentFeeMngtVO.getIntrRate());
+    		nticParam.put("vat", gamHtldRentFeeMngtVO.getVat());
+    		nticParam.put("nticAmt", gamHtldRentFeeMngtVO.getNticAmt());
 
     		gamHtldRentFeeMngtService.sendLevReqestRevCollF(nticParam);
 

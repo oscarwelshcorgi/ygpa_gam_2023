@@ -789,6 +789,7 @@ div.notice {
 			          {name : 'mngYear', value: '<c:out value="${searchOpt.mngYear}"/>'},
 			          {name : 'mngNo', value: '<c:out value="${searchOpt.mngNo}"/>'},
 			          {name : 'mngCnt', value: '<c:out value="${searchOpt.mngCnt}"/>'},
+			          {name : 'chrgeKnd', value: '<c:out value="${searchOpt.chrgeKnd}"/>'},
 			          {name : 'nticCnt', value: '<c:out value="${searchOpt.nticCnt}"/>'}
 			          ];
 

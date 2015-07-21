@@ -25,6 +25,7 @@
 <html lang="ko" xml:lang="ko">
   <head>
     <title>여수광양항만공사 - GIS기반 자산관리 시스템 (LOCAL)</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
 

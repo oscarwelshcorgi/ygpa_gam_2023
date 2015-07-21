@@ -25,6 +25,7 @@
 <html lang="ko" xml:lang="ko">
   <head>
     <title>여수광양항만공사 - GIS기반 자산관리 시스템 (LOCAL)</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
 
@@ -104,7 +105,7 @@
 				];
 	   	   </c:if>
 //	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
-	    	EMD.go("${pageContext.request.contextPath}", "http://xdworld.vworld.kr:8080/2d/Base/201310", "http://192.168.200.61:8080/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
+	    	EMD.go("${pageContext.request.contextPath}", "http://xdworld.vworld.kr:8080/2d/Base/201310", "http://192.168.100.70:8080/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
 //	    	EMD.go("${pageContext.request.contextPath}", "http://192.168.0.71:8092/G2DataService/2d/Base/201310", "http://192.168.0.71:8092/G2DataService/GService?", "${pageContext.request.scheme}://${pageContext.request.serverName}", frmwrkMenu);
  	 });
     </script>

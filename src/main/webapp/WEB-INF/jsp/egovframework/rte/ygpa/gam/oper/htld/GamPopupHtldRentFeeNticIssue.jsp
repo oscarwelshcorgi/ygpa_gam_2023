@@ -87,6 +87,8 @@ var popup_instance = new GamPopupNticIssueModule();
 		    <input type="hidden" id="nticCnt" value="<c:out value="${levReqestMaster.nticCnt }"/>"/>
 		    <input type="hidden" id="intrAmnt" value="<c:out value="${levReqestMaster.intrAmnt }"/>"/>
 		    <input type="hidden" id="intrRate" value="<c:out value="${levReqestMaster.intrRate }"/>"/>
+			<input type="hidden" id="nticAmt" value="<c:out value="${levReqestMaster.nticAmt }"/>"/>
+			<input type="hidden" id="vat" value="<c:out value="${levReqestMaster.vat }"/>"/>
 
 			<table class="detailPanel">
 				<tbody>

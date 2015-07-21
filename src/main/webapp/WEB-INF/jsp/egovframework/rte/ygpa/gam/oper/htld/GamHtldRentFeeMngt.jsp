@@ -415,9 +415,9 @@ GamHtldRentFeeMngtModule.prototype.makeRowData = function(item) {
 		vatRate=0.1;
 	}
 	item.vat=Math.floor(item.feeAmnt*vatRate*0.1)*10;
-	if(item.nticAmt===0) {
+//	if(item.nticAmt===0) {
 		item.nticAmt=item.feeAmnt+item.vat;
-	}
+//	}
 };
 
 <%--

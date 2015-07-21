@@ -82,4 +82,8 @@ public interface GamNticRequestMngtService {
 	public void updateNticPrintState2(Map<String, Object> vo) throws Exception;
 
 	public int updateRentFeePaySttusRefresh() throws Exception;
+
+	public void egiroPrint(Map map) throws Exception;
+
+	public void egiroPrintCancel(Map map) throws Exception;
 }

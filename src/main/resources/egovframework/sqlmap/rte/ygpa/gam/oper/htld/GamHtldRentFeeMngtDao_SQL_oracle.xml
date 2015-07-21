@@ -1786,6 +1786,9 @@
       		ACCNUT_YEAR=#accnutYear#,
       		CHRGE_KND=#chrgeKnd#,
       		PAY_TMLMT=#payTmlmt#
+     		<isNotNull prepend="," property="nticAmt">
+      			NTIC_AMT=#nticAmt#
+     		</isNotNull>
      		<isNotNull prepend="," property="intrAmnt">
       			INTR_AMNT=#intrAmnt#
      		</isNotNull>
@@ -1839,7 +1842,7 @@
       	SYSDATE,
       	#payTmlmt#,
       	#nhtPrintYn#,
-      	#fee#+#intrAmnt#+#vat#, #rdcxptFee#, 0, 0,
+      	#nticAmt#, #rdcxptFee#, 0, 0,
       	'0',
       	#updUsr#, SYSDATE, SYSDATE, #vatYn#, #vat#, #nticPdFrom#, #nticPdTo#,
 	      #deptCd#,
@@ -1934,7 +1937,7 @@
 		  #intrRate# INTR_RATE,
 		  #intrAmnt# INTR_AMNT,
 		  L.FEE,
-		  L.VAT,
+		  #vat# VAT,
 		  #nticAmt# NTIC_AMT,
 		  #chrgeKnd# CHRGE_KND
 		FROM ASSETS_RENT_F A,

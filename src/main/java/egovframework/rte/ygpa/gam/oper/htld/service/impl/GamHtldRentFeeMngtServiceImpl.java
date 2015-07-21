@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeMngtVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeDefaultVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtService;
@@ -34,6 +35,9 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 
 	@Resource(name="gamHtldRentFeeMngtDao")
     private GamHtldRentFeeMngtDao gamHtldRentFeeMngtDao;
+
+	@Resource(name="gamNticRequestMngtService")
+	private GamNticRequestMngtService gamNticRequestMngtService;
 
 
 	protected Log log = LogFactory.getLog(this.getClass());
@@ -278,12 +282,12 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 
 		gamHtldRentFeeMngtDao.updateLevReqestPrintState(vo);
 
-//		if("Y".equals(vo.get("nhtPrintYn"))) {
-//	    	egiroPrint(vo);
-//		}
-//		else {
-//			egiroPrintCancel(vo);
-//		}
+		if("Y".equals(vo.get("nhtPrintYn"))) {
+			gamNticRequestMngtService.egiroPrint(vo);
+		}
+		else {
+			gamNticRequestMngtService.egiroPrintCancel(vo);
+		}
 	}
 
 	/* (non-Javadoc)
