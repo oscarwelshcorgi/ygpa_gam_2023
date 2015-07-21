@@ -2363,8 +2363,9 @@ var fcltyCivilRuleSet = [
 				strokeDashstyle: 'solid'
 			}
 		}
-	},
-	{
+	}
+/*
+	,{
 		title:"배수관로",
 		filter: new OpenLayers.Filter.Logical({
 			type: OpenLayers.Filter.Logical.AND,
@@ -2435,6 +2436,7 @@ var fcltyCivilRuleSet = [
 			  }
 		  }
 		}
+*/
 ];
 
 //정보통신 시설
