@@ -143,9 +143,11 @@ var popupInfoModule = new GamMapPopupModule();
 				<tr><th>시설명</th><td colspan="3"><c:out value="${fcltyCd.prtFcltyNm }" /></td></tr>
 				<tr><th>시설분류</th><td colspan="3"><c:out value="${fcltyCd.prtFcltyCdNm }" /></td></tr>
 				<tr><th>규격</th><td colspan="3"><c:out value="${fcltyCd.prtFcltyStndrd }" /></td></tr>
+				<%-- 
 				<c:if test="${fcltyCd.gisPrtFcltyCd=='C1' }">
 				<tr><th>관로 길이</th><td colspan="3"><fmt:formatNumber value="${fcltyCd['lt'] }" maxIntegerDigits="6" maxFractionDigits="2" /> m</td></tr>
 				</c:if>
+				 --%>
 				<c:if test="${fcltyCd.gisPrtFcltyCd=='C3' }">
 				<tr><th>관로 길이</th><td colspan="3"><fmt:formatNumber value="${fcltyCd['lt'] }" maxIntegerDigits="6" maxFractionDigits="2" /> m</td></tr>
 				</c:if>

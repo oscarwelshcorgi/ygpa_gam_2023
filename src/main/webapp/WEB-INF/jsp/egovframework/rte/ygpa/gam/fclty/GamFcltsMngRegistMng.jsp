@@ -2068,10 +2068,12 @@ var module_instance = new GamFcltsMngRegistMngModule();
 								<td>
 									<input type="text" size="10" id="totalCount" class="ygpaNumber" disabled="disabled" />
 								</td>
+								<!-- 
 								<th style="width:10%; height:20; text-align:center;">총공사비 합계</th>
 								<td>
 									<input type="text" size="25" id="sumCnstrctAmt" class="ygpaNumber" disabled="disabled"/>
 								</td>
+								 -->
 								<td style="text-align:right;">
 									<button id="btnAdd" class="buttonAdd">추가</button>
 									<button id="btnDelete" class="buttonDelete">삭제</button>
