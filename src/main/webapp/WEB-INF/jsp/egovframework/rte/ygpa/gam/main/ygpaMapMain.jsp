@@ -22,7 +22,7 @@
   */
 %>
 <!DOCTYPE html>
-<html lang="ko" xml:lang="ko">
+<html>
   <head>
     <title>여수광양항만공사 - GIS기반 자산관리 시스템 (LOCAL)</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
@@ -60,10 +60,10 @@
     <script src="<c:url value='/js/jquery.sidr.min.js'/>"></script>
 
 	<script src="<c:url value='/js/Proj4js/proj4js.js'/>"></script>
-	<script src="<c:url value='/js/Proj4js/defs/EPSG5181.js'/>"></script>
+<%-- 	<script src="<c:url value='/js/Proj4js/defs/EPSG5181.js'/>"></script>
 	<script src="<c:url value='/js/Proj4js/defs/EPSG5186.js'/>"></script>
 	<script src="<c:url value='/js/Proj4js/defs/EPSG4326.js'/>"></script>
-
+ --%>
     <script src="<c:url value='/js/codebase/dhtmlx.js'/>"></script>
 
     <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
@@ -224,9 +224,9 @@
 <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" data-filter=":even">
     <div class="slides"></div>
     <h3 class="title"></h3>
-    <a class="prev"><span class="ui-icon ui-icon-carat-1-w" /></a>
-    <a class="next"><span class="ui-icon ui-icon-carat-1-e" /></a>
-    <a class="close"><span class="ui-icon ui-icon-close" /></a>
+    <a class="prev"><span class="ui-icon ui-icon-carat-1-w"></span></a>
+    <a class="next"><span class="ui-icon ui-icon-carat-1-e"></span></a>
+    <a class="close"><span class="ui-icon ui-icon-close"></span></a>
     <a class="play-pause"></a>
     <ol class="indicator"></ol>
 </div>
@@ -318,9 +318,9 @@
 <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" data-filter=":even">
     <div class="slides"></div>
     <h3 class="title"></h3>
-    <a class="prev"><span class="ui-icon ui-icon-carat-1-w" /></a>
-    <a class="next"><span class="ui-icon ui-icon-carat-1-e" /></a>
-    <a class="close"><span class="ui-icon ui-icon-close" /></a>
+    <a class="prev"><span class="ui-icon ui-icon-carat-1-w"></span></a>
+    <a class="next"><span class="ui-icon ui-icon-carat-1-e"></span></a>
+    <a class="close"><span class="ui-icon ui-icon-close"></span></a>
     <a class="play-pause"></a>
     <ol class="indicator"></ol>
 </div>
