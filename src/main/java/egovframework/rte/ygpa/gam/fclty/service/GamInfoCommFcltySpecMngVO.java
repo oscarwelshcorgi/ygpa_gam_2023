@@ -100,6 +100,7 @@ public class GamInfoCommFcltySpecMngVO extends ComDefaultVO {
 	private	String totalCount;				// 조회 자료 수
 	private	String sumQy;					// 수량 합계
 	private	String sumAcqAmt;				// 취득 금액 합계
+	private String bldDt;					// 준공년도
 
 	/**
 	 * @return the gisPrtFcltyCd
@@ -953,5 +954,17 @@ public class GamInfoCommFcltySpecMngVO extends ComDefaultVO {
 	public void setSumAcqAmt(String sumAcqAmt) {
 		this.sumAcqAmt = sumAcqAmt;
 	}
-
+	/**
+	 * @return the bldDt
+	 */
+	public String getBldDt() {
+		return bldDt;
+	}
+	/**
+	 * @param bldDt the bldDt to set
+	 */
+	public void setBldDt(String bldDt) {
+		this.bldDt = bldDt;
+	}
+	
 }

@@ -2845,8 +2845,12 @@ var module_instance = new GamInfoCommFcltySpecMngModule();
 							</tr>
 							<tr>
 								<th style="width:10%; height:18px;">설　치　구　분</th>
-								<td colspan="3">
-									<input type="text" size="149" id="instlSe" maxlength="50"/>
+								<td>
+									<input type="text" size="58" id="instlSe" maxlength="50"/>
+								</td>
+								<th style="width:10%; height:18px;">준　공　일　자</th>
+								<td>
+									<input type="text" size="58" id="bldDt" class="emdcal"/>
 								</td>
 							</tr>
 							<tr>

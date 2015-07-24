@@ -2868,7 +2868,6 @@ var module_instance = new GamArchFcltySpecMngModule();
 								<th style="font-weight:bold; height:20px;">건축시설 일반</th>
 								<td style="text-align:right;">
 									<input type="hidden" id="fcltySpecExistYn"/>
-									<button id="btnShowMap" data-role="showMap" data-gis-layer="gisArchFclty" data-flexi-grid="mainGrid" data-style="default">맵조회</button>
 									&nbsp;시설물관리번호 : &nbsp;
 									<input type="text" size="20" id="fcltsMngNo" disabled/>
 								</td>
@@ -2967,6 +2966,7 @@ var module_instance = new GamArchFcltySpecMngModule();
 								<td style="text-align:right;">
 									<button id="btnSpecFirstData">처음자료</button>
 									<button id="btnSpecPrevData">이전자료</button>
+									<button id="btnShowMap" data-role="showMap" data-gis-layer="gisArchFclty" data-flexi-grid="mainGrid" data-style="default">맵조회</button>
 									<button id="btnSpecNextData">다음자료</button>
 									<button id="btnSpecLastData">마지막자료</button>
 									<button id="btnSpecInsert" class="buttonAdd">추가</button>

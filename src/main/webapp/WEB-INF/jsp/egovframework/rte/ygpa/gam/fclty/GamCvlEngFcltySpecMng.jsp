@@ -1374,8 +1374,8 @@ GamCvlEngFcltySpecMngModule.prototype.addData = function() {
 	this.$('#prtFcltyAr').val("0");
 	this.$('#prtPrtFcltyCnt').val("");
 	this.$('#prtFcltyInstlDt').val("");
-	this.$('#prtFcltyChangeDt').val("");
-	this.$('#prtFcltyExprDt').val("");
+//	this.$('#prtFcltyChangeDt').val("");
+//	this.$('#prtFcltyExprDt').val("");
 	this.$('#prtPrtFcltyMnger').val("");
 	this.$('#prtFcltyMngEntrpsCd').val("");
 	this.$('#prtFcltyMngEntrpsNm').val("");
@@ -1454,8 +1454,8 @@ GamCvlEngFcltySpecMngModule.prototype.saveData = function() {
 	var prtFcltyAr = Number(this.$('#prtFcltyAr').val().replace(/,/gi, ""));
 	var prtPrtFcltyCnt = Number(this.$('#prtPrtFcltyCnt').val().replace(/,/gi, ""));
 	var prtFcltyInstlDt = this.$('#prtFcltyInstlDt').val();
-	var prtFcltyChangeDt = this.$('#prtFcltyChangeDt').val();
-	var prtFcltyExprDt = this.$('#prtFcltyExprDt').val();
+//	var prtFcltyChangeDt = this.$('#prtFcltyChangeDt').val();
+//	var prtFcltyExprDt = this.$('#prtFcltyExprDt').val();
 	var fcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();
 	var berth = Number(this.$('#berth').val().replace(/,/gi, ""));
 	var lt = Number(this.$('#lt').val().replace(/,/gi, ""));
@@ -1526,6 +1526,7 @@ GamCvlEngFcltySpecMngModule.prototype.saveData = function() {
 		this.$("#prtFcltyInstlDt").focus();
 		return;
 	}
+/* 
 	if (this.isValidDate(prtFcltyChangeDt, false) == false) {
 		alert('항만 시설 변경 일자가 부정확합니다.');
 		this.$("#prtFcltyChangeDt").focus();
@@ -1546,6 +1547,7 @@ GamCvlEngFcltySpecMngModule.prototype.saveData = function() {
 		this.$("#prtFcltyExprDt").focus();
 		return;
 	}
+ */
 	if (fcltsMngGroupNo == "") {
 		alert('시설물 관리 그룹이 부정확합니다.');
 		this.$("#fcltsMngGroupNo").focus();
