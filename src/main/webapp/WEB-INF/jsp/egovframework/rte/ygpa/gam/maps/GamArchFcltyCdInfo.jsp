@@ -155,9 +155,9 @@ var popupInfoModule = new GamMapPopupModule();
 			</tbody></table>
 			<c:if test="${ auth eq 'manager' }">
 				<button id="fcltyCdMngt" data-icon="ui-icon-newwin">제원</button>
-				<button id="fcltyFlawRpr" data-icon="ui-icon-newwin">하자보수</button>
+				<!-- <button id="fcltyFlawRpr" data-icon="ui-icon-newwin">하자보수</button> -->
 				<button id="fcltyMntnRpr" data-icon="ui-icon-newwin">유지보수</button>
-				<button id="fcltyQcMng" data-icon="ui-icon-newwin">점검기록</button>
+				<!-- <button id="fcltyQcMng" data-icon="ui-icon-newwin">점검기록</button> -->
 				<c:if test="${fcltyCd.hasIndoor!=''}">
 					<button id="fcltyIndoorMng" data-url="${fcltyCd.hasIndoor}" data-icon="ui-icon-newwin">실내공간정보 관리</button>
 				</c:if>

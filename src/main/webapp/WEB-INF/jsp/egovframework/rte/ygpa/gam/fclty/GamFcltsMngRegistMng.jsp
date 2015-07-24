@@ -218,7 +218,7 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 					{display:'작성자',			name:'wrtUsr',					width:120,		sortable:false,		align:'left'}
 					],
 		showTableToggleBtn : false,
-		height : '215'
+		height : '500'
 	});
 
 	this._mainmode = '';
@@ -2625,12 +2625,14 @@ var module_instance = new GamFcltsMngRegistMngModule();
 			<!-- 215. TAB 4 AREA (MNTN RPR) -->
 			<div id="mntnRprTab" class="emdTabPage" style="overflow:scroll;">
 				<form id="mntnRprForm">
+<!-- 				
 					<table class="summaryPanel" style="width:100%;">
 						<tr>
 							<th style="font-weight:bold; height:20px;">보수 및 보강 계획</th>
 						</tr>
 					</table>
 					<table id="mntnPlanGrid" style="display:none"></table>
+ -->
 					<table class="summaryPanel" style="width:100%;">
 						<tr>
 							<th style="font-weight:bold; height:20px;">보수 및 보강 이력</th>

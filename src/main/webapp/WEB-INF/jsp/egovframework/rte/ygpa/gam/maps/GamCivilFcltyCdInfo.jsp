@@ -168,9 +168,9 @@ var popupInfoModule = new GamMapPopupModule();
 			</tbody></table>
 			<c:if test="${fn:containsIgnoreCase(auth,'role_admin')||fn:containsIgnoreCase(auth,'role_manager') }">
 				<button id="fcltyCdMngt" data-icon="ui-icon-newwin">제원</button>
-				<button id="fcltyFlawRpr" data-icon="ui-icon-newwin">하자보수</button>
+				<!-- <button id="fcltyFlawRpr" data-icon="ui-icon-newwin">하자보수</button> -->
 				<button id="fcltyMntnRpr" data-icon="ui-icon-newwin">유지보수</button>
-				<button id="fcltyQcMng" data-icon="ui-icon-newwin">점검기록</button>
+				<!-- <button id="fcltyQcMng" data-icon="ui-icon-newwin">점검기록</button> -->
 			</c:if>
 			<c:if test="${!fn:containsIgnoreCase(auth,'role_admin')&&!fn:containsIgnoreCase(auth,'role_manager') }">
 				<button id="fcltyCdInqire" data-icon="ui-icon-newwin">제원 조회</button>
