@@ -22,6 +22,21 @@
 							    FCLTS_MNG_GROUP_F
 							WHERE
 								1 = 1
+								<isEqual property="sFcltsMngGroup" compareValue="C">
+									AND CVL_ENG_FCLTY_USE_YN = 'Y'
+								</isEqual>
+								<isEqual property="sFcltsMngGroup" compareValue="A">
+									AND ARCH_FCLTY_USE_YN = 'Y'
+								</isEqual>
+								<isEqual property="sFcltsMngGroup" compareValue="M">
+									AND MECH_FCLTY_USE_YN = 'Y'
+								</isEqual>
+								<isEqual property="sFcltsMngGroup" compareValue="E">
+									AND ELCTY_FCLTY_USE_YN = 'Y'
+								</isEqual>
+								<isEqual property="sFcltsMngGroup" compareValue="I">
+									AND INFO_COMM_FCLTY_USE_YN = 'Y'
+								</isEqual>
 							    <isNotEmpty property="sFcltsMngGroupNo">
 							    	AND FCLTS_MNG_GROUP_NO LIKE #sFcltsMngGroupNo# || '%'
 							    </isNotEmpty>
@@ -41,6 +56,21 @@
 			    FCLTS_MNG_GROUP_F
 			WHERE
 				1 = 1
+				<isEqual property="sFcltsMngGroup" compareValue="C">
+					AND CVL_ENG_FCLTY_USE_YN = 'Y'
+				</isEqual>
+				<isEqual property="sFcltsMngGroup" compareValue="A">
+					AND ARCH_FCLTY_USE_YN = 'Y'
+				</isEqual>
+				<isEqual property="sFcltsMngGroup" compareValue="M">
+					AND MECH_FCLTY_USE_YN = 'Y'
+				</isEqual>
+				<isEqual property="sFcltsMngGroup" compareValue="E">
+					AND ELCTY_FCLTY_USE_YN = 'Y'
+				</isEqual>
+				<isEqual property="sFcltsMngGroup" compareValue="I">
+					AND INFO_COMM_FCLTY_USE_YN = 'Y'
+				</isEqual>
 			    <isNotEmpty property="sFcltsMngGroupNo">
 			    	AND FCLTS_MNG_GROUP_NO LIKE #sFcltsMngGroupNo# || '%'
 			    </isNotEmpty>

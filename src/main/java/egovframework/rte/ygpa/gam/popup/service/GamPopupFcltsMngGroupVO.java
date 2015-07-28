@@ -30,6 +30,22 @@ public class GamPopupFcltsMngGroupVO extends ComDefaultVO  {
 	
 	/** 시설물 관리 그룹명 (조회조건) **/
 	public String sFcltsMngGroupNm;
+	
+	private String sFcltsMngGroup;
+
+	/**
+	 * @return the sFcltsMngGroup
+	 */
+	public String getsFcltsMngGroup() {
+		return sFcltsMngGroup;
+	}
+
+	/**
+	 * @param sFcltsMngGroup the sFcltsMngGroup to set
+	 */
+	public void setsFcltsMngGroup(String sFcltsMngGroup) {
+		this.sFcltsMngGroup = sFcltsMngGroup;
+	}
 
 	/**
 	 * @return the sFcltsMngGroupNo

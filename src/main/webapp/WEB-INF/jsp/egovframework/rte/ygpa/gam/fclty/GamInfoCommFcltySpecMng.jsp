@@ -779,7 +779,7 @@ GamInfoCommFcltySpecMngModule.prototype.onButtonClick = function(buttonId) {
 			this.deleteData();
 			break;
 		case 'popupSearchFcltsMngGroupNo':
-			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showFcltsMngGroup.do', null);
+			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showInfoCommFcltsMngGroup.do', null);
 			break;
 		case 'popupSpecGisAssetsCd':
 			this.doExecuteDialog(buttonId, "자산 선택", '/popup/showAssetsCd.do', null);

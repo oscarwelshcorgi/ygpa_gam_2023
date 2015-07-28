@@ -405,7 +405,7 @@ GamCvlEngFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
 	    	this.lastData();
 			break;
 		case 'popupSearchFcltsMngGroupNo':
-			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showFcltsMngGroup.do', null);
+			this.doExecuteDialog(buttonId, "시설물 관리 그룹 선택", '/popup/showCvlFcltsMngGroup.do', null);
 			break;
 		case 'btnDirRefresh':
 			this.displayAtchFileDirectory("");

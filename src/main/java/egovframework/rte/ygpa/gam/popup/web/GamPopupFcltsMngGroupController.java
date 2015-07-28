@@ -71,6 +71,36 @@ public class GamPopupFcltsMngGroupController {
     	return "/ygpa/gam/popup/GamPopupFcltsMngGroup";
     }
 
+	@RequestMapping(value="/popup/showCvlFcltsMngGroup.do")
+    String showCvlFcltsMngGroup(GamPopupFcltsMngGroupVO searchOpt, ModelMap model) throws Exception {
+		model.addAttribute("searchOpt", searchOpt);
+    	return "/ygpa/gam/popup/GamPopupCvlFcltsMngGroup";
+    }
+	
+	@RequestMapping(value="/popup/showArchFcltsMngGroup.do")
+    String showArchFcltsMngGroup(GamPopupFcltsMngGroupVO searchOpt, ModelMap model) throws Exception {
+		model.addAttribute("searchOpt", searchOpt);
+    	return "/ygpa/gam/popup/GamPopupArchFcltsMngGroup";
+    }
+	
+	@RequestMapping(value="/popup/showElectyFcltsMngGroup.do")
+    String showElectyFcltsMngGroup(GamPopupFcltsMngGroupVO searchOpt, ModelMap model) throws Exception {
+		model.addAttribute("searchOpt", searchOpt);
+    	return "/ygpa/gam/popup/GamPopupElectyFcltsMngGroup";
+    }
+	
+	@RequestMapping(value="/popup/showInfoCommFcltsMngGroup.do")
+    String showInfoCommFcltsMngGroup(GamPopupFcltsMngGroupVO searchOpt, ModelMap model) throws Exception {
+		model.addAttribute("searchOpt", searchOpt);
+    	return "/ygpa/gam/popup/GamPopupInfoCommFcltsMngGroup";
+    }
+	
+	@RequestMapping(value="/popup/showMachFcltsMngGroup.do")
+    String showMachFcltsMngGroup(GamPopupFcltsMngGroupVO searchOpt, ModelMap model) throws Exception {
+		model.addAttribute("searchOpt", searchOpt);
+    	return "/ygpa/gam/popup/GamPopupMachFcltsMngGroup";
+    }
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/popup/selectFcltsMngGroupInfoList.do", method=RequestMethod.POST)
 	@ResponseBody Map selectFcltsMngGroupInfoList(GamPopupFcltsMngGroupVO searchVO) throws Exception {
@@ -85,6 +115,161 @@ public class GamPopupFcltsMngGroupController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamPopupFcltsMngGroupService.selectFcltsMngGroupList(searchVO);
+    	totalCnt = gamPopupFcltsMngGroupService.selectFcltsMngGroupListTotCnt(searchVO);
+
+    	paginationInfo.setTotalRecordCount(totalCnt);
+		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+		
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", resultList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/popup/selectCvlFcltsMngGroupInfoList.do", method=RequestMethod.POST)
+	@ResponseBody Map selectCvlFcltsMngGroupInfoList(GamPopupFcltsMngGroupVO searchVO) throws Exception {
+		int totalCnt;
+    	Map map = new HashMap();
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		searchVO.setsFcltsMngGroup("C");
+		
+		List resultList = gamPopupFcltsMngGroupService.selectFcltsMngGroupList(searchVO);
+    	totalCnt = gamPopupFcltsMngGroupService.selectFcltsMngGroupListTotCnt(searchVO);
+
+    	paginationInfo.setTotalRecordCount(totalCnt);
+		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+		
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", resultList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/popup/selectArchFcltsMngGroupInfoList.do", method=RequestMethod.POST)
+	@ResponseBody Map selectArchFcltsMngGroupInfoList(GamPopupFcltsMngGroupVO searchVO) throws Exception {
+		int totalCnt;
+		Map map = new HashMap();
+		
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+		
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		searchVO.setsFcltsMngGroup("A");
+		
+		List resultList = gamPopupFcltsMngGroupService.selectFcltsMngGroupList(searchVO);
+		totalCnt = gamPopupFcltsMngGroupService.selectFcltsMngGroupListTotCnt(searchVO);
+		
+		paginationInfo.setTotalRecordCount(totalCnt);
+		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+		
+		map.put("resultCode", 0);	// return ok
+		map.put("totalCount", totalCnt);
+		map.put("resultList", resultList);
+		map.put("searchOption", searchVO);
+		
+		return map;
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/popup/selectElectyFcltsMngGroupInfoList.do", method=RequestMethod.POST)
+	@ResponseBody Map selectElectyFcltsMngGroupInfoList(GamPopupFcltsMngGroupVO searchVO) throws Exception {
+		int totalCnt;
+    	Map map = new HashMap();
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		searchVO.setsFcltsMngGroup("E");
+		
+		List resultList = gamPopupFcltsMngGroupService.selectFcltsMngGroupList(searchVO);
+    	totalCnt = gamPopupFcltsMngGroupService.selectFcltsMngGroupListTotCnt(searchVO);
+
+    	paginationInfo.setTotalRecordCount(totalCnt);
+		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+		
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", resultList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/popup/selectInfoCommFcltsMngGroupInfoList.do", method=RequestMethod.POST)
+	@ResponseBody Map selectInfoCommFcltsMngGroupInfoList(GamPopupFcltsMngGroupVO searchVO) throws Exception {
+		int totalCnt;
+    	Map map = new HashMap();
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		searchVO.setsFcltsMngGroup("I");
+		
+		List resultList = gamPopupFcltsMngGroupService.selectFcltsMngGroupList(searchVO);
+    	totalCnt = gamPopupFcltsMngGroupService.selectFcltsMngGroupListTotCnt(searchVO);
+
+    	paginationInfo.setTotalRecordCount(totalCnt);
+		searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+		
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalCount", totalCnt);
+    	map.put("resultList", resultList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/popup/selectMachFcltsMngGroupInfoList.do", method=RequestMethod.POST)
+	@ResponseBody Map selectMachFcltsMngGroupInfoList(GamPopupFcltsMngGroupVO searchVO) throws Exception {
+		int totalCnt;
+    	Map map = new HashMap();
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		searchVO.setsFcltsMngGroup("M");
 
 		List resultList = gamPopupFcltsMngGroupService.selectFcltsMngGroupList(searchVO);
     	totalCnt = gamPopupFcltsMngGroupService.selectFcltsMngGroupListTotCnt(searchVO);
