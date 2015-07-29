@@ -34,6 +34,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.util.fileupload.multi.service.FileInfoVO;
 import egovframework.rte.ygpa.gam.cmmn.service.GamFileServiceVo;
 import egovframework.rte.ygpa.gam.cmmn.service.GamFileUploadUtil;
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeDefaultVO;
 import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeMngtService;
 import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 import egovframework.rte.ygpa.gam.code.service.GamGisAssetPhotoMngtService;
@@ -83,7 +84,7 @@ public class GamAssetCodeMngtController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/code/assets/gamAssetCodeMngt.do")
-    String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+    String gamAssetCodeMngt(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 		Boolean isAdmin=false;
 		model.addAttribute("windowId", windowId);
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -98,7 +99,7 @@ public class GamAssetCodeMngtController {
     	}
     	model.addAttribute("isAdmin", isAdmin);
 
-    	return "/ygpa/gam/code/GamAssetCodeMngt";
+    	return "ygpa/gam/code/GamAssetCodeMngt";
     }
 
     /**
@@ -108,7 +109,7 @@ public class GamAssetCodeMngtController {
      * @throws Exception
      */
     @RequestMapping(value="/code/assets/selectGisAssetCodeList.do")
-    @ResponseBody Map selectAssetList(GamGisAssetCodeVO searchVO) throws Exception {
+    @ResponseBody Map selectAssetList(GamGisAssetCodeDefaultVO searchVO) throws Exception {
     	int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
@@ -145,7 +146,7 @@ public class GamAssetCodeMngtController {
     	int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
-    	GamGisAssetCodeVO searchVO;
+    	GamGisAssetCodeDefaultVO searchVO;
 		ObjectMapper mapper = new ObjectMapper();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -155,7 +156,7 @@ public class GamAssetCodeMngtController {
         	return "ygpa/gam/code/GamAssetCodeListPrint";
     	}
 
-    	searchVO = mapper.convertValue(searchOpt, GamGisAssetCodeVO.class);
+    	searchVO = mapper.convertValue(searchOpt, GamGisAssetCodeDefaultVO.class);
 
 		searchVO.setFirstIndex(0);
 		searchVO.setLastIndex(9999);

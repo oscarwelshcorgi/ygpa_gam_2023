@@ -894,11 +894,11 @@ var module_instance = new GamAssetCodeModule();
 								<td><input id="searchGisAssetsPrprtySeCd" type="text" class="ygpaCmmnCd" data-column-id="gisAssetsPrprtySeCd" data-code-id="GAM001" data-default-prompt="전체"/></td>
 								<th>위치</th>
 								<td>
-									<input id="searchGisAssetsLocCd" type="text" class="ygpaFilterCode" data-url="/cmmn/selectLocCdOptionsList.do" data-filter="searchGisAssetsPrtAtCode"  data-default-prompt="전체"/>
+									<input id="searchGisAssetsLocCd" type="text" class="ygpaFilterCode" data-column-id="gisAssetsLocCd" data-url="/cmmn/selectLocCdOptionsList.do" data-filter="searchGisAssetsPrtAtCode"  data-default-prompt="전체"/>
 								</td>
 								<th>부두</th>
 								<td>
-									<input id="searchGisAssetsQuayCd" type="text" class="ygpaFilterCode" data-url="/cmmn/selectQuayCdOptionsList.do" data-filter="searchGisAssetsLocCd"   data-default-prompt="전체"/>
+									<input id="searchGisAssetsQuayCd" type="text" class="ygpaFilterCode" data-column-id="gisAssetsQuayCd" data-url="/cmmn/selectQuayCdOptionsList.do" data-filter="searchGisAssetsLocCd"   data-default-prompt="전체"/>
 									</td>
 								<th>관리부서</th>
 								<td>

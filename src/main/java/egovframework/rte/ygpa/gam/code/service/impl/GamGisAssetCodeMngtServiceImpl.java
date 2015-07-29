@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeDefaultVO;
 import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeMngtService;
 import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 
@@ -74,13 +75,13 @@ public class GamGisAssetCodeMngtServiceImpl extends AbstractServiceImpl implemen
 	}
 
 	@Override
-	public List selectAssetCodeList(GamGisAssetCodeVO searchOpt) {
+	public List selectAssetCodeList(GamGisAssetCodeDefaultVO searchOpt) {
 		// TODO Auto-generated method stub
 		return gamGisAssetCodeMngtDao.selectGamAssetCodeList(searchOpt);
 	}
 
 	@Override
-	public int selectAssetCodeListTotCnt(GamGisAssetCodeVO searchOpt) {
+	public int selectAssetCodeListTotCnt(GamGisAssetCodeDefaultVO searchOpt) {
 		// TODO Auto-generated method stub
 		return gamGisAssetCodeMngtDao.selectGamAssetCodeListTotCnt(searchOpt);
 	}

@@ -25,6 +25,7 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeDefaultVO;
 import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeMngtService;
 import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 import egovframework.rte.ygpa.gam.code.service.GamGisAssetPhotoMngtService;
@@ -84,7 +85,7 @@ public class GamAssetCodeInqireController {
      * @throws Exception
      */
     @RequestMapping(value="/code/assets/selectGisAssetCodeInqireList.do")
-    @ResponseBody Map selectAssetList(GamGisAssetCodeVO searchVO) throws Exception {
+    @ResponseBody Map selectAssetList(GamGisAssetCodeDefaultVO searchVO) throws Exception {
     	int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 

@@ -6,6 +6,7 @@
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="gamGisAssetCodeVO" type="egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO"/>
+    <typeAlias alias="gamGisAssetCodeDefaultVO" type="egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeDefaultVO"/>
 
 	<insert id="gamGisAssetCodeDao.insertAssetCode_S">
 		<![CDATA[
@@ -348,7 +349,7 @@
 		]]>
 	</select>
 
-	<select id="gamGisAssetCodeDao.selectAssetCodeList_D" parameterClass="gamGisAssetCodeVO" resultClass="egovMap">
+	<select id="gamGisAssetCodeDao.selectAssetCodeList_D" parameterClass="gamGisAssetCodeDefaultVO" resultClass="egovMap">
 	       SELECT A.*
 	       FROM (
 		       SELECT  ROWNUM RNUM, S.* FROM (
@@ -443,7 +444,7 @@
 		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
 	</select>
 
-	<select id="gamGisAssetCodeDao.selectAssetCodeListTotCnt_S" parameterClass="gamGisAssetCodeVO" resultClass="int">
+	<select id="gamGisAssetCodeDao.selectAssetCodeListTotCnt_S" parameterClass="gamGisAssetCodeDefaultVO" resultClass="int">
 
 			SELECT COUNT(*) totcnt
 			FROM GIS_ASSETS_CD_F

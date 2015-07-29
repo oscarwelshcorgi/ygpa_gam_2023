@@ -28,6 +28,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetDisUseMngtService;
 import egovframework.rte.ygpa.gam.asset.service.GamAssetDisUseMngtVO;
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeDefaultVO;
 import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 
 /**
@@ -98,11 +99,11 @@ public class GamAssetDisUseMngtController {
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/asset/gamSelectAssetDisUseList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectAssetDisUseList(GamGisAssetCodeVO searchVO) throws Exception {
+	public @ResponseBody Map selectAssetDisUseList(GamGisAssetCodeDefaultVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
-    	
+
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -170,7 +171,7 @@ public class GamAssetDisUseMngtController {
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
-        
+
         // 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -178,12 +179,12 @@ public class GamAssetDisUseMngtController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-    	
+
     	try {
 			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-	
+
 	        gamAssetDisUseMngtVO.setUpdUsr(loginVO.getId());
-	
+
 	        gamAssetDisUseMngtService.updateAssetDisUse(gamAssetDisUseMngtVO);
     	}
     	catch(Exception e) {

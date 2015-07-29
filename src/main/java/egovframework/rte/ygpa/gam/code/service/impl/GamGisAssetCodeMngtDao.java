@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeDefaultVO;
 import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 
 @Repository("gamGisAssetCodeMngtDao")
@@ -61,12 +62,12 @@ public class GamGisAssetCodeMngtDao extends YGPAAbstractDAO {
     	return (EgovMap) selectByPk("gamGisAssetCodeDao.selectGetNewAssetCode_S", vo);
     }
 
-	public List selectGamAssetCodeList(GamGisAssetCodeVO searchOpt) {
+	public List selectGamAssetCodeList(GamGisAssetCodeDefaultVO searchOpt) {
 		// TODO Auto-generated method stub
 		 return list("gamGisAssetCodeDao.selectAssetCodeList_D", searchOpt);
 	}
 
-	public int selectGamAssetCodeListTotCnt(GamGisAssetCodeVO searchOpt) {
+	public int selectGamAssetCodeListTotCnt(GamGisAssetCodeDefaultVO searchOpt) {
 		return  (Integer)getSqlMapClientTemplate().queryForObject("gamGisAssetCodeDao.selectAssetCodeListTotCnt_S", searchOpt);
 	}
 

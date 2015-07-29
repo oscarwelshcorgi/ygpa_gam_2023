@@ -47,7 +47,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * Copyright (C) 2013 by LFIT  All right reserved.
  * </pre>
  */
-public class GamGisAssetCodeDefaultVO implements Serializable {
+public class GamGisAssetCodeDefaultVO extends GamGisAssetCodeVO {
 
 	/** 검색조건 */
     private String searchCondition = "";
@@ -75,6 +75,20 @@ public class GamGisAssetCodeDefaultVO implements Serializable {
 
     /** recordCountPerPage */
     private int recordCountPerPage = 10;
+
+    private String searchGisAssetsPrtAtCode = "";
+
+    private String searchGisErpAssetCls = "";
+
+    private String searchGisErpAssetNo = "";
+
+    private String searchGisErpAssetNoSeq = "";
+
+    private String searchGisAssetsCd = "";
+
+    private String searchGisAssetsLocCd = "";
+
+    private String searchGisAssetsQuayCd = "";
 
 	public int getFirstIndex() {
 		return firstIndex;

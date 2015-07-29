@@ -42,6 +42,7 @@ import egovframework.rte.ygpa.erp.code.service.ErpAssetCdDefaultVO;
 import egovframework.rte.ygpa.erp.code.service.ErpAssetCdService;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentDetailVO;
 import egovframework.rte.ygpa.gam.asset.service.GamErpGisAssetCodeMngtService;
+import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeDefaultVO;
 import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeMngtService;
 import egovframework.rte.ygpa.gam.code.service.GamGisAssetCodeVO;
 import egovframework.rte.ygpa.gam.code.service.GamGisAssetPhotoMngtService;
@@ -231,7 +232,7 @@ public class GamErpGisAssetCodeMngtController {
     }
 
     @RequestMapping(value="/asset/selectGisAssetCodeList.do")
-    @ResponseBody Map selectGisAssetCodeList(GamGisAssetCodeVO searchVO) throws Exception {
+    @ResponseBody Map selectGisAssetCodeList(GamGisAssetCodeDefaultVO searchVO) throws Exception {
     	int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 

@@ -1,5 +1,7 @@
 package egovframework.rte.ygpa.gam.code.service;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
@@ -15,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  *  Copyright (C)  All right reserved.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GamGisAssetCodeVO extends GamGisAssetCodeDefaultVO {
+public class GamGisAssetCodeVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** GIS 자산 SUB 코드 */

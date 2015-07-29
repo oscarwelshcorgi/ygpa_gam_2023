@@ -19,9 +19,9 @@ public interface GamGisAssetCodeMngtService {
 
     void updateAssetCodeGis(Map vo) throws Exception;
 
-	List selectAssetCodeList(GamGisAssetCodeVO searchOpt);
+	List selectAssetCodeList(GamGisAssetCodeDefaultVO searchOpt);
 
-	int selectAssetCodeListTotCnt(GamGisAssetCodeVO searchOpt);
+	int selectAssetCodeListTotCnt(GamGisAssetCodeDefaultVO searchOpt);
 
 	EgovMap selectAssetCodeOlnlp(Map vo) throws Exception;
 }

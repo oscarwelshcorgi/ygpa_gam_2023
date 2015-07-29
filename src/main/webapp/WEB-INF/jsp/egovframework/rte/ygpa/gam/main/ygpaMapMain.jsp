@@ -72,7 +72,8 @@
     <script src="<c:url value='/js/DynamicMeasure.js'/>"></script>
     <script src="<c:url value='/js/gis_rules.js'/>"></script>
     <script src="<c:url value='/js/emf.map.desktop.js'/>"></script>
-    <!--
+
+     <!--
     <script src="<c:url value='/js/codebase/dhtmlxgrid.js'/>"></script>
      -->
     <script src="<c:url value='/js/dhtmlx.flexigrid.ygpa.js'/>"></script>
