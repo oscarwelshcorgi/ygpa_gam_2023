@@ -707,7 +707,7 @@ div.notice {
         	<div class="subpage1">
 				<div class="sender">
 					<div id="senderAddress">
-						전라남도 광양시 항만대로 465 월드마린센터 1층
+						전라남도 여수시 봉계4길 10 (여수사업소 1층)
 					</div>
 					<div id="senderPostcode">
 						545-030
@@ -806,7 +806,7 @@ div.notice {
         	<div class="subpage1">
 				<div class="sender">
 					<div id="senderAddress">
-						전라남도 광양시 항만대로 465 월드마린센터 1층
+						전라남도 여수시 봉계4길 10 (여수사업소 1층)
 					</div>
 					<div id="senderPostcode">
 						545-030
