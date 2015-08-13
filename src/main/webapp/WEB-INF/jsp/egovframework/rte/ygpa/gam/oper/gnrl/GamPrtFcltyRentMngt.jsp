@@ -136,6 +136,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
     this.$("#assetRentMngtList").on('onItemSelected', function(event, module, row, grid, param) {
     	module._cmd='';
     	module.setButtonState();
+    	module._mainKeyValue = row;
     });
 
     this.$("#assetRentDetailList").on('onItemSelected', function(event, module, row, grid, param) {
@@ -1282,9 +1283,9 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                     if( rows[0]['prmisnYn'] == null || rows[0]['prmisnYn'] == '' ) {
                         this.$('#detailPrmisnYn').val('N');
                     }
-
-                    var inputVO=this.makeFormArgs('#gamAssetRentForm');
-
+                    /* var inputVO=this.makeFormArgs('#gamAssetRentForm'); */
+                    var inputVO=this._mainKeyValue;
+                    
                     this.doAction('/oper/gnrl/gamDeletePrtFcltyRentMngt.do', inputVO, function(module, result) {
 
                         if(result.resultCode=='0') {
