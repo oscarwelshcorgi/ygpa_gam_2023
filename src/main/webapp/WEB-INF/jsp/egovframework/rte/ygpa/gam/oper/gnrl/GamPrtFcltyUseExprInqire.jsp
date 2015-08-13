@@ -123,6 +123,10 @@ GamPrtFcltyUseExprInqireModule.prototype.loadDetailForm = function() {
 
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
             break;
+
+		case 'btnExcelDownload':	// 엑셀 다운로드
+			this.downloadExcel(buttonId);
+			break;
     }
 };
 
@@ -178,6 +182,36 @@ GamPrtFcltyUseExprInqireModule.prototype.onClosePopup = function(popupId, msg, v
          
          break;
      }
+};
+
+<%
+/**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 리스트를 엑셀로 다운로드한다.
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
+GamPrtFcltyUseExprInqireModule.prototype.downloadExcel = function(buttonId) {
+
+	var gridRowCount = 0;
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			gridRowCount = this.$("#prtFcltyUseExprInqireList").flexRowCount();
+			break;
+		default:
+			return;
+	}
+	if (gridRowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			this.$('#prtFcltyUseExprInqireList').flexExcelDown('/oper/gnrl/selectPrtFcltyExprInqireListExcel.do');
+			break;
+	}
+
 };
 
 // 다음 변수는 고정 적으로 정의 해야 함
@@ -259,6 +293,13 @@ var module_instance = new GamPrtFcltyUseExprInqireModule();
 								<th width="12%" height="20">총감면사용료</th>
 								<td><input type="text" size="18" id="sumGrRdcxptFee" class="ygpaNumber" disabled="disabled" /></td>
 							</tr>
+						</table>
+						<table style="width:100%;">
+	                        <tr>
+	                            <td style="text-align: right">
+	                                <button id="btnExcelDownload">엑셀</button>
+	                            </td>
+	                        </tr>
 						</table>
 					</form>
                 </div>

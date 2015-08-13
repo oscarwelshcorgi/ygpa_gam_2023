@@ -111,8 +111,11 @@ GamPrtFcltyPdRentFeeSttusInqireModule.prototype.onButtonClick = function(buttonI
             var opts;
 
             this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts);
-            break;    
-	        
+            break;
+
+	    case 'btnExcelDownload':	// 엑셀 다운로드
+			this.downloadExcel(buttonId);
+		break;
 	}
 };
 
@@ -159,6 +162,36 @@ GamPrtFcltyPdRentFeeSttusInqireModule.prototype.onTabChange = function(newTabId,
  case 'tabs2':
      break;
  }
+};
+
+<%
+/**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 리스트를 엑셀로 다운로드한다.
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
+GamPrtFcltyPdRentFeeSttusInqireModule.prototype.downloadExcel = function(buttonId) {
+
+	var gridRowCount = 0;
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			gridRowCount = this.$("#prtFcltyPdRentFeeSttusInqireList").flexRowCount();
+			break;
+		default:
+			return;
+	}
+	if (gridRowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			this.$('#prtFcltyPdRentFeeSttusInqireList').flexExcelDown('/oper/gnrl/selectPrtFcltyPdRentFeeSttusInqireListExcel.do');
+			break;
+	}
+
 };
 
 //다음 변수는 고정 적으로 정의 해야 함
@@ -246,6 +279,13 @@ var module_instance = new GamPrtFcltyPdRentFeeSttusInqireModule();
 							<th width="20%" height="23">감면사용료</th>
 							<td><input type="text" size="20" id="sumTotalRdcxptFeeSum" class="ygpaNumber" disabled="disabled" /></td>
 						</tr>
+					</table>
+					<table style="width:100%;">
+	                        <tr>
+	                            <td style="text-align: right">
+	                                <button id="btnExcelDownload">엑셀</button>
+	                            </td>
+	                        </tr>
 					</table>
 				</form>
             </div>

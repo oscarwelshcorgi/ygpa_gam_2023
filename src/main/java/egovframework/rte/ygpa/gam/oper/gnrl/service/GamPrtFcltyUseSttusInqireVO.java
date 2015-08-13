@@ -1,5 +1,7 @@
 package egovframework.rte.ygpa.gam.oper.gnrl.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
 
 /**
@@ -14,6 +16,7 @@ import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
  *  
  *  Copyright (C)  All right reserved.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GamPrtFcltyUseSttusInqireVO extends ErpCmmnCdDefaultVO {
     private static final long serialVersionUID = 1L;
     

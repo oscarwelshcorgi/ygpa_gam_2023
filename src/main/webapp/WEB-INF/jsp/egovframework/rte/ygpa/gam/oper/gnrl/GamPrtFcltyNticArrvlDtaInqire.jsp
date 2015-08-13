@@ -187,6 +187,10 @@ GamPrtFcltyNticArrvlDtaInqireModule.prototype.loadDetailForm = function() {
 	    	}
 	        else alert('고지내역을 선택 하십시요.')
 			break;
+        
+        case 'btnExcelDownload':	// 엑셀 다운로드
+			this.downloadExcel(buttonId);
+			break;
     }
 };
 
@@ -242,6 +246,36 @@ GamPrtFcltyNticArrvlDtaInqireModule.prototype.onClosePopup = function(popupId, m
          
          break;
      }
+};
+
+<%
+/**
+ * @FUNCTION NAME : downloadExcel
+ * @DESCRIPTION   : 리스트를 엑셀로 다운로드한다.
+ * @PARAMETER     :
+ *   1. buttonId - BUTTON ID
+**/
+%>
+GamPrtFcltyNticArrvlDtaInqireModule.prototype.downloadExcel = function(buttonId) {
+
+	var gridRowCount = 0;
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			gridRowCount = this.$("#prtFcltyNticArrvlDtaInqireList").flexRowCount();
+			break;
+		default:
+			return;
+	}
+	if (gridRowCount <= 0) {
+		alert("조회된 자료가 없습니다.");
+		return;
+	}
+	switch (buttonId) {
+		case 'btnExcelDownload':
+			this.$('#prtFcltyNticArrvlDtaInqireList').flexExcelDown('/oper/gnrl/selectPrtFcltyNticArrvlDtaInqireListExcel.do');
+			break;
+	}
+
 };
 
 // 다음 변수는 고정 적으로 정의 해야 함
@@ -350,6 +384,7 @@ var module_instance = new GamPrtFcltyNticArrvlDtaInqireModule();
 								<th width="20%" height="23">고지금액</th>
 								<td><input type="text" size="20" id="totalNticAmt" class="ygpaNumber" disabled="disabled" /></td>
 								<td><button id="openRentFee">사용료관리</button></td>
+	                            <td><button id="btnExcelDownload">엑셀</button></td>
 							</tr>
 						</table>
 					</form>

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeSttusByFeeTpService;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeSttusByFeeTpVO;
 
 /**
  * @Class Name : GamPrtFcltyMtRentFeeSttusInqireServiceImpl.java
@@ -37,7 +38,7 @@ public class GamPrtFcltyRentFeeSttusByFeeTpServiceImpl  extends AbstractServiceI
 	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeSttusByFeeTpInqireService#selectPrtFcltyRentFeeSttusByFeeTpInqireList(java.util.Map)
 	 */
 	@Override
-	public List selectPrtFcltyRentFeeSttusByFeeTpList(Map searchVO)
+	public List selectPrtFcltyRentFeeSttusByFeeTpList(GamPrtFcltyRentFeeSttusByFeeTpVO searchVO)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return gamPrtFcltyRentFeeSttusByFeeTpDao.selectPrtFcltyRentFeeSttusByFeeTpList(searchVO);
@@ -47,7 +48,7 @@ public class GamPrtFcltyRentFeeSttusByFeeTpServiceImpl  extends AbstractServiceI
 	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeSttusByFeeTpInqireService#selectPrtFcltyRentFeeSttusByFeeTpInqireListTotCnt(java.util.Map)
 	 */
 	@Override
-	public int selectPrtFcltyRentFeeSttusByFeeTpListTotCnt(Map searchVO)
+	public int selectPrtFcltyRentFeeSttusByFeeTpListTotCnt(GamPrtFcltyRentFeeSttusByFeeTpVO searchVO)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return gamPrtFcltyRentFeeSttusByFeeTpDao.selectPrtFcltyRentFeeSttusByFeeTpListTotCnt(searchVO);
@@ -57,7 +58,7 @@ public class GamPrtFcltyRentFeeSttusByFeeTpServiceImpl  extends AbstractServiceI
 	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeSttusByFeeTpInqireService#selectPrtFcltyRentFeeSttusByFeeTpInqireSum(java.util.Map)
 	 */
 	@Override
-	public Map selectPrtFcltyRentFeeSttusByFeeTpSum(Map searchVO)
+	public GamPrtFcltyRentFeeSttusByFeeTpVO selectPrtFcltyRentFeeSttusByFeeTpSum(GamPrtFcltyRentFeeSttusByFeeTpVO searchVO)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return gamPrtFcltyRentFeeSttusByFeeTpDao.selectPrtFcltyRentFeeSttusByFeeTpListSum(searchVO);

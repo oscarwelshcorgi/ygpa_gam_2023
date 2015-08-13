@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
- * @Class Name : GamPrtFcltyPdRentFeeSttusInqireVO.java
- * @Description : 항만시설기간별사용료현황조회 VO class
+ * @Class Name : GamPrtFcltyEntrpsRentFeeSttusInqireVO.java
+ * @Description : 항만시설업체별사용료현황조회 VO class
  * @Modification Information
  *
  * @author domh
@@ -17,7 +17,7 @@ import egovframework.com.cmm.ComDefaultVO;
  *  Copyright (C)  All right reserved.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GamPrtFcltyPdRentFeeSttusInqireVO extends ComDefaultVO {
+public class GamPrtFcltyRentFeeSttusByFeeTpVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
     
     /** 사용 년도 */
@@ -65,71 +65,29 @@ public class GamPrtFcltyPdRentFeeSttusInqireVO extends ComDefaultVO {
     
     private String quayCd;
     
-    
-    /** 디스플레이 자료수 */
-    private String dpTotCnt;
-    
-    /** 사용료합계 */
-    private String sumTotalFeeSum;
-    
-    /** 감면사용료 합계 */
-    private String sumTotalRdcxptFeeSumSum;
-    
-    /** 검색시작년 */
-    private String serchStartYr;
-    
-    /** 검색시작월 */
-    private String serchStartMn;
-    
-    /** 검색종료년 */
-    private String serchEndYr;
-    
-    /** 검색종료월 */
-    private String serchEndMn;
-    
-    
-    /**
-	 * @return the searchAssetsCd
-	 */
-	public String getSearchAssetsCd() {
-		return searchAssetsCd;
-	}
-
-	/**
-	 * @param searchAssetsCd the searchAssetsCd to set
-	 */
-	public void setSearchAssetsCd(String searchAssetsCd) {
-		this.searchAssetsCd = searchAssetsCd;
-	}
-
-	/**
-	 * @return the searchAssetsSubCd
-	 */
-	public String getSearchAssetsSubCd() {
-		return searchAssetsSubCd;
-	}
-
-	/**
-	 * @param searchAssetsSubCd the searchAssetsSubCd to set
-	 */
-	public void setSearchAssetsSubCd(String searchAssetsSubCd) {
-		this.searchAssetsSubCd = searchAssetsSubCd;
-	}
-
-	/** 자산코드 검색 */
-    private String searchAssetsCd;
-    
-    /** 자산부코드 검색 */
-    private String searchAssetsSubCd;
-    
-    
     /** 검색 항코드 */
     private String sPrtAtCode;
     
-    /** 검색 업체명 */
-    private String sEntrpscd;
+    /** 고지 구분 */
+    private String optFeeType;
     
+    /** 디스플레이 자료수 */
+    private String totSumCnt;
+    
+    /** 전체 사용료합계 */
+    private String totSumFee;
 
+    /** 검색시작년 */
+    private String sStartYr;
+    
+    /** 검색시작월 */
+    private String sStartMn;
+    
+    /** 검색종료년 */
+    private String sEndYr;
+    
+    /** 검색종료월 */
+    private String sEndMn;
 
 	/**
 	 * @return the usageYear
@@ -440,124 +398,105 @@ public class GamPrtFcltyPdRentFeeSttusInqireVO extends ComDefaultVO {
 	}
 
 	/**
-	 * @return the sEntrpscd
+	 * @return the optFeeType
 	 */
-	public String getsEntrpscd() {
-		return sEntrpscd;
+	public String getOptFeeType() {
+		return optFeeType;
 	}
 
 	/**
-	 * @param sEntrpscd the sEntrpscd to set
+	 * @param optFeeType the optFeeType to set
 	 */
-	public void setsEntrpscd(String sEntrpscd) {
-		this.sEntrpscd = sEntrpscd;
+	public void setOptFeeType(String optFeeType) {
+		this.optFeeType = optFeeType;
 	}
+
+	/**
+	 * @return the totSumCnt
+	 */
+	public String getTotSumCnt() {
+		return totSumCnt;
+	}
+
+	/**
+	 * @param totSumCnt the totSumCnt to set
+	 */
+	public void setTotSumCnt(String totSumCnt) {
+		this.totSumCnt = totSumCnt;
+	}
+
+	/**
+	 * @return the totSumFee
+	 */
+	public String getTotSumFee() {
+		return totSumFee;
+	}
+
+	/**
+	 * @param totSumFee the totSumFee to set
+	 */
+	public void setTotSumFee(String totSumFee) {
+		this.totSumFee = totSumFee;
+	}
+
+	/**
+	 * @return the sStartYr
+	 */
+	public String getsStartYr() {
+		return sStartYr;
+	}
+
+	/**
+	 * @param sStartYr the sStartYr to set
+	 */
+	public void setsStartYr(String sStartYr) {
+		this.sStartYr = sStartYr;
+	}
+
+	/**
+	 * @return the sStartMn
+	 */
+	public String getsStartMn() {
+		return sStartMn;
+	}
+
+	/**
+	 * @param sStartMn the sStartMn to set
+	 */
+	public void setsStartMn(String sStartMn) {
+		this.sStartMn = sStartMn;
+	}
+
+	/**
+	 * @return the sEndYr
+	 */
+	public String getsEndYr() {
+		return sEndYr;
+	}
+
+	/**
+	 * @param sEndYr the sEndYr to set
+	 */
+	public void setsEndYr(String sEndYr) {
+		this.sEndYr = sEndYr;
+	}
+
+	/**
+	 * @return the sEndMn
+	 */
+	public String getsEndMn() {
+		return sEndMn;
+	}
+
+	/**
+	 * @param sEndMn the sEndMn to set
+	 */
+	public void setsEndMn(String sEndMn) {
+		this.sEndMn = sEndMn;
+	}
+    
+    
 
 	
-
-	/**
-	 * @return the dpTotCnt
-	 */
-	public String getDpTotCnt() {
-		return dpTotCnt;
-	}
-
-	/**
-	 * @param dpTotCnt the dpTotCnt to set
-	 */
-	public void setDpTotCnt(String dpTotCnt) {
-		this.dpTotCnt = dpTotCnt;
-	}
-
-	/**
-	 * @return the sumTotalFeeSum
-	 */
-	public String getSumTotalFeeSum() {
-		return sumTotalFeeSum;
-	}
-
-	/**
-	 * @param sumTotalFeeSum the sumTotalFeeSum to set
-	 */
-	public void setSumTotalFeeSum(String sumTotalFeeSum) {
-		this.sumTotalFeeSum = sumTotalFeeSum;
-	}
-
-	/**
-	 * @return the sumTotalRdcxptFeeSumSum
-	 */
-	public String getSumTotalRdcxptFeeSumSum() {
-		return sumTotalRdcxptFeeSumSum;
-	}
-
-	/**
-	 * @param sumTotalRdcxptFeeSumSum the sumTotalRdcxptFeeSumSum to set
-	 */
-	public void setSumTotalRdcxptFeeSumSum(String sumTotalRdcxptFeeSumSum) {
-		this.sumTotalRdcxptFeeSumSum = sumTotalRdcxptFeeSumSum;
-	}
-
-	/**
-	 * @return the serchStartYr
-	 */
-	public String getSerchStartYr() {
-		return serchStartYr;
-	}
-
-	/**
-	 * @param serchStartYr the serchStartYr to set
-	 */
-	public void setSerchStartYr(String serchStartYr) {
-		this.serchStartYr = serchStartYr;
-	}
-
-	/**
-	 * @return the serchStartMn
-	 */
-	public String getSerchStartMn() {
-		
-		return serchStartMn;
-	}
-
-	/**
-	 * @param serchStartMn the serchStartMn to set
-	 */
-	public void setSerchStartMn(String serchStartMn) {
-		if(Integer.parseInt(serchStartMn) < 10){
-			serchStartMn = "0" + serchStartMn;
-		}
-		this.serchStartMn = serchStartMn;
-	}
-
-	/**
-	 * @return the serchEndYr
-	 */
-	public String getSerchEndYr() {
-		return serchEndYr;
-	}
-
-	/**
-	 * @param serchEndYr the serchEndYr to set
-	 */
-	public void setSerchEndYr(String serchEndYr) {
-		this.serchEndYr = serchEndYr;
-	}
-
-	/**
-	 * @return the serchEndMn
-	 */
-	public String getSerchEndMn() {
-		return serchEndMn;
-	}
-
-	/**
-	 * @param serchEndMn the serchEndMn to set
-	 */
-	public void setSerchEndMn(String serchEndMn) {
-		if(Integer.parseInt(serchEndMn) < 10){
-			serchEndMn = "0" + serchEndMn;
-		}
-		this.serchEndMn = serchEndMn;
-	}
     
 }

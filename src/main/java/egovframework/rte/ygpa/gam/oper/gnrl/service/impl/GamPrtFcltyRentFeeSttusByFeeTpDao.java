@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamCmpyRecvStsInqireVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyMtRentFeeSttusInqireVO;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeSttusByFeeTpVO;
 
 /**
  * @Class Name : GamPrtFcltyMtRentFeeSttusInqireDao.java
@@ -30,7 +31,7 @@ public class GamPrtFcltyRentFeeSttusByFeeTpDao extends YGPAAbstractDAO {
 	 * @return 목록
 	 * @exception Exception
 	 */
-    public List selectPrtFcltyRentFeeSttusByFeeTpList(Map searchVO) throws Exception {
+    public List selectPrtFcltyRentFeeSttusByFeeTpList(GamPrtFcltyRentFeeSttusByFeeTpVO searchVO) throws Exception {
         return list("gamPrtFcltyRentFeeSttusByFeeTpDao.selectPrtFcltyRentFeeSttusByFeeTpList_D", searchVO);
     }
 
@@ -40,7 +41,7 @@ public class GamPrtFcltyRentFeeSttusByFeeTpDao extends YGPAAbstractDAO {
 	 * @return int - 자료수
 	 * @exception Exception
 	 */
-    int selectPrtFcltyRentFeeSttusByFeeTpListTotCnt(Map searchVO) throws Exception{
+    int selectPrtFcltyRentFeeSttusByFeeTpListTotCnt(GamPrtFcltyRentFeeSttusByFeeTpVO searchVO) throws Exception{
     	return (Integer)getSqlMapClientTemplate().queryForObject("gamPrtFcltyRentFeeSttusByFeeTpDao.selectPrtFcltyRentFeeSttusByFeeTpListTotCnt_S", searchVO);
     }
 
@@ -50,8 +51,8 @@ public class GamPrtFcltyRentFeeSttusByFeeTpDao extends YGPAAbstractDAO {
 	 * @return resultVO - 합계정보가 담긴 VO
 	 * @exception Exception
 	 */
-    Map selectPrtFcltyRentFeeSttusByFeeTpListSum(Map searchVO) throws Exception {
-    	return (Map) selectByPk("gamPrtFcltyRentFeeSttusByFeeTpDao.selectPrtFcltyRentFeeSttusByFeeTpListSum_S", searchVO);
+    GamPrtFcltyRentFeeSttusByFeeTpVO selectPrtFcltyRentFeeSttusByFeeTpListSum(GamPrtFcltyRentFeeSttusByFeeTpVO searchVO) throws Exception {
+    	return (GamPrtFcltyRentFeeSttusByFeeTpVO) selectByPk("gamPrtFcltyRentFeeSttusByFeeTpDao.selectPrtFcltyRentFeeSttusByFeeTpListSum_S", searchVO);
     }
 
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -35,6 +36,7 @@ import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyNticArrvlDtaInqir
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyNticArrvlDtaInqireLevReqestVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyNticArrvlDtaInqireService;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyNticArrvlDtaInqireVO;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyUseSttusInqireVO;
 
 /**
  * @Class Name : GamPrtFcltyNticArrvlDtaInqireController.java
@@ -197,5 +199,48 @@ public class GamPrtFcltyNticArrvlDtaInqireController {
 
     	return map;
     }
+	
+	/**
+     * 엑셀파일 다운로드
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/gnrl/selectPrtFcltyNticArrvlDtaInqireListExcel.do", method=RequestMethod.POST)
+    @ResponseBody ModelAndView selectPrtFcltyNticArrvlDtaInqireListExcel(@RequestParam Map<String, Object> excelParam) throws Exception {
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
 
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return new ModelAndView("gridExcelView", "gridResultMap", map);
+    	}
+
+        header = mapper.readValue((String)excelParam.get("header"),
+			    new TypeReference<List<HashMap<String,String>>>(){});
+
+        excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
+
+        GamPrtFcltyNticArrvlDtaInqireVO searchVO= new GamPrtFcltyNticArrvlDtaInqireVO();
+		searchVO = mapper.convertValue(excelParam, GamPrtFcltyNticArrvlDtaInqireVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		/** List Data */
+    	List assetRentList = gamPrtFcltyNticArrvlDtaInqireService.selectPrtFcltyNticArrvlDtaInqireList(searchVO);
+    	
+    	map.put("resultCode", 0);
+    	map.put("resultList", assetRentList);
+    	map.put("header", header);
+
+    	return new ModelAndView("gridExcelView", "gridResultMap", map);
+    }
 }

@@ -17,7 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
@@ -28,6 +32,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyEntrpsRentFeeSttusInqireService;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyEntrpsRentFeeSttusInqireVO;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyUseSttusInqireVO;
 
 /**
  * @Class Name : GamPrtFcltyEntrpsRentFeeSttusInqireController.java
@@ -184,4 +189,47 @@ public class GamPrtFcltyEntrpsRentFeeSttusInqireController {
     	return map;
     }
 	
+	/**
+     * 엑셀파일 다운로드
+     *
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/gnrl/selectPrtFcltyEntrpsRentFeeSttusInqireListExcel.do", method=RequestMethod.POST)
+    @ResponseBody ModelAndView selectPrtFcltyEntrpsRentFeeSttusInqireListExcel(@RequestParam Map<String, Object> excelParam) throws Exception {
+		Map map = new HashMap();
+		List header;
+		ObjectMapper mapper = new ObjectMapper();
+
+		// 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return new ModelAndView("gridExcelView", "gridResultMap", map);
+    	}
+
+        header = mapper.readValue((String)excelParam.get("header"),
+			    new TypeReference<List<HashMap<String,String>>>(){});
+
+        excelParam.remove("header");	// 파라미터에서 헤더를 삭제 한다.
+
+        GamPrtFcltyEntrpsRentFeeSttusInqireVO searchVO= new GamPrtFcltyEntrpsRentFeeSttusInqireVO();
+		searchVO = mapper.convertValue(excelParam, GamPrtFcltyEntrpsRentFeeSttusInqireVO.class);
+
+		searchVO.setFirstIndex(0);
+		searchVO.setLastIndex(9999);
+		searchVO.setRecordCountPerPage(9999);
+
+		/** List Data */
+		List resultList = gamPrtFcltyEntrpsRentFeeSttusInqireService.selectPrtFcltyEntrpsRentFeeSttusInqireList(searchVO);
+    	
+    	map.put("resultCode", 0);
+    	map.put("resultList", resultList);
+    	map.put("header", header);
+
+    	return new ModelAndView("gridExcelView", "gridResultMap", map);
+    }
 }

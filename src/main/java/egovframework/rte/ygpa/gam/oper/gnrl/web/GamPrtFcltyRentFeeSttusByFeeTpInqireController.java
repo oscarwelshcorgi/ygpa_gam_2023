@@ -23,6 +23,7 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeSttusByFeeTpService;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeSttusByFeeTpVO;
 
 /**
  * @Class Name : GamPrtFcltyRentFeeSttusByFeeTpInqireController.java
@@ -88,7 +89,7 @@ public class GamPrtFcltyRentFeeSttusByFeeTpInqireController {
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/oper/gnrl/selectPrtFcltyMtRentFeeSttusInqireList.do", method=RequestMethod.POST)
-	@ResponseBody Map selectPrtFcltyMtRentFeeSttusInqireList(Map searchVO) throws Exception {
+	@ResponseBody Map selectPrtFcltyMtRentFeeSttusInqireList(GamPrtFcltyRentFeeSttusByFeeTpVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
@@ -100,28 +101,27 @@ public class GamPrtFcltyRentFeeSttusByFeeTpInqireController {
         	return map;
     	}
 
-		PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo((Integer) searchVO.get("pageIndex"));
-		paginationInfo.setRecordCountPerPage((Integer) searchVO.get("pageUnit"));
-		paginationInfo.setPageSize((Integer) searchVO.get("pageSize"));
-
-		searchVO.put("firstIndex", paginationInfo.getFirstRecordIndex());
-		searchVO.put("lastIndex", paginationInfo.getLastRecordIndex());
-		searchVO.put("recordCountPerPage",paginationInfo.getRecordCountPerPage());
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+		
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		totalCnt = gamPrtFcltyRentFeeSttusByFeeTpService.selectPrtFcltyRentFeeSttusByFeeTpListTotCnt(searchVO);
     	List resultList = gamPrtFcltyRentFeeSttusByFeeTpService.selectPrtFcltyRentFeeSttusByFeeTpList(searchVO);
 
     	paginationInfo.setTotalRecordCount(totalCnt);
+    	searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
-        searchVO.put("pageSize",paginationInfo.getLastPageNoOnPageList());
-
-		Map totSummary = gamPrtFcltyRentFeeSttusByFeeTpService.selectPrtFcltyRentFeeSttusByFeeTpSum(searchVO);
+    	GamPrtFcltyRentFeeSttusByFeeTpVO totSumFee = gamPrtFcltyRentFeeSttusByFeeTpService.selectPrtFcltyRentFeeSttusByFeeTpSum(searchVO);
 
 
     	map.put("resultCode", 0);	// return ok
     	map.put("resultList", resultList);
-    	map.put("totSummary", totSummary);
+    	map.put("totSumFee", totSumFee);
     	map.put("totalCount", totalCnt);
     	map.put("searchOption", searchVO);
 

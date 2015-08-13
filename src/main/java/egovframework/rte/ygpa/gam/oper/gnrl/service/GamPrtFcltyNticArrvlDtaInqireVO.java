@@ -1,5 +1,7 @@
 package egovframework.rte.ygpa.gam.oper.gnrl.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
@@ -14,6 +16,7 @@ import egovframework.com.cmm.ComDefaultVO;
  *  
  *  Copyright (C)  All right reserved.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GamPrtFcltyNticArrvlDtaInqireVO extends ComDefaultVO {
     private static final long serialVersionUID = 1L;
     
