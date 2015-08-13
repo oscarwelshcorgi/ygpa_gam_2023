@@ -339,7 +339,9 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 		}
 
     });
-
+	
+	 this._param=param;
+	
 	 if(param!=null) {
 		 switch(param.action) {
 		 	case "prtFcltyInqire":
@@ -349,6 +351,17 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 			 	var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
 				this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
 				break;
+		 	case "nticDetail":
+		 		this.$('#sPrtAtCode').val(param.nticVo.prtAtCode);
+		 		this.$('#sMngYear').val(param.nticVo.mngYear);
+		 		this.$('#sMngNo').val(param.nticVo.mngNo);
+		 		this.$('#sMngCnt').val(param.nticVo.mngCnt);
+		 		this.$("#assetRentListTab").tabs("option", {active: 0});
+	        	var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
+				this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+				
+				//this.$("#assetRentListTab").tabs("option", {active: 1});
+		 		break;
 		 	default:
 		 		alert(param.action+" 은(는) 알수 없는 호출 입니다.");
 		 		break;
@@ -362,11 +375,9 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 		this.$("#sGrUsagePdFrom").val(searchFromDate);
 		this.$("#sGrUsagePdTo").val(searchToDate);
 	 	var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
-
 		this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
 	 }
-	 this._param=param;
-
+	 
 	console.log('debug');
 	// end of load complete
 };
@@ -374,7 +385,6 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 GamAssetRentMngtModule.prototype.loadRentMaster = function(loadOpt) {
 
     //this.$('#gamAssetRentForm :input').val('');
-
     this.doAction('/oper/gnrl/selectRentMasterInfo.do', EMD.util.objectToArray(loadOpt), function(module, result) {
     	if(result.resultCode!=0) {
     		alert(result.resultMsg);
@@ -1926,7 +1936,7 @@ GamAssetRentMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId
 	        break;
 	    case 'tabs2':
 	    	if(this._cmd!='insert') {
-	    		if(this._param!=null && this._param.action=='prtFcltyInqire') break;
+	    		if(this._param!=null && (this._param.action=='prtFcltyInqire' || this._param.action=="nticDetail")) break;
 				var row = this.$('#assetRentMngtList').selectedRows();
 		        if(row.length==0) {
 		        	alert('항목을 먼저 선택해주세요.');
@@ -1966,6 +1976,7 @@ GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
     	if(oldTabId=='tabs1') {
     		if(this._cmd!='insert') {
                 var row = this.$('#assetRentMngtList').selectedRows();
+                console.log(row[0]);
     			this.loadRentMaster(row[0]);
         	}
         	else {

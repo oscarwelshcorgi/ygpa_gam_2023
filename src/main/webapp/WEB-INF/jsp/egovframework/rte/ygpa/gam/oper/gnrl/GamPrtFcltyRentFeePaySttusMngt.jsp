@@ -230,6 +230,18 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         case 'btnPrtFcltyRentFeePaySttusMngtListExcelDownload':	// 엑셀 다운로드
     		this.$('#prtFcltyRentFeePaySttusMngtList').flexExcelDown('/oper/gnrl/selectPrtFcltyRentFeePaySttusMngtListExcel.do');
     		break;
+        case 'btnNticDetail': //고지상세
+        	var opt = {
+        				action: "nticDetail",
+        				nticVo:{
+	              			prtAtCode: this.$('#prtAtCode').val(),
+	               			mngYear: this.$('#mngYear').val(),
+	               			mngNo: this.$('#mngNo').val(),
+	               			mngCnt: this.$('#mngCnt').val(),
+        				}
+        	};
+       	 	EMD.util.create_window('gamPrtFcltyRentMngt', '항만시설사용목록관리', '/oper/gnrl/gamPrtFcltyRentMngt.do', null, opt);
+        	break;
     }
 };
 
@@ -416,6 +428,7 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 	             ];
 	 this.doAction('/oper/gnrl/selectPrtFcltyRentFeePaySttusMngtDetail.do', nticDetail, function(module, result) {
 		if (result.resultCode == "0") {
+			module.makeFormValues('#hiddenForm', result.resultMaster); // 결과값을 채운다.
 			module.makeDivValues('#masterPayInfo', result.resultMaster); // 결과값을 채운다.
 			module.makeMultiDivValues('#detailPayInfo',result.resultList, function(row) {
 				if(row.currNticCnt=="Y") $(this).addClass("detailRowSelected");
@@ -739,7 +752,12 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
             </div>
 
             <div id="tabs2" class="emdTabPage" style="overflow: scroll;">
-
+            <form id="hiddenForm">
+            	<input type="hidden" id="prtAtCode" data-column-id="prtAtCode">
+            	<input type="hidden" id="mngYear" data-column-id="mngYear">
+            	<input type="hidden" id="mngNo" data-column-id="mngNo">
+            	<input type="hidden" id="mngCnt" data-column-id="mngCnt">
+            </form>
                 <div class="emdPanel">
 					<table class="searchPanel">
 					<tbody>
@@ -751,14 +769,14 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                 	<!-- <h2>고지 내역</h2> -->
                     <table id="masterPayInfo" class="detailPanel">
                         <tr>
-                        	<th style="width: 100px"><span class="label">항구분</span></th>
-                            <td style="width: 180px"><span class="ygpaCmmnCd" data-code-id="GAM019" data-column-id="prtAtCode"></span> (<span data-column-id="prtAtCode"></span>)</td>
-                            <th style="width: 100px"><span class="label">회계년도</span></th>
-                            <td style="width: 80px"><span data-column-id="accnutYear"></span></td>
-                            <th style="width: 60px"><span class="label">고지횟수</span></th>
-                            <td style="width: 80px"><span data-column-id="nticCnt"></span></td>
-                            <th style="width: 100px"><span class="label">고지번호</span></th>
-                            <td style="width: 160px"><span data-column-id="nticno"></span></td>
+                        	<th><span class="label">항구분</span></th>
+                            <td><span class="ygpaCmmnCd" data-code-id="GAM019" data-column-id="prtAtCode"></span> (<span data-column-id="prtAtCode"></span>)</td>
+                            <th><span class="label">회계년도</span></th>
+                            <td><span data-column-id="accnutYear"></span></td>
+                            <th><span class="label">고지횟수</span></th>
+                            <td><span data-column-id="nticCnt"></span></td>
+                            <th><span class="label">고지번호</span></th>
+                            <td><span data-column-id="nticno"></span></td>
                         </tr>
                         <tr>
                         	<th><span class="label">요금종류</span></th>
@@ -785,6 +803,13 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                             <td colspan="7"><span data-column-id="rm"></span></td>
                         </tr>
                     </table>
+                    <table style="width:100%;">
+		                <tr>
+		                    <td style="text-align: right">
+		                        <button id="btnNticDetail">고지상세</button>
+		                    </td>
+		                </tr>
+					</table>
                     <div id="arrrgDetail">
 					<table class="searchPanel">
 					<tbody>
