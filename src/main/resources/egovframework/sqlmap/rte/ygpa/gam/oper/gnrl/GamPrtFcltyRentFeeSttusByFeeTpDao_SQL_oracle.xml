@@ -6,11 +6,6 @@
     <typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
     <typeAlias alias="gamPrtFcltyRentFeeSttusByFeeTpVO" type="egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeSttusByFeeTpVO"/>
 
-	<resultMap id="gamPrtFcltyRentFeeSttusByFeeTpSumMap" class="gamPrtFcltyRentFeeSttusByFeeTpVO">
-    	<result property="totSumCnt" column="TOT_SUM_CNT" columnIndex="1" javaType="string" jdbcType="VARCHAR"/>
-        <result property="totSumFee" column="TOT_SUM_FEE" columnIndex="2" javaType="string" jdbcType="VARCHAR"/>
-    </resultMap>
-
     <select id="gamPrtFcltyRentFeeSttusByFeeTpDao.selectPrtFcltyRentFeeSttusByFeeTpList_D" parameterClass="gamPrtFcltyRentFeeSttusByFeeTpVO" resultClass="egovMap">
 	       SELECT A.*
 	       FROM (
@@ -131,10 +126,9 @@
 				)
     </select>
 
-    <select id="gamPrtFcltyRentFeeSttusByFeeTpDao.selectPrtFcltyRentFeeSttusByFeeTpListSum_S" parameterClass="gamPrtFcltyRentFeeSttusByFeeTpVO" resultMap="gamPrtFcltyRentFeeSttusByFeeTpSumMap">
+    <select id="gamPrtFcltyRentFeeSttusByFeeTpDao.selectPrtFcltyRentFeeSttusByFeeTpListSum_S" parameterClass="gamPrtFcltyRentFeeSttusByFeeTpVO" resultClass="int">
     		SELECT
-               TRIM(TO_CHAR(NVL(COUNT(*),0), '999,999,999,999')) TOT_SUM_CNT
-               , TRIM(TO_CHAR(NVL(SUM(SUM_TOTAL_FEE),0), '999,999,999,999')) TOT_SUM_FEE
+               TRIM(NVL(SUM(SUM_TOTAL_FEE),0)) TOT_SUM_FEE
 			   FROM (
 					SELECT T1.PRT_AT_CODE,
 					       T1.USAGE_YEAR,

@@ -51,8 +51,8 @@ public class GamPrtFcltyRentFeeSttusByFeeTpDao extends YGPAAbstractDAO {
 	 * @return resultVO - 합계정보가 담긴 VO
 	 * @exception Exception
 	 */
-    GamPrtFcltyRentFeeSttusByFeeTpVO selectPrtFcltyRentFeeSttusByFeeTpListSum(GamPrtFcltyRentFeeSttusByFeeTpVO searchVO) throws Exception {
-    	return (GamPrtFcltyRentFeeSttusByFeeTpVO) selectByPk("gamPrtFcltyRentFeeSttusByFeeTpDao.selectPrtFcltyRentFeeSttusByFeeTpListSum_S", searchVO);
+    int selectPrtFcltyRentFeeSttusByFeeTpListSum(GamPrtFcltyRentFeeSttusByFeeTpVO searchVO) throws Exception {
+    	return (Integer)getSqlMapClientTemplate().queryForObject("gamPrtFcltyRentFeeSttusByFeeTpDao.selectPrtFcltyRentFeeSttusByFeeTpListSum_S", searchVO);
     }
 
 }

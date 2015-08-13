@@ -43,7 +43,7 @@ public interface GamPrtFcltyRentFeeSttusByFeeTpService {
 	 * @return resultVO - 합계정보가 담긴 VO
 	 * @exception Exception
 	 */
-    GamPrtFcltyRentFeeSttusByFeeTpVO selectPrtFcltyRentFeeSttusByFeeTpSum(GamPrtFcltyRentFeeSttusByFeeTpVO searchVO) throws Exception;
+    int selectPrtFcltyRentFeeSttusByFeeTpSum(GamPrtFcltyRentFeeSttusByFeeTpVO searchVO) throws Exception;
 
     /**
      * 고지 년도 목록을 가져온다.

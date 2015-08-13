@@ -91,7 +91,7 @@ public class GamPrtFcltyRentFeeSttusByFeeTpInqireController {
     @RequestMapping(value="/oper/gnrl/selectPrtFcltyMtRentFeeSttusInqireList.do", method=RequestMethod.POST)
 	@ResponseBody Map selectPrtFcltyMtRentFeeSttusInqireList(GamPrtFcltyRentFeeSttusByFeeTpVO searchVO) throws Exception {
 
-		int totalCnt, page, firstIndex;
+		int totalCnt, totSumFee, page, firstIndex;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -116,7 +116,7 @@ public class GamPrtFcltyRentFeeSttusByFeeTpInqireController {
     	paginationInfo.setTotalRecordCount(totalCnt);
     	searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
-    	GamPrtFcltyRentFeeSttusByFeeTpVO totSumFee = gamPrtFcltyRentFeeSttusByFeeTpService.selectPrtFcltyRentFeeSttusByFeeTpSum(searchVO);
+    	totSumFee = gamPrtFcltyRentFeeSttusByFeeTpService.selectPrtFcltyRentFeeSttusByFeeTpSum(searchVO);
 
 
     	map.put("resultCode", 0);	// return ok

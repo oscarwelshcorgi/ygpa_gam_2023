@@ -58,7 +58,7 @@ public class GamPrtFcltyRentFeeSttusByFeeTpServiceImpl  extends AbstractServiceI
 	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeeSttusByFeeTpInqireService#selectPrtFcltyRentFeeSttusByFeeTpInqireSum(java.util.Map)
 	 */
 	@Override
-	public GamPrtFcltyRentFeeSttusByFeeTpVO selectPrtFcltyRentFeeSttusByFeeTpSum(GamPrtFcltyRentFeeSttusByFeeTpVO searchVO)
+	public int selectPrtFcltyRentFeeSttusByFeeTpSum(GamPrtFcltyRentFeeSttusByFeeTpVO searchVO)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return gamPrtFcltyRentFeeSttusByFeeTpDao.selectPrtFcltyRentFeeSttusByFeeTpListSum(searchVO);
