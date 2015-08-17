@@ -130,6 +130,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
     });
 
     this.$("#assetRentMngtList").on('onLoadDataComplete', function(event, module, data) {
+    	module.selectData();
     	module.setButtonState();
     });
 
@@ -352,6 +353,8 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 				this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
 				break;
 		 	case "nticDetail":
+		 		this._cmd = 'query';
+		 		this._rentMngNo = param.nticVo.mngYear +'-'+ param.nticVo.mngNo +'-'+ param.nticVo.mngCnt;
 		 		this.$('#sPrtAtCode').val(param.nticVo.prtAtCode);
 		 		this.$('#sMngYear').val(param.nticVo.mngYear);
 		 		this.$('#sMngNo').val(param.nticVo.mngNo);
@@ -359,8 +362,6 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 		 		this.$("#assetRentListTab").tabs("option", {active: 0});
 	        	var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
 				this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
-				
-				//this.$("#assetRentListTab").tabs("option", {active: 1});
 		 		break;
 		 	default:
 		 		alert(param.action+" 은(는) 알수 없는 호출 입니다.");
@@ -1976,7 +1977,6 @@ GamAssetRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
     	if(oldTabId=='tabs1') {
     		if(this._cmd!='insert') {
                 var row = this.$('#assetRentMngtList').selectedRows();
-                console.log(row[0]);
     			this.loadRentMaster(row[0]);
         	}
         	else {
@@ -2094,6 +2094,22 @@ GamAssetRentMngtModule.prototype.loadOlnlpList = function(prtFcltyCd) {
         }
     });
 }
+
+<%
+/**
+ * @FUNCTION NAME : selectData
+ * @DESCRIPTION   : DATA SELECT
+ * @PARAMETER     : NONE
+**/
+%>
+GamAssetRentMngtModule.prototype.selectData = function() {
+	if(this._param != null && this._param.action != null && this._param.action == "nticDetail"){
+		var rentMngNo = this._rentMngNo;
+		this.$('#assetRentMngtList').selectFilterRow([{col:"rentMngNo", filter:rentMngNo}]);
+		this.$("#assetRentListTab").tabs("option", {active: 1});
+	}
+	
+};
 
 // 다음 변수는 고정 적으로 정의 해야 함
 var module_instance = new GamAssetRentMngtModule();
