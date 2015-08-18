@@ -218,8 +218,8 @@ var module_instance = new GamPrtFcltyPdRentFeeSttusInqireModule();
                         <tr>
                             <th>자산코드</th>
 							<td>
-								<input id="sAssetsCd" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
-								<input id="sAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />&nbsp; &nbsp;
+								<input id="searchAssetsCd" type="text" size="3" maxlength="3" title="검색조건" />&nbsp;-&nbsp;
+								<input id="searchAssetsSubCd" type="text" size="2" maxlength="2" title="검색조건" />&nbsp; &nbsp;
 								<button id="searchPopupBtn" class="popupButton">선택</button>
 							</td>
                             <th>사용기간</th>
