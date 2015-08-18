@@ -235,4 +235,10 @@ public interface GamInfoCommFcltySpecMngService {
 	 */
 	String selectInfoCommFcltySpecMngFcltsAtchFileNewNo(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception;
 
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	List selectInfoCommFcltySpecMngMntnRprDtlsList(GamMntnRprDtlsVO searchVO) throws Exception;
+
 }

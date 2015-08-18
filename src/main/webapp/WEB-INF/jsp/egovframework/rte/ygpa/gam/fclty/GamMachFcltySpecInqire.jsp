@@ -27,6 +27,10 @@
 
 <script>
 
+var fcltyMaintMngListPopup;
+var fcltyMaintMngListGrid;
+var fcltyMaintMngDataList = [];
+
 <%
 /**
  * @FUNCTION NAME : GamMachFcltySpecInqireModule
@@ -71,7 +75,8 @@ GamMachFcltySpecInqireModule.prototype.loadComplete = function(params) {
 					{display:"해당 건축시설",	 	name:"archFcltsNm",				width:100,		sortable:false,		align:"left"},
 					{display:"시설물 관리 번호",	name:"fcltsMngNo",				width:130,		sortable:false,		align:"left"},
 					{display:"자산 명",	 			name:"gisAssetsNm",				width:200,		sortable:false,		align:"left"},
-					{display:"자산 위치",	 		name:"gisAssetsLocNm",			width:200,		sortable:false,		align:"left"}
+					{display:"자산 위치",	 		name:"gisAssetsLocNm",			width:200,		sortable:false,		align:"left"},
+					{display:"유지보수기간",	 		name:"mntnRprCnstDt",			width:500,		sortable:false,		align:"left"}
 					],
 		showTableToggleBtn : false,
 		height : '520',
@@ -384,6 +389,9 @@ GamMachFcltySpecInqireModule.prototype.onButtonClick = function(buttonId) {
                 };
 			this.doExecuteDialog('btnAtchDirFileSearch', '디렉토리/파일 검색', '/popup/showAtchDirFile.do', null, searchOpts);
 			break;
+	    case 'btnFcltyMaintMngList':
+			this.showFcltyMaintMngList(this.$('#btnFcltyMaintMngList')[0]);
+			break;
 	}
 
 };
@@ -570,6 +578,7 @@ GamMachFcltySpecInqireModule.prototype.firstData = function() {
 		this._mainKeyValue = firstFcltsMngNo;
 		this.makeFormValues('#detailForm', rows[firstRowIndex]);
 		this.makeDivValues('#detailForm', rows[firstRowIndex]);
+		this.buildFcltyMaintMngList();
 	}
 
 };
@@ -620,6 +629,7 @@ GamMachFcltySpecInqireModule.prototype.prevData = function() {
 		this._mainKeyValue = prevFcltsMngNo;
 		this.makeFormValues('#detailForm', rows[prevRowIndex]);
 		this.makeDivValues('#detailForm', rows[prevRowIndex]);
+		this.buildFcltyMaintMngList();
 	}
 
 };
@@ -670,6 +680,7 @@ GamMachFcltySpecInqireModule.prototype.nextData = function() {
 		this._mainKeyValue = nextFcltsMngNo;
 		this.makeFormValues('#detailForm', rows[nextRowIndex]);
 		this.makeDivValues('#detailForm', rows[nextRowIndex]);
+		this.buildFcltyMaintMngList();
 	}
 
 };
@@ -704,6 +715,7 @@ GamMachFcltySpecInqireModule.prototype.lastData = function() {
 		this._mainKeyValue = lastFcltsMngNo;
 		this.makeFormValues('#detailForm', rows[lastRowIndex]);
 		this.makeDivValues('#detailForm', rows[lastRowIndex]);
+		this.buildFcltyMaintMngList();
 	}
 
 };
@@ -1023,6 +1035,91 @@ GamMachFcltySpecInqireModule.prototype.onTabChange = function(newTabId, oldTabId
 
 };
 
+<%
+/**
+ * @FUNCTION NAME : hideFcltyMaintMngList
+ * @DESCRIPTION   : FCLTY MAINT MNG LIST POPUP HIDE
+ * @PARAMETER     : NONE
+**/
+%>
+GamMachFcltySpecInqireModule.prototype.hideFcltyMaintMngList = function() {
+
+	if (fcltyMaintMngListPopup) {
+		fcltyMaintMngListPopup.hide();
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : showFcltyMaintMngList
+ * @DESCRIPTION   : FCLTY MAINT MNG LIST POPUP SHOW
+ * @PARAMETER     :
+ *   1. argParent - PARENT
+**/
+%>
+GamMachFcltySpecInqireModule.prototype.showFcltyMaintMngList = function(argParent) {
+
+	if (!fcltyMaintMngListPopup) {
+		fcltyMaintMngListPopup = new dhtmlXPopup();
+		fcltyMaintMngListGrid = fcltyMaintMngListPopup.attachGrid(430,200);
+		fcltyMaintMngListGrid.setHeader("순번, 유지보수기간, 유지보수명");
+		fcltyMaintMngListGrid.setInitWidths("50,150,220");
+		fcltyMaintMngListGrid.setColAlign("center,center,left");
+		fcltyMaintMngListGrid.setColTypes("ed,ed,ed");
+		fcltyMaintMngListGrid.setColSorting("str,str,str");
+		fcltyMaintMngListGrid.init();
+	}
+	if (fcltyMaintMngListPopup.isVisible()) {
+		fcltyMaintMngListPopup.hide();
+	} else {
+		var x = window.dhx4.absLeft(argParent);
+		var y = window.dhx4.absTop(argParent);
+		var w = argParent.offsetWidth;
+		var h = argParent.offsetHeight;
+		fcltyMaintMngListPopup.show(x,y,w,h);
+		fcltyMaintMngListGrid.clearAll();
+		for (var i=0; i < fcltyMaintMngDataList.length ; i++) {
+			var dataValue = fcltyMaintMngDataList[i].mntnRprSeq + ', ' + fcltyMaintMngDataList[i].mntnRprCnstDt + ', ' + fcltyMaintMngDataList[i].mntnRprCnstNm;
+			fcltyMaintMngListGrid.addRow(fcltyMaintMngDataList[i].mntnRprSeq, dataValue);
+		}
+	}
+
+};
+
+<%
+/**
+ * @FUNCTION NAME : buildFcltyMaintMngList
+ * @DESCRIPTION   : FCLTY MAINT MNG LIST를 구성한다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamMachFcltySpecInqireModule.prototype.buildFcltyMaintMngList = function() {
+
+	fcltyMaintMngDataList = [];
+	this.$('#fcltyMaintMngList option').remove();
+	var searchVO = [{ name: 'fcltsMngGroupNo', value: this.$('#fcltsMngGroupNo').val() },
+					{ name: 'fcltsJobSe', value: "M" },
+	                { name: 'fcltsMngNo', value: this.$('#fcltsMngNo').val() }
+	               ];
+	this.doAction('/fclty/gamSelectMachFcltySpecInqireMntnRprDtlsList.do', searchVO, function(module, result) {
+		if (result.resultCode == "0") {
+			if (result.resultList.length <= 0) {
+				module.$('#fcltyMaintMngList').append('<option value="">없음　　　　　　　　</option>');
+			}
+			$.each(result.resultList, function(){
+				module.$('#fcltyMaintMngList').append('<option value="' + this.mntnRprCnstStartDt + '~' + this.mntnRprCnstEndDt + '">' + this.mntnRprCnstStartDt + '~' + this.mntnRprCnstEndDt + '</option>');
+				fcltyMaintMngDataList[fcltyMaintMngDataList.length] = { 'mntnRprSeq' : this.mntnRprSeq,
+																		'mntnRprCnstDt' : this.mntnRprCnstStartDt + '~' + this.mntnRprCnstEndDt,
+																		'mntnRprCnstNm' : this.mntnRprCnstNm };
+			});
+		} else {
+			module.$('#fcltyMaintMngList').append('<option value="">없음　　　　　　　　</option>');
+		}
+    });
+
+};
+
 var module_instance = new GamMachFcltySpecInqireModule();
 
 </script>
@@ -1195,15 +1292,17 @@ var module_instance = new GamMachFcltySpecInqireModule();
 									<input type="text" size="11" id="prtFcltyAr" class="ygpaNumber" data-decimal-point="2" maxlength="13" disabled/> m<sup>2</sup>／
 									<input type="text" size="11" id="prtPrtFcltyCnt" class="ygpaNumber" maxlength="10" disabled/> 개
 								</td>
-								<th style="width:10%; height:18px;">설치일／변경일</th>
+								<th style="width:10%; height:18px;">설치일／담당자</th>
 								<td>
 									<input type="text" size="11" id="prtFcltyInstlDt" class="emdcal" disabled/>　／　
-									<input type="text" size="11" id="prtFcltyChangeDt" class="emdcal" disabled/>
+									<input type="text" size="14" id="prtPrtFcltyMnger" class="emdcal" disabled/>
 								</td>
-								<th style="width:10%; height:18px;">만료일／담당자</th>
+								<th style="width:10%; height:18px;">유지보수　이력</th>
 								<td>
-									<input type="text" size="11" id="prtFcltyExprDt" class="emdcal" disabled/>／
-									<input type="text" size="18" id="prtPrtFcltyMnger" maxlength="80" disabled/>
+									<select id="fcltyMaintMngList">
+										<option value="">없음　　　　　　　　</option>
+									</select>
+									<button id="btnFcltyMaintMngList">조회</button>
 								</td>
 							</tr>
 							<tr>
@@ -1225,6 +1324,7 @@ var module_instance = new GamMachFcltySpecInqireModule();
 								<td style="text-align:right;">
 									<button id="btnSpecFirstData">처음 자료</button>
 									<button id="btnSpecPrevData">이전 자료</button>
+									<button id="btnShowMap" data-role="showMap" data-gis-layer="gisMechFclty" data-flexi-grid="mainGrid" data-style="default">맵조회</button>
 									<button id="btnSpecNextData">다음 자료</button>
 									<button id="btnSpecLastData">마지막 자료</button>
 								</td>

@@ -68,5 +68,11 @@ public interface GamArchFcltySpecInqireService {
 	 * @return
 	 */
 	String selectFcltsMngGroupNm(Map searchVO);
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	List selectArchFcltySpecInqireMntnRprDtlsList(GamMntnRprDtlsVO searchVO) throws Exception;
 	
 }

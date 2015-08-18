@@ -13,6 +13,7 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fclty.service.GamArchFcltySpecInqireVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamMntnRprDtlsVO;
 
 /**
  * 
@@ -88,6 +89,14 @@ public class GamArchFcltySpecInqireDao extends YGPAAbstractDAO {
 	 */
 	public String selectFcltsMngGroupNm(Map<String, Object> searchVO) {
 		return (String)selectByPk("gamArchFcltySpecInqireDao.selectFcltsMngGroupNm_S", searchVO);
+	}
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public List selectArchFcltySpecInqireMntnRprDtlsList(GamMntnRprDtlsVO searchVO) {
+		return list("gamArchFcltySpecInqireDao.selectArchFcltySpecInqireMntnRprDtlsList_D", searchVO);
 	}
 
 }

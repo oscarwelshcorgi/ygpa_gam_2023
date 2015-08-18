@@ -31,6 +31,7 @@ import egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamMachFcltySpecInqireService;
 import egovframework.rte.ygpa.gam.fclty.service.GamMachFcltySpecInqireVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamMachFcltySpecMngVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamMntnRprDtlsVO;
 
 /**
  * 
@@ -320,6 +321,37 @@ public class GamMachFcltySpecInqireController {
 		map.put("header", header);
 
 		return new ModelAndView("gridExcelView", "gridResultMap", map);
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/fclty/gamSelectMachFcltySpecInqireMntnRprDtlsList.do", method=RequestMethod.POST)
+	@ResponseBody Map selectMachFcltySpecInqireMntnRprDtlsList(GamMntnRprDtlsVO searchVO) throws Exception {
+
+		Map map = new HashMap();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List resultList = gamMachFcltySpecInqireService.selectMachFcltySpecInqireMntnRprDtlsList(searchVO);
+
+		map.put("resultCode", 0);
+		map.put("resultList", resultList);
+
+		return map;
 
 	}
 }

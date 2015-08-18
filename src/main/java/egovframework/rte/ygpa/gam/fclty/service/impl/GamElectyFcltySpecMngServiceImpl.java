@@ -16,6 +16,7 @@ import egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamElectyFcltySpecMngService;
 import egovframework.rte.ygpa.gam.fclty.service.GamElectyFcltySpecMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamMntnRprDtlsVO;
 
 /**
  *
@@ -186,6 +187,14 @@ public class GamElectyFcltySpecMngServiceImpl extends AbstractServiceImpl implem
 	@Override
 	public String selectElectyFcltySpecMngFcltsAtchFileNewNo(GamFcltsAtchFileMngVO gamFcltsAtchFileMngVO) throws Exception {
 		return gamElectyFcltySpecMngDao.selectElectyFcltySpecMngFcltsAtchFileNewNo(gamFcltsAtchFileMngVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.fclty.service.GamElectyFcltySpecMngService#selectElectyFcltySpecMngMntnRprDtlsList(egovframework.rte.ygpa.gam.fclty.service.GamMntnRprDtlsVO)
+	 */
+	@Override
+	public List selectElectyFcltySpecMngMntnRprDtlsList(GamMntnRprDtlsVO searchVO) throws Exception {
+		return gamElectyFcltySpecMngDao.selectElectyFcltySpecMngMntnRprDtlsList(searchVO);
 	}
 
 }

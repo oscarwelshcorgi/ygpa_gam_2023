@@ -276,4 +276,10 @@ public interface GamMachFcltySpecMngService {
 	 */
 	EgovMap selectMachFcltySpecMngMachFcltySttusPk(GamMachFcltySttusMngVO gamMachFcltySttusMngVO) throws Exception;
 
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	List selectMachFcltySpecMngMntnRprDtlsList(GamMntnRprDtlsVO searchVO) throws Exception;
+
 }

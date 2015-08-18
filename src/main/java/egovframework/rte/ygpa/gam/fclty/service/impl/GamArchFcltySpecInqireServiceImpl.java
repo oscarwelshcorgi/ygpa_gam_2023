@@ -15,6 +15,7 @@ import egovframework.rte.ygpa.gam.fclty.service.GamArchFcltySpecInqireService;
 import egovframework.rte.ygpa.gam.fclty.service.GamArchFcltySpecInqireVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO;
 import egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO;
+import egovframework.rte.ygpa.gam.fclty.service.GamMntnRprDtlsVO;
 
 /**
  * 
@@ -72,6 +73,14 @@ public class GamArchFcltySpecInqireServiceImpl implements
 	@Override
 	public String selectFcltsMngGroupNm(Map searchVO) {
 		return gamArchFcltySpecInqireDao.selectFcltsMngGroupNm(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.fclty.service.GamArchFcltySpecInqireService#selectArchFcltySpecInqireMntnRprDtlsList(egovframework.rte.ygpa.gam.fclty.service.GamMntnRprDtlsVO)
+	 */
+	@Override
+	public List selectArchFcltySpecInqireMntnRprDtlsList(GamMntnRprDtlsVO searchVO) throws Exception {
+		return gamArchFcltySpecInqireDao.selectArchFcltySpecInqireMntnRprDtlsList(searchVO);
 	}
 
 }

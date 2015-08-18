@@ -8,6 +8,7 @@
 	<typeAlias alias="gamElectyFcltySpecInqireVO" type="egovframework.rte.ygpa.gam.fclty.service.GamElectyFcltySpecInqireVO"/>
 	<typeAlias alias="gamAtchFileDirMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamAtchFileDirMngVO"/>
 	<typeAlias alias="gamFcltsAtchFileMngVO" type="egovframework.rte.ygpa.gam.fclty.service.GamFcltsAtchFileMngVO"/>
+	<typeAlias alias="gamMntnRprDtlsVO" type="egovframework.rte.ygpa.gam.fclty.service.GamMntnRprDtlsVO"/>
 	<!-- RESULT MAP 정의 -->
 	<resultMap id="gamElectyFcltySpecInqireSumMap" class="gamElectyFcltySpecInqireVO">
 		<result property="totalCount" column="TOTAL_COUNT" columnIndex="1"/>
@@ -111,6 +112,13 @@
 								,GAM_GET_FCLTS_CL_CD_NM(T2.ELCTY_FCLTS_CL_CD) AS ELCTY_FCLTS_CL_CD_NM
 								,NVL(T2.LOC,GAM_GET_LOCPLC_LNM_SUB(T3.GIS_ASSETS_LOCPLC,T3.GIS_ASSETS_LNM,T3.GIS_ASSETS_LNM_SUB)) AS PRT_FCLTY_LOC
 								,(CASE WHEN T2.ROWID IS NOT NULL THEN 'Y' ELSE 'N' END) AS FCLTY_SPEC_EXIST_YN
+								,(SELECT WM_CONCAT('['||TO_CHAR(MNTN_RPR_CNST_START_DT,'YYYY-MM-DD')||'~'||TO_CHAR(MNTN_RPR_CNST_END_DT,'YYYY-MM-DD')||']')
+								  FROM MNTN_RPR_DTLS_F
+								  WHERE (FCLTS_MNG_GROUP_NO,FCLTS_JOB_SE,MNTN_RPR_SEQ) IN (
+									SELECT FCLTS_MNG_GROUP_NO,FCLTS_JOB_SE,MNTN_RPR_SEQ
+									FROM MNTN_RPR_OBJ_FCLTS_F
+									WHERE FCLTS_MNG_NO=T1.FCLTS_MNG_NO
+								 )) AS MNTN_RPR_CNST_DT
 							FROM GIS_PRT_FCLTY_CD_F T1
 							LEFT OUTER JOIN ELCTY_FCLTY_SPEC_F T2 ON (T1.FCLTS_MNG_NO=T2.FCLTS_MNG_NO)
 							LEFT OUTER JOIN GIS_ASSETS_CD_F T3 ON (T1.GIS_ASSETS_PRT_AT_CODE=T3.GIS_ASSETS_PRT_AT_CODE AND T1.GIS_ASSETS_CD=T3.GIS_ASSETS_CD AND T1.GIS_ASSETS_SUB_CD=T3.GIS_ASSETS_SUB_CD)
@@ -301,6 +309,36 @@
 		SELECT FCLTS_MNG_GROUP_NM
 			FROM FCLTS_MNG_GROUP_F
 		WHERE FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+	</select>
+	
+	<select id="gamElectyFcltySpecInqireDao.selectElectyFcltySpecInqireMntnRprDtlsList_D" parameterClass="gamMntnRprDtlsVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.MNTN_RPR_SEQ AS MNTN_RPR_SEQ
+								,T1.MNTN_RPR_CNST_NM AS MNTN_RPR_CNST_NM
+								,TO_CHAR(T1.MNTN_RPR_CNST_START_DT,'YYYY-MM-DD') AS MNTN_RPR_CNST_START_DT
+								,TO_CHAR(T1.MNTN_RPR_CNST_END_DT,'YYYY-MM-DD') AS MNTN_RPR_CNST_END_DT
+								,LTRIM(TO_CHAR(NVL(T1.MNTN_RPR_CNST_AMT,0),'999,999,999,999,990')) AS MNTN_RPR_CNST_AMT
+								,GAM_GET_MNTN_RPR_SE_NM(T1.MNTN_RPR_SE) AS MNTN_RPR_SE_NM
+								,T1.ENFORCE_YEAR AS ENFORCE_YEAR
+							FROM MNTN_RPR_DTLS_F T1
+						WHERE T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+						AND T1.FCLTS_JOB_SE = #fcltsJobSe#
+						AND EXISTS (SELECT 'Y'
+										FROM MNTN_RPR_OBJ_FCLTS_F
+									WHERE FCLTS_MNG_GROUP_NO = T1.FCLTS_MNG_GROUP_NO
+									AND FCLTS_JOB_SE = T1.FCLTS_JOB_SE
+									AND MNTN_RPR_SEQ = T1.MNTN_RPR_SEQ
+									AND FCLTS_MNG_NO = #fcltsMngNo#)
+						ORDER BY T1.MNTN_RPR_SEQ ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
 	</select>
 	
 </sqlMap>
