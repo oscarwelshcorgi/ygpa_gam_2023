@@ -121,6 +121,7 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 
 		for(int i=0; i<createList.size(); i++) {
 			GamHtldRentMngtDetailVO detail=createList.get(i);
+			detail.setPrtAtCode(rentVo.getPrtAtCode());
 			detail.setMngYear(newRentVo.getMngYear());
 			detail.setMngNo(newRentVo.getMngNo());
 			detail.setMngCnt(newRentVo.getMngCnt());
