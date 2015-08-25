@@ -225,7 +225,14 @@
 	                                 ]]>
 	                             </isNotEmpty>
 							</isEqual>
-
+							<isEqual property="searchCondition" compareValue="usageDt">
+						        <isNotEmpty property="sGrUsagePdFrom">
+								<![CDATA[
+	                                 AND A.GR_USAGE_PD_FROM < TO_DATE(#sGrUsagePdFrom#,'yyyy-mm-dd')
+	                                 AND A.GR_USAGE_PD_TO >= TO_DATE(#sGrUsagePdFrom#,'yyyy-mm-dd')
+	                                 ]]>
+	                             </isNotEmpty>
+							</isEqual>
 					         <isNotEmpty property="sGrAr">
 					             AND A.GR_AR = #sGrAr#
 					         </isNotEmpty>
@@ -284,14 +291,38 @@
              <isNotEmpty property="sEntrpscd">
                  AND A.ENTRPSCD = #sEntrpscd#
              </isNotEmpty>
-
-             <isNotEmpty property="sGrUsagePdFrom">
-                 AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-             </isNotEmpty>
-
-             <isNotEmpty property="sGrUsagePdTo">
-                 AND A.GR_USAGE_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
-             </isNotEmpty>
+			<isEqual property="searchCondition" compareValue="reqestDt">
+				<isNotEmpty property="sGrUsagePdFrom">
+				<![CDATA[
+                              AND A.REQST_DT >= TO_DATE(#sGrUsagePdFrom#,'yyyy-mm-dd')
+                              ]]>
+                          </isNotEmpty>
+                          <isNotEmpty property="sGrUsagePdTo">
+				<![CDATA[
+                              AND A.REQST_DT < TO_DATE(#sGrUsagePdTo#,'yyyy-mm-dd')+1
+                              ]]>
+                          </isNotEmpty>
+			</isEqual>
+			<isEqual property="searchCondition" compareValue="usagePd">
+		        <isNotEmpty property="sGrUsagePdFrom">
+				<![CDATA[
+                              AND A.GR_USAGE_PD_FROM >= TO_DATE(#sGrUsagePdFrom#,'yyyy-mm-dd')
+                              ]]>
+                          </isNotEmpty>
+                          <isNotEmpty property="sGrUsagePdTo">
+				<![CDATA[
+                              AND A.GR_USAGE_PD_TO < TO_DATE(#sGrUsagePdTo#,'yyyy-mm-dd')+1
+                              ]]>
+                          </isNotEmpty>
+			</isEqual>
+			<isEqual property="searchCondition" compareValue="usageDt">
+		        <isNotEmpty property="sGrUsagePdFrom">
+				<![CDATA[
+                              AND A.GR_USAGE_PD_FROM < TO_DATE(#sGrUsagePdFrom#,'yyyy-mm-dd')
+                              AND A.GR_USAGE_PD_TO >= TO_DATE(#sGrUsagePdFrom#,'yyyy-mm-dd')
+                              ]]>
+                          </isNotEmpty>
+			</isEqual>
 
              <isNotEmpty property="sGrAr">
                  AND A.GR_AR = #sGrAr#
@@ -348,15 +379,38 @@
          <isNotEmpty property="sEntrpscd">
              AND A.ENTRPSCD = #sEntrpscd#
          </isNotEmpty>
-
-         <isNotEmpty property="sGrUsagePdFrom">
-             AND A.GR_USAGE_PD_FROM <![CDATA[>=]]> TO_DATE(#sGrUsagePdFrom#||'000000','yyyy-mm-ddhh24miss')
-         </isNotEmpty>
-
-         <isNotEmpty property="sGrUsagePdTo">
-             AND A.GR_USAGE_PD_FROM <![CDATA[<=]]> TO_DATE(#sGrUsagePdTo#||'235959','yyyy-mm-ddhh24miss')
-         </isNotEmpty>
-
+		<isEqual property="searchCondition" compareValue="reqestDt">
+			<isNotEmpty property="sGrUsagePdFrom">
+			<![CDATA[
+                             AND A.REQST_DT >= TO_DATE(#sGrUsagePdFrom#,'yyyy-mm-dd')
+                             ]]>
+                         </isNotEmpty>
+                         <isNotEmpty property="sGrUsagePdTo">
+			<![CDATA[
+                             AND A.REQST_DT < TO_DATE(#sGrUsagePdTo#,'yyyy-mm-dd')+1
+                             ]]>
+                         </isNotEmpty>
+		</isEqual>
+		<isEqual property="searchCondition" compareValue="usagePd">
+	        <isNotEmpty property="sGrUsagePdFrom">
+			<![CDATA[
+                             AND A.GR_USAGE_PD_FROM >= TO_DATE(#sGrUsagePdFrom#,'yyyy-mm-dd')
+                             ]]>
+                         </isNotEmpty>
+                         <isNotEmpty property="sGrUsagePdTo">
+			<![CDATA[
+                             AND A.GR_USAGE_PD_TO < TO_DATE(#sGrUsagePdTo#,'yyyy-mm-dd')+1
+                             ]]>
+                         </isNotEmpty>
+		</isEqual>
+		<isEqual property="searchCondition" compareValue="usageDt">
+	        <isNotEmpty property="sGrUsagePdFrom">
+			<![CDATA[
+                             AND A.GR_USAGE_PD_FROM < TO_DATE(#sGrUsagePdFrom#,'yyyy-mm-dd')
+                             AND A.GR_USAGE_PD_TO >= TO_DATE(#sGrUsagePdFrom#,'yyyy-mm-dd')
+                             ]]>
+                         </isNotEmpty>
+		</isEqual>
          <isNotEmpty property="sGrAr">
              AND A.GR_AR = #sGrAr#
          </isNotEmpty>

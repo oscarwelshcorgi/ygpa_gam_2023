@@ -340,11 +340,55 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 		}
 
     });
-	
+
+	this.$("#searchCondition").on('change', {module: this}, function(event) {
+		var module=event.data.module;
+		var opt=$(event.target).val();
+		switch(opt) {
+		case 'usageDt':
+			module._sGrUsagePdFrom=module.$('#sGrUsagePdFrom').val();
+			if(module._usageDt==undefined) {
+				module.$('#sGrUsagePdFrom').val(EMD.util.getDate());
+			}
+			else {
+				module.$('#sGrUsagePdFrom').val(module._usageDt);
+			}
+
+			event.data.module.$('#hideUsageDt').css('display', 'none');
+			break;
+		default :
+			if(module._sGrUsagePdFrom!=undefined) {
+				module.$('#sGrUsagePdFrom').val(module._sGrUsagePdFrom);
+				module._sGrUsagePdFrom=undefined;
+			}
+			event.data.module.$('#hideUsageDt').css('display', 'initial');
+			break;
+		}
+	});
+
+	this.$('#sGrUsagePdFrom').on('change', {module: this}, function(event) {
+		var module=event.data.module;
+		var val=$(event.target).val();
+		if(module.$('#searchCondition').val()=='usageDt') {
+			module._usageDt=val;
+		}
+	});
+
 	 this._param=param;
-	
+
 	 if(param!=null) {
 		 switch(param.action) {
+		 	case 'popupInqire':	// 현재 사용 현황 조회
+				var today = new Date();
+				today.setMonth(today.getMonth()-3);	// 최근 3개월 조회
+				this._sGrUsagePdFrom = EMD.util.getDate(today);
+		 		this.$('#searchCondition').val('usageDt');
+		 		this.$('#sGrUsagePdFrom').val(EMD.util.getDate());
+				this.$("#sGrUsagePdTo").val(EMD.util.getDate());
+				this.$('#searchCondition').trigger('change');
+			 	var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
+				this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
+		 	break;
 		 	case "prtFcltyInqire":
 		 		this.loadRentMaster(param);
 				break;
@@ -378,7 +422,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 	 	var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
 		this.$('#assetRentMngtList').flexOptions({params:searchOpt}).flexReload();
 	 }
-	 
+
 	console.log('debug');
 	// end of load complete
 };
@@ -1296,7 +1340,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                     }
                     /* var inputVO=this.makeFormArgs('#gamAssetRentForm'); */
                     var inputVO=this._mainKeyValue;
-                    
+
                     this.doAction('/oper/gnrl/gamDeletePrtFcltyRentMngt.do', inputVO, function(module, result) {
 
                         if(result.resultCode=='0') {
@@ -2108,7 +2152,7 @@ GamAssetRentMngtModule.prototype.selectData = function() {
 		this.$('#assetRentMngtList').selectFilterRow([{col:"rentMngNo", filter:rentMngNo}]);
 		this.$("#assetRentListTab").tabs("option", {active: 1});
 	}
-	
+
 };
 
 // 다음 변수는 고정 적으로 정의 해야 함
@@ -2163,11 +2207,13 @@ var module_instance = new GamAssetRentMngtModule();
                             <th><select id="searchCondition">
                             	<option value="reqestDt" selected="selected">신청일자</option>
                             	<option value="usagePd">사용기간</option>
+                            	<option value="usageDt">조회일자</option>
                             	</select></th>
                             <td>
                             <input id="sGrUsagePdFrom" type="text" class="emdcal" data-role="dtFrom" data-dt-to="sGrUsagePdTo"
-                                size="8"> ~ <input id="sGrUsagePdTo" type="text"
+                                size="8"><span id="hideUsageDt"> ~ <input id="sGrUsagePdTo" type="text"
                                 class="emdcal" data-role="dtTo" data-dt-from="sGrUsagePdFrom" size="8">
+                                </span>
                             </td>
                             <th>총면적</th>
                             <td>

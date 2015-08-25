@@ -175,19 +175,45 @@
 							   <isNotEmpty property="sEntrpscd">
 							       AND L.entrpscd = #sEntrpscd#
 							   </isNotEmpty>
+			<isEqual property="searchCondition" compareValue="nticPdDt">
+				<isNotEmpty property="sUsagePdFrom">
+					<![CDATA[
+		         		AND L.NTIC_PD_FROM > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+		         	]]>
+		         </isNotEmpty>
 
-						         <isNotEmpty property="sUsagePdFrom">
-									<![CDATA[
-						         		AND A.PRMISN_DT > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
-						         	]]>
-						         </isNotEmpty>
+		         <isNotEmpty property="sUsagePdTo">
+					<![CDATA[
+			         	AND L.NTIC_PD_FROM < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
+		         	]]>
+		         </isNotEmpty>
+			</isEqual>
+			<isEqual property="searchCondition" compareValue="usagePd">
+		         <isNotEmpty property="sUsagePdFrom">
+					<![CDATA[
+		         		AND A.PRMISN_DT > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+		         	]]>
+		         </isNotEmpty>
 
-						         <isNotEmpty property="sUsagePdTo">
-									<![CDATA[
-							         	AND A.PRMISN_DT < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
-						         	]]>
-						         </isNotEmpty>
+		         <isNotEmpty property="sUsagePdTo">
+					<![CDATA[
+			         	AND A.PRMISN_DT < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
+		         	]]>
+		         </isNotEmpty>
+			</isEqual>
+			<isEqual property="searchCondition" compareValue="nticDt">
+				<isNotEmpty property="sUsagePdFrom">
+					<![CDATA[
+		         		AND L.NTIC_DT > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+		         	]]>
+		         </isNotEmpty>
 
+		         <isNotEmpty property="sUsagePdTo">
+					<![CDATA[
+			         	AND L.NTIC_DT < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
+		         	]]>
+		         </isNotEmpty>
+			</isEqual>
 							   <isNotEmpty property="sanctnSttus">
 							       AND L.SANCTN_STTUS = #sanctnSttus#
 							   </isNotEmpty>
@@ -295,18 +321,45 @@
                    AND L.entrpscd = #sEntrpscd#
                </isNotEmpty>
 
-						         <isNotEmpty property="sUsagePdFrom">
-									<![CDATA[
-						         		AND L.NTIC_PD_FROM > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
-						         	]]>
-						         </isNotEmpty>
+						         <isEqual property="searchCondition" compareValue="nticPdDt">
+				<isNotEmpty property="sUsagePdFrom">
+					<![CDATA[
+		         		AND L.NTIC_PD_FROM > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+		         	]]>
+		         </isNotEmpty>
 
-						         <isNotEmpty property="sUsagePdTo">
-									<![CDATA[
-							         	AND L.NTIC_PD_FROM < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
-						         	]]>
-						         </isNotEmpty>
+		         <isNotEmpty property="sUsagePdTo">
+					<![CDATA[
+			         	AND L.NTIC_PD_FROM < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
+		         	]]>
+		         </isNotEmpty>
+			</isEqual>
+			<isEqual property="searchCondition" compareValue="usagePd">
+		         <isNotEmpty property="sUsagePdFrom">
+					<![CDATA[
+		         		AND A.PRMISN_DT > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+		         	]]>
+		         </isNotEmpty>
 
+		         <isNotEmpty property="sUsagePdTo">
+					<![CDATA[
+			         	AND A.PRMISN_DT < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
+		         	]]>
+		         </isNotEmpty>
+			</isEqual>
+			<isEqual property="searchCondition" compareValue="nticDt">
+				<isNotEmpty property="sUsagePdFrom">
+					<![CDATA[
+		         		AND L.NTIC_DT > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+		         	]]>
+		         </isNotEmpty>
+
+		         <isNotEmpty property="sUsagePdTo">
+					<![CDATA[
+			         	AND L.NTIC_DT < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
+		         	]]>
+		         </isNotEmpty>
+			</isEqual>
 			   <isNotEmpty property="sanctnSttus">
 			       AND L.SANCTN_STTUS = #sanctnSttus#
 			   </isNotEmpty>
@@ -434,18 +487,45 @@
              AND L.MNG_CNT     = #sMngCnt#
          </isNotEmpty>
 
-         <isNotEmpty property="sUsagePdFrom">
-			<![CDATA[
-         		AND L.NTIC_PD_FROM > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
-         	]]>
-         </isNotEmpty>
+         <isEqual property="searchCondition" compareValue="nticPdDt">
+				<isNotEmpty property="sUsagePdFrom">
+					<![CDATA[
+		         		AND L.NTIC_PD_FROM > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+		         	]]>
+		         </isNotEmpty>
 
-         <isNotEmpty property="sUsagePdTo">
-			<![CDATA[
-	         	AND L.NTIC_PD_FROM < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
-         	]]>
-         </isNotEmpty>
+		         <isNotEmpty property="sUsagePdTo">
+					<![CDATA[
+			         	AND L.NTIC_PD_FROM < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
+		         	]]>
+		         </isNotEmpty>
+			</isEqual>
+			<isEqual property="searchCondition" compareValue="usagePd">
+		         <isNotEmpty property="sUsagePdFrom">
+					<![CDATA[
+		         		AND A.PRMISN_DT > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+		         	]]>
+		         </isNotEmpty>
 
+		         <isNotEmpty property="sUsagePdTo">
+					<![CDATA[
+			         	AND A.PRMISN_DT < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
+		         	]]>
+		         </isNotEmpty>
+			</isEqual>
+			<isEqual property="searchCondition" compareValue="nticDt">
+				<isNotEmpty property="sUsagePdFrom">
+					<![CDATA[
+		         		AND L.NTIC_DT > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+		         	]]>
+		         </isNotEmpty>
+
+		         <isNotEmpty property="sUsagePdTo">
+					<![CDATA[
+			         	AND L.NTIC_DT < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
+		         	]]>
+		         </isNotEmpty>
+			</isEqual>
                <isNotEmpty property="sRrArFrom">
 				<![CDATA[
                	AND A.GR_AR > #sRrArFrom#

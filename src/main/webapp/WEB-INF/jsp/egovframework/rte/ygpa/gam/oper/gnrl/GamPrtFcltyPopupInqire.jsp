@@ -85,16 +85,19 @@ GamAssetLndValInqireModule.prototype.onButtonClick = function(buttonId) {
          break;
 
      case 'btnPrtFcltyRent':
-    	 EMD.util.create_window('gamPrtFcltyRentMngt', '항만시설 목록 관리', '/oper/gnrl/gamPrtFcltyRentMngt.do', null);
+    	 EMD.util.create_window('gamPrtFcltyRentMngt', '항만시설 사용 목록 관리', '/oper/gnrl/gamPrtFcltyRentMngt.do', null, {action:'popupInqire'});
     	 break;
      case 'btnPrtFcltyFeeMngt':
-    	 EMD.util.create_window('gamPrtFcltyRentFeeMngt', '항만시설 사용료 관리', '/oper/gnrl/gamPrtFcltyRentFeeMngt.do', null);
+    	 EMD.util.create_window('gamPrtFcltyRentFeeMngt', '항만시설 사용료고지 관리', '/oper/gnrl/gamPrtFcltyRentFeeMngt.do', null, {action:'popupInqire'});
     	 break;
      case 'btnPrtFcltyRentFeePayDtlsMngt':
-    	 EMD.util.create_window('gamPrtFcltyRentFeePaySttusMngt', '항만시설 사용료납부관리', '/oper/gnrl/gamPrtFcltyRentFeePaySttusMngt.do', null);
+    	 EMD.util.create_window('gamPrtFcltyRentFeePaySttusMngt', '항만시설 사용료납부관리', '/oper/gnrl/gamPrtFcltyRentFeePaySttusMngt.do', null, {action:'popupInqire'});
+    	 break;
+     case 'btnPrtFcltyRentFeeOverPayDtlsMngt':
+    	 EMD.util.create_window('gamPrtFcltyRentFeePaySttusMngt', '항만시설 사용료납부관리', '/oper/gnrl/gamPrtFcltyRentFeePaySttusMngt.do', null, {action:'popupOverInqire'});
     	 break;
      case 'btnPrtFcltyUseExprInqire':
-    	 EMD.util.create_window('gamPrtFcltyUseExprInqire', '항만시설사용 만기도래자료조회', '/oper/gnrl/gamPrtFcltyUseExprInqire.do', null);
+    	 EMD.util.create_window('gamPrtFcltyUseExprInqire', '항만시설사용 만기도래자료조회', '/oper/gnrl/gamPrtFcltyUseExprInqire.do', null, {action:'popupInqire'});
     	 break;
  }
 };
@@ -153,13 +156,13 @@ var module_instance = new GamAssetLndValInqireModule();
                         <form id="form1">
                         <tr>
                             <th>
-                                * 시설임대/사용신청 건수
+                                * 현재 시설임대/사용신청 건수
                             </th>
                             <td>
-                                <input id="totalResultCnt1" size="10" readonly value="<c:out value="${prmisnYnCnt}"/>">
+                                <input id="totalResultCnt1" size="10" readonly value="<c:out value="${resultVo.currentUseCnt}"/>">
                             </td>
                             <td>
-                                <button id="btnPrtFcltyRent">항만시설 목록 관리</button>
+                                <button id="btnPrtFcltyRent">항만시설 사용 목록 관리</button>
                             </td>
                         </tr>
                         <tr>
@@ -167,7 +170,7 @@ var module_instance = new GamAssetLndValInqireModule();
                                 * 고지도래자료 건수
                             </th>
                             <td>
-                                <input id="totalResultCnt2" size="10" readonly value="<c:out value="${nticPdCnt}"/>">
+                                <input id="totalResultCnt2" size="10" readonly value="<c:out value="${resultVo.nticPdCnt}"/>">
                             </td>
                             <td>
                                 <button id="btnPrtFcltyFeeMngt">항만시설 사용료고지 관리</button>
@@ -178,10 +181,21 @@ var module_instance = new GamAssetLndValInqireModule();
                                 * 미수납자료 건수
                             </th>
                             <td>
-                                <input id="totalResultCnt3" size="10" readonly value="<c:out value="${nhtIsueCnt}"/>">
+                                <input id="totalResultCnt3" size="10" readonly value="<c:out value="${resultVo.overDueCnt}"/>">
                             </td>
                             <td>
-                                <button id="btnPrtFcltyRentFeePayDtlsMngt">항만시설 사용료납부관리</button>
+                                <button id="btnPrtFcltyRentFeePayDtlsMngt">항만시설 미수납 자료관리</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                * 연체고지자료 건수
+                            </th>
+                            <td>
+                                <input id="totalResultCnt3" size="10" readonly value="<c:out value="${resultVo.overNticCnt}"/>">
+                            </td>
+                            <td>
+                                <button id="btnPrtFcltyRentFeeOverPayDtlsMngt">항만시설 연체자료관리</button>
                             </td>
                         </tr>
                         <tr>
@@ -189,7 +203,7 @@ var module_instance = new GamAssetLndValInqireModule();
                                 * 계약만료자료 건수
                             </th>
                             <td>
-                                <input id="totalResultCnt4" size="10" readonly value="<c:out value="${rcivSeCnt}"/>">
+                                <input id="totalResultCnt4" size="10" readonly value="<c:out value="${resultVo.closeEndContract}"/>">
                             </td>
                             <td>
                                 <button id="btnPrtFcltyUseExprInqire">항만시설사용 만기도래자료조회</button>

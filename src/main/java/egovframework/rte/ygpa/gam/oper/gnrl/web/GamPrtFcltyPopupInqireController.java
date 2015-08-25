@@ -19,6 +19,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetPopupInqireService;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetPopupInqireVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyPopupInqireService;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyPopupInqireVO;
 
 /**
  * @Class Name : GamAssetSttusInqireController.java
@@ -29,60 +30,57 @@ import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyPopupInqireServic
  * @since 2014-01-29
  * @version 1.0
  * @see
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Controller
 public class GamPrtFcltyPopupInqireController {
-	
+
 	protected Log log = LogFactory.getLog(this.getClass());
 
 	/** Validator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
-	
+
 	/** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
-    
+
     /** EgovMessageSource */
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
-    
+
     /** cmmUseService */
     @Resource(name="EgovCmmUseService")
     private EgovCmmUseService cmmUseService;
-    
+
     @Resource(name = "gamPrtFcltyPopupInqireService")
     private GamPrtFcltyPopupInqireService gamPrtFcltyPopupInqireService;
-	
-    
+
+
     /**
-     * 자산정보현황알림 화면을 로딩한다. 
+     * 자산정보현황알림 화면을 로딩한다.
      *
      * @param windowId
      * @param model the model
      * @return "/ygpa/gam/asset/rent/GamAssetPopupInqire"
-     * @throws Exception the exception  
+     * @throws Exception the exception
      */
 	@RequestMapping(value="/oper/gnrl/gamPrtFcltyPopupInqire.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
-    	
+
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		
-		GamAssetPopupInqireVO gamAssetPopupInqireVO = new GamAssetPopupInqireVO();
-		gamAssetPopupInqireVO.setsDeptcd(user.getOrgnztId());
-		
-		GamAssetPopupInqireVO resultMap = gamPrtFcltyPopupInqireService.selectPrtFcltyPopupInqire(gamAssetPopupInqireVO);
-    	
-		model.addAttribute("prmisnYnCnt", resultMap.getPrmisnYnCnt());
-		model.addAttribute("nticPdCnt", resultMap.getNticPdCnt());
-		model.addAttribute("rcivSeCnt", resultMap.getRcivSeCnt());
-		model.addAttribute("nhtIsueCnt", resultMap.getNhtIsueCnt());
-		
+
+		GamPrtFcltyPopupInqireVO vo = new GamPrtFcltyPopupInqireVO();
+		vo.setsDeptcd(user.getOrgnztId());
+
+		GamPrtFcltyPopupInqireVO resultVo = gamPrtFcltyPopupInqireService.selectPrtFcltyPopupInqire(vo);
+
+		model.addAttribute("resultVo", resultVo);
+
 		model.addAttribute("windowId", windowId);
-    	
-    	return "/ygpa/gam/oper/gnrl/GamPrtFcltyPopupInqire"; 
+
+    	return "/ygpa/gam/oper/gnrl/GamPrtFcltyPopupInqire";
     }
-	
+
 }

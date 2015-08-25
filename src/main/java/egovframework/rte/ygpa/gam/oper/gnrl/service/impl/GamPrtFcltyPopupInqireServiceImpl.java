@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetPopupInqireVO;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyPopupInqireService;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyPopupInqireVO;
 
 /**
  * @Class Name : GamPrtFcltyPopupInqireServiceImpl.java
@@ -33,14 +34,13 @@ public class GamPrtFcltyPopupInqireServiceImpl  extends AbstractServiceImpl impl
 
 	protected Log log = LogFactory.getLog(this.getClass());
 
-	/**
-	 * 항만시설정보현황알림 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 자산임대목록
-	 * @exception Exception
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyPopupInqireService#selectPrtFcltyPopupInqire(egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyPopupInqireVO)
 	 */
-    public GamAssetPopupInqireVO selectPrtFcltyPopupInqire(GamAssetPopupInqireVO searchVO) throws Exception {
-        return gamPrtFcltyPopupInqireDao.selectPrtFcltyPopupInqire(searchVO);
-    }
+	@Override
+	public GamPrtFcltyPopupInqireVO selectPrtFcltyPopupInqire(
+			GamPrtFcltyPopupInqireVO searchVO) throws Exception {
+		return gamPrtFcltyPopupInqireDao.selectPrtFcltyPopupInqire(searchVO);
+	}
 
 }

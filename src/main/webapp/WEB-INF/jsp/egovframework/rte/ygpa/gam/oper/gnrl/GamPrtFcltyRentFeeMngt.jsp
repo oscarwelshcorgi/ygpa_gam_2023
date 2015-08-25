@@ -86,20 +86,6 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
         module.$("#assetRentFeeListTab").tabs("option", {active: 1});    // 탭을 전환 한다.
     });
 
-    if(params!=null) {
-    	if(params.action=="selectRentFee") {
-        	this.$('#sPrtAtCode').val(params.nticVo.prtAtCode);
-        	this.$('#sMngYear').val(params.nticVo.mngYear);
-        	this.$('#sMngNo').val(params.nticVo.mngNo);
-        	this.$('#sMngCnt').val(params.nticVo.mngCnt);
-//        	this.loadData();
-    	}
-    } else {
-    	/*
-        this.$('#sUsagePdFrom').val(EMD.util.getDate());
-        this.$('#sUsagePdTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
-    	*/
-    }
     this.$("#sEntrpscd").bind("keyup change", {module: this}, function(event) {
 		if(event.data.module.$('#sEntrpscd').val() ==''){
 			event.data.module.$('#sEntrpsNm').val('');
@@ -113,9 +99,6 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 		rows['payTmlmt']=$(this).val();
     });
 
-    var searchOpt=this.makeFormArgs('#gamAssetRentFeeSearchForm');
-    this.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
-
     this.$('#fee').on("keyup change", {module: this}, function(event) {
 		event.data.module.changeFee();
     });
@@ -123,6 +106,33 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
     this.$('#roundVat').on("change", {module: this}, function(event) {
 		event.data.module.changeFee();
     });
+
+    if(params!=null) {
+    	if(params.action=="selectRentFee") {
+        	this.$('#sPrtAtCode').val(params.nticVo.prtAtCode);
+        	this.$('#sMngYear').val(params.nticVo.mngYear);
+        	this.$('#sMngNo').val(params.nticVo.mngNo);
+        	this.$('#sMngCnt').val(params.nticVo.mngCnt);
+
+            var searchOpt=this.makeFormArgs('#gamAssetRentFeeSearchForm');
+            this.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
+
+    	}
+    	else if(params.action=="popupInqire") {
+    		var today = new Date();
+    		today.setDate(today.getDate()+15);
+
+//    		this.$('#sUsagePdFrom').val(EMD.util.getDate());
+    		this.$('#sUsagePdTo').val(EMD.util.getDate(today));
+    		this.$('#sNhtIsueYn').val('N');
+
+    		var searchOpt=this.makeFormArgs('#gamAssetRentFeeSearchForm');
+            this.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
+    	}
+    } else {
+        var searchOpt=this.makeFormArgs('#gamAssetRentFeeSearchForm');
+        this.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
+    }
 
     this._modifyFee=false;
 
@@ -456,6 +466,19 @@ GamAssetRentFeeMngtModule.prototype.changeFee = function() {
             }
        	 	EMD.util.create_window('gamPrtFcltyRentFeePaySttusMngt', '항만시설납부현황관리', '/oper/gnrl/gamPrtFcltyRentFeePaySttusMngt.do', null, opts);
         	break;
+        case 'btnPrtFcltyUseDetail': //고지상세
+        	var row = this.$('#assetRentFeeList').selectedRows()[0];
+        	var opt = {
+        				action: "nticDetail",
+        				nticVo:{
+	              			prtAtCode: row.prtAtCode,
+	               			mngYear: row.mngYear,
+	               			mngNo: row.mngNo,
+	               			mngCnt: row.mngCnt,
+        				}
+        	};
+       	 	EMD.util.create_window('gamPrtFcltyRentMngt', '항만시설사용목록관리', '/oper/gnrl/gamPrtFcltyRentMngt.do', null, opt);
+			break;
     }
 };
 
@@ -611,7 +634,13 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             <td width="100px">
                          		<input class="ygpaYnSelect" data-default-prompt="전체" data-column-id="nhtPrintYn" />
                             </td>
-                            <th>사용승낙일자</th>
+                            <th>
+                            	<select id="searchCondition">
+                            	<option value="nticPdDt" selected="selected">고지대상일자</option>
+                            	<option value="usagePd">사용기간</option>
+                            	<option value="nticDt">고지일자</option>
+                            	</select>
+                           	</th>
                             <td>
                             	<input id="sUsagePdFrom" type="text" class="emdcal" size="10"> ~
                             	<input id="sUsagePdTo" type="text" class="emdcal" size="10">
@@ -689,6 +718,7 @@ var module_instance = new GamAssetRentFeeMngtModule();
                     <button id="btnNoticeAditDel">추가고지삭제</button>
                     <button id="btnPrtFcltyRentFeeMngtListExcelDownload">엑셀</button>
                     <button id="btnRentFeePayMngt">납부현황관리</button>
+                    <button id="btnPrtFcltyUseDetail">사용내역 조회</button>
                 </div>
             </div>
 

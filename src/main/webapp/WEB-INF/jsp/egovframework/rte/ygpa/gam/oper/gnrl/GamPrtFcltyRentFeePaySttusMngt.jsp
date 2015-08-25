@@ -138,6 +138,14 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         	this.$('#rcivSe').val("");
         	this.loadData();
     	}
+    	else if(params.action=="popupInqire"){
+        	this.$('#rcivSe').val("0");
+        	this.loadData();
+    	}
+    	else if(params.action=="popupOverInqire"){
+        	this.$('#rcivSe').val("1");
+        	this.loadData();
+    	}
     } else {
     	/*
         this.$('#sUsagePdFrom').val(EMD.util.getDate());
@@ -230,7 +238,7 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         case 'btnPrtFcltyRentFeePaySttusMngtListExcelDownload':	// 엑셀 다운로드
     		this.$('#prtFcltyRentFeePaySttusMngtList').flexExcelDown('/oper/gnrl/selectPrtFcltyRentFeePaySttusMngtListExcel.do');
     		break;
-        case 'btnNticDetail': //고지상세
+        case 'btnPrtFcltyUseDetail': //고지상세
         	var opt = {
         				action: "nticDetail",
         				nticVo:{
@@ -806,7 +814,7 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                     <table style="width:100%;">
 		                <tr>
 		                    <td style="text-align: right">
-		                        <button id="btnNticDetail">고지상세</button>
+		                        <button id="btnPrtFcltyUseDetail">사용내역 조회</button>
 		                    </td>
 		                </tr>
 					</table>

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetPopupInqireVO;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyPopupInqireVO;
 
 /**
  * @Class Name : GamPrtFcltyPopupInqireDao.java
@@ -17,20 +18,20 @@ import egovframework.rte.ygpa.gam.asset.rent.service.GamAssetPopupInqireVO;
  * #########################
  *  신규 추가 sj
  * #########################
- *  
+ *
  *  Copyright (C)  All right reserved.
  */
 @Repository("gamPrtFcltyPopupInqireDao")
 public class GamPrtFcltyPopupInqireDao extends YGPAAbstractDAO {
-	
+
     /**
 	 * 자산정보현황 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
 	 * @return 조회내역
 	 * @exception Exception
 	 */
-	public GamAssetPopupInqireVO selectPrtFcltyPopupInqire(GamAssetPopupInqireVO searchVO) throws Exception {
-		return (GamAssetPopupInqireVO) selectByPk("gamPrtFcltyPopupInqireDao.selectPrtFcltyPopupInqire_S", searchVO);
+	public GamPrtFcltyPopupInqireVO selectPrtFcltyPopupInqire(GamPrtFcltyPopupInqireVO searchVO) throws Exception {
+		return (GamPrtFcltyPopupInqireVO) selectByPk("gamPrtFcltyPopupInqireDao.selectPrtFcltyPopupInqire_S", null);
 	}
-    
+
 }

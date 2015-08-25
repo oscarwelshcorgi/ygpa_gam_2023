@@ -28,7 +28,7 @@ function GamPrtFcltyUseExprInqireModule() {}
 GamPrtFcltyUseExprInqireModule.prototype = new EmdModule(1000, 600);
 
 // 페이지가 호출 되었을때 호출 되는 함수
-GamPrtFcltyUseExprInqireModule.prototype.loadComplete = function() {
+GamPrtFcltyUseExprInqireModule.prototype.loadComplete = function(params) {
     this.$("#prtFcltyUseExprInqireList").flexigrid({
         module: this,
         url: '/oper/gnrl/gamSelectPrtFcltyUseExprInqireList.do',
@@ -59,7 +59,7 @@ GamPrtFcltyUseExprInqireModule.prototype.loadComplete = function() {
             module.$('#sumGrFee').val(data.sumGrFee);
             module.$('#sumGrRdcxptFee').val(data.sumGrRdcxptFee);
             module.makeDivValues('#useListSum', data);
-            return data;        	
+            return data;
         }
     });
 
@@ -70,8 +70,17 @@ GamPrtFcltyUseExprInqireModule.prototype.loadComplete = function() {
         module.$("#prtFcltyUseExprInqireListTab").tabs("option", {active: 1});
     });
 
-	this.$("#sGrUsagePdFrom").val(EMD.util.getDate());
-	this.$("#sGrUsagePdTo").val(EMD.util.getDate());
+    if(params!=null) {
+    	if(params.action=="popupInqire"){
+            this.$('#sGrUsagePdFrom').val(EMD.util.getDate());
+            this.$('#sGrUsagePdTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
+        	this.$('#rcivSe').val("0");
+        	this.loadUseList();
+    	}
+    } else {
+        this.$('#sGrUsagePdFrom').val(EMD.util.getDate());
+        this.$('#sGrUsagePdTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
+    }
 };
 
 GamPrtFcltyUseExprInqireModule.prototype.loadUseList = function() {
@@ -163,7 +172,7 @@ GamPrtFcltyUseExprInqireModule.prototype.onTabChange = function(newTabId, oldTab
 //value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 GamPrtFcltyUseExprInqireModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
-    
+
  // 자산코드 조회
 	case "selectGisCodePopup":
 		this.$("#searchAssetsCd").val(value["gisAssetsCd"]);
@@ -179,7 +188,7 @@ GamPrtFcltyUseExprInqireModule.prototype.onClosePopup = function(popupId, msg, v
          break;
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-         
+
          break;
      }
 };
@@ -259,8 +268,8 @@ var module_instance = new GamPrtFcltyUseExprInqireModule();
                             </td>
                             <th>자산코드</th>
                             <td>
-                                <input id="searchAssetsCd" type="text" size="8">&nbsp;-&nbsp; 
-                                <input id="searchAssetsSubCd" type="text" size="7">&nbsp;　　　　　　　　&nbsp; 
+                                <input id="searchAssetsCd" type="text" size="8">&nbsp;-&nbsp;
+                                <input id="searchAssetsSubCd" type="text" size="7">&nbsp;　　　　　　　　&nbsp;
                                 <button id="popupGisCode" class="popupButton">선택</button>
                             </td>
                         </tr>
@@ -319,13 +328,13 @@ var module_instance = new GamPrtFcltyUseExprInqireModule();
                             <tr>
 								<th width="15%" height="23">항코드/담당부서</th>
 								<td width="33%">
-									<span data-column-id="prtAtCode"></span>&nbsp;-&nbsp; 
+									<span data-column-id="prtAtCode"></span>&nbsp;-&nbsp;
 									<span data-column-id="prtAtCode" class="ygpaCmmnCd" data-code-id="GAM019"></span>&nbsp;／&nbsp;
 									<span data-column-id="deptcdNm"></span>
 								</td>
 								<th width="15%" height="23">납부방법/고지방법</th>
 								<td width="33%">
-									<span data-column-id="payMthNm"></span>&nbsp;／&nbsp; 
+									<span data-column-id="payMthNm"></span>&nbsp;／&nbsp;
 									<span data-column-id="nticMthNm"></span>
 								</td>
                             </tr>
@@ -338,7 +347,7 @@ var module_instance = new GamPrtFcltyUseExprInqireModule();
 								</td>
 								<th width="15%" height="23">신청업체</th>
 								<td>
-									<span data-column-id="entrpscd"></span>&nbsp;-&nbsp; 
+									<span data-column-id="entrpscd"></span>&nbsp;-&nbsp;
 									<span data-column-id="entrpsNm"></span>
 								</td>
                             </tr>
@@ -357,7 +366,7 @@ var module_instance = new GamPrtFcltyUseExprInqireModule();
                             <tr>
 								<th width="15%" height="23">총사용기간</th>
 								<td>
-									<span data-column-id="grUsagePdFrom"></span>&nbsp;～&nbsp; 
+									<span data-column-id="grUsagePdFrom"></span>&nbsp;～&nbsp;
 									<span data-column-id="grUsagePdTo"></span>
 								</td>
 								<th width="15%" height="23">총사용면적</th>
@@ -424,7 +433,7 @@ var module_instance = new GamPrtFcltyUseExprInqireModule();
 							</tr>
 						</table>
                     </div>
-                 	
+
             </div>
 
         </div>
