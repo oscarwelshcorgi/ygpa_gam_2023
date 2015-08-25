@@ -256,7 +256,7 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 		if(rows.length) {
 			this.$('#addAssetRentRenew').show();
 			this.$('#btnEApproval').hide();	// 결재 요청 disable
-			this.$('#btnRemoveItem').hide();
+			this.$('#btnRemoveItem').show();
 			this.$('#btnRentFeeMngt').show();
 			this.$('#btnHtldRentListExcelDownload').show();
 		}

@@ -648,7 +648,7 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 		int nticCnt = gamHtldRentMngtDao.selectHtldRentMngtNticLevReqestCnt(vo);
 
 		if(nticCnt!=0) {
-			processException("gam.asset.rent.delete.reject1");
+			throw processException("fail.rent.delete.notice");
 		}
 
 		gamHtldRentMngtDao.deleteHtldRentMngtPhoto(vo); //배후단지임대 사진정보 삭제

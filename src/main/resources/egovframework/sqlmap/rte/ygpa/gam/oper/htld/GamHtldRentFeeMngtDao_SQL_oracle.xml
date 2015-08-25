@@ -1784,7 +1784,6 @@
       		NHT_ISUE_YN=#nhtIsueYn#,
       		NTICNO=#nticno#,
       		ACCNUT_YEAR=#accnutYear#,
-      		CHRGE_KND=#chrgeKnd#,
       		PAY_TMLMT=#payTmlmt#
      		<isNotNull prepend="," property="nticAmt">
       			NTIC_AMT=#nticAmt#

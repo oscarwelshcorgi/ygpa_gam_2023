@@ -389,7 +389,7 @@ public class GamHtldRentMngtController {
 	        resultMsg = egovMessageSource.getMessage("success.common.delete");
         } catch(Exception e) {
     		resultCode = 1;
-    		resultMsg  = egovMessageSource.getMessage("fail.common.msg");
+    		resultMsg  = e.getMessage();
         }
 
     	map.put("resultCode", resultCode);
