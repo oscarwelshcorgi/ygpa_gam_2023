@@ -374,8 +374,8 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 					}
 
 					levReqestVo.setNticCnt(Integer.toString(nticCnt));
-					levReqestVo.setNticPdFrom(dateFormat.format(startDate));
-					levReqestVo.setNticPdTo(dateFormat.format(toDate));
+					levReqestVo.setNticPdFrom(dateFormat.format(startDate.toDate()));
+					levReqestVo.setNticPdTo(dateFormat.format(toDate.toDate()));
 					gamHtldRentMngtDao.insertHtldRentBill(levReqestVo);
 				}
 			}
@@ -428,8 +428,8 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 					}
 
 					levReqestVo.setNticCnt(Integer.toString(nticCnt));
-					levReqestVo.setNticPdFrom(dateFormat.format(startDate));
-					levReqestVo.setNticPdTo(dateFormat.format(toDate));
+					levReqestVo.setNticPdFrom(dateFormat.format(startDate.toDate()));
+					levReqestVo.setNticPdTo(dateFormat.format(toDate.toDate()));
 					gamHtldRentMngtDao.insertHtldRentBill(levReqestVo);
 				}
 			}
@@ -481,8 +481,8 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 					}
 
 					levReqestVo.setNticCnt(Integer.toString(nticCnt));
-					levReqestVo.setNticPdFrom(dateFormat.format(startDate));
-					levReqestVo.setNticPdTo(dateFormat.format(toDate));
+					levReqestVo.setNticPdFrom(dateFormat.format(startDate.toDate()));
+					levReqestVo.setNticPdTo(dateFormat.format(toDate.toDate()));
 					gamHtldRentMngtDao.insertHtldRentBill(levReqestVo);
 				}
 			}
