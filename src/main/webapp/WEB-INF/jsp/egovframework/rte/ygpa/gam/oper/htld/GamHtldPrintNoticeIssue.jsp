@@ -918,6 +918,9 @@ div.notice {
 	      			<h2>산출근거</h2>
 	      			<p>
 	      			사용기간 : <c:out value="${master.nticPdFrom}"/> ~ <c:out value="${master.nticPdTo}"/><br/>
+	      			<c:if test="${master.assessAmt ne 0}">
+	      			<p><c:out value="${master.assessSeNm}"/> 단가 증감액 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.assessAmt}" /> 원</p>
+	      			</c:if>
 	      			<c:out value="${master.chrgeKndNm}"/> : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${master.fee}" /> 원</p>
 				    <p>
 				    <c:if test="${master.intrAmnt>0}">

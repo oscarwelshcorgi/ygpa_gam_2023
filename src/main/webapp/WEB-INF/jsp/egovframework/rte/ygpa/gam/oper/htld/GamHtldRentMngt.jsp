@@ -130,20 +130,22 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
         url: '/oper/htld/selectHtldAssessList.do',
         dataType: 'json',
         colModel : [
-                    {display:'평가회차', name:'assessNo', width:80, sortable:true, align:'center'},
-                    {display:'평가기간', name:'assessPd', width:240, sortable:true, align:'left'},
-                    {display:'구분', name:'assessSeNm', width:100, sortable:true, align:'left'},
-                    {display:'평가일', name:'assessDt', width:100, sortable:true, align:'left'},
+                    {display:'평가회차', name:'assessNo', width:80, sortable:true, align:'center', displayFormat:'input'},
+                    {display:'기간From', name:'dtFrom', width:120, sortable:true, align:'left', displayFormat:'cal'},
+                    {display:'기간To', name:'dtTo', width:120, sortable:true, align:'left', displayFormat:'cal'},
+                    {display:'구분', name:'assessSe', width:100, sortable:true, align:'left', displayFormat:'ajaxselect', url:'/oper/htld/selectHtldAssessSeCodeList.do', params:[]},
+                    {display:'평가일', name:'assessDt', width:100, sortable:true, align:'left', displayFormat:'cal'},
                     {display:'평가결과', name:'assessResult', width:100, sortable:true, align:'center', displayFormat:'dyn'},
-                    {display:'비고', name:'rm', width:100, sortable:true, align:'left'}
+                    {display:'비고', name:'rm', width:100, sortable:true, align:'left', displayFormat:'input'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
         preProcess: function(module,data) {
+            module._assessNo=module._assessNo||0;
             $.each(data.resultList, function() {
-            	this.assessPd = this.dtFrom+" ~ " +this.dtTo;
+            	if(module._assessNo<this.assessNo) module._assessNo=this.assessNo;
             });
-
+            module._deleteAssessList=[];
             return data;
         }
     });
@@ -153,7 +155,6 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
 
     this.$("#bizAssessGrid").on('onCellEdited', function(event, module, row, grid, param) {
         if(row._updtId!="I") row._updtId="U";
-    	module.onCalc();
     });
 
     this.$("#nticListGrid").flexigrid({
@@ -163,7 +164,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
         colModel : [
                     {display:'고지회차', name:'nticCnt', width:50, sortable:true, align:'center'},
                     {display:'요금부과기간', name:'rentPeriod', width:200, sortable:true, align:'center'},
-                    {display:'요금종류', name:'chrgeKndNm', width:120, sortable:true, align:'ㅊ둣ㄷㄱ'},
+                    {display:'요금종류', name:'chrgeKndNm', width:120, sortable:true, align:'center'},
                     {display:'고지금액', name:'billAmnt', width:100, sortable:true, align:'right', displayFormat:'number'},
                     {display:'고지일자', name:'billDt', width:110, sortable:true, align:'center'},
                     {display:'납부상태', name:'rcvdTpNm', width:80, sortable:true, align:'center'},
@@ -669,6 +670,12 @@ GamHtldRentMngtModule.prototype.getNumber = function(value) {
         case 'btnAppendBizAssess':
         	this.appendBizAssess();
         	break;
+        case 'btnSaveBizAssess':
+        	this.saveBizAssess();
+        	break;
+        case 'btnRemoveBizAssess':
+        	this.removeBizAssess();
+        	break;
         case 'btnCallBizAssess':
             var rows = this.$('#assetRentMngtList').selectedRows();
             var opts = {};
@@ -731,11 +738,64 @@ GamHtldRentMngtModule.prototype.approvalEA = function() {
 };
 
 <%--
-평가 등록 추가
+	평가 등록 추가
 --%>
 GamHtldRentMngtModule.prototype.appendBizAssess = function() {
-	var d = this.$('#assetsRentAssess')
-	this.$('#assetRentAssess').flexAddRow();
+	this._assessNo=this._assessNo||0;
+	this._assessNo++;
+
+	this.$('#bizAssessGrid').flexAddRow({
+		_updtId:'I',
+    	prtAtCode: this._rentDetail.prtAtCode,
+    	mngYear: this._rentDetail.mngYear,
+    	mngNo: this._rentDetail.mngNo,
+    	mngCnt: this._rentDetail.mngCnt,
+		assessNo:this._assessNo,
+		assessPdFrom:'',
+		assessPdTo:'',
+		assessSeNm:'',
+		assessDt:EMD.util.getDate(),
+		assessResult:0,
+		rm:''
+	});
+};
+
+<%--
+	평가 등록 삭제
+--%>
+GamHtldRentMngtModule.prototype.removeBizAssess = function() {
+    var rowId=this.$('#bizAssessGrid').selectedRowIds();
+
+    if(rowId.length == 0) {
+        alert("삭제할 항목을 선택하십시오.");
+    } else {
+		for(var i=rowId.length-1; i>=0; i--) {
+		    var row=this.$('#bizAssessGrid').flexGetRow(rowId[i]);
+
+		    if(row._updtId==undefined || row._updtId!='I') {
+		    	this._deleteAssessList[this._deleteAssessList.length]=row;
+		    }
+		    this.$('#bizAssessGrid').flexRemoveRow(rowId[i]);
+		}
+    }
+};
+
+<%--
+	평가 등록 저장
+--%>
+GamHtldRentMngtModule.prototype.saveBizAssess = function() {
+	var assessList={};
+	assessList['_cList'] = JSON.stringify(this.$('#bizAssessGrid').selectFilterData([{col: '_updtId', filter: 'I'}]));
+	assessList['_uList'] = JSON.stringify(this.$('#bizAssessGrid').selectFilterData([{col: '_updtId', filter: 'U'}]));
+	assessList['_dList'] = JSON.stringify(this._deleteAssessList);
+
+	this.doAction('/oper/htld/updateHtldAssessList.do', assessList, function(module, result) {
+        if(result.resultCode == 0){
+        	module.loadAssessList();
+        	module._editChanged=false;
+        }
+        alert(result.resultMsg);
+    });
 };
 
 <%--
@@ -1424,9 +1484,10 @@ var module_instance = new GamHtldRentMngtModule();
             <div id="tabs3" class="emdTabPage fillHeight" style="overflow: hidden;">
                 <table id="bizAssessGrid" style="display:none" class="fillHeight"></table>
                 <div class="emdControlPanel">
-                	<button id="btnAppendBizAssess">평가저장</button>
-                	<button id="btnSaveBizAssess">평가저장</button>
-                	<button id="btnCallBizAssess">평가관리</button>
+                	<button id="btnAppendBizAssess">추가</button>
+                	<button id="btnRemoveBizAssess">삭제</button>
+                	<button id="btnSaveBizAssess">저장</button>
+                	<!-- <button id="btnCallBizAssess">평가관리</button> -->
                 	<button data-role="gridXlsDown" data-flexi-grid="bizAssessGrid" data-xls-name="배후단지실적평가.xls" data-xls-title="배후단지 실적평가">엑셀</button>
                	</div>
             </div>

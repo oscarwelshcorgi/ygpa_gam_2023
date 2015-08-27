@@ -921,6 +921,20 @@
 		      R.AGENT_CODE,
 		      TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM,
 		      TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO,
+		      <![CDATA[
+		      nvl((select assess_result from htld_rent_assess_f where L.PRT_AT_CODE   = PRT_AT_CODE
+					      AND L.MNG_YEAR      = MNG_YEAR
+					      AND L.MNG_NO        = MNG_NO
+					      AND L.MNG_CNT       = MNG_CNT
+					      AND L.NTIC_PD_FROM > DT_FROM
+    						AND L.NTIC_PD_TO < DT_TO+1), 0) ASSESS_AMT,
+				GAM_GETCODENAME('GAM071', (select ASSESS_SE from htld_rent_assess_f where L.PRT_AT_CODE   = PRT_AT_CODE
+		      AND L.MNG_YEAR      = MNG_YEAR
+		      AND L.MNG_NO        = MNG_NO
+		      AND L.MNG_CNT       = MNG_CNT
+		      AND L.NTIC_PD_FROM > DT_FROM
+							AND L.NTIC_PD_TO < DT_TO+1)) ASSESS_SE_NM,
+							]]>
 		      TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT,
 		      L.ARRRG_NO,
 		      (SELECT RPRSNTV_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=L.ENTRPSCD) RPRSNTV_NM,

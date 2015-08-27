@@ -94,7 +94,7 @@ public class GamHtldRentAssessMngtController {
     }
 
 	/**
-     * 배후단지임대목록을 조회한다.
+     * 배후단지임대평가목록을 조회한다.
      *
      * @param searchVO
      * @return map

@@ -45,6 +45,11 @@ public class GamHtldAssessVO implements Serializable {
     private String assessNo;
 
     /**
+     * 삭제를 위한 이전 평가 번호
+     */
+    private String oldAssessNo;
+
+    /**
      * 평가구분
      */
     private String assessSe;
@@ -73,6 +78,11 @@ public class GamHtldAssessVO implements Serializable {
      * 평가일자
      */
     private String assessDt;
+
+    /**
+     * 비고
+     */
+    private String rm;
 
 	/**
 	 * @return the prtAtCode
@@ -226,6 +236,34 @@ public class GamHtldAssessVO implements Serializable {
 	 */
 	public void setAssessDt(String assessDt) {
 		this.assessDt = assessDt;
+	}
+
+	/**
+	 * @return the rm
+	 */
+	public String getRm() {
+		return rm;
+	}
+
+	/**
+	 * @param rm the rm to set
+	 */
+	public void setRm(String rm) {
+		this.rm = rm;
+	}
+
+	/**
+	 * @return the oldAssessNo
+	 */
+	public String getOldAssessNo() {
+		return oldAssessNo;
+	}
+
+	/**
+	 * @param oldAssessNo the oldAssessNo to set
+	 */
+	public void setOldAssessNo(String oldAssessNo) {
+		this.oldAssessNo = oldAssessNo;
 	}
 
 }

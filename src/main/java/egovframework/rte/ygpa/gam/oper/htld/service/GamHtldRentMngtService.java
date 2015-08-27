@@ -155,6 +155,16 @@ public interface GamHtldRentMngtService {
      */
     List selectHtldAssessList(GamHtldRentDefaultVO searchVO) throws Exception;
 
+	/**
+	 * 평가 항목 저장
+	 * @param rentVo
+	 * @param createList
+	 * @param updateList
+	 * @param deleteList
+	 * @throws Exception
+	 */
+	void updateHtldAssessList(List<GamHtldAssessVO> createList,  List<GamHtldAssessVO> updateList,  List<GamHtldAssessVO> deleteList) throws Exception;
+
     /**
      * @param searchVO
      * @return
@@ -190,4 +200,15 @@ public interface GamHtldRentMngtService {
      * @throws Exception
      */
     public void createHtldRentMngtFirst() throws Exception;
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public List selectHtldAssessSeCodeList(GamHtldRentDefaultVO searchVO) throws Exception;
+
+	/**
+	 * @param modifyVo
+	 */
+	void applyHtldAssessList(GamHtldAssessVO modifyVo) throws Exception;
 }

@@ -1145,6 +1145,11 @@
 		]]>
     </select>
 
+   <select id="gamHtldRentMngtDao.selectHtldAssessSeNmList_D" resultClass="egovMap">
+   	select CODE "NAME", CODE_NM "VALUE" from comtccmmndetailcode
+	where code_id='GAM071'
+   </select>
+
    <select id="gamHtldRentMngtDao.selectHtldAssessList_D" parameterClass="gamHtldRentMngtVO" resultClass="egovMap">
 		SELECT A.*
 		FROM (
@@ -1156,6 +1161,7 @@
 					MNG_NO,
 					MNG_CNT,
 					ASSESS_NO,
+					ASSESS_NO OLD_ASSESS_NO,
 					ASSESS_SE,
 					GAM_GETCODENAME('GAM071', ASSESS_SE) ASSESS_SE_NM,
 					TO_CHAR(DT_FROM, 'YYYY-MM-DD') DT_FROM,
@@ -1211,10 +1217,71 @@
 			#assessResult#,
 			#applcPrice#,
 			TO_DATE(#dtFrom#, 'YYYY-MM-DD'),
-			TO_DATE(#dtFrom#, 'YYYY-MM-DD')+365*3,
+			TO_DATE(#dtTo#, 'YYYY-MM-DD'),
 			TO_DATE(#assessDt#, 'YYYY-MM-DD')
 	   	)
     </insert>
+
+   <update id="gamHtldRentMngtDao.updateHtldAssess_S" parameterClass="gamHtldAssessVO">
+	   	UPDATE HTLD_RENT_ASSESS_F SET
+	   		ASSESS_NO=#assessNo#,
+	   		ASSESS_SE=#assessSe#,
+			ASSESS_RESULT=#assessResult#,
+			APPLC_PRICE=#applcPrice#,
+			DT_FROM=TO_DATE(#dtFrom#, 'YYYY-MM-DD'),
+			DT_TO=TO_DATE(#dtTo#, 'YYYY-MM-DD'),
+			ASSESS_DT=TO_DATE(#assessDt#, 'YYYY-MM-DD')
+		WHERE
+			PRT_AT_CODE=#prtAtCode#
+			AND MNG_YEAR=#mngYear#
+			AND MNG_NO=#mngNo#
+			AND MNG_CNT=#mngCnt#
+			AND ASSESS_NO=#oldAssessNo#
+    </update>
+
+   <update id="gamHtldRentMngtDao.deleteHtldAssess_S" parameterClass="gamHtldAssessVO">
+	   	DELETE HTLD_RENT_ASSESS_F
+	   	WHERE
+			PRT_AT_CODE=#prtAtCode#
+			AND MNG_YEAR=#mngYear#
+			AND MNG_NO=#mngNo#
+			AND MNG_CNT=#mngCnt#
+			AND ASSESS_NO=#oldAssessNo#
+    </update>
+
+    <update id="gamHtldRentMngtDao.applyHtldAssess_D" parameterClass="gamHtldAssessVO">
+    <![CDATA[
+        UPDATE lev_reqest_f l
+		SET ( fee, vat, ntic_amt ) = (select fee, fee*0.1 vat, fee*1.1 ntic_amt
+		    from (
+		       select aL.PRT_AT_CODE,aL.MNG_YEAR, aL.MNG_NO, aL.MNG_CNT, al.ntic_cnt, trunc((SELECT SUM(usage_ar*(applc_price+nvl(a.assess_result,0))*MONTHS_BETWEEN(al.ntic_pd_to+1, al.ntic_pd_from))
+				  FROM assets_rent_detail_f
+				  WHERE prt_at_code=al.prt_at_code
+				  AND mng_year     =al.mng_year
+				  AND mng_no       =al.mng_no
+				  AND mng_cnt      =al.mng_cnt), -1) fee
+		    from lev_reqest_f al left outer join htld_rent_assess_f a
+		      on 		A.prt_at_code   =aL.PRT_AT_CODE
+				AND A.MNG_YEAR      =aL.MNG_YEAR
+				AND A.MNG_NO        =aL.MNG_NO
+				AND A.MNG_CNT       =aL.MNG_CNT
+		    AND al.NTIC_PD_FROM > a.DT_FROM
+		    AND al.NTIC_PD_TO < a.DT_TO+1
+		      ) bl
+		      WHERE 1             =1
+		      and l.prt_at_code=bl.prt_at_code
+		      and l.mng_year=bl.mng_year
+		      and l.mng_No=bl.mng_No
+		      and l.mng_Cnt=bl.mng_Cnt
+		      and l.ntic_cnt=bl.ntic_cnt)
+		WHERE 1             =1
+		      and l.prt_at_code=#prtAtCode#
+		      and l.mng_year=#mngYear#
+		      and l.mng_No=#mngNo#
+		      and l.mng_Cnt=#mngCnt#
+	          AND l.nht_isue_yn='N'
+	          ]]>
+    </update>
 
    <select id="gamHtldRentMngtDao.selectHtldNticRcivList_D" parameterClass="gamHtldRentMngtVO" resultClass="egovMap">
 	SELECT A.*

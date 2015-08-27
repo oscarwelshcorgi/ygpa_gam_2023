@@ -5,38 +5,37 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld"%>
 <%--
-  @Class Name : GamHtldRentMngt.jsp
-  @Description : 배후단지임대관리
+  @Class Name : GamHtldRentAssessMngt.jsp
+  @Description : 배후단지임대평가관리
   @Modification Information
 
      수정일         수정자                   수정내용
     ------------ 	----------	---------------------------
-    2014.01.10  heroine     최초 생성
-    2014.12.16	eunsungj	죄다 뜯어 고침 ㅡㅡ;
+    2014.12.16	eunsungj	최초 생성
 
    author eunsungj
-   since 2014.01.10
+   since 2014.12.16
 
-  Copyright (C) 2013 by LFIT  All right reserved.
+  Copyright (C) 2014 by LFIT  All right reserved.
 --%>
-<validator:javascript formName="gamHtldRentMngt" method="validateGamAssetRent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<%-- <validator:javascript formName="gamHtldRentMngt" method="validateGamAssetRent" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
 <validator:javascript formName="gamHtldRentMngtDetail" method="validateGamAssetRentDetail" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
-<validator:javascript formName="gamHtldRentMngtPhoto" method="validateGamAssetRentFile" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" />
+<validator:javascript formName="gamHtldRentMngtPhoto" method="validateGamAssetRentFile" staticJavascript="false" dynamicJavascript="true" xhtml="true" cdata="false" /> --%>
 <script>
 <%--
  	아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.	(주석 표준화 할 것!!)
 --%>
-function GamHtldRentMngtModule() {}
+function GamHtldAssessMngtModule() {}
 
 <%--
 	EmdModule을 상속하여 모듈 클래스를 정의한다.
 --%>
-GamHtldRentMngtModule.prototype = new EmdModule(900, 645);
+GamHtldAssessMngtModule.prototype = new EmdModule(900, 645);
 
 <%--
 	페이지가 호출 되었을때 호출 되는 함수
 --%>
-GamHtldRentMngtModule.prototype.loadComplete = function() {
+GamHtldAssessMngtModule.prototype.loadComplete = function() {
 
     // 자산임대 테이블 설정
     this.$("#assetAssessMngtList").flexigrid({
@@ -48,7 +47,8 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
 //                    {display:'관리번호', name:'rentMngNo',width:82, sortable:false,align:'center'},
                     {display:'입주기업', name:'entrpsNm',width:190, sortable:false,align:'left'},
                     {display:'입주면적(m<sup>2</sup>)', name:'grAr',width:88, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'평가기간', name:'assessPd', width:240, sortable:true, align:'left'},
+                    {display:'기간From', name:'assessPdFrom', width:240, sortable:true, align:'left'},
+                    {display:'기간To', name:'assessPdTo', width:240, sortable:true, align:'left'},
                     {display:'평가결과', name:'assessResult', width:100, sortable:true, align:'center', displayFormat:'dyn'},
                     {display:'적용단가', name:'applcPrice', width:100, sortable:true, align:'center', displayFormat:'number'},
                     {display:'운영연월', name:'operYrMt',width:80, sortable:false,align:'center'}
@@ -101,7 +101,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
 <%--
 	이벤트 정의
 --%>
-GamHtldRentMngtModule.prototype.setEvents = function() {
+GamHtldAssessMngtModule.prototype.setEvents = function() {
     this.$("#sEntrpscd").bind("keyup change", {module: this}, function(event) {
 		if(event.data.module.$('#sEntrpscd').val() ==''){
 			event.data.module.$('#sEntrpsNm').val('');
@@ -133,7 +133,7 @@ GamHtldRentMngtModule.prototype.setEvents = function() {
 <%--
 	버튼 상태 설정
 --%>
-GamHtldRentMngtModule.prototype.setButtonStatus = function() {
+GamHtldAssessMngtModule.prototype.setButtonStatus = function() {
 	var tab_active = this.$('#assetRentListTab').tabs('option', 'active');
 	switch(tab_active) {
 	case 0:
@@ -248,7 +248,7 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 <%--
 	자산코드와 주소를 문자열로 변환한다
 --%>
-GamHtldRentMngtModule.prototype.makeAssetCd = function(assetCd) {
+GamHtldAssessMngtModule.prototype.makeAssetCd = function(assetCd) {
 	assetCd.gisAssetsCode = assetCd.gisAssetsCd+'-'+assetCd.gisAssetsSubCd;
 	assetCd.gisAssetsLocplcAll = assetCd.gisAssetsLocplc;
 	if(assetCd.gisAssetsLnm!=undefined && assetCd.gisAssetsLnm!=null) {
@@ -262,7 +262,7 @@ GamHtldRentMngtModule.prototype.makeAssetCd = function(assetCd) {
 <%--
 	적용방법이 수정 되었을때 호출되는 이벤트 핸들러
 --%>
-GamHtldRentMngtModule.prototype.onChangeNticMth = function(nticMth) {
+GamHtldAssessMngtModule.prototype.onChangeNticMth = function(nticMth) {
     //alert($(this).val());
     if( nticMth != '' && nticMth != '1' ) {
     	this.$('#cofixList').val( this.$('#blceStdrIntrrate').val() );
@@ -278,7 +278,7 @@ GamHtldRentMngtModule.prototype.onChangeNticMth = function(nticMth) {
 <%--
 	분납 이자율이 변경 되었을 때 호출 되는 이벤트 핸들러
 --%>
-GamHtldRentMngtModule.prototype.onCofixListChange = function(cofix) {
+GamHtldAssessMngtModule.prototype.onCofixListChange = function(cofix) {
 	//alert('||'+$(this).val()+'||');
     if( cofix == '' ) {
     	this.$('#payinstIntrrate').val("");
@@ -298,7 +298,7 @@ GamHtldRentMngtModule.prototype.onCofixListChange = function(cofix) {
 <%--
 	업체 담당자 정보를 로딩한다.
 --%>
-GamHtldRentMngtModule.prototype.loadEntrpsChargerList = function() {
+GamHtldAssessMngtModule.prototype.loadEntrpsChargerList = function() {
 	var entrpsCd=this.$('#entrpscd').val();
 	this.$('#chargerTlphonNo').text('');
 	this.$('#chargerMoblphonNo').text('');
@@ -350,7 +350,7 @@ GamHtldRentMngtModule.prototype.loadEntrpsChargerList = function() {
 <%--
 	기간에 대한 달 수 계산 함수
 --%>
-GamHtldRentMngtModule.prototype.calcMonth = function(dtFrom, dtTo) {
+GamHtldAssessMngtModule.prototype.calcMonth = function(dtFrom, dtTo) {
 	var retval={month: 0, day: 0, lastMonthDay: 31};
 
 	var months = 0;
@@ -377,7 +377,7 @@ GamHtldRentMngtModule.prototype.calcMonth = function(dtFrom, dtTo) {
 <%--
 	적용방법에 따른 요금 계산
 --%>
-GamHtldRentMngtModule.prototype.onCalc = function() {
+GamHtldAssessMngtModule.prototype.onCalc = function() {
 	var usageAr=0;
 	this.$('#assetRentDetailList')[0].dgrid.forEachRow(function(id) {
     	usageAr+=Number(this.cells(id,4).getValue());
@@ -508,7 +508,7 @@ GamHtldRentMngtModule.prototype.onCalc = function() {
 <%--
 	문자열을 받아서 숫자로 리턴한다. (EMD.util.getNumber 추가 예정)
 --%>
-GamHtldRentMngtModule.prototype.getNumber = function(value) {
+GamHtldAssessMngtModule.prototype.getNumber = function(value) {
     var rnum=value!=undefined?value:0;
 
     if(typeof rnum=="string") rnum=Number(rnum.replace(/,/g,""));
@@ -520,7 +520,7 @@ GamHtldRentMngtModule.prototype.getNumber = function(value) {
 스위치문 안에 코드가 길어지면 반드시 하위 함수로 분리 할 것.
     	case 문에 주석을 달때는 case 문 뒤에 붙일 것
 --%>
- GamHtldRentMngtModule.prototype.onButtonClick = function(buttonId) {
+ GamHtldAssessMngtModule.prototype.onButtonClick = function(buttonId) {
     switch(buttonId) {
 	    case 'popupEntrpsInfo': // 팝업을 호출한다.(조회 조건)
 	        this.doExecuteDialog('selectEntrpsInfoPopup', '업체 선택', '/popup/showEntrpsInfo.do', {});
@@ -589,7 +589,7 @@ GamHtldRentMngtModule.prototype.getNumber = function(value) {
 <%--
 	전자결재 연동
 --%>
-GamHtldRentMngtModule.prototype.approvalEA = function() {
+GamHtldAssessMngtModule.prototype.approvalEA = function() {
     if(this.$('#assetAssessMngtList').selectedRowCount()>0) {
 
         var rows = this.$('#assetAssessMngtList').selectedRows()[0];
@@ -623,7 +623,7 @@ GamHtldRentMngtModule.prototype.approvalEA = function() {
 <%--
 	임대계약 추가
 --%>
-GamHtldRentMngtModule.prototype.addRentData = function() {
+GamHtldAssessMngtModule.prototype.addRentData = function() {
 	this.$("#assetAssessMngtList").noSelect();
 	this._detailMode="I";
     this.$("#assetRentListTab").tabs("option", {active: 1});  // 탭을 전환 한다.
@@ -646,7 +646,7 @@ GamHtldRentMngtModule.prototype.addRentData = function() {
 <%--
 	임대계약 연장
 --%>
-GamHtldRentMngtModule.prototype.extendRentData = function() {
+GamHtldAssessMngtModule.prototype.extendRentData = function() {
 	var rows = this.$('#assetAssessMngtList').selectedRows();
 
 	if (rows.length >= 1) {
@@ -672,7 +672,7 @@ GamHtldRentMngtModule.prototype.extendRentData = function() {
 <%--
 임대계약 저장
 --%>
-GamHtldRentMngtModule.prototype.storeRentData = function() {
+GamHtldAssessMngtModule.prototype.storeRentData = function() {
 	if(!validateGamAssetRent(this.$('#gamAssetRentForm')[0])) {
         return;
     }
@@ -722,7 +722,7 @@ GamHtldRentMngtModule.prototype.storeRentData = function() {
 <%--
 	임대계약 삭제
 --%>
-GamHtldRentMngtModule.prototype.deleteRentData = function() {
+GamHtldAssessMngtModule.prototype.deleteRentData = function() {
             var rows = this.$('#assetAssessMngtList').selectedRows();
 
             if(rows.length == 0) {
@@ -748,7 +748,7 @@ GamHtldRentMngtModule.prototype.deleteRentData = function() {
 <%--
 	추가고지 기존 고지분에 추가로 고지를 한다.
 --%>
-GamHtldRentMngtModule.prototype.addNoticeAdit = function() {
+GamHtldAssessMngtModule.prototype.addNoticeAdit = function() {
             var rows = this.$('#assetAssessMngtList').selectedRows();
 
     if(rows.length>=1) {
@@ -767,14 +767,14 @@ GamHtldRentMngtModule.prototype.addNoticeAdit = function() {
 <%--
 	임대 상세 추가.
 --%>
-GamHtldRentMngtModule.prototype.addRentDetailItem = function() {
+GamHtldAssessMngtModule.prototype.addRentDetailItem = function() {
 	this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '/popup/showAssetsCd.do', {}, {"gisAssetsPrprtySeCd":"L"});
 };
 
 <%--
 	임대 상세 삭제
 --%>
-GamHtldRentMngtModule.prototype.deleteRentDetailItem = function() {
+GamHtldAssessMngtModule.prototype.deleteRentDetailItem = function() {
     var rowId=this.$('#assetRentDetailList').selectedRowIds();
 
     if(rowId.length == 0) {
@@ -796,7 +796,7 @@ GamHtldRentMngtModule.prototype.deleteRentDetailItem = function() {
 <%--
 	임대 내역 밸리데이션
 --%>
-GamHtldRentMngtModule.prototype.validateRentDetail = function() {
+GamHtldAssessMngtModule.prototype.validateRentDetail = function() {
         	if(!validateGamAssetRentDetail(this.$('#gamAssetRentDetailForm')[0])) {
         return false;
             }
@@ -882,7 +882,7 @@ GamHtldRentMngtModule.prototype.validateRentDetail = function() {
 <%--
 	파일 적용
 --%>
-GamHtldRentMngtModule.prototype.applyPhotoData = function() {
+GamHtldAssessMngtModule.prototype.applyPhotoData = function() {
 
 	if(!validateGamAssetRentFile(this.$('#gamAssetRentFileForm')[0])) {
         return;
@@ -905,14 +905,14 @@ GamHtldRentMngtModule.prototype.applyPhotoData = function() {
 	EmdModule에서 Overriding 된 Submit 함수.
 	모듈에서 엔터키를 입력 하거나 submitButton 클래스의 버튼이 눌려졌을때 호출되는 이벤트 함수. (포커스에 따라 동작 안될 때도 있음.)
 --%>
-GamHtldRentMngtModule.prototype.onSubmit = function() {
+GamHtldAssessMngtModule.prototype.onSubmit = function() {
     this.loadData();
 };
 
 <%--
 	메인 그리드의 데이터를 조회 한다.
 --%>
-GamHtldRentMngtModule.prototype.loadData = function() {
+GamHtldAssessMngtModule.prototype.loadData = function() {
     this.$("#assetRentListTab").tabs("option", {active: 0});
     var searchOpt=this.makeFormArgs('#gamAssetRentMngtSearchForm');
     this.$('#assetAssessMngtList').flexOptions({params:searchOpt}).flexReload();
@@ -923,7 +923,7 @@ GamHtldRentMngtModule.prototype.loadData = function() {
 <%--
 	실적평가 목록을 조회 한다.
 --%>
-GamHtldRentMngtModule.prototype.loadAssessList = function() {
+GamHtldAssessMngtModule.prototype.loadAssessList = function() {
 	if(this._rentDetail==null) {
 		alert('선택한 계약이 없습니다.');
 		return;
@@ -940,7 +940,7 @@ GamHtldRentMngtModule.prototype.loadAssessList = function() {
 <%--
 	고지내역을 조회 한다.
 --%>
-GamHtldRentMngtModule.prototype.loadNticList = function() {
+GamHtldAssessMngtModule.prototype.loadNticList = function() {
 	if(this._rentDetail==null) {
 		alert('선택한 계약이 없습니다.');
 		return;
@@ -957,7 +957,7 @@ GamHtldRentMngtModule.prototype.loadNticList = function() {
 <%--
 탭이 변경 되기 전에 호출되는 이벤트 핸들러 : 리턴값이 false이면 탭 변경이 취소되어 탭이 바뀌질 않는다.
 --%>
-GamHtldRentMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
+GamHtldAssessMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
     switch(newTabId) {
     case 'tabs1':
     	if(this._editChanged && (this._detailMode=="I")) {
@@ -982,7 +982,7 @@ GamHtldRentMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId)
 <%--
 	탭이 변경 된 후 호출 되는 이벤트 핸들러
 --%>
-GamHtldRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
+GamHtldAssessMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
     switch(newTabId) {
     case 'tabs1':
     	this._loadedItem=false;
@@ -1002,7 +1002,7 @@ GamHtldRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 <%--
 	탭 변경 시 상세 폼 데이터를 로딩 한다.
 --%>
-GamHtldRentMngtModule.prototype.loadDetail  = function(mode) {
+GamHtldAssessMngtModule.prototype.loadDetail  = function(mode) {
 	var row;
 	if(this._detailMode=='I') {
     	row={}; // clear
@@ -1045,7 +1045,7 @@ GamHtldRentMngtModule.prototype.loadDetail  = function(mode) {
 		msg : 팝업에서 전송한 메시지 (취소는 cancel)
 		value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
 --%>
-GamHtldRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
+GamHtldAssessMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
     switch (popupId) {
      case 'selectEntrpsInfoPopup':
          if (msg != 'cancel') {
@@ -1091,9 +1091,9 @@ GamHtldRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
 
 <%--
 다음 변수는 고정 적으로 정의 해야 함
-	module_instance는 고정 변수 GamHtldRentMngtModule은 위에서 EmdModule을 상속 받는 이 윈도우의 모듈 함수로 정의 됨.
+	module_instance는 고정 변수 GamHtldAssessMngtModule은 위에서 EmdModule을 상속 받는 이 윈도우의 모듈 함수로 정의 됨.
 --%>
-var module_instance = new GamHtldRentMngtModule();
+var module_instance = new GamHtldAssessMngtModule();
 
 </script>
 <%--

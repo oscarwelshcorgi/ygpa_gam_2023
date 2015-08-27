@@ -788,4 +788,47 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
     	}
 	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtService#updateHtldAssessList(java.util.List, java.util.List, java.util.List)
+	 */
+	@Override
+	public void updateHtldAssessList(List<GamHtldAssessVO> createList,
+			List<GamHtldAssessVO> updateList,
+			List<GamHtldAssessVO> deleteList) throws Exception {
+		int i;
+
+//		String updtId=rentVo.getUpdUsr();
+		for(i=0; i<deleteList.size(); i++) {
+			GamHtldAssessVO d= deleteList.get(i);
+			gamHtldRentMngtDao.deleteHtldAssess(d);
+		}
+		for(i=0; i<updateList.size(); i++) {
+			GamHtldAssessVO d= updateList.get(i);
+//			d.setUpdUsr(updtId);
+			gamHtldRentMngtDao.updateHtldAssess(d);
+		}
+		for(i=0; i<createList.size(); i++) {
+			GamHtldAssessVO d= createList.get(i);
+//			d.setRegUsr(updtId);
+			gamHtldRentMngtDao.insertHtldAssess(d);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtService#selectHtldAssessSeCodeList(egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentDefaultVO)
+	 */
+	@Override
+	public List selectHtldAssessSeCodeList(GamHtldRentDefaultVO searchVO)
+			throws Exception {
+		return gamHtldRentMngtDao.selectHtldAssessSeNmList();
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtService#applyHtldAssessList(java.util.List)
+	 */
+	@Override
+	public void applyHtldAssessList(GamHtldAssessVO vo) throws Exception {
+		gamHtldRentMngtDao.applyHtldAssessList(vo);
+	}
+
 }

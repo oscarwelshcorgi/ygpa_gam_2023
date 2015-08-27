@@ -141,7 +141,8 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
 			row['intrAmnt']=intrAmnt;
             row['feeAmnt']=feeAmnt;
             if(row['vatYn']=='2' || row['vatYn']=='Y') {
-                vat=Math.floor(feeAmnt*0.01)*10;
+                // vat=Math.floor(feeAmnt*0.01)*10;	-- 이경하 대리 요청 부가세 원단위 절삭 안함
+                vat=Math.floor(feeAmnt*0.1);
             }
             else vat=0;
             row['vat']=vat;
@@ -187,7 +188,8 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
             }
             feeAmnt=fee+intrAmnt;
             if(row['vatYn']=='2' || row['vatYn']=='Y') {
-                vat=Math.floor(feeAmnt*0.01)*10;
+                // vat=Math.floor(feeAmnt*0.01)*10; -- 이경하 대리 요청 사항 부가세 원단위 절삭 안함
+                vat=Math.floor(feeAmnt*0.1);
             }
             else vat=0;
             row['feeAmnt']=feeAmnt;
@@ -243,7 +245,8 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
 			var feeAmnt=fee+intrAmnt;
             feeAmnt=fee+intrAmnt;
             if(row['vatYn']=='2' || row['vatYn']=='Y') {
-                vat=Math.floor(feeAmnt*0.01)*10;
+                // vat=Math.floor(feeAmnt*0.01)*10; -- 이경하 대리 요청 사항 부가세 원단위 절삭 안함
+                vat=Math.floor(feeAmnt*0.1);
             }
             else vat=0;
             row['feeAmnt']=feeAmnt;
@@ -414,7 +417,8 @@ GamHtldRentFeeMngtModule.prototype.makeRowData = function(item) {
 	if(item.vatYn=='2') {
 		vatRate=0.1;
 	}
-	item.vat=Math.floor(item.feeAmnt*vatRate*0.1)*10;
+//	item.vat=Math.floor(item.feeAmnt*vatRate*0.1)*10;	-- 이경하 대리 요청 사항 부가세 원단위 절삭 안함
+	item.vat=Math.floor(item.feeAmnt*vatRate);
 //	if(item.nticAmt===0) {
 		item.nticAmt=item.feeAmnt+item.vat;
 //	}

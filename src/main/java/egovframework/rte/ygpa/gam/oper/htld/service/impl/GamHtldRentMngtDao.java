@@ -314,8 +314,20 @@ public class GamHtldRentMngtDao extends YGPAAbstractDAO {
 		return (EgovMap) selectByPk("gamHtldRentMngtDao.selectHtldNticRcivSum_S", searchVO);
 	}
 
-	public void insertHtldAssess(GamHtldAssessVO vo) throws Exception {
-		insert("gamHtldRentMngtDao.insertHtldAssess_S", vo);
+	public List selectHtldAssessSeNmList() throws Exception {
+        return list("gamHtldRentMngtDao.selectHtldAssessSeNmList_D", null);
+	}
+
+	public String insertHtldAssess(GamHtldAssessVO vo) throws Exception {
+		return (String)insert("gamHtldRentMngtDao.insertHtldAssess_S", vo);
+	}
+
+	public int updateHtldAssess(GamHtldAssessVO vo) throws Exception {
+		return update("gamHtldRentMngtDao.updateHtldAssess_S", vo);
+	}
+
+	public int deleteHtldAssess(GamHtldAssessVO vo) throws Exception {
+		return delete("gamHtldRentMngtDao.deleteHtldAssess_S", vo);
 	}
 
 	/**
@@ -485,5 +497,13 @@ public class GamHtldRentMngtDao extends YGPAAbstractDAO {
 		map.put("blTpNum", "12");
         return (String)insert("gamHtldRentMngtDao.insertBillCreateMore", map);
     }
+
+	/**
+	 * @param createList
+	 * @return
+	 */
+	public void applyHtldAssessList(GamHtldAssessVO vo) throws Exception {
+		update("gamHtldRentMngtDao.applyHtldAssess_D", vo);
+	}
 
 }

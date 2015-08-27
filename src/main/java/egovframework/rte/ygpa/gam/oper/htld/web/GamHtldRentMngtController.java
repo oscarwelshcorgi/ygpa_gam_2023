@@ -35,6 +35,7 @@ import egovframework.rte.fdl.cmmn.exception.EgovBizException;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
+import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldAssessVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentAttachFileVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentDefaultVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtDetailVO;
@@ -536,6 +537,18 @@ public class GamHtldRentMngtController {
     }
 
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/htld/selectHtldAssessSeCodeList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectHtldAssessSeCodeList(GamHtldRentDefaultVO searchVO) throws Exception {
+
+    	Map map = new HashMap();
+
+    	List assessSeList = gamHtldRentMngtService.selectHtldAssessSeCodeList(searchVO);
+
+    	map.put("resultCode", 0);	// return ok
+    	map.put("resultList", assessSeList);
+    	return map;
+	}
 	/**
 	 * 실적평가 목록을 조회 한다.
 	 * @param searchVO
@@ -577,6 +590,77 @@ public class GamHtldRentMngtController {
     	map.put("searchOption", searchVO);
 
     	return map;
+    }
+
+
+    /**
+     * 평가 항목을 저장한다.
+     * @param assessList
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/htld/updateHtldAssessList.do")
+    public @ResponseBody Map updateHtldAssessList(
+    		@RequestParam Map<String, Object> assessList)
+           throws Exception {
+
+    	Map map = new HashMap();
+        String resultMsg = "";
+        int resultCode = 1;
+        ObjectMapper mapper = new ObjectMapper();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+    	List<GamHtldAssessVO> createList=null, updateList=null, deleteList=null;
+    	if(assessList.containsKey("_cList"))
+	    	createList = mapper.readValue((String)assessList.get("_cList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
+	    			GamHtldAssessVO.class));
+    	if(assessList.containsKey("_uList"))
+	    	updateList = mapper.readValue((String)assessList.get("_uList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
+	    			GamHtldAssessVO.class));
+    	if(assessList.containsKey("_dList"))
+	    	deleteList = mapper.readValue((String)assessList.get("_dList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
+	    			GamHtldAssessVO.class));
+
+    	try {
+    		if(createList!=null || updateList!=null || deleteList!=null) {
+    			GamHtldAssessVO modifyVo=null;
+    			if(createList!=null && createList.size()!=0) {
+    				modifyVo=createList.get(0);
+    			}
+    			if(updateList!=null && updateList.size()!=0) {
+    				modifyVo=updateList.get(0);
+    			}
+    			if(deleteList!=null && deleteList.size()!=0) {
+    				modifyVo=deleteList.get(0);
+    			}
+        		gamHtldRentMngtService.updateHtldAssessList(createList, updateList, deleteList);
+        		if(modifyVo!=null) {
+            		gamHtldRentMngtService.applyHtldAssessList(modifyVo);
+        		}
+    		}
+    	}
+    	catch(Exception e) {
+        	map.put("resultCode", -1);
+        	map.put("resultMsg", e.getMessage());
+        	return map;
+    	}
+
+        resultCode = 0; // return ok
+        resultMsg  = egovMessageSource.getMessage("success.common.update");
+
+    	map.put("resultCode", resultCode);
+    	map.put("resultMsg", resultMsg);
+
+		return map;
     }
 
 	/**
