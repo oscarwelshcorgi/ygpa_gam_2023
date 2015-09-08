@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO;
 
 
 /**
@@ -160,5 +161,22 @@ public interface GamHtldRentFeePaySttusMngtService {
 	 * @param gamHtldRentFeeMngtVO
 	 */
 	void sendLevReqestUnpaidF(GamHtldRentArrrgMngtVO gamHtldRentFeeMngtVO) throws Exception;
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	Map selectHtldCheckOcrResult(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception;
+
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	EgovMap selectHtldShowFeePayPopup(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception;
+
+	/**
+	 * @param gamPrtFcltyRentFeePaySttusMngtVO
+	 */
+	void htldUpdateRevCollRcvdTp(GamPrtFcltyRentFeePaySttusMngtVO gamPrtFcltyRentFeePaySttusMngtVO) throws Exception;
 
 }

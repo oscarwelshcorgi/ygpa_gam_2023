@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentArrrgMngtVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtVO;
 
@@ -175,5 +176,33 @@ public class GamHtldRentFeePaySttusMngtDao extends YGPAAbstractDAO {
         update("gamHtldRentFeePaySttusMngtDao.updateNticRequestUnpaidF_S", map);
 	}
 
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public Map selectHtldCheckOcrResult(GamPrtFcltyRentFeePaySttusMngtVO searchVO) {
+		return (EgovMap) selectByPk("gamHtldRentFeePaySttusMngtDao.selectHtldCheckOcrResult_S", searchVO);
+	}
 
+	/**
+	 * @param searchVO
+	 * @return
+	 */
+	public EgovMap selectHtldShowFeePayPopup(GamPrtFcltyRentFeePaySttusMngtVO searchVO) {
+		return (EgovMap) selectByPk("gamHtldRentFeePaySttusMngtDao.selectHtldShowFeePayPopup_S", searchVO);
+	}
+
+	/**
+	 * @param vo
+	 */
+	public void htldUpdateLevReqestRcivSe(GamPrtFcltyRentFeePaySttusMngtVO vo) {
+		this.update("gamHtldRentFeePaySttusMngtDao.htldUpdateLevReqestRcivSe", vo);
+	}
+
+	/**
+	 * @param map
+	 */
+	public void htldUpdateRevCollRcvdTp(Map<String, Object> map) {
+		this.update("gamHtldRentFeePaySttusMngtDao.htldUpdateRevCollRcvdTp", map);
+	}
 }

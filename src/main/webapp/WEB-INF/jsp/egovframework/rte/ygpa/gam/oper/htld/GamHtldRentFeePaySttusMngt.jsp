@@ -234,7 +234,47 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         case 'btnPrtFcltyRentFeePaySttusMngtListExcelDownload':	// 엑셀 다운로드
     		this.$('#htldRentFeePaySttusMngtList').flexExcelDown('/oper/gnrl/selectPrtFcltyRentFeePaySttusMngtListExcel.do');
     		break;
+        case 'btnRecivePay':
+        	this.receiveFeeSingle();
+        	break;
     }
+};
+
+GamHtldRentFeePaySttusMngtModule.prototype.receiveFeeSingle = function() {
+ 
+    if(this.$('#htldRentFeePaySttusMngtList').selectedRowCount()>0) {
+
+        var rows = this.$('#htldRentFeePaySttusMngtList').selectedRows()[0];
+
+     	this.doAction('/oper/gnrl/htldCheckOcrResult.do', rows, function(module, result) {
+     		
+    		if (result.resultCode == "0") {
+    			if(result.result['ocrDt']!=undefined) {
+    				alert('지로 수납된 자료는 변경 할 수 없습니다.');
+    				return;
+    			}
+    	    	var opts = {
+    	                'prtAtCode': result.result['prtAtCode'],
+    	                'mngYear': result.result['mngYear'],
+    	                'mngNo': result.result['mngNo'],
+    	                'mngCnt': result.result['mngCnt'],
+    	                'nticCnt' : result.result['nticCnt'],
+    		            'chrgeKnd': result.result['chrgeKnd']
+    	            };
+
+    	    	module.doExecuteDialog('feePayPopup', '수납 처리', '/oper/gnrl/htldShowFeePayPopup.do', opts);
+    		} else {
+    			alert(result.resultMsg);
+    		}
+
+    	});
+
+
+    } else {
+    	alert("목록에서 수납 처리 할 건을 선택하십시오.");
+    	return;
+    }
+
 };
 
 GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
@@ -683,6 +723,20 @@ GamHtldRentFeePaySttusMngtModule.prototype.onClosePopup = function(popupId, msg,
         } else {
         }
     	break;
+    case 'feePayPopup':
+    	if (msg != 'cancel') {
+        	console.log('htldfeePay');
+           	var arg = EMD.util.objectToArray(value);
+            this.doAction('/oper/gnrl/htldUpdateRevCollRcvdTp.do', arg, function(module, result) {
+
+                if(result.resultCode=='0') {
+                	module.loadData();
+                }
+                alert(result.resultMsg);
+            });
+        } else {
+        }
+    	break;
      default:
          alert('알수없는 팝업 이벤트가 호출 되었습니다.');
 
@@ -766,6 +820,7 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
 							<!--
 							<button id="btnUpdatePayDtls" data-icon="ui-icon-circle-check">납부확인</button>
 							 -->
+							<button id="btnRecivePay" data-icon="ui-icon-circle-check">수납</button>
 							<button data-role="gridXlsDown" data-flexi-grid="htldRentFeePaySttusMngtList" data-xls-name="배후단지납부현황목록.xls" data-xls-title="배후단지 납부현황 목록">엑셀</button>
 							<button id="btnNticArrrgSingle1" data-icon="ui-icon-clock">연체고지</button>
 							</td>

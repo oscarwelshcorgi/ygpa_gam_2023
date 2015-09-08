@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentArrrgMngtVO;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtVO;
@@ -227,5 +228,42 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
 		gamHtldRentFeePaySttusMngtDao.updateNticRequestUnpaidF(map);
 	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtService#selectHtldCheckOcrResult(egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO)
+	 */
+	@Override
+	public Map selectHtldCheckOcrResult(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception {
+		return gamHtldRentFeePaySttusMngtDao.selectHtldCheckOcrResult(searchVO);
+	}
 
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtService#selectHtldShowFeePayPopup(egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO)
+	 */
+	@Override
+	public EgovMap selectHtldShowFeePayPopup(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception {
+		return gamHtldRentFeePaySttusMngtDao.selectHtldShowFeePayPopup(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtService#htldUpdateRevCollRcvdTp(egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO)
+	 */
+	@Override
+	public void htldUpdateRevCollRcvdTp(GamPrtFcltyRentFeePaySttusMngtVO vo) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		gamHtldRentFeePaySttusMngtDao.htldUpdateLevReqestRcivSe(vo);
+
+     	map.put("rcvdSe", vo.getRcivSe());
+     	map.put("updUsr", vo.getUpdUsr());
+     	map.put("rcvdTp", vo.getRcivSe());
+     	map.put("rcvdDt", vo.getRcivDt());
+     	map.put("prtAtCode", vo.getPrtAtCode());
+     	map.put("mngYear", vo.getMngYear());
+     	map.put("mngNo", vo.getMngNo());
+     	map.put("mngCnt", vo.getMngCnt());
+     	map.put("nticCnt", vo.getNticCnt());
+     	map.put("chrgeKnd", vo.getChrgeKnd());
+
+     	gamHtldRentFeePaySttusMngtDao.htldUpdateRevCollRcvdTp(map);
+	}
 }

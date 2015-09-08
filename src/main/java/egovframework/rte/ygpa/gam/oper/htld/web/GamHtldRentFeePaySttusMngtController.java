@@ -28,6 +28,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdVO;
+import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentArrrgMngtVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtService;
@@ -513,5 +514,94 @@ public class GamHtldRentFeePaySttusMngtController {
 
     	return map;
     }
+    /**
+     * 지로 수납 된 자료인지 체크 한다.
+     * @param searchVO
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+	@RequestMapping(value="/oper/gnrl/htldCheckOcrResult.do")
+    public @ResponseBody Map htldCheckOcrResult(GamPrtFcltyRentFeePaySttusMngtVO searchVO,ModelMap model)throws Exception {
 
+    	Map map = new HashMap();
+		Map result = gamHtldRentFeePaySttusMngtService.selectHtldCheckOcrResult(searchVO);
+
+		if(result!=null) {
+			map.put("resultCode", 0);
+			map.put("result", result);
+		}
+		else {
+			map.put("resultCode", -1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+		}
+
+		return map;
+
+     }
+    /**
+     * 수납처리 팝업을 호출 한다.
+     * @param searchVO
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+	@RequestMapping(value="/oper/gnrl/htldShowFeePayPopup.do")
+    public String htldShowFeePayPopup(GamPrtFcltyRentFeePaySttusMngtVO searchVO,ModelMap model)throws Exception {
+
+		Map master = gamHtldRentFeePaySttusMngtService.selectHtldShowFeePayPopup(searchVO);
+
+		model.addAttribute("feePayMaster", master);
+
+    	return "/ygpa/gam/oper/gnrl/GamPopupPrtFcltyRentFeePay";
+     }
+    /**
+     * 고지취소를 한다.(단일처리)
+     * @param gamAssetRentFeeMngtVO
+     * @param bindingResult
+     * @return map
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+	@RequestMapping(value="/oper/gnrl/htldUpdateRevCollRcvdTp.do")
+    public @ResponseBody Map htldUpdateRevCollRcvdTp(
+     	   @ModelAttribute("gamPrtFcltyRentFeePaySttusMngtVO") GamPrtFcltyRentFeePaySttusMngtVO gamPrtFcltyRentFeePaySttusMngtVO,
+     	   BindingResult bindingResult)
+            throws Exception {
+     	Map map = new HashMap();
+        String resultMsg = "";
+        int resultCode = 1;
+        int anlrveLevCnt = 0;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	try {
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+    		gamPrtFcltyRentFeePaySttusMngtVO.setUpdUsr(loginVo.getId());
+    		gamPrtFcltyRentFeePaySttusMngtVO.setDeptcd(loginVo.getDeptCd());
+    		gamPrtFcltyRentFeePaySttusMngtVO.setRegUsr(loginVo.getName());
+
+    		gamHtldRentFeePaySttusMngtService.htldUpdateRevCollRcvdTp(gamPrtFcltyRentFeePaySttusMngtVO);
+
+	        resultCode = 0;
+	 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+    	}
+    	catch(Exception e) {
+	        resultCode = -1;
+	 		resultMsg  = egovMessageSource.getMessage("fail.reciveFee.msg");
+    	}
+
+     	map.put("resultCode", resultCode);
+        map.put("resultMsg", resultMsg);
+
+ 		return map;
+     }
 }
