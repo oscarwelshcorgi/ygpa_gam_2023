@@ -51,6 +51,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
                     {display:'적용단가(원)', name:'applcPrice',width:80, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'영업개시일', name:'operYrMt',width:80, sortable:false,align:'center'},
                     {display:'계약기간', name:'grUsagePdPeriod',width:175, sortable:false,align:'center'},
+                    {display:'소재지', name:'gisAssetsLocplc',width:170, sortable:false,align:'left'},
                     {display:'고지방법', name:'payMthNm',width:60, sortable:false,align:'center'},
                     {display:'납부방법', name:'nticMthNm',width:60, sortable:false,align:'left'},
                     {display:'과세구분', name:'taxtSeNm',width:120, sortable:false,align:'left'},
