@@ -47,10 +47,15 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
                     {display:'구역', name:'rentArea',width:82, sortable:false,align:'center'},
 //                    {display:'관리번호', name:'rentMngNo',width:82, sortable:false,align:'center'},
                     {display:'입주기업', name:'entrpsNm',width:190, sortable:false,align:'left'},
-                    {display:'입주면적(m<sup>2</sup>)', name:'grAr',width:88, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'업종', name:'compTp',width:110, sortable:false,align:'right'},
-                    {display:'계약기간', name:'grUsagePdPeriod',width:175, sortable:false,align:'center'},
+                    {display:'입주면적(㎡)', name:'grAr',width:88, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'적용단가(원)', name:'applcPrice',width:80, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'영업개시일', name:'operYrMt',width:80, sortable:false,align:'center'},
+                    {display:'계약기간', name:'grUsagePdPeriod',width:175, sortable:false,align:'center'},
+                    {display:'고지방법', name:'payMthNm',width:60, sortable:false,align:'center'},
+                    {display:'납부방법', name:'nticMthNm',width:60, sortable:false,align:'left'},
+                    {display:'과세구분', name:'taxtSeNm',width:120, sortable:false,align:'left'},
+                    {display:'요금종류', name:'chrgeKndNm',width:160, sortable:false,align:'left'},
+                    {display:'업종', name:'compTp',width:110, sortable:false,align:'right'},
                     {display:'취급화종', name:'frghtTp',width:120, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
@@ -1262,7 +1267,7 @@ GamHtldRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
      case 'selectAssetsCdRentPopup':
          if (msg != 'cancel') {
         	 value._updtId="I"
-        	 value.usageAr=Number(value.gisAssetsRealRentAr);
+        	 //value.usageAr=Number(value.gisAssetsRealRentAr);
         	 this.$('#assetRentDetailList').flexAddRow(value);
         	 this.onCalc();
          } else {

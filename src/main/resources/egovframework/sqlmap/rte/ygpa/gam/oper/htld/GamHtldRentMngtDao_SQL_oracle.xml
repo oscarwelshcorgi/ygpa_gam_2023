@@ -148,7 +148,11 @@
                                   , A.OPER_YR_MT
                                   , A.COMP_TP
                                   , A.FRGHT_TP
-                                  , A.CHRGE_KND
+                                  , GAM_GETCODENAME('GAM043', A.PAY_MTH) AS PAY_MTH_NM
+								  , GAM_GETCODENAME('GAM008', A.NTIC_MTH) AS NTIC_MTH_NM
+								  , GAM_GETCODENAME('GAM016', A.TAXT_SE) AS TAXT_SE_NM
+								  , GAM_GETCODENAME('GAM053', A.CHRGE_KND) AS CHRGE_KND_NM
+                                  , (SELECT APPLC_PRICE FROM ASSETS_RENT_DETAIL_F WHERE PRT_AT_CODE=A.PRT_AT_CODE AND MNG_YEAR=A.MNG_YEAR AND MNG_NO=A.MNG_NO AND MNG_CNT=A.MNG_CNT) APPLC_PRICE
                              FROM ASSETS_RENT_F A
                             WHERE A.QUAY_GROUP_CD='H'
 
