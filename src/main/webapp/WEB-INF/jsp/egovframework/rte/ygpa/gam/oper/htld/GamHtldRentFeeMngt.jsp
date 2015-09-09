@@ -51,7 +51,7 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
 				{display:'부가세', name:'vat',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'고지금액', name:'nticAmt',width:100, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
-				{display:'비고', name:'rm',width:140, sortable:false,align:'left', displayFormat: 'input'}
+				{display:'비고', name:'rm',width:140, sortable:false,align:'left'}
 				// {display:'결재상태', name:'sanctnSttusNm',width:60, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,

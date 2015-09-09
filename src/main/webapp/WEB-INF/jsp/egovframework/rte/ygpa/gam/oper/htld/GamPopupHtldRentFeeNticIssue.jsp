@@ -159,7 +159,7 @@ var popup_instance = new GamPopupNticIssueModule();
                     <tr>
                         <th style="width:100px; text-align: center;">비고</th>
                         <td colspan="3">
-                        <input id="rm"  value="<c:out value="${levReqestMaster.rm }" />" size="40"/>
+                        	<c:out value="${levReqestMaster.rm }" />
                         </td>
                     </tr>
 				</tbody>

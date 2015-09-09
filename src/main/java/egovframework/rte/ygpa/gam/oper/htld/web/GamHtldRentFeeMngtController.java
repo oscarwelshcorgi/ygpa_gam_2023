@@ -914,7 +914,6 @@ public class GamHtldRentFeeMngtController {
     		nticParam.put("intrRate", gamHtldRentFeeMngtVO.getIntrRate());
     		nticParam.put("vat", gamHtldRentFeeMngtVO.getVat());
     		nticParam.put("nticAmt", gamHtldRentFeeMngtVO.getNticAmt());
-    		nticParam.put("rm", gamHtldRentFeeMngtVO.getRm());
 
     		gamHtldRentFeeMngtService.sendLevReqestRevCollF(nticParam);
 

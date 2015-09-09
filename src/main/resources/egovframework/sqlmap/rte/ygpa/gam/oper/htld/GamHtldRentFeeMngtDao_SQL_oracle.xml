@@ -110,7 +110,7 @@
 		      END
 		    FROM dual
 		  )) cofix_obj_yrmt,
-		  L.RM ,
+		  A.RM ,
 		  L.RCIV_SE ,
 		  TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT ,
 		  L.NHT_ISUE_YN ,
@@ -966,6 +966,7 @@
 
     <select id="gamHtldRentFeeMngtDao.selectNticPrintDetail_D" parameterClass="hashMap" resultClass="egovMap">
     	SELECT
+    		A.RM,
     		D.USAGE_AR,
 			  D.APPLC_PRICE,
     		TRUNC(D.USAGE_AR*D.APPLC_PRICE, -1) D_PRICE,
@@ -1814,9 +1815,6 @@
      		</isNotNull>
      		<isNotNull prepend="," property="intrFeeNticno">
      			INTR_FEE_NTICNO=#intrFeeNticno#
-     		</isNotNull>
-     		<isNotNull prepend="," property="rm">
-     			RM=#rm#
      		</isNotNull>
        <isEqual prepend="," property="nhtIsueYn" compareValue="Y">
        		NTIC_DT=SYSDATE
