@@ -156,6 +156,12 @@ var popup_instance = new GamPopupNticIssueModule();
                         <input id="payTmlmt"  value="<c:out value="${levReqestMaster.payTmlmt }" />" class="emdcal" data-required="true"/>
                         </td>
                     </tr>
+                    <tr>
+                        <th style="width:100px; text-align: center;">비고</th>
+                        <td colspan="3">
+                        <input id="rm"  value="<c:out value="${levReqestMaster.rm }" />" size="40"/>
+                        </td>
+                    </tr>
 				</tbody>
 		    </table>
 		    <div class="emdControlPanel">

@@ -917,6 +917,7 @@
 	          L.INTR_AMNT,
 		      L.NTIC_CNT,
               L.INTR_RATE*100 INTR_RATE,
+              L.RM,
 		      R.AGENT_NAME,
 		      R.AGENT_CODE,
 		      TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM,
@@ -1814,6 +1815,9 @@
      		<isNotNull prepend="," property="intrFeeNticno">
      			INTR_FEE_NTICNO=#intrFeeNticno#
      		</isNotNull>
+     		<isNotNull prepend="," property="rm">
+     			RM=#rm#
+     		</isNotNull>
        <isEqual prepend="," property="nhtIsueYn" compareValue="Y">
        		NTIC_DT=SYSDATE
      	</isEqual>
@@ -1946,6 +1950,7 @@
 		  #nticPdFrom# NTIC_PD_FROM,
 		  #nticPdTo# NTIC_PD_TO,
 		  A.GR_AR,
+		  #rm# RM,
 		  TO_CHAR(p2mgr.sf_get_wrk_dt@ygpa_portmis(SYSDATE+15), 'YYYY-MM-DD') PAY_TMLMT,
 		  #intrRate# INTR_RATE,
 		  #intrAmnt# INTR_AMNT,

@@ -915,6 +915,7 @@ div.notice {
 	      			<c:set var="totalFee" value="${totalFee+detailItem.dPrice }"/>
 	  			    </c:forEach>
 	      			<p>년사용료 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${totalFee}" /> 원</p>
+	      			<p><c:if test="${master.rm!=null}">비고 : <c:out value="${master.rm}"/></c:if></p>
 	      			<h2>산출근거</h2>
 	      			<p>
 	      			사용기간 : <c:out value="${master.nticPdFrom}"/> ~ <c:out value="${master.nticPdTo}"/><br/>

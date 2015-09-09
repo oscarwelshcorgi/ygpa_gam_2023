@@ -98,12 +98,12 @@ var popup_instance = new GamPopupNticIssueModule();
                             <c:out value="${feePayMaster.nticPdTo }" />
                         </td>
                     </tr>
-                    <%-- <tr>
+                    <tr>
                         <th style="width:100px; text-align: center;">총사용면적</th>
                         <td style="width:100px; text-align:right;" colspan="3">
                             <fmt:formatNumber type="number" value="${feePayMaster.grAr }" /> m<sup>2</sup>
                         </td>
-                    </tr> --%>
+                    </tr>
 					<tr>
                         <th style="width:100px; text-align: center;">사용료</th>
                         <td style="width:100px; text-align:right;">
