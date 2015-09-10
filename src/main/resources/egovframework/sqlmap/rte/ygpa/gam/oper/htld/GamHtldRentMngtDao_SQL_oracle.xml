@@ -1406,7 +1406,7 @@
 		(
 				#prtAtCode#, #mngYear#, #mngNo#, #mngCnt#, LPAD(#nticCnt#, 2, '0'), #chrgeKnd#, #entrpscd#, #entrpsNm#,
 				#nticPdFrom#, #nticPdTo#,
-				'', '', '', 'N', 'N',
+				'', '', '', '0', 'N',
 				#fee#, #vat#, #vatYn#, #nticAmt#, #nticMth#, #regUsr#, #registDt#, #deptcd#, #fcltySe#
 		)
     </insert>
