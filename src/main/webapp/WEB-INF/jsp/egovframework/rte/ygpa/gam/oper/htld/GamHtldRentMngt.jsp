@@ -170,7 +170,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
         colModel : [
                     {display:'고지회차', name:'nticCnt', width:50, sortable:true, align:'center'},
                     {display:'요금부과기간', name:'rentPeriod', width:200, sortable:true, align:'center'},
-                    {display:'요금종류', name:'chrgeKndNm', width:120, sortable:true, align:'center'},
+                    {display:'요금종류', name:'chrgeKndNm', width:200, sortable:true, align:'center'},
                     {display:'고지금액', name:'billAmnt', width:100, sortable:true, align:'right', displayFormat:'number'},
                     {display:'고지일자', name:'billDt', width:110, sortable:true, align:'center'},
                     {display:'납부상태', name:'rcvdTpNm', width:80, sortable:true, align:'center'},

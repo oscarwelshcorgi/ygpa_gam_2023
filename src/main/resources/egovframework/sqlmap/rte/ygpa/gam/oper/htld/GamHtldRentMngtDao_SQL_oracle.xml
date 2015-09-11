@@ -1275,7 +1275,7 @@
 				AND A.MNG_YEAR      =aL.MNG_YEAR
 				AND A.MNG_NO        =aL.MNG_NO
 				AND A.MNG_CNT       =aL.MNG_CNT
-		    AND al.NTIC_PD_FROM > a.DT_FROM
+		    AND al.NTIC_PD_FROM >= a.DT_FROM
 		    AND al.NTIC_PD_TO < a.DT_TO+1
 		      ) bl
 		      WHERE 1             =1
