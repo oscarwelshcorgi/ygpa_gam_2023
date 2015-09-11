@@ -145,7 +145,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
                     {display:'비고', name:'rm', width:100, sortable:true, align:'left', displayFormat:'input'}
                     ],
         showTableToggleBtn: false,
-        height: 'auto',
+        height: '400',
         preProcess: function(module,data) {
             module._assessNo=module._assessNo||0;
             $.each(data.resultList, function() {
@@ -177,7 +177,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
                     {display:'납부일자', name:'rcvdDt', width:110, sortable:true, align:'center'}
                     ],
         showTableToggleBtn: false,
-        height: 'auto',
+        height: '400',
         preProcess: function(module,data) {
             $.each(data.resultList, function() {
             	switch(this.rcvdTp) {
@@ -1488,8 +1488,8 @@ var module_instance = new GamHtldRentMngtModule();
                  </div>
             </div>
             <div id="tabs3" class="emdTabPage fillHeight" style="overflow: hidden;">
-                <table id="bizAssessGrid" style="display:none" class="fillHeight"></table>
                 <div class="emdControlPanel">
+                <table id="bizAssessGrid" style="display:none" class="fillHeight"></table>
                 	<button id="btnAppendBizAssess">추가</button>
                 	<button id="btnRemoveBizAssess">삭제</button>
                 	<button id="btnSaveBizAssess">저장</button>
@@ -1498,14 +1498,12 @@ var module_instance = new GamHtldRentMngtModule();
                	</div>
             </div>
             <div id="tabs4" class="emdTabPage fillHeight" style="overflow: hidden;">
-                <table id="nticListGrid" style="display:none" class="fillHeight"></table>
                 <div class="emdControlPanel">
+                <table id="nticListGrid" style="display:none" class="fillHeight"></table>
                 	<button id="btnCallBizNticAssess">임대료고지 관리</button>
                 	<button data-role="gridXlsDown" data-flexi-grid="nticListGrid" data-xls-name="배후단지임대료고지내역.xls" data-xls-title="배후단지 임대료 고지 내역">엑셀</button>
               	</div>
             </div>
-
-
         </div>
     </div>
 </div>

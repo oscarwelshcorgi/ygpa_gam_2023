@@ -121,7 +121,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
 					{display:'연체납부기한', name:'dlyDueDt',width:110, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
-        height: 'auto',
+        height: '150',
         preProcess: function(module,data) {
     		if (data.resultCode == "0") {
     			module.makeDivValues('#prtFcltyRentFeePaySttusMngtListForm',data.resultDlyInfo);	// 리스트 값을 채운다
@@ -986,7 +986,7 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
 			</div>
 			<!-- change** -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
-
+				
                 <!-- <div class="emdControlPanel"><button id="btnSaveItem">저장</button><button id="btnCancelItem">취소</button><button id="btnRemoveItem">삭제</button></div>  -->
                     <form id="prtFcltyRentFeePaySttusMngtListForm">
                     	<div>
@@ -1050,7 +1050,8 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
                         </table>
 						</div>
                     </form>
-                    <h2>연체 고지 목록</h2>
+					<h2>연체 고지 목록</h2>
+					<div class="emdControlPanel">
                     <table id="prtFcltyRentFeePaySttusArrrgList" style="display:none" class="fillHeight"></table>
                     <table style="width:100%; margin-bottom: 2px" id="prtFcltyRentFeePaySttusMngtSum" class="summaryPanel">
 						<tr>
@@ -1074,6 +1075,7 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
 							</tr>
 						</tbody>
 					</table>
+					</div>
             </div>
         </div>
     </div>
