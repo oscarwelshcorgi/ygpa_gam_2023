@@ -911,9 +911,15 @@ div.notice {
 	      			<c:set var="totalFee" value="0"/>
 	  			    <c:forEach var="detailItem" items="${detail }">
 	      			<p>소재지 : <c:out value="${detailItem.gisAssetsLocplc}"/>&nbsp;<c:out value="${detailItem.gisAssetsLnm}"/><c:if test="${detailItem.gisAssetsLnmSub!=null}">-<c:out value="${detailItem.gisAssetsLnmSub}"/></c:if></p>
-	      			<p>년임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.dPrice}" /> 원 (면적 :  <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.usageAr}" /> m<sup>2</sup>&nbsp;단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.applcPrice}" /> 원)</p>
+	      			<c:if test="${detailItem.usageAr>1}">
+	      			<p>임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.dPrice}" /> 원 (면적 :  <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.usageAr}" /> m<sup>2</sup>&nbsp;단가 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.applcPrice}" /> 원)</p>
 	      			<c:set var="totalFee" value="${totalFee+detailItem.dPrice }"/>
-	      			<p>년사용료 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${totalFee}" /> 원</p>
+	      			<p>사용료 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${totalFee}" /> 원</p>
+	      			</c:if>
+	      			<c:if test="${detailItem.usageAr==1}">
+	      			<p>월임대료 : <fmt:formatNumber type="number" maxIntegerDigits="15" maxFractionDigits="2" value="${detailItem.dPrice}" /> 원</p>
+	      			<br>
+	      			</c:if>
 	  			    </c:forEach>
 	      			<h2>산출근거</h2>
 	      			<p>

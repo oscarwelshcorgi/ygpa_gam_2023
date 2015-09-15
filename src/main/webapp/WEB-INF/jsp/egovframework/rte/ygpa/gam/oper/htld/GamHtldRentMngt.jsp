@@ -308,14 +308,14 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 //					this.$('#btnSaveItem').hide(); // test
 					this.$('#btnSaveItem').show();
 
-					this.$('#popupEntrpsInfoInput').hide();
+					//this.$('#popupEntrpsInfoInput').hide();
 					this.$('#btnMangeCharger').hide();
 
 //					this.$('#btnInsertItemDetail').hide();
 //					this.$('#btnRemoveItemDetail').hide();
 
 			        this.$('#entrpscd').attr('readonly', true);
-			        this.$('#popupEntrpsInfoInput').attr('disabled', 'disabled');
+			        //this.$('#popupEntrpsInfoInput').attr('disabled', 'disabled');
 		        this.$('#btnSaveComment').show();
 			}
 			else {
@@ -1408,7 +1408,7 @@ var module_instance = new GamHtldRentMngtModule();
                             <tr>
 								<th width="10%" height="18">영업개시일</th>
                                 <td>
-									<input type="text" size="12" id="operYrMt" maxlength="6"/>
+									<input type="text" size="12" id="operYrMt" maxlength=""/>
                                 </td>
 								<th width="10%" height="18">계약기간</th>
                                 <td colspan="3">
