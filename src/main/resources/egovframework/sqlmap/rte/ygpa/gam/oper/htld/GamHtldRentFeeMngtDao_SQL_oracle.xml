@@ -1949,7 +1949,7 @@
 		  #nticPdTo# NTIC_PD_TO,
 		  A.GR_AR,
 		  #rm# RM,
-		  TO_CHAR(p2mgr.sf_get_wrk_dt@ygpa_portmis(SYSDATE+15), 'YYYY-MM-DD') PAY_TMLMT,
+		  TO_CHAR(p2mgr.sf_get_wrk_dt@ygpa_portmis(SYSDATE+14), 'YYYY-MM-DD') PAY_TMLMT,
 		  #intrRate# INTR_RATE,
 		  #intrAmnt# INTR_AMNT,
 		  L.FEE,

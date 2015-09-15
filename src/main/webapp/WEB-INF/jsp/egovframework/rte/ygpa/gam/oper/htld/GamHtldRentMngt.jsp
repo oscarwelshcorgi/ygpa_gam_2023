@@ -1408,7 +1408,7 @@ var module_instance = new GamHtldRentMngtModule();
                             <tr>
 								<th width="10%" height="18">영업개시일</th>
                                 <td>
-									<input type="text" size="12" id="operYrMt"/>
+									<input type="text" size="12" id="operYrMt" maxlength="6"/>
                                 </td>
 								<th width="10%" height="18">계약기간</th>
                                 <td colspan="3">

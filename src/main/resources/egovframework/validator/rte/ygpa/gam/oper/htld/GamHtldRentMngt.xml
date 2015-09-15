@@ -45,6 +45,7 @@
                     <var-value>yyyy-MM-dd</var-value>
                 </var>
             </field>
+            <!-- 
             <field property="operYrMt" depends="required, maxlength">
                 <arg0 key="운영연월" resource="false"/>
            		<arg1 key="6" resource="false"/>
@@ -53,6 +54,7 @@
 				<var-value>6</var-value>
 				</var>
             </field>
+             -->
             <field property="payMth" depends="required">
                 <arg0 key="납부방법" resource="false"/>
             </field>
