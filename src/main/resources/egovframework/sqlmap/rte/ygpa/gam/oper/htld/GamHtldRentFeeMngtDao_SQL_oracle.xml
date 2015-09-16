@@ -1816,6 +1816,9 @@
      		<isNotNull prepend="," property="intrFeeNticno">
      			INTR_FEE_NTICNO=#intrFeeNticno#
      		</isNotNull>
+     		<isNotNull prepend="," property="rm">
+     			RM=#rm#
+     		</isNotNull>
        <isEqual prepend="," property="nhtIsueYn" compareValue="Y">
        		NTIC_DT=SYSDATE
      	</isEqual>

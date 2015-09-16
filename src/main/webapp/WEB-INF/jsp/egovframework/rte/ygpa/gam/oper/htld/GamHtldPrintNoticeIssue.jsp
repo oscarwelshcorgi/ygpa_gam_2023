@@ -940,7 +940,7 @@ div.notice {
 	      			부가세(<c:out value="${master.taxtSeNm}"/>) : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.vat}" /> 원<br />
 	      			합 계 : <fmt:formatNumber type="number" maxIntegerDigits="15" value="${master.billAmnt}" /> 원
 	      			</p><br>
-	      			<p><c:if test="${detailItem.rm!=null}">비고 : <c:out value="${detailItem.rm}"/></c:if></p>
+	      			<p><c:if test="${master.rm!=null}">비고 : <c:out value="${master.rm}"/></c:if></p>
 	      		</div>
         	</div>
 
