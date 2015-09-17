@@ -1103,10 +1103,10 @@
 		AND L.NTIC_CNT   =#nticCnt#
 		AND L.CHRGE_KND  =#chrgeKnd#
 		AND R.PRT_AT_CODE=L.PRT_AT_CODE
-		AND R.fiscal_yr=L.accnut_year
-		AND R.bill_no =L.nticno
-		AND R.work_code     =L.chrge_knd
-		AND R.fee_tp    = GAM_GET_FEE_TP(l.chrge_knd)
+		AND R.FISCAL_YR = L.ACCNUT_YEAR
+		AND R.FEE_TP = GAM_GET_FEE_TP(L.CHRGE_KND)
+		AND R.WORK_CODE = L.CHRGE_KND
+		AND R.BILL_NO = L.NTICNO
 	</select>
 
 	<select id="gamHtldRentFeePaySttusMngtDao.selectHtldShowFeePayPopup_S" parameterClass="GamPrtFcltyRentFeePaySttusMngtVO" resultClass="egovMap">
