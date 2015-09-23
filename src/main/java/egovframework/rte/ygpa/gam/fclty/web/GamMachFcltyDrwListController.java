@@ -14,7 +14,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.ygpa.gam.fclty.service.GamCvlEngFcltySpecMngService;
+import egovframework.rte.ygpa.gam.fclty.service.GamArchFcltySpecMngService;
 
 /**
  *
@@ -34,7 +34,7 @@ import egovframework.rte.ygpa.gam.fclty.service.GamCvlEngFcltySpecMngService;
  */
 
 @Controller
-public class GamCvlEngFcltyDrwListController {
+public class GamMachFcltyDrwListController {
 
 	/** Validator */
 	@Autowired
@@ -48,14 +48,14 @@ public class GamCvlEngFcltyDrwListController {
 	@Resource(name="egovMessageSource")
 	EgovMessageSource egovMessageSource;
 
-	@Resource(name = "gamCvlEngFcltySpecMngService")
-	private GamCvlEngFcltySpecMngService gamCvlEngFcltySpecMngService;
+	@Resource(name = "gamArchFcltySpecMngService")
+	private GamArchFcltySpecMngService gamArchFcltySpecMngService;
 
-	@RequestMapping(value="/fclty/gamCvlEngFcltyDrwList.do")
+	@RequestMapping(value="/fclty/gamMachFcltyDrwList.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
 
 		model.addAttribute("windowId", windowId);
 
-		return "/ygpa/gam/fclty/GamCvlEngFcltyDrwList";
+		return "/ygpa/gam/fclty/GamMachFcltyDrwList";
 	}
 }

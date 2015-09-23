@@ -6,8 +6,8 @@
 <%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
 <%
 /**
- * @Class Name : GamCvlEngFcltyDrwList.jsp
- * @Description : 토목시설 도면목록
+ * @Class Name : GamElectyFcltyDrwList.jsp
+ * @Description : 전기시설 도면목록
  * @Modification Information
  *
  *   수정일          수정자                   수정내용
@@ -29,14 +29,14 @@
 
 <%
 /**
- * @FUNCTION NAME : GamCvlEngFcltyDrwList
+ * @FUNCTION NAME : GamElectyFcltyDrwListModule
  * @DESCRIPTION   : MODULE 고유 함수
  * @PARAMETER     : NONE
 **/
 %>
-function GamCvlEngFcltyDrwList() {}
+function GamElectyFcltyDrwListModule() {}
 
-GamCvlEngFcltyDrwList.prototype = new EmdModule(1000, 620);
+GamElectyFcltyDrwListModule.prototype = new EmdModule(1000, 620);
 
 <%
 /**
@@ -45,11 +45,11 @@ GamCvlEngFcltyDrwList.prototype = new EmdModule(1000, 620);
  * @PARAMETER     : NONE
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.loadComplete = function(params) {
+GamElectyFcltyDrwListModule.prototype.loadComplete = function(params) {
 
 	this.$("#fileGrid").flexigrid({
 		module : this,
-		url : '/fclty/gamSelectCvlEngFcltySpecMngFcltsAtchFileList.do',
+		url : '/fclty/gamSelectElectyFcltySpecMngFcltsAtchFileList.do',
 		dataType : 'json',
 		colModel : [
 					{display:"선택",		name:"atchFileSelChk",		width:40,		sortable:false,		align:"center",		displayFormat:"checkbox"},
@@ -120,7 +120,7 @@ GamCvlEngFcltyDrwList.prototype.loadComplete = function(params) {
 	this.$('#fileGrid')[0].dgrid.setColumnHidden(4, true);
 	this.$('#fileGrid')[0].dgrid.setColWidth(3, "300");
 	console.log(EMD.userinfo.mngFcltyCd);
-
+	
 };
 
 <%
@@ -131,7 +131,7 @@ GamCvlEngFcltyDrwList.prototype.loadComplete = function(params) {
  *   1. itemId - ITEM ID
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.onAtchFileDirTreeItemClick = function(itemId) {
+GamElectyFcltyDrwListModule.prototype.onAtchFileDirTreeItemClick = function(itemId) {
 
 	$(this)[0].module.refreshDirData(itemId);
 
@@ -147,7 +147,7 @@ GamCvlEngFcltyDrwList.prototype.onAtchFileDirTreeItemClick = function(itemId) {
  *   3. value    - VALUE
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.onClosePopup = function(popupId, msg, value) {
+GamElectyFcltyDrwListModule.prototype.onClosePopup = function(popupId, msg, value) {
 
 	switch (popupId) {
 		case 'popupFcltsAtchFileView':
@@ -191,7 +191,7 @@ GamCvlEngFcltyDrwList.prototype.onClosePopup = function(popupId, msg, value) {
  *   1. buttonId - BUTTON ID
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.onButtonClick = function(buttonId) {
+GamElectyFcltyDrwListModule.prototype.onButtonClick = function(buttonId) {
 
 	switch (buttonId) {
 		case 'btnDirRefresh':
@@ -235,7 +235,6 @@ GamCvlEngFcltyDrwList.prototype.onButtonClick = function(buttonId) {
 
 };
 
-
 <%
 /**
  * @FUNCTION NAME : selectFileData
@@ -243,7 +242,7 @@ GamCvlEngFcltyDrwList.prototype.onButtonClick = function(buttonId) {
  * @PARAMETER     : NONE
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.selectFileData = function() {
+GamElectyFcltyDrwListModule.prototype.selectFileData = function() {
 
 	if (this._fileKeyValue == "") {
 		return;
@@ -264,11 +263,11 @@ GamCvlEngFcltyDrwList.prototype.selectFileData = function() {
  *   1. argDirNo - DIRECTORY NO.
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.displayAtchFileDirectory = function(argDirNo) {
+GamElectyFcltyDrwListModule.prototype.displayAtchFileDirectory = function(argDirNo) {
 
 	this.$("#atchFileDirTreeList").empty();
 	var inputVO = this.makeFormArgs("#dirForm");
-	this.doAction('/fclty/gamSelectCvlEngFcltySpecMngAtchFileDirList.do', inputVO, function(module, result) {
+	this.doAction('/fclty/gamSelectElectyFcltySpecMngAtchFileDirList.do', inputVO, function(module, result) {
 		if (result.resultCode == "0") {
 			if (result.resultList.length > 0) {
 				var atchFileDirTreeNode = module.$('#atchFileDirTreeList');
@@ -303,13 +302,13 @@ GamCvlEngFcltyDrwList.prototype.displayAtchFileDirectory = function(argDirNo) {
  *   1. argDirNo - DIRECTORY NO.
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.refreshDirData = function(argDirNo) {
+GamElectyFcltyDrwListModule.prototype.refreshDirData = function(argDirNo) {
 
 	if (argDirNo > 1) {
 		this.$('#dirNo').val('' + argDirNo);
 		var dirQueryOption = this.$('#dirQueryOption').val();
 		var searchVO = this.getFormValues('#dirForm');
-		this.doAction('/fclty/gamSelectCvlEngFcltySpecMngAtchFileDirPk.do', searchVO, function(module, result){
+		this.doAction('/fclty/gamSelectElectyFcltySpecMngAtchFileDirPk.do', searchVO, function(module, result){
 			if (result.resultCode == "0") {
 				module.makeFormValues('#dirForm', result.result);
 				module.makeDivValues('#dirForm', result.result);
@@ -330,7 +329,7 @@ GamCvlEngFcltyDrwList.prototype.refreshDirData = function(argDirNo) {
 		this.$('#dirUpperNo').val("0");
 		this.$('#depthSort').val("0");
 		this.$('#leafYn').val("N");
-		this.$('#dirFcltsJobSe').val("C");
+		this.$('#dirFcltsJobSe').val("A");
 		this.$('#inputDirNm').val("ROOT");
 		this.displayAtchFileList("");
 	}
@@ -344,7 +343,7 @@ GamCvlEngFcltyDrwList.prototype.refreshDirData = function(argDirNo) {
  * @PARAMETER     : NONE
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.addAtchFileDirectory = function() {
+GamElectyFcltyDrwListModule.prototype.addAtchFileDirectory = function() {
 
 	var dirNo = Number(this.$('#dirNo').val());
 	var dirNm = this.$('#dirNm').val();
@@ -387,7 +386,7 @@ GamCvlEngFcltyDrwList.prototype.addAtchFileDirectory = function() {
 		alert('상위 디렉토리 정보가 부정확합니다. (업무구분)');
 		return;
 	}
-	if (dirFcltsJobSe != "C") {
+	if (dirFcltsJobSe != "A") {
 		alert('다른 시설담당자가 생성한 디렉토리입니다. (생성불가)');
 		return;
 	}
@@ -402,7 +401,7 @@ GamCvlEngFcltyDrwList.prototype.addAtchFileDirectory = function() {
 		this.$('#dirUpperNo').val(dirNo);
 		this.$('#depthSort').val("" + (depthSort + 1));
 		this.$('#leafYn').val("Y");
-		this.$('#dirFcltsJobSe').val("C");
+		this.$('#dirFcltsJobSe').val("A");
 		this.$('#dirNo').val("");
 		var insertVO = this.makeFormArgs("#dirForm");
 		this.$('#dirNm').val(dirNm);
@@ -412,7 +411,7 @@ GamCvlEngFcltyDrwList.prototype.addAtchFileDirectory = function() {
 		this.$('#leafYn').val(leafYn);
 		this.$('#dirFcltsJobSe').val(dirFcltsJobSe);
 		this.$('#dirNo').val("" + dirNo);
-		this.doAction('/fclty/gamInsertCvlEngFcltySpecMngAtchFileDir.do', insertVO, function(module, result) {
+		this.doAction('/fclty/gamInsertElectyFcltySpecMngAtchFileDir.do', insertVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.displayAtchFileDirectory("" + dirNo);
 			}
@@ -429,7 +428,7 @@ GamCvlEngFcltyDrwList.prototype.addAtchFileDirectory = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.renameAtchFileDirectory = function() {
+GamElectyFcltyDrwListModule.prototype.renameAtchFileDirectory = function() {
 
 	var dirNo = Number(this.$('#dirNo').val());
 	var dirNm = this.$('#dirNm').val();
@@ -472,7 +471,7 @@ GamCvlEngFcltyDrwList.prototype.renameAtchFileDirectory = function() {
 		alert('디렉토리 정보가 부정확합니다. (업무구분)');
 		return;
 	}
-	if (dirFcltsJobSe != "C") {
+	if (dirFcltsJobSe != "A") {
 		alert('다른 시설담당자가 생성한 디렉토리입니다. (변경불가)');
 		return;
 	}
@@ -495,7 +494,7 @@ GamCvlEngFcltyDrwList.prototype.renameAtchFileDirectory = function() {
 		var updateVO = this.makeFormArgs("#dirForm");
 		this.$('#dirNm').val(dirNm);
 		this.$('#dirPath').val(dirPath);
-		this.doAction('/fclty/gamUpdateCvlEngFcltySpecMngAtchFileDir.do', updateVO, function(module, result) {
+		this.doAction('/fclty/gamUpdateElectyFcltySpecMngAtchFileDir.do', updateVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.displayAtchFileDirectory("" + dirNo);
 			}
@@ -512,7 +511,7 @@ GamCvlEngFcltyDrwList.prototype.renameAtchFileDirectory = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.removeAtchFileDirectory = function() {
+GamElectyFcltyDrwListModule.prototype.removeAtchFileDirectory = function() {
 
 	var dirNo = Number(this.$('#dirNo').val());
 	var dirNm = this.$('#dirNm').val();
@@ -554,7 +553,7 @@ GamCvlEngFcltyDrwList.prototype.removeAtchFileDirectory = function() {
 		alert('디렉토리 정보가 부정확합니다. (업무구분)');
 		return;
 	}
-	if (dirFcltsJobSe != "C") {
+	if (dirFcltsJobSe != "A") {
 		alert('다른 시설담당자가 생성한 디렉토리입니다. (삭제불가)');
 		return;
 	}
@@ -564,14 +563,13 @@ GamCvlEngFcltyDrwList.prototype.removeAtchFileDirectory = function() {
 	}
 	if (confirm("[" + dirNm + "] 디렉토리를 삭제하시겠습니까?\r\n(하위 디렉토리 및 첨부 파일도 모두 삭제됩니다)")) {
 		var deleteVO = this.makeFormArgs("#dirForm");
-		this.doAction('/fclty/gamDeleteCvlEngFcltySpecMngAtchFileDir.do', deleteVO, function(module, result) {
+		this.doAction('/fclty/gamDeleteElectyFcltySpecMngAtchFileDir.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.displayAtchFileDirectory("");
 			}
 			alert(result.resultMsg);
 		});
 	}
-
 };
 
 <%
@@ -582,7 +580,7 @@ GamCvlEngFcltyDrwList.prototype.removeAtchFileDirectory = function() {
  *   1. argAtchFileDirNo - ATTACHE FILE DIRECTORY NO.
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.displayAtchFileList = function(argAtchFileDirNo) {
+GamElectyFcltyDrwListModule.prototype.displayAtchFileList = function(argAtchFileDirNo) {
 
 	this.makeFormValues('#fileForm', {});
 	this.makeDivValues('#fileForm', {});
@@ -607,12 +605,12 @@ GamCvlEngFcltyDrwList.prototype.displayAtchFileList = function(argAtchFileDirNo)
  *   1. argAtchFileNo - ATTACHE FILE NO.
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.refreshFileData = function(argAtchFileNo) {
+GamElectyFcltyDrwListModule.prototype.refreshFileData = function(argAtchFileNo) {
 
 	if (argAtchFileNo != null && argAtchFileNo != "") {
 		this.$('#atchFileNo').val(argAtchFileNo);
 		var searchVO = this.getFormValues('#fileForm');
-		this.doAction('/fclty/gamSelectCvlEngFcltySpecMngFcltsAtchFilePk.do', searchVO, function(module, result){
+		this.doAction('/fclty/gamSelectElectyFcltySpecMngFcltsAtchFilePk.do', searchVO, function(module, result){
 			if (result.resultCode == "0") {
 				module.makeFormValues('#fileForm', result.result);
 				module.makeDivValues('#fileForm', result.result);
@@ -638,7 +636,7 @@ GamCvlEngFcltyDrwList.prototype.refreshFileData = function(argAtchFileNo) {
  * @PARAMETER     : NONE
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.selectAllFile = function() {
+GamElectyFcltyDrwListModule.prototype.selectAllFile = function() {
 
 	var rows = this.$('#fileGrid').flexGetData();
 	var atchFileDataCount = rows.length;
@@ -667,7 +665,7 @@ GamCvlEngFcltyDrwList.prototype.selectAllFile = function() {
  *   7. argAtchFileNmPhysicl - ATTACHE FILE NAME PHYSICAL
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.saveUploadFileData = function(argAtchFileFcltsMngNo, argAtchFileFcltsDirNo, argAtchFileFcltsJobSe, argAtchFileFcltsDataSe, argAtchFileFcltsMngSeq, argAtchFileNmLogic, argAtchFileNmPhysicl) {
+GamElectyFcltyDrwListModule.prototype.saveUploadFileData = function(argAtchFileFcltsMngNo, argAtchFileFcltsDirNo, argAtchFileFcltsJobSe, argAtchFileFcltsDataSe, argAtchFileFcltsMngSeq, argAtchFileNmLogic, argAtchFileNmPhysicl) {
 
 	var inputVO = [];
 	var atchFileSe = "D";
@@ -698,7 +696,7 @@ GamCvlEngFcltyDrwList.prototype.saveUploadFileData = function(argAtchFileFcltsMn
 			'updUsr':"",
 			'updtDt':""
 	};
-	this.doAction('/fclty/gamInsertCvlEngFcltySpecMngFcltsAtchFile.do', inputVO, function(module, result) {
+	this.doAction('/fclty/gamInsertElectyFcltySpecMngFcltsAtchFile.do', inputVO, function(module, result) {
 		if (result.resultCode == "0") {
 			module.$("#fileGrid").flexAddRow({ atchFileNo:result.atchFileNo,
 											   atchFileSe:atchFileSe,
@@ -725,12 +723,12 @@ GamCvlEngFcltyDrwList.prototype.saveUploadFileData = function(argAtchFileFcltsMn
  * @PARAMETER     : NONE
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.uploadFile = function() {
+GamElectyFcltyDrwListModule.prototype.uploadFile = function() {
 
 	var atchFileFcltsDirNo = Number(this.$('#dirNo').val());
 	var atchFileFcltsMngNo = this.$('#fcltsMngNo').val();
 	var atchFileFcltsDataSe = "D";
-	var atchFileFcltsJobSe = "C";
+	var atchFileFcltsJobSe = "A";
 	var atchFileFcltsMngSeq = "";
 	if (atchFileFcltsDirNo <= 0) {
 		alert('업로드 디렉토리가 선택되지 않았습니다.');
@@ -751,7 +749,7 @@ GamCvlEngFcltyDrwList.prototype.uploadFile = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.downloadFile = function() {
+GamElectyFcltyDrwListModule.prototype.downloadFile = function() {
 
 	var selectRow = this.$('#fileGrid').selectedRows();
 	if (selectRow.length > 0) {
@@ -768,7 +766,7 @@ GamCvlEngFcltyDrwList.prototype.downloadFile = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.downloadMultiFile = function() {
+GamElectyFcltyDrwListModule.prototype.downloadMultiFile = function() {
 
 	var rows = this.$('#fileGrid').selectFilterData([{col:'atchFileSelChk', filter: true}]);
 	if (rows.length <= 0) {
@@ -789,7 +787,7 @@ GamCvlEngFcltyDrwList.prototype.downloadMultiFile = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.deleteFileData = function() {
+GamElectyFcltyDrwListModule.prototype.deleteFileData = function() {
 
 	var atchFileDirNo = this.$('#dirNo').val();
 	var atchFileNo = this.$('#atchFileNo').val();
@@ -798,13 +796,13 @@ GamCvlEngFcltyDrwList.prototype.deleteFileData = function() {
 		alert('첨부 파일 번호가 부정확합니다.');
 		return;
 	}
-	if (atchFileFcltsJobSe != "C") {
+	if (atchFileFcltsJobSe != "A") {
 		alert('다른 시설담당자가 첨부한 파일입니다. (삭제불가)');
 		return;
 	}
 	if (confirm("삭제하시겠습니까?")) {
 		var deleteVO = this.makeFormArgs("#fileForm");
-		this.doAction('/fclty/gamDeleteCvlEngFcltySpecMngFcltsAtchFile.do', deleteVO, function(module, result) {
+		this.doAction('/fclty/gamDeleteElectyFcltySpecMngFcltsAtchFile.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.displayAtchFileList(atchFileDirNo);
 			}
@@ -821,7 +819,7 @@ GamCvlEngFcltyDrwList.prototype.deleteFileData = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.deleteMultiFileData = function() {
+GamElectyFcltyDrwListModule.prototype.deleteMultiFileData = function() {
 
 	var rows = this.$('#fileGrid').selectFilterData([{col:'atchFileSelChk', filter: true}]);
 	if (rows.length <= 0) {
@@ -843,7 +841,7 @@ GamCvlEngFcltyDrwList.prototype.deleteMultiFileData = function() {
 			alert('[' + atchFileNmLogic + '] 첨부 파일 번호가 부정확합니다.');
 			return;
 		}
-		if (atchFileFcltsJobSe != "C") {
+		if (atchFileFcltsJobSe != "A") {
 			alert('[' + atchFileNmLogic + '] 다른 시설담당자가 첨부한 파일입니다. (삭제불가)');
 			return;
 		}
@@ -857,7 +855,7 @@ GamCvlEngFcltyDrwList.prototype.deleteMultiFileData = function() {
 		var deleteVO = {
 				'deleteAtchFileNoList':deleteAtchFileNoList
 		};
-		this.doAction('/fclty/gamDeleteCvlEngFcltySpecMngFcltsAtchFileMulti.do', deleteVO, function(module, result) {
+		this.doAction('/fclty/gamDeleteElectyFcltySpecMngFcltsAtchFileMulti.do', deleteVO, function(module, result) {
 			if (result.resultCode == "0") {
 				module.displayAtchFileList(atchFileDirNo);
 			}
@@ -874,7 +872,7 @@ GamCvlEngFcltyDrwList.prototype.deleteMultiFileData = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.displayPreviewFile = function() {
+GamElectyFcltyDrwListModule.prototype.displayPreviewFile = function() {
 
 	var atchFilePreviewFlag = this.$('#fileGrid')[0].dgrid.isColumnHidden(4);
 	var columnWidth = "200";
@@ -899,7 +897,7 @@ GamCvlEngFcltyDrwList.prototype.displayPreviewFile = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.showFcltsAtchFileViewPopup = function() {
+GamElectyFcltyDrwListModule.prototype.showFcltsAtchFileViewPopup = function() {
 
 	var atchFileNo = this.$('#atchFileNo').val();
 	var atchFileNmPhysicl = this.$('#atchFileNmPhysicl').val();
@@ -925,7 +923,7 @@ GamCvlEngFcltyDrwList.prototype.showFcltsAtchFileViewPopup = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.enableFileButtonItem = function() {
+GamElectyFcltyDrwListModule.prototype.enableFileButtonItem = function() {
 
 	var dirNo = this.$('#dirNo').val();
 	var atchFileNo = this.$('#atchFileNo').val();
@@ -970,7 +968,7 @@ GamCvlEngFcltyDrwList.prototype.enableFileButtonItem = function() {
  * @PARAMETER     : NONE
 **/
 %>
-GamCvlEngFcltyDrwList.prototype.disableFileButtonItem = function() {
+GamElectyFcltyDrwListModule.prototype.disableFileButtonItem = function() {
 
 	this.$('#btnFileAllSelect').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnFileUpload').disable({disableClass:"ui-state-disabled"});
@@ -980,7 +978,7 @@ GamCvlEngFcltyDrwList.prototype.disableFileButtonItem = function() {
 
 };
 
-var module_instance = new GamCvlEngFcltyDrwList();
+var module_instance = new GamElectyFcltyDrwListModule();
 
 </script>
 
@@ -998,7 +996,7 @@ var module_instance = new GamCvlEngFcltyDrwList();
 	<div id="mainTab" class="emdTabPanel fillHeight">
 		<table class="detailPanel" style="width:100%;">
 			<tr>
-				<th style="width:10%; height:20px;">선택디렉토리</th>
+				<th style="width:10%; height:25px;">선택디렉토리</th>
 				<td>
 					<form id="dirForm">
 						<input id="dirNo" type="hidden"/>
@@ -1012,9 +1010,9 @@ var module_instance = new GamCvlEngFcltyDrwList();
 						<select id="dirQueryOption">
 							<option value="">전체</option>
 							<option value="A">건축시설</option>
-							<option value="C" selected>토목시설</option>
+							<option value="C">토목시설</option>
 							<option value="M">기계시설</option>
-							<option value="E">전기시설</option>
+							<option value="E" selected>전기시설</option>
 							<option value="I">통신시설</option>
 						</select>
 					</form>
@@ -1022,7 +1020,7 @@ var module_instance = new GamCvlEngFcltyDrwList();
 				<td>
 					<button id="btnAtchDirFileSearch">디렉토리/파일 검색</button>
 				</td>
-				<th style="width:10%; height:20px;">선택첨부파일</th>
+				<th style="width:10%; height:25px;">선택첨부파일</th>
 				<td>
 					<form id="fileForm">
 						<input id="atchFileNo" type="hidden"/>
