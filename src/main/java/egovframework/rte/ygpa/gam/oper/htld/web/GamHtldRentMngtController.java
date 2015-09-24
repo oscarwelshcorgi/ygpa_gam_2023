@@ -643,8 +643,11 @@ public class GamHtldRentMngtController {
     				modifyVo=deleteList.get(0);
     			}
         		gamHtldRentMngtService.updateHtldAssessList(createList, updateList, deleteList);
+        		/**
+        		 * 평가 금액 정보를 반영해서 사용료를 생성한다.
+        		 */
         		if(modifyVo!=null) {
-            		gamHtldRentMngtService.applyHtldAssessList(modifyVo);
+//            		gamHtldRentMngtService.applyHtldAssessList(modifyVo);
         		}
     		}
     	}

@@ -377,6 +377,7 @@
 			, GAM_GETCODENAME('GAM043', A.PAY_MTH) PAY_MTH_NM
 			, TO_CHAR(NVL(A.PAYINST_INTRRATE,0) * 100) AS PAYINST_INTRRATE
 			, A.CHARGER_NO
+			, A.CHRGE_KND
 		FROM ASSETS_RENT_F A
 		WHERE A.QUAY_GROUP_CD='H'
 			AND A.PRT_AT_CODE = #prtAtCode#
@@ -1184,7 +1185,6 @@
 					AND A.PRT_AT_CODE = #prtAtCode#
 					AND A.MNG_YEAR = #mngYear#
 					AND A.MNG_NO = #mngNo#
-					AND A.MNG_CNT = #mngCnt#
 				ORDER BY ASSESS_NO
 			) S
 		) A
@@ -1199,7 +1199,6 @@
 			AND A.PRT_AT_CODE = #prtAtCode#
 			AND A.MNG_YEAR = #mngYear#
 			AND A.MNG_NO = #mngNo#
-			AND A.MNG_CNT = #mngCnt#
 			AND A.ASSESS_RESULT IS NOT NULL
     </select>
 
@@ -1208,7 +1207,6 @@
 			PRT_AT_CODE,
 			MNG_YEAR,
 			MNG_NO,
-			MNG_CNT,
 			ASSESS_NO,
 			ASSESS_SE,
 			ASSESS_RESULT,
@@ -1221,7 +1219,6 @@
 	   		#prtAtCode#,
 			#mngYear#,
 			#mngNo#,
-			#mngCnt#,
 			#assessNo#,
 			#assessSe#,
 			#assessResult#,
@@ -1255,7 +1252,6 @@
 			PRT_AT_CODE=#prtAtCode#
 			AND MNG_YEAR=#mngYear#
 			AND MNG_NO=#mngNo#
-			AND MNG_CNT=#mngCnt#
 			AND ASSESS_NO=#oldAssessNo#
     </update>
 

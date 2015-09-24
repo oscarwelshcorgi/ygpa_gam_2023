@@ -1032,8 +1032,7 @@ public class GamPrtFcltyRentFeeMngtController {
 	    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
 	    		Map printInfo = gamPrtFcltyRentFeeMngtService.selectNpticPrintInfo(approvalOpt);
-
-	    		if("11076".equals(loginVo.getEmplNo()) || "14010".equals(loginVo.getEmplNo())) {
+	    		if("ORGNZT_0000000000007".equals(loginVo.getOrgnztId()) || "14010".equals(loginVo.getEmplNo())) {
 //	    			log.debug("new paper selected");
 	    			report = "ygpa/gam/oper/gnrl/GamPrtfcltyPrintNoticeIssue2";	// 신규 고지서
 	    		}
