@@ -429,6 +429,10 @@ div.notice {
 		display:none;
 	}
 
+	.notprint {
+		display:none;
+	}
+	
 	.page {
 	    width: 21cm;
 	    height: 28.7cm;
@@ -665,6 +669,35 @@ div.notice {
 	<script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
 	<script>
 	$( window ).load(function() {
+	  	var leftPrintPadding="leftPrintPadding";
+	  	var topPrintPadding="topPrintPadding";
+	  	var leftPrintPad="";
+	  	var topPrintPad="";
+	  	  
+	    var ca = document.cookie.split(';');
+	    for(i=0; i<ca.length; i++) {
+	        var c = ca[i];
+	        while (c.charAt(0)==' ') c = c.substring(1);
+	        if (c.indexOf(leftPrintPadding) != -1) leftPrintPad=c.substring(leftPrintPadding.length+1,c.length).split(";")[0];
+	        if (c.indexOf(topPrintPadding) != -1) topPrintPad=c.substring(topPrintPadding.length+1,c.length).split(";")[0];
+	    }
+
+	    $('#leftPrintPadding').val(leftPrintPad);
+	    $('#topPrintPadding').val(topPrintPad);
+
+	    $('#leftPrintPadding').change(function() {
+			var d = new Date();
+			d.setFullYear(d.getFullYear()+5);
+			d.setHours(0);
+		  	document.cookie = "leftPrintPadding="+$(this).val()+"; expires=" +d.toUTCString();
+	    });
+	    $('#topPrintPadding').change(function() {
+			var d = new Date();
+			d.setFullYear(d.getFullYear()+5);
+			d.setHours(0);
+		  	document.cookie = "topPrintPadding="+$(this).val()+"; expires=" +d.toUTCString();
+	    });
+
 		$('#printButton').button().click(function(){
 			var vo = [
 			          {name : 'prtAtCode', value: '<c:out value="${result.prtAtCode}"/>'},
@@ -674,7 +707,10 @@ div.notice {
 			          {name : 'nticCnt', value: '<c:out value="${result.nticCnt}"/>'},
 			          {name : 'chrgeKnd', value: '<c:out value="${result.chrgeKnd}"/>'}
 			          ];
-
+			var leftPadding = ""+(Number($('#leftPrintPadding').val()||0))/10;
+			var topPadding = ""+(Number($('#topPrintPadding').val()||0))/10;
+			$('.subpage').css('padding-left', leftPadding+"cm");
+			$('.subpage').css('padding-top', topPadding+"cm");
 			$.ajax({
 				url: $('#printUrl').val(),
 				type: 'POST',
@@ -685,6 +721,8 @@ div.notice {
 				}).done(function(data) {
 	                if(data.resultCode=='0') {
 	        			window.print();
+	        			$('.subpage').css('padding-left', "0cm");
+	        			$('.subpage').css('padding-top', "0cm");
 	                }
 	                else alert(data.resultMsg);
 			});
@@ -704,6 +742,8 @@ div.notice {
 <div class="book">
     <div class="page">
         <div class="subpage">
+        <input id='leftPrintPadding' type="text" value="" class="notprint" style="position:fixed; left: 20px; top: 60px; width: 120px; z-index: 999;" placeholder="가로 보정치 mm">
+        <input id='topPrintPadding' type="text" value="" class="notprint" style="position:fixed; left: 20px; top: 90px; width: 120px; z-index: 999;" placeholder="세로 보정치 mm">
         	<div class="subpage1">
 				<div class="sender">
 					<div id="senderAddress">
