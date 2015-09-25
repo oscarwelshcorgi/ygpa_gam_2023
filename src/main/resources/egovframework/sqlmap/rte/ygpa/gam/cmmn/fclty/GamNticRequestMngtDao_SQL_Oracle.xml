@@ -300,7 +300,7 @@
       		ARRRG_AMT=TRUNC(TO_NUMBER(#dlyBillAmnt#), -1),
       		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#),
       		ARRRG_PAY_DATES=#applyPayDates#,
-      		NTIC_AMT=TRUNC(FEE+NVL(VAT,0)+NVL(REIM_FEE,0)+TO_NUMBER(#dlyBillAmnt#), -1),
+      		<!-- NTIC_AMT=TRUNC(FEE+NVL(VAT,0)+NVL(REIM_FEE,0)+TO_NUMBER(#dlyBillAmnt#), -1), -->
       		<isNotNull property="rcivSe">
 	      		RCIV_SE=#rcivSe#,
       		</isNotNull>
@@ -323,7 +323,7 @@
       		ARRRG_TARIFF='',
       		ARRRG_PAY_DATES=0,
       		NTIC_DT=#prvBillDt#,
-      		NTIC_AMT=FEE+NVL(VAT,0)+NVL(REIM_FEE,0),
+      		<!-- NTIC_AMT=FEE+NVL(VAT,0)+NVL(REIM_FEE,0), -->
       		PAY_TMLMT=TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'),
       		UPD_USR=#updUsr#,
       		UPDT_DT=SYSDATE
@@ -365,6 +365,9 @@
      	</isNotEmpty>
        <isNotEmpty prepend="," property="payTmlmt">
        		PAY_TMLMT=#payTmlmt#
+     	</isNotEmpty>
+       <isNotEmpty prepend="," property="frstPayTmlmt">
+       		FRST_PAY_TMLMT=#payTmlmt#
      	</isNotEmpty>
        <isEqual prepend="," property="nhtIsueYn" compareValue="Y">
        		NTIC_DT=SYSDATE

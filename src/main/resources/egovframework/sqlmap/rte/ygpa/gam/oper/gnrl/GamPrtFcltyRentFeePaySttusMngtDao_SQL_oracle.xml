@@ -315,6 +315,7 @@
 							       , L.NTICNO
 							       , TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT
 							       , TO_CHAR(L.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT
+							       , TO_CHAR(L.FRST_PAY_TMLMT, 'YYYY-MM-DD') FRST_PAY_TMLMT
 							       , L.SANCTN_STTUS
 							       , L.SANCTNER_EMPL_NO
 							       , TO_CHAR(L.SANCTN_DT) SANCTN_DT

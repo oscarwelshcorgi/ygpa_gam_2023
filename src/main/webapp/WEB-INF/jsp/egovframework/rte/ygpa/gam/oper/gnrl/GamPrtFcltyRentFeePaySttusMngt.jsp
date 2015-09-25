@@ -464,8 +464,8 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 				module.makeFormValues('#arrrgDetailVO', result.resultArrrg); // 결과값을 폼에 채운다.
 				// module.$('#dlyBillDt').val(result.resultArrrg.dlyBillDt);
 				module.$('#dlyBillDt').val(result.resultArrrg.dlyBillDt);
-				module.calcDlyDueDate();
 				module.today = result.resultArrrg.dlyBillDt;	// 쿼리를 조회 할때 연체 고지 일자는 오늘 날짜를 가져온다.
+				module.calcDlyDueDate();
 				module.calculateArrrgFee();
 			}
 
@@ -478,11 +478,12 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 
 GamPrtFcltyRentFeePaySttusMngtModule.prototype.calcDlyDueDate = function() {
 	// 납부기한 계산
-	var strDbDlyDueDt = this.resultArrrg.dbDlyDueDt;
-	var dbDlyDueDt;
+//	var strDbDlyDueDt = this.resultArrrg.dbDlyDueDt;
+//	var dbDlyDueDt;
 
-	var dlyBillDt = this.$('#dlyBillDt').val();
-	var dlyDueDt = this.$('#dlyDueDt').val();
+	var dlyBillDt = EMD.util.strToDate(this.$('#dlyBillDt').val());
+	var dlyDueDt = EMD.util.strToDate(this.$('#dlyDueDt').val());
+	/*
 	var revDueDt = EMD.util.strToDate(this.resultDetail.payTmlmt);
 
 	var billAmnt = this.resultArrrg.billAmnt;
@@ -520,6 +521,11 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.calcDlyDueDate = function() {
 				alert('저장된 납부기한이 지정된 납부개월을 초과 합니다. (요율에 따라 연체 금액이 변동 될 수 있습니다.)');
 			}
 		}
+	}
+	*/
+	dlyDueDt = EMD.util.addDates(dlyBillDt, 15);
+	while(dlyDueDt.getDay()==0 || dlyDueDt.getDay()==6 ) {	// skip sat and sun
+		dlyDueDt = EMD.util.addDates(dlyDueDt, 1);
 	}
 	this.$('#dlyDueDt').val(EMD.util.getDate(dlyDueDt));
 };
@@ -580,7 +586,7 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.calculateArrrgFee = function() {
 	// 연체료 계산
 	// console.log('arrrg calc');
 	var dlyBillDt = EMD.util.strToDate(this.$('#dlyBillDt').val());
-	var payTmlmt = EMD.util.strToDate(this.resultDetail.payTmlmt);
+	var payTmlmt = EMD.util.strToDate(this.resultDetail.frstPayTmlmt);
 
 	var iTerm = this.getMonthInterval(payTmlmt,dlyBillDt);
 	var iTermMonth    = iTerm[0];
@@ -798,7 +804,9 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                             <th><span class="label">고지일자</span></th>
                             <td><span data-column-id="nticDt"></span></td>
                             <th><span class="label">납부기한일자</span></th>
-                            <td colspan="5"><span data-column-id="payTmlmt"></span></td>
+                            <td colspan="3"><span data-column-id="payTmlmt"></span></td>
+                        	<th><span class="label">최초납부기한</span></th>
+                            <td style="text-align:right;"><span data-column-id="frstPayTmlmt"></span></td>
                         </tr>
                         <tr>
                         	<th><span class="label">수납구분</span></th>

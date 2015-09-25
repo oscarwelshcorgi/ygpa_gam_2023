@@ -60,6 +60,9 @@ public class GamPrtFcltyRentFeeMngtVO extends ComDefaultVO {
     /** 납부 기한 */
     private String payTmlmt;
 
+    /** 최초 납부 기한 */
+    private String frstPayTmlmt;
+
     /**
      * 결재 상태
      */
