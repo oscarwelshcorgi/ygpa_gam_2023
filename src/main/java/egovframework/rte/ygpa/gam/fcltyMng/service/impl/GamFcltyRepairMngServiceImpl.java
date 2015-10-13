@@ -149,7 +149,6 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			insertFile.put("regUsr", insertRprData.get("regUsr"));
 			gamFcltyRepairMngDao.insertFcltyRepairFile(insertFile);
 		}
-		
 	}
 	
 	
@@ -260,7 +259,8 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	public String createFcltyRepairCheckReportHWPML(GamFcltyRepairMngVO searchVO) throws Exception {
     	StringBuilder result =  new StringBuilder(); //HWPML 처리 문자열 버퍼
     	Map<String, Integer> imageMap = new HashMap<String, Integer>(); //이미지 파일명과 id구성을 위한 맵
-	
+    	Map<String, Boolean> signImageMap = new HashMap<String, Boolean>(); //이미지 파일명과 도장이미지인지(true) 아닌지(false)
+    	
     	//InstId와 ZOrder 프로퍼티에 사용될 변수 초기화
     	instanceId = 2038414160;
     	zOrder = 0;
@@ -275,7 +275,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
     	EgovMap report = gamFcltyRepairMngDao.selectFcltyRepairCheckReport(searchVO);
     	//첨부파일이미지
     	List fileList = gamFcltyRepairMngDao.selectFcltyRepairFileList(searchVO);
-    	    	
+    	
     	//검사자 도장 이미지 파일 정보 구성
     	if(charger != null) {
 	    	String fileName = (String) charger.get("signFileNmPhysicl");
@@ -284,6 +284,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	        	File file = new File(fileName);
 	        	if(file.exists()) {
 	        		imageMap.put((String) charger.get("signFileNmPhysicl"), 0);
+	        		signImageMap.put((String) charger.get("signFileNmPhysicl"), true);	        		
 	        	}    
 	    	}
     	}
@@ -293,10 +294,11 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
     		EgovMap item = (EgovMap) fileList.get(i);
         	String fileName = (String) item.get("atchFileNmPhysicl");
         	if((fileName != null) && (fileName.length() > 0)) {
-        		fileName = EgovProperties.getProperty("prtfclty.fileStorePath") + fileName;
+        		fileName = EgovProperties.getProperty("repairAttach.fileStorePath") + fileName;
             	File file = new File(fileName);
             	if(file.exists()) {
-            		imageMap.put((String) charger.get("atchFileNmPhysicl"), 0);
+            		imageMap.put((String) item.get("atchFileNmPhysicl"), 0);
+            		signImageMap.put((String) item.get("atchFileNmPhysicl"), false);
             	}    
         	}
     	}
@@ -319,11 +321,11 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 				}
 			}
 		}
-			
+		
 		result.append("</SECTION></BODY>\n");
 		
 		//Tail Element 구성 처리
-		result.append(getXmlFcltyRepairCheckReportTail(imageMap));
+		result.append(getXmlFcltyRepairCheckReportTail(imageMap, signImageMap));
 		result.append("</HWPML>");
     	
 		return result.toString();
@@ -652,7 +654,6 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		int listSize = fileList.size();
 		
 		for(int i=0; i<loopEnd; i++) {
-			
 			String leftFileName = "", rightFileName = "";
 			String leftFileSj = "", rightFileSj = "";
 			int leftImageId = 0, rightImageId = 0;
@@ -748,7 +749,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	
 	/**HWPML 용 하자검사조서 TAIL 엘리먼트를 문자열로 가져온다.
 	 * @throws Exception */
-	protected String getXmlFcltyRepairCheckReportTail(Map<String, Integer> imageMap) throws Exception {
+	protected String getXmlFcltyRepairCheckReportTail(Map<String, Integer> imageMap, Map<String, Boolean> signImageMap) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		Iterator<String> it = imageMap.keySet().iterator();
 		int count = imageMap.keySet().size();
@@ -756,9 +757,11 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		if(count > 0) {
 			sb.append("<BINDATASTORAGE>\n");
 			while(it.hasNext()) {
-				String key = it.next();
-				int id = imageMap.get(key);
- 				String base64Data = fileToBase64(key);
+				String fileName = it.next();
+				int id = imageMap.get(fileName);
+				fileName = (signImageMap.get(fileName)) ? EgovProperties.getProperty("prtfclty.fileStorePath") + fileName : 
+					EgovProperties.getProperty("repairAttach.fileStorePath") + fileName;
+ 				String base64Data = fileToBase64(fileName);
 				int dataSize = base64Data.length();
 				sb.append("<BINDATA Encoding=\"Base64\" Id=\"" + id + "\" Size=\"" + dataSize + "\">");
 				sb.append(base64Data);
@@ -776,7 +779,6 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	
 	/**파일을  BASE64엔코딩 문자열로 변환시킨다 */
 	protected String fileToBase64(String fileName) throws Exception {
-		fileName = EgovProperties.getProperty("prtfclty.fileStorePath") + fileName;
 		FileInputStream fis = new FileInputStream(fileName);
 		long fileSize = fis.getChannel().size();
 		byte[] fileData = new byte[(int) fileSize];
