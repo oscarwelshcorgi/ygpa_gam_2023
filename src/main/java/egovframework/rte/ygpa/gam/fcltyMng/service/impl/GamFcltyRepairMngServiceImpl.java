@@ -324,8 +324,8 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * 여기서 부터는 HWPML의 엘리먼트를 구성하기 위한 서브루틴들로 구성.
 	 */
 	
-	protected int instanceId = 2038414160;
-	protected int zOrder = 0;
+	protected int instanceId;
+	protected int zOrder;
 
 	/** InstId속성와 ZOrder 쓰는 엘리먼트들의 값을 변경시킨다.*/
 	protected int getInstanceId() {
