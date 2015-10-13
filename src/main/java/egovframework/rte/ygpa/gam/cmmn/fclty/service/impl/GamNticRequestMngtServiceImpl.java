@@ -900,7 +900,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			}
 		}
 
-		if(i==list.size()-1) {
+		if(list.size()==1) {
 			// 최초 연체를 취소 하므로 연체가 없어짐
 			logger.info("first delay bill cancel");
 			bdNticAmt=bdFee;
@@ -909,19 +909,20 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			vo.put("dlySerNo", null);
 			vo.put("arrrgTariff", null);
 			vo.put("dlyBillDt", null);
-			vo.put("prvBillDt", map.get("prvDueDt"));
-			vo.put("firstBillDt", map.get("prvBillDt"));
+			vo.put("prvBillDt", map.get("frstBillDt"));
+			vo.put("billDt", map.get("prvBillDt"));
+			vo.put("dlyDueDt", map.get("prvDueDt"));
 			gamNticRequestMngtDAO.updateLevReqestUnarrrgAmt(vo);	// 연체를 취소한다.
 		}
 		else {
 			Map arrrg = null;
-			logger.info("first delay bill cancel");
-			arrrg = (Map)list.get(i+1);
+			logger.info("last delay bill cancel");
+			arrrg = (Map)list.get(i);
 			vo.put("dlyBillAmnt", arrrg.get("arrrgAmt"));
 			vo.put("dlySerNo", arrrg.get("dlySerNo"));
 			vo.put("arrrgTariff", arrrg.get("arrrgTariff"));
-			vo.put("dlyBillDt", arrrg.get("dlyBillDt"));
-			vo.put("dlyDueDt", arrrg.get("prvBillDt"));
+			vo.put("dlyBillDt", arrrg.get("prvBillDt"));
+			vo.put("dlyDueDt", arrrg.get("prvDueDt"));
 			gamNticRequestMngtDAO.updateLevReqestArrrgAmt(vo);
 		}
 	}

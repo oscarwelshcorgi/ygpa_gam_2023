@@ -300,7 +300,7 @@
       		ARRRG_AMT=TRUNC(TO_NUMBER(#dlyBillAmnt#), -1),
       		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#),
       		ARRRG_PAY_DATES=#applyPayDates#,
-      		<!-- NTIC_AMT=TRUNC(FEE+NVL(VAT,0)+NVL(REIM_FEE,0)+TO_NUMBER(#dlyBillAmnt#), -1), -->
+      		NTIC_AMT=TRUNC(FEE+NVL(VAT,0)+NVL(REIM_FEE,0)+TO_NUMBER(#dlyBillAmnt#), -1),
       		<isNotNull property="rcivSe">
 	      		RCIV_SE=#rcivSe#,
       		</isNotNull>

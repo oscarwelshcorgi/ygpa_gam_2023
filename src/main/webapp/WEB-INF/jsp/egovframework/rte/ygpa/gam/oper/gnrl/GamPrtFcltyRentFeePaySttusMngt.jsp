@@ -617,8 +617,9 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.calculateArrrgFee = function() {
  //alert("계산61==>"+iTermMonth+"::"+iTermDay+"::"+fBasicRate+"::"+strText);
 	 this.fBasicRate = fBasicRate;
  	// 산출내역 뿌려줌.
- 	this.$('#dlyBillRsn').val("( " + $.number(this.resultArrrg.fee) + " * " + fBasicRate + " * " + iTermDay + "/365 )");
+ 	this.$('#dlyBillRsn').val("( " + $.number(this.resultArrrg.fee) + " * " + fBasicRate + " * " + iTermDay + "/365 )");//
  	iDlyAmnt = Math.floor(parseInt(this.resultArrrg.fee * fBasicRate * iTermDay / 365)/10)*10;
+ 	//iDlyAmnt = Math.floor(parseInt(this.resultArrrg.fee * fBasicRate * iTermDay / 365));	// 연체료는 원단위 절삭 안함 (허정석 차장님 요청)
 
  	this._iTermDay=iTermDay;
 
