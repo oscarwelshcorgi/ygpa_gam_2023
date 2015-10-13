@@ -111,7 +111,6 @@
 
 
 	<select id="gamFcltyRepairMngDao.selectFcltyRepairMngDetail_S" parameterClass="gamFcltyRepairMngVO" resultClass="egovMap">
-
 		SELECT
 			TO_CHAR(R.FLAW_RPR_START_DT,'YYYY-MM-DD') FLAW_RPR_START_DT
 			, TO_CHAR(R.FLAW_RPR_END_DT,'YYYY-MM-DD') FLAW_RPR_END_DT
@@ -148,8 +147,6 @@
 			R.FCLTS_JOB_SE = #fcltsJobSe#
 			AND R.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 			AND R.FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
-
-
 	</select>
 
 
