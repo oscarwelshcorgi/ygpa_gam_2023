@@ -258,11 +258,14 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 */
 	@SuppressWarnings({ "unused", "unchecked" })
 	public String createFcltyRepairCheckReportHWPML(GamFcltyRepairMngVO searchVO) throws Exception {
-    	StringBuilder result =  new StringBuilder();
-    	
+    	StringBuilder result =  new StringBuilder(); //HWPML 처리 문자열 버퍼
+    	Map<String, Integer> imageMap = new HashMap<String, Integer>(); //이미지 파일명과 id구성을 위한 맵
+	
+    	//InstId와 ZOrder 프로퍼티에 사용될 변수 초기화
     	instanceId = 2038414160;
     	zOrder = 0;
     	
+    	//HWPML Start Element 부분
 		result.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n");
 		result.append("<HWPML Style=\"embed\" SubVersion=\"8.0.1.0\" Version=\"2.8\">\n");
 	
@@ -273,9 +276,6 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
     	//첨부파일이미지
     	List fileList = gamFcltyRepairMngDao.selectFcltyRepairFileList(searchVO);
     	    	
-    	//이미지 정보 구성 작업
-    	Map<String, Integer> imageMap = new HashMap<String, Integer>();
-
     	//검사자 도장 이미지 파일 정보 구성
     	if(charger != null) {
 	    	String fileName = (String) charger.get("signFileNmPhysicl");
@@ -301,19 +301,28 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
         	}
     	}
     	
+    	//Head Element 구성 처리
 		result.append(getXmlFcltyRepairCheckReportHead(imageMap));
+		
+		//Body Element 구성 처리
 		result.append("<BODY><SECTION Id=\"0\">\n");
+		
 		if(report != null) {
+			//하자검사조서 처리
 			result.append(getXmlFcltyRepairCheckReportBody(imageMap, charger, report));
 			String flawEnnc = (String) report.get("flawEnnc");
 			if(flawEnnc != null) {
 				if(flawEnnc.equals("Y")) {
+					//하자가 있으면 하지 내용과 사진 부분 처리
 					String title = "";
 					result.append(getXmlFcltyRepairCheckReportList(imageMap, title, fileList));
 				}
 			}
 		}
+			
 		result.append("</SECTION></BODY>\n");
+		
+		//Tail Element 구성 처리
 		result.append(getXmlFcltyRepairCheckReportTail(imageMap));
 		result.append("</HWPML>");
     	
