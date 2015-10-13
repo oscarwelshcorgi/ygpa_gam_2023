@@ -161,10 +161,12 @@ public interface GamFcltyRepairMngService {
 	 */
 	void deleteFcltyRepairMngList(GamFcltyRepairMngVO deleteFileVO) throws Exception;
 
-
-
-
-
-	
-
+    /**
+     * 하자검사조서 한글파일 문서 출력
+     *
+     * @param searchVO
+     * @return xml string
+     * @throws Exception the exception
+     */
+	String createFcltyRepairCheckReportHWPML(GamFcltyRepairMngVO searchVO) throws Exception;
 }

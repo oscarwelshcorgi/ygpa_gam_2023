@@ -3,7 +3,6 @@
  */
 package egovframework.rte.ygpa.gam.fcltyMng.web;
 
-import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -81,6 +80,7 @@ public class GamFcltyRepairMngController {
     @Resource(name="gamRepairFileIdGnrService")
     EgovTableIdGnrService gamRepairFileIdGnrService;
 
+     
 	/**
      * 하자보수내역 관리화면호출
      * @param windowId
@@ -532,18 +532,14 @@ public class GamFcltyRepairMngController {
      * 하자검사조서 한글파일 문서 출력
      *
      * @param searchVO
-     * @return map
+     * @return xml string
      * @throws Exception the exception
      */
-
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/fcltyMng/selectFcltyRepairCheckReportHwp.do")
 	public String selectFcltyRepairCheckReportHwp(@RequestParam Map<String, Object> fcltyRepairCheckReportOpt ,GamFcltyRepairMngVO searchVO, ModelMap model) throws Exception {
 
-		//LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	Map map = new HashMap();
-    	EgovMap result = null;
-    	EgovMap charger= null;
 
     	// 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -552,30 +548,21 @@ public class GamFcltyRepairMngController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return "/ygpa/gam/fcltyMng/GamFcltyRepairCheckReportHwp";
     	}
-
-    	ObjectMapper mapper = new ObjectMapper();
-
-    	//하자검사자 직인
-    	charger=gamFcltyRepairMngService.selectFcltyRepairCheckReportCharger(searchVO);
-    	//하자검사조서
-    	result = gamFcltyRepairMngService.selectFcltyRepairCheckReport(searchVO);
-    	//첨부파일이미지
-    	List resultList = gamFcltyRepairMngService.selectFcltyRepairFileList(searchVO);
-
-
-
-        model.addAttribute("result", result);
+    	
+    	String hwpML = gamFcltyRepairMngService.createFcltyRepairCheckReportHWPML(searchVO);
+    	
 		model.addAttribute("resultCode", 0);
 		model.addAttribute("resultMsg", "");
-		model.addAttribute("charger",charger);
-		model.addAttribute("resultList",resultList);
-		if(fcltyRepairCheckReportOpt.get("filename") != null){
+		model.addAttribute("hwpML", hwpML);
+	
+		if(fcltyRepairCheckReportOpt.get("filename") != null) {
 			model.addAttribute("isHwp", true);
 			model.addAttribute("filename", fcltyRepairCheckReportOpt.get("filename"));
-    		}
-    	return "ygpa/gam/fcltyMng/GamFcltyRepairCheckReportHwp";
+    	}
+    	
+		return "ygpa/gam/fcltyMng/GamFcltyRepairCheckReportHwp";
     }
-
+		
 	@RequestMapping(value="/fcltyMng/selectFcltyRepairCheckReportHwp2.do")
 	String selectFcltyRepairCheckReportHwp2(@RequestParam Map<String, Object> fcltyRepairCheckReportOpt ,GamFcltyRepairMngVO searchVO, ModelMap model) throws Exception {
 		List varItems = new ArrayList<Map>();
