@@ -562,7 +562,8 @@ public class GamFcltyRepairMngController {
     	
 		return "ygpa/gam/fcltyMng/GamFcltyRepairCheckReportHwp";
     }
-		
+	
+	/*
 	@RequestMapping(value="/fcltyMng/selectFcltyRepairCheckReportHwp2.do")
 	String selectFcltyRepairCheckReportHwp2(@RequestParam Map<String, Object> fcltyRepairCheckReportOpt ,GamFcltyRepairMngVO searchVO, ModelMap model) throws Exception {
 		List varItems = new ArrayList<Map>();
@@ -625,7 +626,7 @@ public class GamFcltyRepairMngController {
 		return "/ygpa/gam/cmmn/GamHwpOcxPreview";
 
 	}
-
+*/
 
 	/**
      * 하자만료검사조서인쇄
