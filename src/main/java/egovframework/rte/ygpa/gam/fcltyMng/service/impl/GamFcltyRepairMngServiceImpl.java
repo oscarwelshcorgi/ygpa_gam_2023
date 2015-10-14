@@ -294,7 +294,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
     		EgovMap item = (EgovMap) fileList.get(i);
         	String fileName = (String) item.get("atchFileNmPhysicl");
         	if((fileName != null) && (fileName.length() > 0)) {
-        		fileName = EgovProperties.getProperty("repairAttach.fileStorePath") + fileName;
+        		fileName = EgovProperties.getProperty("repairAttach.fileStorePath") + fileName; //경로 주의 : 도장이미지와 하자사진이미지의 경로가 틀림
             	File file = new File(fileName);
             	if(file.exists()) {
             		imageIndexes.put((String) item.get("atchFileNmPhysicl"), 0);
