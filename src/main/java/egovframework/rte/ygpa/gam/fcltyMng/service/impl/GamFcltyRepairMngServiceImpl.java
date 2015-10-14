@@ -258,8 +258,8 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	@SuppressWarnings({ "unused", "unchecked" })
 	public String createFcltyRepairCheckReportHWPML(GamFcltyRepairMngVO searchVO) throws Exception {
     	StringBuilder result =  new StringBuilder(); //HWPML 처리 문자열 버퍼
-    	Map<String, Integer> imageMap = new HashMap<String, Integer>(); //이미지 파일명과 id구성을 위한 맵
-    	Map<String, Boolean> signImageMap = new HashMap<String, Boolean>(); //이미지 파일명과 도장이미지인지(true) 아닌지(false)
+    	Map<String, Integer> imageIndexes = new HashMap<String, Integer>(); //이미지 파일명과 id구성을 위한 맵
+    	Map<String, Boolean> signImageYN = new HashMap<String, Boolean>(); //이미지 파일명과 도장이미지인지(true) 아닌지(false)
     	
     	//InstId와 ZOrder 프로퍼티에 사용될 변수 초기화
     	instanceId = 2038414160;
@@ -280,11 +280,11 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
     	if(charger != null) {
 	    	String fileName = (String) charger.get("signFileNmPhysicl");
 	    	if((fileName != null) && (fileName.length() > 0)) {
-	    		fileName = EgovProperties.getProperty("prtfclty.fileStorePath") + fileName;
+	    		fileName = EgovProperties.getProperty("prtfclty.fileStorePath") + fileName;  //경로 주의 : 도장이미지와 하자사진이미지의 경로가 틀림
 	        	File file = new File(fileName);
 	        	if(file.exists()) {
-	        		imageMap.put((String) charger.get("signFileNmPhysicl"), 0);
-	        		signImageMap.put((String) charger.get("signFileNmPhysicl"), true);	        		
+	        		imageIndexes.put((String) charger.get("signFileNmPhysicl"), 0);
+	        		signImageYN.put((String) charger.get("signFileNmPhysicl"), true);	        		
 	        	}    
 	    	}
     	}
@@ -297,27 +297,27 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
         		fileName = EgovProperties.getProperty("repairAttach.fileStorePath") + fileName;
             	File file = new File(fileName);
             	if(file.exists()) {
-            		imageMap.put((String) item.get("atchFileNmPhysicl"), 0);
-            		signImageMap.put((String) item.get("atchFileNmPhysicl"), false);
+            		imageIndexes.put((String) item.get("atchFileNmPhysicl"), 0);
+            		signImageYN.put((String) item.get("atchFileNmPhysicl"), false);
             	}    
         	}
     	}
     	
     	//Head Element 구성 처리
-		result.append(getXmlFcltyRepairCheckReportHead(imageMap));
+		result.append(getXmlFcltyRepairCheckReportHead(imageIndexes));
 		
 		//Body Element 구성 처리
 		result.append("<BODY><SECTION Id=\"0\">\n");
 		
 		if(report != null) {
 			//하자검사조서 처리
-			result.append(getXmlFcltyRepairCheckReportBody(imageMap, charger, report));
+			result.append(getXmlFcltyRepairCheckReportBody(imageIndexes, charger, report));
 			String flawEnnc = (String) report.get("flawEnnc");
 			if(flawEnnc != null) {
 				if(flawEnnc.equals("Y")) {
 					//하자가 있으면 하지 내용과 사진 부분 처리
 					String title = "";
-					result.append(getXmlFcltyRepairCheckReportList(imageMap, title, fileList));
+					result.append(getXmlFcltyRepairCheckReportList(imageIndexes, title, fileList));
 				}
 			}
 		}
@@ -325,7 +325,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		result.append("</SECTION></BODY>\n");
 		
 		//Tail Element 구성 처리
-		result.append(getXmlFcltyRepairCheckReportTail(imageMap, signImageMap));
+		result.append(getXmlFcltyRepairCheckReportTail(imageIndexes, signImageYN));
 		result.append("</HWPML>");
     	
 		return result.toString();
@@ -346,23 +346,23 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		return zOrder++;
 	}
 	
-	/** 이미지 정보의 키를 검색한다. */
-	protected int getImageId(Map<String, Integer> imageMap, String fileName) {
-		Iterator<String> it = imageMap.keySet().iterator();
+	/** 이미지 파일명의 id를 검색한다. */
+	protected int getImageId(Map<String, Integer> imageIndexes, String fileName) {
+		Iterator<String> it = imageIndexes.keySet().iterator();
 		while(it.hasNext()) {
 			if(it.next().equals(fileName)) {
-				return imageMap.get(fileName);
+				return imageIndexes.get(fileName);
 			}
 		}
 		return 0;
 	}
 	
 	/**HWPML 용 하자검사조서 HEAD 엘리먼트 구성을 문자열로 가져온다.*/
-	protected String getXmlFcltyRepairCheckReportHead(Map<String, Integer> imageMap) {
+	protected String getXmlFcltyRepairCheckReportHead(Map<String, Integer> imageIndexes) {
 		StringBuilder sb = new StringBuilder();
 
-		Iterator<String> it = imageMap.keySet().iterator();
-		int id = 0, count = imageMap.keySet().size();
+		Iterator<String> it = imageIndexes.keySet().iterator();
+		int id = 0, count = imageIndexes.keySet().size();
 		sb.append("<HEAD SecCnt=\"1\">\n");
 		sb.append("<DOCSUMMARY><TITLE>하자검사조서</TITLE><AUTHOR>YGPA GIS SYSTEM</AUTHOR><DATE>2015년 10월 8일 목요일 오전 11:07:43</DATE></DOCSUMMARY>\n");
 		sb.append("<DOCSETTING><BEGINNUMBER Endnote=\"1\" Equation=\"1\" Footnote=\"1\" Page=\"1\" Picture=\"1\" Table=\"1\"/><CARETPOS List=\"0\" Para=\"7\" Pos=\"0\"/></DOCSETTING>\n");
@@ -372,7 +372,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			while(it.hasNext()) {
 				String key = it.next();
 				id++;
-				imageMap.put(key, id);
+				imageIndexes.put(key, id);
 				sb.append("<BINITEM BinData=\"" + id + "\" Format=\"JPG\" Type=\"Embedding\"/>\n");
 			}
 			sb.append("</BINDATALIST>\n");
@@ -473,7 +473,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	}
 	
 	/**HWPML 용 하자검사조서 검사조서 엘리먼트를 문자열로 가져온다.*/
-	protected String getXmlFcltyRepairCheckReportBody(Map<String, Integer> imageMap, EgovMap charger, EgovMap report) {
+	protected String getXmlFcltyRepairCheckReportBody(Map<String, Integer> imageIndexes, EgovMap charger, EgovMap report) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<P ColumnBreak=\"false\" PageBreak=\"false\" ParaShape=\"1\" Style=\"0\">\n");
 		sb.append("<TEXT CharShape=\"20\">\n");
@@ -536,7 +536,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"12\">\n");
 		if(charger != null) {
 			String signImageFileNm = (String) charger.get("signFileNmPhysicl");
-			int imageId = getImageId(imageMap, signImageFileNm);
+			int imageId = getImageId(imageIndexes, signImageFileNm);
 			if(imageId > 0) {
 				sb.append("<PICTURE Reverse=\"false\">\n");
 				sb.append("<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Figure\" TextWrap=\"BehindText\" ZOrder=\"1\">\n");
@@ -578,7 +578,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	
 	/**HWPML 용 하자검사조서 사진 리스트 엘리먼트를 문자열로 가져온다.*/
 	@SuppressWarnings("unchecked")
-	protected String getXmlFcltyRepairCheckReportList(Map<String, Integer> imageMap, String title, List fileList) {
+	protected String getXmlFcltyRepairCheckReportList(Map<String, Integer> imageIndexes, String title, List fileList) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>하    자    내    용</CHAR></TEXT></P>\n");
 		sb.append("<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"20\"><CHAR>(2013년 광양항 항만시설물 보수보강공사)</CHAR></TEXT></P>\n");
@@ -635,10 +635,12 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"20\"/></P>\n");
 		sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"20\"><CHAR>○ 사진대지</CHAR></TEXT></P>\n");
 		sb.append("<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"20\">\n");
+		
 		int recordCount = fileList.size();
 		if((recordCount % 2) == 1) {
 			recordCount++;
 		}
+		//레코드 카운트를 짝수로 맞춘다. 이유는 2개의 데이터당 2개의 행에 출력하기 때문에 홀수의 레코드는 빈칸을 출력하기 위해 짝수로 맞춘다.
 		sb.append("<TABLE BorderFill=\"2\" CellSpacing=\"0\" ColCount=\"2\" PageBreak=\"Table\" RepeatHeader=\"true\" RowCount=\"" + recordCount + "\">\n");
 		sb.append("<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Table\" ZOrder=\"" + getZOrder() + "\">\n");
 		sb.append("<SIZE Height=\"39628\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"45024\" WidthRelTo=\"Absolute\"/>\n");
@@ -647,11 +649,12 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		sb.append("</SHAPEOBJECT>\n");
 		sb.append("<INSIDEMARGIN Bottom=\"141\" Left=\"141\" Right=\"141\" Top=\"141\"/>\n");
 
+		//루프로 돌릴 때 한 루프당 2개의 데이터를 2개의 행에 표현하기 때문에 루트는 데이터 갯수의 반만 돌린다. 
 		int loopEnd = recordCount / 2;
-		int rowAddr = 0;
+		int rowAddr = 0; //각 cell element의 rowAddr속성을 변경시켜주기 위한 변수
 		
-		int listIndex = 0;
-		int listSize = fileList.size();
+		int listIndex = 0; //루프 내에서 사용할 실제 이미지 리스트의 인덱스 
+		int listSize = fileList.size(); // 이미지 리스트 개수
 		
 		for(int i=0; i<loopEnd; i++) {
 			String leftFileName = "", rightFileName = "";
@@ -660,13 +663,13 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			EgovMap record = (EgovMap) fileList.get(listIndex);
 			leftFileName = (String) record.get("atchFileNmPhysicl");
 			leftFileSj = (String) record.get("atchFileSj");
-			leftImageId = getImageId(imageMap, leftFileName);
+			leftImageId = getImageId(imageIndexes, leftFileName);
 			listIndex++;
 			if(listIndex < listSize) {
 				record = (EgovMap) fileList.get(listIndex);
 				rightFileName = (String) record.get("atchFileNmPhysicl");
 				rightFileSj = (String) record.get("atchFileSj");
-				rightImageId = getImageId(imageMap, rightFileName);
+				rightImageId = getImageId(imageIndexes, rightFileName);
 			}
 			listIndex++;
 			
@@ -749,18 +752,18 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	
 	/**HWPML 용 하자검사조서 TAIL 엘리먼트를 문자열로 가져온다.
 	 * @throws Exception */
-	protected String getXmlFcltyRepairCheckReportTail(Map<String, Integer> imageMap, Map<String, Boolean> signImageMap) throws Exception {
+	protected String getXmlFcltyRepairCheckReportTail(Map<String, Integer> imageIndexes, Map<String, Boolean> signImageYN) throws Exception {
 		StringBuilder sb = new StringBuilder();
-		Iterator<String> it = imageMap.keySet().iterator();
-		int count = imageMap.keySet().size();
+		Iterator<String> it = imageIndexes.keySet().iterator();
+		int count = imageIndexes.keySet().size();
 		sb.append("<TAIL>\n");
 		if(count > 0) {
 			sb.append("<BINDATASTORAGE>\n");
 			while(it.hasNext()) {
 				String fileName = it.next();
-				int id = imageMap.get(fileName);
-				fileName = (signImageMap.get(fileName)) ? EgovProperties.getProperty("prtfclty.fileStorePath") + fileName : 
-					EgovProperties.getProperty("repairAttach.fileStorePath") + fileName;
+				int id = imageIndexes.get(fileName);
+				fileName = (signImageYN.get(fileName)) ? EgovProperties.getProperty("prtfclty.fileStorePath") + fileName : 
+					EgovProperties.getProperty("repairAttach.fileStorePath") + fileName; // 도장이미지와 하자사진이미지의 경로가 다름.
  				String base64Data = fileToBase64(fileName);
 				int dataSize = base64Data.length();
 				sb.append("<BINDATA Encoding=\"Base64\" Id=\"" + id + "\" Size=\"" + dataSize + "\">");
