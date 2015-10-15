@@ -24,7 +24,7 @@
 %>
 <%
 if(request.getAttribute("isHwp")!=null){
-	String fileName = "검사조사.hwp";
+	String fileName = (String)request.getAttribute("filename");
 	fileName = java.net.URLEncoder.encode(fileName, "UTF-8");
 	response.reset();
 	response.setHeader("Content-Disposition", "attachment;filename=\""+fileName + "\"");

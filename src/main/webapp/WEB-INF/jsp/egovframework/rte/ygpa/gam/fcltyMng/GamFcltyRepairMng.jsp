@@ -58,6 +58,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectFcltyRepairMngList.do',
 		dataType: "json",
 		colModel : [
+					{display:'선택<div id="'+this.getId('title_chkRole')+'" style="padding-right:3px"></div>',name:'chkRole', width:40, sortable:false, align:'center', displayFormat: 'checkbox', skipxls: true},
 					{display:"시설물관리그룹",		name:"fcltsMngGroupNm",			width:160, 		sortable:false,		align:"left"},
 					{display:"계약번호",			name:"ctrtNo",					width:120, 		sortable:false,		align:"center"},
 					{display:"계약명",				name:"flawRprNm",				width:250, 		sortable:false,		align:"left"},
@@ -79,6 +80,7 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		}
 	});
 
+	this.$('#title_chkRole').append('');
 
 	this.$("#flawRprObjFcltsF").flexigrid({
 		module: this,
@@ -216,7 +218,7 @@ GamFcltyRepairMngModule.prototype.setPrintSe = function(){
 		//this.$("#chkPrint").data('url','/fcltyMng/selectFcltyRepairCheckReportHwp2.do');
 		//this.$("#chkPrint").data('role','hwpPage');
 
-		this.$("#chkPrint").data('filename','검사조서.hwp');
+		this.$("#chkPrint").data('filename','하자검사조서.hwp');
 		this.$("#expPrint").data('url','/fcltyMng/selectFcltyRepairExpireCheckReportHwp.do');
 		this.$("#expPrint").data('role','printDown');
 		this.$("#expPrint").data('filename','만료검사조서.hwp');
@@ -1183,6 +1185,28 @@ GamFcltyRepairMngModule.prototype.downloadExcel = function() {
 
 };
 
+<%
+/**
+ * @FUNCTION NAME : selectedHwpDownload
+ * @DESCRIPTION   : 선택한 하자데이터 한글문서 작성 함수
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyRepairMngModule.prototype.selectedHwpDownload = function() {
+	var filter = [{ 'col': 'chkRole', 'filter': true}];
+	var downList = this.$("#fcltyRepairMngList").selectFilterData(filter);
+
+	if (downList.length <= 0) {
+		alert('다운로드할 항목을 선택 하십시요');
+		return;
+	}
+	
+	var url = '/fcltyMng/selectFcltyRepairCheckReportListHwp.do';
+	var param = {};
+	param['downList'] = JSON.stringify(downList);
+	param['filename'] = '하자검사조서리스트.hwp';
+	$.fileDownload(EMD.context_root+url, {data:param, httpMethod:"POST"});
+};
 
 
 <%
@@ -1263,7 +1287,12 @@ GamFcltyRepairMngModule.prototype.onButtonClick = function(buttonId) {
 		case "ctrtNoPopupBtn":
 			this.doExecuteDialog("selectCtrtNo", "계약번호", '/popup/popupCtrtNo.do', {});
 		break;
-
+		
+		// 선택데이터 한글문서 다운로드
+		case 'btnSelectedHwpDownload':
+			this.selectedHwpDownload();
+			break;
+			
 	    case 'btnFirstData':
 	    	this.firstData();
 			break;
@@ -1471,6 +1500,7 @@ var module_instance = new GamFcltyRepairMngModule();
 							<td style="text-align:right;">
 								<button data-role="printPage" data-search-option="searchFcltyRepairMngForm" data-url='/fcltyMng/selectFcltyRepairCheckResultPrint.do'>하자검사결과인쇄</button>
 								<button data-role="printDown" data-search-option="searchFcltyRepairMngForm" data-filename="검사조서.hwp" data-url='/fcltyMng/selectFcltyRepairCheckResultPrint.do'>H　W　P</button>
+								<button id="btnSelectedHwpDownload" >선 택 HWP 다운로드</button>
 								<button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
 								<button id="addBtn" class="buttonAdd">　　추　가　　</button>
 								<button id="deleteBtn" class="buttonDelete">　　삭　제　　</button>
