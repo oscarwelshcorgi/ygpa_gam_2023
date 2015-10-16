@@ -280,7 +280,7 @@ div.notice {
   div.giro {
 	position: absolute;
 	left: 5.8cm;
-	top: 0cm;
+	top: 0.07cm;
 	width: 14.8cm;
 	height: 8.8cm;
 	font-size: 0.4cm;
@@ -557,7 +557,7 @@ div.notice {
 
 	  div.giro {
 		left: 5.8cm;
-		top: 0cm;
+		top: 0.07cm;
 		width: 14.8cm;
 		height: 8.8cm;
 	 }
