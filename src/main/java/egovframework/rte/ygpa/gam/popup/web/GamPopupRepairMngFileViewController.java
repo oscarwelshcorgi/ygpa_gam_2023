@@ -113,7 +113,8 @@ public class GamPopupRepairMngFileViewController {
 			gamFcltyRepairMngVO.setUpdUsr((String)user.getId());
 
 			gamPopupRepairMngFileViewService.updateRepairMngFileView(gamFcltyRepairMngVO);
-			gamPopupRepairMngFileViewService.updateFcltyRepairMngContentsRm(gamFcltyRepairMngVO);
+			//하자내용과 비고 자동입력부분 일단 제외시키기로 했음 -- 김종민 차장 수정 2015년 10월 16일
+			//gamPopupRepairMngFileViewService.updateFcltyRepairMngContentsRm(gamFcltyRepairMngVO);
 
 			map.put("resultCode", 0);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
