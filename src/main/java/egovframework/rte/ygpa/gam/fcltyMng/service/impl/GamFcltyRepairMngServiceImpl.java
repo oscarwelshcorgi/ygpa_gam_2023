@@ -727,8 +727,8 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			String flawRprNm = (report.get("flawRprNm") != null) ? (String)report.get("flawRprNm") : ""; //공사명
 			String flawRprContents = (report.get("flawRprContents") != null) ? (String)report.get("flawRprContents") : ""; //하자 내용
 			String flawRprRm = (report.get("rm") != null) ? (String)report.get("rm") : ""; // 비고
-			String[] contents = flawRprContents.split("\r");
-			String[] rm = flawRprRm.split("\r");			
+			String[] contents = flawRprContents.split("\n");
+			String[] rm = flawRprRm.split("\n");			
 			sb.append("<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>하    자    내    용</CHAR></TEXT></P>\n");
 			sb.append("<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"20\"><CHAR>(" + flawRprNm + ")</CHAR></TEXT></P>\n");
 			sb.append("<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"20\"/></P>\n");
