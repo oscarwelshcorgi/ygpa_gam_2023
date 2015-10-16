@@ -5,9 +5,12 @@ package egovframework.rte.ygpa.gam.fcltyMng.service.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -20,7 +23,6 @@ import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngVO;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtVO;
 
 /**
  * 
@@ -338,8 +340,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 				if(flawEnnc != null) {
 					if(flawEnnc.equals("Y")) {
 						//하자가 있으면 하지 내용과 사진 부분 처리
-						String title = "";
-						result.append(reportHWP.getXmlFcltyRepairCheckReportList(imageIndexes, title, fileList));
+						result.append(reportHWP.getXmlFcltyRepairCheckReportList(imageIndexes, report, fileList));
 					}
 				}
 			}
@@ -420,8 +421,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			if(flawEnnc != null) {
 				if(flawEnnc.equals("Y")) {
 					//하자가 있으면 하지 내용과 사진 부분 처리
-					String title = "";
-					result.append(reportHWP.getXmlFcltyRepairCheckReportList(imageIndexes, title, fileList));
+					result.append(reportHWP.getXmlFcltyRepairCheckReportList(imageIndexes, report, fileList));
 				}
 			}
 		}
@@ -475,11 +475,13 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		/**HWPML 용 하자검사조서 HEAD 엘리먼트 구성을 문자열로 가져온다.*/
 		public String getXmlFcltyRepairCheckReportHead(Map<String, Integer> imageIndexes) {
 			StringBuilder sb = new StringBuilder();
-	
 			Iterator<String> it = imageIndexes.keySet().iterator();
 			int id = 0, count = imageIndexes.keySet().size();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 MM일 dd일 HH시 mm분 ss초", Locale.KOREA);
+			String today = formatter.format(new Date());
+			
 			sb.append("<HEAD SecCnt=\"1\">\n");
-			sb.append("<DOCSUMMARY><TITLE>하자검사조서</TITLE><AUTHOR>YGPA GIS Assets Management SYSTEM</AUTHOR><DATE>2015년 10월 8일 목요일 오전 11:07:43</DATE></DOCSUMMARY>\n");
+			sb.append("<DOCSUMMARY><TITLE>하자검사조서</TITLE><AUTHOR>YGPA GIS Assets Management SYSTEM</AUTHOR><DATE>" + today + "</DATE></DOCSUMMARY>\n");
 			sb.append("<DOCSETTING><BEGINNUMBER Endnote=\"1\" Equation=\"1\" Footnote=\"1\" Page=\"1\" Picture=\"1\" Table=\"1\"/><CARETPOS List=\"0\" Para=\"7\" Pos=\"0\"/></DOCSETTING>\n");
 			sb.append("<MAPPINGTABLE>\n");
 			if(count > 0) {
@@ -590,15 +592,18 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		/**HWPML 용 하자검사조서 검사조서 엘리먼트를 문자열로 가져온다.*/
 		public String getXmlFcltyRepairCheckReportBody(Map<String, Integer> imageIndexes, EgovMap charger, EgovMap report) {
 			StringBuilder sb = new StringBuilder();
-			String castFlawEnnc = (String)report.get("castFlawEnnc");
-			String ctrtAmt = (String)report.get("ctrtAmt");
+			String castFlawEnnc = (String)report.get("castFlawEnnc"); //하자있음 또는 하자없음
+			String ctrtAmt = (String)report.get("ctrtAmt"); //계약금액
 			ctrtAmt = ctrtAmt.replace(" ", "");
-			String flawRprNm = (report.get("flawRprNm") != null) ? (String)report.get("flawRprNm") : "";
-			String flawRprEntrpsNm = (report.get("flawRprEntrpsNm") != null) ? (String)report.get("flawRprEntrpsNm") : "";
+			String flawExamDt = (report.get("flawExamDt") != null) ? (String)report.get("flawExamDt") : "     년   월   일"; //하자검사일
+			String ctrtDt = (report.get("ctrtDt") != null) ? (String)report.get("ctrtDt") : "     년   월   일";  //계약일
+			String flawRprNm = (report.get("flawRprNm") != null) ? (String)report.get("flawRprNm") : ""; //공사명
+			String flawRprEntrpsNm = (report.get("flawRprEntrpsNm") != null) ? (String)report.get("flawRprEntrpsNm") : ""; //도급업체명
 			String chargerNm = "", chargerOfcPos = "";
 			if(charger != null) {
-				chargerNm = (charger.get("chargerNm") != null) ? (String)charger.get("chargerNm") : "";
-				chargerOfcPos = (charger.get("chargerOfcPos") != null) ? (String)charger.get("chargerOfcPos") : "";
+				chargerNm = (charger.get("chargerNm") != null) ? (String)charger.get("chargerNm") : ""; //검사자  이름
+				chargerOfcPos = (charger.get("chargerOfcPos") != null) ? (String)charger.get("chargerOfcPos") : ""; //검사자 직급
+				// 이름 사이에 공백넣기 루틴
 				switch(chargerNm.length()) {
 				case 0 :
 					chargerNm = "        ";
@@ -665,13 +670,13 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR> </CHAR></TEXT><TEXT CharShape=\"12\"><CHAR> </CHAR></TEXT><TEXT CharShape=\"13\"><CHAR>공사명 : " + flawRprNm + "</CHAR></TEXT></P>\n");
 			sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"13\"/></P>\n");
 			sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"13\"><CHAR>                 </CHAR></TEXT><TEXT CharShape=\"12\"><CHAR>20  년   월   일 준공</CHAR></TEXT></P>\n");
-			sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"12\"><CHAR>                 2013년  5월 29일 " + flawRprEntrpsNm + "</CHAR></TEXT></P>\n");
+			sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"12\"><CHAR>                 " + ctrtDt + " " + flawRprEntrpsNm + "</CHAR></TEXT></P>\n");
 			sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"12\"><CHAR>                 도급액 :  " + ctrtAmt + "원</CHAR></TEXT></P>\n");
 			sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"12\"/></P>\n");
-			sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"12\"><CHAR>     </CHAR></TEXT><TEXT CharShape=\"14\"><CHAR>위 공사의 하자검사의 명을 받아  2015년 2월 24일 검사한 결과</CHAR></TEXT></P>\n");
+			sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"12\"><CHAR>     </CHAR></TEXT><TEXT CharShape=\"14\"><CHAR>위 공사의 하자검사의 명을 받아  " + flawExamDt + " 검사한 결과</CHAR></TEXT></P>\n");
 			sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"15\"><CHAR>      </CHAR></TEXT><TEXT CharShape=\"16\"><CHAR>" + castFlawEnnc + "</CHAR></TEXT><TEXT CharShape=\"15\"><CHAR>을 확인함</CHAR></TEXT></P>\n");
 			sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"12\"/></P><P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"12\"/></P>\n");
-			sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"12\"><CHAR>                                       2015년 2월 24일</CHAR></TEXT></P>\n");
+			sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"12\"><CHAR>                                       " + flawExamDt +"</CHAR></TEXT></P>\n");
 			sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"12\"/></P>\n");
 			sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"12\">\n");
 			if(charger != null) {
@@ -717,10 +722,15 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		
 		/**HWPML 용 하자검사조서 사진 리스트 엘리먼트를 문자열로 가져온다.*/
 		@SuppressWarnings({ "rawtypes" })
-		public String getXmlFcltyRepairCheckReportList(Map<String, Integer> imageIndexes, String title, List fileList) {
+		public String getXmlFcltyRepairCheckReportList(Map<String, Integer> imageIndexes, EgovMap report, List fileList) {
 			StringBuilder sb = new StringBuilder();
+			String flawRprNm = (report.get("flawRprNm") != null) ? (String)report.get("flawRprNm") : ""; //공사명
+			String flawRprContents = (report.get("flawRprContents") != null) ? (String)report.get("flawRprContents") : ""; //하자 내용
+			String flawRprRm = (report.get("rm") != null) ? (String)report.get("rm") : ""; // 비고
+			String[] contents = flawRprContents.split("\r");
+			String[] rm = flawRprRm.split("\r");			
 			sb.append("<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>하    자    내    용</CHAR></TEXT></P>\n");
-			sb.append("<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"20\"><CHAR>(2013년 광양항 항만시설물 보수보강공사)</CHAR></TEXT></P>\n");
+			sb.append("<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"20\"><CHAR>(" + flawRprNm + ")</CHAR></TEXT></P>\n");
 			sb.append("<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"20\"/></P>\n");
 			sb.append("<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"20\">\n");
 			sb.append("<TABLE BorderFill=\"2\" CellSpacing=\"0\" ColCount=\"2\" PageBreak=\"Cell\" RepeatHeader=\"true\" RowCount=\"2\">\n");
@@ -745,7 +755,8 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			sb.append("<ROW>\n");
 			sb.append("<CELL BorderFill=\"3\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"7647\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"30724\">\n");
 			sb.append("<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			//하자 내용 출력부분
+			//하자 내용 출력부분 -  file List부분에서 사용하는 출력 루틴
+			/*
 	    	for(int i=0; i<fileList.size(); i++) {
 	    		EgovMap item = (EgovMap) fileList.get(i);
 	        	String fileSj = (String) item.get("atchFileSj");
@@ -753,11 +764,18 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	        		sb.append("<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"3\"><CHAR> ○ " + fileSj + "</CHAR></TEXT></P>\n");
 	        	}
 	    	}
-			sb.append("</PARALIST>\n");
+	    	*/
+	    	// 하자 비고 출력부분 -- 원래 비고에서 출력하는 부분
+			for(int i=0; i<contents.length; i++) {
+	        	sb.append("<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"3\"><CHAR>" + contents[i] + "</CHAR></TEXT></P>\n");
+	    	}
+
+	    	sb.append("</PARALIST>\n");
 			sb.append("</CELL>\n");
 			sb.append("<CELL BorderFill=\"4\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"7647\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"14310\">\n");
 			sb.append("<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-	    	// 하자 비고 출력부분
+	    	// 하자 비고 출력부분 -- file List부분에서 사용하는 출력 루틴
+			/*
 			for(int i=0; i<fileList.size(); i++) {
 	    		EgovMap item = (EgovMap) fileList.get(i);
 	        	String fileRm = (String) item.get("atchFileRm");
@@ -765,6 +783,12 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	        		sb.append("<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"3\"><CHAR>" + fileRm + "</CHAR></TEXT></P>\n");
 	        	}
 	    	}
+	    	*/
+	    	// 하자 비고 출력부분 -- 원래 비고에서 출력하는 부분
+			for(int i=0; i<rm.length; i++) {
+	        	sb.append("<P ParaShape=\"16\" Style=\"0\"><TEXT CharShape=\"3\"><CHAR>" + rm[i] + "</CHAR></TEXT></P>\n");
+	    	}
+
 			sb.append("</PARALIST>\n");
 			sb.append("</CELL>\n");
 			sb.append("</ROW>\n");
