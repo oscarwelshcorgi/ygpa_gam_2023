@@ -644,7 +644,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			sb.append("<COLDEF Count=\"1\" Layout=\"Left\" SameGap=\"0\" SameSize=\"true\" Type=\"Newspaper\"/>\n");
 			
 			sb.append("<TABLE BorderFill=\"2\" CellSpacing=\"0\" ColCount=\"1\" PageBreak=\"Cell\" RepeatHeader=\"true\" RowCount=\"1\">\n");
-			sb.append("<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Table\" ZOrder=\"2\">\n");
+			sb.append("<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Table\" ZOrder=\"" + getZOrder() + "\">\n");
 			sb.append("<SIZE Height=\"67462\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"44788\" WidthRelTo=\"Absolute\"/>\n");
 			sb.append("<POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"0\" HorzRelTo=\"Para\" TreatAsChar=\"true\" VertAlign=\"Top\" VertOffset=\"0\" VertRelTo=\"Para\"/>\n");
 			sb.append("<OUTSIDEMARGIN Bottom=\"141\" Left=\"141\" Right=\"141\" Top=\"141\"/>\n");
@@ -675,7 +675,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 				int imageId = getImageId(imageIndexes, signImageFileNm);
 				if(imageId > 0) {
 					sb.append("<PICTURE Reverse=\"false\">\n");
-					sb.append("<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Figure\" TextWrap=\"BehindText\" ZOrder=\"0\">\n");
+					sb.append("<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Figure\" TextWrap=\"BehindText\" ZOrder=\"" + getZOrder() + "\">\n");
 					sb.append("<SIZE Height=\"4571\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"3886\" WidthRelTo=\"Absolute\"/>\n");
 					sb.append("<POSITION AffectLSpacing=\"false\" AllowOverlap=\"true\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"37600\" HorzRelTo=\"Para\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"2123\" VertRelTo=\"Para\"/>\n");
 					sb.append("<OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
@@ -701,7 +701,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"12\">\n");
 			/** 두번째 검사자의 도장이미지
 			sb.append("<PICTURE Reverse=\"false\">\n");
-			sb.append("<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Figure\" TextWrap=\"BehindText\" ZOrder=\"1\">\n");
+			sb.append("<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Figure\" TextWrap=\"BehindText\" ZOrder=\"" + getZOrder() + "\">\n");
 			sb.append("<SIZE Height=\"3435\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"3006\" WidthRelTo=\"Absolute\"/>\n");
 			sb.append("<POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"38325\" HorzRelTo=\"Column\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"1650\" VertRelTo=\"Para\"/>\n");
 			sb.append("<OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
@@ -868,88 +868,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			}				
 			sb.append("</TABLE>\n");
 			sb.append("</TEXT></P>\n");
-			
-			
-			
-			/*
-			sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"20\"/></P>\n");
-			sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"20\"><CHAR>○ 사진대지</CHAR></TEXT></P>\n");
-			sb.append("<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"20\">\n");
-			
-			int rowCount = fileList.size();
-			if((rowCount % 2) == 1) {
-				rowCount++;
-			}
-			//레코드 카운트를 짝수로 맞춘다. 이유는 2개의 데이터당 2개의 행에 출력하기 때문에 홀수의 레코드는 빈칸을 출력하기 위해 짝수로 맞춘다.
-			sb.append("<TABLE BorderFill=\"2\" CellSpacing=\"0\" ColCount=\"2\" PageBreak=\"Table\" RepeatHeader=\"true\" RowCount=\"" + rowCount + "\">\n");
-			sb.append("<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Table\" ZOrder=\"" + getZOrder() + "\">\n");
-			sb.append("<SIZE Height=\"39628\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"45024\" WidthRelTo=\"Absolute\"/>\n");
-			sb.append("<POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"0\" HorzRelTo=\"Para\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"0\" VertRelTo=\"Para\"/>\n");
-			sb.append("<OUTSIDEMARGIN Bottom=\"141\" Left=\"141\" Right=\"141\" Top=\"141\"/>\n");
-			sb.append("</SHAPEOBJECT>\n");
-			sb.append("<INSIDEMARGIN Bottom=\"141\" Left=\"141\" Right=\"141\" Top=\"141\"/>\n");
-	
-			//루프로 돌릴 때 한 루프당 2개의 데이터를 2개의 행에 표현하기 때문에 루트는 데이터 갯수의 반만 돌린다. 
-			int loopEnd = rowCount / 2;
-			int rowAddr = 0; //각 cell element의 rowAddr속성을 변경시켜주기 위한 변수
-			
-			int listIndex = 0; //루프 내에서 사용할 실제 이미지 리스트의 인덱스 
-			int listSize = fileList.size(); // 이미지 리스트 개수
-			
-			for(int i=0; i<loopEnd; i++) {
-				String leftFileName = "", rightFileName = "";
-				String leftFileSj = "", rightFileSj = "";
-				int leftImageId = 0, rightImageId = 0;
-				EgovMap record = (EgovMap) fileList.get(listIndex);
-				leftFileName = (String) record.get("atchFileNmPhysicl");
-				leftFileSj = (String) record.get("atchFileSj");
-				leftImageId = getImageId(imageIndexes, leftFileName);
-				listIndex++;
-				if(listIndex < listSize) {
-					record = (EgovMap) fileList.get(listIndex);
-					rightFileName = (String) record.get("atchFileNmPhysicl");
-					rightFileSj = (String) record.get("atchFileSj");
-					rightImageId = getImageId(imageIndexes, rightFileName);
-				}
-				listIndex++;
-				
-				sb.append("<ROW>\n");
-				sb.append("<CELL BorderFill=\"13\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"15486\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"22512\">\n");
-				sb.append(getXmlFcltyRepairCheckReportListPicture(leftImageId));
-				sb.append("</CELL>\n");
-				sb.append("<CELL BorderFill=\"14\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"15486\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"22512\">\n");
-				sb.append(getXmlFcltyRepairCheckReportListPicture(rightImageId));
-				sb.append("</CELL>\n");
-				sb.append("</ROW>\n");
-				rowAddr++;
-				sb.append("<ROW>\n");
-				sb.append("<CELL BorderFill=\"5\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"1948\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"22512\">\n");
-				sb.append("<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-				if(leftFileSj != null) {
-					sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"1\"><CHAR>" + leftFileSj + "</CHAR></TEXT></P>\n");
-				} else {
-					sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"1\"><CHAR/></TEXT></P>\n");				
-				}
-				sb.append("</PARALIST>\n");
-				sb.append("</CELL>\n");
-				sb.append("<CELL BorderFill=\"5\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"1948\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"22512\">\n");
-				sb.append("<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-				if(rightFileSj != null) {
-					sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"1\"><CHAR>" + rightFileSj + "</CHAR></TEXT></P>\n");
-				} else {
-					sb.append("<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"1\"><CHAR/></TEXT></P>\n");				
-				}
-				sb.append("</PARALIST>\n");
-				sb.append("</CELL>\n");
-				sb.append("</ROW>\n");
-				rowAddr++;
-			}
-			
-			sb.append("</TABLE>\n");
-			sb.append("</TEXT>\n");
-			sb.append("<TEXT CharShape=\"4\"><CHAR/></TEXT></P>\n");
-			*/
-			
+						
 			return sb;
 		}
 	
@@ -994,7 +913,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		
 		/**HWPML 용 하자검사조서 TAIL 엘리먼트를 문자열로 가져온다.
 		 * @throws Exception */
-		public String getXmlFcltyRepairCheckReportTail(Map<String, Integer> imageIndexes, Map<String, Boolean> signImageYN) throws Exception {
+		public StringBuilder getXmlFcltyRepairCheckReportTail(Map<String, Integer> imageIndexes, Map<String, Boolean> signImageYN) throws Exception {
 			StringBuilder sb = new StringBuilder();
 			Iterator<String> it = imageIndexes.keySet().iterator();
 			int count = imageIndexes.keySet().size();
@@ -1019,7 +938,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			sb.append("</SCRIPTHEADER><SCRIPTSOURCE>function OnDocument_New() { }\n");
 			sb.append("</SCRIPTSOURCE></SCRIPTCODE>\n");
 			sb.append("</TAIL>\n");
-			return sb.toString();
+			return sb;
 		}
 	}
 }
