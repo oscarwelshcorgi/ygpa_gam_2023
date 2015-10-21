@@ -2185,7 +2185,13 @@ var module_instance = new GamAssetRentMngtModule();
                             </td>
                             <th>사용용도</th>
                             <td>
-                                <input id="sUsagePrposCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM007" />
+                                <!--  <input id="sUsagePrposCd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM007" />-->
+                                <!-- 사용용도를 부자 수역으로만 표시 2015.10.21 김종민 -->
+                                <select id="sUsagePrposCd">
+                                    <option value="" selected="selected">전체</option>
+                                    <option value="L">부지</option>
+                                    <option value="W">수역</option>
+                                </select>                               
                             </td>
                             <td rowSpan="2"><button id="searchBtn" class="buttonSearch">조회</button></td>
                         </tr>

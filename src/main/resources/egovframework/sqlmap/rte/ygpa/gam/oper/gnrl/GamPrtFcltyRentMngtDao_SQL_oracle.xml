@@ -254,7 +254,7 @@
 					         </isNotEmpty>
 
                              <isNotEmpty property="sUsagePrposCd">
-                                 AND (
+                                 <!-- AND (
 								       (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
 															                         SELECT  PRT_AT_CODE
 															                               , MNG_YEAR
@@ -263,8 +263,18 @@
 															                           FROM ASSETS_RENT_DETAIL_F
 															                          WHERE USAGE_PRPOS_CD = #sUsagePrposCd#
 															                       )
-								     )
-                             </isNotEmpty>
+								     ) -->
+								     <!-- 조건 변경 2015.10.21 김종민 -->
+								     AND
+								       (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
+															                         SELECT  PRT_AT_CODE
+															                               , MNG_YEAR
+															                               , MNG_NO
+															                               , MNG_CNT
+															                           FROM ASSETS_RENT_DETAIL_F
+															                          WHERE SUBSTR(GIS_ASSETS_CD, 1, 1) = #sUsagePrposCd#
+															                       )
+	                         </isNotEmpty>
 
 
                              <!-- ORDER BY REGIST_DT DESC -->
@@ -345,16 +355,26 @@
              </isNotEmpty>
 
              <isNotEmpty property="sUsagePrposCd">
-                 AND (
-                       (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
-                                                                     SELECT  PRT_AT_CODE
-                                                                           , MNG_YEAR
-                                                                           , MNG_NO
-                                                                           , MNG_CNT
-                                                                       FROM ASSETS_RENT_DETAIL_F
-                                                                      WHERE USAGE_PRPOS_CD = #sUsagePrposCd#
-                                                                   )
-                     )
+                                 <!-- AND (
+								       (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
+															                         SELECT  PRT_AT_CODE
+															                               , MNG_YEAR
+															                               , MNG_NO
+															                               , MNG_CNT
+															                           FROM ASSETS_RENT_DETAIL_F
+															                          WHERE USAGE_PRPOS_CD = #sUsagePrposCd#
+															                       )
+								     ) -->
+								     <!-- 조건 변경 2015.10.21 김종민 -->
+								     AND
+								       (A.PRT_AT_CODE, A.MNG_YEAR, A.MNG_NO, A.MNG_CNT) IN (
+															                         SELECT  PRT_AT_CODE
+															                               , MNG_YEAR
+															                               , MNG_NO
+															                               , MNG_CNT
+															                           FROM ASSETS_RENT_DETAIL_F
+															                          WHERE SUBSTR(GIS_ASSETS_CD, 1, 1) = #sUsagePrposCd#
+															                       )
              </isNotEmpty>
 
     </select>
