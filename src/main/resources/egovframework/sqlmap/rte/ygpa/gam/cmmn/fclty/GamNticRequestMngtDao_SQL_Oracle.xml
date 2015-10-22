@@ -221,7 +221,7 @@
       	GAM_GETENTRPSNM(L.ENTRPSCD, '2'),
       	#dlyBillRsn#,
       	#updUsr#, SYSDATE, L.ENTRPSCD, '194', 'N', 'N','','',
-      	#deptCd#, #emplNo#, L.PAY_TMLMT, TRUNC(L.NTIC_AMT+#dlyBillAmnt#, -1),       #userName#, L.NTIC_DT
+      	#deptCd#, #emplNo#, L.PAY_TMLMT, TRUNC(L.FEE+L.VAT+#dlyBillAmnt#, -1),       #userName#, L.NTIC_DT
       FROM LEV_REQEST_F L
       WHERE PRT_AT_CODE=#prtAtCode#
       	AND MNG_YEAR=#mngYear#
