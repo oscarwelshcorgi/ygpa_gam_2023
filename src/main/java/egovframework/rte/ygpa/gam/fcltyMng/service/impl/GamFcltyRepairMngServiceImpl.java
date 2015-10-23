@@ -254,6 +254,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @return int
 	 * @throws Exception
 	 */
+	
 	@SuppressWarnings({ "unused", "unchecked" })
 	public String selectFcltyRepairCheckReportListHWPML(List<HashMap<String,String>> reportList) throws Exception {
     	StringBuilder result =  new StringBuilder(); //HWPML 처리 문자열 버퍼
@@ -275,27 +276,40 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			searchVO.setFlawExamUsr(reportItem.get("flawExamUsr"));
 			searchVO.setFcltsJobSe(reportItem.get("fcltsJobSe"));
 			searchVO.setFlawRprSeq(reportItem.get("flawRprSeq"));
-					
-	    	//하자검사자 직인
-	    	EgovMap charger = gamFcltyRepairMngDao.selectFcltyRepairCheckReportCharger(searchVO);
+
+	    	EgovMap[] chargers = null;
+			if(searchVO.getFlawExamUsr() == null) {
+				searchVO.setFlawExamUsr("");
+			} 
+			String[] users = searchVO.getFlawExamUsr().split(",");
+			if(users.length > 0) {
+				chargers = new EgovMap[users.length];
+				for(int j=0; j<users.length; j++) {
+					searchVO.setFlawExamUsr(users[j].replace(" ", ""));
+					chargers[j] = gamFcltyRepairMngDao.selectFcltyRepairCheckReportCharger(searchVO);
+				}
+				for(int j=0; j<chargers.length; j++) {
+					EgovMap charger = chargers[j];
+			    	//검사자 도장 이미지 파일 정보 구성
+			    	if(charger != null) {
+				    	String fileName = (String) charger.get("signFileNmPhysicl");
+				    	if((fileName != null) && (fileName.length() > 0)) {
+				    		fileName = EgovProperties.getProperty("prtfclty.fileStorePath") + fileName;  //경로 주의 : 도장이미지와 하자사진이미지의 경로가 틀림
+				        	File file = new File(fileName);
+				        	if(file.exists()) {
+				        		imageIndexes.put((String) charger.get("signFileNmPhysicl"), 0);
+				        		signImageYN.put((String) charger.get("signFileNmPhysicl"), true);	        		
+				        	}    
+				    	}
+			    	}
+				}
+			}
+			
 	    	//하자검사조서
 	    	EgovMap report = gamFcltyRepairMngDao.selectFcltyRepairCheckReport(searchVO);
 	    	//첨부파일이미지
 	    	List fileList = gamFcltyRepairMngDao.selectFcltyRepairFileList(searchVO);
-	    	
-	    	//검사자 도장 이미지 파일 정보 구성
-	    	if(charger != null) {
-		    	String fileName = (String) charger.get("signFileNmPhysicl");
-		    	if((fileName != null) && (fileName.length() > 0)) {
-		    		fileName = EgovProperties.getProperty("prtfclty.fileStorePath") + fileName;  //경로 주의 : 도장이미지와 하자사진이미지의 경로가 틀림
-		        	File file = new File(fileName);
-		        	if(file.exists()) {
-		        		imageIndexes.put((String) charger.get("signFileNmPhysicl"), 0);
-		        		signImageYN.put((String) charger.get("signFileNmPhysicl"), true);	        		
-		        	}    
-		    	}
-	    	}
-	    	
+	    		    	
 	    	//사진 이미지 파일 정보 구성
 	    	for(int j=0; j<fileList.size(); j++) {
 	    		EgovMap item = (EgovMap) fileList.get(j);
@@ -326,16 +340,27 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			searchVO.setFcltsJobSe(reportItem.get("fcltsJobSe"));
 			searchVO.setFlawRprSeq(reportItem.get("flawRprSeq"));
 					
-	    	//하자검사자 직인
-	    	EgovMap charger = gamFcltyRepairMngDao.selectFcltyRepairCheckReportCharger(searchVO);
-	    	//하자검사조서
+	    	EgovMap[] chargers = null;
+			if(searchVO.getFlawExamUsr() == null) {
+				searchVO.setFlawExamUsr("");
+			} 
+			String[] users = searchVO.getFlawExamUsr().split(",");
+			if(users.length > 0) {
+				chargers = new EgovMap[users.length];
+				for(int j=0; j<users.length; j++) {
+					searchVO.setFlawExamUsr(users[j].replace(" ", ""));
+					chargers[j] = gamFcltyRepairMngDao.selectFcltyRepairCheckReportCharger(searchVO);
+				}
+			}
+
+			//하자검사조서
 	    	EgovMap report = gamFcltyRepairMngDao.selectFcltyRepairCheckReport(searchVO);
 	    	//첨부파일이미지
 	    	List fileList = gamFcltyRepairMngDao.selectFcltyRepairFileList(searchVO);
 		
 			if(report != null) {
 				//하자검사조서 처리
-				result.append(reportHWP.getXmlFcltyRepairCheckReportBody(imageIndexes, charger, report));
+				result.append(reportHWP.getXmlFcltyRepairCheckReportBody(imageIndexes, chargers, report));
 				String flawEnnc = (String) report.get("flawEnnc");
 				if(flawEnnc != null) {
 					if(flawEnnc.equals("Y")) {
@@ -373,27 +398,41 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
     	//HWPML Start Element 부분
 		result.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n");
 		result.append("<HWPML Style=\"embed\" SubVersion=\"7.0.0.0\" Version=\"2.7\">\n");
-	
-    	//하자검사자 직인
-    	EgovMap charger = gamFcltyRepairMngDao.selectFcltyRepairCheckReportCharger(searchVO);
-    	//하자검사조서
-    	EgovMap report = gamFcltyRepairMngDao.selectFcltyRepairCheckReport(searchVO);
-    	//첨부파일이미지
-    	List fileList = gamFcltyRepairMngDao.selectFcltyRepairFileList(searchVO);
+		
+    	EgovMap[] chargers = null;
+		if(searchVO.getFlawExamUsr() == null) {
+			searchVO.setFlawExamUsr("");
+		} 
+		String[] users = searchVO.getFlawExamUsr().split(",");
+		if(users.length > 0) {
+			chargers = new EgovMap[users.length];
+			for(int i=0; i<users.length; i++) {
+				searchVO.setFlawExamUsr(users[i].replace(" ", ""));
+				chargers[i] = gamFcltyRepairMngDao.selectFcltyRepairCheckReportCharger(searchVO);
+			}
+			for(int i=0; i<chargers.length; i++) {
+				EgovMap charger = chargers[i];
+		    	//검사자 도장 이미지 파일 정보 구성
+		    	if(charger != null) {
+			    	String fileName = (String) charger.get("signFileNmPhysicl");
+			    	if((fileName != null) && (fileName.length() > 0)) {
+			    		fileName = EgovProperties.getProperty("prtfclty.fileStorePath") + fileName;  //경로 주의 : 도장이미지와 하자사진이미지의 경로가 틀림
+			        	File file = new File(fileName);
+			        	if(file.exists()) {
+			        		imageIndexes.put((String) charger.get("signFileNmPhysicl"), 0);
+			        		signImageYN.put((String) charger.get("signFileNmPhysicl"), true);	        		
+			        	}    
+			    	}
+		    	}
+			}
+		}
+		
+		//하자검사조서
+		EgovMap report = gamFcltyRepairMngDao.selectFcltyRepairCheckReport(searchVO);
+		//첨부파일이미지
+		List fileList = gamFcltyRepairMngDao.selectFcltyRepairFileList(searchVO);
     	
-    	//검사자 도장 이미지 파일 정보 구성
-    	if(charger != null) {
-	    	String fileName = (String) charger.get("signFileNmPhysicl");
-	    	if((fileName != null) && (fileName.length() > 0)) {
-	    		fileName = EgovProperties.getProperty("prtfclty.fileStorePath") + fileName;  //경로 주의 : 도장이미지와 하자사진이미지의 경로가 틀림
-	        	File file = new File(fileName);
-	        	if(file.exists()) {
-	        		imageIndexes.put((String) charger.get("signFileNmPhysicl"), 0);
-	        		signImageYN.put((String) charger.get("signFileNmPhysicl"), true);	        		
-	        	}    
-	    	}
-    	}
-    	
+ 
     	//사진 이미지 파일 정보 구성
     	for(int i=0; i<fileList.size(); i++) {
     		EgovMap item = (EgovMap) fileList.get(i);
@@ -416,7 +455,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		
 		if(report != null) {
 			//하자검사조서 처리
-			result.append(reportHWP.getXmlFcltyRepairCheckReportBody(imageIndexes, charger, report));
+			result.append(reportHWP.getXmlFcltyRepairCheckReportBody(imageIndexes, chargers, report));
 			String flawEnnc = (String) report.get("flawEnnc");
 			if(flawEnnc != null) {
 				if(flawEnnc.equals("Y")) {
@@ -472,6 +511,31 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			return 0;
 		}
 		
+		/** 하자검사원 직급과 이름을 공백에 맞추어 리턴*/
+		protected String getChargerNmString(EgovMap charger) {
+			String chargerNm = "", chargerOfcPos = ""; 
+			if(charger != null) {
+				chargerNm = (charger.get("chargerNm") != null) ? (String)charger.get("chargerNm") : ""; //검사자  이름
+				chargerOfcPos = (charger.get("chargerOfcPos") != null) ? (String)charger.get("chargerOfcPos") : ""; //검사자 직급
+				// 이름 사이에 공백넣기 루틴
+				switch(chargerNm.length()) {
+				case 0 :
+					chargerNm = "        ";
+					break;
+				case 1 : 
+					chargerNm = "   " + chargerNm + "   ";
+					break;
+				case 2 : 
+					chargerNm = chargerNm.substring(0, 1) + "    " + chargerNm.substring(1, 2);
+					break;
+				case 3 : 
+					chargerNm = chargerNm.substring(0, 1) + " " + chargerNm.substring(1, 2) + " " + chargerNm.substring(2, 3);
+					break;
+				}
+			}
+			return chargerOfcPos + " " + chargerNm;
+		}
+		
 		/**HWPML 용 하자검사조서 HEAD 엘리먼트 구성을 문자열로 가져온다.*/
 		public StringBuilder getXmlFcltyRepairCheckReportHead(Map<String, Integer> imageIndexes) {
 			StringBuilder sb = new StringBuilder();
@@ -487,10 +551,11 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			if(count > 0) {
 				sb.append("<BINDATALIST Count=\""+count+"\">\n");
 				while(it.hasNext()) {
-					String key = it.next();
+					String fileName = it.next();
+					String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
 					id++;
-					imageIndexes.put(key, id);
-					sb.append("<BINITEM BinData=\"" + id + "\" Format=\"JPG\" Type=\"Embedding\"/>\n");
+					imageIndexes.put(fileName, id);
+					sb.append("<BINITEM BinData=\"" + id + "\" Format=\"" + fileExt + "\" Type=\"Embedding\"/>\n");
 				}
 				sb.append("</BINDATALIST>\n");
 			}
@@ -579,7 +644,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		}
 		
 		/**HWPML 용 하자검사조서 검사조서 엘리먼트를 문자열로 가져온다.*/
-		public StringBuilder getXmlFcltyRepairCheckReportBody(Map<String, Integer> imageIndexes, EgovMap charger, EgovMap report) {
+		public StringBuilder getXmlFcltyRepairCheckReportBody(Map<String, Integer> imageIndexes, EgovMap[] chargers, EgovMap report) {
 			StringBuilder sb = new StringBuilder();
 			String castFlawEnnc = (String)report.get("castFlawEnnc"); //하자있음 또는 하자없음
 			String ctrtAmt = (String)report.get("ctrtAmt"); //계약금액
@@ -588,26 +653,6 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			String ctrtDt = (report.get("ctrtDt") != null) ? (String)report.get("ctrtDt") : "     년   월   일";  //계약일
 			String flawRprNm = (report.get("flawRprNm") != null) ? (String)report.get("flawRprNm") : ""; //공사명
 			String flawRprEntrpsNm = (report.get("flawRprEntrpsNm") != null) ? (String)report.get("flawRprEntrpsNm") : ""; //도급업체명
-			String chargerNm = "", chargerOfcPos = "";
-			if(charger != null) {
-				chargerNm = (charger.get("chargerNm") != null) ? (String)charger.get("chargerNm") : ""; //검사자  이름
-				chargerOfcPos = (charger.get("chargerOfcPos") != null) ? (String)charger.get("chargerOfcPos") : ""; //검사자 직급
-				// 이름 사이에 공백넣기 루틴
-				switch(chargerNm.length()) {
-				case 0 :
-					chargerNm = "        ";
-					break;
-				case 1 : 
-					chargerNm = "   " + chargerNm + "   ";
-					break;
-				case 2 : 
-					chargerNm = chargerNm.substring(0, 1) + "    " + chargerNm.substring(1, 2);
-					break;
-				case 3 : 
-					chargerNm = chargerNm.substring(0, 1) + " " + chargerNm.substring(1, 2) + " " + chargerNm.substring(2, 3);
-					break;
-				}
-			}
 			
 			sb.append("<P ColumnBreak=\"false\" PageBreak=\"false\" ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"8\">\n");
 			sb.append("<SECDEF CharGrid=\"0\" FirstBorder=\"false\" FirstFill=\"false\" LineGrid=\"0\" OutlineShape=\"1\" SpaceColumns=\"1134\" TabStop=\"8000\" TextDirection=\"0\" TextVerticalWidthHead=\"0\">\n");
@@ -670,62 +715,81 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"12\"/></P>\n");
 			sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"12\"><CHAR>                                       " + flawExamDt +"</CHAR></TEXT></P>\n");
 			sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"12\">\n");
-			if(charger != null) {
-				String signImageFileNm = (String) charger.get("signFileNmPhysicl");
-				int imageId = getImageId(imageIndexes, signImageFileNm);
-				if(imageId > 0) {
-					sb.append("<PICTURE Reverse=\"false\">\n");
-					sb.append("<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Figure\" TextWrap=\"BehindText\" ZOrder=\"" + getZOrder() + "\">\n");
-					sb.append("<SIZE Height=\"4571\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"3886\" WidthRelTo=\"Absolute\"/>\n");
-					sb.append("<POSITION AffectLSpacing=\"false\" AllowOverlap=\"true\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"37600\" HorzRelTo=\"Para\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"2123\" VertRelTo=\"Para\"/>\n");
-					sb.append("<OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
-					sb.append("</SHAPEOBJECT>\n");
-					sb.append("<SHAPECOMPONENT CurHeight=\"4571\" CurWidth=\"3886\" GroupLevel=\"0\" HorzFlip=\"false\" InstID=\"" + getInstanceId() + "\" OriHeight=\"51825\" OriWidth=\"36655\" VertFlip=\"false\" XPos=\"-11939\" YPos=\"-30033\">\n");
-					sb.append("<ROTATIONINFO Angle=\"0\" CenterX=\"1943\" CenterY=\"2285\"/>\n");
-					sb.append("<RENDERINGINFO>\n");
-					sb.append("<TRANSMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"-11939.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"-30033.00000\"/>\n");
-					sb.append("<SCAMATRIX E1=\"0.10602\" E2=\"0.00000\" E3=\"11939.00000\" E4=\"0.00000\" E5=\"0.08820\" E6=\"30033.00000\"/>\n");
-					sb.append("<ROTMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/>\n");
-					sb.append("</RENDERINGINFO>\n");
-					sb.append("</SHAPECOMPONENT>\n");
-					sb.append("<IMAGERECT X0=\"0\" X1=\"36655\" X2=\"36655\" X3=\"0\" Y0=\"0\" Y1=\"0\" Y2=\"51825\" Y3=\"51825\"/>\n");
-					sb.append("<IMAGECLIP Bottom=\"72848\" Left=\"25133\" Right=\"33313\" Top=\"63225\"/>\n");
-					sb.append("<INSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
-					sb.append("<IMAGE Alpha=\"0\" BinItem=\"" + imageId + "\" Bright=\"0\" Contrast=\"0\" Effect=\"RealPic\"/>\n");
-					sb.append("</PICTURE>\n");
+			if(chargers.length > 0) {
+				if(chargers[0] != null) {
+					String signImageFileNm = (String) chargers[0].get("signFileNmPhysicl");
+					int imageId = getImageId(imageIndexes, signImageFileNm);
+					if(imageId > 0) {
+						sb.append("<PICTURE Reverse=\"false\">\n");
+						sb.append("<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Figure\" TextWrap=\"BehindText\" ZOrder=\"" + getZOrder() + "\">\n");
+						sb.append("<SIZE Height=\"4500\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"3840\" WidthRelTo=\"Absolute\"/>\n");
+						sb.append("<POSITION AffectLSpacing=\"false\" AllowOverlap=\"true\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"37600\" HorzRelTo=\"Para\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"2123\" VertRelTo=\"Para\"/>\n");
+						sb.append("<OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
+						sb.append("</SHAPEOBJECT>\n");
+						sb.append("<SHAPECOMPONENT GroupLevel=\"0\" HorzFlip=\"false\" InstID=\"977630313\" OriHeight=\"4500\" OriWidth=\"3840\" VertFlip=\"false\" XPos=\"0\" YPos=\"0\">\n");
+						sb.append("<ROTATIONINFO Angle=\"0\" CenterX=\"1920\" CenterY=\"2250\"/>\n");
+						sb.append("<RENDERINGINFO>\n");
+						sb.append("<TRANSMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/>\n");
+						sb.append("<SCAMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/>\n");
+						sb.append("<ROTMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/>\n");
+						sb.append("</RENDERINGINFO>\n");
+						sb.append("</SHAPECOMPONENT>\n");
+						sb.append("<IMAGERECT X0=\"0\" X1=\"3840\" X2=\"3840\" X3=\"0\" Y0=\"0\" Y1=\"0\" Y2=\"4500\" Y3=\"4500\"/>\n");
+						sb.append("<IMAGECLIP Bottom=\"4500\" Left=\"0\" Right=\"3840\" Top=\"0\"/>\n");
+						sb.append("<INSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
+						sb.append("<IMAGE Alpha=\"0\" BinItem=\"" + imageId + "\" Bright=\"0\" Contrast=\"0\" Effect=\"RealPic\"/>\n");
+						sb.append("</PICTURE>\n");
+					}
 				}
 			}
 			sb.append("<CHAR/>\n");
 			sb.append("</TEXT></P>\n");
 			sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"12\"/></P>\n");
 			sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"12\">\n");
-			/** 두번째 검사자의 도장이미지
-			sb.append("<PICTURE Reverse=\"false\">\n");
-			sb.append("<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Figure\" TextWrap=\"BehindText\" ZOrder=\"" + getZOrder() + "\">\n");
-			sb.append("<SIZE Height=\"3435\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"3006\" WidthRelTo=\"Absolute\"/>\n");
-			sb.append("<POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"38325\" HorzRelTo=\"Column\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"1650\" VertRelTo=\"Para\"/>\n");
-			sb.append("<OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
-			sb.append("</SHAPEOBJECT>\n");
-			sb.append("<SHAPECOMPONENT CurHeight=\"3435\" CurWidth=\"3006\" GroupLevel=\"0\" HorzFlip=\"false\" InstID=\"" + getInstanceId() + "\" OriHeight=\"2371\" OriWidth=\"1754\" VertFlip=\"false\" XPos=\"0\" YPos=\"1064\">\n");
-			sb.append("<ROTATIONINFO Angle=\"0\" CenterX=\"1503\" CenterY=\"1717\"/>\n");
-			sb.append("<RENDERINGINFO>\n");
-			sb.append("<TRANSMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"1064.00000\"/>\n");
-			sb.append("<SCAMATRIX E1=\"1.71380\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.44876\" E6=\"-1064.00000\"/>\n");
-			sb.append("<ROTMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/>\n");
-			sb.append("</RENDERINGINFO>\n");
-			sb.append("</SHAPECOMPONENT>\n");
-			sb.append("<IMAGERECT X0=\"0\" X1=\"1754\" X2=\"1754\" X3=\"0\" Y0=\"0\" Y1=\"0\" Y2=\"2371\" Y3=\"2371\"/>\n");
-			sb.append("<IMAGECLIP Bottom=\"9000\" Left=\"0\" Right=\"6660\" Top=\"0\"/><INSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
-			sb.append("<IMAGE Alpha=\"0\" BinItem=\"1\" Bright=\"0\" Contrast=\"0\" Effect=\"RealPic\"/>\n");
-			sb.append("</PICTURE>\n");
-			*/
-			sb.append("<CHAR>                        하자검사원 : " + chargerOfcPos + " " + chargerNm + "  (인)  </CHAR>\n");
+			if(chargers.length > 1) {
+				if(chargers[1] != null) {
+					String signImageFileNm = (String) chargers[1].get("signFileNmPhysicl");
+					int imageId = getImageId(imageIndexes, signImageFileNm);
+					if(imageId > 0) {
+						sb.append("<PICTURE Reverse=\"false\">\n");
+						sb.append("<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Figure\" TextWrap=\"BehindText\" ZOrder=\"" + getZOrder() + "\">\n");
+						sb.append("<SIZE Height=\"4500\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"3840\" WidthRelTo=\"Absolute\"/>\n");
+						sb.append("<POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"37600\" HorzRelTo=\"Column\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"1650\" VertRelTo=\"Para\"/>\n");
+						sb.append("<OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
+						sb.append("</SHAPEOBJECT>\n");
+						sb.append("<SHAPECOMPONENT GroupLevel=\"0\" HorzFlip=\"false\" InstID=\"977630313\" OriHeight=\"4500\" OriWidth=\"3840\" VertFlip=\"false\" XPos=\"0\" YPos=\"0\">\n");
+						sb.append("<ROTATIONINFO Angle=\"0\" CenterX=\"1920\" CenterY=\"2250\"/>\n");
+						sb.append("<RENDERINGINFO>\n");
+						sb.append("<TRANSMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/>\n");
+						sb.append("<SCAMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/>\n");
+						sb.append("<ROTMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/>\n");
+						sb.append("</RENDERINGINFO>\n");
+						sb.append("</SHAPECOMPONENT>\n");
+						sb.append("<IMAGERECT X0=\"0\" X1=\"3840\" X2=\"3840\" X3=\"0\" Y0=\"0\" Y1=\"0\" Y2=\"4500\" Y3=\"4500\"/>\n");
+						sb.append("<IMAGECLIP Bottom=\"4500\" Left=\"0\" Right=\"3840\" Top=\"0\"/>\n");
+						sb.append("<INSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
+						sb.append("<IMAGE Alpha=\"0\" BinItem=\"" + imageId + "\" Bright=\"0\" Contrast=\"0\" Effect=\"RealPic\"/>\n");
+						sb.append("</PICTURE>\n");
+					}
+				}
+			}
+			if(chargers.length > 0) {
+				if(chargers[0] != null) {
+					sb.append("<CHAR>                        하자검사원 : " + getChargerNmString(chargers[0]) + "  (인)  </CHAR>\n");
+				} else {
+					sb.append("<CHAR/>");
+				}
+			} 
 			sb.append("</TEXT></P>\n");
-			/** 일단 처리안함. 검사자가 2명일 경우 아직 처리안됨
-			sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"12\">\n");
-			sb.append("<CHAR>                                     7급 엄 상 현  (인)</CHAR>\n");
-			sb.append("</TEXT></P>\n");
-			*/
+			if(chargers.length > 1) {
+				sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"12\">\n");
+				if(chargers[1] != null) {
+					sb.append("<CHAR>                                     " + getChargerNmString(chargers[1]) + "  (인)</CHAR>\n");
+				} else {
+					sb.append("<CHAR/>");
+				}
+				sb.append("</TEXT></P>\n");
+			}
 			sb.append("<P ParaShape=\"3\" Style=\"0\"><TEXT CharShape=\"12\"/></P>\n");
 			sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"12\"><CHAR>               </CHAR></TEXT><TEXT CharShape=\"17\"><CHAR>                      </CHAR></TEXT><TEXT CharShape=\"12\"/></P>\n");
 			sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"12\"><CHAR>                         </CHAR></TEXT><TEXT CharShape=\"18\"><CHAR>         </CHAR></TEXT><TEXT CharShape=\"12\"><CHAR>   </CHAR></TEXT></P>\n");
@@ -806,9 +870,9 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			}
 			//레코드 카운트를 짝수로 맞춘다. 이유는 2개의 데이터당 2개의 행에 출력하기 때문에 홀수의 레코드는 빈칸을 출력하기 위해 짝수로 맞춘다.			
 			sb.append("<TABLE BorderFill=\"2\" CellSpacing=\"0\" ColCount=\"2\" PageBreak=\"Table\" RepeatHeader=\"true\" RowCount=\"" + rowCount + "\">\n");
-			sb.append("<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Table\" ZOrder=\"" + getZOrder() + "\">\n");
+			sb.append("<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Table\" TextWrap=\"TopAndBottom\" ZOrder=\"" + getZOrder() + "\">\n");
 			sb.append("<SIZE Height=\"39628\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"45024\" WidthRelTo=\"Absolute\"/>\n");
-			sb.append("<POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"0\" HorzRelTo=\"Para\" TreatAsChar=\"true\" VertAlign=\"Top\" VertOffset=\"0\" VertRelTo=\"Para\"/>\n");
+			sb.append("<POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"0\" HorzRelTo=\"Para\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"0\" VertRelTo=\"Para\"/>\n");
 			sb.append("<OUTSIDEMARGIN Bottom=\"141\" Left=\"141\" Right=\"141\" Top=\"141\"/>\n");
 			sb.append("</SHAPEOBJECT>\n");
 			sb.append("<INSIDEMARGIN Bottom=\"141\" Left=\"141\" Right=\"141\" Top=\"141\"/>\n");
