@@ -569,7 +569,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			sb.append("<FONTFACE Count=\"3\" Lang=\"User\"><FONT Id=\"0\" Name=\"굴림\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"0\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"1\" Name=\"바탕\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"0\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"2\" Name=\"명조\" Type=\"hft\"><TYPEINFO ArmStyle=\"0\" Contrast=\"0\" FamilyType=\"1\" Letterform=\"0\" Midline=\"0\" Proportion=\"0\" StrokeVariation=\"0\" Weight=\"0\" XHeight=\"0\"/></FONT></FONTFACE>\n");
 			sb.append("</FACENAMELIST>\n");
 
-			sb.append("<BORDERFILLLIST Count=\"13\">\n");
+			sb.append("<BORDERFILLLIST Count=\"19\">\n");
 			sb.append("<BORDERFILL BackSlash=\"0\" BreakCellSeparateLine=\"0\" CounterBackSlash=\"0\" CounterSlash=\"0\" CrookedSlash=\"0\" Id=\"1\" Shadow=\"false\" Slash=\"0\" ThreeD=\"false\"><LEFTBORDER Type=\"None\" Width=\"0.1mm\"/><RIGHTBORDER Type=\"None\" Width=\"0.1mm\"/><TOPBORDER Type=\"None\" Width=\"0.1mm\"/><BOTTOMBORDER Type=\"None\" Width=\"0.1mm\"/><DIAGONAL Type=\"Solid\" Width=\"0.1mm\"/><FILLBRUSH><WINDOWBRUSH Alpha=\"0\" FaceColor=\"4294967295\" HatchColor=\"4278190080\"/></FILLBRUSH></BORDERFILL>\n");
 			sb.append("<BORDERFILL BackSlash=\"0\" BreakCellSeparateLine=\"0\" CounterBackSlash=\"0\" CounterSlash=\"0\" CrookedSlash=\"0\" Id=\"2\" Shadow=\"false\" Slash=\"0\" ThreeD=\"false\"><LEFTBORDER Type=\"Solid\" Width=\"0.12mm\"/><RIGHTBORDER Type=\"Solid\" Width=\"0.12mm\"/><TOPBORDER Type=\"Solid\" Width=\"0.12mm\"/><BOTTOMBORDER Type=\"Solid\" Width=\"0.12mm\"/></BORDERFILL>\n");
 			sb.append("<BORDERFILL BackSlash=\"0\" BreakCellSeparateLine=\"0\" CounterBackSlash=\"0\" CounterSlash=\"0\" CrookedSlash=\"0\" Id=\"3\" Shadow=\"false\" Slash=\"0\" ThreeD=\"false\"><LEFTBORDER Type=\"Solid\" Width=\"0.4mm\"/><RIGHTBORDER Type=\"Solid\" Width=\"0.12mm\"/><TOPBORDER Type=\"Solid\" Width=\"0.12mm\"/><BOTTOMBORDER Type=\"Solid\" Width=\"0.4mm\"/></BORDERFILL>\n");
@@ -583,6 +583,12 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			sb.append("<BORDERFILL BackSlash=\"0\" BreakCellSeparateLine=\"0\" CounterBackSlash=\"0\" CounterSlash=\"0\" CrookedSlash=\"0\" Id=\"11\" Shadow=\"false\" Slash=\"0\" ThreeD=\"false\"><LEFTBORDER Type=\"Solid\" Width=\"0.1mm\"/><RIGHTBORDER Type=\"Solid\" Width=\"0.4mm\"/><TOPBORDER Type=\"Solid\" Width=\"0.4mm\"/><BOTTOMBORDER Type=\"Solid\" Width=\"0.12mm\"/></BORDERFILL>\n");
 			sb.append("<BORDERFILL BackSlash=\"0\" BreakCellSeparateLine=\"0\" CounterBackSlash=\"0\" CounterSlash=\"0\" CrookedSlash=\"0\" Id=\"12\" Shadow=\"false\" Slash=\"0\" ThreeD=\"false\"><LEFTBORDER Type=\"Solid\" Width=\"0.4mm\"/><RIGHTBORDER Type=\"Solid\" Width=\"0.1mm\"/><TOPBORDER Type=\"Solid\" Width=\"0.12mm\"/><BOTTOMBORDER Type=\"Solid\" Width=\"0.12mm\"/></BORDERFILL>\n");
 			sb.append("<BORDERFILL BackSlash=\"0\" BreakCellSeparateLine=\"0\" CounterBackSlash=\"0\" CounterSlash=\"0\" CrookedSlash=\"0\" Id=\"13\" Shadow=\"false\" Slash=\"0\" ThreeD=\"false\"><LEFTBORDER Type=\"Solid\" Width=\"0.1mm\"/><RIGHTBORDER Type=\"Solid\" Width=\"0.4mm\"/><TOPBORDER Type=\"Solid\" Width=\"0.12mm\"/><BOTTOMBORDER Type=\"Solid\" Width=\"0.12mm\"/></BORDERFILL>\n");
+			sb.append("<BORDERFILL BackSlash=\"0\" BreakCellSeparateLine=\"0\" CenterLine=\"0\" CounterBackSlash=\"0\" CounterSlash=\"0\" CrookedSlash=\"0\" Id=\"14\" Shadow=\"false\" Slash=\"0\" ThreeD=\"false\"><LEFTBORDER Type=\"Solid\" Width=\"0.4mm\"/><RIGHTBORDER Type=\"Solid\" Width=\"0.1mm\"/><TOPBORDER Type=\"Solid\" Width=\"0.4mm\"/><BOTTOMBORDER Type=\"Solid\" Width=\"0.12mm\"/></BORDERFILL>\n");
+			sb.append("<BORDERFILL BackSlash=\"0\" BreakCellSeparateLine=\"0\" CenterLine=\"0\" CounterBackSlash=\"0\" CounterSlash=\"0\" CrookedSlash=\"0\" Id=\"15\" Shadow=\"false\" Slash=\"0\" ThreeD=\"false\"><LEFTBORDER Type=\"Solid\" Width=\"0.1mm\"/><RIGHTBORDER Type=\"Solid\" Width=\"0.4mm\"/><TOPBORDER Type=\"Solid\" Width=\"0.4mm\"/><BOTTOMBORDER Type=\"Solid\" Width=\"0.12mm\"/></BORDERFILL>\n");
+			sb.append("<BORDERFILL BackSlash=\"0\" BreakCellSeparateLine=\"0\" CenterLine=\"0\" CounterBackSlash=\"0\" CounterSlash=\"0\" CrookedSlash=\"0\" Id=\"16\" Shadow=\"false\" Slash=\"0\" ThreeD=\"false\"><LEFTBORDER Type=\"Solid\" Width=\"0.4mm\"/><RIGHTBORDER Type=\"Solid\" Width=\"0.1mm\"/><TOPBORDER Type=\"Solid\" Width=\"0.12mm\"/><BOTTOMBORDER Type=\"Solid\" Width=\"0.12mm\"/></BORDERFILL>\n");
+			sb.append("<BORDERFILL BackSlash=\"0\" BreakCellSeparateLine=\"0\" CenterLine=\"0\" CounterBackSlash=\"0\" CounterSlash=\"0\" CrookedSlash=\"0\" Id=\"17\" Shadow=\"false\" Slash=\"0\" ThreeD=\"false\"><LEFTBORDER Type=\"Solid\" Width=\"0.1mm\"/><RIGHTBORDER Type=\"Solid\" Width=\"0.4mm\"/><TOPBORDER Type=\"Solid\" Width=\"0.12mm\"/><BOTTOMBORDER Type=\"Solid\" Width=\"0.12mm\"/></BORDERFILL>\n");
+			sb.append("<BORDERFILL BackSlash=\"0\" BreakCellSeparateLine=\"0\" CenterLine=\"0\" CounterBackSlash=\"0\" CounterSlash=\"0\" CrookedSlash=\"0\" Id=\"18\" Shadow=\"false\" Slash=\"0\" ThreeD=\"false\"><LEFTBORDER Type=\"Solid\" Width=\"0.4mm\"/><RIGHTBORDER Type=\"Solid\" Width=\"0.1mm\"/><TOPBORDER Type=\"Solid\" Width=\"0.12mm\"/><BOTTOMBORDER Type=\"Solid\" Width=\"0.4mm\"/></BORDERFILL>\n");
+			sb.append("<BORDERFILL BackSlash=\"0\" BreakCellSeparateLine=\"0\" CenterLine=\"0\" CounterBackSlash=\"0\" CounterSlash=\"0\" CrookedSlash=\"0\" Id=\"19\" Shadow=\"false\" Slash=\"0\" ThreeD=\"false\"><LEFTBORDER Type=\"Solid\" Width=\"0.1mm\"/><RIGHTBORDER Type=\"Solid\" Width=\"0.4mm\"/><TOPBORDER Type=\"Solid\" Width=\"0.12mm\"/><BOTTOMBORDER Type=\"Solid\" Width=\"0.4mm\"/></BORDERFILL>\n");
 			sb.append("</BORDERFILLLIST>\n");
 
 			sb.append("<CHARSHAPELIST Count=\"20\">\n");
@@ -726,7 +732,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 						sb.append("<POSITION AffectLSpacing=\"false\" AllowOverlap=\"true\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"37600\" HorzRelTo=\"Para\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"2123\" VertRelTo=\"Para\"/>\n");
 						sb.append("<OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
 						sb.append("</SHAPEOBJECT>\n");
-						sb.append("<SHAPECOMPONENT GroupLevel=\"0\" HorzFlip=\"false\" InstID=\"977630313\" OriHeight=\"4500\" OriWidth=\"3840\" VertFlip=\"false\" XPos=\"0\" YPos=\"0\">\n");
+						sb.append("<SHAPECOMPONENT GroupLevel=\"0\" HorzFlip=\"false\" InstID=\"" + getInstanceId() + "\" OriHeight=\"4500\" OriWidth=\"3840\" VertFlip=\"false\" XPos=\"0\" YPos=\"0\">\n");
 						sb.append("<ROTATIONINFO Angle=\"0\" CenterX=\"1920\" CenterY=\"2250\"/>\n");
 						sb.append("<RENDERINGINFO>\n");
 						sb.append("<TRANSMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/>\n");
@@ -757,7 +763,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 						sb.append("<POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"37600\" HorzRelTo=\"Column\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"1650\" VertRelTo=\"Para\"/>\n");
 						sb.append("<OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
 						sb.append("</SHAPEOBJECT>\n");
-						sb.append("<SHAPECOMPONENT GroupLevel=\"0\" HorzFlip=\"false\" InstID=\"977630313\" OriHeight=\"4500\" OriWidth=\"3840\" VertFlip=\"false\" XPos=\"0\" YPos=\"0\">\n");
+						sb.append("<SHAPECOMPONENT GroupLevel=\"0\" HorzFlip=\"false\" InstID=\"" + getInstanceId() + "\" OriHeight=\"4500\" OriWidth=\"3840\" VertFlip=\"false\" XPos=\"0\" YPos=\"0\">\n");
 						sb.append("<ROTATIONINFO Angle=\"0\" CenterX=\"1920\" CenterY=\"2250\"/>\n");
 						sb.append("<RENDERINGINFO>\n");
 						sb.append("<TRANSMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/>\n");
@@ -784,7 +790,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			if(chargers.length > 1) {
 				sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"12\">\n");
 				if(chargers[1] != null) {
-					sb.append("<CHAR>                                     " + getChargerNmString(chargers[1]) + "  (인)</CHAR>\n");
+					sb.append("<CHAR>                                     " + getChargerNmString(chargers[1]) + "  (인)  </CHAR>\n");
 				} else {
 					sb.append("<CHAR/>");
 				}
@@ -843,16 +849,32 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			sb.append("<ROW>\n");
 			sb.append("<CELL BorderFill=\"3\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"7647\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"30724\">\n");
 			sb.append("<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			for(int i=0; i<contents.length; i++) {
-				sb.append("<P ParaShape=\"2\" Style=\"0\"><TEXT CharShape=\"1\"><CHAR>" + contents[i] + "</CHAR></TEXT></P>\n");
+			if(contents != null) {
+				if(contents.length > 0) {
+					for(int i=0; i<contents.length; i++) {
+						sb.append("<P ParaShape=\"2\" Style=\"0\"><TEXT CharShape=\"1\"><CHAR>" + contents[i] + "</CHAR></TEXT></P>\n");
+					}
+				} else {
+					sb.append("<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"1\"><CHAR/></TEXT></P>\n");
+				}
+			} else {
+				sb.append("<P ParaShape=\"2\" Style=\"0\"><TEXT CharShape=\"1\"><CHAR/></TEXT></P>\n");
 			}
 			sb.append("</PARALIST>\n");
 			sb.append("</CELL>\n");
 			sb.append("<CELL BorderFill=\"4\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"7647\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"14310\">\n");
 			sb.append("<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			for(int i=0; i<rm.length; i++) {
-	        	sb.append("<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"1\"><CHAR>" + rm[i] + "</CHAR></TEXT></P>\n");
-	    	}
+			if(rm != null) {
+				if(rm.length > 0) {
+					for(int i=0; i<rm.length; i++) {
+			        	sb.append("<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"1\"><CHAR>" + rm[i] + "</CHAR></TEXT></P>\n");
+			    	}
+				} else {
+					sb.append("<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"1\"><CHAR/></TEXT></P>\n");
+				}
+			} else {
+				sb.append("<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"1\"><CHAR/></TEXT></P>\n");
+			}
 			sb.append("</PARALIST>\n");
 			sb.append("</CELL>\n");
 			sb.append("</ROW>\n");
@@ -868,71 +890,83 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			if((rowCount % 2) == 1) {
 				rowCount++;
 			}
-			//레코드 카운트를 짝수로 맞춘다. 이유는 2개의 데이터당 2개의 행에 출력하기 때문에 홀수의 레코드는 빈칸을 출력하기 위해 짝수로 맞춘다.			
-			sb.append("<TABLE BorderFill=\"2\" CellSpacing=\"0\" ColCount=\"2\" PageBreak=\"Table\" RepeatHeader=\"true\" RowCount=\"" + rowCount + "\">\n");
-			sb.append("<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Table\" TextWrap=\"TopAndBottom\" ZOrder=\"" + getZOrder() + "\">\n");
-			sb.append("<SIZE Height=\"39628\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"45024\" WidthRelTo=\"Absolute\"/>\n");
-			sb.append("<POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"0\" HorzRelTo=\"Para\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"0\" VertRelTo=\"Para\"/>\n");
-			sb.append("<OUTSIDEMARGIN Bottom=\"141\" Left=\"141\" Right=\"141\" Top=\"141\"/>\n");
-			sb.append("</SHAPEOBJECT>\n");
-			sb.append("<INSIDEMARGIN Bottom=\"141\" Left=\"141\" Right=\"141\" Top=\"141\"/>\n");
-			//루프로 돌릴 때 한 루프당 2개의 데이터를 2개의 행에 표현하기 때문에 루트는 데이터 갯수의 반만 돌린다. 
-			int loopEnd = rowCount / 2;
-			int rowAddr = 0; //각 cell element의 rowAddr속성을 변경시켜주기 위한 변수
-			
-			int listIndex = 0; //루프 내에서 사용할 실제 이미지 리스트의 인덱스 
-			int listSize = fileList.size(); // 이미지 리스트 개수
-			
-			for(int i=0; i<loopEnd; i++) {
-				String leftFileName = "", rightFileName = "";
-				String leftFileSj = "", rightFileSj = "";
-				int leftImageId = 0, rightImageId = 0;
-				EgovMap record = (EgovMap) fileList.get(listIndex);
-				leftFileName = (String) record.get("atchFileNmPhysicl");
-				leftFileSj = (String) record.get("atchFileSj");
-				leftImageId = getImageId(imageIndexes, leftFileName);
-				listIndex++;
-				if(listIndex < listSize) {
-					record = (EgovMap) fileList.get(listIndex);
-					rightFileName = (String) record.get("atchFileNmPhysicl");
-					rightFileSj = (String) record.get("atchFileSj");
-					rightImageId = getImageId(imageIndexes, rightFileName);
-				}
-				listIndex++;
-				sb.append("<ROW>\n");
-				sb.append("<CELL BorderFill=\"10\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"15486\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"22512\">\n");
-				sb.append(getXmlFcltyRepairCheckReportListPicture(leftImageId)); //사진
-				sb.append("</CELL>\n");
-				sb.append("<CELL BorderFill=\"11\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"15486\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"22512\">\n");
-				sb.append(getXmlFcltyRepairCheckReportListPicture(rightImageId)); //사진
-				sb.append("</CELL>\n");
-				sb.append("</ROW>\n");
-				rowAddr++;
-				sb.append("<ROW>\n");
-				sb.append("<CELL BorderFill=\"5\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"1948\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"22512\">\n");
-				sb.append("<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-				if(leftFileSj != null) {
-					sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"2\"><CHAR>" + leftFileSj + "</CHAR></TEXT></P>\n");
-				} else {
-					sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"2\"><CHAR/></TEXT></P>\n");				
-				}
-				sb.append("</PARALIST>\n");
-				sb.append("</CELL>\n");
-				sb.append("<CELL BorderFill=\"5\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"1948\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"22512\">\n");
-				sb.append("<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-				if(rightFileSj != null) {
-					sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"2\"><CHAR>" + rightFileSj + "</CHAR></TEXT></P>\n");
-				} else {
-					sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"2\"><CHAR/></TEXT></P>\n");				
-				}
-				sb.append("</PARALIST>\n");
-				sb.append("</CELL>\n");
-				sb.append("</ROW>\n");
-				rowAddr++;
-			}				
-			sb.append("</TABLE>\n");
-			sb.append("</TEXT></P>\n");
-						
+			if(rowCount > 0) {
+				//레코드 카운트를 짝수로 맞춘다. 이유는 2개의 데이터당 2개의 행에 출력하기 때문에 홀수의 레코드는 빈칸을 출력하기 위해 짝수로 맞춘다.			
+				sb.append("<TABLE BorderFill=\"2\" CellSpacing=\"0\" ColCount=\"2\" PageBreak=\"Table\" RepeatHeader=\"true\" RowCount=\"" + rowCount + "\">\n");
+				sb.append("<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Table\" TextWrap=\"TopAndBottom\" ZOrder=\"" + getZOrder() + "\">\n");
+				sb.append("<SIZE Height=\"39628\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"45024\" WidthRelTo=\"Absolute\"/>\n");
+				sb.append("<POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"0\" HorzRelTo=\"Para\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"0\" VertRelTo=\"Para\"/>\n");
+				sb.append("<OUTSIDEMARGIN Bottom=\"141\" Left=\"141\" Right=\"141\" Top=\"141\"/>\n");
+				sb.append("</SHAPEOBJECT>\n");
+				sb.append("<INSIDEMARGIN Bottom=\"141\" Left=\"141\" Right=\"141\" Top=\"141\"/>\n");
+				//루프로 돌릴 때 한 루프당 2개의 데이터를 2개의 행에 표현하기 때문에 루트는 데이터 갯수의 반만 돌린다. 
+				int loopEnd = rowCount / 2;
+				int rowAddr = 0; //각 cell element의 rowAddr속성을 변경시켜주기 위한 변수
+				
+				int listIndex = 0; //루프 내에서 사용할 실제 이미지 리스트의 인덱스 
+				int listSize = fileList.size(); // 이미지 리스트 개수
+	
+				int leftBorderFillId = 0, rightBorderFillId = 0; //테두리를 변경시키기 위한 변수
+	
+				for(int i=0; i<loopEnd; i++) {
+					String leftFileName = "", rightFileName = "";
+					String leftFileSj = "", rightFileSj = "";
+					int leftImageId = 0, rightImageId = 0;
+					EgovMap record = (EgovMap) fileList.get(listIndex);
+					leftFileName = (String) record.get("atchFileNmPhysicl");
+					leftFileSj = (String) record.get("atchFileSj");
+					leftImageId = getImageId(imageIndexes, leftFileName);
+					listIndex++;
+					if(listIndex < listSize) {
+						record = (EgovMap) fileList.get(listIndex);
+						rightFileName = (String) record.get("atchFileNmPhysicl");
+						rightFileSj = (String) record.get("atchFileSj");
+						rightImageId = getImageId(imageIndexes, rightFileName);
+					}
+					listIndex++;
+					
+					//테두리 처리
+					leftBorderFillId = (rowAddr == 0) ? 14 : ((rowAddr < (rowCount-1)) ? 16 : 18); 
+					rightBorderFillId = (rowAddr == 0) ? 15 : ((rowAddr < (rowCount-1)) ? 17 : 19); 
+					sb.append("<ROW>\n");
+					sb.append("<CELL BorderFill=\"" + leftBorderFillId + "\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"15486\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"22512\">\n");
+					sb.append(getXmlFcltyRepairCheckReportListPicture(leftImageId)); //사진
+					sb.append("</CELL>\n");
+					sb.append("<CELL BorderFill=\"" + rightBorderFillId + "\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"15486\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"22512\">\n");
+					sb.append(getXmlFcltyRepairCheckReportListPicture(rightImageId)); //사진
+					sb.append("</CELL>\n");
+					sb.append("</ROW>\n");
+					rowAddr++;
+					//테두리 처리
+					leftBorderFillId = (rowAddr == 0) ? 14 : ((rowAddr < (rowCount-1)) ? 16 : 18); 
+					rightBorderFillId = (rowAddr == 0) ? 15 : ((rowAddr < (rowCount-1)) ? 17 : 19); 
+					sb.append("<ROW>\n");
+					sb.append("<CELL BorderFill=\"" + leftBorderFillId + "\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"1948\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"22512\">\n");
+					sb.append("<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+					if(leftFileSj != null) {
+						sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"2\"><CHAR>" + leftFileSj + "</CHAR></TEXT></P>\n");
+					} else {
+						sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"2\"><CHAR/></TEXT></P>\n");				
+					}
+					sb.append("</PARALIST>\n");
+					sb.append("</CELL>\n");
+					sb.append("<CELL BorderFill=\"" + rightBorderFillId + "\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"1948\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"22512\">\n");
+					sb.append("<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+					if(rightFileSj != null) {
+						sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"2\"><CHAR>" + rightFileSj + "</CHAR></TEXT></P>\n");
+					} else {
+						sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"2\"><CHAR/></TEXT></P>\n");				
+					}
+					sb.append("</PARALIST>\n");
+					sb.append("</CELL>\n");
+					sb.append("</ROW>\n");
+					rowAddr++;
+				}				
+				sb.append("</TABLE>\n");
+			} else {
+				sb.append("<CHAR />\n");
+			}
+			sb.append("</TEXT></P>\n");						
 			return sb;
 		}
 	
