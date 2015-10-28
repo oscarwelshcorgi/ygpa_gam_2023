@@ -659,6 +659,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			String ctrtDt = (report.get("ctrtDt") != null) ? (String)report.get("ctrtDt") : "     년   월   일";  //계약일
 			String flawRprNm = (report.get("flawRprNm") != null) ? (String)report.get("flawRprNm") : ""; //공사명
 			String flawRprEntrpsNm = (report.get("flawRprEntrpsNm") != null) ? (String)report.get("flawRprEntrpsNm") : ""; //도급업체명
+			String bldDt = (report.get("bldDt") != null) ? (String)report.get("bldDt") : null; //도급업체명
 			
 			sb.append("<P ColumnBreak=\"false\" PageBreak=\"false\" ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"8\">\n");
 			sb.append("<SECDEF CharGrid=\"0\" FirstBorder=\"false\" FirstFill=\"false\" LineGrid=\"0\" OutlineShape=\"1\" SpaceColumns=\"1134\" TabStop=\"8000\" TextDirection=\"0\" TextVerticalWidthHead=\"0\">\n");
@@ -711,7 +712,11 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"11\"/></P>\n");
 			sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR> </CHAR></TEXT><TEXT CharShape=\"12\"><CHAR> </CHAR></TEXT><TEXT CharShape=\"13\"><CHAR>공사명 : " + flawRprNm + "</CHAR></TEXT></P>\n");
 			sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"13\"/></P>\n");
-			sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"13\"><CHAR>                 </CHAR></TEXT><TEXT CharShape=\"12\"><CHAR>20  년   월   일 준공</CHAR></TEXT></P>\n");
+			if(bldDt != null) {
+				sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"13\"><CHAR>                 </CHAR></TEXT><TEXT CharShape=\"12\"><CHAR>" + bldDt + " 준공</CHAR></TEXT></P>\n");
+			} else {
+				sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"13\"><CHAR>                 </CHAR></TEXT><TEXT CharShape=\"12\"><CHAR>20  년   월   일 준공</CHAR></TEXT></P>\n");
+			}
 			sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"12\"><CHAR>                 " + ctrtDt + " " + flawRprEntrpsNm + "</CHAR></TEXT></P>\n");
 			sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"12\"><CHAR>                 도급액 :  " + ctrtAmt + "원</CHAR></TEXT></P>\n");
 			sb.append("<P ParaShape=\"5\" Style=\"0\"><TEXT CharShape=\"12\"/></P>\n");
@@ -888,7 +893,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 
 			int rowCount = fileList.size();
 			if((rowCount % 2) == 1) {
-				rowCount++;
+				rowCount++; //홀수개의 ROW가 되면 짝수로 바꿔준다.
 			}
 			if(rowCount > 0) {
 				//레코드 카운트를 짝수로 맞춘다. 이유는 2개의 데이터당 2개의 행에 출력하기 때문에 홀수의 레코드는 빈칸을 출력하기 위해 짝수로 맞춘다.			
