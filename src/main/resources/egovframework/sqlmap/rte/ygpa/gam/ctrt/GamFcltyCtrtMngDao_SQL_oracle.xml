@@ -71,6 +71,7 @@
 								,GAM_GET_CTRT_SE_NM(T1.CTRT_SE) AS CTRT_SE_NM
 								,GAM_GET_CTRT_GRNTY_MTH_NM(T1.CTRT_GRNTY_MTH) AS CTRT_GRNTY_MTH_NM
 								,GAM_GETCODENAME('GAM064',T1.JOB_CHRG_DEPT_CD) AS JOB_CHRG_DEPT_NM
+								,TO_CHAR(T1.BLD_DT,'YYYY-MM-DD') AS BLD_DT
 							FROM CTRT_INFO_F T1
 						WHERE 1=1
 
@@ -159,6 +160,7 @@
 			,FLAW_DT_FROM
 			,FLAW_DT_TO
 			,CAUSE_ACT
+			,BLD_DT
 		)
 		VALUES
 		(
@@ -199,6 +201,7 @@
 			,TO_DATE(#flawDtFrom#,'YYYY-MM-DD')
 			,TO_DATE(#flawDtTo#,'YYYY-MM-DD')
 			,#causeAct#
+			,TO_DATE(#bldDt#,'YYYY-MM-DD')
 		)
 	</insert>
 
@@ -240,6 +243,7 @@
 			,FLAW_DT_FROM = TO_DATE(#flawDtFrom#,'YYYY-MM-DD')
 			,FLAW_DT_TO = TO_DATE(#flawDtTo#,'YYYY-MM-DD')
 			,CAUSE_ACT = #causeAct#
+			,BLD_DT = #bldDt#
 		WHERE CTRT_NO = #ctrtNo#
 	</update>
 

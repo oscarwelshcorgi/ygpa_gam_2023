@@ -85,6 +85,7 @@ GamFcltyCtrtLgerHistModule.prototype.loadComplete = function() {
 					{display:'하자 시작 일자',		name:'flawDtFrom',			width:100,		sortable:false,		align:'center'},
 					{display:'하자 종료 일자',		name:'flawDtTo',			width:100,		sortable:false,		align:'center'},
 					{display:'연대 보증',			name:'sldrtGrnty',			width:100,		sortable:false,		align:'left'},
+					{display:'준공 일자',			name:'bldDt',			width:100,		sortable:false,		align:'center'},
 					{display:'현장 설명',			name:'siteDesc',			width:200,		sortable:false,		align:'left'}
 					],
 		showTableToggleBtn : false,
@@ -1645,9 +1646,13 @@ var module_instance = new GamFcltyCtrtLgerHistModule();
 								</td>
 							</tr>
 							<tr>
+								<th width="10%" height="27px">준　공　일　자</th>
+								<td>
+									<input type="text" size="33" id="bldDt" disabled/>
+								</td>
 								<th style="width:10%; height:20px;">현　장　설　명</th>
 								<td colspan="5">
-									<input type="text" size="148" id="siteDesc" disabled/>
+									<input type="text" size="93" id="siteDesc" disabled/>
 								</td>
 							</tr>
 							<tr>

@@ -86,7 +86,7 @@ public class GamFcltyCtrtMngVO extends ComDefaultVO {
 	private	String sumScsbidAmt;		// 낙찰 금액 합계
 	private	String sumBaseAmt;			// 기초 금액 합계
 	private	String sumCtrtAmt;			// 계약 금액 합계
-
+	private   String bldDt;                  //준공 일자
 	/**
 	 * @return the ctrtNo
 	 */
@@ -770,6 +770,18 @@ public class GamFcltyCtrtMngVO extends ComDefaultVO {
 	 */
 	public void setSumCtrtAmt(String sumCtrtAmt) {
 		this.sumCtrtAmt = sumCtrtAmt;
+	}
+	/**
+	 * @return the bldDt
+	 */
+	public String getBldDt() {
+		return bldDt;
+	}
+	/**
+	 * @param bldDt the bldDt to set
+	 */
+	public void setBldDt(String bldDt) {
+		this.bldDt = bldDt;
 	}
 
 }
