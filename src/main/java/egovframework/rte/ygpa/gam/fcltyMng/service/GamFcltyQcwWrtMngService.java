@@ -182,4 +182,6 @@ public interface GamFcltyQcwWrtMngService {
 	 */
 	String selectFcltyQcwWrtMngQcMngAtchFileNewSeq(GamQcMngAtchFileMngVO gamQcMngAtchFileMngVO) throws Exception;
 
+	
+	String selectQcMngResultListReportHWPML(GamFcltyQcwWrtMngVO searchVO) throws Exception;	
 }

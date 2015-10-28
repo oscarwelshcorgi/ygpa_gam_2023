@@ -212,6 +212,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 	this._mainFcltsMngGroupNo = "";
 	this._mainFcltsJobSe = "";
 	this._mainQcMngSeq = "";
+	/*
 	this._detailDisplay = 'fclts';
 	this._atchFilePreview = false;
 	this.$('#fileGrid')[0].dgrid.setColumnHidden(4, true);
@@ -220,6 +221,22 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 	this.$('#btnFileDownload').hide();
 	this.$('#btnFileRemove').hide();
 	this.$('#btnFilePreview').hide();
+	*/
+
+	/* 2015-10-27 김종민 수정 Start*/
+	this._detailDisplay = 'file';
+	this._atchFilePreview = false;
+	this.$('#fileGrid')[0].dgrid.setColumnHidden(4, true);
+	this.$('#btnFileUpload').enable();
+	this.$('#btnFileUpload').removeClass('ui-state-disabled');
+	this.$('#btnFileDownload').enable();
+	this.$('#btnFileDownload').removeClass('ui-state-disabled');
+	this.$('#btnFileRemove').enable();
+	this.$('#btnFileRemove').removeClass('ui-state-disabled');
+	this.$('#btnFilePreview').enable();
+	this.$('#btnFilePreview').removeClass('ui-state-disabled');
+	this.$('#qcObjFcltsGrid').hide();
+	/* 2015-10-27 김종민 수정 End */
 
 	if (EMD.userinfo.mngFcltyCd != null && EMD.userinfo.mngFcltyCd != "*") {
 		this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
@@ -1933,8 +1950,15 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							<button id="btnAllSelect">선택</button>
 							<button id="btnAllUnSelect">해제</button>
 							&nbsp;　　　&nbsp;
+							<!-- 2015.10.27 김종민 수정 
 							<button id="btnFcltsList">대상시설물 목록</button>
 							<button id="btnFileList">첨부파일 목록</button>
+							-->
+							&nbsp;　　　&nbsp;
+							&nbsp;　　　&nbsp;
+							&nbsp;　　　&nbsp;
+							&nbsp;　　　&nbsp;
+							&nbsp;　&nbsp;
 						</td>
 					</tr>
 				</table>
@@ -2080,7 +2104,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 										&nbsp;　　점검결과항목선택 :&nbsp;
 										<select id="mechFcltsSe">
 											<option value="1">하역장비</option>
-											<option value="2">항만부잔교</option>
+											<!-- <option value="2">항만부잔교</option> -->
 											<option value="3">건축기계설비</option>
 										</select>
 										<button id="popupEditQcResultItem">점검결과항목선택</button>
@@ -2124,9 +2148,9 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 								</tr>
 								<tr>
 									<td style="text-align:right">
-										<button id="btnFileUpload" class="buttonAdd">파일 추가</button>
-										<button id="btnFileDownload">파일 다운로드</button>
-										<button id="btnFileRemove" class="buttonDelete">파일 삭제</button>
+										<button id="btnFileUpload" class="buttonAdd">파일추가</button>
+										<button id="btnFileDownload">파일다운로드</button>
+										<button id="btnFileRemove" class="buttonDelete">파일삭제</button>
 										<button id="btnFilePreview">미리보기</button>
 									</td>
 								</tr>
@@ -2149,7 +2173,8 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							<!-- <button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url="/fcltyMng/printQcMngDtls.do">　　인　쇄　　</button> -->
 							<button id="btnPrint" data-role="printPage" data-search-option="detailForm">　　인　쇄　　</button>
 							<!-- <button id="btnHwp" data-role="printDown" data-url="/fcltyMng/selectFcltyQcHwp.do" data-filename="검사조서.hwp" data-search-option="detailForm">한글문서</button> -->
-							<button id="btnHwp" data-role="printDown" data-filename="검사조서.hwp" data-search-option="detailForm">한글문서</button>
+							<!--  <button id="btnHwp" data-role="printDown" data-filename="검사조서.hwp" data-search-option="detailForm">한글문서</button> -->
+							<button id="btnResultListHwp" data-role="printDown" data-filename="시설물점검표.hwp" data-search-option="detailForm" data-url="/fcltyMng/downloadQcMngResultLIst.do">점검표 다운로드</button>
 						</td>
 					</tr>
 				</table>
