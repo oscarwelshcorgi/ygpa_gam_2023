@@ -25,7 +25,7 @@
  */
 function GamAssetRentFeeMngtModule() {}
 
-GamAssetRentFeeMngtModule.prototype = new EmdModule(1000, 600);
+GamAssetRentFeeMngtModule.prototype = new EmdModule(1100, 700);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
@@ -42,7 +42,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
                     {display:'횟수', name:'nticCnt',width:40, sortable:false,align:'center'},
                     {display:'고지업체명', name:'entrpsNm',width:140, sortable:false,align:'left'},
                     {display:'업체코드', name:'entrpscd',width:70, sortable:false,align:'center'},
-                    {display:'요금종류', name:'chrgeKndNm',width:100, sortable:false,align:'left'},
+                    {display:'요금종류', name:'chrgeKndNm',width:150, sortable:false,align:'left'},
                     {display:'고지', name:'nhtIsueYnStr',width:40, sortable:false,align:'center'},
                     {display:'출력', name:'nhtPrintYnStr',width:40, sortable:false,align:'center'},
 //                    {display:'요금', name:'chrgeKnd',width:30, sortable:false,align:'center'},
@@ -56,7 +56,7 @@ GamAssetRentFeeMngtModule.prototype.loadComplete = function(params) {
 //                    {display:'사용면적', name:'grAr',width:80, sortable:false,align:'right', displayFormat: 'number'},
 //                    {display:'고지대상기간', name:'nticPdDate',width:140, sortable:false,align:'center'},
                     {display:'허가일자', name:'prmisnDt',width:80, sortable:false,align:'center'},
-                    {display:'사용기간', name:'grUsagePd',width:140, sortable:false,align:'center'}
+                    {display:'사용기간', name:'grUsagePd',width:160, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -606,13 +606,13 @@ var module_instance = new GamAssetRentFeeMngtModule();
 								<input id="sPrtAtCode" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM019" />
                             </td>
                             <th>관리번호</th>
-                            <td style="width: 200px">
+                            <td>
                                 <input id="sMngYear" type="text" class="mngYear">
                                 <input id="sMngNo" type="text" class="mngNo">
                                 <input id="sMngCnt" type="text" class="mngCnt">
                             </td>
                             <th>신청업체</th>
-                            <td>
+                            <td colspan="3">
                                 <input type="text" size="6" id="sEntrpscd" maxlength="10"/>
                                 <input type="text" size="25" id="sEntrpsNm" disabled/>
                                 <button id="popupEntrpsInfoFee" class="popupButton">선택</button>
@@ -627,20 +627,39 @@ var module_instance = new GamAssetRentFeeMngtModule();
                             </td>
                              -->
                         	<th>고지여부</th>
-                            <td width="100px">
+                            <td>
                          		<input id="sNhtIsueYn" class="ygpaYnSelect" data-default-prompt="전체" data-column-id="sNhtIsueYn" />
                             </td>
                             <th>출력여부</th>
-                            <td width="100px">
+                            <td>
                          		<input class="ygpaYnSelect" data-default-prompt="전체" data-column-id="nhtPrintYn" />
                             </td>
-                            <th>
+                            <th>요금종류</th>
+                            <td>
+                            	<select id="sChrgeKnd">
+                        			<option value="" selected="selected">전체</option>
+                        			<option value="GP">여수지역 수역점용료</option>
+									<option value="GJ">여수지역 야적장사용료</option>
+									<option value="GM">여수지역 항만부지사용료</option>
+									<option value="GO">여천지역 수역점용료</option>
+									<option value="GI">여천지역 야적장사용료</option>
+									<option value="GL">여천지역 항만부지사용료</option>
+									<option value="DB">변상금</option>
+									<option value="GN">광양지역 수역점용료</option>
+									<option value="GH">광양지역 야적장사용료</option>
+									<option value="GK">광양지역 항만부지사용료</option>
+									<option value="GE">석탄LGP사포부두 임대료</option>
+									<option value="UC">일반부두임대 연체료</option>
+									<option value="GD">중마일반부두 임대료</option>
+                        		</select>
+                        	</td>
+                        	<th>
                             	<select id="searchCondition">
-                            	<option value="nticPdDt" selected="selected">고지대상일자</option>
-                            	<option value="usagePd">사용기간</option>
-                            	<option value="nticDt">고지일자</option>
+	                            	<option value="nticPdDt" selected="selected">고지대상일자</option>
+	                            	<option value="usagePd">사용기간</option>
+	                            	<option value="nticDt">고지일자</option>
                             	</select>
-                           	</th>
+                            </th>
                             <td>
                             	<input id="sUsagePdFrom" type="text" class="emdcal" size="10"> ~
                             	<input id="sUsagePdTo" type="text" class="emdcal" size="10">

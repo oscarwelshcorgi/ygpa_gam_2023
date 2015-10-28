@@ -280,6 +280,9 @@
 							   <isNotEmpty property="sNticCnt">
 							       AND L.NTIC_CNT = #sNticCnt#
 							   </isNotEmpty>
+				               <isNotEmpty property="sChrgeKnd">
+							       AND L.CHRGE_KND = #sChrgeKnd#
+							   </isNotEmpty>
 
                 ) S
                 ORDER BY S.PRMISN_DT DESC, S.NTIC_DT DESC
@@ -415,6 +418,9 @@
 				<isNotEmpty property="sNticCnt">
 					AND L.NTIC_CNT = #sNticCnt#
 				</isNotEmpty>
+				<isNotEmpty property="sChrgeKnd">
+				    AND L.CHRGE_KND = #sChrgeKnd#
+				</isNotEmpty>
           ) Z
     </select>
 
@@ -542,6 +548,9 @@
          </isNotEmpty>
           <isNotEmpty property="nhtPrintYn">
 			AND L.NHT_ISUE_YN = #nhtPrintYn#
+		</isNotEmpty>
+		<isNotEmpty property="sChrgeKnd">
+		    AND L.CHRGE_KND = #sChrgeKnd#
 		</isNotEmpty>
 
     </select>

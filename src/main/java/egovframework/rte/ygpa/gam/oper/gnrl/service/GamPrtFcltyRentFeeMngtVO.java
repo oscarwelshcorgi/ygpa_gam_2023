@@ -21,6 +21,8 @@ import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
 public class GamPrtFcltyRentFeeMngtVO extends ComDefaultVO {
 	private static final long serialVersionUID = 1L;
 
+	private String sChrgeKnd;
+	
 	/** 고지 횟수 */
     private String nticCnt;
 
@@ -1597,6 +1599,20 @@ public class GamPrtFcltyRentFeeMngtVO extends ComDefaultVO {
 	 */
 	public void setNhtPrintYn(String nhtPrintYn) {
 		this.nhtPrintYn = nhtPrintYn;
+	}
+
+	/**
+	 * @return the sChrgeKnd
+	 */
+	public String getsChrgeKnd() {
+		return sChrgeKnd;
+	}
+
+	/**
+	 * @param sChrgeKnd the sChrgeKnd to set
+	 */
+	public void setsChrgeKnd(String sChrgeKnd) {
+		this.sChrgeKnd = sChrgeKnd;
 	}
 
 
