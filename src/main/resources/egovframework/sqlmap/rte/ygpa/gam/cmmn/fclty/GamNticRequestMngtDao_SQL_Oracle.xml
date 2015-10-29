@@ -1006,6 +1006,7 @@
             	AND WORK_CODE=#workCode#
             	AND FISCAL_YR=#fiscalYr#
             	AND BILL_NO=#billNo#
+            	AND DLY_SER_NO=#dlySerNo#
     </update>
 
     <delete id="gamNticRequestMngtDAO.deleteUnpaidByPk" parameterClass="hashMap" >

@@ -28,7 +28,7 @@
  */
 function GamPrtFcltyRentFeePaySttusMngtModule() {}
 
-GamPrtFcltyRentFeePaySttusMngtModule.prototype = new EmdModule(1000, 600);
+GamPrtFcltyRentFeePaySttusMngtModule.prototype = new EmdModule(1000, 620);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
@@ -45,7 +45,7 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
 					{display:'고지번호', name:'nticno',width:70, sortable:false,align:'center'},
 					{display:'고지업체', name:'entrpscd',width:60, sortable:false,align:'center'},
 					{display:'고지업체명', name:'entrpsNm',width:140, sortable:false,align:'left'},
-					{display:'요금종류', name:'chrgeKndNm',width:100, sortable:false,align:'left'},
+					{display:'요금종류', name:'chrgeKndNm',width:150, sortable:false,align:'left'},
 					{display:'고지금액', name:'totalNticAmount',width:100, sortable:false,align:'right', displayFormat: 'number'},
 					{display:'고지일자', name:'nticDt',width:80, sortable:false,align:'center'},
 					{display:'수납', name:'rcivSeNm',width:68, sortable:false,align:'center'},
@@ -114,7 +114,7 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
 					{display:'연체납부기한', name:'dlyDueDt',width:110, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
-        height: 'auto',
+        height: '160',
         preProcess: function(module,data) {
     		if (data.resultCode == "0") {
     			module.makeDivValues('#prtFcltyRentFeePaySttusMngtListForm',data.resultDlyInfo);	// 리스트 값을 채운다
@@ -203,7 +203,10 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
 				alert('취소할 대상을 선택 하십시요.');
 				return;
 			}
-        	this.nticArrrgCancelPk(rows[0]);
+        	var _check = confirm("연체고지 취소를 하시겠습니까?");
+        	if(_check){
+	        	this.nticArrrgCancelPk(rows[0]);
+        	}
         	break;
         case 'btnNticIssuePrintCancelLast':
         	var rows = this.$('#prtFcltyRentFeePaySttusArrrgList').selectedRows();
@@ -988,6 +991,7 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
 						</div>
                     </form>
                     <h2>연체 고지 목록</h2>
+                    <div class="emdControlPanel">
                     <table id="prtFcltyRentFeePaySttusArrrgList" style="display:none" class="fillHeight"></table>
                     <table style="width:100%; margin-bottom: 2px" id="prtFcltyRentFeePaySttusMngtSum" class="summaryPanel">
 						<tr>
@@ -1011,6 +1015,7 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
 							</tr>
 						</tbody>
 					</table>
+					</div>
             </div>
         </div>
     </div>
