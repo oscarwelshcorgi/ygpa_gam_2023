@@ -1636,7 +1636,8 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 									, '/popup/showQcMngResultItemPopup.do'
 									, {}
 									, {
-										'fcltsJobSeNm' : this.$('#fcltsJobSe').find('option:selected').text()
+										'fcltsJobSe' : this.$('#fcltsJobSe').val() 
+										, 'fcltsJobSeNm' : this.$('#fcltsJobSe').find('option:selected').text()
 										, 'fcltsMngGroupNm' : this.$('#fcltsMngGroupNm').val()
 										, 'qcResultList' : this._qcResultList
 										, 'popupMode' : 'edit'

@@ -418,6 +418,7 @@
 			, A.QC_ITEM_CD
 			, A.QC_ITEM_NM
 			, A.INSP_RESULT_CHK
+			, A.QC_CONTENTS
 			, A.DEPTH_SORT
 			, GAM_GET_QC_GROUP_INSP_RESULT(A.FCLTS_MNG_GROUP_NO, A.FCLTS_JOB_SE, A.QC_MNG_SEQ, QC_ITEM_GROUP) QC_GROUP_INSP_RESULT
 		FROM
@@ -433,6 +434,7 @@
 					, M.FCLTS_JOB_SE
 					, M.QC_MNG_SEQ
 					, DECODE(R.INSP_RESULT_CHK, NULL, 'N', R.INSP_RESULT_CHK) INSP_RESULT_CHK
+					, R.QC_CONTENTS
 				FROM
 					QC_ITEM_CD_F I
 				LEFT OUTER JOIN
@@ -476,6 +478,7 @@
 					, M.FCLTS_JOB_SE
 					, M.QC_MNG_SEQ
 					, DECODE(R.INSP_RESULT_CHK, NULL, 'N', R.INSP_RESULT_CHK) INSP_RESULT_CHK
+					, R.QC_CONTENTS
 				FROM
 					QC_ITEM_CD_F I
 				LEFT OUTER JOIN
@@ -564,6 +567,7 @@
 				, SEQ
 				, INSP_RESULT_CHK
 				, INSP_RESULT_CN
+				, QC_CONTENTS
 				, REG_USR
 				, REGIST_DT
 			)
@@ -575,6 +579,7 @@
 				, TO_NUMBER(#maxSeq#)
 				, #inspResultChk#
 				, #inspResultCn#
+				, #qcContents#
 				, #regUsr#
 				, SYSDATE
 			)

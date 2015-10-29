@@ -47,6 +47,7 @@ GamPopupQcResultItemCdModule.prototype = new EmdPopupModule(600, 440);
 GamPopupQcResultItemCdModule.prototype.loadComplete = function(params) {
 	this._qcResultList = params['qcResultList'];
 	this._fcltsJobSeNm = params['fcltsJobSeNm'];
+	this._fcltsJobSe = params['fcltsJobSe'];
 	this._fcltsMngGroupNm = params['fcltsMngGroupNm'];
 	this._popupMode = params['popupMode'];
 	
@@ -62,12 +63,16 @@ GamPopupQcResultItemCdModule.prototype.loadComplete = function(params) {
 	
 	gridHeaders[gridHeaders.length] = {display:"점검 상위 항목명",	name:"qcItemUpperNm",	width:150,	sortable:true,	align:"left"};
 	gridHeaders[gridHeaders.length] = {display:"점검 항목 명",		name:"qcItemNm",		width:300,	sortable:true,	align:"left"};
-	if(this._popupMode == 'edit') {
-		gridHeaders[gridHeaders.length] = {display:"점검 결과",	name:"inspResultChk",	width:80,	sortable:true,	align:"center", displayFormat:'select', displayOption:resultChkOption};
-	} else {
-		gridHeaders[gridHeaders.length] = {display:"점검 결과",	name:"inspResultChkNm",	width:80,	sortable:true,	align:"center"};
+	if(this._fcltsJobSe == 'C') {
+		gridHeaders[gridHeaders.length] = {display:"점검 내용",	name:"qcContents",	width:80,	sortable:true,	align:"left", displayFormat:'input'};
 	}
-		
+	else {
+		if(this._popupMode == 'edit') {
+			gridHeaders[gridHeaders.length] = {display:"점검 결과",	name:"inspResultChk",	width:80,	sortable:true,	align:"center", displayFormat:'select', displayOption:resultChkOption};
+		} else {
+			gridHeaders[gridHeaders.length] = {display:"점검 결과",	name:"inspResultChkNm",	width:80,	sortable:true,	align:"center"};
+		}
+	}
 	this.$('#mainGrid').flexigrid({
 		module : this,
 		url : '',
