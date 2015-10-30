@@ -1001,8 +1001,6 @@ public class GamFcltyQcwWrtMngController {
 		ObjectMapper mapper = new ObjectMapper();
 		GamFcltyQcwWrtMngVO searchVO = null;
 
-		searchVO = mapper.convertValue(qcPrintOpt, GamFcltyQcwWrtMngVO.class);
-
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 
 		if(!isAuthenticated) {
@@ -1010,6 +1008,12 @@ public class GamFcltyQcwWrtMngController {
 			model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
 	    	return "/ygpa/gam/fcltyMng/GamFcltyQcMngResultListReportHwp";
 		}
+
+		searchVO = mapper.convertValue(qcPrintOpt, GamFcltyQcwWrtMngVO.class);
+		
+		searchVO.setsFcltsMngGroupNo(searchVO.getFcltsMngGroupNo());
+		searchVO.setsFcltsJobSe(searchVO.getFcltsJobSe());
+		searchVO.setsQcMngSeq(searchVO.getQcMngSeq());
 		
 		String hwpML = gamFcltyQcwWrtMngService.selectQcMngResultListReportHWPML(searchVO);
 		
