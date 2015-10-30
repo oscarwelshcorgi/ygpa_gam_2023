@@ -1156,7 +1156,7 @@ GamFcltyQcwWrtMngModule.prototype.getQcResultItemList = function() {
 				, qcMngSeq : this.$('#qcMngSeq').val()
 				, qcItemCd : row['qcItemCd']
 				, inspResultChk : row['inspResultChk']
-				, qcContents : row['qcContents']
+				, inspResultChk : row['inspResultCn']
 			};
 		}
 	}

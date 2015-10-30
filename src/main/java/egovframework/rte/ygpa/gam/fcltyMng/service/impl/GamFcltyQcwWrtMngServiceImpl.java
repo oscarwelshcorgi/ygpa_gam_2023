@@ -315,7 +315,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 			String result = "";
 			if(qcResultItemList != null) {
 				for(EgovMap qcResultItem : qcResultItemList) {
-					if(itemCd.equals(qcResultItem.get("aa")));
+					if(itemCd.equals(qcResultItem.get("qcItemCd")));
 				}
 			}
 			return result;

@@ -65,9 +65,9 @@ GamPopupQcResultItemCdModule.prototype.loadComplete = function(params) {
 	gridHeaders[gridHeaders.length] = {display:"점검 항목 명",		name:"qcItemNm",		width:300,	sortable:true,	align:"left"};
 	if(this._fcltsJobSe == 'C') {
 		if(this._popupMode == 'edit') {
-			gridHeaders[gridHeaders.length] = {display:"점검 내용",	name:"qcContents",	width:80,	sortable:true,	align:"left", displayFormat:'input'};
+			gridHeaders[gridHeaders.length] = {display:"점검 내용",	name:"inspResultCn",	width:80,	sortable:true,	align:"left", displayFormat:'input'};
 		} else {
-			gridHeaders[gridHeaders.length] = {display:"점검 내용",	name:"qcContents",	width:80,	sortable:true,	align:"left"};
+			gridHeaders[gridHeaders.length] = {display:"점검 내용",	name:"inspResultCn",	width:80,	sortable:true,	align:"left"};
 		}
 	}
 	else {
