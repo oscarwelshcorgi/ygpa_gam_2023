@@ -990,7 +990,7 @@ public class GamFcltyQcwWrtMngController {
 
 	
     /**
-	 * 시설물 점검표 다운로드 - 김종민 추가 작업 2015.10.28
+	 * 시설물 점검표 한글 문서 다운로드 - 김종민 추가 작업 2015.10.28
 	 * @param map
 	 * @return
 	 * @throws Exception

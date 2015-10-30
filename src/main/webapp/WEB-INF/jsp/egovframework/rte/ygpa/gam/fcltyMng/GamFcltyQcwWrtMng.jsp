@@ -1140,7 +1140,7 @@ GamFcltyQcwWrtMngModule.prototype.getQcObjList = function() {
 <%
 /**
  * @FUNCTION NAME : getQcResultItemList
- * @DESCRIPTION   : 점검관리 대상물 데이터 얻기
+ * @DESCRIPTION   : 점검관리 항목 데이터 얻기
  * @PARAMETER     : NONE
 **/
 %>
@@ -1156,6 +1156,7 @@ GamFcltyQcwWrtMngModule.prototype.getQcResultItemList = function() {
 				, qcMngSeq : this.$('#qcMngSeq').val()
 				, qcItemCd : row['qcItemCd']
 				, inspResultChk : row['inspResultChk']
+				, qcContents : row['qcContents']
 			};
 		}
 	}

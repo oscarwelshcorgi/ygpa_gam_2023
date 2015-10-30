@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyQcwWrtMngVO;
+import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngVO;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamQcMngAtchFileMngVO;
 
 /**
@@ -297,6 +298,13 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 */
 	public String selectFcltyQcwWrtMngQcMngAtchFileNewSeq(GamQcMngAtchFileMngVO gamQcMngAtchFileMngVO) {
 		return (String)selectByPk("gamFcltyQcwWrtMngDao.selectFcltyQcwWrtMngQcMngAtchFileNewSeq_S", gamQcMngAtchFileMngVO);
+	}
+	
+	/**
+	 * 점검자의 정보를 검색한다.
+	 * */
+	public EgovMap selectChargerInfo(Map<String, String> charger) throws Exception{
+		return (EgovMap) selectByPk("gamFcltyQcwWrtMngDao.selectCharger_S", charger);
 	}
 
 }
