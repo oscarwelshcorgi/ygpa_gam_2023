@@ -3,12 +3,15 @@
  */
 package egovframework.rte.ygpa.gam.fcltyMng.service.impl;
 
+import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
@@ -230,35 +233,104 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	}
 
 	/**
-	 * 시설물 점검표 한글 xml 문자열 만들기.
+	 * 시설물 점검표 한글 문서 다운로드 - 김종민 추가 작업 2015.10.28
 	 * @param vo
 	 * @return list
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public String selectQcMngResultListReportHWPML(GamFcltyQcwWrtMngVO searchVO) throws Exception {
 		String result = null;
+		List<EgovMap> qcResultItemList = null;
+		EgovMap mngGroupInfo = null;
+		List<EgovMap> qcChargerList = new ArrayList<EgovMap>();
 		
-		MakeQcMngResultItemsHwpReport report = new MakeQcMngResultItemsHwpReport();
+		//점검내역조회
+		EgovMap qcDetailData = gamFcltyQcwWrtMngDao.selectQcMngDtlsDetail(searchVO);
+	
+		if(qcDetailData != null) {
+			String fcltsJobSe = (String)qcDetailData.get("fcltsJobSe");
+			
+			// 점검 결과 항목 리스트 조회
+			qcResultItemList = (fcltsJobSe.equals("M")) ? (List<EgovMap>) gamFcltyQcwWrtMngDao.selectMechQcMngResultItemList(searchVO) : 
+						(List<EgovMap>) gamFcltyQcwWrtMngDao.selectQcMngResultItemList(searchVO);
+			
+			// 토목일 경우 시설물 그룹 정보 조회
+			if(fcltsJobSe.equals("C"))
+				mngGroupInfo = gamFcltyQcwWrtMngDao.selectFcltsMngGroupInfo(searchVO);
+			
+			// 작성자를 가져와서 ,로 나누어서 시설물관리자 정보를 가져온다.
+			String wrtUsr = (String) qcDetailData.get("wrtUsr");
+			if(wrtUsr != null) {
+				String qcUsers[] = wrtUsr.split(",");
+				for(String qcUser : qcUsers) {
+					Map<String, String> chargerNm = new HashMap<String, String>();
+					chargerNm.put("chargerNm", qcUser.replace(" ", ""));
+					EgovMap chargerInfo = gamFcltyQcwWrtMngDao.selectChargerInfo(chargerNm);
+					if(chargerInfo  != null) {
+						qcChargerList.add(chargerInfo);
+					}
+				}
+			}
+		}
 		
-		result = report.getCraneMechHwpReport();
+		MakeQcMngResultItemsHwpReport report = new MakeQcMngResultItemsHwpReport(qcDetailData, qcResultItemList, qcChargerList,  mngGroupInfo);
+		
+		result = report.getHwpReport();;
 		
 		return result;
 	}
 	
 	//시설물 점검표 HML처리 INNER CLASS
 	class MakeQcMngResultItemsHwpReport {
-		private StringBuilder binDataListString = new StringBuilder();
-		private StringBuilder binStorageString = new StringBuilder();
+		private EgovMap qcDetailData = null;
+		private List<EgovMap> qcResultItemList = null;
+		private List<EgovMap> qcChargerList = null;
+		private EgovMap mngGroupInfo = null;
 		
-		public void initData() {
-			
+		public MakeQcMngResultItemsHwpReport(EgovMap qcDetailData, List<EgovMap> qcResultItemList, List<EgovMap> qcChargerList, EgovMap mngGroupInfo) {
+			this.qcDetailData = qcDetailData;
+			this.qcResultItemList = qcResultItemList;
+			this.qcChargerList = qcChargerList;
+			this.mngGroupInfo = mngGroupInfo;
 		}
 		
 		public String getHwpReport(){
 			String result = null;
-			
+			if(qcDetailData != null) {
+				initData();
+			}
+			else {
+				// 빈문서 출력
+				result = getTempHwpReport();
+			}
 			return result;
 		}
+
+		protected void initData() {
+			
+		}
+		
+		protected String getResultItemSymbol(String itemCd) {
+			String result = "";
+			if(qcResultItemList != null) {
+				for(EgovMap qcResultItem : qcResultItemList) {
+					if(itemCd.equals(qcResultItem.get("aa")));
+				}
+			}
+			return result;
+		}
+		
+		/**파일을  BASE64엔코딩 문자열로 변환시킨다 */
+		protected String fileToBase64(String fileName) throws Exception {
+			FileInputStream fis = new FileInputStream(fileName);
+			long fileSize = fis.getChannel().size();
+			byte[] fileData = new byte[(int) fileSize];
+			fis.read(fileData);
+			fis.close();
+			return new String(Base64.encodeBase64(fileData));
+		}
+		
 		//토목 시설물 점검표  
 		protected String getCivilHwpReport() {
 			StringBuilder sb = new StringBuilder();
