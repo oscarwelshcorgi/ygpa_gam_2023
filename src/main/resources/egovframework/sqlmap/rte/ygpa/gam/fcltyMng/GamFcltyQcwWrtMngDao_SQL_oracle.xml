@@ -134,6 +134,7 @@
 			, Q.WRT_USR
 			, Q.MECH_FCLTS_SE
 			, Q.PLAN_HIST_SE
+			, TO_CHAR(Q.QC_INSP_DT, 'YYYY. MM. DD') QC_INSP_DT_HWP
 		FROM
 			QC_MNG_DTLS_F Q
 		WHERE
@@ -774,5 +775,24 @@
 		AND T1.QC_MNG_SEQ = NVL(TO_NUMBER(REPLACE(#qcMngSeq#,',','')),0)
 	</select>
 
+
+	<select id="gamFcltyQcwWrtMngDao.selectCharger_S" parameterClass="hashMap" resultClass="egovMap">
+			SELECT
+					  CHARGER_DEPT ,
+					  CHARGER_DISPLAY_NM ,
+					  CHARGER_NM ,
+					  CHARGER_NO ,
+					  CHARGER_OFC_POS ,
+					  FCLTS_JOB_SE ,
+					  REG_USR ,
+					  REGIST_DT ,
+					  SIGN_FILE_NM_LOGIC ,
+					  SIGN_FILE_NM_PHYSICL ,
+					  UPD_USR ,
+					  UPDT_DT
+		     FROM FCLTS_CHARGER_F
+		 	 WHERE
+				  CHARGER_NM = #chargerNm#
+	</select>
 
 </sqlMap>
