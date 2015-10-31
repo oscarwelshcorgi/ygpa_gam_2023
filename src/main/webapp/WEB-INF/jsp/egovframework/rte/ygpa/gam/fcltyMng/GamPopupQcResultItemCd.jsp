@@ -61,16 +61,18 @@ GamPopupQcResultItemCdModule.prototype.loadComplete = function(params) {
 
 	var gridHeaders = [];
 	
-	gridHeaders[gridHeaders.length] = {display:"점검 상위 항목명",	name:"qcItemUpperNm",	width:150,	sortable:true,	align:"left"};
-	gridHeaders[gridHeaders.length] = {display:"점검 항목 명",		name:"qcItemNm",		width:300,	sortable:true,	align:"left"};
 	if(this._fcltsJobSe == 'C') {
+		gridHeaders[gridHeaders.length] = {display:"점검 상위 항목명",	name:"qcItemUpperNm",	width:120,	sortable:true,	align:"left"};
+		gridHeaders[gridHeaders.length] = {display:"점검 항목 명",		name:"qcItemNm",		width:280,	sortable:true,	align:"left"};
 		if(this._popupMode == 'edit') {
-			gridHeaders[gridHeaders.length] = {display:"점검 내용",	name:"inspResultCn",	width:80,	sortable:true,	align:"left", displayFormat:'input'};
+			gridHeaders[gridHeaders.length] = {display:"점검 내용",	name:"inspResultCn",	width:130,	sortable:true,	align:"left", displayFormat:'input'};
 		} else {
-			gridHeaders[gridHeaders.length] = {display:"점검 내용",	name:"inspResultCn",	width:80,	sortable:true,	align:"left"};
+			gridHeaders[gridHeaders.length] = {display:"점검 내용",	name:"inspResultCn",	width:130,	sortable:true,	align:"left"};
 		}
 	}
 	else {
+		gridHeaders[gridHeaders.length] = {display:"점검 상위 항목명",	name:"qcItemUpperNm",	width:150,	sortable:true,	align:"left"};
+		gridHeaders[gridHeaders.length] = {display:"점검 항목 명",		name:"qcItemNm",		width:300,	sortable:true,	align:"left"};
 		if(this._popupMode == 'edit') {
 			gridHeaders[gridHeaders.length] = {display:"점검 결과",	name:"inspResultChk",	width:80,	sortable:true,	align:"center", displayFormat:'select', displayOption:resultChkOption};
 		} else {

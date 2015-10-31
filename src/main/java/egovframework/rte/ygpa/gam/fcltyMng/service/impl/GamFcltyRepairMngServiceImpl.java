@@ -545,7 +545,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			String today = formatter.format(new Date());
 			
 			sb.append("<HEAD SecCnt=\"1\">\n");
-			sb.append("<DOCSUMMARY><AUTHOR>YGPA GIS Assets Management SYSTEM</AUTHOR><DATE>" + today + "</DATE></DOCSUMMARY>\n");
+			sb.append("<DOCSUMMARY><AUTHOR>YGPA GIS Assets Management System</AUTHOR><DATE>" + today + "</DATE></DOCSUMMARY>\n");
 			sb.append("<DOCSETTING><BEGINNUMBER Endnote=\"1\" Equation=\"1\" Footnote=\"1\" Page=\"1\" Picture=\"1\" Table=\"1\"/><CARETPOS List=\"1\" Para=\"0\" Pos=\"0\"/></DOCSETTING>\n");
 			sb.append("<MAPPINGTABLE>\n");
 			if(count > 0) {
