@@ -183,5 +183,19 @@ public interface GamFcltyQcwWrtMngService {
 	String selectFcltyQcwWrtMngQcMngAtchFileNewSeq(GamQcMngAtchFileMngVO gamQcMngAtchFileMngVO) throws Exception;
 
 	
+	/**
+	 * 시설물 점검표 HML 문자열 반환
+	 * @param vo
+	 * @return String
+	 * @throws Exception
+	 */
 	String selectQcMngResultListReportHWPML(GamFcltyQcwWrtMngVO searchVO) throws Exception;	
+	
+	/**
+	 * 안전점검결과 HML 문자열 반환
+	 * @param vo
+	 * @return String
+	 * @throws Exception
+	 */	
+	String selectSafetyQcReportHWPML(GamFcltyQcwWrtMngVO searchVO) throws Exception;	
 }

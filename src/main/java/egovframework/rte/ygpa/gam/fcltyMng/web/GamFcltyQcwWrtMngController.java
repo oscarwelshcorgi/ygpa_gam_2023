@@ -1030,4 +1030,44 @@ public class GamFcltyQcwWrtMngController {
 		return "/ygpa/gam/fcltyMng/GamFcltyQcMngResultListReportHwp";
 	}
 	
+	 /**
+		 * 안전점검결과 한글 문서 다운로드 - 김종민 추가 작업 2015.10.28
+		 * @param map
+		 * @return
+		 * @throws Exception
+		 */
+		@SuppressWarnings("rawtypes")
+		@RequestMapping(value="/fcltyMng/downloadSafetyQcResult.do")
+		public String downloadSafetyQcResult(@RequestParam Map<String, Object> qcPrintOpt, ModelMap model) throws Exception {
+			ObjectMapper mapper = new ObjectMapper();
+			GamFcltyQcwWrtMngVO searchVO = null;
+
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+			if(!isAuthenticated) {
+				model.addAttribute("resultCode", 1);
+				model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+		    	return "/ygpa/gam/fcltyMng/GamFcltyQcMngResultListReportHwp";
+			}
+
+			searchVO = mapper.convertValue(qcPrintOpt, GamFcltyQcwWrtMngVO.class);
+			
+			searchVO.setsFcltsMngGroupNo(searchVO.getFcltsMngGroupNo());
+			searchVO.setsFcltsJobSe(searchVO.getFcltsJobSe());
+			searchVO.setsQcMngSeq(searchVO.getQcMngSeq());
+			
+			String hwpML = gamFcltyQcwWrtMngService.selectSafetyQcReportHWPML(searchVO);
+			
+			model.addAttribute("resultCode", 0);
+			model.addAttribute("resultMsg", "");
+			model.addAttribute("hwpML", hwpML);
+
+			//hwp선택시 파일명
+			if(qcPrintOpt.get("filename") != null){
+				model.addAttribute("isHwp", true);
+				model.addAttribute("filename", qcPrintOpt.get("filename"));
+			}
+
+			return "/ygpa/gam/fcltyMng/GamFcltyQcMngResultListReportHwp";
+		}	
 }

@@ -804,7 +804,7 @@ var module_instance = new GamFcltyQcSttusInqireModule();
 									</td>
 								</tr>
 								<tr>
-									<th height="17">조　치　내　용</th>
+									<th height="17">점　검　내　용</th>
 									<td colspan="3">
 										<textarea id="actionCn" cols="88" rows="5" disabled="disabled"></textarea>
 									</td>

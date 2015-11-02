@@ -2119,7 +2119,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 									</td>
 								</tr>
 								<tr>
-									<th style="width:14%; height:18px;">조　치　내　용</th>
+									<th style="width:14%; height:18px;">점　검　내　용</th>
 									<td colspan="3">
 										<textarea id="actionCn" cols="87" rows="5"></textarea>
 									</td>
@@ -2173,10 +2173,11 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							<button id="btnDetailDelete" class="buttonDelete">　　삭　제　　</button>
 							<button id="btnSave" class="buttonSave">　　저　장　　</button>
 							<!-- <button id="btnPrint" data-role="printPage" data-search-option="detailForm" data-url="/fcltyMng/printQcMngDtls.do">　　인　쇄　　</button> -->
-							<button id="btnPrint" data-role="printPage" data-search-option="detailForm">　　인　쇄　　</button>
+							<!-- <button id="btnPrint" data-role="printPage" data-search-option="detailForm">　　인　쇄　　</button>-->
 							<!-- <button id="btnHwp" data-role="printDown" data-url="/fcltyMng/selectFcltyQcHwp.do" data-filename="검사조서.hwp" data-search-option="detailForm">한글문서</button> -->
 							<!--  <button id="btnHwp" data-role="printDown" data-filename="검사조서.hwp" data-search-option="detailForm">한글문서</button> -->
 							<button id="btnResultListHwp" data-role="printDown" data-filename="시설물점검표.hwp" data-search-option="detailForm" data-url="/fcltyMng/downloadQcMngResultLIst.do">점검표 다운로드</button>
+							<button id="btnSafetyQcResultHwp" data-role="printDown" data-filename="안전점검결과.hwp" data-search-option="detailForm" data-url="/fcltyMng/downloadSafetyQcResult.do">안전점검결과 다운로드</button>
 						</td>
 					</tr>
 				</table>

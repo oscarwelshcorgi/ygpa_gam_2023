@@ -1500,7 +1500,7 @@ var module_instance = new GamFcltyRepairMngModule();
 							<td style="text-align:right;">
 								<!-- <button data-role="printPage" data-search-option="searchFcltyRepairMngForm" data-url='/fcltyMng/selectFcltyRepairCheckResultPrint.do'>하자검사결과인쇄</button> -->
 								<!-- <button data-role="printDown" data-search-option="searchFcltyRepairMngForm" data-filename="검사조서.hwp" data-url='/fcltyMng/selectFcltyRepairCheckResultPrint.do'>H　W　P</button> -->
-								<button id="btnSelectedHwpDownload" >선 택 HWP 다운로드</button>
+								<button id="btnSelectedHwpDownload" >선택 하자검사조서 다운로드</button>
 								<button id="btnExcelDownload" class="buttonExcel">엑셀 다운로드</button>
 								<button id="addBtn" class="buttonAdd">　　추　가　　</button>
 								<button id="deleteBtn" class="buttonDelete">　　삭　제　　</button>
@@ -1683,11 +1683,13 @@ var module_instance = new GamFcltyRepairMngModule();
 
 				</form>
 					<div>
+						<!--
 							<select id="printSe" title="출력구분">
 								<option value="hwp">한글문서</option>
 								<option value="print">인쇄</option>
 							</select>
-						<button id="chkPrint"  data-search-option="fcltyRepairMngListVO">하자검사조서 출력</button>
+						-->
+						<button id="chkPrint"  data-role="printDown"  data-filename="하자검사조서.hwp" data-search-option="fcltyRepairMngListVO" data-url="/fcltyMng/selectFcltyRepairCheckReportHwp.do">하자검사조서 다운로드</button>
 						<!-- <button id="mngPrint"  data-search-option="fcltyRepairMngListVO">하자검사관리대장 출력</button>
 						<button id="expPrint"  data-search-option="fcltyRepairMngListVO">하자만료검사조서 출력</button> -->
 						<button id="addBtn" class="buttonAdd">　　추　가　　</button>
