@@ -247,13 +247,48 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	@SuppressWarnings("unchecked")
 	public String selectSafetyQcReportHWPML(GamFcltyQcwWrtMngVO searchVO) throws Exception {
 		StringBuilder result = new StringBuilder();
-		
-		//점검사진목록조회
-		List<EgovMap> fileList =  (List<EgovMap>) gamFcltyQcwWrtMngDao.selectQcMngAtchFileList(searchVO);
-
+    	Map<String, Integer> imageIndexes = new HashMap<String, Integer>(); //이미지 파일명과 id구성을 위한 맵
+    	
+    	//HWPML용 인스턴스 생성
+    	MakeSafeQcResultHwpReport report = new MakeSafeQcResultHwpReport();
+    	  	
+    	//HWPML Start Element 부분
+		result.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n");
+		result.append("<HWPML Style=\"embed\" SubVersion=\"7.0.0.0\" Version=\"2.7\">\n");
+    	
 		//점검내역조회
 		EgovMap qcDetailData = gamFcltyQcwWrtMngDao.selectQcMngDtlsDetail(searchVO);
+
+		//점검사진목록조회
+		List<EgovMap> fileList =  (List<EgovMap>) gamFcltyQcwWrtMngDao.selectQcMngAtchFileList(searchVO);
 		
+    	//사진 이미지 파일 정보 구성
+    	for(int i=0; i<fileList.size(); i++) {
+    		EgovMap item = (EgovMap) fileList.get(i);
+        	String fileName = (String) item.get("atchFileNmPhysicl");
+        	if((fileName != null) && (fileName.length() > 0)) {
+        		fileName = EgovProperties.getProperty("qcAttach.fileStorePath") + fileName; 
+            	File file = new File(fileName);
+            	if(file.exists()) {
+            		imageIndexes.put((String) item.get("atchFileNmPhysicl"), 0);
+            	}    
+        	}
+    	}
+		
+    	//Head Element 구성 처리
+		result.append(report.getReportHeader(imageIndexes));
+		
+		//Body Element 구성 처리
+		result.append("<BODY><SECTION Id=\"0\">\n");
+		if(qcDetailData != null) {
+			result.append(report.getReportBody(qcDetailData, imageIndexes, fileList, false));
+		}
+		result.append("</SECTION></BODY>\n");
+
+		//Tail Element 구성 처리
+		result.append(report.getReportTail(imageIndexes));
+		result.append("</HWPML>");
+
 		return result.toString();
 	}
 	
@@ -332,20 +367,29 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 		
 		/**HWPML 용 안전점검결과 BODY 엘리먼트를 문자열로 가져온다.
 		 * @throws Exception */
-		public StringBuilder getReportBody(EgovMap detailData, Map<String, Integer> imageIndexes, int recordCount) {
+		@SuppressWarnings("rawtypes")
+		public StringBuilder getReportBody(EgovMap detailData, Map<String, Integer> imageIndexes,  List fileList, boolean newPage) {
 			StringBuilder sb = new StringBuilder();
-			
-			sb.append("	<P ColumnBreak=\"false\" PageBreak=\"false\" ParaShape=\"2\" Style=\"0\"><TEXT CharShape=\"9\">\n");
+			String mngGroupNm = (detailData.get("fcltsMngGroupNm") != null) ? (String)detailData.get("fcltsMngGroupNm") : ""; //시설물 관리그룹명
+			String qcActionCn = (detailData.get("actionCn") != null) ? (String)detailData.get("actionCn") : ""; //점검내용
+			String qcRm = (detailData.get("rm") != null) ? (String)detailData.get("rm") : ""; // 비고
+			String[] contents = qcActionCn.split("\n");
+			String[] rm = qcRm.split("\n");
+			if(newPage) {
+				sb.append("	<P ColumnBreak=\"false\" PageBreak=\"false\" ParaShape=\"2\" Style=\"0\"><TEXT CharShape=\"9\">\n");
+			} else {
+				sb.append("	<P ColumnBreak=\"false\" PageBreak=\"true\" ParaShape=\"2\" Style=\"0\"><TEXT CharShape=\"9\">\n");
+			}
 			sb.append("		<SECDEF CharGrid=\"0\" FirstBorder=\"false\" FirstFill=\"false\" LineGrid=\"0\" OutlineShape=\"1\" SpaceColumns=\"1134\" TabStop=\"8000\" TextDirection=\"0\" TextVerticalWidthHead=\"0\"><STARTNUMBER Equation=\"0\" Figure=\"0\" Page=\"0\" PageStartsOn=\"Both\" Table=\"0\"/><HIDE Border=\"false\" EmptyLine=\"false\" Fill=\"false\" Footer=\"false\" Header=\"false\" MasterPage=\"false\" PageNumPos=\"false\"/><PAGEDEF GutterType=\"LeftOnly\" Height=\"84188\" Landscape=\"0\" Width=\"59528\"><PAGEMARGIN Bottom=\"2835\" Footer=\"2835\" Gutter=\"0\" Header=\"2835\" Left=\"5669\" Right=\"5669\" Top=\"4252\"/></PAGEDEF><FOOTNOTESHAPE><AUTONUMFORMAT SuffixChar=\")\" Superscript=\"false\" Type=\"Digit\"/><NOTELINE Length=\"5cm\" Type=\"Solid\" Width=\"0.12mm\"/><NOTESPACING AboveLine=\"850\" BelowLine=\"567\" BetweenNotes=\"283\"/><NOTENUMBERING NewNumber=\"1\" Type=\"Continuous\"/><NOTEPLACEMENT BeneathText=\"false\" Place=\"EachColumn\"/></FOOTNOTESHAPE><ENDNOTESHAPE><AUTONUMFORMAT SuffixChar=\")\" Superscript=\"false\" Type=\"Digit\"/><NOTELINE Length=\"14692344\" Type=\"Solid\" Width=\"0.12mm\"/><NOTESPACING AboveLine=\"850\" BelowLine=\"567\" BetweenNotes=\"0\"/><NOTENUMBERING NewNumber=\"1\" Type=\"Continuous\"/><NOTEPLACEMENT BeneathText=\"false\" Place=\"EndOfDocument\"/></ENDNOTESHAPE><PAGEBORDERFILL FillArea=\"Paper\" FooterInside=\"false\" HeaderInside=\"false\" TextBorder=\"true\" Type=\"Both\"><PAGEOFFSET Bottom=\"1417\" Left=\"1417\" Right=\"1417\" Top=\"1417\"/></PAGEBORDERFILL><PAGEBORDERFILL FillArea=\"Paper\" FooterInside=\"false\" HeaderInside=\"false\" TextBorder=\"true\" Type=\"Even\"><PAGEOFFSET Bottom=\"1417\" Left=\"1417\" Right=\"1417\" Top=\"1417\"/></PAGEBORDERFILL><PAGEBORDERFILL FillArea=\"Paper\" FooterInside=\"false\" HeaderInside=\"false\" TextBorder=\"true\" Type=\"Odd\"><PAGEOFFSET Bottom=\"1417\" Left=\"1417\" Right=\"1417\" Top=\"1417\"/></PAGEBORDERFILL></SECDEF>\n");
 			sb.append("		<COLDEF Count=\"1\" Layout=\"Left\" SameGap=\"0\" SameSize=\"true\" Type=\"Newspaper\"/>\n");
 			sb.append("		<CHAR/>\n");
 			sb.append("	</TEXT></P>\n");
-			sb.append("	<P ParaShape=\"2\" Style=\"0\"><TEXT CharShape=\"7\"><CHAR>□ 광양항 2단계2차 컨테이너터미널</CHAR></TEXT></P>\n");
+			sb.append("	<P ParaShape=\"2\" Style=\"0\"><TEXT CharShape=\"7\"><CHAR>□ " + mngGroupNm + "</CHAR></TEXT></P>\n");
 			sb.append("	<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
 			sb.append("	<P ParaShape=\"2\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>○ 안전점검 내용 </CHAR></TEXT></P>\n");
 			sb.append("	<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"11\">\n");
 			sb.append("		<TABLE BorderFill=\"2\" CellSpacing=\"0\" ColCount=\"2\" PageBreak=\"Cell\" RepeatHeader=\"true\" RowCount=\"2\">\n");
-			sb.append("			<SHAPEOBJECT InstId=\"2045452139\" Lock=\"false\" NumberingType=\"Table\" ZOrder=\"1\"><SIZE Height=\"13903\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"45034\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"0\" HorzRelTo=\"Para\" TreatAsChar=\"true\" VertAlign=\"Top\" VertOffset=\"0\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"141\" Left=\"141\" Right=\"141\" Top=\"141\"/></SHAPEOBJECT>\n");
+			sb.append("			<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Table\" ZOrder=\"" + getZOrder() +  "\"><SIZE Height=\"13903\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"45034\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"0\" HorzRelTo=\"Para\" TreatAsChar=\"true\" VertAlign=\"Top\" VertOffset=\"0\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"141\" Left=\"141\" Right=\"141\" Top=\"141\"/></SHAPEOBJECT>\n");
 			sb.append("			<INSIDEMARGIN Bottom=\"141\" Left=\"141\" Right=\"141\" Top=\"141\"/>\n");
 			sb.append("			<ROW>\n");
 			sb.append("				<CELL BorderFill=\"7\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"3368\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"30158\">\n");
@@ -362,13 +406,33 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 			sb.append("			<ROW>\n");
 			sb.append("				<CELL BorderFill=\"5\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2859\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"30158\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"13\" Style=\"0\"><TEXT CharShape=\"6\"><CHAR>○ 경계펜스 및 차막이 파손</CHAR></TEXT></P>\n");
-			sb.append("						<P ParaShape=\"13\" Style=\"0\"><TEXT CharShape=\"6\"><CHAR>○ 핀컵 배수불량</CHAR></TEXT></P>\n");
+			if(contents != null) {
+				if(contents.length > 0) {
+					for(int i=0; i<contents.length; i++) {
+						sb.append("<P ParaShape=\"13\" Style=\"0\"><TEXT CharShape=\"6\"><CHAR>" + contents[i] + "</CHAR></TEXT></P>\n");
+					}
+				} else {
+					sb.append("<P ParaShape=\"13\" Style=\"0\"><TEXT CharShape=\"6\"><CHAR/></TEXT></P>\n");
+				}
+			} else {
+				sb.append("<P ParaShape=\"13\" Style=\"0\"><TEXT CharShape=\"6\"><CHAR/></TEXT></P>\n");
+			}	
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
 			sb.append("				<CELL BorderFill=\"6\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2859\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"14876\">\n");
 			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"6\"><CHAR>운영사 조치</CHAR></TEXT></P>\n");
+			if(rm != null) {
+				if(rm.length > 0) {
+					for(int i=0; i<rm.length; i++) {
+			        	sb.append("<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"6\"><CHAR>" + rm[i] + "</CHAR></TEXT></P>\n");
+			    	}
+				} else {
+					sb.append("<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"6\"><CHAR/></TEXT></P>\n");
+				}
+			} else {
+				sb.append("<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"6\"><CHAR/></TEXT></P>\n");
+			}
+			sb.append("<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"6\"><CHAR/></TEXT></P>\n");
 			sb.append("					</PARALIST>\n");
 			sb.append("				</CELL>\n");
 			sb.append("			</ROW>\n");
@@ -377,144 +441,78 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 			sb.append("	</TEXT></P>\n");
 			sb.append("	<P ParaShape=\"2\" Style=\"0\"><TEXT CharShape=\"11\"/></P>\n");
 			sb.append("	<P ParaShape=\"2\" Style=\"0\"><TEXT CharShape=\"5\">\n");
-			sb.append("		<TABLE BorderFill=\"2\" CellSpacing=\"0\" ColCount=\"2\" PageBreak=\"Table\" RepeatHeader=\"false\" RowCount=\"12\">\n");
-			sb.append("			<SHAPEOBJECT InstId=\"2045452140\" Lock=\"false\" NumberingType=\"Table\" TextWrap=\"TopAndBottom\" ZOrder=\"0\"><SIZE Height=\"42595\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"46438\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"720\" HorzRelTo=\"Para\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"2020\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"141\" Left=\"141\" Right=\"141\" Top=\"141\"/></SHAPEOBJECT>\n");
-			sb.append("			<INSIDEMARGIN Bottom=\"141\" Left=\"141\" Right=\"141\" Top=\"141\"/>\n");
-			sb.append("			<ROW>\n");
-			sb.append("				<CELL BorderFill=\"11\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"17201\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"23219\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"1\">\n");
-			sb.append("							<PICTURE Reverse=\"false\">\n");
-			sb.append("								<SHAPEOBJECT InstId=\"2045452141\" Lock=\"false\" NumberingType=\"Figure\" TextFlow=\"BothSides\" ZOrder=\"3\"><SIZE Height=\"15699\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"20856\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"true\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"0\" HorzRelTo=\"Para\" TreatAsChar=\"true\" VertAlign=\"Top\" VertOffset=\"0\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/></SHAPEOBJECT>\n");
-			sb.append("								<SHAPECOMPONENT CurHeight=\"15699\" CurWidth=\"20856\" GroupLevel=\"0\" HorzFlip=\"false\" InstID=\"971710318\" OriHeight=\"12525\" OriWidth=\"16640\" VertFlip=\"false\" XPos=\"0\" YPos=\"0\"><ROTATIONINFO Angle=\"0\" CenterX=\"10428\" CenterY=\"7849\"/><RENDERINGINFO><TRANSMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/><SCAMATRIX E1=\"1.25337\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.25341\" E6=\"0.00000\"/><ROTMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/></RENDERINGINFO></SHAPECOMPONENT>\n");
-			sb.append("								<IMAGERECT X0=\"0\" X1=\"16640\" X2=\"16640\" X3=\"0\" Y0=\"0\" Y1=\"0\" Y2=\"12525\" Y3=\"12525\"/>\n");
-			sb.append("								<IMAGECLIP Bottom=\"16980\" Left=\"0\" Right=\"22560\" Top=\"0\"/>\n");
-			sb.append("								<INSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
-			sb.append("								<IMAGE Alpha=\"0\" BinItem=\"2\" Bright=\"0\" Contrast=\"0\" Effect=\"RealPic\"/>\n");
-			sb.append("							</PICTURE>\n");
-			sb.append("							<CHAR/>\n");
-			sb.append("						</TEXT></P>\n");
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("				<CELL BorderFill=\"10\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"17201\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"23219\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"1\">\n");
-			sb.append("							<PICTURE Reverse=\"false\">\n");
-			sb.append("								<SHAPEOBJECT InstId=\"2045452143\" Lock=\"false\" NumberingType=\"Figure\" TextFlow=\"BothSides\" ZOrder=\"4\"><SIZE Height=\"15904\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"21187\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"true\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"0\" HorzRelTo=\"Para\" TreatAsChar=\"true\" VertAlign=\"Top\" VertOffset=\"0\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/></SHAPEOBJECT>\n");
-			sb.append("								<SHAPECOMPONENT CurHeight=\"15904\" CurWidth=\"21187\" GroupLevel=\"0\" HorzFlip=\"false\" InstID=\"971710320\" OriHeight=\"15150\" OriWidth=\"20183\" VertFlip=\"false\" XPos=\"0\" YPos=\"0\"><ROTATIONINFO Angle=\"0\" CenterX=\"10593\" CenterY=\"7952\"/><RENDERINGINFO><TRANSMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/><SCAMATRIX E1=\"1.04974\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.04977\" E6=\"0.00000\"/><ROTMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/></RENDERINGINFO></SHAPECOMPONENT>\n");
-			sb.append("								<IMAGERECT X0=\"0\" X1=\"20183\" X2=\"20183\" X3=\"0\" Y0=\"0\" Y1=\"0\" Y2=\"15150\" Y3=\"15150\"/>\n");
-			sb.append("								<IMAGECLIP Bottom=\"17160\" Left=\"0\" Right=\"22860\" Top=\"0\"/>\n");
-			sb.append("								<INSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
-			sb.append("								<IMAGE Alpha=\"0\" BinItem=\"3\" Bright=\"0\" Contrast=\"0\" Effect=\"RealPic\"/>\n");
-			sb.append("							</PICTURE>\n");
-			sb.append("							<CHAR/>\n");
-			sb.append("						</TEXT></P>\n");
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("			</ROW>\n");
-			sb.append("			<ROW>\n");
-			sb.append("				<CELL BorderFill=\"9\" ColAddr=\"0\" ColSpan=\"2\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"1848\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"46438\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"2\" Style=\"0\"><TEXT CharShape=\"6\"><CHAR> 내   용 : 경계펜스 및 차막이 파손</CHAR></TEXT></P>\n");
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("			</ROW>\n");
-			sb.append("			<ROW>\n");
-			sb.append("				<CELL BorderFill=\"5\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"16636\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"23219\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\">\n");
-			sb.append("							<PICTURE Reverse=\"false\">\n");
-			sb.append("								<SHAPEOBJECT InstId=\"2045452145\" Lock=\"false\" NumberingType=\"Figure\" TextFlow=\"BothSides\" ZOrder=\"5\"><SIZE Height=\"16071\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"18783\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"true\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"0\" HorzRelTo=\"Para\" TreatAsChar=\"true\" VertAlign=\"Top\" VertOffset=\"0\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/></SHAPEOBJECT>\n");
-			sb.append("								<SHAPECOMPONENT CurHeight=\"16071\" CurWidth=\"18783\" GroupLevel=\"0\" HorzFlip=\"false\" InstID=\"971710322\" OriHeight=\"14775\" OriWidth=\"17268\" VertFlip=\"false\" XPos=\"0\" YPos=\"0\"><ROTATIONINFO Angle=\"0\" CenterX=\"9391\" CenterY=\"8035\"/><RENDERINGINFO><TRANSMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/><SCAMATRIX E1=\"1.08773\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.08772\" E6=\"0.00000\"/><ROTMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/></RENDERINGINFO></SHAPECOMPONENT>\n");
-			sb.append("								<IMAGERECT X0=\"0\" X1=\"17268\" X2=\"17268\" X3=\"0\" Y0=\"0\" Y1=\"0\" Y2=\"14775\" Y3=\"14775\"/>\n");
-			sb.append("								<IMAGECLIP Bottom=\"19200\" Left=\"0\" Right=\"22440\" Top=\"0\"/>\n");
-			sb.append("								<INSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
-			sb.append("								<IMAGE Alpha=\"0\" BinItem=\"4\" Bright=\"0\" Contrast=\"0\" Effect=\"RealPic\"/>\n");
-			sb.append("							</PICTURE>\n");
-			sb.append("							<CHAR/>\n");
-			sb.append("						</TEXT></P>\n");
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("				<CELL BorderFill=\"6\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"16636\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"23219\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\">\n");
-			sb.append("							<PICTURE Reverse=\"false\">\n");
-			sb.append("								<SHAPEOBJECT InstId=\"2045452147\" Lock=\"false\" NumberingType=\"Figure\" TextFlow=\"BothSides\" ZOrder=\"2\"><SIZE Height=\"15825\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"21081\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"true\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"0\" HorzRelTo=\"Para\" TreatAsChar=\"true\" VertAlign=\"Top\" VertOffset=\"0\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/></SHAPEOBJECT>\n");
-			sb.append("								<SHAPECOMPONENT GroupLevel=\"0\" HorzFlip=\"false\" InstID=\"971710324\" OriHeight=\"15825\" OriWidth=\"21081\" VertFlip=\"false\" XPos=\"0\" YPos=\"0\"><ROTATIONINFO Angle=\"0\" CenterX=\"10540\" CenterY=\"7912\"/><RENDERINGINFO><TRANSMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/><SCAMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/><ROTMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/></RENDERINGINFO></SHAPECOMPONENT>\n");
-			sb.append("								<IMAGERECT X0=\"0\" X1=\"21081\" X2=\"21081\" X3=\"0\" Y0=\"0\" Y1=\"0\" Y2=\"15825\" Y3=\"15825\"/>\n");
-			sb.append("								<IMAGECLIP Bottom=\"17340\" Left=\"0\" Right=\"23100\" Top=\"0\"/>\n");
-			sb.append("								<INSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
-			sb.append("								<IMAGE Alpha=\"0\" BinItem=\"1\" Bright=\"0\" Contrast=\"0\" Effect=\"RealPic\"/>\n");
-			sb.append("							</PICTURE>\n");
-			sb.append("							<CHAR/>\n");
-			sb.append("						</TEXT></P>\n");
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("			</ROW>\n");
-			sb.append("			<ROW>\n");
-			sb.append("				<CELL BorderFill=\"5\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"3\" RowSpan=\"1\" Width=\"23219\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\"/></P>\n");
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("				<CELL BorderFill=\"6\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"3\" RowSpan=\"1\" Width=\"23219\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\"/></P>\n");
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("			</ROW>\n");
-			sb.append("			<ROW>\n");
-			sb.append("				<CELL BorderFill=\"5\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"4\" RowSpan=\"1\" Width=\"23219\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\"/></P>\n");
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("				<CELL BorderFill=\"6\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"4\" RowSpan=\"1\" Width=\"23219\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\"/></P>\n");
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("			</ROW>\n");
-			sb.append("			<ROW>\n");
-			sb.append("				<CELL BorderFill=\"5\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"5\" RowSpan=\"1\" Width=\"23219\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\"/></P>\n");
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("				<CELL BorderFill=\"6\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"5\" RowSpan=\"1\" Width=\"23219\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\"/></P>\n");
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("			</ROW>\n");
-			sb.append("			<ROW>\n");
-			sb.append("				<CELL BorderFill=\"5\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"6\" RowSpan=\"1\" Width=\"23219\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\"/></P></PARALIST></CELL><CELL BorderFill=\"6\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"6\" RowSpan=\"1\" Width=\"23219\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\"/></P></PARALIST></CELL>\n");
-			sb.append("			</ROW>\n");
-			sb.append("			<ROW>\n");
-			sb.append("				<CELL BorderFill=\"5\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"7\" RowSpan=\"1\" Width=\"23219\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\"/></P></PARALIST></CELL><CELL BorderFill=\"6\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"7\" RowSpan=\"1\" Width=\"23219\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\"/></P></PARALIST></CELL>\n");
-			sb.append("			</ROW>\n");
-			sb.append("			<ROW>\n");
-			sb.append("				<CELL BorderFill=\"5\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"8\" RowSpan=\"1\" Width=\"23219\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\"/></P></PARALIST></CELL><CELL BorderFill=\"6\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"8\" RowSpan=\"1\" Width=\"23219\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\"/></P></PARALIST></CELL>\n");
-			sb.append("			</ROW>\n");
-			sb.append("			<ROW>\n");
-			sb.append("				<CELL BorderFill=\"5\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"9\" RowSpan=\"1\" Width=\"23219\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\"/></P></PARALIST></CELL><CELL BorderFill=\"6\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"9\" RowSpan=\"1\" Width=\"23219\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\"/></P></PARALIST></CELL>\n");
-			sb.append("			</ROW>\n");
-			sb.append("			<ROW>\n");
-			sb.append("				<CELL BorderFill=\"5\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"10\" RowSpan=\"1\" Width=\"23219\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\"/></P></PARALIST></CELL><CELL BorderFill=\"6\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"10\" RowSpan=\"1\" Width=\"23219\"><PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\"><P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\"/></P></PARALIST></CELL>\n");
-			sb.append("			</ROW>\n");
-			sb.append("			<ROW>\n");
-			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"11\" RowSpan=\"1\" Width=\"23219\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\"/></P>\n");
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("				<CELL BorderFill=\"4\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"11\" RowSpan=\"1\" Width=\"23219\">\n");
-			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-			sb.append("						<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"12\"/></P>\n");
-			sb.append("					</PARALIST>\n");
-			sb.append("				</CELL>\n");
-			sb.append("			</ROW>\n");
-			sb.append("		</TABLE>\n");
+			
+			int rowCount = fileList.size();
+			if((rowCount % 2) == 1) {
+				rowCount++; //홀수개의 ROW가 되면 짝수로 바꿔준다.
+			}
+			if(rowCount > 0) {
+				//레코드 카운트를 짝수로 맞춘다. 이유는 2개의 데이터당 2개의 행에 출력하기 때문에 홀수의 레코드는 빈칸을 출력하기 위해 짝수로 맞춘다.			
+				sb.append("		<TABLE BorderFill=\"2\" CellSpacing=\"0\" ColCount=\"2\" PageBreak=\"Table\" RepeatHeader=\"false\" RowCount=\"" + rowCount + "\">\n");
+				sb.append("			<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Table\" TextWrap=\"TopAndBottom\" ZOrder=\"" + getZOrder() +  "\"><SIZE Height=\"42595\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"46438\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"720\" HorzRelTo=\"Para\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"2020\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"141\" Left=\"141\" Right=\"141\" Top=\"141\"/></SHAPEOBJECT>\n");
+				sb.append("			<INSIDEMARGIN Bottom=\"141\" Left=\"141\" Right=\"141\" Top=\"141\"/>\n");
+				//루프로 돌릴 때 한 루프당 2개의 데이터를 2개의 행에 표현하기 때문에 루트는 데이터 갯수의 반만 돌린다. 
+				int loopEnd = rowCount / 2;
+				int rowAddr = 0; //각 cell element의 rowAddr속성을 변경시켜주기 위한 변수
+				
+				int listIndex = 0; //루프 내에서 사용할 실제 이미지 리스트의 인덱스 
+				int listSize = fileList.size(); // 이미지 리스트 개수
+	
+				int leftBorderFillId = 0, rightBorderFillId = 0; //테두리를 변경시키기 위한 변수
+	
+				for(int i=0; i<loopEnd; i++) {
+					String leftFileName = "", rightFileName = "";
+					String leftFileSj = "", rightFileSj = "";
+					int leftImageId = 0, rightImageId = 0;
+					EgovMap record = (EgovMap) fileList.get(listIndex);
+					leftFileName = (String) record.get("atchFileNmPhysicl");
+					leftFileSj = (String) record.get("atchFileSj");
+					leftImageId = getImageId(imageIndexes, leftFileName);
+					listIndex++;
+					if(listIndex < listSize) {
+						record = (EgovMap) fileList.get(listIndex);
+						rightFileName = (String) record.get("atchFileNmPhysicl");
+						rightFileSj = (String) record.get("atchFileSj");
+						rightImageId = getImageId(imageIndexes, rightFileName);
+					}
+					listIndex++;
+					leftBorderFillId = (rowAddr == 0) ? 11 : ((rowAddr < (rowCount-1)) ? 5 : 3); 
+					rightBorderFillId = (rowAddr == 0) ? 10 : ((rowAddr < (rowCount-1)) ? 6 : 4); 
+					sb.append("			<ROW>\n");
+					sb.append("				<CELL BorderFill=\"" + leftBorderFillId + "\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"17201\" Protect=\"false\" RowAddr=\""+ rowAddr + "\" RowSpan=\"1\" Width=\"23219\">\n");
+					sb.append(getReportListPicture(leftImageId));
+					sb.append("				</CELL>\n");
+					sb.append("				<CELL BorderFill=\"" + rightBorderFillId + "\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"17201\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"23219\">\n");
+					sb.append(getReportListPicture(rightImageId));
+					sb.append("				</CELL>\n");
+					sb.append("			</ROW>\n");
+					rowAddr++;
+					leftBorderFillId = (rowAddr == 0) ? 11 : ((rowAddr < (rowCount-1)) ? 5 : 3); 
+					rightBorderFillId = (rowAddr == 0) ? 10 : ((rowAddr < (rowCount-1)) ? 6 : 4); 
+					sb.append("			<ROW>\n");
+					sb.append("				<CELL BorderFill=\"" + leftBorderFillId + "\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"23219\">\n");
+					sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+					if(leftFileSj != null) {
+						sb.append("						<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"6\"/><CHAR>" + leftFileSj + "</CHAR></P>\n");
+					} else {
+						sb.append("						<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"6\"/><CHAR/></P>\n");
+					}
+					sb.append("					</PARALIST>\n");
+					sb.append("				</CELL>\n");
+					sb.append("				<CELL BorderFill=\"" + rightBorderFillId + "\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"0\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"23219\">\n");
+					sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+					if(rightFileSj != null) {
+						sb.append("						<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"6\"/><CHAR>" + rightFileSj + "</CHAR></P>\n");
+					} else {
+						sb.append("						<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"6\"/><CHAR/></P>\n");
+					}
+					sb.append("					</PARALIST>\n");
+					sb.append("				</CELL>\n");
+					sb.append("			</ROW>\n");
+					rowAddr++;
+				}
+				sb.append("		</TABLE>\n");
+			}
 			sb.append("		<CHAR>○ 사진대지</CHAR>\n");
 			sb.append("	</TEXT></P>\n");
 			sb.append("	<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"11\"/></P>\n");
@@ -523,18 +521,18 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 		}
 		
 		/**HWPML 용 안전점검결과 사진 엘리먼트 또는 빈 공백 엘리먼트(id가 0인 경우)를 xml 문자열로 가져온다.*/
-		public StringBuilder getXmlFcltyRepairCheckReportListPicture(int id) {
+		public StringBuilder getReportListPicture(int id) {
 			StringBuilder sb = new StringBuilder();
 			if(id > 0) {
 				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 				sb.append("						<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"1\">\n");
 				sb.append("							<PICTURE Reverse=\"false\">\n");
-				sb.append("								<SHAPEOBJECT InstId=\"2045452143\" Lock=\"false\" NumberingType=\"Figure\" TextFlow=\"BothSides\" ZOrder=\"4\"><SIZE Height=\"15904\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"21187\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"true\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"0\" HorzRelTo=\"Para\" TreatAsChar=\"true\" VertAlign=\"Top\" VertOffset=\"0\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/></SHAPEOBJECT>\n");
-				sb.append("								<SHAPECOMPONENT CurHeight=\"15904\" CurWidth=\"21187\" GroupLevel=\"0\" HorzFlip=\"false\" InstID=\"971710320\" OriHeight=\"15150\" OriWidth=\"20183\" VertFlip=\"false\" XPos=\"0\" YPos=\"0\"><ROTATIONINFO Angle=\"0\" CenterX=\"10593\" CenterY=\"7952\"/><RENDERINGINFO><TRANSMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/><SCAMATRIX E1=\"1.04974\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.04977\" E6=\"0.00000\"/><ROTMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/></RENDERINGINFO></SHAPECOMPONENT>\n");
+				sb.append("								<SHAPEOBJECT InstId=\"" + getInstanceId() + "\" Lock=\"false\" NumberingType=\"Figure\" TextFlow=\"BothSides\" ZOrder=\"" + getZOrder() +  "\"><SIZE Height=\"15904\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"21187\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"true\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"0\" HorzRelTo=\"Para\" TreatAsChar=\"true\" VertAlign=\"Top\" VertOffset=\"0\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/></SHAPEOBJECT>\n");
+				sb.append("								<SHAPECOMPONENT CurHeight=\"15904\" CurWidth=\"21187\" GroupLevel=\"0\" HorzFlip=\"false\" InstID=\"" + getInstanceId() + "\" OriHeight=\"15150\" OriWidth=\"20183\" VertFlip=\"false\" XPos=\"0\" YPos=\"0\"><ROTATIONINFO Angle=\"0\" CenterX=\"10593\" CenterY=\"7952\"/><RENDERINGINFO><TRANSMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/><SCAMATRIX E1=\"1.04974\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.04977\" E6=\"0.00000\"/><ROTMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/></RENDERINGINFO></SHAPECOMPONENT>\n");
 				sb.append("								<IMAGERECT X0=\"0\" X1=\"20183\" X2=\"20183\" X3=\"0\" Y0=\"0\" Y1=\"0\" Y2=\"15150\" Y3=\"15150\"/>\n");
 				sb.append("								<IMAGECLIP Bottom=\"17160\" Left=\"0\" Right=\"22860\" Top=\"0\"/>\n");
 				sb.append("								<INSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
-				sb.append("								<IMAGE Alpha=\"0\" BinItem=\"" + id + "\" Bright=\"0\" Contrast=\"0\" Effect=\"RealPic\"/>\n");
+				sb.append("								<IMAGE Alpha=\"0\" BinItem=\""+ id + "\" Bright=\"0\" Contrast=\"0\" Effect=\"RealPic\"/>\n");
 				sb.append("							</PICTURE>\n");
 				sb.append("							<CHAR/>\n");
 				sb.append("						</TEXT></P>\n");
@@ -561,7 +559,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 				while(it.hasNext()) {
 					String fileName = it.next();
 					int id = imageIndexes.get(fileName);
-					fileName = EgovProperties.getProperty("repairAttach.fileStorePath") + fileName;
+					fileName = EgovProperties.getProperty("qcAttach.fileStorePath") + fileName;
 	 				String base64Data = fileToBase64(fileName);
 					int dataSize = base64Data.length();
 					sb.append("<BINDATA Encoding=\"Base64\" Id=\"" + id + "\" Size=\"" + dataSize + "\">");
@@ -629,7 +627,6 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 		return result;
 	}
 	
-	/** 안전 점검 결과 HML처리 INNER CLASS */
 	
 	
 	/** 시설물 점검표 HML처리 INNER CLASS */

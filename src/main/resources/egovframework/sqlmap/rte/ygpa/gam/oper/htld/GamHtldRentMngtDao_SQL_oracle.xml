@@ -446,7 +446,8 @@
 		WHERE PRT_AT_CODE=#prtAtCode#
 		AND MNG_YEAR = TO_CHAR(SYSDATE, 'YYYY')
     </select>
-
+	
+	<!-- 게약정보 등록 -->
     <insert id="gamHtldRentMngtDao.insertHtldRentMngt_S">
 	    INSERT
 		INTO ASSETS_RENT_F
@@ -647,6 +648,7 @@
 			ORDER BY ASSETS_USAGE_SEQ
     </select>
 
+	<!-- 계약세부정보 등록 -->
     <insert id="gamHtldRentMngtDao.insertHtldRentMngtDetail_S">
 		INSERT
 		INTO ASSETS_RENT_DETAIL_F
