@@ -237,6 +237,76 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	public String selectFcltyQcwWrtMngQcMngAtchFileNewSeq(GamQcMngAtchFileMngVO gamQcMngAtchFileMngVO) throws Exception {
 		return gamFcltyQcwWrtMngDao.selectFcltyQcwWrtMngQcMngAtchFileNewSeq(gamQcMngAtchFileMngVO);
 	}
+
+	/**
+	 * 선택된 안전 점검 결과 한글 문서 다운로드 - 김종민 추가 작업 2015.11.6
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	public String selectSafetyQcReportListHWPML(List<HashMap<String,String>> reportList) throws Exception {
+		StringBuilder result = new StringBuilder();
+		Map<String, Integer> imageIndexes = new HashMap<String, Integer>(); //이미지 파일명과 id구성을 위한 맵
+
+		//HWPML용 인스턴스 생성
+    	MakeSafeQcResultHwpReport report = new MakeSafeQcResultHwpReport();
+    	  	
+    	//HWPML Start Element 부분
+		result.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n");
+		result.append("<HWPML Style=\"embed\" SubVersion=\"7.0.0.0\" Version=\"2.7\">\n");
+		
+    	//사진 이미지 파일 정보 구성
+		for(int i=0; i<reportList.size(); i++) {
+			Map<String, String> reportItem = reportList.get(i);
+			GamFcltyQcwWrtMngVO searchVO = new GamFcltyQcwWrtMngVO();
+			searchVO.setsFcltsMngGroupNo(reportItem.get("fcltsMngGroupNo"));
+			searchVO.setsFcltsJobSe(reportItem.get("fcltsJobSe"));
+			searchVO.setsQcMngSeq(reportItem.get("qcMngSeq"));
+			
+			List<EgovMap> fileList =  (List<EgovMap>) gamFcltyQcwWrtMngDao.selectQcMngAtchFileList(searchVO);
+
+	    	for(int j=0; j<fileList.size(); j++) {
+	    		EgovMap item = (EgovMap) fileList.get(j);
+	        	String fileName = (String) item.get("atchFileNmPhysicl");
+	        	if((fileName != null) && (fileName.length() > 0)) {
+	        		fileName = EgovProperties.getProperty("qcAttach.fileStorePath") + fileName; 
+	            	File file = new File(fileName);
+	            	if(file.exists()) {
+	            		imageIndexes.put((String) item.get("atchFileNmPhysicl"), 0);
+	            	}    
+	        	}
+	    	}
+		}
+		
+    	//Head Element 구성 처리
+		result.append(report.getReportHeader(imageIndexes));
+		
+		//Body Element 구성 처리
+		result.append("<BODY><SECTION Id=\"0\">\n");
+		
+		for(int i=0; i<reportList.size(); i++) {
+			Map<String, String> reportItem = reportList.get(i);
+			GamFcltyQcwWrtMngVO searchVO = new GamFcltyQcwWrtMngVO();
+			searchVO.setsFcltsMngGroupNo(reportItem.get("fcltsMngGroupNo"));
+			searchVO.setsFcltsJobSe(reportItem.get("fcltsJobSe"));
+			searchVO.setsQcMngSeq(reportItem.get("qcMngSeq"));
+			
+			EgovMap qcDetailData = gamFcltyQcwWrtMngDao.selectQcMngDtlsDetail(searchVO);
+			List<EgovMap> fileList =  (List<EgovMap>) gamFcltyQcwWrtMngDao.selectQcMngAtchFileList(searchVO);
+
+			if(qcDetailData != null) {
+				result.append(report.getReportBody(qcDetailData, imageIndexes, fileList, i==0));
+			}
+		}
+		
+		result.append("</SECTION></BODY>\n");
+
+		//Tail Element 구성 처리
+		result.append(report.getReportTail(imageIndexes));
+		result.append("</HWPML>");
+
+		return result.toString();
+	}
 	
 	/**
 	 * 안전 점검 결과 한글 문서 다운로드 - 김종민 추가 작업 2015.11.2
@@ -281,7 +351,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 		//Body Element 구성 처리
 		result.append("<BODY><SECTION Id=\"0\">\n");
 		if(qcDetailData != null) {
-			result.append(report.getReportBody(qcDetailData, imageIndexes, fileList, false));
+			result.append(report.getReportBody(qcDetailData, imageIndexes, fileList, true));
 		}
 		result.append("</SECTION></BODY>\n");
 
@@ -368,22 +438,24 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 		/**HWPML 용 안전점검결과 BODY 엘리먼트를 문자열로 가져온다.
 		 * @throws Exception */
 		@SuppressWarnings("rawtypes")
-		public StringBuilder getReportBody(EgovMap detailData, Map<String, Integer> imageIndexes,  List fileList, boolean newPage) {
+		public StringBuilder getReportBody(EgovMap detailData, Map<String, Integer> imageIndexes,  List fileList, boolean firstPage) {
 			StringBuilder sb = new StringBuilder();
 			String mngGroupNm = (detailData.get("fcltsMngGroupNm") != null) ? (String)detailData.get("fcltsMngGroupNm") : ""; //시설물 관리그룹명
 			String qcActionCn = (detailData.get("actionCn") != null) ? (String)detailData.get("actionCn") : ""; //점검내용
 			String qcRm = (detailData.get("rm") != null) ? (String)detailData.get("rm") : ""; // 비고
 			String[] contents = qcActionCn.split("\n");
 			String[] rm = qcRm.split("\n");
-			if(newPage) {
+			if(firstPage) {
 				sb.append("	<P ColumnBreak=\"false\" PageBreak=\"false\" ParaShape=\"2\" Style=\"0\"><TEXT CharShape=\"9\">\n");
+				sb.append("		<SECDEF CharGrid=\"0\" FirstBorder=\"false\" FirstFill=\"false\" LineGrid=\"0\" OutlineShape=\"1\" SpaceColumns=\"1134\" TabStop=\"8000\" TextDirection=\"0\" TextVerticalWidthHead=\"0\"><STARTNUMBER Equation=\"0\" Figure=\"0\" Page=\"0\" PageStartsOn=\"Both\" Table=\"0\"/><HIDE Border=\"false\" EmptyLine=\"false\" Fill=\"false\" Footer=\"false\" Header=\"false\" MasterPage=\"false\" PageNumPos=\"false\"/><PAGEDEF GutterType=\"LeftOnly\" Height=\"84188\" Landscape=\"0\" Width=\"59528\"><PAGEMARGIN Bottom=\"2835\" Footer=\"2835\" Gutter=\"0\" Header=\"2835\" Left=\"5669\" Right=\"5669\" Top=\"4252\"/></PAGEDEF><FOOTNOTESHAPE><AUTONUMFORMAT SuffixChar=\")\" Superscript=\"false\" Type=\"Digit\"/><NOTELINE Length=\"5cm\" Type=\"Solid\" Width=\"0.12mm\"/><NOTESPACING AboveLine=\"850\" BelowLine=\"567\" BetweenNotes=\"283\"/><NOTENUMBERING NewNumber=\"1\" Type=\"Continuous\"/><NOTEPLACEMENT BeneathText=\"false\" Place=\"EachColumn\"/></FOOTNOTESHAPE><ENDNOTESHAPE><AUTONUMFORMAT SuffixChar=\")\" Superscript=\"false\" Type=\"Digit\"/><NOTELINE Length=\"14692344\" Type=\"Solid\" Width=\"0.12mm\"/><NOTESPACING AboveLine=\"850\" BelowLine=\"567\" BetweenNotes=\"0\"/><NOTENUMBERING NewNumber=\"1\" Type=\"Continuous\"/><NOTEPLACEMENT BeneathText=\"false\" Place=\"EndOfDocument\"/></ENDNOTESHAPE><PAGEBORDERFILL FillArea=\"Paper\" FooterInside=\"false\" HeaderInside=\"false\" TextBorder=\"true\" Type=\"Both\"><PAGEOFFSET Bottom=\"1417\" Left=\"1417\" Right=\"1417\" Top=\"1417\"/></PAGEBORDERFILL><PAGEBORDERFILL FillArea=\"Paper\" FooterInside=\"false\" HeaderInside=\"false\" TextBorder=\"true\" Type=\"Even\"><PAGEOFFSET Bottom=\"1417\" Left=\"1417\" Right=\"1417\" Top=\"1417\"/></PAGEBORDERFILL><PAGEBORDERFILL FillArea=\"Paper\" FooterInside=\"false\" HeaderInside=\"false\" TextBorder=\"true\" Type=\"Odd\"><PAGEOFFSET Bottom=\"1417\" Left=\"1417\" Right=\"1417\" Top=\"1417\"/></PAGEBORDERFILL></SECDEF>\n");
+				sb.append("		<COLDEF Count=\"1\" Layout=\"Left\" SameGap=\"0\" SameSize=\"true\" Type=\"Newspaper\"/>\n");
+				sb.append("		<CHAR/>\n");
+				sb.append("	</TEXT></P>\n");
 			} else {
 				sb.append("	<P ColumnBreak=\"false\" PageBreak=\"true\" ParaShape=\"2\" Style=\"0\"><TEXT CharShape=\"9\">\n");
+				sb.append("		<CHAR/>\n");
+				sb.append("	</TEXT></P>\n");
 			}
-			sb.append("		<SECDEF CharGrid=\"0\" FirstBorder=\"false\" FirstFill=\"false\" LineGrid=\"0\" OutlineShape=\"1\" SpaceColumns=\"1134\" TabStop=\"8000\" TextDirection=\"0\" TextVerticalWidthHead=\"0\"><STARTNUMBER Equation=\"0\" Figure=\"0\" Page=\"0\" PageStartsOn=\"Both\" Table=\"0\"/><HIDE Border=\"false\" EmptyLine=\"false\" Fill=\"false\" Footer=\"false\" Header=\"false\" MasterPage=\"false\" PageNumPos=\"false\"/><PAGEDEF GutterType=\"LeftOnly\" Height=\"84188\" Landscape=\"0\" Width=\"59528\"><PAGEMARGIN Bottom=\"2835\" Footer=\"2835\" Gutter=\"0\" Header=\"2835\" Left=\"5669\" Right=\"5669\" Top=\"4252\"/></PAGEDEF><FOOTNOTESHAPE><AUTONUMFORMAT SuffixChar=\")\" Superscript=\"false\" Type=\"Digit\"/><NOTELINE Length=\"5cm\" Type=\"Solid\" Width=\"0.12mm\"/><NOTESPACING AboveLine=\"850\" BelowLine=\"567\" BetweenNotes=\"283\"/><NOTENUMBERING NewNumber=\"1\" Type=\"Continuous\"/><NOTEPLACEMENT BeneathText=\"false\" Place=\"EachColumn\"/></FOOTNOTESHAPE><ENDNOTESHAPE><AUTONUMFORMAT SuffixChar=\")\" Superscript=\"false\" Type=\"Digit\"/><NOTELINE Length=\"14692344\" Type=\"Solid\" Width=\"0.12mm\"/><NOTESPACING AboveLine=\"850\" BelowLine=\"567\" BetweenNotes=\"0\"/><NOTENUMBERING NewNumber=\"1\" Type=\"Continuous\"/><NOTEPLACEMENT BeneathText=\"false\" Place=\"EndOfDocument\"/></ENDNOTESHAPE><PAGEBORDERFILL FillArea=\"Paper\" FooterInside=\"false\" HeaderInside=\"false\" TextBorder=\"true\" Type=\"Both\"><PAGEOFFSET Bottom=\"1417\" Left=\"1417\" Right=\"1417\" Top=\"1417\"/></PAGEBORDERFILL><PAGEBORDERFILL FillArea=\"Paper\" FooterInside=\"false\" HeaderInside=\"false\" TextBorder=\"true\" Type=\"Even\"><PAGEOFFSET Bottom=\"1417\" Left=\"1417\" Right=\"1417\" Top=\"1417\"/></PAGEBORDERFILL><PAGEBORDERFILL FillArea=\"Paper\" FooterInside=\"false\" HeaderInside=\"false\" TextBorder=\"true\" Type=\"Odd\"><PAGEOFFSET Bottom=\"1417\" Left=\"1417\" Right=\"1417\" Top=\"1417\"/></PAGEBORDERFILL></SECDEF>\n");
-			sb.append("		<COLDEF Count=\"1\" Layout=\"Left\" SameGap=\"0\" SameSize=\"true\" Type=\"Newspaper\"/>\n");
-			sb.append("		<CHAR/>\n");
-			sb.append("	</TEXT></P>\n");
 			sb.append("	<P ParaShape=\"2\" Style=\"0\"><TEXT CharShape=\"7\"><CHAR>□ " + mngGroupNm + "</CHAR></TEXT></P>\n");
 			sb.append("	<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"10\"/></P>\n");
 			sb.append("	<P ParaShape=\"2\" Style=\"0\"><TEXT CharShape=\"5\"><CHAR>○ 안전점검 내용 </CHAR></TEXT></P>\n");
@@ -409,7 +481,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 			if(contents != null) {
 				if(contents.length > 0) {
 					for(int i=0; i<contents.length; i++) {
-						sb.append("<P ParaShape=\"13\" Style=\"0\"><TEXT CharShape=\"6\"><CHAR>" + contents[i] + "</CHAR></TEXT></P>\n");
+							sb.append("<P ParaShape=\"13\" Style=\"0\"><TEXT CharShape=\"6\"><CHAR>" + contents[i] + "</CHAR></TEXT></P>\n");
 					}
 				} else {
 					sb.append("<P ParaShape=\"13\" Style=\"0\"><TEXT CharShape=\"6\"><CHAR/></TEXT></P>\n");
@@ -424,7 +496,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 			if(rm != null) {
 				if(rm.length > 0) {
 					for(int i=0; i<rm.length; i++) {
-			        	sb.append("<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"6\"><CHAR>" + rm[i] + "</CHAR></TEXT></P>\n");
+							sb.append("<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"6\"><CHAR>" + rm[i] + "</CHAR></TEXT></P>\n");
 			    	}
 				} else {
 					sb.append("<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"6\"><CHAR/></TEXT></P>\n");
@@ -516,7 +588,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 			sb.append("		<CHAR>○ 사진대지</CHAR>\n");
 			sb.append("	</TEXT></P>\n");
 			sb.append("	<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"11\"/></P>\n");
-			
+						
 			return sb;
 		}
 		
@@ -539,7 +611,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 				sb.append("					</PARALIST>\n");
 			} else {
 				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
-				sb.append("						<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"1\">\n");
+				sb.append("						<P ParaShape=\"12\" Style=\"0\"><TEXT CharShape=\"6\">\n");
 				sb.append("							<CHAR/>\n");
 				sb.append("						</TEXT></P>\n");
 				sb.append("					</PARALIST>\n");

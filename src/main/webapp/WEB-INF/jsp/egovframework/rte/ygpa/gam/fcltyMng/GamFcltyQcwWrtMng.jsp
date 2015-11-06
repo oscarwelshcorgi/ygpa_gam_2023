@@ -56,6 +56,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 		url: '/fcltyMng/selectQcMngDtlsList.do',
 		dataType: 'json',
 		colModel : [
+					{display:'선택<div id="'+this.getId('title_chkRole')+'" style="padding-right:3px"></div>',name:'chkRole', width:40, sortable:false, align:'center', displayFormat: 'checkbox', skipxls: true},
 					{display:"관리그룹",		name:"fcltsMngGroupNm",		width:150,		sortable:false,		align:"center"},
 					{display:"업무구분",		name:"fcltsJobSeNm",		width:90,		sortable:false,		align:"center"},
 					{display:"점검관리명", 	    name:"qcMngNm",				width:200,		sortable:false,		align:"left"},
@@ -1598,6 +1599,30 @@ GamFcltyQcwWrtMngModule.prototype.showQcInspResult = function() {
 	}
 };
 
+
+<%
+/**
+ * @FUNCTION NAME : selectedHwpDownload
+ * @DESCRIPTION   : 선택한 점검결과데이터 한글문서 작성 함수
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.selectedHwpDownload = function() {
+	var filter = [{ 'col': 'chkRole', 'filter': true}];
+	var downList = this.$("#mainGrid").selectFilterData(filter);
+
+	if (downList.length <= 0) {
+		alert('다운로드할 항목을 선택 하십시요');
+		return;
+	}
+	
+	var url = '/fcltyMng/selectFcltyQcMngReportListHwp.do';
+	var param = {};
+	param['downList'] = JSON.stringify(downList);
+	param['filename'] = '안전점검결과리스트.hwp';
+	$.fileDownload(EMD.context_root+url, {data:param, httpMethod:"POST"});
+};
+
 <%
 /**
  * @FUNCTION NAME : onButtonClick
@@ -1670,6 +1695,11 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 			} else if (this._detailDisplay == 'file') {
 				this.setSelectStatusAllAtchFile(true);
 			}
+			break;
+		
+		// 선택데이터 한글문서 다운로드
+		case 'btnSelectedHwpDownload':
+			this.selectedHwpDownload();
 			break;
 
 		case 'btnAllUnSelect' :
@@ -1777,9 +1807,10 @@ GamFcltyQcwWrtMngModule.prototype.onClosePopup = function(popupId, msg, value) {
 
 	switch (popupId) {
 		case 'editQcResultItem':
-			this._qcResultList = null;
-			this._qcResultList = value['resultList'];
-			this.showQcInspResult();
+			if(msg == 'ok' ) {
+				this._qcResultList = value['resultList'];
+				this.showQcInspResult();
+			}
 			break;
 		case 'selectDetailFcltsMngGroup':
 			this.$('#fcltsMngGroupNo').val(value['fcltsMngGroupNo']);
@@ -1936,6 +1967,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
 									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
+									<button id="btnSelectedHwpDownload" >선택 안전점검결과 다운로드</button>
 								</td>
 							</tr>
 						</table>

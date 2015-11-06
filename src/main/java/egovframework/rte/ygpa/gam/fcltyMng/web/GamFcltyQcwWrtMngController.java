@@ -1070,4 +1070,43 @@ public class GamFcltyQcwWrtMngController {
 
 			return "/ygpa/gam/fcltyMng/GamFcltyQcMngResultListReportHwp";
 		}	
+		
+	    /**
+	     * 선택된 안전점검결과 리스트 한글파일 문서 출력 - 김종민 추가 작업 2015.11.6
+	     *
+	     * @param searchVO
+	     * @return xml string
+	     * @throws Exception the exception
+	     */
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+	    @RequestMapping(value="/fcltyMng/selectFcltyQcMngReportListHwp.do")
+		public String selectFcltyRepairCheckSelectedReportListHwp(@RequestParam Map<String, Object> reportOpt , ModelMap model) throws Exception {
+			ObjectMapper mapper = new ObjectMapper();
+			List<HashMap<String,String>> reportList = null;
+			
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+			if(!isAuthenticated) {
+				model.addAttribute("resultCode", 1);
+				model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+		    	return "/ygpa/gam/fcltyMng/GamFcltyQcMngResultListReportHwp";
+			}
+
+			reportList = mapper.readValue((String)reportOpt.get("downList"),
+	    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+			String hwpML = gamFcltyQcwWrtMngService.selectSafetyQcReportListHWPML(reportList);
+			
+			model.addAttribute("resultCode", 0);
+			model.addAttribute("resultMsg", "");
+			model.addAttribute("hwpML", hwpML);
+
+			//hwp선택시 파일명
+			if(reportOpt.get("filename") != null){
+				model.addAttribute("isHwp", true);
+				model.addAttribute("filename", reportOpt.get("filename"));
+			}
+
+			return "/ygpa/gam/fcltyMng/GamFcltyQcMngResultListReportHwp";
+		};
 }

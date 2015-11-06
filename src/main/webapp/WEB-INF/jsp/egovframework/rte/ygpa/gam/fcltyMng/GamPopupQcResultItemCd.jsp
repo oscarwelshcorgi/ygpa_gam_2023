@@ -192,7 +192,7 @@ var popup_instance = new GamPopupQcResultItemCdModule();
 			<table id="mainGrid" style="display: none" class="fillHeight"></table>
 			<div class="emdControlPanel">
 				<button id="btnOk">확인</button>
-				<button id="btnCancel">취소</button>
+				<!-- <button id="btnCancel">취소</button> -->
 			</div>
 		</div>
 	</div>

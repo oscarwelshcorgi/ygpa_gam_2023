@@ -198,4 +198,12 @@ public interface GamFcltyQcwWrtMngService {
 	 * @throws Exception
 	 */	
 	String selectSafetyQcReportHWPML(GamFcltyQcwWrtMngVO searchVO) throws Exception;	
+
+	/**
+	 * 선택된 안전점검결과 HML 문자열 반환
+	 * @param vo
+	 * @return String
+	 * @throws Exception
+	 */	
+	String selectSafetyQcReportListHWPML(List<HashMap<String,String>> reportList) throws Exception;	
 }
