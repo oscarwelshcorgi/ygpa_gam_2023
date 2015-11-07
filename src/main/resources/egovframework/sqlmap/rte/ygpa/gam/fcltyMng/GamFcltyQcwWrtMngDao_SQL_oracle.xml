@@ -256,6 +256,35 @@
 			AND QC_MNG_SEQ = TO_NUMBER(#qcMngSeq#)
 	</delete>
 
+	<!-- 점검관리첨부파일 중 사진파일 목록  -->
+	<select id="gamFcltyQcwWrtMngDao.selectQcMngAtchPictureFileList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
+		SELECT
+			  F.FCLTS_JOB_SE
+			, F.FCLTS_MNG_GROUP_NO
+			, F.QC_MNG_SEQ
+			, F.ATCH_FILE_SEQ
+			, F.ATCH_FILE_SE
+			, GAM_GET_FILE_SE_NM(F.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+			, F.ATCH_FILE_SJ
+			, F.ATCH_FILE_NM_LOGIC
+			, F.ATCH_FILE_NM_PHYSICL
+			, TO_CHAR(F.ATCH_FILE_WRITNG_DT,'YYYY-MM-DD') ATCH_FILE_WRITNG_DT
+			, F.ATCH_FILE_RM
+			, F.REG_USR
+			, F.REGIST_DT
+			, F.UPD_USR
+			, F.UPDT_DT
+		FROM
+			QC_MNG_ATCH_FILE_F F
+		WHERE
+			F.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+			AND F.FCLTS_JOB_SE = #sFcltsJobSe#
+			AND F.QC_MNG_SEQ = TO_NUMBER(#sQcMngSeq#)
+			AND F.ATCH_FILE_SE = 'P'
+		ORDER BY
+			F.ATCH_FILE_SEQ
+	</select>
+
 	<!-- 점검관리첨부파일 목록  -->
 	<select id="gamFcltyQcwWrtMngDao.selectQcMngAtchFileList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
 		SELECT

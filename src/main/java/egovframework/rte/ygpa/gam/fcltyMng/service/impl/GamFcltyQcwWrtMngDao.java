@@ -109,6 +109,16 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	 * @return list
 	 * @throws Exception
 	 */
+	public List<?> selectQcMngAtchPictureFileList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+		return list("gamFcltyQcwWrtMngDao.selectQcMngAtchPictureFileList_D", searchVO);
+	}
+
+	/**
+	 * 점검관리첨부파일 목록 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
 	public List<?> selectQcMngAtchFileList(GamFcltyQcwWrtMngVO searchVO) throws Exception {
 		return list("gamFcltyQcwWrtMngDao.selectQcMngAtchFileList_D", searchVO);
 	}
