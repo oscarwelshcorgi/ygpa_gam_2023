@@ -1098,7 +1098,7 @@
            AND MNG_YEAR    = #mngYear#
            AND MNG_NO      = #mngNo#
            AND MNG_CNT     = #mngCnt#
-           AND QUAY_GROUP_CD='H'
+           <!-- AND QUAY_GROUP_CD='H'-->
     </delete>
 
     <delete id="gamHtldRentMngtDao.deleteHtldRentMngtPhoto_S" parameterClass="gamHtldRentMngtVO">
@@ -1107,7 +1107,7 @@
            AND MNG_YEAR    = #mngYear#
            AND MNG_NO      = #mngNo#
            AND MNG_CNT     = #mngCnt#
-           AND QUAY_GROUP_CD='H'
+           <!-- AND QUAY_GROUP_CD='H' -->
     </delete>
 
     <select id="gamHtldRentMngtDao.selectHtldRentMngtPrmisnInfo_S" parameterClass="gamHtldRentMngtVO" resultMap="gamHtldRentMngtInfoMap">
