@@ -1092,7 +1092,7 @@
            AND A.QUAY_GROUP_CD='H'
     </select>
 
-    <delete id="gamHtldRentMngtDao.deleteHtldRentMngtDetails_D">
+    <delete id="gamHtldRentMngtDao.deleteHtldRentMngtDetails_D" parameterClass="gamHtldRentMngtVO">
         DELETE FROM ASSETS_RENT_DETAIL_F
          WHERE PRT_AT_CODE = #prtAtCode#
            AND MNG_YEAR    = #mngYear#
@@ -1101,7 +1101,7 @@
            AND QUAY_GROUP_CD='H'
     </delete>
 
-    <delete id="gamHtldRentMngtDao.deleteHtldRentMngtPhoto_S">
+    <delete id="gamHtldRentMngtDao.deleteHtldRentMngtPhoto_S" parameterClass="gamHtldRentMngtVO">
         DELETE FROM ASSETS_RENT_PHOTO_F
          WHERE PRT_AT_CODE = #prtAtCode#
            AND MNG_YEAR    = #mngYear#
