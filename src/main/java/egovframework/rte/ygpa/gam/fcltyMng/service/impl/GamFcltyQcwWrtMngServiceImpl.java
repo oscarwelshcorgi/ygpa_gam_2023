@@ -977,7 +977,8 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 			sb.append("		<CHAR/>\n");
 			sb.append("	</TEXT></P>\n");
 			sb.append("	<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"8\">\n");
-			sb.append("		<CHAR>    항  명 :<TAB/>" + prtAtCodeNm + "<TAB/><TAB/><TAB/>       <TAB/>     점검일 :  " + ((qcDetailData.get("wrtDtHwp") != null) ? (String) qcDetailData.get("wrtDtHwp") : "" ) + "</CHAR>\n");
+			//sb.append("		<CHAR>    항  명 :<TAB/>" + prtAtCodeNm + "<TAB/><TAB/><TAB/>       <TAB/>     점검일 :  " + ((qcDetailData.get("wrtDtHwp") != null) ? (String) qcDetailData.get("wrtDtHwp") : "" ) + "</CHAR>\n");
+			sb.append("		<CHAR>            <TAB/><TAB/><TAB/><TAB/>       <TAB/>     점검일 :  " + ((qcDetailData.get("wrtDtHwp") != null) ? (String) qcDetailData.get("wrtDtHwp") : "" ) + "</CHAR>\n");
 			sb.append("	</TEXT></P>\n");
 			sb.append("	<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"8\">\n");
 			if(chargerInfo2 != null) {

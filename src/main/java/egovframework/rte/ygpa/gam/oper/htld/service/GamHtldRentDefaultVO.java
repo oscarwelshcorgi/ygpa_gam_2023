@@ -56,7 +56,10 @@ public class GamHtldRentDefaultVO extends GamHtldRentMngtVO {
 
     /** 조회 면적 (이상) */
     private String sGrAr;
-
+    
+    /** 계약해지(변경)유무 */
+    private String sTermnYn;
+     
 	public String getsRentArea() {
 		return sRentAreaCd;
 	}
@@ -151,5 +154,19 @@ public class GamHtldRentDefaultVO extends GamHtldRentMngtVO {
 
 	public void setsGrAr(String sGrAr) {
 		this.sGrAr = sGrAr;
+	}
+
+	/**
+	 * @return the sTermnYn
+	 */
+	public String getsTermnYn() {
+		return sTermnYn;
+	}
+
+	/**
+	 * @param sTermnYn the sTermnYn to set
+	 */
+	public void setsTermnYn(String sTermnYn) {
+		this.sTermnYn = sTermnYn;
 	}
 }

@@ -658,6 +658,22 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 		gamHtldRentMngtDao.deleteHtldRentMngt(vo); // 배후단지임대정보 삭제
 	}
 
+    /**
+	 * 배후단지임대계약을 해지한다.
+	 * @param vo GamHtldRentMngtDetailVO
+	 * @exception Exception
+	 */
+	public void terminateHtldRentMngt(GamHtldRentMngtVO vo) throws Exception {
+		int nticCnt = gamHtldRentMngtDao.selectHtldRentMngtNticLevReqestCnt(vo);
+
+		if(nticCnt!=0) {
+			throw processException("fail.rent.terminate.notice");
+		}
+		
+		gamHtldRentMngtDao.deleteNotNhtIsueLevReqest(vo); // 미고지 정보 삭제
+		gamHtldRentMngtDao.terminateHtldRentMngt(vo); //배후단지임대정보 수정(계약해지)
+	}
+	
 	/**
 	 * 승낙할 배후단지임대 정보 조회.
 	 * @param searchVO - 조회할 정보가 담긴 VO

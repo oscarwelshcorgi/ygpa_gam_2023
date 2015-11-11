@@ -110,6 +110,13 @@ public interface GamHtldRentMngtService {
 	void deleteHtldRentMngt(GamHtldRentMngtVO vo) throws Exception;
 
     /**
+	 * 배후단지임대계약을 해지한다.
+	 * @param vo GamHtldRentMngtDetailVO
+	 * @exception Exception
+	 */
+	void terminateHtldRentMngt(GamHtldRentMngtVO vo) throws Exception;
+
+	/**
      * 배후단지 요금 종류 코드를 가져온다.
      * @return	배후단지 요금종류 코드 목록
      * @throws Exception

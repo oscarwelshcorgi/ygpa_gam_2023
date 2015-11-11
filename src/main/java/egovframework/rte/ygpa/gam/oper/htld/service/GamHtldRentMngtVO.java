@@ -168,7 +168,20 @@ public class GamHtldRentMngtVO extends ComDefaultVO {
      * 적용단가
      */
     private String applcPrice;
-
+    
+    /** 계약해지 및 변경유무*/
+    private String termnYn;
+    
+    /** 계약해지 및 변경일자*/
+    private String termnDt;
+    
+    /** 계약해지 및 변경사유*/
+    private String termnKnd;
+    
+    /** 계약해지 및 변경 사용자*/
+    private String termnUsr;
+    
+    
 	public String getPrtAtCode() {
 		return prtAtCode;
 	}
@@ -468,6 +481,54 @@ public class GamHtldRentMngtVO extends ComDefaultVO {
 	 */
 	public void setChrgeKnd(String chrgeKnd) {
 		this.chrgeKnd = chrgeKnd;
+	}
+	/**
+	 * @return the termnYN
+	 */
+	public String getTermnYn() {
+		return termnYn;
+	}
+	/**
+	 * @param termnYN the termnYN to set
+	 */
+	public void setTermnYn(String termnYn) {
+		this.termnYn = termnYn;
+	}
+	/**
+	 * @return the termnDt
+	 */
+	public String getTermnDt() {
+		return termnDt;
+	}
+	/**
+	 * @param termnDt the termnDt to set
+	 */
+	public void setTermnDt(String termnDt) {
+		this.termnDt = termnDt;
+	}
+	/**
+	 * @return the termnKnd
+	 */
+	public String getTermnKnd() {
+		return termnKnd;
+	}
+	/**
+	 * @param termnKnd the termnKnd to set
+	 */
+	public void setTermnKnd(String termnKnd) {
+		this.termnKnd = termnKnd;
+	}
+	/**
+	 * @return the termnUsr
+	 */
+	public String getTermnUsr() {
+		return termnUsr;
+	}
+	/**
+	 * @param termnUsr the termnUsr to set
+	 */
+	public void setTermnUsr(String termnUsr) {
+		this.termnUsr = termnUsr;
 	}
 
 }

@@ -130,6 +130,24 @@ public class GamHtldRentMngtDao extends YGPAAbstractDAO {
 	}
 
 	/**
+	 * 배후단지임대계약을 해지한다.
+	 * @param vo GamHtldRentMngtVO
+	 * @exception Exception
+	 */
+	public void terminateHtldRentMngt(GamHtldRentMngtVO vo){
+		update("gamHtldRentMngtDao.terminateHtldRentMngt_S", vo);
+	}
+
+	/**
+	 * 계약 해지나 변경시 미고지 정보를 삭제한다.
+	 * @param vo GamHtldRentMngtVO
+	 */
+	public void deleteNotNhtIsueLevReqest(GamHtldRentMngtVO vo){
+		delete("gamHtldRentMngtDao.deleteNotNhtIsueLevReqest_D", vo);
+	}
+
+	
+	/**
 	 * 배후단지임대관리 상세목록을 조회한다.
 	 * @param searchMap - 조회할 정보가 담긴 Map
 	 * @return 배후단지임대관리 목록

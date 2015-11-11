@@ -400,6 +400,51 @@ public class GamHtldRentMngtController {
     }
 
     /**
+     * 배후단지임대 계약을 해지한다.. 2015.11.10 김종민 추가작업.
+     * @param String
+     * @param gamHtldRentMngtVO
+     * @param bindingResult
+     * @return map
+     * @throws Exception
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/htld/terminateHtldRent.do")
+    public @ResponseBody Map terminateHtldRentMngt(
+    	   @ModelAttribute("gamHtldRentMngtVO") GamHtldRentMngtVO gamHtldRentMngtVO,
+    	   BindingResult bindingResult)
+           throws Exception {
+
+    	Map map = new HashMap();
+        String resultMsg  = "";
+        int resultCode = 0;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+        try {
+        	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+        	gamHtldRentMngtVO.setTermnYn("Y");
+        	gamHtldRentMngtVO.setTermnUsr(user.getId());
+        	gamHtldRentMngtVO.setTermnKnd("0"); //해지변경 사유 : 0 중도 해지...
+        	gamHtldRentMngtVO.setUpdUsr(user.getId());
+        	gamHtldRentMngtService.terminateHtldRentMngt(gamHtldRentMngtVO);
+	        resultMsg = egovMessageSource.getMessage("success.common.update");
+        } catch(Exception e) {
+    		resultCode = 1;
+    		resultMsg  = e.getMessage();
+        }
+
+    	map.put("resultCode", resultCode);
+    	map.put("resultMsg", resultMsg);
+
+		return map;
+    }
+    
+    /**
      * 승낙 팝업화면을 로딩한다.
      *
      * @param gamHtldRentMngtLevReqestVO

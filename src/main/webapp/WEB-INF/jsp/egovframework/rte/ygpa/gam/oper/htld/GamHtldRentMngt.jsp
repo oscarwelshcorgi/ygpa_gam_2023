@@ -266,8 +266,7 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 			this.$('#btnRemoveItem').show();
 			this.$('#btnRentFeeMngt').show();
 			this.$('#btnHtldRentListExcelDownload').show();
-		}
-		else {
+		} else {
 			this.$('#addAssetRentRenew').hide();
 			this.$('#btnRemoveItem').hide();
 			this.$('#btnEApproval').hide();
@@ -298,45 +297,28 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 
 	        this.$('#btnSaveComment').hide();
 			this._editable=true;
-        }
-		else {
+        } else {
 			var rows = this.$('#assetRentMngtList').selectedRows();
 			if(rows.length) {
 				this.$('#btnEApproval2').hide();	// 결재 요청 disable
-//					this.$('#btnRemoveItem2').hide();
-
-//					this.$('#btnSaveItem').hide(); // test
-					this.$('#btnSaveItem').show();
-
-					//this.$('#popupEntrpsInfoInput').hide();
-					this.$('#btnMangeCharger').hide();
-
-//					this.$('#btnInsertItemDetail').hide();
-//					this.$('#btnRemoveItemDetail').hide();
-
-			        this.$('#entrpscd').attr('readonly', true);
-			        //this.$('#popupEntrpsInfoInput').attr('disabled', 'disabled');
+				this.$('#btnSaveItem').show();
+				this.$('#btnMangeCharger').hide();
+			    this.$('#entrpscd').attr('readonly', true);
 		        this.$('#btnSaveComment').show();
-			}
-			else {
+			} else {
 				this.$('#btnEApproval2').hide();
-//				this.$('#btnRemoveItem2').hide();
 				this.$('#btnSaveItem').hide();
-
 				this.$('#entrpscd').removeAttr('readonly');
 		        this.$('#popupEntrpsInfoInput').removeAttr('disabled');
-
 		        this.$('#btnSaveComment').hide();
-	}
-	}
+			}
+		}
 		break;
 	case 2:
 		var rows = this.$('#assetRentMngtList').selectedRows();
 		if(rows.length) {
 			this.$('#btnEApproval2').hide();	// 결재 요청 disable
-		}
-		else {
-		}
+		} 
 		break;
 	default:
 		return;
@@ -706,6 +688,9 @@ GamHtldRentMngtModule.prototype.getNumber = function(value) {
         	}
         	EMD.util.create_window('gamHtldRentFeeMngt', '배후단지 임대료 고지 관리', '/oper/htld/gamHtldRentFeeMngt.do', null, opts);
         	break;
+        case 'btnTerminateItem': //계약해지
+        	this.terminateRentData();
+        	break;
     }
 };
 
@@ -720,7 +705,7 @@ GamHtldRentMngtModule.prototype.approvalEA = function() {
         if( rows['sanctnSttus'] == '1' || rows['sanctnSttus'] == '2' || rows['sanctnSttus'] == '5' ) {
         	alert("결재요청을 할수없는 상태 입니다.");
         	return;
-    }
+    	}
 
         if( confirm("결재요청을 하시겠습니까?") ) {
             var opts = {
@@ -729,8 +714,7 @@ GamHtldRentMngtModule.prototype.approvalEA = function() {
                     mngYear: rows['mngYear'],
                     mngNo: rows['mngNo'],
                     mngCnt: rows['mngCnt']
-};
-
+			};
             this.requestEApproval(opts, function(module, msg){
 				alert(msg);
                 var searchOpt=module.makeFormArgs('#gamAssetRentForm');
@@ -747,7 +731,7 @@ GamHtldRentMngtModule.prototype.approvalEA = function() {
 	평가 등록 추가
 --%>
 GamHtldRentMngtModule.prototype.appendBizAssess = function() {
-	this._assessNo=this._assessNo||0;
+	this._assessNo=this._assessNo || 0;
 	this._assessNo++;
 
 	this.$('#bizAssessGrid').flexAddRow({
@@ -933,8 +917,33 @@ GamHtldRentMngtModule.prototype.deleteRentData = function() {
                     this.$("#assetRentListTab").tabs("option", {active: 0});  // 탭을 전환 한다.
                 }
             }
-
-            };
+  };
+  
+ <%--
+ 	임대계약 해지
+ --%>
+GamHtldRentMngtModule.prototype.terminateRentData = function() {
+	var rows = this.$('#assetRentMngtList').selectedRows();
+	if(rows.length == 0) {
+		alert('임대계약을 해지할 행을 선택하십시오.');
+		return;
+	}
+	var row = rows[0];
+	if(row.termnYn == 'Y') {
+		alert('이미 해지되거나 변경된 임대료 계약입니다.');
+		return;
+	}
+	if(confirm('계약해지시 미고지 임대료 정보는 삭제됩니다. 계약해지를 하시겠습니까?')) {
+		this.doAction('/oper/htld/terminateHtldRent.do', rows[0], function(module, result) {
+			if(result.resultCode=='0') {
+				module.loadData();
+			}
+			alert(result.resultMsg);
+		});
+		this.$("#assetRentListTab").tabs("option", {active: 0});
+	}
+};
+  
 
 <%--
 	추가고지 기존 고지분에 추가로 고지를 한다.
@@ -1267,7 +1276,7 @@ GamHtldRentMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
     	 break;
      case 'selectAssetsCdRentPopup':
          if (msg != 'cancel') {
-        	 value._updtId="I"
+        	 value._updtId="I";
         	 //value.usageAr=Number(value.gisAssetsRealRentAr);
         	 this.$('#assetRentDetailList').flexAddRow(value);
         	 this.onCalc();
@@ -1311,7 +1320,7 @@ var module_instance = new GamHtldRentMngtModule();
                                  -->
                             </td>
                             <th>신청업체</th>
-                            <td>
+                            <td colspan="3">
                             	<input id="sEntrpscd" type="text" size="10">&nbsp; &nbsp;
                             	<input id="sEntrpsNm" type="text" size="15" >&nbsp; &nbsp;
                             	<button id="popupEntrpsInfo" class="popupButton">선택</button>
@@ -1329,6 +1338,13 @@ var module_instance = new GamHtldRentMngtModule();
                             <td>
                                 <input id="sGrArFrom" class="ygpaNumber" size="5">~
                                 <input id="sGrArTo" class="ygpaNumber" size="5"> m<sup>2</sup>
+                            </td>
+                            <th>계약해지/변경</th>
+                            <td>
+                            	<select id="sTermnYn">
+                            		<option value="N">무</option>
+                            		<option value="Y">유</option>
+                            	</select>
                             </td>
                         </tr>
                     </tbody>
@@ -1368,6 +1384,7 @@ var module_instance = new GamHtldRentMngtModule();
 	                            <td style="text-align: right">
 	                                <button id="addAssetRentFirst">계약등록</button>
 	                                <button id="addAssetRentRenew">계약연장</button>
+	                                <button id="btnTerminateItem" >계약해지</button>
 	                                <button id="btnRemoveItem">삭제</button>
 	                                <button id="btnEApproval">결재요청</button>
 	                                <!--
