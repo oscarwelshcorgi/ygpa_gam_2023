@@ -1342,7 +1342,8 @@ var module_instance = new GamHtldRentMngtModule();
                             <th>계약해지/변경</th>
                             <td>
                             	<select id="sTermnYn">
-                            		<option value="N">무</option>
+                            		<option value="">전체</option>
+                            		<option selected="selected" value="N">무</option>
                             		<option value="Y">유</option>
                             	</select>
                             </td>
