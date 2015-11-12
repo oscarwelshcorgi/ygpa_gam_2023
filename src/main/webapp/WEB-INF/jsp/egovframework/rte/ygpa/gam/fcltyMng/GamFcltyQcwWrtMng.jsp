@@ -643,6 +643,7 @@ GamFcltyQcwWrtMngModule.prototype.initBeforeInsert = function() {
 	this.$('#qcInspSe').val('');
 	this.checkQcInspSe();
 	this.$('#mechFcltsSe').val('1');
+	this.$('#mechFcltsSe').hide();
 	this.setControlStatus();
 	this.$('#planHistSe').val('H');
 	this.$('#enforceYear').val((new Date()).getFullYear());
@@ -1051,6 +1052,11 @@ GamFcltyQcwWrtMngModule.prototype.loadQcSubDataList = function() {
 			this.$('#sMechCdStartChar').val('M01');
 		}
 		this.$('#mechFcltsSe').show();
+		if(this._mainmode == 'insert') {
+			this.$('#mechFcltsSe').enable();
+		} else {
+			this.$('#mechFcltsSe').disable({disableClass:'ui-state-disabled'});
+		}
 	} else {
 		this.$('#mechFcltsSe').hide();
 	}
@@ -1582,12 +1588,25 @@ GamFcltyQcwWrtMngModule.prototype.showQcInspResult = function() {
 	var rows = this._qcResultList;
 	var qcInspResultVal = '';
 	if(rows.length > 0) {
-		for(var i=0; i<rows.length; i++) {
-			var row = rows[i];
-			if(row['inspResultChk'] != 'N') {
-				qcInspResultVal += row['qcItemNm'] + ' : '
-								+ (row['inspResultChk'] == 'W' ? '요주의' :
-									(row['inspResultChk'] == 'X' ? '불량' : '')) + '\n';
+		if(this.$("#fcltsJobSe").val() == 'C') {
+			for(var i=0; i<rows.length; i++) {
+				var row = rows[i];
+				if((row['inspResultCn'] != null)) {
+					if(row['inspResultCn'] != '') {
+						qcInspResultVal += row['qcItemNm'] + ' : '
+									+ row['inspResultCn'] + '\n';
+					}
+				}
+			}
+		}
+		else {
+			for(var i=0; i<rows.length; i++) {
+				var row = rows[i];
+				if(row['inspResultChk'] != 'N') {
+					qcInspResultVal += row['qcItemNm'] + ' : '
+									+ (row['inspResultChk'] == 'W' ? '요주의' :
+										(row['inspResultChk'] == 'X' ? '불량' : '')) + '\n';
+				}
 			}
 		}
 		if(qcInspResultVal == '') qcInspResultVal = '이상없음';

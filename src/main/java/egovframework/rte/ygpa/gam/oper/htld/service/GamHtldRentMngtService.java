@@ -64,6 +64,15 @@ public interface GamHtldRentMngtService {
     GamHtldRentMngtVO insertHtldRentMngt(GamHtldRentMngtVO rentVo, List<GamHtldRentMngtDetailVO> createList) throws Exception;
 
 	/**
+	 * 배후단지임대정보를 변경 한다.
+	 * @param rentVo
+	 * @param createList
+	 * @return GamHtldRentMngtVO 추가한 임대 정보
+	 * @throws Exception
+	 */
+    GamHtldRentMngtVO changeHtldRentMngt(GamHtldRentMngtVO rentVo, List<GamHtldRentMngtDetailVO> createList) throws Exception;
+    
+	/**
 	 * 배후단지임대정보를 수정 한다.
 	 * @param dataList GamHtldRentMngtVO
 	 * @exception Exception

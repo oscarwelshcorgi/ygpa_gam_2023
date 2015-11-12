@@ -115,7 +115,7 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 		rentVo.setMngNo(newRentVo.getMngNo());
 		rentVo.setMngCnt(newRentVo.getMngCnt());
 
-		GamHtldAssessVO assessVo = new GamHtldAssessVO();
+		//GamHtldAssessVO assessVo = new GamHtldAssessVO();
 
 		gamHtldRentMngtDao.insertHtldRentMngt(rentVo);
 
@@ -130,6 +130,33 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 
 		insertHtldRentLevReqest(rentVo, createList);
 
+		return rentVo;
+	}
+
+    /**
+     * 배후단지 임대 정보를 변경한다.
+     * @param vo
+     * @throws Exception
+     */
+	public GamHtldRentMngtVO changeHtldRentMngt(GamHtldRentMngtVO rentVo, List<GamHtldRentMngtDetailVO> createList) throws Exception {
+
+		terminateHtldRentMngt(rentVo); //기존 계약을 해지한다.
+		
+		rentVo.setMngCnt(gamHtldRentMngtDao.selectHtldRentMngtChangeMngCnt(rentVo)); //변경저장시에는 mng_cnt값만 변경...
+		
+		gamHtldRentMngtDao.insertHtldRentMngt(rentVo);
+		
+		for(int i=0; i<createList.size(); i++) {
+			GamHtldRentMngtDetailVO detail=createList.get(i);
+			detail.setPrtAtCode(rentVo.getPrtAtCode());
+			detail.setMngYear(rentVo.getMngYear());
+			detail.setMngNo(rentVo.getMngNo());
+			detail.setMngCnt(rentVo.getMngCnt());
+			gamHtldRentMngtDao.insertHtldRentMngtDetail(detail);
+		}
+		
+		insertHtldRentLevReqest(rentVo, createList);
+		
 		return rentVo;
 	}
 

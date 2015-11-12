@@ -233,6 +233,56 @@ public class GamHtldRentMngtController {
 
 
     /**
+     * 배후단지 임대 정보를 변경 한다.
+     * @param assetRent
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/oper/htld/changeHtldRent.do")
+    public @ResponseBody Map changeHtldRentMngt(
+    		@RequestParam Map<String, Object> assetRent)
+           throws Exception {
+
+    	GamHtldRentMngtVO gamHtldRentMngtVO = null;
+    	Map map = new HashMap();
+        String resultMsg = "";
+        int resultCode = 1;
+        ObjectMapper mapper = new ObjectMapper();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+    	gamHtldRentMngtVO = mapper.readValue((String)assetRent.get("assetRentVo"), GamHtldRentMngtVO.class);
+
+    	gamHtldRentMngtVO.setUpdUsr(loginVo.getId());
+    	gamHtldRentMngtVO.setDeptcd(loginVo.getDeptCd());
+    	gamHtldRentMngtVO.setTermnUsr(loginVo.getId());
+    	
+    	List<GamHtldRentMngtDetailVO> createList;
+
+    	createList = mapper.readValue((String)assetRent.get("_cList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
+    			GamHtldRentMngtDetailVO.class));
+
+    	GamHtldRentMngtVO newRentVo = gamHtldRentMngtService.changeHtldRentMngt(gamHtldRentMngtVO, createList);
+
+        resultCode = 0; // return ok
+        resultMsg  = egovMessageSource.getMessage("success.common.insert");
+
+    	map.put("resultCode", resultCode);
+    	map.put("resultMsg", resultMsg);
+    	map.put("newRentVo", newRentVo);
+
+		return map;
+    }
+
+    /**
      * 배후단지임대 연장신청을 등록한다.
      * @param gamHtldRentMngtVO
      * @param bindingResult

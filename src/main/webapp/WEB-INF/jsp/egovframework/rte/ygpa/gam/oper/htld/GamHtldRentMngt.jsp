@@ -207,7 +207,10 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
 
     // 초기값 정의
     this.$('#sGrUsagePdFrom').val(EMD.util.getDate());
-
+	
+    // 계약 변경 사유 숨기기
+    this.$('#termnKndTr').hide();
+    
     this._editMode='';
     this._detailMode="";
     this._loadedItem=false;
@@ -606,6 +609,12 @@ GamHtldRentMngtModule.prototype.getNumber = function(value) {
         case 'btnSaveItem':	// 신청저장
 			this.storeRentData();
             break;
+        case 'btnChangeItem' : //계약변경
+        	this.changeRentData();
+        	break;
+        case 'btnChangeSaveItem': //변경저장
+        	this.changeSaveRentData();
+        	break;
         case 'btnRemoveItem':	//신청삭제
         case 'btnRemoveItem2':
         	this.deleteRentData();
@@ -837,6 +846,22 @@ GamHtldRentMngtModule.prototype.extendRentData = function() {
 			alert("목록에서 연장신청할 업체를 선택하십시오.");
 	}
 };
+
+<%--
+임대계약 변경
+--%>
+GamHtldRentMngtModule.prototype.extendRentData = function() {
+	var rows = this.$('#assetRentMngtList').selectedRows();
+	
+	if (rows.length >= 1) {
+		if (confirm("변경신청을 하시겠습니까?")) {
+			
+		}
+	} else {
+		alert("목록에서 변경신청할 계약을 선택하십시오.");
+	}
+};
+
 <%--
 임대계약 저장
 --%>
@@ -891,6 +916,53 @@ GamHtldRentMngtModule.prototype.storeRentData = function() {
                     alert(result.resultMsg);
            	});
        }
+    }
+};
+
+<%--
+임대계약 변경
+--%>
+GamHtldRentMngtModule.prototype.changeRentData = function() {
+	
+};
+
+<%--
+임대계약 변경저장
+--%>
+GamHtldRentMngtModule.prototype.changeSaveRentData = function() {
+	if(!validateGamAssetRent(this.$('#gamAssetRentForm')[0])) {
+        return;
+    }
+
+    if( this.$('#nticMth').val() != '1' && this.$('#intrRate').val() == '' ) {
+        alert("고지방법이 분납인 경우는 분납이자율을 입력하십시오.");
+        return;
+    }
+
+    if(this.$('#chrgeKnd').val()=='') {
+    	alert("요금 종류 코드를 선택 하십시요.");
+    	return;
+    }
+
+    if(this.$('#termnKnd').val()=='') {
+    	alert("변경 사유를 선택 하십시요.");
+    	return;
+    }
+
+   if( confirm("변경신청을 하면 기존의 계약은 해지상태가 되고 새로운 계약신청이 이루어집니다. 변경하시겠습니까?") ) {
+    		var assetRent = {};
+    		assetRent['assetRentVo'] = JSON.stringify(this.getFormValues('#gamAssetRentForm'));
+    		assetRent['_cList'] = JSON.stringify(this.$('#assetRentDetailList').flexGetData());
+
+            this.doAction('/oper/htld/changeHtldRent.do', assetRent, function(module, result) {
+                if(result.resultCode == 0){
+                	module._loadedItem=false;
+                	module._editChanged=false;
+                	module._detailMode="";
+                	module.loadData();
+                }
+                alert(result.resultMsg);
+           	});
     }
 };
 
@@ -1385,6 +1457,7 @@ var module_instance = new GamHtldRentMngtModule();
 	                            <td style="text-align: right">
 	                                <button id="addAssetRentFirst">계약등록</button>
 	                                <button id="addAssetRentRenew">계약연장</button>
+	                                <button id="btnChangeItem" >계약변경</button>
 	                                <button id="btnTerminateItem" >계약해지</button>
 	                                <button id="btnRemoveItem">삭제</button>
 	                                <button id="btnEApproval">결재요청</button>
@@ -1475,6 +1548,19 @@ var module_instance = new GamHtldRentMngtModule();
                                 	<button id="btnSaveComment">코멘트저장</button>
                                 </td>
                             </tr>
+                            <tr id="termnKndTr">
+								<th width="10%" height="18">변경사유</th>
+                                <td colspan="5">
+                                	<select id="termnKnd">
+                                		<option value="">선택</option>
+                                		<option value="1">1. 외국인 투자기업으로 등록시 임대료 단가 변경 발생</option>
+                                		<option value="2">2. 기존 부지 면적에서 일부 사업축소로 면적이 감소하는 경우</option>
+                                		<option value="3">3. 부지 측량 결과 면적이 달라지는 경우 정산</option>
+                                		<option value="4">4. 건물을 &quot;공장운영&quot; 목적으로 운영시 우대임대료에서 기본임대료로 임대료 단가 변경 발생</option>
+                                		<option value="3">5. 기타</option>
+                                	</select>
+                                </td>
+                            </tr>
                         </table>
                     </form>
 
@@ -1500,6 +1586,7 @@ var module_instance = new GamHtldRentMngtModule();
 	                        <button id="btnEApproval2">결재요청</button>
 	                        <button id="btnRemoveItem2" class="buttonDelete">신청삭제</button>
 	                        <button id="btnSaveItem" class="buttonSave">신청저장</button>
+	                        <button id="btnChangeSaveItem" class="buttonSave">변경저장</button>
 	                        </td>
 	                    </tr>
 	                 </table>

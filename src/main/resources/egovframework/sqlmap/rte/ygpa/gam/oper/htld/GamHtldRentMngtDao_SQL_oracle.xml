@@ -471,6 +471,15 @@
 		AND MNG_YEAR = TO_CHAR(SYSDATE, 'YYYY')
     </select>
 	
+	<!-- 변경시 새로운 MNG_CNT를 생성 -->
+    <select id="gamHtldRentMngtDao.selectHtldRentMngtChangeMngCnt_S" parameterClass="gamHtldRentMngtVO"  resultClass="String">
+		SELECT LPAD(NVL(MAX(MNG_CNT),0) + 1,'2','0') 
+		FROM ASSETS_RENT_F 
+			WHERE PRT_AT_CODE = #prtAtCode#
+			AND MNG_YEAR = #mngYear#
+    		AND MNG_NO = #mngNo#
+    </select>
+
 	<!-- 게약정보 등록 -->
     <insert id="gamHtldRentMngtDao.insertHtldRentMngt_S">
 	    INSERT

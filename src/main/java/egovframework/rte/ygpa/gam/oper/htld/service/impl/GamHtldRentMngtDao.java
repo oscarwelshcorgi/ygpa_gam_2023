@@ -83,7 +83,17 @@ public class GamHtldRentMngtDao extends YGPAAbstractDAO {
 	public GamHtldRentMngtVO selectHtldRentMngtMaxKey(GamHtldRentMngtVO searchVO) throws Exception {
 		return (GamHtldRentMngtVO) selectByPk("gamHtldRentMngtDao.selectHtldRentMngtMaxKey_S", searchVO);
 	}
+	/**
+	 * 배후단지임대 변경시 mng_cnt값 가져오기.
+	 * @param searchMap - 조회할 정보가 담긴 Map
+	 * @return 배후단지임대관리 목록
+	 * @exception Exception
+	 */
+	public String selectHtldRentMngtChangeMngCnt(GamHtldRentMngtVO searchVO) throws Exception {
+		return (String) selectByPk("gamHtldRentMngtDao.selectHtldRentMngtChangeMngCnt_S", searchVO);
+	}
 
+	
 	/**
 	 * 배후단지 임대 연장시 데이터 가져오기
 	 * @param searchVO
