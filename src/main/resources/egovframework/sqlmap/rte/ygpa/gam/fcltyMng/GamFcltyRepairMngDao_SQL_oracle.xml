@@ -72,7 +72,7 @@
 	           			</isNotEmpty>
 
 						ORDER BY
-							R.FLAW_RPR_START_DT DESC
+							R.FLAW_EXAM_DT DESC
                 ) S
              ) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
