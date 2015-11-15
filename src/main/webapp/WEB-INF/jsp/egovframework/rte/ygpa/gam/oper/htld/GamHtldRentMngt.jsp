@@ -47,7 +47,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
                     {display:'구역', name:'rentArea',width:82, sortable:false,align:'center'},
 //                    {display:'관리번호', name:'rentMngNo',width:82, sortable:false,align:'center'},
                     {display:'입주기업', name:'entrpsNm',width:190, sortable:false,align:'left'},
-                    {display:'입주면적(㎡)', name:'grAr',width:88, sortable:false,align:'right', displayFormat: 'number',  displayOption:"0,000.0"},
+                    {display:'입주면적(㎡)', name:'grAr',width:88, sortable:false,align:'right', displayFormat: 'number'',  displayOption:"0,000.0"},
                     {display:'적용단가(원)', name:'applcPrice',width:80, sortable:false,align:'right', displayFormat: 'number',  displayOption:"0,000.0"},
                     {display:'영업개시일', name:'operYrMt',width:80, sortable:false,align:'center'},
                     {display:'계약기간', name:'grUsagePdPeriod',width:175, sortable:false,align:'center'},
@@ -57,7 +57,8 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
                     {display:'과세구분', name:'taxtSeNm',width:120, sortable:false,align:'left'},
                     {display:'요금종류', name:'chrgeKndNm',width:160, sortable:false,align:'left'},
                     {display:'업종', name:'compTp',width:110, sortable:false,align:'right'},
-                    {display:'취급화종', name:'frghtTp',width:120, sortable:false,align:'center'}
+                    {display:'취급화종', name:'frghtTp',width:120, sortable:false,align:'center'},
+                    {display:'계약해지/변경', name:'termnKndNm',width:120, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -70,12 +71,35 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
             $.each(data.resultList, function() {
 //            	this.intrRateDisp = this.intrRate+ ' %';
             	this.grUsagePdPeriod = this.grUsagePdFrom+" ~ " +this.grUsagePdTo;
+            	if(this.termnYn == 'Y') {
+            		switch(this.termnKnd) {
+            		case '0' :
+            			this.termnKndNm = '해지 (' + this.termnDt + ')';
+            			break;
+            		case '1' :
+            		case '2' :
+            		case '3' :
+            		case '4' :
+            		case '5' :
+            			this.termnKndNm = '변경 (' + this.termnDt + ')';
+            			break;
+            		}
+            	}
             });
-
             return data;
         }
     });
-
+	
+    this.$("#assetRentMngtList").on('onLoadDataComplete', function(event, module, data) {
+    	module._loadedItem=false;
+    	module._editChanged=false;
+    	module._editable=false;
+    	module._selectedItem=null;
+    	module._rentDetail=null;
+    	module._detailMode="";
+    	module.setButtonStatus();
+	});
+    
     this.$("#assetRentMngtList").on('onItemSelected', function(event, module, row, grid, param) {
 		// 항목에 따른 버튼 세팅
     	module._loadedItem=false;
@@ -114,7 +138,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
         	$.each(data.resultList, function() {
         		this._updtId = '';
         		module.makeAssetCd(this);
-    });
+		    });
         	return data;
         }
     });
@@ -207,10 +231,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
 
     // 초기값 정의
     this.$('#sGrUsagePdFrom').val(EMD.util.getDate());
-	
-    // 계약 변경 사유 숨기기
-    this.$('#termnKndTr').hide();
-    
+	    
     this._editMode='';
     this._detailMode="";
     this._loadedItem=false;
@@ -264,16 +285,26 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 	case 0:
 		var rows = this.$('#assetRentMngtList').selectedRows();
 		if(rows.length) {
-			this.$('#addAssetRentRenew').show();
 			this.$('#btnEApproval').hide();	// 결재 요청 disable
 			this.$('#btnRemoveItem').show();
 			this.$('#btnRentFeeMngt').show();
 			this.$('#btnHtldRentListExcelDownload').show();
+			if(rows[0].termnYn == 'Y') { //계약이 해지되거나 변경된 데이터일 경우
+				this.$('#addAssetRentRenew').hide();
+				this.$("#btnTerminateItem").hide();
+				this.$('#btnChangeItem').hide();
+			} else {
+				this.$('#addAssetRentRenew').show();
+				this.$("#btnTerminateItem").show();
+				this.$('#btnChangeItem').show();
+			}
 		} else {
 			this.$('#addAssetRentRenew').hide();
 			this.$('#btnRemoveItem').hide();
 			this.$('#btnEApproval').hide();
 			this.$('#btnRentFeeMngt').hide();
+			this.$("#btnTerminateItem").hide();
+			this.$('#btnChangeItem').hide();
 			var rowCnt = this.$('#assetRentMngtList').flexRowCount();
 			if(rowCnt>0) {
 				this.$('#btnHtldRentListExcelDownload').show();
@@ -299,7 +330,10 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 	        this.$('#popupEntrpsInfoInput').removeAttr('disabled');
 
 	        this.$('#btnSaveComment').hide();
-			this._editable=true;
+	        
+	        this.$('#termnKndTr').hide(); //계약 변경사유 입력 tr
+			
+	        this._editable=true;
         } else {
 			var rows = this.$('#assetRentMngtList').selectedRows();
 			if(rows.length) {
@@ -308,12 +342,36 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 				this.$('#btnMangeCharger').hide();
 			    this.$('#entrpscd').attr('readonly', true);
 		        this.$('#btnSaveComment').show();
+		        if(rows[0].termnYn == 'Y') { //계약이 해지되거나 변경된 데이터의 경우
+		        	this.$('#btnInsertItemDetail').hide();
+		        	this.$('#btnRemoveItemDetail').hide();
+		        	this.$('#btnSaveItem').hide();
+		        	this.$('#btnChangeSaveItem').hide();
+		        	if(rows[0].termnKnd != '0') { //계약변경일 경우
+		        		this.$('#termnKndTr').show();
+		        	}
+		        } else {
+		        	this.$('#btnInsertItemDetail').show();
+		        	this.$('#btnRemoveItemDetail').show();
+		        	if(this._detailMode=='C') { //계약변경을 할 경우...
+			        	this.$('#btnChangeSaveItem').show();
+			        	this.$('#btnSaveItem').hide();
+			        	this.$('#btnRemoveItem2').hide();
+				        this.$('#termnKndTr').show();
+		        	} else {
+		        		this.$('#btnChangeSaveItem').hide();
+		        		this.$('#btnSaveItem').show();
+		        		this.$('#btnRemoveItem2').show();
+		    	        this.$('#termnKndTr').hide();
+		        	}
+		        }
 			} else {
 				this.$('#btnEApproval2').hide();
 				this.$('#btnSaveItem').hide();
 				this.$('#entrpscd').removeAttr('readonly');
 		        this.$('#popupEntrpsInfoInput').removeAttr('disabled');
 		        this.$('#btnSaveComment').hide();
+    	        this.$('#termnKndTr').hide();
 			}
 		}
 		break;
@@ -848,21 +906,6 @@ GamHtldRentMngtModule.prototype.extendRentData = function() {
 };
 
 <%--
-임대계약 변경
---%>
-GamHtldRentMngtModule.prototype.extendRentData = function() {
-	var rows = this.$('#assetRentMngtList').selectedRows();
-	
-	if (rows.length >= 1) {
-		if (confirm("변경신청을 하시겠습니까?")) {
-			
-		}
-	} else {
-		alert("목록에서 변경신청할 계약을 선택하십시오.");
-	}
-};
-
-<%--
 임대계약 저장
 --%>
 GamHtldRentMngtModule.prototype.storeRentData = function() {
@@ -923,7 +966,13 @@ GamHtldRentMngtModule.prototype.storeRentData = function() {
 임대계약 변경
 --%>
 GamHtldRentMngtModule.prototype.changeRentData = function() {
-	
+	var rows = this.$('#assetRentMngtList').selectedRows();
+	if (rows.length >= 1) {
+		this._detailMode = 'C';
+		this.$("#assetRentListTab").tabs("option", { active : 1 });			
+	} else {
+		alert("목록에서 변경신청할 계약을 선택하십시오.");
+	}
 };
 
 <%--
@@ -1276,7 +1325,7 @@ GamHtldRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
 <%--
 	탭 변경 시 상세 폼 데이터를 로딩 한다.
 --%>
-GamHtldRentMngtModule.prototype.loadDetail  = function(mode) {
+GamHtldRentMngtModule.prototype.loadDetail = function(mode) {
 	var row;
 	if(this._detailMode=='I') {
     	row={}; // clear
@@ -1552,7 +1601,7 @@ var module_instance = new GamHtldRentMngtModule();
 								<th width="10%" height="18">변경사유</th>
                                 <td colspan="5">
                                 	<select id="termnKnd">
-                                		<option value="">선택</option>
+                                		<option value="" selected="selected">선택</option>
                                 		<option value="1">1. 외국인 투자기업으로 등록시 임대료 단가 변경 발생</option>
                                 		<option value="2">2. 기존 부지 면적에서 일부 사업축소로 면적이 감소하는 경우</option>
                                 		<option value="3">3. 부지 측량 결과 면적이 달라지는 경우 정산</option>
