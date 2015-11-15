@@ -261,9 +261,11 @@ public class GamHtldRentMngtController {
 
     	gamHtldRentMngtVO = mapper.readValue((String)assetRent.get("assetRentVo"), GamHtldRentMngtVO.class);
 
+    	gamHtldRentMngtVO.setTermnYn("Y");
     	gamHtldRentMngtVO.setUpdUsr(loginVo.getId());
     	gamHtldRentMngtVO.setDeptcd(loginVo.getDeptCd());
     	gamHtldRentMngtVO.setTermnUsr(loginVo.getId());
+    	gamHtldRentMngtVO.setRegUsr(loginVo.getId());
     	
     	List<GamHtldRentMngtDetailVO> createList;
 

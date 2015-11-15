@@ -143,7 +143,10 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 		terminateHtldRentMngt(rentVo); //기존 계약을 해지한다.
 		
 		rentVo.setMngCnt(gamHtldRentMngtDao.selectHtldRentMngtChangeMngCnt(rentVo)); //변경저장시에는 mng_cnt값만 변경...
-		
+		rentVo.setTermnYn("N");  //계약 해지 및 변경정보 삭제
+		rentVo.setTermnUsr(null);
+		rentVo.setTermnKnd(null);
+		rentVo.setTermnDt(null);
 		gamHtldRentMngtDao.insertHtldRentMngt(rentVo);
 		
 		for(int i=0; i<createList.size(); i++) {

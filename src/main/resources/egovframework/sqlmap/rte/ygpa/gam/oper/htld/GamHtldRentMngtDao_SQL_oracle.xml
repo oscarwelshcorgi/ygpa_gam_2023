@@ -149,7 +149,8 @@
                                   , A.COMP_TP
                                   , A.FRGHT_TP
                                   , A.TERMN_YN
-                                  , A.TERMN_KND
+                                  , TO_CHAR(A.TERMN_KND) TERMN_KND
+                                  , TO_CHAR(A.TERMN_DT, 'YYYY-MM-DD') TERMN_DT
                                   , GAM_GETCODENAME('GAM043', A.PAY_MTH) AS PAY_MTH_NM
 								  , GAM_GETCODENAME('GAM008', A.NTIC_MTH) AS NTIC_MTH_NM
 								  , GAM_GETCODENAME('GAM016', A.TAXT_SE) AS TAXT_SE_NM
