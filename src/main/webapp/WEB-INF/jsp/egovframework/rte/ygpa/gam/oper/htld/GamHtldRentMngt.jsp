@@ -98,6 +98,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
     	module._rentDetail=null;
     	module._detailMode="";
     	module.setButtonStatus();
+    	module.showTermnKndTr();
 	});
     
     this.$("#assetRentMngtList").on('onItemSelected', function(event, module, row, grid, param) {
@@ -109,6 +110,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
     	module._rentDetail=row;
     	module._detailMode="";
     	module.setButtonStatus();
+    	module.showTermnKndTr();
     });
 
     this.$("#assetRentMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
@@ -239,7 +241,8 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
 	this._editable=false;
 
     this.setButtonStatus();
-
+	this.showTermnKndTr();
+	
     this.loadData();	// 데이터 조회
     console.log('load complete');
 };
@@ -329,10 +332,7 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 			this.$('#entrpscd').removeAttr('readonly');
 	        this.$('#popupEntrpsInfoInput').removeAttr('disabled');
 
-	        this.$('#btnSaveComment').hide();
-	        
-	        this.$('#termnKndTr').hide(); //계약 변경사유 입력 tr
-			
+	        this.$('#btnSaveComment').hide();	        
 	        this._editable=true;
         } else {
 			var rows = this.$('#assetRentMngtList').selectedRows();
@@ -347,9 +347,6 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 		        	this.$('#btnRemoveItemDetail').hide();
 		        	this.$('#btnSaveItem').hide();
 		        	this.$('#btnChangeSaveItem').hide();
-		        	if(rows[0].termnKnd != '0') { //계약변경일 경우
-		        		this.$('#termnKndTr').show();
-		        	}
 		        } else {
 		        	this.$('#btnInsertItemDetail').show();
 		        	this.$('#btnRemoveItemDetail').show();
@@ -357,12 +354,10 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 			        	this.$('#btnChangeSaveItem').show();
 			        	this.$('#btnSaveItem').hide();
 			        	this.$('#btnRemoveItem2').hide();
-				        this.$('#termnKndTr').show();
 		        	} else {
 		        		this.$('#btnChangeSaveItem').hide();
 		        		this.$('#btnSaveItem').show();
 		        		this.$('#btnRemoveItem2').show();
-		    	        this.$('#termnKndTr').hide();
 		        	}
 		        }
 			} else {
@@ -371,7 +366,6 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 				this.$('#entrpscd').removeAttr('readonly');
 		        this.$('#popupEntrpsInfoInput').removeAttr('disabled');
 		        this.$('#btnSaveComment').hide();
-    	        this.$('#termnKndTr').hide();
 			}
 		}
 		break;
@@ -383,6 +377,25 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 		break;
 	default:
 		return;
+	}
+};
+
+<%--
+	변경사유를 설정한다.
+--%>
+GamHtldRentMngtModule.prototype.showTermnKndTr = function() {
+	if(this._detailMode=="I") {
+		this.$('#termnKndTr').hide();
+		return; 
+	}
+	if(this._rentDetail) {
+		if((this._rentDetail.termnYn == 'Y') && (this._rentDetail.termnKnd != '0')) {
+			this.$('#termnKndTr').show();
+		} else {
+			this.$('#termnKndTr').hide();
+		}
+	} else {
+		this.$('#termnKndTr').hide();
 	}
 };
 
@@ -937,6 +950,7 @@ GamHtldRentMngtModule.prototype.storeRentData = function() {
                 	module.loadDetail();
                 	module._editChanged=false;
                 	module.setButtonStatus();
+                	module.showTermnKndTr();
                 }
                 alert(result.resultMsg);
             });
@@ -1346,7 +1360,9 @@ GamHtldRentMngtModule.prototype.loadDetail = function(mode) {
 	        		return;
 	        	}
 	        	module.makeFormValues('#gamAssetRentForm', data.result);
-	        	this._rentDetail=data.result;
+
+	        	module._rentDetail = data.result;
+	        	
 	        	module.$('#assetRentDetailList').flexEmptyData();
 	        	var detail={resultList: data.resultDetailList};
 	        	module.$('#assetRentDetailList')[0].dgrid.p.preProcess(module, detail);
@@ -1354,12 +1370,14 @@ GamHtldRentMngtModule.prototype.loadDetail = function(mode) {
 
 	        	module.onCalc();	//  고지방법에 따른 1회차 사용료 적용
 	        	module.setButtonStatus();
+	        	module.showTermnKndTr();
 	        	module._loadedItem=true;
 	        });
         }
 	}
 	this._deleteRentDetailItem=[];	// 삭제 목록 초기화
 	this.setButtonStatus();
+	this.showTermnKndTr();
 };
 
 <%--
@@ -1601,7 +1619,7 @@ var module_instance = new GamHtldRentMngtModule();
 								<th width="10%" height="18">변경사유</th>
                                 <td colspan="5">
                                 	<select id="termnKnd">
-                                		<option value="" selected="selected">선택</option>
+                                		<option value="">선택</option>
                                 		<option value="1">1. 외국인 투자기업으로 등록시 임대료 단가 변경 발생</option>
                                 		<option value="2">2. 기존 부지 면적에서 일부 사업축소로 면적이 감소하는 경우</option>
                                 		<option value="3">3. 부지 측량 결과 면적이 달라지는 경우 정산</option>
