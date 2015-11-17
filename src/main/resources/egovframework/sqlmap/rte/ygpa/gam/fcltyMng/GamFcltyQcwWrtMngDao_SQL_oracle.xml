@@ -285,6 +285,21 @@
 			F.ATCH_FILE_SEQ
 	</select>
 
+	<!-- 점검관리첨부파일 중 사진파일 목록 수 -->
+	<select id="gamFcltyQcwWrtMngDao.selectQcMngAtchPictureFileListTotCnt_S" parameterClass="gamFcltyQcwWrtMngVO" resultClass="int">
+		SELECT
+			COUNT(*) TOT_CNT
+		FROM
+			QC_MNG_ATCH_FILE_F F
+		WHERE
+			F.FCLTS_MNG_GROUP_NO = #sFcltsMngGroupNo#
+			AND F.FCLTS_JOB_SE = #sFcltsJobSe#
+			AND F.QC_MNG_SEQ = TO_NUMBER(#sQcMngSeq#)
+			AND F.ATCH_FILE_SE = 'P'
+		ORDER BY
+			F.ATCH_FILE_SEQ
+	</select>
+
 	<!-- 점검관리첨부파일 목록  -->
 	<select id="gamFcltyQcwWrtMngDao.selectQcMngAtchFileList_D" parameterClass="gamFcltyQcwWrtMngVO" resultClass="egovMap">
 		SELECT

@@ -1621,12 +1621,12 @@ GamFcltyQcwWrtMngModule.prototype.showQcInspResult = function() {
 
 <%
 /**
- * @FUNCTION NAME : selectedHwpDownload
- * @DESCRIPTION   : 선택한 점검결과데이터 한글문서 작성 함수
+ * @FUNCTION NAME : downloadSelectedSafetyQcResult
+ * @DESCRIPTION   : 선택한 점검결과데이터 안전점검 한글문서 작성 함수
  * @PARAMETER     : NONE
 **/
 %>
-GamFcltyQcwWrtMngModule.prototype.selectedHwpDownload = function() {
+GamFcltyQcwWrtMngModule.prototype.downloadSelectedSafetyQcResult = function() {
 	var filter = [{ 'col': 'chkRole', 'filter': true}];
 	var downList = this.$("#mainGrid").selectFilterData(filter);
 
@@ -1635,13 +1635,39 @@ GamFcltyQcwWrtMngModule.prototype.selectedHwpDownload = function() {
 		return;
 	}
 	
-	var url = '/fcltyMng/selectFcltyQcMngReportListHwp.do';
+	var url = '/fcltyMng/downloadSelectedSafetyQcResult.do';
 	var param = {};
 	param['downList'] = JSON.stringify(downList);
 	param['filename'] = '안전점검결과리스트.hwp';
-	$.fileDownload(EMD.context_root+url, {data:param, httpMethod:"POST"});
+	
+	this.doAction('/fcltyMng/selectFcltyQcMngReportListPictureCount.do', param, function(module, result) {
+		if(result.result != '0') {
+			$.fileDownload(EMD.context_root+url, {data:param, httpMethod:"POST"});
+		} else {
+			alert('사진파일이 없으므로 안전점검결과는 출력할수 없습니다.');
+		}
+	});
 };
 
+
+<%
+/**
+ * @FUNCTION NAME : downloadSafetyQcResult
+ * @DESCRIPTION   : 점검결과데이터 안전점검 한글문서 작성 함수
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.downloadSafetyQcResult = function() {
+	var rowCount = this.$('#fileGrid').flexRowCount();
+	if(rowCount > 0) {
+		var url = '/fcltyMng/downloadSafetyQcResult.do';
+		var param = this.makeFormArgs('#detailForm', 'object');
+		param['filename'] = '안전점검결과.hwp';
+		$.fileDownload(EMD.context_root+url, {data:param, httpMethod:"POST"});
+	} else {
+		alert('사진파일이 없으므로 안전점검결과는 출력할수 없습니다.');
+	}
+};
 <%
 /**
  * @FUNCTION NAME : onButtonClick
@@ -1716,13 +1742,17 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 			}
 			break;
 		
-		// 선택데이터 한글문서 다운로드
-		case 'btnSelectedHwpDownload':
-			this.selectedHwpDownload();
+		// 선택데이터 안전점검 한글문서 다운로드
+		case 'btnSelectedSafetyQcResultHwp':
+			this.downloadSelectedSafetyQcResult();
 			break;
-
+		
+		// 안전점검 한글문서 다운로드
+		case 'btnSafetyQcResultHwp':
+			this.downloadSafetyQcResult();
+			break;
+			
 		case 'btnAllUnSelect' :
-
 			if (this._detailDisplay == 'fclts') {
 				this.allUnSelectQcObj();
 			} else if (this._detailDisplay == 'file') {
@@ -1986,7 +2016,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 									<button id="btnAdd" class="buttonAdd">　　추　가　　</button>
 									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
-									<button id="btnSelectedHwpDownload" >선택 안전점검결과 다운로드</button>
+									<button id="btnSelectedSafetyQcResultHwp" >선택 안전점검결과 다운로드</button>
 								</td>
 							</tr>
 						</table>
@@ -2228,7 +2258,8 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							<!-- <button id="btnHwp" data-role="printDown" data-url="/fcltyMng/selectFcltyQcHwp.do" data-filename="검사조서.hwp" data-search-option="detailForm">한글문서</button> -->
 							<!--  <button id="btnHwp" data-role="printDown" data-filename="검사조서.hwp" data-search-option="detailForm">한글문서</button> -->
 							<button id="btnResultListHwp" data-role="printDown" data-filename="시설물점검표.hwp" data-search-option="detailForm" data-url="/fcltyMng/downloadQcMngResultLIst.do">점검표 다운로드</button>
-							<button id="btnSafetyQcResultHwp" data-role="printDown" data-filename="안전점검결과.hwp" data-search-option="detailForm" data-url="/fcltyMng/downloadSafetyQcResult.do">안전점검결과 다운로드</button>
+							<!-- <button id="btnSafetyQcResultHwp" data-role="printDown" data-filename="안전점검결과.hwp" data-search-option="detailForm" data-url="/fcltyMng/downloadSafetyQcResult.do">안전점검결과 다운로드</button>-->
+							<button id="btnSafetyQcResultHwp">안전점검결과 다운로드</button>
 						</td>
 					</tr>
 				</table>

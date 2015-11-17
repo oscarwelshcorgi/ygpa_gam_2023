@@ -1079,8 +1079,8 @@ public class GamFcltyQcwWrtMngController {
 	     * @throws Exception the exception
 	     */
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-	    @RequestMapping(value="/fcltyMng/selectFcltyQcMngReportListHwp.do")
-		public String selectFcltyRepairCheckSelectedReportListHwp(@RequestParam Map<String, Object> reportOpt , ModelMap model) throws Exception {
+	    @RequestMapping(value="/fcltyMng/downloadSelectedSafetyQcResult.do")
+		public String downloadSelectedSafetyQcResult(@RequestParam Map<String, Object> reportOpt , ModelMap model) throws Exception {
 			ObjectMapper mapper = new ObjectMapper();
 			List<HashMap<String,String>> reportList = null;
 			
@@ -1109,4 +1109,46 @@ public class GamFcltyQcwWrtMngController {
 
 			return "/ygpa/gam/fcltyMng/GamFcltyQcMngResultListReportHwp";
 		};
+
+	    /**
+	     * 선택된 안전점검결과 리스트 이미지 파일 개수 알아내기
+	     *
+	     * @param searchVO
+	     * @return xml string
+	     * @throws Exception the exception
+	     */
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		@RequestMapping(value="/fcltyMng/selectFcltyQcMngReportListPictureCount.do")
+		@ResponseBody Map<String, Object> selectFcltyQcMngReportListPictureCount(@RequestParam Map<String, Object> reportOpt) throws Exception {
+			ObjectMapper mapper = new ObjectMapper();
+			List<HashMap<String,String>> reportList = null;
+			Map<String, Object> map = new HashMap<String, Object>();
+
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+			if (!isAuthenticated) {
+				map.put("resultCode", 1);
+				map.put("result", 0);
+				map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+				return map;
+			}
+
+			reportList = mapper.readValue((String)reportOpt.get("downList"),
+	    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+			try {
+				int count = gamFcltyQcwWrtMngService.selectQcMngAtchPictureFileListTotCnt(reportList);
+
+				map.put("resultCode", 0);
+				map.put("result", count);
+				map.put("resultMsg", egovMessageSource.getMessage("success.common.select"));
+			} catch (Exception e) {
+				map.put("result", 0);
+				map.put("resultCode", 1);
+				map.put("resultMsg", egovMessageSource.getMessage("fail.common.select"));
+			}
+
+			return map;
+
+		}
+
 }

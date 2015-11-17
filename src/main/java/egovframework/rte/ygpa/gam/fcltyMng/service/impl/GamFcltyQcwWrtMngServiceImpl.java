@@ -239,6 +239,25 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 	}
 
 	/**
+	 * 선택된 안전 점검 첨부파일 목록 총수 조회
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectQcMngAtchPictureFileListTotCnt(List<HashMap<String,String>> reportList) throws Exception {
+		int result = 0;
+		for(int i=0; i<reportList.size(); i++) {
+			Map<String, String> reportItem = reportList.get(i);
+			GamFcltyQcwWrtMngVO searchVO = new GamFcltyQcwWrtMngVO();
+			searchVO.setsFcltsMngGroupNo(reportItem.get("fcltsMngGroupNo"));
+			searchVO.setsFcltsJobSe(reportItem.get("fcltsJobSe"));
+			searchVO.setsQcMngSeq(reportItem.get("qcMngSeq"));
+			result += gamFcltyQcwWrtMngDao.selectQcMngAtchPictureFileListTotCnt(searchVO);
+		}
+		return result;
+	}
+
+	/**
 	 * 선택된 안전 점검 결과 한글 문서 다운로드 - 김종민 추가 작업 2015.11.6
 	 * @param vo
 	 * @return list
@@ -294,7 +313,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 			EgovMap qcDetailData = gamFcltyQcwWrtMngDao.selectQcMngDtlsDetail(searchVO);
 			List<EgovMap> fileList =  (List<EgovMap>) gamFcltyQcwWrtMngDao.selectQcMngAtchPictureFileList(searchVO);
 
-			if(qcDetailData != null) {
+			if((qcDetailData != null) && (fileList.size() > 0)) {
 				result.append(report.getReportBody(qcDetailData, imageIndexes, fileList, i==0));
 			}
 		}
@@ -330,7 +349,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 		EgovMap qcDetailData = gamFcltyQcwWrtMngDao.selectQcMngDtlsDetail(searchVO);
 
 		//점검사진목록조회
-		List<EgovMap> fileList =  (List<EgovMap>) gamFcltyQcwWrtMngDao.selectQcMngAtchFileList(searchVO);
+		List<EgovMap> fileList =  (List<EgovMap>) gamFcltyQcwWrtMngDao.selectQcMngAtchPictureFileList(searchVO);
 		
     	//사진 이미지 파일 정보 구성
     	for(int i=0; i<fileList.size(); i++) {

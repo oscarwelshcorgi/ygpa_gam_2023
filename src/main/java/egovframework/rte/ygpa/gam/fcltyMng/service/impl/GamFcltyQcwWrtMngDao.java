@@ -114,6 +114,16 @@ public class GamFcltyQcwWrtMngDao extends YGPAAbstractDAO {
 	}
 
 	/**
+	 * 점검관리첨부파일 목록 총수 조회
+	 * @param vo
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectQcMngAtchPictureFileListTotCnt(GamFcltyQcwWrtMngVO searchVO) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamFcltyQcwWrtMngDao.selectQcMngAtchPictureFileListTotCnt_S", searchVO);
+	}
+
+	/**
 	 * 점검관리첨부파일 목록 조회
 	 * @param vo
 	 * @return list
