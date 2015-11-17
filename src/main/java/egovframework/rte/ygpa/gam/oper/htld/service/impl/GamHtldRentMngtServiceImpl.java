@@ -694,11 +694,11 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 	 * @exception Exception
 	 */
 	public void terminateHtldRentMngt(GamHtldRentMngtVO vo) throws Exception {
-		int nticCnt = gamHtldRentMngtDao.selectHtldRentMngtNticLevReqestCnt(vo);
+		//int nticCnt = gamHtldRentMngtDao.selectHtldRentMngtNticLevReqestCnt(vo);
 
-		if(nticCnt!=0) {
-			throw processException("fail.rent.terminate.notice");
-		}
+		//if(nticCnt!=0) {
+			//throw processException("fail.rent.terminate.notice");
+		//}
 		
 		gamHtldRentMngtDao.deleteNotNhtIsueLevReqest(vo); // 미고지 정보 삭제
 		gamHtldRentMngtDao.terminateHtldRentMngt(vo); //배후단지임대정보 수정(계약해지)
