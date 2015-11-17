@@ -695,10 +695,15 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 			if(wrtUsr != null) {
 				String qcUsers[] = wrtUsr.split(",");
 				for(String qcUser : qcUsers) {
-					Map<String, String> chargerNm = new HashMap<String, String>();
-					chargerNm.put("chargerNm", qcUser.replace(" ", ""));
-					EgovMap chargerInfo = gamFcltyQcwWrtMngDao.selectChargerInfo(chargerNm);
-					if(chargerInfo  != null) {
+					if(!qcUser.replace(" ", "").equals("")) {
+						Map<String, String> chargerNm = new HashMap<String, String>();
+						chargerNm.put("chargerNm", qcUser.replace(" ", ""));
+						chargerNm.put("fcltsJobSe", fcltsJobSe);
+						EgovMap chargerInfo = gamFcltyQcwWrtMngDao.selectChargerInfo(chargerNm);
+						if(chargerInfo  == null) {
+							chargerInfo = new EgovMap();
+						}
+						chargerInfo.put("qcUserNm", qcUser.replace(" ", ""));
 						qcChargerList.add(chargerInfo);
 					}
 				}
@@ -794,7 +799,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 		// 점검자 정보와 도장이미지 정보를 채움
 		protected void fillChargerInfo(EgovMap chargerItem, Map<String, Object> chargerInfo) throws Exception {
 			//chargerInfo = new HashMap<String, Object>();
-			chargerInfo.put("chargerNm", (chargerItem.get("chargerNm") != null) ? chargerItem.get("chargerNm") : "");
+			chargerInfo.put("chargerNm", (chargerItem.get("qcUserNm") != null) ? chargerItem.get("qcUserNm") : "");
 			chargerInfo.put("signFileNm", (chargerItem.get("signFileNmPhysicl") != null) ? chargerItem.get("signFileNmPhysicl") : null);
 			if(chargerInfo.get("signFileNm") != null) {
 				String fileNm = EgovProperties.getProperty("prtfclty.fileStorePath") + (String) chargerInfo.get("signFileNm");

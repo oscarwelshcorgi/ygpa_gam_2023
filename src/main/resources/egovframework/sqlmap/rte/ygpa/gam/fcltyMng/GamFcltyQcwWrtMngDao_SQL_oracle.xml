@@ -835,6 +835,7 @@
 		     FROM FCLTS_CHARGER_F
 		 	 WHERE
 				  CHARGER_NM = #chargerNm#
+				  AND FCLTS_JOB_SE = #fcltsJobSe#
 	</select>
 
 </sqlMap>

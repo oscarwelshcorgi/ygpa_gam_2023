@@ -97,6 +97,15 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 		return list("gamFcltyRepairMngDao.selectFcltyRepairFileList_D", vo);
 	}
 	
+	/**
+	 * 하자보수 이미지 첨부파일 조회
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	public List<?> selectFcltyRepairPictureFileList(GamFcltyRepairMngVO vo) throws Exception {
+		return list("gamFcltyRepairMngDao.selectFcltyRepairPictureFileList_D", vo);
+	}
 	
 	/**
 	 * 하자보수 순번

@@ -308,7 +308,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	    	//하자검사조서
 	    	EgovMap report = gamFcltyRepairMngDao.selectFcltyRepairCheckReport(searchVO);
 	    	//첨부파일이미지
-	    	List fileList = gamFcltyRepairMngDao.selectFcltyRepairFileList(searchVO);
+	    	List fileList = gamFcltyRepairMngDao.selectFcltyRepairPictureFileList(searchVO);
 	    		    	
 	    	//사진 이미지 파일 정보 구성
 	    	for(int j=0; j<fileList.size(); j++) {
@@ -356,7 +356,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			//하자검사조서
 	    	EgovMap report = gamFcltyRepairMngDao.selectFcltyRepairCheckReport(searchVO);
 	    	//첨부파일이미지
-	    	List fileList = gamFcltyRepairMngDao.selectFcltyRepairFileList(searchVO);
+	    	List fileList = gamFcltyRepairMngDao.selectFcltyRepairPictureFileList(searchVO);
 		
 			if(report != null) {
 				//하자검사조서 처리
@@ -430,7 +430,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		//하자검사조서
 		EgovMap report = gamFcltyRepairMngDao.selectFcltyRepairCheckReport(searchVO);
 		//첨부파일이미지
-		List fileList = gamFcltyRepairMngDao.selectFcltyRepairFileList(searchVO);
+		List fileList = gamFcltyRepairMngDao.selectFcltyRepairPictureFileList(searchVO);
     	
  
     	//사진 이미지 파일 정보 구성
