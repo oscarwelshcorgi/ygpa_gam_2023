@@ -388,8 +388,12 @@ GamHtldRentMngtModule.prototype.showTermnKndTr = function() {
 		this.$('#termnKndTr').hide();
 		return; 
 	}
+	if(this._detailMode=="C") {
+		this.$('#termnKndTr').show();
+		return; 
+	}
 	if(this._rentDetail) {
-		if((this._rentDetail.termnYn == 'Y') && (this._rentDetail.termnKnd != '0')) {
+		if((this._rentDetail.termnYn == 'Y') && (this._rentDetail.termnKnd != '0')) {  //계약이 변경된 상태의 조건
 			this.$('#termnKndTr').show();
 		} else {
 			this.$('#termnKndTr').hide();
@@ -983,7 +987,7 @@ GamHtldRentMngtModule.prototype.changeRentData = function() {
 	var rows = this.$('#assetRentMngtList').selectedRows();
 	if (rows.length >= 1) {
 		this._detailMode = 'C';
-		this.$("#assetRentListTab").tabs("option", { active : 1 });			
+		this.$("#assetRentListTab").tabs("option", { active : 1 });
 	} else {
 		alert("목록에서 변경신청할 계약을 선택하십시오.");
 	}
