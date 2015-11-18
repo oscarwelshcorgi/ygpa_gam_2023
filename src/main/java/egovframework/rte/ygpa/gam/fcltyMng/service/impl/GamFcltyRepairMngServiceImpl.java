@@ -300,11 +300,11 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 				for(int j=0; j<users.length; j++) {
 					searchVO.setFlawExamUsr(users[j].replace(" ", ""));
 					chargers[j] = gamFcltyRepairMngDao.selectFcltyRepairCheckReportCharger(searchVO);
-					if(chargers[i] == null) {
+					if(chargers[j] == null) {
 						EgovMap charger = new EgovMap();
-						charger.put("chargerNm", users[i]);
+						charger.put("chargerNm", users[j]);
 						charger.put("signFileNmPhysicl", null);
-						chargers[i] = charger;
+						chargers[j] = charger;
 					}
 				}
 				for(int j=0; j<chargers.length; j++) {
@@ -378,11 +378,11 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 				for(int j=0; j<users.length; j++) {
 					searchVO.setFlawExamUsr(users[j].replace(" ", ""));
 					chargers[j] = gamFcltyRepairMngDao.selectFcltyRepairCheckReportCharger(searchVO);
-					if(chargers[i] == null) {
+					if(chargers[j] == null) {
 						EgovMap charger = new EgovMap();
-						charger.put("chargerNm", users[i]);
+						charger.put("chargerNm", users[j]);
 						charger.put("signFileNmPhysicl", null);
-						chargers[i] = charger;
+						chargers[j] = charger;
 					}				}
 			}
 
