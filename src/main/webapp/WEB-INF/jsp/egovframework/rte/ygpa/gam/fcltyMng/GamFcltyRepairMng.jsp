@@ -59,11 +59,14 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		dataType: "json",
 		colModel : [
 					{display:'선택<div id="'+this.getId('title_chkRole')+'" style="padding-right:3px"></div>',name:'chkRole', width:40, sortable:false, align:'center', displayFormat: 'checkbox', skipxls: true},
-					{display:"시설물관리그룹",		name:"fcltsMngGroupNm",			width:160, 		sortable:false,		align:"left"},
-					{display:"계약번호",			name:"ctrtNo",					width:120, 		sortable:false,		align:"center"},
-					{display:"계약명",				name:"flawRprNm",				width:250, 		sortable:false,		align:"left"},
-					{display:"도급업체명",			name:"flawRprEntrpsNm",			width:250, 		sortable:false,		align:"left"},
+					{display:"시설물관리그룹",	name:"fcltsMngGroupNm",			width:160, 		sortable:false,		align:"left"},
+					//{display:"계약번호",			name:"ctrtNo",					width:120, 		sortable:false,		align:"center"},
 					{display:"업무구분",			name:"fcltsJobSeNm",			width:80, 		sortable:false,		align:"center"},
+					{display:"공사명",			name:"flawRprNm",				width:250, 		sortable:false,		align:"left"},
+					{display:"도급업체명",		name:"flawRprEntrpsNm",			width:250, 		sortable:false,		align:"left"},
+					{display:"도급금액",			name:"flawContrAmt",			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
+					{display:"계약일자",			name:"ctrtDt",					width:80, 		sortable:false,		align:"center"},
+					{display:"준공일자",			name:"bldDt",				width:80, 		sortable:false,		align:"center"},
 					{display:"하자검사구분",		name:"flawExamSeNm",			width:80, 		sortable:false,		align:"center"},
 					{display:"하자검사일자",		name:"flawExamDt",				width:80, 		sortable:false,		align:"center"},
 					{display:"하자발생일자",		name:"flawOccrrncDt",			width:80, 		sortable:false,		align:"center"},
@@ -1395,6 +1398,9 @@ GamFcltyRepairMngModule.prototype.onClosePopup = function(popupId, msg, value){
 			this.$("#ctrtNo").val(value["ctrtNo"]);
 			this.$("#flawRprNm").val(value["ctrtNm"]);
 			this.$("#flawRprEntrpsNm").val(value["entrpsNm"]);
+			this.$("#ctrtDt").val(value["ctrtDt"]);
+			this.$("#flawContrAmt").val(value["ctrtAmt"]);
+			//this.$("#bldDt").val(value["bldDt"]);
 		break;
 
 		case 'popupFcltsAtchFileView':
@@ -1554,18 +1560,30 @@ var module_instance = new GamFcltyRepairMngModule();
 							</td>
 						</tr>
 						<tr>
-							<th style="width:10%; height:18px;">계　약　번　호</th>
+							<th style="width:10%; height:18px;">공　　사　　명</th>
 							<td colspan="3">
-								<input type="text" size="20" id="ctrtNo" disabled="disabled"/>-
-								<input type="text" size="30" id="flawRprNm" disabled="disabled"/>
+								<input type="hidden" size="20" id="ctrtNo"/>
+								<input type="text" size="52" id="flawRprNm" />
 								<button id="ctrtNoPopupBtn" class="popupButton">선택</button>
 							</td>
 							<th style="width:10%; height:18px;">도　급　업　체</th>
 							<td colspan="3">
-								<input type="text" size="65" id="flawRprEntrpsNm" disabled="disabled"/>
+								<input type="text" size="65" id="flawRprEntrpsNm"/>
 							</td>
 						</tr>
 						<tr>
+							<th style="width:10%; height:18px;">계　약　일　자</th>
+							<td>
+								<input type="text" size="15" id="ctrtDt" class="emdcal"/>
+							</td>
+							<th style="width:10%; height:18px;">준　공　일　자</th>
+							<td>
+								<input type="text" size="15" id="bldDt" class="emdcal"/>
+							</td>
+							<th style="width:10%; height:18px;">도　　급　　액</th>
+							<td>
+								<input id="flawContrAmt" type="text" size="20"  class="ygpaNumber" maxlength="16"/> 원
+							</td>
 							<th style="width:10%; height:18px;">하자검사　구분</th>
 							<td>
 								<input type="hidden" id="flawExamSeNm"/>
@@ -1576,19 +1594,6 @@ var module_instance = new GamFcltyRepairMngModule();
 									<option value="3">만료검사</option>
 								</select>
 								<input type="hidden" id="flawRprSeq"/>
-							</td>
-							<th style="width:10%; height:18px;">소속/직급-성명</th>
-							<td>
-								<input type="text" size="15" id="flawExamUsrDept" maxlength="30"/>
-								<input type="text" size="15" id="flawExamUsrNm" maxlength="30"/>
-							</td>
-							<th style="width:10%; height:18px;">검　　사　　자</th>
-							<td>
-								<input type="text" size="18" id="flawExamUsr" maxlength="100"/>
-							</td>
-							<th style="width:10%; height:18px;">하자 검사 일자</th>
-							<td>
-								<input type="text" size="15" id="flawExamDt" class="emdcal"/>
 							</td>
 						</tr>
 					</table>
@@ -1606,6 +1611,27 @@ var module_instance = new GamFcltyRepairMngModule();
 					</table>
 					<table class="detailPanel" style="width:100%;">
 						<tr>
+							<th style="width:10%; height:18px;">하자 검사 일자</th>
+							<td colspan="3">
+								<input type="text" size="15" id="flawExamDt" class="emdcal"/>
+							</td>
+							<td rowspan="8" style="padding-left:4px;">
+								<table id="fcltyRepairFileList" style="display:none;"></table>
+							</td>
+						</tr>
+						<tr>
+							<th style="width:10%; height:18px;">검　　사　　자</th>
+							<td colspan="3">
+								<input id="flawExamUsrCls" type="text" size="5" />
+								급&nbsp;
+								<input id="flawExamUsr" type="text" size="15" />
+								　&nbsp;　　　&nbsp;
+								<input id="flawExamUsrCls2" type="text" size="5" />
+								급&nbsp;
+								<input id="flawExamUsr2" type="text" size="15" />
+							</td>
+						</tr>
+						<tr>
 							<th style="width:10%; height:18px;">하　자　유　무</th>
 							<td>
 								<select id="flawEnnc">
@@ -1617,9 +1643,6 @@ var module_instance = new GamFcltyRepairMngModule();
 							<th style="width:10%; height:18px;">하자 발생 일자</th>
 							<td>
 								<input id="flawOccrrncDt" type="text" size="22" class="emdcal"/>
-							</td>
-							<td rowspan="7" style="padding-left:4px;">
-								<table id="fcltyRepairFileList" style="display:none;"></table>
 							</td>
 						</tr>
 						<tr>
@@ -1658,10 +1681,12 @@ var module_instance = new GamFcltyRepairMngModule();
 							<th style="width:10%; height:18px;">하자 보수 내용</th>
 							<td colspan="3"><textarea id="flawRprContents" cols="65" rows="5" maxlength="4000"></textarea></td>
 						</tr>
+						<!-- 
 						<tr>
 							<th style="width:10%; height:18px;">하자 보수 결과</th>
 							<td colspan="3"><textarea id="flawExamResult" cols="65" rows="5" title="하자보수결과" maxlength="4000"></textarea></td>
 						</tr>
+						-->
 						<tr>
 							<th style="width:10%; height:18px;">비　　　　　고</th>
 							<td colspan="3"><textarea id="rm" cols="65" rows="5" maxlength="4000"></textarea></td>

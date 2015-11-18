@@ -45,6 +45,12 @@
 							, R.FLAW_EXAM_USR
 							, R.RM
 							, R.CTRT_NO
+							, TO_CHAR(R.CTRT_DT,'YYYY-MM-DD') CTRT_DT
+							, R.FLAW_CONTR_AMT
+							, R.FLAW_EXAM_USR2
+							, R.FLAW_EXAM_USR_CLS
+							, R.FLAW_EXAM_USR_CLS2
+							, TO_CHAR(R.BLD_DT,'YYYY-MM-DD') BLD_DT
 						FROM
 							FLAW_RPR_DTLS_F R
 						WHERE
@@ -142,6 +148,12 @@
 			, R.FLAW_EXAM_USR
 			, R.FLAW_EXAM_USR_DEPT
 			, R.FLAW_EXAM_USR_NM
+			, TO_CHAR(R.CTRT_DT,'YYYY-MM-DD') CTRT_DT
+			, R.FLAW_CONTR_AMT
+			, R.FLAW_EXAM_USR2
+			, R.FLAW_EXAM_USR_CLS
+			, R.FLAW_EXAM_USR_CLS2
+			, TO_CHAR(R.BLD_DT,'YYYY-MM-DD') BLD_DT
 		FROM
 			FLAW_RPR_DTLS_F R
 		WHERE
@@ -300,6 +312,12 @@
 				, FLAW_EXAM_USR
 				, FLAW_EXAM_USR_DEPT
 				, FLAW_EXAM_USR_NM
+				, CTRT_DT
+				, FLAW_CONTR_AMT
+				, FLAW_EXAM_USR2
+				, FLAW_EXAM_USR_CLS
+				, FLAW_EXAM_USR_CLS2
+				, BLD_DT
 			)
 			VALUES
 			(
@@ -327,6 +345,12 @@
 				, #flawExamUsr#
 				, #flawExamUsrDept#
 				, #flawExamUsrNm#
+				, #ctrtDt#
+				, REPLACE(#flawContrAmt#,',','')
+				, #flawExamUsr2#
+				, #flawExamUsrCls#
+				, #flawExamUsrCls2#
+				, #bldDt#
 			)
 	</insert>
 
@@ -358,6 +382,12 @@
 				, FLAW_EXAM_USR = #flawExamUsr#
 				, FLAW_EXAM_USR_DEPT = #flawExamUsrDept#
 				, FLAW_EXAM_USR_NM = #flawExamUsrNm#
+				, CTRT_DT = #ctrtDt#
+				, FLAW_CONTR_AMT = REPLACE(#flawContrAmt#,',','')
+				, FLAW_EXAM_USR2 = #flawExamUsr2# 
+				, FLAW_EXAM_USR_CLS = #flawExamUsrCls#
+				, FLAW_EXAM_USR_CLS2 = #flawExamUsrCls2#
+				, BLD_DT = #bldDt#
 			WHERE
 				FCLTS_JOB_SE = #fcltsJobSe#
 				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
@@ -569,8 +599,6 @@
 	</select>
 
 	<select id="gamfcltyRepiarMngDao.selectFcltyRepairCheckReportCharger_S" parameterClass="gamFcltyRepairMngVO" resultClass="egovMap">
-
-
 			SELECT
 				  CHARGER_DEPT ,
 				  CHARGER_DISPLAY_NM ,
@@ -585,10 +613,8 @@
 				  UPD_USR ,
 				  UPDT_DT
 				  FROM FCLTS_CHARGER_F
-
 		 	 WHERE
 				  CHARGER_NM = #flawExamUsr#
-
 	</select>
 
 
