@@ -36,7 +36,7 @@
 %>
 function GamFcltyRepairMngModule() {}
 
-GamFcltyRepairMngModule.prototype = new EmdModule(1000,700);	// 초기 시작 창크기 지정
+GamFcltyRepairMngModule.prototype = new EmdModule(1000,720);	// 초기 시작 창크기 지정
 
 <%
 /**
@@ -1540,12 +1540,13 @@ var module_instance = new GamFcltyRepairMngModule();
 								<input type="text" size="30" id="fcltsMngGroupNoNm" disabled="disabled"/>
 								<button id="searchFcltsMngGroupNo" class="popupButton">선택</button>
 							</td>
-							<th style="width:10%; height:18px;">시　행　년　도</th>
-							<td>
-								<select id="enforceYear">
-									<option value="">선택</option>
-								</select>
+							<th style="width:10%; height:18px;">계　약　번　호</th>
+							<td colspan="3">
+								<input type="text" size="32" id="ctrtNo" disabled="disabled"/>
+								<button id="ctrtNoPopupBtn" class="popupButton">선택</button>
 							</td>
+						</tr>
+						<tr>
 							<th style="width:10%; height:18px;">업　무　구　분</th>
 							<td>
 								<input type="hidden" id="fcltsJobSeNm"/>
@@ -1558,34 +1559,14 @@ var module_instance = new GamFcltyRepairMngModule();
 									<option value="I">정보통신시설물</option>
 								</select>
 							</td>
-						</tr>
-						<tr>
-							<th style="width:10%; height:18px;">공　　사　　명</th>
-							<td colspan="3">
-								<input type="hidden" size="20" id="ctrtNo"/>
-								<input type="text" size="52" id="flawRprNm" />
-								<button id="ctrtNoPopupBtn" class="popupButton">선택</button>
-							</td>
-							<th style="width:10%; height:18px;">도　급　업　체</th>
-							<td colspan="3">
-								<input type="text" size="65" id="flawRprEntrpsNm"/>
-							</td>
-						</tr>
-						<tr>
-							<th style="width:10%; height:18px;">계　약　일　자</th>
+							<th style="width:10%; height:18px;">시　행　년　도</th>
 							<td>
-								<input type="text" size="15" id="ctrtDt" class="emdcal"/>
-							</td>
-							<th style="width:10%; height:18px;">준　공　일　자</th>
-							<td>
-								<input type="text" size="15" id="bldDt" class="emdcal"/>
-							</td>
-							<th style="width:10%; height:18px;">도　　급　　액</th>
-							<td>
-								<input id="flawContrAmt" type="text" size="20"  class="ygpaNumber" maxlength="16"/> 원
+								<select id="enforceYear">
+									<option value="">선택</option>
+								</select>
 							</td>
 							<th style="width:10%; height:18px;">하자검사　구분</th>
-							<td>
+							<td colspan="3">
 								<input type="hidden" id="flawExamSeNm"/>
 								<select id="flawExamSe">
 									<option value="">선택</option>
@@ -1594,6 +1575,57 @@ var module_instance = new GamFcltyRepairMngModule();
 									<option value="3">만료검사</option>
 								</select>
 								<input type="hidden" id="flawRprSeq"/>
+							</td>
+						</tr>
+						<tr>
+							<th style="width:10%; height:18px;">공　　사　　명</th>
+							<td colspan="3">
+								<input type="text" size="63" id="flawRprNm" />
+							</td>
+							<th style="width:10%; height:18px;">준　공　일　자</th>
+							<td>
+								<input type="text" size="15" id="bldDt" class="emdcal"/>
+							</td>
+							<th style="width:10%; height:18px;">계　약　일　자</th>
+							<td colspan="3">
+								<input type="text" size="15" id="ctrtDt" class="emdcal"/>
+							</td>
+						</tr>
+						<tr>
+							<th style="width:10%; height:18px;">도　급　업　체</th>
+							<td colspan="3">
+								<input type="text" size="63" id="flawRprEntrpsNm"/>
+							</td>
+							
+							<th style="width:10%; height:18px;">도　　급　　액</th>
+							<td colspan="3">
+								<input id="flawContrAmt" type="text" size="20"  class="ygpaNumber" maxlength="16"/> 원
+							</td>
+						</tr>
+						<tr>
+							<th style="width:10%; height:18px;">하자 검사 일자</th>
+							<td>
+								<input type="text" size="15" id="flawExamDt" class="emdcal"/>
+							</td>
+							<th style="width:10%; height:18px;">하　자　유　무</th>
+							<td>
+								<select id="flawEnnc">
+									<option value="">선택</option>
+									<option value="Y">유　　　　　</option>
+									<option value="N">무　　　　　</option>
+								</select>
+							</td>
+							<th style="width:10%; height:18px;">검　사　자　1</th>
+							<td>
+								<input id="flawExamUsrCls" type="text" size="3" />
+								급&nbsp;
+								<input id="flawExamUsr" type="text" size="8" />
+							</td>
+							<th style="width:10%; height:18px;">검　사　자　2</th>
+							<td>
+								<input id="flawExamUsrCls2" type="text" size="3" />
+								급&nbsp;
+								<input id="flawExamUsr2" type="text" size="8" />
 							</td>
 						</tr>
 					</table>
@@ -1611,38 +1643,12 @@ var module_instance = new GamFcltyRepairMngModule();
 					</table>
 					<table class="detailPanel" style="width:100%;">
 						<tr>
-							<th style="width:10%; height:18px;">하자 검사 일자</th>
+							<th style="width:10%; height:18px;">하자 발생 일자</th>
 							<td colspan="3">
-								<input type="text" size="15" id="flawExamDt" class="emdcal"/>
+								<input id="flawOccrrncDt" type="text" size="22" class="emdcal"/>
 							</td>
 							<td rowspan="8" style="padding-left:4px;">
 								<table id="fcltyRepairFileList" style="display:none;"></table>
-							</td>
-						</tr>
-						<tr>
-							<th style="width:10%; height:18px;">검　　사　　자</th>
-							<td colspan="3">
-								<input id="flawExamUsrCls" type="text" size="5" />
-								급&nbsp;
-								<input id="flawExamUsr" type="text" size="15" />
-								　&nbsp;　　　&nbsp;
-								<input id="flawExamUsrCls2" type="text" size="5" />
-								급&nbsp;
-								<input id="flawExamUsr2" type="text" size="15" />
-							</td>
-						</tr>
-						<tr>
-							<th style="width:10%; height:18px;">하　자　유　무</th>
-							<td>
-								<select id="flawEnnc">
-									<option value="">선택</option>
-									<option value="Y">유　　　　　</option>
-									<option value="N">무　　　　　</option>
-								</select>
-							</td>
-							<th style="width:10%; height:18px;">하자 발생 일자</th>
-							<td>
-								<input id="flawOccrrncDt" type="text" size="22" class="emdcal"/>
 							</td>
 						</tr>
 						<tr>
