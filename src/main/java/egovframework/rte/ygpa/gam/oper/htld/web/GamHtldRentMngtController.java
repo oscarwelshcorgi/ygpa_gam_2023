@@ -261,7 +261,7 @@ public class GamHtldRentMngtController {
 
     	gamHtldRentMngtVO = mapper.readValue((String)assetRent.get("assetRentVo"), GamHtldRentMngtVO.class);
 
-    	gamHtldRentMngtVO.setTermnYn("Y");
+    	gamHtldRentMngtVO.setTermnKnd("2"); // 변경 
     	gamHtldRentMngtVO.setUpdUsr(loginVo.getId());
     	gamHtldRentMngtVO.setDeptcd(loginVo.getDeptCd());
     	gamHtldRentMngtVO.setTermnUsr(loginVo.getId());
@@ -479,9 +479,8 @@ public class GamHtldRentMngtController {
 
         try {
         	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-        	gamHtldRentMngtVO.setTermnYn("Y");
         	gamHtldRentMngtVO.setTermnUsr(user.getId());
-        	gamHtldRentMngtVO.setTermnKnd("0"); //해지변경 사유 : 0 중도 해지...
+        	gamHtldRentMngtVO.setTermnKnd("1"); //해지코드
         	gamHtldRentMngtVO.setUpdUsr(user.getId());
         	gamHtldRentMngtService.terminateHtldRentMngt(gamHtldRentMngtVO);
 	        resultMsg = egovMessageSource.getMessage("success.common.update");

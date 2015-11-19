@@ -61,9 +61,9 @@
 		<result property="payinstIntrrate" column="PAYINST_INTRRATE" columnIndex="45"/>
 		<result property="chargerNo" column="CHARGER_NO" columnIndex="46"/>
 		<result property="chrgeKnd" column="CHRGE_KND" columnIndex="47"/>
-		<result property="termnYn" column="TERMN_YN" columnIndex="48"/>
-		<result property="termnKnd" column="TERMN_KND" columnIndex="49"/>
-		<result property="termnDt" column="TERMN_DT" columnIndex="50"/>
+		<result property="termnKnd" column="TERMN_KND" columnIndex="48"/>
+		<result property="termnDt" column="TERMN_DT" columnIndex="49"/>
+		<result property="termnRm" column="TERMN_RM" columnIndex="50"/>
 	</resultMap>
 
     <resultMap id="gamHtldRentMngtInfoMaxKeyMap" class="egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtVO">
@@ -151,9 +151,9 @@
                                   , A.OPER_YR_MT
                                   , A.COMP_TP
                                   , A.FRGHT_TP
-                                  , A.TERMN_YN
                                   , TO_CHAR(A.TERMN_KND) TERMN_KND
                                   , TO_CHAR(A.TERMN_DT, 'YYYY-MM-DD') TERMN_DT
+                                  , A.TERMN_RM
                                   , GAM_GETCODENAME('GAM043', A.PAY_MTH) AS PAY_MTH_NM
 								  , GAM_GETCODENAME('GAM008', A.NTIC_MTH) AS NTIC_MTH_NM
 								  , GAM_GETCODENAME('GAM016', A.TAXT_SE) AS TAXT_SE_NM
@@ -192,9 +192,9 @@
 				                 ]]>
 				             </isNotEmpty>
 
-				             <isNotEmpty property="sTermnYn" prepend="AND">
+				             <isNotEmpty property="sTermnKnd" prepend="AND">
 				             <![CDATA[
-				                 A.TERMN_YN = #sTermnYn#
+				                 A.TERMN_KND = #sTermnKnd#
 				                 ]]>
 				             </isNotEmpty>
 
@@ -235,9 +235,9 @@
 		  ]]>
 			</isNotEmpty>
 
-				             <isNotEmpty property="sTermnYn" prepend="AND">
+				             <isNotEmpty property="sTermnKnd" prepend="AND">
 				             <![CDATA[
-				                 A.TERMN_YN = #sTermnYn#
+				                 A.TERMN_KND = #sTermnKnd#
 				                 ]]>
 				             </isNotEmpty>
     </select>
@@ -276,9 +276,9 @@
 		  ]]>
 			</isNotEmpty>
 
-				             <isNotEmpty property="sTermnYn" prepend="AND">
+				             <isNotEmpty property="sTermnKnd" prepend="AND">
 				             <![CDATA[
-				                 A.TERMN_YN = #sTermnYn#
+				                 A.TERMN_KND = #sTermnKnd#
 				                 ]]>
 				             </isNotEmpty>
     </select>
@@ -334,9 +334,9 @@
 			, TO_CHAR(NVL(A.PAYINST_INTRRATE,0) * 100) AS PAYINST_INTRRATE
 			, CHARGER_NO
 			, A.CHRGE_KND
-			, A.TERMN_YN
 			, TO_CHAR(A.TERMN_KND) TERMN_KND 
 			, TO_CHAR(A.TERMN_DT, 'YYYY-MM-DD') TERMN_DT
+			, A.TERMN_RM
 		FROM ASSETS_RENT_F A
 		WHERE A.QUAY_GROUP_CD='H'
 			AND A.PRT_AT_CODE = #prtAtCode#
@@ -405,9 +405,9 @@
 			, TO_CHAR(NVL(A.PAYINST_INTRRATE,0) * 100) AS PAYINST_INTRRATE
 			, A.CHARGER_NO
 			, A.CHRGE_KND
-			, A.TERMN_YN
 			, TO_CHAR(A.TERMN_KND) TERMN_KND 
 			, TO_CHAR(A.TERMN_DT, 'YYYY-MM-DD') TERMN_DT
+			, A.TERMN_RM
 		FROM ASSETS_RENT_F A
 		WHERE A.QUAY_GROUP_CD='H'
 			AND A.PRT_AT_CODE = #prtAtCode#
@@ -530,7 +530,7 @@
 		    COMP_TP,
 		    FRGHT_TP,
 		    CHRGE_KND, 
-		    TERMN_YN
+		    TERMN_KND
 		  )
 		  VALUES
 		  (
@@ -573,7 +573,7 @@
 		    #compTp#,
 		    #frghtTp#,
 		    #chrgeKnd#,
-		    'N'
+		    '0'
 		     )
     </insert>
 
@@ -631,10 +631,10 @@
 	<!-- 계약정보 해지 -->
     <update id="gamHtldRentMngtDao.terminateHtldRentMngt_S">
         UPDATE ASSETS_RENT_F SET
-		      TERMN_YN 				= #termnYn#
-		      , TERMN_KND 			= TO_NUMBER(#termnKnd#)
+		      TERMN_KND 			= TO_NUMBER(#termnKnd#)
 		      , TERMN_USR 				= #termnUsr#
 		      , TERMN_DT 				= SYSDATE
+		      , TERMN_RM              = #termnRm#
 		      , UPD_USR                	= #updUsr#
 		      , UPDT_DT                	= SYSDATE
 		  WHERE  PRT_AT_CODE = #prtAtCode#
@@ -971,7 +971,7 @@
                                    , QUAY_GROUP_CD
                                    , REQST_DT
                                    , PAYINST_INTRRATE
-                                   , TERMN_YN
+                                   , TERMN_KND
                                )
                          SELECT
                          	A.PRT_AT_CODE
@@ -1007,7 +1007,7 @@
                                  , A.QUAY_GROUP_CD
                                  , SYSDATE
                                  , A.PAYINST_INTRRATE
-                                 , 'N'
+                                 , 0
 				           FROM ASSETS_RENT_F A
 				          WHERE A.PRT_AT_CODE = #prtAtCode#
 				            AND A.MNG_YEAR    = #mngYear#

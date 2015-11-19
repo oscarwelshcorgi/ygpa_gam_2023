@@ -168,19 +168,18 @@ public class GamHtldRentMngtVO extends ComDefaultVO {
      * 적용단가
      */
     private String applcPrice;
-    
-    /** 계약해지 및 변경유무*/
-    private String termnYn;
-    
+        
     /** 계약해지 및 변경일자*/
     private String termnDt;
     
-    /** 계약해지 및 변경사유*/
+    /** 계약해지 및 변경코드*/
     private String termnKnd;
     
     /** 계약해지 및 변경 사용자*/
     private String termnUsr;
     
+    /** 계약변경사유 **/
+    private String termnRm;
     
 	public String getPrtAtCode() {
 		return prtAtCode;
@@ -483,16 +482,16 @@ public class GamHtldRentMngtVO extends ComDefaultVO {
 		this.chrgeKnd = chrgeKnd;
 	}
 	/**
-	 * @return the termnYN
+	 * @return the termnRm
 	 */
-	public String getTermnYn() {
-		return termnYn;
+	public String getTermnRm() {
+		return termnRm;
 	}
 	/**
-	 * @param termnYN the termnYN to set
+	 * @param termnYN the termnRm to set
 	 */
-	public void setTermnYn(String termnYn) {
-		this.termnYn = termnYn;
+	public void setTermnRm(String termnRm) {
+		this.termnRm = termnRm;
 	}
 	/**
 	 * @return the termnDt

@@ -58,7 +58,8 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
                     {display:'요금종류', name:'chrgeKndNm',width:160, sortable:false,align:'left'},
                     {display:'업종', name:'compTp',width:110, sortable:false,align:'right'},
                     {display:'취급화종', name:'frghtTp',width:120, sortable:false,align:'center'},
-                    {display:'계약해지/변경', name:'termnKndNm',width:120, sortable:false,align:'center'}
+                    {display:'해지/변경', name:'termnKndNm',width:60, sortable:false,align:'center'},
+                    {display:'해지/변경일자', name:'termnDt',width:80, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
         height: 'auto',
@@ -71,19 +72,13 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
             $.each(data.resultList, function() {
 //            	this.intrRateDisp = this.intrRate+ ' %';
             	this.grUsagePdPeriod = this.grUsagePdFrom+" ~ " +this.grUsagePdTo;
-            	if(this.termnYn == 'Y') {
-            		switch(this.termnKnd) {
-            		case '0' :
-            			this.termnKndNm = '해지 (' + this.termnDt + ')';
-            			break;
+            	switch(this.termnKnd) {
             		case '1' :
-            		case '2' :
-            		case '3' :
-            		case '4' :
-            		case '5' :
-            			this.termnKndNm = '변경 (' + this.termnDt + ')';
+            			this.termnKndNm = '해지';
             			break;
-            		}
+            		case '2' :
+            			this.termnKndNm = '변경';
+            			break;
             	}
             });
             return data;
@@ -292,7 +287,7 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 			this.$('#btnRemoveItem').show();
 			this.$('#btnRentFeeMngt').show();
 			this.$('#btnHtldRentListExcelDownload').show();
-			if(rows[0].termnYn == 'Y') { //계약이 해지되거나 변경된 데이터일 경우
+			if(rows[0].termnKnd >= '1' ) { //계약이 해지되거나 변경된 데이터일 경우
 				this.$('#addAssetRentRenew').hide();
 				this.$("#btnTerminateItem").hide();
 				this.$('#btnChangeItem').hide();
@@ -342,7 +337,7 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 				this.$('#btnMangeCharger').hide();
 			    this.$('#entrpscd').attr('readonly', true);
 		        this.$('#btnSaveComment').show();
-		        if(rows[0].termnYn == 'Y') { //계약이 해지되거나 변경된 데이터의 경우
+		        if(rows[0].termnKnd >= '1') { //계약이 해지되거나 변경된 데이터의 경우
 		        	this.$('#btnInsertItemDetail').hide();
 		        	this.$('#btnRemoveItemDetail').hide();
 		        	this.$('#btnSaveItem').hide();
@@ -385,21 +380,21 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 --%>
 GamHtldRentMngtModule.prototype.showTermnKndTr = function() {
 	if(this._detailMode=="I") {
-		this.$('#termnKndTr').hide();
+		this.$('#termnRmTr').hide();
 		return; 
 	}
 	if(this._detailMode=="C") {
-		this.$('#termnKndTr').show();
+		this.$('#termnRmTr').show();
 		return; 
 	}
 	if(this._rentDetail) {
-		if((this._rentDetail.termnYn == 'Y') && (this._rentDetail.termnKnd != '0')) {  //계약이 변경된 상태의 조건
-			this.$('#termnKndTr').show();
+		if(this._rentDetail.termnKnd == '2') {  //계약이 변경된 상태의 조건
+			this.$('#termnRmTr').show();
 		} else {
-			this.$('#termnKndTr').hide();
+			this.$('#termnRmTr').hide();
 		}
 	} else {
-		this.$('#termnKndTr').hide();
+		this.$('#termnRmTr').hide();
 	}
 };
 
@@ -1011,12 +1006,13 @@ GamHtldRentMngtModule.prototype.changeSaveRentData = function() {
     	return;
     }
 
-    if(this.$('#termnKnd').val()=='') {
-    	alert("변경 사유를 선택 하십시요.");
+    if(this.$('#termnRm').val()=='') {
+    	alert("변경 사유를 입력 하십시요.");
     	return;
     }
 
    if( confirm("변경신청을 하면 기존의 계약은 해지상태가 되고 새로운 계약신청이 이루어집니다. 변경하시겠습니까?") ) {
+	   		this.$('#termnKnd').val('1'); //계약해지코드 자동 입력 
     		var assetRent = {};
     		assetRent['assetRentVo'] = JSON.stringify(this.getFormValues('#gamAssetRentForm'));
     		assetRent['_cList'] = JSON.stringify(this.$('#assetRentDetailList').flexGetData());
@@ -1068,11 +1064,12 @@ GamHtldRentMngtModule.prototype.terminateRentData = function() {
 		return;
 	}
 	var row = rows[0];
-	if(row.termnYn == 'Y') {
+	if(row.termnKnd >= '1') {
 		alert('이미 해지되거나 변경된 임대료 계약입니다.');
 		return;
 	}
 	if(confirm('계약해지시 미고지 임대료 정보는 삭제됩니다. 계약해지를 하시겠습니까?')) {
+		rows[0].termnKnd = '1';
 		this.doAction('/oper/htld/terminateHtldRent.do', rows[0], function(module, result) {
 			if(result.resultCode=='0') {
 				module.loadData();
@@ -1484,10 +1481,11 @@ var module_instance = new GamHtldRentMngtModule();
                             </td>
                             <th>계약해지/변경</th>
                             <td>
-                            	<select id="sTermnYn">
+                            	<select id="sTermnKnd">
                             		<option value="">전체</option>
-                            		<option selected="selected" value="N">무</option>
-                            		<option value="Y">유</option>
+                            		<option selected="selected" value="0">사용</option>
+                            		<option value="1">해지</option>
+                            		<option value="2">변경</option>
                             	</select>
                             </td>
                         </tr>
@@ -1554,6 +1552,7 @@ var module_instance = new GamHtldRentMngtModule();
 						<input type="hidden" id="mngYear"/>
 						<input type="hidden" id="mngNo"/>
 						<input type="hidden" id="mngCnt"/>
+						<input type="hidden" id="termnKnd"/>
                         <table class="editForm">
                             <tr>
 								<th width="10%" height="18">구역</th>
@@ -1619,17 +1618,10 @@ var module_instance = new GamHtldRentMngtModule();
                                 	<button id="btnSaveComment">코멘트저장</button>
                                 </td>
                             </tr>
-                            <tr id="termnKndTr">
+                            <tr id="termnRmTr">
 								<th width="10%" height="18">변경사유</th>
                                 <td colspan="5">
-                                	<select id="termnKnd">
-                                		<option value="">선택</option>
-                                		<option value="1">1. 외국인 투자기업으로 등록시 임대료 단가 변경 발생</option>
-                                		<option value="2">2. 기존 부지 면적에서 일부 사업축소로 면적이 감소하는 경우</option>
-                                		<option value="3">3. 부지 측량 결과 면적이 달라지는 경우 정산</option>
-                                		<option value="4">4. 건물을 &quot;공장운영&quot; 목적으로 운영시 우대임대료에서 기본임대료로 임대료 단가 변경 발생</option>
-                                		<option value="3">5. 기타</option>
-                                	</select>
+                                	<input type="text" size="106" id="termnRm" maxlength="300"/>
                                 </td>
                             </tr>
                         </table>

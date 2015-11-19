@@ -58,8 +58,8 @@ public class GamHtldRentDefaultVO extends GamHtldRentMngtVO {
     private String sGrAr;
     
     /** 계약해지(변경)유무 */
-    private String sTermnYn;
-     
+    private String sTermnKnd;
+         
 	public String getsRentArea() {
 		return sRentAreaCd;
 	}
@@ -157,16 +157,16 @@ public class GamHtldRentDefaultVO extends GamHtldRentMngtVO {
 	}
 
 	/**
-	 * @return the sTermnYn
+	 * @return the sTermnKnd
 	 */
-	public String getsTermnYn() {
-		return sTermnYn;
+	public String getsTermnKnd() {
+		return sTermnKnd;
 	}
 
 	/**
-	 * @param sTermnYn the sTermnYn to set
+	 * @param sTermnKnd the sTermnKnd to set
 	 */
-	public void setsTermnYn(String sTermnYn) {
-		this.sTermnYn = sTermnYn;
+	public void setsTermnKnd(String sTermnKnd) {
+		this.sTermnKnd = sTermnKnd;
 	}
 }

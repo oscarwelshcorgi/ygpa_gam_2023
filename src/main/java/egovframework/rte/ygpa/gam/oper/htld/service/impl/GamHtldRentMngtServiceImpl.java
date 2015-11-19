@@ -140,12 +140,11 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
      */
 	public GamHtldRentMngtVO changeHtldRentMngt(GamHtldRentMngtVO rentVo, List<GamHtldRentMngtDetailVO> createList) throws Exception {
 
-		terminateHtldRentMngt(rentVo); //기존 계약을 해지한다.
+		terminateHtldRentMngt(rentVo); //기존 계약을 해지 또는 변경 한다.
 		
-		rentVo.setMngCnt(gamHtldRentMngtDao.selectHtldRentMngtChangeMngCnt(rentVo)); //변경저장시에는 mng_cnt값만 변경...
-		rentVo.setTermnYn("N");  //계약 해지 및 변경정보 삭제
+		rentVo.setMngCnt(gamHtldRentMngtDao.selectHtldRentMngtChangeMngCnt(rentVo)); //변경 후 새로운 데이터 저장시에는 mng_cnt값만 변경...
 		rentVo.setTermnUsr(null);
-		rentVo.setTermnKnd(null);
+		rentVo.setTermnKnd("0"); //0이면 계약유지 1이면 계약해지 2이면 계약변경
 		rentVo.setTermnDt(null);
 		gamHtldRentMngtDao.insertHtldRentMngt(rentVo);
 		
