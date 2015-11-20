@@ -535,7 +535,7 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 			totalFee = totalFee.add(bd.setScale(-1, RoundingMode.CEILING));
 		}
 		//totalFee = totalFee.setScale(-1, RoundingMode.CEILING);
-		totalFee = totalFee.setScale(-1, RoundingMode.DOWN);
+		totalFee = totalFee.setScale(-1, RoundingMode.DOWN); //2015-11-20 김종민 수정
 
 		return totalFee;
 	}
