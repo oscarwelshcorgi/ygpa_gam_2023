@@ -327,7 +327,9 @@ GamHtldRentMngtModule.prototype.setButtonStatus = function() {
 			this.$('#entrpscd').removeAttr('readonly');
 	        this.$('#popupEntrpsInfoInput').removeAttr('disabled');
 
-	        this.$('#btnSaveComment').hide();	        
+	        this.$('#btnSaveComment').hide();	
+	        
+	        this.$('#btnChangeSaveItem').hide();
 	        this._editable=true;
         } else {
 			var rows = this.$('#assetRentMngtList').selectedRows();
