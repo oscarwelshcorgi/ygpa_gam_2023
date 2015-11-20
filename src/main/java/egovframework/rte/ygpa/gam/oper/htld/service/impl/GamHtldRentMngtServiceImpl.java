@@ -4,10 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,26 +12,15 @@ import javax.annotation.Resource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.joda.time.Days;
 import org.joda.time.LocalDate;
-import org.joda.time.MonthDay;
 import org.joda.time.Months;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 
-import egovframework.com.cmm.LoginVO;
-import egovframework.com.cmm.service.EgovProperties;
-import egovframework.com.cmm.service.Globals;
-import egovframework.com.cmm.util.EgovUserDetailsHelper;
-import egovframework.com.utl.fcc.service.EgovDateUtil;
-import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldAssessVO;
-import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentAttachFileVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentDefaultVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtDetailVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtLevReqestVO;
@@ -548,7 +534,8 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 			bd = bd.multiply(monthFee);
 			totalFee = totalFee.add(bd.setScale(-1, RoundingMode.CEILING));
 		}
-		totalFee = totalFee.setScale(-1, RoundingMode.CEILING);
+		//totalFee = totalFee.setScale(-1, RoundingMode.CEILING);
+		totalFee = totalFee.setScale(-1, RoundingMode.DOWN);
 
 		return totalFee;
 	}
