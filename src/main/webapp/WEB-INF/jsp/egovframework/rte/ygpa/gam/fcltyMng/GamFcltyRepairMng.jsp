@@ -36,7 +36,7 @@
 %>
 function GamFcltyRepairMngModule() {}
 
-GamFcltyRepairMngModule.prototype = new EmdModule(1000,720);	// 초기 시작 창크기 지정
+GamFcltyRepairMngModule.prototype = new EmdModule(1000,740);	// 초기 시작 창크기 지정
 
 <%
 /**
