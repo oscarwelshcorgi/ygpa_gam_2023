@@ -1715,7 +1715,11 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 									}
 								);
 			break;
-
+		
+		case 'QcItemMng' :
+			EMD.util.create_window('gamQcItemCdMng', '점검 항목 관리', '/code/gamQcItemCdMng.do', null, null);
+			break;
+			
 		case 'popupDetailFcltsMngGroup':
 			this.doExecuteDialog(
 									'selectDetailFcltsMngGroup'
@@ -2191,6 +2195,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 											<option value="3">건축기계설비</option>
 										</select>
 										<button id="popupEditQcResultItem">점검결과항목선택</button>
+										<button id="QcItemMng">점검항목관리</button>
 									</td>
 								</tr>
 								<tr>

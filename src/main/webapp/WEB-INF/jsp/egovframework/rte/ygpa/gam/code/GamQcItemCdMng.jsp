@@ -109,6 +109,10 @@ GamQcItemCdMngModule.prototype.loadComplete = function() {
 	this.$('#btnAdd').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 
+	if (EMD.userinfo.mngFcltyCd != null && EMD.userinfo.mngFcltyCd != "*") {
+		this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
+		this.$('#sFcltsJobSe').disable();
+	}
 };
 
 <%
