@@ -80,36 +80,8 @@
 		  NVL(L.VAT,0) VAT ,
 		  NVL(L.NTIC_AMT,0) NTIC_AMT ,
 		  NVL(L.INTR_AMNT, 0) INTR_AMNT,
-		  NVL(L.INTR_RATE,
-		  (SELECT BLCE_STDR_INTRRATE
-		  FROM cofix_intrrate_f
-		  WHERE obj_yrmt=
-		    (SELECT
-		      CASE
-		        WHEN TO_CHAR(L.NTIC_PD_FROM, 'MM')<4
-		        THEN TO_CHAR(L.NTIC_PD_FROM-365, 'YYYY')||'12'
-		        WHEN TO_CHAR(L.NTIC_PD_FROM, 'MM')<7
-		        THEN TO_CHAR(L.NTIC_PD_FROM, 'YYYY')||'03'
-		        WHEN TO_CHAR(L.NTIC_PD_FROM, 'MM')<10
-		        THEN TO_CHAR(L.NTIC_PD_FROM, 'YYYY')||'06'
-		        ELSE TO_CHAR(L.NTIC_PD_FROM, 'YYYY')||'09'
-		      END
-		    FROM dual
-		    )
-		  ))*100 INTR_RATE,
-		  NVL(L.cofix_obj_yrmt,
-		  (SELECT
-		      CASE
-		        WHEN TO_CHAR(L.NTIC_PD_FROM, 'MM')<4
-		        THEN TO_CHAR(L.NTIC_PD_FROM-365, 'YYYY')||'12'
-		        WHEN TO_CHAR(L.NTIC_PD_FROM, 'MM')<7
-		        THEN TO_CHAR(L.NTIC_PD_FROM, 'YYYY')||'03'
-		        WHEN TO_CHAR(L.NTIC_PD_FROM, 'MM')<10
-		        THEN TO_CHAR(L.NTIC_PD_FROM, 'YYYY')||'06'
-		        ELSE TO_CHAR(L.NTIC_PD_FROM, 'YYYY')||'09'
-		      END
-		    FROM dual
-		  )) cofix_obj_yrmt,
+		  NVL(L.INTR_RATE, GAM_GET_COFIX_INTRRATE(L.NTIC_PD_FROM))*100 INTR_RATE,
+		  NVL(L.cofix_obj_yrmt, GAM_GET_COFIX_OBJ_YRMT(L.NTIC_PD_FROM)) cofix_obj_yrmt,
 		  A.RM ,
 		  L.RCIV_SE ,
 		  TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT ,
