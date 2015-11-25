@@ -255,15 +255,18 @@ GamHtldRentFeeMngtModule.prototype.createExtendedDate = function (argDate) {
 //이자 구하는 함수
 GamHtldRentFeeMngtModule.prototype.getIntrAmount = function(fee, intrRate, nticMth, nticPdFrom, nticPdTo, grUsagePdTo) {
 	var result = 0;
-	var monthIntrAmount = fee * (intrRate / 100) / 12; //월이자
+	var monthIntrAmount = 0; //월이자
 	var applyMonths = 0; //이자적용월수
 	var applyDays = 0; //이자적용일수
+	
 	fee = Number(fee);
 	intrRate = Number(intrRate);
 	nticPdFrom = this.createExtendedDate(EMD.util.strToDate(nticPdFrom));
 	nticPdTo = this.createExtendedDate(EMD.util.strToDate(nticPdTo));
 	grUsagePdTo = this.createExtendedDate(EMD.util.strToDate(grUsagePdTo));
-
+	
+	monthIntrAmount = fee * (intrRate / 100) / 12; //월이자
+	
 	switch(nticMth) {
 		case '1' : //일괄
 		case '6' : //연납
