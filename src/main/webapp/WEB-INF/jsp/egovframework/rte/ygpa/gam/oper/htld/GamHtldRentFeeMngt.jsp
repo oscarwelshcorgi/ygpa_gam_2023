@@ -62,10 +62,7 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
         	$.each(data.resultList, function() {
         		module.makeRowData(this);
         	});
-
-
         	module.makeDivValues('#summaryTable', data.resultSum);
-
             return data;
         }
     });
@@ -88,180 +85,37 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
         }
    	 	EMD.util.create_window('gamHtldRentFeePaySttusMngt', '배후단지납부현황관리', '/oper/htld/gamHtldRentFeePaySttusMngt.do', null, opts);
     });
-
+	
+    // 2015-11-25 김종민 수정작업
+    // 새로운 이자적용방식으로 바꿈. (기존 소스 갈아엎음....)
     this.$("#assetRentFeeList").on('onCellEdited', function(event, module, row, rid, cid) {
-        // 이벤트내에선 모듈에 대해 선택한다.
-        if(cid=="fee") {
-        	if(row.nhtIsueYn=='Y') {
-        		alert('고지된 자료는 수정 되지 않습니다.');
-        		return;
-        	}
-            if(row._updtId!="I") {
-            	row._updtId="U";
-            	row.state="*";
-            }
-            var fee=Number(row['fee']);
-            var intrAmnt=Number(row['intrAmnt']);
-            var feeAmnt = 0;
-            var vat = 0;
-			var dtfr = EMD.util.strToDate(module.$('#nticPdFrom').val());
-			var intrRate=Number(row['intrRate']);
-
-			if(intrRate!=0 && row['nticMth']!='1') {
-				intrRate/=100;
-				if(row['nticMth']=='2'){
-					if(dtfr.getMonth()<6) {
-						intrAmnt=fee*intrRate;
-					}
-				}
-				else if(row['nticMth']=='3'){
-					if(dtfr.getMonth()<4) {
-						intrAmnt=(fee*2)*intrRate;
-					}
-					else if(dtfr.getMonth()<8) {
-						intrAmnt=(fee)*intrRate*2/3;
-					}
-				}
-				else if(row['nticMth']=='4'){
-					if(dtfr.getMonth()<3) {
-						intrAmnt=(fee*3)*intrRate;
-					}
-					else if(dtfr.getMonth()<6) {
-						intrAmnt=fee*intrRate;
-					}
-					else if(dtfr.getMonth()<9) {
-						intrAmnt=fee*intrRate/4;
-					}
-				}
-				intrAmnt=Math.floor(intrAmnt*0.1)*10;
-	            feeAmnt=fee+intrAmnt;
-			}
-			else {
-				intrAmnt=0;
-			}
-			row['intrAmnt']=intrAmnt;
-            row['feeAmnt']=feeAmnt;
-            if(row['vatYn']=='2' || row['vatYn']=='Y') {
-                // vat=Math.floor(feeAmnt*0.01)*10;	-- 이경하 대리 요청 부가세 원단위 절삭 안함
-                vat=Math.floor(feeAmnt*0.1);
-            }
-            else vat=0;
-            row['vat']=vat;
-            row['nticAmt']=feeAmnt+vat;
-
-            module.$("#assetRentFeeList").flexUpdateRow(rid, row);
-        	module.onCalc();
+    	if(row.nhtIsueYn=='Y') {
+    		alert('고지된 자료는 수정 되지 않습니다.');
+    		return;
+    	}
+        if(row._updtId!="I") {
+        	row._updtId="U";
+        	row.state="*";
         }
-        if(cid=="vat") {
-        	if(row.nhtIsueYn=='Y') {
-        		alert('고지된 자료는 수정 되지 않습니다.');
-        		return;
-        	}
-            if(row._updtId!="I") {
-            	row._updtId="U";
-            	row.state="*";
-            }
-            var feeAmnt=Number(row['feeAmnt']);
-            row['nticAmt']=feeAmnt+Number(row['vat']);
-            module.$("#assetRentFeeList").flexUpdateRow(rid, row);
-        	module.onCalc();
+        switch(cid) {
+        	case 'fee' :
+        	case 'intrRate' :
+        		row.intrAmnt = module.getIntrAmount(row.fee, row.intrRate, row.nticMth, row.nticPdFrom, row.nticPdTo, row.grUsagePdTo);
+        		row.feeAmnt = Number(row.fee) + Number(row.intrAmnt);
+        		row.vat = (row.vatYn=='2' || row.vatYn=='Y') ? Math.floor(Number(row.feeAmnt) * 0.1) : 0;
+        		row.nticAmt = Number(row.feeAmnt) + Number(row.vat);
+        		break;
+        	case 'intrAmnt' :
+        		row.feeAmnt = Number(row.fee) + Number(row.intrAmnt);
+        		row.vat = (row.vatYn=='2' || row.vatYn=='Y') ? Math.floor(Number(row.feeAmnt) * 0.1) : 0;
+        		row.nticAmt = Number(row.feeAmnt) + Number(row.vat);
+        		break;
+        	case 'vat' :
+        		row.nticAmt = Number(row.feeAmnt) + Number(row.vat);
+        		break;
         }
-        if(cid=="nticAmt") {
-        	if(row.nhtIsueYn=='Y') {
-        		alert('고지된 자료는 수정 되지 않습니다.');
-        		return;
-        	}
-            if(row._updtId!="I") {
-            	row._updtId="U";
-            	row.state="*";
-            }
-            module.$("#assetRentFeeList").flexUpdateRow(rid, row);
-        	module.onCalc();
-        }
-        if(cid=="intrAmnt") {
-        	var fee=Number(row['fee']);
-			var intrAmnt = Number(row['intrAmnt']);
-            var vat=Number(row['vat']);
-			var feeAmnt=fee+intrAmnt;
-            if(row._updtId!="I") {
-            	row._updtId="U";
-            	row.state="*";
-            }
-            feeAmnt=fee+intrAmnt;
-            if(row['vatYn']=='2' || row['vatYn']=='Y') {
-                // vat=Math.floor(feeAmnt*0.01)*10; -- 이경하 대리 요청 사항 부가세 원단위 절삭 안함
-                vat=Math.floor(feeAmnt*0.1);
-            }
-            else vat=0;
-            row['feeAmnt']=feeAmnt;
-            row['vat']=vat;
-            row['nticAmt']=feeAmnt+vat;
-
-            module.$("#assetRentFeeList").flexUpdateRow(rid, row);
-        	module.onCalc();
-        }
-        if(cid=="intrRate") {
-        	var fee=Number(row['fee']);
-            var vat=Number(row['vat']);
-			var dtfr = EMD.util.strToDate(module.$('#nticPdFrom').val());
-			var intrRate=Number(row['intrRate']);
-			var intrAmnt=0;
-            if(row._updtId!="I") {
-            	row._updtId="U";
-            	row.state="*";
-            }
-
-			if(intrRate!=0 && row['nticMth']!='1') {
-				intrRate/=100;
-				if(row['nticMth']=='2'){
-					if(dtfr.getMonth()<6) {
-						intrAmnt=fee*intrRate;
-					}
-				}
-				else if(row['nticMth']=='3'){
-					if(dtfr.getMonth()<4) {
-						intrAmnt=(fee*2)*intrRate;
-					}
-					else if(dtfr.getMonth()<8) {
-						intrAmnt=(fee)*intrRate*2/3;
-					}
-				}
-				else if(row['nticMth']=='4'){
-					if(dtfr.getMonth()<3) {
-						intrAmnt=(fee*3)*intrRate;
-					}
-					else if(dtfr.getMonth()<6) {
-						intrAmnt=fee*intrRate;
-					}
-					else if(dtfr.getMonth()<9) {
-						intrAmnt=fee*intrRate/4;
-					}
-				}
-				intrAmnt=Math.floor(intrAmnt*0.1)*10;
-			}
-			else {
-				intrAmnt=0;
-			}
-			row['intrAmnt']=intrAmnt;
-			var feeAmnt=fee+intrAmnt;
-            feeAmnt=fee+intrAmnt;
-            if(row['vatYn']=='2' || row['vatYn']=='Y') {
-                // vat=Math.floor(feeAmnt*0.01)*10; -- 이경하 대리 요청 사항 부가세 원단위 절삭 안함
-                vat=Math.floor(feeAmnt*0.1);
-            }
-            else vat=0;
-            row['feeAmnt']=feeAmnt;
-            row['vat']=vat;
-            row['nticAmt']=feeAmnt+vat;
-
-            module.$("#assetRentFeeList").flexUpdateRow(rid, row);
-            /*
-            if(confirm('모든 항목에 동일한 이자율을 적용 하시겠습니까?')) {
-            	var d=module.$("#assetRentFeeList").flexGetData();
-            }
-            */
-        	module.onCalc();
-        }
+        module.$("#assetRentFeeList").flexUpdateRow(rid, row);
+        module.onCalc();
     });
 
     this.$("#nticListGrid").flexigrid({
@@ -371,8 +225,8 @@ GamHtldRentFeeMngtModule.prototype.setButtonStatus = function() {
 };
 
 //2015-11-24 김종민 추가작업
+// 자바스크립트 클로저를 이용한 기존 Date객체 변형 객체를 정의.
 GamHtldRentFeeMngtModule.prototype.createExtendedDate = function (argDate) {
-	// 자바스크립트 클로저를 이용한 기존 Date객체 변형 객체를 정의.
 	var dateObj = argDate;
 	var daysOfMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 	var year = dateObj.getFullYear(), month = dateObj.getMonth(), day = dateObj.getDate(), time = dateObj.getTime();
@@ -404,6 +258,8 @@ GamHtldRentFeeMngtModule.prototype.getIntrAmount = function(fee, intrRate, nticM
 	var monthIntrAmount = fee * (intrRate / 100) / 12; //월이자
 	var applyMonths = 0; //이자적용월수
 	var applyDays = 0; //이자적용일수
+	fee = Number(fee);
+	intrRate = Number(intrRate);
 	nticPdFrom = this.createExtendedDate(EMD.util.strToDate(nticPdFrom));
 	nticPdTo = this.createExtendedDate(EMD.util.strToDate(nticPdTo));
 	grUsagePdTo = this.createExtendedDate(EMD.util.strToDate(grUsagePdTo));
@@ -457,7 +313,7 @@ GamHtldRentFeeMngtModule.prototype.makeRowData = function(item) {
 	item.nticPdDate = item.nticPdFrom+ '~'+ item.nticPdTo;
 
 	if((item.intrRate != void(0)) && (item.intrRate != 0)) {
-		item.intrAmnt = this.getIntrAmount(Number(item.fee), Number(item.intrRate), item.nticMth, item.nticPdFrom, item.nticPdTo, item.grUsagePdTo);
+		item.intrAmnt = this.getIntrAmount(item.fee, item.intrRate, item.nticMth, item.nticPdFrom, item.nticPdTo, item.grUsagePdTo);
 	}
 	
 	if(item.feeAmnt==undefined) {
