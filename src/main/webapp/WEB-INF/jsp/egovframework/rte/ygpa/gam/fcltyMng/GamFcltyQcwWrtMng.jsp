@@ -36,7 +36,7 @@
 function GamFcltyQcwWrtMngModule() {
 }
 
-GamFcltyQcwWrtMngModule.prototype = new EmdModule(1000,700);
+GamFcltyQcwWrtMngModule.prototype = new EmdModule(1000,710);
 
 <%
 /**
