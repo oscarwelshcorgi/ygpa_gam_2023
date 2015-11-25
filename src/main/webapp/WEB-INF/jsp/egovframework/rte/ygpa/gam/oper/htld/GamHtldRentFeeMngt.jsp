@@ -370,58 +370,109 @@ GamHtldRentFeeMngtModule.prototype.setButtonStatus = function() {
 	}
 };
 
+//2015-11-24 김종민 추가작업
+GamHtldRentFeeMngtModule.prototype.createExtendedDate = function (argDate) {
+	// 자바스크립트 클로저를 이용한 기존 Date객체 변형 객체를 정의.
+	var dateObj = argDate;
+	var daysOfMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+	var year = dateObj.getFullYear(), month = dateObj.getMonth(), day = dateObj.getDate(), time = dateObj.getTime();
+	daysOfMonth[1] = (((year%4==0) && (year%100!=0)) || (year%400==0)) ? 29 : 28;
+	return {
+		getDateObject : function() { return dateObj; }
+		, getYear : function() { return year; }
+		, getMonth : function() { return (month + 1); }
+		, getDay : function() { return day; }
+		, getTime : function() { return time; }
+		, isLeapYear : function() { return daysOfMonth[1] == 29; }
+		, getLastDayOfMonth : function() { return daysOfMonth[month]; }
+		, getQuarter : function() { return Math.floor((month/3)+1); }
+		, getRemainDaysOfMonth : function() { return daysOfMonth[month] - day + 1; }
+		, isLastDayOfMonth : function() { return day == daysOfMonth[month]; }
+		, equals : function(argDate) { return argDate.getTime() == time; }
+		, equalsYear : function(argDate) { return argDate.getYear() == year; }
+		, equalsMonth : function(argDate) { return argDate.getMonth() == this.getMonth(); }
+		, equalsYearMonth : function(argDate) { return (argDate.getYear() == year) && (argDate.getMonth() == this.getMonth()); }
+		, isQuarterStartDate : function() { return ((this.getMonth() == 1) || (this.getMonth() == 4) || (this.getMonth() == 7) || (this.getMonth() == 10)) && (day == 1); }
+		, isQuarterEndDate : function() { return ((this.getMonth() == 3) || (this.getMonth() == 6) || (this.getMonth() == 9) || (this.getMonth() == 12)) && this.isLastDayOfMonth() }
+	};	
+};
+
+//2015-11-24 김종민 추가작업
+//이자 구하는 함수
+GamHtldRentFeeMngtModule.prototype.getIntrAmount = function(fee, intrRate, nticMth, nticPdFrom, nticPdTo, grUsagePdTo) {
+	var result = 0;
+	var monthIntrAmount = fee * (intrRate / 100) / 12; //월이자
+	var applyMonths = 0; //이자적용월수
+	var applyDays = 0; //이자적용일수
+	nticPdFrom = this.createExtendedDate(EMD.util.strToDate(nticPdFrom));
+	nticPdTo = this.createExtendedDate(EMD.util.strToDate(nticPdTo));
+	grUsagePdTo = this.createExtendedDate(EMD.util.strToDate(grUsagePdTo));
+
+	switch(nticMth) {
+		case '1' : //일괄
+		case '6' : //연납
+		case '5' : //월납
+			break;
+		case '2' : //반기납
+		case '3' : //3분납
+		case '4' : //분기납
+			if(nticPdTo.getYear() < grUsagePdTo.getYear()) { 
+				//고지기간종료년도와 총사용(계약)기간종료년도보다 작으면 그 해 내내 분납이 지속되는 것으로 간주.
+				//이자적용월수 구하기
+				applyMonths = 12 - nticPdTo.getMonth();
+				if(applyMonths > 0) {
+					result = monthIntrAmount * applyMonths; //총이자 = 월이자 * 이자적용월수
+					result = Math.floor(result*0.1) * 10; //1원단위는 절사한다.
+				} 
+			} else {
+				//고지기간종료년도와 총사용기간종료년도와 같으면
+				if(grUsagePdTo.isLastDayOfMonth()) {
+					//총사용기간종료일이 그 달의 마지막 날이면 적용월수만 구해서 이자를 구한다. 
+					applyMonths = grUsagePdTo.getMonth() - nticPdTo.getMonth();
+					if(applyMonths > 0) {
+						result = monthIntrAmount * applyMonths; //총이자 = 월이자 * 이자적용월수
+						result = Math.floor(result*0.1) * 10; //1원단위는 절사한다.
+					}
+				} else {
+					//총사용기간종료일이 그 달의 마지막 날이 아니라면 총사용기간종료일 전달까지의 적용월수를 구한다.
+					applyMonths = (grUsagePdTo.getMonth() - 1) - nticPdTo.getMonth();
+					if(applyMonths >= 0) {
+						//적용월수가 0이라도 적용일수가 있으므로 이자를 계산한다.
+						applyDays = grUsagePdTo.getDay();
+						daysOfMonth = grUsagePdTo.getLastDayOfMonth(); //종료월의 날수 구하기.
+						
+						//이자 : (월이자 * 전달까지의 적용월수) + (월이자 * (적용일수/달일수))
+						result = (monthIntrAmount * applyMonths) + (monthIntrAmount * (applyDays / daysOfMonth));
+						result = Math.floor(result*0.1) * 10; //1원단위는 절사한다.	
+					}
+				}
+			}
+			break;
+	};
+	return result;
+};
+
+
 GamHtldRentFeeMngtModule.prototype.makeRowData = function(item) {
 	item.nticPdDate = item.nticPdFrom+ '~'+ item.nticPdTo;
-	var dtfr = EMD.util.strToDate(item.nticPdFrom);
-	var dtto = EMD.util.strToDate(item.nticPdTo);
-	if((item.intrAmnt==undefined|| intrAmnt==null) && item.intrRate!=null && item.intrRate!=0) {
-		var fee=Number(item.fee);
-		var intrRate=Number(item.intrRate)/100;
-		var intrAmnt=0;
 
-		if(item.nticMth!='1') {
-			if(item.nticMth=='2'){
-				if(dtfr.getMonth()<6) {
-					intrAmnt=fee*intrRate;
-				}
-			}
-			else if(item.nticMth=='3'){
-				if(dtfr.getMonth()<4) {
-					intrAmnt=(fee*2)*intrRate;
-				}
-				else if(dtfr.getMonth()<8) {
-					intrAmnt=(fee)*intrRate*2/3;
-				}
-			}
-			else if(item.nticMth=='4'){
-				if(dtfr.getMonth()<3) {
-					intrAmnt=(fee*3)*intrRate;
-				}
-				else if(dtfr.getMonth()<6) {
-					intrAmnt=fee*intrRate;
-				}
-				else if(dtfr.getMonth()<9) {
-					intrAmnt=fee*intrRate/4;
-				}
-			}
-			intrAmnt=Math.floor(intrAmnt*0.1)*10;
-		}
-		else {
-			intrAmnt=0;
-		}
-		item.intrAmnt=intrAmnt;
+	if((item.intrRate != void(0)) && (item.intrRate != 0)) {
+		item.intrAmnt = this.getIntrAmount(Number(item.fee), Number(item.intrRate), item.nticMth, item.nticPdFrom, item.nticPdTo, item.grUsagePdTo);
 	}
+	
 	if(item.feeAmnt==undefined) {
-		item.feeAmnt=item.fee+item.intrAmnt;
+		item.feeAmnt=item.fee+(item.intrAmnt == void(0) ? 0 : item.intrAmnt) ;
 	}
+	
 	var vatRate=0;
 	if(item.vatYn=='2') {
 		vatRate=0.1;
 	}
+	
 //	item.vat=Math.floor(item.feeAmnt*vatRate*0.1)*10;	-- 이경하 대리 요청 사항 부가세 원단위 절삭 안함
 	item.vat=Math.floor(item.feeAmnt*vatRate);
 //	if(item.nticAmt===0) {
-		item.nticAmt=item.feeAmnt+item.vat;
+	item.nticAmt=item.feeAmnt+item.vat;
 //	}
 };
 
