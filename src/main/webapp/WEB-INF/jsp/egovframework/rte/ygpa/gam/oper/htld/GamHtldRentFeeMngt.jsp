@@ -155,7 +155,6 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
         }
     });
 
-
     if(params!=null) {
     	if(params.action=="selectRentFee") {
         	this.$('#sPrtAtCode').val(params.nticVo.prtAtCode);
@@ -247,7 +246,7 @@ GamHtldRentFeeMngtModule.prototype.createExtendedDate = function (argDate) {
 		, equalsMonth : function(argDate) { return argDate.getMonth() == this.getMonth(); }
 		, equalsYearMonth : function(argDate) { return (argDate.getYear() == year) && (argDate.getMonth() == this.getMonth()); }
 		, isQuarterStartDate : function() { return ((this.getMonth() == 1) || (this.getMonth() == 4) || (this.getMonth() == 7) || (this.getMonth() == 10)) && (day == 1); }
-		, isQuarterEndDate : function() { return ((this.getMonth() == 3) || (this.getMonth() == 6) || (this.getMonth() == 9) || (this.getMonth() == 12)) && this.isLastDayOfMonth() }
+		, isQuarterEndDate : function() { return ((this.getMonth() == 3) || (this.getMonth() == 6) || (this.getMonth() == 9) || (this.getMonth() == 12)) && this.isLastDayOfMonth(); }
 	};	
 };
 
@@ -311,28 +310,23 @@ GamHtldRentFeeMngtModule.prototype.getIntrAmount = function(fee, intrRate, nticM
 	return result;
 };
 
-
+//2015-11-25 김종민 수정작업
+//그리드에 데이터 로드될 때 값이 들어있지 않는 항목 체우기
 GamHtldRentFeeMngtModule.prototype.makeRowData = function(item) {
-	item.nticPdDate = item.nticPdFrom+ '~'+ item.nticPdTo;
+	item.nticPdDate = item.nticPdFrom + '~' + item.nticPdTo;
 
 	if((item.intrRate != void(0)) && (item.intrRate != 0)) {
 		item.intrAmnt = this.getIntrAmount(item.fee, item.intrRate, item.nticMth, item.nticPdFrom, item.nticPdTo, item.grUsagePdTo);
 	}
 	
-	if(item.feeAmnt==undefined) {
+	if(item.feeAmnt==void(0)) {
 		item.feeAmnt=item.fee+(item.intrAmnt == void(0) ? 0 : item.intrAmnt) ;
 	}
 	
-	var vatRate=0;
-	if(item.vatYn=='2') {
-		vatRate=0.1;
-	}
+	var vatRate = (item.vatYn=='2') ? 0.1 : 0;
 	
-//	item.vat=Math.floor(item.feeAmnt*vatRate*0.1)*10;	-- 이경하 대리 요청 사항 부가세 원단위 절삭 안함
 	item.vat=Math.floor(item.feeAmnt*vatRate);
-//	if(item.nticAmt===0) {
 	item.nticAmt=item.feeAmnt+item.vat;
-//	}
 };
 
 <%--
