@@ -292,7 +292,14 @@ public class GamHtldRentFeePaySttusMngtController {
 
     	return "/ygpa/gam/oper/htld/GamPopupHtldRentArrrgNticIssue";
      }
-
+    
+    /**
+     * 연체고지를 처리
+     * @param htldRentArrrgMngtVO
+     * @param bindingResult
+     * @return
+     * @throws Exception
+     */
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="/oper/htld/insertHtldArrrgNticSingle.do")
     public @ResponseBody Map insertHtldArrrgNticSingle(

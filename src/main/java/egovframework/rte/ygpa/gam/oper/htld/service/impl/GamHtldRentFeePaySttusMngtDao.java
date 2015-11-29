@@ -170,6 +170,17 @@ public class GamHtldRentFeePaySttusMngtDao extends YGPAAbstractDAO {
     }
 
 	/**
+	 * 연체고지 등록 후 원고지 정보 업데이트
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public String updateLevRequestUnpaidF(Map<String, Object> vo) throws Exception {
+        return (String)insert("gamHtldRentFeePaySttusMngtDao.updateLevReqestArrrgAmt_S", vo);
+    }
+	
+	/**
+	 * 연체고지 수정
 	 * @param map
 	 */
 	public void updateNticRequestUnpaidF(Map map) {

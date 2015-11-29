@@ -946,102 +946,121 @@
 		and mng_cnt=#mngCnt#
 		and ntic_cnt=#nticCnt#
     </select>
-
+	
+	<!--  연체고지 입력전 고지입력테이블과 연제고지테이블에서 관련 데이터 가져옴. 2015-11-27 김종민 버그 부분 수정 작업 -->
  	<select id="gamHtldRentFeePaySttusMngtDao.selectLevReqestUnpaidF_S" parameterClass="gamHtldRentArrrgMngtVO" resultClass="egovMap">
 		SELECT
-		  L.PRT_AT_CODE,
-		  L.MNG_YEAR,
-		  L.MNG_NO,
-		  L.MNG_CNT,
-		  L.NTIC_CNT,
-		  L.FCLTY_SE,
-		  L.CHRGE_KND,
-		  L.ENTRPSCD,
-		  L.ENTRPS_NM,
-		  TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM,
-		  TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO,
-		  L.ACCNUT_YEAR,
-		  L.NTICNO,
-		  TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT,
-		  TO_CHAR(L.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT,
-		  L.FEE,
-		  L.RDCXPT_FEE,
-		  L.VAT_YN,
-		  L.VAT,
-		  L.NTIC_AMT,
-		  L.RCIV_SE,
-		  L.RCIV_DT,
-		  L.NHT_ISUE_YN,
-		  L.NHT_PRINT_YN,
-		  (SELECT lpad(nvl(MAX(DLY_SER_NO), 0)+1, 2, '0') FROM UNPAID_F WHERE PRT_AT_CODE=L.PRT_AT_CODE
-		  	AND FISCAL_YR=L.ACCNUT_YEAR
-		  	AND WORK_CODE=L.CHRGE_KND
-		  	AND FEE_TP=GAM_GET_FEE_TP(L.CHRGE_KND)
-		  	AND BILL_NO=L.NTICNO) DLY_SER_NO,
-		  #arrrgAmt# DLY_BILL_AMNT,
-		  #arrrgAmt# DBILL_AMNT,
-		  #newPayTmlmt# DLY_DUE_DT,
-		  TO_CHAR(nvl((SELECT lpad(nvl(MAX(DLY_SER_NO), 0)+1, 2, '0') FROM UNPAID_F WHERE PRT_AT_CODE=L.PRT_AT_CODE
-		  	AND FISCAL_YR=L.ACCNUT_YEAR
-		  	AND WORK_CODE=L.CHRGE_KND
-		  	AND FEE_TP=GAM_GET_FEE_TP(L.CHRGE_KND)
-		  	AND BILL_NO=L.NTICNO), L.PAY_TMLMT), 'YYYY-MM-DD') PRV_DUE_DT,
-	  	TO_CHAR(nvl((SELECT lpad(nvl(MAX(DLY_BILL_DT), 0)+1, 2, '0') FROM UNPAID_F WHERE PRT_AT_CODE=L.PRT_AT_CODE
-	  	AND FISCAL_YR=L.ACCNUT_YEAR
-	  	AND WORK_CODE=L.CHRGE_KND
-	  	AND FEE_TP=GAM_GET_FEE_TP(L.CHRGE_KND)
-	  	AND BILL_NO=L.NTICNO), L.NTIC_DT), 'YYYY-MM-DD') PRV_BILL_DT,
-		  L.NTIC_MTH,
-		  #regUsr# REG_USR,
-		  SYSDATE REGIST_DT,
-		  #arrrgTariff# ARRRG_TARIFF,
-		  TRUNC(SYSDATE-L.PAY_TMLMT) ARRRG_PAY_DATES,
-		  L.SETOFF_YN,
-		  L.PAYINST_INTRRATE,
-		  L.INTR_AMNT,
-		  L.INTR_CHRGE_KND,
-		  L.INTR_FEE_NTICNO,
-		  L.COFIX_OBJ_YRMT,
-		  L.INTR_RATE,
-		  TO_CHAR(SYSDATE, 'YYYY-MM-DD') DLY_BILL_DT,
-		  '( ' || TRIM(TO_CHAR(L.FEE, '999,999,999,999')) || ' * ' || TRIM(TO_CHAR(#arrrgTariff#/100, '9.9999')) || ' )' DLY_BILL_RSN,
-		  #deptCd# DEPT_CD
+			L.PRT_AT_CODE,
+			L.MNG_YEAR,
+			L.MNG_NO,
+			L.MNG_CNT,
+			L.NTIC_CNT,
+			L.FCLTY_SE,
+			L.CHRGE_KND,
+			L.ENTRPSCD,
+			L.ENTRPS_NM,
+			TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM,
+			TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO,
+			L.ACCNUT_YEAR,
+			L.NTICNO,
+			TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT,
+			TO_CHAR(L.PAY_TMLMT, 'YYYY-MM-DD') PAY_TMLMT,
+			L.FEE,
+			L.RDCXPT_FEE,
+			L.VAT_YN,
+			L.VAT,
+			L.NTIC_AMT,
+			L.RCIV_SE,
+			L.RCIV_DT,
+			L.NHT_ISUE_YN,
+			L.NHT_PRINT_YN,
+			#arrrgAmt# DLY_BILL_AMNT,
+			#arrrgAmt# DBILL_AMNT,
+			#newPayTmlmt# DLY_DUE_DT,
+			(
+				SELECT lpad(nvl(MAX(DLY_SER_NO), 0)+1, 2, '0') FROM UNPAID_F 
+					WHERE PRT_AT_CODE=L.PRT_AT_CODE
+					AND FISCAL_YR=L.ACCNUT_YEAR
+					AND WORK_CODE=L.CHRGE_KND
+					AND FEE_TP=GAM_GET_FEE_TP(L.CHRGE_KND)
+					AND BILL_NO=L.NTICNO
+			) DLY_SER_NO,
+			TO_CHAR(
+				NVL(
+				(
+					SELECT U.PRV_DUE_DT FROM UNPAID_F U
+						WHERE U.PRT_AT_CODE=L.PRT_AT_CODE
+						AND U.FISCAL_YR=L.ACCNUT_YEAR
+						AND U.WORK_CODE=L.CHRGE_KND
+						AND U.FEE_TP=GAM_GET_FEE_TP(L.CHRGE_KND)
+						AND U.BILL_NO=L.NTICNO
+						AND U.DLY_SER_NO = DLY_SER_NO
+				), L.PAY_TMLMT ), 
+			'YYYY-MM-DD') PRV_DUE_DT,
+			TO_CHAR(
+				NVL(
+				(
+					SELECT U.PRV_BILL_DT FROM UNPAID_F U 
+						WHERE U.PRT_AT_CODE=L.PRT_AT_CODE
+						AND U.FISCAL_YR=L.ACCNUT_YEAR
+						AND U.WORK_CODE=L.CHRGE_KND
+						AND U.FEE_TP=GAM_GET_FEE_TP(L.CHRGE_KND)
+						AND U.BILL_NO=L.NTICNO
+						AND U.DLY_SER_NO = DLY_SER_NO
+				), L.NTIC_DT ), 
+			'YYYY-MM-DD') PRV_BILL_DT,
+			L.NTIC_MTH,
+			#regUsr# REG_USR,
+			SYSDATE REGIST_DT,
+			#arrrgTariff# ARRRG_TARIFF, 
+			TRUNC(SYSDATE-L.PAY_TMLMT) ARRRG_PAY_DATES,
+			L.SETOFF_YN,
+			L.PAYINST_INTRRATE,
+			L.INTR_AMNT,
+			L.INTR_CHRGE_KND,
+			L.INTR_FEE_NTICNO,
+			L.COFIX_OBJ_YRMT,
+			L.INTR_RATE,
+			TO_CHAR(SYSDATE, 'YYYY-MM-DD') DLY_BILL_DT, 
+			'( ' || TRIM(TO_CHAR(L.FEE, '999,999,999,999')) || ' * ' || TRIM(TO_CHAR(#arrrgTariff#/100, '9.9999')) || ' )' DLY_BILL_RSN, 
+			#deptCd# DEPT_CD
 		FROM LEV_REQEST_F L
 		WHERE L.PRT_AT_CODE=#prtAtCode#
-		and L.MNG_YEAR=#mngYear#
-		and L.mng_no=#mngNo#
-		and L.mng_cnt=#mngCnt#
-		and L.ntic_cnt=#nticCnt#
+			AND L.MNG_YEAR=#mngYear#
+			AND L.MNG_NO=#mngNo#
+			AND L.MNG_CNT=#mngCnt#
+			AND L.NTIC_CNT=#nticCnt#
     </select>
 
+	<!--연체고지 데이터 입력 2015.11.27 김종민 수정작업 - TYPE안 맞는 부분 다 고침.-->
     <insert id="gamHtldRentFeePaySttusMngtDao.insertNticRequestUnpaidF_S" parameterClass="egovMap" >
         INSERT INTO UNPAID_F (
-      PRT_AT_CODE, FEE_TP, WORK_CODE, FISCAL_YR, BILL_NO,
-      DLY_SER_NO, DLY_BILL_AMNT, DLY_BILL_DT, DLY_DUE_DT, DLY_RCVD_DT, DLY_BILL_PRT_YN, DLY_RCVD_TP,
-      FIRST_BILL_DT, DBILL_AMNT,
-      BZ_RGST_ID,
-      DLY_BILL_RSN, UPDT_UID, UPDT_DATE,
-      AGENT_CODE, ACCNT_CODE, ICHE_STATUS, POST_BILL_YN, STR_DATE,END_DATE,
-      DEPT, EMPL, PRV_DUE_DT, DJIRO_AMNT, USER_NAME, PRV_BILL_DT
-      )
-      SELECT
-        L.PRT_AT_CODE, GAM_GET_FEE_TP(L.CHRGE_KND), L.CHRGE_KND, L.ACCNUT_YEAR, L.NTICNO,
-        #dlySerNo#, #dlyBillAmnt#, TO_DATE(#dlyBillDt#, 'YYYY-MM-DD'), TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'), '', 'N', '1',
-      	#nticDt#, #dbillAmnt#,
-      	GAM_GETENTRPSNM(L.ENTRPSCD, '2'),
-      	#dlyBillRsn#,
-      	#regUsr#, SYSDATE,
-      	L.ENTRPSCD, '194', 'N', 'N', #nticPdFrom#, #nticPdTo#,
-      	#deptCd#, #emplNo#, #prvDueDt#, TRUNC(L.NTIC_AMT+#dlyBillAmnt#, -1), #userName#, #prvBillDt#
-      FROM LEV_REQEST_F L
-      WHERE PRT_AT_CODE=#prtAtCode#
-      	AND MNG_YEAR=#mngYear#
-      	AND MNG_NO=#mngNo#
-      	AND MNG_CNT=#mngCnt#
-      	AND NTIC_CNT=#nticCnt#
-      	AND CHRGE_KND=#chrgeKnd#
+      		PRT_AT_CODE, FEE_TP, WORK_CODE, FISCAL_YR, BILL_NO,
+      		DLY_SER_NO, DLY_BILL_AMNT, DLY_BILL_DT, DLY_DUE_DT, DLY_BILL_PRT_YN, DLY_RCVD_TP, <!-- DLY_RCVD_DT는 연체수납일자로 빼버림. 2015.11.27 김종민 -->
+      		FIRST_BILL_DT, DBILL_AMNT,
+      		BZ_RGST_ID,
+      		DLY_BILL_RSN, UPDT_UID, UPDT_DATE,
+      		AGENT_CODE, ACCNT_CODE, ICHE_STATUS, POST_BILL_YN, STR_DATE,END_DATE,
+     		DEPT, EMPL, PRV_DUE_DT, DJIRO_AMNT, USER_NAME, PRV_BILL_DT
+      	)
+      		SELECT
+        		L.PRT_AT_CODE, GAM_GET_FEE_TP(L.CHRGE_KND), L.CHRGE_KND, L.ACCNUT_YEAR, L.NTICNO,
+        		#dlySerNo#, TO_NUMBER(#dlyBillAmnt#), TO_DATE(#dlyBillDt#, 'YYYY-MM-DD'), TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'), 'N', '1',
+      			TO_DATE(#nticDt#, 'YYYY-MM-DD'), TO_NUMBER(#dbillAmnt#),
+      			GAM_GETENTRPSNM(L.ENTRPSCD, '2'),
+      			#dlyBillRsn#, #regUsr#, SYSDATE,
+      			L.ENTRPSCD, '194', 'N', 'N', TO_DATE(#nticPdFrom#, 'YYYY-MM-DD'), TO_DATE(#nticPdTo#, 'YYYY-MM-DD'),
+      			#deptCd#, #emplNo#, TO_DATE(#prvDueDt#, 'YYYY-MM-DD'), TRUNC(L.NTIC_AMT+#dlyBillAmnt#, -1), #userName#, TO_DATE(#prvBillDt#, 'YYYY-MM-DD')
+     		FROM LEV_REQEST_F L
+      		WHERE PRT_AT_CODE=#prtAtCode#
+      			AND MNG_YEAR=#mngYear#
+      			AND MNG_NO=#mngNo#
+      			AND MNG_CNT=#mngCnt#
+      			AND NTIC_CNT=#nticCnt#
+      			AND CHRGE_KND=#chrgeKnd#
     </insert>
 
+	<!-- 연체고지 입력 후 원고지 정보 업데이트 -->
 	<update id="gamHtldRentFeePaySttusMngtDao.updateLevReqestArrrgAmt_S" parameterClass="egovMap">
         UPDATE LEV_REQEST_F SET
         	NTIC_DT=TO_DATE(#dlyBillDt#, 'YYYY-MM-DD'),
@@ -1051,7 +1070,9 @@
       		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#),
       		ARRRG_PAY_DATES=#applyPayDates#,
       		NTIC_AMT=TRUNC(FEE+INTR_AMNT+NVL(VAT,0)+NVL(REIM_FEE,0)+TO_NUMBER(#dlyBillAmnt#), -1),
+      		<isNotNull property="rcivSe">
       		RCIV_SE=#rcivSe#,
+      		</isNotNull>
       		UPD_USR=#regUsr#,
       		UPDT_DT=SYSDATE
      	WHERE

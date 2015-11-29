@@ -277,6 +277,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.receiveFeeSingle = function() {
 
 };
 
+// 연체고지 처리부분
 GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
     if(this.$('#htldRentFeePaySttusMngtList').selectedRowCount()>0) {
 
@@ -297,7 +298,8 @@ GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
                 'nticCnt' : rows['nticCnt'],
                 'taxtSe': rows['taxtSe']
             };
-
+		
+    	//팝업창을 뛰우고 납부기한 등을 변경한 후 처리 
     	this.doExecuteDialog('arrrgNticIssuePopup', '연체료 고지', '/oper/htld/showArrrgNticIssuePopup.do', opts);
 
     } else {
@@ -702,6 +704,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.onClosePopup = function(popupId, msg,
     case 'nticArrrgPopup':
     	break;
     case 'arrrgNticIssuePopup':
+    	//연체고지 처리 팝업 부분. 팝업을 닫은 후 디비 변경작업 처리.
         if (msg != 'cancel') {
         	console.log('notice');
             //if( confirm($.number(value.nticAmt)+"원 을 고지 하시겠습니까?") ) {

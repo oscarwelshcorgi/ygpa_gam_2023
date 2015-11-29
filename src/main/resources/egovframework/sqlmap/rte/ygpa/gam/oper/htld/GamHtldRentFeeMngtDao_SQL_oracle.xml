@@ -177,6 +177,7 @@
 			(L.NHT_ISUE_YN IS NOT NULL AND L.NHT_ISUE_YN='Y')
 			]]>
 		</isEqual>
+		ORDER BY L.NTIC_CNT ASC
     </select>
 
     <select id="gamHtldRentFeeMngtDao.selectHtldRentFeeMngtListTotCnt_S" parameterClass="gamHtldRentFeeDefaultVO" resultClass="int">

@@ -213,19 +213,21 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
 		return gamHtldRentFeePaySttusMngtDao.selectArrrglevReqestPk(gamHtldRentFeeMngtVO);
 	}
 
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtService#sendLevReqestUnpaidF(egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtVO)
+	/**
+	 연체고지 처리부분
 	 */
 	@Override
 	public void sendLevReqestUnpaidF(
 			GamHtldRentArrrgMngtVO gamHtldRentFeeMngtVO) throws Exception {
+		
 		Map map = gamHtldRentFeePaySttusMngtDao.selectLevReqestUnpaidF(gamHtldRentFeeMngtVO);
 
 		map.put("emplNo", gamHtldRentFeeMngtVO.getUpdUsr());
 		map.put("userName", gamHtldRentFeeMngtVO.getUserName());
 
 		gamHtldRentFeePaySttusMngtDao.insertNticRequestUnpaidF(map);
-		gamHtldRentFeePaySttusMngtDao.updateNticRequestUnpaidF(map);
+		//gamHtldRentFeePaySttusMngtDao.updateNticRequestUnpaidF(map); 
+		gamHtldRentFeePaySttusMngtDao.updateLevRequestUnpaidF(map); //2015.11.27 김종민 수정 
 	}
 
 	/* (non-Javadoc)
