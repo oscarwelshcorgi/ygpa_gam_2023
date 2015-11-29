@@ -47,7 +47,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
                     {display:'구역', name:'rentArea',width:82, sortable:false,align:'center'},
 //                    {display:'관리번호', name:'rentMngNo',width:82, sortable:false,align:'center'},
                     {display:'입주기업', name:'entrpsNm',width:190, sortable:false,align:'left'},
-                    {display:'입주면적(㎡)', name:'grAr',width:88, sortable:false,align:'right', displayFormat: 'number',  displayOption:"0,000.0"},
+                    {display:'입주면적(㎡)', name:'grAr',width:88, sortable:false,align:'right', displayFormat: 'number',  displayOption:"0,000.00"},
                     {display:'적용단가(원)', name:'applcPrice',width:80, sortable:false,align:'right', displayFormat: 'number',  displayOption:"0,000.0"},
                     {display:'영업개시일', name:'operYrMt',width:80, sortable:false,align:'center'},
                     {display:'계약기간', name:'grUsagePdPeriod',width:175, sortable:false,align:'center'},
