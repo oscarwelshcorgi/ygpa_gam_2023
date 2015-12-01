@@ -47,6 +47,19 @@ public class GamQcMngAtchFileMngVO extends ComDefaultVO {
 	private	String atchFileSeNm;			// 첨부 파일 구분 명
 	private	String atchFileSelChk;			// 첨부 파일 선택 검사
 
+	private String status; //상태
+	/**
+	 * @return the status
+	 */
+	public String getStatus() {
+		return status;
+	}
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	/**
 	 * @return the sFcltsMngGroupNo
 	 */

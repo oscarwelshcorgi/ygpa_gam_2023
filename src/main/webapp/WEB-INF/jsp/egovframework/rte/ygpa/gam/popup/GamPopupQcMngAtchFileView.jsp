@@ -48,6 +48,12 @@ GamPopupQcMngAtchFileViewModule.prototype.loadComplete = function(params) {
 
 	this.resizable(true);
 
+	if(params.status == "inqire"){
+		this.$('#btnUpdate').hide();
+		this.$('#atchFileSe').disable();
+		this.$('#atchFileSj').disable();
+		this.$('#atchFileRm').disable();
+	}
  	this.$('#atchFileSe').on('change',{module:this}, function(event){
 		var module = event.data.module;
 		var atchFileSe = $(this).val();
