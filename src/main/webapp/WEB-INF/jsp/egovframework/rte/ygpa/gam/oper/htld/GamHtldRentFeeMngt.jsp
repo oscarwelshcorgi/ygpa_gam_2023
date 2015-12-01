@@ -408,13 +408,11 @@ GamHtldRentFeeMngtModule.prototype.makeRowData = function(item) {
                 if( confirm("선택한 건의 고지를 취소 하시겠습니까?") ) {
                 	if(rows['nhtPrintYn']!='Y' || confirm("해당 건의 징수의뢰 자료가 삭제되고 전송된 세금계산서가 있을 경우 해당 업체에 마이너스 세금계산서가 발부 됩니다. 계속 하시겠습까?")) {
                         this.doAction('/oper/htld/cancelHtldRentFeeNticSingle.do', rows, function(module, result) {
-
                             if(result.resultCode=='0') {
                                 var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
                                 module.$("#assetRentFeeListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
                                 module.$('#assetRentFeeList').flexOptions({params:searchOpt}).flexReload();
                             }
-
                             alert(result.resultMsg);
                         });
                 	}
