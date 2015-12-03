@@ -25,7 +25,7 @@
  */
 function GamCofixMngtModule() {}
 
-GamCofixMngtModule.prototype = new EmdModule(600, 400);
+GamCofixMngtModule.prototype = new EmdModule(400, 400);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamCofixMngtModule.prototype.loadComplete = function() {
@@ -36,10 +36,10 @@ GamCofixMngtModule.prototype.loadComplete = function() {
 		url: '/code/selectCofixIntrrateList.do',
 		dataType: 'json',
 		colModel : [
-			{display:'대상년월', name:'objYrmt', width:70, sortable:true, align:'center', displayFormat:'input'},
-			{display:'잔액기준', name:'blceStdrIntrrate', width:100, sortable:true, align:'right', displayFormat:'input-number', displayOption:'000.00'},
-			{display:'신규취급액기준', name:'newManipAmtStdrIntrrate', width:100, sortable:true, align:'right', displayFormat:'input-number', displayOption:'000.00'},
-			{display:'공시일자', name:'annodt', width:180, sortable:true, align:'center', displayFormat:'cal'}
+			//{display:'대상년월', name:'objYrmt', width:70, sortable:true, align:'center', displayFormat:'input'},
+			//{display:'잔액기준', name:'blceStdrIntrrate', width:100, sortable:true, align:'right', displayFormat:'input-number', displayOption:'000.00'},
+			{display:'공시일자', name:'annodt', width:200, sortable:true, align:'center', displayFormat:'cal'},
+			{display:'신규취급액기준', name:'newManipAmtStdrIntrrate', width:120, sortable:true, align:'right', displayFormat:'input-number', displayOption:'000.00'}
 			],
 		height: 'auto',
 		preProcess: function(module, data) {
@@ -144,10 +144,12 @@ var module_instance = new GamCofixMngtModule();
 			<table style="width:100%;" class="searchPanel">
 				<tbody>
 					<tr>
+					<!-- 
 						<th>대상년월</th>
 						<td>
 							<input id="objYrmt" type="text" size="4" />
 						</td>
+					 -->	
 						<th>공시기간</th>
 						<td>
 							<input id="searchDtFrom" type="text" size="8" class="emdcal"/>~
