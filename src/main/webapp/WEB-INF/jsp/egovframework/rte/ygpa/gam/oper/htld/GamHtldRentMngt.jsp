@@ -1110,7 +1110,7 @@ GamHtldRentMngtModule.prototype.addNoticeAdit = function() {
 GamHtldRentMngtModule.prototype.addRentDetailItem = function() {
 	var list = this.$('#assetRentDetailList').flexGetData(); 
 	if(list.length >= 1) {
-		alert('하나이상의 임대상세자료가 존재하여 추가할 수 없습니다.');
+		alert('임대상세자료가 존재하여 추가할 수 없습니다.');
 		return;
 	} 
 	this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '/popup/showAssetsCd.do', {}, {"gisAssetsPrprtySeCd":"L"});
