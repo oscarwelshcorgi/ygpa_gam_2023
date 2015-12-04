@@ -1105,9 +1105,14 @@ GamHtldRentMngtModule.prototype.addNoticeAdit = function() {
 };
 
 <%--
-	임대 상세 추가.
+	임대 상세 추가. //2015.12.04 김종민 수정 - 하나이상의 임대상세는 등록을 못하도록 막음.
 --%>
 GamHtldRentMngtModule.prototype.addRentDetailItem = function() {
+	var list = this.$('#assetRentDetailList').flexGetData(); 
+	if(list.length >= 1) {
+		alert('하나이상의 임대상세자료가 존재하여 추가할 수 없습니다.');
+		return;
+	} 
 	this.doExecuteDialog('selectAssetsCdRentPopup', '시설 선택', '/popup/showAssetsCd.do', {}, {"gisAssetsPrprtySeCd":"L"});
 };
 
