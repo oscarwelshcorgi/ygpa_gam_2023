@@ -873,7 +873,7 @@ public class GamHtldRentFeeMngtController {
      }
 
     /**
-     * 고지의뢰를 한다.(단일처리)
+     * 고지의뢰를 한다.(단일처리) 고지합업 후 실행
      * @param gamAssetRentFeeMngtVO
      * @param bindingResult
      * @return map

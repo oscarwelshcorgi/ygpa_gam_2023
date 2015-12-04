@@ -261,7 +261,7 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 			Map opt = new HashMap();
 			opt.putAll(vo);
 			updateNticPrintState(opt);
-			return;
+			//return; 
 		}
 		gamHtldRentFeeMngtDao.deleteNticRequestRevCollF(vo);	// 고지정보를 삭제한다.
 		vo.put("accnutYear", "");
@@ -281,13 +281,15 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 		else gamHtldRentFeeMngtDao.updateRevCollPrintState(vo);
 
 		gamHtldRentFeeMngtDao.updateLevReqestPrintState(vo);
-
+		
+		/* 2015.12.04 김종민 수정 egiro부분 삭제
 		if("Y".equals(vo.get("nhtPrintYn"))) {
 			gamNticRequestMngtService.egiroPrint(vo);
 		}
 		else {
 			gamNticRequestMngtService.egiroPrintCancel(vo);
 		}
+		*/
 	}
 
 	/* (non-Javadoc)

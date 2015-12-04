@@ -42,8 +42,8 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
 				{display:'입주기업', name:'entrpsNm',width:140, sortable:false,align:'left'},
 				{display:'고지대상기간', name:'nticPdDate',width:160, sortable:false,align:'center'},
 				{display:'고지방법', name:'nticMthNm',width:70, sortable:false,align:'center'},
-				{display:'고지', name:'nhtIsueYn',width:50, sortable:false,align:'center'},
-				{display:'출력', name:'nhtPrintYn',width:50, sortable:false,align:'center'},
+				{display:'고지', name:'nhtIsueYnNm',width:50, sortable:false,align:'center'},
+				{display:'출력', name:'nhtPrintYnNm',width:50, sortable:false,align:'center'},
 				{display:'사용료', name:'fee',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'이자', name:'intrAmnt',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
 				{display:'이자율(%)', name:'intrRate',width:60, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
@@ -313,8 +313,11 @@ GamHtldRentFeeMngtModule.prototype.getIntrAmount = function(fee, intrRate, nticM
 //2015-11-25 김종민 수정작업
 //그리드에 데이터 로드될 때 값이 들어있지 않는 항목 체우기
 GamHtldRentFeeMngtModule.prototype.makeRowData = function(item) {
-	item.nticPdDate = item.nticPdFrom + '~' + item.nticPdTo;
+	item.nhtIsueYnNm = (item.nhtIsueYn == 'Y') ? '고지': '';
+	item.nhtPrintYnNm = (item.nhtPrintYn == 'Y') ? '출력': '';
 
+	item.nticPdDate = item.nticPdFrom + '~' + item.nticPdTo;
+	
 	if((item.intrRate != void(0)) && (item.intrRate != 0)) {
 		item.intrAmnt = this.getIntrAmount(item.fee, item.intrRate, item.nticMth, item.nticPdFrom, item.nticPdTo, item.grUsagePdTo);
 	}

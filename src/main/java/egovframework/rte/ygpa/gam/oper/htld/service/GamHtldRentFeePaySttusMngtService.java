@@ -38,22 +38,11 @@ public interface GamHtldRentFeePaySttusMngtService {
     int selectHtldRentFeePaySttusMngtListTotCnt(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception;
 
     /**
-	 * 자료수, 사용료, 부가세, 고지액을 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 배후단지임대납부현황관리목록
-	 * @exception Exception
-	 */
-    GamHtldRentFeePaySttusMngtVO selectHtldRentFeePaySttusSum(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception;
-
-
-
-
-    /**
-	 * 고지금액합계, 수납금액합계
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return vo
-	 * @exception Exception
-	 */
+   	 * 자료수, 사용료, 부가세, 고지액, 고지금액합계, 수납금액합계을 조회한다.
+   	 * @param searchVO - 조회할 정보가 담긴 VO
+   	 * @return 배후단지임대납부현황관리목록
+   	 * @exception Exception
+   	 */
     GamHtldRentFeePaySttusMngtVO selectHtldRentFeePaySttusMngtSum(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception;
 
 
