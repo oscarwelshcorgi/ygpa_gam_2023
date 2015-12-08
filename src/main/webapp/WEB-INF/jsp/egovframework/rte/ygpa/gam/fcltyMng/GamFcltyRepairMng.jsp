@@ -873,6 +873,7 @@ GamFcltyRepairMngModule.prototype.addObjFcltsItem = function() {
 	this.$('#searchFcltsMngNo').show();
 	this.$("#flawRprObjFcltsF").flexAddRow({'_updtId': 'I', 'fcltsMngGroupNo':'', 'fcltsJobSe':'', 'flawRprSeq':'', 'fcltsMngNo':'', 'flawEnnc':'', 'flawExamDt':'', 'flawExamResult':'', 'rm':''});
 	var allRows = this.$('#flawRprObjFcltsF').flexGetData();
+	console.log(allRows);
 	var selRowId = allRows.length - 1;
 	this.$("#flawRprObjFcltsF").selectRowId(selRowId);
 };
@@ -1203,7 +1204,7 @@ GamFcltyRepairMngModule.prototype.selectedHwpDownload = function() {
 		alert('다운로드할 항목을 선택 하십시요');
 		return;
 	}
-	
+
 	var url = '/fcltyMng/selectFcltyRepairCheckReportListHwp.do';
 	var param = {};
 	param['downList'] = JSON.stringify(downList);
@@ -1290,12 +1291,12 @@ GamFcltyRepairMngModule.prototype.onButtonClick = function(buttonId) {
 		case "ctrtNoPopupBtn":
 			this.doExecuteDialog("selectCtrtNo", "계약번호", '/popup/popupCtrtNo.do', {});
 		break;
-		
+
 		// 선택데이터 한글문서 다운로드
 		case 'btnSelectedHwpDownload':
 			this.selectedHwpDownload();
 			break;
-			
+
 	    case 'btnFirstData':
 	    	this.firstData();
 			break;
@@ -1596,7 +1597,7 @@ var module_instance = new GamFcltyRepairMngModule();
 							<td colspan="3">
 								<input type="text" size="63" id="flawRprEntrpsNm"/>
 							</td>
-							
+
 							<th style="width:10%; height:18px;">도　　급　　액</th>
 							<td colspan="3">
 								<input id="flawContrAmt" type="text" size="20"  class="ygpaNumber" maxlength="16"/> 원
@@ -1687,7 +1688,7 @@ var module_instance = new GamFcltyRepairMngModule();
 							<th style="width:10%; height:18px;">하자 보수 내용</th>
 							<td colspan="3"><textarea id="flawRprContents" cols="65" rows="5" maxlength="4000"></textarea></td>
 						</tr>
-						<!-- 
+						<!--
 						<tr>
 							<th style="width:10%; height:18px;">하자 보수 결과</th>
 							<td colspan="3"><textarea id="flawExamResult" cols="65" rows="5" title="하자보수결과" maxlength="4000"></textarea></td>

@@ -482,4 +482,313 @@
 
 	</delete>
 
+
+
+
+	<select id="gamFcltyMaintMngDao.selectMaintMngAtchFileDirList_D" parameterClass="gamAtchFileDirMngVO" resultClass="egovMap">
+		SELECT
+				 T.DIR_NO AS DIR_NO
+				,T.DEPTH_SORT AS DEPTH_SORT
+				,T.DIR_NM AS DIR_NM
+				,T.DIR_UPPER_NO
+			FROM (
+				SELECT
+						 1 AS DIR_NO
+						,0 AS DEPTH_SORT
+						,'ROOT' AS DIR_NM
+						,0 AS DIR_UPPER_NO
+					FROM DUAL
+				UNION ALL
+				SELECT
+						 T1.DIR_NO AS DIR_NO
+						,T1.DEPTH_SORT AS DEPTH_SORT
+						,T1.DIR_NM AS DIR_NM
+						,(CASE WHEN T1.DEPTH_SORT <![CDATA[ > ]]> 1 THEN T1.DIR_UPPER_NO ELSE 1 END) AS DIR_UPPER_NO
+					FROM ATCH_FILE_DIR_F T1
+				WHERE 1 = 1
+				<isNotEmpty property="dirQueryOption">
+				AND T1.FCLTS_JOB_SE = #dirQueryOption#
+				</isNotEmpty>
+				) T
+		ORDER BY T.DIR_NO,T.DEPTH_SORT
+	</select>
+
+	<select id="gamFcltyMaintMngDao.selectMaintMngAtchFileDirPk_S" parameterClass="gamAtchFileDirMngVO" resultClass="egovMap">
+		SELECT
+				 TO_CHAR(T1.DIR_NO) AS DIR_NO
+				,T1.DIR_NM AS DIR_NM
+				,T1.DIR_PATH AS DIR_PATH
+				,TO_CHAR(T1.DIR_UPPER_NO) AS DIR_UPPER_NO
+				,TO_CHAR(T1.DEPTH_SORT) AS DEPTH_SORT
+				,T1.LEAF_YN AS LEAF_YN
+				,T1.FCLTS_JOB_SE AS DIR_FCLTS_JOB_SE
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+			FROM ATCH_FILE_DIR_F T1
+		WHERE T1.DIR_NO = NVL(TO_NUMBER(REPLACE(#dirNo#,',','')),0)
+	</select>
+
+	<insert id="gamFcltyMaintMngDao.insertMaintMngAtchFileDir_S" parameterClass="gamAtchFileDirMngVO">
+		INSERT INTO ATCH_FILE_DIR_F
+		(
+			 DIR_NO
+			,DIR_NM
+			,DIR_PATH
+			,DIR_UPPER_NO
+			,DEPTH_SORT
+			,LEAF_YN
+			,FCLTS_JOB_SE
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 TO_NUMBER(REPLACE(#dirNo#,',',''))
+			,#dirNm#
+			,#dirPath#
+			,TO_NUMBER(REPLACE(#dirUpperNo#,',',''))
+			,TO_NUMBER(REPLACE(#depthSort#,',',''))
+			,#leafYn#
+			,#dirFcltsJobSe#
+			,#regUsr#
+			,SYSDATE
+		)
+	</insert>
+
+	<update id="gamFcltyMaintMngDao.updateMaintMngAtchFileDir_S" parameterClass="gamAtchFileDirMngVO">
+		UPDATE ATCH_FILE_DIR_F SET
+			 DIR_NM = #dirNm#
+			,DIR_PATH = #dirPath#
+			,DIR_UPPER_NO = TO_NUMBER(REPLACE(#dirUpperNo#,',',''))
+			,DEPTH_SORT = TO_NUMBER(REPLACE(#depthSort#,',',''))
+			,LEAF_YN = #leafYn#
+			,FCLTS_JOB_SE = #dirFcltsJobSe#
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE DIR_NO = TO_NUMBER(REPLACE(#dirNo#,',',''))
+	</update>
+
+	<update id="gamFcltyMaintMngDao.updateMaintMngInsertAtchFileDirLeafYn_S" parameterClass="gamAtchFileDirMngVO">
+		UPDATE ATCH_FILE_DIR_F SET
+			 LEAF_YN = 'N'
+		WHERE DIR_NO = TO_NUMBER(REPLACE(#dirUpperNo#,',',''))
+	</update>
+
+	<update id="gamFcltyMaintMngDao.updateMaintMngDeleteAtchFileDirLeafYn_S" parameterClass="gamAtchFileDirMngVO">
+		UPDATE ATCH_FILE_DIR_F SET
+			 LEAF_YN = (
+				SELECT (CASE WHEN COUNT(*) > 0 THEN 'N' ELSE 'Y' END)
+					FROM ATCH_FILE_DIR_F
+				WHERE DIR_UPPER_NO = TO_NUMBER(REPLACE(#dirUpperNo#,',',''))
+				AND DIR_NO <![CDATA[ <> ]]> TO_NUMBER(REPLACE(#dirNo#,',',''))
+			)
+		WHERE DIR_NO = TO_NUMBER(REPLACE(#dirUpperNo#,',',''))
+	</update>
+
+	<delete id="gamFcltyMaintMngDao.deleteMaintMngAtchFileDir_S" parameterClass="gamAtchFileDirMngVO">
+		DELETE FROM ATCH_FILE_DIR_F
+		WHERE DIR_NO = TO_NUMBER(REPLACE(#dirNo#,',',''))
+	</delete>
+
+	<delete id="gamFcltyMaintMngDao.deleteMaintMngAtchFileDirLowerData_S" parameterClass="gamAtchFileDirMngVO">
+		DELETE FROM ATCH_FILE_DIR_F
+		WHERE DIR_NO IN (
+			SELECT DIR_NO
+				FROM ATCH_FILE_DIR_F
+			WHERE DIR_NO <![CDATA[ > ]]> TO_NUMBER(REPLACE(#dirNo#,',',''))
+			START WITH DIR_UPPER_NO = TO_NUMBER(REPLACE(#dirNo#,',',''))
+			CONNECT BY DIR_UPPER_NO = PRIOR DIR_NO
+		)
+	</delete>
+
+	<select id="gamFcltyMaintMngDao.selectMaintMngAtchFileDirNewNo_S" parameterClass="gamAtchFileDirMngVO" resultClass="java.lang.String">
+		SELECT
+				TO_CHAR(ATCH_FILE_DIR_SEQ.NEXTVAL) AS NEW_DIR_NO
+			FROM DUAL
+	</select>
+
+	<select id="gamFcltyMaintMngDao.selectMaintMngAtchFileDirLowerDataCnt_S" parameterClass="gamAtchFileDirMngVO" resultClass="egovMap">
+		SELECT
+				 COUNT(*) AS LOWER_DATA_CNT
+			FROM ATCH_FILE_DIR_F
+		WHERE DIR_NO IN (
+			SELECT DIR_NO
+				FROM ATCH_FILE_DIR_F
+			WHERE DIR_NO <![CDATA[ > ]]> TO_NUMBER(REPLACE(#dirNo#,',',''))
+			START WITH DIR_UPPER_NO = TO_NUMBER(REPLACE(#dirNo#,',',''))
+			CONNECT BY DIR_UPPER_NO = PRIOR DIR_NO
+		)
+	</select>
+
+
+	<select id="gamFcltyMaintMngDao.selectMaintMngFcltsAtchFileList_D" parameterClass="gamFcltsAtchFileMngVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 TO_CHAR(T1.ATCH_FILE_NO) AS ATCH_FILE_NO
+								,T1.ATCH_FILE_NM_LOGIC AS ATCH_FILE_NM_LOGIC
+								,T1.ATCH_FILE_NM_PHYSICL AS ATCH_FILE_NM_PHYSICL
+								,T1.ATCH_FILE_SE AS ATCH_FILE_SE
+								,T1.ATCH_FILE_SJ AS ATCH_FILE_SJ
+								,TO_CHAR(T1.DIR_NO) AS ATCH_FILE_DIR_NO
+								,T1.FCLTS_DATA_SE AS ATCH_FILE_FCLTS_DATA_SE
+								,T1.FCLTS_MNG_NO AS ATCH_FILE_FCLTS_MNG_NO
+								,T1.FCLTS_JOB_SE AS ATCH_FILE_FCLTS_JOB_SE
+								,TO_CHAR(T1.FCLTS_MNG_SEQ) AS ATCH_FILE_FCLTS_MNG_SEQ
+								,T1.REG_USR AS REG_USR
+								,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+								,T1.UPD_USR AS UPD_USR
+								,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+								,GAM_GET_FILE_SE_NM(T1.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+								,'FALSE' AS ATCH_FILE_SEL_CHK
+							FROM FCLTS_ATCH_FILE_F T1
+						WHERE 1=1
+
+						<isNotEmpty property="atchFileDirNo">
+						AND T1.DIR_NO = NVL(TO_NUMBER(REPLACE(#atchFileDirNo#,',','')),0)
+						</isNotEmpty>
+
+						ORDER BY T1.ATCH_FILE_NO ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
+	<insert id="gamFcltyMaintMngDao.insertMaintMngFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
+		INSERT INTO FCLTS_ATCH_FILE_F
+		(
+			 ATCH_FILE_NO
+			,ATCH_FILE_NM_LOGIC
+			,ATCH_FILE_NM_PHYSICL
+			,ATCH_FILE_SE
+			,ATCH_FILE_SJ
+			,DIR_NO
+			,FCLTS_DATA_SE
+			,FCLTS_MNG_NO
+			,FCLTS_JOB_SE
+			,FCLTS_MNG_SEQ
+			,REG_USR
+			,REGIST_DT
+		)
+		VALUES
+		(
+			 TO_NUMBER(REPLACE(#atchFileNo#,',',''))
+			,#atchFileNmLogic#
+			,#atchFileNmPhysicl#
+			,#atchFileSe#
+			,#atchFileSj#
+			,TO_NUMBER(REPLACE(#atchFileDirNo#,',',''))
+			,#atchFileFcltsDataSe#
+			,#atchFileFcltsMngNo#
+			,#atchFileFcltsJobSe#
+			,TO_NUMBER(REPLACE(#atchFileFcltsMngSeq#,',',''))
+			,#regUsr#
+			,SYSDATE
+		)
+	</insert>
+
+	<update id="gamFcltyMaintMngDao.updateMaintMngFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
+		UPDATE FCLTS_ATCH_FILE_F SET
+			 ATCH_FILE_NM_LOGIC = #atchFileNmLogic#
+			,ATCH_FILE_NM_PHYSICL = #atchFileNmPhysicl#
+			,ATCH_FILE_SE = #atchFileSe#
+			,ATCH_FILE_SJ = #atchFileSj#
+			,DIR_NO = TO_NUMBER(REPLACE(#atchFileDirNo#,',',''))
+			,FCLTS_DATA_SE = #atchFileFcltsDataSe#
+			,FCLTS_MNG_NO = #atchFileFcltsMngNo#
+			,FCLTS_JOB_SE = #atchFileFcltsJobSe#
+			,FCLTS_MNG_SEQ = TO_NUMBER(REPLACE(#atchFileFcltsMngSeq#,',',''))
+			,UPD_USR = #updUsr#
+			,UPDT_DT = SYSDATE
+		WHERE ATCH_FILE_NO = NVL(TO_NUMBER(REPLACE(#atchFileNo#,',','')),0)
+	</update>
+
+	<delete id="gamFcltyMaintMngDao.deleteMaintMngFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
+		DELETE FROM FCLTS_ATCH_FILE_F
+		WHERE ATCH_FILE_NO = TO_NUMBER(REPLACE(#atchFileNo#,',',''))
+	</delete>
+
+	<delete id="gamFcltyMaintMngDao.deleteMaintMngAllFcltsAtchFile_S" parameterClass="gamFcltsAtchFileMngVO">
+		DELETE FROM FCLTS_ATCH_FILE_F
+		WHERE DIR_NO IN (
+			SELECT DIR_NO
+				FROM ATCH_FILE_DIR_F
+			WHERE DIR_NO <![CDATA[ > ]]> TO_NUMBER(REPLACE(#atchFileDirNo#,',',''))
+			START WITH DIR_UPPER_NO = TO_NUMBER(REPLACE(#atchFileDirNo#,',',''))
+			CONNECT BY DIR_UPPER_NO = PRIOR DIR_NO
+		)
+	</delete>
+
+	<delete id="gamFcltyMaintMngDao.deleteMaintMngFcltsAtchFileMulti_S" parameterClass="hashMap">
+		DELETE FROM FCLTS_ATCH_FILE_F
+		WHERE ATCH_FILE_NO IN (SELECT LTRIM(REGEXP_SUBSTR(','||#deleteAtchFileNoList#||',','[^'||','||']+', 1, LEVEL ), ',') AS ATCH_FILE_NO
+								 FROM DUAL
+							   CONNECT BY LEVEL <![CDATA[ <= ]]> (LENGTH(','||#deleteAtchFileNoList#) - LENGTH(REPLACE(','||#deleteAtchFileNoList#,','))) / LENGTH(',')
+							  )
+	</delete>
+
+	<select id="gamFcltyMaintMngDao.selectMaintMngFcltsAtchFilePk_S" parameterClass="gamFcltsAtchFileMngVO" resultClass="egovMap">
+		SELECT
+				 TO_CHAR(T1.ATCH_FILE_NO) AS ATCH_FILE_NO
+				,T1.ATCH_FILE_NM_LOGIC AS ATCH_FILE_NM_LOGIC
+				,T1.ATCH_FILE_NM_PHYSICL AS ATCH_FILE_NM_PHYSICL
+				,T1.ATCH_FILE_SE AS ATCH_FILE_SE
+				,T1.ATCH_FILE_SJ AS ATCH_FILE_SJ
+				,TO_CHAR(T1.DIR_NO) AS ATCH_FILE_DIR_NO
+				,T1.FCLTS_DATA_SE AS ATCH_FILE_FCLTS_DATA_SE
+				,T1.FCLTS_MNG_NO AS ATCH_FILE_FCLTS_MNG_NO
+				,T1.FCLTS_JOB_SE AS ATCH_FILE_FCLTS_JOB_SE
+				,TO_CHAR(T1.FCLTS_MNG_SEQ) AS ATCH_FILE_FCLTS_MNG_SEQ
+				,T1.REG_USR AS REG_USR
+				,TO_CHAR(T1.REGIST_DT,'YYYY-MM-DD HH24:MI:SS') AS REGIST_DT
+				,T1.UPD_USR AS UPD_USR
+				,TO_CHAR(T1.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') AS UPDT_DT
+				,GAM_GET_FILE_SE_NM(T1.ATCH_FILE_SE) AS ATCH_FILE_SE_NM
+				,'FALSE' AS ATCH_FILE_SEL_CHK
+			FROM FCLTS_ATCH_FILE_F T1
+		WHERE T1.ATCH_FILE_NO = TO_NUMBER(REPLACE(#atchFileNo#,',',''))
+	</select>
+
+	<select id="gamFcltyMaintMngDao.selectMaintMngFcltsAtchFileNewNo_S" parameterClass="gamFcltsAtchFileMngVO" resultClass="java.lang.String">
+		SELECT
+				TO_CHAR(FCLTS_ATCH_FILE_SEQ.NEXTVAL) AS NEW_DIR_NO
+			FROM DUAL
+	</select>
+
+	<select id="gamFcltyMaintMngDao.selectMaintMngMntnRprDtlsList_D" parameterClass="gamMntnRprDtlsVO" resultClass="egovMap">
+		SELECT T.*
+			FROM (
+				SELECT  ROWNUM RNUM, S.*
+					FROM (
+						SELECT
+								 T1.MNTN_RPR_SEQ AS MNTN_RPR_SEQ
+								,T1.MNTN_RPR_CNST_NM AS MNTN_RPR_CNST_NM
+								,TO_CHAR(T1.MNTN_RPR_CNST_START_DT,'YYYY-MM-DD') AS MNTN_RPR_CNST_START_DT
+								,TO_CHAR(T1.MNTN_RPR_CNST_END_DT,'YYYY-MM-DD') AS MNTN_RPR_CNST_END_DT
+								,LTRIM(TO_CHAR(NVL(T1.MNTN_RPR_CNST_AMT,0),'999,999,999,999,990')) AS MNTN_RPR_CNST_AMT
+								,GAM_GET_MNTN_RPR_SE_NM(T1.MNTN_RPR_SE) AS MNTN_RPR_SE_NM
+								,T1.ENFORCE_YEAR AS ENFORCE_YEAR
+							FROM MNTN_RPR_DTLS_F T1
+						WHERE T1.FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+						AND T1.FCLTS_JOB_SE = #fcltsJobSe#
+						AND EXISTS (SELECT 'Y'
+										FROM MNTN_RPR_OBJ_FCLTS_F
+									WHERE FCLTS_MNG_GROUP_NO = T1.FCLTS_MNG_GROUP_NO
+									AND FCLTS_JOB_SE = T1.FCLTS_JOB_SE
+									AND MNTN_RPR_SEQ = T1.MNTN_RPR_SEQ
+									AND FCLTS_MNG_NO = #fcltsMngNo#)
+						ORDER BY T1.MNTN_RPR_SEQ ASC
+				) S
+		) T
+		<![CDATA[
+		WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+	</select>
+
 </sqlMap>
