@@ -2049,16 +2049,7 @@ var module_instance = new GamFcltyMaintMngModule();
 								<input id="depthSort" type="hidden"/>
 								<input id="leafYn" type="hidden"/>
 								<input id="inputDirNm" type="text" size="50" maxlength="100"/>
-								<select id="dirQueryOption">
-									<!-- <option value="">전체</option> -->
-									<option value="G" selected="selected" readonly="readonly">유지보수</option>
-									<!--
-									<option value="C">토목시설</option>
-									<option value="M">기계시설</option>
-									<option value="E">전기시설</option>
-									<option value="I">통신시설</option>
-									 -->
-								</select>
+								<input type="hidden" id="dirQueryOption" value="G"/>
 							</form>
 						</td>
 						<td>

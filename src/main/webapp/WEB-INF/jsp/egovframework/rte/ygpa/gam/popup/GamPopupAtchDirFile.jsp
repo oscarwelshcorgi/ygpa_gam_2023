@@ -67,8 +67,18 @@ GamPopupAtchDirFileModule.prototype.loadComplete = function(params) {
 	});
 
 	if (params != null) {
+
+		if(params.sFcltsJobSe == "G"){
+			this.$('#jobSe1').hide();
+		this.$('#sFcltsJobSe').append('<option value="G">유지보수</option>');
+			this.$('#jobSe2').show();
+		}else{
+			this.$('#jobSe2').hide();
+		}
 		this.$('#sSearchSe').val(params.sSearchSe);
 		this.$('#sFcltsJobSe').val(params.sFcltsJobSe);
+
+
 	}
 	this.$('#sDirFileNm').focus();
 
@@ -202,7 +212,7 @@ var popup_instance = new GamPopupAtchDirFileModule();
 							</select>
 						</td>
 						<th>시설 구분</th>
-						<td>
+						<td id="jobSe1">
 							<select id="sFcltsJobSe">
 								<option value="" selected>전체</option>
 								<option value="A">건축시설</option>
@@ -211,6 +221,9 @@ var popup_instance = new GamPopupAtchDirFileModule();
 								<option value="E">전기시설</option>
 								<option value="I">통신시설</option>
 							</select>
+						</td>
+						<td id="jobSe2">
+							<span>유지보수</span>
 						</td>
 						<td rowspan="2">
 							<button class="buttonSearch">조회</button>
