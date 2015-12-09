@@ -102,6 +102,8 @@ public class GamHtldRentArrrgMngtVO extends ComDefaultVO {
 
 	private String deptCd;
 
+	private String dlyBillRsn;
+	
 	public String getPrtAtCode() {
 		return prtAtCode;
 	}
@@ -234,6 +236,16 @@ public class GamHtldRentArrrgMngtVO extends ComDefaultVO {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
-
+	/**
+	 * @return the dlyBillRsn
+	 */
+	public String getDlyBillRsn() {
+		return dlyBillRsn;
+	}
+	/**
+	 * @param dlyBillRsn the dlyBillRsn to set
+	 */
+	public void setDlyBillRsn(String dlyBillRsn) {
+		this.dlyBillRsn = dlyBillRsn;
+	}
 }

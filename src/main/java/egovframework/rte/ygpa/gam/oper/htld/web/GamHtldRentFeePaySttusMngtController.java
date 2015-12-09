@@ -270,7 +270,7 @@ public class GamHtldRentFeePaySttusMngtController {
     }
 
     /**
-     * 연체고지 데이터 삽입
+     * 연체고지 등록
      * @param htldRentArrrgMngtVO
      * @param bindingResult
      * @return
@@ -316,6 +316,56 @@ public class GamHtldRentFeePaySttusMngtController {
 
  		return map;
      }
+    
+    /**
+     * 연체현황관리 목록을 조회한다.
+     * @param searchVO
+     * @return map
+     * @throws Exception the exception
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/htld/selectHtldRentFeePaySttusMngtDlyList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectHtldRentFeePaySttusMngtDlyList(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {
+
+		int totalCnt, page, firstIndex;
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		//연체현황 리스트
+    	List resultList = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtDlyList(searchVO);
+    	
+    	//연체현황 자료수
+    	int totCnt = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtDlyListTotCnt(searchVO);
+    	
+    	//연체현황 고지합계
+    	Map summary = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtDlyListSum(searchVO);
+
+        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+
+    	map.put("resultCode", 0);	// return ok
+    	map.put("resultList", resultList);
+    	map.put("totCnt", totCnt);
+    	map.put("resultSummary", summary);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/oper/htld/updateHtldRentFeePaySttusMngtList.do")
@@ -499,53 +549,4 @@ public class GamHtldRentFeePaySttusMngtController {
 
 		return map;
     }
-
-
-    /**
-     * 배후단지연체현황관리 목록을 조회한다.
-     *change**
-     * @param searchVO
-     * @return map
-     * @throws Exception the exception
-     */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/gnrl/selectHtldRentFeePaySttusMngtDlyList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectHtldRentFeePaySttusMngtDlyList(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {
-
-		int totalCnt, page, firstIndex;
-    	Map map = new HashMap();
-
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-	        map.put("resultCode", 1);
-    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-        	return map;
-    	}
-
-    	PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
-    	List resultList = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtDlyList(searchVO);
-
-    	int totCnt = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtDlyListTotCnt(searchVO);
-    	Map summary = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtDlyListSum(searchVO);
-
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-
-
-    	map.put("resultCode", 0);	// return ok
-    	map.put("resultList", resultList);
-    	map.put("totCnt", totCnt);
-    	map.put("resultSummary", summary);
-    	map.put("searchOption", searchVO);
-
-    	return map;
-    }
-
 }

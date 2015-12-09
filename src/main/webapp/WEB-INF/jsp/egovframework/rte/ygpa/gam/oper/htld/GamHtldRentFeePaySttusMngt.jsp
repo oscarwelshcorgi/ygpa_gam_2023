@@ -67,7 +67,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
     /* 연체내역 목록 */
     this.$("#prtFcltyRentFeePaySttusArrrgList").flexigrid({
         module: this,
-        url: '/oper/gnrl/selectPrtFcltyRentFeePaySttusMngtDlyList.do',
+        url: '/oper/htld/selectHtldRentFeePaySttusMngtDlyList.do',
         dataType: 'json',
         colModel : [
 					{display:'연체횟수', name:'dlySerNo',width:67, sortable:false,align:'center'},
@@ -159,8 +159,8 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 					module.$('#arrrgDetail').show();
 					var fee = Number(result.detailArrrg.fee);
 					var intrAmnt = Number(result.detailArrrg.intrAmnt);
-					var supplyPrice = fee + intrAmnt;
-					module.displayArrrgForm(supplyPrice);
+					var vat = Number(result.detailArrrg.vat)
+					module.displayArrrgForm(fee, intrAmnt, vat);
 				}
 			} else {
 				alert('선택한 자료가 존재하지 않습니다.');
@@ -174,8 +174,8 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 	});
 };
 
-//연체정보 디스플레이
-GamHtldRentFeePaySttusMngtModule.prototype.displayArrrgForm = function(supplyPrice) {
+//연체정보 출력
+GamHtldRentFeePaySttusMngtModule.prototype.displayArrrgForm = function(fee, intrAmnt, vat) {
 	if(this.detailMaster == void(0)) return;
 	if(this.detailArrrg == void(0)) return;
 	
@@ -183,6 +183,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.displayArrrgForm = function(supplyPri
 	var dlyBillRsn = '';
 	var arrrgAmnt = 0;
 	var arrrgRate = 0;
+	var supplyPrice = fee+intrAmnt;
 	
 	for(var i=1; i<=nextArrrgNo; i++) {
 		arrrgRate = (i==1) ? 0.03 : 0.012;
@@ -200,7 +201,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.displayArrrgForm = function(supplyPri
 	this.detailArrrg.arrrgAmt = arrrgAmnt;
 	this.detailArrrg.arrrgNo = nextArrrgNo; 
 	this.detailArrrg.arrrgRate = arrrgRate * 100;
-	this.detailArrrg.arrrgAmtSum = Number(this.detailMaster.nticAmt) + arrrgAmnt; //연체고지금액
+	this.detailArrrg.arrrgAmtSum = fee + intrAmnt + vat + arrrgAmnt; //연체고지금액
 	this.detailArrrg.dlyBillRsn = dlyBillRsn;
 	this.makeFormValues('#arrrgDetailVO', this.detailArrrg);
 };
@@ -345,6 +346,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
 		'newPayTmlmt' : this.$('#dlyDueDt').val(), //납부연체기한
 		'arrrgTariff' : this.$('#arrrgRate').val(),  //연체요율
 		'arrrgAmt' : this.$('#arrrgAmt').val(),    //연체금액
+		'dlyBillRsn' : this.$('#dlyBillRsn').val(),    //산출내역	
 		'arrrgAmtSum' : this.$('#arrrgAmtSum').val() //연체고지금액
 	};
 	
@@ -352,8 +354,6 @@ GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
 	this.doAction('/oper/htld/insertHtldArrrgNticSingle.do', params, function(module, result) {
 		if(result.resultCode=='0') {
 			module.loadDetailPage(); //디테일페이지 로드
-		    var searchOpt=module.makeFormArgs('#gamHtldRentFeePaySttusMngtSearchForm');
-		    module.$('#htldRentFeePaySttusMngtList').flexOptions({params:searchOpt}).flexReload(); //납부현황목록 로드
 		}
 		alert(result.resultMsg);
 	});	

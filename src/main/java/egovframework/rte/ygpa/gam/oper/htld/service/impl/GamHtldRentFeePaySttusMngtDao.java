@@ -128,7 +128,48 @@ public class GamHtldRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 		return (EgovMap) selectByPk("gamHtldRentFeePaySttusMngtDao.selectNticArrrgDetail_S", searchVO);
     }
 
-	public List<?> selectNticArrrgList(GamHtldRentArrrgMngtVO searchVO)
+	/**
+	 * 연체정보 등록 전 연체내역조회
+	 * @param gamHtldRentFeeMngtVO
+	 * @return
+	 */
+	public Map selectLevReqestUnpaidF(
+			GamHtldRentArrrgMngtVO gamHtldRentFeeMngtVO) {
+		return (EgovMap) selectByPk("gamHtldRentFeePaySttusMngtDao.selectLevReqestUnpaidF_S", gamHtldRentFeeMngtVO);
+	}
+
+	/**
+	 * 연체고지 등록
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public String insertNticRequestUnpaidF(Map<String, Object> vo) throws Exception {
+        return (String)insert("gamHtldRentFeePaySttusMngtDao.insertNticRequestUnpaidF_S", vo);
+    }
+
+	/**
+	 * 연체고지 등록 후 원고지 정보 업데이트
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public String updateLevRequestUnpaidF(Map<String, Object> vo) throws Exception {
+        return (String)insert("gamHtldRentFeePaySttusMngtDao.updateLevReqestArrrgAmt_S", vo);
+    }
+    
+    /**
+     * 배후단지임대료연체현황관리 연체목록
+     * @param searchVO
+     * @return 연체현황 목록
+   	 * @exception Exception
+     */
+	public List selectHtldRentFeePaySttusMngtDlyList(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {
+        return list("gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyList_D", searchVO);
+    }
+
+
+    public List<?> selectNticArrrgList(GamHtldRentArrrgMngtVO searchVO)
 			throws Exception {
         return list("gamHtldRentFeePaySttusMngtDao.selectNticArrrgList_D", searchVO);
 	}
@@ -150,14 +191,6 @@ public class GamHtldRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 	public void updateRevArrrgAnlrveBndeRcvdTp(Map map) throws Exception {
 		this.update("gamHtldRentFeePaySttusMngtDao.updateRevArrrgAnlrveBndeRcvdTp", map);
 	}
-
-
-
-
-	/** change** */
-	public List selectHtldRentFeePaySttusMngtDlyList(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {
-        return list("gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyList_D", searchVO);
-    }
 
 
 	/** change**
@@ -187,36 +220,6 @@ public class GamHtldRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 			GamHtldRentFeePaySttusMngtVO gamHtldRentFeeMngtVO) {
 		return (EgovMap) selectByPk("gamHtldRentFeePaySttusMngtDao.selectArrrglevReqestPk_S", gamHtldRentFeeMngtVO);
 	}
-
-	/**
-	 * 연체내역조회
-	 * @param gamHtldRentFeeMngtVO
-	 * @return
-	 */
-	public Map selectLevReqestUnpaidF(
-			GamHtldRentArrrgMngtVO gamHtldRentFeeMngtVO) {
-		return (EgovMap) selectByPk("gamHtldRentFeePaySttusMngtDao.selectLevReqestUnpaidF_S", gamHtldRentFeeMngtVO);
-	}
-
-	/**
-	 * 연체고지 등록
-	 * @param vo
-	 * @return
-	 * @throws Exception
-	 */
-	public String insertNticRequestUnpaidF(Map<String, Object> vo) throws Exception {
-        return (String)insert("gamHtldRentFeePaySttusMngtDao.insertNticRequestUnpaidF_S", vo);
-    }
-
-	/**
-	 * 연체고지 등록 후 원고지 정보 업데이트
-	 * @param vo
-	 * @return
-	 * @throws Exception
-	 */
-	public String updateLevRequestUnpaidF(Map<String, Object> vo) throws Exception {
-        return (String)insert("gamHtldRentFeePaySttusMngtDao.updateLevReqestArrrgAmt_S", vo);
-    }
 	
 	/**
 	 * 연체고지 수정

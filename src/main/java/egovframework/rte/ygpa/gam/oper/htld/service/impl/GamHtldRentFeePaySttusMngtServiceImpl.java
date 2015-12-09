@@ -166,8 +166,19 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
 
 		gamHtldRentFeePaySttusMngtDao.insertNticRequestUnpaidF(map);
 		//gamHtldRentFeePaySttusMngtDao.updateNticRequestUnpaidF(map); 
-		map.put("rcivSe", "1");
+		map.put("rcivSe", "1"); //수납구분을 연체로 만든다.
 		gamHtldRentFeePaySttusMngtDao.updateLevRequestUnpaidF(map); //2015.11.27 김종민 수정 
+	}
+
+    /**
+     * 배후단지임대료연체현황관리 연체목록
+     * @param searchVO
+     * @return 연체현황 목록
+   	 * @exception Exception
+     */
+	@Override
+	public List selectHtldRentFeePaySttusMngtDlyList(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {
+        return gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyList(searchVO);
 	}
 	
 	/* (non-Javadoc)
@@ -219,14 +230,6 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
 
 
 
-
-	/* (non-Javadoc)change**
-	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectAssetRentFeePayDtlsMngtDetailList(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
-	 */
-	@Override
-	public List selectHtldRentFeePaySttusMngtDlyList(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {
-        return gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyList(searchVO);
-	}
 
 
 	/**change**
