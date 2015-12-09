@@ -152,7 +152,7 @@ public class GamHtldRentFeePaySttusMngtController {
      * @throws Exception
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value="/oper/gnrl/htldCheckOcrResult.do")
+	@RequestMapping(value="/oper/htld/htldCheckOcrResult.do")
     public @ResponseBody Map htldCheckOcrResult(GamPrtFcltyRentFeePaySttusMngtVO searchVO,ModelMap model)throws Exception {
     	Map map = new HashMap();
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -180,11 +180,11 @@ public class GamHtldRentFeePaySttusMngtController {
      * @throws Exception
      */
     @SuppressWarnings({ "rawtypes" })
-	@RequestMapping(value="/oper/gnrl/htldShowFeePayPopup.do")
+	@RequestMapping(value="/oper/htld/htldShowFeePayPopup.do")
     public String htldShowFeePayPopup(GamPrtFcltyRentFeePaySttusMngtVO searchVO,ModelMap model)throws Exception {
 		Map master = gamHtldRentFeePaySttusMngtService.selectHtldShowFeePayPopup(searchVO);
 		model.addAttribute("feePayMaster", master);
-    	return "/ygpa/gam/oper/gnrl/GamPopupPrtFcltyRentFeePay";
+    	return "/ygpa/gam/oper/htld/GamPopupHtldRentFeePay";
      }
 
     /**
@@ -257,20 +257,20 @@ public class GamHtldRentFeePaySttusMngtController {
     	Map detailSummary = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtDetailSumPk(searchVO);
     	
     	//배후단지임대료납부상세 연체고지정보
-    	Map arrrgDetail = gamHtldRentFeePaySttusMngtService.selectNticArrrgDetail(searchVO);;
+    	Map detailArrrg = gamHtldRentFeePaySttusMngtService.selectNticArrrgDetail(searchVO);;
 
     	map.put("resultCode", 0);	// return ok
     	map.put("detailFeePayList", detailFeePayList);
     	map.put("detailMaster", detailMaster);
     	map.put("detailSummary", detailSummary);
-    	map.put("resultArrrg", arrrgDetail);
+    	map.put("detailArrrg", detailArrrg);
     	map.put("searchOption", searchVO);
 
     	return map;
     }
 
     /**
-     * 연체고지 데이터 처리
+     * 연체고지 데이터 삽입
      * @param htldRentArrrgMngtVO
      * @param bindingResult
      * @return
@@ -301,8 +301,6 @@ public class GamHtldRentFeePaySttusMngtController {
     		htldRentArrrgMngtVO.setDeptCd(loginVo.getDeptCd());
 
     		gamHtldRentFeePaySttusMngtService.sendLevReqestUnpaidF(htldRentArrrgMngtVO);
-
-//    	 		gamNticRequestMngtService.sendNticRequest(nticParam);
 
 	        resultCode = 0;
 	 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.

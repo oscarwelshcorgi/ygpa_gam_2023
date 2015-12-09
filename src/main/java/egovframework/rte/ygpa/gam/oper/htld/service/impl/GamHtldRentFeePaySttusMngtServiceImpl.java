@@ -1,9 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.htld.service.impl;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +15,6 @@ import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentArrrgMngtVO;
-import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
-import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtService;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtVO;
 
@@ -32,7 +27,7 @@ import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtVO
  * @since 2014-02-05
  * @version 1.0
  * @see
- *
+ * 
  *  Copyright (C)  All right reserved.
  */
 @Service("gamHtldRentFeePaySttusMngtService")
@@ -171,6 +166,7 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
 
 		gamHtldRentFeePaySttusMngtDao.insertNticRequestUnpaidF(map);
 		//gamHtldRentFeePaySttusMngtDao.updateNticRequestUnpaidF(map); 
+		map.put("rcivSe", "1");
 		gamHtldRentFeePaySttusMngtDao.updateLevRequestUnpaidF(map); //2015.11.27 김종민 수정 
 	}
 	

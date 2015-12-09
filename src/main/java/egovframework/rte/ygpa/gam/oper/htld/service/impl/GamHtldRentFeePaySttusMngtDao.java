@@ -88,7 +88,7 @@ public class GamHtldRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 	}
 
     /**
-     * 배후단지임대료납뷰상세 원고지 정보
+     * 배후단지임대료납부상세 원고지 정보
      * @param searchVO
      * @return 원고지 정보
    	 * @exception Exception
@@ -98,7 +98,7 @@ public class GamHtldRentFeePaySttusMngtDao extends YGPAAbstractDAO {
     }
 
     /**
-     * 배후단지임대료납뷰상세 전체사용료 목록
+     * 배후단지임대료납부상세 전체사용료 목록
      * @param searchVO
      * @return 전체사용료 목록
    	 * @exception Exception
@@ -108,7 +108,7 @@ public class GamHtldRentFeePaySttusMngtDao extends YGPAAbstractDAO {
     }
 
     /**
-     * 배후단지임대료납뷰상세 총고지금액, 총납부금액, 관리비, 연체료, 과태료
+     * 배후단지임대료납부상세 총고지금액, 총납부금액, 관리비, 연체료, 과태료
      * @param searchVO
      * @return 총고지금액, 총납부금액, 관리비, 연체료, 과태료 정보
    	 * @exception Exception
@@ -119,7 +119,7 @@ public class GamHtldRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 
     
     /**
-     * 배후단지임대료납뷰상세 연체정보
+     * 배후단지임대료납부상세 연체정보
      * @param searchVO
      * @return 해당고지의 연체정보
    	 * @exception Exception

@@ -323,7 +323,7 @@
             )
 	</update>
 	
-	<!-- 배후단지임대료납뷰상세 원고지 정보 -->
+	<!-- 배후단지임대료납부상세 원고지 정보 -->
     <select id="gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDetailMaster_S" parameterClass="gamHtldRentFeePaySttusMngtVO" resultClass="egovMap">
           SELECT
 		       L.NTIC_CNT
@@ -473,78 +473,91 @@
 	<!-- 배후단지임대료납뷰상세 연체정보 -->
     <select id="gamHtldRentFeePaySttusMngtDao.selectNticArrrgDetail_S" parameterClass="gamHtldRentFeePaySttusMngtVO" resultClass="egovMap">
     <![CDATA[
-           SELECT A.MNG_YEAR,
-           A.MNG_NO,
-           A.MNG_CNT,
-           A.NTICNO,
-           A.PRT_AT_CODE,
-           A.FEE_TP CHRGE_KND,
-           A.CHRGE_KND_NM,
-           A.FISCAL_YR ACCNUT_YEAR,
-           A.BILL_NO,
-           A.ACCNT_CODE,
-           A.ENTRPSCD,
-           A.ENTRPS_NM,
-           A.BILL_AMNT BILL_AMNT,
-           A.NTIC_DT,
-           A.DUE_DATE DLY_DUE_DT,
-           TO_CHAR(SYSDATE, 'YYYY-MM-DD') DLY_BILL_DT,
-           A.ARRRG_TARIFF,
-           U.DLY_BILL_AMNT ARRRG_AMT,
-           U.DLY_BILL_RSN,
-           A.ICHE_STATUS,
-           A.ICHE_STATUS_NM,
-           A.BIZRNO,
-           A.RCIV_SE,
-           A.RSLT_CODE,
-           A.ORIGIN_FEE_TP,
-           A.ORIGIN_FISCAL_YR,
-           A.ORIGIN_BILL_NO
-           , U.BILL_NO DLY_BILL_NO
-           ,U.DLY_BILL_DT DB_DLY_BILL_DT
-           FROM (
-	     SELECT L.MNG_YEAR, L.MNG_NO, L.MNG_CNT,
-		       L.NTICNO,
-		       A.PRT_AT_CODE,
-               A.FEE_TP,
-               GAM_GET_FEE_TP_NM(A.PRT_AT_CODE, 'H', A.WORK_CODE) CHRGE_KND_NM,
-               A.FISCAL_YR,
-               A.BILL_NO,
-               A.ACCNT_CODE,
-               A.AGENT_CODE ENTRPSCD,
-               GAM_GETENTRPSNM(A.AGENT_CODE, '1') ENTRPS_NM,
-               A.BILL_AMNT,
-               TO_CHAR(A.BILL_DT,'YYYY-MM-DD') NTIC_DT,
-               TO_CHAR(A.DUE_DATE,'YYYY-MM-DD') DUE_DATE,
-               L.ARRRG_TARIFF,
-               A.ICHE_STATUS,
-               '' ICHE_STATUS_NM,
-               A.BZ_RGST_ID BIZRNO,
-               A.RCVD_TP RCIV_SE,
-               A.RSLT_CODE,
-               A.ORIGIN_FEE_TP,
-               A.ORIGIN_FISCAL_YR,
-               A.ORIGIN_BILL_NO
-    		FROM REV_COLL_F A,
-      			LEV_REQEST_F L
-		    WHERE A.BILL_PRT_YN='Y'
-		    AND A.PRT_AT_CODE   = L.PRT_AT_CODE
-		    AND A.FEE_TP        = GAM_GET_FEE_TP(L.CHRGE_KND)
-		    AND A.WORK_CODE = L.CHRGE_KND
-		    AND A.FISCAL_YR     = L.ACCNUT_YEAR
-		    AND A.BILL_NO       = L.NTICNO
-	          AND L.PRT_AT_CODE = #prtAtCode#
-	          AND L.MNG_YEAR = #mngYear#
-	          AND L.MNG_NO = #mngNo#
-	          AND L.MNG_CNT = #mngCnt#
-	          AND L.NTIC_CNT = #nticCnt#
-	          AND L.CHRGE_KND = #chrgeKnd#
-	  			AND L.PAY_TMLMT<TRUNC(SYSDATE)
-	          AND (A.RCVD_TP      = '0' OR A.RCVD_TP IS NULL)
-	             AND A.BILL_AMNT > 0
-	          AND A.BILL_AMNT     IS NOT NULL
-		) A
-    		LEFT OUTER JOIN UNPAID_F U ON A.PRT_AT_CODE=U.PRT_AT_CODE AND A.FEE_TP=U.FEE_TP AND A.FISCAL_YR=U.FISCAL_YR AND A.BILL_NO=U.BILL_NO AND U.DLY_SER_NO='01'
+			SELECT 
+			    A.MNG_YEAR,
+			    A.MNG_NO,
+			    A.MNG_CNT,
+			    A.NTICNO,
+			    A.PRT_AT_CODE,
+			    A.FEE_TP CHRGE_KND,
+			    A.CHRGE_KND_NM,
+			    A.FISCAL_YR ACCNUT_YEAR,
+			    A.BILL_NO,
+			    A.ACCNT_CODE,
+			    A.ENTRPSCD,
+			    A.ENTRPS_NM,
+			    A.BILL_AMNT BILL_AMNT,
+			    A.NTIC_DT,
+			    TO_CHAR(SYSDATE+15, 'YYYY-MM-DD') DLY_DUE_DT,
+			    TO_CHAR(SYSDATE, 'YYYY-MM-DD') DLY_BILL_DT,
+			    A.ARRRG_TARIFF,
+			    A.ARRRG_NO,
+			    A.NEXT_ARRRG_NO,
+			    A.FEE,
+			    A.INTR_AMNT,
+			    U.DLY_BILL_AMNT ARRRG_AMT,
+			    U.DLY_BILL_RSN,
+			    A.ICHE_STATUS,
+			    A.ICHE_STATUS_NM,
+			    A.BIZRNO,
+			    A.RCIV_SE,
+			    A.RSLT_CODE,
+			    A.ORIGIN_FEE_TP,
+			    A.ORIGIN_FISCAL_YR,
+			    A.ORIGIN_BILL_NO
+			    , U.BILL_NO DLY_BILL_NO
+			    ,U.DLY_BILL_DT DB_DLY_BILL_DT
+			FROM (
+			        SELECT 
+			          L.MNG_YEAR, 
+			          L.MNG_NO, 
+			          L.MNG_CNT,
+			          L.NTICNO,
+			          A.PRT_AT_CODE,
+			          A.FEE_TP,
+			          GAM_GET_FEE_TP_NM(A.PRT_AT_CODE, 'H', A.WORK_CODE) CHRGE_KND_NM,
+			          A.FISCAL_YR,
+			          A.BILL_NO,
+			          A.ACCNT_CODE,
+			          A.AGENT_CODE ENTRPSCD,
+			          GAM_GETENTRPSNM(A.AGENT_CODE, '1') ENTRPS_NM,
+			          A.BILL_AMNT,
+			          TO_CHAR(A.BILL_DT,'YYYY-MM-DD') NTIC_DT,
+			          TO_CHAR(A.DUE_DATE,'YYYY-MM-DD') DUE_DATE,
+			          L.ARRRG_TARIFF,
+			          L.ARRRG_NO,
+			          NVL(L.ARRRG_NO, 0)+1 AS NEXT_ARRRG_NO,
+			          L.FEE,
+			          L.INTR_AMNT,
+			          A.ICHE_STATUS,
+			          '' ICHE_STATUS_NM,
+			          A.BZ_RGST_ID BIZRNO,
+			          A.RCVD_TP RCIV_SE,
+			          A.RSLT_CODE,
+			          A.ORIGIN_FEE_TP,
+			          A.ORIGIN_FISCAL_YR,
+			          A.ORIGIN_BILL_NO
+			        FROM REV_COLL_F A, LEV_REQEST_F L
+			        WHERE 
+			          A.BILL_PRT_YN='Y'
+			          AND A.PRT_AT_CODE   = L.PRT_AT_CODE
+			          AND A.FEE_TP        = GAM_GET_FEE_TP(L.CHRGE_KND)
+			          AND A.WORK_CODE = L.CHRGE_KND
+			          AND A.FISCAL_YR     = L.ACCNUT_YEAR
+			          AND A.BILL_NO       = L.NTICNO
+			          AND L.PRT_AT_CODE = #prtAtCode#
+			          AND L.MNG_YEAR = #mngYear#
+			          AND L.MNG_NO = #mngNo#
+			          AND L.MNG_CNT = #mngCnt#
+			          AND L.NTIC_CNT = #nticCnt#
+			          AND L.CHRGE_KND = #chrgeKnd#
+			          AND L.PAY_TMLMT<TRUNC(SYSDATE)
+			          AND (A.RCVD_TP      = '0' OR A.RCVD_TP IS NULL)
+			          AND A.BILL_AMNT > 0
+			          AND A.BILL_AMNT     IS NOT NULL
+			    ) A
+			LEFT OUTER JOIN UNPAID_F U ON A.PRT_AT_CODE=U.PRT_AT_CODE AND A.FEE_TP=U.FEE_TP AND A.FISCAL_YR=U.FISCAL_YR AND A.BILL_NO=U.BILL_NO 
+				AND U.DLY_SER_NO=lpad(nvl(A.ARRRG_NO, 0)+1, 2, '0')
     	]]>
     </select>
 
