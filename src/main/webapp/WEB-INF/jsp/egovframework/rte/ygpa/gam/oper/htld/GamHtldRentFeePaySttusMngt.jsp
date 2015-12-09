@@ -136,7 +136,6 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 			//원고지정보처리
 			module.makeDivValues('#detailMaster', result.detailMaster);
 			module.detailMaster = result.detailMaster;
-			
 			if(module.detailMaster != null) {
 				//전체사용료목록처리
 				module.makeMultiDivValues('#detailFeePayList',result.detailFeePayList, function(row) {
@@ -146,10 +145,8 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 						if($(this).hasClass("detailRowSelected")) $(this).removeClass("detailRowSelected");
 					}
 				} );
-				
 				//총고지금액, 총납부금액, 관리비, 연체료, 과태료 정보 처리
 				module.makeDivValues('#summaryPayInfo', result.detailSummary); 
-				
 				//수납상태가 아니라면 연체정보 처리
 				if(result.detailArrrg==void(0)) {
 					module.detailArrrg=null;
@@ -210,11 +207,9 @@ GamHtldRentFeePaySttusMngtModule.prototype.displayArrrgForm = function(fee, intr
 GamHtldRentFeePaySttusMngtModule.prototype.loadArrrgPage = function() {
 	var row = this.$('#htldRentFeePaySttusMngtList').selectedRows()[0];
 	var searchOpt = [];
-
 	$.each(row, function(n, v){
 		searchOpt[searchOpt.length]={name: n, value:v};
 	});
-
     this.$('#prtFcltyRentFeePaySttusArrrgList').flexOptions({params:searchOpt}).flexReload();
 }
 
@@ -223,21 +218,17 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadArrrgPage = function() {
  */
  GamHtldRentFeePaySttusMngtModule.prototype.onButtonClick = function(buttonId) {
      var opts=null;
-
     switch(buttonId) {
         case 'searchBtn':  // 조회
         	this.loadData();
             break;
-            
         case 'popupEntrpsInfo':  // 업체 팝업(조회항목)
             var searchOpt=this.makeFormArgs('#gamHtldRentFeePaySttusMngtSearchForm');
             this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts, searchOpt);
             break;
-
         case 'btnRecivePay':  //수납
         	this.receiveFeeSingle();
         	break;
-            
         case 'btnUpdatePayDtls':	// 납부 현황 새로 고침
             this.doAction('/oper/htld/updateHtldRentFeePaySttusMngtList.do', null, function(module, result) {
                 if(result.resultCode=='0') {
@@ -273,9 +264,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadArrrgPage = function() {
         		alert('연체 고지 할 항목을 선택 하세요.');
         		return;
         	}
-
         	var row=rows[0];
-
             this.printPayNotice('/oper/htld/printHtldRentFeePayNotice.do', row);
         	break;
         case 'btnNticIssuePrint2':
@@ -284,9 +273,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadArrrgPage = function() {
         		alert('연체 고지 할 항목을 선택 하세요.');
         		return;
         	}
-
         	var row=rows[0];
-
             this.printPayNotice('/oper/gnrl/printPrtFcltyRentFeePayNotice.do', row);
         	break;
     }
@@ -327,15 +314,12 @@ GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
 		alert('목록에서 고지할 건을 선택하세요.');
 		return;
 	}
-	
 	var row = this.$('#htldRentFeePaySttusMngtList').selectedRows()[0];
 	if(row['rcivSe'] == '3') {
 		alert('이미 수납 된 건입니다.');
 		return;
 	}
-	
 	if(!confirm('연체고지를 하시겠습니까?')) return;
-	
 	var args = {
 		'prtAtCode': row['prtAtCode'],
 		'mngYear': row['mngYear'],

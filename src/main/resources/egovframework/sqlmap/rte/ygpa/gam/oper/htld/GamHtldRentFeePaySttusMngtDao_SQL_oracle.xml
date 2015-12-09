@@ -703,140 +703,94 @@
 
 	<!-- 배후단지임대료연체현황관리 연체목록  -->
     <select id="gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyList_D" parameterClass="gamHtldRentFeePaySttusMngtVO" resultClass="egovMap">
-			SELECT A.*
-				  FROM
-				       (SELECT Z.*,
-				              ROWNUM AS RNUM
-				         FROM
-				              (
-								SELECT
-									U.PRT_AT_CODE
-									,U.FEE_TP
-									,U.FISCAL_YR
-									,U.BILL_NO
-									,U.DLY_SER_NO
-									,U.AGENT_CODE
-									,U.BZ_RGST_ID
-									,U.DLY_BILL_AMNT
-									,TO_CHAR(U.DLY_BILL_DT, 'YYYY-MM-DD') AS DLY_BILL_DT
-									,U.DLY_BILL_PRT_YN
-									,U.DLY_BILL_RSN
-									,TO_CHAR(U.DLY_DUE_DT, 'YYYY-MM-DD') AS DLY_DUE_DT
-									,TO_CHAR(U.FIRST_BILL_DT, 'YYYY-MM-DD') AS FIRST_BILL_DT
-									,TO_CHAR(U.DLY_RCVD_DT, 'YYYY-MM-DD') AS DLY_RCVD_DT
-									,U.DC_RATE
-									,TO_CHAR(U.RECPT_EPDT, 'YYYY-MM-DD') AS RECPT_EPDT
-									,U.STR_DATE
-									,U.END_DATE
-									,GAM_GETCODENAME('GAM019', U.PRT_AT_CODE) PRT_KOR_NM
-									,GAM_GETCODENAME('GAM025', U.WORK_CODE) FEE_TP_KOR_NM
-									,GAM_GETENTRPSNM(U.AGENT_CODE, '1') FIRM_KOR_NM
-								FROM
-									UNPAID_F U
-								WHERE 1=1
-									<isNotEmpty property="prtAtCode">
-					                    AND U.PRT_AT_CODE = #prtAtCode#
-					                </isNotEmpty>
-					                <isNotEmpty property="chrgeKnd">
-					                    AND U.FEE_TP = GAM_GET_FEE_TP(#chrgeKnd#)
-	                    				AND U.WORK_CODE = #chrgeKnd#
-					                </isNotEmpty>
-					                <isNotEmpty property="accnutYear">
-					                    AND U.FISCAL_YR = #accnutYear#
-					                </isNotEmpty>
-					                <isNotEmpty property="nticno">
-					                    AND U.BILL_NO = #nticno#
-					                </isNotEmpty>
-								ORDER BY
-									U.DLY_SER_NO
-				              )Z
-				       )A
-
-	     <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+			SELECT
+				U.PRT_AT_CODE
+				,U.FEE_TP
+				,U.FISCAL_YR
+				,U.BILL_NO
+				,U.DLY_SER_NO
+				,U.AGENT_CODE
+				,U.BZ_RGST_ID
+				,U.DLY_BILL_AMNT
+				,TO_CHAR(U.DLY_BILL_DT, 'YYYY-MM-DD') AS DLY_BILL_DT
+				,U.DLY_BILL_PRT_YN
+				,U.DLY_BILL_RSN
+				,TO_CHAR(U.DLY_DUE_DT, 'YYYY-MM-DD') AS DLY_DUE_DT
+				,TO_CHAR(U.FIRST_BILL_DT, 'YYYY-MM-DD') AS FIRST_BILL_DT
+				,TO_CHAR(U.DLY_RCVD_DT, 'YYYY-MM-DD') AS DLY_RCVD_DT
+				,U.DC_RATE
+				,TO_CHAR(U.RECPT_EPDT, 'YYYY-MM-DD') AS RECPT_EPDT
+				,U.STR_DATE
+				,U.END_DATE
+				,GAM_GETCODENAME('GAM019', U.PRT_AT_CODE) PRT_KOR_NM
+				,GAM_GETCODENAME('GAM025', U.WORK_CODE) FEE_TP_KOR_NM
+				,GAM_GETENTRPSNM(U.AGENT_CODE, '1') FIRM_KOR_NM
+			FROM
+				UNPAID_F U
+			WHERE 1=1
+				<isNotEmpty property="prtAtCode">
+                    AND U.PRT_AT_CODE = #prtAtCode#
+                </isNotEmpty>
+                <isNotEmpty property="chrgeKnd">
+                    AND U.FEE_TP = GAM_GET_FEE_TP(#chrgeKnd#)
+                				AND U.WORK_CODE = #chrgeKnd#
+                </isNotEmpty>
+                <isNotEmpty property="accnutYear">
+                    AND U.FISCAL_YR = #accnutYear#
+                </isNotEmpty>
+                <isNotEmpty property="nticno">
+                    AND U.BILL_NO = #nticno#
+                </isNotEmpty>
+			ORDER BY
+				U.DLY_SER_NO
     </select>
 
-
+	<!-- 배후단지임대료연체현황관리 연체자료수 -->
     <select id="gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyListTotCnt_S" parameterClass="gamHtldRentFeePaySttusMngtVO" resultClass="int">
-
             SELECT COUNT(*) totcnt
-				FROM
-					UNPAID_F T1
-				LEFT OUTER JOIN
-					P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4
-				ON
-					(T1.PRT_AT_CODE=T4.PRT_AT_CODE)
-				LEFT OUTER JOIN
-					PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3
-				ON
-					(
-					T1.PRT_AT_CODE=T3.PRT_AT_CODE
-					AND T1.FEE_TP=T3.FEE_TP
-					)
-				LEFT OUTER JOIN
-					P2MGR.SHP_OWOP_F@YGPA_P2MGR T2
-				ON
-					(T1.AGENT_CODE=T2.AGENT_CODE)
-				WHERE 1=1
-
-					<isNotEmpty property="prtAtCode">
-	                    AND T1.PRT_AT_CODE = #prtAtCode#
-	                </isNotEmpty>
-
-	                <isNotEmpty property="chrgeKnd">
-	                    AND T1.FEE_TP = GAM_GET_FEE_TP(#chrgeKnd#)
-	                    AND T1.WORK_CODE = #chrgeKnd#
-	                </isNotEmpty>
-
-	                <isNotEmpty property="accnutYear">
-	                    AND T1.FISCAL_YR = #accnutYear#
-	                </isNotEmpty>
-
-	                <isNotEmpty property="nticno">
-	                    AND T1.BILL_NO = #nticno#
-	                </isNotEmpty>
-
+			FROM
+				UNPAID_F U
+			WHERE 1=1
+				<isNotEmpty property="prtAtCode">
+                    AND U.PRT_AT_CODE = #prtAtCode#
+                </isNotEmpty>
+                <isNotEmpty property="chrgeKnd">
+                    AND U.FEE_TP = GAM_GET_FEE_TP(#chrgeKnd#)
+                				AND U.WORK_CODE = #chrgeKnd#
+                </isNotEmpty>
+                <isNotEmpty property="accnutYear">
+                    AND U.FISCAL_YR = #accnutYear#
+                </isNotEmpty>
+                <isNotEmpty property="nticno">
+                    AND U.BILL_NO = #nticno#
+                </isNotEmpty>
+			ORDER BY
+				U.DLY_SER_NO
     </select>
 
-
+	<!-- 배후단지임대료연체현황관리 자료수 연체고지금액합계 -->
     <select id="gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyListSum_D" parameterClass="gamHtldRentFeePaySttusMngtVO" resultClass="egovMap">
             SELECT
             	TRIM(TO_CHAR(COUNT(*), '999,999,999,999')) AS DP_TOT_CNT
-            	,TRIM(TO_CHAR(NVL(SUM(T1.DLY_BILL_AMNT),0), '999,999,999,999')) AS SUM_DLY_BILL_AMNT
+            	,TRIM(TO_CHAR(NVL(SUM(U.DLY_BILL_AMNT),0), '999,999,999,999')) AS SUM_DLY_BILL_AMNT
 			FROM
-					UNPAID_F T1
-				LEFT OUTER JOIN
-					P2MGR.PRT_AT_CODE_F@YGPA_P2MGR T4
-				ON
-					(T1.PRT_AT_CODE=T4.PRT_AT_CODE)
-				LEFT OUTER JOIN
-					PAYEOSU.FEE_TP_F@YGPA_PORTMIS T3
-				ON
-					(
-					T1.PRT_AT_CODE=T3.PRT_AT_CODE
-					AND T1.FEE_TP=T3.FEE_TP
-					)
-				LEFT OUTER JOIN
-					P2MGR.SHP_OWOP_F@YGPA_P2MGR T2
-				ON
-					(T1.AGENT_CODE=T2.AGENT_CODE)
-				WHERE 1=1
-
-					<isNotEmpty property="prtAtCode">
-	                    AND T1.PRT_AT_CODE = #prtAtCode#
-	                </isNotEmpty>
-
-	                <isNotEmpty property="chrgeKnd">
-	                    AND T1.FEE_TP = GAM_GET_FEE_TP(#chrgeKnd#)
-	                    AND T1.WORK_CODE = #chrgeKnd#
-	                </isNotEmpty>
-
-	                <isNotEmpty property="accnutYear">
-	                    AND T1.FISCAL_YR = #accnutYear#
-	                </isNotEmpty>
-
-	                <isNotEmpty property="nticno">
-	                    AND T1.BILL_NO = #nticno#
-	                </isNotEmpty>
+				UNPAID_F U
+			WHERE 1=1
+				<isNotEmpty property="prtAtCode">
+                    AND U.PRT_AT_CODE = #prtAtCode#
+                </isNotEmpty>
+                <isNotEmpty property="chrgeKnd">
+                    AND U.FEE_TP = GAM_GET_FEE_TP(#chrgeKnd#)
+                				AND U.WORK_CODE = #chrgeKnd#
+                </isNotEmpty>
+                <isNotEmpty property="accnutYear">
+                    AND U.FISCAL_YR = #accnutYear#
+                </isNotEmpty>
+                <isNotEmpty property="nticno">
+                    AND U.BILL_NO = #nticno#
+                </isNotEmpty>
+			ORDER BY
+				U.DLY_SER_NO
     </select>
 
     <select id="gamHtldRentFeePaySttusMngtDao.selectHtldFcltyRentFeePaySttusMngtDlyInfo_S" parameterClass="gamPrtFcltyRentFeePaySttusMngtVO" resultClass="egovMap">

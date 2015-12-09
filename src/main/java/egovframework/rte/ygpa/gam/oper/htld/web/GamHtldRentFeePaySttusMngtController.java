@@ -326,8 +326,6 @@ public class GamHtldRentFeePaySttusMngtController {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/oper/htld/selectHtldRentFeePaySttusMngtDlyList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectHtldRentFeePaySttusMngtDlyList(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {
-
-		int totalCnt, page, firstIndex;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -336,15 +334,6 @@ public class GamHtldRentFeePaySttusMngtController {
     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
         	return map;
     	}
-
-    	PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
 		//연체현황 리스트
     	List resultList = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtDlyList(searchVO);
@@ -354,10 +343,7 @@ public class GamHtldRentFeePaySttusMngtController {
     	
     	//연체현황 고지합계
     	Map summary = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtDlyListSum(searchVO);
-
-        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-
-
+    
     	map.put("resultCode", 0);	// return ok
     	map.put("resultList", resultList);
     	map.put("totCnt", totCnt);
