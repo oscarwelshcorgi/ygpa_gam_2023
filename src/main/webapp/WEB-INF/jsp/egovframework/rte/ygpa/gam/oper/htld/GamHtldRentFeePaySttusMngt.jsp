@@ -81,8 +81,8 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         height: '150',
         preProcess: function(module,data) {
     		if (data.resultCode == "0") {
-    			module.makeDivValues('#prtFcltyRentFeePaySttusMngtListForm',data.resultDlyInfo);	// 리스트 값을 채운다
-    			module.makeDivValues('#prtFcltyRentFeePaySttusMngtSum', data.resultSummary); // 결과값을 채운다.
+    			module.makeDivValues('#htldRentFeePaySttusMngtListForm',data.resultDlyInfo);	// 리스트 값을 채운다
+    			module.makeDivValues('#htldRentFeePaySttusMngtSum', data.resultSummary); // 결과값을 채운다.
     		} else {
     			alert(data.resultMsg);
     		}
@@ -738,7 +738,7 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 				
                 <!-- <div class="emdControlPanel"><button id="btnSaveItem">저장</button><button id="btnCancelItem">취소</button><button id="btnRemoveItem">삭제</button></div>  -->
-                    <form id="prtFcltyRentFeePaySttusMngtListForm">
+                    <form id="htldRentFeePaySttusMngtListForm">
                     	<div>
                         <table class="detailForm"  style="width:100%;">
                             <tr>
@@ -803,7 +803,7 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
 					<h2>연체 고지 목록</h2>
 					<div class="emdControlPanel">
                     <table id="prtFcltyRentFeePaySttusArrrgList" style="display:none" class="fillHeight"></table>
-                    <table style="width:100%; margin-bottom: 2px" id="prtFcltyRentFeePaySttusMngtSum" class="summaryPanel">
+                    <table style="width:100%; margin-bottom: 2px" id="htldRentFeePaySttusMngtSum" class="summaryPanel">
 						<tr>
 							<th width="30%" height="23">자료수</th>
 							<td><span id="dpTotCnt" class="ygpaNumber" style="text-align:right;"></span></td>

@@ -873,7 +873,7 @@ public class GamHtldRentFeeMngtController {
      }
 
     /**
-     * 고지의뢰를 한다.(단일처리) 고지합업 후 실행
+     * 고지의뢰를 한다.(단일처리) 고지합업 후 실행 --- 서비스 이전 및 버그 수정 작업 2015.12.10
      * @param gamAssetRentFeeMngtVO
      * @param bindingResult
      * @return map
@@ -885,12 +885,7 @@ public class GamHtldRentFeeMngtController {
      	   @ModelAttribute("gamHtldRentFeeMngtVO") GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO,
      	   BindingResult bindingResult)
             throws Exception {
-
      	Map map = new HashMap();
-     	Map paramMap = new HashMap();
-        String resultMsg = "";
-        int resultCode = 1;
-        int anlrveLevCnt = 0;
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
@@ -902,32 +897,13 @@ public class GamHtldRentFeeMngtController {
     	try {
     		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-    		Map nticParam = gamHtldRentFeeMngtService.selectNoticeRequest(gamHtldRentFeeMngtVO);
-
-    		nticParam.put("updUsr", loginVo.getId());
-    		nticParam.put("nhtPrintYn", "N");
-    		nticParam.put("userName", loginVo.getName());
-    		nticParam.put("deptCd", loginVo.getDeptCd());
-    		nticParam.put("reimChrgeKnd", "DB");
-    		nticParam.put("intrChrgeKnd", "A3");	// 이자 요금 코드
-    		nticParam.put("intrAmnt", gamHtldRentFeeMngtVO.getIntrAmnt());
-    		nticParam.put("intrRate", gamHtldRentFeeMngtVO.getIntrRate());
-    		nticParam.put("vat", gamHtldRentFeeMngtVO.getVat());
-    		nticParam.put("nticAmt", gamHtldRentFeeMngtVO.getNticAmt());
-    		nticParam.put("rm", gamHtldRentFeeMngtVO.getRm());
-
-    		gamHtldRentFeeMngtService.sendLevReqestRevCollF(nticParam);
-
-//	 		gamNticRequestMngtService.sendNticRequest(nticParam);
-
-	        resultCode = 0;
-	 		resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
-
-	     	map.put("resultCode", resultCode);
-	        map.put("resultMsg", resultMsg);
+    		gamHtldRentFeeMngtService.insertAssetRentFeeNticSingle(loginVo, gamHtldRentFeeMngtVO);
+    		
+	     	map.put("resultCode", 0);
+	        map.put("resultMsg", egovMessageSource.getMessage("gam.asset.proc"));
     	}
     	catch(Exception e) {
-	        map.put("resultCode", -1);
+	        map.put("resultCode", 1);
     		map.put("resultMsg", egovMessageSource.getMessage("fail.nticIssue.msg"));
         	return map;
     	}

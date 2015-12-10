@@ -2273,4 +2273,20 @@
           )
           ]]>
 	</delete>
+	
+	<!-- 고지할 때 사용료, 이자, 이자율, 부가세, 고지금액을 변경한다. 2015.12.10 김종민 추가 -->
+	<update id="gamHtldRentFeeMngtDao.updateLevReqestAmount_S" parameterClass="gamHtldRentFeeMngtVO">
+		UPDATE LEV_REQEST_F SET
+			FEE = #fee#, 
+			INTR_AMNT = #intrAmnt#,
+			VAT = #vat#,
+			INTR_RATE = #intrRate#,
+			NTIC_AMT = #nticAmt#
+		WHERE
+			PRT_AT_CODE = #prtAtCode#
+			AND MNG_YEAR = #mngYear#
+			AND MNG_NO = #mngNo#
+			AND MNG_CNT = #mngCnt#
+			AND NTIC_CNT = #nticCnt#
+	</update> 
 </sqlMap>

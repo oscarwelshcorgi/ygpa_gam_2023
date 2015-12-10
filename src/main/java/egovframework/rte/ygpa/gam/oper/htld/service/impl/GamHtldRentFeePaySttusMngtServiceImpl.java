@@ -75,7 +75,6 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
      * @return 납부유무자료
    	 * @exception Exception
      */
-	@Override
 	public Map selectHtldCheckOcrResult(GamPrtFcltyRentFeePaySttusMngtVO searchVO) throws Exception {
 		return gamHtldRentFeePaySttusMngtDao.selectHtldCheckOcrResult(searchVO);
 	}
@@ -86,7 +85,6 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
      * @return
    	 * @exception Exception
      */
-	@Override
 	public void htldUpdateRevCollRcvdTp(GamPrtFcltyRentFeePaySttusMngtVO vo) throws Exception {
 		gamHtldRentFeePaySttusMngtDao.htldUpdateLevReqestRcivSe(vo);
 
@@ -112,7 +110,6 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
      * @return 원고지 정보
    	 * @exception Exception
      */
-	@Override
 	public EgovMap selectHtldRentFeePaySttusMngtDetailMstPk(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {
 		return gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDetailMstPk(searchVO);
 	}
@@ -123,7 +120,6 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
      * @return 전체사용료목록
    	 * @exception Exception
      */
-	@Override
 	public List selectHtldRentFeePaySttusMngtDetailList(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {
         return gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDetailList(searchVO);
 	}
@@ -134,7 +130,6 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
      * @return 총고지금액, 총납부금액, 관리비, 연체료, 과태료 정보
    	 * @exception Exception
      */
-	@Override
 	public EgovMap selectHtldRentFeePaySttusMngtDetailSumPk(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {
 		return gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDetailSumPk(searchVO);
 	}
@@ -146,7 +141,6 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
      * @return 해당고지의 연체정보
    	 * @exception Exception
      */
-	@Override
 	public Map selectNticArrrgDetail(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {
 		return gamHtldRentFeePaySttusMngtDao.selectNticArrrgDetail(searchVO);
 	}
@@ -157,7 +151,6 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
      * @return
    	 * @exception Exception
      */
-	@Override
 	public void sendLevReqestUnpaidF(GamHtldRentArrrgMngtVO gamHtldRentFeeMngtVO) throws Exception {
 		Map map = gamHtldRentFeePaySttusMngtDao.selectLevReqestUnpaidF(gamHtldRentFeeMngtVO);
 
@@ -165,7 +158,6 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
 		map.put("userName", gamHtldRentFeeMngtVO.getUserName());
 
 		gamHtldRentFeePaySttusMngtDao.insertNticRequestUnpaidF(map);
-		//gamHtldRentFeePaySttusMngtDao.updateNticRequestUnpaidF(map); 
 		map.put("rcivSe", "1"); //수납구분을 연체로 만든다.
 		gamHtldRentFeePaySttusMngtDao.updateLevRequestUnpaidF(map); //2015.11.27 김종민 수정 
 	}
@@ -176,11 +168,20 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
      * @return 연체현황 목록
    	 * @exception Exception
      */
-	@Override
 	public List selectHtldRentFeePaySttusMngtDlyList(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {
         return gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyList(searchVO);
 	}
-	
+
+    /**
+     * 배후단지임대료연체현황관리 연체정보
+     * @param searchVO
+     * @return 연체현황 목록
+   	 * @exception Exception
+     */
+    public EgovMap selectHtldRentFeePaySttusMngtDlyInfo(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {
+    	return gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyInfo(searchVO);
+    }
+
 	/* (non-Javadoc)
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectNticArrrgList(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */
@@ -250,15 +251,6 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
 		return gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyListSum(searchVO);
 	}
 
-
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtService#selectPrtFcltyRentFeePaySttusMngtDlyInfo(egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentFeePaySttusMngtVO)
-	 */
-	@Override
-	public EgovMap selectPrtFcltyRentFeePaySttusMngtDlyInfo(
-			GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {
-		return gamHtldRentFeePaySttusMngtDao.selectPrtFcltyRentFeePaySttusMngtDlyInfo(searchVO);
-	}
 
 	/* (non-Javadoc)
 	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeePaySttusMngtService#selectArrrglevReqestPk(egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtVO)

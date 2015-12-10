@@ -343,11 +343,15 @@ public class GamHtldRentFeePaySttusMngtController {
     	
     	//연체현황 고지합계
     	Map summary = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtDlyListSum(searchVO);
-    
+    	
+    	//연체현황 정보
+    	Map dlyInfo = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtDlyInfo(searchVO);
+    	
     	map.put("resultCode", 0);	// return ok
     	map.put("resultList", resultList);
     	map.put("totCnt", totCnt);
     	map.put("resultSummary", summary);
+    	map.put("resultDlyInfo", dlyInfo);
     	map.put("searchOption", searchVO);
 
     	return map;

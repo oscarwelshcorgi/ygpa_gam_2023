@@ -246,5 +246,13 @@ public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
 	public void clearHtldRentFeeList(GamHtldRentFeeDefaultVO vo) {
 		delete("gamHtldRentFeeMngtDao.clearHtldRentFeeList_D", vo);
 	}
-
+	
+	/**
+	 * 고지할 때 사용료, 이자, 이자율, 부가세, 고지금액을 변경한다. 2015.12.10 김종민 추가
+	 * @param vo GamHtldRentFeeMngtVO
+	 * @exception Exception
+	 */
+	public void updateLevReqestAmount(GamHtldRentFeeMngtVO vo) {
+		update("gamHtldRentFeeMngtDao.updateLevReqestAmount_S", vo);
+	}
 }

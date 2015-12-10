@@ -3,6 +3,7 @@ package egovframework.rte.ygpa.gam.oper.htld.service;
 import java.util.List;
 import java.util.Map;
 
+import egovframework.com.cmm.LoginVO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 /**
@@ -150,5 +151,6 @@ public interface GamHtldRentFeeMngtService {
 	 */
 	void deleteHtldRentFeeMngtList(GamHtldRentFeeDefaultVO vo) throws Exception;
 
-
+	/** 고지하는 부분 서비스로 이전하면서 버그 수정 작업  2015.12.10 김종민 수정 **/
+	void insertAssetRentFeeNticSingle(LoginVO loginVo, GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO) throws Exception;
 }

@@ -10,6 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
+import egovframework.com.cmm.LoginVO;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
@@ -316,5 +317,28 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
 	public Map selectHtldCofixPk(GamHtldRentFeeDefaultVO vo) throws Exception {
 		// TODO Auto-generated method stub
 		return gamHtldRentFeeMngtDao.selectHtldCofixPk(vo);
+	}
+	
+	/** 고지하는 부분 서비스로 이전하면서 버그 수정 작업  2015.12.10 김종민 수정 **/
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void insertAssetRentFeeNticSingle(LoginVO loginVo, GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO) throws Exception {
+		
+		gamHtldRentFeeMngtDao.updateLevReqestAmount(gamHtldRentFeeMngtVO); 
+
+		Map nticParam = selectNoticeRequest(gamHtldRentFeeMngtVO);
+
+		nticParam.put("updUsr", loginVo.getId());
+		nticParam.put("nhtPrintYn", "N");
+		nticParam.put("userName", loginVo.getName());
+		nticParam.put("deptCd", loginVo.getDeptCd());
+		nticParam.put("reimChrgeKnd", "DB");
+		nticParam.put("intrChrgeKnd", "A3");	// 이자 요금 코드
+		nticParam.put("intrAmnt", gamHtldRentFeeMngtVO.getIntrAmnt());
+		nticParam.put("intrRate", gamHtldRentFeeMngtVO.getIntrRate());
+		nticParam.put("vat", gamHtldRentFeeMngtVO.getVat());
+		nticParam.put("nticAmt", gamHtldRentFeeMngtVO.getNticAmt());
+		nticParam.put("rm", gamHtldRentFeeMngtVO.getRm());
+		
+		sendLevReqestRevCollF(nticParam);
 	}
 }

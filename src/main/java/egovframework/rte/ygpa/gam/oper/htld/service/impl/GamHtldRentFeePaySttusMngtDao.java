@@ -168,6 +168,15 @@ public class GamHtldRentFeePaySttusMngtDao extends YGPAAbstractDAO {
         return list("gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyList_D", searchVO);
     }
 
+    /**
+     * 배후단지임대료연체현황관리 연체정보
+     * @param searchVO
+     * @return 연체현황 목록
+   	 * @exception Exception
+     */
+    public EgovMap selectHtldRentFeePaySttusMngtDlyInfo(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception {
+		return (EgovMap) selectByPk("gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyInfo_S", searchVO);
+    }
 
     public List<?> selectNticArrrgList(GamHtldRentArrrgMngtVO searchVO)
 			throws Exception {

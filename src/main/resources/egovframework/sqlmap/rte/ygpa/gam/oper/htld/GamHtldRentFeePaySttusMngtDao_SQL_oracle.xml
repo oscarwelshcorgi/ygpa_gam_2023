@@ -792,8 +792,9 @@
 			ORDER BY
 				U.DLY_SER_NO
     </select>
-
-    <select id="gamHtldRentFeePaySttusMngtDao.selectHtldFcltyRentFeePaySttusMngtDlyInfo_S" parameterClass="gamPrtFcltyRentFeePaySttusMngtVO" resultClass="egovMap">
+	
+	<!-- 배후단지임대료연체현황 목록 연체정보 -->
+    <select id="gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyInfo_S" parameterClass="gamHtldRentFeePaySttusMngtVO" resultClass="egovMap">
 		SELECT MAX(U.PRT_AT_CODE) PRT_AT_CODE,
 		  MIN(U.FEE_TP) FEE_TP,
 		  MIN(U.FISCAL_YR) FISCAL_YR,
@@ -810,8 +811,8 @@
 		  TO_CHAR(MAX(U.DLY_RCVD_DT), 'YYYY-MM-DD')   AS DLY_RCVD_DT ,
 		  MAX(U.DC_RATE) DC_RATE,
 		  TO_CHAR(MAX(U.RECPT_EPDT), 'YYYY-MM-DD') AS RECPT_EPDT ,
-		  TO_CHAR(MIN(U.STR_DATE), 'YYYY-MM-DD')   AS STR_DATE ,
-		  TO_CHAR(MAX(U.END_DATE), 'YYYY-MM-DD')   AS END_DATE ,
+		  MIN(U.STR_DATE)   AS STR_DATE ,
+		  MAX(U.END_DATE)   AS END_DATE ,
 		  GAM_GETCODENAME('GAM019', MAX(U.PRT_AT_CODE)) PRT_KOR_NM ,
 		  GAM_GETCODENAME('GAM026', MAX(U.WORK_CODE)) FEE_TP_KOR_NM ,
 		  GAM_GETENTRPSNM(MAX(U.AGENT_CODE), '1') FIRM_KOR_NM

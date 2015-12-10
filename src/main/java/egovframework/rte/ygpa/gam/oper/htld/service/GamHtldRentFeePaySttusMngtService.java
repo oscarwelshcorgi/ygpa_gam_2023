@@ -133,14 +133,6 @@ public interface GamHtldRentFeePaySttusMngtService {
 	EgovMap selectHtldRentFeePaySttusMngtDlyListSum(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception;
 
 	/**
-	 * @param searchVO
-	 * @return
-	 * @throws Exception
-	 */
-	EgovMap selectPrtFcltyRentFeePaySttusMngtDlyInfo(
-			GamHtldRentFeePaySttusMngtVO searchVO) throws Exception;
-
-	/**
 	 * @param gamHtldRentFeeMngtVO
 	 * @return
 	 */
@@ -168,4 +160,11 @@ public interface GamHtldRentFeePaySttusMngtService {
 	 */
 	void htldUpdateRevCollRcvdTp(GamPrtFcltyRentFeePaySttusMngtVO gamPrtFcltyRentFeePaySttusMngtVO) throws Exception;
 
+    /**
+     * 배후단지임대료연체현황관리 연체정보
+     * @param searchVO
+     * @return 연체현황 목록
+   	 * @exception Exception
+     */
+	EgovMap selectHtldRentFeePaySttusMngtDlyInfo(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception;
 }
