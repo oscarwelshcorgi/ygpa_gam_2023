@@ -2188,7 +2188,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 		                                    <option value="E">E 　　　　　　　　　</option>
 		                                    <option value="Z">불명　　　　　　　　</option>
 		                                </select>
-										&nbsp;　　점검결과항목선택 :&nbsp;
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 										<select id="mechFcltsSe">
 											<option value="1">하역장비</option>
 											<!-- <option value="2">항만부잔교</option> -->
