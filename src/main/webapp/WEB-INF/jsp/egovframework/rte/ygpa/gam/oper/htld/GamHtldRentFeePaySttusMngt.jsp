@@ -658,15 +658,20 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
                             <td><input id="arrrgNo" data-column-id="arrrgNo" style="width:70px"/></td>
                         </tr>
                         <tr>
-                        	<th><span class="label">납부공급가액</span></th>
+                        	<th><span class="label">공급가액</span></th>
                             <td><input id="supplyPrice" data-column-id="supplyPrice" class="ygpaNumber" style="width:90px" data-decimal-point="0" /> 원</td>
-                        	<th><span class="label">연체금액</span></th>
+                        	<th><span class="label">부가세</span></th>
+                            <td><input id="vat" data-column-id="vat" class="ygpaNumber" style="width:90px" data-decimal-point="0" /> 원</td>
+                        	<th><span class="label">연체료</span></th>
                             <td><input id="arrrgAmt" data-column-id="arrrgAmt" class="ygpaNumber" style="width:90px" data-decimal-point="0" /> 원</td>
+                        </tr>
+                        <tr>
                         	<th><span class="label">산출내역</span></th>
-                            <td><input id="dlyBillRsn" style="width:100%"/>
+                            <td colspan="3"><input id="dlyBillRsn" style="width:100%"/>
                             	<input type="hidden" id="arrrgRate" data-column-id="arrrgRate" />
-                            	<input type="hidden" id="arrrgAmtSum" data-column-id="arrrgAmtSum" />
                             </td>
+                        	<th><span class="label">고지금액</span></th>
+                            <td><input id="arrrgAmtSum" data-column-id="arrrgAmtSum" class="ygpaNumber" style="width:90px" data-decimal-point="0" /> 원</td>
                         </tr>
                         <tr>
                             <th colspan="6"  style="text-align:center"><span class="label" style="text-align:center">국세징수법에 따라 연체료 3%, 중가산금 1.2%/매월 적용</span></th>

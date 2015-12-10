@@ -495,6 +495,7 @@
 			    A.NEXT_ARRRG_NO,
 			    A.FEE,
 			    A.INTR_AMNT,
+			    A.VAT,
 			    U.DLY_BILL_AMNT ARRRG_AMT,
 			    U.DLY_BILL_RSN,
 			    A.ICHE_STATUS,
