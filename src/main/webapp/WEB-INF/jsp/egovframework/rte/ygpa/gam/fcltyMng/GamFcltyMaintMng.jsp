@@ -89,10 +89,10 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 		dataType: "json",
 		colModel : [
 					{display:"선택", 				name:"chkRole",				width:40, 		sortable:false,		align:"center", 	displayFormat:"checkbox"},
-					{display:"시설명",			name:"prtFcltyNm",			width:343,		sortable:false,		align:"left"},
+					{display:"시설명",			name:"prtFcltyNm",			width:273,		sortable:false,		align:"left"},
 					{display:"시설분류",			name:"gisPrtFcltyNm",		width:50,		sortable:false,		align:"left"}
 			],
-		height: "323",
+		height: "360",
 		groupBy: "gisPrtFcltyNm",
 		preProcess : function(module,data) {
 			$.each(data.resultList, function() {
@@ -1997,7 +1997,7 @@ var module_instance = new GamFcltyMaintMngModule();
 								</tr>
 								<tr>
 									<th height="18" class="required_text">유지보수내용</th>
-									<td colspan="3"><textarea id="mntnRprCn" style="width:430px;" rows="3" title="유지보수내용" maxlength="1333"></textarea></td>
+									<td colspan="3"><textarea id="mntnRprCn" style="width:430px;" rows="4" title="유지보수내용" maxlength="1333"></textarea></td>
 								</tr>
 								<tr>
 									<th height="18" class="required_text" style="border-bottom:none;">비고</th>
@@ -2009,7 +2009,7 @@ var module_instance = new GamFcltyMaintMngModule();
 							<table id="mntnRprObjFcltsF" style="display:none"></table>
 						</td>
 					</tr>
-					<tr>
+					<!-- <tr>
 						<th height="18" class="required_text" style="width:95px;">첨부파일</th>
 						<td>
 							<select id="fcltyMaintFileList">
@@ -2023,7 +2023,7 @@ var module_instance = new GamFcltyMaintMngModule();
 							<button id="btnDownloadFile">다운로드</button>
 							<button id="btnRemoveFile">첨부파일삭제</button>
 						</td>
-					</tr>
+					</tr> -->
 				</table>
 				</form>
 				<div class="emdControlPanel">
