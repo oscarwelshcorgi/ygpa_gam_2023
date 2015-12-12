@@ -26,6 +26,9 @@ public class GamHtldRentFeePaySttusMngtVO extends ComDefaultVO {
     /** 요금 종류 */
     private String chrgeKnd;
 
+    /** 연체 횟수 */
+    private String dlySerNo;
+
     /** 업체코드 */
     private String entrpscd;
 
@@ -1602,6 +1605,20 @@ public class GamHtldRentFeePaySttusMngtVO extends ComDefaultVO {
 
 	public void setSumPayAmt(String sumPayAmt) {
 		this.sumPayAmt = sumPayAmt;
+	}
+
+	/**
+	 * @return the dlySerNo
+	 */
+	public String getDlySerNo() {
+		return dlySerNo;
+	}
+
+	/**
+	 * @param dlySerNo the dlySerNo to set
+	 */
+	public void setDlySerNo(String dlySerNo) {
+		this.dlySerNo = dlySerNo;
 	}
 	
 }

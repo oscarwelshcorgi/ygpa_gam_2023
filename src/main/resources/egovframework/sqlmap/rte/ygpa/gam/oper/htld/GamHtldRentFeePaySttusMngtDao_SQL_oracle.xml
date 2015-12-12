@@ -795,44 +795,48 @@
     </select>
 	
 	<!-- 배후단지임대료연체현황 목록 연체정보 -->
-    <select id="gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyInfo_S" parameterClass="gamHtldRentFeePaySttusMngtVO" resultClass="egovMap">
-		SELECT MAX(U.PRT_AT_CODE) PRT_AT_CODE,
-		  MIN(U.FEE_TP) FEE_TP,
-		  MIN(U.FISCAL_YR) FISCAL_YR,
-		  MAX(U.BILL_NO) BILL_NO,
-		  MAX(U.DLY_SER_NO) DLY_SER_NO,
-		  MAX(U.AGENT_CODE) AGENT_CODE,
-		  MAX(U.BZ_RGST_ID) BZ_RGST_ID,
-		  MAX(U.DLY_BILL_AMNT) DLY_BILL_AMNT,
-		  TO_CHAR(MAX(U.DLY_BILL_DT), 'YYYY-MM-DD') AS DLY_BILL_DT ,
-		  MAX(U.DLY_BILL_PRT_YN) DLY_BILL_PRT_YN,
-		  MAX(U.DLY_BILL_RSN) DLY_BILL_RSN,
-		  TO_CHAR(MAX(U.DLY_DUE_DT), 'YYYY-MM-DD')    AS DLY_DUE_DT ,
-		  TO_CHAR(MAX(U.FIRST_BILL_DT), 'YYYY-MM-DD') AS FIRST_BILL_DT ,
-		  TO_CHAR(MAX(U.DLY_RCVD_DT), 'YYYY-MM-DD')   AS DLY_RCVD_DT ,
-		  MAX(U.DC_RATE) DC_RATE,
-		  TO_CHAR(MAX(U.RECPT_EPDT), 'YYYY-MM-DD') AS RECPT_EPDT ,
-		  MIN(U.STR_DATE)   AS STR_DATE ,
-		  MAX(U.END_DATE)   AS END_DATE ,
-		  GAM_GETCODENAME('GAM019', MAX(U.PRT_AT_CODE)) PRT_KOR_NM ,
-		  GAM_GETCODENAME('GAM026', MAX(U.WORK_CODE)) FEE_TP_KOR_NM ,
-		  GAM_GETENTRPSNM(MAX(U.AGENT_CODE), '1') FIRM_KOR_NM
-		FROM
-			UNPAID_F U
-		WHERE 1=1
-		<isNotEmpty property="prtAtCode">
-		    AND U.PRT_AT_CODE = #prtAtCode#
-		</isNotEmpty>
-		<isNotEmpty property="chrgeKnd">
-		    AND U.FEE_TP = GAM_GET_FEE_TP(#chrgeKnd#)
-						AND U.WORK_CODE = #chrgeKnd#
-		</isNotEmpty>
-		<isNotEmpty property="accnutYear">
-		    AND U.FISCAL_YR = #accnutYear#
-		</isNotEmpty>
-		<isNotEmpty property="nticno">
-		    AND U.BILL_NO = #nticno#
-		</isNotEmpty>
+    <select id="gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyInfo_S" resultClass="egovMap">
+			SELECT
+				U.PRT_AT_CODE
+				,U.FEE_TP
+				,U.FISCAL_YR
+				,U.BILL_NO
+				,U.DLY_SER_NO
+				,U.AGENT_CODE
+				,U.BZ_RGST_ID
+				,U.DLY_BILL_AMNT
+				,TO_CHAR(U.DLY_BILL_DT, 'YYYY-MM-DD') AS DLY_BILL_DT
+				,U.DLY_BILL_PRT_YN
+				,U.DLY_BILL_RSN
+				,TO_CHAR(U.DLY_DUE_DT, 'YYYY-MM-DD') AS DLY_DUE_DT
+				,TO_CHAR(U.FIRST_BILL_DT, 'YYYY-MM-DD') AS FIRST_BILL_DT
+				,TO_CHAR(U.DLY_RCVD_DT, 'YYYY-MM-DD') AS DLY_RCVD_DT
+				,U.DC_RATE
+				,TO_CHAR(U.RECPT_EPDT, 'YYYY-MM-DD') AS RECPT_EPDT
+				,U.STR_DATE
+				,U.END_DATE
+				,GAM_GETCODENAME('GAM019', U.PRT_AT_CODE) PRT_KOR_NM
+				,GAM_GETCODENAME('GAM025', U.WORK_CODE) FEE_TP_KOR_NM
+				,GAM_GETENTRPSNM(U.AGENT_CODE, '1') FIRM_KOR_NM
+			FROM
+				UNPAID_F U
+			WHERE 1=1
+				<isNotEmpty property="prtAtCode">
+                    AND U.PRT_AT_CODE = #prtAtCode#
+                </isNotEmpty>
+                <isNotEmpty property="chrgeKnd">
+                    AND U.FEE_TP = GAM_GET_FEE_TP(#chrgeKnd#)
+                				AND U.WORK_CODE = #chrgeKnd#
+                </isNotEmpty>
+                <isNotEmpty property="accnutYear">
+                    AND U.FISCAL_YR = #accnutYear#
+                </isNotEmpty>
+                <isNotEmpty property="nticno">
+                    AND U.BILL_NO = #nticno#
+                </isNotEmpty>
+                <isNotEmpty property="dlySerNo">
+                    AND U.DLY_SER_NO = #dlySerNo#
+                </isNotEmpty>
     </select>
 
 	<select id="gamHtldRentFeePaySttusMngtDao.selectP2RevArrrgAnlrveLevMgtRevInfo" parameterClass="map" resultClass="egovMap">

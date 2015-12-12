@@ -24,6 +24,7 @@ import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamNticRequestMngtService;
 import egovframework.rte.ygpa.gam.popup.service.GamPopupGisAssetsCdVO;
@@ -342,18 +343,22 @@ public class GamHtldRentFeePaySttusMngtController {
     	int totCnt = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtDlyListTotCnt(searchVO);
     	
     	//연체현황 고지합계
-    	Map summary = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtDlyListSum(searchVO);
+    	//Map summary = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtDlyListSum(searchVO);
     	
-    	//연체현황 정보
-    	Map dlyInfo = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtDlyInfo(searchVO);
+    	Map dlyInfo = null;
+    	if(resultList.size() > 0) {
+    		EgovMap lastRec = (EgovMap) resultList.get(resultList.size()-1);
+    		searchVO.setDlySerNo((String)lastRec.get("dlySerNo"));
+    		//연체현황 정보
+    		dlyInfo = gamHtldRentFeePaySttusMngtService.selectHtldRentFeePaySttusMngtDlyInfo(searchVO);
+    	}
     	
     	map.put("resultCode", 0);	// return ok
     	map.put("resultList", resultList);
     	map.put("totCnt", totCnt);
-    	map.put("resultSummary", summary);
+    	//map.put("resultSummary", summary);
     	map.put("resultDlyInfo", dlyInfo);
-    	map.put("searchOption", searchVO);
-
+ 
     	return map;
     }
 	

@@ -65,7 +65,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
     });
 
     /* 연체내역 목록 */
-    this.$("#prtFcltyRentFeePaySttusArrrgList").flexigrid({
+    this.$("#htldRentFeePaySttusArrrgList").flexigrid({
         module: this,
         url: '/oper/htld/selectHtldRentFeePaySttusMngtDlyList.do',
         dataType: 'json',
@@ -81,8 +81,12 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         height: '150',
         preProcess: function(module,data) {
     		if (data.resultCode == "0") {
+            	$.each(data.resultList, function() {
+            		module.dlyListLastRec = this;
+            	});
     			module.makeDivValues('#htldRentFeePaySttusMngtListForm',data.resultDlyInfo);	// 리스트 값을 채운다
-    			module.makeDivValues('#htldRentFeePaySttusMngtSum', data.resultSummary); // 결과값을 채운다.
+    			var resultSummary = { 'sumDlyBillAmnt' : module.dlyListLastRec.dlyBillAmnt, 'dpTotCnt' : data.totCnt };
+    			module.makeDivValues('#htldRentFeePaySttusMngtSum', resultSummary); // 결과값을 채운다.
     		} else {
     			alert(data.resultMsg);
     		}
@@ -210,7 +214,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadArrrgPage = function() {
 	$.each(row, function(n, v){
 		searchOpt[searchOpt.length]={name: n, value:v};
 	});
-    this.$('#prtFcltyRentFeePaySttusArrrgList').flexOptions({params:searchOpt}).flexReload();
+    this.$('#htldRentFeePaySttusArrrgList').flexOptions({params:searchOpt}).flexReload();
 }
 
 /**
@@ -243,7 +247,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadArrrgPage = function() {
 			this.nticArrrgSingle();
         	break;
         case 'btnNticArrrgCancelPk': //연체고지취소
-        	var rows = this.$('#prtFcltyRentFeePaySttusArrrgList').selectedRows();
+        	var rows = this.$('#htldRentFeePaySttusArrrgList').selectedRows();
 			if(rows.length==0) {
 				alert('취소할 대상을 선택 하십시요.');
 				return;
@@ -251,7 +255,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadArrrgPage = function() {
         	this.nticArrrgCancelPk(rows[0]);
         	break;
         case 'btnNticIssuePrintCancelLast':
-        	var rows = this.$('#prtFcltyRentFeePaySttusArrrgList').selectedRows();
+        	var rows = this.$('#htldRentFeePaySttusArrrgList').selectedRows();
 			if(rows.length==0) {
 				alert('취소할 대상을 선택 하십시요.');
 				return;
@@ -365,6 +369,11 @@ GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgCancelAll = function() {
 };
 
 GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgCancelPk = function(ntic) {
+	if(ntic.dlySerNo != this.dlyListLastRec.dlySerNo) {
+		alert('마지막 연체정보만 취소할 수 있습니다.');
+		return;
+	}
+	
 	if(!confirm('이 건의 대해 고지를 취소 하시겠습니까?')) return;
 	var row=this.$('#htldRentFeePaySttusMngtList').selectedRows()[0];
 
@@ -807,7 +816,7 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
                     </form>
 					<h2>연체 고지 목록</h2>
 					<div class="emdControlPanel">
-                    <table id="prtFcltyRentFeePaySttusArrrgList" style="display:none" class="fillHeight"></table>
+                    <table id="htldRentFeePaySttusArrrgList" style="display:none" class="fillHeight"></table>
                     <table style="width:100%; margin-bottom: 2px" id="htldRentFeePaySttusMngtSum" class="summaryPanel">
 						<tr>
 							<th width="30%" height="23">자료수</th>
