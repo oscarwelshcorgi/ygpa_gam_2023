@@ -1974,8 +1974,8 @@ var module_instance = new GamFcltyMaintMngModule();
 									<td colspan="3"><input id="mntnRprCnstNm" type="text"  title="공사명" maxlength="25" size="76" /></td>
 								</tr>
 								<tr>
-									<th height="18" class="required_text">유지보수</th>
-									<td colspan="3"><input id="mntnRprPart" type="text" title="유지보수" maxlength="25" size="76" /></td>
+									<th height="18" class="required_text">유지보수부위</th>
+									<td colspan="3"><input id="mntnRprPart" type="text" title="유지보수부위" maxlength="25" size="76" /></td>
 								</tr>
 								<tr>
 									<th height="18" class="required_text">공사기간</th>

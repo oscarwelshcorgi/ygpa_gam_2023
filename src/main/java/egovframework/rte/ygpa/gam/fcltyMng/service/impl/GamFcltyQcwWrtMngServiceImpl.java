@@ -958,7 +958,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 			String fcltsGbnNm = ((mngGroupInfo.get("fcltsGbnNm") != null) ? (String)mngGroupInfo.get("fcltsGbnNm") : "-") + " / -";
 			String bldYear = (mngGroupInfo.get("bldYear") != null) ? (String) mngGroupInfo.get("bldYear") : "";
 			String cnstrtr = (mngGroupInfo.get("cnstrtr") != null) ? (String) mngGroupInfo.get("cnstrtr") : "";
-			String flawEndDt = (mngGroupInfo.get("flawEndDt") != null) ? (String) mngGroupInfo.get("flawEndDtYear") + " 년 " + (String) mngGroupInfo.get("flawEndDtMonth") + " 월 " + (String) mngGroupInfo.get("flawEndDtDay") + " 일"  : "";
+			String flawEndDt = (mngGroupInfo.get("flawEndDt") != null) ? (String) mngGroupInfo.get("flawEndDtYear") + "년" + (String) mngGroupInfo.get("flawEndDtMonth") + "월" + (String) mngGroupInfo.get("flawEndDtDay") + "일"  : "";
 
 			int rowCount = getCivilRowCount();
 			int rowAddr = 4;
