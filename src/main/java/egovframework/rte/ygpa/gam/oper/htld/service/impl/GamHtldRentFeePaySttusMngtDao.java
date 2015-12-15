@@ -247,4 +247,47 @@ public class GamHtldRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 		return (EgovMap) selectByPk("gamHtldRentFeePaySttusMngtDao.selectHtldShowFeePayPopup_S", searchVO);
 	}
 
+	/**
+	 * 연체취소를 위한 연체정보 목록을 가져온다.
+	 * @param vo
+	 * @return
+	 */
+	public List selectLevReqestArrrgAmt(Map<String, Object> vo) {
+		return list("gamHtldRentFeePaySttusMngtDao.selectLevReqestArrrgAmt", vo);
+	}
+
+	/**
+	 * 연체고지서 출력을 취소한다.
+	 * @param map
+	 */
+	public void updateUnpaidPrintYn(Map<String, Object> vo) {
+		update("gamHtldRentFeePaySttusMngtDao.updateUnpaidPrintYn", vo);
+	}
+
+	/**
+	 * 최초연체고지취소를 위한 원고지정보변경.
+	 * @param vo
+	 * @throws Exception
+	 */
+	public void updateLevReqestUnarrrgAmt(Map<String, Object> vo) throws Exception {
+        update("gamHtldRentFeePaySttusMngtDao.updateLevReqestUnarrrgAmt", vo);
+	}
+	
+	/**
+	 * 최초연체가 아닌 연체고지취소를 위한 원고지정보변경.
+	 * @param vo
+	 * @throws Exception
+	 */
+	public void updateLevReqestArrrgAmt(Map<String, Object> vo) throws Exception {
+        update("gamHtldRentFeePaySttusMngtDao.updateLevReqestArrrgAmt", vo);
+	}
+
+	/**
+	 * 연체정보 삭제
+	 * @param vo
+	 * @throws Exception
+	 */
+	public void deleteUnpaidByPk(Map<String, Object> vo) throws Exception {
+		delete("gamHtldRentFeePaySttusMngtDao.deleteUnpaidByPk", vo);
+	}	
 }

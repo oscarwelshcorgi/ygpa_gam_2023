@@ -891,7 +891,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 			if("Y".equals(map.get("dlyBillPrtYn"))) {	// 고지 출력이 되어 있으면 고지 출력을 취소 한다.
 				map.put("dlyBillPrtYn", "N");
 				gamNticRequestMngtDAO.updateUnpaidPrintYn(map);
-				egiroPrintCancel(map);
+				//egiroPrintCancel(map);
 			}
 
 			gamNticRequestMngtDAO.deleteUnpaidByPk(map);
@@ -927,7 +927,7 @@ public class GamNticRequestMngtServiceImpl extends AbstractServiceImpl implement
 		}
 	}
 
-
+	
 	public int updateRentFeePaySttusRefresh() throws Exception {
 		int ret = gamNticRequestMngtDAO.updateAssetRentFeePayDtlsMngtList();
 		return ret+gamNticRequestMngtDAO.updateAssetRentFeePayDtlsMngtArrrgList();

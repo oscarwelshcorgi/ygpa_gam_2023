@@ -167,4 +167,12 @@ public interface GamHtldRentFeePaySttusMngtService {
    	 * @exception Exception
      */
 	EgovMap selectHtldRentFeePaySttusMngtDlyInfo(GamHtldRentFeePaySttusMngtVO searchVO) throws Exception;
+
+    /**
+     * 배후단지임대료연체현황관리 연체정보
+     * @param searchVO
+     * @return 연체현황 목록
+   	 * @exception Exception
+     */
+	void cancelUnpaidRequestPk(Map<String, Object> vo) throws Exception;
 }

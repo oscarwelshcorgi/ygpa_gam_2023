@@ -1,5 +1,6 @@
 package egovframework.rte.ygpa.gam.oper.htld.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -182,6 +183,58 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
     	return gamHtldRentFeePaySttusMngtDao.selectHtldRentFeePaySttusMngtDlyInfo(searchVO);
     }
 
+    /**
+     * 배후단지 연체고지 취소 - 요금설정 및 되돌리는 방식이 틀리기에 일반부두와 약간 다름. 2015.12.14 추가 김종민
+     * @param nticVo
+     * @return
+     * @throws Exception
+     */
+	@Override
+	public void cancelUnpaidRequestPk(Map<String, Object> vo) throws Exception {
+		//Parameter로 넘어온 연체데이터로 해당 고지정보와 연체정보를 가져온다.
+		List dlyInfoList = gamHtldRentFeePaySttusMngtDao.selectLevReqestArrrgAmt(vo);
+		if(dlyInfoList == null) throw processException("fail.nticArrg.cancel");
+		if(dlyInfoList.size() < 1) throw processException("fail.nticArrg.cancel");
+		
+		EgovMap dlyInfo = (EgovMap)dlyInfoList.get(0);
+		if(dlyInfo == null) throw processException("fail.nticArrg.cancel");
+		
+		//고지테이블 데이터를 변경한다.
+		String dlySerNo = (dlyInfo.get("dlySerNo") != null) ? (String) dlyInfo.get("dlySerNo") : null;
+		if(dlySerNo == null) throw processException("fail.nticArrg.cancel");
+		
+		if("01".equals(dlySerNo) && dlyInfoList.size() == 1) {
+			//최초연체라면
+			vo.put("rcivSe", "0");	// 수납 상태를 미수납("0") 으로 세팅
+			//vo.put("prvBillDt", dlyInfo.get("frstBillDt"));  //삭제할 때 원고지 일자 지워짐.... 아마 firstBillDt에 데이터가 없어서 지워짐..
+			vo.put("billDt", dlyInfo.get("prvBillDt"));
+			vo.put("dlyDueDt", dlyInfo.get("prvDueDt"));
+			gamHtldRentFeePaySttusMngtDao.updateLevReqestUnarrrgAmt(vo);
+		} else {
+			//최초연체가 아니라면
+			if(dlyInfoList.size() > 1) {
+				EgovMap prevDlyInfo = (EgovMap) dlyInfoList.get(1); 
+				vo.put("dlyBillAmnt", prevDlyInfo.get("dlyBillAmnt")); //연체고지금액
+				vo.put("dbillAmnt", prevDlyInfo.get("dbillAmnt")); //연체료
+				vo.put("dlySerNo", prevDlyInfo.get("dlySerNo"));
+				vo.put("arrrgTariff", prevDlyInfo.get("arrrgTariff"));
+				vo.put("arrrgPayDates", prevDlyInfo.get("arrrgPayDates"));
+				vo.put("dlyBillDt", prevDlyInfo.get("prvBillDt"));
+				vo.put("dlyDueDt", prevDlyInfo.get("prvDueDt"));
+				gamHtldRentFeePaySttusMngtDao.updateLevReqestArrrgAmt(vo);
+			} else {
+				throw processException("fail.nticArrg.cancel");
+			}
+		}
+		
+		//최초연체가 아닐 경우 변경된 dlySerNo값을 되돌린다.
+		vo.put("dlySerNo", dlySerNo);
+		
+		//연체정보 삭제
+		gamHtldRentFeePaySttusMngtDao.deleteUnpaidByPk(vo);
+	}
+
+    
 	/* (non-Javadoc)
 	 * @see egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtService#selectNticArrrgList(egovframework.rte.ygpa.gam.asset.rent.service.GamAssetRentFeePayDtlsMngtVO)
 	 */

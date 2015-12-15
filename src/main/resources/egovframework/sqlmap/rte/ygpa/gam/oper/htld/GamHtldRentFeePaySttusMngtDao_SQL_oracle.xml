@@ -444,6 +444,7 @@
 			        AND L.MNG_NO      = #mngNo#
 			        AND L.MNG_CNT     = #mngCnt#
 			        AND L.CHRGE_KND  = #chrgeKnd#
+			   ORDER BY L.NTIC_CNT ASC
     </select>
 
 	<!-- 배후단지임대료납부상세 총고지금액, 총납부금액, 관리비, 연체료, 과태료 정보 -->
@@ -639,7 +640,7 @@
 			L.INTR_FEE_NTICNO,
 			L.COFIX_OBJ_YRMT,
 			L.INTR_RATE,
-			TO_CHAR(SYSDATE, 'YYYY-MM-DD') DLY_BILL_DT, 
+			#dlyBillDt# DLY_BILL_DT, 
 			#dlyBillRsn# DLY_BILL_RSN, 
 			#deptCd# DEPT_CD
 		FROM LEV_REQEST_F L
@@ -687,7 +688,7 @@
       		ARRRG_AMT=TRUNC(TO_NUMBER(#dlyBillAmnt#), -1),
       		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#),
       		ARRRG_PAY_DATES=#applyPayDates#,
-      		NTIC_AMT=TRUNC(FEE+INTR_AMNT+NVL(VAT,0)+NVL(REIM_FEE,0)+TO_NUMBER(#dlyBillAmnt#), -1),
+      		NTIC_AMT=TRUNC(FEE+INTR_AMNT+NVL(VAT,0)+NVL(REIM_FEE,0)+TO_NUMBER(#dbillAmnt#), -1),
       		<isNotNull property="rcivSe">
       		RCIV_SE=#rcivSe#,
       		</isNotNull>
@@ -709,10 +710,14 @@
 				,U.FEE_TP
 				,U.FISCAL_YR
 				,U.BILL_NO
+				,L.FEE
+				,L.VAT
+				,L.INTR_AMNT
 				,U.DLY_SER_NO
 				,U.AGENT_CODE
 				,U.BZ_RGST_ID
 				,U.DLY_BILL_AMNT
+				,U.DBILL_AMNT
 				,TO_CHAR(U.DLY_BILL_DT, 'YYYY-MM-DD') AS DLY_BILL_DT
 				,U.DLY_BILL_PRT_YN
 				,U.DLY_BILL_RSN
@@ -727,8 +732,12 @@
 				,GAM_GETCODENAME('GAM025', U.WORK_CODE) FEE_TP_KOR_NM
 				,GAM_GETENTRPSNM(U.AGENT_CODE, '1') FIRM_KOR_NM
 			FROM
-				UNPAID_F U
+				LEV_REQEST_F L, UNPAID_F U
 			WHERE 1=1
+	           AND L.PRT_AT_CODE=U.PRT_AT_CODE
+	           AND L.ACCNUT_YEAR=U.FISCAL_YR
+	           AND L.CHRGE_KND=U.WORK_CODE
+	           AND L.NTICNO=U.BILL_NO
 				<isNotEmpty property="prtAtCode">
                     AND U.PRT_AT_CODE = #prtAtCode#
                 </isNotEmpty>
@@ -743,7 +752,7 @@
                     AND U.BILL_NO = #nticno#
                 </isNotEmpty>
 			ORDER BY
-				U.DLY_SER_NO
+				U.DLY_SER_NO				
     </select>
 
 	<!-- 배후단지임대료연체현황관리 연체자료수 -->
@@ -967,8 +976,6 @@
       ]]>
     </select>
 
-
-
     <select id="gamHtldRentFeePaySttusMngtDao.selectNticArrrgListTotCnt_S" parameterClass="gamHtldRentArrrgMngtVO" resultClass="int">
           SELECT COUNT(*) totcnt
 				FROM   REV_COLL_F A, ASSETS_RENT_F AR, LEV_REQEST_F L
@@ -1165,5 +1172,119 @@
 		AND R.fee_tp    = GAM_GET_FEE_TP(l.chrge_knd)
 		AND R.OCR_DT IS NULL
 	</select>
+
+    <select id="gamHtldRentFeePaySttusMngtDao.selectLevReqestArrrgAmt" parameterClass="map" resultClass="egovMap">
+			SELECT L.NTIC_AMT,
+				L.FEE,
+				L.PRT_AT_CODE,
+				L.CHRGE_KND,
+				L.ACCNUT_YEAR, 
+				L.NTICNO,
+				<![CDATA[
+					CASE WHEN PAY_TMLMT<TO_DATE('20141106', 'YYYYMMDD') THEN 'O' ELSE 'P' END PAY_PASS_CHECK,
+				]]>
+			  NVL(L.ARRRG_AMT, 0) ARRRG_AMT,
+			  U.DLY_BILL_PRT_YN,
+			  U.PRT_AT_CODE,
+			  U.FEE_TP,
+			  U.WORK_CODE,
+			  U.FISCAL_YR,
+			  U.BILL_NO,
+			  U.DLY_SER_NO,
+			  U.FIRST_BILL_DT,
+			  U.ARRRG_TARIFF,
+			  U.ARRRG_PAY_DATES,
+			  U.DLY_BILL_AMNT, <!-- 연체고지금액 -->
+			  U.DBILL_AMNT, <!-- 연체료 -->
+			  TO_CHAR(U.PRV_DUE_DT, 'YYYY-MM-DD') PRV_DUE_DT,
+			  TO_CHAR(U.PRV_BILL_DT, 'YYYY-MM-DD') PRV_BILL_DT,
+			  TO_CHAR(U.FIRST_BILL_DT, 'YYYY-MM-DD') FIRST_BILL_DT
+			FROM LEV_REQEST_F L, UNPAID_F U
+             WHERE L.prt_at_code = #prtAtCode#
+               AND L.MNG_YEAR = #mngYear#
+               AND L.MNG_NO = #mngNo#
+               AND L.MNG_CNT = #mngCnt#
+               AND L.NTIC_CNT = #nticCnt#
+	           AND L.PRT_AT_CODE=U.PRT_AT_CODE
+	           AND L.ACCNUT_YEAR=U.FISCAL_YR
+	           AND U.WORK_CODE=L.CHRGE_KND
+	           AND L.NTICNO=U.BILL_NO
+             ORDER BY U.DLY_SER_NO DESC
+    </select>
+
+    <update id="gamHtldRentFeePaySttusMngtDao.updateUnpaidPrintYn" parameterClass="map">
+            UPDATE UNPAID_F
+            SET DLY_BILL_PRT_YN='N'
+            WHERE
+            	PRT_AT_CODE=#prtAtCode#
+            	AND FEE_TP=#feeTp#
+            	AND WORK_CODE=#workCode#
+            	AND FISCAL_YR=#fiscalYr#
+            	AND BILL_NO=#billNo#
+            	AND DLY_SER_NO=#dlySerNo#
+    </update>
+	
+	<!-- 최초연체고지취소를 위한 원고지정보변경. -->
+    <update id="gamHtldRentFeePaySttusMngtDao.updateLevReqestUnarrrgAmt" parameterClass="hashMap">
+        UPDATE LEV_REQEST_F SET
+      		RCIV_SE='0',
+      		ARRRG_NO=NULL,
+      		ARRRG_AMT=NULL,
+      		ARRRG_TARIFF=NULL,
+      		ARRRG_PAY_DATES=NULL,
+      		<!-- NTIC_DT=#prvBillDt#, -->
+      		NTIC_AMT=NVL(FEE, 0)+NVL(INTR_AMNT,0)+NVL(VAT,0),
+      		PAY_TMLMT=TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'),
+      		UPD_USR=#updUsr#,
+      		UPDT_DT=SYSDATE
+     	WHERE
+			PRT_AT_CODE=#prtAtCode#
+	      	AND MNG_YEAR=#mngYear#
+	      	AND MNG_NO=#mngNo#
+	      	AND MNG_CNT=#mngCnt#
+	      	AND NTIC_CNT=#nticCnt#
+	      	AND CHRGE_KND=#chrgeKnd#
+  </update>
+
+	<!-- 최초연체가 아닌 연체고지취소를 위한 원고지정보변경. -->
+  <update id="gamHtldRentFeePaySttusMngtDao.updateLevReqestArrrgAmt" parameterClass="hashMap">
+        UPDATE LEV_REQEST_F SET
+        	NTIC_DT=TO_DATE(#dlyBillDt#, 'YYYY-MM-DD'),
+        	PAY_TMLMT=TO_DATE(#dlyDueDt#, 'YYYY-MM-DD'),
+      		ARRRG_NO=#dlySerNo#,
+      		ARRRG_AMT=TO_NUMBER(#dbillAmnt#),
+      		ARRRG_TARIFF=TO_NUMBER(#arrrgTariff#),
+      		ARRRG_PAY_DATES=TO_NUMBER(#applyPayDates#),
+      		NTIC_AMT=TO_NUMBER(#dlyBillAmnt#),
+      		<isNotNull property="rcivSe">
+	      		RCIV_SE=#rcivSe#,
+      		</isNotNull>
+      		UPD_USR=#updUsr#,
+      		UPDT_DT=SYSDATE
+     	WHERE
+			PRT_AT_CODE=#prtAtCode#
+	      	AND MNG_YEAR=#mngYear#
+	      	AND MNG_NO=#mngNo#
+	      	AND MNG_CNT=#mngCnt#
+	      	AND NTIC_CNT=#nticCnt#
+	      	AND CHRGE_KND=#chrgeKnd#
+  </update>
+	
+	<!-- 연체정보 삭제 -->
+    <delete id="gamHtldRentFeePaySttusMngtDao.deleteUnpaidByPk" parameterClass="hashMap" >
+            DELETE FROM UNPAID_F WHERE (PRT_AT_CODE, FEE_TP, WORK_CODE, FISCAL_YR, BILL_NO) IN
+     (
+     	SELECT
+              PRT_AT_CODE, GAM_GET_FEE_TP(CHRGE_KND), CHRGE_KND, ACCNUT_YEAR, NTICNO
+		FROM LEV_REQEST_F
+      	WHERE PRT_AT_CODE=#prtAtCode#
+	      	AND MNG_YEAR=#mngYear#
+	      	AND MNG_NO=#mngNo#
+	      	AND MNG_CNT=#mngCnt#
+	      	AND NTIC_CNT=#nticCnt#
+	      	AND CHRGE_KND=#chrgeKnd#
+      	)
+      	AND DLY_SER_NO=#dlySerNo#
+    </delete>
 
 </sqlMap>

@@ -86,4 +86,5 @@ public interface GamNticRequestMngtService {
 	public void egiroPrint(Map map) throws Exception;
 
 	public void egiroPrintCancel(Map map) throws Exception;
+
 }

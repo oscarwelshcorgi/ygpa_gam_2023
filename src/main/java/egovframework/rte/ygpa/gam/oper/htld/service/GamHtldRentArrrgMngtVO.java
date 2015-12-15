@@ -90,10 +90,18 @@ public class GamHtldRentArrrgMngtVO extends ComDefaultVO {
 	private String arrrgTariff;
 
 	/**
-	 * 연체료 합계
+	 * 연체료
 	 */
 	private String arrrgAmt;
 
+	/**
+	 	연체고지금액
+	 */
+	private String arrrgNticAmt;
+	
+	/** 연체고지일자 */
+	private String dlyBillDt;
+	
 	private String regUsr;
 
 	private String updUsr;
@@ -247,5 +255,29 @@ public class GamHtldRentArrrgMngtVO extends ComDefaultVO {
 	 */
 	public void setDlyBillRsn(String dlyBillRsn) {
 		this.dlyBillRsn = dlyBillRsn;
+	}
+	/**
+	 * @return the arrrgNticAmt
+	 */
+	public String getArrrgNticAmt() {
+		return arrrgNticAmt;
+	}
+	/**
+	 * @param arrrgNticAmt the arrrgNticAmt to set
+	 */
+	public void setArrrgNticAmt(String arrrgNticAmt) {
+		this.arrrgNticAmt = arrrgNticAmt;
+	}
+	/**
+	 * @return the dlyBillDt
+	 */
+	public String getDlyBillDt() {
+		return dlyBillDt;
+	}
+	/**
+	 * @param dlyBillDt the dlyBillDt to set
+	 */
+	public void setDlyBillDt(String dlyBillDt) {
+		this.dlyBillDt = dlyBillDt;
 	}
 }

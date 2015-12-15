@@ -362,6 +362,37 @@ public class GamHtldRentFeePaySttusMngtController {
     	return map;
     }
 	
+    /**
+     * 배후단지 연체고지 취소 - 요금설정 및 되돌리는 방식이 틀리기에 일반부두와 약간 다름. 2015.12.14 추가 김종민
+     * @param nticVo
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/htld/cancelNticArrrgPk.do", method=RequestMethod.POST)
+    @ResponseBody Map<String, Object> cancelNticArrrgPk(@RequestParam Map nticVo) throws Exception {
+		Map map = new HashMap<String,Object>();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+		nticVo.put("updUsr",loginVO.getId());
+		nticVo.put("deptCd",loginVO.getDeptCd());
+		nticVo.put("emplNo", loginVO.getEmplNo());
+
+		gamHtldRentFeePaySttusMngtService.cancelUnpaidRequestPk(nticVo);
+
+        map.put("resultCode", 0);
+		map.put("resultMsg", egovMessageSource.getMessage("success.common.unpaid"));
+
+		return map;
+    }
+	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/oper/htld/updateHtldRentFeePaySttusMngtList.do")
     public @ResponseBody Map updateHtldRentFeePaySttusMngtList()
