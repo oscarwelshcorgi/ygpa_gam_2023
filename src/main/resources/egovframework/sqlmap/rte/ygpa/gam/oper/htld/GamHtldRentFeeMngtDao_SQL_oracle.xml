@@ -1901,7 +1901,7 @@
           	SELECT L.PRT_AT_CODE,
           		L.ACCNUT_YEAR,
           		GAM_GET_FEE_TP(L.CHRGE_KND),
-          		GAM_GET_WORK_CODE(L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT, L.NTIC_CNT, L.CHRGE_KND),
+          		L.CHRGE_KND,
           		L.NTICNO
           	FROM LEV_REQEST_F L
 		      WHERE PRT_AT_CODE=#prtAtCode#
