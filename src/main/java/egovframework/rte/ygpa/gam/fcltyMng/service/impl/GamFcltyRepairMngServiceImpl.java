@@ -196,7 +196,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	public void deleteFcltyRepairMng(Map<?,?> vo) throws Exception{
 		gamFcltyRepairMngDao.deleteFcltyRepairMng(vo);
 		gamFcltyRepairMngDao.deleteFlawRprObjFcltsF(vo);
-	//	gamFcltyRepairMngDao.deleteFcltyRepairFile(vo);
+//		gamFcltyRepairMngDao.deleteFcltyRepairFile(vo);
 	}
 
 	

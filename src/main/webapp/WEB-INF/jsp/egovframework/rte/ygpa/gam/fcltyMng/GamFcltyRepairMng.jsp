@@ -972,8 +972,8 @@ GamFcltyRepairMngModule.prototype.saveData = function() {
 	 			module._mainFlawRprSeq = module.$("#flawRprSeq").val();
 	 		}
 	 		alert(result.resultMsg);
-	 		module.loadDetail();
-	 		this.$("#fcltyRepairMngListTab").tabs("option", {active: 1});
+	 		//module.loadDetail();
+	 		//this.$("#fcltyRepairMngListTab").tabs("option", {active: 1});
 	 	});
 	}else{
 	 	this.doAction('/fcltyMng/updateFcltyRepairMng.do', inputVO, function(module, result) {

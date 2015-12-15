@@ -7,11 +7,35 @@
 
     <formset>
         <form name="fcltyRepairMngVO">
+            <field property="fcltsMngGroupNo" depends="required">
+                <arg0 key="시설물관리그룹" resource="false"/>
+            </field>
             <field property="fcltsJobSe" depends="required">
                 <arg0 key="시설물업무구분" resource="false"/>
             </field>
-            <field property="fcltsMngGroupNo" depends="required">
-                <arg0 key="시설물관리그룹" resource="false"/>
+            <field property="flawRprNm" depends="required">
+                <arg0 key="공사명" resource="false"/>
+            </field>
+            <field property="bldDt" depends="required">
+                <arg0 key="준공일자" resource="false"/>
+            </field>
+            <field property="ctrtDt" depends="required">
+                <arg0 key="계약일자" resource="false"/>
+            </field>
+            <field property="flawRprEntrpsNm" depends="required">
+                <arg0 key="도급업체" resource="false"/>
+            </field>
+            <field property="flawContrAmt" depends="required">
+                <arg0 key="도급액" resource="false"/>
+            </field>
+            <field property="flawExamUsrCls" depends="required">
+                <arg0 key="검사자 급수" resource="false"/>
+            </field>
+            <field property="flawExamUsr" depends="required">
+                <arg0 key="검사자명" resource="false"/>
+            </field>
+            <field property="flawExamDt" depends="required">
+                <arg0 key="하자검사일자" resource="false"/>
             </field>
         </form>
     </formset>
