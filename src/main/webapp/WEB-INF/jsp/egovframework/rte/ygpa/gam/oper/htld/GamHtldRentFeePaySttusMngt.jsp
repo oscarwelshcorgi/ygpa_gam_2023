@@ -72,8 +72,8 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         colModel : [
 					{display:'연체횟수', name:'dlySerNo',width:67, sortable:false,align:'center'},
 					{display:'연체고지일자', name:'dlyBillDt',width:110, sortable:false,align:'center'},
-                    {display:'공급가액', name:'supplyAmnt',width:104, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'부가세', name:'vat',width:104, sortable:false,align:'right', displayFormat: 'number'},
+                    //{display:'공급가액', name:'supplyAmnt',width:104, sortable:false,align:'right', displayFormat: 'number'},
+                    //{display:'부가세', name:'vat',width:104, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'연체료', name:'dlyBillAmnt',width:104, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'고지금액', name:'arrrgNticAmnt',width:104, sortable:false,align:'right', displayFormat: 'number'},
 					{display:'고지서발부여부', name:'dlyBillPrtYn',width:100, sortable:false,align:'center'},
@@ -798,6 +798,12 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
                                 <td><span data-column-id="strDate" ></span></td>
                                 <th width="16%">종료일자</th>
                                 <td><span data-column-id="endDate" ></span></td>
+                            </tr>
+                            <tr>
+                                <th width="16%">공급가액</th>
+                                <td><span data-column-id="supplyAmnt" class="ygpaNumber" style="text-align:right;"></span></td>
+                                <th width="16%">부가세</th>
+                                <td colspan="3"><span data-column-id="vat" class="ygpaNumber" style="text-align:right;"></span></td>
                             </tr>
                         </table>
 						</div>

@@ -813,6 +813,8 @@
 				,U.DLY_SER_NO
 				,U.AGENT_CODE
 				,U.BZ_RGST_ID
+				,(NVL(L.FEE,0) + NVL(L.INTR_AMNT, 0)) AS SUPPLY_AMNT
+				,L.VAT
 				,U.DLY_BILL_AMNT
 				,TO_CHAR(U.DLY_BILL_DT, 'YYYY-MM-DD') AS DLY_BILL_DT
 				,U.DLY_BILL_PRT_YN
@@ -828,8 +830,12 @@
 				,GAM_GETCODENAME('GAM025', U.WORK_CODE) FEE_TP_KOR_NM
 				,GAM_GETENTRPSNM(U.AGENT_CODE, '1') FIRM_KOR_NM
 			FROM
-				UNPAID_F U
+				LEV_REQEST_F L, UNPAID_F U
 			WHERE 1=1
+	           AND L.PRT_AT_CODE=U.PRT_AT_CODE
+	           AND L.ACCNUT_YEAR=U.FISCAL_YR
+	           AND L.CHRGE_KND=U.WORK_CODE
+	           AND L.NTICNO=U.BILL_NO
 				<isNotEmpty property="prtAtCode">
                     AND U.PRT_AT_CODE = #prtAtCode#
                 </isNotEmpty>
@@ -1194,8 +1200,8 @@
 			  U.FIRST_BILL_DT,
 			  U.ARRRG_TARIFF,
 			  U.ARRRG_PAY_DATES,
-			  U.DLY_BILL_AMNT, <!-- 연체고지금액 -->
-			  U.DBILL_AMNT, <!-- 연체료 -->
+			  U.DLY_BILL_AMNT,
+			  U.DBILL_AMNT,
 			  TO_CHAR(U.PRV_DUE_DT, 'YYYY-MM-DD') PRV_DUE_DT,
 			  TO_CHAR(U.PRV_BILL_DT, 'YYYY-MM-DD') PRV_BILL_DT,
 			  TO_CHAR(U.FIRST_BILL_DT, 'YYYY-MM-DD') FIRST_BILL_DT
