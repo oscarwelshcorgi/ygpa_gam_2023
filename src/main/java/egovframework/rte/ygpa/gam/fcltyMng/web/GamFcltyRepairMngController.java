@@ -317,8 +317,8 @@ public class GamFcltyRepairMngController {
 		try {
 			//sNewSeq = gamFcltyRepairMngService.selectFcltyRepairMngAtchFileNewSeq(gamFcltyRepairMngVO);
 			sNewSeq = basicService.getNextStringId();
-			
-			gamFcltyRepairMngVO.setAtchFileSeq(sNewSeq);
+			gamFcltyRepairMngVO.setAtchFileSeq(sNewSeq.replace("*", ""));
+			sNewSeq = gamFcltyRepairMngVO.getAtchFileSeq();
 			gamFcltyRepairMngVO.setRegUsr((String)user.getId());
 			
 			gamFcltyRepairMngService.insertFcltyRepairMngAtchFile(gamFcltyRepairMngVO);
