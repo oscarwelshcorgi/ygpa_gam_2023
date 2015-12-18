@@ -105,12 +105,44 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		url : '/fcltyMng/selectFcltyRepairFileList.do',
 		dataType : 'json',
 		colModel : [
+					{display:"선택",		name:"atchFileSelChk",		width:40,		sortable:false,		align:"center",		displayFormat:"checkbox"},
 					{display:"번호",		name:"atchFileSeq",			width:65,		sortable:false,		align:"center"},
 					{display:"구분",		name:"atchFileSeNm",		width:90,		sortable:false,		align:"center"},
 					{display:"파일명",		name:"atchFileNmLogic",		width:300,		sortable:false,		align:"left"}
 					],
 		height: "330",
-
+		preProcess: function(module, data) {
+			$.each(data.resultList, function() {
+				this.atchFileSelChk = (this.atchFileSelChk === 'TRUE');
+				this.photoUrl = "";
+				var atchFileNmPhysicl = this.atchFileNmPhysicl;
+				var ext = atchFileNmPhysicl.substring(atchFileNmPhysicl.lastIndexOf(".")+1).toLowerCase();
+				if (ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif") {
+					this.photoUrl = module.getUrl("/fcltyMng/getQcWrtAttachFile.do?physicalFileNm=")+atchFileNmPhysicl + "^" + this.atchFileNmLogic + "^" + "200";
+				} else if (ext == "hwp") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/hwp.png";
+				} else if (ext == "dwg") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/dwg.png";
+				} else if (ext == "xls") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/xls.png";
+				} else if (ext == "xlsx") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/xlsx.png";
+				} else if (ext == "pdf") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/pdf.jpg";
+				} else if (ext == "dow") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/dow.png";
+				} else if (ext == "ppt") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/ppt.png";
+				} else if (ext == "txt") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/txt.png";
+				} else if (ext == "zip") {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/zip.jpg";
+				} else {
+					this.photoUrl = EMD.context_root+"js/codebase/imgs/unknown.png";
+				}
+			});
+			return data;
+		}
 	});
 	this.$("#fcltyRepairFileList").on("onItemDoubleClick", function(event, module, row, grid, param) {
 		module.showFcltsAtchFileViewPopup();
@@ -162,7 +194,6 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 	this.setDefaultParam();
 	this.applySelectYear();
 	this.getMapInfoList(params);
-
 };
 
 GamFcltyRepairMngModule.prototype.showFcltsAtchFileViewPopup = function() {
@@ -1001,14 +1032,15 @@ GamFcltyRepairMngModule.prototype.makeSaveParam = function() {
 
 	var inputVO = [];
  	inputVO[inputVO.length] = {name: 'fcltyRepairMngListVO', value :JSON.stringify(this.makeFormArgs("#fcltyRepairMngListVO",'object')) };
+/*  	
  	inputVO[inputVO.length]=  {name: 'insertRepairFileList', value: JSON.stringify(this.$('#fcltyRepairFileList').selectFilterData([{col: '_updtId', filter: 'I'}])) };
 
  	if(this._deleteRepairFileList == undefined ) {
          this._deleteRepairFileList=[];
      }
  	inputVO[inputVO.length]=  {name: 'deleteRepairFileList', value: JSON.stringify(this._deleteRepairFileList)};
-
- 	// 조건은 수정시에만 필요한 데이타 형식
+ */
+ // 조건은 수정시에만 필요한 데이타 형식
  	if(this._mainmode == "modify") {
  		var all_rows = this.$('#flawRprObjFcltsF').flexGetData();
  		for(var i=0;i<all_rows.length;i++){
@@ -1053,6 +1085,34 @@ GamFcltyRepairMngModule.prototype.makeSelectArgs = function(selId) {
 **/
 %>
 GamFcltyRepairMngModule.prototype.atchFileUpload = function() {
+	
+	var fcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();
+	var fcltsJobSe = this.$('#fcltsJobSe').val();
+	var flawRprSeq = this.$('#flawRprSeq').val();
+	
+	if (fcltsMngGroupNo == "" || fcltsJobSe == "" || flawRprSeq == "") {
+		alert('하자관리 정보가 부정확합니다.');
+		return;
+	}
+	this.uploadMultiFile('/fcltyMng/uploadRepairAttachFile.do', function(module, resp) {
+		if(resp.resultCode!=0) {
+			alert(resp.resultMsg);
+			return;
+		}
+		
+		$.each(resp.result, function(){
+			module.saveUploadFileData(fcltsMngGroupNo, fcltsJobSe, flawRprSeq, this.logicalFileNm, this.physcalFileNm);
+		});
+	});
+};
+	
+/* 		
+	this.uploadPfPhoto("uploadFile", function(module, result) {
+		$.each(result, function(){
+			module.saveUploadFileData(fcltsMngGroupNo, fcltsJobSe, flawRprSeq, this.logicalFileNm, this.physcalFileNm);
+		});
+	}, "첨부파일 업로드");
+	
 	this.uploadSingleFile('/fcltyMng/uploadRepairAttachFile.do', function(module, resp) {
 		if(resp.resultCode!=0) {
 			alert(resp.resultMsg);
@@ -1068,9 +1128,97 @@ GamFcltyRepairMngModule.prototype.atchFileUpload = function() {
     		});
 		});
 		if(resp.result!=null && resp.result.length>0) this._edited=true;
+		
+ 		$.each(resp.result, function() {
+			module.saveUploadFileData(fcltsMngGroupNo, fcltsJobSe, flawRprSeq, this.logicalFileNm, this.physcalFileNm);
+ 		});
 	});
-};
+ */
 
+<%
+/**
+ * @FUNCTION NAME : saveUploadFileData
+ * @DESCRIPTION   : UPLOAD FILE 항목을 저장한다.
+ * @PARAMETER     :
+ *   1. argFcltsMngGroupNo - FCLTS MNG GROUP NO.
+ *   2. argFcltsJobSe - FCLTS JOB SE
+ *   3. argQcMngSeq - QC MNG SEQ.
+ *   4. argAtchFileNmLogic - ATTACHE FILE NAME LOGICAL.
+ *   5. argAtchFileNmPhysicl - ATTACHE FILE NAME PHYSICAL
+**/
+%>
+GamFcltyRepairMngModule.prototype.saveUploadFileData = function(argFcltsMngGroupNo, argFcltsJobSe, argFlawRprSeq, argAtchFileNmLogic, argAtchFileNmPhysicl) {
+
+	var atchFileSe = "D";
+	var atchFileSeNm = "문서";
+	var atchFileWritngDt = "";
+	var toDay = new Date();
+	var year = "";
+	var month = "";
+	var day = "";
+	year = toDay.getFullYear();
+	month = toDay.getMonth() + 1;
+	day = toDay.getDate();
+	if (month >= 1 && month <= 9) {
+		if (day >= 1 && day <= 9) {
+			atchFileWritngDt = year + "-" + "0" + month + "-" + "0" + day;
+		} else {
+			atchFileWritngDt = year + "-" + "0" + month + "-" + day;
+		}
+	} else {
+		if (day >= 1 && day <= 9) {
+			atchFileWritngDt = year + "-" + month + "-" + "0" + day;
+		} else {
+			atchFileWritngDt = year + "-" + month + "-" + day;
+		}
+	}
+	if (argAtchFileNmPhysicl != null || argAtchFileNmPhysicl != "") {
+		var ext = argAtchFileNmPhysicl.substring(argAtchFileNmPhysicl.lastIndexOf(".")+1).toLowerCase();
+		if (ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "png" || ext == "gif") {
+			atchFileSe = "P";
+			atchFileSeNm = "사진";
+		} else if (ext == "dwg" || ext == "dxf") {
+			atchFileSe = "C";
+			atchFileSeNm = "도면";
+		}
+	}
+	inputVO={
+			'fcltsMngGroupNo':argFcltsMngGroupNo,
+			'fcltsJobSe':argFcltsJobSe,
+			'flawRprSeq':argFlawRprSeq,
+			'atchFileSeq':"",
+			'atchFileSe':atchFileSe,
+			'atchFileSj':"",
+			'atchFileNmLogic':argAtchFileNmLogic,
+			'atchFileNmPhysicl':argAtchFileNmPhysicl,
+			'atchFileWritngDt':atchFileWritngDt,
+			'atchFileRm':"",
+			'regUsr':"",
+			'registDt':"",
+			'updUsr':"",
+			'updtDt':""
+	};
+	
+	this.doAction('/fcltyMng/insertFcltyRepairMngAtchFile.do', inputVO, function(module, result) {
+		if (result.resultCode == "0") {
+			module.$("#fcltyRepairFileList").flexAddRow({ fcltsMngGroupNo: argFcltsMngGroupNo,
+											   fcltsJobSe: argFcltsJobSe,
+											   flawRprSeq: argFlawRprSeq,
+											   atchFileSeq:result.atchFileSeq,
+											   atchFileSe:atchFileSe,
+											   atchFileSeNm:atchFileSeNm,
+											   atchFileSj:"",
+											   atchFileNmLogic: argAtchFileNmLogic,
+											   atchFileNmPhysicl: argAtchFileNmPhysicl,
+											   atchFileWritngDt: atchFileWritngDt,
+											   atchFileRm: ""
+											  });
+		} else {
+			alert(result.resultMsg);
+		}
+	});
+	
+};
 
 <%
 /**
@@ -1080,29 +1228,75 @@ GamFcltyRepairMngModule.prototype.atchFileUpload = function() {
 **/
 %>
 GamFcltyRepairMngModule.prototype.atchFileRemove = function() {
-    var rows = this.$('#fcltyRepairFileList').selectedRows();
-
-    if(rows.length == 0) {
-        alert("파일목록에서 삭제할 행을 선택하십시오.");
-    } else {
-        if(this.$('#fcltyRepairFileList').selectedRowIds().length>0) {
-            for(var i=this.$('#fcltyRepairFileList').selectedRowIds().length-1; i>=0; i--) {
-                var row=this.$('#fcltyRepairFileList').flexGetRow(this.$('#fcltyRepairFileList').selectedRowIds()[i]);
-                //alert( row._updtId );
-
-                if(row._updtId==undefined || row._updtId!='I') {
-                    this._deleteRepairFileList[this._deleteRepairFileList.length]=row;  // 삽입 된 자료가 아니면 DB에 삭제를 반영한다.
-                }
-                this.$('#fcltyRepairFileList').flexRemoveRow(this.$('#fcltyRepairFileList').selectedRowIds()[i]);
-                this.$("#previewImage").attr('src', '');
-            }
-        }
+    var rows = this.$('#fcltyRepairFileList').selectFilterData([{col:'atchFileSelChk', filter: true}]);
+    
+    if(rows.length <= 0) {
+        alert("파일목록에서 삭제할 자료를 선택하십시오.");
+        return;
     }
-
-    //this.$('#gamAssetRentFileForm').find(':input').val('');
-    this._editDataFile = null;
+    var fcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();
+	var fcltsJobSe = this.$('#fcltsJobSe').val();
+	var flawRprSeq = this.$('#flawRprSeq').val();
+	if (fcltsMngGroupNo == "" || fcltsJobSe == "" || flawRprSeq == "") {
+		alert('삭제할 첨부 파일 정보가 부정확합니다.');
+		return;
+	}
+	var atchFileSeq = "";
+	var atchFileNmLogic = "";
+	var deleteDataCount = rows.length;
+	var deleteAtchFileSeqList = "";
+	for (var i=0; i<deleteDataCount; i++) {
+		var row = rows[i];
+		atchFileSeq = row["atchFileSeq"];
+		atchFileNmLogic = row["atchFileNmLogic"];
+		if (atchFileSeq == "") {
+			alert('[' + atchFileNmLogic + '] 첨부 파일 번호가 부정확합니다.');
+			return;
+		}
+		if (deleteAtchFileSeqList != "") {
+			deleteAtchFileSeqList = deleteAtchFileSeqList + "," + atchFileSeq;
+		} else {
+			deleteAtchFileSeqList = atchFileSeq;
+		}
+	}
+	if (confirm("[" + deleteDataCount + "] 건의 첨부 파일 자료를 삭제하시겠습니까?")) {
+		var deleteVO = {
+						'fcltsMngGroupNo' : fcltsMngGroupNo,
+						'fcltsJobSe' : fcltsJobSe,
+						'flawRprSeq' : flawRprSeq,
+						'deleteAtchFileSeqList' : deleteAtchFileSeqList
+		};
+		this.doAction('/fcltyMng/deleteFcltyRepairMngAtchFile.do', deleteVO, function(module, result) {
+			if (result.resultCode == "0") {
+				module.displayAtchFileList();
+			}
+			alert(result.resultMsg);
+		});
+	}
 };
 
+<%
+/**
+ * @FUNCTION NAME : displayAtchFileList
+ * @DESCRIPTION   : 첨부 파일 목록을 보여준다.
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyRepairMngModule.prototype.displayAtchFileList = function() {
+
+	var fcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();
+	var fcltsJobSe = this.$('#fcltsJobSe').val();
+	var flawRprSeq = this.$('#flawRprSeq').val();
+	this.$('#fcltyRepairFileList').flexEmptyData();
+	if (fcltsMngGroupNo != "" && fcltsJobSe != "" && flawRprSeq != "") {
+		var searchVO = [
+		           		{name: 'fcltsMngGroupNo', value: fcltsMngGroupNo },
+		           		{name: 'fcltsJobSe', value: fcltsJobSe },
+		           		{name: 'flawRprSeq', value: flawRprSeq }
+			           ];
+		this.$('#fcltyRepairFileList').flexOptions({params:searchVO}).flexReload();
+	}
+};
 
 <%
 /**
@@ -1113,10 +1307,13 @@ GamFcltyRepairMngModule.prototype.atchFileRemove = function() {
 %>
 GamFcltyRepairMngModule.prototype.downloadFileData = function() {
 
-	var selectRow = this.$('#fcltyRepairFileList').selectedRows();
-	if(selectRow.length > 0) {
-		var row=selectRow[0];
-		console.log(row["atchFileNmPhysicl"],row["atchFileNmLogic"]);
+	var rows = this.$('#fcltyRepairFileList').selectFilterData([{col:'atchFileSelChk', filter: true}]);
+	if (rows.length <= 0) {
+		alert('다운로드할 첨부 파일 자료가 선택되지 않았습니다.');
+		return;
+	}
+	for (var i=0; i<rows.length; i++) {
+		var row = rows[i];
 		this.downloadSingleFile("/fcltyMng/downloadRepairAttachFile.do", row["atchFileNmPhysicl"],row["atchFileNmLogic"]);
 	};
 
@@ -1243,8 +1440,6 @@ GamFcltyRepairMngModule.prototype.onButtonClick = function(buttonId) {
 		// 저장
 		case "saveBtn":
 			this.saveData();
-
-
 		break;
 
 		// 삭제
@@ -1309,10 +1504,39 @@ GamFcltyRepairMngModule.prototype.onButtonClick = function(buttonId) {
 	    case 'btnLastData':
 	    	this.lastData();
 			break;
-
+			
+	    case 'btnAllSelect' :
+				this.setSelectStatusAllAtchFile(true);
+			break;
+			
+	    case 'btnAllUnSelect' :
+				this.setSelectStatusAllAtchFile(false);
+			break;
 	}
 };
 
+<%
+/**
+ * @FUNCTION NAME : setSelectStatusAllAtchFile
+ * @DESCRIPTION   : ALL ATTACH FILE SELECT STATUS 설정
+ * @PARAMETER     :
+ *   1. argStatusFlag - SELECT STATUS FLAG
+**/
+%>
+GamFcltyRepairMngModule.prototype.setSelectStatusAllAtchFile = function(argStatusFlag) {
+
+	var rows = this.$('#fcltyRepairFileList').flexGetData();
+	var atchFileDataCount = rows.length;
+	if (atchFileDataCount > 0) {
+		for (var i=0; i<atchFileDataCount; i++) {
+			var row = rows[i];
+			row["atchFileSelChk"] = argStatusFlag;
+			var rowid = this.$('#fcltyRepairFileList')[0].dgrid.getRowId(i);
+			this.$('#fcltyRepairFileList').flexUpdateRow(rowid, row);
+		}
+	}
+
+};
 
 <%
 /**
@@ -1635,10 +1859,14 @@ var module_instance = new GamFcltyRepairMngModule();
 							<th style="font-weight:bold; height:20px;">하 자 보 수 정 보</th>
 							<td style="text-align:right;">
 								<div id="previewHidden" style="display: none;"></div>
+								<button id="btnAllSelect">선택</button>
+								<button id="btnAllUnSelect">해제</button>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<button id="btnUploadFile" class="buttonAdd">파일 추가</button>
 								<button id="btnDownloadFile">파일 다운로드</button>
 								<button id="btnRemoveFile" class="buttonDelete">파일 삭제</button>
-								<button id="btnPreviewFile">파일 미리보기</button>
+								<!-- <button id="btnPreviewFile">파일 미리보기</button> -->
 							</td>
 						</tr>
 					</table>

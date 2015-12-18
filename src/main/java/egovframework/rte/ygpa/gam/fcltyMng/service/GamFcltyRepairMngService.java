@@ -90,7 +90,7 @@ public interface GamFcltyRepairMngService {
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes" })
-	void insertFcltyRepairMng(Map insertRprData, List insertObjList, List insertFileList) throws Exception;
+	void insertFcltyRepairMng(Map insertRprData, List insertObjList) throws Exception;
 	
 	
 	/**
@@ -100,7 +100,7 @@ public interface GamFcltyRepairMngService {
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes" })
-	void updateFcltyRepairMng(Map updateRprData, Map updateObj, List updateFileList,List deleteFileList) throws Exception;
+	void updateFcltyRepairMng(Map updateRprData, Map updateObj) throws Exception;
 	
 	
 	/**
@@ -177,4 +177,23 @@ public interface GamFcltyRepairMngService {
      * @throws Exception the exception
      */
 	String selectFcltyRepairCheckReportHWPML(GamFcltyRepairMngVO searchVO) throws Exception;
+
+
+	/**
+	 * @param gamFcltyRepairMngVO
+	 * @return
+	 */
+	String selectFcltyRepairMngAtchFileNewSeq(GamFcltyRepairMngVO gamFcltyRepairMngVO) throws Exception;
+
+
+	/**
+	 * @param gamFcltyRepairMngVO
+	 */
+	void insertFcltyRepairMngAtchFile(GamFcltyRepairMngVO gamFcltyRepairMngVO) throws Exception;
+
+
+	/**
+	 * @param deleteVO
+	 */
+	void deleteFcltyRepairMngAtchFile(Map deleteVO) throws Exception;
 }

@@ -834,7 +834,7 @@ public class GamFcltyQcwWrtMngController {
 
 		try {
 			sNewSeq = gamFcltyQcwWrtMngService.selectFcltyQcwWrtMngQcMngAtchFileNewSeq(gamQcMngAtchFileMngVO);
-
+			
 			gamQcMngAtchFileMngVO.setAtchFileSeq(sNewSeq);
 			gamQcMngAtchFileMngVO.setRegUsr((String)user.getId());
 			gamFcltyQcwWrtMngService.insertFcltyQcwWrtMngQcMngAtchFile(gamQcMngAtchFileMngVO);

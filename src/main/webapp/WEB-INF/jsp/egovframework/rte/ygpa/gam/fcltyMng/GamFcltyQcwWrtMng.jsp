@@ -1494,7 +1494,7 @@ GamFcltyQcwWrtMngModule.prototype.deleteMultiFileData = function() {
 
 	var rows = this.$('#fileGrid').selectFilterData([{col:'atchFileSelChk', filter: true}]);
 	if (rows.length <= 0) {
-		alert('다운로드할 첨부 파일 자료가 선택되지 않았습니다.');
+		alert('삭제할 첨부 파일 자료가 선택되지 않았습니다.');
 		return;
 	}
 	var fcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();

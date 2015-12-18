@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import egovframework.rte.cmmn.dataaccess.YGPAAbstractDAO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
@@ -176,9 +178,9 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @throws Exception
 	 */
-	public void insertFcltyRepairFile(Map<?,?> vo) throws Exception{
+	/*public void insertFcltyRepairFile(Map<?,?> vo) throws Exception{
 		insert("gamFcltyRepairMngDao.insertFcltyRepairFile", vo);
-	}
+	}*/
 	
 	
 	/**
@@ -187,7 +189,7 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 	 * @return 
 	 * @throws Exception
 	 */
-	public void deleteFcltyRepairFile(GamFcltyRepairMngVO vo) throws Exception{
+	public void deleteFcltyRepairFile(Map<?,?> vo) throws Exception{
 		delete("gamFcltyRepairMngDao.deleteFcltyRepairFile", vo);
 	}
 	
@@ -256,6 +258,31 @@ public class GamFcltyRepairMngDao extends YGPAAbstractDAO {
 	 */
 	public EgovMap selectFcltyRepairCheckReportCharger(GamFcltyRepairMngVO GamFcltyRepairMngVO) throws Exception{
 		return (EgovMap) selectByPk("gamfcltyRepiarMngDao.selectFcltyRepairCheckReportCharger_S", GamFcltyRepairMngVO);
+	}
+
+
+	/**
+	 * @param gamFcltyRepairMngVO
+	 * @return
+	 */
+	public String selectFcltyRepairMngAtchFileNewSeq(GamFcltyRepairMngVO gamFcltyRepairMngVO) throws Exception {
+		return (String)selectByPk("gamfcltyRepiarMngDao.selectFcltyRepairMngAtchFileNewSeq", gamFcltyRepairMngVO);
+	}
+
+
+	/**
+	 * @param gamFcltyRepairMngVO
+	 */
+	public void insertFcltyRepairMngAtchFile(GamFcltyRepairMngVO gamFcltyRepairMngVO) throws Exception {
+		insert("gamfcltyRepiarMngDao.insertFcltyRepairMngAtchFile", gamFcltyRepairMngVO);
+	}
+
+
+	/**
+	 * @param deleteVO
+	 */
+	public void deleteFcltyRepairMngAtchFile(Map deleteVO) throws Exception {
+		delete("gamfcltyRepiarMngDao.deleteFcltyRepairMngAtchFile", deleteVO);
 	}
 
 }

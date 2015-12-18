@@ -79,16 +79,46 @@ public class GamFcltyRepairMngVO extends ComDefaultVO  {
 	/** 파일 비고 */
 	private String atchFileRm;
 
+	private String atchFileWritngDt;
+	
 	private String updUsr;
 
 	private String status;
 
+	private	String regUsr;
 
 
 
 
 
 
+	/**
+	 * @return the atchFileWritngDt
+	 */
+	public String getAtchFileWritngDt() {
+		return atchFileWritngDt;
+	}
+
+	/**
+	 * @param atchFileWritngDt the atchFileWritngDt to set
+	 */
+	public void setAtchFileWritngDt(String atchFileWritngDt) {
+		this.atchFileWritngDt = atchFileWritngDt;
+	}
+
+	/**
+	 * @return the regUsr
+	 */
+	public String getRegUsr() {
+		return regUsr;
+	}
+
+	/**
+	 * @param regUsr the regUsr to set
+	 */
+	public void setRegUsr(String regUsr) {
+		this.regUsr = regUsr;
+	}
 
 	/**
 	 * @return the status

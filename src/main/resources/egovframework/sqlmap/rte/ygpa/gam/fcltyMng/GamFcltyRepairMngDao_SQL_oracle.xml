@@ -473,7 +473,7 @@
 
 
 	<!-- 하자보수첨부파일입력 -->
-	<insert id="gamFcltyRepairMngDao.insertFcltyRepairFile">
+	<!-- <insert id="gamFcltyRepairMngDao.insertFcltyRepairFile">
 		<selectKey keyProperty="maxAtchFileSeq" resultClass="String">
 	       	SELECT
 	       		(NVL(MAX(ATCH_FILE_SEQ),0) + 1)
@@ -516,7 +516,7 @@
 				, #regUsr#
 				, SYSDATE
 			)
-	</insert>
+	</insert> -->
 
 
 	<!-- 하자보수첨부파일수정 -->
@@ -547,9 +547,6 @@
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 			AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
-			AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)
-
-
 	</delete>
 
 
@@ -654,6 +651,61 @@
 			R.CTRT_NO = #ctrtNo#
 	</select>
 
+	<select id="gamfcltyRepiarMngDao.selectFcltyRepairMngAtchFileNewSeq" parameterClass="gamFcltyRepairMngVO" resultClass="java.lang.String">
+		SELECT
+       		(NVL(MAX(ATCH_FILE_SEQ),0) + 1)
+		FROM
+			FLAW_RPR_ATCH_FILE_F
+		WHERE
+			FCLTS_JOB_SE = #fcltsJobSe#
+			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+			AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
+	</select>
 
+	<insert id="gamfcltyRepiarMngDao.insertFcltyRepairMngAtchFile" parameterClass="gamFcltyRepairMngVO">
+		INSERT INTO
+			FLAW_RPR_ATCH_FILE_F
+			(
+				FCLTS_JOB_SE
+				, FCLTS_MNG_GROUP_NO
+				, FLAW_RPR_SEQ
+				, ATCH_FILE_SEQ
+				, ATCH_FILE_SE
+				, ATCH_FILE_SJ
+				, ATCH_FILE_NM_LOGIC
+				, ATCH_FILE_NM_PHYSICL
+				, ATCH_FILE_WRITNG_DT
+				, ATCH_FILE_RM
+				, REG_USR
+				, REGIST_DT
+			)
+			VALUES
+			(
+				#fcltsJobSe#
+				, #fcltsMngGroupNo#
+				, #flawRprSeq#
+				<!-- , #atchFileSeq# -->
+				,REPLACE(#flawRprSeq#,'*','')
+				, #atchFileSe#
+				, #atchFileSj#
+				, #atchFileNmLogic#
+				, #atchFileNmPhysicl#
+				, #atchFileWritngDt#
+				, #atchFileRm#
+				, #regUsr#
+				, SYSDATE
+			)
+	</insert>
+
+	<delete id="gamfcltyRepiarMngDao.deleteFcltyRepairMngAtchFile" parameterClass="hashMap">
+		DELETE FROM FLAW_RPR_ATCH_FILE_F
+		WHERE FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
+		AND FCLTS_JOB_SE = #fcltsJobSe#
+		AND FLAW_RPR_SEQ = NVL(TO_NUMBER(REPLACE(#flawRprSeq#,',','')),0)
+		AND ATCH_FILE_SEQ IN (SELECT LTRIM(REGEXP_SUBSTR(','||#deleteAtchFileSeqList#||',','[^'||','||']+', 1, LEVEL ), ',') AS ATCH_FILE_NO
+								 FROM DUAL
+							   CONNECT BY LEVEL <![CDATA[ <= ]]> (LENGTH(','||#deleteAtchFileSeqList#) - LENGTH(REPLACE(','||#deleteAtchFileSeqList#,','))) / LENGTH(',')
+							  )
+	</delete>
 
 </sqlMap>

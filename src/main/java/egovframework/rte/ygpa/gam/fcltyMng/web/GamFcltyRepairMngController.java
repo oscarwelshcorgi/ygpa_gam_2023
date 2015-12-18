@@ -38,7 +38,6 @@ import egovframework.rte.ygpa.gam.cmmn.service.GamFileServiceVo;
 import egovframework.rte.ygpa.gam.cmmn.service.GamFileUploadUtil;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngService;
 import egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngVO;
-import egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtDetailVO;
 
 /**
  *
@@ -78,6 +77,8 @@ public class GamFcltyRepairMngController {
     @Resource(name="gamRepairFileIdGnrService")
     EgovTableIdGnrService gamRepairFileIdGnrService;
 
+    @Resource(name="basicService")
+    EgovTableIdGnrService basicService;
      
 	/**
      * 하자보수내역 관리화면호출
@@ -261,7 +262,7 @@ public class GamFcltyRepairMngController {
 		Map map = new HashMap();
     	ObjectMapper mapper = new ObjectMapper();
     	List<HashMap<String,String>> insertObjList=null;
-    	List<HashMap<String,String>> insertFileList=null;
+    	//List<HashMap<String,String>> insertFileList=null;
     	Map insertRprData = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -277,15 +278,15 @@ public class GamFcltyRepairMngController {
     	insertObjList = mapper.readValue((String)fcltyRepairItem.get("insertObjList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
 
-    	insertFileList = mapper.readValue((String)fcltyRepairItem.get("insertRepairFileList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
+    	/*insertFileList = mapper.readValue((String)fcltyRepairItem.get("insertRepairFileList"),
+    		    new TypeReference<List<HashMap<String,String>>>(){});*/
 
     	insertRprData.put("regUsr",user.getId());
 
     	try {
 
     		// 하자보수내역 입력
-    		gamFcltyRepairMngService.insertFcltyRepairMng(insertRprData, insertObjList, insertFileList);
+    		gamFcltyRepairMngService.insertFcltyRepairMng(insertRprData, insertObjList);
 
     		map.put("resultCode", 0);			// return ok
     		map.put("flawRprSeq", insertRprData.get("flawRprSeq"));
@@ -299,7 +300,68 @@ public class GamFcltyRepairMngController {
       	return map;
     }
 
+	@RequestMapping(value="/fcltyMng/insertFcltyRepairMngAtchFile.do")
+	@ResponseBody Map<String, Object> insertFcltyRepairMngAtchFile(GamFcltyRepairMngVO gamFcltyRepairMngVO) throws Exception {
 
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
+		String sNewSeq;
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			//sNewSeq = gamFcltyRepairMngService.selectFcltyRepairMngAtchFileNewSeq(gamFcltyRepairMngVO);
+			sNewSeq = basicService.getNextStringId();
+			
+			gamFcltyRepairMngVO.setAtchFileSeq(sNewSeq);
+			gamFcltyRepairMngVO.setRegUsr((String)user.getId());
+			
+			gamFcltyRepairMngService.insertFcltyRepairMngAtchFile(gamFcltyRepairMngVO);
+			
+			map.put("atchFileSeq", sNewSeq);
+			map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+		return map;
+	}	
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/fcltyMng/deleteFcltyRepairMngAtchFile.do")
+	@ResponseBody Map<String, Object> deleteFcltyRepairMngAtchFile(@RequestParam Map deleteVO) throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+
+		try {
+			gamFcltyRepairMngService.deleteFcltyRepairMngAtchFile(deleteVO);
+
+			map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.delete"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.delete"));
+		}
+
+		return map;
+
+	}	
+	
 	/**
 	 * 하자보수내역 수정
 	 * @param Map
@@ -342,11 +404,11 @@ public class GamFcltyRepairMngController {
     	deleteObjList = mapper.readValue((String)fcltyRepairItem.get("deleteObjList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
 
-    	insertFileList = mapper.readValue((String)fcltyRepairItem.get("insertRepairFileList"),
+    	/*insertFileList = mapper.readValue((String)fcltyRepairItem.get("insertRepairFileList"),
     		    new TypeReference<List<HashMap<String,String>>>(){});
 
     	deleteFileList = mapper.readValue((String)fcltyRepairItem.get("deleteRepairFileList"),
-    		    new TypeReference<List<HashMap<String,String>>>(){});
+    		    new TypeReference<List<HashMap<String,String>>>(){});*/
 
     	userList = new ArrayList();
 		userMap.put("id",  user.getId());
@@ -362,7 +424,7 @@ public class GamFcltyRepairMngController {
 
     	insertRprData.put("regUsr",user.getId());
 
-   		for( int i = 0 ; i < deleteFileList.size() ; i++ ) {
+   		/*for( int i = 0 ; i < deleteFileList.size() ; i++ ) {
 
 
 			Map resultMap = deleteFileList.get(i);
@@ -375,12 +437,12 @@ public class GamFcltyRepairMngController {
 
 
 			gamFcltyRepairMngService.deleteFcltyRepairMngList(deleteFileVO);
-		}
+		}*/
 
     	try {
 
     		// 하자보수내역 입력
-    		gamFcltyRepairMngService.updateFcltyRepairMng(insertRprData, mergeMap, insertFileList, deleteFileList);
+    		gamFcltyRepairMngService.updateFcltyRepairMng(insertRprData, mergeMap);
 
     		map.put("resultCode", 0);			// return ok
             map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));

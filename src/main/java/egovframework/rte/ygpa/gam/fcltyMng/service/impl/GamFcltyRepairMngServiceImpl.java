@@ -121,7 +121,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void insertFcltyRepairMng(Map insertRprData, List insertObjList, List insertFileList) throws Exception{
+	public void insertFcltyRepairMng(Map insertRprData, List insertObjList) throws Exception{
 		String fcltsMngGroupNo = (String) insertRprData.get("fcltsMngGroupNo");
 		String fcltsJobSe = (String) insertRprData.get("fcltsJobSe");
 		int flawRprSeq = gamFcltyRepairMngDao.selectNextMntnRprSeq(insertRprData);
@@ -142,14 +142,14 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		}
 
 		// 하자보수 첨부파일 입력처리
-		for(int i=0;i<insertFileList.size();i++){
+		/*for(int i=0;i<insertFileList.size();i++){
 			insertFile = (Map) insertFileList.get(i);
 			insertFile.put("fcltsMngGroupNo",fcltsMngGroupNo);
 			insertFile.put("fcltsJobSe",fcltsJobSe);
 			insertFile.put("flawRprSeq",flawRprSeq);
 			insertFile.put("regUsr", insertRprData.get("regUsr"));
 			gamFcltyRepairMngDao.insertFcltyRepairFile(insertFile);
-		}
+		}*/
 	}
 	
 	
@@ -160,7 +160,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void updateFcltyRepairMng(Map updateRprData, Map updateObj, List updateFileList,List deleteRepairFileList) throws Exception{
+	public void updateFcltyRepairMng(Map updateRprData, Map updateObj) throws Exception{
 		String fcltsMngGroupNo = (String) updateRprData.get("fcltsMngGroupNo");
 		String fcltsJobSe = (String) updateRprData.get("fcltsJobSe");
 		String flawRprSeq = (String) updateRprData.get("flawRprSeq");
@@ -174,18 +174,18 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 		
 		
 
-		for(int i=0;i<updateFileList.size();i++){
+		/*for(int i=0;i<updateFileList.size();i++){
 			insertFile = (Map) updateFileList.get(i);
 			insertFile.put("fcltsMngGroupNo",fcltsMngGroupNo);
 			insertFile.put("fcltsJobSe",fcltsJobSe);
 			insertFile.put("flawRprSeq",flawRprSeq);
 			insertFile.put("regUsr", updateRprData.get("regUsr"));
 			gamFcltyRepairMngDao.insertFcltyRepairFile(insertFile);
-		}
+		}*/
 	}
 	
 	public void deleteFcltyRepairMngList(GamFcltyRepairMngVO deleteFileVO) throws Exception{
-	gamFcltyRepairMngDao.deleteFcltyRepairFile(deleteFileVO);
+		//gamFcltyRepairMngDao.deleteFcltyRepairFile(deleteFileVO);
 	}
 	/**
 	 * 하자보수내역 삭제
@@ -196,7 +196,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	public void deleteFcltyRepairMng(Map<?,?> vo) throws Exception{
 		gamFcltyRepairMngDao.deleteFcltyRepairMng(vo);
 		gamFcltyRepairMngDao.deleteFlawRprObjFcltsF(vo);
-//		gamFcltyRepairMngDao.deleteFcltyRepairFile(vo);
+		gamFcltyRepairMngDao.deleteFcltyRepairFile(vo);
 	}
 
 	
@@ -1080,4 +1080,36 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 			return sb;
 		}
 	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngService#selectFcltyRepairMngAtchFileNewSeq(egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngVO)
+	 */
+	@Override
+	public String selectFcltyRepairMngAtchFileNewSeq(GamFcltyRepairMngVO gamFcltyRepairMngVO) throws Exception {
+		return gamFcltyRepairMngDao.selectFcltyRepairMngAtchFileNewSeq(gamFcltyRepairMngVO);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngService#insertFcltyRepairMngAtchFile(egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngVO)
+	 */
+	@Override
+	public void insertFcltyRepairMngAtchFile(GamFcltyRepairMngVO gamFcltyRepairMngVO) throws Exception {
+		
+		//String sNewSeq = gamFcltyRepairMngDao.selectFcltyRepairMngAtchFileNewSeq(gamFcltyRepairMngVO);
+		
+		//gamFcltyRepairMngVO.setAtchFileSeq(sNewSeq);
+		
+		gamFcltyRepairMngDao.insertFcltyRepairMngAtchFile(gamFcltyRepairMngVO);
+		
+	}
+
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.fcltyMng.service.GamFcltyRepairMngService#deleteFcltyRepairMngAtchFile(java.util.Map)
+	 */
+	@Override
+	public void deleteFcltyRepairMngAtchFile(Map deleteVO) throws Exception {
+		gamFcltyRepairMngDao.deleteFcltyRepairMngAtchFile(deleteVO);
+	}	
 }
