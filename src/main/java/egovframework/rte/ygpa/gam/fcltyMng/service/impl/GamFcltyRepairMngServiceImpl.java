@@ -185,7 +185,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	}
 	
 	public void deleteFcltyRepairMngList(GamFcltyRepairMngVO deleteFileVO) throws Exception{
-	gamFcltyRepairMngDao.deleteFcltyRepairFile(deleteFileVO);
+		//gamFcltyRepairMngDao.deleteFcltyRepairFile(deleteFileVO);
 	}
 	/**
 	 * 하자보수내역 삭제
@@ -196,7 +196,7 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	public void deleteFcltyRepairMng(Map<?,?> vo) throws Exception{
 		gamFcltyRepairMngDao.deleteFcltyRepairMng(vo);
 		gamFcltyRepairMngDao.deleteFlawRprObjFcltsF(vo);
-//		gamFcltyRepairMngDao.deleteFcltyRepairFile(vo);
+		gamFcltyRepairMngDao.deleteFcltyRepairFile(vo);
 	}
 
 	
@@ -1096,9 +1096,9 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	@Override
 	public void insertFcltyRepairMngAtchFile(GamFcltyRepairMngVO gamFcltyRepairMngVO) throws Exception {
 		
-		String sNewSeq = gamFcltyRepairMngDao.selectFcltyRepairMngAtchFileNewSeq(gamFcltyRepairMngVO);
+		//String sNewSeq = gamFcltyRepairMngDao.selectFcltyRepairMngAtchFileNewSeq(gamFcltyRepairMngVO);
 		
-		gamFcltyRepairMngVO.setAtchFileSeq(sNewSeq);
+		//gamFcltyRepairMngVO.setAtchFileSeq(sNewSeq);
 		
 		gamFcltyRepairMngDao.insertFcltyRepairMngAtchFile(gamFcltyRepairMngVO);
 		
