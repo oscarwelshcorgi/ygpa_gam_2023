@@ -547,6 +547,9 @@
 			FCLTS_JOB_SE = #fcltsJobSe#
 			AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#
 			AND FLAW_RPR_SEQ = TO_NUMBER(#flawRprSeq#)
+			AND ATCH_FILE_SEQ = TO_NUMBER(#atchFileSeq#)
+
+
 	</delete>
 
 
@@ -684,8 +687,7 @@
 				#fcltsJobSe#
 				, #fcltsMngGroupNo#
 				, #flawRprSeq#
-				<!-- , #atchFileSeq# -->
-				,REPLACE(#flawRprSeq#,'*','')
+				, #atchFileSeq#
 				, #atchFileSe#
 				, #atchFileSj#
 				, #atchFileNmLogic#

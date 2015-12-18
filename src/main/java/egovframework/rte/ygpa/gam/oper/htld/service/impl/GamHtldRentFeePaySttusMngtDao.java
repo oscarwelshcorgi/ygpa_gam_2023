@@ -290,4 +290,33 @@ public class GamHtldRentFeePaySttusMngtDao extends YGPAAbstractDAO {
 	public void deleteUnpaidByPk(Map<String, Object> vo) throws Exception {
 		delete("gamHtldRentFeePaySttusMngtDao.deleteUnpaidByPk", vo);
 	}	
+
+	/**
+	 * 연체정보 고지서 정보 목록
+	 * @param vo
+	 * @throws Exception
+	 */
+	public List selectNticPrintMaster(Map searchVO) throws Exception  {
+		return list("gamHtldRentFeePaySttusMngtDao.selectNticPrintMaster_D", searchVO);
+	}
+
+	/**
+	 * 연체정보 주소지 정보 목록
+	 * @param vo
+	 * @throws Exception
+	 */
+	public List selectNticPrintDetail(Map searchVO) throws Exception {
+        return list("gamHtldRentFeePaySttusMngtDao.selectNticPrintDetail_D", searchVO);
+	}
+
+	/**
+	 * 연체고지서 인쇄 발부
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public void updateArrrgNticPrintState(Map<String, Object> vo) throws Exception {
+		this.update("gamHtldRentFeePaySttusMngtDao.updateArrrgNticPrintState_S", vo);
+	}
+	
 }

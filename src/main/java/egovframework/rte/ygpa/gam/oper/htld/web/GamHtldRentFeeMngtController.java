@@ -998,7 +998,7 @@ public class GamHtldRentFeeMngtController {
 
  		return map;
      }
-
+    
     /**
      * 고지서를 출력한다.
      * @param approvalOpt
@@ -1016,13 +1016,9 @@ public class GamHtldRentFeeMngtController {
     		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
     	}
     	else {
-//    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-
     		List master = gamHtldRentFeeMngtService.selectNticPrintMaster(approvalOpt);
 
     		List detail = gamHtldRentFeeMngtService.selectNticPrintDetail(approvalOpt);
-
-//    		model.addAttribute("emplyrNo", loginVo.getEmplNo());
 
     		model.addAttribute("resultCode", 0);
     		model.addAttribute("resultList", master);

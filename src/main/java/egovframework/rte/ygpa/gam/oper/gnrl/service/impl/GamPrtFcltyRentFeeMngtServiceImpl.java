@@ -78,6 +78,25 @@ public class GamPrtFcltyRentFeeMngtServiceImpl  extends AbstractServiceImpl impl
 	}
 
 	/**
+	 * 투자비보전 상계처리한다. 2017.12.17 김종민
+	 * @param vo
+	 * @throws Exception
+	 */
+	public void updatePrtFcltyRentFeeSaveSingle(GamPrtFcltyRentFeeMngtVO vo) throws Exception {
+		gamPrtFcltyRentFeeMngtDao.updatePrtFcltyRentFeeSaveSingle(vo);
+	}
+
+
+	/**
+	 * 투자비보전 상계취소한다. 2017.12.17 김종민
+	 * @param vo
+	 * @throws Exception
+	 */
+	public void cancelPrtFcltyRentFeeSaveSingle(GamPrtFcltyRentFeeMngtVO vo) throws Exception {
+		gamPrtFcltyRentFeeMngtDao.cancelPrtFcltyRentFeeSaveSingle(vo);
+	}
+	
+	/**
 	 * 사용료를 변경한다.
 	 * @param vo
 	 * @throws Exception

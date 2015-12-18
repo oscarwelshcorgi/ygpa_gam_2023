@@ -77,8 +77,6 @@ public class GamFcltyRepairMngController {
     @Resource(name="gamRepairFileIdGnrService")
     EgovTableIdGnrService gamRepairFileIdGnrService;
 
-    @Resource(name="basicService")
-    EgovTableIdGnrService basicService;
      
 	/**
      * 하자보수내역 관리화면호출
@@ -316,15 +314,13 @@ public class GamFcltyRepairMngController {
 
 		try {
 			//sNewSeq = gamFcltyRepairMngService.selectFcltyRepairMngAtchFileNewSeq(gamFcltyRepairMngVO);
-			sNewSeq = basicService.getNextStringId();
-			
-			gamFcltyRepairMngVO.setAtchFileSeq(sNewSeq);
+
+			//gamFcltyRepairMngVO.setAtchFileSeq(sNewSeq);
 			gamFcltyRepairMngVO.setRegUsr((String)user.getId());
-			
 			gamFcltyRepairMngService.insertFcltyRepairMngAtchFile(gamFcltyRepairMngVO);
-			
-			map.put("atchFileSeq", sNewSeq);
+			sNewSeq = gamFcltyRepairMngVO.getAtchFileSeq();
 			map.put("resultCode", 0);
+			map.put("atchFileSeq", sNewSeq);
 			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
 		} catch (Exception e) {
 			e.printStackTrace();

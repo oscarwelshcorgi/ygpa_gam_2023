@@ -1089,7 +1089,6 @@ GamFcltyRepairMngModule.prototype.atchFileUpload = function() {
 	var fcltsMngGroupNo = this.$('#fcltsMngGroupNo').val();
 	var fcltsJobSe = this.$('#fcltsJobSe').val();
 	var flawRprSeq = this.$('#flawRprSeq').val();
-	
 	if (fcltsMngGroupNo == "" || fcltsJobSe == "" || flawRprSeq == "") {
 		alert('하자관리 정보가 부정확합니다.');
 		return;
@@ -1099,7 +1098,6 @@ GamFcltyRepairMngModule.prototype.atchFileUpload = function() {
 			alert(resp.resultMsg);
 			return;
 		}
-		
 		$.each(resp.result, function(){
 			module.saveUploadFileData(fcltsMngGroupNo, fcltsJobSe, flawRprSeq, this.logicalFileNm, this.physcalFileNm);
 		});
@@ -1149,6 +1147,7 @@ GamFcltyRepairMngModule.prototype.atchFileUpload = function() {
 %>
 GamFcltyRepairMngModule.prototype.saveUploadFileData = function(argFcltsMngGroupNo, argFcltsJobSe, argFlawRprSeq, argAtchFileNmLogic, argAtchFileNmPhysicl) {
 
+	var inputVO = [];
 	var atchFileSe = "D";
 	var atchFileSeNm = "문서";
 	var atchFileWritngDt = "";
@@ -1198,7 +1197,7 @@ GamFcltyRepairMngModule.prototype.saveUploadFileData = function(argFcltsMngGroup
 			'updUsr':"",
 			'updtDt':""
 	};
-	
+	console.log(inputVO);
 	this.doAction('/fcltyMng/insertFcltyRepairMngAtchFile.do', inputVO, function(module, result) {
 		if (result.resultCode == "0") {
 			module.$("#fcltyRepairFileList").flexAddRow({ fcltsMngGroupNo: argFcltsMngGroupNo,
@@ -1217,7 +1216,6 @@ GamFcltyRepairMngModule.prototype.saveUploadFileData = function(argFcltsMngGroup
 			alert(result.resultMsg);
 		}
 	});
-	
 };
 
 <%

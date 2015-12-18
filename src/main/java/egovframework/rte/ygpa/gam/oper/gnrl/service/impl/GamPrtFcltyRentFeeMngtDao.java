@@ -55,6 +55,24 @@ public class GamPrtFcltyRentFeeMngtDao extends YGPAAbstractDAO {
 	}
 
 	/**
+	 * 투자비보전 상계처리한다. 2015.12.17 김종민
+	 * @param vo GamPrtFcltyRentFeeMngtVO
+	 * @exception Exception
+	 */
+	public void updatePrtFcltyRentFeeSaveSingle(GamPrtFcltyRentFeeMngtVO vo){
+		update("gamPrtFcltyRentFeeMngtDao.updatePrtFcltyRentFeeSaveSingle_S", vo);
+	}
+	
+	/**
+	 * 투자비보전 상계취소한다.
+	 * @param vo GamPrtFcltyRentFeeMngtVO
+	 * @exception Exception
+	 */
+	public void cancelPrtFcltyRentFeeSaveSingle(GamPrtFcltyRentFeeMngtVO vo){
+		update("gamPrtFcltyRentFeeMngtDao.cancelPrtFcltyRentFeeSaveSingle_S", vo);
+	}
+
+	/**
 	 * 자산임대료고지관리정보를 수정한다.
 	 * @param vo GamPrtFcltyRentFeeMngtVO
 	 * @exception Exception

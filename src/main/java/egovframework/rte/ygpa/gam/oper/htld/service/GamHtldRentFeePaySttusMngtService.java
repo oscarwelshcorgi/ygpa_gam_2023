@@ -175,4 +175,28 @@ public interface GamHtldRentFeePaySttusMngtService {
    	 * @exception Exception
      */
 	void cancelUnpaidRequestPk(Map<String, Object> vo) throws Exception;
+
+	/**
+	 * 연체고지서 출력을 위한 연체정보 가져오기
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	List selectNticPrintMaster(Map searchVO) throws Exception;
+
+	/**
+	 * 연체고지서 출력을 위한 주소지정보 가져오기
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	List selectNticPrintDetail(Map searchVO) throws Exception;
+
+	/**
+	 * 연체고지서 인쇄 발부
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	void updateArrrgNticPrintState(Map<String, Object> vo) throws Exception;
 }

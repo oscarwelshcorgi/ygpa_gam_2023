@@ -112,5 +112,18 @@ public interface GamPrtFcltyRentFeeMngtService {
 
 	Map selectAssetRentFeeDetailSumPk(GamPrtFcltyRentFeeMngtVO searchVO);
 
-	}
+	/**
+	 * 투자비보전 상계처리한다. 2017.12.17 김종민
+	 * @param vo
+	 * @throws Exception
+	 */
+	void updatePrtFcltyRentFeeSaveSingle(GamPrtFcltyRentFeeMngtVO vo) throws Exception;
+
+	/**
+	 * 투자비보전 상계취소한다. 2017.12.17 김종민
+	 * @param vo
+	 * @throws Exception
+	 */
+	void cancelPrtFcltyRentFeeSaveSingle(GamPrtFcltyRentFeeMngtVO vo) throws Exception;	
+}
 

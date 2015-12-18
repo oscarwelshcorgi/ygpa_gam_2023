@@ -1675,7 +1675,7 @@ GamAssetRentMngtModule.prototype.calcRentMasterValues = function() {
                         }
                     }
 
-                    alert(result.resultMsg);
+                    //alert(result.resultMsg);
                 });
 
             } else {

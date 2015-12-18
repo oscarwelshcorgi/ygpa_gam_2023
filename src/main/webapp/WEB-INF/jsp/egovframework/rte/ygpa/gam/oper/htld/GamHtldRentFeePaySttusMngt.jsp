@@ -70,23 +70,23 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         url: '/oper/htld/selectHtldRentFeePaySttusMngtDlyList.do',
         dataType: 'json',
         colModel : [
-					{display:'연체횟수', name:'dlySerNo',width:67, sortable:false,align:'center'},
-					{display:'연체고지일자', name:'dlyBillDt',width:110, sortable:false,align:'center'},
+					{display:'연체횟수', name:'dlySerNo',width:70, sortable:false,align:'center'},
+					{display:'연체고지일자', name:'dlyBillDt',width:120, sortable:false,align:'center'},
                     //{display:'공급가액', name:'supplyAmnt',width:104, sortable:false,align:'right', displayFormat: 'number'},
                     //{display:'부가세', name:'vat',width:104, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'연체료', name:'dlyBillAmnt',width:104, sortable:false,align:'right', displayFormat: 'number'},
-                    {display:'고지금액', name:'arrrgNticAmnt',width:104, sortable:false,align:'right', displayFormat: 'number'},
-					{display:'고지서발부여부', name:'dlyBillPrtYn',width:100, sortable:false,align:'center'},
-					{display:'연체납부기한', name:'dlyDueDt',width:110, sortable:false,align:'center'},
-					{display:'산출내역', name:'dlyBillRsn',width:300, sortable:false,align:'center'}
+                    {display:'연체료', name:'dlyBillAmnt',width:110, sortable:false,align:'right', displayFormat: 'number'},
+                    {display:'고지금액', name:'djiroAmnt',width:110, sortable:false,align:'right', displayFormat: 'number'},
+					{display:'고지서발부여부', name:'dlyBillPrtYnNm',width:100, sortable:false,align:'center'},
+					{display:'연체납부기한', name:'dlyDueDt',width:120, sortable:false,align:'center'},
+					{display:'산출내역', name:'dlyBillRsn',width:320, sortable:false,align:'center'}
                     ],
         showTableToggleBtn: false,
-        height: '150',
+        height: '200',
         preProcess: function(module,data) {
+			module.dlyListLastRec = null;
     		if (data.resultCode == "0") {
             	$.each(data.resultList, function() {
-            		this.supplyAmnt = Number(this.fee) + Number(this.intrAmnt);
-            		this.arrrgNticAmnt = Number(this.supplyAmnt) + Number(this.vat) + Number(this.dlyBillAmnt);
+            		this.dlyBillPrtYnNm = (this.dlyBillPrtYn == 'Y') ? '발부' : '미발부';
             		module.dlyListLastRec = this;
             	});
     			module.makeDivValues('#htldRentFeePaySttusMngtListForm',data.resultDlyInfo);	// 리스트 값을 채운다
@@ -219,7 +219,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.displayArrrgForm = function(fee, intr
 	this.detailArrrg.arrrgAmt = arrrgAmnt; //연체료
 	this.detailArrrg.arrrgNo = nextArrrgNo; 
 	this.detailArrrg.arrrgRate = arrrgRate * 100;
-	this.detailArrrg.arrrgNticAmt = fee + intrAmnt + vat + arrrgAmnt; //연체고지금액
+	this.detailArrrg.arrrgNticAmt = fee + intrAmnt + vat + arrrgAmnt; //고지(연체)금액
 	this.detailArrrg.dlyBillRsn = dlyBillRsn;
 	this.makeFormValues('#arrrgDetailVO', this.detailArrrg);
 };
@@ -281,22 +281,11 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadArrrgPage = function() {
         	this.nticArrrgPrintCancelLast(rows[0]);
         	break;
         case 'btnNticIssuePrint':
-        	var rows = this.$('#htldRentFeePaySttusMngtList').selectedRows();
-        	if(rows.length==0) {
-        		alert('연체 고지 할 항목을 선택 하세요.');
+        	if(this.dlyListLastRec==void(0)) {
+        		alert('출력할 연체고지가 없습니다.');
         		return;
         	}
-        	var row=rows[0];
-            this.printPayNotice('/oper/htld/printHtldRentFeePayNotice.do', row);
-        	break;
-        case 'btnNticIssuePrint2':
-        	var rows = this.$('#htldRentFeePaySttusMngtList').selectedRows();
-        	if(rows.length==0) {
-        		alert('연체 고지 할 항목을 선택 하세요.');
-        		return;
-        	}
-        	var row=rows[0];
-            this.printPayNotice('/oper/gnrl/printPrtFcltyRentFeePayNotice.do', row);
+            this.printPayNotice('/oper/htld/printHtldRentArrrgFeePayNotice.do', this.dlyListLastRec);
         	break;
     }
 };
@@ -744,67 +733,55 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
                     	<div>
                         <table class="detailForm"  style="width:100%;">
                             <tr>
-                                <th width="16%">항코드</th>
-                                <td><span data-column-id="prtAtCode" ></span></td>
                                 <th width="16%">항코드명</th>
-                                <td><span data-column-id="prtKorNm" ></span></td>
+                                <td><span data-column-id="prtKorNm" ></span> (<span data-column-id="prtAtCode" ></span>)</td>
+                                <th width="16%">업체명</th>
+                                <td><span data-column-id="firmKorNm" ></span> (<span data-column-id="agentCode" ></span>)</td>
+                                <th width="16%">임대계약기간</th>
+                                <td><span data-column-id="strDate" ></span> ~ <span data-column-id="endDate" ></span></td>
+                            </tr>
+                            <tr>
                                 <th width="16%">회계년도</th>
                                 <td><span data-column-id="fiscalYr" ></span></td>
-                            </tr>
-                            <tr>
-                                <th width="16%">요금종류</th>
-                                <td><span data-column-id="feeTp" ></span></td>
-                                <th width="16%">요금종류명</th>
-                                <td><span data-column-id="feeTpKorNm" ></span></td>
                                 <th width="16%">고지번호</th>
                                 <td><span data-column-id="billNo" ></span></td>
-                            </tr>
-                            <tr>
-                                <th width="16%">업체코드</th>
-                                <td><span data-column-id="agentCode" ></span></td>
-                                <th width="16%">업체명</th>
-                                <td><span data-column-id="firmKorNm" ></span></td>
                                 <th width="16%">연체횟수</th>
                                 <td><span data-column-id="dlySerNo" class="ygpaNumber" style="text-align:right;"></span></td>
                             </tr>
                             <tr>
-                                <th width="16%">연체고지금액</th>
-                                <td><span data-column-id="dlyBillAmnt" class="ygpaNumber" style="text-align:right;"></span></td>
                                 <th width="16%">연체고지일자</th>
                                 <td><span data-column-id="dlyBillDt" ></span></td>
-                                <th width="16%">연체고지서발부여부</th>
-                                <td><span data-column-id="dlyBillPrtYn" ></span></td>
-                            </tr>
-                            <tr>
-                                <th width="16%">사업자등록번호</th>
-                                <td><span data-column-id="bzRgstId" ></span></td>
-                                <th width="16%">산출내역</th>
-                                <td><span data-column-id="dlyBillRsn" ></span></td>
                                 <th width="16%">연체납부기한</th>
                                 <td><span data-column-id="dlyDueDt" ></span></td>
-                            </tr>
-                            <tr>
-                                <th width="16%">최초고지일자</th>
-                                <td><span data-column-id="firstBillDt" ></span></td>
                                 <th width="16%">연체수납일자</th>
                                 <td><span data-column-id="dlyRcvdDt" ></span></td>
-                                <th width="16%">할인율코드</th>
-                                <td><span data-column-id="dcRate" ></span></td>
                             </tr>
                             <tr>
-                                <th width="16%">금융기관수납일자</th>
-                                <td><span data-column-id="recptEpdt" ></span></td>
-                                <th width="16%">시작일자</th>
-                                <td><span data-column-id="strDate" ></span></td>
-                                <th width="16%">종료일자</th>
-                                <td><span data-column-id="endDate" ></span></td>
-                            </tr>
-                            <tr>
+                                <th width="16%">요금종류명</th>
+                                <td><span data-column-id="feeTpKorNm" ></span> (<span data-column-id="chrgeKnd" ></span>)</td>
                                 <th width="16%">공급가액</th>
                                 <td><span data-column-id="supplyAmnt" class="ygpaNumber" style="text-align:right;"></span></td>
                                 <th width="16%">부가세</th>
-                                <td colspan="3"><span data-column-id="vat" class="ygpaNumber" style="text-align:right;"></span></td>
+                                <td><span data-column-id="vat" class="ygpaNumber" style="text-align:right;"></span></td>
                             </tr>
+                            <tr>
+                                <th width="16%">연체료</th>
+                                <td><span data-column-id="dlyBillAmnt" class="ygpaNumber" style="text-align:right;"></span></td>
+                                <th width="16%">연체료산출내역</th>
+                                <td colspan="3"><span data-column-id="dlyBillRsn" ></span></td>
+                            </tr>
+                            <!-- <tr>
+                                <th width="16%">최초고지일자</th>
+                                <td><span data-column-id="firstBillDt" ></span></td>
+                                <th width="16%">금융기관수납일자</th>
+                                <td><span data-column-id="recptEpdt" ></span></td>
+                                <th width="16%">할인율코드</th>
+                                <td><span data-column-id="dcRate" ></span></td>
+                                <th width="16%">사업자등록번호</th>
+                                <td><span data-column-id="bzRgstId" ></span></td>
+                                <th width="16%">연체고지서발부여부</th>
+                                <td><span data-column-id="dlyBillPrtYn" ></span></td>
+                            </tr> -->
                         </table>
 						</div>
                     </form>

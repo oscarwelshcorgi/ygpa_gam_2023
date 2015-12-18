@@ -390,6 +390,8 @@ public class GamPrtFcltyRentFeeMngtVO extends ComDefaultVO {
     private String endDt;
 
     private String sNhtIsueYn;
+    
+    private String sSaveYn;
 
 	/**
 	 * @return the nticCnt
@@ -1613,6 +1615,20 @@ public class GamPrtFcltyRentFeeMngtVO extends ComDefaultVO {
 	 */
 	public void setsChrgeKnd(String sChrgeKnd) {
 		this.sChrgeKnd = sChrgeKnd;
+	}
+
+	/**
+	 * @return the sSaveYn
+	 */
+	public String getsSaveYn() {
+		return sSaveYn;
+	}
+
+	/**
+	 * @param sSaveYn the sSaveYn to set
+	 */
+	public void setsSaveYn(String sSaveYn) {
+		this.sSaveYn = sSaveYn;
 	}
 
 

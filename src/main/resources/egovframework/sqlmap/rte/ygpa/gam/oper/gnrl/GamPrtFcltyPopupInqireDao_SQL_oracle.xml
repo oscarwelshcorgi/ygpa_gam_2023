@@ -28,6 +28,7 @@
 			            AND L.NHT_ISUE_YN='N'
 			            AND F.QUAY_GROUP_CD      = 'G'
                         AND L.NTIC_PD_FROM <![CDATA[<]]> SYSDATE+15
+                        AND L.SAVE IS NULL OR L.SAVE = 'N' <!-- 투자비보전 상계처리 제외부분 추가 . 2015.12.17 김종민 -->
 			         <!--
 			         WHERE L.NTIC_PD_FROM <![CDATA[>=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')
 			           AND L.CONST_PER_TO <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDD')

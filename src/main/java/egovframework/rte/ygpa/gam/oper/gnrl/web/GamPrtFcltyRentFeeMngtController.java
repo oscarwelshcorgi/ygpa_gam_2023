@@ -743,6 +743,84 @@ public class GamPrtFcltyRentFeeMngtController {
      }
 
     /**
+     * 투자비보전 상계처리를 한다. 2015.12.17 김종민
+     * @param gamPrtFcltyRentFeeMngtVO
+     * @param bindingResult
+     * @return map
+     * @throws Exception
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/oper/gnrl/updatePrtFcltyRentFeeSaveSingle.do")
+    public @ResponseBody Map updatePrtFcltyRentFeeSaveSingle(
+     	   @ModelAttribute("gamPrtFcltyRentFeeMngtVO") GamPrtFcltyRentFeeMngtVO gamPrtFcltyRentFeeMngtVO,
+     	   BindingResult bindingResult)
+            throws Exception {
+     	Map map = new HashMap();
+ 
+     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+     	if(!isAuthenticated) {
+ 	        map.put("resultCode", 1);
+     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+         	return map;
+     	}
+
+    	try {
+    		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+ 		 	gamPrtFcltyRentFeeMngtVO.setRegUsr(loginVO.getId());
+ 		 	gamPrtFcltyRentFeeMngtVO.setUpdUsr(loginVO.getId());
+
+         	gamPrtFcltyRentFeeMngtService.updatePrtFcltyRentFeeSaveSingle(gamPrtFcltyRentFeeMngtVO);
+
+     	 	map.put("resultCode", 0);
+     	 	map.put("resultMsg", egovMessageSource.getMessage("gam.asset.proc"));
+    	}
+    	catch(Exception e) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+    	}
+ 		return map;
+     }
+
+    /**
+     * 투자비보전 상계취소를 한다. 2015.12.17 김종민
+     * @param gamPrtFcltyRentFeeMngtVO
+     * @param bindingResult
+     * @return map
+     * @throws Exception
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/oper/gnrl/cancelPrtFcltyRentFeeSaveSingle.do")
+    public @ResponseBody Map cancelPrtFcltyRentFeeSaveSingle(
+     	   @ModelAttribute("gamPrtFcltyRentFeeMngtVO") GamPrtFcltyRentFeeMngtVO gamPrtFcltyRentFeeMngtVO,
+     	   BindingResult bindingResult)
+            throws Exception {
+     	Map map = new HashMap();
+ 
+     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+     	if(!isAuthenticated) {
+ 	        map.put("resultCode", 1);
+     		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+         	return map;
+     	}
+
+    	try {
+    		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+ 		 	gamPrtFcltyRentFeeMngtVO.setRegUsr(loginVO.getId());
+ 		 	gamPrtFcltyRentFeeMngtVO.setUpdUsr(loginVO.getId());
+
+         	gamPrtFcltyRentFeeMngtService.cancelPrtFcltyRentFeeSaveSingle(gamPrtFcltyRentFeeMngtVO);
+
+     	 	map.put("resultCode", 0);
+     	 	map.put("resultMsg", egovMessageSource.getMessage("gam.asset.proc"));
+    	}
+    	catch(Exception e) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
+    	}
+ 		return map;
+     }
+
+    /**
      * 고지의뢰를 한다.(단일처리)
      * @param gamAssetRentFeeMngtVO
      * @param bindingResult

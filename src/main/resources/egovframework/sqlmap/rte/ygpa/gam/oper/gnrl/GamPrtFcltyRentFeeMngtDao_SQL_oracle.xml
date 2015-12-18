@@ -87,6 +87,8 @@
                 	S.PAY_TMLMT,
                    	S.NHT_ISUE_YN,
                    	S.NHT_PRINT_YN,
+                   	S.SAVE,
+                   	S.OFFSET_DT,
 					S.ARRRG_NO,
 					S.ARRRG_AMT,
 					S.ARRRG_TARIFF,
@@ -139,6 +141,8 @@
 							       , L.MNG_YEAR
 							       , L.MNG_NO
 							       , L.MNG_CNT
+							       , L.SAVE
+							       , TO_CHAR(L.OFFSET_DT, 'YYYY-MM-DD') OFFSET_DT
 							       , (SELECT CD.CODE_NM FROM COMTCCMMNDETAILCODE CD WHERE CD.CODE_ID = 'GAM019' AND CD.CODE = L.PRT_AT_CODE AND ROWNUM = 1) PRT_AT_CODE_NM
     						       , GAM_GETDEPTNAME(L.DEPTCD) DEPTCD_NM
     						       , NVL(A.GR_AR,0) GR_AR
@@ -149,12 +153,12 @@
     						       , ADIT_NTIC_YN
 							  FROM ASSETS_RENT_F A,
 							       LEV_REQEST_F L
-							 WHERE 1 = 1
-							   AND A.PRT_AT_CODE = L.PRT_AT_CODE
-                               AND A.MNG_YEAR = L.MNG_YEAR
-                               AND A.MNG_NO = L.MNG_NO
-                               AND A.MNG_CNT = L.MNG_CNT
-							   AND A.QUAY_GROUP_CD='G'
+							  WHERE 1 = 1
+								   AND A.PRT_AT_CODE = L.PRT_AT_CODE
+	                               AND A.MNG_YEAR = L.MNG_YEAR
+	                               AND A.MNG_NO = L.MNG_NO
+	                               AND A.MNG_CNT = L.MNG_CNT
+								   AND A.QUAY_GROUP_CD='G'
 							   <isNotEmpty property="sPrtAtCode">
 							       AND L.PRT_AT_CODE = #sPrtAtCode#
 							   </isNotEmpty>
@@ -175,45 +179,44 @@
 							   <isNotEmpty property="sEntrpscd">
 							       AND L.entrpscd = #sEntrpscd#
 							   </isNotEmpty>
-			<isEqual property="searchCondition" compareValue="nticPdDt">
-				<isNotEmpty property="sUsagePdFrom">
-					<![CDATA[
-		         		AND L.NTIC_PD_FROM > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
-		         	]]>
-		         </isNotEmpty>
-
-		         <isNotEmpty property="sUsagePdTo">
-					<![CDATA[
-			         	AND L.NTIC_PD_FROM < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
-		         	]]>
-		         </isNotEmpty>
-			</isEqual>
-			<isEqual property="searchCondition" compareValue="usagePd">
-		         <isNotEmpty property="sUsagePdFrom">
-					<![CDATA[
-		         		AND A.PRMISN_DT > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
-		         	]]>
-		         </isNotEmpty>
-
-		         <isNotEmpty property="sUsagePdTo">
-					<![CDATA[
-			         	AND A.PRMISN_DT < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
-		         	]]>
-		         </isNotEmpty>
-			</isEqual>
-			<isEqual property="searchCondition" compareValue="nticDt">
-				<isNotEmpty property="sUsagePdFrom">
-					<![CDATA[
-		         		AND L.NTIC_DT > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
-		         	]]>
-		         </isNotEmpty>
-
-		         <isNotEmpty property="sUsagePdTo">
-					<![CDATA[
-			         	AND L.NTIC_DT < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
-		         	]]>
-		         </isNotEmpty>
-			</isEqual>
+							   
+						<isEqual property="searchCondition" compareValue="nticPdDt">
+							<isNotEmpty property="sUsagePdFrom">
+								<![CDATA[
+					         		AND L.NTIC_PD_FROM > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+					         	]]>
+					         </isNotEmpty>
+					         <isNotEmpty property="sUsagePdTo">
+								<![CDATA[
+						         	AND L.NTIC_PD_FROM < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
+					         	]]>
+					         </isNotEmpty>
+						</isEqual>
+						<isEqual property="searchCondition" compareValue="usagePd">
+					         <isNotEmpty property="sUsagePdFrom">
+								<![CDATA[
+					         		AND A.PRMISN_DT > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+					         	]]>
+					         </isNotEmpty>
+					         <isNotEmpty property="sUsagePdTo">
+								<![CDATA[
+						         	AND A.PRMISN_DT < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
+					         	]]>
+					         </isNotEmpty>
+						</isEqual>
+						<isEqual property="searchCondition" compareValue="nticDt">
+							<isNotEmpty property="sUsagePdFrom">
+								<![CDATA[
+					         		AND L.NTIC_DT > TO_DATE(#sUsagePdFrom#, 'YYYY-MM-DD')
+					         	]]>
+					         </isNotEmpty>
+					         <isNotEmpty property="sUsagePdTo">
+								<![CDATA[
+						         	AND L.NTIC_DT < TO_DATE(#sUsagePdTo#, 'YYYY-MM-DD')+1
+					         	]]>
+					         </isNotEmpty>
+						</isEqual>
+						
 							   <isNotEmpty property="sanctnSttus">
 							       AND L.SANCTN_STTUS = #sanctnSttus#
 							   </isNotEmpty>
@@ -231,7 +234,6 @@
 								                                                             )
 								       )
 							   </isNotEmpty>
-
 							   <isNotEmpty property="sMngYear">
 							       AND L.MNG_YEAR    = #sMngYear#
 							   </isNotEmpty>
@@ -243,7 +245,6 @@
 							   <isNotEmpty property="sMngCnt">
 							       AND L.MNG_CNT     = #sMngCnt#
 							   </isNotEmpty>
-
 							   <isNotEmpty property="sPrmisnYn">
 								   AND (
 								         (L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT) IN (
@@ -255,35 +256,41 @@
 								                                                               WHERE R.PRMISN_YN = #sPrmisnYn#
 								                                                             )
 								       )
-	                              </isNotEmpty>
+	                            </isNotEmpty>
 
-               <isNotEmpty property="sRrArFrom">
-				<![CDATA[
-               	AND A.GR_AR > #sRrArFrom#
-               	]]>
-               </isNotEmpty>
-          	    <isNotEmpty property="sRrArTo">
-				<![CDATA[
-               	AND A.GR_AR < #sRrArTo#
-               	]]>
-               </isNotEmpty>
-
-	                           <isNotEmpty property="sNhtIsueYn">
-	                               AND L.NHT_ISUE_YN = #sNhtIsueYn#
-	                           </isNotEmpty>
-	                           <isNotEmpty property="nhtPrintYn">
-	                               AND L.NHT_ISUE_YN = #nhtPrintYn#
-	                           </isNotEmpty>
-	                           <isNotEmpty property="sNticMth">
-							       AND L.NTIC_MTH = #sNticMth#
-							   </isNotEmpty>
-							   <isNotEmpty property="sNticCnt">
-							       AND L.NTIC_CNT = #sNticCnt#
-							   </isNotEmpty>
-				               <isNotEmpty property="sChrgeKnd">
-							       AND L.CHRGE_KND = #sChrgeKnd#
-							   </isNotEmpty>
-
+								<isNotEmpty property="sRrArFrom">
+								<![CDATA[
+									AND A.GR_AR > #sRrArFrom#
+								]]>
+								</isNotEmpty>
+								<isNotEmpty property="sRrArTo">
+								<![CDATA[
+									AND A.GR_AR < #sRrArTo#
+								]]>
+								</isNotEmpty>
+								<isNotEmpty property="sNhtIsueYn">
+									AND L.NHT_ISUE_YN = #sNhtIsueYn#
+								</isNotEmpty>
+								<isNotEmpty property="nhtPrintYn">
+									AND L.NHT_ISUE_YN = #nhtPrintYn#
+								</isNotEmpty>
+								<isNotEmpty property="sNticMth">
+								    AND L.NTIC_MTH = #sNticMth#
+								</isNotEmpty>
+								<isNotEmpty property="sNticCnt">
+								    AND L.NTIC_CNT = #sNticCnt#
+								</isNotEmpty>
+								<isNotEmpty property="sChrgeKnd">
+								    AND L.CHRGE_KND = #sChrgeKnd#
+								</isNotEmpty>
+								
+							<isEqual property="sSaveYn" compareValue="Y">
+							    AND L.SAVE = 'Y'
+							</isEqual>
+							<isEqual property="sSaveYn" compareValue="N">
+							    AND L.SAVE IS NULL OR L.SAVE = 'N'
+							</isEqual>
+								
                 ) S
                 ORDER BY S.PRMISN_DT DESC, S.NTIC_DT DESC
              ) A
@@ -554,6 +561,38 @@
 		</isNotEmpty>
 
     </select>
+
+	<!-- 투자비보전 상계처리  2015.12.17 김종민 -->
+    <update id="gamPrtFcltyRentFeeMngtDao.updatePrtFcltyRentFeeSaveSingle_S">
+        UPDATE LEV_REQEST_F SET
+		       SAVE     = 'Y'
+		     , OFFSET_DT     = SYSDATE
+		     , OFFSET_AMT = #nticAmt#
+		     , UPD_USR      = #updUsr#
+		     , UPDT_DT      = SYSDATE
+		WHERE  NTIC_CNT     = #nticCnt#
+		AND    PRT_AT_CODE  = #prtAtCode#
+		AND    MNG_YEAR     = #mngYear#
+		AND    MNG_NO       = #mngNo#
+		AND    MNG_CNT      = #mngCnt#
+	      AND CHRGE_KND      = #chrgeKnd#
+    </update>
+
+	<!-- 투자비보전 상계취소  2015.12.17 김종민 -->
+    <update id="gamPrtFcltyRentFeeMngtDao.cancelPrtFcltyRentFeeSaveSingle_S">
+        UPDATE LEV_REQEST_F SET
+		       SAVE     = NULL
+		     , OFFSET_DT     = NULL
+		     , OFFSET_AMT = NULL
+		     , UPD_USR      = #updUsr#
+		     , UPDT_DT      = SYSDATE
+		WHERE  NTIC_CNT     = #nticCnt#
+		AND    PRT_AT_CODE  = #prtAtCode#
+		AND    MNG_YEAR     = #mngYear#
+		AND    MNG_NO       = #mngNo#
+		AND    MNG_CNT      = #mngCnt#
+	      AND CHRGE_KND      = #chrgeKnd#
+    </update>
 
     <update id="gamPrtFcltyRentFeeMngtDao.updatePrtFcltyRentFeeMngt_S">
         UPDATE LEV_REQEST_F SET

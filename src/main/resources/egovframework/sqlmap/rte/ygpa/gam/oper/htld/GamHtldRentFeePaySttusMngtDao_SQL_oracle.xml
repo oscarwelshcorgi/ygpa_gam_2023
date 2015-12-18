@@ -669,7 +669,7 @@
       			GAM_GETENTRPSNM(L.ENTRPSCD, '2'),
       			#dlyBillRsn#, #regUsr#, SYSDATE,
       			L.ENTRPSCD, '194', 'N', 'N', TO_DATE(#nticPdFrom#, 'YYYY-MM-DD'), TO_DATE(#nticPdTo#, 'YYYY-MM-DD'),
-      			#deptCd#, #emplNo#, TO_DATE(#prvDueDt#, 'YYYY-MM-DD'), L.NTIC_AMT+#dlyBillAmnt#, #userName#, TO_DATE(#prvBillDt#, 'YYYY-MM-DD')
+      			#deptCd#, #emplNo#, TO_DATE(#prvDueDt#, 'YYYY-MM-DD'), NVL(L.FEE,0) + NVL(L.INTR_AMNT,0) + NVL(L.VAT,0) +#dlyBillAmnt#, #userName#, TO_DATE(#prvBillDt#, 'YYYY-MM-DD')
      		FROM LEV_REQEST_F L
       		WHERE PRT_AT_CODE=#prtAtCode#
       			AND MNG_YEAR=#mngYear#
@@ -710,14 +710,13 @@
 				,U.FEE_TP
 				,U.FISCAL_YR
 				,U.BILL_NO
-				,L.FEE
-				,L.VAT
-				,L.INTR_AMNT
+				,U.WORK_CODE
 				,U.DLY_SER_NO
 				,U.AGENT_CODE
 				,U.BZ_RGST_ID
 				,U.DLY_BILL_AMNT
 				,U.DBILL_AMNT
+				,U.DJIRO_AMNT
 				,TO_CHAR(U.DLY_BILL_DT, 'YYYY-MM-DD') AS DLY_BILL_DT
 				,U.DLY_BILL_PRT_YN
 				,U.DLY_BILL_RSN
@@ -1292,5 +1291,160 @@
       	)
       	AND DLY_SER_NO=#dlySerNo#
     </delete>
+
+	<!-- 연체고지서 마스터 데이터 조회 -->
+    <select id="gamHtldRentFeePaySttusMngtDao.selectNticPrintMaster_D" parameterClass="hashMap" resultClass="egovMap">
+		SELECT Z.*
+		FROM
+		  (SELECT ROWNUM RNUM,
+		    P2MGR.sf_makedigit@YGPA_P2MGR(A.PRT_AT_CODE
+		    || ASCII(SUBSTR(A.FEE_TP,1,1))
+		    || SUBSTR(A.FEE_TP,2,1)
+		    || A.FISCAL_YR
+		    || A.BILL_NO
+		    || NVL(A.ARRRG_NO, '0'),'BILLNO') CSTMR_REF_CODE,
+		    (SELECT DECODE(A.PRT_AT_CODE, '620', '1', '621', '2', '3')
+		      || FEE_TP_MAP
+		      || SUBSTR(A.FISCAL_YR, 3,2)
+		      || A.BILL_NO
+		      || NVL(A.ARRRG_NO, '00')
+		    FROM P2MGR.FEE_TP_F@YGPA_P2MGR
+		    WHERE PRT_AT_CODE = A.PRT_AT_CODE
+		    AND FEE_TP        = A.FEE_TP
+		    ) ELEC_PAY_NO,
+		    DECODE(A.PRT_AT_CODE, '622', '6374594', '6374604') GIRO_NO,
+		    P2MGR.sf_makedigit@YGPA_P2MGR(A.DJIRO_AMNT, 'AMT') ELEC_NTIC_AMT,
+		    A.*
+		  FROM
+		    (
+		    SELECT U.PRT_AT_CODE,
+		      U.FISCAL_YR,
+		      U.FEE_TP,
+		      U.BILL_NO,
+		      U.DJIRO_AMNT,
+		      U.DLY_BILL_AMNT,
+		      U.DLY_BILL_RSN,
+		      L.FEE,
+	          L.INTR_AMNT,
+	          (NVL(L.FEE, 0) + NVL(L.INTR_AMNT, 0)) AS SUPPLY_AMNT, 
+		      L.NTIC_CNT,
+              L.INTR_RATE*100 INTR_RATE,
+              L.NTIC_AMT,
+              L.RM,
+              L.MNG_YEAR,
+              L.MNG_NO,
+              L.MNG_CNT,
+		      U.AGENT_CODE,
+		      (SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD = U.AGENT_CODE) AGENT_NAME,
+		      TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM,
+		      TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO,
+		      <![CDATA[
+		      nvl((select assess_result from htld_rent_assess_f where L.PRT_AT_CODE   = PRT_AT_CODE
+					      AND L.MNG_YEAR      = MNG_YEAR
+					      AND L.MNG_NO        = MNG_NO
+					      AND L.MNG_CNT       = MNG_CNT
+					      AND L.NTIC_PD_FROM > DT_FROM
+    						AND L.NTIC_PD_TO < DT_TO+1), 0) ASSESS_AMT,
+				GAM_GETCODENAME('GAM071', (select ASSESS_SE from htld_rent_assess_f where L.PRT_AT_CODE   = PRT_AT_CODE
+		      AND L.MNG_YEAR      = MNG_YEAR
+		      AND L.MNG_NO        = MNG_NO
+		      AND L.MNG_CNT       = MNG_CNT
+		      AND L.NTIC_PD_FROM > DT_FROM
+							AND L.NTIC_PD_TO < DT_TO+1)) ASSESS_SE_NM,
+							]]>
+		      TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT,
+		      L.ARRRG_NO,
+		      (SELECT RPRSNTV_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=L.ENTRPSCD) RPRSNTV_NM,
+		      (SELECT ADRES FROM ENTRPS_INFO_F WHERE ENTRPSCD=L.ENTRPSCD) ADRES,
+		      (SELECT ADRES2 FROM ENTRPS_INFO_F WHERE ENTRPSCD=L.ENTRPSCD) ADRES2,
+		      (SELECT ZIP FROM ENTRPS_INFO_F WHERE ENTRPSCD=L.ENTRPSCD) ZIP,
+		      GAM_GET_FEE_TP_NM(L.PRT_AT_CODE, 'H', DECODE(U.FEE_TP, 'V2', 'A3',U.WORK_CODE)) CHRGE_KND_NM,
+		      U.BZ_RGST_ID,
+		      L.VAT,
+		      L.VAT_YN,
+		      GAM_GETCODENAME('GAM016', L.VAT_YN) TAXT_SE_NM,
+		      TO_CHAR(U.DLY_BILL_DT, 'YYYY-MM-DD') BILL_DT,
+		      TO_CHAR(U.DLY_DUE_DT, 'YYYY-MM-DD') DUE_DATE
+		   FROM LEV_REQEST_F L, UNPAID_F U
+		    WHERE 1=1
+	           AND L.PRT_AT_CODE=U.PRT_AT_CODE
+	           AND L.ACCNUT_YEAR=U.FISCAL_YR
+	           AND L.CHRGE_KND=U.WORK_CODE
+	           AND L.NTICNO=U.BILL_NO
+               AND U.PRT_AT_CODE = #prtAtCode#
+               AND U.FEE_TP = GAM_GET_FEE_TP(#workCode#)
+               AND U.WORK_CODE = #workCode#
+               AND U.FISCAL_YR = #fiscalYr#
+               AND U.BILL_NO = #billNo#
+			   AND U.DLY_SER_NO = #dlySerNo#				
+		      ) A
+		  ) Z
+    </select>
+
+    <select id="gamHtldRentFeePaySttusMngtDao.selectNticPrintDetail_D" parameterClass="hashMap" resultClass="egovMap">
+    	SELECT
+    		A.RM,
+    		D.USAGE_AR,
+			  D.APPLC_PRICE,
+    		TRUNC(D.USAGE_AR*D.APPLC_PRICE, -1) D_PRICE,
+    		D.COMPUT_DTLS ,
+	        (SELECT GIS_ASSETS_NM
+	        FROM GIS_ASSETS_CD_F
+	        WHERE ROWNUM              =1
+	        AND GIS_ASSETS_PRT_AT_CODE=D.GIS_ASSETS_PRT_AT_CODE
+	        AND GIS_ASSETS_CD         =D.GIS_ASSETS_CD
+	        AND GIS_ASSETS_SUB_CD     =D.GIS_ASSETS_SUB_CD
+	        ) GIS_ASSETS_NM ,
+	        (SELECT GIS_ASSETS_LOCPLC
+	        FROM GIS_ASSETS_CD_F
+	        WHERE ROWNUM              =1
+	        AND GIS_ASSETS_PRT_AT_CODE=D.GIS_ASSETS_PRT_AT_CODE
+	        AND GIS_ASSETS_CD         =D.GIS_ASSETS_CD
+	        AND GIS_ASSETS_SUB_CD     =D.GIS_ASSETS_SUB_CD
+	        ) GIS_ASSETS_LOCPLC ,
+	        (SELECT GIS_ASSETS_LNM
+	        FROM GIS_ASSETS_CD_F
+	        WHERE ROWNUM              =1
+	        AND GIS_ASSETS_PRT_AT_CODE=D.GIS_ASSETS_PRT_AT_CODE
+	        AND GIS_ASSETS_CD         =D.GIS_ASSETS_CD
+	        AND GIS_ASSETS_SUB_CD     =D.GIS_ASSETS_SUB_CD
+	        ) GIS_ASSETS_LNM ,
+	        (SELECT GIS_ASSETS_LNM_SUB
+	        FROM GIS_ASSETS_CD_F
+	        WHERE ROWNUM              =1
+	        AND GIS_ASSETS_PRT_AT_CODE=D.GIS_ASSETS_PRT_AT_CODE
+	        AND GIS_ASSETS_CD         =D.GIS_ASSETS_CD
+	        AND GIS_ASSETS_SUB_CD     =D.GIS_ASSETS_SUB_CD
+	        ) GIS_ASSETS_LNM_SUB
+      FROM
+        ASSETS_RENT_F A,
+        ASSETS_RENT_DETAIL_F D
+      WHERE 1             = 1
+      AND A.PRT_AT_CODE   = D.PRT_AT_CODE
+      AND A.MNG_YEAR      = D.MNG_YEAR
+      AND A.MNG_NO        = D.MNG_NO
+      AND A.MNG_CNT       = D.MNG_CNT
+      AND A.QUAY_GROUP_CD = 'H'
+      AND A.PRT_AT_CODE   = #prtAtCode#
+      AND A.MNG_YEAR      = #mngYear#
+      AND A.MNG_NO        = #mngNo#
+      AND A.MNG_CNT       = #mngCnt#
+    ORDER BY D.ASSETS_USAGE_SEQ ASC
+    </select>
+
+	<!-- 연체고지서 인쇄 후 정보 업데이트 -->
+	<update id="gamHtldRentFeePaySttusMngtDao.updateArrrgNticPrintState_S">
+        UPDATE UNPAID_F SET
+        	DLY_BILL_PRT_YN = 'Y',
+      		UPDT_UID=#updUsr#,
+      		UPDT_DATE=SYSDATE
+     	WHERE
+            PRT_AT_CODE = #prtAtCode#
+            AND FEE_TP = GAM_GET_FEE_TP(#workCode#)
+            AND WORK_CODE = #workCode#
+            AND FISCAL_YR = #fiscalYr#
+            AND BILL_NO = #billNo#
+			AND DLY_SER_NO = #dlySerNo#				
+	</update>
 
 </sqlMap>

@@ -575,4 +575,79 @@ public class GamHtldRentFeePaySttusMngtController {
 
 		return map;
     }
+    
+    /**
+     * 연체고지서를 출력한다.
+     * @param approvalOpt
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/htld/printHtldRentArrrgFeePayNotice.do")
+    String printAssetRentArrrgFeePayNotice(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {    	    	
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("resultCode", 1);
+    		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    	}
+    	else {
+    		List master = gamHtldRentFeePaySttusMngtService.selectNticPrintMaster(approvalOpt);
+    		List detail = null;
+    		if(master.size() > 0) {
+    			EgovMap masterRec = (EgovMap) master.get(0);
+    			approvalOpt.put("mngYear", masterRec.get("mngYear"));
+    			approvalOpt.put("mngNo", masterRec.get("mngNo"));
+    			approvalOpt.put("mngCnt", masterRec.get("mngCnt"));
+    			detail = gamHtldRentFeePaySttusMngtService.selectNticPrintDetail(approvalOpt);
+    		}
+    		
+    		model.addAttribute("searchOpt", approvalOpt);
+    		model.addAttribute("resultCode", 0);
+    		model.addAttribute("resultList", master);
+    		model.addAttribute("detail", detail);
+    		model.addAttribute("resultMsg", "");
+    	}
+
+    	return "ygpa/gam/oper/htld/GamHtldPrintArrrgNoticeIssue";
+    }
+    
+    /**
+     * 연체고지서 인쇄
+     * @param vo
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/oper/htld/printHtldArrrgNoticeIssue.do")
+    public @ResponseBody Map printHtldNoticeIssue(@RequestParam Map<String, Object> vo, ModelMap model)
+            throws Exception {
+
+     	 Map map = new HashMap();
+         String resultMsg = "";
+         int resultCode = 1;
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	try {
+    		LoginVO loginVo = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+    		vo.put("updUsr", loginVo.getId());
+    		gamHtldRentFeePaySttusMngtService.updateArrrgNticPrintState(vo);
+	         resultCode = 0;
+	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+    	}
+    	catch(Exception e) {
+	         resultCode = 1;
+	 		 resultMsg  = egovMessageSource.getMessage("fail.common.update");
+    	}
+
+     	 map.put("resultCode", resultCode);
+         map.put("resultMsg", resultMsg);
+
+ 		return map;
+     }
+    
 }

@@ -323,4 +323,29 @@ public class GamHtldRentFeePaySttusMngtServiceImpl  extends AbstractServiceImpl 
 		return gamHtldRentFeePaySttusMngtDao.selectHtldShowFeePayPopup(searchVO);
 	}
 
+	@Override
+	public List selectNticPrintMaster(Map searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return gamHtldRentFeePaySttusMngtDao.selectNticPrintMaster(searchVO);
+	}
+
+	/* (non-Javadoc)
+	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtService#selectNticPrintDetail(java.util.Map)
+	 */
+	@Override
+	public List selectNticPrintDetail(Map searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return gamHtldRentFeePaySttusMngtDao.selectNticPrintDetail(searchVO);
+	}
+	
+	/**
+	 * 연체고지서 인쇄 발부
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public void updateArrrgNticPrintState(Map<String, Object> vo) throws Exception {
+		gamHtldRentFeePaySttusMngtDao.updateArrrgNticPrintState(vo);
+	}
+
 }
