@@ -684,8 +684,7 @@
 				#fcltsJobSe#
 				, #fcltsMngGroupNo#
 				, #flawRprSeq#
-				, #atchFileSeq#
-				<!-- ,REPLACE(#atchFileSeq#,'*','') -->
+				,REPLACE(#atchFileSeq#,'*','')
 				, #atchFileSe#
 				, #atchFileSj#
 				, #atchFileNmLogic#

@@ -1094,14 +1094,6 @@ GamFcltyRepairMngModule.prototype.atchFileUpload = function() {
 		alert('하자관리 정보가 부정확합니다.');
 		return;
 	}
-	this.uploadPfPhoto("uploadFile", function(module, result) {
-		$.each(result, function(){
-			module.saveUploadFileData(fcltsMngGroupNo, fcltsJobSe, flawRprSeq, this.logicalFileNm, this.physcalFileNm);
-		});
-	}, "첨부파일 업로드");
-};
-	
-/* 		
 	this.uploadMultiFile('/fcltyMng/uploadRepairAttachFile.do', function(module, resp) {
 		if(resp.resultCode!=0) {
 			alert(resp.resultMsg);
@@ -1111,6 +1103,14 @@ GamFcltyRepairMngModule.prototype.atchFileUpload = function() {
 			module.saveUploadFileData(fcltsMngGroupNo, fcltsJobSe, flawRprSeq, this.logicalFileNm, this.physcalFileNm);
 		});
 	});
+};
+	
+/* 		
+	this.uploadPfPhoto("uploadFile", function(module, result) {
+		$.each(result, function(){
+			module.saveUploadFileData(fcltsMngGroupNo, fcltsJobSe, flawRprSeq, this.logicalFileNm, this.physcalFileNm);
+		});
+	}, "첨부파일 업로드");
 	
 	this.uploadSingleFile('/fcltyMng/uploadRepairAttachFile.do', function(module, resp) {
 		if(resp.resultCode!=0) {
