@@ -1099,8 +1099,7 @@ GamFcltyRepairMngModule.prototype.atchFileUpload = function() {
 			alert(resp.resultMsg);
 			return;
 		}
-		
-		$.each(resp.result, function(){
+ 		$.each(resp.result, function(){
 			module.saveUploadFileData(fcltsMngGroupNo, fcltsJobSe, flawRprSeq, this.logicalFileNm, this.physcalFileNm);
 		});
 	});
@@ -1198,7 +1197,7 @@ GamFcltyRepairMngModule.prototype.saveUploadFileData = function(argFcltsMngGroup
 			'updUsr':"",
 			'updtDt':""
 	};
-	
+
 	this.doAction('/fcltyMng/insertFcltyRepairMngAtchFile.do', inputVO, function(module, result) {
 		if (result.resultCode == "0") {
 			module.$("#fcltyRepairFileList").flexAddRow({ fcltsMngGroupNo: argFcltsMngGroupNo,
@@ -1217,7 +1216,7 @@ GamFcltyRepairMngModule.prototype.saveUploadFileData = function(argFcltsMngGroup
 			alert(result.resultMsg);
 		}
 	});
-	
+
 };
 
 <%

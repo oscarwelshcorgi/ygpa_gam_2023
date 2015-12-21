@@ -65,7 +65,7 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function(params) {
 					{display:"종료일자",			name:"mntnRprCnstEndDt",		width:80, 		sortable:false,		align:"center"},
 					{display:"공사금액", 			name:"mntnRprCnstAmt",			width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
 					{display:"유지보수예산", 		name:"mntnRprBdgt",				width:150, 		sortable:false,		align:'right', 		displayFormat: 'number'},
-					{display:"유지보수부위", 		name:"mntnRprPart",				width:250, 		sortable:false,		align:"center"},
+					//{display:"유지보수부위", 		name:"mntnRprPart",				width:250, 		sortable:false,		align:"center"},
 					{display:"시공자", 			name:"cnstrtr",					width:150, 		sortable:false,		align:"center"},
 					{display:"계약명", 			name:"ctrtNm",					width:250, 		sortable:false,		align:"left"},
 					{display:"유지보수정보", 		name:"mntnFcltsCnstInfo",		width:200, 		sortable:false,		align:"center"}
@@ -1975,10 +1975,10 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 									<th height="18" class="required_text">공사명</th>
 									<td colspan="3"><input id="mntnRprCnstNm" type="text"  title="공사명" maxlength="25" size="76" disabled="disabled"/></td>
 								</tr>
-								<tr>
+								<!-- <tr>
 									<th height="18" class="required_text">유지보수</th>
 									<td colspan="3"><input id="mntnRprPart" type="text" title="유지보수" maxlength="25" size="76" disabled="disabled"/></td>
-								</tr>
+								</tr> -->
 								<tr>
 									<th height="18" class="required_text">공사기간</th>
 									<td><input id="mntnRprCnstStartDt" type="text" size="11" title="공사시작일자" class="emdcal" disabled="disabled"/>  ~  <input id="mntnRprCnstEndDt" type="text" size="11" title="공사종료일자" class="emdcal" disabled="disabled"/></td>

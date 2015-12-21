@@ -1097,7 +1097,6 @@ public class GamFcltyRepairMngServiceImpl extends AbstractServiceImpl implements
 	public void insertFcltyRepairMngAtchFile(GamFcltyRepairMngVO gamFcltyRepairMngVO) throws Exception {
 		
 		//String sNewSeq = gamFcltyRepairMngDao.selectFcltyRepairMngAtchFileNewSeq(gamFcltyRepairMngVO);
-		
 		//gamFcltyRepairMngVO.setAtchFileSeq(sNewSeq);
 		
 		gamFcltyRepairMngDao.insertFcltyRepairMngAtchFile(gamFcltyRepairMngVO);

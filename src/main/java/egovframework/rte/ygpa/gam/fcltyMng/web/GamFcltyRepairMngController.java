@@ -315,12 +315,13 @@ public class GamFcltyRepairMngController {
 		}
 
 		try {
-			//sNewSeq = gamFcltyRepairMngService.selectFcltyRepairMngAtchFileNewSeq(gamFcltyRepairMngVO);
-			sNewSeq = basicService.getNextStringId();
+			/*sNewSeq = basicService.getNextStringId();
 			gamFcltyRepairMngVO.setAtchFileSeq(sNewSeq.replace("*", ""));
-			sNewSeq = gamFcltyRepairMngVO.getAtchFileSeq();
-			gamFcltyRepairMngVO.setRegUsr((String)user.getId());
+			sNewSeq = gamFcltyRepairMngVO.getAtchFileSeq();*/
 			
+			sNewSeq = gamFcltyRepairMngService.selectFcltyRepairMngAtchFileNewSeq(gamFcltyRepairMngVO);
+			gamFcltyRepairMngVO.setAtchFileSeq(sNewSeq);
+			gamFcltyRepairMngVO.setRegUsr((String)user.getId());
 			gamFcltyRepairMngService.insertFcltyRepairMngAtchFile(gamFcltyRepairMngVO);
 			
 			map.put("atchFileSeq", sNewSeq);
@@ -332,7 +333,33 @@ public class GamFcltyRepairMngController {
 			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
 		}
 		return map;
-	}	
+	}
+	
+	@RequestMapping(value="/fcltyMng/selectFcltyRepairMngAtchFileSeq.do")
+	@ResponseBody Map<String, Object> selectFcltyRepairMngAtchFileSeq(GamFcltyRepairMngVO gamFcltyRepairMngVO) throws Exception {
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Map<String, Object> map = new HashMap<String, Object>();
+		String sNewSeq;
+
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+			return map;
+		}
+		
+		try {
+			sNewSeq = gamFcltyRepairMngService.selectFcltyRepairMngAtchFileNewSeq(gamFcltyRepairMngVO);
+			map.put("atchFileSeq", sNewSeq);
+			map.put("resultCode", 0);
+			map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("resultCode", 1);
+			map.put("resultMsg", egovMessageSource.getMessage("fail.common.insert"));
+		}
+		return map;
+	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/fcltyMng/deleteFcltyRepairMngAtchFile.do")
