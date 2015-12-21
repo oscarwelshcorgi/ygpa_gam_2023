@@ -141,7 +141,7 @@ GamQcItemCdMngModule.prototype.displayTreeData = function() {
 					qcItemTreeItems[qcItemTreeItems.length] = [qcItem.qcItemCd, qcItem.qcItemUpperCd, qcItem.qcItemNm];
 				}
 				module.tree = new dhtmlXTreeObject(qcItemTreeNode.attr('id'), "100%", "100%", 0);
-				module.tree.setImagePath("./js/codebase/imgs/dhxtree_skyblue/");
+				module.tree.setImagePath("<c:url value='/js/codebase/imgs/dhxtree_skyblue/'/>");
 				module.tree.loadJSArray(qcItemTreeItems);
 				module.tree.setUserData('module', module);
 				module.tree.openAllItems(0);

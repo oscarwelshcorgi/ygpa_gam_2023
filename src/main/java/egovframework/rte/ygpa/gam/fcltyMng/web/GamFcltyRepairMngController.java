@@ -320,6 +320,7 @@ public class GamFcltyRepairMngController {
 			sNewSeq = gamFcltyRepairMngVO.getAtchFileSeq();*/
 			
 			sNewSeq = gamFcltyRepairMngService.selectFcltyRepairMngAtchFileNewSeq(gamFcltyRepairMngVO);
+			
 			gamFcltyRepairMngVO.setAtchFileSeq(sNewSeq);
 			gamFcltyRepairMngVO.setRegUsr((String)user.getId());
 			gamFcltyRepairMngService.insertFcltyRepairMngAtchFile(gamFcltyRepairMngVO);
