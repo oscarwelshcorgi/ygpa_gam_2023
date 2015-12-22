@@ -1694,6 +1694,7 @@ var module_instance = new GamFcltyRepairMngModule();
 									<option value="">선택</option>
 									<option value="1">상반기</option>
 									<option value="2">하반기</option>
+									<option value="3">만료검사</option>
 								</select>
 							</td>
 							<th>하자검사기간</th>
