@@ -100,7 +100,7 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
         switch(cid) {
         	case 'fee' :
         	case 'intrRate' :
-        		row.intrAmnt = module.getIntrAmount(row.fee, row.intrRate, row.nticMth, row.nticPdFrom, row.nticPdTo, row.grUsagePdTo);
+        		row.intrAmnt = module.getIntrAmount(row.fee, row.intrRate, row.nticMth, row.nticPdFrom, row.nticPdTo, row.grUsagePdFrom, row.grUsagePdTo);
         		row.feeAmnt = Number(row.fee) + Number(row.intrAmnt);
         		row.vat = (row.vatYn=='2' || row.vatYn=='Y') ? Math.floor(Number(row.feeAmnt) * 0.1) : 0;
         		row.nticAmt = Number(row.feeAmnt) + Number(row.vat);
@@ -245,14 +245,25 @@ GamHtldRentFeeMngtModule.prototype.createExtendedDate = function (argDate) {
 		, equalsYear : function(argDate) { return argDate.getYear() == year; }
 		, equalsMonth : function(argDate) { return argDate.getMonth() == this.getMonth(); }
 		, equalsYearMonth : function(argDate) { return (argDate.getYear() == year) && (argDate.getMonth() == this.getMonth()); }
+		, equalsQuarter : function(argDate) { return argDate.getQuarter() == this.getQuarter(); }
 		, isQuarterStartDate : function() { return ((this.getMonth() == 1) || (this.getMonth() == 4) || (this.getMonth() == 7) || (this.getMonth() == 10)) && (day == 1); }
 		, isQuarterEndDate : function() { return ((this.getMonth() == 3) || (this.getMonth() == 6) || (this.getMonth() == 9) || (this.getMonth() == 12)) && this.isLastDayOfMonth(); }
+		, getQuarterStartDate : function() {
+			var y=this.getYear(); var m=0; var d = 1;
+			switch(this.getQuarter()) {
+			case 1 : m = 1; break;
+			case 2 : m = 4; break;
+			case 3 : m = 7; break;
+			case 4 : m = 10; break;
+			}
+			return new Date(y, m-1, d);
+		}
 	};	
 };
 
 //2015-11-24 김종민 추가작업
 //이자 구하는 함수
-GamHtldRentFeeMngtModule.prototype.getIntrAmount = function(fee, intrRate, nticMth, nticPdFrom, nticPdTo, grUsagePdTo) {
+GamHtldRentFeeMngtModule.prototype.getIntrAmount = function(fee, intrRate, nticMth, nticPdFrom, nticPdTo, grUsagePdFrom, grUsagePdTo) {
 	var result = 0;
 	var monthIntrAmount = 0; //월이자
 	var applyMonths = 0; //이자적용월수
@@ -262,6 +273,7 @@ GamHtldRentFeeMngtModule.prototype.getIntrAmount = function(fee, intrRate, nticM
 	intrRate = Number(intrRate);
 	nticPdFrom = this.createExtendedDate(EMD.util.strToDate(nticPdFrom));
 	nticPdTo = this.createExtendedDate(EMD.util.strToDate(nticPdTo));
+	grUsagePdFrom = this.createExtendedDate(EMD.util.strToDate(grUsagePdFrom));
 	grUsagePdTo = this.createExtendedDate(EMD.util.strToDate(grUsagePdTo));
 	
 	monthIntrAmount = fee * (intrRate / 100) / 12; //월이자
@@ -270,26 +282,24 @@ GamHtldRentFeeMngtModule.prototype.getIntrAmount = function(fee, intrRate, nticM
 		case '1' : //일괄
 		case '6' : //연납
 		case '5' : //월납
-			break;
 		case '2' : //반기납
 		case '3' : //3분납
+			break;
 		case '4' : //분기납
 			if(nticPdTo.getYear() < grUsagePdTo.getYear()) { 
-				//고지기간종료년도와 총사용(계약)기간종료년도보다 작으면 그 해 내내 분납이 지속되는 것으로 간주.
+				//고지대상기간종료년도와 총사용(계약)기간종료년도보다 작으면 그 해 내내 분납이 지속되는 것으로 간주.
 				//이자적용월수 구하기
 				applyMonths = 12 - nticPdTo.getMonth();
 				if(applyMonths > 0) {
 					result = monthIntrAmount * applyMonths; //총이자 = 월이자 * 이자적용월수
-					result = Math.floor(result*0.1) * 10; //1원단위는 절사한다.
 				} 
 			} else {
-				//고지기간종료년도와 총사용기간종료년도와 같으면
+				//고지대상기간종료년도와 총사용기간종료년도와 같으면
 				if(grUsagePdTo.isLastDayOfMonth()) {
 					//총사용기간종료일이 그 달의 마지막 날이면 적용월수만 구해서 이자를 구한다. 
 					applyMonths = grUsagePdTo.getMonth() - nticPdTo.getMonth();
 					if(applyMonths > 0) {
 						result = monthIntrAmount * applyMonths; //총이자 = 월이자 * 이자적용월수
-						result = Math.floor(result*0.1) * 10; //1원단위는 절사한다.
 					}
 				} else {
 					//총사용기간종료일이 그 달의 마지막 날이 아니라면 총사용기간종료일 전달까지의 적용월수를 구한다.
@@ -298,13 +308,23 @@ GamHtldRentFeeMngtModule.prototype.getIntrAmount = function(fee, intrRate, nticM
 						//적용월수가 0이라도 적용일수가 있으므로 이자를 계산한다.
 						applyDays = grUsagePdTo.getDay();
 						daysOfMonth = grUsagePdTo.getLastDayOfMonth(); //종료월의 날수 구하기.
-						
 						//이자 : (월이자 * 전달까지의 적용월수) + (월이자 * (적용일수/달일수))
 						result = (monthIntrAmount * applyMonths) + (monthIntrAmount * (applyDays / daysOfMonth));
-						result = Math.floor(result*0.1) * 10; //1원단위는 절사한다.	
 					}
 				}
 			}
+			//고지대상기간시작일이 총사용기간시작일과 같고 시작일이 1일이 아니고 고지대상기간종료일이 총사용기간종료일보다 작으면
+			if(nticPdFrom.equals(grUsagePdFrom) && (nticPdFrom.getDay() != 1) && (nticPdTo.getTime() < grUsagePdTo.getTime())) {
+				var quarterStartDate = this.createExtendedDate(nticPdFrom.getQuarterStartDate()); //분기의 첫날을 구한다.
+				resultMonth = result/3; //분기월이자 = 분기총이자/3
+				var subtractionIntrAmnt = 0;
+				applyMonths = nticPdFrom.getMonth() - quarterStartDate.getMonth();
+				daysOfMonth = nticPdFrom.getLastDayOfMonth();
+				applyDays = nticPdFrom.getDay() - 1;
+				subtractionIntrAmnt = (resultMonth * applyMonths) + (resultMonth * (applyDays / daysOfMonth)); //분기시작일부터 고지대상기간시작일까지 차감이자 구하기..
+				result -= subtractionIntrAmnt;
+			}
+			result = (result > 0) ? Math.floor(result*0.1) * 10 : 0; //1원단위는 절사한다.
 			break;
 	};
 	return result;
@@ -319,7 +339,7 @@ GamHtldRentFeeMngtModule.prototype.makeRowData = function(item) {
 	item.nticPdDate = item.nticPdFrom + '~' + item.nticPdTo;
 	
 	if((item.intrRate != void(0)) && (item.intrRate != 0)) {
-		item.intrAmnt = this.getIntrAmount(item.fee, item.intrRate, item.nticMth, item.nticPdFrom, item.nticPdTo, item.grUsagePdTo);
+		item.intrAmnt = this.getIntrAmount(item.fee, item.intrRate, item.nticMth, item.nticPdFrom, item.nticPdTo, item.grUsagePdFrom, item.grUsagePdTo);
 	}
 	
 	if(item.feeAmnt==void(0)) {
