@@ -313,10 +313,11 @@ GamHtldRentFeeMngtModule.prototype.getIntrAmount = function(fee, intrRate, nticM
 					}
 				}
 			}
+			/*
 			//고지대상기간시작일이 총사용기간시작일과 같고 시작일이 1일이 아니고 고지대상기간종료일이 총사용기간종료일보다 작으면
 			if(nticPdFrom.equals(grUsagePdFrom) && (nticPdFrom.getDay() != 1) && (nticPdTo.getTime() < grUsagePdTo.getTime())) {
 				var quarterStartDate = this.createExtendedDate(nticPdFrom.getQuarterStartDate()); //분기의 첫날을 구한다.
-				resultMonth = result/3; //분기월이자 = 분기총이자/3
+				var resultMonth = result/3; //분기월이자 = 분기총이자/3
 				var subtractionIntrAmnt = 0;
 				applyMonths = nticPdFrom.getMonth() - quarterStartDate.getMonth();
 				daysOfMonth = nticPdFrom.getLastDayOfMonth();
@@ -324,6 +325,7 @@ GamHtldRentFeeMngtModule.prototype.getIntrAmount = function(fee, intrRate, nticM
 				subtractionIntrAmnt = (resultMonth * applyMonths) + (resultMonth * (applyDays / daysOfMonth)); //분기시작일부터 고지대상기간시작일까지 차감이자 구하기..
 				result -= subtractionIntrAmnt;
 			}
+			*/
 			result = (result > 0) ? Math.floor(result*0.1) * 10 : 0; //1원단위는 절사한다.
 			break;
 	};

@@ -36,15 +36,13 @@ GamCofixMngtModule.prototype.loadComplete = function() {
 		url: '/code/selectCofixIntrrateList.do',
 		dataType: 'json',
 		colModel : [
-			{display:'대상년월', name:'objYrmt', width:70, sortable:true, align:'center', displayFormat:'input'},
+			//{display:'대상년월', name:'objYrmt', width:70, sortable:true, align:'center', displayFormat:'input'},
 			//{display:'잔액기준', name:'blceStdrIntrrate', width:100, sortable:true, align:'right', displayFormat:'input-number', displayOption:'000.00'},
-			{display:'공시일자', name:'annodt', width:120, sortable:true, align:'center', displayFormat:'cal'},
-			{display:'신규취급액기준', name:'newManipAmtStdrIntrrate', width:120, sortable:true, align:'right', displayFormat:'input-number', displayOption:'000.00'}
+			{display:'공시일자', name:'annodt', width:150, sortable:true, align:'center', displayFormat:'cal'},
+			{display:'신규취급액기준', name:'newManipAmtStdrIntrrate', width:150, sortable:true, align:'right', displayFormat:'input-number', displayOption:'000.00'}
 			],
 		height: 'auto',
 		preProcess: function(module, data) {
-//			$.each(data.resultList, function() {
-//			});
 			return data;
 		}
 	});
@@ -62,22 +60,14 @@ GamCofixMngtModule.prototype.loadComplete = function() {
 	});
 
     this.$("#cofixList").on('onCellEdited', function(event, module, row, rid, cid, oldVal) {
-        // 이벤트내에선 모듈에 대해 선택한다.
-        if(cid=="objYrmt") {
-            if(row._updtId!="I") {
-            	row[cid]=oldVal;
-                module.$("#cofixList").flexUpdateRow(rid, row);
-            	alert('키값은 수정 될 수 없습니다.');
-            	return;
-            }
-        }
-        else {
-            if(row._updtId!="I") row._updtId="U";
-        }
+    	/*2015.12.22 김종민 수정..*/
+        if((cid == 'annodt') && (row._updtId=="I")) {
+        	var dateStr = String(row['annodt']);
+        	row['objYrmt'] = dateStr.substring(0,4)+dateStr.substring(5,7);
+        	module.$("#cofixList").flexUpdateRow(rid, row);
+        }  
+        if(row._updtId!="I") row._updtId="U";
     });
-
-    console.log('debug');
-
 };
 
 GamCofixMngtModule.prototype.onButtonClick = function(buttonId) {
@@ -94,9 +84,9 @@ GamCofixMngtModule.prototype.onButtonClick = function(buttonId) {
 		inputVO[inputVO.length]={name: '_dList', value: JSON.stringify(this._deleteItem) };
 		// 데이터를 저장 하고 난 뒤 리스트를 다시 로딩 한다.
 
-	 	this.doAction('/code/updateCofixIntrrateList.do', inputVO, function(result) {
+	 	this.doAction('/code/updateCofixIntrrateList.do', inputVO, function(module, result) {
 	 		if(result.resultCode == 0){
-	 			this.$('#cofixList').flexReload();
+	 			module.$('#cofixList').flexReload();
 	 		}
 	 		alert(result.resultMsg);
  		});

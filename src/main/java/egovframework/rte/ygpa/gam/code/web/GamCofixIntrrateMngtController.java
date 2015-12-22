@@ -97,14 +97,12 @@ public class GamCofixIntrrateMngtController {
     	return map;
 	}
 
-    @RequestMapping(value="/code/updateCofixIntrrateList.do")
+    @RequestMapping(value="/code/updateCofixIntrrateList.do" , method=RequestMethod.POST)
     public @ResponseBody Map updateCofixIntrrateList(
     		@RequestParam Map<String, Object> intrrateList)
             throws Exception {
 
      	 Map map = new HashMap();
-         String resultMsg = "";
-         int resultCode = 1;
          ObjectMapper mapper = new ObjectMapper();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -145,16 +143,13 @@ public class GamCofixIntrrateMngtController {
 
         	gamCofixIntrrateMngtService.mergeCofixIntrrate(createList, updateList, deleteList);
 
-	         resultCode = 0;
-	 		 resultMsg  = egovMessageSource.getMessage("gam.asset.proc"); //정상적으로 처리되었습니다.
+	     	 map.put("resultCode", 0);
+	         map.put("resultMsg", egovMessageSource.getMessage("gam.asset.proc"));
     	}
     	catch(Exception e) {
-	         resultCode = 0;
-	 		 resultMsg  = egovMessageSource.getMessage("fail.common.update"); //정상적으로 처리되었습니다.
+	     	 map.put("resultCode", 1);
+	         map.put("resultMsg", egovMessageSource.getMessage("fail.common.update"));
     	}
-
-     	 map.put("resultCode", resultCode);
-         map.put("resultMsg", resultMsg);
 
  		return map;
      }
