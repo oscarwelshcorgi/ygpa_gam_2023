@@ -70,7 +70,6 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
             module.$('#totalUse').val(data.sumGrFee);
             module.$('#totalGrRdcxptFee').val(data.sumGrRdcxptFee);
             $.each(data.resultList, function() {
-//            	this.intrRateDisp = this.intrRate+ ' %';
             	this.grUsagePdPeriod = this.grUsagePdFrom+" ~ " +this.grUsagePdTo;
             	switch(this.termnKnd) {
             		case '1' :
@@ -97,7 +96,6 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
 	});
     
     this.$("#assetRentMngtList").on('onItemSelected', function(event, module, row, grid, param) {
-		// 항목에 따른 버튼 세팅
     	module._loadedItem=false;
     	module._editChanged=false;
     	module._editable=false;
@@ -158,15 +156,16 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
         dataType: 'json',
         colModel : [
                     {display:'평가회차', name:'assessNo', width:80, sortable:true, align:'center', displayFormat:'input'},
-                    {display:'기간From', name:'dtFrom', width:120, sortable:true, align:'left', displayFormat:'cal'},
-                    {display:'기간To', name:'dtTo', width:120, sortable:true, align:'left', displayFormat:'cal'},
-                    {display:'구분', name:'assessSe', width:100, sortable:true, align:'left', displayFormat:'ajaxselect', url:'/oper/htld/selectHtldAssessSeCodeList.do', params:[]},
-                    {display:'평가일', name:'assessDt', width:100, sortable:true, align:'left', displayFormat:'cal'},
-                    {display:'평가결과', name:'assessResult', width:100, sortable:true, align:'center', displayFormat:'dyn'},
-                    {display:'비고', name:'rm', width:100, sortable:true, align:'left', displayFormat:'input'}
+                    {display:'평가기간From', name:'dtFrom', width:130, sortable:true, align:'left', displayFormat:'cal'},
+                    {display:'평가기간To', name:'dtTo', width:130, sortable:true, align:'left', displayFormat:'cal'},
+   					{display:'적용단가', name:'usagePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
+    				{display:'변경단가', name:'changePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
+    				{display:'인상단가', name:'increasePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
+    				{display:'사용면적', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.0"},
+                    {display:'평가금액', name:'assessAmt', width:130, sortable:true, align:'right' }
                     ],
         showTableToggleBtn: false,
-        height: '400',
+        height: '380',
         preProcess: function(module,data) {
             module._assessNo=module._assessNo||0;
             $.each(data.resultList, function() {
@@ -184,6 +183,41 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
         if(row._updtId!="I") row._updtId="U";
     });
 
+    
+    // 면적평가 그리드 설정
+    this.$("#areaAssessGrid").flexigrid({
+        module: this,
+        url: '/oper/htld/selectHtldAssessList.do',
+        dataType: 'json',
+        colModel : [
+                    {display:'평가회차', name:'assessNo', width:80, sortable:true, align:'center', displayFormat:'input'},
+                    {display:'평가기간From', name:'dtFrom', width:130, sortable:true, align:'left', displayFormat:'cal'},
+                    {display:'평가기간To', name:'dtTo', width:130, sortable:true, align:'left', displayFormat:'cal'},
+   					{display:'사용면적', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.0"},
+    				{display:'변경면적', name:'changeAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
+    				{display:'변동면적', name:'increaseAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
+    				{display:'적용단가', name:'usagePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
+                    {display:'평가금액', name:'assessAmt', width:130, sortable:true, align:'right' }
+                    ],
+        showTableToggleBtn: false,
+        height: '300',
+        preProcess: function(module,data) {
+            module._assessNo=module._assessNo||0;
+            $.each(data.resultList, function() {
+            	if(module._assessNo<this.assessNo) module._assessNo=this.assessNo;
+            });
+            module._deleteAssessList=[];
+            return data;
+        }
+    });
+
+    this.$("#areaAssessGrid").on('onItemSelected', function(event, module, row, grid, param) {
+    });
+
+    this.$("#areaAssessGrid").on('onCellEdited', function(event, module, row, grid, param) {
+        if(row._updtId!="I") row._updtId="U";
+    });
+    
     this.$("#nticListGrid").flexigrid({
         module: this,
         url: '/oper/htld/selectHtldNticList.do',
@@ -1508,7 +1542,8 @@ var module_instance = new GamHtldRentMngtModule();
                 <li><a href="#tabs1" class="emdTab">배후단지임대 목록</a></li>
                 <li><a href="#tabs2" class="emdTab">배후단지임대 내역</a></li>
                 <li><a href="#tabs3" class="emdTab">실적평가</a></li>
-                <li><a href="#tabs4" class="emdTab">고지내역</a></li>
+                <li><a href="#tabs4" class="emdTab">면적평가</a></li>
+                <li><a href="#tabs5" class="emdTab">고지내역</a></li>
             </ul>
 
             <div id="tabs1" class="emdTabPage fillHeight" style="overflow: hidden;">
@@ -1662,17 +1697,70 @@ var module_instance = new GamHtldRentMngtModule();
 	                 </table>
                  </div>
             </div>
+            <!-- 실적평가 -->
             <div id="tabs3" class="emdTabPage fillHeight" style="overflow: hidden;">
                 <div class="emdControlPanel">
-                <table id="bizAssessGrid" style="display:none" class="fillHeight"></table>
-                	<button id="btnAppendBizAssess">추가</button>
-                	<button id="btnRemoveBizAssess">삭제</button>
-                	<button id="btnSaveBizAssess">저장</button>
-                	<!-- <button id="btnCallBizAssess">평가관리</button> -->
-                	<button data-role="gridXlsDown" data-flexi-grid="bizAssessGrid" data-xls-name="배후단지실적평가.xls" data-xls-title="배후단지 실적평가">엑셀</button>
+                	<table id="bizAssessGrid" style="display:none" class="fillHeight"></table>
+                    <table id="summaryTable" style="width:100%;" class="summaryPanel">
+                        <tr>
+                        	<th width="10%">
+                        		고지대상기간
+                        	</th>
+                            <td width="40%" style="text-align: left;">
+                                <input type="text" size="12" id="grBizNticPdFrom" class="emdcal"/>~
+                                <input type="text" size="12" id="grBizNticPdTo" class="emdcal"/>
+                           	</td>
+                     	    <th width="10%">
+                        		평가합계금액
+                        	</th>
+                            <td width="40%" style="text-align: right;">
+                            	<span data-column-id="sumBizAssessAmt" class="ygpaNumber"></span>
+                           	</td>
+                        </tr>
+                    </table>
+	                <button id="btnAppendBizAssess">추가</button>
+	                <button id="btnRemoveBizAssess">삭제</button>
+	                <button id="btnSaveBizAssess">저장</button>
+	                <!-- <button id="btnCallBizAssess">평가관리</button> -->
+	                <button data-role="gridXlsDown" data-flexi-grid="bizAssessGrid" data-xls-name="배후단지실적평가.xls" data-xls-title="배후단지 실적평가">엑셀</button>
                	</div>
             </div>
+            <!-- 면적평가 -->
             <div id="tabs4" class="emdTabPage fillHeight" style="overflow: hidden;">
+                <div class="emdControlPanel">
+       	        	<table id="areaAssessGrid" style="display:none" class="fillHeight"></table>
+       	        	<table class="detailPanel" style="width:100%;">
+ 						<tr>
+							<th width="10%" height="18">평가회차</th>
+							<td width="23%"><input id="assessNo" type="text" disabled="disabled"></td>
+							<th width="10%" height="18">평가기간</th>
+							<td colspan="3">
+								<input type="text" size="15" id="dtFrom" class="emdcal"/>~
+								<input type="text" size="15" id="dttTo" class="emdcal"/>
+	                        </td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">사용면적</th>
+							<td><input id="usageAr" type="text" class="ygpaNumber" size="13"></td>
+							<th width="10%" height="18">변경면적</th>
+							<td width="23%"><input id="changeAr" type="text" class="ygpaNumber" size="13"></td>
+							<th width="10%" height="18">변동면적</th>
+							<td><input id="increaseAr" type="text" class="ygpaNumber" size="13"></td>
+						</tr>
+						<tr>
+							<th width="10%" height="18">적용단가</th>
+							<td><input id="usagePrice" type="text" class="ygpaNumber" size="20">원</td>
+							<th width="10%" height="18">평가금액</th>
+							<td colspan="3"><input id="assessAmt" type="text" class="ygpaNumber" size="20">원</td>
+ 						</tr>
+                   </table>
+                	<button id="btnAppendAreaAssess">추가</button>
+                	<button id="btnRemoveAreaAssess">삭제</button>
+                	<button id="btnSaveAreaAssess">저장</button>
+                	<button data-role="gridXlsDown" data-flexi-grid="areaAssessGrid" data-xls-name="배후단지면적평가.xls" data-xls-title="배후단지 면적평가">엑셀</button>
+               	</div>
+            </div>
+            <div id="tabs5" class="emdTabPage fillHeight" style="overflow: hidden;">
                 <div class="emdControlPanel">
                 <table id="nticListGrid" style="display:none" class="fillHeight"></table>
                 	<button id="btnCallBizNticAssess">임대료고지 관리</button>
