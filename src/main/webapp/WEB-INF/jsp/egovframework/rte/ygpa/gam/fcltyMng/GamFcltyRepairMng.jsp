@@ -36,7 +36,7 @@
 %>
 function GamFcltyRepairMngModule() {}
 
-GamFcltyRepairMngModule.prototype = new EmdModule(1000,740);	// 초기 시작 창크기 지정
+GamFcltyRepairMngModule.prototype = new EmdModule(1000,745);	// 초기 시작 창크기 지정
 
 <%
 /**
@@ -106,9 +106,9 @@ GamFcltyRepairMngModule.prototype.loadComplete = function(params) {
 		dataType : 'json',
 		colModel : [
 					{display:"선택",		name:"atchFileSelChk",		width:40,		sortable:false,		align:"center",		displayFormat:"checkbox"},
-					{display:"번호",		name:"atchFileSeq",			width:65,		sortable:false,		align:"center"},
-					{display:"구분",		name:"atchFileSeNm",		width:90,		sortable:false,		align:"center"},
-					{display:"파일명",		name:"atchFileNmLogic",		width:300,		sortable:false,		align:"left"}
+					{display:"번호",		name:"atchFileSeq",			width:70,		sortable:false,		align:"center"},
+					{display:"구분",		name:"atchFileSeNm",		width:80,		sortable:false,		align:"center"},
+					{display:"파일명",		name:"atchFileNmLogic",		width:288,		sortable:false,		align:"left"}
 					],
 		height: "330",
 		preProcess: function(module, data) {

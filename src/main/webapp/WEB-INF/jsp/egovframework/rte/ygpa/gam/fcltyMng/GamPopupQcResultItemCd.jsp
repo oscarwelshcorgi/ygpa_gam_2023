@@ -35,7 +35,7 @@
 %>
 function GamPopupQcResultItemCdModule() {}
 
-GamPopupQcResultItemCdModule.prototype = new EmdPopupModule(600, 440);
+GamPopupQcResultItemCdModule.prototype = new EmdPopupModule(600, 490);
 
 <%
 /**
@@ -85,7 +85,7 @@ GamPopupQcResultItemCdModule.prototype.loadComplete = function(params) {
 		dataType : 'json',
 		colModel : gridHeaders,
 		mergeRows : 'qcItemUpperNm,qcItemUpperCd',
-		height: '320'
+		height: '370'
 	});
 	
 	this.loadData();

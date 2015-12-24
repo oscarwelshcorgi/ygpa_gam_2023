@@ -315,12 +315,12 @@ public class GamFcltyRepairMngController {
 		}
 
 		try {
-			sNewSeq = basicService.getNextStringId();
+			/*sNewSeq = basicService.getNextStringId();
 			gamFcltyRepairMngVO.setAtchFileSeq(sNewSeq.replace("*", ""));
-			sNewSeq = gamFcltyRepairMngVO.getAtchFileSeq();
+			sNewSeq = gamFcltyRepairMngVO.getAtchFileSeq();*/
 			
-			/*sNewSeq = gamFcltyRepairMngService.selectFcltyRepairMngAtchFileNewSeq(gamFcltyRepairMngVO);
-			gamFcltyRepairMngVO.setAtchFileSeq(sNewSeq);*/
+			sNewSeq = gamFcltyRepairMngService.selectFcltyRepairMngAtchFileNewSeq(gamFcltyRepairMngVO);
+			gamFcltyRepairMngVO.setAtchFileSeq(sNewSeq);
 			
 			gamFcltyRepairMngVO.setRegUsr((String)user.getId());
 			gamFcltyRepairMngService.insertFcltyRepairMngAtchFile(gamFcltyRepairMngVO);

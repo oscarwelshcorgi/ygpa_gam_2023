@@ -7,9 +7,8 @@ table .searchPanel {
 }
 
 .emdPanel {
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-  width: 100%;
+  	width: 100%;
 	padding: 4px;
 }
 
@@ -166,6 +165,10 @@ vertical-align: middle;
   color: #fff;
 }
 
+.detailPanel {
+	width: 100%;
+}
+
 table.detailPanel {
 	margin-bottom: 3px;
 	width: 100%;
@@ -212,6 +215,10 @@ table.detailPanel {
 .detailPanel tr.detailRowSelected>td {
 	background: #25338B;
 	color: #fff;
+}
+
+.summaryPanel{
+	width: 100%;
 }
 
 .summaryPanel table {

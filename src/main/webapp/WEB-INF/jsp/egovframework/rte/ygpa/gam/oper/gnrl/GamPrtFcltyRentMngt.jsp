@@ -2288,7 +2288,7 @@ var module_instance = new GamAssetRentMngtModule();
                     <form id="gamAssetRentForm">
                         <!-- <input type="hidden" id="quayGroupCd"/> -->
 
-                        <table class="editForm">
+                        <table class="editForm" style="width: 100%">
                             <tr>
 								<th width="10%" height="18">항코드</th>
                                 <td>

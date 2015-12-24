@@ -590,7 +590,7 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
 						</tr>
 					</tbody>
 					</table>
-                    <table id="detailMaster" class="detailPanel">
+                    <table class="detailPanel" id="detailMaster">
                         <tr>
                         	<th style="width: 100px"><span class="label">항구분</span></th>
                             <td style="width: 180px"><span class="ygpaCmmnCd" data-code-id="GAM019" data-column-id="prtAtCode"></span> (<span data-column-id="prtAtCode"></span>)</td>
@@ -640,7 +640,7 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
                 	<!-- <h2>연체 내역</h2> -->
                     <form id="arrrgDetailVO">
                     <input type="hidden" id="prtAtCode" value=""/>
-                      <table id="arrrgDetailInfo" class="detailPanel"  style="width:930px">
+                      <table id="arrrgDetailInfo" class="detailPanel">
                         <tr>
                         	<th><span class="label">연체고지일자</span></th>
                             <td width="125px"><input id="dlyBillDt" data-column-id="dlyBillDt" class="emdcal" style="width:90px"/></td>

@@ -1612,7 +1612,7 @@ var module_instance = new GamHtldRentMngtModule();
                 </div>
             </div>
 
-            <div id="tabs2" class="emdTabPage " style="overflow:scroll;">
+            <div id="tabs2" class="emdTabPage" style="overflow:scroll;">
                 <div class="emdControlPanel">
                     <form id="gamAssetRentForm">
 						<input type="hidden" id="prtAtCode" value="622"/>
@@ -1621,7 +1621,7 @@ var module_instance = new GamHtldRentMngtModule();
 						<input type="hidden" id="mngNo"/>
 						<input type="hidden" id="mngCnt"/>
 						<input type="hidden" id="termnKnd"/>
-                        <table class="editForm">
+                        <table class="editForm" style="width:100%">
                             <tr>
 								<th width="10%" height="18">구역</th>
                                 <td>
@@ -1637,7 +1637,7 @@ var module_instance = new GamHtldRentMngtModule();
                             <tr>
 								<th width="10%" height="18">영업개시일</th>
                                 <td>
-									<input type="text" size="12" id="operYrMt" maxlength=""/>
+									<input type="text" size="12" id="operYrMt" maxlength="6"/>
                                 </td>
 								<th width="10%" height="18">계약기간</th>
                                 <td colspan="3">
