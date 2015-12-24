@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import egovframework.com.cmm.ComDefaultVO;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldAssessVO;
@@ -755,7 +756,7 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtService#selectHtldAssessList(egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentDefaultVO)
 	 */
 	@Override
-	public List selectHtldAssessList(GamHtldRentDefaultVO searchVO)
+	public List selectHtldAssessList(GamHtldAssessVO searchVO)
 			throws Exception {
         return gamHtldRentMngtDao.selectHtldAssessList(searchVO);
 	}
@@ -764,7 +765,7 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtService#selectHtldAssessSum(egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentDefaultVO)
 	 */
 	@Override
-	public EgovMap selectHtldAssessSum(GamHtldRentDefaultVO searchVO)
+	public EgovMap selectHtldAssessSum(GamHtldAssessVO searchVO)
 			throws Exception {
         return gamHtldRentMngtDao.selectHtldAssessSum(searchVO);
 	}

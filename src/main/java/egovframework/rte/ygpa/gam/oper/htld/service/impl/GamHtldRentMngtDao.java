@@ -326,11 +326,11 @@ public class GamHtldRentMngtDao extends YGPAAbstractDAO {
 		return list("gamHtldRentMngtDao.selectChargeKndList_D", vo);
 	}
 
-    public List selectHtldAssessList(GamHtldRentDefaultVO searchVO) throws Exception {
+    public List selectHtldAssessList(GamHtldAssessVO searchVO) throws Exception {
         return list("gamHtldRentMngtDao.selectHtldAssessList_D", searchVO);
     }
 
-	public EgovMap selectHtldAssessSum(GamHtldRentDefaultVO searchVO) throws Exception {
+	public EgovMap selectHtldAssessSum(GamHtldAssessVO searchVO) throws Exception {
 		return (EgovMap) selectByPk("gamHtldRentMngtDao.selectHtldAssessSum_S", searchVO);
 	}
 

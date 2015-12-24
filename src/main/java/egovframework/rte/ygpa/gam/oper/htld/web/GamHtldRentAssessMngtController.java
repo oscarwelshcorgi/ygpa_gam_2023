@@ -35,6 +35,7 @@ import egovframework.rte.fdl.cmmn.exception.EgovBizException;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import egovframework.rte.ygpa.gam.cmmn.fclty.service.GamAssetsUsePermMngtService;
+import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldAssessVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentAttachFileVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentDefaultVO;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtDetailVO;
@@ -388,7 +389,7 @@ public class GamHtldRentAssessMngtController {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/oper/htld/selectHtldAssessMngtList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectHtldAssessList(GamHtldRentDefaultVO searchVO) throws Exception {
+	public @ResponseBody Map selectHtldAssessList(GamHtldAssessVO searchVO) throws Exception {
 
     	Map map = new HashMap();
 
@@ -409,14 +410,14 @@ public class GamHtldRentAssessMngtController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		//배후단지 평가 목록
-    	Map totalSum = gamHtldRentMngtService.selectHtldAssessSum(searchVO);
+    	//Map totalSum = gamHtldRentMngtService.selectHtldAssessSum(searchVO);
     	List assessList = gamHtldRentMngtService.selectHtldAssessList(searchVO);
 
 //    	paginationInfo.setTotalRecordCount(totalCnt);
 //        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
 
     	map.put("resultCode", 0);	// return ok
-    	map.put("totalSum", totalSum);
+    	//map.put("totalSum", totalSum);
     	map.put("resultList", assessList);
     	map.put("searchOption", searchVO);
 

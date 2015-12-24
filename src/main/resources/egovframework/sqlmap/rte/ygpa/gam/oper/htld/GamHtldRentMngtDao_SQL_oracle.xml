@@ -1232,37 +1232,45 @@
 	where code_id='GAM071'
    </select>
 
-   <select id="gamHtldRentMngtDao.selectHtldAssessList_D" parameterClass="gamHtldRentMngtVO" resultClass="egovMap">
+   <select id="gamHtldRentMngtDao.selectHtldAssessList_D" parameterClass="gamHtldAssessVO" resultClass="egovMap">
 		SELECT A.*
 		FROM (
 			SELECT ROWNUM RNUM, S.*
 			FROM (
 				SELECT
-					PRT_AT_CODE,
-					MNG_YEAR,
-					MNG_NO,
-					MNG_CNT,
-					ASSESS_NO,
-					ASSESS_NO OLD_ASSESS_NO,
-					ASSESS_SE,
-					GAM_GETCODENAME('GAM071', ASSESS_SE) ASSESS_SE_NM,
-					TO_CHAR(DT_FROM, 'YYYY-MM-DD') DT_FROM,
-					TO_CHAR(DT_TO, 'YYYY-MM-DD') DT_TO,
-					ASSESS_RESULT,
-					APPLC_PRICE,
-					TO_CHAR(ASSESS_DT, 'YYYY-MM-DD') ASSESS_DT
+					A.PRT_AT_CODE,
+					A.MNG_YEAR,
+					A.MNG_NO,
+					A.MNG_CNT,
+					A.ASSESS_NO,
+					A.ASSESS_NO OLD_ASSESS_NO,
+					A.ASSESS_SE,
+					GAM_GETCODENAME('GAM071', A.ASSESS_SE) ASSESS_SE_NM,
+					A.CHRGE_KND,
+					A.NTIC_CNT,
+					TO_CHAR(A.DT_FROM, 'YYYY-MM-DD') DT_FROM,
+					TO_CHAR(A.DT_TO, 'YYYY-MM-DD') DT_TO,
+					TO_CHAR(NVL(A.USAGE_PRICE, 0), '999,999,999,999') USAGE_PRICE,
+					TO_CHAR(NVL(A.CHANGE_PRICE, 0), '999,999,999,999') CHANGE_PRICE,
+					TO_CHAR(NVL(A.INCREASE_PRICE, 0), '999,999,999,999') INCREASE_PRICE,
+					TO_CHAR(NVL(A.USAGE_AR, 0), '999,999,999.99') USAGE_AR,
+					TO_CHAR(NVL(A.CHANGE_AR, 0), '999,999,999.99') CHANGE_AR,
+					TO_CHAR(NVL(A.INCREASE_AR, 0), '999,999,999.99') INCREASE_AR,
+					TO_CHAR(NVL(A.ASSESS_AMT, 0), '999,999,999,999') ASSESS_AMT					
 				FROM HTLD_RENT_ASSESS_F A
 				WHERE 1=1
 					AND A.PRT_AT_CODE = #prtAtCode#
 					AND A.MNG_YEAR = #mngYear#
 					AND A.MNG_NO = #mngNo#
-				ORDER BY ASSESS_NO
+					AND A.MNG_CNT = #mngCnt#
+					AND A.ASSESS_SE = #assessSe#
+				ORDER BY A.ASSESS_NO ASC
 			) S
 		) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
     </select>
 
-    <select id="gamHtldRentMngtDao.selectHtldAssessSum_S" parameterClass="gamHtldRentMngtVO" resultClass="egovMap">
+    <select id="gamHtldRentMngtDao.selectHtldAssessSum_S" parameterClass="gamHtldAssessVO" resultClass="egovMap">
 		SELECT
 			COUNT(*) RESULT_COUNT
 		FROM HTLD_RENT_ASSESS_F A
@@ -1270,7 +1278,8 @@
 			AND A.PRT_AT_CODE = #prtAtCode#
 			AND A.MNG_YEAR = #mngYear#
 			AND A.MNG_NO = #mngNo#
-			AND A.ASSESS_RESULT IS NOT NULL
+			AND A.MNG_CNT = #mngCnt#
+			AND A.ASSESS_SE = #assessSe#
     </select>
 
    <insert id="gamHtldRentMngtDao.insertHtldAssess_S" parameterClass="gamHtldAssessVO">
@@ -1280,11 +1289,8 @@
 			MNG_NO,
 			ASSESS_NO,
 			ASSESS_SE,
-			ASSESS_RESULT,
-			APPLC_PRICE,
 			DT_FROM,
 			DT_TO,
-			ASSESS_DT
 	   	)
 	   	VALUES (
 	   		#prtAtCode#,
@@ -1292,11 +1298,8 @@
 			#mngNo#,
 			#assessNo#,
 			#assessSe#,
-			#assessResult#,
-			#applcPrice#,
 			TO_DATE(#dtFrom#, 'YYYY-MM-DD'),
-			TO_DATE(#dtTo#, 'YYYY-MM-DD'),
-			TO_DATE(#assessDt#, 'YYYY-MM-DD')
+			TO_DATE(#dtTo#, 'YYYY-MM-DD')
 	   	)
     </insert>
 
@@ -1304,11 +1307,8 @@
 	   	UPDATE HTLD_RENT_ASSESS_F SET
 	   		ASSESS_NO=#assessNo#,
 	   		ASSESS_SE=#assessSe#,
-			ASSESS_RESULT=#assessResult#,
-			APPLC_PRICE=#applcPrice#,
 			DT_FROM=TO_DATE(#dtFrom#, 'YYYY-MM-DD'),
-			DT_TO=TO_DATE(#dtTo#, 'YYYY-MM-DD'),
-			ASSESS_DT=TO_DATE(#assessDt#, 'YYYY-MM-DD')
+			DT_TO=TO_DATE(#dtTo#, 'YYYY-MM-DD')
 		WHERE
 			PRT_AT_CODE=#prtAtCode#
 			AND MNG_YEAR=#mngYear#

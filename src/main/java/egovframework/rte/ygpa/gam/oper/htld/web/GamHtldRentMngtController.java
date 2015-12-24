@@ -652,8 +652,8 @@ public class GamHtldRentMngtController {
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/htld/selectHtldAssessList.do", method=RequestMethod.POST)
-	public @ResponseBody Map selectHtldAssessList(GamHtldRentDefaultVO searchVO) throws Exception {
+    @RequestMapping(value="/oper/htld/selectHtldBizAssessList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectHtldBizAssessList(GamHtldAssessVO searchVO) throws Exception {
 
     	Map map = new HashMap();
 
@@ -688,7 +688,50 @@ public class GamHtldRentMngtController {
     	return map;
     }
 
+	/**
+	 * 면적평가 목록을 조회 한다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/htld/selectHtldAreaAssessList.do", method=RequestMethod.POST)
+	public @ResponseBody Map selectHtldAreaAssessList(GamHtldAssessVO searchVO) throws Exception {
 
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		//배후단지 평가 목록
+    	Map totalSum = gamHtldRentMngtService.selectHtldAssessSum(searchVO);
+    	List assessList = gamHtldRentMngtService.selectHtldAssessList(searchVO);
+
+//    	paginationInfo.setTotalRecordCount(totalCnt);
+//        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+
+    	map.put("resultCode", 0);	// return ok
+    	map.put("totalSum", totalSum);
+    	map.put("resultList", assessList);
+    	map.put("searchOption", searchVO);
+
+    	return map;
+    }
+
+	
     /**
      * 평가 항목을 저장한다.
      * @param assessList

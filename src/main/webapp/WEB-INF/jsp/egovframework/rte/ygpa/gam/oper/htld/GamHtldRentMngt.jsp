@@ -187,7 +187,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
     // 면적평가 그리드 설정
     this.$("#areaAssessGrid").flexigrid({
         module: this,
-        url: '/oper/htld/selectHtldAssessList.do',
+        url: '/oper/htld/selectHtldAreaAssessList.do',
         dataType: 'json',
         colModel : [
                     {display:'평가회차', name:'assessNo', width:80, sortable:true, align:'center', displayFormat:'input'},
@@ -896,7 +896,7 @@ GamHtldRentMngtModule.prototype.saveBizAssess = function() {
 
 	this.doAction('/oper/htld/updateHtldAssessList.do', assessList, function(module, result) {
         if(result.resultCode == 0){
-        	module.loadAssessList();
+        	module.loadBizAssessList();
         	module._editChanged=false;
         }
         alert(result.resultMsg);
@@ -1302,7 +1302,7 @@ GamHtldRentMngtModule.prototype.loadData = function() {
 <%--
 	실적평가 목록을 조회 한다.
 --%>
-GamHtldRentMngtModule.prototype.loadAssessList = function() {
+GamHtldRentMngtModule.prototype.loadBizAssessList = function() {
 	if(this._rentDetail==null) {
 		alert('선택한 계약이 없습니다.');
 		return;
@@ -1311,9 +1311,28 @@ GamHtldRentMngtModule.prototype.loadAssessList = function() {
     	prtAtCode: this._rentDetail.prtAtCode,
     	mngYear: this._rentDetail.mngYear,
     	mngNo: this._rentDetail.mngNo,
-    	mngCnt: this._rentDetail.mngCnt
+    	mngCnt: this._rentDetail.mngCnt,
+    	assessSe : '1'
     });
     this.$('#bizAssessGrid').flexOptions({params:searchOpt}).flexReload();
+};
+
+<%--
+면적평가 목록을 조회 한다.
+--%>
+GamHtldRentMngtModule.prototype.loadAreaAssessList = function() {
+	if(this._rentDetail==null) {
+		alert('선택한 계약이 없습니다.');
+		return;
+	}
+	var searchOpt=EMD.util.objectToArray({
+		prtAtCode: this._rentDetail.prtAtCode,
+		mngYear: this._rentDetail.mngYear,
+		mngNo: this._rentDetail.mngNo,
+		mngCnt: this._rentDetail.mngCnt,
+		assessSe : '2'
+	});
+	this.$('#areaAssessGrid').flexOptions({params:searchOpt}).flexReload();
 };
 
 <%--
@@ -1352,7 +1371,11 @@ GamHtldRentMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId)
    		return false;
     case 'tabs3':
         break;
-      default:
+    case 'tabs4':
+        break;
+    case 'tabs5':
+        break;
+    default:
         return true;
 	}
 	return true;
@@ -1370,12 +1393,15 @@ GamHtldRentMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
    		this.loadDetail();
         break;
     case 'tabs3':
-    	this.loadAssessList();
+    	this.loadBizAssessList();
         break;
     case 'tabs4':
+    	this.loadAreaAssessList();
+        break;
+    case 'tabs5':
     	this.loadNticList();
         break;
-        }
+    }
 };
 
 <%--
@@ -1732,20 +1758,20 @@ var module_instance = new GamHtldRentMngtModule();
        	        	<table class="detailPanel" style="width:100%;">
  						<tr>
 							<th width="10%" height="18">평가회차</th>
-							<td width="23%"><input id="assessNo" type="text" disabled="disabled"></td>
+							<td width="23%"><input id="assessNo" type="text" size="20" disabled="disabled"></td>
 							<th width="10%" height="18">평가기간</th>
 							<td colspan="3">
-								<input type="text" size="15" id="dtFrom" class="emdcal"/>~
-								<input type="text" size="15" id="dttTo" class="emdcal"/>
+								<input type="text" size="20" id="dtFrom" class="emdcal"/>~
+								<input type="text" size="20" id="dttTo" class="emdcal"/>
 	                        </td>
 						</tr>
 						<tr>
 							<th width="10%" height="18">사용면적</th>
-							<td><input id="usageAr" type="text" class="ygpaNumber" size="13"></td>
+							<td><input id="usageAr" type="text" class="ygpaNumber" size="20"></td>
 							<th width="10%" height="18">변경면적</th>
-							<td width="23%"><input id="changeAr" type="text" class="ygpaNumber" size="13"></td>
+							<td width="23%"><input id="changeAr" type="text" class="ygpaNumber" size="20"></td>
 							<th width="10%" height="18">변동면적</th>
-							<td><input id="increaseAr" type="text" class="ygpaNumber" size="13"></td>
+							<td><input id="increaseAr" type="text" class="ygpaNumber" size="20"></td>
 						</tr>
 						<tr>
 							<th width="10%" height="18">적용단가</th>

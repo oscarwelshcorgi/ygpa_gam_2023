@@ -16,11 +16,11 @@ import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
  * @since 2014-02-12
  * @version 1.0
  * @see
- *
+ * 2015-12-24 김종민 전면 수정
  *  Copyright (C)  All right reserved.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GamHtldAssessVO implements Serializable {
+public class GamHtldAssessVO extends ComDefaultVO {
 
     /**
 	 *
@@ -50,39 +50,82 @@ public class GamHtldAssessVO implements Serializable {
     private String oldAssessNo;
 
     /**
-     * 평가구분
+     * 평가구분 1:실적 2:면적
      */
     private String assessSe;
 
     /**
-     * 평가결과
+     * 요금종류코드
      */
-    private String assessResult;
+    private String chrgeKnd;
 
     /**
-     * 적용 단가
+     * 고지번호
      */
-    private String applcPrice;
+    private String nticCnt;
 
     /**
-     * 평가기간From
+     * 평가기간시작일
      */
     private String dtFrom;
-
+    
     /**
-     * 평가기간To
+     * 평가기간종료일
      */
     private String dtTo;
+    
+    /**
+     * 적용단가
+     */
+    private String usagePrice;
+    /**
+     * 변경단가
+     */
+    private String changePrice;
+    /**
+     * 인상단가
+     */
+    private String increasePrice;
 
     /**
-     * 평가일자
+     * 사용면적
      */
-    private String assessDt;
+    private String usageAr;
 
     /**
-     * 비고
+     * 변경면적
      */
-    private String rm;
+    private String changeAr;
+
+    /**
+     * 변동면적
+     */
+    private String increaseAr;
+    
+    /**
+     * 평가금액
+     */
+    private String assessAmt;
+    
+    /**
+     * 등록자
+     */
+    private String regUsr;
+    
+    /**
+     * 등록일자
+     */
+    private String registDt;
+
+    /**
+     * 수정자
+     */
+    private String updUsr;
+
+    /**
+     * 수정일자
+     */
+    private String updtDtt;
 
 	/**
 	 * @return the prtAtCode
@@ -155,6 +198,20 @@ public class GamHtldAssessVO implements Serializable {
 	}
 
 	/**
+	 * @return the oldAssessNo
+	 */
+	public String getOldAssessNo() {
+		return oldAssessNo;
+	}
+
+	/**
+	 * @param oldAssessNo the oldAssessNo to set
+	 */
+	public void setOldAssessNo(String oldAssessNo) {
+		this.oldAssessNo = oldAssessNo;
+	}
+
+	/**
 	 * @return the assessSe
 	 */
 	public String getAssessSe() {
@@ -169,31 +226,31 @@ public class GamHtldAssessVO implements Serializable {
 	}
 
 	/**
-	 * @return the assessResult
+	 * @return the chrgeKnd
 	 */
-	public String getAssessResult() {
-		return assessResult;
+	public String getChrgeKnd() {
+		return chrgeKnd;
 	}
 
 	/**
-	 * @param assessResult the assessResult to set
+	 * @param chageKnd the chrgeKnd to set
 	 */
-	public void setAssessResult(String assessResult) {
-		this.assessResult = assessResult;
+	public void setChrgeKnd(String chrgeKnd) {
+		this.chrgeKnd = chrgeKnd;
 	}
 
 	/**
-	 * @return the applcPrice
+	 * @return the nticCnt
 	 */
-	public String getApplcPrice() {
-		return applcPrice;
+	public String getNticCnt() {
+		return nticCnt;
 	}
 
 	/**
-	 * @param applcPrice the applcPrice to set
+	 * @param nticCnt the nticCnt to set
 	 */
-	public void setApplcPrice(String applcPrice) {
-		this.applcPrice = applcPrice;
+	public void setNticCnt(String nticCnt) {
+		this.nticCnt = nticCnt;
 	}
 
 	/**
@@ -225,45 +282,156 @@ public class GamHtldAssessVO implements Serializable {
 	}
 
 	/**
-	 * @return the assessDt
+	 * @return the usagePrice
 	 */
-	public String getAssessDt() {
-		return assessDt;
+	public String getUsagePrice() {
+		return usagePrice;
 	}
 
 	/**
-	 * @param assessDt the assessDt to set
+	 * @param usagePrice the usagePrice to set
 	 */
-	public void setAssessDt(String assessDt) {
-		this.assessDt = assessDt;
+	public void setUsagePrice(String usagePrice) {
+		this.usagePrice = usagePrice;
 	}
 
 	/**
-	 * @return the rm
+	 * @return the changePrice
 	 */
-	public String getRm() {
-		return rm;
+	public String getChangePrice() {
+		return changePrice;
 	}
 
 	/**
-	 * @param rm the rm to set
+	 * @param changePrice the changePrice to set
 	 */
-	public void setRm(String rm) {
-		this.rm = rm;
+	public void setChangePrice(String changePrice) {
+		this.changePrice = changePrice;
 	}
 
 	/**
-	 * @return the oldAssessNo
+	 * @return the increasePrice
 	 */
-	public String getOldAssessNo() {
-		return oldAssessNo;
+	public String getIncreasePrice() {
+		return increasePrice;
 	}
 
 	/**
-	 * @param oldAssessNo the oldAssessNo to set
+	 * @param increasePrice the increasePrice to set
 	 */
-	public void setOldAssessNo(String oldAssessNo) {
-		this.oldAssessNo = oldAssessNo;
+	public void setIncreasePrice(String increasePrice) {
+		this.increasePrice = increasePrice;
 	}
 
+	/**
+	 * @return the usageAr
+	 */
+	public String getUsageAr() {
+		return usageAr;
+	}
+
+	/**
+	 * @param usageAr the usageAr to set
+	 */
+	public void setUsageAr(String usageAr) {
+		this.usageAr = usageAr;
+	}
+
+	/**
+	 * @return the changeAr
+	 */
+	public String getChangeAr() {
+		return changeAr;
+	}
+
+	/**
+	 * @param changeAr the changeAr to set
+	 */
+	public void setChangeAr(String changeAr) {
+		this.changeAr = changeAr;
+	}
+
+	/**
+	 * @return the increaseAr
+	 */
+	public String getIncreaseAr() {
+		return increaseAr;
+	}
+
+	/**
+	 * @param increaseAr the increaseAr to set
+	 */
+	public void setIncreaseAr(String increaseAr) {
+		this.increaseAr = increaseAr;
+	}
+
+	/**
+	 * @return the assessAmt
+	 */
+	public String getAssessAmt() {
+		return assessAmt;
+	}
+
+	/**
+	 * @param assessAmt the assessAmt to set
+	 */
+	public void setAssessAmt(String assessAmt) {
+		this.assessAmt = assessAmt;
+	}
+
+	/**
+	 * @return the regUsr
+	 */
+	public String getRegUsr() {
+		return regUsr;
+	}
+
+	/**
+	 * @param regUsr the regUsr to set
+	 */
+	public void setRegUsr(String regUsr) {
+		this.regUsr = regUsr;
+	}
+
+	/**
+	 * @return the registDt
+	 */
+	public String getRegistDt() {
+		return registDt;
+	}
+
+	/**
+	 * @param registDt the registDt to set
+	 */
+	public void setRegistDt(String registDt) {
+		this.registDt = registDt;
+	}
+
+	/**
+	 * @return the updUsr
+	 */
+	public String getUpdUsr() {
+		return updUsr;
+	}
+
+	/**
+	 * @param updUsr the updUsr to set
+	 */
+	public void setUpdUsr(String updUsr) {
+		this.updUsr = updUsr;
+	}
+
+	/**
+	 * @return the updtDtt
+	 */
+	public String getUpdtDtt() {
+		return updtDtt;
+	}
+
+	/**
+	 * @param updtDtt the updtDtt to set
+	 */
+	public void setUpdtDtt(String updtDtt) {
+		this.updtDtt = updtDtt;
+	}    
 }

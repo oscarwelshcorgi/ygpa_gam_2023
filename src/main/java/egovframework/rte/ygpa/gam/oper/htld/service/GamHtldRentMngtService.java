@@ -169,7 +169,7 @@ public interface GamHtldRentMngtService {
      * @return
      * @throws Exception
      */
-    List selectHtldAssessList(GamHtldRentDefaultVO searchVO) throws Exception;
+    List selectHtldAssessList(GamHtldAssessVO searchVO) throws Exception;
 
 	/**
 	 * 평가 항목 저장
@@ -186,7 +186,7 @@ public interface GamHtldRentMngtService {
      * @return
      * @throws Exception
      */
-    EgovMap selectHtldAssessSum(GamHtldRentDefaultVO searchVO) throws Exception;
+    EgovMap selectHtldAssessSum(GamHtldAssessVO searchVO) throws Exception;
 
     /**
      * @param searchVO
