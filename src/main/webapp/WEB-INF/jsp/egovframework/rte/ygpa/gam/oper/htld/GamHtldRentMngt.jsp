@@ -161,7 +161,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
    					{display:'적용단가', name:'usagePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
     				{display:'변경단가', name:'changePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
     				{display:'인상단가', name:'increasePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
-    				{display:'사용면적', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.0"},
+    				{display:'사용면적(㎡)', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.0"},
                     {display:'평가금액', name:'assessAmt', width:130, sortable:true, align:'right' }
                     ],
         showTableToggleBtn: false,
@@ -193,9 +193,9 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
                     {display:'평가회차', name:'assessNo', width:80, sortable:true, align:'center', displayFormat:'input'},
                     {display:'평가기간From', name:'dtFrom', width:130, sortable:true, align:'left', displayFormat:'cal'},
                     {display:'평가기간To', name:'dtTo', width:130, sortable:true, align:'left', displayFormat:'cal'},
-   					{display:'사용면적', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.0"},
-    				{display:'변경면적', name:'changeAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
-    				{display:'변동면적', name:'increaseAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
+   					{display:'사용면적(㎡)', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.0"},
+    				{display:'변경면적(㎡)', name:'changeAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
+    				{display:'변동면적(㎡)', name:'increaseAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
     				{display:'적용단가', name:'usagePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
                     {display:'평가금액', name:'assessAmt', width:130, sortable:true, align:'right' }
                     ],
@@ -1767,11 +1767,11 @@ var module_instance = new GamHtldRentMngtModule();
 						</tr>
 						<tr>
 							<th width="10%" height="18">사용면적</th>
-							<td><input id="usageAr" type="text" class="ygpaNumber" size="20"></td>
+							<td><input id="usageAr" type="text" class="ygpaNumber" size="20">(㎡)</td>
 							<th width="10%" height="18">변경면적</th>
-							<td width="23%"><input id="changeAr" type="text" class="ygpaNumber" size="20"></td>
+							<td width="23%"><input id="changeAr" type="text" class="ygpaNumber" size="20">(㎡)</td>
 							<th width="10%" height="18">변동면적</th>
-							<td><input id="increaseAr" type="text" class="ygpaNumber" size="20"></td>
+							<td><input id="increaseAr" type="text" class="ygpaNumber" size="20">(㎡)</td>
 						</tr>
 						<tr>
 							<th width="10%" height="18">적용단가</th>
