@@ -1014,18 +1014,17 @@ public class GamHtldRentFeeMngtController {
     	if(!isAuthenticated) {
     		model.addAttribute("resultCode", 1);
     		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+    		return "ygpa/gam/oper/htld/GamHtldPrintNoticeIssue";
     	}
-    	else {
-    		List master = gamHtldRentFeeMngtService.selectNticPrintMaster(approvalOpt);
+    	
+    	List master = gamHtldRentFeeMngtService.selectNticPrintMaster(approvalOpt);
 
-    		List detail = gamHtldRentFeeMngtService.selectNticPrintDetail(approvalOpt);
+    	List detail = gamHtldRentFeeMngtService.selectNticPrintDetail(approvalOpt);
 
-    		model.addAttribute("resultCode", 0);
-    		model.addAttribute("resultList", master);
-    		model.addAttribute("detail", detail);
-    		model.addAttribute("resultMsg", "");
-    	}
-
+    	model.addAttribute("resultCode", 0);
+    	model.addAttribute("resultList", master);
+    	model.addAttribute("detail", detail);
+    	model.addAttribute("resultMsg", "");
     	return "ygpa/gam/oper/htld/GamHtldPrintNoticeIssue";
     	}
 

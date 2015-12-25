@@ -899,7 +899,7 @@
 		      TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM,
 		      TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO,
 		      <![CDATA[
-		      nvl((select assess_result from htld_rent_assess_f where L.PRT_AT_CODE   = PRT_AT_CODE
+		      nvl((select assess_amt from htld_rent_assess_f where L.PRT_AT_CODE   = PRT_AT_CODE
 					      AND L.MNG_YEAR      = MNG_YEAR
 					      AND L.MNG_NO        = MNG_NO
 					      AND L.MNG_CNT       = MNG_CNT
