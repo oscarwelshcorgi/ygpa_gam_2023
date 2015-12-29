@@ -20,14 +20,23 @@
  */
 %>
 <script>
-/*
- * 아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
- */
+<%--
+아래 모듈은 고유 함수명으로 동작 함. 동일한 이름을 사용 하여도 관계 없음.
+--%>
 function GamHtldRentFeePaySttusMngtModule() {}
 
+<%--
+	EmdModule을 상속하여 모듈 클래스를 정의한다.
+--%>
 GamHtldRentFeePaySttusMngtModule.prototype = new EmdModule(1000, 600);
 
-// 페이지가 호출 되었을때 호출 되는 함수
+<%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	EmdModule Override 및 이벤트 처리 정의 부분 시작	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////--%>
+
+<%--
+	페이지가 호출 되었을때 호출 되는 함수
+--%>
 GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
 	// 납부현황목록
     this.$("#htldRentFeePaySttusMngtList").flexigrid({
@@ -59,12 +68,8 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
             return data;
         }
     });
-
-	this.$("#htldRentFeePaySttusMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
-        module.$("#htldRentFeePaySttusMngtListTab").tabs("option", {active: 1});    // 탭을 전환 한다.
-    });
-
-    /* 연체내역 목록 */
+	
+    // 연체내역 목록
     this.$("#htldRentFeePaySttusArrrgList").flexigrid({
         module: this,
         url: '/oper/htld/selectHtldRentFeePaySttusMngtDlyList.do',
@@ -72,8 +77,6 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         colModel : [
 					{display:'연체횟수', name:'dlySerNo',width:70, sortable:false,align:'center'},
 					{display:'연체고지일자', name:'dlyBillDt',width:120, sortable:false,align:'center'},
-                    //{display:'공급가액', name:'supplyAmnt',width:104, sortable:false,align:'right', displayFormat: 'number'},
-                    //{display:'부가세', name:'vat',width:104, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'연체료', name:'dlyBillAmnt',width:110, sortable:false,align:'right', displayFormat: 'number'},
                     {display:'고지금액', name:'djiroAmnt',width:110, sortable:false,align:'right', displayFormat: 'number'},
 					{display:'고지서발부여부', name:'dlyBillPrtYnNm',width:100, sortable:false,align:'center'},
@@ -99,9 +102,9 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         }
     });
 	
+ 	// params로 넘어온 데이터가 있을 경우 그 데이터를 목록의 조회조건으로 넣어 목록을 표시
     if(params!=null) {
     	if(params.action=="selectRentFeePay") {
-    		//임대료관리화면에서 데이터를 선택후 호출하여 조회
         	this.$('#sPrtAtCode').val(params.nticVo.prtAtCode);
         	this.$('#sMngYear').val(params.nticVo.mngYear);
         	this.$('#sMngNo').val(params.nticVo.mngNo);
@@ -110,38 +113,211 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         	this.loadData();
     	}
     } else {
-    	//특정데이터를 지정한 것이 아닌 경우 기간별로 조회.
         this.$('#sNticDtFrom').val(EMD.util.getDate());
         this.$('#sNticDtTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
     	this.loadData();
     }
     
-    this.$("#arrrgAmt").bind("keyup change", {module: this}, function(event) {
-    	var arrrgAmt, supplyPrice;
-    	supplyPrice = Number(event.data.module.$('#supplyPrice').val());
-    	if(event.data.module.$('#arrrgAmt').val() ==''){
-			arrrgAmt = 0;
-		} else {
-			arrrgAmt = Number(event.data.module.$('#arrrgAmt').val());
-		}
-    	event.data.module.$('#arrrgNticAmt').val(supplyPrice + arrrgAmt);
-    });
-    
-};
+ 	this.setEvents();
+ 	
+ 	this.setButtonState();
+ };
 
-// onSubmit
+<%--
+	EmdModule에서 Overriding 된 Submit 함수.
+	모듈에서 엔터키를 입력 하거나 submitButton 클래스의 버튼이 눌려졌을때 호출되는 이벤트 함수. (포커스에 따라 동작 안될 때도 있음.)
+--%>
 GamHtldRentFeePaySttusMngtModule.prototype.onSubmit = function() {
     this.loadData();
 };
 
-// 배후단지임대료납부현황 목록
+<%--
+	버튼 클릭에 대한 이벤트 핸들러 (EmdModule에서 Overriding 된 함수임 모듈에서 자동으로 호출 됨)
+	스위치문 안에 코드가 길어지면 반드시 하위 함수로 분리 할 것.
+    case 문에 주석을 달때는 case 문 뒤에 붙일 것
+--%>
+GamHtldRentFeePaySttusMngtModule.prototype.onButtonClick = function(buttonId) {
+	switch(buttonId) {
+	case 'searchBtn':  // 조회
+		this.loadData();
+		break;
+	case 'popupEntrpsInfo':  // 업체 팝업(조회항목)
+		var searchOpt=this.makeFormArgs('#gamHtldRentFeePaySttusMngtSearchForm');
+		this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '/popup/showEntrpsInfo.do', {}, searchOpt);
+		break;
+	case 'btnRecivePay':  //수납 팝업
+		this.receiveFeeSinglePopup();
+		break;
+	case 'btnNticArrrgSingle': //연체고지
+		this.nticArrrgSingle();
+     	break;
+	case 'btnNticArrrgCancelPk': //연체고지취소
+     	this.nticArrrgCancelPk();
+     	break;
+	case 'btnNticArrrgIssuePrint': //연체고지서출력
+		this.nticArrrgIssuePrint();
+		break;
+	}
+};
+
+<%--
+	팝업이 종료 될때 리턴 값이 오출 된다.	EmdModule에서 호출 함.
+		popupId : 팝업 대화상자 아이디
+		msg : 팝업에서 전송한 메시지 (취소는 cancel)
+		value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
+--%>
+GamHtldRentFeePaySttusMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
+	switch (popupId) {
+	case 'selectEntrpsInfoFeePayPopup': //업체 조회
+		if (msg != 'cancel') {
+			this.$('#sEntrpscd').val(value.entrpscd);
+			this.$('#sEntrpsNm').val(value.entrpsNm);
+		} else {
+			alert('취소 되었습니다');
+		}
+		break;
+	case 'feePayPopup': 
+		if (msg != 'cancel') {
+			this.receiveFeeSingle(value); //수납처리
+		}
+		break;
+	default:
+		alert('알수없는 팝업 이벤트가 호출 되었습니다.');
+		break;
+	}
+};
+
+<%--
+	탭이 변경 되기 전에 호출되는 이벤트 핸들러 : 리턴값이 false이면 탭 변경이 취소되어 탭이 바뀌질 않는다.
+--%>
+GamHtldRentFeePaySttusMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
+	if(newTabId=='tabs2' || newTabId=='tabs3') {
+		if(this.$('#htldRentFeePaySttusMngtList').selectedRowCount()!=1) {
+			alert('상세 내역을 조회 할 납부 항목을 선택 하세요.');
+			return false;
+		}
+	}
+	return true;
+};
+
+<%--
+	탭이 변경 된 후 호출 되는 이벤트 핸들러
+--%>
+GamHtldRentFeePaySttusMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
+    switch(newTabId) {
+    case 'tabs1':
+        break;
+    case 'tabs2':
+		this.loadDetailPage();
+        break;
+	case 'tabs3':
+		this.loadArrrgPage();
+	    break;
+    }
+};
+
+<%--
+	각 요소에 대한 이벤트 설정
+--%>
+GamHtldRentFeePaySttusMngtModule.prototype.setEvents = function() {
+ 	// 납부현황목록의 데이터를 더블클릭할 때
+	this.$("#htldRentFeePaySttusMngtList").on('onItemDoubleClick', function(event, module, row, grid, param) {
+        module.$("#htldRentFeePaySttusMngtListTab").tabs("option", {active: 1});    // 탭을 전환 한다.
+    });
+
+	// 연체금액을 입력할 때 이벤트 처리
+ 	this.$("#arrrgAmt").bind("keyup change", {module: this}, function(event) {
+ 		event.data.module.onChangedArrrgAmt();
+    });
+};
+
+<%--
+	버튼 상태 설정
+--%>
+GamHtldRentFeePaySttusMngtModule.prototype.setButtonState = function() {
+	var tabId=this.$("#htldRentFeePaySttusMngtListTab").tabs({"option": "active"});
+	if(tabId=="tabs2") {
+		if(this.detailArrrg==void(0)) {
+			this.$('#arrrgDetail').hide();
+		}
+		else {
+			this.$('#arrrgDetail').show();
+		}
+	}
+};
+
+<%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	EmdModule Override 및 이벤트 처리 정의 부분 종료	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////--%>
+
+<%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	tabs1 : 납부현황목록 관련 사용자 함수 정의 시작
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////--%>
+
+<%--
+	배후단지임대료납부현황 목록
+--%>
 GamHtldRentFeePaySttusMngtModule.prototype.loadData = function() {
     var searchOpt=this.makeFormArgs('#gamHtldRentFeePaySttusMngtSearchForm');
     this.$("#htldRentFeePaySttusMngtListTab").tabs("option", {active: 0});    // 탭을 전환 한다.
     this.$('#htldRentFeePaySttusMngtList').flexOptions({params:searchOpt}).flexReload();
 };
 
-// 배후단지임대료납후현황 상세
+<%--
+	수납 처리 전 작업
+--%>
+GamHtldRentFeePaySttusMngtModule.prototype.receiveFeeSinglePopup = function() {
+	var rows = this.$('#htldRentFeePaySttusMngtList').selectedRows();
+	if(rows.length==0) {
+		alert('목록에서 수납 처리 할 건을 선택하십시오.');
+		return;
+	}
+	var row = rows[0];
+	this.doAction('/oper/htld/htldCheckOcrResult.do', row, function(module, result) {
+		if (result.resultCode == "0") {
+			if(result.result['ocrDt']!=void(0)) {
+				alert('지로 수납된 자료는 변경 할 수 없습니다.');
+				return;
+			}
+	    	var opts = {
+	                'prtAtCode': result.result['prtAtCode'],
+	                'mngYear': result.result['mngYear'],
+	                'mngNo': result.result['mngNo'],
+	                'mngCnt': result.result['mngCnt'],
+	                'nticCnt' : result.result['nticCnt'],
+		            'chrgeKnd': result.result['chrgeKnd']
+	        };
+	    	module.doExecuteDialog('feePayPopup', '수납 처리', '/oper/htld/htldShowFeePayPopup.do', opts);
+		} else {
+			alert(result.resultMsg);
+		}
+	});
+};
+
+<%--
+	수납처리
+--%>
+GamHtldRentFeePaySttusMngtModule.prototype.receiveFeeSingle = function(value) {
+	var arg = EMD.util.objectToArray(value);
+	this.doAction('/oper/gnrl/htldUpdateRevCollRcvdTp.do', arg, function(module, result) {
+		if(result.resultCode=='0') {
+			module.loadData();
+		}
+		alert(result.resultMsg);
+	});
+};
+
+<%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	tabs1 : 납부현황목록 관련 사용자 함수 정의 종료
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////--%>
+
+<%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	tabs2 : 납부현황상세 관련 사용자 함수 정의 시작
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////--%>
+
+<%--
+	배후단지임대료납후현황 상세
+--%>
 GamHtldRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 	var row = this.$('#htldRentFeePaySttusMngtList').selectedRows()[0];
 	var nticDetail = [
@@ -177,7 +353,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 					module.$('#arrrgDetail').show();
 					var fee = Number(result.detailArrrg.fee);
 					var intrAmnt = Number(result.detailArrrg.intrAmnt);
-					var vat = Number(result.detailArrrg.vat)
+					var vat = Number(result.detailArrrg.vat);
 					module.displayArrrgForm(fee, intrAmnt, vat);
 				}
 			} else {
@@ -192,7 +368,9 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadDetailPage = function() {
 	});
 };
 
-//연체정보 출력 2015.12.13 김종민 추가
+<%--
+	연체정보 표시
+--%>
 GamHtldRentFeePaySttusMngtModule.prototype.displayArrrgForm = function(fee, intrAmnt, vat) {
 	if(this.detailMaster == void(0)) return;
 	if(this.detailArrrg == void(0)) return;
@@ -224,102 +402,23 @@ GamHtldRentFeePaySttusMngtModule.prototype.displayArrrgForm = function(fee, intr
 	this.makeFormValues('#arrrgDetailVO', this.detailArrrg);
 };
 
-// 배후단지임대료연체현황 목록
-GamHtldRentFeePaySttusMngtModule.prototype.loadArrrgPage = function() {
-	this.makeDivValues('#htldRentFeePaySttusMngtListForm',{});	
-	var row = this.$('#htldRentFeePaySttusMngtList').selectedRows()[0];
-	var searchOpt = [];
-	$.each(row, function(n, v){
-		searchOpt[searchOpt.length]={name: n, value:v};
-	});
-    this.$('#htldRentFeePaySttusArrrgList').flexOptions({params:searchOpt}).flexReload();
-}
-
-/**
- * 정의 된 버튼 클릭 시 click 이벤트 처리기
- */
- GamHtldRentFeePaySttusMngtModule.prototype.onButtonClick = function(buttonId) {
-     var opts=null;
-    switch(buttonId) {
-        case 'searchBtn':  // 조회
-        	this.loadData();
-            break;
-        case 'popupEntrpsInfo':  // 업체 팝업(조회항목)
-            var searchOpt=this.makeFormArgs('#gamHtldRentFeePaySttusMngtSearchForm');
-            this.doExecuteDialog('selectEntrpsInfoFeePayPopup', '업체 선택', '/popup/showEntrpsInfo.do', opts, searchOpt);
-            break;
-        case 'btnRecivePay':  //수납
-        	this.receiveFeeSingle();
-        	break;
-        case 'btnUpdatePayDtls':	// 납부 현황 새로 고침
-            this.doAction('/oper/htld/updateHtldRentFeePaySttusMngtList.do', null, function(module, result) {
-                if(result.resultCode=='0') {
-                    var searchOpt=module.makeFormArgs('#gamHtldRentFeePaySttusMngtSearchForm');
-                    module.$('#htldRentFeePaySttusMngtList').flexOptions({params:searchOpt}).flexReload();
-                }
-                alert(result.resultMsg);
-            });
-        	break;
-        //case 'btnNticArrrgSingle1':
-        case 'btnNticArrrgSingle2': //연체고지
-			this.nticArrrgSingle();
-        	break;
-        case 'btnNticArrrgCancelPk': //연체고지취소
-        	var rows = this.$('#htldRentFeePaySttusArrrgList').selectedRows();
-			if(rows.length==0) {
-				alert('취소할 대상을 선택 하십시요.');
-				return;
-			}
-        	this.nticArrrgCancelPk(rows[0]);
-        	break;
-        case 'btnNticIssuePrintCancelLast':
-        	var rows = this.$('#htldRentFeePaySttusArrrgList').selectedRows();
-			if(rows.length==0) {
-				alert('취소할 대상을 선택 하십시요.');
-				return;
-			}
-        	this.nticArrrgPrintCancelLast(rows[0]);
-        	break;
-        case 'btnNticIssuePrint':
-        	if(this.dlyListLastRec==void(0)) {
-        		alert('출력할 연체고지가 없습니다.');
-        		return;
-        	}
-            this.printPayNotice('/oper/htld/printHtldRentArrrgFeePayNotice.do', this.dlyListLastRec);
-        	break;
-    }
-};
-
-//수납 버튼 이벤트 처리
-GamHtldRentFeePaySttusMngtModule.prototype.receiveFeeSingle = function() {
-	var rows = this.$('#htldRentFeePaySttusMngtList').selectedRows();
-	if(rows.length==0) {
-		alert('목록에서 수납 처리 할 건을 선택하십시오.');
-		return;
+<%--
+	연체금액 입력이 바뀔 때
+--%>
+GamHtldRentFeePaySttusMngtModule.prototype.onChangedArrrgAmt = function() {
+	var arrrgAmt, supplyPrice;
+	supplyPrice = Number(this.$('#supplyPrice').val());
+	if(this.$('#arrrgAmt').val() ==''){
+		arrrgAmt = 0;
+	} else {
+		arrrgAmt = Number(this.$('#arrrgAmt').val());
 	}
-	var row = rows[0];
-	this.doAction('/oper/htld/htldCheckOcrResult.do', row, function(module, result) {
-		if (result.resultCode == "0") {
-			if(result.result['ocrDt']!=void(0)) {
-				alert('지로 수납된 자료는 변경 할 수 없습니다.');
-				return;
-			}
-	    	var opts = {
-	                'prtAtCode': result.result['prtAtCode'],
-	                'mngYear': result.result['mngYear'],
-	                'mngNo': result.result['mngNo'],
-	                'mngCnt': result.result['mngCnt'],
-	                'nticCnt' : result.result['nticCnt'],
-		            'chrgeKnd': result.result['chrgeKnd']
-	        };
-	    	module.doExecuteDialog('feePayPopup', '수납 처리', '/oper/htld/htldShowFeePayPopup.do', opts);
-		} else {
-			alert(result.resultMsg);
-		}
-	});
+	this.$('#arrrgNticAmt').val(supplyPrice + arrrgAmt);	
 };
 
-// 연체고지 등록
+<%--
+	연체고지 등록
+--%>
 GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
 	if(!this.$('#htldRentFeePaySttusMngtList').selectedRowCount()>0) {
 		alert('목록에서 고지할 건을 선택하세요.');
@@ -331,6 +430,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
 		return;
 	}
 	if(!confirm('연체고지를 하시겠습니까?')) return;
+	
 	var args = {
 		'prtAtCode': row['prtAtCode'],
 		'mngYear': row['mngYear'],
@@ -354,29 +454,39 @@ GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgSingle = function() {
 		alert(result.resultMsg);
 	});	
 };
+<%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	tabs2 : 납부현황상세 관련 사용자 함수 정의 종료
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////--%>
 
-GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgCancelAll = function() {
+<%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	tabs3 : 연체현황목록 관련 사용자 함수 정의 시작
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////--%>
 
-	var arrrgDetail = [
-	               { name: 'prtAtCode', value: this.detailMaster.prtAtCode},
-	               { name: 'mngYear', value: this.detailMaster.mngYear },
-	               { name: 'mngNo', value: this.detailMaster.mngNo },
-	               { name: 'mngCnt', value: this.detailMaster.mngCnt },
-	               { name: 'nticCnt', value: this.detailMaster.nticCnt },
-	               { name: 'chrgeKnd', value: this.detailMaster.chrgeKnd },
-	             ];
-
- 	this.doAction('/oper/gnrl/cancelNticArrrg.do', arrrgDetail, function(module, result) {
-		if (result.resultCode == "0") {
-			alert('고지 취소 되었습니다.');
-			module.loadData();
-		} else {
-			alert(result.resultMsg);
-		}
+<%--
+	배후단지임대료연체현황 목록
+--%>
+GamHtldRentFeePaySttusMngtModule.prototype.loadArrrgPage = function() {
+	this.makeDivValues('#htldRentFeePaySttusMngtListForm',{});	
+	var row = this.$('#htldRentFeePaySttusMngtList').selectedRows()[0];
+	var searchOpt = [];
+	$.each(row, function(n, v){
+		searchOpt[searchOpt.length]={name: n, value:v};
 	});
+    this.$('#htldRentFeePaySttusArrrgList').flexOptions({params:searchOpt}).flexReload();
 };
 
-GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgCancelPk = function(ntic) {
+<%--
+	연체고지 취소
+--%>
+GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgCancelPk = function() {
+	var rows = this.$('#htldRentFeePaySttusArrrgList').selectedRows();
+	if(rows.length==0) {
+		alert('취소할 대상을 선택 하십시요.');
+		return;
+	}
+	
+	var ntic = rows[0];
+	
 	if(ntic.dlySerNo != this.dlyListLastRec.dlySerNo) {
 		alert('마지막 연체정보만 취소할 수 있습니다.');
 		return;
@@ -398,8 +508,6 @@ GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgCancelPk = function(ntic) {
 	               { name: 'nticCnt', value: row.nticCnt }
 	             ];
 	
-	//연체고지취소는 이제 일반부두의 연체고지취소와 요금되돌리는 방식이 틀리기에 일반부두의 연체고지취소는 안 쓴다. 2015.12.14 김종민
- 	//this.doAction('/oper/gnrl/cancelNticArrrgPk.do', arrrgDetail, function(module, result) {
  	this.doAction('/oper/htld/cancelNticArrrgPk.do', arrrgDetail, function(module, result) {
 		if (result.resultCode == "0") {
 			alert('고지 취소 되었습니다.');
@@ -410,101 +518,31 @@ GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgCancelPk = function(ntic) {
 	});
 };
 
-GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgPrintCancelPk = function(ntic) {
-	var arrrgDetail = [
-	               { name: 'prtAtCode', value: ntic.prtAtCode},
-	               { name: 'fiscalYr', value: ntic.fiscalYr },
-	               { name: 'billNo', value: ntic.billNo },
-	               { name: 'chargeKnd', value: ntic.chargeKnd },
-	               { name: 'dlySerNo', value: ntic.dlySerNo }
-	             ];
-
- 	this.doAction('/oper/gnrl/cancelNticArrrgPrintPk.do', arrrgDetail, function(module, result) {
-		if (result.resultCode == "0") {
-			alert('고지 취소 되었습니다.');
-			module.loadData();
-		} else {
-			alert(result.resultMsg);
-		}
-	});
-};
-
-GamHtldRentFeePaySttusMngtModule.prototype.setButtonState = function() {
-	var tabId=this.$("#htldRentFeePaySttusMngtListTab").tabs({"option": "active"});
-	if(tabId=="tabs1") {
-
+<%--
+	연체고지 출력
+--%>
+GamHtldRentFeePaySttusMngtModule.prototype.nticArrrgIssuePrint = function() {
+	if(this.dlyListLastRec==void(0)) {
+		alert('출력할 연체고지가 없습니다.');
+		return;
 	}
-	else if(tabId=="tabs2") {
-		if(this.detailArrrg==void(0)) {
-			this.$('#arrrgDetail').hide();
-		}
-		else {
-			this.$('#arrrgDetail').show();
-		}
-	}
+    this.printPayNotice('/oper/htld/printHtldRentArrrgFeePayNotice.do', this.dlyListLastRec);
 };
 
-// Tab이 변경되기 전에 처리되는 이벤트
-GamHtldRentFeePaySttusMngtModule.prototype.onTabChangeBefore = function(newTabId, oldTabId) {
-	if(newTabId=='tabs2' || newTabId=='tabs3') {
-		if(this.$('#htldRentFeePaySttusMngtList').selectedRowCount()!=1) {
-			alert('상세 내역을 조회 할 납부 항목을 선택 하세요.');
-			return false;
-		}
-	}
-	return true;
-};
+<%--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	tabs3 : 연체현황목록 관련 사용자 함수 정의 종료
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////--%>
 
-// Tab 선택시 이벤트
-GamHtldRentFeePaySttusMngtModule.prototype.onTabChange = function(newTabId, oldTabId) {
-    switch(newTabId) {
-    case 'tabs1':
-        break;
-    case 'tabs2':
-		this.loadDetailPage();
-        break;
-	case 'tabs3':
-		this.loadArrrgPage();
-	    break;
-    }
-};
 
-//팝업이 종료 될때 리턴 값이 오출 된다.
-//popupId : 팝업 대화상자 아이디
-//msg : 팝업에서 전송한 메시지 (취소는 cancel)
-//value : 팝업에서 선택한 데이터 (오브젝트) 선택이 없으면 0
-GamHtldRentFeePaySttusMngtModule.prototype.onClosePopup = function(popupId, msg, value) {
-    switch (popupId) {
-    case 'selectEntrpsInfoFeePayPopup':
-        if (msg != 'cancel') {
-            this.$('#sEntrpscd').val(value.entrpscd);
-            this.$('#sEntrpsNm').val(value.entrpsNm);
-        } else {
-            alert('취소 되었습니다');
-        }
-        break;
-    case 'feePayPopup': //수납처리 Dialog 처리부분
-    	if (msg != 'cancel') {
-           	var arg = EMD.util.objectToArray(value);
-           	//수납처리
-            this.doAction('/oper/gnrl/htldUpdateRevCollRcvdTp.do', arg, function(module, result) {
-                if(result.resultCode=='0') {
-                	module.loadData();
-                }
-                alert(result.resultMsg);
-            });
-        }
-    	break;
-     default:
-         alert('알수없는 팝업 이벤트가 호출 되었습니다.');
-         break;
-     }
-};
-
-// 다음 변수는 고정 적으로 정의 해야 함
+<%--
+	다음 변수는 고정 적으로 정의 해야 함
+	module_instance는 고정 변수 GamHtldRentMngtModule은 위에서 EmdModule을 상속 받는 이 윈도우의 모듈 함수로 정의 됨.
+--%>
 var module_instance = new GamHtldRentFeePaySttusMngtModule();
 </script>
-<!-- 아래는 고정 -->
+<%--
+	이 페이지를 로딩 하기 위한 window_id 변수. jsp를 호출 하는 model에 담겨서 와야 함.
+--%>
 <input type="hidden" id="window_id" value='${windowId}' />
 <div class="window_main">
 
@@ -632,7 +670,7 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
 						<tr>
 							<th width="50%">연체내역</th>
 							<th style="text-align:right">
-								<button id="btnNticArrrgSingle2" data-icon="ui-icon-clock">연체고지</button>
+								<button id="btnNticArrrgSingle" data-icon="ui-icon-clock">연체고지</button>
 							</th>
 						</tr>
 					</tbody>
@@ -725,7 +763,6 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
                         </tr>
                     </table>
 			</div>
-			<!-- change** -->
 			<div id="tabs3" class="emdTabPage" style="overflow: scroll;">
 				
                 <!-- <div class="emdControlPanel"><button id="btnSaveItem">저장</button><button id="btnCancelItem">취소</button><button id="btnRemoveItem">삭제</button></div>  -->
@@ -770,18 +807,6 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
                                 <th width="16%">연체료산출내역</th>
                                 <td colspan="3"><span data-column-id="dlyBillRsn" ></span></td>
                             </tr>
-                            <!-- <tr>
-                                <th width="16%">최초고지일자</th>
-                                <td><span data-column-id="firstBillDt" ></span></td>
-                                <th width="16%">금융기관수납일자</th>
-                                <td><span data-column-id="recptEpdt" ></span></td>
-                                <th width="16%">할인율코드</th>
-                                <td><span data-column-id="dcRate" ></span></td>
-                                <th width="16%">사업자등록번호</th>
-                                <td><span data-column-id="bzRgstId" ></span></td>
-                                <th width="16%">연체고지서발부여부</th>
-                                <td><span data-column-id="dlyBillPrtYn" ></span></td>
-                            </tr> -->
                         </table>
 						</div>
                     </form>
@@ -801,11 +826,7 @@ var module_instance = new GamHtldRentFeePaySttusMngtModule();
 							<tr>
 								<td style="text-align:right">
 									<button data-cmd="btnNticArrrgCancelPk" data-icon="ui-icon-clock">고지취소</button>
-									<button data-cmd="btnNticIssuePrint" data-icon="ui-icon-print">고지서출력</button>
-									<!--
-									<button data-cmd="btnNticIssuePrint2" data-icon="ui-icon-print">고지서출력(연체만)</button>
-									<button data-cmd="btnNticIssuePrintCancelPk" data-icon="ui-icon-cancel">출력취소</button>
-									 -->
+									<button data-cmd="btnNticArrrgIssuePrint" data-icon="ui-icon-print">고지서출력</button>
 								</td>
 							</tr>
 						</tbody>
