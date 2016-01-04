@@ -299,6 +299,7 @@
 				, WRT_DT
 				, WRT_USR
 				, PLAN_HIST_SE
+				, MNTN_RPR_EXP_RATE
 			)
 			VALUES
 			(
@@ -326,6 +327,7 @@
 				, #wrtDt#
 				, #wrtUsr#
 				, #planHistSe#
+				, #mntnRprExpRate#
 			)
 	</insert>
 

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="validator" uri="/WEB-INF/tlds/emf-validator.tld" %>
@@ -226,6 +227,22 @@ GamFcltyMaintMngModule.prototype.loadComplete = function(params) {
 		this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
 		this.$('#sFcltsJobSe').disable();
 	}
+	this.$('#mntnRprExpRate').bind("keyup", {module: this}, function(event) {
+		var bdgt = event.data.module.$('#mntnRprBdgt').val();
+		var rate = event.data.module.$('#mntnRprExpRate').val();
+		if(bdgt !=""){
+			var cnstAmt = bdgt * rate;
+			event.data.module.$('#mntnRprCnstAmt').val(cnstAmt);
+		}
+	});
+	this.$('#mntnRprBdgt').bind("keyup", {module: this}, function(event) {
+		var bdgt = event.data.module.$('#mntnRprBdgt').val();
+		var rate = event.data.module.$('#mntnRprExpRate').val();
+		if(rate !=""){
+			var cnstAmt = bdgt * rate;
+			event.data.module.$('#mntnRprCnstAmt').val(cnstAmt);
+		}
+	});
 
 	// 기본값 셋팅
 	this.setDefaultParam();
@@ -1984,10 +2001,14 @@ var module_instance = new GamFcltyMaintMngModule();
 									<td><input id="cnstrtr" type="text" title="계약자" maxlength="20" style="width:102px;" /></td>
 								</tr>
 								<tr>
-									<th height="18" class="required_text">예산</th>
-									<td><input id="mntnRprBdgt" type="text" title="예산" class="ygpaNumber" maxlength="16" style="width:120px;" /> 원</td>
-									<th height="18" class="required_text">계약금액</th>
-									<td><input id="mntnRprCnstAmt" type="text" title="계약금액" class="ygpaNumber" maxlength="16" style="width:102px;" /> 원</td>
+									<th height="18" class="required_text">직접공사비</th>
+									<td><input id="mntnRprBdgt" type="text" title="직접공사비" class="ygpaNumber" maxlength="16" style="width:120px;" /> 원</td>
+									<th height="18" class="required_text">제·경비율</th>
+									<td><input id="mntnRprExpRate" type="text" title="제경비율" class="ygpaNumber" data-decimal-point="2" maxlength="16" style="width:102px;" /> %</td>
+								</tr>
+								<tr>
+									<th height="18" class="required_text">공사금액</th>
+									<td colspan="2"><input id="mntnRprCnstAmt" type="text" title="공사금액" class="ygpaNumber" maxlength="16" style="width:120px;" /> 원(직접공사비 * 제·경비율)</td>
 								</tr>
 								<tr>
 									<th height="18" class="required_text">작성자</th>
