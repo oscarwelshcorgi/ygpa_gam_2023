@@ -126,6 +126,9 @@ GamHtldRentFeeMngtModule.prototype.onButtonClick = function(buttonId) {
 	case 'btnCancelNticIssue':	// 고지 취소
  		this.cancelNticIssue();
  		break;
+	case 'btnNticIssuePrint':	// 고지서 출력
+		this.nticIssuePrint();
+		break;
    	case 'btnHwpDownload':	// HWP
    		this.printPage('/oper/htld/gamHtldRentHwpPreview.do', {});
    		break;
@@ -382,7 +385,7 @@ GamHtldRentFeeMngtModule.prototype.cancelNticIssue = function() {
 		return;
 	}
     if( confirm("선택한 건의 고지를 취소 하시겠습니까?") ) {
-    	if(rows['nhtPrintYn']!='Y' || confirm("해당 건의 징수의뢰 자료가 삭제됩니다. 계속 하시겠습니까?")) {
+    	if(row['nhtPrintYn']!='Y' || confirm("해당 건의 징수의뢰 자료가 삭제됩니다. 계속 하시겠습니까?")) {
         	this.doAction('/oper/htld/cancelHtldRentFeeNticSingle.do', row, function(module, result) {
             	if(result.resultCode=='0') {
                 	var searchOpt=module.makeFormArgs('#gamAssetRentFeeSearchForm');
@@ -393,6 +396,22 @@ GamHtldRentFeeMngtModule.prototype.cancelNticIssue = function() {
             });
         }
     }
+};
+
+<%--
+	고지서 출력
+--%>
+GamHtldRentFeeMngtModule.prototype.nticIssuePrint = function() {
+    if(this.$('#assetRentFeeList').selectedRowCount()<1) {
+    	alert("목록에서 고지 할 건을 선택하십시오.");
+    	return;
+    }
+    var row = this.$('#assetRentFeeList').selectedRows()[0];
+    if( row['nhtIsueYn'] != 'Y' ) {
+    	alert("해당 건은 아직 고지되지 않았습니다.");
+        return;
+    }
+    this.printPayNotice('/oper/htld/printHtldRentFeePayNotice.do', row);
 };
 
 <%--
