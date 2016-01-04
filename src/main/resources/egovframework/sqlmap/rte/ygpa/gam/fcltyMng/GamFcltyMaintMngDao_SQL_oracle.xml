@@ -182,6 +182,7 @@
 			, TO_CHAR(M.WRT_DT,'YYYY-MM-DD') WRT_DT
 			, M.WRT_USR
 			, M.PLAN_HIST_SE
+			, M.MNTN_RPR_EXP_RATE
 		FROM
 			MNTN_RPR_DTLS_F M
 		WHERE
@@ -327,7 +328,7 @@
 				, #wrtDt#
 				, #wrtUsr#
 				, #planHistSe#
-				, #mntnRprExpRate#
+				, TO_NUMBER(#mntnRprExpRate#)
 			)
 	</insert>
 
@@ -356,6 +357,7 @@
 				, WRT_DT = #wrtDt#
 				, WRT_USR = #wrtUsr#
 				, PLAN_HIST_SE = #planHistSe#
+				, MNTN_RPR_EXP_RATE = TO_NUMBER(#mntnRprExpRate#)
 			WHERE
 				FCLTS_JOB_SE = #fcltsJobSe#
 				AND FCLTS_MNG_GROUP_NO = #fcltsMngGroupNo#

@@ -172,6 +172,22 @@ GamFcltyMaintSttusInqireModule.prototype.loadComplete = function(params) {
 		event.data.module.displayAtchFileList("");
 	});
 
+	this.$('#mntnRprExpRate').bind("keyup", {module: this}, function(event) {
+		var bdgt = event.data.module.$('#mntnRprBdgt').val();
+		var rate = event.data.module.$('#mntnRprExpRate').val();
+		if(bdgt !=""){
+			var cnstAmt = bdgt * rate;
+			event.data.module.$('#mntnRprCnstAmt').val(cnstAmt);
+		}
+	});
+	this.$('#mntnRprBdgt').bind("keyup", {module: this}, function(event) {
+		var bdgt = event.data.module.$('#mntnRprBdgt').val();
+		var rate = event.data.module.$('#mntnRprExpRate').val();
+		if(rate !=""){
+			var cnstAmt = bdgt * rate;
+			event.data.module.$('#mntnRprCnstAmt').val(cnstAmt);
+		}
+	});
 	this._fileKeyValue = "";
 	this._atchFileDirLoad = false;
 	this._atchFilePreview = false;
@@ -1986,10 +2002,14 @@ var module_instance = new GamFcltyMaintSttusInqireModule();
 									<td><input id="cnstrtr" type="text" title="계약자" maxlength="20" style="width:102px;" disabled="disabled"/></td>
 								</tr>
 								<tr>
-									<th height="18" class="required_text">예산</th>
-									<td><input id="mntnRprBdgt" type="text" title="예산" class="ygpaNumber" maxlength="16" style="width:120px;" disabled="disabled"/> 원</td>
-									<th height="18" class="required_text">계약금액</th>
-									<td><input id="mntnRprCnstAmt" type="text" title="계약금액" class="ygpaNumber" maxlength="16" style="width:102px;" disabled="disabled"/> 원</td>
+									<th height="18" class="required_text">직접공사비</th>
+									<td><input id="mntnRprBdgt" type="text" title="직접공사비" class="ygpaNumber" maxlength="16" style="width:120px;" /> 원</td>
+									<th height="18" class="required_text">제·경비율</th>
+									<td><input id="mntnRprExpRate" type="text" title="제경비율" class="ygpaNumber" data-decimal-point="2" maxlength="16" style="width:102px;" /> %</td>
+								</tr>
+								<tr>
+									<th height="18" class="required_text">공사금액</th>
+									<td colspan="2"><input id="mntnRprCnstAmt" type="text" title="공사금액" class="ygpaNumber" maxlength="16" style="width:120px;" /> 원(직접공사비 * 제·경비율)</td>
 								</tr>
 								<tr>
 									<th height="18" class="required_text">작성자</th>
