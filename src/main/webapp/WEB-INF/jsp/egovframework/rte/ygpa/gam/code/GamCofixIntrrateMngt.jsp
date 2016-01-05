@@ -36,8 +36,6 @@ GamCofixMngtModule.prototype.loadComplete = function() {
 		url: '/code/selectCofixIntrrateList.do',
 		dataType: 'json',
 		colModel : [
-			//{display:'대상년월', name:'objYrmt', width:70, sortable:true, align:'center', displayFormat:'input'},
-			//{display:'잔액기준', name:'blceStdrIntrrate', width:100, sortable:true, align:'right', displayFormat:'input-number', displayOption:'000.00'},
 			{display:'공시일자', name:'annodt', width:150, sortable:true, align:'center', displayFormat:'cal'},
 			{display:'신규취급액기준', name:'newManipAmtStdrIntrrate', width:150, sortable:true, align:'right', displayFormat:'input-number', displayOption:'000.00'}
 			],
