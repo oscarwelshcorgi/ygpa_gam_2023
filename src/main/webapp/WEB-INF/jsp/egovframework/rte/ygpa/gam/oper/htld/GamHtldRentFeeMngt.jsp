@@ -643,7 +643,6 @@ var module_instance = new GamHtldRentFeeMngtModule();
                     <button id="btnCancelNticIssue">고지취소</button>
                     <button id="btnNticIssuePrint">고지서출력</button>
                    	<button data-role="gridXlsDown" data-flexi-grid="assetRentFeeList" data-xls-name="배후단지임대료고지.xls" data-xls-title="배후단지 임대료 고지 내역">엑셀</button>
-                    <button id="btnHwpDownload">HWP</button>
                     <button id="btnRentFeePayMngt">납부현황관리</button>
 					<button data-role="openWindow" data-url="/code/gamCofixIntrrateMngt.do" data-title="COFIX 이자율 관리">이자율관리</button>
                 </div>
