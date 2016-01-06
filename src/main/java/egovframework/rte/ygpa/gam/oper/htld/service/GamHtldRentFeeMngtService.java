@@ -51,6 +51,13 @@ public interface GamHtldRentFeeMngtService {
 	 */
     EgovMap selectHtldRentFeeMngtSum(GamHtldRentFeeDefaultVO searchVO) throws Exception;
 
+	/**
+	 * 배후단지구역 목록을 조회한다.
+	 * @return list
+	 * @exception Exception
+	 */
+    List selectHtldRentAreaList() throws Exception;
+    
     /**
 	 * 배후단지임대료고지관리정보를 수정한다.
 	 * @param vo GamHtldRentFeeMngtVO

@@ -1,4 +1,4 @@
-package egovframework.rte.ygpa.gam.oper.htld.web;
+package egovframework.rte.ygpa.gam.sample.web;
 
 import java.text.DateFormat;
 import java.text.Format;
@@ -58,7 +58,7 @@ import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentFeeMngtVO;
  *  Copyright (C)  All right reserved.
  */
 @Controller
-public class GamHtldRentFeeMngtController {
+public class GamHtldRentFeeMngtSampleController {
 
 	protected Log log = LogFactory.getLog(this.getClass());
 
@@ -90,14 +90,45 @@ public class GamHtldRentFeeMngtController {
      *
      * @param windowId
      * @param model the model
-     * @return "/ygpa/gam/oper/htld/GamHtldRentFeeMngt"
+     * @return "/ygpa/gam/sample/GamHtldRentFeeMngt"
      * @throws Exception the exception
      */
-	@RequestMapping(value="/oper/htld/gamHtldRentFeeMngt.do")
+	@RequestMapping(value="/sample/gamHtldRentFeeMngtSample.do")
 	public String indexMain(@RequestParam("window_id") String windowId, ModelMap model) throws Exception {
+/*
+		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
+
+		codeVo.setCodeId("GAM019"); //항코드
+		List prtAtCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+
+		codeVo.setCodeId("GAM011"); //신청구분코드
+		List reqstCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+
+		codeVo.setCodeId("GAM008"); //고지방법 코드
+		List nticMthCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+
+		codeVo.setCodeId("GAM007"); //사용 용도 코드
+		List usagePrposCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+
+		codeVo.setCodeId("GAM024"); //요금종류
+		List chrgeKndCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+
+		codeVo.setCodeId("GAM005"); //시설구분
+		List fcltySeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+
+		codeVo.setCodeId("GAM025"); //수납구분
+		List rcivSeCdList = cmmUseService.selectCmmCodeDetail(codeVo);
+
+		model.addAttribute("prtAtCdList", prtAtCdList);
+		model.addAttribute("reqstCdList", reqstCdList);
+		model.addAttribute("nticMthCdList", nticMthCdList);
+		model.addAttribute("usagePrposCdList", usagePrposCdList);
+		model.addAttribute("chrgeKndCdList", chrgeKndCdList);
+		model.addAttribute("fcltySeCdList", fcltySeCdList);
+		model.addAttribute("rcivSeCdList", rcivSeCdList);*/
 		model.addAttribute("windowId", windowId);
-		model.addAttribute("rentAreaList", gamHtldRentFeeMngtService.selectHtldRentAreaList()); //배후단지구역목록
-    	return "/ygpa/gam/oper/htld/GamHtldRentFeeMngt";
+
+    	return "/ygpa/gam/sample/GamHtldRentFeeMngtSample";
     }
 
 	/**
@@ -108,7 +139,7 @@ public class GamHtldRentFeeMngtController {
      * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/htld/gamSelectHtldRentFeeMngtList.do", method=RequestMethod.POST)
+    @RequestMapping(value="/sample/gamSelectHtldRentFeeMngtList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectHtldRentFeeMngtList(GamHtldRentFeeDefaultVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
@@ -152,14 +183,7 @@ public class GamHtldRentFeeMngtController {
     	return map;
     }
 
-	/**
-     * 배후단지임대료데이터를 수정한다.
-     *
-     * @param searchVO
-     * @return map
-     * @throws Exception the exception
-     */
-    @RequestMapping(value="/oper/htld/updateHtldRentFee.do")
+    @RequestMapping(value="/sample/updateHtldRentFee.do")
     public @ResponseBody Map updateHtldRentFee(
      	   @ModelAttribute("gamHtldRentFeeMngtVO") GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO,
      	   BindingResult bindingResult)
@@ -191,7 +215,7 @@ public class GamHtldRentFeeMngtController {
  		return map;
      }
 
-    @RequestMapping(value="/oper/htld/clearHtldRentFeeList.do")
+    @RequestMapping(value="/sample/clearHtldRentFeeList.do")
     public @ResponseBody Map clearHtldRentFeeList(
     		GamHtldRentFeeDefaultVO gamHtldRentFeeMngtVO,
      	   BindingResult bindingResult)
@@ -224,7 +248,7 @@ public class GamHtldRentFeeMngtController {
      }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/htld/gamSelectHtldRentFeeMngtListExcel.do", method=RequestMethod.POST)
+    @RequestMapping(value="/sample/gamSelectHtldRentFeeMngtListExcel.do", method=RequestMethod.POST)
     @ResponseBody ModelAndView selectHtldRentFeeMngtListExcel(@RequestParam Map<String, Object> excelParam) throws Exception {
 		Map map = new HashMap();
 		List header;
@@ -275,7 +299,7 @@ public class GamHtldRentFeeMngtController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/htld/gamUpdateHtldRentFeeMngtFee.do")
+    @RequestMapping(value="/sample/gamUpdateHtldRentFeeMngtFee.do")
     public @ResponseBody Map updateHtldRentFeeMngtFee(
      	   @ModelAttribute("gamHtldRentFeeMngtVO") GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO,
      	   BindingResult bindingResult)
@@ -315,7 +339,7 @@ public class GamHtldRentFeeMngtController {
      * @throws Exception
      */
     /*
-    @RequestMapping(value="/oper/htld/gamInsertHtldRentFeeMngtFeeNtic.do")
+    @RequestMapping(value="/sample/gamInsertHtldRentFeeMngtFeeNtic.do")
     @ResponseBody Map<String, Object> insertHtldRentFeeMngtFeeNtic (
 				  @RequestParam("nticCnts") String nticCnts
 				 ,@RequestParam("prtAtCodes") String prtAtCodes
@@ -415,7 +439,7 @@ public class GamHtldRentFeeMngtController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/htld/gamInsertHtldRentFeeMngtFeeNtic.do")
+    @RequestMapping(value="/sample/gamInsertHtldRentFeeMngtFeeNtic.do")
     @ResponseBody Map<String, Object> insertHtldRentFeeMngtFeeNtic (
 				  @RequestParam("nticCnts") String nticCnts
 				 ,@RequestParam("prtAtCodes") String prtAtCodes
@@ -492,7 +516,7 @@ public class GamHtldRentFeeMngtController {
      * @throws Exception
      */
     /*
-    @RequestMapping(value="/oper/htld/gamDeleteHtldRentFeeMngtFeeNtic.do")
+    @RequestMapping(value="/sample/gamDeleteHtldRentFeeMngtFeeNtic.do")
     @ResponseBody Map<String, Object> deleteHtldRentFeeMngtFeeNtic (
 				  @RequestParam("nticCnts") String nticCnts
 				 ,@RequestParam("prtAtCodes") String prtAtCodes
@@ -566,7 +590,7 @@ public class GamHtldRentFeeMngtController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/htld/gamDeleteHtldRentFeeMngtFeeNtic.do")
+    @RequestMapping(value="/sample/gamDeleteHtldRentFeeMngtFeeNtic.do")
     @ResponseBody Map<String, Object> deleteHtldRentFeeMngtFeeNtic (
 				  @RequestParam("nticCnts") String nticCnts
 				 ,@RequestParam("prtAtCodes") String prtAtCodes
@@ -643,7 +667,7 @@ public class GamHtldRentFeeMngtController {
      * @throws Exception
      */
     /*
-    @RequestMapping(value="/oper/htld/gamInsertHtldRentFeeMngtFeeNticSingle.do")
+    @RequestMapping(value="/sample/gamInsertHtldRentFeeMngtFeeNticSingle.do")
     public @ResponseBody Map insertHtldRentFeeMngtFeeNticSingle(
      	   @ModelAttribute("gamHtldRentFeeMngtVO") GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO,
      	   BindingResult bindingResult)
@@ -703,7 +727,7 @@ public class GamHtldRentFeeMngtController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/htld/gamInsertHtldRentFeeMngtFeeNticSingle.do")
+    @RequestMapping(value="/sample/gamInsertHtldRentFeeMngtFeeNticSingle.do")
     public @ResponseBody Map insertHtldRentFeeMngtFeeNticSingle(
      	   @ModelAttribute("gamHtldRentFeeMngtVO") GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO,
      	   BindingResult bindingResult)
@@ -753,7 +777,7 @@ public class GamHtldRentFeeMngtController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/htld/gamDeleteHtldRentFeeMngtFeeNticSingle.do")
+    @RequestMapping(value="/sample/gamDeleteHtldRentFeeMngtFeeNticSingle.do")
     public @ResponseBody Map deleteHtldRentFeeMngtFeeNticSingle(
      	   @ModelAttribute("gamHtldRentFeeMngtVO") GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO,
      	   BindingResult bindingResult)
@@ -801,7 +825,7 @@ public class GamHtldRentFeeMngtController {
      * @return map
      * @throws Exception
      */
-    @RequestMapping(value="/oper/htld/gamInsertHtldRentFeeMngtFee.do")
+    @RequestMapping(value="/sample/gamInsertHtldRentFeeMngtFee.do")
     public @ResponseBody Map insertHtldRentFeeMngtFee(
      	   @ModelAttribute("gamHtldRentFeeMngtVO") GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO,
      	   BindingResult bindingResult)
@@ -835,7 +859,7 @@ public class GamHtldRentFeeMngtController {
      }
 
     @SuppressWarnings("unchecked")
-	@RequestMapping(value="/oper/htld/showNticIssuePopup.do")
+	@RequestMapping(value="/sample/showNticIssuePopup.do")
     public String showNticIssuePopup(
      	   GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO,
      	  ModelMap model)
@@ -845,7 +869,7 @@ public class GamHtldRentFeeMngtController {
 
 		model.addAttribute("levReqestMaster", master);
 
-    	return "/ygpa/gam/oper/htld/GamPopupHtldRentFeeNticIssue";
+    	return "/ygpa/gam/sample/GamPopupHtldRentFeeNticIssue";
      }
 
     /**
@@ -856,7 +880,7 @@ public class GamHtldRentFeeMngtController {
      * @throws Exception
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value="/oper/htld/insertHtldFeeNticSingle.do")
+	@RequestMapping(value="/sample/insertHtldFeeNticSingle.do")
     public @ResponseBody Map insertAssetRentFeeNticSingle(
      	   @ModelAttribute("gamHtldRentFeeMngtVO") GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO,
      	   BindingResult bindingResult)
@@ -895,7 +919,7 @@ public class GamHtldRentFeeMngtController {
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
-	@RequestMapping(value="/oper/htld/cancelHtldRentFeeNticSingle.do")
+	@RequestMapping(value="/sample/cancelHtldRentFeeNticSingle.do")
     public @ResponseBody Map deleteAssetRentFeeNticSingle(
      	   @ModelAttribute("gamHtldRentFeeMngtVO") GamHtldRentFeeMngtVO gamHtldRentFeeMngtVO,
      	   BindingResult bindingResult)
@@ -941,7 +965,7 @@ public class GamHtldRentFeeMngtController {
  		return map;
      }
 
-    @RequestMapping(value="/oper/htld/printHtldNoticeIssue.do")
+    @RequestMapping(value="/sample/printHtldNoticeIssue.do")
     public @ResponseBody Map printHtldNoticeIssue(@RequestParam Map<String, Object> vo, ModelMap model)
             throws Exception {
 
@@ -982,7 +1006,7 @@ public class GamHtldRentFeeMngtController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value="/oper/htld/printHtldRentFeePayNotice.do")
+    @RequestMapping(value="/sample/printHtldRentFeePayNotice.do")
     String printAssetRentFeePayNotice(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
     	model.addAttribute("searchOpt", approvalOpt);
 
@@ -990,7 +1014,7 @@ public class GamHtldRentFeeMngtController {
     	if(!isAuthenticated) {
     		model.addAttribute("resultCode", 1);
     		model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
-    		return "ygpa/gam/oper/htld/GamHtldPrintNoticeIssue";
+    		return "ygpa/gam/sample/GamHtldPrintNoticeIssue";
     	}
     	
     	List master = gamHtldRentFeeMngtService.selectNticPrintMaster(approvalOpt);
@@ -1001,10 +1025,10 @@ public class GamHtldRentFeeMngtController {
     	model.addAttribute("resultList", master);
     	model.addAttribute("detail", detail);
     	model.addAttribute("resultMsg", "");
-    	return "ygpa/gam/oper/htld/GamHtldPrintNoticeIssue";
+    	return "ygpa/gam/sample/GamHtldPrintNoticeIssue";
     	}
 
-    @RequestMapping(value="/oper/htld/printHtldRentFeeTaxNotice.do")
+    @RequestMapping(value="/sample/printHtldRentFeeTaxNotice.do")
     String printAssetRentFeeTaxNotice(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
     	model.addAttribute("searchOpt", approvalOpt);
 
@@ -1025,10 +1049,10 @@ public class GamHtldRentFeeMngtController {
     		model.addAttribute("resultMsg", "");
     	}
 
-    	return "ygpa/gam/oper/htld/GamPrtfcltyRentPrintTaxNoticeIssue";
+    	return "ygpa/gam/sample/GamPrtfcltyRentPrintTaxNoticeIssue";
     	}
 
-    @RequestMapping(value="/oper/htld/updateHtldRentFeeList.do")
+    @RequestMapping(value="/sample/updateHtldRentFeeList.do")
     public @ResponseBody Map updateAssetRentFeeMngtListDetail(
     		@RequestParam Map<String, Object> nticList)
             throws Exception {
@@ -1090,7 +1114,7 @@ public class GamHtldRentFeeMngtController {
      * @throws Exception the exception
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/htld/selectHtldRentFeeDetailByPk.do", method=RequestMethod.POST)
+    @RequestMapping(value="/sample/selectHtldRentFeeDetailByPk.do", method=RequestMethod.POST)
 	public @ResponseBody Map gamSelectAssetRentFeeMngtListDetail(GamHtldRentFeeMngtVO searchVO) throws Exception {
 
 		int totalCnt, page, firstIndex;
@@ -1130,7 +1154,7 @@ public class GamHtldRentFeeMngtController {
     }
 
 
-	@RequestMapping(value="/oper/htld/gamHtldRentHwpPreview.do")
+	@RequestMapping(value="/sample/gamHtldRentHwpPreview.do")
 	String gamHtldRentHwpPreview(@RequestParam Map<String, Object> approvalOpt, ModelMap model) throws Exception {
 		List varItems = new ArrayList<Map>();
 
@@ -1166,7 +1190,7 @@ public class GamHtldRentFeeMngtController {
 			model.addAttribute("varItems", varItems);
 		}
 
-		return "/ygpa/gam/oper/htld/GamHtldHwpPreview";
+		return "/ygpa/gam/sample/GamHtldHwpPreview";
 
 	}
 

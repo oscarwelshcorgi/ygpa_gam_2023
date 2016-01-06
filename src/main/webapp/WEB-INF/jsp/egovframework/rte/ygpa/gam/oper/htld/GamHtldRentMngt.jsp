@@ -117,7 +117,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
    					{display:'적용단가(월)', name:'usagePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
     				{display:'변경단가(월)', name:'changePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
     				{display:'인상단가(월)', name:'increasePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
-    				{display:'사용면적(㎡)', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.0"},
+    				{display:'사용면적(㎡)', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
                     {display:'평가금액', name:'assessAmt', width:130, sortable:true, align:'right', displayFormat: 'input-number'}
                     ],
         showTableToggleBtn: false,
@@ -141,7 +141,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
                     {display:'평가회차', name:'assessNo', width:80, sortable:true, align:'center', displayFormat:'input'},
                     {display:'평가기간From', name:'dtFrom', width:130, sortable:true, align:'left', displayFormat:'cal'},
                     {display:'평가기간To', name:'dtTo', width:130, sortable:true, align:'left', displayFormat:'cal'},
-   					{display:'사용면적(㎡)', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.0"},
+   					{display:'사용면적(㎡)', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
     				{display:'변경면적(㎡)', name:'changeAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
     				{display:'변동면적(㎡)', name:'increaseAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
     				{display:'적용단가', name:'usagePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
@@ -754,7 +754,6 @@ GamHtldRentMngtModule.prototype.loadDetail = function(mode) {
 	        	module.$('#assetRentDetailList')[0].dgrid.p.preProcess(module, detail);
 	        	module.$('#assetRentDetailList').flexAddData(detail);
 
-	        	//module.onCalc();	//  고지방법에 따른 1회차 사용료 적용
 	        	module.setButtonStatus();
 	        	module.showTermnKndTr();
 	        	module._loadedItem=true;
@@ -1017,13 +1016,13 @@ GamHtldRentMngtModule.prototype.storeRentData = function() {
     		assetRent['_cList'] = JSON.stringify(this.$('#assetRentDetailList').flexGetData());
 
             this.doAction('/oper/htld/insertHtldRent.do', assetRent, function(module, result) {
-                if(result.resultCode == 0){
+                if(result.resultCode == 0) {
                 	module._loadedItem=false;
                 	module._editChanged=false;
                 	module._detailMode="";
                 	module.loadData();
-                    }
-                    alert(result.resultMsg);
+                }
+                alert(result.resultMsg);
            	});
        	}
     }

@@ -72,6 +72,15 @@ public class GamHtldRentFeeMngtServiceImpl extends AbstractServiceImpl implement
         return gamHtldRentFeeMngtDao.selectHtldRentFeeMngtSum(searchVO);
     }
 
+	/**
+	 * 배후단지구역 목록을 조회한다.
+	 * @return list
+	 * @exception Exception
+	 */
+    public List selectHtldRentAreaList() throws Exception {
+        return gamHtldRentFeeMngtDao.selectHtldRentAreaList();
+    }
+    
     /**
 	 * 배후단지임대고지관리정보를 수정한다.
 	 * @param vo GamHtldRentFeeMngtVO

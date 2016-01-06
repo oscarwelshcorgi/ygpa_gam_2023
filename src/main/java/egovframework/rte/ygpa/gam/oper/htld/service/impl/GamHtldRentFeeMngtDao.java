@@ -36,12 +36,7 @@ public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
 	 * @exception Exception
 	 */
     public List selectHtldRentFeeMngtList(GamHtldRentFeeDefaultVO searchVO) throws Exception {
-//    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//    	Date dt = format.parse(searchVO.get)
-
-    	List feeList = list("gamHtldRentFeeMngtDao.selectHtldRentFeeMngtList_D", searchVO);
-
-        return feeList;
+    	return list("gamHtldRentFeeMngtDao.selectHtldRentFeeMngtList_D", searchVO);
     }
 
     /**
@@ -64,6 +59,15 @@ public class GamHtldRentFeeMngtDao extends YGPAAbstractDAO {
 		return (EgovMap) selectByPk("gamHtldRentFeeMngtDao.selectHtldRentFeeMngtSum_S", searchVO);
 	}
 
+	/**
+	 * 배후단지구역 목록을 조회한다.
+	 * @return 배후단지구역 목록
+	 * @exception Exception
+	 */
+    public List selectHtldRentAreaList() throws Exception {
+    	return list("gamHtldRentFeeMngtDao.selectHtldRentAreaList_D", null);
+    }
+	
 	/**
 	 * 배후단지임대관리정보를 수정한다.
 	 * @param vo GamHtldRentFeeMngtVO

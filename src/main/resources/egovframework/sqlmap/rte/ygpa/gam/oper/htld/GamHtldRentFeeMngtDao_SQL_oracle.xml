@@ -237,6 +237,16 @@
 		</isEqual>
    	</select>
 
+	<select id="gamHtldRentFeeMngtDao.selectHtldRentAreaList_D" resultClass="egovMap">
+		SELECT 
+			CODE
+			,CODE_NM 
+		FROM
+			COMTCCMMNDETAILCODE
+    	WHERE 
+    		CODE_ID = 'GAM062'
+	</select>
+	
     <select id="gamHtldRentFeeMngtDao.selectHtldRentFeeMngtList_D_backup" parameterClass="gamHtldRentFeeDefaultVO" resultClass="egovMap">
 		SELECT Z.* FROM (
            SELECT ROWNUM RNUM, A.*
