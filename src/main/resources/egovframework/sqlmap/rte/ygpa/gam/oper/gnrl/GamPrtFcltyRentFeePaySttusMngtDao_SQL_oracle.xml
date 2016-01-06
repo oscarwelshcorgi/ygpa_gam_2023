@@ -118,17 +118,27 @@
 							       AND L.entrpscd = #sEntrpscd#
 							   </isNotEmpty>
 
-						         <isNotEmpty property="nticPdFrom">
-									<![CDATA[
-						         		AND L.NTIC_DT > TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
-						         	]]>
-						         </isNotEmpty>
-
-						         <isNotEmpty property="nticPdTo">
-									<![CDATA[
-							         	AND L.NTIC_DT < TO_DATE(#nticPdTo#, 'YYYY-MM-DD')+1
-						         	]]>
-						         </isNotEmpty>
+								<isEqual property="searchCondition" compareValue="nticPdFrom">
+									<isNotEmpty property="nticPdFrom">
+										<![CDATA[
+											AND L.NTIC_DT > TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
+										]]>
+									</isNotEmpty>
+									<isNotEmpty property="nticPdTo">
+										<![CDATA[
+											AND L.NTIC_DT < TO_DATE(#nticPdTo#, 'YYYY-MM-DD')+1
+										]]>
+									</isNotEmpty>
+								</isEqual>
+								
+								<isEqual property="searchCondition" compareValue="payTmlmt">
+									<isNotEmpty property="nticPdFrom">
+										<![CDATA[
+											AND L.PAY_TMLMT < TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
+											AND L.RCIV_DT IS NULL
+										]]>
+									</isNotEmpty>
+								</isEqual>
 
 							   <isNotEmpty property="sMngYear">
 							       AND L.MNG_YEAR    = #sMngYear#
@@ -188,53 +198,63 @@
              	AND A.MNG_CNT=L.MNG_CNT
 		   AND L.NHT_ISUE_YN='Y'
 
-<isNotEmpty property="sPrtAtCode">
-							       AND L.PRT_AT_CODE = #sPrtAtCode#
-							   </isNotEmpty>
-
-							   <isNotEmpty property="sEntrpscd">
-							       AND L.entrpscd = #sEntrpscd#
-							   </isNotEmpty>
-
-						         <isNotEmpty property="nticPdFrom">
-									<![CDATA[
-						         		AND L.NTIC_DT > TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
-						         	]]>
-						         </isNotEmpty>
-
-						         <isNotEmpty property="nticPdTo">
-									<![CDATA[
-							         	AND L.NTIC_DT < TO_DATE(#nticPdTo#, 'YYYY-MM-DD')+1
-						         	]]>
-						         </isNotEmpty>
-
-							   <isNotEmpty property="sMngYear">
-							       AND L.MNG_YEAR    = #sMngYear#
-							   </isNotEmpty>
-
-							   <isNotEmpty property="sMngNo">
-							       AND L.MNG_NO      = #sMngNo#
-							   </isNotEmpty>
-
-							   <isNotEmpty property="sMngCnt">
-							       AND L.MNG_CNT     = #sMngCnt#
-							   </isNotEmpty>
-
-							   <isNotEmpty property="rcivSe">
-							   	AND L.RCIV_SE = #rcivSe#
-							   </isNotEmpty>
-
-							   <isNotEmpty property="sChrgeKnd">
-							   	AND L.CHRGE_KND = #sChrgeKnd#
-							   </isNotEmpty>
-
-							   <isNotEmpty property="accnutYear">
-							   	AND L.ACCNUT_YEAR = #accnutYear#
-							   </isNotEmpty>
-
-							   <isNotEmpty property="nticno">
-							   	AND L.NTICNO = #nticno#
-							   </isNotEmpty>
+			<isNotEmpty property="sPrtAtCode">
+				AND L.PRT_AT_CODE = #sPrtAtCode#
+			</isNotEmpty>
+			
+			<isNotEmpty property="sEntrpscd">
+				AND L.entrpscd = #sEntrpscd#
+			</isNotEmpty>
+			
+			<isEqual property="searchCondition" compareValue="nticPdFrom">
+				<isNotEmpty property="nticPdFrom">
+					<![CDATA[
+						AND L.NTIC_DT > TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
+					]]>
+				</isNotEmpty>
+				<isNotEmpty property="nticPdTo">
+					<![CDATA[
+						AND L.NTIC_DT < TO_DATE(#nticPdTo#, 'YYYY-MM-DD')+1
+					]]>
+				</isNotEmpty>
+			</isEqual>
+			
+			<isEqual property="searchCondition" compareValue="payTmlmt">
+				<isNotEmpty property="nticPdFrom">
+					<![CDATA[
+						AND L.PAY_TMLMT < TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
+						AND L.RCIV_DT IS NULL
+					]]>
+				</isNotEmpty>
+			</isEqual>
+			
+			<isNotEmpty property="sMngYear">
+			    AND L.MNG_YEAR    = #sMngYear#
+			</isNotEmpty>
+			
+			<isNotEmpty property="sMngNo">
+			    AND L.MNG_NO      = #sMngNo#
+			</isNotEmpty>
+			
+			<isNotEmpty property="sMngCnt">
+			    AND L.MNG_CNT     = #sMngCnt#
+			</isNotEmpty>
+			
+			<isNotEmpty property="rcivSe">
+				AND L.RCIV_SE = #rcivSe#
+			</isNotEmpty>
+			
+			<isNotEmpty property="sChrgeKnd">
+				AND L.CHRGE_KND = #sChrgeKnd#
+			</isNotEmpty>
+			
+			<isNotEmpty property="accnutYear">
+				AND L.ACCNUT_YEAR = #accnutYear#
+			</isNotEmpty>
+			
+			<isNotEmpty property="nticno">
+				AND L.NTICNO = #nticno#
+			</isNotEmpty>
 
     </select>
 
@@ -247,54 +267,65 @@
              	AND A.MNG_YEAR=L.MNG_YEAR
              	AND A.MNG_NO=L.MNG_NO
              	AND A.MNG_CNT=L.MNG_CNT
-							   AND L.NHT_ISUE_YN='Y'
-<isNotEmpty property="sPrtAtCode">
-							       AND L.PRT_AT_CODE = #sPrtAtCode#
-							   </isNotEmpty>
+				AND L.NHT_ISUE_YN='Y'
 
-							   <isNotEmpty property="sEntrpscd">
-							       AND L.entrpscd = #sEntrpscd#
-							   </isNotEmpty>
-
-						         <isNotEmpty property="nticPdFrom">
-									<![CDATA[
-						         		AND L.NTIC_DT > TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
-						         	]]>
-						         </isNotEmpty>
-
-						         <isNotEmpty property="nticPdTo">
-									<![CDATA[
-							         	AND L.NTIC_DT < TO_DATE(#nticPdTo#, 'YYYY-MM-DD')+1
-						         	]]>
-						         </isNotEmpty>
-
-							   <isNotEmpty property="sMngYear">
-							       AND L.MNG_YEAR    = #sMngYear#
-							   </isNotEmpty>
-
-							   <isNotEmpty property="sMngNo">
-							       AND L.MNG_NO      = #sMngNo#
-							   </isNotEmpty>
-
-							   <isNotEmpty property="sMngCnt">
-							       AND L.MNG_CNT     = #sMngCnt#
-							   </isNotEmpty>
-
-							   <isNotEmpty property="rcivSe">
-							   	AND L.RCIV_SE = #rcivSe#
-							   </isNotEmpty>
-
-							   <isNotEmpty property="sChrgeKnd">
-							   	AND L.CHRGE_KND = #sChrgeKnd#
-							   </isNotEmpty>
-
-							   <isNotEmpty property="accnutYear">
-							   	AND L.ACCNUT_YEAR = #accnutYear#
-							   </isNotEmpty>
-
-							   <isNotEmpty property="nticno">
-							   	AND L.NTICNO = #nticno#
-							   </isNotEmpty>
+				<isNotEmpty property="sPrtAtCode">
+					AND L.PRT_AT_CODE = #sPrtAtCode#
+				</isNotEmpty>
+				
+				<isNotEmpty property="sEntrpscd">
+					AND L.entrpscd = #sEntrpscd#
+				</isNotEmpty>
+				
+				<isEqual property="searchCondition" compareValue="nticPdFrom">
+					<isNotEmpty property="nticPdFrom">
+						<![CDATA[
+							AND L.NTIC_DT > TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
+						]]>
+					</isNotEmpty>
+					<isNotEmpty property="nticPdTo">
+						<![CDATA[
+							AND L.NTIC_DT < TO_DATE(#nticPdTo#, 'YYYY-MM-DD')+1
+						]]>
+					</isNotEmpty>
+				</isEqual>
+				
+				<isEqual property="searchCondition" compareValue="payTmlmt">
+					<isNotEmpty property="nticPdFrom">
+						<![CDATA[
+							AND L.PAY_TMLMT < TO_DATE(#nticPdFrom#, 'YYYY-MM-DD')
+							AND L.RCIV_DT IS NULL
+						]]>
+					</isNotEmpty>
+				</isEqual>
+				
+				<isNotEmpty property="sMngYear">
+				    AND L.MNG_YEAR    = #sMngYear#
+				</isNotEmpty>
+				
+				<isNotEmpty property="sMngNo">
+				    AND L.MNG_NO      = #sMngNo#
+				</isNotEmpty>
+				
+				<isNotEmpty property="sMngCnt">
+				    AND L.MNG_CNT     = #sMngCnt#
+				</isNotEmpty>
+				
+				<isNotEmpty property="rcivSe">
+					AND L.RCIV_SE = #rcivSe#
+				</isNotEmpty>
+				
+				<isNotEmpty property="sChrgeKnd">
+					AND L.CHRGE_KND = #sChrgeKnd#
+				</isNotEmpty>
+				
+				<isNotEmpty property="accnutYear">
+					AND L.ACCNUT_YEAR = #accnutYear#
+				</isNotEmpty>
+				
+				<isNotEmpty property="nticno">
+					AND L.NTICNO = #nticno#
+				</isNotEmpty>
 
           GROUP BY L.PRT_AT_CODE, L.MNG_YEAR, L.MNG_NO, L.MNG_CNT, L.NTIC_CNT, L.ENTRPSCD
           ) Z

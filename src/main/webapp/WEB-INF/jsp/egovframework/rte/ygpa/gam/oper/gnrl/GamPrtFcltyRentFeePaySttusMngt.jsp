@@ -152,7 +152,28 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         this.$('#sUsagePdTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
     	*/
     }
-//    console.log('loadCompleted');
+     
+	this.$("#searchCondition").on('change', {module: this}, function(event) {
+		var module = event.data.module;
+		var opt = $(event.target).val();
+		var today = new Date();
+		switch(opt) {
+		case 'payTmlmt':
+			module.$('#rcivSe_select').val('');
+			module.$('#sNticDtFrom').val(EMD.util.getDate(today));
+			module.$('#sNticDtTo').val("");
+			module.$('#hideDt').css('display', 'none');
+			break;
+		case 'nticPdFrom':
+			module.$('#rcivSe_select').val('0');
+			module.$('#sNticDtFrom').val('');
+			module.$('#sNticDtTo').val('');
+			module.$('#hideDt').css('display', 'inline');
+			break;
+		}
+	});
+    
+    console.log('loadCompleted');
 };
 
 /**
@@ -725,8 +746,26 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
                                 <input id="sMngNo" type="text" class="mngNo">
                                 <input id="sMngCnt" type="text" class="mngCnt">
                             </td>
+<!-- 
                             <th>고지일자</th>
-                            <td><input id="sNticDtFrom" data-column-id="nticPdFrom" type="text" class="emdcal"size="8"> ~ <input id="sNticDtTo" data-column-id="nticPdTo" type="text"class="emdcal" size="8"></td>
+                            <td>
+                            	<input id="sNticDtFrom" data-column-id="nticPdFrom" type="text" class="emdcal"size="8">
+                            	 ~ <input id="sNticDtTo" data-column-id="nticPdTo" type="text"class="emdcal" size="8">
+                            </td>
+ -->
+                            <th>
+                            	<select id="searchCondition">
+                            	<option value="nticPdFrom" selected="selected">고지일자</option>
+                            	<option value="payTmlmt">납부기한</option>
+                            	</select>
+                            </th>
+							<td>
+                            	<input id="sNticDtFrom" data-column-id="nticPdFrom" type="text" class="emdcal"size="8">
+                            	<span id="hideDt">
+                            	 ~ <input id="sNticDtTo" data-column-id="nticPdTo" type="text"class="emdcal" size="8">
+                            	</span>
+                            </td>
+
                             <th>요금종류</th>
                             <td><input id="sChrgeKnd" class="ygpaCmmnCd" data-default-prompt="전체" data-code-id="GAM024" /></td>
                         </tr>
