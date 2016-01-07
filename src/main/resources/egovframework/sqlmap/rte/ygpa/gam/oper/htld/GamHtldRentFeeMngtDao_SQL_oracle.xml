@@ -97,6 +97,7 @@
 		  L.REG_USR ,
 		  TO_CHAR(L.REGIST_DT, 'YYYY-MM-DD') REGIST_DT ,
 		  L.UPD_USR ,
+		  L.ASSESS_SE , 
 		  TO_CHAR(L.UPDT_DT, 'YYYY-MM-DD') UPDT_DT ,
 		  A.PRT_AT_CODE ,
 		  A.MNG_YEAR ,
@@ -237,16 +238,6 @@
 		</isEqual>
    	</select>
 
-	<select id="gamHtldRentFeeMngtDao.selectHtldRentAreaList_D" resultClass="egovMap">
-		SELECT 
-			CODE
-			,CODE_NM 
-		FROM
-			COMTCCMMNDETAILCODE
-    	WHERE 
-    		CODE_ID = 'GAM062'
-	</select>
-	
     <select id="gamHtldRentFeeMngtDao.selectHtldRentFeeMngtList_D_backup" parameterClass="gamHtldRentFeeDefaultVO" resultClass="egovMap">
 		SELECT Z.* FROM (
            SELECT ROWNUM RNUM, A.*
@@ -908,20 +899,6 @@
 		      R.AGENT_CODE,
 		      TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM,
 		      TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO,
-		      <![CDATA[
-		      nvl((select assess_amt from htld_rent_assess_f where L.PRT_AT_CODE   = PRT_AT_CODE
-					      AND L.MNG_YEAR      = MNG_YEAR
-					      AND L.MNG_NO        = MNG_NO
-					      AND L.MNG_CNT       = MNG_CNT
-					      AND L.NTIC_PD_FROM > DT_FROM
-    						AND L.NTIC_PD_TO < DT_TO+1), 0) ASSESS_AMT,
-				GAM_GETCODENAME('GAM071', (select ASSESS_SE from htld_rent_assess_f where L.PRT_AT_CODE   = PRT_AT_CODE
-		      AND L.MNG_YEAR      = MNG_YEAR
-		      AND L.MNG_NO        = MNG_NO
-		      AND L.MNG_CNT       = MNG_CNT
-		      AND L.NTIC_PD_FROM > DT_FROM
-							AND L.NTIC_PD_TO < DT_TO+1)) ASSESS_SE_NM,
-							]]>
 		      TO_CHAR(L.NTIC_DT, 'YYYY-MM-DD') NTIC_DT,
 		      L.ARRRG_NO,
 		      (SELECT RPRSNTV_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=L.ENTRPSCD) RPRSNTV_NM,
@@ -2301,4 +2278,15 @@
 			AND MNG_CNT = #mngCnt#
 			AND NTIC_CNT = #nticCnt#
 	</update> 
+
+	<select id="gamHtldRentFeeMngtDao.selectHtldRentAreaList_D" resultClass="egovMap">
+		SELECT 
+			CODE
+			,CODE_NM 
+		FROM
+			COMTCCMMNDETAILCODE
+    	WHERE 
+    		CODE_ID = 'GAM062'
+	</select>
+	
 </sqlMap>
