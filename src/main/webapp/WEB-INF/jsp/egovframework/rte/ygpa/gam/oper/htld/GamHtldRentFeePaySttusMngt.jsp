@@ -121,6 +121,8 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
  	this.setEvents();
  	
  	this.setButtonState();
+ 	
+ 	console.log("load complete");
  };
 
 <%--

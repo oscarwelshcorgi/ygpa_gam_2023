@@ -27,7 +27,7 @@
 --%>
 function GamPopupNticIssueModule() {}
 
-GamPopupNticIssueModule.prototype = new EmdPopupModule(500, 260);
+GamPopupNticIssueModule.prototype = new EmdPopupModule(500, 270);
 
 // 팝업이 호출 되었을때 호출 되는 함수
 GamPopupNticIssueModule.prototype.loadComplete = function() {

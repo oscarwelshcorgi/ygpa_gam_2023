@@ -1172,6 +1172,7 @@
 		AND L.NTIC_CNT   =#nticCnt#
 		AND L.CHRGE_KND  =#chrgeKnd#
 		AND R.PRT_AT_CODE=L.PRT_AT_CODE
+		AND R.FISCAL_YR=L.ACCNUT_YEAR
 		AND R.bill_no   =L.nticno
 		AND R.work_code     =L.chrge_knd
 		AND R.fee_tp    = GAM_GET_FEE_TP(l.chrge_knd)

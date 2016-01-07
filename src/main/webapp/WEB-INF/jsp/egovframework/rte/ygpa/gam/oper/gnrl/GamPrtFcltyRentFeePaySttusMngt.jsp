@@ -28,7 +28,7 @@
  */
 function GamPrtFcltyRentFeePaySttusMngtModule() {}
 
-GamPrtFcltyRentFeePaySttusMngtModule.prototype = new EmdModule(1000, 620);
+GamPrtFcltyRentFeePaySttusMngtModule.prototype = new EmdModule(1040, 620);
 
 // 페이지가 호출 되었을때 호출 되는 함수
 GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
@@ -43,7 +43,7 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
 //					{display:'요금종류', name:'chrgeKnd',width:55, sortable:false,align:'center'},
 					{display:'회계년도', name:'accnutYear',width:68, sortable:false,align:'center'},
 					{display:'고지번호', name:'nticno',width:70, sortable:false,align:'center'},
-					{display:'고지업체', name:'entrpscd',width:60, sortable:false,align:'center'},
+					{display:'고지업체', name:'entrpscd',width:70, sortable:false,align:'center'},
 					{display:'고지업체명', name:'entrpsNm',width:140, sortable:false,align:'left'},
 					{display:'요금종류', name:'chrgeKndNm',width:150, sortable:false,align:'left'},
 					{display:'고지금액', name:'totalNticAmount',width:100, sortable:false,align:'right', displayFormat: 'number'},
@@ -160,12 +160,14 @@ GamPrtFcltyRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
 		switch(opt) {
 		case 'payTmlmt':
 			module.$('#rcivSe_select').val('');
+			module.$('#rcivSe').val('');
 			module.$('#sNticDtFrom').val(EMD.util.getDate(today));
 			module.$('#sNticDtTo').val("");
 			module.$('#hideDt').css('display', 'none');
 			break;
 		case 'nticPdFrom':
 			module.$('#rcivSe_select').val('0');
+			module.$('#rcivSe').val('0');
 			module.$('#sNticDtFrom').val('');
 			module.$('#sNticDtTo').val('');
 			module.$('#hideDt').css('display', 'inline');
@@ -871,8 +873,8 @@ var module_instance = new GamPrtFcltyRentFeePaySttusMngtModule();
 								<th width="50%">연체내역</th>
 								<th style="text-align:right">
 									<button id="btnNticArrrgSingle" data-icon="ui-icon-clock">연체고지</button>
-									<button id="btnNticIssuePrint" data-icon="ui-icon-clock">고지서출력</button>
-									<button id="btnNticIssuePrint2" data-icon="ui-icon-clock">고지서(연체분리)</button>
+									<!-- <button id="btnNticIssuePrint" data-icon="ui-icon-clock">고지서출력</button> -->
+									<!-- <button id="btnNticIssuePrint2" data-icon="ui-icon-clock">고지서(연체분리)</button> -->
 								</th>
 							</tr>
 						</tbody>

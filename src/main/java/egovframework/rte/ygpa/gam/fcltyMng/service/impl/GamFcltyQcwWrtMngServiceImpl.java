@@ -578,7 +578,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 					sb.append("				<CELL BorderFill=\"1\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2131\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"23245\">\n");
 					sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 					if(leftFileSj != null) {
-						sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>" + leftFileSj + "</CHAR></TEXT></P>\n");
+						sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>내 용 : " + leftFileSj + "</CHAR></TEXT></P>\n");
 					} else {
 						sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR/></TEXT></P>\n");
 					}
@@ -587,7 +587,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 					sb.append("				<CELL BorderFill=\"1\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2131\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"23245\">\n");
 					sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
 					if(rightFileSj != null) {
-						sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>" + rightFileSj + "</CHAR></TEXT></P>\n");
+						sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR>내 용 : " + rightFileSj + "</CHAR></TEXT></P>\n");
 					} else {
 						sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"11\"><CHAR/></TEXT></P>\n");
 					}
