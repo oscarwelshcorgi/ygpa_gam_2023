@@ -879,7 +879,7 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 			//실적평가 고지내역이 존재하면
 			if(gamHtldRentMngtDao.selectExistIsueBizAssessFromLevReqestCnt(rentData) > 0) {
 				//실적평가 고지내역이 고지된 상태이면
-				throw processException("fail.rent.insertNtic.msg");
+				throw processException("fail.rent.saveNticBizAssess.msg");
 			} else {
 				//실적평가 고지내역이 고지된 상태가 아니면 실적평가 고지를 업데이트 한다.
 				nticCnt = gamHtldRentMngtDao.selectGetCurrentNticCntByBizAssess(rentData);

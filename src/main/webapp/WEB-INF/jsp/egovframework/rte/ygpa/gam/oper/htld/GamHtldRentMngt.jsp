@@ -114,9 +114,9 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
                     {display:'평가회차', name:'assessNo', width:80, sortable:true, align:'center', displayFormat:'input'},
                     {display:'평가기간시작일', name:'dtFrom', width:130, sortable:true, align:'left', displayFormat:'cal'},
                     {display:'평가기간종료일', name:'dtTo', width:130, sortable:true, align:'left', displayFormat:'cal'},
-   					{display:'적용단가(원)', name:'usagePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
-    				{display:'변경단가(원)', name:'changePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
-    				{display:'인상단가(원)', name:'increasePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
+   					{display:'적용단가(원)', name:'usagePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.0"},
+    				{display:'변경단가(원)', name:'changePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.0"},
+    				{display:'인상단가(원)', name:'increasePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.0"},
     				{display:'사용면적(㎡)', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
                     {display:'평가금액(원)', name:'assessAmt', width:130, sortable:true, align:'right', displayFormat: 'input-number'}
                     ],
@@ -245,6 +245,7 @@ GamHtldRentMngtModule.prototype.onSubmit = function() {
             break;
         case 'btnRentFeeMngt':	 // 임대료 고지관리
         case 'btnRentFeeMngt2':
+        case 'btnRentFeeMngt3':
         	this.loadRentFeeMngt();
 			break;
         case 'btnInsertItemDetail':	//임대상세추가
@@ -1627,6 +1628,7 @@ var module_instance = new GamHtldRentMngtModule();
 	                <button id="btnAppendBizAssess">추가</button>
 	                <button id="btnRemoveBizAssess">삭제</button>
 	                <button id="btnSaveBizAssess">저장</button>
+	                <button id="btnRentFeeMngt2">임대료 고지관리</button>
 	                <button data-role="gridXlsDown" data-flexi-grid="bizAssessGrid" data-xls-name="배후단지실적평가.xls" data-xls-title="배후단지 실적평가">엑셀</button>
                	</div>
             </div>
@@ -1668,7 +1670,7 @@ var module_instance = new GamHtldRentMngtModule();
             <div id="tabs5" class="emdTabPage fillHeight" style="overflow: hidden;">
                 <div class="emdControlPanel">
                 <table id="nticListGrid" style="display:none" class="fillHeight"></table>
-                	<button id="btnRentFeeMngt2">임대료고지 관리</button>
+                	<button id="btnRentFeeMngt3">임대료고지 관리</button>
                 	<button data-role="gridXlsDown" data-flexi-grid="nticListGrid" data-xls-name="배후단지임대료고지내역.xls" data-xls-title="배후단지 임대료 고지 내역">엑셀</button>
               	</div>
             </div>
