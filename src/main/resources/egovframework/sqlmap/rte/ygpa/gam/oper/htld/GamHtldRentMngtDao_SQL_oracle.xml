@@ -1751,8 +1751,8 @@
 	<!-- 실적평가 고지대상기간 가져오기 -->
    <select id="gamHtldRentMngtDao.selectBizAssessNticPd_S" parameterClass="gamHtldAssessVO" resultClass="egovMap">
    		SELECT
-   			TO_DATE(L.NTIC_PD_FROM 'YYYY-MM-DD') NTIC_PD_FROM
-   			, TO_DATE(L.NTIC_PD_TO 'YYYY-MM-DD') NTIC_PD_TO
+   			TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD') NTIC_PD_FROM
+   			, TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD') NTIC_PD_TO
    		FROM
    			LEV_REQEST_F L
    		WHERE
@@ -1843,7 +1843,7 @@
 				#entrpscd#, 
 				(SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=#entrpscd#),
 				TO_DATE(#nticPdFrom#, 'YYYY-MM-DD'), 
-				TO_DATE()#nticPdTo#, 'YYYY-MM-DD'),
+				TO_DATE(#nticPdTo#, 'YYYY-MM-DD'),
 				'', 
 				'', 
 				'', 

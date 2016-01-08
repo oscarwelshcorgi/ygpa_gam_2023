@@ -237,6 +237,14 @@ public interface GamHtldRentMngtService {
 	List selectHtldBizAssessList(GamHtldAssessVO searchVO) throws Exception;
 
 	/**
+	 * 실적평가 고지대상기간 가져오기
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectBizAssessNticPd(GamHtldAssessVO searchVO) throws Exception;
+	
+	/**
 	 * 싪적평가 항목 및 고지내역 저장
 	 * @param createList
 	 * @param updateList

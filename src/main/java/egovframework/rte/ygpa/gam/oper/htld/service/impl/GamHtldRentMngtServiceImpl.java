@@ -839,6 +839,16 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
     	}
 	}
 	
+	/**
+	 * 실적평가 고지대상기간 가져오기
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public EgovMap selectBizAssessNticPd(GamHtldAssessVO searchVO) throws Exception {
+		return gamHtldRentMngtDao.selectBizAssessNticPd(searchVO);
+	}
+	
     /**
 	 * 실적평가를 등록처리한다.
 	 * @param 

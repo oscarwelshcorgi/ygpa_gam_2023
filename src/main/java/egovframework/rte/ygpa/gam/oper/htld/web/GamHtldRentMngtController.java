@@ -677,9 +677,11 @@ public class GamHtldRentMngtController {
 		//배후단지 실적평가 목록
     	Map totalSum = gamHtldRentMngtService.selectHtldBizAssessSum(searchVO);
     	List assessList = gamHtldRentMngtService.selectHtldBizAssessList(searchVO);
-
+    	Map assessPd = gamHtldRentMngtService.selectBizAssessNticPd(searchVO);
+    	
     	map.put("resultCode", 0);	// return ok
     	map.put("totalSum", totalSum);
+    	map.put("assessPd", assessPd);
     	map.put("resultList", assessList);
     	map.put("searchOption", searchVO);
 

@@ -128,6 +128,8 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
             	if(module._bizAssessNo<this.assessNo) module._bizAssessNo=this.assessNo;
             });
             module._deleteBizAssessList=[];
+            module.$('#grBizNticPdFrom').val(data.assessPd.nticPdFrom);
+            module.$('#grBizNticPdTo').val(data.assessPd.nticPdTo);
             return data;
         }
     });
@@ -1087,6 +1089,9 @@ GamHtldRentMngtModule.prototype.loadBizAssessList = function() {
 		alert('선택한 계약이 없습니다.');
 		return;
 	}
+	this.$('#grBizNticPdFrom').val('');
+    this.$('#grBizNticPdTo').val('');
+    this.$('#sumBizAssessAmt').val(0);
 	var opt = {
 	    	prtAtCode: this._rentDetail.prtAtCode,
 	    	mngYear: this._rentDetail.mngYear,
