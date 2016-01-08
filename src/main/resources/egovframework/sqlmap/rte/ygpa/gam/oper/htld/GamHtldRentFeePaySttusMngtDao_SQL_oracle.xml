@@ -347,6 +347,7 @@
 		       , NVL(L.VAT,0) VAT
 		       , NVL(L.NTIC_AMT,0) NTIC_AMT
 		       , L.RM
+		       , L.ASSESS_SE
 		       , L.RCIV_SE
 		       , TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
 		       , L.ARRRG_NO
@@ -1349,6 +1350,7 @@
 		      U.BZ_RGST_ID,
 		      L.VAT,
 		      L.VAT_YN,
+		      L.ASSESS_SE,
 		      GAM_GETCODENAME('GAM016', L.VAT_YN) TAXT_SE_NM,
 		      TO_CHAR(U.DLY_BILL_DT, 'YYYY-MM-DD') BILL_DT,
 		      TO_CHAR(U.DLY_DUE_DT, 'YYYY-MM-DD') DUE_DATE
