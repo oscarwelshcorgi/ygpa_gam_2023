@@ -344,6 +344,7 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 	this.$("#searchCondition").on('change', {module: this}, function(event) {
 		var module=event.data.module;
 		var opt=$(event.target).val();
+		var today = new Date();
 		switch(opt) {
 		case 'usageDt':
 			module._sGrUsagePdFrom=module.$('#sGrUsagePdFrom').val();
@@ -361,7 +362,9 @@ GamAssetRentMngtModule.prototype.loadComplete = function(param) {
 				module.$('#sGrUsagePdFrom').val(module._sGrUsagePdFrom);
 				module._sGrUsagePdFrom=undefined;
 			}
-			event.data.module.$('#hideUsageDt').css('display', 'initial');
+			today.setMonth(today.getMonth()-3);	// 최근 3개월 조회
+			module.$('#sGrUsagePdFrom').val(EMD.util.getDate(today));
+			event.data.module.$('#hideUsageDt').css('display', 'inline');
 			break;
 		}
 	});
