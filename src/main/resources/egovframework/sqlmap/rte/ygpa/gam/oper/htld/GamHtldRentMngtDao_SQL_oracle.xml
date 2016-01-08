@@ -154,6 +154,7 @@
                                   , TO_CHAR(A.TERMN_KND) TERMN_KND
                                   , TO_CHAR(A.TERMN_DT, 'YYYY-MM-DD') TERMN_DT
                                   , A.TERMN_RM
+                                  , A.CHRGE_KND
                                   , GAM_GETCODENAME('GAM043', A.PAY_MTH) AS PAY_MTH_NM
 								  , GAM_GETCODENAME('GAM008', A.NTIC_MTH) AS NTIC_MTH_NM
 								  , GAM_GETCODENAME('GAM016', A.TAXT_SE) AS TAXT_SE_NM
@@ -1231,6 +1232,56 @@
 	where code_id='GAM071'
    </select>
 
+   <select id="gamHtldRentMngtDao.selectHtldBizAssessList_D" parameterClass="gamHtldAssessVO" resultClass="egovMap">
+		SELECT A.*
+		FROM (
+			SELECT ROWNUM RNUM, S.*
+			FROM (
+				SELECT
+					A.PRT_AT_CODE,
+					A.MNG_YEAR,
+					A.MNG_NO,
+					A.MNG_CNT,
+					A.ASSESS_NO,
+					A.ASSESS_NO OLD_ASSESS_NO,
+					A.ASSESS_SE,
+					GAM_GETCODENAME('GAM071', A.ASSESS_SE) ASSESS_SE_NM,
+					A.CHRGE_KND,
+					A.NTIC_CNT,
+					TO_CHAR(A.DT_FROM, 'YYYY-MM-DD') DT_FROM,
+					TO_CHAR(A.DT_TO, 'YYYY-MM-DD') DT_TO,
+					NVL(A.USAGE_PRICE, 0) USAGE_PRICE,
+					NVL(A.CHANGE_PRICE, 0) CHANGE_PRICE,
+					NVL(A.INCREASE_PRICE, 0) INCREASE_PRICE,
+					NVL(A.USAGE_AR, 0) USAGE_AR,
+					NVL(A.CHANGE_AR, 0) CHANGE_AR,
+					NVL(A.INCREASE_AR, 0) INCREASE_AR,
+					NVL(A.ASSESS_AMT, 0) ASSESS_AMT					
+				FROM HTLD_RENT_ASSESS_F A
+				WHERE 1=1
+					AND A.PRT_AT_CODE = #prtAtCode#
+					AND A.MNG_YEAR = #mngYear#
+					AND A.MNG_NO = #mngNo#
+					AND A.MNG_CNT = #mngCnt#
+					AND A.ASSESS_SE = '1'
+				ORDER BY A.ASSESS_NO ASC
+			) S
+		) A
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+    </select>
+
+    <select id="gamHtldRentMngtDao.selectHtldBizAssessSum_S" parameterClass="gamHtldAssessVO" resultClass="egovMap">
+		SELECT
+			COUNT(*) RESULT_COUNT
+		FROM HTLD_RENT_ASSESS_F A
+		WHERE 1=1
+			AND A.PRT_AT_CODE = #prtAtCode#
+			AND A.MNG_YEAR = #mngYear#
+			AND A.MNG_NO = #mngNo#
+			AND A.MNG_CNT = #mngCnt#
+			AND A.ASSESS_SE = '1'
+    </select>
+
    <select id="gamHtldRentMngtDao.selectHtldAssessList_D" parameterClass="gamHtldAssessVO" resultClass="egovMap">
 		SELECT A.*
 		FROM (
@@ -1249,13 +1300,13 @@
 					A.NTIC_CNT,
 					TO_CHAR(A.DT_FROM, 'YYYY-MM-DD') DT_FROM,
 					TO_CHAR(A.DT_TO, 'YYYY-MM-DD') DT_TO,
-					TO_CHAR(NVL(A.USAGE_PRICE, 0), '999,999,999,999') USAGE_PRICE,
-					TO_CHAR(NVL(A.CHANGE_PRICE, 0), '999,999,999,999') CHANGE_PRICE,
-					TO_CHAR(NVL(A.INCREASE_PRICE, 0), '999,999,999,999') INCREASE_PRICE,
-					TO_CHAR(NVL(A.USAGE_AR, 0), '999,999,999.99') USAGE_AR,
-					TO_CHAR(NVL(A.CHANGE_AR, 0), '999,999,999.99') CHANGE_AR,
-					TO_CHAR(NVL(A.INCREASE_AR, 0), '999,999,999.99') INCREASE_AR,
-					TO_CHAR(NVL(A.ASSESS_AMT, 0), '999,999,999,999') ASSESS_AMT					
+					NVL(A.USAGE_PRICE, 0) USAGE_PRICE,
+					NVL(A.CHANGE_PRICE, 0) CHANGE_PRICE,
+					NVL(A.INCREASE_PRICE, 0) INCREASE_PRICE,
+					NVL(A.USAGE_AR, 0) USAGE_AR,
+					NVL(A.CHANGE_AR, 0) CHANGE_AR,
+					NVL(A.INCREASE_AR, 0) INCREASE_AR,
+					NVL(A.ASSESS_AMT, 0) ASSESS_AMT					
 				FROM HTLD_RENT_ASSESS_F A
 				WHERE 1=1
 					AND A.PRT_AT_CODE = #prtAtCode#
@@ -1263,7 +1314,8 @@
 					AND A.MNG_NO = #mngNo#
 					AND A.MNG_CNT = #mngCnt#
 					AND A.ASSESS_SE = #assessSe#
-				ORDER BY A.ASSESS_NO ASC
+				ORDER BY 
+					A.ASSESS_NO ASC
 			) S
 		) A
         <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
@@ -1286,43 +1338,132 @@
 			PRT_AT_CODE,
 			MNG_YEAR,
 			MNG_NO,
-			ASSESS_NO,
+			MNG_CNT,
 			ASSESS_SE,
-			DT_FROM,
-			DT_TO,
+			ASSESS_NO,
+			CHRGE_KND,
+			NTIC_CNT,
+			<isNotEmpty property="dtFrom">
+				DT_FROM,
+			</isNotEmpty>
+			<isNotEmpty property="dtTo">
+				DT_TO,
+			</isNotEmpty>
+			<isNotEmpty property="usagePrice">
+				USAGE_PRICE,
+			</isNotEmpty>
+			<isNotEmpty property="changePrice">
+				CHANGE_PRICE,
+			</isNotEmpty>
+			<isNotEmpty property="increasePrice">
+				INCREASE_PRICE,
+			</isNotEmpty>
+			<isNotEmpty property="usageAr">
+				USAGE_AR,
+			</isNotEmpty>
+			<isNotEmpty property="changeAr">
+				CHANGE_AR,
+			</isNotEmpty>
+			<isNotEmpty property="increaseAr">
+				INCREASE_AR,
+			</isNotEmpty>
+			ASSESS_AMT,
+			REG_USR,
+			REGIST_DT,
+			UPD_USR,
+			UPDT_DT
 	   	)
 	   	VALUES (
 	   		#prtAtCode#,
 			#mngYear#,
 			#mngNo#,
-			#assessNo#,
+			#mngCnt#,
 			#assessSe#,
-			TO_DATE(#dtFrom#, 'YYYY-MM-DD'),
-			TO_DATE(#dtTo#, 'YYYY-MM-DD')
+			#assessNo#,
+			#chrgeKnd#,
+			#nticCnt#,
+			<isNotEmpty property="dtFrom">
+				TO_DATE(#dtFrom#, 'YYYY-MM-DD'),
+			</isNotEmpty>
+			<isNotEmpty property="dtTo">
+				TO_DATE(#dtTo#, 'YYYY-MM-DD'),
+			</isNotEmpty>
+			<isNotEmpty property="usagePrice">
+				TO_NUMBER(REPLACE(#usagePrice#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="changePrice">
+				TO_NUMBER(REPLACE(#changePrice#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="increasePrice">
+				TO_NUMBER(REPLACE(#increasePrice#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="usageAr">
+				TO_NUMBER(REPLACE(#usageAr#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="changeAr">
+				TO_NUMBER(REPLACE(#changeAr#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="increaseAr">
+				TO_NUMBER(REPLACE(#increaseAr#, ',', '')),
+			</isNotEmpty>
+			TO_NUMBER(REPLACE(#assessAmt#, ',', '')),
+			#regUsr#,
+			SYSDATE,
+			#updUsr#,
+			SYSDATE
 	   	)
     </insert>
 
    <update id="gamHtldRentMngtDao.updateHtldAssess_S" parameterClass="gamHtldAssessVO">
 	   	UPDATE HTLD_RENT_ASSESS_F SET
-	   		ASSESS_NO=#assessNo#,
-	   		ASSESS_SE=#assessSe#,
-			DT_FROM=TO_DATE(#dtFrom#, 'YYYY-MM-DD'),
-			DT_TO=TO_DATE(#dtTo#, 'YYYY-MM-DD')
+	   		ASSESS_NO	=	#assessNo#,
+			CHRGE_KND	= 	#chrgeKnd#,
+			NTIC_CNT	=	#nticCnt#,
+			<isNotEmpty property="dtFrom">
+				DT_FROM = TO_DATE(#dtFrom#, 'YYYY-MM-DD'),
+			</isNotEmpty>
+			<isNotEmpty property="dtTo">
+				DT_TO = TO_DATE(#dtTo#, 'YYYY-MM-DD'),
+			</isNotEmpty>
+			<isNotEmpty property="usagePrice">
+				USAGE_PRICE = TO_NUMBER(REPLACE(#usagePrice#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="changePrice">
+				CHANGE_PRICE = TO_NUMBER(REPLACE(#changePrice#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="increasePrice">
+				INCREASE_PRICE = TO_NUMBER(REPLACE(#increasePrice#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="usageAr">
+				USAGE_AR = TO_NUMBER(REPLACE(#usageAr#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="changeAr">
+				CHANGE_AR = TO_NUMBER(REPLACE(#changeAr#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="increaseAr">
+				INCREASE_AR = TO_NUMBER(REPLACE(#increaseAr#, ',', '')),
+			</isNotEmpty>
+			ASSESS_AMT = TO_NUMBER(REPLACE(#assessAmt#, ',', '')),
+			UPD_USR = #updUsr#,
+			UPDT_DT = SYSDATE
 		WHERE
-			PRT_AT_CODE=#prtAtCode#
-			AND MNG_YEAR=#mngYear#
-			AND MNG_NO=#mngNo#
-			AND MNG_CNT=#mngCnt#
-			AND ASSESS_NO=#oldAssessNo#
+			PRT_AT_CODE		=	#prtAtCode#
+			AND MNG_YEAR	=	#mngYear#
+			AND MNG_NO		=	#mngNo#
+			AND MNG_CNT		=	#mngCnt#
+			AND ASSESS_SE		=	#assessSe#
+			AND ASSESS_NO	=	#oldAssessNo#
     </update>
 
    <update id="gamHtldRentMngtDao.deleteHtldAssess_S" parameterClass="gamHtldAssessVO">
 	   	DELETE HTLD_RENT_ASSESS_F
 	   	WHERE
-			PRT_AT_CODE=#prtAtCode#
-			AND MNG_YEAR=#mngYear#
-			AND MNG_NO=#mngNo#
-			AND ASSESS_NO=#oldAssessNo#
+			PRT_AT_CODE		=	#prtAtCode#
+			AND MNG_YEAR	=	#mngYear#
+			AND MNG_NO		=	#mngNo#
+			AND MNG_CNT		=	#mngCnt#
+			AND ASSESS_SE		=	#assessSe#
+			AND ASSESS_NO	=	#oldAssessNo#
     </update>
 
     <update id="gamHtldRentMngtDao.applyHtldAssess_D" parameterClass="gamHtldAssessVO">
@@ -1593,5 +1734,178 @@
 		WHERE RNTFEE<>0
 		]]>
     </insert>
+	
+	<!-- 고지내역테이블에 실적평가가 존재하는지 유무 -->
+    <select id="gamHtldRentMngtDao.selectExistBizAssessFromLevReqestCnt_S" resultClass="int">
+    	SELECT count(*)
+		FROM LEV_REQEST_F
+		WHERE 
+			PRT_AT_CODE = #prtAtCode#
+			AND MNG_YEAR = #mngYear#
+			AND MNG_NO = #mngNo#
+			AND MNG_CNT = #mngCnt#
+			AND CHRGE_KND = #chrgeKnd#
+			AND ASSESS_SE = '1'
+    </select>
 
+	<!-- 실적평가 고지대상기간 가져오기 -->
+   <select id="gamHtldRentMngtDao.selectBizAssessNticPd_S" parameterClass="gamHtldAssessVO" resultClass="egovMap">
+   		SELECT
+   			TO_DATE(L.NTIC_PD_FROM 'YYYY-MM-DD') NTIC_PD_FROM
+   			, TO_DATE(L.NTIC_PD_TO 'YYYY-MM-DD') NTIC_PD_TO
+   		FROM
+   			LEV_REQEST_F L
+   		WHERE
+			PRT_AT_CODE = #prtAtCode#
+			AND MNG_YEAR = #mngYear#
+			AND MNG_NO = #mngNo#
+			AND MNG_CNT = #mngCnt#
+			AND ASSESS_SE = '1'
+    </select>
+
+	<!-- 고지내역테이블에 고지된 실적평가가 존재하는지 유무 -->
+    <select id="gamHtldRentMngtDao.selectExistIsueBizAssessFromLevReqestCnt_S"  resultClass="int">
+    	SELECT count(*)
+		FROM LEV_REQEST_F
+		WHERE 
+			PRT_AT_CODE = #prtAtCode#
+			AND MNG_YEAR = #mngYear#
+			AND MNG_NO = #mngNo#
+			AND MNG_CNT = #mngCnt#
+			AND CHRGE_KND = #chrgeKnd#
+			AND ASSESS_SE = '1'
+			AND NHT_ISUE_YN = 'Y'
+    </select>
+	
+	<!-- 고지내역테이블에 실적평가에 해당하는 내역의 고지횟수를 가져오기 -->
+	<select id="gamHtldRentMngtDao.selectGetCurrentNticCntByBizAssess_S"  resultClass="String">
+		SELECT 
+			LPAD(NVL(NTIC_CNT,0), 2, '0') 
+		FROM LEV_REQEST_F 
+		WHERE PRT_AT_CODE = #prtAtCode# 
+			AND MNG_YEAR = #mngYear# 
+			AND MNG_NO = #mngNo# 
+			AND MNG_CNT = #mngCnt# 
+			AND CHRGE_KND = #chrgeKnd#
+			AND ASSESS_SE = '1'
+	</select>
+
+	<!-- 고지내역테이블에 실적평가에 해당하는 내역의 next 고지횟수를 가져오기 -->
+	<select id="gamHtldRentMngtDao.selectGetNextNticCntByBizAssess_S"  resultClass="String">
+		SELECT 
+			LPAD(NVL(MAX(NTIC_CNT),0)+1, 2, '0') 
+		FROM LEV_REQEST_F 
+		WHERE PRT_AT_CODE = #prtAtCode# 
+			AND MNG_YEAR = #mngYear# 
+			AND MNG_NO = #mngNo# 
+			AND MNG_CNT = #mngCnt# 
+			AND CHRGE_KND = #chrgeKnd#
+	</select>
+	
+	 <!-- 실적평가 고지데이터 등록 -->
+     <insert id="gamHtldRentMngtDao.insertBizAssessBill_S">
+		INSERT INTO LEV_REQEST_F (
+				PRT_AT_CODE, 
+				MNG_YEAR, 
+				MNG_NO, 
+				MNG_CNT, 
+				NTIC_CNT, 
+				CHRGE_KND, 
+				ENTRPSCD, 
+				ENTRPS_NM,
+				NTIC_PD_FROM, 
+				NTIC_PD_TO,
+				PAY_TMLMT, 
+				NTICNO, 
+				NTIC_DT, 
+				RCIV_SE, 
+				NHT_ISUE_YN,
+				FEE, 
+				VAT, 
+				VAT_YN, 
+				NTIC_AMT, 
+				NTIC_MTH, 
+				REG_USR, 
+				REGIST_DT,
+				DEPTCD, 
+				FCLTY_SE, 
+				ASSESS_SE,
+				RM
+		)
+		VALUES
+		(
+				#prtAtCode#, 
+				#mngYear#, 
+				#mngNo#, 
+				#mngCnt#, 
+				#nticCnt#, 
+				#chrgeKnd#, 
+				#entrpscd#, 
+				(SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=#entrpscd#),
+				TO_DATE(#nticPdFrom#, 'YYYY-MM-DD'), 
+				TO_DATE()#nticPdTo#, 'YYYY-MM-DD'),
+				'', 
+				'', 
+				'', 
+				'0', 
+				'N',
+				#fee#, 
+				#vat#, 
+				'2', 
+				#nticAmt#, 
+				'1', 
+				#regUsr#, 
+				SYSDATE, 
+				#deptcd#, 
+				'1',
+				'1',
+				'실적평가 고지'
+		)
+    </insert>
+
+	 <!-- 실적평가 고지데이터 수정 -->
+     <update id="gamHtldRentMngtDao.updateBizAssessBill_S">
+		UPDATE LEV_REQEST_F SET 
+				NTIC_PD_FROM = #nticPdFrom#, 
+				NTIC_PD_TO = #nticPdTo#,
+				FEE = #fee#, 
+				VAT = #vat#, 
+				NTIC_AMT = #nticAmt#, 
+				UPD_USR = #updUsr#, 
+				UPDT_DT = SYSDATE
+		WHERE
+				PRT_AT_CODE = #prtAtCode#
+				AND MNG_YEAR = #mngYear# 
+				AND MNG_NO = #mngNo#
+				AND MNG_CNT = #mngCnt# 
+				AND NTIC_CNT = #nticCnt#
+				AND CHRGE_KND = #chrgeKnd#
+    </update>
+	
+	<!-- 실적평가 데이터 수 얻기 -->
+    <select id="gamHtldRentMngtDao.selectBizHtldAssessCnt_S"  resultClass="int">
+		SELECT
+			COUNT(*)
+		FROM 
+			HTLD_RENT_ASSESS_F
+		WHERE 
+			PRT_AT_CODE = #prtAtCode#
+			AND MNG_YEAR = #mngYear#
+			AND MNG_NO = #mngNo#
+			AND MNG_CNT = #mngCnt#
+			AND ASSESS_SE = '1'
+    </select>
+
+	 <!-- 실적평가 고지데이터 삭제 -->
+     <delete id="gamHtldRentMngtDao.deleteBizAssessBill_S">
+		DELETE FROM LEV_REQEST_F 
+		WHERE
+				PRT_AT_CODE = #prtAtCode#
+				AND MNG_YEAR = #mngYear# 
+				AND MNG_NO = #mngNo#
+				AND MNG_CNT = #mngCnt# 
+				AND NTIC_CNT = #nticCnt#
+				AND CHRGE_KND = #chrgeKnd#
+    </delete>
+	
 </sqlMap>

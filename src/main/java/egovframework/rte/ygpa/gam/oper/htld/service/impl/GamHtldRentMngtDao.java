@@ -326,6 +326,14 @@ public class GamHtldRentMngtDao extends YGPAAbstractDAO {
 		return list("gamHtldRentMngtDao.selectChargeKndList_D", vo);
 	}
 
+    public List selectHtldBizAssessList(GamHtldAssessVO searchVO) throws Exception {
+        return list("gamHtldRentMngtDao.selectHtldBizAssessList_D", searchVO);
+    }
+
+	public EgovMap selectHtldBizAssessSum(GamHtldAssessVO searchVO) throws Exception {
+		return (EgovMap) selectByPk("gamHtldRentMngtDao.selectHtldBizAssessSum_S", searchVO);
+	}
+	
     public List selectHtldAssessList(GamHtldAssessVO searchVO) throws Exception {
         return list("gamHtldRentMngtDao.selectHtldAssessList_D", searchVO);
     }
@@ -534,4 +542,94 @@ public class GamHtldRentMngtDao extends YGPAAbstractDAO {
 		update("gamHtldRentMngtDao.applyHtldAssess_D", vo);
 	}
 
+	/**
+	 * 실적평가 고지대상기간 가져오기
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public EgovMap selectBizAssessNticPd(GamHtldAssessVO searchVO) throws Exception {
+		return (EgovMap) selectByPk("gamHtldRentMngtDao.selectBizAssessNticPd_S", searchVO);
+	}
+	
+	/**
+	 * 고지내역테이블에 실적평가가 존재하는지 유무
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public int selectExistBizAssessFromLevReqestCnt(Map<String, String> vo) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamHtldRentMngtDao.selectExistBizAssessFromLevReqestCnt_S", vo);
+	}
+	
+	
+	/**
+	 * 고지내역테이블에 고지된 실적평가가 존재하는지 유무
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public int selectExistIsueBizAssessFromLevReqestCnt(Map<String, String> vo) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamHtldRentMngtDao.selectExistIsueBizAssessFromLevReqestCnt_S", vo);
+	}
+
+	/**
+	 * 고지내역테이블에 실적평가에 해당하는 내역 고지횟수를 가져오기
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public String selectGetCurrentNticCntByBizAssess(Map<String, String> vo) throws Exception {
+		return (String)getSqlMapClientTemplate().queryForObject("gamHtldRentMngtDao.selectGetCurrentNticCntByBizAssess_S", vo);
+	}
+
+	/**
+	 * 고지내역테이블에 실적평가에 해당하는 내역의 next 고지횟수를 가져오기
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public String selectGetNextNticCntByBizAssess(Map<String, String> vo) throws Exception {
+		return (String)getSqlMapClientTemplate().queryForObject("gamHtldRentMngtDao.selectGetNextNticCntByBizAssess_S", vo);
+	}
+	
+	/**
+	 * 실적평가 고지데이터 등록
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public void insertBizAssessBill(Map<String, String> vo) throws Exception {
+		insert("gamHtldRentMngtDao.insertBizAssessBill_S", vo);
+	}
+
+	/**
+	 * 실적평가 고지데이터 수정
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public void updateBizAssessBill(Map<String, String> vo) throws Exception {
+		insert("gamHtldRentMngtDao.updateBizAssessBill_S", vo);
+	}
+
+	/**
+	 * 실적평가 데이터 수 얻기
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public int selectBizHtldAssessCnt(Map<String, String> vo) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamHtldRentMngtDao.selectBizHtldAssessCnt_S", vo);
+	}
+	
+	/**
+	 * 실적평가 고지데이터 삭제
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public void deleteBizAssessBill(Map<String, String> vo) throws Exception {
+		delete("gamHtldRentMngtDao.deleteBizAssessBill_S", vo);
+	}	
 }

@@ -1,11 +1,8 @@
 package egovframework.rte.ygpa.gam.oper.htld.service;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import egovframework.com.cmm.ComDefaultVO;
-import egovframework.rte.ygpa.erp.cmm.service.ErpCmmnCdDefaultVO;
 
 /**
  * @Class Name : GamHtldAssessVO.java

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.ComDefaultVO;
+import egovframework.com.cmm.LoginVO;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ygpa.gam.oper.htld.service.GamHtldAssessVO;
@@ -734,6 +735,29 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
         return gamHtldRentMngtDao.selectHtldRentMngtCofixInfoMax(searchVO);
     }
 
+
+    /**
+	 * 실적평가 목록을 가져온다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 배후단지임대목록
+	 * @exception Exception
+	 */
+	@Override
+	public List selectHtldBizAssessList(GamHtldAssessVO searchVO) throws Exception {
+        return gamHtldRentMngtDao.selectHtldBizAssessList(searchVO);
+	}
+
+    /**
+	 * 실적평가 합계을 가져온다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 배후단지임대목록
+	 * @exception Exception
+	 */
+	@Override
+	public EgovMap selectHtldBizAssessSum(GamHtldAssessVO searchVO) throws Exception {
+        return gamHtldRentMngtDao.selectHtldBizAssessSum(searchVO);
+	}
+    
     /* (non-Javadoc)
 	 * @see egovframework.rte.ygpa.gam.oper.gnrl.service.GamPrtFcltyRentMngtService#selectChargeKndList()
 	 */
@@ -814,30 +838,82 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 	    	}
     	}
 	}
-
-	/* (non-Javadoc)
-	 * @see egovframework.rte.ygpa.gam.oper.htld.service.GamHtldRentMngtService#updateHtldAssessList(java.util.List, java.util.List, java.util.List)
+	
+    /**
+	 * 실적평가를 등록처리한다.
+	 * @param 
+	 * @return
+	 * @exception Exception
 	 */
 	@Override
-	public void updateHtldAssessList(List<GamHtldAssessVO> createList,
+	public void updateBizHtldAssessList(List<GamHtldAssessVO> createList,
 			List<GamHtldAssessVO> updateList,
-			List<GamHtldAssessVO> deleteList) throws Exception {
-		int i;
-
-//		String updtId=rentVo.getUpdUsr();
-		for(i=0; i<deleteList.size(); i++) {
-			GamHtldAssessVO d= deleteList.get(i);
-			gamHtldRentMngtDao.deleteHtldAssess(d);
+			List<GamHtldAssessVO> deleteList, 
+			Map<String, String> rentData,
+			Map<String, String> nticData,
+			LoginVO loginVo) throws Exception {
+		
+		String nticCnt = null; //고지횟수
+		
+    	rentData.putAll(nticData);
+    	rentData.put("regUsr", loginVo.getId());
+    	rentData.put("updUsr", loginVo.getId());
+		
+    	BigDecimal fee = new BigDecimal(rentData.get("fee"));
+		BigDecimal vat = fee.divide(new BigDecimal(10), -1, RoundingMode.CEILING);
+		BigDecimal nticAmount = fee.add(vat);
+		rentData.put("vat", vat.toString());
+		rentData.put("nticAmt", nticAmount.toString());
+    	
+		if(gamHtldRentMngtDao.selectExistBizAssessFromLevReqestCnt(rentData) > 0) {
+			//실적평가 고지내역이 존재하면
+			if(gamHtldRentMngtDao.selectExistIsueBizAssessFromLevReqestCnt(rentData) > 0) {
+				//실적평가 고지내역이 고지된 상태이면
+				throw processException("fail.rent.insertNtic.msg");
+			} else {
+				//실적평가 고지내역이 고지된 상태가 아니면 실적평가 고지를 업데이트 한다.
+				nticCnt = gamHtldRentMngtDao.selectGetCurrentNticCntByBizAssess(rentData);
+				rentData.put("nticCnt", nticCnt);
+				gamHtldRentMngtDao.updateBizAssessBill(rentData);
+			}
+		} else {
+			//실적평가 고지내역이 존재하지 않는다면 실적평가 고지를 생성한다.
+			nticCnt = gamHtldRentMngtDao.selectGetNextNticCntByBizAssess(rentData);
+			rentData.put("nticCnt", nticCnt);
+			gamHtldRentMngtDao.insertBizAssessBill(rentData);;
 		}
-		for(i=0; i<updateList.size(); i++) {
-			GamHtldAssessVO d= updateList.get(i);
-//			d.setUpdUsr(updtId);
-			gamHtldRentMngtDao.updateHtldAssess(d);
+		
+		// 삭제할 실적평가 데이터 삭제
+		if(deleteList != null) {
+			for(int i=0; i<deleteList.size(); i++) {
+				GamHtldAssessVO d= deleteList.get(i);
+				gamHtldRentMngtDao.deleteHtldAssess(d);
+			}
 		}
-		for(i=0; i<createList.size(); i++) {
-			GamHtldAssessVO d= createList.get(i);
-//			d.setRegUsr(updtId);
-			gamHtldRentMngtDao.insertHtldAssess(d);
+		
+		// 수정할 실적평가 데이터 수정
+		if(updateList != null) {
+			for(int i=0; i<updateList.size(); i++) {
+				GamHtldAssessVO d= updateList.get(i);
+				d.setNticCnt(nticCnt);
+				d.setUpdUsr(loginVo.getId());
+				gamHtldRentMngtDao.updateHtldAssess(d);
+			}
+		}
+		
+		// 삽입할 실적평가 데이터 삽입
+		if(createList != null) { 
+			for(int i=0; i<createList.size(); i++) {
+				GamHtldAssessVO d= createList.get(i);
+				d.setNticCnt(nticCnt);
+				d.setRegUsr(loginVo.getId());
+				gamHtldRentMngtDao.insertHtldAssess(d);
+			}
+		}
+		
+		// 실적평가 데이터가 없을 경우 실적평가 고지내역을 삭제한다.
+		if(gamHtldRentMngtDao.selectBizHtldAssessCnt(rentData) == 0) {
+			gamHtldRentMngtDao.deleteBizAssessBill(rentData);
 		}
 	}
 

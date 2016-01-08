@@ -645,6 +645,7 @@ public class GamHtldRentMngtController {
     	map.put("resultList", assessSeList);
     	return map;
 	}
+
 	/**
 	 * 실적평가 목록을 조회 한다.
 	 * @param searchVO
@@ -673,12 +674,9 @@ public class GamHtldRentMngtController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		//배후단지 평가 목록
-    	Map totalSum = gamHtldRentMngtService.selectHtldAssessSum(searchVO);
-    	List assessList = gamHtldRentMngtService.selectHtldAssessList(searchVO);
-
-//    	paginationInfo.setTotalRecordCount(totalCnt);
-//        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
+		//배후단지 실적평가 목록
+    	Map totalSum = gamHtldRentMngtService.selectHtldBizAssessSum(searchVO);
+    	List assessList = gamHtldRentMngtService.selectHtldBizAssessList(searchVO);
 
     	map.put("resultCode", 0);	// return ok
     	map.put("totalSum", totalSum);
@@ -743,7 +741,7 @@ public class GamHtldRentMngtController {
     public @ResponseBody Map updateHtldAssessList(
     		@RequestParam Map<String, Object> assessList)
            throws Exception {
-
+    	
     	Map map = new HashMap();
         String resultMsg = "";
         int resultCode = 1;
@@ -759,6 +757,11 @@ public class GamHtldRentMngtController {
     	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
     	List<GamHtldAssessVO> createList=null, updateList=null, deleteList=null;
+    	Map<String, String> rentData = null, nticData = null;
+
+    	rentData = mapper.readValue((String)assessList.get("_rentData"), new TypeReference<HashMap<String,String>>(){});
+    	nticData = mapper.readValue((String)assessList.get("_nticData"), new TypeReference<HashMap<String,String>>(){});
+ 	
     	if(assessList.containsKey("_cList"))
 	    	createList = mapper.readValue((String)assessList.get("_cList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
 	    			GamHtldAssessVO.class));
@@ -768,39 +771,19 @@ public class GamHtldRentMngtController {
     	if(assessList.containsKey("_dList"))
 	    	deleteList = mapper.readValue((String)assessList.get("_dList"), TypeFactory.defaultInstance().constructCollectionType(List.class,
 	    			GamHtldAssessVO.class));
-
+    	    	
     	try {
     		if(createList!=null || updateList!=null || deleteList!=null) {
-    			GamHtldAssessVO modifyVo=null;
-    			if(createList!=null && createList.size()!=0) {
-    				modifyVo=createList.get(0);
-    			}
-    			if(updateList!=null && updateList.size()!=0) {
-    				modifyVo=updateList.get(0);
-    			}
-    			if(deleteList!=null && deleteList.size()!=0) {
-    				modifyVo=deleteList.get(0);
-    			}
-        		gamHtldRentMngtService.updateHtldAssessList(createList, updateList, deleteList);
-        		/**
-        		 * 평가 금액 정보를 반영해서 사용료를 생성한다.
-        		 */
-        		if(modifyVo!=null) {
-//            		gamHtldRentMngtService.applyHtldAssessList(modifyVo);
-        		}
+        		gamHtldRentMngtService.updateBizHtldAssessList(createList, updateList, deleteList, rentData, nticData, loginVo);
     		}
+    		
+        	map.put("resultCode", 0);
+        	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
     	}
     	catch(Exception e) {
-        	map.put("resultCode", -1);
+        	map.put("resultCode", 1);
         	map.put("resultMsg", e.getMessage());
-        	return map;
     	}
-
-        resultCode = 0; // return ok
-        resultMsg  = egovMessageSource.getMessage("success.common.update");
-
-    	map.put("resultCode", resultCode);
-    	map.put("resultMsg", resultMsg);
 
 		return map;
     }

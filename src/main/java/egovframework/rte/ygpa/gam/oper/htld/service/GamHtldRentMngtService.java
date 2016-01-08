@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.joda.time.LocalDate;
 
+import egovframework.com.cmm.LoginVO;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 /**
@@ -171,16 +172,7 @@ public interface GamHtldRentMngtService {
      */
     List selectHtldAssessList(GamHtldAssessVO searchVO) throws Exception;
 
-	/**
-	 * 평가 항목 저장
-	 * @param rentVo
-	 * @param createList
-	 * @param updateList
-	 * @param deleteList
-	 * @throws Exception
-	 */
-	void updateHtldAssessList(List<GamHtldAssessVO> createList,  List<GamHtldAssessVO> updateList,  List<GamHtldAssessVO> deleteList) throws Exception;
-
+	
     /**
      * @param searchVO
      * @return
@@ -227,4 +219,32 @@ public interface GamHtldRentMngtService {
 	 * @param modifyVo
 	 */
 	void applyHtldAssessList(GamHtldAssessVO modifyVo) throws Exception;
+
+	/**
+	 * 실적평가 합계를 가져온다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	EgovMap selectHtldBizAssessSum(GamHtldAssessVO searchVO) throws Exception;
+
+	/**
+	 * 실적평가 목록을 가져온다.
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	List selectHtldBizAssessList(GamHtldAssessVO searchVO) throws Exception;
+
+	/**
+	 * 싪적평가 항목 및 고지내역 저장
+	 * @param createList
+	 * @param updateList
+	 * @param deleteList
+	 * @param rentData
+	 * @param nticData
+	 * @param loginVo
+	 * @throws Exception
+	 */
+	void updateBizHtldAssessList(List<GamHtldAssessVO> createList, List<GamHtldAssessVO> updateList, List<GamHtldAssessVO> deleteList, Map<String, String> rentData, Map<String, String> nticData, LoginVO loginVo) throws Exception;
 }

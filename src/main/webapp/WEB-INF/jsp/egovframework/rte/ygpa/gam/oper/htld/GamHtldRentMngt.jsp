@@ -108,26 +108,26 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
     // 실적평가목록
     this.$("#bizAssessGrid").flexigrid({
         module: this,
-        url: '/oper/htld/selectHtldAssessList.do',
+        url: '/oper/htld/selectHtldBizAssessList.do',
         dataType: 'json',
         colModel : [
                     {display:'평가회차', name:'assessNo', width:80, sortable:true, align:'center', displayFormat:'input'},
                     {display:'평가기간시작일', name:'dtFrom', width:130, sortable:true, align:'left', displayFormat:'cal'},
                     {display:'평가기간종료일', name:'dtTo', width:130, sortable:true, align:'left', displayFormat:'cal'},
-   					{display:'적용단가(월)', name:'usagePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
-    				{display:'변경단가(월)', name:'changePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
-    				{display:'인상단가(월)', name:'increasePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
+   					{display:'적용단가(원)', name:'usagePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
+    				{display:'변경단가(원)', name:'changePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
+    				{display:'인상단가(원)', name:'increasePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
     				{display:'사용면적(㎡)', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
-                    {display:'평가금액', name:'assessAmt', width:130, sortable:true, align:'right', displayFormat: 'input-number'}
+                    {display:'평가금액(원)', name:'assessAmt', width:130, sortable:true, align:'right', displayFormat: 'input-number'}
                     ],
         showTableToggleBtn: false,
         height: '380',
         preProcess: function(module,data) {
-            module._assessNo=module._assessNo||0;
+            module._bizAssessNo=module._bizAssessNo||0;
             $.each(data.resultList, function() {
-            	if(module._assessNo<this.assessNo) module._assessNo=this.assessNo;
+            	if(module._bizAssessNo<this.assessNo) module._bizAssessNo=this.assessNo;
             });
-            module._deleteAssessList=[];
+            module._deleteBizAssessList=[];
             return data;
         }
     });
@@ -144,15 +144,15 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
    					{display:'사용면적(㎡)', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
     				{display:'변경면적(㎡)', name:'changeAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
     				{display:'변동면적(㎡)', name:'increaseAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
-    				{display:'적용단가', name:'usagePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
-                    {display:'평가금액', name:'assessAmt', width:130, sortable:true, align:'right', displayFormat: 'input-number'}
+    				{display:'적용단가(원)', name:'usagePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
+                    {display:'평가금액(원)', name:'assessAmt', width:130, sortable:true, align:'right', displayFormat: 'input-number'}
                     ],
         showTableToggleBtn: false,
         height: '300',
         preProcess: function(module,data) {
-            module._assessNo=module._assessNo||0;
+            module._bizAssessNo=module._bizAssessNo||0;
             $.each(data.resultList, function() {
-            	if(module._assessNo<this.assessNo) module._assessNo=this.assessNo;
+            	if(module._bizAssessNo<this.assessNo) module._bizAssessNo=this.assessNo;
             });
             module._deleteAssessList=[];
             return data;
@@ -267,13 +267,13 @@ GamHtldRentMngtModule.prototype.onSubmit = function() {
         case 'btnSaveComment':	//코멘트저장
         	this.saveComment();
             break;
-        case 'btnAppendBizAssess':
+        case 'btnAppendBizAssess': //실적평가 추가
         	this.appendBizAssess();
         	break;
-        case 'btnSaveBizAssess':
+        case 'btnSaveBizAssess': //실적평가 저장
         	this.saveBizAssess();
         	break;
-        case 'btnRemoveBizAssess':
+        case 'btnRemoveBizAssess': //실적평가 삭제
         	this.removeBizAssess();
         	break;
     }
@@ -418,8 +418,14 @@ GamHtldRentMngtModule.prototype.setEvents = function() {
     	module.onCalcGrAr();
     });
     
+    // 실적평가목록 로드가 완료될 때
+    this.$("#bizAssessGrid").on('onLoadDataComplete', function(event, module, data, grid, param) {
+        module.onCalcBizAssessAmtTot();
+    });
+
     // 실적평가목록에 셀 편집이 완료될 때
     this.$("#bizAssessGrid").on('onCellEdited', function(event, module, row, rid, cid) {
+    	if(row._updtId!="I") row._updtId="U";
         module.onCalcBizAssessListCellEdited(row, rid, cid);
     });
     
@@ -1096,8 +1102,8 @@ GamHtldRentMngtModule.prototype.loadBizAssessList = function() {
 	실적평가 등록 추가
 --%>
 GamHtldRentMngtModule.prototype.appendBizAssess = function() {
-	this._assessNo=this._assessNo || 0;
-	this._assessNo++;
+	this._bizAssessNo=this._bizAssessNo || 0;
+	this._bizAssessNo++;
 
 	this.$('#bizAssessGrid').flexAddRow({
 		_updtId:'I',
@@ -1105,8 +1111,9 @@ GamHtldRentMngtModule.prototype.appendBizAssess = function() {
     	mngYear: this._rentDetail.mngYear,
     	mngNo: this._rentDetail.mngNo,
     	mngCnt: this._rentDetail.mngCnt,
+    	chrgeKnd: this._rentDetail.chrgeKnd, 
 		assessSe:'1',
-		assessNo:this._assessNo,
+		assessNo:this._bizAssessNo,
 		dtFrom:'',
 		dtTo:'',
 		usagePrice:0,
@@ -1129,7 +1136,7 @@ GamHtldRentMngtModule.prototype.removeBizAssess = function() {
 	for(var i=rowId.length-1; i>=0; i--) {
 	    var row=this.$('#bizAssessGrid').flexGetRow(rowId[i]);
 	    if(row._updtId==undefined || row._updtId!='I') {
-	    	this._deleteAssessList[this._deleteAssessList.length]=row;
+	    	this._deleteBizAssessList[this._deleteBizAssessList.length]=row;
 	    }
 	    this.$('#bizAssessGrid').flexRemoveRow(rowId[i]);
 	}
@@ -1141,9 +1148,23 @@ GamHtldRentMngtModule.prototype.removeBizAssess = function() {
 --%>
 GamHtldRentMngtModule.prototype.saveBizAssess = function() {
 	var assessList={};
+		
+	if(!EMD.util.isDate(this.$('#grBizNticPdFrom').val())) {
+		alert('고지대상기간을 입력하지 않았거나 날짜형식에 맞지 않습니다');
+		return;
+	}
+	if(!EMD.util.isDate(this.$('#grBizNticPdTo').val())) {
+		alert('고지대상기간을 입력하지 않았거나 날짜형식에 맞지 않습니다');
+		return;
+	}
+	
+	var nticData = { nticPdFrom : this.$('#grBizNticPdFrom').val(), nticPdTo : this.$('#grBizNticPdTo').val(), fee : this.$('#sumBizAssessAmt').val() };
+	
 	assessList['_cList'] = JSON.stringify(this.$('#bizAssessGrid').selectFilterData([{col: '_updtId', filter: 'I'}]));
 	assessList['_uList'] = JSON.stringify(this.$('#bizAssessGrid').selectFilterData([{col: '_updtId', filter: 'U'}]));
-	assessList['_dList'] = JSON.stringify(this._deleteAssessList);
+	assessList['_dList'] = JSON.stringify(this._deleteBizAssessList);
+	assessList['_rentData'] = JSON.stringify(this._rentDetail);
+	assessList['_nticData'] = JSON.stringify(nticData);
 
 	this.doAction('/oper/htld/updateHtldAssessList.do', assessList, function(module, result) {
         if(result.resultCode == 0){
@@ -1245,6 +1266,7 @@ GamHtldRentMngtModule.prototype.onCalcBizAssessAmtTot = function() {
 	for(var i=0; i<rows.length; i++) {
 		result += this.getNumber(rows[i].assessAmt);
 	}
+	result = (result > 0) ? Math.floor(result*0.1) * 10 : 0; //1원단위는 절사한다.
 	this.$('#sumBizAssessAmt').val(result);
 };
 
@@ -1592,7 +1614,7 @@ var module_instance = new GamHtldRentMngtModule();
                         		평가합계금액
                         	</th>
                             <td width="40%" style="text-align: left;">
-                            	<input type="text" size="20" id="sumBizAssessAmt" class="ygpaNumber"/>
+                            	<input type="text" size="20" id="sumBizAssessAmt" class="ygpaNumber"/>원
                             	<!-- <span data-column-id="sumBizAssessAmt" class="ygpaNumber"></span> -->
                            	</td>
                         </tr>
