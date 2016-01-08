@@ -47,6 +47,7 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
         colModel : [
 				{display:'상태', name:'state',width:30, sortable:false,align:'center'},
                 {display:'구역', name:'rentArea',width:82, sortable:false,align:'center'},
+                {display:'구분', name:'assessSeNm',width:50, sortable:false,align:'center'},                
 				{display:'고지횟수', name:'nticCnt',width:50, sortable:false,align:'center'},
 				{display:'입주기업', name:'entrpsNm',width:140, sortable:false,align:'left'},
 				{display:'고지대상기간', name:'nticPdDate',width:160, sortable:false,align:'center'},
@@ -275,6 +276,13 @@ GamHtldRentFeeMngtModule.prototype.makeRowData = function(item) {
 	item.nhtPrintYnNm = (item.nhtPrintYn == 'Y') ? '출력': '';
 	item.nticPdDate = item.nticPdFrom + '~' + item.nticPdTo;
 	
+	item.assessSeNm = (item.assessSe == '1') ? '실적': ((item.assessSe == '2') ? '면적' : '일반');
+	
+	if(item.nticMth!='4') { //분기납이 아닐 경우 이자율은 0
+		item.intrRate = 0;
+		item.intrAmnt = 0;
+	}	
+	
 	if((item.intrRate != void(0)) && (item.intrRate != 0)) {
 		item.intrAmnt = this.getIntrAmount(item.fee, item.intrRate, item.nticMth, item.nticPdFrom, item.nticPdTo, item.grUsagePdFrom, item.grUsagePdTo);
 	}
@@ -451,9 +459,9 @@ GamHtldRentFeeMngtModule.prototype.getIntrAmount = function(fee, intrRate, nticM
 		case '1' : //일괄
 		case '6' : //연납
 		case '5' : //월납
-			break;
 		case '2' : //반기납
 		case '3' : //3분납
+			break;
 		case '4' : //분기납
 			if(nticPdTo.getYear() < grUsagePdTo.getYear()) { 
 				//고지대상기간종료년도와 총사용(계약)기간종료년도보다 작으면 그 해 내내 분납이 지속되는 것으로 간주.

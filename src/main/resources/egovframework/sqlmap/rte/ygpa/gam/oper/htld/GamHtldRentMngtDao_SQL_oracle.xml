@@ -1829,8 +1829,7 @@
 				REGIST_DT,
 				DEPTCD, 
 				FCLTY_SE, 
-				ASSESS_SE,
-				RM
+				ASSESS_SE
 		)
 		VALUES
 		(
@@ -1858,8 +1857,7 @@
 				SYSDATE, 
 				#deptcd#, 
 				'1',
-				'1',
-				'실적평가 고지'
+				'1'
 		)
     </insert>
 
