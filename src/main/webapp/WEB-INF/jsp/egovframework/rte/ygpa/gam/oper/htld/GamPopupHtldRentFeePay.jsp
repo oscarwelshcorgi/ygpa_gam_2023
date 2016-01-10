@@ -137,7 +137,7 @@ var popup_instance = new GamPopupNticIssueModule();
                         </td>
                         <th style="width:100px; text-align: center;">수납일자</th>
                         <td style="text-align:center;">
-                            <input id="rcivDt" class="emdcal" value="<c:out value="${feePayMaster.rcivDt }" />" size="10"/>
+                            <input id="rcivDt" class="emdcal" value="<c:out value="${feePayMaster.rcivDt }" />" size="11"/>
                         </td>
                     </tr>
                     <tr>
