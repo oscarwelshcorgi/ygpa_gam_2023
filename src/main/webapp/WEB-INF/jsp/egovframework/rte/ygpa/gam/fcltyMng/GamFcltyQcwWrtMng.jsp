@@ -71,6 +71,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 					{display:"점검종료일자",	name:"qcEndDt",				width:90,		sortable:false,		align:"center"},
 					{display:"점검진단기관명",	name:"qcInspInsttNm",		width:150,		sortable:false,		align:"left"},
 					{display:"책임기술자명",	name:"responEngineerNm",	width:150,		sortable:false,		align:"left"},
+					{display:"작성일자",	name:"wrtDt",	width:80,		sortable:true,		align:"center"},
 			],
 		height: 'auto',
 		preProcess : function(module,data) {
@@ -1634,12 +1635,12 @@ GamFcltyQcwWrtMngModule.prototype.downloadSelectedSafetyQcResult = function() {
 		alert('다운로드할 항목을 선택 하십시요');
 		return;
 	}
-	
+
 	var url = '/fcltyMng/downloadSelectedSafetyQcResult.do';
 	var param = {};
 	param['downList'] = JSON.stringify(downList);
 	param['filename'] = '안전점검결과리스트.hwp';
-	
+
 	this.doAction('/fcltyMng/selectFcltyQcMngReportListPictureCount.do', param, function(module, result) {
 		if(result.result != '0') {
 			$.fileDownload(EMD.context_root+url, {data:param, httpMethod:"POST"});
@@ -1707,7 +1708,7 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 									, '/popup/showQcMngResultItemPopup.do'
 									, {}
 									, {
-										'fcltsJobSe' : this.$('#fcltsJobSe').val() 
+										'fcltsJobSe' : this.$('#fcltsJobSe').val()
 										, 'fcltsJobSeNm' : this.$('#fcltsJobSe').find('option:selected').text()
 										, 'fcltsMngGroupNm' : this.$('#fcltsMngGroupNm').val()
 										, 'qcResultList' : this._qcResultList
@@ -1715,11 +1716,11 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 									}
 								);
 			break;
-		
+
 		case 'QcItemMng' :
 			EMD.util.create_window('gamQcItemCdMng', '점검 항목 관리', '/code/gamQcItemCdMng.do', null, null);
 			break;
-			
+
 		case 'popupDetailFcltsMngGroup':
 			this.doExecuteDialog(
 									'selectDetailFcltsMngGroup'
@@ -1745,17 +1746,17 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 				this.setSelectStatusAllAtchFile(true);
 			}
 			break;
-		
+
 		// 선택데이터 안전점검 한글문서 다운로드
 		case 'btnSelectedSafetyQcResultHwp':
 			this.downloadSelectedSafetyQcResult();
 			break;
-		
+
 		// 안전점검 한글문서 다운로드
 		case 'btnSafetyQcResultHwp':
 			this.downloadSafetyQcResult();
 			break;
-			
+
 		case 'btnAllUnSelect' :
 			if (this._detailDisplay == 'fclts') {
 				this.allUnSelectQcObj();
@@ -2037,7 +2038,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 							<button id="btnAllSelect">선택</button>
 							<button id="btnAllUnSelect">해제</button>
 							&nbsp;　　　&nbsp;
-							<!-- 2015.10.27 김종민 수정 
+							<!-- 2015.10.27 김종민 수정
 							<button id="btnFcltsList">대상시설물 목록</button>
 							<button id="btnFileList">첨부파일 목록</button>
 							-->

@@ -71,6 +71,7 @@ GamFcltyQcwWrtMngModule.prototype.loadComplete = function(params) {
 					{display:"점검종료일자",	name:"qcEndDt",				width:90,		sortable:false,		align:"center"},
 					{display:"점검진단기관명",	name:"qcInspInsttNm",		width:150,		sortable:false,		align:"left"},
 					{display:"책임기술자명",	name:"responEngineerNm",	width:150,		sortable:false,		align:"left"},
+					{display:"작성일자",	name:"wrtDt",	width:90,		sortable:false,		align:"center"},
 			],
 		height: 'auto',
 		preProcess : function(module,data) {
