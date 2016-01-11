@@ -50,6 +50,7 @@
 							       , NVL(L.NTIC_AMT,0) NTIC_AMT
 							       , L.RM
 							       , L.RCIV_SE
+							       , L.ASSESS_SE
 							       , GAM_GETCODENAME('GAM025', L.RCIV_SE) RCIV_SE_NM
 							       , TO_CHAR(L.RCIV_DT, 'YYYY-MM-DD') RCIV_DT
 							       , L.ARRRG_NO

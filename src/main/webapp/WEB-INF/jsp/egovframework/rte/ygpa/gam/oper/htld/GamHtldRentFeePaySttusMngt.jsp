@@ -44,6 +44,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         url: '/oper/htld/gamSelectHtldRentFeePaySttusMngtList.do',
         dataType: 'json',
         colModel : [
+    				{display:'구분', name:'assessSeNm',width:50, sortable:false,align:'center'},
     				{display:'고지횟수', name:'nticCnt',width:50, sortable:false,align:'center'},
     				{display:'고지업체명', name:'entrpsNm',width:130, sortable:false,align:'left'},
     				{display:'요금종류명', name:'chrgeKndNm',width:150, sortable:false,align:'left'},
@@ -63,6 +64,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         	module.makeFormValues('#summaryForm', data);
         	module.makeDivValues('#htldRentFeePaySttusMngtListSum', data);
         	$.each(data.resultList, function() {
+        		this.assessSeNm = (this.assessSe == '1') ? '실적': ((this.assessSe == '2') ? '면적' : '일반');
         		this.nticPdPeriod = this.nticPdFrom+" ~ "+this.nticPdTo;
         	});
             return data;
@@ -113,7 +115,7 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
         	this.loadData();
     	}
     } else {
-        this.$('#sNticDtFrom').val(EMD.util.getDate());
+        this.$('#sNticDtFrom').val(EMD.util.getDate(EMD.util.addMonths(-1)));
         this.$('#sNticDtTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
     	this.loadData();
     }
@@ -121,8 +123,6 @@ GamHtldRentFeePaySttusMngtModule.prototype.loadComplete = function(params) {
  	this.setEvents();
  	
  	this.setButtonState();
- 	
- 	console.log("load complete");
  };
 
 <%--

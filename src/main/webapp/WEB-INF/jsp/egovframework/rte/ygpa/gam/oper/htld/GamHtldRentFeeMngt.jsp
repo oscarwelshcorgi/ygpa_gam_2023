@@ -83,12 +83,12 @@ GamHtldRentFeeMngtModule.prototype.loadComplete = function(params) {
         	this.$('#sMngYear').val(params.nticVo.mngYear);
         	this.$('#sMngNo').val(params.nticVo.mngNo);
         	this.$('#sMngCnt').val(params.nticVo.mngCnt);
-    	    this.$('#nticPdFrom').val(EMD.util.getDate());
+    	    this.$('#nticPdFrom').val(EMD.util.getDate(EMD.util.addMonths(-1)));
     	    this.$('#nticPdTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
         	this.loadData();
     	}
     } else {
-	    this.$('#nticPdFrom').val(EMD.util.getDate());
+	    this.$('#nticPdFrom').val(EMD.util.getDate(EMD.util.addMonths(-1)));
 	    this.$('#nticPdTo').val(EMD.util.getDate(EMD.util.addMonths(1)));	// 현재 일자부터 1개월 이후 까지 조회 기본 값으로 입력 한다.
     	this.loadData();
 	}
