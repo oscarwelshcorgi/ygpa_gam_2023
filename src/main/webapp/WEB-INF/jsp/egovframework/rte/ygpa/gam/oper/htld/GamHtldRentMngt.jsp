@@ -1173,10 +1173,8 @@ GamHtldRentMngtModule.prototype.saveBizAssess = function() {
 	assessList['_nticData'] = JSON.stringify(nticData);
 
 	this.doAction('/oper/htld/updateHtldAssessList.do', assessList, function(module, result) {
-        if(result.resultCode == 0){
-        	module.loadBizAssessList();
-        	module._editChanged=false;
-        }
+        module.loadBizAssessList();
+        module._editChanged=false;
         alert(result.resultMsg);
     });
 };
