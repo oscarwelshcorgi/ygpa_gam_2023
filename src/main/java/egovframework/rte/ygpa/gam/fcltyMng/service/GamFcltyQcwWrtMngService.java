@@ -214,4 +214,12 @@ public interface GamFcltyQcwWrtMngService {
 	 * @throws Exception
 	 */
 	int selectQcMngAtchPictureFileListTotCnt(List<HashMap<String,String>> reportList) throws Exception;
+	
+	/**
+	 * 선택된 시설물점검표 리스트 HML 문자열 반환
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	String selectSelectedReportListHWPML(List<HashMap<String,String>> reportList) throws Exception;
 }

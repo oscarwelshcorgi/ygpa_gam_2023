@@ -3599,4 +3599,737 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 			return sb.toString();
 		}
  	}
+
+	/**
+	 * 선택된 시설물점검표 리스트 한글 문서 다운로드 - 김종민 추가 작업 2016.01.12
+	 * @param vo
+	 * @return list
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public String selectSelectedReportListHWPML(List<HashMap<String,String>> reportList) throws Exception {
+		StringBuilder result = new StringBuilder();
+		
+		List<QcMngResultInfo> qcMngResultInfoList = new ArrayList<QcMngResultInfo>();
+		Map<String, Integer> fileIndexInfo = new HashMap<String, Integer>();
+		String fcltsJobSe = null;
+		
+		//리포트 정보 생성
+		for(int i=0; i<reportList.size(); i++) {
+			EgovMap mngGroupInfo = null, chargerInfo1 = null, chargerInfo2 = null;
+			List<EgovMap> qcResultItemList = null;
+			// 점검내역 조회
+			EgovMap qcDetailData = gamFcltyQcwWrtMngDao.selectHwpQcMngDtlsDetail(reportList.get(i));
+			if(qcDetailData != null) {
+				fcltsJobSe = (String)qcDetailData.get("fcltsJobSe");
+				// 점검 결과 항목 리스트 조회
+				if(fcltsJobSe.equals("M")) {
+					String mechFcltsSe = (String)qcDetailData.get("fcltsJobSe");
+					String mechCdStartChar = (mechFcltsSe.equals("1")) ? "M02" : "M01";
+					qcDetailData.put("mechCdStartChar", mechCdStartChar);
+					qcResultItemList = (List<EgovMap>) gamFcltyQcwWrtMngDao.selectHwpMechQcMngResultItemList(qcDetailData);
+				} else {
+					qcResultItemList = (List<EgovMap>) gamFcltyQcwWrtMngDao.selectHwpQcMngResultItemList(qcDetailData);
+				}
+				
+				// 토목일 경우 시설물 그룹 정보 조회
+				if(fcltsJobSe.equals("C")) {
+					mngGroupInfo = gamFcltyQcwWrtMngDao.selectHwpFcltsMngGroupInfo(qcDetailData);
+				}
+
+				// 작성자를 가져와서 ,로 나누어서 시설물관리자 정보를 가져온다.
+				String wrtUsr = (String) qcDetailData.get("wrtUsr");
+				if(wrtUsr != null) wrtUsr = wrtUsr.replace(" ", "");				
+				if((wrtUsr != null) && (wrtUsr.length() > 0)) {
+					String wrtUsers[] = wrtUsr.split(",");
+					int index = 0;
+					for(String wrtUser : wrtUsers) {
+						if(index < 2) {
+							Map<String, String> chargerNm = new HashMap<String, String>();
+							chargerNm.put("chargerNm", wrtUser);
+							chargerNm.put("fcltsJobSe", fcltsJobSe);
+							EgovMap chargerInfo = gamFcltyQcwWrtMngDao.selectChargerInfo(chargerNm);
+							if(chargerInfo != null) {
+								String fileName = (String) chargerInfo.get("signFileNmPhysicl");
+						    	if((fileName != null) && (fileName.length() > 0)) {
+						    		fileName = EgovProperties.getProperty("prtfclty.fileStorePath") + fileName;
+						        	File file = new File(fileName);
+						        	if(file.exists()) {
+						        		chargerInfo.put("fileExists", new Boolean(true));
+						        		fileIndexInfo.put((String) chargerInfo.get("signFileNmPhysicl"), 0);
+						        	} else {
+						        		chargerInfo.put("fileExists", new Boolean(false));
+						        	}
+						    	} else {
+						    		chargerInfo.put("fileExists", new Boolean(false));
+						    	}
+							} else {
+								chargerInfo = new EgovMap();
+								chargerInfo.put("chargerNm", wrtUser);
+								chargerInfo.put("fileExists", new Boolean(false));
+							}
+							if(index == 0) chargerInfo1 = chargerInfo;
+							else chargerInfo2 = chargerInfo;
+						}
+						index++;
+					}
+				}
+				qcMngResultInfoList.add(new QcMngResultInfo(qcDetailData, qcResultItemList, mngGroupInfo, chargerInfo1, chargerInfo2));
+			}
+		}
+		
+		BaseHwpReportInterface report = null;
+		if(fcltsJobSe.equals("C")) {
+			report = new CivilListHwpReport(qcMngResultInfoList, fileIndexInfo);
+		}
+		return report.getHwpReport();
+	}
+	
+	/** 시설물 점검표 정보 클래스 */
+	class QcMngResultInfo {
+		private EgovMap qcDetailData = null;  //점검 데이터
+		private List<EgovMap> qcResultItemList = null; //점검 항목 목록
+		private EgovMap mngGroupInfo = null;  //시설물 그룹 관리 정보(토목일 때만 사용)
+		private Map<String, Object> chargerInfo1 = null; //검사자 정보1
+		private Map<String, Object> chargerInfo2 = null; //검사자 정보2
+		
+		public QcMngResultInfo(EgovMap qcDetailData, List<EgovMap> qcResultItemList, EgovMap mngGroupInfo, Map<String, Object> chargerInfo1, Map<String, Object> chargerInfo2) {
+			this.qcDetailData = qcDetailData;
+			this.qcResultItemList = qcResultItemList;
+			this.mngGroupInfo = mngGroupInfo;
+			this.chargerInfo1 = chargerInfo1;
+			this.chargerInfo2 = chargerInfo2;
+		}
+		public void setQcDetailData(EgovMap value) { this.qcDetailData = value; } 
+		public EgovMap getQcDetailData() { return this.qcDetailData; }
+		public void setQcResultItemList(List<EgovMap> value) { this.qcResultItemList = value; }
+		public List<EgovMap> getQcResultItemList() { return this.qcResultItemList; }
+		public void setMngGroupInfo(EgovMap value) { this.mngGroupInfo = value; } 
+		public EgovMap getMngGroupInfo() { return this.mngGroupInfo; }
+		public void setChargerInfo1(Map<String, Object> value) { this.chargerInfo1 = value; }
+		public Map<String, Object> getChargerInfo1() { return this.chargerInfo1; }
+		public void setChargerInfo2(Map<String, Object> value) { this.chargerInfo2 = value; }
+		public Map<String, Object> getChargerInfo2() { return this.chargerInfo2; }		
+	}
+
+	/** 시설물 점검표 HML처리 INNER SUPPER CLASS */
+	class BaseHwpReport {
+		private Map<String, Integer> fileIndexInfo;
+		
+		public BaseHwpReport(Map<String, Integer> fileIndexInfo) {
+			this.fileIndexInfo = fileIndexInfo;
+		}
+				
+		// 결과항목코드로 점검결과기호 얻기
+		protected String getResultItemSymbol(List<EgovMap> qcResultItemList, String itemCd) {
+			String result = "";
+			if(qcResultItemList != null) {
+				for(EgovMap qcResultItem : qcResultItemList) {
+					if(itemCd.equals(qcResultItem.get("qcItemCd"))){
+						if(qcResultItem.get("inspResultChk") != null) {
+							String value = (String) qcResultItem.get("inspResultChk");
+							if(value.equals("N")) {
+								result = "○";
+							} else if(value.equals("W")) {
+								result = "△";
+							} else if(value.equals("X")) {
+								result = "×";
+							} else {
+								result = "";
+							}
+						}
+						break;
+					};
+				}
+			}
+			return result;
+		}
+		
+		// 결과항목코드로 점검결과내용 얻기(토목일 경우에만 사용)
+		protected String getResultItemContent(List<EgovMap> qcResultItemList, String itemCd) {
+			String result = "";
+			if(qcResultItemList != null) {
+				for(EgovMap qcResultItem : qcResultItemList) {
+					if(itemCd.equals(qcResultItem.get("qcItemCd"))){
+						result = (qcResultItem.get("inspResultCn") != null) ? (String) qcResultItem.get("inspResultCn") : "";
+						break;
+					};
+				}
+			}
+			return result;
+		}
+		
+		// 점검결과내용이 있는지 없는지 체크(토목일 경우에만 사용)
+		protected boolean isValidResultItemContent(List<EgovMap> qcResultItemList, String itemCd) {
+			String value = getResultItemContent(qcResultItemList, itemCd).replace(" ", "");
+			return !value.equals("");
+		}
+		
+		// 토목 하위항목 데이터유무를 체크하여 전체 rowCount 구하기
+		protected int getCivilRowCount(QcMngResultInfo resultInfo) {
+			int result = 5;
+			if(isValidResultItemContent(resultInfo.getQcResultItemList(), "C01010000") || isValidResultItemContent(resultInfo.getQcResultItemList(), "C01020000") 
+					|| isValidResultItemContent(resultInfo.getQcResultItemList(), "C01030000") || isValidResultItemContent(resultInfo.getQcResultItemList(), "C01040000") ){
+				result++;
+			}
+			if(isValidResultItemContent(resultInfo.getQcResultItemList(), "C02010000") || isValidResultItemContent(resultInfo.getQcResultItemList(), "C02020000") 
+					|| isValidResultItemContent(resultInfo.getQcResultItemList(), "C02030000") || isValidResultItemContent(resultInfo.getQcResultItemList(), "C02040000") 
+					|| isValidResultItemContent(resultInfo.getQcResultItemList(), "C02050000") || isValidResultItemContent(resultInfo.getQcResultItemList(), "C02060000") ){
+				result++;
+			}
+			if(isValidResultItemContent(resultInfo.getQcResultItemList(), "C03010000") || isValidResultItemContent(resultInfo.getQcResultItemList(), "C03020000") 
+					|| isValidResultItemContent(resultInfo.getQcResultItemList(), "C03030000") || isValidResultItemContent(resultInfo.getQcResultItemList(), "C03040000") 
+					|| isValidResultItemContent(resultInfo.getQcResultItemList(), "C03050000") ){
+				result++;
+			}
+			if(isValidResultItemContent(resultInfo.getQcResultItemList(), "C04010000") || isValidResultItemContent(resultInfo.getQcResultItemList(), "C04020000") ){
+				result++;
+			}
+			if(isValidResultItemContent(resultInfo.getQcResultItemList(), "C05010000")){
+				result++;
+			}
+			return result;
+		}
+
+		// 파일명에 대한 index id 얻기
+		protected int getBinId(String fileName) {
+			int result = 0;
+			Iterator<String> it = fileIndexInfo.keySet().iterator();
+			while(it.hasNext()) {
+				String key = it.next();
+				if(key.equals(fileName)) {
+					result = fileIndexInfo.get(key);
+					break;
+				}
+			}
+			return result;
+		}
+		
+		// HEAD에 들어갈 파일 정보 엘리먼트 구성
+		protected StringBuilder getBinItemListElement() {
+			StringBuilder result = new StringBuilder();
+			StringBuilder buffer = new StringBuilder();
+			int count = 0;
+			
+			Iterator<String> it = fileIndexInfo.keySet().iterator();
+			while(it.hasNext()) {
+				count++;
+				String fileName = it.next();
+				String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()).toUpperCase();
+				buffer.append("<BINITEM BinData=\"" + count + "\" Format=\"" + fileExt + "\" Type=\"Embedding\"/>\n");
+				fileIndexInfo.put(fileName, count);
+			}
+			
+			if(count > 0) {
+				result.append("<BINDATALIST Count=\"" + count + "\">\n" + buffer + "</BINDATALIST>\n");
+			} else {
+				result.append("");
+			}
+			return result;
+		}
+		
+		// TAIL에 들어갈 파일 내용 앨리먼트 구성
+		protected StringBuilder getBinDataListElement() throws Exception {
+			StringBuilder result = new StringBuilder();
+			StringBuilder buffer = new StringBuilder();
+			int count = 0;
+
+			Iterator<String> it = fileIndexInfo.keySet().iterator();
+			while(it.hasNext()) {
+				count++;
+				String fileName = it.next();
+				int index = fileIndexInfo.get(fileName);
+;				String fullFileName = EgovProperties.getProperty("prtfclty.fileStorePath") + fileName;
+				String encBase64 = fileToBase64(fullFileName);
+				buffer.append("<BINDATA Encoding=\"Base64\" Id=\"" + index + "\" Size=\"" + encBase64.length() + "\">"  + encBase64 +  "</BINDATA>\n");
+			}
+			
+			if(count > 0) {
+				result.append("<BINDATASTORAGE>\n" + buffer + "</BINDATASTORAGE>\n");
+			} else {
+				result.append("");
+			}
+			return result;
+		}
+		
+		//파일을  BASE64엔코딩 문자열로 변환
+		protected String fileToBase64(String fileName) throws Exception {
+			FileInputStream fis = new FileInputStream(fileName);
+			long fileSize = fis.getChannel().size();
+			byte[] fileData = new byte[(int) fileSize];
+			fis.read(fileData);
+			fis.close();
+			return new String(Base64.encodeBase64(fileData));
+		}
+	}
+	
+	/** 시설물 점검표 인터페이스 선언 */
+	interface BaseHwpReportInterface {
+		public String getHwpReport() throws Exception; 
+	}
+	/** 토목 시설물 점검표 HML처리 INNER CLASS */
+	class CivilListHwpReport extends BaseHwpReport implements BaseHwpReportInterface {
+		private List<QcMngResultInfo> qcDataList;
+		private String docDate = null;
+		
+		public CivilListHwpReport(List<QcMngResultInfo> qcDataList, Map<String, Integer> fileIndexInfo) {
+			super(fileIndexInfo);
+			this.qcDataList = qcDataList;
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 MM일 dd일 HH시 mm분 ss초", Locale.KOREA);
+			docDate = formatter.format(new Date());
+		}
+		
+		public String getHwpReport() throws Exception {
+			StringBuilder result = new StringBuilder();
+
+			result.append(getHeadElement());
+			
+			result.append("<BODY><SECTION Id=\"0\">\n");
+			for(int i=0; i<qcDataList.size(); i++) {
+				result.append(getBodyElement(i));
+			}
+			result.append("</SECTION></BODY>\n");
+
+			result.append(getTailElement());
+			return result.toString();
+		}
+		
+		//GET HML HEAD ELEMENT
+		protected StringBuilder getHeadElement() {
+			StringBuilder sb = new StringBuilder();
+			
+			sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n");
+			sb.append("<HWPML Style=\"embed\" SubVersion=\"7.0.0.0\" Version=\"2.7\">\n");
+			sb.append("<HEAD SecCnt=\"1\">\n");
+			sb.append("	<DOCSUMMARY><AUTHOR>YGPA GIS Assets Management System</AUTHOR><DATE>" + docDate + "</DATE></DOCSUMMARY>\n");
+			sb.append("	<DOCSETTING><BEGINNUMBER Endnote=\"1\" Equation=\"1\" Footnote=\"1\" Page=\"1\" Picture=\"1\" Table=\"1\"/><CARETPOS List=\"31\" Para=\"0\" Pos=\"5\"/></DOCSETTING>\n");
+			sb.append("	<MAPPINGTABLE>\n");
+			sb.append(getBinItemListElement());
+			sb.append("		<FACENAMELIST><FONTFACE Count=\"5\" Lang=\"Hangul\"><FONT Id=\"0\" Name=\"굴림\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"0\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"1\" Name=\"바탕\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"0\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"2\" Name=\"휴먼옛체\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"4\" StrokeVariation=\"1\" Weight=\"5\" XHeight=\"1\"/></FONT><FONT Id=\"3\" Name=\"휴먼명조\" Type=\"hft\"><TYPEINFO ArmStyle=\"0\" Contrast=\"0\" FamilyType=\"1\" Letterform=\"0\" Midline=\"0\" Proportion=\"0\" StrokeVariation=\"0\" Weight=\"0\" XHeight=\"0\"/></FONT><FONT Id=\"4\" Name=\"한양신명조\" Type=\"hft\"><TYPEINFO ArmStyle=\"0\" Contrast=\"0\" FamilyType=\"1\" Letterform=\"0\" Midline=\"0\" Proportion=\"0\" StrokeVariation=\"0\" Weight=\"0\" XHeight=\"0\"/></FONT></FONTFACE><FONTFACE Count=\"5\" Lang=\"Latin\"><FONT Id=\"0\" Name=\"굴림\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"0\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"1\" Name=\"바탕\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"0\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"2\" Name=\"한양신명조\" Type=\"hft\"><TYPEINFO ArmStyle=\"0\" Contrast=\"0\" FamilyType=\"1\" Letterform=\"0\" Midline=\"0\" Proportion=\"0\" StrokeVariation=\"0\" Weight=\"0\" XHeight=\"0\"/></FONT><FONT Id=\"3\" Name=\"한양궁서\" Type=\"hft\"><TYPEINFO ArmStyle=\"0\" Contrast=\"0\" FamilyType=\"4\" Letterform=\"0\" Midline=\"0\" Proportion=\"0\" StrokeVariation=\"0\" Weight=\"0\" XHeight=\"0\"/></FONT><FONT Id=\"4\" Name=\"HCI Poppy\" Type=\"hft\"><TYPEINFO ArmStyle=\"0\" Contrast=\"0\" FamilyType=\"1\" Letterform=\"0\" Midline=\"0\" Proportion=\"0\" StrokeVariation=\"0\" Weight=\"0\" XHeight=\"0\"/></FONT></FONTFACE><FONTFACE Count=\"3\" Lang=\"Hanja\"><FONT Id=\"0\" Name=\"굴림\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"0\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"1\" Name=\"바탕\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"0\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"2\" Name=\"한양신명조\" Type=\"hft\"><TYPEINFO ArmStyle=\"0\" Contrast=\"0\" FamilyType=\"1\" Letterform=\"0\" Midline=\"0\" Proportion=\"0\" StrokeVariation=\"0\" Weight=\"0\" XHeight=\"0\"/></FONT></FONTFACE><FONTFACE Count=\"3\" Lang=\"Japanese\"><FONT Id=\"0\" Name=\"굴림\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"0\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"1\" Name=\"바탕\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"0\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"2\" Name=\"한양신명조\" Type=\"hft\"><TYPEINFO ArmStyle=\"0\" Contrast=\"0\" FamilyType=\"1\" Letterform=\"0\" Midline=\"0\" Proportion=\"0\" StrokeVariation=\"0\" Weight=\"0\" XHeight=\"0\"/></FONT></FONTFACE><FONTFACE Count=\"3\" Lang=\"Other\"><FONT Id=\"0\" Name=\"굴림\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"0\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"1\" Name=\"바탕\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"0\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"2\" Name=\"한양신명조\" Type=\"hft\"><TYPEINFO ArmStyle=\"0\" Contrast=\"0\" FamilyType=\"1\" Letterform=\"0\" Midline=\"0\" Proportion=\"0\" StrokeVariation=\"0\" Weight=\"0\" XHeight=\"0\"/></FONT></FONTFACE><FONTFACE Count=\"3\" Lang=\"Symbol\"><FONT Id=\"0\" Name=\"굴림\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"0\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"1\" Name=\"바탕\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"0\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"2\" Name=\"한양신명조\" Type=\"hft\"><TYPEINFO ArmStyle=\"0\" Contrast=\"0\" FamilyType=\"1\" Letterform=\"0\" Midline=\"0\" Proportion=\"0\" StrokeVariation=\"0\" Weight=\"0\" XHeight=\"0\"/></FONT></FONTFACE><FONTFACE Count=\"3\" Lang=\"User\"><FONT Id=\"0\" Name=\"굴림\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"0\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"1\" Name=\"바탕\" Type=\"ttf\"><TYPEINFO ArmStyle=\"1\" Contrast=\"0\" FamilyType=\"2\" Letterform=\"1\" Midline=\"1\" Proportion=\"0\" StrokeVariation=\"1\" Weight=\"6\" XHeight=\"1\"/></FONT><FONT Id=\"2\" Name=\"명조\" Type=\"hft\"><TYPEINFO ArmStyle=\"0\" Contrast=\"0\" FamilyType=\"1\" Letterform=\"0\" Midline=\"0\" Proportion=\"0\" StrokeVariation=\"0\" Weight=\"0\" XHeight=\"0\"/></FONT></FONTFACE></FACENAMELIST>\n");
+			sb.append("		<BORDERFILLLIST Count=\"4\"><BORDERFILL BackSlash=\"0\" BreakCellSeparateLine=\"0\" CenterLine=\"0\" CounterBackSlash=\"0\" CounterSlash=\"0\" CrookedSlash=\"0\" Id=\"1\" Shadow=\"false\" Slash=\"0\" ThreeD=\"false\"><LEFTBORDER Type=\"Solid\" Width=\"0.12mm\"/><RIGHTBORDER Type=\"Solid\" Width=\"0.12mm\"/><TOPBORDER Type=\"Solid\" Width=\"0.12mm\"/><BOTTOMBORDER Type=\"Solid\" Width=\"0.12mm\"/></BORDERFILL><BORDERFILL BackSlash=\"0\" BreakCellSeparateLine=\"0\" CenterLine=\"0\" CounterBackSlash=\"0\" CounterSlash=\"0\" CrookedSlash=\"0\" Id=\"2\" Shadow=\"false\" Slash=\"0\" ThreeD=\"false\"><LEFTBORDER Type=\"Solid\" Width=\"0.12mm\"/><RIGHTBORDER Type=\"Solid\" Width=\"0.12mm\"/><TOPBORDER Type=\"Solid\" Width=\"0.12mm\"/><BOTTOMBORDER Type=\"Solid\" Width=\"0.12mm\"/><DIAGONAL Type=\"Solid\" Width=\"0.12mm\"/></BORDERFILL><BORDERFILL BackSlash=\"0\" BreakCellSeparateLine=\"0\" CenterLine=\"0\" CounterBackSlash=\"0\" CounterSlash=\"0\" CrookedSlash=\"0\" Id=\"3\" Shadow=\"false\" Slash=\"0\" ThreeD=\"false\"><LEFTBORDER Type=\"Solid\" Width=\"0.12mm\"/><RIGHTBORDER Type=\"Solid\" Width=\"0.12mm\"/><TOPBORDER Type=\"Solid\" Width=\"0.12mm\"/><BOTTOMBORDER Type=\"Solid\" Width=\"0.12mm\"/><DIAGONAL Type=\"Solid\" Width=\"0.12mm\"/><FILLBRUSH><WINDOWBRUSH Alpha=\"0\" FaceColor=\"15066597\" HatchColor=\"0\"/></FILLBRUSH></BORDERFILL><BORDERFILL BackSlash=\"0\" BreakCellSeparateLine=\"0\" CenterLine=\"0\" CounterBackSlash=\"0\" CounterSlash=\"0\" CrookedSlash=\"0\" Id=\"4\" Shadow=\"false\" Slash=\"0\" ThreeD=\"false\"><LEFTBORDER Type=\"None\" Width=\"0.1mm\"/><RIGHTBORDER Type=\"None\" Width=\"0.1mm\"/><TOPBORDER Type=\"None\" Width=\"0.1mm\"/><BOTTOMBORDER Type=\"None\" Width=\"0.1mm\"/><DIAGONAL Type=\"Solid\" Width=\"0.1mm\"/><FILLBRUSH><WINDOWBRUSH Alpha=\"0\" FaceColor=\"4294967295\" HatchColor=\"0\"/></FILLBRUSH></BORDERFILL></BORDERFILLLIST>\n");
+			sb.append("		<CHARSHAPELIST Count=\"12\"><CHARSHAPE BorderFillId=\"0\" Height=\"1000\" Id=\"0\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"4\" Hanja=\"2\" Japanese=\"2\" Latin=\"2\" Other=\"2\" Symbol=\"2\" User=\"2\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/></CHARSHAPE><CHARSHAPE BorderFillId=\"0\" Height=\"2000\" Id=\"1\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"2\" Hanja=\"2\" Japanese=\"2\" Latin=\"3\" Other=\"2\" Symbol=\"2\" User=\"2\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/></CHARSHAPE><CHARSHAPE BorderFillId=\"0\" Height=\"2000\" Id=\"2\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"2\" Hanja=\"2\" Japanese=\"2\" Latin=\"3\" Other=\"2\" Symbol=\"2\" User=\"2\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><BOLD/></CHARSHAPE><CHARSHAPE BorderFillId=\"0\" Height=\"1000\" Id=\"3\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/></CHARSHAPE><CHARSHAPE BorderFillId=\"0\" Height=\"1000\" Id=\"4\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"1\" Hanja=\"1\" Japanese=\"1\" Latin=\"1\" Other=\"1\" Symbol=\"1\" User=\"1\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/></CHARSHAPE><CHARSHAPE BorderFillId=\"0\" Height=\"900\" Id=\"5\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/></CHARSHAPE><CHARSHAPE BorderFillId=\"0\" Height=\"900\" Id=\"6\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"1\" Hanja=\"1\" Japanese=\"1\" Latin=\"1\" Other=\"1\" Symbol=\"1\" User=\"1\"/><RATIO Hangul=\"95\" Hanja=\"95\" Japanese=\"95\" Latin=\"95\" Other=\"95\" Symbol=\"95\" User=\"95\"/><CHARSPACING Hangul=\"-5\" Hanja=\"-5\" Japanese=\"-5\" Latin=\"-5\" Other=\"-5\" Symbol=\"-5\" User=\"-5\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/></CHARSHAPE><CHARSHAPE BorderFillId=\"0\" Height=\"900\" Id=\"7\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RATIO Hangul=\"95\" Hanja=\"95\" Japanese=\"95\" Latin=\"95\" Other=\"95\" Symbol=\"95\" User=\"95\"/><CHARSPACING Hangul=\"-5\" Hanja=\"-5\" Japanese=\"-5\" Latin=\"-5\" Other=\"-5\" Symbol=\"-5\" User=\"-5\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/></CHARSHAPE><CHARSHAPE BorderFillId=\"0\" Height=\"1300\" Id=\"8\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"3\" Hanja=\"1\" Japanese=\"1\" Latin=\"4\" Other=\"1\" Symbol=\"1\" User=\"1\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"-10\" Hanja=\"-10\" Japanese=\"-10\" Latin=\"-10\" Other=\"-10\" Symbol=\"-10\" User=\"-10\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/></CHARSHAPE><CHARSHAPE BorderFillId=\"0\" Height=\"1300\" Id=\"9\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"3\" Hanja=\"1\" Japanese=\"1\" Latin=\"4\" Other=\"1\" Symbol=\"1\" User=\"1\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"-10\" Hanja=\"-10\" Japanese=\"-10\" Latin=\"-10\" Other=\"-10\" Symbol=\"-10\" User=\"-10\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><BOLD/></CHARSHAPE><CHARSHAPE BorderFillId=\"4\" Height=\"1300\" Id=\"10\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"3\" Hanja=\"1\" Japanese=\"1\" Latin=\"4\" Other=\"1\" Symbol=\"1\" User=\"1\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"-10\" Hanja=\"-10\" Japanese=\"-10\" Latin=\"-10\" Other=\"-10\" Symbol=\"-10\" User=\"-10\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/></CHARSHAPE><CHARSHAPE BorderFillId=\"0\" Height=\"1300\" Id=\"11\" ShadeColor=\"4294967295\" SymMark=\"0\" TextColor=\"0\" UseFontSpace=\"false\" UseKerning=\"false\"><FONTID Hangul=\"1\" Hanja=\"1\" Japanese=\"1\" Latin=\"1\" Other=\"1\" Symbol=\"1\" User=\"1\"/><RATIO Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHARSPACING Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/><RELSIZE Hangul=\"100\" Hanja=\"100\" Japanese=\"100\" Latin=\"100\" Other=\"100\" Symbol=\"100\" User=\"100\"/><CHAROFFSET Hangul=\"0\" Hanja=\"0\" Japanese=\"0\" Latin=\"0\" Other=\"0\" Symbol=\"0\" User=\"0\"/></CHARSHAPE></CHARSHAPELIST>\n");
+			sb.append("		<TABDEFLIST Count=\"3\"><TABDEF AutoTabLeft=\"false\" AutoTabRight=\"false\" Id=\"0\"/><TABDEF AutoTabLeft=\"true\" AutoTabRight=\"false\" Id=\"1\"/><TABDEF AutoTabLeft=\"false\" AutoTabRight=\"true\" Id=\"2\"/></TABDEFLIST>\n");
+			sb.append("		<NUMBERINGLIST Count=\"1\"><NUMBERING Id=\"1\" Start=\"0\"><PARAHEAD Alignment=\"Left\" AutoIndent=\"true\" Level=\"1\" NumFormat=\"Digit\" TextOffset=\"50\" TextOffsetType=\"percent\" UseInstWidth=\"true\" WidthAdjust=\"0\">^1.</PARAHEAD><PARAHEAD Alignment=\"Left\" AutoIndent=\"true\" Level=\"2\" NumFormat=\"HangulSyllable\" TextOffset=\"50\" TextOffsetType=\"percent\" UseInstWidth=\"true\" WidthAdjust=\"0\">^2.</PARAHEAD><PARAHEAD Alignment=\"Left\" AutoIndent=\"true\" Level=\"3\" NumFormat=\"Digit\" TextOffset=\"50\" TextOffsetType=\"percent\" UseInstWidth=\"true\" WidthAdjust=\"0\">^3)</PARAHEAD><PARAHEAD Alignment=\"Left\" AutoIndent=\"true\" Level=\"4\" NumFormat=\"HangulSyllable\" TextOffset=\"50\" TextOffsetType=\"percent\" UseInstWidth=\"true\" WidthAdjust=\"0\">^4)</PARAHEAD><PARAHEAD Alignment=\"Left\" AutoIndent=\"true\" Level=\"5\" NumFormat=\"Digit\" TextOffset=\"50\" TextOffsetType=\"percent\" UseInstWidth=\"true\" WidthAdjust=\"0\">(^5)</PARAHEAD><PARAHEAD Alignment=\"Left\" AutoIndent=\"true\" Level=\"6\" NumFormat=\"HangulSyllable\" TextOffset=\"50\" TextOffsetType=\"percent\" UseInstWidth=\"true\" WidthAdjust=\"0\">(^6)</PARAHEAD><PARAHEAD Alignment=\"Left\" AutoIndent=\"true\" Level=\"7\" NumFormat=\"CircledDigit\" TextOffset=\"50\" TextOffsetType=\"percent\" UseInstWidth=\"true\" WidthAdjust=\"0\">^7</PARAHEAD></NUMBERING></NUMBERINGLIST>\n");
+			sb.append("		<PARASHAPELIST Count=\"16\"><PARASHAPE Align=\"Justify\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"0\" FontLineHeight=\"false\" HeadingType=\"None\" Id=\"0\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"0\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"false\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"0\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE><PARASHAPE Align=\"Center\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"false\" Condense=\"0\" FontLineHeight=\"false\" HeadingType=\"None\" Id=\"1\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"0\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"false\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"0\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE><PARASHAPE Align=\"Justify\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"0\" FontLineHeight=\"false\" HeadingType=\"None\" Id=\"2\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"0\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"true\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"0\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"4\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE><PARASHAPE Align=\"Justify\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"0\" FontLineHeight=\"false\" HeadingType=\"None\" Id=\"3\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"0\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"false\" TabDef=\"1\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"-2620\" Left=\"0\" LineSpacing=\"130\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"4\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE><PARASHAPE Align=\"Justify\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"0\" FontLineHeight=\"false\" HeadingType=\"None\" Id=\"4\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"0\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"false\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"0\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"4\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE><PARASHAPE Align=\"Justify\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"0\" FontLineHeight=\"false\" HeadingType=\"None\" Id=\"5\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"0\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"false\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"3000\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"4\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE><PARASHAPE Align=\"Justify\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"20\" FontLineHeight=\"false\" HeadingType=\"Outline\" Id=\"6\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"0\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"false\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"2000\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"4\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE><PARASHAPE Align=\"Justify\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"20\" FontLineHeight=\"false\" HeadingType=\"Outline\" Id=\"7\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"1\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"false\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"4000\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"4\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE><PARASHAPE Align=\"Justify\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"20\" FontLineHeight=\"false\" HeadingType=\"Outline\" Id=\"8\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"2\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"false\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"6000\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"4\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE><PARASHAPE Align=\"Justify\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"20\" FontLineHeight=\"false\" HeadingType=\"Outline\" Id=\"9\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"3\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"false\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"8000\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"4\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE><PARASHAPE Align=\"Justify\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"20\" FontLineHeight=\"false\" HeadingType=\"Outline\" Id=\"10\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"4\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"false\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"10000\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"4\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE><PARASHAPE Align=\"Justify\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"20\" FontLineHeight=\"false\" HeadingType=\"Outline\" Id=\"11\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"5\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"false\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"12000\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"4\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE><PARASHAPE Align=\"Justify\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"20\" FontLineHeight=\"false\" HeadingType=\"Outline\" Id=\"12\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"6\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"false\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"14000\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"4\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE><PARASHAPE Align=\"Justify\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"false\" Condense=\"0\" FontLineHeight=\"false\" HeadingType=\"None\" Id=\"13\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"0\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"false\" TabDef=\"2\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"0\" LineSpacing=\"150\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER BorderFill=\"4\" Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE><PARASHAPE Align=\"Center\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"0\" FontLineHeight=\"false\" HeadingType=\"None\" Id=\"14\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"0\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"false\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"0\" LineSpacing=\"160\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE><PARASHAPE Align=\"Center\" BreakLatinWord=\"KeepWord\" BreakNonLatinWord=\"true\" Condense=\"0\" FontLineHeight=\"false\" HeadingType=\"None\" Id=\"15\" KeepLines=\"false\" KeepWithNext=\"false\" Level=\"0\" LineWrap=\"Break\" PageBreakBefore=\"false\" SnapToGrid=\"false\" TabDef=\"0\" VerAlign=\"Baseline\" WidowOrphan=\"false\"><PARAMARGIN Indent=\"0\" Left=\"0\" LineSpacing=\"100\" LineSpacingType=\"Percent\" Next=\"0\" Prev=\"0\" Right=\"0\"/><PARABORDER Connect=\"false\" IgnoreMargin=\"false\"/></PARASHAPE></PARASHAPELIST>\n");
+			sb.append("		<STYLELIST Count=\"15\"><STYLE CharShape=\"4\" EngName=\"Normal\" Id=\"0\" LangId=\"1042\" LockForm=\"0\" Name=\"바탕글\" NextStyle=\"0\" ParaShape=\"4\" Type=\"Para\"/><STYLE CharShape=\"4\" EngName=\"Body\" Id=\"1\" LangId=\"1042\" LockForm=\"0\" Name=\"본문\" NextStyle=\"1\" ParaShape=\"5\" Type=\"Para\"/><STYLE CharShape=\"4\" EngName=\"Outline 1\" Id=\"2\" LangId=\"1042\" LockForm=\"0\" Name=\"개요 1\" NextStyle=\"2\" ParaShape=\"6\" Type=\"Para\"/><STYLE CharShape=\"4\" EngName=\"Outline 2\" Id=\"3\" LangId=\"1042\" LockForm=\"0\" Name=\"개요 2\" NextStyle=\"3\" ParaShape=\"7\" Type=\"Para\"/><STYLE CharShape=\"4\" EngName=\"Outline 3\" Id=\"4\" LangId=\"1042\" LockForm=\"0\" Name=\"개요 3\" NextStyle=\"4\" ParaShape=\"8\" Type=\"Para\"/><STYLE CharShape=\"4\" EngName=\"Outline 4\" Id=\"5\" LangId=\"1042\" LockForm=\"0\" Name=\"개요 4\" NextStyle=\"5\" ParaShape=\"9\" Type=\"Para\"/><STYLE CharShape=\"4\" EngName=\"Outline 5\" Id=\"6\" LangId=\"1042\" LockForm=\"0\" Name=\"개요 5\" NextStyle=\"6\" ParaShape=\"10\" Type=\"Para\"/><STYLE CharShape=\"4\" EngName=\"Outline 6\" Id=\"7\" LangId=\"1042\" LockForm=\"0\" Name=\"개요 6\" NextStyle=\"7\" ParaShape=\"11\" Type=\"Para\"/><STYLE CharShape=\"4\" EngName=\"Outline 7\" Id=\"8\" LangId=\"1042\" LockForm=\"0\" Name=\"개요 7\" NextStyle=\"8\" ParaShape=\"12\" Type=\"Para\"/><STYLE CharShape=\"3\" EngName=\"Page Number\" Id=\"9\" LangId=\"1042\" LockForm=\"0\" Name=\"쪽 번호\" NextStyle=\"9\" ParaShape=\"4\" Type=\"Para\"/><STYLE CharShape=\"5\" EngName=\"Header\" Id=\"10\" LangId=\"1042\" LockForm=\"0\" Name=\"머리말\" NextStyle=\"10\" ParaShape=\"13\" Type=\"Para\"/><STYLE CharShape=\"6\" EngName=\"Footnote\" Id=\"11\" LangId=\"1042\" LockForm=\"0\" Name=\"각주\" NextStyle=\"11\" ParaShape=\"3\" Type=\"Para\"/><STYLE CharShape=\"6\" EngName=\"Endnote\" Id=\"12\" LangId=\"1042\" LockForm=\"0\" Name=\"미주\" NextStyle=\"12\" ParaShape=\"3\" Type=\"Para\"/><STYLE CharShape=\"7\" EngName=\"Memo\" Id=\"13\" LangId=\"1042\" LockForm=\"0\" Name=\"메모\" NextStyle=\"13\" ParaShape=\"2\" Type=\"Para\"/><STYLE CharShape=\"1\" Id=\"14\" LangId=\"1042\" LockForm=\"0\" Name=\"중간제목(옛체20)\" NextStyle=\"14\" ParaShape=\"1\" Type=\"Para\"/></STYLELIST>\n");
+			sb.append("	</MAPPINGTABLE>\n");
+			sb.append("</HEAD>\n");
+			
+			return sb;
+		}
+		
+		//GET HML TAIL ELEMENT
+		protected StringBuilder getTailElement() throws Exception {
+			StringBuilder sb = new StringBuilder();
+	
+			sb.append("<TAIL>\n");
+			sb.append(getBinDataListElement());
+			sb.append("<SCRIPTCODE Type=\"JScript\" Version=\"1.0\"><SCRIPTHEADER>var Documents = XHwpDocuments;\n");
+			sb.append("var Document = Documents.Active_XHwpDocument;\n");
+			sb.append("</SCRIPTHEADER><SCRIPTSOURCE>function OnDocument_New() {} \n");
+			sb.append("</SCRIPTSOURCE></SCRIPTCODE></TAIL></HWPML>");
+			
+			return sb;
+		}
+		
+		//GET HMTL BODY ELEMENT
+		protected StringBuilder getBodyElement(int bodyIndex) {
+			StringBuilder sb = new StringBuilder();
+			
+			QcMngResultInfo resultInfo = qcDataList.get(bodyIndex);
+			
+			EgovMap qcDetailData = resultInfo.getQcDetailData();
+			EgovMap mngGroupInfo = resultInfo.getMngGroupInfo();
+			Map<String, Object> chargerInfo1 = resultInfo.getChargerInfo1();
+			Map<String, Object> chargerInfo2 = resultInfo.getChargerInfo2();
+			List<EgovMap> qcResultItemList = resultInfo.getQcResultItemList();
+			
+			String pageBreak = (bodyIndex == 0) ? "false" : "true";
+			
+			String prtAtCodeNm = (mngGroupInfo.get("prtAtCodeNm") != null) ? (String)mngGroupInfo.get("prtAtCodeNm") + "항" : "      ";
+			String fcltsMngGroupNm = (mngGroupInfo.get("fcltsMngGroupNm") != null) ? (String) mngGroupInfo.get("fcltsMngGroupNm") : "";
+			String loc = (mngGroupInfo.get("loc") != null) ? (String) mngGroupInfo.get("loc") : "";
+			String fcltsGbnNm = ((mngGroupInfo.get("fcltsGbnNm") != null) ? (String)mngGroupInfo.get("fcltsGbnNm") : "-") + " / -";
+			String bldYear = (mngGroupInfo.get("bldYear") != null) ? (String) mngGroupInfo.get("bldYear") : "";
+			String cnstrtr = (mngGroupInfo.get("cnstrtr") != null) ? (String) mngGroupInfo.get("cnstrtr") : "";
+			String flawEndDt = (mngGroupInfo.get("flawEndDt") != null) ? (String) mngGroupInfo.get("flawEndDtYear") + "년" + (String) mngGroupInfo.get("flawEndDtMonth") + "월" + (String) mngGroupInfo.get("flawEndDtDay") + "일"  : "";
+			
+			int rowCount = getCivilRowCount(resultInfo);
+			int rowAddr = 4;
+			
+			sb.append("	<P ColumnBreak=\"false\" PageBreak=\"" + pageBreak + "\" ParaShape=\"1\" Style=\"14\"><TEXT CharShape=\"2\">\n");
+			sb.append("		<SECDEF CharGrid=\"0\" FirstBorder=\"false\" FirstFill=\"false\" LineGrid=\"0\" OutlineShape=\"1\" SpaceColumns=\"1134\" TabStop=\"8000\" TextDirection=\"0\" TextVerticalWidthHead=\"0\"><STARTNUMBER Equation=\"0\" Figure=\"0\" Page=\"0\" PageStartsOn=\"Both\" Table=\"0\"/><HIDE Border=\"false\" EmptyLine=\"false\" Fill=\"false\" Footer=\"false\" Header=\"false\" MasterPage=\"false\" PageNumPos=\"false\"/><PAGEDEF GutterType=\"LeftOnly\" Height=\"84188\" Landscape=\"0\" Width=\"59528\"><PAGEMARGIN Bottom=\"0\" Footer=\"4252\" Gutter=\"0\" Header=\"7087\" Left=\"4252\" Right=\"4110\" Top=\"0\"/></PAGEDEF><FOOTNOTESHAPE><AUTONUMFORMAT SuffixChar=\")\" Superscript=\"false\" Type=\"Digit\"/><NOTELINE Length=\"5cm\" Type=\"Solid\" Width=\"0.12mm\"/><NOTESPACING AboveLine=\"850\" BelowLine=\"567\" BetweenNotes=\"283\"/><NOTENUMBERING NewNumber=\"1\" Type=\"Continuous\"/><NOTEPLACEMENT BeneathText=\"false\" Place=\"EachColumn\"/></FOOTNOTESHAPE><ENDNOTESHAPE><AUTONUMFORMAT SuffixChar=\")\" Superscript=\"false\" Type=\"Digit\"/><NOTELINE Length=\"14692344\" Type=\"Solid\" Width=\"0.12mm\"/><NOTESPACING AboveLine=\"850\" BelowLine=\"567\" BetweenNotes=\"0\"/><NOTENUMBERING NewNumber=\"1\" Type=\"Continuous\"/><NOTEPLACEMENT BeneathText=\"false\" Place=\"EndOfDocument\"/></ENDNOTESHAPE><PAGEBORDERFILL FillArea=\"Paper\" FooterInside=\"false\" HeaderInside=\"false\" TextBorder=\"true\" Type=\"Both\"><PAGEOFFSET Bottom=\"1417\" Left=\"1417\" Right=\"1417\" Top=\"1417\"/></PAGEBORDERFILL><PAGEBORDERFILL FillArea=\"Paper\" FooterInside=\"false\" HeaderInside=\"false\" TextBorder=\"true\" Type=\"Even\"><PAGEOFFSET Bottom=\"1417\" Left=\"1417\" Right=\"1417\" Top=\"1417\"/></PAGEBORDERFILL><PAGEBORDERFILL FillArea=\"Paper\" FooterInside=\"false\" HeaderInside=\"false\" TextBorder=\"true\" Type=\"Odd\"><PAGEOFFSET Bottom=\"1417\" Left=\"1417\" Right=\"1417\" Top=\"1417\"/></PAGEBORDERFILL></SECDEF>\n");
+			sb.append("		<COLDEF Count=\"1\" Layout=\"Left\" SameGap=\"0\" SameSize=\"true\" Type=\"Newspaper\"/>\n");
+			sb.append("		<CHAR>토목 시설물 점검표</CHAR></TEXT><TEXT CharShape=\"0\"><CHAR/>\n");
+			sb.append("	</TEXT></P>\n");
+			sb.append("	<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"8\">\n");
+			if(chargerInfo1 != null) {
+				if((Boolean)chargerInfo1.get("fileExists")) {
+					sb.append("		<PICTURE Reverse=\"false\">\n");
+					sb.append("			<SHAPEOBJECT InstId=\"2058515283\" Lock=\"false\" NumberingType=\"Figure\" TextWrap=\"BehindText\" ZOrder=\"1\"><SIZE Height=\"4500\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"3840\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"true\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"44040\" HorzRelTo=\"Column\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"1060\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/></SHAPEOBJECT>\n");
+					sb.append("			<SHAPECOMPONENT GroupLevel=\"0\" HorzFlip=\"false\" InstID=\"984773460\" OriHeight=\"4500\" OriWidth=\"3840\" VertFlip=\"false\" XPos=\"0\" YPos=\"0\"><ROTATIONINFO Angle=\"0\" CenterX=\"1920\" CenterY=\"2250\"/><RENDERINGINFO><TRANSMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/><SCAMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/><ROTMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/></RENDERINGINFO></SHAPECOMPONENT>\n");
+					sb.append("			<IMAGERECT X0=\"0\" X1=\"3840\" X2=\"3840\" X3=\"0\" Y0=\"0\" Y1=\"0\" Y2=\"4500\" Y3=\"4500\"/>\n");
+					sb.append("			<IMAGECLIP Bottom=\"4500\" Left=\"0\" Right=\"3840\" Top=\"0\"/>\n");
+					sb.append("			<INSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
+					sb.append("			<IMAGE Alpha=\"0\" BinItem=\"" + getBinId((String)chargerInfo1.get("signFileNmPhysicl")) + "\" Bright=\"0\" Contrast=\"0\" Effect=\"RealPic\"/>\n");
+					sb.append("		</PICTURE>\n");
+				}
+			}
+			sb.append("		<CHAR/>\n");
+			sb.append("	</TEXT></P>\n");
+			sb.append("	<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"8\">\n");
+			//sb.append("		<CHAR>    항  명 :<TAB/>" + prtAtCodeNm + "<TAB/><TAB/><TAB/>       <TAB/>     점검일 :  " + ((qcDetailData.get("wrtDtHwp") != null) ? (String) qcDetailData.get("wrtDtHwp") : "" ) + "</CHAR>\n");
+			sb.append("		<CHAR>            <TAB/><TAB/><TAB/><TAB/>       <TAB/>     점검일 :  " + ((qcDetailData.get("wrtDtHwp") != null) ? (String) qcDetailData.get("wrtDtHwp") : "" ) + "</CHAR>\n");
+			sb.append("	</TEXT></P>\n");
+			sb.append("	<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"8\">\n");
+			if(chargerInfo2 != null) {
+				if((Boolean)chargerInfo2.get("fileExists")) {
+					sb.append("		<PICTURE Reverse=\"false\">\n");
+					sb.append("			<SHAPEOBJECT InstId=\"2058515287\" Lock=\"false\" NumberingType=\"Figure\" TextWrap=\"BehindText\" ZOrder=\"3\"><SIZE Height=\"4500\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"3840\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"true\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"44160\" HorzRelTo=\"Column\" TreatAsChar=\"false\" VertAlign=\"Top\" VertOffset=\"1180\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/></SHAPEOBJECT>\n");
+					sb.append("			<SHAPECOMPONENT GroupLevel=\"0\" HorzFlip=\"false\" InstID=\"984773464\" OriHeight=\"4500\" OriWidth=\"3840\" VertFlip=\"false\" XPos=\"0\" YPos=\"0\"><ROTATIONINFO Angle=\"0\" CenterX=\"1920\" CenterY=\"2250\"/><RENDERINGINFO><TRANSMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/><SCAMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/><ROTMATRIX E1=\"1.00000\" E2=\"0.00000\" E3=\"0.00000\" E4=\"0.00000\" E5=\"1.00000\" E6=\"0.00000\"/></RENDERINGINFO></SHAPECOMPONENT>\n");
+					sb.append("			<IMAGERECT X0=\"0\" X1=\"3840\" X2=\"3840\" X3=\"0\" Y0=\"0\" Y1=\"0\" Y2=\"4500\" Y3=\"4500\"/>\n");
+					sb.append("			<IMAGECLIP Bottom=\"4500\" Left=\"0\" Right=\"3840\" Top=\"0\"/>\n");
+					sb.append("			<INSIDEMARGIN Bottom=\"0\" Left=\"0\" Right=\"0\" Top=\"0\"/>\n");
+					sb.append("			<IMAGE Alpha=\"0\" BinItem=\"" + getBinId((String)chargerInfo2.get("signFileNmPhysicl")) + "\" Bright=\"0\" Contrast=\"0\" Effect=\"RealPic\"/>\n");
+					sb.append("		</PICTURE>\n");
+				}
+			}
+			if(chargerInfo1 != null) {			
+				sb.append("		<CHAR><TAB/><TAB/><TAB/><TAB/><TAB/><TAB/><TAB/>     점검자 :<TAB/>"  + ((chargerInfo1.get("chargerNm") != null) ? (String)chargerInfo1.get("chargerNm") :  "      ") +  "         (인)</CHAR>\n");
+			} else {
+				sb.append("		<CHAR><TAB/><TAB/><TAB/><TAB/><TAB/><TAB/><TAB/>     점검자 :<TAB/>               (인)</CHAR>\n");
+			}
+			sb.append("	</TEXT></P>\n");
+			sb.append("	<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"11\">\n");
+			if(chargerInfo2 != null) {						
+				sb.append("		<CHAR><TAB/><TAB/><TAB/><TAB/><TAB/><TAB/><TAB/><TAB/><TAB/></CHAR></TEXT><TEXT CharShape=\"8\"><CHAR>"  + ((chargerInfo2.get("chargerNm") != null) ? (String)chargerInfo2.get("chargerNm") :  "      ") +  "         (인)</CHAR>\n");
+			} else {
+				sb.append("		<CHAR/>\n");
+			}
+			sb.append("	</TEXT></P>\n");
+			sb.append("	<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"8\">\n");
+			sb.append("		<TABLE BorderFill=\"1\" CellSpacing=\"0\" ColCount=\"6\" PageBreak=\"None\" RepeatHeader=\"true\" RowCount=\"" + rowCount + "\">\n");
+			sb.append("			<SHAPEOBJECT InstId=\"2058515282\" Lock=\"false\" NumberingType=\"Table\" ZOrder=\"0\"><SIZE Height=\"60400\" HeightRelTo=\"Absolute\" Protect=\"false\" Width=\"48208\" WidthRelTo=\"Absolute\"/><POSITION AffectLSpacing=\"false\" AllowOverlap=\"false\" FlowWithText=\"true\" HoldAnchorAndSO=\"false\" HorzAlign=\"Left\" HorzOffset=\"0\" HorzRelTo=\"Column\" TreatAsChar=\"true\" VertAlign=\"Top\" VertOffset=\"0\" VertRelTo=\"Para\"/><OUTSIDEMARGIN Bottom=\"140\" Left=\"140\" Right=\"140\" Top=\"140\"/></SHAPEOBJECT>\n");
+			sb.append("			<INSIDEMARGIN Bottom=\"140\" Left=\"140\" Right=\"140\" Top=\"140\"/>\n");
+			sb.append("			<ROW>\n");
+			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"3284\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"9212\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"9\"><CHAR>시 설 명</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"2\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"3284\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"14040\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR>" + fcltsMngGroupNm + "</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"2\" ColSpan=\"2\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"3284\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"9496\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"9\"><CHAR>시설물소재지</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"2\" ColAddr=\"4\" ColSpan=\"2\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"3284\" Protect=\"false\" RowAddr=\"0\" RowSpan=\"1\" Width=\"15460\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR>" + loc + "</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("			</ROW>\n");
+			sb.append("			<ROW>\n");
+			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"3284\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"9212\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"9\"><CHAR>시설개요</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"2\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"3284\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"14040\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR></CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"2\" ColSpan=\"3\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"3284\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"12336\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"9\"><CHAR>종별 / 상태등급</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"2\" ColAddr=\"5\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"3284\" Protect=\"false\" RowAddr=\"1\" RowSpan=\"1\" Width=\"12620\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR>" + fcltsGbnNm + "</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("			</ROW>\n");
+			sb.append("			<ROW>\n");
+			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"3284\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"9212\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"9\"><CHAR>준공년도</CHAR></TEXT><TEXT CharShape=\"4\"/></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"2\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"3284\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"14040\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR>" + bldYear + "</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"2\" ColSpan=\"3\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"3284\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"12336\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"9\"><CHAR>하 자 만 료 일</CHAR></TEXT><TEXT CharShape=\"4\"/></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"2\" ColAddr=\"5\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"3284\" Protect=\"false\" RowAddr=\"2\" RowSpan=\"1\" Width=\"12620\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR>" + flawEndDt + "</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("			</ROW>\n");
+			sb.append("			<ROW>\n");
+			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"3284\" Protect=\"false\" RowAddr=\"3\" RowSpan=\"1\" Width=\"9212\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"9\"><CHAR>시설규모</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"2\" ColAddr=\"1\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"3284\" Protect=\"false\" RowAddr=\"3\" RowSpan=\"1\" Width=\"14040\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR></CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"2\" ColSpan=\"3\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"3284\" Protect=\"false\" RowAddr=\"3\" RowSpan=\"1\" Width=\"12336\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"9\"><CHAR>시  공  회  사</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"2\" ColAddr=\"5\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"3284\" Protect=\"false\" RowAddr=\"3\" RowSpan=\"1\" Width=\"12620\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR>" + cnstrtr + "</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("			</ROW>\n");
+			sb.append("			<ROW>\n");
+			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"4584\" Protect=\"false\" RowAddr=\"4\" RowSpan=\"1\" Width=\"9212\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"9\"><CHAR>점검항목</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"1\" ColSpan=\"2\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"4584\" Protect=\"false\" RowAddr=\"4\" RowSpan=\"1\" Width=\"20349\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"9\"><CHAR>점 검 세 부 항 목</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("				<CELL BorderFill=\"3\" ColAddr=\"3\" ColSpan=\"3\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"4584\" Protect=\"false\" RowAddr=\"4\" RowSpan=\"1\" Width=\"18647\">\n");
+			sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+			sb.append("						<P ParaShape=\"15\" Style=\"0\"><TEXT CharShape=\"9\"><CHAR>점  검  내  용</CHAR></TEXT></P>\n");
+			sb.append("					</PARALIST>\n");
+			sb.append("				</CELL>\n");
+			sb.append("			</ROW>\n");
+			
+			if(isValidResultItemContent(qcResultItemList, "C01010000") || isValidResultItemContent(qcResultItemList, "C01020000") 
+					|| isValidResultItemContent(qcResultItemList, "C01030000") || isValidResultItemContent(qcResultItemList, "C01040000") ){
+				rowAddr++;
+				sb.append("			<ROW>\n");
+				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"8952\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"9212\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR>구조물 현황</CHAR></TEXT></P>\n");
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"1\" ColSpan=\"2\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"8952\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"20349\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				if(isValidResultItemContent(qcResultItemList, "C01010000")) {
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 시설물 용도 변경여부</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C01020000")) {
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 부두의 법선 변위여부</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C01030000")) {
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 안벽법면의 수직도</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C01040000")) {
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 교량 변위여부</CHAR></TEXT></P>\n");
+				}
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"3\" ColSpan=\"3\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"8952\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"18647\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				if(isValidResultItemContent(qcResultItemList, "C01010000")) {
+					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + getResultItemContent(qcResultItemList, "C01010000") + "</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C01020000")) {
+					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + getResultItemContent(qcResultItemList, "C01020000") + "</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C01030000")) {
+					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + getResultItemContent(qcResultItemList, "C01030000") + "</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C01040000")) {
+					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + getResultItemContent(qcResultItemList, "C01040000") + "</CHAR></TEXT></P>\n");
+				}
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("			</ROW>\n");
+			}
+			
+			if(isValidResultItemContent(qcResultItemList, "C02010000") || isValidResultItemContent(qcResultItemList, "C02020000") || isValidResultItemContent(qcResultItemList, "C02030000") 
+					|| isValidResultItemContent(qcResultItemList, "C02040000") || isValidResultItemContent(qcResultItemList, "C02050000") || isValidResultItemContent(qcResultItemList, "C02060000") ){
+				rowAddr++;
+				sb.append("			<ROW>\n");
+				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"13112\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"9212\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR>부대시설물</CHAR></TEXT></P>\n");
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"1\" ColSpan=\"2\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"13112\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"20349\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				if(isValidResultItemContent(qcResultItemList, "C02010000")) {
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 방충재 파손, 마모상태</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C02020000")) {
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 계선주, 차막이 등 상태</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C02030000")) {
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 타이다운 등 관리상태</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C02040000")) {
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 기타 여건번화</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C02050000")) {
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 난간 및 보도상태</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C02060000")) {
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 교좌장치 상태</CHAR></TEXT></P>\n");
+				}
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"3\" ColSpan=\"3\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"13112\" Protect=\"false\" RowAddr=\"6\" RowSpan=\"1\" Width=\"18647\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				if(isValidResultItemContent(qcResultItemList, "C02010000")) {
+					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + getResultItemContent(qcResultItemList, "C02010000") + "</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C02020000")) {
+					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + getResultItemContent(qcResultItemList, "C02020000") + "</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C02030000")) {
+					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + getResultItemContent(qcResultItemList, "C02030000") + "</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C02040000")) {
+					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + getResultItemContent(qcResultItemList, "C02040000") + "</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C02050000")) {
+					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + getResultItemContent(qcResultItemList, "C02050000") + "</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C02060000")) {
+					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + getResultItemContent(qcResultItemList, "C02060000") + "</CHAR></TEXT></P>\n");
+				}
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("			</ROW>\n");
+			}
+
+			if(isValidResultItemContent(qcResultItemList, "C03010000") || isValidResultItemContent(qcResultItemList, "C03020000") || isValidResultItemContent(qcResultItemList, "C03030000") 
+					|| isValidResultItemContent(qcResultItemList, "C03040000") || isValidResultItemContent(qcResultItemList, "C03050000") ){
+				rowAddr++;
+				sb.append("			<ROW>\n");
+				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"13112\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"9212\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR>피해 또는 노후 현황</CHAR></TEXT></P>\n");
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"1\" ColSpan=\"2\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"13112\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"20349\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				if(isValidResultItemContent(qcResultItemList, "C03010000")) {
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 시설물의 상태(균열, 침하, 활동, 융기, 함몰, 전도 등)</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C03020000")) {
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 야적장 포장의 파손여부</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C03030000")) {
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 에프런 상태 및 기타사항</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C03040000")) {
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 포장의 파손여부</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C03050000")) {
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 균열, 백태 및 철근노출, 부식</CHAR></TEXT></P>\n");
+				}
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"3\" ColSpan=\"3\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"13112\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"18647\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				if(isValidResultItemContent(qcResultItemList, "C03010000")) {
+					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + getResultItemContent(qcResultItemList, "C03010000") + "</CHAR></TEXT></P>\n");
+					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR/></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C03020000")) {
+					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + getResultItemContent(qcResultItemList, "C03020000") + "</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C03030000")) {
+					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + getResultItemContent(qcResultItemList, "C03030000") + "</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C03040000")) {
+					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + getResultItemContent(qcResultItemList, "C03040000") + "</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C03050000")) {
+					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + getResultItemContent(qcResultItemList, "C03050000") + "</CHAR></TEXT></P>\n");
+				}
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("			</ROW>\n");
+			}
+			
+			if(isValidResultItemContent(qcResultItemList, "C04010000") || isValidResultItemContent(qcResultItemList, "C04020000") ){
+				rowAddr++;
+				sb.append("			<ROW>\n");
+				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"4792\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"9212\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR>시설물 운영</CHAR></TEXT></P>\n");
+				sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR>및 관리</CHAR></TEXT></P>\n");
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"1\" ColSpan=\"2\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"4792\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"20349\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				if(isValidResultItemContent(qcResultItemList, "C04010000")) {
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR>ㅇ 야적화물의 과적여부</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C04020000")) {
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR>ㅇ 사용장비의 적정성 여부등</CHAR></TEXT></P>\n");
+				}
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"3\" ColSpan=\"3\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"4792\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"18647\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				if(isValidResultItemContent(qcResultItemList, "C04010000")) {
+					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + getResultItemContent(qcResultItemList, "C04010000") + "</CHAR></TEXT></P>\n");
+				}
+				if(isValidResultItemContent(qcResultItemList, "C04020000")) {
+					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + getResultItemContent(qcResultItemList, "C04020000") + "</CHAR></TEXT></P>\n");
+				}
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("			</ROW>\n");
+			}
+			
+			if(isValidResultItemContent(qcResultItemList, "C05010000")){
+				rowAddr++;
+				sb.append("			<ROW>\n");
+				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"0\" ColSpan=\"1\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2712\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"9212\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				sb.append("						<P ParaShape=\"14\" Style=\"0\"><TEXT CharShape=\"8\"><CHAR>기 타</CHAR></TEXT></P>\n");
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"1\" ColSpan=\"2\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2712\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"20349\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				if(isValidResultItemContent(qcResultItemList, "C05010000")) {
+					sb.append("						<P ParaShape=\"0\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>ㅇ 배수시설 상태 등 </CHAR></TEXT></P>\n");
+				}
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("				<CELL BorderFill=\"2\" ColAddr=\"3\" ColSpan=\"3\" Dirty=\"false\" Editable=\"false\" HasMargin=\"false\" Header=\"false\" Height=\"2712\" Protect=\"false\" RowAddr=\"" + rowAddr + "\" RowSpan=\"1\" Width=\"18647\">\n");
+				sb.append("					<PARALIST LineWrap=\"Break\" LinkListID=\"0\" LinkListIDNext=\"0\" TextDirection=\"0\" VertAlign=\"Center\">\n");
+				if(isValidResultItemContent(qcResultItemList, "C05010000")) {
+					sb.append("						<P ParaShape=\"1\" Style=\"0\"><TEXT CharShape=\"10\"><CHAR>" + getResultItemContent(qcResultItemList, "C05010000") + "</CHAR></TEXT></P>\n");
+				}
+				sb.append("					</PARALIST>\n");
+				sb.append("				</CELL>\n");
+				sb.append("			</ROW>\n");
+			}
+			sb.append("		</TABLE>\n");
+			sb.append("		<CHAR/>\n");
+			sb.append("	</TEXT></P>\n");
+			
+			return sb;
+		}
+	}
+	
 }

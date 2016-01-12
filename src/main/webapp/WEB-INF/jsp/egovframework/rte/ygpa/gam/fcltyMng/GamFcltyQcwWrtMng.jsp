@@ -1650,6 +1650,37 @@ GamFcltyQcwWrtMngModule.prototype.downloadSelectedSafetyQcResult = function() {
 	});
 };
 
+<%
+/**
+ * @FUNCTION NAME : downloadSelectedResultList
+ * @DESCRIPTION   : 선택한 점검결과데이터 시설물점검표 한글문서 작성 함수
+ * @PARAMETER     : NONE
+**/
+%>
+GamFcltyQcwWrtMngModule.prototype.downloadSelectedResultList = function() {
+	var filter = [{ 'col': 'chkRole', 'filter': true}];
+	var downList = this.$("#mainGrid").selectFilterData(filter);
+
+	if (downList.length <= 0) {
+		alert('다운로드할 항목을 선택 하십시요');
+		return;
+	}
+	
+	var fcltsJobSe = downList[0].fcltsJobSe;
+	for(var i=0; i<=downList.length-1; i++) {
+		if(fcltsJobSe != downList[i].fcltsJobSe) {
+			alert('선택한 항목들이 업무구분이 다릅니다.');
+			return;
+		}
+	}
+	
+	var url = '/fcltyMng/downloadSelectedResultList.do';
+	var param = {};
+	param['downList'] = JSON.stringify(downList);
+	param['filename'] = '시설물점검표리스트.hwp';
+
+	$.fileDownload(EMD.context_root+url, {data:param, httpMethod:"POST"});	
+};
 
 <%
 /**
@@ -1752,7 +1783,12 @@ GamFcltyQcwWrtMngModule.prototype.onButtonClick = function(buttonId) {
 			this.downloadSelectedSafetyQcResult();
 			break;
 
-		// 안전점검 한글문서 다운로드
+		// 선택데이터 시설물점검표 한글문서 다운로드
+		case 'btnSelectedResultListHwp':
+			this.downloadSelectedResultList();
+			break;
+
+			// 안전점검 한글문서 다운로드
 		case 'btnSafetyQcResultHwp':
 			this.downloadSafetyQcResult();
 			break;
@@ -2022,6 +2058,7 @@ var module_instance = new GamFcltyQcwWrtMngModule();
 									<button id="btnDelete" class="buttonDelete">　　삭　제　　</button>
 	                                <button id="btnExcelDownload" class="buttonExcel">엑셀　다운로드</button>
 									<button id="btnSelectedSafetyQcResultHwp" >선택 안전점검결과 다운로드</button>
+									<button id="btnSelectedResultListHwp" >선택 시설물점검표 다운로드</button>
 								</td>
 							</tr>
 						</table>

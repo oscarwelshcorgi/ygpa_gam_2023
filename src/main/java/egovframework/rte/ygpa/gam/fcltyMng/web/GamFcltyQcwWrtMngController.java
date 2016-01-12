@@ -1148,7 +1148,45 @@ public class GamFcltyQcwWrtMngController {
 			}
 
 			return map;
-
 		}
 
+	    /**
+	     * 선택된 시설물점검표 리스트 한글파일 문서 출력 - 김종민 추가 작업 2016.01.12
+	     *
+	     * @param searchVO
+	     * @return xml string
+	     * @throws Exception the exception
+	     */
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+	    @RequestMapping(value="/fcltyMng/downloadSelectedResultList.do")
+		public String downloadSelectedResultList(@RequestParam Map<String, Object> reportOpt , ModelMap model) throws Exception {
+			ObjectMapper mapper = new ObjectMapper();
+			List<HashMap<String,String>> reportList = null;
+			
+			Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+			if(!isAuthenticated) {
+				model.addAttribute("resultCode", 1);
+				model.addAttribute("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+		    	return "/ygpa/gam/fcltyMng/GamFcltyQcMngResultListReportHwp";
+			}
+
+			reportList = mapper.readValue((String)reportOpt.get("downList"),
+	    		    new TypeReference<List<HashMap<String,String>>>(){});
+
+			String hwpML = gamFcltyQcwWrtMngService.selectSelectedReportListHWPML(reportList);
+			
+			model.addAttribute("resultCode", 0);
+			model.addAttribute("resultMsg", "");
+			model.addAttribute("hwpML", hwpML);
+
+			//hwp선택시 파일명
+			if(reportOpt.get("filename") != null){
+				model.addAttribute("isHwp", true);
+				model.addAttribute("filename", reportOpt.get("filename"));
+			}
+
+			return "/ygpa/gam/fcltyMng/GamFcltyQcMngResultListReportHwp";
+		};
+		
 }
