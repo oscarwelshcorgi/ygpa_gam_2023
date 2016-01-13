@@ -41,6 +41,7 @@
 							, Q.WRT_USR
 							, Q.PLAN_HIST_SE
 							, GAM_GET_PLAN_HIST_SE_NM(Q.PLAN_HIST_SE) PLAN_HIST_SE_NM
+							, Q.MECH_FCLTS_SE
 						FROM
 							QC_MNG_DTLS_F Q
 			            INNER JOIN

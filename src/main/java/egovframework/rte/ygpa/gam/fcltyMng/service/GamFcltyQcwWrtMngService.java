@@ -205,7 +205,7 @@ public interface GamFcltyQcwWrtMngService {
 	 * @return String
 	 * @throws Exception
 	 */	
-	String selectSafetyQcReportListHWPML(List<HashMap<String,String>> reportList) throws Exception;	
+	String selectSafetyQcReportListHWPML(List<HashMap<String, String>> reportList) throws Exception;	
 	
 	/**
 	 * 선택된 안전 점검 첨부파일 목록 총수 조회

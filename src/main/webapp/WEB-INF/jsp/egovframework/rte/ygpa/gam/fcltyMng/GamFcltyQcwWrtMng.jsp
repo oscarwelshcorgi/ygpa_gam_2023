@@ -1667,11 +1667,22 @@ GamFcltyQcwWrtMngModule.prototype.downloadSelectedResultList = function() {
 	}
 	
 	var fcltsJobSe = downList[0].fcltsJobSe;
-	for(var i=0; i<=downList.length-1; i++) {
+	var i = 0;
+	for(i=0; i<=downList.length-1; i++) {
 		if(fcltsJobSe != downList[i].fcltsJobSe) {
-			alert('선택한 항목들이 업무구분이 다릅니다.');
+			alert('선택한 항목들의 업무구분이 다릅니다.');
 			return;
 		}
+	}
+	
+	if(fcltsJobSe == 'M') {
+		var mechFcltsSe = dataList[0].mechFcltsSe;
+		for(i=0; i<=downList.length-1; i++) {
+			if(mechFcltsSe != downList[i].mechFcltsSe) {
+				alert('기계시설의 구분(하역장비, 건설설비)이 다릅니다.');
+				return;
+			}
+		}		
 	}
 	
 	var url = '/fcltyMng/downloadSelectedResultList.do';
