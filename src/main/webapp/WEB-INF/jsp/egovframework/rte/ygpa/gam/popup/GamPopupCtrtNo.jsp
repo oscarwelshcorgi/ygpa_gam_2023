@@ -56,6 +56,8 @@ GamPopupFcltsClCdModule.prototype.loadComplete = function() {
 	this.$("#grdInfoList").on("onItemUnSelected", function(event, module, row, grid, param) {
 	});
 
+	this.applySelectYear();
+	
 };
 // 사용자 설정 함수 추가
 
@@ -84,6 +86,22 @@ GamPopupFcltsClCdModule.prototype.loadData = function() {
  	this.$("#grdInfoList").flexOptions({params:searchOpt}).flexReload();
 };
 
+<%
+/**
+ * @FUNCTION NAME : applySelectYear
+ * @DESCRIPTION   : Select Element에 2000년 부터 현재년도까지 채워 넣는 함수
+ * @PARAMETER     : NONE
+**/
+%>
+GamPopupFcltsClCdModule.prototype.applySelectYear = function(){
+	var toDate = new Date();
+	var toYear = toDate.getFullYear();
+
+	for(var i = toYear;i>=2000;i--){
+		this.$("#sCtrtYear").append("<option value='" + i + "'>" + i + "년</option>");
+	}
+};
+
 // 다음 변수는 고정 적으로 정의 해야 함
 var popup_instance = new GamPopupFcltsClCdModule();
 </script>
@@ -98,7 +116,15 @@ var popup_instance = new GamPopupFcltsClCdModule();
                         	<input id="sCtrtNo" type="text" size="14" maxlength="15" />
                         </td>
 						<th>계약명</th>
-                        <td><input id="sCtrtNm" type="text" size="20" maxlength="100" /></td>
+                        <td>
+                        	<input id="sCtrtNm" type="text" size="20" maxlength="100" />
+                        </td>
+                        <th>계약년도</th>
+                        <td>
+							<select id="sCtrtYear" title="계약년도">
+								<option value="">선택</option>
+							</select>
+						</td>
 						<td><button class="buttonSearch">조회</button></td>
 					</tr>
 				</tbody>

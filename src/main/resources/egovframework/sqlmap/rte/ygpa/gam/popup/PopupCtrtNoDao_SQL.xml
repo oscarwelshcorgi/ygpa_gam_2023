@@ -43,6 +43,9 @@
 								<isNotEmpty property="sCtrtNm">
 									AND I.CTRT_NM LIKE '%' || #sCtrtNm# || '%'
 								</isNotEmpty>
+								<isNotEmpty property="sCtrtYear">
+									AND TO_CHAR(I.CTRT_DT, 'YYYY') = #sCtrtYear#
+								</isNotEmpty>
                             <!-- ORDER BY REGIST_DT DESC -->
                             ORDER BY I.CTRT_NO DESC, I.CTRT_DT DESC
                 ) S

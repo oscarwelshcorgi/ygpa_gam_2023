@@ -30,6 +30,9 @@ public class GamPopupCtrtNoVO extends ComDefaultVO  {
 	
 	/** 계약명 */
 	private String sCtrtNm;
+	
+	/** 계약년도 */
+	private String sCtrtYear;
 
 	/**
 	 * @return the sCtrtNo
@@ -57,6 +60,20 @@ public class GamPopupCtrtNoVO extends ComDefaultVO  {
 	 */
 	public void setsCtrtNm(String sCtrtNm) {
 		this.sCtrtNm = sCtrtNm;
+	}
+
+	/**
+	 * @return the sCtrtYear
+	 */
+	public String getsCtrtYear() {
+		return sCtrtYear;
+	}
+
+	/**
+	 * @param sCtrtYear the sCtrtYear to set
+	 */
+	public void setsCtrtYear(String sCtrtYear) {
+		this.sCtrtYear = sCtrtYear;
 	}
 	
 }
