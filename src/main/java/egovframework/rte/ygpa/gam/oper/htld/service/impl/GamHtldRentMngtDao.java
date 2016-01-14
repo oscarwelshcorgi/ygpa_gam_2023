@@ -632,4 +632,75 @@ public class GamHtldRentMngtDao extends YGPAAbstractDAO {
 	public void deleteBizAssessBill(Map<String, String> vo) throws Exception {
 		delete("gamHtldRentMngtDao.deleteBizAssessBill_S", vo);
 	}	
+
+	/**
+	 * 고지내역테이블에 면적평가에 해당하는 내역의 next 고지횟수를 가져오기
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public String selectGetNextNticCntByAreaAssess(Map<String, String> vo) throws Exception {
+		return (String)getSqlMapClientTemplate().queryForObject("gamHtldRentMngtDao.selectGetNextNticCntByAreaAssess_S", vo);
+	}
+	
+	/**
+	 * 고지내역테이블에 면적평가에 해당하는 내역의 next 고지횟수를 가져오기
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public String selectGetNextAreaAssessNo(Map<String, String> vo) throws Exception {
+		return (String)getSqlMapClientTemplate().queryForObject("gamHtldRentMngtDao.selectGetNextAreaAssessNo_S", vo);
+	}
+
+	/**
+	 * 면적평가 고지데이터 등록
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public void insertAreaAssessBill(Map<String, String> vo) throws Exception {
+		insert("gamHtldRentMngtDao.insertAreaAssessBill_S", vo);
+	}
+
+	/**
+	 * 면적평가 등록
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public void insertHtldAreaAssess(Map<String, String> vo) throws Exception {
+		insert("gamHtldRentMngtDao.insertHtldAreaAssess_S", vo);
+	}
+
+	/**
+	 * 고지내역테이블에 고지된 면적평가가 존재하는지 유무
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public int selectExistIsueAreaAssessFromLevReqestCnt(Map<String, String> vo) throws Exception {
+		return (Integer)getSqlMapClientTemplate().queryForObject("gamHtldRentMngtDao.selectExistIsueAreaAssessFromLevReqestCnt_S", vo);
+	}
+
+	/**
+	 * 면적평가 고지데이터 수정
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public void updateAreaAssessBill(Map<String, String> vo) throws Exception {
+		insert("gamHtldRentMngtDao.updateAreaAssessBill_S", vo);
+	}
+
+	/**
+	 * 면적평가 수정
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public void updateHtldAreaAssess(Map<String, String> vo) throws Exception {
+		insert("gamHtldRentMngtDao.updateHtldAreaAssess_S", vo);
+	}
+	
 }

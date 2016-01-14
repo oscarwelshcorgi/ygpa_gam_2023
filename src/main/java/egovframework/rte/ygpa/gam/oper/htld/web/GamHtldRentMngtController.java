@@ -745,8 +745,6 @@ public class GamHtldRentMngtController {
            throws Exception {
     	
     	Map map = new HashMap();
-        String resultMsg = "";
-        int resultCode = 1;
         ObjectMapper mapper = new ObjectMapper();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -799,8 +797,6 @@ public class GamHtldRentMngtController {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/oper/htld/selectHtldNticList.do", method=RequestMethod.POST)
 	public @ResponseBody Map selectHtldNticList(GamHtldRentDefaultVO searchVO) throws Exception {
-
-		int totalCnt;
     	Map map = new HashMap();
 
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -823,9 +819,6 @@ public class GamHtldRentMngtController {
     	Map totalSum = gamHtldRentMngtService.selectHtldNticRcivSum(searchVO);
     	List nticList = gamHtldRentMngtService.selectHtldNticRcivList(searchVO);
 
-//    	paginationInfo.setTotalRecordCount(totalCnt);
-//        searchVO.setPageSize(paginationInfo.getLastPageNoOnPageList());
-
     	map.put("resultCode", 0);	// return ok
     	map.put("totalSum", totalSum);
     	map.put("resultList", nticList);
@@ -834,5 +827,85 @@ public class GamHtldRentMngtController {
     	return map;
     }
 
+    /**
+     * 면적평가 항목을 저장한다.
+     * @param assessList
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/htld/insertAreaHtldAssessList.do")
+    public @ResponseBody Map insertAreaHtldAssessList(
+    		@RequestParam Map<String, String> areaAssessData)
+           throws Exception {
+    	
+    	Map map = new HashMap();
 
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	
+    	areaAssessData.put("regUsr", loginVo.getId());
+    	areaAssessData.put("updUsr", loginVo.getId());
+    	
+    	try {
+        	gamHtldRentMngtService.insertAreaHtldAssess(areaAssessData);
+        	map.put("resultCode", 0);
+        	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+    	}
+    	catch(Exception e) {
+        	map.put("resultCode", 1);
+        	map.put("resultMsg", e.getMessage());
+    	}
+ 		
+    	return map;
+ 		
+    }
+
+
+    /**
+     * 면적평가 항목을 수정한다.
+     * @param assessList
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/htld/updateAreaHtldAssessList.do")
+    public @ResponseBody Map updateAreaHtldAssessList(
+    		@RequestParam Map<String, String> areaAssessData)
+           throws Exception {
+    	
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	
+    	areaAssessData.put("regUsr", loginVo.getId());
+    	areaAssessData.put("updUsr", loginVo.getId());
+    	
+    	try {
+        	gamHtldRentMngtService.updateAreaHtldAssess(areaAssessData);
+        	map.put("resultCode", 0);
+        	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+    	}
+    	catch(Exception e) {
+        	map.put("resultCode", 1);
+        	map.put("resultMsg", e.getMessage());
+    	}
+ 		
+    	return map;
+ 		
+    }
+  
 }

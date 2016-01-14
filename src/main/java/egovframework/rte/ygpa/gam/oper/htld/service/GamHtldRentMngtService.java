@@ -255,4 +255,16 @@ public interface GamHtldRentMngtService {
 	 * @throws Exception
 	 */
 	void updateBizHtldAssessList(List<GamHtldAssessVO> createList, List<GamHtldAssessVO> updateList, List<GamHtldAssessVO> deleteList, Map<String, String> rentData, Map<String, String> nticData, LoginVO loginVo) throws Exception;
+
+	/**
+	 * 면적평가 등록
+	 * @param areaAssessData
+	 */
+	void insertAreaHtldAssess(Map<String, String> areaAssessData) throws Exception;
+
+	/**
+	 * 면적평가 수정
+	 * @param areaAssessData
+	 */
+	void updateAreaHtldAssess(Map<String, String> areaAssessData) throws Exception;
 }

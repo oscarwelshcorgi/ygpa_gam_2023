@@ -143,17 +143,21 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
         url: '/oper/htld/selectHtldAreaAssessList.do',
         dataType: 'json',
         colModel : [
-                    {display:'평가회차', name:'assessNo', width:80, sortable:true, align:'center', displayFormat:'input'},
-                    {display:'평가기간From', name:'dtFrom', width:130, sortable:true, align:'left', displayFormat:'cal'},
-                    {display:'평가기간To', name:'dtTo', width:130, sortable:true, align:'left', displayFormat:'cal'},
-   					{display:'사용면적(㎡)', name:'usageAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
-    				{display:'변경면적(㎡)', name:'changeAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
-    				{display:'변동면적(㎡)', name:'increaseAr',width:80, sortable:false,align:'right', displayFormat: 'input-number', displayOption: "0.00"},
-    				{display:'적용단가(원)', name:'usagePrice',width:80, sortable:false,align:'right', displayFormat: 'input-number'},
-                    {display:'평가금액(원)', name:'assessAmt', width:130, sortable:true, align:'right', displayFormat: 'input-number'}
+                    {display:'평가회차', name:'assessNo', width:80, sortable:true, align:'center'},
+                    {display:'평가기간From', name:'dtFrom', width:130, sortable:true, align:'left'},
+                    {display:'평가기간To', name:'dtTo', width:130, sortable:true, align:'left'},
+   					{display:'사용면적(㎡)', name:'usageAr',width:80, sortable:false,align:'right'},
+    				{display:'변경면적(㎡)', name:'changeAr',width:80, sortable:false,align:'right'},
+    				{display:'변동면적(㎡)', name:'increaseAr',width:80, sortable:false,align:'right'},
+    				{display:'적용단가(원)', name:'usagePrice',width:80, sortable:false,align:'right'},
+                    {display:'평가금액(원)', name:'assessAmt', width:130, sortable:true, align:'right'}
                     ],
         showTableToggleBtn: false,
-        height: '300'
+        height: '300',
+        preProcess: function(module,data) {
+           	module.appendAreaAssess();
+           	return data;
+        }
     });
 	    
     // 고지내역목록
@@ -275,6 +279,15 @@ GamHtldRentMngtModule.prototype.onSubmit = function() {
         	break;
         case 'btnRemoveBizAssess': //실적평가 삭제
         	this.removeBizAssess();
+        	break;
+        case 'btnAppendAreaAssess': //면적평가 추가
+        	this.appendAreaAssess();
+        	break;
+        case 'btnSaveAreaAssess': //면적평가 저장
+        	this.saveAreaAssess();
+        	break;
+        case 'btnRemoveAreaAssess': //면적평가 삭제
+        	this.removeAreaAssess();
         	break;
     }
 };
@@ -447,6 +460,40 @@ GamHtldRentMngtModule.prototype.setEvents = function() {
     this.$('#areaAssessInputForm :input').on('change', {module:this}, function(event) {
     	var module=event.data.module;
     	module.onCalcAreaAssessAmt();
+    });
+
+    // 면적평가의 적용면적이 변경될 때
+    this.$("#usageAr").bind("keyup", {module: this}, function(event) {
+    	var module=event.data.module;
+    	module.onCalcAreaIncreaseAr();
+    	module.onCalcAreaAssessAmt();
+    });
+
+    // 면적평가의 변경면적이 변경될 때
+    this.$("#changeAr").bind("keyup", {module: this}, function(event) {
+    	var module=event.data.module;
+    	module.onCalcAreaIncreaseAr();
+    	module.onCalcAreaAssessAmt();
+    });
+
+    // 면적평가의 변동면적이 변경될 때
+    this.$("#increaseAr").bind("keyup", {module: this}, function(event) {
+    	var module=event.data.module;
+    	module.onCalcAreaAssessAmt();
+    });
+
+    // 면적평가의 적용단가이 변경될 때
+    this.$("#usagePrice").bind("keyup", {module: this}, function(event) {
+    	var module=event.data.module;
+    	module.onCalcAreaAssessAmt();
+    });
+
+    // 면적평가목록에서 데이터가 선택될 때
+    this.$("#areaAssessGrid").on('onItemSelected', function(event, module, row, grid, param) {
+    	module.makeFormValues('#areaAssessInputForm', row);
+    	module.$('nticCnt').val(row.nticCnt);;
+    	module.$('chrgeKnd').val(row.chrgeKnd);
+    	module._areaAssessMode = 'U';
     });
     
 };
@@ -1218,45 +1265,21 @@ GamHtldRentMngtModule.prototype.onCalcBizAssessListCellEdited = function(row, ri
 	실적평가 평가금액 계산
 --%>
 GamHtldRentMngtModule.prototype.onCalcBizAssessAmt = function(row) {
-	var onCalcSameYearMonths = function(dtFrom, dtTo) { //같은년도의 기간월수 구하기
-		var result = 0;
-		if(dtFrom.equalsMonth(dtTo)) {
-			result = ((dtFrom.getDay() == 1) && (dtTo.isLastDayOfMonth())) ? 1 : (dtTo.getDay() - dtFrom.getDay() + 1) / dtTo.getLastDayOfMonth();
-		} else {
-			result = dtTo.getMonth() - dtFrom.getMonth() - 1;
-			result += (dtFrom.getDay() == 1) ? 1 : ((dtFrom.getLastDayOfMonth() - dtFrom.getDay() + 1) / dtFrom.getLastDayOfMonth());
-			result += (dtTo.isLastDayOfMonth()) ? 1 : (dtTo.getDay() / dtTo.getLastDayOfMonth());
-		}
-		return result;
-	};
 	var dtFrom = row.dtFrom, dtTo = row.dtTo, increasePrice = row.increasePrice, usageAr = row.usageAr;
 	var applyMonths = 0, assessAmt = 0; 
 	row.assessAmt = assessAmt;
 	if((dtFrom==void(0)) || (dtTo==void(0)) || (increasePrice==0) || (usageAr==void(0)))  return;
-	dtFrom = this.createExtendedDate(EMD.util.strToDate(dtFrom));
-	dtTo = this.createExtendedDate(EMD.util.strToDate(dtTo));
 
+	dtFrom = EMD.util.strToDate(dtFrom);
+	dtTo = EMD.util.strToDate(dtTo);
+	
 	if(dtFrom.getTime() > dtTo.getTime()) {
 		alert('평가기간시작일이 평가기간종료일보다 큽니다.');
 		return;
 	}
-	if(dtFrom.equalsYear(dtTo)) {
-		applyMonths = onCalcSameYearMonths(dtFrom, dtTo);
-	} else {
-		applyMonths = (dtTo.getYear() - dtFrom.getYear() - 1) * 12;
-		if((dtFrom.getMonth() == 1) && (dtFrom.getDay() == 1)) {
-			applyMonths += 12;
-		} else {
-			var dtTempTo = this.createExtendedDate(EMD.util.strToDate(dtFrom.getYear() + '-12-31'));
-			applyMonths += onCalcSameYearMonths(dtFrom, dtTempTo);			
-		}
-		if((dtTo.getMonth() == 12) && (dtTo.getDay() == 31)) {
-			applyMonths += 12;
-		} else {
-			var dtTempFrom = this.createExtendedDate(EMD.util.strToDate(dtTo.getYear() + '-01-01'));
-			applyMonths += onCalcSameYearMonths(dtTempFrom, dtTo);
-		}
-	}
+	
+	applyMonths = this.getPdMonths(dtFrom, dtTo);
+
 	assessAmt = applyMonths * increasePrice * usageAr;
 	row.assessAmt = Math.floor(assessAmt*10) / 10;
 };
@@ -1302,61 +1325,144 @@ GamHtldRentMngtModule.prototype.loadAreaAssessList = function() {
 };
 
 <%--
+	면적평가 추가
+--%>
+GamHtldRentMngtModule.prototype.appendAreaAssess = function() {
+	this._areaAssessMode = 'I';
+	this.makeFormValues('#areaAssessInputForm', {});
+};
+
+<%--
+	면적평가 삭제
+--%>
+GamHtldRentMngtModule.prototype.removeAreaAssess = function() {
+    var rows=this.$('#areaAssessGrid').selectedRows();
+    if(rows.length == 0) {
+        alert("삭제할 항목을 선택하십시오.");
+        return;
+    }
+    var row = rows[[0]];
+    
+};
+
+<%--
+	면적평가 저장
+--%>
+GamHtldRentMngtModule.prototype.saveAreaAssess = function() {
+	if(!EMD.util.isDate(this.$('#dtFrom').val())) {
+		alert('평가기간을 입력하지 않았거나 날짜형식에 맞지 않습니다');
+		return;
+	}
+	if(!EMD.util.isDate(this.$('#dtTo').val())) {
+		alert('평가기간을 입력하지 않았거나 날짜형식에 맞지 않습니다');
+		return;
+	}
+
+	if(this.$('#assessAmt').val() == '') {
+		alert('평가금액을 입력하지 않았습니다.');
+		return;
+	}
+	
+	if(Number(this.$('#assessAmt').val()) < 0) {
+		alert('0이하의 평가금액은 고지가 되지 않습니다.');
+		return;
+	}
+
+	var vo = {};
+	
+	if(this._areaAssessMode == 'I') {
+		vo['prtAtCode'] = this._rentDetail.prtAtCode;
+		vo['mngYear'] = this._rentDetail.mngYear;
+		vo['mngNo'] = this._rentDetail.mngNo;
+		vo['mngCnt'] = this._rentDetail.mngCnt;
+		vo['chrgeKnd'] = this._rentDetail.chrgeKnd;
+		vo['nticPdFrom'] = this.$('#dtFrom').val();
+		vo['nticPdTo'] = this.$('#dtTo').val();
+		vo['fee'] = this.$('#assessAmt').val();
+		vo['assessSe'] = '2';
+		vo['dtFrom'] = this.$('#dtFrom').val();
+		vo['dtTo'] = this.$('#dtTo').val();
+		vo['usageAr'] = this.$('#usageAr').val();
+		vo['changeAr'] = this.$('#changeAr').val();
+		vo['increaseAr'] = this.$('#increaseAr').val();
+		vo['usagePrice'] = this.$('#usagePrice').val();
+		vo['assessAmt'] = this.$('#assessAmt').val();
+		
+		vo = EMD.util.objectToArray(vo);
+		this.doAction('/oper/htld/insertAreaHtldAssessList.do', vo, function(module, result) {
+			if(result.resultCode == 0){
+				module.loadAreaAssessList();
+			}
+	        alert(result.resultMsg);
+	    });
+	} else {
+		vo['prtAtCode'] = this._rentDetail.prtAtCode;
+		vo['mngYear'] = this._rentDetail.mngYear;
+		vo['mngNo'] = this._rentDetail.mngNo;
+		vo['mngCnt'] = this._rentDetail.mngCnt;
+		vo['chrgeKnd'] = this._rentDetail.chrgeKnd;
+		vo['nticPdFrom'] = this.$('#dtFrom').val();
+		vo['nticPdTo'] = this.$('#dtTo').val();
+		vo['fee'] = this.$('#assessAmt').val();
+		vo['assessSe'] = '2';
+		vo['dtFrom'] = this.$('#dtFrom').val();
+		vo['dtTo'] = this.$('#dtTo').val();
+		vo['usageAr'] = this.$('#usageAr').val();
+		vo['changeAr'] = this.$('#changeAr').val();
+		vo['increaseAr'] = this.$('#increaseAr').val();
+		vo['usagePrice'] = this.$('#usagePrice').val();
+		vo['assessAmt'] = this.$('#assessAmt').val();
+		vo['nticCnt'] = this.$('#nticCnt').val();
+		vo['assessNo'] = this.$('#assessNo').val();
+		vo = EMD.util.objectToArray(vo);
+		this.doAction('/oper/htld/updateAreaHtldAssessList.do', vo, function(module, result) {
+			if(result.resultCode == 0){
+	        	module.loadAreaAssessList();
+			}
+	        alert(result.resultMsg);
+	    });
+	}	
+};
+
+<%--
 	면적평가 변경면적 계산
 --%>
 GamHtldRentMngtModule.prototype.onCalcAreaIncreaseAr = function() {
-	var usageAr = this.$('#usageAr').val(), changeAr = this.$('changeAr').val();
+	var usageAr = this.$('#usageAr').val(), changeAr = this.$('#changeAr').val(), increaseAr = 0;
 	if((usageAr==void(0)) || (changeAr==void(0))) return;
 	if((usageAr=='') || (changeAr=='')) return;
 	usageAr = Number(this.getNumber(usageAr));
+	changeAr = Number(this.getNumber(changeAr));
+	increaseAr = changeAr - usageAr;
+	this.$('#increaseAr').val(increaseAr);
 };
 
 <%--
 	면적평가 평가금액 계산
 --%>
 GamHtldRentMngtModule.prototype.onCalcAreaAssessAmt = function() {
-	var onCalcSameYearMonths = function(dtFrom, dtTo) { //같은년도의 기간월수 구하기
-		var result = 0;
-		if(dtFrom.equalsMonth(dtTo)) {
-			result = ((dtFrom.getDay() == 1) && (dtTo.isLastDayOfMonth())) ? 1 : (dtTo.getDay() - dtFrom.getDay() + 1) / dtTo.getLastDayOfMonth();
-		} else {
-			result = dtTo.getMonth() - dtFrom.getMonth() - 1;
-			result += (dtFrom.getDay() == 1) ? 1 : ((dtFrom.getLastDayOfMonth() - dtFrom.getDay() + 1) / dtFrom.getLastDayOfMonth());
-			result += (dtTo.isLastDayOfMonth()) ? 1 : (dtTo.getDay() / dtTo.getLastDayOfMonth());
-		}
-		return result;
-	};
 	var dtFrom = this.$('#dtFrom').val(), dtTo = this.$('#dtTo').val(), usagePrice = this.$('#usagePrice').val(), increaseAr = this.$('#increaseAr').val();
 	var applyMonths = 0, assessAmt = 0; 
 	if((dtFrom==void(0)) || (dtTo==void(0)) || (usagePrice==void(0)) || (increaseAr==void(0)))  return;
+	
 	if((increaseAr=='') || (usagePrice==''))  return;
+	
 	if(!EMD.util.isDate(dtFrom)) return;
 	if(!EMD.util.isDate(dtTo)) return;
-	dtFrom = this.createExtendedDate(EMD.util.strToDate(dtFrom));
-	dtTo = this.createExtendedDate(EMD.util.strToDate(dtTo));
+	
+	dtFrom = EMD.util.strToDate(dtFrom);
+	dtTo = EMD.util.strToDate(dtTo);
+	
 	usagePrice = Number(this.getNumber(usagePrice));
 	increaseAr = Number(this.getNumber(increaseAr));
+	
 	if(dtFrom.getTime() > dtTo.getTime()) {
 		alert('평가기간시작일이 평가기간종료일보다 큽니다.');
 		return;
 	}
-	if(dtFrom.equalsYear(dtTo)) {
-		applyMonths = onCalcSameYearMonths(dtFrom, dtTo);
-	} else {
-		applyMonths = (dtTo.getYear() - dtFrom.getYear() - 1) * 12;
-		if((dtFrom.getMonth() == 1) && (dtFrom.getDay() == 1)) {
-			applyMonths += 12;
-		} else {
-			var dtTempTo = this.createExtendedDate(EMD.util.strToDate(dtFrom.getYear() + '-12-31'));
-			applyMonths += onCalcSameYearMonths(dtFrom, dtTempTo);			
-		}
-		if((dtTo.getMonth() == 12) && (dtTo.getDay() == 31)) {
-			applyMonths += 12;
-		} else {
-			var dtTempFrom = this.createExtendedDate(EMD.util.strToDate(dtTo.getYear() + '-01-01'));
-			applyMonths += onCalcSameYearMonths(dtTempFrom, dtTo);
-		}
-	}
+	
+	applyMonths = this.getPdMonths(dtFrom, dtTo);
+	
 	assessAmt = applyMonths * increaseAr * usagePrice;
 	assessAmt = (assessAmt > 0) ? Math.floor(assessAmt*0.1) * 10 : 0; //1원단위는 절사한다.
 	this.$('#assessAmt').val(assessAmt);
@@ -1433,6 +1539,47 @@ GamHtldRentMngtModule.prototype.createExtendedDate = function (argDate) {
 		}
 	};	
 };
+
+<%--
+	기간의 월수 구하기
+--%>
+GamHtldRentMngtModule.prototype.getPdMonths = function(dtFrom, dtTo) {
+	var result = 0;
+	var onCalcSameYearMonths = function(dtFrom, dtTo) { //같은년도의 기간월수 구하기
+		var result = 0;
+		if(dtFrom.equalsMonth(dtTo)) {
+			result = ((dtFrom.getDay() == 1) && (dtTo.isLastDayOfMonth())) ? 1 : (dtTo.getDay() - dtFrom.getDay() + 1) / dtTo.getLastDayOfMonth();
+		} else {
+			result = dtTo.getMonth() - dtFrom.getMonth() - 1;
+			result += (dtFrom.getDay() == 1) ? 1 : ((dtFrom.getLastDayOfMonth() - dtFrom.getDay() + 1) / dtFrom.getLastDayOfMonth());
+			result += (dtTo.isLastDayOfMonth()) ? 1 : (dtTo.getDay() / dtTo.getLastDayOfMonth());
+		}
+		return result;
+	};
+
+	dtFrom = this.createExtendedDate(dtFrom);
+	dtTo = this.createExtendedDate(dtTo);
+
+	if(dtFrom.equalsYear(dtTo)) {
+		result = onCalcSameYearMonths(dtFrom, dtTo);
+	} else {
+		result = (dtTo.getYear() - dtFrom.getYear() - 1) * 12;
+		if((dtFrom.getMonth() == 1) && (dtFrom.getDay() == 1)) {
+			result += 12;
+		} else {
+			var dtTempTo = this.createExtendedDate(EMD.util.strToDate(dtFrom.getYear() + '-12-31'));
+			result += onCalcSameYearMonths(dtFrom, dtTempTo);			
+		}
+		if((dtTo.getMonth() == 12) && (dtTo.getDay() == 31)) {
+			result += 12;
+		} else {
+			var dtTempFrom = this.createExtendedDate(EMD.util.strToDate(dtTo.getYear() + '-01-01'));
+			result += onCalcSameYearMonths(dtTempFrom, dtTo);
+		}
+	}
+	
+	return result;
+}; 
 
 <%--
 	문자열를 숫자로 변환. (EMD.util.getNumber 추가 예정)
@@ -1696,6 +1843,8 @@ var module_instance = new GamHtldRentMngtModule();
                 <div class="emdControlPanel">
        	        	<table id="areaAssessGrid" style="display:none" class="fillHeight"></table>
        	        	<form id="areaAssessInputForm">
+						<input type="hidden" id="nticCnt"/>
+						<input type="hidden" id="aChrgeKnd"/>
 	       	        	<table class="detailPanel" style="width:100%;">
 	 						<tr>
 								<th width="10%" height="18">평가회차</th>

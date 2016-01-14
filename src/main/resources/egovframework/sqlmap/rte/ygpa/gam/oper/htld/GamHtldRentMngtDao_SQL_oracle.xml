@@ -1907,5 +1907,241 @@
 				AND NTIC_CNT = #nticCnt#
 				AND CHRGE_KND = #chrgeKnd#
     </delete>
+
+	<!-- 고지내역테이블에 면적평가에 해당하는 내역의 next 고지횟수를 가져오기 -->
+	<select id="gamHtldRentMngtDao.selectGetNextNticCntByAreaAssess_S"  resultClass="String">
+		SELECT 
+			LPAD(NVL(MAX(NTIC_CNT),0)+1, 2, '0') 
+		FROM LEV_REQEST_F 
+		WHERE PRT_AT_CODE = #prtAtCode# 
+			AND MNG_YEAR = #mngYear# 
+			AND MNG_NO = #mngNo# 
+			AND MNG_CNT = #mngCnt# 
+			AND CHRGE_KND = #chrgeKnd#
+	</select>
+
+	<!-- 면적평가의 next AssessNo를 가져오기 -->
+	<select id="gamHtldRentMngtDao.selectGetNextAreaAssessNo_S"  resultClass="String">
+		SELECT 
+			TO_CHAR(NVL(MAX(ASSESS_NO),0)+1) 
+		FROM HTLD_RENT_ASSESS_F 
+		WHERE PRT_AT_CODE = #prtAtCode# 
+			AND MNG_YEAR = #mngYear# 
+			AND MNG_NO = #mngNo# 
+			AND MNG_CNT = #mngCnt# 
+			AND ASSESS_SE = '2'
+	</select>
 	
+	 <!-- 면적평가 고지데이터 등록 -->
+     <insert id="gamHtldRentMngtDao.insertAreaAssessBill_S">
+		INSERT INTO LEV_REQEST_F (
+				PRT_AT_CODE, 
+				MNG_YEAR, 
+				MNG_NO, 
+				MNG_CNT, 
+				NTIC_CNT, 
+				CHRGE_KND, 
+				ENTRPSCD, 
+				ENTRPS_NM,
+				NTIC_PD_FROM, 
+				NTIC_PD_TO,
+				PAY_TMLMT, 
+				NTICNO, 
+				NTIC_DT, 
+				RCIV_SE, 
+				NHT_ISUE_YN,
+				FEE, 
+				VAT, 
+				VAT_YN, 
+				NTIC_AMT, 
+				NTIC_MTH, 
+				REG_USR, 
+				REGIST_DT,
+				DEPTCD, 
+				FCLTY_SE, 
+				ASSESS_SE
+		)
+		VALUES
+		(
+				#prtAtCode#, 
+				#mngYear#, 
+				#mngNo#, 
+				#mngCnt#, 
+				#nticCnt#, 
+				#chrgeKnd#, 
+				#entrpscd#, 
+				(SELECT ENTRPS_NM FROM ENTRPS_INFO_F WHERE ENTRPSCD=#entrpscd#),
+				TO_DATE(#nticPdFrom#, 'YYYY-MM-DD'), 
+				TO_DATE(#nticPdTo#, 'YYYY-MM-DD'),
+				'', 
+				'', 
+				'', 
+				'0', 
+				'N',
+				#fee#, 
+				#vat#, 
+				'2', 
+				#nticAmt#, 
+				'1', 
+				#regUsr#, 
+				SYSDATE, 
+				#deptcd#, 
+				'1',
+				'2'
+		)
+    </insert>
+
+   <insert id="gamHtldRentMngtDao.insertHtldAreaAssess_S">
+	   	INSERT INTO HTLD_RENT_ASSESS_F (
+			PRT_AT_CODE,
+			MNG_YEAR,
+			MNG_NO,
+			MNG_CNT,
+			ASSESS_SE,
+			ASSESS_NO,
+			CHRGE_KND,
+			NTIC_CNT,
+			<isNotEmpty property="dtFrom">
+				DT_FROM,
+			</isNotEmpty>
+			<isNotEmpty property="dtTo">
+				DT_TO,
+			</isNotEmpty>
+			<isNotEmpty property="usagePrice">
+				USAGE_PRICE,
+			</isNotEmpty>
+			<isNotEmpty property="changePrice">
+				CHANGE_PRICE,
+			</isNotEmpty>
+			<isNotEmpty property="increasePrice">
+				INCREASE_PRICE,
+			</isNotEmpty>
+			<isNotEmpty property="usageAr">
+				USAGE_AR,
+			</isNotEmpty>
+			<isNotEmpty property="changeAr">
+				CHANGE_AR,
+			</isNotEmpty>
+			<isNotEmpty property="increaseAr">
+				INCREASE_AR,
+			</isNotEmpty>
+			ASSESS_AMT,
+			REG_USR,
+			REGIST_DT,
+			UPD_USR,
+			UPDT_DT
+	   	)
+	   	VALUES (
+	   		#prtAtCode#,
+			#mngYear#,
+			#mngNo#,
+			#mngCnt#,
+			#assessSe#,
+			#assessNo#,
+			#chrgeKnd#,
+			#nticCnt#,
+			<isNotEmpty property="dtFrom">
+				TO_DATE(#dtFrom#, 'YYYY-MM-DD'),
+			</isNotEmpty>
+			<isNotEmpty property="dtTo">
+				TO_DATE(#dtTo#, 'YYYY-MM-DD'),
+			</isNotEmpty>
+			<isNotEmpty property="usagePrice">
+				TO_NUMBER(REPLACE(#usagePrice#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="changePrice">
+				TO_NUMBER(REPLACE(#changePrice#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="increasePrice">
+				TO_NUMBER(REPLACE(#increasePrice#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="usageAr">
+				TO_NUMBER(REPLACE(#usageAr#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="changeAr">
+				TO_NUMBER(REPLACE(#changeAr#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="increaseAr">
+				TO_NUMBER(REPLACE(#increaseAr#, ',', '')),
+			</isNotEmpty>
+			TO_NUMBER(REPLACE(#assessAmt#, ',', '')),
+			#regUsr#,
+			SYSDATE,
+			#updUsr#,
+			SYSDATE
+	   	)
+    </insert>
+
+	<!-- 고지내역테이블에 고지된 면적평가가 존재하는지 유무 -->
+    <select id="gamHtldRentMngtDao.selectExistIsueAreaAssessFromLevReqestCnt_S"  resultClass="int">
+    	SELECT count(*)
+		FROM LEV_REQEST_F
+		WHERE 
+			PRT_AT_CODE = #prtAtCode#
+			AND MNG_YEAR = #mngYear#
+			AND MNG_NO = #mngNo#
+			AND MNG_CNT = #mngCnt#
+			AND NTIC_CNT = #nticCnt#
+			AND CHRGE_KND = #chrgeKnd#
+			AND ASSESS_SE = '2'
+			AND NHT_ISUE_YN = 'Y'
+    </select>
+
+	 <!-- 면적평가 고지데이터 수정 -->
+     <update id="gamHtldRentMngtDao.updateAreaAssessBill_S">
+		UPDATE LEV_REQEST_F SET 
+				NTIC_PD_FROM = #nticPdFrom#, 
+				NTIC_PD_TO = #nticPdTo#,
+				FEE = #fee#, 
+				VAT = #vat#, 
+				NTIC_AMT = #nticAmt#, 
+				UPD_USR = #updUsr#, 
+				UPDT_DT = SYSDATE
+		WHERE
+				PRT_AT_CODE = #prtAtCode#
+				AND MNG_YEAR = #mngYear# 
+				AND MNG_NO = #mngNo#
+				AND MNG_CNT = #mngCnt# 
+				AND NTIC_CNT = #nticCnt#
+				AND CHRGE_KND = #chrgeKnd#
+    </update>
+
+   <update id="gamHtldRentMngtDao.updateHtldAreaAssess_S" >
+	   	UPDATE HTLD_RENT_ASSESS_F SET
+			<isNotEmpty property="dtFrom">
+				DT_FROM = TO_DATE(#dtFrom#, 'YYYY-MM-DD'),
+			</isNotEmpty>
+			<isNotEmpty property="dtTo">
+				DT_TO = TO_DATE(#dtTo#, 'YYYY-MM-DD'),
+			</isNotEmpty>
+			<isNotEmpty property="usagePrice">
+				USAGE_PRICE = TO_NUMBER(REPLACE(#usagePrice#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="changePrice">
+				CHANGE_PRICE = TO_NUMBER(REPLACE(#changePrice#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="increasePrice">
+				INCREASE_PRICE = TO_NUMBER(REPLACE(#increasePrice#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="usageAr">
+				USAGE_AR = TO_NUMBER(REPLACE(#usageAr#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="changeAr">
+				CHANGE_AR = TO_NUMBER(REPLACE(#changeAr#, ',', '')),
+			</isNotEmpty>
+			<isNotEmpty property="increaseAr">
+				INCREASE_AR = TO_NUMBER(REPLACE(#increaseAr#, ',', '')),
+			</isNotEmpty>
+			ASSESS_AMT = TO_NUMBER(REPLACE(#assessAmt#, ',', '')),
+			UPD_USR = #updUsr#,
+			UPDT_DT = SYSDATE
+		WHERE
+			PRT_AT_CODE		=	#prtAtCode#
+			AND MNG_YEAR	=	#mngYear#
+			AND MNG_NO		=	#mngNo#
+			AND MNG_CNT		=	#mngCnt#
+			AND ASSESS_SE		=	#assessSe#
+			AND ASSESS_NO	=	#assessNo#
+    </update>
+		
 </sqlMap>
