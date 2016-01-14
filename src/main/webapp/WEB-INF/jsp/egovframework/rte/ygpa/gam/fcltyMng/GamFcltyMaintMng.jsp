@@ -1073,7 +1073,7 @@ GamFcltyMaintMngModule.prototype.setDefaultParam = function(){
 	this.$("#sFcltsJobSe").val(EMD.userinfo["mngFcltyCd"]);
 
 	this.$('#planHistSe').val('H');
-	this.$('#planHistSe').disable();
+	/* this.$('#planHistSe').disable(); */
 };
 
 
@@ -1359,7 +1359,7 @@ GamFcltyMaintMngModule.prototype.addData = function() {
 	// tabs2 초기화
 	this.makeFormValues('#fcltyMaintMngListVO', {});
 	this.$("#enforceYear").val(new Date().getFullYear());
-	this.$("#planHistSe").val('P');
+	this.$("#planHistSe").val('H');
 	this.$("#searchFcltsMngGroupNo").show();
 	this.$("#fcltsJobSe").enable();
 

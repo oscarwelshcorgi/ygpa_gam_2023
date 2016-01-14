@@ -35,7 +35,7 @@
 %>
 function GamFcltsMngRegistMngModule() {}
 
-GamFcltsMngRegistMngModule.prototype = new EmdModule(1000, 710);
+GamFcltsMngRegistMngModule.prototype = new EmdModule(1000, 600);
 
 GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 
@@ -171,19 +171,19 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 		dataType : 'json',
 		colModel : [
 					{display:'순번',				name:'rnum',				width:50,		sortable:false,		align:'center'},
-					{display:'점검진단기간',		name:'qcInspDtFromTo',		width:160,		sortable:false,		align:'center'},
+					{display:'점검기간',		name:'qcInspDtFromTo',		width:160,		sortable:false,		align:'center'},
 					{display:'점검진단기관명',		name:'qcInspInsttNm',		width:150,		sortable:false,		align:'left'},
-					{display:'비용',				name:'qcInspAmt',			width:100,		sortable:false,		align:'right'},
+					{display:'점검진단금액',				name:'qcInspAmt',			width:100,		sortable:false,		align:'right'},
 					{display:'점검진단구분',		name:'qcInspSeNm',			width:90,		sortable:false,		align:'center'},
 					{display:'점검진단책임기술자',	name:'responEngineerNm',	width:125,		sortable:false,		align:'left'},
 					{display:'상태등급',			name:'sttusEvlLvlNm',		width:70,		sortable:false,		align:'center'},
-					{display:'주요 점검진단결과',	name:'qcInspResult',		width:250,		sortable:false,		align:'left'},
-					{display:'주요 보수보강(안)',	name:'actionCn',			width:250,		sortable:false,		align:'left'},
+					{display:'점검진단결과',	name:'qcInspResult',		width:250,		sortable:false,		align:'left'},
+					{display:'점검내용',	name:'actionCn',			width:250,		sortable:false,		align:'left'},
 					{display:'작성일',				name:'wrtDt',				width:80,		sortable:false,		align:'center'},
 					{display:'작성자',				name:'wrtUsr',				width:120,		sortable:false,		align:'left'}
 					],
 		showTableToggleBtn : false,
-		height : '500'
+		height : '420'
 	});
 
 <%---
@@ -210,20 +210,16 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 		dataType : 'json',
 		colModel : [
 					{display:'순번',			name:'rnum',					width:50,		sortable:false,		align:'center'},
-					{display:'공사기간',		name:'mntnRprCnstDtFromTo',		width:160,		sortable:false,		align:'center'},
+					{display:'공사기간',		name:'mntnRprCnstDtFromTo',		width:170,		sortable:false,		align:'center'},
 					{display:'공사구분',		name:'mntnRprSeNm',				width:80,		sortable:false,		align:'center'},
-					{display:'부위',			name:'mntnRprPart',				width:150,		sortable:false,		align:'left'},
-					{display:'공사내역',		name:'mntnRprCn',				width:250,		sortable:false,		align:'left'},
-					{display:'공사비',			name:'mntnRprCnstAmt',			width:120,		sortable:false,		align:'right'},
-					{display:'설계자',			name:'plannerNm',				width:150,		sortable:false,		align:'left'},
-					{display:'시공자',			name:'cnstrtr',					width:150,		sortable:false,		align:'left'},
-					{display:'책임기술자',		name:'responEngineer',			width:150,		sortable:false,		align:'left'},
-,					{display:'공사감독',		name:'cnstChargNm',				width:150,		sortable:false,		align:'left'},
-					{display:'작성일',			name:'wrtDt',					width:80,		sortable:false,		align:'center'},
-					{display:'작성자',			name:'wrtUsr',					width:120,		sortable:false,		align:'left'}
+					{display:'유지보수내용',	name:'mntnRprCn',				width:250,		sortable:false,		align:'left'},
+					{display:'공사금액',		name:'mntnRprCnstAmt',			width:120,		sortable:false,		align:'right'},
+					{display:'시공자',			name:'cnstrtr',					width:90,		sortable:false,		align:'center'},
+					{display:'작성일',			name:'wrtDt',					width:90,		sortable:false,		align:'center'},
+					{display:'작성자',			name:'wrtUsr',					width:90,		sortable:false,		align:'center'}
 					],
 		showTableToggleBtn : false,
-		height : '500'
+		height : '420'
 	});
 
 	this._mainmode = '';
@@ -236,6 +232,11 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 	this.$('#btnDelete').disable({disableClass:"ui-state-disabled"});
 	this.$('#btnPrint').disable({disableClass:"ui-state-disabled"});
 
+	if (EMD.userinfo.mngFcltyCd != null && EMD.userinfo.mngFcltyCd != "*") {
+		this.$('#sFcltsJobSe').val(EMD.userinfo.mngFcltyCd);
+	}
+	
+	console.log('debug');
 };
 
 <%
@@ -1952,40 +1953,22 @@ GamFcltsMngRegistMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 			this.changeDetailAreaForm(this.$('#fcltsNo').val());
 			break;
 		case 'qcMngTab':
-			if (this._mainFcltsMngGroupNo != "") {
-				if (this._mainFcltsMngGroupNo != this._qcMngFcltsMngGroupNo) {
-					this._qcMngFcltsMngGroupNo = this._mainFcltsMngGroupNo;
-					var sFcltsJobSe = this.$('#sFcltsJobSe').val();
-					var detailOpt = {
-										'fcltsMngGroupNo':this._qcMngFcltsMngGroupNo,
-										'fcltsJobSe':sFcltsJobSe
-									};
-					//this.$('#qcPlanGrid').flexOptions({params:detailOpt}).flexReload();
-					this.$('#qcHistGrid').flexOptions({params:detailOpt}).flexReload();
-				}
-			} else {
-				this._qcMngFcltsMngGroupNo = '';
-				//this.$('#qcPlanGrid').flexEmptyData();
-				this.$('#qcHistGrid').flexEmptyData();
-			}
+			this._qcMngFcltsMngGroupNo = this._mainFcltsMngGroupNo;
+			var sFcltsJobSe = this.$('#sFcltsJobSe').val();
+			var detailOpt = {
+								'fcltsMngGroupNo':this._qcMngFcltsMngGroupNo,
+								'fcltsJobSe':sFcltsJobSe
+							};
+			this.$('#qcHistGrid').flexOptions({params:detailOpt}).flexReload();
 			break;
 		case 'mntnRprTab':
-			if (this._mainFcltsMngGroupNo != "") {
-				if (this._mainFcltsMngGroupNo != this._mntnRprFcltsMngGroupNo) {
-					this._mntnRprFcltsMngGroupNo = this._mainFcltsMngGroupNo;
-					var sFcltsJobSe = this.$('#sFcltsJobSe').val();
-					var detailOpt = {
-							'fcltsMngGroupNo':this._qcMngFcltsMngGroupNo,
-							'fcltsJobSe':sFcltsJobSe
-						};
-					//this.$('#mntnPlanGrid').flexOptions({params:detailOpt}).flexReload();
-					this.$('#mntnHistGrid').flexOptions({params:detailOpt}).flexReload();
-				}
-			} else {
-				this._mntnRprFcltsMngGroupNo = '';
-				//this.$('#mntnPlanGrid').flexEmptyData();
-				this.$('#mntnHistGrid').flexEmptyData();
-			}
+			this._mntnRprFcltsMngGroupNo = this._mainFcltsMngGroupNo;
+			var sFcltsJobSe = this.$('#sFcltsJobSe').val();
+			var detailOpt = {
+					'fcltsMngGroupNo':this._mntnRprFcltsMngGroupNo,
+					'fcltsJobSe':sFcltsJobSe
+				};
+			this.$('#mntnHistGrid').flexOptions({params:detailOpt}).flexReload();
 			break;
 	}
 
@@ -2625,13 +2608,6 @@ var module_instance = new GamFcltsMngRegistMngModule();
 						<tr>
 							<th style="font-weight:bold; height:20px;">안전점검 및 정밀안전진단 이력</th>
 						</tr>
-						<tr>
-							<th style="height:20px;">점검진단기간 : 
-								<input type="text" size="20" id="sQcPdFrom" class="emdcal"/> ~ 
-								<input type="text" size="20" id="sQcPdTo" class="emdcal"/>
-								<button id="btnQcPdSearch">조회</button>
-							</th>
-						</tr>
 					</table>
 					<table id="qcHistGrid" style="display:none"></table>
 				</form>
@@ -2650,13 +2626,6 @@ var module_instance = new GamFcltsMngRegistMngModule();
 					<table class="summaryPanel" style="width:100%;">
 						<tr>
 							<th style="font-weight:bold; height:20px;">보수 및 보강 이력</th>
-						</tr>
-						<tr>
-							<th style="height:20px;">공사기간 : 
-								<input type="text" size="20" id="sMntnPdFrom" class="emdcal"/> ~ 
-								<input type="text" size="20" id="sMntnPdTo" class="emdcal"/>
-								<button id="btnQcPdSearch">조회</button>
-							</th>
 						</tr>
 					</table>
 					<table id="mntnHistGrid" style="display:none"></table>
