@@ -145,7 +145,9 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 	this.$('#downRoadCn').on('keyup change',{module:this}, function(event){
 		event.data.module.calcSumUpDownRoadCn();
 	});
+	
 
+<%--
 	this.$("#qcPlanGrid").flexigrid({
 		module : this,
 		url : '/fclty/gamSelectFcltsMngRegistMngQcMngDtlsPlanList.do',
@@ -161,6 +163,7 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 		showTableToggleBtn : false,
 		height : '215'
 	});
+--%>	
 
 	this.$("#qcHistGrid").flexigrid({
 		module : this,
@@ -180,9 +183,10 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 					{display:'작성자',				name:'wrtUsr',				width:120,		sortable:false,		align:'left'}
 					],
 		showTableToggleBtn : false,
-		height : '215'
+		height : '500'
 	});
 
+<%---
 	this.$("#mntnPlanGrid").flexigrid({
 		module : this,
 		url : '/fclty/gamSelectFcltsMngRegistMngMntnRprDtlsPlanList.do',
@@ -198,6 +202,7 @@ GamFcltsMngRegistMngModule.prototype.loadComplete = function() {
 		showTableToggleBtn : false,
 		height : '215'
 	});
+--%>
 
 	this.$("#mntnHistGrid").flexigrid({
 		module : this,
@@ -1955,12 +1960,12 @@ GamFcltsMngRegistMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 										'fcltsMngGroupNo':this._qcMngFcltsMngGroupNo,
 										'fcltsJobSe':sFcltsJobSe
 									};
-					this.$('#qcPlanGrid').flexOptions({params:detailOpt}).flexReload();
+					//this.$('#qcPlanGrid').flexOptions({params:detailOpt}).flexReload();
 					this.$('#qcHistGrid').flexOptions({params:detailOpt}).flexReload();
 				}
 			} else {
 				this._qcMngFcltsMngGroupNo = '';
-				this.$('#qcPlanGrid').flexEmptyData();
+				//this.$('#qcPlanGrid').flexEmptyData();
 				this.$('#qcHistGrid').flexEmptyData();
 			}
 			break;
@@ -1973,12 +1978,12 @@ GamFcltsMngRegistMngModule.prototype.onTabChange = function(newTabId, oldTabId) 
 							'fcltsMngGroupNo':this._qcMngFcltsMngGroupNo,
 							'fcltsJobSe':sFcltsJobSe
 						};
-					this.$('#mntnPlanGrid').flexOptions({params:detailOpt}).flexReload();
+					//this.$('#mntnPlanGrid').flexOptions({params:detailOpt}).flexReload();
 					this.$('#mntnHistGrid').flexOptions({params:detailOpt}).flexReload();
 				}
 			} else {
 				this._mntnRprFcltsMngGroupNo = '';
-				this.$('#mntnPlanGrid').flexEmptyData();
+				//this.$('#mntnPlanGrid').flexEmptyData();
 				this.$('#mntnHistGrid').flexEmptyData();
 			}
 			break;
@@ -2608,15 +2613,24 @@ var module_instance = new GamFcltsMngRegistMngModule();
 			<!-- 214. TAB 3 AREA (QC MNG) -->
 			<div id="qcMngTab" class="emdTabPage" style="overflow:scroll;">
 				<form id="qcMngForm">
+<!-- 
 					<table class="summaryPanel" style="width:100%;">
 						<tr>
 							<th style="font-weight:bold; height:20px;">안전점검 및 정밀안전진단 계획</th>
 						</tr>
 					</table>
 					<table id="qcPlanGrid" style="display:none"></table>
+-->
 					<table class="summaryPanel" style="width:100%;">
 						<tr>
 							<th style="font-weight:bold; height:20px;">안전점검 및 정밀안전진단 이력</th>
+						</tr>
+						<tr>
+							<th style="height:20px;">점검진단기간 : 
+								<input type="text" size="20" id="sQcPdFrom" class="emdcal"/> ~ 
+								<input type="text" size="20" id="sQcPdTo" class="emdcal"/>
+								<button id="btnQcPdSearch">조회</button>
+							</th>
 						</tr>
 					</table>
 					<table id="qcHistGrid" style="display:none"></table>
@@ -2636,6 +2650,13 @@ var module_instance = new GamFcltsMngRegistMngModule();
 					<table class="summaryPanel" style="width:100%;">
 						<tr>
 							<th style="font-weight:bold; height:20px;">보수 및 보강 이력</th>
+						</tr>
+						<tr>
+							<th style="height:20px;">공사기간 : 
+								<input type="text" size="20" id="sMntnPdFrom" class="emdcal"/> ~ 
+								<input type="text" size="20" id="sMntnPdTo" class="emdcal"/>
+								<button id="btnQcPdSearch">조회</button>
+							</th>
 						</tr>
 					</table>
 					<table id="mntnHistGrid" style="display:none"></table>
