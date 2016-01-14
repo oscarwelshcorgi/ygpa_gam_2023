@@ -141,6 +141,8 @@
                                   , A.UPD_USR
                                   , TO_CHAR(A.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
                                   , A.GIS_CD
+                                  , (SELECT NVL(TO_CHAR(L.NTIC_PD_FROM, 'YYYY-MM-DD'), '') FROM LEV_REQEST_F L WHERE L.PRT_AT_CODE = A.PRT_AT_CODE AND L.MNG_YEAR = A.MNG_YEAR AND L.MNG_NO = A.MNG_NO AND L.MNG_CNT = L.MNG_CNT AND L.ASSESS_SE = '1') BIZ_ASSESS_PD_FROM
+                                  , (SELECT NVL(TO_CHAR(L.NTIC_PD_TO, 'YYYY-MM-DD'), '') FROM LEV_REQEST_F L WHERE L.PRT_AT_CODE = A.PRT_AT_CODE AND L.MNG_YEAR = A.MNG_YEAR AND L.MNG_NO = A.MNG_NO AND L.MNG_CNT = L.MNG_CNT AND L.ASSESS_SE = '1') BIZ_ASSESS_PD_TO                                  
                                   , TO_CHAR(A.FRST_REQST_DT, 'YYYY-MM-DD') FRST_REQST_DT
                                   , A.SANCTN_STTUS
                                   , GAM_GETCODENAME('GAM046', A.SANCTN_STTUS) SANCTN_STTUS_NM

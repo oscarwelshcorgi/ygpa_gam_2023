@@ -733,14 +733,14 @@ public class GamHtldRentMngtController {
 
 	
     /**
-     * 평가 항목을 저장한다.
+     * 실적평가 항목을 저장한다.
      * @param assessList
      * @return
      * @throws Exception
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/oper/htld/updateHtldAssessList.do")
-    public @ResponseBody Map updateHtldAssessList(
+    @RequestMapping(value="/oper/htld/updateBizHtldAssessList.do")
+    public @ResponseBody Map updateBizHtldAssessList(
     		@RequestParam Map<String, Object> assessList)
            throws Exception {
     	
