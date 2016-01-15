@@ -202,9 +202,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
     this.setButtonStatus();
 	this.showTermnKndTr();
 	
-    this.loadData();	// 데이터 조회
-    
-    console.log("a");
+    this.loadData();	// 데이터 조회    
 };
 
 <%--
