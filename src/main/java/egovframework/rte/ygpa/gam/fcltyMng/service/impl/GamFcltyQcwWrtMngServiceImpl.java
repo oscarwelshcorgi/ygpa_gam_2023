@@ -806,6 +806,11 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 		public Map<String, Object> getChargerInfo2() { return this.chargerInfo2; }		
 	}
 
+	/** 시설물 점검표 인터페이스 선언 */
+	interface BaseHwpReportInterface {
+		public String getHwpReport() throws Exception; 
+	}
+	
 	/** 시설물 점검표 HML처리 INNER SUPPER CLASS */
 	class BaseHwpReport {
 		private Map<String, Integer> fileIndexInfo;
@@ -956,12 +961,7 @@ public class GamFcltyQcwWrtMngServiceImpl extends AbstractServiceImpl implements
 			return new String(Base64.encodeBase64(fileData));
 		}
 	}
-	
-	/** 시설물 점검표 인터페이스 선언 */
-	interface BaseHwpReportInterface {
-		public String getHwpReport() throws Exception; 
-	}
-	
+		
 	/** 토목 시설물 점검표 HML처리 INNER CLASS */
 	class CivilListHwpReport extends BaseHwpReport implements BaseHwpReportInterface {
 		private List<QcMngResultInfo> qcDataList;
