@@ -856,7 +856,7 @@ public class GamHtldRentMngtController {
     	try {
         	gamHtldRentMngtService.insertAreaHtldAssess(areaAssessData);
         	map.put("resultCode", 0);
-        	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+        	map.put("resultMsg", egovMessageSource.getMessage("success.common.insert"));
     	}
     	catch(Exception e) {
         	map.put("resultCode", 1);
@@ -904,8 +904,45 @@ public class GamHtldRentMngtController {
         	map.put("resultMsg", e.getMessage());
     	}
  		
-    	return map;
- 		
+    	return map; 		
     }
-  
+
+    /**
+     * 면적평가 항목을 삭제한다.
+     * @param assessList
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @RequestMapping(value="/oper/htld/deleteAreaHtldAssessList.do")
+    public @ResponseBody Map deleteAreaHtldAssessList(
+    		@RequestParam Map<String, String> areaAssessData)
+           throws Exception {
+    	
+    	Map map = new HashMap();
+
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+	        map.put("resultCode", 1);
+    		map.put("resultMsg", egovMessageSource.getMessage("fail.common.login"));
+        	return map;
+    	}
+
+    	LoginVO loginVo = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	
+    	areaAssessData.put("regUsr", loginVo.getId());
+    	areaAssessData.put("updUsr", loginVo.getId());
+    	
+    	try {
+        	gamHtldRentMngtService.deleteAreaHtldAssess(areaAssessData);
+        	map.put("resultCode", 0);
+        	map.put("resultMsg", egovMessageSource.getMessage("success.common.update"));
+    	}
+    	catch(Exception e) {
+        	map.put("resultCode", 1);
+        	map.put("resultMsg", e.getMessage());
+    	}
+ 		
+    	return map; 		
+    }    
 }

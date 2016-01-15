@@ -153,7 +153,7 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
                     {display:'평가금액(원)', name:'assessAmt', width:130, sortable:true, align:'right'}
                     ],
         showTableToggleBtn: false,
-        height: '300',
+        height: '340',
         preProcess: function(module,data) {
            	module.appendAreaAssess();
            	return data;
@@ -247,6 +247,7 @@ GamHtldRentMngtModule.prototype.onSubmit = function() {
         case 'btnRentFeeMngt':	 // 임대료 고지관리
         case 'btnRentFeeMngt2':
         case 'btnRentFeeMngt3':
+        case 'btnRentFeeMngt4':
         	this.loadRentFeeMngt();
 			break;
         case 'btnInsertItemDetail':	//임대상세추가
@@ -1342,7 +1343,13 @@ GamHtldRentMngtModule.prototype.removeAreaAssess = function() {
         return;
     }
     var row = rows[[0]];
-    
+	var vo = EMD.util.objectToArray(row);
+	this.doAction('/oper/htld/deleteAreaHtldAssessList.do', vo, function(module, result) {
+		if(result.resultCode == '0'){
+			module.loadAreaAssessList();
+		}
+        alert(result.resultMsg);
+    });    
 };
 
 <%--
@@ -1363,60 +1370,45 @@ GamHtldRentMngtModule.prototype.saveAreaAssess = function() {
 		return;
 	}
 	
-	if(Number(this.$('#assessAmt').val()) < 0) {
-		alert('0이하의 평가금액은 고지가 되지 않습니다.');
+	if(Number(this.$('#assessAmt').val()) <= 0) {
+		alert('0이하의 평가금액은 저장이 되지 않습니다.');
 		return;
 	}
 
 	var vo = {};
+
+	vo['prtAtCode'] = this._rentDetail.prtAtCode;
+	vo['mngYear'] = this._rentDetail.mngYear;
+	vo['mngNo'] = this._rentDetail.mngNo;
+	vo['mngCnt'] = this._rentDetail.mngCnt;
+	vo['chrgeKnd'] = this._rentDetail.chrgeKnd;
+	vo['entrpscd'] = this._rentDetail.entrpscd;
+	vo['nticPdFrom'] = this.$('#dtFrom').val();
+	vo['nticPdTo'] = this.$('#dtTo').val();
+	vo['fee'] = this.$('#assessAmt').val();
+	vo['assessSe'] = '2';
+	vo['dtFrom'] = this.$('#dtFrom').val();
+	vo['dtTo'] = this.$('#dtTo').val();
+	vo['usageAr'] = this.$('#usageAr').val();
+	vo['changeAr'] = this.$('#changeAr').val();
+	vo['increaseAr'] = this.$('#increaseAr').val();
+	vo['usagePrice'] = this.$('#usagePrice').val();
+	vo['assessAmt'] = this.$('#assessAmt').val();
 	
-	if(this._areaAssessMode == 'I') {
-		vo['prtAtCode'] = this._rentDetail.prtAtCode;
-		vo['mngYear'] = this._rentDetail.mngYear;
-		vo['mngNo'] = this._rentDetail.mngNo;
-		vo['mngCnt'] = this._rentDetail.mngCnt;
-		vo['chrgeKnd'] = this._rentDetail.chrgeKnd;
-		vo['nticPdFrom'] = this.$('#dtFrom').val();
-		vo['nticPdTo'] = this.$('#dtTo').val();
-		vo['fee'] = this.$('#assessAmt').val();
-		vo['assessSe'] = '2';
-		vo['dtFrom'] = this.$('#dtFrom').val();
-		vo['dtTo'] = this.$('#dtTo').val();
-		vo['usageAr'] = this.$('#usageAr').val();
-		vo['changeAr'] = this.$('#changeAr').val();
-		vo['increaseAr'] = this.$('#increaseAr').val();
-		vo['usagePrice'] = this.$('#usagePrice').val();
-		vo['assessAmt'] = this.$('#assessAmt').val();
-		
+	if(this._areaAssessMode == 'I') {		
 		vo = EMD.util.objectToArray(vo);
 		this.doAction('/oper/htld/insertAreaHtldAssessList.do', vo, function(module, result) {
-			if(result.resultCode == 0){
+			if(result.resultCode == '0'){
 				module.loadAreaAssessList();
 			}
 	        alert(result.resultMsg);
 	    });
 	} else {
-		vo['prtAtCode'] = this._rentDetail.prtAtCode;
-		vo['mngYear'] = this._rentDetail.mngYear;
-		vo['mngNo'] = this._rentDetail.mngNo;
-		vo['mngCnt'] = this._rentDetail.mngCnt;
-		vo['chrgeKnd'] = this._rentDetail.chrgeKnd;
-		vo['nticPdFrom'] = this.$('#dtFrom').val();
-		vo['nticPdTo'] = this.$('#dtTo').val();
-		vo['fee'] = this.$('#assessAmt').val();
-		vo['assessSe'] = '2';
-		vo['dtFrom'] = this.$('#dtFrom').val();
-		vo['dtTo'] = this.$('#dtTo').val();
-		vo['usageAr'] = this.$('#usageAr').val();
-		vo['changeAr'] = this.$('#changeAr').val();
-		vo['increaseAr'] = this.$('#increaseAr').val();
-		vo['usagePrice'] = this.$('#usagePrice').val();
-		vo['assessAmt'] = this.$('#assessAmt').val();
 		vo['nticCnt'] = this.$('#nticCnt').val();
 		vo['assessNo'] = this.$('#assessNo').val();
 		vo = EMD.util.objectToArray(vo);
 		this.doAction('/oper/htld/updateAreaHtldAssessList.do', vo, function(module, result) {
-			if(result.resultCode == 0){
+			if(result.resultCode == '0'){
 	        	module.loadAreaAssessList();
 			}
 	        alert(result.resultMsg);
@@ -1874,13 +1866,14 @@ var module_instance = new GamHtldRentMngtModule();
                 	<button id="btnAppendAreaAssess">추가</button>
                 	<button id="btnRemoveAreaAssess">삭제</button>
                 	<button id="btnSaveAreaAssess">저장</button>
+                	<button id="btnRentFeeMngt3">임대료고지 관리</button>
                 	<button data-role="gridXlsDown" data-flexi-grid="areaAssessGrid" data-xls-name="배후단지면적평가.xls" data-xls-title="배후단지 면적평가">엑셀</button>
                	</div>
             </div>
             <div id="tabs5" class="emdTabPage fillHeight" style="overflow: hidden;">
                 <div class="emdControlPanel">
                 <table id="nticListGrid" style="display:none" class="fillHeight"></table>
-                	<button id="btnRentFeeMngt3">임대료고지 관리</button>
+                	<button id="btnRentFeeMngt4">임대료고지 관리</button>
                 	<button data-role="gridXlsDown" data-flexi-grid="nticListGrid" data-xls-name="배후단지임대료고지내역.xls" data-xls-title="배후단지 임대료 고지 내역">엑셀</button>
               	</div>
             </div>

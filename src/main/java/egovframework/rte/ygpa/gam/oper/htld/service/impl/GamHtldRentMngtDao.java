@@ -690,7 +690,7 @@ public class GamHtldRentMngtDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */
 	public void updateAreaAssessBill(Map<String, String> vo) throws Exception {
-		insert("gamHtldRentMngtDao.updateAreaAssessBill_S", vo);
+		update("gamHtldRentMngtDao.updateAreaAssessBill_S", vo);
 	}
 
 	/**
@@ -700,7 +700,26 @@ public class GamHtldRentMngtDao extends YGPAAbstractDAO {
 	 * @throws Exception
 	 */
 	public void updateHtldAreaAssess(Map<String, String> vo) throws Exception {
-		insert("gamHtldRentMngtDao.updateHtldAreaAssess_S", vo);
+		update("gamHtldRentMngtDao.updateHtldAreaAssess_S", vo);
 	}
 	
+	/**
+	 * 면적평가 고지데이터 삭제
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public void deleteAreaAssessBill(Map<String, String> vo) throws Exception {
+		delete("gamHtldRentMngtDao.deleteAreaAssessBill_S", vo);
+	}
+
+	/**
+	 * 면적평가 삭제
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public void deleteHtldAreaAssess(Map<String, String> vo) throws Exception {
+		delete("gamHtldRentMngtDao.deleteHtldAreaAssess_S", vo);
+	}
 }

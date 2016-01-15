@@ -267,4 +267,10 @@ public interface GamHtldRentMngtService {
 	 * @param areaAssessData
 	 */
 	void updateAreaHtldAssess(Map<String, String> areaAssessData) throws Exception;
+
+	/**
+	 * 면적평가 삭제
+	 * @param areaAssessData
+	 */
+	void deleteAreaHtldAssess(Map<String, String> areaAssessData) throws Exception;
 }

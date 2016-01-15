@@ -2106,6 +2106,7 @@
 				AND CHRGE_KND = #chrgeKnd#
     </update>
 
+	<!-- 면적평가 수정 -->
    <update id="gamHtldRentMngtDao.updateHtldAreaAssess_S" >
 	   	UPDATE HTLD_RENT_ASSESS_F SET
 			<isNotEmpty property="dtFrom">
@@ -2143,5 +2144,30 @@
 			AND ASSESS_SE		=	#assessSe#
 			AND ASSESS_NO	=	#assessNo#
     </update>
-		
+
+	 <!-- 면적평가 고지데이터 삭제 -->
+     <delete id="gamHtldRentMngtDao.deleteAreaAssessBill_S">
+		DELETE FROM 
+			LEV_REQEST_F
+		WHERE
+			PRT_AT_CODE = #prtAtCode#
+			AND MNG_YEAR = #mngYear# 
+			AND MNG_NO = #mngNo#
+			AND MNG_CNT = #mngCnt# 
+			AND NTIC_CNT = #nticCnt#
+			AND CHRGE_KND = #chrgeKnd#
+    </delete>
+
+	<!-- 면적평가 삭제 -->
+   <delete id="gamHtldRentMngtDao.deleteHtldAreaAssess_S" >
+	   	DELETE FROM 
+	   		HTLD_RENT_ASSESS_F
+		WHERE
+			PRT_AT_CODE		=	#prtAtCode#
+			AND MNG_YEAR	=	#mngYear#
+			AND MNG_NO		=	#mngNo#
+			AND MNG_CNT		=	#mngCnt#
+			AND ASSESS_SE		=	#assessSe#
+			AND ASSESS_NO	=	#assessNo#
+    </delete>		
 </sqlMap>

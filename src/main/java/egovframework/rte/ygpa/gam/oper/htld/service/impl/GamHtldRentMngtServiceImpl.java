@@ -955,7 +955,7 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 	 */
 	public void updateAreaHtldAssess(Map<String, String> areaAssessData) throws Exception {
 		if(gamHtldRentMngtDao.selectExistIsueAreaAssessFromLevReqestCnt(areaAssessData) > 0){
-			throw processException("fail.rent.saveNticBizAssess.msg");
+			throw processException("fail.rent.updateNticAreaAssess.msg");
 		}
     	BigDecimal fee = new BigDecimal(areaAssessData.get("fee"));
 		BigDecimal vat = fee.divide(new BigDecimal(10), -1, RoundingMode.CEILING);
@@ -964,6 +964,20 @@ public class GamHtldRentMngtServiceImpl extends AbstractServiceImpl implements G
 		areaAssessData.put("nticAmt", nticAmount.toString());
 		gamHtldRentMngtDao.updateAreaAssessBill(areaAssessData);
 		gamHtldRentMngtDao.updateHtldAreaAssess(areaAssessData);
+	}
+
+   /**
+	 * 면적평가를 삭제한다.
+	 * @param 
+	 * @return
+	 * @exception Exception
+	 */
+	public void deleteAreaHtldAssess(Map<String, String> areaAssessData) throws Exception {
+		if(gamHtldRentMngtDao.selectExistIsueAreaAssessFromLevReqestCnt(areaAssessData) > 0){
+			throw processException("fail.rent.updateNticAreaAssess.msg");
+		}
+		gamHtldRentMngtDao.deleteAreaAssessBill(areaAssessData);
+		gamHtldRentMngtDao.deleteHtldAreaAssess(areaAssessData);
 	}
 	
 	/* (non-Javadoc
