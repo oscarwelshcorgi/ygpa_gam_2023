@@ -464,14 +464,14 @@ GamHtldRentMngtModule.prototype.setEvents = function() {
     // 면적평가의 적용면적이 변경될 때
     this.$("#usageAr").bind("keyup", {module: this}, function(event) {
     	var module=event.data.module;
-    	module.onCalcAreaIncreaseAr();
+    	//module.onCalcAreaIncreaseAr();
     	module.onCalcAreaAssessAmt();
     });
 
     // 면적평가의 변경면적이 변경될 때
     this.$("#changeAr").bind("keyup", {module: this}, function(event) {
     	var module=event.data.module;
-    	module.onCalcAreaIncreaseAr();
+    	//module.onCalcAreaIncreaseAr();
     	module.onCalcAreaAssessAmt();
     });
 
@@ -1280,7 +1280,7 @@ GamHtldRentMngtModule.prototype.onCalcBizAssessAmt = function(row) {
 	applyMonths = this.getPdMonths(dtFrom, dtTo);
 
 	assessAmt = applyMonths * increasePrice * usageAr;
-	row.assessAmt = Math.floor(assessAmt*10) / 10;
+	row.assessAmt = Math.floor(assessAmt * 0.1) * 10;
 };
 
 <%--
