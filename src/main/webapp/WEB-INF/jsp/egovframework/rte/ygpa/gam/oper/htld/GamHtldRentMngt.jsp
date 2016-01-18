@@ -455,18 +455,36 @@ GamHtldRentMngtModule.prototype.setEvents = function() {
     	module.setButtonStatus();
     });
 
-    // 임대내역 평가기간 데이터가 변경되었을 때
+    // 임대내역 입력 폼에 데이터가 변경되었을 때
     this.$('#areaAssessInputForm :input').on('change', {module:this}, function(event) {
     	var module=event.data.module;
     	module.onCalcAreaAssessAmt();
     });
-    
-    // 임대내역 text에 calcAmt class 속성이 데이터가 변경되었을 때
-    this.$('#areaAssessInputForm .calcAmt').on('keyup', {module:this}, function(event) {
+
+    // 면적평가의 적용면적이 변경될 때
+    this.$("#usageAr").bind("keyup", {module: this}, function(event) {
     	var module=event.data.module;
     	module.onCalcAreaAssessAmt();
     });
-	
+
+    // 면적평가의 변경면적이 변경될 때
+    this.$("#changeAr").bind("keyup", {module: this}, function(event) {
+    	var module=event.data.module;
+    	module.onCalcAreaAssessAmt();
+    });
+
+    // 면적평가의 변동면적이 변경될 때
+    this.$("#increaseAr").bind("keyup", {module: this}, function(event) {
+    	var module=event.data.module;
+    	module.onCalcAreaAssessAmt();
+    });
+
+    // 면적평가의 적용단가이 변경될 때
+    this.$("#usagePrice").bind("keyup", {module: this}, function(event) {
+    	var module=event.data.module;
+    	module.onCalcAreaAssessAmt();
+    });
+
     // 면적평가목록에서 데이터가 선택될 때
     this.$("#areaAssessGrid").on('onItemSelected', function(event, module, row, grid, param) {
     	module.makeFormValues('#areaAssessInputForm', row);
@@ -474,6 +492,7 @@ GamHtldRentMngtModule.prototype.setEvents = function() {
     	module.$('chrgeKnd').val(row.chrgeKnd);
     	module._areaAssessMode = 'U';
     });
+    
 };
 
 <%--
@@ -1822,15 +1841,15 @@ var module_instance = new GamHtldRentMngtModule();
 							</tr>
 							<tr>
 								<th width="10%" height="18">사용면적</th>
-								<td><input id="usageAr" type="text" class="ygpaNumber calcAmt" data-decimal-point="2"  size="20">(㎡)</td>
+								<td><input id="usageAr" type="text" class="ygpaNumber" data-decimal-point="2"  size="20">(㎡)</td>
 								<th width="10%" height="18">변경면적</th>
-								<td width="23%"><input id="changeAr" type="text" class="ygpaNumber calcAmt" data-decimal-point="2"  size="20">(㎡)</td>
+								<td width="23%"><input id="changeAr" type="text" class="ygpaNumber" data-decimal-point="2"  size="20">(㎡)</td>
 								<th width="10%" height="18">변동면적</th>
-								<td><input id="increaseAr" type="text" class="ygpaNumber calcAmt" data-decimal-point="2" size="20">(㎡)</td>
+								<td><input id="increaseAr" type="text" class="ygpaNumber" data-decimal-point="2" size="20">(㎡)</td>
 							</tr>
 							<tr>
 								<th width="10%" height="18">적용단가</th>
-								<td><input id="usagePrice" type="text" class="ygpaNumber calcAmt" data-decimal-point="1" size="20">원</td>
+								<td><input id="usagePrice" type="text" class="ygpaNumber" data-decimal-point="1" size="20">원</td>
 								<th width="10%" height="18">평가금액</th>
 								<td colspan="3"><input id="assessAmt" type="text" class="ygpaNumber" size="20">원</td>
 	 						</tr>
