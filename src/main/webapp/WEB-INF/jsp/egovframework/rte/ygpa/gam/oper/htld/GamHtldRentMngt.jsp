@@ -464,14 +464,12 @@ GamHtldRentMngtModule.prototype.setEvents = function() {
     // 면적평가의 적용면적이 변경될 때
     this.$("#usageAr").bind("keyup", {module: this}, function(event) {
     	var module=event.data.module;
-    	//module.onCalcAreaIncreaseAr();
     	module.onCalcAreaAssessAmt();
     });
 
     // 면적평가의 변경면적이 변경될 때
     this.$("#changeAr").bind("keyup", {module: this}, function(event) {
     	var module=event.data.module;
-    	//module.onCalcAreaIncreaseAr();
     	module.onCalcAreaAssessAmt();
     });
 
@@ -1415,9 +1413,9 @@ GamHtldRentMngtModule.prototype.saveAreaAssess = function() {
 };
 
 <%--
-	면적평가 변경면적 계산
+	면적평가 평가금액 계산
 --%>
-GamHtldRentMngtModule.prototype.onCalcAreaIncreaseAr = function() {
+GamHtldRentMngtModule.prototype.onCalcAreaAssessAmt = function() {
 	var usageAr = this.$('#usageAr').val(), changeAr = this.$('#changeAr').val(), increaseAr = 0;
 	if((usageAr==void(0)) || (changeAr==void(0))) return;
 	if((usageAr=='') || (changeAr=='')) return;
@@ -1425,13 +1423,9 @@ GamHtldRentMngtModule.prototype.onCalcAreaIncreaseAr = function() {
 	changeAr = Number(this.getNumber(changeAr));
 	increaseAr = changeAr - usageAr;
 	this.$('#increaseAr').val(increaseAr);
-};
 
-<%--
-	면적평가 평가금액 계산
---%>
-GamHtldRentMngtModule.prototype.onCalcAreaAssessAmt = function() {
-	var dtFrom = this.$('#dtFrom').val(), dtTo = this.$('#dtTo').val(), usagePrice = this.$('#usagePrice').val(), increaseAr = this.$('#increaseAr').val();
+	
+	var dtFrom = this.$('#dtFrom').val(), dtTo = this.$('#dtTo').val(), usagePrice = this.$('#usagePrice').val();
 	var applyMonths = 0, assessAmt = 0; 
 	if((dtFrom==void(0)) || (dtTo==void(0)) || (usagePrice==void(0)) || (increaseAr==void(0)))  return;
 	
