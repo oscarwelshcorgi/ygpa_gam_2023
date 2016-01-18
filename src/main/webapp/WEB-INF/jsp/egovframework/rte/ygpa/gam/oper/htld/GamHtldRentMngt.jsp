@@ -461,29 +461,43 @@ GamHtldRentMngtModule.prototype.setEvents = function() {
     	module.onCalcAreaAssessAmt();
     });
 
+    this.$(".assessInput").bind("keyup", {module: this}, function(event) {
+    	var module=event.data.module;
+    	//module.onCalcAreaIncreaseAr();
+    	module.onCalcAreaAssessAmt();
+    });
+
+    /*
     // 면적평가의 적용면적이 변경될 때
     this.$("#usageAr").bind("keyup", {module: this}, function(event) {
     	var module=event.data.module;
+    	//module.onCalcAreaIncreaseAr();
     	module.onCalcAreaAssessAmt();
     });
 
     // 면적평가의 변경면적이 변경될 때
     this.$("#changeAr").bind("keyup", {module: this}, function(event) {
     	var module=event.data.module;
+    	//module.onCalcAreaIncreaseAr();
     	module.onCalcAreaAssessAmt();
     });
+    */
 
     // 면적평가의 변동면적이 변경될 때
+    /*
     this.$("#increaseAr").bind("keyup", {module: this}, function(event) {
     	var module=event.data.module;
     	module.onCalcAreaAssessAmt();
     });
+    */
 
+    /*
     // 면적평가의 적용단가이 변경될 때
     this.$("#usagePrice").bind("keyup", {module: this}, function(event) {
     	var module=event.data.module;
     	module.onCalcAreaAssessAmt();
     });
+    */
 
     // 면적평가목록에서 데이터가 선택될 때
     this.$("#areaAssessGrid").on('onItemSelected', function(event, module, row, grid, param) {
@@ -1413,9 +1427,10 @@ GamHtldRentMngtModule.prototype.saveAreaAssess = function() {
 };
 
 <%--
-	면적평가 평가금액 계산
+	면적평가 변경면적 계산
 --%>
-GamHtldRentMngtModule.prototype.onCalcAreaAssessAmt = function() {
+GamHtldRentMngtModule.prototype.onCalcAreaIncreaseAr = function() {
+	/*
 	var usageAr = this.$('#usageAr').val(), changeAr = this.$('#changeAr').val(), increaseAr = 0;
 	if((usageAr==void(0)) || (changeAr==void(0))) return;
 	if((usageAr=='') || (changeAr=='')) return;
@@ -1423,10 +1438,28 @@ GamHtldRentMngtModule.prototype.onCalcAreaAssessAmt = function() {
 	changeAr = Number(this.getNumber(changeAr));
 	increaseAr = changeAr - usageAr;
 	this.$('#increaseAr').val(increaseAr);
+	*/
+	var usageAr = Number(this.$('#usageAr').val()||0);
+	var changeAr = Number(this.$('#changeAr').val()||0),
+	var increaseAr = 0;
+	increaseAr = changeAr - usageAr;
+	this.$('#increaseAr').val(increaseAr);
 
-	
-	var dtFrom = this.$('#dtFrom').val(), dtTo = this.$('#dtTo').val(), usagePrice = this.$('#usagePrice').val();
+};
+
+<%--
+	면적평가 평가금액 계산
+--%>
+GamHtldRentMngtModule.prototype.onCalcAreaAssessAmt = function() {
+	var dtFrom = this.$('#dtFrom').val(), dtTo = this.$('#dtTo').val();
+	var usageAr = Number(this.$('#usageAr').val()||0);
+	var changeAr = Number(this.$('#changeAr').val()||0);
+	var increaseAr = 0;
+	increaseAr = changeAr - usageAr;
+	this.$('#increaseAr').val(increaseAr);
+	var usagePrice = this.$('#usagePrice').val();
 	var applyMonths = 0, assessAmt = 0; 
+	
 	if((dtFrom==void(0)) || (dtTo==void(0)) || (usagePrice==void(0)) || (increaseAr==void(0)))  return;
 	
 	if((increaseAr=='') || (usagePrice==''))  return;
@@ -1841,15 +1874,15 @@ var module_instance = new GamHtldRentMngtModule();
 							</tr>
 							<tr>
 								<th width="10%" height="18">사용면적</th>
-								<td><input id="usageAr" type="text" class="ygpaNumber" data-decimal-point="2"  size="20">(㎡)</td>
+								<td><input id="usageAr" type="text" class="ygpaNumber assesInput" data-decimal-point="2"  size="20">(㎡)</td>
 								<th width="10%" height="18">변경면적</th>
-								<td width="23%"><input id="changeAr" type="text" class="ygpaNumber" data-decimal-point="2"  size="20">(㎡)</td>
+								<td width="23%"><input id="changeAr" type="text" class="ygpaNumber assesInput" data-decimal-point="2"  size="20">(㎡)</td>
 								<th width="10%" height="18">변동면적</th>
 								<td><input id="increaseAr" type="text" class="ygpaNumber" data-decimal-point="2" size="20">(㎡)</td>
 							</tr>
 							<tr>
 								<th width="10%" height="18">적용단가</th>
-								<td><input id="usagePrice" type="text" class="ygpaNumber" data-decimal-point="1" size="20">원</td>
+								<td><input id="usagePrice" type="text" class="ygpaNumber assesInput" data-decimal-point="1" size="20">원</td>
 								<th width="10%" height="18">평가금액</th>
 								<td colspan="3"><input id="assessAmt" type="text" class="ygpaNumber" size="20">원</td>
 	 						</tr>
