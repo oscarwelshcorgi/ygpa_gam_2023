@@ -37,7 +37,7 @@
 							, GAM_GET_STTUS_EVL_LVL_NM(Q.STTUS_EVL_LVL) STTUS_EVL_LVL_NM
 							, Q.RM
 							, Q.QC_INSP_BDGT
-							, TO_CHAR(Q.WRT_DT, 'YYYY-MM-DD') WRT_DT
+							, TO_CHAR(Q.REGIST_DT, 'YYYY-MM-DD HH24:MI') WRT_DT
 							, Q.WRT_USR
 							, Q.PLAN_HIST_SE
 							, GAM_GET_PLAN_HIST_SE_NM(Q.PLAN_HIST_SE) PLAN_HIST_SE_NM
@@ -69,7 +69,7 @@
 						  	AND Q.ENFORCE_YEAR = #sEnforceYear#
 						</isNotEmpty>
 						ORDER BY
-							 WRT_DT DESC
+							 WRT_DT ASC
 							, Q.ENFORCE_YEAR DESC
 							, F.PRT_AT_CODE
 							, Q.FCLTS_MNG_GROUP_NO

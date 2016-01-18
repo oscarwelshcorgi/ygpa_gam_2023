@@ -149,8 +149,8 @@ GamHtldRentMngtModule.prototype.loadComplete = function() {
    					{display:'사용면적(㎡)', name:'usageAr',width:80, sortable:false,align:'right'},
     				{display:'변경면적(㎡)', name:'changeAr',width:80, sortable:false,align:'right'},
     				{display:'변동면적(㎡)', name:'increaseAr',width:80, sortable:false,align:'right'},
-    				{display:'적용단가(원)', name:'usagePrice',width:80, sortable:false,align:'right'},
-                    {display:'평가금액(원)', name:'assessAmt', width:130, sortable:true, align:'right'}
+    				{display:'적용단가(원)', name:'usagePrice',width:80, sortable:false,align:'right', displayFormat: 'number', displayOption: "0.0"},
+                    {display:'평가금액(원)', name:'assessAmt', width:130, sortable:true, align:'right', displayFormat: 'number'}
                     ],
         showTableToggleBtn: false,
         height: '340',
